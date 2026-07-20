@@ -1,0 +1,83 @@
+{
+ "artifact": "README.md",
+ "blocks": [
+  {
+   "type": "heading",
+   "text": "# Proofpress",
+   "id": "de7999eb",
+   "hash": "8576f3816903"
+  },
+  {
+   "type": "para",
+   "text": "**Proofpress** — the version ledger for agent-produced knowledge work.\nEvery draft your agent ships is a proof. You mark it up, sign off, and send it to press.\nDraft → Review → Approve, for agents.",
+   "id": "268be5f7",
+   "hash": "11b8d89395ca"
+  },
+  {
+   "type": "para",
+   "text": "Others run agents and store work. We keep the books on what agents produce: what changed (semantic diff), why it changed (session provenance), and whether your feedback was addressed (comment → resolution). Any agent can write to it. Humans decide. Your infrastructure.",
+   "id": "16f128a6",
+   "hash": "04d462e46286"
+  },
+  {
+   "type": "heading",
+   "text": "## The ledger",
+   "id": "88120cd1",
+   "hash": "64225fd90a08"
+  },
+  {
+   "type": "para",
+   "text": "Once agents take over the production side of knowledge work, the scarce resource is no longer output — it's trust. Trust needs a ledger:",
+   "id": "e24a5beb",
+   "hash": "0e89062ed2d1"
+  },
+  {
+   "type": "list",
+   "text": "- **Artifacts + version chain** — a deliverable has stable identity; every version is an immutable object you can judge, roll back, and compare.\n- **Block tree** — the canonical representation is a tree of blocks with stable IDs; formats (markdown today) are projections agents edit. Comments anchor to blocks and survive across versions.\n- **Semantic diff** — structure (moved / rewritten / new), word-level, table cells, numeric deltas, and the agent's own changelog (verified against the computed diff). For the same change, git shows you 40 red and 42 green lines; this shows you one readable summary.\n- **Provenance** — every changed block links back to the session turns that produced it. \"Why did this change?\" stays answerable three weeks later.",
+   "id": "5ee33879",
+   "hash": "f15b01738c48"
+  },
+  {
+   "type": "para",
+   "text": "The ledger is an open spec, neutral to any agent harness. It versions the knowledge artifacts *around* your code — ADRs, design docs, PRDs — and **never versions code files; that's git's territory.**",
+   "id": "7c3aa215",
+   "hash": "08d1c51f992f"
+  },
+  {
+   "type": "heading",
+   "text": "## The product",
+   "id": "9f41d0c8",
+   "hash": "d03523444965"
+  },
+  {
+   "type": "para",
+   "text": "Proofpress is the markdown vertical on that ledger, distributed as skills: `pip install proofpress` starts a local ledger plus a localhost review page; install a skill into Claude Code / Codex / any harness and your agent's output suddenly has history. No migration — just install something, and versions appear. The ledger itself lives inside your git repo on a dedicated ref (`refs/proofpress/ledger`) — GitHub carries it for free, your branches never see it.",
+   "id": "46e1300b",
+   "hash": "3fdf8ffc928e"
+  },
+  {
+   "type": "heading",
+   "text": "## Status",
+   "id": "92397e91",
+   "hash": "e6012e8a29c9"
+  },
+  {
+   "type": "para",
+   "text": "Pre-M0. Design docs live in [docs/](docs/) (currently written in Chinese — working notes of the founding discussions; English versions will accompany the public launch):",
+   "id": "af9eb3c2",
+   "hash": "21d5906e532d"
+  },
+  {
+   "type": "list",
+   "text": "- [STRATEGY.md](docs/STRATEGY.md) — positioning, the four-bucket competitive frame, GTM\n- [ARTIFACT_MODEL.md](docs/ARTIFACT_MODEL.md) — data model, diff layers, open questions\n- [DESIGN.md](docs/DESIGN.md) — design system for the review page\n- [EVOLUTION-2026-07-18.md](docs/EVOLUTION-2026-07-18.md) — the full evolution of the founding strategy discussion (a live sample of this product's own value proposition)\n- [COMPETITIVE.md](docs/COMPETITIVE.md) — competitive scan (verified 2026-07-18)\n- [demo/launch.html](demo/launch.html) — launch-film demo (open in a browser)\n- [docs/DEMO_SCRIPT.md](docs/DEMO_SCRIPT.md) — 60-second narration script",
+   "id": "886a53b6",
+   "hash": "a6f1c8c0a393"
+  },
+  {
+   "type": "para",
+   "text": "The team layer (multi-reviewer, approval policies, hosting) is a later act on the same ledger. Engine: the omnigent session layer — multi-harness, invisible.",
+   "id": "e4f2cadd",
+   "hash": "43c44c6f7839"
+  }
+ ]
+}

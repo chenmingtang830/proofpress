@@ -1,0 +1,109 @@
+{
+ "event": "version_created",
+ "artifact": "README.md",
+ "version": "fc775bd0",
+ "parent": null,
+ "author": {
+  "name": "Claude",
+  "kind": "agent",
+  "session": null
+ },
+ "note": "Initial snapshot for review page demo",
+ "ts": "2026-07-20T12:11:52+00:00",
+ "stats": {
+  "added": 13
+ },
+ "changes": [
+  {
+   "kind": "added",
+   "block": "de7999eb",
+   "type": "heading",
+   "context": "Proofpress",
+   "preview": "# Proofpress"
+  },
+  {
+   "kind": "added",
+   "block": "268be5f7",
+   "type": "para",
+   "context": "Proofpress",
+   "preview": "**Proofpress** — the version ledger for agent-produced knowl"
+  },
+  {
+   "kind": "added",
+   "block": "16f128a6",
+   "type": "para",
+   "context": "Proofpress",
+   "preview": "Others run agents and store work. We keep the books on what "
+  },
+  {
+   "kind": "added",
+   "block": "88120cd1",
+   "type": "heading",
+   "context": "The ledger",
+   "preview": "## The ledger"
+  },
+  {
+   "kind": "added",
+   "block": "e24a5beb",
+   "type": "para",
+   "context": "The ledger",
+   "preview": "Once agents take over the production side of knowledge work,"
+  },
+  {
+   "kind": "added",
+   "block": "5ee33879",
+   "type": "list",
+   "context": "The ledger",
+   "preview": "- **Artifacts + version chain** — a deliverable has stable i"
+  },
+  {
+   "kind": "added",
+   "block": "7c3aa215",
+   "type": "para",
+   "context": "The ledger",
+   "preview": "The ledger is an open spec, neutral to any agent harness. It"
+  },
+  {
+   "kind": "added",
+   "block": "9f41d0c8",
+   "type": "heading",
+   "context": "The product",
+   "preview": "## The product"
+  },
+  {
+   "kind": "added",
+   "block": "46e1300b",
+   "type": "para",
+   "context": "The product",
+   "preview": "Proofpress is the markdown vertical on that ledger, distribu"
+  },
+  {
+   "kind": "added",
+   "block": "92397e91",
+   "type": "heading",
+   "context": "Status",
+   "preview": "## Status"
+  },
+  {
+   "kind": "added",
+   "block": "af9eb3c2",
+   "type": "para",
+   "context": "Status",
+   "preview": "Pre-M0. Design docs live in [docs/](docs/) (currently writte"
+  },
+  {
+   "kind": "added",
+   "block": "886a53b6",
+   "type": "list",
+   "context": "Status",
+   "preview": "- [STRATEGY.md](docs/STRATEGY.md) — positioning, the four-bu"
+  },
+  {
+   "kind": "added",
+   "block": "e4f2cadd",
+   "type": "para",
+   "context": "Status",
+   "preview": "The team layer (multi-reviewer, approval policies, hosting) "
+  }
+ ]
+}
