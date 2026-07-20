@@ -9,9 +9,9 @@
   },
   {
    "type": "para",
-   "text": "**Proofpress** — the version ledger for agent-produced knowledge work.\nEvery draft your agent ships is a proof. You mark it up, sign off, and send it to press.\nDraft → Review → Approve, for agents.",
+   "text": "**Proofpress** — the version ledger for agent-produced knowledge work.\nEvery draft your agent ships is a proof. You mark it up, sign off, and send it to press.\nDraft → Review → Approve, for agents. No ceremony, no migration: install a skill and history just starts appearing.",
    "id": "268be5f7",
-   "hash": "11b8d89395ca"
+   "hash": "0f8ca7decc58"
   },
   {
    "type": "para",
