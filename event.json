@@ -1,24 +1,24 @@
 {
  "event": "version_created",
  "artifact": "README.md",
- "version": "4d7e6d78",
- "parent": "fc775bd0",
+ "version": "29d21828",
+ "parent": "4d7e6d78",
  "author": {
   "name": "Richard",
   "kind": "human",
   "session": null
  },
- "note": "Tighten the pitch line",
- "ts": "2026-07-20T12:12:03+00:00",
+ "note": "web edit: block e4f2cadd",
+ "ts": "2026-07-20T12:14:01+00:00",
  "stats": {
   "modified": 1
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "268be5f7",
+   "block": "e4f2cadd",
    "type": "para",
-   "context": "Proofpress"
+   "context": "Status"
   }
  ]
 }
