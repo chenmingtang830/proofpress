@@ -1,179 +1,439 @@
 {
  "event": "version_created",
  "artifact": "docs/STRATEGY.md",
- "version": "b9e876e5",
- "parent": null,
+ "version": "38bf1568",
+ "parent": "b9e876e5",
  "author": {
-  "name": "Richard",
-  "kind": "human",
-  "session": null
+  "name": "Claude",
+  "kind": "agent",
+  "session": "armB-experiment"
  },
- "note": "baseline: 2026-07-18 定稿(实验 Arm B 起点)",
- "ts": "2026-07-21T17:39:44+00:00",
+ "note": "2026-07-21 战略大修:定位迁移至 knowledge-artifact-native ledger,验证即护城河",
+ "ts": "2026-07-21T17:42:49+00:00",
  "stats": {
-  "added": 23
+  "modified": 7,
+  "added": 22
  },
  "changes": [
   {
-   "kind": "added",
+   "kind": "modified",
    "block": "32f5d88f",
    "type": "heading",
-   "context": "Proofpress 战略 — 2026-07-18 定稿",
-   "preview": "# Proofpress 战略 — 2026-07-18 定稿"
+   "context": "Proofpress 战略 — 2026-07-21 大修",
+   "numbers": [
+    [
+     "-18",
+     "-21"
+    ]
+   ]
   },
   {
-   "kind": "added",
-   "block": "465926d0",
-   "type": "heading",
-   "context": "一句话",
-   "preview": "## 一句话"
-  },
-  {
-   "kind": "added",
+   "kind": "modified",
    "block": "123e9f6d",
    "type": "para",
+   "context": "一句话"
+  },
+  {
+   "kind": "added",
+   "block": "5009b202",
+   "type": "para",
    "context": "一句话",
-   "preview": "**别人运行 agent、存储工作。我们为 agent 的产出记账。**\n内核是 **proof ledger**:kn"
+   "preview": "Vision 锚点:**当 agent 产出速度超过人类审阅带宽,自述必须被机器验证,而不是被信任。** agent 十"
   },
   {
    "kind": "added",
-   "block": "3574479e",
+   "block": "f767893e",
    "type": "heading",
-   "context": "三层定位",
-   "preview": "## 三层定位"
+   "context": "账本的五样东西(git 结构上装不下的)",
+   "preview": "## 账本的五样东西(git 结构上装不下的)"
   },
   {
    "kind": "added",
+   "block": "9ba218ce",
+   "type": "list",
+   "context": "账本的五样东西(git 结构上装不下的)",
+   "preview": "1. **稳定块身份**——跨版本追踪\"这一段\",评论有永久坐标(Kortix 建不起 comment 表的深层原因)。"
+  },
+  {
+   "kind": "added",
+   "block": "f80ed874",
+   "type": "heading",
+   "context": "四层 diff:价值重心前移,真对手是 LLM",
+   "preview": "## 四层 diff:价值重心前移,真对手是 LLM"
+  },
+  {
+   "kind": "added",
+   "block": "ff97cf07",
+   "type": "para",
+   "context": "四层 diff:价值重心前移,真对手是 LLM",
+   "preview": "第 1、2 层(结构/词级 diff)**将被 LLM 商品化**——任何人把两版 markdown 丢给 LLM 都能"
+  },
+  {
+   "kind": "modified",
    "block": "da9e4405",
    "type": "table",
-   "context": "三层定位",
-   "preview": "| 层 | 是什么 | 纪律 |\n|---|---|---|\n| 形态 | agent-native 文档工具 — 用户"
+   "context": "三层定位"
   },
   {
-   "kind": "added",
-   "block": "6c91ce22",
-   "type": "heading",
-   "context": "为什么是账本(宏观论证)",
-   "preview": "## 为什么是账本(宏观论证)"
-  },
-  {
-   "kind": "added",
+   "kind": "modified",
    "block": "2cc840df",
    "type": "list",
-   "context": "为什么是账本(宏观论证)",
-   "preview": "1. **数据模型决定品类归属**:git→GitHub、块→Notion、scene graph→Figma。工具可抄"
+   "context": "为什么是账本(宏观论证)"
   },
   {
    "kind": "added",
-   "block": "55cd170d",
-   "type": "heading",
-   "context": "判据与竞争(浓缩)",
-   "preview": "## 判据与竞争(浓缩)"
-  },
-  {
-   "kind": "added",
-   "block": "51246324",
+   "block": "af716ee3",
    "type": "para",
    "context": "判据与竞争(浓缩)",
-   "preview": "**一刀切开四个 bucket:当工作\"已提出、未接受\"时,系统里握着什么对象?**"
+   "preview": "**vs code review agents**:它们审代码、给意见;我们审知识 artifact、给确定性校验。不同"
   },
   {
-   "kind": "added",
-   "block": "0a640234",
-   "type": "table",
-   "context": "判据与竞争(浓缩)",
-   "preview": "| | source of truth | \"已提出未接受\"时握着什么 |\n|---|---|---|\n| 通用 age"
-  },
-  {
-   "kind": "added",
-   "block": "56af2590",
-   "type": "para",
-   "context": "判据与竞争(浓缩)",
-   "preview": "**构成性 vs 描述性**:Work Graph(Asana/Atlassian)是关于工作的元数据——描述性,可重建"
-  },
-  {
-   "kind": "added",
-   "block": "871cbb4f",
-   "type": "para",
-   "context": "判据与竞争(浓缩)",
-   "preview": "**vs Word+Copilot / Docs+Gemini**:他们是 AI 在人的循环里(字符级修订,为人的键击设"
-  },
-  {
-   "kind": "added",
-   "block": "76687abf",
-   "type": "para",
-   "context": "判据与竞争(浓缩)",
-   "preview": "**vs Gamma**:Gamma 重定义 artifact 的格式(为 AI 生成,AI 内置);我们重定义 art"
-  },
-  {
-   "kind": "added",
-   "block": "930c798c",
-   "type": "para",
-   "context": "判据与竞争(浓缩)",
-   "preview": "**同步 vs 异步(用户亲测三连提炼)**:现有产品全是同步微观审批——守在旁边、逐编辑裁决、阅后即焚(Cursor/"
-  },
-  {
-   "kind": "added",
+   "kind": "modified",
    "block": "2949a75e",
    "type": "heading",
-   "context": "第二价值曲线:组织记忆",
-   "preview": "## 第二价值曲线:组织记忆"
+   "context": "三条价值曲线:Read / Verify / Feed"
   },
   {
    "kind": "added",
+   "block": "ccab167e",
+   "type": "list",
+   "context": "三条价值曲线:Read / Verify / Feed",
+   "preview": "1. **Read(给人)**:语义 diff——入场券,商品化中。\n2. **Verify(给人)**:确定性验证 a"
+  },
+  {
+   "kind": "modified",
    "block": "780f2e40",
    "type": "para",
-   "context": "第二价值曲线:组织记忆",
-   "preview": "第一曲线是**信任**(获客钩子):审 agent 的产出,三周后 CFO 可自答。第二曲线是**理解的传承**(留存与"
+   "context": "三条价值曲线:Read / Verify / Feed"
   },
   {
    "kind": "added",
-   "block": "3d7787a7",
+   "block": "c04c675e",
    "type": "heading",
-   "context": "GTM",
-   "preview": "## GTM"
+   "context": "产品形态:一个引擎,三个发布面(一条依赖链)",
+   "preview": "## 产品形态:一个引擎,三个发布面(一条依赖链)"
   },
   {
    "kind": "added",
+   "block": "c4a7549b",
+   "type": "list",
+   "context": "产品形态:一个引擎,三个发布面(一条依赖链)",
+   "preview": "- **引擎**(唯一有真实逻辑):块树 + 稳定 ID + 四层语义 diff + claim 校验。\n- **CLI"
+  },
+  {
+   "kind": "added",
+   "block": "8dfb4506",
+   "type": "para",
+   "context": "产品形态:一个引擎,三个发布面(一条依赖链)",
+   "preview": "**本轮砍单(已拍板)**:独立审阅页(serve/localhost review page)整个砍掉——第一幕裁决复"
+  },
+  {
+   "kind": "added",
+   "block": "a8e3103c",
+   "type": "heading",
+   "context": "三轨道与 backend 无关 spec(关键架构决定)",
+   "preview": "## 三轨道与 backend 无关 spec(关键架构决定)"
+  },
+  {
+   "kind": "added",
+   "block": "6f2b814b",
+   "type": "para",
+   "context": "三轨道与 backend 无关 spec(关键架构决定)",
+   "preview": "**账本 spec 必须 backend 无关**——事件/版本 schema 不许漏进 git-ism(不引用 com"
+  },
+  {
+   "kind": "added",
+   "block": "4013d65e",
+   "type": "list",
+   "context": "三轨道与 backend 无关 spec(关键架构决定)",
+   "preview": "1. **git ref**(开发者,第一幕):`refs/proofpress/ledger`,GitHub 免费当同"
+  },
+  {
+   "kind": "added",
+   "block": "bd2c440d",
+   "type": "para",
+   "context": "三轨道与 backend 无关 spec(关键架构决定)",
+   "preview": "git notes 方案已否决(commit 粒度 ≠ artifact/version 粒度)。"
+  },
+  {
+   "kind": "added",
+   "block": "2d2d13b3",
+   "type": "heading",
+   "context": "两幕张力(诚实版)",
+   "preview": "## 两幕张力(诚实版)"
+  },
+  {
+   "kind": "added",
+   "block": "ae8856c4",
+   "type": "para",
+   "context": "两幕张力(诚实版)",
+   "preview": "**第一幕人群有轨道没疼痛;第二幕人群有疼痛没轨道。**"
+  },
+  {
+   "kind": "added",
+   "block": "d60261e3",
+   "type": "list",
+   "context": "两幕张力(诚实版)",
+   "preview": "- 第一幕(开发者/ADR/PRD/GitHub):裁决借 GitHub,是**带 kill criterion 的便宜"
+  },
+  {
+   "kind": "modified",
    "block": "3e085d3e",
    "type": "list",
-   "context": "GTM",
-   "preview": "- **分发 = skill,不是目的地**。`pip install proofpress`(本地账本 + diff "
+   "context": "GTM"
   },
   {
    "kind": "added",
-   "block": "c439d387",
+   "block": "0291bfe2",
    "type": "heading",
-   "context": "北极星的免疫接种",
-   "preview": "## 北极星的免疫接种"
+   "context": "Cloud 方向(exploratory,未拍板)",
+   "preview": "## Cloud 方向(exploratory,未拍板)"
   },
   {
    "kind": "added",
-   "block": "734e4e5b",
+   "block": "c22d767a",
    "type": "para",
-   "context": "北极星的免疫接种",
-   "preview": "\"X 的 git\" 是创业坟场最挤的墓志铭(git for data/design/docs 皆有尸体),死因清一色:*"
+   "context": "Cloud 方向(exploratory,未拍板)",
+   "preview": "发散讨论,明确标注:以下均未拍板。"
   },
   {
    "kind": "added",
-   "block": "d7f6622d",
-   "type": "heading",
-   "context": "威胁与对策(2026-07-18 快照)",
-   "preview": "## 威胁与对策(2026-07-18 快照)"
-  },
-  {
-   "kind": "added",
-   "block": "57f35ec4",
+   "block": "93c84fd4",
    "type": "list",
-   "context": "威胁与对策(2026-07-18 快照)",
-   "preview": "1. Anthropic 做 multiplayer/versioned Cowork — 结构对冲:开源 + 任何 a"
+   "context": "Cloud 方向(exploratory,未拍板)",
+   "preview": "- proofpress cloud = 同步 + 团队 + 审阅 UI(归档的审阅页图纸在此复活)+ **proof "
   },
   {
    "kind": "added",
+   "block": "87f152de",
+   "type": "heading",
+   "context": "悬而未决(open)",
+   "preview": "## 悬而未决(open)"
+  },
+  {
+   "kind": "added",
+   "block": "29bc8360",
+   "type": "list",
+   "context": "悬而未决(open)",
+   "preview": "- \"Draft → Review → Approve, **for agents**\"词表:占领策略不变,但 CLI/"
+  }
+ ],
+ "claims": [
+  {
+   "block": "32f5d88f",
+   "kind": "modified",
+   "note": "标题日期 2026-07-18 定稿 → 2026-07-21 大修"
+  },
+  {
+   "block": "465926d0",
+   "kind": "unchanged",
+   "note": "## 一句话 标题原样"
+  },
+  {
+   "block": "123e9f6d",
+   "kind": "modified",
+   "note": "定位段整段重写:记账→knowledge-artifact-native ledger,新 value prop;命名历史句原样保留在段内"
+  },
+  {
+   "block": "5009b202",
+   "kind": "added",
+   "note": "Vision 锚点:自述必须被机器验证"
+  },
+  {
+   "block": "f767893e",
+   "kind": "added",
+   "note": "新节标题:账本的五样东西"
+  },
+  {
+   "block": "9ba218ce",
+   "kind": "added",
+   "note": "五样东西清单(块身份/artifact 身份/可验证自述/溯源/死枝)"
+  },
+  {
+   "block": "f80ed874",
+   "kind": "added",
+   "note": "新节标题:四层 diff 价值重心前移"
+  },
+  {
+   "block": "ff97cf07",
+   "kind": "added",
+   "note": "read 层商品化、verify 层定价点、真对手是 LLM"
+  },
+  {
+   "block": "3574479e",
+   "kind": "unchanged",
+   "note": "## 三层定位 标题原样"
+  },
+  {
+   "block": "da9e4405",
+   "kind": "modified",
+   "note": "内核行加 claim 校验、KPI 改为验证层品质;引擎行加存疑问号"
+  },
+  {
+   "block": "6c91ce22",
+   "kind": "unchanged"
+  },
+  {
+   "block": "2cc840df",
+   "kind": "modified",
+   "note": "第 3 点更新:read 层也在被 LLM 商品化,护城河改为 artifact 模型 + 确定性验证"
+  },
+  {
+   "block": "55cd170d",
+   "kind": "unchanged"
+  },
+  {
+   "block": "51246324",
+   "kind": "unchanged"
+  },
+  {
+   "block": "0a640234",
+   "kind": "unchanged",
+   "note": "四 bucket 判据表原样保留"
+  },
+  {
+   "block": "56af2590",
+   "kind": "unchanged"
+  },
+  {
+   "block": "871cbb4f",
+   "kind": "unchanged"
+  },
+  {
+   "block": "76687abf",
+   "kind": "unchanged"
+  },
+  {
+   "block": "930c798c",
+   "kind": "unchanged"
+  },
+  {
+   "block": "af716ee3",
+   "kind": "added",
+   "note": "新增 vs code review agents 段"
+  },
+  {
+   "block": "2949a75e",
+   "kind": "modified",
+   "note": "标题改写:第二价值曲线:组织记忆 → 三条价值曲线 Read/Verify/Feed"
+  },
+  {
+   "block": "ccab167e",
+   "kind": "added",
+   "note": "三曲线清单(含 Feed 五个子项)"
+  },
+  {
+   "block": "780f2e40",
+   "kind": "modified",
+   "note": "组织记忆段重写并入 Feed;数据飞轮与死枝论点保留"
+  },
+  {
+   "block": "c04c675e",
+   "kind": "added",
+   "note": "新节标题:一个引擎三个发布面"
+  },
+  {
+   "block": "c4a7549b",
+   "kind": "added",
+   "note": "引擎/CLI/Action/Skill/回填 ingestion 清单"
+  },
+  {
+   "block": "8dfb4506",
+   "kind": "added",
+   "note": "本轮砍单:审阅页、approve/comment/inbox、pip install 表述"
+  },
+  {
+   "block": "a8e3103c",
+   "kind": "added",
+   "note": "新节标题:三轨道与 backend 无关 spec"
+  },
+  {
+   "block": "6f2b814b",
+   "kind": "added",
+   "note": "spec 不许漏进 git-ism"
+  },
+  {
+   "block": "4013d65e",
+   "kind": "added",
+   "note": "三轨道清单"
+  },
+  {
+   "block": "bd2c440d",
+   "kind": "added",
+   "note": "git notes 方案否决"
+  },
+  {
+   "block": "2d2d13b3",
+   "kind": "added",
+   "note": "新节标题:两幕张力"
+  },
+  {
+   "block": "ae8856c4",
+   "kind": "added",
+   "note": "有轨道没疼痛 / 有疼痛没轨道"
+  },
+  {
+   "block": "d60261e3",
+   "kind": "added",
+   "note": "两幕定性 + 待办第一位"
+  },
+  {
+   "block": "3d7787a7",
+   "kind": "unchanged",
+   "note": "## GTM 标题原样"
+  },
+  {
+   "block": "3e085d3e",
+   "kind": "modified",
+   "note": "删 pip install 与 localhost 审阅页表述;skill 动机改能力升级;获客画面加验证 ✓;其余条目论点保留"
+  },
+  {
+   "block": "0291bfe2",
+   "kind": "added",
+   "note": "新节标题:Cloud 方向(exploratory,未拍板)"
+  },
+  {
+   "block": "c22d767a",
+   "kind": "added",
+   "note": "未拍板声明"
+  },
+  {
+   "block": "93c84fd4",
+   "kind": "added",
+   "note": "proof link、cryptographically verifiable、类比压测、why-now 硬柱"
+  },
+  {
+   "block": "c439d387",
+   "kind": "unchanged"
+  },
+  {
+   "block": "734e4e5b",
+   "kind": "unchanged",
+   "note": "仪式税段原样保留"
+  },
+  {
+   "block": "87f152de",
+   "kind": "added",
+   "note": "新节标题:悬而未决(open)"
+  },
+  {
+   "block": "29bc8360",
+   "kind": "added",
+   "note": "for agents 前缀 / omnigent 存疑 / claim schema 三个 open 项"
+  },
+  {
+   "block": "d7f6622d",
+   "kind": "unchanged",
+   "note": "威胁标题含 07-18 快照日期,原样保留"
+  },
+  {
+   "block": "57f35ec4",
+   "kind": "unchanged",
+   "note": "四条威胁清单原样"
+  },
+  {
    "block": "0bedacee",
-   "type": "para",
-   "context": "威胁与对策(2026-07-18 快照)",
-   "preview": "详见 [COMPETITIVE.md](COMPETITIVE.md)。"
+   "kind": "unchanged"
   }
  ]
 }
