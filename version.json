@@ -1,83 +1,143 @@
 {
- "artifact": "README.md",
+ "artifact": "docs/STRATEGY.md",
  "blocks": [
   {
    "type": "heading",
-   "text": "# Proofpress",
-   "id": "de7999eb",
-   "hash": "8576f3816903"
-  },
-  {
-   "type": "para",
-   "text": "**Proofpress** — the version ledger for agent-produced knowledge work.\nEvery draft your agent ships is a proof. You mark it up, sign off, and send it to press.\nDraft → Review → Approve, for agents. No ceremony, no migration: install a skill and history just starts appearing.",
-   "id": "268be5f7",
-   "hash": "0f8ca7decc58"
-  },
-  {
-   "type": "para",
-   "text": "Others run agents and store work. We keep the books on what agents produce: what changed (semantic diff), why it changed (session provenance), and whether your feedback was addressed (comment → resolution). Any agent can write to it. Humans decide. Your infrastructure.",
-   "id": "16f128a6",
-   "hash": "04d462e46286"
+   "text": "# Proofpress 战略 — 2026-07-18 定稿",
+   "id": "32f5d88f",
+   "hash": "8170fa408235"
   },
   {
    "type": "heading",
-   "text": "## The ledger",
-   "id": "88120cd1",
-   "hash": "64225fd90a08"
+   "text": "## 一句话",
+   "id": "465926d0",
+   "hash": "bf11a4c5cc1d"
   },
   {
    "type": "para",
-   "text": "Once agents take over the production side of knowledge work, the scarce resource is no longer output — it's trust. Trust needs a ledger:",
-   "id": "e24a5beb",
-   "hash": "0e89062ed2d1"
+   "text": "**别人运行 agent、存储工作。我们为 agent 的产出记账。**\n内核是 **proof ledger**:knowledge work 的版本账本(git 之于代码)——开源引擎 + 公开 spec,对 harness 中立。**Proofpress** 是账本上的第一个产品(markdown vertical,skill 分发,localhost 审阅页);团队层(多人审阅、策略门、托管)是第二幕的独立产品,同一账本的另一呈现形式。品牌词汇:agent 交的每一版 draft 都是一张 **proof**(校样);人 mark up、sign off、send to press。(命名 2026-07-19 定稿,弃 OmniDocs:GitHub 同名 141★ 同赛道项目 + Newgen OmniDocs 商标风险;弃 Ink/Inkledger:npm ink 39k★ + Kraken Ink L2 crypto 歧义。)",
+   "id": "123e9f6d",
+   "hash": "9e6d6fea4817"
+  },
+  {
+   "type": "heading",
+   "text": "## 三层定位",
+   "id": "3574479e",
+   "hash": "9a95ca07fcbb"
+  },
+  {
+   "type": "table",
+   "text": "| 层 | 是什么 | 纪律 |\n|---|---|---|\n| 形态 | agent-native 文档工具 — 用户打开的是一份文档,不是控制台 | 不做更好的编辑器;编辑器够用即可 |\n| 内核 | proof ledger(块树 + 版本链 + 语义 diff + 溯源)— 构成性数据模型,唯一护城河 | 资源永远优先投这里;diff 引擎品质是唯一 KPI |\n| 引擎 | omnigent 会话层 — 多 harness、用户不可见 | AI 永不内置;账本对生产者中立 |",
+   "id": "da9e4405",
+   "hash": "598b256ae706"
+  },
+  {
+   "type": "heading",
+   "text": "## 为什么是账本(宏观论证)",
+   "id": "6c91ce22",
+   "hash": "7fd32b22e89e"
   },
   {
    "type": "list",
-   "text": "- **Artifacts + version chain** — a deliverable has stable identity; every version is an immutable object you can judge, roll back, and compare.\n- **Block tree** — the canonical representation is a tree of blocks with stable IDs; formats (markdown today) are projections agents edit. Comments anchor to blocks and survive across versions.\n- **Semantic diff** — structure (moved / rewritten / new), word-level, table cells, numeric deltas, and the agent's own changelog (verified against the computed diff). For the same change, git shows you 40 red and 42 green lines; this shows you one readable summary.\n- **Provenance** — every changed block links back to the session turns that produced it. \"Why did this change?\" stays answerable three weeks later.",
-   "id": "5ee33879",
-   "hash": "f15b01738c48"
-  },
-  {
-   "type": "para",
-   "text": "The ledger is an open spec, neutral to any agent harness. It versions the knowledge artifacts *around* your code — ADRs, design docs, PRDs — and **never versions code files; that's git's territory.**",
-   "id": "7c3aa215",
-   "hash": "08d1c51f992f"
+   "text": "1. **数据模型决定品类归属**:git→GitHub、块→Notion、scene graph→Figma。工具可抄、流程趋同,数据模型抄不动——抄它等于推翻自己的存量(Kortix 之于 git、Google 之于 Docs、微软之于 OOXML,同一个 innovator's dilemma)。\n2. **\"agent 生产、人审阅\"是生产关系反转,反转要求新账本**。三问是记账要求,不是 feature:改了什么(语义的)/为什么改(会话依据)/意见闭环了吗(resolution)。\n3. **唯一有资格赢的战场**:壳(Kortix 三个月抄完)、编排(ruflo/AO 互卷)、调度(lobehub 80k stars)、记录(Plane/AppFlowy 存量百倍)全在商品化;语义 diff + artifact 模型是没人占、对手结构性不愿进、难度即护城河的格子。\n4. **对 Anthropic 的对冲**:账本中立 → agent 越强、写入越多,与模型进步是顺风关系。",
+   "id": "2cc840df",
+   "hash": "0dc5663e1cf4"
   },
   {
    "type": "heading",
-   "text": "## The product",
-   "id": "9f41d0c8",
-   "hash": "d03523444965"
+   "text": "## 判据与竞争(浓缩)",
+   "id": "55cd170d",
+   "hash": "d1de11331567"
   },
   {
    "type": "para",
-   "text": "Proofpress is the markdown vertical on that ledger, distributed as skills: `pip install proofpress` starts a local ledger plus a localhost review page; install a skill into Claude Code / Codex / any harness and your agent's output suddenly has history. No migration — just install something, and versions appear. The ledger itself lives inside your git repo on a dedicated ref (`refs/proofpress/ledger`) — GitHub carries it for free, your branches never see it.",
-   "id": "46e1300b",
-   "hash": "3fdf8ffc928e"
+   "text": "**一刀切开四个 bucket:当工作\"已提出、未接受\"时,系统里握着什么对象?**",
+   "id": "51246324",
+   "hash": "2c5e2b2d45cb"
+  },
+  {
+   "type": "table",
+   "text": "| | source of truth | \"已提出未接受\"时握着什么 |\n|---|---|---|\n| 通用 agent 工作台(lobehub/CowAgent) | 会话日志 | 什么都没有——又一条消息,交付物是会话的排泄物 |\n| 编码编排(Kortix/AO,git) | repo/branch | 行集合的分支——\"移动一节、改一句\"在 patch 里不存在,批注无处锚 |\n| 记录系统(Notion 系/Plane) | 可变行 / CRDT | 什么都没有——一落笔即成既成事实,没有\"待接受\"可居住的地方 |\n| 工作流引擎(Dify/n8n) | DAG 执行记录 | 暂停的执行——批的是流程通行权,不是内容 |\n| **Proofpress** | **块树 + 不可变版本链** | **一个 Draft:块级身份、语义 diff、逐条批注、会话溯源、等一个 verdict 的一等公民** |",
+   "id": "0a640234",
+   "hash": "87efd6d8a0d6"
+  },
+  {
+   "type": "para",
+   "text": "**构成性 vs 描述性**:Work Graph(Asana/Atlassian)是关于工作的元数据——描述性,可重建,不产生新动词,永远不 consequential。Notion 块 / Figma scene graph / Gamma 卡片流是工作本身的构成模型——新能力从原语里长出来。我们产品里 board、收件箱是描述性的(取景器);构成性的只有账本(底片)。",
+   "id": "56af2590",
+   "hash": "8e9d5636e615"
+  },
+  {
+   "type": "para",
+   "text": "**vs Word+Copilot / Docs+Gemini**:他们是 AI 在人的循环里(字符级修订,为人的键击设计,agent 尺度的改动量在其中不可审);我们是人在 agent 的循环里(accept 单位是一版交付物,不是一次编辑)。五条结构差:无草稿对象/无溯源/无修订闭环/agent 钦定/结构上不能反转。",
+   "id": "871cbb4f",
+   "hash": "35d71a640c23"
+  },
+  {
+   "type": "para",
+   "text": "**vs Gamma**:Gamma 重定义 artifact 的格式(为 AI 生成,AI 内置);我们重定义 artifact 的演化(为 AI 修订 + 人审,AI 可插拔)。内置 AI = 变成没分发的 Word+Copilot + 对冲失效 + 竞争维度变成生成质量(模型的本事,我们不拥有)。",
+   "id": "76687abf",
+   "hash": "3c641e100d35"
+  },
+  {
+   "type": "para",
+   "text": "**同步 vs 异步(用户亲测三连提炼)**:现有产品全是同步微观审批——守在旁边、逐编辑裁决、阅后即焚(Cursor/Copilot/Notion agent)。那是结对。委托需要异步交付物审阅——事后审一版、带记忆、可回滚、可留档。撑起它的全部技术含量 = 账本。",
+   "id": "930c798c",
+   "hash": "3373fdc57566"
   },
   {
    "type": "heading",
-   "text": "## Status",
-   "id": "92397e91",
-   "hash": "e6012e8a29c9"
+   "text": "## 第二价值曲线:组织记忆",
+   "id": "2949a75e",
+   "hash": "310309b9afcc"
   },
   {
    "type": "para",
-   "text": "Pre-M0. Design docs live in [docs/](docs/) (currently written in Chinese — working notes of the founding discussions; English versions will accompany the public launch):",
-   "id": "af9eb3c2",
-   "hash": "21d5906e532d"
+   "text": "第一曲线是**信任**(获客钩子):审 agent 的产出,三周后 CFO 可自答。第二曲线是**理解的传承**(留存与口碑):文档存结论、聊天存推理——账本给两者建外键。版本链 + 死枝(被否的 draft 及其理由,一等公民、永不删除)+ resolution = 决策的完整思想史。对人是 onboarding/复盘/审计;对 agent 是去噪、被验证的压缩上下文——artifact 历史越厚,其上工作的 agent 越聪明(数据飞轮)。探索(画布/会话树)是沉淀(版本链)的溯源:发散的树住在溯源层,收敛的链是文档本身。",
+   "id": "780f2e40",
+   "hash": "075236538e4c"
+  },
+  {
+   "type": "heading",
+   "text": "## GTM",
+   "id": "3d7787a7",
+   "hash": "e0b9c55f527f"
   },
   {
    "type": "list",
-   "text": "- [STRATEGY.md](docs/STRATEGY.md) — positioning, the four-bucket competitive frame, GTM\n- [ARTIFACT_MODEL.md](docs/ARTIFACT_MODEL.md) — data model, diff layers, open questions\n- [DESIGN.md](docs/DESIGN.md) — design system for the review page\n- [EVOLUTION-2026-07-18.md](docs/EVOLUTION-2026-07-18.md) — the full evolution of the founding strategy discussion (a live sample of this product's own value proposition)\n- [COMPETITIVE.md](docs/COMPETITIVE.md) — competitive scan (verified 2026-07-18)\n- [demo/launch.html](demo/launch.html) — launch-film demo (open in a browser)\n- [docs/DEMO_SCRIPT.md](docs/DEMO_SCRIPT.md) — 60-second narration script",
-   "id": "886a53b6",
-   "hash": "a6f1c8c0a393"
+   "text": "- **分发 = skill,不是目的地**。`pip install proofpress`(本地账本 + diff 引擎 + localhost 审阅页)+ 各 harness 的 submit-for-review / revise-from-feedback skill。没有\"迁移\",只有\"装了个东西之后产出突然有了版本\"。多 harness 中立从防御定位变成进攻渠道:对手的安装量 = 我们的分发面;Kortix(自有 runtime)和 Anthropic(自家 agent)结构上无法跟进。\n- **种子人群 = 用 coding agent 写文档的开发者**(信任曲线优先)。分发走 coding 渠道,artifact 是**代码周围的非代码文档**(ADR/design doc/PRD/README/博客)。开发者三重合适:agent 已装好、draft/review/approve 心智免教育、痛是现成的(散文被当行 diff 审)。获客画面:同一份 design doc 改动,git 给 200 行红绿,Proofpress 给\"一节 moved + 一段 rewritten + 两个数字 Δ\"。\n- **红线:永不碰代码文件的版本化**——那是 git 的地盘,Bucket 2 的坟场。每个 feature 过检:服务\"代码周围的文档\",还是滑向\"代码本身\"?后者砍。\n- **法律合同 = 第二幕垂直**:价值判断成立(唯一以 redline 为母语的领域)但三个结构障碍——DOCX 格式墙(对手方在 Word 里)、生产关系不匹配(律师主笔 = \"人写 AI 助\"框架)、垂直吃横向。等 DOCX skill 就绪、横向被验证后进入。\n- **商业 = git 模型**:proof ledger + 单机 Proofpress 全功能免费开源,格式即公开 spec(锁格式的账本没人敢往里记账);团队服务器(多人审阅、策略门、SSO、托管)收钱 = 第二幕团队产品(GitHub 时刻)。\n- **词表**:对外 Draft / Review / Approve, for agents(抢先公开占领;Kortix 占了 \"change request\" 开发者/git 框架,lobehub 占了 \"hiring/reporting\" HR 框架,知识工作框架无人认领)。\"git for knowledge work\" 只对开发者深度内容用——对种子人群是高效压缩,对其他人是黑话。\n- **launch 叙事资产**:一份真实文档(如本 STRATEGY.md)的演进史 showcase——每一版为什么改、哪些方案被否、否的理由。没有竞品能做出这张页面。",
+   "id": "3e085d3e",
+   "hash": "fcc197e06178"
+  },
+  {
+   "type": "heading",
+   "text": "## 北极星的免疫接种",
+   "id": "c439d387",
+   "hash": "e4de0d4e67cf"
   },
   {
    "type": "para",
-   "text": "The team layer (multi-reviewer, approval policies, hosting) is a later act on the same ledger. Engine: the omnigent session layer - multi-harness, invisible.",
-   "id": "e4f2cadd",
-   "hash": "60da908d43cd"
+   "text": "\"X 的 git\" 是创业坟场最挤的墓志铭(git for data/design/docs 皆有尸体),死因清一色:**要求人类付 git 的仪式税**。我们的 why-now 是把税转嫁给 agent——提交、叙述、rebase、conflict 全部 agent 付,人只裁决。任何让人类多付一分仪式税的设计,都是在重走死路。",
+   "id": "734e4e5b",
+   "hash": "5ccc6d06aff4"
+  },
+  {
+   "type": "heading",
+   "text": "## 威胁与对策(2026-07-18 快照)",
+   "id": "d7f6622d",
+   "hash": "8c3c62880ef5"
+  },
+  {
+   "type": "list",
+   "text": "1. Anthropic 做 multiplayer/versioned Cowork — 结构对冲:开源 + 任何 agent + 自托管,永不交易。\n2. Kortix — 壳 + 回流已 shipped;缺 artifact 模型/语义 diff 且逆其结构。外部时钟,按月盯。\n3. lobehub 加 review loop — 高概率;靠速度 + 词表抢占。\n4. Plane — 已在执行(任务侧);做它想集成而非自建的 artifact 层。",
+   "id": "57f35ec4",
+   "hash": "7a0800286ca7"
+  },
+  {
+   "type": "para",
+   "text": "详见 [COMPETITIVE.md](COMPETITIVE.md)。",
+   "id": "0bedacee",
+   "hash": "06ef772fbdd6"
   }
  ]
 }

@@ -1,24 +1,179 @@
 {
  "event": "version_created",
- "artifact": "README.md",
- "version": "29d21828",
- "parent": "4d7e6d78",
+ "artifact": "docs/STRATEGY.md",
+ "version": "b9e876e5",
+ "parent": null,
  "author": {
   "name": "Richard",
   "kind": "human",
   "session": null
  },
- "note": "web edit: block e4f2cadd",
- "ts": "2026-07-20T12:14:01+00:00",
+ "note": "baseline: 2026-07-18 定稿(实验 Arm B 起点)",
+ "ts": "2026-07-21T17:39:44+00:00",
  "stats": {
-  "modified": 1
+  "added": 23
  },
  "changes": [
   {
-   "kind": "modified",
-   "block": "e4f2cadd",
+   "kind": "added",
+   "block": "32f5d88f",
+   "type": "heading",
+   "context": "Proofpress 战略 — 2026-07-18 定稿",
+   "preview": "# Proofpress 战略 — 2026-07-18 定稿"
+  },
+  {
+   "kind": "added",
+   "block": "465926d0",
+   "type": "heading",
+   "context": "一句话",
+   "preview": "## 一句话"
+  },
+  {
+   "kind": "added",
+   "block": "123e9f6d",
    "type": "para",
-   "context": "Status"
+   "context": "一句话",
+   "preview": "**别人运行 agent、存储工作。我们为 agent 的产出记账。**\n内核是 **proof ledger**:kn"
+  },
+  {
+   "kind": "added",
+   "block": "3574479e",
+   "type": "heading",
+   "context": "三层定位",
+   "preview": "## 三层定位"
+  },
+  {
+   "kind": "added",
+   "block": "da9e4405",
+   "type": "table",
+   "context": "三层定位",
+   "preview": "| 层 | 是什么 | 纪律 |\n|---|---|---|\n| 形态 | agent-native 文档工具 — 用户"
+  },
+  {
+   "kind": "added",
+   "block": "6c91ce22",
+   "type": "heading",
+   "context": "为什么是账本(宏观论证)",
+   "preview": "## 为什么是账本(宏观论证)"
+  },
+  {
+   "kind": "added",
+   "block": "2cc840df",
+   "type": "list",
+   "context": "为什么是账本(宏观论证)",
+   "preview": "1. **数据模型决定品类归属**:git→GitHub、块→Notion、scene graph→Figma。工具可抄"
+  },
+  {
+   "kind": "added",
+   "block": "55cd170d",
+   "type": "heading",
+   "context": "判据与竞争(浓缩)",
+   "preview": "## 判据与竞争(浓缩)"
+  },
+  {
+   "kind": "added",
+   "block": "51246324",
+   "type": "para",
+   "context": "判据与竞争(浓缩)",
+   "preview": "**一刀切开四个 bucket:当工作\"已提出、未接受\"时,系统里握着什么对象?**"
+  },
+  {
+   "kind": "added",
+   "block": "0a640234",
+   "type": "table",
+   "context": "判据与竞争(浓缩)",
+   "preview": "| | source of truth | \"已提出未接受\"时握着什么 |\n|---|---|---|\n| 通用 age"
+  },
+  {
+   "kind": "added",
+   "block": "56af2590",
+   "type": "para",
+   "context": "判据与竞争(浓缩)",
+   "preview": "**构成性 vs 描述性**:Work Graph(Asana/Atlassian)是关于工作的元数据——描述性,可重建"
+  },
+  {
+   "kind": "added",
+   "block": "871cbb4f",
+   "type": "para",
+   "context": "判据与竞争(浓缩)",
+   "preview": "**vs Word+Copilot / Docs+Gemini**:他们是 AI 在人的循环里(字符级修订,为人的键击设"
+  },
+  {
+   "kind": "added",
+   "block": "76687abf",
+   "type": "para",
+   "context": "判据与竞争(浓缩)",
+   "preview": "**vs Gamma**:Gamma 重定义 artifact 的格式(为 AI 生成,AI 内置);我们重定义 art"
+  },
+  {
+   "kind": "added",
+   "block": "930c798c",
+   "type": "para",
+   "context": "判据与竞争(浓缩)",
+   "preview": "**同步 vs 异步(用户亲测三连提炼)**:现有产品全是同步微观审批——守在旁边、逐编辑裁决、阅后即焚(Cursor/"
+  },
+  {
+   "kind": "added",
+   "block": "2949a75e",
+   "type": "heading",
+   "context": "第二价值曲线:组织记忆",
+   "preview": "## 第二价值曲线:组织记忆"
+  },
+  {
+   "kind": "added",
+   "block": "780f2e40",
+   "type": "para",
+   "context": "第二价值曲线:组织记忆",
+   "preview": "第一曲线是**信任**(获客钩子):审 agent 的产出,三周后 CFO 可自答。第二曲线是**理解的传承**(留存与"
+  },
+  {
+   "kind": "added",
+   "block": "3d7787a7",
+   "type": "heading",
+   "context": "GTM",
+   "preview": "## GTM"
+  },
+  {
+   "kind": "added",
+   "block": "3e085d3e",
+   "type": "list",
+   "context": "GTM",
+   "preview": "- **分发 = skill,不是目的地**。`pip install proofpress`(本地账本 + diff "
+  },
+  {
+   "kind": "added",
+   "block": "c439d387",
+   "type": "heading",
+   "context": "北极星的免疫接种",
+   "preview": "## 北极星的免疫接种"
+  },
+  {
+   "kind": "added",
+   "block": "734e4e5b",
+   "type": "para",
+   "context": "北极星的免疫接种",
+   "preview": "\"X 的 git\" 是创业坟场最挤的墓志铭(git for data/design/docs 皆有尸体),死因清一色:*"
+  },
+  {
+   "kind": "added",
+   "block": "d7f6622d",
+   "type": "heading",
+   "context": "威胁与对策(2026-07-18 快照)",
+   "preview": "## 威胁与对策(2026-07-18 快照)"
+  },
+  {
+   "kind": "added",
+   "block": "57f35ec4",
+   "type": "list",
+   "context": "威胁与对策(2026-07-18 快照)",
+   "preview": "1. Anthropic 做 multiplayer/versioned Cowork — 结构对冲:开源 + 任何 a"
+  },
+  {
+   "kind": "added",
+   "block": "0bedacee",
+   "type": "para",
+   "context": "威胁与对策(2026-07-18 快照)",
+   "preview": "详见 [COMPETITIVE.md](COMPETITIVE.md)。"
   }
  ]
 }
