@@ -4,200 +4,200 @@
   {
    "type": "heading",
    "text": "# 思维演进记录 — 2026-07-18 战略讨论全程",
-   "hash": "a7e926f3f463",
-   "id": "bc6d230d"
+   "id": "de32b5ec",
+   "hash": "a7e926f3f463"
   },
   {
    "type": "para",
    "text": "一场从\"竞争扫描\"走到\"产品重定义\"的讨论。按站记录,包括被否掉的想法——路不通也是知识。\n(这份记录本身是手工写的;它存在的每一分钟都在论证:思维的演进应该被账本自动记录,而不是靠人事后考古。见第 11 站。)",
-   "hash": "34798731ed53",
-   "id": "5c80a98a"
+   "id": "d4f9a958",
+   "hash": "34798731ed53"
   },
   {
    "type": "para",
    "text": "---",
-   "hash": "f1624c9c50ca",
-   "id": "6702f6e3"
+   "id": "3cd7c333",
+   "hash": "f1624c9c50ca"
   },
   {
    "type": "heading",
    "text": "## 第 1 站 · 触发:竞争扫描实测(把 ⚠️ 清零)",
-   "hash": "bd9df4304233",
-   "id": "9f84d3a2"
+   "id": "f8485865",
+   "hash": "bd9df4304233"
   },
   {
    "type": "list",
    "text": "- 全部数字经 GitHub API / web 核实。三个事实改变了局面:\n  - **Kortix(ex-Suna)已转型 \"Company AI Command Center\"** 并 shipped 了审批壳;\n  - **Plane 已上线 agents-as-assignees + human-review 门控**;\n  - OpenManus 休眠(2 月起无提交),从威胁榜移除。\n- 上月估的\"6–12 个月窗口\"错了:对 Kortix 是 ~0 个月。\n- 修正过程:第一轮把 Kortix 写成\"shipped the closest thing to our loop\"→ 深读源码后二次修正(见第 2 站)。**教训:威胁评级必须读到代码层才算数。**",
-   "hash": "e164b1b020b1",
-   "id": "d6f150cb"
+   "id": "ee10c348",
+   "hash": "e164b1b020b1"
   },
   {
    "type": "heading",
    "text": "## 第 2 站 · Kortix 源码深读:壳是真的,底是空的",
-   "hash": "937924e850ae",
-   "id": "0bb1e8a2"
+   "id": "73dd96e4",
+   "hash": "937924e850ae"
   },
   {
    "type": "list",
    "text": "- 真:Review Center 收件箱(5 种 verdict、risk 分级、Slack/Teams 卡)、**request-changes 自动回流原会话并唤醒沙箱**——warm-revision 雏形他们有。\n- 空:CR 本体\"intentionally minimal\"(源码原话)——git 分支元数据,无 review/comment 表,反馈是 jsonb 里的扁平文本,**diff 只有 unified git patch,明确无语义 diff**。版本化单位是 repo/branch,永远不是 artifact。\n- 结论:他们没做的恰是我们的核心,且对他们是逆结构的(git 是其声明的 source of truth)。窗口压在这一层。",
-   "hash": "f82234a97dea",
-   "id": "cc38a776"
+   "id": "54e03fcb",
+   "hash": "f82234a97dea"
   },
   {
    "type": "heading",
    "text": "## 第 3 站 · 数据模型设计",
-   "hash": "c9578448865f",
-   "id": "ab80f5ca"
+   "id": "0554dcff",
+   "hash": "c9578448865f"
   },
   {
    "type": "list",
    "text": "- 五实体:**Artifact → Version → Review → Comment → SessionLink**。\n- 关键决策:canonical 表示是**带稳定 ID 的块树**,markdown 只是给 agent 的投影(锚点 `<!-- ob:xxxx -->` 序列化出去,ingest 时对齐,丢失退回相似度匹配)。\n- 语义 diff 四层:结构(moved/split/merged)→ 块内(词级/表格行列/数字数值差)→ **叙事层**(agent 提交时自述 changelog,由计算 diff 校验)→ **溯源层**(每个变更块链回会话轮次)。\n- 版本拓扑:线性 + 并发草稿,**不做人肉三方合并——base 变更作为反馈送回会话,agent 自己 rebase**(docs-as-code 失败的仪式成本,让 agent 付)。",
-   "hash": "6077634d090c",
-   "id": "146ec4b1"
+   "id": "28a8131e",
+   "hash": "6077634d090c"
   },
   {
    "type": "heading",
    "text": "## 第 4 站 · 退一步:宏观为什么重要",
-   "hash": "ddff115abce0",
-   "id": "028c10f8"
+   "id": "336efcea",
+   "hash": "ddff115abce0"
   },
   {
    "type": "para",
    "text": "四个论点:",
-   "hash": "4d9292b183d3",
-   "id": "6b91202a"
+   "id": "5a063c6c",
+   "hash": "4d9292b183d3"
   },
   {
    "type": "list",
    "text": "1. **数据模型决定品类归属**(git→GitHub、块→Notion、scene graph→Figma;工具可抄,数据模型抄不动——抄它等于推翻自己的存量)。\n2. **\"agent 生产、人审阅\"是生产关系反转,反转必然要求新账本**(三问:改了什么/为什么改/意见闭环了吗——Google Docs 和 git 都答不了)。\n3. **唯一有资格赢的战场**:壳、编排、调度、记录全在商品化且我们处于劣势;语义 diff + artifact 模型是没人占、对手结构性不愿进、难度即护城河的格子。\n4. **对 Anthropic 的对冲**:账本中立,agent 越强、写入越多,我们与模型进步是顺风关系。",
-   "hash": "9b368262c3db",
-   "id": "60724f35"
+   "id": "e1c3a590",
+   "hash": "9b368262c3db"
   },
   {
    "type": "heading",
    "text": "## 第 5 站 · 类比校准(Work Graph / Gamma / Word+Copilot)",
-   "hash": "62f1ac443880",
-   "id": "08bc9eb2"
+   "id": "2abf17c6",
+   "hash": "62f1ac443880"
   },
   {
    "type": "list",
    "text": "- **判据一句话:当工作\"已提出、未接受\"时,系统里握着什么对象?** B1 没有(消息)/ B2 行集合分支 / B3 没有(已成既成事实)/ B4 暂停的执行 / 我们:一个 Draft,一等公民。\n- Asana/Atlassian Work Graph 不 consequential 的原因:**描述性**(登记协调的元数据)vs Notion 块、Figma、Gamma 的**构成性**(工作用这个模型做出来,新能力从原语里长出来)。\n- Gamma 的精确定位:重定义了 artifact 的**格式**(为 AI 生成);我们重定义 artifact 的**演化**(为 AI 修订 + 人审)。\n- vs Word+Copilot / Docs+Gemini,一句话:**他们是 AI 在人的循环里,我们是人在 agent 的循环里。** 五条结构差:无草稿对象 / 无溯源 / 无修订闭环 / agent 钦定 / 结构上不能反转。\n- 自我纪律:我们产品里 board、Review 收件箱是描述性的(可被抄,Kortix 三个月抄完);构成性的只有块树 + 版本链 + 语义 diff。**资源永远优先投底片,不投取景器。**",
-   "hash": "3f16f36e66bc",
-   "id": "7b171111"
+   "id": "4464c8b9",
+   "hash": "3f16f36e66bc"
   },
   {
    "type": "heading",
    "text": "## 第 6 站 · 本质命名(Richard 的亲测三连)",
-   "hash": "0c691a77265e",
-   "id": "548538c2"
+   "id": "ea561830",
+   "hash": "0c691a77265e"
   },
   {
    "type": "list",
    "text": "- Richard 亲测:Cowork 改 spreadsheet(B1:跨轮次无 undo,产物是会话排泄物)、git 行 diff(语义靠人脑重建)、Notion agent(同步微观审批:逐编辑、当场裁决、阅后即焚)。\n- 规律:**现有产品全是\"同步微观审批\"(结对);委托需要\"异步交付物审阅\"(带记忆、可回滚、可留档)。撑起后者的全部技术含量 = 版本账本。**\n- 修正:本质不是 \"review diff\" 这个动作,而是**让 review 成为可能的那本账**。顺序:账本 → diff → review(git 同序)。",
-   "hash": "50b008763ef1",
-   "id": "ced45f80"
+   "id": "a818d18f",
+   "hash": "50b008763ef1"
   },
   {
    "type": "heading",
    "text": "## 第 7 站 · 体验闭环 + 人工编辑",
-   "hash": "5f429785b803",
-   "id": "147d3e83"
+   "id": "0d8c7839",
+   "hash": "5f429785b803"
   },
   {
    "type": "list",
    "text": "- 完整走查《Q3 定价策略》:发起 → Draft 1 块锚批注 → 反馈包回流热会话 → Draft 2 语义 diff 摘要屏(最值钱的一屏)→ ⓘ 溯源 → 双人审批 → 版本链。落成可交互 demo(claude.ai artifact `1c99a144`)。\n- 人工编辑的原则:**版本化是物理定律,审批是政策。** 人默认免审直落但必须记账;编辑会话折叠成微版本;人改 agent 的在途 draft 要作为事件回灌其会话(**账本是 agent 和人双向的 common ground**);实时 CRDT 共笔明确不做。",
-   "hash": "ed46ae5db290",
-   "id": "d1dd5bf5"
+   "id": "7d61f2ac",
+   "hash": "ed46ae5db290"
   },
   {
    "type": "heading",
    "text": "## 第 8 站 · 产品形态否决:不做工作台",
-   "hash": "502fe27bb4c0",
-   "id": "58c67bfa"
+   "id": "635c9fca",
+   "hash": "502fe27bb4c0"
   },
   {
    "type": "list",
    "text": "- 砍:board/agent 管理/监控/skill 市场的\"command center\"叙事(与 Kortix 原话定位对撞,拿弱牌打人强牌)。\n- 留:omnigent 从\"产品形态\"降级为\"不可见引擎\"——闭环每个杀手环节(回流/唤醒/溯源/rebase)都挂在 session 抽象上。\n- 与 Gamma 必须相反的一点:**AI 不内置**。内置 = 变成没分发的 Word+Copilot + 对冲失效 + 竞争维度变成生成质量(模型的本事,我们不拥有)。\n- 三层定位:形态 = agent-native 文档工具 / 内核 = 版本账本 / 引擎 = 多 harness 会话层。",
-   "hash": "1cb0da8a81d4",
-   "id": "a9f6788c"
+   "id": "1c106a71",
+   "hash": "1cb0da8a81d4"
   },
   {
    "type": "heading",
    "text": "## 第 9 站 · 命名与 GTM(Richard 的三个直觉)",
-   "hash": "8fc814c6992d",
-   "id": "9ccbea97"
+   "id": "9a35dd58",
+   "hash": "8fc814c6992d"
   },
   {
    "type": "list",
    "text": "- **OmniDocs 独立成名**——账本内核的楔子产品;OmniCowork 是账本聚人后长出的团队层(git → GitHub 次序)。\n- **法律合同缓行**:价值判断对(唯一以 redline 为母语的领域),但三个结构障碍——DOCX 格式墙(对手方在 Word 里)、生产关系不匹配(律师主笔 = \"人写 AI 助\"框架)、垂直吃掉横向。定位为第二幕垂直。第一幕 ICP:已在用 agent 写 PRD/备忘/分析的人(母语 markdown,零迁移)。\n- **Skill 分发 = 全场最好的想法**:`pip install omnidocs`(本地账本 + diff 引擎 + localhost 审阅页)+ 各 harness 的 submit-for-review skill。**没有\"迁移\",只有\"装了个东西之后产出突然有了版本\"。** 把多 harness 中立从防御定位变成进攻渠道(对手的安装量 = 我们的分发面;Kortix/Anthropic 结构上无法跟进)。\n- 风险直视:skill 零护城河 → IP 全部沉在引擎;**diff 引擎品质是唯一 KPI**。商业:单机免费开源,团队服务器收钱(= OmniCowork 回归位)。",
-   "hash": "b1d557a05ded",
-   "id": "b9579d44"
+   "id": "f28004db",
+   "hash": "b1d557a05ded"
   },
   {
    "type": "heading",
    "text": "## 第 10 站 · 待办的 UI 修正(Richard 反馈)",
-   "hash": "1fec90109b8d",
-   "id": "c716ed55"
+   "id": "aba75332",
+   "hash": "1fec90109b8d"
   },
   {
    "type": "list",
    "text": "- demo 第 3 步的\"变更摘要 / 全文\"不该是两个 tab:**摘要应自然融入 Draft 2 视图**——顶部放结构化摘要,块级更新放右侧栏或 hover-over-block。产品实现时按此设计,demo 暂不返工。",
-   "hash": "3377ad7ce996",
-   "id": "4dd425c8"
+   "id": "03fa91c7",
+   "hash": "3377ad7ce996"
   },
   {
    "type": "heading",
    "text": "## 第 11 站 · 未收束的新线头:思维演进也是 artifact",
-   "hash": "40e15d371bbd",
-   "id": "7af05fc5"
+   "id": "4922e5e4",
+   "hash": "40e15d371bbd"
   },
   {
    "type": "list",
    "text": "- Richard 的旧项目:画布,多线程/可分支地与 agent 对话,artifact 即画布——一个小想法生长的全过程。\n- 直觉:我们的构成性模型(Artifact/块树/语义 diff/溯源)同样有机会承载\"思维的演进\"。\n- 本记录文件的存在本身即论据:结论沉进文档,推理蒸发在聊天里——今天靠人手工考古,应该由账本自动持有。",
-   "hash": "caa17f60312d",
-   "id": "979e125c"
+   "id": "d7a4e2fb",
+   "hash": "caa17f60312d"
   },
   {
    "type": "heading",
    "text": "## 第 12 站 · 第二价值曲线 + 收敛定稿(同日晚)",
-   "hash": "5b6a14ec409b",
-   "id": "4c5abfee"
+   "id": "47ac7573",
+   "hash": "5b6a14ec409b"
   },
   {
    "type": "list",
    "text": "- **思维演进不需要新模型,是账本的免费副产品**:版本链=思想历次状态,语义 diff=思维动作类型学,溯源=为什么,Comment/resolution=辩证过程。\"演进视图\"是账本上的渲染,不是新产品。\n- **画布与链的合题**:Richard 旧项目(多线程可分支画布,artifact 即画布)= 发散的树,缺收敛压力;版本链 = 收敛,缺探索可见性。**探索是沉淀的溯源**——画布住在溯源层里,这是数据结构不是比喻。被否的想法 = 被剪的枝,一等公民留档(死枝可考古,git 做不到因为行 diff 不可读)。\n- **两条价值曲线定序**:信任(获客钩子,刚需)带记忆(留存/口碑,惊喜)。M0 不做演进视图 feature;launch 叙事用一份真实文档的演进史做 showcase。\n- **种子定稿**(Richard):信任曲线优先,**分发走 coding 渠道**——精确化为\"artifact 是代码周围的非代码文档\"(ADR/PRD/design doc),红线:永不碰代码版本化。\n- **北极星定稿**(Richard):内核 = knowledge work 的 git;OmniDocs/OmniCowork 只是呈现形式。git 类比拆开用:抄作业(单机开源先行、格式即公开 spec、网络效应留给托管层)+ 警告(\"X 的 git\"坟场死因 = 人付仪式税;我们的免疫 = 税转嫁给 agent)。断裂点:git 的 diff 平凡、护城河在网络效应;我们的 diff 引擎就是 IP 本体。\n- **Repo 拆分执行**:新建独立仓库 ~/omnidocs(身份/开源姿势/心理边界三理由);战略文档随内核搬家;omnicowork 原地冷冻 = 团队层回归位(GitHub 时刻),冷冻是暂不走的枝,不是错误。\n- **留给下次的设计题**:omnidocs 账本与 git 仓库的关系——旁边/里面/上面三选(初步倾向\"里面\",jj 姿态,git 当免费同步层),Richard 思考中。",
-   "hash": "c7e35be2dc84",
-   "id": "36cd41f5"
+   "id": "1b78e3c8",
+   "hash": "c7e35be2dc84"
   },
   {
    "type": "para",
    "text": "---",
-   "hash": "f1624c9c50ca",
-   "id": "a05e0aec"
+   "id": "22757459",
+   "hash": "f1624c9c50ca"
   },
   {
    "type": "heading",
    "text": "## 被否掉/修正的想法清单",
-   "hash": "e821a69c11d3",
-   "id": "8a6801fa"
+   "id": "25b212f0",
+   "hash": "e821a69c11d3"
   },
   {
    "type": "table",
    "text": "| 想法 | 结局 | 为什么 |\n|---|---|---|\n| \"Kortix shipped 我们的闭环\"(第一轮措辞) | 修正 | 深读后:壳+回流有,artifact 模型+语义 diff 无 |\n| 工作台/编排形态 | 否 | 描述性层,商品化中,与 Kortix 正面对撞 |\n| \"像 Gamma 一样\"(全盘) | 半否 | 形态学 Gamma,但 AI 必须可插拔不内置 |\n| 法律合同作第一落地 | 缓行 | DOCX 墙 / 律师主笔框架 / 垂直吃横向 |\n| \"本质是 review diff\" | 修正 | 本质是账本;diff 是账本上算出来的 |\n| 实时 CRDT 多人共笔 | 明确不做(v1) | 编辑层是 Google Docs 主场,打错了层 |\n| 锚点用纯 sidecar 匹配 | 倾向否 | 匹配 bug 是长期税;锚点为主、相似度兜底 |",
-   "hash": "aa07b88eb536",
-   "id": "841eeff5"
+   "id": "0058ef37",
+   "hash": "aa07b88eb536"
   },
   {
    "type": "heading",
    "text": "## 沉淀的一句话资产",
-   "hash": "0a0d63e17e28",
-   "id": "86b14ca7"
+   "id": "1639c749",
+   "hash": "0a0d63e17e28"
   },
   {
    "type": "list",
    "text": "- \"别人运行 agent、存储工作。我们为 agent 的产出记账。\"\n- \"版本化是物理定律,审批是政策。\"\n- \"他们是 AI 在人的循环里,我们是人在 agent 的循环里。\"\n- \"同步微观审批是结对,异步交付物审阅才是委托。\"\n- \"文档存结论,聊天存推理——账本给两者建外键。\"\n- \"Draft → Review → Approve, for agents.\"(词表,抢先公开占领)",
-   "hash": "4fe12d459f39",
-   "id": "50ea1ace"
+   "id": "8d1452d7",
+   "hash": "4fe12d459f39"
   }
  ]
 }
