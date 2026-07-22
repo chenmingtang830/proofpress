@@ -1,25 +1,25 @@
 {
  "event": "version_created",
  "artifact": "docs/ARTIFACT_MODEL.md",
- "version": "dd7adf38",
- "parent": "fb1fac56",
+ "version": "755596a6",
+ "parent": "dd7adf38",
  "author": {
   "name": "chenmingtang830",
   "kind": "human",
   "session": null
  },
- "note": "Rebuild serve page per DESIGN.md: markdown rendering, ledger-demo design system, honest feedback states",
- "ts": "2026-07-18T09:01:24-04:00",
+ "note": "Respond to page feedback: ARTIFACT_MODEL heading per Richard's comment",
+ "ts": "2026-07-18T09:35:47-04:00",
  "stats": {
   "modified": 1
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "b172e2eb",
+   "block": "6fdcee59",
    "type": "heading",
-   "context": "开放的问题们"
+   "context": "与git仓库的关系(定稿 2026-07-18,Richard 裁决:\"里面\")"
   }
  ],
- "source_commit": "7829cb946cdfd41a3e60768753a7f54762565170"
+ "source_commit": "6d8f0b42adf168d890172c88ff895afe5ba6241f"
 }
