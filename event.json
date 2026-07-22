@@ -1,31 +1,25 @@
 {
  "event": "version_created",
  "artifact": "docs/DESIGN.md",
- "version": "f94cd161",
- "parent": "cfeb2d75",
+ "version": "ffdfa77d",
+ "parent": "f94cd161",
  "author": {
   "name": "chenmingtang830",
   "kind": "human",
   "session": null
  },
- "note": "Language-adaptive UI, English as the core experience",
- "ts": "2026-07-18T09:21:10-04:00",
+ "note": "Rebrand OmniDocs → Proofpress: two-layer naming (proof ledger + Proofpress), seal logo, launch-film demo, invisible md anchors",
+ "ts": "2026-07-19T03:35:01-04:00",
  "stats": {
-  "modified": 2
+  "modified": 1
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "300ee19f",
+   "block": "ae580676",
    "type": "heading",
-   "context": "声音与语言"
-  },
-  {
-   "kind": "modified",
-   "block": "cab7f711",
-   "type": "para",
-   "context": "声音与语言"
+   "context": "Proofpress 设计系统 — serve 审阅页(源自 ledger-de"
   }
  ],
- "source_commit": "b2d1fa08983314901aa8ddf484569516eef4d570"
+ "source_commit": "93f8ba113db79b1e8f0c730dccdbd3c5ae6e2dcc"
 }

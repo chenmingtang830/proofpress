@@ -3,9 +3,9 @@
  "blocks": [
   {
    "type": "heading",
-   "text": "# OmniDocs 设计系统 — serve 审阅页(源自 ledger-demo,2026-07-18)",
+   "text": "# Proofpress 设计系统 — serve 审阅页(源自 ledger-demo,2026-07-18)",
    "id": "ae580676",
-   "hash": "897ba661f98d"
+   "hash": "41f5c8ee4643"
   },
   {
    "type": "para",
