@@ -1,8 +1,8 @@
 {
  "event": "version_created",
- "artifact": "docs/COMPETITIVE.md",
- "version": "b28f7728",
- "parent": "a52f148d",
+ "artifact": "docs/DEMO_SCRIPT.md",
+ "version": "3f4fe376",
+ "parent": null,
  "author": {
   "name": "chenmingtang830",
   "kind": "human",
@@ -11,14 +11,43 @@
  "note": "Rebrand OmniDocs → Proofpress: two-layer naming (proof ledger + Proofpress), seal logo, launch-film demo, invisible md anchors",
  "ts": "2026-07-19T03:35:01-04:00",
  "stats": {
-  "modified": 1
+  "added": 5
  },
  "changes": [
   {
-   "kind": "modified",
-   "block": "953f6620",
+   "kind": "added",
+   "block": "e462c991",
    "type": "heading",
-   "context": "Competitive Landscape — Proofpress"
+   "context": "Proofpress — 60-Second Launch Demo Scrip",
+   "preview": "# Proofpress — 60-Second Launch Demo Script"
+  },
+  {
+   "kind": "added",
+   "block": "3b124b11",
+   "type": "para",
+   "context": "Proofpress — 60-Second Launch Demo Scrip",
+   "preview": "Audience: developers who write docs with coding agents (repo"
+  },
+  {
+   "kind": "added",
+   "block": "07de17ee",
+   "type": "table",
+   "context": "Proofpress — 60-Second Launch Demo Scrip",
+   "preview": "| Time | Screen | Narration |\n|---|---|---|\n| 0:00–0:09 | A "
+  },
+  {
+   "kind": "added",
+   "block": "0e31c4a3",
+   "type": "para",
+   "context": "Proofpress — 60-Second Launch Demo Scrip",
+   "preview": "~165 words. Delivery notes: speak slowly (reviewers watch at"
+  },
+  {
+   "kind": "added",
+   "block": "f51f15b3",
+   "type": "para",
+   "context": "Proofpress — 60-Second Launch Demo Scrip",
+   "preview": "Red-line check: no mention of versioning code files; no revi"
   }
  ],
  "source_commit": "93f8ba113db79b1e8f0c730dccdbd3c5ae6e2dcc"
