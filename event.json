@@ -1,98 +1,27 @@
 {
  "event": "version_created",
- "artifact": "docs/PORTABLE_ARTIFACT_STRATEGY.md",
- "version": "95567f22",
- "parent": "90e0cbb1",
+ "artifact": "docs/ARTIFACT_MODEL.md",
+ "version": "61555708",
+ "parent": "531f24ab",
  "author": {
   "name": "Claude",
   "kind": "agent",
   "session": "sidecar-experiment"
  },
- "note": "9.5 节:假设 A sidecar 实验首轮结果与判定",
- "ts": "2026-07-22T00:59:48+00:00",
+ "note": "开放问题补两条现场教训:线性 ref 回卷事故、锚点声明优先的双刃剑",
+ "ts": "2026-07-22T01:00:33+00:00",
  "stats": {
-  "added": 6
+  "modified": 1
  },
  "changes": [
   {
-   "kind": "added",
-   "block": "50e79cdc",
-   "type": "heading",
-   "context": "9.5 假设 A 首轮验证结果(2026-07-22,sidecar 实验)",
-   "preview": "## 9.5 假设 A 首轮验证结果(2026-07-22,sidecar 实验)"
-  },
-  {
-   "kind": "added",
-   "block": "73ac9e84",
-   "type": "para",
-   "context": "9.5 假设 A 首轮验证结果(2026-07-22,sidecar 实验)",
-   "preview": "未建 capsule,先用 `proofpress export` 生成 sidecar JSON 验证\"携带历史是否改"
-  },
-  {
-   "kind": "added",
-   "block": "ca3d6e08",
-   "type": "para",
-   "context": "9.5 假设 A 首轮验证结果(2026-07-22,sidecar 实验)",
-   "preview": "**结果:**"
-  },
-  {
-   "kind": "added",
-   "block": "e6eb3b2b",
+   "kind": "modified",
+   "block": "f7612f00",
    "type": "list",
-   "context": "9.5 假设 A 首轮验证结果(2026-07-22,sidecar 实验)",
-   "preview": "1. **历史确实进入推理**:带账本臂在全部三份交付物的设计说明里显式引用了 why/rejected(\"账本 v3 "
-  },
-  {
-   "kind": "added",
-   "block": "afa82f06",
-   "type": "para",
-   "context": "9.5 假设 A 首轮验证结果(2026-07-22,sidecar 实验)",
-   "preview": "**成色声明**:每格 n=1、同模型、评审非盲、第二轮目录含第一轮产物(双臂对称)。是方向性信号,不是统计结论。"
-  },
-  {
-   "kind": "added",
-   "block": "5aa97967",
-   "type": "para",
-   "context": "9.5 假设 A 首轮验证结果(2026-07-22,sidecar 实验)",
-   "preview": "**判定**:假设 A 获方向性支持,未达\"改变真实 handoff\"的最终标准——那需要 §9.3 的真人 Slack"
-  }
- ],
- "claims": [
-  {
-   "block": "50e79cdc",
-   "kind": "added",
-   "note": "新节 9.5 标题:假设 A 首轮验证"
-  },
-  {
-   "block": "73ac9e84",
-   "kind": "added",
-   "note": "实验设置:sidecar 代替 capsule,两轮双臂"
-  },
-  {
-   "block": "ca3d6e08",
-   "kind": "added",
-   "note": "结果小标题"
-  },
-  {
-   "block": "e6eb3b2b",
-   "kind": "added",
-   "note": "五条发现:历史进推理/表面不可见死枝的区分度/scope gap/正文即压缩历史/成本"
-  },
-  {
-   "block": "afa82f06",
-   "kind": "added",
-   "note": "成色声明:n=1 非盲等局限"
-  },
-  {
-   "block": "5aa97967",
-   "kind": "added",
-   "note": "判定:方向性支持,capsule 工程继续冻结待真人实验"
+   "context": "开放的问题们"
   }
  ],
  "context": {
-  "why": "按 9.1 的顺序先验证价值假设,结果连同成色局限需固化在提案旁;入账过程两度失败(fetch 强制回卷 ref、剥锚点正则损坏围栏示例),已修复并留档",
-  "rejected": [
-   "结果写独立实验文档 —— 战略稿 9.3 定义了实验,结果放在定义旁边最可查"
-  ]
+  "why": "两个缺陷都在今晚真实发生并修复,不入账下次还会踩"
  }
 }
