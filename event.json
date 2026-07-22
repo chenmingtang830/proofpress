@@ -1,74 +1,75 @@
 {
  "event": "version_created",
- "artifact": "README.md",
- "artifact_id": "pp_556b115de711b0cd33eed260",
- "version": "562554c0",
- "parent": "b83d7d85",
+ "artifact": "docs/README.md",
+ "artifact_id": "pp_4e50106dcbfad18e3ab0668c",
+ "version": "90c46f04",
+ "parent": null,
  "author": {
   "name": "codex",
   "kind": "agent",
   "session": null
  },
  "note": "prepare the public repository documentation surface",
- "ts": "2026-07-22T10:06:02+00:00",
+ "ts": "2026-07-22T10:06:03+00:00",
  "stats": {
-  "added": 6,
-  "modified": 2
+  "added": 8
  },
  "changes": [
   {
    "kind": "added",
-   "block": "169d8523",
+   "block": "d16948ea",
    "type": "heading",
-   "context": "Status",
-   "preview": "## Status"
+   "context": "Proofpress documentation",
+   "preview": "# Proofpress documentation"
   },
   {
    "kind": "added",
-   "block": "d6f9f208",
+   "block": "aeed01a6",
    "type": "para",
-   "context": "Status",
-   "preview": "Proofpress is a V0 reference implementation. The CLI is usab"
+   "context": "Proofpress documentation",
+   "preview": "Proofpress keeps the public documentation set deliberately s"
   },
   {
    "kind": "added",
-   "block": "19210f53",
-   "type": "heading",
-   "context": "Try it",
-   "preview": "## Try it"
+   "block": "62ae0597",
+   "type": "list",
+   "context": "Proofpress documentation",
+   "preview": "- [Portable Artifact V0](PORTABLE_ARTIFACT_SPEC.md) is the e"
   },
   {
    "kind": "added",
-   "block": "989f25ec",
+   "block": "12d546c8",
    "type": "para",
-   "context": "Try it",
-   "preview": "Proofpress is a single Python file with no third-party runti"
+   "context": "Proofpress documentation",
+   "preview": "  contract: policy, identity, carrier, actors, integrity, im"
   },
   {
    "kind": "added",
-   "block": "7b197ac1",
-   "type": "code",
-   "context": "Try it",
-   "preview": "```sh\ngit clone https://github.com/chenmingtang830/proofpres"
+   "block": "115b73d9",
+   "type": "list",
+   "context": "Proofpress documentation",
+   "preview": "- [Privacy Boundaries](PRIVACY_AND_DISCLOSURE.md) defines wh"
   },
   {
    "kind": "added",
-   "block": "5ae48e1b",
+   "block": "18d76a56",
    "type": "para",
-   "context": "Try it",
-   "preview": "To use it in another repository, vendor `proofpress.py` at t"
+   "context": "Proofpress documentation",
+   "preview": "  may contain, what stays local, and what a distributed file"
   },
   {
-   "kind": "modified",
-   "block": "706dcea3",
-   "type": "code",
-   "context": "Core workflow"
+   "kind": "added",
+   "block": "08d1b5c2",
+   "type": "para",
+   "context": "Proofpress documentation",
+   "preview": "The implementation is the zero-dependency [`proofpress.py`]("
   },
   {
-   "kind": "modified",
-   "block": "820f39ab",
+   "kind": "added",
+   "block": "aef7f16a",
    "type": "para",
-   "context": "Surfaces"
+   "context": "Proofpress documentation",
+   "preview": "Product strategy, competitive research, launch drafts, and e"
   }
  ],
  "policy": "local",
@@ -83,43 +84,43 @@
  "attribution_basis": "harness_attested",
  "claims": [
   {
-   "block": "169d8523",
+   "block": "d16948ea",
    "kind": "added",
    "note": "aligned the public repository surface and executable CLI examples"
   },
   {
-   "block": "d6f9f208",
+   "block": "aeed01a6",
    "kind": "added",
    "note": "aligned the public repository surface and executable CLI examples"
   },
   {
-   "block": "19210f53",
+   "block": "62ae0597",
    "kind": "added",
    "note": "aligned the public repository surface and executable CLI examples"
   },
   {
-   "block": "989f25ec",
+   "block": "12d546c8",
    "kind": "added",
    "note": "aligned the public repository surface and executable CLI examples"
   },
   {
-   "block": "7b197ac1",
+   "block": "115b73d9",
    "kind": "added",
    "note": "aligned the public repository surface and executable CLI examples"
   },
   {
-   "block": "5ae48e1b",
+   "block": "18d76a56",
    "kind": "added",
    "note": "aligned the public repository surface and executable CLI examples"
   },
   {
-   "block": "706dcea3",
-   "kind": "modified",
+   "block": "08d1b5c2",
+   "kind": "added",
    "note": "aligned the public repository surface and executable CLI examples"
   },
   {
-   "block": "820f39ab",
-   "kind": "modified",
+   "block": "aef7f16a",
+   "kind": "added",
    "note": "aligned the public repository surface and executable CLI examples"
   }
  ],
