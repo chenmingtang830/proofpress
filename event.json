@@ -1,62 +1,85 @@
 {
  "event": "version_created",
- "artifact": "skills/README.md",
- "version": "f20b8181",
- "parent": "b9722986",
+ "artifact": "skills/claude-code/proofpress/SKILL.md",
+ "version": "ca478163",
+ "parent": "e40b1769",
  "author": {
   "name": "codex",
   "kind": "agent",
   "session": "vision-and-harness-2026-07-22"
  },
- "note": "Clarified claims scope and added Cursor installation",
- "ts": "2026-07-22T05:25:17+00:00",
+ "note": "Limited claims to touched blocks",
+ "ts": "2026-07-22T05:25:18+00:00",
  "stats": {
-  "modified": 1,
-  "added": 2
+  "modified": 3,
+  "added": 1,
+  "removed": 1
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "a0d8e6f2",
-   "type": "para",
-   "context": "The agent contract (shared across all ha"
-  },
-  {
-   "kind": "added",
-   "block": "9d561c7d",
+   "block": "65cb9ab0",
    "type": "list",
-   "context": "Install",
-   "preview": "- **Cursor** — copy `cursor/proofpress/` into"
+   "context": "The loop (run after your edits are compl"
+  },
+  {
+   "kind": "modified",
+   "block": "c6316604",
+   "type": "para",
+   "context": "The loop (run after your edits are compl"
+  },
+  {
+   "kind": "modified",
+   "block": "e31273f8",
+   "type": "code",
+   "context": "The loop (run after your edits are compl"
   },
   {
    "kind": "added",
-   "block": "5fe5778d",
+   "block": "fb417407",
    "type": "para",
-   "context": "Install",
-   "preview": "  `.cursor/skills/proofpress/` (or `.agents/skills/proofpres"
+   "context": "The loop (run after your edits are compl",
+   "preview": "   Kinds: `added` / `removed` / `modified` / `moved` / `unch"
+  },
+  {
+   "kind": "removed",
+   "block": "ebe0a330",
+   "type": "para",
+   "context": "",
+   "preview": "   Kinds: `added` / `removed` / `modified` / `moved` / `unch"
   }
  ],
  "claims": [
   {
-   "block": "a0d8e6f2",
+   "block": "65cb9ab0",
    "kind": "modified",
-   "note": "clarified that claims cover touched blocks and unchanged is an explicit negative claim"
+   "note": "limited claims to blocks touched or removed"
   },
   {
-   "block": "9d561c7d",
-   "kind": "added",
-   "note": "added Cursor to the supported harness install list"
+   "block": "c6316604",
+   "kind": "modified",
+   "note": "clarified that identity inventory does not supply author testimony"
   },
   {
-   "block": "5fe5778d",
+   "block": "e31273f8",
+   "kind": "modified",
+   "note": "removed the routine unchanged claim from the example"
+  },
+  {
+   "block": "fb417407",
    "kind": "added",
-   "note": "documented Cursor project-level skill locations and chat refresh behavior"
+   "note": "documented deliberate rather than exhaustive unchanged claims"
+  },
+  {
+   "block": "ebe0a330",
+   "kind": "removed",
+   "note": "replaced the old claims-kind paragraph with clarified guidance"
   }
  ],
  "context": {
-  "why": "Harness documentation should match verifier semantics and include Cursor as a supported distribution surface.",
+  "why": "The prior wording produced large, low-signal unchanged claim lists that the verifier does not require.",
   "rejected": [
-   "Enumerate every untouched block — unnecessary because verification only requires disclosure of computed changes and explicit negative claims."
+   "Keep exhaustive unchanged claims — adds ceremony and obscures meaningful testimony."
   ]
  }
 }
