@@ -1,198 +1,210 @@
 {
- "artifact": "docs/EXPERIMENT_HINDCAST.md",
- "artifact_id": "pp_16e1b0c5a28529fcf82f0cb1",
+ "artifact": "README.md",
+ "artifact_id": "pp_556b115de711b0cd33eed260",
  "blocks": [
   {
    "type": "heading",
-   "text": "# Hindcast 实验计划:开源文档历史回测",
-   "hash": "06aa84bc9e6b",
-   "id": "49564b45"
+   "text": "# Proofpress",
+   "id": "de7999eb",
+   "hash": "8576f3816903"
   },
   {
    "type": "para",
-   "text": "> 状态:计划稿,待 Richard review 后执行\n> 日期:2026-07-22\n> 验证对象:决议稿(PORTABLE_ARTIFACT_STRATEGY.md)的 day-one wedge——cross-session continuity 的价值,用第三方真实历史而非自产材料",
-   "hash": "90ee675ac12a",
-   "id": "c6ab38d8"
-  },
-  {
-   "type": "heading",
-   "text": "## 0. 一句话",
-   "hash": "76ef20a12f27",
-   "id": "41e1c356"
+   "text": "Proofpress is a verifiable `log.md` for knowledge work: a shared history of who\nchanged what, when, and why, checked against the artifact itself.",
+   "id": "e667d986",
+   "hash": "0513e7592eb6"
   },
   {
    "type": "para",
-   "text": "把热门开源 agent 项目的文档 commit/PR 历史用 `ingest` 重构成账本,挖出该项目**自己的真实死枝**,让不同 context 条件下的 clean agent 做同一个续作任务,量三件事:死枝重提率、与已定决策的冲突、token 成本。",
-   "hash": "28a00c4ec2e9",
-   "id": "932f4bc7"
+   "text": "Agents can produce a document quickly, but the reasoning that shaped its final\nform is usually scattered across chat sessions, Slack, meetings, and somebody's\nmemory. Git is excellent when the work already lives in Git; most knowledge\nartifacts do not. Proofpress keeps the accepted version history and consequential\ndecisions attached to a Markdown artifact so that history can travel with it.",
+   "id": "0e0e9d9a",
+   "hash": "021af0513599"
   },
   {
    "type": "heading",
-   "text": "## 1. 假设(预注册,跑之前定死)",
-   "hash": "ab396f21dfe7",
-   "id": "9a615d19"
+   "text": "## Status",
+   "id": "169d8523",
+   "hash": "e6012e8a29c9"
+  },
+  {
+   "type": "para",
+   "text": "Proofpress is a V0 reference implementation. The CLI is usable and its portable\nartifact behaviors are covered by black-box tests, but the embedded carrier and\ncommand interfaces may still change before a stable release.",
+   "id": "d6f9f208",
+   "hash": "6609fa309a42"
+  },
+  {
+   "type": "heading",
+   "text": "## Try it",
+   "id": "19210f53",
+   "hash": "c3376fb68187"
+  },
+  {
+   "type": "para",
+   "text": "Proofpress is a single Python file with no third-party runtime dependencies:",
+   "id": "989f25ec",
+   "hash": "ff269bd8e858"
+  },
+  {
+   "type": "code",
+   "text": "```sh\ngit clone https://github.com/chenmingtang830/proofpress.git\ncd proofpress\npython3 proofpress.py --help\n```",
+   "id": "7b197ac1",
+   "hash": "26fc8c740197"
+  },
+  {
+   "type": "para",
+   "text": "To use it in another repository, vendor `proofpress.py` at that repository's\nroot and install the matching adapter from [`skills/`](skills/).",
+   "id": "5ae48e1b",
+   "hash": "3928bc0d5c61"
+  },
+  {
+   "type": "heading",
+   "text": "## What “portable” means",
+   "id": "949eb6a5",
+   "hash": "d683e931abae"
+  },
+  {
+   "type": "para",
+   "text": "Turn portability on once:",
+   "id": "2173502c",
+   "hash": "3dba2ddf7bdc"
+  },
+  {
+   "type": "code",
+   "text": "```sh\npython3 proofpress.py policy proposal.md portable\n```",
+   "id": "c44f6768",
+   "hash": "43c9bcae981e"
+  },
+  {
+   "type": "para",
+   "text": "The setting is sticky. Later accepted revisions refresh a compact, hidden\ncapsule inside the Markdown file. Send the original file to a collaborator and\ntheir agent can inspect and import its history without access to your Git repo,\nchat session, or Proofpress ledger ref.",
+   "id": "79416c44",
+   "hash": "c0d9321f453f"
+  },
+  {
+   "type": "code",
+   "text": "```sh\npython3 proofpress.py inspect proposal.md\npython3 proofpress.py import proposal.md\npython3 proofpress.py log proposal.md\n```",
+   "id": "af7113fa",
+   "hash": "7d305534cb6d"
+  },
+  {
+   "type": "para",
+   "text": "The capsule is declarative data, not agent instructions. It is tamper-evident\nfor accidental drift and inconsistent rewrites, but V0 does not claim signed\nauthorship or protection from wholesale malicious replacement.",
+   "id": "bfc931ca",
+   "hash": "cd3e4fe06000"
+  },
+  {
+   "type": "heading",
+   "text": "## What gets recorded",
+   "id": "226a29fd",
+   "hash": "186dcaaa104c"
+  },
+  {
+   "type": "para",
+   "text": "Proofpress records accepted artifact versions, their computed block changes,\nexplicit actor roles, the reason for the change, and consequential rejected\ndirections when the authoring agent supplies them. The account is checked\nagainst the actual artifact diff.",
+   "id": "cfc1c3aa",
+   "hash": "7e4348dd5c4b"
+  },
+  {
+   "type": "para",
+   "text": "It does not automatically store raw prompts, transcripts, tool traces, casual\nbrainstorming, or every save. A fallback hook can preserve an otherwise missed\nversion, but identifies itself only as `recorded_by`; it does not guess who\nwrote the content or why.",
+   "id": "5e0b34ed",
+   "hash": "c1cd5f661a72"
+  },
+  {
+   "type": "heading",
+   "text": "## Privacy modes",
+   "id": "d8387b0b",
+   "hash": "02857a47111c"
+  },
+  {
+   "type": "para",
+   "text": "Each artifact has one policy:",
+   "id": "5df13acf",
+   "hash": "29b167152410"
   },
   {
    "type": "list",
-   "text": "- **H1(主)**:账本臂(H)的知情度 ≈ 全量 git 历史臂(G),成本 ≈ 裸文档臂(N)。操作化:H 的死枝重提率 ≤ G + 10pp 且 ≤ N 的 50%;H 的 context token ≤ G 的 30%。\n- **H2(消融,可选)**:去掉 why/rejected、只留结构 diff 链的账本(H⁻)显著弱于完整账本(H)——证明证词层有独立价值,不只是\"压缩的 diff\"。\n- **预注册失败判据**:H 死枝重提率与 N 无显著差异 → 账本对 continuity 无增量;H 与 G 相当但 token 也相当 → 压缩不成立。任一触发,回战略稿重新评估,不加戏。",
-   "hash": "012672951b01",
-   "id": "d69880d7"
-  },
-  {
-   "type": "heading",
-   "text": "## 2. 材料选择",
-   "hash": "a0bc329afd26",
-   "id": "88656aa2"
+   "text": "- `portable`: future accepted versions refresh the embedded capsule.\n- `local`: versions stay in the local/Git ledger; the current capsule is",
+   "id": "3b52e3b3",
+   "hash": "513e64f57805"
   },
   {
    "type": "para",
-   "text": "**Repo 候选**(按序试,取先满足者 2–3 个):OpenClaw、hermes-agent(NousResearch)、OpenHands、lobehub。备选:ruflo、AFFiNE。",
-   "hash": "784ce0b163cf",
-   "id": "bcb5a744"
+   "text": "  removed.",
+   "id": "126978a2",
+   "hash": "ab7a006a54fd"
+  },
+  {
+   "type": "list",
+   "text": "- `ignored`: future capture is skipped.",
+   "id": "0890e114",
+   "hash": "6496d2aa9f25"
   },
   {
    "type": "para",
-   "text": "**入选标准(每份文档):**",
-   "hash": "a93d855e9737",
-   "id": "1624d62c"
-  },
-  {
-   "type": "list",
-   "text": "1. 单文件(`--follow`)commit ≥ 20,时间跨度 ≥ 3 个月;\n2. 历史中存在**真实删除/回退**(候选死枝来源);\n3. 有可通过 `gh api` 取到的 PR 关联(why 富化来源);\n4. **污染控制窗**:所选历史段的尾部(v_k 之后的\"未来\")落在 2026-03 之后——降低模型背过最终状态的概率;\n5. 英文为主(评分器一致性)。",
-   "hash": "b1e753e16530",
-   "id": "bde5ae2f"
+   "text": "Switching from portable to local cannot recall copies already sent. Re-enabling\nportable starts a clean lineage at the current body, so private-interval actors,\nreasons, rejected paths, event IDs, and omitted-event counts do not leak.",
+   "id": "c6642117",
+   "hash": "ad4ba22c0cc4"
   },
   {
    "type": "para",
-   "text": "每 repo 选 1–2 份文档,合计 3–5 份。",
-   "hash": "fc547f4bc767",
-   "id": "98877244"
+   "text": "For a one-off history-free copy, use:",
+   "id": "18995a53",
+   "hash": "ae12c58f952c"
+  },
+  {
+   "type": "code",
+   "text": "```sh\npython3 proofpress.py clean proposal.md --output proposal-clean.md\n```",
+   "id": "f28051ef",
+   "hash": "6148d5cc6ef3"
   },
   {
    "type": "heading",
-   "text": "## 3. 管线(五步,全部脚本化)",
-   "hash": "d7fd82044c6c",
-   "id": "e8306714"
+   "text": "## Core workflow",
+   "id": "bfac82a8",
+   "hash": "3c334335b8c3"
   },
   {
-   "type": "list",
-   "text": "1. **选材**:clone → `git log --follow --oneline` 扫描 docs/*.md,按标准 2 打分排序,人工从 top 里定。\n2. **账本重构**:`proofpress ingest <doc>` → 版本链(作者/日期/commit message 已验证可回填)。\n3. **PR 富化**:`gh api` 把 commit → PR 映射,取 PR 标题+正文前 N 字+top review comment,写进 **export bundle 的 context.why**(sidecar 层后处理脚本,不动引擎、不污染账本本体)。\n4. **死枝挖掘**(本实验成败关键):\n   - 机械筛:块在 v_i 加入、v_j 删除、head 不存在;引擎 move 检测先排除\"搬家不是删除\"的;\n   - 加权:删除 commit/PR message 含 remove/revert/drop/deprecate/simplify 的置顶;\n   - **人工抽查**:top 死枝逐条确认\"确属被否方向,非重构副作用\",每份文档留 3–5 颗确认过的雷 + 一句话理由(引 PR/commit 原文);\n   - 质量门:一份文档挖不出 ≥3 颗合格雷,该文档弃用。\n5. **任务构造**:每颗雷配一个自然任务——在 v_k 时间点,要求 agent 扩写/改进死枝会自然复活的那个区域。任务措辞不得提示雷的存在(措辞由未见过雷清单的第二方(另一 agent session)从\"区域\"描述盲写,防泄题)。",
-   "hash": "0e80f6051abe",
-   "id": "1bb47ebb"
-  },
-  {
-   "type": "heading",
-   "text": "## 4. 实验臂",
-   "hash": "a354e3bd9123",
-   "id": "394f8571"
-  },
-  {
-   "type": "table",
-   "text": "| 臂 | context | 说明 |\n|---|---|---|\n| **N** | 文档 @ v_k | 今天的默认:接手者只有最终稿 |\n| **G** | 文档 + `git log -p --follow` 全量 patch 史(截至 v_k) | git-native 上限基线;token 天然爆炸 |\n| **H** | 文档 + export bundle(语义版本链 + PR 富化 why) | 我们的主张 |\n| H⁻ | 文档 + 剥掉 why/rejected 的 bundle | 消融臂,pilot 后视预算决定是否跑 |",
-   "hash": "9aa5c12ada38",
-   "id": "ebd0d22d"
+   "type": "code",
+   "text": "```sh\npython3 proofpress.py anchor proposal.md\npython3 proofpress.py snapshot proposal.md --kind agent --author codex \\\n  --produced-by codex --recorded-by codex \\\n  --attribution-basis harness_attested \\\n  --note \"incorporated review\" --claims /tmp/claims.json \\\n  --why \"the team chose the smaller launch scope\"\npython3 proofpress.py verify proposal.md\n```",
+   "id": "706dcea3",
+   "hash": "05145053434c"
   },
   {
    "type": "para",
-   "text": "每臂同模型、同任务措辞、隔离目录、禁止访问网络与原 repo。G 臂 patch 史超长时如实截断并记录(截断本身就是 G 的真实缺陷,不修饰)。",
-   "hash": "89a8ffb9c6fa",
-   "id": "04cc589f"
+   "text": "Use `--rejected` only for consequential dead branches that future collaborators\nshould not repeat. Source code stays in Git; Proofpress is for Markdown\nknowledge artifacts.",
+   "id": "33e05aa8",
+   "hash": "a0a774647265"
   },
   {
    "type": "heading",
-   "text": "## 5. 评分",
-   "hash": "2e6e7ccd4dc6",
-   "id": "07a38b22"
+   "text": "## Surfaces",
+   "id": "2a955c60",
+   "hash": "857be6c6f0d6"
+  },
+  {
+   "type": "list",
+   "text": "- `proofpress.py`: zero-dependency engine and CLI.\n- `refs/proofpress/ledger`: local/Git-backed ledger, separate from branches.\n- `skills/`: Claude Code, Codex, Cursor, and Pi authoring contracts plus",
+   "id": "8deed5b3",
+   "hash": "40b46af0b4a5"
   },
   {
    "type": "para",
-   "text": "**主指标:**",
-   "hash": "712f63c9248e",
-   "id": "4bcd6ec0"
+   "text": "  best-effort fallback hooks.",
+   "id": "1f7d312f",
+   "hash": "b361bfd2d14d"
   },
   {
    "type": "list",
-   "text": "1. **死枝重提率**:输出中语义复活了确认雷的比例。判法双层:先机械(删除内容的关键词/块结构匹配),再 LLM judge 盲评(判分器拿到雷清单+输出,不知道臂别),两者冲突人工裁决;\n2. **决策冲突数**:输出与\"head 已定且从未回退\"的决策相矛盾的处数(同上双层判法);\n3. **context token**:每臂实际注入的 context 大小 + agent 消耗总量。",
-   "hash": "42d2e72d1aeb",
-   "id": "b994405e"
+   "text": "- Embedded portable capsule: path-independent handoff outside Git.",
+   "id": "605a678d",
+   "hash": "9e3029a1985a"
   },
   {
    "type": "para",
-   "text": "**次指标:**任务完成质量的粗评(1–5 盲评,防止某臂靠\"什么都不敢写\"刷安全分——**回避不算赢**,质量掉 1 分以上的臂,主指标不计入优势)。",
-   "hash": "c9b22f203e90",
-   "id": "f33e4ae1"
-  },
-  {
-   "type": "para",
-   "text": "**判分基建**:judge 用固定 prompt + 固定模型版本,pilot 阶段人工复核 100%,full 阶段抽查 20%。",
-   "hash": "402c35e193eb",
-   "id": "85a76f18"
-  },
-  {
-   "type": "heading",
-   "text": "## 6. 规模与轮次",
-   "hash": "c4587ce2d8cf",
-   "id": "b9efecf5"
-  },
-  {
-   "type": "list",
-   "text": "- **Pilot**(先跑,验证管线):1 repo × 1 文档 × 3 雷 × 3 臂 × 2 重复 = 18 runs。目的只有一个:确认死枝挖掘质量 + N 臂确实会踩雷(见 §7)。\n- **Full**:2–3 repo × 3–5 文档 × 3–5 雷 × 3(或 4)臂 × 2 重复 ≈ 100–200 runs。subagent 并行,预计 1–2 天跑完。\n- 可选:第二模型(如 GPT 系)复跑 full 的子集,检验结论是否跨模型成立。",
-   "hash": "44cb1ded4764",
-   "id": "78e05964"
-  },
-  {
-   "type": "heading",
-   "text": "## 7. 污染控制(硬门)",
-   "hash": "d2888589487c",
-   "id": "11d4d003"
-  },
-  {
-   "type": "list",
-   "text": "- **Pilot 必须先证明 N 臂会踩雷**:若裸文档臂在某文档上零重提,说明模型背过该 repo 的演化史,**该文档作废换料**——这是比一切统计更重要的有效性前提;\n- 历史段尾部取 2026-03 后;\n- 任务里不出现 repo 名之外的额外背景(agent 知道这是哪个项目没关系——现实中接手者也知道,背过\"结论\"才是要排除的)。",
-   "hash": "683e483f4566",
-   "id": "23ad9e0e"
-  },
-  {
-   "type": "heading",
-   "text": "## 8. 交付物",
-   "hash": "d9d9c5669e0d",
-   "id": "ae82811a"
-  },
-  {
-   "type": "list",
-   "text": "1. `experiments/hindcast/` 下的全部脚本(选材、富化、挖雷、跑臂、判分)——可复现;\n2. 结果报告(写回本文档新增章节,走账本入账);\n3. 若 H1 成立:launch 素材一篇——\"我们把 X 项目的文档史重构成账本,带账本的 agent 不再重犯该项目自己犯过的错\";重构 bundle 本身可作为分发钩子发布(需注明来源与 license)。",
-   "hash": "66666b6892d0",
-   "id": "9e953eb0"
-  },
-  {
-   "type": "heading",
-   "text": "## 9. 风险与如实声明",
-   "hash": "7826d83b7ae0",
-   "id": "f4b80d6f"
-  },
-  {
-   "type": "list",
-   "text": "- **重构 why 质量低**(commit message 常是 \"update docs\"):对 H 臂是保守偏差——赢了更硬;输了需先区分\"账本无用\"还是\"why 太薄\"(用 H⁻ 对照可分离);\n- **removed ≠ rejected 的误标**:靠 move 检测 + 人工抽查压,残余误标会同等伤害三臂,不引入方向性偏差;\n- **本实验只测 Feed/continuity 曲线**,不测 verify(历史 agent 没提交过 claims)——不得把结论外推为\"验证层有效\";\n- **n 仍然有限、judge 有模型偏好**:结论定位为\"强方向性证据 + launch 可引用的具体数字\",不是学术定论;\n- 外部 repo 内容的引用遵守其 license,发布素材前逐一确认。",
-   "hash": "256dc3401276",
-   "id": "ac920c6a"
-  },
-  {
-   "type": "heading",
-   "text": "## 10. 执行顺序与预算",
-   "hash": "ec3369403b2e",
-   "id": "42166d49"
-  },
-  {
-   "type": "list",
-   "text": "1. Pilot 管线(选材→挖雷→18 runs):约 1 天,先跑;\n2. **Richard checkpoint**:看 pilot 的雷质量 + N 臂踩雷率,决定是否进 full;\n3. Full + 判分 + 报告:1–2 天;\n4. H⁻ 消融与第二模型:视 full 结果决定。",
-   "hash": "03c7f0ad24ab",
-   "id": "b57cc756"
-  },
-  {
-   "type": "para",
-   "text": "Kill-fast 原则:pilot 挖不出合格雷、或 N 臂不踩雷,立即停,换料或回战略稿,不恋战。",
-   "hash": "dfdd45f184c7",
-   "id": "6c29b63a"
+   "text": "Start with the [documentation index](docs/README.md). The executable behavior is\ndefined by the [Portable Artifact V0 contract](docs/PORTABLE_ARTIFACT_SPEC.md),\nwith its disclosure limits in\n[Privacy Boundaries for Portable Artifacts](docs/PRIVACY_AND_DISCLOSURE.md).",
+   "id": "820f39ab",
+   "hash": "aeb91c891067"
   }
  ]
 }
