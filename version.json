@@ -1,108 +1,252 @@
 {
- "artifact": "demo/launch.html",
- "artifact_id": "pp_dd3ede474fe20956178e391e",
+ "artifact": "docs/internal/experiments/EXPERIMENT_HINDCAST.md",
+ "artifact_id": "pp_d1a5fee2c5b83bd607a26ee3",
  "blocks": [
   {
    "type": "heading",
-   "text": "<h1 class=\"huge rv\">PROOF<br>PRESS</h1>",
-   "id": "2a23bdd3",
-   "hash": "93dfa90b9864"
-  },
-  {
-   "type": "heading",
-   "text": "<h2 class=\"big rv d1\" style=\"margin-top:18px\">THREE DAYS.<br>ONE DOC.<br>A THOUSAND-LINE DIFF.</h2>",
-   "id": "6e973ac6",
-   "hash": "2446f07a8a20"
+   "text": "# Hindcast 实验计划:借开源项目的历史,验证账本有没有用",
+   "hash": "c99f43b4a67f",
+   "id": "1c5b0549"
   },
   {
    "type": "para",
-   "text": "<p class=\"lede rv d2\" style=\"margin-top:26px\">\n      I kept asking my agent to fix a design doc. Three days and nine commits later,\n      GitHub showed me the totals — not what changed, why, or how to get back to an earlier draft.\n      <b style=\"color:var(--ink)\">You can't tell.</b>\n    </p>",
-   "id": "ce66d345",
-   "hash": "25486bc19983"
+   "text": "> 状态:计划稿 v2,待 Richard review 后执行\n> 日期:2026-07-22\n> 要回答的问题:一个新接手的 AI,如果知道这份文档的来龙去脉,会不会比只看到最终稿的 AI 犯更少的错——而且这么做还很省。",
+   "hash": "f06bc4543353",
+   "id": "71923c44"
   },
   {
    "type": "heading",
-   "text": "<h2 class=\"big rv\">GIT KEEPS THE BOOKS<br>ON YOUR <span class=\"st-ul\">CODE.</span></h2>",
-   "id": "842093a2",
-   "hash": "2387196ea549"
-  },
-  {
-   "type": "heading",
-   "text": "<h2 class=\"big rv d2 dim\" style=\"margin-top:.35em\">NOTHING KEEPS THE BOOKS<br>ON WHAT AGENTS <span class=\"st-ul\" style=\"color:var(--teal-deep)\">WRITE.</span></h2>",
-   "id": "8e829195",
-   "hash": "70dd430199dc"
-  },
-  {
-   "type": "heading",
-   "text": "<h2 class=\"mid rv\">MARKDOWN GETS<br>ITS OWN GIT.<br><span class=\"dim\">RIGHT INSIDE YOUR REPO.</span></h2>",
-   "id": "237a3a93",
-   "hash": "92af2b747f35"
+   "text": "## 0. 一句话",
+   "hash": "76ef20a12f27",
+   "id": "e0b12323"
   },
   {
    "type": "para",
-   "text": "<p class=\"lede rv d3\" style=\"margin-top:34px\">No migration. No new editor. One skill, and the ledger starts keeping\n    immutable, roll-back-able books right inside the repo you already have.</p>",
-   "id": "923b1ca6",
-   "hash": "d615b63f9ea6"
+   "text": "拿几个热门开源项目的文档,它们的历史里天然有\"走过又退回来的弯路\"和\"讨论后定下来的决策\"。我们把这些历史整理成账本,然后让新的 AI 上场,比一比:**知道历史的 AI,是不是真的更靠谱、又更便宜。**",
+   "hash": "a0eca0dac81d",
+   "id": "5f8e2ecf"
   },
   {
    "type": "heading",
-   "text": "<h2 class=\"mid rv\">A THOUSAND LINES OF NOISE.<br><span class=\"dim\">OR THREE FACTS, WITH REASONS.</span></h2>",
-   "id": "d8685bb8",
-   "hash": "3a47e344f089"
-  },
-  {
-   "type": "code",
-   "text": "<pre id=\"patch\"></pre>",
-   "id": "3bd4c304",
-   "hash": "37433512caf6"
-  },
-  {
-   "type": "heading",
-   "text": "<h2 class=\"mid rv\">COMMENT ON A BLOCK.<br><span style=\"color:var(--teal-deep)\">OR EDIT IT YOURSELF.</span></h2>",
-   "id": "00d988de",
-   "hash": "6cca4f420bfd"
+   "text": "## 1. 三种任务:账本记的每样东西,都对应新人会犯的一种错",
+   "hash": "8b6f18090aca",
+   "id": "16085880"
   },
   {
    "type": "para",
-   "text": "<p class=\"lede rv d1\" style=\"margin-top:14px\">The agent revises what you comment on. Change a block yourself instead —\n    same ledger, same history, either way.</p>",
-   "id": "a0dcb0c7",
-   "hash": "5099148fedfc"
-  },
-  {
-   "type": "heading",
-   "text": "<h3>design-doc.md</h3>",
-   "id": "82b3a0a0",
-   "hash": "57c10dc5893e"
-  },
-  {
-   "type": "heading",
-   "text": "<h4>Rollout plan</h4>",
-   "id": "74ecaed3",
-   "hash": "9984b0578dc0"
+   "text": "账本不只记\"否决过什么\",它记的每一类东西,都能防住一种新人容易犯的错。这次测三类,正好覆盖账本的三种核心价值:",
+   "hash": "d9c5fd1a7881",
+   "id": "606c7237"
   },
   {
    "type": "para",
-   "text": "<p id=\"blktext\">Roll out the payments migration in three stages, with rollback checkpoints before full traffic.</p>",
-   "id": "88f42714",
-   "hash": "31e113ea0c04"
+   "text": "**任务 A — 会不会走回头路。**\n历史上某个方案被认真考虑过、后来砍了(理由记在 PR 里)。我们把时间倒回\"刚砍不久\"那个点,给 AI 一个自然的续作任务,悄悄把它引到那块区域,但**绝不提这个方案**。看它会不会又把死掉的方案捡回来。\n→ 测的是账本的**否决记录**。",
+   "hash": "cedd9ae515ee",
+   "id": "35701704"
+  },
+  {
+   "type": "para",
+   "text": "**任务 B — 会不会推翻已经定好的决策。**\n不是被否的旁路,是文档里正当红、团队费劲定下来的选择。任务只说\"帮我改进 X 部分\"。看 AI 会不会顺手把这个来之不易的决定当成\"可优化的地方\"给动了——因为它不知道背后有过争论。\n→ 测的是账本的**为什么(why)**:知道为什么定成这样,就不会手贱。",
+   "hash": "86f001dd9bed",
+   "id": "4cb7eec0"
+  },
+  {
+   "type": "para",
+   "text": "**任务 C — 直接问它\"为什么\"。**\n不让它改文档,直接考:\"这份文档为什么用方案甲、不用方案乙?\" 只看最终稿的 AI 只能瞎猜或说\"没写\";知道历史的 AI 能直接答出真实理由。\n→ 测的是**回溯性**,而且这类评分最干净:答得出/答不出,拿 PR 里的真实理由一对就知道。",
+   "hash": "627a04b08f02",
+   "id": "26e56e57"
+  },
+  {
+   "type": "para",
+   "text": "三类各有侧重:C 最客观,当主证据;A、B 更像真实工作场景,当\"这在实际用起来是什么样\"的演示。",
+   "hash": "fc4023df240a",
+   "id": "3b991fdb"
   },
   {
    "type": "heading",
-   "text": "<h2 class=\"big rv\">EVERY AGENT DRAFT<br>IS A PROOF.</h2>",
-   "id": "113093b3",
-   "hash": "e9cc9745516a"
+   "text": "## 2. 三种\"资料包\":给 AI 不同的信息,比谁表现好",
+   "hash": "10a3f42cfd90",
+   "id": "1eb737cd"
+  },
+  {
+   "type": "para",
+   "text": "同一个任务,给三种不同的背景资料,比结果:",
+   "hash": "cb8e5cd02250",
+   "id": "9a65600f"
+  },
+  {
+   "type": "table",
+   "text": "| 组 | 给它什么 | 代表谁 |\n|---|---|---|\n| **裸文档** | 只有文档现在的样子 | 今天大多数人接手工作的状态 |\n| **自读 git** | 给它完整 git 历史,让它自己去读、自己消化 | 今天一个认真的人/AI 会做的——这是我们真正的对手 |\n| **账本** | 给它我们整理好的历史:改了什么、为什么、砍过什么 | 我们的产品 |",
+   "hash": "b633cebb00bb",
+   "id": "6810a6b3"
+  },
+  {
+   "type": "para",
+   "text": "关键改动(相比上一版):**\"自读 git\"不是把几十版原始 diff 一股脑塞给它**——那样它只会看晕,赢了也没说服力。而是给它完整历史、让它像人一样自己读自己总结。**只有赢过这个,才证明我们整理历史这件事有独立价值。** 如果 AI 自己读 git 就够了,我们就没必要存在。",
+   "hash": "40557278f38b",
+   "id": "9071b1e9"
+  },
+  {
+   "type": "para",
+   "text": "要证明的一句话:**账本组的靠谱程度追上\"自读 git\"组,花的成本接近\"裸文档\"组——又准又省。**",
+   "hash": "2d021e393624",
+   "id": "5985193d"
+  },
+  {
+   "type": "para",
+   "text": "（可选的第四组:把账本里的\"为什么\"抽掉、只留\"改了什么\"。如果这组明显变差,就证明\"为什么\"这层是独立有用的,不只是把 diff 压缩了一下。预算够再加。）",
+   "hash": "9d43cd94507b",
+   "id": "4fe33ee0"
   },
   {
    "type": "heading",
-   "text": "<h2 class=\"huge rv d2\" style=\"color:#EAF4F6\">YOU ARE<br>THE PRESS.</h2>",
-   "id": "721770f8",
-   "hash": "86e968fcc05c"
+   "text": "## 3. 怎么把历史变成材料(四步,都能脚本化)",
+   "hash": "e9de9e5f39e1",
+   "id": "25f53449"
+  },
+  {
+   "type": "list",
+   "text": "1. **选文档**:挑历史长、改动多的文档(至少改过 20 版、跨 3 个月以上)。\n2. **重构账本**:用 `proofpress ingest` 把 git 历史直接变成账本——这功能已经做好并在真实历史上验证过。\n3. **补上\"为什么\"**:git 的 commit 说明经常很潦草(\"update docs\"),所以再去抓对应的 PR 标题、描述、关键讨论,补进账本的\"为什么\"里。\n4. **挖弯路和决策**(全实验成败的关键一步):\n   - 自动找:哪些内容\"加进来过、后来又删了、现在没了\"——这些是弯路的候选;先用引擎排除掉\"只是搬了个位置\"的假弯路。\n   - 人工确认:挑出来的弯路逐个看,确认是\"真的被否了\",不是重构的副作用,每份文档留 3–5 个确认过的,并记下 PR 里的真实理由。\n   - **门槛**:一份文档挖不出至少 3 个像样的弯路/决策,就换一份。",
+   "hash": "2f01c2e1c848",
+   "id": "bcc0a447"
+  },
+  {
+   "type": "para",
+   "text": "**防泄题**:每个任务的措辞,由一个\"没看过弯路清单\"的人来写——只告诉他\"往这个区域引\",不告诉他埋了什么雷。否则任务本身会暗示答案。",
+   "hash": "0d32e7a3559c",
+   "id": "60335d00"
   },
   {
    "type": "heading",
-   "text": "<h2 class=\"big rv d1\" style=\"margin-top:26px\">AGENTS PRODUCE.<br>YOU DECIDE.<br><span class=\"dim\">THE LEDGER REMEMBERS.</span></h2>",
-   "id": "3c8d3eca",
-   "hash": "874af762a073"
+   "text": "## 4. 怎么打分",
+   "hash": "a2920fd710b7",
+   "id": "860c20dc"
+  },
+  {
+   "type": "para",
+   "text": "**主要看两件事:**",
+   "hash": "2db8935e42c0",
+   "id": "44e6da41"
+  },
+  {
+   "type": "list",
+   "text": "1. **有没有犯错**:走回头路了吗(任务 A)?推翻已定决策了吗(任务 B)?答不出为什么(任务 C)?——这些大多是非黑即白的,能自动判,再加一个\"不知道是哪组\"的盲评复核。\n2. **花了多少**:每组塞进去多少背景资料、AI 总共消耗多少。",
+   "hash": "4230fd5f3405",
+   "id": "92c277a0"
+  },
+  {
+   "type": "para",
+   "text": "**还要防一个作弊**:某一组可能靠\"什么都不敢改\"来避免犯错。所以额外盲评一下\"任务完成得好不好\"(1–5 分),**光会躲不算赢**——完成质量明显掉队的组,不算它占优。",
+   "hash": "c39f59b53e4c",
+   "id": "60111d5c"
+  },
+  {
+   "type": "heading",
+   "text": "## 5. 一个必须先过的关(否则整个实验作废)",
+   "hash": "79e6fcde9f95",
+   "id": "1cce3f3c"
+  },
+  {
+   "type": "para",
+   "text": "**如果连\"裸文档\"组都不犯错**,说明这个 AI 早把这个开源项目背熟了,这题就废了,必须换项目。所以正式开跑前,先小规模确认\"裸文档组确实会犯错\"。另外只用较近期(2026-03 之后)的历史,进一步降低\"被背过\"的可能。",
+   "hash": "ad5d22725ab9",
+   "id": "03e34a1d"
+  },
+  {
+   "type": "heading",
+   "text": "## 6. 节奏",
+   "hash": "5b400f30a31c",
+   "id": "50f86e47"
+  },
+  {
+   "type": "list",
+   "text": "1. **小试(pilot)**:1 个项目、3 个弯路/决策、三组各跑几次——约一天。**唯一目的**:确认挖出来的弯路够真、裸文档组确实会犯错。\n2. **停下来给 Richard 看**:弯路质量 + 裸文档组犯错率,决定值不值得铺开。\n3. **铺开(full)**:2–3 个项目、覆盖三类任务、上百次测试,并行跑,1–2 天。\n4. 有余力再加:抽掉\"为什么\"的第四组、换一个别家的模型复跑,看结论稳不稳。",
+   "hash": "438e8cc91c2b",
+   "id": "4ab523df"
+  },
+  {
+   "type": "para",
+   "text": "**快速止损**:小试挖不出像样的弯路、或裸文档组根本不犯错,立刻停,换材料或回去重想战略,不恋战。",
+   "hash": "1efddaf60159",
+   "id": "2f7dec98"
+  },
+  {
+   "type": "heading",
+   "text": "## 7. 诚实边界(结论不能吹过头)",
+   "hash": "50b27c87d394",
+   "id": "b3d3a792"
+  },
+  {
+   "type": "list",
+   "text": "- 这次只测\"知道历史有没有用\"(continuity),**不测\"验证 AI 有没有说谎\"**(verify)——因为历史里的旧改动没有我们的结构化自述可核对。结论不能外推到验证层。\n- 我们补的\"为什么\"质量偏低(受限于人家的 commit 写得潦草)——这对我们**不利**,所以赢了更硬;万一输了,得先分清是\"账本没用\"还是\"为什么太薄\"(靠第四组能分开)。\n- 样本量有限、评分带模型偏好——结论定位是\"有力的方向性证据 + 发布时能引用的具体数字\",不是学术定论。\n- 用别人 repo 的内容遵守其开源许可,发布任何素材前逐条确认。",
+   "hash": "f0936188b17c",
+   "id": "94160831"
+  },
+  {
+   "type": "heading",
+   "text": "## 8. 顺带的好处",
+   "hash": "5e9c440987bc",
+   "id": "4adb143e"
+  },
+  {
+   "type": "para",
+   "text": "做完如果成立,直接就是发布素材:\"我们把 X 项目的文档历史整理成账本,带账本的 AI 不再重犯这个项目自己犯过的错。\" 比任何自家 demo 都有说服力——而且\"给热门开源项目送一份整理好的历史\"这件事本身,就能当成一个获客钩子。",
+   "hash": "392a1db40190",
+   "id": "f092ea8c"
+  },
+  {
+   "type": "heading",
+   "text": "## 9. Pilot 首轮发现(2026-07-22)",
+   "hash": "a10a135f1f08",
+   "id": "1afd5ab7"
+  },
+  {
+   "type": "para",
+   "text": "**管线验证:通过。** 用 `ingest` 把 OpenHands 的 `Development.md` 两年真实历史(97 版、多作者、含大改写)重构成账本,一次成功——引擎扛得住外部脏历史,自动列出\"加了又删且 head 里没有\"的块。这条本身也是我们工具的一次强验证。",
+   "hash": "037a6245f9bb",
+   "id": "89932ef0"
+  },
+  {
+   "type": "para",
+   "text": "**关键发现:材料是这个实验的真正瓶颈,比计划假设的难。** 挖矿结果:45 个\"删除且消失\"的块里,**约 44 个来自同一次大改写**(`3c0241f0` 重组设置指南)——是重构噪音,不是决策反转;只有 1 个是真反转(`Removed V0 runtime #14117`),且偏配置细节、\"死\"得不够干净(那套做法在 V1 下可能仍然有效)。**这正是计划 §7 警告的 \"removed ≠ rejected\",现在被确认为主导失败模式。**",
+   "hash": "9bdd39f06513",
+   "id": "88e63daa"
+  },
+  {
+   "type": "para",
+   "text": "**两类文档都不合适:**",
+   "hash": "01be68b5ed0b",
+   "id": "8bff0229"
+  },
+  {
+   "type": "list",
+   "text": "- **高频修订的文档**(README、开发/设置指南):改动多,但绝大多数是重写和重组,决策反转极少 → 挖出的雷几乎全是噪音;\n- **真正的决策/设计文档**(autogen 的 Agent Worker Protocol、Programming Model 等):确实记决策,但**写完一次就基本不动**(autogen 那批停在 2024–2025、提交个位数),过不了\"近期 + ≥20 版\"两道门。",
+   "hash": "99e3861ab536",
+   "id": "1aa4e6eb"
+  },
+  {
+   "type": "para",
+   "text": "**结论:同时满足\"频繁修订 + 近期 + 富含真实决策反转\"的文档,是稀缺的。** 用\"删除块\"当矿源信噪比太差。",
+   "hash": "62147a67d234",
+   "id": "9853e246"
+  },
+  {
+   "type": "para",
+   "text": "**修正方向(下一步的假设):**",
+   "hash": "381f3c7d4085",
+   "id": "150946d9"
+  },
+  {
+   "type": "list",
+   "text": "1. 矿源从\"删除的块\"改为**显式反转信号**——commit/PR message 含 `revert` / `deprecate` / `remove` / `replace` / `roll back`,再拿 diff 交叉确认。`git revert` 提交按定义就是干净弯路。\n2. 文档类别从\"设置指南 / 写完不动的设计文档\"改为**活跃维护、且有功能被弃用**的参考类文档(配置参考、支持列表、集成/API 文档)——这类既高频、又有真实\"某做法被废弃\"。\n3. 或者干脆放弃\"单文档历史\",改挖**跨文档的 revert PR**(整个 repo 层面找被回滚的文档改动)。",
+   "hash": "35476848141b",
+   "id": "a3dce6a2"
+  },
+  {
+   "type": "para",
+   "text": "**决策点(待 Richard):** 是按修正方向继续找材料,还是这个\"借开源历史\"路线本身信噪比不足、改用别的验证方式(如回到自产但更受控的材料)。Pilot 没到\"跑 18 runs\"就先停在这里,因为材料这一关没过,跑了也是在噪音上跑。",
+   "hash": "dbba43e8e602",
+   "id": "d5575ee9"
   }
  ]
 }
