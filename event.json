@@ -1,37 +1,25 @@
 {
  "event": "version_created",
- "artifact": "skills/pi/proofpress-skill.md",
- "artifact_id": "pp_c7ce0d15b86bb42bd28434fc",
- "version": "868aaafa",
- "parent": "e51d7b09",
+ "artifact": "docs/PRIVACY_AND_DISCLOSURE.md",
+ "artifact_id": "pp_618aa4fd82cd69d084172178",
+ "version": "7c6528f2",
+ "parent": "79c8dc0c",
  "author": {
   "name": "codex",
   "kind": "agent",
   "session": null
  },
  "note": null,
- "ts": "2026-07-22T11:04:31+00:00",
+ "ts": "2026-07-22T11:04:32+00:00",
  "stats": {
-  "modified": 3
+  "modified": 1
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "095b959e",
+   "block": "595556d3",
    "type": "para",
-   "context": "proofpress"
-  },
-  {
-   "kind": "modified",
-   "block": "85972ea6",
-   "type": "list",
-   "context": "proofpress"
-  },
-  {
-   "kind": "modified",
-   "block": "b9f8ef49",
-   "type": "para",
-   "context": "proofpress"
+   "context": "1. 正确的心智模型"
   }
  ],
  "policy": "local",
@@ -52,22 +40,12 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "095b959e",
+   "block": "595556d3",
    "kind": "modified",
-   "note": "extends accepted artifact revisions to static HTML"
-  },
-  {
-   "block": "85972ea6",
-   "kind": "modified",
-   "note": "introduces carrier-native anchor preservation"
-  },
-  {
-   "block": "b9f8ef49",
-   "kind": "modified",
-   "note": "documents the static HTML anchor attribute"
+   "note": "extends portable policy guidance to static HTML artifacts"
   }
  ],
  "context": {
-  "why": "allow Pi harnesses to ledger static HTML artifacts"
+  "why": "extend portable-policy guidance to static HTML artifacts"
  }
 }
