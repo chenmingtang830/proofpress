@@ -1,9 +1,9 @@
 {
  "event": "version_created",
- "artifact": "README.md",
- "artifact_id": "pp_556b115de711b0cd33eed260",
- "version": "2f40971d",
- "parent": "562554c0",
+ "artifact": "docs/PORTABLE_ARTIFACT_SPEC.md",
+ "artifact_id": "pp_651b6bcc5c2503e2a2ea2a5f",
+ "version": "3409f187",
+ "parent": "4f34e2d7",
  "author": {
   "name": "codex",
   "kind": "agent",
@@ -13,54 +13,68 @@
  "ts": "2026-07-22T10:40:43+00:00",
  "stats": {
   "modified": 3,
-  "added": 4
+  "added": 6
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "0e0e9d9a",
+   "block": "b27d1410",
    "type": "para",
-   "context": "Proofpress"
+   "context": "Portable Artifact V0 — Executable Contra"
   },
   {
    "kind": "modified",
-   "block": "79416c44",
-   "type": "para",
-   "context": "What “portable” means"
-  },
-  {
-   "kind": "added",
-   "block": "cc095bd4",
+   "block": "3c838116",
    "type": "heading",
-   "context": "Static HTML carrier",
-   "preview": "## Static HTML carrier"
+   "context": "3. Carriers"
   },
   {
    "kind": "added",
-   "block": "e6463f5e",
+   "block": "2e6d838a",
+   "type": "heading",
+   "context": "3.1 Markdown",
+   "preview": "### 3.1 Markdown"
+  },
+  {
+   "kind": "added",
+   "block": "e7d5d024",
+   "type": "heading",
+   "context": "3.2 Static HTML",
+   "preview": "### 3.2 Static HTML"
+  },
+  {
+   "kind": "added",
+   "block": "4f104dcd",
    "type": "para",
-   "context": "Static HTML carrier",
-   "preview": "Proofpress also supports static `.html` and `.htm` artifacts"
+   "context": "3.2 Static HTML",
+   "preview": "The V0 HTML carrier accepts `.html` and `.htm` files. Its su"
   },
   {
    "kind": "added",
-   "block": "b8abc9df",
+   "block": "10cfddce",
+   "type": "para",
+   "context": "3.2 Static HTML",
+   "preview": "Proofpress writes its declarative data in two non-rendering "
+  },
+  {
+   "kind": "added",
+   "block": "72a7c841",
    "type": "code",
-   "context": "Static HTML carrier",
-   "preview": "```sh\npython3 proofpress.py policy launch-plan.html portable"
+   "context": "3.2 Static HTML",
+   "preview": "```html\n<meta name=\"proofpress:meta\" content=\"<base64url-jso"
   },
   {
    "kind": "added",
-   "block": "00768820",
+   "block": "da3c020c",
    "type": "para",
-   "context": "Static HTML carrier",
-   "preview": "This is a static-HTML carrier MVP, not a framework or CMS in"
+   "context": "3.2 Static HTML",
+   "preview": "The metadata element is placed in `<head>` when present; the"
   },
   {
    "kind": "modified",
-   "block": "33e05aa8",
-   "type": "para",
-   "context": "Core workflow"
+   "block": "6cddbfcc",
+   "type": "list",
+   "context": "12. Acceptance criteria"
   }
  ],
  "policy": "local",
@@ -81,42 +95,52 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "0e0e9d9a",
+   "block": "b27d1410",
    "kind": "modified",
-   "note": "expands the supported artifact carrier statement to static HTML"
+   "note": "extends the executable contract scope to static HTML"
   },
   {
-   "block": "79416c44",
+   "block": "3c838116",
    "kind": "modified",
-   "note": "makes portable capsule wording carrier-neutral"
+   "note": "generalizes the carrier section"
   },
   {
-   "block": "cc095bd4",
+   "block": "2e6d838a",
    "kind": "added",
-   "note": "introduces the static HTML carrier section"
+   "note": "names the Markdown carrier subsection"
   },
   {
-   "block": "e6463f5e",
+   "block": "e7d5d024",
    "kind": "added",
-   "note": "defines supported HTML anchors and transport locations"
+   "note": "introduces the static HTML carrier subsection"
   },
   {
-   "block": "b8abc9df",
+   "block": "4f104dcd",
    "kind": "added",
-   "note": "adds the HTML portable workflow"
+   "note": "defines supported static HTML leaf blocks and anchor semantics"
   },
   {
-   "block": "00768820",
+   "block": "10cfddce",
    "kind": "added",
-   "note": "states the static HTML MVP boundary"
+   "note": "introduces HTML transport locations"
   },
   {
-   "block": "33e05aa8",
+   "block": "72a7c841",
+   "kind": "added",
+   "note": "specifies declarative HTML transport markup"
+  },
+  {
+   "block": "da3c020c",
+   "kind": "added",
+   "note": "states placement, non-execution, and loss boundaries"
+  },
+  {
+   "block": "6cddbfcc",
    "kind": "modified",
-   "note": "extends the supported knowledge artifact scope to static HTML"
+   "note": "adds the static HTML raw-file handoff acceptance criterion"
   }
  ],
  "context": {
-  "why": "document the implemented static HTML carrier and its safety boundary"
+  "why": "make static HTML carrier behavior an executable contract"
  }
 }
