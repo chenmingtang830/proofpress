@@ -1,59 +1,74 @@
 {
  "event": "version_created",
- "artifact": "docs/COMPETITIVE.md",
- "version": "88c0d901",
- "parent": "b28f7728",
+ "artifact": "docs/DEMO_SCRIPT.md",
+ "version": "6c5009d3",
+ "parent": "6eb528be",
  "author": {
   "name": "Claude",
   "kind": "agent",
   "session": "act-one-pr"
  },
- "note": "2026-07-21 定位补丁:claim-to-defend 换验证框架,LLM 入 Bucket 4,一句话修订",
- "ts": "2026-07-22T00:19:51+00:00",
+ "note": "launch copy 同步砍审阅页决议:comment 桥段换 Action/verify 桥段",
+ "ts": "2026-07-22T00:20:05+00:00",
  "stats": {
-  "modified": 3
+  "modified": 2,
+  "added": 1,
+  "removed": 1
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "f1a1c77f",
+   "block": "ff2c0029",
+   "type": "table",
+   "context": "60-Second Demo Script (v4)"
+  },
+  {
+   "kind": "added",
+   "block": "53872616",
    "type": "para",
-   "context": "Competitive Landscape — Proofpress"
+   "context": "X Launch Post",
+   "preview": "> Open the PR and Proofpress has already commented: every bl"
   },
   {
    "kind": "modified",
-   "block": "6db2c7cf",
-   "type": "list",
-   "context": "Bucket 4 — The review/version layer for "
+   "block": "dd4d7a00",
+   "type": "para",
+   "context": "X Launch Post"
   },
   {
-   "kind": "modified",
-   "block": "32331816",
-   "type": "list",
-   "context": "Standing conclusions"
+   "kind": "removed",
+   "block": "fe8c74e1",
+   "type": "para",
+   "context": "",
+   "preview": "> Comment on any block. Your agent revises — the comment sta"
   }
  ],
  "claims": [
   {
-   "block": "f1a1c77f",
+   "block": "ff2c0029",
    "kind": "modified",
-   "note": "claim-to-defend 更新为 2026-07-21 验证账本框架,旧 orchestration 框架标注移往第二幕"
+   "note": "0:42-0:53 桥段:comment-on-block(已砍审阅页)换成 PR bot 评论 + 确定性 verify"
   },
   {
-   "block": "6db2c7cf",
-   "kind": "modified",
-   "note": "Bucket 4 增加 LLM 本身作为最近邻:read 层商品化 vs 确定性验证闸门"
+   "block": "fe8c74e1",
+   "kind": "removed",
+   "note": "comment-on-block 推文 —— 大改后相似度掉出阈值,身份断裂,如实认 removed"
   },
   {
-   "block": "32331816",
+   "block": "53872616",
+   "kind": "added",
+   "note": "替换推文:PR 评论 + 确定性校验 + who/why/rejected"
+  },
+  {
+   "block": "dd4d7a00",
    "kind": "modified",
-   "note": "定位一句话追加 2026-07-21 验证版修订"
+   "note": "CTA:one skill → skill + GitHub Action 双分发"
   }
  ],
  "context": {
-  "why": "战略大修后 COMPETITIVE 的 claim 还是转向前的 orchestration 叙事,与 STRATEGY 分叉",
+  "why": "0:42 桥段和 X thread 建立在已砍掉的审阅页交互上,发出去就是许诺不存在的功能",
   "rejected": [
-   "整篇重扫 —— 竞争扫描是 2026-08-18 的月度节奏,今天只修定位表述不动数据"
+   "保留 comment 桥段等第二幕 —— launch 是第一幕素材,不能演示第二幕功能"
   ]
  }
 }
