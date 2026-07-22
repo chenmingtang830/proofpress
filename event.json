@@ -1,187 +1,356 @@
 {
  "event": "version_created",
  "artifact": "docs/COMPETITIVE.md",
- "version": "fa52cec8",
- "parent": null,
+ "version": "a52f148d",
+ "parent": "fa52cec8",
  "author": {
   "name": "chenmingtang830",
   "kind": "human",
   "session": null
  },
- "note": "Scaffold OmniDocs: identity, strategy, artifact model, evolution record, competitive scan, interactive demo",
- "ts": "2026-07-18T07:53:58-04:00",
+ "note": "Anchors + init/sync: block identity survives edits; ledger travels with remotes",
+ "ts": "2026-07-18T08:38:26-04:00",
  "stats": {
-  "added": 24
+  "added": 24,
+  "removed": 24
  },
  "changes": [
   {
    "kind": "added",
-   "block": "baf66a7e",
+   "block": "953f6620",
    "type": "heading",
    "context": "Competitive Landscape — OmniCowork",
    "preview": "# Competitive Landscape — OmniCowork"
   },
   {
    "kind": "added",
-   "block": "d19a4fd7",
+   "block": "897cbb20",
    "type": "para",
    "context": "Competitive Landscape — OmniCowork",
    "preview": "Scan date: 2026-07-18 (all numbers verified live via GitHub "
   },
   {
    "kind": "added",
-   "block": "49470dec",
+   "block": "f1a1c77f",
    "type": "para",
    "context": "Competitive Landscape — OmniCowork",
    "preview": "Our claim to defend: knowledge-work orchestration + versione"
   },
   {
    "kind": "added",
-   "block": "7c613759",
+   "block": "1f95ada1",
    "type": "heading",
    "context": "Bucket 1 — General agent workspaces (\"si",
    "preview": "## Bucket 1 — General agent workspaces (\"single-player open "
   },
   {
    "kind": "added",
-   "block": "2e1718b0",
+   "block": "49dc3c5e",
    "type": "para",
    "context": "Bucket 1 — General agent workspaces (\"si",
    "preview": "Have: agents doing knowledge work, self-hosting. Lack: versi"
   },
   {
    "kind": "added",
-   "block": "2a0865d1",
+   "block": "e29ce939",
    "type": "table",
    "context": "Bucket 1 — General agent workspaces (\"si",
    "preview": "| Project | Stars | License | Notes |\n|---|---|---|---|\n| zh"
   },
   {
    "kind": "added",
-   "block": "2192ac30",
+   "block": "f608f538",
    "type": "para",
    "context": "Bucket 1 — General agent workspaces (\"si",
    "preview": "Assessment: the bucket's leaders are converging on our metap"
   },
   {
    "kind": "added",
-   "block": "5d625120",
+   "block": "3ec4246c",
    "type": "heading",
    "context": "Bucket 2 — Coding orchestration (our sha",
    "preview": "## Bucket 2 — Coding orchestration (our shape, wrong domain)"
   },
   {
    "kind": "added",
-   "block": "2df1b5a1",
+   "block": "f2f8e550",
    "type": "para",
    "context": "Bucket 2 — Coding orchestration (our sha",
    "preview": "Have: boards, parallel sessions, review loops. Lack: anythin"
   },
   {
    "kind": "added",
-   "block": "9fd403cf",
+   "block": "e328a55c",
    "type": "table",
    "context": "Bucket 2 — Coding orchestration (our sha",
    "preview": "| Project | Stars | License | Notes |\n|---|---|---|---|\n| Ag"
   },
   {
    "kind": "added",
-   "block": "b1129f1f",
+   "block": "9832a291",
    "type": "para",
    "context": "Bucket 2 — Coding orchestration (our sha",
    "preview": "Assessment: commoditizing; still nobody positioned for knowl"
   },
   {
    "kind": "added",
-   "block": "6740894a",
+   "block": "c8ad5373",
    "type": "heading",
    "context": "Bucket 3 — Open-source system-of-record ",
    "preview": "## Bucket 3 — Open-source system-of-record with AI bolt-ons"
   },
   {
    "kind": "added",
-   "block": "35fe16a5",
+   "block": "e05edc7a",
    "type": "para",
    "context": "Bucket 3 — Open-source system-of-record ",
    "preview": "Have: docs/tasks/teams as durable record. Lack: agent-native"
   },
   {
    "kind": "added",
-   "block": "c355d0eb",
+   "block": "eae6e1c9",
    "type": "table",
    "context": "Bucket 3 — Open-source system-of-record ",
    "preview": "| Project | Stars | License | Notes |\n|---|---|---|---|\n| Ap"
   },
   {
    "kind": "added",
-   "block": "c96615d6",
+   "block": "3106b8a0",
    "type": "para",
    "context": "Bucket 3 — Open-source system-of-record ",
    "preview": "Assessment: the structural blocker (continuous human editing"
   },
   {
    "kind": "added",
-   "block": "00f5264a",
+   "block": "00dedc3d",
    "type": "heading",
    "context": "Bucket 4 — The review/version layer for ",
    "preview": "## Bucket 4 — The review/version layer for agent output"
   },
   {
    "kind": "added",
-   "block": "43761fb3",
+   "block": "0001257a",
    "type": "para",
    "context": "Bucket 4 — The review/version layer for ",
    "preview": "Our core IP. Nearest neighbors:"
   },
   {
    "kind": "added",
-   "block": "eb60ac67",
+   "block": "6db2c7cf",
    "type": "list",
    "context": "Bucket 4 — The review/version layer for ",
    "preview": "- docs-as-code (Git+Markdown review flows): right mechanics,"
   },
   {
    "kind": "added",
-   "block": "bb776938",
+   "block": "2a6d13b1",
    "type": "heading",
    "context": "Threat ranking (revised 2026-07-18)",
    "preview": "## Threat ranking (revised 2026-07-18)"
   },
   {
    "kind": "added",
-   "block": "281bb5b6",
+   "block": "83b03812",
    "type": "list",
    "context": "Threat ranking (revised 2026-07-18)",
    "preview": "1. **Anthropic ships multiplayer/versioned Cowork** — highes"
   },
   {
    "kind": "added",
-   "block": "658b806d",
+   "block": "94eea890",
    "type": "heading",
    "context": "Tactics",
    "preview": "## Tactics"
   },
   {
    "kind": "added",
-   "block": "5839e613",
+   "block": "ac6767b7",
    "type": "para",
    "context": "Tactics",
    "preview": "**Own the vocabulary now.** \"Draft → Review → Approve **for "
   },
   {
    "kind": "added",
-   "block": "050fab29",
+   "block": "1e196f12",
    "type": "heading",
    "context": "Standing conclusions",
    "preview": "## Standing conclusions"
   },
   {
    "kind": "added",
-   "block": "f258405e",
+   "block": "32331816",
    "type": "list",
    "context": "Standing conclusions",
    "preview": "- The four-bucket vacuum has one occupant now (Kortix), but "
+  },
+  {
+   "kind": "removed",
+   "block": "baf66a7e",
+   "type": "heading",
+   "context": "",
+   "preview": "# Competitive Landscape — OmniCowork"
+  },
+  {
+   "kind": "removed",
+   "block": "d19a4fd7",
+   "type": "para",
+   "context": "",
+   "preview": "Scan date: 2026-07-18 (all numbers verified live via GitHub "
+  },
+  {
+   "kind": "removed",
+   "block": "49470dec",
+   "type": "para",
+   "context": "",
+   "preview": "Our claim to defend: knowledge-work orchestration + versione"
+  },
+  {
+   "kind": "removed",
+   "block": "7c613759",
+   "type": "heading",
+   "context": "",
+   "preview": "## Bucket 1 — General agent workspaces (\"single-player open "
+  },
+  {
+   "kind": "removed",
+   "block": "2e1718b0",
+   "type": "para",
+   "context": "",
+   "preview": "Have: agents doing knowledge work, self-hosting. Lack: versi"
+  },
+  {
+   "kind": "removed",
+   "block": "2a0865d1",
+   "type": "table",
+   "context": "",
+   "preview": "| Project | Stars | License | Notes |\n|---|---|---|---|\n| zh"
+  },
+  {
+   "kind": "removed",
+   "block": "2192ac30",
+   "type": "para",
+   "context": "",
+   "preview": "Assessment: the bucket's leaders are converging on our metap"
+  },
+  {
+   "kind": "removed",
+   "block": "5d625120",
+   "type": "heading",
+   "context": "",
+   "preview": "## Bucket 2 — Coding orchestration (our shape, wrong domain)"
+  },
+  {
+   "kind": "removed",
+   "block": "2df1b5a1",
+   "type": "para",
+   "context": "",
+   "preview": "Have: boards, parallel sessions, review loops. Lack: anythin"
+  },
+  {
+   "kind": "removed",
+   "block": "9fd403cf",
+   "type": "table",
+   "context": "",
+   "preview": "| Project | Stars | License | Notes |\n|---|---|---|---|\n| Ag"
+  },
+  {
+   "kind": "removed",
+   "block": "b1129f1f",
+   "type": "para",
+   "context": "",
+   "preview": "Assessment: commoditizing; still nobody positioned for knowl"
+  },
+  {
+   "kind": "removed",
+   "block": "6740894a",
+   "type": "heading",
+   "context": "",
+   "preview": "## Bucket 3 — Open-source system-of-record with AI bolt-ons"
+  },
+  {
+   "kind": "removed",
+   "block": "35fe16a5",
+   "type": "para",
+   "context": "",
+   "preview": "Have: docs/tasks/teams as durable record. Lack: agent-native"
+  },
+  {
+   "kind": "removed",
+   "block": "c355d0eb",
+   "type": "table",
+   "context": "",
+   "preview": "| Project | Stars | License | Notes |\n|---|---|---|---|\n| Ap"
+  },
+  {
+   "kind": "removed",
+   "block": "c96615d6",
+   "type": "para",
+   "context": "",
+   "preview": "Assessment: the structural blocker (continuous human editing"
+  },
+  {
+   "kind": "removed",
+   "block": "00f5264a",
+   "type": "heading",
+   "context": "",
+   "preview": "## Bucket 4 — The review/version layer for agent output"
+  },
+  {
+   "kind": "removed",
+   "block": "43761fb3",
+   "type": "para",
+   "context": "",
+   "preview": "Our core IP. Nearest neighbors:"
+  },
+  {
+   "kind": "removed",
+   "block": "eb60ac67",
+   "type": "list",
+   "context": "",
+   "preview": "- docs-as-code (Git+Markdown review flows): right mechanics,"
+  },
+  {
+   "kind": "removed",
+   "block": "bb776938",
+   "type": "heading",
+   "context": "",
+   "preview": "## Threat ranking (revised 2026-07-18)"
+  },
+  {
+   "kind": "removed",
+   "block": "281bb5b6",
+   "type": "list",
+   "context": "",
+   "preview": "1. **Anthropic ships multiplayer/versioned Cowork** — highes"
+  },
+  {
+   "kind": "removed",
+   "block": "658b806d",
+   "type": "heading",
+   "context": "",
+   "preview": "## Tactics"
+  },
+  {
+   "kind": "removed",
+   "block": "5839e613",
+   "type": "para",
+   "context": "",
+   "preview": "**Own the vocabulary now.** \"Draft → Review → Approve **for "
+  },
+  {
+   "kind": "removed",
+   "block": "050fab29",
+   "type": "heading",
+   "context": "",
+   "preview": "## Standing conclusions"
+  },
+  {
+   "kind": "removed",
+   "block": "f258405e",
+   "type": "list",
+   "context": "",
+   "preview": "- The four-bucket vacuum has one occupant now (Kortix), but "
   }
  ],
- "source_commit": "5756ca97d42fb6ed9c9db75e38ad7f49a2b3aadc"
+ "source_commit": "260cea2baa18517d1767bd93853ce0b4b279ea69"
 }
