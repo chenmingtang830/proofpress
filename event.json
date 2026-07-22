@@ -1,45 +1,122 @@
 {
  "event": "version_created",
- "artifact": "skills/pi/proofpress-skill.md",
- "artifact_id": "pp_c7ce0d15b86bb42bd28434fc",
- "version": "e51d7b09",
- "parent": "ae129d85",
+ "artifact": "README.md",
+ "artifact_id": "pp_556b115de711b0cd33eed260",
+ "version": "2f40971d",
+ "parent": "562554c0",
  "author": {
   "name": "codex",
   "kind": "agent",
   "session": null
  },
- "note": "prepare the public repository documentation surface",
- "ts": "2026-07-22T10:06:09+00:00",
+ "note": null,
+ "ts": "2026-07-22T10:40:43+00:00",
  "stats": {
-  "modified": 1
+  "modified": 3,
+  "added": 4
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "2c10e48d",
+   "block": "0e0e9d9a",
+   "type": "para",
+   "context": "Proofpress"
+  },
+  {
+   "kind": "modified",
+   "block": "79416c44",
+   "type": "para",
+   "context": "What “portable” means"
+  },
+  {
+   "kind": "added",
+   "block": "cc095bd4",
+   "type": "heading",
+   "context": "Static HTML carrier",
+   "preview": "## Static HTML carrier"
+  },
+  {
+   "kind": "added",
+   "block": "e6463f5e",
+   "type": "para",
+   "context": "Static HTML carrier",
+   "preview": "Proofpress also supports static `.html` and `.htm` artifacts"
+  },
+  {
+   "kind": "added",
+   "block": "b8abc9df",
    "type": "code",
-   "context": "proofpress"
+   "context": "Static HTML carrier",
+   "preview": "```sh\npython3 proofpress.py policy launch-plan.html portable"
+  },
+  {
+   "kind": "added",
+   "block": "00768820",
+   "type": "para",
+   "context": "Static HTML carrier",
+   "preview": "This is a static-HTML carrier MVP, not a framework or CMS in"
+  },
+  {
+   "kind": "modified",
+   "block": "33e05aa8",
+   "type": "para",
+   "context": "Core workflow"
   }
  ],
  "policy": "local",
  "actors": {
+  "requested_by": [
+   "Richard"
+  ],
   "produced_by": [
+   "codex"
+  ],
+  "edited_by": [
    "codex"
   ],
   "recorded_by": [
    "codex"
   ]
  },
- "attribution_basis": "harness_attested",
+ "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "2c10e48d",
+   "block": "0e0e9d9a",
    "kind": "modified",
-   "note": "aligned the public repository surface and executable CLI examples"
+   "note": "expands the supported artifact carrier statement to static HTML"
+  },
+  {
+   "block": "79416c44",
+   "kind": "modified",
+   "note": "makes portable capsule wording carrier-neutral"
+  },
+  {
+   "block": "cc095bd4",
+   "kind": "added",
+   "note": "introduces the static HTML carrier section"
+  },
+  {
+   "block": "e6463f5e",
+   "kind": "added",
+   "note": "defines supported HTML anchors and transport locations"
+  },
+  {
+   "block": "b8abc9df",
+   "kind": "added",
+   "note": "adds the HTML portable workflow"
+  },
+  {
+   "block": "00768820",
+   "kind": "added",
+   "note": "states the static HTML MVP boundary"
+  },
+  {
+   "block": "33e05aa8",
+   "kind": "modified",
+   "note": "extends the supported knowledge artifact scope to static HTML"
   }
  ],
  "context": {
-  "why": "separate non-normative internal material from the public protocol and make every published command example executable"
+  "why": "document the implemented static HTML carrier and its safety boundary"
  }
 }

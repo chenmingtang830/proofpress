@@ -1,90 +1,234 @@
 {
- "artifact": "skills/pi/proofpress-skill.md",
- "artifact_id": "pp_c7ce0d15b86bb42bd28434fc",
+ "artifact": "README.md",
+ "artifact_id": "pp_556b115de711b0cd33eed260",
  "blocks": [
   {
    "type": "heading",
-   "text": "# proofpress",
-   "id": "5cd87791",
-   "hash": "cc88bcacfae7"
+   "text": "# Proofpress",
+   "id": "de7999eb",
+   "hash": "8576f3816903"
   },
   {
    "type": "para",
-   "text": "For accepted, meaningful revisions to Markdown knowledge artifacts—never source\ncode—close this loop. Do not snapshot every conversational turn.",
-   "id": "095b959e",
-   "hash": "aabb128bda62"
-  },
-  {
-   "type": "list",
-   "text": "1. Read `python3 proofpress.py policy <file>`. If the user asks for portability,",
-   "id": "87ce54bb",
-   "hash": "0d0b4fbb2e3c"
+   "text": "Proofpress is a verifiable `log.md` for knowledge work: a shared history of who\nchanged what, when, and why, checked against the artifact itself.",
+   "id": "e667d986",
+   "hash": "0513e7592eb6"
   },
   {
    "type": "para",
-   "text": "   run `policy <file> portable` once; it remains sticky. Use `ingest <file>` for\n   Git history not yet represented in the ledger.",
-   "id": "72f291a2",
-   "hash": "02c487c133df"
+   "text": "Agents can produce a document quickly, but the reasoning that shaped its final\nform is usually scattered across chat sessions, Slack, meetings, and somebody's\nmemory. Git is excellent when the work already lives in Git; most knowledge\nartifacts do not. Proofpress keeps the accepted version history and consequential\ndecisions attached to a Markdown or static HTML artifact so that history can\ntravel with it.",
+   "id": "0e0e9d9a",
+   "hash": "d359cc400f17"
   },
   {
-   "type": "list",
-   "text": "2. Preserve surviving block anchors while editing, then run `anchor <file>` and",
-   "id": "85972ea6",
-   "hash": "358be3722c87"
-  },
-  {
-   "type": "para",
-   "text": "   inspect inherited/new/gone IDs.",
-   "id": "b9f8ef49",
-   "hash": "a9b1c1c0ef51"
-  },
-  {
-   "type": "list",
-   "text": "3. Write claims JSON with one honest item per touched or removed block. Do not",
-   "id": "6f0d23b1",
-   "hash": "d2de480fd3bc"
+   "type": "heading",
+   "text": "## Status",
+   "id": "169d8523",
+   "hash": "e6012e8a29c9"
   },
   {
    "type": "para",
-   "text": "   enumerate untouched blocks.",
-   "id": "28f53262",
-   "hash": "a7f1bc5835ee"
+   "text": "Proofpress is a V0 reference implementation. The CLI is usable and its portable\nartifact behaviors are covered by black-box tests, but the embedded carrier and\ncommand interfaces may still change before a stable release.",
+   "id": "d6f9f208",
+   "hash": "6609fa309a42"
   },
   {
-   "type": "list",
-   "text": "4. Snapshot with `--why`, claims, and explicit actors:",
-   "id": "abd7c833",
-   "hash": "5fa97edde2db"
+   "type": "heading",
+   "text": "## Try it",
+   "id": "19210f53",
+   "hash": "c3376fb68187"
+  },
+  {
+   "type": "para",
+   "text": "Proofpress is a single Python file with no third-party runtime dependencies:",
+   "id": "989f25ec",
+   "hash": "ff269bd8e858"
   },
   {
    "type": "code",
-   "text": "   ```sh\n   python3 proofpress.py snapshot <file> --kind agent --author pi \\\n     --produced-by pi --recorded-by pi \\\n     --attribution-basis harness_attested --note \"<changelog>\" \\\n     --claims <claims.json> --why \"<actual reason>\" \\\n     --rejected \"<consequential dead branch — reason>\"\n   ```",
-   "id": "2c10e48d",
-   "hash": "187f392e197b"
+   "text": "```sh\ngit clone https://github.com/chenmingtang830/proofpress.git\ncd proofpress\npython3 proofpress.py --help\n```",
+   "id": "7b197ac1",
+   "hash": "26fc8c740197"
   },
   {
    "type": "para",
-   "text": "   Omit `--rejected` unless the dead branch matters later. Never infer it from\n   casual discussion or capture raw prompts/transcripts.",
-   "id": "4386e1e7",
-   "hash": "48d92360fcc8"
+   "text": "To use it in another repository, vendor `proofpress.py` at that repository's\nroot and install the matching adapter from [`skills/`](skills/).",
+   "id": "5ae48e1b",
+   "hash": "3928bc0d5c61"
+  },
+  {
+   "type": "heading",
+   "text": "## What “portable” means",
+   "id": "949eb6a5",
+   "hash": "d683e931abae"
+  },
+  {
+   "type": "para",
+   "text": "Turn portability on once:",
+   "id": "2173502c",
+   "hash": "3dba2ddf7bdc"
+  },
+  {
+   "type": "code",
+   "text": "```sh\npython3 proofpress.py policy proposal.md portable\n```",
+   "id": "c44f6768",
+   "hash": "43c9bcae981e"
+  },
+  {
+   "type": "para",
+   "text": "The setting is sticky. Later accepted revisions refresh a compact, hidden\ncapsule inside the carrier file. Send the original file to a collaborator and\ntheir agent can inspect and import its history without access to your Git repo,\nchat session, or Proofpress ledger ref.",
+   "id": "79416c44",
+   "hash": "4e19693b1ba9"
+  },
+  {
+   "type": "code",
+   "text": "```sh\npython3 proofpress.py inspect proposal.md\npython3 proofpress.py import proposal.md\npython3 proofpress.py log proposal.md\n```",
+   "id": "af7113fa",
+   "hash": "7d305534cb6d"
+  },
+  {
+   "type": "para",
+   "text": "The capsule is declarative data, not agent instructions. It is tamper-evident\nfor accidental drift and inconsistent rewrites, but V0 does not claim signed\nauthorship or protection from wholesale malicious replacement.",
+   "id": "bfc931ca",
+   "hash": "cd3e4fe06000"
+  },
+  {
+   "type": "heading",
+   "text": "## Static HTML carrier",
+   "id": "cc095bd4",
+   "hash": "e3f528d9c93e"
+  },
+  {
+   "type": "para",
+   "text": "Proofpress also supports static `.html` and `.htm` artifacts. `anchor` writes a\nstable `data-proofpress-id` onto supported visible blocks (headings, paragraphs,\nlist items, block quotes, preformatted blocks, table cells, and figure captions).\nThe metadata marker lives in `<head>`; a portable capsule is a non-executing\n`application/vnd.proofpress+json` data block before `</body>`.",
+   "id": "e6463f5e",
+   "hash": "f56838f38a31"
+  },
+  {
+   "type": "code",
+   "text": "```sh\npython3 proofpress.py policy launch-plan.html portable\npython3 proofpress.py anchor launch-plan.html\npython3 proofpress.py snapshot launch-plan.html --kind agent --author codex \\\n  --why \"made the accepted review scope explicit\"\npython3 proofpress.py verify launch-plan.html\n```",
+   "id": "b8abc9df",
+   "hash": "5ce88838937e"
+  },
+  {
+   "type": "para",
+   "text": "This is a static-HTML carrier MVP, not a framework or CMS integration. Proofpress\ndoes not yet promise round-trip preservation through React/Vue builds, HTML\nsanitizers, editors, or CMS pipelines; if they strip transport data, the file\ndegrades to an ordinary HTML artifact.",
+   "id": "00768820",
+   "hash": "5f96dffe035e"
+  },
+  {
+   "type": "heading",
+   "text": "## What gets recorded",
+   "id": "226a29fd",
+   "hash": "186dcaaa104c"
+  },
+  {
+   "type": "para",
+   "text": "Proofpress records accepted artifact versions, their computed block changes,\nexplicit actor roles, the reason for the change, and consequential rejected\ndirections when the authoring agent supplies them. The account is checked\nagainst the actual artifact diff.",
+   "id": "cfc1c3aa",
+   "hash": "7e4348dd5c4b"
+  },
+  {
+   "type": "para",
+   "text": "It does not automatically store raw prompts, transcripts, tool traces, casual\nbrainstorming, or every save. A fallback hook can preserve an otherwise missed\nversion, but identifies itself only as `recorded_by`; it does not guess who\nwrote the content or why.",
+   "id": "5e0b34ed",
+   "hash": "c1cd5f661a72"
+  },
+  {
+   "type": "heading",
+   "text": "## Privacy modes",
+   "id": "d8387b0b",
+   "hash": "02857a47111c"
+  },
+  {
+   "type": "para",
+   "text": "Each artifact has one policy:",
+   "id": "5df13acf",
+   "hash": "29b167152410"
   },
   {
    "type": "list",
-   "text": "5. Run `verify <file>` and report its output verbatim. Never re-snapshot just to",
-   "id": "dd7291a6",
-   "hash": "9509a99ec574"
+   "text": "- `portable`: future accepted versions refresh the embedded capsule.\n- `local`: versions stay in the local/Git ledger; the current capsule is",
+   "id": "3b52e3b3",
+   "hash": "513e64f57805"
   },
   {
    "type": "para",
-   "text": "   force green.",
-   "id": "8ac28d76",
-   "hash": "5e734ff8c456"
+   "text": "  removed.",
+   "id": "126978a2",
+   "hash": "ab7a006a54fd"
+  },
+  {
+   "type": "list",
+   "text": "- `ignored`: future capture is skipped.",
+   "id": "0890e114",
+   "hash": "6496d2aa9f25"
   },
   {
    "type": "para",
-   "text": "For incoming portable files, run `inspect` and then `import`. Fallback `capture`\nrecords only `recorded_by`; it cannot know authorship or reasoning.",
-   "id": "2f7730eb",
-   "hash": "de5ccbed15bb"
+   "text": "Switching from portable to local cannot recall copies already sent. Re-enabling\nportable starts a clean lineage at the current body, so private-interval actors,\nreasons, rejected paths, event IDs, and omitted-event counts do not leak.",
+   "id": "c6642117",
+   "hash": "ad4ba22c0cc4"
+  },
+  {
+   "type": "para",
+   "text": "For a one-off history-free copy, use:",
+   "id": "18995a53",
+   "hash": "ae12c58f952c"
+  },
+  {
+   "type": "code",
+   "text": "```sh\npython3 proofpress.py clean proposal.md --output proposal-clean.md\n```",
+   "id": "f28051ef",
+   "hash": "6148d5cc6ef3"
+  },
+  {
+   "type": "heading",
+   "text": "## Core workflow",
+   "id": "bfac82a8",
+   "hash": "3c334335b8c3"
+  },
+  {
+   "type": "code",
+   "text": "```sh\npython3 proofpress.py anchor proposal.md\npython3 proofpress.py snapshot proposal.md --kind agent --author codex \\\n  --produced-by codex --recorded-by codex \\\n  --attribution-basis harness_attested \\\n  --note \"incorporated review\" --claims /tmp/claims.json \\\n  --why \"the team chose the smaller launch scope\"\npython3 proofpress.py verify proposal.md\n```",
+   "id": "706dcea3",
+   "hash": "05145053434c"
+  },
+  {
+   "type": "para",
+   "text": "Use `--rejected` only for consequential dead branches that future collaborators\nshould not repeat. Source code stays in Git; Proofpress is for Markdown and\nstatic HTML knowledge artifacts.",
+   "id": "33e05aa8",
+   "hash": "d7862094a7ae"
+  },
+  {
+   "type": "heading",
+   "text": "## Surfaces",
+   "id": "2a955c60",
+   "hash": "857be6c6f0d6"
+  },
+  {
+   "type": "list",
+   "text": "- `proofpress.py`: zero-dependency engine and CLI.\n- `refs/proofpress/ledger`: local/Git-backed ledger, separate from branches.\n- `skills/`: Claude Code, Codex, Cursor, and Pi authoring contracts plus",
+   "id": "8deed5b3",
+   "hash": "40b46af0b4a5"
+  },
+  {
+   "type": "para",
+   "text": "  best-effort fallback hooks.",
+   "id": "1f7d312f",
+   "hash": "b361bfd2d14d"
+  },
+  {
+   "type": "list",
+   "text": "- Embedded portable capsule: path-independent handoff outside Git.",
+   "id": "605a678d",
+   "hash": "9e3029a1985a"
+  },
+  {
+   "type": "para",
+   "text": "Start with the [documentation index](docs/README.md). The executable behavior is\ndefined by the [Portable Artifact V0 contract](docs/PORTABLE_ARTIFACT_SPEC.md),\nwith its disclosure limits in\n[Privacy Boundaries for Portable Artifacts](docs/PRIVACY_AND_DISCLOSURE.md).",
+   "id": "820f39ab",
+   "hash": "aeb91c891067"
   }
  ]
 }
