@@ -1,203 +1,149 @@
 {
- "artifact": "docs/EVOLUTION-2026-07-18.md",
+ "artifact": "docs/COMPETITIVE.md",
  "blocks": [
   {
    "type": "heading",
-   "text": "# 思维演进记录 — 2026-07-18 战略讨论全程",
-   "id": "de32b5ec",
-   "hash": "a7e926f3f463"
+   "text": "# Competitive Landscape — Proofpress",
+   "id": "953f6620",
+   "hash": "ec4bc5872d36"
   },
   {
    "type": "para",
-   "text": "一场从\"竞争扫描\"走到\"产品重定义\"的讨论。按站记录,包括被否掉的想法——路不通也是知识。\n(这份记录本身是手工写的;它存在的每一分钟都在论证:思维的演进应该被账本自动记录,而不是靠人事后考古。见第 11 站。)",
-   "id": "d4f9a958",
-   "hash": "34798731ed53"
+   "text": "Scan date: 2026-07-18 (all numbers verified live via GitHub API / web this date; no ⚠️ items outstanding).\nFramework: our position is the intersection of four adjacent categories; **one direct neighbor now exists (Kortix, see Threat ranking)**.",
+   "id": "897cbb20",
+   "hash": "f62ad62ea1d1"
   },
   {
    "type": "para",
-   "text": "---",
-   "id": "3cd7c333",
-   "hash": "f1624c9c50ca"
+   "text": "Our claim to defend (**updated 2026-07-21**, superseding the orchestration/multiplayer framing below — that layer moved to act two): the **knowledge-artifact-native ledger** — block identity, semantic diff, **deterministic verification of agent self-reports** (claims checked against the computed diff), block-level provenance — multi-harness, truly open, git as transport. Bucket analyses below are the 2026-07-18 snapshot and read through the older frame; the threat rankings still hold under the new one.",
+   "id": "f1a1c77f",
+   "hash": "a711334c820b"
   },
   {
    "type": "heading",
-   "text": "## 第 1 站 · 触发:竞争扫描实测(把 ⚠️ 清零)",
-   "id": "f8485865",
-   "hash": "bd9df4304233"
-  },
-  {
-   "type": "list",
-   "text": "- 全部数字经 GitHub API / web 核实。三个事实改变了局面:\n  - **Kortix(ex-Suna)已转型 \"Company AI Command Center\"** 并 shipped 了审批壳;\n  - **Plane 已上线 agents-as-assignees + human-review 门控**;\n  - OpenManus 休眠(2 月起无提交),从威胁榜移除。\n- 上月估的\"6–12 个月窗口\"错了:对 Kortix 是 ~0 个月。\n- 修正过程:第一轮把 Kortix 写成\"shipped the closest thing to our loop\"→ 深读源码后二次修正(见第 2 站)。**教训:威胁评级必须读到代码层才算数。**",
-   "id": "ee10c348",
-   "hash": "e164b1b020b1"
-  },
-  {
-   "type": "heading",
-   "text": "## 第 2 站 · Kortix 源码深读:壳是真的,底是空的",
-   "id": "73dd96e4",
-   "hash": "937924e850ae"
-  },
-  {
-   "type": "list",
-   "text": "- 真:Review Center 收件箱(5 种 verdict、risk 分级、Slack/Teams 卡)、**request-changes 自动回流原会话并唤醒沙箱**——warm-revision 雏形他们有。\n- 空:CR 本体\"intentionally minimal\"(源码原话)——git 分支元数据,无 review/comment 表,反馈是 jsonb 里的扁平文本,**diff 只有 unified git patch,明确无语义 diff**。版本化单位是 repo/branch,永远不是 artifact。\n- 结论:他们没做的恰是我们的核心,且对他们是逆结构的(git 是其声明的 source of truth)。窗口压在这一层。",
-   "id": "54e03fcb",
-   "hash": "f82234a97dea"
-  },
-  {
-   "type": "heading",
-   "text": "## 第 3 站 · 数据模型设计",
-   "id": "0554dcff",
-   "hash": "c9578448865f"
-  },
-  {
-   "type": "list",
-   "text": "- 五实体:**Artifact → Version → Review → Comment → SessionLink**。\n- 关键决策:canonical 表示是**带稳定 ID 的块树**,markdown 只是给 agent 的投影(锚点 `<!-- ob:xxxx -->` 序列化出去,ingest 时对齐,丢失退回相似度匹配)。\n- 语义 diff 四层:结构(moved/split/merged)→ 块内(词级/表格行列/数字数值差)→ **叙事层**(agent 提交时自述 changelog,由计算 diff 校验)→ **溯源层**(每个变更块链回会话轮次)。\n- 版本拓扑:线性 + 并发草稿,**不做人肉三方合并——base 变更作为反馈送回会话,agent 自己 rebase**(docs-as-code 失败的仪式成本,让 agent 付)。",
-   "id": "28a8131e",
-   "hash": "6077634d090c"
-  },
-  {
-   "type": "heading",
-   "text": "## 第 4 站 · 退一步:宏观为什么重要",
-   "id": "336efcea",
-   "hash": "ddff115abce0"
+   "text": "## Bucket 1 — General agent workspaces (\"single-player open Cowork\")",
+   "id": "1f95ada1",
+   "hash": "54337b1bf596"
   },
   {
    "type": "para",
-   "text": "四个论点:",
-   "id": "5a063c6c",
-   "hash": "4d9292b183d3"
-  },
-  {
-   "type": "list",
-   "text": "1. **数据模型决定品类归属**(git→GitHub、块→Notion、scene graph→Figma;工具可抄,数据模型抄不动——抄它等于推翻自己的存量)。\n2. **\"agent 生产、人审阅\"是生产关系反转,反转必然要求新账本**(三问:改了什么/为什么改/意见闭环了吗——Google Docs 和 git 都答不了)。\n3. **唯一有资格赢的战场**:壳、编排、调度、记录全在商品化且我们处于劣势;语义 diff + artifact 模型是没人占、对手结构性不愿进、难度即护城河的格子。\n4. **对 Anthropic 的对冲**:账本中立,agent 越强、写入越多,我们与模型进步是顺风关系。",
-   "id": "e1c3a590",
-   "hash": "9b368262c3db"
-  },
-  {
-   "type": "heading",
-   "text": "## 第 5 站 · 类比校准(Work Graph / Gamma / Word+Copilot)",
-   "id": "2abf17c6",
-   "hash": "62f1ac443880"
-  },
-  {
-   "type": "list",
-   "text": "- **判据一句话:当工作\"已提出、未接受\"时,系统里握着什么对象?** B1 没有(消息)/ B2 行集合分支 / B3 没有(已成既成事实)/ B4 暂停的执行 / 我们:一个 Draft,一等公民。\n- Asana/Atlassian Work Graph 不 consequential 的原因:**描述性**(登记协调的元数据)vs Notion 块、Figma、Gamma 的**构成性**(工作用这个模型做出来,新能力从原语里长出来)。\n- Gamma 的精确定位:重定义了 artifact 的**格式**(为 AI 生成);我们重定义 artifact 的**演化**(为 AI 修订 + 人审)。\n- vs Word+Copilot / Docs+Gemini,一句话:**他们是 AI 在人的循环里,我们是人在 agent 的循环里。** 五条结构差:无草稿对象 / 无溯源 / 无修订闭环 / agent 钦定 / 结构上不能反转。\n- 自我纪律:我们产品里 board、Review 收件箱是描述性的(可被抄,Kortix 三个月抄完);构成性的只有块树 + 版本链 + 语义 diff。**资源永远优先投底片,不投取景器。**",
-   "id": "4464c8b9",
-   "hash": "3f16f36e66bc"
-  },
-  {
-   "type": "heading",
-   "text": "## 第 6 站 · 本质命名(Richard 的亲测三连)",
-   "id": "ea561830",
-   "hash": "0c691a77265e"
-  },
-  {
-   "type": "list",
-   "text": "- Richard 亲测:Cowork 改 spreadsheet(B1:跨轮次无 undo,产物是会话排泄物)、git 行 diff(语义靠人脑重建)、Notion agent(同步微观审批:逐编辑、当场裁决、阅后即焚)。\n- 规律:**现有产品全是\"同步微观审批\"(结对);委托需要\"异步交付物审阅\"(带记忆、可回滚、可留档)。撑起后者的全部技术含量 = 版本账本。**\n- 修正:本质不是 \"review diff\" 这个动作,而是**让 review 成为可能的那本账**。顺序:账本 → diff → review(git 同序)。",
-   "id": "a818d18f",
-   "hash": "50b008763ef1"
-  },
-  {
-   "type": "heading",
-   "text": "## 第 7 站 · 体验闭环 + 人工编辑",
-   "id": "0d8c7839",
-   "hash": "5f429785b803"
-  },
-  {
-   "type": "list",
-   "text": "- 完整走查《Q3 定价策略》:发起 → Draft 1 块锚批注 → 反馈包回流热会话 → Draft 2 语义 diff 摘要屏(最值钱的一屏)→ ⓘ 溯源 → 双人审批 → 版本链。落成可交互 demo(claude.ai artifact `1c99a144`)。\n- 人工编辑的原则:**版本化是物理定律,审批是政策。** 人默认免审直落但必须记账;编辑会话折叠成微版本;人改 agent 的在途 draft 要作为事件回灌其会话(**账本是 agent 和人双向的 common ground**);实时 CRDT 共笔明确不做。",
-   "id": "7d61f2ac",
-   "hash": "ed46ae5db290"
-  },
-  {
-   "type": "heading",
-   "text": "## 第 8 站 · 产品形态否决:不做工作台",
-   "id": "635c9fca",
-   "hash": "502fe27bb4c0"
-  },
-  {
-   "type": "list",
-   "text": "- 砍:board/agent 管理/监控/skill 市场的\"command center\"叙事(与 Kortix 原话定位对撞,拿弱牌打人强牌)。\n- 留:omnigent 从\"产品形态\"降级为\"不可见引擎\"——闭环每个杀手环节(回流/唤醒/溯源/rebase)都挂在 session 抽象上。\n- 与 Gamma 必须相反的一点:**AI 不内置**。内置 = 变成没分发的 Word+Copilot + 对冲失效 + 竞争维度变成生成质量(模型的本事,我们不拥有)。\n- 三层定位:形态 = agent-native 文档工具 / 内核 = 版本账本 / 引擎 = 多 harness 会话层。",
-   "id": "1c106a71",
-   "hash": "1cb0da8a81d4"
-  },
-  {
-   "type": "heading",
-   "text": "## 第 9 站 · 命名与 GTM(Richard 的三个直觉)",
-   "id": "9a35dd58",
-   "hash": "8fc814c6992d"
-  },
-  {
-   "type": "list",
-   "text": "- **OmniDocs 独立成名**——账本内核的楔子产品;OmniCowork 是账本聚人后长出的团队层(git → GitHub 次序)。\n- **法律合同缓行**:价值判断对(唯一以 redline 为母语的领域),但三个结构障碍——DOCX 格式墙(对手方在 Word 里)、生产关系不匹配(律师主笔 = \"人写 AI 助\"框架)、垂直吃掉横向。定位为第二幕垂直。第一幕 ICP:已在用 agent 写 PRD/备忘/分析的人(母语 markdown,零迁移)。\n- **Skill 分发 = 全场最好的想法**:`pip install omnidocs`(本地账本 + diff 引擎 + localhost 审阅页)+ 各 harness 的 submit-for-review skill。**没有\"迁移\",只有\"装了个东西之后产出突然有了版本\"。** 把多 harness 中立从防御定位变成进攻渠道(对手的安装量 = 我们的分发面;Kortix/Anthropic 结构上无法跟进)。\n- 风险直视:skill 零护城河 → IP 全部沉在引擎;**diff 引擎品质是唯一 KPI**。商业:单机免费开源,团队服务器收钱(= OmniCowork 回归位)。",
-   "id": "f28004db",
-   "hash": "b1d557a05ded"
-  },
-  {
-   "type": "heading",
-   "text": "## 第 10 站 · 待办的 UI 修正(Richard 反馈)",
-   "id": "aba75332",
-   "hash": "1fec90109b8d"
-  },
-  {
-   "type": "list",
-   "text": "- demo 第 3 步的\"变更摘要 / 全文\"不该是两个 tab:**摘要应自然融入 Draft 2 视图**——顶部放结构化摘要,块级更新放右侧栏或 hover-over-block。产品实现时按此设计,demo 暂不返工。",
-   "id": "03fa91c7",
-   "hash": "3377ad7ce996"
-  },
-  {
-   "type": "heading",
-   "text": "## 第 11 站 · 未收束的新线头:思维演进也是 artifact",
-   "id": "4922e5e4",
-   "hash": "40e15d371bbd"
-  },
-  {
-   "type": "list",
-   "text": "- Richard 的旧项目:画布,多线程/可分支地与 agent 对话,artifact 即画布——一个小想法生长的全过程。\n- 直觉:我们的构成性模型(Artifact/块树/语义 diff/溯源)同样有机会承载\"思维的演进\"。\n- 本记录文件的存在本身即论据:结论沉进文档,推理蒸发在聊天里——今天靠人手工考古,应该由账本自动持有。",
-   "id": "d7a4e2fb",
-   "hash": "caa17f60312d"
-  },
-  {
-   "type": "heading",
-   "text": "## 第 12 站 · 第二价值曲线 + 收敛定稿(同日晚)",
-   "id": "47ac7573",
-   "hash": "5b6a14ec409b"
-  },
-  {
-   "type": "list",
-   "text": "- **思维演进不需要新模型,是账本的免费副产品**:版本链=思想历次状态,语义 diff=思维动作类型学,溯源=为什么,Comment/resolution=辩证过程。\"演进视图\"是账本上的渲染,不是新产品。\n- **画布与链的合题**:Richard 旧项目(多线程可分支画布,artifact 即画布)= 发散的树,缺收敛压力;版本链 = 收敛,缺探索可见性。**探索是沉淀的溯源**——画布住在溯源层里,这是数据结构不是比喻。被否的想法 = 被剪的枝,一等公民留档(死枝可考古,git 做不到因为行 diff 不可读)。\n- **两条价值曲线定序**:信任(获客钩子,刚需)带记忆(留存/口碑,惊喜)。M0 不做演进视图 feature;launch 叙事用一份真实文档的演进史做 showcase。\n- **种子定稿**(Richard):信任曲线优先,**分发走 coding 渠道**——精确化为\"artifact 是代码周围的非代码文档\"(ADR/PRD/design doc),红线:永不碰代码版本化。\n- **北极星定稿**(Richard):内核 = knowledge work 的 git;OmniDocs/OmniCowork 只是呈现形式。git 类比拆开用:抄作业(单机开源先行、格式即公开 spec、网络效应留给托管层)+ 警告(\"X 的 git\"坟场死因 = 人付仪式税;我们的免疫 = 税转嫁给 agent)。断裂点:git 的 diff 平凡、护城河在网络效应;我们的 diff 引擎就是 IP 本体。\n- **Repo 拆分执行**:新建独立仓库 ~/omnidocs(身份/开源姿势/心理边界三理由);战略文档随内核搬家;omnicowork 原地冷冻 = 团队层回归位(GitHub 时刻),冷冻是暂不走的枝,不是错误。\n- **留给下次的设计题**:omnidocs 账本与 git 仓库的关系——旁边/里面/上面三选(初步倾向\"里面\",jj 姿态,git 当免费同步层),Richard 思考中。",
-   "id": "1b78e3c8",
-   "hash": "c7e35be2dc84"
-  },
-  {
-   "type": "para",
-   "text": "---",
-   "id": "22757459",
-   "hash": "f1624c9c50ca"
-  },
-  {
-   "type": "heading",
-   "text": "## 被否掉/修正的想法清单",
-   "id": "25b212f0",
-   "hash": "e821a69c11d3"
+   "text": "Have: agents doing knowledge work, self-hosting. Lack: versioning, review, multi-agent supervision.",
+   "id": "49dc3c5e",
+   "hash": "66823105c490"
   },
   {
    "type": "table",
-   "text": "| 想法 | 结局 | 为什么 |\n|---|---|---|\n| \"Kortix shipped 我们的闭环\"(第一轮措辞) | 修正 | 深读后:壳+回流有,artifact 模型+语义 diff 无 |\n| 工作台/编排形态 | 否 | 描述性层,商品化中,与 Kortix 正面对撞 |\n| \"像 Gamma 一样\"(全盘) | 半否 | 形态学 Gamma,但 AI 必须可插拔不内置 |\n| 法律合同作第一落地 | 缓行 | DOCX 墙 / 律师主笔框架 / 垂直吃横向 |\n| \"本质是 review diff\" | 修正 | 本质是账本;diff 是账本上算出来的 |\n| 实时 CRDT 多人共笔 | 明确不做(v1) | 编辑层是 Google Docs 主场,打错了层 |\n| 锚点用纯 sidecar 匹配 | 倾向否 | 匹配 bug 是长期税;锚点为主、相似度兜底 |",
-   "id": "0058ef37",
-   "hash": "aa07b88eb536"
+   "text": "| Project | Stars | License | Notes |\n|---|---|---|---|\n| zhayujie/CowAgent | 46.0k ✅ | MIT | README deep-read 2026-07-18: personal assistant, single-agent-per-instance, IM-channel-first (WeChat/Feishu/DingTalk/Telegram…), Markdown-wiki memory but **no versioning, no review loop, no multiplayer**. Threat rating **confirmed: low direct / mindshare only** — Chinese community momentum is the asset; the architecture points away from team orchestration. |\n| lobehub/lobehub | 80.5k ✅ | fair-code (NOASSERTION) | Launched \"Chief Agent Operator\" 2026-05-18 (Product Hunt #1 of day): hires agents from 273k-skill marketplace, runs Claude Code/Codex/OpenClaw 24/7 in cloud, **reports via daily brief** in Slack/Discord/WeChat etc. Reporting ≠ review — no versioned artifact, no approval gate — but hiring/scheduling/reporting vocabulary is one step from assignment/review. Highest-trajectory threat in bucket. |\n| kortix-ai/suna → **Kortix** | 20.0k ✅ | source-available (was Apache-2.0) | **Moved buckets — see Threat ranking.** Pivoted to \"The Company AI Command Center\". Source deep-read 2026-07-18 (change-requests.ts, review-items.ts, git/merge.ts): Review Center is a real inbox product (output/decision/batch kinds + CR/approval adapters, 5 verdicts, risk levels, Slack/Teams cards) and **request-changes auto-flows back to the originating session's agent, waking sleeping sandboxes** — they have a warm-revision loop. But CR core is \"intentionally minimal\" (their comment): git-branch metadata, no review/comment tables, feedback = flat text log in jsonb, **diff = unified git patch only, explicitly no semantic diff for markdown/docx**; versioned unit is the repo/branch, never the artifact. Pre-1.0 (v0.9.98). |\n| FoundationAgents/OpenManus | 57.5k ✅ | MIT | **Dormant — last push 2026-02-11.** Downgraded to non-threat; star count is a fossil. |\n| OpenHands/OpenHands | 81.2k ✅ | NOASSERTION (relicensed from MIT) | Moved to own org. Coding-centric, strong eval culture; still git-native. |\n| microsoft/magentic-ui | 10.0k ✅ | MIT | Now \"MagenticLite\" (browser + local FS agent). Still best-in-class human-in-the-loop approval UX to study; different domain. |\n| skalesapp/skales | 1.2k ✅ | NOASSERTION | Personal AI desktop agent. Watch consumer polish only. |",
+   "id": "e29ce939",
+   "hash": "284b81187397"
+  },
+  {
+   "type": "para",
+   "text": "Assessment: the bucket's leaders are converging on our metaphors faster than expected — lobehub shipped \"hiring/reporting\", Kortix graduated out of the bucket entirely by shipping review. The 6–12 month window estimated last scan was wrong: **it was ~0 months for Kortix**. What remains open: non-git artifacts, harness neutrality, true open-source license.",
+   "id": "f608f538",
+   "hash": "6c4744262a9c"
   },
   {
    "type": "heading",
-   "text": "## 沉淀的一句话资产",
-   "id": "1639c749",
-   "hash": "0a0d63e17e28"
+   "text": "## Bucket 2 — Coding orchestration (our shape, wrong domain)",
+   "id": "3ec4246c",
+   "hash": "8d2ed1deba18"
+  },
+  {
+   "type": "para",
+   "text": "Have: boards, parallel sessions, review loops. Lack: anything non-git.",
+   "id": "f2f8e550",
+   "hash": "33cda3ee32f8"
+  },
+  {
+   "type": "table",
+   "text": "| Project | Stars | License | Notes |\n|---|---|---|---|\n| AgentWrapper/agent-orchestrator (AO) | 8.3k ✅ | Apache-2.0 | Desktop agent-IDE, 23 harness adapters, worktree isolation, CI/review/merge loops. Reference for supervision UX; git-native to the bone. |\n| omnigent (our base) | active ✅ | Apache-2.0 | Session abstraction is domain-neutral — our structural advantage. |\n| farion1231/cc-switch | 118k ✅ | MIT | Harness cockpit/router, not orchestration; owns \"many harnesses, one surface\" mindshare. |\n| ruvnet/ruflo | 65.0k ✅ | MIT | README deep-read 2026-07-18: swarm coordination + vector memory + federation built around **Claude Code specifically** — despite \"meta-harness\" branding it is monolithic to its own harness. No versioned-artifact model; review exists only as sparse \"before-merge gates\" checklist items. More engineering-real than expected (benchmarks, ADRs, honest status page) but aimed at agent autonomy, not human review of deliverables. Threat rating **confirmed: low-moderate** — dangerous only if federation + team workflows (both in active dev) pivot toward artifact review. Re-check quarterly. |\n| BloopAI/vibe-kanban | 27.4k ✅ | Apache-2.0 | Board-of-agents validated; last push 2026-04-24 — momentum cooling. |\n| claude-squad, Conductor, Terragon | small/closed | — | Same category, same ceiling. |",
+   "id": "e328a55c",
+   "hash": "119356f56155"
+  },
+  {
+   "type": "para",
+   "text": "Assessment: commoditizing; still nobody positioned for knowledge work — their data model IS git. Validates our \"session-native, not git-native\" bet. Note Kortix chose the git data model for its company product — that's the bet we're on the other side of.",
+   "id": "9832a291",
+   "hash": "6249666a5cec"
+  },
+  {
+   "type": "heading",
+   "text": "## Bucket 3 — Open-source system-of-record with AI bolt-ons",
+   "id": "c8ad5373",
+   "hash": "3e726c5ff72f"
+  },
+  {
+   "type": "para",
+   "text": "Have: docs/tasks/teams as durable record. Lack: agent-native execution (with one exception now).",
+   "id": "e05edc7a",
+   "hash": "b24b5b2d321a"
+  },
+  {
+   "type": "table",
+   "text": "| Project | Stars | License | Notes |\n|---|---|---|---|\n| AppFlowy | 74.0k ✅ | AGPL-3.0 | Notion alt + AI workspace. |\n| AFFiNE | 70.6k ✅ | MIT + ee (NOASSERTION) | Doc/whiteboard + AI copilot. |\n| **Plane** | 54.7k ✅ | AGPL-3.0 | **Moved. Already shipped** (plane.so/ai): agents as assignees (\"add an agent as an assignee just like any teammate\"), native MCP server, @mention agent framework, Agent Run lifecycle tracking, audit trail, and configurable **\"what needs human review\"** gates. The predicted \"natural move\" happened. Review is of task execution, not versioned artifacts — but they own record + workflow + now rent execution. |\n| Huly (hcengineering/platform) | 26.9k ✅ | EPL-2.0 | All-in-one PM; team-of-agents marketing. |\n| Outline | 39.7k ✅ | BSL (NOASSERTION) | Team wiki + AI answers. |",
+   "id": "eae6e1c9",
+   "hash": "e15fbad9ab83"
+  },
+  {
+   "type": "para",
+   "text": "Assessment: the structural blocker (continuous human editing vs propose-review-merge) still holds for docs — but Plane shows the task side of the record can absorb agents fast. Partnership-target logic still applies to the doc-first players; Plane graduates to watched competitor.",
+   "id": "3106b8a0",
+   "hash": "19351455ecb6"
+  },
+  {
+   "type": "heading",
+   "text": "## Bucket 4 — The review/version layer for agent output",
+   "id": "00dedc3d",
+   "hash": "b81bb4f7bc66"
+  },
+  {
+   "type": "para",
+   "text": "Our core IP. Nearest neighbors:",
+   "id": "0001257a",
+   "hash": "3bdf85fec5f6"
   },
   {
    "type": "list",
-   "text": "- \"别人运行 agent、存储工作。我们为 agent 的产出记账。\"\n- \"版本化是物理定律,审批是政策。\"\n- \"他们是 AI 在人的循环里,我们是人在 agent 的循环里。\"\n- \"同步微观审批是结对,异步交付物审阅才是委托。\"\n- \"文档存结论,聊天存推理——账本给两者建外键。\"\n- \"Draft → Review → Approve, for agents.\"(词表,抢先公开占领)",
-   "id": "8d1452d7",
-   "hash": "4fe12d459f39"
+   "text": "- **LLMs themselves (added 2026-07-21)**: the sharpest neighbor in this bucket. Feeding two markdown versions to any frontier model yields a decent semantic diff — the *reading* layer (structure + word-level) is commoditizing. What no model can supply is the **deterministic verification gate**: a reproducible, same-input-same-verdict check that an agent's account matches the computed change. Probabilistic opinion vs deterministic check is the moat line; \"an AI auditing another AI\" is circular in any audit context.\n- docs-as-code (Git+Markdown review flows): right mechanics, failed adoption — humans won't pay the ceremony. Our why-now: agents absorb it.\n- Workflow builders (Dify 149.2k ✅, n8n, Flowise): human-approval nodes are a gate in a DAG, not review of a versioned artifact with warm-session feedback. Biggest enterprise-sales competitor, not product competitor.\n- eval/guardrail tooling (LangSmith et al.): reviews runs, not deliverables.\n- Direct implementations of semantic-diff + warm-session review over non-git artifacts: **still none found ✅** — Kortix is the closest but rides git commits/PRs.",
+   "id": "6db2c7cf",
+   "hash": "f197a884b6ea"
+  },
+  {
+   "type": "heading",
+   "text": "## Threat ranking (revised 2026-07-18)",
+   "id": "2a6d13b1",
+   "hash": "d80ce417b7a7"
+  },
+  {
+   "type": "list",
+   "text": "1. **Anthropic ships multiplayer/versioned Cowork** — highest impact. Structural counter unchanged: open + any-agent + self-hosted. Never trade those.\n2. **Kortix (ex-Suna)** — ⬆ from \"would become a competitor\" to **shipped the closest thing to our loop**, including automatic feedback-to-agent revision (verified in source 2026-07-18). What they have NOT built — and are structurally biased against, since git is their declared source of truth — is exactly our core: artifact-level identity/history, semantic diff, content-anchored review comments. Our remaining edges: (a) artifact-native data model + semantic diff vs their branch-metadata + line patches, (b) they went source-available while we stay genuinely open, (c) multi-harness neutrality vs their own runtime, (d) pre-1.0 immaturity. Watch monthly; this is the sharpest external clock on M0/M1.\n3. **lobehub adds review loop** — high likelihood; CAO launch shows velocity and the vocabulary is adjacent. Counter: ship fast, own the vocabulary publicly first (see Tactics).\n4. **Plane** — ⬆ from mid-term to **already executing**: agents-as-assignees + human-review gates shipped. They'll own record + execution for task-shaped work; counter remains being the artifact/review layer they'd rather integrate than build.\n5. **AO expands past git** — low; data model and community are git-native.\n6. ~~OpenManus~~ — removed; dormant since Feb 2026.",
+   "id": "83b03812",
+   "hash": "6ec3506e1947"
+  },
+  {
+   "type": "heading",
+   "text": "## Tactics",
+   "id": "94eea890",
+   "hash": "dd1265ec7cb8"
+  },
+  {
+   "type": "para",
+   "text": "**Own the vocabulary now.** \"Draft → Review → Approve **for agents**\" must appear in our launch post, README tagline, and every public description before lobehub or Kortix phrase it first — whoever's words the category adopts defines the category, and this is the cheapest available defense against both. Kortix says \"change requests\" (developer vocabulary, git frame); lobehub says \"hiring/reporting\" (HR frame). The Draft/Review/Approve frame (knowledge-work vocabulary, matches our UI terms) is still unclaimed. Deadline: publicly attached to our name before the next scan.",
+   "id": "ac6767b7",
+   "hash": "747dae5ca622"
+  },
+  {
+   "type": "heading",
+   "text": "## Standing conclusions",
+   "id": "1e196f12",
+   "hash": "61f16d67045f"
+  },
+  {
+   "type": "list",
+   "text": "- The four-bucket vacuum has one occupant now (Kortix), but the **non-git, multi-harness, truly-open** cell is still empty — positioning one-liner tightens to: \"They version code with git. We version and review what agents produce — docs, decks, analyses — across any agent, on your infra.\" **2026-07-21 revision**: the verification pivot sharpens it further — \"git records the change; LLMs offer an opinion about it; we keep the artifact-native ledger and the deterministic check that the agent's account matches what actually changed.\"\n- Why-now still holds; the Kortix/Plane moves are confirmation, not refutation — the window is just shorter than last month's estimate.\n- Cadence: refresh monthly (four bucket queries + threat check). **Next due: 2026-08-18.** Add Kortix release notes and Plane changelog to the check list.",
+   "id": "32331816",
+   "hash": "90362110e63d"
   }
  ]
 }
