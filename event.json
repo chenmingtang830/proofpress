@@ -1,48 +1,194 @@
 {
  "event": "version_created",
- "artifact": "docs/PORTABLE_ARTIFACT_STRATEGY.md",
- "version": "99af7ece",
- "parent": "95567f22",
+ "artifact": "skills/README.md",
+ "version": "b9722986",
+ "parent": null,
  "author": {
-  "name": "Claude",
-  "kind": "agent",
-  "session": "sidecar-experiment"
+  "name": "chenmingtang830",
+  "kind": "human",
+  "session": null
  },
- "note": "边界 4 入正文:历史保护范围 = 单 artifact",
- "ts": "2026-07-22T05:01:48+00:00",
+ "note": "Harness adapters: skill + hook for Claude Code / Codex / Pi",
+ "ts": "2026-07-21T20:02:39-04:00",
  "stats": {
-  "modified": 2
+  "added": 25
  },
  "changes": [
   {
-   "kind": "modified",
-   "block": "d56084c8",
+   "kind": "added",
+   "block": "df70df88",
+   "type": "heading",
+   "context": "Proofpress harness adapters",
+   "preview": "# Proofpress harness adapters"
+  },
+  {
+   "kind": "added",
+   "block": "bfadc2f0",
    "type": "para",
-   "context": "结论先行"
+   "context": "Proofpress harness adapters",
+   "preview": "One engine, three capture layers. The skill is the *rich* la"
   },
   {
-   "kind": "modified",
-   "block": "e47ac07f",
+   "kind": "added",
+   "block": "b188925d",
+   "type": "table",
+   "context": "Proofpress harness adapters",
+   "preview": "| Layer | Guarantee | What it captures |\n|---|---|---|\n| Ski"
+  },
+  {
+   "kind": "added",
+   "block": "7dc83375",
+   "type": "heading",
+   "context": "The agent contract (shared across all ha",
+   "preview": "## The agent contract (shared across all harnesses)"
+  },
+  {
+   "kind": "added",
+   "block": "ad2649e7",
+   "type": "para",
+   "context": "The agent contract (shared across all ha",
+   "preview": "When you (the agent) create or substantially revise a **mark"
+  },
+  {
+   "kind": "added",
+   "block": "720c81e7",
    "type": "list",
-   "context": "结论先行"
-  }
- ],
- "claims": [
-  {
-   "block": "d56084c8",
-   "kind": "modified",
-   "note": "三个边界 → 四个边界"
+   "context": "The agent contract (shared across all ha",
+   "preview": "1. If the artifact has git history but no ledger entries: `p"
   },
   {
-   "block": "e47ac07f",
-   "kind": "modified",
-   "note": "新增边界 4:历史保护范围 = 单 artifact(scope 边界),跨 artifact 知识另案"
+   "kind": "added",
+   "block": "df87c8ed",
+   "type": "para",
+   "context": "The agent contract (shared across all ha",
+   "preview": "   to blocks you keep or modify; drop anchors of blocks you "
+  },
+  {
+   "kind": "added",
+   "block": "b05980e7",
+   "type": "list",
+   "context": "The agent contract (shared across all ha",
+   "preview": "3. `python3 proofpress.py anchor <file>` — read the inherite"
+  },
+  {
+   "kind": "added",
+   "block": "4cebe5e8",
+   "type": "para",
+   "context": "The agent contract (shared across all ha",
+   "preview": "   inventory it prints."
+  },
+  {
+   "kind": "added",
+   "block": "5bcd6f73",
+   "type": "list",
+   "context": "The agent contract (shared across all ha",
+   "preview": "4. Write a claims JSON array — one entry per block you touch"
+  },
+  {
+   "kind": "added",
+   "block": "a0d8e6f2",
+   "type": "para",
+   "context": "The agent contract (shared across all ha",
+   "preview": "   flattering: `{\"block\": \"<id>\", \"kind\": \"added|removed|mod"
+  },
+  {
+   "kind": "added",
+   "block": "38995f1c",
+   "type": "list",
+   "context": "The agent contract (shared across all ha",
+   "preview": "5. Snapshot with testimony. `--why` and at least one `--reje"
+  },
+  {
+   "kind": "added",
+   "block": "b5319ccd",
+   "type": "para",
+   "context": "The agent contract (shared across all ha",
+   "preview": "   considered alternatives) are **required, not optional** —"
+  },
+  {
+   "kind": "added",
+   "block": "1152219a",
+   "type": "code",
+   "context": "The agent contract (shared across all ha",
+   "preview": "   ```\n   python3 proofpress.py snapshot <file> --kind agent"
+  },
+  {
+   "kind": "added",
+   "block": "d7630077",
+   "type": "list",
+   "context": "The agent contract (shared across all ha",
+   "preview": "6. `python3 proofpress.py verify <file>` — report the output"
+  },
+  {
+   "kind": "added",
+   "block": "14c571e1",
+   "type": "para",
+   "context": "The agent contract (shared across all ha",
+   "preview": "   verbatim. **Never rewrite claims to force a green result*"
+  },
+  {
+   "kind": "added",
+   "block": "373d7dac",
+   "type": "para",
+   "context": "The agent contract (shared across all ha",
+   "preview": "Red line: never snapshot source-code files. That is git's te"
+  },
+  {
+   "kind": "added",
+   "block": "f5f3a858",
+   "type": "heading",
+   "context": "Install",
+   "preview": "## Install"
+  },
+  {
+   "kind": "added",
+   "block": "0e468706",
+   "type": "list",
+   "context": "Install",
+   "preview": "- **Claude Code** — copy `claude-code/proofpress/` into `.cl"
+  },
+  {
+   "kind": "added",
+   "block": "225dd61c",
+   "type": "para",
+   "context": "Install",
+   "preview": "  merge `claude-code/hooks-example.json` into `.claude/setti"
+  },
+  {
+   "kind": "added",
+   "block": "3e5fba6b",
+   "type": "list",
+   "context": "Install",
+   "preview": "- **Codex CLI** — append `codex/AGENTS-snippet.md` to your `"
+  },
+  {
+   "kind": "added",
+   "block": "0110874f",
+   "type": "para",
+   "context": "Install",
+   "preview": "  merge `codex/config-hooks.toml` into `~/.codex/config.toml"
+  },
+  {
+   "kind": "added",
+   "block": "eaad8890",
+   "type": "list",
+   "context": "Install",
+   "preview": "- **Pi** — drop `pi/proofpress-skill.md` into your skills di"
+  },
+  {
+   "kind": "added",
+   "block": "fc22c1a8",
+   "type": "para",
+   "context": "Install",
+   "preview": "  `pi/extension-skeleton.ts` sketches the deterministic in-p"
+  },
+  {
+   "kind": "added",
+   "block": "8395a86c",
+   "type": "para",
+   "context": "Install",
+   "preview": "All adapters assume `proofpress.py` is reachable — vendored "
   }
  ],
- "context": {
-  "why": "9.5 的 scope gap 发现升格为结论先行的硬边界;首次入账 claims 引用了过期块 id 被 verify 拦下,重做——教训:claims 必须对着当次 anchor 清单写,不能凭记忆",
-  "rejected": [
-   "保留 mismatch 版本 —— 属笔误型错账而非自述失实,且 30 秒内无下游消费,回卷重做更干净"
-  ]
- }
+ "source_commit": "c70f3baaa1de011117fe5f3721ea718fa0f91da1"
 }
