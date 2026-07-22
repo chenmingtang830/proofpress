@@ -1,179 +1,197 @@
 {
  "event": "version_created",
- "artifact": "skills/codex/AGENTS-snippet.md",
- "artifact_id": "pp_703c3fa926abb512e7199332",
- "version": "ad7f4f61",
- "parent": "3e14bfd0",
+ "artifact": "skills/cursor/proofpress/SKILL.md",
+ "artifact_id": "pp_0c9edf7d315ab03e0ca06c88",
+ "version": "d7370305",
+ "parent": "360cd648",
  "author": {
   "name": "codex",
   "kind": "agent",
   "session": null
  },
  "note": "aligned with portable-artifact V0 and launch boundary",
- "ts": "2026-07-22T09:23:00+00:00",
+ "ts": "2026-07-22T09:23:02+00:00",
  "stats": {
-  "modified": 3,
-  "added": 12,
-  "removed": 8
+  "modified": 6,
+  "added": 8,
+  "removed": 12
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "c350cb3a",
+   "block": "19a24923",
    "type": "para",
    "context": "(文首)"
   },
   {
-   "kind": "modified",
-   "block": "51ac24b5",
-   "type": "heading",
-   "context": "Proofpress: ledger Markdown knowledge ar"
-  },
-  {
    "kind": "added",
-   "block": "10265f5d",
+   "block": "b2ec6ff5",
    "type": "para",
-   "context": "Proofpress: ledger Markdown knowledge ar",
-   "preview": "For accepted, meaningful revisions to Markdown knowledge art"
+   "context": "Proofpress",
+   "preview": "Record accepted Markdown artifact versions with structured t"
   },
   {
    "kind": "added",
-   "block": "d181cc6e",
+   "block": "42fd42e7",
    "type": "list",
-   "context": "Proofpress: ledger Markdown knowledge ar",
+   "context": "Workflow",
    "preview": "1. Read `python3 proofpress.py policy <file>`. If the user a"
   },
   {
    "kind": "added",
-   "block": "6c0f813b",
+   "block": "ffa6ae00",
    "type": "para",
-   "context": "Proofpress: ledger Markdown knowledge ar",
-   "preview": "   run `policy <file> portable` once; it remains sticky. Use"
-  },
-  {
-   "kind": "added",
-   "block": "0ba00342",
-   "type": "list",
-   "context": "Proofpress: ledger Markdown knowledge ar",
-   "preview": "2. Preserve surviving block anchors while editing, then run "
-  },
-  {
-   "kind": "added",
-   "block": "0b96e11b",
-   "type": "para",
-   "context": "Proofpress: ledger Markdown knowledge ar",
-   "preview": "   inspect inherited/new/gone IDs."
+   "context": "Workflow",
+   "preview": "   artifact, run `python3 proofpress.py policy <file> portab"
   },
   {
    "kind": "modified",
-   "block": "55bb7174",
+   "block": "6d23ae8f",
    "type": "list",
-   "context": "Proofpress: ledger Markdown knowledge ar"
+   "context": "Workflow"
   },
   {
-   "kind": "added",
-   "block": "3b3c1156",
+   "kind": "modified",
+   "block": "35ce54f2",
    "type": "para",
-   "context": "Proofpress: ledger Markdown knowledge ar",
-   "preview": "   enumerate untouched blocks."
+   "context": "Workflow"
   },
   {
    "kind": "added",
-   "block": "311b1408",
+   "block": "f119601b",
    "type": "list",
-   "context": "Proofpress: ledger Markdown knowledge ar",
-   "preview": "4. Snapshot with `--why`, claims, and explicit actors:"
+   "context": "Workflow",
+   "preview": "3. Run `anchor <file>` and read the inherited/new/gone inven"
+  },
+  {
+   "kind": "modified",
+   "block": "6b88d004",
+   "type": "para",
+   "context": "Workflow"
   },
   {
    "kind": "added",
-   "block": "08f435e4",
+   "block": "f381d919",
+   "type": "list",
+   "context": "Workflow",
+   "preview": "5. Snapshot only after a meaningful version is accepted:"
+  },
+  {
+   "kind": "added",
+   "block": "f42cb113",
    "type": "code",
-   "context": "Proofpress: ledger Markdown knowledge ar",
+   "context": "Workflow",
    "preview": "   ```sh\n   python3 proofpress.py snapshot <file> --kind age"
   },
   {
    "kind": "added",
-   "block": "b521eb3e",
+   "block": "790c5dda",
    "type": "para",
-   "context": "Proofpress: ledger Markdown knowledge ar",
-   "preview": "   Omit `--rejected` unless the dead branch matters later. N"
+   "context": "Workflow",
+   "preview": "   `--why` is required. Omit `--rejected` unless the rejecte"
+  },
+  {
+   "kind": "modified",
+   "block": "e3c56875",
+   "type": "list",
+   "context": "Workflow"
+  },
+  {
+   "kind": "modified",
+   "block": "6ad53003",
+   "type": "para",
+   "context": "Workflow"
   },
   {
    "kind": "added",
-   "block": "cd72eb83",
-   "type": "list",
-   "context": "Proofpress: ledger Markdown knowledge ar",
-   "preview": "5. Run `verify <file>` and report its output verbatim. Never"
-  },
-  {
-   "kind": "added",
-   "block": "358e67a9",
+   "block": "355446e0",
    "type": "para",
-   "context": "Proofpress: ledger Markdown knowledge ar",
-   "preview": "   force green."
-  },
-  {
-   "kind": "added",
-   "block": "bc88257e",
-   "type": "para",
-   "context": "Proofpress: ledger Markdown knowledge ar",
-   "preview": "For incoming portable files, run `inspect` and then `import`"
+   "context": "Workflow",
+   "preview": "For an incoming portable file, run `inspect` before trusting"
   },
   {
    "kind": "removed",
-   "block": "ca88b9cb",
+   "block": "ca3e2ae4",
    "type": "para",
    "context": "",
-   "preview": "This repo keeps a version ledger for markdown knowledge arti"
+   "preview": "Record every meaningful Markdown knowledge-artifact change w"
   },
   {
    "kind": "removed",
-   "block": "95b71f0d",
+   "block": "ae92d920",
    "type": "list",
    "context": "",
-   "preview": "1. History but no ledger? `python3 proofpress.py ingest <fil"
+   "preview": "1. If the artifact has Git history but no ledger entry, run:"
   },
   {
    "kind": "removed",
-   "block": "5c455645",
-   "type": "para",
+   "block": "54c93cc4",
+   "type": "code",
    "context": "",
-   "preview": "   then run `python3 proofpress.py anchor <file>` and read t"
+   "preview": "   ```sh\n   python3 proofpress.py ingest <file>\n   ```"
   },
   {
    "kind": "removed",
-   "block": "c3f79d0b",
-   "type": "para",
-   "context": "",
-   "preview": "   enumerate untouched blocks. Use `unchanged` only for a de"
-  },
-  {
-   "kind": "removed",
-   "block": "c6d8df5a",
+   "block": "7e9c1975",
    "type": "list",
    "context": "",
-   "preview": "4. Snapshot with testimony — `--why` required, `--rejected` "
+   "preview": "3. After editing, run `python3 proofpress.py anchor <file>` "
   },
   {
    "kind": "removed",
-   "block": "01fba730",
+   "block": "ff3fc8ba",
    "type": "para",
    "context": "",
-   "preview": "   alternative:\n   `python3 proofpress.py snapshot <file> --"
+   "preview": "   `inherited`, `new`, and `gone` inventory."
   },
   {
    "kind": "removed",
-   "block": "0aeea03e",
+   "block": "09df9b9c",
    "type": "list",
    "context": "",
-   "preview": "5. `python3 proofpress.py verify <file>` and report the verb"
+   "preview": "4. Write a temporary claims JSON array with one honest entry"
   },
   {
    "kind": "removed",
-   "block": "7d5df454",
+   "block": "ef1135b2",
    "type": "para",
    "context": "",
-   "preview": "   Never re-snapshot to force a green result — a ⚠ is review"
+   "preview": "   or removed:"
+  },
+  {
+   "kind": "removed",
+   "block": "99426a3e",
+   "type": "code",
+   "context": "",
+   "preview": "   ```json\n   [{\"block\":\"a1b2c3d4\",\"kind\":\"modified\",\"note\":"
+  },
+  {
+   "kind": "removed",
+   "block": "6965e42d",
+   "type": "list",
+   "context": "",
+   "preview": "5. Snapshot while the decision context is still fresh:"
+  },
+  {
+   "kind": "removed",
+   "block": "fa3c4e4f",
+   "type": "code",
+   "context": "",
+   "preview": "   ```sh\n   python3 proofpress.py snapshot <file> --kind age"
+  },
+  {
+   "kind": "removed",
+   "block": "5c13476b",
+   "type": "para",
+   "context": "",
+   "preview": "   `--why` is required. Repeat `--rejected` for alternatives"
+  },
+  {
+   "kind": "removed",
+   "block": "2ee76a41",
+   "type": "para",
+   "context": "",
+   "preview": "Repeat the loop for every Markdown knowledge artifact touche"
   }
  ],
  "policy": "local",
@@ -188,117 +206,132 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "c350cb3a",
+   "block": "19a24923",
    "kind": "modified",
    "note": "updated to the approved portable-artifact V0 contract"
   },
   {
-   "block": "51ac24b5",
+   "block": "b2ec6ff5",
+   "kind": "added",
+   "note": "updated to the approved portable-artifact V0 contract"
+  },
+  {
+   "block": "42fd42e7",
+   "kind": "added",
+   "note": "updated to the approved portable-artifact V0 contract"
+  },
+  {
+   "block": "ffa6ae00",
+   "kind": "added",
+   "note": "updated to the approved portable-artifact V0 contract"
+  },
+  {
+   "block": "6d23ae8f",
    "kind": "modified",
    "note": "updated to the approved portable-artifact V0 contract"
   },
   {
-   "block": "10265f5d",
-   "kind": "added",
-   "note": "updated to the approved portable-artifact V0 contract"
-  },
-  {
-   "block": "d181cc6e",
-   "kind": "added",
-   "note": "updated to the approved portable-artifact V0 contract"
-  },
-  {
-   "block": "6c0f813b",
-   "kind": "added",
-   "note": "updated to the approved portable-artifact V0 contract"
-  },
-  {
-   "block": "0ba00342",
-   "kind": "added",
-   "note": "updated to the approved portable-artifact V0 contract"
-  },
-  {
-   "block": "0b96e11b",
-   "kind": "added",
-   "note": "updated to the approved portable-artifact V0 contract"
-  },
-  {
-   "block": "55bb7174",
+   "block": "35ce54f2",
    "kind": "modified",
    "note": "updated to the approved portable-artifact V0 contract"
   },
   {
-   "block": "3b3c1156",
+   "block": "f119601b",
    "kind": "added",
    "note": "updated to the approved portable-artifact V0 contract"
   },
   {
-   "block": "311b1408",
+   "block": "6b88d004",
+   "kind": "modified",
+   "note": "updated to the approved portable-artifact V0 contract"
+  },
+  {
+   "block": "f381d919",
    "kind": "added",
    "note": "updated to the approved portable-artifact V0 contract"
   },
   {
-   "block": "08f435e4",
+   "block": "f42cb113",
    "kind": "added",
    "note": "updated to the approved portable-artifact V0 contract"
   },
   {
-   "block": "b521eb3e",
+   "block": "790c5dda",
    "kind": "added",
    "note": "updated to the approved portable-artifact V0 contract"
   },
   {
-   "block": "cd72eb83",
+   "block": "e3c56875",
+   "kind": "modified",
+   "note": "updated to the approved portable-artifact V0 contract"
+  },
+  {
+   "block": "6ad53003",
+   "kind": "modified",
+   "note": "updated to the approved portable-artifact V0 contract"
+  },
+  {
+   "block": "355446e0",
    "kind": "added",
    "note": "updated to the approved portable-artifact V0 contract"
   },
   {
-   "block": "358e67a9",
-   "kind": "added",
-   "note": "updated to the approved portable-artifact V0 contract"
-  },
-  {
-   "block": "bc88257e",
-   "kind": "added",
-   "note": "updated to the approved portable-artifact V0 contract"
-  },
-  {
-   "block": "ca88b9cb",
+   "block": "ca3e2ae4",
    "kind": "removed",
    "note": "updated to the approved portable-artifact V0 contract"
   },
   {
-   "block": "95b71f0d",
+   "block": "ae92d920",
    "kind": "removed",
    "note": "updated to the approved portable-artifact V0 contract"
   },
   {
-   "block": "5c455645",
+   "block": "54c93cc4",
    "kind": "removed",
    "note": "updated to the approved portable-artifact V0 contract"
   },
   {
-   "block": "c3f79d0b",
+   "block": "7e9c1975",
    "kind": "removed",
    "note": "updated to the approved portable-artifact V0 contract"
   },
   {
-   "block": "c6d8df5a",
+   "block": "ff3fc8ba",
    "kind": "removed",
    "note": "updated to the approved portable-artifact V0 contract"
   },
   {
-   "block": "01fba730",
+   "block": "09df9b9c",
    "kind": "removed",
    "note": "updated to the approved portable-artifact V0 contract"
   },
   {
-   "block": "0aeea03e",
+   "block": "ef1135b2",
    "kind": "removed",
    "note": "updated to the approved portable-artifact V0 contract"
   },
   {
-   "block": "7d5df454",
+   "block": "99426a3e",
+   "kind": "removed",
+   "note": "updated to the approved portable-artifact V0 contract"
+  },
+  {
+   "block": "6965e42d",
+   "kind": "removed",
+   "note": "updated to the approved portable-artifact V0 contract"
+  },
+  {
+   "block": "fa3c4e4f",
+   "kind": "removed",
+   "note": "updated to the approved portable-artifact V0 contract"
+  },
+  {
+   "block": "5c13476b",
+   "kind": "removed",
+   "note": "updated to the approved portable-artifact V0 contract"
+  },
+  {
+   "block": "2ee76a41",
    "kind": "removed",
    "note": "updated to the approved portable-artifact V0 contract"
   }
