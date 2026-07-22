@@ -1,43 +1,43 @@
 {
  "event": "version_created",
- "artifact": "skills/codex/AGENTS-snippet.md",
- "artifact_id": "pp_703c3fa926abb512e7199332",
- "version": "9d96e059",
- "parent": "5b7201ca",
+ "artifact": "skills/claude-code/proofpress/SKILL.md",
+ "artifact_id": "pp_8f9f160826e336a46eb62bd4",
+ "version": "928080bf",
+ "parent": "06c840e7",
  "author": {
   "name": "codex",
   "kind": "agent",
   "session": null
  },
  "note": null,
- "ts": "2026-07-22T11:04:28+00:00",
+ "ts": "2026-07-22T11:04:29+00:00",
  "stats": {
   "modified": 4
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "51ac24b5",
-   "type": "heading",
-   "context": "Proofpress: ledger Markdown and static H"
-  },
-  {
-   "kind": "modified",
-   "block": "10265f5d",
+   "block": "20222364",
    "type": "para",
-   "context": "Proofpress: ledger Markdown and static H"
+   "context": "(文首)"
   },
   {
    "kind": "modified",
-   "block": "0ba00342",
+   "block": "cb25a041",
+   "type": "para",
+   "context": "Proofpress"
+  },
+  {
+   "kind": "modified",
+   "block": "a5e7461c",
    "type": "list",
-   "context": "Proofpress: ledger Markdown and static H"
+   "context": "Workflow"
   },
   {
    "kind": "modified",
-   "block": "0b96e11b",
+   "block": "01348595",
    "type": "para",
-   "context": "Proofpress: ledger Markdown and static H"
+   "context": "Workflow"
   }
  ],
  "policy": "local",
@@ -58,27 +58,27 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "51ac24b5",
+   "block": "20222364",
    "kind": "modified",
-   "note": "extends the Codex contract heading to static HTML"
+   "note": "extends Claude skill applicability to static HTML artifacts"
   },
   {
-   "block": "10265f5d",
+   "block": "cb25a041",
    "kind": "modified",
-   "note": "extends accepted artifact revisions to static HTML"
+   "note": "extends accepted artifact versions to static HTML"
   },
   {
-   "block": "0ba00342",
+   "block": "a5e7461c",
    "kind": "modified",
    "note": "introduces carrier-native anchor preservation"
   },
   {
-   "block": "0b96e11b",
+   "block": "01348595",
    "kind": "modified",
    "note": "documents the static HTML anchor attribute"
   }
  ],
  "context": {
-  "why": "allow Codex harnesses to ledger static HTML artifacts"
+  "why": "allow Claude harnesses to ledger static HTML artifacts"
  }
 }
