@@ -1,439 +1,159 @@
 {
  "event": "version_created",
- "artifact": "docs/STRATEGY.md",
- "version": "38bf1568",
- "parent": "b9e876e5",
+ "artifact": "docs/ARTIFACT_MODEL.md",
+ "version": "df3f8f11",
+ "parent": null,
  "author": {
-  "name": "Claude",
-  "kind": "agent",
-  "session": "armB-experiment"
+  "name": "chenmingtang830",
+  "kind": "human",
+  "session": null
  },
- "note": "2026-07-21 战略大修:定位迁移至 knowledge-artifact-native ledger,验证即护城河",
- "ts": "2026-07-21T17:42:49+00:00",
+ "note": "Scaffold OmniDocs: identity, strategy, artifact model, evolution record, competitive scan, interactive demo",
+ "ts": "2026-07-18T07:53:58-04:00",
  "stats": {
-  "modified": 7,
-  "added": 22
+  "added": 20
  },
  "changes": [
   {
-   "kind": "modified",
-   "block": "32f5d88f",
+   "kind": "added",
+   "block": "e45ff362",
    "type": "heading",
-   "context": "Proofpress 战略 — 2026-07-21 大修",
-   "numbers": [
-    [
-     "-18",
-     "-21"
-    ]
-   ]
-  },
-  {
-   "kind": "modified",
-   "block": "123e9f6d",
-   "type": "para",
-   "context": "一句话"
+   "context": "Artifact 模型 — 数据模型与语义 diff 设计(2026-07-18",
+   "preview": "# Artifact 模型 — 数据模型与语义 diff 设计(2026-07-18 讨论定稿)"
   },
   {
    "kind": "added",
-   "block": "5009b202",
+   "block": "f8b726f6",
    "type": "para",
-   "context": "一句话",
-   "preview": "Vision 锚点:**当 agent 产出速度超过人类审阅带宽,自述必须被机器验证,而不是被信任。** agent 十"
+   "context": "Artifact 模型 — 数据模型与语义 diff 设计(2026-07-18",
+   "preview": "内核原则:**版本化是物理定律,审批是政策。** 不管谁改(agent 或人),落下来都是版本链上一个带署名、带块级 d"
   },
   {
    "kind": "added",
-   "block": "f767893e",
+   "block": "21183b4f",
    "type": "heading",
-   "context": "账本的五样东西(git 结构上装不下的)",
-   "preview": "## 账本的五样东西(git 结构上装不下的)"
+   "context": "五个实体",
+   "preview": "## 五个实体"
   },
   {
    "kind": "added",
-   "block": "9ba218ce",
-   "type": "list",
-   "context": "账本的五样东西(git 结构上装不下的)",
-   "preview": "1. **稳定块身份**——跨版本追踪\"这一段\",评论有永久坐标(Kortix 建不起 comment 表的深层原因)。"
-  },
-  {
-   "kind": "added",
-   "block": "f80ed874",
-   "type": "heading",
-   "context": "四层 diff:价值重心前移,真对手是 LLM",
-   "preview": "## 四层 diff:价值重心前移,真对手是 LLM"
-  },
-  {
-   "kind": "added",
-   "block": "ff97cf07",
-   "type": "para",
-   "context": "四层 diff:价值重心前移,真对手是 LLM",
-   "preview": "第 1、2 层(结构/词级 diff)**将被 LLM 商品化**——任何人把两版 markdown 丢给 LLM 都能"
-  },
-  {
-   "kind": "modified",
-   "block": "da9e4405",
+   "block": "3aa25e88",
    "type": "table",
-   "context": "三层定位"
-  },
-  {
-   "kind": "modified",
-   "block": "2cc840df",
-   "type": "list",
-   "context": "为什么是账本(宏观论证)"
+   "context": "五个实体",
+   "preview": "| 实体 | 是什么 | 关键字段/约束 |\n|---|---|---|\n| **Artifact** | 交付物的稳定"
   },
   {
    "kind": "added",
-   "block": "af716ee3",
-   "type": "para",
-   "context": "判据与竞争(浓缩)",
-   "preview": "**vs code review agents**:它们审代码、给意见;我们审知识 artifact、给确定性校验。不同"
-  },
-  {
-   "kind": "modified",
-   "block": "2949a75e",
+   "block": "4be2cc62",
    "type": "heading",
-   "context": "三条价值曲线:Read / Verify / Feed"
+   "context": "块树(canonical 表示)",
+   "preview": "## 块树(canonical 表示)"
   },
   {
    "kind": "added",
-   "block": "ccab167e",
+   "block": "d65f8dbb",
    "type": "list",
-   "context": "三条价值曲线:Read / Verify / Feed",
-   "preview": "1. **Read(给人)**:语义 diff——入场券,商品化中。\n2. **Verify(给人)**:确定性验证 a"
-  },
-  {
-   "kind": "modified",
-   "block": "780f2e40",
-   "type": "para",
-   "context": "三条价值曲线:Read / Verify / Feed"
+   "context": "块树(canonical 表示)",
+   "preview": "- source of truth 是**带稳定 ID 的块树**(heading/para/list/table/fi"
   },
   {
    "kind": "added",
-   "block": "c04c675e",
+   "block": "4a4bc832",
    "type": "heading",
-   "context": "产品形态:一个引擎,三个发布面(一条依赖链)",
-   "preview": "## 产品形态:一个引擎,三个发布面(一条依赖链)"
+   "context": "语义 diff 四层",
+   "preview": "## 语义 diff 四层"
   },
   {
    "kind": "added",
-   "block": "c4a7549b",
+   "block": "f40fc00b",
    "type": "list",
-   "context": "产品形态:一个引擎,三个发布面(一条依赖链)",
-   "preview": "- **引擎**(唯一有真实逻辑):块树 + 稳定 ID + 四层语义 diff + claim 校验。\n- **CLI"
+   "context": "语义 diff 四层",
+   "preview": "1. **结构层**:块级 added/removed/**moved**/modified/split/merged("
   },
   {
    "kind": "added",
-   "block": "8dfb4506",
-   "type": "para",
-   "context": "产品形态:一个引擎,三个发布面(一条依赖链)",
-   "preview": "**本轮砍单(已拍板)**:独立审阅页(serve/localhost review page)整个砍掉——第一幕裁决复"
-  },
-  {
-   "kind": "added",
-   "block": "a8e3103c",
+   "block": "a065f979",
    "type": "heading",
-   "context": "三轨道与 backend 无关 spec(关键架构决定)",
-   "preview": "## 三轨道与 backend 无关 spec(关键架构决定)"
+   "context": "修订闭环",
+   "preview": "## 修订闭环"
   },
   {
    "kind": "added",
-   "block": "6f2b814b",
-   "type": "para",
-   "context": "三轨道与 backend 无关 spec(关键架构决定)",
-   "preview": "**账本 spec 必须 backend 无关**——事件/版本 schema 不许漏进 git-ism(不引用 com"
-  },
-  {
-   "kind": "added",
-   "block": "4013d65e",
+   "block": "64b8f9f5",
    "type": "list",
-   "context": "三轨道与 backend 无关 spec(关键架构决定)",
-   "preview": "1. **git ref**(开发者,第一幕):`refs/proofpress/ledger`,GitHub 免费当同"
+   "context": "修订闭环",
+   "preview": "- Request changes → 批注 + verdict 打成**结构化反馈包**(每条带块锚点)注入原会话,唤"
   },
   {
    "kind": "added",
-   "block": "bd2c440d",
-   "type": "para",
-   "context": "三轨道与 backend 无关 spec(关键架构决定)",
-   "preview": "git notes 方案已否决(commit 粒度 ≠ artifact/version 粒度)。"
-  },
-  {
-   "kind": "added",
-   "block": "2d2d13b3",
+   "block": "88d6768d",
    "type": "heading",
-   "context": "两幕张力(诚实版)",
-   "preview": "## 两幕张力(诚实版)"
+   "context": "人工编辑四机制",
+   "preview": "## 人工编辑四机制"
   },
   {
    "kind": "added",
-   "block": "ae8856c4",
-   "type": "para",
-   "context": "两幕张力(诚实版)",
-   "preview": "**第一幕人群有轨道没疼痛;第二幕人群有疼痛没轨道。**"
-  },
-  {
-   "kind": "added",
-   "block": "d60261e3",
+   "block": "e3a4d2ea",
    "type": "list",
-   "context": "两幕张力(诚实版)",
-   "preview": "- 第一幕(开发者/ADR/PRD/GitHub):裁决借 GitHub,是**带 kill criterion 的便宜"
-  },
-  {
-   "kind": "modified",
-   "block": "3e085d3e",
-   "type": "list",
-   "context": "GTM"
+   "context": "人工编辑四机制",
+   "preview": "1. **编辑会话折叠成微版本**:人的连续编辑按停顿/时间窗坍缩为一个 Version,自动发布,链上默认折叠显示。免"
   },
   {
    "kind": "added",
-   "block": "0291bfe2",
+   "block": "a7364866",
    "type": "heading",
-   "context": "Cloud 方向(exploratory,未拍板)",
-   "preview": "## Cloud 方向(exploratory,未拍板)"
+   "context": "死枝一等公民",
+   "preview": "## 死枝一等公民"
   },
   {
    "kind": "added",
-   "block": "c22d767a",
+   "block": "16e4b017",
    "type": "para",
-   "context": "Cloud 方向(exploratory,未拍板)",
-   "preview": "发散讨论,明确标注:以下均未拍板。"
+   "context": "死枝一等公民",
+   "preview": "closed/rejected 的 draft 与其 Review 永久留档、可回放——路不通是最贵的知识(\"为什么当初"
   },
   {
    "kind": "added",
-   "block": "93c84fd4",
-   "type": "list",
-   "context": "Cloud 方向(exploratory,未拍板)",
-   "preview": "- proofpress cloud = 同步 + 团队 + 审阅 UI(归档的审阅页图纸在此复活)+ **proof "
-  },
-  {
-   "kind": "added",
-   "block": "87f152de",
+   "block": "f6696aec",
    "type": "heading",
-   "context": "悬而未决(open)",
-   "preview": "## 悬而未决(open)"
+   "context": "审阅 UI 原则(2026-07-18 Richard 反馈)",
+   "preview": "## 审阅 UI 原则(2026-07-18 Richard 反馈)"
   },
   {
    "kind": "added",
-   "block": "29bc8360",
+   "block": "69a1634c",
+   "type": "para",
+   "context": "审阅 UI 原则(2026-07-18 Richard 反馈)",
+   "preview": "变更摘要不做独立 tab:**Draft n 视图 = 顶部结构化摘要 + 正文全文,块级更新在块旁/右侧栏/hover"
+  },
+  {
+   "kind": "added",
+   "block": "01cd0ff0",
+   "type": "heading",
+   "context": "M0 范围(收缩定稿)",
+   "preview": "## M0 范围(收缩定稿)"
+  },
+  {
+   "kind": "added",
+   "block": "38e39942",
+   "type": "para",
+   "context": "M0 范围(收缩定稿)",
+   "preview": "markdown 交付物的完整闭环——块树、语义 diff(结构+块内+表格/数字)、锚定批注、反馈包回流、resolu"
+  },
+  {
+   "kind": "added",
+   "block": "3499bb85",
+   "type": "heading",
+   "context": "开放问题",
+   "preview": "## 开放问题"
+  },
+  {
+   "kind": "added",
+   "block": "120cd651",
    "type": "list",
-   "context": "悬而未决(open)",
-   "preview": "- \"Draft → Review → Approve, **for agents**\"词表:占领策略不变,但 CLI/"
+   "context": "开放问题",
+   "preview": "1. **与 git 仓库的关系**(下一次讨论核心):开发者的文档已住在 git 里,omnidocs 账本放\"旁边\""
   }
  ],
- "claims": [
-  {
-   "block": "32f5d88f",
-   "kind": "modified",
-   "note": "标题日期 2026-07-18 定稿 → 2026-07-21 大修"
-  },
-  {
-   "block": "465926d0",
-   "kind": "unchanged",
-   "note": "## 一句话 标题原样"
-  },
-  {
-   "block": "123e9f6d",
-   "kind": "modified",
-   "note": "定位段整段重写:记账→knowledge-artifact-native ledger,新 value prop;命名历史句原样保留在段内"
-  },
-  {
-   "block": "5009b202",
-   "kind": "added",
-   "note": "Vision 锚点:自述必须被机器验证"
-  },
-  {
-   "block": "f767893e",
-   "kind": "added",
-   "note": "新节标题:账本的五样东西"
-  },
-  {
-   "block": "9ba218ce",
-   "kind": "added",
-   "note": "五样东西清单(块身份/artifact 身份/可验证自述/溯源/死枝)"
-  },
-  {
-   "block": "f80ed874",
-   "kind": "added",
-   "note": "新节标题:四层 diff 价值重心前移"
-  },
-  {
-   "block": "ff97cf07",
-   "kind": "added",
-   "note": "read 层商品化、verify 层定价点、真对手是 LLM"
-  },
-  {
-   "block": "3574479e",
-   "kind": "unchanged",
-   "note": "## 三层定位 标题原样"
-  },
-  {
-   "block": "da9e4405",
-   "kind": "modified",
-   "note": "内核行加 claim 校验、KPI 改为验证层品质;引擎行加存疑问号"
-  },
-  {
-   "block": "6c91ce22",
-   "kind": "unchanged"
-  },
-  {
-   "block": "2cc840df",
-   "kind": "modified",
-   "note": "第 3 点更新:read 层也在被 LLM 商品化,护城河改为 artifact 模型 + 确定性验证"
-  },
-  {
-   "block": "55cd170d",
-   "kind": "unchanged"
-  },
-  {
-   "block": "51246324",
-   "kind": "unchanged"
-  },
-  {
-   "block": "0a640234",
-   "kind": "unchanged",
-   "note": "四 bucket 判据表原样保留"
-  },
-  {
-   "block": "56af2590",
-   "kind": "unchanged"
-  },
-  {
-   "block": "871cbb4f",
-   "kind": "unchanged"
-  },
-  {
-   "block": "76687abf",
-   "kind": "unchanged"
-  },
-  {
-   "block": "930c798c",
-   "kind": "unchanged"
-  },
-  {
-   "block": "af716ee3",
-   "kind": "added",
-   "note": "新增 vs code review agents 段"
-  },
-  {
-   "block": "2949a75e",
-   "kind": "modified",
-   "note": "标题改写:第二价值曲线:组织记忆 → 三条价值曲线 Read/Verify/Feed"
-  },
-  {
-   "block": "ccab167e",
-   "kind": "added",
-   "note": "三曲线清单(含 Feed 五个子项)"
-  },
-  {
-   "block": "780f2e40",
-   "kind": "modified",
-   "note": "组织记忆段重写并入 Feed;数据飞轮与死枝论点保留"
-  },
-  {
-   "block": "c04c675e",
-   "kind": "added",
-   "note": "新节标题:一个引擎三个发布面"
-  },
-  {
-   "block": "c4a7549b",
-   "kind": "added",
-   "note": "引擎/CLI/Action/Skill/回填 ingestion 清单"
-  },
-  {
-   "block": "8dfb4506",
-   "kind": "added",
-   "note": "本轮砍单:审阅页、approve/comment/inbox、pip install 表述"
-  },
-  {
-   "block": "a8e3103c",
-   "kind": "added",
-   "note": "新节标题:三轨道与 backend 无关 spec"
-  },
-  {
-   "block": "6f2b814b",
-   "kind": "added",
-   "note": "spec 不许漏进 git-ism"
-  },
-  {
-   "block": "4013d65e",
-   "kind": "added",
-   "note": "三轨道清单"
-  },
-  {
-   "block": "bd2c440d",
-   "kind": "added",
-   "note": "git notes 方案否决"
-  },
-  {
-   "block": "2d2d13b3",
-   "kind": "added",
-   "note": "新节标题:两幕张力"
-  },
-  {
-   "block": "ae8856c4",
-   "kind": "added",
-   "note": "有轨道没疼痛 / 有疼痛没轨道"
-  },
-  {
-   "block": "d60261e3",
-   "kind": "added",
-   "note": "两幕定性 + 待办第一位"
-  },
-  {
-   "block": "3d7787a7",
-   "kind": "unchanged",
-   "note": "## GTM 标题原样"
-  },
-  {
-   "block": "3e085d3e",
-   "kind": "modified",
-   "note": "删 pip install 与 localhost 审阅页表述;skill 动机改能力升级;获客画面加验证 ✓;其余条目论点保留"
-  },
-  {
-   "block": "0291bfe2",
-   "kind": "added",
-   "note": "新节标题:Cloud 方向(exploratory,未拍板)"
-  },
-  {
-   "block": "c22d767a",
-   "kind": "added",
-   "note": "未拍板声明"
-  },
-  {
-   "block": "93c84fd4",
-   "kind": "added",
-   "note": "proof link、cryptographically verifiable、类比压测、why-now 硬柱"
-  },
-  {
-   "block": "c439d387",
-   "kind": "unchanged"
-  },
-  {
-   "block": "734e4e5b",
-   "kind": "unchanged",
-   "note": "仪式税段原样保留"
-  },
-  {
-   "block": "87f152de",
-   "kind": "added",
-   "note": "新节标题:悬而未决(open)"
-  },
-  {
-   "block": "29bc8360",
-   "kind": "added",
-   "note": "for agents 前缀 / omnigent 存疑 / claim schema 三个 open 项"
-  },
-  {
-   "block": "d7f6622d",
-   "kind": "unchanged",
-   "note": "威胁标题含 07-18 快照日期,原样保留"
-  },
-  {
-   "block": "57f35ec4",
-   "kind": "unchanged",
-   "note": "四条威胁清单原样"
-  },
-  {
-   "block": "0bedacee",
-   "kind": "unchanged"
-  }
- ]
+ "source_commit": "5756ca97d42fb6ed9c9db75e38ad7f49a2b3aadc"
 }

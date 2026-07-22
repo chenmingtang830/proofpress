@@ -1,275 +1,125 @@
 {
- "artifact": "docs/STRATEGY.md",
+ "artifact": "docs/ARTIFACT_MODEL.md",
  "blocks": [
   {
    "type": "heading",
-   "text": "# Proofpress 战略 — 2026-07-21 大修",
-   "id": "32f5d88f",
-   "hash": "4f131215df22"
-  },
-  {
-   "type": "heading",
-   "text": "## 一句话",
-   "id": "465926d0",
-   "hash": "bf11a4c5cc1d"
+   "text": "# Artifact 模型 — 数据模型与语义 diff 设计(2026-07-18 讨论定稿)",
+   "hash": "a4ef6bc576dd",
+   "id": "e45ff362"
   },
   {
    "type": "para",
-   "text": "**Proofpress = knowledge-artifact-native 的版本账本。** git 版本化文件和行;我们版本化交付物(artifact)——块身份、语义变化、来源会话、以及 agent 自述是否属实。git 是存储与传输层(语义模型是我们的,分发网络是 git 的,jj 姿态)。旧一句话\"我们为 agent 的产出记账\"废弃:**\"记账\"不再是价值主张——git 免费做了十几年,记账本身不值钱。** 对外 value prop:**\"git 记了账,但它的账本里没有'这份文档'这个对象,读不懂散文的改动,也验不了 agent 说的话。我们的账本原生就是为 agent 产出的知识工作建的。\"** 品牌词汇不变:agent 交的每一版 draft 是一张 **proof**(校样);人 mark up、sign off、send to press。(命名 2026-07-19 定稿,弃 OmniDocs:GitHub 同名 141★ 同赛道项目 + Newgen OmniDocs 商标风险;弃 Ink/Inkledger:npm ink 39k★ + Kraken Ink L2 crypto 歧义。)",
-   "id": "123e9f6d",
-   "hash": "46458fed07f8"
-  },
-  {
-   "type": "para",
-   "text": "Vision 锚点:**当 agent 产出速度超过人类审阅带宽,自述必须被机器验证,而不是被信任。** agent 十分钟产出人一周的量;git/PR 文化的前提\"一个人认真写、一个人认真看\"在 agent 规模下崩塌。",
-   "id": "5009b202",
-   "hash": "93b803188d31"
+   "text": "内核原则:**版本化是物理定律,审批是政策。** 不管谁改(agent 或人),落下来都是版本链上一个带署名、带块级 diff 的 Version;审批门是政策对象,默认 agent 必过、人免审。",
+   "hash": "b0fd305e9ed8",
+   "id": "f8b726f6"
   },
   {
    "type": "heading",
-   "text": "## 账本的五样东西(git 结构上装不下的)",
-   "id": "f767893e",
-   "hash": "af7d3773ce2d"
-  },
-  {
-   "type": "list",
-   "text": "1. **稳定块身份**——跨版本追踪\"这一段\",评论有永久坐标(Kortix 建不起 comment 表的深层原因)。\n2. **artifact 身份**——独立于文件路径的交付物对象,带版本链和状态。\n3. **可验证自述**——agent 按结构化 schema 声明每块改动,引擎用计算出的树 diff 逐条核对,✓ verified / ⚠ mismatch。**这是确定性数据比对,不是第二个 AI 的意见**——可复现、同输入同答案、说服不动、换更强的模型也吃不掉。\n4. **块级溯源**——变更块链回会话轮次。\n5. **死枝一等公民**——被否 draft 永久留档。",
-   "id": "9ba218ce",
-   "hash": "4e60c8bec9bc"
-  },
-  {
-   "type": "heading",
-   "text": "## 四层 diff:价值重心前移,真对手是 LLM",
-   "id": "f80ed874",
-   "hash": "1317be292de2"
-  },
-  {
-   "type": "para",
-   "text": "第 1、2 层(结构/词级 diff)**将被 LLM 商品化**——任何人把两版 markdown 丢给 LLM 都能得到不错的语义 diff。这两层是入场券,不是定价点。**第 3、4 层(验证 + 溯源)是定价点。** 新识别的真对手是 **LLM 本身**(不是 git):它吃掉 read 层,吃不掉 verify 层——LLM/code review agent 给的是概率性意见,我们给的是 deterministic gate。在审计/门禁语境,\"用一个 AI 查另一个 AI\"是循环论证。",
-   "id": "ff97cf07",
-   "hash": "100d488f717b"
-  },
-  {
-   "type": "heading",
-   "text": "## 三层定位",
-   "id": "3574479e",
-   "hash": "9a95ca07fcbb"
+   "text": "## 五个实体",
+   "hash": "85c56b08eb72",
+   "id": "21183b4f"
   },
   {
    "type": "table",
-   "text": "| 层 | 是什么 | 纪律 |\n|---|---|---|\n| 形态 | agent-native 文档工具 — 用户打开的是一份文档,不是控制台 | 不做更好的编辑器;编辑器够用即可 |\n| 内核 | proof ledger(块树 + 版本链 + 语义 diff + claim 校验 + 溯源)— 构成性数据模型,唯一护城河 | 资源永远优先投这里;验证层品质是唯一 KPI |\n| 引擎 | omnigent 会话层 — 多 harness、用户不可见(?本轮未讨论,是否仍准确存疑) | AI 永不内置;账本对生产者中立 |",
-   "id": "da9e4405",
-   "hash": "5f8aa8323616"
+   "text": "| 实体 | 是什么 | 关键字段/约束 |\n|---|---|---|\n| **Artifact** | 交付物的稳定身份,独立于会话与文件路径 | artifact_id, project, type(doc;将来 deck 等), 当前 published 版本 |\n| **Version** | 不可变内容快照(用户词汇:Draft n) | parent_version_id, content(块树), author(agent session 或人), status: draft/published/superseded/**closed(死枝,永不删除)**, 自述 changelog |\n| **Review** | 对\"从版本 A 到版本 B\"的一次裁决 | target versions, status: open/approved/changes_requested/closed, 审批策略引用(如双人过审、agent 无权 publish 自己的提交) |\n| **Comment** | 锚定到块的反馈,带闭环 | block_id 锚点(+可选文本范围), thread, **resolved_by**(由修订版的 changelog 声明 + 计算 diff 双重确认) |\n| **SessionLink** | 版本/审阅 ↔ (harness, session_id, turn 范围) 的引用 | 引用不绑定——多 harness 中立钉死在数据层 |",
+   "hash": "538bea4e29c9",
+   "id": "3aa25e88"
   },
   {
    "type": "heading",
-   "text": "## 为什么是账本(宏观论证)",
-   "id": "6c91ce22",
-   "hash": "7fd32b22e89e"
+   "text": "## 块树(canonical 表示)",
+   "hash": "ad27bf1e488d",
+   "id": "4be2cc62"
   },
   {
    "type": "list",
-   "text": "1. **数据模型决定品类归属**:git→GitHub、块→Notion、scene graph→Figma。工具可抄、流程趋同,数据模型抄不动——抄它等于推翻自己的存量(Kortix 之于 git、Google 之于 Docs、微软之于 OOXML,同一个 innovator's dilemma)。\n2. **\"agent 生产、人审阅\"是生产关系反转,反转要求新账本**。三问是记账要求,不是 feature:改了什么(语义的)/为什么改(会话依据)/意见闭环了吗(resolution)。\n3. **唯一有资格赢的战场**:壳(Kortix 三个月抄完)、编排(ruflo/AO 互卷)、调度(lobehub 80k stars)、记录(Plane/AppFlowy 存量百倍)全在商品化;连语义 diff 的 read 层也在被 LLM 商品化。artifact 模型 + 确定性验证是没人占、对手结构性不愿进、LLM 也吃不掉的格子。\n4. **对 Anthropic 的对冲**:账本中立 → agent 越强、写入越多,与模型进步是顺风关系。",
-   "id": "2cc840df",
-   "hash": "d376b708cc94"
+   "text": "- source of truth 是**带稳定 ID 的块树**(heading/para/list/table/figure…),存储层持有;markdown 是给 agent 编辑的**投影**。\n- 序列化给 agent 时块 ID 以不可见锚点携带(`<!-- ob:xxxx -->`);ingest 时按锚点对齐,锚点丢失退回相似度匹配(锚点为主、匹配兜底;接受少量块身份断裂表现为 delete+add)。\n- 人的编辑走我们的块树原生编辑器,天然保持 ID 稳定——锚点丢失问题只存在于 markdown 序列化边界。\n- 一旦有稳定块 ID:语义 diff 变成树 diff;批注有永久坐标(Kortix 建不起 comment 表的深层原因就是 git patch 无稳定坐标);\"这条意见被哪个改动解决\"可精确回答。",
+   "hash": "1106d571e895",
+   "id": "d65f8dbb"
   },
   {
    "type": "heading",
-   "text": "## 判据与竞争(浓缩)",
-   "id": "55cd170d",
-   "hash": "d1de11331567"
-  },
-  {
-   "type": "para",
-   "text": "**一刀切开四个 bucket:当工作\"已提出、未接受\"时,系统里握着什么对象?**",
-   "id": "51246324",
-   "hash": "2c5e2b2d45cb"
-  },
-  {
-   "type": "table",
-   "text": "| | source of truth | \"已提出未接受\"时握着什么 |\n|---|---|---|\n| 通用 agent 工作台(lobehub/CowAgent) | 会话日志 | 什么都没有——又一条消息,交付物是会话的排泄物 |\n| 编码编排(Kortix/AO,git) | repo/branch | 行集合的分支——\"移动一节、改一句\"在 patch 里不存在,批注无处锚 |\n| 记录系统(Notion 系/Plane) | 可变行 / CRDT | 什么都没有——一落笔即成既成事实,没有\"待接受\"可居住的地方 |\n| 工作流引擎(Dify/n8n) | DAG 执行记录 | 暂停的执行——批的是流程通行权,不是内容 |\n| **Proofpress** | **块树 + 不可变版本链** | **一个 Draft:块级身份、语义 diff、逐条批注、会话溯源、等一个 verdict 的一等公民** |",
-   "id": "0a640234",
-   "hash": "87efd6d8a0d6"
-  },
-  {
-   "type": "para",
-   "text": "**构成性 vs 描述性**:Work Graph(Asana/Atlassian)是关于工作的元数据——描述性,可重建,不产生新动词,永远不 consequential。Notion 块 / Figma scene graph / Gamma 卡片流是工作本身的构成模型——新能力从原语里长出来。我们产品里 board、收件箱是描述性的(取景器);构成性的只有账本(底片)。",
-   "id": "56af2590",
-   "hash": "8e9d5636e615"
-  },
-  {
-   "type": "para",
-   "text": "**vs Word+Copilot / Docs+Gemini**:他们是 AI 在人的循环里(字符级修订,为人的键击设计,agent 尺度的改动量在其中不可审);我们是人在 agent 的循环里(accept 单位是一版交付物,不是一次编辑)。五条结构差:无草稿对象/无溯源/无修订闭环/agent 钦定/结构上不能反转。",
-   "id": "871cbb4f",
-   "hash": "35d71a640c23"
-  },
-  {
-   "type": "para",
-   "text": "**vs Gamma**:Gamma 重定义 artifact 的格式(为 AI 生成,AI 内置);我们重定义 artifact 的演化(为 AI 修订 + 人审,AI 可插拔)。内置 AI = 变成没分发的 Word+Copilot + 对冲失效 + 竞争维度变成生成质量(模型的本事,我们不拥有)。",
-   "id": "76687abf",
-   "hash": "3c641e100d35"
-  },
-  {
-   "type": "para",
-   "text": "**同步 vs 异步(用户亲测三连提炼)**:现有产品全是同步微观审批——守在旁边、逐编辑裁决、阅后即焚(Cursor/Copilot/Notion agent)。那是结对。委托需要异步交付物审阅——事后审一版、带记忆、可回滚、可留档。撑起它的全部技术含量 = 账本。",
-   "id": "930c798c",
-   "hash": "3373fdc57566"
-  },
-  {
-   "type": "para",
-   "text": "**vs code review agents**:它们审代码、给意见;我们审知识 artifact、给确定性校验。不同赛道——概率性意见与 deterministic gate 之别,同\"真对手是 LLM\"一节。",
-   "id": "af716ee3",
-   "hash": "288348681967"
-  },
-  {
-   "type": "heading",
-   "text": "## 三条价值曲线:Read / Verify / Feed",
-   "id": "2949a75e",
-   "hash": "8ef87b2c9f89"
+   "text": "## 语义 diff 四层",
+   "hash": "b9e6e1e93618",
+   "id": "4a4bc832"
   },
   {
    "type": "list",
-   "text": "1. **Read(给人)**:语义 diff——入场券,商品化中。\n2. **Verify(给人)**:确定性验证 agent 自述——信任闸门,人类侧护城河。第一曲线的信任钩子仍在:审 agent 的产出,三周后 CFO 可自答。\n3. **Feed(给 agent,新增)**:账本作为 agent 的结构化记忆 = context engineering——\n   - 续作压缩:diff 摘要替代重读全文/重放会话史,几百 token 替代几万(可测);\n   - 死枝当负约束:agent 不再重提被否方案(组织记忆的第一变现形态是喂 agent,不是给人看的视图);\n   - rebase 反馈包:\"base 已变\"结构化事件回注会话;\n   - 多 agent common ground:块级账本是冲突检测层;\n   - **分发后果:skill 采用动机从\"治理税\"翻转为\"能力升级\"**——harness 厂商自己想要。",
-   "id": "ccab167e",
-   "hash": "45ff5f693a7f"
-  },
-  {
-   "type": "para",
-   "text": "旧\"第二曲线:组织记忆\"并入 Feed。论点保留:文档存结论、聊天存推理,账本给两者建外键;版本链 + 死枝(被否 draft 及其理由,一等公民、永不删除)+ resolution = 决策的完整思想史。对人是 onboarding/复盘/审计;对 agent 是去噪、被验证的压缩上下文——**artifact 历史越厚,其上工作的 agent 越聪明(数据飞轮)**。探索(画布/会话树)是沉淀(版本链)的溯源:发散的树住在溯源层,收敛的链是文档本身。",
-   "id": "780f2e40",
-   "hash": "0331789e1da0"
+   "text": "1. **结构层**:块级 added/removed/**moved**/modified/split/merged(move 靠内容相似度,块级的 `git -M`)。\n2. **块内层**:词级 diff;表格按行列/单元格;**数字抽数值差**(\"$1.2M → $0.9M, −25%\")——数字变动是审阅最高危信号,必须置顶,行 diff 里它和错别字长得一样。\n3. **叙事层(agent-native,git 结构上做不到)**:submit-for-review skill 要求修订会话提交时输出结构化 changelog(\"重写第 3 节以回应批注 #1\"),**由计算出的树 diff 校验**——agent 说\"仅调序未改文\",树 diff 确认块 hash 未变才敢标\"内容未变\"。diff 不只是算出来的,是创作时自带叙述、事后被验证的。\n4. **溯源层(session-native 的本义)**:每个变更块链回会话轮次/工具调用。审阅时\"为什么改成这样\"→ 展开 agent 当时的依据(如 turn 62 的弹性测算)。会话不是产物的垃圾场,是产物的证据链。",
+   "hash": "1800a1ce43d5",
+   "id": "f40fc00b"
   },
   {
    "type": "heading",
-   "text": "## 产品形态:一个引擎,三个发布面(一条依赖链)",
-   "id": "c04c675e",
-   "hash": "3de65fa4d52c"
+   "text": "## 修订闭环",
+   "hash": "a2c7ef57bf0b",
+   "id": "a065f979"
   },
   {
    "type": "list",
-   "text": "- **引擎**(唯一有真实逻辑):块树 + 稳定 ID + 四层语义 diff + claim 校验。\n- **CLI** `git proofpress`:单文件零依赖,`log/diff/show/verify`;默认彩色人读渲染,`--json` 给程序;isatty/NO_COLOR 自动降级。任何 git 仓库零门槛直接跑(语义 diff 可从两个 git blob 现算,不需要预先建账本——零门槛试用入口)。\n- **GitHub Action**:CI 里 headless 跑 CLI(--json),把语义 diff + 验证徽章贴成 PR 评论;团队一人配一次,其他人零安装。\n- **Skill**:vendor CLI + 教 agent 收尾按 schema 吐结构化 claim——激活 Verify 层的钥匙。\n- Action 和 Skill 都是\"CLI + 胶水\",没有第二份逻辑;CLI 可单独先发。\n- **git-history 回填 ingestion**:不装任何东西的 teammate 正常 commit,每个 commit 被 ingest 成账本版本(author/时间从 commit 取)。一人装,全队历史不丢。",
-   "id": "c4a7549b",
-   "hash": "3637f229cf3f"
-  },
-  {
-   "type": "para",
-   "text": "**本轮砍单(已拍板)**:独立审阅页(serve/localhost review page)整个砍掉——第一幕裁决复用 GitHub 原生 Merge/Review;已有代码/设计归档为第二幕/cloud 的 UI 图纸(块锚定评论、resolved_by、结构化反馈包设计不变,只是移到付费层)。CLI 砍 `approve`(默认免审,安静即批准)、`comment`(反馈走聊天与 PR 评论原生通道)、`inbox`(依附 comment)。`pip install proofpress` 表述废弃(此前已定):分发 = skill vendor 单文件 + git 子命令。",
-   "id": "8dfb4506",
-   "hash": "8a5187d25bf6"
+   "text": "- Request changes → 批注 + verdict 打成**结构化反馈包**(每条带块锚点)注入原会话,唤醒沉睡沙箱,agent 带全部上下文修订。\n- 新 Version 到达 → 每条 Comment 自动标 resolved_by(声明 + diff 双确认);reviewer 第二轮只看\"三条意见,两条已解决、一条 agent 说不改并给了理由\"。\n- 版本拓扑:**线性 published 链 + 并发在途 draft**。先批的落地;其余 draft 的会话收到\"base 已变\"反馈包,**agent 自己 rebase**——docs-as-code 死于人付合并仪式税,我们让 agent 付。已批准区域可设\"任何作者触碰即触发审\"的政策护栏。",
+   "hash": "aba4668b17af",
+   "id": "64b8f9f5"
   },
   {
    "type": "heading",
-   "text": "## 三轨道与 backend 无关 spec(关键架构决定)",
-   "id": "a8e3103c",
-   "hash": "474363c88a5a"
-  },
-  {
-   "type": "para",
-   "text": "**账本 spec 必须 backend 无关**——事件/版本 schema 不许漏进 git-ism(不引用 commit SHA 作身份、不依赖 ref 语义)。三轨道,同一套 spec:",
-   "id": "6f2b814b",
-   "hash": "877fc22c2cf8"
+   "text": "## 人工编辑四机制",
+   "hash": "ca7cd2d7a4b5",
+   "id": "88d6768d"
   },
   {
    "type": "list",
-   "text": "1. **git ref**(开发者,第一幕):`refs/proofpress/ledger`,GitHub 免费当同步/备份;\n2. **本地**(单人 knowledge worker):skill + 本地账本,零 git 已可行;\n3. **服务器**(团队,付费层):对 knowledge work 人群,服务器不是\"团队功能\",是账本唯一的家。",
-   "id": "4013d65e",
-   "hash": "b255bf3e1bef"
+   "text": "1. **编辑会话折叠成微版本**:人的连续编辑按停顿/时间窗坍缩为一个 Version,自动发布,链上默认折叠显示。免的是审批门,躲不开记账。\n2. **政策可收紧**:财务类/非 owner 的人工编辑可要求过审——走与 agent 完全相同的 Review 通道。\n3. **人改 agent 在途 draft**:允许(如 PR reviewer 直接 push);编辑作为事件**回灌 agent 会话**,否则 agent 脑中文档与真实分叉,下轮会盖掉人的手笔。账本是 agent 与人双向的 common ground:人审 agent 的 diff,agent 也读\"你睡着之后人类改了什么\"。\n4. **实时 CRDT 共笔明确不做(v1)**:编辑层是 Google Docs 主场。块级软锁 + 版本链兜底(撞了后写成新版本,diff 可见,永不丢字)。",
+   "hash": "8f24b5671c84",
+   "id": "e3a4d2ea"
+  },
+  {
+   "type": "heading",
+   "text": "## 死枝一等公民",
+   "hash": "a3d226e7ccfa",
+   "id": "a7364866"
   },
   {
    "type": "para",
-   "text": "git notes 方案已否决(commit 粒度 ≠ artifact/version 粒度)。",
-   "id": "bd2c440d",
-   "hash": "566cba48d9f8"
+   "text": "closed/rejected 的 draft 与其 Review 永久留档、可回放——路不通是最贵的知识(\"为什么当初否了 A 方案\"直接可查)。这是第二价值曲线(组织记忆/思维演进视图)的地基,M0 只需 schema 上不删,不做任何专门视图(视图是取景器,什么时候都能长出来)。",
+   "hash": "5cfc80114804",
+   "id": "16e4b017"
   },
   {
    "type": "heading",
-   "text": "## 两幕张力(诚实版)",
-   "id": "2d2d13b3",
-   "hash": "15f8e988ea4a"
+   "text": "## 审阅 UI 原则(2026-07-18 Richard 反馈)",
+   "hash": "3723f7d5d8c7",
+   "id": "f6696aec"
   },
   {
    "type": "para",
-   "text": "**第一幕人群有轨道没疼痛;第二幕人群有疼痛没轨道。**",
-   "id": "ae8856c4",
-   "hash": "a4d561fc8dac"
-  },
-  {
-   "type": "list",
-   "text": "- 第一幕(开发者/ADR/PRD/GitHub):裁决借 GitHub,是**带 kill criterion 的便宜实验 + 引擎硬化场 + 词表占领**,不是公司成败所系。第一幕失败只证明\"开发者不疼\",不证明\"账本没价值\"。\n- 第二幕(PM/法务/合规审 deck/合同/分析):挂载点是 **agent harness,不是 git**(呼应产品从 OmniCowork 语境长出;OmniCowork 红线\"想加审阅流 = 接账本的信号\"不变)。**确定性审计对受监管场景是刚需而非维生素——第二幕分量上调。**\n- 待办第一位:带着\"确定性审证 agent 改动\"这一个卖点去撞真实用户,证实/证伪第一幕疼痛。",
-   "id": "d60261e3",
-   "hash": "719e363f46f3"
+   "text": "变更摘要不做独立 tab:**Draft n 视图 = 顶部结构化摘要 + 正文全文,块级更新在块旁/右侧栏/hover 呈现**。正文保持干净可读,变更以边注形式共存。",
+   "hash": "e234fba73968",
+   "id": "69a1634c"
   },
   {
    "type": "heading",
-   "text": "## GTM",
-   "id": "3d7787a7",
-   "hash": "e0b9c55f527f"
-  },
-  {
-   "type": "list",
-   "text": "- **分发 = skill,不是目的地**。skill vendor 单文件 + git 子命令,各 harness 的 submit-for-review / revise-from-feedback skill。没有\"迁移\",只有\"装了个东西之后产出突然有了版本\"。多 harness 中立从防御定位变成进攻渠道:对手的安装量 = 我们的分发面;Kortix(自有 runtime)和 Anthropic(自家 agent)结构上无法跟进。skill 采用动机走 Feed 曲线的\"能力升级\",不是治理税。\n- **种子人群 = 用 coding agent 写文档的开发者**(第一幕实验)。分发走 coding 渠道,artifact 是**代码周围的非代码文档**(ADR/design doc/PRD/README/博客)。开发者三重合适:agent 已装好、draft/review/approve 心智免教育、痛是现成的(散文被当行 diff 审)。获客画面:同一份 design doc 改动,git 给 200 行红绿,Proofpress 给\"一节 moved + 一段 rewritten + 两个数字 Δ + agent 自述逐条 ✓\"。\n- **红线:永不碰代码文件的版本化**——那是 git 的地盘,Bucket 2 的坟场。每个 feature 过检:服务\"代码周围的文档\",还是滑向\"代码本身\"?后者砍。\n- **法律合同 = 第二幕垂直**:价值判断成立(唯一以 redline 为母语的领域)但三个结构障碍——DOCX 格式墙(对手方在 Word 里)、生产关系不匹配(律师主笔 = \"人写 AI 助\"框架)、垂直吃横向。等 DOCX skill 就绪、横向被验证后进入;确定性审计的刚需属性使其分量随第二幕同步上调。\n- **商业 = git 模型**:proof ledger + 单机 Proofpress 全功能免费开源,格式即公开 spec(锁格式的账本没人敢往里记账);团队服务器(多人审阅、策略门、SSO、托管)收钱 = 第二幕团队产品(GitHub 时刻)。\n- **词表**:对外 Draft / Review / Approve, for agents(抢先公开占领;Kortix 占了 \"change request\" 开发者/git 框架,lobehub 占了 \"hiring/reporting\" HR 框架,知识工作框架无人认领)。\"git for knowledge work\" 只对开发者深度内容用——对种子人群是高效压缩,对其他人是黑话。\n- **launch 叙事资产**:一份真实文档(如本 STRATEGY.md)的演进史 showcase——每一版为什么改、哪些方案被否、否的理由。没有竞品能做出这张页面。**现在正在自举实现(本文档已过账本)。**",
-   "id": "3e085d3e",
-   "hash": "38c5eb4531fc"
-  },
-  {
-   "type": "heading",
-   "text": "## Cloud 方向(exploratory,未拍板)",
-   "id": "0291bfe2",
-   "hash": "c5f3e4e6dcda"
+   "text": "## M0 范围(收缩定稿)",
+   "hash": "5eeb01067015",
+   "id": "01cd0ff0"
   },
   {
    "type": "para",
-   "text": "发散讨论,明确标注:以下均未拍板。",
-   "id": "c22d767a",
-   "hash": "9184000eb801"
-  },
-  {
-   "type": "list",
-   "text": "- proofpress cloud = 同步 + 团队 + 审阅 UI(归档的审阅页图纸在此复活)+ **proof link**:可分享的验证结果 URL(\"这份合同 v7,agent 声明的改动已全部核对 ✓\"),发给老板/客户/审计员——验证从个人工具变成组织货币。\n- 性质要词不要:**\"cryptographically verifiable history\"**(tamper-evident hash 链 + 签名时间戳),不说 blockchain(分布式共识解决多方互不信任共写,我们的账本单主体,不需要)。\n- \"knowledge work 的 GitHub\"类比压测:私有账本网络效应弱一档;终局 = 团队内 GitHub + schema 标准之争(格式即协议)。\n- 开源 spec 是 cloud 被信任的前提(git 格式公开 GitHub 才敢被托付)。\n- why-now 硬柱:docs-as-code 死于人不肯付仪式税,**agent 付仪式税零边际成本**——\"零 maintenance\"第一次物理上成立。",
-   "id": "93c84fd4",
-   "hash": "aa9ed7feb7eb"
+   "text": "markdown 交付物的完整闭环——块树、语义 diff(结构+块内+表格/数字)、锚定批注、反馈包回流、resolution 追踪——品质标准\"给人看的\"。**Deck、xlsx、Office 全部推迟**(deck=slide 作顶层块,进模型是加 adapter 不是改模型;xlsx 的 diff 语义是另一门学科)。Schema 不写死文档性(Artifact.type 留好)。**永不版本化代码文件。**",
+   "hash": "ba72fd8fdb37",
+   "id": "38e39942"
   },
   {
    "type": "heading",
-   "text": "## 北极星的免疫接种",
-   "id": "c439d387",
-   "hash": "e4de0d4e67cf"
-  },
-  {
-   "type": "para",
-   "text": "\"X 的 git\" 是创业坟场最挤的墓志铭(git for data/design/docs 皆有尸体),死因清一色:**要求人类付 git 的仪式税**。我们的 why-now 是把税转嫁给 agent——提交、叙述、rebase、conflict 全部 agent 付,人只裁决。任何让人类多付一分仪式税的设计,都是在重走死路。",
-   "id": "734e4e5b",
-   "hash": "5ccc6d06aff4"
-  },
-  {
-   "type": "heading",
-   "text": "## 悬而未决(open)",
-   "id": "87f152de",
-   "hash": "5a7cb239a07d"
+   "text": "## 开放问题",
+   "hash": "0c0ed6213e40",
+   "id": "3499bb85"
   },
   {
    "type": "list",
-   "text": "- \"Draft → Review → Approve, **for agents**\"词表:占领策略不变,但 CLI/Action 对非 agent 用户也成立,\"for agents\"前缀收不收未拍板。\n- 三层定位表里\"引擎 = omnigent 会话层\"是否还准确——本轮未讨论,保留原文加问号。\n- claim schema 具体设计(字段/产出/比对)——引擎唯一无代码雏形的核心件。",
-   "id": "29bc8360",
-   "hash": "88939e2fd79f"
-  },
-  {
-   "type": "heading",
-   "text": "## 威胁与对策(2026-07-18 快照)",
-   "id": "d7f6622d",
-   "hash": "8c3c62880ef5"
-  },
-  {
-   "type": "list",
-   "text": "1. Anthropic 做 multiplayer/versioned Cowork — 结构对冲:开源 + 任何 agent + 自托管,永不交易。\n2. Kortix — 壳 + 回流已 shipped;缺 artifact 模型/语义 diff 且逆其结构。外部时钟,按月盯。\n3. lobehub 加 review loop — 高概率;靠速度 + 词表抢占。\n4. Plane — 已在执行(任务侧);做它想集成而非自建的 artifact 层。",
-   "id": "57f35ec4",
-   "hash": "7a0800286ca7"
-  },
-  {
-   "type": "para",
-   "text": "详见 [COMPETITIVE.md](COMPETITIVE.md)。",
-   "id": "0bedacee",
-   "hash": "06ef772fbdd6"
+   "text": "1. **与 git 仓库的关系**(下一次讨论核心):开发者的文档已住在 git 里,omnidocs 账本放\"旁边\"(独立,失去代码关联)、\"里面\"(账本文件 commit 进 git,蹭同步备份,两本账嵌套语义谁说了算)、还是\"上面\"(git 存 markdown 投影,OmniDocs 存块树真相,双向同步)?初步倾向\"里面\"(jj 对 git 的姿态,git 当免费同步层),待定。\n2. 锚点在野生 agent 编辑下的存活率;匹配兜底的品质阈值。\n3. rebase 改坏已批准内容的护栏细则。\n4. 块树 spec 的公开时机与稳定性承诺(格式即协议,锁格式的账本没人敢用)。",
+   "hash": "10ca54674f6b",
+   "id": "120cd651"
   }
  ]
 }
