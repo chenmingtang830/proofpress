@@ -3,9 +3,15 @@
  "blocks": [
   {
    "type": "heading",
-   "text": "# Proofpress 设计系统 — serve 审阅页(源自 ledger-demo,2026-07-18)",
+   "text": "# Proofpress 设计系统 — 审阅页(归档:第二幕/cloud UI 图纸)",
    "id": "ae580676",
-   "hash": "41f5c8ee4643"
+   "hash": "0a5a5d559760"
+  },
+  {
+   "type": "para",
+   "text": "**状态(2026-07-21)**:serve 审阅页已随战略大修整体砍掉(裁决借 GitHub 原生 review),本设计系统归档为第二幕/cloud UI 的图纸,不作废。色彩令牌现由 CLI 终端渲染直接沿用(dark 列的 hex 以 24-bit truecolor 输出)。",
+   "hash": "5818b3188534",
+   "id": "d7fd9960"
   },
   {
    "type": "para",

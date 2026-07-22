@@ -1,25 +1,33 @@
 {
  "event": "version_created",
  "artifact": "docs/DESIGN.md",
- "version": "ffdfa77d",
- "parent": "f94cd161",
+ "version": "a1d52f1d",
+ "parent": "ffdfa77d",
  "author": {
   "name": "chenmingtang830",
   "kind": "human",
   "session": null
  },
- "note": "Rebrand OmniDocs → Proofpress: two-layer naming (proof ledger + Proofpress), seal logo, launch-film demo, invisible md anchors",
- "ts": "2026-07-19T03:35:01-04:00",
+ "note": "Docs: sync ARTIFACT_MODEL to shipped claims/context/ingest; archive DESIGN as act-two blueprint",
+ "ts": "2026-07-21T20:05:39-04:00",
  "stats": {
-  "modified": 1
+  "modified": 1,
+  "added": 1
  },
  "changes": [
   {
    "kind": "modified",
    "block": "ae580676",
    "type": "heading",
-   "context": "Proofpress 设计系统 — serve 审阅页(源自 ledger-de"
+   "context": "Proofpress 设计系统 — 审阅页(归档:第二幕/cloud UI 图纸"
+  },
+  {
+   "kind": "added",
+   "block": "d7fd9960",
+   "type": "para",
+   "context": "Proofpress 设计系统 — 审阅页(归档:第二幕/cloud UI 图纸",
+   "preview": "**状态(2026-07-21)**:serve 审阅页已随战略大修整体砍掉(裁决借 GitHub 原生 review)"
   }
  ],
- "source_commit": "93f8ba113db79b1e8f0c730dccdbd3c5ae6e2dcc"
+ "source_commit": "e7dd0a821bec11c17d3aca7a45827784ca6910e2"
 }
