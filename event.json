@@ -1,124 +1,31 @@
 {
  "event": "version_created",
  "artifact": "docs/DESIGN.md",
- "version": "cfeb2d75",
- "parent": null,
+ "version": "f94cd161",
+ "parent": "cfeb2d75",
  "author": {
   "name": "chenmingtang830",
   "kind": "human",
   "session": null
  },
- "note": "Rebuild serve page per DESIGN.md: markdown rendering, ledger-demo design system, honest feedback states",
- "ts": "2026-07-18T09:01:24-04:00",
+ "note": "Language-adaptive UI, English as the core experience",
+ "ts": "2026-07-18T09:21:10-04:00",
  "stats": {
-  "added": 15
+  "modified": 2
  },
  "changes": [
   {
-   "kind": "added",
-   "block": "ae580676",
-   "type": "heading",
-   "context": "OmniDocs 设计系统 — serve 审阅页(源自 ledger-demo",
-   "preview": "# OmniDocs 设计系统 — serve 审阅页(源自 ledger-demo,2026-07-18)"
-  },
-  {
-   "kind": "added",
-   "block": "9787677e",
-   "type": "para",
-   "context": "OmniDocs 设计系统 — serve 审阅页(源自 ledger-demo",
-   "preview": "一句话:**纸墨账本**。纸面底色、墨色正文、一个青蓝强调色管全部交互;语义色只给 diff。信息密度服从\"审阅\"这一个"
-  },
-  {
-   "kind": "added",
-   "block": "7056876e",
-   "type": "heading",
-   "context": "色彩令牌",
-   "preview": "## 色彩令牌"
-  },
-  {
-   "kind": "added",
-   "block": "451376f2",
-   "type": "table",
-   "context": "色彩令牌",
-   "preview": "| 令牌 | Light | Dark | 用途 |\n|---|---|---|---|\n| paper | #FAF9"
-  },
-  {
-   "kind": "added",
-   "block": "a8d606fe",
-   "type": "para",
-   "context": "色彩令牌",
-   "preview": "规则:accent 只有一个;红绿黄是 diff 语义色,不作装饰;两套主题都必须校稿。"
-  },
-  {
-   "kind": "added",
-   "block": "f49db722",
-   "type": "heading",
-   "context": "字体",
-   "preview": "## 字体"
-  },
-  {
-   "kind": "added",
-   "block": "53b8c3a4",
-   "type": "list",
-   "context": "字体",
-   "preview": "- 页面标题 / 文档大标题:Songti SC / Noto Serif SC,900——账本的仪式感。\n- 正文与 "
-  },
-  {
-   "kind": "added",
-   "block": "46a56fa1",
-   "type": "heading",
-   "context": "版面",
-   "preview": "## 版面"
-  },
-  {
-   "kind": "added",
-   "block": "8aa0ba5a",
-   "type": "list",
-   "context": "版面",
-   "preview": "- 单栏,内容最大宽 760px;文档正文行宽 ≤ 70 字符。\n- 层次自上而下固定:导航行 → 元信息行 → 变更摘"
-  },
-  {
-   "kind": "added",
-   "block": "f43f7a30",
-   "type": "heading",
-   "context": "组件",
-   "preview": "## 组件"
-  },
-  {
-   "kind": "added",
-   "block": "0287d639",
-   "type": "list",
-   "context": "组件",
-   "preview": "- **chip**:圆角胶囊,11.5px;状态色——published 绿、待审/待回应 黄、agent 青。\n- "
-  },
-  {
-   "kind": "added",
-   "block": "7578205b",
-   "type": "heading",
-   "context": "反馈状态机(页面文案随账本状态走)",
-   "preview": "## 反馈状态机(页面文案随账本状态走)"
-  },
-  {
-   "kind": "added",
-   "block": "aae4f716",
-   "type": "para",
-   "context": "反馈状态机(页面文案随账本状态走)",
-   "preview": "待回应(feedback 新于最新版本)→ 修订中(agent 会话活跃,后续 SSE)→ 已回应(新版本落账,页面自动"
-  },
-  {
-   "kind": "added",
+   "kind": "modified",
    "block": "300ee19f",
    "type": "heading",
-   "context": "声音",
-   "preview": "## 声音"
+   "context": "声音与语言"
   },
   {
-   "kind": "added",
+   "kind": "modified",
    "block": "cab7f711",
    "type": "para",
-   "context": "声音",
-   "preview": "UI 词汇只用产品词表:Draft / Review / Approve / 批注 / 入账 / 待回应。禁止内部术语("
+   "context": "声音与语言"
   }
  ],
- "source_commit": "7829cb946cdfd41a3e60768753a7f54762565170"
+ "source_commit": "b2d1fa08983314901aa8ddf484569516eef4d570"
 }

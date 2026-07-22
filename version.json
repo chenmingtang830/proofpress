@@ -81,15 +81,15 @@
   },
   {
    "type": "heading",
-   "text": "## 声音",
+   "text": "## 声音与语言",
    "id": "300ee19f",
-   "hash": "a772b8d62e88"
+   "hash": "b22e8db48d11"
   },
   {
    "type": "para",
-   "text": "UI 词汇只用产品词表:Draft / Review / Approve / 批注 / 入账 / 待回应。禁止内部术语(event、ref、blob)出现在界面上。",
+   "text": "UI 词汇只用产品词表:Draft / Review / Approve / Comment。禁止内部术语(event、ref、blob)出现在界面上。**语言原则(2026-07-18 Richard 定):英文是核心体验**——所有 UI 串、CLI 输出、文档门面以英文为源语言;界面按 `Accept-Language` 自适应(之后加显式设置),中文是第一个 locale。品牌语境下的产品词表(Draft → Review → Approve, for agents)**永不翻译**;locale 文案是翻译品,英文源变更时同步更新。",
    "id": "cab7f711",
-   "hash": "74a54fab0e9a"
+   "hash": "b6f67d71a7e8"
   }
  ]
 }
