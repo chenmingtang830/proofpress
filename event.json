@@ -1,213 +1,1732 @@
 {
  "event": "version_created",
- "artifact": "docs/PORTABLE_ARTIFACT_STRATEGY.md",
- "version": "6f6e263b",
- "parent": "34b17a81",
+ "artifact": "docs/PRIVACY_AND_DISCLOSURE.md",
+ "version": "9eed2cc0",
+ "parent": null,
  "author": {
   "name": "codex",
   "kind": "agent",
-  "session": "privacy-and-attribution-2026-07-22"
+  "session": "disclosure-model-2026-07-22"
  },
- "note": "Clarified attribution roles and append-only privacy boundary",
- "ts": "2026-07-22T05:50:28+00:00",
+ "note": "Defined release-blocking privacy and disclosure model",
+ "ts": "2026-07-22T06:08:07+00:00",
  "stats": {
-  "modified": 7,
-  "added": 9
+  "added": 142
  },
  "changes": [
   {
-   "kind": "modified",
-   "block": "5cff94ee",
-   "type": "para",
-   "context": "结论先行"
-  },
-  {
-   "kind": "modified",
-   "block": "d56084c8",
-   "type": "para",
-   "context": "结论先行"
-  },
-  {
-   "kind": "modified",
-   "block": "e47ac07f",
-   "type": "list",
-   "context": "结论先行"
-  },
-  {
-   "kind": "modified",
-   "block": "4d805131",
-   "type": "list",
-   "context": "2.4 收敛后的定位"
-  },
-  {
    "kind": "added",
-   "block": "64be4294",
-   "type": "para",
-   "context": "2.4 收敛后的定位",
-   "preview": "`who` 不能继续压缩成一个含混的 `author` 字段。同一版 artifact 可能由 Richard 提出要求"
-  },
-  {
-   "kind": "added",
-   "block": "42469bef",
-   "type": "code",
-   "context": "2.4 收敛后的定位",
-   "preview": "```text\nrequested_by\nproduced_by\nedited_by\nrecorded_by\nsourc"
-  },
-  {
-   "kind": "added",
-   "block": "7bd9f5ab",
-   "type": "para",
-   "context": "2.4 收敛后的定位",
-   "preview": "这些角色可以重合，但不能因为 artifact owner 是人，就把 agent 生成的版本记成 `kind: hum"
-  },
-  {
-   "kind": "modified",
-   "block": "8d12fa28",
+   "block": "be94d633",
    "type": "heading",
-   "context": "8.5 隐私、保留边界与访问控制"
-  },
-  {
-   "kind": "modified",
-   "block": "b6559753",
-   "type": "para",
-   "context": "8.5 隐私、保留边界与访问控制"
-  },
-  {
-   "kind": "modified",
-   "block": "3f589a73",
-   "type": "para",
-   "context": "8.5 隐私、保留边界与访问控制"
+   "context": "Proofpress Privacy & Disclosure Model",
+   "preview": "# Proofpress Privacy & Disclosure Model"
   },
   {
    "kind": "added",
-   "block": "fb2f91cf",
+   "block": "9db57e7e",
    "type": "para",
-   "context": "8.5 隐私、保留边界与访问控制",
-   "preview": "建议区分三个逻辑范围，但 v0 不必把它们做成完整权限系统："
+   "context": "Proofpress Privacy & Disclosure Model",
+   "preview": "> 状态：v0 release-blocking 设计决议稿  \n> 日期：2026-07-22  \n> 范围：port"
   },
   {
    "kind": "added",
-   "block": "cb279134",
-   "type": "code",
-   "context": "8.5 隐私、保留边界与访问控制",
-   "preview": "```text\nephemeral scratch   不入账，随 session 消失\nprivate lineage"
+   "block": "38c20796",
+   "type": "heading",
+   "context": "结论先行",
+   "preview": "## 结论先行"
   },
   {
    "kind": "added",
-   "block": "1e291271",
+   "block": "1f2cbc91",
    "type": "para",
-   "context": "8.5 隐私、保留边界与访问控制",
-   "preview": "Portable artifact v0 应采用最简单、最诚实的规则：**one artifact, one discl"
+   "context": "结论先行",
+   "preview": "**Share 不是一个持续开启的 mode，而是一次 publication。**"
   },
   {
    "kind": "added",
-   "block": "a36aadc6",
+   "block": "b4cc0428",
+   "type": "para",
+   "context": "结论先行",
+   "preview": "`proofpress share/pack` 在某个确定时刻，把本地 artifact 的一个可披露投影物化成带 ca"
+  },
+  {
+   "kind": "added",
+   "block": "72d67345",
    "type": "list",
-   "context": "8.5 隐私、保留边界与访问控制",
-   "preview": "- 完全不记录；\n- 留在 private lineage；\n- 在 shared event 中只保留不可逆 hash"
+   "context": "结论先行",
+   "preview": "- 已生成的文件是一份离线副本；\n- 后续本地修改默认不进入它；\n- 没有后台持续同步，因此不需要“关闭实时分享”；\n-"
   },
   {
    "kind": "added",
-   "block": "b6c997b6",
+   "block": "aea97c07",
    "type": "para",
-   "context": "8.5 隐私、保留边界与访问控制",
-   "preview": "对于已经进入 shared ledger、后来需要撤回的内容，应区分事件存在与敏感 payload：追加 `redact"
+   "context": "结论先行",
+   "preview": "最重要的语义是："
   },
   {
    "kind": "added",
-   "block": "1728b582",
+   "block": "61b11cd0",
    "type": "para",
-   "context": "8.5 隐私、保留边界与访问控制",
-   "preview": "细粒度用户/字段 ACL、密钥分发、跨组织策略和审计保留期属于 server/cloud backend。Protoco"
+   "context": "结论先行",
+   "preview": "> **Share once; publish again deliberately.**"
+  },
+  {
+   "kind": "added",
+   "block": "1bc78b69",
+   "type": "para",
+   "context": "结论先行",
+   "preview": "以及："
+  },
+  {
+   "kind": "added",
+   "block": "c9d68c4f",
+   "type": "para",
+   "context": "结论先行",
+   "preview": "> **Append-only means no silent rewrite after disclosure—not"
+  },
+  {
+   "kind": "added",
+   "block": "bd1252ee",
+   "type": "heading",
+   "context": "1. 五个对象，不用一个 “mode” 混在一起",
+   "preview": "## 1. 五个对象，不用一个 “mode” 混在一起"
+  },
+  {
+   "kind": "added",
+   "block": "8bd92eee",
+   "type": "heading",
+   "context": "1.1 Working body",
+   "preview": "### 1.1 Working body"
+  },
+  {
+   "kind": "added",
+   "block": "092c1fa1",
+   "type": "para",
+   "context": "1.1 Working body",
+   "preview": "用户或 agent 当前正在编辑的可见正文。它可以领先于任何 ledger snapshot，也可以处于完全不追踪的 s"
+  },
+  {
+   "kind": "added",
+   "block": "c6943039",
+   "type": "heading",
+   "context": "1.2 Local journal",
+   "preview": "### 1.2 Local journal"
+  },
+  {
+   "kind": "added",
+   "block": "0f4aa813",
+   "type": "para",
+   "context": "1.2 Local journal",
+   "preview": "本机捕获的 artifact versions、claims 和 decision context。它帮助当前用户和 a"
+  },
+  {
+   "kind": "added",
+   "block": "e1b59a04",
+   "type": "para",
+   "context": "1.2 Local journal",
+   "preview": "Local journal 中尚未披露的事件可以被用户明确 `forget`，或者在 share 时被排除。Proofp"
+  },
+  {
+   "kind": "added",
+   "block": "0ee381d8",
+   "type": "heading",
+   "context": "1.3 Disclosure stream",
+   "preview": "### 1.3 Disclosure stream"
+  },
+  {
+   "kind": "added",
+   "block": "7941b692",
+   "type": "para",
+   "context": "1.3 Disclosure stream",
+   "preview": "面向一个 disclosure boundary 的 append-only 投影链。它不是 local journal"
+  },
+  {
+   "kind": "added",
+   "block": "093056c2",
+   "type": "para",
+   "context": "1.3 Disclosure stream",
+   "preview": "每次 publication 都向 stream 追加一个 disclosed version。已经披露的 stream"
+  },
+  {
+   "kind": "added",
+   "block": "a092554e",
+   "type": "heading",
+   "context": "1.4 Capsule",
+   "preview": "### 1.4 Capsule"
+  },
+  {
+   "kind": "added",
+   "block": "aeff8148",
+   "type": "para",
+   "context": "1.4 Capsule",
+   "preview": "Disclosure stream 在某一 head 上的 self-contained materialization"
+  },
+  {
+   "kind": "added",
+   "block": "2b40e255",
+   "type": "heading",
+   "context": "1.5 Distributed copy",
+   "preview": "### 1.5 Distributed copy"
+  },
+  {
+   "kind": "added",
+   "block": "d5166d0b",
+   "type": "para",
+   "context": "1.5 Distributed copy",
+   "preview": "已经通过 Slack、邮件、Drive、USB 或其他方式离开当前设备的文件副本。一旦产生 distributed co"
+  },
+  {
+   "kind": "added",
+   "block": "ee2856b9",
+   "type": "heading",
+   "context": "2. 核心不变量",
+   "preview": "## 2. 核心不变量"
+  },
+  {
+   "kind": "added",
+   "block": "6fa5c6ea",
+   "type": "para",
+   "context": "2. 核心不变量",
+   "preview": "发布前必须接受以下不变量；任何实现与它们冲突都应阻止 release。"
+  },
+  {
+   "kind": "added",
+   "block": "e2605fb1",
+   "type": "list",
+   "context": "2. 核心不变量",
+   "preview": "1. **No implicit continuous sharing**：snapshot 不自动更新已经发出的 ca"
+  },
+  {
+   "kind": "added",
+   "block": "895cc3f7",
+   "type": "heading",
+   "context": "3. 状态模型",
+   "preview": "## 3. 状态模型"
+  },
+  {
+   "kind": "added",
+   "block": "41723f22",
+   "type": "heading",
+   "context": "3.1 Local artifact 状态",
+   "preview": "### 3.1 Local artifact 状态"
+  },
+  {
+   "kind": "added",
+   "block": "379d15e0",
+   "type": "code",
+   "context": "3.1 Local artifact 状态",
+   "preview": "```text\nUNTRACKED\n   │ proofpress track / first admitted sna"
+  },
+  {
+   "kind": "added",
+   "block": "8466813f",
+   "type": "para",
+   "context": "3.1 Local artifact 状态",
+   "preview": "`PRIVATE_AHEAD_OF_DISCLOSURE` 不是错误。它表示文件正文或 local journal 已经"
+  },
+  {
+   "kind": "added",
+   "block": "5635aa2d",
+   "type": "heading",
+   "context": "3.2 Disclosure stream 状态",
+   "preview": "### 3.2 Disclosure stream 状态"
+  },
+  {
+   "kind": "added",
+   "block": "b804f33c",
+   "type": "code",
+   "context": "3.2 Disclosure stream 状态",
+   "preview": "```text\nNONE\n  │ first share\n  ▼\nOPEN ── append disclosed ve"
+  },
+  {
+   "kind": "added",
+   "block": "0db095da",
+   "type": "para",
+   "context": "3.2 Disclosure stream 状态",
+   "preview": "`CLOSED` 只表示不再向该 stream 发布未来版本，不会召回历史 capsule。若以后需要重新分享，应创建新"
+  },
+  {
+   "kind": "added",
+   "block": "9bb04e31",
+   "type": "para",
+   "context": "3.2 Disclosure stream 状态",
+   "preview": "V0 可以暂不实现显式 `close`，因为 share 本来就是一次性动作；`close` 主要是未来 server "
+  },
+  {
+   "kind": "added",
+   "block": "62d0216f",
+   "type": "heading",
+   "context": "3.3 Share 不是状态开关",
+   "preview": "### 3.3 Share 不是状态开关"
+  },
+  {
+   "kind": "added",
+   "block": "6b64f8fa",
+   "type": "para",
+   "context": "3.3 Share 不是状态开关",
+   "preview": "错误心智："
+  },
+  {
+   "kind": "added",
+   "block": "98329215",
+   "type": "code",
+   "context": "3.3 Share 不是状态开关",
+   "preview": "```text\nsharing = on / off\n```"
+  },
+  {
+   "kind": "added",
+   "block": "b9ceb922",
+   "type": "para",
+   "context": "3.3 Share 不是状态开关",
+   "preview": "正确心智："
+  },
+  {
+   "kind": "added",
+   "block": "897e108f",
+   "type": "code",
+   "context": "3.3 Share 不是状态开关",
+   "preview": "```text\nlocal versions:      v1 — v2 — v3 — v4 — v5\nshared p"
+  },
+  {
+   "kind": "added",
+   "block": "8279d2f3",
+   "type": "para",
+   "context": "3.3 Share 不是状态开关",
+   "preview": "v3、v4 可以是 private intermediates。s2 应表达从上一个 disclosed body 到当"
+  },
+  {
+   "kind": "added",
+   "block": "43424a1f",
+   "type": "heading",
+   "context": "4. “Share 之后还能不能关掉”的准确答案",
+   "preview": "## 4. “Share 之后还能不能关掉”的准确答案"
+  },
+  {
+   "kind": "added",
+   "block": "3689fc66",
+   "type": "para",
+   "context": "4. “Share 之后还能不能关掉”的准确答案",
+   "preview": "“关掉”可能指六件不同的事，产品不得用一个 `unshare` 含混处理。"
+  },
+  {
+   "kind": "added",
+   "block": "5590ff79",
+   "type": "table",
+   "context": "4. “Share 之后还能不能关掉”的准确答案",
+   "preview": "| 用户意图 | 是否可做 | 准确行为 |\n|---|---|---|\n| 不再自动分享未来修改 | 可以 | V0 "
+  },
+  {
+   "kind": "added",
+   "block": "6653aeb4",
+   "type": "para",
+   "context": "4. “Share 之后还能不能关掉”的准确答案",
+   "preview": "因此 UI 和文案不使用没有限定词的 `unshare`。应使用具体动词："
+  },
+  {
+   "kind": "added",
+   "block": "ed80165a",
+   "type": "list",
+   "context": "4. “Share 之后还能不能关掉”的准确答案",
+   "preview": "- `stop future publication`\n- `close disclosure stream`\n- `r"
+  },
+  {
+   "kind": "added",
+   "block": "353fe881",
+   "type": "heading",
+   "context": "5. Publication 流程",
+   "preview": "## 5. Publication 流程"
+  },
+  {
+   "kind": "added",
+   "block": "e7338b29",
+   "type": "heading",
+   "context": "5.1 推荐的 V0 流程",
+   "preview": "### 5.1 推荐的 V0 流程"
+  },
+  {
+   "kind": "added",
+   "block": "4a1b6283",
+   "type": "code",
+   "context": "5.1 推荐的 V0 流程",
+   "preview": "```text\n1. Working body + local journal\n2. proofpress share/"
+  },
+  {
+   "kind": "added",
+   "block": "dc72c825",
+   "type": "para",
+   "context": "5.1 推荐的 V0 流程",
+   "preview": "V0 默认生成新文件，不原地修改 working artifact。这样："
+  },
+  {
+   "kind": "added",
+   "block": "fd8f7f5f",
+   "type": "list",
+   "context": "5.1 推荐的 V0 流程",
+   "preview": "- private working copy 与 disclosed copy 不会混淆；\n- 用户可以在发送前直接丢弃"
+  },
+  {
+   "kind": "added",
+   "block": "5e5659c4",
+   "type": "para",
+   "context": "5.1 推荐的 V0 流程",
+   "preview": "原地 `--in-place` 可以以后增加，但不应是 V0 默认。"
+  },
+  {
+   "kind": "added",
+   "block": "58448c19",
+   "type": "heading",
+   "context": "5.2 Share preview 必须显示",
+   "preview": "### 5.2 Share preview 必须显示"
+  },
+  {
+   "kind": "added",
+   "block": "ccefbbf8",
+   "type": "para",
+   "context": "5.2 Share preview 必须显示",
+   "preview": "在 materialize capsule 前，preview 至少显示："
+  },
+  {
+   "kind": "added",
+   "block": "33358417",
+   "type": "list",
+   "context": "5.2 Share preview 必须显示",
+   "preview": "- artifact 与当前 body hash；\n- disclosure stream / audience lab"
+  },
+  {
+   "kind": "added",
+   "block": "65115971",
+   "type": "para",
+   "context": "5.2 Share preview 必须显示",
+   "preview": "Agent 可以替用户执行 share，但必须把 preview 摘要报告给用户；不能因用户说“帮我发给同事”就静默嵌入"
+  },
+  {
+   "kind": "added",
+   "block": "559e1ed8",
+   "type": "heading",
+   "context": "5.3 Share 的原子性",
+   "preview": "### 5.3 Share 的原子性"
+  },
+  {
+   "kind": "added",
+   "block": "7f588142",
+   "type": "para",
+   "context": "5.3 Share 的原子性",
+   "preview": "实现应先在同目录生成临时文件，完成 capsule 写入与自校验后，再原子 rename 到目标路径。Capsule 自"
+  },
+  {
+   "kind": "added",
+   "block": "881c97ed",
+   "type": "para",
+   "context": "5.3 Share 的原子性",
+   "preview": "若生成或校验失败："
+  },
+  {
+   "kind": "added",
+   "block": "3a3c554b",
+   "type": "list",
+   "context": "5.3 Share 的原子性",
+   "preview": "- 不创建 disclosure event；\n- 不修改旧输出；\n- 不留下看似有效的半 capsule 文件。"
+  },
+  {
+   "kind": "added",
+   "block": "a6d5643e",
+   "type": "para",
+   "context": "5.3 Share 的原子性",
+   "preview": "若进程恰好在原子 rename 后、本地 ledger 登记前崩溃，则磁盘上可能出现一个有效但尚未登记的 capsule"
+  },
+  {
+   "kind": "added",
+   "block": "5f27579c",
+   "type": "heading",
+   "context": "6. Disclosure policy，不做全局 privacy mode",
+   "preview": "## 6. Disclosure policy，不做全局 privacy mode"
+  },
+  {
+   "kind": "added",
+   "block": "50b276fe",
+   "type": "para",
+   "context": "6. Disclosure policy，不做全局 privacy mode",
+   "preview": "V0 使用 artifact-level default policy，加 event/payload-level ov"
+  },
+  {
+   "kind": "added",
+   "block": "18ec8d37",
+   "type": "code",
+   "context": "6. Disclosure policy，不做全局 privacy mode",
+   "preview": "```yaml\ndisclosure_policy:\n  include:\n    - semantic_changes"
+  },
+  {
+   "kind": "added",
+   "block": "ff6082b8",
+   "type": "para",
+   "context": "6. Disclosure policy，不做全局 privacy mode",
+   "preview": "原则："
+  },
+  {
+   "kind": "added",
+   "block": "f0118458",
+   "type": "list",
+   "context": "6. Disclosure policy，不做全局 privacy mode",
+   "preview": "- policy 决定 share 时如何投影，不决定谁可以读取已经分发的明文 capsule；\n- raw sessi"
+  },
+  {
+   "kind": "added",
+   "block": "29a5af70",
+   "type": "para",
+   "context": "6. Disclosure policy，不做全局 privacy mode",
+   "preview": "建议的 payload label 只有两个，避免过度设计："
+  },
+  {
+   "kind": "added",
+   "block": "c7e3edf9",
+   "type": "code",
+   "context": "6. Disclosure policy，不做全局 privacy mode",
+   "preview": "```text\nlocal_only\ndisclosable\n```"
+  },
+  {
+   "kind": "added",
+   "block": "7281cf7c",
+   "type": "para",
+   "context": "6. Disclosure policy，不做全局 privacy mode",
+   "preview": "不在 V0 中加入 `team / department / executives / external / custo"
+  },
+  {
+   "kind": "added",
+   "block": "6a6c293a",
+   "type": "heading",
+   "context": "7. 建议的数据模型",
+   "preview": "## 7. 建议的数据模型"
+  },
+  {
+   "kind": "added",
+   "block": "cebadf0c",
+   "type": "heading",
+   "context": "7.1 Local version event",
+   "preview": "### 7.1 Local version event"
+  },
+  {
+   "kind": "added",
+   "block": "5a01730a",
+   "type": "code",
+   "context": "7.1 Local version event",
+   "preview": "```json\n{\n  \"event\": \"version_created\",\n  \"event_id\": \"...\","
+  },
+  {
+   "kind": "added",
+   "block": "43ea5112",
+   "type": "heading",
+   "context": "7.2 Disclosure event",
+   "preview": "### 7.2 Disclosure event"
+  },
+  {
+   "kind": "added",
+   "block": "a57e4f6c",
+   "type": "code",
+   "context": "7.2 Disclosure event",
+   "preview": "```json\n{\n  \"event\": \"disclosure_created\",\n  \"disclosure_eve"
+  },
+  {
+   "kind": "added",
+   "block": "4ecd4c48",
+   "type": "para",
+   "context": "7.2 Disclosure event",
+   "preview": "`source_local_version` 可以只存在于本地 disclosure record，不进入 capsul"
+  },
+  {
+   "kind": "added",
+   "block": "d7ab5925",
+   "type": "heading",
+   "context": "7.3 Capsule manifest",
+   "preview": "### 7.3 Capsule manifest"
+  },
+  {
+   "kind": "added",
+   "block": "38ebb985",
+   "type": "code",
+   "context": "7.3 Capsule manifest",
+   "preview": "```json\n{\n  \"proofpress_capsule\": 1,\n  \"artifact_id\": \"...\","
+  },
+  {
+   "kind": "added",
+   "block": "e924a924",
+   "type": "para",
+   "context": "7.3 Capsule manifest",
+   "preview": "Capsule 不包含："
+  },
+  {
+   "kind": "added",
+   "block": "3bacf317",
+   "type": "list",
+   "context": "7.3 Capsule manifest",
+   "preview": "- 未披露 local event IDs；\n- “省略了 N 个私密版本”等侧信道；\n- 本地绝对路径；\n- 原始 s"
+  },
+  {
+   "kind": "added",
+   "block": "4d62bb79",
+   "type": "heading",
+   "context": "8. Correction、Supersession 与 Redaction",
+   "preview": "## 8. Correction、Supersession 与 Redaction"
+  },
+  {
+   "kind": "added",
+   "block": "550d9860",
+   "type": "heading",
+   "context": "8.1 Correction",
+   "preview": "### 8.1 Correction"
+  },
+  {
+   "kind": "added",
+   "block": "bfc61b9c",
+   "type": "para",
+   "context": "8.1 Correction",
+   "preview": "用于事实或 metadata 错误，例如 actor 误归因、错误时间、claim 拼写错误："
+  },
+  {
+   "kind": "added",
+   "block": "ff35e569",
+   "type": "code",
+   "context": "8.1 Correction",
+   "preview": "```text\ndisclosed event A\n  → correction event B(target=A, c"
+  },
+  {
+   "kind": "added",
+   "block": "4ffa73a2",
+   "type": "para",
+   "context": "8.1 Correction",
+   "preview": "A 仍存在；默认视图显示 B 后的有效解释，并允许展开原始值。"
+  },
+  {
+   "kind": "added",
+   "block": "945807ca",
+   "type": "heading",
+   "context": "8.2 Supersession",
+   "preview": "### 8.2 Supersession"
+  },
+  {
+   "kind": "added",
+   "block": "b46a45ef",
+   "type": "para",
+   "context": "8.2 Supersession",
+   "preview": "用于内容或结论后来被替换："
+  },
+  {
+   "kind": "added",
+   "block": "cdb89790",
+   "type": "code",
+   "context": "8.2 Supersession",
+   "preview": "```text\nversion A: old policy\n  → version B: new policy, sup"
+  },
+  {
+   "kind": "added",
+   "block": "2402dad0",
+   "type": "para",
+   "context": "8.2 Supersession",
+   "preview": "这不是删除 A，而是说明 A 不再是当前有效版本。"
+  },
+  {
+   "kind": "added",
+   "block": "6ecc8d68",
+   "type": "heading",
+   "context": "8.3 Redaction",
+   "preview": "### 8.3 Redaction"
+  },
+  {
+   "kind": "added",
+   "block": "2c08d24c",
+   "type": "para",
+   "context": "8.3 Redaction",
+   "preview": "用于未来 materialization 不应再携带某段 payload："
+  },
+  {
+   "kind": "added",
+   "block": "eb40181d",
+   "type": "code",
+   "context": "8.3 Redaction",
+   "preview": "```text\nevent A contains sensitive why\n  → redaction B(targe"
+  },
+  {
+   "kind": "added",
+   "block": "3831dea6",
+   "type": "para",
+   "context": "8.3 Redaction",
+   "preview": "未来 capsule 可以保留："
+  },
+  {
+   "kind": "added",
+   "block": "fd4c7a0c",
+   "type": "list",
+   "context": "8.3 Redaction",
+   "preview": "- A 的 envelope 或必要 commitment；\n- payload commitment（仅当它不会泄漏敏"
+  },
+  {
+   "kind": "added",
+   "block": "92000fcd",
+   "type": "para",
+   "context": "8.3 Redaction",
+   "preview": "未来 capsule移除："
+  },
+  {
+   "kind": "added",
+   "block": "21deabb8",
+   "type": "list",
+   "context": "8.3 Redaction",
+   "preview": "- 被 redacted 的明文；\n- 能从其他字段直接恢复该明文的重复 payload。"
+  },
+  {
+   "kind": "added",
+   "block": "f5b4a148",
+   "type": "para",
+   "context": "8.3 Redaction",
+   "preview": "普通 content hash 是完整性工具，不是保密工具。对姓名、短结论、API key 等低熵 payload，明文"
+  },
+  {
+   "kind": "added",
+   "block": "ad17d431",
+   "type": "heading",
+   "context": "8.4 连事件存在都不能披露",
+   "preview": "### 8.4 连事件存在都不能披露"
+  },
+  {
+   "kind": "added",
+   "block": "717685d0",
+   "type": "para",
+   "context": "8.4 连事件存在都不能披露",
+   "preview": "若 disclosure stream 中某事件的存在本身就敏感，不能在同一 append-only stream 中“"
+  },
+  {
+   "kind": "added",
+   "block": "49227825",
+   "type": "list",
+   "context": "8.4 连事件存在都不能披露",
+   "preview": "1. 关闭旧 stream；\n2. 从一个安全 checkpoint 创建新的 sanitized disclosure"
+  },
+  {
+   "kind": "added",
+   "block": "bd93b6b2",
+   "type": "para",
+   "context": "8.4 连事件存在都不能披露",
+   "preview": "这是一条新披露谱系，不是对旧历史的悄悄改写。"
+  },
+  {
+   "kind": "added",
+   "block": "0d3174f5",
+   "type": "heading",
+   "context": "9. Edge-case matrix",
+   "preview": "## 9. Edge-case matrix"
+  },
+  {
+   "kind": "added",
+   "block": "f18e7e3e",
+   "type": "heading",
+   "context": "9.1 Share 之前",
+   "preview": "### 9.1 Share 之前"
+  },
+  {
+   "kind": "added",
+   "block": "235c8a0f",
+   "type": "table",
+   "context": "9.1 Share 之前",
+   "preview": "| Edge case | V0 行为 |\n|---|---|\n| 用户不想记录当前工作 | 文件保持 untracke"
+  },
+  {
+   "kind": "added",
+   "block": "0a55cf83",
+   "type": "heading",
+   "context": "9.2 Share 生成过程中",
+   "preview": "### 9.2 Share 生成过程中"
+  },
+  {
+   "kind": "added",
+   "block": "6d850850",
+   "type": "table",
+   "context": "9.2 Share 生成过程中",
+   "preview": "| Edge case | V0 行为 |\n|---|---|\n| 写文件中途崩溃 | 不产生最终输出和 disclos"
+  },
+  {
+   "kind": "added",
+   "block": "f29c5e3e",
+   "type": "heading",
+   "context": "9.3 Share 之后",
+   "preview": "### 9.3 Share 之后"
+  },
+  {
+   "kind": "added",
+   "block": "bebef450",
+   "type": "table",
+   "context": "9.3 Share 之后",
+   "preview": "| Edge case | V0 行为 |\n|---|---|\n| 用户继续本地编辑 | 新变化保持 private；旧"
+  },
+  {
+   "kind": "added",
+   "block": "0eb46804",
+   "type": "heading",
+   "context": "9.4 多 audience",
+   "preview": "### 9.4 多 audience"
+  },
+  {
+   "kind": "added",
+   "block": "a508445d",
+   "type": "table",
+   "context": "9.4 多 audience",
+   "preview": "| Edge case | V0 行为 |\n|---|---|\n| 同一文档给内部团队和客户 | 两个 disclosu"
+  },
+  {
+   "kind": "added",
+   "block": "1cba302e",
+   "type": "heading",
+   "context": "9.5 Branch 与 merge",
+   "preview": "### 9.5 Branch 与 merge"
+  },
+  {
+   "kind": "added",
+   "block": "f1055cc9",
+   "type": "table",
+   "context": "9.5 Branch 与 merge",
+   "preview": "| Edge case | V0 行为 |\n|---|---|\n| 两个收件人从同一 capsule 修改 | 产生两个"
+  },
+  {
+   "kind": "added",
+   "block": "cf502818",
+   "type": "heading",
+   "context": "9.6 Redaction 与删除",
+   "preview": "### 9.6 Redaction 与删除"
+  },
+  {
+   "kind": "added",
+   "block": "8262217a",
+   "type": "table",
+   "context": "9.6 Redaction 与删除",
+   "preview": "| Edge case | V0 行为 |\n|---|---|\n| 只删 why | payload-level red"
+  },
+  {
+   "kind": "added",
+   "block": "74a97d85",
+   "type": "heading",
+   "context": "9.7 Server/Cloud 未来能力",
+   "preview": "### 9.7 Server/Cloud 未来能力"
+  },
+  {
+   "kind": "added",
+   "block": "6f7c6a6a",
+   "type": "table",
+   "context": "9.7 Server/Cloud 未来能力",
+   "preview": "| Edge case | Server 能做什么 | 仍不能做什么 |\n|---|---|---|\n| Revoke "
+  },
+  {
+   "kind": "added",
+   "block": "8261234d",
+   "type": "heading",
+   "context": "10. “Who” 在 disclosure 中的补充角色",
+   "preview": "## 10. “Who” 在 disclosure 中的补充角色"
+  },
+  {
+   "kind": "added",
+   "block": "c77554eb",
+   "type": "para",
+   "context": "10. “Who” 在 disclosure 中的补充角色",
+   "preview": "除 version actors 外，share 本身也必须有 actor："
+  },
+  {
+   "kind": "added",
+   "block": "af27fc48",
+   "type": "code",
+   "context": "10. “Who” 在 disclosure 中的补充角色",
+   "preview": "```text\nrequested_by    谁要求生成或修改内容\nproduced_by     谁产生正文\nedi"
+  },
+  {
+   "kind": "added",
+   "block": "5dfa0cd3",
+   "type": "para",
+   "context": "10. “Who” 在 disclosure 中的补充角色",
+   "preview": "`disclosed_by` 与 `sent_by` 不应合并：Proofpress 可以确定谁生成 capsule，但"
+  },
+  {
+   "kind": "added",
+   "block": "618dd688",
+   "type": "para",
+   "context": "10. “Who” 在 disclosure 中的补充角色",
+   "preview": "每个 actor 都携带 attribution basis："
+  },
+  {
+   "kind": "added",
+   "block": "86c9996d",
+   "type": "code",
+   "context": "10. “Who” 在 disclosure 中的补充角色",
+   "preview": "```text\nsigned\nenvironment_attested\nharness_attested\nself_as"
+  },
+  {
+   "kind": "added",
+   "block": "779dd2a4",
+   "type": "para",
+   "context": "10. “Who” 在 disclosure 中的补充角色",
+   "preview": "不能因为当前用户登录名是 Richard，就把所有 `produced_by` 自动记成 Richard。"
+  },
+  {
+   "kind": "added",
+   "block": "fc0ea1a9",
+   "type": "heading",
+   "context": "11. 建议的 V0 命令语义",
+   "preview": "## 11. 建议的 V0 命令语义"
+  },
+  {
+   "kind": "added",
+   "block": "4eab4d03",
+   "type": "para",
+   "context": "11. 建议的 V0 命令语义",
+   "preview": "命令名尚可调整，但行为必须保持："
+  },
+  {
+   "kind": "added",
+   "block": "f6b19413",
+   "type": "code",
+   "context": "11. 建议的 V0 命令语义",
+   "preview": "```text\nproofpress track FILE\n  开始允许 snapshots；不等于分享。\n\nproof"
+  },
+  {
+   "kind": "added",
+   "block": "c6321609",
+   "type": "para",
+   "context": "11. 建议的 V0 命令语义",
+   "preview": "V0 不提供名为 `unshare` 的命令，因为它暗示无法兑现的 recall。"
+  },
+  {
+   "kind": "added",
+   "block": "2e1be2c2",
+   "type": "heading",
+   "context": "12. UI 文案纪律",
+   "preview": "## 12. UI 文案纪律"
+  },
+  {
+   "kind": "added",
+   "block": "47964e87",
+   "type": "para",
+   "context": "12. UI 文案纪律",
+   "preview": "允许使用："
+  },
+  {
+   "kind": "added",
+   "block": "9d47c433",
+   "type": "list",
+   "context": "12. UI 文案纪律",
+   "preview": "- “Create a shareable copy”\n- “Publish this version’s histor"
+  },
+  {
+   "kind": "added",
+   "block": "2c179dee",
+   "type": "para",
+   "context": "12. UI 文案纪律",
+   "preview": "禁止使用："
+  },
+  {
+   "kind": "added",
+   "block": "7a06bcca",
+   "type": "list",
+   "context": "12. UI 文案纪律",
+   "preview": "- “Turn sharing on”\n- “Unshare everywhere”\n- “Delete from al"
+  },
+  {
+   "kind": "added",
+   "block": "2c249df0",
+   "type": "heading",
+   "context": "13. V0 明确不做",
+   "preview": "## 13. V0 明确不做"
+  },
+  {
+   "kind": "added",
+   "block": "14d8b083",
+   "type": "list",
+   "context": "13. V0 明确不做",
+   "preview": "- 持续后台同步 capsule；\n- 同一离线文件内的 per-user / per-field ACL；\n- 在线密"
+  },
+  {
+   "kind": "added",
+   "block": "a4c4201c",
+   "type": "heading",
+   "context": "14. Release acceptance tests",
+   "preview": "## 14. Release acceptance tests"
+  },
+  {
+   "kind": "added",
+   "block": "0444a90a",
+   "type": "para",
+   "context": "14. Release acceptance tests",
+   "preview": "以下测试全部通过前，不发布 portable share："
+  },
+  {
+   "kind": "added",
+   "block": "7a9757ba",
+   "type": "list",
+   "context": "14. Release acceptance tests",
+   "preview": "1. Snapshot 后旧 shared copy 的字节完全不变；\n2. Share 同一输入两次产生同一 proj"
+  },
+  {
+   "kind": "added",
+   "block": "9e0d89d9",
+   "type": "heading",
+   "context": "15. 最小发布承诺",
+   "preview": "## 15. 最小发布承诺"
+  },
+  {
+   "kind": "added",
+   "block": "1501efd4",
+   "type": "para",
+   "context": "15. 最小发布承诺",
+   "preview": "Portable share 的 V0 承诺只有："
+  },
+  {
+   "kind": "added",
+   "block": "5b2a892f",
+   "type": "para",
+   "context": "15. 最小发布承诺",
+   "preview": "> Proofpress can create a self-contained copy of an artifact"
+  },
+  {
+   "kind": "added",
+   "block": "f9cbd5f9",
+   "type": "para",
+   "context": "15. 最小发布承诺",
+   "preview": "它不承诺："
+  },
+  {
+   "kind": "added",
+   "block": "aae706e7",
+   "type": "list",
+   "context": "15. 最小发布承诺",
+   "preview": "- 记录所有历史；\n- 所有历史都可验证；\n- 已分享内容可以召回；\n- 隐藏 metadata 等于保密；\n- 一个文"
+  },
+  {
+   "kind": "added",
+   "block": "3cb7a253",
+   "type": "para",
+   "context": "15. 最小发布承诺",
+   "preview": "最终产品心智应是："
+  },
+  {
+   "kind": "added",
+   "block": "86713e3e",
+   "type": "code",
+   "context": "15. 最小发布承诺",
+   "preview": "```text\nWork privately.\nPublish a proof deliberately.\nCorrec"
   }
  ],
  "claims": [
   {
-   "block": "5cff94ee",
-   "kind": "modified",
-   "note": "narrowed the descriptive positioning from a wholly verifiable history to change accounts checked against the artifact"
-  },
-  {
-   "block": "d56084c8",
-   "kind": "modified",
-   "note": "expanded the strategic guardrails from four to five"
-  },
-  {
-   "block": "e47ac07f",
-   "kind": "modified",
-   "note": "added the disclosure-scope boundary for append-only history"
-  },
-  {
-   "block": "4d805131",
-   "kind": "modified",
-   "note": "split Who into requesting, producing, editing, and recording roles"
-  },
-  {
-   "block": "64be4294",
+   "block": "be94d633",
    "kind": "added",
-   "note": "explained why a scalar author field is insufficient"
+   "note": "initial disclosure spec: # Proofpress Privacy & Disclosure Model"
   },
   {
-   "block": "42469bef",
+   "block": "9db57e7e",
    "kind": "added",
-   "note": "listed the minimum actor and attribution fields"
+   "note": "initial disclosure spec: > 状态：v0 release-blocking 设计决议稿  "
   },
   {
-   "block": "7bd9f5ab",
+   "block": "38c20796",
    "kind": "added",
-   "note": "prohibited attributing agent-produced work to a human owner"
+   "note": "initial disclosure spec: ## 结论先行"
   },
   {
-   "block": "8d12fa28",
-   "kind": "modified",
-   "note": "expanded the privacy risk heading to cover retention boundaries and access control"
-  },
-  {
-   "block": "b6559753",
-   "kind": "modified",
-   "note": "clarified that append-only does not mean recording all human or agent activity"
-  },
-  {
-   "block": "3f589a73",
-   "kind": "modified",
-   "note": "defined ledger admission as the point where append-only semantics begin"
-  },
-  {
-   "block": "fb2f91cf",
+   "block": "1f2cbc91",
    "kind": "added",
-   "note": "introduced three logical disclosure scopes without requiring a full permissions system"
+   "note": "initial disclosure spec: **Share 不是一个持续开启的 mode，而是一次 publication。**"
   },
   {
-   "block": "cb279134",
+   "block": "b4cc0428",
    "kind": "added",
-   "note": "defined ephemeral, private, and shared lineage"
+   "note": "initial disclosure spec: `proofpress share/pack` 在某个确定时刻，把本地 artifact 的一个可披露投影物化成带 capsule 的文件。share 完成后："
   },
   {
-   "block": "1e291271",
+   "block": "72d67345",
    "kind": "added",
-   "note": "set one artifact as one disclosure boundary for portable v0"
+   "note": "initial disclosure spec: - 已生成的文件是一份离线副本；"
   },
   {
-   "block": "a36aadc6",
+   "block": "aea97c07",
    "kind": "added",
-   "note": "listed safe handling options for history excluded from the shared capsule"
+   "note": "initial disclosure spec: 最重要的语义是："
   },
   {
-   "block": "b6c997b6",
+   "block": "61b11cd0",
    "kind": "added",
-   "note": "defined append-only redaction and the limits of revoking replicated plaintext"
+   "note": "initial disclosure spec: > **Share once; publish again deliberately.**"
   },
   {
-   "block": "1728b582",
+   "block": "1bc78b69",
    "kind": "added",
-   "note": "deferred fine-grained ACL and key management to server backends"
+   "note": "initial disclosure spec: 以及："
+  },
+  {
+   "block": "c9d68c4f",
+   "kind": "added",
+   "note": "initial disclosure spec: > **Append-only means no silent rewrite after disclosure—not capture everything forever.**"
+  },
+  {
+   "block": "bd1252ee",
+   "kind": "added",
+   "note": "initial disclosure spec: ## 1. 五个对象，不用一个 “mode” 混在一起"
+  },
+  {
+   "block": "8bd92eee",
+   "kind": "added",
+   "note": "initial disclosure spec: ### 1.1 Working body"
+  },
+  {
+   "block": "092c1fa1",
+   "kind": "added",
+   "note": "initial disclosure spec: 用户或 agent 当前正在编辑的可见正文。它可以领先于任何 ledger snapshot，也可以处于完全不追踪的 scratch 状态。"
+  },
+  {
+   "block": "c6943039",
+   "kind": "added",
+   "note": "initial disclosure spec: ### 1.2 Local journal"
+  },
+  {
+   "block": "0f4aa813",
+   "kind": "added",
+   "note": "initial disclosure spec: 本机捕获的 artifact versions、claims 和 decision context。它帮助当前用户和 agent 继续工作，但尚未因分享而成为其他人的信任依据。"
+  },
+  {
+   "block": "e1b59a04",
+   "kind": "added",
+   "note": "initial disclosure spec: Local journal 中尚未披露的事件可以被用户明确 `forget`，或者在 share 时被排除。Proofpress 不应把本地、未披露的临时历史伪装成不可撤回的公共记录。"
+  },
+  {
+   "block": "0ee381d8",
+   "kind": "added",
+   "note": "initial disclosure spec: ### 1.3 Disclosure stream"
+  },
+  {
+   "block": "7941b692",
+   "kind": "added",
+   "note": "initial disclosure spec: 面向一个 disclosure boundary 的 append-only 投影链。它不是 local journal 的完整镜像，而是从中选择并重新计算出的可共享历史。"
+  },
+  {
+   "block": "093056c2",
+   "kind": "added",
+   "note": "initial disclosure spec: 每次 publication 都向 stream 追加一个 disclosed version。已经披露的 stream event 不能被静默重写；错误通过 correction、supersess"
+  },
+  {
+   "block": "a092554e",
+   "kind": "added",
+   "note": "initial disclosure spec: ### 1.4 Capsule"
+  },
+  {
+   "block": "aeff8148",
+   "kind": "added",
+   "note": "initial disclosure spec: Disclosure stream 在某一 head 上的 self-contained materialization，嵌在分享文件中。Capsule 是 portable transport，不是"
+  },
+  {
+   "block": "2b40e255",
+   "kind": "added",
+   "note": "initial disclosure spec: ### 1.5 Distributed copy"
+  },
+  {
+   "block": "d5166d0b",
+   "kind": "added",
+   "note": "initial disclosure spec: 已经通过 Slack、邮件、Drive、USB 或其他方式离开当前设备的文件副本。一旦产生 distributed copy，Proofpress 无法证明它是否被打开、复制、缓存或再次转发。"
+  },
+  {
+   "block": "ee2856b9",
+   "kind": "added",
+   "note": "initial disclosure spec: ## 2. 核心不变量"
+  },
+  {
+   "block": "6fa5c6ea",
+   "kind": "added",
+   "note": "initial disclosure spec: 发布前必须接受以下不变量；任何实现与它们冲突都应阻止 release。"
+  },
+  {
+   "block": "e2605fb1",
+   "kind": "added",
+   "note": "initial disclosure spec: 1. **No implicit continuous sharing**：snapshot 不自动更新已经发出的 capsule。"
+  },
+  {
+   "block": "895cc3f7",
+   "kind": "added",
+   "note": "initial disclosure spec: ## 3. 状态模型"
+  },
+  {
+   "block": "41723f22",
+   "kind": "added",
+   "note": "initial disclosure spec: ### 3.1 Local artifact 状态"
+  },
+  {
+   "block": "379d15e0",
+   "kind": "added",
+   "note": "initial disclosure spec: ```text"
+  },
+  {
+   "block": "8466813f",
+   "kind": "added",
+   "note": "initial disclosure spec: `PRIVATE_AHEAD_OF_DISCLOSURE` 不是错误。它表示文件正文或 local journal 已经变化，但上一次 capsule 仍停留在旧 disclosed head。"
+  },
+  {
+   "block": "5635aa2d",
+   "kind": "added",
+   "note": "initial disclosure spec: ### 3.2 Disclosure stream 状态"
+  },
+  {
+   "block": "b804f33c",
+   "kind": "added",
+   "note": "initial disclosure spec: ```text"
+  },
+  {
+   "block": "0db095da",
+   "kind": "added",
+   "note": "initial disclosure spec: `CLOSED` 只表示不再向该 stream 发布未来版本，不会召回历史 capsule。若以后需要重新分享，应创建新的 disclosure stream，而不是复活旧 stream。"
+  },
+  {
+   "block": "9bb04e31",
+   "kind": "added",
+   "note": "initial disclosure spec: V0 可以暂不实现显式 `close`，因为 share 本来就是一次性动作；`close` 主要是未来 server policy 和审计语义。"
+  },
+  {
+   "block": "62d0216f",
+   "kind": "added",
+   "note": "initial disclosure spec: ### 3.3 Share 不是状态开关"
+  },
+  {
+   "block": "6b64f8fa",
+   "kind": "added",
+   "note": "initial disclosure spec: 错误心智："
+  },
+  {
+   "block": "98329215",
+   "kind": "added",
+   "note": "initial disclosure spec: ```text"
+  },
+  {
+   "block": "b9ceb922",
+   "kind": "added",
+   "note": "initial disclosure spec: 正确心智："
+  },
+  {
+   "block": "897e108f",
+   "kind": "added",
+   "note": "initial disclosure spec: ```text"
+  },
+  {
+   "block": "8279d2f3",
+   "kind": "added",
+   "note": "initial disclosure spec: v3、v4 可以是 private intermediates。s2 应表达从上一个 disclosed body 到当前 disclosed body 的净变化，不暴露 v3、v4 的存在、内容或 "
+  },
+  {
+   "block": "43424a1f",
+   "kind": "added",
+   "note": "initial disclosure spec: ## 4. “Share 之后还能不能关掉”的准确答案"
+  },
+  {
+   "block": "3689fc66",
+   "kind": "added",
+   "note": "initial disclosure spec: “关掉”可能指六件不同的事，产品不得用一个 `unshare` 含混处理。"
+  },
+  {
+   "block": "5590ff79",
+   "kind": "added",
+   "note": "initial disclosure spec: | 用户意图 | 是否可做 | 准确行为 |"
+  },
+  {
+   "block": "6653aeb4",
+   "kind": "added",
+   "note": "initial disclosure spec: 因此 UI 和文案不使用没有限定词的 `unshare`。应使用具体动词："
+  },
+  {
+   "block": "ed80165a",
+   "kind": "added",
+   "note": "initial disclosure spec: - `stop future publication`"
+  },
+  {
+   "block": "353fe881",
+   "kind": "added",
+   "note": "initial disclosure spec: ## 5. Publication 流程"
+  },
+  {
+   "block": "e7338b29",
+   "kind": "added",
+   "note": "initial disclosure spec: ### 5.1 推荐的 V0 流程"
+  },
+  {
+   "block": "4a1b6283",
+   "kind": "added",
+   "note": "initial disclosure spec: ```text"
+  },
+  {
+   "block": "dc72c825",
+   "kind": "added",
+   "note": "initial disclosure spec: V0 默认生成新文件，不原地修改 working artifact。这样："
+  },
+  {
+   "block": "fd8f7f5f",
+   "kind": "added",
+   "note": "initial disclosure spec: - private working copy 与 disclosed copy 不会混淆；"
+  },
+  {
+   "block": "5e5659c4",
+   "kind": "added",
+   "note": "initial disclosure spec: 原地 `--in-place` 可以以后增加，但不应是 V0 默认。"
+  },
+  {
+   "block": "58448c19",
+   "kind": "added",
+   "note": "initial disclosure spec: ### 5.2 Share preview 必须显示"
+  },
+  {
+   "block": "ccefbbf8",
+   "kind": "added",
+   "note": "initial disclosure spec: 在 materialize capsule 前，preview 至少显示："
+  },
+  {
+   "block": "33358417",
+   "kind": "added",
+   "note": "initial disclosure spec: - artifact 与当前 body hash；"
+  },
+  {
+   "block": "65115971",
+   "kind": "added",
+   "note": "initial disclosure spec: Agent 可以替用户执行 share，但必须把 preview 摘要报告给用户；不能因用户说“帮我发给同事”就静默嵌入所有 local history。"
+  },
+  {
+   "block": "559e1ed8",
+   "kind": "added",
+   "note": "initial disclosure spec: ### 5.3 Share 的原子性"
+  },
+  {
+   "block": "7f588142",
+   "kind": "added",
+   "note": "initial disclosure spec: 实现应先在同目录生成临时文件，完成 capsule 写入与自校验后，再原子 rename 到目标路径。Capsule 自身必须包含足以重建本地 disclosure record 的 transact"
+  },
+  {
+   "block": "881c97ed",
+   "kind": "added",
+   "note": "initial disclosure spec: 若生成或校验失败："
+  },
+  {
+   "block": "3a3c554b",
+   "kind": "added",
+   "note": "initial disclosure spec: - 不创建 disclosure event；"
+  },
+  {
+   "block": "a6d5643e",
+   "kind": "added",
+   "note": "initial disclosure spec: 若进程恰好在原子 rename 后、本地 ledger 登记前崩溃，则磁盘上可能出现一个有效但尚未登记的 capsule。下次 `proofpress status/share` 必须检测该 tran"
+  },
+  {
+   "block": "5f27579c",
+   "kind": "added",
+   "note": "initial disclosure spec: ## 6. Disclosure policy，不做全局 privacy mode"
+  },
+  {
+   "block": "50b276fe",
+   "kind": "added",
+   "note": "initial disclosure spec: V0 使用 artifact-level default policy，加 event/payload-level override："
+  },
+  {
+   "block": "18ec8d37",
+   "kind": "added",
+   "note": "initial disclosure spec: ```yaml"
+  },
+  {
+   "block": "ff6082b8",
+   "kind": "added",
+   "note": "initial disclosure spec: 原则："
+  },
+  {
+   "block": "f0118458",
+   "kind": "added",
+   "note": "initial disclosure spec: - policy 决定 share 时如何投影，不决定谁可以读取已经分发的明文 capsule；"
+  },
+  {
+   "block": "29a5af70",
+   "kind": "added",
+   "note": "initial disclosure spec: 建议的 payload label 只有两个，避免过度设计："
+  },
+  {
+   "block": "c7e3edf9",
+   "kind": "added",
+   "note": "initial disclosure spec: ```text"
+  },
+  {
+   "block": "7281cf7c",
+   "kind": "added",
+   "note": "initial disclosure spec: 不在 V0 中加入 `team / department / executives / external / custom ACL`。不同 audience 需要不同内容时，生成不同 disclosu"
+  },
+  {
+   "block": "6a6c293a",
+   "kind": "added",
+   "note": "initial disclosure spec: ## 7. 建议的数据模型"
+  },
+  {
+   "block": "cebadf0c",
+   "kind": "added",
+   "note": "initial disclosure spec: ### 7.1 Local version event"
+  },
+  {
+   "block": "5a01730a",
+   "kind": "added",
+   "note": "initial disclosure spec: ```json"
+  },
+  {
+   "block": "43ea5112",
+   "kind": "added",
+   "note": "initial disclosure spec: ### 7.2 Disclosure event"
+  },
+  {
+   "block": "a57e4f6c",
+   "kind": "added",
+   "note": "initial disclosure spec: ```json"
+  },
+  {
+   "block": "4ecd4c48",
+   "kind": "added",
+   "note": "initial disclosure spec: `source_local_version` 可以只存在于本地 disclosure record，不进入 capsule，以免泄漏 private graph。Portable stream 用自己"
+  },
+  {
+   "block": "d7ab5925",
+   "kind": "added",
+   "note": "initial disclosure spec: ### 7.3 Capsule manifest"
+  },
+  {
+   "block": "38ebb985",
+   "kind": "added",
+   "note": "initial disclosure spec: ```json"
+  },
+  {
+   "block": "e924a924",
+   "kind": "added",
+   "note": "initial disclosure spec: Capsule 不包含："
+  },
+  {
+   "block": "3bacf317",
+   "kind": "added",
+   "note": "initial disclosure spec: - 未披露 local event IDs；"
+  },
+  {
+   "block": "4d62bb79",
+   "kind": "added",
+   "note": "initial disclosure spec: ## 8. Correction、Supersession 与 Redaction"
+  },
+  {
+   "block": "550d9860",
+   "kind": "added",
+   "note": "initial disclosure spec: ### 8.1 Correction"
+  },
+  {
+   "block": "bfc61b9c",
+   "kind": "added",
+   "note": "initial disclosure spec: 用于事实或 metadata 错误，例如 actor 误归因、错误时间、claim 拼写错误："
+  },
+  {
+   "block": "ff35e569",
+   "kind": "added",
+   "note": "initial disclosure spec: ```text"
+  },
+  {
+   "block": "4ffa73a2",
+   "kind": "added",
+   "note": "initial disclosure spec: A 仍存在；默认视图显示 B 后的有效解释，并允许展开原始值。"
+  },
+  {
+   "block": "945807ca",
+   "kind": "added",
+   "note": "initial disclosure spec: ### 8.2 Supersession"
+  },
+  {
+   "block": "b46a45ef",
+   "kind": "added",
+   "note": "initial disclosure spec: 用于内容或结论后来被替换："
+  },
+  {
+   "block": "cdb89790",
+   "kind": "added",
+   "note": "initial disclosure spec: ```text"
+  },
+  {
+   "block": "2402dad0",
+   "kind": "added",
+   "note": "initial disclosure spec: 这不是删除 A，而是说明 A 不再是当前有效版本。"
+  },
+  {
+   "block": "6ecc8d68",
+   "kind": "added",
+   "note": "initial disclosure spec: ### 8.3 Redaction"
+  },
+  {
+   "block": "2c08d24c",
+   "kind": "added",
+   "note": "initial disclosure spec: 用于未来 materialization 不应再携带某段 payload："
+  },
+  {
+   "block": "eb40181d",
+   "kind": "added",
+   "note": "initial disclosure spec: ```text"
+  },
+  {
+   "block": "3831dea6",
+   "kind": "added",
+   "note": "initial disclosure spec: 未来 capsule 可以保留："
+  },
+  {
+   "block": "fd4c7a0c",
+   "kind": "added",
+   "note": "initial disclosure spec: - A 的 envelope 或必要 commitment；"
+  },
+  {
+   "block": "92000fcd",
+   "kind": "added",
+   "note": "initial disclosure spec: 未来 capsule移除："
+  },
+  {
+   "block": "21deabb8",
+   "kind": "added",
+   "note": "initial disclosure spec: - 被 redacted 的明文；"
+  },
+  {
+   "block": "f5b4a148",
+   "kind": "added",
+   "note": "initial disclosure spec: 普通 content hash 是完整性工具，不是保密工具。对姓名、短结论、API key 等低熵 payload，明文 hash 可能被枚举猜出。若 commitment 本身会造成泄漏，未来 ca"
+  },
+  {
+   "block": "ad17d431",
+   "kind": "added",
+   "note": "initial disclosure spec: ### 8.4 连事件存在都不能披露"
+  },
+  {
+   "block": "717685d0",
+   "kind": "added",
+   "note": "initial disclosure spec: 若 disclosure stream 中某事件的存在本身就敏感，不能在同一 append-only stream 中“无痕删除”。唯一诚实的选择是："
+  },
+  {
+   "block": "49227825",
+   "kind": "added",
+   "note": "initial disclosure spec: 1. 关闭旧 stream；"
+  },
+  {
+   "block": "bd93b6b2",
+   "kind": "added",
+   "note": "initial disclosure spec: 这是一条新披露谱系，不是对旧历史的悄悄改写。"
+  },
+  {
+   "block": "0d3174f5",
+   "kind": "added",
+   "note": "initial disclosure spec: ## 9. Edge-case matrix"
+  },
+  {
+   "block": "f18e7e3e",
+   "kind": "added",
+   "note": "initial disclosure spec: ### 9.1 Share 之前"
+  },
+  {
+   "block": "235c8a0f",
+   "kind": "added",
+   "note": "initial disclosure spec: | Edge case | V0 行为 |"
+  },
+  {
+   "block": "0a55cf83",
+   "kind": "added",
+   "note": "initial disclosure spec: ### 9.2 Share 生成过程中"
+  },
+  {
+   "block": "6d850850",
+   "kind": "added",
+   "note": "initial disclosure spec: | Edge case | V0 行为 |"
+  },
+  {
+   "block": "f29c5e3e",
+   "kind": "added",
+   "note": "initial disclosure spec: ### 9.3 Share 之后"
+  },
+  {
+   "block": "bebef450",
+   "kind": "added",
+   "note": "initial disclosure spec: | Edge case | V0 行为 |"
+  },
+  {
+   "block": "0eb46804",
+   "kind": "added",
+   "note": "initial disclosure spec: ### 9.4 多 audience"
+  },
+  {
+   "block": "a508445d",
+   "kind": "added",
+   "note": "initial disclosure spec: | Edge case | V0 行为 |"
+  },
+  {
+   "block": "1cba302e",
+   "kind": "added",
+   "note": "initial disclosure spec: ### 9.5 Branch 与 merge"
+  },
+  {
+   "block": "f1055cc9",
+   "kind": "added",
+   "note": "initial disclosure spec: | Edge case | V0 行为 |"
+  },
+  {
+   "block": "cf502818",
+   "kind": "added",
+   "note": "initial disclosure spec: ### 9.6 Redaction 与删除"
+  },
+  {
+   "block": "8262217a",
+   "kind": "added",
+   "note": "initial disclosure spec: | Edge case | V0 行为 |"
+  },
+  {
+   "block": "74a97d85",
+   "kind": "added",
+   "note": "initial disclosure spec: ### 9.7 Server/Cloud 未来能力"
+  },
+  {
+   "block": "6f7c6a6a",
+   "kind": "added",
+   "note": "initial disclosure spec: | Edge case | Server 能做什么 | 仍不能做什么 |"
+  },
+  {
+   "block": "8261234d",
+   "kind": "added",
+   "note": "initial disclosure spec: ## 10. “Who” 在 disclosure 中的补充角色"
+  },
+  {
+   "block": "c77554eb",
+   "kind": "added",
+   "note": "initial disclosure spec: 除 version actors 外，share 本身也必须有 actor："
+  },
+  {
+   "block": "af27fc48",
+   "kind": "added",
+   "note": "initial disclosure spec: ```text"
+  },
+  {
+   "block": "5dfa0cd3",
+   "kind": "added",
+   "note": "initial disclosure spec: `disclosed_by` 与 `sent_by` 不应合并：Proofpress 可以确定谁生成 capsule，但如果用户之后自行拖进 Slack，Proofpress 未必知道谁完成发送。"
+  },
+  {
+   "block": "618dd688",
+   "kind": "added",
+   "note": "initial disclosure spec: 每个 actor 都携带 attribution basis："
+  },
+  {
+   "block": "86c9996d",
+   "kind": "added",
+   "note": "initial disclosure spec: ```text"
+  },
+  {
+   "block": "779dd2a4",
+   "kind": "added",
+   "note": "initial disclosure spec: 不能因为当前用户登录名是 Richard，就把所有 `produced_by` 自动记成 Richard。"
+  },
+  {
+   "block": "fc0ea1a9",
+   "kind": "added",
+   "note": "initial disclosure spec: ## 11. 建议的 V0 命令语义"
+  },
+  {
+   "block": "4eab4d03",
+   "kind": "added",
+   "note": "initial disclosure spec: 命令名尚可调整，但行为必须保持："
+  },
+  {
+   "block": "f6b19413",
+   "kind": "added",
+   "note": "initial disclosure spec: ```text"
+  },
+  {
+   "block": "c6321609",
+   "kind": "added",
+   "note": "initial disclosure spec: V0 不提供名为 `unshare` 的命令，因为它暗示无法兑现的 recall。"
+  },
+  {
+   "block": "2e1be2c2",
+   "kind": "added",
+   "note": "initial disclosure spec: ## 12. UI 文案纪律"
+  },
+  {
+   "block": "47964e87",
+   "kind": "added",
+   "note": "initial disclosure spec: 允许使用："
+  },
+  {
+   "block": "9d47c433",
+   "kind": "added",
+   "note": "initial disclosure spec: - “Create a shareable copy”"
+  },
+  {
+   "block": "2c179dee",
+   "kind": "added",
+   "note": "initial disclosure spec: 禁止使用："
+  },
+  {
+   "block": "7a06bcca",
+   "kind": "added",
+   "note": "initial disclosure spec: - “Turn sharing on”"
+  },
+  {
+   "block": "2c249df0",
+   "kind": "added",
+   "note": "initial disclosure spec: ## 13. V0 明确不做"
+  },
+  {
+   "block": "14d8b083",
+   "kind": "added",
+   "note": "initial disclosure spec: - 持续后台同步 capsule；"
+  },
+  {
+   "block": "a4c4201c",
+   "kind": "added",
+   "note": "initial disclosure spec: ## 14. Release acceptance tests"
+  },
+  {
+   "block": "0444a90a",
+   "kind": "added",
+   "note": "initial disclosure spec: 以下测试全部通过前，不发布 portable share："
+  },
+  {
+   "block": "7a9757ba",
+   "kind": "added",
+   "note": "initial disclosure spec: 1. Snapshot 后旧 shared copy 的字节完全不变；"
+  },
+  {
+   "block": "9e0d89d9",
+   "kind": "added",
+   "note": "initial disclosure spec: ## 15. 最小发布承诺"
+  },
+  {
+   "block": "1501efd4",
+   "kind": "added",
+   "note": "initial disclosure spec: Portable share 的 V0 承诺只有："
+  },
+  {
+   "block": "5b2a892f",
+   "kind": "added",
+   "note": "initial disclosure spec: > Proofpress can create a self-contained copy of an artifact with a selected, verifiable disclosure "
+  },
+  {
+   "block": "f9cbd5f9",
+   "kind": "added",
+   "note": "initial disclosure spec: 它不承诺："
+  },
+  {
+   "block": "aae706e7",
+   "kind": "added",
+   "note": "initial disclosure spec: - 记录所有历史；"
+  },
+  {
+   "block": "3cb7a253",
+   "kind": "added",
+   "note": "initial disclosure spec: 最终产品心智应是："
+  },
+  {
+   "block": "86713e3e",
+   "kind": "added",
+   "note": "initial disclosure spec: ```text"
   }
  ],
  "context": {
-  "why": "The trust promise needed to distinguish verified changes from attributed context, and append-only history from indiscriminate recording or premature ACL complexity.",
+  "why": "Portable share needed precise one-time publication semantics, explicit irreversibility boundaries, and a complete edge-case contract before release.",
   "rejected": [
-   "Fine-grained ACL and per-field encryption in portable v0 — turns the protocol into a key-management and permissions platform before handoff value is validated.",
-   "Silently deleting or rewriting an admitted shared event — breaks the trust property; correction and redaction must themselves be visible events."
+   "Model share as a persistent on/off mode — conflates capture, disclosure, revocation, and redaction, and implies continuous sharing that v0 does not provide.",
+   "Implement per-user ACL inside the portable file — hidden plaintext cannot enforce access control and would pull v0 into key management before handoff value is validated.",
+   "Offer an unshare command — falsely implies that distributed offline copies can be recalled."
   ]
  }
 }
