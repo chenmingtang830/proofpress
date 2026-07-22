@@ -1,43 +1,49 @@
 {
  "event": "version_created",
- "artifact": "AGENTS.md",
- "artifact_id": "pp_795e4174b56d7d5cf89193ea",
- "version": "50e3e16f",
- "parent": "ccba1d0b",
+ "artifact": "skills/README.md",
+ "artifact_id": "pp_e74be09a9d28f1855db4a007",
+ "version": "a65f8e10",
+ "parent": "d81a7942",
  "author": {
   "name": "codex",
   "kind": "agent",
   "session": null
  },
  "note": null,
- "ts": "2026-07-22T11:04:26+00:00",
+ "ts": "2026-07-22T11:04:27+00:00",
  "stats": {
-  "modified": 4
+  "modified": 5
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "bbe579fd",
-   "type": "heading",
-   "context": "Proofpress: ledger Markdown and static H"
-  },
-  {
-   "kind": "modified",
-   "block": "34d3dbf3",
+   "block": "93121540",
    "type": "para",
-   "context": "Proofpress: ledger Markdown and static H"
+   "context": "Proofpress harness adapters"
   },
   {
    "kind": "modified",
-   "block": "406bcda8",
+   "block": "1744e48a",
+   "type": "table",
+   "context": "Proofpress harness adapters"
+  },
+  {
+   "kind": "modified",
+   "block": "a2f15f7d",
    "type": "list",
-   "context": "Proofpress: ledger Markdown and static H"
+   "context": "Shared contract"
   },
   {
    "kind": "modified",
-   "block": "3ce94304",
+   "block": "7109fe56",
+   "type": "list",
+   "context": "Shared contract"
+  },
+  {
+   "kind": "modified",
+   "block": "f8ee70a6",
    "type": "para",
-   "context": "Proofpress: ledger Markdown and static H"
+   "context": "Shared contract"
   }
  ],
  "policy": "local",
@@ -58,27 +64,32 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "bbe579fd",
+   "block": "93121540",
    "kind": "modified",
-   "note": "extends the ledger contract heading to static HTML"
+   "note": "extends fresh artifact context to static HTML"
   },
   {
-   "block": "34d3dbf3",
+   "block": "1744e48a",
    "kind": "modified",
-   "note": "extends accepted artifact revisions to static HTML"
+   "note": "extends fallback capture scope to static HTML"
   },
   {
-   "block": "406bcda8",
+   "block": "a2f15f7d",
    "kind": "modified",
-   "note": "introduces carrier-native anchor preservation"
+   "note": "extends the shared contract to static HTML"
   },
   {
-   "block": "3ce94304",
+   "block": "7109fe56",
+   "kind": "modified",
+   "note": "introduces carrier-native anchors"
+  },
+  {
+   "block": "f8ee70a6",
    "kind": "modified",
    "note": "documents the static HTML anchor attribute"
   }
  ],
  "context": {
-  "why": "align the repository authoring contract with the static HTML carrier"
+  "why": "align shared harness guidance with static HTML capture and anchors"
  }
 }
