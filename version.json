@@ -1,96 +1,102 @@
 {
- "artifact": "skills/codex/AGENTS-snippet.md",
- "artifact_id": "pp_703c3fa926abb512e7199332",
+ "artifact": "skills/cursor/proofpress/SKILL.md",
+ "artifact_id": "pp_0c9edf7d315ab03e0ca06c88",
  "blocks": [
   {
    "type": "para",
-   "text": "<!-- Append to AGENTS.md — the Proofpress contract for Codex agents. -->",
-   "id": "c350cb3a",
-   "hash": "52d8b1e05410"
+   "text": "---\nname: proofpress\ndescription: Preserve decision history for Markdown knowledge artifacts with Proofpress. Use when creating or accepting a meaningful revision to an ADR, design doc, PRD, README, strategy note, or portable .md artifact in a repository containing proofpress.py; never use for source-code files.\n---",
+   "hash": "a8220e237ffa",
+   "id": "19a24923"
   },
   {
    "type": "heading",
-   "text": "## Proofpress: ledger Markdown knowledge artifacts",
-   "id": "51ac24b5",
-   "hash": "8c4130241c17"
+   "text": "# Proofpress",
+   "id": "233b766d",
+   "hash": "8576f3816903"
   },
   {
    "type": "para",
-   "text": "For accepted, meaningful revisions to Markdown knowledge artifacts—never source\ncode—close this loop. Do not snapshot every conversational turn.",
-   "id": "10265f5d",
-   "hash": "aabb128bda62"
+   "text": "Record accepted Markdown artifact versions with structured testimony and\nverification. Do not snapshot every conversational turn.",
+   "id": "b2ec6ff5",
+   "hash": "22a023b57c1f"
+  },
+  {
+   "type": "heading",
+   "text": "## Workflow",
+   "id": "e14e12ad",
+   "hash": "05146c1f1860"
   },
   {
    "type": "list",
-   "text": "1. Read `python3 proofpress.py policy <file>`. If the user asks for portability,",
-   "id": "d181cc6e",
-   "hash": "0d0b4fbb2e3c"
+   "text": "1. Read `python3 proofpress.py policy <file>`. If the user asks for a portable",
+   "id": "42fd42e7",
+   "hash": "da2cb3e3fc2c"
   },
   {
    "type": "para",
-   "text": "   run `policy <file> portable` once; it remains sticky. Use `ingest <file>` for\n   Git history not yet represented in the ledger.",
-   "id": "6c0f813b",
-   "hash": "02c487c133df"
+   "text": "   artifact, run `python3 proofpress.py policy <file> portable` once; portability\n   remains sticky. If Git history exists without a ledger, run `ingest <file>`.",
+   "id": "ffa6ae00",
+   "hash": "e09aa5a75860"
   },
   {
    "type": "list",
-   "text": "2. Preserve surviving block anchors while editing, then run `anchor <file>` and",
-   "id": "0ba00342",
-   "hash": "358be3722c87"
+   "text": "2. Preserve surviving `[//]: # (ob:xxxxxxxx)` anchors during editing. Remove an",
+   "id": "6d23ae8f",
+   "hash": "fde527edab5a"
   },
   {
    "type": "para",
-   "text": "   inspect inherited/new/gone IDs.",
-   "id": "0b96e11b",
-   "hash": "a9b1c1c0ef51"
+   "text": "   anchor with its deleted block and invent none for new blocks.",
+   "id": "35ce54f2",
+   "hash": "c6b7f4b1e130"
   },
   {
    "type": "list",
-   "text": "3. Write claims JSON with one honest item per touched or removed block. Do not",
-   "id": "55bb7174",
-   "hash": "d2de480fd3bc"
+   "text": "3. Run `anchor <file>` and read the inherited/new/gone inventory.\n4. Write claims JSON with one honest entry per touched or removed block. Kinds",
+   "id": "f119601b",
+   "hash": "a94331a0659c"
   },
   {
    "type": "para",
-   "text": "   enumerate untouched blocks.",
-   "id": "3b3c1156",
-   "hash": "a7f1bc5835ee"
+   "text": "   are `added`, `removed`, `modified`, `moved`, and `unchanged`. Do not enumerate\n   untouched blocks.",
+   "id": "6b88d004",
+   "hash": "7fbbca5cbe72"
   },
   {
    "type": "list",
-   "text": "4. Snapshot with `--why`, claims, and explicit actors:",
-   "id": "311b1408",
-   "hash": "5fa97edde2db"
+   "text": "5. Snapshot only after a meaningful version is accepted:",
+   "id": "f381d919",
+   "hash": "a6686db04519"
   },
   {
    "type": "code",
-   "text": "   ```sh\n   python3 proofpress.py snapshot <file> --kind agent --author codex \\\n     --produced-by codex --recorded-by codex \\\n     --attribution-basis harness_attested --note \"<changelog>\" \\\n     --claims <claims.json> --why \"<actual reason>\" \\\n     --rejected \"<consequential dead branch — reason>\"\n   ```",
-   "id": "08f435e4",
-   "hash": "d2bac0be306a"
+   "text": "   ```sh\n   python3 proofpress.py snapshot <file> --kind agent --author cursor \\\n     --produced-by cursor --recorded-by cursor \\\n     --attribution-basis harness_attested \\\n     --session \"<session-id>\" --note \"<changelog>\" --claims <claims.json> \\\n     --why \"<actual reason>\" --rejected \"<consequential dead branch — reason>\"\n   ```",
+   "id": "f42cb113",
+   "hash": "f8595a3b84be"
   },
   {
    "type": "para",
-   "text": "   Omit `--rejected` unless the dead branch matters later. Never infer it from\n   casual discussion or capture raw prompts/transcripts.",
-   "id": "b521eb3e",
-   "hash": "48d92360fcc8"
+   "text": "   `--why` is required. Omit `--rejected` unless the rejected path is important\n   enough to keep future collaborators from repeating it. Never infer it from\n   casual discussion or include raw prompts/transcripts.",
+   "id": "790c5dda",
+   "hash": "8f2b5cf2482f"
   },
   {
    "type": "list",
-   "text": "5. Run `verify <file>` and report its output verbatim. Never re-snapshot just to",
-   "id": "cd72eb83",
-   "hash": "9509a99ec574"
+   "text": "6. Run `verify <file>` and report its output verbatim. Never re-snapshot merely",
+   "id": "e3c56875",
+   "hash": "9000c18b5e01"
   },
   {
    "type": "para",
-   "text": "   force green.",
-   "id": "358e67a9",
-   "hash": "5e734ff8c456"
+   "text": "   to turn a mismatch green.",
+   "id": "6ad53003",
+   "hash": "13871c7c0a54"
   },
   {
    "type": "para",
-   "text": "For incoming portable files, run `inspect` and then `import`. Fallback `capture`\nrecords only `recorded_by`; it cannot know authorship or reasoning.",
-   "id": "bc88257e",
-   "hash": "de5ccbed15bb"
+   "text": "For an incoming portable file, run `inspect` before trusting it and `import` to\nrestore its history locally. Fallback `capture` supplies only `recorded_by`; it\ncannot know who authored the content or why. Never snapshot source-code files.",
+   "id": "355446e0",
+   "hash": "c2f82b04c9e9"
   }
  ]
 }
