@@ -1,96 +1,588 @@
 {
- "artifact": "docs/PORTABLE_HANDOFF_DOGFOOD.md",
- "artifact_id": "pp_acb4706b8524e52184d31d1c",
+ "artifact": "docs/PRIVACY_AND_DISCLOSURE.md",
+ "artifact_id": "pp_618aa4fd82cd69d084172178",
  "blocks": [
   {
    "type": "heading",
-   "text": "# Portable handoff dogfood — 2026-07-22",
-   "id": "fa035c52",
-   "hash": "af0748f926f8"
-  },
-  {
-   "type": "heading",
-   "text": "## Question",
-   "id": "80e8244b",
-   "hash": "8a2408b44be4"
+   "text": "# Privacy Boundaries for Portable Artifacts",
+   "id": "be94d633",
+   "hash": "57e2c735cc04"
   },
   {
    "type": "para",
-   "text": "Can a Markdown artifact carry enough admitted history for a receiver with no\nshared conversation or Git ledger to recover what changed, why, and which\nconsequential direction was rejected?",
-   "id": "c50dd4dd",
-   "hash": "c7926bcd02d3"
+   "text": "> 状态：V0 产品边界决议稿\n>\n> 日期：2026-07-22\n>\n> 范围：artifact policy、ledger admission、capsule 可见性、停止 portable、人工 drift、correction/redaction 与最小 edge cases。\n>\n> 不在范围：细粒度 ACL、在线密钥服务、多 audience publication streams、法务保留政策和实时协作。",
+   "id": "9db57e7e",
+   "hash": "9e2a152ab6c7"
   },
   {
    "type": "heading",
-   "text": "## Setup",
-   "id": "047e29e6",
-   "hash": "9470c67e8c0f"
+   "text": "## 结论先行",
+   "id": "38c20796",
+   "hash": "a432e7e7706a"
   },
   {
    "type": "para",
-   "text": "The sender created a portable v1, accepted a v2 with an explicit reason and one\nconsequential rejection, and copied the original Markdown file into a fresh Git\nrepository. The receiver had no sender ledger ref or session history. It ran\n`inspect`, `import`, and `log` against the renamed file.",
-   "id": "7d2f7204",
-   "hash": "d73e8059e271"
+   "text": "Proofpress 的隐私模型不围绕 “share” 建立。用户继续通过 Slack、邮件、Drive 或其他工具发送文件；Proofpress 不要求每次 handoff 前执行一次 publication，也不假装知道文件是否已经被复制或转发。",
+   "id": "552f8a90",
+   "hash": "b0ca0af26b2d"
   },
   {
    "type": "para",
-   "text": "A separate set of cases introduced an IDE-style body edit, corrupted the\ncapsule, switched through a private local interval, produced a clean copy,\nrenamed the artifact, invoked fallback capture, and attempted a snapshot from a\nstale base.",
-   "id": "1b1943db",
-   "hash": "bd80605c32e1"
-  },
-  {
-   "type": "heading",
-   "text": "## Result",
-   "id": "21904e08",
-   "hash": "012cdbee8800"
+   "text": "V0 只需要五条规则：",
+   "id": "7407f209",
+   "hash": "8ddb1c7e09b7"
   },
   {
    "type": "list",
-   "text": "- The receiver restored the same path-independent artifact identity.\n- The accepted v2 reason and consequential rejection survived the handoff.\n- Casual discussion was absent because no caller admitted it.\n- An unrecorded body edit failed both `inspect` and `verify`.\n- Capsule corruption failed inspection.\n- Re-enabling portable after a local interval exposed no private interval data.\n- A clean export contained no transport metadata and did not mutate the source.\n- Fallback capture attributed only the recorder, not an editor or producer.\n- A stale base was rejected before it could become the next version.\n- Leading YAML frontmatter remained at byte zero.",
-   "id": "c1792237",
-   "hash": "9b2b4e126e02"
+   "text": "1. **Declare portable once**：portable 是 artifact 的 sticky policy，不是每次分享的开关。\n2. **Record selectively**：只记录 accepted versions 与 consequential decisions，不记录完整 conversation。\n3. **Raw holder can inspect**：拿到 raw artifact 的人可能读取 capsule；hidden 不等于 confidential。\n4. **Stop prospectively**：关闭 portable 只影响当前和未来，不能召回旧副本。\n5. **Never hide gaps**：未捕获或无法归因的变化显示为 drift / unknown，不猜测 provenance。",
+   "id": "ee94d49a",
+   "hash": "670693fd60b4"
   },
   {
    "type": "para",
-   "text": "The executable suite contains ten passing black-box cases covering these\nbehaviors.",
-   "id": "c31097b6",
-   "hash": "bb55494217ce"
+   "text": "> **Append-only begins at admission. It does not mean capture everything forever.**",
+   "id": "c9d68c4f",
+   "hash": "fccad37bd64c"
   },
   {
    "type": "heading",
-   "text": "## Boundary",
-   "id": "2641300f",
-   "hash": "5eef6f93e30a"
+   "text": "## 1. 正确的心智模型",
+   "id": "6a6c293a",
+   "hash": "602c41b76c93"
   },
   {
    "type": "para",
-   "text": "This validates a byte-preserving file handoff across isolated repositories. It\ndoes not prove that every Slack, email, wiki, formatter, or copy/paste path\npreserves the hidden carrier. If a transport strips metadata, the result is an\nordinary readable Markdown artifact with no provenance claim. A real Slack\nattachment round-trip remains a release-channel check.",
-   "id": "a9701261",
-   "hash": "58de3579b02d"
+   "text": "旧模型过度围绕 publication 构建：",
+   "id": "5051a788",
+   "hash": "05d3c9dca3c2"
+  },
+  {
+   "type": "code",
+   "text": "```text\nlocal journal → share preview → disclosure projection → disclosure stream → shared copy\n```",
+   "id": "d411f78c",
+   "hash": "65c0a13ac005"
   },
   {
    "type": "para",
-   "text": "It also does not prove authorship cryptographically. Body, chain, semantic diff,\nand claims are checkable; `why` and actor fields remain attributed testimony.",
-   "id": "c87de79e",
-   "hash": "0390045ce2b5"
+   "text": "V0 采用 artifact policy：",
+   "id": "d3c3fb06",
+   "hash": "e635d93fb4b3"
+  },
+  {
+   "type": "code",
+   "text": "```text\n                  make local\nPORTABLE  ─────────────────────→  LOCAL\n   ▲                                │\n   │ explicit enable                │ ignore\n   │                                ▼\n   └────────────────────────────  IGNORED\n```",
+   "id": "76e10073",
+   "hash": "24d0318b4585"
+  },
+  {
+   "type": "para",
+   "text": "这些状态回答“历史在哪里”，而不是“谁现在有权限”：",
+   "id": "2f0cb618",
+   "hash": "fd3acd8227a0"
+  },
+  {
+   "type": "table",
+   "text": "| Policy | Ledger 行为 | 文件行为 |\n|---|---|---|\n| `ignored` | 不捕获未来变化 | 普通 artifact |\n| `local` | 历史留在 Git/local/backend | raw file 不携带 portable capsule |\n| `portable` | admitted events 进入同一 lineage | raw file 携带安全 capsule |",
+   "id": "61f99e53",
+   "hash": "bc06be1739eb"
+  },
+  {
+   "type": "para",
+   "text": "安装 Proofpress 不应自动把所有 Markdown 设为 portable。用户或 agent 第一次明确声明后，policy 被持久化；后续 admitted versions 继承它，不再每轮询问。",
+   "id": "595556d3",
+   "hash": "6280483e9b4b"
   },
   {
    "type": "heading",
-   "text": "## Launch implication",
-   "id": "ea1c2d37",
-   "hash": "e698e68f6631"
+   "text": "## 2. Ledger admission boundary",
+   "id": "ae4bcddd",
+   "hash": "bd5c49d54c6d"
   },
   {
    "type": "para",
-   "text": "> Proofpress makes a Markdown artifact carry a checkable record of its admitted\n> changes and attributed decision context—even when it leaves Git.",
-   "id": "9486c8dc",
-   "hash": "2b29ef7235d0"
+   "text": "Working body 可以包含 scratch，也可以领先于 ledger head。并非所有写入文件或出现在 session 中的内容都自动获得 append-only 语义。",
+   "id": "092c1fa1",
+   "hash": "7ca1e5ee02e2"
+  },
+  {
+   "type": "heading",
+   "text": "### 2.1 默认进入 ledger",
+   "id": "ab8d506b",
+   "hash": "d7cb6e555f85"
+  },
+  {
+   "type": "list",
+   "text": "- 用户确认保留或任务完成所形成的 artifact version；\n- 从 parent 到新 version 的 computed semantic changes；\n- 作者提交的 change claims 与验证结果；\n- requested / produced / edited / recorded actors 及 attribution basis；\n- 精炼、artifact-facing 的 why；\n- 未来 agent 不应重走的 consequential rejection；\n- correction、supersession 和 detected manual drift。",
+   "id": "f84efabd",
+   "hash": "24c8b3f004d5"
+  },
+  {
+   "type": "heading",
+   "text": "### 2.2 默认不进入 ledger",
+   "id": "78e5757c",
+   "hash": "565f0055d5e3"
+  },
+  {
+   "type": "list",
+   "text": "- raw prompts 与完整 session transcript；\n- chain-of-thought、私密推理和 tool calls；\n- 每次 save 或每个中间 token state；\n- casual brainstorm 和未展开选项；\n- Slack、会议或语音的逐字稿；\n- source payload、secret、credential 和本地绝对路径；\n- 用户明确标记为 private/local-only 的 context。",
+   "id": "0766d40e",
+   "hash": "31848da2fbd2"
+  },
+  {
+   "type": "heading",
+   "text": "### 2.3 Consequential rejection 判据",
+   "id": "3771c1c0",
+   "hash": "5e72753825f6"
   },
   {
    "type": "para",
-   "text": "Avoid “complete history,” “verified why,” “confidential hidden metadata,” and\n“works through every sharing channel.”",
-   "id": "edcf41c2",
-   "hash": "fd23bd0107e8"
+   "text": "只有同时满足下列条件的否决才应记录：",
+   "id": "1c3e3dcd",
+   "hash": "8d80dd22a6a3"
+  },
+  {
+   "type": "list",
+   "text": "1. 这个方向被认真考虑过；\n2. 它因一个可以表达的理由被放弃；\n3. 后继者重提它会浪费工作或破坏已达成共识。",
+   "id": "31da1e3a",
+   "hash": "0e5f492e0e6a"
+  },
+  {
+   "type": "para",
+   "text": "记录的是一句精炼的 rejected rationale，不是讨论逐字稿。",
+   "id": "af2b57ac",
+   "hash": "a79d9c22b45d"
+  },
+  {
+   "type": "para",
+   "text": "> **Record the decision, not the conversation.**",
+   "id": "886e450e",
+   "hash": "e940e9760abc"
+  },
+  {
+   "type": "heading",
+   "text": "## 3. 核心不变量",
+   "id": "ee2856b9",
+   "hash": "746dd664ca91"
+  },
+  {
+   "type": "list",
+   "text": "1. **Sticky portable**：portable 的后续 admitted version 默认更新 capsule。\n2. **No per-share ceremony**：普通文件 handoff 不触发新的 permission workflow。\n3. **One raw artifact, one holder boundary**：能读取 raw file 的人被视为能读取 capsule。\n4. **Hidden is not confidential**：渲染不可见不等于加密或 ACL。\n5. **Selective admission**：raw conversation、scratch 和 private context 默认不入账。\n6. **No silent rewrite**：已 admitted event 的错误通过后续事件表达。\n7. **No offline recall**：已分发的明文副本无法远程撤回。\n8. **Deleted body is not deleted history**：旧版本进入 capsule 后，从当前正文删除不保证从 history 消失。\n9. **Unknown stays unknown**：无法证明的 actor、时间或 why 不得补猜。\n10. **Gaps stay visible**：body/capsule mismatch、missing event 和 stripped metadata 必须明确降级。\n11. **Private interval stays private**：重新开启 portable 不得自动导出 local-only 期间的中间事件或 payload。\n12. **Precise trust labels**：computed、verified、attested、self-asserted、unknown、redacted 必须可区分。",
+   "id": "e2605fb1",
+   "hash": "fb152d7f6d89"
+  },
+  {
+   "type": "heading",
+   "text": "## 4. Capsule 的可见性与内容",
+   "id": "a092554e",
+   "hash": "5204b5ab2791"
+  },
+  {
+   "type": "para",
+   "text": "Capsule 是 lineage 的 self-contained portable representation，不是权限系统。持有 raw artifact 的人可以用文本工具或 Proofpress-aware agent 读取它。",
+   "id": "aeff8148",
+   "hash": "62dccc32b4f4"
+  },
+  {
+   "type": "heading",
+   "text": "### 4.1 Capsule 默认可以包含",
+   "id": "d7ab5925",
+   "hash": "25a5dc5745cc"
+  },
+  {
+   "type": "list",
+   "text": "- artifact ID、policy、protocol version 和 current head；\n- current body digest 与 event parent chain；\n- admitted versions 的安全 checkpoint/delta；\n- semantic changes；\n- claims 与 verification result；\n- actors、timestamps 和 attribution basis；\n- admitted why 与 consequential rejections；\n- correction、supersession、redaction 和 drift 状态。",
+   "id": "9efa1c70",
+   "hash": "1ff16124b1f8"
+  },
+  {
+   "type": "heading",
+   "text": "### 4.2 Capsule 默认不得包含",
+   "id": "49aae806",
+   "hash": "207fe0bfbd44"
+  },
+  {
+   "type": "list",
+   "text": "- raw transcript、完整 prompt 或 tool trace；\n- private/local-only event IDs 和 omitted-event counts；\n- 本地路径、environment secrets、tokens 或 encryption keys；\n- 没有明确 admission 的 source content；\n- 为了“完整”而自动保存的每个中间正文。",
+   "id": "e924a924",
+   "hash": "0830e7366d65"
+  },
+  {
+   "type": "heading",
+   "text": "### 4.3 删除内容的风险",
+   "id": "f0f6e462",
+   "hash": "c024ac58453f"
+  },
+  {
+   "type": "para",
+   "text": "Portable history 可能包含旧 checkpoint、delta 或 deleted blocks。因此：",
+   "id": "f8360c02",
+   "hash": "410c932d2a22"
+  },
+  {
+   "type": "para",
+   "text": "> **Deleting text from the current body does not prove it is absent from the capsule.**",
+   "id": "a57d5e5c",
+   "hash": "7abf8638dc96"
+  },
+  {
+   "type": "para",
+   "text": "如果一段内容不应该被 raw artifact holder 看到，就不应让包含它的 version 进入 portable lineage。把它放进 capsule 后再从可见正文删除，不是隐私控制。",
+   "id": "507eb82f",
+   "hash": "c561d1997ef2"
+  },
+  {
+   "type": "heading",
+   "text": "## 5. 普通 handoff，不是 share 状态机",
+   "id": "483804ed",
+   "hash": "278e686c81d9"
+  },
+  {
+   "type": "para",
+   "text": "用户把 portable artifact 拖进 Slack 或发送邮件时，Proofpress 不创建 `disclosure_event`，也不要求选择 audience。文件只是按照当前内容被复制。",
+   "id": "49dd8fc0",
+   "hash": "322606d7f2d7"
+  },
+  {
+   "type": "para",
+   "text": "Proofpress 不能可靠知道：",
+   "id": "886e00f6",
+   "hash": "f941cb66b0f9"
+  },
+  {
+   "type": "list",
+   "text": "- 谁真正点击了发送；\n- 文件是否被打开；\n- 收件人是否保存、复制或转发；\n- 某个本地副本是否已经离开设备。",
+   "id": "184d2482",
+   "hash": "732678046dc6"
+  },
+  {
+   "type": "para",
+   "text": "因此协议不设置 `disclosed_by`、`sent_by` 或 per-audience stream，也不使用 “unshare everywhere” 等无法兑现的语言。",
+   "id": "abd89abd",
+   "hash": "88ecb0f5e573"
+  },
+  {
+   "type": "heading",
+   "text": "## 6. Portable lifecycle",
+   "id": "97f6f122",
+   "hash": "8cace2824eca"
+  },
+  {
+   "type": "heading",
+   "text": "### 6.1 Enable portable",
+   "id": "24a6662e",
+   "hash": "b2ee00f389a1"
+  },
+  {
+   "type": "para",
+   "text": "第一次 enable 是一次明确的 artifact-level 选择。系统应说明：未来 admitted history 会随 raw file 携带，且 holder 可能读到旧版本中后来被删除的内容。",
+   "id": "2d7504b2",
+   "hash": "efe34a7ae7b9"
+  },
+  {
+   "type": "para",
+   "text": "Enable 后无需在每个版本或每次发送时重复确认。",
+   "id": "99efd910",
+   "hash": "870b2e48ce4b"
+  },
+  {
+   "type": "heading",
+   "text": "### 6.2 Continue portable",
+   "id": "81f914b1",
+   "hash": "96c88ada9263"
+  },
+  {
+   "type": "para",
+   "text": "当 agent 完成用户要求保留的修改，或用户明确确认当前结果时：",
+   "id": "7e55157e",
+   "hash": "eb64fd7bdbd8"
+  },
+  {
+   "type": "list",
+   "text": "1. 计算 parent → current body 的 semantic changes；\n2. 接收 actors、claims、why 和必要的 rejection；\n3. 核对 claims；\n4. append version event；\n5. 原子刷新 capsule。",
+   "id": "cdb74d1f",
+   "hash": "21c2d7c86c6c"
+  },
+  {
+   "type": "para",
+   "text": "Casual discussion 和未被采用的临时状态不会因为发生在 portable artifact 周围就自动进入 capsule。",
+   "id": "645c4ae1",
+   "hash": "5ae3b66af6fa"
+  },
+  {
+   "type": "heading",
+   "text": "### 6.3 Make local",
+   "id": "58cac2dd",
+   "hash": "4a769be5f619"
+  },
+  {
+   "type": "para",
+   "text": "`make local` 表示：",
+   "id": "2c9d0822",
+   "hash": "b9c0f93baa3b"
+  },
+  {
+   "type": "list",
+   "text": "- 当前工作 artifact 不再携带 portable capsule，或从下一次 materialization 起移除它；\n- 后续 admitted events 只进入 local ledger；\n- stable anchors 可以保留；\n- 已经分发的 portable copy 不变；\n- 本地 ledger 不因关闭 portable 自动删除。",
+   "id": "f3548215",
+   "hash": "c308b88558a8"
+  },
+  {
+   "type": "para",
+   "text": "这不是 recall，也不是抹除过去。",
+   "id": "8c9204c8",
+   "hash": "1e96b33d83cc"
+  },
+  {
+   "type": "heading",
+   "text": "### 6.4 Clean copy",
+   "id": "697c7f40",
+   "hash": "4dff0a8201fa"
+  },
+  {
+   "type": "para",
+   "text": "用户可以从 portable artifact 生成无 capsule 的普通副本。Clean copy：",
+   "id": "b454588d",
+   "hash": "58dc79b96754"
+  },
+  {
+   "type": "list",
+   "text": "- 只包含当前可见正文；\n- 不声称携带完整 provenance；\n- 不修改源 artifact 或 local ledger；\n- 不会让过去分发的 portable copies 消失。",
+   "id": "859b076c",
+   "hash": "5f4679d52c5d"
+  },
+  {
+   "type": "heading",
+   "text": "### 6.5 Re-enable portable",
+   "id": "3e4ed2f7",
+   "hash": "64416b5b474f"
+  },
+  {
+   "type": "para",
+   "text": "重新开启是少见、明确的 transition。V0 必须保证：",
+   "id": "1b4a1e02",
+   "hash": "016a9b84f02d"
+  },
+  {
+   "type": "list",
+   "text": "- local-only interval 的 event IDs、版本、actors、why 和 omitted counts 不会自动进入 capsule；\n- 当前正文可以作为新的安全 checkpoint；\n- 若需要延续旧 portable head，只能表达被允许披露的净变化，不能泄漏中间 private graph；\n- 无法安全延续时，应开始新的 portable lineage/derived artifact，而不是伪装成完整连续历史。",
+   "id": "14bc1711",
+   "hash": "a4dd54f6c861"
+  },
+  {
+   "type": "para",
+   "text": "具体 continuation encoding 在 implementation spec 中冻结，但 privacy invariant 不变：**private interval stays private**。",
+   "id": "ff98d967",
+   "hash": "7e8ae191991d"
+  },
+  {
+   "type": "heading",
+   "text": "## 7. 人工编辑与归因",
+   "id": "a74d9489",
+   "hash": "ef443618655a"
+  },
+  {
+   "type": "para",
+   "text": "> **A document can detect that it was changed. It cannot know who changed it, exactly when, or why.**",
+   "id": "6761d19f",
+   "hash": "e0bab22cf72b"
+  },
+  {
+   "type": "para",
+   "text": "如果 body 与 capsule head 不匹配，Proofpress 可以确定：",
+   "id": "b0624cf8",
+   "hash": "0b9bf38e8320"
+  },
+  {
+   "type": "list",
+   "text": "- 当前正文发生了未记录变化；\n- 哪些 blocks added / removed / modified / moved；\n- 当前工具第一次观察到 mismatch 的时间。",
+   "id": "a1e83e45",
+   "hash": "f5b11f4b85fc"
+  },
+  {
+   "type": "para",
+   "text": "它不能仅凭文件知道：",
+   "id": "669c59c4",
+   "hash": "1beae2ca43e5"
+  },
+  {
+   "type": "list",
+   "text": "- 谁完成修改；\n- 修改实际发生时间；\n- 修改原因；\n- 修改是否来自同事反馈、用户本人或另一个 agent。",
+   "id": "cbc60133",
+   "hash": "b74ead57cefa"
+  },
+  {
+   "type": "para",
+   "text": "因此检测事件应类似：",
+   "id": "02196bad",
+   "hash": "a8dae3257441"
+  },
+  {
+   "type": "code",
+   "text": "```text\nevent: unrecorded_edit_detected\nwhat: computed semantic changes\nedited_by: unknown\nauthored_at: unknown\nobserved_at: attested\nwhy: unknown\n```",
+   "id": "9d551f6b",
+   "hash": "92936491b905"
+  },
+  {
+   "type": "para",
+   "text": "Actor roles 至少区分：",
+   "id": "8261234d",
+   "hash": "195c617174f2"
+  },
+  {
+   "type": "code",
+   "text": "```text\nrequested_by\nproduced_by\nedited_by\nrecorded_by\n```",
+   "id": "f1daa663",
+   "hash": "067193ce9323"
+  },
+  {
+   "type": "para",
+   "text": "每个 actor 的 attribution basis 是：",
+   "id": "618dd688",
+   "hash": "c9e455f5eea9"
+  },
+  {
+   "type": "code",
+   "text": "```text\nsigned | environment_attested | harness_attested | self_asserted | unknown\n```",
+   "id": "86c9996d",
+   "hash": "3848f33e76e0"
+  },
+  {
+   "type": "para",
+   "text": "当前登录用户、文件 owner 或运行 hook 的 agent 都不能自动等同于 `edited_by`。",
+   "id": "12d61fe3",
+   "hash": "578aaef8c152"
+  },
+  {
+   "type": "heading",
+   "text": "## 8. Correction、supersession 与 redaction",
+   "id": "4d62bb79",
+   "hash": "fc1fc4a25ef7"
+  },
+  {
+   "type": "heading",
+   "text": "### 8.1 Correction",
+   "id": "bfc61b9c",
+   "hash": "00befd6fcb0b"
+  },
+  {
+   "type": "para",
+   "text": "Actor、时间或 change account 写错时，append correction 指向原 event。默认视图采用更正后的解释，但原记录仍可见。",
+   "id": "c2d65249",
+   "hash": "e30d1b4e7c28"
+  },
+  {
+   "type": "heading",
+   "text": "### 8.2 Supersession",
+   "id": "b46a45ef",
+   "hash": "c6553a82aaf9"
+  },
+  {
+   "type": "para",
+   "text": "结论或正文后来改变时，创建新 version 并声明 supersedes。旧版本仍是历史事实，但不再是 current head。",
+   "id": "2218bf81",
+   "hash": "b370f0e690d4"
+  },
+  {
+   "type": "heading",
+   "text": "### 8.3 Redaction",
+   "id": "6ecc8d68",
+   "hash": "6e2767f841dc"
+  },
+  {
+   "type": "para",
+   "text": "敏感 payload 已进入 portable history 时，未来 capsule 可以追加 redaction 状态并移除相应明文，但必须明确：",
+   "id": "3202fe48",
+   "hash": "05db2ece606f"
+  },
+  {
+   "type": "list",
+   "text": "- 旧副本可能仍包含原文；\n- 移除 payload 后，部分历史只能 partial verification；\n- 不能用普通 hash 冒充安全删除，尤其是姓名、短结论、API key 等低熵内容；\n- V0 不承诺 crypto-shredding 或远程删除。",
+   "id": "7ccd86ac",
+   "hash": "fc4c9bf2b96c"
+  },
+  {
+   "type": "para",
+   "text": "如果连事件存在本身都不能披露，安全选择是生成新的 sanitized/derived lineage，并明确它不是旧历史的完整连续投影。",
+   "id": "4779c987",
+   "hash": "eb5e4ceaace2"
+  },
+  {
+   "type": "heading",
+   "text": "## 9. V0 edge cases",
+   "id": "0d3174f5",
+   "hash": "144bdc90a97d"
+  },
+  {
+   "type": "table",
+   "text": "| 情况 | 行为 |\n|---|---|\n| v1 portable，形成 accepted v2 | v2 自动 append 并刷新 capsule |\n| 讨论 casual branch | 不记录 |\n| 明确否决未来不应重走的方向 | 记录精炼 rejected rationale |\n| 用户直接在 IDE 修改 | 计算 drift；actor/time/why 未知则保持 unknown |\n| 用户把 artifact 改为 local | 停止未来 embedding；旧副本不变 |\n| local 后重新 portable | 不导出 private interval；安全 checkpoint 或新 lineage |\n| 收件人修改正文但不更新 capsule | body mismatch，标记 unrecorded edits |\n| 收件人修改 capsule | chain/digest verification 失败，标记 tampered |\n| 收件人只复制渲染正文 | capsule 丢失，降级为普通 artifact |\n| 当前正文删除了旧敏感内容 | 检查 capsule；不能假设 history 中也已删除 |\n| 用户生成 clean copy | 无 capsule，不声称 provenance，不影响源 ledger |\n| 已分发副本需要撤回 | 明确无法保证 recall；只能发送 replacement |",
+   "id": "a24edc0a",
+   "hash": "068457664865"
+  },
+  {
+   "type": "heading",
+   "text": "## 10. V0 明确不做",
+   "id": "2c249df0",
+   "hash": "7f5690481584"
+  },
+  {
+   "type": "list",
+   "text": "- 每次文件发送前的 share UI；\n- disclosure streams 与 audience labels；\n- 一份离线文件内的 per-user/per-field ACL；\n- 多 audience 自动 projection；\n- 在线密钥吊销；\n- 已分发明文文件的远程删除；\n- 自动判断 Slack、会议或口头内容的敏感等级；\n- 默认打包完整 session transcript；\n- 完整签名和组织身份体系；\n- 对所有 retention/privacy 法规作统一承诺。",
+   "id": "14d8b083",
+   "hash": "3b0ac7e2349f"
+  },
+  {
+   "type": "heading",
+   "text": "## 11. Release acceptance tests",
+   "id": "0444a90a",
+   "hash": "70175d8df18e"
+  },
+  {
+   "type": "para",
+   "text": "Portable V0 发布前至少通过：",
+   "id": "3208f8df",
+   "hash": "dafa22306a2f"
+  },
+  {
+   "type": "list",
+   "text": "1. v1 enable portable 后，accepted v2 无重复 permission prompt 地更新 capsule；\n2. casual branch 不产生 event，consequential rejection 产生一条精炼 event；\n3. capsule 不包含 raw transcript、tool trace、local path 或 secrets；\n4. raw holder 可以 inspect capsule，产品不把 hidden 描述成 confidential；\n5. 修改正文但不更新 capsule时，verify 报 body mismatch；\n6. 修改 capsule 时，verify 报 tampered；\n7. manual drift 不被自动归因给当前用户或 agent；\n8. make local 后，未来版本不再嵌入 capsule；\n9. re-enable portable 不泄漏 local-only event IDs、payload 或 omitted counts；\n10. clean copy 不携带 capsule，也不修改源 ledger；\n11. metadata stripping 后降级为普通 artifact，不伪称仍有 provenance；\n12. correction/redaction 不声称修改或召回旧分发副本。",
+   "id": "ec5f7bca",
+   "hash": "6cb092486208"
+  },
+  {
+   "type": "heading",
+   "text": "## 12. 最小发布承诺",
+   "id": "9e0d89d9",
+   "hash": "71e7ea3a14e9"
+  },
+  {
+   "type": "para",
+   "text": "> **Proofpress can make an artifact carry a checkable record of its admitted changes and attributed decision context.**",
+   "id": "1501efd4",
+   "hash": "b05580e417cc"
+  },
+  {
+   "type": "para",
+   "text": "它不承诺：",
+   "id": "f9cbd5f9",
+   "hash": "418a400152c7"
+  },
+  {
+   "type": "list",
+   "text": "- 记录所有发生过的变化；\n- 所有 provenance 都有强身份认证；\n- why 可以被证明为真；\n- hidden metadata 等于保密；\n- 已分享内容可以召回；\n- 一个离线文件可以对不同持有人实施不同权限。",
+   "id": "aae706e7",
+   "hash": "96ee069c5ec8"
+  },
+  {
+   "type": "para",
+   "text": "最终产品心智是：",
+   "id": "3cb7a253",
+   "hash": "33b3b8eea821"
+  },
+  {
+   "type": "code",
+   "text": "```text\nChoose once whether the artifact is portable.\nRecord decisions, not conversations.\nLet admitted history travel with the work.\nMake gaps and corrections visible.\nNever pretend a distributed file can be recalled.\n```",
+   "id": "bb79d355",
+   "hash": "ee6647839abd"
   }
  ]
 }
