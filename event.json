@@ -1,63 +1,48 @@
 {
  "event": "version_created",
- "artifact": "skills/codex/AGENTS-snippet.md",
- "version": "3e14bfd0",
- "parent": "2de620e1",
+ "artifact": "skills/pi/proofpress-skill.md",
+ "version": "b9e1dbf2",
+ "parent": "b788953d",
  "author": {
   "name": "codex",
   "kind": "agent",
   "session": "vision-and-harness-2026-07-22"
  },
  "note": "Clarified touched-block claim scope",
- "ts": "2026-07-22T05:25:18+00:00",
+ "ts": "2026-07-22T05:25:19+00:00",
  "stats": {
-  "modified": 1,
-  "added": 1,
-  "removed": 1
+  "modified": 2
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "55bb7174",
+   "block": "6f0d23b1",
    "type": "list",
-   "context": "Proofpress: markdown knowledge artifacts"
+   "context": "Loop"
   },
   {
-   "kind": "added",
-   "block": "c3f79d0b",
+   "kind": "modified",
+   "block": "44acc710",
    "type": "para",
-   "context": "Proofpress: markdown knowledge artifacts",
-   "preview": "   enumerate untouched blocks. Use `unchanged` only for a de"
-  },
-  {
-   "kind": "removed",
-   "block": "b1fcdce7",
-   "type": "para",
-   "context": "",
-   "preview": "   `{\"block\", \"kind\": added|removed|modified|moved|unchanged"
+   "context": "Loop"
   }
  ],
  "claims": [
   {
-   "block": "55bb7174",
+   "block": "6f0d23b1",
    "kind": "modified",
    "note": "limited claims to blocks touched or removed"
   },
   {
-   "block": "c3f79d0b",
-   "kind": "added",
+   "block": "44acc710",
+   "kind": "modified",
    "note": "documented deliberate unchanged claims"
-  },
-  {
-   "block": "b1fcdce7",
-   "kind": "removed",
-   "note": "replaced the ambiguous one-entry-per-block wording"
   }
  ],
  "context": {
-  "why": "Codex guidance should require complete disclosure of changes without enumerating untouched blocks.",
+  "why": "Pi guidance should follow the same concise claims contract as other harnesses.",
   "rejected": [
-   "Keep one entry for every block — ambiguous and unnecessarily expensive."
+   "Allow adapter-specific claims semantics — would make verification behavior inconsistent across harnesses."
   ]
  }
 }

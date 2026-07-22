@@ -1,71 +1,71 @@
 {
- "artifact": "skills/codex/AGENTS-snippet.md",
+ "artifact": "skills/pi/proofpress-skill.md",
  "blocks": [
   {
+   "type": "heading",
+   "text": "# proofpress",
+   "id": "5cd87791",
+   "hash": "cc88bcacfae7"
+  },
+  {
    "type": "para",
-   "text": "<!-- Append to your AGENTS.md — the Proofpress contract for Codex agents. -->",
-   "id": "c350cb3a",
-   "hash": "ecf65d073d4f"
+   "text": "Version-ledger discipline for markdown knowledge artifacts (ADRs, design docs,\nPRDs — never source code). Use after creating or substantially revising a\nmarkdown document in a repo containing proofpress.py.",
+   "id": "679ffc58",
+   "hash": "7ea54f38d9f1"
   },
   {
    "type": "heading",
-   "text": "## Proofpress: markdown knowledge artifacts are ledgered",
-   "id": "51ac24b5",
-   "hash": "e596c2df8bc4"
-  },
-  {
-   "type": "para",
-   "text": "This repo keeps a version ledger for markdown knowledge artifacts (ADRs, design\ndocs, PRDs — **never source code**). After you create or substantially revise\nsuch a file, close the loop:",
-   "id": "ca88b9cb",
-   "hash": "1d739fa79187"
+   "text": "## Loop",
+   "id": "daf9ff98",
+   "hash": "8befc7cc67c3"
   },
   {
    "type": "list",
-   "text": "1. History but no ledger? `python3 proofpress.py ingest <file>`\n2. Keep surviving blocks' `[//]: # (ob:xxxxxxxx)` anchor lines during edits,",
-   "id": "95b71f0d",
-   "hash": "f120dbabbd9b"
+   "text": "1. History but no ledger entries? `python3 proofpress.py ingest <file>`\n2. Keep surviving blocks' `[//]: # (ob:xxxxxxxx)` anchors while editing; then",
+   "id": "fb518472",
+   "hash": "d43f14f17f81"
   },
   {
    "type": "para",
-   "text": "   then run `python3 proofpress.py anchor <file>` and read the\n   inherited/new/gone id inventory.",
-   "id": "5c455645",
-   "hash": "71a9ebc1457d"
+   "text": "   `python3 proofpress.py anchor <file>` → read inherited/new/gone ids.",
+   "id": "5affc021",
+   "hash": "4f2719907d62"
   },
   {
    "type": "list",
-   "text": "3. Write claims JSON (one honest entry per block touched or removed; do not",
-   "id": "55bb7174",
-   "hash": "41843d9e9f3a"
+   "text": "3. Claims JSON, one honest entry per block touched or removed. Do not enumerate",
+   "id": "6f0d23b1",
+   "hash": "0f8642461535"
   },
   {
    "type": "para",
-   "text": "   enumerate untouched blocks. Use `unchanged` only for a deliberate negative\n   claim about an important block or scope:\n   `{\"block\", \"kind\": added|removed|modified|moved|unchanged, \"note\"?}`).",
-   "id": "c3f79d0b",
-   "hash": "581e327e20c2"
+   "text": "   untouched blocks; use `unchanged` only for a deliberate negative claim about\n   an important block or scope:\n   `[{\"block\": \"<id>\", \"kind\": \"added|removed|modified|moved|unchanged\", \"note\": \"…\"}]`",
+   "id": "44acc710",
+   "hash": "68ee1227500a"
   },
   {
    "type": "list",
-   "text": "4. Snapshot with testimony — `--why` required, `--rejected` per dropped",
-   "id": "c6d8df5a",
-   "hash": "9922c8e5504f"
+   "text": "4. Snapshot with testimony (`--why` required; `--rejected` per dropped",
+   "id": "da9ad3d9",
+   "hash": "d05a450e00e6"
   },
   {
    "type": "para",
-   "text": "   alternative:\n   `python3 proofpress.py snapshot <file> --kind agent --author codex --note \"…\" --claims claims.json --why \"…\" --rejected \"…\"`",
-   "id": "01fba730",
-   "hash": "41eaf799f4de"
+   "text": "   alternative):\n   `python3 proofpress.py snapshot <file> --kind agent --author pi --note \"…\" --claims claims.json --why \"…\" --rejected \"…\"`",
+   "id": "f7c3e055",
+   "hash": "1f99bd045a27"
   },
   {
    "type": "list",
-   "text": "5. `python3 proofpress.py verify <file>` and report the verbatim output.",
-   "id": "0aeea03e",
-   "hash": "881b9dc0e8d7"
+   "text": "5. `python3 proofpress.py verify <file>` — report verbatim; never re-snapshot",
+   "id": "dd7291a6",
+   "hash": "1e3567100c26"
   },
   {
    "type": "para",
-   "text": "   Never re-snapshot to force a green result — a ⚠ is reviewer information.",
-   "id": "7d5df454",
-   "hash": "deca245cb605"
+   "text": "   to force green. A ⚠ is reviewer information.",
+   "id": "982738e5",
+   "hash": "fb1faf7b9153"
   }
  ]
 }
