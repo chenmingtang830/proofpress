@@ -1,99 +1,84 @@
 {
  "event": "version_created",
- "artifact": "docs/internal/experiments/EXPERIMENT_HINDCAST.md",
- "artifact_id": "pp_d1a5fee2c5b83bd607a26ee3",
- "version": "45055d2a",
- "parent": "df433743",
+ "artifact": "AGENTS.md",
+ "artifact_id": "pp_795e4174b56d7d5cf89193ea",
+ "version": "50e3e16f",
+ "parent": "ccba1d0b",
  "author": {
-  "name": "Claude",
+  "name": "codex",
   "kind": "agent",
-  "session": "hindcast-pilot"
+  "session": null
  },
- "note": "Pilot 首轮发现:管线验证通过,但材料是瓶颈——removed≠rejected 是主导噪音,决策文档又太静态",
- "ts": "2026-07-22T11:01:47+00:00",
+ "note": null,
+ "ts": "2026-07-22T11:04:26+00:00",
  "stats": {
-  "added": 9
+  "modified": 4
  },
  "changes": [
   {
-   "kind": "added",
-   "block": "1afd5ab7",
+   "kind": "modified",
+   "block": "bbe579fd",
    "type": "heading",
-   "context": "9. Pilot 首轮发现(2026-07-22)",
-   "preview": "## 9. Pilot 首轮发现(2026-07-22)"
+   "context": "Proofpress: ledger Markdown and static H"
   },
   {
-   "kind": "added",
-   "block": "89932ef0",
+   "kind": "modified",
+   "block": "34d3dbf3",
    "type": "para",
-   "context": "9. Pilot 首轮发现(2026-07-22)",
-   "preview": "**管线验证:通过。** 用 `ingest` 把 OpenHands 的 `Development.md` 两年真实历"
+   "context": "Proofpress: ledger Markdown and static H"
   },
   {
-   "kind": "added",
-   "block": "88e63daa",
-   "type": "para",
-   "context": "9. Pilot 首轮发现(2026-07-22)",
-   "preview": "**关键发现:材料是这个实验的真正瓶颈,比计划假设的难。** 挖矿结果:45 个\"删除且消失\"的块里,**约 44 个来"
-  },
-  {
-   "kind": "added",
-   "block": "8bff0229",
-   "type": "para",
-   "context": "9. Pilot 首轮发现(2026-07-22)",
-   "preview": "**两类文档都不合适:**"
-  },
-  {
-   "kind": "added",
-   "block": "1aa4e6eb",
+   "kind": "modified",
+   "block": "406bcda8",
    "type": "list",
-   "context": "9. Pilot 首轮发现(2026-07-22)",
-   "preview": "- **高频修订的文档**(README、开发/设置指南):改动多,但绝大多数是重写和重组,决策反转极少 → 挖出的雷几"
+   "context": "Proofpress: ledger Markdown and static H"
   },
   {
-   "kind": "added",
-   "block": "9853e246",
+   "kind": "modified",
+   "block": "3ce94304",
    "type": "para",
-   "context": "9. Pilot 首轮发现(2026-07-22)",
-   "preview": "**结论:同时满足\"频繁修订 + 近期 + 富含真实决策反转\"的文档,是稀缺的。** 用\"删除块\"当矿源信噪比太差。"
-  },
-  {
-   "kind": "added",
-   "block": "150946d9",
-   "type": "para",
-   "context": "9. Pilot 首轮发现(2026-07-22)",
-   "preview": "**修正方向(下一步的假设):**"
-  },
-  {
-   "kind": "added",
-   "block": "a3dce6a2",
-   "type": "list",
-   "context": "9. Pilot 首轮发现(2026-07-22)",
-   "preview": "1. 矿源从\"删除的块\"改为**显式反转信号**——commit/PR message 含 `revert` / `de"
-  },
-  {
-   "kind": "added",
-   "block": "d5575ee9",
-   "type": "para",
-   "context": "9. Pilot 首轮发现(2026-07-22)",
-   "preview": "**决策点(待 Richard):** 是按修正方向继续找材料,还是这个\"借开源历史\"路线本身信噪比不足、改用别的验证方"
+   "context": "Proofpress: ledger Markdown and static H"
   }
  ],
  "policy": "local",
  "actors": {
+  "requested_by": [
+   "Richard"
+  ],
   "produced_by": [
-   "claude"
+   "codex"
+  ],
+  "edited_by": [
+   "codex"
   ],
   "recorded_by": [
-   "claude"
+   "codex"
   ]
  },
- "attribution_basis": "harness_attested",
+ "attribution_basis": "self_asserted",
+ "claims": [
+  {
+   "block": "bbe579fd",
+   "kind": "modified",
+   "note": "extends the ledger contract heading to static HTML"
+  },
+  {
+   "block": "34d3dbf3",
+   "kind": "modified",
+   "note": "extends accepted artifact revisions to static HTML"
+  },
+  {
+   "block": "406bcda8",
+   "kind": "modified",
+   "note": "introduces carrier-native anchor preservation"
+  },
+  {
+   "block": "3ce94304",
+   "kind": "modified",
+   "note": "documents the static HTML anchor attribute"
+  }
+ ],
  "context": {
-  "why": "pilot 唯一目的是验管线+确认材料,结果材料这关没过就该停并报告,不在噪音上硬跑 18 runs(遵守计划的 kill-fast)",
-  "rejected": [
-   "继续跑 18 runs —— 材料没过质量门,跑出来的数据是噪音,浪费预算",
-   "换 autogen design 文档 —— 停在 2024 且提交个位数,过不了近期+≥20版门"
-  ]
+  "why": "align the repository authoring contract with the static HTML carrier"
  }
 }
