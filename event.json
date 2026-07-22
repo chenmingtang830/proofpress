@@ -1,31 +1,124 @@
 {
  "event": "version_created",
- "artifact": "docs/PORTABLE_ARTIFACT_STRATEGY.md",
- "artifact_id": "pp_5a7bb2c2b26051ae1d359850",
- "version": "9a846ef1",
- "parent": "1163e946",
+ "artifact": "docs/PORTABLE_HANDOFF_DOGFOOD.md",
+ "artifact_id": "pp_acb4706b8524e52184d31d1c",
+ "version": "315bbce1",
+ "parent": null,
  "author": {
   "name": "codex",
   "kind": "agent",
   "session": null
  },
  "note": "aligned with portable-artifact V0 and launch boundary",
- "ts": "2026-07-22T09:22:55+00:00",
+ "ts": "2026-07-22T09:22:56+00:00",
  "stats": {
-  "modified": 2
+  "added": 15
  },
  "changes": [
   {
-   "kind": "modified",
-   "block": "0ffd3d7a",
-   "type": "para",
-   "context": "9. 当前实现差距"
+   "kind": "added",
+   "block": "fa035c52",
+   "type": "heading",
+   "context": "Portable handoff dogfood — 2026-07-22",
+   "preview": "# Portable handoff dogfood — 2026-07-22"
   },
   {
-   "kind": "modified",
-   "block": "11e7b5e6",
+   "kind": "added",
+   "block": "80e8244b",
+   "type": "heading",
+   "context": "Question",
+   "preview": "## Question"
+  },
+  {
+   "kind": "added",
+   "block": "c50dd4dd",
    "type": "para",
-   "context": "12. 对 Launch 的影响"
+   "context": "Question",
+   "preview": "Can a Markdown artifact carry enough admitted history for a "
+  },
+  {
+   "kind": "added",
+   "block": "047e29e6",
+   "type": "heading",
+   "context": "Setup",
+   "preview": "## Setup"
+  },
+  {
+   "kind": "added",
+   "block": "7d2f7204",
+   "type": "para",
+   "context": "Setup",
+   "preview": "The sender created a portable v1, accepted a v2 with an expl"
+  },
+  {
+   "kind": "added",
+   "block": "1b1943db",
+   "type": "para",
+   "context": "Setup",
+   "preview": "A separate set of cases introduced an IDE-style body edit, c"
+  },
+  {
+   "kind": "added",
+   "block": "21904e08",
+   "type": "heading",
+   "context": "Result",
+   "preview": "## Result"
+  },
+  {
+   "kind": "added",
+   "block": "c1792237",
+   "type": "list",
+   "context": "Result",
+   "preview": "- The receiver restored the same path-independent artifact i"
+  },
+  {
+   "kind": "added",
+   "block": "c31097b6",
+   "type": "para",
+   "context": "Result",
+   "preview": "The executable suite contains ten passing black-box cases co"
+  },
+  {
+   "kind": "added",
+   "block": "2641300f",
+   "type": "heading",
+   "context": "Boundary",
+   "preview": "## Boundary"
+  },
+  {
+   "kind": "added",
+   "block": "a9701261",
+   "type": "para",
+   "context": "Boundary",
+   "preview": "This validates a byte-preserving file handoff across isolate"
+  },
+  {
+   "kind": "added",
+   "block": "c87de79e",
+   "type": "para",
+   "context": "Boundary",
+   "preview": "It also does not prove authorship cryptographically. Body, c"
+  },
+  {
+   "kind": "added",
+   "block": "ea1c2d37",
+   "type": "heading",
+   "context": "Launch implication",
+   "preview": "## Launch implication"
+  },
+  {
+   "kind": "added",
+   "block": "9486c8dc",
+   "type": "para",
+   "context": "Launch implication",
+   "preview": "> Proofpress makes a Markdown artifact carry a checkable rec"
+  },
+  {
+   "kind": "added",
+   "block": "edcf41c2",
+   "type": "para",
+   "context": "Launch implication",
+   "preview": "Avoid “complete history,” “verified why,” “confidential hidd"
   }
  ],
  "policy": "local",
@@ -40,13 +133,78 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "0ffd3d7a",
-   "kind": "modified",
+   "block": "fa035c52",
+   "kind": "added",
    "note": "updated to the approved portable-artifact V0 contract"
   },
   {
-   "block": "11e7b5e6",
-   "kind": "modified",
+   "block": "80e8244b",
+   "kind": "added",
+   "note": "updated to the approved portable-artifact V0 contract"
+  },
+  {
+   "block": "c50dd4dd",
+   "kind": "added",
+   "note": "updated to the approved portable-artifact V0 contract"
+  },
+  {
+   "block": "047e29e6",
+   "kind": "added",
+   "note": "updated to the approved portable-artifact V0 contract"
+  },
+  {
+   "block": "7d2f7204",
+   "kind": "added",
+   "note": "updated to the approved portable-artifact V0 contract"
+  },
+  {
+   "block": "1b1943db",
+   "kind": "added",
+   "note": "updated to the approved portable-artifact V0 contract"
+  },
+  {
+   "block": "21904e08",
+   "kind": "added",
+   "note": "updated to the approved portable-artifact V0 contract"
+  },
+  {
+   "block": "c1792237",
+   "kind": "added",
+   "note": "updated to the approved portable-artifact V0 contract"
+  },
+  {
+   "block": "c31097b6",
+   "kind": "added",
+   "note": "updated to the approved portable-artifact V0 contract"
+  },
+  {
+   "block": "2641300f",
+   "kind": "added",
+   "note": "updated to the approved portable-artifact V0 contract"
+  },
+  {
+   "block": "a9701261",
+   "kind": "added",
+   "note": "updated to the approved portable-artifact V0 contract"
+  },
+  {
+   "block": "c87de79e",
+   "kind": "added",
+   "note": "updated to the approved portable-artifact V0 contract"
+  },
+  {
+   "block": "ea1c2d37",
+   "kind": "added",
+   "note": "updated to the approved portable-artifact V0 contract"
+  },
+  {
+   "block": "9486c8dc",
+   "kind": "added",
+   "note": "updated to the approved portable-artifact V0 contract"
+  },
+  {
+   "block": "edcf41c2",
+   "kind": "added",
    "note": "updated to the approved portable-artifact V0 contract"
   }
  ],
