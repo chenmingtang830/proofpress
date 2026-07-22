@@ -4,9 +4,15 @@
  "blocks": [
   {
    "type": "heading",
-   "text": "<h2 class=\"big rv d1\" style=\"margin-top:18px\">THREE DAYS.<br>ONE DOC.<br>A THOUSAND-LINE DIFF.</h2>\n    <p class=\"lede rv d2\" style=\"margin-top:26px\">\n      I kept asking my agent to fix a design doc. Three days and nine commits later,\n      GitHub showed me the totals — not what changed, why, or how to get back to an earlier draft.\n      <b style=\"color:var(--ink)\">You can't tell.</b>\n    </p>\n  </div>\n  <div class=\"foot\"><span>SEED: DEVELOPERS WHO WRITE DOCS WITH CODING AGENTS</span><span>ADR / PRD / DESIGN DOC</span></div>\n</section>",
-   "hash": "6eb556856cb5",
-   "id": "7cf19bd8"
+   "text": "<h1 class=\"huge rv\">PROOF<br>PRESS</h1>",
+   "hash": "93dfa90b9864",
+   "id": "2a23bdd3"
+  },
+  {
+   "type": "heading",
+   "text": "<h2 class=\"big rv d1\" style=\"margin-top:18px\">THREE DAYS.<br>ONE DOC.<br>A THOUSAND-LINE DIFF.</h2>",
+   "hash": "2446f07a8a20",
+   "id": "6e973ac6"
   },
   {
    "type": "para",
@@ -16,9 +22,21 @@
   },
   {
    "type": "heading",
-   "text": "<h2 class=\"big rv d2 dim\" style=\"margin-top:.35em\">NOTHING KEEPS THE BOOKS<br>ON WHAT AGENTS <span class=\"st-ul\" style=\"color:var(--teal-deep)\">WRITE.</span></h2>\n  <div class=\"foot\"><span>CODE FILES: NEVER VERSIONED HERE — THAT'S GIT'S TERRITORY</span><span>SIGNAL 980 / 1,204</span></div>\n</section>",
-   "hash": "017f0f947c62",
+   "text": "<h2 class=\"big rv\">GIT KEEPS THE BOOKS<br>ON YOUR <span class=\"st-ul\">CODE.</span></h2>",
+   "hash": "2387196ea549",
+   "id": "842093a2"
+  },
+  {
+   "type": "heading",
+   "text": "<h2 class=\"big rv d2 dim\" style=\"margin-top:.35em\">NOTHING KEEPS THE BOOKS<br>ON WHAT AGENTS <span class=\"st-ul\" style=\"color:var(--teal-deep)\">WRITE.</span></h2>",
+   "hash": "70dd430199dc",
    "id": "8e829195"
+  },
+  {
+   "type": "heading",
+   "text": "<h2 class=\"mid rv\">MARKDOWN GETS<br>ITS OWN GIT.<br><span class=\"dim\">RIGHT INSIDE YOUR REPO.</span></h2>",
+   "hash": "92af2b747f35",
+   "id": "237a3a93"
   },
   {
    "type": "para",
@@ -28,15 +46,21 @@
   },
   {
    "type": "heading",
-   "text": "<h2 class=\"mid rv\">A THOUSAND LINES OF NOISE.<br><span class=\"dim\">OR THREE FACTS, WITH REASONS.</span></h2>\n  <div class=\"split rv d1\">\n    <div class=\"lhs\">\n      <div class=\"hd\" style=\"color:var(--del)\">GIT SEES</div>\n      <pre id=\"patch\"></pre>\n    </div>\n    <div class=\"rhs\">\n      <div class=\"hd\" style=\"color:var(--teal)\">THE LEDGER SEES</div>\n      <div class=\"srow rv d1\"><span class=\"pill mv\">MOVED</span><span class=\"what\">“Threat model” — now §2, content unchanged</span></div>\n      <div class=\"srow rv d2\"><span class=\"pill rw\">REWRITTEN</span><span class=\"what\">“Rollout plan” — staged rollout replaces big-bang<span class=\"reason\">reason: reduce blast radius, per your comment</span></span></div>\n      <div class=\"srow rv d3\"><span class=\"pill dl\">Δ</span><span class=\"what\">retry budget <span class=\"delta\">3 → 5</span><span class=\"reason\">reason: prod incident on 2026-07-12</span></span></div>\n      <div class=\"verified\">✓ AGENT CHANGELOG <b>VERIFIED</b> AGAINST COMPUTED DIFF — IT CAN'T OVERSELL ITS WORK.</div>\n    </div>\n  </div>\n  <div class=\"foot\"><span>LAYERS: STRUCTURE / WORD / TABLE-CELL / NARRATIVE</span><span>ONE GLANCE = ONE VERDICT</span></div>\n</section>",
-   "hash": "3b8cb9dbe610",
-   "id": "f7deeea4"
+   "text": "<h2 class=\"mid rv\">A THOUSAND LINES OF NOISE.<br><span class=\"dim\">OR THREE FACTS, WITH REASONS.</span></h2>",
+   "hash": "3a47e344f089",
+   "id": "d8685bb8"
   },
   {
    "type": "code",
    "text": "<pre id=\"patch\"></pre>",
    "hash": "37433512caf6",
    "id": "3bd4c304"
+  },
+  {
+   "type": "heading",
+   "text": "<h2 class=\"mid rv\">COMMENT ON A BLOCK.<br><span style=\"color:var(--teal-deep)\">OR EDIT IT YOURSELF.</span></h2>",
+   "hash": "6cca4f420bfd",
+   "id": "00d988de"
   },
   {
    "type": "para",
@@ -64,15 +88,21 @@
   },
   {
    "type": "heading",
-   "text": "<h2 class=\"huge rv d2\" style=\"color:#EAF4F6\">YOU ARE<br>THE PRESS.</h2>\n  <div class=\"foot\"><span>VERSIONING IS PHYSICS. APPROVAL IS POLICY.</span><span>WHAT CHANGED · WHY · A WAY BACK</span></div>\n</section>",
-   "hash": "c59e24c495f1",
-   "id": "ca190812"
+   "text": "<h2 class=\"big rv\">EVERY AGENT DRAFT<br>IS A PROOF.</h2>",
+   "hash": "e9cc9745516a",
+   "id": "113093b3"
   },
   {
    "type": "heading",
-   "text": "<h2 class=\"big rv d1\" style=\"margin-top:26px\">AGENTS PRODUCE.<br>YOU DECIDE.<br><span class=\"dim\">THE LEDGER REMEMBERS.</span></h2>\n  <div class=\"flow rv d2\">DRAFT <i>→</i> REVIEW <i>→</i> APPROVE<span class=\"dim\">, FOR AGENTS.</span></div>\n  <div class=\"pip rv d3\"><span class=\"p\">$</span> claude skill add proofpress</div>\n  <div class=\"foot\"><span>APACHE-2.0 · OPEN SPEC · YOUR INFRASTRUCTURE</span><span>PROOFPRESS / 2026</span></div>\n</section>\n\n\n\n</body>",
-   "hash": "737791e049ef",
-   "id": "5efc3fa9"
+   "text": "<h2 class=\"huge rv d2\" style=\"color:#EAF4F6\">YOU ARE<br>THE PRESS.</h2>",
+   "hash": "86e968fcc05c",
+   "id": "721770f8"
+  },
+  {
+   "type": "heading",
+   "text": "<h2 class=\"big rv d1\" style=\"margin-top:26px\">AGENTS PRODUCE.<br>YOU DECIDE.<br><span class=\"dim\">THE LEDGER REMEMBERS.</span></h2>",
+   "hash": "874af762a073",
+   "id": "3c8d3eca"
   }
  ]
 }

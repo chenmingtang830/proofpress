@@ -2,118 +2,124 @@
  "event": "version_created",
  "artifact": "demo/launch.html",
  "artifact_id": "pp_dd3ede474fe20956178e391e",
- "version": "8ae86af0",
- "parent": null,
+ "version": "218d53f0",
+ "parent": "8ae86af0",
  "author": {
-  "name": "Richard",
-  "kind": "human",
+  "name": "codex",
+  "kind": "system",
   "session": null
  },
- "note": "copied launch film demo into a tracked HTML artifact",
- "ts": "2026-07-22T10:55:08+00:00",
+ "note": "reconciled HTML block inventory after void-element parser correction",
+ "ts": "2026-07-22T10:56:44+00:00",
  "stats": {
-  "added": 12
+  "added": 9,
+  "modified": 1,
+  "removed": 4
  },
  "changes": [
   {
    "kind": "added",
-   "block": "7cf19bd8",
+   "block": "2a23bdd3",
+   "type": "heading",
+   "context": "<h1 class=\"huge rv\">PROOF<br>PRESS</h1>",
+   "preview": "<h1 class=\"huge rv\">PROOF<br>PRESS</h1>"
+  },
+  {
+   "kind": "added",
+   "block": "6e973ac6",
    "type": "heading",
    "context": "<h2 class=\"big rv d1\" style=\"margin-top:",
    "preview": "<h2 class=\"big rv d1\" style=\"margin-top:18px\">THREE DAYS.<br"
   },
   {
    "kind": "added",
-   "block": "ce66d345",
-   "type": "para",
-   "context": "<h2 class=\"big rv d1\" style=\"margin-top:",
-   "preview": "<p class=\"lede rv d2\" style=\"margin-top:26px\">\n      I kept "
+   "block": "842093a2",
+   "type": "heading",
+   "context": "<h2 class=\"big rv\">GIT KEEPS THE BOOKS<b",
+   "preview": "<h2 class=\"big rv\">GIT KEEPS THE BOOKS<br>ON YOUR <span clas"
   },
   {
-   "kind": "added",
+   "kind": "modified",
    "block": "8e829195",
    "type": "heading",
-   "context": "<h2 class=\"big rv d2 dim\" style=\"margin-",
-   "preview": "<h2 class=\"big rv d2 dim\" style=\"margin-top:.35em\">NOTHING K"
+   "context": "<h2 class=\"big rv d2 dim\" style=\"margin-"
   },
   {
    "kind": "added",
-   "block": "923b1ca6",
-   "type": "para",
-   "context": "<h2 class=\"big rv d2 dim\" style=\"margin-",
-   "preview": "<p class=\"lede rv d3\" style=\"margin-top:34px\">No migration. "
+   "block": "237a3a93",
+   "type": "heading",
+   "context": "<h2 class=\"mid rv\">MARKDOWN GETS<br>ITS ",
+   "preview": "<h2 class=\"mid rv\">MARKDOWN GETS<br>ITS OWN GIT.<br><span cl"
   },
   {
    "kind": "added",
-   "block": "f7deeea4",
+   "block": "d8685bb8",
    "type": "heading",
    "context": "<h2 class=\"mid rv\">A THOUSAND LINES OF N",
    "preview": "<h2 class=\"mid rv\">A THOUSAND LINES OF NOISE.<br><span class"
   },
   {
    "kind": "added",
-   "block": "3bd4c304",
-   "type": "code",
-   "context": "<h2 class=\"mid rv\">A THOUSAND LINES OF N",
-   "preview": "<pre id=\"patch\"></pre>"
-  },
-  {
-   "kind": "added",
-   "block": "a0dcb0c7",
-   "type": "para",
-   "context": "<h2 class=\"mid rv\">A THOUSAND LINES OF N",
-   "preview": "<p class=\"lede rv d1\" style=\"margin-top:14px\">The agent revi"
-  },
-  {
-   "kind": "added",
-   "block": "82b3a0a0",
+   "block": "00d988de",
    "type": "heading",
-   "context": "<h3>design-doc.md</h3>",
-   "preview": "<h3>design-doc.md</h3>"
+   "context": "<h2 class=\"mid rv\">COMMENT ON A BLOCK.<b",
+   "preview": "<h2 class=\"mid rv\">COMMENT ON A BLOCK.<br><span style=\"color"
   },
   {
    "kind": "added",
-   "block": "74ecaed3",
+   "block": "113093b3",
    "type": "heading",
-   "context": "<h4>Rollout plan</h4>",
-   "preview": "<h4>Rollout plan</h4>"
+   "context": "<h2 class=\"big rv\">EVERY AGENT DRAFT<br>",
+   "preview": "<h2 class=\"big rv\">EVERY AGENT DRAFT<br>IS A PROOF.</h2>"
   },
   {
    "kind": "added",
-   "block": "88f42714",
-   "type": "para",
-   "context": "<h4>Rollout plan</h4>",
-   "preview": "<p id=\"blktext\">Ship the payments migration to 100% of traff"
-  },
-  {
-   "kind": "added",
-   "block": "ca190812",
+   "block": "721770f8",
    "type": "heading",
    "context": "<h2 class=\"huge rv d2\" style=\"color:#EAF",
    "preview": "<h2 class=\"huge rv d2\" style=\"color:#EAF4F6\">YOU ARE<br>THE "
   },
   {
    "kind": "added",
-   "block": "5efc3fa9",
+   "block": "3c8d3eca",
    "type": "heading",
    "context": "<h2 class=\"big rv d1\" style=\"margin-top:",
+   "preview": "<h2 class=\"big rv d1\" style=\"margin-top:26px\">AGENTS PRODUCE"
+  },
+  {
+   "kind": "removed",
+   "block": "7cf19bd8",
+   "type": "heading",
+   "context": "",
+   "preview": "<h2 class=\"big rv d1\" style=\"margin-top:18px\">THREE DAYS.<br"
+  },
+  {
+   "kind": "removed",
+   "block": "f7deeea4",
+   "type": "heading",
+   "context": "",
+   "preview": "<h2 class=\"mid rv\">A THOUSAND LINES OF NOISE.<br><span class"
+  },
+  {
+   "kind": "removed",
+   "block": "ca190812",
+   "type": "heading",
+   "context": "",
+   "preview": "<h2 class=\"huge rv d2\" style=\"color:#EAF4F6\">YOU ARE<br>THE "
+  },
+  {
+   "kind": "removed",
+   "block": "5efc3fa9",
+   "type": "heading",
+   "context": "",
    "preview": "<h2 class=\"big rv d1\" style=\"margin-top:26px\">AGENTS PRODUCE"
   }
  ],
  "policy": "local",
  "actors": {
-  "requested_by": [
-   "Richard"
-  ],
-  "edited_by": [
-   "Richard"
-  ],
   "recorded_by": [
    "codex"
   ]
  },
- "attribution_basis": "self_asserted",
- "context": {
-  "why": "create a real static HTML carrier fixture for Proofpress validation"
- }
+ "attribution_basis": "self_asserted"
 }
