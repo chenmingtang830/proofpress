@@ -1,33 +1,250 @@
 {
  "event": "version_created",
- "artifact": "docs/DESIGN.md",
- "version": "a1d52f1d",
- "parent": "ffdfa77d",
+ "artifact": "docs/EVOLUTION-2026-07-18.md",
+ "version": "b37f1e3f",
+ "parent": null,
  "author": {
   "name": "chenmingtang830",
   "kind": "human",
   "session": null
  },
- "note": "Docs: sync ARTIFACT_MODEL to shipped claims/context/ingest; archive DESIGN as act-two blueprint",
- "ts": "2026-07-21T20:05:39-04:00",
+ "note": "Scaffold OmniDocs: identity, strategy, artifact model, evolution record, competitive scan, interactive demo",
+ "ts": "2026-07-18T07:53:58-04:00",
  "stats": {
-  "modified": 1,
-  "added": 1
+  "added": 33
  },
  "changes": [
   {
-   "kind": "modified",
-   "block": "ae580676",
+   "kind": "added",
+   "block": "bc6d230d",
    "type": "heading",
-   "context": "Proofpress 设计系统 — 审阅页(归档:第二幕/cloud UI 图纸"
+   "context": "思维演进记录 — 2026-07-18 战略讨论全程",
+   "preview": "# 思维演进记录 — 2026-07-18 战略讨论全程"
   },
   {
    "kind": "added",
-   "block": "d7fd9960",
+   "block": "5c80a98a",
    "type": "para",
-   "context": "Proofpress 设计系统 — 审阅页(归档:第二幕/cloud UI 图纸",
-   "preview": "**状态(2026-07-21)**:serve 审阅页已随战略大修整体砍掉(裁决借 GitHub 原生 review)"
+   "context": "思维演进记录 — 2026-07-18 战略讨论全程",
+   "preview": "一场从\"竞争扫描\"走到\"产品重定义\"的讨论。按站记录,包括被否掉的想法——路不通也是知识。\n(这份记录本身是手工写的;它"
+  },
+  {
+   "kind": "added",
+   "block": "6702f6e3",
+   "type": "para",
+   "context": "思维演进记录 — 2026-07-18 战略讨论全程",
+   "preview": "---"
+  },
+  {
+   "kind": "added",
+   "block": "9f84d3a2",
+   "type": "heading",
+   "context": "第 1 站 · 触发:竞争扫描实测(把 ⚠️ 清零)",
+   "preview": "## 第 1 站 · 触发:竞争扫描实测(把 ⚠️ 清零)"
+  },
+  {
+   "kind": "added",
+   "block": "d6f150cb",
+   "type": "list",
+   "context": "第 1 站 · 触发:竞争扫描实测(把 ⚠️ 清零)",
+   "preview": "- 全部数字经 GitHub API / web 核实。三个事实改变了局面:\n  - **Kortix(ex-Suna)"
+  },
+  {
+   "kind": "added",
+   "block": "0bb1e8a2",
+   "type": "heading",
+   "context": "第 2 站 · Kortix 源码深读:壳是真的,底是空的",
+   "preview": "## 第 2 站 · Kortix 源码深读:壳是真的,底是空的"
+  },
+  {
+   "kind": "added",
+   "block": "cc38a776",
+   "type": "list",
+   "context": "第 2 站 · Kortix 源码深读:壳是真的,底是空的",
+   "preview": "- 真:Review Center 收件箱(5 种 verdict、risk 分级、Slack/Teams 卡)、**r"
+  },
+  {
+   "kind": "added",
+   "block": "ab80f5ca",
+   "type": "heading",
+   "context": "第 3 站 · 数据模型设计",
+   "preview": "## 第 3 站 · 数据模型设计"
+  },
+  {
+   "kind": "added",
+   "block": "146ec4b1",
+   "type": "list",
+   "context": "第 3 站 · 数据模型设计",
+   "preview": "- 五实体:**Artifact → Version → Review → Comment → SessionLink*"
+  },
+  {
+   "kind": "added",
+   "block": "028c10f8",
+   "type": "heading",
+   "context": "第 4 站 · 退一步:宏观为什么重要",
+   "preview": "## 第 4 站 · 退一步:宏观为什么重要"
+  },
+  {
+   "kind": "added",
+   "block": "6b91202a",
+   "type": "para",
+   "context": "第 4 站 · 退一步:宏观为什么重要",
+   "preview": "四个论点:"
+  },
+  {
+   "kind": "added",
+   "block": "60724f35",
+   "type": "list",
+   "context": "第 4 站 · 退一步:宏观为什么重要",
+   "preview": "1. **数据模型决定品类归属**(git→GitHub、块→Notion、scene graph→Figma;工具可抄"
+  },
+  {
+   "kind": "added",
+   "block": "08bc9eb2",
+   "type": "heading",
+   "context": "第 5 站 · 类比校准(Work Graph / Gamma / Word+C",
+   "preview": "## 第 5 站 · 类比校准(Work Graph / Gamma / Word+Copilot)"
+  },
+  {
+   "kind": "added",
+   "block": "7b171111",
+   "type": "list",
+   "context": "第 5 站 · 类比校准(Work Graph / Gamma / Word+C",
+   "preview": "- **判据一句话:当工作\"已提出、未接受\"时,系统里握着什么对象?** B1 没有(消息)/ B2 行集合分支 / B"
+  },
+  {
+   "kind": "added",
+   "block": "548538c2",
+   "type": "heading",
+   "context": "第 6 站 · 本质命名(Richard 的亲测三连)",
+   "preview": "## 第 6 站 · 本质命名(Richard 的亲测三连)"
+  },
+  {
+   "kind": "added",
+   "block": "ced45f80",
+   "type": "list",
+   "context": "第 6 站 · 本质命名(Richard 的亲测三连)",
+   "preview": "- Richard 亲测:Cowork 改 spreadsheet(B1:跨轮次无 undo,产物是会话排泄物)、git"
+  },
+  {
+   "kind": "added",
+   "block": "147d3e83",
+   "type": "heading",
+   "context": "第 7 站 · 体验闭环 + 人工编辑",
+   "preview": "## 第 7 站 · 体验闭环 + 人工编辑"
+  },
+  {
+   "kind": "added",
+   "block": "d1dd5bf5",
+   "type": "list",
+   "context": "第 7 站 · 体验闭环 + 人工编辑",
+   "preview": "- 完整走查《Q3 定价策略》:发起 → Draft 1 块锚批注 → 反馈包回流热会话 → Draft 2 语义 di"
+  },
+  {
+   "kind": "added",
+   "block": "58c67bfa",
+   "type": "heading",
+   "context": "第 8 站 · 产品形态否决:不做工作台",
+   "preview": "## 第 8 站 · 产品形态否决:不做工作台"
+  },
+  {
+   "kind": "added",
+   "block": "a9f6788c",
+   "type": "list",
+   "context": "第 8 站 · 产品形态否决:不做工作台",
+   "preview": "- 砍:board/agent 管理/监控/skill 市场的\"command center\"叙事(与 Kortix 原"
+  },
+  {
+   "kind": "added",
+   "block": "9ccbea97",
+   "type": "heading",
+   "context": "第 9 站 · 命名与 GTM(Richard 的三个直觉)",
+   "preview": "## 第 9 站 · 命名与 GTM(Richard 的三个直觉)"
+  },
+  {
+   "kind": "added",
+   "block": "b9579d44",
+   "type": "list",
+   "context": "第 9 站 · 命名与 GTM(Richard 的三个直觉)",
+   "preview": "- **OmniDocs 独立成名**——账本内核的楔子产品;OmniCowork 是账本聚人后长出的团队层(git →"
+  },
+  {
+   "kind": "added",
+   "block": "c716ed55",
+   "type": "heading",
+   "context": "第 10 站 · 待办的 UI 修正(Richard 反馈)",
+   "preview": "## 第 10 站 · 待办的 UI 修正(Richard 反馈)"
+  },
+  {
+   "kind": "added",
+   "block": "4dd425c8",
+   "type": "list",
+   "context": "第 10 站 · 待办的 UI 修正(Richard 反馈)",
+   "preview": "- demo 第 3 步的\"变更摘要 / 全文\"不该是两个 tab:**摘要应自然融入 Draft 2 视图**——顶部"
+  },
+  {
+   "kind": "added",
+   "block": "7af05fc5",
+   "type": "heading",
+   "context": "第 11 站 · 未收束的新线头:思维演进也是 artifact",
+   "preview": "## 第 11 站 · 未收束的新线头:思维演进也是 artifact"
+  },
+  {
+   "kind": "added",
+   "block": "979e125c",
+   "type": "list",
+   "context": "第 11 站 · 未收束的新线头:思维演进也是 artifact",
+   "preview": "- Richard 的旧项目:画布,多线程/可分支地与 agent 对话,artifact 即画布——一个小想法生长的全"
+  },
+  {
+   "kind": "added",
+   "block": "4c5abfee",
+   "type": "heading",
+   "context": "第 12 站 · 第二价值曲线 + 收敛定稿(同日晚)",
+   "preview": "## 第 12 站 · 第二价值曲线 + 收敛定稿(同日晚)"
+  },
+  {
+   "kind": "added",
+   "block": "36cd41f5",
+   "type": "list",
+   "context": "第 12 站 · 第二价值曲线 + 收敛定稿(同日晚)",
+   "preview": "- **思维演进不需要新模型,是账本的免费副产品**:版本链=思想历次状态,语义 diff=思维动作类型学,溯源=为什么"
+  },
+  {
+   "kind": "added",
+   "block": "a05e0aec",
+   "type": "para",
+   "context": "第 12 站 · 第二价值曲线 + 收敛定稿(同日晚)",
+   "preview": "---"
+  },
+  {
+   "kind": "added",
+   "block": "8a6801fa",
+   "type": "heading",
+   "context": "被否掉/修正的想法清单",
+   "preview": "## 被否掉/修正的想法清单"
+  },
+  {
+   "kind": "added",
+   "block": "841eeff5",
+   "type": "table",
+   "context": "被否掉/修正的想法清单",
+   "preview": "| 想法 | 结局 | 为什么 |\n|---|---|---|\n| \"Kortix shipped 我们的闭环\"(第一轮"
+  },
+  {
+   "kind": "added",
+   "block": "86b14ca7",
+   "type": "heading",
+   "context": "沉淀的一句话资产",
+   "preview": "## 沉淀的一句话资产"
+  },
+  {
+   "kind": "added",
+   "block": "50ea1ace",
+   "type": "list",
+   "context": "沉淀的一句话资产",
+   "preview": "- \"别人运行 agent、存储工作。我们为 agent 的产出记账。\"\n- \"版本化是物理定律,审批是政策。\"\n- \""
   }
  ],
- "source_commit": "e7dd0a821bec11c17d3aca7a45827784ca6910e2"
+ "source_commit": "5756ca97d42fb6ed9c9db75e38ad7f49a2b3aadc"
 }
