@@ -1,77 +1,1055 @@
 {
- "artifact": "docs/DEMO_SCRIPT.md",
+ "artifact": "docs/PORTABLE_ARTIFACT_STRATEGY.md",
  "blocks": [
   {
    "type": "heading",
-   "text": "# Proofpress — Launch Copy",
-   "id": "e462c991",
-   "hash": "4e44740b46c2"
+   "text": "# Proofpress：从版本账本到 Portable Artifact Protocol",
+   "hash": "1168c1080b6d",
+   "id": "8b5401f3"
   },
   {
    "type": "para",
-   "text": "Audience: developers who write docs with coding agents (repo-docs seed). Style: YC launch video — real pixels, no music, one CTA. Concrete subject throughout: a real file (`design-doc.md`), a real elapsed time (three days), a real diff stat — never an abstract \"docs.\"",
-   "id": "fd848e0b",
-   "hash": "3441c0695195"
+   "text": "> 状态：战略探索稿，尚未拍板  \n> 日期：2026-07-21  \n> 目的：收敛 Proofpress 的真实用户痛点、定位、portable artifact protocol 设想，以及这条方向的战略价值与风险。",
+   "hash": "44eb7565b7e4",
+   "id": "23de2854"
   },
   {
    "type": "heading",
-   "text": "## 60-Second Demo Script (v4)",
-   "id": "50a89c8a",
-   "hash": "2d6adbd0e332"
+   "text": "## 结论先行",
+   "hash": "a432e7e7706a",
+   "id": "da638711"
+  },
+  {
+   "type": "para",
+   "text": "Proofpress 不该被定义成更好的文档 diff，也不该被定义成另一套 Draft / Review / Approve 工作流。",
+   "hash": "c3e5f13967d2",
+   "id": "22c7a680"
+  },
+  {
+   "type": "para",
+   "text": "它真正要解决的问题是：**知识交付物可以留下来，但形成它的协作历史正在消失。** 当人和 agent 跨 session、Slack、会议和不同工具反复接力时，最终文档保存了结论，却没有保存谁改了什么、何时改、为什么改，以及这些说法是否与实际改动相符。",
+   "hash": "fffbbdd56c60",
+   "id": "6c482d6b"
+  },
+  {
+   "type": "para",
+   "text": "Proofpress 的价值主张应是：",
+   "hash": "86419e99ab99",
+   "id": "41dbf696"
+  },
+  {
+   "type": "para",
+   "text": "> **Make the history of the work as durable as the work itself.**",
+   "hash": "d2ab96bfaf14",
+   "id": "c9f44946"
+  },
+  {
+   "type": "para",
+   "text": "它带来的组织结果是：",
+   "hash": "aff726ff908d",
+   "id": "cf8ddcaa"
+  },
+  {
+   "type": "para",
+   "text": "> **Scale knowledge work without scaling blind trust.**",
+   "hash": "ba0b28f45290",
+   "id": "83f1b648"
+  },
+  {
+   "type": "para",
+   "text": "它的描述性定义是：",
+   "hash": "c741a7e61104",
+   "id": "a6fb9d6c"
+  },
+  {
+   "type": "para",
+   "text": "> **A shared, verifiable history of who changed what, when, and why—for knowledge teams working with agents.**",
+   "hash": "0850a1015960",
+   "id": "5cff94ee"
+  },
+  {
+   "type": "para",
+   "text": "`knowledge-artifact-native ledger` 是实现上述价值的数据模型，不是用户购买的口号。Portable artifact protocol 则可能成为这套账本脱离 GitHub、跨工具传播的载体和分发机制：文档自身携带一个不可见、机器可读的 proof capsule；人看到干净正文，agent 和 Proofpress 看到 artifact 的身份、版本链、语义变化和决策上下文。",
+   "hash": "2935d0273e2b",
+   "id": "61c20f83"
+  },
+  {
+   "type": "para",
+   "text": "战略判断：**值得作为 Proofpress 的核心方向继续验证，而且它比“GitHub 上的文档语义 diff”更贴近真实、高频、跨行业的痛点。** 但必须守住三个边界：",
+   "hash": "1bb42ea43de2",
+   "id": "d56084c8"
+  },
+  {
+   "type": "list",
+   "text": "1. portability 是机制，durable decision lineage 才是价值；\n2. 文件能确定性记录 `what`，却不能凭空知道人工编辑的 `who / when / why`；\n3. protocol 解决历史随 artifact 旅行的问题，不自动解决同步、审批或实时协作。",
+   "hash": "e9f1faefd093",
+   "id": "e47ac07f"
+  },
+  {
+   "type": "heading",
+   "text": "## 1. 真实使用场景",
+   "hash": "77c393e04163",
+   "id": "7b3b46a7"
+  },
+  {
+   "type": "para",
+   "text": "一个典型的 agent-assisted knowledge workflow 是：",
+   "hash": "db584c9cdc6d",
+   "id": "10e2ed45"
+  },
+  {
+   "type": "list",
+   "text": "1. 用户让 agent 生成一份 strategy、PRD、分析报告或其他 deliverable；\n2. agent 很少 one-shot 完成，用户通常连续反馈 3–5 轮；\n3. 用户把阶段性或最终文档发到 Slack 给同事；\n4. 同事在 Slack、会议或口头交流中提出意见；\n5. 用户理解并整理这些意见，再把结论翻译成同一 agent session 里的新 feedback；\n6. agent 继续修改，最终形成可交付版本。",
+   "hash": "e4ff6b9cfee7",
+   "id": "9ea1778e"
+  },
+  {
+   "type": "para",
+   "text": "表面上，团队得到了一份更好的文档。实际上，整个过程经历了多次有损 handoff：",
+   "hash": "7c38b45770cc",
+   "id": "6cadaced"
+  },
+  {
+   "type": "code",
+   "text": "```text\n用户意图\n  → agent session\n  → draft v1...vN\n  → Slack 中的文档副本\n  → 同事反馈\n  → 会议或口头结论\n  → 用户脑内压缩与翻译\n  → agent session\n  → 最终 artifact\n```",
+   "hash": "64d450217a6b",
+   "id": "72a537c6"
+  },
+  {
+   "type": "para",
+   "text": "最终 artifact 留下来了，但塑造它的过程分散在：",
+   "hash": "8fd381407ecb",
+   "id": "8544deb0"
+  },
+  {
+   "type": "list",
+   "text": "- agent session；\n- Slack thread；\n- 会议或口头交流；\n- 临时文档副本；\n- 用户自己的记忆。",
+   "hash": "d3ea10077c66",
+   "id": "a8cb325c"
+  },
+  {
+   "type": "para",
+   "text": "用户事实上成了一个 **human message bus**：手工在同事、文档和 agent 之间搬运上下文。每次交接都可能丢掉条件、异议、未采用方案和判断依据。session 结束或人员更换后，团队只能从最终文本反向猜测当时为什么这样决定。",
+   "hash": "a909d230ad5c",
+   "id": "992d3d92"
+  },
+  {
+   "type": "para",
+   "text": "最有共鸣的痛点表达是：",
+   "hash": "554075f6a27e",
+   "id": "9602b6bf"
+  },
+  {
+   "type": "para",
+   "text": "> **The artifact survives. The decisions that made it disappear.**",
+   "hash": "bd9789d8e4f6",
+   "id": "6b2674a6"
+  },
+  {
+   "type": "heading",
+   "text": "## 2. 定位是怎样收敛的",
+   "hash": "532fb71391f0",
+   "id": "c58a8c9e"
+  },
+  {
+   "type": "heading",
+   "text": "### 2.1 不是“帮你看懂 Git diff”",
+   "hash": "243ea6d21ac7",
+   "id": "c23b6c5d"
+  },
+  {
+   "type": "para",
+   "text": "“Agent 重写了 design doc，Git 显示 200 行红绿，但你不知道实际改了什么”不是足够强的价值主张。用户可以直接把两个版本交给 LLM，让它总结变化。",
+   "hash": "c0e71a0d9dc2",
+   "id": "c692212b"
+  },
+  {
+   "type": "para",
+   "text": "语义 diff 仍然是必要的产品能力，但它属于 Read 层，是入场券，不是长期定价点。LLM 会持续压低这层能力的稀缺性。",
+   "hash": "92812d5e2947",
+   "id": "5654975c"
+  },
+  {
+   "type": "heading",
+   "text": "### 2.2 不只是“验证 agent 有没有说实话”",
+   "hash": "5ab07b55a59f",
+   "id": "5f330ca3"
+  },
+  {
+   "type": "para",
+   "text": "确定性 claim verification 是重要的 trust mechanism：agent 声称“只改了 rollout date”或“已经处理了安全意见”，Proofpress 用实际 block-tree diff 核对，而不是再让一个 AI 对另一个 AI 给概率性意见。",
+   "hash": "17b49e578899",
+   "id": "33d651e4"
+  },
+  {
+   "type": "para",
+   "text": "但 verification 单独作为定位仍然过窄。它回答一次修改是否与自述一致，却没有完整表达跨人、跨 session、跨工具协作时，整个 artifact 历史为何需要成为共同事实。",
+   "hash": "8a86bd9bbf84",
+   "id": "aaa99ad7"
+  },
+  {
+   "type": "heading",
+   "text": "### 2.3 不是 Proofpress 自己拥有的审批工作流",
+   "hash": "d709991f08bc",
+   "id": "9a6f1a59"
+  },
+  {
+   "type": "para",
+   "text": "此前用“让待接受的 Draft 有地方居住”解释 ledger，把 Accept / Reject / Revise 当成核心价值，这是旧产品形态的残留，不符合当前决策：",
+   "hash": "befe4cf2bf44",
+   "id": "53039efd"
+  },
+  {
+   "type": "list",
+   "text": "- 独立审阅页已经砍掉；\n- CLI 的 `approve / comment / inbox` 已经砍掉；\n- 第一幕的 review / merge 复用 GitHub；\n- 默认安静即批准。",
+   "hash": "dba54de39fca",
+   "id": "ff7e5aa6"
+  },
+  {
+   "type": "para",
+   "text": "因此，Draft / Review / Approve 可以继续作为知识工作中的通用协作语言，但不能被描述成 Proofpress 当前独占或承载的核心能力。",
+   "hash": "e896334bc714",
+   "id": "780c3d2e"
+  },
+  {
+   "type": "heading",
+   "text": "### 2.4 收敛后的定位",
+   "hash": "218419d897a5",
+   "id": "b61e21f8"
+  },
+  {
+   "type": "para",
+   "text": "Proofpress 要拥有的不是 review workflow，而是 **knowledge artifact 的 accountability 与 decision lineage**。",
+   "hash": "fceb8c2a7b85",
+   "id": "9f6ef909"
+  },
+  {
+   "type": "para",
+   "text": "当人和 agent 都能快速生产和修改知识工作时，团队需要一个共同、可验证的记录：",
+   "hash": "aeef21dc6455",
+   "id": "1adc9f3a"
+  },
+  {
+   "type": "list",
+   "text": "- **Who**：谁或哪个 agent/session 产生了这次变化；\n- **What**：artifact 在语义上发生了什么，而不只是哪些行变化；\n- **When**：版本在何时被产生、记录或发现；\n- **Why**：修改依据、反馈来源、采用与否决的理由；\n- **Whether the account is true**：作者对 `what` 的自述是否与实际变化一致。",
+   "hash": "fad99f43c533",
+   "id": "4d805131"
+  },
+  {
+   "type": "para",
+   "text": "其中 `who / when` 是基本记账能力，Git 已经能在其覆盖范围内提供；Proofpress 的差异化集中在 artifact-level 的 `what / why`，以及对 `what` 的确定性验证。",
+   "hash": "e9921582dc12",
+   "id": "b86209fe"
+  },
+  {
+   "type": "heading",
+   "text": "## 3. 为什么必须是 artifact-native ledger",
+   "hash": "90e57ab6b9f7",
+   "id": "1f9ad8fd"
+  },
+  {
+   "type": "para",
+   "text": "现有系统分别保留了不同的碎片，但没有一个系统把它们组成 artifact 的可靠历史：",
+   "hash": "5c5a7acd255c",
+   "id": "61016ae6"
   },
   {
    "type": "table",
-   "text": "| Time | Screen | Narration |\n|---|---|---|\n| 0:00–0:14 | `design-doc.md` on a GitHub PR page, three days of commits, diff stat reading **+1,204 −980** | I kept asking my agent to fix a design doc. Three days later, all GitHub showed me was a thousand-line diff. I couldn't tell what changed, why, or how to get back to an earlier draft. |\n| 0:14–0:24 | Cut to black-on-white statement card | So I gave markdown its own git — one that lives right inside the repo you already have. Introducing Proofpress: every edit, yours or your agent's, becomes a version — what changed, why, and a way back. |\n| 0:24–0:42 | Split screen: same three days as a nine-commit git log (vague messages) vs. Proofpress version chain, each version tagged with its reason | Same three days, two views. Git: a thousand lines of noise across nine commits nobody opened. Proofpress: one section moved, one paragraph rewritten, one number changed — every round, one glance, reason attached. Verified against what actually changed — the agent can't oversell its work. |\n| 0:42–0:53 | Open the PR: the proofpress bot comment — block-level change list + \"✅ claims verified (deterministic check)\"; then a manual hand-edit landing in the same chain | Open the pull request — Proofpress already commented: what moved, what was rewritten, and whether the agent's own changelog survives a deterministic check. Edit the file yourself instead — same ledger, same history, either way. |\n| 0:53–1:00 | Logo + tagline + repo URL | Draft → Review → Approve, for agents. Open source. Link below. |",
-   "id": "ff2c0029",
-   "hash": "fd34a4c0ec1d"
+   "text": "| 系统 | 保存了什么 | 丢失了什么 |\n|---|---|---|\n| 文档工具 | 当前正文 | 不可变版本、来源、决策链和被否方案 |\n| 聊天/session | 局部推理和指令 | artifact 身份、稳定版本与跨 session 连续性 |\n| Git | 文件、行、author、commit time | artifact 语义、稳定 block 身份、decision context |\n| LLM summary | 对两个快照的概率性解释 | 可复现的事实、持久身份和确定性校验 |",
+   "hash": "4d888a6c5a21",
+   "id": "236f9c31"
   },
   {
    "type": "para",
-   "text": "~155 words. Delivery notes: speak slowly (reviewers watch at 2×); on-screen diff stat can carry precise-looking numbers (+1,204 −980) even where narration rounds them off for spoken flow (\"a thousand-line diff\") — screen and voice don't have to match digit-for-digit. Narration never describes what's on screen — it adds the judgment layer on top.",
-   "id": "70b338f8",
-   "hash": "de10342000ed"
+   "text": "要建立可靠历史，账本至少必须原生理解：",
+   "hash": "347f0ca9d5db",
+   "id": "db69210e"
+  },
+  {
+   "type": "list",
+   "text": "1. **Artifact identity**：同一份交付物具有独立于路径、文件名、会话和存储后端的稳定身份；\n2. **Stable block identity**：段落、标题、表格等内容块在移动和修改后仍然是同一个对象；\n3. **Immutable versions**：每次有意义的变化成为不可变事件，保留 parent 和内容状态；\n4. **Semantic changes**：记录 moved / modified / added / removed、数字变化和结构变化；\n5. **Session provenance**：版本与生产它的 harness、session、turn 或外部反馈来源相连；\n6. **Decision context**：保存 why、rejected alternatives 和反馈结论；\n7. **Verified claims**：区分作者自述与引擎可计算的事实，并逐条核对；\n8. **Branches and dead ends**：复制、并行修改和被否方案不能从历史中消失。",
+   "hash": "53ce7b7e8e41",
+   "id": "0a2fc1d4"
   },
   {
    "type": "para",
-   "text": "Red-line check: no mention of versioning code files; no review-of-humans language; \"git\" appears only as contrast/metaphor, never as the thing being replaced — Proofpress lives inside git, it doesn't compete with it.",
-   "id": "f51f15b3",
-   "hash": "8014db0f08f8"
+   "text": "这套模型的价值是给人提供 change accountability，也给下一位 agent 提供经过压缩、带负约束的长期记忆。artifact 历史越完整，后续 agent 越不需要重放全部聊天，也越不容易重新提出已被否决的方案。",
+   "hash": "39c101ad78d8",
+   "id": "d899e8c6"
   },
   {
    "type": "heading",
-   "text": "## X Launch Post",
-   "id": "ee5bcc82",
-   "hash": "ad18b8a3f579"
+   "text": "## 4. Portable Artifact Protocol",
+   "hash": "83b8fb8ea35c",
+   "id": "bec22e1d"
+  },
+  {
+   "type": "heading",
+   "text": "### 4.1 核心设想",
+   "hash": "1912f9544f6d",
+   "id": "b37db811"
   },
   {
    "type": "para",
-   "text": "> I kept asking my coding agent to fix a doc. Three days later, all GitHub showed me was a 1,000-line diff — I couldn't tell what actually changed, why, or how to get back to an earlier draft.\n>\n> So I gave markdown its own git — one that lives right inside the repo you already have.\n>\n> Introducing Proofpress: every markdown edit, yours or your agent's, becomes a version — what changed, why, and a way back.",
-   "id": "5980353a",
-   "hash": "3da2c1ba3639"
+   "text": "Markdown 文档不再只是账本的可见投影；它还可以携带一个隐藏的 **proof capsule**。正常渲染时，人只看到正文；Proofpress-aware agent 或工具读取原始文件时，可以发现并导入完整 history。",
+   "hash": "30e80124a515",
+   "id": "c00113c6"
   },
   {
    "type": "para",
-   "text": "**Thread (optional, if expanding past the single post):**",
-   "id": "2363cb83",
-   "hash": "321b6cb0c7ac"
+   "text": "“隐藏水印”是一个有用的直觉，但准确名称应更接近：",
+   "hash": "cf8fa1a3433f",
+   "id": "5b6bd4fc"
+  },
+  {
+   "type": "list",
+   "text": "- document passport：强调 artifact 跨人、跨工具旅行时携带身份和盖章记录；\n- proof capsule：强调机器可读、自包含、可验证的历史包；\n- portable ledger pack：强调它是账本的可传输表示。",
+   "hash": "8f75524ac41d",
+   "id": "17f94de1"
   },
   {
    "type": "para",
-   "text": "> Same three days, two views.\n>\n> Git: a thousand lines of noise across nine commits nobody opened.\n> Proofpress: one section moved, one paragraph rewritten, one number changed — every round, one glance, reason attached.\n>\n> The agent's changelog is verified against the real diff. It can't oversell its work.",
-   "id": "5c70c169",
-   "hash": "df23fb67e963"
+   "text": "Watermark 通常只回答“这是谁的文件”，而 proof capsule 要回答“这份 artifact 如何成为现在这样”。",
+   "hash": "f7d0c8d2a306",
+   "id": "9bd88fba"
+  },
+  {
+   "type": "heading",
+   "text": "### 4.2 当前已经存在的基础",
+   "hash": "7bcf0aae53a8",
+   "id": "0d9c9f8c"
   },
   {
    "type": "para",
-   "text": "> Open the PR and Proofpress has already commented: every block that moved or was rewritten — and a deterministic check that the agent's changelog matches what actually changed. Every version records who, why, and what was considered and rejected.\n>\n> Three weeks later, the answer's still there.",
-   "id": "53872616",
-   "hash": "88b8734c7689"
+   "text": "Proofpress 当前已经在 Markdown 中使用不可见 block anchors：",
+   "hash": "6f3920c50c32",
+   "id": "2e9aa9c9"
+  },
+  {
+   "type": "code",
+   "text": "```md\n[//]: # (ob:32f5d88f)\n## 一句话\n```",
+   "hash": "87b72e0bcb0b",
+   "id": "af2a67b8"
   },
   {
    "type": "para",
-   "text": "> Draft → Review → Approve, for agents.\n>\n> One skill for your agent, or one GitHub Action for the whole team. No new editor, no migration — your agent already writes markdown, this just keeps the books.\n>\n> Apache-2.0. [github link]",
-   "id": "dd4d7a00",
-   "hash": "5c954286340f"
+   "text": "这种 link-reference-definition 在 CommonMark 渲染器中不可见，但 raw-file agent 可以读取。它解决的是 stable block identity，不包含完整 ledger。",
+   "hash": "49a6356fd7a8",
+   "id": "258e8058"
+  },
+  {
+   "type": "para",
+   "text": "当前完整账本仍然位于 Git 的 `refs/proofpress/ledger`，每个事件是一个包含 `event.json` 和 `version.json` 的 append-only commit。artifact 在当前原型代码中仍以文件路径为键，而不是 spec 中承诺的路径无关 `artifact_id`。",
+   "hash": "0ab6afc9e7f9",
+   "id": "9c06dd83"
+  },
+  {
+   "type": "heading",
+   "text": "### 4.3 建议的 Markdown envelope",
+   "hash": "2420aea65f68",
+   "id": "016e9c1a"
+  },
+  {
+   "type": "para",
+   "text": "一个 Proofpress Markdown artifact 可以由两部分组成：",
+   "hash": "529e978160ae",
+   "id": "c49b3266"
+  },
+  {
+   "type": "code",
+   "text": "```text\n可见正文\n  + block anchors（渲染不可见）\n  + proof capsule trailer（渲染不可见）\n```",
+   "hash": "d04a553da4e3",
+   "id": "566c9d11"
+  },
+  {
+   "type": "para",
+   "text": "概念性表示如下：",
+   "hash": "4a4dae65e942",
+   "id": "30ff96ae"
+  },
+  {
+   "type": "code",
+   "text": "```md\n# Strategy\n\nVisible content...\n\n[//]: # (proofpress:v1)\n[//]: # (artifact:pp_7f29...)\n[//]: # (head:sha256_...)\n[//]: # (pack:1/3:eyJldmVudHMi...)\n[//]: # (pack:2/3:...)\n[//]: # (pack:3/3:...)\n```",
+   "hash": "661c4e8c8cda",
+   "id": "6892ce3f"
+  },
+  {
+   "type": "para",
+   "text": "具体编码尚未设计，协议应至少包含：",
+   "hash": "b2a7cb664434",
+   "id": "7741721f"
+  },
+  {
+   "type": "code",
+   "text": "```text\nManifest\n  protocol_version\n  artifact_id\n  artifact_type\n  head_event_id\n  visible_body_hash\n\nEvent chain / DAG\n  event_id\n  parent_event_id(s)\n  version_id\n  body_root_hash\n  author assertion\n  authored_at / recorded_at / observed_at\n  semantic changes or block-tree delta\n  session/source links\n  claims + verification result\n  context: why / rejected / feedback source\n  previous-event hash\n\nPayload\n  checkpoints and/or compressed block-tree deltas\n```",
+   "hash": "33755d851911",
+   "id": "9f50ef10"
+  },
+  {
+   "type": "para",
+   "text": "正文 hash 必须排除 Proofpress metadata，避免 capsule 更新造成循环 hash。event ID 应由规范化事件内容和 parent hash 派生，使历史 tamper-evident。",
+   "hash": "e2aa35672cd5",
+   "id": "5fb4f557"
+  },
+  {
+   "type": "heading",
+   "text": "### 4.4 Agent 如何使用",
+   "hash": "9965d81acd08",
+   "id": "5a4b29b8"
+  },
+  {
+   "type": "para",
+   "text": "Agent 不应把整个压缩 history 自动塞进上下文。合理流程是：",
+   "hash": "a82692845583",
+   "id": "f3d9d250"
+  },
+  {
+   "type": "list",
+   "text": "1. agent 读取文件，发现 declarative Proofpress marker；\n2. 调用本地 Proofpress 工具验证 capsule 和正文 hash；\n3. 工具只返回当前任务相关的压缩历史，例如最近版本、相关 blocks、rejected constraints；\n4. agent 修改正文，同时保留 stable block anchors；\n5. agent 提交结构化 claims 与 why；\n6. Proofpress 计算实际 diff、验证 claims、追加事件并重写 capsule head；\n7. 文件可以继续作为普通 `.md` 被打开、发送和保存。",
+   "hash": "fc0336251e35",
+   "id": "500ff386"
+  },
+  {
+   "type": "para",
+   "text": "Embedded metadata 必须是声明式数据，不应包含可执行的 agent instruction，避免把 portable history 变成 prompt-injection 载体。",
+   "hash": "bced358c73e8",
+   "id": "eadd5572"
+  },
+  {
+   "type": "heading",
+   "text": "### 4.5 跨人和跨工具 handoff",
+   "hash": "825a6cd74ddc",
+   "id": "4143441a"
+  },
+  {
+   "type": "para",
+   "text": "理想的顺序交接如下：",
+   "hash": "b25e33fee5a3",
+   "id": "d5781d50"
+  },
+  {
+   "type": "list",
+   "text": "1. 用户与 agent A 完成多个版本；\n2. 所有版本与 decision context 被写入 capsule；\n3. 用户把 `.md` 文件作为附件发到 Slack、邮件或 Drive；\n4. 同事正常阅读时只看到正文；\n5. 同事把文件交给 agent B；\n6. agent B 识别 artifact identity，恢复必要历史，并在同一链上继续；\n7. 新文件返回时携带新增事件。",
+   "hash": "e184231e4df0",
+   "id": "7bee1c76"
+  },
+  {
+   "type": "para",
+   "text": "这使 Git、本地数据库或 Cloud 从“唯一能保存历史的地方”转变为 ledger 的索引、镜像、同步和查询后端。artifact 本身成为一种 self-contained transport。",
+   "hash": "74e1ecd262c5",
+   "id": "c1e20d9c"
+  },
+  {
+   "type": "heading",
+   "text": "### 4.6 Copy 与 branch",
+   "hash": "c51f63e21ee3",
+   "id": "5bb7d666"
+  },
+  {
+   "type": "para",
+   "text": "Portable 文件天然会被复制。两个人从同一个 head 分别修改后，会形成两个拥有相同 `artifact_id` 和共同 parent、但不同 head 的副本。",
+   "hash": "1b304dea6520",
+   "id": "e0b37783"
+  },
+  {
+   "type": "para",
+   "text": "协议必须把这识别为 branch，而不是覆盖：",
+   "hash": "3f2041248c70",
+   "id": "e299d11b"
+  },
+  {
+   "type": "code",
+   "text": "```text\n                 → version B (Alice)\nversion A (head)\n                 → version C (Bob)\n```",
+   "hash": "4fc84d098789",
+   "id": "b2bf809b"
+  },
+  {
+   "type": "para",
+   "text": "两份文件重新相遇时，Proofpress 可以发现共同祖先并要求 agent 生成 merge/reconciliation version。长期数据模型因此应支持 event DAG 或多 parent merge，而不应只依赖单一线性 ref。",
+   "hash": "14a6d7b204c7",
+   "id": "aa219c8e"
+  },
+  {
+   "type": "para",
+   "text": "Portable protocol 能发现和保留分叉，但它本身不是实时同步系统。多人同时协作、presence、CRDT 和权限仍属于 server/cloud 或现有协作工具的职责。",
+   "hash": "12914f8d1053",
+   "id": "d2fac609"
+  },
+  {
+   "type": "heading",
+   "text": "## 5. 人工编辑：能知道什么，不能知道什么",
+   "hash": "03eadecb14e6",
+   "id": "a6cda8f2"
+  },
+  {
+   "type": "para",
+   "text": "最重要的真实性原则是：",
+   "hash": "86f15c8a1788",
+   "id": "7ac2957a"
+  },
+  {
+   "type": "para",
+   "text": "> **A document can detect that it was changed. It cannot know who changed it, exactly when, or why.**",
+   "hash": "e0bab22cf72b",
+   "id": "6761d19f"
+  },
+  {
+   "type": "para",
+   "text": "如果用户在 IDE 中直接修改正文而没有更新 capsule，下一次 Proofpress 运行时可以通过 body hash mismatch 确定发生过未记录变化，并计算具体 semantic diff。",
+   "hash": "42fee7db2edf",
+   "id": "b9abff4c"
+  },
+  {
+   "type": "para",
+   "text": "它可以诚实地追加：",
+   "hash": "fe78cf8bf7d0",
+   "id": "4b4e0490"
+  },
+  {
+   "type": "code",
+   "text": "```text\nevent: unrecorded_edit_detected\nwhat: 2 blocks modified, 1 block added\nobserved_at: 2026-07-21T15:42:00Z\nauthor: unknown\nauthored_at: unknown\nwhy: unknown\n```",
+   "hash": "ce66944eec5f",
+   "id": "35870761"
+  },
+  {
+   "type": "para",
+   "text": "不能把文件 mtime 当作强可信修改时间，也不能把当前持有文件的人自动认定为作者。协议应明确区分不同信任等级：",
+   "hash": "b3a47c270292",
+   "id": "d47d8767"
+  },
+  {
+   "type": "table",
+   "text": "| 字段 | 可能的信任等级 |\n|---|---|\n| what changed | computed / verified |\n| agent claims | verified 或 mismatch |\n| author | signed / environment-attested / self-asserted / unknown |\n| authored_at | signed / environment-attested / claimed / unknown |\n| observed_at | 本地工具可确定记录 |\n| why | attributed testimony / unknown，不可由引擎验证 |",
+   "hash": "4a11704724d4",
+   "id": "11154fe6"
+  },
+  {
+   "type": "para",
+   "text": "完整捕获人工编辑需要一个轻量 capture point：",
+   "hash": "93e3069aa314",
+   "id": "11af5d5d"
+  },
+  {
+   "type": "list",
+   "text": "1. **Agent-mediated edit**：人把修改要求交给 agent，agent 在 hot context 中记录最完整的 `what / why`；\n2. **IDE extension 或 file watcher**：保存时自动 snapshot，可记录本机 identity 和时间，why 可选；\n3. **Post-hoc attribution**：下次 agent 打开时提示“发现 3 处人工修改，是否记为 Richard 根据 Alice 的 Slack 反馈所改？”；\n4. **Git ingestion**：从 commit author、timestamp 和 message 回填；\n5. **Unknown but preserved**：用户不补充时，保留 unattributed edit，永不伪造 provenance。",
+   "hash": "7a8cb62fe16c",
+   "id": "a2d8b6c4"
+  },
+  {
+   "type": "para",
+   "text": "“永不丢 what”可以接近物理保证；“永不丢 who / why”只有在修改发生时存在 capture point 才可能成立。",
+   "hash": "ac7e246e4b42",
+   "id": "d8eb27b0"
+  },
+  {
+   "type": "heading",
+   "text": "## 6. 当前实现与新方向的差距",
+   "hash": "dc33fec67a47",
+   "id": "2e60771d"
+  },
+  {
+   "type": "heading",
+   "text": "### 6.1 当前已经实现",
+   "hash": "0706c287d319",
+   "id": "8a94ed34"
+  },
+  {
+   "type": "list",
+   "text": "- Markdown block parser 和不可见 stable anchors；\n- block-level semantic diff 与数字变化提取；\n- Git ref 上的 append-only event/version snapshots；\n- agent claims、why、rejected context；\n- claims 的确定性 `verify`；\n- `snapshot / log / diff / show / verify / ingest / anchor`；\n- 从 Git commit history 回填人工版本；\n- Codex session-end hook 的原型。",
+   "hash": "356a8b3b490e",
+   "id": "0f31b3f0"
+  },
+  {
+   "type": "heading",
+   "text": "### 6.2 当前人工编辑的真实行为",
+   "hash": "ff141210f98d",
+   "id": "c2ef88c7"
+  },
+  {
+   "type": "list",
+   "text": "- 人直接在 IDE 修改 Markdown，anchor 可能保留，但不会因此自动产生 ledger event；\n- 如果随后正常 Git commit，`proofpress ingest` 可以用 commit author、时间和 message 回填；\n- 无 Git 时，只能显式运行 `snapshot --kind human --author ... --why ...`；\n- 当前 Codex hook 会把 session 结束时所有改动过的 Markdown 标记为 agent snapshot；人和 agent 混合修改时可能误归因；\n- Artifact Model 中“人的连续编辑自动折叠为微版本”仍是设计，不是当前实现。",
+   "hash": "d88d20ff9ef6",
+   "id": "c374cf4c"
+  },
+  {
+   "type": "para",
+   "text": "因此，当前版本并没有可靠地自动记录无 Git 的 IDE 人工修改。",
+   "hash": "6b10658cff84",
+   "id": "45577b7d"
+  },
+  {
+   "type": "heading",
+   "text": "### 6.3 实现 portable protocol 所需的核心变化",
+   "hash": "dc2afeb11b28",
+   "id": "76941f07"
+  },
+  {
+   "type": "list",
+   "text": "1. 让 `artifact_id` 真正独立于文件路径；\n2. 将 ledger schema 和 Git storage functions 解耦；\n3. 定义 canonical body normalization，排除 anchors/capsule 后计算 hash；\n4. 定义 portable manifest、event chain/DAG 和压缩 payload；\n5. 支持 capsule import / inspect / verify / append / export；\n6. 检测 manual body drift，并用 `unknown` 而非错误归因记录；\n7. 支持同 artifact 的 divergent heads 和未来 merge；\n8. 明确 provenance 字段的信任等级和签名边界；\n9. 限制默认嵌入的敏感信息，不把原始 session 全量打包；\n10. 让 Git ref、local store、embedded capsule、未来 server 都成为同一 backend-independent spec 的载体。",
+   "hash": "5b96d2b49f3b",
+   "id": "16fea066"
+  },
+  {
+   "type": "heading",
+   "text": "## 7. 战略评估",
+   "hash": "03c3c81f53cb",
+   "id": "2cd16939"
+  },
+  {
+   "type": "heading",
+   "text": "### 7.1 为什么这条方向比 GitHub wedge 更强",
+   "hash": "d528a2f68a51",
+   "id": "408b6d86"
+  },
+  {
+   "type": "para",
+   "text": "当前战略已经识别到矛盾：第一幕开发者有 Git 轨道，但不一定有足够疼痛；第二幕知识团队有真实疼痛，却没有自然挂载轨道。",
+   "hash": "ea86bc61e80b",
+   "id": "8d5eddd5"
+  },
+  {
+   "type": "para",
+   "text": "Portable artifact protocol 可能直接缓解这个矛盾：",
+   "hash": "3b480eab7457",
+   "id": "c647c533"
+  },
+  {
+   "type": "list",
+   "text": "- 不要求 knowledge work 进入 GitHub；\n- 顺着现有 Slack、邮件、Drive、文件附件流动；\n- 不要求团队先迁移到一个新协作目的地；\n- agent 承担 metadata、snapshot、diff 和 context capture 的仪式税；\n- 接收方即使没有 Proofpress，也能正常阅读文档；\n- 接收方一旦把文件交给 agent，历史便重新可用。",
+   "hash": "c576396381a3",
+   "id": "c7c198a2"
+  },
+  {
+   "type": "para",
+   "text": "这使 **the artifact itself becomes the distribution surface**。Proofpress 不再只依赖安装 CLI 或配置 GitHub Action 才能传播；一个带 capsule 的文件本身就能把协议带到下一个人和下一个 agent。",
+   "hash": "12ae049a3822",
+   "id": "5d388f47"
+  },
+  {
+   "type": "heading",
+   "text": "### 7.2 与模型和 harness 的关系更健康",
+   "hash": "f782a32c910f",
+   "id": "1566178b"
+  },
+  {
+   "type": "para",
+   "text": "协议对生产者中立。Claude、Codex、其他 harness 或人类都可以写入同一种 artifact history。模型越强、产出越多、handoff 越频繁，对 provenance 和压缩历史的需求越高。",
+   "hash": "c8207f636a10",
+   "id": "4e12c1f3"
+  },
+  {
+   "type": "para",
+   "text": "这比与模型竞争生成质量更有利，也比绑定单一 agent runtime 更可防守。真正的资产不是 Markdown 中隐藏几行 metadata——那很容易复制——而是：",
+   "hash": "df100020a3e2",
+   "id": "b5ec8c17"
+  },
+  {
+   "type": "list",
+   "text": "- artifact/block/event 的开放 canonical model；\n- 可靠的 capture 与 reconciliation 行为；\n- 多 harness adapter；\n- 随使用积累的 decision lineage；\n- 团队对这种历史格式的信任。",
+   "hash": "78582fd0c7a7",
+   "id": "19b69f21"
+  },
+  {
+   "type": "heading",
+   "text": "### 7.3 Open spec 的意义更大",
+   "hash": "18a3440d42f6",
+   "id": "8082e20e"
+  },
+  {
+   "type": "para",
+   "text": "如果 history 要跟着文件进入其他公司、工具和模型，封闭格式会立即破坏信任与可移植性。Portable protocol 强化了“格式即协议、ledger spec 开源”的必要性。",
+   "hash": "cc8d165d116c",
+   "id": "15aae3d8"
+  },
+  {
+   "type": "para",
+   "text": "Cloud 的商业价值也因此更清晰：Cloud 不垄断历史格式，而负责跨副本同步、身份签名、权限、搜索、策略门、团队视图和 proof links。",
+   "hash": "c623c347bbb8",
+   "id": "f0472f49"
+  },
+  {
+   "type": "heading",
+   "text": "### 7.4 它改变了产品类别的表达",
+   "hash": "7e0468c55d17",
+   "id": "f507c183"
+  },
+  {
+   "type": "para",
+   "text": "不建议对外首先说“embedded metadata”或“portable protocol”。那是实现细节，容易被理解为文件格式工具。",
+   "hash": "855dd95817b2",
+   "id": "f652f2fb"
+  },
+  {
+   "type": "para",
+   "text": "对外应继续从结果出发：",
+   "hash": "4bb99399e6c8",
+   "id": "14d3d3da"
+  },
+  {
+   "type": "para",
+   "text": "> The artifact survives. The decisions that made it disappear.",
+   "hash": "ed70ac30af66",
+   "id": "c785cddc"
+  },
+  {
+   "type": "para",
+   "text": "> Proofpress makes the history of the work as durable as the work itself.",
+   "hash": "164f05b1acc8",
+   "id": "a18d5648"
+  },
+  {
+   "type": "para",
+   "text": "> A shared, verifiable history of who changed what, when, and why.",
+   "hash": "6d34671189f9",
+   "id": "f42ab63e"
+  },
+  {
+   "type": "para",
+   "text": "Portable protocol 是解释“它如何跨 Slack、session 和 agent 做到”的第二层叙事。",
+   "hash": "7bc359518cef",
+   "id": "26c1cb2a"
+  },
+  {
+   "type": "heading",
+   "text": "## 8. 主要风险",
+   "hash": "3021ada41cb1",
+   "id": "5b0fc973"
+  },
+  {
+   "type": "heading",
+   "text": "### 8.1 Capture gap：最重要的风险",
+   "hash": "6d03565d1f59",
+   "id": "d839e294"
+  },
+  {
+   "type": "para",
+   "text": "Proofpress 不能自动捕获一场口头会议，也不能从最终 prompt 恢复同事原始反馈。即使 ledger 完美嵌入文件，外部 decision context 仍可能丢失。",
+   "hash": "f6425ed4164e",
+   "id": "2cc72cb5"
+  },
+  {
+   "type": "para",
+   "text": "产品必须让“附上一个 Slack URL / 会议结论 / feedback source”足够轻，并让 agent 在 context 还热的时候主动捕获。否则 Proofpress 只能保存 agent session 内的历史，无法兑现完整的 collaboration history。",
+   "hash": "3de38f6c3fa4",
+   "id": "ec74ee15"
+  },
+  {
+   "type": "heading",
+   "text": "### 8.2 “Verifiable”容易被过度承诺",
+   "hash": "92be06f5fb0b",
+   "id": "243ef620"
+  },
+  {
+   "type": "para",
+   "text": "可以确定性验证的是正文 hash、语义 diff 和结构化 change claims。`why` 是署名证词；没有 cryptographic identity 时，`who` 也只是 self-asserted 或 environment-attested。",
+   "hash": "f8c7ec985795",
+   "id": "515c1dbb"
+  },
+  {
+   "type": "para",
+   "text": "对外不能模糊成“所有历史都已验证”。更准确的语言是：",
+   "hash": "74df468a17ae",
+   "id": "7cb63c45"
+  },
+  {
+   "type": "list",
+   "text": "- computed change record；\n- deterministically verified change claims；\n- attributed decision context；\n- tamper-evident event history；\n- signed authorship（只有真正引入签名后才能使用）。",
+   "hash": "738fb6aba011",
+   "id": "95b6b1ca"
+  },
+  {
+   "type": "heading",
+   "text": "### 8.3 文件复制带来分叉，而不是天然协作",
+   "hash": "be6ac0a30ea0",
+   "id": "543cce8f"
+  },
+  {
+   "type": "para",
+   "text": "Portable artifact 强化异步 handoff，但多人编辑副本会产生 branches。没有 server 时，系统只能发现和合并分叉，不能提供实时共同状态。",
+   "hash": "30f25c8fb488",
+   "id": "28837d90"
+  },
+  {
+   "type": "para",
+   "text": "这不是缺陷，但需要清晰定义：protocol 负责 durable history 与 reconciliation；server 负责 synchronization 与 governance。",
+   "hash": "352915049180",
+   "id": "07df6563"
+  },
+  {
+   "type": "heading",
+   "text": "### 8.4 Metadata 可能被剥离",
+   "hash": "96e014056f1a",
+   "id": "51358c68"
+  },
+  {
+   "type": "para",
+   "text": "以下操作可能丢掉 capsule：",
+   "hash": "7ffb271f20e0",
+   "id": "fd35ff71"
+  },
+  {
+   "type": "list",
+   "text": "- 从渲染页面复制粘贴正文；\n- 转成 PDF 或其他格式；\n- formatter 清理未知 link definitions；\n- 某些 SaaS 导入后重新序列化 Markdown；\n- 用户只发送文本，而不是原始文件。",
+   "hash": "e4ad5330d789",
+   "id": "b2378486"
+  },
+  {
+   "type": "para",
+   "text": "MVP 必须测试真实传输路径，并支持显式 `proofpress export/import/repair`。未来不同格式需要各自的 carrier，例如 DOCX custom part，而不能假设 Markdown trailer 可以覆盖一切。",
+   "hash": "06c84a1bbccf",
+   "id": "04266fc0"
+  },
+  {
+   "type": "heading",
+   "text": "### 8.5 隐私和信息泄漏",
+   "hash": "8991a308b33e",
+   "id": "8d12fa28"
+  },
+  {
+   "type": "para",
+   "text": "如果文件携带全部历史，它也可能把内部讨论、被否方案、人员身份和敏感来源带给外部收件人。默认把原始聊天记录打包进 artifact 是危险的。",
+   "hash": "9033f8f4b0de",
+   "id": "b6559753"
+  },
+  {
+   "type": "para",
+   "text": "协议应默认保存压缩 decision context 和可选 source reference，而不是完整 transcript；同时需要 history redaction、private fields 或生成 external-clean copy 的能力。Redaction 本身也应留下事件，但被删除的敏感 payload 不应继续嵌在外发文件中。",
+   "hash": "397dbb7b0b9c",
+   "id": "3f589a73"
+  },
+  {
+   "type": "heading",
+   "text": "### 8.6 文件体积与 agent context",
+   "hash": "e6cf487d42ce",
+   "id": "e6f5a66b"
+  },
+  {
+   "type": "para",
+   "text": "长历史会无限增长。需要 delta、checkpoint、compression 和 pruning/export policy。Agent 只应读取任务相关的结构化摘要，不应默认加载整个 capsule。",
+   "hash": "e4bbcb2af241",
+   "id": "be4d5c0e"
+  },
+  {
+   "type": "heading",
+   "text": "### 8.7 Protocol-first 的产品风险",
+   "hash": "efb09d44b1f9",
+   "id": "f263ee2b"
+  },
+  {
+   "type": "para",
+   "text": "设计开放协议很容易成为抽象工程，尤其在用户价值尚未验证时。不能先花数月完善签名、DAG、多格式 adapter 和完整 spec，再寻找使用场景。",
+   "hash": "4b9c1fe59ff7",
+   "id": "2550c5f8"
+  },
+  {
+   "type": "para",
+   "text": "第一目标必须是验证：携带 decision lineage 的 artifact，是否真的减少重新解释、重复犯错和盲目信任。",
+   "hash": "38441089adfe",
+   "id": "ead8c6b4"
+  },
+  {
+   "type": "heading",
+   "text": "## 9. 建议路线",
+   "hash": "1b3da47d80d1",
+   "id": "a38c6b35"
+  },
+  {
+   "type": "heading",
+   "text": "### 9.1 战略选择",
+   "hash": "0046755c9131",
+   "id": "42018965"
+  },
+  {
+   "type": "para",
+   "text": "建议推进，但按以下顺序：",
+   "hash": "0f51ac6d010a",
+   "id": "70554ada"
+  },
+  {
+   "type": "para",
+   "text": "> **先验证 portable history 是否改变一次真实 handoff，再决定是否把 embedded capsule 升格为 canonical storage。**",
+   "hash": "308f97c21c78",
+   "id": "7a9f215a"
+  },
+  {
+   "type": "para",
+   "text": "短期不需要立刻废弃 Git ref。可以先把 capsule 作为完整、自包含的 transport/export representation：",
+   "hash": "3dcd6cc7e177",
+   "id": "3ce1084d"
+  },
+  {
+   "type": "list",
+   "text": "- Git ref 或 local store 仍可作为本机索引；\n- `proofpress pack` 把所需历史写入文档；\n- 接收方 `proofpress inspect/import` 从文档恢复；\n- 新版本再 append 并重新 pack；\n- 同一 schema 未来可由 Git、embedded、local、server 共同承载。",
+   "hash": "f68408af77d4",
+   "id": "6077810a"
+  },
+  {
+   "type": "para",
+   "text": "如果真实使用证明文件本身是最可靠的传播单元，再考虑让 capsule 成为单 artifact 的 canonical ledger，其他 backend 作为 mirror/index。",
+   "hash": "718d8e539e4a",
+   "id": "91291ba9"
+  },
+  {
+   "type": "heading",
+   "text": "### 9.2 Portable Proof Capsule v0",
+   "hash": "cbe7fed30684",
+   "id": "dd7c6e3c"
+  },
+  {
+   "type": "para",
+   "text": "MVP 只做 Markdown、顺序 handoff 和最少命令：",
+   "hash": "850f96bc628f",
+   "id": "e3201347"
+  },
+  {
+   "type": "list",
+   "text": "1. 稳定、路径无关的 `artifact_id`；\n2. 一个隐藏 manifest；\n3. 最近若干版本的完整 block-tree checkpoint + event delta；\n4. body hash 与 hash-chained events；\n5. `pack / inspect / import / snapshot`；\n6. agent skill 自动发现 capsule；\n7. manual drift detection；\n8. 诚实生成 `unattributed human edit`；\n9. compact history view：who / what / when / why；\n10. 不做 Cloud、审批、实时协作、完整签名体系和多格式。",
+   "hash": "5bec74cdab99",
+   "id": "0f4d03d2"
+  },
+  {
+   "type": "para",
+   "text": "Fork 只需在 v0 中被检测并明确报出，不必立即实现自动 merge。",
+   "hash": "afb12cb95fd0",
+   "id": "e13efe2e"
+  },
+  {
+   "type": "heading",
+   "text": "### 9.3 最关键的 dogfood 实验",
+   "hash": "f2605a4c8b24",
+   "id": "1779acdc"
+  },
+  {
+   "type": "para",
+   "text": "用一份真实、多轮形成的文档（例如本战略稿）做对照实验：",
+   "hash": "4f200f08d5f8",
+   "id": "a863d59f"
+  },
+  {
+   "type": "list",
+   "text": "1. 与 agent A 完成 5 轮修改，包含至少两个被否方案；\n2. 生成一个普通最终 Markdown 和一个携带 capsule 的 Markdown；\n3. 分别交给两个没有原 session 的 clean agent；\n4. 给它们同一个新任务或同事反馈；\n5. 比较：\n   - 需要用户重新解释多少上下文；\n   - agent 读取了多少 token；\n   - 是否重提已否方案；\n   - 是否错误修改已达成共识的区域；\n   - 用户是否更容易确认“为什么变成这样”；\n6. 中途插入一次 IDE 人工修改，验证 drift detection 和 attribution 流程；\n7. 通过 Slack 文件附件往返，验证 capsule 是否完整保留；\n8. 再测试一次复制粘贴，明确 degradation 行为。",
+   "hash": "779c3a7aec78",
+   "id": "ddd2687f"
+  },
+  {
+   "type": "heading",
+   "text": "### 9.4 Kill criteria",
+   "hash": "ccb56dafe674",
+   "id": "8b8863e0"
+  },
+  {
+   "type": "para",
+   "text": "以下任一结果都应迫使我们重新评估，而不是继续打磨协议：",
+   "hash": "e73a22bc66bd",
+   "id": "fb07e46d"
+  },
+  {
+   "type": "list",
+   "text": "- 用户在 handoff 时不愿携带原始 artifact 文件，只愿复制最终文本或发渲染链接；\n- capsule history 没有显著减少重新 briefing、重复方案或错误覆盖；\n- agent 无法稳定保留和更新 embedded metadata；\n- 常见编辑器和传输路径频繁剥离 capsule；\n- 捕获 why 需要用户持续付出明显仪式税；\n- 用户真正关心的仍只是最终结果，不会查询或依赖 decision lineage；\n- privacy 风险迫使绝大多数 history 在分享时被删除，使 portability 失去意义。",
+   "hash": "e877df86be93",
+   "id": "62dfe14f"
+  },
+  {
+   "type": "heading",
+   "text": "## 10. 对 Launch 的影响",
+   "hash": "70b7dc2a846b",
+   "id": "9a3c3b79"
+  },
+  {
+   "type": "para",
+   "text": "在 portable handoff 还未被产品真实支持前，不应直接以“跨 Slack、跨团队、跨 agent 的完整历史”作为已交付能力。这会让叙事领先产品太远。",
+   "hash": "8bc29b2f3226",
+   "id": "11e7b5e6"
+  },
+  {
+   "type": "para",
+   "text": "可以分两步：",
+   "hash": "7f8408a1d781",
+   "id": "3a13ee13"
+  },
+  {
+   "type": "list",
+   "text": "1. 当前 CLI / GitHub release 诚实强调 engine 能力：semantic history、provenance、deterministic claim verification；\n2. Portable capsule 通过 dogfood 后，以真实 handoff demo 发布更大的 category narrative。",
+   "hash": "3628e638fd30",
+   "id": "b92d64bd"
+  },
+  {
+   "type": "para",
+   "text": "后者最有力量的 launch 开头不是功能列表，而是用户已经经历过的故事：",
+   "hash": "808ff5f7d71f",
+   "id": "ad02b06a"
+  },
+  {
+   "type": "para",
+   "text": "> I use agents to produce documents all the time.\n>\n> It rarely takes one shot. I revise the draft several times, send it to a teammate in Slack, discuss their feedback, then translate the decision back into another prompt.\n>\n> At the end, the document survives.\n>\n> The decisions that made it disappear.\n>\n> Proofpress makes the history of the work as durable as the work itself.",
+   "hash": "24c2d0afe486",
+   "id": "9aecaeb6"
+  },
+  {
+   "type": "para",
+   "text": "产品说明随后才出现：",
+   "hash": "48810bfcc549",
+   "id": "d435f1fe"
+  },
+  {
+   "type": "para",
+   "text": "> Every Proofpress artifact carries a shared, verifiable history of who changed what, when, and why—across people, agents, sessions, and tools.",
+   "hash": "cb2e8c140f53",
+   "id": "0327f20a"
+  },
+  {
+   "type": "heading",
+   "text": "## 11. 最终判断",
+   "hash": "25309cd47388",
+   "id": "dad2e43f"
+  },
+  {
+   "type": "para",
+   "text": "这个方向最有价值的地方，不是“把 ledger 藏进 Markdown”，而是把 Proofpress 从一个依附 GitHub 的开发者工具，推进为一个真正的 **artifact-level collaboration protocol**。",
+   "hash": "323d3143f9ee",
+   "id": "ce98c0cf"
+  },
+  {
+   "type": "para",
+   "text": "它与当前战略的核心判断高度一致：",
+   "hash": "5160efddfb47",
+   "id": "e03ef32e"
+  },
+  {
+   "type": "list",
+   "text": "- agent 让产出速度超过人类审阅和记忆带宽；\n- trust 需要机器可计算的事实，而不只是 agent 自述；\n- artifact 历史应同时服务人类审阅和 agent context；\n- agent 可以承担过去让 docs-as-code 失败的维护仪式；\n- backend-independent open spec 是长期可信度和多 harness 中立性的基础。",
+   "hash": "af21550e182d",
+   "id": "d5fbfb01"
+  },
+  {
+   "type": "para",
+   "text": "它也带来一个更准确的产品层级：",
+   "hash": "178b2f4a0a4b",
+   "id": "228e34a6"
+  },
+  {
+   "type": "code",
+   "text": "```text\n用户价值：durable decision lineage\n组织结果：trust and collaboration at agent scale\n核心模型：knowledge-artifact-native ledger\n传播机制：portable artifact protocol\nMarkdown 载体：invisible anchors + proof capsule\n后端角色：Git / local / cloud 负责索引、同步、治理和查询\n```",
+   "hash": "8c5b8fffae9a",
+   "id": "5f794662"
+  },
+  {
+   "type": "para",
+   "text": "建议继续，但先把它当作一个针对真实 handoff 的可证伪产品实验，而不是立即升级为宏大的协议工程。",
+   "hash": "2ed76f8aace7",
+   "id": "a412a0dc"
+  },
+  {
+   "type": "para",
+   "text": "最值得守住的一句话仍然是：",
+   "hash": "a20716a1943a",
+   "id": "86e35bd2"
+  },
+  {
+   "type": "para",
+   "text": "> **Make the history of the work as durable as the work itself.**",
+   "hash": "d2ab96bfaf14",
+   "id": "2e9a0eb0"
   }
  ]
 }
