@@ -1,230 +1,48 @@
 {
  "event": "version_created",
- "artifact": "AGENTS.md",
- "version": "0f5e4f29",
- "parent": null,
+ "artifact": "docs/PORTABLE_ARTIFACT_STRATEGY.md",
+ "version": "34b17a81",
+ "parent": "8b0535cf",
  "author": {
   "name": "codex",
   "kind": "agent",
-  "session": "vision-and-harness-2026-07-22"
+  "session": "bold-rendering-fix-2026-07-22"
  },
- "note": "Installed always-on project Proofpress instructions",
- "ts": "2026-07-22T05:25:20+00:00",
+ "note": "Fixed bold rendering in vision lists",
+ "ts": "2026-07-22T05:31:10+00:00",
  "stats": {
-  "added": 17
+  "modified": 2
  },
  "changes": [
   {
-   "kind": "added",
-   "block": "e43408a0",
-   "type": "heading",
-   "context": "Project instructions",
-   "preview": "# Project instructions"
-  },
-  {
-   "kind": "added",
-   "block": "bbe579fd",
-   "type": "heading",
-   "context": "Proofpress: ledger Markdown knowledge ar",
-   "preview": "## Proofpress: ledger Markdown knowledge artifacts"
-  },
-  {
-   "kind": "added",
-   "block": "c235e9c0",
-   "type": "para",
-   "context": "Proofpress: ledger Markdown knowledge ar",
-   "preview": "This repository keeps a Proofpress version ledger for Markdo"
-  },
-  {
-   "kind": "added",
-   "block": "d75bde41",
-   "type": "para",
-   "context": "Proofpress: ledger Markdown knowledge ar",
-   "preview": "After creating or substantially revising a Markdown knowledg"
-  },
-  {
-   "kind": "added",
-   "block": "d7b9fb93",
+   "kind": "modified",
+   "block": "f35416d1",
    "type": "list",
-   "context": "Proofpress: ledger Markdown knowledge ar",
-   "preview": "1. If the artifact has Git history but no ledger entry, run"
+   "context": "终局 Vision：让智能扩张，让信任留存"
   },
   {
-   "kind": "added",
-   "block": "ca272bc3",
-   "type": "para",
-   "context": "Proofpress: ledger Markdown knowledge ar",
-   "preview": "   `python3 proofpress.py ingest <file>`."
-  },
-  {
-   "kind": "added",
-   "block": "6ce30be0",
+   "kind": "modified",
+   "block": "e5784e73",
    "type": "list",
-   "context": "Proofpress: ledger Markdown knowledge ar",
-   "preview": "2. Preserve each surviving block's `[//]: # (ob:xxxxxxxx)` a"
-  },
-  {
-   "kind": "added",
-   "block": "635794f9",
-   "type": "para",
-   "context": "Proofpress: ledger Markdown knowledge ar",
-   "preview": "   editing. Drop anchors for deleted blocks and do not inven"
-  },
-  {
-   "kind": "added",
-   "block": "35b7ddb8",
-   "type": "list",
-   "context": "Proofpress: ledger Markdown knowledge ar",
-   "preview": "3. Run `python3 proofpress.py anchor <file>` and read the"
-  },
-  {
-   "kind": "added",
-   "block": "3ce94304",
-   "type": "para",
-   "context": "Proofpress: ledger Markdown knowledge ar",
-   "preview": "   `inherited` / `new` / `gone` inventory."
-  },
-  {
-   "kind": "added",
-   "block": "f5265244",
-   "type": "list",
-   "context": "Proofpress: ledger Markdown knowledge ar",
-   "preview": "4. Write temporary claims JSON with one honest entry per blo"
-  },
-  {
-   "kind": "added",
-   "block": "a622a90e",
-   "type": "para",
-   "context": "Proofpress: ledger Markdown knowledge ar",
-   "preview": "   removed. Do not enumerate untouched blocks. Use `unchange"
-  },
-  {
-   "kind": "added",
-   "block": "935f98c0",
-   "type": "list",
-   "context": "Proofpress: ledger Markdown knowledge ar",
-   "preview": "5. Snapshot with testimony. `--why` is required; add one `--"
-  },
-  {
-   "kind": "added",
-   "block": "b15d186f",
-   "type": "para",
-   "context": "Proofpress: ledger Markdown knowledge ar",
-   "preview": "   alternative actually considered and dropped:\n   `python3 "
-  },
-  {
-   "kind": "added",
-   "block": "1be95c90",
-   "type": "list",
-   "context": "Proofpress: ledger Markdown knowledge ar",
-   "preview": "6. Run `python3 proofpress.py verify <file>` and report its "
-  },
-  {
-   "kind": "added",
-   "block": "4ea05f68",
-   "type": "para",
-   "context": "Proofpress: ledger Markdown knowledge ar",
-   "preview": "   Never re-snapshot merely to force a green result; a misma"
-  },
-  {
-   "kind": "added",
-   "block": "90e139de",
-   "type": "para",
-   "context": "Proofpress: ledger Markdown knowledge ar",
-   "preview": "Repeat the loop for every Markdown knowledge artifact touche"
+   "context": "终局 Vision：让智能扩张，让信任留存"
   }
  ],
  "claims": [
   {
-   "block": "e43408a0",
-   "kind": "added",
-   "note": "created project instructions"
+   "block": "f35416d1",
+   "kind": "modified",
+   "note": "added whitespace after closing strong delimiters in the three-stage vision list"
   },
   {
-   "block": "bbe579fd",
-   "kind": "added",
-   "note": "added the always-on Proofpress contract"
-  },
-  {
-   "block": "c235e9c0",
-   "kind": "added",
-   "note": "defined applicable Markdown artifacts and the source-code boundary"
-  },
-  {
-   "block": "d75bde41",
-   "kind": "added",
-   "note": "introduced the mandatory ledger loop"
-  },
-  {
-   "block": "d7b9fb93",
-   "kind": "added",
-   "note": "added the ingest step"
-  },
-  {
-   "block": "ca272bc3",
-   "kind": "added",
-   "note": "provided the ingest command"
-  },
-  {
-   "block": "6ce30be0",
-   "kind": "added",
-   "note": "added anchor preservation rules"
-  },
-  {
-   "block": "635794f9",
-   "kind": "added",
-   "note": "completed deletion and new-block anchor guidance"
-  },
-  {
-   "block": "35b7ddb8",
-   "kind": "added",
-   "note": "added the anchor inventory step"
-  },
-  {
-   "block": "3ce94304",
-   "kind": "added",
-   "note": "named the anchor inventory fields"
-  },
-  {
-   "block": "f5265244",
-   "kind": "added",
-   "note": "introduced touched-block claims"
-  },
-  {
-   "block": "a622a90e",
-   "kind": "added",
-   "note": "defined deliberate unchanged claims"
-  },
-  {
-   "block": "935f98c0",
-   "kind": "added",
-   "note": "introduced snapshot testimony and rejected alternatives"
-  },
-  {
-   "block": "b15d186f",
-   "kind": "added",
-   "note": "provided the snapshot command"
-  },
-  {
-   "block": "1be95c90",
-   "kind": "added",
-   "note": "added verification reporting"
-  },
-  {
-   "block": "4ea05f68",
-   "kind": "added",
-   "note": "prohibited re-snapshotting to force green"
-  },
-  {
-   "block": "90e139de",
-   "kind": "added",
-   "note": "required the loop for every touched Markdown artifact"
+   "block": "e5784e73",
+   "kind": "modified",
+   "note": "added whitespace after closing strong delimiters in the narrative label list"
   }
  ],
  "context": {
-  "why": "The repository had only an uninstalled Codex snippet, so project agents could miss the mandatory ledger workflow.",
+  "why": "Cursor Preview treated strong delimiters followed immediately by body text after a full-width colon as literal asterisks; explicit whitespace makes the Markdown unambiguous.",
   "rejected": [
-   "Rely on agents to discover skills/ manually — this failure already occurred in the current session."
+   "Replace bold labels with HTML strong tags — unnecessary and less portable than valid Markdown spacing."
   ]
  }
 }
