@@ -2,124 +2,50 @@
  "event": "version_created",
  "artifact": "demo/launch.html",
  "artifact_id": "pp_dd3ede474fe20956178e391e",
- "version": "218d53f0",
- "parent": "8ae86af0",
+ "version": "75fc84d1",
+ "parent": "218d53f0",
  "author": {
   "name": "codex",
-  "kind": "system",
+  "kind": "agent",
   "session": null
  },
- "note": "reconciled HTML block inventory after void-element parser correction",
- "ts": "2026-07-22T10:56:44+00:00",
+ "note": null,
+ "ts": "2026-07-22T10:57:13+00:00",
  "stats": {
-  "added": 9,
-  "modified": 1,
-  "removed": 4
+  "modified": 1
  },
  "changes": [
   {
-   "kind": "added",
-   "block": "2a23bdd3",
-   "type": "heading",
-   "context": "<h1 class=\"huge rv\">PROOF<br>PRESS</h1>",
-   "preview": "<h1 class=\"huge rv\">PROOF<br>PRESS</h1>"
-  },
-  {
-   "kind": "added",
-   "block": "6e973ac6",
-   "type": "heading",
-   "context": "<h2 class=\"big rv d1\" style=\"margin-top:",
-   "preview": "<h2 class=\"big rv d1\" style=\"margin-top:18px\">THREE DAYS.<br"
-  },
-  {
-   "kind": "added",
-   "block": "842093a2",
-   "type": "heading",
-   "context": "<h2 class=\"big rv\">GIT KEEPS THE BOOKS<b",
-   "preview": "<h2 class=\"big rv\">GIT KEEPS THE BOOKS<br>ON YOUR <span clas"
-  },
-  {
    "kind": "modified",
-   "block": "8e829195",
-   "type": "heading",
-   "context": "<h2 class=\"big rv d2 dim\" style=\"margin-"
-  },
-  {
-   "kind": "added",
-   "block": "237a3a93",
-   "type": "heading",
-   "context": "<h2 class=\"mid rv\">MARKDOWN GETS<br>ITS ",
-   "preview": "<h2 class=\"mid rv\">MARKDOWN GETS<br>ITS OWN GIT.<br><span cl"
-  },
-  {
-   "kind": "added",
-   "block": "d8685bb8",
-   "type": "heading",
-   "context": "<h2 class=\"mid rv\">A THOUSAND LINES OF N",
-   "preview": "<h2 class=\"mid rv\">A THOUSAND LINES OF NOISE.<br><span class"
-  },
-  {
-   "kind": "added",
-   "block": "00d988de",
-   "type": "heading",
-   "context": "<h2 class=\"mid rv\">COMMENT ON A BLOCK.<b",
-   "preview": "<h2 class=\"mid rv\">COMMENT ON A BLOCK.<br><span style=\"color"
-  },
-  {
-   "kind": "added",
-   "block": "113093b3",
-   "type": "heading",
-   "context": "<h2 class=\"big rv\">EVERY AGENT DRAFT<br>",
-   "preview": "<h2 class=\"big rv\">EVERY AGENT DRAFT<br>IS A PROOF.</h2>"
-  },
-  {
-   "kind": "added",
-   "block": "721770f8",
-   "type": "heading",
-   "context": "<h2 class=\"huge rv d2\" style=\"color:#EAF",
-   "preview": "<h2 class=\"huge rv d2\" style=\"color:#EAF4F6\">YOU ARE<br>THE "
-  },
-  {
-   "kind": "added",
-   "block": "3c8d3eca",
-   "type": "heading",
-   "context": "<h2 class=\"big rv d1\" style=\"margin-top:",
-   "preview": "<h2 class=\"big rv d1\" style=\"margin-top:26px\">AGENTS PRODUCE"
-  },
-  {
-   "kind": "removed",
-   "block": "7cf19bd8",
-   "type": "heading",
-   "context": "",
-   "preview": "<h2 class=\"big rv d1\" style=\"margin-top:18px\">THREE DAYS.<br"
-  },
-  {
-   "kind": "removed",
-   "block": "f7deeea4",
-   "type": "heading",
-   "context": "",
-   "preview": "<h2 class=\"mid rv\">A THOUSAND LINES OF NOISE.<br><span class"
-  },
-  {
-   "kind": "removed",
-   "block": "ca190812",
-   "type": "heading",
-   "context": "",
-   "preview": "<h2 class=\"huge rv d2\" style=\"color:#EAF4F6\">YOU ARE<br>THE "
-  },
-  {
-   "kind": "removed",
-   "block": "5efc3fa9",
-   "type": "heading",
-   "context": "",
-   "preview": "<h2 class=\"big rv d1\" style=\"margin-top:26px\">AGENTS PRODUCE"
+   "block": "88f42714",
+   "type": "para",
+   "context": "<h4>Rollout plan</h4>"
   }
  ],
- "policy": "local",
+ "policy": "portable",
  "actors": {
+  "requested_by": [
+   "Richard"
+  ],
+  "produced_by": [
+   "codex"
+  ],
+  "edited_by": [
+   "codex"
+  ],
   "recorded_by": [
    "codex"
   ]
  },
- "attribution_basis": "self_asserted"
+ "attribution_basis": "self_asserted",
+ "claims": [
+  {
+   "block": "88f42714",
+   "kind": "modified",
+   "note": "replaces an immediate full-traffic rollout with staged rollback checkpoints"
+  }
+ ],
+ "context": {
+  "why": "make the demo rollout plan reflect the safer staged rollout decision"
+ }
 }

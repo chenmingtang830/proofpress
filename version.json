@@ -5,104 +5,104 @@
   {
    "type": "heading",
    "text": "<h1 class=\"huge rv\">PROOF<br>PRESS</h1>",
-   "hash": "93dfa90b9864",
-   "id": "2a23bdd3"
+   "id": "2a23bdd3",
+   "hash": "93dfa90b9864"
   },
   {
    "type": "heading",
    "text": "<h2 class=\"big rv d1\" style=\"margin-top:18px\">THREE DAYS.<br>ONE DOC.<br>A THOUSAND-LINE DIFF.</h2>",
-   "hash": "2446f07a8a20",
-   "id": "6e973ac6"
+   "id": "6e973ac6",
+   "hash": "2446f07a8a20"
   },
   {
    "type": "para",
    "text": "<p class=\"lede rv d2\" style=\"margin-top:26px\">\n      I kept asking my agent to fix a design doc. Three days and nine commits later,\n      GitHub showed me the totals — not what changed, why, or how to get back to an earlier draft.\n      <b style=\"color:var(--ink)\">You can't tell.</b>\n    </p>",
-   "hash": "25486bc19983",
-   "id": "ce66d345"
+   "id": "ce66d345",
+   "hash": "25486bc19983"
   },
   {
    "type": "heading",
    "text": "<h2 class=\"big rv\">GIT KEEPS THE BOOKS<br>ON YOUR <span class=\"st-ul\">CODE.</span></h2>",
-   "hash": "2387196ea549",
-   "id": "842093a2"
+   "id": "842093a2",
+   "hash": "2387196ea549"
   },
   {
    "type": "heading",
    "text": "<h2 class=\"big rv d2 dim\" style=\"margin-top:.35em\">NOTHING KEEPS THE BOOKS<br>ON WHAT AGENTS <span class=\"st-ul\" style=\"color:var(--teal-deep)\">WRITE.</span></h2>",
-   "hash": "70dd430199dc",
-   "id": "8e829195"
+   "id": "8e829195",
+   "hash": "70dd430199dc"
   },
   {
    "type": "heading",
    "text": "<h2 class=\"mid rv\">MARKDOWN GETS<br>ITS OWN GIT.<br><span class=\"dim\">RIGHT INSIDE YOUR REPO.</span></h2>",
-   "hash": "92af2b747f35",
-   "id": "237a3a93"
+   "id": "237a3a93",
+   "hash": "92af2b747f35"
   },
   {
    "type": "para",
    "text": "<p class=\"lede rv d3\" style=\"margin-top:34px\">No migration. No new editor. One skill, and the ledger starts keeping\n    immutable, roll-back-able books right inside the repo you already have.</p>",
-   "hash": "d615b63f9ea6",
-   "id": "923b1ca6"
+   "id": "923b1ca6",
+   "hash": "d615b63f9ea6"
   },
   {
    "type": "heading",
    "text": "<h2 class=\"mid rv\">A THOUSAND LINES OF NOISE.<br><span class=\"dim\">OR THREE FACTS, WITH REASONS.</span></h2>",
-   "hash": "3a47e344f089",
-   "id": "d8685bb8"
+   "id": "d8685bb8",
+   "hash": "3a47e344f089"
   },
   {
    "type": "code",
    "text": "<pre id=\"patch\"></pre>",
-   "hash": "37433512caf6",
-   "id": "3bd4c304"
+   "id": "3bd4c304",
+   "hash": "37433512caf6"
   },
   {
    "type": "heading",
    "text": "<h2 class=\"mid rv\">COMMENT ON A BLOCK.<br><span style=\"color:var(--teal-deep)\">OR EDIT IT YOURSELF.</span></h2>",
-   "hash": "6cca4f420bfd",
-   "id": "00d988de"
+   "id": "00d988de",
+   "hash": "6cca4f420bfd"
   },
   {
    "type": "para",
    "text": "<p class=\"lede rv d1\" style=\"margin-top:14px\">The agent revises what you comment on. Change a block yourself instead —\n    same ledger, same history, either way.</p>",
-   "hash": "5099148fedfc",
-   "id": "a0dcb0c7"
+   "id": "a0dcb0c7",
+   "hash": "5099148fedfc"
   },
   {
    "type": "heading",
    "text": "<h3>design-doc.md</h3>",
-   "hash": "57c10dc5893e",
-   "id": "82b3a0a0"
+   "id": "82b3a0a0",
+   "hash": "57c10dc5893e"
   },
   {
    "type": "heading",
    "text": "<h4>Rollout plan</h4>",
-   "hash": "9984b0578dc0",
-   "id": "74ecaed3"
+   "id": "74ecaed3",
+   "hash": "9984b0578dc0"
   },
   {
    "type": "para",
-   "text": "<p id=\"blktext\">Ship the payments migration to 100% of traffic on merge. No staged rollback plan.</p>",
-   "hash": "248f1113dcbd",
-   "id": "88f42714"
+   "text": "<p id=\"blktext\">Roll out the payments migration in three stages, with rollback checkpoints before full traffic.</p>",
+   "id": "88f42714",
+   "hash": "31e113ea0c04"
   },
   {
    "type": "heading",
    "text": "<h2 class=\"big rv\">EVERY AGENT DRAFT<br>IS A PROOF.</h2>",
-   "hash": "e9cc9745516a",
-   "id": "113093b3"
+   "id": "113093b3",
+   "hash": "e9cc9745516a"
   },
   {
    "type": "heading",
    "text": "<h2 class=\"huge rv d2\" style=\"color:#EAF4F6\">YOU ARE<br>THE PRESS.</h2>",
-   "hash": "86e968fcc05c",
-   "id": "721770f8"
+   "id": "721770f8",
+   "hash": "86e968fcc05c"
   },
   {
    "type": "heading",
    "text": "<h2 class=\"big rv d1\" style=\"margin-top:26px\">AGENTS PRODUCE.<br>YOU DECIDE.<br><span class=\"dim\">THE LEDGER REMEMBERS.</span></h2>",
-   "hash": "874af762a073",
-   "id": "3c8d3eca"
+   "id": "3c8d3eca",
+   "hash": "874af762a073"
   }
  ]
 }
