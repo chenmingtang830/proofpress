@@ -1,7 +1,7 @@
 {
  "event": "version_created",
- "artifact": "skills/codex/AGENTS-snippet.md",
- "version": "2de620e1",
+ "artifact": "skills/pi/proofpress-skill.md",
+ "version": "b788953d",
  "parent": null,
  "author": {
   "name": "chenmingtang830",
@@ -16,80 +16,80 @@
  "changes": [
   {
    "kind": "added",
-   "block": "c350cb3a",
-   "type": "para",
-   "context": "(文首)",
-   "preview": "<!-- Append to your AGENTS.md — the Proofpress contract for "
-  },
-  {
-   "kind": "added",
-   "block": "51ac24b5",
+   "block": "5cd87791",
    "type": "heading",
-   "context": "Proofpress: markdown knowledge artifacts",
-   "preview": "## Proofpress: markdown knowledge artifacts are ledgered"
+   "context": "proofpress",
+   "preview": "# proofpress"
   },
   {
    "kind": "added",
-   "block": "ca88b9cb",
+   "block": "679ffc58",
    "type": "para",
-   "context": "Proofpress: markdown knowledge artifacts",
-   "preview": "This repo keeps a version ledger for markdown knowledge arti"
+   "context": "proofpress",
+   "preview": "Version-ledger discipline for markdown knowledge artifacts ("
   },
   {
    "kind": "added",
-   "block": "95b71f0d",
+   "block": "daf9ff98",
+   "type": "heading",
+   "context": "Loop",
+   "preview": "## Loop"
+  },
+  {
+   "kind": "added",
+   "block": "fb518472",
    "type": "list",
-   "context": "Proofpress: markdown knowledge artifacts",
-   "preview": "1. History but no ledger? `python3 proofpress.py ingest <fil"
+   "context": "Loop",
+   "preview": "1. History but no ledger entries? `python3 proofpress.py ing"
   },
   {
    "kind": "added",
-   "block": "5c455645",
+   "block": "5affc021",
    "type": "para",
-   "context": "Proofpress: markdown knowledge artifacts",
-   "preview": "   then run `python3 proofpress.py anchor <file>` and read t"
+   "context": "Loop",
+   "preview": "   `python3 proofpress.py anchor <file>` → read inherited/ne"
   },
   {
    "kind": "added",
-   "block": "55bb7174",
+   "block": "6f0d23b1",
    "type": "list",
-   "context": "Proofpress: markdown knowledge artifacts",
-   "preview": "3. Write claims JSON (one honest entry per block:"
+   "context": "Loop",
+   "preview": "3. Claims JSON, one honest entry per block:"
   },
   {
    "kind": "added",
-   "block": "b1fcdce7",
+   "block": "44acc710",
    "type": "para",
-   "context": "Proofpress: markdown knowledge artifacts",
-   "preview": "   `{\"block\", \"kind\": added|removed|modified|moved|unchanged"
+   "context": "Loop",
+   "preview": "   `[{\"block\": \"<id>\", \"kind\": \"added|removed|modified|moved"
   },
   {
    "kind": "added",
-   "block": "c6d8df5a",
+   "block": "da9ad3d9",
    "type": "list",
-   "context": "Proofpress: markdown knowledge artifacts",
-   "preview": "4. Snapshot with testimony — `--why` required, `--rejected` "
+   "context": "Loop",
+   "preview": "4. Snapshot with testimony (`--why` required; `--rejected` p"
   },
   {
    "kind": "added",
-   "block": "01fba730",
+   "block": "f7c3e055",
    "type": "para",
-   "context": "Proofpress: markdown knowledge artifacts",
-   "preview": "   alternative:\n   `python3 proofpress.py snapshot <file> --"
+   "context": "Loop",
+   "preview": "   alternative):\n   `python3 proofpress.py snapshot <file> -"
   },
   {
    "kind": "added",
-   "block": "0aeea03e",
+   "block": "dd7291a6",
    "type": "list",
-   "context": "Proofpress: markdown knowledge artifacts",
-   "preview": "5. `python3 proofpress.py verify <file>` and report the verb"
+   "context": "Loop",
+   "preview": "5. `python3 proofpress.py verify <file>` — report verbatim; "
   },
   {
    "kind": "added",
-   "block": "7d5df454",
+   "block": "982738e5",
    "type": "para",
-   "context": "Proofpress: markdown knowledge artifacts",
-   "preview": "   Never re-snapshot to force a green result — a ⚠ is review"
+   "context": "Loop",
+   "preview": "   to force green. A ⚠ is reviewer information."
   }
  ],
  "source_commit": "c70f3baaa1de011117fe5f3721ea718fa0f91da1"
