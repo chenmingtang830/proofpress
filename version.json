@@ -1,54 +1,102 @@
 {
- "artifact": "docs/README.md",
- "artifact_id": "pp_4e50106dcbfad18e3ab0668c",
+ "artifact": "skills/claude-code/proofpress/SKILL.md",
+ "artifact_id": "pp_8f9f160826e336a46eb62bd4",
  "blocks": [
   {
+   "type": "para",
+   "text": "---\nname: proofpress\ndescription: Preserve decision history for Markdown knowledge artifacts with Proofpress. Use when creating or accepting a meaningful revision to an ADR, design doc, PRD, README, strategy note, or portable .md artifact in a repository containing proofpress.py; never use for source-code files.\n---",
+   "hash": "a8220e237ffa",
+   "id": "20222364"
+  },
+  {
    "type": "heading",
-   "text": "# Proofpress documentation",
-   "id": "d16948ea",
-   "hash": "0cf5e1750c41"
+   "text": "# Proofpress",
+   "id": "25f10229",
+   "hash": "8576f3816903"
   },
   {
    "type": "para",
-   "text": "Proofpress keeps the public documentation set deliberately small. These files\ndescribe behavior that users and compatible implementations can rely on.",
-   "id": "aeed01a6",
-   "hash": "7a37db05a49a"
+   "text": "Record accepted Markdown artifact versions with structured testimony and\nverification. Do not snapshot every conversational turn.",
+   "id": "cb25a041",
+   "hash": "22a023b57c1f"
+  },
+  {
+   "type": "heading",
+   "text": "## Workflow",
+   "id": "d8284708",
+   "hash": "05146c1f1860"
   },
   {
    "type": "list",
-   "text": "- [Portable Artifact V0](PORTABLE_ARTIFACT_SPEC.md) is the executable protocol",
-   "id": "62ae0597",
-   "hash": "7e38bdf3019b"
+   "text": "1. Read `python3 proofpress.py policy <file>`. If the user asks for portability,",
+   "id": "04e1285c",
+   "hash": "0d0b4fbb2e3c"
   },
   {
    "type": "para",
-   "text": "  contract: policy, identity, carrier, actors, integrity, import, and commands.",
-   "id": "12d546c8",
-   "hash": "8ee83713ab8d"
+   "text": "   run `policy <file> portable` once; it remains sticky. If Git history exists\n   without a ledger, run `ingest <file>`.",
+   "id": "0fab4251",
+   "hash": "d821cbd5e8cd"
   },
   {
    "type": "list",
-   "text": "- [Privacy Boundaries](PRIVACY_AND_DISCLOSURE.md) defines what admitted history",
-   "id": "115b73d9",
-   "hash": "3307dee323fb"
+   "text": "2. Preserve surviving `[//]: # (ob:xxxxxxxx)` anchors while editing. Run",
+   "id": "a5e7461c",
+   "hash": "4c4ce4c318a2"
   },
   {
    "type": "para",
-   "text": "  may contain, what stays local, and what a distributed file cannot promise.",
-   "id": "18d76a56",
-   "hash": "48cfb059debc"
+   "text": "   `anchor <file>` and inspect inherited/new/gone IDs.",
+   "id": "01348595",
+   "hash": "ce2f29513646"
+  },
+  {
+   "type": "list",
+   "text": "3. Write claims JSON with one honest entry per touched or removed block; do not",
+   "id": "ac191e68",
+   "hash": "be99217fb0ef"
   },
   {
    "type": "para",
-   "text": "The implementation is the zero-dependency [`proofpress.py`](../proofpress.py)\nCLI. Harness installation and attribution rules are documented under\n[`skills/`](../skills/).",
-   "id": "08d1b5c2",
-   "hash": "a14fee80886b"
+   "text": "   enumerate untouched blocks.",
+   "id": "29b54f6f",
+   "hash": "a7f1bc5835ee"
+  },
+  {
+   "type": "list",
+   "text": "4. Snapshot the accepted version with `--why`, claims, and explicit actors:",
+   "id": "4623b792",
+   "hash": "5d30de519d56"
+  },
+  {
+   "type": "code",
+   "text": "   ```sh\n   python3 proofpress.py snapshot <file> --kind agent --author claude \\\n     --produced-by claude --recorded-by claude \\\n     --attribution-basis harness_attested --note \"<changelog>\" \\\n     --claims <claims.json> --why \"<actual reason>\" \\\n     --rejected \"<consequential dead branch — reason>\"\n   ```",
+   "id": "c89d4269",
+   "hash": "a14cf8e32996"
   },
   {
    "type": "para",
-   "text": "Product strategy, competitive research, launch drafts, and experiments are not\nnormative protocol documentation and are intentionally excluded from the public\nrepository tree.",
-   "id": "aef7f16a",
-   "hash": "bc2b04dbde3d"
+   "text": "   Omit `--rejected` unless the dead branch matters to future collaborators.\n   Never infer it from casual discussion or include raw prompts/transcripts.",
+   "id": "3b3f299e",
+   "hash": "4dd347f30287"
+  },
+  {
+   "type": "list",
+   "text": "5. Run `verify <file>` and report its output verbatim. Never re-snapshot merely",
+   "id": "64c98298",
+   "hash": "1c02a1572a6e"
+  },
+  {
+   "type": "para",
+   "text": "   to force green.",
+   "id": "0928adea",
+   "hash": "d4f97ae420cd"
+  },
+  {
+   "type": "para",
+   "text": "For incoming portable files, run `inspect` and then `import`. Fallback `capture`\nrecords only `recorded_by`; it cannot know authorship or reasoning. Never\nsnapshot source-code files.",
+   "id": "e96a23df",
+   "hash": "cd71ba189794"
   }
  ]
 }

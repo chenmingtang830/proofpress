@@ -1,75 +1,25 @@
 {
  "event": "version_created",
- "artifact": "docs/README.md",
- "artifact_id": "pp_4e50106dcbfad18e3ab0668c",
- "version": "90c46f04",
- "parent": null,
+ "artifact": "skills/claude-code/proofpress/SKILL.md",
+ "artifact_id": "pp_8f9f160826e336a46eb62bd4",
+ "version": "06c840e7",
+ "parent": "0a1556e5",
  "author": {
   "name": "codex",
   "kind": "agent",
   "session": null
  },
  "note": "prepare the public repository documentation surface",
- "ts": "2026-07-22T10:06:03+00:00",
+ "ts": "2026-07-22T10:06:05+00:00",
  "stats": {
-  "added": 8
+  "modified": 1
  },
  "changes": [
   {
-   "kind": "added",
-   "block": "d16948ea",
-   "type": "heading",
-   "context": "Proofpress documentation",
-   "preview": "# Proofpress documentation"
-  },
-  {
-   "kind": "added",
-   "block": "aeed01a6",
-   "type": "para",
-   "context": "Proofpress documentation",
-   "preview": "Proofpress keeps the public documentation set deliberately s"
-  },
-  {
-   "kind": "added",
-   "block": "62ae0597",
-   "type": "list",
-   "context": "Proofpress documentation",
-   "preview": "- [Portable Artifact V0](PORTABLE_ARTIFACT_SPEC.md) is the e"
-  },
-  {
-   "kind": "added",
-   "block": "12d546c8",
-   "type": "para",
-   "context": "Proofpress documentation",
-   "preview": "  contract: policy, identity, carrier, actors, integrity, im"
-  },
-  {
-   "kind": "added",
-   "block": "115b73d9",
-   "type": "list",
-   "context": "Proofpress documentation",
-   "preview": "- [Privacy Boundaries](PRIVACY_AND_DISCLOSURE.md) defines wh"
-  },
-  {
-   "kind": "added",
-   "block": "18d76a56",
-   "type": "para",
-   "context": "Proofpress documentation",
-   "preview": "  may contain, what stays local, and what a distributed file"
-  },
-  {
-   "kind": "added",
-   "block": "08d1b5c2",
-   "type": "para",
-   "context": "Proofpress documentation",
-   "preview": "The implementation is the zero-dependency [`proofpress.py`]("
-  },
-  {
-   "kind": "added",
-   "block": "aef7f16a",
-   "type": "para",
-   "context": "Proofpress documentation",
-   "preview": "Product strategy, competitive research, launch drafts, and e"
+   "kind": "modified",
+   "block": "c89d4269",
+   "type": "code",
+   "context": "Workflow"
   }
  ],
  "policy": "local",
@@ -84,43 +34,8 @@
  "attribution_basis": "harness_attested",
  "claims": [
   {
-   "block": "d16948ea",
-   "kind": "added",
-   "note": "aligned the public repository surface and executable CLI examples"
-  },
-  {
-   "block": "aeed01a6",
-   "kind": "added",
-   "note": "aligned the public repository surface and executable CLI examples"
-  },
-  {
-   "block": "62ae0597",
-   "kind": "added",
-   "note": "aligned the public repository surface and executable CLI examples"
-  },
-  {
-   "block": "12d546c8",
-   "kind": "added",
-   "note": "aligned the public repository surface and executable CLI examples"
-  },
-  {
-   "block": "115b73d9",
-   "kind": "added",
-   "note": "aligned the public repository surface and executable CLI examples"
-  },
-  {
-   "block": "18d76a56",
-   "kind": "added",
-   "note": "aligned the public repository surface and executable CLI examples"
-  },
-  {
-   "block": "08d1b5c2",
-   "kind": "added",
-   "note": "aligned the public repository surface and executable CLI examples"
-  },
-  {
-   "block": "aef7f16a",
-   "kind": "added",
+   "block": "c89d4269",
+   "kind": "modified",
    "note": "aligned the public repository surface and executable CLI examples"
   }
  ],
