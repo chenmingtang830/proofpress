@@ -1,54 +1,124 @@
 {
  "event": "version_created",
  "artifact": "docs/DEMO_SCRIPT.md",
- "version": "3f4fe376",
- "parent": null,
+ "version": "6eb528be",
+ "parent": "3f4fe376",
  "author": {
   "name": "chenmingtang830",
   "kind": "human",
   "session": null
  },
- "note": "Rebrand OmniDocs → Proofpress: two-layer naming (proof ledger + Proofpress), seal logo, launch-film demo, invisible md anchors",
- "ts": "2026-07-19T03:35:01-04:00",
+ "note": "Rewrite launch copy: concrete subject (design-doc.md, three days, real diff stat) instead of abstract docs; add X launch post + thread",
+ "ts": "2026-07-19T11:52:09-04:00",
  "stats": {
-  "added": 5
+  "modified": 2,
+  "added": 10,
+  "removed": 3
  },
  "changes": [
   {
-   "kind": "added",
+   "kind": "modified",
    "block": "e462c991",
    "type": "heading",
-   "context": "Proofpress — 60-Second Launch Demo Scrip",
-   "preview": "# Proofpress — 60-Second Launch Demo Script"
+   "context": "Proofpress — Launch Copy"
   },
   {
    "kind": "added",
-   "block": "3b124b11",
+   "block": "fd848e0b",
    "type": "para",
-   "context": "Proofpress — 60-Second Launch Demo Scrip",
+   "context": "Proofpress — Launch Copy",
    "preview": "Audience: developers who write docs with coding agents (repo"
   },
   {
    "kind": "added",
+   "block": "50a89c8a",
+   "type": "heading",
+   "context": "60-Second Demo Script (v4)",
+   "preview": "## 60-Second Demo Script (v4)"
+  },
+  {
+   "kind": "added",
+   "block": "ff2c0029",
+   "type": "table",
+   "context": "60-Second Demo Script (v4)",
+   "preview": "| Time | Screen | Narration |\n|---|---|---|\n| 0:00–0:14 | `d"
+  },
+  {
+   "kind": "added",
+   "block": "70b338f8",
+   "type": "para",
+   "context": "60-Second Demo Script (v4)",
+   "preview": "~155 words. Delivery notes: speak slowly (reviewers watch at"
+  },
+  {
+   "kind": "modified",
+   "block": "f51f15b3",
+   "type": "para",
+   "context": "60-Second Demo Script (v4)"
+  },
+  {
+   "kind": "added",
+   "block": "ee5bcc82",
+   "type": "heading",
+   "context": "X Launch Post",
+   "preview": "## X Launch Post"
+  },
+  {
+   "kind": "added",
+   "block": "5980353a",
+   "type": "para",
+   "context": "X Launch Post",
+   "preview": "> I kept asking my coding agent to fix a doc. Three days lat"
+  },
+  {
+   "kind": "added",
+   "block": "2363cb83",
+   "type": "para",
+   "context": "X Launch Post",
+   "preview": "**Thread (optional, if expanding past the single post):**"
+  },
+  {
+   "kind": "added",
+   "block": "5c70c169",
+   "type": "para",
+   "context": "X Launch Post",
+   "preview": "> Same three days, two views.\n>\n> Git: a thousand lines of n"
+  },
+  {
+   "kind": "added",
+   "block": "fe8c74e1",
+   "type": "para",
+   "context": "X Launch Post",
+   "preview": "> Comment on any block. Your agent revises — the comment sta"
+  },
+  {
+   "kind": "added",
+   "block": "dd4d7a00",
+   "type": "para",
+   "context": "X Launch Post",
+   "preview": "> Draft → Review → Approve, for agents.\n>\n> One skill. No ne"
+  },
+  {
+   "kind": "removed",
+   "block": "3b124b11",
+   "type": "para",
+   "context": "",
+   "preview": "Audience: developers who write docs with coding agents (repo"
+  },
+  {
+   "kind": "removed",
    "block": "07de17ee",
    "type": "table",
-   "context": "Proofpress — 60-Second Launch Demo Scrip",
+   "context": "",
    "preview": "| Time | Screen | Narration |\n|---|---|---|\n| 0:00–0:09 | A "
   },
   {
-   "kind": "added",
+   "kind": "removed",
    "block": "0e31c4a3",
    "type": "para",
-   "context": "Proofpress — 60-Second Launch Demo Scrip",
+   "context": "",
    "preview": "~165 words. Delivery notes: speak slowly (reviewers watch at"
-  },
-  {
-   "kind": "added",
-   "block": "f51f15b3",
-   "type": "para",
-   "context": "Proofpress — 60-Second Launch Demo Scrip",
-   "preview": "Red-line check: no mention of versioning code files; no revi"
   }
  ],
- "source_commit": "93f8ba113db79b1e8f0c730dccdbd3c5ae6e2dcc"
+ "source_commit": "29dd5fd6319366e7e992a01ad18c92f4f79e408c"
 }

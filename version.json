@@ -3,33 +3,75 @@
  "blocks": [
   {
    "type": "heading",
-   "text": "# Proofpress — 60-Second Launch Demo Script",
-   "hash": "f020f6524e4d",
+   "text": "# Proofpress — Launch Copy",
+   "hash": "4e44740b46c2",
    "id": "e462c991"
   },
   {
    "type": "para",
-   "text": "Audience: developers who write docs with coding agents (repo-docs seed). Style: YC launch video — real pixels, no music, one CTA, ≤170 spoken words. Enemy named on screen: the line diff.",
-   "hash": "467463cefddd",
-   "id": "3b124b11"
+   "text": "Audience: developers who write docs with coding agents (repo-docs seed). Style: YC launch video — real pixels, no music, one CTA. Concrete subject throughout: a real file (`design-doc.md`), a real elapsed time (three days), a real diff stat — never an abstract \"docs.\"",
+   "hash": "3441c0695195",
+   "id": "fd848e0b"
+  },
+  {
+   "type": "heading",
+   "text": "## 60-Second Demo Script (v4)",
+   "hash": "2d6adbd0e332",
+   "id": "50a89c8a"
   },
   {
    "type": "table",
-   "text": "| Time | Screen | Narration |\n|---|---|---|\n| 0:00–0:09 | A real `git diff` of an ADR: wall of red/green | Your agent just rewrote your design doc. Here's the diff: eighty lines of red and green. Did it do what you asked? You can't tell. |\n| 0:09–0:17 | Cut to black text on white: \"Git keeps the books on code. Nothing keeps the books on what agents write.\" | Proofpress is the version ledger for the docs your agents write — ADRs, design docs, PRDs. Versions, readable diffs, review. The agent pays the ceremony. You just decide. |\n| 0:17–0:28 | Terminal: `pip install proofpress`, add skill, agent edits doc, version appears in localhost review page | Setup is one install and one skill. No new editor, no migration. Ask your agent to update a doc — it now has a version. Immutable. Rollback-able. |\n| 0:28–0:44 | Split screen: git patch vs. semantic diff view (moved / rewritten / 3→5) | Same change, two views. Git: eighty lines of noise. Proofpress: one section moved, one paragraph rewritten, one number changed. And the agent's changelog is verified against the real diff — it can't oversell its work. |\n| 0:44–0:54 | Comment on a block → agent revises → resolution; provenance link opens the session | See something wrong? Comment on the block. Your agent revises; the comment stays open until it's actually addressed. Every change links back to the conversation that caused it. Forever. |\n| 0:54–1:00 | Logo + tagline + repo URL | Agents produce. You decide. The ledger remembers. Proofpress — Draft, Review, Approve, for agents. Open source. Link below. |",
-   "hash": "edcea20c0a32",
-   "id": "07de17ee"
+   "text": "| Time | Screen | Narration |\n|---|---|---|\n| 0:00–0:14 | `design-doc.md` on a GitHub PR page, three days of commits, diff stat reading **+1,204 −980** | I kept asking my agent to fix a design doc. Three days later, all GitHub showed me was a thousand-line diff. I couldn't tell what changed, why, or how to get back to an earlier draft. |\n| 0:14–0:24 | Cut to black-on-white statement card | So I gave markdown its own git — one that lives right inside the repo you already have. Introducing Proofpress: every edit, yours or your agent's, becomes a version — what changed, why, and a way back. |\n| 0:24–0:42 | Split screen: same three days as a nine-commit git log (vague messages) vs. Proofpress version chain, each version tagged with its reason | Same three days, two views. Git: a thousand lines of noise across nine commits nobody opened. Proofpress: one section moved, one paragraph rewritten, one number changed — every round, one glance, reason attached. Verified against what actually changed — the agent can't oversell its work. |\n| 0:42–0:53 | Comment on a block → agent revises; or a manual hand-edit on the same block — both land in the same chain | Comment on a block and the agent revises it. Edit it yourself instead — same ledger, same history, either way. |\n| 0:53–1:00 | Logo + tagline + repo URL | Draft → Review → Approve, for agents. Open source. Link below. |",
+   "hash": "edab5a880407",
+   "id": "ff2c0029"
   },
   {
    "type": "para",
-   "text": "~165 words. Delivery notes: speak slowly (reviewers watch at 2×); today's date visible in the terminal beat as proof of life; narration never describes what's on screen — it adds the judgment layer on top.",
-   "hash": "f97381c20c2f",
-   "id": "0e31c4a3"
+   "text": "~155 words. Delivery notes: speak slowly (reviewers watch at 2×); on-screen diff stat can carry precise-looking numbers (+1,204 −980) even where narration rounds them off for spoken flow (\"a thousand-line diff\") — screen and voice don't have to match digit-for-digit. Narration never describes what's on screen — it adds the judgment layer on top.",
+   "hash": "de10342000ed",
+   "id": "70b338f8"
   },
   {
    "type": "para",
-   "text": "Red-line check: no mention of versioning code files; no review-of-humans language; \"git\" appears only as contrast, never as target.",
-   "hash": "c6861a82059f",
+   "text": "Red-line check: no mention of versioning code files; no review-of-humans language; \"git\" appears only as contrast/metaphor, never as the thing being replaced — Proofpress lives inside git, it doesn't compete with it.",
+   "hash": "8014db0f08f8",
    "id": "f51f15b3"
+  },
+  {
+   "type": "heading",
+   "text": "## X Launch Post",
+   "hash": "ad18b8a3f579",
+   "id": "ee5bcc82"
+  },
+  {
+   "type": "para",
+   "text": "> I kept asking my coding agent to fix a doc. Three days later, all GitHub showed me was a 1,000-line diff — I couldn't tell what actually changed, why, or how to get back to an earlier draft.\n>\n> So I gave markdown its own git — one that lives right inside the repo you already have.\n>\n> Introducing Proofpress: every markdown edit, yours or your agent's, becomes a version — what changed, why, and a way back.",
+   "hash": "3da2c1ba3639",
+   "id": "5980353a"
+  },
+  {
+   "type": "para",
+   "text": "**Thread (optional, if expanding past the single post):**",
+   "hash": "321b6cb0c7ac",
+   "id": "2363cb83"
+  },
+  {
+   "type": "para",
+   "text": "> Same three days, two views.\n>\n> Git: a thousand lines of noise across nine commits nobody opened.\n> Proofpress: one section moved, one paragraph rewritten, one number changed — every round, one glance, reason attached.\n>\n> The agent's changelog is verified against the real diff. It can't oversell its work.",
+   "hash": "df23fb67e963",
+   "id": "5c70c169"
+  },
+  {
+   "type": "para",
+   "text": "> Comment on any block. Your agent revises — the comment stays open until it's actually resolved. Every change links back to the session that made it.\n>\n> Three weeks later, the answer's still there.",
+   "hash": "7fac5a2d3da3",
+   "id": "fe8c74e1"
+  },
+  {
+   "type": "para",
+   "text": "> Draft → Review → Approve, for agents.\n>\n> One skill. No new editor, no migration — your agent already writes markdown, this just keeps the books.\n>\n> Apache-2.0. [github link]",
+   "hash": "d0f972f4afd4",
+   "id": "dd4d7a00"
   }
  ]
 }
