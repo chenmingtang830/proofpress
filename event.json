@@ -1,260 +1,119 @@
 {
  "event": "version_created",
- "artifact": "docs/internal/experiments/EXPERIMENT_HINDCAST.md",
- "artifact_id": "pp_d1a5fee2c5b83bd607a26ee3",
- "version": "df433743",
+ "artifact": "demo/launch.html",
+ "artifact_id": "pp_dd3ede474fe20956178e391e",
+ "version": "8ae86af0",
  "parent": null,
  "author": {
-  "name": "Claude",
-  "kind": "agent",
-  "session": "hindcast-plan"
+  "name": "Richard",
+  "kind": "human",
+  "session": null
  },
- "note": "v2 重写:对照组改为 AI 自读 git(非原始 diff 倾倒);任务扩为三类 A/B/C(走回头路/推翻决策/问为什么);全文改写为非技术语言",
- "ts": "2026-07-22T10:51:50+00:00",
+ "note": "copied launch film demo into a tracked HTML artifact",
+ "ts": "2026-07-22T10:55:08+00:00",
  "stats": {
-  "added": 32
+  "added": 12
  },
  "changes": [
   {
    "kind": "added",
-   "block": "1c5b0549",
+   "block": "7cf19bd8",
    "type": "heading",
-   "context": "Hindcast 实验计划:借开源项目的历史,验证账本有没有用",
-   "preview": "# Hindcast 实验计划:借开源项目的历史,验证账本有没有用"
+   "context": "<h2 class=\"big rv d1\" style=\"margin-top:",
+   "preview": "<h2 class=\"big rv d1\" style=\"margin-top:18px\">THREE DAYS.<br"
   },
   {
    "kind": "added",
-   "block": "71923c44",
+   "block": "ce66d345",
    "type": "para",
-   "context": "Hindcast 实验计划:借开源项目的历史,验证账本有没有用",
-   "preview": "> 状态:计划稿 v2,待 Richard review 后执行\n> 日期:2026-07-22\n> 要回答的问题:一个"
+   "context": "<h2 class=\"big rv d1\" style=\"margin-top:",
+   "preview": "<p class=\"lede rv d2\" style=\"margin-top:26px\">\n      I kept "
   },
   {
    "kind": "added",
-   "block": "e0b12323",
+   "block": "8e829195",
    "type": "heading",
-   "context": "0. 一句话",
-   "preview": "## 0. 一句话"
+   "context": "<h2 class=\"big rv d2 dim\" style=\"margin-",
+   "preview": "<h2 class=\"big rv d2 dim\" style=\"margin-top:.35em\">NOTHING K"
   },
   {
    "kind": "added",
-   "block": "5f8e2ecf",
+   "block": "923b1ca6",
    "type": "para",
-   "context": "0. 一句话",
-   "preview": "拿几个热门开源项目的文档,它们的历史里天然有\"走过又退回来的弯路\"和\"讨论后定下来的决策\"。我们把这些历史整理成账本,然"
+   "context": "<h2 class=\"big rv d2 dim\" style=\"margin-",
+   "preview": "<p class=\"lede rv d3\" style=\"margin-top:34px\">No migration. "
   },
   {
    "kind": "added",
-   "block": "16085880",
+   "block": "f7deeea4",
    "type": "heading",
-   "context": "1. 三种任务:账本记的每样东西,都对应新人会犯的一种错",
-   "preview": "## 1. 三种任务:账本记的每样东西,都对应新人会犯的一种错"
+   "context": "<h2 class=\"mid rv\">A THOUSAND LINES OF N",
+   "preview": "<h2 class=\"mid rv\">A THOUSAND LINES OF NOISE.<br><span class"
   },
   {
    "kind": "added",
-   "block": "606c7237",
+   "block": "3bd4c304",
+   "type": "code",
+   "context": "<h2 class=\"mid rv\">A THOUSAND LINES OF N",
+   "preview": "<pre id=\"patch\"></pre>"
+  },
+  {
+   "kind": "added",
+   "block": "a0dcb0c7",
    "type": "para",
-   "context": "1. 三种任务:账本记的每样东西,都对应新人会犯的一种错",
-   "preview": "账本不只记\"否决过什么\",它记的每一类东西,都能防住一种新人容易犯的错。这次测三类,正好覆盖账本的三种核心价值:"
+   "context": "<h2 class=\"mid rv\">A THOUSAND LINES OF N",
+   "preview": "<p class=\"lede rv d1\" style=\"margin-top:14px\">The agent revi"
   },
   {
    "kind": "added",
-   "block": "35701704",
-   "type": "para",
-   "context": "1. 三种任务:账本记的每样东西,都对应新人会犯的一种错",
-   "preview": "**任务 A — 会不会走回头路。**\n历史上某个方案被认真考虑过、后来砍了(理由记在 PR 里)。我们把时间倒回\"刚砍"
-  },
-  {
-   "kind": "added",
-   "block": "4cb7eec0",
-   "type": "para",
-   "context": "1. 三种任务:账本记的每样东西,都对应新人会犯的一种错",
-   "preview": "**任务 B — 会不会推翻已经定好的决策。**\n不是被否的旁路,是文档里正当红、团队费劲定下来的选择。任务只说\"帮我改"
-  },
-  {
-   "kind": "added",
-   "block": "26e56e57",
-   "type": "para",
-   "context": "1. 三种任务:账本记的每样东西,都对应新人会犯的一种错",
-   "preview": "**任务 C — 直接问它\"为什么\"。**\n不让它改文档,直接考:\"这份文档为什么用方案甲、不用方案乙?\" 只看最终稿的"
-  },
-  {
-   "kind": "added",
-   "block": "3b991fdb",
-   "type": "para",
-   "context": "1. 三种任务:账本记的每样东西,都对应新人会犯的一种错",
-   "preview": "三类各有侧重:C 最客观,当主证据;A、B 更像真实工作场景,当\"这在实际用起来是什么样\"的演示。"
-  },
-  {
-   "kind": "added",
-   "block": "1eb737cd",
+   "block": "82b3a0a0",
    "type": "heading",
-   "context": "2. 三种\"资料包\":给 AI 不同的信息,比谁表现好",
-   "preview": "## 2. 三种\"资料包\":给 AI 不同的信息,比谁表现好"
+   "context": "<h3>design-doc.md</h3>",
+   "preview": "<h3>design-doc.md</h3>"
   },
   {
    "kind": "added",
-   "block": "9a65600f",
-   "type": "para",
-   "context": "2. 三种\"资料包\":给 AI 不同的信息,比谁表现好",
-   "preview": "同一个任务,给三种不同的背景资料,比结果:"
-  },
-  {
-   "kind": "added",
-   "block": "6810a6b3",
-   "type": "table",
-   "context": "2. 三种\"资料包\":给 AI 不同的信息,比谁表现好",
-   "preview": "| 组 | 给它什么 | 代表谁 |\n|---|---|---|\n| **裸文档** | 只有文档现在的样子 | 今天大"
-  },
-  {
-   "kind": "added",
-   "block": "9071b1e9",
-   "type": "para",
-   "context": "2. 三种\"资料包\":给 AI 不同的信息,比谁表现好",
-   "preview": "关键改动(相比上一版):**\"自读 git\"不是把几十版原始 diff 一股脑塞给它**——那样它只会看晕,赢了也没说服"
-  },
-  {
-   "kind": "added",
-   "block": "5985193d",
-   "type": "para",
-   "context": "2. 三种\"资料包\":给 AI 不同的信息,比谁表现好",
-   "preview": "要证明的一句话:**账本组的靠谱程度追上\"自读 git\"组,花的成本接近\"裸文档\"组——又准又省。**"
-  },
-  {
-   "kind": "added",
-   "block": "4fe33ee0",
-   "type": "para",
-   "context": "2. 三种\"资料包\":给 AI 不同的信息,比谁表现好",
-   "preview": "（可选的第四组:把账本里的\"为什么\"抽掉、只留\"改了什么\"。如果这组明显变差,就证明\"为什么\"这层是独立有用的,不只是把"
-  },
-  {
-   "kind": "added",
-   "block": "25f53449",
+   "block": "74ecaed3",
    "type": "heading",
-   "context": "3. 怎么把历史变成材料(四步,都能脚本化)",
-   "preview": "## 3. 怎么把历史变成材料(四步,都能脚本化)"
+   "context": "<h4>Rollout plan</h4>",
+   "preview": "<h4>Rollout plan</h4>"
   },
   {
    "kind": "added",
-   "block": "bcc0a447",
-   "type": "list",
-   "context": "3. 怎么把历史变成材料(四步,都能脚本化)",
-   "preview": "1. **选文档**:挑历史长、改动多的文档(至少改过 20 版、跨 3 个月以上)。\n2. **重构账本**:用 `p"
-  },
-  {
-   "kind": "added",
-   "block": "60335d00",
+   "block": "88f42714",
    "type": "para",
-   "context": "3. 怎么把历史变成材料(四步,都能脚本化)",
-   "preview": "**防泄题**:每个任务的措辞,由一个\"没看过弯路清单\"的人来写——只告诉他\"往这个区域引\",不告诉他埋了什么雷。否则任"
+   "context": "<h4>Rollout plan</h4>",
+   "preview": "<p id=\"blktext\">Ship the payments migration to 100% of traff"
   },
   {
    "kind": "added",
-   "block": "860c20dc",
+   "block": "ca190812",
    "type": "heading",
-   "context": "4. 怎么打分",
-   "preview": "## 4. 怎么打分"
+   "context": "<h2 class=\"huge rv d2\" style=\"color:#EAF",
+   "preview": "<h2 class=\"huge rv d2\" style=\"color:#EAF4F6\">YOU ARE<br>THE "
   },
   {
    "kind": "added",
-   "block": "44e6da41",
-   "type": "para",
-   "context": "4. 怎么打分",
-   "preview": "**主要看两件事:**"
-  },
-  {
-   "kind": "added",
-   "block": "92c277a0",
-   "type": "list",
-   "context": "4. 怎么打分",
-   "preview": "1. **有没有犯错**:走回头路了吗(任务 A)?推翻已定决策了吗(任务 B)?答不出为什么(任务 C)?——这些大多"
-  },
-  {
-   "kind": "added",
-   "block": "60111d5c",
-   "type": "para",
-   "context": "4. 怎么打分",
-   "preview": "**还要防一个作弊**:某一组可能靠\"什么都不敢改\"来避免犯错。所以额外盲评一下\"任务完成得好不好\"(1–5 分),**"
-  },
-  {
-   "kind": "added",
-   "block": "1cce3f3c",
+   "block": "5efc3fa9",
    "type": "heading",
-   "context": "5. 一个必须先过的关(否则整个实验作废)",
-   "preview": "## 5. 一个必须先过的关(否则整个实验作废)"
-  },
-  {
-   "kind": "added",
-   "block": "03e34a1d",
-   "type": "para",
-   "context": "5. 一个必须先过的关(否则整个实验作废)",
-   "preview": "**如果连\"裸文档\"组都不犯错**,说明这个 AI 早把这个开源项目背熟了,这题就废了,必须换项目。所以正式开跑前,先小"
-  },
-  {
-   "kind": "added",
-   "block": "50f86e47",
-   "type": "heading",
-   "context": "6. 节奏",
-   "preview": "## 6. 节奏"
-  },
-  {
-   "kind": "added",
-   "block": "4ab523df",
-   "type": "list",
-   "context": "6. 节奏",
-   "preview": "1. **小试(pilot)**:1 个项目、3 个弯路/决策、三组各跑几次——约一天。**唯一目的**:确认挖出来的弯"
-  },
-  {
-   "kind": "added",
-   "block": "2f7dec98",
-   "type": "para",
-   "context": "6. 节奏",
-   "preview": "**快速止损**:小试挖不出像样的弯路、或裸文档组根本不犯错,立刻停,换材料或回去重想战略,不恋战。"
-  },
-  {
-   "kind": "added",
-   "block": "b3d3a792",
-   "type": "heading",
-   "context": "7. 诚实边界(结论不能吹过头)",
-   "preview": "## 7. 诚实边界(结论不能吹过头)"
-  },
-  {
-   "kind": "added",
-   "block": "94160831",
-   "type": "list",
-   "context": "7. 诚实边界(结论不能吹过头)",
-   "preview": "- 这次只测\"知道历史有没有用\"(continuity),**不测\"验证 AI 有没有说谎\"**(verify)——因为"
-  },
-  {
-   "kind": "added",
-   "block": "4adb143e",
-   "type": "heading",
-   "context": "8. 顺带的好处",
-   "preview": "## 8. 顺带的好处"
-  },
-  {
-   "kind": "added",
-   "block": "f092ea8c",
-   "type": "para",
-   "context": "8. 顺带的好处",
-   "preview": "做完如果成立,直接就是发布素材:\"我们把 X 项目的文档历史整理成账本,带账本的 AI 不再重犯这个项目自己犯过的错。\""
+   "context": "<h2 class=\"big rv d1\" style=\"margin-top:",
+   "preview": "<h2 class=\"big rv d1\" style=\"margin-top:26px\">AGENTS PRODUCE"
   }
  ],
  "policy": "local",
  "actors": {
-  "produced_by": [
-   "claude"
+  "requested_by": [
+   "Richard"
+  ],
+  "edited_by": [
+   "Richard"
   ],
   "recorded_by": [
-   "claude"
+   "codex"
   ]
  },
- "attribution_basis": "harness_attested",
+ "attribution_basis": "self_asserted",
  "context": {
-  "why": "Richard review 指出两个真问题:全量 patch 倾倒是稻草人对手、单一扩写任务太假且半泄题;对照组须换成'今天认真的人会做的'即 AI 自读消化 git,任务须覆盖账本三种记录各对应一种新人错误",
-  "rejected": [
-   "保留全量 patch 倾倒作为 G 臂 —— 赢一个残废对手没有说服力,必须比 AI 自读 git",
-   "只测走回头路一类任务 —— 结论太窄易被当特例,三类覆盖否决/why/决策才立得住"
-  ]
+  "why": "create a real static HTML carrier fixture for Proofpress validation"
  }
 }
