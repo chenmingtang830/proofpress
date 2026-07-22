@@ -1,348 +1,198 @@
 {
- "artifact": "docs/PORTABLE_ARTIFACT_SPEC.md",
- "artifact_id": "pp_651b6bcc5c2503e2a2ea2a5f",
+ "artifact": "docs/internal/experiments/EXPERIMENT_HINDCAST.md",
+ "artifact_id": "pp_d1a5fee2c5b83bd607a26ee3",
  "blocks": [
   {
    "type": "heading",
-   "text": "# Portable Artifact V0 — Executable Contract",
-   "id": "7437c9be",
-   "hash": "c372b7e07b13"
+   "text": "# Hindcast 实验计划:借开源项目的历史,验证账本有没有用",
+   "hash": "c99f43b4a67f",
+   "id": "1c5b0549"
   },
   {
    "type": "para",
-   "text": "> Status: implementation contract derived from the approved strategy and privacy decisions.\n>\n> Scope: Markdown and static HTML carriers, local/Git ledger, sequential handoff, deterministic integrity, best-effort capture.",
-   "id": "b27d1410",
-   "hash": "41758db3fb49"
+   "text": "> 状态:计划稿 v2,待 Richard review 后执行\n> 日期:2026-07-22\n> 要回答的问题:一个新接手的 AI,如果知道这份文档的来龙去脉,会不会比只看到最终稿的 AI 犯更少的错——而且这么做还很省。",
+   "hash": "f06bc4543353",
+   "id": "71923c44"
   },
   {
    "type": "heading",
-   "text": "## 1. Artifact policy",
-   "id": "38f6d68c",
-   "hash": "9f6f711721a4"
+   "text": "## 0. 一句话",
+   "hash": "76ef20a12f27",
+   "id": "e0b12323"
   },
   {
    "type": "para",
-   "text": "Every artifact resolves to exactly one policy:",
-   "id": "c9c2ad8e",
-   "hash": "256d88053e41"
-  },
-  {
-   "type": "code",
-   "text": "```text\nignored   future automatic and explicit snapshots are skipped\nlocal     snapshots enter the local/Git ledger; no capsule is embedded\nportable  snapshots enter the ledger and refresh the embedded capsule\n```",
-   "id": "1646c742",
-   "hash": "cf96f9e3794f"
-  },
-  {
-   "type": "para",
-   "text": "An artifact without metadata is legacy `local`. Enabling `portable` is explicit and sticky. `local` and `ignored` transitions strip the current capsule but do not alter previously distributed copies or delete the local ledger.",
-   "id": "8c362122",
-   "hash": "18389e5b243b"
+   "text": "拿几个热门开源项目的文档,它们的历史里天然有\"走过又退回来的弯路\"和\"讨论后定下来的决策\"。我们把这些历史整理成账本,然后让新的 AI 上场,比一比:**知道历史的 AI,是不是真的更靠谱、又更便宜。**",
+   "hash": "a0eca0dac81d",
+   "id": "5f8e2ecf"
   },
   {
    "type": "heading",
-   "text": "## 2. Identity",
-   "id": "2dbbb74e",
-   "hash": "fbe9f06eca3e"
+   "text": "## 1. 三种任务:账本记的每样东西,都对应新人会犯的一种错",
+   "hash": "8b6f18090aca",
+   "id": "16085880"
   },
   {
    "type": "para",
-   "text": "Every managed artifact receives a random path-independent `artifact_id`. It is stored in a declarative metadata marker and copied into new ledger events and versions.",
-   "id": "a82840ae",
-   "hash": "72cf355f59de"
+   "text": "账本不只记\"否决过什么\",它记的每一类东西,都能防住一种新人容易犯的错。这次测三类,正好覆盖账本的三种核心价值:",
+   "hash": "d9c5fd1a7881",
+   "id": "606c7237"
   },
   {
    "type": "para",
-   "text": "Legacy events without `artifact_id` remain readable by path. Once an artifact receives an ID, later renames retain identity through the marker.",
-   "id": "6e3b89fd",
-   "hash": "759819d61df1"
+   "text": "**任务 A — 会不会走回头路。**\n历史上某个方案被认真考虑过、后来砍了(理由记在 PR 里)。我们把时间倒回\"刚砍不久\"那个点,给 AI 一个自然的续作任务,悄悄把它引到那块区域,但**绝不提这个方案**。看它会不会又把死掉的方案捡回来。\n→ 测的是账本的**否决记录**。",
+   "hash": "cedd9ae515ee",
+   "id": "35701704"
+  },
+  {
+   "type": "para",
+   "text": "**任务 B — 会不会推翻已经定好的决策。**\n不是被否的旁路,是文档里正当红、团队费劲定下来的选择。任务只说\"帮我改进 X 部分\"。看 AI 会不会顺手把这个来之不易的决定当成\"可优化的地方\"给动了——因为它不知道背后有过争论。\n→ 测的是账本的**为什么(why)**:知道为什么定成这样,就不会手贱。",
+   "hash": "86f001dd9bed",
+   "id": "4cb7eec0"
+  },
+  {
+   "type": "para",
+   "text": "**任务 C — 直接问它\"为什么\"。**\n不让它改文档,直接考:\"这份文档为什么用方案甲、不用方案乙?\" 只看最终稿的 AI 只能瞎猜或说\"没写\";知道历史的 AI 能直接答出真实理由。\n→ 测的是**回溯性**,而且这类评分最干净:答得出/答不出,拿 PR 里的真实理由一对就知道。",
+   "hash": "627a04b08f02",
+   "id": "26e56e57"
+  },
+  {
+   "type": "para",
+   "text": "三类各有侧重:C 最客观,当主证据;A、B 更像真实工作场景,当\"这在实际用起来是什么样\"的演示。",
+   "hash": "fc4023df240a",
+   "id": "3b991fdb"
   },
   {
    "type": "heading",
-   "text": "## 3. Carriers",
-   "id": "3c838116",
-   "hash": "463484a5e5c7"
+   "text": "## 2. 三种\"资料包\":给 AI 不同的信息,比谁表现好",
+   "hash": "10a3f42cfd90",
+   "id": "1eb737cd"
+  },
+  {
+   "type": "para",
+   "text": "同一个任务,给三种不同的背景资料,比结果:",
+   "hash": "cb8e5cd02250",
+   "id": "9a65600f"
+  },
+  {
+   "type": "table",
+   "text": "| 组 | 给它什么 | 代表谁 |\n|---|---|---|\n| **裸文档** | 只有文档现在的样子 | 今天大多数人接手工作的状态 |\n| **自读 git** | 给它完整 git 历史,让它自己去读、自己消化 | 今天一个认真的人/AI 会做的——这是我们真正的对手 |\n| **账本** | 给它我们整理好的历史:改了什么、为什么、砍过什么 | 我们的产品 |",
+   "hash": "b633cebb00bb",
+   "id": "6810a6b3"
+  },
+  {
+   "type": "para",
+   "text": "关键改动(相比上一版):**\"自读 git\"不是把几十版原始 diff 一股脑塞给它**——那样它只会看晕,赢了也没说服力。而是给它完整历史、让它像人一样自己读自己总结。**只有赢过这个,才证明我们整理历史这件事有独立价值。** 如果 AI 自己读 git 就够了,我们就没必要存在。",
+   "hash": "40557278f38b",
+   "id": "9071b1e9"
+  },
+  {
+   "type": "para",
+   "text": "要证明的一句话:**账本组的靠谱程度追上\"自读 git\"组,花的成本接近\"裸文档\"组——又准又省。**",
+   "hash": "2d021e393624",
+   "id": "5985193d"
+  },
+  {
+   "type": "para",
+   "text": "（可选的第四组:把账本里的\"为什么\"抽掉、只留\"改了什么\"。如果这组明显变差,就证明\"为什么\"这层是独立有用的,不只是把 diff 压缩了一下。预算够再加。）",
+   "hash": "9d43cd94507b",
+   "id": "4fe33ee0"
   },
   {
    "type": "heading",
-   "text": "### 3.1 Markdown",
-   "id": "2e6d838a",
-   "hash": "0ea93e7a6b0a"
-  },
-  {
-   "type": "para",
-   "text": "Proofpress metadata uses invisible CommonMark link-reference definitions:",
-   "id": "4d929ce7",
-   "hash": "4a3968eb1fa2"
-  },
-  {
-   "type": "code",
-   "text": "```text\n[//]: # (proofpress:meta:<base64url-json>)\n[//]: # (proofpress:capsule:<base64url-zlib-json>)\n```",
-   "id": "9f1242d0",
-   "hash": "b020663442e6"
-  },
-  {
-   "type": "para",
-   "text": "Metadata markers and block anchors are excluded from visible-body hashing. Leading YAML frontmatter remains at byte zero. Capsule data is declarative and never interpreted as agent instructions.",
-   "id": "bd030dfa",
-   "hash": "4b7c861c73fa"
-  },
-  {
-   "type": "heading",
-   "text": "### 3.2 Static HTML",
-   "id": "e7d5d024",
-   "hash": "65c17e6fe606"
-  },
-  {
-   "type": "para",
-   "text": "The V0 HTML carrier accepts `.html` and `.htm` files. Its supported leaf blocks\nare `h1`–`h6`, `p`, `li`, `pre`, `blockquote`, `td`, `th`, and `figcaption`.\n`anchor` writes `data-proofpress-id=\"<id8>\"` directly on each such element.\nThat attribute is excluded from block hashing and the carrier's digest.",
-   "id": "4f104dcd",
-   "hash": "e85ffbcad0a7"
-  },
-  {
-   "type": "para",
-   "text": "Proofpress writes its declarative data in two non-rendering locations:",
-   "id": "10cfddce",
-   "hash": "2af6d03566f1"
-  },
-  {
-   "type": "code",
-   "text": "```html\n<meta name=\"proofpress:meta\" content=\"<base64url-json>\">\n<script type=\"application/vnd.proofpress+json\" data-proofpress=\"capsule\"><base64url-zlib-json></script>\n```",
-   "id": "72a7c841",
-   "hash": "6f14436794a1"
-  },
-  {
-   "type": "para",
-   "text": "The metadata element is placed in `<head>` when present; the capsule is placed\nbefore `</body>` when present. The script type is a data block, not executable\nJavaScript. This MVP intentionally does not promise preservation through\nframework builds, CMSs, sanitizers, or rich-text HTML editors. A carrier that\nloses its metadata is an ordinary HTML artifact, not a provenanced one.",
-   "id": "da3c020c",
-   "hash": "63fb8d242d53"
-  },
-  {
-   "type": "heading",
-   "text": "## 4. Capsule",
-   "id": "33fac81a",
-   "hash": "f6591fd1551e"
-  },
-  {
-   "type": "para",
-   "text": "A V0 capsule contains:",
-   "id": "c12e32e0",
-   "hash": "b37971ccb879"
+   "text": "## 3. 怎么把历史变成材料(四步,都能脚本化)",
+   "hash": "e9de9e5f39e1",
+   "id": "25f53449"
   },
   {
    "type": "list",
-   "text": "- protocol and capsule version;\n- `artifact_id`, portable lineage ID and head;\n- canonical visible-body digest;\n- oldest-to-newest portable records;\n- for each record, the event and block-tree version required to recompute changes and verify claims.",
-   "id": "3f058978",
-   "hash": "9827ce6be233"
+   "text": "1. **选文档**:挑历史长、改动多的文档(至少改过 20 版、跨 3 个月以上)。\n2. **重构账本**:用 `proofpress ingest` 把 git 历史直接变成账本——这功能已经做好并在真实历史上验证过。\n3. **补上\"为什么\"**:git 的 commit 说明经常很潦草(\"update docs\"),所以再去抓对应的 PR 标题、描述、关键讨论,补进账本的\"为什么\"里。\n4. **挖弯路和决策**(全实验成败的关键一步):\n   - 自动找:哪些内容\"加进来过、后来又删了、现在没了\"——这些是弯路的候选;先用引擎排除掉\"只是搬了个位置\"的假弯路。\n   - 人工确认:挑出来的弯路逐个看,确认是\"真的被否了\",不是重构的副作用,每份文档留 3–5 个确认过的,并记下 PR 里的真实理由。\n   - **门槛**:一份文档挖不出至少 3 个像样的弯路/决策,就换一份。",
+   "hash": "2f01c2e1c848",
+   "id": "bcc0a447"
   },
   {
    "type": "para",
-   "text": "The first record is a clean checkpoint of the body at portable enable time. It has no private parent. Later records form a linear parent chain and carry recomputed changes from the prior capsule version.",
-   "id": "76b47f0b",
-   "hash": "383a68653eef"
-  },
-  {
-   "type": "para",
-   "text": "The V0 capsule is tamper-evident against accidental modification and internally inconsistent rewrites; it is not signed proof of authorship. Full malicious replacement requires future signatures or an external trusted head.",
-   "id": "778b7a88",
-   "hash": "6f1fe1c86738"
+   "text": "**防泄题**:每个任务的措辞,由一个\"没看过弯路清单\"的人来写——只告诉他\"往这个区域引\",不告诉他埋了什么雷。否则任务本身会暗示答案。",
+   "hash": "0d32e7a3559c",
+   "id": "60335d00"
   },
   {
    "type": "heading",
-   "text": "## 5. Admission",
-   "id": "0afdc784",
-   "hash": "8c8e985bae9e"
+   "text": "## 4. 怎么打分",
+   "hash": "a2920fd710b7",
+   "id": "860c20dc"
   },
   {
    "type": "para",
-   "text": "The engine snapshots only when explicitly invoked by an agent/user or by best-effort fallback capture. Skills must invoke snapshots for accepted artifact versions, not every conversational turn.",
-   "id": "310be181",
-   "hash": "e949c3e83039"
-  },
-  {
-   "type": "para",
-   "text": "`--rejected` is used only for consequential rejections. The engine never infers rejected alternatives from raw conversation.",
-   "id": "252e1721",
-   "hash": "d27c1a1b4176"
-  },
-  {
-   "type": "para",
-   "text": "Raw prompts, transcripts, tool traces and private source payloads are not accepted by default fields and are never automatically embedded.",
-   "id": "6a605dfd",
-   "hash": "1673158862fd"
-  },
-  {
-   "type": "heading",
-   "text": "## 6. Actors and attribution",
-   "id": "33a06d7a",
-   "hash": "5c4b6d3af072"
-  },
-  {
-   "type": "para",
-   "text": "New events may carry:",
-   "id": "007bf457",
-   "hash": "0cdcc68304bc"
-  },
-  {
-   "type": "code",
-   "text": "```text\nrequested_by\nproduced_by\nedited_by\nrecorded_by\nattribution_basis\n```",
-   "id": "20097a6a",
-   "hash": "64d974ef7c3d"
-  },
-  {
-   "type": "para",
-   "text": "The compatibility `author` field remains. A fallback hook supplies only `recorded_by`; it must not claim that the recorder produced or edited the body. Unknown fields remain absent/unknown.",
-   "id": "3f0d3e6c",
-   "hash": "7c57c12627ad"
-  },
-  {
-   "type": "heading",
-   "text": "## 7. Snapshot behavior",
-   "id": "88f2f126",
-   "hash": "337b3ff70ee4"
-  },
-  {
-   "type": "para",
-   "text": "For an `ignored` artifact, `snapshot` reports a skip and writes no event.",
-   "id": "3b6c9496",
-   "hash": "955d2633f296"
-  },
-  {
-   "type": "para",
-   "text": "For `local`, `snapshot` writes the normal ledger event and leaves the file without a capsule.",
-   "id": "02476d42",
-   "hash": "0104b6209cdd"
-  },
-  {
-   "type": "para",
-   "text": "For `portable`, `snapshot`:",
-   "id": "5127f589",
-   "hash": "311e17791346"
+   "text": "**主要看两件事:**",
+   "hash": "2db8935e42c0",
+   "id": "44e6da41"
   },
   {
    "type": "list",
-   "text": "1. parses the visible body and existing capsule;\n2. computes the ledger change;\n3. writes the local/Git event;\n4. recomputes the portable event relative to the capsule head;\n5. atomically rewrites metadata and capsule;\n6. leaves visible-body hashes unchanged.",
-   "id": "7b551bef",
-   "hash": "2c6c838ba0a3"
+   "text": "1. **有没有犯错**:走回头路了吗(任务 A)?推翻已定决策了吗(任务 B)?答不出为什么(任务 C)?——这些大多是非黑即白的,能自动判,再加一个\"不知道是哪组\"的盲评复核。\n2. **花了多少**:每组塞进去多少背景资料、AI 总共消耗多少。",
+   "hash": "4230fd5f3405",
+   "id": "92c277a0"
   },
   {
    "type": "para",
-   "text": "Identical content remains a no-op.",
-   "id": "0c2606b9",
-   "hash": "9cc1b885bff5"
-  },
-  {
-   "type": "para",
-   "text": "When the caller supplies `--base-version`, the engine refuses to append unless\nthat version is still the current capsule or ledger head. This is the V0 stale\nwriter guard; reconciliation remains explicit rather than silently overwriting\nanother branch.",
-   "id": "a907c90f",
-   "hash": "df8ddf2483cc"
+   "text": "**还要防一个作弊**:某一组可能靠\"什么都不敢改\"来避免犯错。所以额外盲评一下\"任务完成得好不好\"(1–5 分),**光会躲不算赢**——完成质量明显掉队的组,不算它占优。",
+   "hash": "c39f59b53e4c",
+   "id": "60111d5c"
   },
   {
    "type": "heading",
-   "text": "## 8. Drift and integrity",
-   "id": "42379dd1",
-   "hash": "52b79cfc55e8"
+   "text": "## 5. 一个必须先过的关(否则整个实验作废)",
+   "hash": "79e6fcde9f95",
+   "id": "1cce3f3c"
   },
   {
    "type": "para",
-   "text": "`inspect` validates metadata, capsule decoding, artifact identity, event parent chain, version IDs and current body digest.",
-   "id": "beac56e1",
-   "hash": "4d96a73c9afc"
-  },
-  {
-   "type": "para",
-   "text": "Body changes without a new capsule produce `body_mismatch`. Capsule corruption produces `invalid_capsule` or `chain_mismatch`.",
-   "id": "e0d13a37",
-   "hash": "5d2d16823c08"
-  },
-  {
-   "type": "para",
-   "text": "`verify` checks capsule integrity before checking the latest ledger claims. It cannot silently report green when a portable file has drifted.",
-   "id": "948a3524",
-   "hash": "9eebe77f4d4d"
-  },
-  {
-   "type": "para",
-   "text": "Fallback capture may reconcile drift into a new event, but records only the recorder and observed time unless stronger attribution was explicitly supplied.",
-   "id": "155d84bf",
-   "hash": "e2c6da5b3877"
+   "text": "**如果连\"裸文档\"组都不犯错**,说明这个 AI 早把这个开源项目背熟了,这题就废了,必须换项目。所以正式开跑前,先小规模确认\"裸文档组确实会犯错\"。另外只用较近期(2026-03 之后)的历史,进一步降低\"被背过\"的可能。",
+   "hash": "ad5d22725ab9",
+   "id": "03e34a1d"
   },
   {
    "type": "heading",
-   "text": "## 9. Local and re-enable transitions",
-   "id": "e3eb148f",
-   "hash": "558856abb534"
-  },
-  {
-   "type": "para",
-   "text": "`portable → local` strips the capsule and retains the local ledger.",
-   "id": "f7ea9bfb",
-   "hash": "a7a120bf6d0b"
-  },
-  {
-   "type": "para",
-   "text": "`local → portable` creates a new portable lineage whose first record is the current safe checkpoint. Local-only intermediate event IDs, actors, why, rejected values and omitted counts are not copied into the new capsule.",
-   "id": "0b96b1bd",
-   "hash": "ec173d1cd0dd"
-  },
-  {
-   "type": "para",
-   "text": "A clean export strips the capsule without changing the source artifact policy or ledger.",
-   "id": "a55f39c6",
-   "hash": "6032d573f809"
-  },
-  {
-   "type": "heading",
-   "text": "## 10. Import and copy",
-   "id": "e38b717d",
-   "hash": "cdc8dac99017"
-  },
-  {
-   "type": "para",
-   "text": "`import` verifies the capsule before writing its records into the receiver's Git ledger. Imported events retain `artifact_id` but use the receiver's current path as the local projection path.",
-   "id": "46afb332",
-   "hash": "34fbbef80d20"
-  },
-  {
-   "type": "para",
-   "text": "Copying only rendered text or stripping metadata yields an ordinary Markdown file. Proofpress does not claim provenance for it.",
-   "id": "77b016f2",
-   "hash": "34ef93729912"
-  },
-  {
-   "type": "para",
-   "text": "V0 detects a linear portable lineage. Automatic branch merge, multi-parent capsules and server synchronization remain out of scope.",
-   "id": "a09187f6",
-   "hash": "cdc51a196599"
-  },
-  {
-   "type": "heading",
-   "text": "## 11. Commands",
-   "id": "7be34c98",
-   "hash": "1ff6912cacd0"
-  },
-  {
-   "type": "code",
-   "text": "```text\nproofpress policy FILE [ignored|local|portable]\nproofpress snapshot FILE [...actors, claims, why, rejected]\nproofpress inspect FILE [--json]\nproofpress import FILE\nproofpress clean FILE --output OUT\nproofpress capture --recorder NAME\n```",
-   "id": "4de6039d",
-   "hash": "2d963d2cc049"
-  },
-  {
-   "type": "para",
-   "text": "Existing `log`, `diff`, `show`, `verify`, `ingest`, `anchor`, `blocks`, `init`, `sync` and `export` remain compatible.",
-   "id": "ef9d25b6",
-   "hash": "923a40499cdc"
-  },
-  {
-   "type": "heading",
-   "text": "## 12. Acceptance criteria",
-   "id": "41921bbb",
-   "hash": "e5ed4992105b"
+   "text": "## 6. 节奏",
+   "hash": "5b400f30a31c",
+   "id": "50f86e47"
   },
   {
    "type": "list",
-   "text": "1. A portable v1 produces a valid self-contained capsule.\n2. An accepted v2 updates the capsule without another policy prompt.\n3. `local` snapshots never embed a capsule; `ignored` snapshots are skipped.\n4. Casual discussion produces no event unless a caller explicitly snapshots.\n5. Consequential rejection travels only when supplied with `--rejected`.\n6. Manual body edits fail inspect/verify until reconciled.\n7. Corrupted capsule data fails inspect/verify.\n8. Fallback capture does not claim `produced_by` or `edited_by`.\n9. Making an artifact local strips the current capsule and cannot alter old copies.\n10. Re-enabling portable starts from a clean checkpoint and leaks no private interval metadata.\n11. Clean export contains no capsule and does not mutate the source ledger.\n12. Import into a clean repository restores a verifiable ledger and identity.\n13. A stale `--base-version` is rejected before an event is written.\n14. A static HTML portable artifact uses native `data-proofpress-id` anchors and survives a raw-file handoff.",
-   "id": "6cddbfcc",
-   "hash": "2a449a5ad6c7"
+   "text": "1. **小试(pilot)**:1 个项目、3 个弯路/决策、三组各跑几次——约一天。**唯一目的**:确认挖出来的弯路够真、裸文档组确实会犯错。\n2. **停下来给 Richard 看**:弯路质量 + 裸文档组犯错率,决定值不值得铺开。\n3. **铺开(full)**:2–3 个项目、覆盖三类任务、上百次测试,并行跑,1–2 天。\n4. 有余力再加:抽掉\"为什么\"的第四组、换一个别家的模型复跑,看结论稳不稳。",
+   "hash": "438e8cc91c2b",
+   "id": "4ab523df"
+  },
+  {
+   "type": "para",
+   "text": "**快速止损**:小试挖不出像样的弯路、或裸文档组根本不犯错,立刻停,换材料或回去重想战略,不恋战。",
+   "hash": "1efddaf60159",
+   "id": "2f7dec98"
+  },
+  {
+   "type": "heading",
+   "text": "## 7. 诚实边界(结论不能吹过头)",
+   "hash": "50b27c87d394",
+   "id": "b3d3a792"
+  },
+  {
+   "type": "list",
+   "text": "- 这次只测\"知道历史有没有用\"(continuity),**不测\"验证 AI 有没有说谎\"**(verify)——因为历史里的旧改动没有我们的结构化自述可核对。结论不能外推到验证层。\n- 我们补的\"为什么\"质量偏低(受限于人家的 commit 写得潦草)——这对我们**不利**,所以赢了更硬;万一输了,得先分清是\"账本没用\"还是\"为什么太薄\"(靠第四组能分开)。\n- 样本量有限、评分带模型偏好——结论定位是\"有力的方向性证据 + 发布时能引用的具体数字\",不是学术定论。\n- 用别人 repo 的内容遵守其开源许可,发布任何素材前逐条确认。",
+   "hash": "f0936188b17c",
+   "id": "94160831"
+  },
+  {
+   "type": "heading",
+   "text": "## 8. 顺带的好处",
+   "hash": "5e9c440987bc",
+   "id": "4adb143e"
+  },
+  {
+   "type": "para",
+   "text": "做完如果成立,直接就是发布素材:\"我们把 X 项目的文档历史整理成账本,带账本的 AI 不再重犯这个项目自己犯过的错。\" 比任何自家 demo 都有说服力——而且\"给热门开源项目送一份整理好的历史\"这件事本身,就能当成一个获客钩子。",
+   "hash": "392a1db40190",
+   "id": "f092ea8c"
   }
  ]
 }
