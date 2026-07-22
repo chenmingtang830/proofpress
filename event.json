@@ -1,7 +1,7 @@
 {
  "event": "version_created",
- "artifact": "skills/claude-code/proofpress/SKILL.md",
- "version": "e40b1769",
+ "artifact": "skills/codex/AGENTS-snippet.md",
+ "version": "2de620e1",
  "parent": null,
  "author": {
   "name": "chenmingtang830",
@@ -11,183 +11,85 @@
  "note": "Harness adapters: skill + hook for Claude Code / Codex / Pi",
  "ts": "2026-07-21T20:02:39-04:00",
  "stats": {
-  "added": 25
+  "added": 11
  },
  "changes": [
   {
    "kind": "added",
-   "block": "e2502235",
+   "block": "c350cb3a",
    "type": "para",
    "context": "(文首)",
-   "preview": "---\nname: proofpress\ndescription: Version-ledger discipline "
+   "preview": "<!-- Append to your AGENTS.md — the Proofpress contract for "
   },
   {
    "kind": "added",
-   "block": "fa90d114",
+   "block": "51ac24b5",
    "type": "heading",
-   "context": "Proofpress: close the loop on every know",
-   "preview": "# Proofpress: close the loop on every knowledge artifact you"
+   "context": "Proofpress: markdown knowledge artifacts",
+   "preview": "## Proofpress: markdown knowledge artifacts are ledgered"
   },
   {
    "kind": "added",
-   "block": "64f89da2",
+   "block": "ca88b9cb",
    "type": "para",
-   "context": "Proofpress: close the loop on every know",
-   "preview": "You are writing into a ledger whose core promise is: **the a"
+   "context": "Proofpress: markdown knowledge artifacts",
+   "preview": "This repo keeps a version ledger for markdown knowledge arti"
   },
   {
    "kind": "added",
-   "block": "3ecb1006",
-   "type": "heading",
-   "context": "When this skill applies",
-   "preview": "## When this skill applies"
-  },
-  {
-   "kind": "added",
-   "block": "62c7aba3",
+   "block": "95b71f0d",
    "type": "list",
-   "context": "When this skill applies",
-   "preview": "- You created or substantially revised a `.md` knowledge art"
+   "context": "Proofpress: markdown knowledge artifacts",
+   "preview": "1. History but no ledger? `python3 proofpress.py ingest <fil"
   },
   {
    "kind": "added",
-   "block": "a18c4552",
+   "block": "5c455645",
    "type": "para",
-   "context": "When this skill applies",
-   "preview": "  doc, PRD, README, strategy/planning doc)."
+   "context": "Proofpress: markdown knowledge artifacts",
+   "preview": "   then run `python3 proofpress.py anchor <file>` and read t"
   },
   {
    "kind": "added",
-   "block": "427a9b25",
+   "block": "55bb7174",
    "type": "list",
-   "context": "When this skill applies",
-   "preview": "- The repo contains `proofpress.py` (root) or `git-proofpres"
+   "context": "Proofpress: markdown knowledge artifacts",
+   "preview": "3. Write claims JSON (one honest entry per block:"
   },
   {
    "kind": "added",
-   "block": "800b0e0a",
-   "type": "heading",
-   "context": "The loop (run after your edits are compl",
-   "preview": "## The loop (run after your edits are complete)"
-  },
-  {
-   "kind": "added",
-   "block": "628f5943",
-   "type": "list",
-   "context": "The loop (run after your edits are compl",
-   "preview": "1. **Backfill if needed.** Artifact has git history but no l"
-  },
-  {
-   "kind": "added",
-   "block": "c08c16f7",
+   "block": "b1fcdce7",
    "type": "para",
-   "context": "The loop (run after your edits are compl",
-   "preview": "   `python3 proofpress.py ingest <file>`"
+   "context": "Proofpress: markdown knowledge artifacts",
+   "preview": "   `{\"block\", \"kind\": added|removed|modified|moved|unchanged"
   },
   {
    "kind": "added",
-   "block": "b798762b",
+   "block": "c6d8df5a",
    "type": "list",
-   "context": "The loop (run after your edits are compl",
-   "preview": "2. **Anchors.** While editing you kept each surviving block'"
+   "context": "Proofpress: markdown knowledge artifacts",
+   "preview": "4. Snapshot with testimony — `--why` required, `--rejected` "
   },
   {
    "kind": "added",
-   "block": "6d430ad4",
+   "block": "01fba730",
    "type": "para",
-   "context": "The loop (run after your edits are compl",
-   "preview": "   `[//]: # (ob:xxxxxxxx)` line attached to it. Now run\n   `"
+   "context": "Proofpress: markdown knowledge artifacts",
+   "preview": "   alternative:\n   `python3 proofpress.py snapshot <file> --"
   },
   {
    "kind": "added",
-   "block": "65cb9ab0",
+   "block": "0aeea03e",
    "type": "list",
-   "context": "The loop (run after your edits are compl",
-   "preview": "3. **Claims.** Write a JSON array to a temp file — one entry"
+   "context": "Proofpress: markdown knowledge artifacts",
+   "preview": "5. `python3 proofpress.py verify <file>` and report the verb"
   },
   {
    "kind": "added",
-   "block": "c6316604",
+   "block": "7d5df454",
    "type": "para",
-   "context": "The loop (run after your edits are compl",
-   "preview": "   your own memory of what you did (the inventory tells you "
-  },
-  {
-   "kind": "added",
-   "block": "e31273f8",
-   "type": "code",
-   "context": "The loop (run after your edits are compl",
-   "preview": "   ```json\n   [{\"block\": \"a1b2c3d4\", \"kind\": \"modified\", \"no"
-  },
-  {
-   "kind": "added",
-   "block": "ebe0a330",
-   "type": "para",
-   "context": "The loop (run after your edits are compl",
-   "preview": "   Kinds: `added` / `removed` / `modified` / `moved` / `unch"
-  },
-  {
-   "kind": "added",
-   "block": "683bcff8",
-   "type": "list",
-   "context": "The loop (run after your edits are compl",
-   "preview": "4. **Snapshot with testimony** — `--why` is required; add on"
-  },
-  {
-   "kind": "added",
-   "block": "6614e6c5",
-   "type": "para",
-   "context": "The loop (run after your edits are compl",
-   "preview": "   alternative you considered and dropped (decision-level de"
-  },
-  {
-   "kind": "added",
-   "block": "98e79ad0",
-   "type": "code",
-   "context": "The loop (run after your edits are compl",
-   "preview": "   ```\n   python3 proofpress.py snapshot <file> --kind agent"
-  },
-  {
-   "kind": "added",
-   "block": "04e1285c",
-   "type": "list",
-   "context": "The loop (run after your edits are compl",
-   "preview": "5. **Verify and report.** `python3 proofpress.py verify <fil"
-  },
-  {
-   "kind": "added",
-   "block": "57f2f606",
-   "type": "para",
-   "context": "The loop (run after your edits are compl",
-   "preview": "   the verbatim output. **Do not re-snapshot to turn a ⚠ gre"
-  },
-  {
-   "kind": "added",
-   "block": "8fb07c57",
-   "type": "heading",
-   "context": "Notes",
-   "preview": "## Notes"
-  },
-  {
-   "kind": "added",
-   "block": "aa8506a6",
-   "type": "list",
-   "context": "Notes",
-   "preview": "- `snapshot` is content-addressed: re-running on identical c"
-  },
-  {
-   "kind": "added",
-   "block": "a807a5ca",
-   "type": "para",
-   "context": "Notes",
-   "preview": "  session-end hook records it — you never need to compensate"
-  },
-  {
-   "kind": "added",
-   "block": "ae9a933c",
-   "type": "list",
-   "context": "Notes",
-   "preview": "- Multiple artifacts touched → run the loop per artifact."
+   "context": "Proofpress: markdown knowledge artifacts",
+   "preview": "   Never re-snapshot to force a green result — a ⚠ is review"
   }
  ],
  "source_commit": "c70f3baaa1de011117fe5f3721ea718fa0f91da1"
