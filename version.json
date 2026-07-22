@@ -1,71 +1,125 @@
 {
- "artifact": "skills/pi/proofpress-skill.md",
+ "artifact": "skills/cursor/proofpress/SKILL.md",
  "blocks": [
   {
-   "type": "heading",
-   "text": "# proofpress",
-   "id": "5cd87791",
-   "hash": "cc88bcacfae7"
-  },
-  {
    "type": "para",
-   "text": "Version-ledger discipline for markdown knowledge artifacts (ADRs, design docs,\nPRDs — never source code). Use after creating or substantially revising a\nmarkdown document in a repo containing proofpress.py.",
-   "id": "679ffc58",
-   "hash": "7ea54f38d9f1"
+   "text": "---\nname: proofpress\ndescription: Close the Proofpress version-ledger loop for Markdown knowledge artifacts. Use after creating or substantially revising an ADR, design doc, PRD, README, strategy note, or similar .md file in a repository containing proofpress.py; never use for source-code files.\n---",
+   "id": "19a24923",
+   "hash": "38998ebe262a"
   },
   {
    "type": "heading",
-   "text": "## Loop",
-   "id": "daf9ff98",
-   "hash": "8befc7cc67c3"
-  },
-  {
-   "type": "list",
-   "text": "1. History but no ledger entries? `python3 proofpress.py ingest <file>`\n2. Keep surviving blocks' `[//]: # (ob:xxxxxxxx)` anchors while editing; then",
-   "id": "fb518472",
-   "hash": "d43f14f17f81"
+   "text": "# Proofpress",
+   "id": "233b766d",
+   "hash": "8576f3816903"
   },
   {
    "type": "para",
-   "text": "   `python3 proofpress.py anchor <file>` → read inherited/new/gone ids.",
-   "id": "5affc021",
-   "hash": "4f2719907d62"
+   "text": "Record every meaningful Markdown knowledge-artifact change with structured\ntestimony, deterministic verification, and decision context. Honest mismatches\nare reviewer information; never rewrite claims merely to make verification pass.",
+   "id": "ca3e2ae4",
+   "hash": "a85853c7853c"
+  },
+  {
+   "type": "heading",
+   "text": "## Workflow",
+   "id": "e14e12ad",
+   "hash": "05146c1f1860"
   },
   {
    "type": "list",
-   "text": "3. Claims JSON, one honest entry per block touched or removed. Do not enumerate",
-   "id": "6f0d23b1",
-   "hash": "0f8642461535"
+   "text": "1. If the artifact has Git history but no ledger entry, run:",
+   "id": "ae92d920",
+   "hash": "6b6d1a2c2a09"
   },
   {
-   "type": "para",
-   "text": "   untouched blocks; use `unchanged` only for a deliberate negative claim about\n   an important block or scope:\n   `[{\"block\": \"<id>\", \"kind\": \"added|removed|modified|moved|unchanged\", \"note\": \"…\"}]`",
-   "id": "44acc710",
-   "hash": "68ee1227500a"
-  },
-  {
-   "type": "list",
-   "text": "4. Snapshot with testimony (`--why` required; `--rejected` per dropped",
-   "id": "da9ad3d9",
-   "hash": "d05a450e00e6"
-  },
-  {
-   "type": "para",
-   "text": "   alternative):\n   `python3 proofpress.py snapshot <file> --kind agent --author pi --note \"…\" --claims claims.json --why \"…\" --rejected \"…\"`",
-   "id": "f7c3e055",
-   "hash": "1f99bd045a27"
+   "type": "code",
+   "text": "   ```sh\n   python3 proofpress.py ingest <file>\n   ```",
+   "id": "54c93cc4",
+   "hash": "00cf01422094"
   },
   {
    "type": "list",
-   "text": "5. `python3 proofpress.py verify <file>` — report verbatim; never re-snapshot",
-   "id": "dd7291a6",
-   "hash": "1e3567100c26"
+   "text": "2. Preserve each surviving block's `[//]: # (ob:xxxxxxxx)` anchor while",
+   "id": "6d23ae8f",
+   "hash": "60c8367f0373"
   },
   {
    "type": "para",
-   "text": "   to force green. A ⚠ is reviewer information.",
-   "id": "982738e5",
-   "hash": "fb1faf7b9153"
+   "text": "   editing. Drop the anchor when deleting its block. Do not invent anchors for\n   new blocks.",
+   "id": "35ce54f2",
+   "hash": "26b027d6161b"
+  },
+  {
+   "type": "list",
+   "text": "3. After editing, run `python3 proofpress.py anchor <file>` and read the",
+   "id": "7e9c1975",
+   "hash": "27533123c56e"
+  },
+  {
+   "type": "para",
+   "text": "   `inherited`, `new`, and `gone` inventory.",
+   "id": "ff3fc8ba",
+   "hash": "ddf3b5b2b5b1"
+  },
+  {
+   "type": "list",
+   "text": "4. Write a temporary claims JSON array with one honest entry per block touched",
+   "id": "09df9b9c",
+   "hash": "f36d1025e5af"
+  },
+  {
+   "type": "para",
+   "text": "   or removed:",
+   "id": "ef1135b2",
+   "hash": "09c57b76cfef"
+  },
+  {
+   "type": "code",
+   "text": "   ```json\n   [{\"block\":\"a1b2c3d4\",\"kind\":\"modified\",\"note\":\"tightened the pitch\"}]\n   ```",
+   "id": "99426a3e",
+   "hash": "71d6783d78bd"
+  },
+  {
+   "type": "para",
+   "text": "   Allowed kinds are `added`, `removed`, `modified`, `moved`, and `unchanged`.\n   Do not enumerate untouched blocks. Use `unchanged` only as a deliberate\n   negative claim about an important block or scope.",
+   "id": "6b88d004",
+   "hash": "012c05963910"
+  },
+  {
+   "type": "list",
+   "text": "5. Snapshot while the decision context is still fresh:",
+   "id": "6965e42d",
+   "hash": "ebfa57d1f5cd"
+  },
+  {
+   "type": "code",
+   "text": "   ```sh\n   python3 proofpress.py snapshot <file> --kind agent --author cursor \\\n     --session \"<session-id>\" --note \"<one-line changelog>\" \\\n     --claims <claims.json> --why \"<actual reason for the change>\" \\\n     --rejected \"<option — reason it was dropped>\"\n   ```",
+   "id": "fa3c4e4f",
+   "hash": "930a9ed6d060"
+  },
+  {
+   "type": "para",
+   "text": "   `--why` is required. Repeat `--rejected` for alternatives actually\n   considered and dropped; omit it when none were considered.",
+   "id": "5c13476b",
+   "hash": "77fd0cbaf4e5"
+  },
+  {
+   "type": "list",
+   "text": "6. Run `python3 proofpress.py verify <file>` and report its output verbatim.",
+   "id": "e3c56875",
+   "hash": "2c204cb4c727"
+  },
+  {
+   "type": "para",
+   "text": "   Never create another snapshot just to turn a mismatch green.",
+   "id": "6ad53003",
+   "hash": "d3c0b19752c1"
+  },
+  {
+   "type": "para",
+   "text": "Repeat the loop for every Markdown knowledge artifact touched. Snapshot no\nsource-code files; Git already owns that history.",
+   "id": "2ee76a41",
+   "hash": "7f57772a738e"
   }
  ]
 }

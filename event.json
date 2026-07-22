@@ -1,48 +1,266 @@
 {
  "event": "version_created",
- "artifact": "skills/pi/proofpress-skill.md",
- "version": "b9e1dbf2",
- "parent": "b788953d",
+ "artifact": "skills/cursor/proofpress/SKILL.md",
+ "version": "360cd648",
+ "parent": null,
  "author": {
   "name": "codex",
   "kind": "agent",
   "session": "vision-and-harness-2026-07-22"
  },
- "note": "Clarified touched-block claim scope",
+ "note": "Added Cursor Proofpress skill",
  "ts": "2026-07-22T05:25:19+00:00",
  "stats": {
-  "modified": 2
+  "added": 20
  },
  "changes": [
   {
-   "kind": "modified",
-   "block": "6f0d23b1",
-   "type": "list",
-   "context": "Loop"
+   "kind": "added",
+   "block": "19a24923",
+   "type": "para",
+   "context": "(文首)",
+   "preview": "---\nname: proofpress\ndescription: Close the Proofpress versi"
   },
   {
-   "kind": "modified",
-   "block": "44acc710",
+   "kind": "added",
+   "block": "233b766d",
+   "type": "heading",
+   "context": "Proofpress",
+   "preview": "# Proofpress"
+  },
+  {
+   "kind": "added",
+   "block": "ca3e2ae4",
    "type": "para",
-   "context": "Loop"
+   "context": "Proofpress",
+   "preview": "Record every meaningful Markdown knowledge-artifact change w"
+  },
+  {
+   "kind": "added",
+   "block": "e14e12ad",
+   "type": "heading",
+   "context": "Workflow",
+   "preview": "## Workflow"
+  },
+  {
+   "kind": "added",
+   "block": "ae92d920",
+   "type": "list",
+   "context": "Workflow",
+   "preview": "1. If the artifact has Git history but no ledger entry, run:"
+  },
+  {
+   "kind": "added",
+   "block": "54c93cc4",
+   "type": "code",
+   "context": "Workflow",
+   "preview": "   ```sh\n   python3 proofpress.py ingest <file>\n   ```"
+  },
+  {
+   "kind": "added",
+   "block": "6d23ae8f",
+   "type": "list",
+   "context": "Workflow",
+   "preview": "2. Preserve each surviving block's `[//]: # (ob:xxxxxxxx)` a"
+  },
+  {
+   "kind": "added",
+   "block": "35ce54f2",
+   "type": "para",
+   "context": "Workflow",
+   "preview": "   editing. Drop the anchor when deleting its block. Do not "
+  },
+  {
+   "kind": "added",
+   "block": "7e9c1975",
+   "type": "list",
+   "context": "Workflow",
+   "preview": "3. After editing, run `python3 proofpress.py anchor <file>` "
+  },
+  {
+   "kind": "added",
+   "block": "ff3fc8ba",
+   "type": "para",
+   "context": "Workflow",
+   "preview": "   `inherited`, `new`, and `gone` inventory."
+  },
+  {
+   "kind": "added",
+   "block": "09df9b9c",
+   "type": "list",
+   "context": "Workflow",
+   "preview": "4. Write a temporary claims JSON array with one honest entry"
+  },
+  {
+   "kind": "added",
+   "block": "ef1135b2",
+   "type": "para",
+   "context": "Workflow",
+   "preview": "   or removed:"
+  },
+  {
+   "kind": "added",
+   "block": "99426a3e",
+   "type": "code",
+   "context": "Workflow",
+   "preview": "   ```json\n   [{\"block\":\"a1b2c3d4\",\"kind\":\"modified\",\"note\":"
+  },
+  {
+   "kind": "added",
+   "block": "6b88d004",
+   "type": "para",
+   "context": "Workflow",
+   "preview": "   Allowed kinds are `added`, `removed`, `modified`, `moved`"
+  },
+  {
+   "kind": "added",
+   "block": "6965e42d",
+   "type": "list",
+   "context": "Workflow",
+   "preview": "5. Snapshot while the decision context is still fresh:"
+  },
+  {
+   "kind": "added",
+   "block": "fa3c4e4f",
+   "type": "code",
+   "context": "Workflow",
+   "preview": "   ```sh\n   python3 proofpress.py snapshot <file> --kind age"
+  },
+  {
+   "kind": "added",
+   "block": "5c13476b",
+   "type": "para",
+   "context": "Workflow",
+   "preview": "   `--why` is required. Repeat `--rejected` for alternatives"
+  },
+  {
+   "kind": "added",
+   "block": "e3c56875",
+   "type": "list",
+   "context": "Workflow",
+   "preview": "6. Run `python3 proofpress.py verify <file>` and report its "
+  },
+  {
+   "kind": "added",
+   "block": "6ad53003",
+   "type": "para",
+   "context": "Workflow",
+   "preview": "   Never create another snapshot just to turn a mismatch gre"
+  },
+  {
+   "kind": "added",
+   "block": "2ee76a41",
+   "type": "para",
+   "context": "Workflow",
+   "preview": "Repeat the loop for every Markdown knowledge artifact touche"
   }
  ],
  "claims": [
   {
-   "block": "6f0d23b1",
-   "kind": "modified",
-   "note": "limited claims to blocks touched or removed"
+   "block": "19a24923",
+   "kind": "added",
+   "note": "defined Cursor skill metadata and trigger"
   },
   {
-   "block": "44acc710",
-   "kind": "modified",
-   "note": "documented deliberate unchanged claims"
+   "block": "233b766d",
+   "kind": "added",
+   "note": "added the Proofpress skill heading"
+  },
+  {
+   "block": "ca3e2ae4",
+   "kind": "added",
+   "note": "stated the verification integrity rule"
+  },
+  {
+   "block": "e14e12ad",
+   "kind": "added",
+   "note": "introduced the Cursor workflow"
+  },
+  {
+   "block": "ae92d920",
+   "kind": "added",
+   "note": "added the ingest prerequisite"
+  },
+  {
+   "block": "54c93cc4",
+   "kind": "added",
+   "note": "provided the ingest command"
+  },
+  {
+   "block": "6d23ae8f",
+   "kind": "added",
+   "note": "documented anchor preservation"
+  },
+  {
+   "block": "35ce54f2",
+   "kind": "added",
+   "note": "documented deletion and new-block anchor behavior"
+  },
+  {
+   "block": "7e9c1975",
+   "kind": "added",
+   "note": "added the anchor command step"
+  },
+  {
+   "block": "ff3fc8ba",
+   "kind": "added",
+   "note": "named the anchor inventory fields"
+  },
+  {
+   "block": "09df9b9c",
+   "kind": "added",
+   "note": "introduced touched-block claims"
+  },
+  {
+   "block": "ef1135b2",
+   "kind": "added",
+   "note": "completed the touched-or-removed scope"
+  },
+  {
+   "block": "99426a3e",
+   "kind": "added",
+   "note": "provided a claims JSON example"
+  },
+  {
+   "block": "6b88d004",
+   "kind": "added",
+   "note": "defined claim kinds and deliberate unchanged usage"
+  },
+  {
+   "block": "6965e42d",
+   "kind": "added",
+   "note": "introduced snapshot testimony"
+  },
+  {
+   "block": "fa3c4e4f",
+   "kind": "added",
+   "note": "provided the Cursor snapshot command"
+  },
+  {
+   "block": "5c13476b",
+   "kind": "added",
+   "note": "defined why and rejected-alternative requirements"
+  },
+  {
+   "block": "e3c56875",
+   "kind": "added",
+   "note": "added deterministic verification"
+  },
+  {
+   "block": "6ad53003",
+   "kind": "added",
+   "note": "prohibited re-snapshotting to force green"
+  },
+  {
+   "block": "2ee76a41",
+   "kind": "added",
+   "note": "defined multi-artifact scope and the source-code red line"
   }
  ],
  "context": {
-  "why": "Pi guidance should follow the same concise claims contract as other harnesses.",
+  "why": "Cursor is a major agent harness and now supports project Agent Skills, so Proofpress needs a first-class adapter.",
   "rejected": [
-   "Allow adapter-specific claims semantics — would make verification behavior inconsistent across harnesses."
+   "Rely only on AGENTS.md — useful inside this repository but insufficient as a portable Cursor installation surface."
   ]
  }
 }
