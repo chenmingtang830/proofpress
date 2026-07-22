@@ -1,3031 +1,2542 @@
 {
  "event": "version_created",
- "artifact": "docs/PORTABLE_ARTIFACT_STRATEGY.md",
- "version": "9c9ff431",
- "parent": "b79ac36a",
+ "artifact": "docs/PRIVACY_AND_DISCLOSURE.md",
+ "version": "3c9f5045",
+ "parent": "9eed2cc0",
  "author": {
   "name": "codex",
   "kind": "agent",
   "session": "portable-model-convergence-2026-07-22"
  },
- "note": "Converged strategy on sticky portable artifacts and selective decision lineage",
+ "note": "Replaced disclosure-stream design with portable artifact privacy boundaries",
  "ts": "2026-07-22T09:00:28+00:00",
  "stats": {
-  "modified": 63,
-  "added": 61,
-  "removed": 126
+  "modified": 25,
+  "added": 69,
+  "removed": 114
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "8b5401f3",
+   "block": "be94d633",
    "type": "heading",
-   "context": "Proofpress：Portable Artifact Strategy"
+   "context": "Privacy Boundaries for Portable Artifact"
   },
   {
    "kind": "modified",
-   "block": "23de2854",
+   "block": "9db57e7e",
    "type": "para",
-   "context": "Proofpress：Portable Artifact Strategy"
-  },
-  {
-   "kind": "modified",
-   "block": "22c7a680",
-   "type": "para",
-   "context": "结论先行"
-  },
-  {
-   "kind": "modified",
-   "block": "6c482d6b",
-   "type": "para",
-   "context": "结论先行"
-  },
-  {
-   "kind": "modified",
-   "block": "83f1b648",
-   "type": "para",
-   "context": "结论先行"
-  },
-  {
-   "kind": "modified",
-   "block": "61c20f83",
-   "type": "para",
-   "context": "结论先行"
+   "context": "Privacy Boundaries for Portable Artifact"
   },
   {
    "kind": "added",
-   "block": "c200bb29",
+   "block": "552f8a90",
    "type": "para",
    "context": "结论先行",
-   "preview": "最直观的产品解释是："
+   "preview": "Proofpress 的隐私模型不围绕 “share” 建立。用户继续通过 Slack、邮件、Drive 或其他工具发送"
   },
   {
    "kind": "added",
-   "block": "761c89ec",
+   "block": "7407f209",
    "type": "para",
    "context": "结论先行",
-   "preview": "> **Every document has a final state. Proofpress gives it a "
+   "preview": "V0 只需要五条规则："
   },
   {
    "kind": "added",
-   "block": "503ff810",
-   "type": "para",
+   "block": "ee94d49a",
+   "type": "list",
    "context": "结论先行",
-   "preview": "在 wiki 语境里，可以把它类比为 **a verifiable `log.md` for every artifac"
+   "preview": "1. **Declare portable once**：portable 是 artifact 的 sticky po"
   },
   {
-   "kind": "added",
-   "block": "55ac1e42",
+   "kind": "modified",
+   "block": "c9d68c4f",
+   "type": "para",
+   "context": "结论先行"
+  },
+  {
+   "kind": "modified",
+   "block": "6a6c293a",
    "type": "heading",
-   "context": "产品行为，一屏说清",
-   "preview": "## 产品行为，一屏说清"
-  },
-  {
-   "kind": "added",
-   "block": "f81aad90",
-   "type": "code",
-   "context": "产品行为，一屏说清",
-   "preview": "```text\nDeclare portable once.\nRecord accepted versions and "
-  },
-  {
-   "kind": "added",
-   "block": "d7f38edf",
-   "type": "para",
-   "context": "产品行为，一屏说清",
-   "preview": "六条规则："
-  },
-  {
-   "kind": "added",
-   "block": "2c92a4b1",
-   "type": "list",
-   "context": "产品行为，一屏说清",
-   "preview": "1. `portable` 是 artifact 的持久属性，不是每次分享前的一次 publication。\n2. 后续"
-  },
-  {
-   "kind": "modified",
-   "block": "9ea1778e",
-   "type": "list",
-   "context": "1. 真实使用场景"
-  },
-  {
-   "kind": "modified",
-   "block": "992d3d92",
-   "type": "para",
-   "context": "1. 真实使用场景"
-  },
-  {
-   "kind": "modified",
-   "block": "9602b6bf",
-   "type": "para",
-   "context": "1. 真实使用场景"
-  },
-  {
-   "kind": "added",
-   "block": "540880a8",
-   "type": "heading",
-   "context": "1.1 Canonical example：A v1 → v2",
-   "preview": "### 1.1 Canonical example：A v1 → v2"
-  },
-  {
-   "kind": "added",
-   "block": "f2877b4f",
-   "type": "code",
-   "context": "1.1 Canonical example：A v1 → v2",
-   "preview": "```text\nA v1 被声明 portable\n       │\n       ├── 方向 B：casual br"
-  },
-  {
-   "kind": "added",
-   "block": "50974dbd",
-   "type": "para",
-   "context": "1.1 Canonical example：A v1 → v2",
-   "preview": "如果用户最后说 “leave it like that”，v2 默认继续 portable。Proofpress 不再追"
-  },
-  {
-   "kind": "added",
-   "block": "bbcdf2cb",
-   "type": "para",
-   "context": "1.1 Canonical example：A v1 → v2",
-   "preview": "判据是："
-  },
-  {
-   "kind": "added",
-   "block": "ef0afd1a",
-   "type": "para",
-   "context": "1.1 Canonical example：A v1 → v2",
-   "preview": "> **Record accepted changes and consequential rejections—not"
-  },
-  {
-   "kind": "added",
-   "block": "ad6ae01e",
-   "type": "para",
-   "context": "1.1 Canonical example：A v1 → v2",
-   "preview": "`consequential rejection` 指一个曾被认真考虑、后来因明确理由放弃、未来 agent 若重提会浪"
-  },
-  {
-   "kind": "modified",
-   "block": "c58a8c9e",
-   "type": "heading",
-   "context": "2. 定位与边界"
-  },
-  {
-   "kind": "modified",
-   "block": "c692212b",
-   "type": "para",
-   "context": "2.1 不是“帮你看懂 Git diff”"
-  },
-  {
-   "kind": "modified",
-   "block": "33d651e4",
-   "type": "heading",
-   "context": "2.2 不只是“验证 agent 有没有说实话”"
-  },
-  {
-   "kind": "modified",
-   "block": "aaa99ad7",
-   "type": "para",
-   "context": "2.2 不只是“验证 agent 有没有说实话”"
-  },
-  {
-   "kind": "modified",
-   "block": "9a6f1a59",
-   "type": "heading",
-   "context": "2.3 不是审批工作流"
-  },
-  {
-   "kind": "modified",
-   "block": "53039efd",
-   "type": "para",
-   "context": "2.3 不是审批工作流"
-  },
-  {
-   "kind": "modified",
-   "block": "9f6ef909",
-   "type": "heading",
-   "context": "2.4 收敛后的定位"
-  },
-  {
-   "kind": "modified",
-   "block": "b86209fe",
-   "type": "para",
-   "context": "2.4 收敛后的定位"
-  },
-  {
-   "kind": "modified",
-   "block": "64be4294",
-   "type": "para",
-   "context": "2.4 收敛后的定位"
-  },
-  {
-   "kind": "modified",
-   "block": "42469bef",
-   "type": "code",
-   "context": "2.4 收敛后的定位"
-  },
-  {
-   "kind": "modified",
-   "block": "7bd9f5ab",
-   "type": "para",
-   "context": "2.4 收敛后的定位"
-  },
-  {
-   "kind": "modified",
-   "block": "236f9c31",
-   "type": "table",
-   "context": "3. 为什么必须是 artifact-native ledger"
-  },
-  {
-   "kind": "modified",
-   "block": "db69210e",
-   "type": "para",
-   "context": "3. 为什么必须是 artifact-native ledger"
-  },
-  {
-   "kind": "added",
-   "block": "d7fead41",
-   "type": "list",
-   "context": "3. 为什么必须是 artifact-native ledger",
-   "preview": "1. 路径无关的 artifact identity；\n2. 内容移动后仍稳定的 block identity；\n3. "
-  },
-  {
-   "kind": "modified",
-   "block": "d899e8c6",
-   "type": "para",
-   "context": "3. 为什么必须是 artifact-native ledger"
-  },
-  {
-   "kind": "added",
-   "block": "38904206",
-   "type": "heading",
-   "context": "4. Artifact policy 与 admission",
-   "preview": "## 4. Artifact policy 与 admission"
-  },
-  {
-   "kind": "added",
-   "block": "509c8163",
-   "type": "heading",
-   "context": "4.1 三种 policy",
-   "preview": "### 4.1 三种 policy"
-  },
-  {
-   "kind": "added",
-   "block": "ded37938",
-   "type": "code",
-   "context": "4.1 三种 policy",
-   "preview": "```text\nignored   不捕获，不维护 ledger\nlocal     ledger 留在 Git/loc"
-  },
-  {
-   "kind": "added",
-   "block": "a44752bc",
-   "type": "para",
-   "context": "4.1 三种 policy",
-   "preview": "policy 是 artifact-level、持久、可变的状态。安装 Proofpress 不应自动把所有 Markd"
-  },
-  {
-   "kind": "added",
-   "block": "d7c083a0",
-   "type": "heading",
-   "context": "4.2 Sticky inheritance",
-   "preview": "### 4.2 Sticky inheritance"
-  },
-  {
-   "kind": "added",
-   "block": "7eb67f8f",
-   "type": "para",
-   "context": "4.2 Sticky inheritance",
-   "preview": "`portable` artifact 的后续 admitted versions 默认继续 portable。只有明确"
-  },
-  {
-   "kind": "added",
-   "block": "c33d759e",
-   "type": "heading",
-   "context": "4.3 Event admission",
-   "preview": "### 4.3 Event admission"
-  },
-  {
-   "kind": "added",
-   "block": "a598a3c7",
-   "type": "para",
-   "context": "4.3 Event admission",
-   "preview": "进入 ledger 的事件只有："
-  },
-  {
-   "kind": "added",
-   "block": "a7ee25ac",
-   "type": "list",
-   "context": "4.3 Event admission",
-   "preview": "- 被用户要求保留或由任务完成明确确认的 artifact version；\n- consequential rejec"
-  },
-  {
-   "kind": "added",
-   "block": "bc135180",
-   "type": "para",
-   "context": "4.3 Event admission",
-   "preview": "默认不进入 ledger："
-  },
-  {
-   "kind": "added",
-   "block": "1df9dc52",
-   "type": "list",
-   "context": "4.3 Event admission",
-   "preview": "- raw conversation 和 prompts；\n- tool calls 与逐步推理；\n- 每次文件保存；\n"
-  },
-  {
-   "kind": "added",
-   "block": "37bdcaab",
-   "type": "para",
-   "context": "4.3 Event admission",
-   "preview": "Append-only 从 admission 开始，不意味着 capture everything forever。未"
-  },
-  {
-   "kind": "modified",
-   "block": "b61e21f8",
-   "type": "heading",
-   "context": "5. Portable carrier 与 handoff",
+   "context": "1. 正确的心智模型",
    "also_moved": true,
    "numbers": [
     [
-     "2.4",
-     "5."
+     "7.",
+     "1."
     ]
    ]
   },
   {
-   "kind": "modified",
-   "block": "c00113c6",
+   "kind": "added",
+   "block": "5051a788",
    "type": "para",
-   "context": "5. Portable carrier 与 handoff"
-  },
-  {
-   "kind": "modified",
-   "block": "9bd88fba",
-   "type": "para",
-   "context": "5. Portable carrier 与 handoff"
-  },
-  {
-   "kind": "modified",
-   "block": "2e9aa9c9",
-   "type": "heading",
-   "context": "5.1 当前基础"
-  },
-  {
-   "kind": "modified",
-   "block": "258e8058",
-   "type": "para",
-   "context": "5.1 当前基础"
-  },
-  {
-   "kind": "modified",
-   "block": "566c9d11",
-   "type": "heading",
-   "context": "5.2 Carrier 结构"
+   "context": "1. 正确的心智模型",
+   "preview": "旧模型过度围绕 publication 构建："
   },
   {
    "kind": "added",
-   "block": "22e6efc1",
+   "block": "d411f78c",
    "type": "code",
-   "context": "5.2 Carrier 结构",
-   "preview": "```text\nvisible body\n  + invisible stable block anchors\n  + "
+   "context": "1. 正确的心智模型",
+   "preview": "```text\nlocal journal → share preview → disclosure projectio"
   },
   {
    "kind": "added",
-   "block": "054fabff",
+   "block": "d3c3fb06",
    "type": "para",
-   "context": "5.2 Carrier 结构",
-   "preview": "Capsule 至少需要：protocol version、artifact ID、policy、head event、"
+   "context": "1. 正确的心智模型",
+   "preview": "V0 采用 artifact policy："
   },
   {
    "kind": "added",
-   "block": "ae6f8382",
-   "type": "para",
-   "context": "5.2 Carrier 结构",
-   "preview": "正文 hash 必须排除 Proofpress metadata，避免 capsule 更新造成循环 hash。Embe"
-  },
-  {
-   "kind": "modified",
-   "block": "f3d9d250",
-   "type": "heading",
-   "context": "5.3 Agent 行为"
+   "block": "76e10073",
+   "type": "code",
+   "context": "1. 正确的心智模型",
+   "preview": "```text\n                  make local\nPORTABLE  ─────────────"
   },
   {
    "kind": "added",
-   "block": "63a2e8ef",
-   "type": "list",
-   "context": "5.3 Agent 行为",
-   "preview": "1. 读取文件并发现 Proofpress marker；\n2. 调用工具验证 capsule 与正文；\n3. 按任务只"
-  },
-  {
-   "kind": "modified",
-   "block": "4143441a",
-   "type": "heading",
-   "context": "5.4 普通 handoff",
-   "numbers": [
-    [
-     "4.5",
-     "5.4"
-    ]
-   ]
+   "block": "2f0cb618",
+   "type": "para",
+   "context": "1. 正确的心智模型",
+   "preview": "这些状态回答“历史在哪里”，而不是“谁现在有权限”："
   },
   {
    "kind": "added",
-   "block": "c70c30a3",
-   "type": "para",
-   "context": "5.4 普通 handoff",
-   "preview": "用户照常把原始 `.md` 文件发到 Slack、邮件或 Drive。收件人不安装 Proofpress 也能读正文；收"
-  },
-  {
-   "kind": "modified",
-   "block": "5bb7d666",
-   "type": "heading",
-   "context": "5.5 Copy、branch 与同步边界",
-   "numbers": [
-    [
-     "4.6",
-     "5.5"
-    ]
-   ]
-  },
-  {
-   "kind": "modified",
-   "block": "e299d11b",
-   "type": "para",
-   "context": "5.5 Copy、branch 与同步边界"
-  },
-  {
-   "kind": "modified",
-   "block": "d2fac609",
-   "type": "para",
-   "context": "5.5 Copy、branch 与同步边界"
-  },
-  {
-   "kind": "modified",
-   "block": "a6cda8f2",
-   "type": "heading",
-   "context": "6. Verification、capture 与人工编辑",
-   "numbers": [
-    [
-     "5.",
-     "6."
-    ]
-   ]
-  },
-  {
-   "kind": "modified",
-   "block": "d47d8767",
+   "block": "61f99e53",
    "type": "table",
-   "context": "6. Verification、capture 与人工编辑",
+   "context": "1. 正确的心智模型",
+   "preview": "| Policy | Ledger 行为 | 文件行为 |\n|---|---|---|\n| `ignored` | 不捕"
+  },
+  {
+   "kind": "added",
+   "block": "595556d3",
+   "type": "para",
+   "context": "1. 正确的心智模型",
+   "preview": "安装 Proofpress 不应自动把所有 Markdown 设为 portable。用户或 agent 第一次明确声明"
+  },
+  {
+   "kind": "added",
+   "block": "ae4bcddd",
+   "type": "heading",
+   "context": "2. Ledger admission boundary",
+   "preview": "## 2. Ledger admission boundary"
+  },
+  {
+   "kind": "modified",
+   "block": "092c1fa1",
+   "type": "para",
+   "context": "2. Ledger admission boundary"
+  },
+  {
+   "kind": "added",
+   "block": "ab8d506b",
+   "type": "heading",
+   "context": "2.1 默认进入 ledger",
+   "preview": "### 2.1 默认进入 ledger"
+  },
+  {
+   "kind": "added",
+   "block": "f84efabd",
+   "type": "list",
+   "context": "2.1 默认进入 ledger",
+   "preview": "- 用户确认保留或任务完成所形成的 artifact version；\n- 从 parent 到新 version 的 "
+  },
+  {
+   "kind": "added",
+   "block": "78e5757c",
+   "type": "heading",
+   "context": "2.2 默认不进入 ledger",
+   "preview": "### 2.2 默认不进入 ledger"
+  },
+  {
+   "kind": "added",
+   "block": "0766d40e",
+   "type": "list",
+   "context": "2.2 默认不进入 ledger",
+   "preview": "- raw prompts 与完整 session transcript；\n- chain-of-thought、私密推"
+  },
+  {
+   "kind": "added",
+   "block": "3771c1c0",
+   "type": "heading",
+   "context": "2.3 Consequential rejection 判据",
+   "preview": "### 2.3 Consequential rejection 判据"
+  },
+  {
+   "kind": "added",
+   "block": "1c3e3dcd",
+   "type": "para",
+   "context": "2.3 Consequential rejection 判据",
+   "preview": "只有同时满足下列条件的否决才应记录："
+  },
+  {
+   "kind": "added",
+   "block": "31da1e3a",
+   "type": "list",
+   "context": "2.3 Consequential rejection 判据",
+   "preview": "1. 这个方向被认真考虑过；\n2. 它因一个可以表达的理由被放弃；\n3. 后继者重提它会浪费工作或破坏已达成共识。"
+  },
+  {
+   "kind": "added",
+   "block": "af2b57ac",
+   "type": "para",
+   "context": "2.3 Consequential rejection 判据",
+   "preview": "记录的是一句精炼的 rejected rationale，不是讨论逐字稿。"
+  },
+  {
+   "kind": "added",
+   "block": "886e450e",
+   "type": "para",
+   "context": "2.3 Consequential rejection 判据",
+   "preview": "> **Record the decision, not the conversation.**"
+  },
+  {
+   "kind": "modified",
+   "block": "ee2856b9",
+   "type": "heading",
+   "context": "3. 核心不变量",
+   "also_moved": true,
+   "numbers": [
+    [
+     "2.",
+     "3."
+    ]
+   ]
+  },
+  {
+   "kind": "modified",
+   "block": "e2605fb1",
+   "type": "list",
+   "context": "3. 核心不变量",
    "also_moved": true
   },
   {
    "kind": "modified",
-   "block": "b9abff4c",
-   "type": "para",
-   "context": "6. Verification、capture 与人工编辑"
-  },
-  {
-   "kind": "modified",
-   "block": "11af5d5d",
-   "type": "para",
-   "context": "6. Verification、capture 与人工编辑"
-  },
-  {
-   "kind": "modified",
-   "block": "d8eb27b0",
-   "type": "para",
-   "context": "6. Verification、capture 与人工编辑"
-  },
-  {
-   "kind": "added",
-   "block": "8d914b07",
-   "type": "para",
-   "context": "6. Verification、capture 与人工编辑",
-   "preview": "> **Best-effort automatic capture; deterministic integrity f"
-  },
-  {
-   "kind": "added",
-   "block": "e1e7ca4a",
-   "type": "para",
-   "context": "6. Verification、capture 与人工编辑",
-   "preview": "Skill 是否遵循、hook 是否安装、session 是否正常结束都会影响 completeness。Proofpr"
-  },
-  {
-   "kind": "added",
-   "block": "dcf9e31b",
+   "block": "a092554e",
    "type": "heading",
-   "context": "7. Privacy boundary",
-   "preview": "## 7. Privacy boundary"
-  },
-  {
-   "kind": "added",
-   "block": "63bf87ec",
-   "type": "para",
-   "context": "7. Privacy boundary",
-   "preview": "Privacy 的完整产品边界见 [PRIVACY_AND_DISCLOSURE.md](PRIVACY_AND_DIS"
-  },
-  {
-   "kind": "added",
-   "block": "004e6b3f",
-   "type": "list",
-   "context": "7. Privacy boundary",
-   "preview": "1. Hidden is not confidential：拿到 raw file 的人可能读取 capsule。\n2."
-  },
-  {
-   "kind": "added",
-   "block": "edee1a38",
-   "type": "para",
-   "context": "7. Privacy boundary",
-   "preview": "V0 不做一份离线文件内的 per-user/per-field ACL、多 audience streams、密钥吊销"
-  },
-  {
-   "kind": "added",
-   "block": "29e32d31",
-   "type": "heading",
-   "context": "8. 相邻品类与竞争边界",
-   "preview": "## 8. 相邻品类与竞争边界"
-  },
-  {
-   "kind": "added",
-   "block": "80cf71e9",
-   "type": "table",
-   "context": "8. 相邻品类与竞争边界",
-   "preview": "| 层 | 回答的问题 | 代表 |\n|---|---|---|\n| Agent memory | 这个 agent 应"
-  },
-  {
-   "kind": "added",
-   "block": "39aa0563",
-   "type": "para",
-   "context": "8. 相邻品类与竞争边界",
-   "preview": "> **LLM wikis compound knowledge. Proofpress compounds trust"
-  },
-  {
-   "kind": "added",
-   "block": "9d078110",
-   "type": "para",
-   "context": "8. 相邻品类与竞争边界",
-   "preview": "OKF 的 `log.md` 是有用类比，但 Proofpress 不做 OKF-specific extension，"
-  },
-  {
-   "kind": "added",
-   "block": "720bf814",
-   "type": "para",
-   "context": "8. 相邻品类与竞争边界",
-   "preview": "Proofpress 不进入 wiki generation、connectors、RAG、personal brain"
-  },
-  {
-   "kind": "modified",
-   "block": "bec22e1d",
-   "type": "heading",
-   "context": "9. 当前实现差距",
-   "also_moved": true,
+   "context": "4. Capsule 的可见性与内容",
    "numbers": [
     [
-     "4.",
-     "9."
+     "1.4",
+     "4."
     ]
    ]
   },
   {
    "kind": "modified",
-   "block": "0f31b3f0",
+   "block": "aeff8148",
    "type": "para",
-   "context": "9. 当前实现差距"
-  },
-  {
-   "kind": "added",
-   "block": "cfe37e94",
-   "type": "list",
-   "context": "9. 当前实现差距",
-   "preview": "- Markdown block parser 与 invisible anchors；\n- block-level s"
+   "context": "4. Capsule 的可见性与内容"
   },
   {
    "kind": "modified",
-   "block": "c374cf4c",
-   "type": "para",
-   "context": "9. 当前实现差距"
-  },
-  {
-   "kind": "added",
-   "block": "c2231a29",
-   "type": "list",
-   "context": "9. 当前实现差距",
-   "preview": "- 路径无关 artifact ID；\n- ignored / local / portable policy；\n- e"
-  },
-  {
-   "kind": "added",
-   "block": "0ffd3d7a",
-   "type": "para",
-   "context": "9. 当前实现差距",
-   "preview": "当前 hook 是 best-effort prototype，不是捕获保证；它可能漏掉 untracked/non-G"
-  },
-  {
-   "kind": "modified",
-   "block": "2e60771d",
+   "block": "d7ab5925",
    "type": "heading",
-   "context": "10. 战略判断与风险",
-   "also_moved": true,
+   "context": "4.1 Capsule 默认可以包含",
    "numbers": [
     [
-     "6.",
+     "7.3",
+     "4.1"
+    ]
+   ]
+  },
+  {
+   "kind": "added",
+   "block": "9efa1c70",
+   "type": "list",
+   "context": "4.1 Capsule 默认可以包含",
+   "preview": "- artifact ID、policy、protocol version 和 current head；\n- curr"
+  },
+  {
+   "kind": "added",
+   "block": "49aae806",
+   "type": "heading",
+   "context": "4.2 Capsule 默认不得包含",
+   "preview": "### 4.2 Capsule 默认不得包含"
+  },
+  {
+   "kind": "modified",
+   "block": "e924a924",
+   "type": "list",
+   "context": "4.2 Capsule 默认不得包含"
+  },
+  {
+   "kind": "added",
+   "block": "f0f6e462",
+   "type": "heading",
+   "context": "4.3 删除内容的风险",
+   "preview": "### 4.3 删除内容的风险"
+  },
+  {
+   "kind": "added",
+   "block": "f8360c02",
+   "type": "para",
+   "context": "4.3 删除内容的风险",
+   "preview": "Portable history 可能包含旧 checkpoint、delta 或 deleted blocks。因此："
+  },
+  {
+   "kind": "added",
+   "block": "a57d5e5c",
+   "type": "para",
+   "context": "4.3 删除内容的风险",
+   "preview": "> **Deleting text from the current body does not prove it is"
+  },
+  {
+   "kind": "added",
+   "block": "507eb82f",
+   "type": "para",
+   "context": "4.3 删除内容的风险",
+   "preview": "如果一段内容不应该被 raw artifact holder 看到，就不应让包含它的 version 进入 portab"
+  },
+  {
+   "kind": "added",
+   "block": "483804ed",
+   "type": "heading",
+   "context": "5. 普通 handoff，不是 share 状态机",
+   "preview": "## 5. 普通 handoff，不是 share 状态机"
+  },
+  {
+   "kind": "added",
+   "block": "49dd8fc0",
+   "type": "para",
+   "context": "5. 普通 handoff，不是 share 状态机",
+   "preview": "用户把 portable artifact 拖进 Slack 或发送邮件时，Proofpress 不创建 `disclo"
+  },
+  {
+   "kind": "added",
+   "block": "886e00f6",
+   "type": "para",
+   "context": "5. 普通 handoff，不是 share 状态机",
+   "preview": "Proofpress 不能可靠知道："
+  },
+  {
+   "kind": "added",
+   "block": "184d2482",
+   "type": "list",
+   "context": "5. 普通 handoff，不是 share 状态机",
+   "preview": "- 谁真正点击了发送；\n- 文件是否被打开；\n- 收件人是否保存、复制或转发；\n- 某个本地副本是否已经离开设备。"
+  },
+  {
+   "kind": "added",
+   "block": "abd89abd",
+   "type": "para",
+   "context": "5. 普通 handoff，不是 share 状态机",
+   "preview": "因此协议不设置 `disclosed_by`、`sent_by` 或 per-audience stream，也不使用 "
+  },
+  {
+   "kind": "added",
+   "block": "97f6f122",
+   "type": "heading",
+   "context": "6. Portable lifecycle",
+   "preview": "## 6. Portable lifecycle"
+  },
+  {
+   "kind": "added",
+   "block": "24a6662e",
+   "type": "heading",
+   "context": "6.1 Enable portable",
+   "preview": "### 6.1 Enable portable"
+  },
+  {
+   "kind": "added",
+   "block": "2d7504b2",
+   "type": "para",
+   "context": "6.1 Enable portable",
+   "preview": "第一次 enable 是一次明确的 artifact-level 选择。系统应说明：未来 admitted histor"
+  },
+  {
+   "kind": "added",
+   "block": "99efd910",
+   "type": "para",
+   "context": "6.1 Enable portable",
+   "preview": "Enable 后无需在每个版本或每次发送时重复确认。"
+  },
+  {
+   "kind": "added",
+   "block": "81f914b1",
+   "type": "heading",
+   "context": "6.2 Continue portable",
+   "preview": "### 6.2 Continue portable"
+  },
+  {
+   "kind": "added",
+   "block": "7e55157e",
+   "type": "para",
+   "context": "6.2 Continue portable",
+   "preview": "当 agent 完成用户要求保留的修改，或用户明确确认当前结果时："
+  },
+  {
+   "kind": "added",
+   "block": "cdb74d1f",
+   "type": "list",
+   "context": "6.2 Continue portable",
+   "preview": "1. 计算 parent → current body 的 semantic changes；\n2. 接收 actors"
+  },
+  {
+   "kind": "added",
+   "block": "645c4ae1",
+   "type": "para",
+   "context": "6.2 Continue portable",
+   "preview": "Casual discussion 和未被采用的临时状态不会因为发生在 portable artifact 周围就自动进"
+  },
+  {
+   "kind": "added",
+   "block": "58cac2dd",
+   "type": "heading",
+   "context": "6.3 Make local",
+   "preview": "### 6.3 Make local"
+  },
+  {
+   "kind": "added",
+   "block": "2c9d0822",
+   "type": "para",
+   "context": "6.3 Make local",
+   "preview": "`make local` 表示："
+  },
+  {
+   "kind": "added",
+   "block": "f3548215",
+   "type": "list",
+   "context": "6.3 Make local",
+   "preview": "- 当前工作 artifact 不再携带 portable capsule，或从下一次 materialization "
+  },
+  {
+   "kind": "added",
+   "block": "8c9204c8",
+   "type": "para",
+   "context": "6.3 Make local",
+   "preview": "这不是 recall，也不是抹除过去。"
+  },
+  {
+   "kind": "added",
+   "block": "697c7f40",
+   "type": "heading",
+   "context": "6.4 Clean copy",
+   "preview": "### 6.4 Clean copy"
+  },
+  {
+   "kind": "added",
+   "block": "b454588d",
+   "type": "para",
+   "context": "6.4 Clean copy",
+   "preview": "用户可以从 portable artifact 生成无 capsule 的普通副本。Clean copy："
+  },
+  {
+   "kind": "added",
+   "block": "859b076c",
+   "type": "list",
+   "context": "6.4 Clean copy",
+   "preview": "- 只包含当前可见正文；\n- 不声称携带完整 provenance；\n- 不修改源 artifact 或 local l"
+  },
+  {
+   "kind": "added",
+   "block": "3e4ed2f7",
+   "type": "heading",
+   "context": "6.5 Re-enable portable",
+   "preview": "### 6.5 Re-enable portable"
+  },
+  {
+   "kind": "added",
+   "block": "1b4a1e02",
+   "type": "para",
+   "context": "6.5 Re-enable portable",
+   "preview": "重新开启是少见、明确的 transition。V0 必须保证："
+  },
+  {
+   "kind": "added",
+   "block": "14bc1711",
+   "type": "list",
+   "context": "6.5 Re-enable portable",
+   "preview": "- local-only interval 的 event IDs、版本、actors、why 和 omitted co"
+  },
+  {
+   "kind": "added",
+   "block": "ff98d967",
+   "type": "para",
+   "context": "6.5 Re-enable portable",
+   "preview": "具体 continuation encoding 在 implementation spec 中冻结，但 privacy"
+  },
+  {
+   "kind": "added",
+   "block": "a74d9489",
+   "type": "heading",
+   "context": "7. 人工编辑与归因",
+   "preview": "## 7. 人工编辑与归因"
+  },
+  {
+   "kind": "added",
+   "block": "6761d19f",
+   "type": "para",
+   "context": "7. 人工编辑与归因",
+   "preview": "> **A document can detect that it was changed. It cannot kno"
+  },
+  {
+   "kind": "added",
+   "block": "b0624cf8",
+   "type": "para",
+   "context": "7. 人工编辑与归因",
+   "preview": "如果 body 与 capsule head 不匹配，Proofpress 可以确定："
+  },
+  {
+   "kind": "added",
+   "block": "a1e83e45",
+   "type": "list",
+   "context": "7. 人工编辑与归因",
+   "preview": "- 当前正文发生了未记录变化；\n- 哪些 blocks added / removed / modified / mov"
+  },
+  {
+   "kind": "added",
+   "block": "669c59c4",
+   "type": "para",
+   "context": "7. 人工编辑与归因",
+   "preview": "它不能仅凭文件知道："
+  },
+  {
+   "kind": "added",
+   "block": "cbc60133",
+   "type": "list",
+   "context": "7. 人工编辑与归因",
+   "preview": "- 谁完成修改；\n- 修改实际发生时间；\n- 修改原因；\n- 修改是否来自同事反馈、用户本人或另一个 agent。"
+  },
+  {
+   "kind": "added",
+   "block": "02196bad",
+   "type": "para",
+   "context": "7. 人工编辑与归因",
+   "preview": "因此检测事件应类似："
+  },
+  {
+   "kind": "added",
+   "block": "9d551f6b",
+   "type": "code",
+   "context": "7. 人工编辑与归因",
+   "preview": "```text\nevent: unrecorded_edit_detected\nwhat: computed seman"
+  },
+  {
+   "kind": "modified",
+   "block": "8261234d",
+   "type": "para",
+   "context": "7. 人工编辑与归因",
+   "also_moved": true
+  },
+  {
+   "kind": "added",
+   "block": "f1daa663",
+   "type": "code",
+   "context": "7. 人工编辑与归因",
+   "preview": "```text\nrequested_by\nproduced_by\nedited_by\nrecorded_by\n```"
+  },
+  {
+   "kind": "modified",
+   "block": "618dd688",
+   "type": "para",
+   "context": "7. 人工编辑与归因",
+   "also_moved": true
+  },
+  {
+   "kind": "modified",
+   "block": "86c9996d",
+   "type": "code",
+   "context": "7. 人工编辑与归因",
+   "also_moved": true
+  },
+  {
+   "kind": "added",
+   "block": "12d61fe3",
+   "type": "para",
+   "context": "7. 人工编辑与归因",
+   "preview": "当前登录用户、文件 owner 或运行 hook 的 agent 都不能自动等同于 `edited_by`。"
+  },
+  {
+   "kind": "modified",
+   "block": "4d62bb79",
+   "type": "heading",
+   "context": "8. Correction、supersession 与 redaction"
+  },
+  {
+   "kind": "modified",
+   "block": "bfc61b9c",
+   "type": "heading",
+   "context": "8.1 Correction"
+  },
+  {
+   "kind": "added",
+   "block": "c2d65249",
+   "type": "para",
+   "context": "8.1 Correction",
+   "preview": "Actor、时间或 change account 写错时，append correction 指向原 event。默认视"
+  },
+  {
+   "kind": "modified",
+   "block": "b46a45ef",
+   "type": "heading",
+   "context": "8.2 Supersession"
+  },
+  {
+   "kind": "added",
+   "block": "2218bf81",
+   "type": "para",
+   "context": "8.2 Supersession",
+   "preview": "结论或正文后来改变时，创建新 version 并声明 supersedes。旧版本仍是历史事实，但不再是 current"
+  },
+  {
+   "kind": "added",
+   "block": "3202fe48",
+   "type": "para",
+   "context": "8.3 Redaction",
+   "preview": "敏感 payload 已进入 portable history 时，未来 capsule 可以追加 redaction "
+  },
+  {
+   "kind": "added",
+   "block": "7ccd86ac",
+   "type": "list",
+   "context": "8.3 Redaction",
+   "preview": "- 旧副本可能仍包含原文；\n- 移除 payload 后，部分历史只能 partial verification；\n- "
+  },
+  {
+   "kind": "added",
+   "block": "4779c987",
+   "type": "para",
+   "context": "8.3 Redaction",
+   "preview": "如果连事件存在本身都不能披露，安全选择是生成新的 sanitized/derived lineage，并明确它不是旧历史"
+  },
+  {
+   "kind": "modified",
+   "block": "0d3174f5",
+   "type": "heading",
+   "context": "9. V0 edge cases"
+  },
+  {
+   "kind": "added",
+   "block": "a24edc0a",
+   "type": "table",
+   "context": "9. V0 edge cases",
+   "preview": "| 情况 | 行为 |\n|---|---|\n| v1 portable，形成 accepted v2 | v2 自动 a"
+  },
+  {
+   "kind": "modified",
+   "block": "2c249df0",
+   "type": "heading",
+   "context": "10. V0 明确不做",
+   "numbers": [
+    [
+     "13.",
      "10."
     ]
    ]
   },
   {
    "kind": "modified",
-   "block": "408b6d86",
+   "block": "14d8b083",
+   "type": "list",
+   "context": "10. V0 明确不做"
+  },
+  {
+   "kind": "modified",
+   "block": "0444a90a",
    "type": "heading",
-   "context": "10.1 为什么比 GitHub wedge 更强",
+   "context": "11. Release acceptance tests"
+  },
+  {
+   "kind": "added",
+   "block": "3208f8df",
+   "type": "para",
+   "context": "11. Release acceptance tests",
+   "preview": "Portable V0 发布前至少通过："
+  },
+  {
+   "kind": "added",
+   "block": "ec5f7bca",
+   "type": "list",
+   "context": "11. Release acceptance tests",
+   "preview": "1. v1 enable portable 后，accepted v2 无重复 permission prompt 地更"
+  },
+  {
+   "kind": "modified",
+   "block": "9e0d89d9",
+   "type": "heading",
+   "context": "12. 最小发布承诺",
    "numbers": [
     [
-     "7.1",
-     "10.1"
-    ]
-   ]
-  },
-  {
-   "kind": "modified",
-   "block": "c7c198a2",
-   "type": "para",
-   "context": "10.1 为什么比 GitHub wedge 更强"
-  },
-  {
-   "kind": "modified",
-   "block": "5d388f47",
-   "type": "para",
-   "context": "10.1 为什么比 GitHub wedge 更强"
-  },
-  {
-   "kind": "modified",
-   "block": "b5ec8c17",
-   "type": "para",
-   "context": "10.1 为什么比 GitHub wedge 更强"
-  },
-  {
-   "kind": "modified",
-   "block": "2cc72cb5",
-   "type": "heading",
-   "context": "10.2 Capture gap"
-  },
-  {
-   "kind": "added",
-   "block": "be731a2e",
-   "type": "para",
-   "context": "10.2 Capture gap",
-   "preview": "Proofpress 不能自动捕获口头会议，也不能从最终 prompt 恢复同事原始反馈。Agent 应在 contex"
-  },
-  {
-   "kind": "modified",
-   "block": "515c1dbb",
-   "type": "heading",
-   "context": "10.3 Verification overclaim"
-  },
-  {
-   "kind": "added",
-   "block": "1b1e3850",
-   "type": "para",
-   "context": "10.3 Verification overclaim",
-   "preview": "可以确定性验证的是正文 digest、semantic diff、event chain 和结构化 change cla"
-  },
-  {
-   "kind": "modified",
-   "block": "fd35ff71",
-   "type": "heading",
-   "context": "10.4 Carrier loss"
-  },
-  {
-   "kind": "added",
-   "block": "7af0de2a",
-   "type": "para",
-   "context": "10.4 Carrier loss",
-   "preview": "复制渲染文本、转 PDF、formatter 清理 metadata 或 SaaS 重新序列化 Markdown，都可能"
-  },
-  {
-   "kind": "modified",
-   "block": "2550c5f8",
-   "type": "heading",
-   "context": "10.5 Protocol-first risk"
-  },
-  {
-   "kind": "modified",
-   "block": "ead8c6b4",
-   "type": "para",
-   "context": "10.5 Protocol-first risk"
-  },
-  {
-   "kind": "modified",
-   "block": "a38c6b35",
-   "type": "heading",
-   "context": "11. 执行路线",
-   "numbers": [
-    [
-     "9.",
-     "11."
-    ]
-   ]
-  },
-  {
-   "kind": "added",
-   "block": "51147dae",
-   "type": "heading",
-   "context": "Phase 1：冻结行为规范",
-   "preview": "### Phase 1：冻结行为规范"
-  },
-  {
-   "kind": "added",
-   "block": "443c1ef6",
-   "type": "list",
-   "context": "Phase 1：冻结行为规范",
-   "preview": "1. 将 ignored / local / portable、admission、actor attribution "
-  },
-  {
-   "kind": "added",
-   "block": "cc58bf94",
-   "type": "heading",
-   "context": "Phase 2：最小实现",
-   "preview": "### Phase 2：最小实现"
-  },
-  {
-   "kind": "added",
-   "block": "0bbe55de",
-   "type": "list",
-   "context": "Phase 2：最小实现",
-   "preview": "1. 路径无关 artifact ID；\n2. artifact policy；\n3. actor roles 与 at"
-  },
-  {
-   "kind": "added",
-   "block": "81eab68c",
-   "type": "para",
-   "context": "Phase 2：最小实现",
-   "preview": "V0 不做 Cloud、ACL、多 audience、实时协作、完整签名、自动 merge、OKF integratio"
-  },
-  {
-   "kind": "modified",
-   "block": "a863d59f",
-   "type": "heading",
-   "context": "Phase 3：真实 handoff dogfood"
-  },
-  {
-   "kind": "added",
-   "block": "12e67eea",
-   "type": "para",
-   "context": "Phase 3：真实 handoff dogfood",
-   "preview": "用一份经过多轮 agent 与人工反馈的 Markdown："
-  },
-  {
-   "kind": "added",
-   "block": "bc85c410",
-   "type": "list",
-   "context": "Phase 3：真实 handoff dogfood",
-   "preview": "1. 在 v1 声明 portable；\n2. 形成 v2，包含一个 consequential rejection 和"
-  },
-  {
-   "kind": "modified",
-   "block": "fb07e46d",
-   "type": "heading",
-   "context": "Kill criteria"
-  },
-  {
-   "kind": "added",
-   "block": "2909254d",
-   "type": "list",
-   "context": "Kill criteria",
-   "preview": "- 用户不愿携带原始 artifact，只复制渲染文本；\n- lineage 没有减少 re-briefing、重复方案"
-  },
-  {
-   "kind": "modified",
-   "block": "50e79cdc",
-   "type": "heading",
-   "context": "已有方向性证据"
-  },
-  {
-   "kind": "added",
-   "block": "758c606b",
-   "type": "para",
-   "context": "已有方向性证据",
-   "preview": "2026-07-22 sidecar 对照实验显示：带 ledger 的 clean agent 会引用已记录的 why"
-  },
-  {
-   "kind": "added",
-   "block": "0da29601",
-   "type": "para",
-   "context": "已有方向性证据",
-   "preview": "实验同时暴露 scope gap：单 artifact lineage 防不住 artifact 外的事实编造。结果为方"
-  },
-  {
-   "kind": "modified",
-   "block": "2cd16939",
-   "type": "heading",
-   "context": "12. 对 Launch 的影响",
-   "also_moved": true,
-   "numbers": [
-    [
-     "7.",
+     "15.",
      "12."
     ]
    ]
   },
   {
    "kind": "modified",
-   "block": "11e7b5e6",
+   "block": "1501efd4",
    "type": "para",
-   "context": "12. 对 Launch 的影响"
+   "context": "12. 最小发布承诺"
   },
   {
    "kind": "modified",
-   "block": "ad02b06a",
+   "block": "aae706e7",
+   "type": "list",
+   "context": "12. 最小发布承诺"
+  },
+  {
+   "kind": "modified",
+   "block": "3cb7a253",
    "type": "para",
-   "context": "12. 对 Launch 的影响"
+   "context": "12. 最小发布承诺"
   },
   {
    "kind": "added",
-   "block": "08014c6d",
-   "type": "para",
-   "context": "12. 对 Launch 的影响",
-   "preview": "辅助表达："
-  },
-  {
-   "kind": "added",
-   "block": "9740aadc",
-   "type": "para",
-   "context": "12. 对 Launch 的影响",
-   "preview": "> **AI is learning to maintain what your team knows. Proofpr"
-  },
-  {
-   "kind": "added",
-   "block": "fdf28a03",
-   "type": "para",
-   "context": "12. 对 Launch 的影响",
-   "preview": "> **LLM wikis make knowledge compound. Proofpress makes trus"
-  },
-  {
-   "kind": "modified",
-   "block": "dad2e43f",
-   "type": "heading",
-   "context": "13. 最终判断",
-   "numbers": [
-    [
-     "11.",
-     "13."
-    ]
-   ]
-  },
-  {
-   "kind": "modified",
-   "block": "ce98c0cf",
-   "type": "para",
-   "context": "13. 最终判断"
-  },
-  {
-   "kind": "modified",
-   "block": "5f794662",
+   "block": "bb79d355",
    "type": "code",
-   "context": "13. 最终判断"
-  },
-  {
-   "kind": "modified",
-   "block": "a412a0dc",
-   "type": "para",
-   "context": "13. 最终判断"
+   "context": "12. 最小发布承诺",
+   "preview": "```text\nChoose once whether the artifact is portable.\nRecord"
   },
   {
    "kind": "removed",
-   "block": "41dbf696",
+   "block": "1f2cbc91",
    "type": "para",
    "context": "",
-   "preview": "Proofpress 的价值主张应是："
+   "preview": "**Share 不是一个持续开启的 mode，而是一次 publication。**"
   },
   {
    "kind": "removed",
-   "block": "cf8ddcaa",
+   "block": "b4cc0428",
    "type": "para",
    "context": "",
-   "preview": "它带来的组织结果是："
+   "preview": "`proofpress share/pack` 在某个确定时刻，把本地 artifact 的一个可披露投影物化成带 ca"
   },
   {
    "kind": "removed",
-   "block": "a6fb9d6c",
-   "type": "para",
-   "context": "",
-   "preview": "它的描述性定义是："
-  },
-  {
-   "kind": "removed",
-   "block": "d56084c8",
-   "type": "para",
-   "context": "",
-   "preview": "战略判断：**值得作为 Proofpress 的核心方向继续验证，而且它比“GitHub 上的文档语义 diff”更贴近"
-  },
-  {
-   "kind": "removed",
-   "block": "e47ac07f",
+   "block": "72d67345",
    "type": "list",
    "context": "",
-   "preview": "1. portability 是机制，durable decision lineage 才是价值；\n2. 文件能确定性记"
+   "preview": "- 已生成的文件是一份离线副本；\n- 后续本地修改默认不进入它；\n- 没有后台持续同步，因此不需要“关闭实时分享”；\n-"
   },
   {
    "kind": "removed",
-   "block": "748ce1a3",
+   "block": "aea97c07",
+   "type": "para",
+   "context": "",
+   "preview": "最重要的语义是："
+  },
+  {
+   "kind": "removed",
+   "block": "61b11cd0",
+   "type": "para",
+   "context": "",
+   "preview": "> **Share once; publish again deliberately.**"
+  },
+  {
+   "kind": "removed",
+   "block": "1bc78b69",
+   "type": "para",
+   "context": "",
+   "preview": "以及："
+  },
+  {
+   "kind": "removed",
+   "block": "bd1252ee",
    "type": "heading",
    "context": "",
-   "preview": "## 终局 Vision：让智能扩张，让信任留存"
+   "preview": "## 1. 五个对象，不用一个 “mode” 混在一起"
   },
   {
    "kind": "removed",
-   "block": "31af6d82",
-   "type": "para",
-   "context": "",
-   "preview": "**Proofpress 的终局不是另一个 docs 产品，而是 trustworthy human-agent kno"
-  },
-  {
-   "kind": "removed",
-   "block": "b95e407c",
-   "type": "para",
-   "context": "",
-   "preview": "Portable artifact 是这个 vision 的关键载体：它把静态文件变成一个可以跨人、agent、sess"
-  },
-  {
-   "kind": "removed",
-   "block": "e4629fc1",
-   "type": "para",
-   "context": "",
-   "preview": "这才是 **agent-native document format** 的长期含义：不是再发明一种文件扩展名或编辑器，"
-  },
-  {
-   "kind": "removed",
-   "block": "06d83ab9",
-   "type": "para",
-   "context": "",
-   "preview": "三层终局："
-  },
-  {
-   "kind": "removed",
-   "block": "f35416d1",
-   "type": "list",
-   "context": "",
-   "preview": "1. **现在——portable decision lineage：** 让一份 artifact 的历史像 arti"
-  },
-  {
-   "kind": "removed",
-   "block": "9d275ea4",
-   "type": "para",
-   "context": "",
-   "preview": "类比不是“再造一个 Git”：**Git gave code history; Proofpress gives kno"
-  },
-  {
-   "kind": "removed",
-   "block": "f8ac341d",
-   "type": "para",
-   "context": "",
-   "preview": "对外叙事层级："
-  },
-  {
-   "kind": "removed",
-   "block": "e5784e73",
-   "type": "list",
-   "context": "",
-   "preview": "- **North star：** Scale intelligence. Preserve trust.\n- **Ca"
-  },
-  {
-   "kind": "removed",
-   "block": "6cadaced",
-   "type": "para",
-   "context": "",
-   "preview": "表面上，团队得到了一份更好的文档。实际上，整个过程经历了多次有损 handoff："
-  },
-  {
-   "kind": "removed",
-   "block": "72a537c6",
-   "type": "code",
-   "context": "",
-   "preview": "```text\n用户意图\n  → agent session\n  → draft v1...vN\n  → Slack 中"
-  },
-  {
-   "kind": "removed",
-   "block": "8544deb0",
-   "type": "para",
-   "context": "",
-   "preview": "最终 artifact 留下来了，但塑造它的过程分散在："
-  },
-  {
-   "kind": "removed",
-   "block": "a8cb325c",
-   "type": "list",
-   "context": "",
-   "preview": "- agent session；\n- Slack thread；\n- 会议或口头交流；\n- 临时文档副本；\n- 用户自己"
-  },
-  {
-   "kind": "removed",
-   "block": "6b2674a6",
-   "type": "para",
-   "context": "",
-   "preview": "> **The artifact survives. The decisions that made it disapp"
-  },
-  {
-   "kind": "removed",
-   "block": "5654975c",
-   "type": "para",
-   "context": "",
-   "preview": "语义 diff 仍然是必要的产品能力，但它属于 Read 层，是入场券，不是长期定价点。LLM 会持续压低这层能力的稀缺"
-  },
-  {
-   "kind": "removed",
-   "block": "5f330ca3",
+   "block": "8bd92eee",
    "type": "heading",
    "context": "",
-   "preview": "### 2.2 不只是“验证 agent 有没有说实话”"
+   "preview": "### 1.1 Working body"
   },
   {
    "kind": "removed",
-   "block": "ff7e5aa6",
-   "type": "list",
-   "context": "",
-   "preview": "- 独立审阅页已经砍掉；\n- CLI 的 `approve / comment / inbox` 已经砍掉；\n- 第一幕"
-  },
-  {
-   "kind": "removed",
-   "block": "780c3d2e",
-   "type": "para",
-   "context": "",
-   "preview": "因此，Draft / Review / Approve 可以继续作为知识工作中的通用协作语言，但不能被描述成 Proof"
-  },
-  {
-   "kind": "removed",
-   "block": "1adc9f3a",
-   "type": "para",
-   "context": "",
-   "preview": "当人和 agent 都能快速生产和修改知识工作时，团队需要一个共同、可验证的记录："
-  },
-  {
-   "kind": "removed",
-   "block": "61016ae6",
-   "type": "para",
-   "context": "",
-   "preview": "现有系统分别保留了不同的碎片，但没有一个系统把它们组成 artifact 的可靠历史："
-  },
-  {
-   "kind": "removed",
-   "block": "0a2fc1d4",
-   "type": "list",
-   "context": "",
-   "preview": "1. **Artifact identity**：同一份交付物具有独立于路径、文件名、会话和存储后端的稳定身份；\n2. "
-  },
-  {
-   "kind": "removed",
-   "block": "b37db811",
+   "block": "c6943039",
    "type": "heading",
    "context": "",
-   "preview": "### 4.1 核心设想"
+   "preview": "### 1.2 Local journal"
   },
   {
    "kind": "removed",
-   "block": "5b6bd4fc",
+   "block": "0f4aa813",
    "type": "para",
    "context": "",
-   "preview": "“隐藏水印”是一个有用的直觉，但准确名称应更接近："
+   "preview": "本机捕获的 artifact versions、claims 和 decision context。它帮助当前用户和 a"
   },
   {
    "kind": "removed",
-   "block": "17f94de1",
-   "type": "list",
+   "block": "e1b59a04",
+   "type": "para",
    "context": "",
-   "preview": "- document passport：强调 artifact 跨人、跨工具旅行时携带身份和盖章记录；\n- proof "
+   "preview": "Local journal 中尚未披露的事件可以被用户明确 `forget`，或者在 share 时被排除。Proofp"
   },
   {
    "kind": "removed",
-   "block": "0d9c9f8c",
+   "block": "0ee381d8",
    "type": "heading",
    "context": "",
-   "preview": "### 4.2 当前已经存在的基础"
+   "preview": "### 1.3 Disclosure stream"
   },
   {
    "kind": "removed",
-   "block": "af2a67b8",
-   "type": "code",
-   "context": "",
-   "preview": "```md\n[//]: # (ob:32f5d88f)\n## 一句话\n```"
-  },
-  {
-   "kind": "removed",
-   "block": "9c06dd83",
+   "block": "7941b692",
    "type": "para",
    "context": "",
-   "preview": "当前完整账本仍然位于 Git 的 `refs/proofpress/ledger`，每个事件是一个包含 `event.j"
+   "preview": "面向一个 disclosure boundary 的 append-only 投影链。它不是 local journal"
   },
   {
    "kind": "removed",
-   "block": "016e9c1a",
+   "block": "093056c2",
+   "type": "para",
+   "context": "",
+   "preview": "每次 publication 都向 stream 追加一个 disclosed version。已经披露的 stream"
+  },
+  {
+   "kind": "removed",
+   "block": "2b40e255",
    "type": "heading",
    "context": "",
-   "preview": "### 4.3 建议的 Markdown envelope"
+   "preview": "### 1.5 Distributed copy"
   },
   {
    "kind": "removed",
-   "block": "c49b3266",
+   "block": "d5166d0b",
    "type": "para",
    "context": "",
-   "preview": "一个 Proofpress Markdown artifact 可以由两部分组成："
+   "preview": "已经通过 Slack、邮件、Drive、USB 或其他方式离开当前设备的文件副本。一旦产生 distributed co"
   },
   {
    "kind": "removed",
-   "block": "30ff96ae",
+   "block": "6fa5c6ea",
    "type": "para",
    "context": "",
-   "preview": "概念性表示如下："
+   "preview": "发布前必须接受以下不变量；任何实现与它们冲突都应阻止 release。"
   },
   {
    "kind": "removed",
-   "block": "6892ce3f",
-   "type": "code",
-   "context": "",
-   "preview": "```md\n# Strategy\n\nVisible content...\n\n[//]: # (proofpress:v1"
-  },
-  {
-   "kind": "removed",
-   "block": "7741721f",
-   "type": "para",
-   "context": "",
-   "preview": "具体编码尚未设计，协议应至少包含："
-  },
-  {
-   "kind": "removed",
-   "block": "9f50ef10",
-   "type": "code",
-   "context": "",
-   "preview": "```text\nManifest\n  protocol_version\n  artifact_id\n  artifact"
-  },
-  {
-   "kind": "removed",
-   "block": "5fb4f557",
-   "type": "para",
-   "context": "",
-   "preview": "正文 hash 必须排除 Proofpress metadata，避免 capsule 更新造成循环 hash。even"
-  },
-  {
-   "kind": "removed",
-   "block": "5a4b29b8",
+   "block": "895cc3f7",
    "type": "heading",
    "context": "",
-   "preview": "### 4.4 Agent 如何使用"
+   "preview": "## 3. 状态模型"
   },
   {
    "kind": "removed",
-   "block": "500ff386",
-   "type": "list",
+   "block": "41723f22",
+   "type": "heading",
    "context": "",
-   "preview": "1. agent 读取文件，发现 declarative Proofpress marker；\n2. 调用本地 Proo"
+   "preview": "### 3.1 Local artifact 状态"
   },
   {
    "kind": "removed",
-   "block": "eadd5572",
-   "type": "para",
-   "context": "",
-   "preview": "Embedded metadata 必须是声明式数据，不应包含可执行的 agent instruction，避免把 po"
-  },
-  {
-   "kind": "removed",
-   "block": "d5781d50",
-   "type": "para",
-   "context": "",
-   "preview": "理想的顺序交接如下："
-  },
-  {
-   "kind": "removed",
-   "block": "7bee1c76",
-   "type": "list",
-   "context": "",
-   "preview": "1. 用户与 agent A 完成多个版本；\n2. 所有版本与 decision context 被写入 capsule"
-  },
-  {
-   "kind": "removed",
-   "block": "c1e20d9c",
-   "type": "para",
-   "context": "",
-   "preview": "这使 Git、本地数据库或 Cloud 从“唯一能保存历史的地方”转变为 ledger 的索引、镜像、同步和查询后端。a"
-  },
-  {
-   "kind": "removed",
-   "block": "e0b37783",
-   "type": "para",
-   "context": "",
-   "preview": "Portable 文件天然会被复制。两个人从同一个 head 分别修改后，会形成两个拥有相同 `artifact_id`"
-  },
-  {
-   "kind": "removed",
-   "block": "b2bf809b",
+   "block": "379d15e0",
    "type": "code",
    "context": "",
-   "preview": "```text\n                 → version B (Alice)\nversion A (head"
+   "preview": "```text\nUNTRACKED\n   │ proofpress track / first admitted sna"
   },
   {
    "kind": "removed",
-   "block": "aa219c8e",
+   "block": "8466813f",
    "type": "para",
    "context": "",
-   "preview": "两份文件重新相遇时，Proofpress 可以发现共同祖先并要求 agent 生成 merge/reconciliati"
+   "preview": "`PRIVATE_AHEAD_OF_DISCLOSURE` 不是错误。它表示文件正文或 local journal 已经"
   },
   {
    "kind": "removed",
-   "block": "7ac2957a",
-   "type": "para",
+   "block": "5635aa2d",
+   "type": "heading",
    "context": "",
-   "preview": "最重要的真实性原则是："
+   "preview": "### 3.2 Disclosure stream 状态"
   },
   {
    "kind": "removed",
-   "block": "4b4e0490",
-   "type": "para",
-   "context": "",
-   "preview": "它可以诚实地追加："
-  },
-  {
-   "kind": "removed",
-   "block": "35870761",
+   "block": "b804f33c",
    "type": "code",
    "context": "",
-   "preview": "```text\nevent: unrecorded_edit_detected\nwhat: 2 blocks modif"
+   "preview": "```text\nNONE\n  │ first share\n  ▼\nOPEN ── append disclosed ve"
   },
   {
    "kind": "removed",
-   "block": "11154fe6",
+   "block": "0db095da",
+   "type": "para",
+   "context": "",
+   "preview": "`CLOSED` 只表示不再向该 stream 发布未来版本，不会召回历史 capsule。若以后需要重新分享，应创建新"
+  },
+  {
+   "kind": "removed",
+   "block": "9bb04e31",
+   "type": "para",
+   "context": "",
+   "preview": "V0 可以暂不实现显式 `close`，因为 share 本来就是一次性动作；`close` 主要是未来 server "
+  },
+  {
+   "kind": "removed",
+   "block": "62d0216f",
+   "type": "heading",
+   "context": "",
+   "preview": "### 3.3 Share 不是状态开关"
+  },
+  {
+   "kind": "removed",
+   "block": "6b64f8fa",
+   "type": "para",
+   "context": "",
+   "preview": "错误心智："
+  },
+  {
+   "kind": "removed",
+   "block": "98329215",
+   "type": "code",
+   "context": "",
+   "preview": "```text\nsharing = on / off\n```"
+  },
+  {
+   "kind": "removed",
+   "block": "b9ceb922",
+   "type": "para",
+   "context": "",
+   "preview": "正确心智："
+  },
+  {
+   "kind": "removed",
+   "block": "897e108f",
+   "type": "code",
+   "context": "",
+   "preview": "```text\nlocal versions:      v1 — v2 — v3 — v4 — v5\nshared p"
+  },
+  {
+   "kind": "removed",
+   "block": "8279d2f3",
+   "type": "para",
+   "context": "",
+   "preview": "v3、v4 可以是 private intermediates。s2 应表达从上一个 disclosed body 到当"
+  },
+  {
+   "kind": "removed",
+   "block": "43424a1f",
+   "type": "heading",
+   "context": "",
+   "preview": "## 4. “Share 之后还能不能关掉”的准确答案"
+  },
+  {
+   "kind": "removed",
+   "block": "3689fc66",
+   "type": "para",
+   "context": "",
+   "preview": "“关掉”可能指六件不同的事，产品不得用一个 `unshare` 含混处理。"
+  },
+  {
+   "kind": "removed",
+   "block": "5590ff79",
    "type": "table",
    "context": "",
-   "preview": "| 字段 | 可能的信任等级 |\n|---|---|\n| what changed | computed / verif"
+   "preview": "| 用户意图 | 是否可做 | 准确行为 |\n|---|---|---|\n| 不再自动分享未来修改 | 可以 | V0 "
   },
   {
    "kind": "removed",
-   "block": "a2d8b6c4",
+   "block": "6653aeb4",
+   "type": "para",
+   "context": "",
+   "preview": "因此 UI 和文案不使用没有限定词的 `unshare`。应使用具体动词："
+  },
+  {
+   "kind": "removed",
+   "block": "ed80165a",
    "type": "list",
    "context": "",
-   "preview": "1. **Agent-mediated edit**：人把修改要求交给 agent，agent 在 hot contex"
+   "preview": "- `stop future publication`\n- `close disclosure stream`\n- `r"
   },
   {
    "kind": "removed",
-   "block": "8a94ed34",
+   "block": "353fe881",
    "type": "heading",
    "context": "",
-   "preview": "### 6.1 当前已经实现"
+   "preview": "## 5. Publication 流程"
   },
   {
    "kind": "removed",
-   "block": "c2ef88c7",
+   "block": "e7338b29",
    "type": "heading",
    "context": "",
-   "preview": "### 6.2 当前人工编辑的真实行为"
+   "preview": "### 5.1 推荐的 V0 流程"
   },
   {
    "kind": "removed",
-   "block": "45577b7d",
-   "type": "para",
-   "context": "",
-   "preview": "因此，当前版本并没有可靠地自动记录无 Git 的 IDE 人工修改。"
-  },
-  {
-   "kind": "removed",
-   "block": "76941f07",
-   "type": "heading",
-   "context": "",
-   "preview": "### 6.3 实现 portable protocol 所需的核心变化"
-  },
-  {
-   "kind": "removed",
-   "block": "16fea066",
-   "type": "list",
-   "context": "",
-   "preview": "1. 让 `artifact_id` 真正独立于文件路径；\n2. 将 ledger schema 和 Git stora"
-  },
-  {
-   "kind": "removed",
-   "block": "8d5eddd5",
-   "type": "para",
-   "context": "",
-   "preview": "当前战略已经识别到矛盾：第一幕开发者有 Git 轨道，但不一定有足够疼痛；第二幕知识团队有真实疼痛，却没有自然挂载轨道。"
-  },
-  {
-   "kind": "removed",
-   "block": "c647c533",
-   "type": "para",
-   "context": "",
-   "preview": "Portable artifact protocol 可能直接缓解这个矛盾："
-  },
-  {
-   "kind": "removed",
-   "block": "1566178b",
-   "type": "heading",
-   "context": "",
-   "preview": "### 7.2 与模型和 harness 的关系更健康"
-  },
-  {
-   "kind": "removed",
-   "block": "4e12c1f3",
-   "type": "para",
-   "context": "",
-   "preview": "协议对生产者中立。Claude、Codex、其他 harness 或人类都可以写入同一种 artifact histor"
-  },
-  {
-   "kind": "removed",
-   "block": "19b69f21",
-   "type": "list",
-   "context": "",
-   "preview": "- artifact/block/event 的开放 canonical model；\n- 可靠的 capture 与 "
-  },
-  {
-   "kind": "removed",
-   "block": "8082e20e",
-   "type": "heading",
-   "context": "",
-   "preview": "### 7.3 Open spec 的意义更大"
-  },
-  {
-   "kind": "removed",
-   "block": "15aae3d8",
-   "type": "para",
-   "context": "",
-   "preview": "如果 history 要跟着文件进入其他公司、工具和模型，封闭格式会立即破坏信任与可移植性。Portable proto"
-  },
-  {
-   "kind": "removed",
-   "block": "f0472f49",
-   "type": "para",
-   "context": "",
-   "preview": "Cloud 的商业价值也因此更清晰：Cloud 不垄断历史格式，而负责跨副本同步、身份签名、权限、搜索、策略门、团队视图"
-  },
-  {
-   "kind": "removed",
-   "block": "f507c183",
-   "type": "heading",
-   "context": "",
-   "preview": "### 7.4 它改变了产品类别的表达"
-  },
-  {
-   "kind": "removed",
-   "block": "f652f2fb",
-   "type": "para",
-   "context": "",
-   "preview": "不建议对外首先说“embedded metadata”或“portable protocol”。那是实现细节，容易被理解"
-  },
-  {
-   "kind": "removed",
-   "block": "14d3d3da",
-   "type": "para",
-   "context": "",
-   "preview": "对外应继续从结果出发："
-  },
-  {
-   "kind": "removed",
-   "block": "c785cddc",
-   "type": "para",
-   "context": "",
-   "preview": "> The artifact survives. The decisions that made it disappea"
-  },
-  {
-   "kind": "removed",
-   "block": "a18d5648",
-   "type": "para",
-   "context": "",
-   "preview": "> Proofpress makes the history of the work as durable as the"
-  },
-  {
-   "kind": "removed",
-   "block": "f42ab63e",
-   "type": "para",
-   "context": "",
-   "preview": "> A shared, verifiable history of who changed what, when, an"
-  },
-  {
-   "kind": "removed",
-   "block": "26c1cb2a",
-   "type": "para",
-   "context": "",
-   "preview": "Portable protocol 是解释“它如何跨 Slack、session 和 agent 做到”的第二层叙事。"
-  },
-  {
-   "kind": "removed",
-   "block": "5b0fc973",
-   "type": "heading",
-   "context": "",
-   "preview": "## 8. 主要风险"
-  },
-  {
-   "kind": "removed",
-   "block": "d839e294",
-   "type": "heading",
-   "context": "",
-   "preview": "### 8.1 Capture gap：最重要的风险"
-  },
-  {
-   "kind": "removed",
-   "block": "ec74ee15",
-   "type": "para",
-   "context": "",
-   "preview": "产品必须让“附上一个 Slack URL / 会议结论 / feedback source”足够轻，并让 agent 在"
-  },
-  {
-   "kind": "removed",
-   "block": "243ef620",
-   "type": "heading",
-   "context": "",
-   "preview": "### 8.2 “Verifiable”容易被过度承诺"
-  },
-  {
-   "kind": "removed",
-   "block": "7cb63c45",
-   "type": "para",
-   "context": "",
-   "preview": "对外不能模糊成“所有历史都已验证”。更准确的语言是："
-  },
-  {
-   "kind": "removed",
-   "block": "95b6b1ca",
-   "type": "list",
-   "context": "",
-   "preview": "- computed change record；\n- deterministically verified chang"
-  },
-  {
-   "kind": "removed",
-   "block": "543cce8f",
-   "type": "heading",
-   "context": "",
-   "preview": "### 8.3 文件复制带来分叉，而不是天然协作"
-  },
-  {
-   "kind": "removed",
-   "block": "28837d90",
-   "type": "para",
-   "context": "",
-   "preview": "Portable artifact 强化异步 handoff，但多人编辑副本会产生 branches。没有 server"
-  },
-  {
-   "kind": "removed",
-   "block": "07df6563",
-   "type": "para",
-   "context": "",
-   "preview": "这不是缺陷，但需要清晰定义：protocol 负责 durable history 与 reconciliation；s"
-  },
-  {
-   "kind": "removed",
-   "block": "51358c68",
-   "type": "heading",
-   "context": "",
-   "preview": "### 8.4 Metadata 可能被剥离"
-  },
-  {
-   "kind": "removed",
-   "block": "b2378486",
-   "type": "list",
-   "context": "",
-   "preview": "- 从渲染页面复制粘贴正文；\n- 转成 PDF 或其他格式；\n- formatter 清理未知 link definit"
-  },
-  {
-   "kind": "removed",
-   "block": "04266fc0",
-   "type": "para",
-   "context": "",
-   "preview": "MVP 必须测试真实传输路径，并支持显式 `proofpress export/import/repair`。未来不同格"
-  },
-  {
-   "kind": "removed",
-   "block": "8d12fa28",
-   "type": "heading",
-   "context": "",
-   "preview": "### 8.5 隐私、保留边界与访问控制"
-  },
-  {
-   "kind": "removed",
-   "block": "b6559753",
-   "type": "para",
-   "context": "",
-   "preview": "Append-only 不应被解释为“任何被 agent 或人写过的内容都必须永久记录”。那会把 Proofpress "
-  },
-  {
-   "kind": "removed",
-   "block": "3f589a73",
-   "type": "para",
-   "context": "",
-   "preview": "必须先定义 **ledger admission boundary**：只有被提交进某个 ledger scope 的 "
-  },
-  {
-   "kind": "removed",
-   "block": "fb2f91cf",
-   "type": "para",
-   "context": "",
-   "preview": "建议区分三个逻辑范围，但 v0 不必把它们做成完整权限系统："
-  },
-  {
-   "kind": "removed",
-   "block": "cb279134",
+   "block": "4a1b6283",
    "type": "code",
    "context": "",
-   "preview": "```text\nephemeral scratch   不入账，随 session 消失\nprivate lineage"
+   "preview": "```text\n1. Working body + local journal\n2. proofpress share/"
   },
   {
    "kind": "removed",
-   "block": "1e291271",
+   "block": "dc72c825",
    "type": "para",
    "context": "",
-   "preview": "Portable artifact v0 应采用最简单、最诚实的规则：**one artifact, one discl"
+   "preview": "V0 默认生成新文件，不原地修改 working artifact。这样："
   },
   {
    "kind": "removed",
-   "block": "a36aadc6",
+   "block": "fd8f7f5f",
    "type": "list",
    "context": "",
-   "preview": "- 完全不记录；\n- 留在 private lineage；\n- 在 shared event 中只保留不可逆 hash"
+   "preview": "- private working copy 与 disclosed copy 不会混淆；\n- 用户可以在发送前直接丢弃"
   },
   {
    "kind": "removed",
-   "block": "b6c997b6",
+   "block": "5e5659c4",
    "type": "para",
    "context": "",
-   "preview": "对于已经进入 shared ledger、后来需要撤回的内容，应区分事件存在与敏感 payload：追加 `redact"
+   "preview": "原地 `--in-place` 可以以后增加，但不应是 V0 默认。"
   },
   {
    "kind": "removed",
-   "block": "1728b582",
-   "type": "para",
-   "context": "",
-   "preview": "细粒度用户/字段 ACL、密钥分发、跨组织策略和审计保留期属于 server/cloud backend。Protoco"
-  },
-  {
-   "kind": "removed",
-   "block": "d2dda629",
-   "type": "para",
-   "context": "",
-   "preview": "Share 的一次性 publication 语义、disclosure stream、停止未来发布、redaction"
-  },
-  {
-   "kind": "removed",
-   "block": "e6f5a66b",
+   "block": "58448c19",
    "type": "heading",
    "context": "",
-   "preview": "### 8.6 文件体积与 agent context"
+   "preview": "### 5.2 Share preview 必须显示"
   },
   {
    "kind": "removed",
-   "block": "be4d5c0e",
+   "block": "ccefbbf8",
    "type": "para",
    "context": "",
-   "preview": "长历史会无限增长。需要 delta、checkpoint、compression 和 pruning/export po"
+   "preview": "在 materialize capsule 前，preview 至少显示："
   },
   {
    "kind": "removed",
-   "block": "f263ee2b",
+   "block": "33358417",
+   "type": "list",
+   "context": "",
+   "preview": "- artifact 与当前 body hash；\n- disclosure stream / audience lab"
+  },
+  {
+   "kind": "removed",
+   "block": "65115971",
+   "type": "para",
+   "context": "",
+   "preview": "Agent 可以替用户执行 share，但必须把 preview 摘要报告给用户；不能因用户说“帮我发给同事”就静默嵌入"
+  },
+  {
+   "kind": "removed",
+   "block": "559e1ed8",
    "type": "heading",
    "context": "",
-   "preview": "### 8.7 Protocol-first 的产品风险"
+   "preview": "### 5.3 Share 的原子性"
   },
   {
    "kind": "removed",
-   "block": "42018965",
+   "block": "7f588142",
+   "type": "para",
+   "context": "",
+   "preview": "实现应先在同目录生成临时文件，完成 capsule 写入与自校验后，再原子 rename 到目标路径。Capsule 自"
+  },
+  {
+   "kind": "removed",
+   "block": "881c97ed",
+   "type": "para",
+   "context": "",
+   "preview": "若生成或校验失败："
+  },
+  {
+   "kind": "removed",
+   "block": "3a3c554b",
+   "type": "list",
+   "context": "",
+   "preview": "- 不创建 disclosure event；\n- 不修改旧输出；\n- 不留下看似有效的半 capsule 文件。"
+  },
+  {
+   "kind": "removed",
+   "block": "a6d5643e",
+   "type": "para",
+   "context": "",
+   "preview": "若进程恰好在原子 rename 后、本地 ledger 登记前崩溃，则磁盘上可能出现一个有效但尚未登记的 capsule"
+  },
+  {
+   "kind": "removed",
+   "block": "5f27579c",
    "type": "heading",
    "context": "",
-   "preview": "### 9.1 战略选择"
+   "preview": "## 6. Disclosure policy，不做全局 privacy mode"
   },
   {
    "kind": "removed",
-   "block": "70554ada",
+   "block": "50b276fe",
    "type": "para",
    "context": "",
-   "preview": "建议推进，但按以下顺序："
+   "preview": "V0 使用 artifact-level default policy，加 event/payload-level ov"
   },
   {
    "kind": "removed",
-   "block": "7a9f215a",
+   "block": "18ec8d37",
+   "type": "code",
+   "context": "",
+   "preview": "```yaml\ndisclosure_policy:\n  include:\n    - semantic_changes"
+  },
+  {
+   "kind": "removed",
+   "block": "ff6082b8",
    "type": "para",
    "context": "",
-   "preview": "> **先验证 portable history 是否改变一次真实 handoff，再决定是否把 embedded ca"
+   "preview": "原则："
   },
   {
    "kind": "removed",
-   "block": "3ce1084d",
-   "type": "para",
-   "context": "",
-   "preview": "短期不需要立刻废弃 Git ref。可以先把 capsule 作为完整、自包含的 transport/export re"
-  },
-  {
-   "kind": "removed",
-   "block": "6077810a",
+   "block": "f0118458",
    "type": "list",
    "context": "",
-   "preview": "- Git ref 或 local store 仍可作为本机索引；\n- `proofpress pack` 把所需历史写"
+   "preview": "- policy 决定 share 时如何投影，不决定谁可以读取已经分发的明文 capsule；\n- raw sessi"
   },
   {
    "kind": "removed",
-   "block": "91291ba9",
+   "block": "29a5af70",
    "type": "para",
    "context": "",
-   "preview": "如果真实使用证明文件本身是最可靠的传播单元，再考虑让 capsule 成为单 artifact 的 canonical "
+   "preview": "建议的 payload label 只有两个，避免过度设计："
   },
   {
    "kind": "removed",
-   "block": "dd7c6e3c",
+   "block": "c7e3edf9",
+   "type": "code",
+   "context": "",
+   "preview": "```text\nlocal_only\ndisclosable\n```"
+  },
+  {
+   "kind": "removed",
+   "block": "7281cf7c",
+   "type": "para",
+   "context": "",
+   "preview": "不在 V0 中加入 `team / department / executives / external / custo"
+  },
+  {
+   "kind": "removed",
+   "block": "cebadf0c",
    "type": "heading",
    "context": "",
-   "preview": "### 9.2 Portable Proof Capsule v0"
+   "preview": "### 7.1 Local version event"
   },
   {
    "kind": "removed",
-   "block": "e3201347",
-   "type": "para",
+   "block": "5a01730a",
+   "type": "code",
    "context": "",
-   "preview": "MVP 只做 Markdown、顺序 handoff 和最少命令："
+   "preview": "```json\n{\n  \"event\": \"version_created\",\n  \"event_id\": \"...\","
   },
   {
    "kind": "removed",
-   "block": "0f4d03d2",
-   "type": "list",
-   "context": "",
-   "preview": "1. 稳定、路径无关的 `artifact_id`；\n2. 一个隐藏 manifest；\n3. 最近若干版本的完整 bl"
-  },
-  {
-   "kind": "removed",
-   "block": "e13efe2e",
-   "type": "para",
-   "context": "",
-   "preview": "Fork 只需在 v0 中被检测并明确报出，不必立即实现自动 merge。"
-  },
-  {
-   "kind": "removed",
-   "block": "1779acdc",
+   "block": "43ea5112",
    "type": "heading",
    "context": "",
-   "preview": "### 9.3 最关键的 dogfood 实验"
+   "preview": "### 7.2 Disclosure event"
   },
   {
    "kind": "removed",
-   "block": "ddd2687f",
+   "block": "a57e4f6c",
+   "type": "code",
+   "context": "",
+   "preview": "```json\n{\n  \"event\": \"disclosure_created\",\n  \"disclosure_eve"
+  },
+  {
+   "kind": "removed",
+   "block": "4ecd4c48",
+   "type": "para",
+   "context": "",
+   "preview": "`source_local_version` 可以只存在于本地 disclosure record，不进入 capsul"
+  },
+  {
+   "kind": "removed",
+   "block": "38ebb985",
+   "type": "code",
+   "context": "",
+   "preview": "```json\n{\n  \"proofpress_capsule\": 1,\n  \"artifact_id\": \"...\","
+  },
+  {
+   "kind": "removed",
+   "block": "3bacf317",
    "type": "list",
    "context": "",
-   "preview": "1. 与 agent A 完成 5 轮修改，包含至少两个被否方案；\n2. 生成一个普通最终 Markdown 和一个携带"
+   "preview": "- 未披露 local event IDs；\n- “省略了 N 个私密版本”等侧信道；\n- 本地绝对路径；\n- 原始 s"
   },
   {
    "kind": "removed",
-   "block": "8b8863e0",
+   "block": "550d9860",
    "type": "heading",
    "context": "",
-   "preview": "### 9.4 Kill criteria"
+   "preview": "### 8.1 Correction"
   },
   {
    "kind": "removed",
-   "block": "62dfe14f",
-   "type": "list",
+   "block": "ff35e569",
+   "type": "code",
    "context": "",
-   "preview": "- 用户在 handoff 时不愿携带原始 artifact 文件，只愿复制最终文本或发渲染链接；\n- capsule "
+   "preview": "```text\ndisclosed event A\n  → correction event B(target=A, c"
   },
   {
    "kind": "removed",
-   "block": "73ac9e84",
+   "block": "4ffa73a2",
    "type": "para",
    "context": "",
-   "preview": "未建 capsule,先用 `proofpress export` 生成 sidecar JSON 验证\"携带历史是否改"
+   "preview": "A 仍存在；默认视图显示 B 后的有效解释，并允许展开原始值。"
   },
   {
    "kind": "removed",
-   "block": "ca3d6e08",
-   "type": "para",
-   "context": "",
-   "preview": "**结果:**"
-  },
-  {
-   "kind": "removed",
-   "block": "e6eb3b2b",
-   "type": "list",
-   "context": "",
-   "preview": "1. **历史确实进入推理**:带账本臂在全部三份交付物的设计说明里显式引用了 why/rejected(\"账本 v3 "
-  },
-  {
-   "kind": "removed",
-   "block": "afa82f06",
-   "type": "para",
-   "context": "",
-   "preview": "**成色声明**:每格 n=1、同模型、评审非盲、第二轮目录含第一轮产物(双臂对称)。是方向性信号,不是统计结论。"
-  },
-  {
-   "kind": "removed",
-   "block": "5aa97967",
-   "type": "para",
-   "context": "",
-   "preview": "**判定**:假设 A 获方向性支持,未达\"改变真实 handoff\"的最终标准——那需要 §9.3 的真人 Slack"
-  },
-  {
-   "kind": "removed",
-   "block": "9a3c3b79",
+   "block": "945807ca",
    "type": "heading",
    "context": "",
-   "preview": "## 10. 对 Launch 的影响"
+   "preview": "### 8.2 Supersession"
   },
   {
    "kind": "removed",
-   "block": "3a13ee13",
+   "block": "cdb89790",
+   "type": "code",
+   "context": "",
+   "preview": "```text\nversion A: old policy\n  → version B: new policy, sup"
+  },
+  {
+   "kind": "removed",
+   "block": "2402dad0",
    "type": "para",
    "context": "",
-   "preview": "可以分两步："
+   "preview": "这不是删除 A，而是说明 A 不再是当前有效版本。"
   },
   {
    "kind": "removed",
-   "block": "b92d64bd",
+   "block": "2c08d24c",
+   "type": "para",
+   "context": "",
+   "preview": "用于未来 materialization 不应再携带某段 payload："
+  },
+  {
+   "kind": "removed",
+   "block": "eb40181d",
+   "type": "code",
+   "context": "",
+   "preview": "```text\nevent A contains sensitive why\n  → redaction B(targe"
+  },
+  {
+   "kind": "removed",
+   "block": "3831dea6",
+   "type": "para",
+   "context": "",
+   "preview": "未来 capsule 可以保留："
+  },
+  {
+   "kind": "removed",
+   "block": "fd4c7a0c",
    "type": "list",
    "context": "",
-   "preview": "1. 当前 CLI / GitHub release 诚实强调 engine 能力：semantic history、p"
+   "preview": "- A 的 envelope 或必要 commitment；\n- payload commitment（仅当它不会泄漏敏"
   },
   {
    "kind": "removed",
-   "block": "d435f1fe",
+   "block": "92000fcd",
    "type": "para",
    "context": "",
-   "preview": "产品说明随后才出现："
+   "preview": "未来 capsule移除："
   },
   {
    "kind": "removed",
-   "block": "0327f20a",
-   "type": "para",
-   "context": "",
-   "preview": "> Every Proofpress artifact carries a shared, verifiable his"
-  },
-  {
-   "kind": "removed",
-   "block": "e03ef32e",
-   "type": "para",
-   "context": "",
-   "preview": "它与当前战略的核心判断高度一致："
-  },
-  {
-   "kind": "removed",
-   "block": "d5fbfb01",
+   "block": "21deabb8",
    "type": "list",
    "context": "",
-   "preview": "- agent 让产出速度超过人类审阅和记忆带宽；\n- trust 需要机器可计算的事实，而不只是 agent 自述；\n"
+   "preview": "- 被 redacted 的明文；\n- 能从其他字段直接恢复该明文的重复 payload。"
   },
   {
    "kind": "removed",
-   "block": "228e34a6",
+   "block": "f5b4a148",
    "type": "para",
    "context": "",
-   "preview": "它也带来一个更准确的产品层级："
+   "preview": "普通 content hash 是完整性工具，不是保密工具。对姓名、短结论、API key 等低熵 payload，明文"
   },
   {
    "kind": "removed",
-   "block": "86e35bd2",
+   "block": "ad17d431",
+   "type": "heading",
+   "context": "",
+   "preview": "### 8.4 连事件存在都不能披露"
+  },
+  {
+   "kind": "removed",
+   "block": "717685d0",
    "type": "para",
    "context": "",
-   "preview": "最值得守住的一句话仍然是："
+   "preview": "若 disclosure stream 中某事件的存在本身就敏感，不能在同一 append-only stream 中“"
+  },
+  {
+   "kind": "removed",
+   "block": "49227825",
+   "type": "list",
+   "context": "",
+   "preview": "1. 关闭旧 stream；\n2. 从一个安全 checkpoint 创建新的 sanitized disclosure"
+  },
+  {
+   "kind": "removed",
+   "block": "bd93b6b2",
+   "type": "para",
+   "context": "",
+   "preview": "这是一条新披露谱系，不是对旧历史的悄悄改写。"
+  },
+  {
+   "kind": "removed",
+   "block": "f18e7e3e",
+   "type": "heading",
+   "context": "",
+   "preview": "### 9.1 Share 之前"
+  },
+  {
+   "kind": "removed",
+   "block": "235c8a0f",
+   "type": "table",
+   "context": "",
+   "preview": "| Edge case | V0 行为 |\n|---|---|\n| 用户不想记录当前工作 | 文件保持 untracke"
+  },
+  {
+   "kind": "removed",
+   "block": "0a55cf83",
+   "type": "heading",
+   "context": "",
+   "preview": "### 9.2 Share 生成过程中"
+  },
+  {
+   "kind": "removed",
+   "block": "6d850850",
+   "type": "table",
+   "context": "",
+   "preview": "| Edge case | V0 行为 |\n|---|---|\n| 写文件中途崩溃 | 不产生最终输出和 disclos"
+  },
+  {
+   "kind": "removed",
+   "block": "f29c5e3e",
+   "type": "heading",
+   "context": "",
+   "preview": "### 9.3 Share 之后"
+  },
+  {
+   "kind": "removed",
+   "block": "bebef450",
+   "type": "table",
+   "context": "",
+   "preview": "| Edge case | V0 行为 |\n|---|---|\n| 用户继续本地编辑 | 新变化保持 private；旧"
+  },
+  {
+   "kind": "removed",
+   "block": "0eb46804",
+   "type": "heading",
+   "context": "",
+   "preview": "### 9.4 多 audience"
+  },
+  {
+   "kind": "removed",
+   "block": "a508445d",
+   "type": "table",
+   "context": "",
+   "preview": "| Edge case | V0 行为 |\n|---|---|\n| 同一文档给内部团队和客户 | 两个 disclosu"
+  },
+  {
+   "kind": "removed",
+   "block": "1cba302e",
+   "type": "heading",
+   "context": "",
+   "preview": "### 9.5 Branch 与 merge"
+  },
+  {
+   "kind": "removed",
+   "block": "f1055cc9",
+   "type": "table",
+   "context": "",
+   "preview": "| Edge case | V0 行为 |\n|---|---|\n| 两个收件人从同一 capsule 修改 | 产生两个"
+  },
+  {
+   "kind": "removed",
+   "block": "cf502818",
+   "type": "heading",
+   "context": "",
+   "preview": "### 9.6 Redaction 与删除"
+  },
+  {
+   "kind": "removed",
+   "block": "8262217a",
+   "type": "table",
+   "context": "",
+   "preview": "| Edge case | V0 行为 |\n|---|---|\n| 只删 why | payload-level red"
+  },
+  {
+   "kind": "removed",
+   "block": "74a97d85",
+   "type": "heading",
+   "context": "",
+   "preview": "### 9.7 Server/Cloud 未来能力"
+  },
+  {
+   "kind": "removed",
+   "block": "6f7c6a6a",
+   "type": "table",
+   "context": "",
+   "preview": "| Edge case | Server 能做什么 | 仍不能做什么 |\n|---|---|---|\n| Revoke "
+  },
+  {
+   "kind": "removed",
+   "block": "c77554eb",
+   "type": "para",
+   "context": "",
+   "preview": "除 version actors 外，share 本身也必须有 actor："
+  },
+  {
+   "kind": "removed",
+   "block": "af27fc48",
+   "type": "code",
+   "context": "",
+   "preview": "```text\nrequested_by    谁要求生成或修改内容\nproduced_by     谁产生正文\nedi"
+  },
+  {
+   "kind": "removed",
+   "block": "5dfa0cd3",
+   "type": "para",
+   "context": "",
+   "preview": "`disclosed_by` 与 `sent_by` 不应合并：Proofpress 可以确定谁生成 capsule，但"
+  },
+  {
+   "kind": "removed",
+   "block": "779dd2a4",
+   "type": "para",
+   "context": "",
+   "preview": "不能因为当前用户登录名是 Richard，就把所有 `produced_by` 自动记成 Richard。"
+  },
+  {
+   "kind": "removed",
+   "block": "fc0ea1a9",
+   "type": "heading",
+   "context": "",
+   "preview": "## 11. 建议的 V0 命令语义"
+  },
+  {
+   "kind": "removed",
+   "block": "4eab4d03",
+   "type": "para",
+   "context": "",
+   "preview": "命令名尚可调整，但行为必须保持："
+  },
+  {
+   "kind": "removed",
+   "block": "f6b19413",
+   "type": "code",
+   "context": "",
+   "preview": "```text\nproofpress track FILE\n  开始允许 snapshots；不等于分享。\n\nproof"
+  },
+  {
+   "kind": "removed",
+   "block": "c6321609",
+   "type": "para",
+   "context": "",
+   "preview": "V0 不提供名为 `unshare` 的命令，因为它暗示无法兑现的 recall。"
+  },
+  {
+   "kind": "removed",
+   "block": "2e1be2c2",
+   "type": "heading",
+   "context": "",
+   "preview": "## 12. UI 文案纪律"
+  },
+  {
+   "kind": "removed",
+   "block": "47964e87",
+   "type": "para",
+   "context": "",
+   "preview": "允许使用："
+  },
+  {
+   "kind": "removed",
+   "block": "9d47c433",
+   "type": "list",
+   "context": "",
+   "preview": "- “Create a shareable copy”\n- “Publish this version’s histor"
+  },
+  {
+   "kind": "removed",
+   "block": "2c179dee",
+   "type": "para",
+   "context": "",
+   "preview": "禁止使用："
+  },
+  {
+   "kind": "removed",
+   "block": "7a06bcca",
+   "type": "list",
+   "context": "",
+   "preview": "- “Turn sharing on”\n- “Unshare everywhere”\n- “Delete from al"
+  },
+  {
+   "kind": "removed",
+   "block": "a4c4201c",
+   "type": "heading",
+   "context": "",
+   "preview": "## 14. Release acceptance tests"
+  },
+  {
+   "kind": "removed",
+   "block": "7a9757ba",
+   "type": "list",
+   "context": "",
+   "preview": "1. Snapshot 后旧 shared copy 的字节完全不变；\n2. Share 同一输入两次产生同一 proj"
+  },
+  {
+   "kind": "removed",
+   "block": "5b2a892f",
+   "type": "para",
+   "context": "",
+   "preview": "> Proofpress can create a self-contained copy of an artifact"
+  },
+  {
+   "kind": "removed",
+   "block": "86713e3e",
+   "type": "code",
+   "context": "",
+   "preview": "```text\nWork privately.\nPublish a proof deliberately.\nCorrec"
   }
  ],
  "claims": [
   {
-   "block": "8b5401f3",
+   "block": "be94d633",
    "kind": "modified",
-   "note": "revised Proofpress：Portable Artifact Strategy to match the approved portable-artifact model"
+   "note": "revised Privacy Boundaries for Portable Artifact to match the approved portable-artifact model"
   },
   {
-   "block": "23de2854",
+   "block": "9db57e7e",
    "kind": "modified",
-   "note": "revised Proofpress：Portable Artifact Strategy to match the approved portable-artifact model"
+   "note": "revised Privacy Boundaries for Portable Artifact to match the approved portable-artifact model"
   },
   {
-   "block": "22c7a680",
+   "block": "552f8a90",
+   "kind": "added",
+   "note": "added 结论先行: Proofpress 的隐私模型不围绕 “share” 建立。用户继续通过 Slack、邮件、Drive 或其他工具发送"
+  },
+  {
+   "block": "7407f209",
+   "kind": "added",
+   "note": "added 结论先行: V0 只需要五条规则："
+  },
+  {
+   "block": "ee94d49a",
+   "kind": "added",
+   "note": "added 结论先行: 1. **Declare portable once**：portable 是 artifact 的 sticky po"
+  },
+  {
+   "block": "c9d68c4f",
    "kind": "modified",
    "note": "revised 结论先行 to match the approved portable-artifact model"
   },
   {
-   "block": "6c482d6b",
+   "block": "6a6c293a",
    "kind": "modified",
-   "note": "revised 结论先行 to match the approved portable-artifact model"
+   "note": "revised 1. 正确的心智模型 to match the approved portable-artifact model"
   },
   {
-   "block": "83f1b648",
+   "block": "5051a788",
+   "kind": "added",
+   "note": "added 1. 正确的心智模型: 旧模型过度围绕 publication 构建："
+  },
+  {
+   "block": "d411f78c",
+   "kind": "added",
+   "note": "added 1. 正确的心智模型: ```text local journal → share preview → disclosure projectio"
+  },
+  {
+   "block": "d3c3fb06",
+   "kind": "added",
+   "note": "added 1. 正确的心智模型: V0 采用 artifact policy："
+  },
+  {
+   "block": "76e10073",
+   "kind": "added",
+   "note": "added 1. 正确的心智模型: ```text                   make local PORTABLE  ─────────────"
+  },
+  {
+   "block": "2f0cb618",
+   "kind": "added",
+   "note": "added 1. 正确的心智模型: 这些状态回答“历史在哪里”，而不是“谁现在有权限”："
+  },
+  {
+   "block": "61f99e53",
+   "kind": "added",
+   "note": "added 1. 正确的心智模型: | Policy | Ledger 行为 | 文件行为 | |---|---|---| | `ignored` | 不捕"
+  },
+  {
+   "block": "595556d3",
+   "kind": "added",
+   "note": "added 1. 正确的心智模型: 安装 Proofpress 不应自动把所有 Markdown 设为 portable。用户或 agent 第一次明确声明"
+  },
+  {
+   "block": "ae4bcddd",
+   "kind": "added",
+   "note": "added 2. Ledger admission boundary: ## 2. Ledger admission boundary"
+  },
+  {
+   "block": "092c1fa1",
    "kind": "modified",
-   "note": "revised 结论先行 to match the approved portable-artifact model"
+   "note": "revised 2. Ledger admission boundary to match the approved portable-artifact model"
   },
   {
-   "block": "61c20f83",
+   "block": "ab8d506b",
+   "kind": "added",
+   "note": "added 2.1 默认进入 ledger: ### 2.1 默认进入 ledger"
+  },
+  {
+   "block": "f84efabd",
+   "kind": "added",
+   "note": "added 2.1 默认进入 ledger: - 用户确认保留或任务完成所形成的 artifact version； - 从 parent 到新 version 的 "
+  },
+  {
+   "block": "78e5757c",
+   "kind": "added",
+   "note": "added 2.2 默认不进入 ledger: ### 2.2 默认不进入 ledger"
+  },
+  {
+   "block": "0766d40e",
+   "kind": "added",
+   "note": "added 2.2 默认不进入 ledger: - raw prompts 与完整 session transcript； - chain-of-thought、私密推"
+  },
+  {
+   "block": "3771c1c0",
+   "kind": "added",
+   "note": "added 2.3 Consequential rejection 判据: ### 2.3 Consequential rejection 判据"
+  },
+  {
+   "block": "1c3e3dcd",
+   "kind": "added",
+   "note": "added 2.3 Consequential rejection 判据: 只有同时满足下列条件的否决才应记录："
+  },
+  {
+   "block": "31da1e3a",
+   "kind": "added",
+   "note": "added 2.3 Consequential rejection 判据: 1. 这个方向被认真考虑过； 2. 它因一个可以表达的理由被放弃； 3. 后继者重提它会浪费工作或破坏已达成共识。"
+  },
+  {
+   "block": "af2b57ac",
+   "kind": "added",
+   "note": "added 2.3 Consequential rejection 判据: 记录的是一句精炼的 rejected rationale，不是讨论逐字稿。"
+  },
+  {
+   "block": "886e450e",
+   "kind": "added",
+   "note": "added 2.3 Consequential rejection 判据: > **Record the decision, not the conversation.**"
+  },
+  {
+   "block": "ee2856b9",
    "kind": "modified",
-   "note": "revised 结论先行 to match the approved portable-artifact model"
+   "note": "revised 3. 核心不变量 to match the approved portable-artifact model"
   },
   {
-   "block": "c200bb29",
-   "kind": "added",
-   "note": "added 结论先行: 最直观的产品解释是："
-  },
-  {
-   "block": "761c89ec",
-   "kind": "added",
-   "note": "added 结论先行: > **Every document has a final state. Proofpress gives it a "
-  },
-  {
-   "block": "503ff810",
-   "kind": "added",
-   "note": "added 结论先行: 在 wiki 语境里，可以把它类比为 **a verifiable `log.md` for every artifac"
-  },
-  {
-   "block": "55ac1e42",
-   "kind": "added",
-   "note": "added 产品行为，一屏说清: ## 产品行为，一屏说清"
-  },
-  {
-   "block": "f81aad90",
-   "kind": "added",
-   "note": "added 产品行为，一屏说清: ```text Declare portable once. Record accepted versions and "
-  },
-  {
-   "block": "d7f38edf",
-   "kind": "added",
-   "note": "added 产品行为，一屏说清: 六条规则："
-  },
-  {
-   "block": "2c92a4b1",
-   "kind": "added",
-   "note": "added 产品行为，一屏说清: 1. `portable` 是 artifact 的持久属性，不是每次分享前的一次 publication。 2. 后续"
-  },
-  {
-   "block": "9ea1778e",
+   "block": "e2605fb1",
    "kind": "modified",
-   "note": "revised 1. 真实使用场景 to match the approved portable-artifact model"
+   "note": "revised 3. 核心不变量 to match the approved portable-artifact model"
   },
   {
-   "block": "992d3d92",
+   "block": "a092554e",
    "kind": "modified",
-   "note": "revised 1. 真实使用场景 to match the approved portable-artifact model"
+   "note": "revised 4. Capsule 的可见性与内容 to match the approved portable-artifact model"
   },
   {
-   "block": "9602b6bf",
+   "block": "aeff8148",
    "kind": "modified",
-   "note": "revised 1. 真实使用场景 to match the approved portable-artifact model"
+   "note": "revised 4. Capsule 的可见性与内容 to match the approved portable-artifact model"
   },
   {
-   "block": "540880a8",
+   "block": "d7ab5925",
+   "kind": "modified",
+   "note": "revised 4.1 Capsule 默认可以包含 to match the approved portable-artifact model"
+  },
+  {
+   "block": "9efa1c70",
    "kind": "added",
-   "note": "added 1.1 Canonical example：A v1 → v2: ### 1.1 Canonical example：A v1 → v2"
+   "note": "added 4.1 Capsule 默认可以包含: - artifact ID、policy、protocol version 和 current head； - curr"
   },
   {
-   "block": "f2877b4f",
+   "block": "49aae806",
    "kind": "added",
-   "note": "added 1.1 Canonical example：A v1 → v2: ```text A v1 被声明 portable        │        ├── 方向 B：casual br"
+   "note": "added 4.2 Capsule 默认不得包含: ### 4.2 Capsule 默认不得包含"
   },
   {
-   "block": "50974dbd",
+   "block": "e924a924",
+   "kind": "modified",
+   "note": "revised 4.2 Capsule 默认不得包含 to match the approved portable-artifact model"
+  },
+  {
+   "block": "f0f6e462",
    "kind": "added",
-   "note": "added 1.1 Canonical example：A v1 → v2: 如果用户最后说 “leave it like that”，v2 默认继续 portable。Proofpress 不再追"
+   "note": "added 4.3 删除内容的风险: ### 4.3 删除内容的风险"
   },
   {
-   "block": "bbcdf2cb",
+   "block": "f8360c02",
    "kind": "added",
-   "note": "added 1.1 Canonical example：A v1 → v2: 判据是："
+   "note": "added 4.3 删除内容的风险: Portable history 可能包含旧 checkpoint、delta 或 deleted blocks。因此："
   },
   {
-   "block": "ef0afd1a",
+   "block": "a57d5e5c",
    "kind": "added",
-   "note": "added 1.1 Canonical example：A v1 → v2: > **Record accepted changes and consequential rejections—not"
+   "note": "added 4.3 删除内容的风险: > **Deleting text from the current body does not prove it is"
   },
   {
-   "block": "ad6ae01e",
+   "block": "507eb82f",
    "kind": "added",
-   "note": "added 1.1 Canonical example：A v1 → v2: `consequential rejection` 指一个曾被认真考虑、后来因明确理由放弃、未来 agent 若重提会浪"
+   "note": "added 4.3 删除内容的风险: 如果一段内容不应该被 raw artifact holder 看到，就不应让包含它的 version 进入 portab"
   },
   {
-   "block": "c58a8c9e",
-   "kind": "modified",
-   "note": "revised 2. 定位与边界 to match the approved portable-artifact model"
-  },
-  {
-   "block": "c692212b",
-   "kind": "modified",
-   "note": "revised 2.1 不是“帮你看懂 Git diff” to match the approved portable-artifact model"
-  },
-  {
-   "block": "33d651e4",
-   "kind": "modified",
-   "note": "revised 2.2 不只是“验证 agent 有没有说实话” to match the approved portable-artifact model"
-  },
-  {
-   "block": "aaa99ad7",
-   "kind": "modified",
-   "note": "revised 2.2 不只是“验证 agent 有没有说实话” to match the approved portable-artifact model"
-  },
-  {
-   "block": "9a6f1a59",
-   "kind": "modified",
-   "note": "revised 2.3 不是审批工作流 to match the approved portable-artifact model"
-  },
-  {
-   "block": "53039efd",
-   "kind": "modified",
-   "note": "revised 2.3 不是审批工作流 to match the approved portable-artifact model"
-  },
-  {
-   "block": "9f6ef909",
-   "kind": "modified",
-   "note": "revised 2.4 收敛后的定位 to match the approved portable-artifact model"
-  },
-  {
-   "block": "b86209fe",
-   "kind": "modified",
-   "note": "revised 2.4 收敛后的定位 to match the approved portable-artifact model"
-  },
-  {
-   "block": "64be4294",
-   "kind": "modified",
-   "note": "revised 2.4 收敛后的定位 to match the approved portable-artifact model"
-  },
-  {
-   "block": "42469bef",
-   "kind": "modified",
-   "note": "revised 2.4 收敛后的定位 to match the approved portable-artifact model"
-  },
-  {
-   "block": "7bd9f5ab",
-   "kind": "modified",
-   "note": "revised 2.4 收敛后的定位 to match the approved portable-artifact model"
-  },
-  {
-   "block": "236f9c31",
-   "kind": "modified",
-   "note": "revised 3. 为什么必须是 artifact-native ledger to match the approved portable-artifact model"
-  },
-  {
-   "block": "db69210e",
-   "kind": "modified",
-   "note": "revised 3. 为什么必须是 artifact-native ledger to match the approved portable-artifact model"
-  },
-  {
-   "block": "d7fead41",
+   "block": "483804ed",
    "kind": "added",
-   "note": "added 3. 为什么必须是 artifact-native ledger: 1. 路径无关的 artifact identity； 2. 内容移动后仍稳定的 block identity； 3. "
+   "note": "added 5. 普通 handoff，不是 share 状态机: ## 5. 普通 handoff，不是 share 状态机"
   },
   {
-   "block": "d899e8c6",
+   "block": "49dd8fc0",
+   "kind": "added",
+   "note": "added 5. 普通 handoff，不是 share 状态机: 用户把 portable artifact 拖进 Slack 或发送邮件时，Proofpress 不创建 `disclo"
+  },
+  {
+   "block": "886e00f6",
+   "kind": "added",
+   "note": "added 5. 普通 handoff，不是 share 状态机: Proofpress 不能可靠知道："
+  },
+  {
+   "block": "184d2482",
+   "kind": "added",
+   "note": "added 5. 普通 handoff，不是 share 状态机: - 谁真正点击了发送； - 文件是否被打开； - 收件人是否保存、复制或转发； - 某个本地副本是否已经离开设备。"
+  },
+  {
+   "block": "abd89abd",
+   "kind": "added",
+   "note": "added 5. 普通 handoff，不是 share 状态机: 因此协议不设置 `disclosed_by`、`sent_by` 或 per-audience stream，也不使用 "
+  },
+  {
+   "block": "97f6f122",
+   "kind": "added",
+   "note": "added 6. Portable lifecycle: ## 6. Portable lifecycle"
+  },
+  {
+   "block": "24a6662e",
+   "kind": "added",
+   "note": "added 6.1 Enable portable: ### 6.1 Enable portable"
+  },
+  {
+   "block": "2d7504b2",
+   "kind": "added",
+   "note": "added 6.1 Enable portable: 第一次 enable 是一次明确的 artifact-level 选择。系统应说明：未来 admitted histor"
+  },
+  {
+   "block": "99efd910",
+   "kind": "added",
+   "note": "added 6.1 Enable portable: Enable 后无需在每个版本或每次发送时重复确认。"
+  },
+  {
+   "block": "81f914b1",
+   "kind": "added",
+   "note": "added 6.2 Continue portable: ### 6.2 Continue portable"
+  },
+  {
+   "block": "7e55157e",
+   "kind": "added",
+   "note": "added 6.2 Continue portable: 当 agent 完成用户要求保留的修改，或用户明确确认当前结果时："
+  },
+  {
+   "block": "cdb74d1f",
+   "kind": "added",
+   "note": "added 6.2 Continue portable: 1. 计算 parent → current body 的 semantic changes； 2. 接收 actors"
+  },
+  {
+   "block": "645c4ae1",
+   "kind": "added",
+   "note": "added 6.2 Continue portable: Casual discussion 和未被采用的临时状态不会因为发生在 portable artifact 周围就自动进"
+  },
+  {
+   "block": "58cac2dd",
+   "kind": "added",
+   "note": "added 6.3 Make local: ### 6.3 Make local"
+  },
+  {
+   "block": "2c9d0822",
+   "kind": "added",
+   "note": "added 6.3 Make local: `make local` 表示："
+  },
+  {
+   "block": "f3548215",
+   "kind": "added",
+   "note": "added 6.3 Make local: - 当前工作 artifact 不再携带 portable capsule，或从下一次 materialization "
+  },
+  {
+   "block": "8c9204c8",
+   "kind": "added",
+   "note": "added 6.3 Make local: 这不是 recall，也不是抹除过去。"
+  },
+  {
+   "block": "697c7f40",
+   "kind": "added",
+   "note": "added 6.4 Clean copy: ### 6.4 Clean copy"
+  },
+  {
+   "block": "b454588d",
+   "kind": "added",
+   "note": "added 6.4 Clean copy: 用户可以从 portable artifact 生成无 capsule 的普通副本。Clean copy："
+  },
+  {
+   "block": "859b076c",
+   "kind": "added",
+   "note": "added 6.4 Clean copy: - 只包含当前可见正文； - 不声称携带完整 provenance； - 不修改源 artifact 或 local l"
+  },
+  {
+   "block": "3e4ed2f7",
+   "kind": "added",
+   "note": "added 6.5 Re-enable portable: ### 6.5 Re-enable portable"
+  },
+  {
+   "block": "1b4a1e02",
+   "kind": "added",
+   "note": "added 6.5 Re-enable portable: 重新开启是少见、明确的 transition。V0 必须保证："
+  },
+  {
+   "block": "14bc1711",
+   "kind": "added",
+   "note": "added 6.5 Re-enable portable: - local-only interval 的 event IDs、版本、actors、why 和 omitted co"
+  },
+  {
+   "block": "ff98d967",
+   "kind": "added",
+   "note": "added 6.5 Re-enable portable: 具体 continuation encoding 在 implementation spec 中冻结，但 privacy"
+  },
+  {
+   "block": "a74d9489",
+   "kind": "added",
+   "note": "added 7. 人工编辑与归因: ## 7. 人工编辑与归因"
+  },
+  {
+   "block": "6761d19f",
+   "kind": "added",
+   "note": "added 7. 人工编辑与归因: > **A document can detect that it was changed. It cannot kno"
+  },
+  {
+   "block": "b0624cf8",
+   "kind": "added",
+   "note": "added 7. 人工编辑与归因: 如果 body 与 capsule head 不匹配，Proofpress 可以确定："
+  },
+  {
+   "block": "a1e83e45",
+   "kind": "added",
+   "note": "added 7. 人工编辑与归因: - 当前正文发生了未记录变化； - 哪些 blocks added / removed / modified / mov"
+  },
+  {
+   "block": "669c59c4",
+   "kind": "added",
+   "note": "added 7. 人工编辑与归因: 它不能仅凭文件知道："
+  },
+  {
+   "block": "cbc60133",
+   "kind": "added",
+   "note": "added 7. 人工编辑与归因: - 谁完成修改； - 修改实际发生时间； - 修改原因； - 修改是否来自同事反馈、用户本人或另一个 agent。"
+  },
+  {
+   "block": "02196bad",
+   "kind": "added",
+   "note": "added 7. 人工编辑与归因: 因此检测事件应类似："
+  },
+  {
+   "block": "9d551f6b",
+   "kind": "added",
+   "note": "added 7. 人工编辑与归因: ```text event: unrecorded_edit_detected what: computed seman"
+  },
+  {
+   "block": "8261234d",
    "kind": "modified",
-   "note": "revised 3. 为什么必须是 artifact-native ledger to match the approved portable-artifact model"
+   "note": "revised 7. 人工编辑与归因 to match the approved portable-artifact model"
   },
   {
-   "block": "38904206",
+   "block": "f1daa663",
    "kind": "added",
-   "note": "added 4. Artifact policy 与 admission: ## 4. Artifact policy 与 admission"
+   "note": "added 7. 人工编辑与归因: ```text requested_by produced_by edited_by recorded_by ```"
   },
   {
-   "block": "509c8163",
-   "kind": "added",
-   "note": "added 4.1 三种 policy: ### 4.1 三种 policy"
-  },
-  {
-   "block": "ded37938",
-   "kind": "added",
-   "note": "added 4.1 三种 policy: ```text ignored   不捕获，不维护 ledger local     ledger 留在 Git/loc"
-  },
-  {
-   "block": "a44752bc",
-   "kind": "added",
-   "note": "added 4.1 三种 policy: policy 是 artifact-level、持久、可变的状态。安装 Proofpress 不应自动把所有 Markd"
-  },
-  {
-   "block": "d7c083a0",
-   "kind": "added",
-   "note": "added 4.2 Sticky inheritance: ### 4.2 Sticky inheritance"
-  },
-  {
-   "block": "7eb67f8f",
-   "kind": "added",
-   "note": "added 4.2 Sticky inheritance: `portable` artifact 的后续 admitted versions 默认继续 portable。只有明确"
-  },
-  {
-   "block": "c33d759e",
-   "kind": "added",
-   "note": "added 4.3 Event admission: ### 4.3 Event admission"
-  },
-  {
-   "block": "a598a3c7",
-   "kind": "added",
-   "note": "added 4.3 Event admission: 进入 ledger 的事件只有："
-  },
-  {
-   "block": "a7ee25ac",
-   "kind": "added",
-   "note": "added 4.3 Event admission: - 被用户要求保留或由任务完成明确确认的 artifact version； - consequential rejec"
-  },
-  {
-   "block": "bc135180",
-   "kind": "added",
-   "note": "added 4.3 Event admission: 默认不进入 ledger："
-  },
-  {
-   "block": "1df9dc52",
-   "kind": "added",
-   "note": "added 4.3 Event admission: - raw conversation 和 prompts； - tool calls 与逐步推理； - 每次文件保存； "
-  },
-  {
-   "block": "37bdcaab",
-   "kind": "added",
-   "note": "added 4.3 Event admission: Append-only 从 admission 开始，不意味着 capture everything forever。未"
-  },
-  {
-   "block": "b61e21f8",
+   "block": "618dd688",
    "kind": "modified",
-   "note": "revised 5. Portable carrier 与 handoff to match the approved portable-artifact model"
+   "note": "revised 7. 人工编辑与归因 to match the approved portable-artifact model"
   },
   {
-   "block": "c00113c6",
+   "block": "86c9996d",
    "kind": "modified",
-   "note": "revised 5. Portable carrier 与 handoff to match the approved portable-artifact model"
+   "note": "revised 7. 人工编辑与归因 to match the approved portable-artifact model"
   },
   {
-   "block": "9bd88fba",
-   "kind": "modified",
-   "note": "revised 5. Portable carrier 与 handoff to match the approved portable-artifact model"
-  },
-  {
-   "block": "2e9aa9c9",
-   "kind": "modified",
-   "note": "revised 5.1 当前基础 to match the approved portable-artifact model"
-  },
-  {
-   "block": "258e8058",
-   "kind": "modified",
-   "note": "revised 5.1 当前基础 to match the approved portable-artifact model"
-  },
-  {
-   "block": "566c9d11",
-   "kind": "modified",
-   "note": "revised 5.2 Carrier 结构 to match the approved portable-artifact model"
-  },
-  {
-   "block": "22e6efc1",
+   "block": "12d61fe3",
    "kind": "added",
-   "note": "added 5.2 Carrier 结构: ```text visible body   + invisible stable block anchors   + "
+   "note": "added 7. 人工编辑与归因: 当前登录用户、文件 owner 或运行 hook 的 agent 都不能自动等同于 `edited_by`。"
   },
   {
-   "block": "054fabff",
-   "kind": "added",
-   "note": "added 5.2 Carrier 结构: Capsule 至少需要：protocol version、artifact ID、policy、head event、"
-  },
-  {
-   "block": "ae6f8382",
-   "kind": "added",
-   "note": "added 5.2 Carrier 结构: 正文 hash 必须排除 Proofpress metadata，避免 capsule 更新造成循环 hash。Embe"
-  },
-  {
-   "block": "f3d9d250",
+   "block": "4d62bb79",
    "kind": "modified",
-   "note": "revised 5.3 Agent 行为 to match the approved portable-artifact model"
+   "note": "revised 8. Correction、supersession 与 redaction to match the approved portable-artifact model"
   },
   {
-   "block": "63a2e8ef",
+   "block": "bfc61b9c",
+   "kind": "modified",
+   "note": "revised 8.1 Correction to match the approved portable-artifact model"
+  },
+  {
+   "block": "c2d65249",
    "kind": "added",
-   "note": "added 5.3 Agent 行为: 1. 读取文件并发现 Proofpress marker； 2. 调用工具验证 capsule 与正文； 3. 按任务只"
+   "note": "added 8.1 Correction: Actor、时间或 change account 写错时，append correction 指向原 event。默认视"
   },
   {
-   "block": "4143441a",
+   "block": "b46a45ef",
    "kind": "modified",
-   "note": "revised 5.4 普通 handoff to match the approved portable-artifact model"
+   "note": "revised 8.2 Supersession to match the approved portable-artifact model"
   },
   {
-   "block": "c70c30a3",
+   "block": "2218bf81",
    "kind": "added",
-   "note": "added 5.4 普通 handoff: 用户照常把原始 `.md` 文件发到 Slack、邮件或 Drive。收件人不安装 Proofpress 也能读正文；收"
+   "note": "added 8.2 Supersession: 结论或正文后来改变时，创建新 version 并声明 supersedes。旧版本仍是历史事实，但不再是 current"
   },
   {
-   "block": "5bb7d666",
-   "kind": "modified",
-   "note": "revised 5.5 Copy、branch 与同步边界 to match the approved portable-artifact model"
-  },
-  {
-   "block": "e299d11b",
-   "kind": "modified",
-   "note": "revised 5.5 Copy、branch 与同步边界 to match the approved portable-artifact model"
-  },
-  {
-   "block": "d2fac609",
-   "kind": "modified",
-   "note": "revised 5.5 Copy、branch 与同步边界 to match the approved portable-artifact model"
-  },
-  {
-   "block": "a6cda8f2",
-   "kind": "modified",
-   "note": "revised 6. Verification、capture 与人工编辑 to match the approved portable-artifact model"
-  },
-  {
-   "block": "d47d8767",
-   "kind": "modified",
-   "note": "revised 6. Verification、capture 与人工编辑 to match the approved portable-artifact model"
-  },
-  {
-   "block": "b9abff4c",
-   "kind": "modified",
-   "note": "revised 6. Verification、capture 与人工编辑 to match the approved portable-artifact model"
-  },
-  {
-   "block": "11af5d5d",
-   "kind": "modified",
-   "note": "revised 6. Verification、capture 与人工编辑 to match the approved portable-artifact model"
-  },
-  {
-   "block": "d8eb27b0",
-   "kind": "modified",
-   "note": "revised 6. Verification、capture 与人工编辑 to match the approved portable-artifact model"
-  },
-  {
-   "block": "8d914b07",
+   "block": "3202fe48",
    "kind": "added",
-   "note": "added 6. Verification、capture 与人工编辑: > **Best-effort automatic capture; deterministic integrity f"
+   "note": "added 8.3 Redaction: 敏感 payload 已进入 portable history 时，未来 capsule 可以追加 redaction "
   },
   {
-   "block": "e1e7ca4a",
+   "block": "7ccd86ac",
    "kind": "added",
-   "note": "added 6. Verification、capture 与人工编辑: Skill 是否遵循、hook 是否安装、session 是否正常结束都会影响 completeness。Proofpr"
+   "note": "added 8.3 Redaction: - 旧副本可能仍包含原文； - 移除 payload 后，部分历史只能 partial verification； - "
   },
   {
-   "block": "dcf9e31b",
+   "block": "4779c987",
    "kind": "added",
-   "note": "added 7. Privacy boundary: ## 7. Privacy boundary"
+   "note": "added 8.3 Redaction: 如果连事件存在本身都不能披露，安全选择是生成新的 sanitized/derived lineage，并明确它不是旧历史"
   },
   {
-   "block": "63bf87ec",
-   "kind": "added",
-   "note": "added 7. Privacy boundary: Privacy 的完整产品边界见 [PRIVACY_AND_DISCLOSURE.md](PRIVACY_AND_DIS"
-  },
-  {
-   "block": "004e6b3f",
-   "kind": "added",
-   "note": "added 7. Privacy boundary: 1. Hidden is not confidential：拿到 raw file 的人可能读取 capsule。 2."
-  },
-  {
-   "block": "edee1a38",
-   "kind": "added",
-   "note": "added 7. Privacy boundary: V0 不做一份离线文件内的 per-user/per-field ACL、多 audience streams、密钥吊销"
-  },
-  {
-   "block": "29e32d31",
-   "kind": "added",
-   "note": "added 8. 相邻品类与竞争边界: ## 8. 相邻品类与竞争边界"
-  },
-  {
-   "block": "80cf71e9",
-   "kind": "added",
-   "note": "added 8. 相邻品类与竞争边界: | 层 | 回答的问题 | 代表 | |---|---|---| | Agent memory | 这个 agent 应"
-  },
-  {
-   "block": "39aa0563",
-   "kind": "added",
-   "note": "added 8. 相邻品类与竞争边界: > **LLM wikis compound knowledge. Proofpress compounds trust"
-  },
-  {
-   "block": "9d078110",
-   "kind": "added",
-   "note": "added 8. 相邻品类与竞争边界: OKF 的 `log.md` 是有用类比，但 Proofpress 不做 OKF-specific extension，"
-  },
-  {
-   "block": "720bf814",
-   "kind": "added",
-   "note": "added 8. 相邻品类与竞争边界: Proofpress 不进入 wiki generation、connectors、RAG、personal brain"
-  },
-  {
-   "block": "bec22e1d",
+   "block": "0d3174f5",
    "kind": "modified",
-   "note": "revised 9. 当前实现差距 to match the approved portable-artifact model"
+   "note": "revised 9. V0 edge cases to match the approved portable-artifact model"
   },
   {
-   "block": "0f31b3f0",
-   "kind": "modified",
-   "note": "revised 9. 当前实现差距 to match the approved portable-artifact model"
-  },
-  {
-   "block": "cfe37e94",
+   "block": "a24edc0a",
    "kind": "added",
-   "note": "added 9. 当前实现差距: - Markdown block parser 与 invisible anchors； - block-level s"
+   "note": "added 9. V0 edge cases: | 情况 | 行为 | |---|---| | v1 portable，形成 accepted v2 | v2 自动 a"
   },
   {
-   "block": "c374cf4c",
+   "block": "2c249df0",
    "kind": "modified",
-   "note": "revised 9. 当前实现差距 to match the approved portable-artifact model"
+   "note": "revised 10. V0 明确不做 to match the approved portable-artifact model"
   },
   {
-   "block": "c2231a29",
+   "block": "14d8b083",
+   "kind": "modified",
+   "note": "revised 10. V0 明确不做 to match the approved portable-artifact model"
+  },
+  {
+   "block": "0444a90a",
+   "kind": "modified",
+   "note": "revised 11. Release acceptance tests to match the approved portable-artifact model"
+  },
+  {
+   "block": "3208f8df",
    "kind": "added",
-   "note": "added 9. 当前实现差距: - 路径无关 artifact ID； - ignored / local / portable policy； - e"
+   "note": "added 11. Release acceptance tests: Portable V0 发布前至少通过："
   },
   {
-   "block": "0ffd3d7a",
+   "block": "ec5f7bca",
    "kind": "added",
-   "note": "added 9. 当前实现差距: 当前 hook 是 best-effort prototype，不是捕获保证；它可能漏掉 untracked/non-G"
+   "note": "added 11. Release acceptance tests: 1. v1 enable portable 后，accepted v2 无重复 permission prompt 地更"
   },
   {
-   "block": "2e60771d",
+   "block": "9e0d89d9",
    "kind": "modified",
-   "note": "revised 10. 战略判断与风险 to match the approved portable-artifact model"
+   "note": "revised 12. 最小发布承诺 to match the approved portable-artifact model"
   },
   {
-   "block": "408b6d86",
+   "block": "1501efd4",
    "kind": "modified",
-   "note": "revised 10.1 为什么比 GitHub wedge 更强 to match the approved portable-artifact model"
+   "note": "revised 12. 最小发布承诺 to match the approved portable-artifact model"
   },
   {
-   "block": "c7c198a2",
+   "block": "aae706e7",
    "kind": "modified",
-   "note": "revised 10.1 为什么比 GitHub wedge 更强 to match the approved portable-artifact model"
+   "note": "revised 12. 最小发布承诺 to match the approved portable-artifact model"
   },
   {
-   "block": "5d388f47",
+   "block": "3cb7a253",
    "kind": "modified",
-   "note": "revised 10.1 为什么比 GitHub wedge 更强 to match the approved portable-artifact model"
+   "note": "revised 12. 最小发布承诺 to match the approved portable-artifact model"
   },
   {
-   "block": "b5ec8c17",
-   "kind": "modified",
-   "note": "revised 10.1 为什么比 GitHub wedge 更强 to match the approved portable-artifact model"
-  },
-  {
-   "block": "2cc72cb5",
-   "kind": "modified",
-   "note": "revised 10.2 Capture gap to match the approved portable-artifact model"
-  },
-  {
-   "block": "be731a2e",
+   "block": "bb79d355",
    "kind": "added",
-   "note": "added 10.2 Capture gap: Proofpress 不能自动捕获口头会议，也不能从最终 prompt 恢复同事原始反馈。Agent 应在 contex"
+   "note": "added 12. 最小发布承诺: ```text Choose once whether the artifact is portable. Record"
   },
   {
-   "block": "515c1dbb",
-   "kind": "modified",
-   "note": "revised 10.3 Verification overclaim to match the approved portable-artifact model"
-  },
-  {
-   "block": "1b1e3850",
-   "kind": "added",
-   "note": "added 10.3 Verification overclaim: 可以确定性验证的是正文 digest、semantic diff、event chain 和结构化 change cla"
-  },
-  {
-   "block": "fd35ff71",
-   "kind": "modified",
-   "note": "revised 10.4 Carrier loss to match the approved portable-artifact model"
-  },
-  {
-   "block": "7af0de2a",
-   "kind": "added",
-   "note": "added 10.4 Carrier loss: 复制渲染文本、转 PDF、formatter 清理 metadata 或 SaaS 重新序列化 Markdown，都可能"
-  },
-  {
-   "block": "2550c5f8",
-   "kind": "modified",
-   "note": "revised 10.5 Protocol-first risk to match the approved portable-artifact model"
-  },
-  {
-   "block": "ead8c6b4",
-   "kind": "modified",
-   "note": "revised 10.5 Protocol-first risk to match the approved portable-artifact model"
-  },
-  {
-   "block": "a38c6b35",
-   "kind": "modified",
-   "note": "revised 11. 执行路线 to match the approved portable-artifact model"
-  },
-  {
-   "block": "51147dae",
-   "kind": "added",
-   "note": "added Phase 1：冻结行为规范: ### Phase 1：冻结行为规范"
-  },
-  {
-   "block": "443c1ef6",
-   "kind": "added",
-   "note": "added Phase 1：冻结行为规范: 1. 将 ignored / local / portable、admission、actor attribution "
-  },
-  {
-   "block": "cc58bf94",
-   "kind": "added",
-   "note": "added Phase 2：最小实现: ### Phase 2：最小实现"
-  },
-  {
-   "block": "0bbe55de",
-   "kind": "added",
-   "note": "added Phase 2：最小实现: 1. 路径无关 artifact ID； 2. artifact policy； 3. actor roles 与 at"
-  },
-  {
-   "block": "81eab68c",
-   "kind": "added",
-   "note": "added Phase 2：最小实现: V0 不做 Cloud、ACL、多 audience、实时协作、完整签名、自动 merge、OKF integratio"
-  },
-  {
-   "block": "a863d59f",
-   "kind": "modified",
-   "note": "revised Phase 3：真实 handoff dogfood to match the approved portable-artifact model"
-  },
-  {
-   "block": "12e67eea",
-   "kind": "added",
-   "note": "added Phase 3：真实 handoff dogfood: 用一份经过多轮 agent 与人工反馈的 Markdown："
-  },
-  {
-   "block": "bc85c410",
-   "kind": "added",
-   "note": "added Phase 3：真实 handoff dogfood: 1. 在 v1 声明 portable； 2. 形成 v2，包含一个 consequential rejection 和"
-  },
-  {
-   "block": "fb07e46d",
-   "kind": "modified",
-   "note": "revised Kill criteria to match the approved portable-artifact model"
-  },
-  {
-   "block": "2909254d",
-   "kind": "added",
-   "note": "added Kill criteria: - 用户不愿携带原始 artifact，只复制渲染文本； - lineage 没有减少 re-briefing、重复方案"
-  },
-  {
-   "block": "50e79cdc",
-   "kind": "modified",
-   "note": "revised 已有方向性证据 to match the approved portable-artifact model"
-  },
-  {
-   "block": "758c606b",
-   "kind": "added",
-   "note": "added 已有方向性证据: 2026-07-22 sidecar 对照实验显示：带 ledger 的 clean agent 会引用已记录的 why"
-  },
-  {
-   "block": "0da29601",
-   "kind": "added",
-   "note": "added 已有方向性证据: 实验同时暴露 scope gap：单 artifact lineage 防不住 artifact 外的事实编造。结果为方"
-  },
-  {
-   "block": "2cd16939",
-   "kind": "modified",
-   "note": "revised 12. 对 Launch 的影响 to match the approved portable-artifact model"
-  },
-  {
-   "block": "11e7b5e6",
-   "kind": "modified",
-   "note": "revised 12. 对 Launch 的影响 to match the approved portable-artifact model"
-  },
-  {
-   "block": "ad02b06a",
-   "kind": "modified",
-   "note": "revised 12. 对 Launch 的影响 to match the approved portable-artifact model"
-  },
-  {
-   "block": "08014c6d",
-   "kind": "added",
-   "note": "added 12. 对 Launch 的影响: 辅助表达："
-  },
-  {
-   "block": "9740aadc",
-   "kind": "added",
-   "note": "added 12. 对 Launch 的影响: > **AI is learning to maintain what your team knows. Proofpr"
-  },
-  {
-   "block": "fdf28a03",
-   "kind": "added",
-   "note": "added 12. 对 Launch 的影响: > **LLM wikis make knowledge compound. Proofpress makes trus"
-  },
-  {
-   "block": "dad2e43f",
-   "kind": "modified",
-   "note": "revised 13. 最终判断 to match the approved portable-artifact model"
-  },
-  {
-   "block": "ce98c0cf",
-   "kind": "modified",
-   "note": "revised 13. 最终判断 to match the approved portable-artifact model"
-  },
-  {
-   "block": "5f794662",
-   "kind": "modified",
-   "note": "revised 13. 最终判断 to match the approved portable-artifact model"
-  },
-  {
-   "block": "a412a0dc",
-   "kind": "modified",
-   "note": "revised 13. 最终判断 to match the approved portable-artifact model"
-  },
-  {
-   "block": "41dbf696",
-   "kind": "removed",
-   "note": "removed superseded block: Proofpress 的价值主张应是："
-  },
-  {
-   "block": "cf8ddcaa",
-   "kind": "removed",
-   "note": "removed superseded block: 它带来的组织结果是："
-  },
-  {
-   "block": "a6fb9d6c",
-   "kind": "removed",
-   "note": "removed superseded block: 它的描述性定义是："
-  },
-  {
-   "block": "d56084c8",
-   "kind": "removed",
-   "note": "removed superseded block: 战略判断：**值得作为 Proofpress 的核心方向继续验证，而且它比“GitHub 上的文档语义 diff”更贴近"
-  },
-  {
-   "block": "e47ac07f",
-   "kind": "removed",
-   "note": "removed superseded block: 1. portability 是机制，durable decision lineage 才是价值； 2. 文件能确定性记"
-  },
-  {
-   "block": "748ce1a3",
-   "kind": "removed",
-   "note": "removed superseded block: ## 终局 Vision：让智能扩张，让信任留存"
-  },
-  {
-   "block": "31af6d82",
-   "kind": "removed",
-   "note": "removed superseded block: **Proofpress 的终局不是另一个 docs 产品，而是 trustworthy human-agent kno"
-  },
-  {
-   "block": "b95e407c",
-   "kind": "removed",
-   "note": "removed superseded block: Portable artifact 是这个 vision 的关键载体：它把静态文件变成一个可以跨人、agent、sess"
-  },
-  {
-   "block": "e4629fc1",
-   "kind": "removed",
-   "note": "removed superseded block: 这才是 **agent-native document format** 的长期含义：不是再发明一种文件扩展名或编辑器，"
-  },
-  {
-   "block": "06d83ab9",
-   "kind": "removed",
-   "note": "removed superseded block: 三层终局："
-  },
-  {
-   "block": "f35416d1",
-   "kind": "removed",
-   "note": "removed superseded block: 1. **现在——portable decision lineage：** 让一份 artifact 的历史像 arti"
-  },
-  {
-   "block": "9d275ea4",
-   "kind": "removed",
-   "note": "removed superseded block: 类比不是“再造一个 Git”：**Git gave code history; Proofpress gives kno"
-  },
-  {
-   "block": "f8ac341d",
+   "block": "1f2cbc91",
    "kind": "removed",
-   "note": "removed superseded block: 对外叙事层级："
+   "note": "removed superseded block: **Share 不是一个持续开启的 mode，而是一次 publication。**"
   },
   {
-   "block": "e5784e73",
+   "block": "b4cc0428",
    "kind": "removed",
-   "note": "removed superseded block: - **North star：** Scale intelligence. Preserve trust. - **Ca"
+   "note": "removed superseded block: `proofpress share/pack` 在某个确定时刻，把本地 artifact 的一个可披露投影物化成带 ca"
   },
   {
-   "block": "6cadaced",
+   "block": "72d67345",
    "kind": "removed",
-   "note": "removed superseded block: 表面上，团队得到了一份更好的文档。实际上，整个过程经历了多次有损 handoff："
+   "note": "removed superseded block: - 已生成的文件是一份离线副本； - 后续本地修改默认不进入它； - 没有后台持续同步，因此不需要“关闭实时分享”； -"
   },
   {
-   "block": "72a537c6",
+   "block": "aea97c07",
    "kind": "removed",
-   "note": "removed superseded block: ```text 用户意图   → agent session   → draft v1...vN   → Slack 中"
+   "note": "removed superseded block: 最重要的语义是："
   },
   {
-   "block": "8544deb0",
+   "block": "61b11cd0",
    "kind": "removed",
-   "note": "removed superseded block: 最终 artifact 留下来了，但塑造它的过程分散在："
+   "note": "removed superseded block: > **Share once; publish again deliberately.**"
   },
   {
-   "block": "a8cb325c",
+   "block": "1bc78b69",
    "kind": "removed",
-   "note": "removed superseded block: - agent session； - Slack thread； - 会议或口头交流； - 临时文档副本； - 用户自己"
+   "note": "removed superseded block: 以及："
   },
   {
-   "block": "6b2674a6",
+   "block": "bd1252ee",
    "kind": "removed",
-   "note": "removed superseded block: > **The artifact survives. The decisions that made it disapp"
+   "note": "removed superseded block: ## 1. 五个对象，不用一个 “mode” 混在一起"
   },
   {
-   "block": "5654975c",
+   "block": "8bd92eee",
    "kind": "removed",
-   "note": "removed superseded block: 语义 diff 仍然是必要的产品能力，但它属于 Read 层，是入场券，不是长期定价点。LLM 会持续压低这层能力的稀缺"
+   "note": "removed superseded block: ### 1.1 Working body"
   },
   {
-   "block": "5f330ca3",
+   "block": "c6943039",
    "kind": "removed",
-   "note": "removed superseded block: ### 2.2 不只是“验证 agent 有没有说实话”"
+   "note": "removed superseded block: ### 1.2 Local journal"
   },
   {
-   "block": "ff7e5aa6",
+   "block": "0f4aa813",
    "kind": "removed",
-   "note": "removed superseded block: - 独立审阅页已经砍掉； - CLI 的 `approve / comment / inbox` 已经砍掉； - 第一幕"
+   "note": "removed superseded block: 本机捕获的 artifact versions、claims 和 decision context。它帮助当前用户和 a"
   },
   {
-   "block": "780c3d2e",
+   "block": "e1b59a04",
    "kind": "removed",
-   "note": "removed superseded block: 因此，Draft / Review / Approve 可以继续作为知识工作中的通用协作语言，但不能被描述成 Proof"
+   "note": "removed superseded block: Local journal 中尚未披露的事件可以被用户明确 `forget`，或者在 share 时被排除。Proofp"
   },
   {
-   "block": "1adc9f3a",
+   "block": "0ee381d8",
    "kind": "removed",
-   "note": "removed superseded block: 当人和 agent 都能快速生产和修改知识工作时，团队需要一个共同、可验证的记录："
+   "note": "removed superseded block: ### 1.3 Disclosure stream"
   },
   {
-   "block": "61016ae6",
+   "block": "7941b692",
    "kind": "removed",
-   "note": "removed superseded block: 现有系统分别保留了不同的碎片，但没有一个系统把它们组成 artifact 的可靠历史："
+   "note": "removed superseded block: 面向一个 disclosure boundary 的 append-only 投影链。它不是 local journal"
   },
   {
-   "block": "0a2fc1d4",
+   "block": "093056c2",
    "kind": "removed",
-   "note": "removed superseded block: 1. **Artifact identity**：同一份交付物具有独立于路径、文件名、会话和存储后端的稳定身份； 2. "
+   "note": "removed superseded block: 每次 publication 都向 stream 追加一个 disclosed version。已经披露的 stream"
   },
   {
-   "block": "b37db811",
+   "block": "2b40e255",
    "kind": "removed",
-   "note": "removed superseded block: ### 4.1 核心设想"
+   "note": "removed superseded block: ### 1.5 Distributed copy"
   },
   {
-   "block": "5b6bd4fc",
+   "block": "d5166d0b",
    "kind": "removed",
-   "note": "removed superseded block: “隐藏水印”是一个有用的直觉，但准确名称应更接近："
+   "note": "removed superseded block: 已经通过 Slack、邮件、Drive、USB 或其他方式离开当前设备的文件副本。一旦产生 distributed co"
   },
   {
-   "block": "17f94de1",
+   "block": "6fa5c6ea",
    "kind": "removed",
-   "note": "removed superseded block: - document passport：强调 artifact 跨人、跨工具旅行时携带身份和盖章记录； - proof "
+   "note": "removed superseded block: 发布前必须接受以下不变量；任何实现与它们冲突都应阻止 release。"
   },
   {
-   "block": "0d9c9f8c",
+   "block": "895cc3f7",
    "kind": "removed",
-   "note": "removed superseded block: ### 4.2 当前已经存在的基础"
+   "note": "removed superseded block: ## 3. 状态模型"
   },
   {
-   "block": "af2a67b8",
+   "block": "41723f22",
    "kind": "removed",
-   "note": "removed superseded block: ```md [//]: # (ob:32f5d88f) ## 一句话 ```"
+   "note": "removed superseded block: ### 3.1 Local artifact 状态"
   },
   {
-   "block": "9c06dd83",
+   "block": "379d15e0",
    "kind": "removed",
-   "note": "removed superseded block: 当前完整账本仍然位于 Git 的 `refs/proofpress/ledger`，每个事件是一个包含 `event.j"
+   "note": "removed superseded block: ```text UNTRACKED    │ proofpress track / first admitted sna"
   },
   {
-   "block": "016e9c1a",
+   "block": "8466813f",
    "kind": "removed",
-   "note": "removed superseded block: ### 4.3 建议的 Markdown envelope"
+   "note": "removed superseded block: `PRIVATE_AHEAD_OF_DISCLOSURE` 不是错误。它表示文件正文或 local journal 已经"
   },
   {
-   "block": "c49b3266",
+   "block": "5635aa2d",
    "kind": "removed",
-   "note": "removed superseded block: 一个 Proofpress Markdown artifact 可以由两部分组成："
+   "note": "removed superseded block: ### 3.2 Disclosure stream 状态"
   },
   {
-   "block": "30ff96ae",
+   "block": "b804f33c",
    "kind": "removed",
-   "note": "removed superseded block: 概念性表示如下："
+   "note": "removed superseded block: ```text NONE   │ first share   ▼ OPEN ── append disclosed ve"
   },
   {
-   "block": "6892ce3f",
+   "block": "0db095da",
    "kind": "removed",
-   "note": "removed superseded block: ```md # Strategy  Visible content...  [//]: # (proofpress:v1"
+   "note": "removed superseded block: `CLOSED` 只表示不再向该 stream 发布未来版本，不会召回历史 capsule。若以后需要重新分享，应创建新"
   },
   {
-   "block": "7741721f",
+   "block": "9bb04e31",
    "kind": "removed",
-   "note": "removed superseded block: 具体编码尚未设计，协议应至少包含："
+   "note": "removed superseded block: V0 可以暂不实现显式 `close`，因为 share 本来就是一次性动作；`close` 主要是未来 server "
   },
   {
-   "block": "9f50ef10",
+   "block": "62d0216f",
    "kind": "removed",
-   "note": "removed superseded block: ```text Manifest   protocol_version   artifact_id   artifact"
+   "note": "removed superseded block: ### 3.3 Share 不是状态开关"
   },
   {
-   "block": "5fb4f557",
+   "block": "6b64f8fa",
    "kind": "removed",
-   "note": "removed superseded block: 正文 hash 必须排除 Proofpress metadata，避免 capsule 更新造成循环 hash。even"
+   "note": "removed superseded block: 错误心智："
   },
   {
-   "block": "5a4b29b8",
+   "block": "98329215",
    "kind": "removed",
-   "note": "removed superseded block: ### 4.4 Agent 如何使用"
+   "note": "removed superseded block: ```text sharing = on / off ```"
   },
   {
-   "block": "500ff386",
+   "block": "b9ceb922",
    "kind": "removed",
-   "note": "removed superseded block: 1. agent 读取文件，发现 declarative Proofpress marker； 2. 调用本地 Proo"
+   "note": "removed superseded block: 正确心智："
   },
   {
-   "block": "eadd5572",
+   "block": "897e108f",
    "kind": "removed",
-   "note": "removed superseded block: Embedded metadata 必须是声明式数据，不应包含可执行的 agent instruction，避免把 po"
+   "note": "removed superseded block: ```text local versions:      v1 — v2 — v3 — v4 — v5 shared p"
   },
   {
-   "block": "d5781d50",
+   "block": "8279d2f3",
    "kind": "removed",
-   "note": "removed superseded block: 理想的顺序交接如下："
+   "note": "removed superseded block: v3、v4 可以是 private intermediates。s2 应表达从上一个 disclosed body 到当"
   },
   {
-   "block": "7bee1c76",
+   "block": "43424a1f",
    "kind": "removed",
-   "note": "removed superseded block: 1. 用户与 agent A 完成多个版本； 2. 所有版本与 decision context 被写入 capsule"
+   "note": "removed superseded block: ## 4. “Share 之后还能不能关掉”的准确答案"
   },
   {
-   "block": "c1e20d9c",
+   "block": "3689fc66",
    "kind": "removed",
-   "note": "removed superseded block: 这使 Git、本地数据库或 Cloud 从“唯一能保存历史的地方”转变为 ledger 的索引、镜像、同步和查询后端。a"
+   "note": "removed superseded block: “关掉”可能指六件不同的事，产品不得用一个 `unshare` 含混处理。"
   },
   {
-   "block": "e0b37783",
+   "block": "5590ff79",
    "kind": "removed",
-   "note": "removed superseded block: Portable 文件天然会被复制。两个人从同一个 head 分别修改后，会形成两个拥有相同 `artifact_id`"
+   "note": "removed superseded block: | 用户意图 | 是否可做 | 准确行为 | |---|---|---| | 不再自动分享未来修改 | 可以 | V0 "
   },
   {
-   "block": "b2bf809b",
+   "block": "6653aeb4",
    "kind": "removed",
-   "note": "removed superseded block: ```text                  → version B (Alice) version A (head"
+   "note": "removed superseded block: 因此 UI 和文案不使用没有限定词的 `unshare`。应使用具体动词："
   },
   {
-   "block": "aa219c8e",
+   "block": "ed80165a",
    "kind": "removed",
-   "note": "removed superseded block: 两份文件重新相遇时，Proofpress 可以发现共同祖先并要求 agent 生成 merge/reconciliati"
+   "note": "removed superseded block: - `stop future publication` - `close disclosure stream` - `r"
   },
   {
-   "block": "7ac2957a",
+   "block": "353fe881",
    "kind": "removed",
-   "note": "removed superseded block: 最重要的真实性原则是："
+   "note": "removed superseded block: ## 5. Publication 流程"
   },
   {
-   "block": "4b4e0490",
+   "block": "e7338b29",
    "kind": "removed",
-   "note": "removed superseded block: 它可以诚实地追加："
+   "note": "removed superseded block: ### 5.1 推荐的 V0 流程"
   },
   {
-   "block": "35870761",
+   "block": "4a1b6283",
    "kind": "removed",
-   "note": "removed superseded block: ```text event: unrecorded_edit_detected what: 2 blocks modif"
+   "note": "removed superseded block: ```text 1. Working body + local journal 2. proofpress share/"
   },
   {
-   "block": "11154fe6",
+   "block": "dc72c825",
    "kind": "removed",
-   "note": "removed superseded block: | 字段 | 可能的信任等级 | |---|---| | what changed | computed / verif"
+   "note": "removed superseded block: V0 默认生成新文件，不原地修改 working artifact。这样："
   },
   {
-   "block": "a2d8b6c4",
+   "block": "fd8f7f5f",
    "kind": "removed",
-   "note": "removed superseded block: 1. **Agent-mediated edit**：人把修改要求交给 agent，agent 在 hot contex"
+   "note": "removed superseded block: - private working copy 与 disclosed copy 不会混淆； - 用户可以在发送前直接丢弃"
   },
   {
-   "block": "8a94ed34",
+   "block": "5e5659c4",
    "kind": "removed",
-   "note": "removed superseded block: ### 6.1 当前已经实现"
+   "note": "removed superseded block: 原地 `--in-place` 可以以后增加，但不应是 V0 默认。"
   },
   {
-   "block": "c2ef88c7",
+   "block": "58448c19",
    "kind": "removed",
-   "note": "removed superseded block: ### 6.2 当前人工编辑的真实行为"
+   "note": "removed superseded block: ### 5.2 Share preview 必须显示"
   },
   {
-   "block": "45577b7d",
+   "block": "ccefbbf8",
    "kind": "removed",
-   "note": "removed superseded block: 因此，当前版本并没有可靠地自动记录无 Git 的 IDE 人工修改。"
+   "note": "removed superseded block: 在 materialize capsule 前，preview 至少显示："
   },
   {
-   "block": "76941f07",
+   "block": "33358417",
    "kind": "removed",
-   "note": "removed superseded block: ### 6.3 实现 portable protocol 所需的核心变化"
+   "note": "removed superseded block: - artifact 与当前 body hash； - disclosure stream / audience lab"
   },
   {
-   "block": "16fea066",
+   "block": "65115971",
    "kind": "removed",
-   "note": "removed superseded block: 1. 让 `artifact_id` 真正独立于文件路径； 2. 将 ledger schema 和 Git stora"
+   "note": "removed superseded block: Agent 可以替用户执行 share，但必须把 preview 摘要报告给用户；不能因用户说“帮我发给同事”就静默嵌入"
   },
   {
-   "block": "8d5eddd5",
+   "block": "559e1ed8",
    "kind": "removed",
-   "note": "removed superseded block: 当前战略已经识别到矛盾：第一幕开发者有 Git 轨道，但不一定有足够疼痛；第二幕知识团队有真实疼痛，却没有自然挂载轨道。"
+   "note": "removed superseded block: ### 5.3 Share 的原子性"
   },
   {
-   "block": "c647c533",
+   "block": "7f588142",
    "kind": "removed",
-   "note": "removed superseded block: Portable artifact protocol 可能直接缓解这个矛盾："
+   "note": "removed superseded block: 实现应先在同目录生成临时文件，完成 capsule 写入与自校验后，再原子 rename 到目标路径。Capsule 自"
   },
   {
-   "block": "1566178b",
+   "block": "881c97ed",
    "kind": "removed",
-   "note": "removed superseded block: ### 7.2 与模型和 harness 的关系更健康"
+   "note": "removed superseded block: 若生成或校验失败："
   },
   {
-   "block": "4e12c1f3",
+   "block": "3a3c554b",
    "kind": "removed",
-   "note": "removed superseded block: 协议对生产者中立。Claude、Codex、其他 harness 或人类都可以写入同一种 artifact histor"
+   "note": "removed superseded block: - 不创建 disclosure event； - 不修改旧输出； - 不留下看似有效的半 capsule 文件。"
   },
   {
-   "block": "19b69f21",
+   "block": "a6d5643e",
    "kind": "removed",
-   "note": "removed superseded block: - artifact/block/event 的开放 canonical model； - 可靠的 capture 与 "
+   "note": "removed superseded block: 若进程恰好在原子 rename 后、本地 ledger 登记前崩溃，则磁盘上可能出现一个有效但尚未登记的 capsule"
   },
   {
-   "block": "8082e20e",
+   "block": "5f27579c",
    "kind": "removed",
-   "note": "removed superseded block: ### 7.3 Open spec 的意义更大"
+   "note": "removed superseded block: ## 6. Disclosure policy，不做全局 privacy mode"
   },
   {
-   "block": "15aae3d8",
+   "block": "50b276fe",
    "kind": "removed",
-   "note": "removed superseded block: 如果 history 要跟着文件进入其他公司、工具和模型，封闭格式会立即破坏信任与可移植性。Portable proto"
+   "note": "removed superseded block: V0 使用 artifact-level default policy，加 event/payload-level ov"
   },
   {
-   "block": "f0472f49",
+   "block": "18ec8d37",
    "kind": "removed",
-   "note": "removed superseded block: Cloud 的商业价值也因此更清晰：Cloud 不垄断历史格式，而负责跨副本同步、身份签名、权限、搜索、策略门、团队视图"
+   "note": "removed superseded block: ```yaml disclosure_policy:   include:     - semantic_changes"
   },
   {
-   "block": "f507c183",
+   "block": "ff6082b8",
    "kind": "removed",
-   "note": "removed superseded block: ### 7.4 它改变了产品类别的表达"
+   "note": "removed superseded block: 原则："
   },
   {
-   "block": "f652f2fb",
+   "block": "f0118458",
    "kind": "removed",
-   "note": "removed superseded block: 不建议对外首先说“embedded metadata”或“portable protocol”。那是实现细节，容易被理解"
+   "note": "removed superseded block: - policy 决定 share 时如何投影，不决定谁可以读取已经分发的明文 capsule； - raw sessi"
   },
   {
-   "block": "14d3d3da",
+   "block": "29a5af70",
    "kind": "removed",
-   "note": "removed superseded block: 对外应继续从结果出发："
+   "note": "removed superseded block: 建议的 payload label 只有两个，避免过度设计："
   },
   {
-   "block": "c785cddc",
+   "block": "c7e3edf9",
    "kind": "removed",
-   "note": "removed superseded block: > The artifact survives. The decisions that made it disappea"
+   "note": "removed superseded block: ```text local_only disclosable ```"
   },
   {
-   "block": "a18d5648",
+   "block": "7281cf7c",
    "kind": "removed",
-   "note": "removed superseded block: > Proofpress makes the history of the work as durable as the"
+   "note": "removed superseded block: 不在 V0 中加入 `team / department / executives / external / custo"
   },
   {
-   "block": "f42ab63e",
+   "block": "cebadf0c",
    "kind": "removed",
-   "note": "removed superseded block: > A shared, verifiable history of who changed what, when, an"
+   "note": "removed superseded block: ### 7.1 Local version event"
   },
   {
-   "block": "26c1cb2a",
+   "block": "5a01730a",
    "kind": "removed",
-   "note": "removed superseded block: Portable protocol 是解释“它如何跨 Slack、session 和 agent 做到”的第二层叙事。"
+   "note": "removed superseded block: ```json {   \"event\": \"version_created\",   \"event_id\": \"...\","
   },
   {
-   "block": "5b0fc973",
+   "block": "43ea5112",
    "kind": "removed",
-   "note": "removed superseded block: ## 8. 主要风险"
+   "note": "removed superseded block: ### 7.2 Disclosure event"
   },
   {
-   "block": "d839e294",
+   "block": "a57e4f6c",
    "kind": "removed",
-   "note": "removed superseded block: ### 8.1 Capture gap：最重要的风险"
+   "note": "removed superseded block: ```json {   \"event\": \"disclosure_created\",   \"disclosure_eve"
   },
   {
-   "block": "ec74ee15",
+   "block": "4ecd4c48",
    "kind": "removed",
-   "note": "removed superseded block: 产品必须让“附上一个 Slack URL / 会议结论 / feedback source”足够轻，并让 agent 在"
+   "note": "removed superseded block: `source_local_version` 可以只存在于本地 disclosure record，不进入 capsul"
   },
   {
-   "block": "243ef620",
+   "block": "38ebb985",
    "kind": "removed",
-   "note": "removed superseded block: ### 8.2 “Verifiable”容易被过度承诺"
+   "note": "removed superseded block: ```json {   \"proofpress_capsule\": 1,   \"artifact_id\": \"...\","
   },
   {
-   "block": "7cb63c45",
+   "block": "3bacf317",
    "kind": "removed",
-   "note": "removed superseded block: 对外不能模糊成“所有历史都已验证”。更准确的语言是："
+   "note": "removed superseded block: - 未披露 local event IDs； - “省略了 N 个私密版本”等侧信道； - 本地绝对路径； - 原始 s"
   },
   {
-   "block": "95b6b1ca",
+   "block": "550d9860",
    "kind": "removed",
-   "note": "removed superseded block: - computed change record； - deterministically verified chang"
+   "note": "removed superseded block: ### 8.1 Correction"
   },
   {
-   "block": "543cce8f",
+   "block": "ff35e569",
    "kind": "removed",
-   "note": "removed superseded block: ### 8.3 文件复制带来分叉，而不是天然协作"
+   "note": "removed superseded block: ```text disclosed event A   → correction event B(target=A, c"
   },
   {
-   "block": "28837d90",
+   "block": "4ffa73a2",
    "kind": "removed",
-   "note": "removed superseded block: Portable artifact 强化异步 handoff，但多人编辑副本会产生 branches。没有 server"
+   "note": "removed superseded block: A 仍存在；默认视图显示 B 后的有效解释，并允许展开原始值。"
   },
   {
-   "block": "07df6563",
+   "block": "945807ca",
    "kind": "removed",
-   "note": "removed superseded block: 这不是缺陷，但需要清晰定义：protocol 负责 durable history 与 reconciliation；s"
+   "note": "removed superseded block: ### 8.2 Supersession"
   },
   {
-   "block": "51358c68",
+   "block": "cdb89790",
    "kind": "removed",
-   "note": "removed superseded block: ### 8.4 Metadata 可能被剥离"
+   "note": "removed superseded block: ```text version A: old policy   → version B: new policy, sup"
   },
   {
-   "block": "b2378486",
+   "block": "2402dad0",
    "kind": "removed",
-   "note": "removed superseded block: - 从渲染页面复制粘贴正文； - 转成 PDF 或其他格式； - formatter 清理未知 link definit"
+   "note": "removed superseded block: 这不是删除 A，而是说明 A 不再是当前有效版本。"
   },
   {
-   "block": "04266fc0",
+   "block": "2c08d24c",
    "kind": "removed",
-   "note": "removed superseded block: MVP 必须测试真实传输路径，并支持显式 `proofpress export/import/repair`。未来不同格"
+   "note": "removed superseded block: 用于未来 materialization 不应再携带某段 payload："
   },
   {
-   "block": "8d12fa28",
+   "block": "eb40181d",
    "kind": "removed",
-   "note": "removed superseded block: ### 8.5 隐私、保留边界与访问控制"
+   "note": "removed superseded block: ```text event A contains sensitive why   → redaction B(targe"
   },
   {
-   "block": "b6559753",
+   "block": "3831dea6",
    "kind": "removed",
-   "note": "removed superseded block: Append-only 不应被解释为“任何被 agent 或人写过的内容都必须永久记录”。那会把 Proofpress "
+   "note": "removed superseded block: 未来 capsule 可以保留："
   },
   {
-   "block": "3f589a73",
+   "block": "fd4c7a0c",
    "kind": "removed",
-   "note": "removed superseded block: 必须先定义 **ledger admission boundary**：只有被提交进某个 ledger scope 的 "
+   "note": "removed superseded block: - A 的 envelope 或必要 commitment； - payload commitment（仅当它不会泄漏敏"
   },
   {
-   "block": "fb2f91cf",
+   "block": "92000fcd",
    "kind": "removed",
-   "note": "removed superseded block: 建议区分三个逻辑范围，但 v0 不必把它们做成完整权限系统："
+   "note": "removed superseded block: 未来 capsule移除："
   },
   {
-   "block": "cb279134",
+   "block": "21deabb8",
    "kind": "removed",
-   "note": "removed superseded block: ```text ephemeral scratch   不入账，随 session 消失 private lineage"
+   "note": "removed superseded block: - 被 redacted 的明文； - 能从其他字段直接恢复该明文的重复 payload。"
   },
   {
-   "block": "1e291271",
+   "block": "f5b4a148",
    "kind": "removed",
-   "note": "removed superseded block: Portable artifact v0 应采用最简单、最诚实的规则：**one artifact, one discl"
+   "note": "removed superseded block: 普通 content hash 是完整性工具，不是保密工具。对姓名、短结论、API key 等低熵 payload，明文"
   },
   {
-   "block": "a36aadc6",
+   "block": "ad17d431",
    "kind": "removed",
-   "note": "removed superseded block: - 完全不记录； - 留在 private lineage； - 在 shared event 中只保留不可逆 hash"
+   "note": "removed superseded block: ### 8.4 连事件存在都不能披露"
   },
   {
-   "block": "b6c997b6",
+   "block": "717685d0",
    "kind": "removed",
-   "note": "removed superseded block: 对于已经进入 shared ledger、后来需要撤回的内容，应区分事件存在与敏感 payload：追加 `redact"
+   "note": "removed superseded block: 若 disclosure stream 中某事件的存在本身就敏感，不能在同一 append-only stream 中“"
   },
   {
-   "block": "1728b582",
+   "block": "49227825",
    "kind": "removed",
-   "note": "removed superseded block: 细粒度用户/字段 ACL、密钥分发、跨组织策略和审计保留期属于 server/cloud backend。Protoco"
+   "note": "removed superseded block: 1. 关闭旧 stream； 2. 从一个安全 checkpoint 创建新的 sanitized disclosure"
   },
   {
-   "block": "d2dda629",
+   "block": "bd93b6b2",
    "kind": "removed",
-   "note": "removed superseded block: Share 的一次性 publication 语义、disclosure stream、停止未来发布、redaction"
+   "note": "removed superseded block: 这是一条新披露谱系，不是对旧历史的悄悄改写。"
   },
   {
-   "block": "e6f5a66b",
+   "block": "f18e7e3e",
    "kind": "removed",
-   "note": "removed superseded block: ### 8.6 文件体积与 agent context"
+   "note": "removed superseded block: ### 9.1 Share 之前"
   },
   {
-   "block": "be4d5c0e",
+   "block": "235c8a0f",
    "kind": "removed",
-   "note": "removed superseded block: 长历史会无限增长。需要 delta、checkpoint、compression 和 pruning/export po"
+   "note": "removed superseded block: | Edge case | V0 行为 | |---|---| | 用户不想记录当前工作 | 文件保持 untracke"
   },
   {
-   "block": "f263ee2b",
+   "block": "0a55cf83",
    "kind": "removed",
-   "note": "removed superseded block: ### 8.7 Protocol-first 的产品风险"
+   "note": "removed superseded block: ### 9.2 Share 生成过程中"
   },
   {
-   "block": "42018965",
+   "block": "6d850850",
    "kind": "removed",
-   "note": "removed superseded block: ### 9.1 战略选择"
+   "note": "removed superseded block: | Edge case | V0 行为 | |---|---| | 写文件中途崩溃 | 不产生最终输出和 disclos"
   },
   {
-   "block": "70554ada",
+   "block": "f29c5e3e",
    "kind": "removed",
-   "note": "removed superseded block: 建议推进，但按以下顺序："
+   "note": "removed superseded block: ### 9.3 Share 之后"
   },
   {
-   "block": "7a9f215a",
+   "block": "bebef450",
    "kind": "removed",
-   "note": "removed superseded block: > **先验证 portable history 是否改变一次真实 handoff，再决定是否把 embedded ca"
+   "note": "removed superseded block: | Edge case | V0 行为 | |---|---| | 用户继续本地编辑 | 新变化保持 private；旧"
   },
   {
-   "block": "3ce1084d",
+   "block": "0eb46804",
    "kind": "removed",
-   "note": "removed superseded block: 短期不需要立刻废弃 Git ref。可以先把 capsule 作为完整、自包含的 transport/export re"
+   "note": "removed superseded block: ### 9.4 多 audience"
   },
   {
-   "block": "6077810a",
+   "block": "a508445d",
    "kind": "removed",
-   "note": "removed superseded block: - Git ref 或 local store 仍可作为本机索引； - `proofpress pack` 把所需历史写"
+   "note": "removed superseded block: | Edge case | V0 行为 | |---|---| | 同一文档给内部团队和客户 | 两个 disclosu"
   },
   {
-   "block": "91291ba9",
+   "block": "1cba302e",
    "kind": "removed",
-   "note": "removed superseded block: 如果真实使用证明文件本身是最可靠的传播单元，再考虑让 capsule 成为单 artifact 的 canonical "
+   "note": "removed superseded block: ### 9.5 Branch 与 merge"
   },
   {
-   "block": "dd7c6e3c",
+   "block": "f1055cc9",
    "kind": "removed",
-   "note": "removed superseded block: ### 9.2 Portable Proof Capsule v0"
+   "note": "removed superseded block: | Edge case | V0 行为 | |---|---| | 两个收件人从同一 capsule 修改 | 产生两个"
   },
   {
-   "block": "e3201347",
+   "block": "cf502818",
    "kind": "removed",
-   "note": "removed superseded block: MVP 只做 Markdown、顺序 handoff 和最少命令："
+   "note": "removed superseded block: ### 9.6 Redaction 与删除"
   },
   {
-   "block": "0f4d03d2",
+   "block": "8262217a",
    "kind": "removed",
-   "note": "removed superseded block: 1. 稳定、路径无关的 `artifact_id`； 2. 一个隐藏 manifest； 3. 最近若干版本的完整 bl"
+   "note": "removed superseded block: | Edge case | V0 行为 | |---|---| | 只删 why | payload-level red"
   },
   {
-   "block": "e13efe2e",
+   "block": "74a97d85",
    "kind": "removed",
-   "note": "removed superseded block: Fork 只需在 v0 中被检测并明确报出，不必立即实现自动 merge。"
+   "note": "removed superseded block: ### 9.7 Server/Cloud 未来能力"
   },
   {
-   "block": "1779acdc",
+   "block": "6f7c6a6a",
    "kind": "removed",
-   "note": "removed superseded block: ### 9.3 最关键的 dogfood 实验"
+   "note": "removed superseded block: | Edge case | Server 能做什么 | 仍不能做什么 | |---|---|---| | Revoke "
   },
   {
-   "block": "ddd2687f",
+   "block": "c77554eb",
    "kind": "removed",
-   "note": "removed superseded block: 1. 与 agent A 完成 5 轮修改，包含至少两个被否方案； 2. 生成一个普通最终 Markdown 和一个携带"
+   "note": "removed superseded block: 除 version actors 外，share 本身也必须有 actor："
   },
   {
-   "block": "8b8863e0",
+   "block": "af27fc48",
    "kind": "removed",
-   "note": "removed superseded block: ### 9.4 Kill criteria"
+   "note": "removed superseded block: ```text requested_by    谁要求生成或修改内容 produced_by     谁产生正文 edi"
   },
   {
-   "block": "62dfe14f",
+   "block": "5dfa0cd3",
    "kind": "removed",
-   "note": "removed superseded block: - 用户在 handoff 时不愿携带原始 artifact 文件，只愿复制最终文本或发渲染链接； - capsule "
+   "note": "removed superseded block: `disclosed_by` 与 `sent_by` 不应合并：Proofpress 可以确定谁生成 capsule，但"
   },
   {
-   "block": "73ac9e84",
+   "block": "779dd2a4",
    "kind": "removed",
-   "note": "removed superseded block: 未建 capsule,先用 `proofpress export` 生成 sidecar JSON 验证\"携带历史是否改"
+   "note": "removed superseded block: 不能因为当前用户登录名是 Richard，就把所有 `produced_by` 自动记成 Richard。"
   },
   {
-   "block": "ca3d6e08",
+   "block": "fc0ea1a9",
    "kind": "removed",
-   "note": "removed superseded block: **结果:**"
+   "note": "removed superseded block: ## 11. 建议的 V0 命令语义"
   },
   {
-   "block": "e6eb3b2b",
+   "block": "4eab4d03",
    "kind": "removed",
-   "note": "removed superseded block: 1. **历史确实进入推理**:带账本臂在全部三份交付物的设计说明里显式引用了 why/rejected(\"账本 v3 "
+   "note": "removed superseded block: 命令名尚可调整，但行为必须保持："
   },
   {
-   "block": "afa82f06",
+   "block": "f6b19413",
    "kind": "removed",
-   "note": "removed superseded block: **成色声明**:每格 n=1、同模型、评审非盲、第二轮目录含第一轮产物(双臂对称)。是方向性信号,不是统计结论。"
+   "note": "removed superseded block: ```text proofpress track FILE   开始允许 snapshots；不等于分享。  proof"
   },
   {
-   "block": "5aa97967",
+   "block": "c6321609",
    "kind": "removed",
-   "note": "removed superseded block: **判定**:假设 A 获方向性支持,未达\"改变真实 handoff\"的最终标准——那需要 §9.3 的真人 Slack"
+   "note": "removed superseded block: V0 不提供名为 `unshare` 的命令，因为它暗示无法兑现的 recall。"
   },
   {
-   "block": "9a3c3b79",
+   "block": "2e1be2c2",
    "kind": "removed",
-   "note": "removed superseded block: ## 10. 对 Launch 的影响"
+   "note": "removed superseded block: ## 12. UI 文案纪律"
   },
   {
-   "block": "3a13ee13",
+   "block": "47964e87",
    "kind": "removed",
-   "note": "removed superseded block: 可以分两步："
+   "note": "removed superseded block: 允许使用："
   },
   {
-   "block": "b92d64bd",
+   "block": "9d47c433",
    "kind": "removed",
-   "note": "removed superseded block: 1. 当前 CLI / GitHub release 诚实强调 engine 能力：semantic history、p"
+   "note": "removed superseded block: - “Create a shareable copy” - “Publish this version’s histor"
   },
   {
-   "block": "d435f1fe",
+   "block": "2c179dee",
    "kind": "removed",
-   "note": "removed superseded block: 产品说明随后才出现："
+   "note": "removed superseded block: 禁止使用："
   },
   {
-   "block": "0327f20a",
+   "block": "7a06bcca",
    "kind": "removed",
-   "note": "removed superseded block: > Every Proofpress artifact carries a shared, verifiable his"
+   "note": "removed superseded block: - “Turn sharing on” - “Unshare everywhere” - “Delete from al"
   },
   {
-   "block": "e03ef32e",
+   "block": "a4c4201c",
    "kind": "removed",
-   "note": "removed superseded block: 它与当前战略的核心判断高度一致："
+   "note": "removed superseded block: ## 14. Release acceptance tests"
   },
   {
-   "block": "d5fbfb01",
+   "block": "7a9757ba",
    "kind": "removed",
-   "note": "removed superseded block: - agent 让产出速度超过人类审阅和记忆带宽； - trust 需要机器可计算的事实，而不只是 agent 自述； "
+   "note": "removed superseded block: 1. Snapshot 后旧 shared copy 的字节完全不变； 2. Share 同一输入两次产生同一 proj"
   },
   {
-   "block": "228e34a6",
+   "block": "5b2a892f",
    "kind": "removed",
-   "note": "removed superseded block: 它也带来一个更准确的产品层级："
+   "note": "removed superseded block: > Proofpress can create a self-contained copy of an artifact"
   },
   {
-   "block": "86e35bd2",
+   "block": "86713e3e",
    "kind": "removed",
-   "note": "removed superseded block: 最值得守住的一句话仍然是："
+   "note": "removed superseded block: ```text Work privately. Publish a proof deliberately. Correc"
   }
  ],
  "context": {
-  "why": "The team approved a simpler product model: portability is declared once and inherited, accepted versions and consequential rejections are admitted, ordinary file handoff requires no share workflow, and captured history is checkable without claiming complete capture.",
+  "why": "Privacy should follow a sticky artifact policy and a single raw-file-holder boundary: admit decisions selectively, exclude conversations by default, stop portability prospectively, expose attribution gaps, and never imply offline recall.",
   "rejected": [
-   "Keep per-share publication and disclosure streams as the V0 interaction — this repeated permission ceremony, confused portability with distribution, and created unnecessary audience-state complexity.",
-   "Position Proofpress as an OKF extension or another LLM wiki — Proofpress should remain an independent artifact-provenance layer, format-compatible but product-independent."
+   "Model every handoff as an explicit publication with previews, disclosure streams, audience projections, and share actors — this was operationally heavy and contradicted the approved no-ceremony portable workflow.",
+   "Add per-user ACL or multi-audience behavior to an offline Markdown capsule — a distributed plaintext file cannot enforce those permissions, so they remain outside V0."
   ]
  }
 }
