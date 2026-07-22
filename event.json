@@ -1,157 +1,62 @@
 {
  "event": "version_created",
- "artifact": "docs/PORTABLE_ARTIFACT_STRATEGY.md",
- "version": "8b0535cf",
- "parent": "99af7ece",
+ "artifact": "skills/README.md",
+ "version": "f20b8181",
+ "parent": "b9722986",
  "author": {
   "name": "codex",
   "kind": "agent",
   "session": "vision-and-harness-2026-07-22"
  },
- "note": "Added long-term trust and collective-intelligence vision",
+ "note": "Clarified claims scope and added Cursor installation",
  "ts": "2026-07-22T05:25:17+00:00",
  "stats": {
-  "modified": 2,
-  "added": 9
+  "modified": 1,
+  "added": 2
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "23de2854",
+   "block": "a0d8e6f2",
    "type": "para",
-   "context": "Proofpress：从版本账本到 Portable Artifact Prot"
+   "context": "The agent contract (shared across all ha"
   },
   {
    "kind": "added",
-   "block": "748ce1a3",
-   "type": "heading",
-   "context": "终局 Vision：让智能扩张，让信任留存",
-   "preview": "## 终局 Vision：让智能扩张，让信任留存"
-  },
-  {
-   "kind": "added",
-   "block": "31af6d82",
-   "type": "para",
-   "context": "终局 Vision：让智能扩张，让信任留存",
-   "preview": "**Proofpress 的终局不是另一个 docs 产品，而是 trustworthy human-agent kno"
-  },
-  {
-   "kind": "added",
-   "block": "b95e407c",
-   "type": "para",
-   "context": "终局 Vision：让智能扩张，让信任留存",
-   "preview": "Portable artifact 是这个 vision 的关键载体：它把静态文件变成一个可以跨人、agent、sess"
-  },
-  {
-   "kind": "added",
-   "block": "e4629fc1",
-   "type": "para",
-   "context": "终局 Vision：让智能扩张，让信任留存",
-   "preview": "这才是 **agent-native document format** 的长期含义：不是再发明一种文件扩展名或编辑器，"
-  },
-  {
-   "kind": "added",
-   "block": "06d83ab9",
-   "type": "para",
-   "context": "终局 Vision：让智能扩张，让信任留存",
-   "preview": "三层终局："
-  },
-  {
-   "kind": "added",
-   "block": "f35416d1",
+   "block": "9d561c7d",
    "type": "list",
-   "context": "终局 Vision：让智能扩张，让信任留存",
-   "preview": "1. **现在——portable decision lineage：**让一份 artifact 的历史像 artif"
+   "context": "Install",
+   "preview": "- **Cursor** — copy `cursor/proofpress/` into"
   },
   {
    "kind": "added",
-   "block": "9d275ea4",
+   "block": "5fe5778d",
    "type": "para",
-   "context": "终局 Vision：让智能扩张，让信任留存",
-   "preview": "类比不是“再造一个 Git”：**Git gave code history; Proofpress gives kno"
-  },
-  {
-   "kind": "added",
-   "block": "f8ac341d",
-   "type": "para",
-   "context": "终局 Vision：让智能扩张，让信任留存",
-   "preview": "对外叙事层级："
-  },
-  {
-   "kind": "added",
-   "block": "e5784e73",
-   "type": "list",
-   "context": "终局 Vision：让智能扩张，让信任留存",
-   "preview": "- **North star：**Scale intelligence. Preserve trust.\n- **Cat"
-  },
-  {
-   "kind": "modified",
-   "block": "5f794662",
-   "type": "code",
-   "context": "11. 最终判断"
+   "context": "Install",
+   "preview": "  `.cursor/skills/proofpress/` (or `.agents/skills/proofpres"
   }
  ],
  "claims": [
   {
-   "block": "23de2854",
+   "block": "a0d8e6f2",
    "kind": "modified",
-   "note": "updated the strategy date and metadata formatting"
+   "note": "clarified that claims cover touched blocks and unchanged is an explicit negative claim"
   },
   {
-   "block": "748ce1a3",
+   "block": "9d561c7d",
    "kind": "added",
-   "note": "added the long-term vision heading"
+   "note": "added Cursor to the supported harness install list"
   },
   {
-   "block": "31af6d82",
+   "block": "5fe5778d",
    "kind": "added",
-   "note": "defined Proofpress as an open trust protocol and ledger"
-  },
-  {
-   "block": "b95e407c",
-   "kind": "added",
-   "note": "connected portable artifacts to durable intellectual provenance"
-  },
-  {
-   "block": "e4629fc1",
-   "kind": "added",
-   "note": "defined the long-term meaning of an agent-native document format"
-  },
-  {
-   "block": "06d83ab9",
-   "kind": "added",
-   "note": "introduced the three-layer end-state progression"
-  },
-  {
-   "block": "f35416d1",
-   "kind": "added",
-   "note": "described ledger, trust protocol, and collective-intelligence stages"
-  },
-  {
-   "block": "9d275ea4",
-   "kind": "added",
-   "note": "added the Git analogy and foundational knowledge questions"
-  },
-  {
-   "block": "f8ac341d",
-   "kind": "added",
-   "note": "introduced the external narrative hierarchy"
-  },
-  {
-   "block": "e5784e73",
-   "kind": "added",
-   "note": "added north star, category, vision, mission, and brand explanation"
-  },
-  {
-   "block": "5f794662",
-   "kind": "modified",
-   "note": "extended the final hierarchy with long-term category and outcome"
+   "note": "documented Cursor project-level skill locations and chat refresh behavior"
   }
  ],
  "context": {
-  "why": "The portable artifact strategy needed to connect its immediate mechanism to the larger vision of trustworthy, cumulative human-agent intelligence.",
+  "why": "Harness documentation should match verifier semantics and include Cursor as a supported distribution surface.",
   "rejected": [
-   "Place the vision in docs/STRATEGY.md — the user clarified that it belongs specifically in the portable artifact strategy."
+   "Enumerate every untouched block — unnecessary because verification only requires disclosure of computed changes and explicit negative claims."
   ]
  }
 }
