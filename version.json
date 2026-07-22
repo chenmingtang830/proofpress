@@ -1,156 +1,102 @@
 {
- "artifact": "skills/README.md",
- "artifact_id": "pp_e74be09a9d28f1855db4a007",
+ "artifact": "skills/claude-code/proofpress/SKILL.md",
+ "artifact_id": "pp_8f9f160826e336a46eb62bd4",
  "blocks": [
   {
-   "type": "heading",
-   "text": "# Proofpress harness adapters",
-   "id": "df70df88",
-   "hash": "d879bdb67eed"
-  },
-  {
    "type": "para",
-   "text": "The skill captures rich decision context when an accepted Markdown artifact\nversion is still fresh. The hook is only a best-effort fallback. `ingest`\nbackfills Git history, and the embedded capsule carries portable history beyond\nGit.",
-   "id": "93121540",
-   "hash": "ab127ec74dd8"
-  },
-  {
-   "type": "table",
-   "text": "| Layer | What it knows | Attribution rule |\n|---|---|---|\n| Skill | accepted version, claims, why, consequential rejection | supplies known actor roles and basis |\n| Hook / `capture` | changed, staged, and untracked Markdown | supplies only `recorded_by` |\n| `ingest` | committed content and Git author | attributes from Git metadata |\n| Portable capsule | admitted records attached to the artifact | preserves recorded fields; invents none |",
-   "id": "1744e48a",
-   "hash": "b232de65e02a"
+   "text": "---\nname: proofpress\ndescription: Preserve decision history for Markdown knowledge artifacts with Proofpress. Use when creating or accepting a meaningful revision to an ADR, design doc, PRD, README, strategy note, or portable .md artifact in a repository containing proofpress.py; never use for source-code files.\n---",
+   "hash": "a8220e237ffa",
+   "id": "20222364"
   },
   {
    "type": "heading",
-   "text": "## Shared contract",
-   "id": "50c32349",
-   "hash": "b0afc9087eb0"
-  },
-  {
-   "type": "list",
-   "text": "1. Work only on Markdown knowledge artifacts, never source code.\n2. Read the artifact policy. Enable `portable` once when requested; it stays on",
-   "id": "a2f15f7d",
-   "hash": "63de8cbd9815"
+   "text": "# Proofpress",
+   "id": "25f10229",
+   "hash": "8576f3816903"
   },
   {
    "type": "para",
-   "text": "   until explicitly changed.",
-   "id": "23c62cea",
-   "hash": "5a15a8b8b1ea"
-  },
-  {
-   "type": "list",
-   "text": "3. Preserve block anchors, run `anchor`, and write honest claims for touched or",
-   "id": "7109fe56",
-   "hash": "e333e07c88d6"
-  },
-  {
-   "type": "para",
-   "text": "   removed blocks.",
-   "id": "f8ee70a6",
-   "hash": "c82088950f00"
-  },
-  {
-   "type": "list",
-   "text": "4. Snapshot accepted, meaningful versions—not every turn or save—with `--why`",
-   "id": "9d481ea6",
-   "hash": "01e19d62d800"
-  },
-  {
-   "type": "para",
-   "text": "   and explicit known actors.",
-   "id": "9710997f",
-   "hash": "233e032bc683"
-  },
-  {
-   "type": "list",
-   "text": "5. Use `--rejected` only for consequential dead branches. Never infer rejected",
-   "id": "c8f43a25",
-   "hash": "651c12d3f8a0"
-  },
-  {
-   "type": "para",
-   "text": "   paths from casual discussion or store raw prompts/transcripts.",
-   "id": "41bb2485",
-   "hash": "8351911b6600"
-  },
-  {
-   "type": "list",
-   "text": "6. Run `verify` and report its output verbatim. A mismatch is evidence, not a",
-   "id": "3991a868",
-   "hash": "f9193e99104f"
-  },
-  {
-   "type": "para",
-   "text": "   reason to manufacture another snapshot.",
-   "id": "a08bfb00",
-   "hash": "d9461d1ec60b"
-  },
-  {
-   "type": "list",
-   "text": "7. On receipt of a portable artifact, run `inspect` before `import`.",
-   "id": "a8bc86e1",
-   "hash": "5405efce3198"
+   "text": "Record accepted Markdown artifact versions with structured testimony and\nverification. Do not snapshot every conversational turn.",
+   "id": "cb25a041",
+   "hash": "22a023b57c1f"
   },
   {
    "type": "heading",
-   "text": "## Install",
-   "id": "f5f3a858",
-   "hash": "8fdd8c811597"
+   "text": "## Workflow",
+   "id": "d8284708",
+   "hash": "05146c1f1860"
   },
   {
    "type": "list",
-   "text": "- Claude Code: copy `claude-code/proofpress/` to `.claude/skills/` and merge",
-   "id": "0e468706",
-   "hash": "a51c1671ed41"
+   "text": "1. Read `python3 proofpress.py policy <file>`. If the user asks for portability,",
+   "id": "04e1285c",
+   "hash": "0d0b4fbb2e3c"
   },
   {
    "type": "para",
-   "text": "  `claude-code/hooks-example.json` into `.claude/settings.json`.",
-   "id": "225dd61c",
-   "hash": "bb6ecede4fb6"
+   "text": "   run `policy <file> portable` once; it remains sticky. If Git history exists\n   without a ledger, run `ingest <file>`.",
+   "id": "0fab4251",
+   "hash": "d821cbd5e8cd"
   },
   {
    "type": "list",
-   "text": "- Codex: append `codex/AGENTS-snippet.md` to `AGENTS.md` and merge",
-   "id": "3e5fba6b",
-   "hash": "a95f4009cec8"
+   "text": "2. Preserve surviving `[//]: # (ob:xxxxxxxx)` anchors while editing. Run",
+   "id": "a5e7461c",
+   "hash": "4c4ce4c318a2"
   },
   {
    "type": "para",
-   "text": "  `codex/config-hooks.toml` into the Codex configuration.",
-   "id": "3ef5e70c",
-   "hash": "10a0929efef0"
+   "text": "   `anchor <file>` and inspect inherited/new/gone IDs.",
+   "id": "01348595",
+   "hash": "ce2f29513646"
   },
   {
    "type": "list",
-   "text": "- Cursor: copy `cursor/proofpress/` to `.cursor/skills/proofpress/` or",
-   "id": "9d561c7d",
-   "hash": "00c9c80ff40c"
+   "text": "3. Write claims JSON with one honest entry per touched or removed block; do not",
+   "id": "ac191e68",
+   "hash": "be99217fb0ef"
   },
   {
    "type": "para",
-   "text": "  `.agents/skills/proofpress/`, then start a new Agent chat.",
-   "id": "9cddddf2",
-   "hash": "a4829bbd3fc7"
+   "text": "   enumerate untouched blocks.",
+   "id": "29b54f6f",
+   "hash": "a7f1bc5835ee"
   },
   {
    "type": "list",
-   "text": "- Pi: install `pi/proofpress-skill.md`; `pi/extension-skeleton.ts` is an",
-   "id": "2202e132",
-   "hash": "19c1019de62b"
+   "text": "4. Snapshot the accepted version with `--why`, claims, and explicit actors:",
+   "id": "4623b792",
+   "hash": "5d30de519d56"
+  },
+  {
+   "type": "code",
+   "text": "   ```sh\n   python3 proofpress.py snapshot <file> --kind agent --author claude \\\n     --produced-by claude --recorded-by claude \\\n     --attribution-basis \"active authoring session\" --note \"<changelog>\" \\\n     --claims <claims.json> --why \"<actual reason>\" \\\n     --rejected \"<consequential dead branch — reason>\"\n   ```",
+   "id": "c89d4269",
+   "hash": "e26496931780"
   },
   {
    "type": "para",
-   "text": "  intentionally untested extension sketch whose event API should be checked\n  against the installed Pi version.",
-   "id": "cc2d6144",
-   "hash": "94bce8b0094a"
+   "text": "   Omit `--rejected` unless the dead branch matters to future collaborators.\n   Never infer it from casual discussion or include raw prompts/transcripts.",
+   "id": "3b3f299e",
+   "hash": "4dd347f30287"
+  },
+  {
+   "type": "list",
+   "text": "5. Run `verify <file>` and report its output verbatim. Never re-snapshot merely",
+   "id": "64c98298",
+   "hash": "1c02a1572a6e"
   },
   {
    "type": "para",
-   "text": "Adapters expect `proofpress.py` at the repository root.",
-   "id": "c883ac9d",
-   "hash": "5a8883663c89"
+   "text": "   to force green.",
+   "id": "0928adea",
+   "hash": "d4f97ae420cd"
+  },
+  {
+   "type": "para",
+   "text": "For incoming portable files, run `inspect` and then `import`. Fallback `capture`\nrecords only `recorded_by`; it cannot know authorship or reasoning. Never\nsnapshot source-code files.",
+   "id": "e96a23df",
+   "hash": "cd71ba189794"
   }
  ]
 }

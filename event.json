@@ -1,325 +1,300 @@
 {
  "event": "version_created",
- "artifact": "skills/README.md",
- "artifact_id": "pp_e74be09a9d28f1855db4a007",
- "version": "d81a7942",
- "parent": "f20b8181",
+ "artifact": "skills/claude-code/proofpress/SKILL.md",
+ "artifact_id": "pp_8f9f160826e336a46eb62bd4",
+ "version": "0a1556e5",
+ "parent": "ca478163",
  "author": {
   "name": "codex",
   "kind": "agent",
   "session": null
  },
  "note": "aligned with portable-artifact V0 and launch boundary",
- "ts": "2026-07-22T09:22:58+00:00",
+ "ts": "2026-07-22T09:22:59+00:00",
  "stats": {
-  "added": 19,
-  "modified": 4,
-  "removed": 21
+  "added": 15,
+  "modified": 1,
+  "removed": 24
  },
  "changes": [
   {
    "kind": "added",
-   "block": "93121540",
+   "block": "20222364",
    "type": "para",
-   "context": "Proofpress harness adapters",
-   "preview": "The skill captures rich decision context when an accepted Ma"
+   "context": "(文首)",
+   "preview": "---\nname: proofpress\ndescription: Preserve decision history "
   },
   {
    "kind": "added",
-   "block": "1744e48a",
-   "type": "table",
-   "context": "Proofpress harness adapters",
-   "preview": "| Layer | What it knows | Attribution rule |\n|---|---|---|\n|"
-  },
-  {
-   "kind": "added",
-   "block": "50c32349",
+   "block": "25f10229",
    "type": "heading",
-   "context": "Shared contract",
-   "preview": "## Shared contract"
+   "context": "Proofpress",
+   "preview": "# Proofpress"
   },
   {
    "kind": "added",
-   "block": "a2f15f7d",
-   "type": "list",
-   "context": "Shared contract",
-   "preview": "1. Work only on Markdown knowledge artifacts, never source c"
-  },
-  {
-   "kind": "added",
-   "block": "23c62cea",
+   "block": "cb25a041",
    "type": "para",
-   "context": "Shared contract",
-   "preview": "   until explicitly changed."
+   "context": "Proofpress",
+   "preview": "Record accepted Markdown artifact versions with structured t"
   },
   {
    "kind": "added",
-   "block": "7109fe56",
-   "type": "list",
-   "context": "Shared contract",
-   "preview": "3. Preserve block anchors, run `anchor`, and write honest cl"
-  },
-  {
-   "kind": "added",
-   "block": "f8ee70a6",
-   "type": "para",
-   "context": "Shared contract",
-   "preview": "   removed blocks."
-  },
-  {
-   "kind": "added",
-   "block": "9d481ea6",
-   "type": "list",
-   "context": "Shared contract",
-   "preview": "4. Snapshot accepted, meaningful versions—not every turn or "
-  },
-  {
-   "kind": "added",
-   "block": "9710997f",
-   "type": "para",
-   "context": "Shared contract",
-   "preview": "   and explicit known actors."
-  },
-  {
-   "kind": "added",
-   "block": "c8f43a25",
-   "type": "list",
-   "context": "Shared contract",
-   "preview": "5. Use `--rejected` only for consequential dead branches. Ne"
-  },
-  {
-   "kind": "added",
-   "block": "41bb2485",
-   "type": "para",
-   "context": "Shared contract",
-   "preview": "   paths from casual discussion or store raw prompts/transcr"
-  },
-  {
-   "kind": "added",
-   "block": "3991a868",
-   "type": "list",
-   "context": "Shared contract",
-   "preview": "6. Run `verify` and report its output verbatim. A mismatch i"
-  },
-  {
-   "kind": "added",
-   "block": "a08bfb00",
-   "type": "para",
-   "context": "Shared contract",
-   "preview": "   reason to manufacture another snapshot."
-  },
-  {
-   "kind": "added",
-   "block": "a8bc86e1",
-   "type": "list",
-   "context": "Shared contract",
-   "preview": "7. On receipt of a portable artifact, run `inspect` before `"
+   "block": "d8284708",
+   "type": "heading",
+   "context": "Workflow",
+   "preview": "## Workflow"
   },
   {
    "kind": "modified",
-   "block": "0e468706",
+   "block": "04e1285c",
    "type": "list",
-   "context": "Install"
+   "context": "Workflow"
   },
   {
-   "kind": "modified",
-   "block": "225dd61c",
+   "kind": "added",
+   "block": "0fab4251",
    "type": "para",
-   "context": "Install"
+   "context": "Workflow",
+   "preview": "   run `policy <file> portable` once; it remains sticky. If "
   },
   {
-   "kind": "modified",
-   "block": "3e5fba6b",
+   "kind": "added",
+   "block": "a5e7461c",
    "type": "list",
-   "context": "Install"
+   "context": "Workflow",
+   "preview": "2. Preserve surviving `[//]: # (ob:xxxxxxxx)` anchors while "
   },
   {
    "kind": "added",
-   "block": "3ef5e70c",
+   "block": "01348595",
    "type": "para",
-   "context": "Install",
-   "preview": "  `codex/config-hooks.toml` into the Codex configuration."
+   "context": "Workflow",
+   "preview": "   `anchor <file>` and inspect inherited/new/gone IDs."
   },
   {
-   "kind": "modified",
-   "block": "9d561c7d",
+   "kind": "added",
+   "block": "ac191e68",
    "type": "list",
-   "context": "Install"
+   "context": "Workflow",
+   "preview": "3. Write claims JSON with one honest entry per touched or re"
   },
   {
    "kind": "added",
-   "block": "9cddddf2",
+   "block": "29b54f6f",
    "type": "para",
-   "context": "Install",
-   "preview": "  `.agents/skills/proofpress/`, then start a new Agent chat."
+   "context": "Workflow",
+   "preview": "   enumerate untouched blocks."
   },
   {
    "kind": "added",
-   "block": "2202e132",
+   "block": "4623b792",
    "type": "list",
-   "context": "Install",
-   "preview": "- Pi: install `pi/proofpress-skill.md`; `pi/extension-skelet"
+   "context": "Workflow",
+   "preview": "4. Snapshot the accepted version with `--why`, claims, and e"
   },
   {
    "kind": "added",
-   "block": "cc2d6144",
-   "type": "para",
-   "context": "Install",
-   "preview": "  intentionally untested extension sketch whose event API sh"
+   "block": "c89d4269",
+   "type": "code",
+   "context": "Workflow",
+   "preview": "   ```sh\n   python3 proofpress.py snapshot <file> --kind age"
   },
   {
    "kind": "added",
-   "block": "c883ac9d",
+   "block": "3b3f299e",
    "type": "para",
-   "context": "Install",
-   "preview": "Adapters expect `proofpress.py` at the repository root."
+   "context": "Workflow",
+   "preview": "   Omit `--rejected` unless the dead branch matters to futur"
+  },
+  {
+   "kind": "added",
+   "block": "64c98298",
+   "type": "list",
+   "context": "Workflow",
+   "preview": "5. Run `verify <file>` and report its output verbatim. Never"
+  },
+  {
+   "kind": "added",
+   "block": "0928adea",
+   "type": "para",
+   "context": "Workflow",
+   "preview": "   to force green."
+  },
+  {
+   "kind": "added",
+   "block": "e96a23df",
+   "type": "para",
+   "context": "Workflow",
+   "preview": "For incoming portable files, run `inspect` and then `import`"
   },
   {
    "kind": "removed",
-   "block": "bfadc2f0",
+   "block": "e2502235",
    "type": "para",
    "context": "",
-   "preview": "One engine, three capture layers. The skill is the *rich* la"
+   "preview": "---\nname: proofpress\ndescription: Version-ledger discipline "
   },
   {
    "kind": "removed",
-   "block": "b188925d",
-   "type": "table",
-   "context": "",
-   "preview": "| Layer | Guarantee | What it captures |\n|---|---|---|\n| Ski"
-  },
-  {
-   "kind": "removed",
-   "block": "7dc83375",
+   "block": "fa90d114",
    "type": "heading",
    "context": "",
-   "preview": "## The agent contract (shared across all harnesses)"
+   "preview": "# Proofpress: close the loop on every knowledge artifact you"
   },
   {
    "kind": "removed",
-   "block": "ad2649e7",
+   "block": "64f89da2",
    "type": "para",
    "context": "",
-   "preview": "When you (the agent) create or substantially revise a **mark"
+   "preview": "You are writing into a ledger whose core promise is: **the a"
   },
   {
    "kind": "removed",
-   "block": "720c81e7",
+   "block": "3ecb1006",
+   "type": "heading",
+   "context": "",
+   "preview": "## When this skill applies"
+  },
+  {
+   "kind": "removed",
+   "block": "62c7aba3",
    "type": "list",
    "context": "",
-   "preview": "1. If the artifact has git history but no ledger entries: `p"
+   "preview": "- You created or substantially revised a `.md` knowledge art"
   },
   {
    "kind": "removed",
-   "block": "df87c8ed",
+   "block": "a18c4552",
    "type": "para",
    "context": "",
-   "preview": "   to blocks you keep or modify; drop anchors of blocks you "
+   "preview": "  doc, PRD, README, strategy/planning doc)."
   },
   {
    "kind": "removed",
-   "block": "b05980e7",
+   "block": "427a9b25",
    "type": "list",
    "context": "",
-   "preview": "3. `python3 proofpress.py anchor <file>` — read the inherite"
+   "preview": "- The repo contains `proofpress.py` (root) or `git-proofpres"
   },
   {
    "kind": "removed",
-   "block": "4cebe5e8",
-   "type": "para",
+   "block": "800b0e0a",
+   "type": "heading",
    "context": "",
-   "preview": "   inventory it prints."
+   "preview": "## The loop (run after your edits are complete)"
   },
   {
    "kind": "removed",
-   "block": "5bcd6f73",
+   "block": "628f5943",
    "type": "list",
    "context": "",
-   "preview": "4. Write a claims JSON array — one entry per block you touch"
+   "preview": "1. **Backfill if needed.** Artifact has git history but no l"
   },
   {
    "kind": "removed",
-   "block": "a0d8e6f2",
+   "block": "c08c16f7",
    "type": "para",
    "context": "",
-   "preview": "   flattering: `{\"block\": \"<id>\", \"kind\": \"added|removed|mod"
+   "preview": "   `python3 proofpress.py ingest <file>`"
   },
   {
    "kind": "removed",
-   "block": "38995f1c",
+   "block": "b798762b",
    "type": "list",
    "context": "",
-   "preview": "5. Snapshot with testimony. `--why` and at least one `--reje"
+   "preview": "2. **Anchors.** While editing you kept each surviving block'"
   },
   {
    "kind": "removed",
-   "block": "b5319ccd",
+   "block": "6d430ad4",
    "type": "para",
    "context": "",
-   "preview": "   considered alternatives) are **required, not optional** —"
+   "preview": "   `[//]: # (ob:xxxxxxxx)` line attached to it. Now run\n   `"
   },
   {
    "kind": "removed",
-   "block": "1152219a",
+   "block": "65cb9ab0",
+   "type": "list",
+   "context": "",
+   "preview": "3. **Claims.** Write a JSON array to a temp file — one entry"
+  },
+  {
+   "kind": "removed",
+   "block": "c6316604",
+   "type": "para",
+   "context": "",
+   "preview": "   touched or removed, from your own memory of what you did "
+  },
+  {
+   "kind": "removed",
+   "block": "e31273f8",
+   "type": "code",
+   "context": "",
+   "preview": "   ```json\n   [{\"block\": \"a1b2c3d4\", \"kind\": \"modified\", \"no"
+  },
+  {
+   "kind": "removed",
+   "block": "fb417407",
+   "type": "para",
+   "context": "",
+   "preview": "   Kinds: `added` / `removed` / `modified` / `moved` / `unch"
+  },
+  {
+   "kind": "removed",
+   "block": "683bcff8",
+   "type": "list",
+   "context": "",
+   "preview": "4. **Snapshot with testimony** — `--why` is required; add on"
+  },
+  {
+   "kind": "removed",
+   "block": "6614e6c5",
+   "type": "para",
+   "context": "",
+   "preview": "   alternative you considered and dropped (decision-level de"
+  },
+  {
+   "kind": "removed",
+   "block": "98e79ad0",
    "type": "code",
    "context": "",
    "preview": "   ```\n   python3 proofpress.py snapshot <file> --kind agent"
   },
   {
    "kind": "removed",
-   "block": "d7630077",
+   "block": "57f2f606",
+   "type": "para",
+   "context": "",
+   "preview": "   the verbatim output. **Do not re-snapshot to turn a ⚠ gre"
+  },
+  {
+   "kind": "removed",
+   "block": "8fb07c57",
+   "type": "heading",
+   "context": "",
+   "preview": "## Notes"
+  },
+  {
+   "kind": "removed",
+   "block": "aa8506a6",
    "type": "list",
    "context": "",
-   "preview": "6. `python3 proofpress.py verify <file>` — report the output"
+   "preview": "- `snapshot` is content-addressed: re-running on identical c"
   },
   {
    "kind": "removed",
-   "block": "14c571e1",
+   "block": "a807a5ca",
    "type": "para",
    "context": "",
-   "preview": "   verbatim. **Never rewrite claims to force a green result*"
+   "preview": "  session-end hook records it — you never need to compensate"
   },
   {
    "kind": "removed",
-   "block": "373d7dac",
-   "type": "para",
-   "context": "",
-   "preview": "Red line: never snapshot source-code files. That is git's te"
-  },
-  {
-   "kind": "removed",
-   "block": "0110874f",
-   "type": "para",
-   "context": "",
-   "preview": "  merge `codex/config-hooks.toml` into `~/.codex/config.toml"
-  },
-  {
-   "kind": "removed",
-   "block": "5fe5778d",
-   "type": "para",
-   "context": "",
-   "preview": "  `.cursor/skills/proofpress/` (or `.agents/skills/proofpres"
-  },
-  {
-   "kind": "removed",
-   "block": "eaad8890",
+   "block": "ae9a933c",
    "type": "list",
    "context": "",
-   "preview": "- **Pi** — drop `pi/proofpress-skill.md` into your skills di"
-  },
-  {
-   "kind": "removed",
-   "block": "fc22c1a8",
-   "type": "para",
-   "context": "",
-   "preview": "  `pi/extension-skeleton.ts` sketches the deterministic in-p"
-  },
-  {
-   "kind": "removed",
-   "block": "8395a86c",
-   "type": "para",
-   "context": "",
-   "preview": "All adapters assume `proofpress.py` is reachable — vendored "
+   "preview": "- Multiple artifacts touched → run the loop per artifact."
   }
  ],
  "policy": "local",
@@ -334,222 +309,202 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "93121540",
+   "block": "6e751b58",
    "kind": "added",
    "note": "updated to the approved portable-artifact V0 contract"
   },
   {
-   "block": "1744e48a",
+   "block": "25f10229",
    "kind": "added",
    "note": "updated to the approved portable-artifact V0 contract"
   },
   {
-   "block": "50c32349",
+   "block": "cb25a041",
    "kind": "added",
    "note": "updated to the approved portable-artifact V0 contract"
   },
   {
-   "block": "a2f15f7d",
+   "block": "d8284708",
    "kind": "added",
    "note": "updated to the approved portable-artifact V0 contract"
   },
   {
-   "block": "23c62cea",
-   "kind": "added",
-   "note": "updated to the approved portable-artifact V0 contract"
-  },
-  {
-   "block": "7109fe56",
-   "kind": "added",
-   "note": "updated to the approved portable-artifact V0 contract"
-  },
-  {
-   "block": "f8ee70a6",
-   "kind": "added",
-   "note": "updated to the approved portable-artifact V0 contract"
-  },
-  {
-   "block": "9d481ea6",
-   "kind": "added",
-   "note": "updated to the approved portable-artifact V0 contract"
-  },
-  {
-   "block": "9710997f",
-   "kind": "added",
-   "note": "updated to the approved portable-artifact V0 contract"
-  },
-  {
-   "block": "c8f43a25",
-   "kind": "added",
-   "note": "updated to the approved portable-artifact V0 contract"
-  },
-  {
-   "block": "41bb2485",
-   "kind": "added",
-   "note": "updated to the approved portable-artifact V0 contract"
-  },
-  {
-   "block": "3991a868",
-   "kind": "added",
-   "note": "updated to the approved portable-artifact V0 contract"
-  },
-  {
-   "block": "a08bfb00",
-   "kind": "added",
-   "note": "updated to the approved portable-artifact V0 contract"
-  },
-  {
-   "block": "a8bc86e1",
-   "kind": "added",
-   "note": "updated to the approved portable-artifact V0 contract"
-  },
-  {
-   "block": "0e468706",
+   "block": "04e1285c",
    "kind": "modified",
    "note": "updated to the approved portable-artifact V0 contract"
   },
   {
-   "block": "225dd61c",
-   "kind": "modified",
-   "note": "updated to the approved portable-artifact V0 contract"
-  },
-  {
-   "block": "3e5fba6b",
-   "kind": "modified",
-   "note": "updated to the approved portable-artifact V0 contract"
-  },
-  {
-   "block": "3ef5e70c",
+   "block": "0fab4251",
    "kind": "added",
    "note": "updated to the approved portable-artifact V0 contract"
   },
   {
-   "block": "9d561c7d",
-   "kind": "modified",
-   "note": "updated to the approved portable-artifact V0 contract"
-  },
-  {
-   "block": "9cddddf2",
+   "block": "a5e7461c",
    "kind": "added",
    "note": "updated to the approved portable-artifact V0 contract"
   },
   {
-   "block": "2202e132",
+   "block": "01348595",
    "kind": "added",
    "note": "updated to the approved portable-artifact V0 contract"
   },
   {
-   "block": "cc2d6144",
+   "block": "ac191e68",
    "kind": "added",
    "note": "updated to the approved portable-artifact V0 contract"
   },
   {
-   "block": "c883ac9d",
+   "block": "29b54f6f",
    "kind": "added",
    "note": "updated to the approved portable-artifact V0 contract"
   },
   {
-   "block": "bfadc2f0",
+   "block": "4623b792",
+   "kind": "added",
+   "note": "updated to the approved portable-artifact V0 contract"
+  },
+  {
+   "block": "c89d4269",
+   "kind": "added",
+   "note": "updated to the approved portable-artifact V0 contract"
+  },
+  {
+   "block": "3b3f299e",
+   "kind": "added",
+   "note": "updated to the approved portable-artifact V0 contract"
+  },
+  {
+   "block": "64c98298",
+   "kind": "added",
+   "note": "updated to the approved portable-artifact V0 contract"
+  },
+  {
+   "block": "0928adea",
+   "kind": "added",
+   "note": "updated to the approved portable-artifact V0 contract"
+  },
+  {
+   "block": "e96a23df",
+   "kind": "added",
+   "note": "updated to the approved portable-artifact V0 contract"
+  },
+  {
+   "block": "e2502235",
    "kind": "removed",
    "note": "updated to the approved portable-artifact V0 contract"
   },
   {
-   "block": "b188925d",
+   "block": "fa90d114",
    "kind": "removed",
    "note": "updated to the approved portable-artifact V0 contract"
   },
   {
-   "block": "7dc83375",
+   "block": "64f89da2",
    "kind": "removed",
    "note": "updated to the approved portable-artifact V0 contract"
   },
   {
-   "block": "ad2649e7",
+   "block": "3ecb1006",
    "kind": "removed",
    "note": "updated to the approved portable-artifact V0 contract"
   },
   {
-   "block": "720c81e7",
+   "block": "62c7aba3",
    "kind": "removed",
    "note": "updated to the approved portable-artifact V0 contract"
   },
   {
-   "block": "df87c8ed",
+   "block": "a18c4552",
    "kind": "removed",
    "note": "updated to the approved portable-artifact V0 contract"
   },
   {
-   "block": "b05980e7",
+   "block": "427a9b25",
    "kind": "removed",
    "note": "updated to the approved portable-artifact V0 contract"
   },
   {
-   "block": "4cebe5e8",
+   "block": "800b0e0a",
    "kind": "removed",
    "note": "updated to the approved portable-artifact V0 contract"
   },
   {
-   "block": "5bcd6f73",
+   "block": "628f5943",
    "kind": "removed",
    "note": "updated to the approved portable-artifact V0 contract"
   },
   {
-   "block": "a0d8e6f2",
+   "block": "c08c16f7",
    "kind": "removed",
    "note": "updated to the approved portable-artifact V0 contract"
   },
   {
-   "block": "38995f1c",
+   "block": "b798762b",
    "kind": "removed",
    "note": "updated to the approved portable-artifact V0 contract"
   },
   {
-   "block": "b5319ccd",
+   "block": "6d430ad4",
    "kind": "removed",
    "note": "updated to the approved portable-artifact V0 contract"
   },
   {
-   "block": "1152219a",
+   "block": "65cb9ab0",
    "kind": "removed",
    "note": "updated to the approved portable-artifact V0 contract"
   },
   {
-   "block": "d7630077",
+   "block": "c6316604",
    "kind": "removed",
    "note": "updated to the approved portable-artifact V0 contract"
   },
   {
-   "block": "14c571e1",
+   "block": "e31273f8",
    "kind": "removed",
    "note": "updated to the approved portable-artifact V0 contract"
   },
   {
-   "block": "373d7dac",
+   "block": "fb417407",
    "kind": "removed",
    "note": "updated to the approved portable-artifact V0 contract"
   },
   {
-   "block": "0110874f",
+   "block": "683bcff8",
    "kind": "removed",
    "note": "updated to the approved portable-artifact V0 contract"
   },
   {
-   "block": "5fe5778d",
+   "block": "6614e6c5",
    "kind": "removed",
    "note": "updated to the approved portable-artifact V0 contract"
   },
   {
-   "block": "eaad8890",
+   "block": "98e79ad0",
    "kind": "removed",
    "note": "updated to the approved portable-artifact V0 contract"
   },
   {
-   "block": "fc22c1a8",
+   "block": "57f2f606",
    "kind": "removed",
    "note": "updated to the approved portable-artifact V0 contract"
   },
   {
-   "block": "8395a86c",
+   "block": "8fb07c57",
+   "kind": "removed",
+   "note": "updated to the approved portable-artifact V0 contract"
+  },
+  {
+   "block": "aa8506a6",
+   "kind": "removed",
+   "note": "updated to the approved portable-artifact V0 contract"
+  },
+  {
+   "block": "a807a5ca",
+   "kind": "removed",
+   "note": "updated to the approved portable-artifact V0 contract"
+  },
+  {
+   "block": "ae9a933c",
    "kind": "removed",
    "note": "updated to the approved portable-artifact V0 contract"
   }
