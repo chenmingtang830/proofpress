@@ -111,15 +111,33 @@
   },
   {
    "type": "heading",
+   "text": "## 与 git 仓库的关系(定稿 2026-07-18,Richard 裁决:\"里面\")",
+   "hash": "48350fa99083",
+   "id": "b3102f3d"
+  },
+  {
+   "type": "para",
+   "text": "账本数据**经由 git 存储和传输,但住在专用 ref 上**(`refs/omnidocs/ledger`),不进工作分支:",
+   "hash": "16ee8b996cff",
+   "id": "d8328c64"
+  },
+  {
+   "type": "list",
+   "text": "- 每个账本事件 = ledger ref 上的一个 commit,tree 含 event.json(事件)+ version.json(块树快照);**append-only + 内容寻址**,旧对象永不改写,结构上无合并冲突(语义级竞态如\"同时 approve\"交应用层裁决)。\n- 工作分支只有干净的 markdown 投影;PR 零账本噪音。`git push/clone` 时账本随 remote 走——**GitHub 免费充当同步、备份、托管层**(jj 对 git 的姿态:语义模型是我们的,存储与分发网络是 git 的)。\n- **git 是一条 ingestion 渠道,不是竞争账本**:绕过 omnidocs 直接改 markdown(vim/GitHub 网页编辑)的变更,在下次任何 omnidocs 命令运行时 ingest 为人工微版本(署名 = commit author)——\"人工编辑免审直落但必须记账\"机制的自然延伸。\n- 每个 Version 记录其对应的投影 commit(锚定);checkout 旧 commit 映射到版本链上的一致历史点。\n- 否决备选:\"旁边\"(文档搬家、丢代码关联、要自建同步);\"上面\"(自持存储把 git 最值钱的 travel-with-repo 还了回去,M0 就被迫建服务器,撞碎单机开源先行的 GTM 次序)。\"上面\"的存储自由可后补:大对象放本地缓存,ledger 里存引用。\n- M0 判据:**任何决定都不得迫使我们提前建服务器。**",
+   "hash": "4357f7e01cf3",
+   "id": "1d629d45"
+  },
+  {
+   "type": "heading",
    "text": "## 开放问题",
    "hash": "0c0ed6213e40",
    "id": "3499bb85"
   },
   {
    "type": "list",
-   "text": "1. **与 git 仓库的关系**(下一次讨论核心):开发者的文档已住在 git 里,omnidocs 账本放\"旁边\"(独立,失去代码关联)、\"里面\"(账本文件 commit 进 git,蹭同步备份,两本账嵌套语义谁说了算)、还是\"上面\"(git 存 markdown 投影,OmniDocs 存块树真相,双向同步)?初步倾向\"里面\"(jj 对 git 的姿态,git 当免费同步层),待定。\n2. 锚点在野生 agent 编辑下的存活率;匹配兜底的品质阈值。\n3. rebase 改坏已批准内容的护栏细则。\n4. 块树 spec 的公开时机与稳定性承诺(格式即协议,锁格式的账本没人敢用)。",
-   "hash": "10ca54674f6b",
-   "id": "120cd651"
+   "text": "1. 锚点在野生 agent 编辑下的存活率;匹配兜底的品质阈值。\n2. rebase 改坏已批准内容的护栏细则。\n3. 块树 spec 的公开时机与稳定性承诺(格式即协议,锁格式的账本没人敢用)。\n4. ledger ref 的推送策略:随 `git push` 自动带上,还是 omnidocs 命令显式代推。",
+   "hash": "5796e2b767aa",
+   "id": "1fe75c4c"
   }
  ]
 }
