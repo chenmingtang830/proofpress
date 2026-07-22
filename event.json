@@ -1,25 +1,25 @@
 {
  "event": "version_created",
- "artifact": "docs/PRIVACY_AND_DISCLOSURE.md",
- "artifact_id": "pp_618aa4fd82cd69d084172178",
- "version": "7c6528f2",
- "parent": "79c8dc0c",
+ "artifact": "docs/PORTABLE_ARTIFACT_SPEC.md",
+ "artifact_id": "pp_651b6bcc5c2503e2a2ea2a5f",
+ "version": "a5016a8b",
+ "parent": "3409f187",
  "author": {
   "name": "codex",
   "kind": "agent",
   "session": null
  },
  "note": null,
- "ts": "2026-07-22T11:04:32+00:00",
+ "ts": "2026-07-22T11:05:02+00:00",
  "stats": {
   "modified": 1
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "595556d3",
+   "block": "77b016f2",
    "type": "para",
-   "context": "1. 正确的心智模型"
+   "context": "10. Import and copy"
   }
  ],
  "policy": "local",
@@ -40,12 +40,12 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "595556d3",
+   "block": "a09187f6",
    "kind": "modified",
-   "note": "extends portable policy guidance to static HTML artifacts"
+   "note": "makes metadata-stripping degradation carrier-neutral"
   }
  ],
  "context": {
-  "why": "extend portable-policy guidance to static HTML artifacts"
+  "why": "make metadata-stripping degradation language consistent across carriers"
  }
 }
