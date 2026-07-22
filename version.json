@@ -1,155 +1,71 @@
 {
- "artifact": "skills/claude-code/proofpress/SKILL.md",
+ "artifact": "skills/codex/AGENTS-snippet.md",
  "blocks": [
   {
    "type": "para",
-   "text": "---\nname: proofpress\ndescription: Version-ledger discipline for markdown knowledge artifacts (ADRs, design docs, PRDs, strategy notes). Use whenever you create or substantially revise a markdown document in a repo that has proofpress.py — snapshot the result into the ledger with structured claims and decision context, then verify. Never for source-code files.\n---",
-   "id": "e2502235",
-   "hash": "0a86a4bb1c95"
+   "text": "<!-- Append to your AGENTS.md — the Proofpress contract for Codex agents. -->",
+   "id": "c350cb3a",
+   "hash": "ecf65d073d4f"
   },
   {
    "type": "heading",
-   "text": "# Proofpress: close the loop on every knowledge artifact you touch",
-   "id": "fa90d114",
-   "hash": "9a757a09d176"
+   "text": "## Proofpress: markdown knowledge artifacts are ledgered",
+   "id": "51ac24b5",
+   "hash": "e596c2df8bc4"
   },
   {
    "type": "para",
-   "text": "You are writing into a ledger whose core promise is: **the author's account of a\nchange is verified against the computed change, never trusted.** Your claims are\ninput to be checked, and an honest ⚠ is worth more than a flattering ✓.",
-   "id": "64f89da2",
-   "hash": "d6d410e27a75"
-  },
-  {
-   "type": "heading",
-   "text": "## When this skill applies",
-   "id": "3ecb1006",
-   "hash": "54cca5f99e28"
+   "text": "This repo keeps a version ledger for markdown knowledge artifacts (ADRs, design\ndocs, PRDs — **never source code**). After you create or substantially revise\nsuch a file, close the loop:",
+   "id": "ca88b9cb",
+   "hash": "1d739fa79187"
   },
   {
    "type": "list",
-   "text": "- You created or substantially revised a `.md` knowledge artifact (ADR, design",
-   "id": "62c7aba3",
-   "hash": "d51c3cc1e6ec"
+   "text": "1. History but no ledger? `python3 proofpress.py ingest <file>`\n2. Keep surviving blocks' `[//]: # (ob:xxxxxxxx)` anchor lines during edits,",
+   "id": "95b71f0d",
+   "hash": "f120dbabbd9b"
   },
   {
    "type": "para",
-   "text": "  doc, PRD, README, strategy/planning doc).",
-   "id": "a18c4552",
-   "hash": "8d1c6c0ba6ef"
+   "text": "   then run `python3 proofpress.py anchor <file>` and read the\n   inherited/new/gone id inventory.",
+   "id": "5c455645",
+   "hash": "71a9ebc1457d"
   },
   {
    "type": "list",
-   "text": "- The repo contains `proofpress.py` (root) or `git-proofpress` is on PATH.\n- **Never** for source-code files — that is git's territory, hard red line.",
-   "id": "427a9b25",
-   "hash": "d7b949d9d2ff"
-  },
-  {
-   "type": "heading",
-   "text": "## The loop (run after your edits are complete)",
-   "id": "800b0e0a",
-   "hash": "c5e7a056f042"
-  },
-  {
-   "type": "list",
-   "text": "1. **Backfill if needed.** Artifact has git history but no ledger entries?",
-   "id": "628f5943",
-   "hash": "1c3b495e9a8c"
+   "text": "3. Write claims JSON (one honest entry per block touched or removed; do not",
+   "id": "55bb7174",
+   "hash": "41843d9e9f3a"
   },
   {
    "type": "para",
-   "text": "   `python3 proofpress.py ingest <file>`",
-   "id": "c08c16f7",
-   "hash": "4c49a8026a7a"
+   "text": "   enumerate untouched blocks. Use `unchanged` only for a deliberate negative\n   claim about an important block or scope:\n   `{\"block\", \"kind\": added|removed|modified|moved|unchanged, \"note\"?}`).",
+   "id": "c3f79d0b",
+   "hash": "581e327e20c2"
   },
   {
    "type": "list",
-   "text": "2. **Anchors.** While editing you kept each surviving block's",
-   "id": "b798762b",
-   "hash": "db919c2b8802"
+   "text": "4. Snapshot with testimony — `--why` required, `--rejected` per dropped",
+   "id": "c6d8df5a",
+   "hash": "9922c8e5504f"
   },
   {
    "type": "para",
-   "text": "   `[//]: # (ob:xxxxxxxx)` line attached to it. Now run\n   `python3 proofpress.py anchor <file>` and read the printed inventory:\n   `inherited` (ids that carried over), `new` (fresh blocks), `gone` (claim as\n   removed).",
-   "id": "6d430ad4",
-   "hash": "db76fb81ffac"
+   "text": "   alternative:\n   `python3 proofpress.py snapshot <file> --kind agent --author codex --note \"…\" --claims claims.json --why \"…\" --rejected \"…\"`",
+   "id": "01fba730",
+   "hash": "41eaf799f4de"
   },
   {
    "type": "list",
-   "text": "3. **Claims.** Write a JSON array to a temp file — one entry per block you",
-   "id": "65cb9ab0",
-   "hash": "67ee12e00c8f"
+   "text": "5. `python3 proofpress.py verify <file>` and report the verbatim output.",
+   "id": "0aeea03e",
+   "hash": "881b9dc0e8d7"
   },
   {
    "type": "para",
-   "text": "   touched or removed, from your own memory of what you did (the inventory\n   tells you *identity*, not *what changed* — that part is your testimony):",
-   "id": "c6316604",
-   "hash": "002c70bce590"
-  },
-  {
-   "type": "code",
-   "text": "   ```json\n   [{\"block\": \"a1b2c3d4\", \"kind\": \"modified\", \"note\": \"tightened pitch\"}]\n   ```",
-   "id": "e31273f8",
-   "hash": "c6c8a5537957"
-  },
-  {
-   "type": "para",
-   "text": "   Kinds: `added` / `removed` / `modified` / `moved` / `unchanged`.\n   Do not enumerate untouched blocks. Use `unchanged` only as a deliberate\n   negative claim about an important block or scope (for example, \"pricing\n   terms were not changed\").",
-   "id": "fb417407",
-   "hash": "faa2675ff713"
-  },
-  {
-   "type": "list",
-   "text": "4. **Snapshot with testimony** — `--why` is required; add one `--rejected` per",
-   "id": "683bcff8",
-   "hash": "9c9d86462dd3"
-  },
-  {
-   "type": "para",
-   "text": "   alternative you considered and dropped (decision-level dead branches; they\n   stop future agents from re-proposing dead ideas):",
-   "id": "6614e6c5",
-   "hash": "eee82b64a92d"
-  },
-  {
-   "type": "code",
-   "text": "   ```\n   python3 proofpress.py snapshot <file> --kind agent --author claude \\\n     --session \"<session-id>\" --note \"<one-line changelog>\" \\\n     --claims /tmp/claims.json \\\n     --why \"<the actual reason this change happened>\" \\\n     --rejected \"<option> — <why it was dropped>\"\n   ```",
-   "id": "98e79ad0",
-   "hash": "973c8caf4a4d"
-  },
-  {
-   "type": "list",
-   "text": "5. **Verify and report.** `python3 proofpress.py verify <file>` — show the user",
-   "id": "04e1285c",
-   "hash": "63c890799f1b"
-  },
-  {
-   "type": "para",
-   "text": "   the verbatim output. **Do not re-snapshot to turn a ⚠ green.** A mismatch is\n   reviewer information; hiding it defeats the entire product.",
-   "id": "57f2f606",
-   "hash": "21ffffe5b220"
-  },
-  {
-   "type": "heading",
-   "text": "## Notes",
-   "id": "8fb07c57",
-   "hash": "5a4f830e4458"
-  },
-  {
-   "type": "list",
-   "text": "- `snapshot` is content-addressed: re-running on identical content is a no-op.\n- If the user edits the file outside any session, the next `ingest` or the",
-   "id": "aa8506a6",
-   "hash": "f85fc9c1b6a6"
-  },
-  {
-   "type": "para",
-   "text": "  session-end hook records it — you never need to compensate for others.",
-   "id": "a807a5ca",
-   "hash": "6bce00b4ca97"
-  },
-  {
-   "type": "list",
-   "text": "- Multiple artifacts touched → run the loop per artifact.",
-   "id": "ae9a933c",
-   "hash": "a0098e1a1d26"
+   "text": "   Never re-snapshot to force a green result — a ⚠ is reviewer information.",
+   "id": "7d5df454",
+   "hash": "deca245cb605"
   }
  ]
 }

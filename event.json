@@ -1,85 +1,63 @@
 {
  "event": "version_created",
- "artifact": "skills/claude-code/proofpress/SKILL.md",
- "version": "ca478163",
- "parent": "e40b1769",
+ "artifact": "skills/codex/AGENTS-snippet.md",
+ "version": "3e14bfd0",
+ "parent": "2de620e1",
  "author": {
   "name": "codex",
   "kind": "agent",
   "session": "vision-and-harness-2026-07-22"
  },
- "note": "Limited claims to touched blocks",
+ "note": "Clarified touched-block claim scope",
  "ts": "2026-07-22T05:25:18+00:00",
  "stats": {
-  "modified": 3,
+  "modified": 1,
   "added": 1,
   "removed": 1
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "65cb9ab0",
+   "block": "55bb7174",
    "type": "list",
-   "context": "The loop (run after your edits are compl"
-  },
-  {
-   "kind": "modified",
-   "block": "c6316604",
-   "type": "para",
-   "context": "The loop (run after your edits are compl"
-  },
-  {
-   "kind": "modified",
-   "block": "e31273f8",
-   "type": "code",
-   "context": "The loop (run after your edits are compl"
+   "context": "Proofpress: markdown knowledge artifacts"
   },
   {
    "kind": "added",
-   "block": "fb417407",
+   "block": "c3f79d0b",
    "type": "para",
-   "context": "The loop (run after your edits are compl",
-   "preview": "   Kinds: `added` / `removed` / `modified` / `moved` / `unch"
+   "context": "Proofpress: markdown knowledge artifacts",
+   "preview": "   enumerate untouched blocks. Use `unchanged` only for a de"
   },
   {
    "kind": "removed",
-   "block": "ebe0a330",
+   "block": "b1fcdce7",
    "type": "para",
    "context": "",
-   "preview": "   Kinds: `added` / `removed` / `modified` / `moved` / `unch"
+   "preview": "   `{\"block\", \"kind\": added|removed|modified|moved|unchanged"
   }
  ],
  "claims": [
   {
-   "block": "65cb9ab0",
+   "block": "55bb7174",
    "kind": "modified",
    "note": "limited claims to blocks touched or removed"
   },
   {
-   "block": "c6316604",
-   "kind": "modified",
-   "note": "clarified that identity inventory does not supply author testimony"
-  },
-  {
-   "block": "e31273f8",
-   "kind": "modified",
-   "note": "removed the routine unchanged claim from the example"
-  },
-  {
-   "block": "fb417407",
+   "block": "c3f79d0b",
    "kind": "added",
-   "note": "documented deliberate rather than exhaustive unchanged claims"
+   "note": "documented deliberate unchanged claims"
   },
   {
-   "block": "ebe0a330",
+   "block": "b1fcdce7",
    "kind": "removed",
-   "note": "replaced the old claims-kind paragraph with clarified guidance"
+   "note": "replaced the ambiguous one-entry-per-block wording"
   }
  ],
  "context": {
-  "why": "The prior wording produced large, low-signal unchanged claim lists that the verifier does not require.",
+  "why": "Codex guidance should require complete disclosure of changes without enumerating untouched blocks.",
   "rejected": [
-   "Keep exhaustive unchanged claims — adds ceremony and obscures meaningful testimony."
+   "Keep one entry for every block — ambiguous and unnecessarily expensive."
   ]
  }
 }
