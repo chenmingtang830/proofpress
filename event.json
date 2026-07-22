@@ -1,25 +1,25 @@
 {
  "event": "version_created",
  "artifact": "docs/ARTIFACT_MODEL.md",
- "version": "fb1fac56",
- "parent": "fdb0888d",
+ "version": "dd7adf38",
+ "parent": "fb1fac56",
  "author": {
   "name": "chenmingtang830",
   "kind": "human",
   "session": null
  },
- "note": "omnidocs serve + inbox: the live review page, both directions working",
- "ts": "2026-07-18T08:48:08-04:00",
+ "note": "Rebuild serve page per DESIGN.md: markdown rendering, ledger-demo design system, honest feedback states",
+ "ts": "2026-07-18T09:01:24-04:00",
  "stats": {
   "modified": 1
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "f7612f00",
-   "type": "list",
-   "context": "开放问题"
+   "block": "b172e2eb",
+   "type": "heading",
+   "context": "开放的问题们"
   }
  ],
- "source_commit": "5780e334188199fc2701584097544d897b6a7835"
+ "source_commit": "7829cb946cdfd41a3e60768753a7f54762565170"
 }
