@@ -1,27 +1,48 @@
 {
  "event": "version_created",
- "artifact": "docs/ARTIFACT_MODEL.md",
- "version": "61555708",
- "parent": "531f24ab",
+ "artifact": "docs/PORTABLE_ARTIFACT_STRATEGY.md",
+ "version": "99af7ece",
+ "parent": "95567f22",
  "author": {
   "name": "Claude",
   "kind": "agent",
   "session": "sidecar-experiment"
  },
- "note": "开放问题补两条现场教训:线性 ref 回卷事故、锚点声明优先的双刃剑",
- "ts": "2026-07-22T01:00:33+00:00",
+ "note": "边界 4 入正文:历史保护范围 = 单 artifact",
+ "ts": "2026-07-22T05:01:48+00:00",
  "stats": {
-  "modified": 1
+  "modified": 2
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "f7612f00",
+   "block": "d56084c8",
+   "type": "para",
+   "context": "结论先行"
+  },
+  {
+   "kind": "modified",
+   "block": "e47ac07f",
    "type": "list",
-   "context": "开放的问题们"
+   "context": "结论先行"
+  }
+ ],
+ "claims": [
+  {
+   "block": "d56084c8",
+   "kind": "modified",
+   "note": "三个边界 → 四个边界"
+  },
+  {
+   "block": "e47ac07f",
+   "kind": "modified",
+   "note": "新增边界 4:历史保护范围 = 单 artifact(scope 边界),跨 artifact 知识另案"
   }
  ],
  "context": {
-  "why": "两个缺陷都在今晚真实发生并修复,不入账下次还会踩"
+  "why": "9.5 的 scope gap 发现升格为结论先行的硬边界;首次入账 claims 引用了过期块 id 被 verify 拦下,重做——教训:claims 必须对着当次 anchor 清单写,不能凭记忆",
+  "rejected": [
+   "保留 mismatch 版本 —— 属笔误型错账而非自述失实,且 30 秒内无下游消费,回卷重做更干净"
+  ]
  }
 }
