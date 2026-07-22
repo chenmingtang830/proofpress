@@ -1,43 +1,37 @@
 {
  "event": "version_created",
- "artifact": "skills/cursor/proofpress/SKILL.md",
- "artifact_id": "pp_0c9edf7d315ab03e0ca06c88",
- "version": "2a304049",
- "parent": "21850f1b",
+ "artifact": "skills/pi/proofpress-skill.md",
+ "artifact_id": "pp_c7ce0d15b86bb42bd28434fc",
+ "version": "868aaafa",
+ "parent": "e51d7b09",
  "author": {
   "name": "codex",
   "kind": "agent",
   "session": null
  },
  "note": null,
- "ts": "2026-07-22T11:04:30+00:00",
+ "ts": "2026-07-22T11:04:31+00:00",
  "stats": {
-  "modified": 4
+  "modified": 3
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "19a24923",
+   "block": "095b959e",
    "type": "para",
-   "context": "(文首)"
+   "context": "proofpress"
   },
   {
    "kind": "modified",
-   "block": "b2ec6ff5",
-   "type": "para",
-   "context": "Proofpress"
-  },
-  {
-   "kind": "modified",
-   "block": "6d23ae8f",
+   "block": "85972ea6",
    "type": "list",
-   "context": "Workflow"
+   "context": "proofpress"
   },
   {
    "kind": "modified",
-   "block": "35ce54f2",
+   "block": "b9f8ef49",
    "type": "para",
-   "context": "Workflow"
+   "context": "proofpress"
   }
  ],
  "policy": "local",
@@ -58,27 +52,22 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "19a24923",
+   "block": "095b959e",
    "kind": "modified",
-   "note": "extends Cursor skill applicability to static HTML artifacts"
+   "note": "extends accepted artifact revisions to static HTML"
   },
   {
-   "block": "b2ec6ff5",
-   "kind": "modified",
-   "note": "extends accepted artifact versions to static HTML"
-  },
-  {
-   "block": "6d23ae8f",
+   "block": "85972ea6",
    "kind": "modified",
    "note": "introduces carrier-native anchor preservation"
   },
   {
-   "block": "35ce54f2",
+   "block": "b9f8ef49",
    "kind": "modified",
    "note": "documents the static HTML anchor attribute"
   }
  ],
  "context": {
-  "why": "allow Cursor harnesses to ledger static HTML artifacts"
+  "why": "allow Pi harnesses to ledger static HTML artifacts"
  }
 }
