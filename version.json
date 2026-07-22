@@ -4,140 +4,140 @@
   {
    "type": "heading",
    "text": "# Artifact 模型 — 数据模型与语义 diff 设计(2026-07-18 讨论定稿)",
-   "hash": "a4ef6bc576dd",
-   "id": "e45ff362"
+   "id": "7402ec84",
+   "hash": "a4ef6bc576dd"
   },
   {
    "type": "para",
    "text": "内核原则:**版本化是物理定律,审批是政策。** 不管谁改(agent 或人),落下来都是版本链上一个带署名、带块级 diff 的 Version;审批门是政策对象,默认 agent 必过、人免审。",
-   "hash": "b0fd305e9ed8",
-   "id": "f8b726f6"
+   "id": "cbcf2fd8",
+   "hash": "b0fd305e9ed8"
   },
   {
    "type": "heading",
    "text": "## 五个实体",
-   "hash": "85c56b08eb72",
-   "id": "21183b4f"
+   "id": "ef6ee738",
+   "hash": "85c56b08eb72"
   },
   {
    "type": "table",
    "text": "| 实体 | 是什么 | 关键字段/约束 |\n|---|---|---|\n| **Artifact** | 交付物的稳定身份,独立于会话与文件路径 | artifact_id, project, type(doc;将来 deck 等), 当前 published 版本 |\n| **Version** | 不可变内容快照(用户词汇:Draft n) | parent_version_id, content(块树), author(agent session 或人), status: draft/published/superseded/**closed(死枝,永不删除)**, 自述 changelog |\n| **Review** | 对\"从版本 A 到版本 B\"的一次裁决 | target versions, status: open/approved/changes_requested/closed, 审批策略引用(如双人过审、agent 无权 publish 自己的提交) |\n| **Comment** | 锚定到块的反馈,带闭环 | block_id 锚点(+可选文本范围), thread, **resolved_by**(由修订版的 changelog 声明 + 计算 diff 双重确认) |\n| **SessionLink** | 版本/审阅 ↔ (harness, session_id, turn 范围) 的引用 | 引用不绑定——多 harness 中立钉死在数据层 |",
-   "hash": "538bea4e29c9",
-   "id": "3aa25e88"
+   "id": "b344b925",
+   "hash": "538bea4e29c9"
   },
   {
    "type": "heading",
    "text": "## 块树(canonical 表示)",
-   "hash": "ad27bf1e488d",
-   "id": "4be2cc62"
+   "id": "21f94664",
+   "hash": "ad27bf1e488d"
   },
   {
    "type": "list",
    "text": "- source of truth 是**带稳定 ID 的块树**(heading/para/list/table/figure…),存储层持有;markdown 是给 agent 编辑的**投影**。\n- 序列化给 agent 时块 ID 以不可见锚点携带(`<!-- ob:xxxx -->`);ingest 时按锚点对齐,锚点丢失退回相似度匹配(锚点为主、匹配兜底;接受少量块身份断裂表现为 delete+add)。\n- 人的编辑走我们的块树原生编辑器,天然保持 ID 稳定——锚点丢失问题只存在于 markdown 序列化边界。\n- 一旦有稳定块 ID:语义 diff 变成树 diff;批注有永久坐标(Kortix 建不起 comment 表的深层原因就是 git patch 无稳定坐标);\"这条意见被哪个改动解决\"可精确回答。",
-   "hash": "1106d571e895",
-   "id": "d65f8dbb"
+   "id": "e9ebead5",
+   "hash": "1106d571e895"
   },
   {
    "type": "heading",
    "text": "## 语义 diff 四层",
-   "hash": "b9e6e1e93618",
-   "id": "4a4bc832"
+   "id": "56b02171",
+   "hash": "b9e6e1e93618"
   },
   {
    "type": "list",
    "text": "1. **结构层**:块级 added/removed/**moved**/modified/split/merged(move 靠内容相似度,块级的 `git -M`)。\n2. **块内层**:词级 diff;表格按行列/单元格;**数字抽数值差**(\"$1.2M → $0.9M, −25%\")——数字变动是审阅最高危信号,必须置顶,行 diff 里它和错别字长得一样。\n3. **叙事层(agent-native,git 结构上做不到)**:submit-for-review skill 要求修订会话提交时输出结构化 changelog(\"重写第 3 节以回应批注 #1\"),**由计算出的树 diff 校验**——agent 说\"仅调序未改文\",树 diff 确认块 hash 未变才敢标\"内容未变\"。diff 不只是算出来的,是创作时自带叙述、事后被验证的。\n4. **溯源层(session-native 的本义)**:每个变更块链回会话轮次/工具调用。审阅时\"为什么改成这样\"→ 展开 agent 当时的依据(如 turn 62 的弹性测算)。会话不是产物的垃圾场,是产物的证据链。",
-   "hash": "1800a1ce43d5",
-   "id": "f40fc00b"
+   "id": "98e612fe",
+   "hash": "1800a1ce43d5"
   },
   {
    "type": "heading",
    "text": "## 修订闭环",
-   "hash": "a2c7ef57bf0b",
-   "id": "a065f979"
+   "id": "33d5cdd3",
+   "hash": "a2c7ef57bf0b"
   },
   {
    "type": "list",
    "text": "- Request changes → 批注 + verdict 打成**结构化反馈包**(每条带块锚点)注入原会话,唤醒沉睡沙箱,agent 带全部上下文修订。\n- 新 Version 到达 → 每条 Comment 自动标 resolved_by(声明 + diff 双确认);reviewer 第二轮只看\"三条意见,两条已解决、一条 agent 说不改并给了理由\"。\n- 版本拓扑:**线性 published 链 + 并发在途 draft**。先批的落地;其余 draft 的会话收到\"base 已变\"反馈包,**agent 自己 rebase**——docs-as-code 死于人付合并仪式税,我们让 agent 付。已批准区域可设\"任何作者触碰即触发审\"的政策护栏。",
-   "hash": "aba4668b17af",
-   "id": "64b8f9f5"
+   "id": "7906e822",
+   "hash": "aba4668b17af"
   },
   {
    "type": "heading",
    "text": "## 人工编辑四机制",
-   "hash": "ca7cd2d7a4b5",
-   "id": "88d6768d"
+   "id": "22be00b9",
+   "hash": "ca7cd2d7a4b5"
   },
   {
    "type": "list",
    "text": "1. **编辑会话折叠成微版本**:人的连续编辑按停顿/时间窗坍缩为一个 Version,自动发布,链上默认折叠显示。免的是审批门,躲不开记账。\n2. **政策可收紧**:财务类/非 owner 的人工编辑可要求过审——走与 agent 完全相同的 Review 通道。\n3. **人改 agent 在途 draft**:允许(如 PR reviewer 直接 push);编辑作为事件**回灌 agent 会话**,否则 agent 脑中文档与真实分叉,下轮会盖掉人的手笔。账本是 agent 与人双向的 common ground:人审 agent 的 diff,agent 也读\"你睡着之后人类改了什么\"。\n4. **实时 CRDT 共笔明确不做(v1)**:编辑层是 Google Docs 主场。块级软锁 + 版本链兜底(撞了后写成新版本,diff 可见,永不丢字)。",
-   "hash": "8f24b5671c84",
-   "id": "e3a4d2ea"
+   "id": "50cb65cd",
+   "hash": "8f24b5671c84"
   },
   {
    "type": "heading",
    "text": "## 死枝一等公民",
-   "hash": "a3d226e7ccfa",
-   "id": "a7364866"
+   "id": "e038c332",
+   "hash": "a3d226e7ccfa"
   },
   {
    "type": "para",
    "text": "closed/rejected 的 draft 与其 Review 永久留档、可回放——路不通是最贵的知识(\"为什么当初否了 A 方案\"直接可查)。这是第二价值曲线(组织记忆/思维演进视图)的地基,M0 只需 schema 上不删,不做任何专门视图(视图是取景器,什么时候都能长出来)。",
-   "hash": "5cfc80114804",
-   "id": "16e4b017"
+   "id": "fc3b3112",
+   "hash": "5cfc80114804"
   },
   {
    "type": "heading",
    "text": "## 审阅 UI 原则(2026-07-18 Richard 反馈)",
-   "hash": "3723f7d5d8c7",
-   "id": "f6696aec"
+   "id": "5792bce7",
+   "hash": "3723f7d5d8c7"
   },
   {
    "type": "para",
    "text": "变更摘要不做独立 tab:**Draft n 视图 = 顶部结构化摘要 + 正文全文,块级更新在块旁/右侧栏/hover 呈现**。正文保持干净可读,变更以边注形式共存。",
-   "hash": "e234fba73968",
-   "id": "69a1634c"
+   "id": "b1ba84f6",
+   "hash": "e234fba73968"
   },
   {
    "type": "heading",
    "text": "## M0 范围(收缩定稿)",
-   "hash": "5eeb01067015",
-   "id": "01cd0ff0"
+   "id": "6159a280",
+   "hash": "5eeb01067015"
   },
   {
    "type": "para",
    "text": "markdown 交付物的完整闭环——块树、语义 diff(结构+块内+表格/数字)、锚定批注、反馈包回流、resolution 追踪——品质标准\"给人看的\"。**Deck、xlsx、Office 全部推迟**(deck=slide 作顶层块,进模型是加 adapter 不是改模型;xlsx 的 diff 语义是另一门学科)。Schema 不写死文档性(Artifact.type 留好)。**永不版本化代码文件。**",
-   "hash": "ba72fd8fdb37",
-   "id": "38e39942"
+   "id": "8f241903",
+   "hash": "ba72fd8fdb37"
   },
   {
    "type": "heading",
    "text": "## 与 git 仓库的关系(定稿 2026-07-18,Richard 裁决:\"里面\")",
-   "hash": "48350fa99083",
-   "id": "b3102f3d"
+   "id": "6fdcee59",
+   "hash": "48350fa99083"
   },
   {
    "type": "para",
    "text": "账本数据**经由 git 存储和传输,但住在专用 ref 上**(`refs/omnidocs/ledger`),不进工作分支:",
-   "hash": "16ee8b996cff",
-   "id": "d8328c64"
+   "id": "ac1c0a5c",
+   "hash": "16ee8b996cff"
   },
   {
    "type": "list",
    "text": "- 每个账本事件 = ledger ref 上的一个 commit,tree 含 event.json(事件)+ version.json(块树快照);**append-only + 内容寻址**,旧对象永不改写,结构上无合并冲突(语义级竞态如\"同时 approve\"交应用层裁决)。\n- 工作分支只有干净的 markdown 投影;PR 零账本噪音。`git push/clone` 时账本随 remote 走——**GitHub 免费充当同步、备份、托管层**(jj 对 git 的姿态:语义模型是我们的,存储与分发网络是 git 的)。\n- **git 是一条 ingestion 渠道,不是竞争账本**:绕过 omnidocs 直接改 markdown(vim/GitHub 网页编辑)的变更,在下次任何 omnidocs 命令运行时 ingest 为人工微版本(署名 = commit author)——\"人工编辑免审直落但必须记账\"机制的自然延伸。\n- 每个 Version 记录其对应的投影 commit(锚定);checkout 旧 commit 映射到版本链上的一致历史点。\n- 否决备选:\"旁边\"(文档搬家、丢代码关联、要自建同步);\"上面\"(自持存储把 git 最值钱的 travel-with-repo 还了回去,M0 就被迫建服务器,撞碎单机开源先行的 GTM 次序)。\"上面\"的存储自由可后补:大对象放本地缓存,ledger 里存引用。\n- M0 判据:**任何决定都不得迫使我们提前建服务器。**",
-   "hash": "4357f7e01cf3",
-   "id": "1d629d45"
+   "id": "783b48e7",
+   "hash": "4357f7e01cf3"
   },
   {
    "type": "heading",
    "text": "## 开放问题",
-   "hash": "0c0ed6213e40",
-   "id": "3499bb85"
+   "id": "b172e2eb",
+   "hash": "0c0ed6213e40"
   },
   {
    "type": "list",
    "text": "1. 锚点在野生 agent 编辑下的存活率;匹配兜底的品质阈值。\n2. rebase 改坏已批准内容的护栏细则。\n3. 块树 spec 的公开时机与稳定性承诺(格式即协议,锁格式的账本没人敢用)。\n4. ledger ref 的推送策略:随 `git push` 自动带上,还是 omnidocs 命令显式代推。",
-   "hash": "5796e2b767aa",
-   "id": "1fe75c4c"
+   "id": "f7612f00",
+   "hash": "5796e2b767aa"
   }
  ]
 }

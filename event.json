@@ -1,55 +1,342 @@
 {
  "event": "version_created",
  "artifact": "docs/ARTIFACT_MODEL.md",
- "version": "66f8d519",
- "parent": "df3f8f11",
+ "version": "fdb0888d",
+ "parent": "66f8d519",
  "author": {
   "name": "chenmingtang830",
   "kind": "human",
   "session": null
  },
- "note": "Resolve git-relationship question ('inside': dedicated ref) + omnidocs.py ledger spike",
- "ts": "2026-07-18T08:11:06-04:00",
+ "note": "Anchors + init/sync: block identity survives edits; ledger travels with remotes",
+ "ts": "2026-07-18T08:38:26-04:00",
  "stats": {
-  "added": 4,
-  "removed": 1
+  "added": 23,
+  "removed": 23
  },
  "changes": [
   {
    "kind": "added",
-   "block": "b3102f3d",
+   "block": "7402ec84",
+   "type": "heading",
+   "context": "Artifact 模型 — 数据模型与语义 diff 设计(2026-07-18",
+   "preview": "# Artifact 模型 — 数据模型与语义 diff 设计(2026-07-18 讨论定稿)"
+  },
+  {
+   "kind": "added",
+   "block": "cbcf2fd8",
+   "type": "para",
+   "context": "Artifact 模型 — 数据模型与语义 diff 设计(2026-07-18",
+   "preview": "内核原则:**版本化是物理定律,审批是政策。** 不管谁改(agent 或人),落下来都是版本链上一个带署名、带块级 d"
+  },
+  {
+   "kind": "added",
+   "block": "ef6ee738",
+   "type": "heading",
+   "context": "五个实体",
+   "preview": "## 五个实体"
+  },
+  {
+   "kind": "added",
+   "block": "b344b925",
+   "type": "table",
+   "context": "五个实体",
+   "preview": "| 实体 | 是什么 | 关键字段/约束 |\n|---|---|---|\n| **Artifact** | 交付物的稳定"
+  },
+  {
+   "kind": "added",
+   "block": "21f94664",
+   "type": "heading",
+   "context": "块树(canonical 表示)",
+   "preview": "## 块树(canonical 表示)"
+  },
+  {
+   "kind": "added",
+   "block": "e9ebead5",
+   "type": "list",
+   "context": "块树(canonical 表示)",
+   "preview": "- source of truth 是**带稳定 ID 的块树**(heading/para/list/table/fi"
+  },
+  {
+   "kind": "added",
+   "block": "56b02171",
+   "type": "heading",
+   "context": "语义 diff 四层",
+   "preview": "## 语义 diff 四层"
+  },
+  {
+   "kind": "added",
+   "block": "98e612fe",
+   "type": "list",
+   "context": "语义 diff 四层",
+   "preview": "1. **结构层**:块级 added/removed/**moved**/modified/split/merged("
+  },
+  {
+   "kind": "added",
+   "block": "33d5cdd3",
+   "type": "heading",
+   "context": "修订闭环",
+   "preview": "## 修订闭环"
+  },
+  {
+   "kind": "added",
+   "block": "7906e822",
+   "type": "list",
+   "context": "修订闭环",
+   "preview": "- Request changes → 批注 + verdict 打成**结构化反馈包**(每条带块锚点)注入原会话,唤"
+  },
+  {
+   "kind": "added",
+   "block": "22be00b9",
+   "type": "heading",
+   "context": "人工编辑四机制",
+   "preview": "## 人工编辑四机制"
+  },
+  {
+   "kind": "added",
+   "block": "50cb65cd",
+   "type": "list",
+   "context": "人工编辑四机制",
+   "preview": "1. **编辑会话折叠成微版本**:人的连续编辑按停顿/时间窗坍缩为一个 Version,自动发布,链上默认折叠显示。免"
+  },
+  {
+   "kind": "added",
+   "block": "e038c332",
+   "type": "heading",
+   "context": "死枝一等公民",
+   "preview": "## 死枝一等公民"
+  },
+  {
+   "kind": "added",
+   "block": "fc3b3112",
+   "type": "para",
+   "context": "死枝一等公民",
+   "preview": "closed/rejected 的 draft 与其 Review 永久留档、可回放——路不通是最贵的知识(\"为什么当初"
+  },
+  {
+   "kind": "added",
+   "block": "5792bce7",
+   "type": "heading",
+   "context": "审阅 UI 原则(2026-07-18 Richard 反馈)",
+   "preview": "## 审阅 UI 原则(2026-07-18 Richard 反馈)"
+  },
+  {
+   "kind": "added",
+   "block": "b1ba84f6",
+   "type": "para",
+   "context": "审阅 UI 原则(2026-07-18 Richard 反馈)",
+   "preview": "变更摘要不做独立 tab:**Draft n 视图 = 顶部结构化摘要 + 正文全文,块级更新在块旁/右侧栏/hover"
+  },
+  {
+   "kind": "added",
+   "block": "6159a280",
+   "type": "heading",
+   "context": "M0 范围(收缩定稿)",
+   "preview": "## M0 范围(收缩定稿)"
+  },
+  {
+   "kind": "added",
+   "block": "8f241903",
+   "type": "para",
+   "context": "M0 范围(收缩定稿)",
+   "preview": "markdown 交付物的完整闭环——块树、语义 diff(结构+块内+表格/数字)、锚定批注、反馈包回流、resolu"
+  },
+  {
+   "kind": "added",
+   "block": "6fdcee59",
    "type": "heading",
    "context": "与 git 仓库的关系(定稿 2026-07-18,Richard 裁决:\"里面",
    "preview": "## 与 git 仓库的关系(定稿 2026-07-18,Richard 裁决:\"里面\")"
   },
   {
    "kind": "added",
-   "block": "d8328c64",
+   "block": "ac1c0a5c",
    "type": "para",
    "context": "与 git 仓库的关系(定稿 2026-07-18,Richard 裁决:\"里面",
    "preview": "账本数据**经由 git 存储和传输,但住在专用 ref 上**(`refs/omnidocs/ledger`),不进工"
   },
   {
    "kind": "added",
-   "block": "1d629d45",
+   "block": "783b48e7",
    "type": "list",
    "context": "与 git 仓库的关系(定稿 2026-07-18,Richard 裁决:\"里面",
    "preview": "- 每个账本事件 = ledger ref 上的一个 commit,tree 含 event.json(事件)+ ver"
   },
   {
    "kind": "added",
-   "block": "1fe75c4c",
+   "block": "b172e2eb",
+   "type": "heading",
+   "context": "开放问题",
+   "preview": "## 开放问题"
+  },
+  {
+   "kind": "added",
+   "block": "f7612f00",
    "type": "list",
    "context": "开放问题",
    "preview": "1. 锚点在野生 agent 编辑下的存活率;匹配兜底的品质阈值。\n2. rebase 改坏已批准内容的护栏细则。\n3."
   },
   {
    "kind": "removed",
-   "block": "120cd651",
+   "block": "e45ff362",
+   "type": "heading",
+   "context": "",
+   "preview": "# Artifact 模型 — 数据模型与语义 diff 设计(2026-07-18 讨论定稿)"
+  },
+  {
+   "kind": "removed",
+   "block": "f8b726f6",
+   "type": "para",
+   "context": "",
+   "preview": "内核原则:**版本化是物理定律,审批是政策。** 不管谁改(agent 或人),落下来都是版本链上一个带署名、带块级 d"
+  },
+  {
+   "kind": "removed",
+   "block": "21183b4f",
+   "type": "heading",
+   "context": "",
+   "preview": "## 五个实体"
+  },
+  {
+   "kind": "removed",
+   "block": "3aa25e88",
+   "type": "table",
+   "context": "",
+   "preview": "| 实体 | 是什么 | 关键字段/约束 |\n|---|---|---|\n| **Artifact** | 交付物的稳定"
+  },
+  {
+   "kind": "removed",
+   "block": "4be2cc62",
+   "type": "heading",
+   "context": "",
+   "preview": "## 块树(canonical 表示)"
+  },
+  {
+   "kind": "removed",
+   "block": "d65f8dbb",
    "type": "list",
    "context": "",
-   "preview": "1. **与 git 仓库的关系**(下一次讨论核心):开发者的文档已住在 git 里,omnidocs 账本放\"旁边\""
+   "preview": "- source of truth 是**带稳定 ID 的块树**(heading/para/list/table/fi"
+  },
+  {
+   "kind": "removed",
+   "block": "4a4bc832",
+   "type": "heading",
+   "context": "",
+   "preview": "## 语义 diff 四层"
+  },
+  {
+   "kind": "removed",
+   "block": "f40fc00b",
+   "type": "list",
+   "context": "",
+   "preview": "1. **结构层**:块级 added/removed/**moved**/modified/split/merged("
+  },
+  {
+   "kind": "removed",
+   "block": "a065f979",
+   "type": "heading",
+   "context": "",
+   "preview": "## 修订闭环"
+  },
+  {
+   "kind": "removed",
+   "block": "64b8f9f5",
+   "type": "list",
+   "context": "",
+   "preview": "- Request changes → 批注 + verdict 打成**结构化反馈包**(每条带块锚点)注入原会话,唤"
+  },
+  {
+   "kind": "removed",
+   "block": "88d6768d",
+   "type": "heading",
+   "context": "",
+   "preview": "## 人工编辑四机制"
+  },
+  {
+   "kind": "removed",
+   "block": "e3a4d2ea",
+   "type": "list",
+   "context": "",
+   "preview": "1. **编辑会话折叠成微版本**:人的连续编辑按停顿/时间窗坍缩为一个 Version,自动发布,链上默认折叠显示。免"
+  },
+  {
+   "kind": "removed",
+   "block": "a7364866",
+   "type": "heading",
+   "context": "",
+   "preview": "## 死枝一等公民"
+  },
+  {
+   "kind": "removed",
+   "block": "16e4b017",
+   "type": "para",
+   "context": "",
+   "preview": "closed/rejected 的 draft 与其 Review 永久留档、可回放——路不通是最贵的知识(\"为什么当初"
+  },
+  {
+   "kind": "removed",
+   "block": "f6696aec",
+   "type": "heading",
+   "context": "",
+   "preview": "## 审阅 UI 原则(2026-07-18 Richard 反馈)"
+  },
+  {
+   "kind": "removed",
+   "block": "69a1634c",
+   "type": "para",
+   "context": "",
+   "preview": "变更摘要不做独立 tab:**Draft n 视图 = 顶部结构化摘要 + 正文全文,块级更新在块旁/右侧栏/hover"
+  },
+  {
+   "kind": "removed",
+   "block": "01cd0ff0",
+   "type": "heading",
+   "context": "",
+   "preview": "## M0 范围(收缩定稿)"
+  },
+  {
+   "kind": "removed",
+   "block": "38e39942",
+   "type": "para",
+   "context": "",
+   "preview": "markdown 交付物的完整闭环——块树、语义 diff(结构+块内+表格/数字)、锚定批注、反馈包回流、resolu"
+  },
+  {
+   "kind": "removed",
+   "block": "b3102f3d",
+   "type": "heading",
+   "context": "",
+   "preview": "## 与 git 仓库的关系(定稿 2026-07-18,Richard 裁决:\"里面\")"
+  },
+  {
+   "kind": "removed",
+   "block": "d8328c64",
+   "type": "para",
+   "context": "",
+   "preview": "账本数据**经由 git 存储和传输,但住在专用 ref 上**(`refs/omnidocs/ledger`),不进工"
+  },
+  {
+   "kind": "removed",
+   "block": "1d629d45",
+   "type": "list",
+   "context": "",
+   "preview": "- 每个账本事件 = ledger ref 上的一个 commit,tree 含 event.json(事件)+ ver"
+  },
+  {
+   "kind": "removed",
+   "block": "3499bb85",
+   "type": "heading",
+   "context": "",
+   "preview": "## 开放问题"
+  },
+  {
+   "kind": "removed",
+   "block": "1fe75c4c",
+   "type": "list",
+   "context": "",
+   "preview": "1. 锚点在野生 agent 编辑下的存活率;匹配兜底的品质阈值。\n2. rebase 改坏已批准内容的护栏细则。\n3."
   }
  ],
- "source_commit": "6beb36b75d75ee3747d56598b5354fbe568cfb74"
+ "source_commit": "260cea2baa18517d1767bd93853ce0b4b279ea69"
 }
