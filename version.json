@@ -1,77 +1,95 @@
 {
- "artifact": "docs/DEMO_SCRIPT.md",
+ "artifact": "docs/DESIGN.md",
  "blocks": [
   {
    "type": "heading",
-   "text": "# Proofpress — Launch Copy",
-   "hash": "4e44740b46c2",
-   "id": "e462c991"
+   "text": "# OmniDocs 设计系统 — serve 审阅页(源自 ledger-demo,2026-07-18)",
+   "id": "ae580676",
+   "hash": "897ba661f98d"
   },
   {
    "type": "para",
-   "text": "Audience: developers who write docs with coding agents (repo-docs seed). Style: YC launch video — real pixels, no music, one CTA. Concrete subject throughout: a real file (`design-doc.md`), a real elapsed time (three days), a real diff stat — never an abstract \"docs.\"",
-   "hash": "3441c0695195",
-   "id": "fd848e0b"
+   "text": "一句话:**纸墨账本**。纸面底色、墨色正文、一个青蓝强调色管全部交互;语义色只给 diff。信息密度服从\"审阅\"这一个动作:摘要先于全文,变更先于未变,待办先于已办。",
+   "id": "9787677e",
+   "hash": "41b12f660e4c"
   },
   {
    "type": "heading",
-   "text": "## 60-Second Demo Script (v4)",
-   "hash": "2d6adbd0e332",
-   "id": "50a89c8a"
+   "text": "## 色彩令牌",
+   "id": "7056876e",
+   "hash": "8a597884010e"
   },
   {
    "type": "table",
-   "text": "| Time | Screen | Narration |\n|---|---|---|\n| 0:00–0:14 | `design-doc.md` on a GitHub PR page, three days of commits, diff stat reading **+1,204 −980** | I kept asking my agent to fix a design doc. Three days later, all GitHub showed me was a thousand-line diff. I couldn't tell what changed, why, or how to get back to an earlier draft. |\n| 0:14–0:24 | Cut to black-on-white statement card | So I gave markdown its own git — one that lives right inside the repo you already have. Introducing Proofpress: every edit, yours or your agent's, becomes a version — what changed, why, and a way back. |\n| 0:24–0:42 | Split screen: same three days as a nine-commit git log (vague messages) vs. Proofpress version chain, each version tagged with its reason | Same three days, two views. Git: a thousand lines of noise across nine commits nobody opened. Proofpress: one section moved, one paragraph rewritten, one number changed — every round, one glance, reason attached. Verified against what actually changed — the agent can't oversell its work. |\n| 0:42–0:53 | Comment on a block → agent revises; or a manual hand-edit on the same block — both land in the same chain | Comment on a block and the agent revises it. Edit it yourself instead — same ledger, same history, either way. |\n| 0:53–1:00 | Logo + tagline + repo URL | Draft → Review → Approve, for agents. Open source. Link below. |",
-   "hash": "edab5a880407",
-   "id": "ff2c0029"
+   "text": "| 令牌 | Light | Dark | 用途 |\n|---|---|---|---|\n| paper | #FAF9F5 | #15171C | 页面底 |\n| ink / ink-2 / ink-3 | #20222B / #5A5D6B / #8B8E9C | #E9E7E0 / #A6A9B4 / #787B87 | 正文 / 次要 / 弱化 |\n| line | #E3E1D9 | #2C2F38 | 边线 |\n| card / wash | #FFFFFF / #F1EFE8 | #1D2027 / #22252D | 卡片 / 浅底 |\n| accent / accent-soft | #0E5E6F / #E3EEF0 | #5FB3C4 / #173741 | 交互、批注、变更标记 |\n| add / add-bg | #2E7D4F / #E7F2EA | #6FBF8E / #1B3226 | 新增、approve |\n| del / del-bg | #B4453A / #F7E9E7 | #E08B80 / #3A2320 | 删除、rewritten |\n| move / move-bg | #8A6210 / #F5EEDC | #D3A94F / #332B18 | 移动、待回应 |",
+   "id": "451376f2",
+   "hash": "820658244729"
   },
   {
    "type": "para",
-   "text": "~155 words. Delivery notes: speak slowly (reviewers watch at 2×); on-screen diff stat can carry precise-looking numbers (+1,204 −980) even where narration rounds them off for spoken flow (\"a thousand-line diff\") — screen and voice don't have to match digit-for-digit. Narration never describes what's on screen — it adds the judgment layer on top.",
-   "hash": "de10342000ed",
-   "id": "70b338f8"
-  },
-  {
-   "type": "para",
-   "text": "Red-line check: no mention of versioning code files; no review-of-humans language; \"git\" appears only as contrast/metaphor, never as the thing being replaced — Proofpress lives inside git, it doesn't compete with it.",
-   "hash": "8014db0f08f8",
-   "id": "f51f15b3"
+   "text": "规则:accent 只有一个;红绿黄是 diff 语义色,不作装饰;两套主题都必须校稿。",
+   "id": "a8d606fe",
+   "hash": "b4758a390fcc"
   },
   {
    "type": "heading",
-   "text": "## X Launch Post",
-   "hash": "ad18b8a3f579",
-   "id": "ee5bcc82"
+   "text": "## 字体",
+   "id": "f49db722",
+   "hash": "9865d4353c3b"
+  },
+  {
+   "type": "list",
+   "text": "- 页面标题 / 文档大标题:Songti SC / Noto Serif SC,900——账本的仪式感。\n- 正文与 UI:系统中文黑体栈(PingFang SC…),15px / 1.75。\n- 版本号、hash、数字:等宽(ui-monospace),tabular-nums。",
+   "id": "53b8c3a4",
+   "hash": "ae39aafe3e04"
+  },
+  {
+   "type": "heading",
+   "text": "## 版面",
+   "id": "46a56fa1",
+   "hash": "07e2b4d7376f"
+  },
+  {
+   "type": "list",
+   "text": "- 单栏,内容最大宽 760px;文档正文行宽 ≤ 70 字符。\n- 层次自上而下固定:导航行 → 元信息行 → 变更摘要卡 → 正文 → 底部粘性裁决栏。\n- 正文必须渲染 markdown(表格/列表/粗体/代码);裸标记符号 = 缺陷。",
+   "id": "8aa0ba5a",
+   "hash": "7fdd508c67f8"
+  },
+  {
+   "type": "heading",
+   "text": "## 组件",
+   "id": "f43f7a30",
+   "hash": "3910c6d7da18"
+  },
+  {
+   "type": "list",
+   "text": "- **chip**:圆角胶囊,11.5px;状态色——published 绿、待审/待回应 黄、agent 青。\n- **tag**(diff 角标):10.5px 粗体小胶囊,new 绿 / modified 红 / moved 黄,置于块标题行内。\n- **变更块**:左侧 3px accent 竖线 + 极浅 accent 底;词级改动收进 `<details>`(\"查看本块改动\"),默认收起,正文保持可读。\n- **批注卡**:左 3px accent 边、card 底、轻投影;状态字(\"待回应 / 已入账·等待修订 / 已解决\")用 ink-3。\n- **块 hover**:wash 底浮现 + 右上\"＋批注\"浮现;可点感必须显性。\n- **裁决栏**:粘底,Approve 绿实心 / Request changes 青实心;**点击后立即变状态**(按钮禁用 + 文案改\"✓ 已入账·等待修订\"),杜绝无反馈重复点击。",
+   "id": "0287d639",
+   "hash": "a30594cb72ac"
+  },
+  {
+   "type": "heading",
+   "text": "## 反馈状态机(页面文案随账本状态走)",
+   "id": "7578205b",
+   "hash": "263cf42ca1ed"
   },
   {
    "type": "para",
-   "text": "> I kept asking my coding agent to fix a doc. Three days later, all GitHub showed me was a 1,000-line diff — I couldn't tell what actually changed, why, or how to get back to an earlier draft.\n>\n> So I gave markdown its own git — one that lives right inside the repo you already have.\n>\n> Introducing Proofpress: every markdown edit, yours or your agent's, becomes a version — what changed, why, and a way back.",
-   "hash": "3da2c1ba3639",
-   "id": "5980353a"
+   "text": "待回应(feedback 新于最新版本)→ 修订中(agent 会话活跃,后续 SSE)→ 已回应(新版本落账,页面自动刷新,批注标 resolved)。每一步页面都要说人话:\"agent 将在下次读取 inbox 时收到\"。",
+   "id": "aae4f716",
+   "hash": "baf50889d162"
+  },
+  {
+   "type": "heading",
+   "text": "## 声音",
+   "id": "300ee19f",
+   "hash": "a772b8d62e88"
   },
   {
    "type": "para",
-   "text": "**Thread (optional, if expanding past the single post):**",
-   "hash": "321b6cb0c7ac",
-   "id": "2363cb83"
-  },
-  {
-   "type": "para",
-   "text": "> Same three days, two views.\n>\n> Git: a thousand lines of noise across nine commits nobody opened.\n> Proofpress: one section moved, one paragraph rewritten, one number changed — every round, one glance, reason attached.\n>\n> The agent's changelog is verified against the real diff. It can't oversell its work.",
-   "hash": "df23fb67e963",
-   "id": "5c70c169"
-  },
-  {
-   "type": "para",
-   "text": "> Comment on any block. Your agent revises — the comment stays open until it's actually resolved. Every change links back to the session that made it.\n>\n> Three weeks later, the answer's still there.",
-   "hash": "7fac5a2d3da3",
-   "id": "fe8c74e1"
-  },
-  {
-   "type": "para",
-   "text": "> Draft → Review → Approve, for agents.\n>\n> One skill. No new editor, no migration — your agent already writes markdown, this just keeps the books.\n>\n> Apache-2.0. [github link]",
-   "hash": "d0f972f4afd4",
-   "id": "dd4d7a00"
+   "text": "UI 词汇只用产品词表:Draft / Review / Approve / 批注 / 入账 / 待回应。禁止内部术语(event、ref、blob)出现在界面上。",
+   "id": "cab7f711",
+   "hash": "74a54fab0e9a"
   }
  ]
 }

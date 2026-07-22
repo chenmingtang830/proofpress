@@ -1,124 +1,124 @@
 {
  "event": "version_created",
- "artifact": "docs/DEMO_SCRIPT.md",
- "version": "6eb528be",
- "parent": "3f4fe376",
+ "artifact": "docs/DESIGN.md",
+ "version": "cfeb2d75",
+ "parent": null,
  "author": {
   "name": "chenmingtang830",
   "kind": "human",
   "session": null
  },
- "note": "Rewrite launch copy: concrete subject (design-doc.md, three days, real diff stat) instead of abstract docs; add X launch post + thread",
- "ts": "2026-07-19T11:52:09-04:00",
+ "note": "Rebuild serve page per DESIGN.md: markdown rendering, ledger-demo design system, honest feedback states",
+ "ts": "2026-07-18T09:01:24-04:00",
  "stats": {
-  "modified": 2,
-  "added": 10,
-  "removed": 3
+  "added": 15
  },
  "changes": [
   {
-   "kind": "modified",
-   "block": "e462c991",
+   "kind": "added",
+   "block": "ae580676",
    "type": "heading",
-   "context": "Proofpress — Launch Copy"
+   "context": "OmniDocs 设计系统 — serve 审阅页(源自 ledger-demo",
+   "preview": "# OmniDocs 设计系统 — serve 审阅页(源自 ledger-demo,2026-07-18)"
   },
   {
    "kind": "added",
-   "block": "fd848e0b",
+   "block": "9787677e",
    "type": "para",
-   "context": "Proofpress — Launch Copy",
-   "preview": "Audience: developers who write docs with coding agents (repo"
+   "context": "OmniDocs 设计系统 — serve 审阅页(源自 ledger-demo",
+   "preview": "一句话:**纸墨账本**。纸面底色、墨色正文、一个青蓝强调色管全部交互;语义色只给 diff。信息密度服从\"审阅\"这一个"
   },
   {
    "kind": "added",
-   "block": "50a89c8a",
+   "block": "7056876e",
    "type": "heading",
-   "context": "60-Second Demo Script (v4)",
-   "preview": "## 60-Second Demo Script (v4)"
+   "context": "色彩令牌",
+   "preview": "## 色彩令牌"
   },
   {
    "kind": "added",
-   "block": "ff2c0029",
+   "block": "451376f2",
    "type": "table",
-   "context": "60-Second Demo Script (v4)",
-   "preview": "| Time | Screen | Narration |\n|---|---|---|\n| 0:00–0:14 | `d"
+   "context": "色彩令牌",
+   "preview": "| 令牌 | Light | Dark | 用途 |\n|---|---|---|---|\n| paper | #FAF9"
   },
   {
    "kind": "added",
-   "block": "70b338f8",
+   "block": "a8d606fe",
    "type": "para",
-   "context": "60-Second Demo Script (v4)",
-   "preview": "~155 words. Delivery notes: speak slowly (reviewers watch at"
-  },
-  {
-   "kind": "modified",
-   "block": "f51f15b3",
-   "type": "para",
-   "context": "60-Second Demo Script (v4)"
+   "context": "色彩令牌",
+   "preview": "规则:accent 只有一个;红绿黄是 diff 语义色,不作装饰;两套主题都必须校稿。"
   },
   {
    "kind": "added",
-   "block": "ee5bcc82",
+   "block": "f49db722",
    "type": "heading",
-   "context": "X Launch Post",
-   "preview": "## X Launch Post"
+   "context": "字体",
+   "preview": "## 字体"
   },
   {
    "kind": "added",
-   "block": "5980353a",
-   "type": "para",
-   "context": "X Launch Post",
-   "preview": "> I kept asking my coding agent to fix a doc. Three days lat"
+   "block": "53b8c3a4",
+   "type": "list",
+   "context": "字体",
+   "preview": "- 页面标题 / 文档大标题:Songti SC / Noto Serif SC,900——账本的仪式感。\n- 正文与 "
   },
   {
    "kind": "added",
-   "block": "2363cb83",
-   "type": "para",
-   "context": "X Launch Post",
-   "preview": "**Thread (optional, if expanding past the single post):**"
+   "block": "46a56fa1",
+   "type": "heading",
+   "context": "版面",
+   "preview": "## 版面"
   },
   {
    "kind": "added",
-   "block": "5c70c169",
-   "type": "para",
-   "context": "X Launch Post",
-   "preview": "> Same three days, two views.\n>\n> Git: a thousand lines of n"
+   "block": "8aa0ba5a",
+   "type": "list",
+   "context": "版面",
+   "preview": "- 单栏,内容最大宽 760px;文档正文行宽 ≤ 70 字符。\n- 层次自上而下固定:导航行 → 元信息行 → 变更摘"
   },
   {
    "kind": "added",
-   "block": "fe8c74e1",
-   "type": "para",
-   "context": "X Launch Post",
-   "preview": "> Comment on any block. Your agent revises — the comment sta"
+   "block": "f43f7a30",
+   "type": "heading",
+   "context": "组件",
+   "preview": "## 组件"
   },
   {
    "kind": "added",
-   "block": "dd4d7a00",
-   "type": "para",
-   "context": "X Launch Post",
-   "preview": "> Draft → Review → Approve, for agents.\n>\n> One skill. No ne"
+   "block": "0287d639",
+   "type": "list",
+   "context": "组件",
+   "preview": "- **chip**:圆角胶囊,11.5px;状态色——published 绿、待审/待回应 黄、agent 青。\n- "
   },
   {
-   "kind": "removed",
-   "block": "3b124b11",
-   "type": "para",
-   "context": "",
-   "preview": "Audience: developers who write docs with coding agents (repo"
+   "kind": "added",
+   "block": "7578205b",
+   "type": "heading",
+   "context": "反馈状态机(页面文案随账本状态走)",
+   "preview": "## 反馈状态机(页面文案随账本状态走)"
   },
   {
-   "kind": "removed",
-   "block": "07de17ee",
-   "type": "table",
-   "context": "",
-   "preview": "| Time | Screen | Narration |\n|---|---|---|\n| 0:00–0:09 | A "
+   "kind": "added",
+   "block": "aae4f716",
+   "type": "para",
+   "context": "反馈状态机(页面文案随账本状态走)",
+   "preview": "待回应(feedback 新于最新版本)→ 修订中(agent 会话活跃,后续 SSE)→ 已回应(新版本落账,页面自动"
   },
   {
-   "kind": "removed",
-   "block": "0e31c4a3",
+   "kind": "added",
+   "block": "300ee19f",
+   "type": "heading",
+   "context": "声音",
+   "preview": "## 声音"
+  },
+  {
+   "kind": "added",
+   "block": "cab7f711",
    "type": "para",
-   "context": "",
-   "preview": "~165 words. Delivery notes: speak slowly (reviewers watch at"
+   "context": "声音",
+   "preview": "UI 词汇只用产品词表:Draft / Review / Approve / 批注 / 入账 / 待回应。禁止内部术语("
   }
  ],
- "source_commit": "29dd5fd6319366e7e992a01ad18c92f4f79e408c"
+ "source_commit": "7829cb946cdfd41a3e60768753a7f54762565170"
 }
