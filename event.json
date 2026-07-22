@@ -1,96 +1,157 @@
 {
  "event": "version_created",
- "artifact": "skills/pi/proofpress-skill.md",
- "version": "b788953d",
- "parent": null,
+ "artifact": "docs/PORTABLE_ARTIFACT_STRATEGY.md",
+ "version": "8b0535cf",
+ "parent": "99af7ece",
  "author": {
-  "name": "chenmingtang830",
-  "kind": "human",
-  "session": null
+  "name": "codex",
+  "kind": "agent",
+  "session": "vision-and-harness-2026-07-22"
  },
- "note": "Harness adapters: skill + hook for Claude Code / Codex / Pi",
- "ts": "2026-07-21T20:02:39-04:00",
+ "note": "Added long-term trust and collective-intelligence vision",
+ "ts": "2026-07-22T05:25:17+00:00",
  "stats": {
-  "added": 11
+  "modified": 2,
+  "added": 9
  },
  "changes": [
   {
+   "kind": "modified",
+   "block": "23de2854",
+   "type": "para",
+   "context": "Proofpress：从版本账本到 Portable Artifact Prot"
+  },
+  {
    "kind": "added",
-   "block": "5cd87791",
+   "block": "748ce1a3",
    "type": "heading",
-   "context": "proofpress",
-   "preview": "# proofpress"
+   "context": "终局 Vision：让智能扩张，让信任留存",
+   "preview": "## 终局 Vision：让智能扩张，让信任留存"
   },
   {
    "kind": "added",
-   "block": "679ffc58",
+   "block": "31af6d82",
    "type": "para",
-   "context": "proofpress",
-   "preview": "Version-ledger discipline for markdown knowledge artifacts ("
+   "context": "终局 Vision：让智能扩张，让信任留存",
+   "preview": "**Proofpress 的终局不是另一个 docs 产品，而是 trustworthy human-agent kno"
   },
   {
    "kind": "added",
-   "block": "daf9ff98",
-   "type": "heading",
-   "context": "Loop",
-   "preview": "## Loop"
+   "block": "b95e407c",
+   "type": "para",
+   "context": "终局 Vision：让智能扩张，让信任留存",
+   "preview": "Portable artifact 是这个 vision 的关键载体：它把静态文件变成一个可以跨人、agent、sess"
   },
   {
    "kind": "added",
-   "block": "fb518472",
+   "block": "e4629fc1",
+   "type": "para",
+   "context": "终局 Vision：让智能扩张，让信任留存",
+   "preview": "这才是 **agent-native document format** 的长期含义：不是再发明一种文件扩展名或编辑器，"
+  },
+  {
+   "kind": "added",
+   "block": "06d83ab9",
+   "type": "para",
+   "context": "终局 Vision：让智能扩张，让信任留存",
+   "preview": "三层终局："
+  },
+  {
+   "kind": "added",
+   "block": "f35416d1",
    "type": "list",
-   "context": "Loop",
-   "preview": "1. History but no ledger entries? `python3 proofpress.py ing"
+   "context": "终局 Vision：让智能扩张，让信任留存",
+   "preview": "1. **现在——portable decision lineage：**让一份 artifact 的历史像 artif"
   },
   {
    "kind": "added",
-   "block": "5affc021",
+   "block": "9d275ea4",
    "type": "para",
-   "context": "Loop",
-   "preview": "   `python3 proofpress.py anchor <file>` → read inherited/ne"
+   "context": "终局 Vision：让智能扩张，让信任留存",
+   "preview": "类比不是“再造一个 Git”：**Git gave code history; Proofpress gives kno"
   },
   {
    "kind": "added",
-   "block": "6f0d23b1",
+   "block": "f8ac341d",
+   "type": "para",
+   "context": "终局 Vision：让智能扩张，让信任留存",
+   "preview": "对外叙事层级："
+  },
+  {
+   "kind": "added",
+   "block": "e5784e73",
    "type": "list",
-   "context": "Loop",
-   "preview": "3. Claims JSON, one honest entry per block:"
+   "context": "终局 Vision：让智能扩张，让信任留存",
+   "preview": "- **North star：**Scale intelligence. Preserve trust.\n- **Cat"
   },
   {
-   "kind": "added",
-   "block": "44acc710",
-   "type": "para",
-   "context": "Loop",
-   "preview": "   `[{\"block\": \"<id>\", \"kind\": \"added|removed|modified|moved"
-  },
-  {
-   "kind": "added",
-   "block": "da9ad3d9",
-   "type": "list",
-   "context": "Loop",
-   "preview": "4. Snapshot with testimony (`--why` required; `--rejected` p"
-  },
-  {
-   "kind": "added",
-   "block": "f7c3e055",
-   "type": "para",
-   "context": "Loop",
-   "preview": "   alternative):\n   `python3 proofpress.py snapshot <file> -"
-  },
-  {
-   "kind": "added",
-   "block": "dd7291a6",
-   "type": "list",
-   "context": "Loop",
-   "preview": "5. `python3 proofpress.py verify <file>` — report verbatim; "
-  },
-  {
-   "kind": "added",
-   "block": "982738e5",
-   "type": "para",
-   "context": "Loop",
-   "preview": "   to force green. A ⚠ is reviewer information."
+   "kind": "modified",
+   "block": "5f794662",
+   "type": "code",
+   "context": "11. 最终判断"
   }
  ],
- "source_commit": "c70f3baaa1de011117fe5f3721ea718fa0f91da1"
+ "claims": [
+  {
+   "block": "23de2854",
+   "kind": "modified",
+   "note": "updated the strategy date and metadata formatting"
+  },
+  {
+   "block": "748ce1a3",
+   "kind": "added",
+   "note": "added the long-term vision heading"
+  },
+  {
+   "block": "31af6d82",
+   "kind": "added",
+   "note": "defined Proofpress as an open trust protocol and ledger"
+  },
+  {
+   "block": "b95e407c",
+   "kind": "added",
+   "note": "connected portable artifacts to durable intellectual provenance"
+  },
+  {
+   "block": "e4629fc1",
+   "kind": "added",
+   "note": "defined the long-term meaning of an agent-native document format"
+  },
+  {
+   "block": "06d83ab9",
+   "kind": "added",
+   "note": "introduced the three-layer end-state progression"
+  },
+  {
+   "block": "f35416d1",
+   "kind": "added",
+   "note": "described ledger, trust protocol, and collective-intelligence stages"
+  },
+  {
+   "block": "9d275ea4",
+   "kind": "added",
+   "note": "added the Git analogy and foundational knowledge questions"
+  },
+  {
+   "block": "f8ac341d",
+   "kind": "added",
+   "note": "introduced the external narrative hierarchy"
+  },
+  {
+   "block": "e5784e73",
+   "kind": "added",
+   "note": "added north star, category, vision, mission, and brand explanation"
+  },
+  {
+   "block": "5f794662",
+   "kind": "modified",
+   "note": "extended the final hierarchy with long-term category and outcome"
+  }
+ ],
+ "context": {
+  "why": "The portable artifact strategy needed to connect its immediate mechanism to the larger vision of trustworthy, cumulative human-agent intelligence.",
+  "rejected": [
+   "Place the vision in docs/STRATEGY.md — the user clarified that it belongs specifically in the portable artifact strategy."
+  ]
+ }
 }
