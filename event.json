@@ -1,25 +1,25 @@
 {
  "event": "version_created",
- "artifact": "skills/claude-code/proofpress/SKILL.md",
- "artifact_id": "pp_8f9f160826e336a46eb62bd4",
- "version": "06c840e7",
- "parent": "0a1556e5",
+ "artifact": "skills/codex/AGENTS-snippet.md",
+ "artifact_id": "pp_703c3fa926abb512e7199332",
+ "version": "5b7201ca",
+ "parent": "ad7f4f61",
  "author": {
   "name": "codex",
   "kind": "agent",
   "session": null
  },
  "note": "prepare the public repository documentation surface",
- "ts": "2026-07-22T10:06:05+00:00",
+ "ts": "2026-07-22T10:06:06+00:00",
  "stats": {
   "modified": 1
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "c89d4269",
+   "block": "08f435e4",
    "type": "code",
-   "context": "Workflow"
+   "context": "Proofpress: ledger Markdown knowledge ar"
   }
  ],
  "policy": "local",
@@ -34,7 +34,7 @@
  "attribution_basis": "harness_attested",
  "claims": [
   {
-   "block": "c89d4269",
+   "block": "08f435e4",
    "kind": "modified",
    "note": "aligned the public repository surface and executable CLI examples"
   }
