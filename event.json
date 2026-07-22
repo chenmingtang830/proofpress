@@ -1,143 +1,187 @@
 {
  "event": "version_created",
- "artifact": "docs/ARTIFACT_MODEL.md",
- "version": "531f24ab",
- "parent": "82a0fdde",
+ "artifact": "docs/COMPETITIVE.md",
+ "version": "fa52cec8",
+ "parent": null,
  "author": {
-  "name": "Claude",
-  "kind": "agent",
-  "session": "act-one-pr"
+  "name": "chenmingtang830",
+  "kind": "human",
+  "session": null
  },
- "note": "同步 2026-07-21 落地:claims/context schema、三层捕获、审阅页归档、ingest 实现",
- "ts": "2026-07-22T00:05:26+00:00",
+ "note": "Scaffold OmniDocs: identity, strategy, artifact model, evolution record, competitive scan, interactive demo",
+ "ts": "2026-07-18T07:53:58-04:00",
  "stats": {
-  "added": 4,
-  "modified": 4
+  "added": 24
  },
  "changes": [
   {
    "kind": "added",
-   "block": "f07c4056",
+   "block": "baf66a7e",
    "type": "heading",
-   "context": "Claims 与 decision context(2026-07-21 落地,",
-   "preview": "## Claims 与 decision context(2026-07-21 落地,已有代码)"
+   "context": "Competitive Landscape — OmniCowork",
+   "preview": "# Competitive Landscape — OmniCowork"
   },
   {
    "kind": "added",
-   "block": "a147802a",
+   "block": "d19a4fd7",
    "type": "para",
-   "context": "Claims 与 decision context(2026-07-21 落地,",
-   "preview": "叙事层从设计变成了 schema。每个 Version 事件可携带两份自述,分居**两个信任等级**:"
+   "context": "Competitive Landscape — OmniCowork",
+   "preview": "Scan date: 2026-07-18 (all numbers verified live via GitHub "
   },
   {
    "kind": "added",
-   "block": "4fcc0c04",
-   "type": "list",
-   "context": "Claims 与 decision context(2026-07-21 落地,",
-   "preview": "- **claims(被验证的数据)**:`[{\"block\": id8, \"kind\": added|removed|"
-  },
-  {
-   "kind": "added",
-   "block": "fe75e633",
+   "block": "49470dec",
    "type": "para",
-   "context": "Claims 与 decision context(2026-07-21 落地,",
-   "preview": "捕获分三层,可靠性递增、信息量递减:**Skill**(概率性,claims+context 全量)→ **Hook**"
+   "context": "Competitive Landscape — OmniCowork",
+   "preview": "Our claim to defend: knowledge-work orchestration + versione"
   },
   {
-   "kind": "modified",
-   "block": "5792bce7",
+   "kind": "added",
+   "block": "7c613759",
    "type": "heading",
-   "context": "审阅 UI 原则(2026-07-18 定;2026-07-21 归档为第二幕图"
+   "context": "Bucket 1 — General agent workspaces (\"si",
+   "preview": "## Bucket 1 — General agent workspaces (\"single-player open "
   },
   {
-   "kind": "modified",
-   "block": "b1ba84f6",
+   "kind": "added",
+   "block": "2e1718b0",
    "type": "para",
-   "context": "审阅 UI 原则(2026-07-18 定;2026-07-21 归档为第二幕图"
+   "context": "Bucket 1 — General agent workspaces (\"si",
+   "preview": "Have: agents doing knowledge work, self-hosting. Lack: versi"
   },
   {
-   "kind": "modified",
-   "block": "783b48e7",
-   "type": "list",
-   "context": "与git仓库的关系(定稿 2026-07-18,Richard 裁决:\"里面\")",
-   "numbers": [
-    [
-     "0",
-     "2026"
-    ]
-   ]
+   "kind": "added",
+   "block": "2a0865d1",
+   "type": "table",
+   "context": "Bucket 1 — General agent workspaces (\"si",
+   "preview": "| Project | Stars | License | Notes |\n|---|---|---|---|\n| zh"
   },
   {
-   "kind": "modified",
-   "block": "f7612f00",
+   "kind": "added",
+   "block": "2192ac30",
+   "type": "para",
+   "context": "Bucket 1 — General agent workspaces (\"si",
+   "preview": "Assessment: the bucket's leaders are converging on our metap"
+  },
+  {
+   "kind": "added",
+   "block": "5d625120",
+   "type": "heading",
+   "context": "Bucket 2 — Coding orchestration (our sha",
+   "preview": "## Bucket 2 — Coding orchestration (our shape, wrong domain)"
+  },
+  {
+   "kind": "added",
+   "block": "2df1b5a1",
+   "type": "para",
+   "context": "Bucket 2 — Coding orchestration (our sha",
+   "preview": "Have: boards, parallel sessions, review loops. Lack: anythin"
+  },
+  {
+   "kind": "added",
+   "block": "9fd403cf",
+   "type": "table",
+   "context": "Bucket 2 — Coding orchestration (our sha",
+   "preview": "| Project | Stars | License | Notes |\n|---|---|---|---|\n| Ag"
+  },
+  {
+   "kind": "added",
+   "block": "b1129f1f",
+   "type": "para",
+   "context": "Bucket 2 — Coding orchestration (our sha",
+   "preview": "Assessment: commoditizing; still nobody positioned for knowl"
+  },
+  {
+   "kind": "added",
+   "block": "6740894a",
+   "type": "heading",
+   "context": "Bucket 3 — Open-source system-of-record ",
+   "preview": "## Bucket 3 — Open-source system-of-record with AI bolt-ons"
+  },
+  {
+   "kind": "added",
+   "block": "35fe16a5",
+   "type": "para",
+   "context": "Bucket 3 — Open-source system-of-record ",
+   "preview": "Have: docs/tasks/teams as durable record. Lack: agent-native"
+  },
+  {
+   "kind": "added",
+   "block": "c355d0eb",
+   "type": "table",
+   "context": "Bucket 3 — Open-source system-of-record ",
+   "preview": "| Project | Stars | License | Notes |\n|---|---|---|---|\n| Ap"
+  },
+  {
+   "kind": "added",
+   "block": "c96615d6",
+   "type": "para",
+   "context": "Bucket 3 — Open-source system-of-record ",
+   "preview": "Assessment: the structural blocker (continuous human editing"
+  },
+  {
+   "kind": "added",
+   "block": "00f5264a",
+   "type": "heading",
+   "context": "Bucket 4 — The review/version layer for ",
+   "preview": "## Bucket 4 — The review/version layer for agent output"
+  },
+  {
+   "kind": "added",
+   "block": "43761fb3",
+   "type": "para",
+   "context": "Bucket 4 — The review/version layer for ",
+   "preview": "Our core IP. Nearest neighbors:"
+  },
+  {
+   "kind": "added",
+   "block": "eb60ac67",
    "type": "list",
-   "context": "开放的问题们",
-   "numbers": [
-    [
-     "2.",
-     "2026"
-    ],
-    [
-     "3.",
-     "23"
-    ],
-    [
-     "4.",
-     "23"
-    ],
-    [
-     "3",
-     "2."
-    ]
-   ]
+   "context": "Bucket 4 — The review/version layer for ",
+   "preview": "- docs-as-code (Git+Markdown review flows): right mechanics,"
+  },
+  {
+   "kind": "added",
+   "block": "bb776938",
+   "type": "heading",
+   "context": "Threat ranking (revised 2026-07-18)",
+   "preview": "## Threat ranking (revised 2026-07-18)"
+  },
+  {
+   "kind": "added",
+   "block": "281bb5b6",
+   "type": "list",
+   "context": "Threat ranking (revised 2026-07-18)",
+   "preview": "1. **Anthropic ships multiplayer/versioned Cowork** — highes"
+  },
+  {
+   "kind": "added",
+   "block": "658b806d",
+   "type": "heading",
+   "context": "Tactics",
+   "preview": "## Tactics"
+  },
+  {
+   "kind": "added",
+   "block": "5839e613",
+   "type": "para",
+   "context": "Tactics",
+   "preview": "**Own the vocabulary now.** \"Draft → Review → Approve **for "
+  },
+  {
+   "kind": "added",
+   "block": "050fab29",
+   "type": "heading",
+   "context": "Standing conclusions",
+   "preview": "## Standing conclusions"
+  },
+  {
+   "kind": "added",
+   "block": "f258405e",
+   "type": "list",
+   "context": "Standing conclusions",
+   "preview": "- The four-bucket vacuum has one occupant now (Kortix), but "
   }
  ],
- "claims": [
-  {
-   "block": "f07c4056",
-   "kind": "added",
-   "note": "新节标题:Claims 与 decision context"
-  },
-  {
-   "block": "a147802a",
-   "kind": "added",
-   "note": "两个信任等级引言"
-  },
-  {
-   "block": "4fcc0c04",
-   "kind": "added",
-   "note": "claims/context schema 与 verify exit codes"
-  },
-  {
-   "block": "fe75e633",
-   "kind": "added",
-   "note": "三层捕获(Skill/Hook/ingest)"
-  },
-  {
-   "block": "5792bce7",
-   "kind": "modified",
-   "note": "审阅 UI 节标题加归档标注"
-  },
-  {
-   "block": "b1ba84f6",
-   "kind": "modified",
-   "note": "审阅页砍掉决议与归档说明替换原正文"
-  },
-  {
-   "block": "783b48e7",
-   "kind": "modified",
-   "note": "ingest 已实现:幂等/时序守卫/rename 限制"
-  },
-  {
-   "block": "f7612f00",
-   "kind": "modified",
-   "note": "开放问题更新:锚点数据点、spec backend 无关、Action 未实测替换 serve SSE"
-  }
- ],
- "context": {
-  "why": "代码已先行(verify/context/ingest 全部落地),文档必须跟上,否则 spec 与实现分叉",
-  "rejected": [
-   "整篇重写 —— 本文档大部分设计仍然成立,只需外科手术式更新四处"
-  ]
- }
+ "source_commit": "5756ca97d42fb6ed9c9db75e38ad7f49a2b3aadc"
 }
