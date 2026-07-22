@@ -1,79 +1,259 @@
 {
  "event": "version_created",
- "artifact": "docs/PORTABLE_ARTIFACT_STRATEGY.md",
- "artifact_id": "pp_5a7bb2c2b26051ae1d359850",
- "version": "3cc3236b",
- "parent": "9a846ef1",
+ "artifact": "docs/EXPERIMENT_HINDCAST.md",
+ "artifact_id": "pp_16e1b0c5a28529fcf82f0cb1",
+ "version": "dc792804",
+ "parent": null,
  "author": {
-  "name": "codex",
+  "name": "Claude",
   "kind": "agent",
-  "session": "verifiable-provenance-wording-2026-07-22"
+  "session": "hindcast-plan"
  },
- "note": "Standardized protocol object as knowledge artifacts with verifiable provenance",
- "ts": "2026-07-22T09:34:40+00:00",
+ "note": "Hindcast 实验计划 v1:开源文档历史回测,三臂对照,预注册判据",
+ "ts": "2026-07-22T09:49:30+00:00",
  "stats": {
-  "modified": 4
+  "added": 32
  },
  "changes": [
   {
-   "kind": "modified",
-   "block": "d121cc64",
+   "kind": "added",
+   "block": "49564b45",
+   "type": "heading",
+   "context": "Hindcast 实验计划:开源文档历史回测",
+   "preview": "# Hindcast 实验计划:开源文档历史回测"
+  },
+  {
+   "kind": "added",
+   "block": "c6ab38d8",
    "type": "para",
-   "context": "结论先行"
+   "context": "Hindcast 实验计划:开源文档历史回测",
+   "preview": "> 状态:计划稿,待 Richard review 后执行\n> 日期:2026-07-22\n> 验证对象:决议稿(POR"
   },
   {
-   "kind": "modified",
-   "block": "5650d69a",
-   "type": "code",
-   "context": "2.4 收敛后的定位"
+   "kind": "added",
+   "block": "41e1c356",
+   "type": "heading",
+   "context": "0. 一句话",
+   "preview": "## 0. 一句话"
   },
   {
-   "kind": "modified",
-   "block": "ce98c0cf",
+   "kind": "added",
+   "block": "932f4bc7",
    "type": "para",
-   "context": "13. 最终判断"
+   "context": "0. 一句话",
+   "preview": "把热门开源 agent 项目的文档 commit/PR 历史用 `ingest` 重构成账本,挖出该项目**自己的真实死"
   },
   {
-   "kind": "modified",
-   "block": "5f794662",
-   "type": "code",
-   "context": "13. 最终判断"
+   "kind": "added",
+   "block": "9a615d19",
+   "type": "heading",
+   "context": "1. 假设(预注册,跑之前定死)",
+   "preview": "## 1. 假设(预注册,跑之前定死)"
+  },
+  {
+   "kind": "added",
+   "block": "d69880d7",
+   "type": "list",
+   "context": "1. 假设(预注册,跑之前定死)",
+   "preview": "- **H1(主)**:账本臂(H)的知情度 ≈ 全量 git 历史臂(G),成本 ≈ 裸文档臂(N)。操作化:H 的死"
+  },
+  {
+   "kind": "added",
+   "block": "88656aa2",
+   "type": "heading",
+   "context": "2. 材料选择",
+   "preview": "## 2. 材料选择"
+  },
+  {
+   "kind": "added",
+   "block": "bcb5a744",
+   "type": "para",
+   "context": "2. 材料选择",
+   "preview": "**Repo 候选**(按序试,取先满足者 2–3 个):OpenClaw、hermes-agent(NousResea"
+  },
+  {
+   "kind": "added",
+   "block": "1624d62c",
+   "type": "para",
+   "context": "2. 材料选择",
+   "preview": "**入选标准(每份文档):**"
+  },
+  {
+   "kind": "added",
+   "block": "bde5ae2f",
+   "type": "list",
+   "context": "2. 材料选择",
+   "preview": "1. 单文件(`--follow`)commit ≥ 20,时间跨度 ≥ 3 个月;\n2. 历史中存在**真实删除/回退"
+  },
+  {
+   "kind": "added",
+   "block": "98877244",
+   "type": "para",
+   "context": "2. 材料选择",
+   "preview": "每 repo 选 1–2 份文档,合计 3–5 份。"
+  },
+  {
+   "kind": "added",
+   "block": "e8306714",
+   "type": "heading",
+   "context": "3. 管线(五步,全部脚本化)",
+   "preview": "## 3. 管线(五步,全部脚本化)"
+  },
+  {
+   "kind": "added",
+   "block": "1bb47ebb",
+   "type": "list",
+   "context": "3. 管线(五步,全部脚本化)",
+   "preview": "1. **选材**:clone → `git log --follow --oneline` 扫描 docs/*.md,"
+  },
+  {
+   "kind": "added",
+   "block": "394f8571",
+   "type": "heading",
+   "context": "4. 实验臂",
+   "preview": "## 4. 实验臂"
+  },
+  {
+   "kind": "added",
+   "block": "ebd0d22d",
+   "type": "table",
+   "context": "4. 实验臂",
+   "preview": "| 臂 | context | 说明 |\n|---|---|---|\n| **N** | 文档 @ v_k | 今天的默"
+  },
+  {
+   "kind": "added",
+   "block": "04cc589f",
+   "type": "para",
+   "context": "4. 实验臂",
+   "preview": "每臂同模型、同任务措辞、隔离目录、禁止访问网络与原 repo。G 臂 patch 史超长时如实截断并记录(截断本身就是 "
+  },
+  {
+   "kind": "added",
+   "block": "07a38b22",
+   "type": "heading",
+   "context": "5. 评分",
+   "preview": "## 5. 评分"
+  },
+  {
+   "kind": "added",
+   "block": "4bcd6ec0",
+   "type": "para",
+   "context": "5. 评分",
+   "preview": "**主指标:**"
+  },
+  {
+   "kind": "added",
+   "block": "b994405e",
+   "type": "list",
+   "context": "5. 评分",
+   "preview": "1. **死枝重提率**:输出中语义复活了确认雷的比例。判法双层:先机械(删除内容的关键词/块结构匹配),再 LLM j"
+  },
+  {
+   "kind": "added",
+   "block": "f33e4ae1",
+   "type": "para",
+   "context": "5. 评分",
+   "preview": "**次指标:**任务完成质量的粗评(1–5 盲评,防止某臂靠\"什么都不敢写\"刷安全分——**回避不算赢**,质量掉 1 "
+  },
+  {
+   "kind": "added",
+   "block": "85a76f18",
+   "type": "para",
+   "context": "5. 评分",
+   "preview": "**判分基建**:judge 用固定 prompt + 固定模型版本,pilot 阶段人工复核 100%,full 阶段"
+  },
+  {
+   "kind": "added",
+   "block": "b9efecf5",
+   "type": "heading",
+   "context": "6. 规模与轮次",
+   "preview": "## 6. 规模与轮次"
+  },
+  {
+   "kind": "added",
+   "block": "78e05964",
+   "type": "list",
+   "context": "6. 规模与轮次",
+   "preview": "- **Pilot**(先跑,验证管线):1 repo × 1 文档 × 3 雷 × 3 臂 × 2 重复 = 18 r"
+  },
+  {
+   "kind": "added",
+   "block": "11d4d003",
+   "type": "heading",
+   "context": "7. 污染控制(硬门)",
+   "preview": "## 7. 污染控制(硬门)"
+  },
+  {
+   "kind": "added",
+   "block": "23ad9e0e",
+   "type": "list",
+   "context": "7. 污染控制(硬门)",
+   "preview": "- **Pilot 必须先证明 N 臂会踩雷**:若裸文档臂在某文档上零重提,说明模型背过该 repo 的演化史,**该"
+  },
+  {
+   "kind": "added",
+   "block": "ae82811a",
+   "type": "heading",
+   "context": "8. 交付物",
+   "preview": "## 8. 交付物"
+  },
+  {
+   "kind": "added",
+   "block": "9e953eb0",
+   "type": "list",
+   "context": "8. 交付物",
+   "preview": "1. `experiments/hindcast/` 下的全部脚本(选材、富化、挖雷、跑臂、判分)——可复现;\n2. 结"
+  },
+  {
+   "kind": "added",
+   "block": "f4b80d6f",
+   "type": "heading",
+   "context": "9. 风险与如实声明",
+   "preview": "## 9. 风险与如实声明"
+  },
+  {
+   "kind": "added",
+   "block": "ac920c6a",
+   "type": "list",
+   "context": "9. 风险与如实声明",
+   "preview": "- **重构 why 质量低**(commit message 常是 \"update docs\"):对 H 臂是保守偏差"
+  },
+  {
+   "kind": "added",
+   "block": "42166d49",
+   "type": "heading",
+   "context": "10. 执行顺序与预算",
+   "preview": "## 10. 执行顺序与预算"
+  },
+  {
+   "kind": "added",
+   "block": "b57cc756",
+   "type": "list",
+   "context": "10. 执行顺序与预算",
+   "preview": "1. Pilot 管线(选材→挖雷→18 runs):约 1 天,先跑;\n2. **Richard checkpoint"
+  },
+  {
+   "kind": "added",
+   "block": "6c29b63a",
+   "type": "para",
+   "context": "10. 执行顺序与预算",
+   "preview": "Kill-fast 原则:pilot 挖不出合格雷、或 N 臂不踩雷,立即停,换料或回战略稿,不恋战。"
   }
  ],
  "policy": "local",
  "actors": {
+  "produced_by": [
+   "claude"
+  ],
   "recorded_by": [
-   "codex"
+   "claude"
   ]
  },
- "attribution_basis": "self_asserted",
- "claims": [
-  {
-   "block": "d121cc64",
-   "kind": "modified",
-   "note": "made versioned knowledge artifacts with verifiable provenance the protocol object"
-  },
-  {
-   "block": "5650d69a",
-   "kind": "modified",
-   "note": "updated the positioning stack protocol definition"
-  },
-  {
-   "block": "ce98c0cf",
-   "kind": "modified",
-   "note": "updated the final strategic definition with verifiable provenance"
-  },
-  {
-   "block": "5f794662",
-   "kind": "modified",
-   "note": "updated the final product stack protocol line"
-  }
- ],
+ "attribution_basis": "harness_attested",
  "context": {
-  "why": "The protocol definition should preserve the strength of verifiability while making clear that Proofpress verifies provenance and change history rather than every factual claim inside an artifact.",
+  "why": "决议稿的 day-one wedge(cross-session continuity)需要第三方材料的可量化验证;自产材料散落多 session 且有自我污染,改用外部 repo 真实历史",
   "rejected": [
-   "Versioned, verifiable knowledge artifacts — this can be misread as verifying the truth of all artifact content.",
-   "Durable, checkable knowledge artifacts — accurate but less distinctive than naming verifiable provenance directly."
+   "用自家 session transcript 当全量重放臂 —— 材料散落不可复现,且同模型自产自测有偏"
   ]
  }
 }
