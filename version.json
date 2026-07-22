@@ -51,6 +51,30 @@
   },
   {
    "type": "heading",
+   "text": "## Claims 与 decision context(2026-07-21 落地,已有代码)",
+   "id": "f07c4056",
+   "hash": "7f4dc8777f7c"
+  },
+  {
+   "type": "para",
+   "text": "叙事层从设计变成了 schema。每个 Version 事件可携带两份自述,分居**两个信任等级**:",
+   "id": "a147802a",
+   "hash": "f6440abe3727"
+  },
+  {
+   "type": "list",
+   "text": "- **claims(被验证的数据)**:`[{\"block\": id8, \"kind\": added|removed|modified|moved|unchanged, \"note\"?}]`,由 `snapshot --claims` 存入。`verify` 用计算出的树 diff 逐条核对——纯数据比对,无模型参与,同输入同判定;exit 0 全 ✓ / 1 有 mismatch 或 undisclosed / 2 无 claims。claims 是 input to be verified,never trusted。\n- **context(署名证词)**:`{\"why\": 一句话动机, \"rejected\": [被否选项及理由...]}`,由 `snapshot --why/--rejected` 存入。引擎无法核对动机,所以它不过 verify,只做署名+时间戳。`rejected` 把死枝下沉到决策级——一版之内\"考虑过但否掉\"的路,是 Feed 曲线(agent 负约束)的直接数据源。",
+   "id": "4fcc0c04",
+   "hash": "236f98fbcfd2"
+  },
+  {
+   "type": "para",
+   "text": "捕获分三层,可靠性递增、信息量递减:**Skill**(概率性,claims+context 全量)→ **Hook**(确定性,会话末强制 snapshot,只有 what)→ **ingest**(兜底,git commit 回填,签 commit author)。\"版本化是物理定律\"靠三层叠加成立:最坏丢 why,永不丢 what。",
+   "id": "fe75e633",
+   "hash": "5f2537170895"
+  },
+  {
+   "type": "heading",
    "text": "## 修订闭环",
    "id": "33d5cdd3",
    "hash": "a2c7ef57bf0b"
@@ -87,15 +111,15 @@
   },
   {
    "type": "heading",
-   "text": "## 审阅 UI 原则(2026-07-18 Richard 反馈)",
+   "text": "## 审阅 UI 原则(2026-07-18 定;2026-07-21 归档为第二幕图纸)",
    "id": "5792bce7",
-   "hash": "3723f7d5d8c7"
+   "hash": "d7d93d6e356c"
   },
   {
    "type": "para",
-   "text": "变更摘要不做独立 tab:**Draft n 视图 = 顶部结构化摘要 + 正文全文,块级更新在块旁/右侧栏/hover 呈现**。正文保持干净可读,变更以边注形式共存。",
+   "text": "**独立审阅页已于 2026-07-21 整体砍掉**(STRATEGY 大修决议):第一幕裁决复用 GitHub 原生 Merge/Review,CLI 的 `show/diff/verify` 承担本地审阅。本节原则(变更摘要不做独立 tab、Draft n 视图 = 摘要+全文+块旁边注)与 serve 页实现一并归档为第二幕/cloud UI 的图纸——git 历史留档,设计不作废,只是不在第一幕出场。",
    "id": "b1ba84f6",
-   "hash": "e234fba73968"
+   "hash": "0212478bef1b"
   },
   {
    "type": "heading",
@@ -123,9 +147,9 @@
   },
   {
    "type": "list",
-   "text": "- 每个账本事件 = ledger ref 上的一个 commit,tree 含 event.json(事件)+ version.json(块树快照);**append-only + 内容寻址**,旧对象永不改写,结构上无合并冲突(语义级竞态如\"同时 approve\"交应用层裁决)。\n- 工作分支只有干净的 markdown 投影;PR 零账本噪音。`git push/clone` 时账本随 remote 走——**GitHub 免费充当同步、备份、托管层**(jj 对 git 的姿态:语义模型是我们的,存储与分发网络是 git 的)。\n- **git 是一条 ingestion 渠道,不是竞争账本**:绕过 proofpress 直接改 markdown(vim/GitHub 网页编辑)的变更,在下次任何 proofpress 命令运行时 ingest 为人工微版本(署名 = commit author)——\"人工编辑免审直落但必须记账\"机制的自然延伸。\n- 每个 Version 记录其对应的投影 commit(锚定);checkout 旧 commit 映射到版本链上的一致历史点。\n- 否决备选:\"旁边\"(文档搬家、丢代码关联、要自建同步);\"上面\"(自持存储把 git 最值钱的 travel-with-repo 还了回去,M0 就被迫建服务器,撞碎单机开源先行的 GTM 次序)。\"上面\"的存储自由可后补:大对象放本地缓存,ledger 里存引用。\n- M0 判据:**任何决定都不得迫使我们提前建服务器。**",
+   "text": "- 每个账本事件 = ledger ref 上的一个 commit,tree 含 event.json(事件)+ version.json(块树快照);**append-only + 内容寻址**,旧对象永不改写,结构上无合并冲突(语义级竞态如\"同时 approve\"交应用层裁决)。\n- 工作分支只有干净的 markdown 投影;PR 零账本噪音。`git push/clone` 时账本随 remote 走——**GitHub 免费充当同步、备份、托管层**(jj 对 git 的姿态:语义模型是我们的,存储与分发网络是 git 的)。\n- **git 是一条 ingestion 渠道,不是竞争账本**:绕过 proofpress 直接改 markdown(vim/GitHub 网页编辑)的变更,由 `proofpress ingest` 回填为人工微版本(署名 = commit author,日期 = commit 日期)——\"人工编辑免审直落但必须记账\"机制的自然延伸。**已实现(2026-07-21)**:按 source_commit sha + 内容哈希幂等;账本已有版本时只回填晚于账本最新事件的 commit(防改写历史顶掉活版本);rename 不追踪(v0)。teammate 零安装,历史不丢。\n- 每个 Version 记录其对应的投影 commit(锚定);checkout 旧 commit 映射到版本链上的一致历史点。\n- 否决备选:\"旁边\"(文档搬家、丢代码关联、要自建同步);\"上面\"(自持存储把 git 最值钱的 travel-with-repo 还了回去,M0 就被迫建服务器,撞碎单机开源先行的 GTM 次序)。\"上面\"的存储自由可后补:大对象放本地缓存,ledger 里存引用。\n- M0 判据:**任何决定都不得迫使我们提前建服务器。**",
    "id": "783b48e7",
-   "hash": "358e0dfa57be"
+   "hash": "8c0e2616b35a"
   },
   {
    "type": "heading",
@@ -135,9 +159,9 @@
   },
   {
    "type": "list",
-   "text": "1. 锚点在野生 agent 编辑下的存活率;匹配兜底的品质阈值。\n2. rebase 改坏已批准内容的护栏细则。\n3. 块树 spec 的公开时机与稳定性承诺(格式即协议,锁格式的账本没人敢用)。\n4. serve 页从 3 秒轮询升级为 SSE 推送;\"agent 修订中\"实时状态的呈现。",
+   "text": "1. 锚点在**野生** agent 编辑下的存活率(配合型场景 2026-07-21 已验证:全文重写 23/23 旧块零断裂);匹配兜底的品质阈值(ingest 无锚点回填时 modified 常降级为 removed+added,已观察到)。\n2. rebase 改坏已批准内容的护栏细则。\n3. 块树 + 事件 spec 的公开时机与稳定性承诺(格式即协议;spec 必须 backend 无关,git-ism 不入 schema——三轨道:git ref / 本地 / 服务器)。\n4. GitHub Action 未经活 CI 实测;sticky comment 与多 commit PR 的 base..head 语义 diff(现为\"最近一次变更\")待做。",
    "id": "f7612f00",
-   "hash": "ca92c3c098e1"
+   "hash": "a13c8a851920"
   }
  ]
 }

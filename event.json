@@ -1,37 +1,143 @@
 {
  "event": "version_created",
  "artifact": "docs/ARTIFACT_MODEL.md",
- "version": "82a0fdde",
- "parent": "755596a6",
+ "version": "531f24ab",
+ "parent": "82a0fdde",
  "author": {
-  "name": "chenmingtang830",
-  "kind": "human",
-  "session": null
+  "name": "Claude",
+  "kind": "agent",
+  "session": "act-one-pr"
  },
- "note": "Rebrand OmniDocs → Proofpress: two-layer naming (proof ledger + Proofpress), seal logo, launch-film demo, invisible md anchors",
- "ts": "2026-07-19T03:35:01-04:00",
+ "note": "同步 2026-07-21 落地:claims/context schema、三层捕获、审阅页归档、ingest 实现",
+ "ts": "2026-07-22T00:05:26+00:00",
  "stats": {
-  "modified": 3
+  "added": 4,
+  "modified": 4
  },
  "changes": [
   {
-   "kind": "modified",
-   "block": "e9ebead5",
+   "kind": "added",
+   "block": "f07c4056",
+   "type": "heading",
+   "context": "Claims 与 decision context(2026-07-21 落地,",
+   "preview": "## Claims 与 decision context(2026-07-21 落地,已有代码)"
+  },
+  {
+   "kind": "added",
+   "block": "a147802a",
+   "type": "para",
+   "context": "Claims 与 decision context(2026-07-21 落地,",
+   "preview": "叙事层从设计变成了 schema。每个 Version 事件可携带两份自述,分居**两个信任等级**:"
+  },
+  {
+   "kind": "added",
+   "block": "4fcc0c04",
    "type": "list",
-   "context": "块树(canonical 表示)"
+   "context": "Claims 与 decision context(2026-07-21 落地,",
+   "preview": "- **claims(被验证的数据)**:`[{\"block\": id8, \"kind\": added|removed|"
+  },
+  {
+   "kind": "added",
+   "block": "fe75e633",
+   "type": "para",
+   "context": "Claims 与 decision context(2026-07-21 落地,",
+   "preview": "捕获分三层,可靠性递增、信息量递减:**Skill**(概率性,claims+context 全量)→ **Hook**"
   },
   {
    "kind": "modified",
-   "block": "ac1c0a5c",
+   "block": "5792bce7",
+   "type": "heading",
+   "context": "审阅 UI 原则(2026-07-18 定;2026-07-21 归档为第二幕图"
+  },
+  {
+   "kind": "modified",
+   "block": "b1ba84f6",
    "type": "para",
-   "context": "与git仓库的关系(定稿 2026-07-18,Richard 裁决:\"里面\")"
+   "context": "审阅 UI 原则(2026-07-18 定;2026-07-21 归档为第二幕图"
   },
   {
    "kind": "modified",
    "block": "783b48e7",
    "type": "list",
-   "context": "与git仓库的关系(定稿 2026-07-18,Richard 裁决:\"里面\")"
+   "context": "与git仓库的关系(定稿 2026-07-18,Richard 裁决:\"里面\")",
+   "numbers": [
+    [
+     "0",
+     "2026"
+    ]
+   ]
+  },
+  {
+   "kind": "modified",
+   "block": "f7612f00",
+   "type": "list",
+   "context": "开放的问题们",
+   "numbers": [
+    [
+     "2.",
+     "2026"
+    ],
+    [
+     "3.",
+     "23"
+    ],
+    [
+     "4.",
+     "23"
+    ],
+    [
+     "3",
+     "2."
+    ]
+   ]
   }
  ],
- "source_commit": "93f8ba113db79b1e8f0c730dccdbd3c5ae6e2dcc"
+ "claims": [
+  {
+   "block": "f07c4056",
+   "kind": "added",
+   "note": "新节标题:Claims 与 decision context"
+  },
+  {
+   "block": "a147802a",
+   "kind": "added",
+   "note": "两个信任等级引言"
+  },
+  {
+   "block": "4fcc0c04",
+   "kind": "added",
+   "note": "claims/context schema 与 verify exit codes"
+  },
+  {
+   "block": "fe75e633",
+   "kind": "added",
+   "note": "三层捕获(Skill/Hook/ingest)"
+  },
+  {
+   "block": "5792bce7",
+   "kind": "modified",
+   "note": "审阅 UI 节标题加归档标注"
+  },
+  {
+   "block": "b1ba84f6",
+   "kind": "modified",
+   "note": "审阅页砍掉决议与归档说明替换原正文"
+  },
+  {
+   "block": "783b48e7",
+   "kind": "modified",
+   "note": "ingest 已实现:幂等/时序守卫/rename 限制"
+  },
+  {
+   "block": "f7612f00",
+   "kind": "modified",
+   "note": "开放问题更新:锚点数据点、spec backend 无关、Action 未实测替换 serve SSE"
+  }
+ ],
+ "context": {
+  "why": "代码已先行(verify/context/ingest 全部落地),文档必须跟上,否则 spec 与实现分叉",
+  "rejected": [
+   "整篇重写 —— 本文档大部分设计仍然成立,只需外科手术式更新四处"
+  ]
+ }
 }
