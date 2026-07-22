@@ -1,48 +1,213 @@
 {
  "event": "version_created",
  "artifact": "docs/PORTABLE_ARTIFACT_STRATEGY.md",
- "version": "34b17a81",
- "parent": "8b0535cf",
+ "version": "6f6e263b",
+ "parent": "34b17a81",
  "author": {
   "name": "codex",
   "kind": "agent",
-  "session": "bold-rendering-fix-2026-07-22"
+  "session": "privacy-and-attribution-2026-07-22"
  },
- "note": "Fixed bold rendering in vision lists",
- "ts": "2026-07-22T05:31:10+00:00",
+ "note": "Clarified attribution roles and append-only privacy boundary",
+ "ts": "2026-07-22T05:50:28+00:00",
  "stats": {
-  "modified": 2
+  "modified": 7,
+  "added": 9
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "f35416d1",
-   "type": "list",
-   "context": "终局 Vision：让智能扩张，让信任留存"
+   "block": "5cff94ee",
+   "type": "para",
+   "context": "结论先行"
   },
   {
    "kind": "modified",
-   "block": "e5784e73",
+   "block": "d56084c8",
+   "type": "para",
+   "context": "结论先行"
+  },
+  {
+   "kind": "modified",
+   "block": "e47ac07f",
    "type": "list",
-   "context": "终局 Vision：让智能扩张，让信任留存"
+   "context": "结论先行"
+  },
+  {
+   "kind": "modified",
+   "block": "4d805131",
+   "type": "list",
+   "context": "2.4 收敛后的定位"
+  },
+  {
+   "kind": "added",
+   "block": "64be4294",
+   "type": "para",
+   "context": "2.4 收敛后的定位",
+   "preview": "`who` 不能继续压缩成一个含混的 `author` 字段。同一版 artifact 可能由 Richard 提出要求"
+  },
+  {
+   "kind": "added",
+   "block": "42469bef",
+   "type": "code",
+   "context": "2.4 收敛后的定位",
+   "preview": "```text\nrequested_by\nproduced_by\nedited_by\nrecorded_by\nsourc"
+  },
+  {
+   "kind": "added",
+   "block": "7bd9f5ab",
+   "type": "para",
+   "context": "2.4 收敛后的定位",
+   "preview": "这些角色可以重合，但不能因为 artifact owner 是人，就把 agent 生成的版本记成 `kind: hum"
+  },
+  {
+   "kind": "modified",
+   "block": "8d12fa28",
+   "type": "heading",
+   "context": "8.5 隐私、保留边界与访问控制"
+  },
+  {
+   "kind": "modified",
+   "block": "b6559753",
+   "type": "para",
+   "context": "8.5 隐私、保留边界与访问控制"
+  },
+  {
+   "kind": "modified",
+   "block": "3f589a73",
+   "type": "para",
+   "context": "8.5 隐私、保留边界与访问控制"
+  },
+  {
+   "kind": "added",
+   "block": "fb2f91cf",
+   "type": "para",
+   "context": "8.5 隐私、保留边界与访问控制",
+   "preview": "建议区分三个逻辑范围，但 v0 不必把它们做成完整权限系统："
+  },
+  {
+   "kind": "added",
+   "block": "cb279134",
+   "type": "code",
+   "context": "8.5 隐私、保留边界与访问控制",
+   "preview": "```text\nephemeral scratch   不入账，随 session 消失\nprivate lineage"
+  },
+  {
+   "kind": "added",
+   "block": "1e291271",
+   "type": "para",
+   "context": "8.5 隐私、保留边界与访问控制",
+   "preview": "Portable artifact v0 应采用最简单、最诚实的规则：**one artifact, one discl"
+  },
+  {
+   "kind": "added",
+   "block": "a36aadc6",
+   "type": "list",
+   "context": "8.5 隐私、保留边界与访问控制",
+   "preview": "- 完全不记录；\n- 留在 private lineage；\n- 在 shared event 中只保留不可逆 hash"
+  },
+  {
+   "kind": "added",
+   "block": "b6c997b6",
+   "type": "para",
+   "context": "8.5 隐私、保留边界与访问控制",
+   "preview": "对于已经进入 shared ledger、后来需要撤回的内容，应区分事件存在与敏感 payload：追加 `redact"
+  },
+  {
+   "kind": "added",
+   "block": "1728b582",
+   "type": "para",
+   "context": "8.5 隐私、保留边界与访问控制",
+   "preview": "细粒度用户/字段 ACL、密钥分发、跨组织策略和审计保留期属于 server/cloud backend。Protoco"
   }
  ],
  "claims": [
   {
-   "block": "f35416d1",
+   "block": "5cff94ee",
    "kind": "modified",
-   "note": "added whitespace after closing strong delimiters in the three-stage vision list"
+   "note": "narrowed the descriptive positioning from a wholly verifiable history to change accounts checked against the artifact"
   },
   {
-   "block": "e5784e73",
+   "block": "d56084c8",
    "kind": "modified",
-   "note": "added whitespace after closing strong delimiters in the narrative label list"
+   "note": "expanded the strategic guardrails from four to five"
+  },
+  {
+   "block": "e47ac07f",
+   "kind": "modified",
+   "note": "added the disclosure-scope boundary for append-only history"
+  },
+  {
+   "block": "4d805131",
+   "kind": "modified",
+   "note": "split Who into requesting, producing, editing, and recording roles"
+  },
+  {
+   "block": "64be4294",
+   "kind": "added",
+   "note": "explained why a scalar author field is insufficient"
+  },
+  {
+   "block": "42469bef",
+   "kind": "added",
+   "note": "listed the minimum actor and attribution fields"
+  },
+  {
+   "block": "7bd9f5ab",
+   "kind": "added",
+   "note": "prohibited attributing agent-produced work to a human owner"
+  },
+  {
+   "block": "8d12fa28",
+   "kind": "modified",
+   "note": "expanded the privacy risk heading to cover retention boundaries and access control"
+  },
+  {
+   "block": "b6559753",
+   "kind": "modified",
+   "note": "clarified that append-only does not mean recording all human or agent activity"
+  },
+  {
+   "block": "3f589a73",
+   "kind": "modified",
+   "note": "defined ledger admission as the point where append-only semantics begin"
+  },
+  {
+   "block": "fb2f91cf",
+   "kind": "added",
+   "note": "introduced three logical disclosure scopes without requiring a full permissions system"
+  },
+  {
+   "block": "cb279134",
+   "kind": "added",
+   "note": "defined ephemeral, private, and shared lineage"
+  },
+  {
+   "block": "1e291271",
+   "kind": "added",
+   "note": "set one artifact as one disclosure boundary for portable v0"
+  },
+  {
+   "block": "a36aadc6",
+   "kind": "added",
+   "note": "listed safe handling options for history excluded from the shared capsule"
+  },
+  {
+   "block": "b6c997b6",
+   "kind": "added",
+   "note": "defined append-only redaction and the limits of revoking replicated plaintext"
+  },
+  {
+   "block": "1728b582",
+   "kind": "added",
+   "note": "deferred fine-grained ACL and key management to server backends"
   }
  ],
  "context": {
-  "why": "Cursor Preview treated strong delimiters followed immediately by body text after a full-width colon as literal asterisks; explicit whitespace makes the Markdown unambiguous.",
+  "why": "The trust promise needed to distinguish verified changes from attributed context, and append-only history from indiscriminate recording or premature ACL complexity.",
   "rejected": [
-   "Replace bold labels with HTML strong tags — unnecessary and less portable than valid Markdown spacing."
+   "Fine-grained ACL and per-field encryption in portable v0 — turns the protocol into a key-management and permissions platform before handoff value is validated.",
+   "Silently deleting or rewriting an admitted shared event — breaks the trust property; correction and redaction must themselves be visible events."
   ]
  }
 }

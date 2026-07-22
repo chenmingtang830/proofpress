@@ -63,9 +63,9 @@
   },
   {
    "type": "para",
-   "text": "> **A shared, verifiable history of who changed what, when, and why—for knowledge teams working with agents.**",
+   "text": "> **A shared history of who changed what, when, and why—with every change account checked against the artifact.**",
    "id": "5cff94ee",
-   "hash": "0850a1015960"
+   "hash": "75a98dd9277c"
   },
   {
    "type": "para",
@@ -75,15 +75,15 @@
   },
   {
    "type": "para",
-   "text": "战略判断：**值得作为 Proofpress 的核心方向继续验证，而且它比“GitHub 上的文档语义 diff”更贴近真实、高频、跨行业的痛点。** 但必须守住四个边界：",
+   "text": "战略判断：**值得作为 Proofpress 的核心方向继续验证，而且它比“GitHub 上的文档语义 diff”更贴近真实、高频、跨行业的痛点。** 但必须守住五个边界：",
    "id": "d56084c8",
-   "hash": "7dd476cced77"
+   "hash": "fffb520e57eb"
   },
   {
    "type": "list",
-   "text": "1. portability 是机制，durable decision lineage 才是价值；\n2. 文件能确定性记录 `what`，却不能凭空知道人工编辑的 `who / when / why`；\n3. protocol 解决历史随 artifact 旅行的问题，不自动解决同步、审批或实时协作；\n4. **历史的保护范围就是这一份 artifact**（scope 边界，2026-07-22 实验证实）：lineage 挡得住本文档否决过的死枝被重提、防得住关于本文档机制的编造，但挡不住 agent 对作用域外事实的编造——两个实验臂同样发明了不存在的安装命令，因为真实答案从不在这份文档的历史里。跨 artifact 的知识供给（全账本 Feed 层、多 artifact export）是另一个产品问题，不许诺给单文件 capsule。",
+   "text": "1. portability 是机制，durable decision lineage 才是价值；\n2. 文件能确定性记录 `what`，却不能凭空知道人工编辑的 `who / when / why`；\n3. protocol 解决历史随 artifact 旅行的问题，不自动解决同步、审批或实时协作；\n4. **历史的保护范围就是这一份 artifact**（scope 边界，2026-07-22 实验证实）：lineage 挡得住本文档否决过的死枝被重提、防得住关于本文档机制的编造，但挡不住 agent 对作用域外事实的编造——两个实验臂同样发明了不存在的安装命令，因为真实答案从不在这份文档的历史里。跨 artifact 的知识供给（全账本 Feed 层、多 artifact export）是另一个产品问题，不许诺给单文件 capsule。\n5. **Append-only 只在选定的 disclosure scope 内成立**：Proofpress 不记录一切，也不是员工监控或思维监控系统。没有进入 shared ledger 的 scratch、私密推理和中间材料不受 append-only 约束；一旦某个事件被提交进共享历史，则通过 correction / supersession / redaction event 修正，不静默改写过去。",
    "id": "e47ac07f",
-   "hash": "e54e77093b8c"
+   "hash": "3475641003f3"
   },
   {
    "type": "heading",
@@ -285,15 +285,33 @@
   },
   {
    "type": "list",
-   "text": "- **Who**：谁或哪个 agent/session 产生了这次变化；\n- **What**：artifact 在语义上发生了什么，而不只是哪些行变化；\n- **When**：版本在何时被产生、记录或发现；\n- **Why**：修改依据、反馈来源、采用与否决的理由；\n- **Whether the account is true**：作者对 `what` 的自述是否与实际变化一致。",
+   "text": "- **Who**：谁请求、产生、编辑和记录了这次变化；\n- **What**：artifact 在语义上发生了什么，而不只是哪些行变化；\n- **When**：版本在何时被产生、记录或发现；\n- **Why**：修改依据、反馈来源、采用与否决的理由；\n- **Whether the account is true**：作者对 `what` 的自述是否与实际变化一致。",
    "id": "4d805131",
-   "hash": "fad99f43c533"
+   "hash": "ecafdbecd3c6"
   },
   {
    "type": "para",
    "text": "其中 `who / when` 是基本记账能力，Git 已经能在其覆盖范围内提供；Proofpress 的差异化集中在 artifact-level 的 `what / why`，以及对 `what` 的确定性验证。",
    "id": "b86209fe",
    "hash": "e9921582dc12"
+  },
+  {
+   "type": "para",
+   "text": "`who` 不能继续压缩成一个含混的 `author` 字段。同一版 artifact 可能由 Richard 提出要求、Codex 生成正文、Alice 手动编辑，再由一个 hook 写入账本。协议至少应区分：",
+   "id": "64be4294",
+   "hash": "45b371307fc3"
+  },
+  {
+   "type": "code",
+   "text": "```text\nrequested_by\nproduced_by\nedited_by\nrecorded_by\nsource_session\nattribution_basis: signed | environment-attested | self-asserted | unknown\n```",
+   "id": "42469bef",
+   "hash": "85963c36f0f7"
+  },
+  {
+   "type": "para",
+   "text": "这些角色可以重合，但不能因为 artifact owner 是人，就把 agent 生成的版本记成 `kind: human`。",
+   "id": "7bd9f5ab",
+   "hash": "a141d4f54af5"
   },
   {
    "type": "heading",
@@ -855,21 +873,57 @@
   },
   {
    "type": "heading",
-   "text": "### 8.5 隐私和信息泄漏",
+   "text": "### 8.5 隐私、保留边界与访问控制",
    "id": "8d12fa28",
-   "hash": "8991a308b33e"
+   "hash": "b1d1c82f61b8"
   },
   {
    "type": "para",
-   "text": "如果文件携带全部历史，它也可能把内部讨论、被否方案、人员身份和敏感来源带给外部收件人。默认把原始聊天记录打包进 artifact 是危险的。",
+   "text": "Append-only 不应被解释为“任何被 agent 或人写过的内容都必须永久记录”。那会把 Proofpress 从协作账本变成员工监控系统，也会让用户不敢把真实工作交给 agent。",
    "id": "b6559753",
-   "hash": "9033f8f4b0de"
+   "hash": "ee67fc4c188c"
   },
   {
    "type": "para",
-   "text": "协议应默认保存压缩 decision context 和可选 source reference，而不是完整 transcript；同时需要 history redaction、private fields 或生成 external-clean copy 的能力。Redaction 本身也应留下事件，但被删除的敏感 payload 不应继续嵌在外发文件中。",
+   "text": "必须先定义 **ledger admission boundary**：只有被提交进某个 ledger scope 的 artifact version 或 decision event，才获得 append-only 语义。提交前的 scratch、私密推理、原始 transcript 和用户明确排除的中间材料可以是 ephemeral；Proofpress 默认保存值得团队继承的 artifact-level provenance，而不是逐字思维链。",
    "id": "3f589a73",
-   "hash": "397dbb7b0b9c"
+   "hash": "ede9ce95bfe8"
+  },
+  {
+   "type": "para",
+   "text": "建议区分三个逻辑范围，但 v0 不必把它们做成完整权限系统：",
+   "id": "fb2f91cf",
+   "hash": "babc94def319"
+  },
+  {
+   "type": "code",
+   "text": "```text\nephemeral scratch   不入账，随 session 消失\nprivate lineage     本地或受保护后端保存，不进入 portable capsule\nshared lineage      写入 artifact capsule，对拿到原始文件的人可见\n```",
+   "id": "cb279134",
+   "hash": "85342a2db259"
+  },
+  {
+   "type": "para",
+   "text": "Portable artifact v0 应采用最简单、最诚实的规则：**one artifact, one disclosure boundary**。任何拿到原始文件的人都应被视为可以读取其中的 capsule；不能依赖“metadata 不渲染”充当权限控制。若某段历史不应向该范围内的团队成员公开，就不把 payload 嵌入 capsule，只能：",
+   "id": "1e291271",
+   "hash": "dda490bea124"
+  },
+  {
+   "type": "list",
+   "text": "- 完全不记录；\n- 留在 private lineage；\n- 在 shared event 中只保留不可逆 hash、类型化占位符或受保护后端的 opaque reference。",
+   "id": "a36aadc6",
+   "hash": "0b942842ecf5"
+  },
+  {
+   "type": "para",
+   "text": "对于已经进入 shared ledger、后来需要撤回的内容，应区分事件存在与敏感 payload：追加 `redacted` / `superseded` 事件，让历史诚实显示“这里发生过一次修正或删除”，同时从未来导出的 capsule 中移除明文 payload。若 payload 已经被复制给其他人，系统不能承诺把所有副本远程抹除；未来可以用加密 payload + key destruction 实现更强的 crypto-shredding，但不应进入 v0。",
+   "id": "b6c997b6",
+   "hash": "0e708983e3de"
+  },
+  {
+   "type": "para",
+   "text": "细粒度用户/字段 ACL、密钥分发、跨组织策略和审计保留期属于 server/cloud backend。Protocol 只需定义 visibility 与 redaction semantics，不负责在一个已经分发的明文文件上模拟权限系统。这样既保留 append-only 的信任价值，也避免过早掉进 access-control rabbit hole。",
+   "id": "1728b582",
+   "hash": "3094e826c830"
   },
   {
    "type": "heading",
