@@ -1,7 +1,7 @@
 {
  "event": "version_created",
- "artifact": "skills/README.md",
- "version": "b9722986",
+ "artifact": "skills/claude-code/proofpress/SKILL.md",
+ "version": "e40b1769",
  "parent": null,
  "author": {
   "name": "chenmingtang830",
@@ -16,178 +16,178 @@
  "changes": [
   {
    "kind": "added",
-   "block": "df70df88",
+   "block": "e2502235",
+   "type": "para",
+   "context": "(文首)",
+   "preview": "---\nname: proofpress\ndescription: Version-ledger discipline "
+  },
+  {
+   "kind": "added",
+   "block": "fa90d114",
    "type": "heading",
-   "context": "Proofpress harness adapters",
-   "preview": "# Proofpress harness adapters"
+   "context": "Proofpress: close the loop on every know",
+   "preview": "# Proofpress: close the loop on every knowledge artifact you"
   },
   {
    "kind": "added",
-   "block": "bfadc2f0",
+   "block": "64f89da2",
    "type": "para",
-   "context": "Proofpress harness adapters",
-   "preview": "One engine, three capture layers. The skill is the *rich* la"
+   "context": "Proofpress: close the loop on every know",
+   "preview": "You are writing into a ledger whose core promise is: **the a"
   },
   {
    "kind": "added",
-   "block": "b188925d",
-   "type": "table",
-   "context": "Proofpress harness adapters",
-   "preview": "| Layer | Guarantee | What it captures |\n|---|---|---|\n| Ski"
-  },
-  {
-   "kind": "added",
-   "block": "7dc83375",
+   "block": "3ecb1006",
    "type": "heading",
-   "context": "The agent contract (shared across all ha",
-   "preview": "## The agent contract (shared across all harnesses)"
+   "context": "When this skill applies",
+   "preview": "## When this skill applies"
   },
   {
    "kind": "added",
-   "block": "ad2649e7",
-   "type": "para",
-   "context": "The agent contract (shared across all ha",
-   "preview": "When you (the agent) create or substantially revise a **mark"
-  },
-  {
-   "kind": "added",
-   "block": "720c81e7",
+   "block": "62c7aba3",
    "type": "list",
-   "context": "The agent contract (shared across all ha",
-   "preview": "1. If the artifact has git history but no ledger entries: `p"
+   "context": "When this skill applies",
+   "preview": "- You created or substantially revised a `.md` knowledge art"
   },
   {
    "kind": "added",
-   "block": "df87c8ed",
+   "block": "a18c4552",
    "type": "para",
-   "context": "The agent contract (shared across all ha",
-   "preview": "   to blocks you keep or modify; drop anchors of blocks you "
+   "context": "When this skill applies",
+   "preview": "  doc, PRD, README, strategy/planning doc)."
   },
   {
    "kind": "added",
-   "block": "b05980e7",
+   "block": "427a9b25",
    "type": "list",
-   "context": "The agent contract (shared across all ha",
-   "preview": "3. `python3 proofpress.py anchor <file>` — read the inherite"
+   "context": "When this skill applies",
+   "preview": "- The repo contains `proofpress.py` (root) or `git-proofpres"
   },
   {
    "kind": "added",
-   "block": "4cebe5e8",
-   "type": "para",
-   "context": "The agent contract (shared across all ha",
-   "preview": "   inventory it prints."
+   "block": "800b0e0a",
+   "type": "heading",
+   "context": "The loop (run after your edits are compl",
+   "preview": "## The loop (run after your edits are complete)"
   },
   {
    "kind": "added",
-   "block": "5bcd6f73",
+   "block": "628f5943",
    "type": "list",
-   "context": "The agent contract (shared across all ha",
-   "preview": "4. Write a claims JSON array — one entry per block you touch"
+   "context": "The loop (run after your edits are compl",
+   "preview": "1. **Backfill if needed.** Artifact has git history but no l"
   },
   {
    "kind": "added",
-   "block": "a0d8e6f2",
+   "block": "c08c16f7",
    "type": "para",
-   "context": "The agent contract (shared across all ha",
-   "preview": "   flattering: `{\"block\": \"<id>\", \"kind\": \"added|removed|mod"
+   "context": "The loop (run after your edits are compl",
+   "preview": "   `python3 proofpress.py ingest <file>`"
   },
   {
    "kind": "added",
-   "block": "38995f1c",
+   "block": "b798762b",
    "type": "list",
-   "context": "The agent contract (shared across all ha",
-   "preview": "5. Snapshot with testimony. `--why` and at least one `--reje"
+   "context": "The loop (run after your edits are compl",
+   "preview": "2. **Anchors.** While editing you kept each surviving block'"
   },
   {
    "kind": "added",
-   "block": "b5319ccd",
+   "block": "6d430ad4",
    "type": "para",
-   "context": "The agent contract (shared across all ha",
-   "preview": "   considered alternatives) are **required, not optional** —"
+   "context": "The loop (run after your edits are compl",
+   "preview": "   `[//]: # (ob:xxxxxxxx)` line attached to it. Now run\n   `"
   },
   {
    "kind": "added",
-   "block": "1152219a",
+   "block": "65cb9ab0",
+   "type": "list",
+   "context": "The loop (run after your edits are compl",
+   "preview": "3. **Claims.** Write a JSON array to a temp file — one entry"
+  },
+  {
+   "kind": "added",
+   "block": "c6316604",
+   "type": "para",
+   "context": "The loop (run after your edits are compl",
+   "preview": "   your own memory of what you did (the inventory tells you "
+  },
+  {
+   "kind": "added",
+   "block": "e31273f8",
    "type": "code",
-   "context": "The agent contract (shared across all ha",
+   "context": "The loop (run after your edits are compl",
+   "preview": "   ```json\n   [{\"block\": \"a1b2c3d4\", \"kind\": \"modified\", \"no"
+  },
+  {
+   "kind": "added",
+   "block": "ebe0a330",
+   "type": "para",
+   "context": "The loop (run after your edits are compl",
+   "preview": "   Kinds: `added` / `removed` / `modified` / `moved` / `unch"
+  },
+  {
+   "kind": "added",
+   "block": "683bcff8",
+   "type": "list",
+   "context": "The loop (run after your edits are compl",
+   "preview": "4. **Snapshot with testimony** — `--why` is required; add on"
+  },
+  {
+   "kind": "added",
+   "block": "6614e6c5",
+   "type": "para",
+   "context": "The loop (run after your edits are compl",
+   "preview": "   alternative you considered and dropped (decision-level de"
+  },
+  {
+   "kind": "added",
+   "block": "98e79ad0",
+   "type": "code",
+   "context": "The loop (run after your edits are compl",
    "preview": "   ```\n   python3 proofpress.py snapshot <file> --kind agent"
   },
   {
    "kind": "added",
-   "block": "d7630077",
+   "block": "04e1285c",
    "type": "list",
-   "context": "The agent contract (shared across all ha",
-   "preview": "6. `python3 proofpress.py verify <file>` — report the output"
+   "context": "The loop (run after your edits are compl",
+   "preview": "5. **Verify and report.** `python3 proofpress.py verify <fil"
   },
   {
    "kind": "added",
-   "block": "14c571e1",
+   "block": "57f2f606",
    "type": "para",
-   "context": "The agent contract (shared across all ha",
-   "preview": "   verbatim. **Never rewrite claims to force a green result*"
+   "context": "The loop (run after your edits are compl",
+   "preview": "   the verbatim output. **Do not re-snapshot to turn a ⚠ gre"
   },
   {
    "kind": "added",
-   "block": "373d7dac",
-   "type": "para",
-   "context": "The agent contract (shared across all ha",
-   "preview": "Red line: never snapshot source-code files. That is git's te"
-  },
-  {
-   "kind": "added",
-   "block": "f5f3a858",
+   "block": "8fb07c57",
    "type": "heading",
-   "context": "Install",
-   "preview": "## Install"
+   "context": "Notes",
+   "preview": "## Notes"
   },
   {
    "kind": "added",
-   "block": "0e468706",
+   "block": "aa8506a6",
    "type": "list",
-   "context": "Install",
-   "preview": "- **Claude Code** — copy `claude-code/proofpress/` into `.cl"
+   "context": "Notes",
+   "preview": "- `snapshot` is content-addressed: re-running on identical c"
   },
   {
    "kind": "added",
-   "block": "225dd61c",
+   "block": "a807a5ca",
    "type": "para",
-   "context": "Install",
-   "preview": "  merge `claude-code/hooks-example.json` into `.claude/setti"
+   "context": "Notes",
+   "preview": "  session-end hook records it — you never need to compensate"
   },
   {
    "kind": "added",
-   "block": "3e5fba6b",
+   "block": "ae9a933c",
    "type": "list",
-   "context": "Install",
-   "preview": "- **Codex CLI** — append `codex/AGENTS-snippet.md` to your `"
-  },
-  {
-   "kind": "added",
-   "block": "0110874f",
-   "type": "para",
-   "context": "Install",
-   "preview": "  merge `codex/config-hooks.toml` into `~/.codex/config.toml"
-  },
-  {
-   "kind": "added",
-   "block": "eaad8890",
-   "type": "list",
-   "context": "Install",
-   "preview": "- **Pi** — drop `pi/proofpress-skill.md` into your skills di"
-  },
-  {
-   "kind": "added",
-   "block": "fc22c1a8",
-   "type": "para",
-   "context": "Install",
-   "preview": "  `pi/extension-skeleton.ts` sketches the deterministic in-p"
-  },
-  {
-   "kind": "added",
-   "block": "8395a86c",
-   "type": "para",
-   "context": "Install",
-   "preview": "All adapters assume `proofpress.py` is reachable — vendored "
+   "context": "Notes",
+   "preview": "- Multiple artifacts touched → run the loop per artifact."
   }
  ],
  "source_commit": "c70f3baaa1de011117fe5f3721ea718fa0f91da1"

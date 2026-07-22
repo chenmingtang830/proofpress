@@ -1,155 +1,155 @@
 {
- "artifact": "skills/README.md",
+ "artifact": "skills/claude-code/proofpress/SKILL.md",
  "blocks": [
   {
-   "type": "heading",
-   "text": "# Proofpress harness adapters",
-   "hash": "d879bdb67eed",
-   "id": "df70df88"
-  },
-  {
    "type": "para",
-   "text": "One engine, three capture layers. The skill is the *rich* layer; the hook is the\n*deterministic* layer; `ingest` is the catch-all. Install whichever your harness\nsupports — worst case you lose the *why*, never the *what*.",
-   "hash": "f34eeca06155",
-   "id": "bfadc2f0"
-  },
-  {
-   "type": "table",
-   "text": "| Layer | Guarantee | What it captures |\n|---|---|---|\n| Skill (this directory) | model-discretionary, in-session | snapshot + structured claims + decision context (`--why` / `--rejected`) — testimony only the authoring agent can give |\n| Hook (per-harness config) | deterministic, in-session | a snapshot always lands, even when the model forgets the skill |\n| `proofpress ingest` | deterministic, out-of-session | teammates with nothing installed: every git commit becomes a ledger version |",
-   "hash": "c74acb5af6d2",
-   "id": "b188925d"
+   "text": "---\nname: proofpress\ndescription: Version-ledger discipline for markdown knowledge artifacts (ADRs, design docs, PRDs, strategy notes). Use whenever you create or substantially revise a markdown document in a repo that has proofpress.py — snapshot the result into the ledger with structured claims and decision context, then verify. Never for source-code files.\n---",
+   "hash": "0a86a4bb1c95",
+   "id": "e2502235"
   },
   {
    "type": "heading",
-   "text": "## The agent contract (shared across all harnesses)",
-   "hash": "be7e84e20ea3",
-   "id": "7dc83375"
+   "text": "# Proofpress: close the loop on every knowledge artifact you touch",
+   "hash": "9a757a09d176",
+   "id": "fa90d114"
   },
   {
    "type": "para",
-   "text": "When you (the agent) create or substantially revise a **markdown knowledge\nartifact** — ADRs, design docs, PRDs, strategy notes; **never code files** —\nclose the loop before yielding:",
-   "hash": "6fb22201e8fe",
-   "id": "ad2649e7"
+   "text": "You are writing into a ledger whose core promise is: **the author's account of a\nchange is verified against the computed change, never trusted.** Your claims are\ninput to be checked, and an honest ⚠ is worth more than a flattering ✓.",
+   "hash": "d6d410e27a75",
+   "id": "64f89da2"
+  },
+  {
+   "type": "heading",
+   "text": "## When this skill applies",
+   "hash": "54cca5f99e28",
+   "id": "3ecb1006"
   },
   {
    "type": "list",
-   "text": "1. If the artifact has git history but no ledger entries: `python3 proofpress.py ingest <file>`.\n2. Edit the file. Keep each block's `[//]: # (ob:xxxxxxxx)` anchor line attached",
-   "hash": "ed19bb7f0521",
-   "id": "720c81e7"
+   "text": "- You created or substantially revised a `.md` knowledge artifact (ADR, design",
+   "hash": "d51c3cc1e6ec",
+   "id": "62c7aba3"
   },
   {
    "type": "para",
-   "text": "   to blocks you keep or modify; drop anchors of blocks you delete; write no\n   anchors for new blocks.",
-   "hash": "c2620d3e4fa9",
-   "id": "df87c8ed"
+   "text": "  doc, PRD, README, strategy/planning doc).",
+   "hash": "8d1c6c0ba6ef",
+   "id": "a18c4552"
   },
   {
    "type": "list",
-   "text": "3. `python3 proofpress.py anchor <file>` — read the inherited / new / gone id",
-   "hash": "cfd9f5a28332",
-   "id": "b05980e7"
+   "text": "- The repo contains `proofpress.py` (root) or `git-proofpress` is on PATH.\n- **Never** for source-code files — that is git's territory, hard red line.",
+   "hash": "d7b949d9d2ff",
+   "id": "427a9b25"
   },
   {
-   "type": "para",
-   "text": "   inventory it prints.",
-   "hash": "04e42e6c46a1",
-   "id": "4cebe5e8"
-  },
-  {
-   "type": "list",
-   "text": "4. Write a claims JSON array — one entry per block you touched, honest over",
-   "hash": "bebaaec29f15",
-   "id": "5bcd6f73"
-  },
-  {
-   "type": "para",
-   "text": "   flattering: `{\"block\": \"<id>\", \"kind\": \"added|removed|modified|moved|unchanged\", \"note\": \"<one line>\"}`.",
-   "hash": "efd62aef7b27",
-   "id": "a0d8e6f2"
+   "type": "heading",
+   "text": "## The loop (run after your edits are complete)",
+   "hash": "c5e7a056f042",
+   "id": "800b0e0a"
   },
   {
    "type": "list",
-   "text": "5. Snapshot with testimony. `--why` and at least one `--rejected` (when you",
-   "hash": "5dee938b83d8",
-   "id": "38995f1c"
+   "text": "1. **Backfill if needed.** Artifact has git history but no ledger entries?",
+   "hash": "1c3b495e9a8c",
+   "id": "628f5943"
   },
   {
    "type": "para",
-   "text": "   considered alternatives) are **required, not optional** — this is the only\n   moment the reasoning is cheap to capture:",
-   "hash": "7431089a198e",
-   "id": "b5319ccd"
+   "text": "   `python3 proofpress.py ingest <file>`",
+   "hash": "4c49a8026a7a",
+   "id": "c08c16f7"
+  },
+  {
+   "type": "list",
+   "text": "2. **Anchors.** While editing you kept each surviving block's",
+   "hash": "db919c2b8802",
+   "id": "b798762b"
+  },
+  {
+   "type": "para",
+   "text": "   `[//]: # (ob:xxxxxxxx)` line attached to it. Now run\n   `python3 proofpress.py anchor <file>` and read the printed inventory:\n   `inherited` (ids that carried over), `new` (fresh blocks), `gone` (claim as\n   removed).",
+   "hash": "db76fb81ffac",
+   "id": "6d430ad4"
+  },
+  {
+   "type": "list",
+   "text": "3. **Claims.** Write a JSON array to a temp file — one entry per block, from",
+   "hash": "678b8bbab31e",
+   "id": "65cb9ab0"
+  },
+  {
+   "type": "para",
+   "text": "   your own memory of what you did (the inventory tells you *identity*, not\n   *what changed* — that part is your testimony):",
+   "hash": "7b2bdbb87cc6",
+   "id": "c6316604"
   },
   {
    "type": "code",
-   "text": "   ```\n   python3 proofpress.py snapshot <file> --kind agent --author <your-name> \\\n     --session <session-id> --note \"<changelog line>\" \\\n     --claims <claims.json> --why \"<why this change>\" \\\n     --rejected \"<option — reason it was dropped>\"\n   ```",
-   "hash": "91ed8c94650b",
-   "id": "1152219a"
+   "text": "   ```json\n   [{\"block\": \"a1b2c3d4\", \"kind\": \"modified\", \"note\": \"tightened pitch\"},\n    {\"block\": \"e5f6a7b8\", \"kind\": \"unchanged\"}]\n   ```",
+   "hash": "0e45d2e9b020",
+   "id": "e31273f8"
+  },
+  {
+   "type": "para",
+   "text": "   Kinds: `added` / `removed` / `modified` / `moved` / `unchanged`.",
+   "hash": "8ad9d8183f7c",
+   "id": "ebe0a330"
   },
   {
    "type": "list",
-   "text": "6. `python3 proofpress.py verify <file>` — report the output to the user",
-   "hash": "53c17459893c",
-   "id": "d7630077"
+   "text": "4. **Snapshot with testimony** — `--why` is required; add one `--rejected` per",
+   "hash": "9c9d86462dd3",
+   "id": "683bcff8"
   },
   {
    "type": "para",
-   "text": "   verbatim. **Never rewrite claims to force a green result**; a ⚠ is\n   information for the reviewer, not a failure for you to hide.",
-   "hash": "442674ac8cf7",
-   "id": "14c571e1"
+   "text": "   alternative you considered and dropped (decision-level dead branches; they\n   stop future agents from re-proposing dead ideas):",
+   "hash": "eee82b64a92d",
+   "id": "6614e6c5"
+  },
+  {
+   "type": "code",
+   "text": "   ```\n   python3 proofpress.py snapshot <file> --kind agent --author claude \\\n     --session \"<session-id>\" --note \"<one-line changelog>\" \\\n     --claims /tmp/claims.json \\\n     --why \"<the actual reason this change happened>\" \\\n     --rejected \"<option> — <why it was dropped>\"\n   ```",
+   "hash": "973c8caf4a4d",
+   "id": "98e79ad0"
+  },
+  {
+   "type": "list",
+   "text": "5. **Verify and report.** `python3 proofpress.py verify <file>` — show the user",
+   "hash": "63c890799f1b",
+   "id": "04e1285c"
   },
   {
    "type": "para",
-   "text": "Red line: never snapshot source-code files. That is git's territory.",
-   "hash": "c1d07b575cb1",
-   "id": "373d7dac"
+   "text": "   the verbatim output. **Do not re-snapshot to turn a ⚠ green.** A mismatch is\n   reviewer information; hiding it defeats the entire product.",
+   "hash": "21ffffe5b220",
+   "id": "57f2f606"
   },
   {
    "type": "heading",
-   "text": "## Install",
-   "hash": "8fdd8c811597",
-   "id": "f5f3a858"
+   "text": "## Notes",
+   "hash": "5a4f830e4458",
+   "id": "8fb07c57"
   },
   {
    "type": "list",
-   "text": "- **Claude Code** — copy `claude-code/proofpress/` into `.claude/skills/`, and",
-   "hash": "b5cdfc0e0078",
-   "id": "0e468706"
+   "text": "- `snapshot` is content-addressed: re-running on identical content is a no-op.\n- If the user edits the file outside any session, the next `ingest` or the",
+   "hash": "f85fc9c1b6a6",
+   "id": "aa8506a6"
   },
   {
    "type": "para",
-   "text": "  merge `claude-code/hooks-example.json` into `.claude/settings.json`.",
-   "hash": "03f480d48972",
-   "id": "225dd61c"
+   "text": "  session-end hook records it — you never need to compensate for others.",
+   "hash": "6bce00b4ca97",
+   "id": "a807a5ca"
   },
   {
    "type": "list",
-   "text": "- **Codex CLI** — append `codex/AGENTS-snippet.md` to your `AGENTS.md`, and",
-   "hash": "1aca558676d2",
-   "id": "3e5fba6b"
-  },
-  {
-   "type": "para",
-   "text": "  merge `codex/config-hooks.toml` into `~/.codex/config.toml` (hooks GA since\n  Codex v0.124).",
-   "hash": "0362fc4135dc",
-   "id": "0110874f"
-  },
-  {
-   "type": "list",
-   "text": "- **Pi** — drop `pi/proofpress-skill.md` into your skills directory;",
-   "hash": "2fda7a761420",
-   "id": "eaad8890"
-  },
-  {
-   "type": "para",
-   "text": "  `pi/extension-skeleton.ts` sketches the deterministic in-process hook\n  (untested skeleton — Pi's TS extension API moves fast, check current docs).",
-   "hash": "78620c0dc491",
-   "id": "fc22c1a8"
-  },
-  {
-   "type": "para",
-   "text": "All adapters assume `proofpress.py` is reachable — vendored at the repo root or\ninstalled on PATH as `git-proofpress` (any executable named `git-proofpress`\nbecomes `git proofpress`).",
-   "hash": "9021b8c04727",
-   "id": "8395a86c"
+   "text": "- Multiple artifacts touched → run the loop per artifact.",
+   "hash": "a0098e1a1d26",
+   "id": "ae9a933c"
   }
  ]
 }
