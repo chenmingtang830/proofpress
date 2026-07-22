@@ -33,9 +33,9 @@
   },
   {
    "type": "list",
-   "text": "- source of truth 是**带稳定 ID 的块树**(heading/para/list/table/figure…),存储层持有;markdown 是给 agent 编辑的**投影**。\n- 序列化给 agent 时块 ID 以不可见锚点携带(`<!-- ob:xxxx -->`);ingest 时按锚点对齐,锚点丢失退回相似度匹配(锚点为主、匹配兜底;接受少量块身份断裂表现为 delete+add)。\n- 人的编辑走我们的块树原生编辑器,天然保持 ID 稳定——锚点丢失问题只存在于 markdown 序列化边界。\n- 一旦有稳定块 ID:语义 diff 变成树 diff;批注有永久坐标(Kortix 建不起 comment 表的深层原因就是 git patch 无稳定坐标);\"这条意见被哪个改动解决\"可精确回答。",
+   "text": "- source of truth 是**带稳定 ID 的块树**(heading/para/list/table/figure…),存储层持有;markdown 是给 agent 编辑的**投影**。\n- 序列化给 agent 时块 ID 以不可见锚点携带(`[//]: # (ob:xxxx)`,markdown link-reference-definition 形式,在所有 CommonMark 渲染器中均不可见;旧式 `<!-- ob:xxxx -->` HTML 注释仍可解析,但部分渲染器如 Claude 文件预览会将其转义显示);ingest 时按锚点对齐,锚点丢失退回相似度匹配(锚点为主、匹配兜底;接受少量块身份断裂表现为 delete+add)。\n- 人的编辑走我们的块树原生编辑器,天然保持 ID 稳定——锚点丢失问题只存在于 markdown 序列化边界。\n- 一旦有稳定块 ID:语义 diff 变成树 diff;批注有永久坐标(Kortix 建不起 comment 表的深层原因就是 git patch 无稳定坐标);\"这条意见被哪个改动解决\"可精确回答。",
    "id": "e9ebead5",
-   "hash": "1106d571e895"
+   "hash": "09e8df8dbb03"
   },
   {
    "type": "heading",
@@ -117,15 +117,15 @@
   },
   {
    "type": "para",
-   "text": "账本数据**经由 git 存储和传输,但住在专用 ref 上**(`refs/omnidocs/ledger`),不进工作分支:",
+   "text": "账本数据**经由 git 存储和传输,但住在专用 ref 上**(`refs/proofpress/ledger`),不进工作分支:",
    "id": "ac1c0a5c",
-   "hash": "16ee8b996cff"
+   "hash": "7a317216e1d3"
   },
   {
    "type": "list",
-   "text": "- 每个账本事件 = ledger ref 上的一个 commit,tree 含 event.json(事件)+ version.json(块树快照);**append-only + 内容寻址**,旧对象永不改写,结构上无合并冲突(语义级竞态如\"同时 approve\"交应用层裁决)。\n- 工作分支只有干净的 markdown 投影;PR 零账本噪音。`git push/clone` 时账本随 remote 走——**GitHub 免费充当同步、备份、托管层**(jj 对 git 的姿态:语义模型是我们的,存储与分发网络是 git 的)。\n- **git 是一条 ingestion 渠道,不是竞争账本**:绕过 omnidocs 直接改 markdown(vim/GitHub 网页编辑)的变更,在下次任何 omnidocs 命令运行时 ingest 为人工微版本(署名 = commit author)——\"人工编辑免审直落但必须记账\"机制的自然延伸。\n- 每个 Version 记录其对应的投影 commit(锚定);checkout 旧 commit 映射到版本链上的一致历史点。\n- 否决备选:\"旁边\"(文档搬家、丢代码关联、要自建同步);\"上面\"(自持存储把 git 最值钱的 travel-with-repo 还了回去,M0 就被迫建服务器,撞碎单机开源先行的 GTM 次序)。\"上面\"的存储自由可后补:大对象放本地缓存,ledger 里存引用。\n- M0 判据:**任何决定都不得迫使我们提前建服务器。**",
+   "text": "- 每个账本事件 = ledger ref 上的一个 commit,tree 含 event.json(事件)+ version.json(块树快照);**append-only + 内容寻址**,旧对象永不改写,结构上无合并冲突(语义级竞态如\"同时 approve\"交应用层裁决)。\n- 工作分支只有干净的 markdown 投影;PR 零账本噪音。`git push/clone` 时账本随 remote 走——**GitHub 免费充当同步、备份、托管层**(jj 对 git 的姿态:语义模型是我们的,存储与分发网络是 git 的)。\n- **git 是一条 ingestion 渠道,不是竞争账本**:绕过 proofpress 直接改 markdown(vim/GitHub 网页编辑)的变更,在下次任何 proofpress 命令运行时 ingest 为人工微版本(署名 = commit author)——\"人工编辑免审直落但必须记账\"机制的自然延伸。\n- 每个 Version 记录其对应的投影 commit(锚定);checkout 旧 commit 映射到版本链上的一致历史点。\n- 否决备选:\"旁边\"(文档搬家、丢代码关联、要自建同步);\"上面\"(自持存储把 git 最值钱的 travel-with-repo 还了回去,M0 就被迫建服务器,撞碎单机开源先行的 GTM 次序)。\"上面\"的存储自由可后补:大对象放本地缓存,ledger 里存引用。\n- M0 判据:**任何决定都不得迫使我们提前建服务器。**",
    "id": "783b48e7",
-   "hash": "4357f7e01cf3"
+   "hash": "358e0dfa57be"
   },
   {
    "type": "heading",

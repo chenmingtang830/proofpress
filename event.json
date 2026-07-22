@@ -1,25 +1,37 @@
 {
  "event": "version_created",
  "artifact": "docs/ARTIFACT_MODEL.md",
- "version": "755596a6",
- "parent": "dd7adf38",
+ "version": "82a0fdde",
+ "parent": "755596a6",
  "author": {
   "name": "chenmingtang830",
   "kind": "human",
   "session": null
  },
- "note": "Respond to page feedback: ARTIFACT_MODEL heading per Richard's comment",
- "ts": "2026-07-18T09:35:47-04:00",
+ "note": "Rebrand OmniDocs → Proofpress: two-layer naming (proof ledger + Proofpress), seal logo, launch-film demo, invisible md anchors",
+ "ts": "2026-07-19T03:35:01-04:00",
  "stats": {
-  "modified": 1
+  "modified": 3
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "6fdcee59",
-   "type": "heading",
+   "block": "e9ebead5",
+   "type": "list",
+   "context": "块树(canonical 表示)"
+  },
+  {
+   "kind": "modified",
+   "block": "ac1c0a5c",
+   "type": "para",
+   "context": "与git仓库的关系(定稿 2026-07-18,Richard 裁决:\"里面\")"
+  },
+  {
+   "kind": "modified",
+   "block": "783b48e7",
+   "type": "list",
    "context": "与git仓库的关系(定稿 2026-07-18,Richard 裁决:\"里面\")"
   }
  ],
- "source_commit": "6d8f0b42adf168d890172c88ff895afe5ba6241f"
+ "source_commit": "93f8ba113db79b1e8f0c730dccdbd3c5ae6e2dcc"
 }
