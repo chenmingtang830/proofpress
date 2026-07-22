@@ -1,345 +1,194 @@
 {
  "event": "version_created",
- "artifact": "docs/PORTABLE_ARTIFACT_STRATEGY.md",
- "artifact_id": "pp_5a7bb2c2b26051ae1d359850",
- "version": "1163e946",
- "parent": "9c9ff431",
+ "artifact": "AGENTS.md",
+ "artifact_id": "pp_795e4174b56d7d5cf89193ea",
+ "version": "ccba1d0b",
+ "parent": "0f5e4f29",
  "author": {
   "name": "codex",
   "kind": "agent",
-  "session": "agent-native-open-trust-2026-07-22"
+  "session": null
  },
- "note": "Elevated Proofpress to the open trust layer for agent-native knowledge work",
- "ts": "2026-07-22T09:21:25+00:00",
+ "note": "aligned with portable-artifact V0 and launch boundary",
+ "ts": "2026-07-22T09:22:52+00:00",
  "stats": {
-  "modified": 29,
-  "added": 21
+  "added": 9,
+  "modified": 3,
+  "removed": 12
  },
  "changes": [
   {
-   "kind": "modified",
-   "block": "8b5401f3",
-   "type": "heading",
-   "context": "Proofpress：The Open Trust Layer for Agen"
-  },
-  {
-   "kind": "modified",
-   "block": "23de2854",
-   "type": "para",
-   "context": "Proofpress：The Open Trust Layer for Agen"
-  },
-  {
    "kind": "added",
-   "block": "73767b8c",
+   "block": "34d3dbf3",
    "type": "para",
-   "context": "结论先行",
-   "preview": "> **Proofpress is the open trust layer for agent-native know"
-  },
-  {
-   "kind": "added",
-   "block": "d121cc64",
-   "type": "para",
-   "context": "结论先行",
-   "preview": "它是一套面向 knowledge artifact 的开放协议：给每一个接手工作的 human、agent、sessio"
+   "context": "Proofpress: ledger Markdown knowledge ar",
+   "preview": "For accepted, meaningful revisions to Markdown knowledge art"
   },
   {
    "kind": "modified",
-   "block": "83f1b648",
-   "type": "para",
-   "context": "结论先行"
-  },
-  {
-   "kind": "modified",
-   "block": "5cff94ee",
-   "type": "para",
-   "context": "结论先行"
-  },
-  {
-   "kind": "modified",
-   "block": "61c20f83",
-   "type": "para",
-   "context": "结论先行"
-  },
-  {
-   "kind": "added",
-   "block": "d9510713",
-   "type": "heading",
-   "context": "Vision：Scale Intelligence. Preserve Trus",
-   "preview": "## Vision：Scale Intelligence. Preserve Trust."
-  },
-  {
-   "kind": "added",
-   "block": "6bad1d77",
-   "type": "para",
-   "context": "Vision：Scale Intelligence. Preserve Trus",
-   "preview": "AI 正在让 intelligence production 以机器速度扩张，但 trust、shared contex"
-  },
-  {
-   "kind": "added",
-   "block": "ca08f9d3",
-   "type": "para",
-   "context": "Vision：Scale Intelligence. Preserve Trus",
-   "preview": "如果每一次协作只留下最终 output，更多 agent 只会制造更多彼此引用却无法追溯的结论。没有 provenanc"
-  },
-  {
-   "kind": "added",
-   "block": "97c30a45",
-   "type": "para",
-   "context": "Vision：Scale Intelligence. Preserve Trus",
-   "preview": "Proofpress 的 vision 是让 **knowledge artifact 成为 human-agent c"
-  },
-  {
-   "kind": "added",
-   "block": "134f8f0b",
-   "type": "para",
-   "context": "Vision：Scale Intelligence. Preserve Trus",
-   "preview": "> **Turn isolated AI outputs into verifiable knowledge prove"
-  },
-  {
-   "kind": "added",
-   "block": "b84df85e",
-   "type": "para",
-   "context": "Vision：Scale Intelligence. Preserve Trus",
-   "preview": "同一套开放协议从第一天同时服务三个尺度："
-  },
-  {
-   "kind": "added",
-   "block": "e9d37846",
+   "block": "1be95c90",
    "type": "list",
-   "context": "Vision：Scale Intelligence. Preserve Trus",
-   "preview": "1. **一个 session：** 保存 accepted changes、why 和 consequential r"
+   "context": "Proofpress: ledger Markdown knowledge ar",
+   "also_moved": true
   },
   {
    "kind": "added",
-   "block": "4ff3fcd2",
+   "block": "950c5740",
    "type": "para",
-   "context": "Vision：Scale Intelligence. Preserve Trus",
-   "preview": "Proofpress 不保存私密逐字思维链，也不假装捕获了一切。它把被接纳进共同工作的变化、证据、决策和责任变成可检查的"
+   "context": "Proofpress: ledger Markdown knowledge ar",
+   "preview": "   run `policy <file> portable` once; it remains sticky. Use"
   },
   {
-   "kind": "modified",
-   "block": "f81aad90",
-   "type": "code",
-   "context": "产品行为，一屏说清"
-  },
-  {
-   "kind": "modified",
-   "block": "d7f38edf",
-   "type": "para",
-   "context": "产品行为，一屏说清"
-  },
-  {
-   "kind": "modified",
-   "block": "2c92a4b1",
+   "kind": "added",
+   "block": "406bcda8",
    "type": "list",
-   "context": "产品行为，一屏说清"
+   "context": "Proofpress: ledger Markdown knowledge ar",
+   "preview": "2. Preserve surviving block anchors while editing, then run "
   },
   {
    "kind": "modified",
-   "block": "10e2ed45",
+   "block": "3ce94304",
    "type": "para",
-   "context": "1. 真实使用场景"
+   "context": "Proofpress: ledger Markdown knowledge ar"
   },
   {
    "kind": "modified",
-   "block": "9ea1778e",
+   "block": "f5265244",
    "type": "list",
-   "context": "1. 真实使用场景"
+   "context": "Proofpress: ledger Markdown knowledge ar"
   },
   {
-   "kind": "modified",
-   "block": "992d3d92",
+   "kind": "added",
+   "block": "2d919674",
    "type": "para",
-   "context": "1. 真实使用场景"
-  },
-  {
-   "kind": "modified",
-   "block": "540880a8",
-   "type": "heading",
-   "context": "1.1 Day-zero canonical：Session A → Sessi"
+   "context": "Proofpress: ledger Markdown knowledge ar",
+   "preview": "   enumerate untouched blocks."
   },
   {
    "kind": "added",
-   "block": "1ceec3b4",
-   "type": "code",
-   "context": "1.1 Day-zero canonical：Session A → Sessi",
-   "preview": "```text\nSession A reads artifact @ v1\n    → proposes and adm"
-  },
-  {
-   "kind": "added",
-   "block": "5554cfbf",
-   "type": "para",
-   "context": "1.1 Day-zero canonical：Session A → Sessi",
-   "preview": "这里的交接对象不是 conversation，也不是一段 handoff message，而是 **a knowledg"
-  },
-  {
-   "kind": "added",
-   "block": "97b82ed4",
-   "type": "heading",
-   "context": "1.2 Artifact admission：A v1 → v2",
-   "preview": "### 1.2 Artifact admission：A v1 → v2"
-  },
-  {
-   "kind": "added",
-   "block": "83cce7ec",
-   "type": "para",
-   "context": "2.4 收敛后的定位",
-   "preview": "定位必须按层表达，避免把 carrier、数据模型和 category 混成一句："
-  },
-  {
-   "kind": "added",
-   "block": "5650d69a",
-   "type": "code",
-   "context": "2.4 收敛后的定位",
-   "preview": "```text\nCategory:      the open trust layer for agent-native"
-  },
-  {
-   "kind": "added",
-   "block": "89ab03b4",
-   "type": "para",
-   "context": "2.4 收敛后的定位",
-   "preview": "`handoff` 是协议支持的动作，不是 category；`portable` 是 history 的传播属性，不是"
-  },
-  {
-   "kind": "modified",
-   "block": "80cf71e9",
-   "type": "table",
-   "context": "8. 相邻品类与竞争边界"
-  },
-  {
-   "kind": "added",
-   "block": "b765580c",
-   "type": "para",
-   "context": "8. 相邻品类与竞争边界",
-   "preview": "Proofpress 也不替代 orchestration。Orchestrator 决定谁做任务、何时运行；Proof"
-  },
-  {
-   "kind": "modified",
-   "block": "c2231a29",
+   "block": "fd4e6530",
    "type": "list",
-   "context": "9. 当前实现差距"
-  },
-  {
-   "kind": "modified",
-   "block": "408b6d86",
-   "type": "heading",
-   "context": "10.1 为什么这是 day-one wedge"
-  },
-  {
-   "kind": "modified",
-   "block": "c7c198a2",
-   "type": "para",
-   "context": "10.1 为什么这是 day-one wedge"
+   "context": "Proofpress: ledger Markdown knowledge ar",
+   "preview": "4. Snapshot with `--why`, claims, and explicit actors (`requ"
   },
   {
    "kind": "added",
-   "block": "793c7b44",
+   "block": "1a021614",
    "type": "para",
-   "context": "10.1 为什么这是 day-one wedge",
-   "preview": "Portable artifact 不要求 knowledge work 进入 GitHub，不要求团队迁移到新协作目的"
-  },
-  {
-   "kind": "modified",
-   "block": "443c1ef6",
-   "type": "list",
-   "context": "Phase 1：冻结行为规范"
-  },
-  {
-   "kind": "modified",
-   "block": "0bbe55de",
-   "type": "list",
-   "context": "Phase 2：最小实现"
-  },
-  {
-   "kind": "modified",
-   "block": "a863d59f",
-   "type": "heading",
-   "context": "Phase 3：Cross-session / multi-agent dogf"
-  },
-  {
-   "kind": "modified",
-   "block": "12e67eea",
-   "type": "para",
-   "context": "Phase 3：Cross-session / multi-agent dogf"
-  },
-  {
-   "kind": "modified",
-   "block": "bc85c410",
-   "type": "list",
-   "context": "Phase 3：Cross-session / multi-agent dogf"
-  },
-  {
-   "kind": "modified",
-   "block": "2909254d",
-   "type": "list",
-   "context": "Kill criteria"
-  },
-  {
-   "kind": "modified",
-   "block": "11e7b5e6",
-   "type": "para",
-   "context": "12. 对 Launch 的影响"
-  },
-  {
-   "kind": "modified",
-   "block": "ad02b06a",
-   "type": "para",
-   "context": "12. 对 Launch 的影响"
-  },
-  {
-   "kind": "modified",
-   "block": "9aecaeb6",
-   "type": "para",
-   "context": "12. 对 Launch 的影响"
+   "context": "Proofpress: ledger Markdown knowledge ar",
+   "preview": "   `produced_by`, `edited_by`, `recorded_by`, and `attributi"
   },
   {
    "kind": "added",
-   "block": "12d65496",
-   "type": "para",
-   "context": "12. 对 Launch 的影响",
-   "preview": "> **Scale intelligence. Preserve trust.**"
+   "block": "b2cfcee6",
+   "type": "list",
+   "context": "Proofpress: ledger Markdown knowledge ar",
+   "preview": "5. Run `verify <file>` and report its output verbatim. Never"
   },
   {
    "kind": "added",
-   "block": "4c39bdc8",
+   "block": "94b5efc1",
    "type": "para",
-   "context": "12. 对 Launch 的影响",
-   "preview": "> **Give every human and agent a shared, verifiable past.**"
+   "context": "Proofpress: ledger Markdown knowledge ar",
+   "preview": "   force green."
   },
   {
    "kind": "added",
-   "block": "0df6f880",
+   "block": "32ab4de4",
    "type": "para",
-   "context": "12. 对 Launch 的影响",
-   "preview": "> **Turn AI output into verifiable knowledge provenance—and "
+   "context": "Proofpress: ledger Markdown knowledge ar",
+   "preview": "For incoming portable files, run `inspect` and then `import`"
   },
   {
-   "kind": "modified",
-   "block": "ce98c0cf",
+   "kind": "removed",
+   "block": "c235e9c0",
    "type": "para",
-   "context": "13. 最终判断"
+   "context": "",
+   "preview": "This repository keeps a Proofpress version ledger for Markdo"
   },
   {
-   "kind": "modified",
-   "block": "5f794662",
-   "type": "code",
-   "context": "13. 最终判断"
+   "kind": "removed",
+   "block": "d75bde41",
+   "type": "para",
+   "context": "",
+   "preview": "After creating or substantially revising a Markdown knowledg"
   },
   {
-   "kind": "modified",
-   "block": "a412a0dc",
-   "type": "para",
-   "context": "13. 最终判断"
+   "kind": "removed",
+   "block": "d7b9fb93",
+   "type": "list",
+   "context": "",
+   "preview": "1. If the artifact has Git history but no ledger entry, run"
   },
   {
-   "kind": "modified",
-   "block": "2e9a0eb0",
+   "kind": "removed",
+   "block": "ca272bc3",
    "type": "para",
-   "context": "13. 最终判断"
+   "context": "",
+   "preview": "   `python3 proofpress.py ingest <file>`."
+  },
+  {
+   "kind": "removed",
+   "block": "6ce30be0",
+   "type": "list",
+   "context": "",
+   "preview": "2. Preserve each surviving block's `[//]: # (ob:xxxxxxxx)` a"
+  },
+  {
+   "kind": "removed",
+   "block": "635794f9",
+   "type": "para",
+   "context": "",
+   "preview": "   editing. Drop anchors for deleted blocks and do not inven"
+  },
+  {
+   "kind": "removed",
+   "block": "35b7ddb8",
+   "type": "list",
+   "context": "",
+   "preview": "3. Run `python3 proofpress.py anchor <file>` and read the"
+  },
+  {
+   "kind": "removed",
+   "block": "a622a90e",
+   "type": "para",
+   "context": "",
+   "preview": "   removed. Do not enumerate untouched blocks. Use `unchange"
+  },
+  {
+   "kind": "removed",
+   "block": "935f98c0",
+   "type": "list",
+   "context": "",
+   "preview": "5. Snapshot with testimony. `--why` is required; add one `--"
+  },
+  {
+   "kind": "removed",
+   "block": "b15d186f",
+   "type": "para",
+   "context": "",
+   "preview": "   alternative actually considered and dropped:\n   `python3 "
+  },
+  {
+   "kind": "removed",
+   "block": "4ea05f68",
+   "type": "para",
+   "context": "",
+   "preview": "   Never re-snapshot merely to force a green result; a misma"
+  },
+  {
+   "kind": "removed",
+   "block": "90e139de",
+   "type": "para",
+   "context": "",
+   "preview": "Repeat the loop for every Markdown knowledge artifact touche"
   }
  ],
  "policy": "local",
  "actors": {
+  "produced_by": [
+   "codex"
+  ],
   "recorded_by": [
    "codex"
   ]
@@ -347,262 +196,127 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "8b5401f3",
-   "kind": "modified",
-   "note": "elevated the title from portable-artifact mechanism to the open trust layer category"
-  },
-  {
-   "block": "23de2854",
-   "kind": "modified",
-   "note": "expanded document scope to include category and agent-native protocol"
-  },
-  {
-   "block": "73767b8c",
+   "block": "34d3dbf3",
    "kind": "added",
-   "note": "stated the day-zero category as the open trust layer for agent-native knowledge work"
+   "note": "updated to the approved portable-artifact V0 contract"
   },
   {
-   "block": "d121cc64",
+   "block": "1be95c90",
+   "kind": "modified",
+   "note": "updated to the approved portable-artifact V0 contract"
+  },
+  {
+   "block": "950c5740",
    "kind": "added",
-   "note": "defined the open protocol and cross-session multi-agent wedge"
+   "note": "updated to the approved portable-artifact V0 contract"
   },
   {
-   "block": "83f1b648",
-   "kind": "modified",
-   "note": "reframed the organizational outcome around scaling intelligence without blind trust"
-  },
-  {
-   "block": "5cff94ee",
-   "kind": "modified",
-   "note": "reframed the promise as a shared checkable past for every human and agent"
-  },
-  {
-   "block": "61c20f83",
-   "kind": "modified",
-   "note": "separated category, protocol, ledger model, and portable carrier"
-  },
-  {
-   "block": "d9510713",
+   "block": "406bcda8",
    "kind": "added",
-   "note": "created the Scale Intelligence Preserve Trust vision section"
+   "note": "updated to the approved portable-artifact V0 contract"
   },
   {
-   "block": "6bad1d77",
+   "block": "3ce94304",
+   "kind": "modified",
+   "note": "updated to the approved portable-artifact V0 contract"
+  },
+  {
+   "block": "f5265244",
+   "kind": "modified",
+   "note": "updated to the approved portable-artifact V0 contract"
+  },
+  {
+   "block": "2d919674",
    "kind": "added",
-   "note": "defined trust and institutional memory as the bottleneck at agent scale"
+   "note": "updated to the approved portable-artifact V0 contract"
   },
   {
-   "block": "ca08f9d3",
+   "block": "fd4e6530",
    "kind": "added",
-   "note": "explained why provenance is required for cumulative and collective intelligence"
+   "note": "updated to the approved portable-artifact V0 contract"
   },
   {
-   "block": "97c30a45",
+   "block": "1a021614",
    "kind": "added",
-   "note": "defined knowledge artifacts as trusted accumulation units for collective intelligence"
+   "note": "updated to the approved portable-artifact V0 contract"
   },
   {
-   "block": "134f8f0b",
+   "block": "b2cfcee6",
    "kind": "added",
-   "note": "connected isolated AI output to verifiable provenance and collective intelligence"
+   "note": "updated to the approved portable-artifact V0 contract"
   },
   {
-   "block": "b84df85e",
+   "block": "94b5efc1",
    "kind": "added",
-   "note": "introduced the three operating scales of the open protocol"
+   "note": "updated to the approved portable-artifact V0 contract"
   },
   {
-   "block": "e9d37846",
+   "block": "32ab4de4",
    "kind": "added",
-   "note": "described single-session multi-session and agent-network value"
+   "note": "updated to the approved portable-artifact V0 contract"
   },
   {
-   "block": "4ff3fcd2",
-   "kind": "added",
-   "note": "set the no-private-chain-of-thought boundary and vision line"
+   "block": "c235e9c0",
+   "kind": "removed",
+   "note": "updated to the approved portable-artifact V0 contract"
   },
   {
-   "block": "f81aad90",
-   "kind": "modified",
-   "note": "added open-from-day-zero and shared artifact state to the one-screen behavior"
+   "block": "d75bde41",
+   "kind": "removed",
+   "note": "updated to the approved portable-artifact V0 contract"
   },
   {
-   "block": "d7f38edf",
-   "kind": "modified",
-   "note": "expanded the behavior rules count from six to eight"
+   "block": "d7b9fb93",
+   "kind": "removed",
+   "note": "updated to the approved portable-artifact V0 contract"
   },
   {
-   "block": "2c92a4b1",
-   "kind": "modified",
-   "note": "added producer neutrality and stale-base detection to protocol behavior"
+   "block": "ca272bc3",
+   "kind": "removed",
+   "note": "updated to the approved portable-artifact V0 contract"
   },
   {
-   "block": "10e2ed45",
-   "kind": "modified",
-   "note": "made the current multi-session workflow the primary use case"
+   "block": "6ce30be0",
+   "kind": "removed",
+   "note": "updated to the approved portable-artifact V0 contract"
   },
   {
-   "block": "9ea1778e",
-   "kind": "modified",
-   "note": "replaced the human handoff sequence with a two-session agent workflow"
+   "block": "635794f9",
+   "kind": "removed",
+   "note": "updated to the approved portable-artifact V0 contract"
   },
   {
-   "block": "992d3d92",
-   "kind": "modified",
-   "note": "unified human-agent and agent-agent collaboration under one ledger protocol"
+   "block": "35b7ddb8",
+   "kind": "removed",
+   "note": "updated to the approved portable-artifact V0 contract"
   },
   {
-   "block": "540880a8",
-   "kind": "modified",
-   "note": "reframed the canonical example around Session A to Session B"
+   "block": "a622a90e",
+   "kind": "removed",
+   "note": "updated to the approved portable-artifact V0 contract"
   },
   {
-   "block": "1ceec3b4",
-   "kind": "added",
-   "note": "added a concrete cross-session ledger flow"
+   "block": "935f98c0",
+   "kind": "removed",
+   "note": "updated to the approved portable-artifact V0 contract"
   },
   {
-   "block": "5554cfbf",
-   "kind": "added",
-   "note": "defined the handoff object as an artifact with shared checkable state"
+   "block": "b15d186f",
+   "kind": "removed",
+   "note": "updated to the approved portable-artifact V0 contract"
   },
   {
-   "block": "97b82ed4",
-   "kind": "added",
-   "note": "preserved the prior admission example as a separate subsection"
+   "block": "4ea05f68",
+   "kind": "removed",
+   "note": "updated to the approved portable-artifact V0 contract"
   },
   {
-   "block": "83cce7ec",
-   "kind": "added",
-   "note": "introduced the layered positioning model"
-  },
-  {
-   "block": "5650d69a",
-   "kind": "added",
-   "note": "separated category protocol core model wedge and carrier"
-  },
-  {
-   "block": "89ab03b4",
-   "kind": "added",
-   "note": "clarified that handoff is an action and portable is a propagation property"
-  },
-  {
-   "block": "80cf71e9",
-   "kind": "modified",
-   "note": "added orchestration and repositioned Proofpress as the artifact trust layer"
-  },
-  {
-   "block": "b765580c",
-   "kind": "added",
-   "note": "defined the integration boundary between orchestrators and Proofpress"
-  },
-  {
-   "block": "c2231a29",
-   "kind": "modified",
-   "note": "added stale-head and orchestration adapter gaps to current limitations"
-  },
-  {
-   "block": "408b6d86",
-   "kind": "modified",
-   "note": "renamed the strategic section around the existing day-one wedge"
-  },
-  {
-   "block": "c7c198a2",
-   "kind": "modified",
-   "note": "argued that multi-session artifact state is already a current problem"
-  },
-  {
-   "block": "793c7b44",
-   "kind": "added",
-   "note": "made harness skills hooks and orchestrator adapters active distribution surfaces"
-  },
-  {
-   "block": "443c1ef6",
-   "kind": "modified",
-   "note": "expanded Phase 1 to freeze the open protocol and concurrency semantics"
-  },
-  {
-   "block": "0bbe55de",
-   "kind": "modified",
-   "note": "added base-version checks and a harness adapter to the minimum implementation"
-  },
-  {
-   "block": "a863d59f",
-   "kind": "modified",
-   "note": "reframed Phase 3 as cross-session multi-agent dogfood"
-  },
-  {
-   "block": "12e67eea",
-   "kind": "modified",
-   "note": "specified two isolated agent sessions as the dogfood setup"
-  },
-  {
-   "block": "bc85c410",
-   "kind": "modified",
-   "note": "added clean-session continuation stale-base and portable degradation tests"
-  },
-  {
-   "block": "2909254d",
-   "kind": "modified",
-   "note": "added lightweight harness and orchestrator integration as a kill criterion"
-  },
-  {
-   "block": "11e7b5e6",
-   "kind": "modified",
-   "note": "separated day-zero category positioning from honest current capability claims"
-  },
-  {
-   "block": "ad02b06a",
-   "kind": "modified",
-   "note": "made the two-session scenario the canonical launch story"
-  },
-  {
-   "block": "9aecaeb6",
-   "kind": "modified",
-   "note": "rewrote the launch narrative around shared checkable history across sessions"
-  },
-  {
-   "block": "12d65496",
-   "kind": "added",
-   "note": "added the Scale intelligence Preserve trust launch line"
-  },
-  {
-   "block": "4c39bdc8",
-   "kind": "added",
-   "note": "added the shared verifiable past vision line"
-  },
-  {
-   "block": "0df6f880",
-   "kind": "added",
-   "note": "added the provenance to collective intelligence vision line"
-  },
-  {
-   "block": "ce98c0cf",
-   "kind": "modified",
-   "note": "defined Proofpress as the open trust layer from day zero"
-  },
-  {
-   "block": "5f794662",
-   "kind": "modified",
-   "note": "updated the final product stack from category through collective intelligence"
-  },
-  {
-   "block": "a412a0dc",
-   "kind": "modified",
-   "note": "established open-protocol positioning without protocol-first engineering"
-  },
-  {
-   "block": "2e9a0eb0",
-   "kind": "modified",
-   "note": "closed with the cumulative intelligence north star"
+   "block": "90e139de",
+   "kind": "removed",
+   "note": "updated to the approved portable-artifact V0 contract"
   }
  ],
  "context": {
-  "why": "The team recognized that cross-session and multi-agent continuity is already a day-zero problem, so Proofpress should be positioned immediately as an open protocol and trust layer while portable artifacts remain the carrier and the ledger remains the core model.",
-  "rejected": [
-   "Handoff protocol as the category — handoff is an action and sounds narrower than the open trust layer Proofpress provides.",
-   "Keep open protocol as a long-term category — multiple agent sessions already need shared checkable artifact state today.",
-   "Use the larger positioning to justify protocol-first engineering — category ambition should be proven through a narrow Markdown CLI and harness reference implementation."
-  ]
+  "why": "implement the approved strategy through Phase 4 and keep the repository's own knowledge artifacts auditable"
  }
 }
