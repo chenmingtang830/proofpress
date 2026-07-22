@@ -1,51 +1,84 @@
 {
  "event": "version_created",
- "artifact": "docs/PORTABLE_ARTIFACT_SPEC.md",
- "artifact_id": "pp_651b6bcc5c2503e2a2ea2a5f",
- "version": "a5016a8b",
- "parent": "3409f187",
+ "artifact": "docs/internal/experiments/EXPERIMENT_HINDCAST.md",
+ "artifact_id": "pp_d1a5fee2c5b83bd607a26ee3",
+ "version": "1bdee6fa",
+ "parent": "45055d2a",
  "author": {
-  "name": "codex",
+  "name": "Claude",
   "kind": "agent",
-  "session": null
+  "session": "hindcast-pilot"
  },
- "note": null,
- "ts": "2026-07-22T11:05:02+00:00",
+ "note": "第二轮:反转信号挖矿确认矿源过关(18真反转);gate 探针暴露两个设计混淆(隔离过度+措辞泄题)",
+ "ts": "2026-07-22T11:11:01+00:00",
  "stats": {
-  "modified": 1
+  "added": 7
  },
  "changes": [
   {
-   "kind": "modified",
-   "block": "77b016f2",
+   "kind": "added",
+   "block": "ce2c5c5e",
+   "type": "heading",
+   "context": "10. 第二轮:反转信号挖矿 + gate 探针(2026-07-22)",
+   "preview": "## 10. 第二轮:反转信号挖矿 + gate 探针(2026-07-22)"
+  },
+  {
+   "kind": "added",
+   "block": "48383240",
    "type": "para",
-   "context": "10. Import and copy"
+   "context": "10. 第二轮:反转信号挖矿 + gate 探针(2026-07-22)",
+   "preview": "**矿源质量:确认过关。** 改用\"反转信号\"挖矿(commit/PR message 含 revert/depreca"
+  },
+  {
+   "kind": "added",
+   "block": "fd609bb3",
+   "type": "para",
+   "context": "10. 第二轮:反转信号挖矿 + gate 探针(2026-07-22)",
+   "preview": "**Gate 探针:暴露了实验设计的两个混淆变量(比预期更有价值的负面结果)。** 两个 clean agent 同一任"
+  },
+  {
+   "kind": "added",
+   "block": "4db66429",
+   "type": "list",
+   "context": "10. 第二轮:反转信号挖矿 + gate 探针(2026-07-22)",
+   "preview": "- 账本臂:三颗雷零踩,逐条驳回,还精准识别 eval \"是迁移不是删除\"、重定向到外部 repo——教科书级表现。\n-"
+  },
+  {
+   "kind": "added",
+   "block": "cc0ccb65",
+   "type": "para",
+   "context": "10. 第二轮:反转信号挖矿 + gate 探针(2026-07-22)",
+   "preview": "**两个必须修的设计 bug:**"
+  },
+  {
+   "kind": "added",
+   "block": "783a4789",
+   "type": "list",
+   "context": "10. 第二轮:反转信号挖矿 + gate 探针(2026-07-22)",
+   "preview": "1. **隔离过度**:只给单文件、没有代码库 → 裸臂默认\"无法验证就不写\",人为压制了踩雷。真实场景 agent 有"
+  },
+  {
+   "kind": "added",
+   "block": "d08619d5",
+   "type": "para",
+   "context": "10. 第二轮:反转信号挖矿 + gate 探针(2026-07-22)",
+   "preview": "**净结论:管线通、矿源过关、机制跑通,但 gate 设计有两处混淆,修掉之前 18-run 结果无意义。** 唯一差分"
   }
  ],
  "policy": "local",
  "actors": {
-  "requested_by": [
-   "Richard"
-  ],
   "produced_by": [
-   "codex"
-  ],
-  "edited_by": [
-   "codex"
+   "claude"
   ],
   "recorded_by": [
-   "codex"
+   "claude"
   ]
  },
- "attribution_basis": "self_asserted",
- "claims": [
-  {
-   "block": "a09187f6",
-   "kind": "modified",
-   "note": "makes metadata-stripping degradation carrier-neutral"
-  }
- ],
+ "attribution_basis": "harness_attested",
  "context": {
-  "why": "make metadata-stripping degradation language consistent across carriers"
+  "why": "矿源质量这一关按方向1+2过了;gate 探针虽没干净证明效果,但抓出的两个混淆变量是修实验的关键,比一个假阳性结果值钱",
+  "rejected": [
+   "宣称 gate 通过 —— 裸臂零踩雷是'无法核实'的假象非独立判断,报成功就是自欺"
+  ]
  }
 }
