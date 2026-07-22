@@ -1,266 +1,230 @@
 {
  "event": "version_created",
- "artifact": "skills/cursor/proofpress/SKILL.md",
- "version": "360cd648",
+ "artifact": "AGENTS.md",
+ "version": "0f5e4f29",
  "parent": null,
  "author": {
   "name": "codex",
   "kind": "agent",
   "session": "vision-and-harness-2026-07-22"
  },
- "note": "Added Cursor Proofpress skill",
- "ts": "2026-07-22T05:25:19+00:00",
+ "note": "Installed always-on project Proofpress instructions",
+ "ts": "2026-07-22T05:25:20+00:00",
  "stats": {
-  "added": 20
+  "added": 17
  },
  "changes": [
   {
    "kind": "added",
-   "block": "19a24923",
-   "type": "para",
-   "context": "(文首)",
-   "preview": "---\nname: proofpress\ndescription: Close the Proofpress versi"
-  },
-  {
-   "kind": "added",
-   "block": "233b766d",
+   "block": "e43408a0",
    "type": "heading",
-   "context": "Proofpress",
-   "preview": "# Proofpress"
+   "context": "Project instructions",
+   "preview": "# Project instructions"
   },
   {
    "kind": "added",
-   "block": "ca3e2ae4",
-   "type": "para",
-   "context": "Proofpress",
-   "preview": "Record every meaningful Markdown knowledge-artifact change w"
-  },
-  {
-   "kind": "added",
-   "block": "e14e12ad",
+   "block": "bbe579fd",
    "type": "heading",
-   "context": "Workflow",
-   "preview": "## Workflow"
+   "context": "Proofpress: ledger Markdown knowledge ar",
+   "preview": "## Proofpress: ledger Markdown knowledge artifacts"
   },
   {
    "kind": "added",
-   "block": "ae92d920",
+   "block": "c235e9c0",
+   "type": "para",
+   "context": "Proofpress: ledger Markdown knowledge ar",
+   "preview": "This repository keeps a Proofpress version ledger for Markdo"
+  },
+  {
+   "kind": "added",
+   "block": "d75bde41",
+   "type": "para",
+   "context": "Proofpress: ledger Markdown knowledge ar",
+   "preview": "After creating or substantially revising a Markdown knowledg"
+  },
+  {
+   "kind": "added",
+   "block": "d7b9fb93",
    "type": "list",
-   "context": "Workflow",
-   "preview": "1. If the artifact has Git history but no ledger entry, run:"
+   "context": "Proofpress: ledger Markdown knowledge ar",
+   "preview": "1. If the artifact has Git history but no ledger entry, run"
   },
   {
    "kind": "added",
-   "block": "54c93cc4",
-   "type": "code",
-   "context": "Workflow",
-   "preview": "   ```sh\n   python3 proofpress.py ingest <file>\n   ```"
+   "block": "ca272bc3",
+   "type": "para",
+   "context": "Proofpress: ledger Markdown knowledge ar",
+   "preview": "   `python3 proofpress.py ingest <file>`."
   },
   {
    "kind": "added",
-   "block": "6d23ae8f",
+   "block": "6ce30be0",
    "type": "list",
-   "context": "Workflow",
+   "context": "Proofpress: ledger Markdown knowledge ar",
    "preview": "2. Preserve each surviving block's `[//]: # (ob:xxxxxxxx)` a"
   },
   {
    "kind": "added",
-   "block": "35ce54f2",
+   "block": "635794f9",
    "type": "para",
-   "context": "Workflow",
-   "preview": "   editing. Drop the anchor when deleting its block. Do not "
+   "context": "Proofpress: ledger Markdown knowledge ar",
+   "preview": "   editing. Drop anchors for deleted blocks and do not inven"
   },
   {
    "kind": "added",
-   "block": "7e9c1975",
+   "block": "35b7ddb8",
    "type": "list",
-   "context": "Workflow",
-   "preview": "3. After editing, run `python3 proofpress.py anchor <file>` "
+   "context": "Proofpress: ledger Markdown knowledge ar",
+   "preview": "3. Run `python3 proofpress.py anchor <file>` and read the"
   },
   {
    "kind": "added",
-   "block": "ff3fc8ba",
+   "block": "3ce94304",
    "type": "para",
-   "context": "Workflow",
-   "preview": "   `inherited`, `new`, and `gone` inventory."
+   "context": "Proofpress: ledger Markdown knowledge ar",
+   "preview": "   `inherited` / `new` / `gone` inventory."
   },
   {
    "kind": "added",
-   "block": "09df9b9c",
+   "block": "f5265244",
    "type": "list",
-   "context": "Workflow",
-   "preview": "4. Write a temporary claims JSON array with one honest entry"
+   "context": "Proofpress: ledger Markdown knowledge ar",
+   "preview": "4. Write temporary claims JSON with one honest entry per blo"
   },
   {
    "kind": "added",
-   "block": "ef1135b2",
+   "block": "a622a90e",
    "type": "para",
-   "context": "Workflow",
-   "preview": "   or removed:"
+   "context": "Proofpress: ledger Markdown knowledge ar",
+   "preview": "   removed. Do not enumerate untouched blocks. Use `unchange"
   },
   {
    "kind": "added",
-   "block": "99426a3e",
-   "type": "code",
-   "context": "Workflow",
-   "preview": "   ```json\n   [{\"block\":\"a1b2c3d4\",\"kind\":\"modified\",\"note\":"
-  },
-  {
-   "kind": "added",
-   "block": "6b88d004",
-   "type": "para",
-   "context": "Workflow",
-   "preview": "   Allowed kinds are `added`, `removed`, `modified`, `moved`"
-  },
-  {
-   "kind": "added",
-   "block": "6965e42d",
+   "block": "935f98c0",
    "type": "list",
-   "context": "Workflow",
-   "preview": "5. Snapshot while the decision context is still fresh:"
+   "context": "Proofpress: ledger Markdown knowledge ar",
+   "preview": "5. Snapshot with testimony. `--why` is required; add one `--"
   },
   {
    "kind": "added",
-   "block": "fa3c4e4f",
-   "type": "code",
-   "context": "Workflow",
-   "preview": "   ```sh\n   python3 proofpress.py snapshot <file> --kind age"
-  },
-  {
-   "kind": "added",
-   "block": "5c13476b",
+   "block": "b15d186f",
    "type": "para",
-   "context": "Workflow",
-   "preview": "   `--why` is required. Repeat `--rejected` for alternatives"
+   "context": "Proofpress: ledger Markdown knowledge ar",
+   "preview": "   alternative actually considered and dropped:\n   `python3 "
   },
   {
    "kind": "added",
-   "block": "e3c56875",
+   "block": "1be95c90",
    "type": "list",
-   "context": "Workflow",
+   "context": "Proofpress: ledger Markdown knowledge ar",
    "preview": "6. Run `python3 proofpress.py verify <file>` and report its "
   },
   {
    "kind": "added",
-   "block": "6ad53003",
+   "block": "4ea05f68",
    "type": "para",
-   "context": "Workflow",
-   "preview": "   Never create another snapshot just to turn a mismatch gre"
+   "context": "Proofpress: ledger Markdown knowledge ar",
+   "preview": "   Never re-snapshot merely to force a green result; a misma"
   },
   {
    "kind": "added",
-   "block": "2ee76a41",
+   "block": "90e139de",
    "type": "para",
-   "context": "Workflow",
+   "context": "Proofpress: ledger Markdown knowledge ar",
    "preview": "Repeat the loop for every Markdown knowledge artifact touche"
   }
  ],
  "claims": [
   {
-   "block": "19a24923",
+   "block": "e43408a0",
    "kind": "added",
-   "note": "defined Cursor skill metadata and trigger"
+   "note": "created project instructions"
   },
   {
-   "block": "233b766d",
+   "block": "bbe579fd",
    "kind": "added",
-   "note": "added the Proofpress skill heading"
+   "note": "added the always-on Proofpress contract"
   },
   {
-   "block": "ca3e2ae4",
+   "block": "c235e9c0",
    "kind": "added",
-   "note": "stated the verification integrity rule"
+   "note": "defined applicable Markdown artifacts and the source-code boundary"
   },
   {
-   "block": "e14e12ad",
+   "block": "d75bde41",
    "kind": "added",
-   "note": "introduced the Cursor workflow"
+   "note": "introduced the mandatory ledger loop"
   },
   {
-   "block": "ae92d920",
+   "block": "d7b9fb93",
    "kind": "added",
-   "note": "added the ingest prerequisite"
+   "note": "added the ingest step"
   },
   {
-   "block": "54c93cc4",
+   "block": "ca272bc3",
    "kind": "added",
    "note": "provided the ingest command"
   },
   {
-   "block": "6d23ae8f",
+   "block": "6ce30be0",
    "kind": "added",
-   "note": "documented anchor preservation"
+   "note": "added anchor preservation rules"
   },
   {
-   "block": "35ce54f2",
+   "block": "635794f9",
    "kind": "added",
-   "note": "documented deletion and new-block anchor behavior"
+   "note": "completed deletion and new-block anchor guidance"
   },
   {
-   "block": "7e9c1975",
+   "block": "35b7ddb8",
    "kind": "added",
-   "note": "added the anchor command step"
+   "note": "added the anchor inventory step"
   },
   {
-   "block": "ff3fc8ba",
+   "block": "3ce94304",
    "kind": "added",
    "note": "named the anchor inventory fields"
   },
   {
-   "block": "09df9b9c",
+   "block": "f5265244",
    "kind": "added",
    "note": "introduced touched-block claims"
   },
   {
-   "block": "ef1135b2",
+   "block": "a622a90e",
    "kind": "added",
-   "note": "completed the touched-or-removed scope"
+   "note": "defined deliberate unchanged claims"
   },
   {
-   "block": "99426a3e",
+   "block": "935f98c0",
    "kind": "added",
-   "note": "provided a claims JSON example"
+   "note": "introduced snapshot testimony and rejected alternatives"
   },
   {
-   "block": "6b88d004",
+   "block": "b15d186f",
    "kind": "added",
-   "note": "defined claim kinds and deliberate unchanged usage"
+   "note": "provided the snapshot command"
   },
   {
-   "block": "6965e42d",
+   "block": "1be95c90",
    "kind": "added",
-   "note": "introduced snapshot testimony"
+   "note": "added verification reporting"
   },
   {
-   "block": "fa3c4e4f",
-   "kind": "added",
-   "note": "provided the Cursor snapshot command"
-  },
-  {
-   "block": "5c13476b",
-   "kind": "added",
-   "note": "defined why and rejected-alternative requirements"
-  },
-  {
-   "block": "e3c56875",
-   "kind": "added",
-   "note": "added deterministic verification"
-  },
-  {
-   "block": "6ad53003",
+   "block": "4ea05f68",
    "kind": "added",
    "note": "prohibited re-snapshotting to force green"
   },
   {
-   "block": "2ee76a41",
+   "block": "90e139de",
    "kind": "added",
-   "note": "defined multi-artifact scope and the source-code red line"
+   "note": "required the loop for every touched Markdown artifact"
   }
  ],
  "context": {
-  "why": "Cursor is a major agent harness and now supports project Agent Skills, so Proofpress needs a first-class adapter.",
+  "why": "The repository had only an uninstalled Codex snippet, so project agents could miss the mandatory ledger workflow.",
   "rejected": [
-   "Rely only on AGENTS.md — useful inside this repository but insufficient as a portable Cursor installation surface."
+   "Rely on agents to discover skills/ manually — this failure already occurred in the current session."
   ]
  }
 }
