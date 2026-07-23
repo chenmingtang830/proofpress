@@ -2,24 +2,32 @@
  "event": "version_created",
  "artifact": "README.md",
  "artifact_id": "pp_556b115de711b0cd33eed260",
- "version": "3234029c",
- "parent": "402fdcdb",
+ "version": "126b7408",
+ "parent": "3234029c",
  "author": {
   "name": "codex",
   "kind": "agent",
   "session": null
  },
- "note": "marked the npm alpha as publicly available under next",
- "ts": "2026-07-23T22:16:57+00:00",
+ "note": "added the logo and portable discovery explanation",
+ "ts": "2026-07-23T22:32:26+00:00",
  "stats": {
-  "modified": 1
+  "added": 2
  },
  "changes": [
   {
-   "kind": "modified",
-   "block": "d6f9f208",
+   "kind": "added",
+   "block": "6ec771b4",
    "type": "para",
-   "context": "Status"
+   "context": "(文首)",
+   "preview": "<p align=\"center\">\n  <img src=\"assets/logo.svg\" alt=\"Proofpr"
+  },
+  {
+   "kind": "added",
+   "block": "839fc8a1",
+   "type": "para",
+   "context": "What “portable” means",
+   "preview": "Portable carriers also include a non-rendering discovery mar"
   }
  ],
  "policy": "local",
@@ -40,12 +48,17 @@
  "attribution_basis": "harness_attested",
  "claims": [
   {
-   "block": "d6f9f208",
-   "kind": "modified",
-   "note": "states that the alpha is publicly available under the next tag"
+   "block": "6ec771b4",
+   "kind": "added",
+   "note": "adds the Proofpress logo at the top of the README"
+  },
+  {
+   "block": "839fc8a1",
+   "kind": "added",
+   "note": "documents portable discovery metadata and the user-consent boundary"
   }
  ],
  "context": {
-  "why": "reflect the human-approved staged release now live on the public npm registry"
+  "why": "make the project recognizable and explain its consent-based document distribution loop"
  }
 }

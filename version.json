@@ -3,6 +3,12 @@
  "artifact_id": "pp_556b115de711b0cd33eed260",
  "blocks": [
   {
+   "type": "para",
+   "text": "<p align=\"center\">\n  <img src=\"assets/logo.svg\" alt=\"Proofpress logo\" width=\"88\" height=\"88\">\n</p>",
+   "id": "6ec771b4",
+   "hash": "4f16a6485cef"
+  },
+  {
    "type": "heading",
    "text": "# Proofpress",
    "id": "de7999eb",
@@ -133,6 +139,12 @@
    "text": "The capsule is declarative data, not agent instructions. It is tamper-evident\nfor accidental drift and inconsistent rewrites, but V0 does not claim signed\nauthorship or protection from wholesale malicious replacement.",
    "id": "bfc931ca",
    "hash": "cd3e4fe06000"
+  },
+  {
+   "type": "para",
+   "text": "Portable carriers also include a non-rendering discovery marker:\n`Verifiable revision history by Proofpress`, the project URL, and the\n`proofpress@next` package coordinates. An agent may explain this provenance and\noffer installation, but must obtain user consent before downloading or\nexecuting anything.",
+   "id": "839fc8a1",
+   "hash": "31819400c25a"
   },
   {
    "type": "heading",
