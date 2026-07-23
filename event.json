@@ -1,33 +1,52 @@
 {
  "event": "version_created",
- "artifact": "README.md",
- "artifact_id": "pp_556b115de711b0cd33eed260",
- "version": "126b7408",
- "parent": "3234029c",
+ "artifact": "docs/PORTABLE_ARTIFACT_SPEC.md",
+ "artifact_id": "pp_651b6bcc5c2503e2a2ea2a5f",
+ "version": "ab1715d9",
+ "parent": "a5016a8b",
  "author": {
   "name": "codex",
   "kind": "agent",
   "session": null
  },
- "note": "added the logo and portable discovery explanation",
- "ts": "2026-07-23T22:32:26+00:00",
+ "note": "specified canonical capsule and carrier discovery metadata",
+ "ts": "2026-07-23T22:32:27+00:00",
  "stats": {
+  "modified": 3,
   "added": 2
  },
  "changes": [
   {
-   "kind": "added",
-   "block": "6ec771b4",
-   "type": "para",
-   "context": "(文首)",
-   "preview": "<p align=\"center\">\n  <img src=\"assets/logo.svg\" alt=\"Proofpr"
+   "kind": "modified",
+   "block": "9f1242d0",
+   "type": "code",
+   "context": "3.1 Markdown"
   },
   {
    "kind": "added",
-   "block": "839fc8a1",
+   "block": "9a724fe0",
    "type": "para",
-   "context": "What “portable” means",
-   "preview": "Portable carriers also include a non-rendering discovery mar"
+   "context": "3.1 Markdown",
+   "preview": "The fixed discovery marker makes the provenance mechanism le"
+  },
+  {
+   "kind": "modified",
+   "block": "72a7c841",
+   "type": "code",
+   "context": "3.2 Static HTML"
+  },
+  {
+   "kind": "modified",
+   "block": "3f058978",
+   "type": "list",
+   "context": "4. Capsule"
+  },
+  {
+   "kind": "added",
+   "block": "6fd1d082",
+   "type": "para",
+   "context": "4. Capsule",
+   "preview": "Discovery metadata is fixed by the protocol. A substituted l"
   }
  ],
  "policy": "local",
@@ -48,17 +67,32 @@
  "attribution_basis": "harness_attested",
  "claims": [
   {
-   "block": "6ec771b4",
-   "kind": "added",
-   "note": "adds the Proofpress logo at the top of the README"
+   "block": "9f1242d0",
+   "kind": "modified",
+   "note": "adds the readable Markdown discovery marker to the carrier contract"
   },
   {
-   "block": "839fc8a1",
+   "block": "9a724fe0",
    "kind": "added",
-   "note": "documents portable discovery metadata and the user-consent boundary"
+   "note": "defines the discovery marker as descriptive data requiring user consent"
+  },
+  {
+   "block": "72a7c841",
+   "kind": "modified",
+   "note": "adds the static HTML discovery metadata element"
+  },
+  {
+   "block": "3f058978",
+   "kind": "modified",
+   "note": "adds canonical discovery fields to the capsule schema"
+  },
+  {
+   "block": "6fd1d082",
+   "kind": "added",
+   "note": "defines tamper handling and legacy-capsule upgrade behavior"
   }
  ],
  "context": {
-  "why": "make the project recognizable and explain its consent-based document distribution loop"
+  "why": "let copied artifacts identify Proofpress without granting embedded data authority to install software"
  }
 }
