@@ -1,105 +1,47 @@
 {
  "event": "version_created",
- "artifact": "README.md",
- "artifact_id": "pp_556b115de711b0cd33eed260",
- "version": "3ef47081",
- "parent": "2f40971d",
+ "artifact": "skills/README.md",
+ "artifact_id": "pp_e74be09a9d28f1855db4a007",
+ "version": "9780c0b4",
+ "parent": "a65f8e10",
  "author": {
   "name": "codex",
   "kind": "agent",
   "session": null
  },
- "note": "added the npm alpha installer and transparent distribution path",
- "ts": "2026-07-23T22:03:13+00:00",
+ "note": "documented package-aware skill setup",
+ "ts": "2026-07-23T22:03:14+00:00",
  "stats": {
-  "modified": 6,
-  "added": 7
+  "added": 4
  },
  "changes": [
   {
-   "kind": "modified",
-   "block": "d6f9f208",
+   "kind": "added",
+   "block": "8a9fcf71",
    "type": "para",
-   "context": "Status"
+   "context": "Install",
+   "preview": "The npm installer is the recommended path. It installs packa"
   },
   {
-   "kind": "modified",
-   "block": "19210f53",
-   "type": "heading",
-   "context": "Install the alpha"
-  },
-  {
-   "kind": "modified",
-   "block": "989f25ec",
-   "type": "para",
-   "context": "Install the alpha"
-  },
-  {
-   "kind": "modified",
-   "block": "7b197ac1",
+   "kind": "added",
+   "block": "5ee2d540",
    "type": "code",
-   "context": "Install the alpha"
+   "context": "Install",
+   "preview": "```sh\nnpm install --save-dev proofpress@next\nnpx --no-instal"
   },
   {
-   "kind": "modified",
-   "block": "5ae48e1b",
+   "kind": "added",
+   "block": "3328131b",
    "type": "para",
-   "context": "Install the alpha"
+   "context": "Install",
+   "preview": "Use `--agent claude`, `--agent cursor`, or `--agent all` for"
   },
   {
    "kind": "added",
-   "block": "2b655d31",
+   "block": "041482f5",
    "type": "para",
-   "context": "Install the alpha",
-   "preview": "To add a visible, transparent distribution mark to a reposit"
-  },
-  {
-   "kind": "added",
-   "block": "d4916c37",
-   "type": "code",
-   "context": "Install the alpha",
-   "preview": "```sh\nnpx --no-install proofpress setup --agent codex --badg"
-  },
-  {
-   "kind": "added",
-   "block": "5796ae98",
-   "type": "para",
-   "context": "Install the alpha",
-   "preview": "The badge says that revision provenance uses Proofpress; it "
-  },
-  {
-   "kind": "added",
-   "block": "e7b4f799",
-   "type": "heading",
-   "context": "Single-file install",
-   "preview": "## Single-file install"
-  },
-  {
-   "kind": "added",
-   "block": "d8cafbd3",
-   "type": "para",
-   "context": "Single-file install",
-   "preview": "Proofpress is a single Python file with no third-party runti"
-  },
-  {
-   "kind": "added",
-   "block": "0b5b4916",
-   "type": "code",
-   "context": "Single-file install",
-   "preview": "```sh\ngit clone https://github.com/chenmingtang830/proofpres"
-  },
-  {
-   "kind": "added",
-   "block": "166fd594",
-   "type": "para",
-   "context": "Single-file install",
-   "preview": "To use it in another repository, vendor `proofpress.py` at t"
-  },
-  {
-   "kind": "modified",
-   "block": "8deed5b3",
-   "type": "list",
-   "context": "Surfaces"
+   "context": "Install",
+   "preview": "For a vendored `proofpress.py`, install adapters manually:"
   }
  ],
  "policy": "local",
@@ -120,72 +62,27 @@
  "attribution_basis": "harness_attested",
  "claims": [
   {
-   "block": "d6f9f208",
-   "kind": "modified",
-   "note": "states the npm prerelease status"
-  },
-  {
-   "block": "19210f53",
-   "kind": "modified",
-   "note": "turns the first-run section into the npm alpha installation path"
-  },
-  {
-   "block": "989f25ec",
-   "kind": "modified",
-   "note": "explains the thin npm launcher and runtime requirements"
-  },
-  {
-   "block": "7b197ac1",
-   "kind": "modified",
-   "note": "shows npm installation, version, and setup commands"
-  },
-  {
-   "block": "5ae48e1b",
-   "kind": "modified",
-   "note": "documents idempotent adapter setup and portable opt-in"
-  },
-  {
-   "block": "2b655d31",
+   "block": "8a9fcf71",
    "kind": "added",
-   "note": "introduces the explicit visible distribution option"
+   "note": "recommends the package-aware installer and states its no-download boundary"
   },
   {
-   "block": "d4916c37",
+   "block": "5ee2d540",
    "kind": "added",
-   "note": "shows the opt-in badge setup command"
+   "note": "shows npm installation and Codex setup"
   },
   {
-   "block": "5796ae98",
+   "block": "3328131b",
    "kind": "added",
-   "note": "defines the badge trust boundary and no-download behavior"
+   "note": "documents supported harnesses and explicit badge opt-in"
   },
   {
-   "block": "e7b4f799",
+   "block": "041482f5",
    "kind": "added",
-   "note": "retains a separate single-file installation path"
-  },
-  {
-   "block": "d8cafbd3",
-   "kind": "added",
-   "note": "describes the zero-dependency Python engine"
-  },
-  {
-   "block": "0b5b4916",
-   "kind": "added",
-   "note": "preserves source-clone installation commands"
-  },
-  {
-   "block": "166fd594",
-   "kind": "added",
-   "note": "preserves vendored installation guidance"
-  },
-  {
-   "block": "8deed5b3",
-   "kind": "modified",
-   "note": "adds the npm launcher and setup surface"
+   "note": "separates the manual vendored installation path"
   }
  ],
  "context": {
-  "why": "make Proofpress installable and safely discoverable across the owner's other repositories"
+  "why": "replace manual adapter copying with a repeatable multi-harness setup command"
  }
 }
