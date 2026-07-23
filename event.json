@@ -2,15 +2,15 @@
  "event": "version_created",
  "artifact": "README.md",
  "artifact_id": "pp_556b115de711b0cd33eed260",
- "version": "402fdcdb",
- "parent": "3ef47081",
+ "version": "3234029c",
+ "parent": "402fdcdb",
  "author": {
   "name": "codex",
   "kind": "agent",
   "session": null
  },
- "note": "corrected prerelease publication state after npm rejected the upload",
- "ts": "2026-07-23T22:04:31+00:00",
+ "note": "marked the npm alpha as publicly available under next",
+ "ts": "2026-07-23T22:16:57+00:00",
  "stats": {
   "modified": 1
  },
@@ -42,10 +42,10 @@
   {
    "block": "d6f9f208",
    "kind": "modified",
-   "note": "states that the prerelease is prepared but not yet published"
+   "note": "states that the alpha is publicly available under the next tag"
   }
  ],
  "context": {
-  "why": "keep public installation status accurate until npm two-factor authorization is supplied"
+  "why": "reflect the human-approved staged release now live on the public npm registry"
  }
 }

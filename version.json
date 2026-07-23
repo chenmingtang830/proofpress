@@ -28,9 +28,9 @@
   },
   {
    "type": "para",
-   "text": "Proofpress is a V0 reference implementation. The CLI is usable and its portable\nartifact behaviors are covered by black-box tests, but the embedded carrier and\ncommand interfaces may still change before a stable release. The npm package is\nprepared as a prerelease while these interfaces settle.",
+   "text": "Proofpress is a V0 reference implementation. The CLI is usable and its portable\nartifact behaviors are covered by black-box tests, but the embedded carrier and\ncommand interfaces may still change before a stable release. The npm package is\npublished under the `next` tag while these interfaces settle.",
    "id": "d6f9f208",
-   "hash": "1330790f989b"
+   "hash": "7b3c81b83d43"
   },
   {
    "type": "heading",
