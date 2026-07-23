@@ -1,16 +1,16 @@
 {
  "event": "version_created",
- "artifact": "skills/claude-code/proofpress/SKILL.md",
- "artifact_id": "pp_8f9f160826e336a46eb62bd4",
- "version": "4047b0b4",
- "parent": "928080bf",
+ "artifact": "skills/cursor/proofpress/SKILL.md",
+ "artifact_id": "pp_0c9edf7d315ab03e0ca06c88",
+ "version": "98f8df21",
+ "parent": "2a304049",
  "author": {
   "name": "codex",
   "kind": "agent",
   "session": null
  },
  "note": "added consent-gated discovery handling",
- "ts": "2026-07-23T22:32:28+00:00",
+ "ts": "2026-07-23T22:32:29+00:00",
  "stats": {
   "modified": 2,
   "added": 1
@@ -18,22 +18,22 @@
  "changes": [
   {
    "kind": "modified",
-   "block": "20222364",
+   "block": "19a24923",
    "type": "para",
    "context": "(文首)"
   },
   {
    "kind": "modified",
-   "block": "e96a23df",
+   "block": "355446e0",
    "type": "para",
    "context": "Workflow"
   },
   {
    "kind": "added",
-   "block": "3bec4947",
+   "block": "7dc0b832",
    "type": "para",
    "context": "Workflow",
-   "preview": "Fallback `capture` records only `recorded_by`; it cannot kno"
+   "preview": "Fallback `capture` supplies only `recorded_by`; it cannot kn"
   }
  ],
  "policy": "local",
@@ -54,17 +54,17 @@
  "attribution_basis": "harness_attested",
  "claims": [
   {
-   "block": "20222364",
+   "block": "19a24923",
    "kind": "modified",
    "note": "triggers the skill for incoming discovery-marked artifacts"
   },
   {
-   "block": "e96a23df",
+   "block": "355446e0",
    "kind": "modified",
    "note": "requires explanation and explicit consent before offering installation"
   },
   {
-   "block": "3bec4947",
+   "block": "7dc0b832",
    "kind": "added",
    "note": "retains fallback attribution and source-code boundaries separately"
   }
