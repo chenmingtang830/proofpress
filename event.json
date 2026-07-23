@@ -1,33 +1,25 @@
 {
  "event": "version_created",
- "artifact": "skills/codex/AGENTS-snippet.md",
- "artifact_id": "pp_703c3fa926abb512e7199332",
- "version": "7fec872e",
- "parent": "9d96e059",
+ "artifact": "README.md",
+ "artifact_id": "pp_556b115de711b0cd33eed260",
+ "version": "4d9afccd",
+ "parent": "126b7408",
  "author": {
   "name": "codex",
   "kind": "agent",
   "session": null
  },
- "note": "added consent-gated discovery handling",
- "ts": "2026-07-23T22:32:31+00:00",
+ "note": "clarified readable marker versus capsule discovery fields",
+ "ts": "2026-07-23T22:33:11+00:00",
  "stats": {
-  "modified": 1,
-  "added": 1
+  "modified": 1
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "bc88257e",
+   "block": "839fc8a1",
    "type": "para",
-   "context": "Proofpress: ledger Markdown and static H"
-  },
-  {
-   "kind": "added",
-   "block": "08efea88",
-   "type": "para",
-   "context": "Proofpress: ledger Markdown and static H",
-   "preview": "Fallback `capture` records only `recorded_by`; it cannot kno"
+   "context": "What “portable” means"
   }
  ],
  "policy": "local",
@@ -48,17 +40,12 @@
  "attribution_basis": "harness_attested",
  "claims": [
   {
-   "block": "bc88257e",
+   "block": "839fc8a1",
    "kind": "modified",
-   "note": "requires explanation and explicit consent before offering installation"
-  },
-  {
-   "block": "08efea88",
-   "kind": "added",
-   "note": "retains fallback attribution boundaries separately"
+   "note": "distinguishes the readable marker fields from package coordinates stored in the capsule"
   }
  ],
  "context": {
-  "why": "prompt recipients to inspect portable history while preventing silent installation"
+  "why": "keep the public explanation exactly aligned with the implemented carrier and capsule schema"
  }
 }
