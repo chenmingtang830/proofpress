@@ -1,100 +1,92 @@
 {
  "event": "version_created",
- "artifact": "docs/internal/decision_strategy/PORTABLE_ARTIFACT_STRATEGY.md",
- "artifact_id": "pp_5a7bb2c2b26051ae1d359850",
- "version": "8051e906",
- "parent": "33c930f6",
+ "artifact": "docs/internal/launch/x-launch.md",
+ "artifact_id": "pp_5c19a32e9dea0da4c55aae96",
+ "version": "5e6e238b",
+ "parent": "b3a0d270",
  "author": {
   "name": "codex",
   "kind": "agent",
   "session": null
  },
  "note": null,
- "ts": "2026-07-24T05:29:49+00:00",
+ "ts": "2026-07-24T05:30:10+00:00",
  "stats": {
-  "added": 11
+  "modified": 9,
+  "removed": 2
  },
  "changes": [
   {
-   "kind": "added",
-   "block": "e248a8e9",
+   "kind": "modified",
+   "block": "d8c123e5",
+   "type": "para",
+   "context": "Canonical launch post"
+  },
+  {
+   "kind": "modified",
+   "block": "01bbac2a",
    "type": "heading",
-   "context": "从最终 output 到可继承的知识",
-   "preview": "### 从最终 output 到可继承的知识"
+   "context": "Reply 1 — what the handoff loses"
   },
   {
-   "kind": "added",
-   "block": "413f48a9",
+   "kind": "modified",
+   "block": "d5e07adc",
    "type": "para",
-   "context": "从最终 output 到可继承的知识",
-   "preview": "今天的大多数文档，本质上只是一次思考与协作的最终状态截图。我们能看到一篇文章、strategy、research mem"
+   "context": "Reply 1 — what the handoff loses"
   },
   {
-   "kind": "added",
-   "block": "21383730",
+   "kind": "modified",
+   "block": "2eb60765",
+   "type": "heading",
+   "context": "Reply 2 — from collaborative code to cum"
+  },
+  {
+   "kind": "modified",
+   "block": "69bde4fe",
    "type": "para",
-   "context": "从最终 output 到可继承的知识",
-   "preview": "这不是要求保存 agent 的私密逐字思维链。真正值得成为共同记忆的，是被接纳进工作的外显轨迹：claims、evide"
+   "context": "Reply 2 — from collaborative code to cum"
   },
   {
-   "kind": "added",
-   "block": "e6e15536",
+   "kind": "modified",
+   "block": "2c6665fc",
+   "type": "code",
+   "context": "Beat 2 — the handoff gap, 0:03–0:07"
+  },
+  {
+   "kind": "modified",
+   "block": "e8811cb7",
    "type": "para",
-   "context": "从最终 output 到可继承的知识",
-   "preview": "这也是 AI slop 更深层的问题。它不只是内容质量差，而是内容没有稳定来历、无法核对、不能安全继承。AI 生成得越快"
+   "context": "Beat 2 — the handoff gap, 0:03–0:07"
   },
   {
-   "kind": "added",
-   "block": "6b5b8293",
+   "kind": "modified",
+   "block": "4b713847",
+   "type": "table",
+   "context": "Frame plan"
+  },
+  {
+   "kind": "modified",
+   "block": "46ea7b3d",
    "type": "para",
-   "context": "从最终 output 到可继承的知识",
-   "preview": "Proofpress 要把静态文件变成持续演进的 knowledge object。现在，它首先是 artifact 的"
+   "context": "Video alt text"
   },
   {
-   "kind": "added",
-   "block": "6104f941",
+   "kind": "removed",
+   "block": "37c2da58",
+   "type": "heading",
+   "context": "",
+   "preview": "### Reply 3 — the protocol underneath"
+  },
+  {
+   "kind": "removed",
+   "block": "c69a346e",
    "type": "para",
-   "context": "从最终 output 到可继承的知识",
-   "preview": "Git 最伟大的地方不只是保存了代码版本，而是让全世界可以围绕代码进行可信协作。Proofpress 的野心与此相似，但"
-  },
-  {
-   "kind": "added",
-   "block": "7f0586f7",
-   "type": "para",
-   "context": "从最终 output 到可继承的知识",
-   "preview": "> **Git made code collaborative. Proofpress makes intelligen"
-  },
-  {
-   "kind": "added",
-   "block": "caff1512",
-   "type": "para",
-   "context": "从最终 output 到可继承的知识",
-   "preview": "> **Git gave code history. Proofpress gives knowledge proven"
-  },
-  {
-   "kind": "added",
-   "block": "c3165223",
-   "type": "para",
-   "context": "从最终 output 到可继承的知识",
-   "preview": "如果 Proofpress 做得足够好，它不会只是另一个 docs product。它会成为 humans 与 mach"
-  },
-  {
-   "kind": "added",
-   "block": "12b0fb1e",
-   "type": "list",
-   "context": "从最终 output 到可继承的知识",
-   "preview": "1. **What do we know?**\n2. **Why do we believe it?**\n3. **Wh"
-  },
-  {
-   "kind": "added",
-   "block": "58f0e051",
-   "type": "para",
-   "context": "从最终 output 到可继承的知识",
-   "preview": "这已经不只是减少 AI slop，而是在为 human-agent collective intelligence 建立"
+   "context": "",
+   "preview": "> Under the hood, Proofpress is an open protocol for version"
   }
  ],
  "policy": "local",
- "soft_fingerprint": "ppsb1:767d6076d31aabd25bd72b292bfd8fc8641f8945aa854e2bfbb11ff2a800897c",
+ "soft_fingerprint": "ppsb1:730a0f6ab2ca40f02c093557580a250b01db7670a4811d02590f5f01a8f3e25c",
  "actors": {
   "requested_by": [
    "Richard Tang"
@@ -112,62 +104,65 @@
  "attribution_basis": "harness_attested",
  "claims": [
   {
-   "block": "e248a8e9",
-   "kind": "added",
-   "note": "Added a vision subsection connecting final outputs to inheritable knowledge."
+   "block": "d8c123e5",
+   "kind": "modified",
+   "note": "Made the main post concrete with a cross-session file, stranded decision trail, and portable ledger."
   },
   {
-   "block": "413f48a9",
-   "kind": "added",
-   "note": "Explained that conventional documents preserve conclusions while losing the checkable path that formed them."
+   "block": "01bbac2a",
+   "kind": "modified",
+   "note": "Retitled Reply 1 around what a handoff loses."
   },
   {
-   "block": "21383730",
-   "kind": "added",
-   "note": "Distinguished accepted external reasoning records from private verbatim chain of thought."
+   "block": "d5e07adc",
+   "kind": "modified",
+   "note": "Rewrote Reply 1 to explain session-bound rationale and rejections without introducing meta-memory or replaying conversations."
   },
   {
-   "block": "e6e15536",
-   "kind": "added",
-   "note": "Defined the deeper AI-slop problem as output without stable provenance that cannot be safely inherited or accumulated."
+   "block": "2eb60765",
+   "kind": "modified",
+   "note": "Retitled Reply 2 around the path from collaborative code to cumulative intelligence."
   },
   {
-   "block": "6b5b8293",
-   "kind": "added",
-   "note": "Set out the progression from artifact ledger to shared protocol to collective-intelligence accumulation unit."
+   "block": "69bde4fe",
+   "kind": "modified",
+   "note": "Rewrote Reply 2 to connect Git, the open trust-layer category, the artifact ledger, and the long-term vision."
   },
   {
-   "block": "6104f941",
-   "kind": "added",
-   "note": "Introduced the Git analogy as trusted collaboration expanding from code to knowledge."
+   "block": "2c6665fc",
+   "kind": "modified",
+   "note": "Changed the film handoff copy from abstract decision history to a stranded decision trail."
   },
   {
-   "block": "7f0586f7",
-   "kind": "added",
-   "note": "Added the positioning line that Git made code collaborative and Proofpress makes intelligence cumulative."
+   "block": "e8811cb7",
+   "kind": "modified",
+   "note": "Made the handoff visual show rationale, rejection, and lineage stranded in the originating session."
   },
   {
-   "block": "caff1512",
-   "kind": "added",
-   "note": "Added the positioning line contrasting code history with knowledge provenance."
+   "block": "4b713847",
+   "kind": "modified",
+   "note": "Aligned the frame plan with the file-travels and decision-trail-stays-behind narrative."
   },
   {
-   "block": "c3165223",
-   "kind": "added",
-   "note": "Framed Proofpress as a protocol for three foundational human-machine knowledge questions rather than another docs product."
+   "block": "46ea7b3d",
+   "kind": "modified",
+   "note": "Aligned video alt text with accepted rationale, rejected direction, and lineage remaining in the first session."
   },
   {
-   "block": "12b0fb1e",
-   "kind": "added",
-   "note": "Added the three questions covering knowledge, trust, and continuation."
+   "block": "37c2da58",
+   "kind": "removed",
+   "note": "Removed the separate protocol-underneath reply heading after consolidating category and vision into Reply 2."
   },
   {
-   "block": "58f0e051",
-   "kind": "added",
-   "note": "Closed the prose vision around memory, lineage, trust, and inheritable collective intelligence."
+   "block": "c69a346e",
+   "kind": "removed",
+   "note": "Removed the separate protocol reply copy after consolidating the thread into two replies."
   }
  ],
  "context": {
-  "why": "Richard supplied an earlier vision discussion that captured why Proofpress matters beyond provenance tooling; the canonical strategy now preserves that argument as polished prose connecting artifact history, AI slop, Git-like trusted collaboration, and cumulative human-agent collective intelligence."
+  "why": "Richard accepted the main-post hook, restored a concrete first reply explaining what the handoff loses, and asked that Git, positioning, and the more ambitious collective-intelligence vision be concentrated in the next reply.",
+  "rejected": [
+   "Use context, meta-memory, or reasoning traces as the public shorthand for what stays behind — rejected because context is ambiguous, meta-memory adds an unnecessary concept, and reasoning traces may imply capture of private chain of thought."
+  ]
  }
 }
