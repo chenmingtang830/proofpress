@@ -1,87 +1,118 @@
 {
  "event": "version_created",
- "artifact": "docs/internal/launch/README.md",
- "artifact_id": "pp_fc140b7b208f2d17adbfc132",
- "version": "ec6e02fe",
- "parent": "ad478880",
+ "artifact": "docs/internal/launch/x-launch.md",
+ "artifact_id": "pp_5c19a32e9dea0da4c55aae96",
+ "version": "fb40ded1",
+ "parent": "6b0af8f7",
  "author": {
   "name": "codex",
   "kind": "agent",
   "session": null
  },
  "note": null,
- "ts": "2026-07-24T20:29:17+00:00",
+ "ts": "2026-07-24T20:29:18+00:00",
  "stats": {
-  "modified": 7,
-  "added": 3
+  "modified": 9,
+  "added": 4
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "174dceb9",
+   "block": "5922601a",
    "type": "para",
-   "context": "Launch objective"
+   "context": "Launch decision"
   },
   {
    "kind": "modified",
-   "block": "bc8c55b6",
+   "block": "b60dd55f",
    "type": "para",
-   "context": "Positioning"
+   "context": "Canonical launch post",
+   "numbers": [
+    [
+     "278",
+     "254"
+    ]
+   ]
   },
   {
    "kind": "modified",
-   "block": "2d06ade6",
+   "block": "d8c123e5",
    "type": "para",
-   "context": "Positioning"
+   "context": "Canonical launch post"
   },
   {
    "kind": "modified",
-   "block": "891fd11e",
+   "block": "d5e07adc",
    "type": "para",
-   "context": "Positioning"
+   "context": "Reply 1 — founder vision article"
   },
   {
    "kind": "modified",
-   "block": "1148d758",
-   "type": "para",
-   "context": "Positioning"
+   "block": "e87e723f",
+   "type": "code",
+   "context": "Beat 1 — introduce the category, 0:00–0:"
+  },
+  {
+   "kind": "modified",
+   "block": "931a0198",
+   "type": "code",
+   "context": "Beat 3 — reveal the ledger, 0:07–0:14"
+  },
+  {
+   "kind": "modified",
+   "block": "8a217c6a",
+   "type": "heading",
+   "context": "Beat 5 — vision bridge, 0:18–0:20",
+   "numbers": [
+    [
+     "22",
+     "20"
+    ]
+   ]
   },
   {
    "kind": "added",
-   "block": "012ea658",
+   "block": "90780ce9",
    "type": "para",
-   "context": "Positioning",
-   "preview": "The analogy describes a portable, inspectable trust record. "
-  },
-  {
-   "kind": "modified",
-   "block": "411fd219",
-   "type": "para",
-   "context": "Positioning"
-  },
-  {
-   "kind": "modified",
-   "block": "58c8755b",
-   "type": "para",
-   "context": "Positioning"
+   "context": "Beat 5 — vision bridge, 0:18–0:20",
+   "preview": "On-screen copy:"
   },
   {
    "kind": "added",
-   "block": "ffeca346",
-   "type": "para",
-   "context": "Positioning",
-   "preview": "Launch-film close:"
+   "block": "a7fa956a",
+   "type": "code",
+   "context": "Beat 5 — vision bridge, 0:18–0:20",
+   "preview": "```text\nGIT MADE CODE COLLABORATIVE.\nPROOFPRESS MAKES INTELL"
   },
   {
    "kind": "added",
-   "block": "d9e444c1",
+   "block": "d16f2d4f",
    "type": "para",
-   "context": "Positioning",
-   "preview": "> Scale intelligence. Preserve trust."
+   "context": "Beat 5 — vision bridge, 0:18–0:20",
+   "preview": "This is the bridge from the handoff wedge to the larger visi"
+  },
+  {
+   "kind": "added",
+   "block": "c0b18779",
+   "type": "heading",
+   "context": "Beat 6 — open-source close, 0:20–0:22",
+   "preview": "### Beat 6 — open-source close, 0:20–0:22"
+  },
+  {
+   "kind": "modified",
+   "block": "10ddce38",
+   "type": "code",
+   "context": "Beat 6 — open-source close, 0:20–0:22"
+  },
+  {
+   "kind": "modified",
+   "block": "4b713847",
+   "type": "table",
+   "context": "Frame plan"
   }
  ],
  "policy": "local",
- "soft_fingerprint": "ppsb1:cfd54fd28e51c076b7184e84f51dd895b105347b138c208fb6382cb079da16e1",
+ "soft_fingerprint": "ppsb1:298ea35f065804a61df5ed5ce4813386692875e67bad79837655bbd363b50b6a",
  "actors": {
   "requested_by": [
    "richard-tang"
@@ -99,47 +130,59 @@
  "attribution_basis": "harness_attested",
  "claims": [
   {
-   "block": "174dceb9",
+   "block": "5922601a",
    "kind": "modified"
   },
   {
-   "block": "bc8c55b6",
+   "block": "b60dd55f",
    "kind": "modified"
   },
   {
-   "block": "2d06ade6",
+   "block": "d8c123e5",
    "kind": "modified"
   },
   {
-   "block": "891fd11e",
+   "block": "d5e07adc",
    "kind": "modified"
   },
   {
-   "block": "1148d758",
+   "block": "e87e723f",
    "kind": "modified"
   },
   {
-   "block": "012ea658",
+   "block": "931a0198",
+   "kind": "modified"
+  },
+  {
+   "block": "8a217c6a",
+   "kind": "modified"
+  },
+  {
+   "block": "90780ce9",
    "kind": "added"
   },
   {
-   "block": "411fd219",
-   "kind": "modified"
-  },
-  {
-   "block": "58c8755b",
-   "kind": "modified"
-  },
-  {
-   "block": "ffeca346",
+   "block": "a7fa956a",
    "kind": "added"
   },
   {
-   "block": "d9e444c1",
+   "block": "d16f2d4f",
    "kind": "added"
+  },
+  {
+   "block": "c0b18779",
+   "kind": "added"
+  },
+  {
+   "block": "10ddce38",
+   "kind": "modified"
+  },
+  {
+   "block": "4b713847",
+   "kind": "modified"
   }
  ],
  "context": {
-  "why": "made the launch workspace use one canonical category, boundary, analogy, vision bridge, and final close"
+  "why": "updated canonical X copy and film script to the agreed launch lockup, real strategy fixture, and vision close"
  }
 }
