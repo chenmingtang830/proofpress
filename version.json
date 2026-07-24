@@ -1,396 +1,174 @@
 {
- "artifact": "docs/internal/C2PA_REFERENCE.md",
- "artifact_id": "pp_0528a56dd3d90cff80ad18ce",
+ "artifact": "docs/internal/TRUST_BOUNDARY_DECISION.md",
+ "artifact_id": "pp_e3f14cc8e799c5c0e8edb317",
  "blocks": [
   {
    "type": "heading",
-   "text": "# Adobe C2PA — 参考笔记与下一步 / Reference Notes & Next Steps",
-   "id": "fffc6e77",
-   "hash": "98a66b639af1"
+   "text": "# 信任边界决定 / Trust Boundary Decision Note",
+   "id": "3d8ecd1c",
+   "hash": "3b4912267400"
   },
   {
    "type": "para",
-   "text": "> 内部文档 / Internal. 设计参考，非契约。记录 C2PA 内容溯源标准对 Proofpress 的\n> 启发、值得采纳的想法及优先级。不改变当前 V0 行为。\n>\n> Internal design reference, not a contract. Records what C2PA teaches Proofpress,\n> which ideas to adopt, and in what order. Changes no current V0 behavior.",
-   "id": "ea6da88e",
-   "hash": "4a0b91ffb021"
-  },
-  {
-   "type": "para",
-   "text": "---",
-   "id": "271a9a63",
-   "hash": "f1624c9c50ca"
-  },
-  {
-   "type": "heading",
-   "text": "## 1. 为什么 C2PA 相关 / Why C2PA is relevant",
-   "id": "1aebdfac",
-   "hash": "5218651f8359"
-  },
-  {
-   "type": "para",
-   "text": "**中文**：C2PA（内容来源与真实性联盟，由 Adobe、Microsoft、BBC、Intel 等牵头）是\n一个开放的**内容溯源**标准：把\"谁、何时、用什么工具、基于哪些素材、做了什么改动\"\n打包成一个**防篡改的 manifest（清单）**，嵌进资产本身，让溯源信息随文件走。",
-   "id": "96588f1d",
-   "hash": "abc20266b0e4"
-  },
-  {
-   "type": "para",
-   "text": "这与 Proofpress 解决的是同一个根问题——README 的原话：\"一份可验证的历史，记录谁在\n何时、为何改了什么，并对照工件本身校验。\"差别只在载体：C2PA 面向二进制媒体（图片、\n视频、PDF），Proofpress 面向 Markdown 与静态 HTML 文本。问题结构同构，因此 C2PA 的\n设计经验可迁移，**尤其对准 V0 已承认的缺口。**",
-   "id": "a341948d",
-   "hash": "788e03fb1462"
-  },
-  {
-   "type": "para",
-   "text": "**EN**: C2PA (Coalition for Content Provenance and Authenticity — Adobe, Microsoft,\nBBC, Intel, others) is an open **content-provenance** standard: it packages \"who,\nwhen, with what tool, from which sources, doing what edit\" into a tamper-evident\n**manifest** embedded in the asset, so provenance travels with the file. That is\nthe same root problem Proofpress solves; only the carrier differs (binary media vs\nMarkdown/HTML text). The design experience transfers, especially for the gaps V0\nalready acknowledges.",
-   "id": "53941032",
-   "hash": "fe709b5d8aa3"
+   "text": "> 内部文档 / Internal. 定位与决策记录，非契约。一页固化四个已定结论，\n> 防止未来的自己或对外文案越界。 / Positioning & decision record, not a\n> contract. Four settled conclusions, fixed here so neither future-us nor\n> outbound copy drifts past them.\n>\n> 决定日期 / Decided: 2026-07-22 · 相关 / See: [C2PA_REFERENCE.md](C2PA_REFERENCE.md)",
+   "id": "20ec0182",
+   "hash": "2c9f59e7ca87"
   },
   {
    "type": "para",
    "text": "---",
-   "id": "86b6e60a",
+   "id": "9a05a8a7",
    "hash": "f1624c9c50ca"
   },
   {
    "type": "heading",
-   "text": "## 2. 概念对照 / Concept mapping",
-   "id": "39f8c7e9",
-   "hash": "4530aedd2d4e"
+   "text": "## 1. V0 的边界是 tamper-evident，不是 tamper-proof",
+   "id": "201cfa37",
+   "hash": "3c80f49bde38"
   },
   {
    "type": "para",
-   "text": "Proofpress 已在很大程度上独立重建了 C2PA 的骨架 / Proofpress has largely rebuilt\nC2PA's skeleton independently:",
-   "id": "dd2673c4",
-   "hash": "c06936e74897"
+   "text": "**中文**：Proofpress V0 承诺**可检测篡改**（诚实验证者能发现对不上），不承诺\n**不可篡改**。对账本/文件的持有者本人，V0 没有、也不试图有任何强制约束——\n只要信任根 100% 在作者手里，作者就是 root，root 能重写 root 拥有的一切，与\nhash 链多严无关。这是有意划定的边界，不是实现漏洞；V0 真实交付的价值是\n**意外 drift 检测**与**收件方核对**，二者今天已 100% 成立。",
+   "id": "cc3f2444",
+   "hash": "ca91265b8cdb"
+  },
+  {
+   "type": "para",
+   "text": "**措辞纪律（唯一的 launch blocker）**：对外可以说 *checkable record /\ntamper-evident / provenance that travels / gaps stay visible*；绝不说\n*immutable / tamperproof / notarized / can't be faked / blockchain-grade*。\n越界一句，\"已知边界\"即变\"虚假宣传\"。",
+   "id": "3b5b01fb",
+   "hash": "a221903355f4"
+  },
+  {
+   "type": "para",
+   "text": "**EN**: V0 promises tamper-**evident**, not tamper-**proof**. Against the\nholder of the ledger/file themselves, V0 has — deliberately — no enforcement:\nwhile the trust root sits entirely with the author, the author is root, and\nroot rewrites anything root owns, regardless of hash-chain rigor. The real V0\nvalue (accidental-drift detection, recipient verification) is fully delivered\ntoday. Wording discipline is the only launch blocker: never let outbound copy\ncross from tamper-evident into tamper-proof vocabulary.",
+   "id": "44efd8a6",
+   "hash": "664adbb99852"
+  },
+  {
+   "type": "para",
+   "text": "---",
+   "id": "a277842d",
+   "hash": "f1624c9c50ca"
+  },
+  {
+   "type": "heading",
+   "text": "## 2. 本地 vs 云的精确分线 / The precise local-vs-cloud split",
+   "id": "d34d1744",
+   "hash": "37950545a680"
+  },
+  {
+   "type": "para",
+   "text": "**中文**：不是\"防篡改 = 云\"这种粗线。按能力逐项分：",
+   "id": "a492d243",
+   "hash": "7a40dcb7aa76"
   },
   {
    "type": "table",
-   "text": "| C2PA | Proofpress 对应 / equivalent | 备注 / Note |\n| --- | --- | --- |\n| Manifest Store（嵌入资产的清单库） | `capsule`（嵌入载体） | 随文件走的溯源包 / provenance bundle that travels |\n| Manifest / Assertion（关于资产的断言） | 一条 `record` 及其 `claims`/`why`/actors | |\n| Claim + 内容哈希（hard binding） | capsule `canonical visible-body digest` | 把断言绑定到真实字节 / bind to actual bytes |\n| Claim Signature（COSE 签名） | **缺失** — spec §4：\"not signed proof of authorship\" | 最大参考点 / biggest reference point |\n| Ingredients（上游素材） | `merge-lineage` 的 `ingredients` 引用 | 已落地：引用+摘要，不复制历史 / shipped: refs + digests, no history copied |\n| Actions assertion（裁剪/编辑等） | block changes + `attribution_basis` | |\n| Redaction（删断言但仍可验证） | privacy modes / clean export | 目标一致，机制更细 / same goal, finer mechanism |\n| 元数据被剥离 → 资产降级 | spec §3.2 \"an ordinary HTML artifact\" | C2PA 也踩过 → soft binding |",
-   "id": "00c5ebaa",
-   "hash": "0d8852f237cf"
-  },
-  {
-   "type": "heading",
-   "text": "### Manifest Store 具体是什么 / What Manifest Store is, concretely",
-   "id": "a57b8dbd",
-   "hash": "8ac6f31dfbb2"
+   "text": "| 能力 / Capability | 本地 / Local | 云 / Cloud |\n| --- | --- | --- |\n| Hard binding（正文摘要） | ✅ 已有 | — |\n| Soft binding 指纹计算 + 同机反查 | ✅ 可做（ledger 即索引） | 仅扩展到跨机器/跨组织反查 |\n| 签名（自持密钥，防第三方伪造） | ✅ 可起步（类 GPG） | 仅强身份绑定、密钥吊销、跨组织信任列表 |\n| **对本人也留痕**（witness / countersign / 时间戳） | ❌ 原理上不可能 | ✅ 唯一提供方 |",
+   "id": "ce3c0e00",
+   "hash": "2e2b17e6edc7"
   },
   {
    "type": "para",
-   "text": "**中文**：C2PA 资产在自己的字节里带一块叫 Manifest Store 的区域，**在文件内部**——\n发文件，溯源就跟着走（除非被剥离）。叫\"库\"是因为资产会**累积多个 manifest**，每个\n动过文件的工具追加一个：",
-   "id": "76207334",
-   "hash": "04494b2ce54a"
+   "text": "云的真护城河是**最后一行加上 PKI 运营**：作者单方改不掉的外部 append-only\n见证，与跨组织身份/吊销。前三行都要保持本地可用、可退出——这是免费/付费的\n分层线，也是\"想 local 就 local\"承诺的底线。**因此不要在 V0 core 里把\nwitness 缺口补掉**；它是 cloud 的 value prop。V0 只承担一个约束：事件/capsule\nschema 须能向后兼容地容纳未来的 `witness` / signature 字段。",
+   "id": "1f60ff9c",
+   "hash": "34a4f31da0af"
   },
   {
    "type": "para",
-   "text": "**EN**: A C2PA asset carries a Manifest Store *inside its own bytes* — send the\nfile, the provenance goes with it (unless stripped). It is a \"store\" because assets\naccumulate **multiple manifests**, one appended per tool that touches the file:",
-   "id": "fd040697",
-   "hash": "9c7dcb0483da"
-  },
-  {
-   "type": "code",
-   "text": "```\nphoto.jpg\n├── [像素数据 / pixel data]\n└── Manifest Store（清单库）\n    ├── Manifest 1: 相机拍摄 / camera capture (谁/何时/GPS)\n    ├── Manifest 2: Lightroom 编辑 / edit (改了什么)\n    └── Manifest 3: 发布前 AI 扩图 / AI expand (用了 AI)\n```",
-   "id": "34632b82",
-   "hash": "ca19fb2a4a15"
+   "text": "**EN**: The moat is not \"tamper-resistance = cloud\" wholesale. Fingerprinting,\nsame-machine lookup, and self-held-key signing all stay local-capable and\nexit-able (the free tier's floor). Cloud uniquely owns: the external\nappend-only witness that makes the *author's own* rewrites evident, plus\ncross-org identity, revocation, trust lists. Do not fill the witness gap in V0\ncore; keep schemas forward-compatible for `witness`/signature fields.",
+   "id": "9ab6598d",
+   "hash": "71cde436724b"
   },
   {
    "type": "para",
-   "text": "Proofpress 的 `capsule` **就是** Manifest Store 的对应物：一个胶囊装多条从旧到新的\nrecord，同样是追加式结构。 / Proofpress's `capsule` **is** the Manifest Store\nequivalent — one capsule holds many oldest-to-newest records, the same append-only\nshape.",
-   "id": "5414234c",
-   "hash": "18b9bf1e398c"
+   "text": "**关键澄清 / Key clarification**：本地签名 ≠ 历史锁死。密钥持有者永远能重签\n一份自洽假历史。\"写了就永远在\"只能靠外部见证，别把它排进本地线的预期。 /\nLocal signing never locks history — the key holder can always re-sign a\nconsistent fake. \"Written once, evident forever\" is witness-only.",
+   "id": "5ddb2664",
+   "hash": "78afc4809526"
   },
   {
    "type": "para",
    "text": "---",
-   "id": "46c41bb4",
+   "id": "95496cc2",
    "hash": "f1624c9c50ca"
   },
   {
    "type": "heading",
-   "text": "## 3. 三种 binding / Three kinds of binding",
-   "id": "9e90efaa",
-   "hash": "47aa5ffad6e0"
+   "text": "## 3. 区块链：默认不做 / Blockchain: default no",
+   "id": "9d9e66d6",
+   "hash": "e334d6278383"
   },
   {
    "type": "para",
-   "text": "C2PA 最有用的区分是 binding 的种类。Proofpress 应把它们当作三件独立的事：\nC2PA's most useful distinction is between kinds of binding — keep them as three\nseparate jobs:",
-   "id": "e0a7ee70",
-   "hash": "c2de6c62ec82"
-  },
-  {
-   "type": "table",
-   "text": "| Binding | 回答什么问题 / Question | Proofpress 状态 / Status |\n| --- | --- | --- |\n| **Hard binding（硬绑定）** | 内容被改过吗？（防手滑） / Content altered? (accident-proof) | 已有 / have: `visible-body digest` |\n| **Signature（签名）** | 声称的作者是真的吗？（防造假） / Author real? (forgery-proof) | 缺失，阶梯已埋 / missing, ladder seeded |\n| **Soft binding（软绑定）** | 元数据没了还能认出是哪份吗？（防剥离） / Recognize after strip? (strip-proof) | 精确档已实现（`identify`）；近似档未做 / exact tier shipped (`identify`); near-match pending |",
-   "id": "28ebbef2",
-   "hash": "25d8bb8d73dc"
+   "text": "**中文**：Proofpress 需要的原语是\"作者改不掉的 append-only 见证/时间戳\"。\n实现选型走 **透明日志（CT / Sigstore Rekor 一路）与 RFC-3161 时间戳**，不上链：",
+   "id": "06310127",
+   "hash": "c0ec07fa16f5"
   },
   {
    "type": "list",
-   "text": "- **Hard binding**：对精确可见正文算哈希。正文改了但没更新 capsule → `verify` 报",
-   "id": "2239c913",
-   "hash": "be5ce00c14ab"
+   "text": "- 公链公开不可删，与隐私优先（private interval stays private、redaction、",
+   "id": "69574108",
+   "hash": "f4c18798c73c"
   },
   {
    "type": "para",
-   "text": "  `body_mismatch`。弱点：元数据一旦被剥离（截图、复制纯文本、CMS 清洗），绑定即失，\n  文件退化为普通工件。 / Hashes the exact body; strip the metadata and it's gone.",
-   "id": "1b132165",
-   "hash": "38fdc8a417bb"
+   "text": "  低熵 hash 可被关联）**硬冲突**，非调参可解。",
+   "id": "acdac223",
+   "hash": "d84c756aad27"
   },
   {
    "type": "list",
-   "text": "- **Soft binding**：从内容本身导出一个**鲁棒指纹**，让丢了 capsule 的文件仍能被认出。",
-   "id": "07f73d07",
-   "hash": "9d5caea43e0b"
+   "text": "- C2PA——Adobe/Microsoft/BBC/Intel 的内容溯源行业标准——通篇 X.509 + COSE +",
+   "id": "8bc85635",
+   "hash": "3b192c6716d7"
   },
   {
    "type": "para",
-   "text": "  容忍格式漂移和小幅编辑；**不**证明未被篡改。 / A robust fingerprint from the\n  content itself; tolerates drift and small edits, does not prove tamper-freedom.",
-   "id": "e4ee3d67",
-   "hash": "911c1935c43a"
+   "text": "  trust list，零区块链。外部背书：跟着 C2PA 走天然绕开链。",
+   "id": "aa037e26",
+   "hash": "e9096ecc2357"
   },
   {
    "type": "list",
-   "text": "- **Signature**：把归因从\"工具担保\"提升到\"数学上无法伪造\"，阻止**第三方**冒充作者",
-   "id": "28108389",
-   "hash": "bf55b9542ba2"
+   "text": "- 唯一例外：客户付费指定\"连我们的 cloud 都不信\"的公开可验证性 → 用",
+   "id": "a159363b",
+   "hash": "42ff270bc7e0"
   },
   {
    "type": "para",
-   "text": "  整体重写 capsule。**边界**：挡不住**密钥持有者本人**——作者可以用自己的钥匙重签一份\n  自洽的假历史，chain/digest/signature 全部合法。\"本人重写也留痕\"需要作者单方改不掉的\n  **外部 append-only 见证**（transparency log / 对方 countersign / 时间戳），那是云端线，\n  不是签名能给的。 / Raises attribution to unforgeable; stops **third-party** wholesale\n  rewrite. Boundary: it does not stop the **key holder** — the author can re-sign a\n  self-consistent fake history that fully validates. Making the author's own rewrites\n  evident requires an **external append-only witness** (transparency log / counterparty\n  countersign / timestamp) outside the author's control — that is the cloud line, not\n  something a signature provides.",
-   "id": "fb811b19",
-   "hash": "dd8ffe348328"
-  },
-  {
-   "type": "heading",
-   "text": "### Soft binding 不是语义/向量匹配 / not semantic/vector matching",
-   "id": "75b18e36",
-   "hash": "921c81f6e056"
+   "text": "  **OpenTimestamps** 作桥（间接锚定 Bitcoin，不直接碰链、不管币/gas）。",
+   "id": "6cfd516f",
+   "hash": "0cb1e7415511"
   },
   {
    "type": "para",
-   "text": "**中文**：soft binding 回答的是**身份**（\"这**就是** `pp_xxx`，哪怕重排版了\"），不是\n**相似度**（\"这两段意思像不像\"）。它是确定性、无模型、可复现的指纹——不用 embedding。\n两档，按容忍度：",
-   "id": "0920d86c",
-   "hash": "2a2fea6423a4"
-  },
-  {
-   "type": "para",
-   "text": "**EN**: Soft binding answers **identity** (\"this *is* `pp_xxx`, even reformatted\"),\nnot **similarity**. Deterministic, model-free, reproducible — no embeddings. Two\ntiers by tolerance:",
-   "id": "8b0afef1",
-   "hash": "ec5f1a84081b"
-  },
-  {
-   "type": "code",
-   "text": "```\n改动 / change                                 hard binding    soft binding\n──────────────────────────────────────────────────────────────────────────\n删 capsule，正文未动 / capsule deleted           失效 fails      认得出 recognized\n复制成纯文本，空白乱了 / plain text mangled       失效 fails      认得出（归一化掉）\nMarkdown 渲染成 HTML 存 / rendered to HTML       失效 fails      认得出（只留文字骨架）\n改一个错别字 / one typo fixed                    失效 fails      近似命中 near-match (tier 2)\n整篇重写 / whole rewrite                         失效 fails      找不到 not found（正确）\n```",
-   "id": "a812058c",
-   "hash": "fffae92a9a9c"
-  },
-  {
-   "type": "list",
-   "text": "- **精确指纹（简单）/ Exact fingerprint (simple)**：狠归一化（合并空白、统一换行、去",
-   "id": "b35ca34a",
-   "hash": "15645cd19c64"
-  },
-  {
-   "type": "para",
-   "text": "  语法符号，只留可见文字骨架）后算哈希。容忍*格式*变化；内容改一字即翻转。解决\"复制\n  粘贴丢了 capsule\"。 / Normalize hard, then hash. Tolerates format change; any\n  content change flips it.",
-   "id": "2ebd5835",
-   "hash": "dee73fe81826"
-  },
-  {
-   "type": "list",
-   "text": "- **近似匹配（进阶）/ Near-match (advanced)**：分块指纹 / SimHash / MinHash——词/字符",
-   "id": "a0472f0c",
-   "hash": "de754101c888"
-  },
-  {
-   "type": "para",
-   "text": "  层面的局部敏感哈希。改一个错别字仍匹配 ~99% 的块 → 认出\"这是 `pp_xxx`，改动约 1%\"。\n  这才是真正的 soft binding，能扛小幅编辑。边界：**小改能追回，整篇重写追不回**（重写\n  本就不该被当作同一份，这是正确行为）。 / Locality-sensitive hashes; fixing a typo\n  still matches ~99% of blocks. Boundary: small edits recover, whole rewrite does\n  not (correct behavior).",
-   "id": "7ebf474d",
-   "hash": "3d026443b45a"
-  },
-  {
-   "type": "para",
-   "text": "**无需云端即可有效 / Useful without cloud**：算指纹 100% 本地；拿指纹反查需要一个索引，\n而这个索引可以就是现有的本地/Git ledger（`refs/proofpress/ledger`），即可实现同机恢复。\n跨机器/跨组织反查才需要未来的云端。 / Computing is fully local; the lookup index can be\nthe existing ledger for same-machine recovery. Cloud only extends it cross-machine.",
-   "id": "b8abfdf9",
-   "hash": "079099905599"
-  },
-  {
-   "type": "heading",
-   "text": "### 为什么先不做水印 / Why not a watermark (yet)",
-   "id": "93dac451",
-   "hash": "abbc190cbe34"
-  },
-  {
-   "type": "para",
-   "text": "**中文**：文本水印靠往正文塞信号（零宽字符、隐蔽措辞）。对可编辑文本很脆：复制纯文本、\n重渲染、编辑器保存、CMS 清洗都可能清掉零宽字符，任何真实编辑都会破坏措辞水印。而指纹\n**不往文件加任何东西**（从已有正文算出），没东西可剥。同样目标、更好的鲁棒性/成本比。\n水印无限期后置。 / A text watermark hides a signal in the body and is fragile for\neditable text; a fingerprint adds nothing to strip. Same goal, better ratio. Deferred\nindefinitely.",
-   "id": "9b96b59e",
-   "hash": "1096f050afb9"
+   "text": "**EN**: The primitive we need is a witness log, not a chain. Transparency logs\nand RFC-3161 do it simpler, cheaper, private-by-default; public chains hard-\nconflict with the privacy invariants. C2PA itself ships on PKI with zero\nblockchain. Sole exception: a paying customer demanding trust-nobody public\nverifiability → bridge via OpenTimestamps. Otherwise blockchain is a\nliability, not an asset.",
+   "id": "a39e0ffc",
+   "hash": "3b4ac3688c39"
   },
   {
    "type": "para",
    "text": "---",
-   "id": "30947a49",
+   "id": "0942d47e",
    "hash": "f1624c9c50ca"
   },
   {
    "type": "heading",
-   "text": "## 4. 归因信任阶梯 / The attribution trust ladder",
-   "id": "bb37864c",
-   "hash": "e2ee1b63eaf3"
+   "text": "## 4. C2PA 是路线图锚 / C2PA as the roadmap anchor",
+   "id": "a85f7e4c",
+   "hash": "62811ab5c7bb"
   },
   {
    "type": "para",
-   "text": "`attribution_basis` 记录**作者信息有多可信**，不改作者字段，只给它分级。现有取值，弱到强：\n`attribution_basis` records **how much author info can be trusted** — it grades, does\nnot change, the author fields. Current values, weak to strong:",
-   "id": "9a3f60f2",
-   "hash": "6259bf098542"
-  },
-  {
-   "type": "table",
-   "text": "| 值 / Value | 含义 / Meaning | 用处 / Where used |\n| --- | --- | --- |\n| `unknown` | 依据未知 / basis not known | 默认兜底 / default fallback |\n| `self_asserted` | 自己声称，无担保 / claimed, no backing | checkpoint 默认 / default |\n| `environment_attested` | 运行环境佐证（如 Git 环境） / runtime env corroborates | `ingest` |\n| `harness_attested` | Agent 框架担保 / agent harness vouches | fallback `capture` |",
-   "id": "cdfa8727",
-   "hash": "40b7aca19d6d"
+   "text": "**中文**：结构演进以 [C2PA_REFERENCE.md](C2PA_REFERENCE.md) 为锚：三种\nbinding 分开做（hard 已有 → soft 本地指纹 → signature 占位）、Ingredients\n多父溯源、`attribution_basis` 阶梯加 `signed` 一格。跳过二进制格式\n（JUMBF/CBOR），保住 claims-vs-diff 这个 C2PA 没有的差异化。采纳顺序见该文\n§5。",
+   "id": "06986e8d",
+   "hash": "78f96be3973a"
   },
   {
    "type": "para",
-   "text": "这是签名的前身，阶梯已经在了 / This is the pre-image of a signature; the ladder exists:",
-   "id": "8ee54f2e",
-   "hash": "b6e5c30b6672"
-  },
-  {
-   "type": "code",
-   "text": "```\nunknown → self_asserted → environment_attested → harness_attested → signed（密码学，未做 / crypto, not yet）\n```",
-   "id": "e37d074d",
-   "hash": "51741c216837"
-  },
-  {
-   "type": "para",
-   "text": "加 `signed` 只是多一格，不是重构。**签名可本地起步**——用户自持密钥 + 复用已有 Git/邮箱\n身份做弱绑定，就像离线的 GPG 签名。云端只在需要**强身份绑定、密钥吊销、跨组织信任列表**\n时才用到。因此签名是一条可独立本地演进的线，不是云端的附庸。 / Adding `signed` is one\nrung, not a rewrite. Signing can start local (user keys + Git/email identity, like\nGPG); cloud only for strong binding, revocation, cross-org trust lists. It is an\nindependent local-capable line, not a dependency of the cloud product.",
-   "id": "6d2af193",
-   "hash": "4344dcdb9b19"
-  },
-  {
-   "type": "para",
-   "text": "**`signed` 一格的边界 / What the `signed` rung does NOT give**：`signed` 回答的是\n\"这条记录确实出自这把钥匙\"，防的是他人伪造；它**不**回答\"历史没有被作者本人换过一版\"。\n到顶格 `signed` 仍是 tamper-**evident** 对第三方、对本人无约束。对本人也留痕的那一格\n不在这个阶梯上——它是外部见证（witness），属于云端信任根，见 §3 Signature 边界。 /\n`signed` answers \"this record came from this key\" (anti-forgery); it does **not**\nanswer \"the author never swapped in a rewritten history.\" Even at the top rung the\nguarantee is tamper-evident against third parties only. The rung beyond — evident\nagainst the author too — lives off this ladder entirely: external witness, cloud\ntrust root. See the Signature boundary in §3.",
-   "id": "15dd0eea",
-   "hash": "d7a320b47029"
-  },
-  {
-   "type": "para",
-   "text": "---",
-   "id": "ef7c7948",
-   "hash": "f1624c9c50ca"
-  },
-  {
-   "type": "heading",
-   "text": "## 5. 采纳什么、什么顺序 / What to adopt, and in what order",
-   "id": "0bdc251d",
-   "hash": "1e871102670d"
-  },
-  {
-   "type": "para",
-   "text": "**范围决定 / Scope**：",
-   "id": "a45ae145",
-   "hash": "d5da29986d71"
-  },
-  {
-   "type": "list",
-   "text": "- **图片/视频/二进制 C2PA 格式（JUMBF/CBOR）**：跳过。不是我们的载体。保持干净、可读、",
-   "id": "270208f6",
-   "hash": "d9a990895672"
-  },
-  {
-   "type": "para",
-   "text": "  可 diff、零依赖的文本载体。只有以后真做图片/PDF 溯源才重看——那是另一个产品阶段。\n  / Skip binary C2PA formats; keep the clean text carrier. Revisit only for a future\n  image/PDF stage.",
-   "id": "7669be2e",
-   "hash": "596034992018"
-  },
-  {
-   "type": "list",
-   "text": "- **云端 manifest 查询 / Cloud manifest lookup**：归到未来 cloud 产品 / deferred to the",
-   "id": "4dac0cef",
-   "hash": "fba230b38135"
-  },
-  {
-   "type": "para",
-   "text": "  future cloud product.",
-   "id": "7c66a1a9",
-   "hash": "cf9a65ebd1c1"
-  },
-  {
-   "type": "para",
-   "text": "**建议优先级 / Recommended priority**：",
-   "id": "a685d38e",
-   "hash": "778473161bc7"
-  },
-  {
-   "type": "para",
-   "text": "> **进度 / Progress (2026-07-22)**：1 已落地（`merge-lineage` + `ingredients` 引用）；\n> 2 精确指纹档已落地（`soft_fingerprint` 存入每条 event + `identify` 反查），近似匹配\n> 未做；3 的 `signed` 档已用运行时 guard 保留（真签名落地前拒绝自称 signed）。 /\n> 1 shipped; 2 exact tier shipped (per-event fingerprint + `identify`), near-match\n> pending; 3 reserved via a runtime guard that rejects `signed` until real signing.",
-   "id": "4b6bb714",
-   "hash": "876d7a288d23"
-  },
-  {
-   "type": "list",
-   "text": "1. **Ingredients（多父溯源）— 现在做 / do now.** 成本低、边界清。仅当多份",
-   "id": "3058e661",
-   "hash": "5a0d04fb71cc"
-  },
-  {
-   "type": "para",
-   "text": "   Proofpress-enabled 文档**汇流**成一份时才需要；线性父链表达不了\"这份提案融合了 A 和\n   B\"。两件事：(a) 让一条 record 的 parent 引用可以是**集合**而非单值，从而能引用其他\n   `artifact_id` + capsule head 作为 ingredient；(b) 一个命令如\n   `merge-lineage new.md --from a.md --from b.md`。**只记引用和摘要，不复制上游全部历史**\n   （对应 C2PA ingredient 只存摘要而非整棵树）。不用时不影响线性主链。\n   / Low cost, clear boundary; needed only when documents *merge*. Let parent be a set;\n   add a `merge-lineage` command; record references/digests only, not full history.",
-   "id": "100f5716",
-   "hash": "e74424529a8a"
-  },
-  {
-   "type": "list",
-   "text": "2. **本地 soft binding（确定性指纹）— 其次 / do next.** 加一个归一化函数 + 在 ledger 里",
-   "id": "db01d2e5",
-   "hash": "05fab03eec62"
-  },
-  {
-   "type": "para",
-   "text": "   存指纹列。先做精确指纹，再加分块近似匹配（SimHash/MinHash）。实现\"capsule 被剥离 →\n   本机仍能认出文档\"，云端以后扩展。 / A normalization function + a stored fingerprint\n   column; exact first, then near-match. Local recovery now, cloud later.",
-   "id": "15781169",
-   "hash": "e3bfeb022ce4"
-  },
-  {
-   "type": "list",
-   "text": "3. **签名字段占位 — 最后 / last.** 信任阶梯已就位；预留 `signed` 一格，朝用户自持密钥",
-   "id": "ffe28fc6",
-   "hash": "19682a307394"
-  },
-  {
-   "type": "para",
-   "text": "   设计。真正实现签名推迟到出现真实的多方、互不信任场景为止；在那之前 `harness_attested`\n   已够用。 / Reserve the `signed` rung; defer real signing until a genuine multi-party,\n   mutual-distrust scenario exists.",
-   "id": "6da50324",
-   "hash": "e98cf7cb8066"
-  },
-  {
-   "type": "para",
-   "text": "---",
-   "id": "4bbfa5b7",
-   "hash": "f1624c9c50ca"
-  },
-  {
-   "type": "heading",
-   "text": "## 6. Proofpress 有而 C2PA 没有的 / What Proofpress keeps that C2PA does not",
-   "id": "0226619b",
-   "hash": "9c6080f1c2d8"
-  },
-  {
-   "type": "para",
-   "text": "**中文**：C2PA 的驱动力是 AI 时代对**媒体**的焦虑：这图是 AI 生成的吗？是真拍的吗？被\n篡改了吗？它的杀手锏断言是\"这是 AI 生成\"和\"这是真实拍摄\"。改变历史是手段，**可信来源\n才是目的。**",
-   "id": "c4537823",
-   "hash": "f5a4f2fbf69d"
-  },
-  {
-   "type": "para",
-   "text": "文本/知识工件的对应焦虑不是\"排版变了\"，而是：**这份文档是人写的还是 Agent 生成的？哪些\n段落是 Agent 的？背后的推理是真的，还是 Agent 编的？** 这正是 `produced_by` /\n`edited_by` / `attribution_basis` actor 模型加上 **claims 对照真实 diff 校验**所瞄准的。\nC2PA 能证明像素没被 P，但证明不了一处改动背后的**推理**是否诚实；Proofpress 的\nclaims-vs-diff 校验在往那个方向走。**这是差异化——借用 C2PA 溯源骨架时别把它丢了。**",
-   "id": "2adf6fc6",
-   "hash": "30754016c09d"
-  },
-  {
-   "type": "para",
-   "text": "**EN**: C2PA is driven by media anxiety — is this AI-generated? really captured?\ntampered? Its killer assertions are \"AI-generated\" and \"genuine capture\"; change\nhistory is the means, **trusted origin is the end.** The text analogue is: *was this\nwritten by a human or an agent? which paragraphs are the agent's? is the stated\nreasoning real or invented?* — exactly what the actor model plus\n**claims-checked-against-the-actual-diff** target. C2PA proves pixels were not\naltered but cannot prove the *reasoning* is honest; Proofpress's claims-vs-diff moves\ntoward that. This is the differentiator — do not lose it while borrowing the skeleton.",
-   "id": "d7097ca7",
-   "hash": "eb28f5c9b709"
+   "text": "**EN**: Structural evolution anchors on the C2PA reference: three bindings as\nthree separate jobs, multi-parent Ingredients, one `signed` rung on the\nexisting ladder. Skip binary formats; keep the claims-vs-diff differentiator\nC2PA lacks. Adoption order lives in that doc's §5.",
+   "id": "62a5fa4e",
+   "hash": "5ea610942652"
   }
  ]
 }

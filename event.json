@@ -1,478 +1,227 @@
 {
  "event": "version_created",
- "artifact": "docs/internal/C2PA_REFERENCE.md",
- "artifact_id": "pp_0528a56dd3d90cff80ad18ce",
- "version": "1a3f1f47",
+ "artifact": "docs/internal/TRUST_BOUNDARY_DECISION.md",
+ "artifact_id": "pp_e3f14cc8e799c5c0e8edb317",
+ "version": "22b084e1",
  "parent": null,
  "author": {
   "name": "claude",
   "kind": "agent",
   "session": null
  },
- "note": "signature boundary clarified in §3/§4; §2/§3/§5 status updated after implementation",
- "ts": "2026-07-24T04:01:30+00:00",
+ "note": "positioning decision note: tamper-evident boundary, local-vs-cloud split, no blockchain, C2PA anchor",
+ "ts": "2026-07-24T04:01:43+00:00",
  "stats": {
-  "added": 65
+  "added": 28
  },
  "changes": [
   {
    "kind": "added",
-   "block": "fffc6e77",
+   "block": "3d8ecd1c",
    "type": "heading",
-   "context": "Adobe C2PA — 参考笔记与下一步 / Reference Notes ",
-   "preview": "# Adobe C2PA — 参考笔记与下一步 / Reference Notes & Next Steps"
+   "context": "信任边界决定 / Trust Boundary Decision Note",
+   "preview": "# 信任边界决定 / Trust Boundary Decision Note"
   },
   {
    "kind": "added",
-   "block": "ea6da88e",
+   "block": "20ec0182",
    "type": "para",
-   "context": "Adobe C2PA — 参考笔记与下一步 / Reference Notes ",
-   "preview": "> 内部文档 / Internal. 设计参考，非契约。记录 C2PA 内容溯源标准对 Proofpress 的\n> 启"
+   "context": "信任边界决定 / Trust Boundary Decision Note",
+   "preview": "> 内部文档 / Internal. 定位与决策记录，非契约。一页固化四个已定结论，\n> 防止未来的自己或对外文案越界。"
   },
   {
    "kind": "added",
-   "block": "271a9a63",
+   "block": "9a05a8a7",
    "type": "para",
-   "context": "Adobe C2PA — 参考笔记与下一步 / Reference Notes ",
+   "context": "信任边界决定 / Trust Boundary Decision Note",
    "preview": "---"
   },
   {
    "kind": "added",
-   "block": "1aebdfac",
+   "block": "201cfa37",
    "type": "heading",
-   "context": "1. 为什么 C2PA 相关 / Why C2PA is relevant",
-   "preview": "## 1. 为什么 C2PA 相关 / Why C2PA is relevant"
+   "context": "1. V0 的边界是 tamper-evident，不是 tamper-proo",
+   "preview": "## 1. V0 的边界是 tamper-evident，不是 tamper-proof"
   },
   {
    "kind": "added",
-   "block": "96588f1d",
+   "block": "cc3f2444",
    "type": "para",
-   "context": "1. 为什么 C2PA 相关 / Why C2PA is relevant",
-   "preview": "**中文**：C2PA（内容来源与真实性联盟，由 Adobe、Microsoft、BBC、Intel 等牵头）是\n一个开"
+   "context": "1. V0 的边界是 tamper-evident，不是 tamper-proo",
+   "preview": "**中文**：Proofpress V0 承诺**可检测篡改**（诚实验证者能发现对不上），不承诺\n**不可篡改**。对"
   },
   {
    "kind": "added",
-   "block": "a341948d",
+   "block": "3b5b01fb",
    "type": "para",
-   "context": "1. 为什么 C2PA 相关 / Why C2PA is relevant",
-   "preview": "这与 Proofpress 解决的是同一个根问题——README 的原话：\"一份可验证的历史，记录谁在\n何时、为何改了什"
+   "context": "1. V0 的边界是 tamper-evident，不是 tamper-proo",
+   "preview": "**措辞纪律（唯一的 launch blocker）**：对外可以说 *checkable record /\ntampe"
   },
   {
    "kind": "added",
-   "block": "53941032",
+   "block": "44efd8a6",
    "type": "para",
-   "context": "1. 为什么 C2PA 相关 / Why C2PA is relevant",
-   "preview": "**EN**: C2PA (Coalition for Content Provenance and Authentic"
+   "context": "1. V0 的边界是 tamper-evident，不是 tamper-proo",
+   "preview": "**EN**: V0 promises tamper-**evident**, not tamper-**proof**"
   },
   {
    "kind": "added",
-   "block": "86b6e60a",
+   "block": "a277842d",
    "type": "para",
-   "context": "1. 为什么 C2PA 相关 / Why C2PA is relevant",
+   "context": "1. V0 的边界是 tamper-evident，不是 tamper-proo",
    "preview": "---"
   },
   {
    "kind": "added",
-   "block": "39f8c7e9",
+   "block": "d34d1744",
    "type": "heading",
-   "context": "2. 概念对照 / Concept mapping",
-   "preview": "## 2. 概念对照 / Concept mapping"
+   "context": "2. 本地 vs 云的精确分线 / The precise local-vs-c",
+   "preview": "## 2. 本地 vs 云的精确分线 / The precise local-vs-cloud split"
   },
   {
    "kind": "added",
-   "block": "dd2673c4",
+   "block": "a492d243",
    "type": "para",
-   "context": "2. 概念对照 / Concept mapping",
-   "preview": "Proofpress 已在很大程度上独立重建了 C2PA 的骨架 / Proofpress has largely re"
+   "context": "2. 本地 vs 云的精确分线 / The precise local-vs-c",
+   "preview": "**中文**：不是\"防篡改 = 云\"这种粗线。按能力逐项分："
   },
   {
    "kind": "added",
-   "block": "00c5ebaa",
+   "block": "ce3c0e00",
    "type": "table",
-   "context": "2. 概念对照 / Concept mapping",
-   "preview": "| C2PA | Proofpress 对应 / equivalent | 备注 / Note |\n| --- | --"
+   "context": "2. 本地 vs 云的精确分线 / The precise local-vs-c",
+   "preview": "| 能力 / Capability | 本地 / Local | 云 / Cloud |\n| --- | --- | -"
   },
   {
    "kind": "added",
-   "block": "a57b8dbd",
-   "type": "heading",
-   "context": "Manifest Store 具体是什么 / What Manifest Sto",
-   "preview": "### Manifest Store 具体是什么 / What Manifest Store is, concretel"
-  },
-  {
-   "kind": "added",
-   "block": "76207334",
+   "block": "1f60ff9c",
    "type": "para",
-   "context": "Manifest Store 具体是什么 / What Manifest Sto",
-   "preview": "**中文**：C2PA 资产在自己的字节里带一块叫 Manifest Store 的区域，**在文件内部**——\n发文件"
+   "context": "2. 本地 vs 云的精确分线 / The precise local-vs-c",
+   "preview": "云的真护城河是**最后一行加上 PKI 运营**：作者单方改不掉的外部 append-only\n见证，与跨组织身份/吊销"
   },
   {
    "kind": "added",
-   "block": "fd040697",
+   "block": "9ab6598d",
    "type": "para",
-   "context": "Manifest Store 具体是什么 / What Manifest Sto",
-   "preview": "**EN**: A C2PA asset carries a Manifest Store *inside its ow"
+   "context": "2. 本地 vs 云的精确分线 / The precise local-vs-c",
+   "preview": "**EN**: The moat is not \"tamper-resistance = cloud\" wholesal"
   },
   {
    "kind": "added",
-   "block": "34632b82",
-   "type": "code",
-   "context": "Manifest Store 具体是什么 / What Manifest Sto",
-   "preview": "```\nphoto.jpg\n├── [像素数据 / pixel data]\n└── Manifest Store（清单库"
-  },
-  {
-   "kind": "added",
-   "block": "5414234c",
+   "block": "5ddb2664",
    "type": "para",
-   "context": "Manifest Store 具体是什么 / What Manifest Sto",
-   "preview": "Proofpress 的 `capsule` **就是** Manifest Store 的对应物：一个胶囊装多条从旧到"
+   "context": "2. 本地 vs 云的精确分线 / The precise local-vs-c",
+   "preview": "**关键澄清 / Key clarification**：本地签名 ≠ 历史锁死。密钥持有者永远能重签\n一份自洽假历史。"
   },
   {
    "kind": "added",
-   "block": "46c41bb4",
+   "block": "95496cc2",
    "type": "para",
-   "context": "Manifest Store 具体是什么 / What Manifest Sto",
+   "context": "2. 本地 vs 云的精确分线 / The precise local-vs-c",
    "preview": "---"
   },
   {
    "kind": "added",
-   "block": "9e90efaa",
+   "block": "9d9e66d6",
    "type": "heading",
-   "context": "3. 三种 binding / Three kinds of binding",
-   "preview": "## 3. 三种 binding / Three kinds of binding"
+   "context": "3. 区块链：默认不做 / Blockchain: default no",
+   "preview": "## 3. 区块链：默认不做 / Blockchain: default no"
   },
   {
    "kind": "added",
-   "block": "e0a7ee70",
+   "block": "06310127",
    "type": "para",
-   "context": "3. 三种 binding / Three kinds of binding",
-   "preview": "C2PA 最有用的区分是 binding 的种类。Proofpress 应把它们当作三件独立的事：\nC2PA's mos"
+   "context": "3. 区块链：默认不做 / Blockchain: default no",
+   "preview": "**中文**：Proofpress 需要的原语是\"作者改不掉的 append-only 见证/时间戳\"。\n实现选型走 *"
   },
   {
    "kind": "added",
-   "block": "28ebbef2",
-   "type": "table",
-   "context": "3. 三种 binding / Three kinds of binding",
-   "preview": "| Binding | 回答什么问题 / Question | Proofpress 状态 / Status |\n| -"
-  },
-  {
-   "kind": "added",
-   "block": "2239c913",
+   "block": "69574108",
    "type": "list",
-   "context": "3. 三种 binding / Three kinds of binding",
-   "preview": "- **Hard binding**：对精确可见正文算哈希。正文改了但没更新 capsule → `verify` 报"
+   "context": "3. 区块链：默认不做 / Blockchain: default no",
+   "preview": "- 公链公开不可删，与隐私优先（private interval stays private、redaction、"
   },
   {
    "kind": "added",
-   "block": "1b132165",
+   "block": "acdac223",
    "type": "para",
-   "context": "3. 三种 binding / Three kinds of binding",
-   "preview": "  `body_mismatch`。弱点：元数据一旦被剥离（截图、复制纯文本、CMS 清洗），绑定即失，\n  文件退化为"
+   "context": "3. 区块链：默认不做 / Blockchain: default no",
+   "preview": "  低熵 hash 可被关联）**硬冲突**，非调参可解。"
   },
   {
    "kind": "added",
-   "block": "07f73d07",
+   "block": "8bc85635",
    "type": "list",
-   "context": "3. 三种 binding / Three kinds of binding",
-   "preview": "- **Soft binding**：从内容本身导出一个**鲁棒指纹**，让丢了 capsule 的文件仍能被认出。"
+   "context": "3. 区块链：默认不做 / Blockchain: default no",
+   "preview": "- C2PA——Adobe/Microsoft/BBC/Intel 的内容溯源行业标准——通篇 X.509 + COSE"
   },
   {
    "kind": "added",
-   "block": "e4ee3d67",
+   "block": "aa037e26",
    "type": "para",
-   "context": "3. 三种 binding / Three kinds of binding",
-   "preview": "  容忍格式漂移和小幅编辑；**不**证明未被篡改。 / A robust fingerprint from the\n "
+   "context": "3. 区块链：默认不做 / Blockchain: default no",
+   "preview": "  trust list，零区块链。外部背书：跟着 C2PA 走天然绕开链。"
   },
   {
    "kind": "added",
-   "block": "28108389",
+   "block": "a159363b",
    "type": "list",
-   "context": "3. 三种 binding / Three kinds of binding",
-   "preview": "- **Signature**：把归因从\"工具担保\"提升到\"数学上无法伪造\"，阻止**第三方**冒充作者"
+   "context": "3. 区块链：默认不做 / Blockchain: default no",
+   "preview": "- 唯一例外：客户付费指定\"连我们的 cloud 都不信\"的公开可验证性 → 用"
   },
   {
    "kind": "added",
-   "block": "fb811b19",
+   "block": "6cfd516f",
    "type": "para",
-   "context": "3. 三种 binding / Three kinds of binding",
-   "preview": "  整体重写 capsule。**边界**：挡不住**密钥持有者本人**——作者可以用自己的钥匙重签一份\n  自洽的假历"
+   "context": "3. 区块链：默认不做 / Blockchain: default no",
+   "preview": "  **OpenTimestamps** 作桥（间接锚定 Bitcoin，不直接碰链、不管币/gas）。"
   },
   {
    "kind": "added",
-   "block": "75b18e36",
-   "type": "heading",
-   "context": "Soft binding 不是语义/向量匹配 / not semantic/ve",
-   "preview": "### Soft binding 不是语义/向量匹配 / not semantic/vector matching"
-  },
-  {
-   "kind": "added",
-   "block": "0920d86c",
+   "block": "a39e0ffc",
    "type": "para",
-   "context": "Soft binding 不是语义/向量匹配 / not semantic/ve",
-   "preview": "**中文**：soft binding 回答的是**身份**（\"这**就是** `pp_xxx`，哪怕重排版了\"），不是"
+   "context": "3. 区块链：默认不做 / Blockchain: default no",
+   "preview": "**EN**: The primitive we need is a witness log, not a chain."
   },
   {
    "kind": "added",
-   "block": "8b0afef1",
+   "block": "0942d47e",
    "type": "para",
-   "context": "Soft binding 不是语义/向量匹配 / not semantic/ve",
-   "preview": "**EN**: Soft binding answers **identity** (\"this *is* `pp_xx"
-  },
-  {
-   "kind": "added",
-   "block": "a812058c",
-   "type": "code",
-   "context": "Soft binding 不是语义/向量匹配 / not semantic/ve",
-   "preview": "```\n改动 / change                                 hard binding"
-  },
-  {
-   "kind": "added",
-   "block": "b35ca34a",
-   "type": "list",
-   "context": "Soft binding 不是语义/向量匹配 / not semantic/ve",
-   "preview": "- **精确指纹（简单）/ Exact fingerprint (simple)**：狠归一化（合并空白、统一换行、去"
-  },
-  {
-   "kind": "added",
-   "block": "2ebd5835",
-   "type": "para",
-   "context": "Soft binding 不是语义/向量匹配 / not semantic/ve",
-   "preview": "  语法符号，只留可见文字骨架）后算哈希。容忍*格式*变化；内容改一字即翻转。解决\"复制\n  粘贴丢了 capsule\""
-  },
-  {
-   "kind": "added",
-   "block": "a0472f0c",
-   "type": "list",
-   "context": "Soft binding 不是语义/向量匹配 / not semantic/ve",
-   "preview": "- **近似匹配（进阶）/ Near-match (advanced)**：分块指纹 / SimHash / MinHa"
-  },
-  {
-   "kind": "added",
-   "block": "7ebf474d",
-   "type": "para",
-   "context": "Soft binding 不是语义/向量匹配 / not semantic/ve",
-   "preview": "  层面的局部敏感哈希。改一个错别字仍匹配 ~99% 的块 → 认出\"这是 `pp_xxx`，改动约 1%\"。\n  这才"
-  },
-  {
-   "kind": "added",
-   "block": "b8abfdf9",
-   "type": "para",
-   "context": "Soft binding 不是语义/向量匹配 / not semantic/ve",
-   "preview": "**无需云端即可有效 / Useful without cloud**：算指纹 100% 本地；拿指纹反查需要一个索引，"
-  },
-  {
-   "kind": "added",
-   "block": "93dac451",
-   "type": "heading",
-   "context": "为什么先不做水印 / Why not a watermark (yet)",
-   "preview": "### 为什么先不做水印 / Why not a watermark (yet)"
-  },
-  {
-   "kind": "added",
-   "block": "9b96b59e",
-   "type": "para",
-   "context": "为什么先不做水印 / Why not a watermark (yet)",
-   "preview": "**中文**：文本水印靠往正文塞信号（零宽字符、隐蔽措辞）。对可编辑文本很脆：复制纯文本、\n重渲染、编辑器保存、CMS "
-  },
-  {
-   "kind": "added",
-   "block": "30947a49",
-   "type": "para",
-   "context": "为什么先不做水印 / Why not a watermark (yet)",
+   "context": "3. 区块链：默认不做 / Blockchain: default no",
    "preview": "---"
   },
   {
    "kind": "added",
-   "block": "bb37864c",
+   "block": "a85f7e4c",
    "type": "heading",
-   "context": "4. 归因信任阶梯 / The attribution trust ladder",
-   "preview": "## 4. 归因信任阶梯 / The attribution trust ladder"
+   "context": "4. C2PA 是路线图锚 / C2PA as the roadmap anch",
+   "preview": "## 4. C2PA 是路线图锚 / C2PA as the roadmap anchor"
   },
   {
    "kind": "added",
-   "block": "9a3f60f2",
+   "block": "06986e8d",
    "type": "para",
-   "context": "4. 归因信任阶梯 / The attribution trust ladder",
-   "preview": "`attribution_basis` 记录**作者信息有多可信**，不改作者字段，只给它分级。现有取值，弱到强：\n`a"
+   "context": "4. C2PA 是路线图锚 / C2PA as the roadmap anch",
+   "preview": "**中文**：结构演进以 [C2PA_REFERENCE.md](C2PA_REFERENCE.md) 为锚：三种\nbi"
   },
   {
    "kind": "added",
-   "block": "cdfa8727",
-   "type": "table",
-   "context": "4. 归因信任阶梯 / The attribution trust ladder",
-   "preview": "| 值 / Value | 含义 / Meaning | 用处 / Where used |\n| --- | --- |"
-  },
-  {
-   "kind": "added",
-   "block": "8ee54f2e",
+   "block": "62a5fa4e",
    "type": "para",
-   "context": "4. 归因信任阶梯 / The attribution trust ladder",
-   "preview": "这是签名的前身，阶梯已经在了 / This is the pre-image of a signature; the l"
-  },
-  {
-   "kind": "added",
-   "block": "e37d074d",
-   "type": "code",
-   "context": "4. 归因信任阶梯 / The attribution trust ladder",
-   "preview": "```\nunknown → self_asserted → environment_attested → harness"
-  },
-  {
-   "kind": "added",
-   "block": "6d2af193",
-   "type": "para",
-   "context": "4. 归因信任阶梯 / The attribution trust ladder",
-   "preview": "加 `signed` 只是多一格，不是重构。**签名可本地起步**——用户自持密钥 + 复用已有 Git/邮箱\n身份做弱"
-  },
-  {
-   "kind": "added",
-   "block": "15dd0eea",
-   "type": "para",
-   "context": "4. 归因信任阶梯 / The attribution trust ladder",
-   "preview": "**`signed` 一格的边界 / What the `signed` rung does NOT give**：`s"
-  },
-  {
-   "kind": "added",
-   "block": "ef7c7948",
-   "type": "para",
-   "context": "4. 归因信任阶梯 / The attribution trust ladder",
-   "preview": "---"
-  },
-  {
-   "kind": "added",
-   "block": "0bdc251d",
-   "type": "heading",
-   "context": "5. 采纳什么、什么顺序 / What to adopt, and in wha",
-   "preview": "## 5. 采纳什么、什么顺序 / What to adopt, and in what order"
-  },
-  {
-   "kind": "added",
-   "block": "a45ae145",
-   "type": "para",
-   "context": "5. 采纳什么、什么顺序 / What to adopt, and in wha",
-   "preview": "**范围决定 / Scope**："
-  },
-  {
-   "kind": "added",
-   "block": "270208f6",
-   "type": "list",
-   "context": "5. 采纳什么、什么顺序 / What to adopt, and in wha",
-   "preview": "- **图片/视频/二进制 C2PA 格式（JUMBF/CBOR）**：跳过。不是我们的载体。保持干净、可读、"
-  },
-  {
-   "kind": "added",
-   "block": "7669be2e",
-   "type": "para",
-   "context": "5. 采纳什么、什么顺序 / What to adopt, and in wha",
-   "preview": "  可 diff、零依赖的文本载体。只有以后真做图片/PDF 溯源才重看——那是另一个产品阶段。\n  / Skip bi"
-  },
-  {
-   "kind": "added",
-   "block": "4dac0cef",
-   "type": "list",
-   "context": "5. 采纳什么、什么顺序 / What to adopt, and in wha",
-   "preview": "- **云端 manifest 查询 / Cloud manifest lookup**：归到未来 cloud 产品 /"
-  },
-  {
-   "kind": "added",
-   "block": "7c66a1a9",
-   "type": "para",
-   "context": "5. 采纳什么、什么顺序 / What to adopt, and in wha",
-   "preview": "  future cloud product."
-  },
-  {
-   "kind": "added",
-   "block": "a685d38e",
-   "type": "para",
-   "context": "5. 采纳什么、什么顺序 / What to adopt, and in wha",
-   "preview": "**建议优先级 / Recommended priority**："
-  },
-  {
-   "kind": "added",
-   "block": "4b6bb714",
-   "type": "para",
-   "context": "5. 采纳什么、什么顺序 / What to adopt, and in wha",
-   "preview": "> **进度 / Progress (2026-07-22)**：1 已落地（`merge-lineage` + `in"
-  },
-  {
-   "kind": "added",
-   "block": "3058e661",
-   "type": "list",
-   "context": "5. 采纳什么、什么顺序 / What to adopt, and in wha",
-   "preview": "1. **Ingredients（多父溯源）— 现在做 / do now.** 成本低、边界清。仅当多份"
-  },
-  {
-   "kind": "added",
-   "block": "100f5716",
-   "type": "para",
-   "context": "5. 采纳什么、什么顺序 / What to adopt, and in wha",
-   "preview": "   Proofpress-enabled 文档**汇流**成一份时才需要；线性父链表达不了\"这份提案融合了 A 和\n "
-  },
-  {
-   "kind": "added",
-   "block": "db01d2e5",
-   "type": "list",
-   "context": "5. 采纳什么、什么顺序 / What to adopt, and in wha",
-   "preview": "2. **本地 soft binding（确定性指纹）— 其次 / do next.** 加一个归一化函数 + 在 le"
-  },
-  {
-   "kind": "added",
-   "block": "15781169",
-   "type": "para",
-   "context": "5. 采纳什么、什么顺序 / What to adopt, and in wha",
-   "preview": "   存指纹列。先做精确指纹，再加分块近似匹配（SimHash/MinHash）。实现\"capsule 被剥离 →\n  "
-  },
-  {
-   "kind": "added",
-   "block": "ffe28fc6",
-   "type": "list",
-   "context": "5. 采纳什么、什么顺序 / What to adopt, and in wha",
-   "preview": "3. **签名字段占位 — 最后 / last.** 信任阶梯已就位；预留 `signed` 一格，朝用户自持密钥"
-  },
-  {
-   "kind": "added",
-   "block": "6da50324",
-   "type": "para",
-   "context": "5. 采纳什么、什么顺序 / What to adopt, and in wha",
-   "preview": "   设计。真正实现签名推迟到出现真实的多方、互不信任场景为止；在那之前 `harness_attested`\n   已"
-  },
-  {
-   "kind": "added",
-   "block": "4bbfa5b7",
-   "type": "para",
-   "context": "5. 采纳什么、什么顺序 / What to adopt, and in wha",
-   "preview": "---"
-  },
-  {
-   "kind": "added",
-   "block": "0226619b",
-   "type": "heading",
-   "context": "6. Proofpress 有而 C2PA 没有的 / What Proofpr",
-   "preview": "## 6. Proofpress 有而 C2PA 没有的 / What Proofpress keeps that C2"
-  },
-  {
-   "kind": "added",
-   "block": "c4537823",
-   "type": "para",
-   "context": "6. Proofpress 有而 C2PA 没有的 / What Proofpr",
-   "preview": "**中文**：C2PA 的驱动力是 AI 时代对**媒体**的焦虑：这图是 AI 生成的吗？是真拍的吗？被\n篡改了吗？它"
-  },
-  {
-   "kind": "added",
-   "block": "2adf6fc6",
-   "type": "para",
-   "context": "6. Proofpress 有而 C2PA 没有的 / What Proofpr",
-   "preview": "文本/知识工件的对应焦虑不是\"排版变了\"，而是：**这份文档是人写的还是 Agent 生成的？哪些\n段落是 Agent "
-  },
-  {
-   "kind": "added",
-   "block": "d7097ca7",
-   "type": "para",
-   "context": "6. Proofpress 有而 C2PA 没有的 / What Proofpr",
-   "preview": "**EN**: C2PA is driven by media anxiety — is this AI-generat"
+   "context": "4. C2PA 是路线图锚 / C2PA as the roadmap anch",
+   "preview": "**EN**: Structural evolution anchors on the C2PA reference: "
   }
  ],
  "policy": "local",
- "soft_fingerprint": "ppsb1:ca834568b183c1454d44aac5633e2d2d2d0a9a2e1c71c1b582fcdbaa48a5c570",
+ "soft_fingerprint": "ppsb1:ce19a347127eb5de04c55d1078683c28b6c1a54f9fdcffd9a5c9482a18607ea5",
+ "ingredients": [
+  {
+   "artifact": "docs/internal/C2PA_REFERENCE.md",
+   "artifact_id": "pp_0528a56dd3d90cff80ad18ce",
+   "version": "1a3f1f47",
+   "body_digest": "sha256:36e3ce873a4b474818b7601e730f1d131f6443451233a3835bf7da6a1667e55c"
+  }
+ ],
  "actors": {
   "requested_by": [
    "chenmingtang830"
@@ -486,6 +235,6 @@
  },
  "attribution_basis": "harness_attested",
  "context": {
-  "why": "signature stops third-party forgery only; author-proof permanence requires external witness (cloud) — clarified so the doc is not misread as 'local signing locks history'"
+  "why": "fixes four settled conclusions from the trust-boundary discussion so future work and outbound copy cannot drift past them; derived from the C2PA reference analysis"
  }
 }
