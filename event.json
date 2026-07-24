@@ -1,31 +1,901 @@
 {
  "event": "version_created",
- "artifact": "README.md",
- "artifact_id": "pp_556b115de711b0cd33eed260",
- "version": "4d9afccd",
- "parent": "126b7408",
+ "artifact": "docs/internal/launch/README.md",
+ "artifact_id": "pp_fc140b7b208f2d17adbfc132",
+ "version": "ad478880",
+ "parent": null,
  "author": {
   "name": "codex",
   "kind": "agent",
   "session": null
  },
- "note": "clarified readable marker versus capsule discovery fields",
- "ts": "2026-07-23T22:33:11+00:00",
+ "note": null,
+ "ts": "2026-07-24T03:53:53+00:00",
  "stats": {
-  "modified": 1
+  "added": 125
  },
  "changes": [
   {
-   "kind": "modified",
-   "block": "839fc8a1",
+   "kind": "added",
+   "block": "04b3a1ef",
+   "type": "heading",
+   "context": "Proofpress launch workspace",
+   "preview": "# Proofpress launch workspace"
+  },
+  {
+   "kind": "added",
+   "block": "45543a07",
    "type": "para",
-   "context": "What “portable” means"
+   "context": "Proofpress launch workspace",
+   "preview": "**Status:** planning active; public launch remains gate-driv"
+  },
+  {
+   "kind": "added",
+   "block": "f0c5eab5",
+   "type": "para",
+   "context": "Proofpress launch workspace",
+   "preview": "This directory is the source of truth for Proofpress launch "
+  },
+  {
+   "kind": "added",
+   "block": "5abf00a0",
+   "type": "heading",
+   "context": "Launch objective",
+   "preview": "## Launch objective"
+  },
+  {
+   "kind": "added",
+   "block": "174dceb9",
+   "type": "para",
+   "context": "Launch objective",
+   "preview": "Launch Proofpress as the open-source, verifiable revision le"
+  },
+  {
+   "kind": "added",
+   "block": "c85915b4",
+   "type": "para",
+   "context": "Launch objective",
+   "preview": "The launch is successful when unfamiliar developers can unde"
+  },
+  {
+   "kind": "added",
+   "block": "dcd14722",
+   "type": "heading",
+   "context": "Positioning",
+   "preview": "## Positioning"
+  },
+  {
+   "kind": "added",
+   "block": "bc8c55b6",
+   "type": "para",
+   "context": "Positioning",
+   "preview": "Primary message:"
+  },
+  {
+   "kind": "added",
+   "block": "2d06ade6",
+   "type": "para",
+   "context": "Positioning",
+   "preview": "> Git keeps the code history. Proofpress keeps the accepted "
+  },
+  {
+   "kind": "added",
+   "block": "891fd11e",
+   "type": "para",
+   "context": "Positioning",
+   "preview": "Short form:"
+  },
+  {
+   "kind": "added",
+   "block": "1148d758",
+   "type": "para",
+   "context": "Positioning",
+   "preview": "> Verifiable revision history for agent-written knowledge wo"
+  },
+  {
+   "kind": "added",
+   "block": "411fd219",
+   "type": "para",
+   "context": "Positioning",
+   "preview": "Launch-film close:"
+  },
+  {
+   "kind": "added",
+   "block": "58c8755b",
+   "type": "para",
+   "context": "Positioning",
+   "preview": "> Agents produce. You decide. The artifact remembers."
+  },
+  {
+   "kind": "added",
+   "block": "24684d4d",
+   "type": "para",
+   "context": "Positioning",
+   "preview": "Proofpress is not a replacement for Git, a new editor, a cha"
+  },
+  {
+   "kind": "added",
+   "block": "eae2ec33",
+   "type": "heading",
+   "context": "Initial audience",
+   "preview": "## Initial audience"
+  },
+  {
+   "kind": "added",
+   "block": "a00af086",
+   "type": "para",
+   "context": "Initial audience",
+   "preview": "The launch is for developers and technical teams using Codex"
+  },
+  {
+   "kind": "added",
+   "block": "8598f5d0",
+   "type": "para",
+   "context": "Initial audience",
+   "preview": "The first demonstration should use a realistic `proposal.md`"
+  },
+  {
+   "kind": "added",
+   "block": "be5049da",
+   "type": "heading",
+   "context": "Launch shape",
+   "preview": "## Launch shape"
+  },
+  {
+   "kind": "added",
+   "block": "186385a9",
+   "type": "para",
+   "context": "Launch shape",
+   "preview": "Use a gate-driven launch week rather than a single coordinat"
+  },
+  {
+   "kind": "added",
+   "block": "e1bf5b7b",
+   "type": "list",
+   "context": "Launch shape",
+   "preview": "- **Day 0 — owned release:** public GitHub repository, npm `"
+  },
+  {
+   "kind": "added",
+   "block": "cafc050d",
+   "type": "para",
+   "context": "Launch shape",
+   "preview": "  GitHub prerelease, README, launch film, X announcement, an"
+  },
+  {
+   "kind": "added",
+   "block": "7bf8d19f",
+   "type": "list",
+   "context": "Launch shape",
+   "preview": "- **Day 1 — technical proof:** publish the portable-carrier "
+  },
+  {
+   "kind": "added",
+   "block": "7d414d61",
+   "type": "para",
+   "context": "Launch shape",
+   "preview": "  deep dive, including limitations and privacy boundaries."
+  },
+  {
+   "kind": "added",
+   "block": "6d82c70e",
+   "type": "list",
+   "context": "Launch shape",
+   "preview": "- **Day 2 — Show HN:** submit the runnable repository with a"
+  },
+  {
+   "kind": "added",
+   "block": "abfe9a8b",
+   "type": "para",
+   "context": "Launch shape",
+   "preview": "  remain available for technical discussion. Never solicit v"
+  },
+  {
+   "kind": "added",
+   "block": "c064a2fa",
+   "type": "list",
+   "context": "Launch shape",
+   "preview": "- **Day 3 — community-specific distribution:** adapt the sto"
+  },
+  {
+   "kind": "added",
+   "block": "9b57452c",
+   "type": "para",
+   "context": "Launch shape",
+   "preview": "  agent, Markdown, local-first, and developer-tool communiti"
+  },
+  {
+   "kind": "added",
+   "block": "0ace1242",
+   "type": "list",
+   "context": "Launch shape",
+   "preview": "- **Day 4 — objections:** publish answers to recurring quest"
+  },
+  {
+   "kind": "added",
+   "block": "84642512",
+   "type": "para",
+   "context": "Launch shape",
+   "preview": "  not Git?”, “is this signed?”, and “does the capsule leak c"
+  },
+  {
+   "kind": "added",
+   "block": "779f988c",
+   "type": "list",
+   "context": "Launch shape",
+   "preview": "- **Day 5 — learning report:** share what users completed, w"
+  },
+  {
+   "kind": "added",
+   "block": "b55a0deb",
+   "type": "para",
+   "context": "Launch shape",
+   "preview": "  failed, what changed, and what comes next."
+  },
+  {
+   "kind": "added",
+   "block": "ca4b7aa9",
+   "type": "para",
+   "context": "Launch shape",
+   "preview": "Product Hunt is a later, conditional wave. It becomes worthw"
+  },
+  {
+   "kind": "added",
+   "block": "eb86c114",
+   "type": "heading",
+   "context": "Workstreams",
+   "preview": "## Workstreams"
+  },
+  {
+   "kind": "added",
+   "block": "8eea6889",
+   "type": "list",
+   "context": "Workstreams",
+   "preview": "1. **Public-repository logistics:** rename the private sourc"
+  },
+  {
+   "kind": "added",
+   "block": "69bdc3d5",
+   "type": "para",
+   "context": "Workstreams",
+   "preview": "   `proofpress-dev`; create a clean public `proofpress` repo"
+  },
+  {
+   "kind": "added",
+   "block": "7025c593",
+   "type": "list",
+   "context": "Workstreams",
+   "preview": "2. **Release integrity:** align the public source commit, Gi"
+  },
+  {
+   "kind": "added",
+   "block": "4831f28f",
+   "type": "para",
+   "context": "Workstreams",
+   "preview": "   package, version, install command, and provenance. Use np"
+  },
+  {
+   "kind": "added",
+   "block": "4be3f2f5",
+   "type": "list",
+   "context": "Workstreams",
+   "preview": "3. **Narrative and claims:** freeze the launch message, supp"
+  },
+  {
+   "kind": "added",
+   "block": "6dccd609",
+   "type": "para",
+   "context": "Workstreams",
+   "preview": "   limitations, FAQ, and channel-specific language before cr"
+  },
+  {
+   "kind": "added",
+   "block": "709b9d10",
+   "type": "list",
+   "context": "Workstreams",
+   "preview": "4. **Launch film:** produce the hero film first, then derive"
+  },
+  {
+   "kind": "added",
+   "block": "52701d45",
+   "type": "para",
+   "context": "Workstreams",
+   "preview": "   poster frames, GIFs, and stills from the same source."
+  },
+  {
+   "kind": "added",
+   "block": "0af1b134",
+   "type": "list",
+   "context": "Workstreams",
+   "preview": "5. **Runnable proof:** provide a copy-and-paste portable han"
+  },
+  {
+   "kind": "added",
+   "block": "7448800c",
+   "type": "para",
+   "context": "Workstreams",
+   "preview": "   in under three minutes without signup or external infrast"
+  },
+  {
+   "kind": "added",
+   "block": "4157e32f",
+   "type": "list",
+   "context": "Workstreams",
+   "preview": "6. **Communications:** prepare X, Show HN, technical article"
+  },
+  {
+   "kind": "added",
+   "block": "755fa1eb",
+   "type": "para",
+   "context": "Workstreams",
+   "preview": "   direct outreach, launch-day responses, and issue template"
+  },
+  {
+   "kind": "added",
+   "block": "f4cabbc8",
+   "type": "list",
+   "context": "Workstreams",
+   "preview": "7. **Operations and learning:** establish go/no-go gates, re"
+  },
+  {
+   "kind": "added",
+   "block": "0629a4cb",
+   "type": "para",
+   "context": "Workstreams",
+   "preview": "   metrics capture, incident handling, and the Day-5 retrosp"
+  },
+  {
+   "kind": "added",
+   "block": "6bca960a",
+   "type": "heading",
+   "context": "Film brief",
+   "preview": "## Film brief"
+  },
+  {
+   "kind": "added",
+   "block": "c5f9e28c",
+   "type": "heading",
+   "context": "Role",
+   "preview": "### Role"
+  },
+  {
+   "kind": "added",
+   "block": "89b936f6",
+   "type": "para",
+   "context": "Role",
+   "preview": "The film is the emotional and visual entry point for the lau"
+  },
+  {
+   "kind": "added",
+   "block": "2f9e8f03",
+   "type": "para",
+   "context": "Role",
+   "preview": "The existing `demo/launch.html` is a visual reference, not t"
+  },
+  {
+   "kind": "added",
+   "block": "93862d2e",
+   "type": "heading",
+   "context": "Master deliverables",
+   "preview": "### Master deliverables"
+  },
+  {
+   "kind": "added",
+   "block": "48bdbeb2",
+   "type": "list",
+   "context": "Master deliverables",
+   "preview": "- 45–60 second 16:9 master MP4 for X, GitHub, and the launch"
+  },
+  {
+   "kind": "added",
+   "block": "d6be82fa",
+   "type": "para",
+   "context": "Master deliverables",
+   "preview": "  asset."
+  },
+  {
+   "kind": "added",
+   "block": "dda9b77a",
+   "type": "list",
+   "context": "Master deliverables",
+   "preview": "- Poster frame, social stills, and a lightweight GIF for REA"
+  },
+  {
+   "kind": "added",
+   "block": "e34e26be",
+   "type": "para",
+   "context": "Master deliverables",
+   "preview": "  `proofpress-dev`; only finished public assets move to `pro"
+  },
+  {
+   "kind": "added",
+   "block": "eeefc672",
+   "type": "heading",
+   "context": "Storyboard",
+   "preview": "### Storyboard"
+  },
+  {
+   "kind": "added",
+   "block": "a2f2e256",
+   "type": "list",
+   "context": "Storyboard",
+   "preview": "1. **0–6s — hook:** “An agent rewrote this design doc. Git k"
+  },
+  {
+   "kind": "added",
+   "block": "2ced2d0e",
+   "type": "para",
+   "context": "Storyboard",
+   "preview": "   kept the reasons. Neither travels with the file.”"
+  },
+  {
+   "kind": "added",
+   "block": "5083cfe9",
+   "type": "list",
+   "context": "Storyboard",
+   "preview": "2. **6–17s — admission:** show a real accepted revision with"
+  },
+  {
+   "kind": "added",
+   "block": "4fc82063",
+   "type": "para",
+   "context": "Storyboard",
+   "preview": "   reason, and claims."
+  },
+  {
+   "kind": "added",
+   "block": "122d3df3",
+   "type": "list",
+   "context": "Storyboard",
+   "preview": "3. **17–29s — compression:** turn a wall of line noise into "
+  },
+  {
+   "kind": "added",
+   "block": "3e3b4835",
+   "type": "para",
+   "context": "Storyboard",
+   "preview": "   facts: moved, rewritten, and a numeric delta; visibly ver"
+  },
+  {
+   "kind": "added",
+   "block": "2d0876b1",
+   "type": "list",
+   "context": "Storyboard",
+   "preview": "4. **29–43s — money moment:** copy the artifact into a clean"
+  },
+  {
+   "kind": "added",
+   "block": "27e32f0b",
+   "type": "para",
+   "context": "Storyboard",
+   "preview": "   `inspect` and `import`, and reveal the same portable hist"
+  },
+  {
+   "kind": "added",
+   "block": "c11404e5",
+   "type": "list",
+   "context": "Storyboard",
+   "preview": "5. **43–51s — boundary:** alter the body or discovery transp"
+  },
+  {
+   "kind": "added",
+   "block": "8031618e",
+   "type": "para",
+   "context": "Storyboard",
+   "preview": "   verification fail honestly."
+  },
+  {
+   "kind": "added",
+   "block": "38081b52",
+   "type": "list",
+   "context": "Storyboard",
+   "preview": "6. **51–60s — close:** “Agents produce. You decide. The arti"
+  },
+  {
+   "kind": "added",
+   "block": "68c64ed6",
+   "type": "para",
+   "context": "Storyboard",
+   "preview": "   End on the public repository and the canonical npm `next`"
+  },
+  {
+   "kind": "added",
+   "block": "86e26f8e",
+   "type": "heading",
+   "context": "Production approach",
+   "preview": "### Production approach"
+  },
+  {
+   "kind": "added",
+   "block": "4fe99fd5",
+   "type": "para",
+   "context": "Production approach",
+   "preview": "Use Remotion as the master composition because typography, t"
+  },
+  {
+   "kind": "added",
+   "block": "33fcab5b",
+   "type": "para",
+   "context": "Production approach",
+   "preview": "Use Higgsfield/Seedance only for optional 4–8 second atmosph"
+  },
+  {
+   "kind": "added",
+   "block": "ab3b4952",
+   "type": "para",
+   "context": "Production approach",
+   "preview": "The master must work without narration. Begin with kinetic t"
+  },
+  {
+   "kind": "added",
+   "block": "afb05481",
+   "type": "heading",
+   "context": "Tool and skill research",
+   "preview": "### Tool and skill research"
+  },
+  {
+   "kind": "added",
+   "block": "63a4fbc4",
+   "type": "list",
+   "context": "Tool and skill research",
+   "preview": "- [`remotion-dev/skills`](https://github.com/remotion-dev/sk"
+  },
+  {
+   "kind": "added",
+   "block": "bd93b18e",
+   "type": "para",
+   "context": "Tool and skill research",
+   "preview": "  preferred production skill set. It is maintained by the Re"
+  },
+  {
+   "kind": "added",
+   "block": "d8dba72a",
+   "type": "list",
+   "context": "Tool and skill research",
+   "preview": "- [`bradautomates/claude-video`](https://github.com/bradauto"
+  },
+  {
+   "kind": "added",
+   "block": "bcf8b182",
+   "type": "para",
+   "context": "Tool and skill research",
+   "preview": "  is a useful analysis and QA assistant, not a renderer. Its"
+  },
+  {
+   "kind": "added",
+   "block": "75224554",
+   "type": "list",
+   "context": "Tool and skill research",
+   "preview": "- [`new-xp/ultrademo`](https://github.com/new-xp/ultrademo) "
+  },
+  {
+   "kind": "added",
+   "block": "1cf1c05f",
+   "type": "para",
+   "context": "Tool and skill research",
+   "preview": "  Playwright → narration → Remotion pipeline with strong evi"
+  },
+  {
+   "kind": "added",
+   "block": "3cb83197",
+   "type": "list",
+   "context": "Tool and skill research",
+   "preview": "- The existing `higgsfield-generate` capability is sufficien"
+  },
+  {
+   "kind": "added",
+   "block": "bf47be17",
+   "type": "para",
+   "context": "Tool and skill research",
+   "preview": "  Seedance shots and final attention analysis. Prompts shoul"
+  },
+  {
+   "kind": "added",
+   "block": "8facc150",
+   "type": "para",
+   "context": "Tool and skill research",
+   "preview": "No third-party skill is approved for installation by this re"
+  },
+  {
+   "kind": "added",
+   "block": "747858cf",
+   "type": "heading",
+   "context": "Film approval gates",
+   "preview": "### Film approval gates"
+  },
+  {
+   "kind": "added",
+   "block": "6ebb961e",
+   "type": "list",
+   "context": "Film approval gates",
+   "preview": "- The hook and close are understandable in a silent first wa"
+  },
+  {
+   "kind": "added",
+   "block": "d9c59f0c",
+   "type": "para",
+   "context": "Film approval gates",
+   "preview": "  path, or private repository appears in-frame."
+  },
+  {
+   "kind": "added",
+   "block": "3903ec72",
+   "type": "list",
+   "context": "Film approval gates",
+   "preview": "- Terminal text remains legible at X playback size.\n- The mo"
+  },
+  {
+   "kind": "added",
+   "block": "ce7286aa",
+   "type": "heading",
+   "context": "Launch readiness gates",
+   "preview": "## Launch readiness gates"
+  },
+  {
+   "kind": "added",
+   "block": "801f70c7",
+   "type": "heading",
+   "context": "Product and release",
+   "preview": "### Product and release"
+  },
+  {
+   "kind": "added",
+   "block": "be6ae3ae",
+   "type": "list",
+   "context": "Product and release",
+   "preview": "- Public repository contains only approved files and a clean"
+  },
+  {
+   "kind": "added",
+   "block": "1afe77a6",
+   "type": "heading",
+   "context": "Narrative and conversion",
+   "preview": "### Narrative and conversion"
+  },
+  {
+   "kind": "added",
+   "block": "1ee3f693",
+   "type": "list",
+   "context": "Narrative and conversion",
+   "preview": "- README communicates problem, proof, install, portable hand"
+  },
+  {
+   "kind": "added",
+   "block": "ab5a2a21",
+   "type": "para",
+   "context": "Narrative and conversion",
+   "preview": "  in the first reading path."
+  },
+  {
+   "kind": "added",
+   "block": "036acdf0",
+   "type": "list",
+   "context": "Narrative and conversion",
+   "preview": "- Film, README, release notes, npm page, and channel copy us"
+  },
+  {
+   "kind": "added",
+   "block": "f6fed1d2",
+   "type": "para",
+   "context": "Narrative and conversion",
+   "preview": "  positioning."
+  },
+  {
+   "kind": "added",
+   "block": "e9dccb03",
+   "type": "list",
+   "context": "Narrative and conversion",
+   "preview": "- The end-to-end demo requires no signup and completes in un"
+  },
+  {
+   "kind": "added",
+   "block": "c33c6a99",
+   "type": "para",
+   "context": "Narrative and conversion",
+   "preview": "  stripping, prompt injection concerns, and scope outside Ma"
+  },
+  {
+   "kind": "added",
+   "block": "39d8e9d2",
+   "type": "heading",
+   "context": "Operations",
+   "preview": "### Operations"
+  },
+  {
+   "kind": "added",
+   "block": "9b15ad53",
+   "type": "list",
+   "context": "Operations",
+   "preview": "- Launch-day owner can monitor GitHub Issues, X, HN, npm, an"
+  },
+  {
+   "kind": "added",
+   "block": "27430797",
+   "type": "heading",
+   "context": "Success measures",
+   "preview": "## Success measures"
+  },
+  {
+   "kind": "added",
+   "block": "6ae5dde3",
+   "type": "para",
+   "context": "Success measures",
+   "preview": "Primary first-week outcomes:"
+  },
+  {
+   "kind": "added",
+   "block": "e24a3d06",
+   "type": "list",
+   "context": "Success measures",
+   "preview": "- 10 unfamiliar developers complete installation.\n- 5 comple"
+  },
+  {
+   "kind": "added",
+   "block": "b28d163c",
+   "type": "para",
+   "context": "Success measures",
+   "preview": "  proposal is received."
+  },
+  {
+   "kind": "added",
+   "block": "e640b129",
+   "type": "para",
+   "context": "Success measures",
+   "preview": "Secondary distribution measures include GitHub traffic, star"
+  },
+  {
+   "kind": "added",
+   "block": "8ce322e8",
+   "type": "heading",
+   "context": "Repository promotion flow",
+   "preview": "## Repository promotion flow"
+  },
+  {
+   "kind": "added",
+   "block": "19624df8",
+   "type": "para",
+   "context": "Repository promotion flow",
+   "preview": "`proofpress-dev` is the private working source. Feature work"
+  },
+  {
+   "kind": "added",
+   "block": "fa87ca5a",
+   "type": "para",
+   "context": "Repository promotion flow",
+   "preview": "Accepted external contributions begin in the public reposito"
+  },
+  {
+   "kind": "added",
+   "block": "7eb0a6b9",
+   "type": "heading",
+   "context": "Planned companion documents",
+   "preview": "## Planned companion documents"
+  },
+  {
+   "kind": "added",
+   "block": "9a5f6bc0",
+   "type": "list",
+   "context": "Planned companion documents",
+   "preview": "- `launch-readiness-checklist.md`\n- `communications-kit.md`\n"
+  },
+  {
+   "kind": "added",
+   "block": "cfc17f0f",
+   "type": "para",
+   "context": "Planned companion documents",
+   "preview": "Create these when their workstream begins. Until then, this "
+  },
+  {
+   "kind": "added",
+   "block": "3787cf16",
+   "type": "heading",
+   "context": "Immediate next actions",
+   "preview": "## Immediate next actions"
+  },
+  {
+   "kind": "added",
+   "block": "31712d31",
+   "type": "list",
+   "context": "Immediate next actions",
+   "preview": "1. Lock the film hook, money moment, close, duration, aspect"
+  },
+  {
+   "kind": "added",
+   "block": "b0f34f2f",
+   "type": "para",
+   "context": "Immediate next actions",
+   "preview": "   design."
+  },
+  {
+   "kind": "added",
+   "block": "0bb438fe",
+   "type": "list",
+   "context": "Immediate next actions",
+   "preview": "2. Install or locally reference the selected Remotion skill "
+  },
+  {
+   "kind": "added",
+   "block": "f996a436",
+   "type": "para",
+   "context": "Immediate next actions",
+   "preview": "   license and dependency behavior are approved."
+  },
+  {
+   "kind": "added",
+   "block": "a5c4d0fe",
+   "type": "list",
+   "context": "Immediate next actions",
+   "preview": "3. Build a low-fidelity storyboard and silent animatic befor"
+  },
+  {
+   "kind": "added",
+   "block": "6b705095",
+   "type": "para",
+   "context": "Immediate next actions",
+   "preview": "   footage or recording final terminal scenes."
+  },
+  {
+   "kind": "added",
+   "block": "e6a26a70",
+   "type": "list",
+   "context": "Immediate next actions",
+   "preview": "4. Validate each CLI beat against the current implementation"
+  },
+  {
+   "kind": "added",
+   "block": "bde94150",
+   "type": "para",
+   "context": "Immediate next actions",
+   "preview": "   canonical output from a disposable demo repository."
+  },
+  {
+   "kind": "added",
+   "block": "22d04229",
+   "type": "list",
+   "context": "Immediate next actions",
+   "preview": "5. Review the animatic, then produce sound, captions, derive"
+  },
+  {
+   "kind": "added",
+   "block": "69024c76",
+   "type": "para",
+   "context": "Immediate next actions",
+   "preview": "   frame-by-frame QA."
+  },
+  {
+   "kind": "added",
+   "block": "132c2050",
+   "type": "list",
+   "context": "Immediate next actions",
+   "preview": "6. Resume public-repository logistics after the film narrati"
+  },
+  {
+   "kind": "added",
+   "block": "3757fc8d",
+   "type": "para",
+   "context": "Immediate next actions",
+   "preview": "   public README and release surface inherit the same messag"
+  },
+  {
+   "kind": "added",
+   "block": "3d707aa9",
+   "type": "heading",
+   "context": "References",
+   "preview": "## References"
+  },
+  {
+   "kind": "added",
+   "block": "b5f95aa5",
+   "type": "list",
+   "context": "References",
+   "preview": "- [Show HN Guidelines](https://news.ycombinator.com/showhn.h"
   }
  ],
  "policy": "local",
+ "soft_fingerprint": "ppsb1:c9664a05dfe49538650ee6d943da00d3190d08e3d99ab7f2846990d900792f86",
  "actors": {
   "requested_by": [
-   "Richard"
+   "Richard Tang"
   ],
   "produced_by": [
    "codex"
@@ -40,12 +910,507 @@
  "attribution_basis": "harness_attested",
  "claims": [
   {
-   "block": "839fc8a1",
-   "kind": "modified",
-   "note": "distinguishes the readable marker fields from package coordinates stored in the capsule"
+   "block": "04b3a1ef",
+   "kind": "added"
+  },
+  {
+   "block": "45543a07",
+   "kind": "added"
+  },
+  {
+   "block": "f0c5eab5",
+   "kind": "added"
+  },
+  {
+   "block": "5abf00a0",
+   "kind": "added"
+  },
+  {
+   "block": "174dceb9",
+   "kind": "added"
+  },
+  {
+   "block": "c85915b4",
+   "kind": "added"
+  },
+  {
+   "block": "dcd14722",
+   "kind": "added"
+  },
+  {
+   "block": "bc8c55b6",
+   "kind": "added"
+  },
+  {
+   "block": "2d06ade6",
+   "kind": "added"
+  },
+  {
+   "block": "891fd11e",
+   "kind": "added"
+  },
+  {
+   "block": "1148d758",
+   "kind": "added"
+  },
+  {
+   "block": "411fd219",
+   "kind": "added"
+  },
+  {
+   "block": "58c8755b",
+   "kind": "added"
+  },
+  {
+   "block": "24684d4d",
+   "kind": "added"
+  },
+  {
+   "block": "eae2ec33",
+   "kind": "added"
+  },
+  {
+   "block": "a00af086",
+   "kind": "added"
+  },
+  {
+   "block": "8598f5d0",
+   "kind": "added"
+  },
+  {
+   "block": "be5049da",
+   "kind": "added"
+  },
+  {
+   "block": "186385a9",
+   "kind": "added"
+  },
+  {
+   "block": "e1bf5b7b",
+   "kind": "added"
+  },
+  {
+   "block": "cafc050d",
+   "kind": "added"
+  },
+  {
+   "block": "7bf8d19f",
+   "kind": "added"
+  },
+  {
+   "block": "7d414d61",
+   "kind": "added"
+  },
+  {
+   "block": "6d82c70e",
+   "kind": "added"
+  },
+  {
+   "block": "abfe9a8b",
+   "kind": "added"
+  },
+  {
+   "block": "c064a2fa",
+   "kind": "added"
+  },
+  {
+   "block": "9b57452c",
+   "kind": "added"
+  },
+  {
+   "block": "0ace1242",
+   "kind": "added"
+  },
+  {
+   "block": "84642512",
+   "kind": "added"
+  },
+  {
+   "block": "779f988c",
+   "kind": "added"
+  },
+  {
+   "block": "b55a0deb",
+   "kind": "added"
+  },
+  {
+   "block": "ca4b7aa9",
+   "kind": "added"
+  },
+  {
+   "block": "eb86c114",
+   "kind": "added"
+  },
+  {
+   "block": "8eea6889",
+   "kind": "added"
+  },
+  {
+   "block": "69bdc3d5",
+   "kind": "added"
+  },
+  {
+   "block": "7025c593",
+   "kind": "added"
+  },
+  {
+   "block": "4831f28f",
+   "kind": "added"
+  },
+  {
+   "block": "4be3f2f5",
+   "kind": "added"
+  },
+  {
+   "block": "6dccd609",
+   "kind": "added"
+  },
+  {
+   "block": "709b9d10",
+   "kind": "added"
+  },
+  {
+   "block": "52701d45",
+   "kind": "added"
+  },
+  {
+   "block": "0af1b134",
+   "kind": "added"
+  },
+  {
+   "block": "7448800c",
+   "kind": "added"
+  },
+  {
+   "block": "4157e32f",
+   "kind": "added"
+  },
+  {
+   "block": "755fa1eb",
+   "kind": "added"
+  },
+  {
+   "block": "f4cabbc8",
+   "kind": "added"
+  },
+  {
+   "block": "0629a4cb",
+   "kind": "added"
+  },
+  {
+   "block": "6bca960a",
+   "kind": "added"
+  },
+  {
+   "block": "c5f9e28c",
+   "kind": "added"
+  },
+  {
+   "block": "89b936f6",
+   "kind": "added"
+  },
+  {
+   "block": "2f9e8f03",
+   "kind": "added"
+  },
+  {
+   "block": "93862d2e",
+   "kind": "added"
+  },
+  {
+   "block": "48bdbeb2",
+   "kind": "added"
+  },
+  {
+   "block": "d6be82fa",
+   "kind": "added"
+  },
+  {
+   "block": "dda9b77a",
+   "kind": "added"
+  },
+  {
+   "block": "e34e26be",
+   "kind": "added"
+  },
+  {
+   "block": "eeefc672",
+   "kind": "added"
+  },
+  {
+   "block": "a2f2e256",
+   "kind": "added"
+  },
+  {
+   "block": "2ced2d0e",
+   "kind": "added"
+  },
+  {
+   "block": "5083cfe9",
+   "kind": "added"
+  },
+  {
+   "block": "4fc82063",
+   "kind": "added"
+  },
+  {
+   "block": "122d3df3",
+   "kind": "added"
+  },
+  {
+   "block": "3e3b4835",
+   "kind": "added"
+  },
+  {
+   "block": "2d0876b1",
+   "kind": "added"
+  },
+  {
+   "block": "27e32f0b",
+   "kind": "added"
+  },
+  {
+   "block": "c11404e5",
+   "kind": "added"
+  },
+  {
+   "block": "8031618e",
+   "kind": "added"
+  },
+  {
+   "block": "38081b52",
+   "kind": "added"
+  },
+  {
+   "block": "68c64ed6",
+   "kind": "added"
+  },
+  {
+   "block": "86e26f8e",
+   "kind": "added"
+  },
+  {
+   "block": "4fe99fd5",
+   "kind": "added"
+  },
+  {
+   "block": "33fcab5b",
+   "kind": "added"
+  },
+  {
+   "block": "ab3b4952",
+   "kind": "added"
+  },
+  {
+   "block": "afb05481",
+   "kind": "added"
+  },
+  {
+   "block": "63a4fbc4",
+   "kind": "added"
+  },
+  {
+   "block": "bd93b18e",
+   "kind": "added"
+  },
+  {
+   "block": "d8dba72a",
+   "kind": "added"
+  },
+  {
+   "block": "bcf8b182",
+   "kind": "added"
+  },
+  {
+   "block": "75224554",
+   "kind": "added"
+  },
+  {
+   "block": "1cf1c05f",
+   "kind": "added"
+  },
+  {
+   "block": "3cb83197",
+   "kind": "added"
+  },
+  {
+   "block": "bf47be17",
+   "kind": "added"
+  },
+  {
+   "block": "8facc150",
+   "kind": "added"
+  },
+  {
+   "block": "747858cf",
+   "kind": "added"
+  },
+  {
+   "block": "6ebb961e",
+   "kind": "added"
+  },
+  {
+   "block": "d9c59f0c",
+   "kind": "added"
+  },
+  {
+   "block": "3903ec72",
+   "kind": "added"
+  },
+  {
+   "block": "ce7286aa",
+   "kind": "added"
+  },
+  {
+   "block": "801f70c7",
+   "kind": "added"
+  },
+  {
+   "block": "be6ae3ae",
+   "kind": "added"
+  },
+  {
+   "block": "1afe77a6",
+   "kind": "added"
+  },
+  {
+   "block": "1ee3f693",
+   "kind": "added"
+  },
+  {
+   "block": "ab5a2a21",
+   "kind": "added"
+  },
+  {
+   "block": "036acdf0",
+   "kind": "added"
+  },
+  {
+   "block": "f6fed1d2",
+   "kind": "added"
+  },
+  {
+   "block": "e9dccb03",
+   "kind": "added"
+  },
+  {
+   "block": "c33c6a99",
+   "kind": "added"
+  },
+  {
+   "block": "39d8e9d2",
+   "kind": "added"
+  },
+  {
+   "block": "9b15ad53",
+   "kind": "added"
+  },
+  {
+   "block": "27430797",
+   "kind": "added"
+  },
+  {
+   "block": "6ae5dde3",
+   "kind": "added"
+  },
+  {
+   "block": "e24a3d06",
+   "kind": "added"
+  },
+  {
+   "block": "b28d163c",
+   "kind": "added"
+  },
+  {
+   "block": "e640b129",
+   "kind": "added"
+  },
+  {
+   "block": "8ce322e8",
+   "kind": "added"
+  },
+  {
+   "block": "19624df8",
+   "kind": "added"
+  },
+  {
+   "block": "fa87ca5a",
+   "kind": "added"
+  },
+  {
+   "block": "7eb0a6b9",
+   "kind": "added"
+  },
+  {
+   "block": "9a5f6bc0",
+   "kind": "added"
+  },
+  {
+   "block": "cfc17f0f",
+   "kind": "added"
+  },
+  {
+   "block": "3787cf16",
+   "kind": "added"
+  },
+  {
+   "block": "31712d31",
+   "kind": "added"
+  },
+  {
+   "block": "b0f34f2f",
+   "kind": "added"
+  },
+  {
+   "block": "0bb438fe",
+   "kind": "added"
+  },
+  {
+   "block": "f996a436",
+   "kind": "added"
+  },
+  {
+   "block": "a5c4d0fe",
+   "kind": "added"
+  },
+  {
+   "block": "6b705095",
+   "kind": "added"
+  },
+  {
+   "block": "e6a26a70",
+   "kind": "added"
+  },
+  {
+   "block": "bde94150",
+   "kind": "added"
+  },
+  {
+   "block": "22d04229",
+   "kind": "added"
+  },
+  {
+   "block": "69024c76",
+   "kind": "added"
+  },
+  {
+   "block": "132c2050",
+   "kind": "added"
+  },
+  {
+   "block": "3757fc8d",
+   "kind": "added"
+  },
+  {
+   "block": "3d707aa9",
+   "kind": "added"
+  },
+  {
+   "block": "b5f95aa5",
+   "kind": "added"
   }
  ],
  "context": {
-  "why": "keep the public explanation exactly aligned with the implemented carrier and capsule schema"
+  "why": "Richard requested a canonical internal plan for public-repository logistics, launch-week marketing, and film-first production; research selected a deterministic Remotion-led workflow with optional generated footage and explicit QA gates."
  }
 }
