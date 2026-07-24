@@ -1,8 +1,8 @@
 {
  "event": "version_created",
- "artifact": "docs/internal/launch/film/videos/proofpress-x-launch/capture/extracted/asset-descriptions.md",
- "artifact_id": "pp_5982139dcd45de6d5207f23a",
- "version": "c61d426b",
+ "artifact": "docs/internal/launch/film/videos/proofpress-x-launch/storyboard-static/index.html",
+ "artifact_id": "pp_7822e5da6f97df995e3eced4",
+ "version": "b79f818e",
  "parent": null,
  "author": {
   "name": "unknown",
@@ -10,35 +10,63 @@
   "session": null
  },
  "note": null,
- "ts": "2026-07-24T09:21:22+00:00",
+ "ts": "2026-07-24T09:50:13+00:00",
  "stats": {
-  "added": 3
+  "added": 7
  },
  "changes": [
   {
    "kind": "added",
-   "block": "b01d7684",
+   "block": "ae244598",
    "type": "heading",
-   "context": "Asset inventory",
-   "preview": "# Asset inventory"
+   "context": "<h1 class=\"headline\" data-story-id=\"laun",
+   "preview": "<h1 class=\"headline\" data-story-id=\"launch-film-category-cop"
   },
   {
    "kind": "added",
-   "block": "b08884da",
-   "type": "list",
-   "context": "Asset inventory",
-   "preview": "- `assets/logo.svg` — canonical Proofpress page outline with"
-  },
-  {
-   "kind": "added",
-   "block": "fa5af96b",
+   "block": "e03e2d41",
    "type": "para",
-   "context": "Asset inventory",
-   "preview": "No website or legacy launch-demo assets were captured. The f"
+   "context": "<h1 class=\"headline\" data-story-id=\"laun",
+   "preview": "<p class=\"support\" data-story-id=\"launch-film-category-posit"
+  },
+  {
+   "kind": "added",
+   "block": "2cff6956",
+   "type": "heading",
+   "context": "<h2 class=\"headline\" data-story-id=\"laun",
+   "preview": "<h2 class=\"headline\" data-story-id=\"launch-film-file-travels"
+  },
+  {
+   "kind": "added",
+   "block": "8845a71e",
+   "type": "heading",
+   "context": "<h2 class=\"headline\" data-story-id=\"laun",
+   "preview": "<h2 class=\"headline\" data-story-id=\"launch-film-decision-tra"
+  },
+  {
+   "kind": "added",
+   "block": "a5f45345",
+   "type": "heading",
+   "context": "<h2 class=\"headline\" data-story-id=\"laun",
+   "preview": "<h2 class=\"headline\" data-story-id=\"launch-film-portable-led"
+  },
+  {
+   "kind": "added",
+   "block": "7344ab08",
+   "type": "heading",
+   "context": "<h2 class=\"headline\" data-story-id=\"laun",
+   "preview": "<h2 class=\"headline\" data-story-id=\"launch-film-trust-bounda"
+  },
+  {
+   "kind": "added",
+   "block": "42d2f7b7",
+   "type": "heading",
+   "context": "<h2 class=\"headline\" data-story-id=\"laun",
+   "preview": "<h2 class=\"headline\" data-story-id=\"launch-film-portable-han"
   }
  ],
  "policy": "local",
- "soft_fingerprint": "ppsb1:86278e12b033be0140bcf393e4595c244f8be1844adb7489861008a4c9e0f878",
+ "soft_fingerprint": "ppsb1:94cc33d0c51879178c772948dad1534e09fbcd2288f61ca251e7cba758a47a48",
  "actors": {
   "requested_by": [
    "Richard Tang"
@@ -56,22 +84,45 @@
  "attribution_basis": "harness_attested",
  "claims": [
   {
-   "block": "b01d7684",
+   "block": "ae244598",
    "kind": "added",
-   "note": "Defined the internal launch-film asset inventory."
+   "note": "Introduces Proofpress as the launch subject in mobile-scale type."
   },
   {
-   "block": "b08884da",
+   "block": "e03e2d41",
    "kind": "added",
-   "note": "Recorded the canonical mark and anonymized real ledger fixture."
+   "note": "States the locked category: the open trust layer for multiplayer AI."
   },
   {
-   "block": "fa5af96b",
+   "block": "2cff6956",
    "kind": "added",
-   "note": "Recorded that no legacy demo or website assets were reused."
+   "note": "Makes the artifact handoff concrete: the file travels."
+  },
+  {
+   "block": "8845a71e",
+   "kind": "added",
+   "note": "States the handoff gap: the decision trail stays behind."
+  },
+  {
+   "block": "a5f45345",
+   "kind": "added",
+   "note": "Reveals the portable ledger as the product answer."
+  },
+  {
+   "block": "7344ab08",
+   "kind": "added",
+   "note": "Separates attributed context from artifact-checked change claims."
+  },
+  {
+   "block": "42d2f7b7",
+   "kind": "added",
+   "note": "States the portable-proof consequence: the ledger moves with the artifact."
   }
  ],
  "context": {
-  "why": "Document the exact local assets and anonymized real fixture used by the launch-film motion tests."
+  "why": "Reframed the launch film as a mobile-first seven-frame Living Lineage storyboard so each core claim stays readable in the X feed before motion is added.",
+  "rejected": [
+   "Animate the full film before approving static keyframes — mobile X legibility must be proven first."
+  ]
  }
 }
