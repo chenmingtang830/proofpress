@@ -1,10 +1,10 @@
-name: Stage npm release
+name: Publish npm release
 
 on:
   workflow_dispatch:
     inputs:
       npm-tag:
-        description: npm dist-tag for the staged version
+        description: npm dist-tag for the published version
         required: true
         default: next
         type: choice
@@ -35,7 +35,9 @@ jobs:
       - name: Test package
         run: npm test
 
-      - name: Stage package for human approval
+      # The human gate is the manual workflow_dispatch itself; publishing
+      # authenticates via npm OIDC trusted publishing (id-token above).
+      - name: Publish
         env:
           NPM_TAG: ${{ inputs.npm-tag }}
-        run: npm stage publish --tag "$NPM_TAG"
+        run: npm publish --tag "$NPM_TAG"
