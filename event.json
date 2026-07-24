@@ -1,35 +1,35 @@
 {
  "event": "version_created",
- "artifact": "docs/internal/launch/README.md",
- "artifact_id": "pp_fc140b7b208f2d17adbfc132",
- "version": "43d7b896",
- "parent": "ec6e02fe",
+ "artifact": "docs/internal/launch/x-launch.md",
+ "artifact_id": "pp_5c19a32e9dea0da4c55aae96",
+ "version": "c44126d9",
+ "parent": "47152267",
  "author": {
   "name": "codex",
   "kind": "agent",
   "session": null
  },
  "note": null,
- "ts": "2026-07-24T20:32:28+00:00",
+ "ts": "2026-07-24T20:32:30+00:00",
  "stats": {
-  "modified": 2
+  "modified": 1
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "38081b52",
-   "type": "list",
-   "context": "Storyboard"
-  },
-  {
-   "kind": "modified",
-   "block": "68c64ed6",
+   "block": "46ea7b3d",
    "type": "para",
-   "context": "Storyboard"
+   "context": "Video alt text",
+   "numbers": [
+    [
+     "20",
+     "22"
+    ]
+   ]
   }
  ],
  "policy": "local",
- "soft_fingerprint": "ppsb1:97d1abd37d3d4287a1be10e2fb07008296969f76bcbd90e4b14ef4d1ae6281e4",
+ "soft_fingerprint": "ppsb1:69923673f2a7d77217f5b9f78f34f9fb0d2fbf4ee85f7b5962332821ea377125",
  "actors": {
   "requested_by": [
    "richard-tang"
@@ -47,15 +47,11 @@
  "attribution_basis": "harness_attested",
  "claims": [
   {
-   "block": "38081b52",
-   "kind": "modified"
-  },
-  {
-   "block": "68c64ed6",
+   "block": "46ea7b3d",
    "kind": "modified"
   }
  ],
  "context": {
-  "why": "removed the stale film close and npm call to action so the long-form launch brief uses the final vision close"
+  "why": "aligned video alt text to the final category lockup, vision bridge, and open-source close"
  }
 }
