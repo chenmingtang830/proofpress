@@ -1,56 +1,170 @@
 {
  "event": "version_created",
- "artifact": "docs/internal/launch/vision-article.md",
- "artifact_id": "pp_76fe7cb5fb383d8b919767a8",
- "version": "75212846",
- "parent": "7f74bf76",
+ "artifact": "docs/internal/decision_strategy/PORTABLE_ARTIFACT_STRATEGY.md",
+ "artifact_id": "pp_5a7bb2c2b26051ae1d359850",
+ "version": "623383c8",
+ "parent": "8051e906",
  "author": {
   "name": "codex",
   "kind": "agent",
   "session": null
  },
  "note": null,
- "ts": "2026-07-24T20:29:20+00:00",
+ "ts": "2026-07-24T20:29:21+00:00",
  "stats": {
-  "modified": 3,
-  "added": 2
+  "modified": 15,
+  "added": 8
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "62056da6",
-   "type": "para",
-   "context": "Git Made Code Collaborative. Proofpress "
-  },
-  {
-   "kind": "added",
-   "block": "239ad15c",
-   "type": "para",
-   "context": "Git Made Code Collaborative. Proofpress ",
-   "preview": "Proofpress is the trust layer for multiplayer AI: an open, a"
+   "block": "8b5401f3",
+   "type": "heading",
+   "context": "Proofpress：The Trust Layer for Multiplay"
   },
   {
    "kind": "modified",
-   "block": "68e80b69",
+   "block": "73767b8c",
    "type": "para",
-   "context": "What Proofpress is building"
+   "context": "结论先行"
   },
   {
    "kind": "added",
-   "block": "08a6f5fa",
+   "block": "a21cb58f",
    "type": "para",
-   "context": "What Proofpress is building",
-   "preview": "Think C2PA, but for knowledge work. The analogy is about a p"
+   "context": "结论先行",
+   "preview": "这两句构成不可拆分的 launch lockup。第一句负责建立 category 和行业反应，第二句立即把边界收回到 "
   },
   {
    "kind": "modified",
-   "block": "3f992b85",
+   "block": "d121cc64",
    "type": "para",
-   "context": "Make knowledge cumulative"
+   "context": "结论先行"
+  },
+  {
+   "kind": "added",
+   "block": "08b9410a",
+   "type": "para",
+   "context": "结论先行",
+   "preview": "> **Think C2PA, but for knowledge work.**"
+  },
+  {
+   "kind": "added",
+   "block": "78fba10d",
+   "type": "para",
+   "context": "结论先行",
+   "preview": "这是 category analogy，不是 C2PA compatibility、signed authorship "
+  },
+  {
+   "kind": "modified",
+   "block": "83f1b648",
+   "type": "para",
+   "context": "结论先行"
+  },
+  {
+   "kind": "modified",
+   "block": "503ff810",
+   "type": "para",
+   "context": "结论先行"
+  },
+  {
+   "kind": "modified",
+   "block": "83cce7ec",
+   "type": "para",
+   "context": "2.4 收敛后的定位"
+  },
+  {
+   "kind": "modified",
+   "block": "5650d69a",
+   "type": "code",
+   "context": "2.4 收敛后的定位"
+  },
+  {
+   "kind": "modified",
+   "block": "89ab03b4",
+   "type": "para",
+   "context": "2.4 收敛后的定位"
+  },
+  {
+   "kind": "modified",
+   "block": "236f9c31",
+   "type": "table",
+   "context": "3. 为什么必须是 artifact-native ledger"
+  },
+  {
+   "kind": "modified",
+   "block": "d47d8767",
+   "type": "table",
+   "context": "6. Verification、capture 与人工编辑"
+  },
+  {
+   "kind": "modified",
+   "block": "80cf71e9",
+   "type": "table",
+   "context": "8. 相邻品类与竞争边界"
+  },
+  {
+   "kind": "modified",
+   "block": "b913ff70",
+   "type": "para",
+   "context": "9. 当前实现差距"
+  },
+  {
+   "kind": "modified",
+   "block": "11e7b5e6",
+   "type": "para",
+   "context": "12. 对 Launch 的影响"
+  },
+  {
+   "kind": "added",
+   "block": "15e39fc1",
+   "type": "para",
+   "context": "12. 对 Launch 的影响",
+   "preview": "Canonical launch lockup："
+  },
+  {
+   "kind": "added",
+   "block": "b34288a8",
+   "type": "para",
+   "context": "12. 对 Launch 的影响",
+   "preview": "> **Introducing Proofpress.**\n>\n> **The trust layer for mult"
+  },
+  {
+   "kind": "added",
+   "block": "e0ae8a1f",
+   "type": "para",
+   "context": "12. 对 Launch 的影响",
+   "preview": "硬规则：`The trust layer for multiplayer AI` 不作为独立 tagline 对外出现。"
+  },
+  {
+   "kind": "added",
+   "block": "5ce69117",
+   "type": "para",
+   "context": "12. 对 Launch 的影响",
+   "preview": "> **Think C2PA, but for knowledge work.**"
+  },
+  {
+   "kind": "added",
+   "block": "409c81bb",
+   "type": "para",
+   "context": "12. 对 Launch 的影响",
+   "preview": "`C2PA for knowledge work` 是架构与方向类比，不是当前密码学保证的等价声明。C2PA 的签名 m"
+  },
+  {
+   "kind": "modified",
+   "block": "ce98c0cf",
+   "type": "para",
+   "context": "13. 最终判断"
+  },
+  {
+   "kind": "modified",
+   "block": "5f794662",
+   "type": "code",
+   "context": "13. 最终判断"
   }
  ],
  "policy": "local",
- "soft_fingerprint": "ppsb1:8f8d83373b6251826bf1f543f3ca196a15f710999b21dad73798e611353ebde0",
+ "soft_fingerprint": "ppsb1:a23f6ff4a7cb471fb765a577fbf3be15e2a9f749312d3f7e33b0fbdfa0b1e2a3",
  "actors": {
   "requested_by": [
    "richard-tang"
@@ -68,27 +182,99 @@
  "attribution_basis": "harness_attested",
  "claims": [
   {
-   "block": "62056da6",
+   "block": "8b5401f3",
    "kind": "modified"
   },
   {
-   "block": "239ad15c",
-   "kind": "added"
-  },
-  {
-   "block": "68e80b69",
+   "block": "73767b8c",
    "kind": "modified"
   },
   {
-   "block": "08a6f5fa",
+   "block": "a21cb58f",
    "kind": "added"
   },
   {
-   "block": "3f992b85",
+   "block": "d121cc64",
+   "kind": "modified"
+  },
+  {
+   "block": "08b9410a",
+   "kind": "added"
+  },
+  {
+   "block": "78fba10d",
+   "kind": "added"
+  },
+  {
+   "block": "83f1b648",
+   "kind": "modified"
+  },
+  {
+   "block": "503ff810",
+   "kind": "modified"
+  },
+  {
+   "block": "83cce7ec",
+   "kind": "modified"
+  },
+  {
+   "block": "5650d69a",
+   "kind": "modified"
+  },
+  {
+   "block": "89ab03b4",
+   "kind": "modified"
+  },
+  {
+   "block": "236f9c31",
+   "kind": "modified"
+  },
+  {
+   "block": "d47d8767",
+   "kind": "modified"
+  },
+  {
+   "block": "80cf71e9",
+   "kind": "modified"
+  },
+  {
+   "block": "b913ff70",
+   "kind": "modified"
+  },
+  {
+   "block": "11e7b5e6",
+   "kind": "modified"
+  },
+  {
+   "block": "15e39fc1",
+   "kind": "added"
+  },
+  {
+   "block": "b34288a8",
+   "kind": "added"
+  },
+  {
+   "block": "e0ae8a1f",
+   "kind": "added"
+  },
+  {
+   "block": "5ce69117",
+   "kind": "added"
+  },
+  {
+   "block": "409c81bb",
+   "kind": "added"
+  },
+  {
+   "block": "ce98c0cf",
+   "kind": "modified"
+  },
+  {
+   "block": "5f794662",
    "kind": "modified"
   }
  ],
  "context": {
-  "why": "aligned the founder article opening and product definition to the agreed launch lockup and honest C2PA analogy"
+  "why": "recorded the final positioning hierarchy, C2PA category analogy boundary, and cumulative-intelligence vision"
  }
 }
