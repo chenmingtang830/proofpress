@@ -1,92 +1,450 @@
 {
  "event": "version_created",
- "artifact": "docs/internal/launch/x-launch.md",
- "artifact_id": "pp_5c19a32e9dea0da4c55aae96",
- "version": "5e6e238b",
- "parent": "b3a0d270",
+ "artifact": "docs/internal/launch/vision-article.md",
+ "artifact_id": "pp_76fe7cb5fb383d8b919767a8",
+ "version": "7f74bf76",
+ "parent": null,
  "author": {
   "name": "codex",
   "kind": "agent",
   "session": null
  },
  "note": null,
- "ts": "2026-07-24T05:30:10+00:00",
+ "ts": "2026-07-24T08:00:30+00:00",
  "stats": {
-  "modified": 9,
-  "removed": 2
+  "added": 61
  },
  "changes": [
   {
-   "kind": "modified",
-   "block": "d8c123e5",
-   "type": "para",
-   "context": "Canonical launch post"
-  },
-  {
-   "kind": "modified",
-   "block": "01bbac2a",
+   "kind": "added",
+   "block": "82e7af4c",
    "type": "heading",
-   "context": "Reply 1 — what the handoff loses"
+   "context": "Git Made Code Collaborative. Proofpress ",
+   "preview": "# Git Made Code Collaborative. Proofpress Makes Intelligence"
   },
   {
-   "kind": "modified",
-   "block": "d5e07adc",
+   "kind": "added",
+   "block": "62056da6",
    "type": "para",
-   "context": "Reply 1 — what the handoff loses"
+   "context": "Git Made Code Collaborative. Proofpress ",
+   "preview": "> Toward cumulative, collective intelligence with verifiable"
   },
   {
-   "kind": "modified",
-   "block": "2eb60765",
+   "kind": "added",
+   "block": "fa14abc9",
+   "type": "para",
+   "context": "Git Made Code Collaborative. Proofpress ",
+   "preview": "Most documents are snapshots of the final state of thought."
+  },
+  {
+   "kind": "added",
+   "block": "f118f0f4",
+   "type": "para",
+   "context": "Git Made Code Collaborative. Proofpress ",
+   "preview": "We can read what an essay, strategy, research memo, legal br"
+  },
+  {
+   "kind": "added",
+   "block": "027eb27e",
+   "type": "para",
+   "context": "Git Made Code Collaborative. Proofpress ",
+   "preview": "The artifact survives. The history required to understand an"
+  },
+  {
+   "kind": "added",
+   "block": "eb46ddcb",
+   "type": "para",
+   "context": "Git Made Code Collaborative. Proofpress ",
+   "preview": "That was already a weakness in human knowledge work. Multipl"
+  },
+  {
+   "kind": "added",
+   "block": "b106e932",
+   "type": "para",
+   "context": "Git Made Code Collaborative. Proofpress ",
+   "preview": "Humans and agents increasingly work on the same artifacts ac"
+  },
+  {
+   "kind": "added",
+   "block": "b37f7b8c",
+   "type": "para",
+   "context": "Git Made Code Collaborative. Proofpress ",
+   "preview": "The next person or agent receives the output without the his"
+  },
+  {
+   "kind": "added",
+   "block": "05e16cc3",
    "type": "heading",
-   "context": "Reply 2 — from collaborative code to cum"
+   "context": "More AI output does not necessarily mean",
+   "preview": "## More AI output does not necessarily mean more knowledge"
   },
   {
-   "kind": "modified",
-   "block": "69bde4fe",
+   "kind": "added",
+   "block": "c6542959",
    "type": "para",
-   "context": "Reply 2 — from collaborative code to cum"
+   "context": "More AI output does not necessarily mean",
+   "preview": "AI is making the production of text, analysis, and decisions"
   },
   {
-   "kind": "modified",
-   "block": "2c6665fc",
-   "type": "code",
-   "context": "Beat 2 — the handoff gap, 0:03–0:07"
-  },
-  {
-   "kind": "modified",
-   "block": "e8811cb7",
+   "kind": "added",
+   "block": "4623d700",
    "type": "para",
-   "context": "Beat 2 — the handoff gap, 0:03–0:07"
+   "context": "More AI output does not necessarily mean",
+   "preview": "This is the deeper problem behind AI slop. It is not only th"
   },
   {
-   "kind": "modified",
-   "block": "4b713847",
-   "type": "table",
-   "context": "Frame plan"
-  },
-  {
-   "kind": "modified",
-   "block": "46ea7b3d",
+   "kind": "added",
+   "block": "184b3c31",
    "type": "para",
-   "context": "Video alt text"
+   "context": "More AI output does not necessarily mean",
+   "preview": "An output without provenance can spread. It cannot reliably "
   },
   {
-   "kind": "removed",
-   "block": "37c2da58",
+   "kind": "added",
+   "block": "7eba082b",
+   "type": "para",
+   "context": "More AI output does not necessarily mean",
+   "preview": "If every session leaves behind only a polished final answer,"
+  },
+  {
+   "kind": "added",
+   "block": "44843a50",
+   "type": "para",
+   "context": "More AI output does not necessarily mean",
+   "preview": "Intelligence that cannot be safely inherited cannot become c"
+  },
+  {
+   "kind": "added",
+   "block": "134fb522",
    "type": "heading",
-   "context": "",
-   "preview": "### Reply 3 — the protocol underneath"
+   "context": "Record the decision, not the private con",
+   "preview": "## Record the decision, not the private conversation"
   },
   {
-   "kind": "removed",
-   "block": "c69a346e",
+   "kind": "added",
+   "block": "0dd19d4b",
    "type": "para",
-   "context": "",
-   "preview": "> Under the hood, Proofpress is an open protocol for version"
+   "context": "Record the decision, not the private con",
+   "preview": "The answer is not to preserve every prompt, every message, o"
+  },
+  {
+   "kind": "added",
+   "block": "4acd95b2",
+   "type": "para",
+   "context": "Record the decision, not the private con",
+   "preview": "Most of that material is noisy, sensitive, or irrelevant to "
+  },
+  {
+   "kind": "added",
+   "block": "8b582160",
+   "type": "para",
+   "context": "Record the decision, not the private con",
+   "preview": "What deserves to persist is the external, checkable trail ad"
+  },
+  {
+   "kind": "added",
+   "block": "10d3904c",
+   "type": "list",
+   "context": "Record the decision, not the private con",
+   "preview": "- claims and the evidence offered for them;\n- accepted edits"
+  },
+  {
+   "kind": "added",
+   "block": "5958a87f",
+   "type": "para",
+   "context": "Record the decision, not the private con",
+   "preview": "This is not a transcript of cognition. It is the durable acc"
+  },
+  {
+   "kind": "added",
+   "block": "95033a55",
+   "type": "para",
+   "context": "Record the decision, not the private con",
+   "preview": "Proofpress turns that accepted account into an artifact-nati"
+  },
+  {
+   "kind": "added",
+   "block": "888c1a5c",
+   "type": "heading",
+   "context": "From static file to evolving knowledge o",
+   "preview": "## From static file to evolving knowledge object"
+  },
+  {
+   "kind": "added",
+   "block": "79f291e6",
+   "type": "para",
+   "context": "From static file to evolving knowledge o",
+   "preview": "A normal document tells you what it says now."
+  },
+  {
+   "kind": "added",
+   "block": "0bb3cf82",
+   "type": "para",
+   "context": "From static file to evolving knowledge o",
+   "preview": "A knowledge artifact should also be able to tell you:"
+  },
+  {
+   "kind": "added",
+   "block": "de495528",
+   "type": "list",
+   "context": "From static file to evolving knowledge o",
+   "preview": "1. **What do we know?**\n2. **Why do we believe it?**\n3. **Wh"
+  },
+  {
+   "kind": "added",
+   "block": "a151d6e4",
+   "type": "para",
+   "context": "From static file to evolving knowledge o",
+   "preview": "Answering those questions requires more than edit history. I"
+  },
+  {
+   "kind": "added",
+   "block": "62169462",
+   "type": "para",
+   "context": "From static file to evolving knowledge o",
+   "preview": "When those properties travel with the artifact, a later huma"
+  },
+  {
+   "kind": "added",
+   "block": "cd2ef4f9",
+   "type": "para",
+   "context": "From static file to evolving knowledge o",
+   "preview": "The artifact stops being a disposable endpoint. It becomes a"
+  },
+  {
+   "kind": "added",
+   "block": "f12d75f9",
+   "type": "heading",
+   "context": "Git’s deeper lesson",
+   "preview": "## Git’s deeper lesson"
+  },
+  {
+   "kind": "added",
+   "block": "1864976b",
+   "type": "para",
+   "context": "Git’s deeper lesson",
+   "preview": "Git’s greatest contribution was not merely that it stored ve"
+  },
+  {
+   "kind": "added",
+   "block": "a6d78d41",
+   "type": "para",
+   "context": "Git’s deeper lesson",
+   "preview": "Git gave software a durable shared history. It gave collabor"
+  },
+  {
+   "kind": "added",
+   "block": "83dd55e9",
+   "type": "para",
+   "context": "Git’s deeper lesson",
+   "preview": "Knowledge work now needs an analogous trust layer."
+  },
+  {
+   "kind": "added",
+   "block": "96be89e2",
+   "type": "para",
+   "context": "Git’s deeper lesson",
+   "preview": "This does not mean turning every document into a repository "
+  },
+  {
+   "kind": "added",
+   "block": "ab61ebd5",
+   "type": "para",
+   "context": "Git’s deeper lesson",
+   "preview": "The lesson to carry forward is larger than Git’s interface o"
+  },
+  {
+   "kind": "added",
+   "block": "4ceed421",
+   "type": "para",
+   "context": "Git’s deeper lesson",
+   "preview": "> **Git made code collaborative. Proofpress makes intelligen"
+  },
+  {
+   "kind": "added",
+   "block": "5851a397",
+   "type": "para",
+   "context": "Git’s deeper lesson",
+   "preview": "> **Git gave code history. Proofpress gives knowledge proven"
+  },
+  {
+   "kind": "added",
+   "block": "4dec65a1",
+   "type": "heading",
+   "context": "What Proofpress is building",
+   "preview": "## What Proofpress is building"
+  },
+  {
+   "kind": "added",
+   "block": "68e80b69",
+   "type": "para",
+   "context": "What Proofpress is building",
+   "preview": "Proofpress is the open trust layer for multiplayer AI: an op"
+  },
+  {
+   "kind": "added",
+   "block": "894c1fe2",
+   "type": "para",
+   "context": "What Proofpress is building",
+   "preview": "Its core model is a knowledge-artifact-native ledger. Its fi"
+  },
+  {
+   "kind": "added",
+   "block": "2286d602",
+   "type": "para",
+   "context": "What Proofpress is building",
+   "preview": "The current reference implementation begins with Markdown an"
+  },
+  {
+   "kind": "added",
+   "block": "b7884c1d",
+   "type": "para",
+   "context": "What Proofpress is building",
+   "preview": "Those capabilities are an initial proof, not the final categ"
+  },
+  {
+   "kind": "added",
+   "block": "8de7b95e",
+   "type": "para",
+   "context": "What Proofpress is building",
+   "preview": "The protocol should ultimately work across editors, agent ha"
+  },
+  {
+   "kind": "added",
+   "block": "43212f80",
+   "type": "heading",
+   "context": "From ledger to protocol to collective in",
+   "preview": "## From ledger to protocol to collective intelligence"
+  },
+  {
+   "kind": "added",
+   "block": "ca856aca",
+   "type": "para",
+   "context": "From ledger to protocol to collective in",
+   "preview": "We see three layers of value."
+  },
+  {
+   "kind": "added",
+   "block": "d83ab12d",
+   "type": "para",
+   "context": "From ledger to protocol to collective in",
+   "preview": "**Today: a version and decision ledger for knowledge artifac"
+  },
+  {
+   "kind": "added",
+   "block": "70191a76",
+   "type": "para",
+   "context": "From ledger to protocol to collective in",
+   "preview": "**Next: a trust protocol for human–agent knowledge work.**  "
+  },
+  {
+   "kind": "added",
+   "block": "1828c419",
+   "type": "para",
+   "context": "From ledger to protocol to collective in",
+   "preview": "**Ultimately: infrastructure for cumulative, collective inte"
+  },
+  {
+   "kind": "added",
+   "block": "747b3bd7",
+   "type": "para",
+   "context": "From ledger to protocol to collective in",
+   "preview": "At that scale, the bottleneck is no longer the ability to pr"
+  },
+  {
+   "kind": "added",
+   "block": "b3cdc7a1",
+   "type": "heading",
+   "context": "Trust must not become a vague promise",
+   "preview": "## Trust must not become a vague promise"
+  },
+  {
+   "kind": "added",
+   "block": "74d95031",
+   "type": "para",
+   "context": "Trust must not become a vague promise",
+   "preview": "“Trust layer” does not mean that every statement is true or "
+  },
+  {
+   "kind": "added",
+   "block": "c1743d8b",
+   "type": "para",
+   "context": "Trust must not become a vague promise",
+   "preview": "The stated reason for a change is attributed testimony unles"
+  },
+  {
+   "kind": "added",
+   "block": "41a7d8b7",
+   "type": "para",
+   "context": "Trust must not become a vague promise",
+   "preview": "These boundaries are not a weakness in the vision. They are "
+  },
+  {
+   "kind": "added",
+   "block": "91570475",
+   "type": "para",
+   "context": "Trust must not become a vague promise",
+   "preview": "Proofpress should help collaborators know what was captured,"
+  },
+  {
+   "kind": "added",
+   "block": "e0514e6a",
+   "type": "para",
+   "context": "Trust must not become a vague promise",
+   "preview": "The goal is not perfect certainty. The goal is to stop silen"
+  },
+  {
+   "kind": "added",
+   "block": "b84af3d0",
+   "type": "heading",
+   "context": "Make knowledge cumulative",
+   "preview": "## Make knowledge cumulative"
+  },
+  {
+   "kind": "added",
+   "block": "55c1a8be",
+   "type": "para",
+   "context": "Make knowledge cumulative",
+   "preview": "If Proofpress succeeds, it will not be another docs product."
+  },
+  {
+   "kind": "added",
+   "block": "b0cc09a0",
+   "type": "para",
+   "context": "Make knowledge cumulative",
+   "preview": "It will be an open protocol for humans and machines thinking"
+  },
+  {
+   "kind": "added",
+   "block": "0f52178f",
+   "type": "para",
+   "context": "Make knowledge cumulative",
+   "preview": "It will give every human and agent that touches the work a s"
+  },
+  {
+   "kind": "added",
+   "block": "60b3867d",
+   "type": "para",
+   "context": "Make knowledge cumulative",
+   "preview": "It will make the history of the work as durable as the work "
+  },
+  {
+   "kind": "added",
+   "block": "a9e5832c",
+   "type": "para",
+   "context": "Make knowledge cumulative",
+   "preview": "And it will let intelligence expand without requiring trust "
+  },
+  {
+   "kind": "added",
+   "block": "3f992b85",
+   "type": "para",
+   "context": "Make knowledge cumulative",
+   "preview": "> **Scale intelligence. Preserve trust. Make knowledge cumul"
   }
  ],
  "policy": "local",
- "soft_fingerprint": "ppsb1:730a0f6ab2ca40f02c093557580a250b01db7670a4811d02590f5f01a8f3e25c",
+ "soft_fingerprint": "ppsb1:8ade4b96d1f174e3c17fddfb694cbc8acffb2ed8ad34d88e85d6b1d19d97ef40",
  "actors": {
   "requested_by": [
    "Richard Tang"
@@ -104,65 +462,251 @@
  "attribution_basis": "harness_attested",
  "claims": [
   {
-   "block": "d8c123e5",
-   "kind": "modified",
-   "note": "Made the main post concrete with a cross-session file, stranded decision trail, and portable ledger."
+   "block": "82e7af4c",
+   "kind": "added"
   },
   {
-   "block": "01bbac2a",
-   "kind": "modified",
-   "note": "Retitled Reply 1 around what a handoff loses."
+   "block": "62056da6",
+   "kind": "added"
   },
   {
-   "block": "d5e07adc",
-   "kind": "modified",
-   "note": "Rewrote Reply 1 to explain session-bound rationale and rejections without introducing meta-memory or replaying conversations."
+   "block": "fa14abc9",
+   "kind": "added"
   },
   {
-   "block": "2eb60765",
-   "kind": "modified",
-   "note": "Retitled Reply 2 around the path from collaborative code to cumulative intelligence."
+   "block": "f118f0f4",
+   "kind": "added"
   },
   {
-   "block": "69bde4fe",
-   "kind": "modified",
-   "note": "Rewrote Reply 2 to connect Git, the open trust-layer category, the artifact ledger, and the long-term vision."
+   "block": "027eb27e",
+   "kind": "added"
   },
   {
-   "block": "2c6665fc",
-   "kind": "modified",
-   "note": "Changed the film handoff copy from abstract decision history to a stranded decision trail."
+   "block": "eb46ddcb",
+   "kind": "added"
   },
   {
-   "block": "e8811cb7",
-   "kind": "modified",
-   "note": "Made the handoff visual show rationale, rejection, and lineage stranded in the originating session."
+   "block": "b106e932",
+   "kind": "added"
   },
   {
-   "block": "4b713847",
-   "kind": "modified",
-   "note": "Aligned the frame plan with the file-travels and decision-trail-stays-behind narrative."
+   "block": "b37f7b8c",
+   "kind": "added"
   },
   {
-   "block": "46ea7b3d",
-   "kind": "modified",
-   "note": "Aligned video alt text with accepted rationale, rejected direction, and lineage remaining in the first session."
+   "block": "05e16cc3",
+   "kind": "added"
   },
   {
-   "block": "37c2da58",
-   "kind": "removed",
-   "note": "Removed the separate protocol-underneath reply heading after consolidating category and vision into Reply 2."
+   "block": "c6542959",
+   "kind": "added"
   },
   {
-   "block": "c69a346e",
-   "kind": "removed",
-   "note": "Removed the separate protocol reply copy after consolidating the thread into two replies."
+   "block": "4623d700",
+   "kind": "added"
+  },
+  {
+   "block": "184b3c31",
+   "kind": "added"
+  },
+  {
+   "block": "7eba082b",
+   "kind": "added"
+  },
+  {
+   "block": "44843a50",
+   "kind": "added"
+  },
+  {
+   "block": "134fb522",
+   "kind": "added"
+  },
+  {
+   "block": "0dd19d4b",
+   "kind": "added"
+  },
+  {
+   "block": "4acd95b2",
+   "kind": "added"
+  },
+  {
+   "block": "8b582160",
+   "kind": "added"
+  },
+  {
+   "block": "10d3904c",
+   "kind": "added"
+  },
+  {
+   "block": "5958a87f",
+   "kind": "added"
+  },
+  {
+   "block": "95033a55",
+   "kind": "added"
+  },
+  {
+   "block": "888c1a5c",
+   "kind": "added"
+  },
+  {
+   "block": "79f291e6",
+   "kind": "added"
+  },
+  {
+   "block": "0bb3cf82",
+   "kind": "added"
+  },
+  {
+   "block": "de495528",
+   "kind": "added"
+  },
+  {
+   "block": "a151d6e4",
+   "kind": "added"
+  },
+  {
+   "block": "62169462",
+   "kind": "added"
+  },
+  {
+   "block": "cd2ef4f9",
+   "kind": "added"
+  },
+  {
+   "block": "f12d75f9",
+   "kind": "added"
+  },
+  {
+   "block": "1864976b",
+   "kind": "added"
+  },
+  {
+   "block": "a6d78d41",
+   "kind": "added"
+  },
+  {
+   "block": "83dd55e9",
+   "kind": "added"
+  },
+  {
+   "block": "96be89e2",
+   "kind": "added"
+  },
+  {
+   "block": "ab61ebd5",
+   "kind": "added"
+  },
+  {
+   "block": "4ceed421",
+   "kind": "added"
+  },
+  {
+   "block": "5851a397",
+   "kind": "added"
+  },
+  {
+   "block": "4dec65a1",
+   "kind": "added"
+  },
+  {
+   "block": "68e80b69",
+   "kind": "added"
+  },
+  {
+   "block": "894c1fe2",
+   "kind": "added"
+  },
+  {
+   "block": "2286d602",
+   "kind": "added"
+  },
+  {
+   "block": "b7884c1d",
+   "kind": "added"
+  },
+  {
+   "block": "8de7b95e",
+   "kind": "added"
+  },
+  {
+   "block": "43212f80",
+   "kind": "added"
+  },
+  {
+   "block": "ca856aca",
+   "kind": "added"
+  },
+  {
+   "block": "d83ab12d",
+   "kind": "added"
+  },
+  {
+   "block": "70191a76",
+   "kind": "added"
+  },
+  {
+   "block": "1828c419",
+   "kind": "added"
+  },
+  {
+   "block": "747b3bd7",
+   "kind": "added"
+  },
+  {
+   "block": "b3cdc7a1",
+   "kind": "added"
+  },
+  {
+   "block": "74d95031",
+   "kind": "added"
+  },
+  {
+   "block": "c1743d8b",
+   "kind": "added"
+  },
+  {
+   "block": "41a7d8b7",
+   "kind": "added"
+  },
+  {
+   "block": "91570475",
+   "kind": "added"
+  },
+  {
+   "block": "e0514e6a",
+   "kind": "added"
+  },
+  {
+   "block": "b84af3d0",
+   "kind": "added"
+  },
+  {
+   "block": "55c1a8be",
+   "kind": "added"
+  },
+  {
+   "block": "b0cc09a0",
+   "kind": "added"
+  },
+  {
+   "block": "0f52178f",
+   "kind": "added"
+  },
+  {
+   "block": "60b3867d",
+   "kind": "added"
+  },
+  {
+   "block": "a9e5832c",
+   "kind": "added"
+  },
+  {
+   "block": "3f992b85",
+   "kind": "added"
   }
  ],
  "context": {
-  "why": "Richard accepted the main-post hook, restored a concrete first reply explaining what the handoff loses, and asked that Git, positioning, and the more ambitious collective-intelligence vision be concentrated in the next reply.",
-  "rejected": [
-   "Use context, meta-memory, or reasoning traces as the public shorthand for what stays behind — rejected because context is ambiguous, meta-memory adds an unnecessary concept, and reasoning traces may imply capture of private chain of thought."
-  ]
+  "why": "Richard identified the vision prose as Proofpress's product soul and asked for a from-scratch founder article that could serve as the first X reply. The article combines the memorable Git analogy with a precise subtitle and develops the argument from final-state documents through provenance, artifact-native ledgers, trust boundaries, and cumulative human-agent collective intelligence."
  }
 }
