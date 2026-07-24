@@ -1,115 +1,162 @@
 {
  "event": "version_created",
- "artifact": "docs/internal/launch/x-launch.md",
- "artifact_id": "pp_5c19a32e9dea0da4c55aae96",
- "version": "6b0af8f7",
- "parent": "5e6e238b",
+ "artifact": "docs/internal/launch/film/videos/proofpress-x-launch/BRIEF.md",
+ "artifact_id": "pp_3bae87c36d575cb17d5dbd96",
+ "version": "659d6855",
+ "parent": null,
  "author": {
   "name": "codex",
   "kind": "agent",
   "session": null
  },
- "note": null,
- "ts": "2026-07-24T08:00:39+00:00",
+ "note": "locked launch film brief",
+ "ts": "2026-07-24T08:51:42+00:00",
  "stats": {
-  "modified": 3,
-  "added": 1,
-  "removed": 2
+  "added": 11
  },
  "changes": [
   {
-   "kind": "modified",
-   "block": "7bc5247b",
+   "kind": "added",
+   "block": "edddcef0",
    "type": "para",
-   "context": "Reply thread"
-  },
-  {
-   "kind": "modified",
-   "block": "01bbac2a",
-   "type": "heading",
-   "context": "Reply 1 — founder vision article"
-  },
-  {
-   "kind": "modified",
-   "block": "d5e07adc",
-   "type": "para",
-   "context": "Reply 1 — founder vision article"
+   "context": "(文首)",
+   "preview": "---\nworkflow: product-launch-video\nflow: automation\nstoryboa"
   },
   {
    "kind": "added",
-   "block": "be93dc6e",
-   "type": "para",
-   "context": "Reply 1 — founder vision article",
-   "preview": "Article source: `docs/internal/launch/vision-article.md`"
+   "block": "dfdf19e6",
+   "type": "list",
+   "context": "(文首)",
+   "preview": "  - 1920x1080\n  - 1080x1080"
   },
   {
-   "kind": "removed",
-   "block": "2eb60765",
+   "kind": "added",
+   "block": "c7782797",
+   "type": "para",
+   "context": "(文首)",
+   "preview": "language: en\naudience: \"developers, AI builders, and teams a"
+  },
+  {
+   "kind": "added",
+   "block": "fbec8d23",
    "type": "heading",
-   "context": "",
-   "preview": "### Reply 2 — from collaborative code to cumulative intellig"
+   "context": "Intent",
+   "preview": "## Intent"
   },
   {
-   "kind": "removed",
-   "block": "69bde4fe",
+   "kind": "added",
+   "block": "7fe752ad",
    "type": "para",
-   "context": "",
-   "preview": "> Git made code multiplayer through shared history.\n>\n> Proo"
+   "context": "Intent",
+   "preview": "Create a silent-first X launch film that introduces Proofpre"
+  },
+  {
+   "kind": "added",
+   "block": "2e62a4f5",
+   "type": "heading",
+   "context": "Assets",
+   "preview": "## Assets"
+  },
+  {
+   "kind": "added",
+   "block": "da95434b",
+   "type": "list",
+   "context": "Assets",
+   "preview": "- `../../../../../../assets/logo.svg` — canonical Proofpress"
+  },
+  {
+   "kind": "added",
+   "block": "b58e158c",
+   "type": "heading",
+   "context": "Customizations",
+   "preview": "## Customizations"
+  },
+  {
+   "kind": "added",
+   "block": "db25e67b",
+   "type": "list",
+   "context": "Customizations",
+   "preview": "- First deliver three comparable four-second motion tests of"
+  },
+  {
+   "kind": "added",
+   "block": "dd61ae86",
+   "type": "heading",
+   "context": "Notes",
+   "preview": "## Notes"
+  },
+  {
+   "kind": "added",
+   "block": "f51764e1",
+   "type": "list",
+   "context": "Notes",
+   "preview": "- Do not scrape or reuse the old launch demo's copy, review "
   }
  ],
  "policy": "local",
- "soft_fingerprint": "ppsb1:273317856451b426c6ece053b08dccf13fbfae13d492c1c881e09ab32397f514",
+ "soft_fingerprint": "ppsb1:3b34505f2792d2f9781764a50c0717291a4c16ebdf54ed8d0a0401043dee0e40",
  "actors": {
   "requested_by": [
-   "Richard Tang"
+   "Richard"
   ],
   "produced_by": [
-   "OpenAI Codex"
+   "codex"
   ],
   "edited_by": [
-   "OpenAI Codex"
+   "codex"
   ],
   "recorded_by": [
-   "OpenAI Codex"
+   "codex"
   ]
  },
  "attribution_basis": "harness_attested",
  "claims": [
   {
-   "block": "7bc5247b",
-   "kind": "modified",
-   "note": "Made the founder vision article the canonical first reply and assigned long-form narrative to the article."
+   "block": "edddcef0",
+   "kind": "added"
   },
   {
-   "block": "01bbac2a",
-   "kind": "modified",
-   "note": "Retitled Reply 1 as the founder vision article."
+   "block": "dfdf19e6",
+   "kind": "added"
   },
   {
-   "block": "d5e07adc",
-   "kind": "modified",
-   "note": "Replaced the compressed problem reply with a bridge from the handoff wedge to the cumulative-intelligence article."
+   "block": "c7782797",
+   "kind": "added"
   },
   {
-   "block": "be93dc6e",
-   "kind": "added",
-   "note": "Added the internal source path for the X vision article."
+   "block": "fbec8d23",
+   "kind": "added"
   },
   {
-   "block": "2eb60765",
-   "kind": "removed",
-   "note": "Removed the separate compressed vision-reply heading after moving the full vision into the article."
+   "block": "7fe752ad",
+   "kind": "added"
   },
   {
-   "block": "69bde4fe",
-   "kind": "removed",
-   "note": "Removed the slogan-stack vision reply after replacing it with the long-form founder article."
+   "block": "2e62a4f5",
+   "kind": "added"
+  },
+  {
+   "block": "da95434b",
+   "kind": "added"
+  },
+  {
+   "block": "b58e158c",
+   "kind": "added"
+  },
+  {
+   "block": "db25e67b",
+   "kind": "added"
+  },
+  {
+   "block": "dd61ae86",
+   "kind": "added"
+  },
+  {
+   "block": "f51764e1",
+   "kind": "added"
   }
  ],
  "context": {
-  "why": "Richard chose to keep the strong main post and replace the compressed reply sequence with a long-form founder vision article as the canonical first reply.",
-  "rejected": [
-   "Compress the Git analogy, category, and collective-intelligence vision into a 280-character slogan reply — rejected because the product's central argument needs full prose to earn belief rather than a stack of taglines."
-  ]
+  "why": "The user approved a staged HyperFrames launch-film build with three visual motion tests before the final 22-second renders."
  }
 }
