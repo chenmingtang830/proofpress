@@ -1,411 +1,50 @@
 {
  "event": "version_created",
- "artifact": "docs/internal/launch/launch-day-runbook.md",
- "artifact_id": "pp_3ea280179b43a9974bf6a5e6",
- "version": "4090d5f2",
- "parent": null,
+ "artifact": "README.md",
+ "artifact_id": "pp_556b115de711b0cd33eed260",
+ "version": "5bba8cbb",
+ "parent": "e2579d52",
  "author": {
   "name": "codex",
   "kind": "agent",
   "session": null
  },
  "note": null,
- "ts": "2026-07-24T21:48:24+00:00",
+ "ts": "2026-07-24T23:40:41+00:00",
  "stats": {
-  "added": 55
+  "modified": 4
  },
  "changes": [
   {
-   "kind": "added",
-   "block": "7116fa3c",
+   "kind": "modified",
+   "block": "d6f9f208",
+   "type": "para",
+   "context": "Status"
+  },
+  {
+   "kind": "modified",
+   "block": "19210f53",
    "type": "heading",
-   "context": "Proofpress launch-day runbook",
-   "preview": "# Proofpress launch-day runbook"
+   "context": "Install"
   },
   {
-   "kind": "added",
-   "block": "5d080262",
+   "kind": "modified",
+   "block": "7b197ac1",
+   "type": "code",
+   "context": "Install"
+  },
+  {
+   "kind": "modified",
+   "block": "839fc8a1",
    "type": "para",
-   "context": "Proofpress launch-day runbook",
-   "preview": "**Status:** draft gate checklist.  \n**Launch owner:** Richar"
-  },
-  {
-   "kind": "added",
-   "block": "a44f075f",
-   "type": "heading",
-   "context": "Launch decision",
-   "preview": "## Launch decision"
-  },
-  {
-   "kind": "added",
-   "block": "60c34ffc",
-   "type": "list",
-   "context": "Launch decision",
-   "preview": "- **Hero channel:** X native video plus the public GitHub re"
-  },
-  {
-   "kind": "added",
-   "block": "4e427840",
-   "type": "para",
-   "context": "Launch decision",
-   "preview": "  native X upload, not a YouTube link."
-  },
-  {
-   "kind": "added",
-   "block": "7ee5e00d",
-   "type": "list",
-   "context": "Launch decision",
-   "preview": "- **Primary CTA:** inspect the self-verifying portable-hando"
-  },
-  {
-   "kind": "added",
-   "block": "26bf668a",
-   "type": "para",
-   "context": "Launch decision",
-   "preview": "  repository. Do not add a waitlist or Discord CTA unless th"
-  },
-  {
-   "kind": "added",
-   "block": "40189479",
-   "type": "list",
-   "context": "Launch decision",
-   "preview": "- **Working launch window:** propose a weekday 09:00–13:00 P"
-  },
-  {
-   "kind": "added",
-   "block": "1e66a7a7",
-   "type": "para",
-   "context": "Launch decision",
-   "preview": "  founder can respond live through the first reaction cycle."
-  },
-  {
-   "kind": "added",
-   "block": "b14f6b86",
-   "type": "list",
-   "context": "Launch decision",
-   "preview": "- **Show HN:** conditional, not a launch-day dependency. The"
-  },
-  {
-   "kind": "added",
-   "block": "6ed48c25",
-   "type": "para",
-   "context": "Launch decision",
-   "preview": "  requires a non-trivial thing people can run, no signup bar"
-  },
-  {
-   "kind": "added",
-   "block": "7eda4bd1",
-   "type": "heading",
-   "context": "T-7 to T-1 gates",
-   "preview": "## T-7 to T-1 gates"
-  },
-  {
-   "kind": "added",
-   "block": "5c911357",
-   "type": "heading",
-   "context": "Product proof",
-   "preview": "### Product proof"
-  },
-  {
-   "kind": "added",
-   "block": "970cc215",
-   "type": "list",
-   "context": "Product proof",
-   "preview": "- [ ] Run the public proofpress@next install in a clean Git "
-  },
-  {
-   "kind": "added",
-   "block": "ac03a211",
-   "type": "para",
-   "context": "Product proof",
-   "preview": "  verify must pass."
-  },
-  {
-   "kind": "added",
-   "block": "dfda6a31",
-   "type": "list",
-   "context": "Product proof",
-   "preview": "- [ ] Confirm the README, skills, demo guide, and every laun"
-  },
-  {
-   "kind": "added",
-   "block": "52d8dc02",
-   "type": "para",
-   "context": "Product proof",
-   "preview": "  explicit proofpress@next."
-  },
-  {
-   "kind": "added",
-   "block": "59487ee8",
-   "type": "list",
-   "context": "Product proof",
-   "preview": "- [ ] Decide whether a stable release will replace @next; if"
-  },
-  {
-   "kind": "added",
-   "block": "af3e9a75",
-   "type": "para",
-   "context": "Product proof",
-   "preview": "  surface in one release change before announcing it."
-  },
-  {
-   "kind": "added",
-   "block": "626daac7",
-   "type": "heading",
-   "context": "Public surfaces",
-   "preview": "### Public surfaces"
-  },
-  {
-   "kind": "added",
-   "block": "8350e21e",
-   "type": "list",
-   "context": "Public surfaces",
-   "preview": "- [ ] Set GitHub description to: “The trust layer for multip"
-  },
-  {
-   "kind": "added",
-   "block": "62d094a5",
-   "type": "para",
-   "context": "Public surfaces",
-   "preview": "  agent-native ledger that travels with the artifact.”"
-  },
-  {
-   "kind": "added",
-   "block": "1ce5b9fc",
-   "type": "list",
-   "context": "Public surfaces",
-   "preview": "- [ ] Replace or confirm topics: agentic-ai, multi-agent, kn"
-  },
-  {
-   "kind": "added",
-   "block": "88109f99",
-   "type": "para",
-   "context": "Public surfaces",
-   "preview": "  markdown, provenance, audit-log, open-source."
-  },
-  {
-   "kind": "added",
-   "block": "9c1c9ffb",
-   "type": "list",
-   "context": "Public surfaces",
-   "preview": "- [ ] Add a deliberate social-preview image; the current rep"
-  },
-  {
-   "kind": "added",
-   "block": "d636339d",
-   "type": "para",
-   "context": "Public surfaces",
-   "preview": "  the account avatar, not launch artwork."
-  },
-  {
-   "kind": "added",
-   "block": "d5edaf53",
-   "type": "list",
-   "context": "Public surfaces",
-   "preview": "- [ ] Decide the homepage / landing URL. If an owned landing"
-  },
-  {
-   "kind": "added",
-   "block": "698b764a",
-   "type": "para",
-   "context": "Public surfaces",
-   "preview": "  it as the X link with source tracking; otherwise link dire"
-  },
-  {
-   "kind": "added",
-   "block": "30f79e19",
-   "type": "list",
-   "context": "Public surfaces",
-   "preview": "- [ ] Confirm the intended X handle and any domain availabil"
-  },
-  {
-   "kind": "added",
-   "block": "cfa379d5",
-   "type": "para",
-   "context": "Public surfaces",
-   "preview": "  an explicit owner action, not an automated launch task."
-  },
-  {
-   "kind": "added",
-   "block": "0f1df431",
-   "type": "heading",
-   "context": "People and coverage",
-   "preview": "### People and coverage"
-  },
-  {
-   "kind": "added",
-   "block": "049f2826",
-   "type": "list",
-   "context": "People and coverage",
-   "preview": "- [ ] Richard posts the X thread and owns factual launch-day"
-  },
-  {
-   "kind": "added",
-   "block": "0dae50d5",
-   "type": "para",
-   "context": "People and coverage",
-   "preview": "  coordinate HN voting or booster comments."
-  },
-  {
-   "kind": "added",
-   "block": "ab97c2c4",
-   "type": "list",
-   "context": "People and coverage",
-   "preview": "- [ ] Block the first four hours after launch for replies, b"
-  },
-  {
-   "kind": "added",
-   "block": "dca894f6",
-   "type": "para",
-   "context": "People and coverage",
-   "preview": "  observing the demo path."
-  },
-  {
-   "kind": "added",
-   "block": "f948bc27",
-   "type": "heading",
-   "context": "Reply kit",
-   "preview": "### Reply kit"
-  },
-  {
-   "kind": "added",
-   "block": "c2bda68f",
-   "type": "list",
-   "context": "Reply kit",
-   "preview": "- [ ] Publish-ready answers live in [faq.md](faq.md).\n- [ ] "
-  },
-  {
-   "kind": "added",
-   "block": "9d21c101",
-   "type": "para",
-   "context": "Reply kit",
-   "preview": "  rationale and attribution are stated context unless indepe"
-  },
-  {
-   "kind": "added",
-   "block": "904e16d2",
-   "type": "list",
-   "context": "Reply kit",
-   "preview": "- [ ] Prepare one concise answer each for Git blame, C2PA, t"
-  },
-  {
-   "kind": "added",
-   "block": "545c9c4a",
-   "type": "para",
-   "context": "Reply kit",
-   "preview": "  and “why not an LLM diff?”."
-  },
-  {
-   "kind": "added",
-   "block": "8a66803c",
-   "type": "heading",
-   "context": "Day-of sequence",
-   "preview": "## Day-of sequence"
-  },
-  {
-   "kind": "added",
-   "block": "872c5f30",
-   "type": "list",
-   "context": "Day-of sequence",
-   "preview": "1. Re-run the five-minute portable-handoff path against the "
-  },
-  {
-   "kind": "added",
-   "block": "c566120e",
-   "type": "para",
-   "context": "Day-of sequence",
-   "preview": "   X native video, and X link destination."
-  },
-  {
-   "kind": "added",
-   "block": "8ca6ff63",
-   "type": "list",
-   "context": "Day-of sequence",
-   "preview": "3. Publish the X main post with the native video; publish th"
-  },
-  {
-   "kind": "added",
-   "block": "188a8e0e",
-   "type": "para",
-   "context": "Day-of sequence",
-   "preview": "   Reply 1 immediately after it."
-  },
-  {
-   "kind": "added",
-   "block": "1593a76f",
-   "type": "list",
-   "context": "Day-of sequence",
-   "preview": "4. Record the initial time, npm tag/version, Git commit, and"
-  },
-  {
-   "kind": "added",
-   "block": "bf943ba2",
-   "type": "para",
-   "context": "Day-of sequence",
-   "preview": "   the launch log."
-  },
-  {
-   "kind": "added",
-   "block": "41bd733c",
-   "type": "list",
-   "context": "Day-of sequence",
-   "preview": "5. Respond with the FAQ’s honesty boundary; log recurring ob"
-  },
-  {
-   "kind": "added",
-   "block": "0d2dfd68",
-   "type": "para",
-   "context": "Day-of sequence",
-   "preview": "   enough to improve the product, not just the copy."
-  },
-  {
-   "kind": "added",
-   "block": "cac40c0e",
-   "type": "list",
-   "context": "Day-of sequence",
-   "preview": "6. Reassess Show HN only after the product path and response"
-  },
-  {
-   "kind": "added",
-   "block": "fb903b51",
-   "type": "heading",
-   "context": "Go / no-go",
-   "preview": "## Go / no-go"
-  },
-  {
-   "kind": "added",
-   "block": "27255d8b",
-   "type": "para",
-   "context": "Go / no-go",
-   "preview": "Do not launch if any of these are false:"
-  },
-  {
-   "kind": "added",
-   "block": "a843bfc7",
-   "type": "list",
-   "context": "Go / no-go",
-   "preview": "- a clean receiver can install proofpress@next, inspect the "
-  },
-  {
-   "kind": "added",
-   "block": "828d99d4",
-   "type": "para",
-   "context": "Go / no-go",
-   "preview": "  import its ledger, and verify its claims;"
-  },
-  {
-   "kind": "added",
-   "block": "9e33325b",
-   "type": "list",
-   "context": "Go / no-go",
-   "preview": "- the X post, README, and npm tag name the same release chan"
+   "context": "What “portable” means"
   }
  ],
  "policy": "local",
- "soft_fingerprint": "ppsb1:35111f5f99be1fa6479f6690241c0b6a13cfd111fcacedb610d95e646ef334f7",
+ "soft_fingerprint": "ppsb1:c3ac73681e02c90a0c5ed816dbc6da4a9a81748ddc63ab0db5129b688e9bfbb1",
  "actors": {
   "requested_by": [
-   "richard-tang"
+   "richardtang"
   ],
   "produced_by": [
    "codex"
@@ -417,230 +56,30 @@
    "codex"
   ]
  },
- "attribution_basis": "harness_attested",
+ "attribution_basis": "environment_attested",
  "claims": [
   {
-   "block": "7116fa3c",
-   "kind": "added"
+   "block": "d6f9f208",
+   "kind": "modified",
+   "note": "Updated release status for the published 0.1.0 stable npm channel."
   },
   {
-   "block": "5d080262",
-   "kind": "added"
+   "block": "19210f53",
+   "kind": "modified",
+   "note": "Renamed the installation section now that the default command installs the stable release."
   },
   {
-   "block": "a44f075f",
-   "kind": "added"
+   "block": "7b197ac1",
+   "kind": "modified",
+   "note": "Changed the installation command from the alpha tag to the stable package."
   },
   {
-   "block": "60c34ffc",
-   "kind": "added"
-  },
-  {
-   "block": "4e427840",
-   "kind": "added"
-  },
-  {
-   "block": "7ee5e00d",
-   "kind": "added"
-  },
-  {
-   "block": "26bf668a",
-   "kind": "added"
-  },
-  {
-   "block": "40189479",
-   "kind": "added"
-  },
-  {
-   "block": "1e66a7a7",
-   "kind": "added"
-  },
-  {
-   "block": "b14f6b86",
-   "kind": "added"
-  },
-  {
-   "block": "6ed48c25",
-   "kind": "added"
-  },
-  {
-   "block": "7eda4bd1",
-   "kind": "added"
-  },
-  {
-   "block": "5c911357",
-   "kind": "added"
-  },
-  {
-   "block": "970cc215",
-   "kind": "added"
-  },
-  {
-   "block": "ac03a211",
-   "kind": "added"
-  },
-  {
-   "block": "dfda6a31",
-   "kind": "added"
-  },
-  {
-   "block": "52d8dc02",
-   "kind": "added"
-  },
-  {
-   "block": "59487ee8",
-   "kind": "added"
-  },
-  {
-   "block": "af3e9a75",
-   "kind": "added"
-  },
-  {
-   "block": "626daac7",
-   "kind": "added"
-  },
-  {
-   "block": "8350e21e",
-   "kind": "added"
-  },
-  {
-   "block": "62d094a5",
-   "kind": "added"
-  },
-  {
-   "block": "1ce5b9fc",
-   "kind": "added"
-  },
-  {
-   "block": "88109f99",
-   "kind": "added"
-  },
-  {
-   "block": "9c1c9ffb",
-   "kind": "added"
-  },
-  {
-   "block": "d636339d",
-   "kind": "added"
-  },
-  {
-   "block": "d5edaf53",
-   "kind": "added"
-  },
-  {
-   "block": "698b764a",
-   "kind": "added"
-  },
-  {
-   "block": "30f79e19",
-   "kind": "added"
-  },
-  {
-   "block": "cfa379d5",
-   "kind": "added"
-  },
-  {
-   "block": "0f1df431",
-   "kind": "added"
-  },
-  {
-   "block": "049f2826",
-   "kind": "added"
-  },
-  {
-   "block": "0dae50d5",
-   "kind": "added"
-  },
-  {
-   "block": "ab97c2c4",
-   "kind": "added"
-  },
-  {
-   "block": "dca894f6",
-   "kind": "added"
-  },
-  {
-   "block": "f948bc27",
-   "kind": "added"
-  },
-  {
-   "block": "c2bda68f",
-   "kind": "added"
-  },
-  {
-   "block": "9d21c101",
-   "kind": "added"
-  },
-  {
-   "block": "904e16d2",
-   "kind": "added"
-  },
-  {
-   "block": "545c9c4a",
-   "kind": "added"
-  },
-  {
-   "block": "8a66803c",
-   "kind": "added"
-  },
-  {
-   "block": "872c5f30",
-   "kind": "added"
-  },
-  {
-   "block": "c566120e",
-   "kind": "added"
-  },
-  {
-   "block": "8ca6ff63",
-   "kind": "added"
-  },
-  {
-   "block": "188a8e0e",
-   "kind": "added"
-  },
-  {
-   "block": "1593a76f",
-   "kind": "added"
-  },
-  {
-   "block": "bf943ba2",
-   "kind": "added"
-  },
-  {
-   "block": "41bd733c",
-   "kind": "added"
-  },
-  {
-   "block": "0d2dfd68",
-   "kind": "added"
-  },
-  {
-   "block": "cac40c0e",
-   "kind": "added"
-  },
-  {
-   "block": "fb903b51",
-   "kind": "added"
-  },
-  {
-   "block": "27255d8b",
-   "kind": "added"
-  },
-  {
-   "block": "a843bfc7",
-   "kind": "added"
-  },
-  {
-   "block": "828d99d4",
-   "kind": "added"
-  },
-  {
-   "block": "9e33325b",
-   "kind": "added"
+   "block": "839fc8a1",
+   "kind": "modified",
+   "note": "Updated the canonical discovery package reference to the latest stable channel."
   }
  ],
  "context": {
-  "why": "turned launch distribution, metadata, coverage, FAQ, and go-no-go guidance into an accountable gate checklist"
+  "why": "published Proofpress 0.1.0 as the stable npm release and aligned private development documentation"
  }
 }
