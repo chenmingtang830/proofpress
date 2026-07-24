@@ -55,3 +55,5 @@ revision history travels with the repo.
   through the CLI; follow its style).
 - Keep commits focused; explain the *why* in the message body.
 - CI must pass; the full suite runs in seconds.
+
+[//]: # (proofpress:meta:eyJhcnRpZmFjdF9pZCI6InBwX2FjMWJiYjAzNDM4YjgwYjlmNDdkN2YwMCIsInBvbGljeSI6ImxvY2FsIiwicHJvb2ZwcmVzcyI6MX0)
