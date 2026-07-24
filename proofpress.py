@@ -22,7 +22,7 @@ Commands:
 import argparse, base64, difflib, hashlib, html, json, os, re, secrets, subprocess, sys, tempfile, zlib
 from datetime import datetime, timezone
 
-__version__ = "0.1.0-alpha.1"
+__version__ = "0.1.0-alpha.2"
 LEDGER_REF = "refs/proofpress/ledger"
 
 # ---------- terminal rendering ----------
