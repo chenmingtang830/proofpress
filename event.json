@@ -1,8 +1,8 @@
 {
  "event": "version_created",
- "artifact": "docs/internal/launch/film/videos/proofpress-x-launch/STORYBOARD.md",
- "artifact_id": "pp_8c77d559019ae583c734e303",
- "version": "e6ababec",
+ "artifact": "docs/internal/launch/film/videos/proofpress-x-launch/capture/extracted/asset-descriptions.md",
+ "artifact_id": "pp_5982139dcd45de6d5207f23a",
+ "version": "c61d426b",
  "parent": null,
  "author": {
   "name": "unknown",
@@ -10,140 +10,35 @@
   "session": null
  },
  "note": null,
- "ts": "2026-07-24T09:21:20+00:00",
+ "ts": "2026-07-24T09:21:22+00:00",
  "stats": {
-  "added": 18
+  "added": 3
  },
  "changes": [
   {
    "kind": "added",
-   "block": "5fcecb01",
-   "type": "para",
-   "context": "(文首)",
-   "preview": "---\nformat: 1280x720\nduration: \"4s per comparison\"\nmessage: "
-  },
-  {
-   "kind": "added",
-   "block": "a37b334b",
+   "block": "b01d7684",
    "type": "heading",
-   "context": "Visual direction gate",
-   "preview": "# Visual direction gate"
+   "context": "Asset inventory",
+   "preview": "# Asset inventory"
   },
   {
    "kind": "added",
-   "block": "d145f2d9",
-   "type": "para",
-   "context": "Visual direction gate",
-   "preview": "These three frames are alternative treatments of the same fo"
-  },
-  {
-   "kind": "added",
-   "block": "1cb97ce0",
-   "type": "heading",
-   "context": "Video direction",
-   "preview": "## Video direction"
-  },
-  {
-   "kind": "added",
-   "block": "24fe55ad",
-   "type": "para",
-   "context": "Video direction",
-   "preview": "The artifact is the continuous subject. At the opening, it s"
-  },
-  {
-   "kind": "added",
-   "block": "ea423b63",
-   "type": "para",
-   "context": "Video direction",
-   "preview": "Motion uses smooth `power3` settles, one continuous artifact"
-  },
-  {
-   "kind": "added",
-   "block": "59cc7c60",
-   "type": "heading",
-   "context": "Frame 1 — Editorial Ledger",
-   "preview": "## Frame 1 — Editorial Ledger"
-  },
-  {
-   "kind": "added",
-   "block": "58f88532",
+   "block": "b08884da",
    "type": "list",
-   "context": "Frame 1 — Editorial Ledger",
-   "preview": "- scene: Dark editorial field; warm artifact folds its ledge"
+   "context": "Asset inventory",
+   "preview": "- `assets/logo.svg` — canonical Proofpress page outline with"
   },
   {
    "kind": "added",
-   "block": "b2b234cf",
+   "block": "fa5af96b",
    "type": "para",
-   "context": "Frame 1 — Editorial Ledger",
-   "preview": "Scene 1 (0.0–0.8s): asymmetric 70/30 editorial stage; artifa"
-  },
-  {
-   "kind": "added",
-   "block": "d432e9a6",
-   "type": "para",
-   "context": "Frame 1 — Editorial Ledger",
-   "preview": "narrativeRole: Prove that admitted decision history can move"
-  },
-  {
-   "kind": "added",
-   "block": "74b9a0e4",
-   "type": "heading",
-   "context": "Frame 2 — Paper Protocol",
-   "preview": "## Frame 2 — Paper Protocol"
-  },
-  {
-   "kind": "added",
-   "block": "a43b0524",
-   "type": "list",
-   "context": "Frame 2 — Paper Protocol",
-   "preview": "- scene: Warm publication spread; a page folds its ledger in"
-  },
-  {
-   "kind": "added",
-   "block": "71550213",
-   "type": "para",
-   "context": "Frame 2 — Paper Protocol",
-   "preview": "Scene 1 (0.0–0.8s): full-frame warm spread split by a bindin"
-  },
-  {
-   "kind": "added",
-   "block": "119de5da",
-   "type": "para",
-   "context": "Frame 2 — Paper Protocol",
-   "preview": "narrativeRole: Make portability physical and understandable "
-  },
-  {
-   "kind": "added",
-   "block": "d7919dde",
-   "type": "heading",
-   "context": "Frame 3 — Living Lineage",
-   "preview": "## Frame 3 — Living Lineage"
-  },
-  {
-   "kind": "added",
-   "block": "4e418e51",
-   "type": "list",
-   "context": "Frame 3 — Living Lineage",
-   "preview": "- scene: Charcoal lineage field; a deterministic grid bends "
-  },
-  {
-   "kind": "added",
-   "block": "f5d77c71",
-   "type": "para",
-   "context": "Frame 3 — Living Lineage",
-   "preview": "Scene 1 (0.0–0.8s): layered charcoal field with a determinis"
-  },
-  {
-   "kind": "added",
-   "block": "52ee1910",
-   "type": "para",
-   "context": "Frame 3 — Living Lineage",
-   "preview": "narrativeRole: Show Proofpress as a protocol layer without i"
+   "context": "Asset inventory",
+   "preview": "No website or legacy launch-demo assets were captured. The f"
   }
  ],
  "policy": "local",
- "soft_fingerprint": "ppsb1:fa018871a73a6c1fd41335136a39a6019ad865f3a449312cc5d14787073a0524",
+ "soft_fingerprint": "ppsb1:86278e12b033be0140bcf393e4595c244f8be1844adb7489861008a4c9e0f878",
  "actors": {
   "requested_by": [
    "Richard Tang"
@@ -161,92 +56,22 @@
  "attribution_basis": "harness_attested",
  "claims": [
   {
-   "block": "a37b334b",
+   "block": "b01d7684",
    "kind": "added",
-   "note": "Defined the visual-direction comparison gate."
+   "note": "Defined the internal launch-film asset inventory."
   },
   {
-   "block": "d145f2d9",
+   "block": "b08884da",
    "kind": "added",
-   "note": "Locked identical content and timing across three tests."
+   "note": "Recorded the canonical mark and anonymized real ledger fixture."
   },
   {
-   "block": "1cb97ce0",
+   "block": "fa5af96b",
    "kind": "added",
-   "note": "Defined the shared video direction."
-  },
-  {
-   "block": "24fe55ad",
-   "kind": "added",
-   "note": "Made the artifact the continuous subject across the handoff."
-  },
-  {
-   "block": "ea423b63",
-   "kind": "added",
-   "note": "Specified deterministic motion and excluded misleading UI/security language."
-  },
-  {
-   "block": "59cc7c60",
-   "kind": "added",
-   "note": "Introduced the Editorial Ledger test."
-  },
-  {
-   "block": "58f88532",
-   "kind": "added",
-   "note": "Specified Editorial Ledger assets, proof beat, and SFX."
-  },
-  {
-   "block": "b2b234cf",
-   "kind": "added",
-   "note": "Specified Editorial Ledger opening state."
-  },
-  {
-   "block": "d432e9a6",
-   "kind": "added",
-   "note": "Specified Editorial Ledger handoff state."
-  },
-  {
-   "block": "74b9a0e4",
-   "kind": "added",
-   "note": "Specified Editorial Ledger receiving state."
-  },
-  {
-   "block": "a43b0524",
-   "kind": "added",
-   "note": "Introduced the Paper Protocol test."
-  },
-  {
-   "block": "71550213",
-   "kind": "added",
-   "note": "Specified Paper Protocol assets, proof beat, and SFX."
-  },
-  {
-   "block": "119de5da",
-   "kind": "added",
-   "note": "Specified the Paper Protocol page-spread sequence."
-  },
-  {
-   "block": "d7919dde",
-   "kind": "added",
-   "note": "Introduced the Living Lineage test."
-  },
-  {
-   "block": "4e418e51",
-   "kind": "added",
-   "note": "Specified Living Lineage assets, proof beat, and SFX."
-  },
-  {
-   "block": "f5d77c71",
-   "kind": "added",
-   "note": "Specified the deterministic grid and graph sequence."
-  },
-  {
-   "block": "52ee1910",
-   "kind": "added",
-   "note": "Recorded the Living Lineage narrative role and claim boundary."
+   "note": "Recorded that no legacy demo or website assets were reused."
   }
  ],
  "context": {
-  "why": "Lock a shared four-second portable-ledger proof moment before asking the founder to choose a full-film direction."
+  "why": "Document the exact local assets and anonymized real fixture used by the launch-film motion tests."
  }
 }
