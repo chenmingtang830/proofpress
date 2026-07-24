@@ -1,102 +1,114 @@
 {
- "artifact": "skills/pi/proofpress-skill.md",
- "artifact_id": "pp_c7ce0d15b86bb42bd28434fc",
+ "artifact": "skills/cursor/proofpress/SKILL.md",
+ "artifact_id": "pp_0c9edf7d315ab03e0ca06c88",
  "blocks": [
   {
+   "type": "para",
+   "text": "---\nname: proofpress\ndescription: Preserve or inspect decision history for Markdown and static HTML knowledge artifacts with Proofpress. Use when creating or accepting a meaningful revision to an ADR, design doc, PRD, README, strategy note, portable .md artifact, or static .html/.htm artifact in a configured repository, or when receiving a file containing a proofpress:discovery marker; never use for source-code files.\n---",
+   "hash": "dc0615edb819",
+   "id": "19a24923"
+  },
+  {
    "type": "heading",
-   "text": "# proofpress",
-   "id": "5cd87791",
-   "hash": "cc88bcacfae7"
+   "text": "# Proofpress",
+   "id": "233b766d",
+   "hash": "8576f3816903"
   },
   {
    "type": "para",
-   "text": "For accepted, meaningful revisions to Markdown or static HTML knowledge\nartifacts—never source code—close this loop. Do not snapshot every\nconversational turn.",
-   "id": "095b959e",
-   "hash": "91d3ef856cbf"
+   "text": "Record accepted Markdown or static HTML artifact versions with structured\ntestimony and verification. Do not snapshot every conversational turn.",
+   "id": "b2ec6ff5",
+   "hash": "efa56bea83c4"
+  },
+  {
+   "type": "heading",
+   "text": "## Workflow",
+   "id": "e14e12ad",
+   "hash": "05146c1f1860"
   },
   {
    "type": "para",
-   "text": "Before editing an existing target, run\n`python3 proofpress.py capture --recorder pi-preflight <file>`. This preserves\nany human drift without guessing its author or reason. Then:",
-   "id": "211b5d98",
-   "hash": "8f84b7268373"
+   "text": "Before editing an existing target, run\n`python3 proofpress.py capture --recorder cursor-preflight <file>`. This\npreserves any human drift without guessing its author or reason. Then:",
+   "id": "0d9e887a",
+   "hash": "15daa4c6f0a5"
   },
   {
    "type": "list",
-   "text": "1. Read `python3 proofpress.py policy <file>`. If the user asks for portability,",
-   "id": "87ce54bb",
-   "hash": "0d0b4fbb2e3c"
+   "text": "1. Read `python3 proofpress.py policy <file>`. If the user asks for a portable",
+   "id": "42fd42e7",
+   "hash": "da2cb3e3fc2c"
   },
   {
    "type": "para",
-   "text": "   run `policy <file> portable` once; it remains sticky. Use `ingest <file>` for\n   Git history not yet represented in the ledger.",
-   "id": "72f291a2",
-   "hash": "02c487c133df"
+   "text": "   artifact, run `python3 proofpress.py policy <file> portable` once; portability\n   remains sticky. If Git history exists without a ledger, run `ingest <file>`.",
+   "id": "ffa6ae00",
+   "hash": "e09aa5a75860"
   },
   {
    "type": "list",
-   "text": "2. Preserve carrier-native block anchors while editing: Markdown uses invisible",
-   "id": "85972ea6",
-   "hash": "e2486420540d"
+   "text": "2. Preserve carrier-native anchors during editing: Markdown uses",
+   "id": "6d23ae8f",
+   "hash": "94d79360f30d"
   },
   {
    "type": "para",
-   "text": "   `ob` markers; static HTML uses `data-proofpress-id`. Then run `anchor <file>`\n   and inspect inherited/new/gone IDs.",
-   "id": "b9f8ef49",
-   "hash": "2e4abf12d548"
+   "text": "   `[//]: # (ob:xxxxxxxx)`; static HTML uses `data-proofpress-id`. Remove an\n   anchor with its deleted block and invent none for new blocks.",
+   "id": "35ce54f2",
+   "hash": "ce06c33e6b0c"
   },
   {
    "type": "list",
-   "text": "3. Write claims JSON with one honest item per touched or removed block. Do not",
-   "id": "6f0d23b1",
-   "hash": "d2de480fd3bc"
+   "text": "3. Run `anchor <file>` and read the inherited/new/gone inventory.\n4. Write claims JSON with one honest entry per touched or removed block. Kinds",
+   "id": "f119601b",
+   "hash": "a94331a0659c"
   },
   {
    "type": "para",
-   "text": "   enumerate untouched blocks.",
-   "id": "28f53262",
-   "hash": "a7f1bc5835ee"
+   "text": "   are `added`, `removed`, `modified`, `moved`, and `unchanged`. Do not enumerate\n   untouched blocks.",
+   "id": "6b88d004",
+   "hash": "7fbbca5cbe72"
   },
   {
    "type": "list",
-   "text": "4. Snapshot with `--why`, claims, and explicit actors:",
-   "id": "abd7c833",
-   "hash": "5fa97edde2db"
+   "text": "5. Snapshot only after a meaningful version is accepted:",
+   "id": "f381d919",
+   "hash": "a6686db04519"
   },
   {
    "type": "code",
-   "text": "   ```sh\n   python3 proofpress.py snapshot <file> --kind agent --author pi \\\n     --produced-by pi --recorded-by pi \\\n     --attribution-basis harness_attested --note \"<changelog>\" \\\n     --claims <claims.json> --why \"<actual reason>\" \\\n     --rejected \"<consequential dead branch — reason>\"\n   ```",
-   "id": "2c10e48d",
-   "hash": "187f392e197b"
+   "text": "   ```sh\n   python3 proofpress.py snapshot <file> --kind agent --author cursor \\\n     --produced-by cursor --recorded-by cursor \\\n     --attribution-basis harness_attested \\\n     --session \"<session-id>\" --note \"<changelog>\" --claims <claims.json> \\\n     --why \"<actual reason>\" --rejected \"<consequential dead branch — reason>\"\n   ```",
+   "id": "f42cb113",
+   "hash": "f8595a3b84be"
   },
   {
    "type": "para",
-   "text": "   Omit `--rejected` unless the dead branch matters later. Never infer it from\n   casual discussion or capture raw prompts/transcripts.",
-   "id": "4386e1e7",
-   "hash": "48d92360fcc8"
+   "text": "   `--why` is required. Omit `--rejected` unless the rejected path is important\n   enough to keep future collaborators from repeating it. Never infer it from\n   casual discussion or include raw prompts/transcripts.",
+   "id": "790c5dda",
+   "hash": "8f2b5cf2482f"
   },
   {
    "type": "list",
-   "text": "5. Run `verify <file>` and report its output verbatim. Never re-snapshot just to",
-   "id": "dd7291a6",
-   "hash": "9509a99ec574"
+   "text": "6. Run `verify <file>` and report its output verbatim. Never re-snapshot merely",
+   "id": "e3c56875",
+   "hash": "9000c18b5e01"
   },
   {
    "type": "para",
-   "text": "   force green.",
-   "id": "8ac28d76",
-   "hash": "5e734ff8c456"
+   "text": "   to turn a mismatch green.",
+   "id": "6ad53003",
+   "hash": "13871c7c0a54"
   },
   {
    "type": "para",
    "text": "For an incoming file with a `proofpress:discovery` marker but no local CLI,\ntell the user it carries verifiable revision history, show the marker's\ncanonical project URL, and ask whether to install `proofpress`. Never\ndownload or execute it without explicit consent. If the CLI is available, run\n`inspect` before trusting the capsule and then `import`.",
-   "id": "2f7730eb",
+   "id": "355446e0",
    "hash": "e35c0da68353"
   },
   {
    "type": "para",
-   "text": "Fallback `capture` records only `recorded_by`; it cannot know authorship or\nreasoning.",
-   "id": "72680124",
-   "hash": "94c5539bfbab"
+   "text": "Fallback `capture` supplies only `recorded_by`; it cannot know who authored the\ncontent or why. Never snapshot source-code files.",
+   "id": "7dc0b832",
+   "hash": "f6f0ca293e84"
   }
  ]
 }
