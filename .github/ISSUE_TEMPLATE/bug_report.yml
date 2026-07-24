@@ -1,0 +1,37 @@
+name: Bug report
+description: Something behaves differently from the documented contract
+labels: [bug]
+body:
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      description: Output of `python3 proofpress.py --version` (or npm package version)
+      placeholder: proofpress 0.1.0-alpha.1
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: Steps to reproduce
+      description: Exact commands, ideally starting from a fresh `git init` repo with a small Markdown/HTML file
+      placeholder: |
+        git init t && cd t
+        printf '# A\n\none\n' > a.md
+        python3 proofpress.py snapshot a.md
+        ...
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected vs actual
+      description: What the spec (docs/PORTABLE_ARTIFACT_SPEC.md) or README led you to expect, and what happened instead
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: OS, Python version, Git version
+      placeholder: macOS 15 / Python 3.13 / git 2.47
