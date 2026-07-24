@@ -26,10 +26,12 @@ jobs:
     steps:
       - uses: actions/checkout@v6
 
+      # No registry-url on purpose: setup-node would write a placeholder
+      # NODE_AUTH_TOKEN into .npmrc, and npm prefers a present token over
+      # the OIDC trusted-publishing exchange. Default registry is npmjs.
       - uses: actions/setup-node@v6
         with:
           node-version: "24.15.0"
-          registry-url: "https://registry.npmjs.org"
           package-manager-cache: false
 
       - name: Test package
