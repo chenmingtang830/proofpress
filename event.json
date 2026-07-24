@@ -1,108 +1,84 @@
 {
  "event": "version_created",
- "artifact": "docs/internal/launch/film/videos/proofpress-x-launch/storyboard-final-dark/index.html",
- "artifact_id": "pp_9a4c438bf0324e5b9c13cbcb",
- "version": "7bef2826",
- "parent": "56921860",
+ "artifact": "README.md",
+ "artifact_id": "pp_556b115de711b0cd33eed260",
+ "version": "e2579d52",
+ "parent": "8d97c670",
  "author": {
-  "name": "unknown",
-  "kind": "human",
+  "name": "codex",
+  "kind": "agent",
   "session": null
  },
  "note": null,
- "ts": "2026-07-24T20:03:25+00:00",
+ "ts": "2026-07-24T20:29:14+00:00",
  "stats": {
-  "added": 5,
-  "modified": 1
+  "modified": 2,
+  "added": 2
  },
  "changes": [
   {
-   "kind": "added",
-   "block": "e82bfd09",
+   "kind": "modified",
+   "block": "e667d986",
    "type": "para",
-   "context": "<h1>Portable <span class=\"accent\">ledger",
-   "preview": "<p class=\"ledger-value\">Focused the launch on design partner"
-  },
-  {
-   "kind": "added",
-   "block": "e3b764a4",
-   "type": "para",
-   "context": "<h1>Portable <span class=\"accent\">ledger",
-   "preview": "<p class=\"ledger-value\">Pilot teams need guided onboarding</"
-  },
-  {
-   "kind": "added",
-   "block": "1f9bb59b",
-   "type": "para",
-   "context": "<h1>Portable <span class=\"accent\">ledger",
-   "preview": "<p class=\"ledger-value\">Open self-serve launch</p>"
-  },
-  {
-   "kind": "added",
-   "block": "bf73fa19",
-   "type": "para",
-   "context": "<h1><span class=\"line\">Reason stated.</s",
-   "preview": "<p class=\"proof-s\">Pilot teams need guided onboarding.</p>"
-  },
-  {
-   "kind": "added",
-   "block": "daf8b9de",
-   "type": "para",
-   "context": "<h1><span class=\"line\">Reason stated.</s",
-   "preview": "<p class=\"proof-s\"><b>✓ Design-partner launch added</b></p>"
+   "context": "Proofpress"
   },
   {
    "kind": "modified",
-   "block": "a5e895fb",
+   "block": "0e0e9d9a",
    "type": "para",
-   "context": "<h1>The ledger moves <span class=\"accent"
+   "context": "Proofpress"
+  },
+  {
+   "kind": "added",
+   "block": "7c5ed81a",
+   "type": "para",
+   "context": "Proofpress",
+   "preview": "Think C2PA, but for knowledge work: a portable, inspectable "
+  },
+  {
+   "kind": "added",
+   "block": "1b5546b8",
+   "type": "para",
+   "context": "Proofpress",
+   "preview": "> Git made code collaborative. Proofpress makes intelligence"
   }
  ],
  "policy": "local",
- "soft_fingerprint": "ppsb1:c811ba01434b53a1f35ae3109c000bc18abbf693192377fad00ca0e9a5c8aaa0",
+ "soft_fingerprint": "ppsb1:4e8e3eaffe3bd054c853c42776d36855563a768b83af49956b8a49007d446ff1",
  "actors": {
   "requested_by": [
-   "Richard Tang"
+   "richard-tang"
   ],
   "produced_by": [
-   "OpenAI Codex"
+   "codex"
   ],
   "edited_by": [
-   "OpenAI Codex"
+   "codex"
   ],
   "recorded_by": [
-   "OpenAI Codex"
+   "codex"
   ]
  },
  "attribution_basis": "harness_attested",
  "claims": [
   {
-   "block": "e82bfd09",
-   "kind": "added",
-   "note": "Added a concrete hypothetical edit to a launch strategy document."
+   "block": "e667d986",
+   "kind": "modified"
   },
   {
-   "block": "e3b764a4",
-   "kind": "added",
-   "note": "Added the attributed rationale for the hypothetical strategy edit."
+   "block": "0e0e9d9a",
+   "kind": "modified"
   },
   {
-   "block": "1f9bb59b",
-   "kind": "added",
-   "note": "Added the concrete alternative rejected in the hypothetical case."
+   "block": "7c5ed81a",
+   "kind": "added"
   },
   {
-   "block": "bf73fa19",
-   "kind": "added",
-   "note": "Repeated the attributed rationale in the stated-versus-checked explanation."
-  },
-  {
-   "block": "daf8b9de",
-   "kind": "added",
-   "note": "Added the computed claim that can be checked against the document diff."
+   "block": "1b5546b8",
+   "kind": "added"
   }
  ],
  "context": {
-  "why": "Replace self-referential Proofpress strategy content with a concrete hypothetical document revision, give edit/why/rejected distinct semantic colors, highlight cumulative intelligence rather than the brand name, and apply the official logo across every frame."
+  "why": "aligned the development README to the agreed launch lockup and vision bridge"
  }
 }
