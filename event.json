@@ -1,118 +1,56 @@
 {
  "event": "version_created",
- "artifact": "docs/internal/launch/x-launch.md",
- "artifact_id": "pp_5c19a32e9dea0da4c55aae96",
- "version": "fb40ded1",
- "parent": "6b0af8f7",
+ "artifact": "docs/internal/launch/vision-article.md",
+ "artifact_id": "pp_76fe7cb5fb383d8b919767a8",
+ "version": "75212846",
+ "parent": "7f74bf76",
  "author": {
   "name": "codex",
   "kind": "agent",
   "session": null
  },
  "note": null,
- "ts": "2026-07-24T20:29:18+00:00",
+ "ts": "2026-07-24T20:29:20+00:00",
  "stats": {
-  "modified": 9,
-  "added": 4
+  "modified": 3,
+  "added": 2
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "5922601a",
+   "block": "62056da6",
    "type": "para",
-   "context": "Launch decision"
-  },
-  {
-   "kind": "modified",
-   "block": "b60dd55f",
-   "type": "para",
-   "context": "Canonical launch post",
-   "numbers": [
-    [
-     "278",
-     "254"
-    ]
-   ]
-  },
-  {
-   "kind": "modified",
-   "block": "d8c123e5",
-   "type": "para",
-   "context": "Canonical launch post"
-  },
-  {
-   "kind": "modified",
-   "block": "d5e07adc",
-   "type": "para",
-   "context": "Reply 1 — founder vision article"
-  },
-  {
-   "kind": "modified",
-   "block": "e87e723f",
-   "type": "code",
-   "context": "Beat 1 — introduce the category, 0:00–0:"
-  },
-  {
-   "kind": "modified",
-   "block": "931a0198",
-   "type": "code",
-   "context": "Beat 3 — reveal the ledger, 0:07–0:14"
-  },
-  {
-   "kind": "modified",
-   "block": "8a217c6a",
-   "type": "heading",
-   "context": "Beat 5 — vision bridge, 0:18–0:20",
-   "numbers": [
-    [
-     "22",
-     "20"
-    ]
-   ]
+   "context": "Git Made Code Collaborative. Proofpress "
   },
   {
    "kind": "added",
-   "block": "90780ce9",
+   "block": "239ad15c",
    "type": "para",
-   "context": "Beat 5 — vision bridge, 0:18–0:20",
-   "preview": "On-screen copy:"
-  },
-  {
-   "kind": "added",
-   "block": "a7fa956a",
-   "type": "code",
-   "context": "Beat 5 — vision bridge, 0:18–0:20",
-   "preview": "```text\nGIT MADE CODE COLLABORATIVE.\nPROOFPRESS MAKES INTELL"
-  },
-  {
-   "kind": "added",
-   "block": "d16f2d4f",
-   "type": "para",
-   "context": "Beat 5 — vision bridge, 0:18–0:20",
-   "preview": "This is the bridge from the handoff wedge to the larger visi"
-  },
-  {
-   "kind": "added",
-   "block": "c0b18779",
-   "type": "heading",
-   "context": "Beat 6 — open-source close, 0:20–0:22",
-   "preview": "### Beat 6 — open-source close, 0:20–0:22"
+   "context": "Git Made Code Collaborative. Proofpress ",
+   "preview": "Proofpress is the trust layer for multiplayer AI: an open, a"
   },
   {
    "kind": "modified",
-   "block": "10ddce38",
-   "type": "code",
-   "context": "Beat 6 — open-source close, 0:20–0:22"
+   "block": "68e80b69",
+   "type": "para",
+   "context": "What Proofpress is building"
+  },
+  {
+   "kind": "added",
+   "block": "08a6f5fa",
+   "type": "para",
+   "context": "What Proofpress is building",
+   "preview": "Think C2PA, but for knowledge work. The analogy is about a p"
   },
   {
    "kind": "modified",
-   "block": "4b713847",
-   "type": "table",
-   "context": "Frame plan"
+   "block": "3f992b85",
+   "type": "para",
+   "context": "Make knowledge cumulative"
   }
  ],
  "policy": "local",
- "soft_fingerprint": "ppsb1:298ea35f065804a61df5ed5ce4813386692875e67bad79837655bbd363b50b6a",
+ "soft_fingerprint": "ppsb1:8f8d83373b6251826bf1f543f3ca196a15f710999b21dad73798e611353ebde0",
  "actors": {
   "requested_by": [
    "richard-tang"
@@ -130,59 +68,27 @@
  "attribution_basis": "harness_attested",
  "claims": [
   {
-   "block": "5922601a",
+   "block": "62056da6",
    "kind": "modified"
   },
   {
-   "block": "b60dd55f",
-   "kind": "modified"
-  },
-  {
-   "block": "d8c123e5",
-   "kind": "modified"
-  },
-  {
-   "block": "d5e07adc",
-   "kind": "modified"
-  },
-  {
-   "block": "e87e723f",
-   "kind": "modified"
-  },
-  {
-   "block": "931a0198",
-   "kind": "modified"
-  },
-  {
-   "block": "8a217c6a",
-   "kind": "modified"
-  },
-  {
-   "block": "90780ce9",
+   "block": "239ad15c",
    "kind": "added"
   },
   {
-   "block": "a7fa956a",
-   "kind": "added"
-  },
-  {
-   "block": "d16f2d4f",
-   "kind": "added"
-  },
-  {
-   "block": "c0b18779",
-   "kind": "added"
-  },
-  {
-   "block": "10ddce38",
+   "block": "68e80b69",
    "kind": "modified"
   },
   {
-   "block": "4b713847",
+   "block": "08a6f5fa",
+   "kind": "added"
+  },
+  {
+   "block": "3f992b85",
    "kind": "modified"
   }
  ],
  "context": {
-  "why": "updated canonical X copy and film script to the agreed launch lockup, real strategy fixture, and vision close"
+  "why": "aligned the founder article opening and product definition to the agreed launch lockup and honest C2PA analogy"
  }
 }
