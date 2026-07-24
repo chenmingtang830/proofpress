@@ -1,35 +1,37 @@
 {
  "event": "version_created",
- "artifact": "docs/internal/launch/x-launch.md",
- "artifact_id": "pp_5c19a32e9dea0da4c55aae96",
- "version": "c44126d9",
- "parent": "47152267",
+ "artifact": "docs/internal/launch/README.md",
+ "artifact_id": "pp_fc140b7b208f2d17adbfc132",
+ "version": "c3fd86a5",
+ "parent": "43d7b896",
  "author": {
   "name": "codex",
   "kind": "agent",
   "session": null
  },
  "note": null,
- "ts": "2026-07-24T20:32:30+00:00",
+ "ts": "2026-07-24T21:47:46+00:00",
  "stats": {
-  "modified": 1
+  "added": 2
  },
  "changes": [
   {
-   "kind": "modified",
-   "block": "46ea7b3d",
+   "kind": "added",
+   "block": "d02678ca",
    "type": "para",
-   "context": "Video alt text",
-   "numbers": [
-    [
-     "20",
-     "22"
-    ]
-   ]
+   "context": "Proofpress launch workspace",
+   "preview": "Launch-day control documents:"
+  },
+  {
+   "kind": "added",
+   "block": "4e4030e3",
+   "type": "list",
+   "context": "Proofpress launch workspace",
+   "preview": "- [Canonical X launch copy](x-launch.md)\n- [Founder vision a"
   }
  ],
  "policy": "local",
- "soft_fingerprint": "ppsb1:69923673f2a7d77217f5b9f78f34f9fb0d2fbf4ee85f7b5962332821ea377125",
+ "soft_fingerprint": "ppsb1:0c38f8b03ae6a64b36fa5737bb5bf2d9effac9fcda8a42a6a80e6cda193f4c66",
  "actors": {
   "requested_by": [
    "richard-tang"
@@ -47,11 +49,15 @@
  "attribution_basis": "harness_attested",
  "claims": [
   {
-   "block": "46ea7b3d",
-   "kind": "modified"
+   "block": "d02678ca",
+   "kind": "added"
+  },
+  {
+   "block": "4e4030e3",
+   "kind": "added"
   }
  ],
  "context": {
-  "why": "aligned video alt text to the final category lockup, vision bridge, and open-source close"
+  "why": "linked the launch workspace to its new FAQ and launch-day control documents"
  }
 }
