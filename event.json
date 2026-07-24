@@ -1,366 +1,35 @@
 {
  "event": "version_created",
- "artifact": "docs/internal/decision_strategy/STRATEGY.md",
- "artifact_id": "pp_3943e4db60affb672f6a954e",
- "version": "740bbdac",
- "parent": null,
+ "artifact": "docs/internal/decision_strategy/TRUST_BOUNDARY_DECISION.md",
+ "artifact_id": "pp_e3f14cc8e799c5c0e8edb317",
+ "version": "ec0d76c5",
+ "parent": "22b084e1",
  "author": {
   "name": "claude",
   "kind": "agent",
   "session": null
  },
- "note": "supersession note: category/vocab yields to PORTABLE_ARTIFACT_STRATEGY, cloud section settled by TRUST_BOUNDARY_DECISION",
- "ts": "2026-07-24T04:14:01+00:00",
+ "note": "relative links fixed after docs/internal reorganization into decision_strategy/ and competition_ref/",
+ "ts": "2026-07-24T04:14:02+00:00",
  "stats": {
-  "added": 49
+  "modified": 2
  },
  "changes": [
   {
-   "kind": "added",
-   "block": "32f5d88f",
-   "type": "heading",
-   "context": "Proofpress 战略 — 2026-07-21 大修",
-   "preview": "# Proofpress 战略 — 2026-07-21 大修"
-  },
-  {
-   "kind": "added",
-   "block": "530d5351",
+   "kind": "modified",
+   "block": "20ec0182",
    "type": "para",
-   "context": "Proofpress 战略 — 2026-07-21 大修",
-   "preview": "> **状态注（2026-07-24）**：本文是 07-21 快照，两处已被后续决议取代，以新文为准：\n> ① 对外 "
+   "context": "信任边界决定 / Trust Boundary Decision Note"
   },
   {
-   "kind": "added",
-   "block": "465926d0",
-   "type": "heading",
-   "context": "一句话",
-   "preview": "## 一句话"
-  },
-  {
-   "kind": "added",
-   "block": "123e9f6d",
+   "kind": "modified",
+   "block": "06986e8d",
    "type": "para",
-   "context": "一句话",
-   "preview": "**Proofpress = knowledge-artifact-native 的版本账本。** git 版本化文件和"
-  },
-  {
-   "kind": "added",
-   "block": "5009b202",
-   "type": "para",
-   "context": "一句话",
-   "preview": "Vision 锚点:**当 agent 产出速度超过人类审阅带宽,自述必须被机器验证,而不是被信任。** agent 十"
-  },
-  {
-   "kind": "added",
-   "block": "f767893e",
-   "type": "heading",
-   "context": "账本的五样东西(git 结构上装不下的)",
-   "preview": "## 账本的五样东西(git 结构上装不下的)"
-  },
-  {
-   "kind": "added",
-   "block": "9ba218ce",
-   "type": "list",
-   "context": "账本的五样东西(git 结构上装不下的)",
-   "preview": "1. **稳定块身份**——跨版本追踪\"这一段\",评论有永久坐标(Kortix 建不起 comment 表的深层原因)。"
-  },
-  {
-   "kind": "added",
-   "block": "f80ed874",
-   "type": "heading",
-   "context": "四层 diff:价值重心前移,真对手是 LLM",
-   "preview": "## 四层 diff:价值重心前移,真对手是 LLM"
-  },
-  {
-   "kind": "added",
-   "block": "ff97cf07",
-   "type": "para",
-   "context": "四层 diff:价值重心前移,真对手是 LLM",
-   "preview": "第 1、2 层(结构/词级 diff)**将被 LLM 商品化**——任何人把两版 markdown 丢给 LLM 都能"
-  },
-  {
-   "kind": "added",
-   "block": "3574479e",
-   "type": "heading",
-   "context": "三层定位",
-   "preview": "## 三层定位"
-  },
-  {
-   "kind": "added",
-   "block": "da9e4405",
-   "type": "table",
-   "context": "三层定位",
-   "preview": "| 层 | 是什么 | 纪律 |\n|---|---|---|\n| 形态 | agent-native 文档工具 — 用户"
-  },
-  {
-   "kind": "added",
-   "block": "6c91ce22",
-   "type": "heading",
-   "context": "为什么是账本(宏观论证)",
-   "preview": "## 为什么是账本(宏观论证)"
-  },
-  {
-   "kind": "added",
-   "block": "2cc840df",
-   "type": "list",
-   "context": "为什么是账本(宏观论证)",
-   "preview": "1. **数据模型决定品类归属**:git→GitHub、块→Notion、scene graph→Figma。工具可抄"
-  },
-  {
-   "kind": "added",
-   "block": "55cd170d",
-   "type": "heading",
-   "context": "判据与竞争(浓缩)",
-   "preview": "## 判据与竞争(浓缩)"
-  },
-  {
-   "kind": "added",
-   "block": "51246324",
-   "type": "para",
-   "context": "判据与竞争(浓缩)",
-   "preview": "**一刀切开四个 bucket:当工作\"已提出、未接受\"时,系统里握着什么对象?**"
-  },
-  {
-   "kind": "added",
-   "block": "0a640234",
-   "type": "table",
-   "context": "判据与竞争(浓缩)",
-   "preview": "| | source of truth | \"已提出未接受\"时握着什么 |\n|---|---|---|\n| 通用 age"
-  },
-  {
-   "kind": "added",
-   "block": "56af2590",
-   "type": "para",
-   "context": "判据与竞争(浓缩)",
-   "preview": "**构成性 vs 描述性**:Work Graph(Asana/Atlassian)是关于工作的元数据——描述性,可重建"
-  },
-  {
-   "kind": "added",
-   "block": "871cbb4f",
-   "type": "para",
-   "context": "判据与竞争(浓缩)",
-   "preview": "**vs Word+Copilot / Docs+Gemini**:他们是 AI 在人的循环里(字符级修订,为人的键击设"
-  },
-  {
-   "kind": "added",
-   "block": "76687abf",
-   "type": "para",
-   "context": "判据与竞争(浓缩)",
-   "preview": "**vs Gamma**:Gamma 重定义 artifact 的格式(为 AI 生成,AI 内置);我们重定义 art"
-  },
-  {
-   "kind": "added",
-   "block": "930c798c",
-   "type": "para",
-   "context": "判据与竞争(浓缩)",
-   "preview": "**同步 vs 异步(用户亲测三连提炼)**:现有产品全是同步微观审批——守在旁边、逐编辑裁决、阅后即焚(Cursor/"
-  },
-  {
-   "kind": "added",
-   "block": "af716ee3",
-   "type": "para",
-   "context": "判据与竞争(浓缩)",
-   "preview": "**vs code review agents**:它们审代码、给意见;我们审知识 artifact、给确定性校验。不同"
-  },
-  {
-   "kind": "added",
-   "block": "2949a75e",
-   "type": "heading",
-   "context": "三条价值曲线:Read / Verify / Feed",
-   "preview": "## 三条价值曲线:Read / Verify / Feed"
-  },
-  {
-   "kind": "added",
-   "block": "ccab167e",
-   "type": "list",
-   "context": "三条价值曲线:Read / Verify / Feed",
-   "preview": "1. **Read(给人)**:语义 diff——入场券,商品化中。\n2. **Verify(给人)**:确定性验证 a"
-  },
-  {
-   "kind": "added",
-   "block": "780f2e40",
-   "type": "para",
-   "context": "三条价值曲线:Read / Verify / Feed",
-   "preview": "旧\"第二曲线:组织记忆\"并入 Feed。论点保留:文档存结论、聊天存推理,账本给两者建外键;版本链 + 死枝(被否 dr"
-  },
-  {
-   "kind": "added",
-   "block": "c04c675e",
-   "type": "heading",
-   "context": "产品形态:一个引擎,三个发布面(一条依赖链)",
-   "preview": "## 产品形态:一个引擎,三个发布面(一条依赖链)"
-  },
-  {
-   "kind": "added",
-   "block": "c4a7549b",
-   "type": "list",
-   "context": "产品形态:一个引擎,三个发布面(一条依赖链)",
-   "preview": "- **引擎**(唯一有真实逻辑):块树 + 稳定 ID + 四层语义 diff + claim 校验。\n- **CLI"
-  },
-  {
-   "kind": "added",
-   "block": "8dfb4506",
-   "type": "para",
-   "context": "产品形态:一个引擎,三个发布面(一条依赖链)",
-   "preview": "**本轮砍单(已拍板)**:独立审阅页(serve/localhost review page)整个砍掉——第一幕裁决复"
-  },
-  {
-   "kind": "added",
-   "block": "a8e3103c",
-   "type": "heading",
-   "context": "三轨道与 backend 无关 spec(关键架构决定)",
-   "preview": "## 三轨道与 backend 无关 spec(关键架构决定)"
-  },
-  {
-   "kind": "added",
-   "block": "6f2b814b",
-   "type": "para",
-   "context": "三轨道与 backend 无关 spec(关键架构决定)",
-   "preview": "**账本 spec 必须 backend 无关**——事件/版本 schema 不许漏进 git-ism(不引用 com"
-  },
-  {
-   "kind": "added",
-   "block": "4013d65e",
-   "type": "list",
-   "context": "三轨道与 backend 无关 spec(关键架构决定)",
-   "preview": "1. **git ref**(开发者,第一幕):`refs/proofpress/ledger`,GitHub 免费当同"
-  },
-  {
-   "kind": "added",
-   "block": "bd2c440d",
-   "type": "para",
-   "context": "三轨道与 backend 无关 spec(关键架构决定)",
-   "preview": "git notes 方案已否决(commit 粒度 ≠ artifact/version 粒度)。"
-  },
-  {
-   "kind": "added",
-   "block": "2d2d13b3",
-   "type": "heading",
-   "context": "两幕张力(诚实版)",
-   "preview": "## 两幕张力(诚实版)"
-  },
-  {
-   "kind": "added",
-   "block": "ae8856c4",
-   "type": "para",
-   "context": "两幕张力(诚实版)",
-   "preview": "**第一幕人群有轨道没疼痛;第二幕人群有疼痛没轨道。**"
-  },
-  {
-   "kind": "added",
-   "block": "d60261e3",
-   "type": "list",
-   "context": "两幕张力(诚实版)",
-   "preview": "- 第一幕(开发者/ADR/PRD/GitHub):裁决借 GitHub,是**带 kill criterion 的便宜"
-  },
-  {
-   "kind": "added",
-   "block": "3d7787a7",
-   "type": "heading",
-   "context": "GTM",
-   "preview": "## GTM"
-  },
-  {
-   "kind": "added",
-   "block": "3e085d3e",
-   "type": "list",
-   "context": "GTM",
-   "preview": "- **分发 = skill,不是目的地**。skill vendor 单文件 + git 子命令,各 harness "
-  },
-  {
-   "kind": "added",
-   "block": "0291bfe2",
-   "type": "heading",
-   "context": "Cloud 方向(exploratory,未拍板)",
-   "preview": "## Cloud 方向(exploratory,未拍板)"
-  },
-  {
-   "kind": "added",
-   "block": "c22d767a",
-   "type": "para",
-   "context": "Cloud 方向(exploratory,未拍板)",
-   "preview": "发散讨论,明确标注:以下均未拍板。"
-  },
-  {
-   "kind": "added",
-   "block": "93c84fd4",
-   "type": "list",
-   "context": "Cloud 方向(exploratory,未拍板)",
-   "preview": "- proofpress cloud = 同步 + 团队 + 审阅 UI(归档的审阅页图纸在此复活)+ **proof "
-  },
-  {
-   "kind": "added",
-   "block": "c439d387",
-   "type": "heading",
-   "context": "北极星的免疫接种",
-   "preview": "## 北极星的免疫接种"
-  },
-  {
-   "kind": "added",
-   "block": "734e4e5b",
-   "type": "para",
-   "context": "北极星的免疫接种",
-   "preview": "\"X 的 git\" 是创业坟场最挤的墓志铭(git for data/design/docs 皆有尸体),死因清一色:*"
-  },
-  {
-   "kind": "added",
-   "block": "87f152de",
-   "type": "heading",
-   "context": "悬而未决(open)",
-   "preview": "## 悬而未决(open)"
-  },
-  {
-   "kind": "added",
-   "block": "29bc8360",
-   "type": "list",
-   "context": "悬而未决(open)",
-   "preview": "- ~~\"Draft → Review → Approve, **for agents**\"词表~~——已拍板:定位收敛"
-  },
-  {
-   "kind": "added",
-   "block": "37645b11",
-   "type": "para",
-   "context": "悬而未决(open)",
-   "preview": "  layer,审批工作流不做(见头部状态注,PORTABLE_ARTIFACT_STRATEGY §2.3)。"
-  },
-  {
-   "kind": "added",
-   "block": "e5268f4e",
-   "type": "list",
-   "context": "悬而未决(open)",
-   "preview": "- 三层定位表里\"引擎 = omnigent 会话层\"是否还准确——本轮未讨论,保留原文加问号。\n- ~~claim s"
-  },
-  {
-   "kind": "added",
-   "block": "8f0692ba",
-   "type": "para",
-   "context": "悬而未决(open)",
-   "preview": "  (`{\"block\",\"kind\",\"note\"?}`)+ 确定性 verify 已落地并有测试覆盖。"
-  },
-  {
-   "kind": "added",
-   "block": "d7f6622d",
-   "type": "heading",
-   "context": "威胁与对策(2026-07-18 快照)",
-   "preview": "## 威胁与对策(2026-07-18 快照)"
-  },
-  {
-   "kind": "added",
-   "block": "57f35ec4",
-   "type": "list",
-   "context": "威胁与对策(2026-07-18 快照)",
-   "preview": "1. Anthropic 做 multiplayer/versioned Cowork — 结构对冲:开源 + 任何 a"
-  },
-  {
-   "kind": "added",
-   "block": "0bedacee",
-   "type": "para",
-   "context": "威胁与对策(2026-07-18 快照)",
-   "preview": "详见 [COMPETITIVE.md](../competition_ref/COMPETITIVE.md)。"
+   "context": "4. C2PA 是路线图锚 / C2PA as the roadmap anch"
   }
  ],
  "policy": "local",
- "soft_fingerprint": "ppsb1:a9126e5fc92b10ca09970cd471f873d5bba40ccc8a2dd918c7b8fab563828fee",
+ "soft_fingerprint": "ppsb1:ce19a347127eb5de04c55d1078683c28b6c1a54f9fdcffd9a5c9482a18607ea5",
  "actors": {
   "requested_by": [
    "chenmingtang830"
@@ -372,11 +41,5 @@
    "claude"
   ]
  },
- "attribution_basis": "harness_attested",
- "context": {
-  "why": "07-21 snapshot conflicted with the 07-22 决议稿 on Draft/Review/Approve vocabulary and left the cloud section marked undecided after it was settled; readers could not tell which doc governs",
-  "rejected": [
-   "rewriting the conflicting sections in place — rejected: the 07-21 argument chain is a historical record worth keeping intact; a supersession header preserves it while removing ambiguity"
-  ]
- }
+ "attribution_basis": "harness_attested"
 }

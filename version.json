@@ -1,300 +1,174 @@
 {
- "artifact": "docs/internal/decision_strategy/STRATEGY.md",
- "artifact_id": "pp_3943e4db60affb672f6a954e",
+ "artifact": "docs/internal/decision_strategy/TRUST_BOUNDARY_DECISION.md",
+ "artifact_id": "pp_e3f14cc8e799c5c0e8edb317",
  "blocks": [
   {
    "type": "heading",
-   "text": "# Proofpress 战略 — 2026-07-21 大修",
-   "id": "32f5d88f",
-   "hash": "4f131215df22"
+   "text": "# 信任边界决定 / Trust Boundary Decision Note",
+   "id": "3d8ecd1c",
+   "hash": "3b4912267400"
   },
   {
    "type": "para",
-   "text": "> **状态注（2026-07-24）**：本文是 07-21 快照，两处已被后续决议取代，以新文为准：\n> ① 对外 category 与词表——\"Draft / Review / Approve, for agents\" 的占领策略被\n> [PORTABLE_ARTIFACT_STRATEGY.md](PORTABLE_ARTIFACT_STRATEGY.md)（07-22 决议稿）\n> 取代，定位收敛为 **the open trust layer for agent-native knowledge work**，\n> 审批工作流明确不做（该文 §2.3）；② \"Cloud 方向（exploratory，未拍板）\"一节——\n> 本地-vs-云分线、witness 护城河、不碰区块链已在\n> [TRUST_BOUNDARY_DECISION.md](TRUST_BOUNDARY_DECISION.md) 拍板，该节不再是\n> open question。其余论证（账本五样、四层 diff、竞争判据、GTM 种子人群、\n> 北极星免疫接种）继续有效。",
-   "hash": "404a52f3682b",
-   "id": "530d5351"
-  },
-  {
-   "type": "heading",
-   "text": "## 一句话",
-   "id": "465926d0",
-   "hash": "bf11a4c5cc1d"
+   "text": "> 内部文档 / Internal. 定位与决策记录，非契约。一页固化四个已定结论，\n> 防止未来的自己或对外文案越界。 / Positioning & decision record, not a\n> contract. Four settled conclusions, fixed here so neither future-us nor\n> outbound copy drifts past them.\n>\n> 决定日期 / Decided: 2026-07-22 · 相关 / See: [C2PA_REFERENCE.md](../competition_ref/C2PA_REFERENCE.md)",
+   "id": "20ec0182",
+   "hash": "0dd397a3dd7a"
   },
   {
    "type": "para",
-   "text": "**Proofpress = knowledge-artifact-native 的版本账本。** git 版本化文件和行;我们版本化交付物(artifact)——块身份、语义变化、来源会话、以及 agent 自述是否属实。git 是存储与传输层(语义模型是我们的,分发网络是 git 的,jj 姿态)。旧一句话\"我们为 agent 的产出记账\"废弃:**\"记账\"不再是价值主张——git 免费做了十几年,记账本身不值钱。** 对外 value prop:**\"git 记了账,但它的账本里没有'这份文档'这个对象,读不懂散文的改动,也验不了 agent 说的话。我们的账本原生就是为 agent 产出的知识工作建的。\"** 品牌词汇不变:agent 交的每一版 draft 是一张 **proof**(校样);人 mark up、sign off、send to press。(命名 2026-07-19 定稿,弃 OmniDocs:GitHub 同名 141★ 同赛道项目 + Newgen OmniDocs 商标风险;弃 Ink/Inkledger:npm ink 39k★ + Kraken Ink L2 crypto 歧义。)",
-   "id": "123e9f6d",
-   "hash": "46458fed07f8"
+   "text": "---",
+   "id": "9a05a8a7",
+   "hash": "f1624c9c50ca"
+  },
+  {
+   "type": "heading",
+   "text": "## 1. V0 的边界是 tamper-evident，不是 tamper-proof",
+   "id": "201cfa37",
+   "hash": "3c80f49bde38"
   },
   {
    "type": "para",
-   "text": "Vision 锚点:**当 agent 产出速度超过人类审阅带宽,自述必须被机器验证,而不是被信任。** agent 十分钟产出人一周的量;git/PR 文化的前提\"一个人认真写、一个人认真看\"在 agent 规模下崩塌。",
-   "id": "5009b202",
-   "hash": "93b803188d31"
-  },
-  {
-   "type": "heading",
-   "text": "## 账本的五样东西(git 结构上装不下的)",
-   "id": "f767893e",
-   "hash": "af7d3773ce2d"
-  },
-  {
-   "type": "list",
-   "text": "1. **稳定块身份**——跨版本追踪\"这一段\",评论有永久坐标(Kortix 建不起 comment 表的深层原因)。\n2. **artifact 身份**——独立于文件路径的交付物对象,带版本链和状态。\n3. **可验证自述**——agent 按结构化 schema 声明每块改动,引擎用计算出的树 diff 逐条核对,✓ verified / ⚠ mismatch。**这是确定性数据比对,不是第二个 AI 的意见**——可复现、同输入同答案、说服不动、换更强的模型也吃不掉。\n4. **块级溯源**——变更块链回会话轮次。\n5. **死枝一等公民**——被否 draft 永久留档。",
-   "id": "9ba218ce",
-   "hash": "4e60c8bec9bc"
-  },
-  {
-   "type": "heading",
-   "text": "## 四层 diff:价值重心前移,真对手是 LLM",
-   "id": "f80ed874",
-   "hash": "1317be292de2"
+   "text": "**中文**：Proofpress V0 承诺**可检测篡改**（诚实验证者能发现对不上），不承诺\n**不可篡改**。对账本/文件的持有者本人，V0 没有、也不试图有任何强制约束——\n只要信任根 100% 在作者手里，作者就是 root，root 能重写 root 拥有的一切，与\nhash 链多严无关。这是有意划定的边界，不是实现漏洞；V0 真实交付的价值是\n**意外 drift 检测**与**收件方核对**，二者今天已 100% 成立。",
+   "id": "cc3f2444",
+   "hash": "ca91265b8cdb"
   },
   {
    "type": "para",
-   "text": "第 1、2 层(结构/词级 diff)**将被 LLM 商品化**——任何人把两版 markdown 丢给 LLM 都能得到不错的语义 diff。这两层是入场券,不是定价点。**第 3、4 层(验证 + 溯源)是定价点。** 新识别的真对手是 **LLM 本身**(不是 git):它吃掉 read 层,吃不掉 verify 层——LLM/code review agent 给的是概率性意见,我们给的是 deterministic gate。在审计/门禁语境,\"用一个 AI 查另一个 AI\"是循环论证。",
-   "id": "ff97cf07",
-   "hash": "100d488f717b"
+   "text": "**措辞纪律（唯一的 launch blocker）**：对外可以说 *checkable record /\ntamper-evident / provenance that travels / gaps stay visible*；绝不说\n*immutable / tamperproof / notarized / can't be faked / blockchain-grade*。\n越界一句，\"已知边界\"即变\"虚假宣传\"。",
+   "id": "3b5b01fb",
+   "hash": "a221903355f4"
+  },
+  {
+   "type": "para",
+   "text": "**EN**: V0 promises tamper-**evident**, not tamper-**proof**. Against the\nholder of the ledger/file themselves, V0 has — deliberately — no enforcement:\nwhile the trust root sits entirely with the author, the author is root, and\nroot rewrites anything root owns, regardless of hash-chain rigor. The real V0\nvalue (accidental-drift detection, recipient verification) is fully delivered\ntoday. Wording discipline is the only launch blocker: never let outbound copy\ncross from tamper-evident into tamper-proof vocabulary.",
+   "id": "44efd8a6",
+   "hash": "664adbb99852"
+  },
+  {
+   "type": "para",
+   "text": "---",
+   "id": "a277842d",
+   "hash": "f1624c9c50ca"
   },
   {
    "type": "heading",
-   "text": "## 三层定位",
-   "id": "3574479e",
-   "hash": "9a95ca07fcbb"
+   "text": "## 2. 本地 vs 云的精确分线 / The precise local-vs-cloud split",
+   "id": "d34d1744",
+   "hash": "37950545a680"
+  },
+  {
+   "type": "para",
+   "text": "**中文**：不是\"防篡改 = 云\"这种粗线。按能力逐项分：",
+   "id": "a492d243",
+   "hash": "7a40dcb7aa76"
   },
   {
    "type": "table",
-   "text": "| 层 | 是什么 | 纪律 |\n|---|---|---|\n| 形态 | agent-native 文档工具 — 用户打开的是一份文档,不是控制台 | 不做更好的编辑器;编辑器够用即可 |\n| 内核 | proof ledger(块树 + 版本链 + 语义 diff + claim 校验 + 溯源)— 构成性数据模型,唯一护城河 | 资源永远优先投这里;验证层品质是唯一 KPI |\n| 引擎 | omnigent 会话层 — 多 harness、用户不可见(?本轮未讨论,是否仍准确存疑) | AI 永不内置;账本对生产者中立 |",
-   "id": "da9e4405",
-   "hash": "5f8aa8323616"
+   "text": "| 能力 / Capability | 本地 / Local | 云 / Cloud |\n| --- | --- | --- |\n| Hard binding（正文摘要） | ✅ 已有 | — |\n| Soft binding 指纹计算 + 同机反查 | ✅ 可做（ledger 即索引） | 仅扩展到跨机器/跨组织反查 |\n| 签名（自持密钥，防第三方伪造） | ✅ 可起步（类 GPG） | 仅强身份绑定、密钥吊销、跨组织信任列表 |\n| **对本人也留痕**（witness / countersign / 时间戳） | ❌ 原理上不可能 | ✅ 唯一提供方 |",
+   "id": "ce3c0e00",
+   "hash": "2e2b17e6edc7"
+  },
+  {
+   "type": "para",
+   "text": "云的真护城河是**最后一行加上 PKI 运营**：作者单方改不掉的外部 append-only\n见证，与跨组织身份/吊销。前三行都要保持本地可用、可退出——这是免费/付费的\n分层线，也是\"想 local 就 local\"承诺的底线。**因此不要在 V0 core 里把\nwitness 缺口补掉**；它是 cloud 的 value prop。V0 只承担一个约束：事件/capsule\nschema 须能向后兼容地容纳未来的 `witness` / signature 字段。",
+   "id": "1f60ff9c",
+   "hash": "34a4f31da0af"
+  },
+  {
+   "type": "para",
+   "text": "**EN**: The moat is not \"tamper-resistance = cloud\" wholesale. Fingerprinting,\nsame-machine lookup, and self-held-key signing all stay local-capable and\nexit-able (the free tier's floor). Cloud uniquely owns: the external\nappend-only witness that makes the *author's own* rewrites evident, plus\ncross-org identity, revocation, trust lists. Do not fill the witness gap in V0\ncore; keep schemas forward-compatible for `witness`/signature fields.",
+   "id": "9ab6598d",
+   "hash": "71cde436724b"
+  },
+  {
+   "type": "para",
+   "text": "**关键澄清 / Key clarification**：本地签名 ≠ 历史锁死。密钥持有者永远能重签\n一份自洽假历史。\"写了就永远在\"只能靠外部见证，别把它排进本地线的预期。 /\nLocal signing never locks history — the key holder can always re-sign a\nconsistent fake. \"Written once, evident forever\" is witness-only.",
+   "id": "5ddb2664",
+   "hash": "78afc4809526"
+  },
+  {
+   "type": "para",
+   "text": "---",
+   "id": "95496cc2",
+   "hash": "f1624c9c50ca"
   },
   {
    "type": "heading",
-   "text": "## 为什么是账本(宏观论证)",
-   "id": "6c91ce22",
-   "hash": "7fd32b22e89e"
+   "text": "## 3. 区块链：默认不做 / Blockchain: default no",
+   "id": "9d9e66d6",
+   "hash": "e334d6278383"
+  },
+  {
+   "type": "para",
+   "text": "**中文**：Proofpress 需要的原语是\"作者改不掉的 append-only 见证/时间戳\"。\n实现选型走 **透明日志（CT / Sigstore Rekor 一路）与 RFC-3161 时间戳**，不上链：",
+   "id": "06310127",
+   "hash": "c0ec07fa16f5"
   },
   {
    "type": "list",
-   "text": "1. **数据模型决定品类归属**:git→GitHub、块→Notion、scene graph→Figma。工具可抄、流程趋同,数据模型抄不动——抄它等于推翻自己的存量(Kortix 之于 git、Google 之于 Docs、微软之于 OOXML,同一个 innovator's dilemma)。\n2. **\"agent 生产、人审阅\"是生产关系反转,反转要求新账本**。三问是记账要求,不是 feature:改了什么(语义的)/为什么改(会话依据)/意见闭环了吗(resolution)。\n3. **唯一有资格赢的战场**:壳(Kortix 三个月抄完)、编排(ruflo/AO 互卷)、调度(lobehub 80k stars)、记录(Plane/AppFlowy 存量百倍)全在商品化;连语义 diff 的 read 层也在被 LLM 商品化。artifact 模型 + 确定性验证是没人占、对手结构性不愿进、LLM 也吃不掉的格子。\n4. **对 Anthropic 的对冲**:账本中立 → agent 越强、写入越多,与模型进步是顺风关系。",
-   "id": "2cc840df",
-   "hash": "d376b708cc94"
-  },
-  {
-   "type": "heading",
-   "text": "## 判据与竞争(浓缩)",
-   "id": "55cd170d",
-   "hash": "d1de11331567"
+   "text": "- 公链公开不可删，与隐私优先（private interval stays private、redaction、",
+   "id": "69574108",
+   "hash": "f4c18798c73c"
   },
   {
    "type": "para",
-   "text": "**一刀切开四个 bucket:当工作\"已提出、未接受\"时,系统里握着什么对象?**",
-   "id": "51246324",
-   "hash": "2c5e2b2d45cb"
-  },
-  {
-   "type": "table",
-   "text": "| | source of truth | \"已提出未接受\"时握着什么 |\n|---|---|---|\n| 通用 agent 工作台(lobehub/CowAgent) | 会话日志 | 什么都没有——又一条消息,交付物是会话的排泄物 |\n| 编码编排(Kortix/AO,git) | repo/branch | 行集合的分支——\"移动一节、改一句\"在 patch 里不存在,批注无处锚 |\n| 记录系统(Notion 系/Plane) | 可变行 / CRDT | 什么都没有——一落笔即成既成事实,没有\"待接受\"可居住的地方 |\n| 工作流引擎(Dify/n8n) | DAG 执行记录 | 暂停的执行——批的是流程通行权,不是内容 |\n| **Proofpress** | **块树 + 不可变版本链** | **一个 Draft:块级身份、语义 diff、逐条批注、会话溯源、等一个 verdict 的一等公民** |",
-   "id": "0a640234",
-   "hash": "87efd6d8a0d6"
-  },
-  {
-   "type": "para",
-   "text": "**构成性 vs 描述性**:Work Graph(Asana/Atlassian)是关于工作的元数据——描述性,可重建,不产生新动词,永远不 consequential。Notion 块 / Figma scene graph / Gamma 卡片流是工作本身的构成模型——新能力从原语里长出来。我们产品里 board、收件箱是描述性的(取景器);构成性的只有账本(底片)。",
-   "id": "56af2590",
-   "hash": "8e9d5636e615"
-  },
-  {
-   "type": "para",
-   "text": "**vs Word+Copilot / Docs+Gemini**:他们是 AI 在人的循环里(字符级修订,为人的键击设计,agent 尺度的改动量在其中不可审);我们是人在 agent 的循环里(accept 单位是一版交付物,不是一次编辑)。五条结构差:无草稿对象/无溯源/无修订闭环/agent 钦定/结构上不能反转。",
-   "id": "871cbb4f",
-   "hash": "35d71a640c23"
-  },
-  {
-   "type": "para",
-   "text": "**vs Gamma**:Gamma 重定义 artifact 的格式(为 AI 生成,AI 内置);我们重定义 artifact 的演化(为 AI 修订 + 人审,AI 可插拔)。内置 AI = 变成没分发的 Word+Copilot + 对冲失效 + 竞争维度变成生成质量(模型的本事,我们不拥有)。",
-   "id": "76687abf",
-   "hash": "3c641e100d35"
-  },
-  {
-   "type": "para",
-   "text": "**同步 vs 异步(用户亲测三连提炼)**:现有产品全是同步微观审批——守在旁边、逐编辑裁决、阅后即焚(Cursor/Copilot/Notion agent)。那是结对。委托需要异步交付物审阅——事后审一版、带记忆、可回滚、可留档。撑起它的全部技术含量 = 账本。",
-   "id": "930c798c",
-   "hash": "3373fdc57566"
-  },
-  {
-   "type": "para",
-   "text": "**vs code review agents**:它们审代码、给意见;我们审知识 artifact、给确定性校验。不同赛道——概率性意见与 deterministic gate 之别,同\"真对手是 LLM\"一节。",
-   "id": "af716ee3",
-   "hash": "288348681967"
-  },
-  {
-   "type": "heading",
-   "text": "## 三条价值曲线:Read / Verify / Feed",
-   "id": "2949a75e",
-   "hash": "8ef87b2c9f89"
+   "text": "  低熵 hash 可被关联）**硬冲突**，非调参可解。",
+   "id": "acdac223",
+   "hash": "d84c756aad27"
   },
   {
    "type": "list",
-   "text": "1. **Read(给人)**:语义 diff——入场券,商品化中。\n2. **Verify(给人)**:确定性验证 agent 自述——信任闸门,人类侧护城河。第一曲线的信任钩子仍在:审 agent 的产出,三周后 CFO 可自答。\n3. **Feed(给 agent,新增)**:账本作为 agent 的结构化记忆 = context engineering——\n   - 续作压缩:diff 摘要替代重读全文/重放会话史,几百 token 替代几万(可测);\n   - 死枝当负约束:agent 不再重提被否方案(组织记忆的第一变现形态是喂 agent,不是给人看的视图);\n   - rebase 反馈包:\"base 已变\"结构化事件回注会话;\n   - 多 agent common ground:块级账本是冲突检测层;\n   - **分发后果:skill 采用动机从\"治理税\"翻转为\"能力升级\"**——harness 厂商自己想要。",
-   "id": "ccab167e",
-   "hash": "45ff5f693a7f"
+   "text": "- C2PA——Adobe/Microsoft/BBC/Intel 的内容溯源行业标准——通篇 X.509 + COSE +",
+   "id": "8bc85635",
+   "hash": "3b192c6716d7"
   },
   {
    "type": "para",
-   "text": "旧\"第二曲线:组织记忆\"并入 Feed。论点保留:文档存结论、聊天存推理,账本给两者建外键;版本链 + 死枝(被否 draft 及其理由,一等公民、永不删除)+ resolution = 决策的完整思想史。对人是 onboarding/复盘/审计;对 agent 是去噪、被验证的压缩上下文——**artifact 历史越厚,其上工作的 agent 越聪明(数据飞轮)**。探索(画布/会话树)是沉淀(版本链)的溯源:发散的树住在溯源层,收敛的链是文档本身。",
-   "id": "780f2e40",
-   "hash": "0331789e1da0"
-  },
-  {
-   "type": "heading",
-   "text": "## 产品形态:一个引擎,三个发布面(一条依赖链)",
-   "id": "c04c675e",
-   "hash": "3de65fa4d52c"
+   "text": "  trust list，零区块链。外部背书：跟着 C2PA 走天然绕开链。",
+   "id": "aa037e26",
+   "hash": "e9096ecc2357"
   },
   {
    "type": "list",
-   "text": "- **引擎**(唯一有真实逻辑):块树 + 稳定 ID + 四层语义 diff + claim 校验。\n- **CLI** `git proofpress`:单文件零依赖,`log/diff/show/verify`;默认彩色人读渲染,`--json` 给程序;isatty/NO_COLOR 自动降级。任何 git 仓库零门槛直接跑(语义 diff 可从两个 git blob 现算,不需要预先建账本——零门槛试用入口)。\n- **GitHub Action**:CI 里 headless 跑 CLI(--json),把语义 diff + 验证徽章贴成 PR 评论;团队一人配一次,其他人零安装。\n- **Skill**:vendor CLI + 教 agent 收尾按 schema 吐结构化 claim——激活 Verify 层的钥匙。\n- Action 和 Skill 都是\"CLI + 胶水\",没有第二份逻辑;CLI 可单独先发。\n- **git-history 回填 ingestion**:不装任何东西的 teammate 正常 commit,每个 commit 被 ingest 成账本版本(author/时间从 commit 取)。一人装,全队历史不丢。",
-   "id": "c4a7549b",
-   "hash": "3637f229cf3f"
+   "text": "- 唯一例外：客户付费指定\"连我们的 cloud 都不信\"的公开可验证性 → 用",
+   "id": "a159363b",
+   "hash": "42ff270bc7e0"
   },
   {
    "type": "para",
-   "text": "**本轮砍单(已拍板)**:独立审阅页(serve/localhost review page)整个砍掉——第一幕裁决复用 GitHub 原生 Merge/Review;已有代码/设计归档为第二幕/cloud 的 UI 图纸(块锚定评论、resolved_by、结构化反馈包设计不变,只是移到付费层)。CLI 砍 `approve`(默认免审,安静即批准)、`comment`(反馈走聊天与 PR 评论原生通道)、`inbox`(依附 comment)。`pip install proofpress` 表述废弃(此前已定):分发 = skill vendor 单文件 + git 子命令。",
-   "id": "8dfb4506",
-   "hash": "8a5187d25bf6"
+   "text": "  **OpenTimestamps** 作桥（间接锚定 Bitcoin，不直接碰链、不管币/gas）。",
+   "id": "6cfd516f",
+   "hash": "0cb1e7415511"
+  },
+  {
+   "type": "para",
+   "text": "**EN**: The primitive we need is a witness log, not a chain. Transparency logs\nand RFC-3161 do it simpler, cheaper, private-by-default; public chains hard-\nconflict with the privacy invariants. C2PA itself ships on PKI with zero\nblockchain. Sole exception: a paying customer demanding trust-nobody public\nverifiability → bridge via OpenTimestamps. Otherwise blockchain is a\nliability, not an asset.",
+   "id": "a39e0ffc",
+   "hash": "3b4ac3688c39"
+  },
+  {
+   "type": "para",
+   "text": "---",
+   "id": "0942d47e",
+   "hash": "f1624c9c50ca"
   },
   {
    "type": "heading",
-   "text": "## 三轨道与 backend 无关 spec(关键架构决定)",
-   "id": "a8e3103c",
-   "hash": "474363c88a5a"
+   "text": "## 4. C2PA 是路线图锚 / C2PA as the roadmap anchor",
+   "id": "a85f7e4c",
+   "hash": "62811ab5c7bb"
   },
   {
    "type": "para",
-   "text": "**账本 spec 必须 backend 无关**——事件/版本 schema 不许漏进 git-ism(不引用 commit SHA 作身份、不依赖 ref 语义)。三轨道,同一套 spec:",
-   "id": "6f2b814b",
-   "hash": "877fc22c2cf8"
-  },
-  {
-   "type": "list",
-   "text": "1. **git ref**(开发者,第一幕):`refs/proofpress/ledger`,GitHub 免费当同步/备份;\n2. **本地**(单人 knowledge worker):skill + 本地账本,零 git 已可行;\n3. **服务器**(团队,付费层):对 knowledge work 人群,服务器不是\"团队功能\",是账本唯一的家。",
-   "id": "4013d65e",
-   "hash": "b255bf3e1bef"
+   "text": "**中文**：结构演进以 [C2PA_REFERENCE.md](../competition_ref/C2PA_REFERENCE.md) 为锚：三种\nbinding 分开做（hard 已有 → soft 本地指纹 → signature 占位）、Ingredients\n多父溯源、`attribution_basis` 阶梯加 `signed` 一格。跳过二进制格式\n（JUMBF/CBOR），保住 claims-vs-diff 这个 C2PA 没有的差异化。采纳顺序见该文\n§5。",
+   "id": "06986e8d",
+   "hash": "dfb6f8de2394"
   },
   {
    "type": "para",
-   "text": "git notes 方案已否决(commit 粒度 ≠ artifact/version 粒度)。",
-   "id": "bd2c440d",
-   "hash": "566cba48d9f8"
-  },
-  {
-   "type": "heading",
-   "text": "## 两幕张力(诚实版)",
-   "id": "2d2d13b3",
-   "hash": "15f8e988ea4a"
-  },
-  {
-   "type": "para",
-   "text": "**第一幕人群有轨道没疼痛;第二幕人群有疼痛没轨道。**",
-   "id": "ae8856c4",
-   "hash": "a4d561fc8dac"
-  },
-  {
-   "type": "list",
-   "text": "- 第一幕(开发者/ADR/PRD/GitHub):裁决借 GitHub,是**带 kill criterion 的便宜实验 + 引擎硬化场 + 词表占领**,不是公司成败所系。第一幕失败只证明\"开发者不疼\",不证明\"账本没价值\"。\n- 第二幕(PM/法务/合规审 deck/合同/分析):挂载点是 **agent harness,不是 git**(呼应产品从 OmniCowork 语境长出;OmniCowork 红线\"想加审阅流 = 接账本的信号\"不变)。**确定性审计对受监管场景是刚需而非维生素——第二幕分量上调。**\n- 待办第一位:带着\"确定性审证 agent 改动\"这一个卖点去撞真实用户,证实/证伪第一幕疼痛。",
-   "id": "d60261e3",
-   "hash": "719e363f46f3"
-  },
-  {
-   "type": "heading",
-   "text": "## GTM",
-   "id": "3d7787a7",
-   "hash": "e0b9c55f527f"
-  },
-  {
-   "type": "list",
-   "text": "- **分发 = skill,不是目的地**。skill vendor 单文件 + git 子命令,各 harness 的 submit-for-review / revise-from-feedback skill。没有\"迁移\",只有\"装了个东西之后产出突然有了版本\"。多 harness 中立从防御定位变成进攻渠道:对手的安装量 = 我们的分发面;Kortix(自有 runtime)和 Anthropic(自家 agent)结构上无法跟进。skill 采用动机走 Feed 曲线的\"能力升级\",不是治理税。\n- **种子人群 = 用 coding agent 写文档的开发者**(第一幕实验)。分发走 coding 渠道,artifact 是**代码周围的非代码文档**(ADR/design doc/PRD/README/博客)。开发者三重合适:agent 已装好、draft/review/approve 心智免教育、痛是现成的(散文被当行 diff 审)。获客画面:同一份 design doc 改动,git 给 200 行红绿,Proofpress 给\"一节 moved + 一段 rewritten + 两个数字 Δ + agent 自述逐条 ✓\"。\n- **红线:永不碰代码文件的版本化**——那是 git 的地盘,Bucket 2 的坟场。每个 feature 过检:服务\"代码周围的文档\",还是滑向\"代码本身\"?后者砍。\n- **法律合同 = 第二幕垂直**:价值判断成立(唯一以 redline 为母语的领域)但三个结构障碍——DOCX 格式墙(对手方在 Word 里)、生产关系不匹配(律师主笔 = \"人写 AI 助\"框架)、垂直吃横向。等 DOCX skill 就绪、横向被验证后进入;确定性审计的刚需属性使其分量随第二幕同步上调。\n- **商业 = git 模型**:proof ledger + 单机 Proofpress 全功能免费开源,格式即公开 spec(锁格式的账本没人敢往里记账);团队服务器(多人审阅、策略门、SSO、托管)收钱 = 第二幕团队产品(GitHub 时刻)。\n- **词表**:对外 Draft / Review / Approve, for agents(抢先公开占领;Kortix 占了 \"change request\" 开发者/git 框架,lobehub 占了 \"hiring/reporting\" HR 框架,知识工作框架无人认领)。\"git for knowledge work\" 只对开发者深度内容用——对种子人群是高效压缩,对其他人是黑话。\n- **launch 叙事资产**:一份真实文档(如本 STRATEGY.md)的演进史 showcase——每一版为什么改、哪些方案被否、否的理由。没有竞品能做出这张页面。**现在正在自举实现(本文档已过账本)。**",
-   "id": "3e085d3e",
-   "hash": "38c5eb4531fc"
-  },
-  {
-   "type": "heading",
-   "text": "## Cloud 方向(exploratory,未拍板)",
-   "id": "0291bfe2",
-   "hash": "c5f3e4e6dcda"
-  },
-  {
-   "type": "para",
-   "text": "发散讨论,明确标注:以下均未拍板。",
-   "id": "c22d767a",
-   "hash": "9184000eb801"
-  },
-  {
-   "type": "list",
-   "text": "- proofpress cloud = 同步 + 团队 + 审阅 UI(归档的审阅页图纸在此复活)+ **proof link**:可分享的验证结果 URL(\"这份合同 v7,agent 声明的改动已全部核对 ✓\"),发给老板/客户/审计员——验证从个人工具变成组织货币。\n- 性质要词不要:**\"cryptographically verifiable history\"**(tamper-evident hash 链 + 签名时间戳),不说 blockchain(分布式共识解决多方互不信任共写,我们的账本单主体,不需要)。\n- \"knowledge work 的 GitHub\"类比压测:私有账本网络效应弱一档;终局 = 团队内 GitHub + schema 标准之争(格式即协议)。\n- 开源 spec 是 cloud 被信任的前提(git 格式公开 GitHub 才敢被托付)。\n- why-now 硬柱:docs-as-code 死于人不肯付仪式税,**agent 付仪式税零边际成本**——\"零 maintenance\"第一次物理上成立。",
-   "id": "93c84fd4",
-   "hash": "aa9ed7feb7eb"
-  },
-  {
-   "type": "heading",
-   "text": "## 北极星的免疫接种",
-   "id": "c439d387",
-   "hash": "e4de0d4e67cf"
-  },
-  {
-   "type": "para",
-   "text": "\"X 的 git\" 是创业坟场最挤的墓志铭(git for data/design/docs 皆有尸体),死因清一色:**要求人类付 git 的仪式税**。我们的 why-now 是把税转嫁给 agent——提交、叙述、rebase、conflict 全部 agent 付,人只裁决。任何让人类多付一分仪式税的设计,都是在重走死路。",
-   "id": "734e4e5b",
-   "hash": "5ccc6d06aff4"
-  },
-  {
-   "type": "heading",
-   "text": "## 悬而未决(open)",
-   "id": "87f152de",
-   "hash": "5a7cb239a07d"
-  },
-  {
-   "type": "list",
-   "text": "- ~~\"Draft → Review → Approve, **for agents**\"词表~~——已拍板:定位收敛为 open trust",
-   "id": "29bc8360",
-   "hash": "653f20735a57"
-  },
-  {
-   "type": "para",
-   "text": "  layer,审批工作流不做(见头部状态注,PORTABLE_ARTIFACT_STRATEGY §2.3)。",
-   "hash": "277d055f0270",
-   "id": "37645b11"
-  },
-  {
-   "type": "list",
-   "text": "- 三层定位表里\"引擎 = omnigent 会话层\"是否还准确——本轮未讨论,保留原文加问号。\n- ~~claim schema 具体设计(字段/产出/比对)~~——已实现:结构化 claims",
-   "hash": "8b1814aadf11",
-   "id": "e5268f4e"
-  },
-  {
-   "type": "para",
-   "text": "  (`{\"block\",\"kind\",\"note\"?}`)+ 确定性 verify 已落地并有测试覆盖。",
-   "hash": "87671cc4da24",
-   "id": "8f0692ba"
-  },
-  {
-   "type": "heading",
-   "text": "## 威胁与对策(2026-07-18 快照)",
-   "id": "d7f6622d",
-   "hash": "8c3c62880ef5"
-  },
-  {
-   "type": "list",
-   "text": "1. Anthropic 做 multiplayer/versioned Cowork — 结构对冲:开源 + 任何 agent + 自托管,永不交易。\n2. Kortix — 壳 + 回流已 shipped;缺 artifact 模型/语义 diff 且逆其结构。外部时钟,按月盯。\n3. lobehub 加 review loop — 高概率;靠速度 + 词表抢占。\n4. Plane — 已在执行(任务侧);做它想集成而非自建的 artifact 层。",
-   "id": "57f35ec4",
-   "hash": "7a0800286ca7"
-  },
-  {
-   "type": "para",
-   "text": "详见 [COMPETITIVE.md](../competition_ref/COMPETITIVE.md)。",
-   "id": "0bedacee",
-   "hash": "9fd864f583cc"
+   "text": "**EN**: Structural evolution anchors on the C2PA reference: three bindings as\nthree separate jobs, multi-parent Ingredients, one `signed` rung on the\nexisting ladder. Skip binary formats; keep the claims-vs-diff differentiator\nC2PA lacks. Adoption order lives in that doc's §5.",
+   "id": "62a5fa4e",
+   "hash": "5ea610942652"
   }
  ]
 }
