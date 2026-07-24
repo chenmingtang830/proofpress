@@ -1,174 +1,462 @@
 {
- "artifact": "docs/internal/TRUST_BOUNDARY_DECISION.md",
- "artifact_id": "pp_e3f14cc8e799c5c0e8edb317",
+ "artifact": "docs/internal/launch/x-launch.md",
+ "artifact_id": "pp_5c19a32e9dea0da4c55aae96",
  "blocks": [
   {
    "type": "heading",
-   "text": "# 信任边界决定 / Trust Boundary Decision Note",
-   "id": "3d8ecd1c",
-   "hash": "3b4912267400"
+   "text": "# Proofpress X launch",
+   "id": "d978986b",
+   "hash": "ed0ea43e95b9"
   },
   {
    "type": "para",
-   "text": "> 内部文档 / Internal. 定位与决策记录，非契约。一页固化四个已定结论，\n> 防止未来的自己或对外文案越界。 / Positioning & decision record, not a\n> contract. Four settled conclusions, fixed here so neither future-us nor\n> outbound copy drifts past them.\n>\n> 决定日期 / Decided: 2026-07-22 · 相关 / See: [C2PA_REFERENCE.md](C2PA_REFERENCE.md)",
-   "id": "20ec0182",
-   "hash": "2c9f59e7ca87"
-  },
-  {
-   "type": "para",
-   "text": "---",
-   "id": "9a05a8a7",
-   "hash": "f1624c9c50ca"
+   "text": "**Status:** canonical draft\n**Channel:** X\n**Primary asset:** 30–34 second silent-first launch film\n**Source of strategic truth:** `docs/internal/PORTABLE_ARTIFACT_STRATEGY.md`",
+   "id": "1fdd0312",
+   "hash": "70970fd8ada6"
   },
   {
    "type": "heading",
-   "text": "## 1. V0 的边界是 tamper-evident，不是 tamper-proof",
-   "id": "201cfa37",
-   "hash": "3c80f49bde38"
+   "text": "## Launch decision",
+   "id": "89191200",
+   "hash": "6018d22978bd"
   },
   {
    "type": "para",
-   "text": "**中文**：Proofpress V0 承诺**可检测篡改**（诚实验证者能发现对不上），不承诺\n**不可篡改**。对账本/文件的持有者本人，V0 没有、也不试图有任何强制约束——\n只要信任根 100% 在作者手里，作者就是 root，root 能重写 root 拥有的一切，与\nhash 链多严无关。这是有意划定的边界，不是实现漏洞；V0 真实交付的价值是\n**意外 drift 检测**与**收件方核对**，二者今天已 100% 成立。",
-   "id": "cc3f2444",
-   "hash": "ca91265b8cdb"
+   "text": "The X launch should introduce the day-one wedge, not the entire protocol. The\nstory is cross-session continuity: two agents are maintaining the same knowledge\nartifact without access to each other's conversations. Proofpress gives them a\nshared, checkable past so the next agent can continue from the right base without\nblindly trusting the latest file.",
+   "id": "5922601a",
+   "hash": "3b5564190702"
   },
   {
    "type": "para",
-   "text": "**措辞纪律（唯一的 launch blocker）**：对外可以说 *checkable record /\ntamper-evident / provenance that travels / gaps stay visible*；绝不说\n*immutable / tamperproof / notarized / can't be faked / blockchain-grade*。\n越界一句，\"已知边界\"即变\"虚假宣传\"。",
-   "id": "3b5b01fb",
-   "hash": "a221903355f4"
-  },
-  {
-   "type": "para",
-   "text": "**EN**: V0 promises tamper-**evident**, not tamper-**proof**. Against the\nholder of the ledger/file themselves, V0 has — deliberately — no enforcement:\nwhile the trust root sits entirely with the author, the author is root, and\nroot rewrites anything root owns, regardless of hash-chain rigor. The real V0\nvalue (accidental-drift detection, recipient verification) is fully delivered\ntoday. Wording discipline is the only launch blocker: never let outbound copy\ncross from tamper-evident into tamper-proof vocabulary.",
-   "id": "44efd8a6",
-   "hash": "664adbb99852"
-  },
-  {
-   "type": "para",
-   "text": "---",
-   "id": "a277842d",
-   "hash": "f1624c9c50ca"
+   "text": "Portable handoff, semantic diff, the carrier format, npm packaging, and the\nlong-term collective-intelligence vision support this story but do not all need\nto appear in the launch post or film.",
+   "id": "bd32ddac",
+   "hash": "5aa97bd91bde"
   },
   {
    "type": "heading",
-   "text": "## 2. 本地 vs 云的精确分线 / The precise local-vs-cloud split",
-   "id": "d34d1744",
-   "hash": "37950545a680"
+   "text": "## Canonical launch post",
+   "id": "db540fed",
+   "hash": "aa5ea9cd4769"
   },
   {
    "type": "para",
-   "text": "**中文**：不是\"防篡改 = 云\"这种粗线。按能力逐项分：",
-   "id": "a492d243",
-   "hash": "7a40dcb7aa76"
+   "text": "The following post is 249 Unicode characters before X link shortening:",
+   "id": "b60dd55f",
+   "hash": "c80f1287d984"
+  },
+  {
+   "type": "para",
+   "text": "> Two agents. One strategy. No shared conversation.\n>\n> They shouldn’t have to start from zero—or blindly trust the latest file.\n>\n> Proofpress gives every human and agent a shared, checkable past.\n>\n> Open source: https://github.com/chenmingtang830/proofpress",
+   "id": "d8c123e5",
+   "hash": "519329c3110a"
+  },
+  {
+   "type": "para",
+   "text": "Attach the launch film directly to this post. Do not add hashtags, launch emojis,\nmentions, a request to repost, or a second call to action.",
+   "id": "ce32ea8d",
+   "hash": "6493903ef680"
+  },
+  {
+   "type": "heading",
+   "text": "## Reply thread",
+   "id": "1215f916",
+   "hash": "2aa423a37c66"
+  },
+  {
+   "type": "para",
+   "text": "The thread is optional. Publish it as replies to the canonical post when there is\ntime to remain present for discussion. Each reply stays within the standard\n280-character limit.",
+   "id": "7bc5247b",
+   "hash": "bb63b4527c99"
+  },
+  {
+   "type": "heading",
+   "text": "### Reply 1 — the missing layer",
+   "id": "01bbac2a",
+   "hash": "c40af24c89b6"
+  },
+  {
+   "type": "para",
+   "text": "> The artifact survives. The decisions that made it disappear.\n>\n> Chats stay inside sessions. Git records lines and commits. A summary can sound right without being reproducible.\n>\n> The next agent still has to guess what changed, why, and which paths were already rejected.",
+   "id": "d5e07adc",
+   "hash": "d4e6e3edf0f3"
+  },
+  {
+   "type": "heading",
+   "text": "### Reply 2 — what gets admitted",
+   "id": "2eb60765",
+   "hash": "bd44a28b60bd"
+  },
+  {
+   "type": "para",
+   "text": "> With Proofpress, Session A admits v2 with the actual change, the reason, actor roles, and one consequential rejection.\n>\n> Proofpress computes the artifact diff and checks whether the recorded change claims match what really changed.",
+   "id": "69bde4fe",
+   "hash": "4b634e488bf7"
+  },
+  {
+   "type": "heading",
+   "text": "### Reply 3 — what the next agent receives",
+   "id": "37c2da58",
+   "hash": "c9a67c0c5915"
+  },
+  {
+   "type": "para",
+   "text": "> Session B cannot see Session A’s conversation. It reads the artifact’s shared history instead: current head, semantic changes, attributed why, rejected paths, and verification results.\n>\n> Then it continues from the right base—or refuses a stale one.",
+   "id": "c69a346e",
+   "hash": "25e087d949dd"
+  },
+  {
+   "type": "heading",
+   "text": "### Reply 4 — the honesty boundary",
+   "id": "06b4282d",
+   "hash": "cb91a8bea220"
+  },
+  {
+   "type": "para",
+   "text": "> Proofpress does not record raw conversations or private chain of thought. It does not pretend that attributed reasons or unsigned identity are cryptographic truth.\n>\n> It provides deterministic integrity for captured history, and makes gaps explicit.",
+   "id": "dfa49076",
+   "hash": "bb85bc3e4494"
+  },
+  {
+   "type": "heading",
+   "text": "### Reply 5 — category and install",
+   "id": "f642a4c6",
+   "hash": "e37e4212c876"
+  },
+  {
+   "type": "para",
+   "text": "> Proofpress is an open protocol and reference implementation for versioned knowledge artifacts with verifiable provenance.\n>\n> Markdown and static HTML today. More harnesses and carriers next.\n>\n> Install the alpha: npm install --save-dev proofpress@next",
+   "id": "b029509a",
+   "hash": "bc9b48dec17f"
+  },
+  {
+   "type": "heading",
+   "text": "## Video length",
+   "id": "2106d9a4",
+   "hash": "031cb3df46bc"
+  },
+  {
+   "type": "para",
+   "text": "Use a 30–34 second film. A longer brand film can exist later, but the X launch\nasset needs only one complete proof: Session A records an accepted decision;\nSession B, without the conversation, inherits a shared past and continues from\nthe correct head; a stale actor is refused.",
+   "id": "88155ddf",
+   "hash": "202798ad8a4c"
+  },
+  {
+   "type": "para",
+   "text": "The film must be understandable without narration. Music and sound design may\nadd rhythm, but the copy, product evidence, and causal sequence must survive\nmuted autoplay.",
+   "id": "77213997",
+   "hash": "6e0e11bb947a"
+  },
+  {
+   "type": "heading",
+   "text": "## Film script",
+   "id": "71beed88",
+   "hash": "fa978c05d1ea"
+  },
+  {
+   "type": "heading",
+   "text": "### Beat 1 — disconnected intelligence, 0:00–0:05",
+   "id": "7dd075af",
+   "hash": "ceb5faea8249"
+  },
+  {
+   "type": "para",
+   "text": "On-screen copy:",
+   "id": "79cc69ea",
+   "hash": "4e40961e6047"
+  },
+  {
+   "type": "code",
+   "text": "```text\nTWO AGENTS.\nONE STRATEGY.\nNO SHARED CONVERSATION.\n```",
+   "id": "e87e723f",
+   "hash": "9a8c2049de38"
+  },
+  {
+   "type": "para",
+   "text": "Visual: two independent session windows occupy opposite sides of the frame. A\nsingle `strategy.md @ v1` sits between them. Neither session has a visual channel\nto the other.",
+   "id": "a5afd326",
+   "hash": "9a7609ec2069"
+  },
+  {
+   "type": "heading",
+   "text": "### Beat 2 — the continuity gap, 0:05–0:09",
+   "id": "55e882b8",
+   "hash": "9baac0f64a4f"
+  },
+  {
+   "type": "para",
+   "text": "On-screen copy:",
+   "id": "61fc86a5",
+   "hash": "4e40961e6047"
+  },
+  {
+   "type": "code",
+   "text": "```text\nTHE ARTIFACT SURVIVES.\nTHE DECISIONS DISAPPEAR.\n```",
+   "id": "2c6665fc",
+   "hash": "9db5b1376b8e"
+  },
+  {
+   "type": "para",
+   "text": "Visual: the document stays solid while the surrounding decision context—why,\nrejected direction, actor, and base—briefly appears and then dissolves. A\nrestrained Canvas UI particle treatment may be tested here, but the typography\nand artifact must remain readable without it.",
+   "id": "e8811cb7",
+   "hash": "06006724c633"
+  },
+  {
+   "type": "heading",
+   "text": "### Beat 3 — Session A admits v2, 0:09–0:16",
+   "id": "927677d8",
+   "hash": "5519fbcd3a0a"
+  },
+  {
+   "type": "para",
+   "text": "Show a real, simplified Proofpress event:",
+   "id": "84908a97",
+   "hash": "ca758e845142"
+  },
+  {
+   "type": "code",
+   "text": "```text\nstrategy.md  v1 → v2\n\nchanged\nposition Proofpress as the open trust layer\n\nwhy\ncross-session continuity is the day-one wedge\n\nrejected\nbuild a new approval workflow\n\nchange claims  ✓ verified\n```",
+   "id": "931a0198",
+   "hash": "7bb45e49d82c"
+  },
+  {
+   "type": "para",
+   "text": "The strategic change and rejection come from the actual Proofpress decision\nhistory. The rendered CLI output must be generated from a safe launch fixture,\nnot fabricated as an unavailable product surface.",
+   "id": "0a136c96",
+   "hash": "56602e0cca00"
+  },
+  {
+   "type": "heading",
+   "text": "### Beat 4 — Session B inherits the past, 0:16–0:24",
+   "id": "c0921886",
+   "hash": "104b63556267"
+  },
+  {
+   "type": "para",
+   "text": "Session B begins with no Session A transcript. Show it inspecting the artifact\nand recovering the current head, change, attributed why, rejected direction,\nand verification result.",
+   "id": "d725eab4",
+   "hash": "8a1ce2d4f3dc"
+  },
+  {
+   "type": "para",
+   "text": "On-screen copy:",
+   "id": "5fc808ae",
+   "hash": "4e40961e6047"
+  },
+  {
+   "type": "code",
+   "text": "```text\nNO CHAT HISTORY.\nNOT STARTING FROM ZERO.\n```",
+   "id": "81b9b51f",
+   "hash": "88dd61a9c99a"
+  },
+  {
+   "type": "para",
+   "text": "Then show the consequence, not another feature list:",
+   "id": "89ea3d93",
+   "hash": "6078eaf438c7"
+  },
+  {
+   "type": "code",
+   "text": "```text\ncontinue from v2\navoid the rejected approval workflow\n```",
+   "id": "123c4835",
+   "hash": "af58e104453f"
+  },
+  {
+   "type": "para",
+   "text": "This is the film's money moment. Session B acts differently because the artifact\nhas a shared, checkable past.",
+   "id": "aaafccca",
+   "hash": "a5e35d86d246"
+  },
+  {
+   "type": "heading",
+   "text": "### Beat 5 — stale work is refused, 0:24–0:28",
+   "id": "8a217c6a",
+   "hash": "96daec7ea7a4"
+  },
+  {
+   "type": "para",
+   "text": "Show a third actor attempting to continue from `v1`:",
+   "id": "7e39124e",
+   "hash": "1485e320f8b0"
+  },
+  {
+   "type": "code",
+   "text": "```text\nbase v1\ncurrent head v2\n\nSTALE BASE — REFUSED\n```",
+   "id": "10ddce38",
+   "hash": "cd025eca7a55"
+  },
+  {
+   "type": "para",
+   "text": "On-screen copy:",
+   "id": "0d7c38e1",
+   "hash": "4e40961e6047"
+  },
+  {
+   "type": "code",
+   "text": "```text\nNO SILENT OVERWRITE.\n```",
+   "id": "fb7ba185",
+   "hash": "71552bb1955d"
+  },
+  {
+   "type": "heading",
+   "text": "### Beat 6 — category close, 0:28–0:34",
+   "id": "4aab0721",
+   "hash": "df7877ac965e"
+  },
+  {
+   "type": "para",
+   "text": "On-screen copy:",
+   "id": "347e9d6b",
+   "hash": "4e40961e6047"
+  },
+  {
+   "type": "code",
+   "text": "```text\nPROOFPRESS\n\nTHE OPEN TRUST LAYER\nFOR AGENT-NATIVE KNOWLEDGE WORK\n\nSCALE INTELLIGENCE.\nPRESERVE TRUST.\n```",
+   "id": "3887b401",
+   "hash": "629b3bf44c0f"
+  },
+  {
+   "type": "para",
+   "text": "Final frame:",
+   "id": "97c21140",
+   "hash": "1147e43ce4a2"
+  },
+  {
+   "type": "code",
+   "text": "```text\nOPEN SOURCE\ngithub.com/chenmingtang830/proofpress\n```",
+   "id": "df9da7ab",
+   "hash": "e085fcb92c8d"
+  },
+  {
+   "type": "para",
+   "text": "Do not put the npm command in the closing frame. The repository URL is the one\nX-film call to action; installation belongs in the README and final thread\nreply.",
+   "id": "5ab77343",
+   "hash": "fac142b7562a"
+  },
+  {
+   "type": "heading",
+   "text": "## Frame plan",
+   "id": "0fa3ce95",
+   "hash": "fe5ca6626662"
   },
   {
    "type": "table",
-   "text": "| 能力 / Capability | 本地 / Local | 云 / Cloud |\n| --- | --- | --- |\n| Hard binding（正文摘要） | ✅ 已有 | — |\n| Soft binding 指纹计算 + 同机反查 | ✅ 可做（ledger 即索引） | 仅扩展到跨机器/跨组织反查 |\n| 签名（自持密钥，防第三方伪造） | ✅ 可起步（类 GPG） | 仅强身份绑定、密钥吊销、跨组织信任列表 |\n| **对本人也留痕**（witness / countersign / 时间戳） | ❌ 原理上不可能 | ✅ 唯一提供方 |",
-   "id": "ce3c0e00",
-   "hash": "2e2b17e6edc7"
-  },
-  {
-   "type": "para",
-   "text": "云的真护城河是**最后一行加上 PKI 运营**：作者单方改不掉的外部 append-only\n见证，与跨组织身份/吊销。前三行都要保持本地可用、可退出——这是免费/付费的\n分层线，也是\"想 local 就 local\"承诺的底线。**因此不要在 V0 core 里把\nwitness 缺口补掉**；它是 cloud 的 value prop。V0 只承担一个约束：事件/capsule\nschema 须能向后兼容地容纳未来的 `witness` / signature 字段。",
-   "id": "1f60ff9c",
-   "hash": "34a4f31da0af"
-  },
-  {
-   "type": "para",
-   "text": "**EN**: The moat is not \"tamper-resistance = cloud\" wholesale. Fingerprinting,\nsame-machine lookup, and self-held-key signing all stay local-capable and\nexit-able (the free tier's floor). Cloud uniquely owns: the external\nappend-only witness that makes the *author's own* rewrites evident, plus\ncross-org identity, revocation, trust lists. Do not fill the witness gap in V0\ncore; keep schemas forward-compatible for `witness`/signature fields.",
-   "id": "9ab6598d",
-   "hash": "71cde436724b"
-  },
-  {
-   "type": "para",
-   "text": "**关键澄清 / Key clarification**：本地签名 ≠ 历史锁死。密钥持有者永远能重签\n一份自洽假历史。\"写了就永远在\"只能靠外部见证，别把它排进本地线的预期。 /\nLocal signing never locks history — the key holder can always re-sign a\nconsistent fake. \"Written once, evident forever\" is witness-only.",
-   "id": "5ddb2664",
-   "hash": "78afc4809526"
-  },
-  {
-   "type": "para",
-   "text": "---",
-   "id": "95496cc2",
-   "hash": "f1624c9c50ca"
+   "text": "| Time | Frame | Evidence job | Motion |\n|---|---|---|---|\n| 0:00–0:02 | “TWO AGENTS.” | Establish actors | Hard typographic reveal |\n| 0:02–0:03.5 | “ONE STRATEGY.” | Establish shared artifact | Central document resolves |\n| 0:03.5–0:05 | “NO SHARED CONVERSATION.” | Establish isolation | Sessions separate laterally |\n| 0:05–0:09 | Artifact remains; decisions disappear | Show the continuity gap | Optional particle dissolution |\n| 0:09–0:12 | `v1 → v2`, change and why | Show admitted event | Tight terminal crop |\n| 0:12–0:16 | Rejection and verified claims | Show negative context and checkable account | Rejection locks; check resolves |\n| 0:16–0:20 | Session B inspects without transcript | Recover shared state | Lineage reveals from artifact |\n| 0:20–0:24 | B continues from v2 and avoids dead branch | Prove behavioral value | Correct path brightens |\n| 0:24–0:28 | Stale v1 is refused | Prove concurrency boundary | Attempt stops at current head |\n| 0:28–0:32 | Category and vision | Name the product | Editorial close |\n| 0:32–0:34 | Repository URL | Conversion | Hold; no competing motion |",
+   "id": "4b713847",
+   "hash": "4229db82e7fa"
   },
   {
    "type": "heading",
-   "text": "## 3. 区块链：默认不做 / Blockchain: default no",
-   "id": "9d9e66d6",
-   "hash": "e334d6278383"
-  },
-  {
-   "type": "para",
-   "text": "**中文**：Proofpress 需要的原语是\"作者改不掉的 append-only 见证/时间戳\"。\n实现选型走 **透明日志（CT / Sigstore Rekor 一路）与 RFC-3161 时间戳**，不上链：",
-   "id": "06310127",
-   "hash": "c0ec07fa16f5"
+   "text": "## Visual guardrails",
+   "id": "91dfe518",
+   "hash": "22544d4bb825"
   },
   {
    "type": "list",
-   "text": "- 公链公开不可删，与隐私优先（private interval stays private、redaction、",
-   "id": "69574108",
-   "hash": "f4c18798c73c"
+   "text": "- The artifact is always the stable center; agents and sessions rotate around",
+   "id": "0245b307",
+   "hash": "dd1ca862b302"
   },
   {
    "type": "para",
-   "text": "  低熵 hash 可被关联）**硬冲突**，非调参可解。",
-   "id": "acdac223",
-   "hash": "d84c756aad27"
+   "text": "  it.",
+   "id": "d240754a",
+   "hash": "636c09afd08e"
   },
   {
    "type": "list",
-   "text": "- C2PA——Adobe/Microsoft/BBC/Intel 的内容溯源行业标准——通篇 X.509 + COSE +",
-   "id": "8bc85635",
-   "hash": "3b192c6716d7"
+   "text": "- Use the seal and lineage as signals of admitted history, not as claims of",
+   "id": "c3120ac5",
+   "hash": "b4fe4a746658"
   },
   {
    "type": "para",
-   "text": "  trust list，零区块链。外部背书：跟着 C2PA 走天然绕开链。",
-   "id": "aa037e26",
-   "hash": "e9096ecc2357"
+   "text": "  cryptographic identity.",
+   "id": "2e8c8d22",
+   "hash": "a4d8e2b5ce95"
   },
   {
    "type": "list",
-   "text": "- 唯一例外：客户付费指定\"连我们的 cloud 都不信\"的公开可验证性 → 用",
-   "id": "a159363b",
-   "hash": "42ff270bc7e0"
+   "text": "- “Verified” modifies computed changes and change claims, never attributed why",
+   "id": "0e010f5e",
+   "hash": "6bc738d0ebbe"
   },
   {
    "type": "para",
-   "text": "  **OpenTimestamps** 作桥（间接锚定 Bitcoin，不直接碰链、不管币/gas）。",
-   "id": "6cfd516f",
-   "hash": "0cb1e7415511"
+   "text": "  or unsigned actors.",
+   "id": "9c51dafb",
+   "hash": "49ede3dfdfab"
+  },
+  {
+   "type": "list",
+   "text": "- Use one Canvas UI signature effect at most. HyperFrames owns all timing and",
+   "id": "131cf0c4",
+   "hash": "f14710a806ba"
   },
   {
    "type": "para",
-   "text": "**EN**: The primitive we need is a witness log, not a chain. Transparency logs\nand RFC-3161 do it simpler, cheaper, private-by-default; public chains hard-\nconflict with the privacy invariants. C2PA itself ships on PKI with zero\nblockchain. Sole exception: a paying customer demanding trust-nobody public\nverifiability → bridge via OpenTimestamps. Otherwise blockchain is a\nliability, not an asset.",
-   "id": "a39e0ffc",
-   "hash": "3b4ac3688c39"
+   "text": "  rendering.",
+   "id": "3f890420",
+   "hash": "0f50ab8bda53"
+  },
+  {
+   "type": "list",
+   "text": "- No old review UI, approval controls, thousand-line-diff hook, legacy install",
+   "id": "61c54e2f",
+   "hash": "790fe986d420"
   },
   {
    "type": "para",
-   "text": "---",
-   "id": "0942d47e",
-   "hash": "f1624c9c50ca"
+   "text": "  command, or “Markdown gets its own Git” positioning.",
+   "id": "60722959",
+   "hash": "538ba6b5f8f9"
+  },
+  {
+   "type": "list",
+   "text": "- Terminal and artifact text must remain readable at ordinary X playback size.\n- Do not show private repository names, local paths, real actor identifiers, or",
+   "id": "d4f2e6ad",
+   "hash": "c54d9ea32787"
+  },
+  {
+   "type": "para",
+   "text": "  internal strategy text beyond the approved launch fixture.",
+   "id": "317c96d1",
+   "hash": "22ea3d18e721"
   },
   {
    "type": "heading",
-   "text": "## 4. C2PA 是路线图锚 / C2PA as the roadmap anchor",
-   "id": "a85f7e4c",
-   "hash": "62811ab5c7bb"
+   "text": "## Film acceptance test",
+   "id": "e99b6b98",
+   "hash": "b142ce3916e6"
   },
   {
    "type": "para",
-   "text": "**中文**：结构演进以 [C2PA_REFERENCE.md](C2PA_REFERENCE.md) 为锚：三种\nbinding 分开做（hard 已有 → soft 本地指纹 → signature 占位）、Ingredients\n多父溯源、`attribution_basis` 阶梯加 `signed` 一格。跳过二进制格式\n（JUMBF/CBOR），保住 claims-vs-diff 这个 C2PA 没有的差异化。采纳顺序见该文\n§5。",
-   "id": "06986e8d",
-   "hash": "78f96be3973a"
+   "text": "After one silent viewing, an unfamiliar developer should be able to answer:",
+   "id": "d1833da7",
+   "hash": "036ab78dc1f9"
+  },
+  {
+   "type": "list",
+   "text": "1. Why can Session B continue without Session A's conversation?\n2. What did Proofpress preserve that the final document alone did not?\n3. Which parts are computed or verified, and which are attributed context?\n4. What happens when an agent works from a stale base?",
+   "id": "3aeea40a",
+   "hash": "236395754991"
   },
   {
    "type": "para",
-   "text": "**EN**: Structural evolution anchors on the C2PA reference: three bindings as\nthree separate jobs, multi-parent Ingredients, one `signed` rung on the\nexisting ladder. Skip binary formats; keep the claims-vs-diff differentiator\nC2PA lacks. Adoption order lives in that doc's §5.",
-   "id": "62a5fa4e",
-   "hash": "5ea610942652"
+   "text": "If the viewer answers only “it versions Markdown” or “it makes better diffs,”\nthe film has failed its strategic purpose.",
+   "id": "55156831",
+   "hash": "b6058217cbc9"
+  },
+  {
+   "type": "heading",
+   "text": "## Video alt text",
+   "id": "8d1e5b46",
+   "hash": "966265cfd9ca"
+  },
+  {
+   "type": "para",
+   "text": "> A 30-second motion graphic shows two isolated AI-agent sessions working on the same strategy document. Session A records an accepted change, its attributed reason, a rejected direction, and verified change claims. Session B, without seeing Session A’s conversation, reads that shared history and continues from the correct version. A stale version is refused. The film closes on Proofpress as the open trust layer for agent-native knowledge work.",
+   "id": "46ea7b3d",
+   "hash": "e987d9682527"
   }
  ]
 }

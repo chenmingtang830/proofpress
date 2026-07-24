@@ -1,240 +1,877 @@
 {
  "event": "version_created",
- "artifact": "docs/internal/TRUST_BOUNDARY_DECISION.md",
- "artifact_id": "pp_e3f14cc8e799c5c0e8edb317",
- "version": "22b084e1",
+ "artifact": "docs/internal/launch/x-launch.md",
+ "artifact_id": "pp_5c19a32e9dea0da4c55aae96",
+ "version": "2991373a",
  "parent": null,
  "author": {
-  "name": "claude",
+  "name": "codex",
   "kind": "agent",
   "session": null
  },
- "note": "positioning decision note: tamper-evident boundary, local-vs-cloud split, no blockchain, C2PA anchor",
- "ts": "2026-07-24T04:01:43+00:00",
+ "note": null,
+ "ts": "2026-07-24T04:13:53+00:00",
  "stats": {
-  "added": 28
+  "added": 76
  },
  "changes": [
   {
    "kind": "added",
-   "block": "3d8ecd1c",
+   "block": "d978986b",
    "type": "heading",
-   "context": "信任边界决定 / Trust Boundary Decision Note",
-   "preview": "# 信任边界决定 / Trust Boundary Decision Note"
+   "context": "Proofpress X launch",
+   "preview": "# Proofpress X launch"
   },
   {
    "kind": "added",
-   "block": "20ec0182",
+   "block": "1fdd0312",
    "type": "para",
-   "context": "信任边界决定 / Trust Boundary Decision Note",
-   "preview": "> 内部文档 / Internal. 定位与决策记录，非契约。一页固化四个已定结论，\n> 防止未来的自己或对外文案越界。"
+   "context": "Proofpress X launch",
+   "preview": "**Status:** canonical draft\n**Channel:** X\n**Primary asset:*"
   },
   {
    "kind": "added",
-   "block": "9a05a8a7",
-   "type": "para",
-   "context": "信任边界决定 / Trust Boundary Decision Note",
-   "preview": "---"
-  },
-  {
-   "kind": "added",
-   "block": "201cfa37",
+   "block": "89191200",
    "type": "heading",
-   "context": "1. V0 的边界是 tamper-evident，不是 tamper-proo",
-   "preview": "## 1. V0 的边界是 tamper-evident，不是 tamper-proof"
+   "context": "Launch decision",
+   "preview": "## Launch decision"
   },
   {
    "kind": "added",
-   "block": "cc3f2444",
+   "block": "5922601a",
    "type": "para",
-   "context": "1. V0 的边界是 tamper-evident，不是 tamper-proo",
-   "preview": "**中文**：Proofpress V0 承诺**可检测篡改**（诚实验证者能发现对不上），不承诺\n**不可篡改**。对"
+   "context": "Launch decision",
+   "preview": "The X launch should introduce the day-one wedge, not the ent"
   },
   {
    "kind": "added",
-   "block": "3b5b01fb",
+   "block": "bd32ddac",
    "type": "para",
-   "context": "1. V0 的边界是 tamper-evident，不是 tamper-proo",
-   "preview": "**措辞纪律（唯一的 launch blocker）**：对外可以说 *checkable record /\ntampe"
+   "context": "Launch decision",
+   "preview": "Portable handoff, semantic diff, the carrier format, npm pac"
   },
   {
    "kind": "added",
-   "block": "44efd8a6",
-   "type": "para",
-   "context": "1. V0 的边界是 tamper-evident，不是 tamper-proo",
-   "preview": "**EN**: V0 promises tamper-**evident**, not tamper-**proof**"
-  },
-  {
-   "kind": "added",
-   "block": "a277842d",
-   "type": "para",
-   "context": "1. V0 的边界是 tamper-evident，不是 tamper-proo",
-   "preview": "---"
-  },
-  {
-   "kind": "added",
-   "block": "d34d1744",
+   "block": "db540fed",
    "type": "heading",
-   "context": "2. 本地 vs 云的精确分线 / The precise local-vs-c",
-   "preview": "## 2. 本地 vs 云的精确分线 / The precise local-vs-cloud split"
+   "context": "Canonical launch post",
+   "preview": "## Canonical launch post"
   },
   {
    "kind": "added",
-   "block": "a492d243",
+   "block": "b60dd55f",
    "type": "para",
-   "context": "2. 本地 vs 云的精确分线 / The precise local-vs-c",
-   "preview": "**中文**：不是\"防篡改 = 云\"这种粗线。按能力逐项分："
+   "context": "Canonical launch post",
+   "preview": "The following post is 249 Unicode characters before X link s"
   },
   {
    "kind": "added",
-   "block": "ce3c0e00",
+   "block": "d8c123e5",
+   "type": "para",
+   "context": "Canonical launch post",
+   "preview": "> Two agents. One strategy. No shared conversation.\n>\n> They"
+  },
+  {
+   "kind": "added",
+   "block": "ce32ea8d",
+   "type": "para",
+   "context": "Canonical launch post",
+   "preview": "Attach the launch film directly to this post. Do not add has"
+  },
+  {
+   "kind": "added",
+   "block": "1215f916",
+   "type": "heading",
+   "context": "Reply thread",
+   "preview": "## Reply thread"
+  },
+  {
+   "kind": "added",
+   "block": "7bc5247b",
+   "type": "para",
+   "context": "Reply thread",
+   "preview": "The thread is optional. Publish it as replies to the canonic"
+  },
+  {
+   "kind": "added",
+   "block": "01bbac2a",
+   "type": "heading",
+   "context": "Reply 1 — the missing layer",
+   "preview": "### Reply 1 — the missing layer"
+  },
+  {
+   "kind": "added",
+   "block": "d5e07adc",
+   "type": "para",
+   "context": "Reply 1 — the missing layer",
+   "preview": "> The artifact survives. The decisions that made it disappea"
+  },
+  {
+   "kind": "added",
+   "block": "2eb60765",
+   "type": "heading",
+   "context": "Reply 2 — what gets admitted",
+   "preview": "### Reply 2 — what gets admitted"
+  },
+  {
+   "kind": "added",
+   "block": "69bde4fe",
+   "type": "para",
+   "context": "Reply 2 — what gets admitted",
+   "preview": "> With Proofpress, Session A admits v2 with the actual chang"
+  },
+  {
+   "kind": "added",
+   "block": "37c2da58",
+   "type": "heading",
+   "context": "Reply 3 — what the next agent receives",
+   "preview": "### Reply 3 — what the next agent receives"
+  },
+  {
+   "kind": "added",
+   "block": "c69a346e",
+   "type": "para",
+   "context": "Reply 3 — what the next agent receives",
+   "preview": "> Session B cannot see Session A’s conversation. It reads th"
+  },
+  {
+   "kind": "added",
+   "block": "06b4282d",
+   "type": "heading",
+   "context": "Reply 4 — the honesty boundary",
+   "preview": "### Reply 4 — the honesty boundary"
+  },
+  {
+   "kind": "added",
+   "block": "dfa49076",
+   "type": "para",
+   "context": "Reply 4 — the honesty boundary",
+   "preview": "> Proofpress does not record raw conversations or private ch"
+  },
+  {
+   "kind": "added",
+   "block": "f642a4c6",
+   "type": "heading",
+   "context": "Reply 5 — category and install",
+   "preview": "### Reply 5 — category and install"
+  },
+  {
+   "kind": "added",
+   "block": "b029509a",
+   "type": "para",
+   "context": "Reply 5 — category and install",
+   "preview": "> Proofpress is an open protocol and reference implementatio"
+  },
+  {
+   "kind": "added",
+   "block": "2106d9a4",
+   "type": "heading",
+   "context": "Video length",
+   "preview": "## Video length"
+  },
+  {
+   "kind": "added",
+   "block": "88155ddf",
+   "type": "para",
+   "context": "Video length",
+   "preview": "Use a 30–34 second film. A longer brand film can exist later"
+  },
+  {
+   "kind": "added",
+   "block": "77213997",
+   "type": "para",
+   "context": "Video length",
+   "preview": "The film must be understandable without narration. Music and"
+  },
+  {
+   "kind": "added",
+   "block": "71beed88",
+   "type": "heading",
+   "context": "Film script",
+   "preview": "## Film script"
+  },
+  {
+   "kind": "added",
+   "block": "7dd075af",
+   "type": "heading",
+   "context": "Beat 1 — disconnected intelligence, 0:00",
+   "preview": "### Beat 1 — disconnected intelligence, 0:00–0:05"
+  },
+  {
+   "kind": "added",
+   "block": "79cc69ea",
+   "type": "para",
+   "context": "Beat 1 — disconnected intelligence, 0:00",
+   "preview": "On-screen copy:"
+  },
+  {
+   "kind": "added",
+   "block": "e87e723f",
+   "type": "code",
+   "context": "Beat 1 — disconnected intelligence, 0:00",
+   "preview": "```text\nTWO AGENTS.\nONE STRATEGY.\nNO SHARED CONVERSATION.\n``"
+  },
+  {
+   "kind": "added",
+   "block": "a5afd326",
+   "type": "para",
+   "context": "Beat 1 — disconnected intelligence, 0:00",
+   "preview": "Visual: two independent session windows occupy opposite side"
+  },
+  {
+   "kind": "added",
+   "block": "55e882b8",
+   "type": "heading",
+   "context": "Beat 2 — the continuity gap, 0:05–0:09",
+   "preview": "### Beat 2 — the continuity gap, 0:05–0:09"
+  },
+  {
+   "kind": "added",
+   "block": "61fc86a5",
+   "type": "para",
+   "context": "Beat 2 — the continuity gap, 0:05–0:09",
+   "preview": "On-screen copy:"
+  },
+  {
+   "kind": "added",
+   "block": "2c6665fc",
+   "type": "code",
+   "context": "Beat 2 — the continuity gap, 0:05–0:09",
+   "preview": "```text\nTHE ARTIFACT SURVIVES.\nTHE DECISIONS DISAPPEAR.\n```"
+  },
+  {
+   "kind": "added",
+   "block": "e8811cb7",
+   "type": "para",
+   "context": "Beat 2 — the continuity gap, 0:05–0:09",
+   "preview": "Visual: the document stays solid while the surrounding decis"
+  },
+  {
+   "kind": "added",
+   "block": "927677d8",
+   "type": "heading",
+   "context": "Beat 3 — Session A admits v2, 0:09–0:16",
+   "preview": "### Beat 3 — Session A admits v2, 0:09–0:16"
+  },
+  {
+   "kind": "added",
+   "block": "84908a97",
+   "type": "para",
+   "context": "Beat 3 — Session A admits v2, 0:09–0:16",
+   "preview": "Show a real, simplified Proofpress event:"
+  },
+  {
+   "kind": "added",
+   "block": "931a0198",
+   "type": "code",
+   "context": "Beat 3 — Session A admits v2, 0:09–0:16",
+   "preview": "```text\nstrategy.md  v1 → v2\n\nchanged\nposition Proofpress as"
+  },
+  {
+   "kind": "added",
+   "block": "0a136c96",
+   "type": "para",
+   "context": "Beat 3 — Session A admits v2, 0:09–0:16",
+   "preview": "The strategic change and rejection come from the actual Proo"
+  },
+  {
+   "kind": "added",
+   "block": "c0921886",
+   "type": "heading",
+   "context": "Beat 4 — Session B inherits the past, 0:",
+   "preview": "### Beat 4 — Session B inherits the past, 0:16–0:24"
+  },
+  {
+   "kind": "added",
+   "block": "d725eab4",
+   "type": "para",
+   "context": "Beat 4 — Session B inherits the past, 0:",
+   "preview": "Session B begins with no Session A transcript. Show it inspe"
+  },
+  {
+   "kind": "added",
+   "block": "5fc808ae",
+   "type": "para",
+   "context": "Beat 4 — Session B inherits the past, 0:",
+   "preview": "On-screen copy:"
+  },
+  {
+   "kind": "added",
+   "block": "81b9b51f",
+   "type": "code",
+   "context": "Beat 4 — Session B inherits the past, 0:",
+   "preview": "```text\nNO CHAT HISTORY.\nNOT STARTING FROM ZERO.\n```"
+  },
+  {
+   "kind": "added",
+   "block": "89ea3d93",
+   "type": "para",
+   "context": "Beat 4 — Session B inherits the past, 0:",
+   "preview": "Then show the consequence, not another feature list:"
+  },
+  {
+   "kind": "added",
+   "block": "123c4835",
+   "type": "code",
+   "context": "Beat 4 — Session B inherits the past, 0:",
+   "preview": "```text\ncontinue from v2\navoid the rejected approval workflo"
+  },
+  {
+   "kind": "added",
+   "block": "aaafccca",
+   "type": "para",
+   "context": "Beat 4 — Session B inherits the past, 0:",
+   "preview": "This is the film's money moment. Session B acts differently "
+  },
+  {
+   "kind": "added",
+   "block": "8a217c6a",
+   "type": "heading",
+   "context": "Beat 5 — stale work is refused, 0:24–0:2",
+   "preview": "### Beat 5 — stale work is refused, 0:24–0:28"
+  },
+  {
+   "kind": "added",
+   "block": "7e39124e",
+   "type": "para",
+   "context": "Beat 5 — stale work is refused, 0:24–0:2",
+   "preview": "Show a third actor attempting to continue from `v1`:"
+  },
+  {
+   "kind": "added",
+   "block": "10ddce38",
+   "type": "code",
+   "context": "Beat 5 — stale work is refused, 0:24–0:2",
+   "preview": "```text\nbase v1\ncurrent head v2\n\nSTALE BASE — REFUSED\n```"
+  },
+  {
+   "kind": "added",
+   "block": "0d7c38e1",
+   "type": "para",
+   "context": "Beat 5 — stale work is refused, 0:24–0:2",
+   "preview": "On-screen copy:"
+  },
+  {
+   "kind": "added",
+   "block": "fb7ba185",
+   "type": "code",
+   "context": "Beat 5 — stale work is refused, 0:24–0:2",
+   "preview": "```text\nNO SILENT OVERWRITE.\n```"
+  },
+  {
+   "kind": "added",
+   "block": "4aab0721",
+   "type": "heading",
+   "context": "Beat 6 — category close, 0:28–0:34",
+   "preview": "### Beat 6 — category close, 0:28–0:34"
+  },
+  {
+   "kind": "added",
+   "block": "347e9d6b",
+   "type": "para",
+   "context": "Beat 6 — category close, 0:28–0:34",
+   "preview": "On-screen copy:"
+  },
+  {
+   "kind": "added",
+   "block": "3887b401",
+   "type": "code",
+   "context": "Beat 6 — category close, 0:28–0:34",
+   "preview": "```text\nPROOFPRESS\n\nTHE OPEN TRUST LAYER\nFOR AGENT-NATIVE KN"
+  },
+  {
+   "kind": "added",
+   "block": "97c21140",
+   "type": "para",
+   "context": "Beat 6 — category close, 0:28–0:34",
+   "preview": "Final frame:"
+  },
+  {
+   "kind": "added",
+   "block": "df9da7ab",
+   "type": "code",
+   "context": "Beat 6 — category close, 0:28–0:34",
+   "preview": "```text\nOPEN SOURCE\ngithub.com/chenmingtang830/proofpress\n``"
+  },
+  {
+   "kind": "added",
+   "block": "5ab77343",
+   "type": "para",
+   "context": "Beat 6 — category close, 0:28–0:34",
+   "preview": "Do not put the npm command in the closing frame. The reposit"
+  },
+  {
+   "kind": "added",
+   "block": "0fa3ce95",
+   "type": "heading",
+   "context": "Frame plan",
+   "preview": "## Frame plan"
+  },
+  {
+   "kind": "added",
+   "block": "4b713847",
    "type": "table",
-   "context": "2. 本地 vs 云的精确分线 / The precise local-vs-c",
-   "preview": "| 能力 / Capability | 本地 / Local | 云 / Cloud |\n| --- | --- | -"
+   "context": "Frame plan",
+   "preview": "| Time | Frame | Evidence job | Motion |\n|---|---|---|---|\n|"
   },
   {
    "kind": "added",
-   "block": "1f60ff9c",
-   "type": "para",
-   "context": "2. 本地 vs 云的精确分线 / The precise local-vs-c",
-   "preview": "云的真护城河是**最后一行加上 PKI 运营**：作者单方改不掉的外部 append-only\n见证，与跨组织身份/吊销"
-  },
-  {
-   "kind": "added",
-   "block": "9ab6598d",
-   "type": "para",
-   "context": "2. 本地 vs 云的精确分线 / The precise local-vs-c",
-   "preview": "**EN**: The moat is not \"tamper-resistance = cloud\" wholesal"
-  },
-  {
-   "kind": "added",
-   "block": "5ddb2664",
-   "type": "para",
-   "context": "2. 本地 vs 云的精确分线 / The precise local-vs-c",
-   "preview": "**关键澄清 / Key clarification**：本地签名 ≠ 历史锁死。密钥持有者永远能重签\n一份自洽假历史。"
-  },
-  {
-   "kind": "added",
-   "block": "95496cc2",
-   "type": "para",
-   "context": "2. 本地 vs 云的精确分线 / The precise local-vs-c",
-   "preview": "---"
-  },
-  {
-   "kind": "added",
-   "block": "9d9e66d6",
+   "block": "91dfe518",
    "type": "heading",
-   "context": "3. 区块链：默认不做 / Blockchain: default no",
-   "preview": "## 3. 区块链：默认不做 / Blockchain: default no"
+   "context": "Visual guardrails",
+   "preview": "## Visual guardrails"
   },
   {
    "kind": "added",
-   "block": "06310127",
-   "type": "para",
-   "context": "3. 区块链：默认不做 / Blockchain: default no",
-   "preview": "**中文**：Proofpress 需要的原语是\"作者改不掉的 append-only 见证/时间戳\"。\n实现选型走 *"
-  },
-  {
-   "kind": "added",
-   "block": "69574108",
+   "block": "0245b307",
    "type": "list",
-   "context": "3. 区块链：默认不做 / Blockchain: default no",
-   "preview": "- 公链公开不可删，与隐私优先（private interval stays private、redaction、"
+   "context": "Visual guardrails",
+   "preview": "- The artifact is always the stable center; agents and sessi"
   },
   {
    "kind": "added",
-   "block": "acdac223",
+   "block": "d240754a",
    "type": "para",
-   "context": "3. 区块链：默认不做 / Blockchain: default no",
-   "preview": "  低熵 hash 可被关联）**硬冲突**，非调参可解。"
+   "context": "Visual guardrails",
+   "preview": "  it."
   },
   {
    "kind": "added",
-   "block": "8bc85635",
+   "block": "c3120ac5",
    "type": "list",
-   "context": "3. 区块链：默认不做 / Blockchain: default no",
-   "preview": "- C2PA——Adobe/Microsoft/BBC/Intel 的内容溯源行业标准——通篇 X.509 + COSE"
+   "context": "Visual guardrails",
+   "preview": "- Use the seal and lineage as signals of admitted history, n"
   },
   {
    "kind": "added",
-   "block": "aa037e26",
+   "block": "2e8c8d22",
    "type": "para",
-   "context": "3. 区块链：默认不做 / Blockchain: default no",
-   "preview": "  trust list，零区块链。外部背书：跟着 C2PA 走天然绕开链。"
+   "context": "Visual guardrails",
+   "preview": "  cryptographic identity."
   },
   {
    "kind": "added",
-   "block": "a159363b",
+   "block": "0e010f5e",
    "type": "list",
-   "context": "3. 区块链：默认不做 / Blockchain: default no",
-   "preview": "- 唯一例外：客户付费指定\"连我们的 cloud 都不信\"的公开可验证性 → 用"
+   "context": "Visual guardrails",
+   "preview": "- “Verified” modifies computed changes and change claims, ne"
   },
   {
    "kind": "added",
-   "block": "6cfd516f",
+   "block": "9c51dafb",
    "type": "para",
-   "context": "3. 区块链：默认不做 / Blockchain: default no",
-   "preview": "  **OpenTimestamps** 作桥（间接锚定 Bitcoin，不直接碰链、不管币/gas）。"
+   "context": "Visual guardrails",
+   "preview": "  or unsigned actors."
   },
   {
    "kind": "added",
-   "block": "a39e0ffc",
+   "block": "131cf0c4",
+   "type": "list",
+   "context": "Visual guardrails",
+   "preview": "- Use one Canvas UI signature effect at most. HyperFrames ow"
+  },
+  {
+   "kind": "added",
+   "block": "3f890420",
    "type": "para",
-   "context": "3. 区块链：默认不做 / Blockchain: default no",
-   "preview": "**EN**: The primitive we need is a witness log, not a chain."
+   "context": "Visual guardrails",
+   "preview": "  rendering."
   },
   {
    "kind": "added",
-   "block": "0942d47e",
+   "block": "61c54e2f",
+   "type": "list",
+   "context": "Visual guardrails",
+   "preview": "- No old review UI, approval controls, thousand-line-diff ho"
+  },
+  {
+   "kind": "added",
+   "block": "60722959",
    "type": "para",
-   "context": "3. 区块链：默认不做 / Blockchain: default no",
-   "preview": "---"
+   "context": "Visual guardrails",
+   "preview": "  command, or “Markdown gets its own Git” positioning."
   },
   {
    "kind": "added",
-   "block": "a85f7e4c",
+   "block": "d4f2e6ad",
+   "type": "list",
+   "context": "Visual guardrails",
+   "preview": "- Terminal and artifact text must remain readable at ordinar"
+  },
+  {
+   "kind": "added",
+   "block": "317c96d1",
+   "type": "para",
+   "context": "Visual guardrails",
+   "preview": "  internal strategy text beyond the approved launch fixture."
+  },
+  {
+   "kind": "added",
+   "block": "e99b6b98",
    "type": "heading",
-   "context": "4. C2PA 是路线图锚 / C2PA as the roadmap anch",
-   "preview": "## 4. C2PA 是路线图锚 / C2PA as the roadmap anchor"
+   "context": "Film acceptance test",
+   "preview": "## Film acceptance test"
   },
   {
    "kind": "added",
-   "block": "06986e8d",
+   "block": "d1833da7",
    "type": "para",
-   "context": "4. C2PA 是路线图锚 / C2PA as the roadmap anch",
-   "preview": "**中文**：结构演进以 [C2PA_REFERENCE.md](C2PA_REFERENCE.md) 为锚：三种\nbi"
+   "context": "Film acceptance test",
+   "preview": "After one silent viewing, an unfamiliar developer should be "
   },
   {
    "kind": "added",
-   "block": "62a5fa4e",
+   "block": "3aeea40a",
+   "type": "list",
+   "context": "Film acceptance test",
+   "preview": "1. Why can Session B continue without Session A's conversati"
+  },
+  {
+   "kind": "added",
+   "block": "55156831",
    "type": "para",
-   "context": "4. C2PA 是路线图锚 / C2PA as the roadmap anch",
-   "preview": "**EN**: Structural evolution anchors on the C2PA reference: "
+   "context": "Film acceptance test",
+   "preview": "If the viewer answers only “it versions Markdown” or “it mak"
+  },
+  {
+   "kind": "added",
+   "block": "8d1e5b46",
+   "type": "heading",
+   "context": "Video alt text",
+   "preview": "## Video alt text"
+  },
+  {
+   "kind": "added",
+   "block": "46ea7b3d",
+   "type": "para",
+   "context": "Video alt text",
+   "preview": "> A 30-second motion graphic shows two isolated AI-agent ses"
   }
  ],
  "policy": "local",
- "soft_fingerprint": "ppsb1:ce19a347127eb5de04c55d1078683c28b6c1a54f9fdcffd9a5c9482a18607ea5",
- "ingredients": [
-  {
-   "artifact": "docs/internal/C2PA_REFERENCE.md",
-   "artifact_id": "pp_0528a56dd3d90cff80ad18ce",
-   "version": "1a3f1f47",
-   "body_digest": "sha256:36e3ce873a4b474818b7601e730f1d131f6443451233a3835bf7da6a1667e55c"
-  }
- ],
+ "soft_fingerprint": "ppsb1:5a96f06606817e7b7efab5e7556e40eba15dc7e79f853b62da5e02e007ecdb2a",
  "actors": {
   "requested_by": [
-   "chenmingtang830"
+   "Richard Tang"
   ],
   "produced_by": [
-   "claude"
+   "codex"
+  ],
+  "edited_by": [
+   "codex"
   ],
   "recorded_by": [
-   "claude"
+   "codex"
   ]
  },
  "attribution_basis": "harness_attested",
+ "claims": [
+  {
+   "block": "d978986b",
+   "kind": "added"
+  },
+  {
+   "block": "1fdd0312",
+   "kind": "added"
+  },
+  {
+   "block": "89191200",
+   "kind": "added"
+  },
+  {
+   "block": "5922601a",
+   "kind": "added"
+  },
+  {
+   "block": "bd32ddac",
+   "kind": "added"
+  },
+  {
+   "block": "db540fed",
+   "kind": "added"
+  },
+  {
+   "block": "b60dd55f",
+   "kind": "added"
+  },
+  {
+   "block": "d8c123e5",
+   "kind": "added"
+  },
+  {
+   "block": "ce32ea8d",
+   "kind": "added"
+  },
+  {
+   "block": "1215f916",
+   "kind": "added"
+  },
+  {
+   "block": "7bc5247b",
+   "kind": "added"
+  },
+  {
+   "block": "01bbac2a",
+   "kind": "added"
+  },
+  {
+   "block": "d5e07adc",
+   "kind": "added"
+  },
+  {
+   "block": "2eb60765",
+   "kind": "added"
+  },
+  {
+   "block": "69bde4fe",
+   "kind": "added"
+  },
+  {
+   "block": "37c2da58",
+   "kind": "added"
+  },
+  {
+   "block": "c69a346e",
+   "kind": "added"
+  },
+  {
+   "block": "06b4282d",
+   "kind": "added"
+  },
+  {
+   "block": "dfa49076",
+   "kind": "added"
+  },
+  {
+   "block": "f642a4c6",
+   "kind": "added"
+  },
+  {
+   "block": "b029509a",
+   "kind": "added"
+  },
+  {
+   "block": "2106d9a4",
+   "kind": "added"
+  },
+  {
+   "block": "88155ddf",
+   "kind": "added"
+  },
+  {
+   "block": "77213997",
+   "kind": "added"
+  },
+  {
+   "block": "71beed88",
+   "kind": "added"
+  },
+  {
+   "block": "7dd075af",
+   "kind": "added"
+  },
+  {
+   "block": "79cc69ea",
+   "kind": "added"
+  },
+  {
+   "block": "e87e723f",
+   "kind": "added"
+  },
+  {
+   "block": "a5afd326",
+   "kind": "added"
+  },
+  {
+   "block": "55e882b8",
+   "kind": "added"
+  },
+  {
+   "block": "61fc86a5",
+   "kind": "added"
+  },
+  {
+   "block": "2c6665fc",
+   "kind": "added"
+  },
+  {
+   "block": "e8811cb7",
+   "kind": "added"
+  },
+  {
+   "block": "927677d8",
+   "kind": "added"
+  },
+  {
+   "block": "84908a97",
+   "kind": "added"
+  },
+  {
+   "block": "931a0198",
+   "kind": "added"
+  },
+  {
+   "block": "0a136c96",
+   "kind": "added"
+  },
+  {
+   "block": "c0921886",
+   "kind": "added"
+  },
+  {
+   "block": "d725eab4",
+   "kind": "added"
+  },
+  {
+   "block": "5fc808ae",
+   "kind": "added"
+  },
+  {
+   "block": "81b9b51f",
+   "kind": "added"
+  },
+  {
+   "block": "89ea3d93",
+   "kind": "added"
+  },
+  {
+   "block": "123c4835",
+   "kind": "added"
+  },
+  {
+   "block": "aaafccca",
+   "kind": "added"
+  },
+  {
+   "block": "8a217c6a",
+   "kind": "added"
+  },
+  {
+   "block": "7e39124e",
+   "kind": "added"
+  },
+  {
+   "block": "10ddce38",
+   "kind": "added"
+  },
+  {
+   "block": "0d7c38e1",
+   "kind": "added"
+  },
+  {
+   "block": "fb7ba185",
+   "kind": "added"
+  },
+  {
+   "block": "4aab0721",
+   "kind": "added"
+  },
+  {
+   "block": "347e9d6b",
+   "kind": "added"
+  },
+  {
+   "block": "3887b401",
+   "kind": "added"
+  },
+  {
+   "block": "97c21140",
+   "kind": "added"
+  },
+  {
+   "block": "df9da7ab",
+   "kind": "added"
+  },
+  {
+   "block": "5ab77343",
+   "kind": "added"
+  },
+  {
+   "block": "0fa3ce95",
+   "kind": "added"
+  },
+  {
+   "block": "4b713847",
+   "kind": "added"
+  },
+  {
+   "block": "91dfe518",
+   "kind": "added"
+  },
+  {
+   "block": "0245b307",
+   "kind": "added"
+  },
+  {
+   "block": "d240754a",
+   "kind": "added"
+  },
+  {
+   "block": "c3120ac5",
+   "kind": "added"
+  },
+  {
+   "block": "2e8c8d22",
+   "kind": "added"
+  },
+  {
+   "block": "0e010f5e",
+   "kind": "added"
+  },
+  {
+   "block": "9c51dafb",
+   "kind": "added"
+  },
+  {
+   "block": "131cf0c4",
+   "kind": "added"
+  },
+  {
+   "block": "3f890420",
+   "kind": "added"
+  },
+  {
+   "block": "61c54e2f",
+   "kind": "added"
+  },
+  {
+   "block": "60722959",
+   "kind": "added"
+  },
+  {
+   "block": "d4f2e6ad",
+   "kind": "added"
+  },
+  {
+   "block": "317c96d1",
+   "kind": "added"
+  },
+  {
+   "block": "e99b6b98",
+   "kind": "added"
+  },
+  {
+   "block": "d1833da7",
+   "kind": "added"
+  },
+  {
+   "block": "3aeea40a",
+   "kind": "added"
+  },
+  {
+   "block": "55156831",
+   "kind": "added"
+  },
+  {
+   "block": "8d1e5b46",
+   "kind": "added"
+  },
+  {
+   "block": "46ea7b3d",
+   "kind": "added"
+  }
+ ],
  "context": {
-  "why": "fixes four settled conclusions from the trust-boundary discussion so future work and outbound copy cannot drift past them; derived from the C2PA reference analysis"
+  "why": "Richard asked to lock the X launch copy before designing the video; the latest portable-artifact strategy made cross-session continuity the canonical story and justified a short silent-first film."
  }
 }
