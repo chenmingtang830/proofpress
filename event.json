@@ -1,37 +1,135 @@
 {
  "event": "version_created",
- "artifact": "docs/internal/launch/README.md",
- "artifact_id": "pp_fc140b7b208f2d17adbfc132",
- "version": "c3fd86a5",
- "parent": "43d7b896",
+ "artifact": "docs/internal/launch/faq.md",
+ "artifact_id": "pp_0310be78d4a9996eda01c11b",
+ "version": "53cac460",
+ "parent": null,
  "author": {
   "name": "codex",
   "kind": "agent",
   "session": null
  },
  "note": null,
- "ts": "2026-07-24T21:47:46+00:00",
+ "ts": "2026-07-24T21:48:22+00:00",
  "stats": {
-  "added": 2
+  "added": 16
  },
  "changes": [
   {
    "kind": "added",
-   "block": "d02678ca",
-   "type": "para",
-   "context": "Proofpress launch workspace",
-   "preview": "Launch-day control documents:"
+   "block": "f6cd162f",
+   "type": "heading",
+   "context": "Proofpress launch FAQ",
+   "preview": "# Proofpress launch FAQ"
   },
   {
    "kind": "added",
-   "block": "4e4030e3",
-   "type": "list",
-   "context": "Proofpress launch workspace",
-   "preview": "- [Canonical X launch copy](x-launch.md)\n- [Founder vision a"
+   "block": "7102cbcc",
+   "type": "para",
+   "context": "Proofpress launch FAQ",
+   "preview": "**Purpose:** canonical short answers for launch-day replies."
+  },
+  {
+   "kind": "added",
+   "block": "f2991f00",
+   "type": "heading",
+   "context": "Is this just Git blame or Git for docs?",
+   "preview": "## Is this just Git blame or Git for docs?"
+  },
+  {
+   "kind": "added",
+   "block": "5475a4bb",
+   "type": "para",
+   "context": "Is this just Git blame or Git for docs?",
+   "preview": "No. Git remains the source of history for code and repositor"
+  },
+  {
+   "kind": "added",
+   "block": "374a4973",
+   "type": "heading",
+   "context": "Is Proofpress C2PA for knowledge work?",
+   "preview": "## Is Proofpress C2PA for knowledge work?"
+  },
+  {
+   "kind": "added",
+   "block": "1ab18db0",
+   "type": "para",
+   "context": "Is Proofpress C2PA for knowledge work?",
+   "preview": "That is the useful analogy, not a compatibility claim. C2PA "
+  },
+  {
+   "kind": "added",
+   "block": "5d01c5f3",
+   "type": "heading",
+   "context": "What is actually verifiable?",
+   "preview": "## What is actually verifiable?"
+  },
+  {
+   "kind": "added",
+   "block": "b0fd7639",
+   "type": "para",
+   "context": "What is actually verifiable?",
+   "preview": "The engine computes changes from the artifact and can determ"
+  },
+  {
+   "kind": "added",
+   "block": "7555f542",
+   "type": "heading",
+   "context": "What is the trust model?",
+   "preview": "## What is the trust model?"
+  },
+  {
+   "kind": "added",
+   "block": "d679a2de",
+   "type": "para",
+   "context": "What is the trust model?",
+   "preview": "Proofpress makes captured history inspectable and checkable."
+  },
+  {
+   "kind": "added",
+   "block": "00137cc2",
+   "type": "heading",
+   "context": "What if somebody tampers with the ledger",
+   "preview": "## What if somebody tampers with the ledger or replaces the "
+  },
+  {
+   "kind": "added",
+   "block": "083bfebb",
+   "type": "para",
+   "context": "What if somebody tampers with the ledger",
+   "preview": "The portable capsule is tamper-evident for accidental drift "
+  },
+  {
+   "kind": "added",
+   "block": "a9e2bd37",
+   "type": "heading",
+   "context": "Why not ask an LLM to explain the diff?",
+   "preview": "## Why not ask an LLM to explain the diff?"
+  },
+  {
+   "kind": "added",
+   "block": "0d9e77e0",
+   "type": "para",
+   "context": "Why not ask an LLM to explain the diff?",
+   "preview": "An LLM can provide a useful reading of two snapshots. Proofp"
+  },
+  {
+   "kind": "added",
+   "block": "96016436",
+   "type": "heading",
+   "context": "Does the portable capsule leak private p",
+   "preview": "## Does the portable capsule leak private prompts or chat hi"
+  },
+  {
+   "kind": "added",
+   "block": "06b1f73f",
+   "type": "para",
+   "context": "Does the portable capsule leak private p",
+   "preview": "It is not a conversation recorder. The intended record is ac"
   }
  ],
  "policy": "local",
- "soft_fingerprint": "ppsb1:0c38f8b03ae6a64b36fa5737bb5bf2d9effac9fcda8a42a6a80e6cda193f4c66",
+ "soft_fingerprint": "ppsb1:7b833c8aab5bec070b682334f64069532ee0d6987b341cb4b65e1a368724c637",
  "actors": {
   "requested_by": [
    "richard-tang"
@@ -49,15 +147,71 @@
  "attribution_basis": "harness_attested",
  "claims": [
   {
-   "block": "d02678ca",
+   "block": "f6cd162f",
    "kind": "added"
   },
   {
-   "block": "4e4030e3",
+   "block": "7102cbcc",
+   "kind": "added"
+  },
+  {
+   "block": "f2991f00",
+   "kind": "added"
+  },
+  {
+   "block": "5475a4bb",
+   "kind": "added"
+  },
+  {
+   "block": "374a4973",
+   "kind": "added"
+  },
+  {
+   "block": "1ab18db0",
+   "kind": "added"
+  },
+  {
+   "block": "5d01c5f3",
+   "kind": "added"
+  },
+  {
+   "block": "b0fd7639",
+   "kind": "added"
+  },
+  {
+   "block": "7555f542",
+   "kind": "added"
+  },
+  {
+   "block": "d679a2de",
+   "kind": "added"
+  },
+  {
+   "block": "00137cc2",
+   "kind": "added"
+  },
+  {
+   "block": "083bfebb",
+   "kind": "added"
+  },
+  {
+   "block": "a9e2bd37",
+   "kind": "added"
+  },
+  {
+   "block": "0d9e77e0",
+   "kind": "added"
+  },
+  {
+   "block": "96016436",
+   "kind": "added"
+  },
+  {
+   "block": "06b1f73f",
    "kind": "added"
   }
  ],
  "context": {
-  "why": "linked the launch workspace to its new FAQ and launch-day control documents"
+  "why": "prepared concise, honest public answers for the expected Git, C2PA, verification, tampering, and privacy questions"
  }
 }
