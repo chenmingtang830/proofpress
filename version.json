@@ -1,102 +1,336 @@
 {
- "artifact": "docs/internal/launch/faq.md",
- "artifact_id": "pp_0310be78d4a9996eda01c11b",
+ "artifact": "docs/internal/launch/launch-day-runbook.md",
+ "artifact_id": "pp_3ea280179b43a9974bf6a5e6",
  "blocks": [
   {
    "type": "heading",
-   "text": "# Proofpress launch FAQ",
-   "id": "f6cd162f",
-   "hash": "48b5199992be"
+   "text": "# Proofpress launch-day runbook",
+   "id": "7116fa3c",
+   "hash": "979cb0f53985"
   },
   {
    "type": "para",
-   "text": "**Purpose:** canonical short answers for launch-day replies. Keep the claims\nbelow aligned with the public README and portable-artifact contract.",
-   "id": "7102cbcc",
-   "hash": "f2c7f47d9ac0"
+   "text": "**Status:** draft gate checklist.  \n**Launch owner:** Richard Tang.  \n**Default public release channel:** proofpress@next (0.1.0-alpha.2 as of\n2026-07-24). latest remains 0.0.1; do not use a bare package name in launch\ncopy until stable is intentionally promoted.",
+   "id": "5d080262",
+   "hash": "25b11c6b6139"
   },
   {
    "type": "heading",
-   "text": "## Is this just Git blame or Git for docs?",
-   "id": "f2991f00",
-   "hash": "65e4b0437e2d"
+   "text": "## Launch decision",
+   "id": "a44f075f",
+   "hash": "6018d22978bd"
+  },
+  {
+   "type": "list",
+   "text": "- **Hero channel:** X native video plus the public GitHub repository. Use the",
+   "id": "60c34ffc",
+   "hash": "9adaece59775"
   },
   {
    "type": "para",
-   "text": "No. Git remains the source of history for code and repositories. Proofpress is\nfor Markdown and static HTML knowledge artifacts: it records an\nartifact-native, semantic account of accepted changes, stated reasons, and\nconsequential rejections. When the artifact leaves the repository, its portable\nledger can leave with it. It does not replace Git.",
-   "id": "5475a4bb",
-   "hash": "947cb4efe6e9"
+   "text": "  native X upload, not a YouTube link.",
+   "id": "4e427840",
+   "hash": "240db2212b63"
+  },
+  {
+   "type": "list",
+   "text": "- **Primary CTA:** inspect the self-verifying portable-handoff demo and star the",
+   "id": "7ee5e00d",
+   "hash": "6f7dbefe7697"
+  },
+  {
+   "type": "para",
+   "text": "  repository. Do not add a waitlist or Discord CTA unless there is an owner and\n  a real follow-up loop.",
+   "id": "26bf668a",
+   "hash": "b30877aafe2b"
+  },
+  {
+   "type": "list",
+   "text": "- **Working launch window:** propose a weekday 09:00–13:00 Pacific window so the",
+   "id": "40189479",
+   "hash": "78d55d669d61"
+  },
+  {
+   "type": "para",
+   "text": "  founder can respond live through the first reaction cycle. Lock the date and\n  exact minute at T-7; coverage matters more than chasing an alleged universal\n  “best” posting hour.",
+   "id": "1e66a7a7",
+   "hash": "98349de2b9b8"
+  },
+  {
+   "type": "list",
+   "text": "- **Show HN:** conditional, not a launch-day dependency. The current HN guidance",
+   "id": "b14f6b86",
+   "hash": "c4a5f960865b"
+  },
+  {
+   "type": "para",
+   "text": "  requires a non-trivial thing people can run, no signup barrier, and an author\n  who is present to discuss it; HN is also temporarily restricting Show HNs for\n  accounts unfamiliar with the community. Submit only after the five-minute path\n  passes and Richard’s account is clearly eligible. Do not recruit booster\n  comments or votes. Source: <https://news.ycombinator.com/showhn.html> and\n  <https://news.ycombinator.com/showlim>.",
+   "id": "6ed48c25",
+   "hash": "e77dff6a542d"
   },
   {
    "type": "heading",
-   "text": "## Is Proofpress C2PA for knowledge work?",
-   "id": "374a4973",
-   "hash": "b04100bfedcf"
-  },
-  {
-   "type": "para",
-   "text": "That is the useful analogy, not a compatibility claim. C2PA addresses content\ncredentials for media. Proofpress is an open, agent-native ledger for knowledge\nartifacts and their decision lineage. V0 does not claim C2PA interoperability,\nsigned authorship, or complete capture of every step that led to a file.",
-   "id": "1ab18db0",
-   "hash": "9e47c1fc758f"
+   "text": "## T-7 to T-1 gates",
+   "id": "7eda4bd1",
+   "hash": "b7f05faf0611"
   },
   {
    "type": "heading",
-   "text": "## What is actually verifiable?",
-   "id": "5d01c5f3",
-   "hash": "f77a760dd9d4"
+   "text": "### Product proof",
+   "id": "5c911357",
+   "hash": "8b8795a14f02"
+  },
+  {
+   "type": "list",
+   "text": "- [ ] Run the public proofpress@next install in a clean Git receiver repo.\n- [ ] Download only examples/portable-handoff/strategy.md; inspect, import, and",
+   "id": "970cc215",
+   "hash": "eb970b54e359"
   },
   {
    "type": "para",
-   "text": "The engine computes changes from the artifact and can deterministically check\nwhether a recorded change claim matches that computed diff. It can also inspect\nthe portable capsule for integrity and detect drift. A stated why, a rejected\ndirection, and actor identity are attributed context unless stronger evidence is\npresent; they must never be described as independently proven merely because\nthey appear in the ledger.",
-   "id": "b0fd7639",
-   "hash": "d20656cc4414"
+   "text": "  verify must pass.",
+   "id": "ac03a211",
+   "hash": "5f602ed3cf6e"
+  },
+  {
+   "type": "list",
+   "text": "- [ ] Confirm the README, skills, demo guide, and every launch command use",
+   "id": "dfda6a31",
+   "hash": "3812da92c65c"
+  },
+  {
+   "type": "para",
+   "text": "  explicit proofpress@next.",
+   "id": "52d8dc02",
+   "hash": "732a3dfb36bc"
+  },
+  {
+   "type": "list",
+   "text": "- [ ] Decide whether a stable release will replace @next; if yes, update every",
+   "id": "59487ee8",
+   "hash": "6534875f2839"
+  },
+  {
+   "type": "para",
+   "text": "  surface in one release change before announcing it.",
+   "id": "af3e9a75",
+   "hash": "140edb3d86e1"
   },
   {
    "type": "heading",
-   "text": "## What is the trust model?",
-   "id": "7555f542",
-   "hash": "28e982f02030"
+   "text": "### Public surfaces",
+   "id": "626daac7",
+   "hash": "186bd82e8ab1"
+  },
+  {
+   "type": "list",
+   "text": "- [ ] Set GitHub description to: “The trust layer for multiplayer AI — an open,",
+   "id": "8350e21e",
+   "hash": "60bdeb1406d0"
   },
   {
    "type": "para",
-   "text": "Proofpress makes captured history inspectable and checkable. It does not make\nevery statement true, prove every identity, or guarantee that every relevant\nconversation was captured. Attribution can be signed, environment-attested,\nharness-attested, self-asserted, or unknown. Capture completeness is best\neffort, and gaps should remain visible.",
-   "id": "d679a2de",
-   "hash": "18f0fa082d32"
+   "text": "  agent-native ledger that travels with the artifact.”",
+   "id": "62d094a5",
+   "hash": "1e2b7ae46fa9"
+  },
+  {
+   "type": "list",
+   "text": "- [ ] Replace or confirm topics: agentic-ai, multi-agent, knowledge-work,",
+   "id": "1ce5b9fc",
+   "hash": "f4ede79fbd00"
+  },
+  {
+   "type": "para",
+   "text": "  markdown, provenance, audit-log, open-source.",
+   "id": "88109f99",
+   "hash": "cd29f55979b9"
+  },
+  {
+   "type": "list",
+   "text": "- [ ] Add a deliberate social-preview image; the current repository preview is",
+   "id": "9c1c9ffb",
+   "hash": "b432706a84da"
+  },
+  {
+   "type": "para",
+   "text": "  the account avatar, not launch artwork.",
+   "id": "d636339d",
+   "hash": "2bab6210489b"
+  },
+  {
+   "type": "list",
+   "text": "- [ ] Decide the homepage / landing URL. If an owned landing domain exists, use",
+   "id": "d5edaf53",
+   "hash": "c2413303867c"
+  },
+  {
+   "type": "para",
+   "text": "  it as the X link with source tracking; otherwise link directly to GitHub and\n  use GitHub traffic plus X analytics rather than pretending the repository URL\n  has campaign attribution.",
+   "id": "698b764a",
+   "hash": "f3089f11d789"
+  },
+  {
+   "type": "list",
+   "text": "- [ ] Confirm the intended X handle and any domain availability. Registration is",
+   "id": "30f79e19",
+   "hash": "34feb3958c7b"
+  },
+  {
+   "type": "para",
+   "text": "  an explicit owner action, not an automated launch task.",
+   "id": "cfa379d5",
+   "hash": "82e52fd723b6"
   },
   {
    "type": "heading",
-   "text": "## What if somebody tampers with the ledger or replaces the file?",
-   "id": "00137cc2",
-   "hash": "4cd6e96844db"
+   "text": "### People and coverage",
+   "id": "0f1df431",
+   "hash": "3464865ded06"
+  },
+  {
+   "type": "list",
+   "text": "- [ ] Richard posts the X thread and owns factual launch-day replies.\n- [ ] Name one technical-response owner and one metrics / issue-triage owner.\n- [ ] Prepare a small, real warm-contact list for private awareness only. Never",
+   "id": "049f2826",
+   "hash": "9318f36d0221"
   },
   {
    "type": "para",
-   "text": "The portable capsule is tamper-evident for accidental drift and inconsistent\nrewrites: inspect and verify can detect a mismatch. V0 does not prevent a\nmalicious actor from replacing an entire file together with its capsule, and it\ndoes not claim signed authorship. For stronger adversarial guarantees, the\nartifact needs a future signing or external trust layer.",
-   "id": "083bfebb",
-   "hash": "045b1ffd9019"
+   "text": "  coordinate HN voting or booster comments.",
+   "id": "0dae50d5",
+   "hash": "3f4b49393e0e"
+  },
+  {
+   "type": "list",
+   "text": "- [ ] Block the first four hours after launch for replies, bug triage, and",
+   "id": "ab97c2c4",
+   "hash": "eceef0c32c2d"
+  },
+  {
+   "type": "para",
+   "text": "  observing the demo path.",
+   "id": "dca894f6",
+   "hash": "2fe6aff559e7"
   },
   {
    "type": "heading",
-   "text": "## Why not ask an LLM to explain the diff?",
-   "id": "a9e2bd37",
-   "hash": "ad0a0465f25e"
+   "text": "### Reply kit",
+   "id": "f948bc27",
+   "hash": "6ba6be71d4ae"
+  },
+  {
+   "type": "list",
+   "text": "- [ ] Publish-ready answers live in [faq.md](faq.md).\n- [ ] Keep the answer boundary explicit: computed claims are checkable;",
+   "id": "c2bda68f",
+   "hash": "3f5e14c81312"
   },
   {
    "type": "para",
-   "text": "An LLM can provide a useful reading of two snapshots. Proofpress adds stable\nartifact identity, version lineage, portable handoff, an explicit distinction\nbetween attributed context and computed facts, and a deterministic check that a\nrecorded change claim matches the actual artifact change.",
-   "id": "0d9e77e0",
-   "hash": "083a9d7a1729"
+   "text": "  rationale and attribution are stated context unless independently attested.",
+   "id": "9d21c101",
+   "hash": "5aa386de4b18"
+  },
+  {
+   "type": "list",
+   "text": "- [ ] Prepare one concise answer each for Git blame, C2PA, tampering, privacy,",
+   "id": "904e16d2",
+   "hash": "af26236475e0"
+  },
+  {
+   "type": "para",
+   "text": "  and “why not an LLM diff?”.",
+   "id": "545c9c4a",
+   "hash": "183de8167b47"
   },
   {
    "type": "heading",
-   "text": "## Does the portable capsule leak private prompts or chat history?",
-   "id": "96016436",
-   "hash": "6efbbdce7b6e"
+   "text": "## Day-of sequence",
+   "id": "8a66803c",
+   "hash": "42c9ac3fa311"
+  },
+  {
+   "type": "list",
+   "text": "1. Re-run the five-minute portable-handoff path against the live npm tag.\n2. Confirm repository description, topics, social preview, README, demo link,",
+   "id": "872c5f30",
+   "hash": "05ce929ce8c1"
   },
   {
    "type": "para",
-   "text": "It is not a conversation recorder. The intended record is accepted changes and\nthe limited decision context collaborators need to continue safely. Anyone who\nholds the raw portable artifact may inspect its capsule, so users should keep\nprivate history local or create a clean copy before sharing.",
-   "id": "06b1f73f",
-   "hash": "266519e32f32"
+   "text": "   X native video, and X link destination.",
+   "id": "c566120e",
+   "hash": "740fa8336f03"
+  },
+  {
+   "type": "list",
+   "text": "3. Publish the X main post with the native video; publish the founder article as",
+   "id": "8ca6ff63",
+   "hash": "a1c403899938"
+  },
+  {
+   "type": "para",
+   "text": "   Reply 1 immediately after it.",
+   "id": "188a8e0e",
+   "hash": "75923ec7ed1e"
+  },
+  {
+   "type": "list",
+   "text": "4. Record the initial time, npm tag/version, Git commit, and link destination in",
+   "id": "1593a76f",
+   "hash": "a5768b8f346a"
+  },
+  {
+   "type": "para",
+   "text": "   the launch log.",
+   "id": "bf943ba2",
+   "hash": "69314150a56e"
+  },
+  {
+   "type": "list",
+   "text": "5. Respond with the FAQ’s honesty boundary; log recurring objections verbatim",
+   "id": "41bd733c",
+   "hash": "d62cd207ab3e"
+  },
+  {
+   "type": "para",
+   "text": "   enough to improve the product, not just the copy.",
+   "id": "0d2dfd68",
+   "hash": "65201d341ae5"
+  },
+  {
+   "type": "list",
+   "text": "6. Reassess Show HN only after the product path and response coverage are proven.",
+   "id": "cac40c0e",
+   "hash": "2af45a2f0e82"
+  },
+  {
+   "type": "heading",
+   "text": "## Go / no-go",
+   "id": "fb903b51",
+   "hash": "50f006d4e29c"
+  },
+  {
+   "type": "para",
+   "text": "Do not launch if any of these are false:",
+   "id": "27255d8b",
+   "hash": "5a4d25d3124f"
+  },
+  {
+   "type": "list",
+   "text": "- a clean receiver can install proofpress@next, inspect the demo artifact,",
+   "id": "a843bfc7",
+   "hash": "0ce7e2bd21b2"
+  },
+  {
+   "type": "para",
+   "text": "  import its ledger, and verify its claims;",
+   "id": "828d99d4",
+   "hash": "af20a8e13efa"
+  },
+  {
+   "type": "list",
+   "text": "- the X post, README, and npm tag name the same release channel;\n- the repository has a deliberate description and social preview;\n- an accountable person is available for the first four hours;\n- the FAQ truthfully describes what is computed, attributed, and out of scope.",
+   "id": "9e33325b",
+   "hash": "bba139ddc5e6"
   }
  ]
 }
