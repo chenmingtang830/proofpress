@@ -1,50 +1,37 @@
 {
  "event": "version_created",
- "artifact": "README.md",
- "artifact_id": "pp_556b115de711b0cd33eed260",
- "version": "e2579d52",
- "parent": "8d97c670",
+ "artifact": "docs/README.md",
+ "artifact_id": "pp_4e50106dcbfad18e3ab0668c",
+ "version": "fb1c431c",
+ "parent": "90c46f04",
  "author": {
   "name": "codex",
   "kind": "agent",
   "session": null
  },
  "note": null,
- "ts": "2026-07-24T20:29:14+00:00",
+ "ts": "2026-07-24T20:29:15+00:00",
  "stats": {
-  "modified": 2,
-  "added": 2
+  "modified": 1,
+  "added": 1
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "e667d986",
+   "block": "aeed01a6",
    "type": "para",
-   "context": "Proofpress"
-  },
-  {
-   "kind": "modified",
-   "block": "0e0e9d9a",
-   "type": "para",
-   "context": "Proofpress"
+   "context": "Proofpress documentation"
   },
   {
    "kind": "added",
-   "block": "7c5ed81a",
+   "block": "395efcc4",
    "type": "para",
-   "context": "Proofpress",
-   "preview": "Think C2PA, but for knowledge work: a portable, inspectable "
-  },
-  {
-   "kind": "added",
-   "block": "1b5546b8",
-   "type": "para",
-   "context": "Proofpress",
-   "preview": "> Git made code collaborative. Proofpress makes intelligence"
+   "context": "Proofpress documentation",
+   "preview": "“Think C2PA, but for knowledge work” is a category analogy, "
   }
  ],
  "policy": "local",
- "soft_fingerprint": "ppsb1:4e8e3eaffe3bd054c853c42776d36855563a768b83af49956b8a49007d446ff1",
+ "soft_fingerprint": "ppsb1:8cce0310325abb86247f53fbc4fbaededad6bb000fa7da971a2bb80bec97236c",
  "actors": {
   "requested_by": [
    "richard-tang"
@@ -62,23 +49,15 @@
  "attribution_basis": "harness_attested",
  "claims": [
   {
-   "block": "e667d986",
+   "block": "aeed01a6",
    "kind": "modified"
   },
   {
-   "block": "0e0e9d9a",
-   "kind": "modified"
-  },
-  {
-   "block": "7c5ed81a",
-   "kind": "added"
-  },
-  {
-   "block": "1b5546b8",
+   "block": "395efcc4",
    "kind": "added"
   }
  ],
  "context": {
-  "why": "aligned the development README to the agreed launch lockup and vision bridge"
+  "why": "aligned the development documentation index to the agreed launch lockup and C2PA analogy boundary"
  }
 }
