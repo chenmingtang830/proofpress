@@ -1,30 +1,30 @@
 {
  "event": "version_created",
- "artifact": "skills/cursor/proofpress/SKILL.md",
- "artifact_id": "pp_0c9edf7d315ab03e0ca06c88",
- "version": "7628c4d8",
- "parent": "98f8df21",
+ "artifact": "skills/pi/proofpress-skill.md",
+ "artifact_id": "pp_c7ce0d15b86bb42bd28434fc",
+ "version": "0fa83c87",
+ "parent": "105e1c9b",
  "author": {
   "name": "codex",
   "kind": "agent",
   "session": null
  },
- "note": "Add Cursor preflight capture",
- "ts": "2026-07-24T05:29:33+00:00",
+ "note": "Add Pi preflight capture",
+ "ts": "2026-07-24T05:29:35+00:00",
  "stats": {
   "added": 1
  },
  "changes": [
   {
    "kind": "added",
-   "block": "0d9e887a",
+   "block": "211b5d98",
    "type": "para",
-   "context": "Workflow",
+   "context": "proofpress",
    "preview": "Before editing an existing target, run\n`python3 proofpress.p"
   }
  ],
  "policy": "local",
- "soft_fingerprint": "ppsb1:d8f64bd8884eded5d9150e4bb56978a15b9ec2e81da0876d5ad8df7123e092a1",
+ "soft_fingerprint": "ppsb1:9947f457caa0fae473be706b586e043650c00a6831f31c77b5d71acdf56a976e",
  "actors": {
   "requested_by": [
    "Richard"
@@ -42,12 +42,12 @@
  "attribution_basis": "harness_attested",
  "claims": [
   {
-   "block": "0d9e887a",
+   "block": "211b5d98",
    "kind": "added",
-   "note": "Capture unattributed human drift before Cursor edits an existing target."
+   "note": "Capture unattributed human drift before Pi edits an existing target."
   }
  ],
  "context": {
-  "why": "separate unattributed human drift from later Cursor edits"
+  "why": "separate unattributed human drift from later Pi edits"
  }
 }
