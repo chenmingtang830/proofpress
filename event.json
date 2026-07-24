@@ -1,29 +1,29 @@
 {
  "event": "version_created",
- "artifact": "skills/README.md",
- "artifact_id": "pp_e74be09a9d28f1855db4a007",
- "version": "a11b8e87",
- "parent": "53cf9f49",
+ "artifact": "skills/pi/proofpress-skill.md",
+ "artifact_id": "pp_c7ce0d15b86bb42bd28434fc",
+ "version": "cf59a525",
+ "parent": "0fa83c87",
  "author": {
   "name": "codex",
   "kind": "agent",
   "session": null
  },
  "note": null,
- "ts": "2026-07-24T23:40:58+00:00",
+ "ts": "2026-07-24T23:41:00+00:00",
  "stats": {
   "modified": 1
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "5ee2d540",
-   "type": "code",
-   "context": "Install"
+   "block": "2f7730eb",
+   "type": "para",
+   "context": "proofpress"
   }
  ],
  "policy": "local",
- "soft_fingerprint": "ppsb1:a45e5dd33764a9f07fa9b4771416382890d6f07f854b037e164d18ae7abc5bef",
+ "soft_fingerprint": "ppsb1:01de56be19a273454ac4af1d7485a2e0a58e95d069991938bdb86fcf29eee15a",
  "actors": {
   "requested_by": [
    "richardtang"
@@ -41,9 +41,9 @@
  "attribution_basis": "environment_attested",
  "claims": [
   {
-   "block": "5ee2d540",
+   "block": "2f7730eb",
    "kind": "modified",
-   "note": "Changed the recommended npm installation command from the alpha tag to the stable package."
+   "note": "Updated consent-first installation guidance to name the stable package."
   }
  ],
  "context": {
