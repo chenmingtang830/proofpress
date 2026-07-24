@@ -1,0 +1,41 @@
+name: Stage npm release
+
+on:
+  workflow_dispatch:
+    inputs:
+      npm-tag:
+        description: npm dist-tag for the staged version
+        required: true
+        default: next
+        type: choice
+        options:
+          - next
+          - latest
+
+permissions:
+  contents: read
+  id-token: write
+
+concurrency:
+  group: npm-stage-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  stage:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: "24.15.0"
+          registry-url: "https://registry.npmjs.org"
+          package-manager-cache: false
+
+      - name: Test package
+        run: npm test
+
+      - name: Stage package for human approval
+        env:
+          NPM_TAG: ${{ inputs.npm-tag }}
+        run: npm stage publish --tag "$NPM_TAG"

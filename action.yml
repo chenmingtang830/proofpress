@@ -1,0 +1,63 @@
+name: "Proofpress"
+description: >
+  Semantic diff + claim verification for Markdown and static HTML knowledge artifacts.
+  Posts one sticky PR comment per run: block-level change summary and,
+  when the authoring agent recorded claims, the deterministic ✓/⚠ verdict.
+  Glue around the proofpress CLI — no second implementation.
+branding:
+  icon: "book-open"
+  color: "blue"
+
+inputs:
+  github-token:
+    description: "Token used to post/update the PR comment"
+    required: true
+  proofpress-path:
+    description: "Path to proofpress.py inside the repository"
+    required: false
+    default: "proofpress.py"
+
+runs:
+  using: "composite"
+  steps:
+    - name: Fetch ledger refs (tolerate absence)
+      shell: bash
+      run: |
+        git fetch origin '+refs/proofpress/*:refs/proofpress/*' 2>/dev/null || true
+
+    - name: Semantic diff + verify on changed artifacts
+      shell: bash
+      env:
+        GH_TOKEN: ${{ inputs.github-token }}
+        PP: ${{ inputs.proofpress-path }}
+        BASE_REF: ${{ github.event.pull_request.base.sha }}
+        PR_NUMBER: ${{ github.event.pull_request.number }}
+      run: |
+        set -euo pipefail
+        test -f "$PP" || { echo "proofpress.py not found at $PP"; exit 0; }
+        changed=$(git diff --name-only "$BASE_REF"...HEAD -- '*.md' '*.html' '*.htm' || true)
+        [ -z "$changed" ] && { echo "no supported artifact changes"; exit 0; }
+
+        # Pure glue: all rendering lives in the CLI (--md), never here.
+        # Logo: assets/logo.svg can't render while the repo is private (GitHub's
+        # image proxy can't fetch private raw files). When the repo goes public,
+        # swap the header for:
+        #   <img src="https://raw.githubusercontent.com/chenmingtang830/proofpress/main/assets/logo.svg" width="18"> **Proofpress**
+        body="<!-- proofpress -->"$'\n'"### ▍ Proofpress"$'\n'
+        for f in $changed; do
+          [ -f "$f" ] || continue                      # deleted files: skip v0
+          python3 "$PP" ingest "$f" >/dev/null 2>&1 || true
+          base_tip=$(git rev-list -1 "$BASE_REF" -- "$f" 2>/dev/null || true)
+          diff_out=$(python3 "$PP" diff "$f" --md ${base_tip:+--base-commit "$base_tip"} 2>/dev/null || true)
+          verify_out=$(python3 "$PP" verify "$f" --md 2>/dev/null || true)
+          body="$body"$'\n'"**\`$f\`**"$'\n'"$diff_out"$'\n'"$verify_out"$'\n'
+        done
+
+        # sticky comment: update if a previous proofpress comment exists
+        cid=$(gh api "repos/${GITHUB_REPOSITORY}/issues/${PR_NUMBER}/comments" \
+              --jq '[.[] | select(.body | startswith("<!-- proofpress -->"))][0].id' 2>/dev/null || true)
+        if [ -n "$cid" ] && [ "$cid" != "null" ]; then
+          gh api -X PATCH "repos/${GITHUB_REPOSITORY}/issues/comments/${cid}" -f body="$body"
+        else
+          gh api "repos/${GITHUB_REPOSITORY}/issues/${PR_NUMBER}/comments" -f body="$body"
+        fi

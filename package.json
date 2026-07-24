@@ -1,0 +1,40 @@
+{
+  "name": "proofpress",
+  "version": "0.1.0-alpha.1",
+  "description": "Verifiable revision provenance for Markdown and static HTML knowledge artifacts",
+  "license": "Apache-2.0",
+  "bin": {
+    "proofpress": "bin/proofpress.js"
+  },
+  "files": [
+    "assets/",
+    "bin/",
+    "lib/",
+    "skills/",
+    "proofpress.py",
+    "README.md"
+  ],
+  "scripts": {
+    "test": "python3 -m unittest discover -s tests -v && node --test tests/npm.test.js",
+    "pack:check": "npm pack --dry-run",
+    "prepublishOnly": "npm test && npm run pack:check"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "keywords": [
+    "provenance",
+    "markdown",
+    "documentation",
+    "ai-agents",
+    "audit-log"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chenmingtang830/proofpress.git"
+  },
+  "homepage": "https://github.com/chenmingtang830/proofpress#readme",
+  "bugs": {
+    "url": "https://github.com/chenmingtang830/proofpress/issues"
+  }
+}

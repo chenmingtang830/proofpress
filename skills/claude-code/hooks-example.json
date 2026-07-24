@@ -1,0 +1,16 @@
+{
+  "//": "Merge into .claude/settings.json. This best-effort fallback checks Git candidates plus current paths already admitted to the ledger. It records only the hook identity as recorded_by; it does not infer who authored the content or why.",
+  "hooks": {
+    "Stop": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "cd \"$CLAUDE_PROJECT_DIR\" && test -f proofpress.py && python3 proofpress.py capture --recorder claude-code-hook; exit 0"
+          }
+        ]
+      }
+    ]
+  }
+}

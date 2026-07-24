@@ -1,0 +1,4 @@
+interface:
+  display_name: "Proofpress"
+  short_description: "Verify Markdown/HTML revision history and claims"
+  default_prompt: "Use $proofpress to record or inspect verifiable revision history for the supported knowledge artifacts in this task."

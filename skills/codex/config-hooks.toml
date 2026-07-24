@@ -1,0 +1,10 @@
+# Merge into ~/.codex/config.toml (Codex hooks GA since v0.124).
+# Best-effort fallback: capture Git candidates and current admitted ledger paths.
+# The hook identifies itself only as recorded_by; it does not pretend to know
+# who wrote the content or why.
+
+[[hooks]]
+event = "Stop"
+command = """
+sh -c 'test -f proofpress.py || exit 0; python3 proofpress.py capture --recorder codex-hook; exit 0'
+"""

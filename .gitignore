@@ -1,0 +1,8 @@
+__pycache__/
+*.pyc
+.DS_Store
+
+# Product strategy, competitive research, launch drafts, and experiments are
+# intentionally local. Public protocol and implementation docs live directly
+# under docs/.
+/docs/internal/
