@@ -1,37 +1,87 @@
 {
  "event": "version_created",
- "artifact": "docs/README.md",
- "artifact_id": "pp_4e50106dcbfad18e3ab0668c",
- "version": "fb1c431c",
- "parent": "90c46f04",
+ "artifact": "docs/internal/launch/README.md",
+ "artifact_id": "pp_fc140b7b208f2d17adbfc132",
+ "version": "ec6e02fe",
+ "parent": "ad478880",
  "author": {
   "name": "codex",
   "kind": "agent",
   "session": null
  },
  "note": null,
- "ts": "2026-07-24T20:29:15+00:00",
+ "ts": "2026-07-24T20:29:17+00:00",
  "stats": {
-  "modified": 1,
-  "added": 1
+  "modified": 7,
+  "added": 3
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "aeed01a6",
+   "block": "174dceb9",
    "type": "para",
-   "context": "Proofpress documentation"
+   "context": "Launch objective"
+  },
+  {
+   "kind": "modified",
+   "block": "bc8c55b6",
+   "type": "para",
+   "context": "Positioning"
+  },
+  {
+   "kind": "modified",
+   "block": "2d06ade6",
+   "type": "para",
+   "context": "Positioning"
+  },
+  {
+   "kind": "modified",
+   "block": "891fd11e",
+   "type": "para",
+   "context": "Positioning"
+  },
+  {
+   "kind": "modified",
+   "block": "1148d758",
+   "type": "para",
+   "context": "Positioning"
   },
   {
    "kind": "added",
-   "block": "395efcc4",
+   "block": "012ea658",
    "type": "para",
-   "context": "Proofpress documentation",
-   "preview": "“Think C2PA, but for knowledge work” is a category analogy, "
+   "context": "Positioning",
+   "preview": "The analogy describes a portable, inspectable trust record. "
+  },
+  {
+   "kind": "modified",
+   "block": "411fd219",
+   "type": "para",
+   "context": "Positioning"
+  },
+  {
+   "kind": "modified",
+   "block": "58c8755b",
+   "type": "para",
+   "context": "Positioning"
+  },
+  {
+   "kind": "added",
+   "block": "ffeca346",
+   "type": "para",
+   "context": "Positioning",
+   "preview": "Launch-film close:"
+  },
+  {
+   "kind": "added",
+   "block": "d9e444c1",
+   "type": "para",
+   "context": "Positioning",
+   "preview": "> Scale intelligence. Preserve trust."
   }
  ],
  "policy": "local",
- "soft_fingerprint": "ppsb1:8cce0310325abb86247f53fbc4fbaededad6bb000fa7da971a2bb80bec97236c",
+ "soft_fingerprint": "ppsb1:cfd54fd28e51c076b7184e84f51dd895b105347b138c208fb6382cb079da16e1",
  "actors": {
   "requested_by": [
    "richard-tang"
@@ -49,15 +99,47 @@
  "attribution_basis": "harness_attested",
  "claims": [
   {
-   "block": "aeed01a6",
+   "block": "174dceb9",
    "kind": "modified"
   },
   {
-   "block": "395efcc4",
+   "block": "bc8c55b6",
+   "kind": "modified"
+  },
+  {
+   "block": "2d06ade6",
+   "kind": "modified"
+  },
+  {
+   "block": "891fd11e",
+   "kind": "modified"
+  },
+  {
+   "block": "1148d758",
+   "kind": "modified"
+  },
+  {
+   "block": "012ea658",
+   "kind": "added"
+  },
+  {
+   "block": "411fd219",
+   "kind": "modified"
+  },
+  {
+   "block": "58c8755b",
+   "kind": "modified"
+  },
+  {
+   "block": "ffeca346",
+   "kind": "added"
+  },
+  {
+   "block": "d9e444c1",
    "kind": "added"
   }
  ],
  "context": {
-  "why": "aligned the development documentation index to the agreed launch lockup and C2PA analogy boundary"
+  "why": "made the launch workspace use one canonical category, boundary, analogy, vision bridge, and final close"
  }
 }
