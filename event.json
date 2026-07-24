@@ -1,30 +1,30 @@
 {
  "event": "version_created",
- "artifact": "skills/codex/AGENTS-snippet.md",
- "artifact_id": "pp_703c3fa926abb512e7199332",
- "version": "3c2ad53c",
- "parent": "7fec872e",
+ "artifact": "skills/claude-code/proofpress/SKILL.md",
+ "artifact_id": "pp_8f9f160826e336a46eb62bd4",
+ "version": "3ea9ad0d",
+ "parent": "4047b0b4",
  "author": {
   "name": "codex",
   "kind": "agent",
   "session": null
  },
- "note": "Add Codex preflight capture",
- "ts": "2026-07-24T05:29:30+00:00",
+ "note": "Add Claude preflight capture",
+ "ts": "2026-07-24T05:29:32+00:00",
  "stats": {
   "added": 1
  },
  "changes": [
   {
    "kind": "added",
-   "block": "af9efd22",
+   "block": "78295d28",
    "type": "para",
-   "context": "Proofpress: ledger Markdown and static H",
+   "context": "Workflow",
    "preview": "Before editing an existing target, run\n`python3 proofpress.p"
   }
  ],
  "policy": "local",
- "soft_fingerprint": "ppsb1:ab9a9309395eddc8299b2f4fab51b679344f623f0ba7407ff14361fab6a4b55f",
+ "soft_fingerprint": "ppsb1:66b788ea01ac7465e4e29706b26ef574e712694fffb5ea2c45a9cbbe70635342",
  "actors": {
   "requested_by": [
    "Richard"
@@ -42,12 +42,12 @@
  "attribution_basis": "harness_attested",
  "claims": [
   {
-   "block": "af9efd22",
+   "block": "78295d28",
    "kind": "added",
-   "note": "Capture unattributed human drift before Codex edits an existing target."
+   "note": "Capture unattributed human drift before Claude edits an existing target."
   }
  ],
  "context": {
-  "why": "separate unattributed human drift from later Codex edits"
+  "why": "separate unattributed human drift from later Claude edits"
  }
 }
