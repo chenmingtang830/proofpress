@@ -1,50 +1,107 @@
 {
  "event": "version_created",
- "artifact": "docs/internal/launch/film/videos/proofpress-x-launch/BRIEF.md",
- "artifact_id": "pp_3bae87c36d575cb17d5dbd96",
- "version": "068ac7bb",
- "parent": "659d6855",
+ "artifact": "docs/internal/launch/film/videos/proofpress-x-launch/frame.md",
+ "artifact_id": "pp_e898337d3768f36e95e7fec4",
+ "version": "e9c0342a",
+ "parent": null,
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-07-24T09:21:15+00:00",
+ "ts": "2026-07-24T09:21:17+00:00",
  "stats": {
-  "modified": 2,
-  "removed": 2
+  "added": 12
  },
  "changes": [
   {
-   "kind": "modified",
-   "block": "edddcef0",
+   "kind": "added",
+   "block": "17a7a1da",
    "type": "para",
-   "context": "(文首)"
+   "context": "(文首)",
+   "preview": "---\ncolors:\n  film: \"#101013\"\n  film_raised: \"#16171B\"\n  pap"
   },
   {
-   "kind": "modified",
-   "block": "da95434b",
-   "type": "list",
-   "context": "Assets"
+   "kind": "added",
+   "block": "ab096070",
+   "type": "heading",
+   "context": "Proofpress launch-film comparison system",
+   "preview": "# Proofpress launch-film comparison system"
   },
   {
-   "kind": "removed",
-   "block": "dfdf19e6",
-   "type": "list",
-   "context": "",
-   "preview": "  - 1920x1080\n  - 1080x1080"
+   "kind": "added",
+   "block": "12c5a925",
+   "type": "heading",
+   "context": "Shared brand truth",
+   "preview": "## Shared brand truth"
   },
   {
-   "kind": "removed",
-   "block": "c7782797",
+   "kind": "added",
+   "block": "39159d89",
    "type": "para",
-   "context": "",
-   "preview": "language: en\naudience: \"developers, AI builders, and teams a"
+   "context": "Shared brand truth",
+   "preview": "The artifact is a warm paper knowledge object with a teal Pr"
+  },
+  {
+   "kind": "added",
+   "block": "ff6159e2",
+   "type": "heading",
+   "context": "Variant A — Editorial Ledger",
+   "preview": "## Variant A — Editorial Ledger"
+  },
+  {
+   "kind": "added",
+   "block": "ec4d7d73",
+   "type": "para",
+   "context": "Variant A — Editorial Ledger",
+   "preview": "Near-black field, warm paper artifact, generous negative spa"
+  },
+  {
+   "kind": "added",
+   "block": "776e7b62",
+   "type": "heading",
+   "context": "Variant B — Paper Protocol",
+   "preview": "## Variant B — Paper Protocol"
+  },
+  {
+   "kind": "added",
+   "block": "89222085",
+   "type": "para",
+   "context": "Variant B — Paper Protocol",
+   "preview": "Warm paper fills the frame. Sessions are page columns separa"
+  },
+  {
+   "kind": "added",
+   "block": "4ebaad9d",
+   "type": "heading",
+   "context": "Variant C — Living Lineage",
+   "preview": "## Variant C — Living Lineage"
+  },
+  {
+   "kind": "added",
+   "block": "bfb8e3df",
+   "type": "para",
+   "context": "Variant C — Living Lineage",
+   "preview": "Charcoal field with a precise teal perspective grid and line"
+  },
+  {
+   "kind": "added",
+   "block": "27c1978a",
+   "type": "heading",
+   "context": "Motion doctrine",
+   "preview": "## Motion doctrine"
+  },
+  {
+   "kind": "added",
+   "block": "00f75942",
+   "type": "para",
+   "context": "Motion doctrine",
+   "preview": "Use `power3` long-tail settles, transforms, opacity, SVG str"
   }
  ],
  "policy": "local",
- "soft_fingerprint": "ppsb1:569c9575f0cd062548c814e69021ec6c32fb1a20a8350f702f8318c3151f6b55",
+ "soft_fingerprint": "ppsb1:9253766aa6609b2f03f6a461547bd0598ab60f48ff9ea230ce64700cd9e15ae3",
  "actors": {
   "requested_by": [
    "Richard Tang"
@@ -62,17 +119,62 @@
  "attribution_basis": "harness_attested",
  "claims": [
   {
-   "block": "dfdf19e6",
-   "kind": "removed",
-   "note": "Replaced list-shaped aspect metadata with one scalar field so Markdown anchoring cannot split YAML front matter."
+   "block": "ab096070",
+   "kind": "added",
+   "note": "Defined the Proofpress launch-film comparison design system."
   },
   {
-   "block": "c7782797",
-   "kind": "removed",
-   "note": "Folded the former standalone front-matter fragment into the corrected scalar metadata carrier."
+   "block": "12c5a925",
+   "kind": "added",
+   "note": "Defined the shared artifact-first brand truth."
+  },
+  {
+   "block": "39159d89",
+   "kind": "added",
+   "note": "Specified the artifact and session visual hierarchy."
+  },
+  {
+   "block": "ff6159e2",
+   "kind": "added",
+   "note": "Defined the Editorial Ledger direction."
+  },
+  {
+   "block": "ec4d7d73",
+   "kind": "added",
+   "note": "Specified Editorial Ledger materials and composition."
+  },
+  {
+   "block": "776e7b62",
+   "kind": "added",
+   "note": "Defined the Paper Protocol direction."
+  },
+  {
+   "block": "89222085",
+   "kind": "added",
+   "note": "Specified Paper Protocol materials and composition."
+  },
+  {
+   "block": "4ebaad9d",
+   "kind": "added",
+   "note": "Defined the Living Lineage direction."
+  },
+  {
+   "block": "bfb8e3df",
+   "kind": "added",
+   "note": "Specified the deterministic grid and lineage treatment."
+  },
+  {
+   "block": "27c1978a",
+   "kind": "added",
+   "note": "Defined the shared motion doctrine."
+  },
+  {
+   "block": "00f75942",
+   "kind": "added",
+   "note": "Recorded motion and visual exclusions for the comparison gate."
   }
  ],
  "context": {
-  "why": "Correct the internal film carrier metadata while preserving the approved launch brief and its three-direction review gate."
+  "why": "Define three deliberately distinct visual languages for a fair, content-controlled Proofpress motion test."
  }
 }
