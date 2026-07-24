@@ -1,1416 +1,491 @@
 {
  "event": "version_created",
- "artifact": "docs/internal/launch/README.md",
- "artifact_id": "pp_fc140b7b208f2d17adbfc132",
- "version": "ad478880",
+ "artifact": "docs/internal/C2PA_REFERENCE.md",
+ "artifact_id": "pp_0528a56dd3d90cff80ad18ce",
+ "version": "1a3f1f47",
  "parent": null,
  "author": {
-  "name": "codex",
+  "name": "claude",
   "kind": "agent",
   "session": null
  },
- "note": null,
- "ts": "2026-07-24T03:53:53+00:00",
+ "note": "signature boundary clarified in §3/§4; §2/§3/§5 status updated after implementation",
+ "ts": "2026-07-24T04:01:30+00:00",
  "stats": {
-  "added": 125
+  "added": 65
  },
  "changes": [
   {
    "kind": "added",
-   "block": "04b3a1ef",
+   "block": "fffc6e77",
    "type": "heading",
-   "context": "Proofpress launch workspace",
-   "preview": "# Proofpress launch workspace"
+   "context": "Adobe C2PA — 参考笔记与下一步 / Reference Notes ",
+   "preview": "# Adobe C2PA — 参考笔记与下一步 / Reference Notes & Next Steps"
   },
   {
    "kind": "added",
-   "block": "45543a07",
+   "block": "ea6da88e",
    "type": "para",
-   "context": "Proofpress launch workspace",
-   "preview": "**Status:** planning active; public launch remains gate-driv"
+   "context": "Adobe C2PA — 参考笔记与下一步 / Reference Notes ",
+   "preview": "> 内部文档 / Internal. 设计参考，非契约。记录 C2PA 内容溯源标准对 Proofpress 的\n> 启"
   },
   {
    "kind": "added",
-   "block": "f0c5eab5",
+   "block": "271a9a63",
    "type": "para",
-   "context": "Proofpress launch workspace",
-   "preview": "This directory is the source of truth for Proofpress launch "
+   "context": "Adobe C2PA — 参考笔记与下一步 / Reference Notes ",
+   "preview": "---"
   },
   {
    "kind": "added",
-   "block": "5abf00a0",
+   "block": "1aebdfac",
    "type": "heading",
-   "context": "Launch objective",
-   "preview": "## Launch objective"
+   "context": "1. 为什么 C2PA 相关 / Why C2PA is relevant",
+   "preview": "## 1. 为什么 C2PA 相关 / Why C2PA is relevant"
   },
   {
    "kind": "added",
-   "block": "174dceb9",
+   "block": "96588f1d",
    "type": "para",
-   "context": "Launch objective",
-   "preview": "Launch Proofpress as the open-source, verifiable revision le"
+   "context": "1. 为什么 C2PA 相关 / Why C2PA is relevant",
+   "preview": "**中文**：C2PA（内容来源与真实性联盟，由 Adobe、Microsoft、BBC、Intel 等牵头）是\n一个开"
   },
   {
    "kind": "added",
-   "block": "c85915b4",
+   "block": "a341948d",
    "type": "para",
-   "context": "Launch objective",
-   "preview": "The launch is successful when unfamiliar developers can unde"
+   "context": "1. 为什么 C2PA 相关 / Why C2PA is relevant",
+   "preview": "这与 Proofpress 解决的是同一个根问题——README 的原话：\"一份可验证的历史，记录谁在\n何时、为何改了什"
   },
   {
    "kind": "added",
-   "block": "dcd14722",
+   "block": "53941032",
+   "type": "para",
+   "context": "1. 为什么 C2PA 相关 / Why C2PA is relevant",
+   "preview": "**EN**: C2PA (Coalition for Content Provenance and Authentic"
+  },
+  {
+   "kind": "added",
+   "block": "86b6e60a",
+   "type": "para",
+   "context": "1. 为什么 C2PA 相关 / Why C2PA is relevant",
+   "preview": "---"
+  },
+  {
+   "kind": "added",
+   "block": "39f8c7e9",
    "type": "heading",
-   "context": "Positioning",
-   "preview": "## Positioning"
+   "context": "2. 概念对照 / Concept mapping",
+   "preview": "## 2. 概念对照 / Concept mapping"
   },
   {
    "kind": "added",
-   "block": "bc8c55b6",
+   "block": "dd2673c4",
    "type": "para",
-   "context": "Positioning",
-   "preview": "Primary message:"
+   "context": "2. 概念对照 / Concept mapping",
+   "preview": "Proofpress 已在很大程度上独立重建了 C2PA 的骨架 / Proofpress has largely re"
   },
   {
    "kind": "added",
-   "block": "2d06ade6",
-   "type": "para",
-   "context": "Positioning",
-   "preview": "> Git keeps the code history. Proofpress keeps the accepted "
+   "block": "00c5ebaa",
+   "type": "table",
+   "context": "2. 概念对照 / Concept mapping",
+   "preview": "| C2PA | Proofpress 对应 / equivalent | 备注 / Note |\n| --- | --"
   },
   {
    "kind": "added",
-   "block": "891fd11e",
-   "type": "para",
-   "context": "Positioning",
-   "preview": "Short form:"
-  },
-  {
-   "kind": "added",
-   "block": "1148d758",
-   "type": "para",
-   "context": "Positioning",
-   "preview": "> Verifiable revision history for agent-written knowledge wo"
-  },
-  {
-   "kind": "added",
-   "block": "411fd219",
-   "type": "para",
-   "context": "Positioning",
-   "preview": "Launch-film close:"
-  },
-  {
-   "kind": "added",
-   "block": "58c8755b",
-   "type": "para",
-   "context": "Positioning",
-   "preview": "> Agents produce. You decide. The artifact remembers."
-  },
-  {
-   "kind": "added",
-   "block": "24684d4d",
-   "type": "para",
-   "context": "Positioning",
-   "preview": "Proofpress is not a replacement for Git, a new editor, a cha"
-  },
-  {
-   "kind": "added",
-   "block": "eae2ec33",
+   "block": "a57b8dbd",
    "type": "heading",
-   "context": "Initial audience",
-   "preview": "## Initial audience"
+   "context": "Manifest Store 具体是什么 / What Manifest Sto",
+   "preview": "### Manifest Store 具体是什么 / What Manifest Store is, concretel"
   },
   {
    "kind": "added",
-   "block": "a00af086",
+   "block": "76207334",
    "type": "para",
-   "context": "Initial audience",
-   "preview": "The launch is for developers and technical teams using Codex"
+   "context": "Manifest Store 具体是什么 / What Manifest Sto",
+   "preview": "**中文**：C2PA 资产在自己的字节里带一块叫 Manifest Store 的区域，**在文件内部**——\n发文件"
   },
   {
    "kind": "added",
-   "block": "8598f5d0",
+   "block": "fd040697",
    "type": "para",
-   "context": "Initial audience",
-   "preview": "The first demonstration should use a realistic `proposal.md`"
+   "context": "Manifest Store 具体是什么 / What Manifest Sto",
+   "preview": "**EN**: A C2PA asset carries a Manifest Store *inside its ow"
   },
   {
    "kind": "added",
-   "block": "be5049da",
+   "block": "34632b82",
+   "type": "code",
+   "context": "Manifest Store 具体是什么 / What Manifest Sto",
+   "preview": "```\nphoto.jpg\n├── [像素数据 / pixel data]\n└── Manifest Store（清单库"
+  },
+  {
+   "kind": "added",
+   "block": "5414234c",
+   "type": "para",
+   "context": "Manifest Store 具体是什么 / What Manifest Sto",
+   "preview": "Proofpress 的 `capsule` **就是** Manifest Store 的对应物：一个胶囊装多条从旧到"
+  },
+  {
+   "kind": "added",
+   "block": "46c41bb4",
+   "type": "para",
+   "context": "Manifest Store 具体是什么 / What Manifest Sto",
+   "preview": "---"
+  },
+  {
+   "kind": "added",
+   "block": "9e90efaa",
    "type": "heading",
-   "context": "Launch shape",
-   "preview": "## Launch shape"
+   "context": "3. 三种 binding / Three kinds of binding",
+   "preview": "## 3. 三种 binding / Three kinds of binding"
   },
   {
    "kind": "added",
-   "block": "186385a9",
+   "block": "e0a7ee70",
    "type": "para",
-   "context": "Launch shape",
-   "preview": "Use a gate-driven launch week rather than a single coordinat"
+   "context": "3. 三种 binding / Three kinds of binding",
+   "preview": "C2PA 最有用的区分是 binding 的种类。Proofpress 应把它们当作三件独立的事：\nC2PA's mos"
   },
   {
    "kind": "added",
-   "block": "e1bf5b7b",
+   "block": "28ebbef2",
+   "type": "table",
+   "context": "3. 三种 binding / Three kinds of binding",
+   "preview": "| Binding | 回答什么问题 / Question | Proofpress 状态 / Status |\n| -"
+  },
+  {
+   "kind": "added",
+   "block": "2239c913",
    "type": "list",
-   "context": "Launch shape",
-   "preview": "- **Day 0 — owned release:** public GitHub repository, npm `"
+   "context": "3. 三种 binding / Three kinds of binding",
+   "preview": "- **Hard binding**：对精确可见正文算哈希。正文改了但没更新 capsule → `verify` 报"
   },
   {
    "kind": "added",
-   "block": "cafc050d",
+   "block": "1b132165",
    "type": "para",
-   "context": "Launch shape",
-   "preview": "  GitHub prerelease, README, launch film, X announcement, an"
+   "context": "3. 三种 binding / Three kinds of binding",
+   "preview": "  `body_mismatch`。弱点：元数据一旦被剥离（截图、复制纯文本、CMS 清洗），绑定即失，\n  文件退化为"
   },
   {
    "kind": "added",
-   "block": "7bf8d19f",
+   "block": "07f73d07",
    "type": "list",
-   "context": "Launch shape",
-   "preview": "- **Day 1 — technical proof:** publish the portable-carrier "
+   "context": "3. 三种 binding / Three kinds of binding",
+   "preview": "- **Soft binding**：从内容本身导出一个**鲁棒指纹**，让丢了 capsule 的文件仍能被认出。"
   },
   {
    "kind": "added",
-   "block": "7d414d61",
+   "block": "e4ee3d67",
    "type": "para",
-   "context": "Launch shape",
-   "preview": "  deep dive, including limitations and privacy boundaries."
+   "context": "3. 三种 binding / Three kinds of binding",
+   "preview": "  容忍格式漂移和小幅编辑；**不**证明未被篡改。 / A robust fingerprint from the\n "
   },
   {
    "kind": "added",
-   "block": "6d82c70e",
+   "block": "28108389",
    "type": "list",
-   "context": "Launch shape",
-   "preview": "- **Day 2 — Show HN:** submit the runnable repository with a"
+   "context": "3. 三种 binding / Three kinds of binding",
+   "preview": "- **Signature**：把归因从\"工具担保\"提升到\"数学上无法伪造\"，阻止**第三方**冒充作者"
   },
   {
    "kind": "added",
-   "block": "abfe9a8b",
+   "block": "fb811b19",
    "type": "para",
-   "context": "Launch shape",
-   "preview": "  remain available for technical discussion. Never solicit v"
+   "context": "3. 三种 binding / Three kinds of binding",
+   "preview": "  整体重写 capsule。**边界**：挡不住**密钥持有者本人**——作者可以用自己的钥匙重签一份\n  自洽的假历"
   },
   {
    "kind": "added",
-   "block": "c064a2fa",
-   "type": "list",
-   "context": "Launch shape",
-   "preview": "- **Day 3 — community-specific distribution:** adapt the sto"
-  },
-  {
-   "kind": "added",
-   "block": "9b57452c",
-   "type": "para",
-   "context": "Launch shape",
-   "preview": "  agent, Markdown, local-first, and developer-tool communiti"
-  },
-  {
-   "kind": "added",
-   "block": "0ace1242",
-   "type": "list",
-   "context": "Launch shape",
-   "preview": "- **Day 4 — objections:** publish answers to recurring quest"
-  },
-  {
-   "kind": "added",
-   "block": "84642512",
-   "type": "para",
-   "context": "Launch shape",
-   "preview": "  not Git?”, “is this signed?”, and “does the capsule leak c"
-  },
-  {
-   "kind": "added",
-   "block": "779f988c",
-   "type": "list",
-   "context": "Launch shape",
-   "preview": "- **Day 5 — learning report:** share what users completed, w"
-  },
-  {
-   "kind": "added",
-   "block": "b55a0deb",
-   "type": "para",
-   "context": "Launch shape",
-   "preview": "  failed, what changed, and what comes next."
-  },
-  {
-   "kind": "added",
-   "block": "ca4b7aa9",
-   "type": "para",
-   "context": "Launch shape",
-   "preview": "Product Hunt is a later, conditional wave. It becomes worthw"
-  },
-  {
-   "kind": "added",
-   "block": "eb86c114",
+   "block": "75b18e36",
    "type": "heading",
-   "context": "Workstreams",
-   "preview": "## Workstreams"
+   "context": "Soft binding 不是语义/向量匹配 / not semantic/ve",
+   "preview": "### Soft binding 不是语义/向量匹配 / not semantic/vector matching"
   },
   {
    "kind": "added",
-   "block": "8eea6889",
-   "type": "list",
-   "context": "Workstreams",
-   "preview": "1. **Public-repository logistics:** rename the private sourc"
-  },
-  {
-   "kind": "added",
-   "block": "69bdc3d5",
+   "block": "0920d86c",
    "type": "para",
-   "context": "Workstreams",
-   "preview": "   `proofpress-dev`; create a clean public `proofpress` repo"
+   "context": "Soft binding 不是语义/向量匹配 / not semantic/ve",
+   "preview": "**中文**：soft binding 回答的是**身份**（\"这**就是** `pp_xxx`，哪怕重排版了\"），不是"
   },
   {
    "kind": "added",
-   "block": "7025c593",
-   "type": "list",
-   "context": "Workstreams",
-   "preview": "2. **Release integrity:** align the public source commit, Gi"
-  },
-  {
-   "kind": "added",
-   "block": "4831f28f",
+   "block": "8b0afef1",
    "type": "para",
-   "context": "Workstreams",
-   "preview": "   package, version, install command, and provenance. Use np"
+   "context": "Soft binding 不是语义/向量匹配 / not semantic/ve",
+   "preview": "**EN**: Soft binding answers **identity** (\"this *is* `pp_xx"
   },
   {
    "kind": "added",
-   "block": "4be3f2f5",
+   "block": "a812058c",
+   "type": "code",
+   "context": "Soft binding 不是语义/向量匹配 / not semantic/ve",
+   "preview": "```\n改动 / change                                 hard binding"
+  },
+  {
+   "kind": "added",
+   "block": "b35ca34a",
    "type": "list",
-   "context": "Workstreams",
-   "preview": "3. **Narrative and claims:** freeze the launch message, supp"
+   "context": "Soft binding 不是语义/向量匹配 / not semantic/ve",
+   "preview": "- **精确指纹（简单）/ Exact fingerprint (simple)**：狠归一化（合并空白、统一换行、去"
   },
   {
    "kind": "added",
-   "block": "6dccd609",
+   "block": "2ebd5835",
    "type": "para",
-   "context": "Workstreams",
-   "preview": "   limitations, FAQ, and channel-specific language before cr"
+   "context": "Soft binding 不是语义/向量匹配 / not semantic/ve",
+   "preview": "  语法符号，只留可见文字骨架）后算哈希。容忍*格式*变化；内容改一字即翻转。解决\"复制\n  粘贴丢了 capsule\""
   },
   {
    "kind": "added",
-   "block": "709b9d10",
+   "block": "a0472f0c",
    "type": "list",
-   "context": "Workstreams",
-   "preview": "4. **Launch film:** produce the hero film first, then derive"
+   "context": "Soft binding 不是语义/向量匹配 / not semantic/ve",
+   "preview": "- **近似匹配（进阶）/ Near-match (advanced)**：分块指纹 / SimHash / MinHa"
   },
   {
    "kind": "added",
-   "block": "52701d45",
+   "block": "7ebf474d",
    "type": "para",
-   "context": "Workstreams",
-   "preview": "   poster frames, GIFs, and stills from the same source."
+   "context": "Soft binding 不是语义/向量匹配 / not semantic/ve",
+   "preview": "  层面的局部敏感哈希。改一个错别字仍匹配 ~99% 的块 → 认出\"这是 `pp_xxx`，改动约 1%\"。\n  这才"
   },
   {
    "kind": "added",
-   "block": "0af1b134",
-   "type": "list",
-   "context": "Workstreams",
-   "preview": "5. **Runnable proof:** provide a copy-and-paste portable han"
-  },
-  {
-   "kind": "added",
-   "block": "7448800c",
+   "block": "b8abfdf9",
    "type": "para",
-   "context": "Workstreams",
-   "preview": "   in under three minutes without signup or external infrast"
+   "context": "Soft binding 不是语义/向量匹配 / not semantic/ve",
+   "preview": "**无需云端即可有效 / Useful without cloud**：算指纹 100% 本地；拿指纹反查需要一个索引，"
   },
   {
    "kind": "added",
-   "block": "4157e32f",
-   "type": "list",
-   "context": "Workstreams",
-   "preview": "6. **Communications:** prepare X, Show HN, technical article"
-  },
-  {
-   "kind": "added",
-   "block": "755fa1eb",
-   "type": "para",
-   "context": "Workstreams",
-   "preview": "   direct outreach, launch-day responses, and issue template"
-  },
-  {
-   "kind": "added",
-   "block": "f4cabbc8",
-   "type": "list",
-   "context": "Workstreams",
-   "preview": "7. **Operations and learning:** establish go/no-go gates, re"
-  },
-  {
-   "kind": "added",
-   "block": "0629a4cb",
-   "type": "para",
-   "context": "Workstreams",
-   "preview": "   metrics capture, incident handling, and the Day-5 retrosp"
-  },
-  {
-   "kind": "added",
-   "block": "6bca960a",
+   "block": "93dac451",
    "type": "heading",
-   "context": "Film brief",
-   "preview": "## Film brief"
+   "context": "为什么先不做水印 / Why not a watermark (yet)",
+   "preview": "### 为什么先不做水印 / Why not a watermark (yet)"
   },
   {
    "kind": "added",
-   "block": "c5f9e28c",
+   "block": "9b96b59e",
+   "type": "para",
+   "context": "为什么先不做水印 / Why not a watermark (yet)",
+   "preview": "**中文**：文本水印靠往正文塞信号（零宽字符、隐蔽措辞）。对可编辑文本很脆：复制纯文本、\n重渲染、编辑器保存、CMS "
+  },
+  {
+   "kind": "added",
+   "block": "30947a49",
+   "type": "para",
+   "context": "为什么先不做水印 / Why not a watermark (yet)",
+   "preview": "---"
+  },
+  {
+   "kind": "added",
+   "block": "bb37864c",
    "type": "heading",
-   "context": "Role",
-   "preview": "### Role"
+   "context": "4. 归因信任阶梯 / The attribution trust ladder",
+   "preview": "## 4. 归因信任阶梯 / The attribution trust ladder"
   },
   {
    "kind": "added",
-   "block": "89b936f6",
+   "block": "9a3f60f2",
    "type": "para",
-   "context": "Role",
-   "preview": "The film is the emotional and visual entry point for the lau"
+   "context": "4. 归因信任阶梯 / The attribution trust ladder",
+   "preview": "`attribution_basis` 记录**作者信息有多可信**，不改作者字段，只给它分级。现有取值，弱到强：\n`a"
   },
   {
    "kind": "added",
-   "block": "2f9e8f03",
+   "block": "cdfa8727",
+   "type": "table",
+   "context": "4. 归因信任阶梯 / The attribution trust ladder",
+   "preview": "| 值 / Value | 含义 / Meaning | 用处 / Where used |\n| --- | --- |"
+  },
+  {
+   "kind": "added",
+   "block": "8ee54f2e",
    "type": "para",
-   "context": "Role",
-   "preview": "The existing `demo/launch.html` is a visual reference, not t"
+   "context": "4. 归因信任阶梯 / The attribution trust ladder",
+   "preview": "这是签名的前身，阶梯已经在了 / This is the pre-image of a signature; the l"
   },
   {
    "kind": "added",
-   "block": "93862d2e",
+   "block": "e37d074d",
+   "type": "code",
+   "context": "4. 归因信任阶梯 / The attribution trust ladder",
+   "preview": "```\nunknown → self_asserted → environment_attested → harness"
+  },
+  {
+   "kind": "added",
+   "block": "6d2af193",
+   "type": "para",
+   "context": "4. 归因信任阶梯 / The attribution trust ladder",
+   "preview": "加 `signed` 只是多一格，不是重构。**签名可本地起步**——用户自持密钥 + 复用已有 Git/邮箱\n身份做弱"
+  },
+  {
+   "kind": "added",
+   "block": "15dd0eea",
+   "type": "para",
+   "context": "4. 归因信任阶梯 / The attribution trust ladder",
+   "preview": "**`signed` 一格的边界 / What the `signed` rung does NOT give**：`s"
+  },
+  {
+   "kind": "added",
+   "block": "ef7c7948",
+   "type": "para",
+   "context": "4. 归因信任阶梯 / The attribution trust ladder",
+   "preview": "---"
+  },
+  {
+   "kind": "added",
+   "block": "0bdc251d",
    "type": "heading",
-   "context": "Master deliverables",
-   "preview": "### Master deliverables"
+   "context": "5. 采纳什么、什么顺序 / What to adopt, and in wha",
+   "preview": "## 5. 采纳什么、什么顺序 / What to adopt, and in what order"
   },
   {
    "kind": "added",
-   "block": "48bdbeb2",
-   "type": "list",
-   "context": "Master deliverables",
-   "preview": "- 45–60 second 16:9 master MP4 for X, GitHub, and the launch"
-  },
-  {
-   "kind": "added",
-   "block": "d6be82fa",
+   "block": "a45ae145",
    "type": "para",
-   "context": "Master deliverables",
-   "preview": "  asset."
+   "context": "5. 采纳什么、什么顺序 / What to adopt, and in wha",
+   "preview": "**范围决定 / Scope**："
   },
   {
    "kind": "added",
-   "block": "dda9b77a",
+   "block": "270208f6",
    "type": "list",
-   "context": "Master deliverables",
-   "preview": "- Poster frame, social stills, and a lightweight GIF for REA"
+   "context": "5. 采纳什么、什么顺序 / What to adopt, and in wha",
+   "preview": "- **图片/视频/二进制 C2PA 格式（JUMBF/CBOR）**：跳过。不是我们的载体。保持干净、可读、"
   },
   {
    "kind": "added",
-   "block": "e34e26be",
+   "block": "7669be2e",
    "type": "para",
-   "context": "Master deliverables",
-   "preview": "  `proofpress-dev`; only finished public assets move to `pro"
+   "context": "5. 采纳什么、什么顺序 / What to adopt, and in wha",
+   "preview": "  可 diff、零依赖的文本载体。只有以后真做图片/PDF 溯源才重看——那是另一个产品阶段。\n  / Skip bi"
   },
   {
    "kind": "added",
-   "block": "eeefc672",
+   "block": "4dac0cef",
+   "type": "list",
+   "context": "5. 采纳什么、什么顺序 / What to adopt, and in wha",
+   "preview": "- **云端 manifest 查询 / Cloud manifest lookup**：归到未来 cloud 产品 /"
+  },
+  {
+   "kind": "added",
+   "block": "7c66a1a9",
+   "type": "para",
+   "context": "5. 采纳什么、什么顺序 / What to adopt, and in wha",
+   "preview": "  future cloud product."
+  },
+  {
+   "kind": "added",
+   "block": "a685d38e",
+   "type": "para",
+   "context": "5. 采纳什么、什么顺序 / What to adopt, and in wha",
+   "preview": "**建议优先级 / Recommended priority**："
+  },
+  {
+   "kind": "added",
+   "block": "4b6bb714",
+   "type": "para",
+   "context": "5. 采纳什么、什么顺序 / What to adopt, and in wha",
+   "preview": "> **进度 / Progress (2026-07-22)**：1 已落地（`merge-lineage` + `in"
+  },
+  {
+   "kind": "added",
+   "block": "3058e661",
+   "type": "list",
+   "context": "5. 采纳什么、什么顺序 / What to adopt, and in wha",
+   "preview": "1. **Ingredients（多父溯源）— 现在做 / do now.** 成本低、边界清。仅当多份"
+  },
+  {
+   "kind": "added",
+   "block": "100f5716",
+   "type": "para",
+   "context": "5. 采纳什么、什么顺序 / What to adopt, and in wha",
+   "preview": "   Proofpress-enabled 文档**汇流**成一份时才需要；线性父链表达不了\"这份提案融合了 A 和\n "
+  },
+  {
+   "kind": "added",
+   "block": "db01d2e5",
+   "type": "list",
+   "context": "5. 采纳什么、什么顺序 / What to adopt, and in wha",
+   "preview": "2. **本地 soft binding（确定性指纹）— 其次 / do next.** 加一个归一化函数 + 在 le"
+  },
+  {
+   "kind": "added",
+   "block": "15781169",
+   "type": "para",
+   "context": "5. 采纳什么、什么顺序 / What to adopt, and in wha",
+   "preview": "   存指纹列。先做精确指纹，再加分块近似匹配（SimHash/MinHash）。实现\"capsule 被剥离 →\n  "
+  },
+  {
+   "kind": "added",
+   "block": "ffe28fc6",
+   "type": "list",
+   "context": "5. 采纳什么、什么顺序 / What to adopt, and in wha",
+   "preview": "3. **签名字段占位 — 最后 / last.** 信任阶梯已就位；预留 `signed` 一格，朝用户自持密钥"
+  },
+  {
+   "kind": "added",
+   "block": "6da50324",
+   "type": "para",
+   "context": "5. 采纳什么、什么顺序 / What to adopt, and in wha",
+   "preview": "   设计。真正实现签名推迟到出现真实的多方、互不信任场景为止；在那之前 `harness_attested`\n   已"
+  },
+  {
+   "kind": "added",
+   "block": "4bbfa5b7",
+   "type": "para",
+   "context": "5. 采纳什么、什么顺序 / What to adopt, and in wha",
+   "preview": "---"
+  },
+  {
+   "kind": "added",
+   "block": "0226619b",
    "type": "heading",
-   "context": "Storyboard",
-   "preview": "### Storyboard"
+   "context": "6. Proofpress 有而 C2PA 没有的 / What Proofpr",
+   "preview": "## 6. Proofpress 有而 C2PA 没有的 / What Proofpress keeps that C2"
   },
   {
    "kind": "added",
-   "block": "a2f2e256",
-   "type": "list",
-   "context": "Storyboard",
-   "preview": "1. **0–6s — hook:** “An agent rewrote this design doc. Git k"
-  },
-  {
-   "kind": "added",
-   "block": "2ced2d0e",
+   "block": "c4537823",
    "type": "para",
-   "context": "Storyboard",
-   "preview": "   kept the reasons. Neither travels with the file.”"
+   "context": "6. Proofpress 有而 C2PA 没有的 / What Proofpr",
+   "preview": "**中文**：C2PA 的驱动力是 AI 时代对**媒体**的焦虑：这图是 AI 生成的吗？是真拍的吗？被\n篡改了吗？它"
   },
   {
    "kind": "added",
-   "block": "5083cfe9",
-   "type": "list",
-   "context": "Storyboard",
-   "preview": "2. **6–17s — admission:** show a real accepted revision with"
-  },
-  {
-   "kind": "added",
-   "block": "4fc82063",
+   "block": "2adf6fc6",
    "type": "para",
-   "context": "Storyboard",
-   "preview": "   reason, and claims."
+   "context": "6. Proofpress 有而 C2PA 没有的 / What Proofpr",
+   "preview": "文本/知识工件的对应焦虑不是\"排版变了\"，而是：**这份文档是人写的还是 Agent 生成的？哪些\n段落是 Agent "
   },
   {
    "kind": "added",
-   "block": "122d3df3",
-   "type": "list",
-   "context": "Storyboard",
-   "preview": "3. **17–29s — compression:** turn a wall of line noise into "
-  },
-  {
-   "kind": "added",
-   "block": "3e3b4835",
+   "block": "d7097ca7",
    "type": "para",
-   "context": "Storyboard",
-   "preview": "   facts: moved, rewritten, and a numeric delta; visibly ver"
-  },
-  {
-   "kind": "added",
-   "block": "2d0876b1",
-   "type": "list",
-   "context": "Storyboard",
-   "preview": "4. **29–43s — money moment:** copy the artifact into a clean"
-  },
-  {
-   "kind": "added",
-   "block": "27e32f0b",
-   "type": "para",
-   "context": "Storyboard",
-   "preview": "   `inspect` and `import`, and reveal the same portable hist"
-  },
-  {
-   "kind": "added",
-   "block": "c11404e5",
-   "type": "list",
-   "context": "Storyboard",
-   "preview": "5. **43–51s — boundary:** alter the body or discovery transp"
-  },
-  {
-   "kind": "added",
-   "block": "8031618e",
-   "type": "para",
-   "context": "Storyboard",
-   "preview": "   verification fail honestly."
-  },
-  {
-   "kind": "added",
-   "block": "38081b52",
-   "type": "list",
-   "context": "Storyboard",
-   "preview": "6. **51–60s — close:** “Agents produce. You decide. The arti"
-  },
-  {
-   "kind": "added",
-   "block": "68c64ed6",
-   "type": "para",
-   "context": "Storyboard",
-   "preview": "   End on the public repository and the canonical npm `next`"
-  },
-  {
-   "kind": "added",
-   "block": "86e26f8e",
-   "type": "heading",
-   "context": "Production approach",
-   "preview": "### Production approach"
-  },
-  {
-   "kind": "added",
-   "block": "4fe99fd5",
-   "type": "para",
-   "context": "Production approach",
-   "preview": "Use Remotion as the master composition because typography, t"
-  },
-  {
-   "kind": "added",
-   "block": "33fcab5b",
-   "type": "para",
-   "context": "Production approach",
-   "preview": "Use Higgsfield/Seedance only for optional 4–8 second atmosph"
-  },
-  {
-   "kind": "added",
-   "block": "ab3b4952",
-   "type": "para",
-   "context": "Production approach",
-   "preview": "The master must work without narration. Begin with kinetic t"
-  },
-  {
-   "kind": "added",
-   "block": "afb05481",
-   "type": "heading",
-   "context": "Tool and skill research",
-   "preview": "### Tool and skill research"
-  },
-  {
-   "kind": "added",
-   "block": "63a4fbc4",
-   "type": "list",
-   "context": "Tool and skill research",
-   "preview": "- [`remotion-dev/skills`](https://github.com/remotion-dev/sk"
-  },
-  {
-   "kind": "added",
-   "block": "bd93b18e",
-   "type": "para",
-   "context": "Tool and skill research",
-   "preview": "  preferred production skill set. It is maintained by the Re"
-  },
-  {
-   "kind": "added",
-   "block": "d8dba72a",
-   "type": "list",
-   "context": "Tool and skill research",
-   "preview": "- [`bradautomates/claude-video`](https://github.com/bradauto"
-  },
-  {
-   "kind": "added",
-   "block": "bcf8b182",
-   "type": "para",
-   "context": "Tool and skill research",
-   "preview": "  is a useful analysis and QA assistant, not a renderer. Its"
-  },
-  {
-   "kind": "added",
-   "block": "75224554",
-   "type": "list",
-   "context": "Tool and skill research",
-   "preview": "- [`new-xp/ultrademo`](https://github.com/new-xp/ultrademo) "
-  },
-  {
-   "kind": "added",
-   "block": "1cf1c05f",
-   "type": "para",
-   "context": "Tool and skill research",
-   "preview": "  Playwright → narration → Remotion pipeline with strong evi"
-  },
-  {
-   "kind": "added",
-   "block": "3cb83197",
-   "type": "list",
-   "context": "Tool and skill research",
-   "preview": "- The existing `higgsfield-generate` capability is sufficien"
-  },
-  {
-   "kind": "added",
-   "block": "bf47be17",
-   "type": "para",
-   "context": "Tool and skill research",
-   "preview": "  Seedance shots and final attention analysis. Prompts shoul"
-  },
-  {
-   "kind": "added",
-   "block": "8facc150",
-   "type": "para",
-   "context": "Tool and skill research",
-   "preview": "No third-party skill is approved for installation by this re"
-  },
-  {
-   "kind": "added",
-   "block": "747858cf",
-   "type": "heading",
-   "context": "Film approval gates",
-   "preview": "### Film approval gates"
-  },
-  {
-   "kind": "added",
-   "block": "6ebb961e",
-   "type": "list",
-   "context": "Film approval gates",
-   "preview": "- The hook and close are understandable in a silent first wa"
-  },
-  {
-   "kind": "added",
-   "block": "d9c59f0c",
-   "type": "para",
-   "context": "Film approval gates",
-   "preview": "  path, or private repository appears in-frame."
-  },
-  {
-   "kind": "added",
-   "block": "3903ec72",
-   "type": "list",
-   "context": "Film approval gates",
-   "preview": "- Terminal text remains legible at X playback size.\n- The mo"
-  },
-  {
-   "kind": "added",
-   "block": "ce7286aa",
-   "type": "heading",
-   "context": "Launch readiness gates",
-   "preview": "## Launch readiness gates"
-  },
-  {
-   "kind": "added",
-   "block": "801f70c7",
-   "type": "heading",
-   "context": "Product and release",
-   "preview": "### Product and release"
-  },
-  {
-   "kind": "added",
-   "block": "be6ae3ae",
-   "type": "list",
-   "context": "Product and release",
-   "preview": "- Public repository contains only approved files and a clean"
-  },
-  {
-   "kind": "added",
-   "block": "1afe77a6",
-   "type": "heading",
-   "context": "Narrative and conversion",
-   "preview": "### Narrative and conversion"
-  },
-  {
-   "kind": "added",
-   "block": "1ee3f693",
-   "type": "list",
-   "context": "Narrative and conversion",
-   "preview": "- README communicates problem, proof, install, portable hand"
-  },
-  {
-   "kind": "added",
-   "block": "ab5a2a21",
-   "type": "para",
-   "context": "Narrative and conversion",
-   "preview": "  in the first reading path."
-  },
-  {
-   "kind": "added",
-   "block": "036acdf0",
-   "type": "list",
-   "context": "Narrative and conversion",
-   "preview": "- Film, README, release notes, npm page, and channel copy us"
-  },
-  {
-   "kind": "added",
-   "block": "f6fed1d2",
-   "type": "para",
-   "context": "Narrative and conversion",
-   "preview": "  positioning."
-  },
-  {
-   "kind": "added",
-   "block": "e9dccb03",
-   "type": "list",
-   "context": "Narrative and conversion",
-   "preview": "- The end-to-end demo requires no signup and completes in un"
-  },
-  {
-   "kind": "added",
-   "block": "c33c6a99",
-   "type": "para",
-   "context": "Narrative and conversion",
-   "preview": "  stripping, prompt injection concerns, and scope outside Ma"
-  },
-  {
-   "kind": "added",
-   "block": "39d8e9d2",
-   "type": "heading",
-   "context": "Operations",
-   "preview": "### Operations"
-  },
-  {
-   "kind": "added",
-   "block": "9b15ad53",
-   "type": "list",
-   "context": "Operations",
-   "preview": "- Launch-day owner can monitor GitHub Issues, X, HN, npm, an"
-  },
-  {
-   "kind": "added",
-   "block": "27430797",
-   "type": "heading",
-   "context": "Success measures",
-   "preview": "## Success measures"
-  },
-  {
-   "kind": "added",
-   "block": "6ae5dde3",
-   "type": "para",
-   "context": "Success measures",
-   "preview": "Primary first-week outcomes:"
-  },
-  {
-   "kind": "added",
-   "block": "e24a3d06",
-   "type": "list",
-   "context": "Success measures",
-   "preview": "- 10 unfamiliar developers complete installation.\n- 5 comple"
-  },
-  {
-   "kind": "added",
-   "block": "b28d163c",
-   "type": "para",
-   "context": "Success measures",
-   "preview": "  proposal is received."
-  },
-  {
-   "kind": "added",
-   "block": "e640b129",
-   "type": "para",
-   "context": "Success measures",
-   "preview": "Secondary distribution measures include GitHub traffic, star"
-  },
-  {
-   "kind": "added",
-   "block": "8ce322e8",
-   "type": "heading",
-   "context": "Repository promotion flow",
-   "preview": "## Repository promotion flow"
-  },
-  {
-   "kind": "added",
-   "block": "19624df8",
-   "type": "para",
-   "context": "Repository promotion flow",
-   "preview": "`proofpress-dev` is the private working source. Feature work"
-  },
-  {
-   "kind": "added",
-   "block": "fa87ca5a",
-   "type": "para",
-   "context": "Repository promotion flow",
-   "preview": "Accepted external contributions begin in the public reposito"
-  },
-  {
-   "kind": "added",
-   "block": "7eb0a6b9",
-   "type": "heading",
-   "context": "Planned companion documents",
-   "preview": "## Planned companion documents"
-  },
-  {
-   "kind": "added",
-   "block": "9a5f6bc0",
-   "type": "list",
-   "context": "Planned companion documents",
-   "preview": "- `launch-readiness-checklist.md`\n- `communications-kit.md`\n"
-  },
-  {
-   "kind": "added",
-   "block": "cfc17f0f",
-   "type": "para",
-   "context": "Planned companion documents",
-   "preview": "Create these when their workstream begins. Until then, this "
-  },
-  {
-   "kind": "added",
-   "block": "3787cf16",
-   "type": "heading",
-   "context": "Immediate next actions",
-   "preview": "## Immediate next actions"
-  },
-  {
-   "kind": "added",
-   "block": "31712d31",
-   "type": "list",
-   "context": "Immediate next actions",
-   "preview": "1. Lock the film hook, money moment, close, duration, aspect"
-  },
-  {
-   "kind": "added",
-   "block": "b0f34f2f",
-   "type": "para",
-   "context": "Immediate next actions",
-   "preview": "   design."
-  },
-  {
-   "kind": "added",
-   "block": "0bb438fe",
-   "type": "list",
-   "context": "Immediate next actions",
-   "preview": "2. Install or locally reference the selected Remotion skill "
-  },
-  {
-   "kind": "added",
-   "block": "f996a436",
-   "type": "para",
-   "context": "Immediate next actions",
-   "preview": "   license and dependency behavior are approved."
-  },
-  {
-   "kind": "added",
-   "block": "a5c4d0fe",
-   "type": "list",
-   "context": "Immediate next actions",
-   "preview": "3. Build a low-fidelity storyboard and silent animatic befor"
-  },
-  {
-   "kind": "added",
-   "block": "6b705095",
-   "type": "para",
-   "context": "Immediate next actions",
-   "preview": "   footage or recording final terminal scenes."
-  },
-  {
-   "kind": "added",
-   "block": "e6a26a70",
-   "type": "list",
-   "context": "Immediate next actions",
-   "preview": "4. Validate each CLI beat against the current implementation"
-  },
-  {
-   "kind": "added",
-   "block": "bde94150",
-   "type": "para",
-   "context": "Immediate next actions",
-   "preview": "   canonical output from a disposable demo repository."
-  },
-  {
-   "kind": "added",
-   "block": "22d04229",
-   "type": "list",
-   "context": "Immediate next actions",
-   "preview": "5. Review the animatic, then produce sound, captions, derive"
-  },
-  {
-   "kind": "added",
-   "block": "69024c76",
-   "type": "para",
-   "context": "Immediate next actions",
-   "preview": "   frame-by-frame QA."
-  },
-  {
-   "kind": "added",
-   "block": "132c2050",
-   "type": "list",
-   "context": "Immediate next actions",
-   "preview": "6. Resume public-repository logistics after the film narrati"
-  },
-  {
-   "kind": "added",
-   "block": "3757fc8d",
-   "type": "para",
-   "context": "Immediate next actions",
-   "preview": "   public README and release surface inherit the same messag"
-  },
-  {
-   "kind": "added",
-   "block": "3d707aa9",
-   "type": "heading",
-   "context": "References",
-   "preview": "## References"
-  },
-  {
-   "kind": "added",
-   "block": "b5f95aa5",
-   "type": "list",
-   "context": "References",
-   "preview": "- [Show HN Guidelines](https://news.ycombinator.com/showhn.h"
+   "context": "6. Proofpress 有而 C2PA 没有的 / What Proofpr",
+   "preview": "**EN**: C2PA is driven by media anxiety — is this AI-generat"
   }
  ],
  "policy": "local",
- "soft_fingerprint": "ppsb1:c9664a05dfe49538650ee6d943da00d3190d08e3d99ab7f2846990d900792f86",
+ "soft_fingerprint": "ppsb1:ca834568b183c1454d44aac5633e2d2d2d0a9a2e1c71c1b582fcdbaa48a5c570",
  "actors": {
   "requested_by": [
-   "Richard Tang"
+   "chenmingtang830"
   ],
   "produced_by": [
-   "codex"
-  ],
-  "edited_by": [
-   "codex"
+   "claude"
   ],
   "recorded_by": [
-   "codex"
+   "claude"
   ]
  },
  "attribution_basis": "harness_attested",
- "claims": [
-  {
-   "block": "04b3a1ef",
-   "kind": "added"
-  },
-  {
-   "block": "45543a07",
-   "kind": "added"
-  },
-  {
-   "block": "f0c5eab5",
-   "kind": "added"
-  },
-  {
-   "block": "5abf00a0",
-   "kind": "added"
-  },
-  {
-   "block": "174dceb9",
-   "kind": "added"
-  },
-  {
-   "block": "c85915b4",
-   "kind": "added"
-  },
-  {
-   "block": "dcd14722",
-   "kind": "added"
-  },
-  {
-   "block": "bc8c55b6",
-   "kind": "added"
-  },
-  {
-   "block": "2d06ade6",
-   "kind": "added"
-  },
-  {
-   "block": "891fd11e",
-   "kind": "added"
-  },
-  {
-   "block": "1148d758",
-   "kind": "added"
-  },
-  {
-   "block": "411fd219",
-   "kind": "added"
-  },
-  {
-   "block": "58c8755b",
-   "kind": "added"
-  },
-  {
-   "block": "24684d4d",
-   "kind": "added"
-  },
-  {
-   "block": "eae2ec33",
-   "kind": "added"
-  },
-  {
-   "block": "a00af086",
-   "kind": "added"
-  },
-  {
-   "block": "8598f5d0",
-   "kind": "added"
-  },
-  {
-   "block": "be5049da",
-   "kind": "added"
-  },
-  {
-   "block": "186385a9",
-   "kind": "added"
-  },
-  {
-   "block": "e1bf5b7b",
-   "kind": "added"
-  },
-  {
-   "block": "cafc050d",
-   "kind": "added"
-  },
-  {
-   "block": "7bf8d19f",
-   "kind": "added"
-  },
-  {
-   "block": "7d414d61",
-   "kind": "added"
-  },
-  {
-   "block": "6d82c70e",
-   "kind": "added"
-  },
-  {
-   "block": "abfe9a8b",
-   "kind": "added"
-  },
-  {
-   "block": "c064a2fa",
-   "kind": "added"
-  },
-  {
-   "block": "9b57452c",
-   "kind": "added"
-  },
-  {
-   "block": "0ace1242",
-   "kind": "added"
-  },
-  {
-   "block": "84642512",
-   "kind": "added"
-  },
-  {
-   "block": "779f988c",
-   "kind": "added"
-  },
-  {
-   "block": "b55a0deb",
-   "kind": "added"
-  },
-  {
-   "block": "ca4b7aa9",
-   "kind": "added"
-  },
-  {
-   "block": "eb86c114",
-   "kind": "added"
-  },
-  {
-   "block": "8eea6889",
-   "kind": "added"
-  },
-  {
-   "block": "69bdc3d5",
-   "kind": "added"
-  },
-  {
-   "block": "7025c593",
-   "kind": "added"
-  },
-  {
-   "block": "4831f28f",
-   "kind": "added"
-  },
-  {
-   "block": "4be3f2f5",
-   "kind": "added"
-  },
-  {
-   "block": "6dccd609",
-   "kind": "added"
-  },
-  {
-   "block": "709b9d10",
-   "kind": "added"
-  },
-  {
-   "block": "52701d45",
-   "kind": "added"
-  },
-  {
-   "block": "0af1b134",
-   "kind": "added"
-  },
-  {
-   "block": "7448800c",
-   "kind": "added"
-  },
-  {
-   "block": "4157e32f",
-   "kind": "added"
-  },
-  {
-   "block": "755fa1eb",
-   "kind": "added"
-  },
-  {
-   "block": "f4cabbc8",
-   "kind": "added"
-  },
-  {
-   "block": "0629a4cb",
-   "kind": "added"
-  },
-  {
-   "block": "6bca960a",
-   "kind": "added"
-  },
-  {
-   "block": "c5f9e28c",
-   "kind": "added"
-  },
-  {
-   "block": "89b936f6",
-   "kind": "added"
-  },
-  {
-   "block": "2f9e8f03",
-   "kind": "added"
-  },
-  {
-   "block": "93862d2e",
-   "kind": "added"
-  },
-  {
-   "block": "48bdbeb2",
-   "kind": "added"
-  },
-  {
-   "block": "d6be82fa",
-   "kind": "added"
-  },
-  {
-   "block": "dda9b77a",
-   "kind": "added"
-  },
-  {
-   "block": "e34e26be",
-   "kind": "added"
-  },
-  {
-   "block": "eeefc672",
-   "kind": "added"
-  },
-  {
-   "block": "a2f2e256",
-   "kind": "added"
-  },
-  {
-   "block": "2ced2d0e",
-   "kind": "added"
-  },
-  {
-   "block": "5083cfe9",
-   "kind": "added"
-  },
-  {
-   "block": "4fc82063",
-   "kind": "added"
-  },
-  {
-   "block": "122d3df3",
-   "kind": "added"
-  },
-  {
-   "block": "3e3b4835",
-   "kind": "added"
-  },
-  {
-   "block": "2d0876b1",
-   "kind": "added"
-  },
-  {
-   "block": "27e32f0b",
-   "kind": "added"
-  },
-  {
-   "block": "c11404e5",
-   "kind": "added"
-  },
-  {
-   "block": "8031618e",
-   "kind": "added"
-  },
-  {
-   "block": "38081b52",
-   "kind": "added"
-  },
-  {
-   "block": "68c64ed6",
-   "kind": "added"
-  },
-  {
-   "block": "86e26f8e",
-   "kind": "added"
-  },
-  {
-   "block": "4fe99fd5",
-   "kind": "added"
-  },
-  {
-   "block": "33fcab5b",
-   "kind": "added"
-  },
-  {
-   "block": "ab3b4952",
-   "kind": "added"
-  },
-  {
-   "block": "afb05481",
-   "kind": "added"
-  },
-  {
-   "block": "63a4fbc4",
-   "kind": "added"
-  },
-  {
-   "block": "bd93b18e",
-   "kind": "added"
-  },
-  {
-   "block": "d8dba72a",
-   "kind": "added"
-  },
-  {
-   "block": "bcf8b182",
-   "kind": "added"
-  },
-  {
-   "block": "75224554",
-   "kind": "added"
-  },
-  {
-   "block": "1cf1c05f",
-   "kind": "added"
-  },
-  {
-   "block": "3cb83197",
-   "kind": "added"
-  },
-  {
-   "block": "bf47be17",
-   "kind": "added"
-  },
-  {
-   "block": "8facc150",
-   "kind": "added"
-  },
-  {
-   "block": "747858cf",
-   "kind": "added"
-  },
-  {
-   "block": "6ebb961e",
-   "kind": "added"
-  },
-  {
-   "block": "d9c59f0c",
-   "kind": "added"
-  },
-  {
-   "block": "3903ec72",
-   "kind": "added"
-  },
-  {
-   "block": "ce7286aa",
-   "kind": "added"
-  },
-  {
-   "block": "801f70c7",
-   "kind": "added"
-  },
-  {
-   "block": "be6ae3ae",
-   "kind": "added"
-  },
-  {
-   "block": "1afe77a6",
-   "kind": "added"
-  },
-  {
-   "block": "1ee3f693",
-   "kind": "added"
-  },
-  {
-   "block": "ab5a2a21",
-   "kind": "added"
-  },
-  {
-   "block": "036acdf0",
-   "kind": "added"
-  },
-  {
-   "block": "f6fed1d2",
-   "kind": "added"
-  },
-  {
-   "block": "e9dccb03",
-   "kind": "added"
-  },
-  {
-   "block": "c33c6a99",
-   "kind": "added"
-  },
-  {
-   "block": "39d8e9d2",
-   "kind": "added"
-  },
-  {
-   "block": "9b15ad53",
-   "kind": "added"
-  },
-  {
-   "block": "27430797",
-   "kind": "added"
-  },
-  {
-   "block": "6ae5dde3",
-   "kind": "added"
-  },
-  {
-   "block": "e24a3d06",
-   "kind": "added"
-  },
-  {
-   "block": "b28d163c",
-   "kind": "added"
-  },
-  {
-   "block": "e640b129",
-   "kind": "added"
-  },
-  {
-   "block": "8ce322e8",
-   "kind": "added"
-  },
-  {
-   "block": "19624df8",
-   "kind": "added"
-  },
-  {
-   "block": "fa87ca5a",
-   "kind": "added"
-  },
-  {
-   "block": "7eb0a6b9",
-   "kind": "added"
-  },
-  {
-   "block": "9a5f6bc0",
-   "kind": "added"
-  },
-  {
-   "block": "cfc17f0f",
-   "kind": "added"
-  },
-  {
-   "block": "3787cf16",
-   "kind": "added"
-  },
-  {
-   "block": "31712d31",
-   "kind": "added"
-  },
-  {
-   "block": "b0f34f2f",
-   "kind": "added"
-  },
-  {
-   "block": "0bb438fe",
-   "kind": "added"
-  },
-  {
-   "block": "f996a436",
-   "kind": "added"
-  },
-  {
-   "block": "a5c4d0fe",
-   "kind": "added"
-  },
-  {
-   "block": "6b705095",
-   "kind": "added"
-  },
-  {
-   "block": "e6a26a70",
-   "kind": "added"
-  },
-  {
-   "block": "bde94150",
-   "kind": "added"
-  },
-  {
-   "block": "22d04229",
-   "kind": "added"
-  },
-  {
-   "block": "69024c76",
-   "kind": "added"
-  },
-  {
-   "block": "132c2050",
-   "kind": "added"
-  },
-  {
-   "block": "3757fc8d",
-   "kind": "added"
-  },
-  {
-   "block": "3d707aa9",
-   "kind": "added"
-  },
-  {
-   "block": "b5f95aa5",
-   "kind": "added"
-  }
- ],
  "context": {
-  "why": "Richard requested a canonical internal plan for public-repository logistics, launch-week marketing, and film-first production; research selected a deterministic Remotion-led workflow with optional generated footage and explicit QA gates."
+  "why": "signature stops third-party forgery only; author-proof permanence requires external witness (cloud) — clarified so the doc is not misread as 'local signing locks history'"
  }
 }

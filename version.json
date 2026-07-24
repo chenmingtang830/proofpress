@@ -1,756 +1,396 @@
 {
- "artifact": "docs/internal/launch/README.md",
- "artifact_id": "pp_fc140b7b208f2d17adbfc132",
+ "artifact": "docs/internal/C2PA_REFERENCE.md",
+ "artifact_id": "pp_0528a56dd3d90cff80ad18ce",
  "blocks": [
   {
    "type": "heading",
-   "text": "# Proofpress launch workspace",
-   "id": "04b3a1ef",
-   "hash": "49c085bacc4e"
+   "text": "# Adobe C2PA — 参考笔记与下一步 / Reference Notes & Next Steps",
+   "id": "fffc6e77",
+   "hash": "98a66b639af1"
   },
   {
    "type": "para",
-   "text": "**Status:** planning active; public launch remains gate-driven.\n**Owner:** Richard Tang\n**Working repository:** `proofpress-dev` (private)\n**Public repository:** `proofpress` (clean release surface)\n**Launch date:** TBD after the readiness gates pass",
-   "id": "45543a07",
-   "hash": "0d2e84b7d47c"
+   "text": "> 内部文档 / Internal. 设计参考，非契约。记录 C2PA 内容溯源标准对 Proofpress 的\n> 启发、值得采纳的想法及优先级。不改变当前 V0 行为。\n>\n> Internal design reference, not a contract. Records what C2PA teaches Proofpress,\n> which ideas to adopt, and in what order. Changes no current V0 behavior.",
+   "id": "ea6da88e",
+   "hash": "4a0b91ffb021"
   },
   {
    "type": "para",
-   "text": "This directory is the source of truth for Proofpress launch logistics, positioning,\ncreative production, channel operations, release readiness, and the post-launch\nlearning loop. Product implementation remains outside this workspace.",
-   "id": "f0c5eab5",
-   "hash": "3b10143f7451"
+   "text": "---",
+   "id": "271a9a63",
+   "hash": "f1624c9c50ca"
   },
   {
    "type": "heading",
-   "text": "## Launch objective",
-   "id": "5abf00a0",
-   "hash": "25c717b856f0"
+   "text": "## 1. 为什么 C2PA 相关 / Why C2PA is relevant",
+   "id": "1aebdfac",
+   "hash": "5218651f8359"
   },
   {
    "type": "para",
-   "text": "Launch Proofpress as the open-source, verifiable revision ledger for\nagent-produced knowledge artifacts. The first launch should prove one memorable\nbehavior: a Markdown or static HTML file can carry an accepted, inspectable\nhistory of what changed and why when it moves outside its original chat, session,\nor Git repository.",
-   "id": "174dceb9",
-   "hash": "7b46bcf4ec85"
+   "text": "**中文**：C2PA（内容来源与真实性联盟，由 Adobe、Microsoft、BBC、Intel 等牵头）是\n一个开放的**内容溯源**标准：把\"谁、何时、用什么工具、基于哪些素材、做了什么改动\"\n打包成一个**防篡改的 manifest（清单）**，嵌进资产本身，让溯源信息随文件走。",
+   "id": "96588f1d",
+   "hash": "abc20266b0e4"
   },
   {
    "type": "para",
-   "text": "The launch is successful when unfamiliar developers can understand the boundary\nwith Git, complete a portable handoff, and give workflow-level feedback. Stars,\nimpressions, and raw downloads are distribution signals rather than the primary\nsuccess condition.",
-   "id": "c85915b4",
-   "hash": "44304b742400"
+   "text": "这与 Proofpress 解决的是同一个根问题——README 的原话：\"一份可验证的历史，记录谁在\n何时、为何改了什么，并对照工件本身校验。\"差别只在载体：C2PA 面向二进制媒体（图片、\n视频、PDF），Proofpress 面向 Markdown 与静态 HTML 文本。问题结构同构，因此 C2PA 的\n设计经验可迁移，**尤其对准 V0 已承认的缺口。**",
+   "id": "a341948d",
+   "hash": "788e03fb1462"
+  },
+  {
+   "type": "para",
+   "text": "**EN**: C2PA (Coalition for Content Provenance and Authenticity — Adobe, Microsoft,\nBBC, Intel, others) is an open **content-provenance** standard: it packages \"who,\nwhen, with what tool, from which sources, doing what edit\" into a tamper-evident\n**manifest** embedded in the asset, so provenance travels with the file. That is\nthe same root problem Proofpress solves; only the carrier differs (binary media vs\nMarkdown/HTML text). The design experience transfers, especially for the gaps V0\nalready acknowledges.",
+   "id": "53941032",
+   "hash": "fe709b5d8aa3"
+  },
+  {
+   "type": "para",
+   "text": "---",
+   "id": "86b6e60a",
+   "hash": "f1624c9c50ca"
   },
   {
    "type": "heading",
-   "text": "## Positioning",
-   "id": "dcd14722",
-   "hash": "d7f8d4970bb0"
+   "text": "## 2. 概念对照 / Concept mapping",
+   "id": "39f8c7e9",
+   "hash": "4530aedd2d4e"
   },
   {
    "type": "para",
-   "text": "Primary message:",
-   "id": "bc8c55b6",
-   "hash": "3b32faa870f8"
+   "text": "Proofpress 已在很大程度上独立重建了 C2PA 的骨架 / Proofpress has largely rebuilt\nC2PA's skeleton independently:",
+   "id": "dd2673c4",
+   "hash": "c06936e74897"
   },
   {
-   "type": "para",
-   "text": "> Git keeps the code history. Proofpress keeps the accepted history of what\n> agents write, and lets that history travel with the artifact.",
-   "id": "2d06ade6",
-   "hash": "ad98e72af958"
-  },
-  {
-   "type": "para",
-   "text": "Short form:",
-   "id": "891fd11e",
-   "hash": "773489553944"
-  },
-  {
-   "type": "para",
-   "text": "> Verifiable revision history for agent-written knowledge work.",
-   "id": "1148d758",
-   "hash": "92a4616d9d11"
-  },
-  {
-   "type": "para",
-   "text": "Launch-film close:",
-   "id": "411fd219",
-   "hash": "be5efba839b2"
-  },
-  {
-   "type": "para",
-   "text": "> Agents produce. You decide. The artifact remembers.",
-   "id": "58c8755b",
-   "hash": "84ed1df3ce38"
-  },
-  {
-   "type": "para",
-   "text": "Proofpress is not a replacement for Git, a new editor, a chat recorder, or a\nclaim of cryptographically signed authorship. V0 is a transparent,\ntamper-evident reference implementation for Markdown and static HTML knowledge\nartifacts. It records accepted revisions and honest attribution boundaries; it\ndoes not preserve raw prompts or silently execute instructions carried by a\nfile.",
-   "id": "24684d4d",
-   "hash": "7648bcbd6074"
+   "type": "table",
+   "text": "| C2PA | Proofpress 对应 / equivalent | 备注 / Note |\n| --- | --- | --- |\n| Manifest Store（嵌入资产的清单库） | `capsule`（嵌入载体） | 随文件走的溯源包 / provenance bundle that travels |\n| Manifest / Assertion（关于资产的断言） | 一条 `record` 及其 `claims`/`why`/actors | |\n| Claim + 内容哈希（hard binding） | capsule `canonical visible-body digest` | 把断言绑定到真实字节 / bind to actual bytes |\n| Claim Signature（COSE 签名） | **缺失** — spec §4：\"not signed proof of authorship\" | 最大参考点 / biggest reference point |\n| Ingredients（上游素材） | `merge-lineage` 的 `ingredients` 引用 | 已落地：引用+摘要，不复制历史 / shipped: refs + digests, no history copied |\n| Actions assertion（裁剪/编辑等） | block changes + `attribution_basis` | |\n| Redaction（删断言但仍可验证） | privacy modes / clean export | 目标一致，机制更细 / same goal, finer mechanism |\n| 元数据被剥离 → 资产降级 | spec §3.2 \"an ordinary HTML artifact\" | C2PA 也踩过 → soft binding |",
+   "id": "00c5ebaa",
+   "hash": "0d8852f237cf"
   },
   {
    "type": "heading",
-   "text": "## Initial audience",
-   "id": "eae2ec33",
-   "hash": "26faaaf3e860"
+   "text": "### Manifest Store 具体是什么 / What Manifest Store is, concretely",
+   "id": "a57b8dbd",
+   "hash": "8ac6f31dfbb2"
   },
   {
    "type": "para",
-   "text": "The launch is for developers and technical teams using Codex, Claude Code,\nCursor, or similar agents to produce ADRs, PRDs, design documents, research\nnotes, and operational plans. The sharpest initial pain is not generic document\nversioning: it is losing the accepted reasoning when work crosses agent\nsessions, harnesses, repositories, or people.",
-   "id": "a00af086",
-   "hash": "c3b85ed1b766"
+   "text": "**中文**：C2PA 资产在自己的字节里带一块叫 Manifest Store 的区域，**在文件内部**——\n发文件，溯源就跟着走（除非被剥离）。叫\"库\"是因为资产会**累积多个 manifest**，每个\n动过文件的工具追加一个：",
+   "id": "76207334",
+   "hash": "04494b2ce54a"
   },
   {
    "type": "para",
-   "text": "The first demonstration should use a realistic `proposal.md` or\n`design-doc.md`, not an abstract protocol fixture. The recipient should receive\nthe file in a clean directory and recover the portable history without access to\nthe source repository.",
-   "id": "8598f5d0",
-   "hash": "0c356d3fa16d"
+   "text": "**EN**: A C2PA asset carries a Manifest Store *inside its own bytes* — send the\nfile, the provenance goes with it (unless stripped). It is a \"store\" because assets\naccumulate **multiple manifests**, one appended per tool that touches the file:",
+   "id": "fd040697",
+   "hash": "9c7dcb0483da"
+  },
+  {
+   "type": "code",
+   "text": "```\nphoto.jpg\n├── [像素数据 / pixel data]\n└── Manifest Store（清单库）\n    ├── Manifest 1: 相机拍摄 / camera capture (谁/何时/GPS)\n    ├── Manifest 2: Lightroom 编辑 / edit (改了什么)\n    └── Manifest 3: 发布前 AI 扩图 / AI expand (用了 AI)\n```",
+   "id": "34632b82",
+   "hash": "ca19fb2a4a15"
+  },
+  {
+   "type": "para",
+   "text": "Proofpress 的 `capsule` **就是** Manifest Store 的对应物：一个胶囊装多条从旧到新的\nrecord，同样是追加式结构。 / Proofpress's `capsule` **is** the Manifest Store\nequivalent — one capsule holds many oldest-to-newest records, the same append-only\nshape.",
+   "id": "5414234c",
+   "hash": "18b9bf1e398c"
+  },
+  {
+   "type": "para",
+   "text": "---",
+   "id": "46c41bb4",
+   "hash": "f1624c9c50ca"
   },
   {
    "type": "heading",
-   "text": "## Launch shape",
-   "id": "be5049da",
-   "hash": "56e052268231"
+   "text": "## 3. 三种 binding / Three kinds of binding",
+   "id": "9e90efaa",
+   "hash": "47aa5ffad6e0"
   },
   {
    "type": "para",
-   "text": "Use a gate-driven launch week rather than a single coordinated blast. One\ncanonical story is expressed differently across owned channels, technical\ncommunities, and direct outreach.",
-   "id": "186385a9",
-   "hash": "919f78732440"
+   "text": "C2PA 最有用的区分是 binding 的种类。Proofpress 应把它们当作三件独立的事：\nC2PA's most useful distinction is between kinds of binding — keep them as three\nseparate jobs:",
+   "id": "e0a7ee70",
+   "hash": "c2de6c62ec82"
+  },
+  {
+   "type": "table",
+   "text": "| Binding | 回答什么问题 / Question | Proofpress 状态 / Status |\n| --- | --- | --- |\n| **Hard binding（硬绑定）** | 内容被改过吗？（防手滑） / Content altered? (accident-proof) | 已有 / have: `visible-body digest` |\n| **Signature（签名）** | 声称的作者是真的吗？（防造假） / Author real? (forgery-proof) | 缺失，阶梯已埋 / missing, ladder seeded |\n| **Soft binding（软绑定）** | 元数据没了还能认出是哪份吗？（防剥离） / Recognize after strip? (strip-proof) | 精确档已实现（`identify`）；近似档未做 / exact tier shipped (`identify`); near-match pending |",
+   "id": "28ebbef2",
+   "hash": "25d8bb8d73dc"
   },
   {
    "type": "list",
-   "text": "- **Day 0 — owned release:** public GitHub repository, npm `next` package,",
-   "id": "e1bf5b7b",
-   "hash": "ab71b253847b"
+   "text": "- **Hard binding**：对精确可见正文算哈希。正文改了但没更新 capsule → `verify` 报",
+   "id": "2239c913",
+   "hash": "be5ce00c14ab"
   },
   {
    "type": "para",
-   "text": "  GitHub prerelease, README, launch film, X announcement, and warm-contact\n  notes.",
-   "id": "cafc050d",
-   "hash": "3ebd4b393a54"
+   "text": "  `body_mismatch`。弱点：元数据一旦被剥离（截图、复制纯文本、CMS 清洗），绑定即失，\n  文件退化为普通工件。 / Hashes the exact body; strip the metadata and it's gone.",
+   "id": "1b132165",
+   "hash": "38fdc8a417bb"
   },
   {
    "type": "list",
-   "text": "- **Day 1 — technical proof:** publish the portable-carrier and verification",
-   "id": "7bf8d19f",
-   "hash": "f3a78d982e0a"
+   "text": "- **Soft binding**：从内容本身导出一个**鲁棒指纹**，让丢了 capsule 的文件仍能被认出。",
+   "id": "07f73d07",
+   "hash": "9d5caea43e0b"
   },
   {
    "type": "para",
-   "text": "  deep dive, including limitations and privacy boundaries.",
-   "id": "7d414d61",
-   "hash": "18ad27efc738"
+   "text": "  容忍格式漂移和小幅编辑；**不**证明未被篡改。 / A robust fingerprint from the\n  content itself; tolerates drift and small edits, does not prove tamper-freedom.",
+   "id": "e4ee3d67",
+   "hash": "911c1935c43a"
   },
   {
    "type": "list",
-   "text": "- **Day 2 — Show HN:** submit the runnable repository with a builder story and",
-   "id": "6d82c70e",
-   "hash": "fe970fad3a02"
+   "text": "- **Signature**：把归因从\"工具担保\"提升到\"数学上无法伪造\"，阻止**第三方**冒充作者",
+   "id": "28108389",
+   "hash": "bf55b9542ba2"
   },
   {
    "type": "para",
-   "text": "  remain available for technical discussion. Never solicit votes or comments.",
-   "id": "abfe9a8b",
-   "hash": "07b1d1ec6fbd"
-  },
-  {
-   "type": "list",
-   "text": "- **Day 3 — community-specific distribution:** adapt the story for relevant",
-   "id": "c064a2fa",
-   "hash": "12ab28d4b271"
-  },
-  {
-   "type": "para",
-   "text": "  agent, Markdown, local-first, and developer-tool communities. Do not\n  cross-post identical promotional copy.",
-   "id": "9b57452c",
-   "hash": "eac25bce1104"
-  },
-  {
-   "type": "list",
-   "text": "- **Day 4 — objections:** publish answers to recurring questions such as “why",
-   "id": "0ace1242",
-   "hash": "fbd362fdc506"
-  },
-  {
-   "type": "para",
-   "text": "  not Git?”, “is this signed?”, and “does the capsule leak chat data?”",
-   "id": "84642512",
-   "hash": "1acdd76a0aa3"
-  },
-  {
-   "type": "list",
-   "text": "- **Day 5 — learning report:** share what users completed, where onboarding",
-   "id": "779f988c",
-   "hash": "8bf59b5c3288"
-  },
-  {
-   "type": "para",
-   "text": "  failed, what changed, and what comes next.",
-   "id": "b55a0deb",
-   "hash": "86e228358338"
-  },
-  {
-   "type": "para",
-   "text": "Product Hunt is a later, conditional wave. It becomes worthwhile when the\nproduct has a polished public page, immediately usable onboarding, and enough\ncraft to benefit from a product-discovery audience. It is not a launch-week\nrequirement.",
-   "id": "ca4b7aa9",
-   "hash": "8606a680c691"
+   "text": "  整体重写 capsule。**边界**：挡不住**密钥持有者本人**——作者可以用自己的钥匙重签一份\n  自洽的假历史，chain/digest/signature 全部合法。\"本人重写也留痕\"需要作者单方改不掉的\n  **外部 append-only 见证**（transparency log / 对方 countersign / 时间戳），那是云端线，\n  不是签名能给的。 / Raises attribution to unforgeable; stops **third-party** wholesale\n  rewrite. Boundary: it does not stop the **key holder** — the author can re-sign a\n  self-consistent fake history that fully validates. Making the author's own rewrites\n  evident requires an **external append-only witness** (transparency log / counterparty\n  countersign / timestamp) outside the author's control — that is the cloud line, not\n  something a signature provides.",
+   "id": "fb811b19",
+   "hash": "dd8ffe348328"
   },
   {
    "type": "heading",
-   "text": "## Workstreams",
-   "id": "eb86c114",
-   "hash": "643fb03e8e4b"
-  },
-  {
-   "type": "list",
-   "text": "1. **Public-repository logistics:** rename the private source repository to",
-   "id": "8eea6889",
-   "hash": "ed8a75ca1013"
+   "text": "### Soft binding 不是语义/向量匹配 / not semantic/vector matching",
+   "id": "75b18e36",
+   "hash": "921c81f6e056"
   },
   {
    "type": "para",
-   "text": "   `proofpress-dev`; create a clean public `proofpress` repository; define an\n   allowlisted, reviewable promotion flow; protect public `main`.",
-   "id": "69bdc3d5",
-   "hash": "79913435a1cd"
-  },
-  {
-   "type": "list",
-   "text": "2. **Release integrity:** align the public source commit, GitHub prerelease, npm",
-   "id": "7025c593",
-   "hash": "0c7551999ee1"
+   "text": "**中文**：soft binding 回答的是**身份**（\"这**就是** `pp_xxx`，哪怕重排版了\"），不是\n**相似度**（\"这两段意思像不像\"）。它是确定性、无模型、可复现的指纹——不用 embedding。\n两档，按容忍度：",
+   "id": "0920d86c",
+   "hash": "2a2fea6423a4"
   },
   {
    "type": "para",
-   "text": "   package, version, install command, and provenance. Use npm trusted publishing\n   from the public repository and stage releases for human approval.",
-   "id": "4831f28f",
-   "hash": "a4320338e55d"
+   "text": "**EN**: Soft binding answers **identity** (\"this *is* `pp_xxx`, even reformatted\"),\nnot **similarity**. Deterministic, model-free, reproducible — no embeddings. Two\ntiers by tolerance:",
+   "id": "8b0afef1",
+   "hash": "ec5f1a84081b"
+  },
+  {
+   "type": "code",
+   "text": "```\n改动 / change                                 hard binding    soft binding\n──────────────────────────────────────────────────────────────────────────\n删 capsule，正文未动 / capsule deleted           失效 fails      认得出 recognized\n复制成纯文本，空白乱了 / plain text mangled       失效 fails      认得出（归一化掉）\nMarkdown 渲染成 HTML 存 / rendered to HTML       失效 fails      认得出（只留文字骨架）\n改一个错别字 / one typo fixed                    失效 fails      近似命中 near-match (tier 2)\n整篇重写 / whole rewrite                         失效 fails      找不到 not found（正确）\n```",
+   "id": "a812058c",
+   "hash": "fffae92a9a9c"
   },
   {
    "type": "list",
-   "text": "3. **Narrative and claims:** freeze the launch message, supported claims,",
-   "id": "4be3f2f5",
-   "hash": "d0c58003d258"
+   "text": "- **精确指纹（简单）/ Exact fingerprint (simple)**：狠归一化（合并空白、统一换行、去",
+   "id": "b35ca34a",
+   "hash": "15645cd19c64"
   },
   {
    "type": "para",
-   "text": "   limitations, FAQ, and channel-specific language before creative production.",
-   "id": "6dccd609",
-   "hash": "45fdf3960681"
+   "text": "  语法符号，只留可见文字骨架）后算哈希。容忍*格式*变化；内容改一字即翻转。解决\"复制\n  粘贴丢了 capsule\"。 / Normalize hard, then hash. Tolerates format change; any\n  content change flips it.",
+   "id": "2ebd5835",
+   "hash": "dee73fe81826"
   },
   {
    "type": "list",
-   "text": "4. **Launch film:** produce the hero film first, then derive shorter cuts,",
-   "id": "709b9d10",
-   "hash": "44b0536fee29"
+   "text": "- **近似匹配（进阶）/ Near-match (advanced)**：分块指纹 / SimHash / MinHash——词/字符",
+   "id": "a0472f0c",
+   "hash": "de754101c888"
   },
   {
    "type": "para",
-   "text": "   poster frames, GIFs, and stills from the same source.",
-   "id": "52701d45",
-   "hash": "ca3e997b448a"
-  },
-  {
-   "type": "list",
-   "text": "5. **Runnable proof:** provide a copy-and-paste portable handoff that completes",
-   "id": "0af1b134",
-   "hash": "06ed25418b00"
+   "text": "  层面的局部敏感哈希。改一个错别字仍匹配 ~99% 的块 → 认出\"这是 `pp_xxx`，改动约 1%\"。\n  这才是真正的 soft binding，能扛小幅编辑。边界：**小改能追回，整篇重写追不回**（重写\n  本就不该被当作同一份，这是正确行为）。 / Locality-sensitive hashes; fixing a typo\n  still matches ~99% of blocks. Boundary: small edits recover, whole rewrite does\n  not (correct behavior).",
+   "id": "7ebf474d",
+   "hash": "3d026443b45a"
   },
   {
    "type": "para",
-   "text": "   in under three minutes without signup or external infrastructure.",
-   "id": "7448800c",
-   "hash": "622dbc8dac7e"
-  },
-  {
-   "type": "list",
-   "text": "6. **Communications:** prepare X, Show HN, technical article, community posts,",
-   "id": "4157e32f",
-   "hash": "aef9f99c0232"
-  },
-  {
-   "type": "para",
-   "text": "   direct outreach, launch-day responses, and issue templates.",
-   "id": "755fa1eb",
-   "hash": "8860c5384024"
-  },
-  {
-   "type": "list",
-   "text": "7. **Operations and learning:** establish go/no-go gates, response ownership,",
-   "id": "f4cabbc8",
-   "hash": "fa0731019624"
-  },
-  {
-   "type": "para",
-   "text": "   metrics capture, incident handling, and the Day-5 retrospective.",
-   "id": "0629a4cb",
-   "hash": "162a480c1cbf"
+   "text": "**无需云端即可有效 / Useful without cloud**：算指纹 100% 本地；拿指纹反查需要一个索引，\n而这个索引可以就是现有的本地/Git ledger（`refs/proofpress/ledger`），即可实现同机恢复。\n跨机器/跨组织反查才需要未来的云端。 / Computing is fully local; the lookup index can be\nthe existing ledger for same-machine recovery. Cloud only extends it cross-machine.",
+   "id": "b8abfdf9",
+   "hash": "079099905599"
   },
   {
    "type": "heading",
-   "text": "## Film brief",
-   "id": "6bca960a",
-   "hash": "ec92983920d3"
+   "text": "### 为什么先不做水印 / Why not a watermark (yet)",
+   "id": "93dac451",
+   "hash": "abbc190cbe34"
+  },
+  {
+   "type": "para",
+   "text": "**中文**：文本水印靠往正文塞信号（零宽字符、隐蔽措辞）。对可编辑文本很脆：复制纯文本、\n重渲染、编辑器保存、CMS 清洗都可能清掉零宽字符，任何真实编辑都会破坏措辞水印。而指纹\n**不往文件加任何东西**（从已有正文算出），没东西可剥。同样目标、更好的鲁棒性/成本比。\n水印无限期后置。 / A text watermark hides a signal in the body and is fragile for\neditable text; a fingerprint adds nothing to strip. Same goal, better ratio. Deferred\nindefinitely.",
+   "id": "9b96b59e",
+   "hash": "1096f050afb9"
+  },
+  {
+   "type": "para",
+   "text": "---",
+   "id": "30947a49",
+   "hash": "f1624c9c50ca"
   },
   {
    "type": "heading",
-   "text": "### Role",
-   "id": "c5f9e28c",
-   "hash": "47dcf972066f"
+   "text": "## 4. 归因信任阶梯 / The attribution trust ladder",
+   "id": "bb37864c",
+   "hash": "e2ee1b63eaf3"
   },
   {
    "type": "para",
-   "text": "The film is the emotional and visual entry point for the launch. It should make\nthe portable handoff legible in under one minute, then send viewers to the\npublic repository for the complete technical proof. It must remain intelligible\nwith sound muted.",
-   "id": "89b936f6",
-   "hash": "f3a612cbd732"
+   "text": "`attribution_basis` 记录**作者信息有多可信**，不改作者字段，只给它分级。现有取值，弱到强：\n`attribution_basis` records **how much author info can be trusted** — it grades, does\nnot change, the author fields. Current values, weak to strong:",
+   "id": "9a3f60f2",
+   "hash": "6259bf098542"
+  },
+  {
+   "type": "table",
+   "text": "| 值 / Value | 含义 / Meaning | 用处 / Where used |\n| --- | --- | --- |\n| `unknown` | 依据未知 / basis not known | 默认兜底 / default fallback |\n| `self_asserted` | 自己声称，无担保 / claimed, no backing | checkpoint 默认 / default |\n| `environment_attested` | 运行环境佐证（如 Git 环境） / runtime env corroborates | `ingest` |\n| `harness_attested` | Agent 框架担保 / agent harness vouches | fallback `capture` |",
+   "id": "cdfa8727",
+   "hash": "40b7aca19d6d"
   },
   {
    "type": "para",
-   "text": "The existing `demo/launch.html` is a visual reference, not the production\nscript. Preserve its seal mark, dark/paper contrast, editorial typography,\nterminal texture, and transformation from noisy diff to semantic signal.\nReplace the stale review-page and “one skill” story with the behavior shipped by\nthe current CLI: accepted revision, verified claims, portable handoff,\ninspection, and drift detection.",
-   "id": "2f9e8f03",
-   "hash": "5e6a272f62de"
+   "text": "这是签名的前身，阶梯已经在了 / This is the pre-image of a signature; the ladder exists:",
+   "id": "8ee54f2e",
+   "hash": "b6e5c30b6672"
+  },
+  {
+   "type": "code",
+   "text": "```\nunknown → self_asserted → environment_attested → harness_attested → signed（密码学，未做 / crypto, not yet）\n```",
+   "id": "e37d074d",
+   "hash": "51741c216837"
+  },
+  {
+   "type": "para",
+   "text": "加 `signed` 只是多一格，不是重构。**签名可本地起步**——用户自持密钥 + 复用已有 Git/邮箱\n身份做弱绑定，就像离线的 GPG 签名。云端只在需要**强身份绑定、密钥吊销、跨组织信任列表**\n时才用到。因此签名是一条可独立本地演进的线，不是云端的附庸。 / Adding `signed` is one\nrung, not a rewrite. Signing can start local (user keys + Git/email identity, like\nGPG); cloud only for strong binding, revocation, cross-org trust lists. It is an\nindependent local-capable line, not a dependency of the cloud product.",
+   "id": "6d2af193",
+   "hash": "4344dcdb9b19"
+  },
+  {
+   "type": "para",
+   "text": "**`signed` 一格的边界 / What the `signed` rung does NOT give**：`signed` 回答的是\n\"这条记录确实出自这把钥匙\"，防的是他人伪造；它**不**回答\"历史没有被作者本人换过一版\"。\n到顶格 `signed` 仍是 tamper-**evident** 对第三方、对本人无约束。对本人也留痕的那一格\n不在这个阶梯上——它是外部见证（witness），属于云端信任根，见 §3 Signature 边界。 /\n`signed` answers \"this record came from this key\" (anti-forgery); it does **not**\nanswer \"the author never swapped in a rewritten history.\" Even at the top rung the\nguarantee is tamper-evident against third parties only. The rung beyond — evident\nagainst the author too — lives off this ladder entirely: external witness, cloud\ntrust root. See the Signature boundary in §3.",
+   "id": "15dd0eea",
+   "hash": "d7a320b47029"
+  },
+  {
+   "type": "para",
+   "text": "---",
+   "id": "ef7c7948",
+   "hash": "f1624c9c50ca"
   },
   {
    "type": "heading",
-   "text": "### Master deliverables",
-   "id": "93862d2e",
-   "hash": "2373794ef874"
-  },
-  {
-   "type": "list",
-   "text": "- 45–60 second 16:9 master MP4 for X, GitHub, and the launch page.\n- 20–25 second cut focused on the portable handoff.\n- Captioned and clean masters; the captioned version is the default social",
-   "id": "48bdbeb2",
-   "hash": "b5a3371cb725"
+   "text": "## 5. 采纳什么、什么顺序 / What to adopt, and in what order",
+   "id": "0bdc251d",
+   "hash": "1e871102670d"
   },
   {
    "type": "para",
-   "text": "  asset.",
-   "id": "d6be82fa",
-   "hash": "43908ef1c21c"
+   "text": "**范围决定 / Scope**：",
+   "id": "a45ae145",
+   "hash": "d5da29986d71"
   },
   {
    "type": "list",
-   "text": "- Poster frame, social stills, and a lightweight GIF for README use.\n- Source-controlled composition and reproducible render command in",
-   "id": "dda9b77a",
-   "hash": "3ec271fbc861"
+   "text": "- **图片/视频/二进制 C2PA 格式（JUMBF/CBOR）**：跳过。不是我们的载体。保持干净、可读、",
+   "id": "270208f6",
+   "hash": "d9a990895672"
   },
   {
    "type": "para",
-   "text": "  `proofpress-dev`; only finished public assets move to `proofpress`.",
-   "id": "e34e26be",
-   "hash": "b1438f1f74fb"
+   "text": "  可 diff、零依赖的文本载体。只有以后真做图片/PDF 溯源才重看——那是另一个产品阶段。\n  / Skip binary C2PA formats; keep the clean text carrier. Revisit only for a future\n  image/PDF stage.",
+   "id": "7669be2e",
+   "hash": "596034992018"
+  },
+  {
+   "type": "list",
+   "text": "- **云端 manifest 查询 / Cloud manifest lookup**：归到未来 cloud 产品 / deferred to the",
+   "id": "4dac0cef",
+   "hash": "fba230b38135"
+  },
+  {
+   "type": "para",
+   "text": "  future cloud product.",
+   "id": "7c66a1a9",
+   "hash": "cf9a65ebd1c1"
+  },
+  {
+   "type": "para",
+   "text": "**建议优先级 / Recommended priority**：",
+   "id": "a685d38e",
+   "hash": "778473161bc7"
+  },
+  {
+   "type": "para",
+   "text": "> **进度 / Progress (2026-07-22)**：1 已落地（`merge-lineage` + `ingredients` 引用）；\n> 2 精确指纹档已落地（`soft_fingerprint` 存入每条 event + `identify` 反查），近似匹配\n> 未做；3 的 `signed` 档已用运行时 guard 保留（真签名落地前拒绝自称 signed）。 /\n> 1 shipped; 2 exact tier shipped (per-event fingerprint + `identify`), near-match\n> pending; 3 reserved via a runtime guard that rejects `signed` until real signing.",
+   "id": "4b6bb714",
+   "hash": "876d7a288d23"
+  },
+  {
+   "type": "list",
+   "text": "1. **Ingredients（多父溯源）— 现在做 / do now.** 成本低、边界清。仅当多份",
+   "id": "3058e661",
+   "hash": "5a0d04fb71cc"
+  },
+  {
+   "type": "para",
+   "text": "   Proofpress-enabled 文档**汇流**成一份时才需要；线性父链表达不了\"这份提案融合了 A 和\n   B\"。两件事：(a) 让一条 record 的 parent 引用可以是**集合**而非单值，从而能引用其他\n   `artifact_id` + capsule head 作为 ingredient；(b) 一个命令如\n   `merge-lineage new.md --from a.md --from b.md`。**只记引用和摘要，不复制上游全部历史**\n   （对应 C2PA ingredient 只存摘要而非整棵树）。不用时不影响线性主链。\n   / Low cost, clear boundary; needed only when documents *merge*. Let parent be a set;\n   add a `merge-lineage` command; record references/digests only, not full history.",
+   "id": "100f5716",
+   "hash": "e74424529a8a"
+  },
+  {
+   "type": "list",
+   "text": "2. **本地 soft binding（确定性指纹）— 其次 / do next.** 加一个归一化函数 + 在 ledger 里",
+   "id": "db01d2e5",
+   "hash": "05fab03eec62"
+  },
+  {
+   "type": "para",
+   "text": "   存指纹列。先做精确指纹，再加分块近似匹配（SimHash/MinHash）。实现\"capsule 被剥离 →\n   本机仍能认出文档\"，云端以后扩展。 / A normalization function + a stored fingerprint\n   column; exact first, then near-match. Local recovery now, cloud later.",
+   "id": "15781169",
+   "hash": "e3bfeb022ce4"
+  },
+  {
+   "type": "list",
+   "text": "3. **签名字段占位 — 最后 / last.** 信任阶梯已就位；预留 `signed` 一格，朝用户自持密钥",
+   "id": "ffe28fc6",
+   "hash": "19682a307394"
+  },
+  {
+   "type": "para",
+   "text": "   设计。真正实现签名推迟到出现真实的多方、互不信任场景为止；在那之前 `harness_attested`\n   已够用。 / Reserve the `signed` rung; defer real signing until a genuine multi-party,\n   mutual-distrust scenario exists.",
+   "id": "6da50324",
+   "hash": "e98cf7cb8066"
+  },
+  {
+   "type": "para",
+   "text": "---",
+   "id": "4bbfa5b7",
+   "hash": "f1624c9c50ca"
   },
   {
    "type": "heading",
-   "text": "### Storyboard",
-   "id": "eeefc672",
-   "hash": "b8e423b9036a"
-  },
-  {
-   "type": "list",
-   "text": "1. **0–6s — hook:** “An agent rewrote this design doc. Git kept the lines. Chat",
-   "id": "a2f2e256",
-   "hash": "ead99ff0ab2a"
+   "text": "## 6. Proofpress 有而 C2PA 没有的 / What Proofpress keeps that C2PA does not",
+   "id": "0226619b",
+   "hash": "9c6080f1c2d8"
   },
   {
    "type": "para",
-   "text": "   kept the reasons. Neither travels with the file.”",
-   "id": "2ced2d0e",
-   "hash": "dbd89ffdc585"
-  },
-  {
-   "type": "list",
-   "text": "2. **6–17s — admission:** show a real accepted revision with actor roles,",
-   "id": "5083cfe9",
-   "hash": "6a562300e351"
+   "text": "**中文**：C2PA 的驱动力是 AI 时代对**媒体**的焦虑：这图是 AI 生成的吗？是真拍的吗？被\n篡改了吗？它的杀手锏断言是\"这是 AI 生成\"和\"这是真实拍摄\"。改变历史是手段，**可信来源\n才是目的。**",
+   "id": "c4537823",
+   "hash": "f5a4f2fbf69d"
   },
   {
    "type": "para",
-   "text": "   reason, and claims.",
-   "id": "4fc82063",
-   "hash": "b36f47759c3e"
-  },
-  {
-   "type": "list",
-   "text": "3. **17–29s — compression:** turn a wall of line noise into three semantic",
-   "id": "122d3df3",
-   "hash": "5850a41a0b38"
+   "text": "文本/知识工件的对应焦虑不是\"排版变了\"，而是：**这份文档是人写的还是 Agent 生成的？哪些\n段落是 Agent 的？背后的推理是真的，还是 Agent 编的？** 这正是 `produced_by` /\n`edited_by` / `attribution_basis` actor 模型加上 **claims 对照真实 diff 校验**所瞄准的。\nC2PA 能证明像素没被 P，但证明不了一处改动背后的**推理**是否诚实；Proofpress 的\nclaims-vs-diff 校验在往那个方向走。**这是差异化——借用 C2PA 溯源骨架时别把它丢了。**",
+   "id": "2adf6fc6",
+   "hash": "30754016c09d"
   },
   {
    "type": "para",
-   "text": "   facts: moved, rewritten, and a numeric delta; visibly verify the recorded\n   claims against the computed diff.",
-   "id": "3e3b4835",
-   "hash": "51c64db6394c"
-  },
-  {
-   "type": "list",
-   "text": "4. **29–43s — money moment:** copy the artifact into a clean directory, run",
-   "id": "2d0876b1",
-   "hash": "eeb72e6fc448"
-  },
-  {
-   "type": "para",
-   "text": "   `inspect` and `import`, and reveal the same portable history without the\n   original repository.",
-   "id": "27e32f0b",
-   "hash": "a7561eddd043"
-  },
-  {
-   "type": "list",
-   "text": "5. **43–51s — boundary:** alter the body or discovery transport and show",
-   "id": "c11404e5",
-   "hash": "9637391b5121"
-  },
-  {
-   "type": "para",
-   "text": "   verification fail honestly.",
-   "id": "8031618e",
-   "hash": "d6503616a620"
-  },
-  {
-   "type": "list",
-   "text": "6. **51–60s — close:** “Agents produce. You decide. The artifact remembers.”",
-   "id": "38081b52",
-   "hash": "b6212dde7ed5"
-  },
-  {
-   "type": "para",
-   "text": "   End on the public repository and the canonical npm `next` install command.",
-   "id": "68c64ed6",
-   "hash": "cdc9e8752667"
-  },
-  {
-   "type": "heading",
-   "text": "### Production approach",
-   "id": "86e26f8e",
-   "hash": "b6c0927e0dd4"
-  },
-  {
-   "type": "para",
-   "text": "Use Remotion as the master composition because typography, terminal content,\ntiming, captions, aspect-ratio variants, and revisions need deterministic,\nframe-level control. Use real CLI output or scripted captures for every product\nclaim. Do not synthesize terminal text or UI behavior that the current product\ncannot reproduce.",
-   "id": "4fe99fd5",
-   "hash": "e80e1a38bcfa"
-  },
-  {
-   "type": "para",
-   "text": "Use Higgsfield/Seedance only for optional 4–8 second atmospheric inserts, such\nas a physical page moving between dark workspaces or the seal becoming an\ninspectable chain. Anchor those shots from approved brand stills. Avoid\nAI-generated product UI, terminal text, logos, and install commands because\ngenerative video is unreliable for exact interface evidence.",
-   "id": "33fcab5b",
-   "hash": "8e0e9e639c3f"
-  },
-  {
-   "type": "para",
-   "text": "The master must work without narration. Begin with kinetic type, UI sound, and\nmusic; add a human voice only if the silent animatic proves that spoken context\nmaterially improves comprehension. Do not default to synthetic presenter or UGC\nstyle.",
-   "id": "ab3b4952",
-   "hash": "e940458da097"
-  },
-  {
-   "type": "heading",
-   "text": "### Tool and skill research",
-   "id": "afb05481",
-   "hash": "96108fa0681b"
-  },
-  {
-   "type": "list",
-   "text": "- [`remotion-dev/skills`](https://github.com/remotion-dev/skills) is the",
-   "id": "63a4fbc4",
-   "hash": "01a0c94dec2d"
-  },
-  {
-   "type": "para",
-   "text": "  preferred production skill set. It is maintained by the Remotion project and\n  covers project creation, video-first React markup, captions, rendering, and\n  iteration. Review its repository licensing before copying any skill content;\n  using the documented workflow does not require vendoring its files.",
-   "id": "bd93b18e",
-   "hash": "3df7c4548096"
-  },
-  {
-   "type": "list",
-   "text": "- [`bradautomates/claude-video`](https://github.com/bradautomates/claude-video)",
-   "id": "d8dba72a",
-   "hash": "f928403088ac"
-  },
-  {
-   "type": "para",
-   "text": "  is a useful analysis and QA assistant, not a renderer. Its `/watch` workflow\n  extracts scene-aware frames and transcripts and can be used to study reference\n  films and inspect the final cut. Installation adds `ffmpeg`, `yt-dlp`, and\n  optional transcription credentials, so it should be installed only when that\n  analysis is needed.",
-   "id": "bcf8b182",
-   "hash": "224c35ccb8cd"
-  },
-  {
-   "type": "list",
-   "text": "- [`new-xp/ultrademo`](https://github.com/new-xp/ultrademo) provides a detailed",
-   "id": "75224554",
-   "hash": "0b608184edeb"
-  },
-  {
-   "type": "para",
-   "text": "  Playwright → narration → Remotion pipeline with strong evidence and QA gates.\n  It is useful as a reference for the separate terminal/product walkthrough,\n  but is not the hero-film foundation because it optimizes for SaaS UI tours and\n  synthetic narration.",
-   "id": "1cf1c05f",
-   "hash": "0a4e6aded1b8"
-  },
-  {
-   "type": "list",
-   "text": "- The existing `higgsfield-generate` capability is sufficient for optional",
-   "id": "3cb83197",
-   "hash": "9c15d6cab665"
-  },
-  {
-   "type": "para",
-   "text": "  Seedance shots and final attention analysis. Prompts should be shot-specific,\n  concrete, under roughly 200 tokens, and describe subject, motion, camera,\n  lighting, and style. Image-to-video prompts should describe motion rather than\n  redescribe the reference frame.",
-   "id": "bf47be17",
-   "hash": "13257eb35e3a"
-  },
-  {
-   "type": "para",
-   "text": "No third-party skill is approved for installation by this research alone.\nBefore installation, inspect its license, scripts, network behavior, dependency\ninstallation, credential handling, and update path.",
-   "id": "8facc150",
-   "hash": "2cabbeaff085"
-  },
-  {
-   "type": "heading",
-   "text": "### Film approval gates",
-   "id": "747858cf",
-   "hash": "176d96af5fdc"
-  },
-  {
-   "type": "list",
-   "text": "- The hook and close are understandable in a silent first watch.\n- Every product claim is shown using current, reproducible behavior.\n- No stale review UI, legacy install command, roadmap feature, secret, personal",
-   "id": "6ebb961e",
-   "hash": "a2bd0fc16d3f"
-  },
-  {
-   "type": "para",
-   "text": "  path, or private repository appears in-frame.",
-   "id": "d9c59f0c",
-   "hash": "fa192d3da81f"
-  },
-  {
-   "type": "list",
-   "text": "- Terminal text remains legible at X playback size.\n- The money moment lands before second 43.\n- Captions, music, and transitions do not obscure the artifact or CLI output.\n- Midpoint frames from every scene pass visual inspection.\n- A fresh viewer can state what Proofpress does and how it differs from Git.",
-   "id": "3903ec72",
-   "hash": "4d662b7f0ed7"
-  },
-  {
-   "type": "heading",
-   "text": "## Launch readiness gates",
-   "id": "ce7286aa",
-   "hash": "eb60483b97f3"
-  },
-  {
-   "type": "heading",
-   "text": "### Product and release",
-   "id": "801f70c7",
-   "hash": "9bb5373f2771"
-  },
-  {
-   "type": "list",
-   "text": "- Public repository contains only approved files and a clean public history.\n- Test suite and npm pack check pass from the public release candidate.\n- README install commands work from a clean machine or container.\n- GitHub release and npm package resolve to the same public source commit.\n- npm trusted publishing, provenance, and staged human approval are configured.\n- Supported operating systems and V0 limitations are explicit.",
-   "id": "be6ae3ae",
-   "hash": "048dd9ce75b6"
-  },
-  {
-   "type": "heading",
-   "text": "### Narrative and conversion",
-   "id": "1afe77a6",
-   "hash": "8cf006b761a0"
-  },
-  {
-   "type": "list",
-   "text": "- README communicates problem, proof, install, portable handoff, and limitations",
-   "id": "1ee3f693",
-   "hash": "7b655f47a392"
-  },
-  {
-   "type": "para",
-   "text": "  in the first reading path.",
-   "id": "ab5a2a21",
-   "hash": "f95536c1ce50"
-  },
-  {
-   "type": "list",
-   "text": "- Film, README, release notes, npm page, and channel copy use the same canonical",
-   "id": "036acdf0",
-   "hash": "286ae88a1a9f"
-  },
-  {
-   "type": "para",
-   "text": "  positioning.",
-   "id": "f6fed1d2",
-   "hash": "ec2f580a5725"
-  },
-  {
-   "type": "list",
-   "text": "- The end-to-end demo requires no signup and completes in under three minutes.\n- FAQ and response notes cover Git overlap, signatures, privacy, metadata",
-   "id": "e9dccb03",
-   "hash": "d2ca4e3459ae"
-  },
-  {
-   "type": "para",
-   "text": "  stripping, prompt injection concerns, and scope outside Markdown/static HTML.",
-   "id": "c33c6a99",
-   "hash": "365c54355037"
-  },
-  {
-   "type": "heading",
-   "text": "### Operations",
-   "id": "39d8e9d2",
-   "hash": "cc77be3b14b6"
-  },
-  {
-   "type": "list",
-   "text": "- Launch-day owner can monitor GitHub Issues, X, HN, npm, and direct messages.\n- Known failure responses and rollback steps exist before Day 0.\n- No channel is asked to vote, amplify, or manufacture engagement.\n- Day-0 through Day-5 assets are ready before the public announcement.",
-   "id": "9b15ad53",
-   "hash": "fac3ffc6a0e5"
-  },
-  {
-   "type": "heading",
-   "text": "## Success measures",
-   "id": "27430797",
-   "hash": "73acbbdfa558"
-  },
-  {
-   "type": "para",
-   "text": "Primary first-week outcomes:",
-   "id": "6ae5dde3",
-   "hash": "2890f4584609"
-  },
-  {
-   "type": "list",
-   "text": "- 10 unfamiliar developers complete installation.\n- 5 complete an end-to-end portable handoff.\n- 3 external repositories adopt or test Proofpress.\n- 10 pieces of concrete workflow feedback are captured.\n- All blockers in the first three minutes of use are identified and triaged.\n- At least one external issue, pull request, adapter request, or integration",
-   "id": "e24a3d06",
-   "hash": "0c3d6aa5414c"
-  },
-  {
-   "type": "para",
-   "text": "  proposal is received.",
-   "id": "b28d163c",
-   "hash": "5fdb3c5e5238"
-  },
-  {
-   "type": "para",
-   "text": "Secondary distribution measures include GitHub traffic, stars, clones, npm\ndownloads, X views and link clicks, HN discussion quality, video completion, and\ndirect-outreach response. They should not substitute for completed workflows.",
-   "id": "e640b129",
-   "hash": "ff9f33f36827"
-  },
-  {
-   "type": "heading",
-   "text": "## Repository promotion flow",
-   "id": "8ce322e8",
-   "hash": "306e9bedc17d"
-  },
-  {
-   "type": "para",
-   "text": "`proofpress-dev` is the private working source. Feature work is reviewed and\ntested there. A public release candidate exports an explicit allowlist into a\nbranch of the clean `proofpress` repository, runs secret and private-path scans,\ntests and packs the result, then opens a public release PR. Public `main` is\nprotected and is never updated by a direct push from the private repository.",
-   "id": "19624df8",
-   "hash": "d2999e1b3025"
-  },
-  {
-   "type": "para",
-   "text": "Accepted external contributions begin in the public repository. Their patch is\nbrought back into `proofpress-dev`, validated with the private source of truth,\nand included in the next allowlisted promotion. npm releases are created only\nfrom a tagged commit on public `main`.",
-   "id": "fa87ca5a",
-   "hash": "42d99db6d8fe"
-  },
-  {
-   "type": "heading",
-   "text": "## Planned companion documents",
-   "id": "7eb0a6b9",
-   "hash": "b37feb7b39a4"
-  },
-  {
-   "type": "list",
-   "text": "- `launch-readiness-checklist.md`\n- `communications-kit.md`\n- `launch-film-brief.md`\n- `channel-calendar.md`\n- `stakeholder-outreach.md`\n- `public-repo-publication-flow.md`\n- `metrics-and-retrospective.md`",
-   "id": "9a5f6bc0",
-   "hash": "9c1ba0835abe"
-  },
-  {
-   "type": "para",
-   "text": "Create these when their workstream begins. Until then, this file remains the\ncanonical plan and records decisions without multiplying stale drafts.",
-   "id": "cfc17f0f",
-   "hash": "ff4753d215ec"
-  },
-  {
-   "type": "heading",
-   "text": "## Immediate next actions",
-   "id": "3787cf16",
-   "hash": "de65a10da389"
-  },
-  {
-   "type": "list",
-   "text": "1. Lock the film hook, money moment, close, duration, aspect ratio, and silent",
-   "id": "31712d31",
-   "hash": "20192011b2db"
-  },
-  {
-   "type": "para",
-   "text": "   design.",
-   "id": "b0f34f2f",
-   "hash": "841fb54bad97"
-  },
-  {
-   "type": "list",
-   "text": "2. Install or locally reference the selected Remotion skill only after its",
-   "id": "0bb438fe",
-   "hash": "d1bd6dfbae34"
-  },
-  {
-   "type": "para",
-   "text": "   license and dependency behavior are approved.",
-   "id": "f996a436",
-   "hash": "cc1057a5bf80"
-  },
-  {
-   "type": "list",
-   "text": "3. Build a low-fidelity storyboard and silent animatic before generating any AI",
-   "id": "a5c4d0fe",
-   "hash": "9d19a90fe76d"
-  },
-  {
-   "type": "para",
-   "text": "   footage or recording final terminal scenes.",
-   "id": "6b705095",
-   "hash": "7a2b990ebd59"
-  },
-  {
-   "type": "list",
-   "text": "4. Validate each CLI beat against the current implementation and capture",
-   "id": "e6a26a70",
-   "hash": "75bc68434618"
-  },
-  {
-   "type": "para",
-   "text": "   canonical output from a disposable demo repository.",
-   "id": "bde94150",
-   "hash": "1a2d727263ce"
-  },
-  {
-   "type": "list",
-   "text": "5. Review the animatic, then produce sound, captions, derived cuts, and",
-   "id": "22d04229",
-   "hash": "12e9c97528d3"
-  },
-  {
-   "type": "para",
-   "text": "   frame-by-frame QA.",
-   "id": "69024c76",
-   "hash": "cecc38a04baf"
-  },
-  {
-   "type": "list",
-   "text": "6. Resume public-repository logistics after the film narrative is locked so the",
-   "id": "132c2050",
-   "hash": "e346f247bca0"
-  },
-  {
-   "type": "para",
-   "text": "   public README and release surface inherit the same message.",
-   "id": "3757fc8d",
-   "hash": "ce8b9148502d"
-  },
-  {
-   "type": "heading",
-   "text": "## References",
-   "id": "3d707aa9",
-   "hash": "3f17be8543bd"
-  },
-  {
-   "type": "list",
-   "text": "- [Show HN Guidelines](https://news.ycombinator.com/showhn.html)\n- [GitHub release management](https://docs.github.com/en/repositories/releasing-projects-on-github/managing-releases-in-a-repository)\n- [npm trusted publishing](https://docs.npmjs.com/trusted-publishers/)\n- [Product Hunt featuring guidelines](https://help.producthunt.com/en/articles/9883485-product-hunt-featuring-guidelines)\n- [X video requirements](https://help.x.com/en/using-x/x-videos)",
-   "id": "b5f95aa5",
-   "hash": "d5a3c5480bb7"
+   "text": "**EN**: C2PA is driven by media anxiety — is this AI-generated? really captured?\ntampered? Its killer assertions are \"AI-generated\" and \"genuine capture\"; change\nhistory is the means, **trusted origin is the end.** The text analogue is: *was this\nwritten by a human or an agent? which paragraphs are the agent's? is the stated\nreasoning real or invented?* — exactly what the actor model plus\n**claims-checked-against-the-actual-diff** target. C2PA proves pixels were not\naltered but cannot prove the *reasoning* is honest; Proofpress's claims-vs-diff moves\ntoward that. This is the differentiator — do not lose it while borrowing the skeleton.",
+   "id": "d7097ca7",
+   "hash": "eb28f5c9b709"
   }
  ]
 }
