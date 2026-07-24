@@ -1,47 +1,29 @@
 {
  "event": "version_created",
- "artifact": "README.md",
- "artifact_id": "pp_556b115de711b0cd33eed260",
- "version": "5bba8cbb",
- "parent": "e2579d52",
+ "artifact": "skills/README.md",
+ "artifact_id": "pp_e74be09a9d28f1855db4a007",
+ "version": "a11b8e87",
+ "parent": "53cf9f49",
  "author": {
   "name": "codex",
   "kind": "agent",
   "session": null
  },
  "note": null,
- "ts": "2026-07-24T23:40:41+00:00",
+ "ts": "2026-07-24T23:40:58+00:00",
  "stats": {
-  "modified": 4
+  "modified": 1
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "d6f9f208",
-   "type": "para",
-   "context": "Status"
-  },
-  {
-   "kind": "modified",
-   "block": "19210f53",
-   "type": "heading",
-   "context": "Install"
-  },
-  {
-   "kind": "modified",
-   "block": "7b197ac1",
+   "block": "5ee2d540",
    "type": "code",
    "context": "Install"
-  },
-  {
-   "kind": "modified",
-   "block": "839fc8a1",
-   "type": "para",
-   "context": "What “portable” means"
   }
  ],
  "policy": "local",
- "soft_fingerprint": "ppsb1:c3ac73681e02c90a0c5ed816dbc6da4a9a81748ddc63ab0db5129b688e9bfbb1",
+ "soft_fingerprint": "ppsb1:a45e5dd33764a9f07fa9b4771416382890d6f07f854b037e164d18ae7abc5bef",
  "actors": {
   "requested_by": [
    "richardtang"
@@ -59,27 +41,12 @@
  "attribution_basis": "environment_attested",
  "claims": [
   {
-   "block": "d6f9f208",
+   "block": "5ee2d540",
    "kind": "modified",
-   "note": "Updated release status for the published 0.1.0 stable npm channel."
-  },
-  {
-   "block": "19210f53",
-   "kind": "modified",
-   "note": "Renamed the installation section now that the default command installs the stable release."
-  },
-  {
-   "block": "7b197ac1",
-   "kind": "modified",
-   "note": "Changed the installation command from the alpha tag to the stable package."
-  },
-  {
-   "block": "839fc8a1",
-   "kind": "modified",
-   "note": "Updated the canonical discovery package reference to the latest stable channel."
+   "note": "Changed the recommended npm installation command from the alpha tag to the stable package."
   }
  ],
  "context": {
-  "why": "published Proofpress 0.1.0 as the stable npm release and aligned private development documentation"
+  "why": "aligned consent-first installation guidance with the published Proofpress 0.1.0 stable npm release"
  }
 }
