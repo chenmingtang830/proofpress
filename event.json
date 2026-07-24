@@ -2,161 +2,77 @@
  "event": "version_created",
  "artifact": "docs/internal/launch/film/videos/proofpress-x-launch/BRIEF.md",
  "artifact_id": "pp_3bae87c36d575cb17d5dbd96",
- "version": "659d6855",
- "parent": null,
+ "version": "068ac7bb",
+ "parent": "659d6855",
  "author": {
-  "name": "codex",
-  "kind": "agent",
+  "name": "unknown",
+  "kind": "human",
   "session": null
  },
- "note": "locked launch film brief",
- "ts": "2026-07-24T08:51:42+00:00",
+ "note": null,
+ "ts": "2026-07-24T09:21:15+00:00",
  "stats": {
-  "added": 11
+  "modified": 2,
+  "removed": 2
  },
  "changes": [
   {
-   "kind": "added",
+   "kind": "modified",
    "block": "edddcef0",
    "type": "para",
-   "context": "(文首)",
-   "preview": "---\nworkflow: product-launch-video\nflow: automation\nstoryboa"
+   "context": "(文首)"
   },
   {
-   "kind": "added",
+   "kind": "modified",
+   "block": "da95434b",
+   "type": "list",
+   "context": "Assets"
+  },
+  {
+   "kind": "removed",
    "block": "dfdf19e6",
    "type": "list",
-   "context": "(文首)",
+   "context": "",
    "preview": "  - 1920x1080\n  - 1080x1080"
   },
   {
-   "kind": "added",
+   "kind": "removed",
    "block": "c7782797",
    "type": "para",
-   "context": "(文首)",
+   "context": "",
    "preview": "language: en\naudience: \"developers, AI builders, and teams a"
-  },
-  {
-   "kind": "added",
-   "block": "fbec8d23",
-   "type": "heading",
-   "context": "Intent",
-   "preview": "## Intent"
-  },
-  {
-   "kind": "added",
-   "block": "7fe752ad",
-   "type": "para",
-   "context": "Intent",
-   "preview": "Create a silent-first X launch film that introduces Proofpre"
-  },
-  {
-   "kind": "added",
-   "block": "2e62a4f5",
-   "type": "heading",
-   "context": "Assets",
-   "preview": "## Assets"
-  },
-  {
-   "kind": "added",
-   "block": "da95434b",
-   "type": "list",
-   "context": "Assets",
-   "preview": "- `../../../../../../assets/logo.svg` — canonical Proofpress"
-  },
-  {
-   "kind": "added",
-   "block": "b58e158c",
-   "type": "heading",
-   "context": "Customizations",
-   "preview": "## Customizations"
-  },
-  {
-   "kind": "added",
-   "block": "db25e67b",
-   "type": "list",
-   "context": "Customizations",
-   "preview": "- First deliver three comparable four-second motion tests of"
-  },
-  {
-   "kind": "added",
-   "block": "dd61ae86",
-   "type": "heading",
-   "context": "Notes",
-   "preview": "## Notes"
-  },
-  {
-   "kind": "added",
-   "block": "f51764e1",
-   "type": "list",
-   "context": "Notes",
-   "preview": "- Do not scrape or reuse the old launch demo's copy, review "
   }
  ],
  "policy": "local",
- "soft_fingerprint": "ppsb1:3b34505f2792d2f9781764a50c0717291a4c16ebdf54ed8d0a0401043dee0e40",
+ "soft_fingerprint": "ppsb1:569c9575f0cd062548c814e69021ec6c32fb1a20a8350f702f8318c3151f6b55",
  "actors": {
   "requested_by": [
-   "Richard"
+   "Richard Tang"
   ],
   "produced_by": [
-   "codex"
+   "Codex"
   ],
   "edited_by": [
-   "codex"
+   "Codex"
   ],
   "recorded_by": [
-   "codex"
+   "Codex"
   ]
  },
  "attribution_basis": "harness_attested",
  "claims": [
   {
-   "block": "edddcef0",
-   "kind": "added"
-  },
-  {
    "block": "dfdf19e6",
-   "kind": "added"
+   "kind": "removed",
+   "note": "Replaced list-shaped aspect metadata with one scalar field so Markdown anchoring cannot split YAML front matter."
   },
   {
    "block": "c7782797",
-   "kind": "added"
-  },
-  {
-   "block": "fbec8d23",
-   "kind": "added"
-  },
-  {
-   "block": "7fe752ad",
-   "kind": "added"
-  },
-  {
-   "block": "2e62a4f5",
-   "kind": "added"
-  },
-  {
-   "block": "da95434b",
-   "kind": "added"
-  },
-  {
-   "block": "b58e158c",
-   "kind": "added"
-  },
-  {
-   "block": "db25e67b",
-   "kind": "added"
-  },
-  {
-   "block": "dd61ae86",
-   "kind": "added"
-  },
-  {
-   "block": "f51764e1",
-   "kind": "added"
+   "kind": "removed",
+   "note": "Folded the former standalone front-matter fragment into the corrected scalar metadata carrier."
   }
  ],
  "context": {
-  "why": "The user approved a staged HyperFrames launch-film build with three visual motion tests before the final 22-second renders."
+  "why": "Correct the internal film carrier metadata while preserving the approved launch brief and its three-direction review gate."
  }
 }
