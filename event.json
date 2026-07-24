@@ -1,29 +1,35 @@
 {
  "event": "version_created",
- "artifact": "docs/internal/launch/x-launch.md",
- "artifact_id": "pp_5c19a32e9dea0da4c55aae96",
- "version": "47152267",
- "parent": "fb40ded1",
+ "artifact": "docs/internal/launch/README.md",
+ "artifact_id": "pp_fc140b7b208f2d17adbfc132",
+ "version": "43d7b896",
+ "parent": "ec6e02fe",
  "author": {
   "name": "codex",
   "kind": "agent",
   "session": null
  },
  "note": null,
- "ts": "2026-07-24T20:31:27+00:00",
+ "ts": "2026-07-24T20:32:28+00:00",
  "stats": {
-  "modified": 1
+  "modified": 2
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "d5e07adc",
+   "block": "38081b52",
+   "type": "list",
+   "context": "Storyboard"
+  },
+  {
+   "kind": "modified",
+   "block": "68c64ed6",
    "type": "para",
-   "context": "Reply 1 — founder vision article"
+   "context": "Storyboard"
   }
  ],
  "policy": "local",
- "soft_fingerprint": "ppsb1:effc31b1c3916a59e3cf106c17b9f8bca5b78e471f88addb30059b44fbf698a8",
+ "soft_fingerprint": "ppsb1:97d1abd37d3d4287a1be10e2fb07008296969f76bcbd90e4b14ef4d1ae6281e4",
  "actors": {
   "requested_by": [
    "richard-tang"
@@ -41,11 +47,15 @@
  "attribution_basis": "harness_attested",
  "claims": [
   {
-   "block": "d5e07adc",
+   "block": "38081b52",
+   "kind": "modified"
+  },
+  {
+   "block": "68c64ed6",
    "kind": "modified"
   }
  ],
  "context": {
-  "why": "shortened the founder-article reply so the agreed positioning remains within X's character limit"
+  "why": "removed the stale film close and npm call to action so the long-form launch brief uses the final vision close"
  }
 }
