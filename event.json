@@ -1,8 +1,8 @@
 {
  "event": "version_created",
- "artifact": "docs/internal/launch/film/videos/proofpress-x-launch/storyboard-static/index.html",
- "artifact_id": "pp_7822e5da6f97df995e3eced4",
- "version": "b79f818e",
+ "artifact": "docs/internal/launch/film/videos/proofpress-x-launch/storyboard-final-dark/index.html",
+ "artifact_id": "pp_9a4c438bf0324e5b9c13cbcb",
+ "version": "56921860",
  "parent": null,
  "author": {
   "name": "unknown",
@@ -10,119 +10,164 @@
   "session": null
  },
  "note": null,
- "ts": "2026-07-24T09:50:13+00:00",
+ "ts": "2026-07-24T19:45:03+00:00",
  "stats": {
-  "added": 7
+  "added": 11
  },
  "changes": [
   {
    "kind": "added",
-   "block": "ae244598",
+   "block": "759a3b0c",
    "type": "heading",
-   "context": "<h1 class=\"headline\" data-story-id=\"laun",
-   "preview": "<h1 class=\"headline\" data-story-id=\"launch-film-category-cop"
+   "context": "<h1><span class=\"line\">Introducing</span",
+   "preview": "<h1><span class=\"line\">Introducing</span><span class=\"line a"
   },
   {
    "kind": "added",
-   "block": "e03e2d41",
+   "block": "64155669",
    "type": "para",
-   "context": "<h1 class=\"headline\" data-story-id=\"laun",
-   "preview": "<p class=\"support\" data-story-id=\"launch-film-category-posit"
+   "context": "<h1><span class=\"line\">Introducing</span",
+   "preview": "<p class=\"category-lockup\"><span class=\"line\">The trust laye"
   },
   {
    "kind": "added",
-   "block": "2cff6956",
-   "type": "heading",
-   "context": "<h2 class=\"headline\" data-story-id=\"laun",
-   "preview": "<h2 class=\"headline\" data-story-id=\"launch-film-file-travels"
+   "block": "f6a1b046",
+   "type": "para",
+   "context": "<h1><span class=\"line\">Introducing</span",
+   "preview": "<p class=\"boundary-lockup\"><strong class=\"line\">An open, age"
   },
   {
    "kind": "added",
-   "block": "8845a71e",
+   "block": "201d1214",
    "type": "heading",
-   "context": "<h2 class=\"headline\" data-story-id=\"laun",
-   "preview": "<h2 class=\"headline\" data-story-id=\"launch-film-decision-tra"
+   "context": "<h1>The file <span class=\"accent\">travel",
+   "preview": "<h1>The file <span class=\"accent\">travels.</span></h1>"
   },
   {
    "kind": "added",
-   "block": "a5f45345",
+   "block": "e24bf216",
    "type": "heading",
-   "context": "<h2 class=\"headline\" data-story-id=\"laun",
-   "preview": "<h2 class=\"headline\" data-story-id=\"launch-film-portable-led"
+   "context": "<h1>Its decision trail <span class=\"acce",
+   "preview": "<h1>Its decision trail <span class=\"accent\">stays behind.</s"
   },
   {
    "kind": "added",
-   "block": "7344ab08",
+   "block": "6abc0aaa",
    "type": "heading",
-   "context": "<h2 class=\"headline\" data-story-id=\"laun",
-   "preview": "<h2 class=\"headline\" data-story-id=\"launch-film-trust-bounda"
+   "context": "<h1>Portable <span class=\"accent\">ledger",
+   "preview": "<h1>Portable <span class=\"accent\">ledger.</span></h1>"
   },
   {
    "kind": "added",
-   "block": "42d2f7b7",
+   "block": "ca5926cb",
    "type": "heading",
-   "context": "<h2 class=\"headline\" data-story-id=\"laun",
-   "preview": "<h2 class=\"headline\" data-story-id=\"launch-film-portable-han"
+   "context": "<h1><span class=\"line\">Reason stated.</s",
+   "preview": "<h1><span class=\"line\">Reason stated.</span><span class=\"lin"
+  },
+  {
+   "kind": "added",
+   "block": "3f835c8a",
+   "type": "heading",
+   "context": "<h1>The ledger moves <span class=\"accent",
+   "preview": "<h1>The ledger moves <span class=\"accent\">with the artifact."
+  },
+  {
+   "kind": "added",
+   "block": "a5e895fb",
+   "type": "para",
+   "context": "<h1>The ledger moves <span class=\"accent",
+   "preview": "<p class=\"vision\"><span class=\"line\">Git made code</span><sp"
+  },
+  {
+   "kind": "added",
+   "block": "dd8ad99c",
+   "type": "heading",
+   "context": "<h1>Proofpress</h1>",
+   "preview": "<h1>Proofpress</h1>"
+  },
+  {
+   "kind": "added",
+   "block": "6d46097b",
+   "type": "para",
+   "context": "<h1>Proofpress</h1>",
+   "preview": "<p class=\"promise\"><span class=\"line\">Scale intelligence.</s"
   }
  ],
  "policy": "local",
- "soft_fingerprint": "ppsb1:94cc33d0c51879178c772948dad1534e09fbcd2288f61ca251e7cba758a47a48",
+ "soft_fingerprint": "ppsb1:0c701ce135850c4bceec40afcbe83a9dd46758e901548a95a1f08c67f11e2e19",
  "actors": {
   "requested_by": [
    "Richard Tang"
   ],
   "produced_by": [
-   "Codex"
+   "OpenAI Codex"
   ],
   "edited_by": [
-   "Codex"
+   "OpenAI Codex"
   ],
   "recorded_by": [
-   "Codex"
+   "OpenAI Codex"
   ]
  },
  "attribution_basis": "harness_attested",
  "claims": [
   {
-   "block": "ae244598",
+   "block": "759a3b0c",
    "kind": "added",
-   "note": "Introduces Proofpress as the launch subject in mobile-scale type."
+   "note": "Added the compact launch introduction."
   },
   {
-   "block": "e03e2d41",
+   "block": "64155669",
    "kind": "added",
-   "note": "States the locked category: the open trust layer for multiplayer AI."
+   "note": "Added the multiplayer AI category claim."
   },
   {
-   "block": "2cff6956",
+   "block": "f6a1b046",
    "kind": "added",
-   "note": "Makes the artifact handoff concrete: the file travels."
+   "note": "Added the agent-native portable-ledger boundary."
   },
   {
-   "block": "8845a71e",
+   "block": "201d1214",
    "kind": "added",
-   "note": "States the handoff gap: the decision trail stays behind."
+   "note": "Added the artifact handoff setup."
   },
   {
-   "block": "a5f45345",
+   "block": "e24bf216",
    "kind": "added",
-   "note": "Reveals the portable ledger as the product answer."
+   "note": "Added the decision-trail handoff gap."
   },
   {
-   "block": "7344ab08",
+   "block": "6abc0aaa",
    "kind": "added",
-   "note": "Separates attributed context from artifact-checked change claims."
+   "note": "Added the portable-ledger reveal using a real strategy revision."
   },
   {
-   "block": "42d2f7b7",
+   "block": "ca5926cb",
    "kind": "added",
-   "note": "States the portable-proof consequence: the ledger moves with the artifact."
+   "note": "Separated attributed rationale from a computed change check."
+  },
+  {
+   "block": "3f835c8a",
+   "kind": "added",
+   "note": "Added the portable proof resolution."
+  },
+  {
+   "block": "a5e895fb",
+   "kind": "added",
+   "note": "Added the Git-to-cumulative-intelligence vision bridge."
+  },
+  {
+   "block": "dd8ad99c",
+   "kind": "added",
+   "note": "Added the final Proofpress brand close."
+  },
+  {
+   "block": "6d46097b",
+   "kind": "added",
+   "note": "Added the scale-intelligence, preserve-trust vision line."
   }
  ],
  "context": {
-  "why": "Reframed the launch film as a mobile-first seven-frame Living Lineage storyboard so each core claim stays readable in the X feed before motion is added.",
-  "rejected": [
-   "Animate the full film before approving static keyframes — mobile X legibility must be proven first."
-  ]
+  "why": "Replace placeholder ledger copy with a real Proofpress strategy revision, distinguish attributed rationale from computed verification, and expand the close into a cumulative-intelligence vision followed by an open-source call to action."
  }
 }

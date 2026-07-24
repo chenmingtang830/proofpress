@@ -1,48 +1,72 @@
 {
- "artifact": "docs/internal/launch/film/videos/proofpress-x-launch/storyboard-static/index.html",
- "artifact_id": "pp_7822e5da6f97df995e3eced4",
+ "artifact": "docs/internal/launch/film/videos/proofpress-x-launch/storyboard-final-dark/index.html",
+ "artifact_id": "pp_9a4c438bf0324e5b9c13cbcb",
  "blocks": [
   {
    "type": "heading",
-   "text": "<h1 class=\"headline\" data-story-id=\"launch-film-category-copy\">\n        <span class=\"line\">Introducing</span>\n        <span class=\"line accent\">Proofpress</span>\n      </h1>",
-   "id": "ae244598",
-   "hash": "4d9e8895bf1d"
+   "text": "<h1><span class=\"line\">Introducing</span><span class=\"line accent\">Proofpress</span></h1>",
+   "id": "759a3b0c",
+   "hash": "6c21b416decd"
   },
   {
    "type": "para",
-   "text": "<p class=\"support\" data-story-id=\"launch-film-category-positioning\">\n        <strong>The open trust layer</strong> for multiplayer AI.\n      </p>",
-   "id": "e03e2d41",
-   "hash": "cb2a8bda9d59"
+   "text": "<p class=\"category-lockup\"><span class=\"line\">The trust layer for</span><span class=\"line accent\">multiplayer AI.</span></p>",
+   "id": "64155669",
+   "hash": "83c92c02c54b"
+  },
+  {
+   "type": "para",
+   "text": "<p class=\"boundary-lockup\"><strong class=\"line\">An open, agent-native ledger</strong><span class=\"line\">that travels with the artifact.</span></p>",
+   "id": "f6a1b046",
+   "hash": "fe00d8de3e2c"
   },
   {
    "type": "heading",
-   "text": "<h2 class=\"headline\" data-story-id=\"launch-film-file-travels-copy\">\n        <span class=\"line\">The file</span>\n        <span class=\"line accent\">travels.</span>\n      </h2>",
-   "id": "2cff6956",
-   "hash": "f865cca6d088"
+   "text": "<h1>The file <span class=\"accent\">travels.</span></h1>",
+   "id": "201d1214",
+   "hash": "31d4a301a990"
   },
   {
    "type": "heading",
-   "text": "<h2 class=\"headline\" data-story-id=\"launch-film-decision-trail-copy\">\n        <span class=\"line\">Its decision trail</span>\n        <span class=\"line accent\">stays behind.</span>\n      </h2>",
-   "id": "8845a71e",
-   "hash": "fbf70c62009a"
+   "text": "<h1>Its decision trail <span class=\"accent\">stays behind.</span></h1>",
+   "id": "e24bf216",
+   "hash": "1e8ed09d5a9e"
   },
   {
    "type": "heading",
-   "text": "<h2 class=\"headline\" data-story-id=\"launch-film-portable-ledger-copy\">\n        <span class=\"line\">Portable</span>\n        <span class=\"line accent\">ledger.</span>\n      </h2>",
-   "id": "a5f45345",
-   "hash": "d952ca3f5efd"
+   "text": "<h1>Portable <span class=\"accent\">ledger.</span></h1>",
+   "id": "6abc0aaa",
+   "hash": "bdf00fb30cc4"
   },
   {
    "type": "heading",
-   "text": "<h2 class=\"headline\" data-story-id=\"launch-film-trust-boundary-copy\">\n        <span class=\"line\">Context stated.</span>\n        <span class=\"line accent\">Change checked.</span>\n      </h2>",
-   "id": "7344ab08",
-   "hash": "a29943820142"
+   "text": "<h1><span class=\"line\">Reason stated.</span><span class=\"line accent\">Change checked.</span></h1>",
+   "id": "ca5926cb",
+   "hash": "ccfdb8d7f036"
   },
   {
    "type": "heading",
-   "text": "<h2 class=\"headline\" data-story-id=\"launch-film-portable-handoff-copy\">\n        <span class=\"line\">The ledger moves</span>\n        <span class=\"line accent\">with the artifact.</span>\n      </h2>",
-   "id": "42d2f7b7",
-   "hash": "faff9066ab74"
+   "text": "<h1>The ledger moves <span class=\"accent\">with the artifact.</span></h1>",
+   "id": "3f835c8a",
+   "hash": "472034fac364"
+  },
+  {
+   "type": "para",
+   "text": "<p class=\"vision\"><span class=\"line\">Git made code</span><span class=\"line\">collaborative.</span><span class=\"line second\">Proofpress makes</span><span class=\"line\">intelligence cumulative.</span></p>",
+   "id": "a5e895fb",
+   "hash": "29bce616c960"
+  },
+  {
+   "type": "heading",
+   "text": "<h1>Proofpress</h1>",
+   "id": "dd8ad99c",
+   "hash": "e46907ece6b3"
+  },
+  {
+   "type": "para",
+   "text": "<p class=\"promise\"><span class=\"line\">Scale intelligence.</span><span class=\"line accent\">Preserve trust.</span></p>",
+   "id": "6d46097b",
+   "hash": "4bb7cfe92e3c"
   }
  ]
 }
