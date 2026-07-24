@@ -1,29 +1,29 @@
 {
  "event": "version_created",
- "artifact": "skills/cursor/proofpress/SKILL.md",
- "artifact_id": "pp_0c9edf7d315ab03e0ca06c88",
- "version": "7600f4cc",
- "parent": "7628c4d8",
+ "artifact": "skills/claude-code/proofpress/SKILL.md",
+ "artifact_id": "pp_8f9f160826e336a46eb62bd4",
+ "version": "835d9c4b",
+ "parent": "3ea9ad0d",
  "author": {
   "name": "codex",
   "kind": "agent",
   "session": null
  },
  "note": null,
- "ts": "2026-07-24T23:41:02+00:00",
+ "ts": "2026-07-24T23:41:04+00:00",
  "stats": {
   "modified": 1
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "355446e0",
+   "block": "e96a23df",
    "type": "para",
    "context": "Workflow"
   }
  ],
  "policy": "local",
- "soft_fingerprint": "ppsb1:e27e122020c1fbe376130fd70d508275d3b720320cd5704f523eee25862ecc6b",
+ "soft_fingerprint": "ppsb1:2b9c960ca13a04da69c9ee90784b796217661e971105ecd558bcc77ae2e65792",
  "actors": {
   "requested_by": [
    "richardtang"
@@ -41,7 +41,7 @@
  "attribution_basis": "environment_attested",
  "claims": [
   {
-   "block": "355446e0",
+   "block": "e96a23df",
    "kind": "modified",
    "note": "Updated consent-first installation guidance to name the stable package."
   }
