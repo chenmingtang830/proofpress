@@ -17,10 +17,13 @@ function run(args, cwd = ROOT) {
   });
 }
 
-test("npm launcher exposes the same alpha version", () => {
+test("npm launcher exposes the same version as package.json", () => {
+  const { version } = JSON.parse(
+    fs.readFileSync(path.join(ROOT, "package.json"), "utf8")
+  );
   const result = run(["--version"]);
   assert.equal(result.status, 0, result.stderr);
-  assert.equal(result.stdout.trim(), "proofpress 0.1.0-alpha.1");
+  assert.equal(result.stdout.trim(), `proofpress ${version}`);
 });
 
 test("setup installs an idempotent Codex contract, manifest, and badge", () => {
