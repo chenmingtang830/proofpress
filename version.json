@@ -1,174 +1,420 @@
 {
- "artifact": "docs/internal/decision_strategy/TRUST_BOUNDARY_DECISION.md",
- "artifact_id": "pp_e3f14cc8e799c5c0e8edb317",
+ "artifact": "docs/PORTABLE_ARTIFACT_SPEC.md",
+ "artifact_id": "pp_651b6bcc5c2503e2a2ea2a5f",
  "blocks": [
   {
    "type": "heading",
-   "text": "# 信任边界决定 / Trust Boundary Decision Note",
-   "id": "3d8ecd1c",
-   "hash": "3b4912267400"
+   "text": "# Portable Artifact V0 — Executable Contract",
+   "id": "7437c9be",
+   "hash": "c372b7e07b13"
   },
   {
    "type": "para",
-   "text": "> 内部文档 / Internal. 定位与决策记录，非契约。一页固化四个已定结论，\n> 防止未来的自己或对外文案越界。 / Positioning & decision record, not a\n> contract. Four settled conclusions, fixed here so neither future-us nor\n> outbound copy drifts past them.\n>\n> 决定日期 / Decided: 2026-07-22 · 相关 / See: [C2PA_REFERENCE.md](../competition_ref/C2PA_REFERENCE.md)",
-   "id": "20ec0182",
-   "hash": "0dd397a3dd7a"
-  },
-  {
-   "type": "para",
-   "text": "---",
-   "id": "9a05a8a7",
-   "hash": "f1624c9c50ca"
+   "text": "> Status: implementation contract derived from the approved strategy and privacy decisions.\n>\n> Scope: Markdown and static HTML carriers, local/Git ledger, sequential handoff, deterministic integrity, best-effort capture.",
+   "id": "b27d1410",
+   "hash": "41758db3fb49"
   },
   {
    "type": "heading",
-   "text": "## 1. V0 的边界是 tamper-evident，不是 tamper-proof",
-   "id": "201cfa37",
-   "hash": "3c80f49bde38"
+   "text": "## 1. Artifact policy",
+   "id": "38f6d68c",
+   "hash": "9f6f711721a4"
   },
   {
    "type": "para",
-   "text": "**中文**：Proofpress V0 承诺**可检测篡改**（诚实验证者能发现对不上），不承诺\n**不可篡改**。对账本/文件的持有者本人，V0 没有、也不试图有任何强制约束——\n只要信任根 100% 在作者手里，作者就是 root，root 能重写 root 拥有的一切，与\nhash 链多严无关。这是有意划定的边界，不是实现漏洞；V0 真实交付的价值是\n**意外 drift 检测**与**收件方核对**，二者今天已 100% 成立。",
-   "id": "cc3f2444",
-   "hash": "ca91265b8cdb"
+   "text": "Every artifact resolves to exactly one policy:",
+   "id": "c9c2ad8e",
+   "hash": "256d88053e41"
+  },
+  {
+   "type": "code",
+   "text": "```text\nignored   future automatic and explicit snapshots are skipped\nlocal     snapshots enter the local/Git ledger; no capsule is embedded\nportable  snapshots enter the ledger and refresh the embedded capsule\n```",
+   "id": "1646c742",
+   "hash": "cf96f9e3794f"
   },
   {
    "type": "para",
-   "text": "**措辞纪律（唯一的 launch blocker）**：对外可以说 *checkable record /\ntamper-evident / provenance that travels / gaps stay visible*；绝不说\n*immutable / tamperproof / notarized / can't be faked / blockchain-grade*。\n越界一句，\"已知边界\"即变\"虚假宣传\"。",
-   "id": "3b5b01fb",
-   "hash": "a221903355f4"
-  },
-  {
-   "type": "para",
-   "text": "**EN**: V0 promises tamper-**evident**, not tamper-**proof**. Against the\nholder of the ledger/file themselves, V0 has — deliberately — no enforcement:\nwhile the trust root sits entirely with the author, the author is root, and\nroot rewrites anything root owns, regardless of hash-chain rigor. The real V0\nvalue (accidental-drift detection, recipient verification) is fully delivered\ntoday. Wording discipline is the only launch blocker: never let outbound copy\ncross from tamper-evident into tamper-proof vocabulary.",
-   "id": "44efd8a6",
-   "hash": "664adbb99852"
-  },
-  {
-   "type": "para",
-   "text": "---",
-   "id": "a277842d",
-   "hash": "f1624c9c50ca"
+   "text": "An artifact without metadata is legacy `local`. Enabling `portable` is explicit and sticky. `local` and `ignored` transitions strip the current capsule but do not alter previously distributed copies or delete the local ledger.",
+   "id": "8c362122",
+   "hash": "18389e5b243b"
   },
   {
    "type": "heading",
-   "text": "## 2. 本地 vs 云的精确分线 / The precise local-vs-cloud split",
-   "id": "d34d1744",
-   "hash": "37950545a680"
+   "text": "## 2. Identity",
+   "id": "2dbbb74e",
+   "hash": "fbe9f06eca3e"
   },
   {
    "type": "para",
-   "text": "**中文**：不是\"防篡改 = 云\"这种粗线。按能力逐项分：",
-   "id": "a492d243",
-   "hash": "7a40dcb7aa76"
-  },
-  {
-   "type": "table",
-   "text": "| 能力 / Capability | 本地 / Local | 云 / Cloud |\n| --- | --- | --- |\n| Hard binding（正文摘要） | ✅ 已有 | — |\n| Soft binding 指纹计算 + 同机反查 | ✅ 可做（ledger 即索引） | 仅扩展到跨机器/跨组织反查 |\n| 签名（自持密钥，防第三方伪造） | ✅ 可起步（类 GPG） | 仅强身份绑定、密钥吊销、跨组织信任列表 |\n| **对本人也留痕**（witness / countersign / 时间戳） | ❌ 原理上不可能 | ✅ 唯一提供方 |",
-   "id": "ce3c0e00",
-   "hash": "2e2b17e6edc7"
+   "text": "Every managed artifact receives a random path-independent `artifact_id`. It is stored in a declarative metadata marker and copied into new ledger events and versions.",
+   "id": "a82840ae",
+   "hash": "72cf355f59de"
   },
   {
    "type": "para",
-   "text": "云的真护城河是**最后一行加上 PKI 运营**：作者单方改不掉的外部 append-only\n见证，与跨组织身份/吊销。前三行都要保持本地可用、可退出——这是免费/付费的\n分层线，也是\"想 local 就 local\"承诺的底线。**因此不要在 V0 core 里把\nwitness 缺口补掉**；它是 cloud 的 value prop。V0 只承担一个约束：事件/capsule\nschema 须能向后兼容地容纳未来的 `witness` / signature 字段。",
-   "id": "1f60ff9c",
-   "hash": "34a4f31da0af"
-  },
-  {
-   "type": "para",
-   "text": "**EN**: The moat is not \"tamper-resistance = cloud\" wholesale. Fingerprinting,\nsame-machine lookup, and self-held-key signing all stay local-capable and\nexit-able (the free tier's floor). Cloud uniquely owns: the external\nappend-only witness that makes the *author's own* rewrites evident, plus\ncross-org identity, revocation, trust lists. Do not fill the witness gap in V0\ncore; keep schemas forward-compatible for `witness`/signature fields.",
-   "id": "9ab6598d",
-   "hash": "71cde436724b"
-  },
-  {
-   "type": "para",
-   "text": "**关键澄清 / Key clarification**：本地签名 ≠ 历史锁死。密钥持有者永远能重签\n一份自洽假历史。\"写了就永远在\"只能靠外部见证，别把它排进本地线的预期。 /\nLocal signing never locks history — the key holder can always re-sign a\nconsistent fake. \"Written once, evident forever\" is witness-only.",
-   "id": "5ddb2664",
-   "hash": "78afc4809526"
-  },
-  {
-   "type": "para",
-   "text": "---",
-   "id": "95496cc2",
-   "hash": "f1624c9c50ca"
+   "text": "Legacy events without `artifact_id` remain readable by path. Once an artifact receives an ID, later renames retain identity through the marker.",
+   "id": "6e3b89fd",
+   "hash": "759819d61df1"
   },
   {
    "type": "heading",
-   "text": "## 3. 区块链：默认不做 / Blockchain: default no",
-   "id": "9d9e66d6",
-   "hash": "e334d6278383"
+   "text": "## 3. Carriers",
+   "id": "3c838116",
+   "hash": "463484a5e5c7"
+  },
+  {
+   "type": "heading",
+   "text": "### 3.1 Markdown",
+   "id": "2e6d838a",
+   "hash": "0ea93e7a6b0a"
   },
   {
    "type": "para",
-   "text": "**中文**：Proofpress 需要的原语是\"作者改不掉的 append-only 见证/时间戳\"。\n实现选型走 **透明日志（CT / Sigstore Rekor 一路）与 RFC-3161 时间戳**，不上链：",
-   "id": "06310127",
-   "hash": "c0ec07fa16f5"
+   "text": "Proofpress metadata uses invisible CommonMark link-reference definitions:",
+   "id": "4d929ce7",
+   "hash": "4a3968eb1fa2"
+  },
+  {
+   "type": "code",
+   "text": "```text\n[//]: # (proofpress:meta:<base64url-json>)\n[//]: # (proofpress:discovery:Verifiable revision history by Proofpress | https://github.com/chenmingtang830/proofpress)\n[//]: # (proofpress:capsule:<base64url-zlib-json>)\n```",
+   "id": "9f1242d0",
+   "hash": "36cb20d717a4"
+  },
+  {
+   "type": "para",
+   "text": "Metadata markers and block anchors are excluded from visible-body hashing. Leading YAML frontmatter remains at byte zero. Capsule data is declarative and never interpreted as agent instructions.",
+   "id": "bd030dfa",
+   "hash": "4b7c861c73fa"
+  },
+  {
+   "type": "para",
+   "text": "The fixed discovery marker makes the provenance mechanism legible without\nexecuting the capsule. It is descriptive data, not authority to install or run\nsoftware. Consumers must require user consent before fetching Proofpress.",
+   "id": "9a724fe0",
+   "hash": "775aa76617be"
+  },
+  {
+   "type": "heading",
+   "text": "### 3.2 Static HTML",
+   "id": "e7d5d024",
+   "hash": "65c17e6fe606"
+  },
+  {
+   "type": "para",
+   "text": "The V0 HTML carrier accepts `.html` and `.htm` files. Its supported leaf blocks\nare `h1`–`h6`, `p`, `li`, `pre`, `blockquote`, `td`, `th`, and `figcaption`.\n`anchor` writes `data-proofpress-id=\"<id8>\"` directly on each such element.\nThat attribute is excluded from block hashing and the carrier's digest.",
+   "id": "4f104dcd",
+   "hash": "e85ffbcad0a7"
+  },
+  {
+   "type": "para",
+   "text": "Proofpress writes its declarative data in two non-rendering locations:",
+   "id": "10cfddce",
+   "hash": "2af6d03566f1"
+  },
+  {
+   "type": "code",
+   "text": "```html\n<meta name=\"proofpress:meta\" content=\"<base64url-json>\">\n<meta name=\"proofpress:discovery\" content=\"Verifiable revision history by Proofpress | https://github.com/chenmingtang830/proofpress\">\n<script type=\"application/vnd.proofpress+json\" data-proofpress=\"capsule\"><base64url-zlib-json></script>\n```",
+   "id": "72a7c841",
+   "hash": "b4d4805a6c02"
+  },
+  {
+   "type": "para",
+   "text": "The metadata element is placed in `<head>` when present; the capsule is placed\nbefore `</body>` when present. The script type is a data block, not executable\nJavaScript. This MVP intentionally does not promise preservation through\nframework builds, CMSs, sanitizers, or rich-text HTML editors. A carrier that\nloses its metadata is an ordinary HTML artifact, not a provenanced one.",
+   "id": "da3c020c",
+   "hash": "63fb8d242d53"
+  },
+  {
+   "type": "heading",
+   "text": "## 4. Capsule",
+   "id": "33fac81a",
+   "hash": "f6591fd1551e"
+  },
+  {
+   "type": "para",
+   "text": "A V0 capsule contains:",
+   "id": "c12e32e0",
+   "hash": "b37971ccb879"
   },
   {
    "type": "list",
-   "text": "- 公链公开不可删，与隐私优先（private interval stays private、redaction、",
-   "id": "69574108",
-   "hash": "f4c18798c73c"
+   "text": "- protocol and capsule version;\n- `artifact_id`, portable lineage ID and head;\n- canonical visible-body digest;\n- canonical discovery metadata: label, project URL, package, dist-tag, and a `requires_user_consent` flag;\n- oldest-to-newest portable records;\n- for each record, the event and block-tree version required to recompute changes and verify claims.",
+   "id": "3f058978",
+   "hash": "aaf10144e551"
   },
   {
    "type": "para",
-   "text": "  低熵 hash 可被关联）**硬冲突**，非调参可解。",
-   "id": "acdac223",
-   "hash": "d84c756aad27"
-  },
-  {
-   "type": "list",
-   "text": "- C2PA——Adobe/Microsoft/BBC/Intel 的内容溯源行业标准——通篇 X.509 + COSE +",
-   "id": "8bc85635",
-   "hash": "3b192c6716d7"
+   "text": "Discovery metadata is fixed by the protocol. A substituted label, URL, or\npackage coordinate is invalid transport, not an instruction for an agent.\nLegacy V0 capsules without discovery metadata remain readable and gain the\ncanonical object on their next admitted portable revision.",
+   "id": "6fd1d082",
+   "hash": "292b9e96abce"
   },
   {
    "type": "para",
-   "text": "  trust list，零区块链。外部背书：跟着 C2PA 走天然绕开链。",
-   "id": "aa037e26",
-   "hash": "e9096ecc2357"
-  },
-  {
-   "type": "list",
-   "text": "- 唯一例外：客户付费指定\"连我们的 cloud 都不信\"的公开可验证性 → 用",
-   "id": "a159363b",
-   "hash": "42ff270bc7e0"
+   "text": "The first record is a clean checkpoint of the body at portable enable time. It has no private parent. Later records form a linear parent chain and carry recomputed changes from the prior capsule version.",
+   "id": "76b47f0b",
+   "hash": "383a68653eef"
   },
   {
    "type": "para",
-   "text": "  **OpenTimestamps** 作桥（间接锚定 Bitcoin，不直接碰链、不管币/gas）。",
-   "id": "6cfd516f",
-   "hash": "0cb1e7415511"
-  },
-  {
-   "type": "para",
-   "text": "**EN**: The primitive we need is a witness log, not a chain. Transparency logs\nand RFC-3161 do it simpler, cheaper, private-by-default; public chains hard-\nconflict with the privacy invariants. C2PA itself ships on PKI with zero\nblockchain. Sole exception: a paying customer demanding trust-nobody public\nverifiability → bridge via OpenTimestamps. Otherwise blockchain is a\nliability, not an asset.",
-   "id": "a39e0ffc",
-   "hash": "3b4ac3688c39"
-  },
-  {
-   "type": "para",
-   "text": "---",
-   "id": "0942d47e",
-   "hash": "f1624c9c50ca"
+   "text": "The V0 capsule is tamper-evident against accidental modification and internally inconsistent rewrites; it is not signed proof of authorship. A future signature addresses third-party forgery only; making the holder's own wholesale replacement evident additionally requires an external trusted head (witness) outside this contract's scope.",
+   "id": "778b7a88",
+   "hash": "42674b701a0c"
   },
   {
    "type": "heading",
-   "text": "## 4. C2PA 是路线图锚 / C2PA as the roadmap anchor",
-   "id": "a85f7e4c",
-   "hash": "62811ab5c7bb"
+   "text": "## 5. Admission",
+   "id": "0afdc784",
+   "hash": "8c8e985bae9e"
   },
   {
    "type": "para",
-   "text": "**中文**：结构演进以 [C2PA_REFERENCE.md](../competition_ref/C2PA_REFERENCE.md) 为锚：三种\nbinding 分开做（hard 已有 → soft 本地指纹 → signature 占位）、Ingredients\n多父溯源、`attribution_basis` 阶梯加 `signed` 一格。跳过二进制格式\n（JUMBF/CBOR），保住 claims-vs-diff 这个 C2PA 没有的差异化。采纳顺序见该文\n§5。",
-   "id": "06986e8d",
-   "hash": "dfb6f8de2394"
+   "text": "The engine snapshots only when explicitly invoked by an agent/user or by best-effort fallback capture. Skills must invoke snapshots for accepted artifact versions, not every conversational turn.",
+   "id": "310be181",
+   "hash": "e949c3e83039"
   },
   {
    "type": "para",
-   "text": "**EN**: Structural evolution anchors on the C2PA reference: three bindings as\nthree separate jobs, multi-parent Ingredients, one `signed` rung on the\nexisting ladder. Skip binary formats; keep the claims-vs-diff differentiator\nC2PA lacks. Adoption order lives in that doc's §5.",
-   "id": "62a5fa4e",
-   "hash": "5ea610942652"
+   "text": "`--rejected` is used only for consequential rejections. The engine never infers rejected alternatives from raw conversation.",
+   "id": "252e1721",
+   "hash": "d27c1a1b4176"
+  },
+  {
+   "type": "para",
+   "text": "Raw prompts, transcripts, tool traces and private source payloads are not accepted by default fields and are never automatically embedded.",
+   "id": "6a605dfd",
+   "hash": "1673158862fd"
+  },
+  {
+   "type": "heading",
+   "text": "## 6. Actors and attribution",
+   "id": "33a06d7a",
+   "hash": "5c4b6d3af072"
+  },
+  {
+   "type": "para",
+   "text": "New events may carry:",
+   "id": "007bf457",
+   "hash": "0cdcc68304bc"
+  },
+  {
+   "type": "code",
+   "text": "```text\nrequested_by\nproduced_by\nedited_by\nrecorded_by\nattribution_basis\n```",
+   "id": "20097a6a",
+   "hash": "64d974ef7c3d"
+  },
+  {
+   "type": "para",
+   "text": "The compatibility `author` field remains. A fallback hook supplies only `recorded_by`; it must not claim that the recorder produced or edited the body. Unknown fields remain absent/unknown.",
+   "id": "3f0d3e6c",
+   "hash": "7c57c12627ad"
+  },
+  {
+   "type": "para",
+   "text": "`attribution_basis` ranges over `unknown`, `self_asserted`,\n`environment_attested`, `harness_attested`, and `signed`. The `signed` rung is\nreserved: until cryptographic signing is implemented, the engine rejects it at\nwrite time, because accepting it would grade attribution above what is actually\nattested. A future signature stops third-party forgery of authorship; it does\nnot, by itself, make the key holder's own history rewrites evident — that\nrequires an external witness outside this contract's scope.",
+   "id": "e282bc91",
+   "hash": "1fa0d23e9ef3"
+  },
+  {
+   "type": "heading",
+   "text": "## 7. Snapshot behavior",
+   "id": "88f2f126",
+   "hash": "337b3ff70ee4"
+  },
+  {
+   "type": "para",
+   "text": "For an `ignored` artifact, `snapshot` reports a skip and writes no event.",
+   "id": "3b6c9496",
+   "hash": "955d2633f296"
+  },
+  {
+   "type": "para",
+   "text": "For `local`, `snapshot` writes the normal ledger event and leaves the file without a capsule.",
+   "id": "02476d42",
+   "hash": "0104b6209cdd"
+  },
+  {
+   "type": "para",
+   "text": "For `portable`, `snapshot`:",
+   "id": "5127f589",
+   "hash": "311e17791346"
+  },
+  {
+   "type": "list",
+   "text": "1. parses the visible body and existing capsule;\n2. computes the ledger change;\n3. writes the local/Git event;\n4. recomputes the portable event relative to the capsule head;\n5. atomically rewrites metadata and capsule;\n6. leaves visible-body hashes unchanged.",
+   "id": "7b551bef",
+   "hash": "2c6c838ba0a3"
+  },
+  {
+   "type": "para",
+   "text": "Identical content remains a no-op.",
+   "id": "0c2606b9",
+   "hash": "9cc1b885bff5"
+  },
+  {
+   "type": "para",
+   "text": "When the caller supplies `--base-version`, the engine refuses to append unless\nthat version is still the current capsule or ledger head. This is the V0 stale\nwriter guard; reconciliation remains explicit rather than silently overwriting\nanother branch.",
+   "id": "a907c90f",
+   "hash": "df8ddf2483cc"
+  },
+  {
+   "type": "heading",
+   "text": "## 8. Drift and integrity",
+   "id": "42379dd1",
+   "hash": "52b79cfc55e8"
+  },
+  {
+   "type": "para",
+   "text": "`inspect` validates metadata, capsule decoding, artifact identity, event parent chain, version IDs and current body digest.",
+   "id": "beac56e1",
+   "hash": "4d96a73c9afc"
+  },
+  {
+   "type": "para",
+   "text": "Body changes without a new capsule produce `body_mismatch`. Capsule corruption produces `invalid_capsule` or `chain_mismatch`.",
+   "id": "e0d13a37",
+   "hash": "5d2d16823c08"
+  },
+  {
+   "type": "para",
+   "text": "`verify` checks capsule integrity before checking the latest ledger claims. It cannot silently report green when a portable file has drifted.",
+   "id": "948a3524",
+   "hash": "9eebe77f4d4d"
+  },
+  {
+   "type": "para",
+   "text": "Fallback capture may reconcile drift into a new event, but records only the recorder and observed time unless stronger attribution was explicitly supplied.",
+   "id": "155d84bf",
+   "hash": "e2c6da5b3877"
+  },
+  {
+   "type": "heading",
+   "text": "## 9. Local and re-enable transitions",
+   "id": "e3eb148f",
+   "hash": "558856abb534"
+  },
+  {
+   "type": "para",
+   "text": "`portable → local` strips the capsule and retains the local ledger.",
+   "id": "f7ea9bfb",
+   "hash": "a7a120bf6d0b"
+  },
+  {
+   "type": "para",
+   "text": "`local → portable` creates a new portable lineage whose first record is the current safe checkpoint. Local-only intermediate event IDs, actors, why, rejected values and omitted counts are not copied into the new capsule.",
+   "id": "0b96b1bd",
+   "hash": "ec173d1cd0dd"
+  },
+  {
+   "type": "para",
+   "text": "A clean export strips the capsule without changing the source artifact policy or ledger.",
+   "id": "a55f39c6",
+   "hash": "6032d573f809"
+  },
+  {
+   "type": "heading",
+   "text": "## 10. Import and copy",
+   "id": "e38b717d",
+   "hash": "cdc8dac99017"
+  },
+  {
+   "type": "para",
+   "text": "`import` verifies the capsule before writing its records into the receiver's Git ledger. Imported events retain `artifact_id` but use the receiver's current path as the local projection path.",
+   "id": "46afb332",
+   "hash": "34fbbef80d20"
+  },
+  {
+   "type": "para",
+   "text": "Copying only rendered text or stripping metadata yields an ordinary artifact. Proofpress does not claim provenance for it.",
+   "id": "77b016f2",
+   "hash": "4f77f5fc24e3"
+  },
+  {
+   "type": "para",
+   "text": "V0 detects a linear portable lineage. Automatic branch merge and server synchronization remain out of scope. Multi-parent provenance is expressed as ingredient references (§11), never as a branching capsule chain.",
+   "id": "a09187f6",
+   "hash": "3c8a3b869126"
+  },
+  {
+   "type": "heading",
+   "text": "## 11. Ingredients (merged lineage)",
+   "id": "7be34c98",
+   "hash": "7a2898a8f78b"
+  },
+  {
+   "type": "para",
+   "text": "An event may carry an `ingredients` array recording that its version merges\nother managed artifacts. Each entry is a reference, never copied history:",
+   "id": "0cbea376",
+   "hash": "b189af15aca5"
+  },
+  {
+   "type": "code",
+   "text": "```text\nartifact              projection path of the upstream artifact at merge time\nartifact_id           upstream identity\nversion               upstream head version referenced\nbody_digest           digest of that upstream head\nportable_lineage_id   present when the upstream artifact is portable\n```",
+   "id": "6cf8ddf3",
+   "hash": "2ccc7d8be557"
+  },
+  {
+   "type": "para",
+   "text": "`merge-lineage FILE --from A --from B` resolves each source's current head\n(ledger first, embedded capsule as fallback), records the references on a new\nsnapshot event, and refuses to run when the file content is unchanged — a merge\nevent without a merged version would be untruthful. The linear parent chain of\nthe merging artifact is untouched; ingredients are additive provenance and\ntravel inside the portable capsule like any other event field.",
+   "id": "6d5f3eb3",
+   "hash": "8f4af9872861"
+  },
+  {
+   "type": "para",
+   "text": "Ingredient references are recorded testimony about upstream heads at merge\ntime. The digests make them checkable by any holder of the upstream artifact;\nV0 does not automatically re-verify upstream lineage.",
+   "id": "bd118d53",
+   "hash": "32c98b361f89"
+  },
+  {
+   "type": "heading",
+   "text": "## 12. Soft binding fingerprint",
+   "id": "b6213711",
+   "hash": "8749a2cc8164"
+  },
+  {
+   "type": "para",
+   "text": "Every new event stores `soft_fingerprint`: the prefix `ppsb1:` plus a SHA-256\nof the normalized visible text skeleton. Normalization strips HTML tags and\nmarkdown link targets, decodes entities, and collapses all syntax and\nwhitespace down to word tokens, so the fingerprint survives formatting drift\n(plain-text copy, re-rendering, whitespace mangling) and flips on any wording\nchange. The algorithm prefix versions the normalization; a different scheme\nmust use a different prefix.",
+   "id": "92187060",
+   "hash": "dbdcf1661a45"
+  },
+  {
+   "type": "para",
+   "text": "`identify FILE` computes the fingerprint of any file — including one whose\nProofpress metadata and capsule were stripped — and looks it up in the local\nledger. Events admitted before this field existed are fingerprinted on demand,\nso legacy ledgers remain searchable. Exit code 0 means identified, 1 means no\nmatch.",
+   "id": "e587e369",
+   "hash": "08f297fffc75"
+  },
+  {
+   "type": "para",
+   "text": "Soft binding answers identity (\"this is `pp_xxx`\"), not integrity: a match\nproves this exact text skeleton was admitted before, not that the file was\nnever altered. V0 ships the exact tier only — a copy with even one wording\nchange does not match, which is the intended boundary until a near-match tier\nexists.",
+   "id": "e5011c19",
+   "hash": "8d7a98058b87"
+  },
+  {
+   "type": "heading",
+   "text": "## 13. Commands",
+   "id": "9a42e03d",
+   "hash": "aae019fd096d"
+  },
+  {
+   "type": "code",
+   "text": "```text\nproofpress policy FILE [ignored|local|portable]\nproofpress snapshot FILE [...actors, claims, why, rejected]\nproofpress inspect FILE [--json]\nproofpress import FILE\nproofpress clean FILE --output OUT\nproofpress capture --recorder NAME\nproofpress merge-lineage FILE --from A [--from B ...]\nproofpress identify FILE [--json]\n```",
+   "id": "4de6039d",
+   "hash": "445b4d0d46af"
+  },
+  {
+   "type": "para",
+   "text": "Existing `log`, `diff`, `show`, `verify`, `ingest`, `anchor`, `blocks`, `init`, `sync` and `export` remain compatible.",
+   "id": "ef9d25b6",
+   "hash": "923a40499cdc"
+  },
+  {
+   "type": "heading",
+   "text": "## 14. Acceptance criteria",
+   "id": "41921bbb",
+   "hash": "c474cd398773"
+  },
+  {
+   "type": "list",
+   "text": "1. A portable v1 produces a valid self-contained capsule.\n2. An accepted v2 updates the capsule without another policy prompt.\n3. `local` snapshots never embed a capsule; `ignored` snapshots are skipped.\n4. Casual discussion produces no event unless a caller explicitly snapshots.\n5. Consequential rejection travels only when supplied with `--rejected`.\n6. Manual body edits fail inspect/verify until reconciled.\n7. Corrupted capsule data fails inspect/verify.\n8. Fallback capture does not claim `produced_by` or `edited_by`.\n9. Making an artifact local strips the current capsule and cannot alter old copies.\n10. Re-enabling portable starts from a clean checkpoint and leaks no private interval metadata.\n11. Clean export contains no capsule and does not mutate the source ledger.\n12. Import into a clean repository restores a verifiable ledger and identity.\n13. A stale `--base-version` is rejected before an event is written.\n14. A static HTML portable artifact uses native `data-proofpress-id` anchors and survives a raw-file handoff.\n15. `merge-lineage` records ingredient references (identity, version, digest) without copying upstream history, and refuses to record when the file content is unchanged.\n16. `identify` recognizes a stripped, reformatted copy on a machine holding the ledger, and does not match rewritten content.\n17. `--attribution-basis signed` is rejected until cryptographic signing is implemented.",
+   "id": "6cddbfcc",
+   "hash": "654510127349"
   }
  ]
 }

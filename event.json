@@ -1,35 +1,136 @@
 {
  "event": "version_created",
- "artifact": "docs/internal/decision_strategy/TRUST_BOUNDARY_DECISION.md",
- "artifact_id": "pp_e3f14cc8e799c5c0e8edb317",
- "version": "ec0d76c5",
- "parent": "22b084e1",
+ "artifact": "docs/PORTABLE_ARTIFACT_SPEC.md",
+ "artifact_id": "pp_651b6bcc5c2503e2a2ea2a5f",
+ "version": "8bb1965e",
+ "parent": "ab1715d9",
  "author": {
   "name": "claude",
   "kind": "agent",
   "session": null
  },
- "note": "relative links fixed after docs/internal reorganization into decision_strategy/ and competition_ref/",
- "ts": "2026-07-24T04:14:02+00:00",
+ "note": "spec catches up with shipped V0: ingredients (§11), soft binding fingerprint (§12), signed rung reserved (§6), acceptance criteria 15-17",
+ "ts": "2026-07-24T04:28:38+00:00",
  "stats": {
-  "modified": 2
+  "modified": 6,
+  "added": 10
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "20ec0182",
+   "block": "778b7a88",
    "type": "para",
-   "context": "信任边界决定 / Trust Boundary Decision Note"
+   "context": "4. Capsule"
+  },
+  {
+   "kind": "added",
+   "block": "e282bc91",
+   "type": "para",
+   "context": "6. Actors and attribution",
+   "preview": "`attribution_basis` ranges over `unknown`, `self_asserted`,\n"
   },
   {
    "kind": "modified",
-   "block": "06986e8d",
+   "block": "a09187f6",
    "type": "para",
-   "context": "4. C2PA 是路线图锚 / C2PA as the roadmap anch"
+   "context": "10. Import and copy"
+  },
+  {
+   "kind": "modified",
+   "block": "7be34c98",
+   "type": "heading",
+   "context": "11. Ingredients (merged lineage)"
+  },
+  {
+   "kind": "added",
+   "block": "0cbea376",
+   "type": "para",
+   "context": "11. Ingredients (merged lineage)",
+   "preview": "An event may carry an `ingredients` array recording that its"
+  },
+  {
+   "kind": "added",
+   "block": "6cf8ddf3",
+   "type": "code",
+   "context": "11. Ingredients (merged lineage)",
+   "preview": "```text\nartifact              projection path of the upstrea"
+  },
+  {
+   "kind": "added",
+   "block": "6d5f3eb3",
+   "type": "para",
+   "context": "11. Ingredients (merged lineage)",
+   "preview": "`merge-lineage FILE --from A --from B` resolves each source'"
+  },
+  {
+   "kind": "added",
+   "block": "bd118d53",
+   "type": "para",
+   "context": "11. Ingredients (merged lineage)",
+   "preview": "Ingredient references are recorded testimony about upstream "
+  },
+  {
+   "kind": "added",
+   "block": "b6213711",
+   "type": "heading",
+   "context": "12. Soft binding fingerprint",
+   "preview": "## 12. Soft binding fingerprint"
+  },
+  {
+   "kind": "added",
+   "block": "92187060",
+   "type": "para",
+   "context": "12. Soft binding fingerprint",
+   "preview": "Every new event stores `soft_fingerprint`: the prefix `ppsb1"
+  },
+  {
+   "kind": "added",
+   "block": "e587e369",
+   "type": "para",
+   "context": "12. Soft binding fingerprint",
+   "preview": "`identify FILE` computes the fingerprint of any file — inclu"
+  },
+  {
+   "kind": "added",
+   "block": "e5011c19",
+   "type": "para",
+   "context": "12. Soft binding fingerprint",
+   "preview": "Soft binding answers identity (\"this is `pp_xxx`\"), not inte"
+  },
+  {
+   "kind": "added",
+   "block": "9a42e03d",
+   "type": "heading",
+   "context": "13. Commands",
+   "preview": "## 13. Commands"
+  },
+  {
+   "kind": "modified",
+   "block": "4de6039d",
+   "type": "code",
+   "context": "13. Commands"
+  },
+  {
+   "kind": "modified",
+   "block": "41921bbb",
+   "type": "heading",
+   "context": "14. Acceptance criteria",
+   "numbers": [
+    [
+     "12.",
+     "14."
+    ]
+   ]
+  },
+  {
+   "kind": "modified",
+   "block": "6cddbfcc",
+   "type": "list",
+   "context": "14. Acceptance criteria"
   }
  ],
  "policy": "local",
- "soft_fingerprint": "ppsb1:ce19a347127eb5de04c55d1078683c28b6c1a54f9fdcffd9a5c9482a18607ea5",
+ "soft_fingerprint": "ppsb1:4d2bce3a33ad981d84142460476a23ed3de77dd3f6dd88a06082a0908c353e60",
  "actors": {
   "requested_by": [
    "chenmingtang830"
@@ -41,5 +142,8 @@
    "claude"
   ]
  },
- "attribution_basis": "harness_attested"
+ "attribution_basis": "harness_attested",
+ "context": {
+  "why": "merge-lineage, identify and soft_fingerprint shipped with tests but were absent from the public contract; a spec that trails the implementation invites incompatible reimplementations"
+ }
 }
