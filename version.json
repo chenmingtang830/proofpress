@@ -1,78 +1,114 @@
 {
- "artifact": "docs/internal/launch/film/videos/proofpress-x-launch/frame.md",
- "artifact_id": "pp_e898337d3768f36e95e7fec4",
+ "artifact": "docs/internal/launch/film/videos/proofpress-x-launch/STORYBOARD.md",
+ "artifact_id": "pp_8c77d559019ae583c734e303",
  "blocks": [
   {
    "type": "para",
-   "text": "---\ncolors:\n  film: \"#101013\"\n  film_raised: \"#16171B\"\n  paper: \"#EDEAE2\"\n  paper_dim: \"#E3E0D6\"\n  ink_on_dark: \"#EAE8E0\"\n  ink_on_paper: \"#20222B\"\n  ink_dim: \"#8E939D\"\n  teal: \"#2E8FA3\"\n  teal_bright: \"#5FB3C4\"\n  teal_deep: \"#0E5E6F\"\n  verified: \"#6FBF8E\"\ntypography:\n  display: '\"Barlow Condensed\"'\n  editorial: '\"Newsreader\"'\n  mono: '\"IBM Plex Mono\"'\nspacing:\n  safe: \"6%\"\n  micro: \"12px\"\n  small: \"24px\"\n  medium: \"48px\"\n  large: \"80px\"\ncomponents:\n  corner_radius: \"0px\"\n  rule: \"2px\"\n  paper_shadow: \"0 28px 80px rgba(0,0,0,.34)\"\n---",
-   "hash": "c4064be78765",
-   "id": "17a7a1da"
+   "text": "---\nformat: 1280x720\nduration: \"4s per comparison\"\nmessage: \"The Proofpress ledger travels with the artifact, so the next session can continue from verified history.\"\narc: \"stranded context → portable ledger → informed continuation\"\naudience: \"developers, AI builders, and teams adopting multiplayer AI\"\nmode: collaborative\nmusic: none\nsfx: local-procedural\n---",
+   "hash": "3352effca172",
+   "id": "5fcecb01"
   },
   {
    "type": "heading",
-   "text": "# Proofpress launch-film comparison system",
-   "id": "ab096070",
-   "hash": "f144a4a3c0b2"
-  },
-  {
-   "type": "heading",
-   "text": "## Shared brand truth",
-   "id": "12c5a925",
-   "hash": "84b47df86ae0"
+   "text": "# Visual direction gate",
+   "id": "a37b334b",
+   "hash": "00b48975ef93"
   },
   {
    "type": "para",
-   "text": "The artifact is a warm paper knowledge object with a teal Proofpress seal. The\nsurrounding sessions may change, but the artifact's geometry and teal identity\nremain continuous. Display type is condensed and declarative; ledger content is\nmonospaced; editorial type is reserved for reflective or protocol language.",
-   "id": "39159d89",
-   "hash": "ce296b4e92d7"
+   "text": "These three frames are alternative treatments of the same four-second proof\nmoment. Content, timing, artifact geometry, and SFX remain constant so the review\nisolates visual language rather than story.",
+   "id": "d145f2d9",
+   "hash": "1cc7fa97ba87"
   },
   {
    "type": "heading",
-   "text": "## Variant A — Editorial Ledger",
-   "id": "ff6159e2",
-   "hash": "991bf6bec9e5"
+   "text": "## Video direction",
+   "id": "1cb97ce0",
+   "hash": "559c8833ff45"
   },
   {
    "type": "para",
-   "text": "Near-black field, warm paper artifact, generous negative space, asymmetric\nmagazine hierarchy, hairline registration marks, and dry typographic cuts.\nLedger rows feel printed and admitted, not rendered as a SaaS dashboard.",
-   "id": "ec4d7d73",
-   "hash": "c3edf725e48e"
+   "text": "The artifact is the continuous subject. At the opening, it sits between Session\nA and Session B with three admitted-history threads visibly stranded on the\nleft. Across the middle two seconds, the threads fold into the artifact's teal\nseal, the artifact crosses the handoff, and the ledger reopens in Session B.\nEnd on the concrete consequence: `continue from v2`.",
+   "id": "24fe55ad",
+   "hash": "0eccddd3106c"
+  },
+  {
+   "type": "para",
+   "text": "Motion uses smooth `power3` settles, one continuous artifact transform, SVG\nline-draw, and card morph-anchor. Content reveals sequentially through the back\nhalf and then holds. No slideshow front-load, screensaver drift, bounce,\nsecurity theater, fake product UI, or claims that attributed context was\ncryptographically verified.",
+   "id": "ea423b63",
+   "hash": "c3e39f5898c3"
   },
   {
    "type": "heading",
-   "text": "## Variant B — Paper Protocol",
-   "id": "776e7b62",
-   "hash": "0d0dcc05dfc7"
+   "text": "## Frame 1 — Editorial Ledger",
+   "id": "59cc7c60",
+   "hash": "d4baa8bbcf11"
+  },
+  {
+   "type": "list",
+   "text": "- scene: Dark editorial field; warm artifact folds its ledger into a teal seal and crosses into Session B.\n- duration: 4s\n- poster: 3.45s\n- transition_in: cut\n- status: rendered\n- src: previews/editorial-ledger.html\n- type: feature_showcase\n- persuasion: Show-don't-tell proof\n- beat: clarity + continuity\n- blueprint: compose\n- asset_candidates: assets/logo.svg — canonical Proofpress mark; capture/extracted/ledger-fixture.json — real fixture data\n- focal: artifact and portable ledger\n- roles: artifact = cutout; fixture ledger = supporting; session field = background\n- sfx: paper glide, ledger ticks, seal lock, capsule unfold",
+   "id": "58f88532",
+   "hash": "c07b9d4bf7f0"
   },
   {
    "type": "para",
-   "text": "Warm paper fills the frame. Sessions are page columns separated by binding\nrules. Black ink, teal stamps, folio numbers, and visible folding make the\nartifact feel like a portable protocol carried through publication.",
-   "id": "89222085",
-   "hash": "c0e151874beb"
+   "text": "Scene 1 (0.0–0.8s): asymmetric 70/30 editorial stage; artifact holds center while three thin admitted-history rails remain stranded at left, revealing one-by-one through SVG self-draw (`svg-path-draw`).\nScene 2 (0.8–2.45s): rails contract into the teal seal with a card morph-anchor (`card-morph-anchor`); the same artifact travels left-to-right on one smooth nudge curve (`nudge-curve`).\nScene 3 (2.45–4.0s): ledger rows unfold beside the artifact in Session B via waterfall entry (`waterfall-entry`); `continue from v2` resolves as the focal line and holds still.",
+   "id": "b2b234cf",
+   "hash": "e6c74f7db1fe"
+  },
+  {
+   "type": "para",
+   "text": "narrativeRole: Prove that admitted decision history can move with the artifact.\nkeyMessage: Session B continues from the correct version because the ledger traveled.",
+   "id": "d432e9a6",
+   "hash": "68adfb823313"
   },
   {
    "type": "heading",
-   "text": "## Variant C — Living Lineage",
-   "id": "4ebaad9d",
-   "hash": "e73349003342"
+   "text": "## Frame 2 — Paper Protocol",
+   "id": "74b9a0e4",
+   "hash": "23918b839396"
+  },
+  {
+   "type": "list",
+   "text": "- scene: Warm publication spread; a page folds its ledger into the seal, crosses the binding, and opens on the receiving page.\n- duration: 4s\n- poster: 3.45s\n- transition_in: cut\n- status: rendered\n- src: previews/paper-protocol.html\n- type: feature_showcase\n- persuasion: Tangible protocol metaphor\n- beat: inheritance + confidence\n- blueprint: compose\n- asset_candidates: assets/logo.svg — canonical Proofpress mark; capture/extracted/ledger-fixture.json — real fixture data\n- focal: artifact crossing the binding\n- roles: artifact = cutout; fixture ledger = supporting; paper spread = background\n- sfx: paper glide, ledger ticks, seal lock, capsule unfold",
+   "id": "a43b0524",
+   "hash": "f3d5ee991b51"
   },
   {
    "type": "para",
-   "text": "Charcoal field with a precise teal perspective grid and lineage graph. The grid\nreacts only to composition time and the artifact's path; it never depends on\npointer input or wall-clock animation. The result should read as infrastructure,\nnot security chrome.",
-   "id": "bfb8e3df",
-   "hash": "480ab796a9ce"
+   "text": "Scene 1 (0.0–0.8s): full-frame warm spread split by a binding rule; artifact sits on the left page while decision annotations stay behind as marginalia, revealed through SVG self-draw (`svg-path-draw`).\nScene 2 (0.8–2.45s): marginalia fold beneath the teal seal through card morph-anchor (`card-morph-anchor`); the artifact crosses the binding as one uninterrupted subject on a smooth nudge curve (`nudge-curve`).\nScene 3 (2.45–4.0s): receiving-page folio and ledger rows open sequentially via waterfall entry (`waterfall-entry`); the final line `continue from v2` is stamped and held.",
+   "id": "71550213",
+   "hash": "faa4e38cdef0"
+  },
+  {
+   "type": "para",
+   "text": "narrativeRole: Make portability physical and understandable without software chrome.\nkeyMessage: The decision ledger is attached to the artifact, not trapped in a session.",
+   "id": "119de5da",
+   "hash": "25476da84f92"
   },
   {
    "type": "heading",
-   "text": "## Motion doctrine",
-   "id": "27c1978a",
-   "hash": "5db7faa68c1e"
+   "text": "## Frame 3 — Living Lineage",
+   "id": "d7919dde",
+   "hash": "23c19ff6bef8"
+  },
+  {
+   "type": "list",
+   "text": "- scene: Charcoal lineage field; a deterministic grid bends toward the artifact as its decision graph compresses, crosses, and reconnects.\n- duration: 4s\n- poster: 3.45s\n- transition_in: cut\n- status: rendered\n- src: previews/living-lineage.html\n- type: feature_showcase\n- persuasion: Infrastructure proof\n- beat: precision + momentum\n- blueprint: compose\n- asset_candidates: assets/logo.svg — canonical Proofpress mark; capture/extracted/ledger-fixture.json — real fixture data\n- focal: artifact and reconnecting lineage\n- roles: artifact = cutout; fixture graph = supporting; perspective grid = background\n- sfx: paper glide, ledger ticks, seal lock, capsule unfold",
+   "id": "4e418e51",
+   "hash": "bd6940095287"
   },
   {
    "type": "para",
-   "text": "Use `power3` long-tail settles, transforms, opacity, SVG stroke drawing, and\nexplicit timeline states. The artifact remains one continuous subject. Do not\nuse bouncy entrances, breathing cards, floating particles, gradients, rounded\ndashboard chrome, random noise, infinite loops, or back-half camera drift.",
-   "id": "00f75942",
-   "hash": "306ba51d077e"
+   "text": "Scene 1 (0.0–0.8s): layered charcoal field with a deterministic teal perspective grid; Session A lineage nodes draw toward the stable artifact through SVG self-draw (`svg-path-draw`).\nScene 2 (0.8–2.45s): the graph collapses into the artifact seal via center-outward expansion run in reverse (`center-outward-expansion`); artifact crosses on a single smooth nudge curve (`nudge-curve`) while the grid's transform responds to the same timeline.\nScene 3 (2.45–4.0s): lineage reconnects in Session B and ledger rows arrive via waterfall entry (`waterfall-entry`); the verified claim gets the only bright-green check and the consequence line holds.",
+   "id": "f5d77c71",
+   "hash": "d683fb39b30f"
+  },
+  {
+   "type": "para",
+   "text": "narrativeRole: Show Proofpress as a protocol layer without implying identity, authorization, or cryptographic authorship.\nkeyMessage: Portable lineage lets the next session act on checked history.",
+   "id": "52ee1910",
+   "hash": "785f64a5ec28"
   }
  ]
 }
