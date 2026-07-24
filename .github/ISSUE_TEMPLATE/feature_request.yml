@@ -1,0 +1,27 @@
+name: Feature request
+description: Propose a capability or contract change
+labels: [enhancement]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What real workflow breaks or hurts today? Concrete scenarios beat abstractions.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed behavior
+      description: What should Proofpress do, at the CLI/spec level?
+    validations:
+      required: true
+  - type: checkboxes
+    id: scope
+    attributes:
+      label: Scope check
+      options:
+        - label: This is about Markdown/static-HTML knowledge artifacts, not source code versioning
+          required: true
+        - label: This does not require claiming tamper-proof (Proofpress is tamper-evident by design)
+          required: true
