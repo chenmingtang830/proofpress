@@ -1,29 +1,29 @@
 {
  "event": "version_created",
- "artifact": "skills/claude-code/proofpress/SKILL.md",
- "artifact_id": "pp_8f9f160826e336a46eb62bd4",
- "version": "835d9c4b",
- "parent": "3ea9ad0d",
+ "artifact": "skills/codex/AGENTS-snippet.md",
+ "artifact_id": "pp_703c3fa926abb512e7199332",
+ "version": "4184bbd9",
+ "parent": "3c2ad53c",
  "author": {
   "name": "codex",
   "kind": "agent",
   "session": null
  },
  "note": null,
- "ts": "2026-07-24T23:41:04+00:00",
+ "ts": "2026-07-24T23:41:06+00:00",
  "stats": {
   "modified": 1
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "e96a23df",
+   "block": "bc88257e",
    "type": "para",
-   "context": "Workflow"
+   "context": "Proofpress: ledger Markdown and static H"
   }
  ],
  "policy": "local",
- "soft_fingerprint": "ppsb1:2b9c960ca13a04da69c9ee90784b796217661e971105ecd558bcc77ae2e65792",
+ "soft_fingerprint": "ppsb1:5c9b281006bc4609c1f862d7c2bca06d6df550c8e909e0e9739f5844fbe11e03",
  "actors": {
   "requested_by": [
    "richardtang"
@@ -41,7 +41,7 @@
  "attribution_basis": "environment_attested",
  "claims": [
   {
-   "block": "e96a23df",
+   "block": "bc88257e",
    "kind": "modified",
    "note": "Updated consent-first installation guidance to name the stable package."
   }
