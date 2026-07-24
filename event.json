@@ -1,29 +1,37 @@
 {
  "event": "version_created",
- "artifact": "README.md",
- "artifact_id": "pp_556b115de711b0cd33eed260",
- "version": "8d97c670",
- "parent": "e3265adb",
+ "artifact": "skills/README.md",
+ "artifact_id": "pp_e74be09a9d28f1855db4a007",
+ "version": "53cf9f49",
+ "parent": "9780c0b4",
  "author": {
   "name": "codex",
   "kind": "agent",
   "session": null
  },
- "note": "Explain ledger-aware manual-edit capture",
- "ts": "2026-07-24T05:29:28+00:00",
+ "note": "Add human-drift preflight contract",
+ "ts": "2026-07-24T05:29:29+00:00",
  "stats": {
-  "modified": 1
+  "modified": 1,
+  "added": 1
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "5e0b34ed",
+   "block": "1744e48a",
+   "type": "table",
+   "context": "Proofpress harness adapters"
+  },
+  {
+   "kind": "added",
+   "block": "666c5555",
    "type": "para",
-   "context": "What gets recorded"
+   "context": "Shared contract",
+   "preview": "Before editing an existing target, run `capture --recorder\n<"
   }
  ],
  "policy": "local",
- "soft_fingerprint": "ppsb1:877f788ee889719ce75b1f4aab703c1cf536f5f74f388193db616d7d310c3235",
+ "soft_fingerprint": "ppsb1:cb472d6fed3484f0d36dc01a61edd601283cf6eaaed9e6ab9ca08ac6a7dcf00b",
  "actors": {
   "requested_by": [
    "Richard"
@@ -41,12 +49,17 @@
  "attribution_basis": "harness_attested",
  "claims": [
   {
-   "block": "5e0b34ed",
+   "block": "1744e48a",
    "kind": "modified",
-   "note": "Document ledger-aware fallback capture and preflight separation of human drift."
+   "note": "Expand fallback capture coverage beyond Git candidates."
+  },
+  {
+   "block": "666c5555",
+   "kind": "added",
+   "note": "Require a preflight capture before an agent edits an existing artifact."
   }
  ],
  "context": {
-  "why": "make manual editing safe without requiring nontechnical users to run commands"
+  "why": "let harnesses preserve human edits before agent-authored revisions"
  }
 }
