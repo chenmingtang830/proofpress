@@ -2,99 +2,64 @@
  "event": "version_created",
  "artifact": "docs/internal/launch/film/videos/proofpress-x-launch/storyboard-final-dark/index.html",
  "artifact_id": "pp_9a4c438bf0324e5b9c13cbcb",
- "version": "56921860",
- "parent": null,
+ "version": "7bef2826",
+ "parent": "56921860",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-07-24T19:45:03+00:00",
+ "ts": "2026-07-24T20:03:25+00:00",
  "stats": {
-  "added": 11
+  "added": 5,
+  "modified": 1
  },
  "changes": [
   {
    "kind": "added",
-   "block": "759a3b0c",
-   "type": "heading",
-   "context": "<h1><span class=\"line\">Introducing</span",
-   "preview": "<h1><span class=\"line\">Introducing</span><span class=\"line a"
-  },
-  {
-   "kind": "added",
-   "block": "64155669",
+   "block": "e82bfd09",
    "type": "para",
-   "context": "<h1><span class=\"line\">Introducing</span",
-   "preview": "<p class=\"category-lockup\"><span class=\"line\">The trust laye"
-  },
-  {
-   "kind": "added",
-   "block": "f6a1b046",
-   "type": "para",
-   "context": "<h1><span class=\"line\">Introducing</span",
-   "preview": "<p class=\"boundary-lockup\"><strong class=\"line\">An open, age"
-  },
-  {
-   "kind": "added",
-   "block": "201d1214",
-   "type": "heading",
-   "context": "<h1>The file <span class=\"accent\">travel",
-   "preview": "<h1>The file <span class=\"accent\">travels.</span></h1>"
-  },
-  {
-   "kind": "added",
-   "block": "e24bf216",
-   "type": "heading",
-   "context": "<h1>Its decision trail <span class=\"acce",
-   "preview": "<h1>Its decision trail <span class=\"accent\">stays behind.</s"
-  },
-  {
-   "kind": "added",
-   "block": "6abc0aaa",
-   "type": "heading",
    "context": "<h1>Portable <span class=\"accent\">ledger",
-   "preview": "<h1>Portable <span class=\"accent\">ledger.</span></h1>"
+   "preview": "<p class=\"ledger-value\">Focused the launch on design partner"
   },
   {
    "kind": "added",
-   "block": "ca5926cb",
-   "type": "heading",
+   "block": "e3b764a4",
+   "type": "para",
+   "context": "<h1>Portable <span class=\"accent\">ledger",
+   "preview": "<p class=\"ledger-value\">Pilot teams need guided onboarding</"
+  },
+  {
+   "kind": "added",
+   "block": "1f9bb59b",
+   "type": "para",
+   "context": "<h1>Portable <span class=\"accent\">ledger",
+   "preview": "<p class=\"ledger-value\">Open self-serve launch</p>"
+  },
+  {
+   "kind": "added",
+   "block": "bf73fa19",
+   "type": "para",
    "context": "<h1><span class=\"line\">Reason stated.</s",
-   "preview": "<h1><span class=\"line\">Reason stated.</span><span class=\"lin"
+   "preview": "<p class=\"proof-s\">Pilot teams need guided onboarding.</p>"
   },
   {
    "kind": "added",
-   "block": "3f835c8a",
-   "type": "heading",
-   "context": "<h1>The ledger moves <span class=\"accent",
-   "preview": "<h1>The ledger moves <span class=\"accent\">with the artifact."
+   "block": "daf8b9de",
+   "type": "para",
+   "context": "<h1><span class=\"line\">Reason stated.</s",
+   "preview": "<p class=\"proof-s\"><b>✓ Design-partner launch added</b></p>"
   },
   {
-   "kind": "added",
+   "kind": "modified",
    "block": "a5e895fb",
    "type": "para",
-   "context": "<h1>The ledger moves <span class=\"accent",
-   "preview": "<p class=\"vision\"><span class=\"line\">Git made code</span><sp"
-  },
-  {
-   "kind": "added",
-   "block": "dd8ad99c",
-   "type": "heading",
-   "context": "<h1>Proofpress</h1>",
-   "preview": "<h1>Proofpress</h1>"
-  },
-  {
-   "kind": "added",
-   "block": "6d46097b",
-   "type": "para",
-   "context": "<h1>Proofpress</h1>",
-   "preview": "<p class=\"promise\"><span class=\"line\">Scale intelligence.</s"
+   "context": "<h1>The ledger moves <span class=\"accent"
   }
  ],
  "policy": "local",
- "soft_fingerprint": "ppsb1:0c701ce135850c4bceec40afcbe83a9dd46758e901548a95a1f08c67f11e2e19",
+ "soft_fingerprint": "ppsb1:c811ba01434b53a1f35ae3109c000bc18abbf693192377fad00ca0e9a5c8aaa0",
  "actors": {
   "requested_by": [
    "Richard Tang"
@@ -112,62 +77,32 @@
  "attribution_basis": "harness_attested",
  "claims": [
   {
-   "block": "759a3b0c",
+   "block": "e82bfd09",
    "kind": "added",
-   "note": "Added the compact launch introduction."
+   "note": "Added a concrete hypothetical edit to a launch strategy document."
   },
   {
-   "block": "64155669",
+   "block": "e3b764a4",
    "kind": "added",
-   "note": "Added the multiplayer AI category claim."
+   "note": "Added the attributed rationale for the hypothetical strategy edit."
   },
   {
-   "block": "f6a1b046",
+   "block": "1f9bb59b",
    "kind": "added",
-   "note": "Added the agent-native portable-ledger boundary."
+   "note": "Added the concrete alternative rejected in the hypothetical case."
   },
   {
-   "block": "201d1214",
+   "block": "bf73fa19",
    "kind": "added",
-   "note": "Added the artifact handoff setup."
+   "note": "Repeated the attributed rationale in the stated-versus-checked explanation."
   },
   {
-   "block": "e24bf216",
+   "block": "daf8b9de",
    "kind": "added",
-   "note": "Added the decision-trail handoff gap."
-  },
-  {
-   "block": "6abc0aaa",
-   "kind": "added",
-   "note": "Added the portable-ledger reveal using a real strategy revision."
-  },
-  {
-   "block": "ca5926cb",
-   "kind": "added",
-   "note": "Separated attributed rationale from a computed change check."
-  },
-  {
-   "block": "3f835c8a",
-   "kind": "added",
-   "note": "Added the portable proof resolution."
-  },
-  {
-   "block": "a5e895fb",
-   "kind": "added",
-   "note": "Added the Git-to-cumulative-intelligence vision bridge."
-  },
-  {
-   "block": "dd8ad99c",
-   "kind": "added",
-   "note": "Added the final Proofpress brand close."
-  },
-  {
-   "block": "6d46097b",
-   "kind": "added",
-   "note": "Added the scale-intelligence, preserve-trust vision line."
+   "note": "Added the computed claim that can be checked against the document diff."
   }
  ],
  "context": {
-  "why": "Replace placeholder ledger copy with a real Proofpress strategy revision, distinguish attributed rationale from computed verification, and expand the close into a cumulative-intelligence vision followed by an open-source call to action."
+  "why": "Replace self-referential Proofpress strategy content with a concrete hypothetical document revision, give edit/why/rejected distinct semantic colors, highlight cumulative intelligence rather than the brand name, and apply the official logo across every frame."
  }
 }

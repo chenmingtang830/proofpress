@@ -39,10 +39,40 @@
    "hash": "bdf00fb30cc4"
   },
   {
+   "type": "para",
+   "text": "<p class=\"ledger-value\">Focused the launch on design partners</p>",
+   "id": "e82bfd09",
+   "hash": "85d431f07a7a"
+  },
+  {
+   "type": "para",
+   "text": "<p class=\"ledger-value\">Pilot teams need guided onboarding</p>",
+   "id": "e3b764a4",
+   "hash": "e3908da2c0cf"
+  },
+  {
+   "type": "para",
+   "text": "<p class=\"ledger-value\">Open self-serve launch</p>",
+   "id": "1f9bb59b",
+   "hash": "878c34a41a3d"
+  },
+  {
    "type": "heading",
    "text": "<h1><span class=\"line\">Reason stated.</span><span class=\"line accent\">Change checked.</span></h1>",
    "id": "ca5926cb",
    "hash": "ccfdb8d7f036"
+  },
+  {
+   "type": "para",
+   "text": "<p class=\"proof-s\">Pilot teams need guided onboarding.</p>",
+   "id": "bf73fa19",
+   "hash": "a9c23d2b440d"
+  },
+  {
+   "type": "para",
+   "text": "<p class=\"proof-s\"><b>✓ Design-partner launch added</b></p>",
+   "id": "daf8b9de",
+   "hash": "cd756ed7a7cd"
   },
   {
    "type": "heading",
@@ -52,9 +82,9 @@
   },
   {
    "type": "para",
-   "text": "<p class=\"vision\"><span class=\"line\">Git made code</span><span class=\"line\">collaborative.</span><span class=\"line second\">Proofpress makes</span><span class=\"line\">intelligence cumulative.</span></p>",
+   "text": "<p class=\"vision\"><span class=\"line\">Git made code</span><span class=\"line\">collaborative.</span><span class=\"line second\">Proofpress makes</span><span class=\"line accent\">intelligence cumulative.</span></p>",
    "id": "a5e895fb",
-   "hash": "29bce616c960"
+   "hash": "4d8b0424a1de"
   },
   {
    "type": "heading",
