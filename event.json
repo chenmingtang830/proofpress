@@ -1,131 +1,217 @@
 {
  "event": "version_created",
- "artifact": "README.md",
- "artifact_id": "pp_556b115de711b0cd33eed260",
- "version": "7294e49f",
- "parent": "5bba8cbb",
+ "artifact": "docs/PORTABLE_ARTIFACT_SPEC.md",
+ "artifact_id": "pp_651b6bcc5c2503e2a2ea2a5f",
+ "version": "ce5f20f9",
+ "parent": "8bb1965e",
  "author": {
   "name": "codex",
   "kind": "agent",
   "session": null
  },
- "note": "document multiplayer portable merge workflow",
- "ts": "2026-07-25T20:42:24+00:00",
+ "note": "define portable capsule DAG and merge contract",
+ "ts": "2026-07-25T20:42:28+00:00",
  "stats": {
-  "modified": 5,
-  "added": 11
+  "modified": 20,
+  "added": 7
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "d6f9f208",
-   "type": "para",
-   "context": "Status"
-  },
-  {
-   "kind": "modified",
-   "block": "79416c44",
-   "type": "para",
-   "context": "What “portable” means"
-  },
-  {
-   "kind": "added",
-   "block": "5e991c72",
+   "block": "7437c9be",
    "type": "heading",
-   "context": "Two transport rails",
-   "preview": "### Two transport rails"
-  },
-  {
-   "kind": "added",
-   "block": "398568bb",
-   "type": "para",
-   "context": "Two transport rails",
-   "preview": "Inside GitHub, the Markdown/HTML file and its capsule travel"
-  },
-  {
-   "kind": "added",
-   "block": "a908fde7",
-   "type": "para",
-   "context": "Two transport rails",
-   "preview": "Outside GitHub, the original raw file is the transport. Its "
+   "context": "Portable Artifact V1 — Executable Contra"
   },
   {
    "kind": "modified",
-   "block": "bfc931ca",
+   "block": "b27d1410",
    "type": "para",
-   "context": "Two transport rails"
+   "context": "Portable Artifact V1 — Executable Contra"
+  },
+  {
+   "kind": "modified",
+   "block": "4f104dcd",
+   "type": "para",
+   "context": "3.2 Static HTML"
+  },
+  {
+   "kind": "modified",
+   "block": "c12e32e0",
+   "type": "para",
+   "context": "4. Capsule"
+  },
+  {
+   "kind": "modified",
+   "block": "3f058978",
+   "type": "list",
+   "context": "4. Capsule"
+  },
+  {
+   "kind": "modified",
+   "block": "76b47f0b",
+   "type": "para",
+   "context": "4. Capsule"
   },
   {
    "kind": "added",
-   "block": "47f21d3a",
+   "block": "a93fd2c1",
+   "type": "para",
+   "context": "4. Capsule",
+   "preview": "Version IDs identify body states; event IDs identify admissi"
+  },
+  {
+   "kind": "modified",
+   "block": "778b7a88",
+   "type": "para",
+   "context": "4. Capsule"
+  },
+  {
+   "kind": "modified",
+   "block": "a907c90f",
+   "type": "para",
+   "context": "7. Snapshot behavior"
+  },
+  {
+   "kind": "added",
+   "block": "12c384d0",
+   "type": "para",
+   "context": "7. Snapshot behavior",
+   "preview": "For a V1 DAG, `--base-event` is the precise stale-writer gua"
+  },
+  {
+   "kind": "modified",
+   "block": "beac56e1",
+   "type": "para",
+   "context": "8. Drift and integrity"
+  },
+  {
+   "kind": "modified",
+   "block": "46afb332",
+   "type": "para",
+   "context": "10. Import and copy"
+  },
+  {
+   "kind": "modified",
+   "block": "a09187f6",
+   "type": "para",
+   "context": "10. Import and copy"
+  },
+  {
+   "kind": "added",
+   "block": "6a0a916f",
    "type": "heading",
-   "context": "Parallel copies of the same document",
-   "preview": "### Parallel copies of the same document"
+   "context": "11. Parallel copies of one artifact",
+   "preview": "## 11. Parallel copies of one artifact"
   },
   {
    "kind": "added",
-   "block": "55bcd98e",
+   "block": "76ea412b",
    "type": "para",
-   "context": "Parallel copies of the same document",
-   "preview": "Portable files do not require Git to merge. Keep every origi"
+   "context": "11. Parallel copies of one artifact",
+   "preview": "`merge-plan TARGET --from COPY...` accepts portable Markdown"
   },
   {
    "kind": "added",
-   "block": "8f498c01",
-   "type": "code",
-   "context": "Parallel copies of the same document",
-   "preview": "```sh\npython3 proofpress.py merge-plan proposal-alice.md \\\n "
-  },
-  {
-   "kind": "added",
-   "block": "d4ed0d79",
+   "block": "08fef0ad",
    "type": "para",
-   "context": "Parallel copies of the same document",
-   "preview": "The command never rewrites the document. An agent can combin"
+   "context": "11. Parallel copies of one artifact",
+   "preview": "Changes to separate stable block IDs and identical results a"
   },
   {
    "kind": "added",
-   "block": "74883804",
-   "type": "code",
-   "context": "Parallel copies of the same document",
-   "preview": "```sh\npython3 proofpress.py anchor proposal-alice.md\npython3"
-  },
-  {
-   "kind": "added",
-   "block": "1575e201",
+   "block": "70ebd65c",
    "type": "para",
-   "context": "Parallel copies of the same document",
-   "preview": "All inputs must be portable copies of the same `artifact_id`"
+   "context": "11. Parallel copies of one artifact",
+   "preview": "After an agent or user writes the resolved visible body,\n`me"
+  },
+  {
+   "kind": "added",
+   "block": "c4357d18",
+   "type": "para",
+   "context": "11. Parallel copies of one artifact",
+   "preview": "The merge only unions records already disclosed in the suppl"
   },
   {
    "kind": "modified",
-   "block": "8deed5b3",
-   "type": "list",
-   "context": "Surfaces"
-  },
-  {
-   "kind": "added",
-   "block": "68addd0d",
-   "type": "para",
-   "context": "Surfaces",
-   "preview": "  working branches; portable capsules are the public per-fil"
-  },
-  {
-   "kind": "added",
-   "block": "cb5c6c0f",
-   "type": "list",
-   "context": "Surfaces",
-   "preview": "- `skills/`: Claude Code, Codex, Cursor, and Pi authoring co"
+   "block": "7be34c98",
+   "type": "heading",
+   "context": "12. Ingredients (merged lineage)",
+   "numbers": [
+    [
+     "11.",
+     "12."
+    ]
+   ]
   },
   {
    "kind": "modified",
-   "block": "820f39ab",
+   "block": "6d5f3eb3",
    "type": "para",
-   "context": "Surfaces"
+   "context": "12. Ingredients (merged lineage)"
+  },
+  {
+   "kind": "modified",
+   "block": "bd118d53",
+   "type": "para",
+   "context": "12. Ingredients (merged lineage)"
+  },
+  {
+   "kind": "modified",
+   "block": "b6213711",
+   "type": "heading",
+   "context": "13. Soft binding fingerprint",
+   "numbers": [
+    [
+     "12.",
+     "13."
+    ]
+   ]
+  },
+  {
+   "kind": "modified",
+   "block": "e5011c19",
+   "type": "para",
+   "context": "13. Soft binding fingerprint"
+  },
+  {
+   "kind": "modified",
+   "block": "9a42e03d",
+   "type": "heading",
+   "context": "14. Commands",
+   "numbers": [
+    [
+     "13.",
+     "14."
+    ]
+   ]
+  },
+  {
+   "kind": "modified",
+   "block": "4de6039d",
+   "type": "code",
+   "context": "14. Commands"
+  },
+  {
+   "kind": "modified",
+   "block": "41921bbb",
+   "type": "heading",
+   "context": "15. Acceptance criteria",
+   "numbers": [
+    [
+     "14.",
+     "15."
+    ]
+   ]
+  },
+  {
+   "kind": "modified",
+   "block": "6cddbfcc",
+   "type": "list",
+   "context": "15. Acceptance criteria"
   }
  ],
  "policy": "local",
- "soft_fingerprint": "ppsb1:97694503383b5cc0f278035c466c4aa0d5600433a926045b96bcacdba48b664a",
+ "soft_fingerprint": "ppsb1:5663f89018cf0ff5150b243c5159fa8db67bc92adac1c6f5ae53be4ad42ce908",
  "actors": {
   "requested_by": [
    "Richard"
@@ -143,72 +229,116 @@
  "attribution_basis": "harness_attested",
  "claims": [
   {
-   "block": "d6f9f208",
+   "block": "7437c9be",
    "kind": "modified"
   },
   {
-   "block": "79416c44",
+   "block": "b27d1410",
    "kind": "modified"
   },
   {
-   "block": "5e991c72",
-   "kind": "added"
-  },
-  {
-   "block": "398568bb",
-   "kind": "added"
-  },
-  {
-   "block": "a908fde7",
-   "kind": "added"
-  },
-  {
-   "block": "bfc931ca",
+   "block": "4f104dcd",
    "kind": "modified"
   },
   {
-   "block": "47f21d3a",
-   "kind": "added"
-  },
-  {
-   "block": "55bcd98e",
-   "kind": "added"
-  },
-  {
-   "block": "8f498c01",
-   "kind": "added"
-  },
-  {
-   "block": "d4ed0d79",
-   "kind": "added"
-  },
-  {
-   "block": "74883804",
-   "kind": "added"
-  },
-  {
-   "block": "1575e201",
-   "kind": "added"
-  },
-  {
-   "block": "8deed5b3",
+   "block": "c12e32e0",
    "kind": "modified"
   },
   {
-   "block": "68addd0d",
+   "block": "3f058978",
+   "kind": "modified"
+  },
+  {
+   "block": "76b47f0b",
+   "kind": "modified"
+  },
+  {
+   "block": "a93fd2c1",
    "kind": "added"
   },
   {
-   "block": "cb5c6c0f",
+   "block": "778b7a88",
+   "kind": "modified"
+  },
+  {
+   "block": "a907c90f",
+   "kind": "modified"
+  },
+  {
+   "block": "12c384d0",
    "kind": "added"
   },
   {
-   "block": "820f39ab",
+   "block": "beac56e1",
+   "kind": "modified"
+  },
+  {
+   "block": "46afb332",
+   "kind": "modified"
+  },
+  {
+   "block": "a09187f6",
+   "kind": "modified"
+  },
+  {
+   "block": "6a0a916f",
+   "kind": "added"
+  },
+  {
+   "block": "76ea412b",
+   "kind": "added"
+  },
+  {
+   "block": "08fef0ad",
+   "kind": "added"
+  },
+  {
+   "block": "70ebd65c",
+   "kind": "added"
+  },
+  {
+   "block": "c4357d18",
+   "kind": "added"
+  },
+  {
+   "block": "7be34c98",
+   "kind": "modified"
+  },
+  {
+   "block": "6d5f3eb3",
+   "kind": "modified"
+  },
+  {
+   "block": "bd118d53",
+   "kind": "modified"
+  },
+  {
+   "block": "b6213711",
+   "kind": "modified"
+  },
+  {
+   "block": "e5011c19",
+   "kind": "modified"
+  },
+  {
+   "block": "9a42e03d",
+   "kind": "modified"
+  },
+  {
+   "block": "4de6039d",
+   "kind": "modified"
+  },
+  {
+   "block": "41921bbb",
+   "kind": "modified"
+  },
+  {
+   "block": "6cddbfcc",
    "kind": "modified"
   }
  ],
  "context": {
-  "why": "make Git and non-Git collaboration paths and same-document merging explicit"
+  "why": "support parallel copies without conflating parents with ingredients"
  },
- "event_id": "ppe_1949bc03bbea9365413ef370"
+ "event_id": "ppe_3f230aa6d26de173297fd6db"
 }
