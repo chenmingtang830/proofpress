@@ -1,37 +1,30 @@
 {
  "event": "version_created",
- "artifact": "skills/README.md",
- "artifact_id": "pp_e74be09a9d28f1855db4a007",
- "version": "5d619844",
- "parent": "a11b8e87",
+ "artifact": "skills/codex/AGENTS-snippet.md",
+ "artifact_id": "pp_703c3fa926abb512e7199332",
+ "version": "df62ceeb",
+ "parent": "4184bbd9",
  "author": {
   "name": "codex",
   "kind": "agent",
   "session": null
  },
- "note": "add shared parallel-copy workflow",
- "ts": "2026-07-25T20:42:36+00:00",
+ "note": "add portable parallel-copy merge instructions",
+ "ts": "2026-07-25T20:42:54+00:00",
  "stats": {
-  "added": 2
+  "added": 1
  },
  "changes": [
   {
    "kind": "added",
-   "block": "f20cc96e",
-   "type": "list",
-   "context": "Shared contract",
-   "preview": "8. When several portable copies share an artifact and lineag"
-  },
-  {
-   "kind": "added",
-   "block": "bc82651b",
+   "block": "4d83fd2a",
    "type": "para",
-   "context": "Shared contract",
-   "preview": "   original and run `merge-plan TARGET --from COPY...`. Appl"
+   "context": "Proofpress: ledger Markdown and static H",
+   "preview": "For parallel portable copies of the same artifact, keep ever"
   }
  ],
  "policy": "local",
- "soft_fingerprint": "ppsb1:f1749b84b1566e3a8e851cde6a4de1e3df399c733f6fe1b11452b1eccda25bbd",
+ "soft_fingerprint": "ppsb1:8ae1529b6937475f1db7b9df52fa57869cb012f9273fcf46e20170fb9fcdc1c8",
  "actors": {
   "requested_by": [
    "Richard"
@@ -49,16 +42,12 @@
  "attribution_basis": "harness_attested",
  "claims": [
   {
-   "block": "f20cc96e",
-   "kind": "added"
-  },
-  {
-   "block": "bc82651b",
+   "block": "4d83fd2a",
    "kind": "added"
   }
  ],
  "context": {
-  "why": "teach all harness adapters the two-stage portable merge flow"
+  "why": "guide Codex through analysis, user conflict resolution, and multi-parent admission"
  },
- "event_id": "ppe_afe9dca6d400b5eea4f8773a"
+ "event_id": "ppe_5c25996b5aaed90647b2c33c"
 }
