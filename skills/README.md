@@ -67,7 +67,7 @@ that use `npx --no-install`, so agents never download the package implicitly:
 
 [//]: # (ob:5ee2d540)
 ```sh
-npm install --save-dev proofpress@next
+npm install --save-dev proofpress
 npx --no-install proofpress setup --agent codex
 ```
 

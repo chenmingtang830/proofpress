@@ -2,8 +2,21 @@
 # Proofpress documentation
 
 [//]: # (ob:aeed01a6)
-Proofpress keeps the public documentation set deliberately small. These files
-describe behavior that users and compatible implementations can rely on.
+Proofpress is the trust layer for multiplayer AI: an open, agent-native ledger
+that travels with the artifact. The public documentation set stays deliberately
+small and describes behavior that users and compatible implementations can rely
+on.
+
+[//]: # (ob:c6e0b8d1)
+“Think C2PA, but for knowledge work” is a category analogy, not a claim of C2PA
+compatibility, signed authorship, or complete capture.
+
+[//]: # (ob:717c12e2)
+- [Portable handoff demo](../examples/portable-handoff/) provides a neutral
+
+[//]: # (ob:c2dd735b)
+  artifact whose embedded v1 → v2 ledger can be inspected, imported, and
+  verified in a clean receiver repository.
 
 [//]: # (ob:62ae0597)
 - [Portable Artifact V0](PORTABLE_ARTIFACT_SPEC.md) is the executable protocol

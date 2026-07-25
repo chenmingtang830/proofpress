@@ -66,7 +66,7 @@ preserves any human drift without guessing its author or reason. Then:
 [//]: # (ob:355446e0)
 For an incoming file with a `proofpress:discovery` marker but no local CLI,
 tell the user it carries verifiable revision history, show the marker's
-canonical project URL, and ask whether to install `proofpress@next`. Never
+canonical project URL, and ask whether to install `proofpress`. Never
 download or execute it without explicit consent. If the CLI is available, run
 `inspect` before trusting the capsule and then `import`.
 
