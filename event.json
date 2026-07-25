@@ -1,30 +1,30 @@
 {
  "event": "version_created",
- "artifact": "skills/cursor/proofpress/SKILL.md",
- "artifact_id": "pp_0c9edf7d315ab03e0ca06c88",
- "version": "ff9f43a0",
- "parent": "7600f4cc",
+ "artifact": "skills/pi/proofpress-skill.md",
+ "artifact_id": "pp_c7ce0d15b86bb42bd28434fc",
+ "version": "612ed0ee",
+ "parent": "cf59a525",
  "author": {
   "name": "codex",
   "kind": "agent",
   "session": null
  },
  "note": "add portable parallel-copy merge instructions",
- "ts": "2026-07-25T20:43:02+00:00",
+ "ts": "2026-07-25T20:43:06+00:00",
  "stats": {
   "added": 1
  },
  "changes": [
   {
    "kind": "added",
-   "block": "867ba812",
+   "block": "19334051",
    "type": "para",
-   "context": "Workflow",
+   "context": "proofpress",
    "preview": "For parallel portable copies of the same artifact, preserve "
   }
  ],
  "policy": "local",
- "soft_fingerprint": "ppsb1:558fdb52ed9bad1069e5edd6dfd79ced6779b36e6abe14c4f12c9d4c41a948eb",
+ "soft_fingerprint": "ppsb1:1a504401e03592b0b73d52e2e1d5a7cd217275f6fdd00ff7df0e96b16ca5dcb9",
  "actors": {
   "requested_by": [
    "Richard"
@@ -42,12 +42,12 @@
  "attribution_basis": "harness_attested",
  "claims": [
   {
-   "block": "867ba812",
+   "block": "19334051",
    "kind": "added"
   }
  ],
  "context": {
-  "why": "keep Cursor adapter aligned with the multiplayer contract"
+  "why": "keep Pi adapter aligned with the multiplayer contract"
  },
- "event_id": "ppe_87ce7aeb714551c331590c4d"
+ "event_id": "ppe_1221d4ccb23e0c7ab38db513"
 }
