@@ -1,30 +1,30 @@
 {
  "event": "version_created",
- "artifact": "skills/codex/AGENTS-snippet.md",
- "artifact_id": "pp_703c3fa926abb512e7199332",
- "version": "df62ceeb",
- "parent": "4184bbd9",
+ "artifact": "skills/claude-code/proofpress/SKILL.md",
+ "artifact_id": "pp_8f9f160826e336a46eb62bd4",
+ "version": "917cca3e",
+ "parent": "835d9c4b",
  "author": {
   "name": "codex",
   "kind": "agent",
   "session": null
  },
  "note": "add portable parallel-copy merge instructions",
- "ts": "2026-07-25T20:42:54+00:00",
+ "ts": "2026-07-25T20:42:58+00:00",
  "stats": {
   "added": 1
  },
  "changes": [
   {
    "kind": "added",
-   "block": "4d83fd2a",
+   "block": "50e05b0b",
    "type": "para",
-   "context": "Proofpress: ledger Markdown and static H",
-   "preview": "For parallel portable copies of the same artifact, keep ever"
+   "context": "Workflow",
+   "preview": "For parallel portable copies of the same artifact, preserve "
   }
  ],
  "policy": "local",
- "soft_fingerprint": "ppsb1:8ae1529b6937475f1db7b9df52fa57869cb012f9273fcf46e20170fb9fcdc1c8",
+ "soft_fingerprint": "ppsb1:4dad3ec26a04f862313bb3a331663660efe67aa822c35739740ccafd8b92995a",
  "actors": {
   "requested_by": [
    "Richard"
@@ -42,12 +42,12 @@
  "attribution_basis": "harness_attested",
  "claims": [
   {
-   "block": "4d83fd2a",
+   "block": "50e05b0b",
    "kind": "added"
   }
  ],
  "context": {
-  "why": "guide Codex through analysis, user conflict resolution, and multi-parent admission"
+  "why": "keep Claude adapter aligned with the multiplayer contract"
  },
- "event_id": "ppe_5c25996b5aaed90647b2c33c"
+ "event_id": "ppe_7c8ed33b25adffd012d8ac4b"
 }
