@@ -22,7 +22,7 @@ Commands:
 import argparse, base64, difflib, hashlib, html, json, os, re, secrets, subprocess, sys, tempfile, zlib
 from datetime import datetime, timezone
 
-__version__ = "0.1.0-alpha.2"
+__version__ = "0.1.0"
 LEDGER_REF = "refs/proofpress/ledger"
 
 # ---------- terminal rendering ----------
@@ -141,9 +141,22 @@ CAPSULE_DISCOVERY = {
     "label": DISCOVERY_LABEL,
     "project_url": DISCOVERY_URL,
     "package": "proofpress",
-    "dist_tag": "next",
+    "dist_tag": "latest",
     "requires_user_consent": True,
 }
+LEGACY_CAPSULE_DISCOVERIES = (
+    {
+        "label": DISCOVERY_LABEL,
+        "project_url": DISCOVERY_URL,
+        "package": "proofpress",
+        "dist_tag": "next",
+        "requires_user_consent": True,
+    },
+)
+
+
+def known_capsule_discovery(value):
+    return value == CAPSULE_DISCOVERY or value in LEGACY_CAPSULE_DISCOVERIES
 
 
 def _b64e(data):
@@ -894,7 +907,7 @@ def validate_capsule(body, meta, capsule, carrier="markdown"):
     if capsule.get("proofpress_capsule") != 1:
         errors.append("unsupported_capsule")
     if ("discovery" in capsule and
-            capsule.get("discovery") != CAPSULE_DISCOVERY):
+            not known_capsule_discovery(capsule.get("discovery"))):
         errors.append("invalid_capsule_discovery")
     if capsule.get("artifact_id") != meta.get("artifact_id"):
         errors.append("artifact_id_mismatch")
@@ -1528,7 +1541,7 @@ def inspect_result(path):
         if capsule:
             result["head"] = capsule.get("head")
             result["versions"] = len(capsule.get("records", []))
-            if capsule.get("discovery") == CAPSULE_DISCOVERY:
+            if known_capsule_discovery(capsule.get("discovery")):
                 result["discovery"] = capsule["discovery"]
     elif capsule is not None:
         result["errors"].append("capsule_on_nonportable_artifact")

@@ -1,7 +1,7 @@
 {
   "name": "proofpress",
-  "version": "0.1.0-alpha.2",
-  "description": "Verifiable revision provenance for Markdown and static HTML knowledge artifacts",
+  "version": "0.1.0",
+  "description": "The trust layer for multiplayer AI: an open, agent-native ledger for knowledge artifacts",
   "license": "Apache-2.0",
   "bin": {
     "proofpress": "bin/proofpress.js"

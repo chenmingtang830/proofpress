@@ -7,28 +7,36 @@
 # Proofpress
 
 [//]: # (ob:e667d986)
-Proofpress is a verifiable `log.md` for knowledge work: a shared history of who
-changed what, when, and why, checked against the artifact itself.
+Proofpress is the trust layer for multiplayer AI: an open, agent-native ledger
+that travels with the artifact.
 
 [//]: # (ob:0e0e9d9a)
-Agents can produce a document quickly, but the reasoning that shaped its final
-form is usually scattered across chat sessions, Slack, meetings, and somebody's
-memory. Git is excellent when the work already lives in Git; most knowledge
-artifacts do not. Proofpress keeps the accepted version history and consequential
-decisions attached to a Markdown or static HTML artifact so that history can
-travel with it.
+Humans and agents can produce a document quickly, but the decisions that shaped
+its final form are usually scattered across chat sessions, Slack, meetings, and
+somebody's memory. Git is excellent when the work already lives in Git; most
+knowledge artifacts do not. Proofpress keeps a shared, checkable record of
+accepted changes, stated reasons, consequential rejections, and their relation
+to the artifact itself—so that history can travel with the work.
+
+[//]: # (ob:cc376e2b)
+Think C2PA, but for knowledge work: a portable, inspectable record of the
+history admitted into an artifact. This is an analogy, not a claim of C2PA
+compatibility, signed authorship, or complete capture.
+
+[//]: # (ob:6ef36a68)
+> Git made code collaborative. Proofpress makes intelligence cumulative.
 
 [//]: # (ob:169d8523)
 ## Status
 
 [//]: # (ob:d6f9f208)
-Proofpress is a V0 reference implementation. The CLI is usable and its portable
-artifact behaviors are covered by black-box tests, but the embedded carrier and
-command interfaces may still change before a stable release. The npm package is
-published under the `next` tag while these interfaces settle.
+Proofpress 0.1.0 is the first stable npm release. The CLI is usable and its
+portable-artifact behaviors are covered by black-box tests. The embedded carrier
+and command interfaces will continue to evolve, so pin the package version when
+you need a fixed integration surface.
 
 [//]: # (ob:19210f53)
-## Install the alpha
+## Install
 
 [//]: # (ob:989f25ec)
 Proofpress keeps its zero-dependency Python engine and adds a thin npm launcher
@@ -36,7 +44,7 @@ plus repository setup command. Python 3 and Git are required:
 
 [//]: # (ob:7b197ac1)
 ```sh
-npm install --save-dev proofpress@next
+npm install --save-dev proofpress
 npx --no-install proofpress --version
 npx --no-install proofpress setup --agent codex
 ```
@@ -45,6 +53,20 @@ npx --no-install proofpress setup --agent codex
 `setup` installs a package-aware adapter and writes
 `.proofpress/manifest.json`. It is idempotent and supports `codex`, `claude`,
 `cursor`, or `all`. Portable history remains opt-in per artifact.
+
+[//]: # (ob:da019dfc)
+`proofpress@0.1.0` is the current stable release channel. The deprecated
+`0.0.1` placeholder is no longer the default install.
+
+[//]: # (ob:4273537d)
+## Verify a portable handoff in five minutes
+
+[//]: # (ob:1160e434)
+The [portable handoff demo](examples/portable-handoff/) contains one neutral
+community-planning document with a real, embedded v1 → v2 ledger. In a clean
+Git repository, install `proofpress`, copy only `strategy.md`, then run
+`inspect`, `import`, and `verify`. The recipient needs neither the source
+repository nor the original session.
 
 [//]: # (ob:2b655d31)
 To add a visible, transparent distribution mark to a repository README:
@@ -109,7 +131,7 @@ authorship or protection from wholesale malicious replacement.
 [//]: # (ob:839fc8a1)
 Portable carriers include a non-rendering discovery marker with
 `Verifiable revision history by Proofpress` and the project URL. The capsule's
-canonical discovery object also names `proofpress@next`. An agent may explain
+canonical discovery object names `proofpress@latest`. An agent may explain
 this provenance and offer installation, but must obtain user consent before
 downloading or executing anything.
 
