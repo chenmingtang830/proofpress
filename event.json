@@ -1,63 +1,174 @@
 {
  "event": "version_created",
- "artifact": "docs/internal/DESIGN.md",
- "artifact_id": "pp_d0d37230a5f87d707a339766",
- "version": "931c7add",
- "parent": "0ce54d15",
+ "artifact": "docs/internal/launch/film/README.md",
+ "artifact_id": "pp_cab7a4ff4f8f5b5137fc6647",
+ "version": "8d8ce122",
+ "parent": null,
  "author": {
-  "name": "codex",
-  "kind": "agent",
+  "name": "unknown",
+  "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-07-25T20:04:22+00:00",
+ "ts": "2026-07-25T20:31:39+00:00",
  "stats": {
-  "modified": 2
+  "added": 11
  },
  "changes": [
   {
-   "kind": "modified",
-   "block": "451376f2",
-   "type": "table",
-   "context": "色彩令牌"
+   "kind": "added",
+   "block": "953e24a0",
+   "type": "para",
+   "context": "(文首)",
+   "preview": "[//]: # (ob:film-index)"
   },
   {
-   "kind": "modified",
-   "block": "a8d606fe",
+   "kind": "added",
+   "block": "84642bae",
+   "type": "heading",
+   "context": "Proofpress X launch film",
+   "preview": "# Proofpress X launch film"
+  },
+  {
+   "kind": "added",
+   "block": "a19d5964",
+   "type": "heading",
+   "context": "Final",
+   "preview": "## Final"
+  },
+  {
+   "kind": "added",
+   "block": "df37cdd6",
+   "type": "list",
+   "context": "Final",
+   "preview": "- [Launch film — 1920×1080 MP4](final/proofpress-x-launch.mp"
+  },
+  {
+   "kind": "added",
+   "block": "78016e2f",
    "type": "para",
-   "context": "色彩令牌"
+   "context": "Final",
+   "preview": "This is the approved 27-second X launch film with the select"
+  },
+  {
+   "kind": "added",
+   "block": "fc7eda2b",
+   "type": "heading",
+   "context": "Source",
+   "preview": "## Source"
+  },
+  {
+   "kind": "added",
+   "block": "fb0d9a9e",
+   "type": "list",
+   "context": "Source",
+   "preview": "- [HyperFrames composition](source/proofpress-x-launch/conti"
+  },
+  {
+   "kind": "added",
+   "block": "ece5c1fa",
+   "type": "para",
+   "context": "Source",
+   "preview": "To reproduce the film:"
+  },
+  {
+   "kind": "added",
+   "block": "f62a5720",
+   "type": "code",
+   "context": "Source",
+   "preview": "```bash\ncd source/proofpress-x-launch\nnpm ci\nnpx hyperframes"
+  },
+  {
+   "kind": "added",
+   "block": "032560c6",
+   "type": "heading",
+   "context": "Archive",
+   "preview": "## Archive"
+  },
+  {
+   "kind": "added",
+   "block": "0eb8b05f",
+   "type": "para",
+   "context": "Archive",
+   "preview": "`archive/` contains superseded renders, rejected music exper"
   }
  ],
  "policy": "local",
- "soft_fingerprint": "ppsb1:96f563dc6d1db4968c0d0d086b060b25dedc79be3870d6384f0d458503178f76",
+ "soft_fingerprint": "ppsb1:752f7e7659d6ab211795c2a2c5222977d4b289469b99b66258478189c7a9e5bc",
  "actors": {
   "requested_by": [
-   "richard"
+   "Richard Tang"
   ],
   "produced_by": [
-   "codex"
+   "OpenAI Codex"
   ],
   "edited_by": [
-   "codex"
+   "OpenAI Codex"
   ],
   "recorded_by": [
-   "codex"
+   "OpenAI Codex"
   ]
  },
  "attribution_basis": "harness_attested",
  "claims": [
   {
-   "block": "451376f2",
-   "kind": "modified",
-   "note": "Made the film's softer orange and red the canonical dark semantic tokens."
+   "block": "953e24a0",
+   "kind": "added",
+   "note": "Created the launch film index."
   },
   {
-   "block": "a8d606fe",
-   "kind": "modified",
-   "note": "Recorded the exact launch-film color values used across dark interfaces."
+   "block": "84642bae",
+   "kind": "added",
+   "note": "Named the curated launch-film package."
+  },
+  {
+   "block": "a19d5964",
+   "kind": "added",
+   "note": "Added the final-deliverable section."
+  },
+  {
+   "block": "df37cdd6",
+   "kind": "added",
+   "note": "Linked the approved launch MP4."
+  },
+  {
+   "block": "78016e2f",
+   "kind": "added",
+   "note": "Identified the approved duration and soundtrack."
+  },
+  {
+   "block": "fc7eda2b",
+   "kind": "added",
+   "note": "Added the reproducible-source section."
+  },
+  {
+   "block": "fb0d9a9e",
+   "kind": "added",
+   "note": "Linked the composition, motion system, and music-rights record."
+  },
+  {
+   "block": "ece5c1fa",
+   "kind": "added",
+   "note": "Introduced reproduction instructions."
+  },
+  {
+   "block": "f62a5720",
+   "kind": "added",
+   "note": "Recorded the install, check, and render commands."
+  },
+  {
+   "block": "032560c6",
+   "kind": "added",
+   "note": "Added the archive section."
+  },
+  {
+   "block": "0eb8b05f",
+   "kind": "added",
+   "note": "Explained which superseded materials remain archived."
   }
  ],
  "context": {
-  "why": "Use the launch film's exact orange and red as the canonical dark palette rather than preserving close but visibly different legacy UI values."
- }
+  "why": "Curate the launch-film workspace so the approved deliverable is immediately visible, the final composition remains reproducible, and superseded experiments are clearly separated."
+ },
+ "event_id": "ppe_362849de9092926f63f4bfbd"
 }
