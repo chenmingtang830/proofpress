@@ -1,246 +1,108 @@
 {
- "artifact": "docs/internal/launch/film/videos/proofpress-x-launch/MOTION_SYSTEM.md",
- "artifact_id": "pp_b9b1fdfd7e82fb2827a721ef",
+ "artifact": "docs/internal/DESIGN.md",
+ "artifact_id": "pp_d0d37230a5f87d707a339766",
  "blocks": [
   {
    "type": "heading",
-   "text": "# Proofpress continuous-canvas motion system",
-   "id": "2d841d32",
-   "hash": "a29ebed708e4"
+   "text": "# Proofpress 设计系统 — 审阅页(归档:第二幕/cloud UI 图纸)",
+   "id": "ae580676",
+   "hash": "0a5a5d559760"
   },
   {
    "type": "para",
-   "text": "This instruction captures the reusable visual grammar behind the Proofpress\nlaunch film. Use it with the HyperFrames core, creative, animation, and CLI\nskills when extending this film or building a new Proofpress motion piece. It is\na brand-specific layer on top of those skills, not a replacement for their\ncomposition and determinism rules.",
-   "id": "d4c2acc7",
-   "hash": "09fe15159db7"
+   "text": "**状态(2026-07-25)**:serve 审阅页已随战略大修整体砍掉(裁决借 GitHub 原生 review),但其色彩系统已成为 Proofpress 的跨界面品牌语言。Launch film、CLI 终端和未来 UI 共用同一组 dark tokens；GitHub Markdown 无法指定自定义文字色时，用最接近的 emoji 色作降级表达。",
+   "id": "4565936e",
+   "hash": "8c86ca7e3a2f"
+  },
+  {
+   "type": "para",
+   "text": "一句话:**纸墨账本**。纸面底色、墨色正文、一个青蓝强调色管全部交互;语义色只给 diff。信息密度服从\"审阅\"这一个动作:摘要先于全文,变更先于未变,待办先于已办。",
+   "id": "9787677e",
+   "hash": "41b12f660e4c"
   },
   {
    "type": "heading",
-   "text": "## Core idea",
-   "id": "211e4c3a",
-   "hash": "ed202de9c490"
+   "text": "## 色彩令牌",
+   "id": "7056876e",
+   "hash": "8a597884010e"
+  },
+  {
+   "type": "table",
+   "text": "| 令牌 | Light | Dark | 用途 |\n|---|---|---|---|\n| paper | #FAF9F5 | #15171C | 页面底 |\n| ink / ink-2 / ink-3 | #20222B / #5A5D6B / #8B8E9C | #E9E7E0 / #A6A9B4 / #787B87 | 正文 / 次要 / 弱化 |\n| line | #E3E1D9 | #2C2F38 | 边线 |\n| card / wash | #FFFFFF / #F1EFE8 | #1D2027 / #22252D | 卡片 / 浅底 |\n| accent / accent-soft | #0E5E6F / #E3EEF0 | #5FB3C4 / #173741 | 品牌主色、edit、modified、交互 |\n| add / add-bg | #2E7D4F / #E7F2EA | #6FBF8E / #1B3226 | verified、added、approve |\n| del / del-bg | #B4453A / #F7E9E7 | #E08B80 / #3A2320 | rejected、removed |\n| move / move-bg | #8A6210 / #F5EEDC | #D3A94F / #332B18 | why、moved、需要注意但不是告警 |",
+   "id": "451376f2",
+   "hash": "a7574015f406"
   },
   {
    "type": "para",
-   "text": "Treat the whole film as one explorable knowledge space. Stations live on a\nsingle oversized canvas and the camera follows one continuous route through\nthem. The artifact is the stable subject; sessions, ledgers, and claims are\nplaces the camera visits around it. A transition should reveal a causal\nrelationship, not announce that a new slide has begun.",
-   "id": "35420c64",
-   "hash": "8dab0aa0e52d"
+   "text": "规则:accent 只有一个；白色承载主要内容，青色承载 Proofpress 与 edit，橙色承载 why，红色承载 rejected，绿色只承载 verified。相邻的 diff 状态沿用相同含义：modified 青、moved 橙、removed 红、added 绿。语义色不作装饰；两套主题都必须校稿。",
+   "id": "a8d606fe",
+   "hash": "a09ed625f30c"
+  },
+  {
+   "type": "para",
+   "text": "GitHub PR comment 的降级映射固定为 `🔵 mod`、`🟣 mov`、`🔴 del`、`🟢 new`。其中蓝色是 GitHub emoji 对青色 accent 的最近似值；紫色刻意替代黄色来表达 moved，避免把普通移动误读为警告。GitHub Action metadata 中的 `branding.color: blue` 只控制 Marketplace/Actions 列表里的 action 图标底色，不控制 PR comment。",
+   "id": "eeee2405",
+   "hash": "0d81435f99cf"
   },
   {
    "type": "heading",
-   "text": "## Visual registers",
-   "id": "709b0454",
-   "hash": "b308a7108b05"
+   "text": "## 字体",
+   "id": "f49db722",
+   "hash": "9865d4353c3b"
   },
   {
    "type": "list",
-   "text": "- Barlow Condensed is the declarative voice: category claims, causal statements,",
-   "id": "bfa080d3",
-   "hash": "362b4bfe5a19"
-  },
-  {
-   "type": "para",
-   "text": "  station titles, and closing language.",
-   "id": "47fd8e82",
-   "hash": "abb02907fe82"
-  },
-  {
-   "type": "list",
-   "text": "- IBM Plex Mono is the evidentiary voice: session labels, versions, metadata,",
-   "id": "2a89fe81",
-   "hash": "e5002197b1d5"
-  },
-  {
-   "type": "para",
-   "text": "  ledger qualifiers, and URLs.",
-   "id": "0313a4c6",
-   "hash": "4705ef43ec2e"
-  },
-  {
-   "type": "list",
-   "text": "- Newsreader is an occasional reflective voice. Do not switch into it inside a",
-   "id": "64b502ce",
-   "hash": "3f66237106aa"
-  },
-  {
-   "type": "para",
-   "text": "  short causal statement merely to create variety.",
-   "id": "1ca2e95a",
-   "hash": "a7b6e17f7336"
-  },
-  {
-   "type": "list",
-   "text": "- Warm paper represents the artifact. Teal represents the live Proofpress route",
-   "id": "a3c06821",
-   "hash": "2d071c847c8e"
-  },
-  {
-   "type": "para",
-   "text": "  and admitted ledger. Gold represents stated reasoning. Muted red represents a\n  rejected direction. Green is reserved for a computed check.",
-   "id": "cefad801",
-   "hash": "42598b5f2e91"
-  },
-  {
-   "type": "para",
-   "text": "Do not introduce a fourth typographic voice, gradient type, rounded SaaS cards,\nsecurity shields, identity chrome, floating particles, or ambient motion that\nis unrelated to the artifact's lineage.",
-   "id": "aa85b0bc",
-   "hash": "d3aba576a772"
+   "text": "- 页面标题 / 文档大标题:Songti SC / Noto Serif SC,900——账本的仪式感。\n- 正文与 UI:系统中文黑体栈(PingFang SC…),15px / 1.75。\n- 版本号、hash、数字:等宽(ui-monospace),tabular-nums。",
+   "id": "53b8c3a4",
+   "hash": "ae39aafe3e04"
   },
   {
    "type": "heading",
-   "text": "## Camera grammar",
-   "id": "03e4248f",
-   "hash": "aed37430a715"
+   "text": "## 版面",
+   "id": "46a56fa1",
+   "hash": "07e2b4d7376f"
   },
   {
    "type": "list",
-   "text": "1. Build stations at fixed coordinates on one world canvas.\n2. Move the world with one seek-safe camera object and a single paused GSAP",
-   "id": "2fe6262c",
-   "hash": "cbfc283eeed6"
-  },
-  {
-   "type": "para",
-   "text": "   timeline. Use translation and scale only.",
-   "id": "29bb99cc",
-   "hash": "4b9ffaf6e834"
-  },
-  {
-   "type": "list",
-   "text": "3. Let incoming words land while the camera decelerates so the world feels",
-   "id": "3c7a6edf",
-   "hash": "3b2be164bdd8"
-  },
-  {
-   "type": "para",
-   "text": "   continuous.",
-   "id": "db11a98c",
-   "hash": "23b499c16375"
-  },
-  {
-   "type": "list",
-   "text": "4. A zoom must resolve into meaning. After reaching a readable close-up, hold",
-   "id": "d0797841",
-   "hash": "433309f805c0"
-  },
-  {
-   "type": "para",
-   "text": "   for 0.5–0.8 seconds before leaving or reveal the next layer inside the object.",
-   "id": "6c841c24",
-   "hash": "30a12f5e86cc"
-  },
-  {
-   "type": "list",
-   "text": "5. Match direction across handoffs: an accelerating exit meets a decelerating",
-   "id": "6d43f8dd",
-   "hash": "956cddf40a4e"
-  },
-  {
-   "type": "para",
-   "text": "   entry. Avoid a zoom that ends on the same frame as an unrelated camera move.",
-   "id": "9a760490",
-   "hash": "a06f2dfb449c"
-  },
-  {
-   "type": "list",
-   "text": "6. The artifact may travel, fold, or scale, but it must remain recognizably the",
-   "id": "0b97fa08",
-   "hash": "f4353fe663d2"
-  },
-  {
-   "type": "para",
-   "text": "   same object across the sequence.",
-   "id": "1bb6253a",
-   "hash": "a4e39717bf33"
+   "text": "- 单栏,内容最大宽 760px;文档正文行宽 ≤ 70 字符。\n- 层次自上而下固定:导航行 → 元信息行 → 变更摘要卡 → 正文 → 底部粘性裁决栏。\n- 正文必须渲染 markdown(表格/列表/粗体/代码);裸标记符号 = 缺陷。",
+   "id": "8aa0ba5a",
+   "hash": "7fdd508c67f8"
   },
   {
    "type": "heading",
-   "text": "## Rhythm",
-   "id": "a081730e",
-   "hash": "db22e3493d17"
-  },
-  {
-   "type": "para",
-   "text": "Use the pattern `DECLARE → TRAVEL → HOLD → OPEN → PROVE → TRAVEL → HOLD`.\nStatements arrive quickly; evidence receives longer reading time. The first\ntwo seconds establish the category. The handoff gets one complete visual\nsentence. The document close-up gets a perceptible hold. Ledger rows reveal in\nthe order `EDIT → WHY → REJECTED`, followed by the distinction `REASON STATED /\nCHANGE CHECKED`. The open-source close stays fully stable for at least 2.5\nseconds.",
-   "id": "ff7d8724",
-   "hash": "71d1607f6a2a"
-  },
-  {
-   "type": "heading",
-   "text": "## Feed-scale typography",
-   "id": "b1d5e994",
-   "hash": "088cfd03768a"
-  },
-  {
-   "type": "para",
-   "text": "Design for the video as it appears inside the X feed, not for a full-screen\ndesktop preview. In 1920×1080, use 90px or larger for essential headlines,\n32px or larger for explanatory copy, and 24px or larger for essential labels.\nTiny mono text may exist only as nonessential texture. The square version must\nreflow the same hierarchy rather than crop the widescreen composition.",
-   "id": "3a2a8c77",
-   "hash": "f911504b09a6"
-  },
-  {
-   "type": "heading",
-   "text": "## Semantic rules",
-   "id": "f15435e7",
-   "hash": "5a176a2a40be"
+   "text": "## 组件",
+   "id": "f43f7a30",
+   "hash": "3910c6d7da18"
   },
   {
    "type": "list",
-   "text": "- Show a real document change, a stated reason, and a consequential rejected",
-   "id": "1a781cf1",
-   "hash": "119f27813123"
-  },
-  {
-   "type": "para",
-   "text": "  direction that belong to the same fictional strategy artifact.",
-   "id": "10855b4c",
-   "hash": "7c416eb47db8"
-  },
-  {
-   "type": "list",
-   "text": "- Visually separate computed/checkable changes from attributed context.\n- Never imply signed identity, authorization, policy enforcement, or complete",
-   "id": "29dc333c",
-   "hash": "ef68b7c4351e"
-  },
-  {
-   "type": "para",
-   "text": "  capture of a private conversation.",
-   "id": "89b5377c",
-   "hash": "894552a8a2c8"
-  },
-  {
-   "type": "list",
-   "text": "- The ledger travels with the artifact; the source session does not need to",
-   "id": "5588c1e2",
-   "hash": "85ed3c5f31cb"
-  },
-  {
-   "type": "para",
-   "text": "  travel with it.",
-   "id": "cd8148aa",
-   "hash": "171d2170126b"
+   "text": "- **chip**:圆角胶囊,11.5px;状态色——published 绿、待审/待回应 黄、agent 青。\n- **tag**(diff 角标):10.5px 粗体小胶囊,new 绿 / modified 青 / removed 红 / moved 橙,置于块标题行内。\n- **变更块**:左侧 3px accent 竖线 + 极浅 accent 底;词级改动收进 `<details>`(\"查看本块改动\"),默认收起,正文保持可读。\n- **批注卡**:左 3px accent 边、card 底、轻投影;状态字(\"待回应 / 已入账·等待修订 / 已解决\")用 ink-3。\n- **块 hover**:wash 底浮现 + 右上\"＋批注\"浮现;可点感必须显性。\n- **裁决栏**:粘底,Approve 绿实心 / Request changes 青实心;**点击后立即变状态**(按钮禁用 + 文案改\"✓ 已入账·等待修订\"),杜绝无反馈重复点击。",
+   "id": "0287d639",
+   "hash": "01ddb67fde74"
   },
   {
    "type": "heading",
-   "text": "## Reuse prompt",
-   "id": "7558efe4",
-   "hash": "fb8bde20fe0f"
+   "text": "## 反馈状态机(页面文案随账本状态走)",
+   "id": "7578205b",
+   "hash": "263cf42ca1ed"
   },
   {
    "type": "para",
-   "text": "> Use the Proofpress continuous-canvas motion system in `MOTION_SYSTEM.md`.\n> Preserve the dark editorial field, paper artifact, teal lineage route, three\n> typographic registers, semantic color roles, and one-world camera grammar.\n> Build all motion on one paused, seek-safe HyperFrames timeline. For every\n> camera move, name the idea it reveals and include a readable hold after any\n> close-up. Keep the artifact continuous, make evidence legible at X feed size,\n> and distinguish stated context from computed checks. Reflow separately for\n> square; do not crop the 16:9 composition.",
-   "id": "0b1fb234",
-   "hash": "a0c57fb4c368"
+   "text": "待回应(feedback 新于最新版本)→ 修订中(agent 会话活跃,后续 SSE)→ 已回应(新版本落账,页面自动刷新,批注标 resolved)。每一步页面都要说人话:\"agent 将在下次读取 inbox 时收到\"。",
+   "id": "aae4f716",
+   "hash": "baf50889d162"
   },
   {
    "type": "heading",
-   "text": "## Review checklist",
-   "id": "c16df8fb",
-   "hash": "8fd7be9a953f"
+   "text": "## 声音与语言",
+   "id": "300ee19f",
+   "hash": "b22e8db48d11"
   },
   {
-   "type": "list",
-   "text": "- Can a silent viewer explain why the camera moved at every transition?\n- Does every zoom include enough time to recognize what was enlarged?\n- Are all essential words readable in a phone-sized X preview?\n- Does each font correspond to a stable communicative role?\n- Does the artifact preserve identity through the entire handoff?\n- Are `EDIT`, `WHY`, `REJECTED`, and computed verification visually distinct?\n- Does a seek to any point reproduce the same frame without wall-clock state?",
-   "id": "a56a5ee8",
-   "hash": "aca08db44c0c"
+   "type": "para",
+   "text": "UI 词汇只用产品词表:Draft / Review / Approve / Comment。禁止内部术语(event、ref、blob)出现在界面上。**语言原则(2026-07-18 Richard 定):英文是核心体验**——所有 UI 串、CLI 输出、文档门面以英文为源语言;界面按 `Accept-Language` 自适应(之后加显式设置),中文是第一个 locale。品牌语境下的产品词表(Draft → Review → Approve, for agents)**永不翻译**;locale 文案是翻译品,英文源变更时同步更新。",
+   "id": "cab7f711",
+   "hash": "b6f67d71a7e8"
   }
  ]
 }

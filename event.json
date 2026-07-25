@@ -1,8 +1,8 @@
 {
  "event": "version_created",
- "artifact": "docs/internal/launch/film/videos/proofpress-x-launch/MOTION_SYSTEM.md",
- "artifact_id": "pp_b9b1fdfd7e82fb2827a721ef",
- "version": "8d786e73",
+ "artifact": "docs/internal/DESIGN.md",
+ "artifact_id": "pp_d0d37230a5f87d707a339766",
+ "version": "0ce54d15",
  "parent": null,
  "author": {
   "name": "codex",
@@ -10,297 +10,136 @@
   "session": null
  },
  "note": null,
- "ts": "2026-07-25T05:30:20+00:00",
+ "ts": "2026-07-25T20:03:10+00:00",
  "stats": {
-  "added": 40
+  "added": 17
  },
  "changes": [
   {
    "kind": "added",
-   "block": "2d841d32",
+   "block": "ae580676",
    "type": "heading",
-   "context": "Proofpress continuous-canvas motion syst",
-   "preview": "# Proofpress continuous-canvas motion system"
+   "context": "Proofpress 设计系统 — 审阅页(归档:第二幕/cloud UI 图纸",
+   "preview": "# Proofpress 设计系统 — 审阅页(归档:第二幕/cloud UI 图纸)"
   },
   {
    "kind": "added",
-   "block": "d4c2acc7",
+   "block": "4565936e",
    "type": "para",
-   "context": "Proofpress continuous-canvas motion syst",
-   "preview": "This instruction captures the reusable visual grammar behind"
+   "context": "Proofpress 设计系统 — 审阅页(归档:第二幕/cloud UI 图纸",
+   "preview": "**状态(2026-07-25)**:serve 审阅页已随战略大修整体砍掉(裁决借 GitHub 原生 review)"
   },
   {
    "kind": "added",
-   "block": "211e4c3a",
+   "block": "9787677e",
+   "type": "para",
+   "context": "Proofpress 设计系统 — 审阅页(归档:第二幕/cloud UI 图纸",
+   "preview": "一句话:**纸墨账本**。纸面底色、墨色正文、一个青蓝强调色管全部交互;语义色只给 diff。信息密度服从\"审阅\"这一个"
+  },
+  {
+   "kind": "added",
+   "block": "7056876e",
    "type": "heading",
-   "context": "Core idea",
-   "preview": "## Core idea"
+   "context": "色彩令牌",
+   "preview": "## 色彩令牌"
   },
   {
    "kind": "added",
-   "block": "35420c64",
+   "block": "451376f2",
+   "type": "table",
+   "context": "色彩令牌",
+   "preview": "| 令牌 | Light | Dark | 用途 |\n|---|---|---|---|\n| paper | #FAF9"
+  },
+  {
+   "kind": "added",
+   "block": "a8d606fe",
    "type": "para",
-   "context": "Core idea",
-   "preview": "Treat the whole film as one explorable knowledge space. Stat"
+   "context": "色彩令牌",
+   "preview": "规则:accent 只有一个；白色承载主要内容，青色承载 Proofpress 与 edit，橙色承载 why，红色承载"
   },
   {
    "kind": "added",
-   "block": "709b0454",
+   "block": "eeee2405",
+   "type": "para",
+   "context": "色彩令牌",
+   "preview": "GitHub PR comment 的降级映射固定为 `🔵 mod`、`🟣 mov`、`🔴 del`、`🟢 new`。其"
+  },
+  {
+   "kind": "added",
+   "block": "f49db722",
    "type": "heading",
-   "context": "Visual registers",
-   "preview": "## Visual registers"
+   "context": "字体",
+   "preview": "## 字体"
   },
   {
    "kind": "added",
-   "block": "bfa080d3",
+   "block": "53b8c3a4",
    "type": "list",
-   "context": "Visual registers",
-   "preview": "- Barlow Condensed is the declarative voice: category claims"
+   "context": "字体",
+   "preview": "- 页面标题 / 文档大标题:Songti SC / Noto Serif SC,900——账本的仪式感。\n- 正文与 "
   },
   {
    "kind": "added",
-   "block": "47fd8e82",
-   "type": "para",
-   "context": "Visual registers",
-   "preview": "  station titles, and closing language."
-  },
-  {
-   "kind": "added",
-   "block": "2a89fe81",
-   "type": "list",
-   "context": "Visual registers",
-   "preview": "- IBM Plex Mono is the evidentiary voice: session labels, ve"
-  },
-  {
-   "kind": "added",
-   "block": "0313a4c6",
-   "type": "para",
-   "context": "Visual registers",
-   "preview": "  ledger qualifiers, and URLs."
-  },
-  {
-   "kind": "added",
-   "block": "64b502ce",
-   "type": "list",
-   "context": "Visual registers",
-   "preview": "- Newsreader is an occasional reflective voice. Do not switc"
-  },
-  {
-   "kind": "added",
-   "block": "1ca2e95a",
-   "type": "para",
-   "context": "Visual registers",
-   "preview": "  short causal statement merely to create variety."
-  },
-  {
-   "kind": "added",
-   "block": "a3c06821",
-   "type": "list",
-   "context": "Visual registers",
-   "preview": "- Warm paper represents the artifact. Teal represents the li"
-  },
-  {
-   "kind": "added",
-   "block": "cefad801",
-   "type": "para",
-   "context": "Visual registers",
-   "preview": "  and admitted ledger. Gold represents stated reasoning. Mut"
-  },
-  {
-   "kind": "added",
-   "block": "aa85b0bc",
-   "type": "para",
-   "context": "Visual registers",
-   "preview": "Do not introduce a fourth typographic voice, gradient type, "
-  },
-  {
-   "kind": "added",
-   "block": "03e4248f",
+   "block": "46a56fa1",
    "type": "heading",
-   "context": "Camera grammar",
-   "preview": "## Camera grammar"
+   "context": "版面",
+   "preview": "## 版面"
   },
   {
    "kind": "added",
-   "block": "2fe6262c",
+   "block": "8aa0ba5a",
    "type": "list",
-   "context": "Camera grammar",
-   "preview": "1. Build stations at fixed coordinates on one world canvas.\n"
+   "context": "版面",
+   "preview": "- 单栏,内容最大宽 760px;文档正文行宽 ≤ 70 字符。\n- 层次自上而下固定:导航行 → 元信息行 → 变更摘"
   },
   {
    "kind": "added",
-   "block": "29bb99cc",
-   "type": "para",
-   "context": "Camera grammar",
-   "preview": "   timeline. Use translation and scale only."
-  },
-  {
-   "kind": "added",
-   "block": "3c7a6edf",
-   "type": "list",
-   "context": "Camera grammar",
-   "preview": "3. Let incoming words land while the camera decelerates so t"
-  },
-  {
-   "kind": "added",
-   "block": "db11a98c",
-   "type": "para",
-   "context": "Camera grammar",
-   "preview": "   continuous."
-  },
-  {
-   "kind": "added",
-   "block": "d0797841",
-   "type": "list",
-   "context": "Camera grammar",
-   "preview": "4. A zoom must resolve into meaning. After reaching a readab"
-  },
-  {
-   "kind": "added",
-   "block": "6c841c24",
-   "type": "para",
-   "context": "Camera grammar",
-   "preview": "   for 0.5–0.8 seconds before leaving or reveal the next lay"
-  },
-  {
-   "kind": "added",
-   "block": "6d43f8dd",
-   "type": "list",
-   "context": "Camera grammar",
-   "preview": "5. Match direction across handoffs: an accelerating exit mee"
-  },
-  {
-   "kind": "added",
-   "block": "9a760490",
-   "type": "para",
-   "context": "Camera grammar",
-   "preview": "   entry. Avoid a zoom that ends on the same frame as an unr"
-  },
-  {
-   "kind": "added",
-   "block": "0b97fa08",
-   "type": "list",
-   "context": "Camera grammar",
-   "preview": "6. The artifact may travel, fold, or scale, but it must rema"
-  },
-  {
-   "kind": "added",
-   "block": "1bb6253a",
-   "type": "para",
-   "context": "Camera grammar",
-   "preview": "   same object across the sequence."
-  },
-  {
-   "kind": "added",
-   "block": "a081730e",
+   "block": "f43f7a30",
    "type": "heading",
-   "context": "Rhythm",
-   "preview": "## Rhythm"
+   "context": "组件",
+   "preview": "## 组件"
   },
   {
    "kind": "added",
-   "block": "ff7d8724",
-   "type": "para",
-   "context": "Rhythm",
-   "preview": "Use the pattern `DECLARE → TRAVEL → HOLD → OPEN → PROVE → TR"
-  },
-  {
-   "kind": "added",
-   "block": "b1d5e994",
-   "type": "heading",
-   "context": "Feed-scale typography",
-   "preview": "## Feed-scale typography"
-  },
-  {
-   "kind": "added",
-   "block": "3a2a8c77",
-   "type": "para",
-   "context": "Feed-scale typography",
-   "preview": "Design for the video as it appears inside the X feed, not fo"
-  },
-  {
-   "kind": "added",
-   "block": "f15435e7",
-   "type": "heading",
-   "context": "Semantic rules",
-   "preview": "## Semantic rules"
-  },
-  {
-   "kind": "added",
-   "block": "1a781cf1",
+   "block": "0287d639",
    "type": "list",
-   "context": "Semantic rules",
-   "preview": "- Show a real document change, a stated reason, and a conseq"
+   "context": "组件",
+   "preview": "- **chip**:圆角胶囊,11.5px;状态色——published 绿、待审/待回应 黄、agent 青。\n- "
   },
   {
    "kind": "added",
-   "block": "10855b4c",
-   "type": "para",
-   "context": "Semantic rules",
-   "preview": "  direction that belong to the same fictional strategy artif"
-  },
-  {
-   "kind": "added",
-   "block": "29dc333c",
-   "type": "list",
-   "context": "Semantic rules",
-   "preview": "- Visually separate computed/checkable changes from attribut"
-  },
-  {
-   "kind": "added",
-   "block": "89b5377c",
-   "type": "para",
-   "context": "Semantic rules",
-   "preview": "  capture of a private conversation."
-  },
-  {
-   "kind": "added",
-   "block": "5588c1e2",
-   "type": "list",
-   "context": "Semantic rules",
-   "preview": "- The ledger travels with the artifact; the source session d"
-  },
-  {
-   "kind": "added",
-   "block": "cd8148aa",
-   "type": "para",
-   "context": "Semantic rules",
-   "preview": "  travel with it."
-  },
-  {
-   "kind": "added",
-   "block": "7558efe4",
+   "block": "7578205b",
    "type": "heading",
-   "context": "Reuse prompt",
-   "preview": "## Reuse prompt"
+   "context": "反馈状态机(页面文案随账本状态走)",
+   "preview": "## 反馈状态机(页面文案随账本状态走)"
   },
   {
    "kind": "added",
-   "block": "0b1fb234",
+   "block": "aae4f716",
    "type": "para",
-   "context": "Reuse prompt",
-   "preview": "> Use the Proofpress continuous-canvas motion system in `MOT"
+   "context": "反馈状态机(页面文案随账本状态走)",
+   "preview": "待回应(feedback 新于最新版本)→ 修订中(agent 会话活跃,后续 SSE)→ 已回应(新版本落账,页面自动"
   },
   {
    "kind": "added",
-   "block": "c16df8fb",
+   "block": "300ee19f",
    "type": "heading",
-   "context": "Review checklist",
-   "preview": "## Review checklist"
+   "context": "声音与语言",
+   "preview": "## 声音与语言"
   },
   {
    "kind": "added",
-   "block": "a56a5ee8",
-   "type": "list",
-   "context": "Review checklist",
-   "preview": "- Can a silent viewer explain why the camera moved at every "
+   "block": "cab7f711",
+   "type": "para",
+   "context": "声音与语言",
+   "preview": "UI 词汇只用产品词表:Draft / Review / Approve / Comment。禁止内部术语(event、"
   }
  ],
  "policy": "local",
- "soft_fingerprint": "ppsb1:943db7cc761d9cd1616eef2a1e6e749d6e71c88178474b6204119a913fd5fc5d",
+ "soft_fingerprint": "ppsb1:1984bc2845460cc01cfba78bd29105348238ad6118cdb6d369edacddfe9ed8b6",
  "actors": {
   "requested_by": [
-   "richardtang"
+   "richard"
   ],
   "produced_by": [
    "codex"
@@ -312,210 +151,35 @@
    "codex"
   ]
  },
- "attribution_basis": "environment_attested",
+ "attribution_basis": "harness_attested",
  "claims": [
   {
-   "block": "2d841d32",
+   "block": "4565936e",
    "kind": "added",
-   "note": "Added the reusable motion-system title."
+   "note": "Reframed the archived review palette as the shared film, terminal, and future UI brand system."
   },
   {
-   "block": "d4c2acc7",
+   "block": "451376f2",
    "kind": "added",
-   "note": "Defined how this project instruction relates to the HyperFrames skill stack."
+   "note": "Assigned the established palette to edit, why, rejected, and verified semantics."
   },
   {
-   "block": "211e4c3a",
+   "block": "a8d606fe",
    "kind": "added",
-   "note": "Added the core-idea section."
+   "note": "Documented the invariant semantic color mapping."
   },
   {
-   "block": "35420c64",
+   "block": "eeee2405",
    "kind": "added",
-   "note": "Defined the continuous-canvas concept and stable artifact subject."
+   "note": "Documented GitHub Markdown fallbacks and distinguished Action branding metadata."
   },
   {
-   "block": "709b0454",
+   "block": "0287d639",
    "kind": "added",
-   "note": "Added the visual-registers section."
-  },
-  {
-   "block": "bfa080d3",
-   "kind": "added",
-   "note": "Assigned Barlow Condensed to declarative language."
-  },
-  {
-   "block": "47fd8e82",
-   "kind": "added",
-   "note": "Assigned IBM Plex Mono to evidentiary language."
-  },
-  {
-   "block": "2a89fe81",
-   "kind": "added",
-   "note": "Restricted Newsreader to intentional reflective language."
-  },
-  {
-   "block": "0313a4c6",
-   "kind": "added",
-   "note": "Defined the semantic palette roles."
-  },
-  {
-   "block": "64b502ce",
-   "kind": "added",
-   "note": "Defined the rejected-direction color role."
-  },
-  {
-   "block": "1ca2e95a",
-   "kind": "added",
-   "note": "Defined the computed-check color role."
-  },
-  {
-   "block": "a3c06821",
-   "kind": "added",
-   "note": "Recorded prohibited visual defaults."
-  },
-  {
-   "block": "cefad801",
-   "kind": "added",
-   "note": "Completed the prohibited-visual guidance."
-  },
-  {
-   "block": "aa85b0bc",
-   "kind": "added",
-   "note": "Added the visual constraint statement."
-  },
-  {
-   "block": "03e4248f",
-   "kind": "added",
-   "note": "Added the camera-grammar section."
-  },
-  {
-   "block": "2fe6262c",
-   "kind": "added",
-   "note": "Defined fixed stations on one world canvas."
-  },
-  {
-   "block": "29bb99cc",
-   "kind": "added",
-   "note": "Defined the seek-safe camera implementation."
-  },
-  {
-   "block": "3c7a6edf",
-   "kind": "added",
-   "note": "Defined camera-decay and incoming-copy overlap."
-  },
-  {
-   "block": "db11a98c",
-   "kind": "added",
-   "note": "Required a readable hold after close-ups."
-  },
-  {
-   "block": "d0797841",
-   "kind": "added",
-   "note": "Defined direction matching across handoffs."
-  },
-  {
-   "block": "6c841c24",
-   "kind": "added",
-   "note": "Protected artifact identity through motion."
-  },
-  {
-   "block": "6d43f8dd",
-   "kind": "added",
-   "note": "Completed the artifact continuity rule."
-  },
-  {
-   "block": "9a760490",
-   "kind": "added",
-   "note": "Added a camera-transition prohibition."
-  },
-  {
-   "block": "0b97fa08",
-   "kind": "added",
-   "note": "Added the camera-hold timing boundary."
-  },
-  {
-   "block": "1bb6253a",
-   "kind": "added",
-   "note": "Completed the camera grammar."
-  },
-  {
-   "block": "a081730e",
-   "kind": "added",
-   "note": "Added the rhythm section."
-  },
-  {
-   "block": "ff7d8724",
-   "kind": "added",
-   "note": "Defined the launch-film rhythm and evidence order."
-  },
-  {
-   "block": "b1d5e994",
-   "kind": "added",
-   "note": "Added feed-scale typography guidance."
-  },
-  {
-   "block": "3a2a8c77",
-   "kind": "added",
-   "note": "Defined X-feed minimum sizes and square reflow."
-  },
-  {
-   "block": "f15435e7",
-   "kind": "added",
-   "note": "Added semantic rules."
-  },
-  {
-   "block": "1a781cf1",
-   "kind": "added",
-   "note": "Required a coherent fictional strategy revision."
-  },
-  {
-   "block": "10855b4c",
-   "kind": "added",
-   "note": "Separated computed changes from attributed context."
-  },
-  {
-   "block": "29dc333c",
-   "kind": "added",
-   "note": "Excluded unsupported trust claims."
-  },
-  {
-   "block": "89b5377c",
-   "kind": "added",
-   "note": "Defined what travels with the artifact."
-  },
-  {
-   "block": "5588c1e2",
-   "kind": "added",
-   "note": "Completed the handoff semantic rule."
-  },
-  {
-   "block": "cd8148aa",
-   "kind": "added",
-   "note": "Added a semantic guardrail."
-  },
-  {
-   "block": "7558efe4",
-   "kind": "added",
-   "note": "Added the reusable prompt section."
-  },
-  {
-   "block": "0b1fb234",
-   "kind": "added",
-   "note": "Added a copy-ready prompt for future compositions."
-  },
-  {
-   "block": "c16df8fb",
-   "kind": "added",
-   "note": "Added the review-checklist section."
-  },
-  {
-   "block": "a56a5ee8",
-   "kind": "added",
-   "note": "Added silent-view, typography, continuity, and determinism checks."
+   "note": "Aligned diff tag colors with the shared semantic mapping."
   }
  ],
  "context": {
-  "why": "captured the accepted continuous-canvas visual grammar so future Proofpress launch motion can reuse it consistently"
+  "why": "Carry the launch film's semantic palette into the terminal and future UI without allowing each surface to invent its own status colors."
  }
 }
