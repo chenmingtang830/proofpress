@@ -1,174 +1,214 @@
 {
  "event": "version_created",
- "artifact": "docs/internal/launch/film/README.md",
- "artifact_id": "pp_cab7a4ff4f8f5b5137fc6647",
- "version": "8d8ce122",
- "parent": null,
+ "artifact": "README.md",
+ "artifact_id": "pp_556b115de711b0cd33eed260",
+ "version": "7294e49f",
+ "parent": "5bba8cbb",
  "author": {
-  "name": "unknown",
-  "kind": "human",
+  "name": "codex",
+  "kind": "agent",
   "session": null
  },
- "note": null,
- "ts": "2026-07-25T20:31:39+00:00",
+ "note": "document multiplayer portable merge workflow",
+ "ts": "2026-07-25T20:42:24+00:00",
  "stats": {
+  "modified": 5,
   "added": 11
  },
  "changes": [
   {
-   "kind": "added",
-   "block": "953e24a0",
+   "kind": "modified",
+   "block": "d6f9f208",
    "type": "para",
-   "context": "(文首)",
-   "preview": "[//]: # (ob:film-index)"
+   "context": "Status"
   },
   {
-   "kind": "added",
-   "block": "84642bae",
-   "type": "heading",
-   "context": "Proofpress X launch film",
-   "preview": "# Proofpress X launch film"
-  },
-  {
-   "kind": "added",
-   "block": "a19d5964",
-   "type": "heading",
-   "context": "Final",
-   "preview": "## Final"
-  },
-  {
-   "kind": "added",
-   "block": "df37cdd6",
-   "type": "list",
-   "context": "Final",
-   "preview": "- [Launch film — 1920×1080 MP4](final/proofpress-x-launch.mp"
-  },
-  {
-   "kind": "added",
-   "block": "78016e2f",
+   "kind": "modified",
+   "block": "79416c44",
    "type": "para",
-   "context": "Final",
-   "preview": "This is the approved 27-second X launch film with the select"
+   "context": "What “portable” means"
   },
   {
    "kind": "added",
-   "block": "fc7eda2b",
+   "block": "5e991c72",
    "type": "heading",
-   "context": "Source",
-   "preview": "## Source"
+   "context": "Two transport rails",
+   "preview": "### Two transport rails"
   },
   {
    "kind": "added",
-   "block": "fb0d9a9e",
-   "type": "list",
-   "context": "Source",
-   "preview": "- [HyperFrames composition](source/proofpress-x-launch/conti"
-  },
-  {
-   "kind": "added",
-   "block": "ece5c1fa",
+   "block": "398568bb",
    "type": "para",
-   "context": "Source",
-   "preview": "To reproduce the film:"
+   "context": "Two transport rails",
+   "preview": "Inside GitHub, the Markdown/HTML file and its capsule travel"
   },
   {
    "kind": "added",
-   "block": "f62a5720",
+   "block": "a908fde7",
+   "type": "para",
+   "context": "Two transport rails",
+   "preview": "Outside GitHub, the original raw file is the transport. Its "
+  },
+  {
+   "kind": "modified",
+   "block": "bfc931ca",
+   "type": "para",
+   "context": "Two transport rails"
+  },
+  {
+   "kind": "added",
+   "block": "47f21d3a",
+   "type": "heading",
+   "context": "Parallel copies of the same document",
+   "preview": "### Parallel copies of the same document"
+  },
+  {
+   "kind": "added",
+   "block": "55bcd98e",
+   "type": "para",
+   "context": "Parallel copies of the same document",
+   "preview": "Portable files do not require Git to merge. Keep every origi"
+  },
+  {
+   "kind": "added",
+   "block": "8f498c01",
    "type": "code",
-   "context": "Source",
-   "preview": "```bash\ncd source/proofpress-x-launch\nnpm ci\nnpx hyperframes"
+   "context": "Parallel copies of the same document",
+   "preview": "```sh\npython3 proofpress.py merge-plan proposal-alice.md \\\n "
   },
   {
    "kind": "added",
-   "block": "032560c6",
-   "type": "heading",
-   "context": "Archive",
-   "preview": "## Archive"
-  },
-  {
-   "kind": "added",
-   "block": "0eb8b05f",
+   "block": "d4ed0d79",
    "type": "para",
-   "context": "Archive",
-   "preview": "`archive/` contains superseded renders, rejected music exper"
+   "context": "Parallel copies of the same document",
+   "preview": "The command never rewrites the document. An agent can combin"
+  },
+  {
+   "kind": "added",
+   "block": "74883804",
+   "type": "code",
+   "context": "Parallel copies of the same document",
+   "preview": "```sh\npython3 proofpress.py anchor proposal-alice.md\npython3"
+  },
+  {
+   "kind": "added",
+   "block": "1575e201",
+   "type": "para",
+   "context": "Parallel copies of the same document",
+   "preview": "All inputs must be portable copies of the same `artifact_id`"
+  },
+  {
+   "kind": "modified",
+   "block": "8deed5b3",
+   "type": "list",
+   "context": "Surfaces"
+  },
+  {
+   "kind": "added",
+   "block": "68addd0d",
+   "type": "para",
+   "context": "Surfaces",
+   "preview": "  working branches; portable capsules are the public per-fil"
+  },
+  {
+   "kind": "added",
+   "block": "cb5c6c0f",
+   "type": "list",
+   "context": "Surfaces",
+   "preview": "- `skills/`: Claude Code, Codex, Cursor, and Pi authoring co"
+  },
+  {
+   "kind": "modified",
+   "block": "820f39ab",
+   "type": "para",
+   "context": "Surfaces"
   }
  ],
  "policy": "local",
- "soft_fingerprint": "ppsb1:752f7e7659d6ab211795c2a2c5222977d4b289469b99b66258478189c7a9e5bc",
+ "soft_fingerprint": "ppsb1:97694503383b5cc0f278035c466c4aa0d5600433a926045b96bcacdba48b664a",
  "actors": {
   "requested_by": [
-   "Richard Tang"
+   "Richard"
   ],
   "produced_by": [
-   "OpenAI Codex"
+   "codex"
   ],
   "edited_by": [
-   "OpenAI Codex"
+   "codex"
   ],
   "recorded_by": [
-   "OpenAI Codex"
+   "codex"
   ]
  },
  "attribution_basis": "harness_attested",
  "claims": [
   {
-   "block": "953e24a0",
-   "kind": "added",
-   "note": "Created the launch film index."
+   "block": "d6f9f208",
+   "kind": "modified"
   },
   {
-   "block": "84642bae",
-   "kind": "added",
-   "note": "Named the curated launch-film package."
+   "block": "79416c44",
+   "kind": "modified"
   },
   {
-   "block": "a19d5964",
-   "kind": "added",
-   "note": "Added the final-deliverable section."
+   "block": "5e991c72",
+   "kind": "added"
   },
   {
-   "block": "df37cdd6",
-   "kind": "added",
-   "note": "Linked the approved launch MP4."
+   "block": "398568bb",
+   "kind": "added"
   },
   {
-   "block": "78016e2f",
-   "kind": "added",
-   "note": "Identified the approved duration and soundtrack."
+   "block": "a908fde7",
+   "kind": "added"
   },
   {
-   "block": "fc7eda2b",
-   "kind": "added",
-   "note": "Added the reproducible-source section."
+   "block": "bfc931ca",
+   "kind": "modified"
   },
   {
-   "block": "fb0d9a9e",
-   "kind": "added",
-   "note": "Linked the composition, motion system, and music-rights record."
+   "block": "47f21d3a",
+   "kind": "added"
   },
   {
-   "block": "ece5c1fa",
-   "kind": "added",
-   "note": "Introduced reproduction instructions."
+   "block": "55bcd98e",
+   "kind": "added"
   },
   {
-   "block": "f62a5720",
-   "kind": "added",
-   "note": "Recorded the install, check, and render commands."
+   "block": "8f498c01",
+   "kind": "added"
   },
   {
-   "block": "032560c6",
-   "kind": "added",
-   "note": "Added the archive section."
+   "block": "d4ed0d79",
+   "kind": "added"
   },
   {
-   "block": "0eb8b05f",
-   "kind": "added",
-   "note": "Explained which superseded materials remain archived."
+   "block": "74883804",
+   "kind": "added"
+  },
+  {
+   "block": "1575e201",
+   "kind": "added"
+  },
+  {
+   "block": "8deed5b3",
+   "kind": "modified"
+  },
+  {
+   "block": "68addd0d",
+   "kind": "added"
+  },
+  {
+   "block": "cb5c6c0f",
+   "kind": "added"
+  },
+  {
+   "block": "820f39ab",
+   "kind": "modified"
   }
  ],
  "context": {
-  "why": "Curate the launch-film workspace so the approved deliverable is immediately visible, the final composition remains reproducible, and superseded experiments are clearly separated."
+  "why": "make Git and non-Git collaboration paths and same-document merging explicit"
  },
- "event_id": "ppe_362849de9092926f63f4bfbd"
+ "event_id": "ppe_1949bc03bbea9365413ef370"
 }
