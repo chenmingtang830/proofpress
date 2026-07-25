@@ -2,141 +2,34 @@
  "event": "version_created",
  "artifact": "docs/internal/DESIGN.md",
  "artifact_id": "pp_d0d37230a5f87d707a339766",
- "version": "0ce54d15",
- "parent": null,
+ "version": "931c7add",
+ "parent": "0ce54d15",
  "author": {
   "name": "codex",
   "kind": "agent",
   "session": null
  },
  "note": null,
- "ts": "2026-07-25T20:03:10+00:00",
+ "ts": "2026-07-25T20:04:22+00:00",
  "stats": {
-  "added": 17
+  "modified": 2
  },
  "changes": [
   {
-   "kind": "added",
-   "block": "ae580676",
-   "type": "heading",
-   "context": "Proofpress 设计系统 — 审阅页(归档:第二幕/cloud UI 图纸",
-   "preview": "# Proofpress 设计系统 — 审阅页(归档:第二幕/cloud UI 图纸)"
-  },
-  {
-   "kind": "added",
-   "block": "4565936e",
-   "type": "para",
-   "context": "Proofpress 设计系统 — 审阅页(归档:第二幕/cloud UI 图纸",
-   "preview": "**状态(2026-07-25)**:serve 审阅页已随战略大修整体砍掉(裁决借 GitHub 原生 review)"
-  },
-  {
-   "kind": "added",
-   "block": "9787677e",
-   "type": "para",
-   "context": "Proofpress 设计系统 — 审阅页(归档:第二幕/cloud UI 图纸",
-   "preview": "一句话:**纸墨账本**。纸面底色、墨色正文、一个青蓝强调色管全部交互;语义色只给 diff。信息密度服从\"审阅\"这一个"
-  },
-  {
-   "kind": "added",
-   "block": "7056876e",
-   "type": "heading",
-   "context": "色彩令牌",
-   "preview": "## 色彩令牌"
-  },
-  {
-   "kind": "added",
+   "kind": "modified",
    "block": "451376f2",
    "type": "table",
-   "context": "色彩令牌",
-   "preview": "| 令牌 | Light | Dark | 用途 |\n|---|---|---|---|\n| paper | #FAF9"
+   "context": "色彩令牌"
   },
   {
-   "kind": "added",
+   "kind": "modified",
    "block": "a8d606fe",
    "type": "para",
-   "context": "色彩令牌",
-   "preview": "规则:accent 只有一个；白色承载主要内容，青色承载 Proofpress 与 edit，橙色承载 why，红色承载"
-  },
-  {
-   "kind": "added",
-   "block": "eeee2405",
-   "type": "para",
-   "context": "色彩令牌",
-   "preview": "GitHub PR comment 的降级映射固定为 `🔵 mod`、`🟣 mov`、`🔴 del`、`🟢 new`。其"
-  },
-  {
-   "kind": "added",
-   "block": "f49db722",
-   "type": "heading",
-   "context": "字体",
-   "preview": "## 字体"
-  },
-  {
-   "kind": "added",
-   "block": "53b8c3a4",
-   "type": "list",
-   "context": "字体",
-   "preview": "- 页面标题 / 文档大标题:Songti SC / Noto Serif SC,900——账本的仪式感。\n- 正文与 "
-  },
-  {
-   "kind": "added",
-   "block": "46a56fa1",
-   "type": "heading",
-   "context": "版面",
-   "preview": "## 版面"
-  },
-  {
-   "kind": "added",
-   "block": "8aa0ba5a",
-   "type": "list",
-   "context": "版面",
-   "preview": "- 单栏,内容最大宽 760px;文档正文行宽 ≤ 70 字符。\n- 层次自上而下固定:导航行 → 元信息行 → 变更摘"
-  },
-  {
-   "kind": "added",
-   "block": "f43f7a30",
-   "type": "heading",
-   "context": "组件",
-   "preview": "## 组件"
-  },
-  {
-   "kind": "added",
-   "block": "0287d639",
-   "type": "list",
-   "context": "组件",
-   "preview": "- **chip**:圆角胶囊,11.5px;状态色——published 绿、待审/待回应 黄、agent 青。\n- "
-  },
-  {
-   "kind": "added",
-   "block": "7578205b",
-   "type": "heading",
-   "context": "反馈状态机(页面文案随账本状态走)",
-   "preview": "## 反馈状态机(页面文案随账本状态走)"
-  },
-  {
-   "kind": "added",
-   "block": "aae4f716",
-   "type": "para",
-   "context": "反馈状态机(页面文案随账本状态走)",
-   "preview": "待回应(feedback 新于最新版本)→ 修订中(agent 会话活跃,后续 SSE)→ 已回应(新版本落账,页面自动"
-  },
-  {
-   "kind": "added",
-   "block": "300ee19f",
-   "type": "heading",
-   "context": "声音与语言",
-   "preview": "## 声音与语言"
-  },
-  {
-   "kind": "added",
-   "block": "cab7f711",
-   "type": "para",
-   "context": "声音与语言",
-   "preview": "UI 词汇只用产品词表:Draft / Review / Approve / Comment。禁止内部术语(event、"
+   "context": "色彩令牌"
   }
  ],
  "policy": "local",
- "soft_fingerprint": "ppsb1:1984bc2845460cc01cfba78bd29105348238ad6118cdb6d369edacddfe9ed8b6",
+ "soft_fingerprint": "ppsb1:96f563dc6d1db4968c0d0d086b060b25dedc79be3870d6384f0d458503178f76",
  "actors": {
   "requested_by": [
    "richard"
@@ -154,32 +47,17 @@
  "attribution_basis": "harness_attested",
  "claims": [
   {
-   "block": "4565936e",
-   "kind": "added",
-   "note": "Reframed the archived review palette as the shared film, terminal, and future UI brand system."
-  },
-  {
    "block": "451376f2",
-   "kind": "added",
-   "note": "Assigned the established palette to edit, why, rejected, and verified semantics."
+   "kind": "modified",
+   "note": "Made the film's softer orange and red the canonical dark semantic tokens."
   },
   {
    "block": "a8d606fe",
-   "kind": "added",
-   "note": "Documented the invariant semantic color mapping."
-  },
-  {
-   "block": "eeee2405",
-   "kind": "added",
-   "note": "Documented GitHub Markdown fallbacks and distinguished Action branding metadata."
-  },
-  {
-   "block": "0287d639",
-   "kind": "added",
-   "note": "Aligned diff tag colors with the shared semantic mapping."
+   "kind": "modified",
+   "note": "Recorded the exact launch-film color values used across dark interfaces."
   }
  ],
  "context": {
-  "why": "Carry the launch film's semantic palette into the terminal and future UI without allowing each surface to invent its own status colors."
+  "why": "Use the launch film's exact orange and red as the canonical dark palette rather than preserving close but visibly different legacy UI values."
  }
 }

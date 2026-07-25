@@ -28,15 +28,15 @@
   },
   {
    "type": "table",
-   "text": "| 令牌 | Light | Dark | 用途 |\n|---|---|---|---|\n| paper | #FAF9F5 | #15171C | 页面底 |\n| ink / ink-2 / ink-3 | #20222B / #5A5D6B / #8B8E9C | #E9E7E0 / #A6A9B4 / #787B87 | 正文 / 次要 / 弱化 |\n| line | #E3E1D9 | #2C2F38 | 边线 |\n| card / wash | #FFFFFF / #F1EFE8 | #1D2027 / #22252D | 卡片 / 浅底 |\n| accent / accent-soft | #0E5E6F / #E3EEF0 | #5FB3C4 / #173741 | 品牌主色、edit、modified、交互 |\n| add / add-bg | #2E7D4F / #E7F2EA | #6FBF8E / #1B3226 | verified、added、approve |\n| del / del-bg | #B4453A / #F7E9E7 | #E08B80 / #3A2320 | rejected、removed |\n| move / move-bg | #8A6210 / #F5EEDC | #D3A94F / #332B18 | why、moved、需要注意但不是告警 |",
+   "text": "| 令牌 | Light | Dark | 用途 |\n|---|---|---|---|\n| paper | #FAF9F5 | #15171C | 页面底 |\n| ink / ink-2 / ink-3 | #20222B / #5A5D6B / #8B8E9C | #E9E7E0 / #A6A9B4 / #787B87 | 正文 / 次要 / 弱化 |\n| line | #E3E1D9 | #2C2F38 | 边线 |\n| card / wash | #FFFFFF / #F1EFE8 | #1D2027 / #22252D | 卡片 / 浅底 |\n| accent / accent-soft | #0E5E6F / #E3EEF0 | #5FB3C4 / #173741 | 品牌主色、edit、modified、交互 |\n| add / add-bg | #2E7D4F / #E7F2EA | #6FBF8E / #1B3226 | verified、added、approve |\n| del / del-bg | #B4453A / #F7E9E7 | #C87E82 / #3A2320 | rejected、removed |\n| move / move-bg | #8A6210 / #F5EEDC | #D7B56D / #332B18 | why、moved、需要注意但不是告警 |",
    "id": "451376f2",
-   "hash": "a7574015f406"
+   "hash": "bf45cd208d69"
   },
   {
    "type": "para",
-   "text": "规则:accent 只有一个；白色承载主要内容，青色承载 Proofpress 与 edit，橙色承载 why，红色承载 rejected，绿色只承载 verified。相邻的 diff 状态沿用相同含义：modified 青、moved 橙、removed 红、added 绿。语义色不作装饰；两套主题都必须校稿。",
+   "text": "规则:dark UI 以 launch film 为 canonical palette：white `#EAE8E0` 承载主要内容，cyan `#5FB3C4` 承载 Proofpress 与 edit，orange `#D7B56D` 承载 why，red `#C87E82` 承载 rejected，green `#6FBF8E` 只承载 verified。相邻的 diff 状态沿用相同含义：modified 青、moved 橙、removed 红、added 绿。语义色不作装饰；两套主题都必须校稿。",
    "id": "a8d606fe",
-   "hash": "a09ed625f30c"
+   "hash": "f916d844b71a"
   },
   {
    "type": "para",
