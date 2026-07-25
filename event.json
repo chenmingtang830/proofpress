@@ -1,29 +1,80 @@
 {
  "event": "version_created",
- "artifact": "skills/codex/AGENTS-snippet.md",
- "artifact_id": "pp_703c3fa926abb512e7199332",
- "version": "4184bbd9",
- "parent": "3c2ad53c",
+ "artifact": "docs/internal/launch/x-launch.md",
+ "artifact_id": "pp_5c19a32e9dea0da4c55aae96",
+ "version": "b7ff6698",
+ "parent": "c44126d9",
  "author": {
   "name": "codex",
   "kind": "agent",
   "session": null
  },
  "note": null,
- "ts": "2026-07-24T23:41:06+00:00",
+ "ts": "2026-07-25T05:29:37+00:00",
  "stats": {
-  "modified": 1
+  "modified": 6,
+  "added": 2
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "bc88257e",
+   "block": "b60dd55f",
    "type": "para",
-   "context": "Proofpress: ledger Markdown and static H"
+   "context": "Canonical launch post"
+  },
+  {
+   "kind": "modified",
+   "block": "d8c123e5",
+   "type": "para",
+   "context": "Canonical launch post"
+  },
+  {
+   "kind": "modified",
+   "block": "7bc5247b",
+   "type": "para",
+   "context": "Reply thread",
+   "numbers": [
+    [
+     "280",
+     "2"
+    ]
+   ]
+  },
+  {
+   "kind": "modified",
+   "block": "01bbac2a",
+   "type": "heading",
+   "context": "Reply 1 — open-source repository and dem"
+  },
+  {
+   "kind": "modified",
+   "block": "d5e07adc",
+   "type": "para",
+   "context": "Reply 1 — open-source repository and dem"
+  },
+  {
+   "kind": "modified",
+   "block": "be93dc6e",
+   "type": "heading",
+   "context": "Reply 2 — short founder vision note"
+  },
+  {
+   "kind": "added",
+   "block": "3cf9e546",
+   "type": "para",
+   "context": "Reply 2 — short founder vision note",
+   "preview": "> Git made code collaborative. Proofpress makes intelligence"
+  },
+  {
+   "kind": "added",
+   "block": "58467760",
+   "type": "para",
+   "context": "Reply 2 — short founder vision note",
+   "preview": "Article source: `docs/internal/launch/vision-article.md`. Ke"
   }
  ],
  "policy": "local",
- "soft_fingerprint": "ppsb1:5c9b281006bc4609c1f862d7c2bca06d6df550c8e909e0e9739f5844fbe11e03",
+ "soft_fingerprint": "ppsb1:e73e02007aed1ff140e3f22514a5f74da8d676c24b4e79acba6df752530e912f",
  "actors": {
   "requested_by": [
    "richardtang"
@@ -41,12 +92,47 @@
  "attribution_basis": "environment_attested",
  "claims": [
   {
-   "block": "bc88257e",
+   "block": "b60dd55f",
    "kind": "modified",
-   "note": "Updated consent-first installation guidance to name the stable package."
+   "note": "Reframed the main post as a link-free native-video category introduction."
+  },
+  {
+   "block": "d8c123e5",
+   "kind": "modified",
+   "note": "Removed the repository URL from the main post so its primary asset remains the launch film."
+  },
+  {
+   "block": "7bc5247b",
+   "kind": "modified",
+   "note": "Set the reply order to repository/demo first and vision article second."
+  },
+  {
+   "block": "01bbac2a",
+   "kind": "modified",
+   "note": "Renamed Reply 1 to reflect its repository and portable-demo conversion role."
+  },
+  {
+   "block": "d5e07adc",
+   "kind": "modified",
+   "note": "Replaced the article reply copy with a concrete open-source repository and five-minute demo call to action."
+  },
+  {
+   "block": "be93dc6e",
+   "kind": "modified",
+   "note": "Reframed the former article-source block as the Reply 2 vision-note heading."
+  },
+  {
+   "block": "3cf9e546",
+   "kind": "added",
+   "note": "Added concise Reply 2 copy linking the Git-to-cumulative-intelligence vision note."
+  },
+  {
+   "block": "58467760",
+   "kind": "added",
+   "note": "Added guidance keeping the article focused on vision rather than repeating the demo or FAQ."
   }
  ],
  "context": {
-  "why": "aligned consent-first installation guidance with the published Proofpress 0.1.0 stable npm release"
+  "why": "optimized the X launch thread for native-video reach, immediate repository conversion, and a separate concise vision note"
  }
 }
