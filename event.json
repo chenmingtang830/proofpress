@@ -1,106 +1,37 @@
 {
  "event": "version_created",
- "artifact": "docs/PRIVACY_AND_DISCLOSURE.md",
- "artifact_id": "pp_618aa4fd82cd69d084172178",
- "version": "43018aac",
- "parent": "7c6528f2",
+ "artifact": "skills/README.md",
+ "artifact_id": "pp_e74be09a9d28f1855db4a007",
+ "version": "5d619844",
+ "parent": "a11b8e87",
  "author": {
   "name": "codex",
   "kind": "agent",
   "session": null
  },
- "note": "define multiplayer merge disclosure boundary",
- "ts": "2026-07-25T20:42:32+00:00",
+ "note": "add shared parallel-copy workflow",
+ "ts": "2026-07-25T20:42:36+00:00",
  "stats": {
-  "modified": 9,
-  "added": 4
+  "added": 2
  },
  "changes": [
   {
-   "kind": "modified",
-   "block": "9db57e7e",
-   "type": "para",
-   "context": "Privacy Boundaries for Portable Artifact"
-  },
-  {
-   "kind": "modified",
-   "block": "7407f209",
-   "type": "para",
-   "context": "结论先行"
-  },
-  {
-   "kind": "modified",
-   "block": "d3c3fb06",
-   "type": "para",
-   "context": "1. 正确的心智模型"
-  },
-  {
-   "kind": "modified",
-   "block": "e2605fb1",
+   "kind": "added",
+   "block": "f20cc96e",
    "type": "list",
-   "context": "3. 核心不变量"
+   "context": "Shared contract",
+   "preview": "8. When several portable copies share an artifact and lineag"
   },
   {
    "kind": "added",
-   "block": "58a799c4",
+   "block": "bc82651b",
    "type": "para",
-   "context": "3. 核心不变量",
-   "preview": "    已公开的记录，不得读取或复制参与者本地 ref 中的 private interval。"
-  },
-  {
-   "kind": "added",
-   "block": "2df8ee5c",
-   "type": "heading",
-   "context": "4.3 多人 portable merge",
-   "preview": "### 4.3 多人 portable merge"
-  },
-  {
-   "kind": "added",
-   "block": "1b38d216",
-   "type": "para",
-   "context": "4.3 多人 portable merge",
-   "preview": "同一 artifact 的并行 copy 可以各自公开不同的 capsule 分支。合并时，\nProofpress 验证"
-  },
-  {
-   "kind": "added",
-   "block": "b0960269",
-   "type": "para",
-   "context": "4.3 多人 portable merge",
-   "preview": "因此，参与者没有提交的草稿、local-only actors/reasons、被清除的 private\ninterva"
-  },
-  {
-   "kind": "modified",
-   "block": "1b4a1e02",
-   "type": "para",
-   "context": "6.5 Re-enable portable"
-  },
-  {
-   "kind": "modified",
-   "block": "7ccd86ac",
-   "type": "list",
-   "context": "8.3 Redaction"
-  },
-  {
-   "kind": "modified",
-   "block": "0d3174f5",
-   "type": "heading",
-   "context": "9. V1 edge cases"
-  },
-  {
-   "kind": "modified",
-   "block": "2c249df0",
-   "type": "heading",
-   "context": "10. V1 明确不做"
-  },
-  {
-   "kind": "modified",
-   "block": "3208f8df",
-   "type": "para",
-   "context": "11. Release acceptance tests"
+   "context": "Shared contract",
+   "preview": "   original and run `merge-plan TARGET --from COPY...`. Appl"
   }
  ],
  "policy": "local",
- "soft_fingerprint": "ppsb1:bc4fdc0e30c998b695f7c4ff793a29317c286e0e98fc0c4c4cc2489587a0b11d",
+ "soft_fingerprint": "ppsb1:f1749b84b1566e3a8e851cde6a4de1e3df399c733f6fe1b11452b1eccda25bbd",
  "actors": {
   "requested_by": [
    "Richard"
@@ -118,60 +49,16 @@
  "attribution_basis": "harness_attested",
  "claims": [
   {
-   "block": "9db57e7e",
-   "kind": "modified"
-  },
-  {
-   "block": "7407f209",
-   "kind": "modified"
-  },
-  {
-   "block": "d3c3fb06",
-   "kind": "modified"
-  },
-  {
-   "block": "e2605fb1",
-   "kind": "modified"
-  },
-  {
-   "block": "58a799c4",
+   "block": "f20cc96e",
    "kind": "added"
   },
   {
-   "block": "2df8ee5c",
+   "block": "bc82651b",
    "kind": "added"
-  },
-  {
-   "block": "1b38d216",
-   "kind": "added"
-  },
-  {
-   "block": "b0960269",
-   "kind": "added"
-  },
-  {
-   "block": "1b4a1e02",
-   "kind": "modified"
-  },
-  {
-   "block": "7ccd86ac",
-   "kind": "modified"
-  },
-  {
-   "block": "0d3174f5",
-   "kind": "modified"
-  },
-  {
-   "block": "2c249df0",
-   "kind": "modified"
-  },
-  {
-   "block": "3208f8df",
-   "kind": "modified"
   }
  ],
  "context": {
-  "why": "ensure merging public capsules cannot leak local-only ledger intervals"
+  "why": "teach all harness adapters the two-stage portable merge flow"
  },
- "event_id": "ppe_65e1a3908405e87deb8f395f"
+ "event_id": "ppe_afe9dca6d400b5eea4f8773a"
 }
