@@ -1,47 +1,47 @@
 {
  "event": "version_created",
- "artifact": "docs/internal/launch/x-launch.md",
- "artifact_id": "pp_5c19a32e9dea0da4c55aae96",
- "version": "88737170",
- "parent": "741a936d",
+ "artifact": "docs/internal/launch/README.md",
+ "artifact_id": "pp_fc140b7b208f2d17adbfc132",
+ "version": "3aa58fe6",
+ "parent": "c3fd86a5",
  "author": {
   "name": "codex",
   "kind": "agent",
   "session": null
  },
- "note": "Finalize the X launch copy around the live 0.2.0 release",
- "ts": "2026-07-26T15:01:57+00:00",
+ "note": "Record the live release and approved compound positioning",
+ "ts": "2026-07-26T15:02:01+00:00",
  "stats": {
   "modified": 4
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "1fdd0312",
+   "block": "45543a07",
    "type": "para",
-   "context": "Proofpress X launch"
+   "context": "Proofpress launch workspace"
   },
   {
    "kind": "modified",
-   "block": "d8c123e5",
+   "block": "58c8755b",
    "type": "para",
-   "context": "Canonical launch post"
+   "context": "Positioning"
   },
   {
    "kind": "modified",
-   "block": "d5e07adc",
+   "block": "24684d4d",
    "type": "para",
-   "context": "Reply 1 — open-source repository and dem"
+   "context": "Positioning"
   },
   {
    "kind": "modified",
-   "block": "3cf9e546",
+   "block": "fa87ca5a",
    "type": "para",
-   "context": "Reply 2 — short founder vision note"
+   "context": "Repository promotion flow"
   }
  ],
  "policy": "local",
- "soft_fingerprint": "ppsb1:27c5496739d1e5899486006899124c257a53a354171ee91d63b1baf9b6df6f81",
+ "soft_fingerprint": "ppsb1:6a59e947aa0a79b7245a4ca02c9bbd7879fb9b35de42165174b73b2b7ac655f6",
  "actors": {
   "requested_by": [
    "Richard"
@@ -59,28 +59,28 @@
  "attribution_basis": "harness_attested",
  "claims": [
   {
-   "block": "1fdd0312",
+   "block": "45543a07",
    "kind": "modified",
-   "note": "Update readiness status and the approved film duration to 42 seconds."
+   "note": "Record that the public repository and npm 0.2.0 are live while the X article remains pending."
   },
   {
-   "block": "d8c123e5",
+   "block": "58c8755b",
    "kind": "modified",
-   "note": "Make the main post state the product's solution instead of ending on the unsolved handoff gap."
+   "note": "Replace cumulative with the approved compound vision language."
   },
   {
-   "block": "d5e07adc",
+   "block": "24684d4d",
    "kind": "modified",
-   "note": "Point Reply 1 to the live 0.2.0 repository and portable handoff demo."
+   "note": "Update the product-boundary label from V0 to V1."
   },
   {
-   "block": "3cf9e546",
+   "block": "fa87ca5a",
    "kind": "modified",
-   "note": "Make the remaining article URL launch gate explicit."
+   "note": "Align the release process with protected main and the published package gitHead."
   }
  ],
  "context": {
-  "why": "make the canonical X thread match the shipped product and approved 42-second film"
+  "why": "update the internal launch source of truth after the public repository and npm release went live"
  },
- "event_id": "ppe_e720a29a4eb23322da6382ba"
+ "event_id": "ppe_88435cc9edfda4fb55e43db2"
 }
