@@ -13,9 +13,9 @@ inputs:
     description: "Token used to post/update the PR comment"
     required: true
   proofpress-path:
-    description: "Path to proofpress.py inside the repository"
+    description: "Optional path to proofpress.py; defaults to the CLI bundled with this Action"
     required: false
-    default: "proofpress.py"
+    default: ""
 
 runs:
   using: "composite"
@@ -42,6 +42,9 @@ runs:
         # because verify exit 2 is an intentional neutral state that we handle
         # explicitly below.
         set +e
+        if [ -z "$PP" ]; then
+          PP="$GITHUB_ACTION_PATH/proofpress.py"
+        fi
         test -f "$PP" || {
           echo "::error::proofpress.py not found at $PP"
           exit 1
