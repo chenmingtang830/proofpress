@@ -26,6 +26,16 @@ test("npm launcher exposes the same version as package.json", () => {
   assert.equal(result.stdout.trim(), `proofpress ${version}`);
 });
 
+test("GitHub Action defaults to its bundled Proofpress CLI", () => {
+  const action = fs.readFileSync(path.join(ROOT, "action.yml"), "utf8");
+  assert.match(
+    action,
+    /proofpress-path:\s+description: "Optional path[\s\S]*?default: ""/
+  );
+  assert.match(action, /PP="\$GITHUB_ACTION_PATH\/proofpress\.py"/);
+  assert.doesNotMatch(action, /default: "proofpress\.py"/);
+});
+
 test("setup installs an idempotent Codex contract, manifest, and badge", () => {
   const cwd = fs.mkdtempSync(path.join(os.tmpdir(), "proofpress-npm-"));
   fs.writeFileSync(path.join(cwd, "README.md"), "# Example\n\nBody.\n");
