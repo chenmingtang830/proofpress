@@ -1,786 +1,336 @@
 {
- "artifact": "docs/internal/launch/README.md",
- "artifact_id": "pp_fc140b7b208f2d17adbfc132",
+ "artifact": "docs/internal/launch/launch-day-runbook.md",
+ "artifact_id": "pp_3ea280179b43a9974bf6a5e6",
  "blocks": [
   {
    "type": "heading",
-   "text": "# Proofpress launch workspace",
-   "id": "04b3a1ef",
-   "hash": "49c085bacc4e"
+   "text": "# Proofpress launch-day runbook",
+   "id": "7116fa3c",
+   "hash": "979cb0f53985"
   },
   {
    "type": "para",
-   "text": "**Status:** public repository and npm 0.2.0 are live; X launch is ready pending final article publication.\n**Owner:** Richard Tang\n**Working repository:** `proofpress-dev` (private)\n**Public repository:** `proofpress` (clean release surface)\n**Release date:** 2026-07-26",
-   "id": "45543a07",
-   "hash": "fe0023c336c9"
-  },
-  {
-   "type": "para",
-   "text": "This directory is the source of truth for Proofpress launch logistics, positioning,\ncreative production, channel operations, release readiness, and the post-launch\nlearning loop. Product implementation remains outside this workspace.",
-   "id": "f0c5eab5",
-   "hash": "3b10143f7451"
-  },
-  {
-   "type": "para",
-   "text": "Launch-day control documents:",
-   "id": "d02678ca",
-   "hash": "461ca45bcfe3"
-  },
-  {
-   "type": "list",
-   "text": "- [Canonical X launch copy](x-launch.md)\n- [Founder vision article](vision-article.md)\n- [Reply FAQ](faq.md)\n- [Launch-day runbook](launch-day-runbook.md)",
-   "id": "4e4030e3",
-   "hash": "249081f4b581"
+   "text": "**Status:** public release live; X launch checklist active.  \n**Launch owner:** Richard Tang.  \n**Default public release channel:** proofpress@0.2.0 on npm `latest`, published\n2026-07-26 with SLSA provenance.",
+   "id": "5d080262",
+   "hash": "5ddfc6de0b8a"
   },
   {
    "type": "heading",
-   "text": "## Launch objective",
-   "id": "5abf00a0",
-   "hash": "25c717b856f0"
+   "text": "## Launch decision",
+   "id": "a44f075f",
+   "hash": "6018d22978bd"
+  },
+  {
+   "type": "list",
+   "text": "- **Hero channel:** X native video plus the public GitHub repository. Use the",
+   "id": "60c34ffc",
+   "hash": "9adaece59775"
   },
   {
    "type": "para",
-   "text": "Launch Proofpress as the trust layer for multiplayer AI: an open, agent-native\nledger that travels with the artifact. The first launch should prove one\nmemorable behavior: a Markdown or static HTML file can carry an accepted,\ninspectable history of what changed and why when it moves outside its original\nchat, session, or Git repository.",
-   "id": "174dceb9",
-   "hash": "b4e88a4e0e00"
+   "text": "  native X upload, not a YouTube link.",
+   "id": "4e427840",
+   "hash": "240db2212b63"
+  },
+  {
+   "type": "list",
+   "text": "- **Primary CTA:** inspect the self-verifying portable-handoff demo and star the",
+   "id": "7ee5e00d",
+   "hash": "6f7dbefe7697"
   },
   {
    "type": "para",
-   "text": "The launch is successful when unfamiliar developers can understand the boundary\nwith Git, complete a portable handoff, and give workflow-level feedback. Stars,\nimpressions, and raw downloads are distribution signals rather than the primary\nsuccess condition.",
-   "id": "c85915b4",
-   "hash": "44304b742400"
+   "text": "  repository. Do not add a waitlist or Discord CTA unless there is an owner and\n  a real follow-up loop.",
+   "id": "26bf668a",
+   "hash": "b30877aafe2b"
+  },
+  {
+   "type": "list",
+   "text": "- **Working launch window:** propose a weekday 09:00–13:00 Pacific window so the",
+   "id": "40189479",
+   "hash": "78d55d669d61"
+  },
+  {
+   "type": "para",
+   "text": "  founder can respond live through the first reaction cycle. Lock the date and\n  exact minute at T-7; coverage matters more than chasing an alleged universal\n  “best” posting hour.",
+   "id": "1e66a7a7",
+   "hash": "98349de2b9b8"
+  },
+  {
+   "type": "list",
+   "text": "- **Show HN:** conditional, not a launch-day dependency. The current HN guidance",
+   "id": "b14f6b86",
+   "hash": "c4a5f960865b"
+  },
+  {
+   "type": "para",
+   "text": "  requires a non-trivial thing people can run, no signup barrier, and an author\n  who is present to discuss it; HN is also temporarily restricting Show HNs for\n  accounts unfamiliar with the community. Submit only after the five-minute path\n  passes and Richard’s account is clearly eligible. Do not recruit booster\n  comments or votes. Source: <https://news.ycombinator.com/showhn.html> and\n  <https://news.ycombinator.com/showlim>.",
+   "id": "6ed48c25",
+   "hash": "e77dff6a542d"
   },
   {
    "type": "heading",
-   "text": "## Positioning",
-   "id": "dcd14722",
-   "hash": "d7f8d4970bb0"
-  },
-  {
-   "type": "para",
-   "text": "Launch lockup:",
-   "id": "bc8c55b6",
-   "hash": "6f7551ccc625"
-  },
-  {
-   "type": "para",
-   "text": "> **Proofpress is the trust layer for multiplayer AI.**\n>\n> **An open, agent-native ledger that travels with the artifact.**",
-   "id": "2d06ade6",
-   "hash": "e5975834e4d0"
-  },
-  {
-   "type": "para",
-   "text": "Category analogy:",
-   "id": "891fd11e",
-   "hash": "022b29fc2fbc"
-  },
-  {
-   "type": "para",
-   "text": "> Think C2PA, but for knowledge work.",
-   "id": "1148d758",
-   "hash": "a1665ceb7142"
-  },
-  {
-   "type": "para",
-   "text": "The analogy describes a portable, inspectable trust record. It does not claim\nC2PA compatibility, cryptographically signed authorship, or complete capture.",
-   "id": "012ea658",
-   "hash": "1e46b897b89c"
-  },
-  {
-   "type": "para",
-   "text": "Vision bridge:",
-   "id": "411fd219",
-   "hash": "61068d9b3536"
-  },
-  {
-   "type": "para",
-   "text": "> Git made code collaborative. Proofpress makes intelligence compound.",
-   "id": "58c8755b",
-   "hash": "d7856cec5e32"
-  },
-  {
-   "type": "para",
-   "text": "Launch-film close:",
-   "id": "ffeca346",
-   "hash": "be5efba839b2"
-  },
-  {
-   "type": "para",
-   "text": "> Scale intelligence. Preserve trust.",
-   "id": "d9e444c1",
-   "hash": "fdf17acf8cbf"
-  },
-  {
-   "type": "para",
-   "text": "Proofpress is not a replacement for Git, a new editor, a chat recorder, or a\nclaim of cryptographically signed authorship. V1 is a transparent,\ntamper-evident reference implementation for Markdown and static HTML knowledge\nartifacts. It records accepted revisions and honest attribution boundaries; it\ndoes not preserve raw prompts or silently execute instructions carried by a\nfile.",
-   "id": "24684d4d",
-   "hash": "349272157e24"
+   "text": "## T-7 to T-1 gates",
+   "id": "7eda4bd1",
+   "hash": "b7f05faf0611"
   },
   {
    "type": "heading",
-   "text": "## Initial audience",
-   "id": "eae2ec33",
-   "hash": "26faaaf3e860"
+   "text": "### Product proof",
+   "id": "5c911357",
+   "hash": "8b8795a14f02"
+  },
+  {
+   "type": "list",
+   "text": "- [x] Run the public proofpress@0.2.0 install in a clean Git receiver repo.\n- [x] Download only examples/portable-handoff/strategy.md; inspect, import, and",
+   "id": "970cc215",
+   "hash": "70aabb59b903"
   },
   {
    "type": "para",
-   "text": "The launch is for developers and technical teams using Codex, Claude Code,\nCursor, or similar agents to produce ADRs, PRDs, design documents, research\nnotes, and operational plans. The sharpest initial pain is not generic document\nversioning: it is losing the accepted reasoning when work crosses agent\nsessions, harnesses, repositories, or people.",
-   "id": "a00af086",
-   "hash": "c3b85ed1b766"
+   "text": "  verify must pass.",
+   "id": "ac03a211",
+   "hash": "5f602ed3cf6e"
+  },
+  {
+   "type": "list",
+   "text": "- [x] Confirm the README, skills, demo guide, and every launch command use",
+   "id": "dfda6a31",
+   "hash": "e3e832db6133"
   },
   {
    "type": "para",
-   "text": "The first demonstration should use a realistic `proposal.md` or\n`design-doc.md`, not an abstract protocol fixture. The recipient should receive\nthe file in a clean directory and recover the portable history without access to\nthe source repository.",
-   "id": "8598f5d0",
-   "hash": "0c356d3fa16d"
+   "text": "  the stable 0.2.0 release channel.",
+   "id": "52d8dc02",
+   "hash": "d7065e03f950"
+  },
+  {
+   "type": "list",
+   "text": "- [x] Promote the stable release to npm `latest`, publish provenance, and create",
+   "id": "59487ee8",
+   "hash": "48fd35e28245"
+  },
+  {
+   "type": "para",
+   "text": "  the matching `v0.2.0` GitHub Release.",
+   "id": "af3e9a75",
+   "hash": "487ec0f4f2d8"
   },
   {
    "type": "heading",
-   "text": "## Launch shape",
-   "id": "be5049da",
-   "hash": "56e052268231"
-  },
-  {
-   "type": "para",
-   "text": "Use a gate-driven launch week rather than a single coordinated blast. One\ncanonical story is expressed differently across owned channels, technical\ncommunities, and direct outreach.",
-   "id": "186385a9",
-   "hash": "919f78732440"
+   "text": "### Public surfaces",
+   "id": "626daac7",
+   "hash": "186bd82e8ab1"
   },
   {
    "type": "list",
-   "text": "- **Day 0 — owned release:** public GitHub repository, npm `next` package,",
-   "id": "e1bf5b7b",
-   "hash": "ab71b253847b"
+   "text": "- [ ] Set GitHub description to: “The trust layer for multiplayer AI — an open,",
+   "id": "8350e21e",
+   "hash": "60bdeb1406d0"
   },
   {
    "type": "para",
-   "text": "  GitHub prerelease, README, launch film, X announcement, and warm-contact\n  notes.",
-   "id": "cafc050d",
-   "hash": "3ebd4b393a54"
+   "text": "  agent-native ledger that travels with the artifact.”",
+   "id": "62d094a5",
+   "hash": "1e2b7ae46fa9"
   },
   {
    "type": "list",
-   "text": "- **Day 1 — technical proof:** publish the portable-carrier and verification",
-   "id": "7bf8d19f",
-   "hash": "f3a78d982e0a"
+   "text": "- [ ] Replace or confirm topics: agentic-ai, multi-agent, knowledge-work,",
+   "id": "1ce5b9fc",
+   "hash": "f4ede79fbd00"
   },
   {
    "type": "para",
-   "text": "  deep dive, including limitations and privacy boundaries.",
-   "id": "7d414d61",
-   "hash": "18ad27efc738"
+   "text": "  markdown, provenance, audit-log, open-source.",
+   "id": "88109f99",
+   "hash": "cd29f55979b9"
   },
   {
    "type": "list",
-   "text": "- **Day 2 — Show HN:** submit the runnable repository with a builder story and",
-   "id": "6d82c70e",
-   "hash": "fe970fad3a02"
+   "text": "- [ ] Add a deliberate social-preview image; the current repository preview is",
+   "id": "9c1c9ffb",
+   "hash": "b432706a84da"
   },
   {
    "type": "para",
-   "text": "  remain available for technical discussion. Never solicit votes or comments.",
-   "id": "abfe9a8b",
-   "hash": "07b1d1ec6fbd"
+   "text": "  the account avatar, not launch artwork.",
+   "id": "d636339d",
+   "hash": "2bab6210489b"
   },
   {
    "type": "list",
-   "text": "- **Day 3 — community-specific distribution:** adapt the story for relevant",
-   "id": "c064a2fa",
-   "hash": "12ab28d4b271"
+   "text": "- [ ] Decide the homepage / landing URL. If an owned landing domain exists, use",
+   "id": "d5edaf53",
+   "hash": "c2413303867c"
   },
   {
    "type": "para",
-   "text": "  agent, Markdown, local-first, and developer-tool communities. Do not\n  cross-post identical promotional copy.",
-   "id": "9b57452c",
-   "hash": "eac25bce1104"
+   "text": "  it as the X link with source tracking; otherwise link directly to GitHub and\n  use GitHub traffic plus X analytics rather than pretending the repository URL\n  has campaign attribution.",
+   "id": "698b764a",
+   "hash": "f3089f11d789"
   },
   {
    "type": "list",
-   "text": "- **Day 4 — objections:** publish answers to recurring questions such as “why",
-   "id": "0ace1242",
-   "hash": "fbd362fdc506"
+   "text": "- [ ] Confirm the intended X handle and any domain availability. Registration is",
+   "id": "30f79e19",
+   "hash": "34feb3958c7b"
   },
   {
    "type": "para",
-   "text": "  not Git?”, “is this signed?”, and “does the capsule leak chat data?”",
-   "id": "84642512",
-   "hash": "1acdd76a0aa3"
-  },
-  {
-   "type": "list",
-   "text": "- **Day 5 — learning report:** share what users completed, where onboarding",
-   "id": "779f988c",
-   "hash": "8bf59b5c3288"
-  },
-  {
-   "type": "para",
-   "text": "  failed, what changed, and what comes next.",
-   "id": "b55a0deb",
-   "hash": "86e228358338"
-  },
-  {
-   "type": "para",
-   "text": "Product Hunt is a later, conditional wave. It becomes worthwhile when the\nproduct has a polished public page, immediately usable onboarding, and enough\ncraft to benefit from a product-discovery audience. It is not a launch-week\nrequirement.",
-   "id": "ca4b7aa9",
-   "hash": "8606a680c691"
+   "text": "  an explicit owner action, not an automated launch task.",
+   "id": "cfa379d5",
+   "hash": "82e52fd723b6"
   },
   {
    "type": "heading",
-   "text": "## Workstreams",
-   "id": "eb86c114",
-   "hash": "643fb03e8e4b"
+   "text": "### People and coverage",
+   "id": "0f1df431",
+   "hash": "3464865ded06"
   },
   {
    "type": "list",
-   "text": "1. **Public-repository logistics:** rename the private source repository to",
-   "id": "8eea6889",
-   "hash": "ed8a75ca1013"
+   "text": "- [ ] Richard posts the X thread and owns factual launch-day replies.\n- [ ] Name one technical-response owner and one metrics / issue-triage owner.\n- [ ] Prepare a small, real warm-contact list for private awareness only. Never",
+   "id": "049f2826",
+   "hash": "9318f36d0221"
   },
   {
    "type": "para",
-   "text": "   `proofpress-dev`; create a clean public `proofpress` repository; define an\n   allowlisted, reviewable promotion flow; protect public `main`.",
-   "id": "69bdc3d5",
-   "hash": "79913435a1cd"
+   "text": "  coordinate HN voting or booster comments.",
+   "id": "0dae50d5",
+   "hash": "3f4b49393e0e"
   },
   {
    "type": "list",
-   "text": "2. **Release integrity:** align the public source commit, GitHub prerelease, npm",
-   "id": "7025c593",
-   "hash": "0c7551999ee1"
+   "text": "- [ ] Block the first four hours after launch for replies, bug triage, and",
+   "id": "ab97c2c4",
+   "hash": "eceef0c32c2d"
   },
   {
    "type": "para",
-   "text": "   package, version, install command, and provenance. Use npm trusted publishing\n   from the public repository and stage releases for human approval.",
-   "id": "4831f28f",
-   "hash": "a4320338e55d"
-  },
-  {
-   "type": "list",
-   "text": "3. **Narrative and claims:** freeze the launch message, supported claims,",
-   "id": "4be3f2f5",
-   "hash": "d0c58003d258"
-  },
-  {
-   "type": "para",
-   "text": "   limitations, FAQ, and channel-specific language before creative production.",
-   "id": "6dccd609",
-   "hash": "45fdf3960681"
-  },
-  {
-   "type": "list",
-   "text": "4. **Launch film:** produce the hero film first, then derive shorter cuts,",
-   "id": "709b9d10",
-   "hash": "44b0536fee29"
-  },
-  {
-   "type": "para",
-   "text": "   poster frames, GIFs, and stills from the same source.",
-   "id": "52701d45",
-   "hash": "ca3e997b448a"
-  },
-  {
-   "type": "list",
-   "text": "5. **Runnable proof:** provide a copy-and-paste portable handoff that completes",
-   "id": "0af1b134",
-   "hash": "06ed25418b00"
-  },
-  {
-   "type": "para",
-   "text": "   in under three minutes without signup or external infrastructure.",
-   "id": "7448800c",
-   "hash": "622dbc8dac7e"
-  },
-  {
-   "type": "list",
-   "text": "6. **Communications:** prepare X, Show HN, technical article, community posts,",
-   "id": "4157e32f",
-   "hash": "aef9f99c0232"
-  },
-  {
-   "type": "para",
-   "text": "   direct outreach, launch-day responses, and issue templates.",
-   "id": "755fa1eb",
-   "hash": "8860c5384024"
-  },
-  {
-   "type": "list",
-   "text": "7. **Operations and learning:** establish go/no-go gates, response ownership,",
-   "id": "f4cabbc8",
-   "hash": "fa0731019624"
-  },
-  {
-   "type": "para",
-   "text": "   metrics capture, incident handling, and the Day-5 retrospective.",
-   "id": "0629a4cb",
-   "hash": "162a480c1cbf"
+   "text": "  observing the demo path.",
+   "id": "dca894f6",
+   "hash": "2fe6aff559e7"
   },
   {
    "type": "heading",
-   "text": "## Film brief",
-   "id": "6bca960a",
-   "hash": "ec92983920d3"
+   "text": "### Reply kit",
+   "id": "f948bc27",
+   "hash": "6ba6be71d4ae"
+  },
+  {
+   "type": "list",
+   "text": "- [ ] Publish-ready answers live in [faq.md](faq.md).\n- [ ] Keep the answer boundary explicit: computed claims are checkable;",
+   "id": "c2bda68f",
+   "hash": "3f5e14c81312"
+  },
+  {
+   "type": "para",
+   "text": "  rationale and attribution are stated context unless independently attested.",
+   "id": "9d21c101",
+   "hash": "5aa386de4b18"
+  },
+  {
+   "type": "list",
+   "text": "- [ ] Prepare one concise answer each for Git blame, C2PA, tampering, privacy,",
+   "id": "904e16d2",
+   "hash": "af26236475e0"
+  },
+  {
+   "type": "para",
+   "text": "  and “why not an LLM diff?”.",
+   "id": "545c9c4a",
+   "hash": "183de8167b47"
   },
   {
    "type": "heading",
-   "text": "### Role",
-   "id": "c5f9e28c",
-   "hash": "47dcf972066f"
+   "text": "## Day-of sequence",
+   "id": "8a66803c",
+   "hash": "42c9ac3fa311"
+  },
+  {
+   "type": "list",
+   "text": "1. Re-run the five-minute portable-handoff path against the live npm tag.\n2. Confirm repository description, topics, social preview, README, demo link,",
+   "id": "872c5f30",
+   "hash": "05ce929ce8c1"
   },
   {
    "type": "para",
-   "text": "The film is the emotional and visual entry point for the launch. It should make\nthe portable handoff legible in under one minute, then send viewers to the\npublic repository for the complete technical proof. It must remain intelligible\nwith sound muted.",
-   "id": "89b936f6",
-   "hash": "f3a612cbd732"
+   "text": "   X native video, and X link destination.",
+   "id": "c566120e",
+   "hash": "740fa8336f03"
+  },
+  {
+   "type": "list",
+   "text": "3. Publish the X main post with the native video; publish the founder article as",
+   "id": "8ca6ff63",
+   "hash": "a1c403899938"
   },
   {
    "type": "para",
-   "text": "The existing `demo/launch.html` is a visual reference, not the production\nscript. Preserve its seal mark, dark/paper contrast, editorial typography,\nterminal texture, and transformation from noisy diff to semantic signal.\nReplace the stale review-page and “one skill” story with the behavior shipped by\nthe current CLI: accepted revision, verified claims, portable handoff,\ninspection, and drift detection.",
-   "id": "2f9e8f03",
-   "hash": "5e6a272f62de"
+   "text": "   Reply 1 immediately after it.",
+   "id": "188a8e0e",
+   "hash": "75923ec7ed1e"
+  },
+  {
+   "type": "list",
+   "text": "4. Record the initial time, npm tag/version, Git commit, and link destination in",
+   "id": "1593a76f",
+   "hash": "a5768b8f346a"
+  },
+  {
+   "type": "para",
+   "text": "   the launch log.",
+   "id": "bf943ba2",
+   "hash": "69314150a56e"
+  },
+  {
+   "type": "list",
+   "text": "5. Respond with the FAQ’s honesty boundary; log recurring objections verbatim",
+   "id": "41bd733c",
+   "hash": "d62cd207ab3e"
+  },
+  {
+   "type": "para",
+   "text": "   enough to improve the product, not just the copy.",
+   "id": "0d2dfd68",
+   "hash": "65201d341ae5"
+  },
+  {
+   "type": "list",
+   "text": "6. Reassess Show HN only after the product path and response coverage are proven.",
+   "id": "cac40c0e",
+   "hash": "2af45a2f0e82"
   },
   {
    "type": "heading",
-   "text": "### Master deliverables",
-   "id": "93862d2e",
-   "hash": "2373794ef874"
+   "text": "## Go / no-go",
+   "id": "fb903b51",
+   "hash": "50f006d4e29c"
+  },
+  {
+   "type": "para",
+   "text": "Do not launch if any of these are false:",
+   "id": "27255d8b",
+   "hash": "5a4d25d3124f"
   },
   {
    "type": "list",
-   "text": "- 45–60 second 16:9 master MP4 for X, GitHub, and the launch page.\n- 20–25 second cut focused on the portable handoff.\n- Captioned and clean masters; the captioned version is the default social",
-   "id": "48bdbeb2",
-   "hash": "b5a3371cb725"
+   "text": "- a clean receiver can install proofpress@next, inspect the demo artifact,",
+   "id": "a843bfc7",
+   "hash": "0ce7e2bd21b2"
   },
   {
    "type": "para",
-   "text": "  asset.",
-   "id": "d6be82fa",
-   "hash": "43908ef1c21c"
+   "text": "  import its ledger, and verify its claims;",
+   "id": "828d99d4",
+   "hash": "af20a8e13efa"
   },
   {
    "type": "list",
-   "text": "- Poster frame, social stills, and a lightweight GIF for README use.\n- Source-controlled composition and reproducible render command in",
-   "id": "dda9b77a",
-   "hash": "3ec271fbc861"
-  },
-  {
-   "type": "para",
-   "text": "  `proofpress-dev`; only finished public assets move to `proofpress`.",
-   "id": "e34e26be",
-   "hash": "b1438f1f74fb"
-  },
-  {
-   "type": "heading",
-   "text": "### Storyboard",
-   "id": "eeefc672",
-   "hash": "b8e423b9036a"
-  },
-  {
-   "type": "list",
-   "text": "1. **0–6s — hook:** “An agent rewrote this design doc. Git kept the lines. Chat",
-   "id": "a2f2e256",
-   "hash": "ead99ff0ab2a"
-  },
-  {
-   "type": "para",
-   "text": "   kept the reasons. Neither travels with the file.”",
-   "id": "2ced2d0e",
-   "hash": "dbd89ffdc585"
-  },
-  {
-   "type": "list",
-   "text": "2. **6–17s — admission:** show a real accepted revision with actor roles,",
-   "id": "5083cfe9",
-   "hash": "6a562300e351"
-  },
-  {
-   "type": "para",
-   "text": "   reason, and claims.",
-   "id": "4fc82063",
-   "hash": "b36f47759c3e"
-  },
-  {
-   "type": "list",
-   "text": "3. **17–29s — compression:** turn a wall of line noise into three semantic",
-   "id": "122d3df3",
-   "hash": "5850a41a0b38"
-  },
-  {
-   "type": "para",
-   "text": "   facts: moved, rewritten, and a numeric delta; visibly verify the recorded\n   claims against the computed diff.",
-   "id": "3e3b4835",
-   "hash": "51c64db6394c"
-  },
-  {
-   "type": "list",
-   "text": "4. **29–43s — money moment:** copy the artifact into a clean directory, run",
-   "id": "2d0876b1",
-   "hash": "eeb72e6fc448"
-  },
-  {
-   "type": "para",
-   "text": "   `inspect` and `import`, and reveal the same portable history without the\n   original repository.",
-   "id": "27e32f0b",
-   "hash": "a7561eddd043"
-  },
-  {
-   "type": "list",
-   "text": "5. **43–51s — boundary:** alter the body or discovery transport and show",
-   "id": "c11404e5",
-   "hash": "9637391b5121"
-  },
-  {
-   "type": "para",
-   "text": "   verification fail honestly.",
-   "id": "8031618e",
-   "hash": "d6503616a620"
-  },
-  {
-   "type": "list",
-   "text": "6. **51–60s — close:** “Scale intelligence. Preserve trust.”",
-   "id": "38081b52",
-   "hash": "3561f7d8608e"
-  },
-  {
-   "type": "para",
-   "text": "   End on the public repository URL; do not add an npm command or competing\n   call to action.",
-   "id": "68c64ed6",
-   "hash": "2ebe16e5f0b0"
-  },
-  {
-   "type": "heading",
-   "text": "### Production approach",
-   "id": "86e26f8e",
-   "hash": "b6c0927e0dd4"
-  },
-  {
-   "type": "para",
-   "text": "Use Remotion as the master composition because typography, terminal content,\ntiming, captions, aspect-ratio variants, and revisions need deterministic,\nframe-level control. Use real CLI output or scripted captures for every product\nclaim. Do not synthesize terminal text or UI behavior that the current product\ncannot reproduce.",
-   "id": "4fe99fd5",
-   "hash": "e80e1a38bcfa"
-  },
-  {
-   "type": "para",
-   "text": "Use Higgsfield/Seedance only for optional 4–8 second atmospheric inserts, such\nas a physical page moving between dark workspaces or the seal becoming an\ninspectable chain. Anchor those shots from approved brand stills. Avoid\nAI-generated product UI, terminal text, logos, and install commands because\ngenerative video is unreliable for exact interface evidence.",
-   "id": "33fcab5b",
-   "hash": "8e0e9e639c3f"
-  },
-  {
-   "type": "para",
-   "text": "The master must work without narration. Begin with kinetic type, UI sound, and\nmusic; add a human voice only if the silent animatic proves that spoken context\nmaterially improves comprehension. Do not default to synthetic presenter or UGC\nstyle.",
-   "id": "ab3b4952",
-   "hash": "e940458da097"
-  },
-  {
-   "type": "heading",
-   "text": "### Tool and skill research",
-   "id": "afb05481",
-   "hash": "96108fa0681b"
-  },
-  {
-   "type": "list",
-   "text": "- [`remotion-dev/skills`](https://github.com/remotion-dev/skills) is the",
-   "id": "63a4fbc4",
-   "hash": "01a0c94dec2d"
-  },
-  {
-   "type": "para",
-   "text": "  preferred production skill set. It is maintained by the Remotion project and\n  covers project creation, video-first React markup, captions, rendering, and\n  iteration. Review its repository licensing before copying any skill content;\n  using the documented workflow does not require vendoring its files.",
-   "id": "bd93b18e",
-   "hash": "3df7c4548096"
-  },
-  {
-   "type": "list",
-   "text": "- [`bradautomates/claude-video`](https://github.com/bradautomates/claude-video)",
-   "id": "d8dba72a",
-   "hash": "f928403088ac"
-  },
-  {
-   "type": "para",
-   "text": "  is a useful analysis and QA assistant, not a renderer. Its `/watch` workflow\n  extracts scene-aware frames and transcripts and can be used to study reference\n  films and inspect the final cut. Installation adds `ffmpeg`, `yt-dlp`, and\n  optional transcription credentials, so it should be installed only when that\n  analysis is needed.",
-   "id": "bcf8b182",
-   "hash": "224c35ccb8cd"
-  },
-  {
-   "type": "list",
-   "text": "- [`new-xp/ultrademo`](https://github.com/new-xp/ultrademo) provides a detailed",
-   "id": "75224554",
-   "hash": "0b608184edeb"
-  },
-  {
-   "type": "para",
-   "text": "  Playwright → narration → Remotion pipeline with strong evidence and QA gates.\n  It is useful as a reference for the separate terminal/product walkthrough,\n  but is not the hero-film foundation because it optimizes for SaaS UI tours and\n  synthetic narration.",
-   "id": "1cf1c05f",
-   "hash": "0a4e6aded1b8"
-  },
-  {
-   "type": "list",
-   "text": "- The existing `higgsfield-generate` capability is sufficient for optional",
-   "id": "3cb83197",
-   "hash": "9c15d6cab665"
-  },
-  {
-   "type": "para",
-   "text": "  Seedance shots and final attention analysis. Prompts should be shot-specific,\n  concrete, under roughly 200 tokens, and describe subject, motion, camera,\n  lighting, and style. Image-to-video prompts should describe motion rather than\n  redescribe the reference frame.",
-   "id": "bf47be17",
-   "hash": "13257eb35e3a"
-  },
-  {
-   "type": "para",
-   "text": "No third-party skill is approved for installation by this research alone.\nBefore installation, inspect its license, scripts, network behavior, dependency\ninstallation, credential handling, and update path.",
-   "id": "8facc150",
-   "hash": "2cabbeaff085"
-  },
-  {
-   "type": "heading",
-   "text": "### Film approval gates",
-   "id": "747858cf",
-   "hash": "176d96af5fdc"
-  },
-  {
-   "type": "list",
-   "text": "- The hook and close are understandable in a silent first watch.\n- Every product claim is shown using current, reproducible behavior.\n- No stale review UI, legacy install command, roadmap feature, secret, personal",
-   "id": "6ebb961e",
-   "hash": "a2bd0fc16d3f"
-  },
-  {
-   "type": "para",
-   "text": "  path, or private repository appears in-frame.",
-   "id": "d9c59f0c",
-   "hash": "fa192d3da81f"
-  },
-  {
-   "type": "list",
-   "text": "- Terminal text remains legible at X playback size.\n- The money moment lands before second 43.\n- Captions, music, and transitions do not obscure the artifact or CLI output.\n- Midpoint frames from every scene pass visual inspection.\n- A fresh viewer can state what Proofpress does and how it differs from Git.",
-   "id": "3903ec72",
-   "hash": "4d662b7f0ed7"
-  },
-  {
-   "type": "heading",
-   "text": "## Launch readiness gates",
-   "id": "ce7286aa",
-   "hash": "eb60483b97f3"
-  },
-  {
-   "type": "heading",
-   "text": "### Product and release",
-   "id": "801f70c7",
-   "hash": "9bb5373f2771"
-  },
-  {
-   "type": "list",
-   "text": "- Public repository contains only approved files and a clean public history.\n- Test suite and npm pack check pass from the public release candidate.\n- README install commands work from a clean machine or container.\n- GitHub release and npm package resolve to the same public source commit.\n- npm trusted publishing, provenance, and staged human approval are configured.\n- Supported operating systems and V0 limitations are explicit.",
-   "id": "be6ae3ae",
-   "hash": "048dd9ce75b6"
-  },
-  {
-   "type": "heading",
-   "text": "### Narrative and conversion",
-   "id": "1afe77a6",
-   "hash": "8cf006b761a0"
-  },
-  {
-   "type": "list",
-   "text": "- README communicates problem, proof, install, portable handoff, and limitations",
-   "id": "1ee3f693",
-   "hash": "7b655f47a392"
-  },
-  {
-   "type": "para",
-   "text": "  in the first reading path.",
-   "id": "ab5a2a21",
-   "hash": "f95536c1ce50"
-  },
-  {
-   "type": "list",
-   "text": "- Film, README, release notes, npm page, and channel copy use the same canonical",
-   "id": "036acdf0",
-   "hash": "286ae88a1a9f"
-  },
-  {
-   "type": "para",
-   "text": "  positioning.",
-   "id": "f6fed1d2",
-   "hash": "ec2f580a5725"
-  },
-  {
-   "type": "list",
-   "text": "- The end-to-end demo requires no signup and completes in under three minutes.\n- FAQ and response notes cover Git overlap, signatures, privacy, metadata",
-   "id": "e9dccb03",
-   "hash": "d2ca4e3459ae"
-  },
-  {
-   "type": "para",
-   "text": "  stripping, prompt injection concerns, and scope outside Markdown/static HTML.",
-   "id": "c33c6a99",
-   "hash": "365c54355037"
-  },
-  {
-   "type": "heading",
-   "text": "### Operations",
-   "id": "39d8e9d2",
-   "hash": "cc77be3b14b6"
-  },
-  {
-   "type": "list",
-   "text": "- Launch-day owner can monitor GitHub Issues, X, HN, npm, and direct messages.\n- Known failure responses and rollback steps exist before Day 0.\n- No channel is asked to vote, amplify, or manufacture engagement.\n- Day-0 through Day-5 assets are ready before the public announcement.",
-   "id": "9b15ad53",
-   "hash": "fac3ffc6a0e5"
-  },
-  {
-   "type": "heading",
-   "text": "## Success measures",
-   "id": "27430797",
-   "hash": "73acbbdfa558"
-  },
-  {
-   "type": "para",
-   "text": "Primary first-week outcomes:",
-   "id": "6ae5dde3",
-   "hash": "2890f4584609"
-  },
-  {
-   "type": "list",
-   "text": "- 10 unfamiliar developers complete installation.\n- 5 complete an end-to-end portable handoff.\n- 3 external repositories adopt or test Proofpress.\n- 10 pieces of concrete workflow feedback are captured.\n- All blockers in the first three minutes of use are identified and triaged.\n- At least one external issue, pull request, adapter request, or integration",
-   "id": "e24a3d06",
-   "hash": "0c3d6aa5414c"
-  },
-  {
-   "type": "para",
-   "text": "  proposal is received.",
-   "id": "b28d163c",
-   "hash": "5fdb3c5e5238"
-  },
-  {
-   "type": "para",
-   "text": "Secondary distribution measures include GitHub traffic, stars, clones, npm\ndownloads, X views and link clicks, HN discussion quality, video completion, and\ndirect-outreach response. They should not substitute for completed workflows.",
-   "id": "e640b129",
-   "hash": "ff9f33f36827"
-  },
-  {
-   "type": "heading",
-   "text": "## Repository promotion flow",
-   "id": "8ce322e8",
-   "hash": "306e9bedc17d"
-  },
-  {
-   "type": "para",
-   "text": "`proofpress-dev` is the private working source. Feature work is reviewed and\ntested there. A public release candidate exports an explicit allowlist into a\nbranch of the clean `proofpress` repository, runs secret and private-path scans,\ntests and packs the result, then opens a public release PR. Public `main` is\nprotected and is never updated by a direct push from the private repository.",
-   "id": "19624df8",
-   "hash": "d2999e1b3025"
-  },
-  {
-   "type": "para",
-   "text": "Accepted external contributions begin in the public repository. Their patch is\nbrought back into `proofpress-dev`, validated with the private source of truth,\nand included in the next allowlisted promotion. npm releases are created only\nfrom protected public `main` and paired with a tag and GitHub Release that point\nto the published package's `gitHead`.",
-   "id": "fa87ca5a",
-   "hash": "d5f646c26de2"
-  },
-  {
-   "type": "heading",
-   "text": "## Planned companion documents",
-   "id": "7eb0a6b9",
-   "hash": "b37feb7b39a4"
-  },
-  {
-   "type": "list",
-   "text": "- `launch-readiness-checklist.md`\n- `communications-kit.md`\n- `launch-film-brief.md`\n- `channel-calendar.md`\n- `stakeholder-outreach.md`\n- `public-repo-publication-flow.md`\n- `metrics-and-retrospective.md`",
-   "id": "9a5f6bc0",
-   "hash": "9c1ba0835abe"
-  },
-  {
-   "type": "para",
-   "text": "Create these when their workstream begins. Until then, this file remains the\ncanonical plan and records decisions without multiplying stale drafts.",
-   "id": "cfc17f0f",
-   "hash": "ff4753d215ec"
-  },
-  {
-   "type": "heading",
-   "text": "## Immediate next actions",
-   "id": "3787cf16",
-   "hash": "de65a10da389"
-  },
-  {
-   "type": "list",
-   "text": "1. Lock the film hook, money moment, close, duration, aspect ratio, and silent",
-   "id": "31712d31",
-   "hash": "20192011b2db"
-  },
-  {
-   "type": "para",
-   "text": "   design.",
-   "id": "b0f34f2f",
-   "hash": "841fb54bad97"
-  },
-  {
-   "type": "list",
-   "text": "2. Install or locally reference the selected Remotion skill only after its",
-   "id": "0bb438fe",
-   "hash": "d1bd6dfbae34"
-  },
-  {
-   "type": "para",
-   "text": "   license and dependency behavior are approved.",
-   "id": "f996a436",
-   "hash": "cc1057a5bf80"
-  },
-  {
-   "type": "list",
-   "text": "3. Build a low-fidelity storyboard and silent animatic before generating any AI",
-   "id": "a5c4d0fe",
-   "hash": "9d19a90fe76d"
-  },
-  {
-   "type": "para",
-   "text": "   footage or recording final terminal scenes.",
-   "id": "6b705095",
-   "hash": "7a2b990ebd59"
-  },
-  {
-   "type": "list",
-   "text": "4. Validate each CLI beat against the current implementation and capture",
-   "id": "e6a26a70",
-   "hash": "75bc68434618"
-  },
-  {
-   "type": "para",
-   "text": "   canonical output from a disposable demo repository.",
-   "id": "bde94150",
-   "hash": "1a2d727263ce"
-  },
-  {
-   "type": "list",
-   "text": "5. Review the animatic, then produce sound, captions, derived cuts, and",
-   "id": "22d04229",
-   "hash": "12e9c97528d3"
-  },
-  {
-   "type": "para",
-   "text": "   frame-by-frame QA.",
-   "id": "69024c76",
-   "hash": "cecc38a04baf"
-  },
-  {
-   "type": "list",
-   "text": "6. Resume public-repository logistics after the film narrative is locked so the",
-   "id": "132c2050",
-   "hash": "e346f247bca0"
-  },
-  {
-   "type": "para",
-   "text": "   public README and release surface inherit the same message.",
-   "id": "3757fc8d",
-   "hash": "ce8b9148502d"
-  },
-  {
-   "type": "heading",
-   "text": "## References",
-   "id": "3d707aa9",
-   "hash": "3f17be8543bd"
-  },
-  {
-   "type": "list",
-   "text": "- [Show HN Guidelines](https://news.ycombinator.com/showhn.html)\n- [GitHub release management](https://docs.github.com/en/repositories/releasing-projects-on-github/managing-releases-in-a-repository)\n- [npm trusted publishing](https://docs.npmjs.com/trusted-publishers/)\n- [Product Hunt featuring guidelines](https://help.producthunt.com/en/articles/9883485-product-hunt-featuring-guidelines)\n- [X video requirements](https://help.x.com/en/using-x/x-videos)",
-   "id": "b5f95aa5",
-   "hash": "d5a3c5480bb7"
+   "text": "- the X post, README, and npm tag name the same release channel;\n- the repository has a deliberate description and social preview;\n- an accountable person is available for the first four hours;\n- the FAQ truthfully describes what is computed, attributed, and out of scope.",
+   "id": "9e33325b",
+   "hash": "bba139ddc5e6"
   }
  ]
 }
