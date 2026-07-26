@@ -2,18 +2,12 @@
 # Portable handoff demo
 
 [//]: # (ob:894f03f7)
-`strategy.md` is a self-contained Proofpress artifact. It has a real v1 → v2
-revision record embedded in the file: a general volunteer session became a
-focused planting day, with the stated reason, a consequential rejected
-direction, and a checkable claim about the actual document change.
+Copy one file into a clean repository and inspect its history:
 
 [//]: # (ob:6f729c3c)
-To test the handoff as a recipient with no access to the source repository or
-original session, start in a clean Git repository, install the current stable
-release, and copy only `strategy.md` into it:
-
-[//]: # (ob:0141eb16)
 ```sh
+mkdir proofpress-handoff && cd proofpress-handoff
+git init
 npm install --save-dev proofpress
 curl -LO https://raw.githubusercontent.com/chenmingtang830/proofpress/main/examples/portable-handoff/strategy.md
 npx --no-install proofpress inspect strategy.md
@@ -22,14 +16,15 @@ npx --no-install proofpress verify strategy.md
 ```
 
 [//]: # (ob:80c71b17)
-`inspect` checks the portable capsule before importing. `import` reconstructs a
-local ledger from the artifact alone. `verify` checks the recorded v2 claim
-against the artifact's computed change; it does not present the stated reason or
-actor identity as independently proven fact.
+1. `inspect` checks the embedded capsule.
+2. `import` reconstructs a local ledger from the file alone.
+3. `verify` checks the recorded claim against the computed change.
 
 [//]: # (ob:20be43e3)
-The demo intentionally uses fictional, non-sensitive community-planning
-content. It is a proof object for the portable format, not a product
-recommendation.
+`strategy.md` contains a real v1 → v2 record using fictional, non-sensitive
+content. Stated reasons and actor identities are recorded claims, not
+independently proven facts.
 
-[//]: # (proofpress:meta:eyJhcnRpZmFjdF9pZCI6InBwXzExODc0OGU5NzQ5NDEzYTJmNWZiZGE0NCIsInBvbGljeSI6ImxvY2FsIiwicHJvb2ZwcmVzcyI6MX0)
+[//]: # (proofpress:meta:eyJhcnRpZmFjdF9pZCI6InBwXzExODc0OGU5NzQ5NDEzYTJmNWZiZGE0NCIsInBvbGljeSI6InBvcnRhYmxlIiwicG9ydGFibGVfaGVhZCI6IjEyYThkZjdiIiwicG9ydGFibGVfaGVhZF9ldmVudCI6InBwZV82MTUxNzhjYzMzYTkyYzE5OWQzM2I5MzEiLCJwb3J0YWJsZV9saW5lYWdlX2lkIjoicHBsX2U3ZmMyNDU2OTc3ZDNlMTQ3YWM4YjBhMCIsInByb29mcHJlc3MiOjF9)
+[//]: # (proofpress:discovery:Verifiable revision history by Proofpress | https://github.com/chenmingtang830/proofpress)
+[//]: # (proofpress:capsule:eNrtWttu48gR_ZWGAmweItm8N6l9WmwWQYAMstgs8rIy5OoLrY7JJrdJeUYw5jUfkE_Ml6SKF4m2pRnPyDMbJH4amuyuruupOq25n4FrTQ6yXRs1W87qeu37KY9SnfEoi_wQgjzOhYIoms1nolK7tTI3umlxbbOBIE6WAmTkKZ5EIoqiWGZhBnnogVKhUoGCOIoziFJ88iR4SqZ5nkWJlhAIT0a-l6FcZRpZ3Wm3my3v6Y923cINnlBAS0fN8UHoAl_8XTuTGxCFZk7fmcZUlm1wfeV2TOzYj66q8trppsE9NchbuNFk1IPXrvqHRnO3jgRu2rZulpeXN6bdbMWFrMpLudG2NPamBXuTht7lg91O_7o1-LzeNtqtZWUbbdEXrdvq9_PZRgM50Q8gVTkXs_7NWt91i9C5ep34sc9TKcMQskD6WabCUGShT5pVriXT1oWxGjUfI1KsNc9lEMVJxrkKtR9xkKnwwOvNGbRbS6ibbYEGB6SnrJxqZstf7mfD8fczjHLlGnrqP2u1FujyX2ayUvrd7AotGLMBD9bvoKwL3VyOei02YFWV55c__fDdH9_8cFGq2fyT0gfa1hmxbTFqawGNaSgA4Cwpj98w1LoTuW03lSM1b40lqc0Ov5T4xUJJ8ezVnc8a3IiyZku7LQpUXqKCmJud0aKo5C1ZoUIvCr0Al2O0Wv2OTPtxsIgNFjGlywpXDOdh7naK1JRj-i2--R07taXd1aQSxRlzZvZ-fjg6zaLcC3N-3tHXTeuwDG526O9rZhoGrNFFviCRgImiJlnPxmhcsD-3eMJBvxocPFAuyXmQyVCep9zPFaOwsXZz2AOkIiaYqQ3mHXuLlcVsxUBK0rCtusVNtf2Acp4f-Vr4yZmeu75uNitr65IZ27RQFGyxaOBOL5S-Y4fCWVmJYMAWf_krG-HAwduDepRuDwPrSe4L_9zAolI1ItE1Q8SRt03nl7HW2FDMTOi8cpqZkr5ghl2wa3z-gO8CT-go1OGZgUVdaA16rsUoYpWh-3YMUa9huZH9iznG1S4QARvTmjvUuSrLrTWPlbuajxA0Q4ynil1Lp6Ev9u7LCB567UWKQ577CZeep70s93IEP4_g0VZtJ3M0ZUDJ3nt1hYp2oO-6kwgRxr8IEK4IXgsjdxMJU8idCOnA_DPRuKnydp1jmLSrnRlAvxH-MhXAkwTRUEKYizTlgoc8Tjw_U3EivIjLUMV-5ss8S3NIIeY6ixVIlJ4oLqmSMYPbDrz7aC0TRDx6gREPkoXHF0Hys8eXUbgM0j943tIjhQaHUxb7aRIpQclyeHv_ZQG_y8kejzfQbHB9FgZhFukw9ENqj52MCUQP6fpJcDtIRg-KIFK5AG8veYLAg-Rz0LTHNSjYnc_-_c9_sbtgZfdTSN9RmS6FpvBg3XT1nJtCL3Hfjbba0daq2GJFaceG5oUFLrGrMVjZvJJYX4rVBVgqdaZgN-_xs4PMlkqGNGgqO0eZ3fTx65bKEyU7TWONViurcEDpKhQXWUULKbl7VCnAlAxEte0xG43b4l6FJ5cE1n0HvTgCL4OX4ziMozCMFM58o5cnrWTw8jltwUma7eoKMYWmusqtbOXMjUG8GX02J1-4lnyMxhUaLPuTaSe75nvAJ6GI7gQDtAl9QDHDLY3uvSOrGg-xiG2PUsOiSqZdnnYFhzSWIpBBP8N2rpg0rjHhzmpCF_1cSsNmB-a2_ciIelliFl-eruSJjaTUO1TGVotRs4McNjQn9vwNXYd6_vo7GuV3D9ejs4603cHfgZfkYaKRRYhwX-CHTjz6-4yuis_XXSGjtm4r24aqEiEMM6_QCjGd5a4q-8IZoIFBUVmN23tzHpw6DtkIFH3hrSzcALnigYjfN9Q46y0Vd19_32LiYU1iq8Wex8hdlL5PMKCrjW6mZ0YRCrQ7qjJs6brWlt5gVqPHscOyDsZO57Ifxl6eAK6CvW8ng8RY1mcMBe1uQbhm0dmY6kMuE652GNzlBasEQRjD0DyMGr4ooZ133ujWKgwO1THJRkuBTn5i3dV7MvAI-dHKtI-pT0ekUOzT98epUs8EO8YyfPjJYPCc-u9lUTjDdCPSZ5Coz2EyZaWQqneqvCQHeSr2Rcbzp2IL07RnD9bPcMJRrnOQ4FDe3RclNpjLHTqdDPlTW4ZR_A1p1kPd1trODR085MYhxlF3LUEhyiKQ4sCBxYo4od_VOIYbBKMTmfAVTpskyFc4bZI3X-G0STo9yaCXOexqkqj3s7cbolQl3OpOIpYALpuMlB0205yJ_ywOJ2ADM9hPccZqJFjiJM-miHkWRToOAIkigMeRIqURF77cGzjlflPiM-WD968493-Ic8-_bNiT7b1ly2i-V3Lpvz9OrT92zfAidwnSlzLP8lhmEZInpLw6iONYQqoT8LnIIQIyhCdemqYR1ofkPFM8CqXv8yQRzzPv8dWC7y9jvvT5kauFUGV-hsr8r14tdPc2MkuSLM5OXy183zPJnvP3_HFkpxM-S-A3citC2OHXi0_kmU8p9yvPfCmeiQnjyyCJAp3y0zzTJ8p4hGruL4AGqnmxssFJdsmOk8sugXpiubLhR8jlcKUzIZaP2OTFEawfTBUQg4fdNAs9dZr2PbwYGW7Knl6GjVdg24burk7xwQn5-9uUzDb9XdWUzRpNV3CPTW06HriyJ2lu81szQdczQSqa34YN0o3mGhos5pengi85yxxnHs_hAt9X5MZ2GGOx0Bf1VmDfZQVsrdwcfhympEL0BeNwLaU_vpHoDLrzOT7Kys8S_Qbcrare2kdnfNJg-4Gfho8Otvu2-_HB9oWj9vyJ_Mig8XB2OswOX2V2ikMZ8Ai6GUlrHfE0yjwRpTg5pHkoZZwmPgcfeBBAHGSJECIIAb8GucbD-GmTnsxL4dLDeSk7Mi_t_3_A67z0BealkHt5nERJJoF_dF4qb5Vxk3Fh9DP75hsm1ZEPK4ujEmpk2tdh63XYeh22jg1bV-__A-Cm4-Y)

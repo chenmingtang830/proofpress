@@ -1,14 +1,25 @@
+[//]: # (ob:0738094b)
 ## Summary
 
+[//]: # (ob:55cadd6d)
 <!-- What changes and why. -->
 
+[//]: # (ob:12d916dc)
 ## Test plan
 
+[//]: # (ob:71d4b5ee)
 <!-- Commands run / tests added. The full suite: -->
 <!-- python3 -m unittest discover -s tests -v && node --test tests/npm.test.js -->
 
+[//]: # (ob:5449fba8)
 ## Checklist
 
+[//]: # (ob:f8bbc523)
 - [ ] Behavior changes are reflected in `docs/PORTABLE_ARTIFACT_SPEC.md`
 - [ ] Public wording stays tamper-evident (never immutable/tamperproof)
-- [ ] Meaningfully revised managed docs were snapshotted (`proofpress snapshot`, see AGENTS.md)
+- [ ] Every added or revised Markdown/static HTML file remains portable
+- [ ] Meaningfully revised docs were snapshotted and verified (see `AGENTS.md`)
+
+[//]: # (proofpress:meta:eyJhcnRpZmFjdF9pZCI6InBwX2ZkNzVjZTg4M2YwOWMxNDJkNTY2YWM3MiIsInBvbGljeSI6InBvcnRhYmxlIiwicG9ydGFibGVfaGVhZCI6IjVjYjgwNzBkIiwicG9ydGFibGVfaGVhZF9ldmVudCI6InBwZV9lMTI1NTc0MGEyMmMzMmVmZTVmMjRmODQiLCJwb3J0YWJsZV9saW5lYWdlX2lkIjoicHBsXzQ1ZTBiMTVjYzBjOGU4YjVmNGU2MDNhZiIsInByb29mcHJlc3MiOjF9)
+[//]: # (proofpress:discovery:Verifiable revision history by Proofpress | https://github.com/chenmingtang830/proofpress)
+[//]: # (proofpress:capsule:eNrtWGtv2zYU_SucChQdZsfUi6KMYUAadA-g3YLW2D60gcLHZaTGekyPpEaQ_75LSbaVNk2abgU6oN9kkTz3yXOPfOWIus2MUG2SaWfpVFVidBQq4Nw3NFZu4OmQMaEiz5k5stSbRGdn0LS4t0mFF7Il90wcCsEixoWOJI0ontGCcSZBxiwwsQykiWjMqJachdwTzNfCRLgdaBgjrs4aVV5AvXGWV_ZHm7TiDC2sRWtNzfBBwhpf_Al1ZjIh10BquMiarCxIivvLekPkhhzXZWmqGpoGz1RCnYszsEHdeF2XbwHD7WoLmLZt1SwXi7OsTTt5oMp8oVIo8qw4a0Vxxn26uHG6hr-7DJ-TroE6UWXRQIG5aOsOrmdOCsImMVSSYxq0M7xJ4KLfhMmFBFwvDKOACs9TvgcGQuMFhgfWs7JubWjJOisAPd9WZJ0EIVDphkpRxYHL0ATAqC_MEM7oXaJE1XRrDNizfqqy1o2zfH3ljOavHKxyWTf2aVgGnUhM-WtHlRreOScYwbYb0PDBkJNF1a3XiY0bbF0gr2xVDnIb3UN6R7RtncmuxZIlUjRZY7Mv6sJ6jmsIDj1k16ZlbX08zwqL2mxwJceVQuS2mIOvM6fBg4jlLAv0Dz1XKdYLhojlulTnuJdGPqdxIHE7lqqFdzauV12eC2y12daC0Lo3XdmWgkt88-gR2e9qN5W1ayuJXeFcz_b4YajwMNMPxf_xu_mc_JWKloxeE1FocpluDsh8_tPeZiVqccOg6-nYZVrdMLjC3BGsSnFPSNN9dwQVuTqQIcDDbfRhHZUYfqEbUncFWRBbWAzP7j0gqxSIwXKRpstaWNpg3xT9qWpzR9RhEMRGCn7Do6MU1Pk66-nhrqin--6I2nApVej5D7cxJ6_JCXkKqbjIynpf0dpylFkj14AmWUFOdamaxfEfL1eHT58_Sw5frn77ee9Tb-X6ZLa9rQ7Soe3vRNUghqvRr2yvGiSx8ZXH_EAwA1EcKhO4ItKeZZKibPtEjoRCRkJB3zCeqsyKtufHurdk78_2l70-J5aJ1pnaTBCm7DQB6XnvM4mrKU2bGCwD1FWdjfzYSHfpueAGnEU-8xgYV-L9wsCQiSmNkDu5z7QAXyhuAs4p1zEI7FaghruxH_nUYrei7XluqNaSIT_YF45HPTan0dxjKxotA3_phT9QuqT20Jhw3KV9IQOuOTbI_u3VF-TGvgkH6kpFk-L-IKa-wlvo-tK2ZI8xYbOxP-_jqRGMMskgcl1ppNqCTahrBHswKY3oXsBoEEdGUjBb9AlP7V29h39GOF-7sQRfIuLO2QklTZ39XKrBCVP4ZJ6Trsj6yUO2AoTMmxFmfkEePyYFDhs82u_p3y-KKj-wTwdvm7vTEnIGXkx1EGi2S_qeyPZpuYegRjgVCaViN5JRpLdwE84a4f4NFx0erZJXx8-OsH1P3xQD0nEnkQnIJYoF9IfgvdpggkReQT1H_tNIGeRJATZzWZ53PQsshvVemHy_BXoBokAEW5HNIN3QESwesoUm1hlyCehkU6CGScvWuvnkdK9tdgunM9IAkMNfnv2-eoWefv8Bg17bpN0ieUBjH7wneHr5pDv14fvbBdKg_3qpMi68zDDHtf5KtRNmt6f6z5BOnzoP81KjIu_Nvz_J1Fpk-UdRPzw_Tq1De4GHUYW9ZvkI-6PLMRJhE4Ddk4usaMhuulma6vfluybbfR0MvT9tK7v7ov-MQJoY_NzGd-Ug21mfxDns4W9anx6fWIF3FV6UDPkNUzofKz4GYcfIJ0_1O74PhvxMx_V0Vk1H-NWXKumnS5DdCN6hLd3r24fsfYLjP1EV3LDY85lrIi9wqRu7xlDNIyZDlAS-QLWBH23G1b6GmEt0DXhIIZDUk4Z7kfp4SLcJC7Z02S3CYvdh-E1YfBMWX4mwELEJYgANPvX_h8Limf3baKgNQce20uKFqM91eVks7KVFQ7-uXjwnJuv_N7o5Pu5UKLcrkxsz4InVI6c7QXJ6myI5uf4Hc5tEkw)

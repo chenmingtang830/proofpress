@@ -10,42 +10,27 @@ artifacts—never source code—close this loop. Do not snapshot every
 conversational turn.
 
 [//]: # (ob:1be95c90)
-1. Read `python3 proofpress.py policy <file>`. If the user asks for portability,
-
-[//]: # (ob:950c5740)
-   run `policy <file> portable` once; it remains sticky. Use `ingest <file>` for
-   Git history not yet represented in the ledger.
-
-[//]: # (ob:406bcda8)
+1. Read `python3 proofpress.py policy <file>`. Every tracked Markdown or static
+   HTML knowledge artifact in this official repository must remain portable;
+   run `policy <file> portable` if needed. The setting is sticky. Use `ingest
+   <file>` for Git history not yet represented in the local ledger.
 2. Preserve carrier-native block anchors while editing: Markdown uses invisible
-
-[//]: # (ob:3ce94304)
    `ob` markers; static HTML uses `data-proofpress-id`. Then run `anchor <file>`
    and inspect inherited/new/gone IDs.
-
-[//]: # (ob:f5265244)
 3. Write claims JSON with one honest item per touched or removed block. Do not
-
-[//]: # (ob:2d919674)
    enumerate untouched blocks.
-
-[//]: # (ob:fd4e6530)
 4. Snapshot with `--why`, claims, and explicit actors (`requested_by`,
-
-[//]: # (ob:1a021614)
    `produced_by`, `edited_by`, `recorded_by`, and `attribution_basis` when
    known). Omit `--rejected` unless a consequential dead branch should stop
    future collaborators from repeating it. Never capture raw prompts or
    transcripts.
-
-[//]: # (ob:b2cfcee6)
 5. Run `verify <file>` and report its output verbatim. Never re-snapshot just to
-
-[//]: # (ob:94b5efc1)
    force green.
 
 [//]: # (ob:32ab4de4)
 For incoming portable files, run `inspect` and then `import`. Fallback `capture`
 records only `recorded_by`; it cannot know authorship or reasoning.
 
-[//]: # (proofpress:meta:eyJhcnRpZmFjdF9pZCI6InBwXzc5NWU0MTc0YjU2ZDdkNWNmODkxOTNlYSIsInBvbGljeSI6ImxvY2FsIiwicHJvb2ZwcmVzcyI6MX0)
+[//]: # (proofpress:meta:eyJhcnRpZmFjdF9pZCI6InBwXzc5NWU0MTc0YjU2ZDdkNWNmODkxOTNlYSIsInBvbGljeSI6InBvcnRhYmxlIiwicG9ydGFibGVfaGVhZCI6ImQ3YjYzZDZkIiwicG9ydGFibGVfaGVhZF9ldmVudCI6InBwZV9hNmRlNmIyMDNiM2VjZWVjYjYwZDA0NDMiLCJwb3J0YWJsZV9saW5lYWdlX2lkIjoicHBsX2VjMDc0NjYxOTU5ZTM5Y2MwNzlmMDFiNyIsInByb29mcHJlc3MiOjF9)
+[//]: # (proofpress:discovery:Verifiable revision history by Proofpress | https://github.com/chenmingtang830/proofpress)
+[//]: # (proofpress:capsule:eNrtXOly48YRfpUp-k9Skbg4BhedSlXKdxKvXfYm-WFtkXP0iLBAgMGxMqNSVR4iT5gnSc8ABCAJpLgUyV0n_LUiCEyf0_3N1-DejVhexoqJchrL0WS0XE6DyANqB5R7vgykJ1QY2ZELbHQx4plcTWV8DUWJ9xZz5nj-xPZEFDl24LuBr8ATlHmhS4HiVS8IqXKjEGw3AEGjwOKhw2XgRywSEHk-lxbHdWVciOwd5KvR5E5_KKclu0YJCSu1qAv8g0OCF_4GeaxixhMgObyLizhLyRzvz_IV4SvyfZ5laplDUeAzSyZu2DVoox5czrOfAc2tcr3gvCyXxeTVq-u4nFd8LLLFKzGHdBGn1yVLr0PXevXg6Rz-UcX497QqIJ-KLC0gRV-UeQX3F6M5MO1EGXDflb4c1Vem8M7chM6FKfMl-NyxXO6CABDct6RFqas1y_JSmzZN4hRQ83VEkikIK6C-b0deBG4k8FOkLJsHtTmNdlPBlkWVoMGO1lNkuSxGk5_uRo34uxFGOcsL_Vf9NcgpR5f_NBKZhF9Gb9GCdTag4D9-9cXrNz-OF9qM90kSVpZ5zKsSYzPlrIgL7WaWp1pF_A4DCmbJqpxnuVbmJk71qsUKv1ngNylb6KjVSl2MCnwQ1xpN0ipJUEUxx8BAbRpPMnGD9wJ1qRUyC2_HmJTwizbg-zrSJE4LjI_QCukQNuKYlEaPpU4kuMUrn5ANT5SrpVZIxxLzYnR_0QnmHDwMhnwsuInJhCQgryEn37L8Rma3KWGpJEXJyliQr7cq8wnZdZk33_6F3KTZrbmHYKi2q-xS6Uqu3IOr_GWWEyYELDHAF2QBLEXRqkrarVqQMuuWxbs7CzqVlyxnD_S1OVYKEVkH19cekx_QP2S2XGEqpi7p9tJ4uSLLLInFivxexQn8YTYm3yhSzoHojU9Yp2-C5eeBvpFnCS-gh9eXEJJXKarbV4ysq8aMZKmAT0lcor8XDFMYF43FzWpM_lrAFv9Sy-dCsvDg-jpjTGFAd70DIliex5BfpvgYfjSycSGBJaAgt3O0hICMS0yYiRG0xb8udg7qWvQY_p1lfEYW-CDkxacPNhiGvSAzyUp22aXJZSwxMd5gw9jiX-U5vufQw-vrjsnf87hE5yYsXhTkTz9-95rcYiPDTACCGY2lFtMBFmSJy5dZhZ1N6m2XmzK7yb-OxFLuB0fxL6TVAnLs6qRK1woZucV4mwclBd9zD7-j6Jj8mGLXnGdl7bjZ5eXtfDW7aFx6YVaCX5a44XBf1f2T_GamUcAWD9rMcmzfPk6GYvbJSpjWjXrO9K5pP_Ta-qzWfdZ24y3-5Y5QiEX8g-vrYYXVFeudhm1tKTWP56ALF6ZnQbKqXFYlwZs4LrkYk9eIWPJtFRZhByhhH8O_KssFkOscIN2Wkq7DOJVAj9JE4xRxKJbCtrYT7TjMRlP-sbIvEaTUbsSOpC8t9J2zx_q-vVhjvxE6VHfgqciB1fjLfLPGczANHMVlRCNmBTaiUhV4rkJYrzQey0qz5lqZBp4S3L3iZpnFaWnQdm4kaZC2_qQx2luNa3W_6q3Qx7q9RQyK3hMGF5kqpwp9Bvkyjxu0XXB7YvtSG-Yqm3vctXwRURpS24ZQ9xAX8RsXijMKiGgdIQNlgQwDJjilypJce0qHzaDmOloTmyIK1VdGjuX4l1Zw6fhvrGBC3Ynj_c6yJpauVI3H9S6wwAXbV5hA3dW7Q0DtunQaJDxnxRzvt3wpXBpyNFe72azRA8dNor4P0m0WZkyFbhQpajvtwj3wu174BajVWL1diciWLqjQ8zFB10r04GyjxEtwaE-nq7RV6j__-neqaxIpskqXB300wWsiyQrALRgXJMmy5Zh8nhHcLKRY9xT9zOoKd3Oq4860l1lCyiofrC3rEOKZmCrOHXDF2sgeBm6MfAl4LW4KXeea8hIncbm6GCi3a30cQcNA2K4rW6f3MG6jz0vAqa5pmlNoGwQqd5Xiil_h_evjvXbsCvTz2kisLggd4tRYVafZFpeCQ0OfOpZHLbk2oQd7GxNegldNJhmMGKc6yeoqt8GjDlCGO9SRHg3bNO5QbefRveFoHYta37VXjUf1DmwaCP47B40f5asUbl9da9D4zefFFjdKBzteaCnp8jYze-i20fslsDR7twaE68202YsswCInvND1oK1IPezaefH9QGezOqeA-4-B6_h-a2uHQ5vVXwIgDRFikNoWG22qi11gqyBqa0GHLnuZsi8sXJM0M8xqSE2O6AqY_nZMvlugymhQDrpVgJyh_xCGFIQRQ3yhCWkZY0GTuhDxXKcbQVdUia7y2dIspiosd7piJgnjGUZBO0Dl2UJvZMQiGubEZYP5cNstze05u9UFbbHU8LCuBSWuX4g8xktbwoaFKWJRBLo6tW2qg7eNw16CS_GOy7bA_1xhLpfZ5gB6ELhUqVBgHNvi2cHXLoDP4M71DgRPCA7S9jhvK0cHRXsNcF8MOSZfsiThDMvdrIkGVo6GTsQdnKwe5pOp6YKlujzrxCE1r1fM42W9p1mR6f77xKi399quAW6yTd0eM2l4znV-P7g-zGTWRO16h-kvfojFnOXyQ5OciGcNXN6D4zwQD7bIZKxio92m85WPRS5wDa4--PlqA-6rWzkCqUwpLJUsMRuxiE3rX-hdtuUwdiDG7aln2mNUXc03hePp882R6VsmwSCUzpjL2xivtZuymScsMCvaNjHeFIxHfm2EfJaw3MhFSazBnLpaihu89CzK7SJgvFyjs1a_8SY_bzT5zwi7SQPntJvxUZZcNgG4rmKJXQKFJvF1iuqZnqkdtMB7mQl265oaSY5r_6_DejfC9qoFsxvo49feAhrZ1k5oc-k9DiD6kLbzoZkzi6FTaOhaFpV-FLgixPOpaN3RPw33T4L9E_Ldebd_ZLt9d2rkCTVw0a07ce6HWYDnKJGD8B5uYPHIsULHoxDSADEINrLQlgFX0rZY6Ae-kr4EC_ArCBRmsMtQhEVtPwoNWHrWuCEORM-DBzgQK7Qdx0egfuZAzhzILhxI4KOBnFq2OhgH8sUznXEzig8DSgMRhIy7LYrvlc0Oxe9d7x713U83u8anVuTwwLW5JfanY2JFUgDc1oYvIAWU9UlskJcx568eN7MzL6N7_5mdObMzZ3bmzM6c2ZkzO7ORnclrdka_cndMhqaARE1ZgU3k10zPHOiFnR0kHejVlV0kHeYVjx0kHehlh30P1t0KTUP9YEfmZzXZG0Bue29i6OWtZzU5xmtZg685PavJfi8wDb4Q9LzVR3jVZ_DVmWc12db-9mdHP0MEkUBpiEtAQAGXy4pjtpGEVRqstG94N52fxTneq7dZg_VN49pQGU8otVclTym1q5gnlNqrnieU-pQD7xL1aEKfst0nENqrj6cT2iuFpxPaq4knjGlX_o4sdGhoIfZaugUiD2W816DCCkLbCahvC8eiEQ8FDx3PMWTW4KCipWs_pkHFGfeece8Z955x70eDe3efBrejtG6A5l20Uif-_fCs7Fc3Kdxs3uNZoe1OrGBiBwOzQsdDSVSx86zwPCvcYVZIIbJd5lDX86OTzQoN6X2waZ9Z7aOd1z0Ze3BLeZaigeOFJ5vXGZs-8MTtsSNc31e-7XOpXDjVxM1ovVM3fqytbbm2DT4FS7Fjz8zqaP2fTr2evD2gAmymDqOSqdNNvWpLBwHMYwXPc6vz3OpDnd-3Y_Aj_YR88Hy_XZMj_dh68Py_XZMj_Wh5kB_Yrskhf967_xjhdZYvWBL_E93N5M9M6FepH3JmDWIwUAj3da6bPUKiryuOeqYSdhkkPOEJjyH26SThNGKfjBJOIvbpLOF4Yofo2PQgi78XD7vlf_8Z5GHbo_BHz8Oe6_i5jjd1fPfZwwBvZPd4I3o_TAv9immxx-YN0GK2M6F0gBZr_1exMy12psWep8W4FfloJKNOCGda7GC02FX6P0NsXaWnpaau0jO5tCe5dJWe6aED0UNv7_8L8J5JAw)

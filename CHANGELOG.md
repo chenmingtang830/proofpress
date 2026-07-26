@@ -1,0 +1,40 @@
+[//]: # (ob:88bec44c)
+# Changelog
+
+[//]: # (ob:a0ac1671)
+Proofpress follows [Semantic Versioning](https://semver.org/). This file records
+user-visible changes; GitHub Releases provide the corresponding tagged source
+archives.
+
+[//]: # (ob:c8e27e08)
+## 0.2.0 — 2026-07-26
+
+[//]: # (ob:2918d404)
+### Added
+
+[//]: # (ob:0930bd81)
+- Portable capsule V1 with stable event IDs and multi-parent history.
+- `merge-plan` and `merge` for parallel Markdown and static HTML copies,
+  including workflows that do not use Git.
+- Portable, English-language official documentation and agent adapters.
+
+[//]: # (ob:51f72ac8)
+### Changed
+
+[//]: # (ob:7cdcc2e1)
+- npm and Python CLI versions are aligned at `0.2.0` for this stable
+  release.
+- The public documentation is action-first and includes explicit trust,
+  privacy, and tamper-evidence boundaries.
+
+[//]: # (ob:ec1e29fd)
+## 0.1.0 — 2026-07-24
+
+[//]: # (ob:ea2a7d0d)
+- First stable npm release.
+- Portable Markdown and static HTML revision history.
+- Zero-dependency Python engine and npm-based agent setup.
+
+[//]: # (proofpress:meta:eyJhcnRpZmFjdF9pZCI6InBwXzg5YzhhYjE5ZmY0ZmQ5MjQzZWE1NDQwNiIsInBvbGljeSI6InBvcnRhYmxlIiwicG9ydGFibGVfaGVhZCI6IjQ4MjNkMDA5IiwicG9ydGFibGVfaGVhZF9ldmVudCI6InBwZV81YTI4MDBkYzYwNDUzYmY3NGMxYmM2MzUiLCJwb3J0YWJsZV9saW5lYWdlX2lkIjoicHBsXzhmNmFhMWFmNGRmMWQ3ZTU4OGVmOTU4OSIsInByb29mcHJlc3MiOjF9)
+[//]: # (proofpress:discovery:Verifiable revision history by Proofpress | https://github.com/chenmingtang830/proofpress)
+[//]: # (proofpress:capsule:eNrtWltv28gV_isD5aVFLXlmOLypT4t0myyQ3Q3adB-aGMpw5ozENUVyebGjGgb6I_oL-0t6hiIlypJlybcmCz8YkIbDc79851hXA1lUsZGqmsR6MB7k-SQIVSAjFhojjA65cEC6QlBvcDKIMr2Y6HgKZYV3y5nkrjeGkHnKMS4VAaVgIqCKRhELNIAUVHpB5HuOYoyKMDCcSREZLaV0qAf2vkC6Oi5VdgHFYjC-sl-qSSWnyCGRlWV1gh8iSPDgFyhiE8soAVLARVzGWUpmeD8rFiRakPdFlpm8gLLEd3KpzuUUrFIbx0X2K6C6dWEJzqoqL8enp9O4mtXRSGXzUzWDdB6n00qm08ChpxtvF_BbHePnSV1CMVFZWkKKtqiKGq5PBjOQ1ogi4I6mNBwsTyZw0VxC48LElRzNpJVHhetExheKRcpzXCtZVlRWtUkSp4CSdx5JJoHxpGTSCG2Y9sENAjChG4RLdVrpJkrmZZ2gwtzKqbJCl4Pxx6tBy_5qgF7OitJ-Wj4GPYnQ5B8HdXqeZpfp4Ax16OIBWb9--91Pb75_9_Ob0VwPTo6KFFlVRRzVFTpoEskyLm28QGImskTDVdDQq6tZVlhxzuPUkiwXZQVzfJLKufVbJ9YJvlpaXw_GaZ0kKKSaoXNgqV6UZOocbwdBBEoIhdfRLxV8aVRoLibZFE9bLlLrhn1uIwgu8eQV6V-rFrllbj2HUTC4PlmzkFQq5vnseBbryCQmS5LssiQf_w5zmVaxIhjVVjvkdvaHLiBLmGNCjLJierqWKZeF3BBIBcB9oMGGQP9IC0hAlo0Ityv9imxc3KM2DzGbBRUbXL5rKe5h8Ip0l_YQp6FDIx2w44gPyfs2W0gb9uQXRi4xi0m5PG6invzwl5LIVJN5nVTxEO1nU2ElT4KlY9Oe4EeR4OFxwhASpyqprWrkMivOTePfaiYrojOSZhXBakHexNVojysdR7mSUXlfO5yQ79MpKjQbJhiPNdYPkhkTq1gmKIWq56i5tPnY2AMfp3vs4DLjc6mCHYF-p8_X1_Z43VdaKQ7sWAZDkubzRoP3C6weKXn97gdyscwf9HQBRCbxNAXUsCKf6YiP6GfMuAK9Afv0hTAUUeAfKw4hbQbt86wnsGZoPzxe1w8zIHkdJVgjNl0Yo67KfhqauCirxiDLGISSwJc82aOrb0Ifu4k5Xte8iC-kWpw07Co5z6EY4lMNqQISZXWqZRFDuc8WoBjw0OgN5nTERpT899__IZxyb0j9IRd3lK5bXtkTcSC59DV9GOch-Wtj77bG2FjsAuBT2qtJP8riXGPraixVWqcp8vamT85OutY8aCN4ogqQy-bYPOk6LUwkWg0Mj6gT-NKTymdaasezTsT60pi6492iB4I4Rp3nWdwUvLbyNf2z-2bb55mFHRhfix6FPhTpEWlAzj1RSpmZamLQJVBgELVgqIzYOBI-iNCnTDHhS65C49DAU54xgcdcGgaa69AoUAEPKSjq89AJlBdgG2a-8my1tOZtQM3SXWMmECDYk8HKp94HxscsGLv8T5SOKcW3WovbGNChJ5kCjJb16dUj4aAm-pY4ZSbLma3zTKkIS4IEbaFKQ6MHXdrAvBOStNQkQseQg-B6Ta2HUlpqD0EffxxhGcJ6Y-IGdDew8lNq4e_QAvCmAy_R2J9ti3tbR-Rvy5QosWBktjzY4kvwRRQgz9KmTSK-x3JDyqwuFHxKZaFm8cXu0tFqihEljAw9RZuu0Wjagz-d3e5GNZ3lHEciRR-nErej1wM6K3p7QUznU-MKH8eZgIPX0erhmpbWQzBLN-U0ZebzHIopDHNs9J-bm8uDZaOzdksSSHbXoA8_vkNP5FilT3a0iE4d4RtJI8XdplAvTb1GRq06D0I9LafIAe0ZD2dBueLUA0Jbhjse5GBv1DKvMMZHtyvsChcc3zFcsZUYPQjUi4W94Kalxql0lGE-5xHvqPXwzkqp-yMZkiKNNmhu10ob11UyoswVq6jsAZ2VG_dAmE4jj2P5dUJXGaej1EM1K43uj1fQhRXBBlNWe-JSBoFHdeSHRsqVYddoZqXQA3BKy8nHgsqx30SOWincgy7rYnM4Dul0AEZ9dIxPpVlRXkOTlSkfgDNsjt_cjjSv_ROKbKghh9SaYtEFHqRTbOUNCWQ0jGzpbHOnhKrOtxLn7NoqtGOtADquVksFlWn4MjhrVhS6VtvnN5YQvfPfaijXhIoYG0yh7T7m_72haKyyXlAsRT5sPbFzVG_SejN8vDX-nGc6NvFjDNDblLbHgoMmsgMIHTbuHEBo5zC-plDAPLt4ikl85zB4F98D5sCdg9dddO9byzCPVCLj-a1BuO2HdpB4nc3zBDABmk6Dsgzbkp7IOlWzdWmxEhWQy7jAu9Z7eKIwX9D4o9si9Bm59gL6Gbn2ov8ZufZSZSuanoxpL0-ej2kviZ6Y6VkvTa8Gl7NFU_DvQ3rVpTd52IHz4AVAwN3AN1EgQ98RTLmedF0HmFqp3Z_s-1Ntf9q_eulML53pK-hMhy-3VsudlVfG4mQl0Ni53r3JuWut9Si7K1cz31WhZl4QoPAhMheSm8jHdHI95utI6UBEjsuFYcL1QbhaSmVcwD-kf5h6W5ssZ0z9MXN3bLJcX4uQcf6yyfqqN1mBENxzPe5Fvrt3k3VLDX6enZZLBXO0E0jh6G9mp_UpvU-dvbln-F1upVwwRrksEkK4T7KVwsxautw6Ybvp3NTOd40XChGGnJkn3ylZkY7vV1siv2yFXrZCj7sV-tog8s5fIexHgk_0E4SdYP0uSR7vH-a79yeHbDJ-yoo5Fsl_2XTRv0plM2ZzApzjNyypTd1swISqOsBR2Cy83y7jKfj2wuG2afsp2G4vUZ6O7a4xP30U4kfN93t-F7hzvl9h_bvn-5ca8_XWmMO3PDtGRd4bFfn17knwG56Eb6q3YxJmfCx2_aZj9Qvcl0n4ZRJ-6CSMJIR2fD9wDfwuJ-H-8PBNzLIaHYJVRAWiefuZZllrppdp9NuZRs-u_wfNyHfY)

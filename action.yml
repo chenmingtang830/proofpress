@@ -32,32 +32,78 @@ runs:
         PP: ${{ inputs.proofpress-path }}
         BASE_REF: ${{ github.event.pull_request.base.sha }}
         PR_NUMBER: ${{ github.event.pull_request.number }}
+        GIT_AUTHOR_NAME: proofpress-action
+        GIT_AUTHOR_EMAIL: proofpress-action@users.noreply.github.com
+        GIT_COMMITTER_NAME: proofpress-action
+        GIT_COMMITTER_EMAIL: proofpress-action@users.noreply.github.com
       run: |
-        set -euo pipefail
-        test -f "$PP" || { echo "proofpress.py not found at $PP"; exit 0; }
-        changed=$(git diff --name-only "$BASE_REF"...HEAD -- '*.md' '*.html' '*.htm' || true)
-        [ -z "$changed" ] && { echo "no supported artifact changes"; exit 0; }
+        set -uo pipefail
+        # Composite-action Bash is launched with -e by the runner. Disable it
+        # because verify exit 2 is an intentional neutral state that we handle
+        # explicitly below.
+        set +e
+        test -f "$PP" || {
+          echo "::error::proofpress.py not found at $PP"
+          exit 1
+        }
+        changed_file=$(mktemp)
+        git diff --name-only -z "$BASE_REF"...HEAD \
+          -- '*.md' '*.html' '*.htm' > "$changed_file" || {
+          echo "::error::could not enumerate changed artifacts"
+          exit 1
+        }
+        files=()
+        while IFS= read -r -d '' f; do
+          files+=("$f")
+        done < "$changed_file"
+        [ "${#files[@]}" -gt 0 ] || {
+          echo "no supported artifact changes"
+          exit 0
+        }
 
         # Pure glue: all rendering lives in the CLI (--md), never here.
-        # Logo: assets/logo.svg can't render while the repo is private (GitHub's
-        # image proxy can't fetch private raw files). When the repo goes public,
-        # swap the header for:
-        #   <img src="https://raw.githubusercontent.com/chenmingtang830/proofpress/main/assets/logo.svg" width="18"> **Proofpress**
-        body="<!-- proofpress -->"$'\n'"### ▍ Proofpress"$'\n'
-        for f in $changed; do
+        body="<!-- proofpress -->"$'\n''<img src="https://raw.githubusercontent.com/chenmingtang830/proofpress/main/assets/logo.svg" width="18"> **Proofpress**'$'\n'
+        result=0
+        for f in "${files[@]}"; do
           [ -f "$f" ] || continue                      # deleted files: skip v0
-          python3 "$PP" ingest "$f" >/dev/null 2>&1 || true
+          if ! ingest_out=$(python3 "$PP" ingest "$f" 2>&1); then
+            body="$body"$'\n'"**\`$f\`**"$'\n'"⚠️ **ingest failed**"$'\n\n```\n'"$ingest_out"$'\n```'$'\n'
+            result=1
+            continue
+          fi
           base_tip=$(git rev-list -1 "$BASE_REF" -- "$f" 2>/dev/null || true)
-          diff_out=$(python3 "$PP" diff "$f" --md ${base_tip:+--base-commit "$base_tip"} 2>/dev/null || true)
-          verify_out=$(python3 "$PP" verify "$f" --md 2>/dev/null || true)
+          diff_args=("$f" "--md")
+          [ -z "$base_tip" ] || diff_args+=("--base-commit" "$base_tip")
+          if ! diff_out=$(python3 "$PP" diff "${diff_args[@]}" 2>&1); then
+            body="$body"$'\n'"**\`$f\`**"$'\n'"⚠️ **semantic diff failed**"$'\n\n```\n'"$diff_out"$'\n```'$'\n'
+            result=1
+            continue
+          fi
+          verify_out=$(python3 "$PP" verify "$f" --md 2>&1)
+          verify_status=$?
+          # Exit 2 is the CLI's explicit neutral state: the recorded version
+          # carries no claims. Integrity/claim mismatches return 1 and fail.
+          case "$verify_status" in
+            0|2) ;;
+            *) result=1 ;;
+          esac
           body="$body"$'\n'"**\`$f\`**"$'\n'"$diff_out"$'\n'"$verify_out"$'\n'
         done
 
+        printf '%s\n' "$body" >> "$GITHUB_STEP_SUMMARY"
+
         # sticky comment: update if a previous proofpress comment exists
-        cid=$(gh api "repos/${GITHUB_REPOSITORY}/issues/${PR_NUMBER}/comments" \
-              --jq '[.[] | select(.body | startswith("<!-- proofpress -->"))][0].id' 2>/dev/null || true)
-        if [ -n "$cid" ] && [ "$cid" != "null" ]; then
-          gh api -X PATCH "repos/${GITHUB_REPOSITORY}/issues/comments/${cid}" -f body="$body"
-        else
-          gh api "repos/${GITHUB_REPOSITORY}/issues/${PR_NUMBER}/comments" -f body="$body"
+        if ! cid=$(gh api "repos/${GITHUB_REPOSITORY}/issues/${PR_NUMBER}/comments" \
+              --jq '[.[] | select(.body | startswith("<!-- proofpress -->"))][0].id' 2>/dev/null); then
+          cid=""
         fi
+        if [ -n "$cid" ] && [ "$cid" != "null" ]; then
+          gh api -X PATCH "repos/${GITHUB_REPOSITORY}/issues/comments/${cid}" \
+            -f body="$body" ||
+            echo "::warning::could not update the Proofpress PR comment; see the job summary"
+        else
+          gh api "repos/${GITHUB_REPOSITORY}/issues/${PR_NUMBER}/comments" \
+            -f body="$body" ||
+            echo "::warning::could not post the Proofpress PR comment; see the job summary"
+        fi
+        exit "$result"

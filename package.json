@@ -1,6 +1,6 @@
 {
   "name": "proofpress",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "The trust layer for multiplayer AI: an open, agent-native ledger for knowledge artifacts",
   "license": "Apache-2.0",
   "bin": {
@@ -20,7 +20,7 @@
     "prepublishOnly": "npm test && npm run pack:check"
   },
   "engines": {
-    "node": ">=18"
+    "node": ">=22"
   },
   "keywords": [
     "provenance",
@@ -36,5 +36,9 @@
   "homepage": "https://github.com/chenmingtang830/proofpress#readme",
   "bugs": {
     "url": "https://github.com/chenmingtang830/proofpress/issues"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
   }
 }

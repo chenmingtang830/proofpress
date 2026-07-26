@@ -6,40 +6,103 @@ on:
       npm-tag:
         description: npm dist-tag for the published version
         required: true
-        default: next
+        default: latest
         type: choice
         options:
           - next
           - latest
 
 permissions:
-  contents: read
+  contents: write
   id-token: write
 
 concurrency:
-  group: npm-stage-${{ github.ref }}
+  group: npm-release
   cancel-in-progress: false
 
 jobs:
   stage:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
+    environment: npm
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
 
       # No registry-url on purpose: setup-node would write a placeholder
       # NODE_AUTH_TOKEN into .npmrc, and npm prefers a present token over
       # the OIDC trusted-publishing exchange. Default registry is npmjs.
-      - uses: actions/setup-node@v6
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
         with:
           node-version: "24.15.0"
           package-manager-cache: false
 
+      - name: Validate release ref and version
+        env:
+          NPM_TAG: ${{ inputs.npm-tag }}
+        run: |
+          test "$GITHUB_REF_NAME" = "main" || {
+            echo "npm releases must run from main, not $GITHUB_REF_NAME"
+            exit 1
+          }
+          version=$(node -p 'require("./package.json").version')
+          case "$version:$NPM_TAG" in
+            *-*:next) ;;
+            *-*:latest)
+              echo "prerelease $version must use the next tag"
+              exit 1
+              ;;
+            *:latest) ;;
+            *:next)
+              echo "stable version $version must use the latest tag"
+              exit 1
+              ;;
+          esac
+
       - name: Test package
         run: npm test
 
-      # The human gate is the manual workflow_dispatch itself; publishing
-      # authenticates via npm OIDC trusted publishing (id-token above).
-      - name: Publish
+      - name: Read package version
+        id: package
+        run: node -p '"version=" + require("./package.json").version' >> "$GITHUB_OUTPUT"
+
+      # The manual dispatch is the human gate. Publishing authenticates through
+      # npm trusted publishing with the OIDC token granted above.
+      - name: Publish to npm or verify an idempotent rerun
         env:
           NPM_TAG: ${{ inputs.npm-tag }}
-        run: npm publish --tag "$NPM_TAG"
+          VERSION: ${{ steps.package.outputs.version }}
+        run: |
+          published=$(npm view "proofpress@$VERSION" version 2>/dev/null || true)
+          if [ "$published" = "$VERSION" ]; then
+            tagged=$(npm view "proofpress@$NPM_TAG" version 2>/dev/null || true)
+            git_head=$(npm view "proofpress@$VERSION" gitHead 2>/dev/null || true)
+            test "$tagged" = "$VERSION" || {
+              echo "proofpress@$VERSION exists but @$NPM_TAG points to ${tagged:-nothing}"
+              echo "refusing to create a release for a package under the wrong dist-tag"
+              exit 1
+            }
+            test "$git_head" = "$GITHUB_SHA" || {
+              echo "proofpress@$VERSION was published from ${git_head:-an unknown commit}, not $GITHUB_SHA"
+              exit 1
+            }
+            echo "proofpress@$VERSION already exists at @$NPM_TAG from this commit"
+          else
+            npm publish --tag "$NPM_TAG" --access public --provenance
+          fi
+
+      - name: Create GitHub release when missing
+        if: inputs.npm-tag == 'latest'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ steps.package.outputs.version }}
+        run: |
+          tag="v$VERSION"
+          if gh release view "$tag" >/dev/null 2>&1; then
+            echo "$tag already has a GitHub release"
+          else
+            gh release create "$tag" \
+              --target "$GITHUB_SHA" \
+              --title "Proofpress $tag" \
+              --generate-notes

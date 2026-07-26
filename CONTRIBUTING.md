@@ -1,13 +1,16 @@
+[//]: # (ob:1ce270d8)
 # Contributing to Proofpress
 
-Thanks for your interest. Proofpress is small on purpose; these notes keep it
-that way.
+[//]: # (ob:61836140)
+Run the tests first. They finish in seconds.
 
+[//]: # (ob:57a5f00e)
 ## Development setup
 
-Python 3 and Git are the only requirements for the engine. Node 18+ is needed
-only for the npm launcher tests.
+[//]: # (ob:04d2b288)
+You need Python 3.11+, Git, and Node 22+:
 
+[//]: # (ob:08829457)
 ```sh
 git clone https://github.com/chenmingtang830/proofpress.git
 cd proofpress
@@ -15,8 +18,10 @@ python3 -m unittest discover -s tests -v
 node --test tests/npm.test.js
 ```
 
+[//]: # (ob:31d45337)
 ## Architecture constraint: one file, zero dependencies
 
+[//]: # (ob:5b59c3c5)
 `proofpress.py` is a single Python file with no third-party runtime
 dependencies. This is the distribution model, not an accident: recipients
 verify handoffs on machines that have nothing but `python3` and `git`, and
@@ -24,8 +29,10 @@ skills vendor the file directly. Please do not split it into packages or add
 runtime dependencies. Internal section structure (carriers → blocks → diff →
 ledger → commands) keeps it navigable.
 
+[//]: # (ob:5fd936ad)
 ## Scope boundaries
 
+[//]: # (ob:a0be59d8)
 - Proofpress versions **Markdown and static HTML knowledge artifacts**. It
   never versions source code — that is Git's job, and features that drift
   toward code files will be declined.
@@ -34,26 +41,45 @@ ledger → commands) keeps it navigable.
 - Privacy invariants live in [docs/PRIVACY_AND_DISCLOSURE.md](docs/PRIVACY_AND_DISCLOSURE.md);
   changes that would leak local-only history are not accepted.
 
+[//]: # (ob:327a0850)
 ## Wording discipline
 
+[//]: # (ob:0ed25c68)
 Proofpress is **tamper-evident**, not tamper-proof. Public-facing text
 (README, spec, CLI output) says *checkable record*, *tamper-evident*,
 *provenance that travels* — never *immutable*, *tamperproof*, *notarized*, or
 *can't be faked*. PRs that cross this line will be asked to reword.
 
-## Docs are dogfooded
+[//]: # (ob:23f94073)
+## Update documentation
 
-Markdown documents in this repo are Proofpress-managed (see
-[AGENTS.md](AGENTS.md)). If your PR meaningfully revises a managed document,
-close the loop: `python3 proofpress.py snapshot <file>` with honest actor
-attribution, and sync the ledger (`python3 proofpress.py sync`) so the
-revision history travels with the repo.
+[//]: # (ob:ec80f405)
+Every tracked Markdown or static HTML document in this repo is portable and
+Proofpress-managed (see [AGENTS.md](AGENTS.md)):
 
+[//]: # (ob:72e8e335)
+1. Run `inspect`, then `import`, before editing.
+2. Preserve anchors and write claims for changed blocks.
+3. Run `snapshot`, then `verify`.
+4. Commit the updated document and capsule in the PR.
+
+[//]: # (ob:31fb88c4)
+Do not push `refs/proofpress/ledger`. It is local working state; the capsule is
+the public per-file record.
+
+[//]: # (ob:69babc66)
 ## Pull requests
 
+[//]: # (ob:578fa3b9)
 - Include tests for behavior changes (`tests/test_portable.py` is black-box
   through the CLI; follow its style).
 - Keep commits focused; explain the *why* in the message body.
 - CI must pass; the full suite runs in seconds.
 
-[//]: # (proofpress:meta:eyJhcnRpZmFjdF9pZCI6InBwX2FjMWJiYjAzNDM4YjgwYjlmNDdkN2YwMCIsInBvbGljeSI6ImxvY2FsIiwicHJvb2ZwcmVzcyI6MX0)
+[//]: # (ob:9f056ae0)
+By participating, you agree to the [Code of Conduct](CODE_OF_CONDUCT.md).
+Contributions are licensed under [Apache-2.0](LICENSE).
+
+[//]: # (proofpress:meta:eyJhcnRpZmFjdF9pZCI6InBwX2FjMWJiYjAzNDM4YjgwYjlmNDdkN2YwMCIsInBvbGljeSI6InBvcnRhYmxlIiwicG9ydGFibGVfaGVhZCI6ImNjNDE5Y2Q1IiwicG9ydGFibGVfaGVhZF9ldmVudCI6InBwZV9hMDUyYjU3Zjg3OTIwYzM5YzllNTZhZmQiLCJwb3J0YWJsZV9saW5lYWdlX2lkIjoicHBsXzdkMDNkNzFiZTQzMTVmYTcxZGEyNjUzNyIsInByb29mcHJlc3MiOjF9)
+[//]: # (proofpress:discovery:Verifiable revision history by Proofpress | https://github.com/chenmingtang830/proofpress)
+[//]: # (proofpress:capsule:eNrtXetu28iSfpWGzo-TeGSFt-ZFWSyQcTxzjM0kgeM5i4PYkPtGi2OJ1JKUPTpBgP21D7DYJzxPslXNiyjrYlmyncyAfxJdyOrq6uqq-uprU186LM2jkIl8EMlOvzOZDJgwOeeG7dg-9w0ehI4nvdAwOt0OT-RsIKMrleVwbTZkFnX7vsE85bsGC5zQoMqyTE8YgoWm4Timb0jOgpBJSZXJ_YD6oQxC6Umf-pa0qMcdkCujTCQ3Kp11-l_wTT7I2RWMMGI5DtWFF1yN4IO_qzQKI8ZHiqTqJsqiJCZDuD5JZ4TPyMc0ScJJqrIM7pkwcc2uFE5q4eM0-U3BdKcpChzm-STrv3p1FeXDKe-JZPxKDFU8juKrnMVXvm28Wrg7Vf81jeD1YJqpdCCSOFMx2CJPp-prtzNUDI0ohGMGQtJO8clA3eiLwLhqwAxqceqFvhdYhrADESjqslCiZkma49QGoyhWoHm1IqOBJw1beiZXjm3SkHmmZJZLba-YTqndQLBJNh3BhC3UUySpzDr9z1865fBfOrDKSZrhq-JrJQccTP65IxKpfu9cwAwqb4CBjz68Pzs9-fHXs5P3P_fGqOBDXIXleRrxaQ4rNOAsizI0NktjVBS-g2VVWuQ0HyYpqnQdxSg1m8E3Y_gmZmNcu0K1bieDG0FWpx9PRyNQVAxheVQxQT5KxDVcawpleYb04XJYmVz9rqcBrwpN4iuSJ4s-Ug4K7qm1maBTqVv45C9k4335bILK4erC152v3bkSrunbrukYj6DEGczxOiNhkpJZMk1JBOLgnrzXuJ9EGcnGbDQisBUm03SSZOo1yYdzJScsZQsaUo9RWCS1oOFb8JJRMhmDq5BM5dPJRuv8hay6foNVDEda3PL93cf8OANPiYlNWCzJz1FOWKpgngrmPZqRcl-iqMJg-I2Kr2An9cj7DcYwfN8KHOrtrtjl5WU2PIehciJGSazIQ2LKXDN09AXNbFM61LYXNXuTimGUQ_yawuwx_OQpA7foExw4jEaqS_6p0oTcs3rbipFqomKpYhGpe9yechoIW9BH1_ZyHuF6k9kl-jsjGQwPOaD0CZREbsHaJE5g4aNUHsI65zOyaRNAHrJdJhf0_SSSiSI8mcaSpcWUN1lxxeUbLMQMrmhwJzo9ZMTD5raHbInxMCMHB7-w9Fomt7HeGVnO8kiQv5398o5cx8ntSMkrRdhctRGky0VLuJzbVujsrBchMeyXdK5SBsFK4IJLRf713_8HS8JyXDfYtX_NyG8J72pVQ8XAMTaskXBcKaSt9rDYGYaB35WY6syKPgguKLQ2n2UislcfP5yevfnx3fHgzenZyU9vjs4Gnz4eHxX5bp3FuGSMBtzYw2I_qiG7iSBOlXmMjKdZTq6VmujIlU2UgHBPslksyIsMUiH5ePqyt8FWoSVcVxjGXt4V3TAxg3Fv4GqGkXQU3SjUo7TV6cnf3xz9Y_Dm_dvB25NPR-8-fPr19HizrQxlKZdyvoetKhNpN7pNpiNJRopdExiBjQ51-K9qQMwJcQK5QQg1ydUGe9mWxwyfLtrrP6EowgyN9Wg0wTLsngiw8oZNaVBBzStcf49RF1P_wUHOxhOVHsLXEKfzg4OuNkD5qY6dUC5M-SgSh-EGe1h2GDiGZy_mQVh1bVOZXIVJUqiysSpYdcMGeyjhG6Fj0D1GraMfuOi0yP_gsJAFMigKJokWNLfZ4ZjFUFpL2FRKnccbDOIGnHHYUwuqfYTiU9caUIXdlx3uXrspeXp-yGwe7DbWITmJxWgKwRbL6qL84Xfjy4tL_eUr_HdQIY3eZFNeCGxpWMzbTSkCS5Am06uhjmdH705eg16jUXJLIlAxy2cjtTGeBQE1LIeKXU3yHxhKofQaR9oiAvCafA2pYDJi2j0UObgdzg5I-WYMvgF-ATFpKZhddCsE1Skz3ECkkLr0kPqbCg-pgWkIRalyOXWUI1xAwaFrhxSdCHalnmhpelKCPFggJa4nCZRFGrOmeiQEOdU7xDgXiA5hC88aEpqIsSFEY9EdwWSWhPkgBO9U6SSNSsyacbNPA8_gpi-9wFchlDGS26alHAr3mYEMTZsqZsnQ8nxhCcOj0mWG5_oKx1A-w_ljYaKxZ7FafcsCFIefdCzDcg8N79Byzwyv79h9y_3BMPo6l5UWR4dwLKkcSCRfG59-eTzAqh2vwJNDlg3heo_ajsd8iwUKjaNlNCBm6ZMPR4qleCmM0GOmYfumVYlvgMdS_D4YUGU6G8Lu14VFlJ_HRQ5ls1Vbr5o2dzmjJrZsZKVXAzJW094aApZiGQ8NxhwpXZ10tdgGKqx2-B4oD8tN0_8BrRErBU52Huu7qgvjyZiM2DSGzZIWoXKTFTzpiFAYji15re4cK5bq7oX9st4VLomQZP7ReTzRFrDJ4ZhM40h3SkjVHyOHWRnjD2_O4xgnfHioryiCO8ywh696v4Eg0G0Fuiyn5ypleAG4smfSanoNwDlf5MdDiuXIduCZyrNtyjir3WsOHivD7oH60mmcR2PI7k2degAFIr1T0BWwx1i1p8gYbDMqyiYWY-moK6k-eBuUYxH62nl8g41HqDPBLZMwzHCjjRlYJq7qUki3erMNMQiAYHJZLuSlduVLWOpLDXvO4-w6Go0QwYGswjP1VCR4tshHM9jZUN5mWP5onTIoCQGw5Lj1E1J2NUGDlMAWPY_L2ZLFyZ5gmIjZCDam0JOE-U6LRXwhWApFd5qRf_3P_5Ii7OmXMgpDfHEea9CY6g8xhYLW2UsdQzLUI4bK4kqXD-u3Dw8dR0JugSQg6lWeQ-65f22HoSuppuc7hmUxNZfagNWl1H1wcpkwsoMDsGG-ojoqNVE2d7hpeg6XTj2_OZAuNdkPGVeuJcH1IE5ARZXcslQWd6PLZOD-EPQ5Lr7APC83rIjlcAZp3w2YUe-7BsCubbc7Yr54sfn7Zr13156e8LnwhWe7tltp14DZtT0fDTeX44a2ArNID8BgnYQbULrhUbti48oq675_-XqDVaSrTAZI1QuCOgnNAXVtld0R8iaPMV1hmdLjXiDr0Ruweb6Ht0XBVe7xFHUN2MIicOezqoFxVQnsgXOZ0KUYCDqPX5wev3n7y3FX-0YXkQhJpvlkmr8kGZuBZF07l5QSsiIg-e5g3fP4AIaAiM1ioQozw66A8ic70Pu42OYH0XhcbJu5DK0ZvgVtwXP-qVB-koJAweK_5rh5Q3YNn4L2p-UKijTJsgLCojHrXc4yuBArzFTdgqKbwi9lHg1cn8N-qkzcQPiNGm5LwF6FPcpFGFDTCGlYyW1g-FLuXpD885ufj9-ffdI7p3758iWE47CogD-eAlpjMWgWAkqaFUSgwvqgElQNC8sGVVlWFJCjJJn066xMFuoLksVskg3Bn_4N4-q_XxZ1BVyItZWmzc7jBqNVRGkdZLToIl2-WCccrrsEb8MqBSa4RFyWnlSMifLQSBsW1zED6viG7RnzSrrRrZgv7hYdiCo5MBFKqqQR2Hxe89dNiToM7t5oKGo4PoLy5ZAnv6-PebZpqtADqODTeX04b0XUMW-39kJlwsBRhmDK4KLGOI2OQz3f3bsIs955fEiOTooENWFZ9roo9XBNsimU1Fin6o0BJVoCFdZSdrz4ihqvYG-VhNvvcLeaCZZTsfz5aq63oLI1DVt-cRrBEqby-6CBwYq6IbIDC_zgniLU_1EYNSNf4S5gIwHrPF4rfvn-ssnzVoVYjZGSkc_KXFUWKBHDXRlCECnAyERnLdJIMCXM0BusCmZMl_Gi7jVAOdkrdKwm-aUDvogUukL9c9UUXmoyl5wmY6IAwcwlJimUoLpiQI-fjFReRTZsuWzdAoOCDXClST3btz3TCiljhgmgv7ZOs7fV7Os0-11fnnxlt2_c1Y2rWlrf_Lq6M3Vfm-5RenHcMxmGZmpZXhhCaPSUyaFSsyzfDwwf_mfCNgMsE4V0sGfHAsBIygWwYroOWz-lVd04t2-u6sYBaBDMDGnbjWu7cW03ru3Gtd24thvXduPablzbjWu7cW037pm6cUFALUYdGlDmre_GHePBejSQQH3rsAu7thl1K5i52KmD_-sDCzpbrmnbkfVduxhXOteBNBqjMN2hKfHoecwVFIQQ42SEBXuP_ISZtNHgq8_5d8liL2-hRVfgdHAM3SQhC626y6q5V2R8cllUD_AORMVld0eLnU4kYlpSpmSQFtcYvmrxfDztwTJpb59MsyG5BCSfNarIV0W2vnyta4SshtKQxjW0Ble5xu2Atodq7XaIxQYKrsdZbAqA3-t6pALuxa5ou4Ntd7DtDu7SHdz5zzPW9ZL2-COHZuNwOuYK1-_z5w7mBLvbubh44GnNX3X4WmwYbtJ_6wOZDxW8pK5nKV8ByHyA1OUzfWaPnE5jchkVGaWK35dFVoG3d1LJeWxhW0ZlKr1RG8452mbIfV84eym3TUpADINh7m4i2K7v3HDctX3nX6AokoWX6VSnE0mVvxcbyTh8qCMi4lhIj6kmugpwCtCyt86zn3_whrM__-DbtPufbPDGvrnjeU89cmNTPMfIq2iMMRTiRbMxDCNNmiyKLURAdZRmRXmpIINgLxHGgGr-QaSF5VHuWtggYb4A0Gt6CtCWH6wjLer29_2kRZtw2oTz_Sec7Um8pXPc3QaL5HxdTRI9CzHmeEqFVLiCU9ewXM8DEcqQBguF4ZvKtUzmMsktJgMvoCKwLMcJBENOgdlUs0r3Tu4uRWaafer1TbqCIrNAbZeHwZ-GInNsQS3mwBdesJ4iwy2DUbsEgRidsduvZvA6jsBbV2KaZ6K9fGo6wlOWFDRYT3v9I5lqzqriNuwutoSL7kHFa_Vbsqolq1qyqiWrWrKqJatasqolq_4sZJWipm-61Aoh224kq9YglvWLR-1AOD4LpCfM75Ou2lDUSUoNKOmU6dp1_migzFL5vSAjqCyGCSRXjOO3KZIARR9QUynFRpVl1oU77XKsBr1VDFbyW3CJ04Naf4neqm23mt7akLm4pQzfsyifR7wGmK0PZO6OTEG_13fYMDwlt0yHtTRYS4N9CxosLWgwBGRPT4VlahQOwCgqfXwe7LFah13sHfZME4z1uWOiOMva2El84GOQlpt9S_20Bz4maAuJD3yYzhYSH_KEjy3EBaFBXdiZuz0d48cZQbgbQcXFMA118TAzYVcpZMZc_5US-XyESCEJsVcEGya_eHH04e3x4MNPmx6ptepBUnM9UjVGzuB5Hh218hFN9-ny6A9lWvnwo_u0eJLHHa18mMt9muyQPVZzl9vQh0flQZmSSkrVYZnzi0Pi8-d94vpDtceiFK7FnVHWTVhPrYs0zzhqIxo946iNiPWMozai2jOO2gh-q7nJJ5joPLQt7ZgnG7QRw55v0EbIer5BG9HpiQddRTSLnUTXyHRxjAfRzr7DLerZpoDNG1Ia-JT7tqDmOtq5ppTup53b-q6t79r6rq3vHr--2_7ozF023Wyy6bRba3Xn2MCcOH-WYwN2GDpB6DvSCFWgHNPnjvCYPj7gytC33cAx7EAFHnccUziG9AXjhhNQ5pqyoMIfNNGlIwR23_BW_5Wt63MVBtxrjxB8P0cIBFgSjORbxpxu2uIIAaTQH-4eI7Cs9hhBe4ygPUbwBzpG4Ck3sJlLmcfs5zhGgNz9tzsIcJd2MKlSNg0C3zK9b3UQACexbyG3RJYz6piQK0w2J8ufm8rHeT0OGb-0ai0Z35LxLRnfkvF_JjKeMd8ILMu1jXkqelIyXifPhwDmuwv2h6DTG_WTgNVh0gAMXGeNRluqVHefVtMAwOvbX4_OyrR-1Hy0mc5v4GQqhtkDDJEQlj-_gdJzqA6tnnHx4t3J0fH7T8crOhTtgYCdDgQ8ft_2kXuiK9vAm1tcT_T7Pyvbx_dp8iS_rrPyVzLu0-RRfxpjBdu7De_6PknHbIRlFGDI35jADLjIqIzhHUJEnW6TFJEpQpy_TTm4D8aDndjIpxh3mfFdYq-eYthlyvdZhm243JMPu4qtix9F-INoug2_2bmSpqvbtvfTdG3UbaPurj9ItBWPvOJRn1aDkLC_ruYb_nDMy_rpreBbTKvv2Cv4lvqHe1u-peVbWr6l5VtavuUb8y0Bd8IAYojNWPBn5VuwafN9MiaoWct5tJxHy3m0nEfLeXxzzkNZ4AOmyyDFsu-J88A00bIW-7IWF1__H2DZnXQ)

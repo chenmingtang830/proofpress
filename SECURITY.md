@@ -1,19 +1,37 @@
+[//]: # (ob:0a172c88)
 # Security Policy
 
+[//]: # (ob:55c90430)
+## Supported versions
+
+[//]: # (ob:18228539)
+Only the latest version published to npm and the current `main` branch receive
+security fixes. Upgrade before reporting an issue that affects an older
+release.
+
+[//]: # (ob:c413522b)
 ## Reporting a vulnerability
 
+[//]: # (ob:56310231)
 Please report vulnerabilities privately via
 [GitHub security advisories](https://github.com/chenmingtang830/proofpress/security/advisories/new)
 rather than public issues.
 
+[//]: # (ob:c93750e0)
 Relevant classes of issues include: capsule/metadata parsing that could
 execute or inject content (transport data must stay declarative), verification
 bypasses (`verify`/`inspect` reporting green on tampered input), and privacy
 leaks (local-only history escaping into portable capsules or clean exports).
 
+[//]: # (ob:259d6cb4)
 ## Scope notes
 
+[//]: # (ob:efd70739)
 Proofpress is **tamper-evident, not tamper-proof** by design: it does not
 claim to prevent the holder of a file from rewriting their own history, and a
 report demonstrating that is expected behavior, not a vulnerability. See
 `docs/PORTABLE_ARTIFACT_SPEC.md` §4 for the trust boundary.
+
+[//]: # (proofpress:meta:eyJhcnRpZmFjdF9pZCI6InBwX2Q2Nzg1ODMwN2IxYmY5NDM5OTRlZjcwNCIsInBvbGljeSI6InBvcnRhYmxlIiwicG9ydGFibGVfaGVhZCI6ImJhYjdiYmI4IiwicG9ydGFibGVfaGVhZF9ldmVudCI6InBwZV84NGE3ZjEyYWIxYTAzZTE5NjNjM2U2ZmMiLCJwb3J0YWJsZV9saW5lYWdlX2lkIjoicHBsX2Y4YWVkZjY2YjE5YTZiYThmYjNmODY4ZCIsInByb29mcHJlc3MiOjF9)
+[//]: # (proofpress:discovery:Verifiable revision history by Proofpress | https://github.com/chenmingtang830/proofpress)
+[//]: # (proofpress:capsule:eNrtWNluHLkV_RWi5sV2JDVrr-o3x3GSAQYYQ9YECCyhxOVSzai6qkOyWmoI-p78R74sl7V0t2S5vWiCIICeVM3l8K6Hh7oLmHFaMeEqLYN5sFpVMsuLtIhpzkOuyiQuywRUTpPgKOCt3FRSX4F1uNYuWJRmcxorzqIwTyn-hVIkjKcyKqM0zyGJaCmzDLiI0rgIVRbynCmFW0KPL3CYIq7UVrRrMJtgfud_uMqxKzyhZs4fdYQfHGoc-BsYrTTjNRADa21125AFrm_NhvAN-WDaVq0MWIt7VkxcsyvwTj0YNu0_AN3tjAdcOLey89nsSrtFx09Eu5yJBTRL3Vw51lxhGGYPdhv4Z6fxu-osmEq0jYUGY-FMB_dHwQKYDyJnPOecF8EwUsG6X4TBhapIWK7CiPGQ0RjCMotFDJkS3rLWOO9aVesG0PIpI3WlCgZSZRkPS5ZxVigeqyIr5ODOaF0l2Mp2NToceTtFa6QN5p_ugvH4uwCz3Brrv4ZpkBXHkH8KRCvhNrhAD6ZqwIM_vn_32-nPZ38_WfpzvqdMmHNG885hdirOrLY-0Mw03kicw5RCD9m5RWu8Ode68ah2gzNLnGnY0udtMOsosLgRsYJ509U1GikWmBoYnON1K65xLWVhHonCxxyz4uC2dwFEZ7TDwmhrLTY4N57EpIQhelhFcIMjP5HPF7vNypvhc4j1ENwf7Y4TSRinUcQfHHcKPoW4lDCy7uoGDOO6RsiDB_9EDu07YEOaxSGN4vD5NnyogVnfUn7vg20aLFkZvcZGrDdkrdl58-kv2v2148SO8doZuWKGPYxSGSMtAH2-hadQw5o1joiaWawH0iqire3wSzei7iTMyVj_syU4JpljBO2xPmhfNjBKkZ4ETx5WjWhXQJoWC_UriXu48kCqQMmc5nH5I-fsSA09Jm_eOLZcgTnGaYl9feQByDjWk8GbN54KJVh91Tx2_eJoYoMA6dY3VSUMsKEf-5mpv6EqS-xtkbK0TGUhVEFLkZXQJ9Pb7FeNhEVGwiJIneJ61erG9fxr-pN8006_fM9eeKbrO2yHsM9-eyA9r_4gMdpWuUphIsBgAY_8a3k45zJB5hWpzEVEeYmkBnmZFMBimpSMU8FlmVMFaZwrHmWU0zTlkuYyzdIcxzy2Y67n0SFb8wxJyQ8EEY2yY5ofR9kZzedJPI_yP1A6pz5oY8BxlYzyPAlliCWyG737fbi3r7iBGhfMLnB9XkqmaJ4UCfdx7jH22HIsxm_kvxGTxXGJNmSqCIsJc48SJ8zvprYRXsoyTTKRcBqFE_we243wz2ItwiTqh9bg0otX36UCZhPEbAcxa-Dm9XljmFuAIQ7vJ7LqOIZxJKmTJzho9JWGKi8jkasSsm0od7y5Jc0f5z9vD25su1qeN3CL1jsgrcGNXgiRnpAQ-ZUzrLF9LPvdy846gpXuuQRPRd_0Gl4fkXWvwQTz1_t5wzerwaBXl_3E5nJ2qREGkS_H1HgTrgxAQ1CtDUwFEk9fdQ7hWCOHXInNeYMZvUYorGFWH7cNJm9Sd2DRPY-ErdySLfOMPlvvj8DdDYFbP2lfHwg5K1hSiFAJHiZTyPdugl31fpXfR8CiiHKRZFkWA58A9yh_qtdnEPmcaExLi47iqnPMONNL4gNhetbGFANZtLXE6sPKYERpDI4y7RJzcIPFOpQBaJy-2UrmIfjYHGMLSViioHU-01PVoKEYUEwmZozDgq11awZLH_XzCfIHnDeXshV29uHX07O3f_zlffX29OznP799d1Z9_PD-HZLZJfn3vxKiWtMbjOyOJcbbrpHMbD5L2MW9D_ET6hWkdo-1a6-EZSc-H39a6w5Svpei48SpRl1p5P9eBuMN11-gP6CC01SUNIkfCq6P3cqnFzM4XjZflTVPbTigbsIiior0sbr5rlN_9b3ua2J48k17Bha1C0TBYm9Wy75i_TqkYC8oyOWSPSFy-v74YmgeWTGqmbf-J5a1nQw_ngz3l4bP4smXvH4a8E-A8gMGc5cMeYv1Pw0M95b3xA8fc-RdsdjdTDeI1t6cDI5M8bwLbhZeMXnpAT3k1s7tzmOlb8fd2KzYZTDdQjXr8AivN75Z_h14qA7-7eu6fVGzr_XuXqr0QJV-u-B-LDij-6f15Ne09e8ioCmEKWMiyiJQaVkkpYzLgjGlYgoJK9OQxhxv1yyhIhFUhjRMUV4riEvOwrDMv-DPYwEdRvOwnIfpEwJ6-w-W_1sBTXlYJCkLkyIqtwp31xZ7EuQbq3zCzalkWaoiTrfSZq_wR9zn1LFuLsnIWHizAmrC82ZLXUhAKHbJb6srwyRMJLSTgajPetU6iAssGSRW60d76eKFSM-Nh7Tby8vj5eXx8vJ4eXn8l18eF_f_AeqrX4Q)

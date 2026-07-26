@@ -78,6 +78,7 @@ class PortableArtifactTests(unittest.TestCase):
             first["discovery"]["project_url"],
             "https://github.com/chenmingtang830/proofpress",
         )
+        self.assertEqual(first["discovery"]["dist_tag"], "latest")
         portable_raw = (self.repo.path / "a.md").read_text()
         self.assertIn("proofpress:discovery:Verifiable revision history by Proofpress",
                       portable_raw)
@@ -440,6 +441,92 @@ class PortableArtifactTests(unittest.TestCase):
         self.assertEqual(self.repo.cli("snapshot", "a.html", "--author", "human").stdout.splitlines()[0],
                          "no change: a.html matches the latest ledger version")
 
+    def test_markdown_anchor_keeps_wrapped_list_item_together_and_repairs_old_shape(self):
+        target = self.repo.write(
+            "a.md",
+            "[//]: # (ob:11111111)\n"
+            "# A\n\n"
+            "[//]: # (ob:22222222)\n"
+            "- A list item that wraps\n\n"
+            "[//]: # (ob:33333333)\n"
+            "  onto an indented continuation.\n",
+        )
+        self.repo.cli("anchor", "a.md")
+        first = target.read_text()
+        self.repo.cli("anchor", "a.md")
+        self.assertEqual(first, target.read_text())
+        self.assertIn(
+            "- A list item that wraps\n  onto an indented continuation.",
+            first,
+        )
+        self.assertNotIn("(ob:33333333)", first)
+
+        self.repo.cli("snapshot", "a.md", "--author", "human")
+        event = json.loads(self.repo.cli("show", "a.md", "--json").stdout)
+        self.assertEqual(len(event["changes"]), 2)
+
+    def test_markdown_anchor_keeps_nested_list_blocks_indented(self):
+        target = self.repo.write(
+            "a.md",
+            "# A\n\n"
+            "1. Run the command:\n\n"
+            "   ```sh\n"
+            "   proofpress verify a.md\n"
+            "   ```\n\n"
+            "   Then inspect the result.\n",
+        )
+        self.repo.cli("anchor", "a.md")
+        first = target.read_text()
+        self.repo.cli("anchor", "a.md")
+        self.assertEqual(first, target.read_text())
+        self.assertRegex(
+            first,
+            r"\n\n   \[//\]: # \(ob:[0-9a-f]{8}\)\n   ```sh",
+        )
+        self.assertRegex(
+            first,
+            r"\n\n   \[//\]: # \(ob:[0-9a-f]{8}\)\n"
+            r"   Then inspect",
+        )
+
+    def test_markdown_anchor_repairs_redundant_markers_between_list_items(self):
+        target = self.repo.write(
+            "a.md",
+            "[//]: # (ob:11111111)\n"
+            "- First item.\n\n"
+            "[//]: # (ob:22222222)\n"
+            "- Second item.\n",
+        )
+        self.repo.cli("anchor", "a.md")
+        first = target.read_text()
+        self.repo.cli("anchor", "a.md")
+        self.assertEqual(first, target.read_text())
+        self.assertIn("- First item.\n- Second item.", first)
+        self.assertNotIn("(ob:22222222)", first)
+
+    def test_markdown_anchor_keeps_outer_list_open_after_nested_blocks(self):
+        target = self.repo.write(
+            "a.md",
+            "# A\n\n"
+            "1. First.\n"
+            "2. Run:\n\n"
+            "   ```sh\n"
+            "   proofpress verify a.md\n"
+            "   ```\n\n"
+            "   Inspect the result.\n\n"
+            "3. Finish.\n",
+        )
+        self.repo.cli("anchor", "a.md")
+        first = target.read_text()
+        self.repo.cli("anchor", "a.md")
+        self.assertEqual(first, target.read_text())
+        self.assertRegex(
+            first,
+            r"Inspect the result\.\n\n"
+            r"   \[//\]: # \(ob:[0-9a-f]{8}\)\n"
+            r"3\. Finish\.",
+        )
+
     def test_tampered_discovery_is_rejected_as_transport_not_agent_instruction(self):
         target = self.repo.write("a.md", "# A\n\none\n")
         self.repo.cli("policy", "a.md", "portable")
@@ -491,7 +578,72 @@ class PortableArtifactTests(unittest.TestCase):
         self.repo.cli("snapshot", "a.md", "--author", "human")
         upgraded = json.loads(self.repo.cli("inspect", "a.md", "--json").stdout)
         self.assertEqual(upgraded["discovery"]["package"], "proofpress")
+        self.assertEqual(upgraded["discovery"]["dist_tag"], "latest")
         self.assertIn("proofpress:discovery:", target.read_text())
+
+    def test_legacy_next_discovery_is_accepted_and_upgrades_to_latest(self):
+        target = self.repo.write("a.md", "# A\n\none\n")
+        self.repo.cli("policy", "a.md", "portable")
+        raw = target.read_text()
+        match = re.search(r"proofpress:capsule:([A-Za-z0-9_-]+)", raw)
+        payload = match.group(1)
+        decoded = base64.urlsafe_b64decode(payload + "=" * (-len(payload) % 4))
+        capsule = json.loads(zlib.decompress(decoded))
+        capsule["discovery"]["dist_tag"] = "next"
+        encoded = base64.urlsafe_b64encode(zlib.compress(
+            json.dumps(capsule, ensure_ascii=False, sort_keys=True,
+                       separators=(",", ":")).encode(), 9
+        )).decode().rstrip("=")
+        target.write_text(raw[:match.start(1)] + encoded + raw[match.end(1):])
+
+        legacy = json.loads(self.repo.cli("inspect", "a.md", "--json").stdout)
+        self.assertEqual(legacy["status"], "ok")
+        self.assertEqual(legacy["discovery"]["dist_tag"], "next")
+
+        self.repo.append_body("a.md", "two")
+        self.repo.cli("snapshot", "a.md", "--author", "human")
+        upgraded = json.loads(self.repo.cli("inspect", "a.md", "--json").stdout)
+        self.assertEqual(upgraded["discovery"]["dist_tag"], "latest")
+
+    def test_no_change_snapshot_upgrades_legacy_next_discovery_transport(self):
+        target = self.repo.write("a.md", "# A\n\none\n")
+        self.repo.cli("policy", "a.md", "portable")
+        raw = target.read_text()
+        match = re.search(r"proofpress:capsule:([A-Za-z0-9_-]+)", raw)
+        payload = match.group(1)
+        decoded = base64.urlsafe_b64decode(payload + "=" * (-len(payload) % 4))
+        capsule = json.loads(zlib.decompress(decoded))
+        capsule["discovery"]["dist_tag"] = "next"
+        encoded = base64.urlsafe_b64encode(zlib.compress(
+            json.dumps(capsule, ensure_ascii=False, sort_keys=True,
+                       separators=(",", ":")).encode(), 9
+        )).decode().rstrip("=")
+        target.write_text(raw[:match.start(1)] + encoded + raw[match.end(1):])
+
+        upgraded = self.repo.cli("snapshot", "a.md", "--author", "human")
+        self.assertIn("upgraded capsule discovery", upgraded.stdout)
+        inspected = json.loads(self.repo.cli("inspect", "a.md", "--json").stdout)
+        self.assertEqual(inspected["versions"], 1)
+        self.assertEqual(inspected["discovery"]["dist_tag"], "latest")
+
+    def test_unknown_discovery_dist_tag_is_rejected(self):
+        target = self.repo.write("a.md", "# A\n\none\n")
+        self.repo.cli("policy", "a.md", "portable")
+        raw = target.read_text()
+        match = re.search(r"proofpress:capsule:([A-Za-z0-9_-]+)", raw)
+        payload = match.group(1)
+        decoded = base64.urlsafe_b64decode(payload + "=" * (-len(payload) % 4))
+        capsule = json.loads(zlib.decompress(decoded))
+        capsule["discovery"]["dist_tag"] = "untrusted"
+        encoded = base64.urlsafe_b64encode(zlib.compress(
+            json.dumps(capsule, ensure_ascii=False, sort_keys=True,
+                       separators=(",", ":")).encode(), 9
+        )).decode().rstrip("=")
+        target.write_text(raw[:match.start(1)] + encoded + raw[match.end(1):])
+
+        result = self.repo.cli("inspect", "a.md", check=False)
+        self.assertEqual(result.returncode, 1)
+        self.assertIn("invalid_capsule_discovery", result.stdout)
 
     def test_html_parser_ignores_script_and_style_contents(self):
         self.repo.write(
@@ -545,6 +697,212 @@ class PortableArtifactTests(unittest.TestCase):
         self.assertIn("unchanged", stale.stderr)
         event = json.loads(self.repo.cli("show", "merged.md", "--json").stdout)
         self.assertNotIn("ingredients", event)
+
+    def test_parallel_portable_copies_plan_and_merge_without_git(self):
+        self.repo.write("alice.md", "# Plan\n\nAlpha.\n\nBeta.\n")
+        self.repo.cli("policy", "alice.md", "portable", "--author", "human")
+        self.repo.cli("anchor", "alice.md")
+        shutil.copy2(self.repo.path / "alice.md", self.repo.path / "bob.md")
+
+        alice = self.repo.path / "alice.md"
+        bob = self.repo.path / "bob.md"
+        alice.write_text(alice.read_text().replace("Alpha.", "Alpha by Alice."))
+        self.repo.cli("snapshot", "alice.md", "--author", "alice")
+        bob.write_text(bob.read_text().replace("Beta.", "Beta by Bob."))
+        self.repo.cli("snapshot", "bob.md", "--author", "bob")
+
+        plan = json.loads(self.repo.cli(
+            "merge-plan", "alice.md", "--from", "bob.md", "--json").stdout)
+        self.assertEqual(plan["status"], "clean")
+        self.assertEqual(len(plan["branches"]), 2)
+
+        alice.write_text(alice.read_text().replace("Beta.", "Beta by Bob."))
+        result = self.repo.cli(
+            "merge", "alice.md", "--from", "bob.md",
+            "--author", "merger", "--why", "combine independent edits")
+        self.assertIn("merged 2 parents", result.stdout)
+        inspected = json.loads(
+            self.repo.cli("inspect", "alice.md", "--json").stdout)
+        self.assertEqual(inspected["status"], "ok")
+        self.assertTrue(inspected["head_event"].startswith("ppe_"))
+        event = json.loads(
+            self.repo.cli("show", "alice.md", "--json").stdout)
+        self.assertTrue(event["merge"])
+        self.assertEqual(len(event["parents"]), 2)
+        self.assertNotIn("ingredients", event)
+
+        receiver = Repo()
+        try:
+            shutil.copy2(alice, receiver.path / "received.md")
+            receiver.cli("import", "received.md")
+            log = json.loads(
+                receiver.cli("log", "received.md", "--json").stdout)
+            self.assertEqual(len(log), 4)
+            self.assertEqual(
+                receiver.cli("inspect", "received.md").returncode, 0)
+        finally:
+            receiver.close()
+
+    def test_merge_plan_reports_divergent_block_conflict(self):
+        self.repo.write("left.md", "# Decision\n\nUse option A.\n")
+        self.repo.cli("policy", "left.md", "portable")
+        self.repo.cli("anchor", "left.md")
+        shutil.copy2(self.repo.path / "left.md", self.repo.path / "right.md")
+        left = self.repo.path / "left.md"
+        right = self.repo.path / "right.md"
+        left.write_text(left.read_text().replace("option A", "option B"))
+        right.write_text(right.read_text().replace("option A", "option C"))
+        self.repo.cli("snapshot", "left.md", "--author", "alice")
+        self.repo.cli("snapshot", "right.md", "--author", "bob")
+
+        plan = json.loads(self.repo.cli(
+            "merge-plan", "left.md", "--from", "right.md", "--json").stdout)
+        self.assertEqual(plan["status"], "conflicts")
+        self.assertEqual(plan["conflicts"][0]["reason"],
+                         "divergent_block_change")
+
+    def test_same_body_parallel_testimony_survives_merge(self):
+        self.repo.write("a.md", "# Result\n\nDraft.\n")
+        self.repo.cli("policy", "a.md", "portable")
+        self.repo.cli("anchor", "a.md")
+        shutil.copy2(self.repo.path / "a.md", self.repo.path / "b.md")
+        for path, author in (("a.md", "alice"), ("b.md", "bob")):
+            target = self.repo.path / path
+            target.write_text(target.read_text().replace("Draft.", "Accepted."))
+            self.repo.cli("snapshot", path, "--author", author,
+                          "--why", f"accepted by {author}")
+
+        self.repo.cli("merge", "a.md", "--from", "b.md",
+                      "--author", "reviewer")
+        inspected = json.loads(
+            self.repo.cli("inspect", "a.md", "--json").stdout)
+        self.assertEqual(inspected["versions"], 4)
+        payload = (self.repo.path / "a.md").read_text()
+        self.assertIn("Accepted.", payload)
+
+        receiver = Repo()
+        try:
+            shutil.copy2(self.repo.path / "a.md",
+                         receiver.path / "received.md")
+            receiver.cli("import", "received.md")
+            log = receiver.cli("log", "received.md", "--json").stdout
+            self.assertIn("accepted by alice", log)
+            self.assertIn("accepted by bob", log)
+        finally:
+            receiver.close()
+
+    def test_merge_rejects_different_artifacts_without_writing(self):
+        self.repo.write("a.md", "# A\n")
+        self.repo.write("b.md", "# B\n")
+        self.repo.cli("policy", "a.md", "portable")
+        self.repo.cli("policy", "b.md", "portable")
+        before = (self.repo.path / "a.md").read_text()
+        rejected = self.repo.cli(
+            "merge-plan", "a.md", "--from", "b.md", check=False)
+        self.assertNotEqual(rejected.returncode, 0)
+        self.assertIn("different artifacts", rejected.stderr)
+        self.assertEqual((self.repo.path / "a.md").read_text(), before)
+
+    def test_three_parent_merge_and_different_lineage_rejection(self):
+        self.repo.write("a.md", "# Plan\n\nBase.\n")
+        self.repo.cli("policy", "a.md", "portable")
+        self.repo.cli("anchor", "a.md")
+        shutil.copy2(self.repo.path / "a.md", self.repo.path / "b.md")
+        shutil.copy2(self.repo.path / "a.md", self.repo.path / "c.md")
+        for path, value, author in (
+                ("a.md", "Alice.", "alice"),
+                ("b.md", "Bob.", "bob"),
+                ("c.md", "Carol.", "carol")):
+            target = self.repo.path / path
+            target.write_text(target.read_text().replace("Base.", value))
+            self.repo.cli("snapshot", path, "--author", author)
+        target = self.repo.path / "a.md"
+        target.write_text(target.read_text().replace("Alice.", "Resolved."))
+        self.repo.cli("merge", "a.md", "--from", "b.md", "--from", "c.md",
+                      "--author", "reviewer")
+        event = json.loads(self.repo.cli("show", "a.md", "--json").stdout)
+        self.assertEqual(len(event["parents"]), 3)
+
+        shutil.copy2(target, self.repo.path / "fork.md")
+        self.repo.cli("policy", "fork.md", "local")
+        self.repo.cli("policy", "fork.md", "portable")
+        rejected = self.repo.cli(
+            "merge-plan", "a.md", "--from", "fork.md", check=False)
+        self.assertNotEqual(rejected.returncode, 0)
+        self.assertIn("different portable lineages", rejected.stderr)
+
+    def test_legacy_linear_capsules_upgrade_on_parallel_merge(self):
+        target = self.repo.write("a.md", "# Legacy\n\nBase.\n")
+        self.repo.cli("policy", "a.md", "portable")
+        self.repo.cli("anchor", "a.md")
+        raw = target.read_text()
+        match = re.search(r"proofpress:capsule:([A-Za-z0-9_-]+)", raw)
+        payload = match.group(1)
+        decoded = base64.urlsafe_b64decode(payload + "=" * (-len(payload) % 4))
+        capsule = json.loads(zlib.decompress(decoded))
+        capsule["proofpress_capsule"] = 1
+        capsule.pop("head_event", None)
+        for record in capsule["records"]:
+            record["event"].pop("event_id", None)
+            record["event"].pop("parents", None)
+        encoded = base64.urlsafe_b64encode(zlib.compress(
+            json.dumps(capsule, ensure_ascii=False, sort_keys=True,
+                       separators=(",", ":")).encode(), 9
+        )).decode().rstrip("=")
+        target.write_text(raw[:match.start(1)] + encoded + raw[match.end(1):])
+        shutil.copy2(target, self.repo.path / "b.md")
+
+        target.write_text(target.read_text().replace("Base.", "Left."))
+        other = self.repo.path / "b.md"
+        other.write_text(other.read_text().replace("Base.", "Right."))
+        self.repo.cli("snapshot", "a.md", "--author", "alice")
+        self.repo.cli("snapshot", "b.md", "--author", "bob")
+        target.write_text(target.read_text().replace("Left.", "Resolved."))
+        self.repo.cli("merge", "a.md", "--from", "b.md",
+                      "--author", "reviewer")
+
+        raw = target.read_text()
+        match = re.search(r"proofpress:capsule:([A-Za-z0-9_-]+)", raw)
+        decoded = base64.urlsafe_b64decode(
+            match.group(1) + "=" * (-len(match.group(1)) % 4))
+        merged = json.loads(zlib.decompress(decoded))
+        self.assertEqual(merged["proofpress_capsule"], 2)
+        self.assertEqual(len(merged["records"][-1]["event"]["parents"]), 2)
+        self.assertEqual(self.repo.cli("inspect", "a.md").returncode, 0)
+
+    def test_stale_base_event_is_rejected(self):
+        self.repo.write("a.md", "# A\n\nv1\n")
+        self.repo.cli("policy", "a.md", "portable")
+        first = json.loads(
+            self.repo.cli("inspect", "a.md", "--json").stdout)["head_event"]
+        self.repo.append_body("a.md", "v2")
+        self.repo.cli("snapshot", "a.md", "--author", "alice",
+                      "--base-event", first)
+        self.repo.append_body("a.md", "stale")
+        rejected = self.repo.cli(
+            "snapshot", "a.md", "--author", "alice",
+            "--base-event", first, check=False)
+        self.assertNotEqual(rejected.returncode, 0)
+        self.assertIn("stale base event", rejected.stderr)
+
+    def test_html_parallel_merge_plan_reports_conflict(self):
+        self.repo.write(
+            "a.html",
+            "<html><body><h1>Plan</h1><p>Choose A.</p></body></html>\n")
+        self.repo.cli("policy", "a.html", "portable")
+        self.repo.cli("anchor", "a.html")
+        shutil.copy2(self.repo.path / "a.html", self.repo.path / "b.html")
+        for path, value, author in (
+                ("a.html", "Choose B.", "alice"),
+                ("b.html", "Choose C.", "bob")):
+            target = self.repo.path / path
+            target.write_text(target.read_text().replace("Choose A.", value))
+            self.repo.cli("snapshot", path, "--author", author)
+        plan = json.loads(self.repo.cli(
+            "merge-plan", "a.html", "--from", "b.html", "--json").stdout)
+        self.assertEqual(plan["status"], "conflicts")
+        self.assertTrue(any(c.get("reason") == "divergent_block_change"
+                            for c in plan["conflicts"]))
 
     def test_identify_recognizes_stripped_and_reformatted_copy(self):
         self.repo.write("a.md", "# Report\n\nThe **finding** stands.\n\n- one\n- two\n")

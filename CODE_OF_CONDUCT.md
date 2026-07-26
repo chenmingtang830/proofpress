@@ -1,0 +1,56 @@
+[//]: # (ob:b74068b6)
+# Code of Conduct
+
+[//]: # (ob:9c48431d)
+## Our commitment
+
+[//]: # (ob:7c0b96dc)
+Proofpress welcomes contributors regardless of experience, identity,
+background, or point of view. We commit to a respectful, harassment-free
+community focused on improving the project.
+
+[//]: # (ob:787a631d)
+## Expected behavior
+
+[//]: # (ob:d2242b9e)
+- Be constructive, specific, and kind.
+- Critique ideas and artifacts, not people.
+- Respect privacy and do not publish private prompts, conversations, or
+  identifying information without permission.
+- Accept maintainer decisions about project scope and safety.
+- Help make participation accessible to people with different communication
+  styles and levels of experience.
+
+[//]: # (ob:c3e99e54)
+## Unacceptable behavior
+
+[//]: # (ob:dcd8b928)
+Harassment, threats, discrimination, sexualized attention, personal attacks,
+doxxing, deliberate disruption, and retaliation are not accepted in project
+spaces or when representing the project elsewhere.
+
+[//]: # (ob:66f76d50)
+## Enforcement
+
+[//]: # (ob:c3b85790)
+Report conduct concerns privately through a
+[GitHub security advisory](https://github.com/chenmingtang830/proofpress/security/advisories/new).
+Maintainers will review reports in confidence, take proportionate corrective
+action, and avoid conflicts of interest where possible.
+
+[//]: # (ob:37509528)
+Project maintainers may edit, remove, or reject contributions and may
+temporarily or permanently restrict participation when behavior threatens the
+community.
+
+[//]: # (ob:8cb5e52a)
+## Attribution
+
+[//]: # (ob:391e0d3e)
+This policy is informed by the
+[Contributor Covenant](https://www.contributor-covenant.org/version/2/1/code_of_conduct.html),
+version 2.1.
+
+[//]: # (proofpress:meta:eyJhcnRpZmFjdF9pZCI6InBwX2UzM2RkMTgxNWI5ZjA2N2FhMWM1NzM5YyIsInBvbGljeSI6InBvcnRhYmxlIiwicG9ydGFibGVfaGVhZCI6IjIxODc3NGE5IiwicG9ydGFibGVfaGVhZF9ldmVudCI6InBwZV9hYTlkY2ZiYmY0MTlhNGFiYTA2Yjg4YjYiLCJwb3J0YWJsZV9saW5lYWdlX2lkIjoicHBsXzIzMjdhYmJhM2Y1YmZhOTc1N2MxMWMxNSIsInByb29mcHJlc3MiOjF9)
+[//]: # (proofpress:discovery:Verifiable revision history by Proofpress | https://github.com/chenmingtang830/proofpress)
+[//]: # (proofpress:capsule:eNrtWllz20YS_itTzEtSS4m4D74lSnb9kjiVcnYfLBVrjh4REQggA0AUV6X_vt04SFCiaIqyXXItH1wGwZm-j69bvB9xUyWay2qWqNF0VBQzcF2l7Mj2RaytIOTcln7oxnI0HolcrWYquYaywrPlnDt-MLVtEQpwbT-IQi20smybcz_ggQeWHUkr8AIuHCeQthf7vnC09uPY9t0gsKTSnka6KillfgtmNZre04dqVvFr5JDyiliN8UFAii_-DSbRCRcpMAO3SZnkGZvj-dysmFix302e68JAWeKdgssbfg2k1NZrk_8FqG5tiOC8qopyOplcJ9W8FucyX0zkHLJFkl1XPLuOXGuyddvA33WCz7O6BDOTeVZChraoTA0P49EcOBnRsaMw9Hg8at_M4LY5hMaFGeexkloI7dkx97jgViCiSAQkWW4qUm2WJhmg5L1H0pnjOiEXgrvaF5rHoR9K25a236rTSTeTvCjrFBV2SE6ZG1WOph_vRx37-xF6OTclPbVfg5oJNPnHUZ3dZPkyG12hDn08IOuL9z__Mnv_z9nF-99-_vPiw_lCjcYvihdeVSYRdYVumgleJiVFDaR6xks0XwUNvbqa54aEukkyIlmuygoW-E3GF-S9XrgxXi3J46NpVqcpiirn6CJolRRpLm_wtAg9K2jtid6p4K5RJFfAcs0u8kzVkgKq48WVaoQoKJpgiW--Y08PV6uCBCFfYlyMHsYbdrH0Is-11Ra797VhGEmLpFqQ5fdx-449ObyHWygtEQdKHsltkx5sCSnegZIRncZHGBmYU9fcqJQOoAHgrsB0g0zCmCUbwQpu-LZUUciDxzb4BS9L9DATMOe3CXp4vxl2nd9jCeU4niNiOJ7nGfsJSPsSc1dWyS0qWeJ1LC9yzHimGN08v8zO2IVJquTvGliigJfNdxvhUqw-W5LZXMUQCu94yRgxyjDLVqg1SzKdmwWnHGJLrFJ5XTH0yyJpcuF8j188JSR3hH6NjX6UEoqKLXiSVfgPDFNoI-KMhhCNLG09ZVjBC2iMU3IN1WqPibjUtuN7wWtMVFYrjNOGX4oFLn0UsfvsIl2IY_C3PfRnxhtVm95yYMw-d2df3EoVidiJXsf7HapUlpTuY1bNDfCqHDNqoibBztXECkYz3NU8Tf6LJsU6TAFFb4s9hgkCHQbKt7b9QvEn4YBKtn1yjxGkKyI_jI_i8wdQm6TEpeJM_0swGIyFSW4RLaQrMkheX88Zv8w-_iup3tUCTSFrTOLVHt3d0Ldi_5FjDpTp9y4FNllS4vOKgUrQQQYWOVWX3OBjc25dc6mZPS9SJIUPvsO3RPqxGl7d547tk3vc4cY2WMqFY_h8QPTFijxN5IrhU1usKInJD4AeuNj0F-yoiER4Vl1938Kux7pfjXusMkIwSEVmJim4G57NNz3ogJnnaRW5oAF8JXwr5H4IsR8Q5sryqqHZwSnWwSmGwE7eFHnSOBM5NpwISvSfCElcEQ4jdQYUhthsQKRBfUfCtjLX1UyjJ8Bg5HbosBT2FEu2CxYmorZBesoCrFXC5zLCimnFga09gfDSF7YGPADaQTu4geUJ6YEXWQQNyopXDcpr3TW1fcRK9GbkWE5wZoVnTvDBdqZ2NPWtf1jW1KJM7CyOp_zAj0ILy8DD4O39ZwWGTei1wG3Oyzme1zrCYHelEODggYbGAMt1UXkgOutochUCGj_G8cTvaQ4AW0_zMAzW0cRBRkAMSNT1epoDWNbRfA3Sanp_tRpfZgInmGssZplqqkcTdXSccu-c_Qc6mVmVM44UCb5Uuk7HbL7uD2faAKYhHawzpMp0LnF0UQzRRLLA3n1LGANTte_juxpnrzqA1NyPsE0Ea9U32G9jzgOxXO8lEXmImDwdeVFPdgDvOrKvgmt9aGKXxOKA8CkvUmgO_9FarW0fWMPotMrbU7VA5DLvOwsZaFEQCZSC0qJpsyV5ZgfU6U0mHSlsz3GUWkfgACB2ur0W8K1TyINI4Tzp-tAzG2DAtSGPx3SNyd5BWuDlG7QI2VUmRSsrYRgUkSouBmRr40YBRCZaAxVY1sWh5Ntd6bHZAjuWke9Zjo7WxWAAGtdmOwIEdhyi0PctaUnPsnjPYYALN7H8AozXkbasWPkxuAHE6zQZwL6O9GsgHAZfnvGU3mGFKLFSqPzuDsVACpAmAgzFKxIzddFeIQsZqJBW5ysDTYy3uiH5JOudfpmVBUdPUsVZziHDe1TIiPl2pWBob8ATZp-dXezJnox94XK7N8YAZg5qxqfAY-84xX3Xlh53rGDjuDWe7Ai-CiUyrm6TMjerHqccuB6a9AQmHYEEykkGyx8wbX4dQMNlkqasRVBkXBSUgBMJqakOUBOomvQyOX2J_iJ3ytwYaCrfJYbkxq38Nk9UcxlRS9VkALJCr5QVa7yDfaNNyz1uUraFKCrilhuvE26AiDdd7Wic22Ypnr5E4RaoFzcJuoHaGtY2nqHf8SNJbRKqx1ulpYnDPvm6dAEk2UDMdW_bo5-IQNoe1yII1z1mAK83YfhJ0NwTBB9AKytCRLY22AZHdwRfhY4nk-VyeT5ADWeyO3Gem-tJh8wmzsSeSARFs1zPung_n1eL9AcsC90Z5pzbT4xz9UDq7NgNkjfXm0GifDe6avaMSPrp-0ebxMF7bMHlhhB6FVGJoqx5G2tGROpNqem2jK3gh-0YX7p8WuTYAZNGjOdWIi_d1RxAcuciakOhTdcvs3naueD5FOuXNnMMMpnyZPGsb56aqpsMLxDIpUCGbdsZnDVYT7KU15mcb_600LbNgicGz5KB8Y3EMELrnD_nvq_IdeDhJ5b9YkwHvv3CTK8G0XM_Ws5XTZoeQ_pXbm5Uvswe8aAB9-CFQ6BtF-EiRBYO3XEEkSu0FtJZqz3cJAyn6OF24f5UT95yPTl8x7TesawN1_7VrRVk6jzsXqh8arv05lZIz6v3ZKHkTq1waoc7Fkqewm4dAJwWSqeF0ldYKIWRDmwLlAeu_W0ulC6zIyvn40WKH2P98iEQDsTfwkqIFD-8bj_W9rTUOS11Tkud01LntNQ5LXXe7FJn_9jyOX9xc_yC5DdCG12LUn9h48A-vT1DL_ATVQqM_b6Isa7iYldXcMiK5Mne4LOx3bU5yD4L8RetDPb81nPnymA9J72dlcFXjdbDNy475lN7MJ_aD7vHz294_H6s3o7x23amnrdj_F7_HPk0fp_G7y8_fru2r2LXByUc9_9i_Ca-pwH6NECfBujTAH0aoL_5Afrq4X_VvXaq)

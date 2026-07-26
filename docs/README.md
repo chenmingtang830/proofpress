@@ -2,42 +2,27 @@
 # Proofpress documentation
 
 [//]: # (ob:aeed01a6)
-Proofpress is the trust layer for multiplayer AI: an open, agent-native ledger
-that travels with the artifact. The public documentation set stays deliberately
-small and describes behavior that users and compatible implementations can rely
-on.
+Start with the path that matches your task:
 
 [//]: # (ob:c6e0b8d1)
-“Think C2PA, but for knowledge work” is a category analogy, not a claim of C2PA
-compatibility, signed authorship, or complete capture.
+| I want to… | Open |
+|---|---|
+| Try a portable handoff | [Five-minute demo](../examples/portable-handoff/) |
+| Implement or verify the protocol | [Portable Artifact V1 contract](PORTABLE_ARTIFACT_SPEC.md) |
+| Decide what may be disclosed | [Privacy Boundaries](PRIVACY_AND_DISCLOSURE.md) |
+| Answer common trust and workflow questions | [FAQ](FAQ.md) |
+| Connect an agent harness | [Agent adapters](../skills/) |
 
 [//]: # (ob:717c12e2)
-- [Portable handoff demo](../examples/portable-handoff/) provides a neutral
-
-[//]: # (ob:c2dd735b)
-  artifact whose embedded v1 → v2 ledger can be inspected, imported, and
-  verified in a clean receiver repository.
-
-[//]: # (ob:62ae0597)
-- [Portable Artifact V0](PORTABLE_ARTIFACT_SPEC.md) is the executable protocol
-
-[//]: # (ob:12d546c8)
-  contract: policy, identity, carrier, actors, integrity, import, and commands.
-
-[//]: # (ob:115b73d9)
-- [Privacy Boundaries](PRIVACY_AND_DISCLOSURE.md) defines what admitted history
-
-[//]: # (ob:18d76a56)
-  may contain, what stays local, and what a distributed file cannot promise.
-
-[//]: # (ob:08d1b5c2)
-The implementation is the zero-dependency [`proofpress.py`](../proofpress.py)
-CLI. Harness installation and attribution rules are documented under
-[`skills/`](../skills/).
+The zero-dependency [`proofpress.py`](../proofpress.py) CLI is the reference
+implementation. These documents describe behavior that users and compatible
+implementations can rely on.
 
 [//]: # (ob:aef7f16a)
-Product strategy, competitive research, launch drafts, and experiments are not
-normative protocol documentation and are intentionally excluded from the public
-repository tree.
+Proofpress provides a checkable record, not signed authorship or complete
+capture. Product strategy and experiments are intentionally outside the public
+protocol documentation.
 
-[//]: # (proofpress:meta:eyJhcnRpZmFjdF9pZCI6InBwXzRlNTAxMDZkY2JmYWQxOGUzYWIwNjY4YyIsInBvbGljeSI6ImxvY2FsIiwicHJvb2ZwcmVzcyI6MX0)
+[//]: # (proofpress:meta:eyJhcnRpZmFjdF9pZCI6InBwXzRlNTAxMDZkY2JmYWQxOGUzYWIwNjY4YyIsInBvbGljeSI6InBvcnRhYmxlIiwicG9ydGFibGVfaGVhZCI6IjUwNDg1YTBkIiwicG9ydGFibGVfaGVhZF9ldmVudCI6InBwZV83M2QwNWRmMWM5YjQzZTBhNWY3YzVmODgiLCJwb3J0YWJsZV9saW5lYWdlX2lkIjoicHBsXzdhNjNlNWExMzE2YWQ5OTljNDM3MTIzZCIsInByb29mcHJlc3MiOjF9)
+[//]: # (proofpress:discovery:Verifiable revision history by Proofpress | https://github.com/chenmingtang830/proofpress)
+[//]: # (proofpress:capsule:eNrtWtty27oV_RWM-pJMZRu8k3rTcXKmnkmbnMQ9M53Yo4PLpoWatxKUHNXOzHnqB_S5fe2H5Uu6AYoSHcuKL3J6GT8kpkAS2FjYe-2FDV4OWN2olIlmouRgNKiqiQ8BdWgoBU-ZdGLwGKdhGIvBcMBLuZhIdQa6wWf1lLlBOAr8xHfCMElCmkrqcya5F8SpD2kMbhr7LGSJkzrUESmVseRBTIPEDWM3loKFNMF-pdKinEO9GIwuzY9m0rAzHCFjjRlqiBccMmz4GWqVKsYzIDXMlVZlQab4fFkvCF-Qd3VZplUNWuM7FRPn7AzMpK411-WfAac7q02H06ap9Ojg4Ew10xnfF2V-IKZQ5Ko4a1hxFnv04NrbNfxlpvB6MtNQT0RZaCgQi6aewefhYArMgBhQPw4YlYO2ZQJz-xCCC5PIkzSQqSMS7ntAWZBGIkjj2FhW1o2Z2iRTBaDl3Ypkk4iFHgTM8ZyQySRJhO9FjuvJdjpL6yaCVXqW4YRdY6coa6kHo4-Xg-XwlwNc5bLW5qq9DXLCEfKPA1FK-DQ4xRl03oADy1Log_evx69-_3o_N0Pdx1NY09SKzxpcoAlnWmmDNasLYyfew1UF2-WsmZa1sehcFaZXvcA7Od4pWG6WrrVsOND4IvY1GBWzLEM7xRRXB9r58awU58ZgJ0z8GBg-jgvTwCczi7VLEJzQLEcomLEKH1oOyaSEFkn0KLjAlt-QLW81i8oYZhYWnWTwebg2gAFI6rDw0Qb03lGaNFMg6GC6IRlbQE3Ssib5LGtU1f4eH40IK0hZQTEkbG1ixWp2zT4RAuWxdB5t35df_3E8VcU5OXTfjYcE19kadV6UFxnIMyAXZX3-5dd_GusZERjFZyZCWcGy8mwxJFtsjJxIOC64j7Zxj3x8twwogs4iyzQlEvLy9MX-_gF8YnmVgT7oYm5v-cjBS4IRtbYvQ3K5jqErZeQF_NH2EdLFE7mYlhoI5BzMU2TukC9_-zuZu8SCWSOABeFAVKErZC6QQ6K2IBi6DJBho50iOO5s_Zmevnj39v3x-Ic3ryfj98dHP44Pjycf3r0-RJJ42bkrbEHQcWXghyLeAYLm_RqtGpGqzJRAz1IS31QNXglW1wpqjAjLengLxzqr7T2Vb8HPcQKOLJ3sBL9azZlYkB_KWSEZ2qMRvfdHP48P_zQZ_-HV5NXRh8M3bz_88f1ri56EFKlfo0Nswy-WUciCcAf45WxhMWQKmeNiyhqiG7bQBEdiGSJXyLaVEZOULaGjf6Yqgy34UWQYHojHR_AxOpIyYbp6unOvv0Jd7klAwsPlRng__rJOg_vV4pfTF1vsY5BGKSbSXbC0nAmDWW0YzvhcmVeA7qfmRp9oYLWYDpG1Z4WYElmztNEtqjfwOx12aXqAOsikuomogbVZ0t7psi5MkpSHPA2441HBfM6jKILYd6jJmmVj--zCdqkkCGoacV6VGAJWGNV2JJNKu18mk54aCWLCqNdDX5b0OrGC54GKRZdpM0E_R2ararUURpo7I0oj8H1wHOE6cQRByFBDUV96qCw9zmJsAB6FQsYJj7gMRAKMR4JS8EPUW4aS0X0bK3Da1Ro5DmoF0zJwqRvu0WjPDY9pNPK9kRv9llIcE99aIm4WWXCaRHGKDrNuvdyZKrIu2IqWKdNTEywiDcCJAip8k5ZtHz0ds_TO-wqSrvPY8d2A8tR1oq7znka56fr3FhtnaMdewazDt8nqpGgMY2BIzCFDJkNdbfvsYNonJqyrGUdHuz4VoqHjHwmZ4mCiKlucFDpnWWbDRoIWyELIkBymbK7QNjuaEePaPmEiEHszvn-dOrTNorXtsCz2N_DDEjSIQh4BTQLXFx1oPeG0BO2xCggD1bRnTOWkTG0vJ0VnvMpsltLqrEC6bTWynqpqSHAI81AGDcY0q5pZDVumQrnHfQCfx4HbTaWnr5ZTeYxQmmO-NRMsYIYrnm3IWktTuJdQ3BeKMPbjFaprKbU05XGaKDc2miu08KQgZG43i_iyKizWYB1AADprjRdVqZXZOG4BMAIv5jL1qJPwzuqevNoA4H110icQs_ZNRLMpRbkFwxggRhZFPollZ01PTK0wfLgqMgAOuzjK8a_eAo7n0UgCeK6XrsDpaaceOA8VQUZ5yFw1RnQsd_m3o-PHIuW4MBL4Km57UmmFzsM1j_E5E7e4UrnS2wKPOX6Ki0XjOFxB05NFS1seo28wNK81vTwpDt8c7ZPftXtsExcNsmbbq5lTb0NO6llmoraGFQHjDHFtDHt__EWfqyzTB-0gyx8vt0yWC5djluYSPLnOMiuNtc4yDxZLnyqMZGNmazSuwQkuRJ23eacLnK-yiZ10DdbBC9OCcCywL5HNDKGkuIgW6zYVnRRrQsDkBTdX9_SzmfOGWgpI1XxdSbF1GZzvzfbNlZe2sGSrIssb75WYslr-VxRlbJp_WE3mgSWRvJSWundfzLjZc6tzd1CDuIPRD9x73AWOTXWJdQ81JvT5f7QCsd2W71lr-BYq36-q8G1Mvlf94FuYfL9KwXZLdlkTQNa1AvxWxroZfcv99fGsNsrcDHs96eAL8Mn4RIlINEyf7yHP4pN1iXggiNX-bRz25GP1SO3Jx-rR3NNjuCa-G36z46F6vPbUQ_WI68mHWjPTkw-1pp6nHqrHLU8y1GmPsy4HF1NTNMvZOdjucH-shGI3JKkwf_ZSVeumVbYowjC74jgaM6wpOt25CJg6QvKAidRJU4gZNzsx6oTuanr96l6_stWv-F0-a7Znzfas2Z412_-SZrv7acjqNGAViyN_uDJxFH7eXPr_1jnITg47BGPCDZyECiRFKdDlqcvSSCInAHOBRsxnoSPd0A08N5JeIFLBwE8D81ENdeXdpvf10YfjjIJo5AQbjj7SMEi8wOf_H0cfnpAh5scoZSBvP_r40OAU1mcUFbMXGBI5a8QUg3JRzmqrAEa3178CmlDKEsqoG9x-YHBFjsgFKxpM9l9-_Re5Im_R68nVSXG1t7dn_-ElOTZnBKT6uhx_RT7-qOawl6vCKJA7Vedtf0dd2JmTA1sPX7Qz7WpmVxs53Fnx6VYyt0O8AoFU2zKJYRxMOeZzrqw0iunq3nRo-zwsiwJzljlosrUnsqxSmf7GtoFJVjXopdeKlORqk0JYLpMIYiEcXzpeQG8_DDl-WPWVHL456kithhRQYAk4Ka6znj360muxqVfnWXc4zvq6s_V5Ftl6nIWiMBWxI4UvxNbqbBdjvVMde-C7_NjOVC3bY6sbx1L9U6mTojuWIl9XfDfWcq9XZ1Ffa-NM_brs5vLuc3l2J-XZXQvyzSWVu5Q5xlbErhee_Dj-yWyM7Hn0egt2fUN1-1bMdqKnxonLQiiMOtOf8UC7SVMN6b45tf69Og24ZeeGA91rd7blK8-Nu7NV8v327uwJluzuW8sNksP5vFlFfBcVFSVhELBUSjdGMcWiJPUFyqZIREkSoU5FZQWp8EMngDCOnVCiIEhkFISxDAWzIN4ypRvKyR1RZ-T6G5TT6nPfZ-V0P-UEklHPTblAF3tWTjtRTuNCX4BNxznSVvshj93olfV5mpUXxKYxqx8MNOOfTl_gf8_K61l5PUZ5nX7-Nyj7yBY)
