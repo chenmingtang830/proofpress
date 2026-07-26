@@ -1,41 +1,35 @@
 {
  "event": "version_created",
- "artifact": "docs/internal/launch/x-launch.md",
- "artifact_id": "pp_5c19a32e9dea0da4c55aae96",
- "version": "350d9c1b",
- "parent": "a9a15176",
+ "artifact": "docs/internal/launch/vision-article.md",
+ "artifact_id": "pp_76fe7cb5fb383d8b919767a8",
+ "version": "161d2e57",
+ "parent": "75212846",
  "author": {
   "name": "OpenAI Codex",
   "kind": "agent",
   "session": null
  },
  "note": null,
- "ts": "2026-07-26T12:19:34+00:00",
+ "ts": "2026-07-26T12:19:38+00:00",
  "stats": {
-  "modified": 3
+  "modified": 2
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "3cf9e546",
-   "type": "para",
-   "context": "Reply 2 — short founder vision note"
+   "block": "82e7af4c",
+   "type": "heading",
+   "context": "Git Made Code Collaborative. Proofpress "
   },
   {
    "kind": "modified",
-   "block": "79cc69ea",
-   "type": "table",
-   "context": "Final film sequence"
-  },
-  {
-   "kind": "modified",
-   "block": "46ea7b3d",
+   "block": "4ceed421",
    "type": "para",
-   "context": "Video alt text"
+   "context": "Git’s deeper lesson"
   }
  ],
  "policy": "local",
- "soft_fingerprint": "ppsb1:d715c251020ca6ff49b5a3336024165c3deda8c04b158ac9e4d3df90eae20660",
+ "soft_fingerprint": "ppsb1:d646c21aab484ec5b39573cf63a01bee2ba9bd28b94754f6ade1fc90fcc51bfe",
  "actors": {
   "requested_by": [
    "Richard Tang"
@@ -53,23 +47,18 @@
  "attribution_basis": "harness_attested",
  "claims": [
   {
-   "block": "3cf9e546",
+   "block": "82e7af4c",
    "kind": "modified",
-   "note": "Replaced the founder vision line's outcome from cumulative intelligence to intelligence that compounds."
+   "note": "Revised the headline to present intelligence as compounding."
   },
   {
-   "block": "79cc69ea",
+   "block": "4ceed421",
    "kind": "modified",
-   "note": "Updated the launch-film sequence record to match the revised on-screen line."
-  },
-  {
-   "block": "46ea7b3d",
-   "kind": "modified",
-   "note": "Updated video alt text to transcribe the revised closing line."
+   "note": "Revised the article's core Git/Proofpress comparison to use the compounding formulation."
   }
  ],
  "context": {
-  "why": "The launch claim now emphasizes the compounding returns created when verified intelligence can be inherited and extended."
+  "why": "The core vision statement now emphasizes compounding intelligence while retaining cumulative language where it defines the enabling capability."
  },
- "event_id": "ppe_b63894b0bc77b0a8d7de963f"
+ "event_id": "ppe_d584c0839500cb2e779b5f00"
 }
