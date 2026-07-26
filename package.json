@@ -36,5 +36,9 @@
   "homepage": "https://github.com/chenmingtang830/proofpress#readme",
   "bugs": {
     "url": "https://github.com/chenmingtang830/proofpress/issues"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
   }
 }

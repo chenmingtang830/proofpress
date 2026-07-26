@@ -13,7 +13,7 @@ on:
           - latest
 
 permissions:
-  contents: read
+  contents: write
   id-token: write
 
 concurrency:
@@ -24,22 +24,56 @@ jobs:
   stage:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
 
       # No registry-url on purpose: setup-node would write a placeholder
       # NODE_AUTH_TOKEN into .npmrc, and npm prefers a present token over
       # the OIDC trusted-publishing exchange. Default registry is npmjs.
-      - uses: actions/setup-node@v6
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
         with:
           node-version: "24.15.0"
           package-manager-cache: false
 
+      - name: Validate release ref
+        if: inputs.npm-tag == 'latest'
+        run: |
+          test "$GITHUB_REF_NAME" = "main" || {
+            echo "latest releases must run from main, not $GITHUB_REF_NAME"
+            exit 1
+          }
+
       - name: Test package
         run: npm test
 
-      # The human gate is the manual workflow_dispatch itself; publishing
-      # authenticates via npm OIDC trusted publishing (id-token above).
-      - name: Publish
+      - name: Read package version
+        id: package
+        run: node -p '"version=" + require("./package.json").version' >> "$GITHUB_OUTPUT"
+
+      # The manual dispatch is the human gate. Publishing authenticates through
+      # npm trusted publishing with the OIDC token granted above.
+      - name: Publish to npm when missing
         env:
           NPM_TAG: ${{ inputs.npm-tag }}
-        run: npm publish --tag "$NPM_TAG"
+          VERSION: ${{ steps.package.outputs.version }}
+        run: |
+          published=$(npm view "proofpress@$VERSION" version 2>/dev/null || true)
+          if [ "$published" = "$VERSION" ]; then
+            echo "proofpress@$VERSION already exists; skipping npm publish"
+          else
+            npm publish --tag "$NPM_TAG" --access public --provenance
+          fi
+
+      - name: Create GitHub release when missing
+        if: inputs.npm-tag == 'latest'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ steps.package.outputs.version }}
+        run: |
+          tag="v$VERSION"
+          if gh release view "$tag" >/dev/null 2>&1; then
+            echo "$tag already has a GitHub release"
+          else
+            gh release create "$tag" \
+              --target "$GITHUB_SHA" \
+              --title "Proofpress $tag" \
+              --generate-notes
