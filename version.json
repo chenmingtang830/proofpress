@@ -1,108 +1,252 @@
 {
- "artifact": "skills/pi/proofpress-skill.md",
- "artifact_id": "pp_c7ce0d15b86bb42bd28434fc",
+ "artifact": "docs/internal/launch/x-launch.md",
+ "artifact_id": "pp_5c19a32e9dea0da4c55aae96",
  "blocks": [
   {
    "type": "heading",
-   "text": "# proofpress",
-   "id": "5cd87791",
-   "hash": "cc88bcacfae7"
+   "text": "# Proofpress X launch",
+   "id": "d978986b",
+   "hash": "ed0ea43e95b9"
   },
   {
    "type": "para",
-   "text": "For accepted, meaningful revisions to Markdown or static HTML knowledge\nartifacts—never source code—close this loop. Do not snapshot every\nconversational turn.",
-   "id": "095b959e",
-   "hash": "91d3ef856cbf"
+   "text": "**Status:** canonical draft\n**Channel:** X\n**Primary asset:** approved 27-second silent-first launch film\n**Source of strategic truth:** `docs/internal/decision_strategy/PORTABLE_ARTIFACT_STRATEGY.md`",
+   "id": "1fdd0312",
+   "hash": "9555fbe04b24"
+  },
+  {
+   "type": "heading",
+   "text": "## Launch decision",
+   "id": "89191200",
+   "hash": "6018d22978bd"
   },
   {
    "type": "para",
-   "text": "Before editing an existing target, run\n`python3 proofpress.py capture --recorder pi-preflight <file>`. This preserves\nany human drift without guessing its author or reason. Then:",
-   "id": "211b5d98",
-   "hash": "8f84b7268373"
+   "text": "The X launch should claim the category, then bind it immediately to the product\nboundary. Lead with **the trust layer for multiplayer AI**, immediately followed\nby **an open, agent-native ledger that travels with the artifact**. Scope\n“trust” to a shared, checkable artifact ledger rather than identity,\nauthorization, access control, or cryptographically signed authorship.",
+   "id": "5922601a",
+   "hash": "951ccd481303"
+  },
+  {
+   "type": "para",
+   "text": "“Multiplayer AI” is the launch entry point. The durable strategic category\nremains agent-native knowledge work; the technical definition remains an open\nprotocol for versioned knowledge artifacts with verifiable provenance. Portable\nhandoff is the sharpest product proof: the ledger can travel with the file after\nthe live session ends.",
+   "id": "bd32ddac",
+   "hash": "d993affc7cc2"
+  },
+  {
+   "type": "heading",
+   "text": "## Canonical launch post",
+   "id": "db540fed",
+   "hash": "aa5ea9cd4769"
+  },
+  {
+   "type": "para",
+   "text": "The main post carries the native launch film and deliberately contains no link.\nIts only job is category recognition and a complete first impression during\nmuted autoplay. The repository and article belong in the immediate replies.",
+   "id": "b60dd55f",
+   "hash": "a505d315c4ed"
+  },
+  {
+   "type": "para",
+   "text": "> Introducing Proofpress.\n>\n> The trust layer for multiplayer AI.\n> An open, agent-native ledger that travels with the artifact.\n>\n> Humans and agents edit one file across sessions. The file moves; its decision trail does not.",
+   "id": "d8c123e5",
+   "hash": "9846e6ae0872"
+  },
+  {
+   "type": "para",
+   "text": "Attach the launch film directly to this post. Do not add hashtags, launch emojis,\nmentions, a request to repost, or a second call to action.",
+   "id": "ce32ea8d",
+   "hash": "6493903ef680"
+  },
+  {
+   "type": "heading",
+   "text": "## Reply thread",
+   "id": "1215f916",
+   "hash": "2aa423a37c66"
+  },
+  {
+   "type": "para",
+   "text": "The canonical first reply converts attention into a repository visit and a\nfive-minute product proof. Publish the vision article as Reply 2: it is valuable\nfor readers who want the larger argument, but must not compete with the\nopen-source call to action directly beneath the video.",
+   "id": "7bc5247b",
+   "hash": "3ccfb0db7b01"
+  },
+  {
+   "type": "heading",
+   "text": "### Reply 1 — open-source repository and demo",
+   "id": "01bbac2a",
+   "hash": "599030223b44"
+  },
+  {
+   "type": "para",
+   "text": "> Your team and agents hand off a file.\n>\n> The record of what changed, why it changed, and which paths were rejected should travel with it too.\n>\n> Proofpress is open source:\n> https://github.com/chenmingtang830/proofpress\n>\n> Try the portable handoff demo in five minutes.",
+   "id": "d5e07adc",
+   "hash": "d01ac3f4d1b8"
+  },
+  {
+   "type": "heading",
+   "text": "### Reply 2 — short founder vision note",
+   "id": "be93dc6e",
+   "hash": "19c398a2b972"
+  },
+  {
+   "type": "para",
+   "text": "> Git made code collaborative. Proofpress makes intelligence cumulative.\n>\n> The handoff is the wedge: an open ledger makes knowledge humans and agents can verify, inherit, and extend.\n>\n> Read the short note: [X Article URL]",
+   "id": "3cf9e546",
+   "hash": "91df2c99547b"
+  },
+  {
+   "type": "para",
+   "text": "Article source: `docs/internal/launch/vision-article.md`. Keep it a concise\nvision note; do not repeat the product demo, installation flow, or FAQ already\nserved by the video and Reply 1.",
+   "id": "58467760",
+   "hash": "7d39b26c05bd"
+  },
+  {
+   "type": "heading",
+   "text": "## Final launch film",
+   "id": "2106d9a4",
+   "hash": "f55bbaa05777"
+  },
+  {
+   "type": "para",
+   "text": "Attach [the approved 27-second, 1920×1080 launch film](film/final/proofpress-x-launch.mp4)\ndirectly to the main post. It is the only canonical X video asset; the source,\nmusic record, and superseded experiments live under `docs/internal/launch/film/`.",
+   "id": "88155ddf",
+   "hash": "19cc9a1f714d"
+  },
+  {
+   "type": "para",
+   "text": "The final cut is silent-first, with one ambient music bed and no narration or\nUI-event SFX. It must still communicate the category, handoff gap, ledger, and\nportable outcome under muted autoplay.",
+   "id": "77213997",
+   "hash": "0018c51e301b"
+  },
+  {
+   "type": "heading",
+   "text": "## Final film sequence",
+   "id": "71beed88",
+   "hash": "462f9f0bf31d"
+  },
+  {
+   "type": "para",
+   "text": "The final film is a continuous-canvas motion piece. The following is a launch\nreference, not a rebuild brief; the [HyperFrames composition](film/source/proofpress-x-launch/continuous-canvas-16x9/)\nis the source of truth for exact timing and motion.",
+   "id": "7dd075af",
+   "hash": "d196af27a492"
+  },
+  {
+   "type": "table",
+   "text": "| Time | On-screen sequence | Purpose |\n|---|---|---|\n| 0:00–0:02 | `INTRODUCING PROOFPRESS` / `The trust layer for multiplayer AI.` | Establish the category. |\n| 0:02–0:07 | `THE FILE MOVES. ITS DECISIONS DON’T.` A `strategy.md` moves from Session A to Session B. | Make the handoff gap concrete. |\n| 0:07–0:13 | `DECISION HISTORY.` The ledger shows `v1 → v2`: edit “Focused the launch on design partners,” why “Pilot teams need guided onboarding,” rejected “Open self-serve launch,” then `REASON STATED. CHANGE CHECKED.` | Separate stated context from a computed change check. |\n| 0:13–0:18 | `THE LEDGER TRAVELS WITH IT.` The shared, checkable ledger crosses with the document; Session B can `CONTINUE FROM V2.` | Prove portable continuity. |\n| 0:18–0:22 | `GIT MADE CODE COLLABORATIVE.` → `PROOFPRESS MAKES INTELLIGENCE CUMULATIVE.` | Connect the product proof to the larger vision. |\n| 0:22–0:27 | `PROOFPRESS` / `SCALE INTELLIGENCE. PRESERVE TRUST.` / GitHub URL. | Deliver a stable open-source close. |",
+   "id": "79cc69ea",
+   "hash": "a091b99fee70"
+  },
+  {
+   "type": "heading",
+   "text": "## Visual guardrails",
+   "id": "91dfe518",
+   "hash": "22544d4bb825"
   },
   {
    "type": "list",
-   "text": "1. Read `python3 proofpress.py policy <file>`. If the user asks for portability,",
-   "id": "87ce54bb",
-   "hash": "0d0b4fbb2e3c"
+   "text": "- The artifact is always the stable center; agents and sessions rotate around",
+   "id": "0245b307",
+   "hash": "dd1ca862b302"
   },
   {
    "type": "para",
-   "text": "   run `policy <file> portable` once; it remains sticky. Use `ingest <file>` for\n   Git history not yet represented in the ledger.",
-   "id": "72f291a2",
-   "hash": "02c487c133df"
+   "text": "  it.",
+   "id": "d240754a",
+   "hash": "636c09afd08e"
   },
   {
    "type": "list",
-   "text": "2. Preserve carrier-native block anchors while editing: Markdown uses invisible",
-   "id": "85972ea6",
-   "hash": "e2486420540d"
+   "text": "- Use the ledger, capsule, and lineage as signals of admitted history, not as",
+   "id": "c3120ac5",
+   "hash": "94b220cdeef1"
   },
   {
    "type": "para",
-   "text": "   `ob` markers; static HTML uses `data-proofpress-id`. Then run `anchor <file>`\n   and inspect inherited/new/gone IDs.",
-   "id": "b9f8ef49",
-   "hash": "2e4abf12d548"
+   "text": "  claims of identity, authorization, access control, or cryptographic\n  authorship.",
+   "id": "2e8c8d22",
+   "hash": "0bac07155079"
   },
   {
    "type": "list",
-   "text": "3. Write claims JSON with one honest item per touched or removed block. Do not",
-   "id": "6f0d23b1",
-   "hash": "d2de480fd3bc"
+   "text": "- “Verified” modifies computed changes and change claims, never attributed why",
+   "id": "0e010f5e",
+   "hash": "6bc738d0ebbe"
   },
   {
    "type": "para",
-   "text": "   enumerate untouched blocks.",
-   "id": "28f53262",
-   "hash": "a7f1bc5835ee"
+   "text": "  or unsigned actors.",
+   "id": "9c51dafb",
+   "hash": "49ede3dfdfab"
   },
   {
    "type": "list",
-   "text": "4. Snapshot with `--why`, claims, and explicit actors:",
-   "id": "abd7c833",
-   "hash": "5fa97edde2db"
-  },
-  {
-   "type": "code",
-   "text": "   ```sh\n   python3 proofpress.py snapshot <file> --kind agent --author pi \\\n     --produced-by pi --recorded-by pi \\\n     --attribution-basis harness_attested --note \"<changelog>\" \\\n     --claims <claims.json> --why \"<actual reason>\" \\\n     --rejected \"<consequential dead branch — reason>\"\n   ```",
-   "id": "2c10e48d",
-   "hash": "187f392e197b"
+   "text": "- Use one Canvas UI signature effect at most. HyperFrames owns all timing and",
+   "id": "131cf0c4",
+   "hash": "f14710a806ba"
   },
   {
    "type": "para",
-   "text": "   Omit `--rejected` unless the dead branch matters later. Never infer it from\n   casual discussion or capture raw prompts/transcripts.",
-   "id": "4386e1e7",
-   "hash": "48d92360fcc8"
+   "text": "  rendering.",
+   "id": "3f890420",
+   "hash": "0f50ab8bda53"
   },
   {
    "type": "list",
-   "text": "5. Run `verify <file>` and report its output verbatim. Never re-snapshot just to",
-   "id": "dd7291a6",
-   "hash": "9509a99ec574"
+   "text": "- No old review UI, approval controls, thousand-line-diff hook, legacy install",
+   "id": "61c54e2f",
+   "hash": "790fe986d420"
   },
   {
    "type": "para",
-   "text": "   force green.",
-   "id": "8ac28d76",
-   "hash": "5e734ff8c456"
+   "text": "  command, or “Markdown gets its own Git” positioning.",
+   "id": "60722959",
+   "hash": "538ba6b5f8f9"
+  },
+  {
+   "type": "list",
+   "text": "- Terminal and artifact text must remain readable at ordinary X playback size.\n- Do not show private repository names, local paths, real actor identifiers, or",
+   "id": "d4f2e6ad",
+   "hash": "c54d9ea32787"
   },
   {
    "type": "para",
-   "text": "For an incoming file with a `proofpress:discovery` marker but no local CLI,\ntell the user it carries verifiable revision history, show the marker's\ncanonical project URL, and ask whether to install `proofpress`. Never\ndownload or execute it without explicit consent. If the CLI is available, run\n`inspect` before trusting the capsule and then `import`.",
-   "id": "2f7730eb",
-   "hash": "e35c0da68353"
+   "text": "  internal strategy text beyond the approved launch fixture.",
+   "id": "317c96d1",
+   "hash": "22ea3d18e721"
+  },
+  {
+   "type": "heading",
+   "text": "## Film acceptance test",
+   "id": "e99b6b98",
+   "hash": "b142ce3916e6"
   },
   {
    "type": "para",
-   "text": "For parallel portable copies of the same artifact, preserve every input and run\n`merge-plan TARGET --from COPY...`. Apply compatible block changes, ask the\nuser only about reported semantic conflicts, then `anchor` the resolved target,\nwrite merge-relative claims, run `merge TARGET --from COPY...` with explicit\nactors/reason, and `verify`. Different artifact IDs or portable lineages are\ningredients; use `merge-lineage` for them.",
-   "id": "19334051",
-   "hash": "b0a0a20f5370"
+   "text": "After one silent viewing, an unfamiliar developer should be able to answer:",
+   "id": "d1833da7",
+   "hash": "036ab78dc1f9"
+  },
+  {
+   "type": "list",
+   "text": "1. Why can Session B continue without Session A's conversation?\n2. What makes the ledger more than ordinary edit history?\n3. What travels with the artifact across the handoff?\n4. Which parts are checked against the artifact, and which remain attributed context?",
+   "id": "3aeea40a",
+   "hash": "7b7f02072801"
   },
   {
    "type": "para",
-   "text": "Fallback `capture` records only `recorded_by`; it cannot know authorship or\nreasoning.",
-   "id": "72680124",
-   "hash": "94c5539bfbab"
+   "text": "If the viewer answers only “it versions Markdown” or “it makes better diffs,”\nthe film has failed its strategic purpose.",
+   "id": "55156831",
+   "hash": "b6058217cbc9"
+  },
+  {
+   "type": "heading",
+   "text": "## Video alt text",
+   "id": "8d1e5b46",
+   "hash": "966265cfd9ca"
+  },
+  {
+   "type": "para",
+   "text": "> A 27-second motion graphic introduces Proofpress as the trust layer for multiplayer AI. A `strategy.md` file moves from Session A to Session B while its decisions remain behind. A decision ledger shows the accepted edit, stated reason, rejected direction, and a checked change claim. The ledger then travels with the file, allowing Session B to continue from version two. The film closes with “Git made code collaborative. Proofpress makes intelligence cumulative.” and “Scale intelligence. Preserve trust.” plus the open-source repository.",
+   "id": "46ea7b3d",
+   "hash": "e4ac25b7585b"
   }
  ]
 }

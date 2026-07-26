@@ -1,53 +1,461 @@
 {
  "event": "version_created",
- "artifact": "skills/pi/proofpress-skill.md",
- "artifact_id": "pp_c7ce0d15b86bb42bd28434fc",
- "version": "612ed0ee",
- "parent": "cf59a525",
+ "artifact": "docs/internal/launch/x-launch.md",
+ "artifact_id": "pp_5c19a32e9dea0da4c55aae96",
+ "version": "a9a15176",
+ "parent": "b7ff6698",
  "author": {
-  "name": "codex",
-  "kind": "agent",
+  "name": "unknown",
+  "kind": "human",
   "session": null
  },
- "note": "add portable parallel-copy merge instructions",
- "ts": "2026-07-25T20:43:06+00:00",
+ "note": null,
+ "ts": "2026-07-26T12:09:57+00:00",
  "stats": {
-  "added": 1
+  "modified": 8,
+  "removed": 27
  },
  "changes": [
   {
-   "kind": "added",
-   "block": "19334051",
+   "kind": "modified",
+   "block": "1fdd0312",
    "type": "para",
-   "context": "proofpress",
-   "preview": "For parallel portable copies of the same artifact, preserve "
+   "context": "Proofpress X launch"
+  },
+  {
+   "kind": "modified",
+   "block": "2106d9a4",
+   "type": "heading",
+   "context": "Final launch film"
+  },
+  {
+   "kind": "modified",
+   "block": "88155ddf",
+   "type": "para",
+   "context": "Final launch film"
+  },
+  {
+   "kind": "modified",
+   "block": "77213997",
+   "type": "para",
+   "context": "Final launch film"
+  },
+  {
+   "kind": "modified",
+   "block": "71beed88",
+   "type": "heading",
+   "context": "Final film sequence"
+  },
+  {
+   "kind": "modified",
+   "block": "7dd075af",
+   "type": "para",
+   "context": "Final film sequence"
+  },
+  {
+   "kind": "modified",
+   "block": "79cc69ea",
+   "type": "table",
+   "context": "Final film sequence"
+  },
+  {
+   "kind": "modified",
+   "block": "46ea7b3d",
+   "type": "para",
+   "context": "Video alt text",
+   "numbers": [
+    [
+     "22",
+     "27"
+    ]
+   ]
+  },
+  {
+   "kind": "removed",
+   "block": "e87e723f",
+   "type": "code",
+   "context": "",
+   "preview": "```text\nINTRODUCING PROOFPRESS\n\nTHE TRUST LAYER\nFOR MULTIPLA"
+  },
+  {
+   "kind": "removed",
+   "block": "a5afd326",
+   "type": "para",
+   "context": "",
+   "preview": "Visual: a restrained product-title reveal resolves into one "
+  },
+  {
+   "kind": "removed",
+   "block": "55e882b8",
+   "type": "heading",
+   "context": "",
+   "preview": "### Beat 2 — the handoff gap, 0:03–0:07"
+  },
+  {
+   "kind": "removed",
+   "block": "61fc86a5",
+   "type": "para",
+   "context": "",
+   "preview": "On-screen copy:"
+  },
+  {
+   "kind": "removed",
+   "block": "2c6665fc",
+   "type": "code",
+   "context": "",
+   "preview": "```text\nTHE FILE TRAVELS.\nITS DECISION TRAIL STAYS BEHIND.\n`"
+  },
+  {
+   "kind": "removed",
+   "block": "e8811cb7",
+   "type": "para",
+   "context": "",
+   "preview": "Visual: the file moves from the first workspace to a second "
+  },
+  {
+   "kind": "removed",
+   "block": "927677d8",
+   "type": "heading",
+   "context": "",
+   "preview": "### Beat 3 — reveal the ledger, 0:07–0:14"
+  },
+  {
+   "kind": "removed",
+   "block": "84908a97",
+   "type": "para",
+   "context": "",
+   "preview": "Show a real, simplified Proofpress ledger event:"
+  },
+  {
+   "kind": "removed",
+   "block": "931a0198",
+   "type": "code",
+   "context": "",
+   "preview": "```text\nstrategy.md  v1 → v2\n\nedit · COMPETITIVE\nmove beyond"
+  },
+  {
+   "kind": "removed",
+   "block": "0a136c96",
+   "type": "para",
+   "context": "",
+   "preview": "The strategic change and rejection come from the actual Proo"
+  },
+  {
+   "kind": "removed",
+   "block": "c0921886",
+   "type": "heading",
+   "context": "",
+   "preview": "### Beat 4 — the ledger crosses the handoff, 0:14–0:18"
+  },
+  {
+   "kind": "removed",
+   "block": "d725eab4",
+   "type": "para",
+   "context": "",
+   "preview": "The ledger collapses into the artifact’s portable capsule an"
+  },
+  {
+   "kind": "removed",
+   "block": "5fc808ae",
+   "type": "para",
+   "context": "",
+   "preview": "On-screen copy:"
+  },
+  {
+   "kind": "removed",
+   "block": "81b9b51f",
+   "type": "code",
+   "context": "",
+   "preview": "```text\nSHARED, CHECKABLE LEDGER\nATTACHED TO THE ARTIFACT\n``"
+  },
+  {
+   "kind": "removed",
+   "block": "89ea3d93",
+   "type": "para",
+   "context": "",
+   "preview": "Show the consequence rather than another feature list:"
+  },
+  {
+   "kind": "removed",
+   "block": "123c4835",
+   "type": "code",
+   "context": "",
+   "preview": "```text\ncontinue from v2\navoid the rejected approval workflo"
+  },
+  {
+   "kind": "removed",
+   "block": "aaafccca",
+   "type": "para",
+   "context": "",
+   "preview": "This is the film’s proof moment: Session B acts differently "
+  },
+  {
+   "kind": "removed",
+   "block": "8a217c6a",
+   "type": "heading",
+   "context": "",
+   "preview": "### Beat 5 — vision bridge, 0:18–0:20"
+  },
+  {
+   "kind": "removed",
+   "block": "90780ce9",
+   "type": "para",
+   "context": "",
+   "preview": "On-screen copy:"
+  },
+  {
+   "kind": "removed",
+   "block": "a7fa956a",
+   "type": "code",
+   "context": "",
+   "preview": "```text\nGIT MADE CODE COLLABORATIVE.\nPROOFPRESS MAKES INTELL"
+  },
+  {
+   "kind": "removed",
+   "block": "d16f2d4f",
+   "type": "para",
+   "context": "",
+   "preview": "This is the bridge from the handoff wedge to the larger visi"
+  },
+  {
+   "kind": "removed",
+   "block": "c0b18779",
+   "type": "heading",
+   "context": "",
+   "preview": "### Beat 6 — open-source close, 0:20–0:22"
+  },
+  {
+   "kind": "removed",
+   "block": "7e39124e",
+   "type": "para",
+   "context": "",
+   "preview": "Final frame:"
+  },
+  {
+   "kind": "removed",
+   "block": "10ddce38",
+   "type": "code",
+   "context": "",
+   "preview": "```text\nPROOFPRESS\n\nSCALE INTELLIGENCE.\nPRESERVE TRUST.\n\nOPE"
+  },
+  {
+   "kind": "removed",
+   "block": "5ab77343",
+   "type": "para",
+   "context": "",
+   "preview": "Hold long enough to read the repository URL. Do not add an n"
+  },
+  {
+   "kind": "removed",
+   "block": "0fa3ce95",
+   "type": "heading",
+   "context": "",
+   "preview": "## Frame plan"
+  },
+  {
+   "kind": "removed",
+   "block": "4b713847",
+   "type": "table",
+   "context": "",
+   "preview": "| Time | Frame | Evidence job | Motion |\n|---|---|---|---|\n|"
   }
  ],
  "policy": "local",
- "soft_fingerprint": "ppsb1:1a504401e03592b0b73d52e2e1d5a7cd217275f6fdd00ff7df0e96b16ca5dcb9",
+ "soft_fingerprint": "ppsb1:5dc2982dcfe0416e71b2e48b3821add451162e99d96ae31c82a73d4cbe0eb49a",
  "actors": {
   "requested_by": [
-   "Richard"
+   "Richard Tang"
   ],
   "produced_by": [
-   "codex"
+   "OpenAI Codex"
   ],
   "edited_by": [
-   "codex"
+   "OpenAI Codex"
   ],
   "recorded_by": [
-   "codex"
+   "OpenAI Codex"
   ]
  },
  "attribution_basis": "harness_attested",
  "claims": [
   {
-   "block": "19334051",
-   "kind": "added"
+   "block": "1fdd0312",
+   "kind": "modified",
+   "note": "Updated the primary asset from the planned 18–22-second film to the approved 27-second cut."
+  },
+  {
+   "block": "2106d9a4",
+   "kind": "modified",
+   "note": "Renamed the planning section to identify the final launch film."
+  },
+  {
+   "block": "88155ddf",
+   "kind": "modified",
+   "note": "Linked the canonical launch MP4 and defined it as the only X video asset."
+  },
+  {
+   "block": "77213997",
+   "kind": "modified",
+   "note": "Recorded the final silent-first audio policy."
+  },
+  {
+   "block": "71beed88",
+   "kind": "modified",
+   "note": "Replaced the pre-production script heading with final-sequence guidance."
+  },
+  {
+   "block": "7dd075af",
+   "kind": "modified",
+   "note": "Pointed exact motion timing to the final HyperFrames composition."
+  },
+  {
+   "block": "79cc69ea",
+   "kind": "modified",
+   "note": "Replaced the proposed beats with the approved on-screen sequence."
+  },
+  {
+   "block": "46ea7b3d",
+   "kind": "modified",
+   "note": "Updated accessibility copy for the final 27-second film."
+  },
+  {
+   "block": "d16f2d4f",
+   "kind": "removed",
+   "note": "Removed the superseded vision-bridge production note."
+  },
+  {
+   "block": "e87e723f",
+   "kind": "removed",
+   "note": "Removed the superseded opening-copy draft."
+  },
+  {
+   "block": "931a0198",
+   "kind": "removed",
+   "note": "Removed the superseded internal-strategy ledger fixture."
+  },
+  {
+   "block": "8a217c6a",
+   "kind": "removed",
+   "note": "Removed the superseded vision-bridge beat."
+  },
+  {
+   "block": "c0921886",
+   "kind": "removed",
+   "note": "Removed the superseded portable-handoff beat."
+  },
+  {
+   "block": "d725eab4",
+   "kind": "removed",
+   "note": "Removed the superseded portable-handoff implementation note."
+  },
+  {
+   "block": "5ab77343",
+   "kind": "removed",
+   "note": "Removed the superseded 22-second closing instruction."
+  },
+  {
+   "block": "4b713847",
+   "kind": "removed",
+   "note": "Removed the superseded frame-plan table."
+  },
+  {
+   "block": "123c4835",
+   "kind": "removed",
+   "note": "Removed the superseded handoff-consequence copy."
+  },
+  {
+   "block": "0fa3ce95",
+   "kind": "removed",
+   "note": "Removed the superseded frame-plan heading."
+  },
+  {
+   "block": "55e882b8",
+   "kind": "removed",
+   "note": "Removed the superseded handoff-gap beat."
+  },
+  {
+   "block": "e8811cb7",
+   "kind": "removed",
+   "note": "Removed the superseded handoff visual direction."
+  },
+  {
+   "block": "c0b18779",
+   "kind": "removed",
+   "note": "Removed the superseded open-source-close beat."
+  },
+  {
+   "block": "90780ce9",
+   "kind": "removed",
+   "note": "Removed the superseded vision-copy label."
+  },
+  {
+   "block": "a5afd326",
+   "kind": "removed",
+   "note": "Removed the superseded opening visual direction."
+  },
+  {
+   "block": "2c6665fc",
+   "kind": "removed",
+   "note": "Removed the superseded handoff-gap copy."
+  },
+  {
+   "block": "81b9b51f",
+   "kind": "removed",
+   "note": "Removed the superseded portable-ledger copy."
+  },
+  {
+   "block": "89ea3d93",
+   "kind": "removed",
+   "note": "Removed the superseded handoff consequence instruction."
+  },
+  {
+   "block": "61fc86a5",
+   "kind": "removed",
+   "note": "Removed the superseded handoff-copy label."
+  },
+  {
+   "block": "0a136c96",
+   "kind": "removed",
+   "note": "Removed the claim that the old internal-strategy fixture was the final visual."
+  },
+  {
+   "block": "5fc808ae",
+   "kind": "removed",
+   "note": "Removed the superseded portable-copy label."
+  },
+  {
+   "block": "10ddce38",
+   "kind": "removed",
+   "note": "Removed the superseded close-frame copy block."
+  },
+  {
+   "block": "a7fa956a",
+   "kind": "removed",
+   "note": "Removed the superseded vision-copy block."
+  },
+  {
+   "block": "927677d8",
+   "kind": "removed",
+   "note": "Removed the superseded ledger-reveal beat."
+  },
+  {
+   "block": "7e39124e",
+   "kind": "removed",
+   "note": "Removed the superseded close-frame label."
+  },
+  {
+   "block": "84908a97",
+   "kind": "removed",
+   "note": "Removed the superseded ledger-fixture instruction."
+  },
+  {
+   "block": "aaafccca",
+   "kind": "removed",
+   "note": "Removed the superseded proof-moment implementation note."
   }
  ],
  "context": {
-  "why": "keep Pi adapter aligned with the multiplayer contract"
+  "why": "Replace the superseded 22-second production brief with the approved 27-second launch asset, its actual on-screen sequence, and its native X publishing instructions."
  },
- "event_id": "ppe_1221d4ccb23e0c7ab38db513"
+ "event_id": "ppe_be7acc1f9e2c9005fac19775"
 }
