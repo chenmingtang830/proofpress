@@ -38,6 +38,10 @@ runs:
         GIT_COMMITTER_EMAIL: proofpress-action@users.noreply.github.com
       run: |
         set -uo pipefail
+        # Composite-action Bash is launched with -e by the runner. Disable it
+        # because verify exit 2 is an intentional neutral state that we handle
+        # explicitly below.
+        set +e
         test -f "$PP" || {
           echo "::error::proofpress.py not found at $PP"
           exit 1
