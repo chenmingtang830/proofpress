@@ -1,29 +1,41 @@
 {
  "event": "version_created",
- "artifact": "README.md",
- "artifact_id": "pp_556b115de711b0cd33eed260",
- "version": "7294e49f",
- "parent": "ef09286c",
+ "artifact": "docs/internal/launch/x-launch.md",
+ "artifact_id": "pp_5c19a32e9dea0da4c55aae96",
+ "version": "350d9c1b",
+ "parent": "a9a15176",
  "author": {
-  "name": "unknown",
-  "kind": "human",
+  "name": "OpenAI Codex",
+  "kind": "agent",
   "session": null
  },
  "note": null,
- "ts": "2026-07-26T12:17:22+00:00",
+ "ts": "2026-07-26T12:19:34+00:00",
  "stats": {
-  "modified": 1
+  "modified": 3
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "820f39ab",
+   "block": "3cf9e546",
    "type": "para",
-   "context": "Surfaces"
+   "context": "Reply 2 — short founder vision note"
+  },
+  {
+   "kind": "modified",
+   "block": "79cc69ea",
+   "type": "table",
+   "context": "Final film sequence"
+  },
+  {
+   "kind": "modified",
+   "block": "46ea7b3d",
+   "type": "para",
+   "context": "Video alt text"
   }
  ],
  "policy": "local",
- "soft_fingerprint": "ppsb1:97694503383b5cc0f278035c466c4aa0d5600433a926045b96bcacdba48b664a",
+ "soft_fingerprint": "ppsb1:d715c251020ca6ff49b5a3336024165c3deda8c04b158ac9e4d3df90eae20660",
  "actors": {
   "requested_by": [
    "Richard Tang"
@@ -41,13 +53,23 @@
  "attribution_basis": "harness_attested",
  "claims": [
   {
-   "block": "820f39ab",
+   "block": "3cf9e546",
    "kind": "modified",
-   "note": "Restored the development repository's local documentation links after an unintended repository-boundary edit."
+   "note": "Replaced the founder vision line's outcome from cumulative intelligence to intelligence that compounds."
+  },
+  {
+   "block": "79cc69ea",
+   "kind": "modified",
+   "note": "Updated the launch-film sequence record to match the revised on-screen line."
+  },
+  {
+   "block": "46ea7b3d",
+   "kind": "modified",
+   "note": "Updated video alt text to transcribe the revised closing line."
   }
  ],
  "context": {
-  "why": "Restore the local documentation links after an unintended cleanup that the requested scope did not authorize."
+  "why": "The launch claim now emphasizes the compounding returns created when verified intelligence can be inherited and extended."
  },
- "event_id": "ppe_acf9112265e46ff43365c4b0"
+ "event_id": "ppe_b63894b0bc77b0a8d7de963f"
 }
