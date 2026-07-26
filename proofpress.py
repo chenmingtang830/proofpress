@@ -13,7 +13,9 @@ Commands:
   show <file-or-version> [--json]
   verify <file> [<version>] [--json]     claim 校验:exit 0 ✓ / 1 ⚠ / 2 无 claims
   ingest <file>                          从 git commit 历史回填账本版本
-  merge-lineage <file> --from a.md --from b.md   多父溯源:记录 ingredient 引用
+  merge-plan <file> --from copy.md [...]        分析同一 portable 文档的并行修改
+  merge <file> --from copy.md [...]             记录同一文档的多 parent 汇合
+  merge-lineage <file> --from a.md --from b.md  记录其他文档的 ingredient 引用
   identify <file>                        软绑定反查:capsule 被剥离后认回身份
   policy / inspect / import / clean / capture
   anchor / blocks / init / sync
@@ -22,17 +24,19 @@ Commands:
 import argparse, base64, difflib, hashlib, html, json, os, re, secrets, subprocess, sys, tempfile, zlib
 from datetime import datetime, timezone
 
-__version__ = "0.1.0"
+__version__ = "0.2.0-alpha.1"
 LEDGER_REF = "refs/proofpress/ledger"
 
 # ---------- terminal rendering ----------
-# Dark-theme palette from docs/DESIGN.md, emitted as 24-bit truecolor so the
-# exact same hex values drive both the review artifacts and the terminal.
+# Dark-theme palette from docs/internal/DESIGN.md, emitted as 24-bit truecolor
+# so the film, terminal, and future UI share one semantic system:
+# accent = edit/modified, add = verified/added, del = rejected/removed,
+# move = why/moved.
 # Non-tty / NO_COLOR output stays plain text, so piped (agent) consumption is
 # identical to the historical format.
 
-TERM_HEX = {"accent": "5FB3C4", "add": "6FBF8E", "del": "E08B80",
-            "move": "D3A94F", "dim": "787B87"}
+TERM_HEX = {"accent": "5FB3C4", "add": "6FBF8E", "del": "C87E82",
+            "move": "D7B56D", "dim": "787B87"}
 
 
 def _color_on():
@@ -141,22 +145,9 @@ CAPSULE_DISCOVERY = {
     "label": DISCOVERY_LABEL,
     "project_url": DISCOVERY_URL,
     "package": "proofpress",
-    "dist_tag": "latest",
+    "dist_tag": "next",
     "requires_user_consent": True,
 }
-LEGACY_CAPSULE_DISCOVERIES = (
-    {
-        "label": DISCOVERY_LABEL,
-        "project_url": DISCOVERY_URL,
-        "package": "proofpress",
-        "dist_tag": "next",
-        "requires_user_consent": True,
-    },
-)
-
-
-def known_capsule_discovery(value):
-    return value == CAPSULE_DISCOVERY or value in LEGACY_CAPSULE_DISCOVERIES
 
 
 def _b64e(data):
@@ -685,6 +676,12 @@ def ledger_events():
     for sha in shas:  # newest first
         ev = json.loads(git("show", f"{sha}:event.json"))
         ev["_commit"] = sha
+        if ev.get("event") == "version_created" and not ev.get("event_id"):
+            try:
+                ev["event_id"] = stable_event_id(
+                    ev, json.loads(git("show", f"{sha}:version.json")))
+            except RuntimeError:
+                pass
         evs.append(ev)
     return evs
 
@@ -788,7 +785,8 @@ def check_attribution_basis(basis):
 def do_snapshot(path, author, kind, session, note, claims=None, context=None,
                 text=None, ts=None, source_commit=None, artifact_id=None,
                 policy="local", actors=None, attribution_basis="unknown",
-                ingredients=None):
+                ingredients=None, force_event=False,
+                prev_event_override=None, prev_version_override=None):
     """Core snapshot: file → block tree → ledger. Returns event or None (no change).
 
     `claims` is the author's structured self-description of the change
@@ -805,12 +803,14 @@ def do_snapshot(path, author, kind, session, note, claims=None, context=None,
     check_attribution_basis(attribution_basis)
     if text is None:
         text = open(path).read()
-    prev_ev = latest_for(path)
-    prev_v = read_version(prev_ev["_commit"]) if prev_ev else None
+    prev_ev = (prev_event_override if prev_event_override is not None
+               else latest_for(path))
+    prev_v = (prev_version_override if prev_version_override is not None
+              else (read_version(prev_ev["_commit"]) if prev_ev else None))
     blocks = assign_ids(parse_blocks(text, carrier_for_path(path)), prev_v)
     version = {"artifact": path, "artifact_id": artifact_id, "blocks": blocks}
     vid = version_id(version)
-    if prev_ev and prev_ev["version"] == vid:
+    if prev_ev and prev_ev["version"] == vid and not force_event:
         return None
     changes, stats = semantic_diff(prev_v, version)
     event = {
@@ -841,6 +841,7 @@ def do_snapshot(path, author, kind, session, note, claims=None, context=None,
         # engine can check WHAT changed against claims, but WHY is the
         # author's account, recorded at submit time while it is still hot.
         event["context"] = context
+    event["event_id"] = stable_event_id(event, version)
     event["_commit_new"] = write_event(event, version)
     event["_version_new"] = version
     return event
@@ -848,6 +849,93 @@ def do_snapshot(path, author, kind, session, note, claims=None, context=None,
 
 def _public_event(event):
     return {k: v for k, v in event.items() if not k.startswith("_")}
+
+
+_EVENT_ID_EXCLUDED = {
+    "event_id", "artifact", "parent", "parents", "changes", "stats",
+    "policy", "portable_lineage_id", "imported_from_capsule",
+}
+
+
+def stable_event_id(event, version):
+    """Return a path- and graph-independent identity for public testimony.
+
+    Version IDs identify body states. Event IDs identify admissions of those
+    states, so two collaborators who independently reach identical text still
+    retain their distinct actors, reasons and timestamps after a DAG merge.
+    Graph edges and computed diffs are excluded because portable projection can
+    legitimately recompute them relative to a different public parent.
+    """
+    testimony = {
+        k: v for k, v in _public_event(event).items()
+        if k not in _EVENT_ID_EXCLUDED
+    }
+    payload = {
+        "testimony": testimony,
+        "version": version_id(version),
+        "body_digest": body_digest(version),
+    }
+    raw = json.dumps(payload, ensure_ascii=False, sort_keys=True,
+                     separators=(",", ":")).encode()
+    return "ppe_" + hashlib.sha256(raw).hexdigest()[:24]
+
+
+def _parent_edge(parent_event, parent_version, child_version):
+    changes, stats = semantic_diff(parent_version, child_version)
+    return {
+        "event_id": parent_event["event_id"],
+        "version": parent_event["version"],
+        "changes": changes,
+        "stats": stats,
+    }
+
+
+def _v2_record(record, prior=None):
+    """Normalize a legacy/v2 record without mutating the carrier payload."""
+    event = dict(record["event"])
+    version = dict(record["version"])
+    event["event_id"] = event.get("event_id") or stable_event_id(event, version)
+    if "parents" not in event:
+        event["parents"] = []
+        if prior is not None:
+            event["parents"].append(_parent_edge(
+                prior["event"], prior["version"], version))
+    if event["parents"]:
+        event["parent"] = event["parents"][0]["version"]
+        event["changes"] = event["parents"][0]["changes"]
+        event["stats"] = event["parents"][0]["stats"]
+    else:
+        event["parent"] = None
+    return {"event": event, "version": version}
+
+
+def capsule_v2(capsule):
+    """Return a deterministic DAG projection of either capsule generation."""
+    records = []
+    prior = None
+    for raw in capsule.get("records") or []:
+        record = _v2_record(raw, prior)
+        records.append(record)
+        prior = record
+    out = dict(capsule)
+    out["proofpress_capsule"] = 2
+    out["records"] = records
+    if records:
+        event_ids = {r["event"]["event_id"] for r in records}
+        requested = capsule.get("head_event")
+        out["head_event"] = (requested if requested in event_ids
+                             else records[-1]["event"]["event_id"])
+        by_event = {r["event"]["event_id"]: r for r in records}
+        out["head"] = by_event[out["head_event"]]["event"]["version"]
+    return out
+
+
+def _record_map(capsule):
+    normalized = capsule_v2(capsule)
+    return {
+        r["event"]["event_id"]: r
+        for r in normalized.get("records", [])
+    }
 
 
 def _actors_from_args(a):
@@ -886,12 +974,15 @@ def make_checkpoint_capsule(path, body, meta, recorded_by=None,
         "soft_fingerprint": soft_fingerprint(blocks),
         "portable_checkpoint": True,
         "portable_lineage_id": lineage,
+        "parents": [],
     }
+    event["event_id"] = stable_event_id(event, version)
     return {
-        "proofpress_capsule": 1,
+        "proofpress_capsule": 2,
         "artifact_id": meta["artifact_id"],
         "portable_lineage_id": lineage,
         "head": vid,
+        "head_event": event["event_id"],
         "body_digest": body_digest(version),
         "discovery": dict(CAPSULE_DISCOVERY),
         "records": [{"event": event, "version": version}],
@@ -904,10 +995,11 @@ def validate_capsule(body, meta, capsule, carrier="markdown"):
         return ["missing_meta"]
     if not capsule:
         return ["missing_capsule"]
-    if capsule.get("proofpress_capsule") != 1:
+    schema = capsule.get("proofpress_capsule")
+    if schema not in (1, 2):
         errors.append("unsupported_capsule")
     if ("discovery" in capsule and
-            not known_capsule_discovery(capsule.get("discovery"))):
+            capsule.get("discovery") != CAPSULE_DISCOVERY):
         errors.append("invalid_capsule_discovery")
     if capsule.get("artifact_id") != meta.get("artifact_id"):
         errors.append("artifact_id_mismatch")
@@ -916,7 +1008,27 @@ def validate_capsule(body, meta, capsule, carrier="markdown"):
     records = capsule.get("records")
     if not isinstance(records, list) or not records:
         return errors + ["missing_records"]
-    prev_v, prev_id = None, None
+    malformed = [
+        i for i, record in enumerate(records)
+        if (not isinstance(record, dict) or
+            not isinstance(record.get("event"), dict) or
+            not isinstance(record.get("version"), dict))
+    ]
+    if malformed:
+        return errors + [f"invalid_record:{i}" for i in malformed]
+    if schema == 1:
+        prev_id = None
+        for i, record in enumerate(records):
+            event = record.get("event") if isinstance(record, dict) else None
+            if isinstance(event, dict) and event.get("parent") != prev_id:
+                errors.append(f"chain_mismatch:{i}")
+            version = record.get("version") if isinstance(record, dict) else None
+            if isinstance(version, dict):
+                prev_id = version_id(version)
+
+    normalized = capsule_v2(capsule)
+    records = normalized["records"]
+    seen, referenced = {}, set()
     for i, record in enumerate(records):
         event, version = record.get("event"), record.get("version")
         if not isinstance(event, dict) or not isinstance(version, dict):
@@ -926,20 +1038,55 @@ def validate_capsule(body, meta, capsule, carrier="markdown"):
             errors.append(f"version_id_mismatch:{i}")
         if event.get("artifact_id") != capsule.get("artifact_id"):
             errors.append(f"record_artifact_mismatch:{i}")
-        if event.get("parent") != prev_id:
-            errors.append(f"chain_mismatch:{i}")
-        computed, stats = semantic_diff(prev_v, version)
-        if event.get("changes") != computed or event.get("stats") != stats:
-            errors.append(f"change_mismatch:{i}")
-        prev_v, prev_id = version, vid
-    if capsule.get("head") != prev_id:
+        expected_event_id = stable_event_id(event, version)
+        if event.get("event_id") != expected_event_id:
+            errors.append(f"event_id_mismatch:{i}")
+        if event.get("event_id") in seen:
+            errors.append(f"duplicate_event:{i}")
+        parents = event.get("parents")
+        if not isinstance(parents, list):
+            errors.append(f"invalid_parents:{i}")
+            parents = []
+        if not parents:
+            computed, stats = semantic_diff(None, version)
+            if event.get("changes") != computed or event.get("stats") != stats:
+                errors.append(f"change_mismatch:{i}")
+        for j, edge in enumerate(parents):
+            parent = seen.get(edge.get("event_id")) if isinstance(edge, dict) else None
+            if parent is None:
+                errors.append(f"missing_or_late_parent:{i}:{j}")
+                continue
+            referenced.add(edge["event_id"])
+            if edge.get("version") != parent["event"]["version"]:
+                errors.append(f"parent_version_mismatch:{i}:{j}")
+            computed, stats = semantic_diff(parent["version"], version)
+            if edge.get("changes") != computed or edge.get("stats") != stats:
+                errors.append(f"parent_change_mismatch:{i}:{j}")
+        if parents:
+            primary = parents[0]
+            if (event.get("parent") != primary.get("version") or
+                    event.get("changes") != primary.get("changes") or
+                    event.get("stats") != primary.get("stats")):
+                errors.append(f"primary_parent_mismatch:{i}")
+        seen[event.get("event_id")] = record
+
+    tips = set(seen) - referenced
+    head_event = normalized.get("head_event")
+    if len(tips) != 1:
+        errors.append("multiple_heads")
+    if head_event not in tips:
+        errors.append("head_event_mismatch")
+    head_record = seen.get(head_event)
+    head_version = head_record["version"] if head_record else None
+    head_id = head_record["event"]["version"] if head_record else None
+    if capsule.get("head") != head_id:
         errors.append("head_mismatch")
-    if prev_v and capsule.get("body_digest") != body_digest(prev_v):
+    if head_version and capsule.get("body_digest") != body_digest(head_version):
         errors.append("capsule_body_digest_mismatch")
-    current_blocks = assign_ids(parse_blocks(body, carrier), prev_v)
-    current_v = {"artifact": prev_v.get("artifact") if prev_v else "",
+    current_blocks = assign_ids(parse_blocks(body, carrier), head_version)
+    current_v = {"artifact": head_version.get("artifact") if head_version else "",
                  "artifact_id": meta.get("artifact_id"), "blocks": current_blocks}
-    if prev_v and body_digest(current_v) != capsule.get("body_digest"):
+    if head_version and body_digest(current_v) != capsule.get("body_digest"):
         errors.append("body_mismatch")
     return errors
 
@@ -957,7 +1104,9 @@ def append_capsule(path, body, meta, capsule, event, version):
     if blocking:
         raise SystemExit("cannot extend invalid capsule: " + ", ".join(blocking))
     capsule["discovery"] = dict(CAPSULE_DISCOVERY)
-    prior_v = capsule["records"][-1]["version"]
+    normalized = capsule_v2(capsule)
+    prior_record = _record_map(normalized)[normalized["head_event"]]
+    prior_v = prior_record["version"]
     if version_id(version) == capsule["head"]:
         capsule["body_digest"] = body_digest(version)
         return capsule
@@ -968,8 +1117,14 @@ def append_capsule(path, body, meta, capsule, event, version):
     portable_event["stats"] = stats
     portable_event["policy"] = "portable"
     portable_event["portable_lineage_id"] = capsule["portable_lineage_id"]
+    if capsule.get("proofpress_capsule") == 2:
+        edge = _parent_edge(prior_record["event"], prior_v, version)
+        portable_event["parents"] = [edge]
+        portable_event["event_id"] = stable_event_id(portable_event, version)
     capsule["records"].append({"event": portable_event, "version": version})
     capsule["head"] = portable_event["version"]
+    if capsule.get("proofpress_capsule") == 2:
+        capsule["head_event"] = portable_event["event_id"]
     capsule["body_digest"] = body_digest(version)
     return capsule
 
@@ -993,6 +1148,13 @@ def cmd_snapshot(a):
             raise SystemExit(
                 f"stale base: expected {a.base_version}, current "
                 f"{current or '∅'}; inspect and reconcile before snapshot")
+    if getattr(a, "base_event", None):
+        current_event = (capsule_v2(capsule).get("head_event")
+                         if capsule else None)
+        if current_event != a.base_event:
+            raise SystemExit(
+                f"stale base event: expected {a.base_event}, current "
+                f"{current_event or '∅'}; inspect and reconcile before snapshot")
     # Persist identity even for local artifacts; this is not a portable capsule.
     if artifact_id_at(a.file) is None:
         write_artifact(a.file, body, meta, capsule)
@@ -1010,11 +1172,24 @@ def cmd_snapshot(a):
         if a.rejected:
             context["rejected"] = a.rejected
     actors = _actors_from_args(a)
+    force_event = False
+    portable_prev_event = portable_prev_version = None
+    if meta["policy"] == "portable" and capsule is not None:
+        cap_state = validate_capsule(
+            body, meta, capsule, carrier_for_path(a.file))
+        force_event = "body_mismatch" in cap_state
+        normalized = capsule_v2(capsule)
+        head_record = _record_map(normalized)[normalized["head_event"]]
+        portable_prev_event = head_record["event"]
+        portable_prev_version = head_record["version"]
     ev = do_snapshot(a.file, a.author, a.kind, a.session, a.note,
                      claims=claims, context=context, text=body,
                      artifact_id=meta["artifact_id"], policy=meta["policy"],
                      actors=actors, attribution_basis=a.attribution_basis,
-                     ingredients=getattr(a, "ingredients", None))
+                     ingredients=getattr(a, "ingredients", None),
+                     force_event=force_event,
+                     prev_event_override=portable_prev_event,
+                     prev_version_override=portable_prev_version)
     if not ev:
         if meta["policy"] == "portable" and capsule is None and recovered:
             capsule = make_checkpoint_capsule(
@@ -1022,6 +1197,7 @@ def cmd_snapshot(a):
                 recorded_by=(actors.get("recorded_by") or [a.author])[0],
                 attribution_basis=a.attribution_basis)
             meta["portable_head"] = capsule["head"]
+            meta["portable_head_event"] = capsule.get("head_event")
             write_artifact(a.file, body, meta, capsule)
             print(f"repaired capsule: {a.file} -> {capsule['head']}")
             return
@@ -1036,6 +1212,7 @@ def cmd_snapshot(a):
                     capsule = append_capsule(a.file, body, meta, capsule,
                                              latest, version)
                     meta["portable_head"] = capsule["head"]
+                    meta["portable_head_event"] = capsule.get("head_event")
                     write_artifact(a.file, body, meta, capsule)
                     print(f"repaired capsule: {a.file} -> {capsule['head']}")
                     return
@@ -1044,6 +1221,7 @@ def cmd_snapshot(a):
         capsule = append_capsule(a.file, body, meta, capsule, ev,
                                  ev["_version_new"])
         meta["portable_head"] = capsule["head"]
+        meta["portable_head_event"] = capsule.get("head_event")
         write_artifact(a.file, body, meta, capsule)
     n = f"v{len(versions_of(a.file))}"
     print(f"✓ {n} ({ev['version']}) ← {ev['parent'] or '∅'}   [{ev['_commit_new'][:8]} @ {LEDGER_REF}]")
@@ -1079,6 +1257,8 @@ def cmd_log(a):
                 f'{C(color, txt.ljust(statw))}')
         if ev.get("note"):
             line += f"  {ev['note']}"
+        if len(ev.get("parents") or []) > 1:
+            line += C("dim", f"  merge={len(ev['parents'])} parents")
         if who.get("session"):
             line += C("dim", f"  session={who['session']}")
         print(line)
@@ -1086,9 +1266,19 @@ def cmd_log(a):
 
 def _find(evs, prefix):
     for ev in evs:
-        if ev["version"].startswith(prefix):
+        if ((ev.get("event_id") or "").startswith(prefix) or
+                ev["version"].startswith(prefix)):
             return ev
     raise SystemExit(f"version not found: {prefix}")
+
+
+def _primary_parent_event(event, events):
+    parents = event.get("parents") or []
+    if parents:
+        parent_id = parents[0].get("event_id")
+        return next((e for e in events if e.get("event_id") == parent_id), None)
+    parent_version = event.get("parent")
+    return next((e for e in events if e.get("version") == parent_version), None)
 
 
 def change_label(c):
@@ -1129,11 +1319,12 @@ def cmd_diff(a):
     base_note = ""
     if a.base_commit and not a.va:
         hit = next((e for e in evs if (e.get("source_commit") or "").startswith(a.base_commit)), None)
-        ev_a = hit or evs[1]
+        ev_a = hit or _primary_parent_event(ev_b, evs) or evs[1]
         if not hit:
             base_note = "base commit not in ledger — showing last recorded change"
     else:
-        ev_a = _find(evs, a.va) if a.va else evs[1]
+        ev_a = (_find(evs, a.va) if a.va else
+                (_primary_parent_event(ev_b, evs) or evs[1]))
     va, vb = read_version(ev_a["_commit"]), read_version(ev_b["_commit"])
     changes, stats = semantic_diff(va, vb)
     if a.json:
@@ -1202,7 +1393,9 @@ def cmd_diff(a):
                 print("        " + ln)
     # this version's self-description travels with the diff (provenance layer v0)
     if ev_b.get("note") or ev_b.get("context"):
-        n_b = len(evs) - next(i for i, e in enumerate(evs) if e["version"] == ev_b["version"])
+        n_b = len(evs) - next(
+            i for i, e in enumerate(evs)
+            if e.get("event_id") == ev_b.get("event_id"))
         who = ev_b["author"]
         print()
         if ev_b.get("note"):
@@ -1210,9 +1403,9 @@ def cmd_diff(a):
                   + ev_b["note"])
         ctx_b = ev_b.get("context") or {}
         if ctx_b.get("why"):
-            print("  " + C("dim", "why: ") + ctx_b["why"])
+            print("  " + C("move", "why: ") + ctx_b["why"])
         for r in ctx_b.get("rejected", []):
-            print("  " + C("dim", "rejected: ") + r)
+            print("  " + C("del", "rejected: ") + r)
     if ev_b.get("claims") is not None:
         print("  " + C("dim", f'claims: {len(ev_b["claims"])} recorded — `proofpress verify {a.file} {ev_b["version"]}`'))
 
@@ -1266,6 +1459,296 @@ def cmd_ingest(a):
     print(f"ingested {made}, skipped {skipped} (already known / older than ledger / no content change)")
 
 
+def _portable_merge_input(path, allow_body_mismatch=False):
+    if not os.path.isfile(path):
+        raise SystemExit(f"merge input not found: {path}")
+    body, meta, capsule, errors = read_artifact(path)
+    if errors:
+        raise SystemExit(f"merge input {path}: invalid metadata: " + ", ".join(errors))
+    if not meta or meta.get("policy") != "portable" or not capsule:
+        raise SystemExit(f"merge input {path} must be a portable Proofpress artifact")
+    cap_errors = validate_capsule(body, meta, capsule, carrier_for_path(path))
+    blocking = [e for e in cap_errors
+                if not (allow_body_mismatch and e == "body_mismatch")]
+    if blocking:
+        raise SystemExit(f"merge input {path}: invalid capsule: " + ", ".join(blocking))
+    normalized = capsule_v2(capsule)
+    records = _record_map(normalized)
+    return {
+        "path": path, "body": body, "meta": meta, "capsule": normalized,
+        "records": records, "head_event": normalized["head_event"],
+        "head_record": records[normalized["head_event"]],
+        "body_mismatch": "body_mismatch" in cap_errors,
+    }
+
+
+def _merge_inputs(target, sources, target_may_drift=True):
+    paths = [target] + list(sources)
+    if len(set(os.path.abspath(p) for p in paths)) != len(paths):
+        raise SystemExit("merge inputs must be distinct files")
+    items = [_portable_merge_input(target, target_may_drift)]
+    items.extend(_portable_merge_input(p) for p in sources)
+    artifact_ids = {x["meta"]["artifact_id"] for x in items}
+    lineages = {x["meta"].get("portable_lineage_id") for x in items}
+    carriers = {carrier_for_path(x["path"]) for x in items}
+    if len(artifact_ids) != 1:
+        raise SystemExit("merge inputs are different artifacts; use merge-lineage "
+                         "when one document incorporates another")
+    if len(lineages) != 1 or None in lineages:
+        raise SystemExit("merge inputs have different portable lineages; "
+                         "use merge-lineage or start from a shared portable copy")
+    if len(carriers) != 1:
+        raise SystemExit("merge inputs must use the same carrier type")
+    heads = [x["head_event"] for x in items]
+    if len(set(heads)) != len(heads):
+        raise SystemExit("merge inputs contain duplicate heads")
+    return items
+
+
+def _ancestor_ids(records, head):
+    out, stack = set(), [head]
+    while stack:
+        event_id = stack.pop()
+        if event_id in out:
+            continue
+        record = records.get(event_id)
+        if record is None:
+            continue
+        out.add(event_id)
+        stack.extend(edge["event_id"]
+                     for edge in record["event"].get("parents", []))
+    return out
+
+
+def _merge_base(items):
+    combined = {}
+    for item in items:
+        for event_id, record in item["records"].items():
+            previous = combined.get(event_id)
+            if previous and previous != record:
+                raise SystemExit(f"event {event_id} differs between capsules")
+            combined[event_id] = record
+    common = set.intersection(*(
+        _ancestor_ids(combined, item["head_event"]) for item in items))
+    if not common:
+        raise SystemExit("merge inputs have no common portable ancestor")
+    lowest = []
+    ancestry = {event_id: _ancestor_ids(combined, event_id)
+                for event_id in common}
+    for candidate in common:
+        if not any(candidate != other and candidate in ancestry[other]
+                   for other in common):
+            lowest.append(candidate)
+    if len(lowest) != 1:
+        raise SystemExit("merge inputs have multiple merge bases; merge a smaller "
+                         "set of copies first")
+    return lowest[0], combined
+
+
+def _block_state(version):
+    return {b["id"]: b for b in version["blocks"]}
+
+
+def _merge_plan_data(target, sources):
+    items = _merge_inputs(target, sources)
+    base_event, records = _merge_base(items)
+    base_record = records[base_event]
+    base_states = _block_state(base_record["version"])
+    heads = [_block_state(x["head_record"]["version"]) for x in items]
+    all_ids = set(base_states)
+    for states in heads:
+        all_ids.update(states)
+    compatible, conflicts = [], []
+    for block_id in sorted(all_ids):
+        base = base_states.get(block_id)
+        changed = []
+        for item, states in zip(items, heads):
+            state = states.get(block_id)
+            if state != base:
+                changed.append({"path": item["path"], "state": state})
+        if not changed:
+            continue
+        distinct = {
+            json.dumps(c["state"], ensure_ascii=False, sort_keys=True)
+            for c in changed
+        }
+        entry = {
+            "block": block_id,
+            "base": base,
+            "branches": changed,
+        }
+        if len(changed) == 1 or len(distinct) == 1:
+            entry["reason"] = ("single_branch_change" if len(changed) == 1
+                               else "identical_result")
+            compatible.append(entry)
+        else:
+            entry["reason"] = "divergent_block_change"
+            conflicts.append(entry)
+
+    # Distinct concurrently-added blocks are content-compatible, but their
+    # relative placement cannot be inferred safely from the block tree alone.
+    additions = {}
+    for item in items:
+        changes, _ = semantic_diff(base_record["version"],
+                                   item["head_record"]["version"])
+        for change in changes:
+            if change["kind"] == "added":
+                additions.setdefault(change.get("context", ""), []).append(
+                    {"path": item["path"], "block": change["block"]})
+    for context, entries in additions.items():
+        if len({e["path"] for e in entries}) > 1:
+            conflicts.append({
+                "kind": "parallel_insert_order",
+                "context": context,
+                "branches": entries,
+                "reason": "parallel_insert_order",
+            })
+
+    return {
+        "status": "conflicts" if conflicts else "clean",
+        "artifact_id": items[0]["meta"]["artifact_id"],
+        "portable_lineage_id": items[0]["meta"]["portable_lineage_id"],
+        "base_event": base_event,
+        "base_version": base_record["event"]["version"],
+        "branches": [
+            {"path": x["path"], "head_event": x["head_event"],
+             "head": x["head_record"]["event"]["version"]}
+            for x in items
+        ],
+        "compatible": compatible,
+        "conflicts": conflicts,
+    }
+
+
+def cmd_merge_plan(a):
+    plan = _merge_plan_data(a.file, a.source)
+    if a.json:
+        print(json.dumps(plan, ensure_ascii=False, indent=2))
+        return
+    print(f"merge-plan {a.file}: {plan['status']}")
+    print(f"  common ancestor: {plan['base_version']} "
+          f"({plan['base_event']})")
+    for branch in plan["branches"]:
+        print(f"  branch: {branch['path']} -> {branch['head']} "
+              f"({branch['head_event']})")
+    print(f"  compatible changes: {len(plan['compatible'])}")
+    print(f"  conflicts: {len(plan['conflicts'])}")
+    for conflict in plan["conflicts"]:
+        if conflict.get("kind") == "parallel_insert_order":
+            print(f"    insertion order under {conflict.get('context') or '(document start)'}")
+        else:
+            print(f"    block {conflict['block']}: divergent changes")
+
+
+def _topological_records(records):
+    pending = dict(records)
+    emitted, out = set(), []
+    while pending:
+        ready = [
+            record for record in pending.values()
+            if all(edge["event_id"] in emitted
+                   for edge in record["event"].get("parents", []))
+        ]
+        if not ready:
+            raise SystemExit("cannot order merged capsule records (missing parent or cycle)")
+        ready.sort(key=lambda r: (
+            r["event"].get("ts", ""), r["event"]["event_id"]))
+        for record in ready:
+            event_id = record["event"]["event_id"]
+            out.append(record)
+            emitted.add(event_id)
+            pending.pop(event_id)
+    return out
+
+
+def cmd_merge(a):
+    items = _merge_inputs(a.file, a.source)
+    _merge_base(items)  # Validate the shared history before writing anything.
+    target = items[0]
+    primary = target["head_record"]
+    blocks = assign_ids(parse_blocks(target["body"], carrier_for_path(a.file)),
+                        primary["version"])
+    version = {
+        "artifact": a.file,
+        "artifact_id": target["meta"]["artifact_id"],
+        "blocks": blocks,
+    }
+    vid = version_id(version)
+    parent_edges = [
+        _parent_edge(item["head_record"]["event"],
+                     item["head_record"]["version"], version)
+        for item in items
+    ]
+    claims = None
+    if a.claims:
+        claims = json.load(open(a.claims))
+        if not isinstance(claims, list):
+            raise SystemExit("--claims file must be a JSON array")
+    context = None
+    if a.why or a.rejected:
+        context = {}
+        if a.why:
+            context["why"] = a.why
+        if a.rejected:
+            context["rejected"] = a.rejected
+    event = {
+        "event": "version_created",
+        "merge": True,
+        "artifact": a.file,
+        "artifact_id": target["meta"]["artifact_id"],
+        "version": vid,
+        "parent": parent_edges[0]["version"],
+        "parents": parent_edges,
+        "author": {"name": a.author, "kind": a.kind, "session": a.session},
+        "note": a.note or "merged parallel portable copies",
+        "ts": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+        "stats": parent_edges[0]["stats"],
+        "changes": parent_edges[0]["changes"],
+        "policy": "portable",
+        "portable_lineage_id": target["meta"]["portable_lineage_id"],
+        "soft_fingerprint": soft_fingerprint(blocks),
+        "actors": _actors_from_args(a),
+        "attribution_basis": a.attribution_basis,
+    }
+    check_attribution_basis(a.attribution_basis)
+    if claims is not None:
+        event["claims"] = claims
+    if context is not None:
+        event["context"] = context
+    event["event_id"] = stable_event_id(event, version)
+
+    union = {}
+    for item in items:
+        for event_id, record in item["records"].items():
+            if event_id in union and union[event_id] != record:
+                raise SystemExit(f"event {event_id} differs between capsules")
+            union[event_id] = record
+    if event["event_id"] in union:
+        raise SystemExit("this merge event is already present")
+    union[event["event_id"]] = {"event": event, "version": version}
+    records = _topological_records(union)
+    capsule = {
+        "proofpress_capsule": 2,
+        "artifact_id": target["meta"]["artifact_id"],
+        "portable_lineage_id": target["meta"]["portable_lineage_id"],
+        "head": vid,
+        "head_event": event["event_id"],
+        "body_digest": body_digest(version),
+        "discovery": dict(CAPSULE_DISCOVERY),
+        "records": records,
+    }
+    meta = dict(target["meta"])
+    meta["portable_head"] = vid
+    meta["portable_head_event"] = event["event_id"]
+    write_event(event, version)
+    write_artifact(a.file, target["body"], meta, capsule)
+    print(f"✓ merged {len(parent_edges)} parents -> {vid} "
+          f"({event['event_id']})")
+    for edge, item in zip(parent_edges, items):
+        print(f"  parent: {item['path']} @ {edge['version']} "
+              f"({edge['event_id']})")
+
+
 def _ingredient_ref(path):
     """Reference + digest for an upstream artifact — never its history."""
     if not os.path.isfile(path):
@@ -1297,8 +1780,8 @@ def cmd_merge_lineage(a):
 
     C2PA-ingredient style: each --from source is stored as a reference
     (artifact_id + head version + body digest) on the merge event only.
-    Upstream history is never copied, and the linear parent chain of the
-    target artifact is untouched — ingredients are additive provenance."""
+    Upstream history is never copied, and the target artifact's parent graph
+    is untouched — ingredients are additive provenance."""
     a.ingredients = [_ingredient_ref(p) for p in a.source]
     if a.note is None:
         a.note = "merged lineage from " + ", ".join(
@@ -1395,8 +1878,13 @@ def anchor_file(path, quiet=False):
     body, meta, capsule, errors = read_artifact(path)
     if errors:
         raise SystemExit("invalid Proofpress metadata: " + ", ".join(errors))
-    prev_ev = latest_for(path)
-    prev_v = read_version(prev_ev["_commit"]) if prev_ev else None
+    if capsule:
+        normalized = capsule_v2(capsule)
+        head_record = _record_map(normalized)[normalized["head_event"]]
+        prev_v = head_record["version"]
+    else:
+        prev_ev = latest_for(path)
+        prev_v = read_version(prev_ev["_commit"]) if prev_ev else None
     carrier = carrier_for_path(path)
     blocks = assign_ids(parse_blocks(body, carrier), prev_v)
     if carrier == "html":
@@ -1468,12 +1956,14 @@ def cmd_policy(a):
             a.file, body, meta, recorded_by=a.author,
             attribution_basis=a.attribution_basis)
         meta["portable_head"] = capsule["head"]
+        meta["portable_head_event"] = capsule.get("head_event")
         write_artifact(a.file, body, meta, capsule)
         print(f"portable: {a.file} ({meta['artifact_id']}, head {capsule['head']})")
         return
     meta["policy"] = a.policy
     meta.pop("portable_lineage_id", None)
     meta.pop("portable_head", None)
+    meta.pop("portable_head_event", None)
     write_artifact(a.file, body, meta, None)
     print(f"{a.policy}: {a.file} (capsule removed from this copy; old copies unchanged)")
 
@@ -1540,8 +2030,9 @@ def inspect_result(path):
         result["errors"].extend(validate_capsule(body, meta, capsule, carrier_for_path(path)))
         if capsule:
             result["head"] = capsule.get("head")
+            result["head_event"] = capsule_v2(capsule).get("head_event")
             result["versions"] = len(capsule.get("records", []))
-            if known_capsule_discovery(capsule.get("discovery")):
+            if capsule.get("discovery") == CAPSULE_DISCOVERY:
                 result["discovery"] = capsule["discovery"]
     elif capsule is not None:
         result["errors"].append("capsule_on_nonportable_artifact")
@@ -1570,6 +2061,8 @@ def cmd_inspect(a):
             print(f"  artifact: {result['artifact_id']}")
         if result.get("head"):
             print(f"  capsule: {result['versions']} version(s), head {result['head']}")
+            if result.get("head_event"):
+                print(f"  head event: {result['head_event']}")
         if result.get("ledger_head"):
             observed = result.get("observed_version") or "unrecorded/unknown"
             print(f"  ledger head: {result['ledger_head']} (worktree: {observed})")
@@ -1597,18 +2090,21 @@ def cmd_import(a):
     cap_errors = validate_capsule(body, meta, capsule, carrier_for_path(a.file))
     if cap_errors:
         raise SystemExit("invalid capsule: " + ", ".join(cap_errors))
-    known = {e["version"] for e in versions_of(a.file)}
+    known = {
+        e.get("event_id") or stable_event_id(e, read_version(e["_commit"]))
+        for e in versions_of(a.file)
+    }
     made = skipped = 0
-    for record in capsule["records"]:
+    for record in capsule_v2(capsule)["records"]:
         event = dict(record["event"])
         version = dict(record["version"])
-        if event["version"] in known:
+        if event["event_id"] in known:
             skipped += 1; continue
         event["artifact"] = a.file
         event["imported_from_capsule"] = True
         version["artifact"] = a.file
         write_event(event, version)
-        known.add(event["version"]); made += 1
+        known.add(event["event_id"]); made += 1
     print(f"imported {made}, skipped {skipped} -> {a.file} ({meta['artifact_id']})")
 
 
@@ -1755,10 +2251,12 @@ def cmd_show(a):
     if a.json:
         e = {k: v for k, v in ev.items() if k != "_commit"}
         print(json.dumps(e, ensure_ascii=False, indent=2)); return
-    idx = next(i for i, e in enumerate(evs) if e["version"] == ev["version"])
+    idx = next(i for i, e in enumerate(evs)
+               if e.get("event_id") == ev.get("event_id"))
     n = len(evs) - idx
     v = read_version(ev["_commit"])
-    parent_v = read_version(evs[idx + 1]["_commit"]) if idx + 1 < len(evs) else None
+    parent_ev = _primary_parent_event(ev, evs)
+    parent_v = read_version(parent_ev["_commit"]) if parent_ev else None
     changes, stats = semantic_diff(parent_v, v) if parent_v else ([], {})
     chg_by_id = {c["block"]: c for c in changes if c["kind"] != "removed"}
     who = ev["author"]
@@ -1774,13 +2272,16 @@ def cmd_show(a):
         print(C("dim", ev["note"]))
     ctx_ev = ev.get("context") or {}
     if ctx_ev.get("why"):
-        print(C("dim", "why: ") + md_term(ctx_ev["why"]))
+        print(C("move", "why: ") + md_term(ctx_ev["why"]))
     for r in ctx_ev.get("rejected", []):
-        print(C("dim", "rejected: ") + md_term(r))
+        print(C("del", "rejected: ") + md_term(r))
     for ing in ev.get("ingredients", []):
         print(C("dim", "ingredient: ")
               + f'{ing.get("artifact_id", "?")} @ {ing.get("version", "?")}'
               + C("dim", f'  ({ing.get("artifact", "")})'))
+    for edge in ev.get("parents", [])[1:]:
+        print(C("dim", "parent: ")
+              + f'{edge.get("version", "?")} ({edge.get("event_id", "?")})')
     print()
     tagcolor = {"added": "add", "modified": "accent", "moved": "move"}
     for b in v["blocks"]:
@@ -1819,7 +2320,9 @@ def cmd_verify(a):
     if not evs:
         raise SystemExit("artifact not in ledger")
     ev = _find(evs, a.version) if a.version else evs[0]
-    n = len(evs) - next(i for i, e in enumerate(evs) if e["version"] == ev["version"])
+    n = len(evs) - next(
+        i for i, e in enumerate(evs)
+        if e.get("event_id") == ev.get("event_id"))
     # ``verify file`` means the current worktree as well as the recorded
     # claims. ``verify file <version>`` remains an historical claim check.
     if (os.path.isfile(a.file) and not a.version and
@@ -1920,6 +2423,8 @@ def main():
     s.add_argument("--session", default=None); s.add_argument("--note", default=None)
     s.add_argument("--base-version", default=None,
                    help="refuse the snapshot unless this is the current head")
+    s.add_argument("--base-event", default=None,
+                   help="refuse the snapshot unless this is the exact DAG head event")
     s.add_argument("--claims", default=None,
                    help='JSON file: [{"block", "kind": added|removed|modified|moved|unchanged, "note"?}]')
     s.add_argument("--why", default=None,
@@ -1951,6 +2456,34 @@ def main():
     vf.set_defaults(f=cmd_verify)
     an = sub.add_parser("anchor"); an.add_argument("file"); an.set_defaults(f=cmd_anchor)
     ig = sub.add_parser("ingest"); ig.add_argument("file"); ig.set_defaults(f=cmd_ingest)
+    mp = sub.add_parser(
+        "merge-plan",
+        help="analyze parallel copies of one portable artifact without writing")
+    mp.add_argument("file", help="primary/target copy")
+    mp.add_argument("--from", dest="source", action="append", required=True,
+                    metavar="COPY", help="parallel copy (repeatable)")
+    mp.add_argument("--json", action="store_true")
+    mp.set_defaults(f=cmd_merge_plan)
+    mg = sub.add_parser(
+        "merge",
+        help="record a resolved multi-parent merge of one portable artifact")
+    mg.add_argument("file", help="resolved target; its embedded head is primary")
+    mg.add_argument("--from", dest="source", action="append", required=True,
+                    metavar="COPY", help="other parallel copy (repeatable)")
+    mg.add_argument("--author", default="unknown")
+    mg.add_argument("--kind", default="human",
+                    choices=["human", "agent", "system"])
+    mg.add_argument("--session", default=None); mg.add_argument("--note", default=None)
+    mg.add_argument("--claims", default=None)
+    mg.add_argument("--why", default=None)
+    mg.add_argument("--rejected", action="append", default=None)
+    mg.add_argument("--requested-by", action="append", default=None)
+    mg.add_argument("--produced-by", action="append", default=None)
+    mg.add_argument("--edited-by", action="append", default=None)
+    mg.add_argument("--recorded-by", action="append", default=None)
+    mg.add_argument("--attribution-basis", choices=ATTRIBUTION_BASES,
+                    default="self_asserted")
+    mg.set_defaults(f=cmd_merge)
     ml = sub.add_parser("merge-lineage",
                         help="snapshot a file that merges other Proofpress artifacts, recording ingredient references")
     ml.add_argument("file")

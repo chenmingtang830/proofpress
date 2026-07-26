@@ -2,7 +2,7 @@
 # Privacy Boundaries for Portable Artifacts
 
 [//]: # (ob:9db57e7e)
-> 状态：V0 产品边界决议稿
+> 状态：V1 产品边界决议稿
 >
 > 日期：2026-07-22
 >
@@ -17,7 +17,7 @@
 Proofpress 的隐私模型不围绕 “share” 建立。用户继续通过 Slack、邮件、Drive 或其他工具发送文件；Proofpress 不要求每次 handoff 前执行一次 publication，也不假装知道文件是否已经被复制或转发。
 
 [//]: # (ob:7407f209)
-V0 只需要五条规则：
+V1 只需要五条规则：
 
 [//]: # (ob:ee94d49a)
 1. **Declare portable once**：portable 是 artifact 的 sticky policy，不是每次分享的开关。
@@ -41,7 +41,7 @@ local journal → share preview → disclosure projection → disclosure stream 
 ```
 
 [//]: # (ob:d3c3fb06)
-V0 采用 artifact policy：
+V1 采用 artifact policy：
 
 [//]: # (ob:76e10073)
 ```text
@@ -129,6 +129,10 @@ Working body 可以包含 scratch，也可以领先于 ledger head。并非所�
 10. **Gaps stay visible**：body/capsule mismatch、missing event 和 stripped metadata 必须明确降级。
 11. **Private interval stays private**：重新开启 portable 不得自动导出 local-only 期间的中间事件或 payload。
 12. **Precise trust labels**：computed、verified、attested、self-asserted、unknown、redacted 必须可区分。
+13. **Portable merge unions only disclosure**：多人合并只能联合输入 capsule
+
+[//]: # (ob:58a799c4)
+    已公开的记录，不得读取或复制参与者本地 ref 中的 private interval。
 
 [//]: # (ob:a092554e)
 ## 4. Capsule 的可见性与内容
@@ -148,6 +152,21 @@ Capsule 是 lineage 的 self-contained portable representation，不是权限系
 - actors、timestamps 和 attribution basis；
 - admitted why 与 consequential rejections；
 - correction、supersession、redaction 和 drift 状态。
+
+[//]: # (ob:2df8ee5c)
+### 4.3 多人 portable merge
+
+[//]: # (ob:1b38d216)
+同一 artifact 的并行 copy 可以各自公开不同的 capsule 分支。合并时，
+Proofpress 验证共同祖先，只联合调用者明确提供的 raw files 中已经披露的
+records，并生成引用各公开 head 的多-parent event。本地
+`refs/proofpress/ledger` 是更完整的记录，但不是 portable merge 的隐式输入。
+
+[//]: # (ob:b0960269)
+因此，参与者没有提交的草稿、local-only actors/reasons、被清除的 private
+interval 和其他仓库文件不会因为合并自动泄露。如果某个事实需要进入合并
+记录，必须由调用者通过正式 merge 的 actors、claims、why 或 rejection
+字段明确 admission。
 
 [//]: # (ob:49aae806)
 ### 4.2 Capsule 默认不得包含
@@ -249,7 +268,7 @@ Casual discussion 和未被采用的临时状态不会因为发生在 portable a
 ### 6.5 Re-enable portable
 
 [//]: # (ob:1b4a1e02)
-重新开启是少见、明确的 transition。V0 必须保证：
+重新开启是少见、明确的 transition。V1 必须保证：
 
 [//]: # (ob:14bc1711)
 - local-only interval 的 event IDs、版本、actors、why 和 omitted counts 不会自动进入 capsule；
@@ -343,13 +362,13 @@ Actor、时间或 change account 写错时，append correction 指向原 event�
 - 旧副本可能仍包含原文；
 - 移除 payload 后，部分历史只能 partial verification；
 - 不能用普通 hash 冒充安全删除，尤其是姓名、短结论、API key 等低熵内容；
-- V0 不承诺 crypto-shredding 或远程删除。
+- V1 不承诺 crypto-shredding 或远程删除。
 
 [//]: # (ob:4779c987)
 如果连事件存在本身都不能披露，安全选择是生成新的 sanitized/derived lineage，并明确它不是旧历史的完整连续投影。
 
 [//]: # (ob:0d3174f5)
-## 9. V0 edge cases
+## 9. V1 edge cases
 
 [//]: # (ob:a24edc0a)
 | 情况 | 行为 |
@@ -368,7 +387,7 @@ Actor、时间或 change account 写错时，append correction 指向原 event�
 | 已分发副本需要撤回 | 明确无法保证 recall；只能发送 replacement |
 
 [//]: # (ob:2c249df0)
-## 10. V0 明确不做
+## 10. V1 明确不做
 
 [//]: # (ob:14d8b083)
 - 每次文件发送前的 share UI；
@@ -386,7 +405,7 @@ Actor、时间或 change account 写错时，append correction 指向原 event�
 ## 11. Release acceptance tests
 
 [//]: # (ob:3208f8df)
-Portable V0 发布前至少通过：
+Portable V1 发布前至少通过：
 
 [//]: # (ob:ec5f7bca)
 1. v1 enable portable 后，accepted v2 无重复 permission prompt 地更新 capsule；

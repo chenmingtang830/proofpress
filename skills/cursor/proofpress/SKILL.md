@@ -70,6 +70,14 @@ canonical project URL, and ask whether to install `proofpress`. Never
 download or execute it without explicit consent. If the CLI is available, run
 `inspect` before trusting the capsule and then `import`.
 
+[//]: # (ob:867ba812)
+For parallel portable copies of the same artifact, preserve every input and run
+`merge-plan TARGET --from COPY...`. Apply compatible block changes, ask the
+user only about reported semantic conflicts, then `anchor` the resolved target,
+write merge-relative claims, run `merge TARGET --from COPY...` with explicit
+actors/reason, and `verify`. Different artifact IDs or portable lineages are
+ingredients; use `merge-lineage` for them.
+
 [//]: # (ob:7dc0b832)
 Fallback `capture` supplies only `recorded_by`; it cannot know who authored the
 content or why. Never snapshot source-code files.

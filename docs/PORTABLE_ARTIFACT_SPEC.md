@@ -1,10 +1,12 @@
 [//]: # (ob:7437c9be)
-# Portable Artifact V0 — Executable Contract
+# Portable Artifact V1 — Executable Contract
 
 [//]: # (ob:b27d1410)
 > Status: implementation contract derived from the approved strategy and privacy decisions.
 >
-> Scope: Markdown and static HTML carriers, local/Git ledger, sequential handoff, deterministic integrity, best-effort capture.
+> Scope: Markdown and static HTML carriers, local/Git ledger, sequential and
+> parallel handoff, deterministic integrity, agent-guided merge, and
+> best-effort capture. Source code is out of scope.
 
 [//]: # (ob:38f6d68c)
 ## 1. Artifact policy
@@ -59,7 +61,7 @@ software. Consumers must require user consent before fetching Proofpress.
 ### 3.2 Static HTML
 
 [//]: # (ob:4f104dcd)
-The V0 HTML carrier accepts `.html` and `.htm` files. Its supported leaf blocks
+The V1 HTML carrier accepts `.html` and `.htm` files. Its supported leaf blocks
 are `h1`–`h6`, `p`, `li`, `pre`, `blockquote`, `td`, `th`, and `figcaption`.
 `anchor` writes `data-proofpress-id="<id8>"` directly on each such element.
 That attribute is excluded from block hashing and the carrier's digest.
@@ -85,14 +87,14 @@ loses its metadata is an ordinary HTML artifact, not a provenanced one.
 ## 4. Capsule
 
 [//]: # (ob:c12e32e0)
-A V0 capsule contains:
+A V1 capsule contains:
 
 [//]: # (ob:3f058978)
 - protocol and capsule version;
-- `artifact_id`, portable lineage ID and head;
+- `artifact_id`, portable lineage ID, body head, and head event;
 - canonical visible-body digest;
 - canonical discovery metadata: label, project URL, package, dist-tag, and a `requires_user_consent` flag;
-- oldest-to-newest portable records;
+- topologically ordered portable records;
 - for each record, the event and block-tree version required to recompute changes and verify claims.
 
 [//]: # (ob:6fd1d082)
@@ -102,10 +104,21 @@ Legacy V0 capsules without discovery metadata remain readable and gain the
 canonical object on their next admitted portable revision.
 
 [//]: # (ob:76b47f0b)
-The first record is a clean checkpoint of the body at portable enable time. It has no private parent. Later records form a linear parent chain and carry recomputed changes from the prior capsule version.
+The first record is a clean checkpoint of the body at portable enable time. It
+has no private parent. Each record has a stable `event_id` distinct from its
+content-derived `version` ID. Sequential events have one parent; a resolved
+parallel edit has two or more. Every parent edge records the parent event and
+version plus the computed changes and stats from that parent to the new body.
+The compatibility `parent`, `changes`, and `stats` fields reflect the first
+(primary) parent.
+
+[//]: # (ob:a93fd2c1)
+Version IDs identify body states; event IDs identify admissions and testimony.
+Therefore two collaborators who independently produce identical text retain
+both actor/reason records when their histories are reunited.
 
 [//]: # (ob:778b7a88)
-The V0 capsule is tamper-evident against accidental modification and internally inconsistent rewrites; it is not signed proof of authorship. A future signature addresses third-party forgery only; making the holder's own wholesale replacement evident additionally requires an external trusted head (witness) outside this contract's scope.
+The V1 capsule is tamper-evident against accidental modification and internally inconsistent rewrites; it is not signed proof of authorship. A future signature addresses third-party forgery only; making the holder's own wholesale replacement evident additionally requires an external trusted head (witness) outside this contract's scope.
 
 [//]: # (ob:0afdc784)
 ## 5. Admission
@@ -171,15 +184,22 @@ Identical content remains a no-op.
 
 [//]: # (ob:a907c90f)
 When the caller supplies `--base-version`, the engine refuses to append unless
-that version is still the current capsule or ledger head. This is the V0 stale
-writer guard; reconciliation remains explicit rather than silently overwriting
-another branch.
+that version is still the current capsule or ledger head. This is the legacy
+content-level stale writer guard; reconciliation remains explicit rather than
+silently overwriting another branch.
+
+[//]: # (ob:12c384d0)
+For a V1 DAG, `--base-event` is the precise stale-writer guard. A body version
+can have more than one admission event, so `--base-version` remains a
+content-level compatibility check rather than an exact lineage check.
 
 [//]: # (ob:42379dd1)
 ## 8. Drift and integrity
 
 [//]: # (ob:beac56e1)
-`inspect` validates metadata, capsule decoding, artifact identity, event parent chain, version IDs and current body digest.
+`inspect` validates metadata, capsule decoding, artifact identity, event and
+version IDs, topological parent edges, per-parent diffs, a unique declared head,
+and the current body digest.
 
 [//]: # (ob:e0d13a37)
 Body changes without a new capsule produce `body_mismatch`. Capsule corruption produces `invalid_capsule` or `chain_mismatch`.
@@ -206,16 +226,52 @@ A clean export strips the capsule without changing the source artifact policy or
 ## 10. Import and copy
 
 [//]: # (ob:46afb332)
-`import` verifies the capsule before writing its records into the receiver's Git ledger. Imported events retain `artifact_id` but use the receiver's current path as the local projection path.
+`import` verifies the capsule before writing its records into the receiver's
+Git ledger. Imported events retain `artifact_id` but use the receiver's current
+path as the local projection path. Deduplication uses `event_id`, not
+`version`, so independent testimony about identical text is preserved.
 
 [//]: # (ob:77b016f2)
 Copying only rendered text or stripping metadata yields an ordinary artifact. Proofpress does not claim provenance for it.
 
 [//]: # (ob:a09187f6)
-V0 detects a linear portable lineage. Automatic branch merge and server synchronization remain out of scope. Multi-parent provenance is expressed as ingredient references (§11), never as a branching capsule chain.
+Legacy linear capsules remain readable and importable. Sequential appends stay
+compatible; the first multi-parent merge upgrades the public capsule to V1.
+Server synchronization and special-ref transport remain separate concerns.
+
+[//]: # (ob:6a0a916f)
+## 11. Parallel copies of one artifact
+
+[//]: # (ob:76ea412b)
+`merge-plan TARGET --from COPY...` accepts portable Markdown/HTML files with
+the same `artifact_id`, portable lineage, carrier type, and a unique common
+ancestor. It does not modify any input. It reports each head, the common base,
+compatible block changes, and semantic conflicts. A target body may already
+contain unrecorded resolution work; every non-target input must still match its
+capsule head.
+
+[//]: # (ob:08fef0ad)
+Changes to separate stable block IDs and identical results are compatible.
+Divergent edits to the same block, delete-versus-edit, and ambiguous ordering
+of concurrent insertions are conflicts. Multiple lowest common ancestors are
+not guessed: callers must merge a smaller set first.
+
+[//]: # (ob:70ebd65c)
+After an agent or user writes the resolved visible body,
+`merge TARGET --from COPY...` revalidates the inputs, unions their public
+records by `event_id`, and writes one event whose ordered parents are the input
+heads. It never reconstructs or formats the visible body. The target capsule
+head is the primary parent, so its edge supplies compatibility
+`parent`/`changes`/`stats` and the normal claims-verification view.
+
+[//]: # (ob:c4357d18)
+The merge only unions records already disclosed in the supplied capsules.
+Local ledger intervals are not consulted or copied. A merge event is meaningful
+even when the accepted body equals one parent, because it closes the other
+public branches without discarding their testimony.
 
 [//]: # (ob:7be34c98)
-## 11. Ingredients (merged lineage)
+## 12. Ingredients (merged lineage)
 
 [//]: # (ob:0cbea376)
 An event may carry an `ingredients` array recording that its version merges
@@ -234,17 +290,17 @@ portable_lineage_id   present when the upstream artifact is portable
 `merge-lineage FILE --from A --from B` resolves each source's current head
 (ledger first, embedded capsule as fallback), records the references on a new
 snapshot event, and refuses to run when the file content is unchanged — a merge
-event without a merged version would be untruthful. The linear parent chain of
-the merging artifact is untouched; ingredients are additive provenance and
+event without a merged version would be untruthful. The parent graph of the
+merging artifact is untouched; ingredients are additive provenance and
 travel inside the portable capsule like any other event field.
 
 [//]: # (ob:bd118d53)
 Ingredient references are recorded testimony about upstream heads at merge
 time. The digests make them checkable by any holder of the upstream artifact;
-V0 does not automatically re-verify upstream lineage.
+V1 does not automatically re-verify upstream lineage.
 
 [//]: # (ob:b6213711)
-## 12. Soft binding fingerprint
+## 13. Soft binding fingerprint
 
 [//]: # (ob:92187060)
 Every new event stores `soft_fingerprint`: the prefix `ppsb1:` plus a SHA-256
@@ -265,12 +321,12 @@ match.
 [//]: # (ob:e5011c19)
 Soft binding answers identity ("this is `pp_xxx`"), not integrity: a match
 proves this exact text skeleton was admitted before, not that the file was
-never altered. V0 ships the exact tier only — a copy with even one wording
+never altered. V1 ships the exact tier only — a copy with even one wording
 change does not match, which is the intended boundary until a near-match tier
 exists.
 
 [//]: # (ob:9a42e03d)
-## 13. Commands
+## 14. Commands
 
 [//]: # (ob:4de6039d)
 ```text
@@ -280,6 +336,8 @@ proofpress inspect FILE [--json]
 proofpress import FILE
 proofpress clean FILE --output OUT
 proofpress capture --recorder NAME
+proofpress merge-plan TARGET --from COPY [--from COPY ...] [--json]
+proofpress merge TARGET --from COPY [--from COPY ...] [...actors, claims, why, rejected]
 proofpress merge-lineage FILE --from A [--from B ...]
 proofpress identify FILE [--json]
 ```
@@ -288,7 +346,7 @@ proofpress identify FILE [--json]
 Existing `log`, `diff`, `show`, `verify`, `ingest`, `anchor`, `blocks`, `init`, `sync` and `export` remain compatible.
 
 [//]: # (ob:41921bbb)
-## 14. Acceptance criteria
+## 15. Acceptance criteria
 
 [//]: # (ob:6cddbfcc)
 1. A portable v1 produces a valid self-contained capsule.
@@ -308,5 +366,10 @@ Existing `log`, `diff`, `show`, `verify`, `ingest`, `anchor`, `blocks`, `init`, 
 15. `merge-lineage` records ingredient references (identity, version, digest) without copying upstream history, and refuses to record when the file content is unchanged.
 16. `identify` recognizes a stripped, reformatted copy on a machine holding the ledger, and does not match rewritten content.
 17. `--attribution-basis signed` is rejected until cryptographic signing is implemented.
+18. Linear capsules remain readable and upgrade without losing public records.
+19. Parallel copies of one lineage produce a deterministic conflict plan without modifying inputs.
+20. A resolved merge retains every distinct event, records all input heads as parents, and remains inspectable/importable without the source ledger.
+21. Same-body events with different testimony survive import and merge as distinct events.
+22. Different artifacts or portable lineages are rejected as parents and remain expressible only as ingredients.
 
 [//]: # (proofpress:meta:eyJhcnRpZmFjdF9pZCI6InBwXzY1MWI2YmNjNWMyNTAzZTJhMmVhMmE1ZiIsInBvbGljeSI6ImxvY2FsIiwicHJvb2ZwcmVzcyI6MX0)

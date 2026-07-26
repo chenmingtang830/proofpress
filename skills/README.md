@@ -58,6 +58,15 @@ version. Then:
 [//]: # (ob:a8bc86e1)
 7. On receipt of a portable artifact, run `inspect` before `import`.
 
+[//]: # (ob:f20cc96e)
+8. When several portable copies share an artifact and lineage, preserve every
+
+[//]: # (ob:bc82651b)
+   original and run `merge-plan TARGET --from COPY...`. Apply compatible
+   changes, ask the user about genuine conflict blocks, then run `anchor`,
+   `merge TARGET --from COPY...`, and `verify`. Different artifact IDs are
+   ingredients and must use `merge-lineage`, never `merge`.
+
 [//]: # (ob:f5f3a858)
 ## Install
 

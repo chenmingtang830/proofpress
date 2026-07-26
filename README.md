@@ -30,10 +30,11 @@ compatibility, signed authorship, or complete capture.
 ## Status
 
 [//]: # (ob:d6f9f208)
-Proofpress 0.1.0 is the first stable npm release. The CLI is usable and its
-portable-artifact behaviors are covered by black-box tests. The embedded carrier
-and command interfaces will continue to evolve, so pin the package version when
-you need a fixed integration surface.
+Proofpress 0.1.0 is the current stable npm release. Version 0.2.0-alpha.1
+previews multiplayer portable documents: the CLI can analyze parallel copies of
+one Markdown or static HTML artifact, preserve both histories, and record their
+accepted resolution as a multi-parent event. Pin the package version when you
+need a fixed integration surface.
 
 [//]: # (ob:19210f53)
 ## Install
@@ -113,8 +114,10 @@ python3 proofpress.py policy proposal.md portable
 [//]: # (ob:79416c44)
 The setting is sticky. Later accepted revisions refresh a compact, hidden
 capsule inside the carrier file. Send the original file to a collaborator and
-their agent can inspect and import its history without access to your Git repo,
-chat session, or Proofpress ledger ref.
+their agent can inspect and import its public history without access to your
+Git repo, chat session, or Proofpress ledger ref. The ref remains the complete
+local/Git record; losing it does not invalidate a portable file, but local-only
+history and repository-level lookup are then unavailable.
 
 [//]: # (ob:af7113fa)
 ```sh
@@ -123,9 +126,23 @@ python3 proofpress.py import proposal.md
 python3 proofpress.py log proposal.md
 ```
 
+[//]: # (ob:5e991c72)
+### Two transport rails
+
+[//]: # (ob:398568bb)
+Inside GitHub, the Markdown/HTML file and its capsule travel through ordinary
+commits, branches, and pull requests. `refs/proofpress/ledger` remains a
+separate complete ledger and repository index; custom-ref fetch/sync is useful
+but not required to validate the portable file.
+
+[//]: # (ob:a908fde7)
+Outside GitHub, the original raw file is the transport. Its capsule contains the
+public versions needed for inspection, sequential continuation, and
+agent-guided merging with another copy of the same lineage.
+
 [//]: # (ob:bfc931ca)
 The capsule is declarative data, not agent instructions. It is tamper-evident
-for accidental drift and inconsistent rewrites, but V0 does not claim signed
+for accidental drift and inconsistent rewrites, but V1 does not claim signed
 authorship or protection from wholesale malicious replacement.
 
 [//]: # (ob:839fc8a1)
@@ -230,6 +247,40 @@ static HTML knowledge artifacts.
 [//]: # (ob:59769c11)
 ## Merged lineage and stripped copies
 
+[//]: # (ob:47f21d3a)
+### Parallel copies of the same document
+
+[//]: # (ob:55bcd98e)
+Portable files do not require Git to merge. Keep every original copy and ask
+Proofpress to find their common capsule ancestor and report block-level
+conflicts:
+
+[//]: # (ob:8f498c01)
+```sh
+python3 proofpress.py merge-plan proposal-alice.md \
+  --from proposal-bob.md --json
+```
+
+[//]: # (ob:d4ed0d79)
+The command never rewrites the document. An agent can combine independent
+changes and ask the user only about genuine semantic conflicts. After the
+resolved body is in the target file, preserve its anchors and record the
+reunion:
+
+[//]: # (ob:74883804)
+```sh
+python3 proofpress.py anchor proposal-alice.md
+python3 proofpress.py merge proposal-alice.md --from proposal-bob.md \
+  --kind agent --author codex --why "resolved the parallel review copies"
+python3 proofpress.py verify proposal-alice.md
+```
+
+[//]: # (ob:1575e201)
+All inputs must be portable copies of the same `artifact_id` and portable
+lineage. Their heads become `parents` of the merge event. When one document
+uses different documents as sources, use `merge-lineage` instead; those
+external sources remain `ingredients`, not parents.
+
 [//]: # (ob:91a8deb1)
 When one document merges several Proofpress-managed sources, record the
 upstream references — identity, head version, and digest, never copied
@@ -262,7 +313,12 @@ and a copy with wording changes intentionally does not match.
 [//]: # (ob:8deed5b3)
 - `proofpress.py`: zero-dependency engine and CLI.
 - npm package: thin cross-platform launcher and idempotent repository setup.
-- `refs/proofpress/ledger`: local/Git-backed ledger, separate from branches.
+- `refs/proofpress/ledger`: complete local/Git-backed ledger, separate from
+
+[//]: # (ob:1ab862cf)
+  working branches; portable capsules are the public per-file projection.
+
+[//]: # (ob:92071fb7)
 - `skills/`: Claude Code, Codex, Cursor, and Pi authoring contracts plus
 
 [//]: # (ob:1f7d312f)
@@ -273,7 +329,7 @@ and a copy with wording changes intentionally does not match.
 
 [//]: # (ob:820f39ab)
 Start with the [documentation index](docs/README.md). The executable behavior is
-defined by the [Portable Artifact V0 contract](docs/PORTABLE_ARTIFACT_SPEC.md),
+defined by the [Portable Artifact V1 contract](docs/PORTABLE_ARTIFACT_SPEC.md),
 with its disclosure limits in
 [Privacy Boundaries for Portable Artifacts](docs/PRIVACY_AND_DISCLOSURE.md).
 
