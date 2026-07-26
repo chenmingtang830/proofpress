@@ -1,29 +1,41 @@
 {
  "event": "version_created",
- "artifact": "docs/internal/decision_strategy/PORTABLE_ARTIFACT_STRATEGY.md",
- "artifact_id": "pp_5a7bb2c2b26051ae1d359850",
- "version": "8d1c943c",
- "parent": "623383c8",
+ "artifact": "docs/internal/launch/x-launch.md",
+ "artifact_id": "pp_5c19a32e9dea0da4c55aae96",
+ "version": "f9e8f4f2",
+ "parent": "350d9c1b",
  "author": {
   "name": "OpenAI Codex",
   "kind": "agent",
   "session": null
  },
  "note": null,
- "ts": "2026-07-26T12:31:46+00:00",
+ "ts": "2026-07-26T12:36:09+00:00",
  "stats": {
-  "modified": 1
+  "modified": 2
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "7f0586f7",
+   "block": "79cc69ea",
+   "type": "table",
+   "context": "Final film sequence"
+  },
+  {
+   "kind": "modified",
+   "block": "46ea7b3d",
    "type": "para",
-   "context": "从最终 output 到可继承的知识"
+   "context": "Video alt text",
+   "numbers": [
+    [
+     "27",
+     "34"
+    ]
+   ]
   }
  ],
  "policy": "local",
- "soft_fingerprint": "ppsb1:bb4127978b3edf7d9eb294105fda45c58b1827376a6baa118943d94948df6e26",
+ "soft_fingerprint": "ppsb1:77abf03bffae2f3d2d52d1b483dde6321e6a1ac7190c7e5c44899ffcce5fa608",
  "actors": {
   "requested_by": [
    "Richard Tang"
@@ -41,13 +53,18 @@
  "attribution_basis": "harness_attested",
  "claims": [
   {
-   "block": "7f0586f7",
+   "block": "79cc69ea",
    "kind": "modified",
-   "note": "Updated the source vision's canonical Git/Proofpress slogan from cumulative to compound."
+   "note": "Retimed the film sequence, added a privacy-admission scene, and documented the longer decision-history hold."
+  },
+  {
+   "block": "46ea7b3d",
+   "kind": "modified",
+   "note": "Updated the video alt text for the 34-second cut and its privacy boundary."
   }
  ],
  "context": {
-  "why": "Kept the strategic source of truth aligned with the canonical launch slogan while preserving cumulative intelligence as a broader capability concept."
+  "why": "The launch film now gives decision evidence enough reading time and states the privacy boundary before advancing to the broader compounding-intelligence vision."
  },
- "event_id": "ppe_8d0382c223fdb6542f71ad59"
+ "event_id": "ppe_ea8bb6c64d33a9a221a97c50"
 }
