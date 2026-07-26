@@ -1,336 +1,276 @@
 {
- "artifact": "docs/internal/launch/launch-day-runbook.md",
- "artifact_id": "pp_3ea280179b43a9974bf6a5e6",
+ "artifact": "docs/internal/launch/vision-article.md",
+ "artifact_id": "pp_76fe7cb5fb383d8b919767a8",
  "blocks": [
   {
    "type": "heading",
-   "text": "# Proofpress launch-day runbook",
-   "id": "7116fa3c",
-   "hash": "979cb0f53985"
+   "text": "# Git Made Code Collaborative. Proofpress Makes Intelligence Compound.",
+   "id": "82e7af4c",
+   "hash": "d762d641c712"
   },
   {
    "type": "para",
-   "text": "**Status:** public release live; X launch checklist active.  \n**Launch owner:** Richard Tang.  \n**Default public release channel:** proofpress@0.2.0 on npm `latest`, published\n2026-07-26 with SLSA provenance.",
-   "id": "5d080262",
-   "hash": "5ddfc6de0b8a"
+   "text": "Most documents are snapshots of the final state of thought.",
+   "id": "fa14abc9",
+   "hash": "42ede1548147"
+  },
+  {
+   "type": "para",
+   "text": "We can read what an essay, strategy, research memo, or proposal eventually became. We usually cannot see which evidence shaped it, what changed along the way, why it changed, which alternatives were rejected, or what remains uncertain.",
+   "id": "f118f0f4",
+   "hash": "82b0b66e7140"
+  },
+  {
+   "type": "para",
+   "text": "The artifact survives. The reasoning required to understand and continue it often does not.",
+   "id": "027eb27e",
+   "hash": "f041cf93282a"
+  },
+  {
+   "type": "para",
+   "text": "That was already a weakness in human knowledge work. Multiplayer AI turns it into infrastructure debt.",
+   "id": "eb46ddcb",
+   "hash": "e616bbcdee90"
+  },
+  {
+   "type": "para",
+   "text": "Humans and agents now work on the same artifacts across chats, models, tools, teams, and organizations. Each session learns something the file alone cannot express: why a sentence changed, why one direction won, what a reviewer challenged, and which constraint the next collaborator must preserve.",
+   "id": "b106e932",
+   "hash": "1800cd2a1cd2"
+  },
+  {
+   "type": "para",
+   "text": "But the file moves while that decision trail stays behind. The next person or agent receives the output without the history that made it trustworthy.",
+   "id": "b37f7b8c",
+   "hash": "948e2c45e612"
+  },
+  {
+   "type": "para",
+   "text": "![A finished artifact moves forward while its decision context remains trapped in disconnected sessions.](assets/proofpress-vision-context-loss.png)",
+   "id": "80e12557",
+   "hash": "e627faa28951"
   },
   {
    "type": "heading",
-   "text": "## Launch decision",
-   "id": "a44f075f",
-   "hash": "6018d22978bd"
-  },
-  {
-   "type": "list",
-   "text": "- **Hero channel:** X native video plus the public GitHub repository. Use the",
-   "id": "60c34ffc",
-   "hash": "9adaece59775"
+   "text": "## More AI output does not necessarily mean more knowledge",
+   "id": "05e16cc3",
+   "hash": "ae25619faf40"
   },
   {
    "type": "para",
-   "text": "  native X upload, not a YouTube link.",
-   "id": "4e427840",
-   "hash": "240db2212b63"
-  },
-  {
-   "type": "list",
-   "text": "- **Primary CTA:** inspect the self-verifying portable-handoff demo and star the",
-   "id": "7ee5e00d",
-   "hash": "6f7dbefe7697"
+   "text": "AI is making the production of text, analysis, and decisions expand at machine speed. But trust, shared context, and institutional memory still move at human speed.",
+   "id": "c6542959",
+   "hash": "3cbfe35664ac"
   },
   {
    "type": "para",
-   "text": "  repository. Do not add a waitlist or Discord CTA unless there is an owner and\n  a real follow-up loop.",
-   "id": "26bf668a",
-   "hash": "b30877aafe2b"
-  },
-  {
-   "type": "list",
-   "text": "- **Working launch window:** propose a weekday 09:00–13:00 Pacific window so the",
-   "id": "40189479",
-   "hash": "78d55d669d61"
+   "text": "This is the deeper problem behind AI slop. It is not only that some generated content is generic or wrong. It is that an output can have no stable origin, no checkable account of how it changed, and no safe way for another actor to inherit it.",
+   "id": "4623d700",
+   "hash": "7d83a0a53daa"
   },
   {
    "type": "para",
-   "text": "  founder can respond live through the first reaction cycle. Lock the date and\n  exact minute at T-7; coverage matters more than chasing an alleged universal\n  “best” posting hour.",
-   "id": "1e66a7a7",
-   "hash": "98349de2b9b8"
-  },
-  {
-   "type": "list",
-   "text": "- **Show HN:** conditional, not a launch-day dependency. The current HN guidance",
-   "id": "b14f6b86",
-   "hash": "c4a5f960865b"
+   "text": "An output without provenance can spread. It cannot reliably compound.",
+   "id": "184b3c31",
+   "hash": "f1871f74609b"
   },
   {
    "type": "para",
-   "text": "  requires a non-trivial thing people can run, no signup barrier, and an author\n  who is present to discuss it; HN is also temporarily restricting Show HNs for\n  accounts unfamiliar with the community. Submit only after the five-minute path\n  passes and Richard’s account is clearly eligible. Do not recruit booster\n  comments or votes. Source: <https://news.ycombinator.com/showhn.html> and\n  <https://news.ycombinator.com/showlim>.",
-   "id": "6ed48c25",
-   "hash": "e77dff6a542d"
+   "text": "If every session leaves behind only a polished final answer, adding more agents creates more conclusions that cite, summarize, and rewrite one another without trustworthy lineage. The organization accumulates words while repeatedly losing the knowledge required to evaluate and extend them.",
+   "id": "7eba082b",
+   "hash": "11e59a4e3980"
+  },
+  {
+   "type": "para",
+   "text": "Intelligence that cannot be safely inherited cannot compound. Intelligence that cannot compound cannot become collective.",
+   "id": "44843a50",
+   "hash": "200f14aa6239"
   },
   {
    "type": "heading",
-   "text": "## T-7 to T-1 gates",
-   "id": "7eda4bd1",
-   "hash": "b7f05faf0611"
+   "text": "## Record the decision, not the private conversation",
+   "id": "134fb522",
+   "hash": "1efbe1688707"
+  },
+  {
+   "type": "para",
+   "text": "The answer is not to preserve every prompt, every message, or an agent’s private chain of thought.",
+   "id": "0dd19d4b",
+   "hash": "bd16fbd247aa"
+  },
+  {
+   "type": "para",
+   "text": "Most of that material is noisy, sensitive, or irrelevant to the next collaborator. Replaying a conversation also does not tell us which parts were ultimately accepted into the shared work.",
+   "id": "8b582160",
+   "hash": "fad68fdf861f"
+  },
+  {
+   "type": "para",
+   "text": "What deserves to persist is the external, checkable trail admitted into the artifact: accepted edits, stated reasons, consequential decisions and rejections, attribution, verification results, and explicit gaps where provenance remains unknown.",
+   "id": "10d3904c",
+   "hash": "5a3b4bf41305"
+  },
+  {
+   "type": "para",
+   "text": "This is not a transcript of cognition. It is the durable account of what entered the work.",
+   "id": "5958a87f",
+   "hash": "0f25636df528"
+  },
+  {
+   "type": "para",
+   "text": "The goal is not to preserve the conversation. It is to preserve what the conversation caused the work to become.",
+   "id": "95033a55",
+   "hash": "a09569c0926f"
+  },
+  {
+   "type": "para",
+   "text": "![Private conversation is distilled into a compact, checkable record of accepted decisions and consequential rejections.](assets/proofpress-vision-decision-filter.png)",
+   "id": "cc43f8b7",
+   "hash": "7d6086c17ae4"
   },
   {
    "type": "heading",
-   "text": "### Product proof",
-   "id": "5c911357",
-   "hash": "8b8795a14f02"
-  },
-  {
-   "type": "list",
-   "text": "- [x] Run the public proofpress@0.2.0 install in a clean Git receiver repo.\n- [x] Download only examples/portable-handoff/strategy.md; inspect, import, and",
-   "id": "970cc215",
-   "hash": "70aabb59b903"
+   "text": "## Git’s deeper lesson",
+   "id": "888c1a5c",
+   "hash": "4d541d12677c"
   },
   {
    "type": "para",
-   "text": "  verify must pass.",
-   "id": "ac03a211",
-   "hash": "5f602ed3cf6e"
-  },
-  {
-   "type": "list",
-   "text": "- [x] Confirm the README, skills, demo guide, and every launch command use",
-   "id": "dfda6a31",
-   "hash": "e3e832db6133"
+   "text": "Git’s greatest contribution was not merely that it stored versions of code.",
+   "id": "1864976b",
+   "hash": "43a060414693"
   },
   {
    "type": "para",
-   "text": "  the stable 0.2.0 release channel.",
-   "id": "52d8dc02",
-   "hash": "d7065e03f950"
-  },
-  {
-   "type": "list",
-   "text": "- [x] Promote the stable release to npm `latest`, publish provenance, and create",
-   "id": "59487ee8",
-   "hash": "48fd35e28245"
+   "text": "Git gave software a durable shared history: common state, lineage, attribution, branching, comparison, and a way to continue work without sharing the same room or remembering the same conversation. That history helped make code globally collaborative.",
+   "id": "a6d78d41",
+   "hash": "befefef79d2e"
   },
   {
    "type": "para",
-   "text": "  the matching `v0.2.0` GitHub Release.",
-   "id": "af3e9a75",
-   "hash": "487ec0f4f2d8"
+   "text": "Knowledge work now needs an analogous trust layer.",
+   "id": "83dd55e9",
+   "hash": "b37bb6f393e1"
+  },
+  {
+   "type": "para",
+   "text": "This does not mean turning every document into a repository. A line diff cannot express the decision behind a strategy, the evidence behind a claim, or the reason an alternative was rejected.",
+   "id": "96be89e2",
+   "hash": "78a1aababa6b"
+  },
+  {
+   "type": "para",
+   "text": "The lesson to carry forward is larger than Git’s interface or storage model:",
+   "id": "ab61ebd5",
+   "hash": "d94dcece4f27"
+  },
+  {
+   "type": "para",
+   "text": "> **Git made code collaborative. Proofpress makes intelligence compound.**",
+   "id": "4ceed421",
+   "hash": "1f9b6b918954"
   },
   {
    "type": "heading",
-   "text": "### Public surfaces",
-   "id": "626daac7",
-   "hash": "186bd82e8ab1"
-  },
-  {
-   "type": "list",
-   "text": "- [ ] Set GitHub description to: “The trust layer for multiplayer AI — an open,",
-   "id": "8350e21e",
-   "hash": "60bdeb1406d0"
+   "text": "## A shared, checkable past",
+   "id": "4dec65a1",
+   "hash": "9d9d00874f48"
   },
   {
    "type": "para",
-   "text": "  agent-native ledger that travels with the artifact.”",
-   "id": "62d094a5",
-   "hash": "1e2b7ae46fa9"
-  },
-  {
-   "type": "list",
-   "text": "- [ ] Replace or confirm topics: agentic-ai, multi-agent, knowledge-work,",
-   "id": "1ce5b9fc",
-   "hash": "f4ede79fbd00"
+   "text": "Proofpress is the trust layer for multiplayer AI: an open, agent-native ledger\nthat travels with the artifact.",
+   "id": "239ad15c",
+   "hash": "d96d4ed78b34"
   },
   {
    "type": "para",
-   "text": "  markdown, provenance, audit-log, open-source.",
-   "id": "88109f99",
-   "hash": "cd29f55979b9"
-  },
-  {
-   "type": "list",
-   "text": "- [ ] Add a deliberate social-preview image; the current repository preview is",
-   "id": "9c1c9ffb",
-   "hash": "b432706a84da"
+   "text": "Proofpress turns accepted changes, stated reasons, and consequential rejections into an artifact-native ledger that can remain attached to the work as it passes between humans, agents, sessions, and tools. The artifact—not any single chat product or collaboration destination—becomes the common surface.",
+   "id": "894c1fe2",
+   "hash": "d9c178b79659"
   },
   {
    "type": "para",
-   "text": "  the account avatar, not launch artwork.",
-   "id": "d636339d",
-   "hash": "2bab6210489b"
-  },
-  {
-   "type": "list",
-   "text": "- [ ] Decide the homepage / landing URL. If an owned landing domain exists, use",
-   "id": "d5edaf53",
-   "hash": "c2413303867c"
+   "text": "The first release focuses on Markdown and static HTML knowledge artifacts. Source code remains in Git.",
+   "id": "a1a10d0f",
+   "hash": "04eaf2416be3"
   },
   {
    "type": "para",
-   "text": "  it as the X link with source tracking; otherwise link directly to GitHub and\n  use GitHub traffic plus X analytics rather than pretending the repository URL\n  has campaign attribution.",
-   "id": "698b764a",
-   "hash": "f3089f11d789"
-  },
-  {
-   "type": "list",
-   "text": "- [ ] Confirm the intended X handle and any domain availability. Registration is",
-   "id": "30f79e19",
-   "hash": "34feb3958c7b"
+   "text": "LLM wikis and repository knowledge tools solve a different problem: they synthesize what a codebase or repository knows now. But knowledge artifacts do not stay inside one repository or one destination. They move across chats, tools, teams, and organizations. When the artifact moves, its decision lineage should move with it. Git history is repository-native. Proofpress provenance is artifact-native.",
+   "id": "5a37b34a",
+   "hash": "39891d8adf75"
   },
   {
    "type": "para",
-   "text": "  an explicit owner action, not an automated launch task.",
-   "id": "cfa379d5",
-   "hash": "82e52fd723b6"
-  },
-  {
-   "type": "heading",
-   "text": "### People and coverage",
-   "id": "0f1df431",
-   "hash": "3464865ded06"
+   "text": "A normal document tells you what it says now. A durable knowledge artifact should also help answer:",
+   "id": "79f291e6",
+   "hash": "8f87e475785e"
   },
   {
    "type": "list",
-   "text": "- [ ] Richard posts the X thread and owns factual launch-day replies.\n- [ ] Name one technical-response owner and one metrics / issue-triage owner.\n- [ ] Prepare a small, real warm-contact list for private awareness only. Never",
-   "id": "049f2826",
-   "hash": "9318f36d0221"
+   "text": "1. **What do we know?**\n2. **Why do we believe it?**\n3. **Who can continue thinking from here?**",
+   "id": "de495528",
+   "hash": "fc1eee523990"
   },
   {
    "type": "para",
-   "text": "  coordinate HN voting or booster comments.",
-   "id": "0dae50d5",
-   "hash": "3f4b49393e0e"
-  },
-  {
-   "type": "list",
-   "text": "- [ ] Block the first four hours after launch for replies, bug triage, and",
-   "id": "ab97c2c4",
-   "hash": "eceef0c32c2d"
+   "text": "When the relevant history travels with the artifact, a later human or agent does not have to start from zero or blindly trust the latest file. It can inspect what changed, distinguish computed facts from attributed testimony, see what was rejected, find missing provenance, and continue from the correct base.",
+   "id": "62169462",
+   "hash": "fd383bcdebd8"
   },
   {
    "type": "para",
-   "text": "  observing the demo path.",
-   "id": "dca894f6",
-   "hash": "2fe6aff559e7"
-  },
-  {
-   "type": "heading",
-   "text": "### Reply kit",
-   "id": "f948bc27",
-   "hash": "6ba6be71d4ae"
-  },
-  {
-   "type": "list",
-   "text": "- [ ] Publish-ready answers live in [faq.md](faq.md).\n- [ ] Keep the answer boundary explicit: computed claims are checkable;",
-   "id": "c2bda68f",
-   "hash": "3f5e14c81312"
+   "text": "![Parallel human and agent contributions retain their histories as they merge into one evolved artifact.](assets/proofpress-vision-branch-merge.png)",
+   "id": "ec6e3ad7",
+   "hash": "8720e2642749"
   },
   {
    "type": "para",
-   "text": "  rationale and attribution are stated context unless independently attested.",
-   "id": "9d21c101",
-   "hash": "5aa386de4b18"
-  },
-  {
-   "type": "list",
-   "text": "- [ ] Prepare one concise answer each for Git blame, C2PA, tampering, privacy,",
-   "id": "904e16d2",
-   "hash": "af26236475e0"
+   "text": "This is a trust layer, not a promise that every statement is true, every identity is proven, or every event was captured. Its job is to keep the boundaries between captured, checked, attributed, and unknown visible—so silent context loss cannot masquerade as shared knowledge.",
+   "id": "e0514e6a",
+   "hash": "c904ca6db1ff"
   },
   {
    "type": "para",
-   "text": "  and “why not an LLM diff?”.",
-   "id": "545c9c4a",
-   "hash": "183de8167b47"
-  },
-  {
-   "type": "heading",
-   "text": "## Day-of sequence",
-   "id": "8a66803c",
-   "hash": "42c9ac3fa311"
-  },
-  {
-   "type": "list",
-   "text": "1. Re-run the five-minute portable-handoff path against the live npm tag.\n2. Confirm repository description, topics, social preview, README, demo link,",
-   "id": "872c5f30",
-   "hash": "05ce929ce8c1"
+   "text": "If Proofpress succeeds, it will not be another docs product.",
+   "id": "55c1a8be",
+   "hash": "91dd210bfd23"
   },
   {
    "type": "para",
-   "text": "   X native video, and X link destination.",
-   "id": "c566120e",
-   "hash": "740fa8336f03"
-  },
-  {
-   "type": "list",
-   "text": "3. Publish the X main post with the native video; publish the founder article as",
-   "id": "8ca6ff63",
-   "hash": "a1c403899938"
+   "text": "It will be an open protocol for humans and machines thinking together: a way to turn one-off output into knowledge that can be checked, inherited, challenged, and extended.",
+   "id": "b0cc09a0",
+   "hash": "deb996bf570c"
   },
   {
    "type": "para",
-   "text": "   Reply 1 immediately after it.",
-   "id": "188a8e0e",
-   "hash": "75923ec7ed1e"
-  },
-  {
-   "type": "list",
-   "text": "4. Record the initial time, npm tag/version, Git commit, and link destination in",
-   "id": "1593a76f",
-   "hash": "a5768b8f346a"
+   "text": "It will give every human and agent that touches the work a shared, checkable past.",
+   "id": "0f52178f",
+   "hash": "196d46868af4"
   },
   {
    "type": "para",
-   "text": "   the launch log.",
-   "id": "bf943ba2",
-   "hash": "69314150a56e"
-  },
-  {
-   "type": "list",
-   "text": "5. Respond with the FAQ’s honesty boundary; log recurring objections verbatim",
-   "id": "41bd733c",
-   "hash": "d62cd207ab3e"
+   "text": "It will make the history of the work as durable as the work itself.",
+   "id": "60b3867d",
+   "hash": "2487805cf533"
   },
   {
    "type": "para",
-   "text": "   enough to improve the product, not just the copy.",
-   "id": "0d2dfd68",
-   "hash": "65201d341ae5"
-  },
-  {
-   "type": "list",
-   "text": "6. Reassess Show HN only after the product path and response coverage are proven.",
-   "id": "cac40c0e",
-   "hash": "2af45a2f0e82"
-  },
-  {
-   "type": "heading",
-   "text": "## Go / no-go",
-   "id": "fb903b51",
-   "hash": "50f006d4e29c"
+   "text": "And it will let intelligence compound without requiring trust to be diluted at the same rate.",
+   "id": "a9e5832c",
+   "hash": "4b33fac78766"
   },
   {
    "type": "para",
-   "text": "Do not launch if any of these are false:",
-   "id": "27255d8b",
-   "hash": "5a4d25d3124f"
-  },
-  {
-   "type": "list",
-   "text": "- a clean receiver can install proofpress@0.2.0, inspect the demo artifact,",
-   "id": "a843bfc7",
-   "hash": "bf520db73a50"
+   "text": "> **Scale intelligence. Preserve trust.**",
+   "id": "3f992b85",
+   "hash": "ee67d37cbeed"
   },
   {
    "type": "para",
-   "text": "  import its ledger, and verify its claims;",
-   "id": "828d99d4",
-   "hash": "af20a8e13efa"
-  },
-  {
-   "type": "list",
-   "text": "- the X post, README, and npm tag name the same release channel;\n- the repository has a deliberate description and social preview;\n- an accountable person is available for the first four hours;\n- the FAQ truthfully describes what is computed, attributed, and out of scope.",
-   "id": "9e33325b",
-   "hash": "bba139ddc5e6"
+   "text": "Proofpress 0.2.0 is open source: https://github.com/chenmingtang830/proofpress",
+   "id": "b6d2d574",
+   "hash": "70e756c32f2f"
   }
  ]
 }
