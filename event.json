@@ -1,338 +1,59 @@
 {
  "event": "version_created",
- "artifact": "docs/internal/launch/chinese-vision-article.md",
- "artifact_id": "pp_9da9975f8d87781e8ac9f4dc",
- "version": "1ff602aa",
- "parent": null,
+ "artifact": "docs/internal/launch/chinese-launch-strategy.md",
+ "artifact_id": "pp_30de2e5ed08aa008200efb4f",
+ "version": "1164adcc",
+ "parent": "d30136a6",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-07-26T15:49:15+00:00",
+ "ts": "2026-07-26T15:49:24+00:00",
  "stats": {
-  "added": 45
+  "modified": 6
  },
  "changes": [
   {
-   "kind": "added",
-   "block": "c73e9f15",
-   "type": "heading",
-   "context": "AI 正在让我们产出更多，但不一定让我们积累更多",
-   "preview": "# AI 正在让我们产出更多，但不一定让我们积累更多"
-  },
-  {
-   "kind": "added",
-   "block": "4307b88e",
+   "kind": "modified",
+   "block": "fc756dde",
    "type": "para",
-   "context": "AI 正在让我们产出更多，但不一定让我们积累更多",
-   "preview": "AI 让写一份策略、研究 memo、提案或分析报告变得前所未有地快。"
+   "context": "推荐标题"
   },
   {
-   "kind": "added",
-   "block": "acfe4f1b",
-   "type": "para",
-   "context": "AI 正在让我们产出更多，但不一定让我们积累更多",
-   "preview": "但一份文件最终写成什么样，往往只是一次思考的最后截图。"
-  },
-  {
-   "kind": "added",
-   "block": "d9fcfb9d",
-   "type": "para",
-   "context": "AI 正在让我们产出更多，但不一定让我们积累更多",
-   "preview": "我们能看到结论，却常常看不到：哪条证据改变了它；中间为什么改写；哪些方向被认真讨论后放弃；谁提出了关键限制；以及哪些判断"
-  },
-  {
-   "kind": "added",
-   "block": "6d4ac750",
-   "type": "para",
-   "context": "AI 正在让我们产出更多，但不一定让我们积累更多",
-   "preview": "文件留下来了。让人理解它、继续它所需要的判断，往往没有。"
-  },
-  {
-   "kind": "added",
-   "block": "c8ee7d30",
-   "type": "para",
-   "context": "AI 正在让我们产出更多，但不一定让我们积累更多",
-   "preview": "这在过去已经是知识工作的一种损耗。多人 AI 协作会把它变成基础设施问题。"
-  },
-  {
-   "kind": "added",
-   "block": "32ac4dba",
-   "type": "para",
-   "context": "AI 正在让我们产出更多，但不一定让我们积累更多",
-   "preview": "人和 Agent 正在跨聊天、模型、工具、团队和组织共同修改同一份 artifact。每个 session 都会知道一些"
-  },
-  {
-   "kind": "added",
-   "block": "3a5ca5fe",
-   "type": "para",
-   "context": "AI 正在让我们产出更多，但不一定让我们积累更多",
-   "preview": "可文件继续移动，这条决策轨迹却留在原来的聊天窗口、人的记忆和已经结束的 session 里。下一位人或 Agent 收到"
-  },
-  {
-   "kind": "added",
-   "block": "a64a3b1b",
-   "type": "para",
-   "context": "AI 正在让我们产出更多，但不一定让我们积累更多",
-   "preview": "![一个完成的 artifact 向前传递，而形成它的决策上下文留在彼此断开的 session 中。](assets/p"
-  },
-  {
-   "kind": "added",
-   "block": "a4a98a4f",
-   "type": "heading",
-   "context": "更多 AI output，不等于更多知识",
-   "preview": "## 更多 AI output，不等于更多知识"
-  },
-  {
-   "kind": "added",
-   "block": "d026b1b6",
-   "type": "para",
-   "context": "更多 AI output，不等于更多知识",
-   "preview": "AI 正在以机器速度扩张文字、分析和判断的生产。信任、共同上下文和组织记忆，却仍然以人的速度移动。"
-  },
-  {
-   "kind": "added",
-   "block": "a0f837c1",
-   "type": "para",
-   "context": "更多 AI output，不等于更多知识",
-   "preview": "这也是 AI slop 更深层的问题。它不只是某些内容泛泛而谈或不够准确，而是一个 output 可能没有稳定来历，没有"
-  },
-  {
-   "kind": "added",
-   "block": "58c80708",
-   "type": "para",
-   "context": "更多 AI output，不等于更多知识",
-   "preview": "没有 provenance 的 output 可以传播，却很难真正复利。"
-  },
-  {
-   "kind": "added",
-   "block": "9a0b4ea0",
-   "type": "para",
-   "context": "更多 AI output，不等于更多知识",
-   "preview": "如果每个 session 最后只留下一个漂亮的答案，更多 Agent 只会制造更多互相引用、总结和改写，却无法追溯的结论"
-  },
-  {
-   "kind": "added",
-   "block": "799c651f",
-   "type": "para",
-   "context": "更多 AI output，不等于更多知识",
-   "preview": "不能被安全继承的智能，无法真正复利。不能复利的智能，也不会成为 collective intelligence。"
-  },
-  {
-   "kind": "added",
-   "block": "8187fce0",
-   "type": "heading",
-   "context": "我们不需要保存所有对话",
-   "preview": "## 我们不需要保存所有对话"
-  },
-  {
-   "kind": "added",
-   "block": "fb7e0bc2",
-   "type": "para",
-   "context": "我们不需要保存所有对话",
-   "preview": "答案不是把每条 prompt、每段消息或 Agent 的私密思考过程都存下来。"
-  },
-  {
-   "kind": "added",
-   "block": "230ae9b9",
-   "type": "para",
-   "context": "我们不需要保存所有对话",
-   "preview": "那样的记录大多嘈杂、敏感，也未必对下一位协作者有用。重放一段对话，同样不能告诉我们：其中哪些东西真正被接纳进了共同工作。"
-  },
-  {
-   "kind": "added",
-   "block": "6a5e4f90",
-   "type": "para",
-   "context": "我们不需要保存所有对话",
-   "preview": "真正值得留下的是进入 artifact 的、可检查的外显轨迹：被接受的修改、明确说明的理由、具有后续价值的决定和否决、归"
-  },
-  {
-   "kind": "added",
-   "block": "ecf7a30c",
-   "type": "para",
-   "context": "我们不需要保存所有对话",
-   "preview": "这不是一份思维过程的逐字稿。它是这份工作最终接纳了什么的耐久记录。"
-  },
-  {
-   "kind": "added",
-   "block": "0e8b48df",
-   "type": "para",
-   "context": "我们不需要保存所有对话",
-   "preview": "目标不是保存对话，而是保存对话让工作变成了什么。"
-  },
-  {
-   "kind": "added",
-   "block": "e28b829f",
-   "type": "para",
-   "context": "我们不需要保存所有对话",
-   "preview": "![私密对话被过滤为一份紧凑、可检查的记录：哪些变化被接受，哪些方向被明确否决。](assets/proofpress-"
-  },
-  {
-   "kind": "added",
-   "block": "312e18e2",
-   "type": "heading",
-   "context": "Git 留下的真正启发",
-   "preview": "## Git 留下的真正启发"
-  },
-  {
-   "kind": "added",
-   "block": "3af07c85",
-   "type": "para",
-   "context": "Git 留下的真正启发",
-   "preview": "Git 最重要的贡献，不只是保存了代码的版本。"
-  },
-  {
-   "kind": "added",
-   "block": "e01addb2",
-   "type": "para",
-   "context": "Git 留下的真正启发",
-   "preview": "它给软件带来了一段耐久、共享的过去：共同状态、谱系、归因、分支、比较，以及不用待在同一个房间、记住同一段对话也可以继续工"
-  },
-  {
-   "kind": "added",
-   "block": "1da60bb3",
-   "type": "para",
-   "context": "Git 留下的真正启发",
-   "preview": "知识工作也需要一个类似的 trust layer。"
-  },
-  {
-   "kind": "added",
-   "block": "c3ec7f9d",
-   "type": "para",
-   "context": "Git 留下的真正启发",
-   "preview": "这不意味着把每份文档都变成 repository。行级 diff 无法表达一份策略背后的判断、一条主张背后的证据，或一个"
-  },
-  {
-   "kind": "added",
-   "block": "d54a2905",
-   "type": "para",
-   "context": "Git 留下的真正启发",
-   "preview": "真正值得继承的不是 Git 的界面或存储方式，而是它让协作拥有共同、可继续的过去这件事。"
-  },
-  {
-   "kind": "added",
-   "block": "4d1f44cb",
-   "type": "para",
-   "context": "Git 留下的真正启发",
-   "preview": "> **Git 让代码可以协作。Proofpress 让智能可以复利。**"
-  },
-  {
-   "kind": "added",
-   "block": "f53f9855",
-   "type": "heading",
-   "context": "一段共享、可检查的过去",
-   "preview": "## 一段共享、可检查的过去"
-  },
-  {
-   "kind": "added",
-   "block": "cd082a27",
-   "type": "para",
-   "context": "一段共享、可检查的过去",
-   "preview": "Proofpress 是多人 AI 协作的 trust layer：一个随 artifact 流转的开放、Agent-n"
-  },
-  {
-   "kind": "added",
-   "block": "1b04463c",
-   "type": "para",
-   "context": "一段共享、可检查的过去",
-   "preview": "它把被接受的变化、明确写下的理由和重要否决，变成可以附着在工作上的 artifact-native ledger。当一份"
-  },
-  {
-   "kind": "added",
-   "block": "fc6b851c",
-   "type": "para",
-   "context": "一段共享、可检查的过去",
-   "preview": "当相关历史和 artifact 一起移动，下一位人或 Agent 就不用从零开始，也不必盲目信任最新版本。它可以检查发生"
-  },
-  {
-   "kind": "added",
-   "block": "058887d2",
-   "type": "para",
-   "context": "一段共享、可检查的过去",
-   "preview": "![多个 human 和 Agent 的并行贡献保留各自的历史，并汇合为同一份继续演进的 artifact。](asse"
-  },
-  {
-   "kind": "added",
-   "block": "d549b521",
-   "type": "para",
-   "context": "一段共享、可检查的过去",
-   "preview": "一份普通文档只告诉你它现在说了什么。一份耐久的知识 artifact 还应该帮助回答："
-  },
-  {
-   "kind": "added",
-   "block": "48224fc1",
+   "kind": "modified",
+   "block": "09737e7b",
    "type": "list",
-   "context": "一段共享、可检查的过去",
-   "preview": "1. **我们知道什么？**\n2. **我们为什么相信它？**\n3. **谁可以从这里继续思考？**"
+   "context": "九页图文结构"
   },
   {
-   "kind": "added",
-   "block": "abb4b727",
+   "kind": "modified",
+   "block": "ed56c02d",
    "type": "para",
-   "context": "一段共享、可检查的过去",
-   "preview": "Proofpress 不承诺每一条陈述都是真的，不证明每一个身份，也不假装捕获了导致一份文件出现的全部历史。它的工作是让"
+   "context": "可直接发布的小红书正文"
   },
   {
-   "kind": "added",
-   "block": "cc67bea9",
+   "kind": "modified",
+   "block": "b067188a",
    "type": "para",
-   "context": "一段共享、可检查的过去",
-   "preview": "首个版本聚焦 Markdown 和静态 HTML 知识 artifact。源码继续留在 Git 中。"
+   "context": "推荐标题"
   },
   {
-   "kind": "added",
-   "block": "689a4d1b",
+   "kind": "modified",
+   "block": "be0e7808",
    "type": "para",
-   "context": "一段共享、可检查的过去",
-   "preview": "如果 Proofpress 做得足够好，它不会只是另一个文档产品。"
+   "context": "推荐标题"
   },
   {
-   "kind": "added",
-   "block": "b811a2ff",
+   "kind": "modified",
+   "block": "e1360ccb",
    "type": "para",
-   "context": "一段共享、可检查的过去",
-   "preview": "它会成为人和机器共同思考的一套开放协议：把一次性的 output 变成可以检查、继承、挑战和扩展的知识。"
-  },
-  {
-   "kind": "added",
-   "block": "865a48f4",
-   "type": "para",
-   "context": "一段共享、可检查的过去",
-   "preview": "它会给每一位接手工作的人和 Agent 一段共享、可检查的过去。"
-  },
-  {
-   "kind": "added",
-   "block": "91b9aeb6",
-   "type": "para",
-   "context": "一段共享、可检查的过去",
-   "preview": "它会让工作的历史和工作本身一样耐久。"
-  },
-  {
-   "kind": "added",
-   "block": "6292a054",
-   "type": "para",
-   "context": "一段共享、可检查的过去",
-   "preview": "> **Scale intelligence. Preserve trust.**"
-  },
-  {
-   "kind": "added",
-   "block": "2d0b7816",
-   "type": "para",
-   "context": "一段共享、可检查的过去",
-   "preview": "Proofpress 0.2.0 已开源："
-  },
-  {
-   "kind": "added",
-   "block": "f8350cde",
-   "type": "para",
-   "context": "一段共享、可检查的过去",
-   "preview": "https://github.com/chenmingtang830/proofpress"
+   "context": "长文结构"
   }
  ],
  "policy": "local",
- "soft_fingerprint": "ppsb1:27df28248324570185e3d7c742f6e6db1c93f77bd2da7bb144bb0d0e9e246325",
+ "soft_fingerprint": "ppsb1:858b75294d484fa736281bd99beb6f6043bc1f4865d89aab84c9ca87f2cbf22a",
  "actors": {
   "requested_by": [
    "Richard Tang"
@@ -350,233 +71,38 @@
  "attribution_basis": "harness_attested",
  "claims": [
   {
-   "block": "c73e9f15",
-   "kind": "added",
-   "note": "Added as part of the Chinese vision narrative."
+   "block": "fc756dde",
+   "kind": "modified",
+   "note": "Reframed the Chinese launch around the vision narrative before product explanation."
   },
   {
-   "block": "4307b88e",
-   "kind": "added",
-   "note": "Added as part of the Chinese vision narrative."
+   "block": "09737e7b",
+   "kind": "modified",
+   "note": "Reframed the Chinese launch around the vision narrative before product explanation."
   },
   {
-   "block": "acfe4f1b",
-   "kind": "added",
-   "note": "Added as part of the Chinese vision narrative."
+   "block": "ed56c02d",
+   "kind": "modified",
+   "note": "Reframed the Chinese launch around the vision narrative before product explanation."
   },
   {
-   "block": "d9fcfb9d",
-   "kind": "added",
-   "note": "Added as part of the Chinese vision narrative."
+   "block": "b067188a",
+   "kind": "modified",
+   "note": "Reframed the Chinese launch around the vision narrative before product explanation."
   },
   {
-   "block": "6d4ac750",
-   "kind": "added",
-   "note": "Added as part of the Chinese vision narrative."
+   "block": "be0e7808",
+   "kind": "modified",
+   "note": "Reframed the Chinese launch around the vision narrative before product explanation."
   },
   {
-   "block": "c8ee7d30",
-   "kind": "added",
-   "note": "Added as part of the Chinese vision narrative."
-  },
-  {
-   "block": "32ac4dba",
-   "kind": "added",
-   "note": "Added as part of the Chinese vision narrative."
-  },
-  {
-   "block": "3a5ca5fe",
-   "kind": "added",
-   "note": "Added as part of the Chinese vision narrative."
-  },
-  {
-   "block": "a64a3b1b",
-   "kind": "added",
-   "note": "Added as part of the Chinese vision narrative."
-  },
-  {
-   "block": "a4a98a4f",
-   "kind": "added",
-   "note": "Added as part of the Chinese vision narrative."
-  },
-  {
-   "block": "d026b1b6",
-   "kind": "added",
-   "note": "Added as part of the Chinese vision narrative."
-  },
-  {
-   "block": "a0f837c1",
-   "kind": "added",
-   "note": "Added as part of the Chinese vision narrative."
-  },
-  {
-   "block": "58c80708",
-   "kind": "added",
-   "note": "Added as part of the Chinese vision narrative."
-  },
-  {
-   "block": "9a0b4ea0",
-   "kind": "added",
-   "note": "Added as part of the Chinese vision narrative."
-  },
-  {
-   "block": "799c651f",
-   "kind": "added",
-   "note": "Added as part of the Chinese vision narrative."
-  },
-  {
-   "block": "8187fce0",
-   "kind": "added",
-   "note": "Added as part of the Chinese vision narrative."
-  },
-  {
-   "block": "fb7e0bc2",
-   "kind": "added",
-   "note": "Added as part of the Chinese vision narrative."
-  },
-  {
-   "block": "230ae9b9",
-   "kind": "added",
-   "note": "Added as part of the Chinese vision narrative."
-  },
-  {
-   "block": "6a5e4f90",
-   "kind": "added",
-   "note": "Added as part of the Chinese vision narrative."
-  },
-  {
-   "block": "ecf7a30c",
-   "kind": "added",
-   "note": "Added as part of the Chinese vision narrative."
-  },
-  {
-   "block": "0e8b48df",
-   "kind": "added",
-   "note": "Added as part of the Chinese vision narrative."
-  },
-  {
-   "block": "e28b829f",
-   "kind": "added",
-   "note": "Added as part of the Chinese vision narrative."
-  },
-  {
-   "block": "312e18e2",
-   "kind": "added",
-   "note": "Added as part of the Chinese vision narrative."
-  },
-  {
-   "block": "3af07c85",
-   "kind": "added",
-   "note": "Added as part of the Chinese vision narrative."
-  },
-  {
-   "block": "e01addb2",
-   "kind": "added",
-   "note": "Added as part of the Chinese vision narrative."
-  },
-  {
-   "block": "1da60bb3",
-   "kind": "added",
-   "note": "Added as part of the Chinese vision narrative."
-  },
-  {
-   "block": "c3ec7f9d",
-   "kind": "added",
-   "note": "Added as part of the Chinese vision narrative."
-  },
-  {
-   "block": "d54a2905",
-   "kind": "added",
-   "note": "Added as part of the Chinese vision narrative."
-  },
-  {
-   "block": "4d1f44cb",
-   "kind": "added",
-   "note": "Added as part of the Chinese vision narrative."
-  },
-  {
-   "block": "f53f9855",
-   "kind": "added",
-   "note": "Added as part of the Chinese vision narrative."
-  },
-  {
-   "block": "cd082a27",
-   "kind": "added",
-   "note": "Added as part of the Chinese vision narrative."
-  },
-  {
-   "block": "1b04463c",
-   "kind": "added",
-   "note": "Added as part of the Chinese vision narrative."
-  },
-  {
-   "block": "fc6b851c",
-   "kind": "added",
-   "note": "Added as part of the Chinese vision narrative."
-  },
-  {
-   "block": "058887d2",
-   "kind": "added",
-   "note": "Added as part of the Chinese vision narrative."
-  },
-  {
-   "block": "d549b521",
-   "kind": "added",
-   "note": "Added as part of the Chinese vision narrative."
-  },
-  {
-   "block": "48224fc1",
-   "kind": "added",
-   "note": "Added as part of the Chinese vision narrative."
-  },
-  {
-   "block": "abb4b727",
-   "kind": "added",
-   "note": "Added as part of the Chinese vision narrative."
-  },
-  {
-   "block": "cc67bea9",
-   "kind": "added",
-   "note": "Added as part of the Chinese vision narrative."
-  },
-  {
-   "block": "689a4d1b",
-   "kind": "added",
-   "note": "Added as part of the Chinese vision narrative."
-  },
-  {
-   "block": "b811a2ff",
-   "kind": "added",
-   "note": "Added as part of the Chinese vision narrative."
-  },
-  {
-   "block": "865a48f4",
-   "kind": "added",
-   "note": "Added as part of the Chinese vision narrative."
-  },
-  {
-   "block": "91b9aeb6",
-   "kind": "added",
-   "note": "Added as part of the Chinese vision narrative."
-  },
-  {
-   "block": "6292a054",
-   "kind": "added",
-   "note": "Added as part of the Chinese vision narrative."
-  },
-  {
-   "block": "2d0b7816",
-   "kind": "added",
-   "note": "Added as part of the Chinese vision narrative."
-  },
-  {
-   "block": "f8350cde",
-   "kind": "added",
-   "note": "Added as part of the Chinese vision narrative."
+   "block": "e1360ccb",
+   "kind": "modified",
+   "note": "Reframed the Chinese launch around the vision narrative before product explanation."
   }
  ],
  "context": {
-  "why": "Create a Chinese vision article that begins with the loss of inheritable knowledge in AI collaboration before introducing Proofpress and its trust boundaries."
+  "why": "Reframe the Chinese launch so the vision narrative of lost and inheritable knowledge leads before the Proofpress product explanation."
  },
- "event_id": "ppe_3a29e5c8a6b75dbeabbe188b"
+ "event_id": "ppe_a4104f36792665f2cf8e3a6b"
 }
