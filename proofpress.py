@@ -11,12 +11,12 @@ Commands:
   log <file> [--json]
   diff <file> [<vA> <vB>] [--json]
   show <file-or-version> [--json]
-  verify <file> [<version>] [--json]     claim 校验:exit 0 ✓ / 1 ⚠ / 2 无 claims
-  ingest <file>                          从 git commit 历史回填账本版本
-  merge-plan <file> --from copy.md [...]        分析同一 portable 文档的并行修改
-  merge <file> --from copy.md [...]             记录同一文档的多 parent 汇合
-  merge-lineage <file> --from a.md --from b.md  记录其他文档的 ingredient 引用
-  identify <file>                        软绑定反查:capsule 被剥离后认回身份
+  verify <file> [<version>] [--json]     claim check: exit 0 ✓ / 1 ⚠ / 2 no claims
+  ingest <file>                          backfill ledger versions from Git history
+  merge-plan <file> --from copy.md [...]        analyze parallel portable copies
+  merge <file> --from copy.md [...]             record a multi-parent document merge
+  merge-lineage <file> --from a.md --from b.md  record other documents as ingredients
+  identify <file>                        recover identity after capsule stripping
   policy / inspect / import / clean / capture
   anchor / blocks / init / sync
 """
@@ -505,7 +505,7 @@ def version_id(version):
                                    ensure_ascii=False).encode()).hexdigest()[:8]
 
 
-# ---------- soft binding(剥离元数据后仍可识别的确定性指纹) ----------
+# ---------- soft binding (deterministic identity after metadata stripping) ----------
 
 _FP_RAWTEXT = re.compile(r"(?is)<(script|style)\b[^>]*>.*?</\1>")
 _FP_TAG = re.compile(r"<[^>]+>")
@@ -529,7 +529,7 @@ def soft_fingerprint(blocks):
     return "ppsb1:" + hashlib.sha256(skeleton.encode()).hexdigest()
 
 
-# ---------- 块身份匹配(锚点缺席时的相似度兜底;v0 只有兜底) ----------
+# ---------- block identity matching (similarity fallback without anchors) ----------
 
 def assign_ids(new_blocks, old_version):
     """Give each new block an id: exact-hash match → inherit; else best
@@ -571,7 +571,7 @@ def assign_ids(new_blocks, old_version):
     return new_blocks
 
 
-# ---------- 语义 diff(结构层 + 数字抽取) ----------
+# ---------- semantic diff (structure plus numeric extraction) ----------
 
 # The lookbehind rejects date/range separators ("2026-07-18") and identifier
 # digits ("v0", "sha1") — a data number never starts mid-word.
@@ -588,7 +588,7 @@ def heading_context(blocks, idx):
     for j in range(idx, -1, -1):
         if blocks[j]["type"] == "heading":
             return re.sub(r"^#+\s*", "", blocks[j]["text"])[:40]
-    return "(文首)"
+    return "(document start)"
 
 
 def lis_ids(seq):
@@ -665,7 +665,7 @@ def word_diff(a, b, width=100, color=False):
     return s if color else s[:width * 3]
 
 
-# ---------- 账本读写(refs/proofpress/ledger 上的 commit 链) ----------
+# ---------- ledger I/O (commit chain at refs/proofpress/ledger) ----------
 
 def ledger_events():
     try:
