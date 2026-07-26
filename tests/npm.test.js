@@ -36,6 +36,17 @@ test("GitHub Action defaults to its bundled Proofpress CLI", () => {
   assert.doesNotMatch(action, /default: "proofpress\.py"/);
 });
 
+test("npm release workflow closes the GitHub Release conditional", () => {
+  const workflow = fs.readFileSync(
+    path.join(ROOT, ".github", "workflows", "npm-stage.yml"),
+    "utf8"
+  );
+  assert.match(
+    workflow,
+    /gh release create "\$tag" \\\n[\s\S]*?--generate-notes\n\s+fi\s*$/
+  );
+});
+
 test("setup installs an idempotent Codex contract, manifest, and badge", () => {
   const cwd = fs.mkdtempSync(path.join(os.tmpdir(), "proofpress-npm-"));
   fs.writeFileSync(path.join(cwd, "README.md"), "# Example\n\nBody.\n");

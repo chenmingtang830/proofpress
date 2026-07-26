@@ -106,3 +106,4 @@ jobs:
               --target "$GITHUB_SHA" \
               --title "Proofpress $tag" \
               --generate-notes
+          fi
