@@ -78,6 +78,7 @@ class PortableArtifactTests(unittest.TestCase):
             first["discovery"]["project_url"],
             "https://github.com/chenmingtang830/proofpress",
         )
+        self.assertEqual(first["discovery"]["dist_tag"], "latest")
         portable_raw = (self.repo.path / "a.md").read_text()
         self.assertIn("proofpress:discovery:Verifiable revision history by Proofpress",
                       portable_raw)
@@ -440,6 +441,92 @@ class PortableArtifactTests(unittest.TestCase):
         self.assertEqual(self.repo.cli("snapshot", "a.html", "--author", "human").stdout.splitlines()[0],
                          "no change: a.html matches the latest ledger version")
 
+    def test_markdown_anchor_keeps_wrapped_list_item_together_and_repairs_old_shape(self):
+        target = self.repo.write(
+            "a.md",
+            "[//]: # (ob:11111111)\n"
+            "# A\n\n"
+            "[//]: # (ob:22222222)\n"
+            "- A list item that wraps\n\n"
+            "[//]: # (ob:33333333)\n"
+            "  onto an indented continuation.\n",
+        )
+        self.repo.cli("anchor", "a.md")
+        first = target.read_text()
+        self.repo.cli("anchor", "a.md")
+        self.assertEqual(first, target.read_text())
+        self.assertIn(
+            "- A list item that wraps\n  onto an indented continuation.",
+            first,
+        )
+        self.assertNotIn("(ob:33333333)", first)
+
+        self.repo.cli("snapshot", "a.md", "--author", "human")
+        event = json.loads(self.repo.cli("show", "a.md", "--json").stdout)
+        self.assertEqual(len(event["changes"]), 2)
+
+    def test_markdown_anchor_keeps_nested_list_blocks_indented(self):
+        target = self.repo.write(
+            "a.md",
+            "# A\n\n"
+            "1. Run the command:\n\n"
+            "   ```sh\n"
+            "   proofpress verify a.md\n"
+            "   ```\n\n"
+            "   Then inspect the result.\n",
+        )
+        self.repo.cli("anchor", "a.md")
+        first = target.read_text()
+        self.repo.cli("anchor", "a.md")
+        self.assertEqual(first, target.read_text())
+        self.assertRegex(
+            first,
+            r"\n\n   \[//\]: # \(ob:[0-9a-f]{8}\)\n   ```sh",
+        )
+        self.assertRegex(
+            first,
+            r"\n\n   \[//\]: # \(ob:[0-9a-f]{8}\)\n"
+            r"   Then inspect",
+        )
+
+    def test_markdown_anchor_repairs_redundant_markers_between_list_items(self):
+        target = self.repo.write(
+            "a.md",
+            "[//]: # (ob:11111111)\n"
+            "- First item.\n\n"
+            "[//]: # (ob:22222222)\n"
+            "- Second item.\n",
+        )
+        self.repo.cli("anchor", "a.md")
+        first = target.read_text()
+        self.repo.cli("anchor", "a.md")
+        self.assertEqual(first, target.read_text())
+        self.assertIn("- First item.\n- Second item.", first)
+        self.assertNotIn("(ob:22222222)", first)
+
+    def test_markdown_anchor_keeps_outer_list_open_after_nested_blocks(self):
+        target = self.repo.write(
+            "a.md",
+            "# A\n\n"
+            "1. First.\n"
+            "2. Run:\n\n"
+            "   ```sh\n"
+            "   proofpress verify a.md\n"
+            "   ```\n\n"
+            "   Inspect the result.\n\n"
+            "3. Finish.\n",
+        )
+        self.repo.cli("anchor", "a.md")
+        first = target.read_text()
+        self.repo.cli("anchor", "a.md")
+        self.assertEqual(first, target.read_text())
+        self.assertRegex(
+            first,
+            r"Inspect the result\.\n\n"
+            r"   \[//\]: # \(ob:[0-9a-f]{8}\)\n"
+            r"3\. Finish\.",
+        )
+
     def test_tampered_discovery_is_rejected_as_transport_not_agent_instruction(self):
         target = self.repo.write("a.md", "# A\n\none\n")
         self.repo.cli("policy", "a.md", "portable")
@@ -491,7 +578,72 @@ class PortableArtifactTests(unittest.TestCase):
         self.repo.cli("snapshot", "a.md", "--author", "human")
         upgraded = json.loads(self.repo.cli("inspect", "a.md", "--json").stdout)
         self.assertEqual(upgraded["discovery"]["package"], "proofpress")
+        self.assertEqual(upgraded["discovery"]["dist_tag"], "latest")
         self.assertIn("proofpress:discovery:", target.read_text())
+
+    def test_legacy_next_discovery_is_accepted_and_upgrades_to_latest(self):
+        target = self.repo.write("a.md", "# A\n\none\n")
+        self.repo.cli("policy", "a.md", "portable")
+        raw = target.read_text()
+        match = re.search(r"proofpress:capsule:([A-Za-z0-9_-]+)", raw)
+        payload = match.group(1)
+        decoded = base64.urlsafe_b64decode(payload + "=" * (-len(payload) % 4))
+        capsule = json.loads(zlib.decompress(decoded))
+        capsule["discovery"]["dist_tag"] = "next"
+        encoded = base64.urlsafe_b64encode(zlib.compress(
+            json.dumps(capsule, ensure_ascii=False, sort_keys=True,
+                       separators=(",", ":")).encode(), 9
+        )).decode().rstrip("=")
+        target.write_text(raw[:match.start(1)] + encoded + raw[match.end(1):])
+
+        legacy = json.loads(self.repo.cli("inspect", "a.md", "--json").stdout)
+        self.assertEqual(legacy["status"], "ok")
+        self.assertEqual(legacy["discovery"]["dist_tag"], "next")
+
+        self.repo.append_body("a.md", "two")
+        self.repo.cli("snapshot", "a.md", "--author", "human")
+        upgraded = json.loads(self.repo.cli("inspect", "a.md", "--json").stdout)
+        self.assertEqual(upgraded["discovery"]["dist_tag"], "latest")
+
+    def test_no_change_snapshot_upgrades_legacy_next_discovery_transport(self):
+        target = self.repo.write("a.md", "# A\n\none\n")
+        self.repo.cli("policy", "a.md", "portable")
+        raw = target.read_text()
+        match = re.search(r"proofpress:capsule:([A-Za-z0-9_-]+)", raw)
+        payload = match.group(1)
+        decoded = base64.urlsafe_b64decode(payload + "=" * (-len(payload) % 4))
+        capsule = json.loads(zlib.decompress(decoded))
+        capsule["discovery"]["dist_tag"] = "next"
+        encoded = base64.urlsafe_b64encode(zlib.compress(
+            json.dumps(capsule, ensure_ascii=False, sort_keys=True,
+                       separators=(",", ":")).encode(), 9
+        )).decode().rstrip("=")
+        target.write_text(raw[:match.start(1)] + encoded + raw[match.end(1):])
+
+        upgraded = self.repo.cli("snapshot", "a.md", "--author", "human")
+        self.assertIn("upgraded capsule discovery", upgraded.stdout)
+        inspected = json.loads(self.repo.cli("inspect", "a.md", "--json").stdout)
+        self.assertEqual(inspected["versions"], 1)
+        self.assertEqual(inspected["discovery"]["dist_tag"], "latest")
+
+    def test_unknown_discovery_dist_tag_is_rejected(self):
+        target = self.repo.write("a.md", "# A\n\none\n")
+        self.repo.cli("policy", "a.md", "portable")
+        raw = target.read_text()
+        match = re.search(r"proofpress:capsule:([A-Za-z0-9_-]+)", raw)
+        payload = match.group(1)
+        decoded = base64.urlsafe_b64decode(payload + "=" * (-len(payload) % 4))
+        capsule = json.loads(zlib.decompress(decoded))
+        capsule["discovery"]["dist_tag"] = "untrusted"
+        encoded = base64.urlsafe_b64encode(zlib.compress(
+            json.dumps(capsule, ensure_ascii=False, sort_keys=True,
+                       separators=(",", ":")).encode(), 9
+        )).decode().rstrip("=")
+        target.write_text(raw[:match.start(1)] + encoded + raw[match.end(1):])
+
+        result = self.repo.cli("inspect", "a.md", check=False)
+        self.assertEqual(result.returncode, 1)
+        self.assertIn("invalid_capsule_discovery", result.stdout)
 
     def test_html_parser_ignores_script_and_style_contents(self):
         self.repo.write(

@@ -4,7 +4,6 @@
 name: proofpress
 on:
   pull_request:
-    paths: ["**.md", "**.html", "**.htm"]
 
 permissions:
   contents: read
@@ -18,7 +17,7 @@ jobs:
         with:
           fetch-depth: 0
       # In this repo we exercise the action from the checked-out source.
-      # External repos reference it as: uses: chenmingtang830/proofpress@main
+      # External repos reference it as: uses: chenmingtang830/proofpress@v0.2.0
       - uses: ./
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}

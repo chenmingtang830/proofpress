@@ -145,9 +145,19 @@ CAPSULE_DISCOVERY = {
     "label": DISCOVERY_LABEL,
     "project_url": DISCOVERY_URL,
     "package": "proofpress",
-    "dist_tag": "next",
+    "dist_tag": "latest",
     "requires_user_consent": True,
 }
+LEGACY_CAPSULE_DISCOVERIES = ({
+    **CAPSULE_DISCOVERY,
+    "dist_tag": "next",
+},)
+
+
+def valid_capsule_discovery(discovery):
+    """Accept canonical discovery plus exact historical Proofpress values."""
+    return (discovery == CAPSULE_DISCOVERY or
+            discovery in LEGACY_CAPSULE_DISCOVERIES)
 
 
 def _b64e(data):
@@ -467,15 +477,55 @@ def parse_blocks(text, carrier="markdown"):
             continue
         m = ANCHOR.match(ln)
         if m:
+            # Older ``anchor`` releases treated an indented continuation of a
+            # Markdown list item as a separate paragraph. They consequently
+            # inserted a redundant anchor between the item and its wrapped
+            # continuation. Fold that shape back into the list block so one
+            # more ``anchor`` pass repairs the source without changing prose.
+            if kind == "list":
+                j = i + 1
+                while j < len(lines) and not lines[j].strip():
+                    j += 1
+                if (j < len(lines) and
+                        re.match(r"^\s*([-*+]|\d+\.)\s", lines[j])):
+                    i = j
+                    continue
+                if (j < len(lines) and
+                        not lines[j].strip().startswith("```") and
+                        re.match(r"^\s+\S", lines[j]) and
+                        not re.match(r"^\s*([-*+]|\d+\.)\s", lines[j])):
+                    i = j
+                    continue
             flush(); pending_anchor = m.group(1) or m.group(2); i += 1; continue
         if ln.strip().startswith("```"):
             flush(); kind = "code"; cur = [ln]; i += 1; continue
         if re.match(r"^#{1,6} ", ln):
             flush(); emit({"type": "heading", "text": ln.rstrip()}); i += 1; continue
         if not ln.strip():
+            if kind == "list":
+                j = i + 1
+                while j < len(lines) and not lines[j].strip():
+                    j += 1
+                marker = ANCHOR.match(lines[j]) if j < len(lines) else None
+                if marker:
+                    j += 1
+                    while j < len(lines) and not lines[j].strip():
+                        j += 1
+                if (marker and j < len(lines) and
+                        re.match(r"^\s*([-*+]|\d+\.)\s", lines[j])):
+                    i = j
+                    continue
+                if (j < len(lines) and
+                        not lines[j].strip().startswith("```") and
+                        re.match(r"^\s+\S", lines[j]) and
+                        not re.match(r"^\s*([-*+]|\d+\.)\s", lines[j])):
+                    i = j
+                    continue
             flush(); i += 1; continue
         this = "table" if ln.lstrip().startswith("|") else (
-            "list" if re.match(r"^\s*([-*+]|\d+\.)\s", ln) else "para")
+            "list" if (re.match(r"^\s*([-*+]|\d+\.)\s", ln) or
+                       (kind == "list" and re.match(r"^\s+\S", ln)))
+            else "para")
         if kind not in (None, this):
             flush()
         kind = kind or this
@@ -1000,7 +1050,7 @@ def validate_capsule(body, meta, capsule, carrier="markdown"):
     if schema not in (1, 2):
         errors.append("unsupported_capsule")
     if ("discovery" in capsule and
-            capsule.get("discovery") != CAPSULE_DISCOVERY):
+            not valid_capsule_discovery(capsule.get("discovery"))):
         errors.append("invalid_capsule_discovery")
     if capsule.get("artifact_id") != meta.get("artifact_id"):
         errors.append("artifact_id_mismatch")
@@ -1203,6 +1253,16 @@ def cmd_snapshot(a):
             print(f"repaired capsule: {a.file} -> {capsule['head']}")
             return
         if meta["policy"] == "portable" and capsule is not None:
+            discovery = capsule.get("discovery")
+            if (discovery is None or
+                    (valid_capsule_discovery(discovery) and
+                     discovery != CAPSULE_DISCOVERY)):
+                capsule["discovery"] = dict(CAPSULE_DISCOVERY)
+                write_artifact(a.file, body, meta, capsule)
+                print(f"upgraded capsule discovery: {a.file} -> "
+                      f"{CAPSULE_DISCOVERY['package']}@"
+                      f"{CAPSULE_DISCOVERY['dist_tag']}")
+                return
             latest = latest_for(a.file)
             if latest and capsule.get("head") != latest.get("version"):
                 version = read_version(latest["_commit"])
@@ -1907,7 +1967,24 @@ def anchor_file(path, quiet=False):
         out = []
         for i, b in enumerate(blocks):
             if not is_leading_yaml_frontmatter(b, i):
-                out.append(format_anchor(b["id"]))
+                # Keep anchors for nested list content at the same indentation
+                # as the block. An unindented marker would close the list in
+                # CommonMark/GitHub rendering even though it is invisible.
+                indent = re.match(r"^(\s*)", b["text"]).group(1)
+                if b["type"] == "list" and not indent and i:
+                    j = i - 1
+                    while (j >= 0 and
+                           re.match(r"^\s+", blocks[j]["text"])):
+                        j -= 1
+                    if j >= 0 and blocks[j]["type"] == "list":
+                        previous_indent = re.match(
+                            r"^(\s*)", blocks[i - 1]["text"]).group(1)
+                        if previous_indent:
+                            # This is the next outer item after nested content.
+                            # Keep its marker inside the previous item so the
+                            # ordered/unordered list remains open.
+                            indent = previous_indent
+                out.append(indent + format_anchor(b["id"]))
             out.append(b["text"])
             out.append("")
         anchored_body = "\n".join(out).rstrip() + "\n"
@@ -2033,7 +2110,7 @@ def inspect_result(path):
             result["head"] = capsule.get("head")
             result["head_event"] = capsule_v2(capsule).get("head_event")
             result["versions"] = len(capsule.get("records", []))
-            if capsule.get("discovery") == CAPSULE_DISCOVERY:
+            if valid_capsule_discovery(capsule.get("discovery")):
                 result["discovery"] = capsule["discovery"]
     elif capsule is not None:
         result["errors"].append("capsule_on_nonportable_artifact")
