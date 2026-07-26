@@ -10,33 +10,21 @@
   },
   {
    "type": "para",
-   "text": "> Scale intelligence. Preserve trust.",
-   "id": "62056da6",
-   "hash": "fdf17acf8cbf"
-  },
-  {
-   "type": "para",
-   "text": "Proofpress is the trust layer for multiplayer AI: an open, agent-native ledger\nthat travels with the artifact.",
-   "id": "239ad15c",
-   "hash": "d96d4ed78b34"
-  },
-  {
-   "type": "para",
    "text": "Most documents are snapshots of the final state of thought.",
    "id": "fa14abc9",
    "hash": "42ede1548147"
   },
   {
    "type": "para",
-   "text": "We can read what an essay, strategy, research memo, legal brief, or proposal eventually became. We usually cannot see which evidence shaped it, which parts came from a person or an agent, what changed along the way, why it changed, which alternatives were rejected, which claims were checked, or what remains uncertain.",
+   "text": "We can read what an essay, strategy, research memo, or proposal eventually became. We usually cannot see which evidence shaped it, what changed along the way, why it changed, which alternatives were rejected, or what remains uncertain.",
    "id": "f118f0f4",
-   "hash": "b6af00685e38"
+   "hash": "82b0b66e7140"
   },
   {
    "type": "para",
-   "text": "The artifact survives. The history required to understand and continue it often does not.",
+   "text": "The artifact survives. The reasoning required to understand and continue it often does not.",
    "id": "027eb27e",
-   "hash": "569cba134bb3"
+   "hash": "f041cf93282a"
   },
   {
    "type": "para",
@@ -46,15 +34,15 @@
   },
   {
    "type": "para",
-   "text": "Humans and agents increasingly work on the same artifacts across chats, models, tools, teams, and organizations. Each session accumulates useful working knowledge: why a sentence was rewritten, why one direction won, what a reviewer challenged, which constraint must not be violated, and what the next collaborator should preserve. But the file moves while that decision trail stays behind.",
+   "text": "Humans and agents now work on the same artifacts across chats, models, tools, teams, and organizations. Each session learns something the file alone cannot express: why a sentence changed, why one direction won, what a reviewer challenged, and which constraint the next collaborator must preserve.",
    "id": "b106e932",
-   "hash": "446477333057"
+   "hash": "1800cd2a1cd2"
   },
   {
    "type": "para",
-   "text": "The next person or agent receives the output without the history that made the output trustworthy.",
+   "text": "But the file moves while that decision trail stays behind. The next person or agent receives the output without the history that made it trustworthy.",
    "id": "b37f7b8c",
-   "hash": "e949ded900f3"
+   "hash": "948e2c45e612"
   },
   {
    "type": "heading",
@@ -70,9 +58,9 @@
   },
   {
    "type": "para",
-   "text": "This is the deeper problem behind AI slop. It is not only that some generated content is generic or low quality. The larger problem is that an output can have no stable origin, no checkable account of how it changed, no durable attribution, and no safe way for another actor to inherit it.",
+   "text": "This is the deeper problem behind AI slop. It is not only that some generated content is generic or wrong. It is that an output can have no stable origin, no checkable account of how it changed, and no safe way for another actor to inherit it.",
    "id": "4623d700",
-   "hash": "6888476daef7"
+   "hash": "7d83a0a53daa"
   },
   {
    "type": "para",
@@ -82,15 +70,15 @@
   },
   {
    "type": "para",
-   "text": "If every session leaves behind only a polished final answer, adding more agents creates more conclusions that cite, summarize, and rewrite one another without a trustworthy lineage. The organization accumulates words while repeatedly losing the knowledge required to evaluate and extend them.",
+   "text": "If every session leaves behind only a polished final answer, adding more agents creates more conclusions that cite, summarize, and rewrite one another without trustworthy lineage. The organization accumulates words while repeatedly losing the knowledge required to evaluate and extend them.",
    "id": "7eba082b",
-   "hash": "03a9cd197eca"
+   "hash": "11e59a4e3980"
   },
   {
    "type": "para",
-   "text": "Intelligence that cannot be safely inherited cannot become cumulative. Intelligence that cannot become cumulative cannot become collective.",
+   "text": "Intelligence that cannot be safely inherited cannot compound. Intelligence that cannot compound cannot become collective.",
    "id": "44843a50",
-   "hash": "bb55d1b6d8c6"
+   "hash": "200f14aa6239"
   },
   {
    "type": "heading",
@@ -106,21 +94,15 @@
   },
   {
    "type": "para",
-   "text": "Most of that material is noisy, sensitive, or irrelevant to the next collaborator. Replaying an entire conversation also does not tell us which parts were ultimately accepted into the shared work.",
-   "id": "4acd95b2",
-   "hash": "329303d557b1"
+   "text": "Most of that material is noisy, sensitive, or irrelevant to the next collaborator. Replaying a conversation also does not tell us which parts were ultimately accepted into the shared work.",
+   "id": "8b582160",
+   "hash": "fad68fdf861f"
   },
   {
    "type": "para",
-   "text": "What deserves to persist is the external, checkable trail admitted into the artifact:",
-   "id": "8b582160",
-   "hash": "bf1a51980482"
-  },
-  {
-   "type": "list",
-   "text": "- claims and the evidence offered for them;\n- accepted edits and the versions they produced;\n- the stated rationale for consequential decisions;\n- objections and alternatives that were seriously considered;\n- rejected directions that future collaborators should not reopen blindly;\n- attribution and the basis on which it is asserted;\n- checks showing whether change claims match the artifact itself;\n- explicit gaps where provenance is incomplete or unknown.",
+   "text": "What deserves to persist is the external, checkable trail admitted into the artifact: accepted edits, evidence, consequential decisions and rejections, attribution, verification results, and explicit gaps where provenance remains unknown.",
    "id": "10d3904c",
-   "hash": "0a5fc539466b"
+   "hash": "05dd160fb728"
   },
   {
    "type": "para",
@@ -130,56 +112,14 @@
   },
   {
    "type": "para",
-   "text": "Proofpress turns that accepted account into an artifact-native ledger: a shared, checkable history that can remain attached to the work as it passes between humans, agents, sessions, and tools.",
+   "text": "The goal is not to preserve the conversation. It is to preserve what the conversation caused the work to become.",
    "id": "95033a55",
-   "hash": "46021d625e6c"
-  },
-  {
-   "type": "heading",
-   "text": "## From static file to evolving knowledge object",
-   "id": "888c1a5c",
-   "hash": "9df551a343fe"
-  },
-  {
-   "type": "para",
-   "text": "A normal document tells you what it says now.",
-   "id": "79f291e6",
-   "hash": "03515d1313ef"
-  },
-  {
-   "type": "para",
-   "text": "A knowledge artifact should also be able to tell you:",
-   "id": "0bb3cf82",
-   "hash": "c77625436070"
-  },
-  {
-   "type": "list",
-   "text": "1. **What do we know?**\n2. **Why do we believe it?**\n3. **Who can continue thinking from here?**",
-   "id": "de495528",
-   "hash": "fc1eee523990"
-  },
-  {
-   "type": "para",
-   "text": "Answering those questions requires more than edit history. It requires durable identity, version lineage, decision context, attribution, verification results, and an honest trust state.",
-   "id": "a151d6e4",
-   "hash": "fae604b58f72"
-  },
-  {
-   "type": "para",
-   "text": "When those properties travel with the artifact, a later human or agent does not have to start from zero. It also does not have to blindly trust the latest file or the previous actor’s summary. It can inspect what changed, distinguish computed facts from attributed testimony, see what was rejected, identify missing provenance, and continue from the correct base.",
-   "id": "62169462",
-   "hash": "6239fba71843"
-  },
-  {
-   "type": "para",
-   "text": "The artifact stops being a disposable endpoint. It becomes a unit of organizational memory.",
-   "id": "cd2ef4f9",
-   "hash": "e47b5b451d52"
+   "hash": "a09569c0926f"
   },
   {
    "type": "heading",
    "text": "## Git’s deeper lesson",
-   "id": "f12d75f9",
+   "id": "888c1a5c",
    "hash": "4d541d12677c"
   },
   {
@@ -190,9 +130,9 @@
   },
   {
    "type": "para",
-   "text": "Git gave software a durable shared history. It gave collaborators common state, lineage, attribution, branching, comparison, and a way to continue work without sharing the same room or remembering the same conversation. That history helped make code globally collaborative.",
+   "text": "Git gave software a durable shared history: common state, lineage, attribution, branching, comparison, and a way to continue work without sharing the same room or remembering the same conversation. That history helped make code globally collaborative.",
    "id": "a6d78d41",
-   "hash": "f7a8ab5f38b6"
+   "hash": "befefef79d2e"
   },
   {
    "type": "para",
@@ -202,9 +142,9 @@
   },
   {
    "type": "para",
-   "text": "This does not mean turning every document into a repository or claiming that Proofpress is a better Git diff. Code and knowledge artifacts have different semantics. A line diff cannot, by itself, express the decision behind a strategy, the evidence behind a claim, the reason an alternative was rejected, or the trust boundary around an attributed explanation.",
+   "text": "This does not mean turning every document into a repository. A line diff cannot express the decision behind a strategy, the evidence behind a claim, or the reason an alternative was rejected.",
    "id": "96be89e2",
-   "hash": "748b7c87d62d"
+   "hash": "78a1aababa6b"
   },
   {
    "type": "para",
@@ -219,130 +159,46 @@
    "hash": "1f9b6b918954"
   },
   {
-   "type": "para",
-   "text": "> **Git gave code history. Proofpress gives knowledge provenance.**",
-   "id": "5851a397",
-   "hash": "73e6d4a904c5"
-  },
-  {
    "type": "heading",
-   "text": "## What Proofpress is building",
+   "text": "## A shared, checkable past",
    "id": "4dec65a1",
-   "hash": "16e2ccf6e1b7"
+   "hash": "9d9d00874f48"
   },
   {
    "type": "para",
    "text": "Proofpress is the trust layer for multiplayer AI: an open, agent-native ledger\nthat travels with the artifact.",
-   "id": "68e80b69",
+   "id": "239ad15c",
    "hash": "d96d4ed78b34"
   },
   {
    "type": "para",
-   "text": "Think C2PA, but for knowledge work. The analogy is about a portable,\ninspectable trust record for an artifact—not C2PA compatibility, signed\nauthorship, or a claim that every part of the work was captured.",
-   "id": "08a6f5fa",
-   "hash": "0e9908341d6d"
-  },
-  {
-   "type": "para",
-   "text": "Its core model is a knowledge-artifact-native ledger. Its first wedge is cross-session and multi-agent continuity. Its carrier is a portable artifact with a machine-readable proof capsule, so relevant lineage can survive beyond the original conversation, repository, or tool.",
+   "text": "Proofpress turns accepted changes, decisions, and evidence into an artifact-native ledger that can remain attached to the work as it passes between humans, agents, sessions, and tools. The artifact—not any single chat product or collaboration destination—becomes the common surface.",
    "id": "894c1fe2",
-   "hash": "3ed2a4200c58"
+   "hash": "30908dcc9ad2"
   },
   {
    "type": "para",
-   "text": "The current reference implementation begins with Markdown and static HTML. It can record accepted versions, stated rationale, consequential rejections, actor roles, and change claims; compute semantic changes; check claims against the artifact; detect stale bases and drift; and allow a portable artifact to carry a safe subset of its history.",
-   "id": "2286d602",
-   "hash": "3be4a354c4cd"
+   "text": "A normal document tells you what it says now. A durable knowledge artifact should also help answer:",
+   "id": "79f291e6",
+   "hash": "8f87e475785e"
+  },
+  {
+   "type": "list",
+   "text": "1. **What do we know?**\n2. **Why do we believe it?**\n3. **Who can continue thinking from here?**",
+   "id": "de495528",
+   "hash": "fc1eee523990"
   },
   {
    "type": "para",
-   "text": "Those capabilities are an initial proof, not the final category.",
-   "id": "b7884c1d",
-   "hash": "fe9238d5ee5f"
+   "text": "When the relevant history travels with the artifact, a later human or agent does not have to start from zero or blindly trust the latest file. It can inspect what changed, distinguish computed facts from attributed testimony, see what was rejected, find missing provenance, and continue from the correct base.",
+   "id": "62169462",
+   "hash": "fd383bcdebd8"
   },
   {
    "type": "para",
-   "text": "The protocol should ultimately work across editors, agent harnesses, orchestrators, models, storage backends, and organizations. The artifact—not any single chat product or collaboration destination—becomes the common surface.",
-   "id": "8de7b95e",
-   "hash": "7ecb52a37813"
-  },
-  {
-   "type": "heading",
-   "text": "## From ledger to protocol to collective intelligence",
-   "id": "43212f80",
-   "hash": "b74c68e7959c"
-  },
-  {
-   "type": "para",
-   "text": "We see three layers of value.",
-   "id": "ca856aca",
-   "hash": "76c5d7632e30"
-  },
-  {
-   "type": "para",
-   "text": "**Today: a version and decision ledger for knowledge artifacts.**  \nHumans and agents can see what changed, why it was changed, what was rejected, and which change claims match the work.",
-   "id": "d83ab12d",
-   "hash": "05745fc67a83"
-  },
-  {
-   "type": "para",
-   "text": "**Next: a trust protocol for human–agent knowledge work.**  \nDifferent tools, models, and organizations can submit, inspect, verify, accept, and inherit knowledge using the same underlying contract.",
-   "id": "70191a76",
-   "hash": "1ca38a15a467"
-  },
-  {
-   "type": "para",
-   "text": "**Ultimately: infrastructure for cumulative, collective intelligence.**  \nEach accepted artifact can become a trustworthy accumulation unit for organizational memory. Later humans and agents can extend an existing body of knowledge instead of regenerating isolated answers and reconstructing lost decisions.",
-   "id": "1828c419",
-   "hash": "f24b9286c243"
-  },
-  {
-   "type": "para",
-   "text": "At that scale, the bottleneck is no longer the ability to produce more intelligence. It is the ability to preserve enough memory, lineage, and trust for that intelligence to compound.",
-   "id": "747b3bd7",
-   "hash": "17c5d168db8e"
-  },
-  {
-   "type": "heading",
-   "text": "## Trust must not become a vague promise",
-   "id": "b3cdc7a1",
-   "hash": "c2446d3e25d3"
-  },
-  {
-   "type": "para",
-   "text": "“Trust layer” does not mean that every statement is true or every identity is cryptographically proven.",
-   "id": "74d95031",
-   "hash": "e6f3570318d3"
-  },
-  {
-   "type": "para",
-   "text": "The stated reason for a change is attributed testimony unless stronger evidence supports it. Actor identity may be signed, attested, self-asserted, or unknown. Captured history can be checked deterministically, while capture completeness remains best effort. Gaps should remain visible rather than being filled with invented provenance.",
-   "id": "c1743d8b",
-   "hash": "00aa0ec0a49a"
-  },
-  {
-   "type": "para",
-   "text": "These boundaries are not a weakness in the vision. They are what make the vision credible.",
-   "id": "41a7d8b7",
-   "hash": "b65fae9056d4"
-  },
-  {
-   "type": "para",
-   "text": "Proofpress should help collaborators know what was captured, what was checked, who or what a statement is attributed to, and where trust still depends on judgment.",
-   "id": "91570475",
-   "hash": "818bd71cfeb0"
-  },
-  {
-   "type": "para",
-   "text": "The goal is not perfect certainty. The goal is to stop silent context loss from masquerading as shared knowledge.",
+   "text": "This is a trust layer, not a promise that every statement is true, every identity is proven, or every event was captured. Its job is to keep the boundaries between captured, checked, attributed, and unknown visible—so silent context loss cannot masquerade as shared knowledge.",
    "id": "e0514e6a",
-   "hash": "5650805c2201"
-  },
-  {
-   "type": "heading",
-   "text": "## Make knowledge cumulative",
-   "id": "b84af3d0",
-   "hash": "0ba9b515f64b"
+   "hash": "c904ca6db1ff"
   },
   {
    "type": "para",
@@ -352,9 +208,9 @@
   },
   {
    "type": "para",
-   "text": "It will be an open protocol for humans and machines thinking together: a way to turn one-off AI output into knowledge that can be checked, inherited, challenged, and extended.",
+   "text": "It will be an open protocol for humans and machines thinking together: a way to turn one-off output into knowledge that can be checked, inherited, challenged, and extended.",
    "id": "b0cc09a0",
-   "hash": "c5023510aa2f"
+   "hash": "deb996bf570c"
   },
   {
    "type": "para",
@@ -370,9 +226,9 @@
   },
   {
    "type": "para",
-   "text": "And it will let intelligence expand without requiring trust to be diluted at the same rate.",
+   "text": "And it will let intelligence compound without requiring trust to be diluted at the same rate.",
    "id": "a9e5832c",
-   "hash": "5f13ba2cab68"
+   "hash": "4b33fac78766"
   },
   {
    "type": "para",
