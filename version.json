@@ -1,258 +1,252 @@
 {
- "artifact": "docs/internal/launch/film/source/proofpress-x-launch/MOTION_SYSTEM.md",
- "artifact_id": "pp_b9b1fdfd7e82fb2827a721ef",
+ "artifact": "docs/internal/launch/x-launch.md",
+ "artifact_id": "pp_5c19a32e9dea0da4c55aae96",
  "blocks": [
   {
    "type": "heading",
-   "text": "# Proofpress continuous-canvas motion system",
-   "id": "2d841d32",
-   "hash": "a29ebed708e4"
+   "text": "# Proofpress X launch",
+   "id": "d978986b",
+   "hash": "ed0ea43e95b9"
   },
   {
    "type": "para",
-   "text": "This instruction captures the reusable visual grammar behind the Proofpress\nlaunch film. Use it with the HyperFrames core, creative, animation, and CLI\nskills when extending this film or building a new Proofpress motion piece. It is\na brand-specific layer on top of those skills, not a replacement for their\ncomposition and determinism rules.",
-   "id": "d4c2acc7",
-   "hash": "09fe15159db7"
+   "text": "**Status:** canonical draft\n**Channel:** X\n**Primary asset:** approved 27-second silent-first launch film\n**Source of strategic truth:** `docs/internal/decision_strategy/PORTABLE_ARTIFACT_STRATEGY.md`",
+   "id": "1fdd0312",
+   "hash": "9555fbe04b24"
   },
   {
    "type": "heading",
-   "text": "## Core idea",
-   "id": "211e4c3a",
-   "hash": "ed202de9c490"
+   "text": "## Launch decision",
+   "id": "89191200",
+   "hash": "6018d22978bd"
   },
   {
    "type": "para",
-   "text": "Treat the whole film as one explorable knowledge space. Stations live on a\nsingle oversized canvas and the camera follows one continuous route through\nthem. The artifact is the stable subject; sessions, ledgers, and claims are\nplaces the camera visits around it. A transition should reveal a causal\nrelationship, not announce that a new slide has begun.",
-   "id": "35420c64",
-   "hash": "8dab0aa0e52d"
+   "text": "The X launch should claim the category, then bind it immediately to the product\nboundary. Lead with **the trust layer for multiplayer AI**, immediately followed\nby **an open, agent-native ledger that travels with the artifact**. Scope\n“trust” to a shared, checkable artifact ledger rather than identity,\nauthorization, access control, or cryptographically signed authorship.",
+   "id": "5922601a",
+   "hash": "951ccd481303"
+  },
+  {
+   "type": "para",
+   "text": "“Multiplayer AI” is the launch entry point. The durable strategic category\nremains agent-native knowledge work; the technical definition remains an open\nprotocol for versioned knowledge artifacts with verifiable provenance. Portable\nhandoff is the sharpest product proof: the ledger can travel with the file after\nthe live session ends.",
+   "id": "bd32ddac",
+   "hash": "d993affc7cc2"
   },
   {
    "type": "heading",
-   "text": "## Visual registers",
-   "id": "709b0454",
-   "hash": "b308a7108b05"
-  },
-  {
-   "type": "list",
-   "text": "- Barlow Condensed is the declarative voice: category claims, causal statements,",
-   "id": "bfa080d3",
-   "hash": "362b4bfe5a19"
+   "text": "## Canonical launch post",
+   "id": "db540fed",
+   "hash": "aa5ea9cd4769"
   },
   {
    "type": "para",
-   "text": "  station titles, and closing language.",
-   "id": "47fd8e82",
-   "hash": "abb02907fe82"
-  },
-  {
-   "type": "list",
-   "text": "- IBM Plex Mono is the evidentiary voice: session labels, versions, metadata,",
-   "id": "2a89fe81",
-   "hash": "e5002197b1d5"
+   "text": "The main post carries the native launch film and deliberately contains no link.\nIts only job is category recognition and a complete first impression during\nmuted autoplay. The repository and article belong in the immediate replies.",
+   "id": "b60dd55f",
+   "hash": "a505d315c4ed"
   },
   {
    "type": "para",
-   "text": "  ledger qualifiers, and URLs.",
-   "id": "0313a4c6",
-   "hash": "4705ef43ec2e"
-  },
-  {
-   "type": "list",
-   "text": "- Newsreader is an occasional reflective voice. Do not switch into it inside a",
-   "id": "64b502ce",
-   "hash": "3f66237106aa"
+   "text": "> Introducing Proofpress.\n>\n> The trust layer for multiplayer AI.\n> An open, agent-native ledger that travels with the artifact.\n>\n> Humans and agents edit one file across sessions. The file moves; its decision trail does not.",
+   "id": "d8c123e5",
+   "hash": "9846e6ae0872"
   },
   {
    "type": "para",
-   "text": "  short causal statement merely to create variety.",
-   "id": "1ca2e95a",
-   "hash": "a7b6e17f7336"
-  },
-  {
-   "type": "list",
-   "text": "- Warm paper represents the artifact. Teal represents the live Proofpress route",
-   "id": "a3c06821",
-   "hash": "2d071c847c8e"
-  },
-  {
-   "type": "para",
-   "text": "  and admitted ledger. Gold represents stated reasoning. Muted red represents a\n  rejected direction. Green is reserved for a computed check.",
-   "id": "cefad801",
-   "hash": "42598b5f2e91"
-  },
-  {
-   "type": "para",
-   "text": "Do not introduce a fourth typographic voice, gradient type, rounded SaaS cards,\nsecurity shields, identity chrome, floating particles, or ambient motion that\nis unrelated to the artifact's lineage.",
-   "id": "aa85b0bc",
-   "hash": "d3aba576a772"
+   "text": "Attach the launch film directly to this post. Do not add hashtags, launch emojis,\nmentions, a request to repost, or a second call to action.",
+   "id": "ce32ea8d",
+   "hash": "6493903ef680"
   },
   {
    "type": "heading",
-   "text": "## Camera grammar",
-   "id": "03e4248f",
-   "hash": "aed37430a715"
-  },
-  {
-   "type": "list",
-   "text": "1. Build stations at fixed coordinates on one world canvas.\n2. Move the world with one seek-safe camera object and a single paused GSAP",
-   "id": "2fe6262c",
-   "hash": "cbfc283eeed6"
+   "text": "## Reply thread",
+   "id": "1215f916",
+   "hash": "2aa423a37c66"
   },
   {
    "type": "para",
-   "text": "   timeline. Use translation and scale only.",
-   "id": "29bb99cc",
-   "hash": "4b9ffaf6e834"
-  },
-  {
-   "type": "list",
-   "text": "3. Let incoming words land while the camera decelerates so the world feels",
-   "id": "3c7a6edf",
-   "hash": "3b2be164bdd8"
-  },
-  {
-   "type": "para",
-   "text": "   continuous.",
-   "id": "db11a98c",
-   "hash": "23b499c16375"
-  },
-  {
-   "type": "list",
-   "text": "4. A zoom must resolve into meaning. After reaching a readable close-up, hold",
-   "id": "d0797841",
-   "hash": "433309f805c0"
-  },
-  {
-   "type": "para",
-   "text": "   for 0.5–0.8 seconds before leaving or reveal the next layer inside the object.",
-   "id": "6c841c24",
-   "hash": "30a12f5e86cc"
-  },
-  {
-   "type": "list",
-   "text": "5. Match direction across handoffs: an accelerating exit meets a decelerating",
-   "id": "6d43f8dd",
-   "hash": "956cddf40a4e"
-  },
-  {
-   "type": "para",
-   "text": "   entry. Avoid a zoom that ends on the same frame as an unrelated camera move.",
-   "id": "9a760490",
-   "hash": "a06f2dfb449c"
-  },
-  {
-   "type": "list",
-   "text": "6. The artifact may travel, fold, or scale, but it must remain recognizably the",
-   "id": "0b97fa08",
-   "hash": "f4353fe663d2"
-  },
-  {
-   "type": "para",
-   "text": "   same object across the sequence.",
-   "id": "1bb6253a",
-   "hash": "a4e39717bf33"
+   "text": "The canonical first reply converts attention into a repository visit and a\nfive-minute product proof. Publish the vision article as Reply 2: it is valuable\nfor readers who want the larger argument, but must not compete with the\nopen-source call to action directly beneath the video.",
+   "id": "7bc5247b",
+   "hash": "3ccfb0db7b01"
   },
   {
    "type": "heading",
-   "text": "## Rhythm",
-   "id": "a081730e",
-   "hash": "db22e3493d17"
+   "text": "### Reply 1 — open-source repository and demo",
+   "id": "01bbac2a",
+   "hash": "599030223b44"
   },
   {
    "type": "para",
-   "text": "Use the pattern `DECLARE → TRAVEL → HOLD → OPEN → PROVE → BOUND → TRAVEL → HOLD`.\nStatements arrive quickly; evidence receives longer reading time. The first\ntwo seconds establish the category. The handoff gets one complete visual\nsentence. The document close-up gets a perceptible hold. Ledger rows reveal in\nthe order `EDIT → WHY → REJECTED`, followed by the distinction `REASON STATED /\nCHANGE CHECKED`. Before the vision claim, show the admission boundary: people\ncontrol what enters the ledger, the ledger is not a recorder, and privacy is\nbuilt in. Give those three complete claims separate, calm holds rather than a\ndense explanatory panel. Deliver the close as spoken phrases—product name,\nscale intelligence, preserve trust, then open source on GitHub—with a clear\npause after each.",
-   "id": "ff7d8724",
-   "hash": "8edc4c15a53b"
+   "text": "> Your team and agents hand off a file.\n>\n> The record of what changed, why it changed, and which paths were rejected should travel with it too.\n>\n> Proofpress is open source:\n> https://github.com/chenmingtang830/proofpress\n>\n> Try the portable handoff demo in five minutes.",
+   "id": "d5e07adc",
+   "hash": "d01ac3f4d1b8"
   },
   {
    "type": "heading",
-   "text": "## Feed-scale typography",
-   "id": "b1d5e994",
-   "hash": "088cfd03768a"
+   "text": "### Reply 2 — short founder vision note",
+   "id": "be93dc6e",
+   "hash": "19c398a2b972"
   },
   {
    "type": "para",
-   "text": "Design for the video as it appears inside the X feed, not for a full-screen\ndesktop preview. In 1920×1080, use 90px or larger for essential headlines,\n32px or larger for explanatory copy, and 24px or larger for essential labels.\nTiny mono text may exist only as nonessential texture. The square version must\nreflow the same hierarchy rather than crop the widescreen composition.",
-   "id": "3a2a8c77",
-   "hash": "f911504b09a6"
+   "text": "> Git made code collaborative. Proofpress makes intelligence compound.\n>\n> The handoff is the wedge: an open ledger makes knowledge humans and agents can verify, inherit, and extend.\n>\n> Read the short note: [X Article URL]",
+   "id": "3cf9e546",
+   "hash": "e97d06e5f98c"
+  },
+  {
+   "type": "para",
+   "text": "Article source: `docs/internal/launch/vision-article.md`. Keep it a concise\nvision note; do not repeat the product demo, installation flow, or FAQ already\nserved by the video and Reply 1.",
+   "id": "58467760",
+   "hash": "7d39b26c05bd"
   },
   {
    "type": "heading",
-   "text": "## Semantic rules",
-   "id": "f15435e7",
-   "hash": "5a176a2a40be"
-  },
-  {
-   "type": "list",
-   "text": "- Show a real document change, a stated reason, and a consequential rejected",
-   "id": "1a781cf1",
-   "hash": "119f27813123"
+   "text": "## Final launch film",
+   "id": "2106d9a4",
+   "hash": "f55bbaa05777"
   },
   {
    "type": "para",
-   "text": "  direction that belong to the same fictional strategy artifact.",
-   "id": "10855b4c",
-   "hash": "7c416eb47db8"
-  },
-  {
-   "type": "list",
-   "text": "- Visually separate computed/checkable changes from attributed context.\n- Show that only deliberately admitted artifact history enters the ledger;",
-   "id": "29dc333c",
-   "hash": "dc77e53b8fe0"
+   "text": "Render and attach the approved 42-second, 1920×1080 launch film at\n[film/final/proofpress-x-launch.mp4](film/final/proofpress-x-launch.mp4) directly\nto the main post. The existing 27-second MP4 is superseded and must not be\nattached. The source, music record, and superseded experiments live under\n`docs/internal/launch/film/`.",
+   "id": "88155ddf",
+   "hash": "b401c2c0dfed"
   },
   {
    "type": "para",
-   "text": "  raw conversation, private context, and scratch thought are not the product.",
-   "id": "d2511ca8",
-   "hash": "18bf844792da"
-  },
-  {
-   "type": "list",
-   "text": "- Never imply signed identity, authorization, policy enforcement, or complete",
-   "id": "e50cfd63",
-   "hash": "1d6851a6b83f"
-  },
-  {
-   "type": "para",
-   "text": "  capture of a private conversation.",
-   "id": "89b5377c",
-   "hash": "894552a8a2c8"
-  },
-  {
-   "type": "list",
-   "text": "- The ledger travels with the artifact; the source session does not need to",
-   "id": "5588c1e2",
-   "hash": "85ed3c5f31cb"
-  },
-  {
-   "type": "para",
-   "text": "  travel with it.",
-   "id": "cd8148aa",
-   "hash": "171d2170126b"
+   "text": "The target cut is silent-first, with one uninterrupted 42-second ambient music\nbed from the supplied Pixabay original, and no narration or UI-event SFX. It\nmust still communicate the category, handoff gap, ledger, and portable outcome\nunder muted autoplay.",
+   "id": "77213997",
+   "hash": "a184fdd600e0"
   },
   {
    "type": "heading",
-   "text": "## Reuse prompt",
-   "id": "7558efe4",
-   "hash": "fb8bde20fe0f"
+   "text": "## Final film sequence",
+   "id": "71beed88",
+   "hash": "462f9f0bf31d"
   },
   {
    "type": "para",
-   "text": "> Use the Proofpress continuous-canvas motion system in `MOTION_SYSTEM.md`.\n> Preserve the dark editorial field, paper artifact, teal lineage route, three\n> typographic registers, semantic color roles, and one-world camera grammar.\n> Build all motion on one paused, seek-safe HyperFrames timeline. For every\n> camera move, name the idea it reveals and include a readable hold after any\n> close-up. Keep the artifact continuous, make evidence legible at X feed size,\n> and distinguish stated context from computed checks. Reflow separately for\n> square; do not crop the 16:9 composition.",
-   "id": "0b1fb234",
-   "hash": "a0c57fb4c368"
+   "text": "The final film is a continuous-canvas motion piece. The following is a launch\nreference, not a rebuild brief; the [HyperFrames composition](film/source/proofpress-x-launch/continuous-canvas-16x9/)\nis the source of truth for exact timing and motion.",
+   "id": "7dd075af",
+   "hash": "d196af27a492"
+  },
+  {
+   "type": "table",
+   "text": "| Time | On-screen sequence | Purpose |\n|---|---|---|\n| 0:00–0:02 | `INTRODUCING PROOFPRESS` / `The trust layer for multiplayer AI.` | Establish the category. |\n| 0:02–0:07 | `THE FILE MOVES. ITS DECISIONS DON’T.` A `strategy.md` moves from Session A to Session B. | Make the handoff gap concrete. |\n| 0:07–0:15 | `DECISION HISTORY.` The ledger shows `v1 → v2`: edit “Focused the launch on design partners,” why “Pilot teams need guided onboarding,” rejected “Open self-serve launch,” then `REASON STATED. CHANGE CHECKED.` | Give each decision field a readable beat and separate stated context from a computed change check. |\n| 0:15–0:20 | `THE LEDGER TRAVELS WITH IT.` The shared, checkable ledger crosses with the document; Session B can `CONTINUE FROM V2.` | Prove portable continuity. |\n| 0:20–0:28 | `YOU CONTROL WHAT ENTERS THE LEDGER.` → `NOT A RECORDER.` → `PRIVACY IS BUILT IN.` | Establish the privacy boundary through three calm, readable claims before the larger vision. |\n| 0:28–0:32 | `GIT MADE CODE COLLABORATIVE.` → `PROOFPRESS MAKES INTELLIGENCE COMPOUND.` | Connect the bounded product proof to the larger vision. |\n| 0:32–0:42 | `PROOFPRESS` → `SCALE INTELLIGENCE.` → `PRESERVE TRUST.` → `OPEN SOURCE ON GITHUB` and the repository URL. | Deliver the close as four spoken phrases, each with its own pause. |",
+   "id": "79cc69ea",
+   "hash": "baf229801823"
   },
   {
    "type": "heading",
-   "text": "## Review checklist",
-   "id": "c16df8fb",
-   "hash": "8fd7be9a953f"
+   "text": "## Visual guardrails",
+   "id": "91dfe518",
+   "hash": "22544d4bb825"
   },
   {
    "type": "list",
-   "text": "- Can a silent viewer explain why the camera moved at every transition?\n- Does every zoom include enough time to recognize what was enlarged?\n- Are all essential words readable in a phone-sized X preview?\n- Does each font correspond to a stable communicative role?\n- Does the artifact preserve identity through the entire handoff?\n- Are `EDIT`, `WHY`, `REJECTED`, and computed verification visually distinct?\n- Does a seek to any point reproduce the same frame without wall-clock state?",
-   "id": "a56a5ee8",
-   "hash": "aca08db44c0c"
+   "text": "- The artifact is always the stable center; agents and sessions rotate around",
+   "id": "0245b307",
+   "hash": "dd1ca862b302"
+  },
+  {
+   "type": "para",
+   "text": "  it.",
+   "id": "d240754a",
+   "hash": "636c09afd08e"
+  },
+  {
+   "type": "list",
+   "text": "- Use the ledger, capsule, and lineage as signals of admitted history, not as",
+   "id": "c3120ac5",
+   "hash": "94b220cdeef1"
+  },
+  {
+   "type": "para",
+   "text": "  claims of identity, authorization, access control, or cryptographic\n  authorship.",
+   "id": "2e8c8d22",
+   "hash": "0bac07155079"
+  },
+  {
+   "type": "list",
+   "text": "- “Verified” modifies computed changes and change claims, never attributed why",
+   "id": "0e010f5e",
+   "hash": "6bc738d0ebbe"
+  },
+  {
+   "type": "para",
+   "text": "  or unsigned actors.",
+   "id": "9c51dafb",
+   "hash": "49ede3dfdfab"
+  },
+  {
+   "type": "list",
+   "text": "- Use one Canvas UI signature effect at most. HyperFrames owns all timing and",
+   "id": "131cf0c4",
+   "hash": "f14710a806ba"
+  },
+  {
+   "type": "para",
+   "text": "  rendering.",
+   "id": "3f890420",
+   "hash": "0f50ab8bda53"
+  },
+  {
+   "type": "list",
+   "text": "- No old review UI, approval controls, thousand-line-diff hook, legacy install",
+   "id": "61c54e2f",
+   "hash": "790fe986d420"
+  },
+  {
+   "type": "para",
+   "text": "  command, or “Markdown gets its own Git” positioning.",
+   "id": "60722959",
+   "hash": "538ba6b5f8f9"
+  },
+  {
+   "type": "list",
+   "text": "- Terminal and artifact text must remain readable at ordinary X playback size.\n- Do not show private repository names, local paths, real actor identifiers, or",
+   "id": "d4f2e6ad",
+   "hash": "c54d9ea32787"
+  },
+  {
+   "type": "para",
+   "text": "  internal strategy text beyond the approved launch fixture.",
+   "id": "317c96d1",
+   "hash": "22ea3d18e721"
+  },
+  {
+   "type": "heading",
+   "text": "## Film acceptance test",
+   "id": "e99b6b98",
+   "hash": "b142ce3916e6"
+  },
+  {
+   "type": "para",
+   "text": "After one silent viewing, an unfamiliar developer should be able to answer:",
+   "id": "d1833da7",
+   "hash": "036ab78dc1f9"
+  },
+  {
+   "type": "list",
+   "text": "1. Why can Session B continue without Session A's conversation?\n2. What makes the ledger more than ordinary edit history?\n3. What travels with the artifact across the handoff?\n4. Which parts are checked against the artifact, and which remain attributed context?",
+   "id": "3aeea40a",
+   "hash": "7b7f02072801"
+  },
+  {
+   "type": "para",
+   "text": "If the viewer answers only “it versions Markdown” or “it makes better diffs,”\nthe film has failed its strategic purpose.",
+   "id": "55156831",
+   "hash": "b6058217cbc9"
+  },
+  {
+   "type": "heading",
+   "text": "## Video alt text",
+   "id": "8d1e5b46",
+   "hash": "966265cfd9ca"
+  },
+  {
+   "type": "para",
+   "text": "> A 42-second motion graphic introduces Proofpress as the trust layer for multiplayer AI. A `strategy.md` file moves from Session A to Session B while its decisions remain behind. A decision ledger gives separate reading time to the accepted edit, stated reason, rejected direction, and checked change claim. The ledger then travels with the file, allowing Session B to continue from version two. A privacy scene pauses on three claims: people control what enters the ledger, it is not a recorder, and privacy is built in. The film closes with “Git made code collaborative. Proofpress makes intelligence compound.” before “Proofpress,” “Scale intelligence,” “Preserve trust,” and “Open source on GitHub” arrive in sequence.",
+   "id": "46ea7b3d",
+   "hash": "c909b9343e69"
   }
  ]
 }

@@ -1,29 +1,35 @@
 {
  "event": "version_created",
- "artifact": "docs/internal/launch/film/source/proofpress-x-launch/MOTION_SYSTEM.md",
- "artifact_id": "pp_b9b1fdfd7e82fb2827a721ef",
- "version": "1ec41d9e",
- "parent": "c9b6273b",
+ "artifact": "docs/internal/launch/x-launch.md",
+ "artifact_id": "pp_5c19a32e9dea0da4c55aae96",
+ "version": "741a936d",
+ "parent": "f4188bcc",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-07-26T12:51:26+00:00",
+ "ts": "2026-07-26T13:31:31+00:00",
  "stats": {
-  "modified": 1
+  "modified": 2
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "ff7d8724",
+   "block": "88155ddf",
    "type": "para",
-   "context": "Rhythm"
+   "context": "Final launch film"
+  },
+  {
+   "kind": "modified",
+   "block": "77213997",
+   "type": "para",
+   "context": "Final launch film"
   }
  ],
  "policy": "local",
- "soft_fingerprint": "ppsb1:6038c7a69d54cc83c3f92d92b8b386479af8092c3d3689d1a1a0ea073e72342b",
+ "soft_fingerprint": "ppsb1:ab856a6e5c0dda7149c9119c505210eb341a132358bbc155dde76d0fe1dd7f78",
  "actors": {
   "requested_by": [
    "Richard Tang"
@@ -41,13 +47,18 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "ff7d8724",
+   "block": "88155ddf",
    "kind": "modified",
-   "note": "Defined calm separate holds for the three privacy claims and spoken-phrase pacing for the final product, trust, and open-source statements."
+   "note": "Replaced the superseded 27-second attachment instruction with the 42-second launch-film render target and explicitly marked the old MP4 as not publishable."
+  },
+  {
+   "block": "77213997",
+   "kind": "modified",
+   "note": "Recorded that the silent-first target uses one uninterrupted 42-second ambient bed from the supplied Pixabay original."
   }
  ],
  "context": {
-  "why": "Capture the accepted pacing rule: privacy is communicated through three calm complete claims and the open-source close lands as separately held spoken phrases."
+  "why": "Keep launch instructions aligned with the accepted 42-second source: remove the obsolete 27-second attachment direction and record that the music is one uninterrupted original ambient bed."
  },
- "event_id": "ppe_26f0121d444991e0d99c603b"
+ "event_id": "ppe_d589cbe102c37a654a1f1714"
 }
