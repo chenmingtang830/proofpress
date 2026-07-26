@@ -1,336 +1,72 @@
 {
- "artifact": "docs/internal/launch/launch-day-runbook.md",
- "artifact_id": "pp_3ea280179b43a9974bf6a5e6",
+ "artifact": "docs/internal/launch/film/README.md",
+ "artifact_id": "pp_cab7a4ff4f8f5b5137fc6647",
  "blocks": [
   {
-   "type": "heading",
-   "text": "# Proofpress launch-day runbook",
-   "id": "7116fa3c",
-   "hash": "979cb0f53985"
-  },
-  {
    "type": "para",
-   "text": "**Status:** public release live; X launch checklist active.  \n**Launch owner:** Richard Tang.  \n**Default public release channel:** proofpress@0.2.0 on npm `latest`, published\n2026-07-26 with SLSA provenance.",
-   "id": "5d080262",
-   "hash": "5ddfc6de0b8a"
+   "text": "[//]: # (ob:film-index)",
+   "id": "953e24a0",
+   "hash": "be0d7626368a"
   },
   {
    "type": "heading",
-   "text": "## Launch decision",
-   "id": "a44f075f",
-   "hash": "6018d22978bd"
-  },
-  {
-   "type": "list",
-   "text": "- **Hero channel:** X native video plus the public GitHub repository. Use the",
-   "id": "60c34ffc",
-   "hash": "9adaece59775"
-  },
-  {
-   "type": "para",
-   "text": "  native X upload, not a YouTube link.",
-   "id": "4e427840",
-   "hash": "240db2212b63"
-  },
-  {
-   "type": "list",
-   "text": "- **Primary CTA:** inspect the self-verifying portable-handoff demo and star the",
-   "id": "7ee5e00d",
-   "hash": "6f7dbefe7697"
-  },
-  {
-   "type": "para",
-   "text": "  repository. Do not add a waitlist or Discord CTA unless there is an owner and\n  a real follow-up loop.",
-   "id": "26bf668a",
-   "hash": "b30877aafe2b"
-  },
-  {
-   "type": "list",
-   "text": "- **Working launch window:** propose a weekday 09:00–13:00 Pacific window so the",
-   "id": "40189479",
-   "hash": "78d55d669d61"
-  },
-  {
-   "type": "para",
-   "text": "  founder can respond live through the first reaction cycle. Lock the date and\n  exact minute at T-7; coverage matters more than chasing an alleged universal\n  “best” posting hour.",
-   "id": "1e66a7a7",
-   "hash": "98349de2b9b8"
-  },
-  {
-   "type": "list",
-   "text": "- **Show HN:** conditional, not a launch-day dependency. The current HN guidance",
-   "id": "b14f6b86",
-   "hash": "c4a5f960865b"
-  },
-  {
-   "type": "para",
-   "text": "  requires a non-trivial thing people can run, no signup barrier, and an author\n  who is present to discuss it; HN is also temporarily restricting Show HNs for\n  accounts unfamiliar with the community. Submit only after the five-minute path\n  passes and Richard’s account is clearly eligible. Do not recruit booster\n  comments or votes. Source: <https://news.ycombinator.com/showhn.html> and\n  <https://news.ycombinator.com/showlim>.",
-   "id": "6ed48c25",
-   "hash": "e77dff6a542d"
+   "text": "# Proofpress X launch film",
+   "id": "84642bae",
+   "hash": "47556ea6928b"
   },
   {
    "type": "heading",
-   "text": "## T-7 to T-1 gates",
-   "id": "7eda4bd1",
-   "hash": "b7f05faf0611"
+   "text": "## Final",
+   "id": "a19d5964",
+   "hash": "9abe380233d7"
+  },
+  {
+   "type": "list",
+   "text": "- [Launch film — 1920×1080 MP4](final/proofpress-x-launch.mp4)",
+   "id": "df37cdd6",
+   "hash": "ffd2ec561425"
+  },
+  {
+   "type": "para",
+   "text": "This is the approved 42-second X launch film with the selected Pixabay\n“Ambient Downtempo” mix.",
+   "id": "78016e2f",
+   "hash": "7c64f843e9bd"
   },
   {
    "type": "heading",
-   "text": "### Product proof",
-   "id": "5c911357",
-   "hash": "8b8795a14f02"
+   "text": "## Source",
+   "id": "fc7eda2b",
+   "hash": "f1d6ac2fe60f"
   },
   {
    "type": "list",
-   "text": "- [x] Run the public proofpress@0.2.0 install in a clean Git receiver repo.\n- [x] Download only examples/portable-handoff/strategy.md; inspect, import, and",
-   "id": "970cc215",
-   "hash": "70aabb59b903"
+   "text": "- [HyperFrames composition](source/proofpress-x-launch/continuous-canvas-16x9/)\n- [Reusable Proofpress motion system](source/proofpress-x-launch/MOTION_SYSTEM.md)\n- [Music source and license record](source/proofpress-x-launch/continuous-canvas-16x9/assets/audio/audio-sources.json)",
+   "id": "fb0d9a9e",
+   "hash": "9f7e6782add6"
   },
   {
    "type": "para",
-   "text": "  verify must pass.",
-   "id": "ac03a211",
-   "hash": "5f602ed3cf6e"
+   "text": "To reproduce the film:",
+   "id": "ece5c1fa",
+   "hash": "9676cbca4c82"
   },
   {
-   "type": "list",
-   "text": "- [x] Confirm the README, skills, demo guide, and every launch command use",
-   "id": "dfda6a31",
-   "hash": "e3e832db6133"
-  },
-  {
-   "type": "para",
-   "text": "  the stable 0.2.0 release channel.",
-   "id": "52d8dc02",
-   "hash": "d7065e03f950"
-  },
-  {
-   "type": "list",
-   "text": "- [x] Promote the stable release to npm `latest`, publish provenance, and create",
-   "id": "59487ee8",
-   "hash": "48fd35e28245"
-  },
-  {
-   "type": "para",
-   "text": "  the matching `v0.2.0` GitHub Release.",
-   "id": "af3e9a75",
-   "hash": "487ec0f4f2d8"
+   "type": "code",
+   "text": "```bash\ncd source/proofpress-x-launch\nnpm ci\nnpx hyperframes check continuous-canvas-16x9\nnpx hyperframes render continuous-canvas-16x9 \\\n  --quality high \\\n  --fps 30 \\\n  --output ../../final/proofpress-x-launch.mp4\n```",
+   "id": "f62a5720",
+   "hash": "b3aa5deb1b0a"
   },
   {
    "type": "heading",
-   "text": "### Public surfaces",
-   "id": "626daac7",
-   "hash": "186bd82e8ab1"
-  },
-  {
-   "type": "list",
-   "text": "- [ ] Set GitHub description to: “The trust layer for multiplayer AI — an open,",
-   "id": "8350e21e",
-   "hash": "60bdeb1406d0"
+   "text": "## Archive",
+   "id": "032560c6",
+   "hash": "ed1be36635e3"
   },
   {
    "type": "para",
-   "text": "  agent-native ledger that travels with the artifact.”",
-   "id": "62d094a5",
-   "hash": "1e2b7ae46fa9"
-  },
-  {
-   "type": "list",
-   "text": "- [ ] Replace or confirm topics: agentic-ai, multi-agent, knowledge-work,",
-   "id": "1ce5b9fc",
-   "hash": "f4ede79fbd00"
-  },
-  {
-   "type": "para",
-   "text": "  markdown, provenance, audit-log, open-source.",
-   "id": "88109f99",
-   "hash": "cd29f55979b9"
-  },
-  {
-   "type": "list",
-   "text": "- [ ] Add a deliberate social-preview image; the current repository preview is",
-   "id": "9c1c9ffb",
-   "hash": "b432706a84da"
-  },
-  {
-   "type": "para",
-   "text": "  the account avatar, not launch artwork.",
-   "id": "d636339d",
-   "hash": "2bab6210489b"
-  },
-  {
-   "type": "list",
-   "text": "- [ ] Decide the homepage / landing URL. If an owned landing domain exists, use",
-   "id": "d5edaf53",
-   "hash": "c2413303867c"
-  },
-  {
-   "type": "para",
-   "text": "  it as the X link with source tracking; otherwise link directly to GitHub and\n  use GitHub traffic plus X analytics rather than pretending the repository URL\n  has campaign attribution.",
-   "id": "698b764a",
-   "hash": "f3089f11d789"
-  },
-  {
-   "type": "list",
-   "text": "- [ ] Confirm the intended X handle and any domain availability. Registration is",
-   "id": "30f79e19",
-   "hash": "34feb3958c7b"
-  },
-  {
-   "type": "para",
-   "text": "  an explicit owner action, not an automated launch task.",
-   "id": "cfa379d5",
-   "hash": "82e52fd723b6"
-  },
-  {
-   "type": "heading",
-   "text": "### People and coverage",
-   "id": "0f1df431",
-   "hash": "3464865ded06"
-  },
-  {
-   "type": "list",
-   "text": "- [ ] Richard posts the X thread and owns factual launch-day replies.\n- [ ] Name one technical-response owner and one metrics / issue-triage owner.\n- [ ] Prepare a small, real warm-contact list for private awareness only. Never",
-   "id": "049f2826",
-   "hash": "9318f36d0221"
-  },
-  {
-   "type": "para",
-   "text": "  coordinate HN voting or booster comments.",
-   "id": "0dae50d5",
-   "hash": "3f4b49393e0e"
-  },
-  {
-   "type": "list",
-   "text": "- [ ] Block the first four hours after launch for replies, bug triage, and",
-   "id": "ab97c2c4",
-   "hash": "eceef0c32c2d"
-  },
-  {
-   "type": "para",
-   "text": "  observing the demo path.",
-   "id": "dca894f6",
-   "hash": "2fe6aff559e7"
-  },
-  {
-   "type": "heading",
-   "text": "### Reply kit",
-   "id": "f948bc27",
-   "hash": "6ba6be71d4ae"
-  },
-  {
-   "type": "list",
-   "text": "- [ ] Publish-ready answers live in [faq.md](faq.md).\n- [ ] Keep the answer boundary explicit: computed claims are checkable;",
-   "id": "c2bda68f",
-   "hash": "3f5e14c81312"
-  },
-  {
-   "type": "para",
-   "text": "  rationale and attribution are stated context unless independently attested.",
-   "id": "9d21c101",
-   "hash": "5aa386de4b18"
-  },
-  {
-   "type": "list",
-   "text": "- [ ] Prepare one concise answer each for Git blame, C2PA, tampering, privacy,",
-   "id": "904e16d2",
-   "hash": "af26236475e0"
-  },
-  {
-   "type": "para",
-   "text": "  and “why not an LLM diff?”.",
-   "id": "545c9c4a",
-   "hash": "183de8167b47"
-  },
-  {
-   "type": "heading",
-   "text": "## Day-of sequence",
-   "id": "8a66803c",
-   "hash": "42c9ac3fa311"
-  },
-  {
-   "type": "list",
-   "text": "1. Re-run the five-minute portable-handoff path against the live npm tag.\n2. Confirm repository description, topics, social preview, README, demo link,",
-   "id": "872c5f30",
-   "hash": "05ce929ce8c1"
-  },
-  {
-   "type": "para",
-   "text": "   X native video, and X link destination.",
-   "id": "c566120e",
-   "hash": "740fa8336f03"
-  },
-  {
-   "type": "list",
-   "text": "3. Publish the X main post with the native video; publish the founder article as",
-   "id": "8ca6ff63",
-   "hash": "a1c403899938"
-  },
-  {
-   "type": "para",
-   "text": "   Reply 1 immediately after it.",
-   "id": "188a8e0e",
-   "hash": "75923ec7ed1e"
-  },
-  {
-   "type": "list",
-   "text": "4. Record the initial time, npm tag/version, Git commit, and link destination in",
-   "id": "1593a76f",
-   "hash": "a5768b8f346a"
-  },
-  {
-   "type": "para",
-   "text": "   the launch log.",
-   "id": "bf943ba2",
-   "hash": "69314150a56e"
-  },
-  {
-   "type": "list",
-   "text": "5. Respond with the FAQ’s honesty boundary; log recurring objections verbatim",
-   "id": "41bd733c",
-   "hash": "d62cd207ab3e"
-  },
-  {
-   "type": "para",
-   "text": "   enough to improve the product, not just the copy.",
-   "id": "0d2dfd68",
-   "hash": "65201d341ae5"
-  },
-  {
-   "type": "list",
-   "text": "6. Reassess Show HN only after the product path and response coverage are proven.",
-   "id": "cac40c0e",
-   "hash": "2af45a2f0e82"
-  },
-  {
-   "type": "heading",
-   "text": "## Go / no-go",
-   "id": "fb903b51",
-   "hash": "50f006d4e29c"
-  },
-  {
-   "type": "para",
-   "text": "Do not launch if any of these are false:",
-   "id": "27255d8b",
-   "hash": "5a4d25d3124f"
-  },
-  {
-   "type": "list",
-   "text": "- a clean receiver can install proofpress@next, inspect the demo artifact,",
-   "id": "a843bfc7",
-   "hash": "0ce7e2bd21b2"
-  },
-  {
-   "type": "para",
-   "text": "  import its ledger, and verify its claims;",
-   "id": "828d99d4",
-   "hash": "af20a8e13efa"
-  },
-  {
-   "type": "list",
-   "text": "- the X post, README, and npm tag name the same release channel;\n- the repository has a deliberate description and social preview;\n- an accountable person is available for the first four hours;\n- the FAQ truthfully describes what is computed, attributed, and out of scope.",
-   "id": "9e33325b",
-   "hash": "bba139ddc5e6"
+   "text": "`archive/` contains superseded renders, rejected music experiments, the\nthree-direction visual gate, and the first motion-test composition. These are\nkept for reference but are not launch deliverables.",
+   "id": "0eb8b05f",
+   "hash": "0ca9d4e4797d"
   }
  ]
 }
