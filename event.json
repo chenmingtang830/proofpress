@@ -1,50 +1,30 @@
 {
  "event": "version_created",
- "artifact": "docs/internal/launch/film/source/proofpress-x-launch/MOTION_SYSTEM.md",
- "artifact_id": "pp_b9b1fdfd7e82fb2827a721ef",
- "version": "c9b6273b",
- "parent": "8d786e73",
+ "artifact": "docs/internal/launch/vision-article.md",
+ "artifact_id": "pp_76fe7cb5fb383d8b919767a8",
+ "version": "76b6a0b8",
+ "parent": "b11ff49d",
  "author": {
   "name": "OpenAI Codex",
   "kind": "agent",
   "session": null
  },
  "note": null,
- "ts": "2026-07-26T12:36:14+00:00",
+ "ts": "2026-07-26T12:42:31+00:00",
  "stats": {
-  "modified": 2,
-  "added": 2
+  "added": 1
  },
  "changes": [
   {
-   "kind": "modified",
-   "block": "ff7d8724",
-   "type": "para",
-   "context": "Rhythm"
-  },
-  {
-   "kind": "modified",
-   "block": "29dc333c",
-   "type": "list",
-   "context": "Semantic rules"
-  },
-  {
    "kind": "added",
-   "block": "d2511ca8",
+   "block": "5a37b34a",
    "type": "para",
-   "context": "Semantic rules",
-   "preview": "  raw conversation, private context, and scratch thought are"
-  },
-  {
-   "kind": "added",
-   "block": "e50cfd63",
-   "type": "list",
-   "context": "Semantic rules",
-   "preview": "- Never imply signed identity, authorization, policy enforce"
+   "context": "A shared, checkable past",
+   "preview": "LLM wikis and repository knowledge tools solve a different p"
   }
  ],
  "policy": "local",
- "soft_fingerprint": "ppsb1:d33e4f71f497d15fbec633d2232447aec73f2c988fa491043eb3da79f6ebd6ba",
+ "soft_fingerprint": "ppsb1:3935718c7eb1e0be71a357ab0e31ad5166bdaf2c80681b5fad418d076b1b92cc",
  "actors": {
   "requested_by": [
    "Richard Tang"
@@ -62,28 +42,13 @@
  "attribution_basis": "harness_attested",
  "claims": [
   {
-   "block": "ff7d8724",
-   "kind": "modified",
-   "note": "Added an explicit admission-boundary beat before the vision claim and preserved longer reading time for evidence."
-  },
-  {
-   "block": "29dc333c",
-   "kind": "modified",
-   "note": "Added the rule that the film must show deliberately admitted artifact history rather than passive recording."
-  },
-  {
-   "block": "d2511ca8",
+   "block": "5a37b34a",
    "kind": "added",
-   "note": "Specified raw conversation, private context, and scratch thought as outside the product's ledger boundary."
-  },
-  {
-   "block": "e50cfd63",
-   "kind": "added",
-   "note": "Preserved the existing prohibition on implying complete capture as a separately anchored semantic rule."
+   "note": "Distinguished repository-level knowledge synthesis from portable, artifact-native provenance."
   }
  ],
  "context": {
-  "why": "The reusable film grammar now treats selective ledger admission as a required privacy beat rather than implying passive or complete recording."
+  "why": "Added the missing category bridge: repository knowledge tools synthesize within a destination, while Proofpress keeps decision lineage with knowledge artifacts as they move across systems."
  },
- "event_id": "ppe_b8ad4b0c6d2f990ade7670b1"
+ "event_id": "ppe_4f2e7955e02a0f24186d8d8c"
 }

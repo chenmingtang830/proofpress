@@ -1,258 +1,246 @@
 {
- "artifact": "docs/internal/launch/film/source/proofpress-x-launch/MOTION_SYSTEM.md",
- "artifact_id": "pp_b9b1fdfd7e82fb2827a721ef",
+ "artifact": "docs/internal/launch/vision-article.md",
+ "artifact_id": "pp_76fe7cb5fb383d8b919767a8",
  "blocks": [
   {
    "type": "heading",
-   "text": "# Proofpress continuous-canvas motion system",
-   "id": "2d841d32",
-   "hash": "a29ebed708e4"
+   "text": "# Git Made Code Collaborative. Proofpress Makes Intelligence Compound.",
+   "id": "82e7af4c",
+   "hash": "d762d641c712"
   },
   {
    "type": "para",
-   "text": "This instruction captures the reusable visual grammar behind the Proofpress\nlaunch film. Use it with the HyperFrames core, creative, animation, and CLI\nskills when extending this film or building a new Proofpress motion piece. It is\na brand-specific layer on top of those skills, not a replacement for their\ncomposition and determinism rules.",
-   "id": "d4c2acc7",
-   "hash": "09fe15159db7"
+   "text": "Most documents are snapshots of the final state of thought.",
+   "id": "fa14abc9",
+   "hash": "42ede1548147"
+  },
+  {
+   "type": "para",
+   "text": "We can read what an essay, strategy, research memo, or proposal eventually became. We usually cannot see which evidence shaped it, what changed along the way, why it changed, which alternatives were rejected, or what remains uncertain.",
+   "id": "f118f0f4",
+   "hash": "82b0b66e7140"
+  },
+  {
+   "type": "para",
+   "text": "The artifact survives. The reasoning required to understand and continue it often does not.",
+   "id": "027eb27e",
+   "hash": "f041cf93282a"
+  },
+  {
+   "type": "para",
+   "text": "That was already a weakness in human knowledge work. Multiplayer AI turns it into infrastructure debt.",
+   "id": "eb46ddcb",
+   "hash": "e616bbcdee90"
+  },
+  {
+   "type": "para",
+   "text": "Humans and agents now work on the same artifacts across chats, models, tools, teams, and organizations. Each session learns something the file alone cannot express: why a sentence changed, why one direction won, what a reviewer challenged, and which constraint the next collaborator must preserve.",
+   "id": "b106e932",
+   "hash": "1800cd2a1cd2"
+  },
+  {
+   "type": "para",
+   "text": "But the file moves while that decision trail stays behind. The next person or agent receives the output without the history that made it trustworthy.",
+   "id": "b37f7b8c",
+   "hash": "948e2c45e612"
   },
   {
    "type": "heading",
-   "text": "## Core idea",
-   "id": "211e4c3a",
-   "hash": "ed202de9c490"
+   "text": "## More AI output does not necessarily mean more knowledge",
+   "id": "05e16cc3",
+   "hash": "ae25619faf40"
   },
   {
    "type": "para",
-   "text": "Treat the whole film as one explorable knowledge space. Stations live on a\nsingle oversized canvas and the camera follows one continuous route through\nthem. The artifact is the stable subject; sessions, ledgers, and claims are\nplaces the camera visits around it. A transition should reveal a causal\nrelationship, not announce that a new slide has begun.",
-   "id": "35420c64",
-   "hash": "8dab0aa0e52d"
+   "text": "AI is making the production of text, analysis, and decisions expand at machine speed. But trust, shared context, and institutional memory still move at human speed.",
+   "id": "c6542959",
+   "hash": "3cbfe35664ac"
+  },
+  {
+   "type": "para",
+   "text": "This is the deeper problem behind AI slop. It is not only that some generated content is generic or wrong. It is that an output can have no stable origin, no checkable account of how it changed, and no safe way for another actor to inherit it.",
+   "id": "4623d700",
+   "hash": "7d83a0a53daa"
+  },
+  {
+   "type": "para",
+   "text": "An output without provenance can spread. It cannot reliably compound.",
+   "id": "184b3c31",
+   "hash": "f1871f74609b"
+  },
+  {
+   "type": "para",
+   "text": "If every session leaves behind only a polished final answer, adding more agents creates more conclusions that cite, summarize, and rewrite one another without trustworthy lineage. The organization accumulates words while repeatedly losing the knowledge required to evaluate and extend them.",
+   "id": "7eba082b",
+   "hash": "11e59a4e3980"
+  },
+  {
+   "type": "para",
+   "text": "Intelligence that cannot be safely inherited cannot compound. Intelligence that cannot compound cannot become collective.",
+   "id": "44843a50",
+   "hash": "200f14aa6239"
   },
   {
    "type": "heading",
-   "text": "## Visual registers",
-   "id": "709b0454",
-   "hash": "b308a7108b05"
-  },
-  {
-   "type": "list",
-   "text": "- Barlow Condensed is the declarative voice: category claims, causal statements,",
-   "id": "bfa080d3",
-   "hash": "362b4bfe5a19"
+   "text": "## Record the decision, not the private conversation",
+   "id": "134fb522",
+   "hash": "1efbe1688707"
   },
   {
    "type": "para",
-   "text": "  station titles, and closing language.",
-   "id": "47fd8e82",
-   "hash": "abb02907fe82"
-  },
-  {
-   "type": "list",
-   "text": "- IBM Plex Mono is the evidentiary voice: session labels, versions, metadata,",
-   "id": "2a89fe81",
-   "hash": "e5002197b1d5"
+   "text": "The answer is not to preserve every prompt, every message, or an agent’s private chain of thought.",
+   "id": "0dd19d4b",
+   "hash": "bd16fbd247aa"
   },
   {
    "type": "para",
-   "text": "  ledger qualifiers, and URLs.",
-   "id": "0313a4c6",
-   "hash": "4705ef43ec2e"
-  },
-  {
-   "type": "list",
-   "text": "- Newsreader is an occasional reflective voice. Do not switch into it inside a",
-   "id": "64b502ce",
-   "hash": "3f66237106aa"
+   "text": "Most of that material is noisy, sensitive, or irrelevant to the next collaborator. Replaying a conversation also does not tell us which parts were ultimately accepted into the shared work.",
+   "id": "8b582160",
+   "hash": "fad68fdf861f"
   },
   {
    "type": "para",
-   "text": "  short causal statement merely to create variety.",
-   "id": "1ca2e95a",
-   "hash": "a7b6e17f7336"
-  },
-  {
-   "type": "list",
-   "text": "- Warm paper represents the artifact. Teal represents the live Proofpress route",
-   "id": "a3c06821",
-   "hash": "2d071c847c8e"
+   "text": "What deserves to persist is the external, checkable trail admitted into the artifact: accepted edits, evidence, consequential decisions and rejections, attribution, verification results, and explicit gaps where provenance remains unknown.",
+   "id": "10d3904c",
+   "hash": "05dd160fb728"
   },
   {
    "type": "para",
-   "text": "  and admitted ledger. Gold represents stated reasoning. Muted red represents a\n  rejected direction. Green is reserved for a computed check.",
-   "id": "cefad801",
-   "hash": "42598b5f2e91"
+   "text": "This is not a transcript of cognition. It is the durable account of what entered the work.",
+   "id": "5958a87f",
+   "hash": "0f25636df528"
   },
   {
    "type": "para",
-   "text": "Do not introduce a fourth typographic voice, gradient type, rounded SaaS cards,\nsecurity shields, identity chrome, floating particles, or ambient motion that\nis unrelated to the artifact's lineage.",
-   "id": "aa85b0bc",
-   "hash": "d3aba576a772"
+   "text": "The goal is not to preserve the conversation. It is to preserve what the conversation caused the work to become.",
+   "id": "95033a55",
+   "hash": "a09569c0926f"
   },
   {
    "type": "heading",
-   "text": "## Camera grammar",
-   "id": "03e4248f",
-   "hash": "aed37430a715"
-  },
-  {
-   "type": "list",
-   "text": "1. Build stations at fixed coordinates on one world canvas.\n2. Move the world with one seek-safe camera object and a single paused GSAP",
-   "id": "2fe6262c",
-   "hash": "cbfc283eeed6"
+   "text": "## Git’s deeper lesson",
+   "id": "888c1a5c",
+   "hash": "4d541d12677c"
   },
   {
    "type": "para",
-   "text": "   timeline. Use translation and scale only.",
-   "id": "29bb99cc",
-   "hash": "4b9ffaf6e834"
-  },
-  {
-   "type": "list",
-   "text": "3. Let incoming words land while the camera decelerates so the world feels",
-   "id": "3c7a6edf",
-   "hash": "3b2be164bdd8"
+   "text": "Git’s greatest contribution was not merely that it stored versions of code.",
+   "id": "1864976b",
+   "hash": "43a060414693"
   },
   {
    "type": "para",
-   "text": "   continuous.",
-   "id": "db11a98c",
-   "hash": "23b499c16375"
-  },
-  {
-   "type": "list",
-   "text": "4. A zoom must resolve into meaning. After reaching a readable close-up, hold",
-   "id": "d0797841",
-   "hash": "433309f805c0"
+   "text": "Git gave software a durable shared history: common state, lineage, attribution, branching, comparison, and a way to continue work without sharing the same room or remembering the same conversation. That history helped make code globally collaborative.",
+   "id": "a6d78d41",
+   "hash": "befefef79d2e"
   },
   {
    "type": "para",
-   "text": "   for 0.5–0.8 seconds before leaving or reveal the next layer inside the object.",
-   "id": "6c841c24",
-   "hash": "30a12f5e86cc"
-  },
-  {
-   "type": "list",
-   "text": "5. Match direction across handoffs: an accelerating exit meets a decelerating",
-   "id": "6d43f8dd",
-   "hash": "956cddf40a4e"
+   "text": "Knowledge work now needs an analogous trust layer.",
+   "id": "83dd55e9",
+   "hash": "b37bb6f393e1"
   },
   {
    "type": "para",
-   "text": "   entry. Avoid a zoom that ends on the same frame as an unrelated camera move.",
-   "id": "9a760490",
-   "hash": "a06f2dfb449c"
-  },
-  {
-   "type": "list",
-   "text": "6. The artifact may travel, fold, or scale, but it must remain recognizably the",
-   "id": "0b97fa08",
-   "hash": "f4353fe663d2"
+   "text": "This does not mean turning every document into a repository. A line diff cannot express the decision behind a strategy, the evidence behind a claim, or the reason an alternative was rejected.",
+   "id": "96be89e2",
+   "hash": "78a1aababa6b"
   },
   {
    "type": "para",
-   "text": "   same object across the sequence.",
-   "id": "1bb6253a",
-   "hash": "a4e39717bf33"
+   "text": "The lesson to carry forward is larger than Git’s interface or storage model:",
+   "id": "ab61ebd5",
+   "hash": "d94dcece4f27"
+  },
+  {
+   "type": "para",
+   "text": "> **Git made code collaborative. Proofpress makes intelligence compound.**",
+   "id": "4ceed421",
+   "hash": "1f9b6b918954"
   },
   {
    "type": "heading",
-   "text": "## Rhythm",
-   "id": "a081730e",
-   "hash": "db22e3493d17"
+   "text": "## A shared, checkable past",
+   "id": "4dec65a1",
+   "hash": "9d9d00874f48"
   },
   {
    "type": "para",
-   "text": "Use the pattern `DECLARE → TRAVEL → HOLD → OPEN → PROVE → BOUND → TRAVEL → HOLD`.\nStatements arrive quickly; evidence receives longer reading time. The first\ntwo seconds establish the category. The handoff gets one complete visual\nsentence. The document close-up gets a perceptible hold. Ledger rows reveal in\nthe order `EDIT → WHY → REJECTED`, followed by the distinction `REASON STATED /\nCHANGE CHECKED`. Before the vision claim, show the admission boundary: people\ncontrol what enters the ledger, and the ledger is not a recorder. The\nopen-source close stays fully stable for at least 2.5 seconds.",
-   "id": "ff7d8724",
-   "hash": "066749bc1b2c"
-  },
-  {
-   "type": "heading",
-   "text": "## Feed-scale typography",
-   "id": "b1d5e994",
-   "hash": "088cfd03768a"
+   "text": "Proofpress is the trust layer for multiplayer AI: an open, agent-native ledger\nthat travels with the artifact.",
+   "id": "239ad15c",
+   "hash": "d96d4ed78b34"
   },
   {
    "type": "para",
-   "text": "Design for the video as it appears inside the X feed, not for a full-screen\ndesktop preview. In 1920×1080, use 90px or larger for essential headlines,\n32px or larger for explanatory copy, and 24px or larger for essential labels.\nTiny mono text may exist only as nonessential texture. The square version must\nreflow the same hierarchy rather than crop the widescreen composition.",
-   "id": "3a2a8c77",
-   "hash": "f911504b09a6"
+   "text": "Proofpress turns accepted changes, decisions, and evidence into an artifact-native ledger that can remain attached to the work as it passes between humans, agents, sessions, and tools. The artifact—not any single chat product or collaboration destination—becomes the common surface.",
+   "id": "894c1fe2",
+   "hash": "30908dcc9ad2"
   },
   {
-   "type": "heading",
-   "text": "## Semantic rules",
-   "id": "f15435e7",
-   "hash": "5a176a2a40be"
+   "type": "para",
+   "text": "LLM wikis and repository knowledge tools solve a different problem: they synthesize what a codebase or repository knows now. But knowledge artifacts do not stay inside one repository or one destination. They move across chats, tools, teams, and organizations. When the artifact moves, its decision lineage should move with it. Git history is repository-native. Proofpress provenance is artifact-native.",
+   "id": "5a37b34a",
+   "hash": "39891d8adf75"
+  },
+  {
+   "type": "para",
+   "text": "A normal document tells you what it says now. A durable knowledge artifact should also help answer:",
+   "id": "79f291e6",
+   "hash": "8f87e475785e"
   },
   {
    "type": "list",
-   "text": "- Show a real document change, a stated reason, and a consequential rejected",
-   "id": "1a781cf1",
-   "hash": "119f27813123"
+   "text": "1. **What do we know?**\n2. **Why do we believe it?**\n3. **Who can continue thinking from here?**",
+   "id": "de495528",
+   "hash": "fc1eee523990"
   },
   {
    "type": "para",
-   "text": "  direction that belong to the same fictional strategy artifact.",
-   "id": "10855b4c",
-   "hash": "7c416eb47db8"
-  },
-  {
-   "type": "list",
-   "text": "- Visually separate computed/checkable changes from attributed context.\n- Show that only deliberately admitted artifact history enters the ledger;",
-   "id": "29dc333c",
-   "hash": "dc77e53b8fe0"
+   "text": "When the relevant history travels with the artifact, a later human or agent does not have to start from zero or blindly trust the latest file. It can inspect what changed, distinguish computed facts from attributed testimony, see what was rejected, find missing provenance, and continue from the correct base.",
+   "id": "62169462",
+   "hash": "fd383bcdebd8"
   },
   {
    "type": "para",
-   "text": "  raw conversation, private context, and scratch thought are not the product.",
-   "id": "d2511ca8",
-   "hash": "18bf844792da"
-  },
-  {
-   "type": "list",
-   "text": "- Never imply signed identity, authorization, policy enforcement, or complete",
-   "id": "e50cfd63",
-   "hash": "1d6851a6b83f"
+   "text": "This is a trust layer, not a promise that every statement is true, every identity is proven, or every event was captured. Its job is to keep the boundaries between captured, checked, attributed, and unknown visible—so silent context loss cannot masquerade as shared knowledge.",
+   "id": "e0514e6a",
+   "hash": "c904ca6db1ff"
   },
   {
    "type": "para",
-   "text": "  capture of a private conversation.",
-   "id": "89b5377c",
-   "hash": "894552a8a2c8"
-  },
-  {
-   "type": "list",
-   "text": "- The ledger travels with the artifact; the source session does not need to",
-   "id": "5588c1e2",
-   "hash": "85ed3c5f31cb"
+   "text": "If Proofpress succeeds, it will not be another docs product.",
+   "id": "55c1a8be",
+   "hash": "91dd210bfd23"
   },
   {
    "type": "para",
-   "text": "  travel with it.",
-   "id": "cd8148aa",
-   "hash": "171d2170126b"
-  },
-  {
-   "type": "heading",
-   "text": "## Reuse prompt",
-   "id": "7558efe4",
-   "hash": "fb8bde20fe0f"
+   "text": "It will be an open protocol for humans and machines thinking together: a way to turn one-off output into knowledge that can be checked, inherited, challenged, and extended.",
+   "id": "b0cc09a0",
+   "hash": "deb996bf570c"
   },
   {
    "type": "para",
-   "text": "> Use the Proofpress continuous-canvas motion system in `MOTION_SYSTEM.md`.\n> Preserve the dark editorial field, paper artifact, teal lineage route, three\n> typographic registers, semantic color roles, and one-world camera grammar.\n> Build all motion on one paused, seek-safe HyperFrames timeline. For every\n> camera move, name the idea it reveals and include a readable hold after any\n> close-up. Keep the artifact continuous, make evidence legible at X feed size,\n> and distinguish stated context from computed checks. Reflow separately for\n> square; do not crop the 16:9 composition.",
-   "id": "0b1fb234",
-   "hash": "a0c57fb4c368"
+   "text": "It will give every human and agent that touches the work a shared, checkable past.",
+   "id": "0f52178f",
+   "hash": "196d46868af4"
   },
   {
-   "type": "heading",
-   "text": "## Review checklist",
-   "id": "c16df8fb",
-   "hash": "8fd7be9a953f"
+   "type": "para",
+   "text": "It will make the history of the work as durable as the work itself.",
+   "id": "60b3867d",
+   "hash": "2487805cf533"
   },
   {
-   "type": "list",
-   "text": "- Can a silent viewer explain why the camera moved at every transition?\n- Does every zoom include enough time to recognize what was enlarged?\n- Are all essential words readable in a phone-sized X preview?\n- Does each font correspond to a stable communicative role?\n- Does the artifact preserve identity through the entire handoff?\n- Are `EDIT`, `WHY`, `REJECTED`, and computed verification visually distinct?\n- Does a seek to any point reproduce the same frame without wall-clock state?",
-   "id": "a56a5ee8",
-   "hash": "aca08db44c0c"
+   "type": "para",
+   "text": "And it will let intelligence compound without requiring trust to be diluted at the same rate.",
+   "id": "a9e5832c",
+   "hash": "4b33fac78766"
+  },
+  {
+   "type": "para",
+   "text": "> **Scale intelligence. Preserve trust.**",
+   "id": "3f992b85",
+   "hash": "ee67d37cbeed"
   }
  ]
 }
