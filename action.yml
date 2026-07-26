@@ -62,11 +62,7 @@ runs:
         }
 
         # Pure glue: all rendering lives in the CLI (--md), never here.
-        # Logo: assets/logo.svg can't render while the repo is private (GitHub's
-        # image proxy can't fetch private raw files). When the repo goes public,
-        # swap the header for:
-        #   <img src="https://raw.githubusercontent.com/chenmingtang830/proofpress/main/assets/logo.svg" width="18"> **Proofpress**
-        body="<!-- proofpress -->"$'\n'"### ▍ Proofpress"$'\n'
+        body="<!-- proofpress -->"$'\n''<img src="https://raw.githubusercontent.com/chenmingtang830/proofpress/main/assets/logo.svg" width="18"> **Proofpress**'$'\n'
         result=0
         for f in "${files[@]}"; do
           [ -f "$f" ] || continue                      # deleted files: skip v0
