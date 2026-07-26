@@ -1,19 +1,29 @@
+[//]: # (ob:0a172c88)
 # Security Policy
 
+[//]: # (ob:c413522b)
 ## Reporting a vulnerability
 
+[//]: # (ob:56310231)
 Please report vulnerabilities privately via
 [GitHub security advisories](https://github.com/chenmingtang830/proofpress/security/advisories/new)
 rather than public issues.
 
+[//]: # (ob:c93750e0)
 Relevant classes of issues include: capsule/metadata parsing that could
 execute or inject content (transport data must stay declarative), verification
 bypasses (`verify`/`inspect` reporting green on tampered input), and privacy
 leaks (local-only history escaping into portable capsules or clean exports).
 
+[//]: # (ob:259d6cb4)
 ## Scope notes
 
+[//]: # (ob:efd70739)
 Proofpress is **tamper-evident, not tamper-proof** by design: it does not
 claim to prevent the holder of a file from rewriting their own history, and a
 report demonstrating that is expected behavior, not a vulnerability. See
 `docs/PORTABLE_ARTIFACT_SPEC.md` §4 for the trust boundary.
+
+[//]: # (proofpress:meta:eyJhcnRpZmFjdF9pZCI6InBwX2Q2Nzg1ODMwN2IxYmY5NDM5OTRlZjcwNCIsInBvbGljeSI6InBvcnRhYmxlIiwicG9ydGFibGVfaGVhZCI6ImQyNzc0MWQxIiwicG9ydGFibGVfaGVhZF9ldmVudCI6InBwZV85OTA3YmM1YTU5NWQ4Y2Y4MDljNjllZTAiLCJwb3J0YWJsZV9saW5lYWdlX2lkIjoicHBsX2Y4YWVkZjY2YjE5YTZiYThmYjNmODY4ZCIsInByb29mcHJlc3MiOjF9)
+[//]: # (proofpress:discovery:Verifiable revision history by Proofpress | https://github.com/chenmingtang830/proofpress)
+[//]: # (proofpress:capsule:eNqtVttuGzcQ_RVi-5K4srX3i97SIG0DFKjhuAWKyFjzMiuxXpFbkitHMPw9_Y9-WYe7K1tKWqeJC-hhRQ7P3M4c8i6gxsmGcldLESyCrqtFXpRZmYQFi1hTpUlVpdAUYRrMAqbFrhZyBdahrV3TOMsXadmUeYampeBZGjcxFCmnUZrnMaRZWpVV3HCeZUkRxk1VZWECWZiGsWgaoHmWIK6QlustmF2wuPN_XO3oCj0o-OBwu6UMWvz7KxjZSMpaIAa20kqtyBqttdkRtiPnRuumM2Atnukov6Er8CkdLRv9O2CyvfGAa-c6u5jPV9Kte3bG9WbO16A2Uq0cVSsswvzotIE_eonfdW_B1FwrCwor4UwP97NgDdSXUMRFkUYiCsaVGraDEZYW6qrCsvKMZlUmSt6UYcXzCiD0kWnjfGp1KxVg5Pt-tHVTUhBNnrOoojmjZcMSrHgpxnSm6GpOO9u3mHDs4-TaCBss3t8Fk_u7AHusjfVf4zaImmHB3wdcC_gQXGEGey6g43dvXv9y8fbyt7ON9_MlJKHOGcl6h92pGbXS-kJTo3yQuIfcgQGyd2ttfDg3UnlUu8OdDe4ouvF9G8OaBRYPIlawUH3bYpB8ja2BMTnWan6DtiGNipiXJZpjV5ynDaYAvDfSITF0K_kO9yZPVAgYq4csgltc-YZ8aux2nQ_D9xD5ENzPHt3xNEqyOGZH7i7AtxBNCSXbvlVgKJMtQj7p-Bvy1LknYsjyJArjJHp-DOctUOtHyp89OibBks7ILXXQ7shW0qV6_4N0P_aM2Klej0F21NDjKlVJkYUDuZ8Z4QW0sKXKEd5Si3wguiHS2h6_pOJtL2BBJv7PN-CooI4SjMf6ov17gHFWiZyz9Jg1XHdAlEaifqZxx5ZPtAoaUYRFUn2Nn0dRw4zJyYmjmw7MKW4LnOuZByDT2iAGJydeCgVYuVIfp34126tBgGLrh6rmBug4j8POfr6fVCofs7eaBItMgkVQOvlNp6Vyg_6awZMf2v0_P7NXXumGCXtEOFS_A5BBV79SGK1uXN1gI8AggSf9tSxaMJHiBcQzUfA4ZBWKGhRVWgJNwrSiLORMVEXYAF5XDYvzkIVZxkRYiCzPClzz2I66QUfHbi1yFCW_EMRhnJ-GxWmcX4bFIk0WcfFtGC5CX7Sp4If3w_3B6t3_o70D40ZpXFO7RvuiErQJi7RMma_zgHGglhMZ_6P-TZg0SSqMIW_KqNxjHkjiHvOLpW2CF6LK0pynLIyjPfyB2k3wz1ItQgW-H7RB06sXX_QKmO8h5o8QcwW3L5fKULcGQxzeT6TrGZZxEqmzf9CgKdcwaooq5kVTQf5QykfdfBDNr9c_Hw8e1H0rlviewugdEG3woH8IkUGQEPmFM1TZoZbD6U1vHUGmey1Br5ib3MLLGdkObzBO_fW-VGzXjQG9uB42dtfza4kwiHw9tcaHsDIAiuBrbVQqEOi96x3CUSXGXvHdUmFHbxAKOUzbU62wefvXHVhMzyPhKGvyoDxTztbnw_G0IvDBb9qXT5ScljQtedRwFqX7kh_cBI_s_ay-T4BlGRccn7t5AmwPeCD5e74-Q8gXRGJbNCaKVkvsOJUb4gthBtXGFgNZ61Yg-5AZlDQSi9MYvcEe3CJZRxqAxO3bhyfzWHwcjmmEBGzwQet8p_eswUCxoNhM7BiDNd1KbcZIP5rnM9QPWKprobmdn_98cfnqu5_e1K8uLt9-_-r1Zf3u_M1rFLNr8tefKWm0GQJGdUeKMd0rQc3uk4Zd3ePvb6hhNkw)
