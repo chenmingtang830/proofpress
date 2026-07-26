@@ -1,50 +1,47 @@
 {
  "event": "version_created",
- "artifact": "docs/internal/launch/vision-article.md",
- "artifact_id": "pp_76fe7cb5fb383d8b919767a8",
- "version": "6a85f194",
- "parent": "76b6a0b8",
+ "artifact": "docs/internal/launch/x-launch.md",
+ "artifact_id": "pp_5c19a32e9dea0da4c55aae96",
+ "version": "88737170",
+ "parent": "741a936d",
  "author": {
   "name": "codex",
   "kind": "agent",
   "session": null
  },
- "note": "Bound the product claims and add the live launch CTA",
- "ts": "2026-07-26T15:01:52+00:00",
+ "note": "Finalize the X launch copy around the live 0.2.0 release",
+ "ts": "2026-07-26T15:01:57+00:00",
  "stats": {
-  "modified": 2,
-  "added": 2
+  "modified": 4
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "10d3904c",
+   "block": "1fdd0312",
    "type": "para",
-   "context": "Record the decision, not the private con"
+   "context": "Proofpress X launch"
   },
   {
    "kind": "modified",
-   "block": "894c1fe2",
+   "block": "d8c123e5",
    "type": "para",
-   "context": "A shared, checkable past"
+   "context": "Canonical launch post"
   },
   {
-   "kind": "added",
-   "block": "a1a10d0f",
+   "kind": "modified",
+   "block": "d5e07adc",
    "type": "para",
-   "context": "A shared, checkable past",
-   "preview": "The first release focuses on Markdown and static HTML knowle"
+   "context": "Reply 1 — open-source repository and dem"
   },
   {
-   "kind": "added",
-   "block": "b6d2d574",
+   "kind": "modified",
+   "block": "3cf9e546",
    "type": "para",
-   "context": "A shared, checkable past",
-   "preview": "Proofpress 0.2.0 is open source: https://github.com/chenming"
+   "context": "Reply 2 — short founder vision note"
   }
  ],
  "policy": "local",
- "soft_fingerprint": "ppsb1:778dcdf2b6c6757efa9ba7417473db780ee2a34933426283541f50a21ec24020",
+ "soft_fingerprint": "ppsb1:27c5496739d1e5899486006899124c257a53a354171ee91d63b1baf9b6df6f81",
  "actors": {
   "requested_by": [
    "Richard"
@@ -62,28 +59,28 @@
  "attribution_basis": "harness_attested",
  "claims": [
   {
-   "block": "10d3904c",
+   "block": "1fdd0312",
    "kind": "modified",
-   "note": "Replace the unsupported evidence-field implication with the product's stated-reason contract."
+   "note": "Update readiness status and the approved film duration to 42 seconds."
   },
   {
-   "block": "894c1fe2",
+   "block": "d8c123e5",
    "kind": "modified",
-   "note": "Describe the ledger using accepted changes, stated reasons, and consequential rejections."
+   "note": "Make the main post state the product's solution instead of ending on the unsolved handoff gap."
   },
   {
-   "block": "a1a10d0f",
-   "kind": "added",
-   "note": "State the current Markdown and static HTML boundary and keep source code in Git."
+   "block": "d5e07adc",
+   "kind": "modified",
+   "note": "Point Reply 1 to the live 0.2.0 repository and portable handoff demo."
   },
   {
-   "block": "b6d2d574",
-   "kind": "added",
-   "note": "Add the live open-source repository and 0.2.0 call to action."
+   "block": "3cf9e546",
+   "kind": "modified",
+   "note": "Make the remaining article URL launch gate explicit."
   }
  ],
  "context": {
-  "why": "make the founder vision precise and point readers to the live 0.2.0 release"
+  "why": "make the canonical X thread match the shipped product and approved 42-second film"
  },
- "event_id": "ppe_0d63340eb97d037f36849661"
+ "event_id": "ppe_e720a29a4eb23322da6382ba"
 }
