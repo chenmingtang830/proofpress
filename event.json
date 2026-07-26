@@ -1,29 +1,58 @@
 {
  "event": "version_created",
- "artifact": "README.md",
- "artifact_id": "pp_556b115de711b0cd33eed260",
- "version": "ef09286c",
- "parent": "7294e49f",
+ "artifact": "docs/internal/launch/README.md",
+ "artifact_id": "pp_1361cc3b8ef7763f15827828",
+ "version": "9ce2a634",
+ "parent": null,
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-07-26T12:14:02+00:00",
+ "ts": "2026-07-26T12:14:06+00:00",
  "stats": {
-  "modified": 1
+  "added": 5
  },
  "changes": [
   {
-   "kind": "modified",
-   "block": "820f39ab",
+   "kind": "added",
+   "block": "04b3a1ef",
+   "type": "heading",
+   "context": "Proofpress launch workspace",
+   "preview": "# Proofpress launch workspace"
+  },
+  {
+   "kind": "added",
+   "block": "01baf9ce",
    "type": "para",
-   "context": "Surfaces"
+   "context": "Proofpress launch workspace",
+   "preview": "This is the active private workspace for launch decisions an"
+  },
+  {
+   "kind": "added",
+   "block": "be5049da",
+   "type": "heading",
+   "context": "Current launch set",
+   "preview": "## Current launch set"
+  },
+  {
+   "kind": "added",
+   "block": "4e4030e3",
+   "type": "list",
+   "context": "Current launch set",
+   "preview": "- [Canonical X launch](x-launch.md)\n- [Founder vision articl"
+  },
+  {
+   "kind": "added",
+   "block": "3c4810d7",
+   "type": "para",
+   "context": "Current launch set",
+   "preview": "The film source and reusable motion system live in `film/sou"
   }
  ],
  "policy": "local",
- "soft_fingerprint": "ppsb1:b6c51bc57d649c16fcf8c45ed5291a579e7fb11c47d40679fffe570dbfb753cf",
+ "soft_fingerprint": "ppsb1:46e7118345a50edda9c0d5a8a7fc54b9b4538b7af3fcb93002ea87c7ad54161e",
  "actors": {
   "requested_by": [
    "Richard Tang"
@@ -41,13 +70,33 @@
  "attribution_basis": "harness_attested",
  "claims": [
   {
-   "block": "820f39ab",
-   "kind": "modified",
-   "note": "Made the official repository the single source of truth for public documentation and limited this repository to internal working materials."
+   "block": "04b3a1ef",
+   "kind": "added",
+   "note": "Created the active launch-workspace index."
+  },
+  {
+   "block": "01baf9ce",
+   "kind": "added",
+   "note": "Defined the official repository as the public-documentation source of truth."
+  },
+  {
+   "block": "be5049da",
+   "kind": "added",
+   "note": "Added the current launch-set section."
+  },
+  {
+   "block": "4e4030e3",
+   "kind": "added",
+   "note": "Linked the active X copy, vision article, FAQ, runbook, and final film."
+  },
+  {
+   "block": "3c4810d7",
+   "kind": "added",
+   "note": "Located final film source and archived planning materials."
   }
  ],
  "context": {
-  "why": "Make the official repository the sole source of public product documentation so private development work cannot drift from the release surface."
+  "why": "Replace the superseded pre-launch planning index with a compact index of the active launch assets and their authoritative locations."
  },
- "event_id": "ppe_a866d46f80a24408d5f090b7"
+ "event_id": "ppe_dccb63ffadcf33d18ac80e0d"
 }
