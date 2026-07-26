@@ -1,63 +1,29 @@
 {
  "event": "version_created",
- "artifact": "docs/internal/launch/x-launch.md",
- "artifact_id": "pp_5c19a32e9dea0da4c55aae96",
- "version": "f4188bcc",
- "parent": "f9e8f4f2",
+ "artifact": "docs/internal/launch/film/source/proofpress-x-launch/MOTION_SYSTEM.md",
+ "artifact_id": "pp_b9b1fdfd7e82fb2827a721ef",
+ "version": "1ec41d9e",
+ "parent": "c9b6273b",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-07-26T12:51:22+00:00",
+ "ts": "2026-07-26T12:51:26+00:00",
  "stats": {
-  "modified": 2
+  "modified": 1
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "79cc69ea",
-   "type": "table",
-   "context": "Final film sequence",
-   "numbers": [
-    [
-     "24",
-     "28"
-    ],
-    [
-     "24",
-     "28"
-    ],
-    [
-     "29",
-     "32"
-    ],
-    [
-     "29",
-     "32"
-    ],
-    [
-     "34",
-     "42"
-    ]
-   ]
-  },
-  {
-   "kind": "modified",
-   "block": "46ea7b3d",
+   "block": "ff7d8724",
    "type": "para",
-   "context": "Video alt text",
-   "numbers": [
-    [
-     "34",
-     "42"
-    ]
-   ]
+   "context": "Rhythm"
   }
  ],
  "policy": "local",
- "soft_fingerprint": "ppsb1:0405405189453e09dd8238e331f8183d0533c0985b6988dc3263b1a06b21f570",
+ "soft_fingerprint": "ppsb1:6038c7a69d54cc83c3f92d92b8b386479af8092c3d3689d1a1a0ea073e72342b",
  "actors": {
   "requested_by": [
    "Richard Tang"
@@ -75,18 +41,13 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "79cc69ea",
+   "block": "ff7d8724",
    "kind": "modified",
-   "note": "Retimed the privacy, vision, and closing sequence for a 42-second film; reduced privacy to three paced claims and made the close land as four spoken phrases."
-  },
-  {
-   "block": "46ea7b3d",
-   "kind": "modified",
-   "note": "Updated the video alt text for the 42-second duration, simplified privacy scene, and sequential open-source close."
+   "note": "Defined calm separate holds for the three privacy claims and spoken-phrase pacing for the final product, trust, and open-source statements."
   }
  ],
  "context": {
-  "why": "Simplify the privacy scene, keep route lines clear of copy, and give the final product, scale, trust, and open-source statements speech-like pauses."
+  "why": "Capture the accepted pacing rule: privacy is communicated through three calm complete claims and the open-source close lands as separately held spoken phrases."
  },
- "event_id": "ppe_fab6713c0fbc47d0b68794ac"
+ "event_id": "ppe_26f0121d444991e0d99c603b"
 }
