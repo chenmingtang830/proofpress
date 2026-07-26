@@ -1,41 +1,50 @@
 {
  "event": "version_created",
- "artifact": "docs/internal/launch/x-launch.md",
- "artifact_id": "pp_5c19a32e9dea0da4c55aae96",
- "version": "f9e8f4f2",
- "parent": "350d9c1b",
+ "artifact": "docs/internal/launch/film/source/proofpress-x-launch/MOTION_SYSTEM.md",
+ "artifact_id": "pp_b9b1fdfd7e82fb2827a721ef",
+ "version": "c9b6273b",
+ "parent": "8d786e73",
  "author": {
   "name": "OpenAI Codex",
   "kind": "agent",
   "session": null
  },
  "note": null,
- "ts": "2026-07-26T12:36:09+00:00",
+ "ts": "2026-07-26T12:36:14+00:00",
  "stats": {
-  "modified": 2
+  "modified": 2,
+  "added": 2
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "79cc69ea",
-   "type": "table",
-   "context": "Final film sequence"
+   "block": "ff7d8724",
+   "type": "para",
+   "context": "Rhythm"
   },
   {
    "kind": "modified",
-   "block": "46ea7b3d",
+   "block": "29dc333c",
+   "type": "list",
+   "context": "Semantic rules"
+  },
+  {
+   "kind": "added",
+   "block": "d2511ca8",
    "type": "para",
-   "context": "Video alt text",
-   "numbers": [
-    [
-     "27",
-     "34"
-    ]
-   ]
+   "context": "Semantic rules",
+   "preview": "  raw conversation, private context, and scratch thought are"
+  },
+  {
+   "kind": "added",
+   "block": "e50cfd63",
+   "type": "list",
+   "context": "Semantic rules",
+   "preview": "- Never imply signed identity, authorization, policy enforce"
   }
  ],
  "policy": "local",
- "soft_fingerprint": "ppsb1:77abf03bffae2f3d2d52d1b483dde6321e6a1ac7190c7e5c44899ffcce5fa608",
+ "soft_fingerprint": "ppsb1:d33e4f71f497d15fbec633d2232447aec73f2c988fa491043eb3da79f6ebd6ba",
  "actors": {
   "requested_by": [
    "Richard Tang"
@@ -53,18 +62,28 @@
  "attribution_basis": "harness_attested",
  "claims": [
   {
-   "block": "79cc69ea",
+   "block": "ff7d8724",
    "kind": "modified",
-   "note": "Retimed the film sequence, added a privacy-admission scene, and documented the longer decision-history hold."
+   "note": "Added an explicit admission-boundary beat before the vision claim and preserved longer reading time for evidence."
   },
   {
-   "block": "46ea7b3d",
+   "block": "29dc333c",
    "kind": "modified",
-   "note": "Updated the video alt text for the 34-second cut and its privacy boundary."
+   "note": "Added the rule that the film must show deliberately admitted artifact history rather than passive recording."
+  },
+  {
+   "block": "d2511ca8",
+   "kind": "added",
+   "note": "Specified raw conversation, private context, and scratch thought as outside the product's ledger boundary."
+  },
+  {
+   "block": "e50cfd63",
+   "kind": "added",
+   "note": "Preserved the existing prohibition on implying complete capture as a separately anchored semantic rule."
   }
  ],
  "context": {
-  "why": "The launch film now gives decision evidence enough reading time and states the privacy boundary before advancing to the broader compounding-intelligence vision."
+  "why": "The reusable film grammar now treats selective ledger admission as a required privacy beat rather than implying passive or complete recording."
  },
- "event_id": "ppe_ea8bb6c64d33a9a221a97c50"
+ "event_id": "ppe_b8ad4b0c6d2f990ade7670b1"
 }
