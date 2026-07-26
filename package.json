@@ -1,6 +1,6 @@
 {
   "name": "proofpress",
-  "version": "0.2.0-alpha.1",
+  "version": "0.2.0",
   "description": "The trust layer for multiplayer AI: an open, agent-native ledger for knowledge artifacts",
   "license": "Apache-2.0",
   "bin": {

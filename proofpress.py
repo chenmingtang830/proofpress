@@ -24,7 +24,7 @@ Commands:
 import argparse, base64, difflib, hashlib, html, json, os, re, secrets, subprocess, sys, tempfile, zlib
 from datetime import datetime, timezone
 
-__version__ = "0.2.0-alpha.1"
+__version__ = "0.2.0"
 LEDGER_REF = "refs/proofpress/ledger"
 
 # ---------- terminal rendering ----------
@@ -588,7 +588,8 @@ def heading_context(blocks, idx):
     for j in range(idx, -1, -1):
         if blocks[j]["type"] == "heading":
             return re.sub(r"^#+\s*", "", blocks[j]["text"])[:40]
-    return "(document start)"
+    # Preserve the legacy wire label used by existing capsule change records.
+    return "(\u6587\u9996)"
 
 
 def lis_ids(seq):
