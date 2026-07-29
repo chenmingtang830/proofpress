@@ -17,12 +17,14 @@ Commands:
   merge <file> --from copy.md [...]             record a multi-parent document merge
   merge-lineage <file> --from a.md --from b.md  record other documents as ingredients
   identify <file>                        recover identity after capsule stripping
+  provenance create|verify               byte evidence for any file type
   policy / inspect / import / clean / capture
   anchor / blocks / init / sync
 """
 
 import argparse, base64, difflib, hashlib, html, json, os, re, secrets, subprocess, sys, tempfile, zlib
 from datetime import datetime, timezone
+import proofpress_evidence
 
 __version__ = "0.2.0"
 LEDGER_REF = "refs/proofpress/ledger"
@@ -2491,6 +2493,42 @@ def cmd_verify(a):
     sys.exit(0 if status == "verified" else 1)
 
 
+def cmd_provenance_create(a):
+    context = None
+    if a.context:
+        with open(a.context, encoding="utf-8") as stream:
+            context = json.load(stream)
+        if not isinstance(context, dict):
+            raise proofpress_evidence.EvidenceError(
+                "provenance context must be a JSON object")
+    envelope = proofpress_evidence.create_evidence(
+        a.file, level=a.level, provider_id=a.provider,
+        adapter_id=a.adapter, context=context)
+    payload = proofpress_evidence.dump_evidence(envelope)
+    if a.output:
+        with open(a.output, "w", encoding="utf-8") as stream:
+            stream.write(payload)
+        print(f"provenance evidence written: {a.output}")
+    else:
+        print(payload, end="")
+
+
+def cmd_provenance_verify(a):
+    with open(a.evidence, encoding="utf-8") as stream:
+        envelope = json.load(stream)
+    result = proofpress_evidence.verify_evidence(a.file, envelope)
+    if a.json:
+        print(json.dumps(result.to_dict(), ensure_ascii=False, indent=2))
+    else:
+        verdict = "verified" if result.ok else "failed"
+        print(
+            f"provenance {verdict}: {a.file} "
+            f"({result.level}; {result.provider}; {result.adapter})")
+        for check in result.checks:
+            print(f"  {check['status']}: {check['type']}")
+    sys.exit(0 if result.ok else 1)
+
+
 def main():
     p = argparse.ArgumentParser(prog="proofpress")
     p.add_argument("--version", action="version",
@@ -2610,7 +2648,32 @@ def main():
                     help="specific Markdown/HTML files to reconcile; "
                          "default: Git candidates plus admitted ledger paths")
     ca.set_defaults(f=cmd_capture)
-    a = p.parse_args(); a.f(a)
+    pr = sub.add_parser(
+        "provenance",
+        help="create or verify format-agnostic artifact evidence")
+    prs = pr.add_subparsers(dest="provenance_cmd", required=True)
+    pc = prs.add_parser(
+        "create", help="create byte-level evidence for any file")
+    pc.add_argument("file")
+    pc.add_argument("-o", "--output", default=None)
+    pc.add_argument("--level", default="byte",
+                    choices=proofpress_evidence.VERIFICATION_LEVELS)
+    pc.add_argument("--provider", default="proofpress.digest")
+    pc.add_argument("--adapter", default=None)
+    pc.add_argument("--context", default=None, metavar="JSON_FILE",
+                    help="optional work/outcome identifiers as a JSON object")
+    pc.set_defaults(f=cmd_provenance_create)
+    pv = prs.add_parser(
+        "verify", help="verify evidence against the current file bytes")
+    pv.add_argument("file")
+    pv.add_argument("--evidence", required=True)
+    pv.add_argument("--json", action="store_true")
+    pv.set_defaults(f=cmd_provenance_verify)
+    a = p.parse_args()
+    try:
+        a.f(a)
+    except proofpress_evidence.EvidenceError as exc:
+        p.error(str(exc))
 
 
 if __name__ == "__main__":
