@@ -17,7 +17,7 @@ Commands:
   merge <file> --from copy.md [...]             record a multi-parent document merge
   merge-lineage <file> --from a.md --from b.md  record other documents as ingredients
   identify <file>                        recover identity after capsule stripping
-  provenance create|verify               byte evidence for any file type
+  provenance create|verify               format-aware evidence for any file type
   policy / inspect / import / clean / capture
   anchor / blocks / init / sync
 """
@@ -2650,21 +2650,24 @@ def main():
     ca.set_defaults(f=cmd_capture)
     pr = sub.add_parser(
         "provenance",
-        help="create or verify format-agnostic artifact evidence")
+        help="create or verify format-aware artifact evidence")
     prs = pr.add_subparsers(dest="provenance_cmd", required=True)
     pc = prs.add_parser(
-        "create", help="create byte-level evidence for any file")
+        "create", help="create the strongest built-in evidence for a file")
     pc.add_argument("file")
     pc.add_argument("-o", "--output", default=None)
-    pc.add_argument("--level", default="byte",
-                    choices=proofpress_evidence.VERIFICATION_LEVELS)
-    pc.add_argument("--provider", default="proofpress.digest")
+    pc.add_argument("--level", default=proofpress_evidence.AUTO_LEVEL,
+                    choices=(proofpress_evidence.AUTO_LEVEL,
+                             *proofpress_evidence.VERIFICATION_LEVELS),
+                    help="verification level; auto selects semantic for DOCX")
+    pc.add_argument("--provider", default=None,
+                    help="provider ID; default follows the selected adapter")
     pc.add_argument("--adapter", default=None)
     pc.add_argument("--context", default=None, metavar="JSON_FILE",
                     help="optional work/outcome identifiers as a JSON object")
     pc.set_defaults(f=cmd_provenance_create)
     pv = prs.add_parser(
-        "verify", help="verify evidence against the current file bytes")
+        "verify", help="verify byte or semantic evidence against a file")
     pv.add_argument("file")
     pv.add_argument("--evidence", required=True)
     pv.add_argument("--json", action="store_true")
