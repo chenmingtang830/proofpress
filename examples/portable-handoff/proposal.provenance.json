@@ -1,0 +1,78 @@
+{
+  "evidence_id": "ppe_9cfd94d75da3ac0feaa4449c",
+  "protocol": "proofpress.artifact-provenance",
+  "protocol_version": 1,
+  "subject": {
+    "byte_length": 901,
+    "digest": {
+      "algorithm": "sha256",
+      "value": "293630221877b47fc38fd66f5abe377565c52af609d4b7352f1f9b4c56f1d356"
+    },
+    "document": {
+      "metrics": {
+        "comments": 0,
+        "footers": 0,
+        "headers": 0,
+        "media_parts": 0,
+        "paragraphs": 1,
+        "tables": 0,
+        "tracked_deletions": 0,
+        "tracked_insertions": 0
+      },
+      "normalization": "ooxml-word-c14n-v1"
+    },
+    "format": "docx",
+    "media_type": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+    "name": "proposal.docx",
+    "semantic": {
+      "algorithm": "sha256",
+      "digest": "847fe25a6edb055b6351dbe88fe26f542a7b214da61feea1e33c23ed1b43d276",
+      "metrics": {
+        "comments": 0,
+        "footers": 0,
+        "headers": 0,
+        "media_parts": 0,
+        "paragraphs": 1,
+        "tables": 0,
+        "tracked_deletions": 0,
+        "tracked_insertions": 0
+      },
+      "normalization": "ooxml-word-c14n-v1",
+      "parts": [
+        {
+          "digest": "741f8c4c0cb675edd3c4f9fe61c0a720ccacc558fdc205b346dcc230220dd4c2",
+          "name": "[Content_Types].xml"
+        },
+        {
+          "digest": "e108b0997919bbc0f109a6d7cc211359a246076e3f8681ca8353de8ec1d05a32",
+          "name": "_rels/.rels"
+        },
+        {
+          "digest": "58d4e54b5fe8b6e9439e045dfe451a25fd00df571f4f711e4105f8805c989d5c",
+          "name": "word/document.xml"
+        }
+      ]
+    }
+  },
+  "verification": {
+    "adapter": "proofpress.ooxml-word",
+    "checks": [
+      {
+        "normalization": "ooxml-word-c14n-v1",
+        "parts": 3,
+        "status": "passed",
+        "type": "ooxml_package"
+      },
+      {
+        "algorithm": "sha256",
+        "status": "passed",
+        "type": "semantic_digest",
+        "value": "847fe25a6edb055b6351dbe88fe26f542a7b214da61feea1e33c23ed1b43d276"
+      }
+    ],
+    "level": "semantic",
+    "provider": "proofpress.ooxml-semantic",
+    "status": "verified",
+    "verified_at": "2026-07-30T23:50:14.120650Z"
+  }
+}
