@@ -118,6 +118,11 @@ class QuickstartExampleTests(unittest.TestCase):
             payload = screenshot.read_text(encoding="utf-8")
             self.assertNotIn(str(ROOT), payload)
             self.assertNotIn("proofpress-quickstart-", payload)
+            self.assertNotIn("\x1b", payload)
+            self.assertRegex(
+                payload,
+                r'fill="#(?:5FB3C4|6FBF8E|C87E82|D7B56D|787B87)"',
+            )
 
     def test_readme_references_every_quickstart_fixture(self):
         readme = (ROOT / "README.md").read_text(encoding="utf-8")

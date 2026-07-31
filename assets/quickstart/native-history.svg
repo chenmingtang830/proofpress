@@ -26,6 +26,6 @@
   <text class="output" x="24" y="282">imported 2, skipped 0 -&gt; strategy.md (pp_da9972109512a811a5eb0c74)</text>
   <text class="output" x="24" y="302"></text>
   <text class="prompt" x="24" y="322">$ proofpress log strategy.md</text>
-  <text class="output" x="24" y="342">v2  22f2374d  07-24 21:41  demo-planning-agent agent   ● modified 3</text>
-  <text class="output" x="24" y="362">v1  ccad3081  07-24 21:40  unknown             system   + added 7     portable lineage checkpoint</text>
+  <text class="output" x="24" y="342"><tspan fill="#5FB3C4">v2</tspan>  22f2374d  <tspan fill="#787B87">07-24 21:41</tspan>  demo-planning-agent <tspan fill="#787B87">agent</tspan>   <tspan fill="#5FB3C4">● modified 3</tspan></text>
+  <text class="output" x="24" y="362"><tspan fill="#5FB3C4">v1</tspan>  ccad3081  <tspan fill="#787B87">07-24 21:40</tspan>  unknown             <tspan fill="#787B87">system</tspan>   <tspan fill="#6FBF8E">+ added 7   </tspan>  portable lineage checkpoint</text>
 </svg>

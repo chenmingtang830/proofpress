@@ -13,7 +13,7 @@
     .output { fill: #e6edf3; }
   </style>
   <text class="prompt" x="24" y="62">$ proofpress provenance verify proposal.docx --evidence proposal.provenance.json</text>
-  <text class="output" x="24" y="82">provenance verified: proposal.docx (semantic; proofpress.ooxml-semantic; proofpress.ooxml-word)</text>
-  <text class="output" x="24" y="102">  passed: semantic_digest</text>
-  <text class="output" x="24" y="122">  passed: logical_metrics</text>
+  <text class="output" x="24" y="82">provenance <tspan fill="#6FBF8E" font-weight="700">verified</tspan>: <tspan font-weight="700">proposal.docx</tspan> <tspan fill="#787B87">(semantic; proofpress.ooxml-semantic; proofpress.ooxml-word)</tspan></text>
+  <text class="output" x="24" y="102">  <tspan fill="#6FBF8E">passed</tspan>: <tspan fill="#787B87">semantic_digest</tspan></text>
+  <text class="output" x="24" y="122">  <tspan fill="#6FBF8E">passed</tspan>: <tspan fill="#787B87">logical_metrics</tspan></text>
 </svg>

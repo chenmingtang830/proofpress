@@ -13,25 +13,25 @@
     .output { fill: #e6edf3; }
   </style>
   <text class="prompt" x="24" y="62">$ proofpress diff strategy.md</text>
-  <text class="output" x="24" y="82">ccad3081 → 22f2374d  ▍ 3 blocks modified  Δ 00.→00</text>
+  <text class="output" x="24" y="82"><tspan fill="#787B87">ccad3081 → 22f2374d</tspan>  <tspan fill="#5FB3C4">▍ 3 blocks modified</tspan>  <tspan fill="#D7B56D">Δ 00.→00</tspan></text>
   <text class="output" x="24" y="102"></text>
-  <text class="output" x="24" y="122">  ▍ [mod] Saturday schedule (0b451d51)  Δ 00. → 00</text>
-  <text class="output" x="24" y="142">        [-Open the garden for-] {+Run+} [-general drop-in volunteer session-] {+focused planting day+} [-12:00.-] {+12:00 for up to twelve volunteers who sign up in advance.+}</text>
-  <text class="output" x="24" y="162">  ▍ [mod] Materials (c05650dc)</text>
-  <text class="output" x="24" y="182">        [-Ask volunteers to bring gloves;-] {+Pre-stage seedlings and+} {+all+} [-site.-] {+site so the group can begin planting immediately.+}</text>
-  <text class="output" x="24" y="202">  ▍ [mod] Success signal (e77d8f45)</text>
-  <text class="output" x="24" y="222">        [-the number of-] {+planted beds and returning volunteers, not only total+} [-hours completed.-] {+hours.+}</text>
+  <text class="output" x="24" y="122">  <tspan fill="#5FB3C4">▍ [mod]</tspan> <tspan font-weight="700">Saturday schedule</tspan> <tspan fill="#787B87">(0b451d51)</tspan>  <tspan fill="#D7B56D">Δ 00. → 00</tspan></text>
+  <text class="output" x="24" y="142">        <tspan fill="#C87E82" text-decoration="line-through">Open the garden for</tspan> <tspan fill="#6FBF8E">Run</tspan> <tspan fill="#C87E82" text-decoration="line-through">general drop-in volunteer session</tspan> <tspan fill="#6FBF8E">focused planting day</tspan> <tspan fill="#C87E82" text-decoration="line-through">12:00.</tspan> <tspan fill="#6FBF8E">12:00 for up to twelve volunteers who sign up in advance.</tspan></text>
+  <text class="output" x="24" y="162">  <tspan fill="#5FB3C4">▍ [mod]</tspan> <tspan font-weight="700">Materials</tspan> <tspan fill="#787B87">(c05650dc)</tspan></text>
+  <text class="output" x="24" y="182">        <tspan fill="#C87E82" text-decoration="line-through">Ask volunteers to bring gloves;</tspan> <tspan fill="#6FBF8E">Pre-stage seedlings and</tspan> <tspan fill="#6FBF8E">all</tspan> <tspan fill="#C87E82" text-decoration="line-through">site.</tspan> <tspan fill="#6FBF8E">site so the group can begin planting immediately.</tspan></text>
+  <text class="output" x="24" y="202">  <tspan fill="#5FB3C4">▍ [mod]</tspan> <tspan font-weight="700">Success signal</tspan> <tspan fill="#787B87">(e77d8f45)</tspan></text>
+  <text class="output" x="24" y="222">        <tspan fill="#C87E82" text-decoration="line-through">the number of</tspan> <tspan fill="#6FBF8E">planted beds and returning volunteers, not only total</tspan> <tspan fill="#C87E82" text-decoration="line-through">hours completed.</tspan> <tspan fill="#6FBF8E">hours.</tspan></text>
   <text class="output" x="24" y="242"></text>
-  <text class="output" x="24" y="262">  why: a focused session lets organizers prepare materials and test a repeatable planting format</text>
-  <text class="output" x="24" y="282">  rejected: open another general drop-in session before testing the focused format</text>
-  <text class="output" x="24" y="302">  claims: 3 recorded — `proofpress verify strategy.md 22f2374d`</text>
+  <text class="output" x="24" y="262">  <tspan fill="#D7B56D">why: </tspan>a focused session lets organizers prepare materials and test a repeatable planting format</text>
+  <text class="output" x="24" y="282">  <tspan fill="#C87E82">rejected: </tspan>open another general drop-in session before testing the focused format</text>
+  <text class="output" x="24" y="302">  <tspan fill="#787B87">claims: 3 recorded — `proofpress verify strategy.md 22f2374d`</tspan></text>
   <text class="output" x="24" y="322"></text>
   <text class="prompt" x="24" y="342">$ proofpress verify strategy.md</text>
-  <text class="output" x="24" y="362">verify strategy.md @ 22f2374d (v2)</text>
+  <text class="output" x="24" y="362">verify <tspan font-weight="700">strategy.md</tspan> <tspan fill="#787B87">@ 22f2374d (v2)</tspan></text>
   <text class="output" x="24" y="382"></text>
-  <text class="output" x="24" y="402">  ✓ [modified] Saturday schedule / para (0b451d51)</text>
-  <text class="output" x="24" y="422">  ✓ [modified] Materials / para (c05650dc)</text>
-  <text class="output" x="24" y="442">  ✓ [modified] Success signal / para (e77d8f45)</text>
+  <text class="output" x="24" y="402">  <tspan fill="#6FBF8E">✓</tspan> [modified] Saturday schedule / para <tspan fill="#787B87">(0b451d51)</tspan></text>
+  <text class="output" x="24" y="422">  <tspan fill="#6FBF8E">✓</tspan> [modified] Materials / para <tspan fill="#787B87">(c05650dc)</tspan></text>
+  <text class="output" x="24" y="442">  <tspan fill="#6FBF8E">✓</tspan> [modified] Success signal / para <tspan fill="#787B87">(e77d8f45)</tspan></text>
   <text class="output" x="24" y="462"></text>
-  <text class="output" x="24" y="482">  3 verified</text>
+  <text class="output" x="24" y="482">  <tspan fill="#6FBF8E">3 verified</tspan></text>
 </svg>

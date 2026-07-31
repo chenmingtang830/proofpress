@@ -4,14 +4,19 @@
 from __future__ import annotations
 
 import argparse
+import errno
+import fcntl
 import html
 import os
 from pathlib import Path
+import pty
 import re
 import shutil
+import struct
 import subprocess
 import sys
 import tempfile
+import termios
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -19,25 +24,100 @@ EXAMPLE = ROOT / "examples" / "portable-handoff"
 OUTPUT = ROOT / "assets" / "quickstart"
 CLI = ROOT / "proofpress.py"
 ANSI = re.compile(r"\x1b\[[0-?]*[ -/]*[@-~]")
+SGR = re.compile(r"\x1b\[([0-9;]*)m")
 
 
-def run(cwd: Path, *args: str) -> str:
+def tty_output(cwd: Path, *args: str) -> tuple[int, str]:
+    """Run the CLI in a fixed-size pseudo-terminal so its real colors render."""
     env = dict(os.environ)
-    env["NO_COLOR"] = "1"
-    result = subprocess.run(
+    env.pop("NO_COLOR", None)
+    master, slave = pty.openpty()
+    fcntl.ioctl(slave, termios.TIOCSWINSZ, struct.pack("HHHH", 40, 160, 0, 0))
+    process = subprocess.Popen(
         [sys.executable, str(CLI), *args],
         cwd=cwd,
         env=env,
-        text=True,
-        capture_output=True,
+        stdin=subprocess.DEVNULL,
+        stdout=slave,
+        stderr=slave,
     )
-    output = ANSI.sub("", result.stdout + result.stderr).rstrip()
-    if result.returncode:
+    os.close(slave)
+    chunks = []
+    try:
+        while True:
+            try:
+                chunk = os.read(master, 4096)
+            except OSError as exc:
+                if exc.errno == errno.EIO:
+                    break
+                raise
+            if not chunk:
+                break
+            chunks.append(chunk)
+    finally:
+        os.close(master)
+    return process.wait(), b"".join(chunks).decode("utf-8", errors="replace")
+
+
+def run(cwd: Path, *args: str) -> str:
+    returncode, output = tty_output(cwd, *args)
+    output = output.replace("\r\n", "\n").replace("\r", "\n").rstrip()
+    if returncode:
         raise RuntimeError(
-            f"proofpress {' '.join(args)} failed ({result.returncode}):\n{output}"
+            f"proofpress {' '.join(args)} failed ({returncode}):\n"
+            f"{ANSI.sub('', output)}"
         )
     prompt = f"$ proofpress {' '.join(args)}"
     return f"{prompt}\n{output}" if output else prompt
+
+
+def ansi_svg(line: str) -> str:
+    """Translate the CLI's SGR colors and emphasis into SVG tspans."""
+    output = []
+    position = 0
+    color = None
+    bold = False
+    strike = False
+    for match in SGR.finditer(line):
+        text = line[position : match.start()]
+        if text:
+            attrs = []
+            if color:
+                attrs.append(f'fill="{color}"')
+            if bold:
+                attrs.append('font-weight="700"')
+            if strike:
+                attrs.append('text-decoration="line-through"')
+            escaped = html.escape(text)
+            output.append(
+                f"<tspan {' '.join(attrs)}>{escaped}</tspan>" if attrs else escaped
+            )
+        codes = [int(code) for code in match.group(1).split(";") if code]
+        if not codes or 0 in codes:
+            color = None
+            bold = False
+            strike = False
+        if 1 in codes:
+            bold = True
+        if 9 in codes:
+            strike = True
+        if len(codes) >= 5 and codes[:2] == [38, 2]:
+            color = f"#{codes[2]:02X}{codes[3]:02X}{codes[4]:02X}"
+        position = match.end()
+    tail = line[position:]
+    if tail:
+        attrs = []
+        if color:
+            attrs.append(f'fill="{color}"')
+        if bold:
+            attrs.append('font-weight="700"')
+        if strike:
+            attrs.append('text-decoration="line-through"')
+        escaped = html.escape(tail)
+        output.append(
+            f"<tspan {' '.join(attrs)}>{escaped}</tspan>" if attrs else escaped
+        )
+    return "".join(output)
 
 
 def render_svg(title: str, transcript: str) -> str:
@@ -51,7 +131,7 @@ def render_svg(title: str, transcript: str) -> str:
         css_class = "prompt" if line.startswith("$ ") else "output"
         y = top + index * line_height
         spans.append(
-            f'  <text class="{css_class}" x="24" y="{y}">{html.escape(line)}</text>'
+            f'  <text class="{css_class}" x="24" y="{y}">{ansi_svg(line)}</text>'
         )
     body = "\n".join(spans)
     return f"""<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" viewBox="0 0 {width} {height}" role="img" aria-labelledby="title desc">

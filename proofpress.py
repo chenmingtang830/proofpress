@@ -2521,11 +2521,15 @@ def cmd_provenance_verify(a):
         print(json.dumps(result.to_dict(), ensure_ascii=False, indent=2))
     else:
         verdict = "verified" if result.ok else "failed"
+        verdict_color = "add" if result.ok else "del"
         print(
-            f"provenance {verdict}: {a.file} "
-            f"({result.level}; {result.provider}; {result.adapter})")
+            f"provenance {C(verdict_color, verdict, bold=True)}: {B(a.file)} "
+            f"{C('dim', f'({result.level}; {result.provider}; {result.adapter})')}")
         for check in result.checks:
-            print(f"  {check['status']}: {check['type']}")
+            check_color = "add" if check["status"] == "passed" else "del"
+            print(
+                f"  {C(check_color, check['status'])}: "
+                f"{C('dim', check['type'])}")
     sys.exit(0 if result.ok else 1)
 
 
