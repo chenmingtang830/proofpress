@@ -7,7 +7,7 @@ body:
     attributes:
       label: Version
       description: Output of `python3 proofpress.py --version` (or npm package version)
-      placeholder: proofpress 0.2.0
+      placeholder: proofpress 0.3.0
     validations:
       required: true
   - type: textarea

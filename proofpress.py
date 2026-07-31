@@ -26,7 +26,7 @@ import argparse, base64, difflib, hashlib, html, json, os, re, secrets, subproce
 from datetime import datetime, timezone
 import proofpress_evidence
 
-__version__ = "0.2.0"
+__version__ = "0.3.0"
 LEDGER_REF = "refs/proofpress/ledger"
 
 # ---------- terminal rendering ----------
