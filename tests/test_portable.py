@@ -58,6 +58,57 @@ class PortableArtifactTests(unittest.TestCase):
     def tearDown(self):
         self.repo.close()
 
+    def test_diff_keeps_time_values_intact_without_changing_capsule_wire_data(self):
+        target = self.repo.write(
+            "a.md", "# Schedule\n\nThe session runs from 12:00 to 13:00.\n"
+        )
+        self.repo.cli("snapshot", "a.md", "--author", "human")
+        self.repo.cli("policy", "a.md", "portable")
+        target.write_text(target.read_text().replace("12:00", "14:30"))
+        self.repo.cli("snapshot", "a.md", "--author", "human")
+
+        displayed = self.repo.cli("diff", "a.md").stdout
+        self.assertIn("Δ 12:00→14:30", displayed)
+        self.assertNotIn("00.→30.", displayed)
+
+        raw = target.read_text()
+        match = re.search(r"proofpress:capsule:([A-Za-z0-9_-]+)", raw)
+        payload = match.group(1)
+        decoded = base64.urlsafe_b64decode(payload + "=" * (-len(payload) % 4))
+        capsule = json.loads(zlib.decompress(decoded))
+        stored_changes = capsule["records"][-1]["event"]["changes"]
+        stored_numbers = [
+            change["numbers"] for change in stored_changes if change.get("numbers")
+        ]
+        self.assertEqual(stored_numbers, [[['12', '14'], ['00', '30']]])
+
+        inspected = json.loads(self.repo.cli("inspect", "a.md", "--json").stdout)
+        self.assertEqual(inspected["status"], "ok")
+
+    def test_diff_numeric_display_preserves_supported_value_shapes(self):
+        target = self.repo.write(
+            "a.md",
+            "# Metrics\n\nAt 09:15, revenue was $1.2M, conversion 45%, and volume 12,500.\n",
+        )
+        self.repo.cli("snapshot", "a.md", "--author", "human")
+        target.write_text(
+            target.read_text()
+            .replace("09:15", "10:45")
+            .replace("$1.2M", "$1.4M")
+            .replace("45%", "50%")
+            .replace("12,500", "13,000")
+        )
+        self.repo.cli("snapshot", "a.md", "--author", "human")
+
+        displayed = self.repo.cli("diff", "a.md").stdout
+        for delta in (
+            "09:15→10:45",
+            "$1.2M→$1.4M",
+            "45%→50%",
+            "12,500→13,000",
+        ):
+            self.assertIn(delta, displayed)
+
     def test_policy_states_and_sticky_portable_snapshot(self):
         self.repo.write("a.md", "# A\n\none\n")
         self.repo.cli("snapshot", "a.md", "--author", "human")

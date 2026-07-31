@@ -629,12 +629,25 @@ def assign_ids(new_blocks, old_version):
 # digits ("v0", "sha1") — a data number never starts mid-word.
 NUM = re.compile(r"(?<![\w-])[+-]?[$€¥]?\d[\d,.]*%?[MKB]?")
 
+# Keep NUM frozen: its output exists in portable capsules produced by released
+# clients. TUI/JSON presentation can improve independently without turning a
+# display heuristic into an incompatible wire-format change.
+DISPLAY_NUM = re.compile(
+    r"(?<![\w-])[+-]?[$€¥]?"
+    r"(?:\d{1,2}:\d{2}(?::\d{2})?|\d(?:[\d,.]*\d)?%?[MKB]?)"
+)
+
 _ORDINAL = re.compile(r"(?m)^\s*\d+[.)]\s")
 
 
 def extract_nums(text):
     """Numbers that are data, not numbering: list ordinals stripped first."""
     return NUM.findall(_ORDINAL.sub("", text))
+
+
+def extract_display_nums(text):
+    """Numeric values for UI output, with times intact and punctuation out."""
+    return DISPLAY_NUM.findall(_ORDINAL.sub("", text))
 
 def heading_context(blocks, idx):
     for j in range(idx, -1, -1):
@@ -702,6 +715,37 @@ def semantic_diff(old_v, new_v):
     for c in changes:
         stats[c["kind"]] = stats.get(c["kind"], 0) + 1
     return changes, stats
+
+
+def with_display_numbers(old_v, new_v, changes):
+    """Return diff rows with recomputed UI-only numeric annotations.
+
+    Portable capsules retain the released NUM behavior for compatibility.
+    Consumers of ``diff`` get corrected annotations derived from the attested
+    block text, without changing any stored or verified payload.
+    """
+    old_by_id = {b["id"]: b for b in (old_v or {}).get("blocks", [])}
+    new_by_id = {b["id"]: b for b in new_v.get("blocks", [])}
+    rendered = []
+    for change in changes:
+        row = dict(change)
+        row.pop("numbers", None)
+        if row.get("kind") == "modified":
+            old_block = old_by_id.get(row.get("block"))
+            new_block = new_by_id.get(row.get("block"))
+            if old_block and new_block:
+                old_nums = extract_display_nums(old_block["text"])
+                new_nums = extract_display_nums(new_block["text"])
+                if len(old_nums) == len(new_nums):
+                    deltas = [
+                        [before, after]
+                        for before, after in zip(old_nums, new_nums)
+                        if before != after
+                    ]
+                    if deltas:
+                        row["numbers"] = deltas[:6]
+        rendered.append(row)
+    return rendered
 
 
 def word_diff(a, b, width=100, color=False):
@@ -1390,6 +1434,7 @@ def cmd_diff(a):
                 (_primary_parent_event(ev_b, evs) or evs[1]))
     va, vb = read_version(ev_a["_commit"]), read_version(ev_b["_commit"])
     changes, stats = semantic_diff(va, vb)
+    changes = with_display_numbers(va, vb, changes)
     if a.json:
         print(json.dumps({"artifact": a.file, "from": ev_a["version"],
                           "to": ev_b["version"], "stats": stats,
@@ -2521,11 +2566,15 @@ def cmd_provenance_verify(a):
         print(json.dumps(result.to_dict(), ensure_ascii=False, indent=2))
     else:
         verdict = "verified" if result.ok else "failed"
+        verdict_color = "add" if result.ok else "del"
         print(
-            f"provenance {verdict}: {a.file} "
-            f"({result.level}; {result.provider}; {result.adapter})")
+            f"provenance {C(verdict_color, verdict, bold=True)}: {B(a.file)} "
+            f"{C('dim', f'({result.level}; {result.provider}; {result.adapter})')}")
         for check in result.checks:
-            print(f"  {check['status']}: {check['type']}")
+            check_color = "add" if check["status"] == "passed" else "del"
+            print(
+                f"  {C(check_color, check['status'])}: "
+                f"{C('dim', check['type'])}")
     sys.exit(0 if result.ok else 1)
 
 
