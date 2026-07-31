@@ -1,5 +1,6 @@
 import json
 from pathlib import Path
+import re
 import shutil
 import subprocess
 import tempfile
@@ -114,6 +115,7 @@ class QuickstartExampleTests(unittest.TestCase):
             capture_output=True,
             check=True,
         )
+        widths = set()
         for screenshot in (ROOT / "assets" / "quickstart").glob("*.svg"):
             payload = screenshot.read_text(encoding="utf-8")
             self.assertNotIn(str(ROOT), payload)
@@ -123,6 +125,9 @@ class QuickstartExampleTests(unittest.TestCase):
                 payload,
                 r'fill="#(?:5FB3C4|6FBF8E|C87E82|D7B56D|787B87)"',
             )
+            widths.add(int(re.search(r'<svg[^>]+ width="(\d+)"', payload).group(1)))
+        self.assertEqual(len(widths), 1)
+        self.assertGreater(next(iter(widths)), 1120)
 
     def test_readme_references_every_quickstart_fixture(self):
         readme = (ROOT / "README.md").read_text(encoding="utf-8")

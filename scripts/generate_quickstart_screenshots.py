@@ -7,6 +7,7 @@ import argparse
 import errno
 import fcntl
 import html
+import math
 import os
 from pathlib import Path
 import pty
@@ -25,6 +26,9 @@ OUTPUT = ROOT / "assets" / "quickstart"
 CLI = ROOT / "proofpress.py"
 ANSI = re.compile(r"\x1b\[[0-?]*[ -/]*[@-~]")
 SGR = re.compile(r"\x1b\[([0-9;]*)m")
+MIN_WIDTH = 1120
+HORIZONTAL_PADDING = 48
+CHAR_WIDTH = 8.45
 
 
 def tty_output(cwd: Path, *args: str) -> tuple[int, str]:
@@ -120,9 +124,8 @@ def ansi_svg(line: str) -> str:
     return "".join(output)
 
 
-def render_svg(title: str, transcript: str) -> str:
+def render_svg(title: str, transcript: str, width: int) -> str:
     lines = transcript.splitlines()
-    width = 1120
     line_height = 20
     top = 62
     height = top + max(1, len(lines)) * line_height + 24
@@ -211,9 +214,19 @@ def main() -> int:
     )
     args = parser.parse_args()
 
+    captured = transcripts()
+    longest_line = max(
+        len(ANSI.sub("", line))
+        for _, transcript in captured.values()
+        for line in transcript.splitlines()
+    )
+    width = max(
+        MIN_WIDTH,
+        HORIZONTAL_PADDING + math.ceil(longest_line * CHAR_WIDTH),
+    )
     expected = {
-        filename: render_svg(title, transcript)
-        for filename, (title, transcript) in transcripts().items()
+        filename: render_svg(title, transcript, width)
+        for filename, (title, transcript) in captured.items()
     }
     stale = []
     for filename, payload in expected.items():
