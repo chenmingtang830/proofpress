@@ -20,6 +20,16 @@ class QuickstartExampleTests(unittest.TestCase):
         subprocess.run(
             ["git", "init", "-q"], cwd=self.root, check=True, capture_output=True
         )
+        subprocess.run(
+            ["git", "config", "user.name", "Proofpress Quickstart"],
+            cwd=self.root,
+            check=True,
+        )
+        subprocess.run(
+            ["git", "config", "user.email", "quickstart@example.invalid"],
+            cwd=self.root,
+            check=True,
+        )
 
     def tearDown(self):
         self.tmp.cleanup()

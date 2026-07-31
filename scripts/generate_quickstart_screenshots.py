@@ -79,6 +79,16 @@ def transcripts() -> dict[str, tuple[str, str]]:
         subprocess.run(
             ["git", "init", "-q"], cwd=demo, check=True, capture_output=True
         )
+        subprocess.run(
+            ["git", "config", "user.name", "Proofpress Quickstart"],
+            cwd=demo,
+            check=True,
+        )
+        subprocess.run(
+            ["git", "config", "user.email", "quickstart@example.invalid"],
+            cwd=demo,
+            check=True,
+        )
         for name in ("strategy.md", "proposal.docx", "proposal.provenance.json"):
             shutil.copy2(EXAMPLE / name, demo / name)
 
