@@ -1,108 +1,196 @@
 {
  "event": "version_created",
- "artifact": "docs/internal/launch/chinese-launch-strategy.md",
- "artifact_id": "pp_30de2e5ed08aa008200efb4f",
- "version": "1164adcc",
- "parent": "d30136a6",
+ "artifact": "docs/internal/competition_ref/COMPETITIVE.md",
+ "artifact_id": "pp_26df6fac53ab90bd2fb3e6a7",
+ "version": "621aea50",
+ "parent": null,
  "author": {
-  "name": "unknown",
-  "kind": "human",
+  "name": "codex-preflight",
+  "kind": "system",
   "session": null
  },
- "note": null,
- "ts": "2026-07-26T15:49:24+00:00",
+ "note": "best-effort fallback capture; edit attribution unknown",
+ "ts": "2026-08-04T06:47:53+00:00",
  "stats": {
-  "modified": 6
+  "added": 24
  },
  "changes": [
   {
-   "kind": "modified",
-   "block": "fc756dde",
-   "type": "para",
-   "context": "推荐标题"
+   "kind": "added",
+   "block": "953f6620",
+   "type": "heading",
+   "context": "Competitive Landscape — Proofpress",
+   "preview": "# Competitive Landscape — Proofpress"
   },
   {
-   "kind": "modified",
-   "block": "09737e7b",
+   "kind": "added",
+   "block": "897cbb20",
+   "type": "para",
+   "context": "Competitive Landscape — Proofpress",
+   "preview": "Scan date: 2026-07-18 (all numbers verified live via GitHub "
+  },
+  {
+   "kind": "added",
+   "block": "f1a1c77f",
+   "type": "para",
+   "context": "Competitive Landscape — Proofpress",
+   "preview": "Our claim to defend (**updated 2026-07-21**, superseding the"
+  },
+  {
+   "kind": "added",
+   "block": "1f95ada1",
+   "type": "heading",
+   "context": "Bucket 1 — General agent workspaces (\"si",
+   "preview": "## Bucket 1 — General agent workspaces (\"single-player open "
+  },
+  {
+   "kind": "added",
+   "block": "49dc3c5e",
+   "type": "para",
+   "context": "Bucket 1 — General agent workspaces (\"si",
+   "preview": "Have: agents doing knowledge work, self-hosting. Lack: versi"
+  },
+  {
+   "kind": "added",
+   "block": "e29ce939",
+   "type": "table",
+   "context": "Bucket 1 — General agent workspaces (\"si",
+   "preview": "| Project | Stars | License | Notes |\n|---|---|---|---|\n| zh"
+  },
+  {
+   "kind": "added",
+   "block": "f608f538",
+   "type": "para",
+   "context": "Bucket 1 — General agent workspaces (\"si",
+   "preview": "Assessment: the bucket's leaders are converging on our metap"
+  },
+  {
+   "kind": "added",
+   "block": "3ec4246c",
+   "type": "heading",
+   "context": "Bucket 2 — Coding orchestration (our sha",
+   "preview": "## Bucket 2 — Coding orchestration (our shape, wrong domain)"
+  },
+  {
+   "kind": "added",
+   "block": "f2f8e550",
+   "type": "para",
+   "context": "Bucket 2 — Coding orchestration (our sha",
+   "preview": "Have: boards, parallel sessions, review loops. Lack: anythin"
+  },
+  {
+   "kind": "added",
+   "block": "e328a55c",
+   "type": "table",
+   "context": "Bucket 2 — Coding orchestration (our sha",
+   "preview": "| Project | Stars | License | Notes |\n|---|---|---|---|\n| Ag"
+  },
+  {
+   "kind": "added",
+   "block": "9832a291",
+   "type": "para",
+   "context": "Bucket 2 — Coding orchestration (our sha",
+   "preview": "Assessment: commoditizing; still nobody positioned for knowl"
+  },
+  {
+   "kind": "added",
+   "block": "c8ad5373",
+   "type": "heading",
+   "context": "Bucket 3 — Open-source system-of-record ",
+   "preview": "## Bucket 3 — Open-source system-of-record with AI bolt-ons"
+  },
+  {
+   "kind": "added",
+   "block": "e05edc7a",
+   "type": "para",
+   "context": "Bucket 3 — Open-source system-of-record ",
+   "preview": "Have: docs/tasks/teams as durable record. Lack: agent-native"
+  },
+  {
+   "kind": "added",
+   "block": "eae6e1c9",
+   "type": "table",
+   "context": "Bucket 3 — Open-source system-of-record ",
+   "preview": "| Project | Stars | License | Notes |\n|---|---|---|---|\n| Ap"
+  },
+  {
+   "kind": "added",
+   "block": "3106b8a0",
+   "type": "para",
+   "context": "Bucket 3 — Open-source system-of-record ",
+   "preview": "Assessment: the structural blocker (continuous human editing"
+  },
+  {
+   "kind": "added",
+   "block": "00dedc3d",
+   "type": "heading",
+   "context": "Bucket 4 — The review/version layer for ",
+   "preview": "## Bucket 4 — The review/version layer for agent output"
+  },
+  {
+   "kind": "added",
+   "block": "0001257a",
+   "type": "para",
+   "context": "Bucket 4 — The review/version layer for ",
+   "preview": "Our core IP. Nearest neighbors:"
+  },
+  {
+   "kind": "added",
+   "block": "6db2c7cf",
    "type": "list",
-   "context": "九页图文结构"
+   "context": "Bucket 4 — The review/version layer for ",
+   "preview": "- **LLMs themselves (added 2026-07-21)**: the sharpest neigh"
   },
   {
-   "kind": "modified",
-   "block": "ed56c02d",
-   "type": "para",
-   "context": "可直接发布的小红书正文"
+   "kind": "added",
+   "block": "2a6d13b1",
+   "type": "heading",
+   "context": "Threat ranking (revised 2026-07-18)",
+   "preview": "## Threat ranking (revised 2026-07-18)"
   },
   {
-   "kind": "modified",
-   "block": "b067188a",
-   "type": "para",
-   "context": "推荐标题"
+   "kind": "added",
+   "block": "83b03812",
+   "type": "list",
+   "context": "Threat ranking (revised 2026-07-18)",
+   "preview": "1. **Anthropic ships multiplayer/versioned Cowork** — highes"
   },
   {
-   "kind": "modified",
-   "block": "be0e7808",
-   "type": "para",
-   "context": "推荐标题"
+   "kind": "added",
+   "block": "94eea890",
+   "type": "heading",
+   "context": "Tactics",
+   "preview": "## Tactics"
   },
   {
-   "kind": "modified",
-   "block": "e1360ccb",
+   "kind": "added",
+   "block": "ac6767b7",
    "type": "para",
-   "context": "长文结构"
+   "context": "Tactics",
+   "preview": "**Own the vocabulary now.** \"Draft → Review → Approve **for "
+  },
+  {
+   "kind": "added",
+   "block": "1e196f12",
+   "type": "heading",
+   "context": "Standing conclusions",
+   "preview": "## Standing conclusions"
+  },
+  {
+   "kind": "added",
+   "block": "32331816",
+   "type": "list",
+   "context": "Standing conclusions",
+   "preview": "- The four-bucket vacuum has one occupant now (Kortix), but "
   }
  ],
  "policy": "local",
- "soft_fingerprint": "ppsb1:858b75294d484fa736281bd99beb6f6043bc1f4865d89aab84c9ca87f2cbf22a",
+ "soft_fingerprint": "ppsb1:f41063347187cd5007b0bf16dd70eb7a2ae4787b54d928eae5ac97fff0aaf121",
  "actors": {
-  "requested_by": [
-   "Richard Tang"
-  ],
-  "produced_by": [
-   "codex"
-  ],
-  "edited_by": [
-   "codex"
-  ],
   "recorded_by": [
-   "codex"
+   "codex-preflight"
   ]
  },
  "attribution_basis": "harness_attested",
- "claims": [
-  {
-   "block": "fc756dde",
-   "kind": "modified",
-   "note": "Reframed the Chinese launch around the vision narrative before product explanation."
-  },
-  {
-   "block": "09737e7b",
-   "kind": "modified",
-   "note": "Reframed the Chinese launch around the vision narrative before product explanation."
-  },
-  {
-   "block": "ed56c02d",
-   "kind": "modified",
-   "note": "Reframed the Chinese launch around the vision narrative before product explanation."
-  },
-  {
-   "block": "b067188a",
-   "kind": "modified",
-   "note": "Reframed the Chinese launch around the vision narrative before product explanation."
-  },
-  {
-   "block": "be0e7808",
-   "kind": "modified",
-   "note": "Reframed the Chinese launch around the vision narrative before product explanation."
-  },
-  {
-   "block": "e1360ccb",
-   "kind": "modified",
-   "note": "Reframed the Chinese launch around the vision narrative before product explanation."
-  }
- ],
- "context": {
-  "why": "Reframe the Chinese launch so the vision narrative of lost and inheritable knowledge leads before the Proofpress product explanation."
- },
- "event_id": "ppe_a4104f36792665f2cf8e3a6b"
+ "event_id": "ppe_e3ab7490c9d57a73afe61c2d"
 }

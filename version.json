@@ -1,408 +1,150 @@
 {
- "artifact": "docs/internal/launch/chinese-launch-strategy.md",
- "artifact_id": "pp_30de2e5ed08aa008200efb4f",
+ "artifact": "docs/internal/competition_ref/COMPETITIVE.md",
+ "artifact_id": "pp_26df6fac53ab90bd2fb3e6a7",
  "blocks": [
   {
    "type": "heading",
-   "text": "# Proofpress 中文发布策略",
-   "id": "95d7fef6",
-   "hash": "5ecb002b6ab9"
+   "text": "# Competitive Landscape — Proofpress",
+   "id": "953f6620",
+   "hash": "ec4bc5872d36"
+  },
+  {
+   "type": "para",
+   "text": "Scan date: 2026-07-18 (all numbers verified live via GitHub API / web this date; no ⚠️ items outstanding).\nFramework: our position is the intersection of four adjacent categories; **one direct neighbor now exists (Kortix, see Threat ranking)**.",
+   "id": "897cbb20",
+   "hash": "f62ad62ea1d1"
+  },
+  {
+   "type": "para",
+   "text": "Our claim to defend (**updated 2026-07-21**, superseding the orchestration/multiplayer framing below — that layer moved to act two): the **knowledge-artifact-native ledger** — block identity, semantic diff, **deterministic verification of agent self-reports** (claims checked against the computed diff), block-level provenance — multi-harness, truly open, git as transport. Bucket analyses below are the 2026-07-18 snapshot and read through the older frame; the threat rankings still hold under the new one.",
+   "id": "f1a1c77f",
+   "hash": "a711334c820b"
   },
   {
    "type": "heading",
-   "text": "## 发布目标",
-   "id": "9d86c85a",
-   "hash": "19134ebdac1b"
+   "text": "## Bucket 1 — General agent workspaces (\"single-player open Cowork\")",
+   "id": "1f95ada1",
+   "hash": "54337b1bf596"
   },
   {
    "type": "para",
-   "text": "这次中文发布的目标不是解释全部协议细节，而是让读者在最短时间内形成一个准确的新认知：",
-   "id": "e2b845d0",
-   "hash": "bf2d0c3a82e6"
+   "text": "Have: agents doing knowledge work, self-hosting. Lack: versioning, review, multi-agent supervision.",
+   "id": "49dc3c5e",
+   "hash": "66823105c490"
+  },
+  {
+   "type": "table",
+   "text": "| Project | Stars | License | Notes |\n|---|---|---|---|\n| zhayujie/CowAgent | 46.0k ✅ | MIT | README deep-read 2026-07-18: personal assistant, single-agent-per-instance, IM-channel-first (WeChat/Feishu/DingTalk/Telegram…), Markdown-wiki memory but **no versioning, no review loop, no multiplayer**. Threat rating **confirmed: low direct / mindshare only** — Chinese community momentum is the asset; the architecture points away from team orchestration. |\n| lobehub/lobehub | 80.5k ✅ | fair-code (NOASSERTION) | Launched \"Chief Agent Operator\" 2026-05-18 (Product Hunt #1 of day): hires agents from 273k-skill marketplace, runs Claude Code/Codex/OpenClaw 24/7 in cloud, **reports via daily brief** in Slack/Discord/WeChat etc. Reporting ≠ review — no versioned artifact, no approval gate — but hiring/scheduling/reporting vocabulary is one step from assignment/review. Highest-trajectory threat in bucket. |\n| kortix-ai/suna → **Kortix** | 20.0k ✅ | source-available (was Apache-2.0) | **Moved buckets — see Threat ranking.** Pivoted to \"The Company AI Command Center\". Source deep-read 2026-07-18 (change-requests.ts, review-items.ts, git/merge.ts): Review Center is a real inbox product (output/decision/batch kinds + CR/approval adapters, 5 verdicts, risk levels, Slack/Teams cards) and **request-changes auto-flows back to the originating session's agent, waking sleeping sandboxes** — they have a warm-revision loop. But CR core is \"intentionally minimal\" (their comment): git-branch metadata, no review/comment tables, feedback = flat text log in jsonb, **diff = unified git patch only, explicitly no semantic diff for markdown/docx**; versioned unit is the repo/branch, never the artifact. Pre-1.0 (v0.9.98). |\n| FoundationAgents/OpenManus | 57.5k ✅ | MIT | **Dormant — last push 2026-02-11.** Downgraded to non-threat; star count is a fossil. |\n| OpenHands/OpenHands | 81.2k ✅ | NOASSERTION (relicensed from MIT) | Moved to own org. Coding-centric, strong eval culture; still git-native. |\n| microsoft/magentic-ui | 10.0k ✅ | MIT | Now \"MagenticLite\" (browser + local FS agent). Still best-in-class human-in-the-loop approval UX to study; different domain. |\n| skalesapp/skales | 1.2k ✅ | NOASSERTION | Personal AI desktop agent. Watch consumer polish only. |",
+   "id": "e29ce939",
+   "hash": "284b81187397"
   },
   {
    "type": "para",
-   "text": "> AI 可以快速生成文档，但如果文件离开当前对话，产生它的决策历史通常不会一起走。Proofpress 让被接受的修改、理由和重要否决随 artifact 流转，使后来的人或 Agent 能从一个可检查的过去继续工作。",
-   "id": "7695af15",
-   "hash": "863e360a6cbe"
+   "text": "Assessment: the bucket's leaders are converging on our metaphors faster than expected — lobehub shipped \"hiring/reporting\", Kortix graduated out of the bucket entirely by shipping review. The 6–12 month window estimated last scan was wrong: **it was ~0 months for Kortix**. What remains open: non-git artifacts, harness neutrality, true open-source license.",
+   "id": "f608f538",
+   "hash": "6c4744262a9c"
+  },
+  {
+   "type": "heading",
+   "text": "## Bucket 2 — Coding orchestration (our shape, wrong domain)",
+   "id": "3ec4246c",
+   "hash": "8d2ed1deba18"
   },
   {
    "type": "para",
-   "text": "中文发布分成两个互补入口：",
-   "id": "7dbdd49c",
-   "hash": "13701a9a7e75"
+   "text": "Have: boards, parallel sessions, review loops. Lack: anything non-git.",
+   "id": "f2f8e550",
+   "hash": "33cda3ee32f8"
+  },
+  {
+   "type": "table",
+   "text": "| Project | Stars | License | Notes |\n|---|---|---|---|\n| AgentWrapper/agent-orchestrator (AO) | 8.3k ✅ | Apache-2.0 | Desktop agent-IDE, 23 harness adapters, worktree isolation, CI/review/merge loops. Reference for supervision UX; git-native to the bone. |\n| omnigent (our base) | active ✅ | Apache-2.0 | Session abstraction is domain-neutral — our structural advantage. |\n| farion1231/cc-switch | 118k ✅ | MIT | Harness cockpit/router, not orchestration; owns \"many harnesses, one surface\" mindshare. |\n| ruvnet/ruflo | 65.0k ✅ | MIT | README deep-read 2026-07-18: swarm coordination + vector memory + federation built around **Claude Code specifically** — despite \"meta-harness\" branding it is monolithic to its own harness. No versioned-artifact model; review exists only as sparse \"before-merge gates\" checklist items. More engineering-real than expected (benchmarks, ADRs, honest status page) but aimed at agent autonomy, not human review of deliverables. Threat rating **confirmed: low-moderate** — dangerous only if federation + team workflows (both in active dev) pivot toward artifact review. Re-check quarterly. |\n| BloopAI/vibe-kanban | 27.4k ✅ | Apache-2.0 | Board-of-agents validated; last push 2026-04-24 — momentum cooling. |\n| claude-squad, Conductor, Terragon | small/closed | — | Same category, same ceiling. |",
+   "id": "e328a55c",
+   "hash": "119356f56155"
+  },
+  {
+   "type": "para",
+   "text": "Assessment: commoditizing; still nobody positioned for knowledge work — their data model IS git. Validates our \"session-native, not git-native\" bet. Note Kortix chose the git data model for its company product — that's the bet we're on the other side of.",
+   "id": "9832a291",
+   "hash": "6249666a5cec"
+  },
+  {
+   "type": "heading",
+   "text": "## Bucket 3 — Open-source system-of-record with AI bolt-ons",
+   "id": "c8ad5373",
+   "hash": "3e726c5ff72f"
+  },
+  {
+   "type": "para",
+   "text": "Have: docs/tasks/teams as durable record. Lack: agent-native execution (with one exception now).",
+   "id": "e05edc7a",
+   "hash": "b24b5b2d321a"
+  },
+  {
+   "type": "table",
+   "text": "| Project | Stars | License | Notes |\n|---|---|---|---|\n| AppFlowy | 74.0k ✅ | AGPL-3.0 | Notion alt + AI workspace. |\n| AFFiNE | 70.6k ✅ | MIT + ee (NOASSERTION) | Doc/whiteboard + AI copilot. |\n| **Plane** | 54.7k ✅ | AGPL-3.0 | **Moved. Already shipped** (plane.so/ai): agents as assignees (\"add an agent as an assignee just like any teammate\"), native MCP server, @mention agent framework, Agent Run lifecycle tracking, audit trail, and configurable **\"what needs human review\"** gates. The predicted \"natural move\" happened. Review is of task execution, not versioned artifacts — but they own record + workflow + now rent execution. |\n| Huly (hcengineering/platform) | 26.9k ✅ | EPL-2.0 | All-in-one PM; team-of-agents marketing. |\n| Outline | 39.7k ✅ | BSL (NOASSERTION) | Team wiki + AI answers. |",
+   "id": "eae6e1c9",
+   "hash": "e15fbad9ab83"
+  },
+  {
+   "type": "para",
+   "text": "Assessment: the structural blocker (continuous human editing vs propose-review-merge) still holds for docs — but Plane shows the task side of the record can absorb agents fast. Partnership-target logic still applies to the doc-first players; Plane graduates to watched competitor.",
+   "id": "3106b8a0",
+   "hash": "19351455ecb6"
+  },
+  {
+   "type": "heading",
+   "text": "## Bucket 4 — The review/version layer for agent output",
+   "id": "00dedc3d",
+   "hash": "b81bb4f7bc66"
+  },
+  {
+   "type": "para",
+   "text": "Our core IP. Nearest neighbors:",
+   "id": "0001257a",
+   "hash": "3bdf85fec5f6"
   },
   {
    "type": "list",
-   "text": "1. **小红书负责认知与传播。** 用具体场景和连续图片让非基础设施读者迅速理解问题。\n2. **中文长文负责论证与转化。** 解释为什么这不是聊天记录器、Git 替代品或“给 Markdown 再造一个 Git”，最后引导读者查看 GitHub 和 portable handoff demo。",
-   "id": "bda8afec",
-   "hash": "ac88b25c102d"
-  },
-  {
-   "type": "para",
-   "text": "两边共享同一个核心命题，但不复制同一篇文案。",
-   "id": "21f695d4",
-   "hash": "563978361070"
+   "text": "- **LLMs themselves (added 2026-07-21)**: the sharpest neighbor in this bucket. Feeding two markdown versions to any frontier model yields a decent semantic diff — the *reading* layer (structure + word-level) is commoditizing. What no model can supply is the **deterministic verification gate**: a reproducible, same-input-same-verdict check that an agent's account matches the computed change. Probabilistic opinion vs deterministic check is the moat line; \"an AI auditing another AI\" is circular in any audit context.\n- docs-as-code (Git+Markdown review flows): right mechanics, failed adoption — humans won't pay the ceremony. Our why-now: agents absorb it.\n- Workflow builders (Dify 149.2k ✅, n8n, Flowise): human-approval nodes are a gate in a DAG, not review of a versioned artifact with warm-session feedback. Biggest enterprise-sales competitor, not product competitor.\n- eval/guardrail tooling (LangSmith et al.): reviews runs, not deliverables.\n- Direct implementations of semantic-diff + warm-session review over non-git artifacts: **still none found ✅** — Kortix is the closest but rides git commits/PRs.",
+   "id": "6db2c7cf",
+   "hash": "f197a884b6ea"
   },
   {
    "type": "heading",
-   "text": "## 中文核心话术",
-   "id": "9ee225a0",
-   "hash": "50f8a80fba91"
-  },
-  {
-   "type": "heading",
-   "text": "### 一句话定位",
-   "id": "df524f62",
-   "hash": "c916322fc2fb"
-  },
-  {
-   "type": "para",
-   "text": "Proofpress 是多人 AI 协作的信任层：一个随 artifact 流转的开放、Agent-native 决策账本。",
-   "id": "ac8b87a8",
-   "hash": "d4c0bdd4ab99"
-  },
-  {
-   "type": "heading",
-   "text": "### 中文主张",
-   "id": "2ab64c2d",
-   "hash": "5d6e123a7ada"
-  },
-  {
-   "type": "para",
-   "text": "> Git 让代码可以协作。Proofpress 让智能可以复利。",
-   "id": "dbdef923",
-   "hash": "00c06b0d3f45"
-  },
-  {
-   "type": "para",
-   "text": "“智能复利”必须和具体产品机制同时出现，不能单独作为抽象口号。紧接着说明：文件移动时，被接受的决策历史也应该一起移动。",
-   "id": "9e20e76f",
-   "hash": "a5ba4f8e6cb7"
-  },
-  {
-   "type": "heading",
-   "text": "### 必须守住的边界",
-   "id": "13002c16",
-   "hash": "2af2a84500a6"
+   "text": "## Threat ranking (revised 2026-07-18)",
+   "id": "2a6d13b1",
+   "hash": "d80ce417b7a7"
   },
   {
    "type": "list",
-   "text": "- Proofpress 当前服务 Markdown 和静态 HTML 知识 artifact；源码继续由 Git 管理。\n- Proofpress 记录进入共享工作的决策，不记录完整聊天、原始 prompt 或私有思维过程。\n- 引擎可以检查 artifact 的实际变化和 claims 是否吻合；理由、否决与 actor 身份仍是有来源标注的 testimony，不能描述成被独立证明的事实。\n- Portable capsule 能暴露不一致修改和意外漂移，但 V0 不能阻止持有者把文件与 capsule 整体替换。更强的对抗性保证仍需要签名或外部可信见证。\n- Proofpress 不承诺捕获全部历史。没有被记录的部分应该保持为已知缺口，而不是被包装成完整真相。",
-   "id": "028f75f0",
-   "hash": "3e23d1a6d707"
+   "text": "1. **Anthropic ships multiplayer/versioned Cowork** — highest impact. Structural counter unchanged: open + any-agent + self-hosted. Never trade those.\n2. **Kortix (ex-Suna)** — ⬆ from \"would become a competitor\" to **shipped the closest thing to our loop**, including automatic feedback-to-agent revision (verified in source 2026-07-18). What they have NOT built — and are structurally biased against, since git is their declared source of truth — is exactly our core: artifact-level identity/history, semantic diff, content-anchored review comments. Our remaining edges: (a) artifact-native data model + semantic diff vs their branch-metadata + line patches, (b) they went source-available while we stay genuinely open, (c) multi-harness neutrality vs their own runtime, (d) pre-1.0 immaturity. Watch monthly; this is the sharpest external clock on M0/M1.\n3. **lobehub adds review loop** — high likelihood; CAO launch shows velocity and the vocabulary is adjacent. Counter: ship fast, own the vocabulary publicly first (see Tactics).\n4. **Plane** — ⬆ from mid-term to **already executing**: agents-as-assignees + human-review gates shipped. They'll own record + execution for task-shaped work; counter remains being the artifact/review layer they'd rather integrate than build.\n5. **AO expands past git** — low; data model and community are git-native.\n6. ~~OpenManus~~ — removed; dormant since Feb 2026.",
+   "id": "83b03812",
+   "hash": "6ec3506e1947"
   },
   {
    "type": "heading",
-   "text": "## 小红书发布方案",
-   "id": "4128e270",
-   "hash": "ac161d0be864"
+   "text": "## Tactics",
+   "id": "94eea890",
+   "hash": "dd1265ec7cb8"
+  },
+  {
+   "type": "para",
+   "text": "**Own the vocabulary now.** \"Draft → Review → Approve **for agents**\" must appear in our launch post, README tagline, and every public description before lobehub or Kortix phrase it first — whoever's words the category adopts defines the category, and this is the cheapest available defense against both. Kortix says \"change requests\" (developer vocabulary, git frame); lobehub says \"hiring/reporting\" (HR frame). The Draft/Review/Approve frame (knowledge-work vocabulary, matches our UI terms) is still unclaimed. Deadline: publicly attached to our name before the next scan.",
+   "id": "ac6767b7",
+   "hash": "747dae5ca622"
   },
   {
    "type": "heading",
-   "text": "### 推荐标题",
-   "id": "4e77d632",
-   "hash": "ae2b638c1dd4"
-  },
-  {
-   "type": "para",
-   "text": "主标题：",
-   "id": "9657539a",
-   "hash": "39c9fdce4655"
-  },
-  {
-   "type": "para",
-   "text": "> AI 正在让我们产出更多，为什么却不一定让我们积累更多？",
-   "id": "fc756dde",
-   "hash": "866225da0fd8"
-  },
-  {
-   "type": "para",
-   "text": "备用标题：",
-   "id": "86f7f082",
-   "hash": "5051a929b84e"
+   "text": "## Standing conclusions",
+   "id": "1e196f12",
+   "hash": "61f16d67045f"
   },
   {
    "type": "list",
-   "text": "- 我开源了一个让 AI 决策历史跟着文件走的工具\n- 文件传给下一个 AI 后，最重要的东西却丢了\n- 多个 AI 一起工作，真正缺的不是更长的上下文",
-   "id": "b6e3ab52",
-   "hash": "fb7a63f104e4"
-  },
-  {
-   "type": "para",
-   "text": "不要在标题里使用“Git for docs”。它会带来错误预期，也会把产品缩小成版本管理工具。",
-   "id": "0ca596a0",
-   "hash": "8b629df8ff1e"
-  },
-  {
-   "type": "heading",
-   "text": "### 封面",
-   "id": "c6659637",
-   "hash": "49e5b6a6201b"
-  },
-  {
-   "type": "para",
-   "text": "使用 5:2 hero 的重新裁切版本，保留中央文档、左右协作者和 teal lineage。封面最多增加一句中文：",
-   "id": "3388c2ae",
-   "hash": "8e50c1df8c78"
-  },
-  {
-   "type": "para",
-   "text": "> 文件走了，决策历史也该一起走",
-   "id": "f1d294d5",
-   "hash": "081eabcaba09"
-  },
-  {
-   "type": "para",
-   "text": "如果文字影响视觉，宁可只用图片，把标题交给笔记标题承担。",
-   "id": "b364defc",
-   "hash": "3cfd22827c7c"
-  },
-  {
-   "type": "heading",
-   "text": "### 九页图文结构",
-   "id": "ccea9121",
-   "hash": "ac65c83b9fda"
-  },
-  {
-   "type": "list",
-   "text": "1. **问题钩子：** AI 正在让我们产出更多，为什么却不一定让我们积累更多？\n2. **最终截图：** 一份 strategy 或 memo 最后写成什么样看得见；它为何变成这样，却常常看不见。\n3. **handoff：** 文件从 Chat A 传到 Agent B；文件到了，形成它的判断没有到。\n4. **损失：** 下一个协作者只能相信最终答案，或者从头猜一次。更多 output 不等于更多知识。\n5. **转折：** 答案不是保存所有 prompt 和聊天；那既嘈杂，也会越过隐私边界。\n6. **该留下什么：** 被接受的变化、理由、重要否决、归因与可检查的 change account。\n7. **Proofpress：** 这些记录组成随 artifact 移动的 ledger，让后来者能从正确的过去继续。\n8. **多人协作：** 人和 Agent 可以并行工作，再把公开的历史汇入同一个 artifact；源码仍继续交给 Git。\n9. **行动：** Proofpress 0.2.0 已开源。查看 GitHub，试一次五分钟 portable handoff。",
-   "id": "09737e7b",
-   "hash": "3ef483fe86e5"
-  },
-  {
-   "type": "para",
-   "text": "建议复用现有图片：",
-   "id": "066b745f",
-   "hash": "e4e450952ce8"
-  },
-  {
-   "type": "list",
-   "text": "- 第 2–3 页：`assets/proofpress-vision-context-loss.png`\n- 第 5–6 页：`assets/proofpress-vision-decision-filter.png`\n- 第 7 页：`assets/proofpress-vision-branch-merge.png`\n- 第 9 页：`assets/proofpress-vision-article-5x2.png`",
-   "id": "f61dd704",
-   "hash": "0426e291be33"
-  },
-  {
-   "type": "heading",
-   "text": "### 可直接发布的小红书正文",
-   "id": "88b47c0b",
-   "hash": "5bc756217c28"
-  },
-  {
-   "type": "para",
-   "text": "> AI 让写 strategy、research memo、提案和分析报告变得前所未有地快。\n>\n> 但大多数文件，都只是一次思考的最终截图。\n>\n> 我们看得见结论，却常常看不见：哪条证据改变了它、为什么改写、哪些方向被否决、以及哪些判断仍然不确定。\n>\n> 文件留下来了。让人理解它、继续它所需要的判断，往往没有。\n>\n> 当一个文档从 Chat A 传给 Agent B，文件到了，形成它的决策历史却留在原来的聊天窗口、工具和人的记忆里。下一个人拿到的是 output，不是一段可以安全继承的过去。\n>\n> 这也是 AI slop 更深层的问题：不只是内容质量，而是内容没有稳定来历，无法核对，也不能被安全地继续。\n>\n> 所以我做了 Proofpress。\n>\n> 它不保存完整 prompt，也不是聊天记录器。它只记录真正进入共享 artifact 的部分：被接受的变化、明确写下的理由、重要否决、归因，以及可以根据文件本身检查的 change account。\n>\n> 这些记录可以和 Markdown 或静态 HTML 文件一起移动。人和 Agent 换了 session、工具、团队，甚至不再使用 GitHub，也可以从这份 artifact 的共享、可检查的过去继续工作。\n>\n> Git 让代码可以协作。Proofpress 让智能可以复利。\n>\n> Proofpress 0.2.0 现在已经开源。项目和五分钟 demo 在 GitHub：\n>\n> https://github.com/chenmingtang830/proofpress",
-   "id": "ed56c02d",
-   "hash": "0edd8e60d433"
-  },
-  {
-   "type": "para",
-   "text": "推荐标签控制在高度相关的范围：",
-   "id": "669a230d",
-   "hash": "8997f71c004a"
-  },
-  {
-   "type": "para",
-   "text": "`#AI工具 #AIAgent #开源项目 #知识管理 #人机协作 #独立开发`",
-   "id": "8a96f58a",
-   "hash": "8b03531517b8"
-  },
-  {
-   "type": "para",
-   "text": "不要堆叠泛流量标签，也不要把“信任层”写成身份认证、安全授权或内容真实性保证。",
-   "id": "ae438c78",
-   "hash": "6c5b5a04774e"
-  },
-  {
-   "type": "heading",
-   "text": "## 中文长文发布方案",
-   "id": "b2698245",
-   "hash": "3c4af4c28c71"
-  },
-  {
-   "type": "heading",
-   "text": "### 平台选择",
-   "id": "2fe5055c",
-   "hash": "436a3cba0826"
-  },
-  {
-   "type": "para",
-   "text": "把一篇完整中文长文作为 canonical Chinese article。若发布在偏开发者的平台，保留协议边界、Git 区别和 demo；若发布在更大众的平台，正文不变，但把安装命令放到文末。之后可以跨发到知乎、掘金或个人博客，但统一指向同一个 GitHub 仓库，不维护多套产品定义。",
-   "id": "732d7e5a",
-   "hash": "54c8030a8c6b"
-  },
-  {
-   "type": "heading",
-   "text": "### 推荐标题",
-   "id": "6862e5f7",
-   "hash": "ae2b638c1dd4"
-  },
-  {
-   "type": "para",
-   "text": "> AI 正在让我们产出更多，但不一定让我们积累更多",
-   "id": "b067188a",
-   "hash": "662b522ea97a"
-  },
-  {
-   "type": "para",
-   "text": "副标题：",
-   "id": "b5e1af94",
-   "hash": "61e6c5f7c336"
-  },
-  {
-   "type": "para",
-   "text": "> 文件留下来了；让人理解它、继续它的判断，往往没有",
-   "id": "be0e7808",
-   "hash": "731901db02ba"
-  },
-  {
-   "type": "heading",
-   "text": "### 长文结构",
-   "id": "f5deb9d1",
-   "hash": "aa24a0b786ac"
-  },
-  {
-   "type": "list",
-   "text": "1. **从一次普通 handoff 开始。** 文件传给下一个 Agent，正文还在，决策上下文却丢了。\n2. **为什么这是基础设施问题。** 多 Agent 放大输出速度，也放大无法继承的结论。\n3. **为什么不能保存全部对话。** 噪音、隐私和“发生过”不等于“被接受”。\n4. **应该留下什么。** Accepted changes、stated reasons、consequential rejections、attribution、verification results 和明确的 unknown。\n5. **Git 真正提供了什么。** 不只是 diff，而是共享、可继续的过去。\n6. **Proofpress 的答案。** Artifact-native ledger、portable capsule、多人分支和 merge。\n7. **Proofpress 不是什么。** 不替代 Git，不证明所有陈述为真，不证明所有身份，不宣称完整捕获。\n8. **当前边界。** Markdown 与静态 HTML；源码继续使用 Git。\n9. **开放邀请。** 试用 demo、检查协议、提交 issue 或贡献文档。",
-   "id": "4553d793",
-   "hash": "fee6a592b522"
-  },
-  {
-   "type": "para",
-   "text": "中文长文已经起草在 `docs/internal/launch/chinese-vision-article.md`。它以“最终 output 不是可继承知识”为主线：先让读者看见 loss，再解释为什么不是保存私密对话，最后才介绍 Proofpress 与它的边界。不要逐句翻译英文版，也不要在开头使用协议、capsule 或 ledger 等实现词。",
-   "id": "e1360ccb",
-   "hash": "d5978a822090"
-  },
-  {
-   "type": "heading",
-   "text": "### 长文结尾",
-   "id": "0fa20a69",
-   "hash": "121b9a99820e"
-  },
-  {
-   "type": "para",
-   "text": "> 我不认为下一代知识系统只需要生成更多内容。\n>\n> 它需要让后来的人和机器知道：我们现在知道什么，为什么相信它，以及谁可以从这里继续思考。\n>\n> 当文件移动时，它被接受的决策历史也应该移动。\n>\n> Proofpress 0.2.0 已开源：\n> https://github.com/chenmingtang830/proofpress",
-   "id": "f11eff74",
-   "hash": "0164273ab280"
-  },
-  {
-   "type": "heading",
-   "text": "## 发布顺序",
-   "id": "12ce0018",
-   "hash": "4dead456abfe"
-  },
-  {
-   "type": "heading",
-   "text": "### 发布前",
-   "id": "4c96e4fe",
-   "hash": "537e6ad843f6"
-  },
-  {
-   "type": "list",
-   "text": "1. 确认 GitHub README、portable handoff demo、FAQ 和 npm 安装路径全部可用。\n2. 先发布中文长文，得到稳定 URL。\n3. 准备小红书九页图片，并分别检查手机端字号和安全裁切。\n4. 准备三个评论区短回答：“和 Git 有什么区别”“会不会泄露聊天”“它能证明内容是真的吗”。",
-   "id": "58dc1922",
-   "hash": "be71d392a0f3"
-  },
-  {
-   "type": "heading",
-   "text": "### 发布当天",
-   "id": "7b2cc063",
-   "hash": "66d1a3d536ec"
-  },
-  {
-   "type": "list",
-   "text": "1. 发布中文长文，作为完整解释入口。\n2. 随后发布小红书图文；正文只放 GitHub 主链接，中文长文链接放置在平台允许且不干扰阅读的位置。\n3. 前两轮回复优先回答真实问题，不急于重复宣传口号。\n4. 收集读者如何复述 Proofpress。如果大量评论仍把它理解成“Markdown 版 Git”或“聊天记录器”，立即调整置顶回复，而不是继续扩大曝光。",
-   "id": "74240deb",
-   "hash": "1fa20ffcc331"
-  },
-  {
-   "type": "heading",
-   "text": "### 发布后一周",
-   "id": "34d997c3",
-   "hash": "516f2d5c3efb"
-  },
-  {
-   "type": "list",
-   "text": "- 第 2 次内容：演示一个文件离开 GitHub 后，portable capsule 仍然有效。\n- 第 3 次内容：解释“记录决策，而不是保存私有对话”。\n- 第 4 次内容：演示两个人或 Agent 如何合并同一 artifact 的并行副本。\n- 把高质量问题补进公开 FAQ；把反复出现的误解补进 README，而不是只在评论区回答。",
-   "id": "258b3eb9",
-   "hash": "2cdd2f51adae"
-  },
-  {
-   "type": "heading",
-   "text": "## 评论区短回答",
-   "id": "b1ba326e",
-   "hash": "b689bae7fb82"
-  },
-  {
-   "type": "heading",
-   "text": "### 这不就是 Git 吗？",
-   "id": "6c31b4af",
-   "hash": "5f137aeece77"
-  },
-  {
-   "type": "para",
-   "text": "Git 继续负责代码和 repository history。Proofpress 记录的是知识 artifact 中被接受的修改、理由和重要否决，而且 portable ledger 可以随文件离开 repository。它借鉴的是 Git 提供“共享过去”的价值，不是复制 Git 的全部模型。",
-   "id": "48270d32",
-   "hash": "4b179f68db89"
-  },
-  {
-   "type": "heading",
-   "text": "### 会不会把我的聊天和 prompt 全公开？",
-   "id": "092f97e3",
-   "hash": "c48a6eb98a2d"
-  },
-  {
-   "type": "para",
-   "text": "不会自动记录完整对话。设计目标正相反：只把真正进入共享工作的有限决策记录下来。Portable 文件的持有者可以检查公开 capsule，因此私有历史应该保留在本地 ledger，分享前也可以建立 clean lineage。",
-   "id": "8b8e109b",
-   "hash": "9c7555c2b55d"
-  },
-  {
-   "type": "heading",
-   "text": "### 有了 Proofpress，内容就是真的吗？",
-   "id": "56fbf868",
-   "hash": "19f697f3ea4a"
-  },
-  {
-   "type": "para",
-   "text": "不是。Proofpress 可以检查文件实际发生了什么变化、claims 是否和变化一致、portable capsule 是否漂移。理由、身份和陈述仍然需要看归因和证据。它让 trust boundary 可见，不把所有东西包装成已经被证明。",
-   "id": "7e9e94c6",
-   "hash": "967157902e36"
-  },
-  {
-   "type": "heading",
-   "text": "### 为什么不直接让下一个 LLM 总结 diff？",
-   "id": "382d4b5a",
-   "hash": "a37f41e18762"
-  },
-  {
-   "type": "para",
-   "text": "LLM 可以解释两个版本，但它不能凭空恢复稳定 artifact identity、被接受的理由、被否决的方向和跨工具流转的 lineage。Proofpress 保存的是下一位协作者可以检查和继承的正式记录。",
-   "id": "622213fd",
-   "hash": "84565f5d6b05"
-  },
-  {
-   "type": "heading",
-   "text": "## 成功标准",
-   "id": "2c0cfbfe",
-   "hash": "2a8234d993cd"
-  },
-  {
-   "type": "para",
-   "text": "首周不以浏览量作为唯一成功指标。更重要的是：",
-   "id": "6693e0ed",
-   "hash": "6567f6d72369"
-  },
-  {
-   "type": "list",
-   "text": "- 读者能否准确复述“ledger 随 artifact 流转”；\n- 是否有人完成 portable handoff demo；\n- 是否出现具体 issue、文档贡献或真实使用场景；\n- 评论是否开始讨论 provenance、handoff 和多人 Agent 协作，而不仅是“又一个 AI 写作工具”；\n- 中文反馈是否暴露 README、FAQ 或产品边界中的新缺口。",
-   "id": "4c9d31e0",
-   "hash": "c78ff178d8d8"
-  },
-  {
-   "type": "para",
-   "text": "一次好的中文 launch，不是把英文发布翻译出去，而是让中文读者用自己的工作经验认出这个问题，并知道现在已经有一个可以亲自检查的开源答案。",
-   "id": "87ec0e44",
-   "hash": "a0705f96b0f3"
+   "text": "- The four-bucket vacuum has one occupant now (Kortix), but the **non-git, multi-harness, truly-open** cell is still empty — positioning one-liner tightens to: \"They version code with git. We version and review what agents produce — docs, decks, analyses — across any agent, on your infra.\" **2026-07-21 revision**: the verification pivot sharpens it further — \"git records the change; LLMs offer an opinion about it; we keep the artifact-native ledger and the deterministic check that the agent's account matches what actually changed.\"\n- Why-now still holds; the Kortix/Plane moves are confirmation, not refutation — the window is just shorter than last month's estimate.\n- Cadence: refresh monthly (four bucket queries + threat check). **Next due: 2026-08-18.** Add Kortix release notes and Plane changelog to the check list.",
+   "id": "32331816",
+   "hash": "90362110e63d"
   }
  ]
 }
