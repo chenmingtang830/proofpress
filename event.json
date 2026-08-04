@@ -2,195 +2,104 @@
  "event": "version_created",
  "artifact": "docs/internal/competition_ref/COMPETITIVE.md",
  "artifact_id": "pp_26df6fac53ab90bd2fb3e6a7",
- "version": "621aea50",
- "parent": null,
+ "version": "abe461f5",
+ "parent": "621aea50",
  "author": {
-  "name": "codex-preflight",
-  "kind": "system",
-  "session": null
+  "name": "codex",
+  "kind": "agent",
+  "session": "provenance-research-plan"
  },
- "note": "best-effort fallback capture; edit attribution unknown",
- "ts": "2026-08-04T06:47:53+00:00",
+ "note": null,
+ "ts": "2026-08-04T06:51:33+00:00",
  "stats": {
-  "added": 24
+  "modified": 1,
+  "added": 4
  },
  "changes": [
   {
-   "kind": "added",
-   "block": "953f6620",
-   "type": "heading",
-   "context": "Competitive Landscape — Proofpress",
-   "preview": "# Competitive Landscape — Proofpress"
-  },
-  {
-   "kind": "added",
+   "kind": "modified",
    "block": "897cbb20",
    "type": "para",
-   "context": "Competitive Landscape — Proofpress",
-   "preview": "Scan date: 2026-07-18 (all numbers verified live via GitHub "
+   "context": "Competitive Landscape — Proofpress"
   },
   {
    "kind": "added",
-   "block": "f1a1c77f",
-   "type": "para",
-   "context": "Competitive Landscape — Proofpress",
-   "preview": "Our claim to defend (**updated 2026-07-21**, superseding the"
-  },
-  {
-   "kind": "added",
-   "block": "1f95ada1",
+   "block": "4e9298bd",
    "type": "heading",
-   "context": "Bucket 1 — General agent workspaces (\"si",
-   "preview": "## Bucket 1 — General agent workspaces (\"single-player open "
+   "context": "Bucket 5 — Adjacent provenance, memory, ",
+   "preview": "## Bucket 5 — Adjacent provenance, memory, and research infr"
   },
   {
    "kind": "added",
-   "block": "49dc3c5e",
+   "block": "b67c4cda",
    "type": "para",
-   "context": "Bucket 1 — General agent workspaces (\"si",
-   "preview": "Have: agents doing knowledge work, self-hosting. Lack: versi"
+   "context": "Bucket 5 — Adjacent provenance, memory, ",
+   "preview": "This bucket is a partner map, not a direct-threat ranking. T"
   },
   {
    "kind": "added",
-   "block": "e29ce939",
+   "block": "9b92030f",
    "type": "table",
-   "context": "Bucket 1 — General agent workspaces (\"si",
-   "preview": "| Project | Stars | License | Notes |\n|---|---|---|---|\n| zh"
+   "context": "Bucket 5 — Adjacent provenance, memory, ",
+   "preview": "| System | Owns | Relationship to Proofpress | Strategic pos"
   },
   {
    "kind": "added",
-   "block": "f608f538",
+   "block": "0cf77ace",
    "type": "para",
-   "context": "Bucket 1 — General agent workspaces (\"si",
-   "preview": "Assessment: the bucket's leaders are converging on our metap"
-  },
-  {
-   "kind": "added",
-   "block": "3ec4246c",
-   "type": "heading",
-   "context": "Bucket 2 — Coding orchestration (our sha",
-   "preview": "## Bucket 2 — Coding orchestration (our shape, wrong domain)"
-  },
-  {
-   "kind": "added",
-   "block": "f2f8e550",
-   "type": "para",
-   "context": "Bucket 2 — Coding orchestration (our sha",
-   "preview": "Have: boards, parallel sessions, review loops. Lack: anythin"
-  },
-  {
-   "kind": "added",
-   "block": "e328a55c",
-   "type": "table",
-   "context": "Bucket 2 — Coding orchestration (our sha",
-   "preview": "| Project | Stars | License | Notes |\n|---|---|---|---|\n| Ag"
-  },
-  {
-   "kind": "added",
-   "block": "9832a291",
-   "type": "para",
-   "context": "Bucket 2 — Coding orchestration (our sha",
-   "preview": "Assessment: commoditizing; still nobody positioned for knowl"
-  },
-  {
-   "kind": "added",
-   "block": "c8ad5373",
-   "type": "heading",
-   "context": "Bucket 3 — Open-source system-of-record ",
-   "preview": "## Bucket 3 — Open-source system-of-record with AI bolt-ons"
-  },
-  {
-   "kind": "added",
-   "block": "e05edc7a",
-   "type": "para",
-   "context": "Bucket 3 — Open-source system-of-record ",
-   "preview": "Have: docs/tasks/teams as durable record. Lack: agent-native"
-  },
-  {
-   "kind": "added",
-   "block": "eae6e1c9",
-   "type": "table",
-   "context": "Bucket 3 — Open-source system-of-record ",
-   "preview": "| Project | Stars | License | Notes |\n|---|---|---|---|\n| Ap"
-  },
-  {
-   "kind": "added",
-   "block": "3106b8a0",
-   "type": "para",
-   "context": "Bucket 3 — Open-source system-of-record ",
-   "preview": "Assessment: the structural blocker (continuous human editing"
-  },
-  {
-   "kind": "added",
-   "block": "00dedc3d",
-   "type": "heading",
-   "context": "Bucket 4 — The review/version layer for ",
-   "preview": "## Bucket 4 — The review/version layer for agent output"
-  },
-  {
-   "kind": "added",
-   "block": "0001257a",
-   "type": "para",
-   "context": "Bucket 4 — The review/version layer for ",
-   "preview": "Our core IP. Nearest neighbors:"
-  },
-  {
-   "kind": "added",
-   "block": "6db2c7cf",
-   "type": "list",
-   "context": "Bucket 4 — The review/version layer for ",
-   "preview": "- **LLMs themselves (added 2026-07-21)**: the sharpest neigh"
-  },
-  {
-   "kind": "added",
-   "block": "2a6d13b1",
-   "type": "heading",
-   "context": "Threat ranking (revised 2026-07-18)",
-   "preview": "## Threat ranking (revised 2026-07-18)"
-  },
-  {
-   "kind": "added",
-   "block": "83b03812",
-   "type": "list",
-   "context": "Threat ranking (revised 2026-07-18)",
-   "preview": "1. **Anthropic ships multiplayer/versioned Cowork** — highes"
-  },
-  {
-   "kind": "added",
-   "block": "94eea890",
-   "type": "heading",
-   "context": "Tactics",
-   "preview": "## Tactics"
-  },
-  {
-   "kind": "added",
-   "block": "ac6767b7",
-   "type": "para",
-   "context": "Tactics",
-   "preview": "**Own the vocabulary now.** \"Draft → Review → Approve **for "
-  },
-  {
-   "kind": "added",
-   "block": "1e196f12",
-   "type": "heading",
-   "context": "Standing conclusions",
-   "preview": "## Standing conclusions"
-  },
-  {
-   "kind": "added",
-   "block": "32331816",
-   "type": "list",
-   "context": "Standing conclusions",
-   "preview": "- The four-bucket vacuum has one occupant now (Kortix), but "
+   "context": "Bucket 5 — Adjacent provenance, memory, ",
+   "preview": "The moat line is now clearer: memory systems decide what to "
   }
  ],
  "policy": "local",
- "soft_fingerprint": "ppsb1:f41063347187cd5007b0bf16dd70eb7a2ae4787b54d928eae5ac97fff0aaf121",
+ "soft_fingerprint": "ppsb1:80ed39005366992130fca34e25139a27aadfda212b59c75f26121b8b978ff32c",
  "actors": {
+  "requested_by": [
+   "Richard"
+  ],
+  "produced_by": [
+   "codex"
+  ],
+  "edited_by": [
+   "codex"
+  ],
   "recorded_by": [
-   "codex-preflight"
+   "codex"
   ]
  },
  "attribution_basis": "harness_attested",
- "event_id": "ppe_e3ab7490c9d57a73afe61c2d"
+ "claims": [
+  {
+   "block": "897cbb20",
+   "kind": "modified",
+   "note": "Updated the landscape scan metadata for the adjacent-systems refresh."
+  },
+  {
+   "block": "4e9298bd",
+   "kind": "added",
+   "note": "Added the adjacent provenance, memory, and research-infrastructure bucket."
+  },
+  {
+   "block": "b67c4cda",
+   "kind": "added",
+   "note": "Defined the bucket as a partner map rather than a direct-threat ranking."
+  },
+  {
+   "block": "9b92030f",
+   "kind": "added",
+   "note": "Mapped ARA, TRACE, ASTRA, TierMem, PPMF, and C2PA to Proofpress."
+  },
+  {
+   "block": "0cf77ace",
+   "kind": "added",
+   "note": "Clarified Proofpress's layer and partnership moat."
+  }
+ ],
+ "context": {
+  "why": "Classify provenance, memory, and research systems by layer so partnership and integration opportunities remain distinct from direct competition.",
+  "rejected": [
+   "Flatten ARA, TRACE, ASTRA, TierMem, and PPMF into a direct competitor list — they own different units and are more useful as adjacent research or infrastructure partners."
+  ]
+ },
+ "event_id": "ppe_e43e72d2905c12ec7fc1a76a"
 }

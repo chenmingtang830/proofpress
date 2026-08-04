@@ -10,9 +10,9 @@
   },
   {
    "type": "para",
-   "text": "Scan date: 2026-07-18 (all numbers verified live via GitHub API / web this date; no ⚠️ items outstanding).\nFramework: our position is the intersection of four adjacent categories; **one direct neighbor now exists (Kortix, see Threat ranking)**.",
+   "text": "Core-market scan date: 2026-07-18 (all numbers verified live on that date). Adjacent research/provenance systems refreshed 2026-08-03.\nFramework: our position is the intersection of four adjacent categories; **one direct neighbor now exists (Kortix, see Threat ranking)**.",
    "id": "897cbb20",
-   "hash": "f62ad62ea1d1"
+   "hash": "6e440f9c99df"
   },
   {
    "type": "para",
@@ -109,6 +109,30 @@
    "text": "- **LLMs themselves (added 2026-07-21)**: the sharpest neighbor in this bucket. Feeding two markdown versions to any frontier model yields a decent semantic diff — the *reading* layer (structure + word-level) is commoditizing. What no model can supply is the **deterministic verification gate**: a reproducible, same-input-same-verdict check that an agent's account matches the computed change. Probabilistic opinion vs deterministic check is the moat line; \"an AI auditing another AI\" is circular in any audit context.\n- docs-as-code (Git+Markdown review flows): right mechanics, failed adoption — humans won't pay the ceremony. Our why-now: agents absorb it.\n- Workflow builders (Dify 149.2k ✅, n8n, Flowise): human-approval nodes are a gate in a DAG, not review of a versioned artifact with warm-session feedback. Biggest enterprise-sales competitor, not product competitor.\n- eval/guardrail tooling (LangSmith et al.): reviews runs, not deliverables.\n- Direct implementations of semantic-diff + warm-session review over non-git artifacts: **still none found ✅** — Kortix is the closest but rides git commits/PRs.",
    "id": "6db2c7cf",
    "hash": "f197a884b6ea"
+  },
+  {
+   "type": "heading",
+   "text": "## Bucket 5 — Adjacent provenance, memory, and research infrastructure",
+   "id": "4e9298bd",
+   "hash": "c3ce2e935127"
+  },
+  {
+   "type": "para",
+   "text": "This bucket is a partner map, not a direct-threat ranking. These systems operate upstream, downstream, or at a different unit of analysis; the useful question is where Proofpress can interoperate and where the research claim must remain distinct.",
+   "id": "b67c4cda",
+   "hash": "468938afa4f0"
+  },
+  {
+   "type": "table",
+   "text": "| System | Owns | Relationship to Proofpress | Strategic posture |\n| --- | --- | --- | --- |\n| **ARA** | Complete agent-native research package: logic, experiments, code, evidence, exploration DAG | Proofpress can carry admitted transitions between artifact revisions and cross-agent handoffs | Best research/benchmark partner; also the strongest adjacent narrative around preserved dead ends |\n| **TRACE** | Session/project decision provenance, actor disposition, annotations, and tool events | Candidate upstream event source; Proofpress should admit only the artifact-relevant subset | Complementary protocol and potential integration partner, not a carrier competitor |\n| **ASTRA** | Harness-agnostic scientific analysis schema with explicit choices and evidence | Domain artifact that Proofpress can version and transport | Standards partner; no need to reproduce its research schema |\n| **TierMem** | Provenance-linked summary/raw memory retrieval | Evidence for token/latency value of provenance-linked compression | Memory-layer prior art, not artifact history |\n| **PPMF** | Runtime source-authority gating for persistent memory | Security principle and adversarial benchmark source | Downstream authorization complement; do not claim Proofpress is a firewall |\n| **C2PA** | Signed media manifests, ingredients, and trust infrastructure | Architectural reference for portable binding and trust labels | Adjacent standard; separate carrier/domain |",
+   "id": "9b92030f",
+   "hash": "4768d7c95642"
+  },
+  {
+   "type": "para",
+   "text": "The moat line is now clearer: memory systems decide what to recall; TRACE records session decisions; ARA/ASTRA define research content and method structure; PPMF decides whether context can authorize an action. Proofpress owns the surviving knowledge artifact’s admitted, checkable history and makes that history travel. A partnership can feed richer events into Proofpress or consume its portable lineage without collapsing these layers.",
+   "id": "0cf77ace",
+   "hash": "70fc5e5533cd"
   },
   {
    "type": "heading",
