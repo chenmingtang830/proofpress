@@ -1,174 +1,498 @@
 {
- "artifact": "docs/internal/competition_ref/COMPETITIVE.md",
- "artifact_id": "pp_26df6fac53ab90bd2fb3e6a7",
+ "artifact": "docs/internal/experiments/PROVENANCE_HANDOFF_RESEARCH_PLAN.md",
+ "artifact_id": "pp_dfeff80ca8348068acae1718",
  "blocks": [
   {
    "type": "heading",
-   "text": "# Competitive Landscape — Proofpress",
-   "id": "953f6620",
-   "hash": "ec4bc5872d36"
+   "text": "# Provenance Handoff Research Plan",
+   "id": "d9f82c9a",
+   "hash": "bb2322bad1b3"
   },
   {
    "type": "para",
-   "text": "Core-market scan date: 2026-07-18 (all numbers verified live on that date). Adjacent research/provenance systems refreshed 2026-08-03.\nFramework: our position is the intersection of four adjacent categories; **one direct neighbor now exists (Kortix, see Threat ranking)**.",
-   "id": "897cbb20",
-   "hash": "6e440f9c99df"
-  },
-  {
-   "type": "para",
-   "text": "Our claim to defend (**updated 2026-07-21**, superseding the orchestration/multiplayer framing below — that layer moved to act two): the **knowledge-artifact-native ledger** — block identity, semantic diff, **deterministic verification of agent self-reports** (claims checked against the computed diff), block-level provenance — multi-harness, truly open, git as transport. Bucket analyses below are the 2026-07-18 snapshot and read through the older frame; the threat rankings still hold under the new one.",
-   "id": "f1a1c77f",
-   "hash": "a711334c820b"
+   "text": "> Status: research design v1, ready for partner discussion and pilot construction\n>\n> Date: 2026-08-03\n>\n> Scope: knowledge-artifact provenance across long-horizon, cross-session, and\n> cross-agent research work. This is an internal research plan, not a public\n> protocol promise.",
+   "id": "37ed6078",
+   "hash": "476b49a7ac68"
   },
   {
    "type": "heading",
-   "text": "## Bucket 1 — General agent workspaces (\"single-player open Cowork\")",
-   "id": "1f95ada1",
-   "hash": "54337b1bf596"
+   "text": "## 1. Research thesis",
+   "id": "88e78cf3",
+   "hash": "41c3959b0a42"
   },
   {
    "type": "para",
-   "text": "Have: agents doing knowledge work, self-hosting. Lack: versioning, review, multi-agent supervision.",
-   "id": "49dc3c5e",
-   "hash": "66823105c490"
+   "text": "Proofpress should test a narrower and more defensible claim than “more history\nmakes agents better”:",
+   "id": "bee6e713",
+   "hash": "e97b6c8a87d7"
+  },
+  {
+   "type": "para",
+   "text": "> Under the same task and action budget, a minimal, inspectable record of\n> admitted artifact history helps a receiving agent preserve accepted decisions,\n> recover their stated basis, and avoid unsupported authority upgrades while\n> using less context than reconstructing the same history from raw traces or Git.",
+   "id": "66a0f432",
+   "hash": "fa49f4f6360a"
+  },
+  {
+   "type": "para",
+   "text": "The intended outcome spans three dimensions: quality (fewer decision regressions\nwithout suppressing useful changes), efficiency (tokens, latency, and tool calls),\nand trust calibration (the agent distinguishes verified facts, attributed\ntestimony, rejected paths, and unknown history).",
+   "id": "9434bdbb",
+   "hash": "f818b6875036"
+  },
+  {
+   "type": "heading",
+   "text": "## 2. Memory and provenance are different layers",
+   "id": "1a1c5ae4",
+   "hash": "c2731433d36e"
+  },
+  {
+   "type": "para",
+   "text": "Memory optimizes continuity: what should be recalled for the next task.\nProvenance makes continuity accountable: where a surviving statement came from,\nwhat status it earned, how it changed, and what evidence or actor supports it.",
+   "id": "98f58f78",
+   "hash": "c7c617eabfa9"
   },
   {
    "type": "table",
-   "text": "| Project | Stars | License | Notes |\n|---|---|---|---|\n| zhayujie/CowAgent | 46.0k ✅ | MIT | README deep-read 2026-07-18: personal assistant, single-agent-per-instance, IM-channel-first (WeChat/Feishu/DingTalk/Telegram…), Markdown-wiki memory but **no versioning, no review loop, no multiplayer**. Threat rating **confirmed: low direct / mindshare only** — Chinese community momentum is the asset; the architecture points away from team orchestration. |\n| lobehub/lobehub | 80.5k ✅ | fair-code (NOASSERTION) | Launched \"Chief Agent Operator\" 2026-05-18 (Product Hunt #1 of day): hires agents from 273k-skill marketplace, runs Claude Code/Codex/OpenClaw 24/7 in cloud, **reports via daily brief** in Slack/Discord/WeChat etc. Reporting ≠ review — no versioned artifact, no approval gate — but hiring/scheduling/reporting vocabulary is one step from assignment/review. Highest-trajectory threat in bucket. |\n| kortix-ai/suna → **Kortix** | 20.0k ✅ | source-available (was Apache-2.0) | **Moved buckets — see Threat ranking.** Pivoted to \"The Company AI Command Center\". Source deep-read 2026-07-18 (change-requests.ts, review-items.ts, git/merge.ts): Review Center is a real inbox product (output/decision/batch kinds + CR/approval adapters, 5 verdicts, risk levels, Slack/Teams cards) and **request-changes auto-flows back to the originating session's agent, waking sleeping sandboxes** — they have a warm-revision loop. But CR core is \"intentionally minimal\" (their comment): git-branch metadata, no review/comment tables, feedback = flat text log in jsonb, **diff = unified git patch only, explicitly no semantic diff for markdown/docx**; versioned unit is the repo/branch, never the artifact. Pre-1.0 (v0.9.98). |\n| FoundationAgents/OpenManus | 57.5k ✅ | MIT | **Dormant — last push 2026-02-11.** Downgraded to non-threat; star count is a fossil. |\n| OpenHands/OpenHands | 81.2k ✅ | NOASSERTION (relicensed from MIT) | Moved to own org. Coding-centric, strong eval culture; still git-native. |\n| microsoft/magentic-ui | 10.0k ✅ | MIT | Now \"MagenticLite\" (browser + local FS agent). Still best-in-class human-in-the-loop approval UX to study; different domain. |\n| skalesapp/skales | 1.2k ✅ | NOASSERTION | Personal AI desktop agent. Watch consumer polish only. |",
-   "id": "e29ce939",
-   "hash": "284b81187397"
+   "text": "| Layer | Question | Proofpress boundary |\n| --- | --- | --- |\n| Working or long-term memory | What should the agent remember next? | Adjacent system; not the product surface |\n| Artifact provenance | How did this deliverable reach its current admitted state? | Proofpress core |\n| Execution authority | Is this context sufficient to authorize a risky action? | Runtime security layer; not currently Proofpress |",
+   "id": "97cdc5f0",
+   "hash": "c4a5317bae18"
   },
   {
    "type": "para",
-   "text": "Assessment: the bucket's leaders are converging on our metaphors faster than expected — lobehub shipped \"hiring/reporting\", Kortix graduated out of the bucket entirely by shipping review. The 6–12 month window estimated last scan was wrong: **it was ~0 months for Kortix**. What remains open: non-git artifacts, harness neutrality, true open-source license.",
-   "id": "f608f538",
-   "hash": "6c4744262a9c"
+   "text": "The compact narrative is: **memory preserves what an agent remembers;\nprovenance preserves what it is justified in trusting. Context may be\ncompressed, but source and status must not be silently amplified.**",
+   "id": "b01863e2",
+   "hash": "7ea78b4aa28b"
+  },
+  {
+   "type": "para",
+   "text": "This does not mean that provenance proves truth. Proofpress V1 verifies artifact\nidentity, integrity, lineage, computed changes, and supplied change claims.\n`why`, evidence descriptions, and actor fields remain attributed testimony at\ntheir declared `attribution_basis`; missing history stays unknown.",
+   "id": "a1944289",
+   "hash": "ff54b2680673"
   },
   {
    "type": "heading",
-   "text": "## Bucket 2 — Coding orchestration (our shape, wrong domain)",
-   "id": "3ec4246c",
-   "hash": "8d2ed1deba18"
+   "text": "## 3. Security motivation: provenance laundering",
+   "id": "c4f3567e",
+   "hash": "9f8e47412674"
   },
   {
    "type": "para",
-   "text": "Have: boards, parallel sessions, review loops. Lack: anything non-git.",
-   "id": "f2f8e550",
-   "hash": "33cda3ee32f8"
+   "text": "Xu et al., “Memory Provenance Laundering in LLM Agents” (arXiv:2607.29167),\nshow a cross-task failure in which an external observation is consolidated into\nmemory as apparent user history or workflow support. The trigger survives while\nthe low-trust source disappears. Their PPMF middleware enforces a\nsource-authority non-amplification rule by preserving platform metadata and\nchecking action-relevant support at tool time.",
+   "id": "e742b0ba",
+   "hash": "8b8bd1468ebb"
+  },
+  {
+   "type": "para",
+   "text": "The paper strengthens Proofpress’s motivation but does not validate Proofpress\nitself. PPMF is a runtime authorization firewall with trusted platform labels;\nProofpress is a portable artifact ledger whose current attribution is not yet\ncryptographically signed or externally witnessed. The relevant open gap is\ninter-agent authority transfer: when one agent’s summary or artifact becomes the\nnext agent’s durable context.",
+   "id": "5686063f",
+   "hash": "a063e27823c4"
+  },
+  {
+   "type": "para",
+   "text": "For Proofpress, the transferable principle is:",
+   "id": "2ebdeef0",
+   "hash": "f07126adb518"
+  },
+  {
+   "type": "para",
+   "text": "> Copying, summarizing, merging, or handing off an artifact may preserve\n> information, but must not silently promote observation to accepted decision,\n> rejection to approval, testimony to verified fact, or unknown attribution to\n> trusted authorship.",
+   "id": "3ea59f40",
+   "hash": "d5c847c76c7c"
+  },
+  {
+   "type": "heading",
+   "text": "## 4. Relationship to adjacent research systems",
+   "id": "f09e161c",
+   "hash": "ef45aecaf693"
+  },
+  {
+   "type": "para",
+   "text": "These projects should be treated primarily as complementary layers and possible\nresearch partners, not flattened into a competitor list.",
+   "id": "15297cb7",
+   "hash": "d8f2b35c94c1"
   },
   {
    "type": "table",
-   "text": "| Project | Stars | License | Notes |\n|---|---|---|---|\n| AgentWrapper/agent-orchestrator (AO) | 8.3k ✅ | Apache-2.0 | Desktop agent-IDE, 23 harness adapters, worktree isolation, CI/review/merge loops. Reference for supervision UX; git-native to the bone. |\n| omnigent (our base) | active ✅ | Apache-2.0 | Session abstraction is domain-neutral — our structural advantage. |\n| farion1231/cc-switch | 118k ✅ | MIT | Harness cockpit/router, not orchestration; owns \"many harnesses, one surface\" mindshare. |\n| ruvnet/ruflo | 65.0k ✅ | MIT | README deep-read 2026-07-18: swarm coordination + vector memory + federation built around **Claude Code specifically** — despite \"meta-harness\" branding it is monolithic to its own harness. No versioned-artifact model; review exists only as sparse \"before-merge gates\" checklist items. More engineering-real than expected (benchmarks, ADRs, honest status page) but aimed at agent autonomy, not human review of deliverables. Threat rating **confirmed: low-moderate** — dangerous only if federation + team workflows (both in active dev) pivot toward artifact review. Re-check quarterly. |\n| BloopAI/vibe-kanban | 27.4k ✅ | Apache-2.0 | Board-of-agents validated; last push 2026-04-24 — momentum cooling. |\n| claude-squad, Conductor, Terragon | small/closed | — | Same category, same ceiling. |",
-   "id": "e328a55c",
-   "hash": "119356f56155"
+   "text": "| System | Primary unit | What it contributes | Relationship to Proofpress |\n| --- | --- | --- | --- |\n| ARA | Complete agent-native research package | Logic, experiments, code, evidence, exploration graph, preserved dead ends | Strongest research partner and benchmark-material source; Proofpress can carry admitted transitions between ARA revisions and handoffs |\n| TRACE | Session/project decision and tool-event DAG | Proposer/resolver identity, dispositions, rationale, annotations, tool calls | Upstream capture partner; Proofpress admits the subset that belongs with the surviving artifact |\n| ASTRA | Scientific analysis specification | Explicit inputs, outputs, methodological choices, alternatives, and evidence | Domain schema partner; Proofpress versions and transports accepted ASTRA decisions |\n| TierMem | Provenance-linked tiered agent memory | Cheap summary-first retrieval with escalation to immutable raw evidence | Evidence that provenance can reduce context cost; not an artifact ledger |\n| PPMF | Persistent-memory authorization middleware | Source-authority non-amplification and deterministic action-risk gating | Security complement and source of adversarial handoff tasks; not a substitute for artifact history |\n| C2PA | Media provenance manifest | Portable binding, ingredients, signatures, and trust lists | Format and trust-model reference for media; Proofpress remains focused on knowledge artifacts |",
+   "id": "5e39028d",
+   "hash": "fc6319bc563b"
   },
   {
    "type": "para",
-   "text": "Assessment: commoditizing; still nobody positioned for knowledge work — their data model IS git. Validates our \"session-native, not git-native\" bet. Note Kortix chose the git data model for its company product — that's the bet we're on the other side of.",
-   "id": "9832a291",
-   "hash": "6249666a5cec"
+   "text": "The collaboration thesis with ARA is especially clean: ARA defines the\nsubstantive research artifact; Proofpress tests whether its accepted history can\nsurvive session, agent, tool, and organizational handoffs in a compact,\ninspectable form. TRACE could supply richer decision events upstream, while a\nProofpress admission step prevents the carrier from becoming a dump of every\ntool call or temporary branch.",
+   "id": "3980fd84",
+   "hash": "ec28b22a01da"
   },
   {
    "type": "heading",
-   "text": "## Bucket 3 — Open-source system-of-record with AI bolt-ons",
-   "id": "c8ad5373",
-   "hash": "3e726c5ff72f"
+   "text": "## 5. Existing benchmarks as task sources",
+   "id": "deff2562",
+   "hash": "39a1a062c5c1"
   },
   {
    "type": "para",
-   "text": "Have: docs/tasks/teams as durable record. Lack: agent-native execution (with one exception now).",
-   "id": "e05edc7a",
-   "hash": "b24b5b2d321a"
+   "text": "No existing benchmark directly measures portable artifact-level provenance\nacross agent handoffs. We should add a provenance intervention layer to existing\nresearch tasks rather than claim that a generic long-horizon score isolates our\nmechanism.",
+   "id": "66717d41",
+   "hash": "86c5947ee258"
   },
   {
    "type": "table",
-   "text": "| Project | Stars | License | Notes |\n|---|---|---|---|\n| AppFlowy | 74.0k ✅ | AGPL-3.0 | Notion alt + AI workspace. |\n| AFFiNE | 70.6k ✅ | MIT + ee (NOASSERTION) | Doc/whiteboard + AI copilot. |\n| **Plane** | 54.7k ✅ | AGPL-3.0 | **Moved. Already shipped** (plane.so/ai): agents as assignees (\"add an agent as an assignee just like any teammate\"), native MCP server, @mention agent framework, Agent Run lifecycle tracking, audit trail, and configurable **\"what needs human review\"** gates. The predicted \"natural move\" happened. Review is of task execution, not versioned artifacts — but they own record + workflow + now rent execution. |\n| Huly (hcengineering/platform) | 26.9k ✅ | EPL-2.0 | All-in-one PM; team-of-agents marketing. |\n| Outline | 39.7k ✅ | BSL (NOASSERTION) | Team wiki + AI answers. |",
-   "id": "eae6e1c9",
-   "hash": "e15fbad9ab83"
+   "text": "| Benchmark/source | Existing task | Best Proofpress use |\n| --- | --- | --- |\n| PaperBench | Replicate 20 ICML 2024 papers using author-backed hierarchical rubrics | Primary research-task substrate; insert staged handoffs and score rubric progress |\n| RE-Bench | Open-ended, time-bounded AI R&D tasks | Test whether admitted decision history accelerates extension work under fixed compute/time |\n| CORE-Bench | Reproduce reported results and answer execution-grounded questions | Audit arm: evidence recovery, supported answers, and calibrated abstention |\n| ARA artifacts | Understand, reproduce, and extend structured research packages | Gold decision/dead-end material and natural collaboration surface |\n| AgentDojo/BrowseSafe-derived scenarios | Paired benign and adversarial tool-use situations | Security stress arm for provenance laundering; keep separate from the main quality result |\n| Proofpress Hindcast | Real repository reversals, deprecations, replacements, and rationale | External-validity arm for decision regression in real histories |",
+   "id": "281fc2ec",
+   "hash": "3d1e8dec71b8"
   },
   {
    "type": "para",
-   "text": "Assessment: the structural blocker (continuous human editing vs propose-review-merge) still holds for docs — but Plane shows the task side of the record can absorb agents fast. Partnership-target logic still applies to the doc-first players; Plane graduates to watched competitor.",
-   "id": "3106b8a0",
-   "hash": "19351455ecb6"
+   "text": "SWE-bench and OSWorld can inspire execution harnesses and long-horizon reporting,\nbut they are not primary substrates: Proofpress deliberately does not version\nsource code, and general computer-use success mixes too many capabilities with\nthe provenance intervention.",
+   "id": "958fc5fd",
+   "hash": "a67f357cd032"
   },
   {
    "type": "heading",
-   "text": "## Bucket 4 — The review/version layer for agent output",
-   "id": "00dedc3d",
-   "hash": "b81bb4f7bc66"
+   "text": "## 6. Experimental design",
+   "id": "8aff7416",
+   "hash": "841099c84f87"
   },
   {
    "type": "para",
-   "text": "Our core IP. Nearest neighbors:",
-   "id": "0001257a",
-   "hash": "3bdf85fec5f6"
+   "text": "Each episode uses the same base research package, repository access, model,\ntools, action budget, and neutral task wording. The independent variable is the\nhandoff representation:",
+   "id": "10cd1c6c",
+   "hash": "fc4be1e9b58a"
+  },
+  {
+   "type": "table",
+   "text": "| Arm | Receiving agent gets |\n| --- | --- |\n| Final artifact | Current artifact and common task resources only |\n| Raw history | Full Git/session/trace access and permission to inspect it |\n| Ordinary memory | A lossy handoff or memory summary without structured source/status semantics |\n| Proofpress | Current artifact plus admitted `what`, `why`, actors, rejected paths, evidence references, and verification status |\n| Proofpress ablation | Same compact history with `why`, rejection, source/status, or evidence binding removed one at a time |",
+   "id": "58e48d8f",
+   "hash": "a6bbab86ad81"
+  },
+  {
+   "type": "para",
+   "text": "The experiment should cover three task families:",
+   "id": "df8e23ff",
+   "hash": "0979fb5895cd"
   },
   {
    "type": "list",
-   "text": "- **LLMs themselves (added 2026-07-21)**: the sharpest neighbor in this bucket. Feeding two markdown versions to any frontier model yields a decent semantic diff — the *reading* layer (structure + word-level) is commoditizing. What no model can supply is the **deterministic verification gate**: a reproducible, same-input-same-verdict check that an agent's account matches the computed change. Probabilistic opinion vs deterministic check is the moat line; \"an AI auditing another AI\" is circular in any audit context.\n- docs-as-code (Git+Markdown review flows): right mechanics, failed adoption — humans won't pay the ceremony. Our why-now: agents absorb it.\n- Workflow builders (Dify 149.2k ✅, n8n, Flowise): human-approval nodes are a gate in a DAG, not review of a versioned artifact with warm-session feedback. Biggest enterprise-sales competitor, not product competitor.\n- eval/guardrail tooling (LangSmith et al.): reviews runs, not deliverables.\n- Direct implementations of semantic-diff + warm-session review over non-git artifacts: **still none found ✅** — Kortix is the closest but rides git commits/PRs.",
-   "id": "6db2c7cf",
-   "hash": "f197a884b6ea"
-  },
-  {
-   "type": "heading",
-   "text": "## Bucket 5 — Adjacent provenance, memory, and research infrastructure",
-   "id": "4e9298bd",
-   "hash": "c3ce2e935127"
+   "text": "1. **Continue/extend:** complete the next research milestone after another agent",
+   "id": "bd2bd9cc",
+   "hash": "2ab10e25fc95"
   },
   {
    "type": "para",
-   "text": "This bucket is a partner map, not a direct-threat ranking. These systems operate upstream, downstream, or at a different unit of analysis; the useful question is where Proofpress can interoperate and where the research claim must remain distinct.",
-   "id": "b67c4cda",
-   "hash": "468938afa4f0"
-  },
-  {
-   "type": "table",
-   "text": "| System | Owns | Relationship to Proofpress | Strategic posture |\n| --- | --- | --- | --- |\n| **ARA** | Complete agent-native research package: logic, experiments, code, evidence, exploration DAG | Proofpress can carry admitted transitions between artifact revisions and cross-agent handoffs | Best research/benchmark partner; also the strongest adjacent narrative around preserved dead ends |\n| **TRACE** | Session/project decision provenance, actor disposition, annotations, and tool events | Candidate upstream event source; Proofpress should admit only the artifact-relevant subset | Complementary protocol and potential integration partner, not a carrier competitor |\n| **ASTRA** | Harness-agnostic scientific analysis schema with explicit choices and evidence | Domain artifact that Proofpress can version and transport | Standards partner; no need to reproduce its research schema |\n| **TierMem** | Provenance-linked summary/raw memory retrieval | Evidence for token/latency value of provenance-linked compression | Memory-layer prior art, not artifact history |\n| **PPMF** | Runtime source-authority gating for persistent memory | Security principle and adversarial benchmark source | Downstream authorization complement; do not claim Proofpress is a firewall |\n| **C2PA** | Signed media manifests, ingredients, and trust infrastructure | Architectural reference for portable binding and trust labels | Adjacent standard; separate carrier/domain |",
-   "id": "9b92030f",
-   "hash": "4768d7c95642"
-  },
-  {
-   "type": "para",
-   "text": "The moat line is now clearer: memory systems decide what to recall; TRACE records session decisions; ARA/ASTRA define research content and method structure; PPMF decides whether context can authorize an action. Proofpress owns the surviving knowledge artifact’s admitted, checkable history and makes that history travel. A partnership can feed richer events into Proofpress or consume its portable lineage without collapsing these layers.",
-   "id": "0cf77ace",
-   "hash": "70fc5e5533cd"
-  },
-  {
-   "type": "heading",
-   "text": "## Threat ranking (revised 2026-07-18)",
-   "id": "2a6d13b1",
-   "hash": "d80ce417b7a7"
+   "text": "   explored alternatives and made an accepted choice.",
+   "id": "93812db9",
+   "hash": "46685c3e6837"
   },
   {
    "type": "list",
-   "text": "1. **Anthropic ships multiplayer/versioned Cowork** — highest impact. Structural counter unchanged: open + any-agent + self-hosted. Never trade those.\n2. **Kortix (ex-Suna)** — ⬆ from \"would become a competitor\" to **shipped the closest thing to our loop**, including automatic feedback-to-agent revision (verified in source 2026-07-18). What they have NOT built — and are structurally biased against, since git is their declared source of truth — is exactly our core: artifact-level identity/history, semantic diff, content-anchored review comments. Our remaining edges: (a) artifact-native data model + semantic diff vs their branch-metadata + line patches, (b) they went source-available while we stay genuinely open, (c) multi-harness neutrality vs their own runtime, (d) pre-1.0 immaturity. Watch monthly; this is the sharpest external clock on M0/M1.\n3. **lobehub adds review loop** — high likelihood; CAO launch shows velocity and the vocabulary is adjacent. Counter: ship fast, own the vocabulary publicly first (see Tactics).\n4. **Plane** — ⬆ from mid-term to **already executing**: agents-as-assignees + human-review gates shipped. They'll own record + execution for task-shaped work; counter remains being the artifact/review layer they'd rather integrate than build.\n5. **AO expands past git** — low; data model and community are git-native.\n6. ~~OpenManus~~ — removed; dormant since Feb 2026.",
-   "id": "83b03812",
-   "hash": "6ec3506e1947"
-  },
-  {
-   "type": "heading",
-   "text": "## Tactics",
-   "id": "94eea890",
-   "hash": "dd1265ec7cb8"
+   "text": "2. **Audit/explain:** answer why a method or claim was accepted, identify its",
+   "id": "1a221e5c",
+   "hash": "6110fa846c26"
   },
   {
    "type": "para",
-   "text": "**Own the vocabulary now.** \"Draft → Review → Approve **for agents**\" must appear in our launch post, README tagline, and every public description before lobehub or Kortix phrase it first — whoever's words the category adopts defines the category, and this is the cheapest available defense against both. Kortix says \"change requests\" (developer vocabulary, git frame); lobehub says \"hiring/reporting\" (HR frame). The Draft/Review/Approve frame (knowledge-work vocabulary, matches our UI terms) is still unclaimed. Deadline: publicly attached to our name before the next scan.",
-   "id": "ac6767b7",
-   "hash": "747dae5ca622"
-  },
-  {
-   "type": "heading",
-   "text": "## Standing conclusions",
-   "id": "1e196f12",
-   "hash": "61f16d67045f"
+   "text": "   supporting evidence, and abstain when the record does not support an answer.",
+   "id": "6543f0a6",
+   "hash": "25f0da43f6b7"
   },
   {
    "type": "list",
-   "text": "- The four-bucket vacuum has one occupant now (Kortix), but the **non-git, multi-harness, truly-open** cell is still empty — positioning one-liner tightens to: \"They version code with git. We version and review what agents produce — docs, decks, analyses — across any agent, on your infra.\" **2026-07-21 revision**: the verification pivot sharpens it further — \"git records the change; LLMs offer an opinion about it; we keep the artifact-native ledger and the deterministic check that the agent's account matches what actually changed.\"\n- Why-now still holds; the Kortix/Plane moves are confirmation, not refutation — the window is just shorter than last month's estimate.\n- Cadence: refresh monthly (four bucket queries + threat check). **Next due: 2026-08-18.** Add Kortix release notes and Plane changelog to the check list.",
-   "id": "32331816",
-   "hash": "90362110e63d"
+   "text": "3. **Counterfactual update:** in half the cases the prior decision remains valid;",
+   "id": "664231a5",
+   "hash": "ce7cde6f239f"
+  },
+  {
+   "type": "para",
+   "text": "   in the other half new evidence makes reversal correct. This prevents\n   conservatism from masquerading as preserved trust.",
+   "id": "655a2afe",
+   "hash": "6d309e1db6d6"
+  },
+  {
+   "type": "para",
+   "text": "A long-horizon episode should contain three to five fresh-context roles, for\nexample researcher → drafter → reviewer → reviser → auditor. Conversation state\nis cleared at every handoff. The artifact and the assigned handoff representation\nare the only shared continuity rail.",
+   "id": "a2145642",
+   "hash": "d2fa5a37429d"
+  },
+  {
+   "type": "heading",
+   "text": "## 7. Metrics and statistical plan",
+   "id": "2d0d2202",
+   "hash": "1e938dfb1054"
+  },
+  {
+   "type": "para",
+   "text": "Primary quality metrics are task/rubric completion, decision-regression rate,\nunsupported-decision rate, evidence-grounded answer accuracy, and useful-change\nrate. The last metric is mandatory: a system that refuses every change is not a\nsuccessful provenance system.",
+   "id": "f23a7f1d",
+   "hash": "8653f50b439f"
+  },
+  {
+   "type": "para",
+   "text": "Trust and safety metrics are authority-laundering rate, provenance-faithfulness,\ncorrect abstention under missing evidence, tamper/drift detection, and false\nblock rate on benign or correctly updated decisions.",
+   "id": "bba4d5a8",
+   "hash": "fba553de2f01"
+  },
+  {
+   "type": "para",
+   "text": "Efficiency metrics are input/output tokens, wall-clock latency, model/tool calls,\nhistory-search operations, and cost per successfully completed rubric item.",
+   "id": "df9ab5c0",
+   "hash": "0b1370352c3d"
+  },
+  {
+   "type": "para",
+   "text": "Use paired instances and shared seeds across arms. Analyze binary outcomes with\npaired tests or mixed-effects logistic regression, treating task/project as a\ncluster; report bootstrap confidence intervals for cost and latency. Pre-register\nthe primary outcome, exclusion gates, prompt templates, stopping rules, and the\ndistinction between exploratory and confirmatory analyses.",
+   "id": "45e6eeff",
+   "hash": "175b56438c47"
+  },
+  {
+   "type": "heading",
+   "text": "## 8. Confounds and validity gates",
+   "id": "90fa846a",
+   "hash": "cf33c5f8f46a"
+  },
+  {
+   "type": "list",
+   "text": "- Give all arms the complete task environment. The earlier single-file Hindcast",
+   "id": "55bbd205",
+   "hash": "8a5b0c9d618b"
+  },
+  {
+   "type": "para",
+   "text": "  probe caused the baseline to refuse because it could not inspect the repo.",
+   "id": "7c5ddc94",
+   "hash": "bfe16bd0f389"
+  },
+  {
+   "type": "list",
+   "text": "- Use neutral task wording. Terms such as “restore” and “add back” reveal that a",
+   "id": "340a00b7",
+   "hash": "b9bc687614a1"
+  },
+  {
+   "type": "para",
+   "text": "  direction was previously removed.",
+   "id": "376187a0",
+   "hash": "d3322f2bbdce"
+  },
+  {
+   "type": "list",
+   "text": "- Screen for benchmark contamination and memorized public projects; use recent,",
+   "id": "94f074bd",
+   "hash": "50b5b6216de6"
+  },
+  {
+   "type": "para",
+   "text": "  partner-held, or procedurally generated cases where possible.",
+   "id": "66d7b8b5",
+   "hash": "ce88fac07b81"
+  },
+  {
+   "type": "list",
+   "text": "- Keep information and authority separate. A fluent rationale is not automatically",
+   "id": "0ca7d7a8",
+   "hash": "298af7e3f37c"
+  },
+  {
+   "type": "para",
+   "text": "  an accepted rationale, and a cited source is not automatically true.",
+   "id": "9061eb19",
+   "hash": "626c3984813c"
+  },
+  {
+   "type": "list",
+   "text": "- Score both preservation and justified reversal. Avoid building a benchmark in",
+   "id": "5e9a23f7",
+   "hash": "07e84f8996f1"
+  },
+  {
+   "type": "para",
+   "text": "  which “never deviate from history” is always correct.",
+   "id": "52bd2eae",
+   "hash": "5cc962cbad10"
+  },
+  {
+   "type": "list",
+   "text": "- Blind artifact-quality graders to the experimental arm. Use execution/rubric",
+   "id": "dbff2376",
+   "hash": "2108e4e76f68"
+  },
+  {
+   "type": "para",
+   "text": "  checks where available and human review for decision-level ambiguity.",
+   "id": "e7fef96d",
+   "hash": "2edff8df6e70"
+  },
+  {
+   "type": "list",
+   "text": "- Report transport and trust-root assumptions explicitly. A stripped capsule is",
+   "id": "6aec1e94",
+   "hash": "97bd4410ad4c"
+  },
+  {
+   "type": "para",
+   "text": "  an ordinary artifact; self-asserted attribution is not signed identity.",
+   "id": "12355bff",
+   "hash": "3c4f6578b4b0"
+  },
+  {
+   "type": "heading",
+   "text": "## 9. Pilot implementation",
+   "id": "dc579f99",
+   "hash": "31462b90d14d"
+  },
+  {
+   "type": "para",
+   "text": "The smallest credible partner pilot uses 6–10 ARA/PaperBench research projects,\nwith one Continue task and one Audit or Counterfactual task per project. Run the\nfour essential arms (final artifact, raw history, Proofpress, Proofpress\nablation) with 3–5 shared seeds. Add ordinary memory after the harness is stable.",
+   "id": "d02d7dbb",
+   "hash": "cf1894e54274"
+  },
+  {
+   "type": "para",
+   "text": "Implementation sequence:",
+   "id": "d67dedd1",
+   "hash": "4a64736a5bb1"
+  },
+  {
+   "type": "list",
+   "text": "1. Select projects with at least one material accepted decision, one rejected or",
+   "id": "220d5adc",
+   "hash": "dcb08189dec6"
+  },
+  {
+   "type": "para",
+   "text": "   failed route, and executable or rubric-grounded outcomes.",
+   "id": "53da65a7",
+   "hash": "dc228e9f3a3c"
+  },
+  {
+   "type": "list",
+   "text": "2. Freeze a gold decision sheet containing source, status, rationale, evidence,",
+   "id": "7d8d54be",
+   "hash": "a90669b29d5b"
+  },
+  {
+   "type": "para",
+   "text": "   expiry/scope, and conditions under which reversal is correct.",
+   "id": "3d63459e",
+   "hash": "d7519b1d82bc"
+  },
+  {
+   "type": "list",
+   "text": "3. Build deterministic package generation for every arm from the same source",
+   "id": "d55fb276",
+   "hash": "833702fc23c2"
+  },
+  {
+   "type": "para",
+   "text": "   record; do not hand-author a better Proofpress prompt.",
+   "id": "01331572",
+   "hash": "712ab1256b27"
+  },
+  {
+   "type": "list",
+   "text": "4. Split each original trajectory at realistic handoff boundaries and run fresh",
+   "id": "2496617c",
+   "hash": "919972e5e542"
+  },
+  {
+   "type": "para",
+   "text": "   agents in isolated workspaces with equal repository/resource access.",
+   "id": "083ea4f5",
+   "hash": "b2074b4625af"
+  },
+  {
+   "type": "list",
+   "text": "5. Record tokens, latency, tool calls, artifact versions, claims, and evaluator",
+   "id": "e1947909",
+   "hash": "19905c1f3c17"
+  },
+  {
+   "type": "para",
+   "text": "   outputs in a machine-readable run ledger.",
+   "id": "5020d100",
+   "hash": "6ba6c8aa9df6"
+  },
+  {
+   "type": "list",
+   "text": "6. Run a gate pilot first: confirm the baseline sometimes fails, benign tasks",
+   "id": "f3cf72ca",
+   "hash": "d31651ace711"
+  },
+  {
+   "type": "para",
+   "text": "   remain achievable, and graders agree before scaling.",
+   "id": "4f050a4f",
+   "hash": "d85d6085e771"
+  },
+  {
+   "type": "list",
+   "text": "7. Scale only after the task/material gate passes; publish prompts, schemas,",
+   "id": "97a2b2ba",
+   "hash": "7cc2e6f5c57d"
+  },
+  {
+   "type": "para",
+   "text": "   rubrics, aggregate results, and sanitized traces where licenses permit.",
+   "id": "57fc229c",
+   "hash": "3a31c6bc65e0"
+  },
+  {
+   "type": "heading",
+   "text": "## 10. Product implications if the hypothesis holds",
+   "id": "b4318b36",
+   "hash": "94c544af93ac"
+  },
+  {
+   "type": "para",
+   "text": "The research should guide product iteration, not merely produce a leaderboard.\nLikely protocol additions to explore are typed `source_class`, explicit\n`decision_status`, scoped `evidence_ref`, and supersession/expiry semantics.\nThese must preserve the current distinction between computed facts and attributed\ntestimony; they are research candidates, not implementation commitments.",
+   "id": "a42d70a0",
+   "hash": "86eaa715d2f7"
+  },
+  {
+   "type": "para",
+   "text": "The strongest defensible product line would be:",
+   "id": "1e117b77",
+   "hash": "8f72f68d7d60"
+  },
+  {
+   "type": "para",
+   "text": "> Memory helps agents continue. Proofpress gives the artifact a shared,\n> checkable past—so continuity does not silently launder trust.",
+   "id": "0910e964",
+   "hash": "37cdb497a5da"
+  },
+  {
+   "type": "heading",
+   "text": "## 11. Evidence and references",
+   "id": "f846345a",
+   "hash": "8e13f5e402a6"
+  },
+  {
+   "type": "list",
+   "text": "- Proofpress Hindcast: `docs/internal/experiments/EXPERIMENT_HINDCAST.md`\n- Proofpress portable handoff dogfood:",
+   "id": "696b3dc3",
+   "hash": "85a29f1e18ab"
+  },
+  {
+   "type": "para",
+   "text": "  `docs/internal/experiments/PORTABLE_HANDOFF_DOGFOOD.md`",
+   "id": "f5377974",
+   "hash": "98dba5226c65"
+  },
+  {
+   "type": "list",
+   "text": "- ARA: https://github.com/ARA-Labs/Agent-Native-Research-Artifact and",
+   "id": "0fe3ba44",
+   "hash": "0e476f9e8ae5"
+  },
+  {
+   "type": "para",
+   "text": "  https://arxiv.org/abs/2604.24658",
+   "id": "f4db34b5",
+   "hash": "ebdac03c4145"
+  },
+  {
+   "type": "list",
+   "text": "- TRACE: https://github.com/Thru-Echoes/TRACE\n- ASTRA: https://astra-spec.org/latest/\n- PaperBench: https://openai.com/index/paperbench/\n- RE-Bench: https://github.com/METR/RE-Bench\n- CORE-Bench: https://crab.cs.princeton.edu/core-website/\n- TierMem: https://arxiv.org/abs/2602.17913\n- Memory Provenance Laundering / PPMF: https://arxiv.org/abs/2607.29167\n- SUNGLASSES commentary: https://x.com/sunglasses_dev/status/2084371074314277329",
+   "id": "64dd29dc",
+   "hash": "0ae67e9803a1"
   }
  ]
 }
