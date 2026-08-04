@@ -1,312 +1,564 @@
 {
- "artifact": "docs/internal/experiments/EXPERIMENT_HINDCAST.md",
- "artifact_id": "pp_d1a5fee2c5b83bd607a26ee3",
+ "artifact": "docs/internal/experiments/PROVENANCE_HANDOFF_EVALUATION_PLAN.md",
+ "artifact_id": "pp_dfeff80ca8348068acae1718",
  "blocks": [
   {
    "type": "heading",
-   "text": "# Hindcast 实验计划:借开源项目的历史,验证账本有没有用",
-   "id": "1c5b0549",
-   "hash": "c99f43b4a67f"
+   "text": "# Provenance Handoff Evaluation Plan",
+   "id": "d9f82c9a",
+   "hash": "ca06b991d0c5"
   },
   {
    "type": "para",
-   "text": "> 状态:计划稿 v3；保留为真实历史 external-validity arm，主因果实验见 §11\n> 日期:2026-07-22\n> 要回答的问题:一个新接手的 AI,如果知道这份文档的来龙去脉,会不会比只看到最终稿的 AI 犯更少的错——而且这么做还很省。",
-   "id": "71923c44",
-   "hash": "f78e98c44605"
+   "text": "> Status: evaluation design v2, ready for task-adaptation and gate-pilot construction\n>\n> Date: 2026-08-03\n>\n> Scope: portable knowledge-artifact provenance across long-horizon,\n> cross-session, cross-agent, and enterprise workflows. Research is one\n> validation domain; enterprise operations and high-stakes professional work are\n> equally important. This is an internal evaluation plan, not a public protocol\n> promise.",
+   "id": "37ed6078",
+   "hash": "f1b06ee7b236"
   },
   {
    "type": "heading",
-   "text": "## 0. 一句话",
-   "id": "e0b12323",
-   "hash": "76ef20a12f27"
+   "text": "## 1. Evaluation thesis",
+   "id": "88e78cf3",
+   "hash": "0369cd86fe0c"
   },
   {
    "type": "para",
-   "text": "拿几个热门开源项目的文档,它们的历史里天然有\"走过又退回来的弯路\"和\"讨论后定下来的决策\"。我们把这些历史整理成账本,然后让新的 AI 上场,比一比:**知道历史的 AI,是不是真的更靠谱、又更便宜。**",
-   "id": "5f8e2ecf",
-   "hash": "a0eca0dac81d"
+   "text": "Proofpress should test a narrower and more defensible claim than “more history\nmakes agents better”:",
+   "id": "bee6e713",
+   "hash": "e97b6c8a87d7"
+  },
+  {
+   "type": "para",
+   "text": "> Under the same task and action budget, a minimal, inspectable record of\n> admitted artifact history helps a receiving agent preserve accepted decisions,\n> recover their stated basis, and avoid unsupported authority upgrades while\n> using less context than reconstructing the same history from raw traces or Git.",
+   "id": "66a0f432",
+   "hash": "fa49f4f6360a"
+  },
+  {
+   "type": "para",
+   "text": "The intended outcome spans three dimensions: quality (fewer decision regressions\nwithout suppressing useful changes), efficiency (tokens, latency, and tool calls),\nand trust calibration (the agent distinguishes verified facts, attributed\ntestimony, rejected paths, and unknown history).",
+   "id": "9434bdbb",
+   "hash": "f818b6875036"
   },
   {
    "type": "heading",
-   "text": "## 1. 三种任务:账本记的每样东西,都对应新人会犯的一种错",
-   "id": "16085880",
-   "hash": "8b6f18090aca"
+   "text": "## 2. Memory and provenance are different layers",
+   "id": "1a1c5ae4",
+   "hash": "c2731433d36e"
   },
   {
    "type": "para",
-   "text": "账本不只记\"否决过什么\",它记的每一类东西,都能防住一种新人容易犯的错。这次测三类,正好覆盖账本的三种核心价值:",
-   "id": "606c7237",
-   "hash": "d9c5fd1a7881"
-  },
-  {
-   "type": "para",
-   "text": "**任务 A — 会不会走回头路。**\n历史上某个方案被认真考虑过、后来砍了(理由记在 PR 里)。我们把时间倒回\"刚砍不久\"那个点,给 AI 一个自然的续作任务,悄悄把它引到那块区域,但**绝不提这个方案**。看它会不会又把死掉的方案捡回来。\n→ 测的是账本的**否决记录**。",
-   "id": "35701704",
-   "hash": "cedd9ae515ee"
-  },
-  {
-   "type": "para",
-   "text": "**任务 B — 会不会推翻已经定好的决策。**\n不是被否的旁路,是文档里正当红、团队费劲定下来的选择。任务只说\"帮我改进 X 部分\"。看 AI 会不会顺手把这个来之不易的决定当成\"可优化的地方\"给动了——因为它不知道背后有过争论。\n→ 测的是账本的**为什么(why)**:知道为什么定成这样,就不会手贱。",
-   "id": "4cb7eec0",
-   "hash": "86f001dd9bed"
-  },
-  {
-   "type": "para",
-   "text": "**任务 C — 直接问它\"为什么\"。**\n不让它改文档,直接考:\"这份文档为什么用方案甲、不用方案乙?\" 只看最终稿的 AI 只能瞎猜或说\"没写\";知道历史的 AI 能直接答出真实理由。\n→ 测的是**回溯性**,而且这类评分最干净:答得出/答不出,拿 PR 里的真实理由一对就知道。",
-   "id": "26e56e57",
-   "hash": "627a04b08f02"
-  },
-  {
-   "type": "para",
-   "text": "三类各有侧重:C 最客观,当主证据;A、B 更像真实工作场景,当\"这在实际用起来是什么样\"的演示。",
-   "id": "3b991fdb",
-   "hash": "fc4023df240a"
-  },
-  {
-   "type": "heading",
-   "text": "## 2. 三种\"资料包\":给 AI 不同的信息,比谁表现好",
-   "id": "1eb737cd",
-   "hash": "10a3f42cfd90"
-  },
-  {
-   "type": "para",
-   "text": "同一个任务,给三种不同的背景资料,比结果:",
-   "id": "9a65600f",
-   "hash": "cb8e5cd02250"
+   "text": "Memory optimizes continuity: what should be recalled for the next task.\nProvenance makes continuity accountable: where a surviving statement came from,\nwhat status it earned, how it changed, and what evidence or actor supports it.",
+   "id": "98f58f78",
+   "hash": "c7c617eabfa9"
   },
   {
    "type": "table",
-   "text": "| 组 | 给它什么 | 代表谁 |\n|---|---|---|\n| **裸文档** | 只有文档现在的样子 | 今天大多数人接手工作的状态 |\n| **自读 git** | 给它完整 git 历史,让它自己去读、自己消化 | 今天一个认真的人/AI 会做的——这是我们真正的对手 |\n| **账本** | 给它我们整理好的历史:改了什么、为什么、砍过什么 | 我们的产品 |",
-   "id": "6810a6b3",
-   "hash": "b633cebb00bb"
+   "text": "| Layer | Question | Proofpress boundary |\n| --- | --- | --- |\n| Working or long-term memory | What should the agent remember next? | Adjacent system; not the product surface |\n| Artifact provenance | How did this deliverable reach its current admitted state? | Proofpress core |\n| Execution authority | Is this context sufficient to authorize a risky action? | Runtime security layer; not currently Proofpress |",
+   "id": "97cdc5f0",
+   "hash": "c4a5317bae18"
   },
   {
    "type": "para",
-   "text": "关键改动(相比上一版):**\"自读 git\"不是把几十版原始 diff 一股脑塞给它**——那样它只会看晕,赢了也没说服力。而是给它完整历史、让它像人一样自己读自己总结。**只有赢过这个,才证明我们整理历史这件事有独立价值。** 如果 AI 自己读 git 就够了,我们就没必要存在。",
-   "id": "9071b1e9",
-   "hash": "40557278f38b"
+   "text": "The compact narrative is: **memory preserves what an agent remembers;\nprovenance preserves what it is justified in trusting. Context may be\ncompressed, but source and status must not be silently amplified.**",
+   "id": "b01863e2",
+   "hash": "7ea78b4aa28b"
   },
   {
    "type": "para",
-   "text": "要证明的一句话:**账本组的靠谱程度追上\"自读 git\"组,花的成本接近\"裸文档\"组——又准又省。**",
-   "id": "5985193d",
-   "hash": "2d021e393624"
-  },
-  {
-   "type": "para",
-   "text": "（可选的第四组:把账本里的\"为什么\"抽掉、只留\"改了什么\"。如果这组明显变差,就证明\"为什么\"这层是独立有用的,不只是把 diff 压缩了一下。预算够再加。）",
-   "id": "4fe33ee0",
-   "hash": "9d43cd94507b"
+   "text": "This does not mean that provenance proves truth. Proofpress V1 verifies artifact\nidentity, integrity, lineage, computed changes, and supplied change claims.\n`why`, evidence descriptions, and actor fields remain attributed testimony at\ntheir declared `attribution_basis`; missing history stays unknown.",
+   "id": "a1944289",
+   "hash": "ff54b2680673"
   },
   {
    "type": "heading",
-   "text": "## 3. 怎么把历史变成材料(四步,都能脚本化)",
-   "id": "25f53449",
-   "hash": "e9de9e5f39e1"
+   "text": "## 3. Security motivation: provenance laundering",
+   "id": "c4f3567e",
+   "hash": "9f8e47412674"
+  },
+  {
+   "type": "para",
+   "text": "Xu et al., “Memory Provenance Laundering in LLM Agents” (arXiv:2607.29167),\nshow a cross-task failure in which an external observation is consolidated into\nmemory as apparent user history or workflow support. The trigger survives while\nthe low-trust source disappears. Their PPMF middleware enforces a\nsource-authority non-amplification rule by preserving platform metadata and\nchecking action-relevant support at tool time.",
+   "id": "e742b0ba",
+   "hash": "8b8bd1468ebb"
+  },
+  {
+   "type": "para",
+   "text": "The paper strengthens Proofpress’s motivation but does not validate Proofpress\nitself. PPMF is a runtime authorization firewall with trusted platform labels;\nProofpress is a portable artifact ledger whose current attribution is not yet\ncryptographically signed or externally witnessed. The relevant open gap is\ninter-agent authority transfer: when one agent’s summary or artifact becomes the\nnext agent’s durable context.",
+   "id": "5686063f",
+   "hash": "a063e27823c4"
+  },
+  {
+   "type": "para",
+   "text": "For Proofpress, the transferable principle is:",
+   "id": "2ebdeef0",
+   "hash": "f07126adb518"
+  },
+  {
+   "type": "para",
+   "text": "> Copying, summarizing, merging, or handing off an artifact may preserve\n> information, but must not silently promote observation to accepted decision,\n> rejection to approval, testimony to verified fact, or unknown attribution to\n> trusted authorship.",
+   "id": "3ea59f40",
+   "hash": "d5c847c76c7c"
+  },
+  {
+   "type": "heading",
+   "text": "## 4. Relationship to adjacent research systems",
+   "id": "f09e161c",
+   "hash": "ef45aecaf693"
+  },
+  {
+   "type": "para",
+   "text": "These projects should be treated primarily as complementary layers and possible\nresearch partners, not flattened into a competitor list.",
+   "id": "15297cb7",
+   "hash": "d8f2b35c94c1"
+  },
+  {
+   "type": "table",
+   "text": "| System | Primary unit | What it contributes | Relationship to Proofpress |\n| --- | --- | --- | --- |\n| ARA | Complete agent-native research package | Logic, experiments, code, evidence, exploration graph, preserved dead ends | Strongest research partner and benchmark-material source; Proofpress can carry admitted transitions between ARA revisions and handoffs |\n| TRACE | Session/project decision and tool-event DAG | Proposer/resolver identity, dispositions, rationale, annotations, tool calls | Upstream capture partner; Proofpress admits the subset that belongs with the surviving artifact |\n| ASTRA | Scientific analysis specification | Explicit inputs, outputs, methodological choices, alternatives, and evidence | Domain schema partner; Proofpress versions and transports accepted ASTRA decisions |\n| TierMem | Provenance-linked tiered agent memory | Cheap summary-first retrieval with escalation to immutable raw evidence | Evidence that provenance can reduce context cost; not an artifact ledger |\n| PPMF | Persistent-memory authorization middleware | Source-authority non-amplification and deterministic action-risk gating | Security complement and source of adversarial handoff tasks; not a substitute for artifact history |\n| C2PA | Media provenance manifest | Portable binding, ingredients, signatures, and trust lists | Format and trust-model reference for media; Proofpress remains focused on knowledge artifacts |",
+   "id": "5e39028d",
+   "hash": "fc6319bc563b"
+  },
+  {
+   "type": "para",
+   "text": "The collaboration thesis with ARA is especially clean: ARA defines the\nsubstantive research artifact; Proofpress tests whether its accepted history can\nsurvive session, agent, tool, and organizational handoffs in a compact,\ninspectable form. TRACE could supply richer decision events upstream, while a\nProofpress admission step prevents the carrier from becoming a dump of every\ntool call or temporary branch.",
+   "id": "3980fd84",
+   "hash": "ec28b22a01da"
+  },
+  {
+   "type": "heading",
+   "text": "## 5. Existing benchmarks as task sources",
+   "id": "deff2562",
+   "hash": "39a1a062c5c1"
+  },
+  {
+   "type": "para",
+   "text": "No existing benchmark directly measures portable artifact-level provenance\nacross agent handoffs. We should add a provenance intervention layer to existing\nlong-horizon task environments rather than claim that a generic benchmark score\nisolates our mechanism. The best substrates already provide realistic inputs,\ntools, deliverables, and either deterministic checks or expert rubrics; our\ncontribution is the controlled handoff and admitted-history intervention.",
+   "id": "66717d41",
+   "hash": "84b4544c18da"
+  },
+  {
+   "type": "table",
+   "text": "| Benchmark/source | Existing task | Best Proofpress use | Readiness |\n| --- | --- | --- | --- |\n| APEX-Agents | Multi-hour, cross-application work from investment banking, management consulting, and corporate law | Best commercial paper substrate: split analyst/reviewer/approver work at natural deliverable boundaries | Primary |\n| WorkArena / WorkArena++ | Enterprise knowledge work and compositional workflows in ServiceNow | ITSM, incident, request, and compliance handoffs with environment-grounded success checks | Primary |\n| WorkBench | 690 workplace tasks across five databases and 26 tools with outcome-centric evaluation | Cheap deterministic pilot for multi-step business operations and wrong-action risk | Primary |\n| Harvey Legal Agent Benchmark | Long-horizon legal assignments with client materials, work products, and task rubrics | Regulated-work external validity and source/review lineage | Primary after license/task review |\n| HealthAgentBench / MedAgentBench | End-to-end healthcare workflows or physician-authored tasks in realistic EHR environments | High-stakes external validity for source, status, correction, and approval handoffs; never frame benchmark success as clinical deployment readiness | Secondary |\n| Finance Agent Benchmark | 537 expert-authored financial research questions using recent SEC filings | Evidence lineage and analyst-to-reviewer handoff; less workflow-native than APEX-Agents | Secondary |\n| GDPval gold subset | Economically valuable professional deliverables across many occupations | Breadth and commercialization narrative; adapt only tasks with revision or review stages | Secondary |\n| PaperBench / RE-Bench / CORE-Bench | Replication, open-ended AI R&D, and execution-grounded reproducibility | Research collaboration and scientific external validity | Research track |\n| ARA artifacts | Understand, reproduce, and extend structured research packages | Gold decision/dead-end material and natural collaboration surface | Research track |\n| AgentDojo/BrowseSafe-derived scenarios | Paired benign and adversarial tool-use situations | Security stress arm for provenance laundering; keep separate from the main quality result | Adversarial track |\n| Proofpress Hindcast | Real repository reversals, deprecations, replacements, and rationale | External-validity arm for decision regression in real histories | Supporting track |",
+   "id": "281fc2ec",
+   "hash": "c3ff857b7888"
+  },
+  {
+   "type": "para",
+   "text": "SWE-bench and OSWorld can inspire execution harnesses and long-horizon reporting,\nbut they are not primary substrates: Proofpress deliberately does not version\nsource code, and general computer-use success mixes too many capabilities with\nthe provenance intervention. Static question-answering benchmarks are also weak\nfits unless converted into artifact production, revision, and review episodes.",
+   "id": "958fc5fd",
+   "hash": "1fcbd783e728"
+  },
+  {
+   "type": "heading",
+   "text": "## 6. Commercial task portfolio",
+   "id": "3a65fc04",
+   "hash": "cbb71c892331"
+  },
+  {
+   "type": "para",
+   "text": "The product thesis should be tested where the cost of losing decision history is\nvisible and a buyer already pays for review, audit, or rework. Notion's current\nproject hub names long-horizon agents, multiplayer handoffs, legal, finance,\nhealthcare, and regulated-industry compliance as opportunity areas; this plan\nturns those themes into task families rather than limiting the work to research.",
+   "id": "e3f32b49",
+   "hash": "8488d7145f93"
+  },
+  {
+   "type": "table",
+   "text": "| Priority | Domain | Example handoff | Why provenance could matter | Likely buyer signal |\n| --- | --- | --- | --- | --- |\n| 1 | Enterprise operations / ITSM | triage agent → investigator → remediator → approver → postmortem owner | Preserve incident facts, rejected diagnoses, approvals, and superseded runbook steps without replaying the full session | Faster resolution, fewer repeated investigations, defensible change record |\n| 1 | Finance / professional services | analyst → model builder → reviewer → client deliverable owner | Preserve source lineage, assumptions, model corrections, caveats, and reviewer decisions across spreadsheets, documents, and presentations | Lower review cost, fewer stale assumptions, audit-ready work product |\n| 1 | Legal / compliance | researcher → drafter → senior reviewer → approver | Distinguish authority, client facts, citations, negotiated exceptions, and rejected language | Source reliability, reviewability, defensible approval trail |\n| 2 | Healthcare operations | intake/records agent → clinical support agent → reviewer | Preserve correction, recency, source, and approval status across EHR-derived artifacts | Fewer source/status errors and clearer human review boundaries |\n| 2 | Customer and policy operations | support agent → escalation specialist → policy approver | Prevent an old policy, customer-provided text, or unapproved exception from becoming durable authority | Fewer policy violations and faster escalations |\n| 2 | Research | explorer → experimenter → author → reviewer | Preserve failed routes, evidence, accepted methods, and revision rationale | Reproducibility and partner-visible scientific quality |",
+   "id": "a1317bb0",
+   "hash": "48d6c380f4d7"
+  },
+  {
+   "type": "para",
+   "text": "The first commercial wedge should be **review-heavy knowledge artifacts inside\nenterprise and professional workflows**, not autonomous high-risk action. The\ncarrier already fits reports, policies, incident briefs, diligence memos, legal\nwork product, research notes, and static HTML. Runtime authorization, patient\ncare, trading, filing, and other consequential actions remain outside the V1\nclaim unless an external authority layer gates them.",
+   "id": "e8034570",
+   "hash": "940eca842d65"
+  },
+  {
+   "type": "heading",
+   "text": "## 7. Experimental design",
+   "id": "8aff7416",
+   "hash": "a66429245dee"
+  },
+  {
+   "type": "para",
+   "text": "Each episode uses the same base task environment, source materials, model,\ntools, action budget, and neutral task wording. The independent variable is the\nhandoff representation:",
+   "id": "10cd1c6c",
+   "hash": "9d2d2ee166e4"
+  },
+  {
+   "type": "table",
+   "text": "| Arm | Receiving agent gets |\n| --- | --- |\n| Final artifact | Current artifact and common task resources only |\n| Raw history | Full Git/session/trace access and permission to inspect it |\n| Ordinary memory | A lossy handoff or memory summary without structured source/status semantics |\n| Proofpress | Current artifact plus admitted `what`, `why`, actors, rejected paths, evidence references, and verification status |\n| Proofpress ablation | Same compact history with `why`, rejection, source/status, or evidence binding removed one at a time |",
+   "id": "58e48d8f",
+   "hash": "a6bbab86ad81"
+  },
+  {
+   "type": "para",
+   "text": "The experiment should cover three task families:",
+   "id": "df8e23ff",
+   "hash": "0979fb5895cd"
   },
   {
    "type": "list",
-   "text": "1. **选文档**:挑历史长、改动多的文档(至少改过 20 版、跨 3 个月以上)。\n2. **重构账本**:用 `proofpress ingest` 把 git 历史直接变成账本——这功能已经做好并在真实历史上验证过。\n3. **补上\"为什么\"**:git 的 commit 说明经常很潦草(\"update docs\"),所以再去抓对应的 PR 标题、描述、关键讨论,补进账本的\"为什么\"里。\n4. **挖弯路和决策**(全实验成败的关键一步):\n   - 自动找:哪些内容\"加进来过、后来又删了、现在没了\"——这些是弯路的候选;先用引擎排除掉\"只是搬了个位置\"的假弯路。\n   - 人工确认:挑出来的弯路逐个看,确认是\"真的被否了\",不是重构的副作用,每份文档留 3–5 个确认过的,并记下 PR 里的真实理由。\n   - **门槛**:一份文档挖不出至少 3 个像样的弯路/决策,就换一份。",
-   "id": "bcc0a447",
-   "hash": "2f01c2e1c848"
+   "text": "1. **Continue/extend:** complete the next workflow milestone after another agent",
+   "id": "bd2bd9cc",
+   "hash": "c4b27f3c4813"
   },
   {
    "type": "para",
-   "text": "**防泄题**:每个任务的措辞,由一个\"没看过弯路清单\"的人来写——只告诉他\"往这个区域引\",不告诉他埋了什么雷。否则任务本身会暗示答案。",
-   "id": "60335d00",
-   "hash": "0d32e7a3559c"
-  },
-  {
-   "type": "heading",
-   "text": "## 4. 怎么打分",
-   "id": "860c20dc",
-   "hash": "a2920fd710b7"
-  },
-  {
-   "type": "para",
-   "text": "**主要看两件事:**",
-   "id": "44e6da41",
-   "hash": "2db8935e42c0"
+   "text": "   explored alternatives and made an accepted choice.",
+   "id": "93812db9",
+   "hash": "46685c3e6837"
   },
   {
    "type": "list",
-   "text": "1. **有没有犯错**:走回头路了吗(任务 A)?推翻已定决策了吗(任务 B)?答不出为什么(任务 C)?——这些大多是非黑即白的,能自动判,再加一个\"不知道是哪组\"的盲评复核。\n2. **花了多少**:每组塞进去多少背景资料、AI 总共消耗多少。",
-   "id": "92c277a0",
-   "hash": "4230fd5f3405"
+   "text": "2. **Audit/explain:** answer why a method or claim was accepted, identify its",
+   "id": "1a221e5c",
+   "hash": "6110fa846c26"
   },
   {
    "type": "para",
-   "text": "**还要防一个作弊**:某一组可能靠\"什么都不敢改\"来避免犯错。所以额外盲评一下\"任务完成得好不好\"(1–5 分),**光会躲不算赢**——完成质量明显掉队的组,不算它占优。",
-   "id": "60111d5c",
-   "hash": "c39f59b53e4c"
-  },
-  {
-   "type": "heading",
-   "text": "## 5. 一个必须先过的关(否则整个实验作废)",
-   "id": "1cce3f3c",
-   "hash": "79e6fcde9f95"
-  },
-  {
-   "type": "para",
-   "text": "**如果连\"裸文档\"组都不犯错**,说明这个 AI 早把这个开源项目背熟了,这题就废了,必须换项目。所以正式开跑前,先小规模确认\"裸文档组确实会犯错\"。另外只用较近期(2026-03 之后)的历史,进一步降低\"被背过\"的可能。",
-   "id": "03e34a1d",
-   "hash": "ad5d22725ab9"
-  },
-  {
-   "type": "heading",
-   "text": "## 6. 节奏",
-   "id": "50f86e47",
-   "hash": "5b400f30a31c"
+   "text": "   supporting evidence, and abstain when the record does not support an answer.",
+   "id": "6543f0a6",
+   "hash": "25f0da43f6b7"
   },
   {
    "type": "list",
-   "text": "1. **小试(pilot)**:1 个项目、3 个弯路/决策、三组各跑几次——约一天。**唯一目的**:确认挖出来的弯路够真、裸文档组确实会犯错。\n2. **停下来给 Richard 看**:弯路质量 + 裸文档组犯错率,决定值不值得铺开。\n3. **铺开(full)**:2–3 个项目、覆盖三类任务、上百次测试,并行跑,1–2 天。\n4. 有余力再加:抽掉\"为什么\"的第四组、换一个别家的模型复跑,看结论稳不稳。",
-   "id": "4ab523df",
-   "hash": "438e8cc91c2b"
+   "text": "3. **Counterfactual update:** in half the cases the prior decision remains valid;",
+   "id": "664231a5",
+   "hash": "ce7cde6f239f"
   },
   {
    "type": "para",
-   "text": "**快速止损**:小试挖不出像样的弯路、或裸文档组根本不犯错,立刻停,换材料或回去重想战略,不恋战。",
-   "id": "2f7dec98",
-   "hash": "1efddaf60159"
+   "text": "   in the other half new evidence makes reversal correct. This prevents\n   conservatism from masquerading as preserved trust.",
+   "id": "655a2afe",
+   "hash": "6d309e1db6d6"
+  },
+  {
+   "type": "para",
+   "text": "A long-horizon episode should contain three to five fresh-context roles. Use\ndomain-realistic sequences such as analyst → drafter/model builder → reviewer →\nreviser → approver, or triage → investigation → remediation → audit.\nConversation state is cleared at every handoff. The artifact and the assigned\nhandoff representation are the only shared continuity rail.",
+   "id": "a2145642",
+   "hash": "3fed27dfa5bd"
   },
   {
    "type": "heading",
-   "text": "## 7. 诚实边界(结论不能吹过头)",
-   "id": "b3d3a792",
-   "hash": "50b27c87d394"
+   "text": "## 8. Metrics and statistical plan",
+   "id": "2d0d2202",
+   "hash": "73bb03ff22c0"
   },
   {
-   "type": "list",
-   "text": "- 这次只测\"知道历史有没有用\"(continuity),**不测\"验证 AI 有没有说谎\"**(verify)——因为历史里的旧改动没有我们的结构化自述可核对。结论不能外推到验证层。\n- 我们补的\"为什么\"质量偏低(受限于人家的 commit 写得潦草)——这对我们**不利**,所以赢了更硬;万一输了,得先分清是\"账本没用\"还是\"为什么太薄\"(靠第四组能分开)。\n- 样本量有限、评分带模型偏好——结论定位是\"有力的方向性证据 + 发布时能引用的具体数字\",不是学术定论。\n- 用别人 repo 的内容遵守其开源许可,发布任何素材前逐条确认。",
-   "id": "94160831",
-   "hash": "f0936188b17c"
+   "type": "para",
+   "text": "Primary quality metrics are task/rubric completion, decision-regression rate,\nunsupported-decision rate, evidence-grounded answer accuracy, and useful-change\nrate. The last metric is mandatory: a system that refuses every change is not a\nsuccessful provenance system.",
+   "id": "f23a7f1d",
+   "hash": "8653f50b439f"
+  },
+  {
+   "type": "para",
+   "text": "Trust and safety metrics are authority-laundering rate, provenance-faithfulness,\ncorrect abstention under missing evidence, tamper/drift detection, and false\nblock rate on benign or correctly updated decisions.",
+   "id": "bba4d5a8",
+   "hash": "fba553de2f01"
+  },
+  {
+   "type": "para",
+   "text": "Efficiency metrics are input/output tokens, wall-clock latency, model/tool calls,\nhistory-search operations, and cost per successfully completed rubric item.",
+   "id": "df9ab5c0",
+   "hash": "0b1370352c3d"
+  },
+  {
+   "type": "para",
+   "text": "Use paired instances and shared seeds across arms. Analyze binary outcomes with\npaired tests or mixed-effects logistic regression, treating task/project as a\ncluster; report bootstrap confidence intervals for cost and latency. Pre-register\nthe primary outcome, exclusion gates, prompt templates, stopping rules, and the\ndistinction between exploratory and confirmatory analyses.",
+   "id": "45e6eeff",
+   "hash": "175b56438c47"
   },
   {
    "type": "heading",
-   "text": "## 8. 顺带的好处",
-   "id": "4adb143e",
-   "hash": "5e9c440987bc"
+   "text": "## 9. Confounds and validity gates",
+   "id": "90fa846a",
+   "hash": "2a816e282b08"
+  },
+  {
+   "type": "list",
+   "text": "- Give all arms the complete task environment. The earlier single-file Hindcast",
+   "id": "55bbd205",
+   "hash": "8a5b0c9d618b"
   },
   {
    "type": "para",
-   "text": "做完如果成立,直接就是发布素材:\"我们把 X 项目的文档历史整理成账本,带账本的 AI 不再重犯这个项目自己犯过的错。\" 比任何自家 demo 都有说服力——而且\"给热门开源项目送一份整理好的历史\"这件事本身,就能当成一个获客钩子。",
-   "id": "f092ea8c",
-   "hash": "392a1db40190"
+   "text": "  probe caused the baseline to refuse because it could not inspect the repo.",
+   "id": "7c5ddc94",
+   "hash": "bfe16bd0f389"
+  },
+  {
+   "type": "list",
+   "text": "- Use neutral task wording. Terms such as “restore” and “add back” reveal that a",
+   "id": "340a00b7",
+   "hash": "b9bc687614a1"
+  },
+  {
+   "type": "para",
+   "text": "  direction was previously removed.",
+   "id": "376187a0",
+   "hash": "d3322f2bbdce"
+  },
+  {
+   "type": "list",
+   "text": "- Screen for benchmark contamination and memorized public projects; use recent,",
+   "id": "94f074bd",
+   "hash": "50b5b6216de6"
+  },
+  {
+   "type": "para",
+   "text": "  partner-held, or procedurally generated cases where possible.",
+   "id": "66d7b8b5",
+   "hash": "ce88fac07b81"
+  },
+  {
+   "type": "list",
+   "text": "- Keep information and authority separate. A fluent rationale is not automatically",
+   "id": "0ca7d7a8",
+   "hash": "298af7e3f37c"
+  },
+  {
+   "type": "para",
+   "text": "  an accepted rationale, and a cited source is not automatically true.",
+   "id": "9061eb19",
+   "hash": "626c3984813c"
+  },
+  {
+   "type": "list",
+   "text": "- Score both preservation and justified reversal. Avoid building a benchmark in",
+   "id": "5e9a23f7",
+   "hash": "07e84f8996f1"
+  },
+  {
+   "type": "para",
+   "text": "  which “never deviate from history” is always correct.",
+   "id": "52bd2eae",
+   "hash": "5cc962cbad10"
+  },
+  {
+   "type": "list",
+   "text": "- Blind artifact-quality graders to the experimental arm. Use execution/rubric",
+   "id": "dbff2376",
+   "hash": "2108e4e76f68"
+  },
+  {
+   "type": "para",
+   "text": "  checks where available and human review for decision-level ambiguity.",
+   "id": "e7fef96d",
+   "hash": "2edff8df6e70"
+  },
+  {
+   "type": "list",
+   "text": "- Report transport and trust-root assumptions explicitly. A stripped capsule is",
+   "id": "6aec1e94",
+   "hash": "97bd4410ad4c"
+  },
+  {
+   "type": "para",
+   "text": "  an ordinary artifact; self-asserted attribution is not signed identity.",
+   "id": "12355bff",
+   "hash": "3c4f6578b4b0"
+  },
+  {
+   "type": "list",
+   "text": "- For finance, legal, and healthcare, separate artifact-quality gains from",
+   "id": "a11470fe",
+   "hash": "764910f8623d"
+  },
+  {
+   "type": "para",
+   "text": "  deployment safety. Use sandboxed or synthetic environments, expert-authored\n  rubrics, and explicit human-review boundaries; do not infer readiness for\n  clinical, legal, trading, or compliance action from benchmark completion.",
+   "id": "0417ecf4",
+   "hash": "60fe13f8aaf4"
   },
   {
    "type": "heading",
-   "text": "## 9. Pilot 首轮发现(2026-07-22)",
-   "id": "1afd5ab7",
-   "hash": "a10a135f1f08"
+   "text": "## 10. Pilot implementation",
+   "id": "dc579f99",
+   "hash": "eb82e35e5f4c"
   },
   {
    "type": "para",
-   "text": "**管线验证:通过。** 用 `ingest` 把 OpenHands 的 `Development.md` 两年真实历史(97 版、多作者、含大改写)重构成账本,一次成功——引擎扛得住外部脏历史,自动列出\"加了又删且 head 里没有\"的块。这条本身也是我们工具的一次强验证。",
-   "id": "89932ef0",
-   "hash": "037a6245f9bb"
+   "text": "The smallest credible pilot should use two task tracks rather than research\nalone: 8–12 enterprise/professional tasks adapted from APEX-Agents, WorkArena,\nWorkBench, or Harvey LAB, plus 6–10 ARA/PaperBench research projects. Each track\ngets Continue and Audit or Counterfactual tasks. Run the four essential arms\n(final artifact, raw history, Proofpress, Proofpress ablation) with 3–5 shared\nseeds. Add ordinary memory after the harness is stable.",
+   "id": "d02d7dbb",
+   "hash": "ac79bbcdd9e4"
   },
   {
    "type": "para",
-   "text": "**关键发现:材料是这个实验的真正瓶颈,比计划假设的难。** 挖矿结果:45 个\"删除且消失\"的块里,**约 44 个来自同一次大改写**(`3c0241f0` 重组设置指南)——是重构噪音,不是决策反转;只有 1 个是真反转(`Removed V0 runtime #14117`),且偏配置细节、\"死\"得不够干净(那套做法在 V1 下可能仍然有效)。**这正是计划 §7 警告的 \"removed ≠ rejected\",现在被确认为主导失败模式。**",
-   "id": "88e63daa",
-   "hash": "9bdd39f06513"
+   "text": "Before that full pilot, run a low-cost gate on six total episodes: two enterprise\noperations, two finance/legal professional-service tasks, and two research\ntasks. The gate asks whether fresh agents actually make decision-regression or\nsource/status errors that the provenance intervention can plausibly change. If\nthe failure mode does not appear without contrived wording, do not scale it.",
+   "id": "4e0a59af",
+   "hash": "6e09c191562a"
   },
   {
    "type": "para",
-   "text": "**两类文档都不合适:**",
-   "id": "8bff0229",
-   "hash": "01be68b5ed0b"
+   "text": "Implementation sequence:",
+   "id": "d67dedd1",
+   "hash": "4a64736a5bb1"
   },
   {
    "type": "list",
-   "text": "- **高频修订的文档**(README、开发/设置指南):改动多,但绝大多数是重写和重组,决策反转极少 → 挖出的雷几乎全是噪音;\n- **真正的决策/设计文档**(autogen 的 Agent Worker Protocol、Programming Model 等):确实记决策,但**写完一次就基本不动**(autogen 那批停在 2024–2025、提交个位数),过不了\"近期 + ≥20 版\"两道门。",
-   "id": "1aa4e6eb",
-   "hash": "99e3861ab536"
+   "text": "1. Select tasks with at least one material accepted decision, one rejected or",
+   "id": "220d5adc",
+   "hash": "48b33176a4b8"
   },
   {
    "type": "para",
-   "text": "**结论:同时满足\"频繁修订 + 近期 + 富含真实决策反转\"的文档,是稀缺的。** 用\"删除块\"当矿源信噪比太差。",
-   "id": "9853e246",
-   "hash": "62147a67d234"
-  },
-  {
-   "type": "para",
-   "text": "**修正方向(下一步的假设):**",
-   "id": "150946d9",
-   "hash": "381f3c7d4085"
+   "text": "   failed route, and executable or rubric-grounded outcomes.",
+   "id": "53da65a7",
+   "hash": "dc228e9f3a3c"
   },
   {
    "type": "list",
-   "text": "1. 矿源从\"删除的块\"改为**显式反转信号**——commit/PR message 含 `revert` / `deprecate` / `remove` / `replace` / `roll back`,再拿 diff 交叉确认。`git revert` 提交按定义就是干净弯路。\n2. 文档类别从\"设置指南 / 写完不动的设计文档\"改为**活跃维护、且有功能被弃用**的参考类文档(配置参考、支持列表、集成/API 文档)——这类既高频、又有真实\"某做法被废弃\"。\n3. 或者干脆放弃\"单文档历史\",改挖**跨文档的 revert PR**(整个 repo 层面找被回滚的文档改动)。",
-   "id": "a3dce6a2",
-   "hash": "35476848141b"
+   "text": "2. Freeze a gold decision sheet containing source, status, rationale, evidence,",
+   "id": "7d8d54be",
+   "hash": "a90669b29d5b"
   },
   {
    "type": "para",
-   "text": "**决策点(待 Richard):** 是按修正方向继续找材料,还是这个\"借开源历史\"路线本身信噪比不足、改用别的验证方式(如回到自产但更受控的材料)。Pilot 没到\"跑 18 runs\"就先停在这里,因为材料这一关没过,跑了也是在噪音上跑。",
-   "id": "d5575ee9",
-   "hash": "dbba43e8e602"
+   "text": "   expiry/scope, and conditions under which reversal is correct.",
+   "id": "3d63459e",
+   "hash": "d7519b1d82bc"
+  },
+  {
+   "type": "list",
+   "text": "3. Build deterministic package generation for every arm from the same source",
+   "id": "d55fb276",
+   "hash": "833702fc23c2"
+  },
+  {
+   "type": "para",
+   "text": "   record; do not hand-author a better Proofpress prompt.",
+   "id": "01331572",
+   "hash": "712ab1256b27"
+  },
+  {
+   "type": "list",
+   "text": "4. Split each original trajectory at realistic handoff boundaries and run fresh",
+   "id": "2496617c",
+   "hash": "919972e5e542"
+  },
+  {
+   "type": "para",
+   "text": "   agents in isolated workspaces with equal repository/resource access.",
+   "id": "083ea4f5",
+   "hash": "b2074b4625af"
+  },
+  {
+   "type": "list",
+   "text": "5. Record tokens, latency, tool calls, artifact versions, claims, and evaluator",
+   "id": "e1947909",
+   "hash": "19905c1f3c17"
+  },
+  {
+   "type": "para",
+   "text": "   outputs in a machine-readable run ledger.",
+   "id": "5020d100",
+   "hash": "6ba6c8aa9df6"
+  },
+  {
+   "type": "list",
+   "text": "6. Run a gate pilot first: confirm the baseline sometimes fails, benign tasks",
+   "id": "f3cf72ca",
+   "hash": "d31651ace711"
+  },
+  {
+   "type": "para",
+   "text": "   remain achievable, and graders agree before scaling.",
+   "id": "4f050a4f",
+   "hash": "d85d6085e771"
+  },
+  {
+   "type": "list",
+   "text": "7. Scale only after the task/material gate passes; publish prompts, schemas,",
+   "id": "97a2b2ba",
+   "hash": "7cc2e6f5c57d"
+  },
+  {
+   "type": "para",
+   "text": "   rubrics, aggregate results, and sanitized traces where licenses permit.",
+   "id": "57fc229c",
+   "hash": "3a31c6bc65e0"
   },
   {
    "type": "heading",
-   "text": "## 10. 第二轮:反转信号挖矿 + gate 探针(2026-07-22)",
-   "id": "ce2c5c5e",
-   "hash": "1c3c48f5ffb3"
+   "text": "## 11. Product implications if the hypothesis holds",
+   "id": "b4318b36",
+   "hash": "753cc117d8f8"
   },
   {
    "type": "para",
-   "text": "**矿源质量:确认过关。** 改用\"反转信号\"挖矿(commit/PR message 含 revert/deprecate/remove/replace/rollback,再交叉 diff),OpenHands 一个 repo 就挖出 18 个真反转,其中数个是干净的**功能被杀**:VSCode 扩展(#12234,已弃用)、evaluation 目录(#12666,移到独立 repo)、V0 runtime API(#14117,迁移 V1 后移除)。全部带真实 PR 理由。方向 1+2 组合有效,材料瓶颈解除。",
-   "id": "48383240",
-   "hash": "71c62bb12ed0"
+   "text": "The evaluation should guide product iteration, not merely produce a leaderboard.\nLikely protocol additions to explore are typed `source_class`, explicit\n`decision_status`, scoped `evidence_ref`, and supersession/expiry semantics.\nThese must preserve the current distinction between computed facts and attributed\ntestimony; they are research candidates, not implementation commitments.",
+   "id": "a42d70a0",
+   "hash": "036b89fed81f"
   },
   {
    "type": "para",
-   "text": "**Gate 探针:暴露了实验设计的两个混淆变量(比预期更有价值的负面结果)。** 两个 clean agent 同一任务(一位贡献者提议加回上述三个被杀的东西),裸臂只有当前文档、账本臂另有决策历史摘录。结果:",
-   "id": "fd609bb3",
-   "hash": "66ea9b324122"
-  },
-  {
-   "type": "list",
-   "text": "- 账本臂:三颗雷零踩,逐条驳回,还精准识别 eval \"是迁移不是删除\"、重定向到外部 repo——教科书级表现。\n- 裸臂:**也几乎没踩雷,但原因是错的**——它因\"隔离目录里没有源码、无法核实\"而拒绝写,不是因为独立判断。V0 那颗轻微踩了(加了 fallback 注释)。",
-   "id": "4db66429",
-   "hash": "4e8835d8d9c8"
+   "text": "The strongest defensible product line would be:",
+   "id": "1e117b77",
+   "hash": "8f72f68d7d60"
   },
   {
    "type": "para",
-   "text": "**两个必须修的设计 bug:**",
-   "id": "cc0ccb65",
-   "hash": "e7560a57361b"
-  },
-  {
-   "type": "list",
-   "text": "1. **隔离过度**:只给单文件、没有代码库 → 裸臂默认\"无法验证就不写\",人为压制了踩雷。真实场景 agent 有整个 repo、真心想完成任务,才会暴露差异。修:给两臂完整 repo checkout(或让它相信任务合法并真的去做)。\n2. **任务措辞泄题**:\"加回 / 恢复 / add back / restore\" 这些词本身暗示\"这些曾被移除\",连裸臂都起疑。修:盲写任务的人必须用中性动词(\"完善 X 部分\"\"补充 IDE 支持文档\"),绝不能出现反转暗示词。",
-   "id": "783a4789",
-   "hash": "55daafda55e8"
-  },
-  {
-   "type": "para",
-   "text": "**净结论:管线通、矿源过关、机制跑通,但 gate 设计有两处混淆,修掉之前 18-run 结果无意义。** 唯一差分信号(V0:裸臂踩、账本臂拒)方向对但太弱,不足以下结论。",
-   "id": "d08619d5",
-   "hash": "2738c48a5458"
+   "text": "> Memory helps agents continue. Proofpress gives durable work a shared,\n> checkable past—so teams can hand off high-stakes artifacts without replaying\n> every session or silently laundering trust.",
+   "id": "0910e964",
+   "hash": "30ab4110ec4f"
   },
   {
    "type": "heading",
-   "text": "## 11. 与 provenance handoff 主实验的关系(2026-08-03)",
-   "id": "88201221",
-   "hash": "69948228e060"
+   "text": "## 12. Evidence and references",
+   "id": "f846345a",
+   "hash": "6bad8bfaa035"
+  },
+  {
+   "type": "list",
+   "text": "- Proofpress Hindcast: `docs/internal/experiments/EXPERIMENT_HINDCAST.md`\n- Proofpress portable handoff dogfood:",
+   "id": "696b3dc3",
+   "hash": "85a29f1e18ab"
   },
   {
    "type": "para",
-   "text": "Hindcast 不再独自承担整篇 paper 的因果主张。它保留自己最强的部分：真实开源历史、真实 PR 理由、真实 deprecation/revert，以及“后来 agent 会不会重走死路”的外部效度。主因果实验改为受控的 research handoff：同一 research package、同一模型与预算，只改变接手者拿到的 handoff representation，并同时测完成质量、决策回归、trust calibration、token、latency 和 tool calls。",
-   "id": "190c6326",
-   "hash": "e1e63b9071d7"
+   "text": "  `docs/internal/experiments/PORTABLE_HANDOFF_DOGFOOD.md`",
+   "id": "f5377974",
+   "hash": "98dba5226c65"
+  },
+  {
+   "type": "list",
+   "text": "- ARA: https://github.com/ARA-Labs/Agent-Native-Research-Artifact and",
+   "id": "0fe3ba44",
+   "hash": "0e476f9e8ae5"
   },
   {
    "type": "para",
-   "text": "Canonical 研究设计见 [`PROVENANCE_HANDOFF_RESEARCH_PLAN.md`](PROVENANCE_HANDOFF_RESEARCH_PLAN.md)。其中加入 ARA/PaperBench/RE-Bench/CORE-Bench 任务来源、TRACE/ASTRA/TierMem/PPMF 的相邻系统关系、三至五段 fresh-context handoff、Proofpress ablation、authority-laundering 指标，以及“新证据出现时应当推翻旧决定”的反保守测试。",
-   "id": "55006afd",
-   "hash": "78d84f8fb852"
+   "text": "  https://arxiv.org/abs/2604.24658",
+   "id": "f4db34b5",
+   "hash": "ebdac03c4145"
+  },
+  {
+   "type": "list",
+   "text": "- TRACE: https://github.com/Thru-Echoes/TRACE\n- ASTRA: https://astra-spec.org/latest/\n- PaperBench: https://openai.com/index/paperbench/\n- RE-Bench: https://github.com/METR/RE-Bench\n- CORE-Bench: https://crab.cs.princeton.edu/core-website/\n- TierMem: https://arxiv.org/abs/2602.17913\n- Memory Provenance Laundering / PPMF: https://arxiv.org/abs/2607.29167\n- SUNGLASSES commentary: https://x.com/sunglasses_dev/status/2084371074314277329\n- Provenance project hub (Notion):",
+   "id": "64dd29dc",
+   "hash": "b37895de7a43"
+  },
+  {
+   "type": "para",
+   "text": "  https://app.notion.com/p/Provenance-0b7ee20e1775408cbfe3426b80130b66",
+   "id": "179c36d2",
+   "hash": "1834a82957f9"
+  },
+  {
+   "type": "list",
+   "text": "- APEX-Agents: https://arxiv.org/abs/2601.14242 and",
+   "id": "4f2ccb75",
+   "hash": "7642eb3f114d"
+  },
+  {
+   "type": "para",
+   "text": "  https://www.mercor.com/apex/",
+   "id": "71f3dcbf",
+   "hash": "fc3319d6375b"
+  },
+  {
+   "type": "list",
+   "text": "- WorkArena / WorkArena++: https://github.com/ServiceNow/workarena\n- WorkBench: https://arxiv.org/abs/2405.00823\n- Harvey Legal Agent Benchmark: https://github.com/harveyai/harvey-labs\n- HealthAgentBench: https://arxiv.org/abs/2606.31179\n- MedAgentBench: https://github.com/stanfordmlgroup/MedAgentBench\n- Finance Agent Benchmark: https://arxiv.org/abs/2508.00828\n- GDPval: https://openai.com/index/gdpval/",
+   "id": "5c598c39",
+   "hash": "4af0d2d8de3d"
   }
  ]
 }

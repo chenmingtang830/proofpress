@@ -1,56 +1,434 @@
 {
  "event": "version_created",
- "artifact": "docs/internal/experiments/EXPERIMENT_HINDCAST.md",
- "artifact_id": "pp_d1a5fee2c5b83bd607a26ee3",
- "version": "c6ffa17a",
- "parent": "1bdee6fa",
+ "artifact": "docs/internal/experiments/PROVENANCE_HANDOFF_EVALUATION_PLAN.md",
+ "artifact_id": "pp_dfeff80ca8348068acae1718",
+ "version": "71f37f63",
+ "parent": "e68ac236",
  "author": {
-  "name": "codex-preflight",
-  "kind": "system",
-  "session": null
+  "name": "codex",
+  "kind": "agent",
+  "session": "provenance-evaluation-plan"
  },
- "note": "best-effort fallback capture; edit attribution unknown",
- "ts": "2026-08-04T06:52:33+00:00",
+ "note": null,
+ "ts": "2026-08-04T07:01:10+00:00",
  "stats": {
-  "modified": 1,
-  "added": 3
+  "modified": 20,
+  "added": 11
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "71923c44",
-   "type": "para",
-   "context": "Hindcast 实验计划:借开源项目的历史,验证账本有没有用"
-  },
-  {
-   "kind": "added",
-   "block": "88201221",
+   "block": "d9f82c9a",
    "type": "heading",
-   "context": "11. 与 provenance handoff 主实验的关系(2026-08-",
-   "preview": "## 11. 与 provenance handoff 主实验的关系(2026-08-03)"
+   "context": "Provenance Handoff Evaluation Plan"
+  },
+  {
+   "kind": "modified",
+   "block": "37ed6078",
+   "type": "para",
+   "context": "Provenance Handoff Evaluation Plan"
+  },
+  {
+   "kind": "modified",
+   "block": "88e78cf3",
+   "type": "heading",
+   "context": "1. Evaluation thesis"
+  },
+  {
+   "kind": "modified",
+   "block": "66717d41",
+   "type": "para",
+   "context": "5. Existing benchmarks as task sources"
+  },
+  {
+   "kind": "modified",
+   "block": "281fc2ec",
+   "type": "table",
+   "context": "5. Existing benchmarks as task sources"
+  },
+  {
+   "kind": "modified",
+   "block": "958fc5fd",
+   "type": "para",
+   "context": "5. Existing benchmarks as task sources"
   },
   {
    "kind": "added",
-   "block": "190c6326",
-   "type": "para",
-   "context": "11. 与 provenance handoff 主实验的关系(2026-08-",
-   "preview": "Hindcast 不再独自承担整篇 paper 的因果主张。它保留自己最强的部分：真实开源历史、真实 PR 理由、真实 "
+   "block": "3a65fc04",
+   "type": "heading",
+   "context": "6. Commercial task portfolio",
+   "preview": "## 6. Commercial task portfolio"
   },
   {
    "kind": "added",
-   "block": "55006afd",
+   "block": "e3f32b49",
    "type": "para",
-   "context": "11. 与 provenance handoff 主实验的关系(2026-08-",
-   "preview": "Canonical 研究设计见 [`PROVENANCE_HANDOFF_RESEARCH_PLAN.md`](PROV"
+   "context": "6. Commercial task portfolio",
+   "preview": "The product thesis should be tested where the cost of losing"
+  },
+  {
+   "kind": "added",
+   "block": "a1317bb0",
+   "type": "table",
+   "context": "6. Commercial task portfolio",
+   "preview": "| Priority | Domain | Example handoff | Why provenance could"
+  },
+  {
+   "kind": "added",
+   "block": "e8034570",
+   "type": "para",
+   "context": "6. Commercial task portfolio",
+   "preview": "The first commercial wedge should be **review-heavy knowledg"
+  },
+  {
+   "kind": "modified",
+   "block": "8aff7416",
+   "type": "heading",
+   "context": "7. Experimental design",
+   "numbers": [
+    [
+     "6.",
+     "7."
+    ]
+   ]
+  },
+  {
+   "kind": "modified",
+   "block": "10cd1c6c",
+   "type": "para",
+   "context": "7. Experimental design"
+  },
+  {
+   "kind": "modified",
+   "block": "bd2bd9cc",
+   "type": "list",
+   "context": "7. Experimental design"
+  },
+  {
+   "kind": "modified",
+   "block": "a2145642",
+   "type": "para",
+   "context": "7. Experimental design"
+  },
+  {
+   "kind": "modified",
+   "block": "2d0d2202",
+   "type": "heading",
+   "context": "8. Metrics and statistical plan",
+   "numbers": [
+    [
+     "7.",
+     "8."
+    ]
+   ]
+  },
+  {
+   "kind": "modified",
+   "block": "90fa846a",
+   "type": "heading",
+   "context": "9. Confounds and validity gates",
+   "numbers": [
+    [
+     "8.",
+     "9."
+    ]
+   ]
+  },
+  {
+   "kind": "added",
+   "block": "a11470fe",
+   "type": "list",
+   "context": "9. Confounds and validity gates",
+   "preview": "- For finance, legal, and healthcare, separate artifact-qual"
+  },
+  {
+   "kind": "added",
+   "block": "0417ecf4",
+   "type": "para",
+   "context": "9. Confounds and validity gates",
+   "preview": "  deployment safety. Use sandboxed or synthetic environments"
+  },
+  {
+   "kind": "modified",
+   "block": "dc579f99",
+   "type": "heading",
+   "context": "10. Pilot implementation",
+   "numbers": [
+    [
+     "9.",
+     "10."
+    ]
+   ]
+  },
+  {
+   "kind": "modified",
+   "block": "d02d7dbb",
+   "type": "para",
+   "context": "10. Pilot implementation"
+  },
+  {
+   "kind": "added",
+   "block": "4e0a59af",
+   "type": "para",
+   "context": "10. Pilot implementation",
+   "preview": "Before that full pilot, run a low-cost gate on six total epi"
+  },
+  {
+   "kind": "modified",
+   "block": "220d5adc",
+   "type": "list",
+   "context": "10. Pilot implementation"
+  },
+  {
+   "kind": "modified",
+   "block": "b4318b36",
+   "type": "heading",
+   "context": "11. Product implications if the hypothes",
+   "numbers": [
+    [
+     "10.",
+     "11."
+    ]
+   ]
+  },
+  {
+   "kind": "modified",
+   "block": "a42d70a0",
+   "type": "para",
+   "context": "11. Product implications if the hypothes"
+  },
+  {
+   "kind": "modified",
+   "block": "0910e964",
+   "type": "para",
+   "context": "11. Product implications if the hypothes"
+  },
+  {
+   "kind": "modified",
+   "block": "f846345a",
+   "type": "heading",
+   "context": "12. Evidence and references",
+   "numbers": [
+    [
+     "11.",
+     "12."
+    ]
+   ]
+  },
+  {
+   "kind": "modified",
+   "block": "64dd29dc",
+   "type": "list",
+   "context": "12. Evidence and references"
+  },
+  {
+   "kind": "added",
+   "block": "179c36d2",
+   "type": "para",
+   "context": "12. Evidence and references",
+   "preview": "  https://app.notion.com/p/Provenance-0b7ee20e1775408cbfe342"
+  },
+  {
+   "kind": "added",
+   "block": "4f2ccb75",
+   "type": "list",
+   "context": "12. Evidence and references",
+   "preview": "- APEX-Agents: https://arxiv.org/abs/2601.14242 and"
+  },
+  {
+   "kind": "added",
+   "block": "71f3dcbf",
+   "type": "para",
+   "context": "12. Evidence and references",
+   "preview": "  https://www.mercor.com/apex/"
+  },
+  {
+   "kind": "added",
+   "block": "5c598c39",
+   "type": "list",
+   "context": "12. Evidence and references",
+   "preview": "- WorkArena / WorkArena++: https://github.com/ServiceNow/wor"
   }
  ],
  "policy": "local",
- "soft_fingerprint": "ppsb1:6703902ca03808c4d1afcd618076f797b58451211dc94c06c638b91732232943",
+ "soft_fingerprint": "ppsb1:ab40d99443e380caad2042c6424c40f9012c0a8252a74015b3ed5b4a4a55f56f",
  "actors": {
+  "requested_by": [
+   "Richard"
+  ],
+  "produced_by": [
+   "codex"
+  ],
+  "edited_by": [
+   "codex"
+  ],
   "recorded_by": [
-   "codex-preflight"
+   "codex"
   ]
  },
  "attribution_basis": "harness_attested",
- "event_id": "ppe_945d37497a4d325e289d7002"
+ "claims": [
+  {
+   "block": "d9f82c9a",
+   "kind": "modified",
+   "note": "Renamed the artifact from a research-only plan to a cross-domain evaluation plan."
+  },
+  {
+   "block": "37ed6078",
+   "kind": "modified",
+   "note": "Broadened status and scope to enterprise workflows and high-stakes professional work while retaining research as one validation domain."
+  },
+  {
+   "block": "88e78cf3",
+   "kind": "modified",
+   "note": "Renamed the thesis section to reflect the broader evaluation scope."
+  },
+  {
+   "block": "66717d41",
+   "kind": "modified",
+   "note": "Defined the provenance handoff intervention as an overlay on realistic long-horizon task environments."
+  },
+  {
+   "block": "281fc2ec",
+   "kind": "modified",
+   "note": "Replaced the research-only benchmark list with prioritized enterprise, finance, legal, healthcare, economic-work, research, and adversarial task sources."
+  },
+  {
+   "block": "958fc5fd",
+   "kind": "modified",
+   "note": "Clarified why generic computer-use and static QA benchmarks are weak primary substrates."
+  },
+  {
+   "block": "3a65fc04",
+   "kind": "added",
+   "note": "Added the commercial task portfolio section."
+  },
+  {
+   "block": "e3f32b49",
+   "kind": "added",
+   "note": "Connected the portfolio to the long-horizon, multiplayer, regulated-industry themes recorded in the Notion project hub."
+  },
+  {
+   "block": "a1317bb0",
+   "kind": "added",
+   "note": "Prioritized enterprise operations, finance, legal, healthcare, customer policy operations, and research handoff task families with buyer signals."
+  },
+  {
+   "block": "e8034570",
+   "kind": "added",
+   "note": "Selected review-heavy knowledge artifacts as the first commercial wedge and preserved the V1 boundary around consequential actions."
+  },
+  {
+   "block": "8aff7416",
+   "kind": "modified",
+   "note": "Renumbered the experimental-design section after adding the commercial portfolio."
+  },
+  {
+   "block": "10cd1c6c",
+   "kind": "modified",
+   "note": "Generalized controlled episode inputs from research packages to cross-domain task environments and source materials."
+  },
+  {
+   "block": "bd2bd9cc",
+   "kind": "modified",
+   "note": "Generalized the continue task from a research milestone to a workflow milestone."
+  },
+  {
+   "block": "a2145642",
+   "kind": "modified",
+   "note": "Added domain-realistic long-horizon role sequences for professional and enterprise workflows."
+  },
+  {
+   "block": "2d0d2202",
+   "kind": "modified",
+   "note": "Renumbered the metrics section."
+  },
+  {
+   "block": "90fa846a",
+   "kind": "modified",
+   "note": "Renumbered the confounds and validity section."
+  },
+  {
+   "block": "a11470fe",
+   "kind": "added",
+   "note": "Added a validity gate separating regulated-industry artifact quality from deployment safety."
+  },
+  {
+   "block": "0417ecf4",
+   "kind": "added",
+   "note": "Required sandboxed environments, expert rubrics, human review, and restrained claims for finance, legal, and healthcare tasks."
+  },
+  {
+   "block": "dc579f99",
+   "kind": "modified",
+   "note": "Renumbered the pilot implementation section."
+  },
+  {
+   "block": "d02d7dbb",
+   "kind": "modified",
+   "note": "Changed the pilot from research-only projects to paired commercial and research task tracks."
+  },
+  {
+   "block": "4e0a59af",
+   "kind": "added",
+   "note": "Added a six-episode low-cost gate spanning enterprise, professional-service, and research tasks before scale-up."
+  },
+  {
+   "block": "220d5adc",
+   "kind": "modified",
+   "note": "Generalized pilot selection from research projects to cross-domain tasks."
+  },
+  {
+   "block": "b4318b36",
+   "kind": "modified",
+   "note": "Renumbered the product implications section."
+  },
+  {
+   "block": "a42d70a0",
+   "kind": "modified",
+   "note": "Positioned the whole evaluation, rather than research alone, as the product north star."
+  },
+  {
+   "block": "0910e964",
+   "kind": "modified",
+   "note": "Broadened the product narrative to durable high-stakes work and cross-team handoffs."
+  },
+  {
+   "block": "f846345a",
+   "kind": "modified",
+   "note": "Renumbered the evidence and references section."
+  },
+  {
+   "block": "64dd29dc",
+   "kind": "modified",
+   "note": "Added the Notion project hub to the source list."
+  },
+  {
+   "block": "179c36d2",
+   "kind": "added",
+   "note": "Recorded the direct Notion project-hub URL."
+  },
+  {
+   "block": "4f2ccb75",
+   "kind": "added",
+   "note": "Added the APEX-Agents citation as the primary commercial long-horizon source."
+  },
+  {
+   "block": "71f3dcbf",
+   "kind": "added",
+   "note": "Added the APEX benchmark hub URL."
+  },
+  {
+   "block": "5c598c39",
+   "kind": "added",
+   "note": "Added primary references for WorkArena, WorkBench, Harvey LAB, healthcare agent benchmarks, Finance Agent Benchmark, and GDPval."
+  }
+ ],
+ "context": {
+  "why": "Broaden the provenance handoff evaluation from a research-only frame to long-horizon enterprise and high-stakes professional workflows, using the Notion project hub and current public benchmarks while retaining research as one validation track.",
+  "rejected": [
+   "Use research tasks as the sole paper and product frame — it underrepresents the commercial value of review-heavy enterprise, finance, legal, and healthcare artifact handoffs."
+  ]
+ },
+ "event_id": "ppe_000b42f157ada976374dc536"
 }
