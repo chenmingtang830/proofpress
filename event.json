@@ -1,29 +1,64 @@
 {
  "event": "version_created",
- "artifact": "ara/PAPER.md",
- "artifact_id": "pp_cb6d0883f4bda071d2137869",
- "version": "666066ef",
- "parent": "a46ec6fa",
+ "artifact": "ara/logic/claims.md",
+ "artifact_id": "pp_ca8a8ddcc33d3870e9a40bc5",
+ "version": "94b8bdc3",
+ "parent": "21b6e8a8",
  "author": {
   "name": "Codex",
   "kind": "agent",
   "session": "provenance-handoff-plan-2026-08-06"
  },
  "note": null,
- "ts": "2026-08-06T08:34:32+00:00",
+ "ts": "2026-08-06T08:34:34+00:00",
  "stats": {
-  "modified": 1
+  "modified": 2,
+  "added": 4
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "4b96e0aa",
-   "type": "para",
-   "context": "Abstract (draft)"
+   "block": "6b007068",
+   "type": "list",
+   "context": "C01: Typed admitted lineage can improve "
+  },
+  {
+   "kind": "modified",
+   "block": "0aa90748",
+   "type": "list",
+   "context": "C02: Verifiable lineage may reduce the o"
+  },
+  {
+   "kind": "added",
+   "block": "b464ba4e",
+   "type": "heading",
+   "context": "C04: Isolated and end-to-end evidence an",
+   "preview": "## C04: Isolated and end-to-end evidence answer different qu"
+  },
+  {
+   "kind": "added",
+   "block": "f3383dbe",
+   "type": "list",
+   "context": "C04: Isolated and end-to-end evidence an",
+   "preview": "- **Statement**: An isolated handoff with frozen upstream ar"
+  },
+  {
+   "kind": "added",
+   "block": "163185fb",
+   "type": "heading",
+   "context": "C05: Core model comparison requires homo",
+   "preview": "## C05: Core model comparison requires homogeneous teams"
+  },
+  {
+   "kind": "added",
+   "block": "771b59db",
+   "type": "list",
+   "context": "C05: Core model comparison requires homo",
+   "preview": "- **Statement**: Within a workflow slice, all five agent cal"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:7d5329d76cd7eb8b75afce4d710469a102525d7293a02933b8007d57196cd509",
+ "soft_fingerprint": "ppsb1:87d77500408f71c51e119445419b855b6604d66ed8972aad0d34b8b523b72edd",
  "actors": {
   "requested_by": [
    "Richard Tang"
@@ -41,13 +76,38 @@
  "attribution_basis": "environment_attested",
  "claims": [
   {
-   "block": "4b96e0aa",
+   "block": "6b007068",
    "kind": "modified",
+   "note": "User-approved experiment-design update."
+  },
+  {
+   "block": "0aa90748",
+   "kind": "modified",
+   "note": "User-approved experiment-design update."
+  },
+  {
+   "block": "b464ba4e",
+   "kind": "added",
+   "note": "User-approved experiment-design update."
+  },
+  {
+   "block": "f3383dbe",
+   "kind": "added",
+   "note": "User-approved experiment-design update."
+  },
+  {
+   "block": "163185fb",
+   "kind": "added",
+   "note": "User-approved experiment-design update."
+  },
+  {
+   "block": "771b59db",
+   "kind": "added",
    "note": "User-approved experiment-design update."
   }
  ],
  "context": {
   "why": "Document the user-approved provenance-handoff experiment design: strong memory control, isolated mechanism diagnostic, homogeneous OpenRouter model teams, and staged execution gates."
  },
- "event_id": "ppe_a364e66e5648c99494fb79d1"
+ "event_id": "ppe_a3049b111b7dc0fb30ce8fc1"
 }

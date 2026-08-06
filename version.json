@@ -1,42 +1,72 @@
 {
- "artifact": "ara/PAPER.md",
- "artifact_id": "pp_cb6d0883f4bda071d2137869",
+ "artifact": "ara/logic/claims.md",
+ "artifact_id": "pp_ca8a8ddcc33d3870e9a40bc5",
  "blocks": [
   {
    "type": "heading",
-   "text": "# Provenance-Preserving Lineage for Long-Horizon Multi-Agent Legal Workflows",
-   "id": "5ad8477e",
-   "hash": "f450ea971b55"
-  },
-  {
-   "type": "para",
-   "text": "**Status:** study design / no empirical results yet  \n**Authors:** Proofpress research team (draft)  \n**Year:** 2026  \n**Primary substrate:** Harvey LAB v1.0, fixed official harness",
-   "id": "d6d1bb11",
-   "hash": "ff990147c853"
+   "text": "# Claims",
+   "id": "2e584545",
+   "hash": "32475190a135"
   },
   {
    "type": "heading",
-   "text": "## Artifact map",
-   "id": "6ce745c5",
-   "hash": "86cbf94b78e1"
+   "text": "## C01: Typed admitted lineage can improve trusted recovery of prior decisions",
+   "id": "859af48b",
+   "hash": "805ba05733b3"
   },
   {
    "type": "list",
-   "text": "- `logic/problem.md` — why conventional handoff does not preserve accepted decision state.\n- `logic/claims.md` — falsifiable, currently testing hypotheses only.\n- `logic/concepts.md` — treatment and measurement definitions.\n- `logic/experiments.md` — gates and comparison matrix.\n- `logic/related_work.md` — Harvey, ARA, and multi-agent architecture context.\n- `logic/solution/constraints.md` — non-negotiable fairness and safety constraints.\n- `src/` — environment and experiment artifact index.\n- `trace/` — append-only decisions and session record.\n- `evidence/` — source and future result index; it currently contains no empirical result.",
-   "id": "b9c6dba5",
-   "hash": "089b8823873f"
+   "text": "- **Statement**: In a fixed multi-agent workflow, a handoff representation that makes decision authority, source status, and acceptance state explicit can improve trusted recovery of prior decisions relative to a strong ordinary memory handoff.\n- **Conditions**: Testing hypothesis for the pre-frozen Harvey LAB task/model matrix; the design does not yet separate all effects outside this harness or task domain.\n- **Sources**: [pending: empirical runs have not begun]\n- **Status**: testing\n- **Provenance**: user-revised\n- **Falsification**: Matched runs show no improvement in trusted task success, or any task-score gain accompanies equal or higher unsupported authority upgrades or decision regressions.\n- **Proof**: [pending]\n- **Dependencies**: []\n- **Tags**: provenance, handoff, trust, legal-workflow",
+   "id": "6b007068",
+   "hash": "f42fab0fde5e"
   },
   {
    "type": "heading",
-   "text": "## Abstract (draft)",
-   "id": "6979663a",
-   "hash": "3513d178db19"
+   "text": "## C02: Verifiable lineage may reduce the operational burden of historical recovery",
+   "id": "da500dfa",
+   "hash": "9b1f18b4a3b9"
   },
   {
-   "type": "para",
-   "text": "Long-horizon multi-agent workflows exchange intermediate artifacts whose factual support, decision authority, and acceptance state are often implicit. This study evaluates whether portable Proofpress lineage can preserve that information more effectively than a strong ordinary filesystem-memory handoff, or the same memory plus browseable raw historical files. On Harvey LAB legal-work tasks, we hold a centralized multi-agent workflow and the official task/scoring harness fixed while varying only checkpoint-history representation. A small isolated-handoff diagnostic freezes upstream content to test the recovery mechanism before a full V0–V4 systems experiment. Outcomes combine the official benchmark rubric with auditability, justified-reversal, and efficiency measures. This is a design artifact; no result or performance claim is made before the planned runs.",
-   "id": "4b96e0aa",
-   "hash": "14546c50a2a4"
+   "type": "list",
+   "text": "- **Statement**: When a successor must recover an earlier decision, a compact verified lineage can require less history-search work than the same ordinary memory plus browseable raw history files, without reducing correct justified reversals.\n- **Conditions**: Testing hypothesis; effectiveness is evaluated only with matched visible handoff budgets and identical source-workspace access.\n- **Sources**: [pending: empirical runs have not begun]\n- **Status**: testing\n- **Provenance**: ai-suggested\n- **Falsification**: Matched runs show no reduction in tokens, latency, or history-search work at comparable trusted success, or lineage materially lowers correct reversals.\n- **Proof**: [pending]\n- **Dependencies**: [C01]\n- **Tags**: efficiency, reversal, lineage",
+   "id": "0aa90748",
+   "hash": "ecd9c4b89f3d"
+  },
+  {
+   "type": "heading",
+   "text": "## C03: The treatment effect must be distinguished from multi-agent decomposition",
+   "id": "c7a85a7a",
+   "hash": "fbe236733c46"
+  },
+  {
+   "type": "list",
+   "text": "- **Statement**: Any observed lineage effect should be interpreted separately from the effect of converting a single-agent task into a centralized multi-agent workflow.\n- **Conditions**: The study includes a single-agent baseline and fixes all multi-agent stages for the primary lineage comparison.\n- **Sources**: [pending: empirical runs have not begun]\n- **Status**: testing\n- **Provenance**: user-revised\n- **Falsification**: The wrapper changes multiple multi-agent factors between lineage arms or records do not permit the contrasts to be separated.\n- **Proof**: [pending]\n- **Dependencies**: []\n- **Tags**: causal-design, multi-agent, control",
+   "id": "5364b3f8",
+   "hash": "13cc2827adfb"
+  },
+  {
+   "type": "heading",
+   "text": "## C04: Isolated and end-to-end evidence answer different questions",
+   "id": "b464ba4e",
+   "hash": "6702e1a7b73e"
+  },
+  {
+   "type": "list",
+   "text": "- **Statement**: An isolated handoff with frozen upstream artifacts identifies a receiver-level representation mechanism, whereas an end-to-end V0–V4 workflow estimates the cumulative system effect after downstream artifacts are allowed to diverge.\n- **Conditions**: The isolated comparison uses identical upstream artifact/workspace hashes and only varies matched history material; the end-to-end workflow uses the same initial task and role architecture across arms.\n- **Sources**: [pending: empirical runs have not begun]\n- **Status**: testing\n- **Provenance**: user-revised\n- **Falsification**: Pair inputs differ outside declared history material, or reporting interprets cumulative end-to-end effects as though every downstream checkpoint were identical.\n- **Proof**: [pending]\n- **Dependencies**: [C01, C03]\n- **Tags**: causal-design, isolated-handoff, long-horizon",
+   "id": "f3383dbe",
+   "hash": "2804434d6c7d"
+  },
+  {
+   "type": "heading",
+   "text": "## C05: Core model comparison requires homogeneous teams",
+   "id": "163185fb",
+   "hash": "b4a1608d3dba"
+  },
+  {
+   "type": "list",
+   "text": "- **Statement**: Within a workflow slice, all five agent calls must use the same exact model and request configuration so a role-model allocation cannot be mistaken for a provenance effect.\n- **Conditions**: The transport records concrete requested/resolved model and provider routing; Proofpress itself makes no model call.\n- **Sources**: [pending: empirical runs have not begun]\n- **Status**: testing\n- **Provenance**: user-revised\n- **Falsification**: A core paired comparison mixes models or unrecorded provider fallbacks across roles or arms.\n- **Proof**: [pending]\n- **Dependencies**: [C01, C03]\n- **Tags**: model-control, transport, causal-design",
+   "id": "771b59db",
+   "hash": "6a1378ea4d32"
   }
  ]
 }
