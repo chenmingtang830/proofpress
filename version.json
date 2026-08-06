@@ -1,72 +1,96 @@
 {
- "artifact": "ara/logic/claims.md",
- "artifact_id": "pp_ca8a8ddcc33d3870e9a40bc5",
+ "artifact": "ara/logic/concepts.md",
+ "artifact_id": "pp_e833a86ea89426121ab55437",
  "blocks": [
   {
    "type": "heading",
-   "text": "# Claims",
-   "id": "2e584545",
-   "hash": "32475190a135"
+   "text": "# Concepts",
+   "id": "a7d8f041",
+   "hash": "187fcbf455d1"
   },
   {
    "type": "heading",
-   "text": "## C01: Typed admitted lineage can improve trusted recovery of prior decisions",
-   "id": "859af48b",
-   "hash": "805ba05733b3"
+   "text": "## K01: Trusted task success",
+   "id": "64be4783",
+   "hash": "80c042002636"
   },
   {
-   "type": "list",
-   "text": "- **Statement**: In a fixed multi-agent workflow, a handoff representation that makes decision authority, source status, and acceptance state explicit can improve trusted recovery of prior decisions relative to a strong ordinary memory handoff.\n- **Conditions**: Testing hypothesis for the pre-frozen Harvey LAB task/model matrix; the design does not yet separate all effects outside this harness or task domain.\n- **Sources**: [pending: empirical runs have not begun]\n- **Status**: testing\n- **Provenance**: user-revised\n- **Falsification**: Matched runs show no improvement in trusted task success, or any task-score gain accompanies equal or higher unsupported authority upgrades or decision regressions.\n- **Proof**: [pending]\n- **Dependencies**: []\n- **Tags**: provenance, handoff, trust, legal-workflow",
-   "id": "6b007068",
-   "hash": "f42fab0fde5e"
-  },
-  {
-   "type": "heading",
-   "text": "## C02: Verifiable lineage may reduce the operational burden of historical recovery",
-   "id": "da500dfa",
-   "hash": "9b1f18b4a3b9"
-  },
-  {
-   "type": "list",
-   "text": "- **Statement**: When a successor must recover an earlier decision, a compact verified lineage can require less history-search work than the same ordinary memory plus browseable raw history files, without reducing correct justified reversals.\n- **Conditions**: Testing hypothesis; effectiveness is evaluated only with matched visible handoff budgets and identical source-workspace access.\n- **Sources**: [pending: empirical runs have not begun]\n- **Status**: testing\n- **Provenance**: ai-suggested\n- **Falsification**: Matched runs show no reduction in tokens, latency, or history-search work at comparable trusted success, or lineage materially lowers correct reversals.\n- **Proof**: [pending]\n- **Dependencies**: [C01]\n- **Tags**: efficiency, reversal, lineage",
-   "id": "0aa90748",
-   "hash": "ecd9c4b89f3d"
+   "type": "para",
+   "text": "An outcome that satisfies the fixed Harvey task score and contains no defined decision regression or unsupported authority upgrade; where a reversal condition exists, it must also handle that condition correctly.",
+   "id": "8f6c2cc4",
+   "hash": "fb540b2aab33"
   },
   {
    "type": "heading",
-   "text": "## C03: The treatment effect must be distinguished from multi-agent decomposition",
-   "id": "c7a85a7a",
-   "hash": "fbe236733c46"
+   "text": "## K02: Version chain",
+   "id": "459ab317",
+   "hash": "70aea8e7255d"
   },
   {
-   "type": "list",
-   "text": "- **Statement**: Any observed lineage effect should be interpreted separately from the effect of converting a single-agent task into a centralized multi-agent workflow.\n- **Conditions**: The study includes a single-agent baseline and fixes all multi-agent stages for the primary lineage comparison.\n- **Sources**: [pending: empirical runs have not begun]\n- **Status**: testing\n- **Provenance**: user-revised\n- **Falsification**: The wrapper changes multiple multi-agent factors between lineage arms or records do not permit the contrasts to be separated.\n- **Proof**: [pending]\n- **Dependencies**: []\n- **Tags**: causal-design, multi-agent, control",
-   "id": "5364b3f8",
-   "hash": "13cc2827adfb"
-  },
-  {
-   "type": "heading",
-   "text": "## C04: Isolated and end-to-end evidence answer different questions",
-   "id": "b464ba4e",
-   "hash": "6702e1a7b73e"
-  },
-  {
-   "type": "list",
-   "text": "- **Statement**: An isolated handoff with frozen upstream artifacts identifies a receiver-level representation mechanism, whereas an end-to-end V0–V4 workflow estimates the cumulative system effect after downstream artifacts are allowed to diverge.\n- **Conditions**: The isolated comparison uses identical upstream artifact/workspace hashes and only varies matched history material; the end-to-end workflow uses the same initial task and role architecture across arms.\n- **Sources**: [pending: empirical runs have not begun]\n- **Status**: testing\n- **Provenance**: user-revised\n- **Falsification**: Pair inputs differ outside declared history material, or reporting interprets cumulative end-to-end effects as though every downstream checkpoint were identical.\n- **Proof**: [pending]\n- **Dependencies**: [C01, C03]\n- **Tags**: causal-design, isolated-handoff, long-horizon",
-   "id": "f3383dbe",
-   "hash": "2804434d6c7d"
+   "type": "para",
+   "text": "Browseable intermediate artifact versions with no typed claim, source-status, acceptance, or verification semantics.",
+   "id": "fd826d86",
+   "hash": "6f899f01546a"
   },
   {
    "type": "heading",
-   "text": "## C05: Core model comparison requires homogeneous teams",
-   "id": "163185fb",
-   "hash": "b4a1608d3dba"
+   "text": "## K03: Proofpress lineage",
+   "id": "f3efffe2",
+   "hash": "2912a252474b"
   },
   {
-   "type": "list",
-   "text": "- **Statement**: Within a workflow slice, all five agent calls must use the same exact model and request configuration so a role-model allocation cannot be mistaken for a provenance effect.\n- **Conditions**: The transport records concrete requested/resolved model and provider routing; Proofpress itself makes no model call.\n- **Sources**: [pending: empirical runs have not begun]\n- **Status**: testing\n- **Provenance**: user-revised\n- **Falsification**: A core paired comparison mixes models or unrecorded provider fallbacks across roles or arms.\n- **Proof**: [pending]\n- **Dependencies**: [C01, C03]\n- **Tags**: model-control, transport, causal-design",
-   "id": "771b59db",
-   "hash": "6a1378ea4d32"
+   "type": "para",
+   "text": "A portable chain of accepted checkpoint artifacts with explicit claims, source class, decision status, rationale, actors, rejection/reversal state, artifact hashes, and verification results.",
+   "id": "90549363",
+   "hash": "a3fde8a68d28"
+  },
+  {
+   "type": "heading",
+   "text": "## K04: Correct reversal",
+   "id": "0990e58d",
+   "hash": "1506a33ad264"
+  },
+  {
+   "type": "para",
+   "text": "A successor supersedes a prior accepted decision only when new admissible evidence or its recorded reversal condition supports the change, and records that relationship.",
+   "id": "6fed2b50",
+   "hash": "ef11115e45f4"
+  },
+  {
+   "type": "heading",
+   "text": "## K05: Strong ordinary memory",
+   "id": "6715b9f4",
+   "hash": "c27860324ead"
+  },
+  {
+   "type": "para",
+   "text": "The latest artifact plus ordinary prose `memory.md` and `handoff.log` that may explain decisions, rationale, caveats, open questions, and next actions, but does not provide typed source/decision/acceptance semantics or independently verifiable admission state.",
+   "id": "51fa574d",
+   "hash": "78f4d39ab552"
+  },
+  {
+   "type": "heading",
+   "text": "## K06: Isolated handoff diagnostic",
+   "id": "885dce8e",
+   "hash": "c003edc33d34"
+  },
+  {
+   "type": "para",
+   "text": "A receiver-only comparison in which upstream checkpoint artifacts, public workspace, role prompt, model configuration, and token budget are frozen. Only the matched handoff representation varies. It measures receiver recovery, trust behavior, and recovery cost at one edge.",
+   "id": "80b0e242",
+   "hash": "903314776769"
+  },
+  {
+   "type": "heading",
+   "text": "## K07: Homogeneous model team",
+   "id": "ba42f23b",
+   "hash": "5d4d19a4a691"
+  },
+  {
+   "type": "para",
+   "text": "One exact model, provider-routing configuration, reasoning effort, temperature, tool policy, and adapter version used by planning orchestrator, evidence, decision, drafting, and review orchestrator within a workflow attempt.",
+   "id": "89113f3c",
+   "hash": "63944c9e9c55"
   }
  ]
 }

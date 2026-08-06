@@ -1,64 +1,65 @@
 {
  "event": "version_created",
- "artifact": "ara/logic/claims.md",
- "artifact_id": "pp_ca8a8ddcc33d3870e9a40bc5",
- "version": "94b8bdc3",
- "parent": "21b6e8a8",
+ "artifact": "ara/logic/concepts.md",
+ "artifact_id": "pp_e833a86ea89426121ab55437",
+ "version": "6bb4cb45",
+ "parent": "eaa8ef2e",
  "author": {
   "name": "Codex",
   "kind": "agent",
   "session": "provenance-handoff-plan-2026-08-06"
  },
  "note": null,
- "ts": "2026-08-06T08:34:34+00:00",
+ "ts": "2026-08-06T08:34:36+00:00",
  "stats": {
-  "modified": 2,
-  "added": 4
+  "added": 6
  },
  "changes": [
   {
-   "kind": "modified",
-   "block": "6b007068",
-   "type": "list",
-   "context": "C01: Typed admitted lineage can improve "
-  },
-  {
-   "kind": "modified",
-   "block": "0aa90748",
-   "type": "list",
-   "context": "C02: Verifiable lineage may reduce the o"
-  },
-  {
    "kind": "added",
-   "block": "b464ba4e",
+   "block": "6715b9f4",
    "type": "heading",
-   "context": "C04: Isolated and end-to-end evidence an",
-   "preview": "## C04: Isolated and end-to-end evidence answer different qu"
+   "context": "K05: Strong ordinary memory",
+   "preview": "## K05: Strong ordinary memory"
   },
   {
    "kind": "added",
-   "block": "f3383dbe",
-   "type": "list",
-   "context": "C04: Isolated and end-to-end evidence an",
-   "preview": "- **Statement**: An isolated handoff with frozen upstream ar"
+   "block": "51fa574d",
+   "type": "para",
+   "context": "K05: Strong ordinary memory",
+   "preview": "The latest artifact plus ordinary prose `memory.md` and `han"
   },
   {
    "kind": "added",
-   "block": "163185fb",
+   "block": "885dce8e",
    "type": "heading",
-   "context": "C05: Core model comparison requires homo",
-   "preview": "## C05: Core model comparison requires homogeneous teams"
+   "context": "K06: Isolated handoff diagnostic",
+   "preview": "## K06: Isolated handoff diagnostic"
   },
   {
    "kind": "added",
-   "block": "771b59db",
-   "type": "list",
-   "context": "C05: Core model comparison requires homo",
-   "preview": "- **Statement**: Within a workflow slice, all five agent cal"
+   "block": "80b0e242",
+   "type": "para",
+   "context": "K06: Isolated handoff diagnostic",
+   "preview": "A receiver-only comparison in which upstream checkpoint arti"
+  },
+  {
+   "kind": "added",
+   "block": "ba42f23b",
+   "type": "heading",
+   "context": "K07: Homogeneous model team",
+   "preview": "## K07: Homogeneous model team"
+  },
+  {
+   "kind": "added",
+   "block": "89113f3c",
+   "type": "para",
+   "context": "K07: Homogeneous model team",
+   "preview": "One exact model, provider-routing configuration, reasoning e"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:87d77500408f71c51e119445419b855b6604d66ed8972aad0d34b8b523b72edd",
+ "soft_fingerprint": "ppsb1:82f9538a658d5f98e71cbd08f6f593b937cf0c8de96c6df1b6ed0287f0381e9b",
  "actors": {
   "requested_by": [
    "Richard Tang"
@@ -76,32 +77,32 @@
  "attribution_basis": "environment_attested",
  "claims": [
   {
-   "block": "6b007068",
-   "kind": "modified",
-   "note": "User-approved experiment-design update."
-  },
-  {
-   "block": "0aa90748",
-   "kind": "modified",
-   "note": "User-approved experiment-design update."
-  },
-  {
-   "block": "b464ba4e",
+   "block": "6715b9f4",
    "kind": "added",
    "note": "User-approved experiment-design update."
   },
   {
-   "block": "f3383dbe",
+   "block": "51fa574d",
    "kind": "added",
    "note": "User-approved experiment-design update."
   },
   {
-   "block": "163185fb",
+   "block": "885dce8e",
    "kind": "added",
    "note": "User-approved experiment-design update."
   },
   {
-   "block": "771b59db",
+   "block": "80b0e242",
+   "kind": "added",
+   "note": "User-approved experiment-design update."
+  },
+  {
+   "block": "ba42f23b",
+   "kind": "added",
+   "note": "User-approved experiment-design update."
+  },
+  {
+   "block": "89113f3c",
    "kind": "added",
    "note": "User-approved experiment-design update."
   }
@@ -109,5 +110,5 @@
  "context": {
   "why": "Document the user-approved provenance-handoff experiment design: strong memory control, isolated mechanism diagnostic, homogeneous OpenRouter model teams, and staged execution gates."
  },
- "event_id": "ppe_a3049b111b7dc0fb30ce8fc1"
+ "event_id": "ppe_688e78ebdf8b929f96510444"
 }
