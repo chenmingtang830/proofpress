@@ -1,29 +1,65 @@
 {
  "event": "version_created",
- "artifact": "ara/src/artifacts.md",
- "artifact_id": "pp_291b3809bccf45f00ecbdf3e",
- "version": "df14f38d",
- "parent": "57acddd7",
+ "artifact": "README.md",
+ "artifact_id": "pp_556b115de711b0cd33eed260",
+ "version": "1bfb1a01",
+ "parent": "105f03e2",
  "author": {
-  "name": "unknown",
-  "kind": "human",
-  "session": null
+  "name": "Codex",
+  "kind": "agent",
+  "session": "provenance-handoff-plan-2026-08-06"
  },
  "note": null,
- "ts": "2026-08-06T07:41:17+00:00",
+ "ts": "2026-08-06T08:34:23+00:00",
  "stats": {
-  "modified": 1
+  "modified": 7
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "1d77e0a6",
-   "type": "table",
-   "context": "Experiment artifact index"
+   "block": "d86e9669",
+   "type": "para",
+   "context": "Review status"
+  },
+  {
+   "kind": "modified",
+   "block": "efb84a51",
+   "type": "para",
+   "context": "The research question"
+  },
+  {
+   "kind": "modified",
+   "block": "1030b33f",
+   "type": "para",
+   "context": "Scope and comparison"
+  },
+  {
+   "kind": "modified",
+   "block": "27c19da2",
+   "type": "list",
+   "context": "Scope and comparison"
+  },
+  {
+   "kind": "modified",
+   "block": "146ef700",
+   "type": "para",
+   "context": "Scope and comparison"
+  },
+  {
+   "kind": "modified",
+   "block": "c1ba01f6",
+   "type": "list",
+   "context": "What is here today"
+  },
+  {
+   "kind": "modified",
+   "block": "1fa1b7ec",
+   "type": "para",
+   "context": "Before any model run"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:da72496e749ff8174e1c1efc8686e7f73bf62549d845bed773816c7cd827df04",
+ "soft_fingerprint": "ppsb1:f7fb85a65a32277df3b5e682c52bec42c2e08ff78f7a842cc3f47445fecb918a",
  "actors": {
   "requested_by": [
    "Richard Tang"
@@ -38,26 +74,46 @@
    "Codex"
   ]
  },
- "attribution_basis": "harness_attested",
+ "attribution_basis": "environment_attested",
  "claims": [
   {
-   "block": "22426eb6",
-   "kind": "added",
-   "note": "ARA source index update"
+   "block": "d86e9669",
+   "kind": "modified",
+   "note": "User-approved experiment-design update."
   },
   {
-   "block": "1d77e0a6",
-   "kind": "added",
-   "note": "ARA source index update"
+   "block": "efb84a51",
+   "kind": "modified",
+   "note": "User-approved experiment-design update."
   },
   {
-   "block": "9136fe62",
-   "kind": "added",
-   "note": "ARA source index update"
+   "block": "1030b33f",
+   "kind": "modified",
+   "note": "User-approved experiment-design update."
+  },
+  {
+   "block": "27c19da2",
+   "kind": "modified",
+   "note": "User-approved experiment-design update."
+  },
+  {
+   "block": "146ef700",
+   "kind": "modified",
+   "note": "User-approved experiment-design update."
+  },
+  {
+   "block": "c1ba01f6",
+   "kind": "modified",
+   "note": "User-approved experiment-design update."
+  },
+  {
+   "block": "1fa1b7ec",
+   "kind": "modified",
+   "note": "User-approved experiment-design update."
   }
  ],
  "context": {
-  "why": "Index the review-ready Harvey protocol and freezeable configuration contracts in the ARA source layer."
+  "why": "Document the user-approved provenance-handoff experiment design: strong memory control, isolated mechanism diagnostic, homogeneous OpenRouter model teams, and staged execution gates."
  },
- "event_id": "ppe_68b6dafd92ef412aa18eb789"
+ "event_id": "ppe_d384bc5ea3a0e44c8d04f38f"
 }
