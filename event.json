@@ -1,29 +1,29 @@
 {
  "event": "version_created",
- "artifact": "README.md",
- "artifact_id": "pp_556b115de711b0cd33eed260",
- "version": "105f03e2",
- "parent": "bc2876d9",
+ "artifact": "ara/src/artifacts.md",
+ "artifact_id": "pp_291b3809bccf45f00ecbdf3e",
+ "version": "df14f38d",
+ "parent": "57acddd7",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-06T07:41:04+00:00",
+ "ts": "2026-08-06T07:41:17+00:00",
  "stats": {
   "modified": 1
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "c1ba01f6",
-   "type": "list",
-   "context": "What is here today"
+   "block": "1d77e0a6",
+   "type": "table",
+   "context": "Experiment artifact index"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:88be7c100b893e6e4b260beb4de9f5b9f9f947f3e6ea946623aeb8e00ae9686c",
+ "soft_fingerprint": "ppsb1:da72496e749ff8174e1c1efc8686e7f73bf62549d845bed773816c7cd827df04",
  "actors": {
   "requested_by": [
    "Richard Tang"
@@ -41,158 +41,23 @@
  "attribution_basis": "harness_attested",
  "claims": [
   {
-   "block": "da60723f",
-   "kind": "modified",
-   "note": "Harvey-first review protocol update"
-  },
-  {
-   "block": "0c4a8f5e",
+   "block": "22426eb6",
    "kind": "added",
-   "note": "Harvey-first review protocol update"
+   "note": "ARA source index update"
   },
   {
-   "block": "d86e9669",
+   "block": "1d77e0a6",
    "kind": "added",
-   "note": "Harvey-first review protocol update"
+   "note": "ARA source index update"
   },
   {
-   "block": "13a7e0d8",
+   "block": "9136fe62",
    "kind": "added",
-   "note": "Harvey-first review protocol update"
-  },
-  {
-   "block": "efb84a51",
-   "kind": "added",
-   "note": "Harvey-first review protocol update"
-  },
-  {
-   "block": "51799240",
-   "kind": "added",
-   "note": "Harvey-first review protocol update"
-  },
-  {
-   "block": "2873d37b",
-   "kind": "added",
-   "note": "Harvey-first review protocol update"
-  },
-  {
-   "block": "1030b33f",
-   "kind": "added",
-   "note": "Harvey-first review protocol update"
-  },
-  {
-   "block": "48aa7881",
-   "kind": "added",
-   "note": "Harvey-first review protocol update"
-  },
-  {
-   "block": "27c19da2",
-   "kind": "added",
-   "note": "Harvey-first review protocol update"
-  },
-  {
-   "block": "146ef700",
-   "kind": "added",
-   "note": "Harvey-first review protocol update"
-  },
-  {
-   "block": "949eb6a5",
-   "kind": "modified",
-   "note": "Harvey-first review protocol update"
-  },
-  {
-   "block": "c1ba01f6",
-   "kind": "added",
-   "note": "Harvey-first review protocol update"
-  },
-  {
-   "block": "3b50a86f",
-   "kind": "added",
-   "note": "Harvey-first review protocol update"
-  },
-  {
-   "block": "b9231698",
-   "kind": "added",
-   "note": "Harvey-first review protocol update"
-  },
-  {
-   "block": "61817201",
-   "kind": "added",
-   "note": "Harvey-first review protocol update"
-  },
-  {
-   "block": "1fa1b7ec",
-   "kind": "added",
-   "note": "Harvey-first review protocol update"
-  },
-  {
-   "block": "f0c71c2d",
-   "kind": "added",
-   "note": "Harvey-first review protocol update"
-  },
-  {
-   "block": "0c725a2a",
-   "kind": "added",
-   "note": "Harvey-first review protocol update"
-  },
-  {
-   "block": "bc21a929",
-   "kind": "added",
-   "note": "Harvey-first review protocol update"
-  },
-  {
-   "block": "36223643",
-   "kind": "added",
-   "note": "Harvey-first review protocol update"
-  },
-  {
-   "block": "b1e87fcb",
-   "kind": "removed",
-   "note": "Harvey-first review protocol update"
-  },
-  {
-   "block": "d1de937a",
-   "kind": "removed",
-   "note": "Harvey-first review protocol update"
-  },
-  {
-   "block": "553c4e19",
-   "kind": "removed",
-   "note": "Harvey-first review protocol update"
-  },
-  {
-   "block": "482bd3f4",
-   "kind": "removed",
-   "note": "Harvey-first review protocol update"
-  },
-  {
-   "block": "06b7383a",
-   "kind": "removed",
-   "note": "Harvey-first review protocol update"
-  },
-  {
-   "block": "0119f46f",
-   "kind": "removed",
-   "note": "Harvey-first review protocol update"
-  },
-  {
-   "block": "7fa7716d",
-   "kind": "removed",
-   "note": "Harvey-first review protocol update"
-  },
-  {
-   "block": "8fbeace5",
-   "kind": "removed",
-   "note": "Harvey-first review protocol update"
-  },
-  {
-   "block": "6b82a306",
-   "kind": "removed",
-   "note": "Harvey-first review protocol update"
+   "note": "ARA source index update"
   }
  ],
  "context": {
-  "why": "Replace the fixture-first entry point with the Harvey-first, fixed-workflow lineage protocol for user review."
+  "why": "Index the review-ready Harvey protocol and freezeable configuration contracts in the ARA source layer."
  },
- "event_id": "ppe_d2cf88657d6541efaedf9977"
+ "event_id": "ppe_68b6dafd92ef412aa18eb789"
 }
