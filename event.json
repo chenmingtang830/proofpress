@@ -1,125 +1,82 @@
 {
  "event": "version_created",
- "artifact": "docs/RESEARCH_PLAN.md",
- "artifact_id": "pp_00e96ce828caea19ac7221ae",
- "version": "18af2e53",
- "parent": "a14d9dc2",
+ "artifact": "docs/ARCHITECTURE.md",
+ "artifact_id": "pp_b36338c1e353bb457f78ad8c",
+ "version": "beaa75b5",
+ "parent": "84cd889f",
  "author": {
   "name": "Codex",
   "kind": "agent",
   "session": "provenance-handoff-plan-2026-08-06"
  },
  "note": null,
- "ts": "2026-08-06T08:34:26+00:00",
+ "ts": "2026-08-06T08:34:28+00:00",
  "stats": {
-  "modified": 17
+  "modified": 5,
+  "added": 4
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "a20de7f5",
-   "type": "para",
-   "context": "Fixed runtime and workflow"
-  },
-  {
-   "kind": "modified",
-   "block": "20e0e636",
+   "block": "7ad9bc6b",
    "type": "code",
-   "context": "Fixed runtime and workflow"
+   "context": "Fixed centralized multi-agent system"
   },
   {
    "kind": "modified",
-   "block": "f35fd5df",
+   "block": "ac99cf68",
    "type": "para",
-   "context": "Fixed runtime and workflow"
+   "context": "Fixed centralized multi-agent system"
   },
   {
    "kind": "modified",
-   "block": "7d45012f",
-   "type": "para",
-   "context": "Checkpoint contract"
-  },
-  {
-   "kind": "modified",
-   "block": "ca5c64c9",
+   "block": "ecd15f49",
    "type": "table",
-   "context": "Arms and variables"
+   "context": "What stays constant"
   },
   {
    "kind": "modified",
-   "block": "395029b6",
+   "block": "4d4c2dcd",
+   "type": "code",
+   "context": "What varies"
+  },
+  {
+   "kind": "modified",
+   "block": "61634a19",
    "type": "para",
-   "context": "Arms and variables"
+   "context": "What varies"
   },
   {
-   "kind": "modified",
-   "block": "21b6ed3d",
+   "kind": "added",
+   "block": "184f0405",
+   "type": "heading",
+   "context": "Isolated handoff diagnostic versus end-t",
+   "preview": "## Isolated handoff diagnostic versus end-to-end workflow"
+  },
+  {
+   "kind": "added",
+   "block": "c417481e",
    "type": "para",
-   "context": "Arms and variables"
+   "context": "Isolated handoff diagnostic versus end-t",
+   "preview": "The primary study is end-to-end: it measures the cumulative "
   },
   {
-   "kind": "modified",
-   "block": "9a161920",
+   "kind": "added",
+   "block": "0eba534e",
+   "type": "heading",
+   "context": "Homogeneous model teams and transport",
+   "preview": "## Homogeneous model teams and transport"
+  },
+  {
+   "kind": "added",
+   "block": "95a47d98",
    "type": "para",
-   "context": "Arms and variables"
-  },
-  {
-   "kind": "modified",
-   "block": "83ba9a78",
-   "type": "table",
-   "context": "Hypotheses and falsifiers"
-  },
-  {
-   "kind": "modified",
-   "block": "86f6ae8d",
-   "type": "para",
-   "context": "Model plan"
-  },
-  {
-   "kind": "modified",
-   "block": "743b9bd8",
-   "type": "table",
-   "context": "Model plan"
-  },
-  {
-   "kind": "modified",
-   "block": "0cafb062",
-   "type": "para",
-   "context": "Model plan"
-  },
-  {
-   "kind": "modified",
-   "block": "c91c4e94",
-   "type": "para",
-   "context": "Model plan"
-  },
-  {
-   "kind": "modified",
-   "block": "7bcd9b4b",
-   "type": "list",
-   "context": "Budgets, isolation, and fairness"
-  },
-  {
-   "kind": "modified",
-   "block": "ae5cc50e",
-   "type": "table",
-   "context": "Analysis and decision gates"
-  },
-  {
-   "kind": "modified",
-   "block": "9858f44e",
-   "type": "list",
-   "context": "Implementation milestones"
-  },
-  {
-   "kind": "modified",
-   "block": "9c0d2ccb",
-   "type": "list",
-   "context": "References"
+   "context": "Homogeneous model teams and transport",
+   "preview": "For one workflow slice, OP, E, D, W, and OR all use the same"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:de4e162d19d1932f58bcf4f99c870095a5e0c8db0b3447273a2991cf803d3205",
+ "soft_fingerprint": "ppsb1:5ffc2f440b4514b510d70983a18b76d31cd7ea64dc93f5f0ffa060d52af13447",
  "actors": {
   "requested_by": [
    "Richard Tang"
@@ -137,93 +94,53 @@
  "attribution_basis": "environment_attested",
  "claims": [
   {
-   "block": "a20de7f5",
+   "block": "7ad9bc6b",
    "kind": "modified",
    "note": "User-approved experiment-design update."
   },
   {
-   "block": "20e0e636",
+   "block": "ac99cf68",
    "kind": "modified",
    "note": "User-approved experiment-design update."
   },
   {
-   "block": "f35fd5df",
+   "block": "ecd15f49",
    "kind": "modified",
    "note": "User-approved experiment-design update."
   },
   {
-   "block": "7d45012f",
+   "block": "4d4c2dcd",
    "kind": "modified",
    "note": "User-approved experiment-design update."
   },
   {
-   "block": "ca5c64c9",
+   "block": "61634a19",
    "kind": "modified",
    "note": "User-approved experiment-design update."
   },
   {
-   "block": "395029b6",
-   "kind": "modified",
+   "block": "184f0405",
+   "kind": "added",
    "note": "User-approved experiment-design update."
   },
   {
-   "block": "21b6ed3d",
-   "kind": "modified",
+   "block": "c417481e",
+   "kind": "added",
    "note": "User-approved experiment-design update."
   },
   {
-   "block": "9a161920",
-   "kind": "modified",
+   "block": "0eba534e",
+   "kind": "added",
    "note": "User-approved experiment-design update."
   },
   {
-   "block": "83ba9a78",
-   "kind": "modified",
-   "note": "User-approved experiment-design update."
-  },
-  {
-   "block": "86f6ae8d",
-   "kind": "modified",
-   "note": "User-approved experiment-design update."
-  },
-  {
-   "block": "743b9bd8",
-   "kind": "modified",
-   "note": "User-approved experiment-design update."
-  },
-  {
-   "block": "0cafb062",
-   "kind": "modified",
-   "note": "User-approved experiment-design update."
-  },
-  {
-   "block": "c91c4e94",
-   "kind": "modified",
-   "note": "User-approved experiment-design update."
-  },
-  {
-   "block": "7bcd9b4b",
-   "kind": "modified",
-   "note": "User-approved experiment-design update."
-  },
-  {
-   "block": "ae5cc50e",
-   "kind": "modified",
-   "note": "User-approved experiment-design update."
-  },
-  {
-   "block": "9858f44e",
-   "kind": "modified",
-   "note": "User-approved experiment-design update."
-  },
-  {
-   "block": "9c0d2ccb",
-   "kind": "modified",
+   "block": "95a47d98",
+   "kind": "added",
    "note": "User-approved experiment-design update."
   }
  ],
  "context": {
   "why": "Document the user-approved provenance-handoff experiment design: strong memory control, isolated mechanism diagnostic, homogeneous OpenRouter model teams, and staged execution gates."
  },
- "event_id": "ppe_c9a1595a9ac5672e5fe1d098"
+ "event_id": "ppe_e092a2502f455365797b77c5"
 }
