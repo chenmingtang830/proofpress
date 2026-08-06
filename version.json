@@ -1,84 +1,18 @@
 {
- "artifact": "ara/logic/related_work.md",
- "artifact_id": "pp_aeef744ab46114892229ebab",
+ "artifact": "ara/src/environment.md",
+ "artifact_id": "pp_d4f0f4ca5617c9d0528dea8e",
  "blocks": [
   {
    "type": "heading",
-   "text": "# Related Work",
-   "id": "c26ac4be",
-   "hash": "37e5674fb503"
-  },
-  {
-   "type": "heading",
-   "text": "## R01: Harvey LAB",
-   "id": "a7681fe0",
-   "hash": "87750d1a16ed"
-  },
-  {
-   "type": "para",
-   "text": "Harvey LAB provides legal-work tasks, an open-source execution harness, model adapters, task result packaging, and evaluation rubrics. It is used here as a task/harness substrate, not as a claim that this wrapper reproduces Harvey's published leaderboard.",
-   "id": "5152bcf5",
-   "hash": "2412bc5a7d0c"
+   "text": "# Environment",
+   "id": "a548e2e8",
+   "hash": "4d65b7458bc8"
   },
   {
    "type": "list",
-   "text": "- Source: https://github.com/harveyai/harvey-labs\n- Architecture: https://github.com/harveyai/harvey-labs/blob/v1.0/docs/architecture.md",
-   "id": "f6b950f4",
-   "hash": "d09bf402d24c"
-  },
-  {
-   "type": "heading",
-   "text": "## R02: Scaling agent systems",
-   "id": "502e7400",
-   "hash": "6ec07f73a555"
-  },
-  {
-   "type": "para",
-   "text": "Google's study of agent-system architectures motivates fixing one centralized architecture before attributing outcomes to a handoff representation. It does not establish that the present workflow will work better.",
-   "id": "9b6cacb9",
-   "hash": "9002a7536884"
-  },
-  {
-   "type": "list",
-   "text": "- Source: https://arxiv.org/abs/2512.08296\n- Discussion: https://research.google/blog/towards-a-science-of-scaling-agent-systems-when-and-why-agent-systems-work/",
-   "id": "b0795eb4",
-   "hash": "e9891499e086"
-  },
-  {
-   "type": "heading",
-   "text": "## R03: Agent-Native Research Artifact",
-   "id": "f45a798f",
-   "hash": "c964ee0a93fb"
-  },
-  {
-   "type": "para",
-   "text": "ARA supplies the research-management structure for this study: logic, source artifacts, trace, and evidence. Its current-state and append-only separation informs how the paper process is recorded.",
-   "id": "a30649b6",
-   "hash": "57db5bd15dfa"
-  },
-  {
-   "type": "list",
-   "text": "- Paper: https://arxiv.org/abs/2604.24658\n- Implementation: https://github.com/ARA-Labs/Agent-Native-Research-Artifact",
-   "id": "213a8475",
-   "hash": "e9a3b22ceac9"
-  },
-  {
-   "type": "heading",
-   "text": "## R04: Model transport and sampling source",
-   "id": "4fd097c8",
-   "hash": "324de19f21fb"
-  },
-  {
-   "type": "para",
-   "text": "OpenRouter is a transport/routing layer for the fixed Harvey harness, not a second evaluation harness. The study freezes concrete model slugs and provider routing to avoid silent model/provider substitution. The Chatbot Arena Agent Leaderboard may inform a broad candidate roster but is not evidence about legal-work performance or provenance.",
-   "id": "2686316a",
-   "hash": "aae0f3723262"
-  },
-  {
-   "type": "list",
-   "text": "- Routing: https://openrouter.ai/docs/guides/routing/provider-selection\n- Latest-version semantics: https://openrouter.ai/docs/guides/routing/routers/latest-resolution\n- Model metadata: https://openrouter.ai/api/v1/models\n- Candidate sampling source: https://arena.ai/leaderboard/agent",
-   "id": "d4a8d92c",
-   "hash": "58ddab5031de"
+   "text": "- **Experiment repository**: `/Users/richardtang/proofpress-dev/experiments/provenance_handoff`\n- **Experiment runtime**: Python project managed with `uv`; current lightweight modules are `pp_eval/`.\n- **Primary upstream target**: Harvey LAB v1.0, pinned in `pp_eval/datasets.py` to `1da4750171bc5a534960b3d82d15ba7fd2cf653f`.\n- **ARA upstream**: `https://github.com/ARA-Labs/Agent-Native-Research-Artifact`, local source commit `35981edc35c51413d291ab8e504ea7c907fd67e7`.\n- **External data home**: `PROOFPRESS_EVAL_HOME`; raw data/traces/results stay there.\n- **Planned model transport**: OpenRouter adapter at the Harvey model boundary. Concrete model slugs, disabled fallbacks, pinned provider routing, and resolved metadata will be frozen per slice. Credentials remain in `OPENROUTER_API_KEY` outside Git.\n- **Core model policy**: one homogeneous model team with `high` effort per workflow attempt; Proofpress itself never makes a model call.\n- **Execution state**: no official Harvey treatment run has been performed for this artifact.",
+   "id": "a84a1149",
+   "hash": "ae1311601382"
   }
  ]
 }

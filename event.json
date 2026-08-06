@@ -1,44 +1,29 @@
 {
  "event": "version_created",
- "artifact": "ara/logic/related_work.md",
- "artifact_id": "pp_aeef744ab46114892229ebab",
- "version": "be01c41a",
- "parent": "c57d77c3",
+ "artifact": "ara/src/environment.md",
+ "artifact_id": "pp_d4f0f4ca5617c9d0528dea8e",
+ "version": "5e202753",
+ "parent": "f771fb45",
  "author": {
   "name": "Codex",
   "kind": "agent",
   "session": "provenance-handoff-plan-2026-08-06"
  },
  "note": null,
- "ts": "2026-08-06T08:34:40+00:00",
+ "ts": "2026-08-06T08:34:43+00:00",
  "stats": {
-  "added": 3
+  "modified": 1
  },
  "changes": [
   {
-   "kind": "added",
-   "block": "4fd097c8",
-   "type": "heading",
-   "context": "R04: Model transport and sampling source",
-   "preview": "## R04: Model transport and sampling source"
-  },
-  {
-   "kind": "added",
-   "block": "2686316a",
-   "type": "para",
-   "context": "R04: Model transport and sampling source",
-   "preview": "OpenRouter is a transport/routing layer for the fixed Harvey"
-  },
-  {
-   "kind": "added",
-   "block": "d4a8d92c",
+   "kind": "modified",
+   "block": "a84a1149",
    "type": "list",
-   "context": "R04: Model transport and sampling source",
-   "preview": "- Routing: https://openrouter.ai/docs/guides/routing/provide"
+   "context": "Environment"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:34855e6dabfb4d262f6650c7924e704ea5b00c76d2eac8c009c1f582b4197416",
+ "soft_fingerprint": "ppsb1:256732760c74b563fe613920e41725fed0b601e553785aedd9d3345666ea15e7",
  "actors": {
   "requested_by": [
    "Richard Tang"
@@ -56,23 +41,13 @@
  "attribution_basis": "environment_attested",
  "claims": [
   {
-   "block": "4fd097c8",
-   "kind": "added",
-   "note": "User-approved experiment-design update."
-  },
-  {
-   "block": "2686316a",
-   "kind": "added",
-   "note": "User-approved experiment-design update."
-  },
-  {
-   "block": "d4a8d92c",
-   "kind": "added",
+   "block": "a84a1149",
+   "kind": "modified",
    "note": "User-approved experiment-design update."
   }
  ],
  "context": {
   "why": "Document the user-approved provenance-handoff experiment design: strong memory control, isolated mechanism diagnostic, homogeneous OpenRouter model teams, and staged execution gates."
  },
- "event_id": "ppe_f2c4b4e325321817dd5c4f47"
+ "event_id": "ppe_f445b443001f4027f739c02d"
 }
