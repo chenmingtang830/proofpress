@@ -1,37 +1,37 @@
 {
  "event": "version_created",
- "artifact": "docs/EXECUTION_PLAN.md",
- "artifact_id": "pp_120f0f61aa69ad67431b9659",
- "version": "72e8bccf",
- "parent": "0e168bd7",
+ "artifact": "docs/RESULTS_MATRIX.md",
+ "artifact_id": "pp_d40d46a12d4d493fcbc9c0e9",
+ "version": "4eba1af8",
+ "parent": "03fcee6b",
  "author": {
   "name": "Codex",
   "kind": "agent",
   "session": "provenance-handoff-plan-2026-08-06"
  },
  "note": null,
- "ts": "2026-08-06T08:36:01+00:00",
+ "ts": "2026-08-06T08:36:03+00:00",
  "stats": {
   "added": 2
  },
  "changes": [
   {
    "kind": "added",
-   "block": "6743bd05",
+   "block": "569ecb4f",
    "type": "heading",
    "context": "Review state",
    "preview": "## Review state"
   },
   {
    "kind": "added",
-   "block": "1d585184",
+   "block": "f9ecf7b5",
    "type": "para",
    "context": "Review state",
-   "preview": "Draft for user review. No Harvey treatment wrapper, OpenRout"
+   "preview": "Draft for user review. Every cell below is a planned result "
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:f6e2e4e0412bc77d69ad69b3fa23208e63834a407290325728b09ad9f0303b8c",
+ "soft_fingerprint": "ppsb1:e2597f5e90123de7b4dd6712eb2e2db61be8808e67fac785b4fc3f09d8c86252",
  "actors": {
   "requested_by": [
    "Richard Tang"
@@ -49,12 +49,12 @@
  "attribution_basis": "environment_attested",
  "claims": [
   {
-   "block": "6743bd05",
+   "block": "569ecb4f",
    "kind": "added",
    "note": "Created as a reviewable planned-result artifact; no empirical value."
   },
   {
-   "block": "1d585184",
+   "block": "f9ecf7b5",
    "kind": "added",
    "note": "Created as a reviewable planned-result artifact; no empirical value."
   }
@@ -62,5 +62,5 @@
  "context": {
   "why": "Create a reviewable execution/results artifact for the user-approved Harvey-first provenance-handoff study; no empirical result is recorded."
  },
- "event_id": "ppe_df01f40530b0bc97083cdcfa"
+ "event_id": "ppe_e16550b09fb009300cb35dd2"
 }
