@@ -1,67 +1,561 @@
 {
  "event": "version_created",
- "artifact": "docs/internal/experiments/EXPERIMENT_HINDCAST.md",
- "artifact_id": "pp_d1a5fee2c5b83bd607a26ee3",
- "version": "dadc7aac",
- "parent": "c6ffa17a",
+ "artifact": "README.md",
+ "artifact_id": "pp_556b115de711b0cd33eed260",
+ "version": "cc5cfaed",
+ "parent": "7294e49f",
  "author": {
-  "name": "codex",
-  "kind": "agent",
-  "session": "provenance-evaluation-plan"
+  "name": "codex-preflight",
+  "kind": "system",
+  "session": null
  },
- "note": null,
- "ts": "2026-08-04T07:01:26+00:00",
+ "note": "best-effort fallback capture; edit attribution unknown",
+ "ts": "2026-08-06T07:30:03+00:00",
  "stats": {
-  "modified": 2
+  "added": 10,
+  "modified": 1,
+  "removed": 65
  },
  "changes": [
   {
-   "kind": "modified",
-   "block": "190c6326",
+   "kind": "added",
+   "block": "da60723f",
+   "type": "heading",
+   "context": "Proofpress Provenance Handoff Evaluation",
+   "preview": "# Proofpress Provenance Handoff Evaluation"
+  },
+  {
+   "kind": "added",
+   "block": "b1e87fcb",
    "type": "para",
-   "context": "11. 与 provenance handoff 主实验的关系(2026-08-"
+   "context": "Proofpress Provenance Handoff Evaluation",
+   "preview": "This is a self-contained, stdlib-only pilot runtime for the "
   },
   {
    "kind": "modified",
-   "block": "55006afd",
+   "block": "949eb6a5",
+   "type": "heading",
+   "context": "What is implemented"
+  },
+  {
+   "kind": "added",
+   "block": "d1de937a",
+   "type": "list",
+   "context": "What is implemented",
+   "preview": "- `EpisodeSpec` and `RunRecord` schemas with upstream revisi"
+  },
+  {
+   "kind": "added",
+   "block": "553c4e19",
+   "type": "heading",
+   "context": "Run locally",
+   "preview": "## Run locally"
+  },
+  {
+   "kind": "added",
+   "block": "482bd3f4",
+   "type": "code",
+   "context": "Run locally",
+   "preview": "```bash\nexport PROOFPRESS_EVAL_HOME=/Users/richardtang/.cach"
+  },
+  {
+   "kind": "added",
+   "block": "06b7383a",
    "type": "para",
-   "context": "11. 与 provenance handoff 主实验的关系(2026-08-"
+   "context": "Run locally",
+   "preview": "For Gate A, use `--arms final,proofpress`; only after review"
+  },
+  {
+   "kind": "added",
+   "block": "0119f46f",
+   "type": "para",
+   "context": "Run locally",
+   "preview": "The first real upstream pilot is:"
+  },
+  {
+   "kind": "added",
+   "block": "7fa7716d",
+   "type": "code",
+   "context": "Run locally",
+   "preview": "```bash\nuv run pp-eval build --suite workbench-pilot-v1 --da"
+  },
+  {
+   "kind": "added",
+   "block": "8fbeace5",
+   "type": "heading",
+   "context": "Important interpretation limits",
+   "preview": "## Important interpretation limits"
+  },
+  {
+   "kind": "added",
+   "block": "6b82a306",
+   "type": "para",
+   "context": "Important interpretation limits",
+   "preview": "The current fixtures are mechanism gates. They exercise the "
+  },
+  {
+   "kind": "removed",
+   "block": "6ec771b4",
+   "type": "para",
+   "context": "",
+   "preview": "<p align=\"center\">\n  <img src=\"assets/logo.svg\" alt=\"Proofpr"
+  },
+  {
+   "kind": "removed",
+   "block": "de7999eb",
+   "type": "heading",
+   "context": "",
+   "preview": "# Proofpress"
+  },
+  {
+   "kind": "removed",
+   "block": "e667d986",
+   "type": "para",
+   "context": "",
+   "preview": "Proofpress is the trust layer for multiplayer AI: an open, a"
+  },
+  {
+   "kind": "removed",
+   "block": "0e0e9d9a",
+   "type": "para",
+   "context": "",
+   "preview": "Humans and agents can produce a document quickly, but the de"
+  },
+  {
+   "kind": "removed",
+   "block": "7c5ed81a",
+   "type": "para",
+   "context": "",
+   "preview": "Think C2PA, but for knowledge work: a portable, inspectable "
+  },
+  {
+   "kind": "removed",
+   "block": "1b5546b8",
+   "type": "para",
+   "context": "",
+   "preview": "> Git made code collaborative. Proofpress makes intelligence"
+  },
+  {
+   "kind": "removed",
+   "block": "169d8523",
+   "type": "heading",
+   "context": "",
+   "preview": "## Status"
+  },
+  {
+   "kind": "removed",
+   "block": "d6f9f208",
+   "type": "para",
+   "context": "",
+   "preview": "Proofpress 0.2.0-alpha.1 previews multiplayer portable docum"
+  },
+  {
+   "kind": "removed",
+   "block": "19210f53",
+   "type": "heading",
+   "context": "",
+   "preview": "## Install"
+  },
+  {
+   "kind": "removed",
+   "block": "989f25ec",
+   "type": "para",
+   "context": "",
+   "preview": "Proofpress keeps its zero-dependency Python engine and adds "
+  },
+  {
+   "kind": "removed",
+   "block": "7b197ac1",
+   "type": "code",
+   "context": "",
+   "preview": "```sh\nnpm install --save-dev proofpress\nnpx --no-install pro"
+  },
+  {
+   "kind": "removed",
+   "block": "5ae48e1b",
+   "type": "para",
+   "context": "",
+   "preview": "`setup` installs a package-aware adapter and writes\n`.proofp"
+  },
+  {
+   "kind": "removed",
+   "block": "2b655d31",
+   "type": "para",
+   "context": "",
+   "preview": "To add a visible, transparent distribution mark to a reposit"
+  },
+  {
+   "kind": "removed",
+   "block": "d4916c37",
+   "type": "code",
+   "context": "",
+   "preview": "```sh\nnpx --no-install proofpress setup --agent codex --badg"
+  },
+  {
+   "kind": "removed",
+   "block": "5796ae98",
+   "type": "para",
+   "context": "",
+   "preview": "The badge says that revision provenance uses Proofpress; it "
+  },
+  {
+   "kind": "removed",
+   "block": "e7b4f799",
+   "type": "heading",
+   "context": "",
+   "preview": "## Single-file install"
+  },
+  {
+   "kind": "removed",
+   "block": "d8cafbd3",
+   "type": "para",
+   "context": "",
+   "preview": "Proofpress is a single Python file with no third-party runti"
+  },
+  {
+   "kind": "removed",
+   "block": "0b5b4916",
+   "type": "code",
+   "context": "",
+   "preview": "```sh\ngit clone https://github.com/chenmingtang830/proofpres"
+  },
+  {
+   "kind": "removed",
+   "block": "166fd594",
+   "type": "para",
+   "context": "",
+   "preview": "To use it in another repository, vendor `proofpress.py` at t"
+  },
+  {
+   "kind": "removed",
+   "block": "2173502c",
+   "type": "para",
+   "context": "",
+   "preview": "Turn portability on once:"
+  },
+  {
+   "kind": "removed",
+   "block": "c44f6768",
+   "type": "code",
+   "context": "",
+   "preview": "```sh\npython3 proofpress.py policy proposal.md portable\n```"
+  },
+  {
+   "kind": "removed",
+   "block": "79416c44",
+   "type": "para",
+   "context": "",
+   "preview": "The setting is sticky. Later accepted revisions refresh a co"
+  },
+  {
+   "kind": "removed",
+   "block": "af7113fa",
+   "type": "code",
+   "context": "",
+   "preview": "```sh\npython3 proofpress.py inspect proposal.md\npython3 proo"
+  },
+  {
+   "kind": "removed",
+   "block": "5e991c72",
+   "type": "heading",
+   "context": "",
+   "preview": "### Two transport rails"
+  },
+  {
+   "kind": "removed",
+   "block": "398568bb",
+   "type": "para",
+   "context": "",
+   "preview": "Inside GitHub, the Markdown/HTML file and its capsule travel"
+  },
+  {
+   "kind": "removed",
+   "block": "a908fde7",
+   "type": "para",
+   "context": "",
+   "preview": "Outside GitHub, the original raw file is the transport. Its "
+  },
+  {
+   "kind": "removed",
+   "block": "bfc931ca",
+   "type": "para",
+   "context": "",
+   "preview": "The capsule is declarative data, not agent instructions. It "
+  },
+  {
+   "kind": "removed",
+   "block": "839fc8a1",
+   "type": "para",
+   "context": "",
+   "preview": "Portable carriers include a non-rendering discovery marker w"
+  },
+  {
+   "kind": "removed",
+   "block": "cc095bd4",
+   "type": "heading",
+   "context": "",
+   "preview": "## Static HTML carrier"
+  },
+  {
+   "kind": "removed",
+   "block": "e6463f5e",
+   "type": "para",
+   "context": "",
+   "preview": "Proofpress also supports static `.html` and `.htm` artifacts"
+  },
+  {
+   "kind": "removed",
+   "block": "b8abc9df",
+   "type": "code",
+   "context": "",
+   "preview": "```sh\npython3 proofpress.py policy launch-plan.html portable"
+  },
+  {
+   "kind": "removed",
+   "block": "00768820",
+   "type": "para",
+   "context": "",
+   "preview": "This is a static-HTML carrier MVP, not a framework or CMS in"
+  },
+  {
+   "kind": "removed",
+   "block": "226a29fd",
+   "type": "heading",
+   "context": "",
+   "preview": "## What gets recorded"
+  },
+  {
+   "kind": "removed",
+   "block": "cfc1c3aa",
+   "type": "para",
+   "context": "",
+   "preview": "Proofpress records accepted artifact versions, their compute"
+  },
+  {
+   "kind": "removed",
+   "block": "5e0b34ed",
+   "type": "para",
+   "context": "",
+   "preview": "It does not automatically store raw prompts, transcripts, to"
+  },
+  {
+   "kind": "removed",
+   "block": "d8387b0b",
+   "type": "heading",
+   "context": "",
+   "preview": "## Privacy modes"
+  },
+  {
+   "kind": "removed",
+   "block": "5df13acf",
+   "type": "para",
+   "context": "",
+   "preview": "Each artifact has one policy:"
+  },
+  {
+   "kind": "removed",
+   "block": "3b52e3b3",
+   "type": "list",
+   "context": "",
+   "preview": "- `portable`: future accepted versions refresh the embedded "
+  },
+  {
+   "kind": "removed",
+   "block": "126978a2",
+   "type": "para",
+   "context": "",
+   "preview": "  removed."
+  },
+  {
+   "kind": "removed",
+   "block": "0890e114",
+   "type": "list",
+   "context": "",
+   "preview": "- `ignored`: future capture is skipped."
+  },
+  {
+   "kind": "removed",
+   "block": "c6642117",
+   "type": "para",
+   "context": "",
+   "preview": "Switching from portable to local cannot recall copies alread"
+  },
+  {
+   "kind": "removed",
+   "block": "18995a53",
+   "type": "para",
+   "context": "",
+   "preview": "For a one-off history-free copy, use:"
+  },
+  {
+   "kind": "removed",
+   "block": "f28051ef",
+   "type": "code",
+   "context": "",
+   "preview": "```sh\npython3 proofpress.py clean proposal.md --output propo"
+  },
+  {
+   "kind": "removed",
+   "block": "bfac82a8",
+   "type": "heading",
+   "context": "",
+   "preview": "## Core workflow"
+  },
+  {
+   "kind": "removed",
+   "block": "706dcea3",
+   "type": "code",
+   "context": "",
+   "preview": "```sh\npython3 proofpress.py anchor proposal.md\npython3 proof"
+  },
+  {
+   "kind": "removed",
+   "block": "33e05aa8",
+   "type": "para",
+   "context": "",
+   "preview": "Use `--rejected` only for consequential dead branches that f"
+  },
+  {
+   "kind": "removed",
+   "block": "59769c11",
+   "type": "heading",
+   "context": "",
+   "preview": "## Merged lineage and stripped copies"
+  },
+  {
+   "kind": "removed",
+   "block": "47f21d3a",
+   "type": "heading",
+   "context": "",
+   "preview": "### Parallel copies of the same document"
+  },
+  {
+   "kind": "removed",
+   "block": "55bcd98e",
+   "type": "para",
+   "context": "",
+   "preview": "Portable files do not require Git to merge. Keep every origi"
+  },
+  {
+   "kind": "removed",
+   "block": "8f498c01",
+   "type": "code",
+   "context": "",
+   "preview": "```sh\npython3 proofpress.py merge-plan proposal-alice.md \\\n "
+  },
+  {
+   "kind": "removed",
+   "block": "d4ed0d79",
+   "type": "para",
+   "context": "",
+   "preview": "The command never rewrites the document. An agent can combin"
+  },
+  {
+   "kind": "removed",
+   "block": "74883804",
+   "type": "code",
+   "context": "",
+   "preview": "```sh\npython3 proofpress.py anchor proposal-alice.md\npython3"
+  },
+  {
+   "kind": "removed",
+   "block": "1575e201",
+   "type": "para",
+   "context": "",
+   "preview": "All inputs must be portable copies of the same `artifact_id`"
+  },
+  {
+   "kind": "removed",
+   "block": "91a8deb1",
+   "type": "para",
+   "context": "",
+   "preview": "When one document merges several Proofpress-managed sources,"
+  },
+  {
+   "kind": "removed",
+   "block": "100c5aa7",
+   "type": "code",
+   "context": "",
+   "preview": "```sh\npython3 proofpress.py merge-lineage proposal.md \\\n  --"
+  },
+  {
+   "kind": "removed",
+   "block": "144c3d60",
+   "type": "para",
+   "context": "",
+   "preview": "When a copy lost its metadata and capsule (pasted as plain t"
+  },
+  {
+   "kind": "removed",
+   "block": "28dec45f",
+   "type": "code",
+   "context": "",
+   "preview": "```sh\npython3 proofpress.py identify pasted-copy.md\n```"
+  },
+  {
+   "kind": "removed",
+   "block": "b705ac38",
+   "type": "para",
+   "context": "",
+   "preview": "`identify` answers identity — \"this is that artifact\" — on a"
+  },
+  {
+   "kind": "removed",
+   "block": "2a955c60",
+   "type": "heading",
+   "context": "",
+   "preview": "## Surfaces"
+  },
+  {
+   "kind": "removed",
+   "block": "8deed5b3",
+   "type": "list",
+   "context": "",
+   "preview": "- `proofpress.py`: zero-dependency engine and CLI.\n- npm pac"
+  },
+  {
+   "kind": "removed",
+   "block": "68addd0d",
+   "type": "para",
+   "context": "",
+   "preview": "  working branches; portable capsules are the public per-fil"
+  },
+  {
+   "kind": "removed",
+   "block": "cb5c6c0f",
+   "type": "list",
+   "context": "",
+   "preview": "- `skills/`: Claude Code, Codex, Cursor, and Pi authoring co"
+  },
+  {
+   "kind": "removed",
+   "block": "1f7d312f",
+   "type": "para",
+   "context": "",
+   "preview": "  best-effort fallback hooks."
+  },
+  {
+   "kind": "removed",
+   "block": "605a678d",
+   "type": "list",
+   "context": "",
+   "preview": "- Embedded portable capsule: path-independent handoff outsid"
+  },
+  {
+   "kind": "removed",
+   "block": "820f39ab",
+   "type": "para",
+   "context": "",
+   "preview": "Start with the [documentation index](docs/README.md). The ex"
   }
  ],
  "policy": "local",
- "soft_fingerprint": "ppsb1:2449b89530afabea2c3da1b5ea5dc68b405fc10d73c1821bdf8100683c0be1bb",
+ "soft_fingerprint": "ppsb1:3b85ef0e2d1c2a52e6c3e0ff9a2adcbe6f10212d4b2def59408b7ea7c83b4614",
  "actors": {
-  "requested_by": [
-   "Richard"
-  ],
-  "produced_by": [
-   "codex"
-  ],
-  "edited_by": [
-   "codex"
-  ],
   "recorded_by": [
-   "codex"
+   "codex-preflight"
   ]
  },
  "attribution_basis": "harness_attested",
- "claims": [
-  {
-   "block": "190c6326",
-   "kind": "modified",
-   "note": "Broadened the controlled handoff experiment from research-only work to enterprise, professional, and healthcare-sandbox validation domains."
-  },
-  {
-   "block": "55006afd",
-   "kind": "modified",
-   "note": "Updated the canonical plan link and summarized the expanded commercial and high-stakes benchmark portfolio."
-  }
- ],
- "context": {
-  "why": "Keep Hindcast as a real-history external-validity arm while linking it to the broader enterprise, professional-service, healthcare-sandbox, and research handoff evaluation.",
-  "rejected": [
-   "Keep describing the causal experiment as research handoff only — the accepted scope now includes commercially relevant and high-stakes knowledge workflows."
-  ]
- },
- "event_id": "ppe_c3441a4ebe59a1f713d62a55"
+ "event_id": "ppe_0bc0dfecad766e53296e5e90"
 }
