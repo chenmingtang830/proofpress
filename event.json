@@ -1,65 +1,125 @@
 {
  "event": "version_created",
- "artifact": "README.md",
- "artifact_id": "pp_556b115de711b0cd33eed260",
- "version": "1bfb1a01",
- "parent": "105f03e2",
+ "artifact": "docs/RESEARCH_PLAN.md",
+ "artifact_id": "pp_00e96ce828caea19ac7221ae",
+ "version": "18af2e53",
+ "parent": "a14d9dc2",
  "author": {
   "name": "Codex",
   "kind": "agent",
   "session": "provenance-handoff-plan-2026-08-06"
  },
  "note": null,
- "ts": "2026-08-06T08:34:23+00:00",
+ "ts": "2026-08-06T08:34:26+00:00",
  "stats": {
-  "modified": 7
+  "modified": 17
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "d86e9669",
+   "block": "a20de7f5",
    "type": "para",
-   "context": "Review status"
+   "context": "Fixed runtime and workflow"
   },
   {
    "kind": "modified",
-   "block": "efb84a51",
-   "type": "para",
-   "context": "The research question"
+   "block": "20e0e636",
+   "type": "code",
+   "context": "Fixed runtime and workflow"
   },
   {
    "kind": "modified",
-   "block": "1030b33f",
+   "block": "f35fd5df",
    "type": "para",
-   "context": "Scope and comparison"
+   "context": "Fixed runtime and workflow"
   },
   {
    "kind": "modified",
-   "block": "27c19da2",
+   "block": "7d45012f",
+   "type": "para",
+   "context": "Checkpoint contract"
+  },
+  {
+   "kind": "modified",
+   "block": "ca5c64c9",
+   "type": "table",
+   "context": "Arms and variables"
+  },
+  {
+   "kind": "modified",
+   "block": "395029b6",
+   "type": "para",
+   "context": "Arms and variables"
+  },
+  {
+   "kind": "modified",
+   "block": "21b6ed3d",
+   "type": "para",
+   "context": "Arms and variables"
+  },
+  {
+   "kind": "modified",
+   "block": "9a161920",
+   "type": "para",
+   "context": "Arms and variables"
+  },
+  {
+   "kind": "modified",
+   "block": "83ba9a78",
+   "type": "table",
+   "context": "Hypotheses and falsifiers"
+  },
+  {
+   "kind": "modified",
+   "block": "86f6ae8d",
+   "type": "para",
+   "context": "Model plan"
+  },
+  {
+   "kind": "modified",
+   "block": "743b9bd8",
+   "type": "table",
+   "context": "Model plan"
+  },
+  {
+   "kind": "modified",
+   "block": "0cafb062",
+   "type": "para",
+   "context": "Model plan"
+  },
+  {
+   "kind": "modified",
+   "block": "c91c4e94",
+   "type": "para",
+   "context": "Model plan"
+  },
+  {
+   "kind": "modified",
+   "block": "7bcd9b4b",
    "type": "list",
-   "context": "Scope and comparison"
+   "context": "Budgets, isolation, and fairness"
   },
   {
    "kind": "modified",
-   "block": "146ef700",
-   "type": "para",
-   "context": "Scope and comparison"
+   "block": "ae5cc50e",
+   "type": "table",
+   "context": "Analysis and decision gates"
   },
   {
    "kind": "modified",
-   "block": "c1ba01f6",
+   "block": "9858f44e",
    "type": "list",
-   "context": "What is here today"
+   "context": "Implementation milestones"
   },
   {
    "kind": "modified",
-   "block": "1fa1b7ec",
-   "type": "para",
-   "context": "Before any model run"
+   "block": "9c0d2ccb",
+   "type": "list",
+   "context": "References"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:f7fb85a65a32277df3b5e682c52bec42c2e08ff78f7a842cc3f47445fecb918a",
+ "soft_fingerprint": "ppsb1:de4e162d19d1932f58bcf4f99c870095a5e0c8db0b3447273a2991cf803d3205",
  "actors": {
   "requested_by": [
    "Richard Tang"
@@ -77,37 +137,87 @@
  "attribution_basis": "environment_attested",
  "claims": [
   {
-   "block": "d86e9669",
+   "block": "a20de7f5",
    "kind": "modified",
    "note": "User-approved experiment-design update."
   },
   {
-   "block": "efb84a51",
+   "block": "20e0e636",
    "kind": "modified",
    "note": "User-approved experiment-design update."
   },
   {
-   "block": "1030b33f",
+   "block": "f35fd5df",
    "kind": "modified",
    "note": "User-approved experiment-design update."
   },
   {
-   "block": "27c19da2",
+   "block": "7d45012f",
    "kind": "modified",
    "note": "User-approved experiment-design update."
   },
   {
-   "block": "146ef700",
+   "block": "ca5c64c9",
    "kind": "modified",
    "note": "User-approved experiment-design update."
   },
   {
-   "block": "c1ba01f6",
+   "block": "395029b6",
    "kind": "modified",
    "note": "User-approved experiment-design update."
   },
   {
-   "block": "1fa1b7ec",
+   "block": "21b6ed3d",
+   "kind": "modified",
+   "note": "User-approved experiment-design update."
+  },
+  {
+   "block": "9a161920",
+   "kind": "modified",
+   "note": "User-approved experiment-design update."
+  },
+  {
+   "block": "83ba9a78",
+   "kind": "modified",
+   "note": "User-approved experiment-design update."
+  },
+  {
+   "block": "86f6ae8d",
+   "kind": "modified",
+   "note": "User-approved experiment-design update."
+  },
+  {
+   "block": "743b9bd8",
+   "kind": "modified",
+   "note": "User-approved experiment-design update."
+  },
+  {
+   "block": "0cafb062",
+   "kind": "modified",
+   "note": "User-approved experiment-design update."
+  },
+  {
+   "block": "c91c4e94",
+   "kind": "modified",
+   "note": "User-approved experiment-design update."
+  },
+  {
+   "block": "7bcd9b4b",
+   "kind": "modified",
+   "note": "User-approved experiment-design update."
+  },
+  {
+   "block": "ae5cc50e",
+   "kind": "modified",
+   "note": "User-approved experiment-design update."
+  },
+  {
+   "block": "9858f44e",
+   "kind": "modified",
+   "note": "User-approved experiment-design update."
+  },
+  {
+   "block": "9c0d2ccb",
    "kind": "modified",
    "note": "User-approved experiment-design update."
   }
@@ -115,5 +225,5 @@
  "context": {
   "why": "Document the user-approved provenance-handoff experiment design: strong memory control, isolated mechanism diagnostic, homogeneous OpenRouter model teams, and staged execution gates."
  },
- "event_id": "ppe_d384bc5ea3a0e44c8d04f38f"
+ "event_id": "ppe_c9a1595a9ac5672e5fe1d098"
 }
