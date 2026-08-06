@@ -1,82 +1,89 @@
 {
  "event": "version_created",
- "artifact": "docs/ARCHITECTURE.md",
- "artifact_id": "pp_b36338c1e353bb457f78ad8c",
- "version": "beaa75b5",
- "parent": "84cd889f",
+ "artifact": "docs/RUNBOOK.md",
+ "artifact_id": "pp_5a5be3541fb656ff12959b48",
+ "version": "f5e948a5",
+ "parent": "eb66a9a7",
  "author": {
   "name": "Codex",
   "kind": "agent",
   "session": "provenance-handoff-plan-2026-08-06"
  },
  "note": null,
- "ts": "2026-08-06T08:34:28+00:00",
+ "ts": "2026-08-06T08:34:30+00:00",
  "stats": {
-  "modified": 5,
-  "added": 4
+  "modified": 11
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "7ad9bc6b",
-   "type": "code",
-   "context": "Fixed centralized multi-agent system"
-  },
-  {
-   "kind": "modified",
-   "block": "ac99cf68",
+   "block": "513837a8",
    "type": "para",
-   "context": "Fixed centralized multi-agent system"
+   "context": "Current boundary"
   },
   {
    "kind": "modified",
-   "block": "ecd15f49",
-   "type": "table",
-   "context": "What stays constant"
-  },
-  {
-   "kind": "modified",
-   "block": "4d4c2dcd",
-   "type": "code",
-   "context": "What varies"
-  },
-  {
-   "kind": "modified",
-   "block": "61634a19",
+   "block": "2cfafc41",
    "type": "para",
-   "context": "What varies"
+   "context": "0. Review and freeze"
   },
   {
-   "kind": "added",
-   "block": "184f0405",
+   "kind": "modified",
+   "block": "4d311793",
+   "type": "para",
+   "context": "1. Isolated data home"
+  },
+  {
+   "kind": "modified",
+   "block": "af309dcb",
+   "type": "para",
+   "context": "3. Gate 0: official harness validation"
+  },
+  {
+   "kind": "modified",
+   "block": "493ed3dc",
+   "type": "para",
+   "context": "4. Implement the official-harness wrappe"
+  },
+  {
+   "kind": "modified",
+   "block": "e5d31059",
+   "type": "list",
+   "context": "4. Implement the official-harness wrappe"
+  },
+  {
+   "kind": "modified",
+   "block": "612e6e2c",
    "type": "heading",
-   "context": "Isolated handoff diagnostic versus end-t",
-   "preview": "## Isolated handoff diagnostic versus end-to-end workflow"
+   "context": "5. Gate 1a: isolated-handoff mechanism d"
   },
   {
-   "kind": "added",
-   "block": "c417481e",
+   "kind": "modified",
+   "block": "5dd3f763",
    "type": "para",
-   "context": "Isolated handoff diagnostic versus end-t",
-   "preview": "The primary study is end-to-end: it measures the cumulative "
+   "context": "5. Gate 1a: isolated-handoff mechanism d"
   },
   {
-   "kind": "added",
-   "block": "0eba534e",
+   "kind": "modified",
+   "block": "7e7eb44e",
+   "type": "para",
+   "context": "5. Gate 1a: isolated-handoff mechanism d"
+  },
+  {
+   "kind": "modified",
+   "block": "97f97430",
    "type": "heading",
-   "context": "Homogeneous model teams and transport",
-   "preview": "## Homogeneous model teams and transport"
+   "context": "6. Gate 1b, fixed-model matrix, and robu"
   },
   {
-   "kind": "added",
-   "block": "95a47d98",
+   "kind": "modified",
+   "block": "9645d311",
    "type": "para",
-   "context": "Homogeneous model teams and transport",
-   "preview": "For one workflow slice, OP, E, D, W, and OR all use the same"
+   "context": "6. Gate 1b, fixed-model matrix, and robu"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:5ffc2f440b4514b510d70983a18b76d31cd7ea64dc93f5f0ffa060d52af13447",
+ "soft_fingerprint": "ppsb1:0180c02497da768938ab6784dbc2f60ea48444e5a77df0a84838412bffcaa5ff",
  "actors": {
   "requested_by": [
    "Richard Tang"
@@ -94,53 +101,63 @@
  "attribution_basis": "environment_attested",
  "claims": [
   {
-   "block": "7ad9bc6b",
+   "block": "513837a8",
    "kind": "modified",
    "note": "User-approved experiment-design update."
   },
   {
-   "block": "ac99cf68",
+   "block": "2cfafc41",
    "kind": "modified",
    "note": "User-approved experiment-design update."
   },
   {
-   "block": "ecd15f49",
+   "block": "4d311793",
    "kind": "modified",
    "note": "User-approved experiment-design update."
   },
   {
-   "block": "4d4c2dcd",
+   "block": "af309dcb",
    "kind": "modified",
    "note": "User-approved experiment-design update."
   },
   {
-   "block": "61634a19",
+   "block": "493ed3dc",
    "kind": "modified",
    "note": "User-approved experiment-design update."
   },
   {
-   "block": "184f0405",
-   "kind": "added",
+   "block": "e5d31059",
+   "kind": "modified",
    "note": "User-approved experiment-design update."
   },
   {
-   "block": "c417481e",
-   "kind": "added",
+   "block": "612e6e2c",
+   "kind": "modified",
    "note": "User-approved experiment-design update."
   },
   {
-   "block": "0eba534e",
-   "kind": "added",
+   "block": "5dd3f763",
+   "kind": "modified",
    "note": "User-approved experiment-design update."
   },
   {
-   "block": "95a47d98",
-   "kind": "added",
+   "block": "7e7eb44e",
+   "kind": "modified",
+   "note": "User-approved experiment-design update."
+  },
+  {
+   "block": "97f97430",
+   "kind": "modified",
+   "note": "User-approved experiment-design update."
+  },
+  {
+   "block": "9645d311",
+   "kind": "modified",
    "note": "User-approved experiment-design update."
   }
  ],
  "context": {
   "why": "Document the user-approved provenance-handoff experiment design: strong memory control, isolated mechanism diagnostic, homogeneous OpenRouter model teams, and staged execution gates."
  },
- "event_id": "ppe_e092a2502f455365797b77c5"
+ "event_id": "ppe_a4af80380ce6d59fec44f637"
 }
