@@ -1,65 +1,44 @@
 {
  "event": "version_created",
- "artifact": "ara/logic/experiments.md",
- "artifact_id": "pp_15fb7a0bcf0891f7cee01068",
- "version": "b2423f4d",
- "parent": "2bfeca76",
+ "artifact": "ara/logic/related_work.md",
+ "artifact_id": "pp_aeef744ab46114892229ebab",
+ "version": "be01c41a",
+ "parent": "c57d77c3",
  "author": {
   "name": "Codex",
   "kind": "agent",
   "session": "provenance-handoff-plan-2026-08-06"
  },
  "note": null,
- "ts": "2026-08-06T08:34:38+00:00",
+ "ts": "2026-08-06T08:34:40+00:00",
  "stats": {
-  "modified": 7
+  "added": 3
  },
  "changes": [
   {
-   "kind": "modified",
-   "block": "4392bdd3",
+   "kind": "added",
+   "block": "4fd097c8",
    "type": "heading",
-   "context": "E01: Official Harvey and OpenRouter runt"
+   "context": "R04: Model transport and sampling source",
+   "preview": "## R04: Model transport and sampling source"
   },
   {
-   "kind": "modified",
-   "block": "d94b548d",
+   "kind": "added",
+   "block": "2686316a",
+   "type": "para",
+   "context": "R04: Model transport and sampling source",
+   "preview": "OpenRouter is a transport/routing layer for the fixed Harvey"
+  },
+  {
+   "kind": "added",
+   "block": "d4a8d92c",
    "type": "list",
-   "context": "E01: Official Harvey and OpenRouter runt"
-  },
-  {
-   "kind": "modified",
-   "block": "7095f47a",
-   "type": "heading",
-   "context": "E02: Isolated handoff mechanism diagnost"
-  },
-  {
-   "kind": "modified",
-   "block": "018ec3e4",
-   "type": "list",
-   "context": "E02: Isolated handoff mechanism diagnost"
-  },
-  {
-   "kind": "modified",
-   "block": "cab7fd7c",
-   "type": "heading",
-   "context": "E03: End-to-end gate and fixed-model mat"
-  },
-  {
-   "kind": "modified",
-   "block": "c146ea63",
-   "type": "list",
-   "context": "E03: End-to-end gate and fixed-model mat"
-  },
-  {
-   "kind": "modified",
-   "block": "6559b8b4",
-   "type": "list",
-   "context": "E04: Cross-model robustness sweep"
+   "context": "R04: Model transport and sampling source",
+   "preview": "- Routing: https://openrouter.ai/docs/guides/routing/provide"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:9f87fcbdff400ed17bb94cdc0e3d941af5a7b1309a32ed8a6a743eb80eaf1f8a",
+ "soft_fingerprint": "ppsb1:34855e6dabfb4d262f6650c7924e704ea5b00c76d2eac8c009c1f582b4197416",
  "actors": {
   "requested_by": [
    "Richard Tang"
@@ -77,43 +56,23 @@
  "attribution_basis": "environment_attested",
  "claims": [
   {
-   "block": "4392bdd3",
-   "kind": "modified",
+   "block": "4fd097c8",
+   "kind": "added",
    "note": "User-approved experiment-design update."
   },
   {
-   "block": "d94b548d",
-   "kind": "modified",
+   "block": "2686316a",
+   "kind": "added",
    "note": "User-approved experiment-design update."
   },
   {
-   "block": "7095f47a",
-   "kind": "modified",
-   "note": "User-approved experiment-design update."
-  },
-  {
-   "block": "018ec3e4",
-   "kind": "modified",
-   "note": "User-approved experiment-design update."
-  },
-  {
-   "block": "cab7fd7c",
-   "kind": "modified",
-   "note": "User-approved experiment-design update."
-  },
-  {
-   "block": "c146ea63",
-   "kind": "modified",
-   "note": "User-approved experiment-design update."
-  },
-  {
-   "block": "6559b8b4",
-   "kind": "modified",
+   "block": "d4a8d92c",
+   "kind": "added",
    "note": "User-approved experiment-design update."
   }
  ],
  "context": {
   "why": "Document the user-approved provenance-handoff experiment design: strong memory control, isolated mechanism diagnostic, homogeneous OpenRouter model teams, and staged execution gates."
  },
- "event_id": "ppe_c0343089cec6b443a3d8e7ea"
+ "event_id": "ppe_f2c4b4e325321817dd5c4f47"
 }
