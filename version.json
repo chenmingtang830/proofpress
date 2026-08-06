@@ -4,69 +4,129 @@
  "blocks": [
   {
    "type": "heading",
-   "text": "# Proofpress Provenance Handoff Evaluation",
+   "text": "# Proofpress Provenance Lineage Evaluation",
    "id": "da60723f",
-   "hash": "a30fe2facd7d"
-  },
-  {
-   "type": "para",
-   "text": "This is a self-contained, stdlib-only pilot runtime for the provenance handoff experiment. It keeps benchmark bytes, raw traces, and model outputs outside Git under `PROOFPRESS_EVAL_HOME`.",
-   "id": "b1e87fcb",
-   "hash": "6ec5b743e7ea"
+   "hash": "8d8278be868b"
   },
   {
    "type": "heading",
-   "text": "## What is implemented",
-   "id": "949eb6a5",
-   "hash": "0ce4e7e2ae98"
+   "text": "## Review status",
+   "id": "0c4a8f5e",
+   "hash": "546856f064e7"
+  },
+  {
+   "type": "para",
+   "text": "This directory is now a **review-ready research package**, not an instruction to spend model budget. The primary paper study is Harvey LAB-first: it uses Harvey's official open-source harness and holds the multi-agent architecture fixed while varying the handoff representation. The earlier WorkBench-shaped fixtures remain useful technical smoke tests, but are not the paper's primary evidence.",
+   "id": "d86e9669",
+   "hash": "e6e63b5a07f0"
+  },
+  {
+   "type": "heading",
+   "text": "## The research question",
+   "id": "13a7e0d8",
+   "hash": "005d1b935877"
+  },
+  {
+   "type": "para",
+   "text": "Under a fixed long-horizon, centralized multi-agent legal workflow, does a portable Proofpress provenance lineage improve trusted task completion, recovery from intermediate work, and auditability compared with an ordinary handoff artifact or an unaudited version chain?",
+   "id": "efb84a51",
+   "hash": "ca3317980053"
+  },
+  {
+   "type": "para",
+   "text": "The study is deliberately not a claim that more context is better. It tests whether agents can carry less undifferentiated history while preserving the authority, source status, rationale, and acceptance state of prior decisions.",
+   "id": "51799240",
+   "hash": "5fc3b70fe3f4"
+  },
+  {
+   "type": "heading",
+   "text": "## Scope and comparison",
+   "id": "2873d37b",
+   "hash": "4e91fd527af3"
+  },
+  {
+   "type": "para",
+   "text": "The execution runtime is [Harvey LAB](https://github.com/harveyai/harvey-labs) v1.0's own harness. It supplies the task workspace, tool protocol, model adapters, sandbox boundary, and benchmark rubric. The planned architecture is one centralized orchestrator coordinating three specialist stages—evidence, decision register, and drafting—then accepting or requesting a revision. Each completed stage emits a real work artifact, so a task has an explicit chain `V0 → V1 → V2 → V3 → V4`, rather than a single artificial two-agent handoff.",
+   "id": "1030b33f",
+   "hash": "33c85b6b03c6"
+  },
+  {
+   "type": "para",
+   "text": "The primary arms are:",
+   "id": "48aa7881",
+   "hash": "175a73127871"
   },
   {
    "type": "list",
-   "text": "- `EpisodeSpec` and `RunRecord` schemas with upstream revision/license metadata.\n- Five arms: `final`, token-matched `memory`, `raw`, `proofpress`, and `proofpress-no-status`.\n- Deterministic package generation from one canonical episode history.\n- Fresh Codex or Claude CLI process per receiver run, with no web tools.\n- Resume-safe run records, hashes, deterministic provenance/task scoring, CSV/JSON/HTML reports, and Gate A/B pilot checks.\n- `gate-v1` has six local adapter-ready fixtures: four WorkBench-shaped enterprise workflows and two Harvey-shaped legal/finance review substrates.\n- `dataset prepare` writes pinned upstream manifests without downloading large repositories. This is deliberate on a low-disk machine and does not constitute an official upstream benchmark score.",
-   "id": "d1de937a",
-   "hash": "303d8e919558"
+   "text": "- `single-agent`: the original single-agent task path, budget-matched and run through the same Harvey harness.\n- `mas-artifact`: the fixed centralized multi-agent workflow; each successor sees only the predecessor's ordinary work artifact and a token-matched plain handoff summary.\n- `mas-version-chain`: the same workflow and the same version count, but earlier artifacts are stored as an unaudited chain with no source/status semantics.\n- `mas-proofpress-lineage`: the same workflow and version count, with a Proofpress capsule at each accepted checkpoint containing claims, source class, decision status, rationale, actors, rejection/reversal state, artifact hash, and verification state.",
+   "id": "27c19da2",
+   "hash": "84a9e0f5da0e"
+  },
+  {
+   "type": "para",
+   "text": "The causal contrast is `mas-proofpress-lineage` versus `mas-version-chain`. The single-agent and ordinary-artifact arms show whether multi-agent decomposition or mere access to history explains any result.",
+   "id": "146ef700",
+   "hash": "30c1f25ca234"
   },
   {
    "type": "heading",
-   "text": "## Run locally",
-   "id": "553c4e19",
-   "hash": "9e719a8704cf"
+   "text": "## What is here today",
+   "id": "949eb6a5",
+   "hash": "c7f8c0c9beb7"
   },
   {
-   "type": "code",
-   "text": "```bash\nexport PROOFPRESS_EVAL_HOME=/Users/richardtang/.cache/proofpress-eval\ncd /Users/richardtang/proofpress-dev/experiments/provenance_handoff\nuv sync --frozen\nuv run pp-eval doctor --suite gate-v1 --data-home \"$PROOFPRESS_EVAL_HOME\"\nuv run pp-eval dataset prepare --suite gate-v1 --data-home \"$PROOFPRESS_EVAL_HOME\" --max-download-mb 1200\n# Optional now that disk is available: sparse checkout pinned upstream substrates.\nuv run pp-eval dataset prepare --suite gate-v1 --data-home \"$PROOFPRESS_EVAL_HOME\" --max-download-mb 1200 --fetch-upstream\nuv run pp-eval build --suite smoke-v1 --data-home \"$PROOFPRESS_EVAL_HOME\"\nuv run pp-eval run --suite smoke-v1 --data-home \"$PROOFPRESS_EVAL_HOME\" --arms final,proofpress --runner codex --model gpt-5.6-terra --attempts 1 --concurrency 1\nuv run pp-eval grade --suite smoke-v1 --data-home \"$PROOFPRESS_EVAL_HOME\"\nuv run pp-eval report --suite smoke-v1 --data-home \"$PROOFPRESS_EVAL_HOME\"\n```",
-   "id": "482bd3f4",
-   "hash": "e88f0a84292f"
-  },
-  {
-   "type": "para",
-   "text": "For Gate A, use `--arms final,proofpress`; only after reviewing the Gate A report should Gate B add `memory,raw,proofpress-no-status` and use three attempts. `--concurrency` is accepted for experiment-config compatibility, but the first implementation runs sequentially to avoid CLI subscription contention.",
-   "id": "06b7383a",
-   "hash": "1af0cf154879"
-  },
-  {
-   "type": "para",
-   "text": "The first real upstream pilot is:",
-   "id": "0119f46f",
-   "hash": "b12fabaa74b6"
-  },
-  {
-   "type": "code",
-   "text": "```bash\nuv run pp-eval build --suite workbench-pilot-v1 --data-home \"$PROOFPRESS_EVAL_HOME\" --arms final,proofpress\nuv run pp-eval run --suite workbench-pilot-v1 --data-home \"$PROOFPRESS_EVAL_HOME\" --arms final,proofpress --runner codex --model gpt-5.6-terra --attempts 1 --concurrency 1\nuv run pp-eval grade --suite workbench-pilot-v1 --data-home \"$PROOFPRESS_EVAL_HOME\" --judge claude --model sonnet --blind --batch-rubrics\nuv run pp-eval report --suite workbench-pilot-v1 --data-home \"$PROOFPRESS_EVAL_HOME\"\n```",
-   "id": "7fa7716d",
-   "hash": "8923930cc24b"
+   "type": "list",
+   "text": "- `docs/RESEARCH_PLAN.md` — protocol, hypotheses, arms, model matrix, metrics, gates, and analysis plan.\n- `docs/ARCHITECTURE.md` — the fixed centralized workflow and the treatment boundary.\n- `docs/RUNBOOK.md` — the exact staged execution path and what is or is not implemented today.\n- `docs/ARA_PROOFPRESS.md` — ARA as research-management layer; Proofpress as independently verifiable artifact lineage.\n- `ara/` — an Agent-Native Research Artifact for this study. It contains hypotheses and decisions, not invented results.\n- `configs/*.template.yaml` — the freezeable workflow, model-roster, and gate contracts; placeholder model IDs are intentional until credentials and current provider IDs are verified.\n- `pp_eval/`, `suites/`, and `tests/` — the pre-existing lightweight mechanism runtime. It is retained for smoke tests and does not yet claim to execute the official Harvey harness treatment wrapper.",
+   "id": "c1ba01f6",
+   "hash": "8e2ac659f971"
   },
   {
    "type": "heading",
-   "text": "## Important interpretation limits",
-   "id": "8fbeace5",
-   "hash": "8cdb259da85e"
+   "text": "## ARA installation",
+   "id": "3b50a86f",
+   "hash": "8ba44b751699"
   },
   {
    "type": "para",
-   "text": "The current fixtures are mechanism gates. They exercise the data model, arms, isolation, recorder, and scorer while the machine has no container runtime. Before a paper claim, import the pinned WorkBench/Harvey task data through sparse adapters, run a fixed API model or containerized harness, and use the one-call-per-suite blinded batch rubric path. It intentionally does not spend one Claude call per criterion.",
-   "id": "6b82a306",
-   "hash": "8921f8f8d35b"
+   "text": "The official ARA source has been cloned at `third_party/ara-source` and its six local Codex skills were installed under `.codex/skills/`. Both locations are ignored by Git; their source URL, commit, installation command, and role are recorded in [ara/UPSTREAM.md](ara/UPSTREAM.md). ARA is the research-management layer only. Benchmark agents never receive its files, skills, or prompts.",
+   "id": "b9231698",
+   "hash": "b53a84e22894"
+  },
+  {
+   "type": "heading",
+   "text": "## Before any model run",
+   "id": "61817201",
+   "hash": "7eea770695d5"
+  },
+  {
+   "type": "para",
+   "text": "Review the protocol first. Gate 0 validates a pinned Harvey task and its harness without comparing arms. Gate 1 is a small two-model, two-task mechanism check. Only a reviewed Gate 1 can unlock the multi-model matrix. This prevents a ten-model sweep from turning an unresolved design question into a large, expensive, confounded run.",
+   "id": "1fa1b7ec",
+   "hash": "cc9bbd291962"
+  },
+  {
+   "type": "heading",
+   "text": "## Existing lightweight smoke runtime",
+   "id": "f0c71c2d",
+   "hash": "0c264b5b3db6"
+  },
+  {
+   "type": "para",
+   "text": "The existing `pp-eval` commands still work for local fixture validation:",
+   "id": "0c725a2a",
+   "hash": "7514b91a9fd0"
+  },
+  {
+   "type": "code",
+   "text": "```bash\nexport PROOFPRESS_EVAL_HOME=/Users/richardtang/.cache/proofpress-eval\ncd /Users/richardtang/proofpress-dev/experiments/provenance_handoff\nuv sync --frozen\nuv run pp-eval doctor --suite smoke-v1 --data-home \"$PROOFPRESS_EVAL_HOME\"\nuv run pp-eval build --suite smoke-v1 --data-home \"$PROOFPRESS_EVAL_HOME\"\nuv run pp-eval run --suite smoke-v1 --data-home \"$PROOFPRESS_EVAL_HOME\" --arms final,proofpress --runner codex --model gpt-5.6-terra --attempts 1 --concurrency 1\nuv run pp-eval grade --suite smoke-v1 --data-home \"$PROOFPRESS_EVAL_HOME\"\nuv run pp-eval report --suite smoke-v1 --data-home \"$PROOFPRESS_EVAL_HOME\"\n```",
+   "id": "bc21a929",
+   "hash": "e73ef42337ee"
+  },
+  {
+   "type": "para",
+   "text": "Those fixtures validate package construction, isolation, recording, and reports only. They are not a substitute for the Harvey-first study described in `docs/`.",
+   "id": "36223643",
+   "hash": "033e6320c439"
   }
  ]
 }
