@@ -1,29 +1,29 @@
 {
  "event": "version_created",
- "artifact": "ara/src/environment.md",
- "artifact_id": "pp_d4f0f4ca5617c9d0528dea8e",
- "version": "5e202753",
- "parent": "f771fb45",
+ "artifact": "ara/src/artifacts.md",
+ "artifact_id": "pp_291b3809bccf45f00ecbdf3e",
+ "version": "7155fbe2",
+ "parent": "df14f38d",
  "author": {
   "name": "Codex",
   "kind": "agent",
   "session": "provenance-handoff-plan-2026-08-06"
  },
  "note": null,
- "ts": "2026-08-06T08:34:43+00:00",
+ "ts": "2026-08-06T08:34:45+00:00",
  "stats": {
   "modified": 1
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "a84a1149",
-   "type": "list",
-   "context": "Environment"
+   "block": "1d77e0a6",
+   "type": "table",
+   "context": "Experiment artifact index"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:256732760c74b563fe613920e41725fed0b601e553785aedd9d3345666ea15e7",
+ "soft_fingerprint": "ppsb1:a00768ff298a84aba4e62943d7d214578175144683e365528c66f5839b6cee51",
  "actors": {
   "requested_by": [
    "Richard Tang"
@@ -41,7 +41,7 @@
  "attribution_basis": "environment_attested",
  "claims": [
   {
-   "block": "a84a1149",
+   "block": "1d77e0a6",
    "kind": "modified",
    "note": "User-approved experiment-design update."
   }
@@ -49,5 +49,5 @@
  "context": {
   "why": "Document the user-approved provenance-handoff experiment design: strong memory control, isolated mechanism diagnostic, homogeneous OpenRouter model teams, and staged execution gates."
  },
- "event_id": "ppe_f445b443001f4027f739c02d"
+ "event_id": "ppe_3f827e2dce1468b237f001d8"
 }
