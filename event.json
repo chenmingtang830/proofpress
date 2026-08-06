@@ -1,89 +1,29 @@
 {
  "event": "version_created",
- "artifact": "docs/RUNBOOK.md",
- "artifact_id": "pp_5a5be3541fb656ff12959b48",
- "version": "f5e948a5",
- "parent": "eb66a9a7",
+ "artifact": "ara/PAPER.md",
+ "artifact_id": "pp_cb6d0883f4bda071d2137869",
+ "version": "666066ef",
+ "parent": "a46ec6fa",
  "author": {
   "name": "Codex",
   "kind": "agent",
   "session": "provenance-handoff-plan-2026-08-06"
  },
  "note": null,
- "ts": "2026-08-06T08:34:30+00:00",
+ "ts": "2026-08-06T08:34:32+00:00",
  "stats": {
-  "modified": 11
+  "modified": 1
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "513837a8",
+   "block": "4b96e0aa",
    "type": "para",
-   "context": "Current boundary"
-  },
-  {
-   "kind": "modified",
-   "block": "2cfafc41",
-   "type": "para",
-   "context": "0. Review and freeze"
-  },
-  {
-   "kind": "modified",
-   "block": "4d311793",
-   "type": "para",
-   "context": "1. Isolated data home"
-  },
-  {
-   "kind": "modified",
-   "block": "af309dcb",
-   "type": "para",
-   "context": "3. Gate 0: official harness validation"
-  },
-  {
-   "kind": "modified",
-   "block": "493ed3dc",
-   "type": "para",
-   "context": "4. Implement the official-harness wrappe"
-  },
-  {
-   "kind": "modified",
-   "block": "e5d31059",
-   "type": "list",
-   "context": "4. Implement the official-harness wrappe"
-  },
-  {
-   "kind": "modified",
-   "block": "612e6e2c",
-   "type": "heading",
-   "context": "5. Gate 1a: isolated-handoff mechanism d"
-  },
-  {
-   "kind": "modified",
-   "block": "5dd3f763",
-   "type": "para",
-   "context": "5. Gate 1a: isolated-handoff mechanism d"
-  },
-  {
-   "kind": "modified",
-   "block": "7e7eb44e",
-   "type": "para",
-   "context": "5. Gate 1a: isolated-handoff mechanism d"
-  },
-  {
-   "kind": "modified",
-   "block": "97f97430",
-   "type": "heading",
-   "context": "6. Gate 1b, fixed-model matrix, and robu"
-  },
-  {
-   "kind": "modified",
-   "block": "9645d311",
-   "type": "para",
-   "context": "6. Gate 1b, fixed-model matrix, and robu"
+   "context": "Abstract (draft)"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:0180c02497da768938ab6784dbc2f60ea48444e5a77df0a84838412bffcaa5ff",
+ "soft_fingerprint": "ppsb1:7d5329d76cd7eb8b75afce4d710469a102525d7293a02933b8007d57196cd509",
  "actors": {
   "requested_by": [
    "Richard Tang"
@@ -101,57 +41,7 @@
  "attribution_basis": "environment_attested",
  "claims": [
   {
-   "block": "513837a8",
-   "kind": "modified",
-   "note": "User-approved experiment-design update."
-  },
-  {
-   "block": "2cfafc41",
-   "kind": "modified",
-   "note": "User-approved experiment-design update."
-  },
-  {
-   "block": "4d311793",
-   "kind": "modified",
-   "note": "User-approved experiment-design update."
-  },
-  {
-   "block": "af309dcb",
-   "kind": "modified",
-   "note": "User-approved experiment-design update."
-  },
-  {
-   "block": "493ed3dc",
-   "kind": "modified",
-   "note": "User-approved experiment-design update."
-  },
-  {
-   "block": "e5d31059",
-   "kind": "modified",
-   "note": "User-approved experiment-design update."
-  },
-  {
-   "block": "612e6e2c",
-   "kind": "modified",
-   "note": "User-approved experiment-design update."
-  },
-  {
-   "block": "5dd3f763",
-   "kind": "modified",
-   "note": "User-approved experiment-design update."
-  },
-  {
-   "block": "7e7eb44e",
-   "kind": "modified",
-   "note": "User-approved experiment-design update."
-  },
-  {
-   "block": "97f97430",
-   "kind": "modified",
-   "note": "User-approved experiment-design update."
-  },
-  {
-   "block": "9645d311",
+   "block": "4b96e0aa",
    "kind": "modified",
    "note": "User-approved experiment-design update."
   }
@@ -159,5 +49,5 @@
  "context": {
   "why": "Document the user-approved provenance-handoff experiment design: strong memory control, isolated mechanism diagnostic, homogeneous OpenRouter model teams, and staged execution gates."
  },
- "event_id": "ppe_a4af80380ce6d59fec44f637"
+ "event_id": "ppe_a364e66e5648c99494fb79d1"
 }
