@@ -1,24 +1,234 @@
 {
- "artifact": "ara/src/artifacts.md",
- "artifact_id": "pp_291b3809bccf45f00ecbdf3e",
+ "artifact": "docs/EXECUTION_PLAN.md",
+ "artifact_id": "pp_120f0f61aa69ad67431b9659",
  "blocks": [
   {
    "type": "heading",
-   "text": "# Experiment artifact index",
-   "id": "22426eb6",
-   "hash": "2fcf38b2db2b"
+   "text": "# Execution Plan: Harvey-First Provenance Lineage Study",
+   "id": "3beda344",
+   "hash": "6b6b50fcb365"
   },
   {
-   "type": "table",
-   "text": "| Artifact | Role | Status |\n|---|---|---|\n| `README.md` | entry point and review boundary | updated for Harvey-first study |\n| `docs/RESEARCH_PLAN.md` | preregistration-style protocol | draft for review |\n| `docs/ARCHITECTURE.md` | workflow/treatment specification | draft for review |\n| `docs/EXECUTION_PLAN.md` | staged implementation, model transport, and gate sequence | draft for review |\n| `docs/RESULTS_MATRIX.md` | result matrices and interpretation rules | draft for review |\n| `docs/RUNBOOK.md` | operational prerequisites | draft for review |\n| `docs/ARA_PROOFPRESS.md` | layer-boundary explanation | draft for review |\n| `configs/*.template.yaml` | freezeable workflow, model, gate, and OpenRouter transport contracts | placeholders pending review/access check |\n| `pp_eval/models.py`, `pp_eval/arms.py`, `pp_eval/suite.py` | existing lightweight mechanism runtime | retained; Harvey wrapper pending |\n| `pp_eval/datasets.py` | upstream pins and sparse substrate preparation | existing |\n| `suites/*.json` | local technical fixtures | retained; not primary paper data |\n| `tests/test_eval.py` | existing mechanism runtime tests | retained |",
-   "id": "1d77e0a6",
-   "hash": "bdd1ecb391e5"
+   "type": "heading",
+   "text": "## Review state",
+   "id": "6743bd05",
+   "hash": "37f70bcbd882"
   },
   {
    "type": "para",
-   "text": "The official Harvey multi-agent wrapper, frozen model configurations, and sanitized results manifests are pending implementation after protocol review.",
-   "id": "9136fe62",
-   "hash": "744353b5edec"
+   "text": "Draft for user review. No Harvey treatment wrapper, OpenRouter benchmark request, or empirical model run has been started from this plan.",
+   "id": "1d585184",
+   "hash": "a74a95b90901"
+  },
+  {
+   "type": "heading",
+   "text": "## Purpose and execution boundary",
+   "id": "12bb5436",
+   "hash": "0d66cc691c4b"
+  },
+  {
+   "type": "para",
+   "text": "This plan turns the protocol into a reviewable sequence. It does not authorize model spending merely because the repository is configured. No empirical result exists until a frozen slice has completed, been scored, and been audited.",
+   "id": "e54d6ee8",
+   "hash": "d94b0a8734d8"
+  },
+  {
+   "type": "para",
+   "text": "The study keeps the Harvey LAB task/scoring harness fixed. It changes only what a fresh downstream role can recover from the preceding work: no history, ordinary memory, ordinary memory plus files, or Proofpress lineage. ARA manages the paper's reasoning and evidence; it is never mounted into a benchmark-agent workspace.",
+   "id": "f62ad8be",
+   "hash": "1267f98330a1"
+  },
+  {
+   "type": "heading",
+   "text": "## The three study modes",
+   "id": "e4382b4f",
+   "hash": "3161b1bc0ef0"
+  },
+  {
+   "type": "code",
+   "text": "```mermaid\nflowchart LR\n  D[\"0. Adapter doctor\\nNo treatment claim\"] --> I[\"1a. Isolated handoff\\nSame upstream checkpoint\"]\n  I --> E[\"1b. End-to-end gate\\nV0 → V4 workflow\"]\n  E --> M[\"2. Fixed-model matrix\\nFive arms\"]\n  M --> S[\"3. Model sweep\\nMemory vs Proofpress\"]\n  I -->|\"stop / revise\"| X[\"No scale\"]\n  E -->|\"stop / revise\"| X\n```",
+   "id": "4b9c9552",
+   "hash": "5986be4a3146"
+  },
+  {
+   "type": "table",
+   "text": "| Mode | What is held equal | What varies | Why it exists |\n|---|---|---|---|\n| 0: adapter doctor | one pinned task, official task semantics and scorer | no treatment | proves that the runtime record is viable, not that Proofpress helps |\n| 1a: isolated handoff | upstream checkpoint, workspace, role instruction, model, tools | ordinary memory versus Proofpress representation | cleanly tests a single receiver's recovery and trust behavior |\n| 1b: end-to-end gate | task, workflow, model team, role prompts, tools and caps | ordinary memory versus Proofpress at every edge | tests whether any mechanism survives cumulative multi-agent work |\n| 2: fixed-model matrix | the same as 1b within one M0 model team | all five arms | separates decomposition, memory, raw history, and typed lineage |\n| 3: model sweep | Harvey harness, task slice, homogeneous-team rule | M0 model team and two primary arms | tests a bounded model-by-treatment interaction |",
+   "id": "574f6ebb",
+   "hash": "f4bb9bb6f449"
+  },
+  {
+   "type": "heading",
+   "text": "## Fixed system contract",
+   "id": "8439e386",
+   "hash": "645cb3b434cf"
+  },
+  {
+   "type": "para",
+   "text": "Each end-to-end workflow contains five model calls: planning orchestrator (`V0`), evidence (`V1`), decision (`V2`), drafting (`V3`), and review orchestrator (`V4`). The planning and review instances are the same orchestrator role in two fresh sessions. The handoff materializer is deterministic code, never another agent.",
+   "id": "9e5893a0",
+   "hash": "3be96cabbf3f"
+  },
+  {
+   "type": "para",
+   "text": "Within any workflow run, all five calls use one exact **homogeneous model team**: same concrete model slug, provider policy, reasoning effort (`high`), temperature, tool policy, and model-adapter version. This avoids a coordinator/worker model mix becoming an accidental treatment. Proofpress verification and materialization never call a model.",
+   "id": "a617c9a5",
+   "hash": "191c638cad50"
+  },
+  {
+   "type": "heading",
+   "text": "## Arms to freeze",
+   "id": "f3c9a37c",
+   "hash": "e4e4bdd7c4c0"
+  },
+  {
+   "type": "table",
+   "text": "| Arm | Receiver-visible handoff material | Question it answers |\n|---|---|---|\n| `single-agent` | original task workspace only | whether the chosen decomposition is itself worthwhile |\n| `mas-artifact` | latest artifact only | value of any handoff state beyond the output artifact |\n| `mas-memory` | latest artifact + plain `memory.md` + `handoff.log` | primary ordinary-memory control |\n| `mas-memory-chain` | `mas-memory` + browseable `history/V0…Vn` files | verified compact lineage versus raw file history |\n| `mas-proofpress-lineage` | latest artifact + token-matched portable verified Proofpress lineage | typed admitted provenance effect |",
+   "id": "17d5429d",
+   "hash": "a173e0913218"
+  },
+  {
+   "type": "para",
+   "text": "`mas-memory` must be good faith, not a strawman. It may state decisions, rationale, caveats, next actions, and unanswered questions in ordinary prose. It must not encode typed source classes, decision or acceptance status fields, approval authority, cryptographic hashes/signatures, verified capsule identifiers, or a hidden instruction to trust an earlier agent. `mas-memory-chain` uses the exact same memory/log plus normal historical files.",
+   "id": "bc4f867e",
+   "hash": "84ad8765e1b0"
+  },
+  {
+   "type": "para",
+   "text": "For all paired handoff comparisons, visible material must be token-matched within 5%. The underlying source workspace remains equally accessible according to the Harvey task rules.",
+   "id": "94075229",
+   "hash": "9e1d44035ea4"
+  },
+  {
+   "type": "heading",
+   "text": "## Implementation work before any comparison",
+   "id": "a9d6d3f6",
+   "hash": "81c8c3a5229d"
+  },
+  {
+   "type": "list",
+   "text": "1. **Pin and record Harvey.** Clone tag `v1.0`, detach at `1da4750171bc5a534960b3d82d15ba7fd2cf653f`, record task IDs, license, task-file hashes, harness revision, and score command.\n2. **Add model transport.** Implement an OpenRouter adapter at the Harvey model boundary. It accepts only concrete slugs, passes the exact tool schema, and records request/response metadata.\n3. **Implement the materializer.** From a canonical checkpoint history, deterministically generate the five arms. The isolated mode must reproduce byte-identical upstream artifacts across arms. The end-to-end mode starts identical but allows later outputs to diverge.\n4. **Implement provenance checks.** Verify Proofpress lineage before exposure; record stripped or tampered capsules as invalid treatment inputs, never silently repair them.\n5. **Implement scoring and recording.** Preserve the official Harvey scorer and add deterministic checks for decision regression, unsupported authority upgrade, correct reversal, false block, input/output tokens, wall time, tool calls, history reads, resolved model/provider, and artifact hashes.\n6. **Add contract tests.** Test token matching, no treatment labels in prompts, fresh sessions, immutable public inputs, resume safety, arm-blind grading inputs, and reversal variants.\n7. **Generate a review package.** Store only manifests, hashes, configs, aggregate tables, and license-permitted sanitized examples in Git. Store source documents, raw traces, and credentials under `PROOFPRESS_EVAL_HOME`.",
+   "id": "386d8701",
+   "hash": "a9c4c7e92410"
+  },
+  {
+   "type": "heading",
+   "text": "## OpenRouter freeze contract",
+   "id": "ad972abc",
+   "hash": "fbb0f62ef3b4"
+  },
+  {
+   "type": "para",
+   "text": "The adapter uses the OpenRouter API only as model transport; it is not a second task harness. Every frozen model slice must contain:",
+   "id": "72ba0aad",
+   "hash": "8e4d34ff45e3"
+  },
+  {
+   "type": "list",
+   "text": "- a concrete model slug—never `openrouter/auto` and never a `~latest` alias;\n- `allow_fallbacks: false`, a recorded provider preference/order, and `require_parameters: true`;\n- fixed `reasoning_effort: high`, temperature, tool settings, timeout, and retry policy;\n- request model slug plus resolved model/provider/router metadata, token usage, cost estimate, and adapter commit;\n- independent attempts rather than a shared seed claim when the model does not support seeds.",
+   "id": "fa2c5953",
+   "hash": "48757e28b70d"
+  },
+  {
+   "type": "para",
+   "text": "The candidate roster is intentionally broad but not yet frozen: `anthropic/claude-opus-5`, `openai/gpt-5.6-sol`, `anthropic/claude-sonnet-5`, `x-ai/grok-4.5`, `moonshotai/kimi-k3`, `z-ai/glm-5.2`, `deepseek/deepseek-v4-flash-0731`, `qwen/qwen3.8-max`, and `meta/muse-spark-1.2`. At start, choose an accessible M0 reference team from the frozen roster; expensive models such as Opus are confirmation candidates, not a default for every early workflow.",
+   "id": "855ce8eb",
+   "hash": "8c8692d10dbc"
+  },
+  {
+   "type": "heading",
+   "text": "## Gate sequence and exact counts",
+   "id": "7121b57e",
+   "hash": "a3a8dac66ade"
+  },
+  {
+   "type": "table",
+   "text": "| Gate | Pre-frozen design | Count | Proceed only if |\n|---|---|---:|---|\n| 0 | 1–2 task executions, one accessible model, no arm comparison | 1–2 runs | official score runs and records are complete without task/scorer semantic changes |\n| 1a | 2 tasks × 2 boundaries (`V1→V2`, `V2→V3`) × 2 arms (`memory`, `Proofpress`) × 3 attempts | 24 receiver calls | ordinary memory exhibits recoverable target errors; no systematic capsule/materializer failure; directional benefit without clear reversal harm |\n| 1b | 2 tasks × 2 arms × 3 attempts; V0–V4, no revision | 12 workflows / 60 model calls maximum | trusted-success direction is favorable and operational behavior remains stable |\n| 2 | 6 tasks × 5 arms × 5 attempts; one M0 team | 150 workflows | Gate 1 reviewed; practical threshold and cost ceiling frozen before launch |\n| 3 | up to 10 model teams × 2 arms × 3–4 tasks × 3 attempts | ≤240 workflows | fixed-M0 mechanism is interpretable; per-team cost and availability reviewed |",
+   "id": "1f0678aa",
+   "hash": "b8559c94fe7c"
+  },
+  {
+   "type": "para",
+   "text": "The Gate 2 count is a maximum study design, not a request to launch 150 workflows at once. Launch by task block, review the completed immutable records, then resume the frozen config only if the operational stop conditions have not fired.",
+   "id": "590ee263",
+   "hash": "cf8b47204a1f"
+  },
+  {
+   "type": "heading",
+   "text": "## Freeze checklist",
+   "id": "9c8c2698",
+   "hash": "3e11f2d5de5e"
+  },
+  {
+   "type": "para",
+   "text": "Before a gate begins, create `configs/frozen/YYYY-MM-DD-<gate>-<slug>/` with immutable copies of:",
+   "id": "6c9081fe",
+   "hash": "b21d605c5101"
+  },
+  {
+   "type": "list",
+   "text": "- task IDs, licenses, source/task manifests, and hashes;\n- role prompts, output schemas, workflow version, and declared revision cap;\n- arm materializer version, expected visible-token budgets, and Proofpress verifier version;\n- OpenRouter model/provider settings, effort, temperature, retry/timeout policy, and pricing snapshot;\n- scorer version, blind-audit rubric, randomization/attempt order, and stop conditions.",
+   "id": "0405cffd",
+   "hash": "b02909b0696c"
+  },
+  {
+   "type": "para",
+   "text": "Freeze does not include secrets. `OPENROUTER_API_KEY` stays in a local environment or keychain and is never written to a run record.",
+   "id": "cf920a25",
+   "hash": "a30ca6bbfa26"
+  },
+  {
+   "type": "heading",
+   "text": "## What each run records",
+   "id": "51803251",
+   "hash": "d9ada326a211"
+  },
+  {
+   "type": "para",
+   "text": "`RunRecord` must include `run_id`, task/attempt/arm, gate/frozen-config ID, workflow stage, input and output hashes, runner and adapter commits, requested/resolved model/provider, timestamps, token/tool/cost/latency usage, exit and rate-limit state, official and provenance scores, and links to external raw trace locations. A failed or timed-out run is a result-bearing operational event; resume may not overwrite it.",
+   "id": "4e78c8b3",
+   "hash": "b47c72b808fd"
+  },
+  {
+   "type": "heading",
+   "text": "## Decision and reporting rules",
+   "id": "3e21a59b",
+   "hash": "2652d52bf263"
+  },
+  {
+   "type": "para",
+   "text": "The primary endpoint is `trusted_task_success`: official task success plus no decision regression or unsupported authority upgrade, and correct handling of a justified reversal when applicable. The primary comparison is Proofpress versus ordinary memory. Proofpress versus memory-chain is a compact verified-lineage versus raw-file-history comparison.",
+   "id": "cab94d5b",
+   "hash": "3e672daf7c97"
+  },
+  {
+   "type": "para",
+   "text": "Gate review should inspect per-task and per-model outcomes before aggregates. Report quality, trust, tokens, latency, cost, tool calls, and history reads together. Use blinded provenance review for at least 20% of samples and report Cohen's kappa; do not promote an unvalidated judge to ground truth. If the memory control never makes the predicted kind of error, stop rather than scaling a story with no mechanism to explain.",
+   "id": "d49c5c2a",
+   "hash": "b568325f9ca9"
+  },
+  {
+   "type": "heading",
+   "text": "## Execution order for the operator",
+   "id": "fb7a66e6",
+   "hash": "bb0dd8ce0b3a"
+  },
+  {
+   "type": "list",
+   "text": "1. Run the local doctor and the pinned Harvey setup check.\n2. Review and freeze Gate 0 configuration; run it and package its records.\n3. Implement and unit-test the adapter/materializer/scorer changes; review an arm-blind example package.\n4. Freeze and run Gate 1a. Review the 24 receiver-only calls before any end-to-end spend.\n5. Freeze and run Gate 1b. Make a written stop/proceed decision in ARA and Proofpress-snapshot the accepted research artifact.\n6. If proceeding, freeze M0 and run the fixed-model matrix in reviewed batches.\n7. Only after that result is interpretable, run the two-arm model sweep and write the bounded cross-model conclusion.",
+   "id": "aa49c13e",
+   "hash": "fde288fbc170"
+  },
+  {
+   "type": "heading",
+   "text": "## References",
+   "id": "ca5c9aa9",
+   "hash": "3f17be8543bd"
+  },
+  {
+   "type": "list",
+   "text": "- [OpenRouter provider routing](https://openrouter.ai/docs/guides/routing/provider-selection)\n- [OpenRouter latest-version resolution](https://openrouter.ai/docs/guides/routing/routers/latest-resolution)\n- [OpenRouter model metadata](https://openrouter.ai/api/v1/models)\n- [Harvey LAB v1.0 architecture](https://github.com/harveyai/harvey-labs/blob/v1.0/docs/architecture.md)",
+   "id": "1336f9dd",
+   "hash": "142a6f7cdfd5"
   }
  ]
 }

@@ -1,29 +1,37 @@
 {
  "event": "version_created",
- "artifact": "ara/src/artifacts.md",
- "artifact_id": "pp_291b3809bccf45f00ecbdf3e",
- "version": "7155fbe2",
- "parent": "df14f38d",
+ "artifact": "docs/EXECUTION_PLAN.md",
+ "artifact_id": "pp_120f0f61aa69ad67431b9659",
+ "version": "72e8bccf",
+ "parent": "0e168bd7",
  "author": {
   "name": "Codex",
   "kind": "agent",
   "session": "provenance-handoff-plan-2026-08-06"
  },
  "note": null,
- "ts": "2026-08-06T08:34:45+00:00",
+ "ts": "2026-08-06T08:36:01+00:00",
  "stats": {
-  "modified": 1
+  "added": 2
  },
  "changes": [
   {
-   "kind": "modified",
-   "block": "1d77e0a6",
-   "type": "table",
-   "context": "Experiment artifact index"
+   "kind": "added",
+   "block": "6743bd05",
+   "type": "heading",
+   "context": "Review state",
+   "preview": "## Review state"
+  },
+  {
+   "kind": "added",
+   "block": "1d585184",
+   "type": "para",
+   "context": "Review state",
+   "preview": "Draft for user review. No Harvey treatment wrapper, OpenRout"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:a00768ff298a84aba4e62943d7d214578175144683e365528c66f5839b6cee51",
+ "soft_fingerprint": "ppsb1:f6e2e4e0412bc77d69ad69b3fa23208e63834a407290325728b09ad9f0303b8c",
  "actors": {
   "requested_by": [
    "Richard Tang"
@@ -41,13 +49,18 @@
  "attribution_basis": "environment_attested",
  "claims": [
   {
-   "block": "1d77e0a6",
-   "kind": "modified",
-   "note": "User-approved experiment-design update."
+   "block": "6743bd05",
+   "kind": "added",
+   "note": "Created as a reviewable planned-result artifact; no empirical value."
+  },
+  {
+   "block": "1d585184",
+   "kind": "added",
+   "note": "Created as a reviewable planned-result artifact; no empirical value."
   }
  ],
  "context": {
-  "why": "Document the user-approved provenance-handoff experiment design: strong memory control, isolated mechanism diagnostic, homogeneous OpenRouter model teams, and staged execution gates."
+  "why": "Create a reviewable execution/results artifact for the user-approved Harvey-first provenance-handoff study; no empirical result is recorded."
  },
- "event_id": "ppe_3f827e2dce1468b237f001d8"
+ "event_id": "ppe_df01f40530b0bc97083cdcfa"
 }
