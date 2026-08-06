@@ -1,96 +1,60 @@
 {
- "artifact": "ara/logic/concepts.md",
- "artifact_id": "pp_e833a86ea89426121ab55437",
+ "artifact": "ara/logic/experiments.md",
+ "artifact_id": "pp_15fb7a0bcf0891f7cee01068",
  "blocks": [
   {
    "type": "heading",
-   "text": "# Concepts",
-   "id": "a7d8f041",
-   "hash": "187fcbf455d1"
+   "text": "# Experiments",
+   "id": "68361165",
+   "hash": "58b2a1c3f41e"
   },
   {
    "type": "heading",
-   "text": "## K01: Trusted task success",
-   "id": "64be4783",
-   "hash": "80c042002636"
+   "text": "## E01: Official Harvey and OpenRouter runtime validation",
+   "id": "4392bdd3",
+   "hash": "2b7b0fd2a322"
   },
   {
-   "type": "para",
-   "text": "An outcome that satisfies the fixed Harvey task score and contains no defined decision regression or unsupported authority upgrade; where a reversal condition exists, it must also handle that condition correctly.",
-   "id": "8f6c2cc4",
-   "hash": "fb540b2aab33"
-  },
-  {
-   "type": "heading",
-   "text": "## K02: Version chain",
-   "id": "459ab317",
-   "hash": "70aea8e7255d"
-  },
-  {
-   "type": "para",
-   "text": "Browseable intermediate artifact versions with no typed claim, source-status, acceptance, or verification semantics.",
-   "id": "fd826d86",
-   "hash": "6f899f01546a"
+   "type": "list",
+   "text": "- **Question**: Can the pinned v1.0 task and official scorer run without changing task semantics, while recording an explicit model transport configuration?\n- **Status**: planned\n- **Inputs**: one task from each initially selected family; one accessible frozen reference team; exact OpenRouter routing metadata if that transport is used.\n- **Outputs**: immutable environment/task manifest, sanitized result pointer, official score, token/latency record.\n- **Decision rule**: a setup failure is fixed before any treatment comparison; it is not scored as a provenance outcome.",
+   "id": "d94b548d",
+   "hash": "46295a526c15"
   },
   {
    "type": "heading",
-   "text": "## K03: Proofpress lineage",
-   "id": "f3efffe2",
-   "hash": "2912a252474b"
+   "text": "## E02: Isolated handoff mechanism diagnostic",
+   "id": "7095f47a",
+   "hash": "69017771f821"
   },
   {
-   "type": "para",
-   "text": "A portable chain of accepted checkpoint artifacts with explicit claims, source class, decision status, rationale, actors, rejection/reversal state, artifact hashes, and verification results.",
-   "id": "90549363",
-   "hash": "a3fde8a68d28"
-  },
-  {
-   "type": "heading",
-   "text": "## K04: Correct reversal",
-   "id": "0990e58d",
-   "hash": "1506a33ad264"
-  },
-  {
-   "type": "para",
-   "text": "A successor supersedes a prior accepted decision only when new admissible evidence or its recorded reversal condition supports the change, and records that relationship.",
-   "id": "6fed2b50",
-   "hash": "ef11115e45f4"
+   "type": "list",
+   "text": "- **Question**: Does Proofpress lineage change a fresh receiver's decision recovery against strong ordinary memory when upstream content is identical?\n- **Status**: planned\n- **Design**: 2 tasks × 2 critical boundaries × 2 paired arms (`mas-memory`, `mas-proofpress-lineage`) × 3 attempts = 24 receiver-only calls.\n- **Controls**: identical canonical upstream artifact/workspace hashes, fresh receiver session, visible token budget, frozen homogeneous model team, Harvey tools, and source workspace.\n- **Decision rule**: stop/revise before scale if controls contain no target recovery error, pair isolation fails, or the treatment causes systemic operational failure.",
+   "id": "018ec3e4",
+   "hash": "8d9cd1c7ba8d"
   },
   {
    "type": "heading",
-   "text": "## K05: Strong ordinary memory",
-   "id": "6715b9f4",
-   "hash": "c27860324ead"
+   "text": "## E03: End-to-end gate and fixed-model matrix",
+   "id": "cab7fd7c",
+   "hash": "cef9ff33b9a0"
   },
   {
-   "type": "para",
-   "text": "The latest artifact plus ordinary prose `memory.md` and `handoff.log` that may explain decisions, rationale, caveats, open questions, and next actions, but does not provide typed source/decision/acceptance semantics or independently verifiable admission state.",
-   "id": "51fa574d",
-   "hash": "78f4d39ab552"
-  },
-  {
-   "type": "heading",
-   "text": "## K06: Isolated handoff diagnostic",
-   "id": "885dce8e",
-   "hash": "c003edc33d34"
-  },
-  {
-   "type": "para",
-   "text": "A receiver-only comparison in which upstream checkpoint artifacts, public workspace, role prompt, model configuration, and token budget are frozen. Only the matched handoff representation varies. It measures receiver recovery, trust behavior, and recovery cost at one edge.",
-   "id": "80b0e242",
-   "hash": "903314776769"
+   "type": "list",
+   "text": "- **Question**: Does the isolated mechanism survive as a cumulative V0–V4 workflow effect, and is it attributable to provenance rather than decomposition, artifact-only handoff, ordinary memory, or raw file history?\n- **Status**: planned\n- **Design**: Gate 1b is 2 tasks × 2 arms × 3 attempts = 12 no-revision workflows. If it passes, run six frozen tasks × five arms × five attempts with one M0 homogeneous team; exact threshold freezes before execution.\n- **Outputs**: official score, trusted success, reversal measures, cost/tokens/latency/tool/history work, verified lineage integrity, and blind audits.",
+   "id": "c146ea63",
+   "hash": "93a749f15396"
   },
   {
    "type": "heading",
-   "text": "## K07: Homogeneous model team",
-   "id": "ba42f23b",
-   "hash": "5d4d19a4a691"
+   "text": "## E04: Cross-model robustness sweep",
+   "id": "df59a8f1",
+   "hash": "dde1a7f3cc2a"
   },
   {
-   "type": "para",
-   "text": "One exact model, provider-routing configuration, reasoning effort, temperature, tool policy, and adapter version used by planning orchestrator, evidence, decision, drafting, and review orchestrator within a workflow attempt.",
-   "id": "89113f3c",
-   "hash": "63944c9e9c55"
+   "type": "list",
+   "text": "- **Question**: Does the primary `mas-memory` versus `mas-proofpress-lineage` contrast replicate across accessible homogeneous model teams?\n- **Status**: planned\n- **Design**: up to ten model teams × two arms × 3–4 tasks × three attempts; maximum 240 workflows. Each team uses concrete OpenRouter slugs, no automatic fallback, and recorded provider resolution.\n- **Interpretation**: one-harness cross-model robustness only; no cross-harness generalization or model-leaderboard claim.",
+   "id": "6559b8b4",
+   "hash": "4a766004752c"
   }
  ]
 }

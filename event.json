@@ -1,65 +1,65 @@
 {
  "event": "version_created",
- "artifact": "ara/logic/concepts.md",
- "artifact_id": "pp_e833a86ea89426121ab55437",
- "version": "6bb4cb45",
- "parent": "eaa8ef2e",
+ "artifact": "ara/logic/experiments.md",
+ "artifact_id": "pp_15fb7a0bcf0891f7cee01068",
+ "version": "b2423f4d",
+ "parent": "2bfeca76",
  "author": {
   "name": "Codex",
   "kind": "agent",
   "session": "provenance-handoff-plan-2026-08-06"
  },
  "note": null,
- "ts": "2026-08-06T08:34:36+00:00",
+ "ts": "2026-08-06T08:34:38+00:00",
  "stats": {
-  "added": 6
+  "modified": 7
  },
  "changes": [
   {
-   "kind": "added",
-   "block": "6715b9f4",
+   "kind": "modified",
+   "block": "4392bdd3",
    "type": "heading",
-   "context": "K05: Strong ordinary memory",
-   "preview": "## K05: Strong ordinary memory"
+   "context": "E01: Official Harvey and OpenRouter runt"
   },
   {
-   "kind": "added",
-   "block": "51fa574d",
-   "type": "para",
-   "context": "K05: Strong ordinary memory",
-   "preview": "The latest artifact plus ordinary prose `memory.md` and `han"
+   "kind": "modified",
+   "block": "d94b548d",
+   "type": "list",
+   "context": "E01: Official Harvey and OpenRouter runt"
   },
   {
-   "kind": "added",
-   "block": "885dce8e",
+   "kind": "modified",
+   "block": "7095f47a",
    "type": "heading",
-   "context": "K06: Isolated handoff diagnostic",
-   "preview": "## K06: Isolated handoff diagnostic"
+   "context": "E02: Isolated handoff mechanism diagnost"
   },
   {
-   "kind": "added",
-   "block": "80b0e242",
-   "type": "para",
-   "context": "K06: Isolated handoff diagnostic",
-   "preview": "A receiver-only comparison in which upstream checkpoint arti"
+   "kind": "modified",
+   "block": "018ec3e4",
+   "type": "list",
+   "context": "E02: Isolated handoff mechanism diagnost"
   },
   {
-   "kind": "added",
-   "block": "ba42f23b",
+   "kind": "modified",
+   "block": "cab7fd7c",
    "type": "heading",
-   "context": "K07: Homogeneous model team",
-   "preview": "## K07: Homogeneous model team"
+   "context": "E03: End-to-end gate and fixed-model mat"
   },
   {
-   "kind": "added",
-   "block": "89113f3c",
-   "type": "para",
-   "context": "K07: Homogeneous model team",
-   "preview": "One exact model, provider-routing configuration, reasoning e"
+   "kind": "modified",
+   "block": "c146ea63",
+   "type": "list",
+   "context": "E03: End-to-end gate and fixed-model mat"
+  },
+  {
+   "kind": "modified",
+   "block": "6559b8b4",
+   "type": "list",
+   "context": "E04: Cross-model robustness sweep"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:82f9538a658d5f98e71cbd08f6f593b937cf0c8de96c6df1b6ed0287f0381e9b",
+ "soft_fingerprint": "ppsb1:9f87fcbdff400ed17bb94cdc0e3d941af5a7b1309a32ed8a6a743eb80eaf1f8a",
  "actors": {
   "requested_by": [
    "Richard Tang"
@@ -77,38 +77,43 @@
  "attribution_basis": "environment_attested",
  "claims": [
   {
-   "block": "6715b9f4",
-   "kind": "added",
+   "block": "4392bdd3",
+   "kind": "modified",
    "note": "User-approved experiment-design update."
   },
   {
-   "block": "51fa574d",
-   "kind": "added",
+   "block": "d94b548d",
+   "kind": "modified",
    "note": "User-approved experiment-design update."
   },
   {
-   "block": "885dce8e",
-   "kind": "added",
+   "block": "7095f47a",
+   "kind": "modified",
    "note": "User-approved experiment-design update."
   },
   {
-   "block": "80b0e242",
-   "kind": "added",
+   "block": "018ec3e4",
+   "kind": "modified",
    "note": "User-approved experiment-design update."
   },
   {
-   "block": "ba42f23b",
-   "kind": "added",
+   "block": "cab7fd7c",
+   "kind": "modified",
    "note": "User-approved experiment-design update."
   },
   {
-   "block": "89113f3c",
-   "kind": "added",
+   "block": "c146ea63",
+   "kind": "modified",
+   "note": "User-approved experiment-design update."
+  },
+  {
+   "block": "6559b8b4",
+   "kind": "modified",
    "note": "User-approved experiment-design update."
   }
  ],
  "context": {
   "why": "Document the user-approved provenance-handoff experiment design: strong memory control, isolated mechanism diagnostic, homogeneous OpenRouter model teams, and staged execution gates."
  },
- "event_id": "ppe_688e78ebdf8b929f96510444"
+ "event_id": "ppe_c0343089cec6b443a3d8e7ea"
 }
