@@ -1,29 +1,29 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/docs/RESULTS_MATRIX.md",
- "artifact_id": "pp_d40d46a12d4d493fcbc9c0e9",
- "version": "9ded0a70",
- "parent": "ea4002f4",
+ "artifact": "experiments/provenance_handoff/ara/logic/experiments.md",
+ "artifact_id": "pp_15fb7a0bcf0891f7cee01068",
+ "version": "46e64a3b",
+ "parent": "a74c96d1",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-07T22:32:27+00:00",
+ "ts": "2026-08-07T22:32:30+00:00",
  "stats": {
   "modified": 1
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "2cb9aa42",
-   "type": "para",
-   "context": "Accepted Matrix D: Gateway Harvey SAS fo"
+   "block": "0b9f8f55",
+   "type": "list",
+   "context": "E06: Gateway Harvey SAS qualification st"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:e1667db8939cdde94da23360869c38d96082874194b10498953276053d9bd983",
+ "soft_fingerprint": "ppsb1:9a9ab94a905cbcfa93a972e6da36d321fb16280e83e3442c7612b9ab1f4bff79",
  "actors": {
   "requested_by": [
    "richardtang"
@@ -41,9 +41,9 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "2cb9aa42",
+   "block": "0b9f8f55",
    "kind": "modified",
-   "note": "The current Gateway qualification record distinguishes the complementary Chat Completions and OpenResponses telemetry gaps and retains the no-formal-matrix gate.",
+   "note": "E06 now records the endpoint-level audit mismatch: Chat Completions has cost without routing metadata, while OpenResponses has exact routing metadata without usage.cost.",
    "evidence": [
     "transport slice event log",
     "transport-probe summaries"
@@ -51,7 +51,7 @@
   }
  ],
  "context": {
-  "why": "Refine the stopped Gateway qualification with endpoint-level telemetry evidence."
+  "why": "Record the endpoint-level telemetry mismatch that blocks the Harvey qualification."
  },
- "event_id": "ppe_a8ee0f39b426bb11876cc23e"
+ "event_id": "ppe_16cf41b9fe5a4e35df0c2163"
 }
