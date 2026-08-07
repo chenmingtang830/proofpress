@@ -1,65 +1,65 @@
 {
  "event": "version_created",
- "artifact": "docs/RESEARCH_PLAN.md",
- "artifact_id": "pp_00e96ce828caea19ac7221ae",
- "version": "f613dcac",
- "parent": "86712d2c",
+ "artifact": "docs/EXECUTION_PLAN.md",
+ "artifact_id": "pp_120f0f61aa69ad67431b9659",
+ "version": "66d3d0d5",
+ "parent": "1934b5f5",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-07T23:05:13+00:00",
+ "ts": "2026-08-07T23:05:16+00:00",
  "stats": {
   "modified": 7
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "37044759",
+   "block": "1d585184",
    "type": "para",
-   "context": "Decision in one sentence"
+   "context": "Review state"
   },
   {
    "kind": "modified",
-   "block": "6e8d4f21",
-   "type": "para",
-   "context": "Decision in one sentence"
+   "block": "4b9c9552",
+   "type": "code",
+   "context": "Study modes"
   },
   {
    "kind": "modified",
-   "block": "ca5c64c9",
+   "block": "574f6ebb",
    "type": "table",
-   "context": "Accepted next matrix: architecture and c"
+   "context": "Study modes"
   },
   {
    "kind": "modified",
-   "block": "395029b6",
-   "type": "para",
-   "context": "Accepted next matrix: architecture and c"
-  },
-  {
-   "kind": "modified",
-   "block": "743b9bd8",
+   "block": "17d5429d",
    "type": "table",
-   "context": "Model plan"
+   "context": "Arms to freeze"
   },
   {
    "kind": "modified",
-   "block": "7bcd9b4b",
+   "block": "1f0678aa",
+   "type": "table",
+   "context": "Gate sequence and exact counts"
+  },
+  {
+   "kind": "modified",
+   "block": "cab94d5b",
+   "type": "para",
+   "context": "Decision and reporting rules"
+  },
+  {
+   "kind": "modified",
+   "block": "aa49c13e",
    "type": "list",
-   "context": "Budgets, isolation, and fairness"
-  },
-  {
-   "kind": "modified",
-   "block": "ae5cc50e",
-   "type": "table",
-   "context": "Analysis and decision gates"
+   "context": "Execution order for the operator"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:06fc6ec34a80abc390f7abcc8793cdc61975d2112783bc45c90f9c0918c8088d",
+ "soft_fingerprint": "ppsb1:6624f48b9278720894afb7e0f56da923087b988217b626c2615e96ae78a79a40",
  "actors": {
   "requested_by": [
    "richardtang"
@@ -77,43 +77,43 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "37044759",
+   "block": "1d585184",
    "kind": "modified",
-   "note": "Defines B0 as the original one-shot baseline alongside the distinct C0 and C3 SAS conditions."
+   "note": "Updates execution status for the independent B0 baseline and SAS qualification slices."
   },
   {
-   "block": "6e8d4f21",
+   "block": "4b9c9552",
    "kind": "modified",
-   "note": "Records that B0 has its own Gateway result slice and cost guard."
+   "note": "Adds B0 to the execution flow while preserving B0 and SAS qualification separation."
   },
   {
-   "block": "ca5c64c9",
+   "block": "574f6ebb",
    "kind": "modified",
-   "note": "Adds B0 to the condition design table."
+   "note": "Documents B0 and the C0/C3 SAS modes."
   },
   {
-   "block": "395029b6",
+   "block": "17d5429d",
    "kind": "modified",
-   "note": "States the valid C0-B0, C3-C0, and mixed C3-B0 comparison interpretations."
+   "note": "Defines the B0 one-shot arm separately from C0 and C3."
   },
   {
-   "block": "743b9bd8",
+   "block": "1f0678aa",
    "kind": "modified",
-   "note": "Separates B0 baseline execution from C0/C3 transport qualification."
+   "note": "Adds the B0 isolated budgeted run and its non-pooled qualification boundary."
   },
   {
-   "block": "7bcd9b4b",
+   "block": "cab94d5b",
    "kind": "modified",
-   "note": "Records shared model, task, tool, and scorer contract across B0/C0/C3."
+   "note": "Records the permitted interpretation of each comparison."
   },
   {
-   "block": "ae5cc50e",
+   "block": "aa49c13e",
    "kind": "modified",
-   "note": "Adds the independent B0 qualification gate."
+   "note": "Updates operator steps for separate B0 and C0/C3 result roots."
   }
  ],
  "context": {
-  "why": "Record the isolated B0 Harvey one-shot baseline and the B0 C0 C3 estimand boundary."
+  "why": "Record isolated B0 execution and its separation from the C0 C3 qualification slice."
  },
- "event_id": "ppe_a1c3a9379fa3c47372b300ad"
+ "event_id": "ppe_ebf22c5b6743f2151b9a0743"
 }
