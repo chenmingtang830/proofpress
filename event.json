@@ -1,94 +1,62 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/docs/RESULTS_MATRIX.md",
- "artifact_id": "pp_d40d46a12d4d493fcbc9c0e9",
- "version": "e9e1a1dc",
- "parent": "c7300e03",
+ "artifact": "experiments/provenance_handoff/ara/logic/experiments.md",
+ "artifact_id": "pp_15fb7a0bcf0891f7cee01068",
+ "version": "cccb2f70",
+ "parent": "73740984",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-07T21:59:54+00:00",
+ "ts": "2026-08-07T21:59:57+00:00",
  "stats": {
-  "modified": 7,
-  "added": 4
+  "modified": 4,
+  "added": 2
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "f9ecf7b5",
-   "type": "para",
-   "context": "Review state"
-  },
-  {
-   "kind": "modified",
-   "block": "1d694b42",
+   "block": "4392bdd3",
    "type": "heading",
-   "context": "Archived Matrix C: native OpenRouter/Nov"
+   "context": "E01: Archived official Harvey and OpenRo"
   },
   {
    "kind": "modified",
-   "block": "87d39096",
-   "type": "para",
-   "context": "Archived Matrix C: native OpenRouter/Nov"
+   "block": "d94b548d",
+   "type": "list",
+   "context": "E01: Archived official Harvey and OpenRo"
   },
   {
    "kind": "modified",
-   "block": "11f988a8",
-   "type": "para",
-   "context": "Archived Matrix C: native OpenRouter/Nov"
-  },
-  {
-   "kind": "modified",
-   "block": "0df4e2b4",
-   "type": "para",
-   "context": "Archived Matrix C: native OpenRouter/Nov"
-  },
-  {
-   "kind": "added",
-   "block": "3d0f771a",
+   "block": "62ab94d5",
    "type": "heading",
-   "context": "Accepted Matrix D: Gateway Harvey SAS fo",
-   "preview": "## Accepted Matrix D: Gateway Harvey SAS follow-up"
-  },
-  {
-   "kind": "added",
-   "block": "2cb9aa42",
-   "type": "para",
-   "context": "Accepted Matrix D: Gateway Harvey SAS fo",
-   "preview": "The active matrix uses Vercel AI Gateway and the exact `deep"
-  },
-  {
-   "kind": "added",
-   "block": "75b9be1c",
-   "type": "table",
-   "context": "Accepted Matrix D: Gateway Harvey SAS fo",
-   "preview": "| Arm | Tasks | Attempts | Primary role |\n|---|---:|---:|---"
-  },
-  {
-   "kind": "added",
-   "block": "7e6f091b",
-   "type": "para",
-   "context": "Accepted Matrix D: Gateway Harvey SAS fo",
-   "preview": "The primary estimate is paired `C3 − C0`, reported by task a"
+   "context": "E04: Archived document-native OpenRouter"
   },
   {
    "kind": "modified",
-   "block": "afab3f3b",
-   "type": "para",
-   "context": "The result table that should appear in t"
+   "block": "b37d7d2c",
+   "type": "list",
+   "context": "E04: Archived document-native OpenRouter"
   },
   {
-   "kind": "modified",
-   "block": "17f95fa2",
-   "type": "table",
-   "context": "The result table that should appear in t"
+   "kind": "added",
+   "block": "7aa4e24f",
+   "type": "heading",
+   "context": "E06: Planned Gateway Harvey SAS lineage ",
+   "preview": "## E06: Planned Gateway Harvey SAS lineage slice"
+  },
+  {
+   "kind": "added",
+   "block": "0b9f8f55",
+   "type": "list",
+   "context": "E06: Planned Gateway Harvey SAS lineage ",
+   "preview": "- **Question**: Under identical Harvey SAS task flow and bud"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:7713828fe98560bc6e0c9f1c890f2bb978989bd495c5a1931607118a286eb76c",
+ "soft_fingerprint": "ppsb1:0310418bca4b80dadb606220368254b23e2ecb56baa39313390b0e9a31e62a57",
  "actors": {
   "requested_by": [
    "Richard Tang"
@@ -106,58 +74,38 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "f9ecf7b5",
+   "block": "4392bdd3",
    "kind": "modified",
-   "note": "Archived old transport records and set new matrix."
+   "note": "Marked E01 as archived transport validation."
   },
   {
-   "block": "1d694b42",
+   "block": "d94b548d",
    "kind": "modified",
-   "note": "Relabeled old incomplete matrix as archived."
+   "note": "Marked E01 inactive."
   },
   {
-   "block": "11f988a8",
+   "block": "62ab94d5",
    "kind": "modified",
-   "note": "Clarified historic incomplete route evidence."
+   "note": "Marked E04 archived OpenRouter/Novita slice."
   },
   {
-   "block": "0df4e2b4",
+   "block": "b37d7d2c",
    "kind": "modified",
-   "note": "Removed historic matrix as active guidance."
+   "note": "Preserved old records while preventing reuse as new estimate."
   },
   {
-   "block": "3d0f771a",
+   "block": "7aa4e24f",
    "kind": "added",
-   "note": "Added Gateway Harvey C0/C3 matrix section."
+   "note": "Added planned Gateway Harvey SAS experiment."
   },
   {
-   "block": "2cb9aa42",
+   "block": "0b9f8f55",
    "kind": "added",
-   "note": "Defined qualification and 12-workflow formal design."
-  },
-  {
-   "block": "75b9be1c",
-   "kind": "added",
-   "note": "Added active arm table."
-  },
-  {
-   "block": "7e6f091b",
-   "kind": "added",
-   "note": "Added telemetry and independent benchmark reporting rule."
-  },
-  {
-   "block": "afab3f3b",
-   "kind": "modified",
-   "note": "Updated paper table framing."
-  },
-  {
-   "block": "17f95fa2",
-   "kind": "modified",
-   "note": "Updated paper table columns and arms."
+   "note": "Added design, telemetry, ARA/Proofpress boundary, and benchmark gates."
   }
  ],
  "context": {
-  "why": "Archive incomplete historical matrix and define the fixed 0731 Gateway Harvey C0/C3 matrix."
+  "why": "Archive legacy transport slices and add the planned Gateway Harvey SAS lineage experiment."
  },
- "event_id": "ppe_8302e4b57418dd43285d1145"
+ "event_id": "ppe_cdf00ac04bfaad232b94d6f0"
 }
