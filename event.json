@@ -1,29 +1,29 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/ara/logic/related_work.md",
- "artifact_id": "pp_aeef744ab46114892229ebab",
- "version": "6a8bb363",
- "parent": "1a4fdfc3",
+ "artifact": "experiments/provenance_handoff/ara/logic/experiments.md",
+ "artifact_id": "pp_15fb7a0bcf0891f7cee01068",
+ "version": "69e19b2c",
+ "parent": "1b5954a1",
  "author": {
-  "name": "unknown",
-  "kind": "human",
+  "name": "codex",
+  "kind": "agent",
   "session": null
  },
  "note": null,
- "ts": "2026-08-07T09:52:18+00:00",
+ "ts": "2026-08-07T10:31:59+00:00",
  "stats": {
   "modified": 1
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "9b6cacb9",
-   "type": "para",
-   "context": "R02: Scaling agent systems"
+   "block": "b37d7d2c",
+   "type": "list",
+   "context": "E04: Accepted document-native DeepSeek m"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:cef6dc6d4c1a7ca1e4df1c49e567c1e36b21d68c5a6e14e8454409ea9a80051c",
+ "soft_fingerprint": "ppsb1:b994977d0e76d6156e17109ac5f7061b94801bdabbf760659e52085febf5b6df",
  "actors": {
   "requested_by": [
    "Richard Tang"
@@ -38,16 +38,16 @@
    "Codex"
   ]
  },
- "attribution_basis": "environment_attested",
+ "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "9b6cacb9",
+   "block": "b37d7d2c",
    "kind": "modified",
-   "note": "Linked Google architecture evidence to parallel M&A pilot and SAS reference."
+   "note": "Recorded the 2026-08-07 Phase 1 execution boundary: no valid workflow score was produced because the frozen DeepInfra route was first misparameterized and then stalled on long-context generation; archived these as transport/configuration failures rather than model outcomes."
   }
  ],
  "context": {
-  "why": "Recorded the user-approved C0/C1/C2 artifact-native Proofpress experiment design and its budget-neutral parallel-MAS controls."
+  "why": "Record the first real execution boundary of the accepted native DeepSeek matrix: the requested DeepInfra/fp4 route produced no valid workflow because of one corrected endpoint-parameter rejection followed by repeated long-context stalls. Preserve these as transport/configuration failures, not quality outcomes, and pause before changing the frozen provider route."
  },
- "event_id": "ppe_a225adec035ad67b67ad6478"
+ "event_id": "ppe_36e391741ba428550959187d"
 }
