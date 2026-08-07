@@ -1,65 +1,65 @@
 {
  "event": "version_created",
- "artifact": "docs/internal/experiments/PROVENANCE_HANDOFF_EVALUATION_PLAN.md",
- "artifact_id": "pp_dfeff80ca8348068acae1718",
- "version": "8e6d6fb0",
- "parent": "4531548e",
+ "artifact": "experiments/provenance_handoff/README.md",
+ "artifact_id": "pp_556b115de711b0cd33eed260",
+ "version": "45e7731c",
+ "parent": "8b825dfc",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-07T21:59:36+00:00",
+ "ts": "2026-08-07T21:59:38+00:00",
  "stats": {
   "modified": 7
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "37ed6078",
+   "block": "d86e9669",
    "type": "para",
-   "context": "Provenance Handoff Evaluation Plan"
+   "context": "Review status"
   },
   {
    "kind": "modified",
-   "block": "632a1024",
+   "block": "efb84a51",
    "type": "para",
-   "context": "Provenance Handoff Evaluation Plan"
+   "context": "The research question"
   },
   {
    "kind": "modified",
-   "block": "281fc2ec",
-   "type": "table",
-   "context": "5. Existing benchmarks as task sources"
+   "block": "48aa7881",
+   "type": "para",
+   "context": "Scope and comparison"
   },
   {
    "kind": "modified",
-   "block": "a2930386",
-   "type": "para",
-   "context": "7. Experimental design"
+   "block": "27c19da2",
+   "type": "list",
+   "context": "Scope and comparison"
   },
   {
    "kind": "modified",
-   "block": "5a2e7c13",
+   "block": "146ef700",
    "type": "para",
-   "context": "7. Experimental design"
+   "context": "Scope and comparison"
   },
   {
    "kind": "modified",
-   "block": "df9ab5c0",
-   "type": "para",
-   "context": "8. Metrics and statistical plan"
+   "block": "c1ba01f6",
+   "type": "list",
+   "context": "What is here today"
   },
   {
    "kind": "modified",
-   "block": "d02d7dbb",
+   "block": "1fa1b7ec",
    "type": "para",
-   "context": "10. Pilot implementation"
+   "context": "Before any model run"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:35aeb5d81a52c395f28678d1dff1ca1fa7ee640996aa96963b6ac660c8d7863f",
+ "soft_fingerprint": "ppsb1:fa9222a88db524fc327d343a1f5ca005d56d23222afba788a015fc0de02fd3ed",
  "actors": {
   "requested_by": [
    "Richard Tang"
@@ -77,43 +77,38 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "37ed6078",
+   "block": "d86e9669",
    "kind": "modified",
-   "note": "Updated evaluation status to Gateway-first C0/C3."
+   "note": "Set Gateway 0731 as new formal route and archived old routes."
   },
   {
-   "block": "632a1024",
+   "block": "efb84a51",
    "kind": "modified",
-   "note": "Archived historical transport slice and froze new model/transport boundary."
+   "note": "Narrowed question to SAS C0/C3."
   },
   {
-   "block": "281fc2ec",
+   "block": "48aa7881",
    "kind": "modified",
-   "note": "Reprioritized benchmark sequence and WorkBench role."
+   "note": "Defined active two-arm SAS matrix."
   },
   {
-   "block": "a2930386",
+   "block": "146ef700",
    "kind": "modified",
-   "note": "Made C0/C3 the active architecture-held-constant slice."
+   "note": "Set C3 minus C0 as primary contrast."
   },
   {
-   "block": "5a2e7c13",
+   "block": "c1ba01f6",
    "kind": "modified",
-   "note": "Changed active primary estimate to C3 minus C0."
+   "note": "Classified old MAS config as historical."
   },
   {
-   "block": "df9ab5c0",
+   "block": "1fa1b7ec",
    "kind": "modified",
-   "note": "Added Gateway telemetry eligibility requirement."
-  },
-  {
-   "block": "d02d7dbb",
-   "kind": "modified",
-   "note": "Defined qualification, 12-workflow Harvey matrix, and independent benchmark order."
+   "note": "Added qualification, telemetry, and benchmark gates."
   }
  ],
  "context": {
-  "why": "Freeze the formal DeepSeek 0731 Gateway C0/C3 research line and archive prior transport records."
+  "why": "Synchronize experiment entrypoint with the frozen Gateway C0/C3 protocol."
  },
- "event_id": "ppe_e522607d6083a037b3e3cf85"
+ "event_id": "ppe_6a04dd1d189a5d38084d77d5"
 }
