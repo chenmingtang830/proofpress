@@ -1,65 +1,89 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/README.md",
- "artifact_id": "pp_556b115de711b0cd33eed260",
- "version": "45e7731c",
- "parent": "8b825dfc",
+ "artifact": "experiments/provenance_handoff/docs/RESEARCH_PLAN.md",
+ "artifact_id": "pp_00e96ce828caea19ac7221ae",
+ "version": "09f0f46a",
+ "parent": "a894c626",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-07T21:59:38+00:00",
+ "ts": "2026-08-07T21:59:41+00:00",
  "stats": {
-  "modified": 7
+  "modified": 11
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "d86e9669",
+   "block": "37044759",
    "type": "para",
-   "context": "Review status"
+   "context": "Decision in one sentence"
   },
   {
    "kind": "modified",
-   "block": "efb84a51",
+   "block": "6e8d4f21",
    "type": "para",
-   "context": "The research question"
+   "context": "Decision in one sentence"
   },
   {
    "kind": "modified",
-   "block": "48aa7881",
+   "block": "a20de7f5",
    "type": "para",
-   "context": "Scope and comparison"
+   "context": "Fixed runtime and workflow"
   },
   {
    "kind": "modified",
-   "block": "27c19da2",
+   "block": "395029b6",
+   "type": "para",
+   "context": "Accepted next matrix: architecture and c"
+  },
+  {
+   "kind": "modified",
+   "block": "86f6ae8d",
+   "type": "para",
+   "context": "Model plan"
+  },
+  {
+   "kind": "modified",
+   "block": "743b9bd8",
+   "type": "table",
+   "context": "Model plan"
+  },
+  {
+   "kind": "modified",
+   "block": "0cafb062",
+   "type": "para",
+   "context": "Model plan"
+  },
+  {
+   "kind": "modified",
+   "block": "c91c4e94",
+   "type": "para",
+   "context": "Model plan"
+  },
+  {
+   "kind": "modified",
+   "block": "7bcd9b4b",
    "type": "list",
-   "context": "Scope and comparison"
+   "context": "Budgets, isolation, and fairness"
   },
   {
    "kind": "modified",
-   "block": "146ef700",
-   "type": "para",
-   "context": "Scope and comparison"
+   "block": "ae5cc50e",
+   "type": "table",
+   "context": "Analysis and decision gates"
   },
   {
    "kind": "modified",
-   "block": "c1ba01f6",
+   "block": "9c0d2ccb",
    "type": "list",
-   "context": "What is here today"
-  },
-  {
-   "kind": "modified",
-   "block": "1fa1b7ec",
-   "type": "para",
-   "context": "Before any model run"
+   "context": "References"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:fa9222a88db524fc327d343a1f5ca005d56d23222afba788a015fc0de02fd3ed",
+ "soft_fingerprint": "ppsb1:3d2fc6386a6675756134a13112ae5a32e8a41e1784789d566c99f73107d60f52",
  "actors": {
   "requested_by": [
    "Richard Tang"
@@ -77,38 +101,53 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "d86e9669",
+   "block": "37044759",
    "kind": "modified",
-   "note": "Set Gateway 0731 as new formal route and archived old routes."
+   "note": "Set fixed Gateway C0/C3 decision."
   },
   {
-   "block": "efb84a51",
+   "block": "6e8d4f21",
    "kind": "modified",
-   "note": "Narrowed question to SAS C0/C3."
+   "note": "Archived old slice and unversioned smoke."
   },
   {
-   "block": "48aa7881",
+   "block": "a20de7f5",
    "kind": "modified",
-   "note": "Defined active two-arm SAS matrix."
+   "note": "Set active Gateway runtime."
   },
   {
-   "block": "146ef700",
+   "block": "395029b6",
    "kind": "modified",
-   "note": "Set C3 minus C0 as primary contrast."
+   "note": "Changed active primary estimate to C3 minus C0."
   },
   {
-   "block": "c1ba01f6",
+   "block": "86f6ae8d",
    "kind": "modified",
-   "note": "Classified old MAS config as historical."
+   "note": "Replaced active transport adapter."
   },
   {
-   "block": "1fa1b7ec",
+   "block": "0cafb062",
    "kind": "modified",
-   "note": "Added qualification, telemetry, and benchmark gates."
+   "note": "Added per-call Gateway telemetry contract."
+  },
+  {
+   "block": "c91c4e94",
+   "kind": "modified",
+   "note": "Fixed 0731 through Gateway and archived old provider records."
+  },
+  {
+   "block": "ae5cc50e",
+   "kind": "modified",
+   "note": "Replaced gates with qualification, Harvey, and independent benchmark sequence."
+  },
+  {
+   "block": "343eaac9",
+   "kind": "modified",
+   "note": "Updated transport reference."
   }
  ],
  "context": {
-  "why": "Synchronize experiment entrypoint with the frozen Gateway C0/C3 protocol."
+  "why": "Replace the active protocol with fixed 0731 Gateway C0/C3 and auditable telemetry gates."
  },
- "event_id": "ppe_6a04dd1d189a5d38084d77d5"
+ "event_id": "ppe_455c583d6fa7c5bcc389fd07"
 }
