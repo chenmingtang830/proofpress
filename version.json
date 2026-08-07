@@ -10,15 +10,15 @@
   },
   {
    "type": "para",
-   "text": "> Status: evaluation design v3, Harvey baseline plus SAS/MAS × ordinary-memory/Proofpress extension\n>\n> Date: 2026-08-03\n>\n> Scope: portable knowledge-artifact provenance across long-horizon,\n> cross-session, cross-agent, and enterprise workflows. Research is one\n> validation domain; enterprise operations and high-stakes professional work are\n> equally important. This is an internal evaluation plan, not a public protocol\n> promise.",
+   "text": "> Status: evaluation design v4, Gateway-first Harvey SAS C0/C3 confirmation followed by separately reported benchmark extensions\n>\n> Date: 2026-08-03\n>\n> Scope: portable knowledge-artifact provenance across long-horizon,\n> cross-session, cross-agent, and enterprise workflows. Research is one\n> validation domain; enterprise operations and high-stakes professional work are\n> equally important. This is an internal evaluation plan, not a public protocol\n> promise.",
    "id": "37ed6078",
-   "hash": "2f07cce60838"
+   "hash": "71efcbb3db47"
   },
   {
    "type": "para",
-   "text": "The current Harvey DeepSeek C0/C1/C2 execution slice is paused after repeated\nlong-synthesis transport failures. Its incomplete records remain operational\nevidence rather than a treatment result. Any future Vercel AI Gateway test must\nfirst pass a low-cost transport gate and remain a separate replication from the\nOpenRouter/Novita slice.",
+   "text": "The prior Harvey DeepSeek C0/C1/C2 OpenRouter/Novita slice is paused after\nrepeated long-synthesis transport failures. Its incomplete records remain frozen\noperational evidence rather than a treatment result. New formal work uses Vercel\nAI Gateway with the fixed `deepseek/deepseek-v4-flash-0731` model slug and begins\nwith a SAS `C0 ordinary` versus `C3 Proofpress` contrast; neither the old slice\nnor unversioned `deepseek/deepseek-v4-flash` smoke is pooled into that estimand.",
    "id": "632a1024",
-   "hash": "a9d2f6d6a5e7"
+   "hash": "df0ed93fca70"
   },
   {
    "type": "heading",
@@ -142,9 +142,9 @@
   },
   {
    "type": "table",
-   "text": "| Benchmark/source | Existing task | Best Proofpress use | Readiness |\n| --- | --- | --- | --- |\n| APEX-Agents | Multi-hour, cross-application work from investment banking, management consulting, and corporate law | Best commercial paper substrate: split analyst/reviewer/approver work at natural deliverable boundaries | Primary |\n| WorkArena / WorkArena++ | Enterprise knowledge work and compositional workflows in ServiceNow | ITSM, incident, request, and compliance handoffs with environment-grounded success checks | Primary |\n| WorkBench | 690 workplace tasks across five databases and 26 tools with outcome-centric evaluation | Cheap deterministic pilot for multi-step business operations and wrong-action risk | Primary |\n| Harvey Legal Agent Benchmark | Long-horizon legal assignments with client materials, work products, and task rubrics | Regulated-work external validity and source/review lineage | Primary after license/task review |\n| STATE-Bench | Persistent enterprise tasks with changing state across work episodes | Test whether state-aware continuity improves task completion and recovery; adapt only tasks with explicit artifact/revision boundaries | Exploratory after task/license review |\n| MemConflict | Memory conflict and temporal-consistency scenarios | Stress stale-vs-current evidence, supersession, reversal, and conflict handling | Exploratory |\n| HiEviDR-Bench | Evidence-graph, claim-traceability, citation, and verification tasks | Measure evidence-to-claim coverage and decision-lineage completeness | Exploratory |\n| HealthAgentBench / MedAgentBench | End-to-end healthcare workflows or physician-authored tasks in realistic EHR environments | High-stakes external validity for source, status, correction, and approval handoffs; never frame benchmark success as clinical deployment readiness | Secondary |\n| Finance Agent Benchmark | 537 expert-authored financial research questions using recent SEC filings | Evidence lineage and analyst-to-reviewer handoff; less workflow-native than APEX-Agents | Secondary |\n| GDPval gold subset | Economically valuable professional deliverables across many occupations | Breadth and commercialization narrative; adapt only tasks with revision or review stages | Secondary |\n| DeepResearch Bench | Research-report tasks with source gathering and synthesis | Research-report continuity, citation/evidence handoff, and revision evaluation | Research track |\n| PaperBench / RE-Bench / CORE-Bench | Replication, open-ended AI R&D, and execution-grounded reproducibility | Research collaboration, reproducible artifacts, and scientific external validity | Research track |\n| ARA artifacts | Understand, reproduce, and extend structured research packages | Gold decision/dead-end material and natural collaboration surface | Research track |\n| AgentDojo/BrowseSafe-derived scenarios | Paired benign and adversarial tool-use situations | Security stress arm for provenance laundering; keep separate from the main quality result | Adversarial track |\n| Proofpress Hindcast | Real repository reversals, deprecations, replacements, and rationale | External-validity arm for decision regression in real histories | Supporting track |",
+   "text": "| Benchmark/source | Existing task | Best Proofpress use | Readiness |\n| --- | --- | --- | --- |\n| APEX-Agents | Multi-hour, cross-application work from investment banking, management consulting, and corporate law | Best commercial paper substrate: split analyst/reviewer/approver work at natural deliverable boundaries | Primary |\n| WorkArena / WorkArena++ | Enterprise knowledge work and compositional workflows in ServiceNow | ITSM, incident, request, and compliance handoffs with environment-grounded success checks | Primary |\n| WorkBench | 690 workplace tasks across five databases and 26 tools with outcome-centric evaluation | Local plumbing/smoke only; not a formal evidence source | Smoke only |\n| Harvey Legal Agent Benchmark | Long-horizon legal assignments with client materials, work products, and task rubrics | First qualification and formal SAS `C0 ordinary` versus `C3 Proofpress` matrix | First formal slice |\n| STATE-Bench | Persistent enterprise tasks with changing state across work episodes | Next independent C0/C3 report after Harvey | Follow-on |\n| MemConflict | Memory conflict and temporal-consistency scenarios | Next independent C0/C3 report for supersession and conflict handling | Follow-on |\n| HiEviDR-Bench | Evidence-graph, claim-traceability, citation, and verification tasks | Adapter/scorer gate before a separately reported evidence-lineage slice | Gate after STATE/MemConflict |\n| HealthAgentBench / MedAgentBench | End-to-end healthcare workflows or physician-authored tasks in realistic EHR environments | High-stakes external validity for source, status, correction, and approval handoffs; never frame benchmark success as clinical deployment readiness | Secondary |\n| Finance Agent Benchmark | 537 expert-authored financial research questions using recent SEC filings | Evidence lineage and analyst-to-reviewer handoff; less workflow-native than APEX-Agents | Secondary |\n| GDPval gold subset | Economically valuable professional deliverables across many occupations | Breadth and commercialization narrative; adapt only tasks with revision or review stages | Secondary |\n| DeepResearch Bench | Research-report tasks with source gathering and synthesis | Adapter/scorer gate, then separately reported research-report continuity slice | Gate after STATE/MemConflict |\n| PaperBench / RE-Bench / CORE-Bench | Replication, open-ended AI R&D, and execution-grounded reproducibility | Research collaboration, reproducible artifacts, and scientific external validity | Research track |\n| ARA artifacts | Understand, reproduce, and extend structured research packages | Gold decision/dead-end material and natural collaboration surface | Research track |\n| AgentDojo/BrowseSafe-derived scenarios | Paired benign and adversarial tool-use situations | Security stress arm for provenance laundering; keep separate from the main quality result | Adversarial track |\n| Proofpress Hindcast | Real repository reversals, deprecations, replacements, and rationale | External-validity arm for decision regression in real histories | Supporting track |",
    "id": "281fc2ec",
-   "hash": "88f1b3d450ab"
+   "hash": "685d0187ee8e"
   },
   {
    "type": "para",
@@ -202,15 +202,15 @@
   },
   {
    "type": "para",
-   "text": "The first static Harvey matrix should make the architecture/control structure\nexplicit: C0 is SAS with ordinary continuity, C1 is centralized MAS with\nordinary coordination memory, C2 is the same MAS with Proofpress lineage, and C3\nis SAS with Proofpress lineage. This is a 2×2 interpretation, not a claim that\nthe two ordinary-memory implementations are byte-identical: C0 has unified\nsession/history while C1 has worker artifacts and `coordination.md`.",
+   "text": "The long-term research program retains the 2×2 architecture interpretation, but\nthe active formal slice intentionally holds architecture constant: C0 is SAS\nwith ordinary continuity and C3 is the same SAS flow with Proofpress lineage.\nC1/C2 MAS are a later, separately frozen extension, not a prerequisite or\ncurrent primary comparison.",
    "id": "a2930386",
-   "hash": "949245957f4a"
+   "hash": "5e9210cb767c"
   },
   {
    "type": "para",
-   "text": "Report `C2−C1` as the Proofpress effect within MAS, `C3−C0` as the Proofpress\neffect within SAS, and `C1−C0` as the MAS effect under ordinary continuity. On\ndynamic tasks, also report the architecture × lineage interaction\n`(C2−C1)−(C3−C0)`. A static Harvey null is informative about that task shape,\nnot a general null result for Proofpress.",
+   "text": "Report `C3−C0` as the Harvey primary estimate. Report C1/C2 and the architecture\ninteraction only in a future MAS extension with its own frozen protocol. A static\nHarvey null is informative about that task shape, not a general null result for\nProofpress.",
    "id": "5a2e7c13",
-   "hash": "ff95b23d7b3e"
+   "hash": "d5c5ae687bb9"
   },
   {
    "type": "para",
@@ -286,9 +286,9 @@
   },
   {
    "type": "para",
-   "text": "Efficiency metrics are input/output tokens, wall-clock latency, model/tool calls,\nhistory-search operations, and token cost per successful task or rubric item.",
+   "text": "Efficiency metrics are input/output tokens, wall-clock latency, model/tool calls,\nhistory-search operations, and token cost per successful task or rubric item. For\nevery Gateway call, retain requested/resolved model, actual provider,\nGateway-reported `usage.cost`, fallback status/metadata, token values, and\nlatency. Missing telemetry is audit-visible but makes the workflow ineligible\nfor the formal matrix; a wrapper-local `$0` is not a cost record.",
    "id": "df9ab5c0",
-   "hash": "ad0dcc2b860c"
+   "hash": "abde70565ed1"
   },
   {
    "type": "para",
@@ -406,9 +406,9 @@
   },
   {
    "type": "para",
-   "text": "The smallest credible pilot should use two task tracks rather than research\nalone: 8–12 enterprise/professional tasks adapted from APEX-Agents, WorkArena,\nWorkBench, or Harvey LAB, plus 6–10 ARA/PaperBench or DeepResearch Bench\nresearch projects. Each track gets Continue, Audit, Counterfactual, and at least\none restart/revision episode. For the dynamic slice, run the four cells C0/C1/C2/C3\nwith 3–5 shared seeds; retain raw history and ablation as secondary diagnostics.",
+   "text": "The active qualification pilot is one Harvey SAS workflow in each C0/C3 arm.\nOn a clean transport, carrier, scorer, and telemetry qualification, freeze the\nformal Harvey matrix: two tasks × C0/C3 × three attempts = 12 workflows. Report\neach subsequent benchmark independently: STATE-Bench and MemConflict next, then\nHiEviDR-Bench and DeepResearch Bench only after their adapter/scorer gates pass.\nDo not pool effect sizes across benchmarks.",
    "id": "d02d7dbb",
-   "hash": "a44de2d69df6"
+   "hash": "b94acbe5f3ff"
   },
   {
    "type": "para",

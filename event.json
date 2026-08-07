@@ -2,53 +2,118 @@
  "event": "version_created",
  "artifact": "docs/internal/experiments/PROVENANCE_HANDOFF_EVALUATION_PLAN.md",
  "artifact_id": "pp_dfeff80ca8348068acae1718",
- "version": "4531548e",
- "parent": "8cd4c8e1",
+ "version": "8e6d6fb0",
+ "parent": "4531548e",
  "author": {
-  "name": "codex",
-  "kind": "agent",
+  "name": "unknown",
+  "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-07T21:33:33+00:00",
+ "ts": "2026-08-07T21:59:36+00:00",
  "stats": {
-  "added": 1
+  "modified": 7
  },
  "changes": [
   {
-   "kind": "added",
+   "kind": "modified",
+   "block": "37ed6078",
+   "type": "para",
+   "context": "Provenance Handoff Evaluation Plan"
+  },
+  {
+   "kind": "modified",
    "block": "632a1024",
    "type": "para",
-   "context": "Provenance Handoff Evaluation Plan",
-   "preview": "The current Harvey DeepSeek C0/C1/C2 execution slice is paus"
+   "context": "Provenance Handoff Evaluation Plan"
+  },
+  {
+   "kind": "modified",
+   "block": "281fc2ec",
+   "type": "table",
+   "context": "5. Existing benchmarks as task sources"
+  },
+  {
+   "kind": "modified",
+   "block": "a2930386",
+   "type": "para",
+   "context": "7. Experimental design"
+  },
+  {
+   "kind": "modified",
+   "block": "5a2e7c13",
+   "type": "para",
+   "context": "7. Experimental design"
+  },
+  {
+   "kind": "modified",
+   "block": "df9ab5c0",
+   "type": "para",
+   "context": "8. Metrics and statistical plan"
+  },
+  {
+   "kind": "modified",
+   "block": "d02d7dbb",
+   "type": "para",
+   "context": "10. Pilot implementation"
   }
  ],
- "policy": "local",
- "soft_fingerprint": "ppsb1:0e7a65da39933989d0b18571682e6a1dc2e9459da0b8953d9ab68ca37e67803b",
+ "policy": "portable",
+ "soft_fingerprint": "ppsb1:35aeb5d81a52c395f28678d1dff1ca1fa7ee640996aa96963b6ac660c8d7863f",
  "actors": {
   "requested_by": [
-   "user"
+   "Richard Tang"
   ],
   "produced_by": [
-   "codex"
+   "Codex"
   ],
   "edited_by": [
-   "codex"
+   "Codex"
   ],
   "recorded_by": [
-   "codex"
+   "Codex"
   ]
  },
- "attribution_basis": "harness_attested",
+ "attribution_basis": "self_asserted",
  "claims": [
   {
+   "block": "37ed6078",
+   "kind": "modified",
+   "note": "Updated evaluation status to Gateway-first C0/C3."
+  },
+  {
    "block": "632a1024",
-   "kind": "added",
-   "note": "Recorded the current DeepSeek transport pause and the separate low-cost Vercel AI Gateway replication gate."
+   "kind": "modified",
+   "note": "Archived historical transport slice and froze new model/transport boundary."
+  },
+  {
+   "block": "281fc2ec",
+   "kind": "modified",
+   "note": "Reprioritized benchmark sequence and WorkBench role."
+  },
+  {
+   "block": "a2930386",
+   "kind": "modified",
+   "note": "Made C0/C3 the active architecture-held-constant slice."
+  },
+  {
+   "block": "5a2e7c13",
+   "kind": "modified",
+   "note": "Changed active primary estimate to C3 minus C0."
+  },
+  {
+   "block": "df9ab5c0",
+   "kind": "modified",
+   "note": "Added Gateway telemetry eligibility requirement."
+  },
+  {
+   "block": "d02d7dbb",
+   "kind": "modified",
+   "note": "Defined qualification, 12-workflow Harvey matrix, and independent benchmark order."
   }
  ],
  "context": {
-  "why": "Recorded the paused Harvey DeepSeek transport slice and the requirement that any future Vercel AI Gateway test pass a separate low-cost transport gate."
+  "why": "Freeze the formal DeepSeek 0731 Gateway C0/C3 research line and archive prior transport records."
  },
- "event_id": "ppe_2f4940822c653cc9c5b12e68"
+ "event_id": "ppe_e522607d6083a037b3e3cf85"
 }
