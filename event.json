@@ -1,52 +1,228 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/ara/logic/experiments.md",
- "artifact_id": "pp_15fb7a0bcf0891f7cee01068",
- "version": "c1288bd3",
- "parent": "c5485f74",
+ "artifact": "docs/internal/experiments/PROVENANCE_HANDOFF_EVALUATION_PLAN.md",
+ "artifact_id": "pp_dfeff80ca8348068acae1718",
+ "version": "8cd4c8e1",
+ "parent": "71f37f63",
  "author": {
-  "name": "codex",
+  "name": "unknown",
   "kind": "agent",
   "session": null
  },
- "note": "recorded GLM 5.2 isolated M&A follow-up and Terra score",
- "ts": "2026-08-07T20:23:36+00:00",
+ "note": null,
+ "ts": "2026-08-07T21:11:45+00:00",
  "stats": {
-  "modified": 1
+  "modified": 13,
+  "added": 6
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "6559b8b4",
+   "block": "37ed6078",
+   "type": "para",
+   "context": "Provenance Handoff Evaluation Plan"
+  },
+  {
+   "kind": "modified",
+   "block": "66717d41",
+   "type": "para",
+   "context": "5. Existing benchmarks as task sources"
+  },
+  {
+   "kind": "modified",
+   "block": "281fc2ec",
+   "type": "table",
+   "context": "5. Existing benchmarks as task sources"
+  },
+  {
+   "kind": "modified",
+   "block": "958fc5fd",
+   "type": "para",
+   "context": "5. Existing benchmarks as task sources"
+  },
+  {
+   "kind": "modified",
+   "block": "10cd1c6c",
+   "type": "para",
+   "context": "7. Experimental design"
+  },
+  {
+   "kind": "added",
+   "block": "1f7a3c9e",
+   "type": "table",
+   "context": "7. Experimental design",
+   "preview": "| Cell | Architecture | Continuity representation | Main con"
+  },
+  {
+   "kind": "added",
+   "block": "a2930386",
+   "type": "para",
+   "context": "7. Experimental design",
+   "preview": "The first static Harvey matrix should make the architecture/"
+  },
+  {
+   "kind": "added",
+   "block": "5a2e7c13",
+   "type": "para",
+   "context": "7. Experimental design",
+   "preview": "Report `C2−C1` as the Proofpress effect within MAS, `C3−C0` "
+  },
+  {
+   "kind": "added",
+   "block": "ee2c5d90",
+   "type": "para",
+   "context": "7. Experimental design",
+   "preview": "For the C3 dynamic track, Proofpress uses a hybrid protocol:"
+  },
+  {
+   "kind": "modified",
+   "block": "f23a7f1d",
+   "type": "para",
+   "context": "8. Metrics and statistical plan"
+  },
+  {
+   "kind": "modified",
+   "block": "df9ab5c0",
+   "type": "para",
+   "context": "8. Metrics and statistical plan"
+  },
+  {
+   "kind": "modified",
+   "block": "d02d7dbb",
+   "type": "para",
+   "context": "10. Pilot implementation"
+  },
+  {
+   "kind": "modified",
+   "block": "d55fb276",
    "type": "list",
-   "context": "E05: Cross-model robustness sweep"
+   "context": "10. Pilot implementation"
+  },
+  {
+   "kind": "added",
+   "block": "6c4d8e12",
+   "type": "para",
+   "context": "10. Pilot implementation",
+   "preview": "   evidence → finding → contradictory/new evidence → revisio"
+  },
+  {
+   "kind": "added",
+   "block": "49488126",
+   "type": "list",
+   "context": "10. Pilot implementation",
+   "preview": "4. Build deterministic package generation for every arm from"
+  },
+  {
+   "kind": "modified",
+   "block": "2496617c",
+   "type": "list",
+   "context": "10. Pilot implementation"
+  },
+  {
+   "kind": "modified",
+   "block": "e1947909",
+   "type": "list",
+   "context": "10. Pilot implementation"
+  },
+  {
+   "kind": "modified",
+   "block": "f3cf72ca",
+   "type": "list",
+   "context": "10. Pilot implementation"
+  },
+  {
+   "kind": "modified",
+   "block": "97a2b2ba",
+   "type": "list",
+   "context": "10. Pilot implementation"
   }
  ],
- "policy": "portable",
- "soft_fingerprint": "ppsb1:c7e6ce9502281cdb86d73279fd583da3c6739fc9ea501e1ad79277b686d73fcc",
+ "policy": "local",
+ "soft_fingerprint": "ppsb1:51f36d73e94d548d4734b037ef93d80306cabf0b6719cabe7bcef144e0ecb8e6",
  "actors": {
   "requested_by": [
    "user"
   ],
   "produced_by": [
-   "codex"
+   "Codex"
   ],
   "edited_by": [
-   "codex"
+   "Codex"
   ],
   "recorded_by": [
-   "codex"
+   "Codex"
   ]
  },
- "attribution_basis": "harness_attested",
+ "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "6559b8b4",
-   "kind": "modified"
+   "block": "37ed6078",
+   "kind": "modified",
+   "note": "将高层计划标为 Harvey baseline 加 SAS/MAS × ordinary-memory/Proofpress extension。"
+  },
+  {
+   "block": "66717d41",
+   "kind": "modified",
+   "note": "明确 Harvey 非唯一验证场景，并解释静态 SAS ceiling。"
+  },
+  {
+   "block": "281fc2ec",
+   "kind": "modified",
+   "note": "加入 STATE-Bench、MemConflict、HiEviDR-Bench 与 DeepResearch Bench 候选来源。"
+  },
+  {
+   "block": "958fc5fd",
+   "kind": "modified",
+   "note": "将 SWE-bench 定位为版本化代码/测试状态的比较点而非直接 Proofpress artifact claim。"
+  },
+  {
+   "block": "10cd1c6c",
+   "kind": "modified",
+   "note": "将独立变量改为 architecture 与 continuity representation 两个因素。"
+  },
+  {
+   "block": "1f7a3c9e",
+   "kind": "added",
+   "note": "新增 C0/C1/C2/C3 四格矩阵与对应 contrast。"
+  },
+  {
+   "block": "a2930386",
+   "kind": "added",
+   "note": "新增 static Harvey 四格解释说明。"
+  },
+  {
+   "block": "5a2e7c13",
+   "kind": "added",
+   "note": "定义静态与动态的主要 estimands 及 interaction。"
+  },
+  {
+   "block": "ee2c5d90",
+   "kind": "added",
+   "note": "新增 C3 hybrid dynamic-track protocol。"
+  },
+  {
+   "block": "f23a7f1d",
+   "kind": "modified",
+   "note": "加入 current accuracy、stale-use、revision、coverage、lineage 与 restart metrics。"
+  },
+  {
+   "block": "df9ab5c0",
+   "kind": "modified",
+   "note": "将效率指标改为每个成功任务或 rubric item 的 token cost。"
+  },
+  {
+   "block": "d02d7dbb",
+   "kind": "modified",
+   "note": "将 pilot 改为含 dynamic restart/revision 与四格矩阵。"
+  },
+  {
+   "block": "6c4d8e12",
+   "kind": "added",
+   "note": "定义 dynamic event schedule 与 gold transitions。"
   }
  ],
  "context": {
-  "why": "DeepSeek Novita was upstream rate-limited; the user authorized an independent GLM C0/C1/C2 follow-up without mixing it into the DeepSeek primary matrix."
+  "why": "Update the evaluation plan so Harvey remains the final legal-deliverable baseline while future validation distinguishes SAS/MAS effects from ordinary-memory/Proofpress effects and adds dynamic revision and recovery tasks."
  },
- "event_id": "ppe_83c1ffdd2ef0a0a6484b56ca"
+ "event_id": "ppe_69af80c092bb0637fe50642c"
 }
