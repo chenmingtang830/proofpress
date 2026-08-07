@@ -1,29 +1,29 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/ara/src/environment.md",
- "artifact_id": "pp_d4f0f4ca5617c9d0528dea8e",
- "version": "729032fb",
- "parent": "59e09992",
+ "artifact": "experiments/provenance_handoff/ara/evidence/README.md",
+ "artifact_id": "pp_d903bfb55a61339cd26f454f",
+ "version": "c7ec4437",
+ "parent": "085ac8b8",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-07T22:14:56+00:00",
+ "ts": "2026-08-07T22:14:59+00:00",
  "stats": {
   "modified": 1
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "a84a1149",
-   "type": "list",
-   "context": "Environment"
+   "block": "d49d601a",
+   "type": "para",
+   "context": "Design inputs"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:246d17b94f5e8ed2b5936210bc5e52887e7ace0a2641d1263782e9141603b429",
+ "soft_fingerprint": "ppsb1:9254cc8f180c1add3272ea5c88cdc17461fc409d97d443d1c0db376bfbb93aa2",
  "actors": {
   "requested_by": [
    "Richard Tang"
@@ -41,13 +41,13 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "a84a1149",
+   "block": "d49d601a",
    "kind": "modified",
-   "note": "Recorded frozen Gateway qualification environment and execution order."
+   "note": "Added planned PSA qualification evidence identity and cost ceiling."
   }
  ],
  "context": {
-  "why": "Record the frozen Gateway qualification environment."
+  "why": "Record required evidence for the frozen Gateway qualification slice."
  },
- "event_id": "ppe_9d15c5379114b3914fee6ee9"
+ "event_id": "ppe_736f2ec8e67ac3f757be7116"
 }

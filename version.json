@@ -1,18 +1,42 @@
 {
- "artifact": "experiments/provenance_handoff/ara/src/environment.md",
- "artifact_id": "pp_d4f0f4ca5617c9d0528dea8e",
+ "artifact": "experiments/provenance_handoff/ara/evidence/README.md",
+ "artifact_id": "pp_d903bfb55a61339cd26f454f",
  "blocks": [
   {
    "type": "heading",
-   "text": "# Environment",
-   "id": "a548e2e8",
-   "hash": "4d65b7458bc8"
+   "text": "# Evidence index",
+   "id": "1fd7cb93",
+   "hash": "1287755cd4bb"
   },
   {
-   "type": "list",
-   "text": "- **Experiment repository**: `/Users/richardtang/proofpress-dev/experiments/provenance_handoff`\n- **Experiment runtime**: Python project managed with `uv`; current lightweight modules are `pp_eval/`.\n- **Primary upstream target**: Harvey LAB v1.0, pinned in `pp_eval/datasets.py` to `1da4750171bc5a534960b3d82d15ba7fd2cf653f`.\n- **ARA upstream**: `https://github.com/ARA-Labs/Agent-Native-Research-Artifact`, local source commit `35981edc35c51413d291ab8e504ea7c907fd67e7`.\n- **External data home**: `PROOFPRESS_EVAL_HOME`; raw data/traces/results stay there.\n- **Planned model transport**: Vercel AI Gateway adapter at the Harvey model boundary, fixed to `deepseek/deepseek-v4-flash-0731`. The prior OpenRouter/Novita and unversioned-Flash records are archived transport history, not an active route. Credentials remain in `AI_GATEWAY_API_KEY` outside Git.\n- **Core model policy**: one homogeneous model team with `high` effort per workflow attempt; Proofpress itself never makes a model call.\n- **Gateway evidence rule**: every model call must record requested/resolved model, actual provider, Gateway `usage.cost`, fallback status/metadata, token values, and latency. A record lacking any required telemetry remains audit-visible but is not qualified for a formal result; a wrapper-local `$0` is never substituted.\n- **Execution state**: no official Gateway Harvey C0/C3 treatment run has been performed for this artifact. The frozen first slice is PSA C0/C3 once each under `gateway-0731-harvey-psa-c0-c3-qualification-v1`; each arm uses five fresh serial-SAS checkpoints, C3 has native verified carriers plus a final-artifact index, and both share a $25 actual-cost ceiling. Only a qualified slice unlocks a separate freeze for two Harvey tasks × C0/C3 × three attempts (12 workflows), followed by independently reported STATE-Bench and MemConflict slices; HiEviDR-Bench and DeepResearch Bench require adapter/scorer gates first.",
-   "id": "a84a1149",
-   "hash": "664101a1e218"
+   "type": "heading",
+   "text": "## Current state",
+   "id": "2f55c2b1",
+   "hash": "5ae697c46c4b"
+  },
+  {
+   "type": "para",
+   "text": "There are no Gateway C0/C3 empirical outcomes in this artifact yet. The files below are design inputs and upstream references, not evidence that any hypothesis is supported. Archived OpenRouter/Novita and unversioned-Flash smoke records remain historical operational evidence only.",
+   "id": "687aeafa",
+   "hash": "8bfa534c68b9"
+  },
+  {
+   "type": "heading",
+   "text": "## Design inputs",
+   "id": "a8111b7b",
+   "hash": "d5db9f9978e7"
+  },
+  {
+   "type": "table",
+   "text": "| ID | Item | Role | Location |\n|---|---|---|---|\n| E01 | Harvey LAB repository/architecture | task and official harness substrate | https://github.com/harveyai/harvey-labs |\n| E02 | Harvey LAB v1.0 tutorial | execution/model adapter reference | https://github.com/harveyai/harvey-labs/blob/v1.0/docs/tutorial.md |\n| E03 | Google agent-system architecture study | rationale for fixed centralized architecture | https://arxiv.org/abs/2512.08296 |\n| E04 | ARA paper/repository | research-artifact management structure | https://arxiv.org/abs/2604.24658 |\n| E05 | Proofpress protocol/docs in this repository | portable artifact-lineage mechanism | `../../README.md` and `../../docs/` |",
+   "id": "fb3d38b9",
+   "hash": "7775914bf23a"
+  },
+  {
+   "type": "para",
+   "text": "Future result entries must name the frozen configuration, task/source hash, fixed `deepseek/deepseek-v4-flash-0731` slug, Gateway adapter version, requested/resolved model, actual provider, Gateway `usage.cost`, fallback status/metadata, token/latency values, run records, scorer output, and any applicable Proofpress capsule verification record. The first planned entry is the PSA C0/C3 five-checkpoint serial-SAS slice `gateway-0731-harvey-psa-c0-c3-qualification-v1`, with a $25 shared actual-cost ceiling. Missing telemetry is an audit-visible failure of qualification, not a zero-cost observation. ARA indexes research meaning and evidence pointers; Proofpress supplies the C3 artifact-native admitted lineage and independent verification, never a benchmark agent's implicit memory or raw session transcript.",
+   "id": "d49d601a",
+   "hash": "3ca6d320116c"
   }
  ]
 }
