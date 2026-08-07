@@ -1,29 +1,29 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/docs/RESULTS_MATRIX.md",
- "artifact_id": "pp_d40d46a12d4d493fcbc9c0e9",
- "version": "e0241e4a",
- "parent": "e9e1a1dc",
+ "artifact": "experiments/provenance_handoff/ara/logic/experiments.md",
+ "artifact_id": "pp_15fb7a0bcf0891f7cee01068",
+ "version": "668de489",
+ "parent": "cccb2f70",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-07T22:14:51+00:00",
+ "ts": "2026-08-07T22:14:54+00:00",
  "stats": {
   "modified": 1
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "2cb9aa42",
-   "type": "para",
-   "context": "Accepted Matrix D: Gateway Harvey SAS fo"
+   "block": "0b9f8f55",
+   "type": "list",
+   "context": "E06: Planned Gateway Harvey SAS lineage "
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:f138928f36baf9239544dfcae6ba8420e94ce2441bd40c5d04fd13e269223726",
+ "soft_fingerprint": "ppsb1:7a9f0df395add45588d47d725b6f780c2d712032f704b5374a410e8e6b9dd3ec",
  "actors": {
   "requested_by": [
    "Richard Tang"
@@ -41,13 +41,13 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "2cb9aa42",
+   "block": "0b9f8f55",
    "kind": "modified",
-   "note": "Recorded isolated PSA qualification slice and cost ceiling before the formal matrix."
+   "note": "Specified frozen PSA C0/C3 serial-SAS Gateway experiment evidence."
   }
  ],
  "context": {
-  "why": "Record the frozen PSA Gateway C0/C3 qualification slice before formal results."
+  "why": "Record the implemented Gateway qualification design in ARA."
  },
- "event_id": "ppe_3fa8973e5f3712f39fb5f9b5"
+ "event_id": "ppe_e0cae491b7a95c9c35b8068d"
 }
