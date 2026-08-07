@@ -2,25 +2,19 @@
  "event": "version_created",
  "artifact": "experiments/provenance_handoff/ara/logic/experiments.md",
  "artifact_id": "pp_15fb7a0bcf0891f7cee01068",
- "version": "107bb45e",
- "parent": "8a7ea974",
+ "version": "c5485f74",
+ "parent": "107bb45e",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-07T12:51:55+00:00",
+ "ts": "2026-08-07T17:06:50+00:00",
  "stats": {
-  "modified": 2
+  "modified": 1
  },
  "changes": [
-  {
-   "kind": "modified",
-   "block": "62ab94d5",
-   "type": "heading",
-   "context": "E04: Accepted document-native DeepSeek m"
-  },
   {
    "kind": "modified",
    "block": "b37d7d2c",
@@ -29,7 +23,7 @@
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:9ef1b0a0d0eb8f60182062bc3f356a70c43cd4295408734c9894aa3bd9d11b98",
+ "soft_fingerprint": "ppsb1:27409b752c78d7c366f5c9ddbc6d19deb2a6dfabdfc5d67d5a47312a0d986eb1",
  "actors": {
   "requested_by": [
    "richardtang"
@@ -47,18 +41,13 @@
  "attribution_basis": "environment_attested",
  "claims": [
   {
-   "block": "E04",
+   "block": "b37d7d2c",
    "kind": "modified",
-   "note": "Phase 1 M&A C0 and C1 each passed 116/150 criteria (77.3%), all six final preflights passed, and Phase 2 was authorized because C1 was not materially worse than C0. Basis: recorded Phase 1 workflow records and Terra score records under /Users/richardtang/.cache/proofpress-eval/upstream/harvey-labs/results/phase1."
-  },
-  {
-   "block": "E04",
-   "kind": "modified",
-   "note": "Phase 2 uses embedded Proofpress carriers in worker and decision Markdown artifacts plus a final artifact index, while C1 remains a no-Proofpress-leakage control. Basis: verified native carrier smoke test and Phase 2 runner implementation in the provenance_handoff experiment runtime."
+   "note": "Phase 2 partial execution produced eight M&A records with valid final-output preflight and four valid PSA workflows; the remaining PSA attempts were not scorable because the pinned Novita/fp8 route was upstream rate-limited. Basis: workflow-record.json files, final preflight records, and preserved OpenRouter event logs under /Users/richardtang/.cache/proofpress-eval/upstream/harvey-labs/results/phase2."
   }
  ],
  "context": {
-  "why": "Record the completed Phase 1 architecture pilot and the implemented native-carrier Phase 2 execution boundary before continuing the fixed DeepSeek matrix."
+  "why": "Record the incomplete Phase 2 execution boundary and prevent provider-rate-limited partial runs from being interpreted as a causal result."
  },
- "event_id": "ppe_9fda64a6bbd261d34cc316ca"
+ "event_id": "ppe_4ed8b9c9e988a082676f48bb"
 }
