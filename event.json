@@ -1,89 +1,137 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/docs/RESEARCH_PLAN.md",
- "artifact_id": "pp_00e96ce828caea19ac7221ae",
- "version": "09f0f46a",
- "parent": "a894c626",
+ "artifact": "experiments/provenance_handoff/docs/EXECUTION_PLAN.md",
+ "artifact_id": "pp_120f0f61aa69ad67431b9659",
+ "version": "46a7c856",
+ "parent": "c0a31849",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-07T21:59:41+00:00",
+ "ts": "2026-08-07T21:59:44+00:00",
  "stats": {
-  "modified": 11
+  "modified": 18
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "37044759",
+   "block": "1d585184",
    "type": "para",
-   "context": "Decision in one sentence"
+   "context": "Review state"
   },
   {
    "kind": "modified",
-   "block": "6e8d4f21",
-   "type": "para",
-   "context": "Decision in one sentence"
+   "block": "4b9c9552",
+   "type": "code",
+   "context": "Study modes"
   },
   {
    "kind": "modified",
-   "block": "a20de7f5",
-   "type": "para",
-   "context": "Fixed runtime and workflow"
-  },
-  {
-   "kind": "modified",
-   "block": "395029b6",
-   "type": "para",
-   "context": "Accepted next matrix: architecture and c"
-  },
-  {
-   "kind": "modified",
-   "block": "86f6ae8d",
-   "type": "para",
-   "context": "Model plan"
-  },
-  {
-   "kind": "modified",
-   "block": "743b9bd8",
+   "block": "574f6ebb",
    "type": "table",
-   "context": "Model plan"
+   "context": "Study modes",
+   "numbers": [
+    [
+     "1",
+     "3"
+    ]
+   ]
   },
   {
    "kind": "modified",
-   "block": "0cafb062",
-   "type": "para",
-   "context": "Model plan"
+   "block": "17d5429d",
+   "type": "table",
+   "context": "Arms to freeze"
   },
   {
    "kind": "modified",
-   "block": "c91c4e94",
-   "type": "para",
-   "context": "Model plan"
-  },
-  {
-   "kind": "modified",
-   "block": "7bcd9b4b",
+   "block": "386d8701",
    "type": "list",
-   "context": "Budgets, isolation, and fairness"
+   "context": "Implementation work before any compariso"
   },
   {
    "kind": "modified",
-   "block": "ae5cc50e",
+   "block": "ad972abc",
+   "type": "heading",
+   "context": "Gateway freeze contract"
+  },
+  {
+   "kind": "modified",
+   "block": "72ba0aad",
+   "type": "para",
+   "context": "Gateway freeze contract"
+  },
+  {
+   "kind": "modified",
+   "block": "fa2c5953",
+   "type": "list",
+   "context": "Gateway freeze contract"
+  },
+  {
+   "kind": "modified",
+   "block": "855ce8eb",
+   "type": "para",
+   "context": "Gateway freeze contract"
+  },
+  {
+   "kind": "modified",
+   "block": "1f0678aa",
    "type": "table",
-   "context": "Analysis and decision gates"
+   "context": "Gate sequence and exact counts"
   },
   {
    "kind": "modified",
-   "block": "9c0d2ccb",
+   "block": "590ee263",
+   "type": "para",
+   "context": "Gate sequence and exact counts"
+  },
+  {
+   "kind": "modified",
+   "block": "0405cffd",
+   "type": "list",
+   "context": "Freeze checklist"
+  },
+  {
+   "kind": "modified",
+   "block": "cf920a25",
+   "type": "para",
+   "context": "Freeze checklist"
+  },
+  {
+   "kind": "modified",
+   "block": "4e78c8b3",
+   "type": "para",
+   "context": "What each run records"
+  },
+  {
+   "kind": "modified",
+   "block": "cab94d5b",
+   "type": "para",
+   "context": "Decision and reporting rules"
+  },
+  {
+   "kind": "modified",
+   "block": "aa49c13e",
+   "type": "list",
+   "context": "Execution order for the operator"
+  },
+  {
+   "kind": "modified",
+   "block": "8d2e6f41",
+   "type": "list",
+   "context": "Execution order for the operator"
+  },
+  {
+   "kind": "modified",
+   "block": "1336f9dd",
    "type": "list",
    "context": "References"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:3d2fc6386a6675756134a13112ae5a32e8a41e1784789d566c99f73107d60f52",
+ "soft_fingerprint": "ppsb1:9ab41f80cda599bc4444b4da29e2b08f2b9bd84f6ecd89f7f20e5c74f6033ec3",
  "actors": {
   "requested_by": [
    "Richard Tang"
@@ -101,53 +149,93 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "37044759",
+   "block": "1d585184",
    "kind": "modified",
-   "note": "Set fixed Gateway C0/C3 decision."
+   "note": "Archived old transport slice and set active Gateway C0/C3 route."
   },
   {
-   "block": "6e8d4f21",
+   "block": "4b9c9552",
    "kind": "modified",
-   "note": "Archived old slice and unversioned smoke."
+   "note": "Updated execution flow to qualification and independent benchmark gates."
   },
   {
-   "block": "a20de7f5",
+   "block": "574f6ebb",
    "kind": "modified",
-   "note": "Set active Gateway runtime."
+   "note": "Updated study modes to C0/C3 Gateway sequence."
   },
   {
-   "block": "395029b6",
+   "block": "17d5429d",
    "kind": "modified",
-   "note": "Changed active primary estimate to C3 minus C0."
+   "note": "Marked C3 as active and MAS as later extension."
   },
   {
-   "block": "86f6ae8d",
+   "block": "386d8701",
    "kind": "modified",
-   "note": "Replaced active transport adapter."
+   "note": "Replaced adapter and recording implementation requirements."
   },
   {
-   "block": "0cafb062",
+   "block": "ad972abc",
    "kind": "modified",
-   "note": "Added per-call Gateway telemetry contract."
+   "note": "Renamed freeze contract for Gateway."
   },
   {
-   "block": "c91c4e94",
+   "block": "72ba0aad",
    "kind": "modified",
-   "note": "Fixed 0731 through Gateway and archived old provider records."
+   "note": "Specified fixed model/provider/telemetry freeze requirements."
   },
   {
-   "block": "ae5cc50e",
+   "block": "855ce8eb",
    "kind": "modified",
-   "note": "Replaced gates with qualification, Harvey, and independent benchmark sequence."
+   "note": "Reduced active roster to fixed 0731."
   },
   {
-   "block": "343eaac9",
+   "block": "1f0678aa",
+   "kind": "modified",
+   "note": "Defined two-workflow qualification and 12-workflow formal matrix."
+  },
+  {
+   "block": "590ee263",
+   "kind": "modified",
+   "note": "Prohibited resuming historical routes."
+  },
+  {
+   "block": "0405cffd",
+   "kind": "modified",
+   "note": "Updated frozen configuration fields."
+  },
+  {
+   "block": "cf920a25",
+   "kind": "modified",
+   "note": "Updated Gateway credential boundary."
+  },
+  {
+   "block": "4e78c8b3",
+   "kind": "modified",
+   "note": "Added telemetry eligibility to RunRecord."
+  },
+  {
+   "block": "cab94d5b",
+   "kind": "modified",
+   "note": "Changed primary contrast and independent reporting rule."
+  },
+  {
+   "block": "aa49c13e",
+   "kind": "modified",
+   "note": "Updated operator sequence."
+  },
+  {
+   "block": "8d2e6f41",
+   "kind": "modified",
+   "note": "Added benchmark gate sequence."
+  },
+  {
+   "block": "1336f9dd",
    "kind": "modified",
    "note": "Updated transport reference."
   }
  ],
  "context": {
-  "why": "Replace the active protocol with fixed 0731 Gateway C0/C3 and auditable telemetry gates."
+  "why": "Replace execution gates with Gateway qualification, formal Harvey C0/C3, and independent benchmark sequencing."
  },
- "event_id": "ppe_455c583d6fa7c5bcc389fd07"
+ "event_id": "ppe_579291b155d18abaf1a5ee2a"
 }
