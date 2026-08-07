@@ -1,47 +1,29 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/ara/logic/claims.md",
- "artifact_id": "pp_ca8a8ddcc33d3870e9a40bc5",
- "version": "34ad9e34",
- "parent": "677bfc59",
+ "artifact": "experiments/provenance_handoff/ara/logic/experiments.md",
+ "artifact_id": "pp_15fb7a0bcf0891f7cee01068",
+ "version": "1b5954a1",
+ "parent": "45aa6e80",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-07T09:52:14+00:00",
+ "ts": "2026-08-07T09:52:16+00:00",
  "stats": {
-  "modified": 4
+  "modified": 1
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "6b007068",
+   "block": "b37d7d2c",
    "type": "list",
-   "context": "C01: Typed admitted lineage can improve "
-  },
-  {
-   "kind": "modified",
-   "block": "0aa90748",
-   "type": "list",
-   "context": "C02: Verifiable lineage may reduce the o"
-  },
-  {
-   "kind": "modified",
-   "block": "5364b3f8",
-   "type": "list",
-   "context": "C03: The treatment effect must be distin"
-  },
-  {
-   "kind": "modified",
-   "block": "f3383dbe",
-   "type": "list",
-   "context": "C04: Isolated and end-to-end evidence an"
+   "context": "E04: Accepted document-native DeepSeek m"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:c42b1b6345191d7db6a302691591b5501a766186845facc800699192fafe9539",
+ "soft_fingerprint": "ppsb1:06e1dcbad49951c6f0674564ca103b936834ed8956e5d0c3b36c2f2bcd8e5ef2",
  "actors": {
   "requested_by": [
    "Richard Tang"
@@ -59,28 +41,13 @@
  "attribution_basis": "environment_attested",
  "claims": [
   {
-   "block": "6b007068",
+   "block": "b37d7d2c",
    "kind": "modified",
-   "note": "Changed primary claim to C2 augmentation of identical C1 shared-memory workflow."
-  },
-  {
-   "block": "0aa90748",
-   "kind": "modified",
-   "note": "Changed efficiency claim to specialist adoption and coordination."
-  },
-  {
-   "block": "5364b3f8",
-   "kind": "modified",
-   "note": "Specified parallel centralized architecture distinction."
-  },
-  {
-   "block": "f3383dbe",
-   "kind": "modified",
-   "note": "Specified C1-versus-C2 native product evidence boundary."
+   "note": "Recorded C0 C1 C2 fan-out design, phase order, and budget-neutral rule."
   }
  ],
  "context": {
   "why": "Recorded the user-approved C0/C1/C2 artifact-native Proofpress experiment design and its budget-neutral parallel-MAS controls."
  },
- "event_id": "ppe_09627cecab0fbccb048e047a"
+ "event_id": "ppe_bd0cd667737fc3176c464d28"
 }

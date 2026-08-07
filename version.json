@@ -1,72 +1,72 @@
 {
- "artifact": "experiments/provenance_handoff/ara/logic/claims.md",
- "artifact_id": "pp_ca8a8ddcc33d3870e9a40bc5",
+ "artifact": "experiments/provenance_handoff/ara/logic/experiments.md",
+ "artifact_id": "pp_15fb7a0bcf0891f7cee01068",
  "blocks": [
   {
    "type": "heading",
-   "text": "# Claims",
-   "id": "2e584545",
-   "hash": "32475190a135"
+   "text": "# Experiments",
+   "id": "68361165",
+   "hash": "58b2a1c3f41e"
   },
   {
    "type": "heading",
-   "text": "## C01: Typed admitted lineage can improve trusted recovery of prior decisions",
-   "id": "859af48b",
-   "hash": "805ba05733b3"
+   "text": "## E01: Official Harvey and OpenRouter runtime validation",
+   "id": "4392bdd3",
+   "hash": "2b7b0fd2a322"
   },
   {
    "type": "list",
-   "text": "- **Statement**: In a fixed centralized fan-out multi-agent workflow, artifact-native Proofpress metadata that makes decision authority, source status, and acceptance state explicit may improve criterion-level recovery relative to the identical workflow using the same shared mutable ordinary coordination memory without Proofpress.\n- **Conditions**: Testing hypothesis for the accepted DeepSeek V4 Flash 0731 Harvey follow-up; it does not generalize outside this harness, task pair, model, or workflow.\n- **Sources**: `configs/gate1b-result-summary-v1.yaml` records why the old sidecar prototype is not evidence for this claim.\n- **Status**: testing\n- **Provenance**: user-revised\n- **Falsification**: Matched runs show no improvement in trusted task success, or any task-score gain accompanies equal or higher unsupported authority upgrades or decision regressions.\n- **Proof**: [pending]\n- **Dependencies**: []\n- **Tags**: provenance, handoff, trust, legal-workflow",
-   "id": "6b007068",
-   "hash": "c07ed79b903a"
+   "text": "- **Question**: Can the pinned v1.0 task and official scorer run without changing task semantics, while recording an explicit model transport configuration?\n- **Status**: completed-for-transport-prototype\n- **Inputs**: one task from each initially selected family; one accessible frozen reference team; exact OpenRouter routing metadata if that transport is used.\n- **Outputs**: immutable environment/task manifest, sanitized result pointer, official score, token/latency record.\n- **Decision rule**: a setup failure is fixed before any treatment comparison; it is not scored as a provenance outcome. The official all-pass endpoint was 0/36 in the completed prototype and is retained as a hard-task diagnostic rather than a continuous primary quality result.",
+   "id": "d94b548d",
+   "hash": "401450cbd46f"
   },
   {
    "type": "heading",
-   "text": "## C02: Verifiable lineage may reduce the operational burden of historical recovery",
-   "id": "da500dfa",
-   "hash": "9b1f18b4a3b9"
+   "text": "## E02: Isolated handoff mechanism diagnostic",
+   "id": "7095f47a",
+   "hash": "69017771f821"
   },
   {
    "type": "list",
-   "text": "- **Statement**: When a centralized team must adopt or reconcile specialist findings, embedded verified lineage may reduce coordination/adoption error or work relative to the same ordinary shared-memory workspace without reducing correct justified reversals.\n- **Conditions**: Testing hypothesis; effectiveness is evaluated with identical source-workspace access and recorded, rather than artificially padded, visible input tokens.\n- **Sources**: [pending: native runs have not begun]\n- **Status**: testing\n- **Provenance**: ai-suggested\n- **Falsification**: Matched runs show no reduction in tokens, latency, or history-search work at comparable trusted success, or lineage materially lowers correct reversals.\n- **Proof**: [pending]\n- **Dependencies**: [C01]\n- **Tags**: efficiency, reversal, lineage",
-   "id": "0aa90748",
-   "hash": "343b41de090c"
+   "text": "- **Question**: Does Proofpress lineage change a fresh receiver's decision recovery against strong ordinary memory when upstream content is identical?\n- **Status**: completed-and-archived\n- **Design**: 2 tasks × 2 critical boundaries × 2 paired arms (`mas-memory`, `mas-proofpress-lineage`) × 3 attempts = 24 receiver-only calls.\n- **Controls**: identical canonical upstream artifact/workspace hashes, fresh receiver session, visible token budget, frozen homogeneous model team, Harvey tools, and source workspace.\n- **Result boundary**: the required receiver-call execution completed and validated transport integrity. It did not score a document-native carrier and therefore does not authorize a scale-up claim.",
+   "id": "018ec3e4",
+   "hash": "1ef8c3928b78"
   },
   {
    "type": "heading",
-   "text": "## C03: The treatment effect must be distinguished from multi-agent decomposition",
-   "id": "c7a85a7a",
-   "hash": "fbe236733c46"
+   "text": "## E03: External-sidecar end-to-end prototype",
+   "id": "cab7fd7c",
+   "hash": "a66074b9c0c7"
   },
   {
    "type": "list",
-   "text": "- **Statement**: Any observed document-native lineage effect must be interpreted separately from the effect of converting a single-agent task into a parallel centralized hub-and-spoke multi-agent workflow.\n- **Conditions**: The native matrix includes a budget-matched single-agent baseline and fixes all multi-agent stages for the primary lineage comparison.\n- **Sources**: Google architecture study, `ara/logic/related_work.md` R02; accepted native-matrix config.\n- **Status**: testing\n- **Provenance**: user-revised\n- **Falsification**: The wrapper changes multiple multi-agent factors between lineage arms or records do not permit the contrasts to be separated.\n- **Proof**: [pending]\n- **Dependencies**: []\n- **Tags**: causal-design, multi-agent, control",
-   "id": "5364b3f8",
-   "hash": "a37d4ab71628"
+   "text": "- **Question**: What did an external `memory.md`/`handoff.log` versus `provenance.md` transport prototype show before the product-form treatment was corrected?\n- **Status**: completed-and-superseded-for-product-efficacy\n- **Design**: 3 homogeneous teams × 2 tasks × 2 external-sidecar arms × 3 attempts = 36 five-stage workflows.\n- **Results**: 36/36 workflow records and clean five-stage runs; 35/36 nonempty finals; Harvey all-pass 0/36; criterion diagnostics were DeepSeek 79.2% memory versus 78.4% sidecar Proofpress, Muse 87.5% versus 77.3%, and Luna 76.8% versus 78.9%.\n- **Decision**: do not treat this as Proofpress product efficacy. It lacked single-agent and centralized communication baselines, exposed a Muse V4-output preflight failure, and tested an external sidecar rather than native artifact carriage.",
+   "id": "c146ea63",
+   "hash": "656c70545518"
   },
   {
    "type": "heading",
-   "text": "## C04: Isolated and end-to-end evidence answer different questions",
-   "id": "b464ba4e",
-   "hash": "6702e1a7b73e"
+   "text": "## E04: Accepted document-native DeepSeek matrix (pending wrapper implementation)",
+   "id": "62ab94d5",
+   "hash": "1045748d4f7d"
   },
   {
    "type": "list",
-   "text": "- **Statement**: The completed isolated sidecar handoff validates transport integrity but cannot establish a native Proofpress mechanism; only the redesigned C1-versus-C2 end-to-end matrix can test the product-form treatment.\n- **Conditions**: The old treatment used external `provenance.md`; the new treatment embeds checkpoints in work artifacts and removes the external sidecar.\n- **Sources**: `configs/gate1b-result-summary-v1.yaml`; `docs/ARCHITECTURE.md`.\n- **Status**: accepted-design-boundary\n- **Provenance**: user-revised\n- **Falsification**: Pair inputs differ outside declared history material, or reporting interprets cumulative end-to-end effects as though every downstream checkpoint were identical.\n- **Proof**: [pending]\n- **Dependencies**: [C01, C03]\n- **Tags**: causal-design, isolated-handoff, long-horizon",
-   "id": "f3383dbe",
-   "hash": "7d521985b16b"
+   "text": "- **Question**: On hard Harvey tasks, does artifact-native Proofpress improve a normal centralized fan-out team that retains shared mutable ordinary coordination memory, and how does that team compare with a budget-neutral single agent?\n- **Status**: accepted-design-pending-implementation\n- **Design**: DeepSeek V4 Flash 0731 only, fixed DeepInfra route, `high` effort, no fallback. Phase 1 is M&A C0-versus-C1, three attempts per condition. Phase 2 is M&A + PSA × C0/C1/C2 × three attempts = 18 workflows. C1 and C2 use orchestrator → three parallel specialist workers → central synthesis; C2 retains C1's `coordination.md` and adds native Proofpress to key worker, decision, and final artifacts.\n- **Primary outcome**: paired C2-minus-C1 per-criterion Harvey success with numerator and denominator. C0-minus-C1 is the architecture comparison. Official all-pass is secondary; trust/reversal/integrity and cost are reported alongside it.\n- **Budget rule**: same billable input-plus-output token cap per trial; prompts, repeated context, ordinary coordination, Proofpress metadata, worker artifacts, and tool output all count. Record the categories separately; do not use filler padding.\n- **Prerequisites**: native carrier implementation, C1 leakage test, DOCX/XLSX final-output preflight, complete token ledger, and one scorer smoke run per arm.",
+   "id": "b37d7d2c",
+   "hash": "fb1393f302d6"
   },
   {
    "type": "heading",
-   "text": "## C05: Core model comparison requires homogeneous teams",
-   "id": "163185fb",
-   "hash": "b4a1608d3dba"
+   "text": "## E05: Cross-model robustness sweep",
+   "id": "df59a8f1",
+   "hash": "acff760e1722"
   },
   {
    "type": "list",
-   "text": "- **Statement**: Within the native fixed-model slice, all agent calls use DeepSeek V4 Flash 0731 with the same frozen request configuration so role-model allocation cannot be mistaken for a provenance effect.\n- **Conditions**: The transport records requested/resolved model and DeepInfra routing; Proofpress itself makes no model call.\n- **Sources**: `configs/gate1b-result-summary-v1.yaml`; `configs/gate-native-v1.draft.yaml`.\n- **Status**: testing\n- **Provenance**: user-revised\n- **Falsification**: A core paired comparison mixes models or unrecorded provider fallbacks across roles or arms.\n- **Proof**: [pending]\n- **Dependencies**: [C01, C03]\n- **Tags**: model-control, transport, causal-design",
-   "id": "771b59db",
-   "hash": "2989d01de75f"
+   "text": "- **Question**: Does the native Proofpress contrast replicate after the fixed DeepSeek matrix is interpretable?\n- **Status**: deferred\n- **Design**: chosen only after a review of E04; each team uses concrete OpenRouter slugs, no automatic fallback, and recorded provider resolution.\n- **Interpretation**: one-harness cross-model robustness only; no cross-harness generalization or model-leaderboard claim.",
+   "id": "6559b8b4",
+   "hash": "a28efe8bf1a7"
   }
  ]
 }
