@@ -1,32 +1,42 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/ara/evidence/README.md",
- "artifact_id": "pp_d903bfb55a61339cd26f454f",
- "version": "c7ec4437",
- "parent": "085ac8b8",
+ "artifact": "experiments/provenance_handoff/docs/RESULTS_MATRIX.md",
+ "artifact_id": "pp_d40d46a12d4d493fcbc9c0e9",
+ "version": "ea4002f4",
+ "parent": "e0241e4a",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-07T22:14:59+00:00",
+ "ts": "2026-08-07T22:25:52+00:00",
  "stats": {
   "modified": 1
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "d49d601a",
+   "block": "2cb9aa42",
    "type": "para",
-   "context": "Design inputs"
+   "context": "Accepted Matrix D: Gateway Harvey SAS fo",
+   "numbers": [
+    [
+     "$25",
+     "37"
+    ],
+    [
+     "12",
+     "$0.093275"
+    ]
+   ]
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:9254cc8f180c1add3272ea5c88cdc17461fc409d97d443d1c0db376bfbb93aa2",
+ "soft_fingerprint": "ppsb1:522e06505b2452424ccbf5611f8c8c0dec951ccf9329d8ec03f63d13707639e2",
  "actors": {
   "requested_by": [
-   "Richard Tang"
+   "richardtang"
   ],
   "produced_by": [
    "Codex"
@@ -41,13 +51,16 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "d49d601a",
+   "block_id": "2cb9aa42",
    "kind": "modified",
-   "note": "Added planned PSA qualification evidence identity and cost ceiling."
+   "claim": "The PSA Gateway qualification stopped as unqualified after 37 C0 calls and $0.093275 actual cost because actual resolution and routing telemetry did not satisfy the frozen protocol; C3 and scorer did not run.",
+   "evidence": [
+    "transport slice event log and aborted manifest"
+   ]
   }
  ],
  "context": {
-  "why": "Record required evidence for the frozen Gateway qualification slice."
+  "why": "Record the executed Gateway qualification failure without interpreting it as a treatment effect."
  },
- "event_id": "ppe_736f2ec8e67ac3f757be7116"
+ "event_id": "ppe_53175feade9e120d306e658e"
 }
