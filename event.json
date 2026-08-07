@@ -1,29 +1,29 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/docs/RESEARCH_PLAN.md",
- "artifact_id": "pp_00e96ce828caea19ac7221ae",
- "version": "e3255144",
- "parent": "19b2f945",
+ "artifact": "experiments/provenance_handoff/docs/RESULTS_MATRIX.md",
+ "artifact_id": "pp_d40d46a12d4d493fcbc9c0e9",
+ "version": "d4bf3b12",
+ "parent": "25937d06",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-07T08:59:57+00:00",
+ "ts": "2026-08-07T09:00:00+00:00",
  "stats": {
   "modified": 1
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "cc5ca75e",
-   "type": "para",
-   "context": "Outcomes and scoring"
+   "block": "5e69bf5b",
+   "type": "heading",
+   "context": "Completed Matrix B: archived external-tr"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:635ac12c048d689f2adad4bb20033703b1c619fe0f3024f078218aa0fd085b14",
+ "soft_fingerprint": "ppsb1:29c15649acbdc6b75fb953097118f0b47635097c402974fe738ec17393104108",
  "actors": {
   "requested_by": [
    "Richard Tang"
@@ -41,13 +41,13 @@
  "attribution_basis": "environment_attested",
  "claims": [
   {
-   "block": "cc5ca75e",
+   "block": "5e69bf5b",
    "kind": "modified",
-   "note": "Specified paired criterion numerator and denominator reporting."
+   "note": "Marked completed Matrix B explicitly archived as an external transport prototype."
   }
  ],
  "context": {
   "why": "Corrected the accepted research record so changed blocks and native experiment anchors are explicitly and accurately represented."
  },
- "event_id": "ppe_4b3c3ebb260daf8e8aeb5694"
+ "event_id": "ppe_1e8ecf859839b97b2fd888a5"
 }
