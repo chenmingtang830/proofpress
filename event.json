@@ -1,101 +1,53 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/docs/RESULTS_MATRIX.md",
- "artifact_id": "pp_d40d46a12d4d493fcbc9c0e9",
- "version": "25937d06",
- "parent": "4eba1af8",
+ "artifact": "experiments/provenance_handoff/ara/logic/claims.md",
+ "artifact_id": "pp_ca8a8ddcc33d3870e9a40bc5",
+ "version": "677bfc59",
+ "parent": "94b8bdc3",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-07T08:57:16+00:00",
+ "ts": "2026-08-07T08:57:19+00:00",
  "stats": {
-  "modified": 13
+  "modified": 5
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "f9ecf7b5",
-   "type": "para",
-   "context": "Review state"
+   "block": "6b007068",
+   "type": "list",
+   "context": "C01: Typed admitted lineage can improve "
   },
   {
    "kind": "modified",
-   "block": "674666f2",
-   "type": "heading",
-   "context": "Completed Matrix A: isolated external-ha"
+   "block": "0aa90748",
+   "type": "list",
+   "context": "C02: Verifiable lineage may reduce the o"
   },
   {
    "kind": "modified",
-   "block": "b7b7605e",
-   "type": "para",
-   "context": "Completed Matrix A: isolated external-ha"
+   "block": "5364b3f8",
+   "type": "list",
+   "context": "C03: The treatment effect must be distin"
   },
   {
    "kind": "modified",
-   "block": "5e69bf5b",
-   "type": "heading",
-   "context": "Completed Matrix B: external-transport e"
+   "block": "f3383dbe",
+   "type": "list",
+   "context": "C04: Isolated and end-to-end evidence an"
   },
   {
    "kind": "modified",
-   "block": "f39ebc31",
-   "type": "para",
-   "context": "Completed Matrix B: external-transport e"
-  },
-  {
-   "kind": "modified",
-   "block": "739fc169",
-   "type": "table",
-   "context": "Completed Matrix B: external-transport e"
-  },
-  {
-   "kind": "modified",
-   "block": "151c31ec",
-   "type": "para",
-   "context": "Completed Matrix B: external-transport e"
-  },
-  {
-   "kind": "modified",
-   "block": "63222dac",
-   "type": "para",
-   "context": "Completed Matrix B: external-transport e"
-  },
-  {
-   "kind": "modified",
-   "block": "1d694b42",
-   "type": "heading",
-   "context": "Accepted Matrix C: native fixed-model fo"
-  },
-  {
-   "kind": "modified",
-   "block": "87d39096",
-   "type": "para",
-   "context": "Accepted Matrix C: native fixed-model fo"
-  },
-  {
-   "kind": "modified",
-   "block": "013dc920",
-   "type": "table",
-   "context": "Accepted Matrix C: native fixed-model fo"
-  },
-  {
-   "kind": "modified",
-   "block": "11f988a8",
-   "type": "para",
-   "context": "Accepted Matrix C: native fixed-model fo"
-  },
-  {
-   "kind": "modified",
-   "block": "0df4e2b4",
-   "type": "para",
-   "context": "Accepted Matrix C: native fixed-model fo"
+   "block": "771b59db",
+   "type": "list",
+   "context": "C05: Core model comparison requires homo"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:a9405b8303dbf85475e1a2829296f2c466783e1c43e38a7c60ce8db0c4d66a9e",
+ "soft_fingerprint": "ppsb1:2246a06d7f2c87e72b58a74dbada0638b391af41ac08bcb5834a569b717d67a1",
  "actors": {
   "requested_by": [
    "Richard Tang"
@@ -113,68 +65,33 @@
  "attribution_basis": "environment_attested",
  "claims": [
   {
-   "block": "f9ecf7b5",
+   "block": "6b007068",
    "kind": "modified",
-   "note": "Recorded status of completed transport prototype."
+   "note": "Updated primary hypothesis to document-native Proofpress versus shared memory."
   },
   {
-   "block": "674666f2",
+   "block": "0aa90748",
    "kind": "modified",
-   "note": "Relabeled completed isolated diagnostic."
+   "note": "Updated efficiency hypothesis and token-control policy."
   },
   {
-   "block": "b7b7605e",
+   "block": "5364b3f8",
    "kind": "modified",
-   "note": "Recorded receiver-call completion boundary."
+   "note": "Added centralized architecture distinction."
   },
   {
-   "block": "f39ebc31",
+   "block": "f3383dbe",
    "kind": "modified",
-   "note": "Relabeled completed sidecar workflow prototype."
+   "note": "Marked sidecar diagnostic as insufficient for product efficacy."
   },
   {
-   "block": "739fc169",
+   "block": "771b59db",
    "kind": "modified",
-   "note": "Recorded model-level criterion diagnostics."
-  },
-  {
-   "block": "151c31ec",
-   "kind": "modified",
-   "note": "Recorded 0/36 all-pass interpretation."
-  },
-  {
-   "block": "63222dac",
-   "kind": "modified",
-   "note": "Recorded operational integrity findings."
-  },
-  {
-   "block": "1d694b42",
-   "kind": "modified",
-   "note": "Defined native fixed-model follow-up matrix."
-  },
-  {
-   "block": "87d39096",
-   "kind": "modified",
-   "note": "Fixed DeepSeek model use."
-  },
-  {
-   "block": "013dc920",
-   "kind": "modified",
-   "note": "Defined workflow and model-call count by arm."
-  },
-  {
-   "block": "11f988a8",
-   "kind": "modified",
-   "note": "Recorded frozen model and routing rationale."
-  },
-  {
-   "block": "0df4e2b4",
-   "kind": "modified",
-   "note": "Deferred model sweep pending native result."
+   "note": "Fixed DeepSeek configuration boundary."
   }
  ],
  "context": {
   "why": "Recorded the accepted document-native DeepSeek follow-up and the bounded interpretation of completed external-sidecar Harvey results."
  },
- "event_id": "ppe_d089d1d02a2c199741c67d55"
+ "event_id": "ppe_516b682238fcd556a90bdee0"
 }
