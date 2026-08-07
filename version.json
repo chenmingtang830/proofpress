@@ -1,132 +1,192 @@
 {
- "artifact": "experiments/provenance_handoff/docs/ARCHITECTURE.md",
- "artifact_id": "pp_b36338c1e353bb457f78ad8c",
+ "artifact": "experiments/provenance_handoff/docs/RESULTS_MATRIX.md",
+ "artifact_id": "pp_d40d46a12d4d493fcbc9c0e9",
  "blocks": [
   {
    "type": "heading",
-   "text": "# Fixed Workflow and Treatment Boundary",
-   "id": "7c8825e6",
-   "hash": "1dd1b3a47ca7"
+   "text": "# Results Matrix and Interpretation Guide",
+   "id": "8f5f32ed",
+   "hash": "928d890552a7"
   },
   {
    "type": "heading",
-   "text": "## Why this is genuinely a handoff study",
-   "id": "6ce64306",
-   "hash": "9c8f080db527"
+   "text": "## Review state",
+   "id": "569ecb4f",
+   "hash": "37f70bcbd882"
   },
   {
    "type": "para",
-   "text": "An ordinary Harvey LAB task can be solved by one agent. That is useful as a real legal-work substrate, but it does not itself test lineage. Our wrapper makes the handoff real by requiring separate fresh-session agents to produce and consume intermediate work products. The handoff is not gratuitous: evidence extraction, decision acceptance, drafting, and final acceptance are distinct legal-work functions whose artifacts are routinely reviewed or revised by different people/agents.",
-   "id": "4e00d031",
-   "hash": "a29270e05392"
+   "text": "Updated after the completed external-transport prototype. Its observed values are descriptive, not evidence for the document-native product treatment. The next matrix below is the accepted follow-up design.",
+   "id": "f9ecf7b5",
+   "hash": "88faa1e4121e"
   },
   {
    "type": "heading",
-   "text": "## Fixed centralized multi-agent system",
-   "id": "dd991385",
-   "hash": "b43486ed00a7"
+   "text": "## What the paper must distinguish",
+   "id": "361bc86e",
+   "hash": "48118f405213"
+  },
+  {
+   "type": "para",
+   "text": "The study has three different questions. They should not be collapsed into one leaderboard number.",
+   "id": "3f8c1697",
+   "hash": "1a9c1930769f"
   },
   {
    "type": "code",
-   "text": "```mermaid\nsequenceDiagram\n    participant H as Harvey harness\n    participant OP as Orchestrator (planning session)\n    participant E as Evidence agent\n    participant D as Decision agent\n    participant W as Drafting agent\n    participant OR as Orchestrator (review session; same role)\n    H->>OP: Task workspace + role-independent task instruction\n    OP->>E: materialize V0 handoff; fresh receiver\n    E->>D: materialize V1 handoff; fresh receiver\n    D->>W: materialize V2 handoff; fresh receiver\n    W->>OR: materialize V3 handoff; fresh receiver\n    OR->>OR: V4 accept, request revision, or abstain\n    OR-->>H: Final deliverable + run manifest\n    H->>H: Official rubric + provenance checks\n```",
-   "id": "7ad9bc6b",
-   "hash": "362809cfed73"
-  },
-  {
-   "type": "para",
-   "text": "There is one orchestrator **role**, shown as `OP` and `OR` only because planning and review are separate fresh sessions. The handoff materializer is deterministic harness code, not an extra agent. Specialists do not message one another outside materialized inputs. If a later frozen matrix enables revision, the request and returned artifact become declared checkpoints; no role carries private memory between stages.",
-   "id": "ac99cf68",
-   "hash": "e649ca361a7e"
+   "text": "```mermaid\nflowchart TB\n  A[\"Is the handoff representation itself causal?\\nIsolated receiver\"] --> B[\"Does it help a real multi-stage workflow?\\nFixed M0 end-to-end\"]\n  B --> C[\"Does the effect depend on model family?\\nTwo-arm model sweep\"]\n```",
+   "id": "d227002e",
+   "hash": "a0239e53131c"
   },
   {
    "type": "heading",
-   "text": "## What stays constant",
-   "id": "63b87997",
-   "hash": "fbca9e35fb0c"
+   "text": "## Completed Matrix A: isolated external-handoff diagnostic",
+   "id": "674666f2",
+   "hash": "13446999c1e3"
+  },
+  {
+   "type": "para",
+   "text": "This is a single-edge experiment. The upstream artifact and public workspace are identical; only the materialized history changes.",
+   "id": "a5d19464",
+   "hash": "4df9026d3d32"
   },
   {
    "type": "table",
-   "text": "| Controlled factor | Rule |\n|---|---|\n| Task | same pinned Harvey task ID, source files, hashes, deliverable, scorer |\n| Architecture | same orchestrator role, specialist roles, stage order, revision cap, and fresh-session rule |\n| Tools | same official Harvey tool policy and sandbox |\n| Model | same exact homogeneous-team configuration within a paired comparison |\n| Budget | same stage time/tool/output caps; handoff-visible tokens matched within 5% |\n| Isolated diagnostic | all representations derive from one frozen canonical checkpoint history |\n| End-to-end workflow | all arms start from the same task, but later artifacts may diverge as the treatment accumulates |\n| Judge | official Harvey rubric blind to arm; provenance audit blind to arm/model labels |",
-   "id": "ecd15f49",
-   "hash": "1bd92a61f06a"
-  },
-  {
-   "type": "heading",
-   "text": "## Accepted follow-up: what varies",
-   "id": "5cc08239",
-   "hash": "ebc1a06d6a7d"
-  },
-  {
-   "type": "code",
-   "text": "```mermaid\nflowchart TB\n  T[\"Pinned Harvey task\"] --> S[\"single-agent\\nunified session\"]\n  T --> M[\"centralized shared-memory MAS\\nmutable coordination.md\"]\n  T --> P[\"centralized Proofpress-native MAS\\nembedded admitted history in work artifacts\"]\n  M --> R[\"Harvey scorer\"]\n  P --> R\n  S --> R\n```",
-   "id": "4d4c2dcd",
-   "hash": "e5f6d4e7112f"
+   "text": "| Dimension | Fixed | Varied |\n|---|---|---|\n| Task | 2 frozen Harvey tasks | task instance |\n| Handoff boundary | `V1 → V2`, `V2 → V3` | boundary |\n| Upstream content | canonical evidence map / decision register | never varies inside a pair |\n| Receiver | fresh session, same role, same M0 model and effort | three independent attempts |\n| Arm | same current artifact and token budget | `mas-memory`, `mas-proofpress-lineage` |",
+   "id": "f749c52a",
+   "hash": "375c4017a16e"
   },
   {
    "type": "para",
-   "text": "The centralized communication baseline is deliberately strong: all five fresh sessions may read and update one ordinary prose `coordination.md` file. It contains decisions, rationale, open questions, and next actions, but not typed source classes, decision/acceptance status, authority, signatures/hashes, capsule identifiers, or verification state. In the Proofpress-native arm that sidecar is absent: the same eligible history is embedded in the actual evidence map, decision register, draft, and final artifact. Proofpress adds no legal facts, better model, source document, or secret evaluator. The primary fair question is therefore “shared mutable coordination memory versus document-native admitted lineage,” not “one sidecar Markdown format versus another.”",
-   "id": "61634a19",
-   "hash": "67714569f8b4"
-  },
-  {
-   "type": "heading",
-   "text": "## Lineage capsule contract",
-   "id": "0e8827af",
-   "hash": "ea61f9ee86c8"
+   "text": "Completed cells: `2 tasks × 2 boundaries × 2 arms × 3 attempts = 24` receiver-only calls per tested model. The recorded DeepSeek 0731, Muse Spark 1.2, and GPT-5.6 Luna slices completed their receiver-call integrity checks. This validates the transport path; it is not a native Proofpress outcome score.",
+   "id": "b7b7605e",
+   "hash": "4b2cb79b43c9"
   },
   {
    "type": "para",
-   "text": "At each accepted V1–V4 checkpoint, the capsule is embedded in the current artifact and records only the claims touched at that checkpoint. Each claim may carry:",
-   "id": "86fb7f8d",
-   "hash": "08d47ac477f8"
+   "text": "Primary measurements: decision recovery accuracy, decision regression, unsupported authority upgrade, correct reversal, false block, input tokens, latency, tool calls/history reads. Its value is causal clarity: if Proofpress changes an outcome here, the difference cannot be blamed on upstream agents having produced different artifacts.",
+   "id": "8459dbf6",
+   "hash": "ff7683a3fb80"
+  },
+  {
+   "type": "heading",
+   "text": "## Completed Matrix B: external-transport end-to-end prototype",
+   "id": "5e69bf5b",
+   "hash": "7bc99c2a9789"
+  },
+  {
+   "type": "para",
+   "text": "This was a preliminary systems experiment, not the final product-form experiment. It compared `memory.md`/`handoff.log` with an external `provenance.md`; that is now classified as a transport prototype.",
+   "id": "f39ebc31",
+   "hash": "ed560771c4c4"
+  },
+  {
+   "type": "table",
+   "text": "| Observed model | Ordinary memory criterion success | External Proofpress sidecar criterion success | Interpretation |\n|---|---:|---|\n| DeepSeek V4 Flash 0731 | 297/375 (79.2%) | 294/375 (78.4%) | near-flat; lowest-cost stable candidate |\n| Muse Spark 1.2 | 328/375 (87.5%) | 290/375 (77.3%) | not interpretable as native effect; one treatment workflow had empty final output |\n| GPT-5.6 Luna | 288/375 (76.8%) | 296/375 (78.9%) | near-flat/slightly positive sidecar result |",
+   "id": "739fc169",
+   "hash": "799e537b61b4"
+  },
+  {
+   "type": "para",
+   "text": "Across 36 workflows, the Harvey all-pass endpoint was 0/36. Harvey requires every criterion to pass, so this difficult-task endpoint is retained as a secondary hardness diagnostic. The 1,125 per-arm criterion opportunities are the descriptive quality signal, but must be reported by task and model rather than only pooled.",
+   "id": "151c31ec",
+   "hash": "3626bee0cbe7"
+  },
+  {
+   "type": "para",
+   "text": "All 36 workflow records completed their five stages, 35/36 had nonempty final outputs, and the sole empty final output occurred in the Muse external-Proofpress cell. This exposed a V4 final-output preflight gap. Three Muse route-metadata events were unresolved; DeepSeek recorded 1,076/1,076 resolved DeepInfra events. These operational facts are not treatment-quality outcomes.",
+   "id": "63222dac",
+   "hash": "7ff4e9a9fee8"
+  },
+  {
+   "type": "para",
+   "text": "For each cell, report:",
+   "id": "5e2460de",
+   "hash": "3f5bdd475a6e"
+  },
+  {
+   "type": "table",
+   "text": "| Quality | Trust | Efficiency | Integrity |\n|---|---|---|---|\n| official Harvey rubric and `trusted_task_success` | regression, unsupported upgrade, correct reversal, false block | input/output tokens, latency, cost, tools, history reads | capsule verification, artifact continuity, declared actor/status agreement |",
+   "id": "2a34abf5",
+   "hash": "7552c9880136"
+  },
+  {
+   "type": "heading",
+   "text": "## Accepted Matrix C: native fixed-model follow-up",
+   "id": "1d694b42",
+   "hash": "da5b0837cfcd"
+  },
+  {
+   "type": "para",
+   "text": "Keep the harness and workflow fixed. Use DeepSeek V4 Flash 0731 for every agent call; do not use a costly coordinator paired with cheap workers in the core causal matrix.",
+   "id": "87d39096",
+   "hash": "e728c7a7f3a9"
+  },
+  {
+   "type": "table",
+   "text": "| Arm | Tasks | Attempts | Model calls | Role in interpretation |\n|---|---|---:|---:|---|\n| `single-agent` | 2 | 3 | 6 | decomposition reference |\n| `centralized-shared-memory` | 2 | 3 | 30 | centralized communication baseline |\n| `centralized-proofpress-native` | 2 | 3 | 30 | primary document-native treatment |",
+   "id": "013dc920",
+   "hash": "bbf1ee9fd8c6"
+  },
+  {
+   "type": "para",
+   "text": "Total planned execution is 18 workflows and 66 model calls: six single-agent calls plus twelve five-stage MAS workflows. Each row uses the exact concrete `deepseek/deepseek-v4-flash-0731` slug, frozen DeepInfra route, `high` effort, and resolved response metadata. This is a cost-contained fixed-model decision, not a model leaderboard claim.",
+   "id": "11f988a8",
+   "hash": "dc2003f40f6c"
+  },
+  {
+   "type": "para",
+   "text": "The next quality table must use paired per-criterion success as primary, Harvey all-pass as secondary, and show task-level results. A model sweep is deferred until this native matrix is interpretable.",
+   "id": "0df4e2b4",
+   "hash": "2edeb6f62add"
+  },
+  {
+   "type": "heading",
+   "text": "## The result table that should appear in the paper",
+   "id": "bbd3d2f1",
+   "hash": "4d35da4ed4eb"
+  },
+  {
+   "type": "para",
+   "text": "The main table should use a difference relative to the primary memory control, not only an absolute score.",
+   "id": "afab3f3b",
+   "hash": "86144c5887a8"
+  },
+  {
+   "type": "table",
+   "text": "| Model team | Arm | Trusted success | Official score | Regression / upgrade | Correct reversal | Input tokens | Latency | Cost | Tool/history work |\n|---|---|---:|---:|---:|---:|---:|---:|---:|---:|\n| M0 | memory | … | … | … | … | … | … | … | … |\n| M0 | Proofpress | … | … | … | … | … | … | … | … |\n| M0 | **PP − memory** | … | … | … | … | … | … | … | … |\n| M1 | memory | … | … | … | … | … | … | … | … |\n| M1 | Proofpress | … | … | … | … | … | … | … | … |",
+   "id": "17f95fa2",
+   "hash": "37f33c4824cc"
+  },
+  {
+   "type": "para",
+   "text": "Put Matrix B's `single-agent`, artifact, and memory-chain references in a companion table. Show task-level dot plots and per-model differences beside aggregates; do not hide a heterogenous outcome under a single mean.",
+   "id": "a7e1d002",
+   "hash": "a4818a166f5e"
+  },
+  {
+   "type": "heading",
+   "text": "## Interpretation rules",
+   "id": "d324bb25",
+   "hash": "321508d9aaf2"
+  },
+  {
+   "type": "table",
+   "text": "| Observed pattern | Responsible statement |\n|---|---|\n| Proofpress improves isolated recovery and end-to-end trusted success versus strong memory, without reversal harm | Evidence supports a bounded provenance-handoff mechanism for the frozen tasks/workflow/model(s). |\n| Proofpress wins only against latest artifact, not strong memory | Claim ordinary handoff memory matters; do not claim a distinctive Proofpress benefit. |\n| Proofpress matches memory but uses fewer tokens/latency/history reads | Claim an efficiency or auditability advantage only if task/trust quality is not materially worse. |\n| Proofpress is worse at justified reversal or causes false blocks | The preservation framing failed on adaptive decision-making; report it and revise the protocol. |\n| Effect appears only in one model team | State a model interaction, not a general provenance effect. |\n| Controls lack the intended recovery error | Stop or redesign; a scaled matrix would not test the proposed mechanism. |",
+   "id": "e048af31",
+   "hash": "7afc6dfc5dff"
+  },
+  {
+   "type": "heading",
+   "text": "## What is not a valid conclusion",
+   "id": "95029a21",
+   "hash": "8b04c2b6720e"
   },
   {
    "type": "list",
-   "text": "- source/evidence pointer and source class;\n- decision status (`proposed`, `accepted`, `rejected`, `superseded`, or `conditional`);\n- scope, rationale, actor/role, and acceptance authority;\n- rejection reason or explicit reversal condition when one exists;\n- parent artifact/version hash and verification result.",
-   "id": "ed5ec874",
-   "hash": "38fc6181aba9"
-  },
-  {
-   "type": "para",
-   "text": "The wrapper must verify each embedded capsule before a receiver receives it. A failed verification is a run-level operational event; it may not be silently repaired into a clean treatment input.",
-   "id": "c7b43102",
-   "hash": "e5479175f2f4"
-  },
-  {
-   "type": "heading",
-   "text": "## Isolated handoff diagnostic versus end-to-end workflow",
-   "id": "184f0405",
-   "hash": "92d32493f287"
-  },
-  {
-   "type": "para",
-   "text": "The primary study is end-to-end: it measures the cumulative system effect of each arm across V0–V4. This is realistic, but after the first receiver each arm may create different downstream artifacts. The completed isolated sidecar diagnostic is retained as an operational check only. It is not rerun or used as a replacement baseline until a future native-carrier mechanism test is justified.",
-   "id": "c417481e",
-   "hash": "a360e2c01565"
-  },
-  {
-   "type": "heading",
-   "text": "## Homogeneous model teams and transport",
-   "id": "0eba534e",
-   "hash": "4e71ae57fbf0"
-  },
-  {
-   "type": "para",
-   "text": "For one workflow slice, OP, E, D, W, and OR all use the same exact model and `high` effort. This prevents a role-model assignment from masquerading as a handoff effect. The Harvey task and scorer remain fixed; an OpenRouter adapter is only a transport layer. It uses concrete model slugs, no `auto` routing, no version aliases, no fallbacks, pinned provider routing, and logs the resolved provider/model, request settings, tokens, and cost metadata.",
-   "id": "95a47d98",
-   "hash": "14dbf87da9a2"
-  },
-  {
-   "type": "heading",
-   "text": "## Reversal test",
-   "id": "97e7f533",
-   "hash": "23a2b7831b4e"
-  },
-  {
-   "type": "para",
-   "text": "The desired behavior is neither blind obedience to history nor casual overwriting. When a later source changes a factual premise, or an explicit expiry/reversal condition is met, the receiver should identify the prior accepted decision, cite the new evidence, and produce a superseding decision. The scorer distinguishes this correct reversal from a decision regression and from a false block.",
-   "id": "0d02d03b",
-   "hash": "cb46ba2ba2c3"
+   "text": "- A higher Harvey rubric alone does not prove preserved trust.\n- A model sweep does not compare harnesses.\n- A raw-history win does not imply that more context is intrinsically better; it may only expose a missing ordinary-memory control.\n- An ARA trace or a valid Proofpress capsule does not certify legal correctness; it records research/artifact provenance at different layers.",
+   "id": "8f35c0d0",
+   "hash": "0da5567e682c"
   }
  ]
 }

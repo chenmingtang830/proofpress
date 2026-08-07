@@ -1,59 +1,101 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/docs/ARCHITECTURE.md",
- "artifact_id": "pp_b36338c1e353bb457f78ad8c",
- "version": "c3562bd4",
- "parent": "beaa75b5",
+ "artifact": "experiments/provenance_handoff/docs/RESULTS_MATRIX.md",
+ "artifact_id": "pp_d40d46a12d4d493fcbc9c0e9",
+ "version": "25937d06",
+ "parent": "4eba1af8",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-07T08:57:13+00:00",
+ "ts": "2026-08-07T08:57:16+00:00",
  "stats": {
-  "modified": 6
+  "modified": 13
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "5cc08239",
+   "block": "f9ecf7b5",
+   "type": "para",
+   "context": "Review state"
+  },
+  {
+   "kind": "modified",
+   "block": "674666f2",
    "type": "heading",
-   "context": "Accepted follow-up: what varies"
+   "context": "Completed Matrix A: isolated external-ha"
   },
   {
    "kind": "modified",
-   "block": "4d4c2dcd",
-   "type": "code",
-   "context": "Accepted follow-up: what varies"
-  },
-  {
-   "kind": "modified",
-   "block": "61634a19",
+   "block": "b7b7605e",
    "type": "para",
-   "context": "Accepted follow-up: what varies"
+   "context": "Completed Matrix A: isolated external-ha"
   },
   {
    "kind": "modified",
-   "block": "86fb7f8d",
-   "type": "para",
-   "context": "Lineage capsule contract"
+   "block": "5e69bf5b",
+   "type": "heading",
+   "context": "Completed Matrix B: external-transport e"
   },
   {
    "kind": "modified",
-   "block": "c7b43102",
+   "block": "f39ebc31",
    "type": "para",
-   "context": "Lineage capsule contract"
+   "context": "Completed Matrix B: external-transport e"
   },
   {
    "kind": "modified",
-   "block": "c417481e",
+   "block": "739fc169",
+   "type": "table",
+   "context": "Completed Matrix B: external-transport e"
+  },
+  {
+   "kind": "modified",
+   "block": "151c31ec",
    "type": "para",
-   "context": "Isolated handoff diagnostic versus end-t"
+   "context": "Completed Matrix B: external-transport e"
+  },
+  {
+   "kind": "modified",
+   "block": "63222dac",
+   "type": "para",
+   "context": "Completed Matrix B: external-transport e"
+  },
+  {
+   "kind": "modified",
+   "block": "1d694b42",
+   "type": "heading",
+   "context": "Accepted Matrix C: native fixed-model fo"
+  },
+  {
+   "kind": "modified",
+   "block": "87d39096",
+   "type": "para",
+   "context": "Accepted Matrix C: native fixed-model fo"
+  },
+  {
+   "kind": "modified",
+   "block": "013dc920",
+   "type": "table",
+   "context": "Accepted Matrix C: native fixed-model fo"
+  },
+  {
+   "kind": "modified",
+   "block": "11f988a8",
+   "type": "para",
+   "context": "Accepted Matrix C: native fixed-model fo"
+  },
+  {
+   "kind": "modified",
+   "block": "0df4e2b4",
+   "type": "para",
+   "context": "Accepted Matrix C: native fixed-model fo"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:79c8ced566e7f5be24ee14f9774cb23b3899226db42d74b6760d334c9c3e058c",
+ "soft_fingerprint": "ppsb1:a9405b8303dbf85475e1a2829296f2c466783e1c43e38a7c60ce8db0c4d66a9e",
  "actors": {
   "requested_by": [
    "Richard Tang"
@@ -71,38 +113,68 @@
  "attribution_basis": "environment_attested",
  "claims": [
   {
-   "block": "5cc08239",
+   "block": "f9ecf7b5",
    "kind": "modified",
-   "note": "Declared native follow-up variation boundary."
+   "note": "Recorded status of completed transport prototype."
   },
   {
-   "block": "4d4c2dcd",
+   "block": "674666f2",
    "kind": "modified",
-   "note": "Replaced sidecar arms diagram with three-arm architecture comparison."
+   "note": "Relabeled completed isolated diagnostic."
   },
   {
-   "block": "61634a19",
+   "block": "b7b7605e",
    "kind": "modified",
-   "note": "Defined shared-memory control and document-native treatment."
+   "note": "Recorded receiver-call completion boundary."
   },
   {
-   "block": "86fb7f8d",
+   "block": "f39ebc31",
    "kind": "modified",
-   "note": "Moved capsule carriage into work artifacts."
+   "note": "Relabeled completed sidecar workflow prototype."
   },
   {
-   "block": "c7b43102",
+   "block": "739fc169",
    "kind": "modified",
-   "note": "Required embedded capsule verification."
+   "note": "Recorded model-level criterion diagnostics."
   },
   {
-   "block": "c417481e",
+   "block": "151c31ec",
    "kind": "modified",
-   "note": "Archived sidecar isolated diagnostic as operational evidence only."
+   "note": "Recorded 0/36 all-pass interpretation."
+  },
+  {
+   "block": "63222dac",
+   "kind": "modified",
+   "note": "Recorded operational integrity findings."
+  },
+  {
+   "block": "1d694b42",
+   "kind": "modified",
+   "note": "Defined native fixed-model follow-up matrix."
+  },
+  {
+   "block": "87d39096",
+   "kind": "modified",
+   "note": "Fixed DeepSeek model use."
+  },
+  {
+   "block": "013dc920",
+   "kind": "modified",
+   "note": "Defined workflow and model-call count by arm."
+  },
+  {
+   "block": "11f988a8",
+   "kind": "modified",
+   "note": "Recorded frozen model and routing rationale."
+  },
+  {
+   "block": "0df4e2b4",
+   "kind": "modified",
+   "note": "Deferred model sweep pending native result."
   }
  ],
  "context": {
   "why": "Recorded the accepted document-native DeepSeek follow-up and the bounded interpretation of completed external-sidecar Harvey results."
  },
- "event_id": "ppe_61a8be85d71717fcd5256eb0"
+ "event_id": "ppe_d089d1d02a2c199741c67d55"
 }
