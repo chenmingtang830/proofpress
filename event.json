@@ -1,29 +1,35 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/ara/logic/related_work.md",
- "artifact_id": "pp_aeef744ab46114892229ebab",
- "version": "1a4fdfc3",
- "parent": "be01c41a",
+ "artifact": "experiments/provenance_handoff/README.md",
+ "artifact_id": "pp_556b115de711b0cd33eed260",
+ "version": "d98e9b85",
+ "parent": "7e31b957",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-07T08:57:23+00:00",
+ "ts": "2026-08-07T08:58:37+00:00",
  "stats": {
-  "modified": 1
+  "modified": 2
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "9b6cacb9",
+   "block": "48aa7881",
    "type": "para",
-   "context": "R02: Scaling agent systems"
+   "context": "Scope and comparison"
+  },
+  {
+   "kind": "modified",
+   "block": "1fa1b7ec",
+   "type": "para",
+   "context": "Before any model run"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:80f688461261789af38be9a8ca75b267a68c202c172220c428de0a5d5d2c099d",
+ "soft_fingerprint": "ppsb1:e2a16305813b0583635b2b078824026dd0c265e773a610e23fa5ce9a47dd1791",
  "actors": {
   "requested_by": [
    "Richard Tang"
@@ -41,13 +47,18 @@
  "attribution_basis": "environment_attested",
  "claims": [
   {
-   "block": "9b6cacb9",
+   "block": "48aa7881",
    "kind": "modified",
-   "note": "Specified Google-taxonomy centralized baseline and single-agent rationale."
+   "note": "Clarified that the accepted three arms are explicitly scoped."
+  },
+  {
+   "block": "1fa1b7ec",
+   "kind": "modified",
+   "note": "Clarified that the accepted design does not itself authorize model calls."
   }
  ],
  "context": {
-  "why": "Recorded the accepted document-native DeepSeek follow-up and the bounded interpretation of completed external-sidecar Harvey results."
+  "why": "Corrected the accepted research record after the preceding snapshot omitted claims for two materially revised README blocks."
  },
- "event_id": "ppe_c85cbe94ab06d6c6a1558e92"
+ "event_id": "ppe_0a750f66a5033a73049f5823"
 }

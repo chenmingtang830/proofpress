@@ -1,84 +1,132 @@
 {
- "artifact": "experiments/provenance_handoff/ara/logic/related_work.md",
- "artifact_id": "pp_aeef744ab46114892229ebab",
+ "artifact": "experiments/provenance_handoff/README.md",
+ "artifact_id": "pp_556b115de711b0cd33eed260",
  "blocks": [
   {
    "type": "heading",
-   "text": "# Related Work",
-   "id": "c26ac4be",
-   "hash": "37e5674fb503"
+   "text": "# Proofpress Provenance Lineage Evaluation",
+   "id": "da60723f",
+   "hash": "8d8278be868b"
   },
   {
    "type": "heading",
-   "text": "## R01: Harvey LAB",
-   "id": "a7681fe0",
-   "hash": "87750d1a16ed"
+   "text": "## Review status",
+   "id": "0c4a8f5e",
+   "hash": "546856f064e7"
   },
   {
    "type": "para",
-   "text": "Harvey LAB provides legal-work tasks, an open-source execution harness, model adapters, task result packaging, and evaluation rubrics. It is used here as a task/harness substrate, not as a claim that this wrapper reproduces Harvey's published leaderboard.",
-   "id": "5152bcf5",
-   "hash": "2412bc5a7d0c"
-  },
-  {
-   "type": "list",
-   "text": "- Source: https://github.com/harveyai/harvey-labs\n- Architecture: https://github.com/harveyai/harvey-labs/blob/v1.0/docs/architecture.md",
-   "id": "f6b950f4",
-   "hash": "d09bf402d24c"
+   "text": "This directory records an executed external-transport prototype and an accepted document-native follow-up. It is not an instruction to spend further model budget until the native wrapper and scorer smoke test are reviewed. Harvey LAB remains the task and scoring substrate; Proofpress is evaluated as an artifact-native history layer, not as a second benchmark.",
+   "id": "d86e9669",
+   "hash": "cde94d9f5843"
   },
   {
    "type": "heading",
-   "text": "## R02: Scaling agent systems",
-   "id": "502e7400",
-   "hash": "6ec07f73a555"
+   "text": "## The research question",
+   "id": "13a7e0d8",
+   "hash": "005d1b935877"
   },
   {
    "type": "para",
-   "text": "Google's study distinguishes a single-agent system from independent, centralized, decentralized, and hybrid multi-agent architectures. The accepted baseline here is therefore described precisely as a **Google-taxonomy centralized hub-and-spoke** architecture: an orchestrator delegates and synthesizes while workers do not communicate peer-to-peer. Its mutable `coordination.md` is our conventional communication protocol, not a claim that Google shipped that file format. The study also reports that multi-agent coordination can degrade sequential tasks, which is why the next matrix retains a budget-matched single-agent arm rather than assuming decomposition helps.",
-   "id": "9b6cacb9",
-   "hash": "5427ac18ab2d"
+   "text": "For difficult Harvey legal tasks, does document-native Proofpress history help a centralized multi-agent workflow recover and revise prior work relative to conventional shared mutable coordination memory—and how do both workflows compare with a budget-matched single agent?",
+   "id": "efb84a51",
+   "hash": "c6c50d6f6a4a"
   },
   {
-   "type": "list",
-   "text": "- Source: https://arxiv.org/abs/2512.08296\n- Discussion: https://research.google/blog/towards-a-science-of-scaling-agent-systems-when-and-why-agent-systems-work/",
-   "id": "b0795eb4",
-   "hash": "e9891499e086"
+   "type": "para",
+   "text": "The study is deliberately not a claim that more context or more agents are better. It tests whether the work artifact itself can carry authority, source status, rationale, and acceptance state without turning Proofpress into a separate handoff note.",
+   "id": "51799240",
+   "hash": "ccb0411101c8"
   },
   {
    "type": "heading",
-   "text": "## R03: Agent-Native Research Artifact",
-   "id": "f45a798f",
-   "hash": "c964ee0a93fb"
+   "text": "## Scope and comparison",
+   "id": "2873d37b",
+   "hash": "4e91fd527af3"
   },
   {
    "type": "para",
-   "text": "ARA supplies the research-management structure for this study: logic, source artifacts, trace, and evidence. Its current-state and append-only separation informs how the paper process is recorded.",
-   "id": "a30649b6",
-   "hash": "57db5bd15dfa"
+   "text": "The execution runtime is [Harvey LAB](https://github.com/harveyai/harvey-labs) v1.0's own task and scoring harness. Harvey tasks are not inherently agent-to-agent handoff tasks; our wrapper creates the controlled long-horizon workflow. One orchestrator role (in fresh planning and review sessions) coordinates evidence, decision-register, and drafting stages. Each completed stage emits a real work artifact, producing `V0 → V1 → V2 → V3 → V4` rather than one artificial two-agent transfer.",
+   "id": "1030b33f",
+   "hash": "2b202ad195ec"
+  },
+  {
+   "type": "para",
+   "text": "The accepted next execution matrix has three explicitly scoped arms:",
+   "id": "48aa7881",
+   "hash": "1694e534efbd"
   },
   {
    "type": "list",
-   "text": "- Paper: https://arxiv.org/abs/2604.24658\n- Implementation: https://github.com/ARA-Labs/Agent-Native-Research-Artifact",
-   "id": "213a8475",
-   "hash": "e9a3b22ceac9"
+   "text": "- `single-agent`: one DeepSeek V4 Flash 0731 agent completes the original Harvey task with the same total model-token ceiling as a MAS workflow.\n- `centralized-shared-memory`: a Google-taxonomy centralized hub-and-spoke MAS. The orchestrator delegates and synthesizes; workers communicate through one mutable ordinary `coordination.md` workspace file.\n- `centralized-proofpress-native`: the same roles, stage order, tools, model, and budget, but no shared mutable coordination memory. Accepted provenance is embedded in each stage's actual work artifact using Proofpress-native carrier metadata and verified capsules.",
+   "id": "27c19da2",
+   "hash": "3cbb50a03266"
+  },
+  {
+   "type": "para",
+   "text": "The primary causal contrast is `centralized-proofpress-native` versus `centralized-shared-memory`: document-native admitted history versus a serious conventional multi-agent communication mechanism. `single-agent` is a co-primary architecture reference; it prevents a provenance result from being confused with an assumed benefit of decomposition.",
+   "id": "146ef700",
+   "hash": "cfd4b7ac9435"
   },
   {
    "type": "heading",
-   "text": "## R04: Model transport and sampling source",
-   "id": "4fd097c8",
-   "hash": "324de19f21fb"
-  },
-  {
-   "type": "para",
-   "text": "OpenRouter is a transport/routing layer for the fixed Harvey harness, not a second evaluation harness. The study freezes concrete model slugs and provider routing to avoid silent model/provider substitution. The Chatbot Arena Agent Leaderboard may inform a broad candidate roster but is not evidence about legal-work performance or provenance.",
-   "id": "2686316a",
-   "hash": "aae0f3723262"
+   "text": "## What is here today",
+   "id": "949eb6a5",
+   "hash": "c7f8c0c9beb7"
   },
   {
    "type": "list",
-   "text": "- Routing: https://openrouter.ai/docs/guides/routing/provider-selection\n- Latest-version semantics: https://openrouter.ai/docs/guides/routing/routers/latest-resolution\n- Model metadata: https://openrouter.ai/api/v1/models\n- Candidate sampling source: https://arena.ai/leaderboard/agent",
-   "id": "d4a8d92c",
-   "hash": "58ddab5031de"
+   "text": "- `docs/RESEARCH_PLAN.md` — accepted follow-up protocol, observed Gate 1 boundary, arms, metrics, and gates.\n- `docs/ARCHITECTURE.md` — the fixed centralized workflow and the treatment boundary.\n- `docs/EXECUTION_PLAN.md` — staged implementation and run plan, including explicit stopping gates.\n- `docs/RESULTS_MATRIX.md` — the three result matrices and how to interpret them.\n- `docs/RUNBOOK.md` — operational prerequisites and what is or is not implemented today.\n- `docs/ARA_PROOFPRESS.md` — ARA as research-management layer; Proofpress as independently verifiable artifact lineage.\n- `ara/` — an Agent-Native Research Artifact for this study. It contains hypotheses and decisions, not invented results.\n- `configs/gate-native-v1.draft.yaml` — the reviewable three-arm DeepSeek follow-up contract; it is deliberately not frozen or runnable yet.\n- `pp_eval/`, `suites/`, and `tests/` — the pre-existing lightweight mechanism runtime. It is retained for smoke tests and does not yet claim to execute the official Harvey harness treatment wrapper.",
+   "id": "c1ba01f6",
+   "hash": "8977e98333c8"
+  },
+  {
+   "type": "heading",
+   "text": "## ARA installation",
+   "id": "3b50a86f",
+   "hash": "8ba44b751699"
+  },
+  {
+   "type": "para",
+   "text": "The official ARA source has been cloned at `third_party/ara-source` and its six local Codex skills were installed under `.codex/skills/`. Both locations are ignored by Git; their source URL, commit, installation command, and role are recorded in [ara/UPSTREAM.md](ara/UPSTREAM.md). ARA is the research-management layer only. Benchmark agents never receive its files, skills, or prompts.",
+   "id": "b9231698",
+   "hash": "b53a84e22894"
+  },
+  {
+   "type": "heading",
+   "text": "## Before any model run",
+   "id": "61817201",
+   "hash": "7eea770695d5"
+  },
+  {
+   "type": "para",
+   "text": "The completed Gate 1a/1b results are retained as evidence about an **external transport prototype** only. Before the next matrix: remove provenance leakage from the ordinary-memory control, implement the document-native carrier, add a V4 output preflight, and confirm one end-to-end scorer smoke run. Only then freeze and run the three-arm DeepSeek slice; this design itself is not authorization for model calls.",
+   "id": "1fa1b7ec",
+   "hash": "7a7a0c77368f"
+  },
+  {
+   "type": "heading",
+   "text": "## Existing lightweight smoke runtime",
+   "id": "f0c71c2d",
+   "hash": "0c264b5b3db6"
+  },
+  {
+   "type": "para",
+   "text": "The existing `pp-eval` commands still work for local fixture validation:",
+   "id": "0c725a2a",
+   "hash": "7514b91a9fd0"
+  },
+  {
+   "type": "code",
+   "text": "```bash\nexport PROOFPRESS_EVAL_HOME=/Users/richardtang/.cache/proofpress-eval\ncd /Users/richardtang/proofpress-dev/experiments/provenance_handoff\nuv sync --frozen\nuv run pp-eval doctor --suite smoke-v1 --data-home \"$PROOFPRESS_EVAL_HOME\"\nuv run pp-eval build --suite smoke-v1 --data-home \"$PROOFPRESS_EVAL_HOME\"\nuv run pp-eval run --suite smoke-v1 --data-home \"$PROOFPRESS_EVAL_HOME\" --arms final,proofpress --runner codex --model gpt-5.6-terra --attempts 1 --concurrency 1\nuv run pp-eval grade --suite smoke-v1 --data-home \"$PROOFPRESS_EVAL_HOME\"\nuv run pp-eval report --suite smoke-v1 --data-home \"$PROOFPRESS_EVAL_HOME\"\n```",
+   "id": "bc21a929",
+   "hash": "e73ef42337ee"
+  },
+  {
+   "type": "para",
+   "text": "Those fixtures validate package construction, isolation, recording, and reports only. They are not a substitute for the Harvey-first study described in `docs/`.",
+   "id": "36223643",
+   "hash": "033e6320c439"
   }
  ]
 }
