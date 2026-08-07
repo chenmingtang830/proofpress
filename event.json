@@ -1,35 +1,35 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/ara/evidence/README.md",
- "artifact_id": "pp_d903bfb55a61339cd26f454f",
- "version": "085ac8b8",
- "parent": "a137f086",
+ "artifact": "docs/internal/experiments/PROVENANCE_HANDOFF_EVALUATION_PLAN.md",
+ "artifact_id": "pp_dfeff80ca8348068acae1718",
+ "version": "fbedde8c",
+ "parent": "8e6d6fb0",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-07T22:00:02+00:00",
+ "ts": "2026-08-07T22:14:36+00:00",
  "stats": {
   "modified": 2
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "687aeafa",
-   "type": "para",
-   "context": "Current state"
+   "block": "1f7a3c9e",
+   "type": "table",
+   "context": "7. Experimental design"
   },
   {
    "kind": "modified",
-   "block": "d49d601a",
+   "block": "d02d7dbb",
    "type": "para",
-   "context": "Design inputs"
+   "context": "10. Pilot implementation"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:7330c1a7922b45539c52243284d8d18dca37412b94d7cb95f6a3d44caefcc200",
+ "soft_fingerprint": "ppsb1:10eaecda46b61d5fc94e3861f3fc11d6a12ccbc56fe88ad30f8c32b6dcae0073",
  "actors": {
   "requested_by": [
    "Richard Tang"
@@ -47,18 +47,18 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "687aeafa",
+   "block": "1f7a3c9e",
    "kind": "modified",
-   "note": "Clarified no Gateway outcomes and archived history boundary."
+   "note": "Defined serial fresh-checkpoint SAS C0/C3 semantics."
   },
   {
-   "block": "d49d601a",
+   "block": "d02d7dbb",
    "kind": "modified",
-   "note": "Added Gateway telemetry and ARA/Proofpress evidence requirements."
+   "note": "Specified PSA qualification slice, five checkpoints, and shared $25 ceiling."
   }
  ],
  "context": {
-  "why": "Record Gateway telemetry evidence requirements and the ARA/Proofpress boundary."
+  "why": "Record the implemented Gateway 0731 PSA C0/C3 qualification checkpoint design."
  },
- "event_id": "ppe_2052405153cbc5f95b299efe"
+ "event_id": "ppe_1dcd0eca41fc17b05e760f54"
 }
