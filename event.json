@@ -1,35 +1,41 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/README.md",
- "artifact_id": "pp_556b115de711b0cd33eed260",
- "version": "5019ed82",
- "parent": "45e7731c",
+ "artifact": "experiments/provenance_handoff/docs/RESEARCH_PLAN.md",
+ "artifact_id": "pp_00e96ce828caea19ac7221ae",
+ "version": "86712d2c",
+ "parent": "09f0f46a",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-07T22:14:38+00:00",
+ "ts": "2026-08-07T22:14:41+00:00",
  "stats": {
-  "modified": 1
+  "modified": 3
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "1fa1b7ec",
-   "type": "para",
-   "context": "Before any model run",
-   "numbers": [
-    [
-     "12",
-     "$25."
-    ]
-   ]
+   "block": "743b9bd8",
+   "type": "table",
+   "context": "Model plan"
+  },
+  {
+   "kind": "modified",
+   "block": "7bcd9b4b",
+   "type": "list",
+   "context": "Budgets, isolation, and fairness"
+  },
+  {
+   "kind": "modified",
+   "block": "9858f44e",
+   "type": "list",
+   "context": "Implementation milestones"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:ae4b2b90a8af28223bd11af27e435c1284b9cef71e80b92ef5f3fe03f4a62732",
+ "soft_fingerprint": "ppsb1:cce2adf293af1feddab220c54d400940559c8ea5b81cff72569257cbd975fe0c",
  "actors": {
   "requested_by": [
    "Richard Tang"
@@ -47,13 +53,23 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "1fa1b7ec",
+   "block": "743b9bd8",
    "kind": "modified",
-   "note": "Recorded frozen PSA C0/C3 qualification workflow, telemetry, and cost boundary."
+   "note": "Specified the frozen PSA qualification design and $25 ceiling."
+  },
+  {
+   "block": "7bcd9b4b",
+   "kind": "modified",
+   "note": "Defined matched serial SAS C0/C3 checkpoint continuity."
+  },
+  {
+   "block": "9858f44e",
+   "kind": "modified",
+   "note": "Replaced stale MAS execution milestones with Gateway qualification sequence."
   }
  ],
  "context": {
-  "why": "Record the implemented isolated Gateway qualification slice."
+  "why": "Align formal research milestones with the implemented PSA Gateway C0/C3 qualification."
  },
- "event_id": "ppe_700a8fea6320edebce5749a8"
+ "event_id": "ppe_f991c3f7be27f888cc325bbf"
 }
