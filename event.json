@@ -1,50 +1,63 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/ara/logic/experiments.md",
- "artifact_id": "pp_15fb7a0bcf0891f7cee01068",
- "version": "45aa6e80",
- "parent": "71001cfc",
+ "artifact": "experiments/provenance_handoff/docs/RESEARCH_PLAN.md",
+ "artifact_id": "pp_00e96ce828caea19ac7221ae",
+ "version": "76f11343",
+ "parent": "e3255144",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-07T09:00:02+00:00",
+ "ts": "2026-08-07T09:01:08+00:00",
  "stats": {
-  "modified": 2,
-  "removed": 2
+  "modified": 5
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "62ab94d5",
-   "type": "heading",
-   "context": "E04: Accepted document-native DeepSeek m"
+   "block": "743b9bd8",
+   "type": "table",
+   "context": "Model plan"
   },
   {
    "kind": "modified",
-   "block": "b37d7d2c",
+   "block": "c91c4e94",
+   "type": "para",
+   "context": "Model plan"
+  },
+  {
+   "kind": "modified",
+   "block": "7bcd9b4b",
    "type": "list",
-   "context": "E04: Accepted document-native DeepSeek m"
+   "context": "Budgets, isolation, and fairness"
   },
   {
-   "kind": "removed",
-   "block": "34113c07",
-   "type": "para",
-   "context": "",
-   "preview": "[//]: # (ob:e03native01)"
+   "kind": "modified",
+   "block": "ae5cc50e",
+   "type": "table",
+   "context": "Analysis and decision gates"
   },
   {
-   "kind": "removed",
-   "block": "0959d1b3",
-   "type": "para",
-   "context": "",
-   "preview": "[//]: # (ob:e03native02)"
+   "kind": "modified",
+   "block": "9858f44e",
+   "type": "list",
+   "context": "Implementation milestones",
+   "numbers": [
+    [
+     "0",
+     "1"
+    ],
+    [
+     "1",
+     "0731"
+    ]
+   ]
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:133334f745bd613581f86c44a375000f1926eb465c9ddff5c3e52b7d1081ec47",
+ "soft_fingerprint": "ppsb1:37c4b52bdbb9ddf9be07df468079516885dd00b85e31958184896df3c49e7af8",
  "actors": {
   "requested_by": [
    "Richard Tang"
@@ -62,28 +75,33 @@
  "attribution_basis": "environment_attested",
  "claims": [
   {
-   "block": "34113c07",
-   "kind": "removed",
-   "note": "Removed redundant manually inserted marker block after automatic anchoring."
-  },
-  {
-   "block": "0959d1b3",
-   "kind": "removed",
-   "note": "Removed redundant manually inserted marker block after automatic anchoring."
-  },
-  {
-   "block": "62ab94d5",
+   "block": "743b9bd8",
    "kind": "modified",
-   "note": "Clarified E04 remains pending wrapper implementation."
+   "note": "Replaced legacy phases with completed transport prototype and native DeepSeek plan."
   },
   {
-   "block": "b37d7d2c",
+   "block": "c91c4e94",
    "kind": "modified",
-   "note": "Specified criterion numerator and denominator reporting."
+   "note": "Recorded evidence-bounded DeepSeek fixed-model selection."
+  },
+  {
+   "block": "7bcd9b4b",
+   "kind": "modified",
+   "note": "Replaced legacy sidecar fairness rules with native and shared-memory controls."
+  },
+  {
+   "block": "ae5cc50e",
+   "kind": "modified",
+   "note": "Replaced legacy gate table with native smoke and fixed-model decision gates."
+  },
+  {
+   "block": "9858f44e",
+   "kind": "modified",
+   "note": "Replaced legacy milestones with native-carrier implementation and three-arm execution path."
   }
  ],
  "context": {
-  "why": "Corrected the accepted research record so changed blocks and native experiment anchors are explicitly and accurately represented."
+  "why": "Removed superseded sidecar protocol paths so the accepted record contains one executable document-native DeepSeek design."
  },
- "event_id": "ppe_f5f7652ce903515b9e10e42b"
+ "event_id": "ppe_27d8ee4f6fc18c21bc6c8d4a"
 }
