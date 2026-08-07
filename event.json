@@ -1,29 +1,29 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/ara/logic/experiments.md",
- "artifact_id": "pp_15fb7a0bcf0891f7cee01068",
- "version": "46e64a3b",
- "parent": "a74c96d1",
+ "artifact": "experiments/provenance_handoff/ara/src/environment.md",
+ "artifact_id": "pp_d4f0f4ca5617c9d0528dea8e",
+ "version": "cd1418fa",
+ "parent": "85732a63",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-07T22:32:30+00:00",
+ "ts": "2026-08-07T22:32:32+00:00",
  "stats": {
   "modified": 1
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "0b9f8f55",
+   "block": "a84a1149",
    "type": "list",
-   "context": "E06: Gateway Harvey SAS qualification st"
+   "context": "Environment"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:9a9ab94a905cbcfa93a972e6da36d321fb16280e83e3442c7612b9ab1f4bff79",
+ "soft_fingerprint": "ppsb1:1c22713c84160e92b9b069e22c12b2c4cd2175bd1d05a2755069eff6d2b93a35",
  "actors": {
   "requested_by": [
    "richardtang"
@@ -41,17 +41,16 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "0b9f8f55",
+   "block": "a84a1149",
    "kind": "modified",
-   "note": "E06 now records the endpoint-level audit mismatch: Chat Completions has cost without routing metadata, while OpenResponses has exact routing metadata without usage.cost.",
+   "note": "The environment record now states that neither current Gateway endpoint satisfies the complete per-call qualification contract.",
    "evidence": [
-    "transport slice event log",
     "transport-probe summaries"
    ]
   }
  ],
  "context": {
-  "why": "Record the endpoint-level telemetry mismatch that blocks the Harvey qualification."
+  "why": "Update the environment state with the current Gateway endpoint audit."
  },
- "event_id": "ppe_16cf41b9fe5a4e35df0c2163"
+ "event_id": "ppe_30fc91cb35f9e06609d285e4"
 }
