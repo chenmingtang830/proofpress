@@ -1,59 +1,41 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/docs/ARCHITECTURE.md",
- "artifact_id": "pp_b36338c1e353bb457f78ad8c",
- "version": "92b020bb",
- "parent": "c3562bd4",
+ "artifact": "experiments/provenance_handoff/docs/RESULTS_MATRIX.md",
+ "artifact_id": "pp_d40d46a12d4d493fcbc9c0e9",
+ "version": "c7300e03",
+ "parent": "d4bf3b12",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-07T09:52:10+00:00",
+ "ts": "2026-08-07T09:52:12+00:00",
  "stats": {
-  "modified": 6
+  "modified": 3
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "7ad9bc6b",
-   "type": "code",
-   "context": "Fixed centralized multi-agent system"
-  },
-  {
-   "kind": "modified",
-   "block": "ac99cf68",
-   "type": "para",
-   "context": "Fixed centralized multi-agent system"
-  },
-  {
-   "kind": "modified",
-   "block": "ecd15f49",
+   "block": "013dc920",
    "type": "table",
-   "context": "What stays constant"
+   "context": "Accepted Matrix C: native fixed-model fo"
   },
   {
    "kind": "modified",
-   "block": "4d4c2dcd",
-   "type": "code",
-   "context": "Accepted follow-up: what varies"
-  },
-  {
-   "kind": "modified",
-   "block": "61634a19",
+   "block": "11f988a8",
    "type": "para",
-   "context": "Accepted follow-up: what varies"
+   "context": "Accepted Matrix C: native fixed-model fo"
   },
   {
    "kind": "modified",
-   "block": "c417481e",
+   "block": "0df4e2b4",
    "type": "para",
-   "context": "Isolated handoff diagnostic versus end-t"
+   "context": "Accepted Matrix C: native fixed-model fo"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:dcba8da7836f8a5befa0a66507e8a77220727f7be3a1cc80c41717a167b402bd",
+ "soft_fingerprint": "ppsb1:c63a0ad6e4ca859a648d636b72e6d9f1b39bf9af213bbec958683f19e3a884f0",
  "actors": {
   "requested_by": [
    "Richard Tang"
@@ -71,38 +53,23 @@
  "attribution_basis": "environment_attested",
  "claims": [
   {
-   "block": "7ad9bc6b",
+   "block": "013dc920",
    "kind": "modified",
-   "note": "Replaced serial sequence with parallel specialist fan-out."
+   "note": "Defined C0 C1 C2 workflow arms for Phase 2."
   },
   {
-   "block": "ac99cf68",
+   "block": "11f988a8",
    "kind": "modified",
-   "note": "Defined C1/C2 shared workspace and C2 native lineage scope."
+   "note": "Added Phase 1 C0 versus C1 architecture pilot."
   },
   {
-   "block": "ecd15f49",
+   "block": "0df4e2b4",
    "kind": "modified",
-   "note": "Updated fixed architecture and total-token controls."
-  },
-  {
-   "block": "4d4c2dcd",
-   "kind": "modified",
-   "note": "Updated three-arm comparison diagram to C0 C1 C2."
-  },
-  {
-   "block": "61634a19",
-   "kind": "modified",
-   "note": "Clarified C2 augments ordinary shared memory rather than replacing it."
-  },
-  {
-   "block": "c417481e",
-   "kind": "modified",
-   "note": "Deferred memory-replacement C3 from primary study."
+   "note": "Specified C2-minus-C1 primary outcome and token accounting."
   }
  ],
  "context": {
   "why": "Recorded the user-approved C0/C1/C2 artifact-native Proofpress experiment design and its budget-neutral parallel-MAS controls."
  },
- "event_id": "ppe_3b25549e8e0f129b41972f87"
+ "event_id": "ppe_60d008d0feeed89607adc5da"
 }
