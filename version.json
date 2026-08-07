@@ -1,72 +1,84 @@
 {
- "artifact": "experiments/provenance_handoff/ara/logic/experiments.md",
- "artifact_id": "pp_15fb7a0bcf0891f7cee01068",
+ "artifact": "experiments/provenance_handoff/ara/logic/related_work.md",
+ "artifact_id": "pp_aeef744ab46114892229ebab",
  "blocks": [
   {
    "type": "heading",
-   "text": "# Experiments",
-   "id": "68361165",
-   "hash": "58b2a1c3f41e"
+   "text": "# Related Work",
+   "id": "c26ac4be",
+   "hash": "37e5674fb503"
   },
   {
    "type": "heading",
-   "text": "## E01: Official Harvey and OpenRouter runtime validation",
-   "id": "4392bdd3",
-   "hash": "2b7b0fd2a322"
+   "text": "## R01: Harvey LAB",
+   "id": "a7681fe0",
+   "hash": "87750d1a16ed"
+  },
+  {
+   "type": "para",
+   "text": "Harvey LAB provides legal-work tasks, an open-source execution harness, model adapters, task result packaging, and evaluation rubrics. It is used here as a task/harness substrate, not as a claim that this wrapper reproduces Harvey's published leaderboard.",
+   "id": "5152bcf5",
+   "hash": "2412bc5a7d0c"
   },
   {
    "type": "list",
-   "text": "- **Question**: Can the pinned v1.0 task and official scorer run without changing task semantics, while recording an explicit model transport configuration?\n- **Status**: completed-for-transport-prototype\n- **Inputs**: one task from each initially selected family; one accessible frozen reference team; exact OpenRouter routing metadata if that transport is used.\n- **Outputs**: immutable environment/task manifest, sanitized result pointer, official score, token/latency record.\n- **Decision rule**: a setup failure is fixed before any treatment comparison; it is not scored as a provenance outcome. The official all-pass endpoint was 0/36 in the completed prototype and is retained as a hard-task diagnostic rather than a continuous primary quality result.",
-   "id": "d94b548d",
-   "hash": "401450cbd46f"
+   "text": "- Source: https://github.com/harveyai/harvey-labs\n- Architecture: https://github.com/harveyai/harvey-labs/blob/v1.0/docs/architecture.md",
+   "id": "f6b950f4",
+   "hash": "d09bf402d24c"
   },
   {
    "type": "heading",
-   "text": "## E02: Isolated handoff mechanism diagnostic",
-   "id": "7095f47a",
-   "hash": "69017771f821"
+   "text": "## R02: Scaling agent systems",
+   "id": "502e7400",
+   "hash": "6ec07f73a555"
+  },
+  {
+   "type": "para",
+   "text": "Google's study distinguishes a single-agent system from independent, centralized, decentralized, and hybrid multi-agent architectures. The accepted baseline here is therefore described precisely as a **Google-taxonomy centralized hub-and-spoke** architecture: an orchestrator delegates to three parallel specialists and synthesizes their artifacts while workers do not communicate peer-to-peer. Its mutable `coordination.md` is our conventional communication protocol, not a claim that Google shipped that file format. The study reports multi-agent degradation on strictly sequential tasks but gains on parallelizable information-gathering tasks; that motivates an M&A fan-out pilot and retaining a budget-neutral single-agent arm rather than assuming decomposition helps.",
+   "id": "9b6cacb9",
+   "hash": "054427e8ee1b"
   },
   {
    "type": "list",
-   "text": "- **Question**: Does Proofpress lineage change a fresh receiver's decision recovery against strong ordinary memory when upstream content is identical?\n- **Status**: completed-and-archived\n- **Design**: 2 tasks × 2 critical boundaries × 2 paired arms (`mas-memory`, `mas-proofpress-lineage`) × 3 attempts = 24 receiver-only calls.\n- **Controls**: identical canonical upstream artifact/workspace hashes, fresh receiver session, visible token budget, frozen homogeneous model team, Harvey tools, and source workspace.\n- **Result boundary**: the required receiver-call execution completed and validated transport integrity. It did not score a document-native carrier and therefore does not authorize a scale-up claim.",
-   "id": "018ec3e4",
-   "hash": "1ef8c3928b78"
+   "text": "- Source: https://arxiv.org/abs/2512.08296\n- Discussion: https://research.google/blog/towards-a-science-of-scaling-agent-systems-when-and-why-agent-systems-work/",
+   "id": "b0795eb4",
+   "hash": "e9891499e086"
   },
   {
    "type": "heading",
-   "text": "## E03: External-sidecar end-to-end prototype",
-   "id": "cab7fd7c",
-   "hash": "a66074b9c0c7"
+   "text": "## R03: Agent-Native Research Artifact",
+   "id": "f45a798f",
+   "hash": "c964ee0a93fb"
+  },
+  {
+   "type": "para",
+   "text": "ARA supplies the research-management structure for this study: logic, source artifacts, trace, and evidence. Its current-state and append-only separation informs how the paper process is recorded.",
+   "id": "a30649b6",
+   "hash": "57db5bd15dfa"
   },
   {
    "type": "list",
-   "text": "- **Question**: What did an external `memory.md`/`handoff.log` versus `provenance.md` transport prototype show before the product-form treatment was corrected?\n- **Status**: completed-and-superseded-for-product-efficacy\n- **Design**: 3 homogeneous teams × 2 tasks × 2 external-sidecar arms × 3 attempts = 36 five-stage workflows.\n- **Results**: 36/36 workflow records and clean five-stage runs; 35/36 nonempty finals; Harvey all-pass 0/36; criterion diagnostics were DeepSeek 79.2% memory versus 78.4% sidecar Proofpress, Muse 87.5% versus 77.3%, and Luna 76.8% versus 78.9%.\n- **Decision**: do not treat this as Proofpress product efficacy. It lacked single-agent and centralized communication baselines, exposed a Muse V4-output preflight failure, and tested an external sidecar rather than native artifact carriage.",
-   "id": "c146ea63",
-   "hash": "656c70545518"
+   "text": "- Paper: https://arxiv.org/abs/2604.24658\n- Implementation: https://github.com/ARA-Labs/Agent-Native-Research-Artifact",
+   "id": "213a8475",
+   "hash": "e9a3b22ceac9"
   },
   {
    "type": "heading",
-   "text": "## E04: Accepted document-native DeepSeek matrix (pending wrapper implementation)",
-   "id": "62ab94d5",
-   "hash": "1045748d4f7d"
+   "text": "## R04: Model transport and sampling source",
+   "id": "4fd097c8",
+   "hash": "324de19f21fb"
+  },
+  {
+   "type": "para",
+   "text": "OpenRouter is a transport/routing layer for the fixed Harvey harness, not a second evaluation harness. The study freezes concrete model slugs and provider routing to avoid silent model/provider substitution. The Chatbot Arena Agent Leaderboard may inform a broad candidate roster but is not evidence about legal-work performance or provenance.",
+   "id": "2686316a",
+   "hash": "aae0f3723262"
   },
   {
    "type": "list",
-   "text": "- **Question**: On hard Harvey tasks, does artifact-native Proofpress improve a normal centralized fan-out team that retains shared mutable ordinary coordination memory, and how does that team compare with a budget-neutral single agent?\n- **Status**: accepted-design-pending-implementation\n- **Design**: DeepSeek V4 Flash 0731 only, fixed DeepInfra route, `high` effort, no fallback. Phase 1 is M&A C0-versus-C1, three attempts per condition. Phase 2 is M&A + PSA × C0/C1/C2 × three attempts = 18 workflows. C1 and C2 use orchestrator → three parallel specialist workers → central synthesis; C2 retains C1's `coordination.md` and adds native Proofpress to key worker, decision, and final artifacts.\n- **Primary outcome**: paired C2-minus-C1 per-criterion Harvey success with numerator and denominator. C0-minus-C1 is the architecture comparison. Official all-pass is secondary; trust/reversal/integrity and cost are reported alongside it.\n- **Budget rule**: same billable input-plus-output token cap per trial; prompts, repeated context, ordinary coordination, Proofpress metadata, worker artifacts, and tool output all count. Record the categories separately; do not use filler padding.\n- **Prerequisites**: native carrier implementation, C1 leakage test, DOCX/XLSX final-output preflight, complete token ledger, and one scorer smoke run per arm.",
-   "id": "b37d7d2c",
-   "hash": "fb1393f302d6"
-  },
-  {
-   "type": "heading",
-   "text": "## E05: Cross-model robustness sweep",
-   "id": "df59a8f1",
-   "hash": "acff760e1722"
-  },
-  {
-   "type": "list",
-   "text": "- **Question**: Does the native Proofpress contrast replicate after the fixed DeepSeek matrix is interpretable?\n- **Status**: deferred\n- **Design**: chosen only after a review of E04; each team uses concrete OpenRouter slugs, no automatic fallback, and recorded provider resolution.\n- **Interpretation**: one-harness cross-model robustness only; no cross-harness generalization or model-leaderboard claim.",
-   "id": "6559b8b4",
-   "hash": "a28efe8bf1a7"
+   "text": "- Routing: https://openrouter.ai/docs/guides/routing/provider-selection\n- Latest-version semantics: https://openrouter.ai/docs/guides/routing/routers/latest-resolution\n- Model metadata: https://openrouter.ai/api/v1/models\n- Candidate sampling source: https://arena.ai/leaderboard/agent",
+   "id": "d4a8d92c",
+   "hash": "58ddab5031de"
   }
  ]
 }

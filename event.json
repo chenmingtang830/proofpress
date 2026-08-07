@@ -1,29 +1,29 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/ara/logic/experiments.md",
- "artifact_id": "pp_15fb7a0bcf0891f7cee01068",
- "version": "1b5954a1",
- "parent": "45aa6e80",
+ "artifact": "experiments/provenance_handoff/ara/logic/related_work.md",
+ "artifact_id": "pp_aeef744ab46114892229ebab",
+ "version": "6a8bb363",
+ "parent": "1a4fdfc3",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-07T09:52:16+00:00",
+ "ts": "2026-08-07T09:52:18+00:00",
  "stats": {
   "modified": 1
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "b37d7d2c",
-   "type": "list",
-   "context": "E04: Accepted document-native DeepSeek m"
+   "block": "9b6cacb9",
+   "type": "para",
+   "context": "R02: Scaling agent systems"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:06e1dcbad49951c6f0674564ca103b936834ed8956e5d0c3b36c2f2bcd8e5ef2",
+ "soft_fingerprint": "ppsb1:cef6dc6d4c1a7ca1e4df1c49e567c1e36b21d68c5a6e14e8454409ea9a80051c",
  "actors": {
   "requested_by": [
    "Richard Tang"
@@ -41,13 +41,13 @@
  "attribution_basis": "environment_attested",
  "claims": [
   {
-   "block": "b37d7d2c",
+   "block": "9b6cacb9",
    "kind": "modified",
-   "note": "Recorded C0 C1 C2 fan-out design, phase order, and budget-neutral rule."
+   "note": "Linked Google architecture evidence to parallel M&A pilot and SAS reference."
   }
  ],
  "context": {
   "why": "Recorded the user-approved C0/C1/C2 artifact-native Proofpress experiment design and its budget-neutral parallel-MAS controls."
  },
- "event_id": "ppe_bd0cd667737fc3176c464d28"
+ "event_id": "ppe_a225adec035ad67b67ad6478"
 }
