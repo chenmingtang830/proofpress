@@ -1,130 +1,103 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/docs/RESEARCH_PLAN.md",
- "artifact_id": "pp_00e96ce828caea19ac7221ae",
- "version": "2ea33932",
- "parent": "94f19cae",
+ "artifact": "experiments/provenance_handoff/docs/EXECUTION_PLAN.md",
+ "artifact_id": "pp_120f0f61aa69ad67431b9659",
+ "version": "017e7bb8",
+ "parent": "72e8bccf",
  "author": {
   "name": "unknown",
   "kind": "agent",
   "session": null
  },
  "note": null,
- "ts": "2026-08-07T21:11:47+00:00",
+ "ts": "2026-08-07T21:11:49+00:00",
  "stats": {
-  "modified": 13,
-  "added": 4
+  "modified": 12,
+  "added": 1
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "211f3829",
+   "block": "3beda344",
    "type": "heading",
-   "context": "Proofpress Lineage Evaluation Study"
+   "context": "Execution Plan: Proofpress Lineage Evalu"
   },
   {
    "kind": "modified",
-   "block": "37044759",
+   "block": "1d585184",
    "type": "para",
-   "context": "Decision in one sentence"
-  },
-  {
-   "kind": "added",
-   "block": "6e8d4f21",
-   "type": "para",
-   "context": "Decision in one sentence",
-   "preview": "The DeepSeek Harvey runs already in progress remain on their"
+   "context": "Review state"
   },
   {
    "kind": "modified",
-   "block": "a20de7f5",
+   "block": "f62ad8be",
    "type": "para",
-   "context": "Fixed runtime and workflow"
+   "context": "Purpose and execution boundary"
   },
   {
-   "kind": "added",
-   "block": "7a2c9d10",
+   "kind": "modified",
+   "block": "e4382b4f",
    "type": "heading",
-   "context": "C3 hybrid checkpoint contract",
-   "preview": "### C3 hybrid checkpoint contract"
+   "context": "Study modes"
+  },
+  {
+   "kind": "modified",
+   "block": "4b9c9552",
+   "type": "code",
+   "context": "Study modes"
+  },
+  {
+   "kind": "modified",
+   "block": "574f6ebb",
+   "type": "table",
+   "context": "Study modes"
+  },
+  {
+   "kind": "modified",
+   "block": "17d5429d",
+   "type": "table",
+   "context": "Arms to freeze"
+  },
+  {
+   "kind": "modified",
+   "block": "bc4f867e",
+   "type": "para",
+   "context": "Arms to freeze"
+  },
+  {
+   "kind": "modified",
+   "block": "386d8701",
+   "type": "list",
+   "context": "Implementation work before any compariso"
+  },
+  {
+   "kind": "modified",
+   "block": "1f0678aa",
+   "type": "table",
+   "context": "Gate sequence and exact counts"
+  },
+  {
+   "kind": "modified",
+   "block": "cab94d5b",
+   "type": "para",
+   "context": "Decision and reporting rules"
+  },
+  {
+   "kind": "modified",
+   "block": "aa49c13e",
+   "type": "list",
+   "context": "Execution order for the operator"
   },
   {
    "kind": "added",
-   "block": "8b31e6a4",
-   "type": "para",
-   "context": "C3 hybrid checkpoint contract",
-   "preview": "In `C3 sas-proofpress`, the system schedules only semantical"
-  },
-  {
-   "kind": "added",
-   "block": "4f6a2c91",
-   "type": "table",
-   "context": "C3 hybrid checkpoint contract",
-   "preview": "| Checkpoint | Required semantic payload | Proofpress admiss"
-  },
-  {
-   "kind": "modified",
-   "block": "ca5c64c9",
-   "type": "table",
-   "context": "Accepted next matrix: architecture and c"
-  },
-  {
-   "kind": "modified",
-   "block": "395029b6",
-   "type": "para",
-   "context": "Accepted next matrix: architecture and c"
-  },
-  {
-   "kind": "modified",
-   "block": "21b6ed3d",
-   "type": "para",
-   "context": "Accepted next matrix: architecture and c"
-  },
-  {
-   "kind": "modified",
-   "block": "83ba9a78",
-   "type": "table",
-   "context": "Hypotheses and falsifiers"
-  },
-  {
-   "kind": "modified",
-   "block": "743b9bd8",
-   "type": "table",
-   "context": "Model plan"
-  },
-  {
-   "kind": "modified",
-   "block": "7bcd9b4b",
+   "block": "8d2e6f41",
    "type": "list",
-   "context": "Budgets, isolation, and fairness"
-  },
-  {
-   "kind": "modified",
-   "block": "b75fdf75",
-   "type": "table",
-   "context": "Outcomes and scoring"
-  },
-  {
-   "kind": "modified",
-   "block": "ae5cc50e",
-   "type": "table",
-   "context": "Analysis and decision gates"
-  },
-  {
-   "kind": "modified",
-   "block": "9858f44e",
-   "type": "list",
-   "context": "Implementation milestones"
-  },
-  {
-   "kind": "modified",
-   "block": "9c0d2ccb",
-   "type": "list",
-   "context": "References"
+   "context": "Execution order for the operator",
+   "preview": "7. After the active Harvey slice is complete and audited, fr"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:a311203723fa41dd59891c26cf01116d918863ff4f901e5b2697c9af9afb1286",
+ "soft_fingerprint": "ppsb1:88256dc225bdc0cab65d704ca3a0df6f26e7d21e848085f80a034f1c7df2e649",
  "actors": {
   "requested_by": [
    "user"
@@ -142,88 +115,73 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "37044759",
+   "block": "3beda344",
    "kind": "modified",
-   "note": "将研究问题改为 Harvey baseline 加 SAS/MAS 与 ordinary-memory/Proofpress 的可识别比较。"
+   "note": "将执行计划标题从 Harvey-first 改为 Proofpress lineage evaluation。"
   },
   {
-   "block": "6e8d4f21",
+   "block": "1d585184",
+   "kind": "modified",
+   "note": "声明运行中的 DeepSeek C0/C1/C2 与后续 C3 边界。"
+  },
+  {
+   "block": "12bb5436",
+   "kind": "modified",
+   "note": "明确 Harvey baseline 与后续 dynamic factorial 的执行边界。"
+  },
+  {
+   "block": "e4382b4f",
+   "kind": "modified",
+   "note": "将 study modes 改为当前矩阵与后续 dynamic/model-sweep 阶段。"
+  },
+  {
+   "block": "4b9c9552",
+   "kind": "modified",
+   "note": "更新执行流程图。"
+  },
+  {
+   "block": "574f6ebb",
+   "kind": "modified",
+   "note": "更新各执行 mode 的实验问题。"
+  },
+  {
+   "block": "17d5429d",
+   "kind": "modified",
+   "note": "将 arms 对齐为 C0/C1/C2/C3。"
+  },
+  {
+   "block": "bc4f867e",
+   "kind": "modified",
+   "note": "定义 C1 ordinary-memory control 与 C3 hybrid checkpoint 约束。"
+  },
+  {
+   "block": "386d8701",
+   "kind": "modified",
+   "note": "将 materializer 由五臂改为当前三臂与后续 C3。"
+  },
+  {
+   "block": "1f0678aa",
+   "kind": "modified",
+   "note": "修正 gate counts 与 dynamic factorial gate。"
+  },
+  {
+   "block": "cab94d5b",
+   "kind": "modified",
+   "note": "更新 current Harvey 与 dynamic primary endpoints。"
+  },
+  {
+   "block": "aa49c13e",
+   "kind": "modified",
+   "note": "更新 operator execution order。"
+  },
+  {
+   "block": "8d2e6f41",
    "kind": "added",
-   "note": "声明运行中的 DeepSeek C0/C1/C2 不变，并将 C3 放入后续 dynamic slice。"
-  },
-  {
-   "block": "7264eaac",
-   "kind": "modified",
-   "note": "明确 Harvey 是最终法律 deliverable baseline 而非唯一长期验证场景。"
-  },
-  {
-   "block": "7a2c9d10",
-   "kind": "added",
-   "note": "新增 C3 hybrid checkpoint contract 标题。"
-  },
-  {
-   "block": "8b31e6a4",
-   "kind": "added",
-   "note": "定义 agent semantic payload 与确定性 Proofpress admission 的边界。"
-  },
-  {
-   "block": "4f6a2c91",
-   "kind": "added",
-   "note": "列出 evidence、finding、decision、conflict、draft、revision、final checkpoints。"
-  },
-  {
-   "block": "ca5c64c9",
-   "kind": "modified",
-   "note": "将实验矩阵扩展为 C0/C1/C2/C3 四格。"
-  },
-  {
-   "block": "395029b6",
-   "kind": "modified",
-   "note": "定义 MAS 内 Proofpress、SAS 内 Proofpress、MAS architecture 与 interaction estimands。"
-  },
-  {
-   "block": "21b6ed3d",
-   "kind": "modified",
-   "note": "限制静态 Harvey 结论并要求 dynamic tasks 验证 conflict、supersession 与 restart recovery。"
-  },
-  {
-   "block": "83ba9a78",
-   "kind": "modified",
-   "note": "增加动态 continuity/recovery hypothesis。"
-  },
-  {
-   "block": "743b9bd8",
-   "kind": "modified",
-   "note": "将 Phase 3 改为当前 slice 后的 C0/C1/C2/C3 dynamic revision matrix。"
-  },
-  {
-   "block": "7bcd9b4b",
-   "kind": "modified",
-   "note": "加入 C3 checkpoint fairness 与 token accounting 约束。"
-  },
-  {
-   "block": "b75fdf75",
-   "kind": "modified",
-   "note": "加入 stale-use、lineage、restart recovery 与 token cost 指标。"
-  },
-  {
-   "block": "ae5cc50e",
-   "kind": "modified",
-   "note": "更新 Phase 3 proceed/stop gate。"
-  },
-  {
-   "block": "9858f44e",
-   "kind": "modified",
-   "note": "增加 dynamic track freeze 与运行顺序。"
-  },
-  {
-   "block": "9c0d2ccb",
-   "kind": "modified",
-   "note": "加入候选 dynamic-task benchmark 来源并声明其不是 headline-score 证据。"
+   "note": "增加 active Harvey audit 后冻结 dynamic matrix 的步骤。"
   }
  ],
  "context": {
-  "why": "Update the active research plan to preserve the running DeepSeek C0/C1/C2 slice and define the next C3 hybrid checkpoint and dynamic four-cell experiment without treating static Harvey as the sole Proofpress validation scenario."
+  "why": "Synchronize execution gates and arm counts with the active C0/C1/C2 Harvey slice and the deferred C0/C1/C2/C3 dynamic factorial extension."
  },
- "event_id": "ppe_8253496c58f885f5c8dd18f7"
+ "event_id": "ppe_15bc5c4ac9fa8c7026a5a781"
 }
