@@ -1,95 +1,59 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/docs/RESEARCH_PLAN.md",
- "artifact_id": "pp_00e96ce828caea19ac7221ae",
- "version": "94f19cae",
- "parent": "76f11343",
+ "artifact": "experiments/provenance_handoff/docs/ARCHITECTURE.md",
+ "artifact_id": "pp_b36338c1e353bb457f78ad8c",
+ "version": "92b020bb",
+ "parent": "c3562bd4",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-07T09:52:07+00:00",
+ "ts": "2026-08-07T09:52:10+00:00",
  "stats": {
-  "modified": 12
+  "modified": 6
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "37044759",
-   "type": "para",
-   "context": "Decision in one sentence"
-  },
-  {
-   "kind": "modified",
-   "block": "20e0e636",
+   "block": "7ad9bc6b",
    "type": "code",
-   "context": "Fixed runtime and workflow"
+   "context": "Fixed centralized multi-agent system"
   },
   {
    "kind": "modified",
-   "block": "f35fd5df",
+   "block": "ac99cf68",
    "type": "para",
-   "context": "Fixed runtime and workflow"
+   "context": "Fixed centralized multi-agent system"
   },
   {
    "kind": "modified",
-   "block": "dc0a9ca9",
+   "block": "ecd15f49",
    "type": "table",
-   "context": "Checkpoint contract"
+   "context": "What stays constant"
   },
   {
    "kind": "modified",
-   "block": "ca5c64c9",
-   "type": "table",
-   "context": "Accepted next matrix: architecture and c"
+   "block": "4d4c2dcd",
+   "type": "code",
+   "context": "Accepted follow-up: what varies"
   },
   {
    "kind": "modified",
-   "block": "395029b6",
+   "block": "61634a19",
    "type": "para",
-   "context": "Accepted next matrix: architecture and c"
+   "context": "Accepted follow-up: what varies"
   },
   {
    "kind": "modified",
-   "block": "21b6ed3d",
+   "block": "c417481e",
    "type": "para",
-   "context": "Accepted next matrix: architecture and c"
-  },
-  {
-   "kind": "modified",
-   "block": "83ba9a78",
-   "type": "table",
-   "context": "Hypotheses and falsifiers"
-  },
-  {
-   "kind": "modified",
-   "block": "743b9bd8",
-   "type": "table",
-   "context": "Model plan"
-  },
-  {
-   "kind": "modified",
-   "block": "7bcd9b4b",
-   "type": "list",
-   "context": "Budgets, isolation, and fairness"
-  },
-  {
-   "kind": "modified",
-   "block": "ae5cc50e",
-   "type": "table",
-   "context": "Analysis and decision gates"
-  },
-  {
-   "kind": "modified",
-   "block": "9858f44e",
-   "type": "list",
-   "context": "Implementation milestones"
+   "context": "Isolated handoff diagnostic versus end-t"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:4e6a1c48eead426f6679981884c23fc305da9793fa59c5bd6c786f81df88de83",
+ "soft_fingerprint": "ppsb1:dcba8da7836f8a5befa0a66507e8a77220727f7be3a1cc80c41717a167b402bd",
  "actors": {
   "requested_by": [
    "Richard Tang"
@@ -107,68 +71,38 @@
  "attribution_basis": "environment_attested",
  "claims": [
   {
-   "block": "37044759",
+   "block": "7ad9bc6b",
    "kind": "modified",
-   "note": "Changed objective to Proofpress augmentation of normal shared-memory MAS."
+   "note": "Replaced serial sequence with parallel specialist fan-out."
   },
   {
-   "block": "20e0e636",
+   "block": "ac99cf68",
    "kind": "modified",
-   "note": "Replaced serial workflow with parallel fan-out and central synthesis."
+   "note": "Defined C1/C2 shared workspace and C2 native lineage scope."
   },
   {
-   "block": "f35fd5df",
+   "block": "ecd15f49",
    "kind": "modified",
-   "note": "Defined ordinary coordination shared by C1 and C2."
+   "note": "Updated fixed architecture and total-token controls."
   },
   {
-   "block": "dc0a9ca9",
+   "block": "4d4c2dcd",
    "kind": "modified",
-   "note": "Replaced serial version contract with plan-worker-decision-final artifacts."
+   "note": "Updated three-arm comparison diagram to C0 C1 C2."
   },
   {
-   "block": "ca5c64c9",
+   "block": "61634a19",
    "kind": "modified",
-   "note": "Defined C0 C1 C2 architecture and state arms."
+   "note": "Clarified C2 augments ordinary shared memory rather than replacing it."
   },
   {
-   "block": "395029b6",
+   "block": "c417481e",
    "kind": "modified",
-   "note": "Updated primary estimand to C2 minus C1 under identical team state."
-  },
-  {
-   "block": "21b6ed3d",
-   "kind": "modified",
-   "note": "Defined C0 minus C1 architecture comparison and deferred raw history."
-  },
-  {
-   "block": "83ba9a78",
-   "kind": "modified",
-   "note": "Updated hypotheses for budget-neutral parallel centralized workflow."
-  },
-  {
-   "block": "743b9bd8",
-   "kind": "modified",
-   "note": "Replaced phases with smoke, architecture pilot, main matrix, and later C3."
-  },
-  {
-   "block": "7bcd9b4b",
-   "kind": "modified",
-   "note": "Specified C1/C2 shared-state and total-token fairness rules."
-  },
-  {
-   "block": "ae5cc50e",
-   "kind": "modified",
-   "note": "Replaced gates with Phase 0 through Phase 3 criteria."
-  },
-  {
-   "block": "9858f44e",
-   "kind": "modified",
-   "note": "Replaced milestones with native implementation and staged execution."
+   "note": "Deferred memory-replacement C3 from primary study."
   }
  ],
  "context": {
   "why": "Recorded the user-approved C0/C1/C2 artifact-native Proofpress experiment design and its budget-neutral parallel-MAS controls."
  },
- "event_id": "ppe_368be70ecacef7ea5fc8eb62"
+ "event_id": "ppe_3b25549e8e0f129b41972f87"
 }
