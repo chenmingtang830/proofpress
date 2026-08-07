@@ -1,41 +1,47 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/docs/RESULTS_MATRIX.md",
- "artifact_id": "pp_d40d46a12d4d493fcbc9c0e9",
- "version": "c7300e03",
- "parent": "d4bf3b12",
+ "artifact": "experiments/provenance_handoff/ara/logic/claims.md",
+ "artifact_id": "pp_ca8a8ddcc33d3870e9a40bc5",
+ "version": "34ad9e34",
+ "parent": "677bfc59",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-07T09:52:12+00:00",
+ "ts": "2026-08-07T09:52:14+00:00",
  "stats": {
-  "modified": 3
+  "modified": 4
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "013dc920",
-   "type": "table",
-   "context": "Accepted Matrix C: native fixed-model fo"
+   "block": "6b007068",
+   "type": "list",
+   "context": "C01: Typed admitted lineage can improve "
   },
   {
    "kind": "modified",
-   "block": "11f988a8",
-   "type": "para",
-   "context": "Accepted Matrix C: native fixed-model fo"
+   "block": "0aa90748",
+   "type": "list",
+   "context": "C02: Verifiable lineage may reduce the o"
   },
   {
    "kind": "modified",
-   "block": "0df4e2b4",
-   "type": "para",
-   "context": "Accepted Matrix C: native fixed-model fo"
+   "block": "5364b3f8",
+   "type": "list",
+   "context": "C03: The treatment effect must be distin"
+  },
+  {
+   "kind": "modified",
+   "block": "f3383dbe",
+   "type": "list",
+   "context": "C04: Isolated and end-to-end evidence an"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:c63a0ad6e4ca859a648d636b72e6d9f1b39bf9af213bbec958683f19e3a884f0",
+ "soft_fingerprint": "ppsb1:c42b1b6345191d7db6a302691591b5501a766186845facc800699192fafe9539",
  "actors": {
   "requested_by": [
    "Richard Tang"
@@ -53,23 +59,28 @@
  "attribution_basis": "environment_attested",
  "claims": [
   {
-   "block": "013dc920",
+   "block": "6b007068",
    "kind": "modified",
-   "note": "Defined C0 C1 C2 workflow arms for Phase 2."
+   "note": "Changed primary claim to C2 augmentation of identical C1 shared-memory workflow."
   },
   {
-   "block": "11f988a8",
+   "block": "0aa90748",
    "kind": "modified",
-   "note": "Added Phase 1 C0 versus C1 architecture pilot."
+   "note": "Changed efficiency claim to specialist adoption and coordination."
   },
   {
-   "block": "0df4e2b4",
+   "block": "5364b3f8",
    "kind": "modified",
-   "note": "Specified C2-minus-C1 primary outcome and token accounting."
+   "note": "Specified parallel centralized architecture distinction."
+  },
+  {
+   "block": "f3383dbe",
+   "kind": "modified",
+   "note": "Specified C1-versus-C2 native product evidence boundary."
   }
  ],
  "context": {
   "why": "Recorded the user-approved C0/C1/C2 artifact-native Proofpress experiment design and its budget-neutral parallel-MAS controls."
  },
- "event_id": "ppe_60d008d0feeed89607adc5da"
+ "event_id": "ppe_09627cecab0fbccb048e047a"
 }
