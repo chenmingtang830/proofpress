@@ -1,29 +1,35 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/ara/src/environment.md",
- "artifact_id": "pp_d4f0f4ca5617c9d0528dea8e",
- "version": "85732a63",
- "parent": "729032fb",
+ "artifact": "experiments/provenance_handoff/ara/evidence/README.md",
+ "artifact_id": "pp_d903bfb55a61339cd26f454f",
+ "version": "2cfae9dd",
+ "parent": "c7ec4437",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-07T22:25:57+00:00",
+ "ts": "2026-08-07T22:25:59+00:00",
  "stats": {
-  "modified": 1
+  "modified": 2
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "a84a1149",
-   "type": "list",
-   "context": "Environment"
+   "block": "687aeafa",
+   "type": "para",
+   "context": "Current state"
+  },
+  {
+   "kind": "modified",
+   "block": "d49d601a",
+   "type": "para",
+   "context": "Design inputs"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:046605395c90decfde2990a07ff64d41038389b0313e23dfd117c83c46792006",
+ "soft_fingerprint": "ppsb1:1c73d181e81a7ad75210727ffc74242387e1f3a448168915eb3cc34438a4c57b",
  "actors": {
   "requested_by": [
    "richardtang"
@@ -41,16 +47,21 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block_id": "a84a1149",
+   "block_id": "687aeafa",
    "kind": "modified",
-   "claim": "The environment record now states that the first Gateway qualification is stopped and unqualified, with retained failed-transport audit evidence and no unlocked downstream execution.",
+   "claim": "The evidence index distinguishes the failed PSA transport qualification from a C0/C3 empirical outcome."
+  },
+  {
+   "block_id": "d49d601a",
+   "kind": "modified",
+   "claim": "The evidence contract records that the first PSA attempt failed fixed-model and complete-telemetry gates before C3/scoring and cannot be repaired by an assumed no-fallback value.",
    "evidence": [
     "transport slice event log and aborted manifest"
    ]
   }
  ],
  "context": {
-  "why": "Update the ARA environment with the audited Gateway qualification state."
+  "why": "Index the failed transport qualification as evidence of a gate failure, not an efficacy result."
  },
- "event_id": "ppe_7126ba6e691292040a6930ab"
+ "event_id": "ppe_87e5db9a53d8d63513227bfa"
 }
