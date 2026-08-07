@@ -1,29 +1,29 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/ara/logic/experiments.md",
- "artifact_id": "pp_15fb7a0bcf0891f7cee01068",
- "version": "668de489",
- "parent": "cccb2f70",
+ "artifact": "experiments/provenance_handoff/ara/src/environment.md",
+ "artifact_id": "pp_d4f0f4ca5617c9d0528dea8e",
+ "version": "729032fb",
+ "parent": "59e09992",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-07T22:14:54+00:00",
+ "ts": "2026-08-07T22:14:56+00:00",
  "stats": {
   "modified": 1
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "0b9f8f55",
+   "block": "a84a1149",
    "type": "list",
-   "context": "E06: Planned Gateway Harvey SAS lineage "
+   "context": "Environment"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:7a9f0df395add45588d47d725b6f780c2d712032f704b5374a410e8e6b9dd3ec",
+ "soft_fingerprint": "ppsb1:246d17b94f5e8ed2b5936210bc5e52887e7ace0a2641d1263782e9141603b429",
  "actors": {
   "requested_by": [
    "Richard Tang"
@@ -41,13 +41,13 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "0b9f8f55",
+   "block": "a84a1149",
    "kind": "modified",
-   "note": "Specified frozen PSA C0/C3 serial-SAS Gateway experiment evidence."
+   "note": "Recorded frozen Gateway qualification environment and execution order."
   }
  ],
  "context": {
-  "why": "Record the implemented Gateway qualification design in ARA."
+  "why": "Record the frozen Gateway qualification environment."
  },
- "event_id": "ppe_e0cae491b7a95c9c35b8068d"
+ "event_id": "ppe_9d15c5379114b3914fee6ee9"
 }
