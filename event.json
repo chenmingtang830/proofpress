@@ -1,53 +1,88 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/ara/logic/claims.md",
- "artifact_id": "pp_ca8a8ddcc33d3870e9a40bc5",
- "version": "677bfc59",
- "parent": "94b8bdc3",
+ "artifact": "experiments/provenance_handoff/ara/logic/experiments.md",
+ "artifact_id": "pp_15fb7a0bcf0891f7cee01068",
+ "version": "71001cfc",
+ "parent": "b2423f4d",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-07T08:57:19+00:00",
+ "ts": "2026-08-07T08:57:21+00:00",
  "stats": {
-  "modified": 5
+  "modified": 6,
+  "added": 4
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "6b007068",
+   "block": "d94b548d",
    "type": "list",
-   "context": "C01: Typed admitted lineage can improve "
+   "context": "E01: Official Harvey and OpenRouter runt"
   },
   {
    "kind": "modified",
-   "block": "0aa90748",
+   "block": "018ec3e4",
    "type": "list",
-   "context": "C02: Verifiable lineage may reduce the o"
+   "context": "E02: Isolated handoff mechanism diagnost"
   },
   {
    "kind": "modified",
-   "block": "5364b3f8",
-   "type": "list",
-   "context": "C03: The treatment effect must be distin"
+   "block": "cab7fd7c",
+   "type": "heading",
+   "context": "E03: External-sidecar end-to-end prototy"
   },
   {
    "kind": "modified",
-   "block": "f3383dbe",
+   "block": "c146ea63",
    "type": "list",
-   "context": "C04: Isolated and end-to-end evidence an"
+   "context": "E03: External-sidecar end-to-end prototy"
+  },
+  {
+   "kind": "added",
+   "block": "34113c07",
+   "type": "para",
+   "context": "E03: External-sidecar end-to-end prototy",
+   "preview": "[//]: # (ob:e03native01)"
+  },
+  {
+   "kind": "added",
+   "block": "62ab94d5",
+   "type": "heading",
+   "context": "E04: Accepted document-native DeepSeek m",
+   "preview": "## E04: Accepted document-native DeepSeek matrix"
+  },
+  {
+   "kind": "added",
+   "block": "0959d1b3",
+   "type": "para",
+   "context": "E04: Accepted document-native DeepSeek m",
+   "preview": "[//]: # (ob:e03native02)"
+  },
+  {
+   "kind": "added",
+   "block": "b37d7d2c",
+   "type": "list",
+   "context": "E04: Accepted document-native DeepSeek m",
+   "preview": "- **Question**: On hard Harvey tasks, does a centralized hub"
   },
   {
    "kind": "modified",
-   "block": "771b59db",
+   "block": "df59a8f1",
+   "type": "heading",
+   "context": "E05: Cross-model robustness sweep"
+  },
+  {
+   "kind": "modified",
+   "block": "6559b8b4",
    "type": "list",
-   "context": "C05: Core model comparison requires homo"
+   "context": "E05: Cross-model robustness sweep"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:2246a06d7f2c87e72b58a74dbada0638b391af41ac08bcb5834a569b717d67a1",
+ "soft_fingerprint": "ppsb1:c9d8ab4b7b1a9bfaba2c7b00bc19441d28bbac3a344501c485f4f8c334c7c525",
  "actors": {
   "requested_by": [
    "Richard Tang"
@@ -65,33 +100,53 @@
  "attribution_basis": "environment_attested",
  "claims": [
   {
-   "block": "6b007068",
+   "block": "d94b548d",
    "kind": "modified",
-   "note": "Updated primary hypothesis to document-native Proofpress versus shared memory."
+   "note": "Marked runtime validation completed for transport prototype."
   },
   {
-   "block": "0aa90748",
+   "block": "7095f47a",
    "kind": "modified",
-   "note": "Updated efficiency hypothesis and token-control policy."
+   "note": "Recorded all-pass interpretation."
   },
   {
-   "block": "5364b3f8",
+   "block": "018ec3e4",
    "kind": "modified",
-   "note": "Added centralized architecture distinction."
+   "note": "Marked isolated diagnostic completed and archived."
   },
   {
-   "block": "f3383dbe",
+   "block": "cab7fd7c",
    "kind": "modified",
-   "note": "Marked sidecar diagnostic as insufficient for product efficacy."
+   "note": "Recorded transport-only interpretation."
   },
   {
-   "block": "771b59db",
+   "block": "c146ea63",
    "kind": "modified",
-   "note": "Fixed DeepSeek configuration boundary."
+   "note": "Renamed completed sidecar prototype experiment."
+  },
+  {
+   "block": "df59a8f1",
+   "kind": "modified",
+   "note": "Recorded completed prototype design, results, and decision."
+  },
+  {
+   "block": "6559b8b4",
+   "kind": "modified",
+   "note": "Deferred cross-model sweep after native matrix."
+  },
+  {
+   "block": "34113c07",
+   "kind": "added",
+   "note": "Added native DeepSeek follow-up experiment record."
+  },
+  {
+   "block": "62ab94d5",
+   "kind": "added",
+   "note": "Added native experiment question, design, outcomes, and prerequisites."
   }
  ],
  "context": {
   "why": "Recorded the accepted document-native DeepSeek follow-up and the bounded interpretation of completed external-sidecar Harvey results."
  },
- "event_id": "ppe_516b682238fcd556a90bdee0"
+ "event_id": "ppe_5abc7ae7e6d0efd09dd54634"
 }
