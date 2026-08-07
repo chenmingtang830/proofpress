@@ -1,29 +1,29 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/ara/logic/experiments.md",
- "artifact_id": "pp_15fb7a0bcf0891f7cee01068",
- "version": "73740984",
- "parent": "c1288bd3",
+ "artifact": "experiments/provenance_handoff/docs/EXECUTION_PLAN.md",
+ "artifact_id": "pp_120f0f61aa69ad67431b9659",
+ "version": "c0a31849",
+ "parent": "017e7bb8",
  "author": {
   "name": "codex",
   "kind": "agent",
   "session": null
  },
  "note": null,
- "ts": "2026-08-07T21:27:31+00:00",
+ "ts": "2026-08-07T21:28:52+00:00",
  "stats": {
   "modified": 1
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "b37d7d2c",
-   "type": "list",
-   "context": "E04: Accepted document-native DeepSeek m"
+   "block": "1d585184",
+   "type": "para",
+   "context": "Review state"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:ca792fed2fa9e1da59e99054682e6769dabba8bce1df8516b79315fe4c35736d",
+ "soft_fingerprint": "ppsb1:3bee57a429c63ff90f49ab5ca4f71409942e0dfe2c59757efe9f83d25f04afe5",
  "actors": {
   "requested_by": [
    "user"
@@ -41,13 +41,13 @@
  "attribution_basis": "harness_attested",
  "claims": [
   {
-   "block": "b37d7d2c",
+   "block": "1d585184",
    "kind": "modified",
-   "note": "Recorded the Phase 2 transport pause, clean records available at pause, and separation rule for any future Vercel AI Gateway transport slice."
+   "note": "Changed the review state from active DeepSeek execution to paused transport-incomplete status and separated any future Vercel AI Gateway replication."
   }
  ],
  "context": {
-  "why": "Paused the DeepSeek Phase 2 matrix after repeated long-synthesis transport failures; recorded the clean records and kept any future Vercel AI Gateway transport slice separate from OpenRouter/Novita evidence."
+  "why": "Recorded the pause of the incomplete DeepSeek Phase 2 matrix after repeated long-synthesis transport failures and separated any future Vercel AI Gateway transport replication."
  },
- "event_id": "ppe_0fc08c0ab8bf2038471303da"
+ "event_id": "ppe_09bcf244190c6c103036d73b"
 }

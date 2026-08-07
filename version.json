@@ -1,72 +1,240 @@
 {
- "artifact": "experiments/provenance_handoff/ara/logic/experiments.md",
- "artifact_id": "pp_15fb7a0bcf0891f7cee01068",
+ "artifact": "experiments/provenance_handoff/docs/EXECUTION_PLAN.md",
+ "artifact_id": "pp_120f0f61aa69ad67431b9659",
  "blocks": [
   {
    "type": "heading",
-   "text": "# Experiments",
-   "id": "68361165",
-   "hash": "58b2a1c3f41e"
+   "text": "# Execution Plan: Proofpress Lineage Evaluation Study",
+   "id": "3beda344",
+   "hash": "4f2e70b0726d"
   },
   {
    "type": "heading",
-   "text": "## E01: Official Harvey and OpenRouter runtime validation",
-   "id": "4392bdd3",
-   "hash": "2b7b0fd2a322"
+   "text": "## Review state",
+   "id": "6743bd05",
+   "hash": "37f70bcbd882"
   },
   {
-   "type": "list",
-   "text": "- **Question**: Can the pinned v1.0 task and official scorer run without changing task semantics, while recording an explicit model transport configuration?\n- **Status**: completed-for-transport-prototype\n- **Inputs**: one task from each initially selected family; one accessible frozen reference team; exact OpenRouter routing metadata if that transport is used.\n- **Outputs**: immutable environment/task manifest, sanitized result pointer, official score, token/latency record.\n- **Decision rule**: a setup failure is fixed before any treatment comparison; it is not scored as a provenance outcome. The official all-pass endpoint was 0/36 in the completed prototype and is retained as a hard-task diagnostic rather than a continuous primary quality result.",
-   "id": "d94b548d",
-   "hash": "401450cbd46f"
-  },
-  {
-   "type": "heading",
-   "text": "## E02: Isolated handoff mechanism diagnostic",
-   "id": "7095f47a",
-   "hash": "69017771f821"
-  },
-  {
-   "type": "list",
-   "text": "- **Question**: Does Proofpress lineage change a fresh receiver's decision recovery against strong ordinary memory when upstream content is identical?\n- **Status**: completed-and-archived\n- **Design**: 2 tasks × 2 critical boundaries × 2 paired arms (`mas-memory`, `mas-proofpress-lineage`) × 3 attempts = 24 receiver-only calls.\n- **Controls**: identical canonical upstream artifact/workspace hashes, fresh receiver session, visible token budget, frozen homogeneous model team, Harvey tools, and source workspace.\n- **Result boundary**: the required receiver-call execution completed and validated transport integrity. It did not score a document-native carrier and therefore does not authorize a scale-up claim.",
-   "id": "018ec3e4",
-   "hash": "1ef8c3928b78"
+   "type": "para",
+   "text": "The DeepSeek Harvey C0/C1/C2 slice is paused after repeated long-synthesis transport failures under its frozen configuration. Its clean records and aborted attempts remain auditable, but the incomplete Phase 2 matrix is not scored. A future Vercel AI Gateway route is a separate transport replication and must not be pooled with the OpenRouter/Novita slice. C3 and the dynamic four-cell matrix remain a later, pre-frozen extension.",
+   "id": "1d585184",
+   "hash": "1f60b20bbd6b"
   },
   {
    "type": "heading",
-   "text": "## E03: External-sidecar end-to-end prototype",
-   "id": "cab7fd7c",
-   "hash": "a66074b9c0c7"
+   "text": "## Purpose and execution boundary",
+   "id": "12bb5436",
+   "hash": "0d66cc691c4b"
   },
   {
-   "type": "list",
-   "text": "- **Question**: What did an external `memory.md`/`handoff.log` versus `provenance.md` transport prototype show before the product-form treatment was corrected?\n- **Status**: completed-and-superseded-for-product-efficacy\n- **Design**: 3 homogeneous teams × 2 tasks × 2 external-sidecar arms × 3 attempts = 36 five-stage workflows.\n- **Results**: 36/36 workflow records and clean five-stage runs; 35/36 nonempty finals; Harvey all-pass 0/36; criterion diagnostics were DeepSeek 79.2% memory versus 78.4% sidecar Proofpress, Muse 87.5% versus 77.3%, and Luna 76.8% versus 78.9%.\n- **Decision**: do not treat this as Proofpress product efficacy. It lacked single-agent and centralized communication baselines, exposed a Muse V4-output preflight failure, and tested an external sidecar rather than native artifact carriage.",
-   "id": "c146ea63",
-   "hash": "656c70545518"
+   "type": "para",
+   "text": "This plan turns the protocol into a reviewable sequence. It does not authorize model spending merely because the repository is configured. No empirical result exists until a frozen slice has completed, been scored, and been audited.",
+   "id": "e54d6ee8",
+   "hash": "d94b0a8734d8"
   },
   {
-   "type": "heading",
-   "text": "## E04: Accepted document-native DeepSeek matrix",
-   "id": "62ab94d5",
-   "hash": "3dd97f66d643"
-  },
-  {
-   "type": "list",
-   "text": "- **Question**: On hard Harvey tasks, does artifact-native Proofpress improve a normal centralized fan-out team that retains shared mutable ordinary coordination memory, and how does that team compare with a budget-neutral single agent?\n- **Status**: phase-1-complete-phase-2-paused-transport-incomplete\n- **Design**: DeepSeek V4 Flash 0731 only, fixed `novita/fp8` route for this execution slice, `high` effort, no fallback. The originally proposed DeepInfra/fp4 route is retained as an archived provider-outage attempt and is not pooled with this slice. Phase 1 is M&A C0-versus-C1, three attempts per condition. Phase 2 is M&A + PSA × C0/C1/C2 × three attempts = 18 workflows. C1 and C2 use orchestrator → three parallel specialist workers → central synthesis; C2 retains C1's `coordination.md` and adds native Proofpress to key worker, decision, and final artifacts.\n- **Primary outcome**: paired C2-minus-C1 per-criterion Harvey success with numerator and denominator. C0-minus-C1 is the architecture comparison. Official all-pass is secondary; trust/reversal/integrity and cost are reported alongside it.\n- **Budget rule**: same billable input-plus-output token cap per trial; prompts, repeated context, ordinary coordination, Proofpress metadata, worker artifacts, and tool output all count. Record the categories separately; do not use filler padding.\n- **Prerequisites**: native carrier implementation, C1 leakage test, DOCX/XLSX final-output preflight, complete token ledger, and one scorer smoke run per arm.\n- **Execution note (2026-08-07)**: No valid Phase 1 workflow or score was produced on DeepInfra/fp4. Three initial C0 transport attempts were rejected because `max_tokens=128000` exceeded that endpoint's current 65536 completion limit; after correcting the request to 32768 and then 16384, two C0 attempts still stalled after the data-room read and were archived as provider failures. The same model is now being executed in a separate pinned `novita/fp8` slice; its scores and resolved-provider metadata must be reported separately from the DeepInfra outage records.\n- **Phase 1 result (2026-08-07)**: M&A C0 and C1 each passed 116/150 criteria (77.3%), with 0/3 official all-pass runs. All six final DOCX/XLSX preflights passed. C1 had two runs whose final artifacts were present but whose orchestrator/worker loop did not finish cleanly at the 40-turn cap; this is reported as an operational cost/latency issue, not discarded as a score failure. C1 was therefore not materially worse than C0 on the architecture pilot, and Phase 2 was authorized.\n- **Phase 1 cost note**: C0 used 8,016,332 billable tokens and estimated $0.7375 across three attempts; C1 used 44,555,634 tokens and estimated $4.0771. The equal criterion result does not justify claiming MAS benefit; it supports continuing to test the C1-versus-C2 product contrast while reporting this large coordination cost.\n- **Phase 2 implementation note**: C2 now embeds verified Proofpress carriers in worker findings, worker coordination updates, and the central decision register. A native final-artifact index hashes the official DOCX/XLSX outputs. C1 uses the same ordinary coordination workspace and is checked for Proofpress leakage; no external `provenance.md` is used in C2.\n- **Phase 2 partial execution (2026-08-07)**: M&A produced nine workflow records; eight had valid final-output preflights and one C2 synthesis was aborted before its final output. PSA produced four valid workflows so far: C0 attempts 2 and 3, C1 attempt 1, and C2 attempt 1; the remaining five nominal attempts were not scorable because the pinned Novita/fp8 route returned upstream 429 rate limits, after one earlier SSL-read hang was archived. The Phase 2 scorer was intentionally not run because the 18-workflow matrix is incomplete; these partial records do not support a C1-versus-C2 or C0-versus-C1 claim.\n- **Transport audit note**: the runtime now uses a hard-watchdog HTTPS client for read timeouts and records event-log tokens/cost when a stage aborts before writing its stage record. Quarantined partial runs are preserved outside the scorer result tree under the evaluation data home's `archives/phase2-aborted-20260807` directory.\n- **Pause note (2026-08-07)**: execution was paused after repeated long-synthesis transport failures on the pinned `novita/fp8` route. At pause, the DeepSeek primary tree contained 12 clean, preflight-passing records: M&A C0 3/3 and C1 2/3; PSA C0 3/3, C1 3/3, and C2 1/3. M&A C2 had no clean primary record, and the remaining nominal C1/C2 slots were incomplete or audit-only after BrokenPipe/SSL/429 interruptions or manual stop. The 18-workflow Phase 2 scorer was not run. These records support an operational-stop decision, not a C1-versus-C2 efficacy claim. A future Vercel AI Gateway transport smoke must be frozen and reported as a separate transport slice; its results must not be pooled with the OpenRouter/Novita slice unless the protocol explicitly declares a transport replication.",
-   "id": "b37d7d2c",
-   "hash": "fdf2e50e88c0"
+   "type": "para",
+   "text": "The study keeps the Harvey LAB task/scoring harness fixed. It changes only what a fresh downstream role can recover from the preceding work. Harvey remains the final legal-deliverable baseline, while the later dynamic track tests SAS/MAS × ordinary continuity/Proofpress. ARA manages the paper's reasoning and evidence; it is never mounted into a benchmark-agent workspace.",
+   "id": "f62ad8be",
+   "hash": "2cda07ac0eb3"
   },
   {
    "type": "heading",
-   "text": "## E05: Cross-model robustness sweep",
-   "id": "df59a8f1",
-   "hash": "acff760e1722"
+   "text": "## Study modes",
+   "id": "e4382b4f",
+   "hash": "d413bdccf305"
+  },
+  {
+   "type": "code",
+   "text": "```mermaid\nflowchart LR\n  D[\"0. Adapter doctor\\nNo treatment claim\"] --> I[\"1a. Isolated handoff\\nSame upstream checkpoint\"]\n  I --> E[\"1b. End-to-end gate\\nV0 → V4 workflow\"]\n  E --> M[\"2. Fixed-model matrix\\nC0 / C1 / C2\"]\n  M --> D[\"3. Dynamic factorial\\nC0 / C1 / C2 / C3\"]\n  D --> S[\"4. Model sweep\\npre-frozen contrasts\"]\n  I -->|\"stop / revise\"| X[\"No scale\"]\n  E -->|\"stop / revise\"| X\n```",
+   "id": "4b9c9552",
+   "hash": "8a03940c4e5c"
+  },
+  {
+   "type": "table",
+   "text": "| Mode | What is held equal | What varies | Why it exists |\n|---|---|---|---|\n| 0: adapter doctor | one pinned task, official task semantics and scorer | no treatment | proves that the runtime record is viable, not that Proofpress helps |\n| 1a: isolated handoff | upstream checkpoint, workspace, role instruction, model, tools | ordinary memory versus Proofpress representation | cleanly tests a single receiver's recovery and trust behavior |\n| 1b: end-to-end gate | task, workflow, model team, role prompts, tools and caps | ordinary memory versus Proofpress at every edge | tests whether any mechanism survives cumulative multi-agent work |\n| 2: fixed-model matrix | the same as 1b within one M0 model team | current Harvey C0/C1/C2 slice | estimates MAS architecture and MAS-side Proofpress effect |\n| 3: dynamic factorial | revision-capable task, fresh sessions, shared event schedule | C0/C1/C2/C3 | separates SAS/MAS and ordinary-memory/Proofpress effects |\n| 4: model sweep | frozen dynamic task slice and homogeneous-team rule | predeclared contrasts | tests a bounded model-by-treatment interaction |",
+   "id": "574f6ebb",
+   "hash": "93feaaef97ee"
+  },
+  {
+   "type": "heading",
+   "text": "## Fixed system contract",
+   "id": "8439e386",
+   "hash": "645cb3b434cf"
+  },
+  {
+   "type": "para",
+   "text": "Each end-to-end workflow contains five model calls: planning orchestrator (`V0`), evidence (`V1`), decision (`V2`), drafting (`V3`), and review orchestrator (`V4`). The planning and review instances are the same orchestrator role in two fresh sessions. The handoff materializer is deterministic code, never another agent.",
+   "id": "9e5893a0",
+   "hash": "3be96cabbf3f"
+  },
+  {
+   "type": "para",
+   "text": "Within any workflow run, all five calls use one exact **homogeneous model team**: same concrete model slug, provider policy, reasoning effort (`high`), temperature, tool policy, and model-adapter version. This avoids a coordinator/worker model mix becoming an accidental treatment. Proofpress verification and materialization never call a model.",
+   "id": "a617c9a5",
+   "hash": "191c638cad50"
+  },
+  {
+   "type": "heading",
+   "text": "## Arms to freeze",
+   "id": "f3c9a37c",
+   "hash": "e4e4bdd7c4c0"
+  },
+  {
+   "type": "table",
+   "text": "| Arm | Receiver-visible continuity | Question it answers |\n|---|---|---|\n| `C0 sas` | one SAS agent with unified session/history | SAS + ordinary-continuity baseline |\n| `C1 centralized-memory` | centralized fan-out plus ordinary worker artifacts and `coordination.md` | MAS effect under ordinary continuity |\n| `C2 centralized-memory-proofpress` | C1 plus verified lineage on findings, decisions, and final artifacts | Proofpress effect within MAS |\n| `C3 sas-proofpress` | C0 task flow plus system-scheduled hybrid Proofpress checkpoints | Proofpress effect within SAS; dynamic track only |",
+   "id": "17d5429d",
+   "hash": "43bd9546a3c9"
+  },
+  {
+   "type": "para",
+   "text": "`C1` must be a good-faith ordinary-memory control, not a strawman. It may state decisions, rationale, caveats, next actions, and unanswered questions in ordinary prose, but must not expose Proofpress metadata or verification signals. `C3` uses a hybrid checkpoint contract: the system schedules meaningful checkpoints, the agent supplies semantic content, and deterministic Proofpress validates and commits it; it does not force a ledger write after every step.",
+   "id": "bc4f867e",
+   "hash": "e93327bcbcbe"
+  },
+  {
+   "type": "para",
+   "text": "For all paired handoff comparisons, visible material must be token-matched within 5%. The underlying source workspace remains equally accessible according to the Harvey task rules.",
+   "id": "94075229",
+   "hash": "9e1d44035ea4"
+  },
+  {
+   "type": "heading",
+   "text": "## Implementation work before any comparison",
+   "id": "a9d6d3f6",
+   "hash": "81c8c3a5229d"
   },
   {
    "type": "list",
-   "text": "- **Question**: Does the native Proofpress contrast replicate in an independent model/provider follow-up when the pinned DeepSeek line is operationally rate-limited?\n- **Status**: completed-as-isolated-m-and-a-follow-up; not part of the DeepSeek primary matrix\n- **Design**: one M&A data-room task; homogeneous `z-ai/glm-5.2` teams at `xhigh` reasoning, fixed `baidu/fp8` provider, no fallback, and three parallel conditions run once each: C0 single-agent SAS, C1 centralized parallel MAS with ordinary shared memory, and C2 the same MAS with native Proofpress lineage. The C2 attempt 1 was operationally aborted and excluded; attempt 2 was the valid C2 trial. A separate `openai/gpt-5.6-terra` high-effort judge scored only the three valid GLM workflows.\n- **Results**: C0 passed 40/50 criteria (80.0%), C1 passed 39/50 (78.0%), and C2 passed 40/50 (80.0%); official all-pass was 0/3. All three final DOCX/XLSX preflights passed. C1 had no Proofpress leakage; C2 contained eight verified native Proofpress carriers spanning worker findings, worker coordination, the central decision register, and the final-artifact index.\n- **Cost and operations**: estimated workflow costs were C0 $1.584, C1 $7.179, and valid C2 $6.125. The first C2 attempt consumed approximately $2.222 before an SSL/BrokenPipe/provider interruption and is retained as an aborted audit record, not a score. The valid C2 run recovered two final-stage 429s on the same pinned route without fallback.\n- **Interpretation**: this single M&A follow-up is descriptive only. It shows no detectable C1-versus-C2 criterion advantage in this slice, while confirming that native carriers and the scorer can operate with GLM. It is not a cross-harness generalization, model leaderboard, or replacement for the incomplete DeepSeek Phase 2 matrix.",
-   "id": "6559b8b4",
-   "hash": "287408f2f12a"
+   "text": "1. **Pin and record Harvey.** Clone tag `v1.0`, detach at `1da4750171bc5a534960b3d82d15ba7fd2cf653f`, record task IDs, license, task-file hashes, harness revision, and score command.\n2. **Add model transport.** Implement an OpenRouter adapter at the Harvey model boundary. It accepts only concrete slugs, passes the exact tool schema, and records request/response metadata.\n3. **Implement the materializer.** From a canonical checkpoint history, deterministically generate the current C0/C1/C2 inputs and the later C3 dynamic input. The isolated mode must reproduce byte-identical public inputs within each declared comparison; the end-to-end mode starts identical but allows later outputs to diverge.\n4. **Implement provenance checks.** Verify Proofpress lineage before exposure; record stripped or tampered capsules as invalid treatment inputs, never silently repair them.\n5. **Implement scoring and recording.** Preserve the official Harvey scorer and add deterministic checks for decision regression, unsupported authority upgrade, correct reversal, false block, input/output tokens, wall time, tool calls, history reads, resolved model/provider, and artifact hashes.\n6. **Add contract tests.** Test token matching, no treatment labels in prompts, fresh sessions, immutable public inputs, resume safety, arm-blind grading inputs, and reversal variants.\n7. **Generate a review package.** Store only manifests, hashes, configs, aggregate tables, and license-permitted sanitized examples in Git. Store source documents, raw traces, and credentials under `PROOFPRESS_EVAL_HOME`.",
+   "id": "386d8701",
+   "hash": "5812323eff47"
+  },
+  {
+   "type": "heading",
+   "text": "## OpenRouter freeze contract",
+   "id": "ad972abc",
+   "hash": "fbb0f62ef3b4"
+  },
+  {
+   "type": "para",
+   "text": "The adapter uses the OpenRouter API only as model transport; it is not a second task harness. Every frozen model slice must contain:",
+   "id": "72ba0aad",
+   "hash": "8e4d34ff45e3"
+  },
+  {
+   "type": "list",
+   "text": "- a concrete model slug—never `openrouter/auto` and never a `~latest` alias;\n- `allow_fallbacks: false`, a recorded provider preference/order, and `require_parameters: true`;\n- fixed `reasoning_effort: high`, temperature, tool settings, timeout, and retry policy;\n- request model slug plus resolved model/provider/router metadata, token usage, cost estimate, and adapter commit;\n- independent attempts rather than a shared seed claim when the model does not support seeds.",
+   "id": "fa2c5953",
+   "hash": "48757e28b70d"
+  },
+  {
+   "type": "para",
+   "text": "The candidate roster is intentionally broad but not yet frozen: `anthropic/claude-opus-5`, `openai/gpt-5.6-sol`, `anthropic/claude-sonnet-5`, `x-ai/grok-4.5`, `moonshotai/kimi-k3`, `z-ai/glm-5.2`, `deepseek/deepseek-v4-flash-0731`, `qwen/qwen3.8-max`, and `meta/muse-spark-1.2`. At start, choose an accessible M0 reference team from the frozen roster; expensive models such as Opus are confirmation candidates, not a default for every early workflow.",
+   "id": "855ce8eb",
+   "hash": "8c8692d10dbc"
+  },
+  {
+   "type": "heading",
+   "text": "## Gate sequence and exact counts",
+   "id": "7121b57e",
+   "hash": "a3a8dac66ade"
+  },
+  {
+   "type": "table",
+   "text": "| Gate | Pre-frozen design | Count | Proceed only if |\n|---|---|---:|---|\n| 0 | 1–2 task executions, one accessible model, no arm comparison | 1–2 runs | official score runs and records are complete without task/scorer semantic changes |\n| 1a | 2 tasks × 2 boundaries (`V1→V2`, `V2→V3`) × 2 arms (`memory`, `Proofpress`) × 3 attempts | 24 receiver calls | ordinary memory exhibits recoverable target errors; no systematic capsule/materializer failure; directional benefit without clear reversal harm |\n| 1b | 2 tasks × 2 arms × 3 attempts; V0–V4, no revision | 12 workflows / 60 model calls maximum | trusted-success direction is favorable and operational behavior remains stable |\n| 2 | current Harvey slice: 6 tasks × C0/C1/C2 × 3 attempts; one M0 team | 18 workflows | Gate 1 reviewed; current MAS/Proofpress operational estimate is interpretable |\n| 3 | dynamic tasks × C0/C1/C2/C3 × pre-frozen attempts | pre-frozen | real conflict, revision, or restart opportunity exists and the factorial contrast is interpretable |\n| 4 | up to 10 model teams × predeclared dynamic contrasts | pre-frozen | fixed-model mechanism is interpretable; per-team cost and availability reviewed |",
+   "id": "1f0678aa",
+   "hash": "b0690bfcfe41"
+  },
+  {
+   "type": "para",
+   "text": "The Gate 2 count is a maximum study design, not a request to launch 150 workflows at once. Launch by task block, review the completed immutable records, then resume the frozen config only if the operational stop conditions have not fired.",
+   "id": "590ee263",
+   "hash": "cf8b47204a1f"
+  },
+  {
+   "type": "heading",
+   "text": "## Freeze checklist",
+   "id": "9c8c2698",
+   "hash": "3e11f2d5de5e"
+  },
+  {
+   "type": "para",
+   "text": "Before a gate begins, create `configs/frozen/YYYY-MM-DD-<gate>-<slug>/` with immutable copies of:",
+   "id": "6c9081fe",
+   "hash": "b21d605c5101"
+  },
+  {
+   "type": "list",
+   "text": "- task IDs, licenses, source/task manifests, and hashes;\n- role prompts, output schemas, workflow version, and declared revision cap;\n- arm materializer version, expected visible-token budgets, and Proofpress verifier version;\n- OpenRouter model/provider settings, effort, temperature, retry/timeout policy, and pricing snapshot;\n- scorer version, blind-audit rubric, randomization/attempt order, and stop conditions.",
+   "id": "0405cffd",
+   "hash": "b02909b0696c"
+  },
+  {
+   "type": "para",
+   "text": "Freeze does not include secrets. `OPENROUTER_API_KEY` stays in a local environment or keychain and is never written to a run record.",
+   "id": "cf920a25",
+   "hash": "a30ca6bbfa26"
+  },
+  {
+   "type": "heading",
+   "text": "## What each run records",
+   "id": "51803251",
+   "hash": "d9ada326a211"
+  },
+  {
+   "type": "para",
+   "text": "`RunRecord` must include `run_id`, task/attempt/arm, gate/frozen-config ID, workflow stage, input and output hashes, runner and adapter commits, requested/resolved model/provider, timestamps, token/tool/cost/latency usage, exit and rate-limit state, official and provenance scores, and links to external raw trace locations. A failed or timed-out run is a result-bearing operational event; resume may not overwrite it.",
+   "id": "4e78c8b3",
+   "hash": "b47c72b808fd"
+  },
+  {
+   "type": "heading",
+   "text": "## Decision and reporting rules",
+   "id": "3e21a59b",
+   "hash": "2652d52bf263"
+  },
+  {
+   "type": "para",
+   "text": "The current Harvey endpoint remains `trusted_task_success`: official task success plus no decision regression or unsupported authority upgrade. Its primary product contrast is C2 versus C1, with C0 versus C1 as the architecture reference. The dynamic endpoint additionally reports current-conclusion accuracy, stale-conclusion misuse, correct revision/reversal, evidence-to-claim coverage, decision-lineage completeness, session-restart recovery, and token cost per successful task; its primary contrasts are C2−C1 and C3−C0, plus their interaction.",
+   "id": "cab94d5b",
+   "hash": "979cbed28584"
+  },
+  {
+   "type": "para",
+   "text": "Gate review should inspect per-task and per-model outcomes before aggregates. Report quality, trust, tokens, latency, cost, tool calls, and history reads together. Use blinded provenance review for at least 20% of samples and report Cohen's kappa; do not promote an unvalidated judge to ground truth. If the memory control never makes the predicted kind of error, stop rather than scaling a story with no mechanism to explain.",
+   "id": "d49c5c2a",
+   "hash": "b568325f9ca9"
+  },
+  {
+   "type": "heading",
+   "text": "## Execution order for the operator",
+   "id": "fb7a66e6",
+   "hash": "bb0dd8ce0b3a"
+  },
+  {
+   "type": "list",
+   "text": "1. Run the local doctor and the pinned Harvey setup check.\n2. Review and freeze Gate 0 configuration; run it and package its records.\n3. Implement and unit-test the adapter/materializer/scorer changes; review an arm-blind example package.\n4. Freeze and run Gate 1a. Review the 24 receiver-only calls before any end-to-end spend.\n5. Freeze and run Gate 1b. Make a written stop/proceed decision in ARA and Proofpress-snapshot the accepted research artifact.\n6. If proceeding, freeze M0 and run the current C0/C1/C2 matrix in reviewed batches.",
+   "id": "aa49c13e",
+   "hash": "a65af2c4b27e"
+  },
+  {
+   "type": "list",
+   "text": "7. After the active Harvey slice is complete and audited, freeze the dynamic event schedule and C0/C1/C2/C3 matrix.\n8. Only after the dynamic result is interpretable, run the predeclared model sweep and write the bounded cross-model conclusion.",
+   "id": "8d2e6f41",
+   "hash": "4c16a3e0fecd"
+  },
+  {
+   "type": "heading",
+   "text": "## References",
+   "id": "ca5c9aa9",
+   "hash": "3f17be8543bd"
+  },
+  {
+   "type": "list",
+   "text": "- [OpenRouter provider routing](https://openrouter.ai/docs/guides/routing/provider-selection)\n- [OpenRouter latest-version resolution](https://openrouter.ai/docs/guides/routing/routers/latest-resolution)\n- [OpenRouter model metadata](https://openrouter.ai/api/v1/models)\n- [Harvey LAB v1.0 architecture](https://github.com/harveyai/harvey-labs/blob/v1.0/docs/architecture.md)",
+   "id": "1336f9dd",
+   "hash": "142a6f7cdfd5"
   }
  ]
 }
