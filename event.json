@@ -1,29 +1,35 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/ara/src/environment.md",
- "artifact_id": "pp_d4f0f4ca5617c9d0528dea8e",
- "version": "59e09992",
- "parent": "5e202753",
+ "artifact": "experiments/provenance_handoff/ara/evidence/README.md",
+ "artifact_id": "pp_d903bfb55a61339cd26f454f",
+ "version": "085ac8b8",
+ "parent": "a137f086",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-07T21:59:59+00:00",
+ "ts": "2026-08-07T22:00:02+00:00",
  "stats": {
-  "modified": 1
+  "modified": 2
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "a84a1149",
-   "type": "list",
-   "context": "Environment"
+   "block": "687aeafa",
+   "type": "para",
+   "context": "Current state"
+  },
+  {
+   "kind": "modified",
+   "block": "d49d601a",
+   "type": "para",
+   "context": "Design inputs"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:fc49cea5a9e23a5e1e06a094fca99a1ca34c9584393d4342c019c27d49503e54",
+ "soft_fingerprint": "ppsb1:7330c1a7922b45539c52243284d8d18dca37412b94d7cb95f6a3d44caefcc200",
  "actors": {
   "requested_by": [
    "Richard Tang"
@@ -41,13 +47,18 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "a84a1149",
+   "block": "687aeafa",
    "kind": "modified",
-   "note": "Updated transport, telemetry, and execution-order environment evidence."
+   "note": "Clarified no Gateway outcomes and archived history boundary."
+  },
+  {
+   "block": "d49d601a",
+   "kind": "modified",
+   "note": "Added Gateway telemetry and ARA/Proofpress evidence requirements."
   }
  ],
  "context": {
-  "why": "Record the fixed Gateway 0731 environment and telemetry qualification rule."
+  "why": "Record Gateway telemetry evidence requirements and the ARA/Proofpress boundary."
  },
- "event_id": "ppe_8bdd544e3d3d8a0b39d628ab"
+ "event_id": "ppe_2052405153cbc5f95b299efe"
 }
