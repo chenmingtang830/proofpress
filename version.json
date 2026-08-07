@@ -1,216 +1,84 @@
 {
- "artifact": "experiments/provenance_handoff/docs/RESULTS_MATRIX.md",
- "artifact_id": "pp_d40d46a12d4d493fcbc9c0e9",
+ "artifact": "experiments/provenance_handoff/ara/logic/experiments.md",
+ "artifact_id": "pp_15fb7a0bcf0891f7cee01068",
  "blocks": [
   {
    "type": "heading",
-   "text": "# Results Matrix and Interpretation Guide",
-   "id": "8f5f32ed",
-   "hash": "928d890552a7"
+   "text": "# Experiments",
+   "id": "68361165",
+   "hash": "58b2a1c3f41e"
   },
   {
    "type": "heading",
-   "text": "## Review state",
-   "id": "569ecb4f",
-   "hash": "37f70bcbd882"
-  },
-  {
-   "type": "para",
-   "text": "Updated after the completed external-transport prototype. Its observed values are descriptive, not evidence for the document-native product treatment. The old OpenRouter/Novita and unversioned-Flash records are frozen operational history; the accepted next matrix is Gateway C0/C3 on fixed 0731.",
-   "id": "f9ecf7b5",
-   "hash": "50ce4836412b"
-  },
-  {
-   "type": "heading",
-   "text": "## What the paper must distinguish",
-   "id": "361bc86e",
-   "hash": "48118f405213"
-  },
-  {
-   "type": "para",
-   "text": "The study has three different questions. They should not be collapsed into one leaderboard number.",
-   "id": "3f8c1697",
-   "hash": "1a9c1930769f"
-  },
-  {
-   "type": "code",
-   "text": "```mermaid\nflowchart TB\n  A[\"Is the handoff representation itself causal?\\nIsolated receiver\"] --> B[\"Does it help a real multi-stage workflow?\\nFixed M0 end-to-end\"]\n  B --> C[\"Does the effect depend on model family?\\nTwo-arm model sweep\"]\n```",
-   "id": "d227002e",
-   "hash": "a0239e53131c"
-  },
-  {
-   "type": "heading",
-   "text": "## Completed Matrix A: isolated external-handoff diagnostic",
-   "id": "674666f2",
-   "hash": "13446999c1e3"
-  },
-  {
-   "type": "para",
-   "text": "This is a single-edge experiment. The upstream artifact and public workspace are identical; only the materialized history changes.",
-   "id": "a5d19464",
-   "hash": "4df9026d3d32"
-  },
-  {
-   "type": "table",
-   "text": "| Dimension | Fixed | Varied |\n|---|---|---|\n| Task | 2 frozen Harvey tasks | task instance |\n| Handoff boundary | `V1 → V2`, `V2 → V3` | boundary |\n| Upstream content | canonical evidence map / decision register | never varies inside a pair |\n| Receiver | fresh session, same role, same M0 model and effort | three independent attempts |\n| Arm | same current artifact and token budget | `mas-memory`, `mas-proofpress-lineage` |",
-   "id": "f749c52a",
-   "hash": "375c4017a16e"
-  },
-  {
-   "type": "para",
-   "text": "Completed cells: `2 tasks × 2 boundaries × 2 arms × 3 attempts = 24` receiver-only calls per tested model. The recorded DeepSeek 0731, Muse Spark 1.2, and GPT-5.6 Luna slices completed their receiver-call integrity checks. This validates the transport path; it is not a native Proofpress outcome score.",
-   "id": "b7b7605e",
-   "hash": "4b2cb79b43c9"
-  },
-  {
-   "type": "para",
-   "text": "Primary measurements: decision recovery accuracy, decision regression, unsupported authority upgrade, correct reversal, false block, input tokens, latency, tool calls/history reads. Its value is causal clarity: if Proofpress changes an outcome here, the difference cannot be blamed on upstream agents having produced different artifacts.",
-   "id": "8459dbf6",
-   "hash": "ff7683a3fb80"
-  },
-  {
-   "type": "heading",
-   "text": "## Completed Matrix B: archived external-transport end-to-end prototype",
-   "id": "5e69bf5b",
-   "hash": "e2fd0247600f"
-  },
-  {
-   "type": "para",
-   "text": "This was a preliminary systems experiment, not the final product-form experiment. It compared `memory.md`/`handoff.log` with an external `provenance.md`; that is now classified as a transport prototype.",
-   "id": "f39ebc31",
-   "hash": "ed560771c4c4"
-  },
-  {
-   "type": "table",
-   "text": "| Observed model | Ordinary memory criterion success | External Proofpress sidecar criterion success | Interpretation |\n|---|---:|---|\n| DeepSeek V4 Flash 0731 | 297/375 (79.2%) | 294/375 (78.4%) | near-flat; lowest-cost stable candidate |\n| Muse Spark 1.2 | 328/375 (87.5%) | 290/375 (77.3%) | not interpretable as native effect; one treatment workflow had empty final output |\n| GPT-5.6 Luna | 288/375 (76.8%) | 296/375 (78.9%) | near-flat/slightly positive sidecar result |",
-   "id": "739fc169",
-   "hash": "799e537b61b4"
-  },
-  {
-   "type": "para",
-   "text": "Across 36 workflows, the Harvey all-pass endpoint was 0/36. Harvey requires every criterion to pass, so this difficult-task endpoint is retained as a secondary hardness diagnostic. The 1,125 per-arm criterion opportunities are the descriptive quality signal, but must be reported by task and model rather than only pooled.",
-   "id": "151c31ec",
-   "hash": "3626bee0cbe7"
-  },
-  {
-   "type": "para",
-   "text": "All 36 workflow records completed their five stages, 35/36 had nonempty final outputs, and the sole empty final output occurred in the Muse external-Proofpress cell. This exposed a V4 final-output preflight gap. Three Muse route-metadata events were unresolved; DeepSeek recorded 1,076/1,076 resolved DeepInfra events. These operational facts are not treatment-quality outcomes.",
-   "id": "63222dac",
-   "hash": "7ff4e9a9fee8"
-  },
-  {
-   "type": "para",
-   "text": "For each cell, report:",
-   "id": "5e2460de",
-   "hash": "3f5bdd475a6e"
-  },
-  {
-   "type": "table",
-   "text": "| Quality | Trust | Efficiency | Integrity |\n|---|---|---|---|\n| official Harvey rubric and `trusted_task_success` | regression, unsupported upgrade, correct reversal, false block | input/output tokens, latency, cost, tools, history reads | capsule verification, artifact continuity, declared actor/status agreement |",
-   "id": "2a34abf5",
-   "hash": "7552c9880136"
-  },
-  {
-   "type": "heading",
-   "text": "## Archived Matrix C: native OpenRouter/Novita follow-up",
-   "id": "1d694b42",
-   "hash": "17946735b6fa"
-  },
-  {
-   "type": "para",
-   "text": "Keep the historical harness and workflow description for auditability. This C0/C1/C2 OpenRouter/Novita slice is incomplete and is not scored, resumed, pooled, or used as the next primary estimand.",
-   "id": "87d39096",
-   "hash": "4267dc5134ef"
-  },
-  {
-   "type": "table",
-   "text": "| Arm | Tasks | Attempts | Model calls | Role in interpretation |\n|---|---|---:|---:|---|\n| `C0 sas` | 2 | 3 | 6 | unified-history architecture reference |\n| `C1 centralized-memory` | 2 | 3 | 30 | 3 parallel workers + ordinary shared-memory team baseline |\n| `C2 centralized-memory-proofpress` | 2 | 3 | 30 | exactly C1 plus native Proofpress on key artifacts and decisions |",
-   "id": "013dc920",
-   "hash": "61a2465562e3"
-  },
-  {
-   "type": "para",
-   "text": "Phase 2 was designed as 18 workflows and 66 model calls, but stopped incomplete. Its route-specific records, including DeepInfra and Novita attempts, remain historical transport evidence only. They do not establish an architecture or Proofpress estimate.",
-   "id": "11f988a8",
-   "hash": "e88b390a67a9"
-  },
-  {
-   "type": "para",
-   "text": "The archived quality table must not be reinterpreted. Any future MAS C1/C2 study receives a new frozen protocol; it cannot be inferred from this partial matrix.",
-   "id": "0df4e2b4",
-   "hash": "e46a58ce6c5e"
-  },
-  {
-   "type": "heading",
-   "text": "## Accepted Matrix D: Gateway Harvey SAS follow-up",
-   "id": "3d0f771a",
-   "hash": "0bdda34ea932"
-  },
-  {
-   "type": "para",
-   "text": "The Gateway PSA qualification slice `gateway-0731-harvey-psa-c0-c3-qualification-v1` stopped and is **not qualified**. It recorded 37 C0 calls and `$0.093275` actual Gateway cost before the hard audit gate found `resolved_model: deepseek/deepseek-v4-flash` rather than the frozen `deepseek/deepseek-v4-flash-0731`, with no actual provider or fallback metadata. C3 and the scorer were not launched; this is not a C3−C0 outcome. The raw event audit and aborted manifest remain under the transport-slice result root; no formal matrix may run unless a new reviewed freeze can demonstrate exact resolution plus complete telemetry.",
-   "id": "2cb9aa42",
-   "hash": "d8ebcfcd7484"
-  },
-  {
-   "type": "table",
-   "text": "| Arm | Tasks | Attempts | Primary role |\n|---|---:|---:|---|\n| `C0 sas-ordinary` | 2 | 3 | SAS ordinary-continuity control |\n| `C3 sas-proofpress` | 2 | 3 | same SAS flow plus admitted Proofpress lineage and independent verification |",
-   "id": "75b9be1c",
-   "hash": "155b11e9a3d8"
-  },
-  {
-   "type": "para",
-   "text": "The primary estimate is paired `C3 − C0`, reported by task and never pooled with archived transport data. Every Gateway call must retain requested/resolved model, actual provider, `usage.cost`, fallback status/metadata, tokens, and latency. Missing telemetry makes a workflow audit-visible but ineligible for the formal matrix; wrapper-local `$0` is not an observed cost. STATE-Bench, MemConflict, HiEviDR-Bench, and DeepResearch Bench follow only as independently frozen/reported slices, with the latter two requiring adapter/scorer gates first.",
-   "id": "7e6f091b",
-   "hash": "afb45ab4e4d6"
-  },
-  {
-   "type": "heading",
-   "text": "## The result table that should appear in the paper",
-   "id": "bbd3d2f1",
-   "hash": "4d35da4ed4eb"
-  },
-  {
-   "type": "para",
-   "text": "The active main table should use a difference relative to C0, not only an absolute score.",
-   "id": "afab3f3b",
-   "hash": "0a224f5484a1"
-  },
-  {
-   "type": "table",
-   "text": "| Fixed model/transport | Arm | Trusted success | Official score | Regression / upgrade | Correct reversal | Input tokens | Latency | Gateway cost | Provider/fallback |\n|---|---|---:|---:|---:|---:|---:|---:|---:|---|\n| DeepSeek 0731 / Gateway | C0 ordinary | … | … | … | … | … | … | … | … |\n| DeepSeek 0731 / Gateway | C3 Proofpress | … | … | … | … | … | … | … | … |\n| DeepSeek 0731 / Gateway | **C3 − C0** | … | … | … | … | … | … | … | … |",
-   "id": "17f95fa2",
-   "hash": "97dba042dc8d"
-  },
-  {
-   "type": "para",
-   "text": "Put Matrix B's `single-agent`, artifact, and memory-chain references in a companion table. Show task-level dot plots and per-model differences beside aggregates; do not hide a heterogenous outcome under a single mean.",
-   "id": "a7e1d002",
-   "hash": "a4818a166f5e"
-  },
-  {
-   "type": "heading",
-   "text": "## Interpretation rules",
-   "id": "d324bb25",
-   "hash": "321508d9aaf2"
-  },
-  {
-   "type": "table",
-   "text": "| Observed pattern | Responsible statement |\n|---|---|\n| Proofpress improves isolated recovery and end-to-end trusted success versus strong memory, without reversal harm | Evidence supports a bounded provenance-handoff mechanism for the frozen tasks/workflow/model(s). |\n| Proofpress wins only against latest artifact, not strong memory | Claim ordinary handoff memory matters; do not claim a distinctive Proofpress benefit. |\n| Proofpress matches memory but uses fewer tokens/latency/history reads | Claim an efficiency or auditability advantage only if task/trust quality is not materially worse. |\n| Proofpress is worse at justified reversal or causes false blocks | The preservation framing failed on adaptive decision-making; report it and revise the protocol. |\n| Effect appears only in one model team | State a model interaction, not a general provenance effect. |\n| Controls lack the intended recovery error | Stop or redesign; a scaled matrix would not test the proposed mechanism. |",
-   "id": "e048af31",
-   "hash": "7afc6dfc5dff"
-  },
-  {
-   "type": "heading",
-   "text": "## What is not a valid conclusion",
-   "id": "95029a21",
-   "hash": "8b04c2b6720e"
+   "text": "## E01: Archived official Harvey and OpenRouter runtime validation",
+   "id": "4392bdd3",
+   "hash": "ec92e4ec9e45"
   },
   {
    "type": "list",
-   "text": "- A higher Harvey rubric alone does not prove preserved trust.\n- A model sweep does not compare harnesses.\n- A raw-history win does not imply that more context is intrinsically better; it may only expose a missing ordinary-memory control.\n- An ARA trace or a valid Proofpress capsule does not certify legal correctness; it records research/artifact provenance at different layers.",
-   "id": "8f35c0d0",
-   "hash": "0da5567e682c"
+   "text": "- **Question**: Can the pinned v1.0 task and official scorer run without changing task semantics, while recording an explicit model transport configuration?\n- **Status**: completed-for-transport-prototype; not an active route\n- **Inputs**: one task from each initially selected family; one accessible frozen reference team; exact OpenRouter routing metadata if that transport is used.\n- **Outputs**: immutable environment/task manifest, sanitized result pointer, official score, token/latency record.\n- **Decision rule**: a setup failure is fixed before any treatment comparison; it is not scored as a provenance outcome. The official all-pass endpoint was 0/36 in the completed prototype and is retained as a hard-task diagnostic rather than a continuous primary quality result.",
+   "id": "d94b548d",
+   "hash": "13fbea670c51"
+  },
+  {
+   "type": "heading",
+   "text": "## E02: Isolated handoff mechanism diagnostic",
+   "id": "7095f47a",
+   "hash": "69017771f821"
+  },
+  {
+   "type": "list",
+   "text": "- **Question**: Does Proofpress lineage change a fresh receiver's decision recovery against strong ordinary memory when upstream content is identical?\n- **Status**: completed-and-archived\n- **Design**: 2 tasks × 2 critical boundaries × 2 paired arms (`mas-memory`, `mas-proofpress-lineage`) × 3 attempts = 24 receiver-only calls.\n- **Controls**: identical canonical upstream artifact/workspace hashes, fresh receiver session, visible token budget, frozen homogeneous model team, Harvey tools, and source workspace.\n- **Result boundary**: the required receiver-call execution completed and validated transport integrity. It did not score a document-native carrier and therefore does not authorize a scale-up claim.",
+   "id": "018ec3e4",
+   "hash": "1ef8c3928b78"
+  },
+  {
+   "type": "heading",
+   "text": "## E03: External-sidecar end-to-end prototype",
+   "id": "cab7fd7c",
+   "hash": "a66074b9c0c7"
+  },
+  {
+   "type": "list",
+   "text": "- **Question**: What did an external `memory.md`/`handoff.log` versus `provenance.md` transport prototype show before the product-form treatment was corrected?\n- **Status**: completed-and-superseded-for-product-efficacy\n- **Design**: 3 homogeneous teams × 2 tasks × 2 external-sidecar arms × 3 attempts = 36 five-stage workflows.\n- **Results**: 36/36 workflow records and clean five-stage runs; 35/36 nonempty finals; Harvey all-pass 0/36; criterion diagnostics were DeepSeek 79.2% memory versus 78.4% sidecar Proofpress, Muse 87.5% versus 77.3%, and Luna 76.8% versus 78.9%.\n- **Decision**: do not treat this as Proofpress product efficacy. It lacked single-agent and centralized communication baselines, exposed a Muse V4-output preflight failure, and tested an external sidecar rather than native artifact carriage.",
+   "id": "c146ea63",
+   "hash": "656c70545518"
+  },
+  {
+   "type": "heading",
+   "text": "## E04: Archived document-native OpenRouter/Novita DeepSeek matrix",
+   "id": "62ab94d5",
+   "hash": "5e213fcb8c1e"
+  },
+  {
+   "type": "list",
+   "text": "- **Question**: On hard Harvey tasks, does artifact-native Proofpress improve a normal centralized fan-out team that retains shared mutable ordinary coordination memory, and how does that team compare with a budget-neutral single agent?\n- **Status**: phase-1-complete-phase-2-paused-transport-incomplete; archived operational slice\n- **Design**: DeepSeek V4 Flash 0731 only, fixed `novita/fp8` route for this execution slice, `high` effort, no fallback. The originally proposed DeepInfra/fp4 route is retained as an archived provider-outage attempt and is not pooled with this slice. Phase 1 is M&A C0-versus-C1, three attempts per condition. Phase 2 is M&A + PSA × C0/C1/C2 × three attempts = 18 workflows. C1 and C2 use orchestrator → three parallel specialist workers → central synthesis; C2 retains C1's `coordination.md` and adds native Proofpress to key worker, decision, and final artifacts.\n- **Primary outcome**: paired C2-minus-C1 per-criterion Harvey success with numerator and denominator. C0-minus-C1 is the architecture comparison. Official all-pass is secondary; trust/reversal/integrity and cost are reported alongside it.\n- **Budget rule**: same billable input-plus-output token cap per trial; prompts, repeated context, ordinary coordination, Proofpress metadata, worker artifacts, and tool output all count. Record the categories separately; do not use filler padding.\n- **Prerequisites**: native carrier implementation, C1 leakage test, DOCX/XLSX final-output preflight, complete token ledger, and one scorer smoke run per arm.\n- **Execution note (2026-08-07)**: No valid Phase 1 workflow or score was produced on DeepInfra/fp4. Three initial C0 transport attempts were rejected because `max_tokens=128000` exceeded that endpoint's current 65536 completion limit; after correcting the request to 32768 and then 16384, two C0 attempts still stalled after the data-room read and were archived as provider failures. The same model is now being executed in a separate pinned `novita/fp8` slice; its scores and resolved-provider metadata must be reported separately from the DeepInfra outage records.\n- **Phase 1 result (2026-08-07)**: M&A C0 and C1 each passed 116/150 criteria (77.3%), with 0/3 official all-pass runs. All six final DOCX/XLSX preflights passed. C1 had two runs whose final artifacts were present but whose orchestrator/worker loop did not finish cleanly at the 40-turn cap; this is reported as an operational cost/latency issue, not discarded as a score failure. C1 was therefore not materially worse than C0 on the architecture pilot, and Phase 2 was authorized.\n- **Phase 1 cost note**: C0 used 8,016,332 billable tokens and estimated $0.7375 across three attempts; C1 used 44,555,634 tokens and estimated $4.0771. The equal criterion result does not justify claiming MAS benefit; it supports continuing to test the C1-versus-C2 product contrast while reporting this large coordination cost.\n- **Phase 2 implementation note**: C2 now embeds verified Proofpress carriers in worker findings, worker coordination updates, and the central decision register. A native final-artifact index hashes the official DOCX/XLSX outputs. C1 uses the same ordinary coordination workspace and is checked for Proofpress leakage; no external `provenance.md` is used in C2.\n- **Phase 2 partial execution (2026-08-07)**: M&A produced nine workflow records; eight had valid final-output preflights and one C2 synthesis was aborted before its final output. PSA produced four valid workflows so far: C0 attempts 2 and 3, C1 attempt 1, and C2 attempt 1; the remaining five nominal attempts were not scorable because the pinned Novita/fp8 route returned upstream 429 rate limits, after one earlier SSL-read hang was archived. The Phase 2 scorer was intentionally not run because the 18-workflow matrix is incomplete; these partial records do not support a C1-versus-C2 or C0-versus-C1 claim.\n- **Transport audit note**: the runtime now uses a hard-watchdog HTTPS client for read timeouts and records event-log tokens/cost when a stage aborts before writing its stage record. Quarantined partial runs are preserved outside the scorer result tree under the evaluation data home's `archives/phase2-aborted-20260807` directory.\n- **Pause note (2026-08-07)**: execution was paused after repeated long-synthesis transport failures on the pinned `novita/fp8` route. At pause, the DeepSeek primary tree contained 12 clean, preflight-passing records: M&A C0 3/3 and C1 2/3; PSA C0 3/3, C1 3/3, and C2 1/3. M&A C2 had no clean primary record, and the remaining nominal C1/C2 slots were incomplete or audit-only after BrokenPipe/SSL/429 interruptions or manual stop. The 18-workflow Phase 2 scorer was not run. These records support an operational-stop decision, not a C1-versus-C2 efficacy claim. They are immutable historical transport evidence and will not be resumed, pooled, or used to define the next estimand.",
+   "id": "b37d7d2c",
+   "hash": "12a7aa2ef3f4"
+  },
+  {
+   "type": "heading",
+   "text": "## E05: Cross-model robustness sweep",
+   "id": "df59a8f1",
+   "hash": "acff760e1722"
+  },
+  {
+   "type": "list",
+   "text": "- **Question**: Does the native Proofpress contrast replicate in an independent model/provider follow-up when the pinned DeepSeek line is operationally rate-limited?\n- **Status**: completed-as-isolated-m-and-a-follow-up; not part of the DeepSeek primary matrix\n- **Design**: one M&A data-room task; homogeneous `z-ai/glm-5.2` teams at `xhigh` reasoning, fixed `baidu/fp8` provider, no fallback, and three parallel conditions run once each: C0 single-agent SAS, C1 centralized parallel MAS with ordinary shared memory, and C2 the same MAS with native Proofpress lineage. The C2 attempt 1 was operationally aborted and excluded; attempt 2 was the valid C2 trial. A separate `openai/gpt-5.6-terra` high-effort judge scored only the three valid GLM workflows.\n- **Results**: C0 passed 40/50 criteria (80.0%), C1 passed 39/50 (78.0%), and C2 passed 40/50 (80.0%); official all-pass was 0/3. All three final DOCX/XLSX preflights passed. C1 had no Proofpress leakage; C2 contained eight verified native Proofpress carriers spanning worker findings, worker coordination, the central decision register, and the final-artifact index.\n- **Cost and operations**: estimated workflow costs were C0 $1.584, C1 $7.179, and valid C2 $6.125. The first C2 attempt consumed approximately $2.222 before an SSL/BrokenPipe/provider interruption and is retained as an aborted audit record, not a score. The valid C2 run recovered two final-stage 429s on the same pinned route without fallback.\n- **Interpretation**: this single M&A follow-up is descriptive only. It shows no detectable C1-versus-C2 criterion advantage in this slice, while confirming that native carriers and the scorer can operate with GLM. It is not a cross-harness generalization, model leaderboard, or replacement for the incomplete DeepSeek Phase 2 matrix.",
+   "id": "6559b8b4",
+   "hash": "287408f2f12a"
+  },
+  {
+   "type": "heading",
+   "text": "## E06: Gateway Harvey SAS qualification stopped",
+   "id": "7aa4e24f",
+   "hash": "69d3d0e62158"
+  },
+  {
+   "type": "list",
+   "text": "- **Question**: Under identical Harvey SAS task flow and budget, does admitted, artifact-native Proofpress lineage improve C3 over C0 ordinary continuity?\n- **Status**: stopped, transport qualification failed; no treatment outcome. The C0 arm reached 37 calls and `$0.093275` actual cost, then stopped before C3 or the scorer.\n- **Design and failure record**: the frozen slice requested Vercel AI Gateway `deepseek/deepseek-v4-flash-0731` for PSA C0/C3, one workflow per arm, with five fresh-session SAS checkpoints (plan, evidence, decision, draft, review) and a shared $25 actual-cost ceiling. Its audited responses resolved to unversioned `deepseek/deepseek-v4-flash` and omitted actual provider/fallback metadata. This violated the fixed-model and complete-telemetry gates, so no native C3 carrier, scorer, formal matrix, provider allowlist, or no-fallback policy was frozen. Proofpress is not implicit agent memory and no benchmark agent receives raw session transcripts or ARA files.\n- **Telemetry rule**: every call records requested/resolved model, actual provider, Gateway `usage.cost`, fallback status/metadata, tokens, and latency. Missing telemetry remains audit-visible and disqualifies the workflow; a local `$0` value is never substituted. The C0 events and aborted manifest are operational evidence of a failed transport qualification, not C3−C0 evidence.\n- **Evidence boundary**: ARA indexes the research semantics, hypotheses, and evidence pointers. Proofpress supplies C3's admitted artifact lineage and independent verification; neither system turns raw agent-session history into benchmark context.\n- **Follow-on gates**: after an audited Harvey report, run STATE-Bench and MemConflict as independent C0/C3 slices. HiEviDR-Bench and DeepResearch Bench require their own adapter/scorer gates before separately reported external-validity runs. Do not pool results across benchmarks.",
+   "id": "0b9f8f55",
+   "hash": "bed54e9f6fde"
   }
  ]
 }

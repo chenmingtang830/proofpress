@@ -1,39 +1,35 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/docs/RESULTS_MATRIX.md",
- "artifact_id": "pp_d40d46a12d4d493fcbc9c0e9",
- "version": "ea4002f4",
- "parent": "e0241e4a",
+ "artifact": "experiments/provenance_handoff/ara/logic/experiments.md",
+ "artifact_id": "pp_15fb7a0bcf0891f7cee01068",
+ "version": "a74c96d1",
+ "parent": "668de489",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-07T22:25:52+00:00",
+ "ts": "2026-08-07T22:25:55+00:00",
  "stats": {
-  "modified": 1
+  "modified": 2
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "2cb9aa42",
-   "type": "para",
-   "context": "Accepted Matrix D: Gateway Harvey SAS fo",
-   "numbers": [
-    [
-     "$25",
-     "37"
-    ],
-    [
-     "12",
-     "$0.093275"
-    ]
-   ]
+   "block": "7aa4e24f",
+   "type": "heading",
+   "context": "E06: Gateway Harvey SAS qualification st"
+  },
+  {
+   "kind": "modified",
+   "block": "0b9f8f55",
+   "type": "list",
+   "context": "E06: Gateway Harvey SAS qualification st"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:522e06505b2452424ccbf5611f8c8c0dec951ccf9329d8ec03f63d13707639e2",
+ "soft_fingerprint": "ppsb1:8a8737798246a5ffc4d25b0d20166256b2603e81da2f4a22ccc757401642adba",
  "actors": {
   "requested_by": [
    "richardtang"
@@ -51,16 +47,21 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block_id": "2cb9aa42",
+   "block_id": "7aa4e24f",
    "kind": "modified",
-   "claim": "The PSA Gateway qualification stopped as unqualified after 37 C0 calls and $0.093275 actual cost because actual resolution and routing telemetry did not satisfy the frozen protocol; C3 and scorer did not run.",
+   "claim": "E06 is recorded as a stopped Gateway transport qualification, not a treatment result."
+  },
+  {
+   "block_id": "0b9f8f55",
+   "kind": "modified",
+   "claim": "The entry records the 37-call, $0.093275 C0 stop, unversioned resolved model, missing provider/fallback metadata, and the resulting prohibition on C3, scoring, and formal-matrix launch.",
    "evidence": [
     "transport slice event log and aborted manifest"
    ]
   }
  ],
  "context": {
-  "why": "Record the executed Gateway qualification failure without interpreting it as a treatment effect."
+  "why": "Record the Gateway qualification stop and preserve the research gate."
  },
- "event_id": "ppe_53175feade9e120d306e658e"
+ "event_id": "ppe_d28bd56e627614e455d1d8ba"
 }
