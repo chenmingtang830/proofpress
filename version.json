@@ -1,240 +1,216 @@
 {
- "artifact": "docs/EXECUTION_PLAN.md",
- "artifact_id": "pp_120f0f61aa69ad67431b9659",
+ "artifact": "docs/RESULTS_MATRIX.md",
+ "artifact_id": "pp_d40d46a12d4d493fcbc9c0e9",
  "blocks": [
   {
    "type": "heading",
-   "text": "# Execution Plan: Proofpress Lineage Evaluation Study",
-   "id": "3beda344",
-   "hash": "4f2e70b0726d"
+   "text": "# Results Matrix and Interpretation Guide",
+   "id": "8f5f32ed",
+   "hash": "928d890552a7"
   },
   {
    "type": "heading",
    "text": "## Review state",
-   "id": "6743bd05",
+   "id": "569ecb4f",
    "hash": "37f70bcbd882"
   },
   {
    "type": "para",
-   "text": "The DeepSeek Harvey C0/C1/C2 OpenRouter/Novita slice is paused after repeated long-synthesis transport failures. Its clean records and aborted attempts remain auditable, but the incomplete matrix is not scored or resumed. The active route is Vercel AI Gateway with fixed `deepseek/deepseek-v4-flash-0731`: B0 is a separate original one-shot baseline, and C0/C3 is a separate SAS qualification; neither is pooled with historical routes or unversioned-Flash smoke.",
-   "id": "1d585184",
-   "hash": "248ab7d16476"
+   "text": "Updated after the completed external-transport prototype. Its observed values are descriptive, not evidence for the document-native product treatment. The old OpenRouter/Novita and unversioned-Flash records are frozen operational history; the active Gateway design separates B0 original one-shot from C0/C3 SAS on fixed 0731.",
+   "id": "f9ecf7b5",
+   "hash": "92b421f83ab2"
   },
   {
    "type": "heading",
-   "text": "## Purpose and execution boundary",
-   "id": "12bb5436",
-   "hash": "0d66cc691c4b"
+   "text": "## What the paper must distinguish",
+   "id": "361bc86e",
+   "hash": "48118f405213"
   },
   {
    "type": "para",
-   "text": "This plan turns the protocol into a reviewable sequence. It does not authorize model spending merely because the repository is configured. No empirical result exists until a frozen slice has completed, been scored, and been audited.",
-   "id": "e54d6ee8",
-   "hash": "d94b0a8734d8"
-  },
-  {
-   "type": "para",
-   "text": "The study keeps the Harvey LAB task/scoring harness fixed. It changes only what a fresh downstream role can recover from the preceding work. Harvey remains the final legal-deliverable baseline, while the later dynamic track tests SAS/MAS × ordinary continuity/Proofpress. ARA manages the paper's reasoning and evidence; it is never mounted into a benchmark-agent workspace.",
-   "id": "f62ad8be",
-   "hash": "2cda07ac0eb3"
-  },
-  {
-   "type": "heading",
-   "text": "## Study modes",
-   "id": "e4382b4f",
-   "hash": "d413bdccf305"
+   "text": "The study has three different questions. They should not be collapsed into one leaderboard number.",
+   "id": "3f8c1697",
+   "hash": "1a9c1930769f"
   },
   {
    "type": "code",
-   "text": "```mermaid\nflowchart LR\n  D[\"0. Adapter doctor\\nNo treatment claim\"] --> I[\"1a. Isolated handoff\\nSame upstream checkpoint\"]\n  I --> E[\"1b. End-to-end gate\\nV0 → V4 workflow\"]\n  E --> B[\"2a. Gateway B0\\nHarvey one-shot baseline\"]\n  E --> M[\"2b. Gateway SAS qualification\\nHarvey C0 / C3\"]\n  M --> D[\"3. Harvey formal matrix\\n2 tasks × C0/C3 × 3\"]\n  D --> S[\"4. Independent benchmark gates\\nSTATE/MemConflict then HiEviDR/DeepResearch\"]\n  I -->|\"stop / revise\"| X[\"No scale\"]\n  E -->|\"stop / revise\"| X\n```",
-   "id": "4b9c9552",
-   "hash": "9c2714cb55f3"
+   "text": "```mermaid\nflowchart TB\n  A[\"Is the handoff representation itself causal?\\nIsolated receiver\"] --> B[\"Does it help a real multi-stage workflow?\\nFixed M0 end-to-end\"]\n  B --> C[\"Does the effect depend on model family?\\nTwo-arm model sweep\"]\n```",
+   "id": "d227002e",
+   "hash": "a0239e53131c"
+  },
+  {
+   "type": "heading",
+   "text": "## Completed Matrix A: isolated external-handoff diagnostic",
+   "id": "674666f2",
+   "hash": "13446999c1e3"
+  },
+  {
+   "type": "para",
+   "text": "This is a single-edge experiment. The upstream artifact and public workspace are identical; only the materialized history changes.",
+   "id": "a5d19464",
+   "hash": "4df9026d3d32"
   },
   {
    "type": "table",
-   "text": "| Mode | What is held equal | What varies | Why it exists |\n|---|---|---|---|\n| 0: adapter doctor | one pinned task, official task semantics and scorer | no treatment | proves that the runtime record is viable, not that Proofpress helps |\n| 1a: isolated handoff | upstream checkpoint, workspace, role instruction, model, tools | ordinary memory versus Proofpress representation | cleanly tests a single receiver's recovery and trust behavior |\n| 1b: end-to-end gate | task, workflow, model team, role prompts, tools and caps | ordinary memory versus Proofpress at every edge | tests whether any mechanism survives cumulative multi-agent work |\n| 2a: Gateway B0 baseline | one Harvey task and official scorer | original single continuous-session agent | establishes the original Harvey baseline in its own audited slice |\n| 2b: Gateway SAS qualification | one Harvey task, scorer and carrier contract | C0/C3 | qualifies SAS transport and complete telemetry, not an efficacy result |\n| 3: Harvey formal matrix | two tasks, SAS flow, frozen Gateway config | C0/C3 × 3 attempts | estimates the primary SAS Proofpress contrast |\n| 4: benchmark extensions | each benchmark's own task/scorer gate | C0/C3 | reports STATE-Bench, MemConflict, HiEviDR-Bench, and DeepResearch Bench independently |",
-   "id": "574f6ebb",
-   "hash": "88cc16047a0e"
-  },
-  {
-   "type": "heading",
-   "text": "## Fixed system contract",
-   "id": "8439e386",
-   "hash": "645cb3b434cf"
+   "text": "| Dimension | Fixed | Varied |\n|---|---|---|\n| Task | 2 frozen Harvey tasks | task instance |\n| Handoff boundary | `V1 → V2`, `V2 → V3` | boundary |\n| Upstream content | canonical evidence map / decision register | never varies inside a pair |\n| Receiver | fresh session, same role, same M0 model and effort | three independent attempts |\n| Arm | same current artifact and token budget | `mas-memory`, `mas-proofpress-lineage` |",
+   "id": "f749c52a",
+   "hash": "375c4017a16e"
   },
   {
    "type": "para",
-   "text": "The Gateway qualification workflow contains five model stages: plan (`V0`), evidence (`V1`), decision (`V2`), draft (`V3`), and review (`V4`). Both C0 and C3 use the same single SAS role in fresh sessions at every checkpoint; the handoff materializer is deterministic code, never another agent. C0 materializes ordinary continuity, while C3 admits and verifies the native Markdown checkpoint artifact and final-artifact index.",
-   "id": "9e5893a0",
-   "hash": "c8f2a0e6d1f4"
+   "text": "Completed cells: `2 tasks × 2 boundaries × 2 arms × 3 attempts = 24` receiver-only calls per tested model. The recorded DeepSeek 0731, Muse Spark 1.2, and GPT-5.6 Luna slices completed their receiver-call integrity checks. This validates the transport path; it is not a native Proofpress outcome score.",
+   "id": "b7b7605e",
+   "hash": "4b2cb79b43c9"
   },
   {
    "type": "para",
-   "text": "Within any workflow run, all five calls use one exact **homogeneous model team**: same concrete model slug, provider policy, reasoning effort (`high`), temperature, tool policy, and model-adapter version. This avoids a coordinator/worker model mix becoming an accidental treatment. Proofpress verification and materialization never call a model.",
-   "id": "a617c9a5",
-   "hash": "191c638cad50"
+   "text": "Primary measurements: decision recovery accuracy, decision regression, unsupported authority upgrade, correct reversal, false block, input tokens, latency, tool calls/history reads. Its value is causal clarity: if Proofpress changes an outcome here, the difference cannot be blamed on upstream agents having produced different artifacts.",
+   "id": "8459dbf6",
+   "hash": "ff7683a3fb80"
   },
   {
    "type": "heading",
-   "text": "## Arms to freeze",
-   "id": "f3c9a37c",
-   "hash": "e4e4bdd7c4c0"
+   "text": "## Completed Matrix B: archived external-transport end-to-end prototype",
+   "id": "5e69bf5b",
+   "hash": "e2fd0247600f"
+  },
+  {
+   "type": "para",
+   "text": "This was a preliminary systems experiment, not the final product-form experiment. It compared `memory.md`/`handoff.log` with an external `provenance.md`; that is now classified as a transport prototype.",
+   "id": "f39ebc31",
+   "hash": "ed560771c4c4"
   },
   {
    "type": "table",
-   "text": "| Arm | Receiver-visible continuity | Question it answers |\n|---|---|---|\n| `B0 harvey-one-shot` | one original Harvey agent in one continuous session; no handoff artifact | original Harvey one-shot baseline |\n| `C0 sas-ordinary` | one serial SAS role across the same five fresh checkpoints, with ordinary continuity | fresh-session SAS ordinary control |\n| `C1 centralized-memory` | centralized fan-out plus ordinary worker artifacts and `coordination.md` | later MAS extension only |\n| `C2 centralized-memory-proofpress` | C1 plus verified lineage on findings, decisions, and final artifacts | later MAS extension only |\n| `C3 sas-proofpress` | same C0 serial SAS task flow plus verified native Proofpress checkpoints and final-artifact index | active primary Proofpress contrast within SAS |",
-   "id": "17d5429d",
-   "hash": "d40a83fcad58"
+   "text": "| Observed model | Ordinary memory criterion success | External Proofpress sidecar criterion success | Interpretation |\n|---|---:|---|\n| DeepSeek V4 Flash 0731 | 297/375 (79.2%) | 294/375 (78.4%) | near-flat; lowest-cost stable candidate |\n| Muse Spark 1.2 | 328/375 (87.5%) | 290/375 (77.3%) | not interpretable as native effect; one treatment workflow had empty final output |\n| GPT-5.6 Luna | 288/375 (76.8%) | 296/375 (78.9%) | near-flat/slightly positive sidecar result |",
+   "id": "739fc169",
+   "hash": "799e537b61b4"
   },
   {
    "type": "para",
-   "text": "`C1` must be a good-faith ordinary-memory control, not a strawman. It may state decisions, rationale, caveats, next actions, and unanswered questions in ordinary prose, but must not expose Proofpress metadata or verification signals. `C3` uses a hybrid checkpoint contract: the system schedules meaningful checkpoints, the agent supplies semantic content, and deterministic Proofpress validates and commits it; it does not force a ledger write after every step.",
-   "id": "bc4f867e",
-   "hash": "e93327bcbcbe"
+   "text": "Across 36 workflows, the Harvey all-pass endpoint was 0/36. Harvey requires every criterion to pass, so this difficult-task endpoint is retained as a secondary hardness diagnostic. The 1,125 per-arm criterion opportunities are the descriptive quality signal, but must be reported by task and model rather than only pooled.",
+   "id": "151c31ec",
+   "hash": "3626bee0cbe7"
   },
   {
    "type": "para",
-   "text": "For all paired handoff comparisons, visible material must be token-matched within 5%. The underlying source workspace remains equally accessible according to the Harvey task rules.",
-   "id": "94075229",
-   "hash": "9e1d44035ea4"
-  },
-  {
-   "type": "heading",
-   "text": "## Implementation work before any comparison",
-   "id": "a9d6d3f6",
-   "hash": "81c8c3a5229d"
-  },
-  {
-   "type": "list",
-   "text": "1. **Pin and record Harvey.** Clone tag `v1.0`, detach at `1da4750171bc5a534960b3d82d15ba7fd2cf653f`, record task IDs, license, task-file hashes, harness revision, and score command.\n2. **Add model transport.** Implement a Vercel AI Gateway adapter at the Harvey model boundary. It accepts only `deepseek/deepseek-v4-flash-0731`, passes the exact tool schema, and records Gateway request/response metadata.\n3. **Implement the materializer.** From a canonical checkpoint history, deterministically generate matched C0 ordinary and C3 Proofpress inputs. The isolated mode must reproduce byte-identical public inputs within each declared comparison; the end-to-end mode starts identical but allows later outputs to diverge.\n4. **Implement provenance checks.** Verify Proofpress lineage before exposure; record stripped or tampered capsules as invalid treatment inputs, never silently repair them.\n5. **Implement scoring and recording.** Preserve the official Harvey scorer and add deterministic checks for decision regression, unsupported authority upgrade, correct reversal, false block, input/output tokens, wall time, tool calls, history reads, requested/resolved model, actual provider, `usage.cost`, fallback status/metadata, and artifact hashes.\n6. **Add contract tests.** Test token matching, no treatment labels in prompts, fresh sessions, immutable public inputs, resume safety, arm-blind grading inputs, and reversal variants.\n7. **Generate a review package.** Store only manifests, hashes, configs, aggregate tables, and license-permitted sanitized examples in Git. Store source documents, raw traces, and credentials under `PROOFPRESS_EVAL_HOME`.",
-   "id": "386d8701",
-   "hash": "0a35efe1fad1"
-  },
-  {
-   "type": "heading",
-   "text": "## Gateway freeze contract",
-   "id": "ad972abc",
-   "hash": "c8fe6f792d50"
+   "text": "All 36 workflow records completed their five stages, 35/36 had nonempty final outputs, and the sole empty final output occurred in the Muse external-Proofpress cell. This exposed a V4 final-output preflight gap. Three Muse route-metadata events were unresolved; DeepSeek recorded 1,076/1,076 resolved DeepInfra events. These operational facts are not treatment-quality outcomes.",
+   "id": "63222dac",
+   "hash": "7ff4e9a9fee8"
   },
   {
    "type": "para",
-   "text": "The adapter uses Vercel AI Gateway only as model transport; it is not a second task harness. Every frozen model slice must contain:",
-   "id": "72ba0aad",
-   "hash": "12c3f3889725"
-  },
-  {
-   "type": "list",
-   "text": "- the exact `deepseek/deepseek-v4-flash-0731` slug—never an unversioned or `latest` alias;\n- a qualification-derived provider allowlist and explicit no-fallback formal policy;\n- fixed `reasoning_effort: high`, temperature, tool settings, timeout, and retry policy;\n- request model slug plus resolved model, actual provider, Gateway `usage.cost`, fallback status/metadata, token usage, latency, and adapter commit;\n- independent attempts rather than a shared seed claim when the model does not support seeds.",
-   "id": "fa2c5953",
-   "hash": "3a63e8edeba4"
-  },
-  {
-   "type": "para",
-   "text": "The active roster contains one model only: `deepseek/deepseek-v4-flash-0731`. The qualification selects a stable Gateway provider allowlist; formal workflow records retain the actual resolved provider rather than asserting it from configuration.",
-   "id": "855ce8eb",
-   "hash": "98cef402d65d"
-  },
-  {
-   "type": "heading",
-   "text": "## Gate sequence and exact counts",
-   "id": "7121b57e",
-   "hash": "a3a8dac66ade"
+   "text": "For each cell, report:",
+   "id": "5e2460de",
+   "hash": "3f5bdd475a6e"
   },
   {
    "type": "table",
-   "text": "| Gate | Pre-frozen design | Count | Proceed only if |\n|---|---|---:|---|\n| B0 baseline | PSA × B0 × 1 continuous session; independent $5 actual-cost ceiling | 1 workflow | preflight, scorer, and complete per-call telemetry pass; it does not affect the SAS qualification verdict |\n| SAS qualification | PSA × C0/C3 × 1 attempt; five fresh serial-SAS checkpoints per arm; $25 shared actual-cost ceiling | 2 workflows | carrier, preflight, scorer, and complete per-call telemetry all pass |\n| Harvey formal | 2 tasks × C0/C3 × 3 attempts | 12 workflows | qualification is clean; the frozen model, provider policy, and budget hold |\n| STATE-Bench | benchmark-specific C0/C3 protocol | separately frozen | Harvey is audited and STATE adapter/scorer gate passes |\n| MemConflict | benchmark-specific C0/C3 protocol | separately frozen | its conflict/reversal gate passes; do not pool with STATE |\n| HiEviDR-Bench / DeepResearch Bench | adapter/scorer gates, then separate C0/C3 slices | separately frozen | each external-validity adapter is valid before spending |",
-   "id": "1f0678aa",
-   "hash": "83fcde019c9b"
-  },
-  {
-   "type": "para",
-   "text": "The 12-workflow Harvey count is the complete formal matrix after qualification, not a request to launch it before a clean two-workflow gate. Launch only after review of the immutable qualification records; do not resume historical transport slices.",
-   "id": "590ee263",
-   "hash": "acf41d8c6634"
+   "text": "| Quality | Trust | Efficiency | Integrity |\n|---|---|---|---|\n| official Harvey rubric and `trusted_task_success` | regression, unsupported upgrade, correct reversal, false block | input/output tokens, latency, cost, tools, history reads | capsule verification, artifact continuity, declared actor/status agreement |",
+   "id": "2a34abf5",
+   "hash": "7552c9880136"
   },
   {
    "type": "heading",
-   "text": "## Freeze checklist",
-   "id": "9c8c2698",
-   "hash": "3e11f2d5de5e"
+   "text": "## Archived Matrix C: native OpenRouter/Novita follow-up",
+   "id": "1d694b42",
+   "hash": "17946735b6fa"
   },
   {
    "type": "para",
-   "text": "Before a gate begins, create `configs/frozen/YYYY-MM-DD-<gate>-<slug>/` with immutable copies of:",
-   "id": "6c9081fe",
-   "hash": "b21d605c5101"
+   "text": "Keep the historical harness and workflow description for auditability. This C0/C1/C2 OpenRouter/Novita slice is incomplete and is not scored, resumed, pooled, or used as the next primary estimand.",
+   "id": "87d39096",
+   "hash": "4267dc5134ef"
+  },
+  {
+   "type": "table",
+   "text": "| Arm | Tasks | Attempts | Model calls | Role in interpretation |\n|---|---|---:|---:|---|\n| `C0 sas` | 2 | 3 | 6 | unified-history architecture reference |\n| `C1 centralized-memory` | 2 | 3 | 30 | 3 parallel workers + ordinary shared-memory team baseline |\n| `C2 centralized-memory-proofpress` | 2 | 3 | 30 | exactly C1 plus native Proofpress on key artifacts and decisions |",
+   "id": "013dc920",
+   "hash": "61a2465562e3"
+  },
+  {
+   "type": "para",
+   "text": "Phase 2 was designed as 18 workflows and 66 model calls, but stopped incomplete. Its route-specific records, including DeepInfra and Novita attempts, remain historical transport evidence only. They do not establish an architecture or Proofpress estimate.",
+   "id": "11f988a8",
+   "hash": "e88b390a67a9"
+  },
+  {
+   "type": "para",
+   "text": "The archived quality table must not be reinterpreted. Any future MAS C1/C2 study receives a new frozen protocol; it cannot be inferred from this partial matrix.",
+   "id": "0df4e2b4",
+   "hash": "e46a58ce6c5e"
+  },
+  {
+   "type": "heading",
+   "text": "## Accepted Matrix D: Gateway Harvey B0 and SAS follow-up",
+   "id": "3d0f771a",
+   "hash": "5d0e2d4f36aa"
+  },
+  {
+   "type": "para",
+   "text": "The historical Gateway PSA slice `gateway-0731-harvey-psa-c0-c3-qualification-v1` stopped and is **not qualified**. Its Chat Completions C0 run recorded 37 calls and `$0.093275` actual Gateway cost, but returned unversioned Flash without provider/fallback routing metadata; its record remains immutable operational history. The current native AI SDK v4 adapter is separately frozen for B0 one-shot and C0/C3 SAS slices, requiring exact 0731 model, actual provider, routing/fallback metadata, and numeric `usage.cost` per call. B0 never enters the C0/C3 slice-level qualification verdict, and neither qualification is a treatment-effect analysis.",
+   "id": "2cb9aa42",
+   "hash": "21c631e34faa"
+  },
+  {
+   "type": "table",
+   "text": "| Arm | Tasks | Attempts | Primary role |\n|---|---:|---:|---|\n| `B0 harvey-one-shot` | 2 | 3 | original Harvey continuous-session baseline |\n| `C0 sas-ordinary` | 2 | 3 | five-stage fresh-session SAS ordinary-continuity control |\n| `C3 sas-proofpress` | 2 | 3 | same SAS flow plus admitted Proofpress lineage and independent verification |",
+   "id": "75b9be1c",
+   "hash": "afb8d3fd94b7"
+  },
+  {
+   "type": "para",
+   "text": "`C0 − B0` is the fresh-session SAS/sessionization comparison. The primary Proofpress estimate is paired `C3 − C0`, reported by task and never pooled with archived transport data. `C3 − B0` is a mixed total difference and cannot be interpreted as a Proofpress effect. Every Gateway call must retain requested/resolved model, actual provider, `usage.cost`, fallback status/metadata, tokens, and latency. Missing telemetry makes a workflow audit-visible but ineligible for the formal matrix; wrapper-local `$0` is not an observed cost. STATE-Bench, MemConflict, HiEviDR-Bench, and DeepResearch Bench follow only as independently frozen/reported slices, with the latter two requiring adapter/scorer gates first.",
+   "id": "7e6f091b",
+   "hash": "f163520b8c0c"
+  },
+  {
+   "type": "heading",
+   "text": "## The result table that should appear in the paper",
+   "id": "bbd3d2f1",
+   "hash": "4d35da4ed4eb"
+  },
+  {
+   "type": "para",
+   "text": "The active main table should show B0, C0, and C3 separately; it may interpret only `C0 − B0` and `C3 − C0`, never `C3 − B0` as a Proofpress effect.",
+   "id": "afab3f3b",
+   "hash": "ec0e439a3c05"
+  },
+  {
+   "type": "table",
+   "text": "| Fixed model/transport | Arm | Trusted success | Official score | Regression / upgrade | Correct reversal | Input tokens | Latency | Gateway cost | Provider/fallback |\n|---|---|---:|---:|---:|---:|---:|---:|---:|---|\n| DeepSeek 0731 / Gateway | C0 ordinary | … | … | … | … | … | … | … | … |\n| DeepSeek 0731 / Gateway | C3 Proofpress | … | … | … | … | … | … | … | … |\n| DeepSeek 0731 / Gateway | B0 one-shot | … | … | … | … | … | … | … | … |\n| DeepSeek 0731 / Gateway | **C0 − B0** | … | … | … | … | … | … | … | … |\n| DeepSeek 0731 / Gateway | **C3 − C0** | … | … | … | … | … | … | … | … |",
+   "id": "17f95fa2",
+   "hash": "b6d490e10f3d"
+  },
+  {
+   "type": "para",
+   "text": "Put Matrix B's `single-agent`, artifact, and memory-chain references in a companion table. Show task-level dot plots and per-model differences beside aggregates; do not hide a heterogenous outcome under a single mean.",
+   "id": "a7e1d002",
+   "hash": "a4818a166f5e"
+  },
+  {
+   "type": "heading",
+   "text": "## Interpretation rules",
+   "id": "d324bb25",
+   "hash": "321508d9aaf2"
+  },
+  {
+   "type": "table",
+   "text": "| Observed pattern | Responsible statement |\n|---|---|\n| Proofpress improves isolated recovery and end-to-end trusted success versus strong memory, without reversal harm | Evidence supports a bounded provenance-handoff mechanism for the frozen tasks/workflow/model(s). |\n| Proofpress wins only against latest artifact, not strong memory | Claim ordinary handoff memory matters; do not claim a distinctive Proofpress benefit. |\n| Proofpress matches memory but uses fewer tokens/latency/history reads | Claim an efficiency or auditability advantage only if task/trust quality is not materially worse. |\n| Proofpress is worse at justified reversal or causes false blocks | The preservation framing failed on adaptive decision-making; report it and revise the protocol. |\n| Effect appears only in one model team | State a model interaction, not a general provenance effect. |\n| Controls lack the intended recovery error | Stop or redesign; a scaled matrix would not test the proposed mechanism. |",
+   "id": "e048af31",
+   "hash": "7afc6dfc5dff"
+  },
+  {
+   "type": "heading",
+   "text": "## What is not a valid conclusion",
+   "id": "95029a21",
+   "hash": "8b04c2b6720e"
   },
   {
    "type": "list",
-   "text": "- task IDs, licenses, source/task manifests, and hashes;\n- role prompts, output schemas, workflow version, and declared revision cap;\n- arm materializer version, expected visible-token budgets, and Proofpress verifier version;\n- Gateway model slug, provider allowlist, effort, temperature, retry/timeout policy, and pricing snapshot;\n- scorer version, blind-audit rubric, randomization/attempt order, and stop conditions.",
-   "id": "0405cffd",
-   "hash": "da3ec5c5b45b"
-  },
-  {
-   "type": "para",
-   "text": "Freeze does not include secrets. `AI_GATEWAY_API_KEY` stays in a local environment or keychain and is never written to a run record.",
-   "id": "cf920a25",
-   "hash": "6d2bd4900840"
-  },
-  {
-   "type": "heading",
-   "text": "## What each run records",
-   "id": "51803251",
-   "hash": "d9ada326a211"
-  },
-  {
-   "type": "para",
-   "text": "`RunRecord` must include `run_id`, task/attempt/arm, gate/frozen-config ID, workflow stage, input and output hashes, runner and adapter commits, requested/resolved model, actual provider, Gateway `usage.cost`, fallback status/metadata, timestamps, token/tool/latency usage, exit and rate-limit state, official and provenance scores, and links to external raw trace locations. Missing telemetry is visible but disqualifies the workflow from formal analysis. A failed or timed-out run is a result-bearing operational event; resume may not overwrite it.",
-   "id": "4e78c8b3",
-   "hash": "a06a45d8d5d8"
-  },
-  {
-   "type": "heading",
-   "text": "## Decision and reporting rules",
-   "id": "3e21a59b",
-   "hash": "2652d52bf263"
-  },
-  {
-   "type": "para",
-   "text": "The current Harvey endpoint remains `trusted_task_success`: official task success plus no decision regression or unsupported authority upgrade. `C0 − B0` is the sessionization contrast; the primary product contrast is `C3 − C0`; `C3 − B0` is mixed and not a product-effect estimate. The later benchmark endpoints additionally report current-conclusion accuracy, stale-conclusion misuse, correct revision/reversal, evidence-to-claim coverage, decision-lineage completeness, session-restart recovery, and token cost per successful task; every benchmark keeps its own C3−C0 report.",
-   "id": "cab94d5b",
-   "hash": "e4e2007f83ee"
-  },
-  {
-   "type": "para",
-   "text": "Gate review should inspect per-task and per-model outcomes before aggregates. Report quality, trust, tokens, latency, cost, tool calls, and history reads together. Use blinded provenance review for at least 20% of samples and report Cohen's kappa; do not promote an unvalidated judge to ground truth. If the memory control never makes the predicted kind of error, stop rather than scaling a story with no mechanism to explain.",
-   "id": "d49c5c2a",
-   "hash": "b568325f9ca9"
-  },
-  {
-   "type": "heading",
-   "text": "## Execution order for the operator",
-   "id": "fb7a66e6",
-   "hash": "bb0dd8ce0b3a"
-  },
-  {
-   "type": "list",
-   "text": "1. Run the local doctor and the pinned Harvey setup check.\n2. Review and freeze Gate 0 configuration; run it and package its records.\n3. Implement and unit-test the adapter/materializer/scorer changes; review an arm-blind example package.\n4. Freeze and run the independent Gateway B0 one-shot baseline and the two-workflow C0/C3 SAS qualification in separate slices and ledgers. Review telemetry and arm-blind example packages before formal spend.\n5. Make a written stop/proceed decision in ARA and Proofpress-snapshot the accepted research artifact.\n6. If proceeding, freeze and run the 12-workflow Harvey C0/C3 matrix in reviewed batches.",
-   "id": "aa49c13e",
-   "hash": "4f8c9d135eee"
-  },
-  {
-   "type": "list",
-   "text": "7. After Harvey is complete and audited, freeze and report STATE-Bench and MemConflict independently.\n8. Pass HiEviDR-Bench and DeepResearch Bench adapter/scorer gates before their own independent C0/C3 slices. MAS C1/C2 remains a later architectural extension.",
-   "id": "8d2e6f41",
-   "hash": "0d49490374fb"
-  },
-  {
-   "type": "heading",
-   "text": "## References",
-   "id": "ca5c9aa9",
-   "hash": "3f17be8543bd"
-  },
-  {
-   "type": "list",
-   "text": "- [Vercel AI Gateway](https://vercel.com/docs/ai-gateway)\n- [Harvey LAB v1.0 architecture](https://github.com/harveyai/harvey-labs/blob/v1.0/docs/architecture.md)",
-   "id": "1336f9dd",
-   "hash": "fee51385a5a4"
+   "text": "- A higher Harvey rubric alone does not prove preserved trust.\n- A model sweep does not compare harnesses.\n- A raw-history win does not imply that more context is intrinsically better; it may only expose a missing ordinary-memory control.\n- An ARA trace or a valid Proofpress capsule does not certify legal correctness; it records research/artifact provenance at different layers.",
+   "id": "8f35c0d0",
+   "hash": "0da5567e682c"
   }
  ]
 }

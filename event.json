@@ -1,65 +1,65 @@
 {
  "event": "version_created",
- "artifact": "docs/EXECUTION_PLAN.md",
- "artifact_id": "pp_120f0f61aa69ad67431b9659",
- "version": "66d3d0d5",
- "parent": "1934b5f5",
+ "artifact": "docs/RESULTS_MATRIX.md",
+ "artifact_id": "pp_d40d46a12d4d493fcbc9c0e9",
+ "version": "5e90af99",
+ "parent": "9ded0a70",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-07T23:05:16+00:00",
+ "ts": "2026-08-07T23:05:18+00:00",
  "stats": {
   "modified": 7
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "1d585184",
+   "block": "f9ecf7b5",
    "type": "para",
    "context": "Review state"
   },
   {
    "kind": "modified",
-   "block": "4b9c9552",
-   "type": "code",
-   "context": "Study modes"
+   "block": "3d0f771a",
+   "type": "heading",
+   "context": "Accepted Matrix D: Gateway Harvey B0 and"
   },
   {
    "kind": "modified",
-   "block": "574f6ebb",
-   "type": "table",
-   "context": "Study modes"
-  },
-  {
-   "kind": "modified",
-   "block": "17d5429d",
-   "type": "table",
-   "context": "Arms to freeze"
-  },
-  {
-   "kind": "modified",
-   "block": "1f0678aa",
-   "type": "table",
-   "context": "Gate sequence and exact counts"
-  },
-  {
-   "kind": "modified",
-   "block": "cab94d5b",
+   "block": "2cb9aa42",
    "type": "para",
-   "context": "Decision and reporting rules"
+   "context": "Accepted Matrix D: Gateway Harvey B0 and"
   },
   {
    "kind": "modified",
-   "block": "aa49c13e",
-   "type": "list",
-   "context": "Execution order for the operator"
+   "block": "75b9be1c",
+   "type": "table",
+   "context": "Accepted Matrix D: Gateway Harvey B0 and"
+  },
+  {
+   "kind": "modified",
+   "block": "7e6f091b",
+   "type": "para",
+   "context": "Accepted Matrix D: Gateway Harvey B0 and"
+  },
+  {
+   "kind": "modified",
+   "block": "afab3f3b",
+   "type": "para",
+   "context": "The result table that should appear in t"
+  },
+  {
+   "kind": "modified",
+   "block": "17f95fa2",
+   "type": "table",
+   "context": "The result table that should appear in t"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:6624f48b9278720894afb7e0f56da923087b988217b626c2615e96ae78a79a40",
+ "soft_fingerprint": "ppsb1:4d5847b73db2424b0f16bc6826b12e77d51901119a847fed7a099c03d810d131",
  "actors": {
   "requested_by": [
    "richardtang"
@@ -77,43 +77,43 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "1d585184",
+   "block": "f9ecf7b5",
    "kind": "modified",
-   "note": "Updates execution status for the independent B0 baseline and SAS qualification slices."
+   "note": "Updates the review state with the independent B0 baseline slice."
   },
   {
-   "block": "4b9c9552",
+   "block": "3d0f771a",
    "kind": "modified",
-   "note": "Adds B0 to the execution flow while preserving B0 and SAS qualification separation."
+   "note": "Renames the current Gateway matrix to cover B0, C0, and C3."
   },
   {
-   "block": "574f6ebb",
+   "block": "2cb9aa42",
    "kind": "modified",
-   "note": "Documents B0 and the C0/C3 SAS modes."
+   "note": "Separates frozen historical slices from active native Gateway slices."
   },
   {
-   "block": "17d5429d",
+   "block": "75b9be1c",
    "kind": "modified",
-   "note": "Defines the B0 one-shot arm separately from C0 and C3."
+   "note": "Adds B0 to the results-arm ledger."
   },
   {
-   "block": "1f0678aa",
+   "block": "7e6f091b",
    "kind": "modified",
-   "note": "Adds the B0 isolated budgeted run and its non-pooled qualification boundary."
+   "note": "States the contrast interpretation boundary without claiming a treatment effect."
   },
   {
-   "block": "cab94d5b",
+   "block": "afab3f3b",
    "kind": "modified",
-   "note": "Records the permitted interpretation of each comparison."
+   "note": "Explains that B0 does not enter C0/C3 slice qualification."
   },
   {
-   "block": "aa49c13e",
+   "block": "17f95fa2",
    "kind": "modified",
-   "note": "Updates operator steps for separate B0 and C0/C3 result roots."
+   "note": "Adds pending B0 result rows without changing historical results."
   }
  ],
  "context": {
-  "why": "Record isolated B0 execution and its separation from the C0 C3 qualification slice."
+  "why": "Record B0 as a separate pending result slice without changing historical results."
  },
- "event_id": "ppe_ebf22c5b6743f2151b9a0743"
+ "event_id": "ppe_b525a32167fd52e2aef41bd6"
 }
