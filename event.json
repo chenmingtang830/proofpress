@@ -1,47 +1,29 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/docs/EXECUTION_PLAN.md",
- "artifact_id": "pp_120f0f61aa69ad67431b9659",
- "version": "1934b5f5",
- "parent": "46a7c856",
+ "artifact": "experiments/provenance_handoff/docs/RESULTS_MATRIX.md",
+ "artifact_id": "pp_d40d46a12d4d493fcbc9c0e9",
+ "version": "e0241e4a",
+ "parent": "e9e1a1dc",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-07T22:14:43+00:00",
+ "ts": "2026-08-07T22:14:51+00:00",
  "stats": {
-  "modified": 3
+  "modified": 1
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "9e5893a0",
+   "block": "2cb9aa42",
    "type": "para",
-   "context": "Fixed system contract"
-  },
-  {
-   "kind": "modified",
-   "block": "17d5429d",
-   "type": "table",
-   "context": "Arms to freeze"
-  },
-  {
-   "kind": "modified",
-   "block": "1f0678aa",
-   "type": "table",
-   "context": "Gate sequence and exact counts",
-   "numbers": [
-    [
-     "1",
-     "$25"
-    ]
-   ]
+   "context": "Accepted Matrix D: Gateway Harvey SAS fo"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:994978b9b0bb9f2bafa3a260f4c2cbee17a511c96f3a3882182e3915c4bff8ac",
+ "soft_fingerprint": "ppsb1:f138928f36baf9239544dfcae6ba8420e94ce2441bd40c5d04fd13e269223726",
  "actors": {
   "requested_by": [
    "Richard Tang"
@@ -59,23 +41,13 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "9e5893a0",
+   "block": "2cb9aa42",
    "kind": "modified",
-   "note": "Defined five-stage fresh-session Gateway SAS workflow."
-  },
-  {
-   "block": "17d5429d",
-   "kind": "modified",
-   "note": "Updated C0/C3 arm continuity contracts."
-  },
-  {
-   "block": "1f0678aa",
-   "kind": "modified",
-   "note": "Specified PSA qualification count, checkpoints, and cost ceiling."
+   "note": "Recorded isolated PSA qualification slice and cost ceiling before the formal matrix."
   }
  ],
  "context": {
-  "why": "Align execution contract with the implemented five-checkpoint Gateway SAS qualification."
+  "why": "Record the frozen PSA Gateway C0/C3 qualification slice before formal results."
  },
- "event_id": "ppe_4cb17f8d747dd02c1cc40685"
+ "event_id": "ppe_3fa8973e5f3712f39fb5f9b5"
 }
