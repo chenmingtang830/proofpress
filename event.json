@@ -2,19 +2,25 @@
  "event": "version_created",
  "artifact": "experiments/provenance_handoff/ara/logic/experiments.md",
  "artifact_id": "pp_15fb7a0bcf0891f7cee01068",
- "version": "8a7ea974",
- "parent": "69e19b2c",
+ "version": "107bb45e",
+ "parent": "8a7ea974",
  "author": {
-  "name": "codex",
-  "kind": "agent",
+  "name": "unknown",
+  "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-07T10:33:33+00:00",
+ "ts": "2026-08-07T12:51:55+00:00",
  "stats": {
-  "modified": 1
+  "modified": 2
  },
  "changes": [
+  {
+   "kind": "modified",
+   "block": "62ab94d5",
+   "type": "heading",
+   "context": "E04: Accepted document-native DeepSeek m"
+  },
   {
    "kind": "modified",
    "block": "b37d7d2c",
@@ -23,31 +29,36 @@
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:d8d1c67afc2531d7c9fc2f5811c4914dec5d1f39a6d83a0f9e1454a2e72e7623",
+ "soft_fingerprint": "ppsb1:9ef1b0a0d0eb8f60182062bc3f356a70c43cd4295408734c9894aa3bd9d11b98",
  "actors": {
   "requested_by": [
-   "Richard Tang"
+   "richardtang"
   ],
   "produced_by": [
-   "Codex"
+   "codex"
   ],
   "edited_by": [
-   "Codex"
+   "codex"
   ],
   "recorded_by": [
-   "Codex"
+   "codex"
   ]
  },
- "attribution_basis": "self_asserted",
+ "attribution_basis": "environment_attested",
  "claims": [
   {
-   "block": "b37d7d2c",
+   "block": "E04",
    "kind": "modified",
-   "note": "Recorded the 2026-08-07 route adjustment: DeepInfra/fp4 produced no valid workflow after a parameter rejection and repeated long-context stalls; its records remain archived as provider failures, while the same model proceeds in a separately reported Novita/fp8 slice."
+   "note": "Phase 1 M&A C0 and C1 each passed 116/150 criteria (77.3%), all six final preflights passed, and Phase 2 was authorized because C1 was not materially worse than C0. Basis: recorded Phase 1 workflow records and Terra score records under /Users/richardtang/.cache/proofpress-eval/upstream/harvey-labs/results/phase1."
+  },
+  {
+   "block": "E04",
+   "kind": "modified",
+   "note": "Phase 2 uses embedded Proofpress carriers in worker and decision Markdown artifacts plus a final artifact index, while C1 remains a no-Proofpress-leakage control. Basis: verified native carrier smoke test and Phase 2 runner implementation in the provenance_handoff experiment runtime."
   }
  ],
  "context": {
-  "why": "Freeze the same-model Novita/fp8 execution slice after the originally requested DeepInfra/fp4 route repeatedly failed operationally. Keep provider-outage records separate so Phase 1 can proceed without contaminating quality comparisons."
+  "why": "Record the completed Phase 1 architecture pilot and the implemented native-carrier Phase 2 execution boundary before continuing the fixed DeepSeek matrix."
  },
- "event_id": "ppe_ba9e50ce1fa378621d4cfe7c"
+ "event_id": "ppe_9fda64a6bbd261d34cc316ca"
 }
