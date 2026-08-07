@@ -2,31 +2,31 @@
  "event": "version_created",
  "artifact": "experiments/provenance_handoff/ara/logic/experiments.md",
  "artifact_id": "pp_15fb7a0bcf0891f7cee01068",
- "version": "c5485f74",
- "parent": "107bb45e",
+ "version": "c1288bd3",
+ "parent": "c5485f74",
  "author": {
-  "name": "unknown",
-  "kind": "human",
+  "name": "codex",
+  "kind": "agent",
   "session": null
  },
- "note": null,
- "ts": "2026-08-07T17:06:50+00:00",
+ "note": "recorded GLM 5.2 isolated M&A follow-up and Terra score",
+ "ts": "2026-08-07T20:23:36+00:00",
  "stats": {
   "modified": 1
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "b37d7d2c",
+   "block": "6559b8b4",
    "type": "list",
-   "context": "E04: Accepted document-native DeepSeek m"
+   "context": "E05: Cross-model robustness sweep"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:27409b752c78d7c366f5c9ddbc6d19deb2a6dfabdfc5d67d5a47312a0d986eb1",
+ "soft_fingerprint": "ppsb1:c7e6ce9502281cdb86d73279fd583da3c6739fc9ea501e1ad79277b686d73fcc",
  "actors": {
   "requested_by": [
-   "richardtang"
+   "user"
   ],
   "produced_by": [
    "codex"
@@ -38,16 +38,15 @@
    "codex"
   ]
  },
- "attribution_basis": "environment_attested",
+ "attribution_basis": "harness_attested",
  "claims": [
   {
-   "block": "b37d7d2c",
-   "kind": "modified",
-   "note": "Phase 2 partial execution produced eight M&A records with valid final-output preflight and four valid PSA workflows; the remaining PSA attempts were not scorable because the pinned Novita/fp8 route was upstream rate-limited. Basis: workflow-record.json files, final preflight records, and preserved OpenRouter event logs under /Users/richardtang/.cache/proofpress-eval/upstream/harvey-labs/results/phase2."
+   "block": "6559b8b4",
+   "kind": "modified"
   }
  ],
  "context": {
-  "why": "Record the incomplete Phase 2 execution boundary and prevent provider-rate-limited partial runs from being interpreted as a causal result."
+  "why": "DeepSeek Novita was upstream rate-limited; the user authorized an independent GLM C0/C1/C2 follow-up without mixing it into the DeepSeek primary matrix."
  },
- "event_id": "ppe_4ed8b9c9e988a082676f48bb"
+ "event_id": "ppe_83c1ffdd2ef0a0a6484b56ca"
 }
