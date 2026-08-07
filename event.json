@@ -1,137 +1,94 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/docs/EXECUTION_PLAN.md",
- "artifact_id": "pp_120f0f61aa69ad67431b9659",
- "version": "46a7c856",
- "parent": "c0a31849",
+ "artifact": "experiments/provenance_handoff/docs/RESULTS_MATRIX.md",
+ "artifact_id": "pp_d40d46a12d4d493fcbc9c0e9",
+ "version": "e9e1a1dc",
+ "parent": "c7300e03",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-07T21:59:44+00:00",
+ "ts": "2026-08-07T21:59:54+00:00",
  "stats": {
-  "modified": 18
+  "modified": 7,
+  "added": 4
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "1d585184",
+   "block": "f9ecf7b5",
    "type": "para",
    "context": "Review state"
   },
   {
    "kind": "modified",
-   "block": "4b9c9552",
-   "type": "code",
-   "context": "Study modes"
-  },
-  {
-   "kind": "modified",
-   "block": "574f6ebb",
-   "type": "table",
-   "context": "Study modes",
-   "numbers": [
-    [
-     "1",
-     "3"
-    ]
-   ]
-  },
-  {
-   "kind": "modified",
-   "block": "17d5429d",
-   "type": "table",
-   "context": "Arms to freeze"
-  },
-  {
-   "kind": "modified",
-   "block": "386d8701",
-   "type": "list",
-   "context": "Implementation work before any compariso"
-  },
-  {
-   "kind": "modified",
-   "block": "ad972abc",
+   "block": "1d694b42",
    "type": "heading",
-   "context": "Gateway freeze contract"
+   "context": "Archived Matrix C: native OpenRouter/Nov"
   },
   {
    "kind": "modified",
-   "block": "72ba0aad",
+   "block": "87d39096",
    "type": "para",
-   "context": "Gateway freeze contract"
+   "context": "Archived Matrix C: native OpenRouter/Nov"
   },
   {
    "kind": "modified",
-   "block": "fa2c5953",
-   "type": "list",
-   "context": "Gateway freeze contract"
-  },
-  {
-   "kind": "modified",
-   "block": "855ce8eb",
+   "block": "11f988a8",
    "type": "para",
-   "context": "Gateway freeze contract"
+   "context": "Archived Matrix C: native OpenRouter/Nov"
   },
   {
    "kind": "modified",
-   "block": "1f0678aa",
+   "block": "0df4e2b4",
+   "type": "para",
+   "context": "Archived Matrix C: native OpenRouter/Nov"
+  },
+  {
+   "kind": "added",
+   "block": "3d0f771a",
+   "type": "heading",
+   "context": "Accepted Matrix D: Gateway Harvey SAS fo",
+   "preview": "## Accepted Matrix D: Gateway Harvey SAS follow-up"
+  },
+  {
+   "kind": "added",
+   "block": "2cb9aa42",
+   "type": "para",
+   "context": "Accepted Matrix D: Gateway Harvey SAS fo",
+   "preview": "The active matrix uses Vercel AI Gateway and the exact `deep"
+  },
+  {
+   "kind": "added",
+   "block": "75b9be1c",
    "type": "table",
-   "context": "Gate sequence and exact counts"
+   "context": "Accepted Matrix D: Gateway Harvey SAS fo",
+   "preview": "| Arm | Tasks | Attempts | Primary role |\n|---|---:|---:|---"
   },
   {
-   "kind": "modified",
-   "block": "590ee263",
+   "kind": "added",
+   "block": "7e6f091b",
    "type": "para",
-   "context": "Gate sequence and exact counts"
+   "context": "Accepted Matrix D: Gateway Harvey SAS fo",
+   "preview": "The primary estimate is paired `C3 − C0`, reported by task a"
   },
   {
    "kind": "modified",
-   "block": "0405cffd",
-   "type": "list",
-   "context": "Freeze checklist"
-  },
-  {
-   "kind": "modified",
-   "block": "cf920a25",
+   "block": "afab3f3b",
    "type": "para",
-   "context": "Freeze checklist"
+   "context": "The result table that should appear in t"
   },
   {
    "kind": "modified",
-   "block": "4e78c8b3",
-   "type": "para",
-   "context": "What each run records"
-  },
-  {
-   "kind": "modified",
-   "block": "cab94d5b",
-   "type": "para",
-   "context": "Decision and reporting rules"
-  },
-  {
-   "kind": "modified",
-   "block": "aa49c13e",
-   "type": "list",
-   "context": "Execution order for the operator"
-  },
-  {
-   "kind": "modified",
-   "block": "8d2e6f41",
-   "type": "list",
-   "context": "Execution order for the operator"
-  },
-  {
-   "kind": "modified",
-   "block": "1336f9dd",
-   "type": "list",
-   "context": "References"
+   "block": "17f95fa2",
+   "type": "table",
+   "context": "The result table that should appear in t"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:9ab41f80cda599bc4444b4da29e2b08f2b9bd84f6ecd89f7f20e5c74f6033ec3",
+ "soft_fingerprint": "ppsb1:7713828fe98560bc6e0c9f1c890f2bb978989bd495c5a1931607118a286eb76c",
  "actors": {
   "requested_by": [
    "Richard Tang"
@@ -149,93 +106,58 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "1d585184",
+   "block": "f9ecf7b5",
    "kind": "modified",
-   "note": "Archived old transport slice and set active Gateway C0/C3 route."
+   "note": "Archived old transport records and set new matrix."
   },
   {
-   "block": "4b9c9552",
+   "block": "1d694b42",
    "kind": "modified",
-   "note": "Updated execution flow to qualification and independent benchmark gates."
+   "note": "Relabeled old incomplete matrix as archived."
   },
   {
-   "block": "574f6ebb",
+   "block": "11f988a8",
    "kind": "modified",
-   "note": "Updated study modes to C0/C3 Gateway sequence."
+   "note": "Clarified historic incomplete route evidence."
   },
   {
-   "block": "17d5429d",
+   "block": "0df4e2b4",
    "kind": "modified",
-   "note": "Marked C3 as active and MAS as later extension."
+   "note": "Removed historic matrix as active guidance."
   },
   {
-   "block": "386d8701",
-   "kind": "modified",
-   "note": "Replaced adapter and recording implementation requirements."
+   "block": "3d0f771a",
+   "kind": "added",
+   "note": "Added Gateway Harvey C0/C3 matrix section."
   },
   {
-   "block": "ad972abc",
-   "kind": "modified",
-   "note": "Renamed freeze contract for Gateway."
+   "block": "2cb9aa42",
+   "kind": "added",
+   "note": "Defined qualification and 12-workflow formal design."
   },
   {
-   "block": "72ba0aad",
-   "kind": "modified",
-   "note": "Specified fixed model/provider/telemetry freeze requirements."
+   "block": "75b9be1c",
+   "kind": "added",
+   "note": "Added active arm table."
   },
   {
-   "block": "855ce8eb",
-   "kind": "modified",
-   "note": "Reduced active roster to fixed 0731."
+   "block": "7e6f091b",
+   "kind": "added",
+   "note": "Added telemetry and independent benchmark reporting rule."
   },
   {
-   "block": "1f0678aa",
+   "block": "afab3f3b",
    "kind": "modified",
-   "note": "Defined two-workflow qualification and 12-workflow formal matrix."
+   "note": "Updated paper table framing."
   },
   {
-   "block": "590ee263",
+   "block": "17f95fa2",
    "kind": "modified",
-   "note": "Prohibited resuming historical routes."
-  },
-  {
-   "block": "0405cffd",
-   "kind": "modified",
-   "note": "Updated frozen configuration fields."
-  },
-  {
-   "block": "cf920a25",
-   "kind": "modified",
-   "note": "Updated Gateway credential boundary."
-  },
-  {
-   "block": "4e78c8b3",
-   "kind": "modified",
-   "note": "Added telemetry eligibility to RunRecord."
-  },
-  {
-   "block": "cab94d5b",
-   "kind": "modified",
-   "note": "Changed primary contrast and independent reporting rule."
-  },
-  {
-   "block": "aa49c13e",
-   "kind": "modified",
-   "note": "Updated operator sequence."
-  },
-  {
-   "block": "8d2e6f41",
-   "kind": "modified",
-   "note": "Added benchmark gate sequence."
-  },
-  {
-   "block": "1336f9dd",
-   "kind": "modified",
-   "note": "Updated transport reference."
+   "note": "Updated paper table columns and arms."
   }
  ],
  "context": {
-  "why": "Replace execution gates with Gateway qualification, formal Harvey C0/C3, and independent benchmark sequencing."
+  "why": "Archive incomplete historical matrix and define the fixed 0731 Gateway Harvey C0/C3 matrix."
  },
- "event_id": "ppe_579291b155d18abaf1a5ee2a"
+ "event_id": "ppe_8302e4b57418dd43285d1145"
 }
