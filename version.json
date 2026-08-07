@@ -1,606 +1,132 @@
 {
- "artifact": "docs/internal/experiments/PROVENANCE_HANDOFF_EVALUATION_PLAN.md",
- "artifact_id": "pp_dfeff80ca8348068acae1718",
+ "artifact": "experiments/provenance_handoff/README.md",
+ "artifact_id": "pp_556b115de711b0cd33eed260",
  "blocks": [
   {
    "type": "heading",
-   "text": "# Provenance Handoff Evaluation Plan",
-   "id": "d9f82c9a",
-   "hash": "ca06b991d0c5"
-  },
-  {
-   "type": "para",
-   "text": "> Status: evaluation design v4, Gateway-first Harvey SAS C0/C3 confirmation followed by separately reported benchmark extensions\n>\n> Date: 2026-08-03\n>\n> Scope: portable knowledge-artifact provenance across long-horizon,\n> cross-session, cross-agent, and enterprise workflows. Research is one\n> validation domain; enterprise operations and high-stakes professional work are\n> equally important. This is an internal evaluation plan, not a public protocol\n> promise.",
-   "id": "37ed6078",
-   "hash": "71efcbb3db47"
-  },
-  {
-   "type": "para",
-   "text": "The prior Harvey DeepSeek C0/C1/C2 OpenRouter/Novita slice is paused after\nrepeated long-synthesis transport failures. Its incomplete records remain frozen\noperational evidence rather than a treatment result. New formal work uses Vercel\nAI Gateway with the fixed `deepseek/deepseek-v4-flash-0731` model slug and begins\nwith a SAS `C0 ordinary` versus `C3 Proofpress` contrast; neither the old slice\nnor unversioned `deepseek/deepseek-v4-flash` smoke is pooled into that estimand.",
-   "id": "632a1024",
-   "hash": "df0ed93fca70"
+   "text": "# Proofpress Provenance Lineage Evaluation",
+   "id": "da60723f",
+   "hash": "8d8278be868b"
   },
   {
    "type": "heading",
-   "text": "## 1. Evaluation thesis",
-   "id": "88e78cf3",
-   "hash": "0369cd86fe0c"
+   "text": "## Review status",
+   "id": "0c4a8f5e",
+   "hash": "546856f064e7"
   },
   {
    "type": "para",
-   "text": "Proofpress should test a narrower and more defensible claim than “more history\nmakes agents better”:",
-   "id": "bee6e713",
-   "hash": "e97b6c8a87d7"
-  },
-  {
-   "type": "para",
-   "text": "> Under the same task and action budget, a minimal, inspectable record of\n> admitted artifact history helps a receiving agent preserve accepted decisions,\n> recover their stated basis, and avoid unsupported authority upgrades while\n> using less context than reconstructing the same history from raw traces or Git.",
-   "id": "66a0f432",
-   "hash": "fa49f4f6360a"
-  },
-  {
-   "type": "para",
-   "text": "The intended outcome spans three dimensions: quality (fewer decision regressions\nwithout suppressing useful changes), efficiency (tokens, latency, and tool calls),\nand trust calibration (the agent distinguishes verified facts, attributed\ntestimony, rejected paths, and unknown history).",
-   "id": "9434bdbb",
-   "hash": "f818b6875036"
+   "text": "This directory records immutable transport-history slices and the accepted Gateway-first follow-up. New formal work uses Vercel AI Gateway with the exact `deepseek/deepseek-v4-flash-0731` slug; the prior OpenRouter/Novita and unversioned-Flash smoke records remain auditable operational history only. Harvey LAB remains the task and scoring substrate; Proofpress is evaluated as an artifact-native history layer, not as a second benchmark.",
+   "id": "d86e9669",
+   "hash": "2d3f4a3b9bd6"
   },
   {
    "type": "heading",
-   "text": "## 2. Memory and provenance are different layers",
-   "id": "1a1c5ae4",
-   "hash": "c2731433d36e"
+   "text": "## The research question",
+   "id": "13a7e0d8",
+   "hash": "005d1b935877"
   },
   {
    "type": "para",
-   "text": "Memory optimizes continuity: what should be recalled for the next task.\nProvenance makes continuity accountable: where a surviving statement came from,\nwhat status it earned, how it changed, and what evidence or actor supports it.",
-   "id": "98f58f78",
-   "hash": "c7c617eabfa9"
-  },
-  {
-   "type": "table",
-   "text": "| Layer | Question | Proofpress boundary |\n| --- | --- | --- |\n| Working or long-term memory | What should the agent remember next? | Adjacent system; not the product surface |\n| Artifact provenance | How did this deliverable reach its current admitted state? | Proofpress core |\n| Execution authority | Is this context sufficient to authorize a risky action? | Runtime security layer; not currently Proofpress |",
-   "id": "97cdc5f0",
-   "hash": "c4a5317bae18"
+   "text": "For difficult Harvey legal tasks, does artifact-native Proofpress lineage improve a SAS agent with ordinary continuity, under the same task and budget?",
+   "id": "efb84a51",
+   "hash": "8400e4547d3a"
   },
   {
    "type": "para",
-   "text": "The compact narrative is: **memory preserves what an agent remembers;\nprovenance preserves what it is justified in trusting. Context may be\ncompressed, but source and status must not be silently amplified.**",
-   "id": "b01863e2",
-   "hash": "7ea78b4aa28b"
-  },
-  {
-   "type": "para",
-   "text": "This does not mean that provenance proves truth. Proofpress V1 verifies artifact\nidentity, integrity, lineage, computed changes, and supplied change claims.\n`why`, evidence descriptions, and actor fields remain attributed testimony at\ntheir declared `attribution_basis`; missing history stays unknown.",
-   "id": "a1944289",
-   "hash": "ff54b2680673"
+   "text": "The study is deliberately not a claim that more context or more agents are better. It tests whether work artifacts can carry authority, source status, rationale, and acceptance state **in addition to** normal coordination state, without turning Proofpress into a separate handoff note or requiring teams to abandon ordinary memory.",
+   "id": "51799240",
+   "hash": "4293c445be32"
   },
   {
    "type": "heading",
-   "text": "## 3. Security motivation: provenance laundering",
-   "id": "c4f3567e",
-   "hash": "9f8e47412674"
+   "text": "## Scope and comparison",
+   "id": "2873d37b",
+   "hash": "4e91fd527af3"
   },
   {
    "type": "para",
-   "text": "Xu et al., “Memory Provenance Laundering in LLM Agents” (arXiv:2607.29167),\nshow a cross-task failure in which an external observation is consolidated into\nmemory as apparent user history or workflow support. The trigger survives while\nthe low-trust source disappears. Their PPMF middleware enforces a\nsource-authority non-amplification rule by preserving platform metadata and\nchecking action-relevant support at tool time.",
-   "id": "e742b0ba",
-   "hash": "8b8bd1468ebb"
+   "text": "The execution runtime is [Harvey LAB](https://github.com/harveyai/harvey-labs) v1.0's own task and scoring harness. Harvey tasks are not inherently agent-to-agent handoff tasks; our wrapper creates the controlled long-horizon workflow. One orchestrator role (in fresh planning and review sessions) coordinates evidence, decision-register, and drafting stages. Each completed stage emits a real work artifact, producing `V0 → V1 → V2 → V3 → V4` rather than one artificial two-agent transfer.",
+   "id": "1030b33f",
+   "hash": "2b202ad195ec"
   },
   {
    "type": "para",
-   "text": "The paper strengthens Proofpress’s motivation but does not validate Proofpress\nitself. PPMF is a runtime authorization firewall with trusted platform labels;\nProofpress is a portable artifact ledger whose current attribution is not yet\ncryptographically signed or externally witnessed. The relevant open gap is\ninter-agent authority transfer: when one agent’s summary or artifact becomes the\nnext agent’s durable context.",
-   "id": "5686063f",
-   "hash": "a063e27823c4"
+   "text": "The active formal contrast has two explicitly scoped SAS arms:",
+   "id": "48aa7881",
+   "hash": "30bda7f67f43"
+  },
+  {
+   "type": "list",
+   "text": "- `C0 sas-ordinary`: one agent completes the original Harvey task with ordinary continuity.\n- `C3 sas-proofpress`: the same SAS task flow, source workspace, tools, and billable-token cap; material artifact checkpoints additionally carry admitted Proofpress lineage and are independently verified.",
+   "id": "27c19da2",
+   "hash": "130c48c87b26"
   },
   {
    "type": "para",
-   "text": "For Proofpress, the transferable principle is:",
-   "id": "2ebdeef0",
-   "hash": "f07126adb518"
-  },
-  {
-   "type": "para",
-   "text": "> Copying, summarizing, merging, or handing off an artifact may preserve\n> information, but must not silently promote observation to accepted decision,\n> rejection to approval, testimony to verified fact, or unknown attribution to\n> trusted authorship.",
-   "id": "3ea59f40",
-   "hash": "d5c847c76c7c"
+   "text": "The primary causal contrast is `C3 sas-proofpress − C0 sas-ordinary`. C1/C2 centralized-MAS arms remain a separately declared architecture extension; their incomplete OpenRouter/Novita matrix is frozen and is not the next estimand or a source of pooled results.",
+   "id": "146ef700",
+   "hash": "2b17d8799bc9"
   },
   {
    "type": "heading",
-   "text": "## 4. Relationship to adjacent research systems",
-   "id": "f09e161c",
-   "hash": "ef45aecaf693"
+   "text": "## What is here today",
+   "id": "949eb6a5",
+   "hash": "c7f8c0c9beb7"
   },
   {
-   "type": "para",
-   "text": "These projects should be treated primarily as complementary layers and possible\nresearch partners, not flattened into a competitor list.",
-   "id": "15297cb7",
-   "hash": "d8f2b35c94c1"
-  },
-  {
-   "type": "table",
-   "text": "| System | Primary unit | What it contributes | Relationship to Proofpress |\n| --- | --- | --- | --- |\n| ARA | Complete agent-native research package | Logic, experiments, code, evidence, exploration graph, preserved dead ends | Strongest research partner and benchmark-material source; Proofpress can carry admitted transitions between ARA revisions and handoffs |\n| TRACE | Session/project decision and tool-event DAG | Proposer/resolver identity, dispositions, rationale, annotations, tool calls | Upstream capture partner; Proofpress admits the subset that belongs with the surviving artifact |\n| ASTRA | Scientific analysis specification | Explicit inputs, outputs, methodological choices, alternatives, and evidence | Domain schema partner; Proofpress versions and transports accepted ASTRA decisions |\n| TierMem | Provenance-linked tiered agent memory | Cheap summary-first retrieval with escalation to immutable raw evidence | Evidence that provenance can reduce context cost; not an artifact ledger |\n| PPMF | Persistent-memory authorization middleware | Source-authority non-amplification and deterministic action-risk gating | Security complement and source of adversarial handoff tasks; not a substitute for artifact history |\n| C2PA | Media provenance manifest | Portable binding, ingredients, signatures, and trust lists | Format and trust-model reference for media; Proofpress remains focused on knowledge artifacts |",
-   "id": "5e39028d",
-   "hash": "fc6319bc563b"
-  },
-  {
-   "type": "para",
-   "text": "The collaboration thesis with ARA is especially clean: ARA defines the\nsubstantive research artifact; Proofpress tests whether its accepted history can\nsurvive session, agent, tool, and organizational handoffs in a compact,\ninspectable form. TRACE could supply richer decision events upstream, while a\nProofpress admission step prevents the carrier from becoming a dump of every\ntool call or temporary branch.",
-   "id": "3980fd84",
-   "hash": "ec28b22a01da"
+   "type": "list",
+   "text": "- `docs/RESEARCH_PLAN.md` — accepted follow-up protocol, observed Gate 1 boundary, arms, metrics, and gates.\n- `docs/ARCHITECTURE.md` — the fixed centralized workflow and the treatment boundary.\n- `docs/EXECUTION_PLAN.md` — staged implementation and run plan, including explicit stopping gates.\n- `docs/RESULTS_MATRIX.md` — the three result matrices and how to interpret them.\n- `docs/RUNBOOK.md` — operational prerequisites and what is or is not implemented today.\n- `docs/ARA_PROOFPRESS.md` — ARA as research-management layer; Proofpress as independently verifiable artifact lineage.\n- `ara/` — an Agent-Native Research Artifact for this study. It contains hypotheses and decisions, not invented results.\n- `configs/gate-native-v1.draft.yaml` — a historical three-arm MAS draft, not the active Gateway contract.\n- `pp_eval/`, `suites/`, and `tests/` — the pre-existing lightweight mechanism runtime. It is retained for smoke tests and does not yet claim to execute the official Harvey harness treatment wrapper.",
+   "id": "c1ba01f6",
+   "hash": "46b7f45826be"
   },
   {
    "type": "heading",
-   "text": "## 5. Existing benchmarks as task sources",
-   "id": "deff2562",
-   "hash": "39a1a062c5c1"
+   "text": "## ARA installation",
+   "id": "3b50a86f",
+   "hash": "8ba44b751699"
   },
   {
    "type": "para",
-   "text": "No existing benchmark directly measures portable artifact-level provenance\nacross agent handoffs. We should add a provenance intervention layer to existing\nlong-horizon task environments rather than claim that a generic benchmark score\nisolates our mechanism. Harvey remains the baseline for final legal deliverable\ncapability, but it is not the sole validation scenario: static legal tasks can\nallow one strong SAS agent to read all material in one session, so the expected\nincremental MAS or Proofpress effect may be small there. The best substrates\nprovide realistic inputs, tools, deliverables, and either deterministic checks or\nexpert rubrics; our contribution is the controlled handoff and admitted-history\nintervention.",
-   "id": "66717d41",
-   "hash": "3c7e8bb00c1c"
-  },
-  {
-   "type": "table",
-   "text": "| Benchmark/source | Existing task | Best Proofpress use | Readiness |\n| --- | --- | --- | --- |\n| APEX-Agents | Multi-hour, cross-application work from investment banking, management consulting, and corporate law | Best commercial paper substrate: split analyst/reviewer/approver work at natural deliverable boundaries | Primary |\n| WorkArena / WorkArena++ | Enterprise knowledge work and compositional workflows in ServiceNow | ITSM, incident, request, and compliance handoffs with environment-grounded success checks | Primary |\n| WorkBench | 690 workplace tasks across five databases and 26 tools with outcome-centric evaluation | Local plumbing/smoke only; not a formal evidence source | Smoke only |\n| Harvey Legal Agent Benchmark | Long-horizon legal assignments with client materials, work products, and task rubrics | First qualification and formal SAS `C0 ordinary` versus `C3 Proofpress` matrix | First formal slice |\n| STATE-Bench | Persistent enterprise tasks with changing state across work episodes | Next independent C0/C3 report after Harvey | Follow-on |\n| MemConflict | Memory conflict and temporal-consistency scenarios | Next independent C0/C3 report for supersession and conflict handling | Follow-on |\n| HiEviDR-Bench | Evidence-graph, claim-traceability, citation, and verification tasks | Adapter/scorer gate before a separately reported evidence-lineage slice | Gate after STATE/MemConflict |\n| HealthAgentBench / MedAgentBench | End-to-end healthcare workflows or physician-authored tasks in realistic EHR environments | High-stakes external validity for source, status, correction, and approval handoffs; never frame benchmark success as clinical deployment readiness | Secondary |\n| Finance Agent Benchmark | 537 expert-authored financial research questions using recent SEC filings | Evidence lineage and analyst-to-reviewer handoff; less workflow-native than APEX-Agents | Secondary |\n| GDPval gold subset | Economically valuable professional deliverables across many occupations | Breadth and commercialization narrative; adapt only tasks with revision or review stages | Secondary |\n| DeepResearch Bench | Research-report tasks with source gathering and synthesis | Adapter/scorer gate, then separately reported research-report continuity slice | Gate after STATE/MemConflict |\n| PaperBench / RE-Bench / CORE-Bench | Replication, open-ended AI R&D, and execution-grounded reproducibility | Research collaboration, reproducible artifacts, and scientific external validity | Research track |\n| ARA artifacts | Understand, reproduce, and extend structured research packages | Gold decision/dead-end material and natural collaboration surface | Research track |\n| AgentDojo/BrowseSafe-derived scenarios | Paired benign and adversarial tool-use situations | Security stress arm for provenance laundering; keep separate from the main quality result | Adversarial track |\n| Proofpress Hindcast | Real repository reversals, deprecations, replacements, and rationale | External-validity arm for decision regression in real histories | Supporting track |",
-   "id": "281fc2ec",
-   "hash": "685d0187ee8e"
-  },
-  {
-   "type": "para",
-   "text": "SWE-bench and OSWorld can inspire execution harnesses and long-horizon reporting,\nbut they are not primary substrates: Proofpress deliberately does not version\nsource code, and general computer-use success mixes too many capabilities with\nthe provenance intervention. SWE-bench is useful as a comparison point for\nversioned code and test state, not as a direct Proofpress artifact claim. Static\nquestion-answering benchmarks are weak fits unless converted into artifact\nproduction, revision, and review episodes.",
-   "id": "958fc5fd",
-   "hash": "7c1565e2c08e"
+   "text": "The official ARA source has been cloned at `third_party/ara-source` and its six local Codex skills were installed under `.codex/skills/`. Both locations are ignored by Git; their source URL, commit, installation command, and role are recorded in [ara/UPSTREAM.md](ara/UPSTREAM.md). ARA is the research-management layer only. Benchmark agents never receive its files, skills, or prompts.",
+   "id": "b9231698",
+   "hash": "b53a84e22894"
   },
   {
    "type": "heading",
-   "text": "## 6. Commercial task portfolio",
-   "id": "3a65fc04",
-   "hash": "cbb71c892331"
+   "text": "## Before any model run",
+   "id": "61817201",
+   "hash": "7eea770695d5"
   },
   {
    "type": "para",
-   "text": "The product thesis should be tested where the cost of losing decision history is\nvisible and a buyer already pays for review, audit, or rework. Notion's current\nproject hub names long-horizon agents, multiplayer handoffs, legal, finance,\nhealthcare, and regulated-industry compliance as opportunity areas; this plan\nturns those themes into task families rather than limiting the work to research.",
-   "id": "e3f32b49",
-   "hash": "8488d7145f93"
-  },
-  {
-   "type": "table",
-   "text": "| Priority | Domain | Example handoff | Why provenance could matter | Likely buyer signal |\n| --- | --- | --- | --- | --- |\n| 1 | Enterprise operations / ITSM | triage agent → investigator → remediator → approver → postmortem owner | Preserve incident facts, rejected diagnoses, approvals, and superseded runbook steps without replaying the full session | Faster resolution, fewer repeated investigations, defensible change record |\n| 1 | Finance / professional services | analyst → model builder → reviewer → client deliverable owner | Preserve source lineage, assumptions, model corrections, caveats, and reviewer decisions across spreadsheets, documents, and presentations | Lower review cost, fewer stale assumptions, audit-ready work product |\n| 1 | Legal / compliance | researcher → drafter → senior reviewer → approver | Distinguish authority, client facts, citations, negotiated exceptions, and rejected language | Source reliability, reviewability, defensible approval trail |\n| 2 | Healthcare operations | intake/records agent → clinical support agent → reviewer | Preserve correction, recency, source, and approval status across EHR-derived artifacts | Fewer source/status errors and clearer human review boundaries |\n| 2 | Customer and policy operations | support agent → escalation specialist → policy approver | Prevent an old policy, customer-provided text, or unapproved exception from becoming durable authority | Fewer policy violations and faster escalations |\n| 2 | Research | explorer → experimenter → author → reviewer | Preserve failed routes, evidence, accepted methods, and revision rationale | Reproducibility and partner-visible scientific quality |",
-   "id": "a1317bb0",
-   "hash": "48d6c380f4d7"
-  },
-  {
-   "type": "para",
-   "text": "The first commercial wedge should be **review-heavy knowledge artifacts inside\nenterprise and professional workflows**, not autonomous high-risk action. The\ncarrier already fits reports, policies, incident briefs, diligence memos, legal\nwork product, research notes, and static HTML. Runtime authorization, patient\ncare, trading, filing, and other consequential actions remain outside the V1\nclaim unless an external authority layer gates them.",
-   "id": "e8034570",
-   "hash": "940eca842d65"
+   "text": "The completed Gate 1a/1b results are retained as evidence about an **external transport prototype** only. The current qualification is isolated at `gateway-0731-harvey-psa-c0-c3-qualification-v1`: PSA, C0/C3 once each, and five fixed fresh-session SAS checkpoints (plan, evidence, decision, draft, review). C0 receives ordinary checkpoint context; C3 receives verified native Markdown carriers plus a final-artifact index, never a `provenance.md` sidecar. The shared Gateway actual-cost ceiling is $25. Every model call, including scorer calls, must record requested/resolved model, actual provider, Gateway-reported `usage.cost`, token/latency values, and fallback status/metadata. A missing field is audit-visible but disqualifies that workflow from the formal matrix; local `$0` is never a cost substitute. After Harvey, run STATE-Bench and MemConflict as independent C0/C3 reports, then pass HiEviDR-Bench and DeepResearch Bench adapter/scorer gates before their own independent slices.",
+   "id": "1fa1b7ec",
+   "hash": "99b2b181328f"
   },
   {
    "type": "heading",
-   "text": "## 7. Experimental design",
-   "id": "8aff7416",
-   "hash": "a66429245dee"
+   "text": "## Existing lightweight smoke runtime",
+   "id": "f0c71c2d",
+   "hash": "0c264b5b3db6"
   },
   {
    "type": "para",
-   "text": "Each episode uses the same base task environment, source materials, model,\ntools, action budget, and neutral task wording. The independent variables are\narchitecture (SAS versus centralized MAS) and continuity representation\n(ordinary memory versus Proofpress):",
-   "id": "10cd1c6c",
-   "hash": "b0900e8a7ebe"
+   "text": "The existing `pp-eval` commands still work for local fixture validation:",
+   "id": "0c725a2a",
+   "hash": "7514b91a9fd0"
   },
   {
-   "type": "table",
-   "text": "| Cell | Architecture | Continuity representation | Main contrast |\n| --- | --- | --- | --- |\n| C0 | One serial SAS role across fixed fresh checkpoints | Ordinary continuity | SAS baseline |\n| C1 | Centralized MAS, orchestrator → workers → synthesis | Ordinary `coordination.md` and worker artifacts | MAS effect under ordinary continuity |\n| C2 | Same centralized MAS as C1 | Native Proofpress lineage on findings, decisions, and final artifacts | Proofpress effect within MAS |\n| C3 | Same serial SAS task flow as C0 | Hybrid verified native checkpoints and latest-head/open-decision retrieval | Proofpress effect within SAS |",
-   "id": "1f7a3c9e",
-   "hash": "8031a156e18f"
-  },
-  {
-   "type": "table",
-   "text": "| Arm | Receiving agent gets |\n| --- | --- |\n| Final artifact | Current artifact and common task resources only |\n| Raw history | Full Git/session/trace access and permission to inspect it |\n| Ordinary memory | A lossy handoff or memory summary without structured source/status semantics |\n| Proofpress | Current artifact plus admitted `what`, `why`, actors, rejected paths, evidence references, and verification status |\n| Proofpress ablation | Same compact history with `why`, rejection, source/status, or evidence binding removed one at a time |",
-   "id": "58e48d8f",
-   "hash": "a6bbab86ad81"
+   "type": "code",
+   "text": "```bash\nexport PROOFPRESS_EVAL_HOME=/Users/richardtang/.cache/proofpress-eval\ncd /Users/richardtang/proofpress-dev/experiments/provenance_handoff\nuv sync --frozen\nuv run pp-eval doctor --suite smoke-v1 --data-home \"$PROOFPRESS_EVAL_HOME\"\nuv run pp-eval build --suite smoke-v1 --data-home \"$PROOFPRESS_EVAL_HOME\"\nuv run pp-eval run --suite smoke-v1 --data-home \"$PROOFPRESS_EVAL_HOME\" --arms final,proofpress --runner codex --model gpt-5.6-terra --attempts 1 --concurrency 1\nuv run pp-eval grade --suite smoke-v1 --data-home \"$PROOFPRESS_EVAL_HOME\"\nuv run pp-eval report --suite smoke-v1 --data-home \"$PROOFPRESS_EVAL_HOME\"\n```",
+   "id": "bc21a929",
+   "hash": "e73ef42337ee"
   },
   {
    "type": "para",
-   "text": "The long-term research program retains the 2×2 architecture interpretation, but\nthe active formal slice intentionally holds architecture constant: C0 is SAS\nwith ordinary continuity and C3 is the same SAS flow with Proofpress lineage.\nC1/C2 MAS are a later, separately frozen extension, not a prerequisite or\ncurrent primary comparison.",
-   "id": "a2930386",
-   "hash": "5e9210cb767c"
-  },
-  {
-   "type": "para",
-   "text": "Report `C3−C0` as the Harvey primary estimate. Report C1/C2 and the architecture\ninteraction only in a future MAS extension with its own frozen protocol. A static\nHarvey null is informative about that task shape, not a general null result for\nProofpress.",
-   "id": "5a2e7c13",
-   "hash": "d5c5ae687bb9"
-  },
-  {
-   "type": "para",
-   "text": "The experiment should cover three task families:",
-   "id": "df8e23ff",
-   "hash": "0979fb5895cd"
-  },
-  {
-   "type": "list",
-   "text": "1. **Continue/extend:** complete the next workflow milestone after another agent",
-   "id": "bd2bd9cc",
-   "hash": "c4b27f3c4813"
-  },
-  {
-   "type": "para",
-   "text": "   explored alternatives and made an accepted choice.",
-   "id": "93812db9",
-   "hash": "46685c3e6837"
-  },
-  {
-   "type": "list",
-   "text": "2. **Audit/explain:** answer why a method or claim was accepted, identify its",
-   "id": "1a221e5c",
-   "hash": "6110fa846c26"
-  },
-  {
-   "type": "para",
-   "text": "   supporting evidence, and abstain when the record does not support an answer.",
-   "id": "6543f0a6",
-   "hash": "25f0da43f6b7"
-  },
-  {
-   "type": "list",
-   "text": "3. **Counterfactual update:** in half the cases the prior decision remains valid;",
-   "id": "664231a5",
-   "hash": "ce7cde6f239f"
-  },
-  {
-   "type": "para",
-   "text": "   in the other half new evidence makes reversal correct. This prevents\n   conservatism from masquerading as preserved trust.",
-   "id": "655a2afe",
-   "hash": "6d309e1db6d6"
-  },
-  {
-   "type": "para",
-   "text": "A long-horizon episode should contain three to five fresh-context roles. Use\ndomain-realistic sequences such as analyst → drafter/model builder → reviewer →\nreviser → approver, or triage → investigation → remediation → audit.\nConversation state is cleared at every handoff. The artifact and the assigned\nhandoff representation are the only shared continuity rail.",
-   "id": "a2145642",
-   "hash": "3fed27dfa5bd"
-  },
-  {
-   "type": "para",
-   "text": "For the C3 dynamic track, Proofpress uses a hybrid protocol: the system\ndetermines checkpoints, the agent supplies semantic content, and deterministic\nverification commits the admitted update. Checkpoints cover initial evidence,\nmaterial findings, accept/reject decisions, conflicts or new evidence, draft,\nvalidation/revision, and final artifact. The agent reads the latest artifact\nhead, open decisions, and relevant evidence rather than replaying the entire\nmemory/history, and it is not forced to write a ledger after every step.",
-   "id": "ee2c5d90",
-   "hash": "a9dd1945acd2"
-  },
-  {
-   "type": "heading",
-   "text": "## 8. Metrics and statistical plan",
-   "id": "2d0d2202",
-   "hash": "73bb03ff22c0"
-  },
-  {
-   "type": "para",
-   "text": "Primary quality metrics are task/rubric completion, current-conclusion accuracy,\ndecision-regression rate, stale-conclusion misuse, correct revision/reversal,\nevidence-to-claim coverage, decision-lineage completeness, session-restart\nrecovery, unsupported-decision rate, evidence-grounded answer accuracy, and\nuseful-change rate. The last metric is mandatory: a system that refuses every\nchange is not a successful provenance system.",
-   "id": "f23a7f1d",
-   "hash": "2547b1b4cc26"
-  },
-  {
-   "type": "para",
-   "text": "Trust and safety metrics are authority-laundering rate, provenance-faithfulness,\ncorrect abstention under missing evidence, tamper/drift detection, and false\nblock rate on benign or correctly updated decisions.",
-   "id": "bba4d5a8",
-   "hash": "fba553de2f01"
-  },
-  {
-   "type": "para",
-   "text": "Efficiency metrics are input/output tokens, wall-clock latency, model/tool calls,\nhistory-search operations, and token cost per successful task or rubric item. For\nevery Gateway call, retain requested/resolved model, actual provider,\nGateway-reported `usage.cost`, fallback status/metadata, token values, and\nlatency. Missing telemetry is audit-visible but makes the workflow ineligible\nfor the formal matrix; a wrapper-local `$0` is not a cost record.",
-   "id": "df9ab5c0",
-   "hash": "abde70565ed1"
-  },
-  {
-   "type": "para",
-   "text": "Use paired instances and shared seeds across arms. Analyze binary outcomes with\npaired tests or mixed-effects logistic regression, treating task/project as a\ncluster; report bootstrap confidence intervals for cost and latency. Pre-register\nthe primary outcome, exclusion gates, prompt templates, stopping rules, and the\ndistinction between exploratory and confirmatory analyses.",
-   "id": "45e6eeff",
-   "hash": "175b56438c47"
-  },
-  {
-   "type": "heading",
-   "text": "## 9. Confounds and validity gates",
-   "id": "90fa846a",
-   "hash": "2a816e282b08"
-  },
-  {
-   "type": "list",
-   "text": "- Give all arms the complete task environment. The earlier single-file Hindcast",
-   "id": "55bbd205",
-   "hash": "8a5b0c9d618b"
-  },
-  {
-   "type": "para",
-   "text": "  probe caused the baseline to refuse because it could not inspect the repo.",
-   "id": "7c5ddc94",
-   "hash": "bfe16bd0f389"
-  },
-  {
-   "type": "list",
-   "text": "- Use neutral task wording. Terms such as “restore” and “add back” reveal that a",
-   "id": "340a00b7",
-   "hash": "b9bc687614a1"
-  },
-  {
-   "type": "para",
-   "text": "  direction was previously removed.",
-   "id": "376187a0",
-   "hash": "d3322f2bbdce"
-  },
-  {
-   "type": "list",
-   "text": "- Screen for benchmark contamination and memorized public projects; use recent,",
-   "id": "94f074bd",
-   "hash": "50b5b6216de6"
-  },
-  {
-   "type": "para",
-   "text": "  partner-held, or procedurally generated cases where possible.",
-   "id": "66d7b8b5",
-   "hash": "ce88fac07b81"
-  },
-  {
-   "type": "list",
-   "text": "- Keep information and authority separate. A fluent rationale is not automatically",
-   "id": "0ca7d7a8",
-   "hash": "298af7e3f37c"
-  },
-  {
-   "type": "para",
-   "text": "  an accepted rationale, and a cited source is not automatically true.",
-   "id": "9061eb19",
-   "hash": "626c3984813c"
-  },
-  {
-   "type": "list",
-   "text": "- Score both preservation and justified reversal. Avoid building a benchmark in",
-   "id": "5e9a23f7",
-   "hash": "07e84f8996f1"
-  },
-  {
-   "type": "para",
-   "text": "  which “never deviate from history” is always correct.",
-   "id": "52bd2eae",
-   "hash": "5cc962cbad10"
-  },
-  {
-   "type": "list",
-   "text": "- Blind artifact-quality graders to the experimental arm. Use execution/rubric",
-   "id": "dbff2376",
-   "hash": "2108e4e76f68"
-  },
-  {
-   "type": "para",
-   "text": "  checks where available and human review for decision-level ambiguity.",
-   "id": "e7fef96d",
-   "hash": "2edff8df6e70"
-  },
-  {
-   "type": "list",
-   "text": "- Report transport and trust-root assumptions explicitly. A stripped capsule is",
-   "id": "6aec1e94",
-   "hash": "97bd4410ad4c"
-  },
-  {
-   "type": "para",
-   "text": "  an ordinary artifact; self-asserted attribution is not signed identity.",
-   "id": "12355bff",
-   "hash": "3c4f6578b4b0"
-  },
-  {
-   "type": "list",
-   "text": "- For finance, legal, and healthcare, separate artifact-quality gains from",
-   "id": "a11470fe",
-   "hash": "764910f8623d"
-  },
-  {
-   "type": "para",
-   "text": "  deployment safety. Use sandboxed or synthetic environments, expert-authored\n  rubrics, and explicit human-review boundaries; do not infer readiness for\n  clinical, legal, trading, or compliance action from benchmark completion.",
-   "id": "0417ecf4",
-   "hash": "60fe13f8aaf4"
-  },
-  {
-   "type": "heading",
-   "text": "## 10. Pilot implementation",
-   "id": "dc579f99",
-   "hash": "eb82e35e5f4c"
-  },
-  {
-   "type": "para",
-   "text": "The active qualification pilot is PSA in C0/C3 once each, using the same five\nfresh-session SAS checkpoints (plan, evidence, decision, draft, review). C0 has\nordinary continuity; C3 has verified native carriers and a final-artifact index.\nThe shared Gateway actual-cost ceiling is $25. On a clean transport, carrier,\nscorer, and telemetry qualification, freeze the formal Harvey matrix: two tasks\n× C0/C3 × three attempts = 12 workflows. Report each subsequent benchmark\nindependently: STATE-Bench and MemConflict next, then HiEviDR-Bench and\nDeepResearch Bench only after their adapter/scorer gates pass. Do not pool effect\nsizes across benchmarks.",
-   "id": "d02d7dbb",
-   "hash": "b224f9b6bdf9"
-  },
-  {
-   "type": "para",
-   "text": "Before that full pilot, run a low-cost gate on six total episodes: two enterprise\noperations, two finance/legal professional-service tasks, and two research\ntasks. The gate asks whether fresh agents actually make decision-regression or\nsource/status errors that the provenance intervention can plausibly change. If\nthe failure mode does not appear without contrived wording, do not scale it.",
-   "id": "4e0a59af",
-   "hash": "6e09c191562a"
-  },
-  {
-   "type": "para",
-   "text": "Implementation sequence:",
-   "id": "d67dedd1",
-   "hash": "4a64736a5bb1"
-  },
-  {
-   "type": "list",
-   "text": "1. Select tasks with at least one material accepted decision, one rejected or",
-   "id": "220d5adc",
-   "hash": "48b33176a4b8"
-  },
-  {
-   "type": "para",
-   "text": "   failed route, and executable or rubric-grounded outcomes.",
-   "id": "53da65a7",
-   "hash": "dc228e9f3a3c"
-  },
-  {
-   "type": "list",
-   "text": "2. Freeze a gold decision sheet containing source, status, rationale, evidence,",
-   "id": "7d8d54be",
-   "hash": "a90669b29d5b"
-  },
-  {
-   "type": "para",
-   "text": "   expiry/scope, and conditions under which reversal is correct.",
-   "id": "3d63459e",
-   "hash": "d7519b1d82bc"
-  },
-  {
-   "type": "list",
-   "text": "3. For dynamic tasks, freeze the event schedule and gold transitions: initial",
-   "id": "d55fb276",
-   "hash": "2891ad8919da"
-  },
-  {
-   "type": "para",
-   "text": "   evidence → finding → contradictory/new evidence → revision or reversal →\n   session restart → recovery.",
-   "id": "6c4d8e12",
-   "hash": "1b8a546d0f34"
-  },
-  {
-   "type": "list",
-   "text": "4. Build deterministic package generation for every arm from the same source",
-   "id": "49488126",
-   "hash": "77874eb427b8"
-  },
-  {
-   "type": "para",
-   "text": "   record; do not hand-author a better Proofpress prompt.",
-   "id": "01331572",
-   "hash": "712ab1256b27"
-  },
-  {
-   "type": "list",
-   "text": "5. Split each original trajectory at realistic handoff boundaries and run fresh",
-   "id": "2496617c",
-   "hash": "d7486002bd7b"
-  },
-  {
-   "type": "para",
-   "text": "   agents in isolated workspaces with equal repository/resource access.",
-   "id": "083ea4f5",
-   "hash": "b2074b4625af"
-  },
-  {
-   "type": "list",
-   "text": "6. Record tokens, latency, tool calls, artifact versions, claims, and evaluator",
-   "id": "e1947909",
-   "hash": "098f051cecda"
-  },
-  {
-   "type": "para",
-   "text": "   outputs in a machine-readable run ledger.",
-   "id": "5020d100",
-   "hash": "6ba6c8aa9df6"
-  },
-  {
-   "type": "list",
-   "text": "7. Run a gate pilot first: confirm the baseline sometimes fails, benign tasks",
-   "id": "f3cf72ca",
-   "hash": "cfe57dd32961"
-  },
-  {
-   "type": "para",
-   "text": "   remain achievable, and graders agree before scaling.",
-   "id": "4f050a4f",
-   "hash": "d85d6085e771"
-  },
-  {
-   "type": "list",
-   "text": "8. Scale only after the task/material gate passes; publish prompts, schemas,",
-   "id": "97a2b2ba",
-   "hash": "09b86f01c5f5"
-  },
-  {
-   "type": "para",
-   "text": "   rubrics, aggregate results, and sanitized traces where licenses permit.",
-   "id": "57fc229c",
-   "hash": "3a31c6bc65e0"
-  },
-  {
-   "type": "heading",
-   "text": "## 11. Product implications if the hypothesis holds",
-   "id": "b4318b36",
-   "hash": "753cc117d8f8"
-  },
-  {
-   "type": "para",
-   "text": "The evaluation should guide product iteration, not merely produce a leaderboard.\nLikely protocol additions to explore are typed `source_class`, explicit\n`decision_status`, scoped `evidence_ref`, and supersession/expiry semantics.\nThese must preserve the current distinction between computed facts and attributed\ntestimony; they are research candidates, not implementation commitments.",
-   "id": "a42d70a0",
-   "hash": "036b89fed81f"
-  },
-  {
-   "type": "para",
-   "text": "The strongest defensible product line would be:",
-   "id": "1e117b77",
-   "hash": "8f72f68d7d60"
-  },
-  {
-   "type": "para",
-   "text": "> Memory helps agents continue. Proofpress gives durable work a shared,\n> checkable past—so teams can hand off high-stakes artifacts without replaying\n> every session or silently laundering trust.",
-   "id": "0910e964",
-   "hash": "30ab4110ec4f"
-  },
-  {
-   "type": "heading",
-   "text": "## 12. Evidence and references",
-   "id": "f846345a",
-   "hash": "6bad8bfaa035"
-  },
-  {
-   "type": "list",
-   "text": "- Proofpress Hindcast: `docs/internal/experiments/EXPERIMENT_HINDCAST.md`\n- Proofpress portable handoff dogfood:",
-   "id": "696b3dc3",
-   "hash": "85a29f1e18ab"
-  },
-  {
-   "type": "para",
-   "text": "  `docs/internal/experiments/PORTABLE_HANDOFF_DOGFOOD.md`",
-   "id": "f5377974",
-   "hash": "98dba5226c65"
-  },
-  {
-   "type": "list",
-   "text": "- ARA: https://github.com/ARA-Labs/Agent-Native-Research-Artifact and",
-   "id": "0fe3ba44",
-   "hash": "0e476f9e8ae5"
-  },
-  {
-   "type": "para",
-   "text": "  https://arxiv.org/abs/2604.24658",
-   "id": "f4db34b5",
-   "hash": "ebdac03c4145"
-  },
-  {
-   "type": "list",
-   "text": "- TRACE: https://github.com/Thru-Echoes/TRACE\n- ASTRA: https://astra-spec.org/latest/\n- PaperBench: https://openai.com/index/paperbench/\n- RE-Bench: https://github.com/METR/RE-Bench\n- CORE-Bench: https://crab.cs.princeton.edu/core-website/\n- TierMem: https://arxiv.org/abs/2602.17913\n- Memory Provenance Laundering / PPMF: https://arxiv.org/abs/2607.29167\n- SUNGLASSES commentary: https://x.com/sunglasses_dev/status/2084371074314277329\n- Provenance project hub (Notion):",
-   "id": "64dd29dc",
-   "hash": "b37895de7a43"
-  },
-  {
-   "type": "para",
-   "text": "  https://app.notion.com/p/Provenance-0b7ee20e1775408cbfe3426b80130b66",
-   "id": "179c36d2",
-   "hash": "1834a82957f9"
-  },
-  {
-   "type": "list",
-   "text": "- APEX-Agents: https://arxiv.org/abs/2601.14242 and",
-   "id": "4f2ccb75",
-   "hash": "7642eb3f114d"
-  },
-  {
-   "type": "para",
-   "text": "  https://www.mercor.com/apex/",
-   "id": "71f3dcbf",
-   "hash": "fc3319d6375b"
-  },
-  {
-   "type": "list",
-   "text": "- WorkArena / WorkArena++: https://github.com/ServiceNow/workarena\n- WorkBench: https://arxiv.org/abs/2405.00823\n- Harvey Legal Agent Benchmark: https://github.com/harveyai/harvey-labs\n- HealthAgentBench: https://arxiv.org/abs/2606.31179\n- MedAgentBench: https://github.com/stanfordmlgroup/MedAgentBench\n- Finance Agent Benchmark: https://arxiv.org/abs/2508.00828\n- GDPval: https://openai.com/index/gdpval/",
-   "id": "5c598c39",
-   "hash": "4af0d2d8de3d"
+   "text": "Those fixtures validate package construction, isolation, recording, and reports only. They are not a substitute for the Harvey-first study described in `docs/`.",
+   "id": "36223643",
+   "hash": "033e6320c439"
   }
  ]
 }

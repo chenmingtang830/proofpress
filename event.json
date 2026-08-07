@@ -1,35 +1,35 @@
 {
  "event": "version_created",
- "artifact": "docs/internal/experiments/PROVENANCE_HANDOFF_EVALUATION_PLAN.md",
- "artifact_id": "pp_dfeff80ca8348068acae1718",
- "version": "fbedde8c",
- "parent": "8e6d6fb0",
+ "artifact": "experiments/provenance_handoff/README.md",
+ "artifact_id": "pp_556b115de711b0cd33eed260",
+ "version": "5019ed82",
+ "parent": "45e7731c",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-07T22:14:36+00:00",
+ "ts": "2026-08-07T22:14:38+00:00",
  "stats": {
-  "modified": 2
+  "modified": 1
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "1f7a3c9e",
-   "type": "table",
-   "context": "7. Experimental design"
-  },
-  {
-   "kind": "modified",
-   "block": "d02d7dbb",
+   "block": "1fa1b7ec",
    "type": "para",
-   "context": "10. Pilot implementation"
+   "context": "Before any model run",
+   "numbers": [
+    [
+     "12",
+     "$25."
+    ]
+   ]
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:10eaecda46b61d5fc94e3861f3fc11d6a12ccbc56fe88ad30f8c32b6dcae0073",
+ "soft_fingerprint": "ppsb1:ae4b2b90a8af28223bd11af27e435c1284b9cef71e80b92ef5f3fe03f4a62732",
  "actors": {
   "requested_by": [
    "Richard Tang"
@@ -47,18 +47,13 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "1f7a3c9e",
+   "block": "1fa1b7ec",
    "kind": "modified",
-   "note": "Defined serial fresh-checkpoint SAS C0/C3 semantics."
-  },
-  {
-   "block": "d02d7dbb",
-   "kind": "modified",
-   "note": "Specified PSA qualification slice, five checkpoints, and shared $25 ceiling."
+   "note": "Recorded frozen PSA C0/C3 qualification workflow, telemetry, and cost boundary."
   }
  ],
  "context": {
-  "why": "Record the implemented Gateway 0731 PSA C0/C3 qualification checkpoint design."
+  "why": "Record the implemented isolated Gateway qualification slice."
  },
- "event_id": "ppe_1dcd0eca41fc17b05e760f54"
+ "event_id": "ppe_700a8fea6320edebce5749a8"
 }
