@@ -1,77 +1,59 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/docs/RESEARCH_PLAN.md",
- "artifact_id": "pp_00e96ce828caea19ac7221ae",
- "version": "19b2f945",
- "parent": "18af2e53",
+ "artifact": "experiments/provenance_handoff/docs/ARCHITECTURE.md",
+ "artifact_id": "pp_b36338c1e353bb457f78ad8c",
+ "version": "c3562bd4",
+ "parent": "beaa75b5",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-07T08:57:11+00:00",
+ "ts": "2026-08-07T08:57:13+00:00",
  "stats": {
-  "modified": 9
+  "modified": 6
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "37044759",
-   "type": "para",
-   "context": "Decision in one sentence"
-  },
-  {
-   "kind": "modified",
-   "block": "1d00380d",
-   "type": "para",
-   "context": "Motivation and claim boundary"
-  },
-  {
-   "kind": "modified",
-   "block": "8988a2e7",
+   "block": "5cc08239",
    "type": "heading",
-   "context": "Accepted next matrix: architecture and c"
+   "context": "Accepted follow-up: what varies"
   },
   {
    "kind": "modified",
-   "block": "ca5c64c9",
-   "type": "table",
-   "context": "Accepted next matrix: architecture and c"
+   "block": "4d4c2dcd",
+   "type": "code",
+   "context": "Accepted follow-up: what varies"
   },
   {
    "kind": "modified",
-   "block": "395029b6",
+   "block": "61634a19",
    "type": "para",
-   "context": "Accepted next matrix: architecture and c"
+   "context": "Accepted follow-up: what varies"
   },
   {
    "kind": "modified",
-   "block": "21b6ed3d",
+   "block": "86fb7f8d",
    "type": "para",
-   "context": "Accepted next matrix: architecture and c"
+   "context": "Lineage capsule contract"
   },
   {
    "kind": "modified",
-   "block": "83ba9a78",
-   "type": "table",
-   "context": "Hypotheses and falsifiers"
-  },
-  {
-   "kind": "modified",
-   "block": "cc5ca75e",
+   "block": "c7b43102",
    "type": "para",
-   "context": "Outcomes and scoring"
+   "context": "Lineage capsule contract"
   },
   {
    "kind": "modified",
-   "block": "b75fdf75",
-   "type": "table",
-   "context": "Outcomes and scoring"
+   "block": "c417481e",
+   "type": "para",
+   "context": "Isolated handoff diagnostic versus end-t"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:5597545adc70995f3dd4a247d935a8cd33b3f5db6439b40634bab98ad8255b52",
+ "soft_fingerprint": "ppsb1:79c8ced566e7f5be24ee14f9774cb23b3899226db42d74b6760d334c9c3e058c",
  "actors": {
   "requested_by": [
    "Richard Tang"
@@ -89,53 +71,38 @@
  "attribution_basis": "environment_attested",
  "claims": [
   {
-   "block": "37044759",
+   "block": "5cc08239",
    "kind": "modified",
-   "note": "Changed study objective to document-native criterion-level comparison with single-agent reference."
+   "note": "Declared native follow-up variation boundary."
   },
   {
-   "block": "1d00380d",
+   "block": "4d4c2dcd",
    "kind": "modified",
-   "note": "Narrowed claim to document-native provenance."
+   "note": "Replaced sidecar arms diagram with three-arm architecture comparison."
   },
   {
-   "block": "8988a2e7",
+   "block": "61634a19",
    "kind": "modified",
-   "note": "Renamed arms section for accepted architecture and communication matrix."
+   "note": "Defined shared-memory control and document-native treatment."
   },
   {
-   "block": "ca5c64c9",
+   "block": "86fb7f8d",
    "kind": "modified",
-   "note": "Defined three accepted follow-up arms."
+   "note": "Moved capsule carriage into work artifacts."
   },
   {
-   "block": "395029b6",
+   "block": "c7b43102",
    "kind": "modified",
-   "note": "Updated primary estimand."
+   "note": "Required embedded capsule verification."
   },
   {
-   "block": "21b6ed3d",
+   "block": "c417481e",
    "kind": "modified",
-   "note": "Updated secondary single-agent comparison and deferred raw history."
-  },
-  {
-   "block": "83ba9a78",
-   "kind": "modified",
-   "note": "Replaced sidecar hypotheses with native-carrier and single-agent hypotheses."
-  },
-  {
-   "block": "4a11e324",
-   "kind": "modified",
-   "note": "Made paired criterion success primary and official all-pass secondary."
-  },
-  {
-   "block": "b75fdf75",
-   "kind": "modified",
-   "note": "Updated task-quality measure."
+   "note": "Archived sidecar isolated diagnostic as operational evidence only."
   }
  ],
  "context": {
   "why": "Recorded the accepted document-native DeepSeek follow-up and the bounded interpretation of completed external-sidecar Harvey results."
  },
- "event_id": "ppe_f75f301415f7fd9170ead380"
+ "event_id": "ppe_61a8be85d71717fcd5256eb0"
 }
