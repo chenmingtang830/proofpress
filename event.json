@@ -1,37 +1,71 @@
 {
  "event": "version_created",
- "artifact": "docs/RESULTS_MATRIX.md",
- "artifact_id": "pp_d40d46a12d4d493fcbc9c0e9",
- "version": "4eba1af8",
- "parent": "03fcee6b",
+ "artifact": "experiments/provenance_handoff/README.md",
+ "artifact_id": "pp_556b115de711b0cd33eed260",
+ "version": "7e31b957",
+ "parent": "1bfb1a01",
  "author": {
-  "name": "Codex",
-  "kind": "agent",
-  "session": "provenance-handoff-plan-2026-08-06"
+  "name": "unknown",
+  "kind": "human",
+  "session": null
  },
  "note": null,
- "ts": "2026-08-06T08:36:03+00:00",
+ "ts": "2026-08-07T08:57:09+00:00",
  "stats": {
-  "added": 2
+  "modified": 8
  },
  "changes": [
   {
-   "kind": "added",
-   "block": "569ecb4f",
-   "type": "heading",
-   "context": "Review state",
-   "preview": "## Review state"
+   "kind": "modified",
+   "block": "d86e9669",
+   "type": "para",
+   "context": "Review status"
   },
   {
-   "kind": "added",
-   "block": "f9ecf7b5",
+   "kind": "modified",
+   "block": "efb84a51",
    "type": "para",
-   "context": "Review state",
-   "preview": "Draft for user review. Every cell below is a planned result "
+   "context": "The research question"
+  },
+  {
+   "kind": "modified",
+   "block": "51799240",
+   "type": "para",
+   "context": "The research question"
+  },
+  {
+   "kind": "modified",
+   "block": "48aa7881",
+   "type": "para",
+   "context": "Scope and comparison"
+  },
+  {
+   "kind": "modified",
+   "block": "27c19da2",
+   "type": "list",
+   "context": "Scope and comparison"
+  },
+  {
+   "kind": "modified",
+   "block": "146ef700",
+   "type": "para",
+   "context": "Scope and comparison"
+  },
+  {
+   "kind": "modified",
+   "block": "c1ba01f6",
+   "type": "list",
+   "context": "What is here today"
+  },
+  {
+   "kind": "modified",
+   "block": "1fa1b7ec",
+   "type": "para",
+   "context": "Before any model run"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:e2597f5e90123de7b4dd6712eb2e2db61be8808e67fac785b4fc3f09d8c86252",
+ "soft_fingerprint": "ppsb1:fba74e08e7b3a2257de9c60d6f17f5dacd4cb9ea3b04bc172f2a52d6dd676b3b",
  "actors": {
   "requested_by": [
    "Richard Tang"
@@ -49,18 +83,43 @@
  "attribution_basis": "environment_attested",
  "claims": [
   {
-   "block": "569ecb4f",
-   "kind": "added",
-   "note": "Created as a reviewable planned-result artifact; no empirical value."
+   "block": "d86e9669",
+   "kind": "modified",
+   "note": "Reclassified package as completed transport prototype plus native follow-up."
   },
   {
-   "block": "f9ecf7b5",
-   "kind": "added",
-   "note": "Created as a reviewable planned-result artifact; no empirical value."
+   "block": "efb84a51",
+   "kind": "modified",
+   "note": "Reframed research question around native artifacts, shared memory, and single-agent reference."
+  },
+  {
+   "block": "51799240",
+   "kind": "modified",
+   "note": "Clarified artifact-native rather than sidecar product boundary."
+  },
+  {
+   "block": "27c19da2",
+   "kind": "modified",
+   "note": "Replaced legacy five-arm list with accepted three-arm matrix."
+  },
+  {
+   "block": "146ef700",
+   "kind": "modified",
+   "note": "Defined native Proofpress versus shared-memory primary contrast."
+  },
+  {
+   "block": "c1ba01f6",
+   "kind": "modified",
+   "note": "Updated artifact inventory for native configuration."
+  },
+  {
+   "block": "61817201",
+   "kind": "modified",
+   "note": "Recorded prerequisites before further execution."
   }
  ],
  "context": {
-  "why": "Create a reviewable execution/results artifact for the user-approved Harvey-first provenance-handoff study; no empirical result is recorded."
+  "why": "Recorded the accepted document-native DeepSeek follow-up and the bounded interpretation of completed external-sidecar Harvey results."
  },
- "event_id": "ppe_e16550b09fb009300cb35dd2"
+ "event_id": "ppe_ff9b24460f123c9ccfcbee4a"
 }
