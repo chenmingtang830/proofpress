@@ -1,35 +1,65 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/ara/evidence/README.md",
- "artifact_id": "pp_d903bfb55a61339cd26f454f",
- "version": "c0b60538",
- "parent": "2cfae9dd",
+ "artifact": "docs/RESEARCH_PLAN.md",
+ "artifact_id": "pp_00e96ce828caea19ac7221ae",
+ "version": "f613dcac",
+ "parent": "86712d2c",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-07T22:32:35+00:00",
+ "ts": "2026-08-07T23:05:13+00:00",
  "stats": {
-  "modified": 2
+  "modified": 7
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "687aeafa",
+   "block": "37044759",
    "type": "para",
-   "context": "Current state"
+   "context": "Decision in one sentence"
   },
   {
    "kind": "modified",
-   "block": "d49d601a",
+   "block": "6e8d4f21",
    "type": "para",
-   "context": "Design inputs"
+   "context": "Decision in one sentence"
+  },
+  {
+   "kind": "modified",
+   "block": "ca5c64c9",
+   "type": "table",
+   "context": "Accepted next matrix: architecture and c"
+  },
+  {
+   "kind": "modified",
+   "block": "395029b6",
+   "type": "para",
+   "context": "Accepted next matrix: architecture and c"
+  },
+  {
+   "kind": "modified",
+   "block": "743b9bd8",
+   "type": "table",
+   "context": "Model plan"
+  },
+  {
+   "kind": "modified",
+   "block": "7bcd9b4b",
+   "type": "list",
+   "context": "Budgets, isolation, and fairness"
+  },
+  {
+   "kind": "modified",
+   "block": "ae5cc50e",
+   "type": "table",
+   "context": "Analysis and decision gates"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:3722a9fd118706ef1fc0a3c32a337983d4d168a9eeda4d5e6b5e0a0cadab801e",
+ "soft_fingerprint": "ppsb1:06fc6ec34a80abc390f7abcc8793cdc61975d2112783bc45c90f9c0918c8088d",
  "actors": {
   "requested_by": [
    "richardtang"
@@ -47,25 +77,43 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "687aeafa",
+   "block": "37044759",
    "kind": "modified",
-   "note": "The evidence index distinguishes endpoint-level telemetry mismatch from a C0/C3 empirical outcome.",
-   "evidence": [
-    "transport slice event log",
-    "transport-probe summaries"
-   ]
+   "note": "Defines B0 as the original one-shot baseline alongside the distinct C0 and C3 SAS conditions."
   },
   {
-   "block": "d49d601a",
+   "block": "6e8d4f21",
    "kind": "modified",
-   "note": "The evidence contract rejects after-the-fact aggregate reporting as a substitute for the missing per-call usage.cost.",
-   "evidence": [
-    "transport-probe summaries"
-   ]
+   "note": "Records that B0 has its own Gateway result slice and cost guard."
+  },
+  {
+   "block": "ca5c64c9",
+   "kind": "modified",
+   "note": "Adds B0 to the condition design table."
+  },
+  {
+   "block": "395029b6",
+   "kind": "modified",
+   "note": "States the valid C0-B0, C3-C0, and mixed C3-B0 comparison interpretations."
+  },
+  {
+   "block": "743b9bd8",
+   "kind": "modified",
+   "note": "Separates B0 baseline execution from C0/C3 transport qualification."
+  },
+  {
+   "block": "7bcd9b4b",
+   "kind": "modified",
+   "note": "Records shared model, task, tool, and scorer contract across B0/C0/C3."
+  },
+  {
+   "block": "ae5cc50e",
+   "kind": "modified",
+   "note": "Adds the independent B0 qualification gate."
   }
  ],
  "context": {
-  "why": "Index the endpoint telemetry mismatch without inferring a treatment effect."
+  "why": "Record the isolated B0 Harvey one-shot baseline and the B0 C0 C3 estimand boundary."
  },
- "event_id": "ppe_7892418226bb19319ffa6ded"
+ "event_id": "ppe_a1c3a9379fa3c47372b300ad"
 }
