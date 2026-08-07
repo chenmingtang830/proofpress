@@ -1,35 +1,29 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/ara/evidence/README.md",
- "artifact_id": "pp_d903bfb55a61339cd26f454f",
- "version": "2cfae9dd",
- "parent": "c7ec4437",
+ "artifact": "experiments/provenance_handoff/docs/RESULTS_MATRIX.md",
+ "artifact_id": "pp_d40d46a12d4d493fcbc9c0e9",
+ "version": "9ded0a70",
+ "parent": "ea4002f4",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-07T22:25:59+00:00",
+ "ts": "2026-08-07T22:32:27+00:00",
  "stats": {
-  "modified": 2
+  "modified": 1
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "687aeafa",
+   "block": "2cb9aa42",
    "type": "para",
-   "context": "Current state"
-  },
-  {
-   "kind": "modified",
-   "block": "d49d601a",
-   "type": "para",
-   "context": "Design inputs"
+   "context": "Accepted Matrix D: Gateway Harvey SAS fo"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:1c73d181e81a7ad75210727ffc74242387e1f3a448168915eb3cc34438a4c57b",
+ "soft_fingerprint": "ppsb1:e1667db8939cdde94da23360869c38d96082874194b10498953276053d9bd983",
  "actors": {
   "requested_by": [
    "richardtang"
@@ -47,21 +41,17 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block_id": "687aeafa",
+   "block": "2cb9aa42",
    "kind": "modified",
-   "claim": "The evidence index distinguishes the failed PSA transport qualification from a C0/C3 empirical outcome."
-  },
-  {
-   "block_id": "d49d601a",
-   "kind": "modified",
-   "claim": "The evidence contract records that the first PSA attempt failed fixed-model and complete-telemetry gates before C3/scoring and cannot be repaired by an assumed no-fallback value.",
+   "note": "The current Gateway qualification record distinguishes the complementary Chat Completions and OpenResponses telemetry gaps and retains the no-formal-matrix gate.",
    "evidence": [
-    "transport slice event log and aborted manifest"
+    "transport slice event log",
+    "transport-probe summaries"
    ]
   }
  ],
  "context": {
-  "why": "Index the failed transport qualification as evidence of a gate failure, not an efficacy result."
+  "why": "Refine the stopped Gateway qualification with endpoint-level telemetry evidence."
  },
- "event_id": "ppe_87e5db9a53d8d63513227bfa"
+ "event_id": "ppe_a8ee0f39b426bb11876cc23e"
 }
