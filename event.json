@@ -1,41 +1,30 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/docs/RESEARCH_PLAN.md",
- "artifact_id": "pp_00e96ce828caea19ac7221ae",
- "version": "a894c626",
- "parent": "0691c785",
+ "artifact": "docs/internal/experiments/PROVENANCE_HANDOFF_EVALUATION_PLAN.md",
+ "artifact_id": "pp_dfeff80ca8348068acae1718",
+ "version": "4531548e",
+ "parent": "8cd4c8e1",
  "author": {
   "name": "codex",
   "kind": "agent",
   "session": null
  },
  "note": null,
- "ts": "2026-08-07T21:32:05+00:00",
+ "ts": "2026-08-07T21:33:33+00:00",
  "stats": {
-  "modified": 3
+  "added": 1
  },
  "changes": [
   {
-   "kind": "modified",
-   "block": "211f3829",
-   "type": "heading",
-   "context": "Proofpress Lineage Evaluation Study — tr"
-  },
-  {
-   "kind": "modified",
-   "block": "7264eaac",
-   "type": "heading",
-   "context": "Motivation and claim boundary: static ve"
-  },
-  {
-   "kind": "modified",
-   "block": "a20de7f5",
+   "kind": "added",
+   "block": "632a1024",
    "type": "para",
-   "context": "Fixed runtime and workflow"
+   "context": "Provenance Handoff Evaluation Plan",
+   "preview": "The current Harvey DeepSeek C0/C1/C2 execution slice is paus"
   }
  ],
- "policy": "portable",
- "soft_fingerprint": "ppsb1:38ae5950815cfdceb70f78f9b84c7de84827796e2112c04ac1991f01007ed56a",
+ "policy": "local",
+ "soft_fingerprint": "ppsb1:0e7a65da39933989d0b18571682e6a1dc2e9459da0b8953d9ab68ca37e67803b",
  "actors": {
   "requested_by": [
    "user"
@@ -53,23 +42,13 @@
  "attribution_basis": "harness_attested",
  "claims": [
   {
-   "block": "211f3829",
-   "kind": "modified",
-   "note": "Retitled the study to make the paused transport slice and next research slice explicit."
-  },
-  {
-   "block": "7264eaac",
-   "kind": "modified",
-   "note": "Clarified the static-versus-dynamic claim boundary for Harvey and the future revision track."
-  },
-  {
-   "block": "a20de7f5",
-   "kind": "modified",
-   "note": "Recorded the paused OpenRouter/Novita transport, separate Vercel AI Gateway replication rule, and unchanged Harvey harness boundary."
+   "block": "632a1024",
+   "kind": "added",
+   "note": "Recorded the current DeepSeek transport pause and the separate low-cost Vercel AI Gateway replication gate."
   }
  ],
  "context": {
-  "why": "Reconciled the research plan ledger by making the current transport pause and static-versus-dynamic boundary explicit, while preserving the immutable v6 history and separating any future Vercel AI Gateway replication."
+  "why": "Recorded the paused Harvey DeepSeek transport slice and the requirement that any future Vercel AI Gateway test pass a separate low-cost transport gate."
  },
- "event_id": "ppe_9b670af5fe2d05fec1e25aba"
+ "event_id": "ppe_2f4940822c653cc9c5b12e68"
 }
