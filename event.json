@@ -1,71 +1,77 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/README.md",
- "artifact_id": "pp_556b115de711b0cd33eed260",
- "version": "7e31b957",
- "parent": "1bfb1a01",
+ "artifact": "experiments/provenance_handoff/docs/RESEARCH_PLAN.md",
+ "artifact_id": "pp_00e96ce828caea19ac7221ae",
+ "version": "19b2f945",
+ "parent": "18af2e53",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-07T08:57:09+00:00",
+ "ts": "2026-08-07T08:57:11+00:00",
  "stats": {
-  "modified": 8
+  "modified": 9
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "d86e9669",
+   "block": "37044759",
    "type": "para",
-   "context": "Review status"
+   "context": "Decision in one sentence"
   },
   {
    "kind": "modified",
-   "block": "efb84a51",
+   "block": "1d00380d",
    "type": "para",
-   "context": "The research question"
+   "context": "Motivation and claim boundary"
   },
   {
    "kind": "modified",
-   "block": "51799240",
+   "block": "8988a2e7",
+   "type": "heading",
+   "context": "Accepted next matrix: architecture and c"
+  },
+  {
+   "kind": "modified",
+   "block": "ca5c64c9",
+   "type": "table",
+   "context": "Accepted next matrix: architecture and c"
+  },
+  {
+   "kind": "modified",
+   "block": "395029b6",
    "type": "para",
-   "context": "The research question"
+   "context": "Accepted next matrix: architecture and c"
   },
   {
    "kind": "modified",
-   "block": "48aa7881",
+   "block": "21b6ed3d",
    "type": "para",
-   "context": "Scope and comparison"
+   "context": "Accepted next matrix: architecture and c"
   },
   {
    "kind": "modified",
-   "block": "27c19da2",
-   "type": "list",
-   "context": "Scope and comparison"
+   "block": "83ba9a78",
+   "type": "table",
+   "context": "Hypotheses and falsifiers"
   },
   {
    "kind": "modified",
-   "block": "146ef700",
+   "block": "cc5ca75e",
    "type": "para",
-   "context": "Scope and comparison"
+   "context": "Outcomes and scoring"
   },
   {
    "kind": "modified",
-   "block": "c1ba01f6",
-   "type": "list",
-   "context": "What is here today"
-  },
-  {
-   "kind": "modified",
-   "block": "1fa1b7ec",
-   "type": "para",
-   "context": "Before any model run"
+   "block": "b75fdf75",
+   "type": "table",
+   "context": "Outcomes and scoring"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:fba74e08e7b3a2257de9c60d6f17f5dacd4cb9ea3b04bc172f2a52d6dd676b3b",
+ "soft_fingerprint": "ppsb1:5597545adc70995f3dd4a247d935a8cd33b3f5db6439b40634bab98ad8255b52",
  "actors": {
   "requested_by": [
    "Richard Tang"
@@ -83,43 +89,53 @@
  "attribution_basis": "environment_attested",
  "claims": [
   {
-   "block": "d86e9669",
+   "block": "37044759",
    "kind": "modified",
-   "note": "Reclassified package as completed transport prototype plus native follow-up."
+   "note": "Changed study objective to document-native criterion-level comparison with single-agent reference."
   },
   {
-   "block": "efb84a51",
+   "block": "1d00380d",
    "kind": "modified",
-   "note": "Reframed research question around native artifacts, shared memory, and single-agent reference."
+   "note": "Narrowed claim to document-native provenance."
   },
   {
-   "block": "51799240",
+   "block": "8988a2e7",
    "kind": "modified",
-   "note": "Clarified artifact-native rather than sidecar product boundary."
+   "note": "Renamed arms section for accepted architecture and communication matrix."
   },
   {
-   "block": "27c19da2",
+   "block": "ca5c64c9",
    "kind": "modified",
-   "note": "Replaced legacy five-arm list with accepted three-arm matrix."
+   "note": "Defined three accepted follow-up arms."
   },
   {
-   "block": "146ef700",
+   "block": "395029b6",
    "kind": "modified",
-   "note": "Defined native Proofpress versus shared-memory primary contrast."
+   "note": "Updated primary estimand."
   },
   {
-   "block": "c1ba01f6",
+   "block": "21b6ed3d",
    "kind": "modified",
-   "note": "Updated artifact inventory for native configuration."
+   "note": "Updated secondary single-agent comparison and deferred raw history."
   },
   {
-   "block": "61817201",
+   "block": "83ba9a78",
    "kind": "modified",
-   "note": "Recorded prerequisites before further execution."
+   "note": "Replaced sidecar hypotheses with native-carrier and single-agent hypotheses."
+  },
+  {
+   "block": "4a11e324",
+   "kind": "modified",
+   "note": "Made paired criterion success primary and official all-pass secondary."
+  },
+  {
+   "block": "b75fdf75",
+   "kind": "modified",
+   "note": "Updated task-quality measure."
   }
  ],
  "context": {
   "why": "Recorded the accepted document-native DeepSeek follow-up and the bounded interpretation of completed external-sidecar Harvey results."
  },
- "event_id": "ppe_ff9b24460f123c9ccfcbee4a"
+ "event_id": "ppe_f75f301415f7fd9170ead380"
 }
