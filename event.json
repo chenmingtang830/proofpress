@@ -1,35 +1,29 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/ara/logic/experiments.md",
- "artifact_id": "pp_15fb7a0bcf0891f7cee01068",
- "version": "a74c96d1",
- "parent": "668de489",
+ "artifact": "experiments/provenance_handoff/ara/src/environment.md",
+ "artifact_id": "pp_d4f0f4ca5617c9d0528dea8e",
+ "version": "85732a63",
+ "parent": "729032fb",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-07T22:25:55+00:00",
+ "ts": "2026-08-07T22:25:57+00:00",
  "stats": {
-  "modified": 2
+  "modified": 1
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "7aa4e24f",
-   "type": "heading",
-   "context": "E06: Gateway Harvey SAS qualification st"
-  },
-  {
-   "kind": "modified",
-   "block": "0b9f8f55",
+   "block": "a84a1149",
    "type": "list",
-   "context": "E06: Gateway Harvey SAS qualification st"
+   "context": "Environment"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:8a8737798246a5ffc4d25b0d20166256b2603e81da2f4a22ccc757401642adba",
+ "soft_fingerprint": "ppsb1:046605395c90decfde2990a07ff64d41038389b0313e23dfd117c83c46792006",
  "actors": {
   "requested_by": [
    "richardtang"
@@ -47,21 +41,16 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block_id": "7aa4e24f",
+   "block_id": "a84a1149",
    "kind": "modified",
-   "claim": "E06 is recorded as a stopped Gateway transport qualification, not a treatment result."
-  },
-  {
-   "block_id": "0b9f8f55",
-   "kind": "modified",
-   "claim": "The entry records the 37-call, $0.093275 C0 stop, unversioned resolved model, missing provider/fallback metadata, and the resulting prohibition on C3, scoring, and formal-matrix launch.",
+   "claim": "The environment record now states that the first Gateway qualification is stopped and unqualified, with retained failed-transport audit evidence and no unlocked downstream execution.",
    "evidence": [
     "transport slice event log and aborted manifest"
    ]
   }
  ],
  "context": {
-  "why": "Record the Gateway qualification stop and preserve the research gate."
+  "why": "Update the ARA environment with the audited Gateway qualification state."
  },
- "event_id": "ppe_d28bd56e627614e455d1d8ba"
+ "event_id": "ppe_7126ba6e691292040a6930ab"
 }
