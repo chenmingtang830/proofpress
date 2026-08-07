@@ -1,29 +1,50 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/docs/RESULTS_MATRIX.md",
- "artifact_id": "pp_d40d46a12d4d493fcbc9c0e9",
- "version": "d4bf3b12",
- "parent": "25937d06",
+ "artifact": "experiments/provenance_handoff/ara/logic/experiments.md",
+ "artifact_id": "pp_15fb7a0bcf0891f7cee01068",
+ "version": "45aa6e80",
+ "parent": "71001cfc",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-07T09:00:00+00:00",
+ "ts": "2026-08-07T09:00:02+00:00",
  "stats": {
-  "modified": 1
+  "modified": 2,
+  "removed": 2
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "5e69bf5b",
+   "block": "62ab94d5",
    "type": "heading",
-   "context": "Completed Matrix B: archived external-tr"
+   "context": "E04: Accepted document-native DeepSeek m"
+  },
+  {
+   "kind": "modified",
+   "block": "b37d7d2c",
+   "type": "list",
+   "context": "E04: Accepted document-native DeepSeek m"
+  },
+  {
+   "kind": "removed",
+   "block": "34113c07",
+   "type": "para",
+   "context": "",
+   "preview": "[//]: # (ob:e03native01)"
+  },
+  {
+   "kind": "removed",
+   "block": "0959d1b3",
+   "type": "para",
+   "context": "",
+   "preview": "[//]: # (ob:e03native02)"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:29c15649acbdc6b75fb953097118f0b47635097c402974fe738ec17393104108",
+ "soft_fingerprint": "ppsb1:133334f745bd613581f86c44a375000f1926eb465c9ddff5c3e52b7d1081ec47",
  "actors": {
   "requested_by": [
    "Richard Tang"
@@ -41,13 +62,28 @@
  "attribution_basis": "environment_attested",
  "claims": [
   {
-   "block": "5e69bf5b",
+   "block": "34113c07",
+   "kind": "removed",
+   "note": "Removed redundant manually inserted marker block after automatic anchoring."
+  },
+  {
+   "block": "0959d1b3",
+   "kind": "removed",
+   "note": "Removed redundant manually inserted marker block after automatic anchoring."
+  },
+  {
+   "block": "62ab94d5",
    "kind": "modified",
-   "note": "Marked completed Matrix B explicitly archived as an external transport prototype."
+   "note": "Clarified E04 remains pending wrapper implementation."
+  },
+  {
+   "block": "b37d7d2c",
+   "kind": "modified",
+   "note": "Specified criterion numerator and denominator reporting."
   }
  ],
  "context": {
   "why": "Corrected the accepted research record so changed blocks and native experiment anchors are explicitly and accurately represented."
  },
- "event_id": "ppe_1e8ecf859839b97b2fd888a5"
+ "event_id": "ppe_f5f7652ce903515b9e10e42b"
 }
