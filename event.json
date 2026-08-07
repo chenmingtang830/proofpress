@@ -1,63 +1,53 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/docs/RESEARCH_PLAN.md",
- "artifact_id": "pp_00e96ce828caea19ac7221ae",
- "version": "76f11343",
- "parent": "e3255144",
+ "artifact": "experiments/provenance_handoff/README.md",
+ "artifact_id": "pp_556b115de711b0cd33eed260",
+ "version": "8b825dfc",
+ "parent": "d98e9b85",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-07T09:01:08+00:00",
+ "ts": "2026-08-07T09:52:05+00:00",
  "stats": {
   "modified": 5
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "743b9bd8",
-   "type": "table",
-   "context": "Model plan"
-  },
-  {
-   "kind": "modified",
-   "block": "c91c4e94",
+   "block": "efb84a51",
    "type": "para",
-   "context": "Model plan"
+   "context": "The research question"
   },
   {
    "kind": "modified",
-   "block": "7bcd9b4b",
+   "block": "51799240",
+   "type": "para",
+   "context": "The research question"
+  },
+  {
+   "kind": "modified",
+   "block": "27c19da2",
    "type": "list",
-   "context": "Budgets, isolation, and fairness"
+   "context": "Scope and comparison"
   },
   {
    "kind": "modified",
-   "block": "ae5cc50e",
-   "type": "table",
-   "context": "Analysis and decision gates"
+   "block": "146ef700",
+   "type": "para",
+   "context": "Scope and comparison"
   },
   {
    "kind": "modified",
-   "block": "9858f44e",
-   "type": "list",
-   "context": "Implementation milestones",
-   "numbers": [
-    [
-     "0",
-     "1"
-    ],
-    [
-     "1",
-     "0731"
-    ]
-   ]
+   "block": "1fa1b7ec",
+   "type": "para",
+   "context": "Before any model run"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:37c4b52bdbb9ddf9be07df468079516885dd00b85e31958184896df3c49e7af8",
+ "soft_fingerprint": "ppsb1:a94df238587371399671b812ab5fcc50a57bfadb48b5805184237efca61930a0",
  "actors": {
   "requested_by": [
    "Richard Tang"
@@ -75,33 +65,33 @@
  "attribution_basis": "environment_attested",
  "claims": [
   {
-   "block": "743b9bd8",
+   "block": "efb84a51",
    "kind": "modified",
-   "note": "Replaced legacy phases with completed transport prototype and native DeepSeek plan."
+   "note": "Reframed question as Proofpress added to normal shared-memory team workflow."
   },
   {
-   "block": "c91c4e94",
+   "block": "51799240",
    "kind": "modified",
-   "note": "Recorded evidence-bounded DeepSeek fixed-model selection."
+   "note": "Clarified Proofpress supplements rather than replaces ordinary coordination state."
   },
   {
-   "block": "7bcd9b4b",
+   "block": "27c19da2",
    "kind": "modified",
-   "note": "Replaced legacy sidecar fairness rules with native and shared-memory controls."
+   "note": "Defined C0 SAS, C1 centralized-memory, and C2 shared-memory-plus-Proofpress arms."
   },
   {
-   "block": "ae5cc50e",
+   "block": "146ef700",
    "kind": "modified",
-   "note": "Replaced legacy gate table with native smoke and fixed-model decision gates."
+   "note": "Defined C2-versus-C1 primary product comparison and deferred C3."
   },
   {
-   "block": "9858f44e",
+   "block": "1fa1b7ec",
    "kind": "modified",
-   "note": "Replaced legacy milestones with native-carrier implementation and three-arm execution path."
+   "note": "Defined native implementation, architecture-pilot, and final-matrix order."
   }
  ],
  "context": {
-  "why": "Removed superseded sidecar protocol paths so the accepted record contains one executable document-native DeepSeek design."
+  "why": "Recorded the user-approved C0/C1/C2 artifact-native Proofpress experiment design and its budget-neutral parallel-MAS controls."
  },
- "event_id": "ppe_27d8ee4f6fc18c21bc6c8d4a"
+ "event_id": "ppe_3495a9ea5b0c4eafea020bf7"
 }
