@@ -1,35 +1,29 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/README.md",
- "artifact_id": "pp_556b115de711b0cd33eed260",
- "version": "d98e9b85",
- "parent": "7e31b957",
+ "artifact": "experiments/provenance_handoff/docs/RESEARCH_PLAN.md",
+ "artifact_id": "pp_00e96ce828caea19ac7221ae",
+ "version": "e3255144",
+ "parent": "19b2f945",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-07T08:58:37+00:00",
+ "ts": "2026-08-07T08:59:57+00:00",
  "stats": {
-  "modified": 2
+  "modified": 1
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "48aa7881",
+   "block": "cc5ca75e",
    "type": "para",
-   "context": "Scope and comparison"
-  },
-  {
-   "kind": "modified",
-   "block": "1fa1b7ec",
-   "type": "para",
-   "context": "Before any model run"
+   "context": "Outcomes and scoring"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:e2a16305813b0583635b2b078824026dd0c265e773a610e23fa5ce9a47dd1791",
+ "soft_fingerprint": "ppsb1:635ac12c048d689f2adad4bb20033703b1c619fe0f3024f078218aa0fd085b14",
  "actors": {
   "requested_by": [
    "Richard Tang"
@@ -47,18 +41,13 @@
  "attribution_basis": "environment_attested",
  "claims": [
   {
-   "block": "48aa7881",
+   "block": "cc5ca75e",
    "kind": "modified",
-   "note": "Clarified that the accepted three arms are explicitly scoped."
-  },
-  {
-   "block": "1fa1b7ec",
-   "kind": "modified",
-   "note": "Clarified that the accepted design does not itself authorize model calls."
+   "note": "Specified paired criterion numerator and denominator reporting."
   }
  ],
  "context": {
-  "why": "Corrected the accepted research record after the preceding snapshot omitted claims for two materially revised README blocks."
+  "why": "Corrected the accepted research record so changed blocks and native experiment anchors are explicitly and accurately represented."
  },
- "event_id": "ppe_0a750f66a5033a73049f5823"
+ "event_id": "ppe_4b3c3ebb260daf8e8aeb5694"
 }
