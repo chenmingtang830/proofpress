@@ -1,41 +1,47 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/docs/RESEARCH_PLAN.md",
- "artifact_id": "pp_00e96ce828caea19ac7221ae",
- "version": "86712d2c",
- "parent": "09f0f46a",
+ "artifact": "experiments/provenance_handoff/docs/EXECUTION_PLAN.md",
+ "artifact_id": "pp_120f0f61aa69ad67431b9659",
+ "version": "1934b5f5",
+ "parent": "46a7c856",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-07T22:14:41+00:00",
+ "ts": "2026-08-07T22:14:43+00:00",
  "stats": {
   "modified": 3
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "743b9bd8",
+   "block": "9e5893a0",
+   "type": "para",
+   "context": "Fixed system contract"
+  },
+  {
+   "kind": "modified",
+   "block": "17d5429d",
    "type": "table",
-   "context": "Model plan"
+   "context": "Arms to freeze"
   },
   {
    "kind": "modified",
-   "block": "7bcd9b4b",
-   "type": "list",
-   "context": "Budgets, isolation, and fairness"
-  },
-  {
-   "kind": "modified",
-   "block": "9858f44e",
-   "type": "list",
-   "context": "Implementation milestones"
+   "block": "1f0678aa",
+   "type": "table",
+   "context": "Gate sequence and exact counts",
+   "numbers": [
+    [
+     "1",
+     "$25"
+    ]
+   ]
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:cce2adf293af1feddab220c54d400940559c8ea5b81cff72569257cbd975fe0c",
+ "soft_fingerprint": "ppsb1:994978b9b0bb9f2bafa3a260f4c2cbee17a511c96f3a3882182e3915c4bff8ac",
  "actors": {
   "requested_by": [
    "Richard Tang"
@@ -53,23 +59,23 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "743b9bd8",
+   "block": "9e5893a0",
    "kind": "modified",
-   "note": "Specified the frozen PSA qualification design and $25 ceiling."
+   "note": "Defined five-stage fresh-session Gateway SAS workflow."
   },
   {
-   "block": "7bcd9b4b",
+   "block": "17d5429d",
    "kind": "modified",
-   "note": "Defined matched serial SAS C0/C3 checkpoint continuity."
+   "note": "Updated C0/C3 arm continuity contracts."
   },
   {
-   "block": "9858f44e",
+   "block": "1f0678aa",
    "kind": "modified",
-   "note": "Replaced stale MAS execution milestones with Gateway qualification sequence."
+   "note": "Specified PSA qualification count, checkpoints, and cost ceiling."
   }
  ],
  "context": {
-  "why": "Align formal research milestones with the implemented PSA Gateway C0/C3 qualification."
+  "why": "Align execution contract with the implemented five-checkpoint Gateway SAS qualification."
  },
- "event_id": "ppe_f991c3f7be27f888cc325bbf"
+ "event_id": "ppe_4cb17f8d747dd02c1cc40685"
 }
