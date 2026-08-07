@@ -1,53 +1,95 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/README.md",
- "artifact_id": "pp_556b115de711b0cd33eed260",
- "version": "8b825dfc",
- "parent": "d98e9b85",
+ "artifact": "experiments/provenance_handoff/docs/RESEARCH_PLAN.md",
+ "artifact_id": "pp_00e96ce828caea19ac7221ae",
+ "version": "94f19cae",
+ "parent": "76f11343",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-07T09:52:05+00:00",
+ "ts": "2026-08-07T09:52:07+00:00",
  "stats": {
-  "modified": 5
+  "modified": 12
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "efb84a51",
+   "block": "37044759",
    "type": "para",
-   "context": "The research question"
+   "context": "Decision in one sentence"
   },
   {
    "kind": "modified",
-   "block": "51799240",
-   "type": "para",
-   "context": "The research question"
+   "block": "20e0e636",
+   "type": "code",
+   "context": "Fixed runtime and workflow"
   },
   {
    "kind": "modified",
-   "block": "27c19da2",
+   "block": "f35fd5df",
+   "type": "para",
+   "context": "Fixed runtime and workflow"
+  },
+  {
+   "kind": "modified",
+   "block": "dc0a9ca9",
+   "type": "table",
+   "context": "Checkpoint contract"
+  },
+  {
+   "kind": "modified",
+   "block": "ca5c64c9",
+   "type": "table",
+   "context": "Accepted next matrix: architecture and c"
+  },
+  {
+   "kind": "modified",
+   "block": "395029b6",
+   "type": "para",
+   "context": "Accepted next matrix: architecture and c"
+  },
+  {
+   "kind": "modified",
+   "block": "21b6ed3d",
+   "type": "para",
+   "context": "Accepted next matrix: architecture and c"
+  },
+  {
+   "kind": "modified",
+   "block": "83ba9a78",
+   "type": "table",
+   "context": "Hypotheses and falsifiers"
+  },
+  {
+   "kind": "modified",
+   "block": "743b9bd8",
+   "type": "table",
+   "context": "Model plan"
+  },
+  {
+   "kind": "modified",
+   "block": "7bcd9b4b",
    "type": "list",
-   "context": "Scope and comparison"
+   "context": "Budgets, isolation, and fairness"
   },
   {
    "kind": "modified",
-   "block": "146ef700",
-   "type": "para",
-   "context": "Scope and comparison"
+   "block": "ae5cc50e",
+   "type": "table",
+   "context": "Analysis and decision gates"
   },
   {
    "kind": "modified",
-   "block": "1fa1b7ec",
-   "type": "para",
-   "context": "Before any model run"
+   "block": "9858f44e",
+   "type": "list",
+   "context": "Implementation milestones"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:a94df238587371399671b812ab5fcc50a57bfadb48b5805184237efca61930a0",
+ "soft_fingerprint": "ppsb1:4e6a1c48eead426f6679981884c23fc305da9793fa59c5bd6c786f81df88de83",
  "actors": {
   "requested_by": [
    "Richard Tang"
@@ -65,33 +107,68 @@
  "attribution_basis": "environment_attested",
  "claims": [
   {
-   "block": "efb84a51",
+   "block": "37044759",
    "kind": "modified",
-   "note": "Reframed question as Proofpress added to normal shared-memory team workflow."
+   "note": "Changed objective to Proofpress augmentation of normal shared-memory MAS."
   },
   {
-   "block": "51799240",
+   "block": "20e0e636",
    "kind": "modified",
-   "note": "Clarified Proofpress supplements rather than replaces ordinary coordination state."
+   "note": "Replaced serial workflow with parallel fan-out and central synthesis."
   },
   {
-   "block": "27c19da2",
+   "block": "f35fd5df",
    "kind": "modified",
-   "note": "Defined C0 SAS, C1 centralized-memory, and C2 shared-memory-plus-Proofpress arms."
+   "note": "Defined ordinary coordination shared by C1 and C2."
   },
   {
-   "block": "146ef700",
+   "block": "dc0a9ca9",
    "kind": "modified",
-   "note": "Defined C2-versus-C1 primary product comparison and deferred C3."
+   "note": "Replaced serial version contract with plan-worker-decision-final artifacts."
   },
   {
-   "block": "1fa1b7ec",
+   "block": "ca5c64c9",
    "kind": "modified",
-   "note": "Defined native implementation, architecture-pilot, and final-matrix order."
+   "note": "Defined C0 C1 C2 architecture and state arms."
+  },
+  {
+   "block": "395029b6",
+   "kind": "modified",
+   "note": "Updated primary estimand to C2 minus C1 under identical team state."
+  },
+  {
+   "block": "21b6ed3d",
+   "kind": "modified",
+   "note": "Defined C0 minus C1 architecture comparison and deferred raw history."
+  },
+  {
+   "block": "83ba9a78",
+   "kind": "modified",
+   "note": "Updated hypotheses for budget-neutral parallel centralized workflow."
+  },
+  {
+   "block": "743b9bd8",
+   "kind": "modified",
+   "note": "Replaced phases with smoke, architecture pilot, main matrix, and later C3."
+  },
+  {
+   "block": "7bcd9b4b",
+   "kind": "modified",
+   "note": "Specified C1/C2 shared-state and total-token fairness rules."
+  },
+  {
+   "block": "ae5cc50e",
+   "kind": "modified",
+   "note": "Replaced gates with Phase 0 through Phase 3 criteria."
+  },
+  {
+   "block": "9858f44e",
+   "kind": "modified",
+   "note": "Replaced milestones with native implementation and staged execution."
   }
  ],
  "context": {
   "why": "Recorded the user-approved C0/C1/C2 artifact-native Proofpress experiment design and its budget-neutral parallel-MAS controls."
  },
- "event_id": "ppe_3495a9ea5b0c4eafea020bf7"
+ "event_id": "ppe_368be70ecacef7ea5fc8eb62"
 }
