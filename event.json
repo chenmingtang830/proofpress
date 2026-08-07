@@ -1,88 +1,29 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/ara/logic/experiments.md",
- "artifact_id": "pp_15fb7a0bcf0891f7cee01068",
- "version": "71001cfc",
- "parent": "b2423f4d",
+ "artifact": "experiments/provenance_handoff/ara/logic/related_work.md",
+ "artifact_id": "pp_aeef744ab46114892229ebab",
+ "version": "1a4fdfc3",
+ "parent": "be01c41a",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-07T08:57:21+00:00",
+ "ts": "2026-08-07T08:57:23+00:00",
  "stats": {
-  "modified": 6,
-  "added": 4
+  "modified": 1
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "d94b548d",
-   "type": "list",
-   "context": "E01: Official Harvey and OpenRouter runt"
-  },
-  {
-   "kind": "modified",
-   "block": "018ec3e4",
-   "type": "list",
-   "context": "E02: Isolated handoff mechanism diagnost"
-  },
-  {
-   "kind": "modified",
-   "block": "cab7fd7c",
-   "type": "heading",
-   "context": "E03: External-sidecar end-to-end prototy"
-  },
-  {
-   "kind": "modified",
-   "block": "c146ea63",
-   "type": "list",
-   "context": "E03: External-sidecar end-to-end prototy"
-  },
-  {
-   "kind": "added",
-   "block": "34113c07",
+   "block": "9b6cacb9",
    "type": "para",
-   "context": "E03: External-sidecar end-to-end prototy",
-   "preview": "[//]: # (ob:e03native01)"
-  },
-  {
-   "kind": "added",
-   "block": "62ab94d5",
-   "type": "heading",
-   "context": "E04: Accepted document-native DeepSeek m",
-   "preview": "## E04: Accepted document-native DeepSeek matrix"
-  },
-  {
-   "kind": "added",
-   "block": "0959d1b3",
-   "type": "para",
-   "context": "E04: Accepted document-native DeepSeek m",
-   "preview": "[//]: # (ob:e03native02)"
-  },
-  {
-   "kind": "added",
-   "block": "b37d7d2c",
-   "type": "list",
-   "context": "E04: Accepted document-native DeepSeek m",
-   "preview": "- **Question**: On hard Harvey tasks, does a centralized hub"
-  },
-  {
-   "kind": "modified",
-   "block": "df59a8f1",
-   "type": "heading",
-   "context": "E05: Cross-model robustness sweep"
-  },
-  {
-   "kind": "modified",
-   "block": "6559b8b4",
-   "type": "list",
-   "context": "E05: Cross-model robustness sweep"
+   "context": "R02: Scaling agent systems"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:c9d8ab4b7b1a9bfaba2c7b00bc19441d28bbac3a344501c485f4f8c334c7c525",
+ "soft_fingerprint": "ppsb1:80f688461261789af38be9a8ca75b267a68c202c172220c428de0a5d5d2c099d",
  "actors": {
   "requested_by": [
    "Richard Tang"
@@ -100,53 +41,13 @@
  "attribution_basis": "environment_attested",
  "claims": [
   {
-   "block": "d94b548d",
+   "block": "9b6cacb9",
    "kind": "modified",
-   "note": "Marked runtime validation completed for transport prototype."
-  },
-  {
-   "block": "7095f47a",
-   "kind": "modified",
-   "note": "Recorded all-pass interpretation."
-  },
-  {
-   "block": "018ec3e4",
-   "kind": "modified",
-   "note": "Marked isolated diagnostic completed and archived."
-  },
-  {
-   "block": "cab7fd7c",
-   "kind": "modified",
-   "note": "Recorded transport-only interpretation."
-  },
-  {
-   "block": "c146ea63",
-   "kind": "modified",
-   "note": "Renamed completed sidecar prototype experiment."
-  },
-  {
-   "block": "df59a8f1",
-   "kind": "modified",
-   "note": "Recorded completed prototype design, results, and decision."
-  },
-  {
-   "block": "6559b8b4",
-   "kind": "modified",
-   "note": "Deferred cross-model sweep after native matrix."
-  },
-  {
-   "block": "34113c07",
-   "kind": "added",
-   "note": "Added native DeepSeek follow-up experiment record."
-  },
-  {
-   "block": "62ab94d5",
-   "kind": "added",
-   "note": "Added native experiment question, design, outcomes, and prerequisites."
+   "note": "Specified Google-taxonomy centralized baseline and single-agent rationale."
   }
  ],
  "context": {
   "why": "Recorded the accepted document-native DeepSeek follow-up and the bounded interpretation of completed external-sidecar Harvey results."
  },
- "event_id": "ppe_5abc7ae7e6d0efd09dd54634"
+ "event_id": "ppe_c85cbe94ab06d6c6a1558e92"
 }
