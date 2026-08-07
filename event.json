@@ -1,187 +1,53 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/docs/EXECUTION_PLAN.md",
- "artifact_id": "pp_120f0f61aa69ad67431b9659",
- "version": "017e7bb8",
- "parent": "72e8bccf",
+ "artifact": "experiments/provenance_handoff/ara/logic/experiments.md",
+ "artifact_id": "pp_15fb7a0bcf0891f7cee01068",
+ "version": "73740984",
+ "parent": "c1288bd3",
  "author": {
-  "name": "unknown",
+  "name": "codex",
   "kind": "agent",
   "session": null
  },
  "note": null,
- "ts": "2026-08-07T21:11:49+00:00",
+ "ts": "2026-08-07T21:27:31+00:00",
  "stats": {
-  "modified": 12,
-  "added": 1
+  "modified": 1
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "3beda344",
-   "type": "heading",
-   "context": "Execution Plan: Proofpress Lineage Evalu"
-  },
-  {
-   "kind": "modified",
-   "block": "1d585184",
-   "type": "para",
-   "context": "Review state"
-  },
-  {
-   "kind": "modified",
-   "block": "f62ad8be",
-   "type": "para",
-   "context": "Purpose and execution boundary"
-  },
-  {
-   "kind": "modified",
-   "block": "e4382b4f",
-   "type": "heading",
-   "context": "Study modes"
-  },
-  {
-   "kind": "modified",
-   "block": "4b9c9552",
-   "type": "code",
-   "context": "Study modes"
-  },
-  {
-   "kind": "modified",
-   "block": "574f6ebb",
-   "type": "table",
-   "context": "Study modes"
-  },
-  {
-   "kind": "modified",
-   "block": "17d5429d",
-   "type": "table",
-   "context": "Arms to freeze"
-  },
-  {
-   "kind": "modified",
-   "block": "bc4f867e",
-   "type": "para",
-   "context": "Arms to freeze"
-  },
-  {
-   "kind": "modified",
-   "block": "386d8701",
+   "block": "b37d7d2c",
    "type": "list",
-   "context": "Implementation work before any compariso"
-  },
-  {
-   "kind": "modified",
-   "block": "1f0678aa",
-   "type": "table",
-   "context": "Gate sequence and exact counts"
-  },
-  {
-   "kind": "modified",
-   "block": "cab94d5b",
-   "type": "para",
-   "context": "Decision and reporting rules"
-  },
-  {
-   "kind": "modified",
-   "block": "aa49c13e",
-   "type": "list",
-   "context": "Execution order for the operator"
-  },
-  {
-   "kind": "added",
-   "block": "8d2e6f41",
-   "type": "list",
-   "context": "Execution order for the operator",
-   "preview": "7. After the active Harvey slice is complete and audited, fr"
+   "context": "E04: Accepted document-native DeepSeek m"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:88256dc225bdc0cab65d704ca3a0df6f26e7d21e848085f80a034f1c7df2e649",
+ "soft_fingerprint": "ppsb1:ca792fed2fa9e1da59e99054682e6769dabba8bce1df8516b79315fe4c35736d",
  "actors": {
   "requested_by": [
    "user"
   ],
   "produced_by": [
-   "Codex"
+   "codex"
   ],
   "edited_by": [
-   "Codex"
+   "codex"
   ],
   "recorded_by": [
-   "Codex"
+   "codex"
   ]
  },
- "attribution_basis": "self_asserted",
+ "attribution_basis": "harness_attested",
  "claims": [
   {
-   "block": "3beda344",
+   "block": "b37d7d2c",
    "kind": "modified",
-   "note": "将执行计划标题从 Harvey-first 改为 Proofpress lineage evaluation。"
-  },
-  {
-   "block": "1d585184",
-   "kind": "modified",
-   "note": "声明运行中的 DeepSeek C0/C1/C2 与后续 C3 边界。"
-  },
-  {
-   "block": "12bb5436",
-   "kind": "modified",
-   "note": "明确 Harvey baseline 与后续 dynamic factorial 的执行边界。"
-  },
-  {
-   "block": "e4382b4f",
-   "kind": "modified",
-   "note": "将 study modes 改为当前矩阵与后续 dynamic/model-sweep 阶段。"
-  },
-  {
-   "block": "4b9c9552",
-   "kind": "modified",
-   "note": "更新执行流程图。"
-  },
-  {
-   "block": "574f6ebb",
-   "kind": "modified",
-   "note": "更新各执行 mode 的实验问题。"
-  },
-  {
-   "block": "17d5429d",
-   "kind": "modified",
-   "note": "将 arms 对齐为 C0/C1/C2/C3。"
-  },
-  {
-   "block": "bc4f867e",
-   "kind": "modified",
-   "note": "定义 C1 ordinary-memory control 与 C3 hybrid checkpoint 约束。"
-  },
-  {
-   "block": "386d8701",
-   "kind": "modified",
-   "note": "将 materializer 由五臂改为当前三臂与后续 C3。"
-  },
-  {
-   "block": "1f0678aa",
-   "kind": "modified",
-   "note": "修正 gate counts 与 dynamic factorial gate。"
-  },
-  {
-   "block": "cab94d5b",
-   "kind": "modified",
-   "note": "更新 current Harvey 与 dynamic primary endpoints。"
-  },
-  {
-   "block": "aa49c13e",
-   "kind": "modified",
-   "note": "更新 operator execution order。"
-  },
-  {
-   "block": "8d2e6f41",
-   "kind": "added",
-   "note": "增加 active Harvey audit 后冻结 dynamic matrix 的步骤。"
+   "note": "Recorded the Phase 2 transport pause, clean records available at pause, and separation rule for any future Vercel AI Gateway transport slice."
   }
  ],
  "context": {
-  "why": "Synchronize execution gates and arm counts with the active C0/C1/C2 Harvey slice and the deferred C0/C1/C2/C3 dynamic factorial extension."
+  "why": "Paused the DeepSeek Phase 2 matrix after repeated long-synthesis transport failures; recorded the clean records and kept any future Vercel AI Gateway transport slice separate from OpenRouter/Novita evidence."
  },
- "event_id": "ppe_15bc5c4ac9fa8c7026a5a781"
+ "event_id": "ppe_0fc08c0ab8bf2038471303da"
 }
