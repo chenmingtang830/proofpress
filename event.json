@@ -1,65 +1,35 @@
 {
  "event": "version_created",
- "artifact": "docs/RESULTS_MATRIX.md",
- "artifact_id": "pp_d40d46a12d4d493fcbc9c0e9",
- "version": "5e90af99",
- "parent": "9ded0a70",
+ "artifact": "ara/logic/experiments.md",
+ "artifact_id": "pp_15fb7a0bcf0891f7cee01068",
+ "version": "4a2e3974",
+ "parent": "46e64a3b",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-07T23:05:18+00:00",
+ "ts": "2026-08-07T23:05:21+00:00",
  "stats": {
-  "modified": 7
+  "modified": 2
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "f9ecf7b5",
-   "type": "para",
-   "context": "Review state"
-  },
-  {
-   "kind": "modified",
-   "block": "3d0f771a",
+   "block": "7aa4e24f",
    "type": "heading",
-   "context": "Accepted Matrix D: Gateway Harvey B0 and"
+   "context": "E06: Gateway Harvey B0 baseline and SAS "
   },
   {
    "kind": "modified",
-   "block": "2cb9aa42",
-   "type": "para",
-   "context": "Accepted Matrix D: Gateway Harvey B0 and"
-  },
-  {
-   "kind": "modified",
-   "block": "75b9be1c",
-   "type": "table",
-   "context": "Accepted Matrix D: Gateway Harvey B0 and"
-  },
-  {
-   "kind": "modified",
-   "block": "7e6f091b",
-   "type": "para",
-   "context": "Accepted Matrix D: Gateway Harvey B0 and"
-  },
-  {
-   "kind": "modified",
-   "block": "afab3f3b",
-   "type": "para",
-   "context": "The result table that should appear in t"
-  },
-  {
-   "kind": "modified",
-   "block": "17f95fa2",
-   "type": "table",
-   "context": "The result table that should appear in t"
+   "block": "0b9f8f55",
+   "type": "list",
+   "context": "E06: Gateway Harvey B0 baseline and SAS "
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:4d5847b73db2424b0f16bc6826b12e77d51901119a847fed7a099c03d810d131",
+ "soft_fingerprint": "ppsb1:90f4debef4acbe86452e4f70706a84b1784c834c3e0f702c0c4bd79afd54e5e7",
  "actors": {
   "requested_by": [
    "richardtang"
@@ -77,43 +47,18 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "f9ecf7b5",
+   "block": "7aa4e24f",
    "kind": "modified",
-   "note": "Updates the review state with the independent B0 baseline slice."
+   "note": "Adds the B0/C0/C3 Gateway experiment record heading."
   },
   {
-   "block": "3d0f771a",
+   "block": "0b9f8f55",
    "kind": "modified",
-   "note": "Renames the current Gateway matrix to cover B0, C0, and C3."
-  },
-  {
-   "block": "2cb9aa42",
-   "kind": "modified",
-   "note": "Separates frozen historical slices from active native Gateway slices."
-  },
-  {
-   "block": "75b9be1c",
-   "kind": "modified",
-   "note": "Adds B0 to the results-arm ledger."
-  },
-  {
-   "block": "7e6f091b",
-   "kind": "modified",
-   "note": "States the contrast interpretation boundary without claiming a treatment effect."
-  },
-  {
-   "block": "afab3f3b",
-   "kind": "modified",
-   "note": "Explains that B0 does not enter C0/C3 slice qualification."
-  },
-  {
-   "block": "17f95fa2",
-   "kind": "modified",
-   "note": "Adds pending B0 result rows without changing historical results."
+   "note": "Records B0 one-shot, C0 SAS ordinary, C3 SAS plus Proofpress, and their comparison boundary."
   }
  ],
  "context": {
-  "why": "Record B0 as a separate pending result slice without changing historical results."
+  "why": "Record the B0 C0 C3 Gateway experiment design and interpretation boundary."
  },
- "event_id": "ppe_b525a32167fd52e2aef41bd6"
+ "event_id": "ppe_85fba6fbf7823911fae8af76"
 }
