@@ -1,29 +1,35 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/ara/src/environment.md",
- "artifact_id": "pp_d4f0f4ca5617c9d0528dea8e",
- "version": "cd1418fa",
- "parent": "85732a63",
+ "artifact": "experiments/provenance_handoff/ara/evidence/README.md",
+ "artifact_id": "pp_d903bfb55a61339cd26f454f",
+ "version": "c0b60538",
+ "parent": "2cfae9dd",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-07T22:32:32+00:00",
+ "ts": "2026-08-07T22:32:35+00:00",
  "stats": {
-  "modified": 1
+  "modified": 2
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "a84a1149",
-   "type": "list",
-   "context": "Environment"
+   "block": "687aeafa",
+   "type": "para",
+   "context": "Current state"
+  },
+  {
+   "kind": "modified",
+   "block": "d49d601a",
+   "type": "para",
+   "context": "Design inputs"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:1c22713c84160e92b9b069e22c12b2c4cd2175bd1d05a2755069eff6d2b93a35",
+ "soft_fingerprint": "ppsb1:3722a9fd118706ef1fc0a3c32a337983d4d168a9eeda4d5e6b5e0a0cadab801e",
  "actors": {
   "requested_by": [
    "richardtang"
@@ -41,16 +47,25 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "a84a1149",
+   "block": "687aeafa",
    "kind": "modified",
-   "note": "The environment record now states that neither current Gateway endpoint satisfies the complete per-call qualification contract.",
+   "note": "The evidence index distinguishes endpoint-level telemetry mismatch from a C0/C3 empirical outcome.",
+   "evidence": [
+    "transport slice event log",
+    "transport-probe summaries"
+   ]
+  },
+  {
+   "block": "d49d601a",
+   "kind": "modified",
+   "note": "The evidence contract rejects after-the-fact aggregate reporting as a substitute for the missing per-call usage.cost.",
    "evidence": [
     "transport-probe summaries"
    ]
   }
  ],
  "context": {
-  "why": "Update the environment state with the current Gateway endpoint audit."
+  "why": "Index the endpoint telemetry mismatch without inferring a treatment effect."
  },
- "event_id": "ppe_30fc91cb35f9e06609d285e4"
+ "event_id": "ppe_7892418226bb19319ffa6ded"
 }
