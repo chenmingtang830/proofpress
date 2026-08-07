@@ -1,62 +1,29 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/ara/logic/experiments.md",
- "artifact_id": "pp_15fb7a0bcf0891f7cee01068",
- "version": "cccb2f70",
- "parent": "73740984",
+ "artifact": "experiments/provenance_handoff/ara/src/environment.md",
+ "artifact_id": "pp_d4f0f4ca5617c9d0528dea8e",
+ "version": "59e09992",
+ "parent": "5e202753",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-07T21:59:57+00:00",
+ "ts": "2026-08-07T21:59:59+00:00",
  "stats": {
-  "modified": 4,
-  "added": 2
+  "modified": 1
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "4392bdd3",
-   "type": "heading",
-   "context": "E01: Archived official Harvey and OpenRo"
-  },
-  {
-   "kind": "modified",
-   "block": "d94b548d",
+   "block": "a84a1149",
    "type": "list",
-   "context": "E01: Archived official Harvey and OpenRo"
-  },
-  {
-   "kind": "modified",
-   "block": "62ab94d5",
-   "type": "heading",
-   "context": "E04: Archived document-native OpenRouter"
-  },
-  {
-   "kind": "modified",
-   "block": "b37d7d2c",
-   "type": "list",
-   "context": "E04: Archived document-native OpenRouter"
-  },
-  {
-   "kind": "added",
-   "block": "7aa4e24f",
-   "type": "heading",
-   "context": "E06: Planned Gateway Harvey SAS lineage ",
-   "preview": "## E06: Planned Gateway Harvey SAS lineage slice"
-  },
-  {
-   "kind": "added",
-   "block": "0b9f8f55",
-   "type": "list",
-   "context": "E06: Planned Gateway Harvey SAS lineage ",
-   "preview": "- **Question**: Under identical Harvey SAS task flow and bud"
+   "context": "Environment"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:0310418bca4b80dadb606220368254b23e2ecb56baa39313390b0e9a31e62a57",
+ "soft_fingerprint": "ppsb1:fc49cea5a9e23a5e1e06a094fca99a1ca34c9584393d4342c019c27d49503e54",
  "actors": {
   "requested_by": [
    "Richard Tang"
@@ -74,38 +41,13 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "4392bdd3",
+   "block": "a84a1149",
    "kind": "modified",
-   "note": "Marked E01 as archived transport validation."
-  },
-  {
-   "block": "d94b548d",
-   "kind": "modified",
-   "note": "Marked E01 inactive."
-  },
-  {
-   "block": "62ab94d5",
-   "kind": "modified",
-   "note": "Marked E04 archived OpenRouter/Novita slice."
-  },
-  {
-   "block": "b37d7d2c",
-   "kind": "modified",
-   "note": "Preserved old records while preventing reuse as new estimate."
-  },
-  {
-   "block": "7aa4e24f",
-   "kind": "added",
-   "note": "Added planned Gateway Harvey SAS experiment."
-  },
-  {
-   "block": "0b9f8f55",
-   "kind": "added",
-   "note": "Added design, telemetry, ARA/Proofpress boundary, and benchmark gates."
+   "note": "Updated transport, telemetry, and execution-order environment evidence."
   }
  ],
  "context": {
-  "why": "Archive legacy transport slices and add the planned Gateway Harvey SAS lineage experiment."
+  "why": "Record the fixed Gateway 0731 environment and telemetry qualification rule."
  },
- "event_id": "ppe_cdf00ac04bfaad232b94d6f0"
+ "event_id": "ppe_8bdd544e3d3d8a0b39d628ab"
 }
