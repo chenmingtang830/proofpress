@@ -1,24 +1,54 @@
 {
- "artifact": "experiments/provenance_handoff/research/phase1/README.md",
- "artifact_id": "pp_3628f0ea19e46c87bf454b52",
+ "artifact": "experiments/provenance_handoff/ara/evidence/README.md",
+ "artifact_id": "pp_d903bfb55a61339cd26f454f",
  "blocks": [
   {
    "type": "heading",
-   "text": "# Migrated Phase 1 planning inputs",
-   "id": "53177c26",
-   "hash": "828894af271a"
+   "text": "# Evidence index",
+   "id": "1fd7cb93",
+   "hash": "1287755cd4bb"
+  },
+  {
+   "type": "heading",
+   "text": "## Current state",
+   "id": "2f55c2b1",
+   "hash": "5ae697c46c4b"
   },
   {
    "type": "para",
-   "text": "These files were migrated from the former `/Users/richardtang/Documents/Proofpress` checkout, which is no longer maintained. They preserve the STALE/CUPMem condition contract, exploratory preregistration, and observed dataset profile. The source data hash and upstream commit were reverified in `upstream_lock.json`. The original two-record prompt-policy pilot is recorded in `pilot_report.json` as superseded because its execution boundaries were not matched; the production-style carrier implementation is documented in `../../docs/STALE_PHASE1_PLAN.md`. No held-out confirmatory efficacy matrix has been run.",
-   "id": "71f8059f",
-   "hash": "9f1d6bbe1ee3"
+   "text": "There is no Gateway C0/C3 empirical outcome in this artifact. The PSA qualification slice stopped in C0 after 37 Chat Completions calls and `$0.093275` actual cost: that endpoint returned unversioned Flash and omitted routing metadata. A minimal OpenResponses probe returned exact 0731 and detailed dynamic provider/fallback attempts but no `usage.cost`. These controlled records establish an endpoint-level telemetry mismatch, not support for any hypothesis; C3 and the scorer did not run. Archived OpenRouter/Novita and unversioned-Flash smoke records remain historical operational evidence only.",
+   "id": "687aeafa",
+   "hash": "d92a039e07aa"
   },
   {
    "type": "para",
-   "text": "The former two-arm local Codex pilot was intentionally not migrated as an executable runner. The current `run_pilot.py` is the exploratory adapter used for S0–S3; its CUPMem S1/S3 results use independent per-query checkpoints because the full-record adapter exceeded local memory limits. Those adapter limitations keep the result narrow and non-confirmatory.",
-   "id": "507f4b15",
-   "hash": "75605b459ffb"
+   "text": "The active evidence target is the STALE/CUPMem Phase 1 result package. Its upstream input freeze passed: the official repository commit and complete 400-case dataset hash/schema are recorded in `../../research/phase1/upstream_lock.json`. The exploratory S0–S3 table in `../../research/phase1/pilot_report.json` is a superseded harness record: its S1/S3 versus S0/S2 execution boundaries were not matched, so the prior stop/narrow interpretation is withdrawn. The production-style carrier implementation is now the active path; no held-out confirmatory efficacy matrix has been run. The independent internal MemConflict mechanism check remains historical evidence only.",
+   "id": "563cb8db",
+   "hash": "a74da56d196c"
+  },
+  {
+   "type": "para",
+   "text": "The package contains aggregate metrics and SHA-256 pointers only; raw prompts, traces, credentials, and model outputs remain outside Git in `PROOFPRESS_EVAL_HOME`.",
+   "id": "4a2a703a",
+   "hash": "9ff64506f60c"
+  },
+  {
+   "type": "heading",
+   "text": "## Design inputs",
+   "id": "a8111b7b",
+   "hash": "d5db9f9978e7"
+  },
+  {
+   "type": "table",
+   "text": "| ID | Item | Role | Location |\n|---|---|---|---|\n| E01 | Harvey LAB repository/architecture | task and official harness substrate | https://github.com/harveyai/harvey-labs |\n| E02 | Harvey LAB v1.0 tutorial | execution/model adapter reference | https://github.com/harveyai/harvey-labs/blob/v1.0/docs/tutorial.md |\n| E03 | Google agent-system architecture study | rationale for fixed centralized architecture | https://arxiv.org/abs/2512.08296 |\n| E04 | ARA paper/repository | research-artifact management structure | https://arxiv.org/abs/2604.24658 |\n| E05 | Proofpress protocol/docs in this repository | portable artifact-lineage mechanism | `../../README.md` and `../../docs/` |",
+   "id": "fb3d38b9",
+   "hash": "7775914bf23a"
+  },
+  {
+   "type": "para",
+   "text": "Active STALE result entries must name the frozen configuration, task/source hashes, CUPMem revision, requested/resolved model, actual provider, per-call cost, fallback status/metadata, token/latency values, run records, native scorer output, semantic-information matching audit, and any applicable Proofpress capsule verification record. Missing telemetry is a qualification failure, not a zero-cost observation or permission for after-the-fact aggregate reporting. ARA indexes research meaning and evidence pointers; Proofpress supplies admitted lineage and independent verification, never a benchmark agent's implicit memory or raw session transcript.",
+   "id": "d49d601a",
+   "hash": "809ad449cd66"
   }
  ]
 }

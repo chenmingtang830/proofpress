@@ -1,29 +1,29 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/research/phase1/README.md",
- "artifact_id": "pp_3628f0ea19e46c87bf454b52",
- "version": "53d9d6f2",
- "parent": "9271393c",
+ "artifact": "experiments/provenance_handoff/ara/evidence/README.md",
+ "artifact_id": "pp_d903bfb55a61339cd26f454f",
+ "version": "30dce380",
+ "parent": "1e915887",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-08T12:04:26+00:00",
+ "ts": "2026-08-08T12:04:29+00:00",
  "stats": {
   "modified": 1
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "71f8059f",
+   "block": "563cb8db",
    "type": "para",
-   "context": "Migrated Phase 1 planning inputs"
+   "context": "Current state"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:f6460fa2171ff594614db07b65c5c0679bbc6686d4996468fc6dadb7cb1854e8",
+ "soft_fingerprint": "ppsb1:5e2a8add082fef6d10cdfcd77b2bd60c79847ee5109257c2a3505987f564d9d4",
  "actors": {
   "requested_by": [
    "richard"
@@ -41,13 +41,13 @@
  "attribution_basis": "environment_attested",
  "claims": [
   {
-   "block": "71f8059f",
+   "block": "563cb8db",
    "kind": "modified",
-   "note": "Updated migrated Phase 1 status and removed the obsolete stop/narrow claim."
+   "note": "Updated evidence package status and withdrew the invalid causal gate."
   }
  ],
  "context": {
-  "why": "Synchronize the Phase 1 research index with the active carrier implementation."
+  "why": "Withdraw the invalid causal gate statement from the evidence index."
  },
- "event_id": "ppe_829884c29eb9945907e01426"
+ "event_id": "ppe_3e35f7bee1d2b775eb98b630"
 }
