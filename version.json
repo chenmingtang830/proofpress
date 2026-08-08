@@ -1,84 +1,48 @@
 {
- "artifact": "experiments/provenance_handoff/docs/ARA_PROOFPRESS.md",
- "artifact_id": "pp_888d6d87b2222eb35ce165fc",
+ "artifact": "experiments/provenance_handoff/ara/PAPER.md",
+ "artifact_id": "pp_cb6d0883f4bda071d2137869",
  "blocks": [
   {
    "type": "heading",
-   "text": "# ARA and Proofpress: Complementary Layers",
-   "id": "177f7396",
-   "hash": "e42c47ed1366"
+   "text": "# Research notebook — admitted provenance comparative study",
+   "id": "5ad8477e",
+   "hash": "1a305208da3f"
+  },
+  {
+   "type": "para",
+   "text": "**Status:** active Phase 1 is STALE/CUPMem; historic Harvey/C&H records and the internal MemConflict mechanism check are retained but do not constitute Phase 1 or a formal efficacy result.\n**Authors:** Proofpress research team (draft)\n**Year:** 2026\n**Active substrate:** STALE benchmark and its CUPMem comparison, to be pinned before treatment calls",
+   "id": "d6d1bb11",
+   "hash": "4dcddb59b5dc"
   },
   {
    "type": "heading",
-   "text": "## Separation of responsibility",
-   "id": "0ed6b13b",
-   "hash": "89170992c86e"
+   "text": "## Artifact map",
+   "id": "6ce745c5",
+   "hash": "86cbf94b78e1"
   },
   {
-   "type": "para",
-   "text": "ARA manages the research process: questions, current claims, concepts, experiment design, evidence inventory, and append-only exploration history. Proofpress records independently verifiable versions of accepted research artifacts. They overlap at a meaningful accepted revision, but they do not duplicate ownership.",
-   "id": "01219092",
-   "hash": "679f393d2624"
-  },
-  {
-   "type": "table",
-   "text": "| ARA owns | Proofpress adds |\n|---|---|\n| C/N/E identifiers, claim-to-evidence relationships, and research DAG | independently verifiable versions of a concrete artifact |\n| session before/after logic records | actor, reason, declaration, and difference for an accepted revision |\n| mutable current-state `logic/` plus append-only `trace/`, `staging/`, `evidence/` | portable, artifact-level lineage that survives outside the original repo/session |\n| scientific rigor review | evidence envelope proving integrity of named files and claimed version continuity |",
-   "id": "443f330b",
-   "hash": "87fbd79408dd"
-  },
-  {
-   "type": "para",
-   "text": "Proofpress does not decide whether an experiment result is scientifically valid; ARA's rigor-review process does. ARA does not replace the portable integrity and revision provenance of a Proofpress capsule.",
-   "id": "3aea7242",
-   "hash": "bc709024dab0"
+   "type": "list",
+   "text": "- `logic/problem.md` — why conventional handoff does not preserve accepted decision state.\n- `logic/claims.md` — falsifiable, currently testing hypotheses only.\n- `logic/concepts.md` — treatment and measurement definitions.\n- `logic/experiments.md` — gates and comparison matrix.\n- `logic/related_work.md` — historical Harvey context plus active benchmark-comparison context.\n- `logic/solution/constraints.md` — non-negotiable fairness and safety constraints.\n- `src/` — environment and experiment artifact index.\n- `trace/` — append-only decisions and session record.\n- `evidence/` — source and sanitized result index, including historical internal MemConflict evidence.",
+   "id": "b9c6dba5",
+   "hash": "8a272d978577"
   },
   {
    "type": "heading",
-   "text": "## How this study uses both",
-   "id": "2065e7cf",
-   "hash": "85343c67d896"
+   "text": "## Abstract (draft)",
+   "id": "6979663a",
+   "hash": "3513d178db19"
   },
   {
    "type": "para",
-   "text": "`ara/` is the laboratory notebook and paper-management layer. It records the active sequence—STALE/CUPMem, Memory Laundering/PPMF, MAST, then ARA/APEX—alongside historical MemConflict, Harvey, and C&H records. It is never injected into a benchmark agent's context and is not an experimental condition.",
-   "id": "35a9ce23",
-   "hash": "5897dcd22ed8"
+   "text": "This study evaluates admitted artifact provenance as a candidate intervention for documented failures in long-horizon memory, multi-agent coordination, and artifact revision. Its active first test holds the STALE task/scoring protocol fixed while comparing the native baseline and CUPMem with a semantically matched Proofpress admission ledger and a hybrid. The completed internal MemConflict check found a stale/regression reduction but no trusted-success gain over ordinary memory; it is historical mechanism evidence only because provider, cost, and fallback telemetry were missing. Outcomes preserve benchmark-native scores as primary, with auditability and efficiency reported separately, and retain null or negative results.",
+   "id": "4b96e0aa",
+   "hash": "748e4ac83242"
   },
   {
    "type": "para",
-   "text": "At a meaningful accepted research milestone, Proofpress snapshots the affected Markdown artifact—for example this protocol, an accepted `ara/logic/*.md` revision, `PAPER.md`, or a sanitized evidence index. The snapshot claims JSON points to only the changed ARA C/E/N IDs and evidence paths. The corresponding ARA session record stores the Proofpress event/evidence ID rather than duplicating full history.",
-   "id": "2d022c3f",
-   "hash": "277d7be5a99b"
-  },
-  {
-   "type": "heading",
-   "text": "## Research artifact lifecycle",
-   "id": "d833310f",
-   "hash": "371a6fbc592c"
-  },
-  {
-   "type": "code",
-   "text": "```mermaid\nflowchart LR\n  S[\"Research session\"] --> A[\"ARA: logic, trace, evidence\"]\n  A --> R[\"Accepted research revision\"]\n  R --> P[\"Proofpress portable snapshot\"]\n  P --> E[\"Evidence envelope + revision ID\"]\n  E --> T[\"ARA session record stores pointer\"]\n  T --> W[\"Paper / reproducible review package\"]\n```",
-   "id": "46a5dc29",
-   "hash": "737cd7c4dc1d"
-  },
-  {
-   "type": "para",
-   "text": "The evidence envelope validates the completeness and identity of named files. It does not certify that a research conclusion is true. That boundary is intentional and should be stated in the paper.",
-   "id": "5583bdb9",
-   "hash": "0c00e7292fcc"
-  },
-  {
-   "type": "heading",
-   "text": "## Installed dependency",
-   "id": "afa232dc",
-   "hash": "31cb5d217562"
-  },
-  {
-   "type": "para",
-   "text": "The official ARA source is cloned locally at `third_party/ara-source`; the official installer added six repository-local Codex skills under `.codex/skills/`. Both are ignored to prevent a vendored external project or local agent configuration from being committed. Reinstall/verify instructions and the fixed upstream commit are in `ara/UPSTREAM.md`.",
-   "id": "d20a0aae",
-   "hash": "c528e0a78aba"
+   "text": "The historical MemConflict result is a mechanism boundary, not a product claim: provenance may help a receiver notice stale authority in a controlled reversal fixture, but ordinary memory remained at least as good on the primary trusted-success endpoint. STALE/CUPMem is the active Phase 1 test.",
+   "id": "4249cd4c",
+   "hash": "67e72a93989f"
   }
  ]
 }

@@ -1,29 +1,53 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/docs/ARA_PROOFPRESS.md",
- "artifact_id": "pp_888d6d87b2222eb35ce165fc",
- "version": "2cc31a4b",
- "parent": "bd6dd7e9",
+ "artifact": "experiments/provenance_handoff/ara/PAPER.md",
+ "artifact_id": "pp_cb6d0883f4bda071d2137869",
+ "version": "f031f4cb",
+ "parent": "1a901ac9",
  "author": {
   "name": "codex",
   "kind": "agent",
   "session": null
  },
  "note": null,
- "ts": "2026-08-08T10:46:29+00:00",
+ "ts": "2026-08-08T10:46:31+00:00",
  "stats": {
-  "modified": 1
+  "modified": 5
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "35a9ce23",
+   "block": "5ad8477e",
+   "type": "heading",
+   "context": "Research notebook — admitted provenance "
+  },
+  {
+   "kind": "modified",
+   "block": "d6d1bb11",
    "type": "para",
-   "context": "How this study uses both"
+   "context": "Research notebook — admitted provenance "
+  },
+  {
+   "kind": "modified",
+   "block": "b9c6dba5",
+   "type": "list",
+   "context": "Artifact map"
+  },
+  {
+   "kind": "modified",
+   "block": "4b96e0aa",
+   "type": "para",
+   "context": "Abstract (draft)"
+  },
+  {
+   "kind": "modified",
+   "block": "4249cd4c",
+   "type": "para",
+   "context": "Abstract (draft)"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:d84fa93f7af2fc78fa5ef5a62c540e4e2d608bb387c2119f6d46d6c49ab17be8",
+ "soft_fingerprint": "ppsb1:b91b54556a7d76de4cf3b499ff7536715b25d5a57404405409d8d5e9a4800573",
  "actors": {
   "requested_by": [
    "richardtang"
@@ -41,13 +65,13 @@
  "attribution_basis": "environment_attested",
  "claims": [
   {
-   "block": "35a9ce23",
+   "block": "d6d1bb11",
    "kind": "modified",
-   "note": "Updated the active research sequence and separated historical routes."
+   "note": "Updated active substrate, status, and claim boundary for STALE/CUPMem."
   }
  ],
  "context": {
-  "why": "Update the research-management sequence to the user-approved benchmark order."
+  "why": "Align the research-notebook paper framing with the active STALE/CUPMem Phase 1."
  },
- "event_id": "ppe_e65e661599354ea3a2ebd0de"
+ "event_id": "ppe_61623eed202a7298e46cf59f"
 }
