@@ -1,29 +1,29 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/ara/src/environment.md",
- "artifact_id": "pp_d4f0f4ca5617c9d0528dea8e",
- "version": "d3d2a251",
- "parent": "ca35d5e5",
+ "artifact": "experiments/provenance_handoff/ara/evidence/README.md",
+ "artifact_id": "pp_d903bfb55a61339cd26f454f",
+ "version": "1e915887",
+ "parent": "f1c814c9",
  "author": {
   "name": "unknown",
   "kind": "agent",
   "session": null
  },
  "note": null,
- "ts": "2026-08-08T11:21:42+00:00",
+ "ts": "2026-08-08T11:21:48+00:00",
  "stats": {
   "modified": 1
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "a84a1149",
-   "type": "list",
-   "context": "Environment"
+   "block": "563cb8db",
+   "type": "para",
+   "context": "Current state"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:a71a8f6b6d4e46722318506f0aae889e2f3d7130cecbcde2f5702d12194ff872",
+ "soft_fingerprint": "ppsb1:43e6803853266fa1a6c6dec02a127b160ea569bbd5565822eb634d80e988bc17",
  "actors": {
   "requested_by": [
    "user"
@@ -41,13 +41,13 @@
  "attribution_basis": "environment_attested",
  "claims": [
   {
-   "block": "a84a1149",
+   "block": "563cb8db",
    "kind": "modified",
-   "note": "Updates the execution state to the completed pilot and stop/narrow gate."
+   "note": "Indexes the machine-readable pilot result and records that no confirmatory matrix ran."
   }
  ],
  "context": {
-  "why": "Synchronize the ARA environment index with the completed Phase 1 pilot gate."
+  "why": "Index the machine-readable STALE/CUPMem pilot result and its non-confirmatory boundary."
  },
- "event_id": "ppe_a9526db8e65e614fe4033643"
+ "event_id": "ppe_76d8ab70161bdd5013f086b2"
 }

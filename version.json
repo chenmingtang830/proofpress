@@ -1,18 +1,54 @@
 {
- "artifact": "experiments/provenance_handoff/ara/src/environment.md",
- "artifact_id": "pp_d4f0f4ca5617c9d0528dea8e",
+ "artifact": "experiments/provenance_handoff/ara/evidence/README.md",
+ "artifact_id": "pp_d903bfb55a61339cd26f454f",
  "blocks": [
   {
    "type": "heading",
-   "text": "# Environment",
-   "id": "a548e2e8",
-   "hash": "4d65b7458bc8"
+   "text": "# Evidence index",
+   "id": "1fd7cb93",
+   "hash": "1287755cd4bb"
   },
   {
-   "type": "list",
-   "text": "- **Experiment repository**: `/Users/richardtang/proofpress-dev/experiments/provenance_handoff`\n- **Experiment runtime**: Python project managed with `uv`; current lightweight modules are `pp_eval/`.\n- **Active upstream target**: STALE benchmark data plus the pinned CUPMem implementation revision recorded in the Phase 1 pilot report. Harvey LAB v1.0 remains an archived prototype target.\n- **ARA upstream**: `https://github.com/ARA-Labs/Agent-Native-Research-Artifact`, local source commit `35981edc35c51413d291ab8e504ea7c907fd67e7`.\n- **External data home**: `PROOFPRESS_EVAL_HOME`; raw data/traces/results stay there.\n- **Planned model transport**: selected only at the STALE freeze gate, with exact requested/resolved model, provider, cost, retries, and fallback state recorded per call. Vercel/Gateway, OpenRouter/Novita, and unversioned-Flash records are archived transport history, not active routing requirements. Credentials remain outside Git.\n- **Core model policy**: one homogeneous model team with `high` effort per workflow attempt; Proofpress itself never makes a model call.\n- **Gateway evidence rule**: every model call must record requested/resolved model, actual provider, Gateway `usage.cost`, fallback status/metadata, token values, and latency. A record lacking any required telemetry remains audit-visible but is not qualified for a formal result; a wrapper-local `$0` is never substituted.\n- **Execution state**: historical Harvey/Gateway qualification is stopped and unqualified. Its event logs and aborted manifest remain failed transport evidence, never treatment evidence. The active STALE Phase 1 exploratory pilot is complete and triggered the pre-registered stop/narrow gate; no held-out confirmatory run is claimed.",
-   "id": "a84a1149",
-   "hash": "297436040bb3"
+   "type": "heading",
+   "text": "## Current state",
+   "id": "2f55c2b1",
+   "hash": "5ae697c46c4b"
+  },
+  {
+   "type": "para",
+   "text": "There is no Gateway C0/C3 empirical outcome in this artifact. The PSA qualification slice stopped in C0 after 37 Chat Completions calls and `$0.093275` actual cost: that endpoint returned unversioned Flash and omitted routing metadata. A minimal OpenResponses probe returned exact 0731 and detailed dynamic provider/fallback attempts but no `usage.cost`. These controlled records establish an endpoint-level telemetry mismatch, not support for any hypothesis; C3 and the scorer did not run. Archived OpenRouter/Novita and unversioned-Flash smoke records remain historical operational evidence only.",
+   "id": "687aeafa",
+   "hash": "d92a039e07aa"
+  },
+  {
+   "type": "para",
+   "text": "The active evidence target is the STALE/CUPMem Phase 1 result package. Its upstream input freeze passed: the official repository commit and complete 400-case dataset hash/schema are recorded in `../../research/phase1/upstream_lock.json`. The exploratory S0–S3 pilot and official native scorer are recorded in `../../research/phase1/pilot_report.json`: S0 1/6, S1 6/6, S2 1/6, S3 5/6. The pre-registered stop/narrow gate fired because CUPMem matched or beat S3 on every native dimension in the sampled T1/T2 records; no held-out confirmatory matrix was run. The independent internal MemConflict mechanism check remains historical evidence only.",
+   "id": "563cb8db",
+   "hash": "b5ad68504964"
+  },
+  {
+   "type": "para",
+   "text": "The package contains aggregate metrics and SHA-256 pointers only; raw prompts, traces, credentials, and model outputs remain outside Git in `PROOFPRESS_EVAL_HOME`.",
+   "id": "4a2a703a",
+   "hash": "9ff64506f60c"
+  },
+  {
+   "type": "heading",
+   "text": "## Design inputs",
+   "id": "a8111b7b",
+   "hash": "d5db9f9978e7"
+  },
+  {
+   "type": "table",
+   "text": "| ID | Item | Role | Location |\n|---|---|---|---|\n| E01 | Harvey LAB repository/architecture | task and official harness substrate | https://github.com/harveyai/harvey-labs |\n| E02 | Harvey LAB v1.0 tutorial | execution/model adapter reference | https://github.com/harveyai/harvey-labs/blob/v1.0/docs/tutorial.md |\n| E03 | Google agent-system architecture study | rationale for fixed centralized architecture | https://arxiv.org/abs/2512.08296 |\n| E04 | ARA paper/repository | research-artifact management structure | https://arxiv.org/abs/2604.24658 |\n| E05 | Proofpress protocol/docs in this repository | portable artifact-lineage mechanism | `../../README.md` and `../../docs/` |",
+   "id": "fb3d38b9",
+   "hash": "7775914bf23a"
+  },
+  {
+   "type": "para",
+   "text": "Active STALE result entries must name the frozen configuration, task/source hashes, CUPMem revision, requested/resolved model, actual provider, per-call cost, fallback status/metadata, token/latency values, run records, native scorer output, semantic-information matching audit, and any applicable Proofpress capsule verification record. Missing telemetry is a qualification failure, not a zero-cost observation or permission for after-the-fact aggregate reporting. ARA indexes research meaning and evidence pointers; Proofpress supplies admitted lineage and independent verification, never a benchmark agent's implicit memory or raw session transcript.",
+   "id": "d49d601a",
+   "hash": "809ad449cd66"
   }
  ]
 }
