@@ -1,29 +1,41 @@
 {
  "event": "version_created",
- "artifact": "ara/logic/experiments.md",
- "artifact_id": "pp_15fb7a0bcf0891f7cee01068",
- "version": "8a4de38a",
- "parent": "8bd781ff",
+ "artifact": "docs/RESEARCH_PLAN.md",
+ "artifact_id": "pp_00e96ce828caea19ac7221ae",
+ "version": "2c93614d",
+ "parent": "db1ef479",
  "author": {
   "name": "codex",
   "kind": "agent",
-  "session": "gateway-luna-terra-20260807"
+  "session": "gateway-luna-terra-retry-20260807"
  },
  "note": null,
- "ts": "2026-08-08T02:49:13+00:00",
+ "ts": "2026-08-08T02:52:49+00:00",
  "stats": {
-  "modified": 1
+  "modified": 2
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "0b9f8f55",
-   "type": "list",
-   "context": "E06: Gateway Harvey B0 baseline and SAS "
+   "block": "37044759",
+   "type": "para",
+   "context": "Decision in one sentence"
+  },
+  {
+   "kind": "modified",
+   "block": "8cf1443c",
+   "type": "para",
+   "context": "Model plan",
+   "numbers": [
+    [
+     "1",
+     "$0"
+    ]
+   ]
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:c4fcb42c0b8cece738b154788f1bc965196251b63fb1cb6951d0ab7adf6805c1",
+ "soft_fingerprint": "ppsb1:6597caeb8dcb75f13ad49f06a0e41f4e9320485d45fbd108ae3649bb909cd27d",
  "actors": {
   "requested_by": [
    "richardtang"
@@ -41,13 +53,18 @@
  "attribution_basis": "environment_attested",
  "claims": [
   {
-   "block": "0b9f8f55",
+   "block": "37044759",
    "kind": "modified",
-   "note": "Updates E06 with the staged Luna/Terra protocol, telemetry, budgets, and analysis boundary."
+   "note": "Records Luna/Terra v1's pre-inference failure and the independently authorized v2 retry."
+  },
+  {
+   "block": "8cf1443c",
+   "kind": "modified",
+   "note": "Records the scalar reasoning-field root cause and preserves v1 cost gaps."
   }
  ],
  "context": {
-  "why": "User authorized a staged GPT-5.6 Luna execution and Terra blind-scoring qualification after archived Gateway failures."
+  "why": "The user authorized a new immutable v2 retry after v1 failed before inference at Gateway parameter validation."
  },
- "event_id": "ppe_2bef5960b7e8147ae657f2bf"
+ "event_id": "ppe_e74a540aa921cfa90650d83c"
 }
