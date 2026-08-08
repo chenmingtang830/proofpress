@@ -58,9 +58,9 @@
   },
   {
    "type": "para",
-   "text": "The first implementation checks are positive but not efficacy evidence: T1 carrier integrity passed and both flat-state (`P2`) and real-carrier (`P3`) successors scored 3/3; a CUPMem-derived T2 carrier scored 0/3 because the upstream CUPMem trace itself failed to admit the newly introduced scorpion fact. A decoupled admission-producer smoke path captured the T2 scorpion evidence but omitted the Portland location state, demonstrating a writer-coverage failure that must be measured as an admission failure, not hidden as a Proofpress task result. The machine-readable implementation records remain outside the repository until the carrier contract and parity audit are frozen.",
+   "text": "The earlier T1/T2 implementation smoke outputs are not efficacy evidence and do not score the new P2 projection: P2 now receives the same current and historical state text, evidence, and timing as P3, while withholding only provenance semantics. The qualification matrix must rerun carrier integrity, writer coverage, P2/P3 semantic parity, full-session CUPMem, and official scorer compatibility before any task score is interpreted. Writer omissions, including the earlier scorpion/Portland coverage gap, remain admission failures rather than hidden Proofpress task failures.",
    "id": "aa5e763b",
-   "hash": "604925e8f89d"
+   "hash": "e006eaadd134"
   },
   {
    "type": "heading",
@@ -220,9 +220,9 @@
   },
   {
    "type": "para",
-   "text": "Report point estimates and uncertainty; T1/T2 breakdowns; each STALE dimension; paired deltas versus S1; exclusions and parity violations; tokens, latency, and cost overhead; and all negative/null outcomes. Claim an accuracy benefit only from the native measures. Claim an auditability benefit only from the secondary audit measures.",
+   "text": "Report point estimates and uncertainty; T1/T2 breakdowns; each STALE dimension; the paired P3−P2 primary delta and V1−V0 reproduction delta; exclusions and parity violations; tokens, latency, and cost overhead; and all negative/null outcomes. Claim an accuracy benefit only from the native measures. Claim an auditability benefit only from the secondary audit measures.",
    "id": "ad09e58a",
-   "hash": "c61428ec94a4"
+   "hash": "0ab283540d44"
   },
   {
    "type": "heading",
