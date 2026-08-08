@@ -1,47 +1,47 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/docs/RESEARCH_PLAN.md",
- "artifact_id": "pp_00e96ce828caea19ac7221ae",
- "version": "e62487d9",
- "parent": "c37b1585",
+ "artifact": "experiments/provenance_handoff/docs/EXECUTION_PLAN.md",
+ "artifact_id": "pp_120f0f61aa69ad67431b9659",
+ "version": "41a14d74",
+ "parent": "91203cea",
  "author": {
   "name": "codex",
   "kind": "agent",
   "session": null
  },
  "note": null,
- "ts": "2026-08-08T10:45:51+00:00",
+ "ts": "2026-08-08T10:45:54+00:00",
  "stats": {
   "modified": 4
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "211f3829",
+   "block": "3beda344",
    "type": "heading",
-   "context": "Archived planning record — Harvey/C&H si"
+   "context": "Archived execution record — Harvey/C&H s"
   },
   {
    "kind": "modified",
-   "block": "bb2e63a1",
+   "block": "6743bd05",
    "type": "heading",
    "context": "Supersession notice"
   },
   {
    "kind": "modified",
-   "block": "37044759",
+   "block": "941fa27e",
    "type": "para",
    "context": "Supersession notice"
   },
   {
    "kind": "modified",
-   "block": "6e8d4f21",
+   "block": "f62ad8be",
    "type": "para",
-   "context": "Supersession notice"
+   "context": "Purpose and execution boundary"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:2d626fa0afc3e4edcd5569306946eea861fe837054d27202c7a8fc14ec1b5498",
+ "soft_fingerprint": "ppsb1:5ba814eb00713e6a55a21ae75af7bc457e72bb78ad6b25a89014c1afce613c87",
  "actors": {
   "requested_by": [
    "richardtang"
@@ -59,23 +59,13 @@
  "attribution_basis": "environment_attested",
  "claims": [
   {
-   "block": "211f3829",
-   "kind": "modified",
-   "note": "Marked the Harvey/C&H plan as archived."
-  },
-  {
-   "block": "37044759",
-   "kind": "modified",
-   "note": "Added the superseding STALE protocol notice."
-  },
-  {
-   "block": "6e8d4f21",
-   "kind": "modified",
-   "note": "Kept prior results as historical material only."
+   "block": "941fa27e",
+   "kind": "added",
+   "note": "Recorded that STALE/CUPMem, not C&H, is the active Phase 1."
   }
  ],
  "context": {
-  "why": "Mark the prior Harvey/C&H plan as archived so it cannot authorize the active research route."
+  "why": "Make STALE/CUPMem the sole active Phase 1 execution plan."
  },
- "event_id": "ppe_71679055f11d9280146f2d3c"
+ "event_id": "ppe_b0efc61c7b158e1a38e159f1"
 }
