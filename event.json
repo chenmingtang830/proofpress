@@ -2,15 +2,15 @@
  "event": "version_created",
  "artifact": "experiments/provenance_handoff/ara/src/environment.md",
  "artifact_id": "pp_d4f0f4ca5617c9d0528dea8e",
- "version": "8c9f2424",
- "parent": "b3df50b2",
+ "version": "7bce8de2",
+ "parent": "8c9f2424",
  "author": {
-  "name": "codex-preflight",
-  "kind": "system",
+  "name": "unknown",
+  "kind": "human",
   "session": null
  },
- "note": "best-effort fallback capture; edit attribution unknown",
- "ts": "2026-08-08T12:06:25+00:00",
+ "note": null,
+ "ts": "2026-08-08T12:07:07+00:00",
  "stats": {
   "modified": 1
  },
@@ -23,12 +23,31 @@
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:8125f9cddb3c01404e750cae3ba0abd2df094590f6968a4fc93700d51192fef9",
+ "soft_fingerprint": "ppsb1:c4b1f5d5c38e84b23a8e7c40fff23b1cca663d064b9105e6765b4df0ba573d18",
  "actors": {
+  "requested_by": [
+   "richard"
+  ],
+  "produced_by": [
+   "codex"
+  ],
+  "edited_by": [
+   "codex"
+  ],
   "recorded_by": [
-   "codex-preflight"
+   "codex"
   ]
  },
- "attribution_basis": "harness_attested",
- "event_id": "ppe_323ec36694ae0747cd672571"
+ "attribution_basis": "environment_attested",
+ "claims": [
+  {
+   "block": "a84a1149",
+   "kind": "modified",
+   "note": "Updated active execution state to production-carrier implementation."
+  }
+ ],
+ "context": {
+  "why": "Record the final active Phase 1 carrier wording."
+ },
+ "event_id": "ppe_1c2ee20798a2845ab8f3f999"
 }
