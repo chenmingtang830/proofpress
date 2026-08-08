@@ -1,55 +1,40 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/ara/logic/experiments.md",
- "artifact_id": "pp_15fb7a0bcf0891f7cee01068",
- "version": "4df64693",
- "parent": "99a0e96f",
+ "artifact": "experiments/provenance_handoff/ara/evidence/README.md",
+ "artifact_id": "pp_d903bfb55a61339cd26f454f",
+ "version": "702ecfcb",
+ "parent": "ddf0c7b6",
  "author": {
   "name": "codex-preflight",
   "kind": "system",
   "session": null
  },
  "note": "best-effort fallback capture; edit attribution unknown",
- "ts": "2026-08-08T10:42:39+00:00",
+ "ts": "2026-08-08T10:42:51+00:00",
  "stats": {
-  "modified": 2,
-  "added": 2
+  "modified": 2
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "09bca4f7",
-   "type": "heading",
-   "context": "E07: Historical MemConflict mechanism ch"
+   "block": "563cb8db",
+   "type": "para",
+   "context": "Current state"
   },
   {
    "kind": "modified",
-   "block": "0c502e6c",
-   "type": "list",
-   "context": "E07: Historical MemConflict mechanism ch"
-  },
-  {
-   "kind": "added",
-   "block": "958a5698",
-   "type": "heading",
-   "context": "E08: Active STALE / CUPMem Phase 1",
-   "preview": "## E08: Active STALE / CUPMem Phase 1"
-  },
-  {
-   "kind": "added",
-   "block": "28fb9f31",
-   "type": "list",
-   "context": "E08: Active STALE / CUPMem Phase 1",
-   "preview": "- **Question**: Does an admitted Proofpress ledger improve S"
+   "block": "d49d601a",
+   "type": "para",
+   "context": "Design inputs"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:2703122ee4c47101d86820d605a758341a9500cea24cead5e79056ae5b0fd9d4",
+ "soft_fingerprint": "ppsb1:19435196a11b8656786ba64d49e01ee277be3b6e562d70e2efa917afea5c8d25",
  "actors": {
   "recorded_by": [
    "codex-preflight"
   ]
  },
  "attribution_basis": "harness_attested",
- "event_id": "ppe_cdfdae8d618cf0f95b6921f3"
+ "event_id": "ppe_3b638084e1cc8b86ab30416e"
 }
