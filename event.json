@@ -1,41 +1,41 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/docs/RUNBOOK.md",
- "artifact_id": "pp_5a5be3541fb656ff12959b48",
- "version": "a094ef9b",
- "parent": "f5e948a5",
+ "artifact": "experiments/provenance_handoff/docs/ARCHITECTURE.md",
+ "artifact_id": "pp_b36338c1e353bb457f78ad8c",
+ "version": "475d14d4",
+ "parent": "92b020bb",
  "author": {
   "name": "codex",
   "kind": "agent",
   "session": null
  },
  "note": null,
- "ts": "2026-08-08T10:45:59+00:00",
+ "ts": "2026-08-08T10:46:26+00:00",
  "stats": {
   "modified": 3
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "45913f0c",
+   "block": "7c8825e6",
    "type": "heading",
-   "context": "Archived runbook — Harvey/C&H implementa"
+   "context": "Archived architecture — Harvey/C&H workf"
   },
   {
    "kind": "modified",
-   "block": "f5bd2d6f",
+   "block": "6ce64306",
    "type": "heading",
    "context": "Supersession notice"
   },
   {
    "kind": "modified",
-   "block": "513837a8",
+   "block": "4e00d031",
    "type": "para",
    "context": "Supersession notice"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:f4788da4ef71bbcb8c27f36d19aa99bf7c387ef4641a7dccad9e69cf231df524",
+ "soft_fingerprint": "ppsb1:41165d7403e51ac11c12b68ac8c25a294f05e15e3f1d649e550aff9ce8df7395",
  "actors": {
   "requested_by": [
    "richardtang"
@@ -53,23 +53,38 @@
  "attribution_basis": "environment_attested",
  "claims": [
   {
-   "block": "45913f0c",
+   "block": "7ad9bc6b",
    "kind": "modified",
-   "note": "Marked the Harvey/C&H runbook as archived."
+   "note": "Archived the former centralized workflow contract."
   },
   {
-   "block": "f5bd2d6f",
+   "block": "ac99cf68",
    "kind": "modified",
-   "note": "Added a supersession notice."
+   "note": "Preserved former workflow context as historical."
   },
   {
-   "block": "513837a8",
+   "block": "ecd15f49",
    "kind": "modified",
-   "note": "Directed active work to the STALE protocol."
+   "note": "Retained fixed-variable documentation as archival context."
+  },
+  {
+   "block": "4d4c2dcd",
+   "kind": "modified",
+   "note": "Retained the prior treatment representation only as history."
+  },
+  {
+   "block": "61634a19",
+   "kind": "modified",
+   "note": "Redirected the active architecture to STALE/CUPMem."
+  },
+  {
+   "block": "c417481e",
+   "kind": "modified",
+   "note": "Preserved the old isolated-handoff diagnostic boundary as history."
   }
  ],
  "context": {
-  "why": "Prevent the archived Harvey/C&H runbook from being used for active Phase 1 work."
+  "why": "Archive the Harvey/C&H workflow architecture and direct Phase 1 to STALE/CUPMem."
  },
- "event_id": "ppe_a9332dbf3c0fad59a6293024"
+ "event_id": "ppe_f8756724a3d0215b505b8150"
 }

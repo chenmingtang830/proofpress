@@ -1,150 +1,132 @@
 {
- "artifact": "experiments/provenance_handoff/docs/RUNBOOK.md",
- "artifact_id": "pp_5a5be3541fb656ff12959b48",
+ "artifact": "experiments/provenance_handoff/docs/ARCHITECTURE.md",
+ "artifact_id": "pp_b36338c1e353bb457f78ad8c",
  "blocks": [
   {
    "type": "heading",
-   "text": "# Archived runbook — Harvey/C&H implementation",
-   "id": "45913f0c",
-   "hash": "4c8844fd4698"
+   "text": "# Archived architecture — Harvey/C&H workflow",
+   "id": "7c8825e6",
+   "hash": "ebb66cc8af74"
   },
   {
    "type": "heading",
    "text": "## Supersession notice",
-   "id": "f5bd2d6f",
+   "id": "6ce64306",
    "hash": "1e100dd983e3"
   },
   {
    "type": "para",
-   "text": "This runbook preserves an earlier Harvey/C&H implementation proposal. It is not current operating guidance and must not be used to start a model run. Phase 1 is the STALE/CUPMem comparison defined in [STALE_PHASE1_PLAN.md](STALE_PHASE1_PLAN.md); its implementation will receive a dedicated runbook after the upstream data and CUPMem revision are frozen. No command below is Phase 1 evidence.",
-   "id": "513837a8",
-   "hash": "15a16090029d"
+   "text": "This document records the prior Harvey/C&H workflow design. It is archived, not an active architecture for Phase 1. The active Phase 1 uses STALE's defined conflict scenarios and its baseline/CUPMem memory interface; the Proofpress treatment is limited to a matched admitted ledger, as specified in [STALE_PHASE1_PLAN.md](STALE_PHASE1_PLAN.md).",
+   "id": "4e00d031",
+   "hash": "5aabd4258779"
   },
   {
    "type": "heading",
-   "text": "## 0. Review and freeze",
-   "id": "68f369ef",
-   "hash": "c4a36ddc23c3"
-  },
-  {
-   "type": "para",
-   "text": "Review `docs/`, `ara/`, the model roster, task list, role prompts, and gate thresholds. Create a dated frozen configuration under `configs/frozen/` before Gate 0. Never edit a frozen configuration in place; supersede it with a new named configuration and a reason. The review order and exact exit criteria are in `docs/EXECUTION_PLAN.md`.",
-   "id": "2cfafc41",
-   "hash": "ea12a27e72e0"
-  },
-  {
-   "type": "heading",
-   "text": "## 1. Isolated data home",
-   "id": "41733d4e",
-   "hash": "78b26139eb35"
+   "text": "## Fixed centralized multi-agent system",
+   "id": "dd991385",
+   "hash": "b43486ed00a7"
   },
   {
    "type": "code",
-   "text": "```bash\nexport PROOFPRESS_EVAL_HOME=/Users/richardtang/.cache/proofpress-eval\nmkdir -p \"$PROOFPRESS_EVAL_HOME\"\n```",
-   "id": "2b5160c3",
-   "hash": "51d514881616"
+   "text": "```mermaid\nsequenceDiagram\n    participant H as Harvey harness\n    participant O as Central orchestrator\n    participant W1 as Specialist worker 1\n    participant W2 as Specialist worker 2\n    participant W3 as Specialist worker 3\n    H->>O: Task workspace + instruction\n    O->>W1: Delegate domain review\n    O->>W2: Delegate domain review\n    O->>W3: Delegate domain review\n    W1-->>O: Specialist artifact\n    W2-->>O: Specialist artifact\n    W3-->>O: Specialist artifact\n    O->>O: Accept/reject/merge findings; synthesize final memo + tracker\n    O-->>H: Final deliverable + run manifest\n    H->>H: Official rubric + provenance checks\n```",
+   "id": "7ad9bc6b",
+   "hash": "c98e72dd35b6"
   },
   {
    "type": "para",
-   "text": "This data home holds upstream task copies, credentials supplied through environment variables or a local keychain, source documents, raw model traces, and result packages. None of those raw materials belongs in Git. Set `OPENROUTER_API_KEY` only in the execution environment; never paste it into a frozen config, trace, or review package.",
-   "id": "4d311793",
-   "hash": "a36690dff6d0"
+   "text": "There is one orchestrator **role**, shown once because it plans/delegates and later synthesizes in fresh sessions. The three specialists are parallel workers, not a serial handoff chain, and do not message peers. C1 and C2 both use the same shared ordinary workspace state: `coordination.md` plus normal worker artifacts. In C2 only, deterministic Proofpress code records and verifies native lineage on selected worker artifacts, adoption/rejection/merge decisions, and final outputs. No role carries private memory between stages.",
+   "id": "ac99cf68",
+   "hash": "ad0f88cc725c"
   },
   {
    "type": "heading",
-   "text": "## 2. Obtain the pinned Harvey runtime",
-   "id": "66c239ae",
-   "hash": "b90b5e57f90b"
+   "text": "## What stays constant",
+   "id": "63b87997",
+   "hash": "fbca9e35fb0c"
+  },
+  {
+   "type": "table",
+   "text": "| Controlled factor | Rule |\n|---|---|\n| Task | same pinned Harvey task ID, source files, hashes, deliverable, scorer |\n| Architecture | same orchestrator role, three parallel specialist roles, fan-out/synthesis schedule, revision cap, and fresh-session rule |\n| Tools | same official Harvey tool policy and sandbox |\n| Model | same exact homogeneous-team configuration within a paired comparison |\n| Budget | same trial-level billable input-plus-output token cap; all repeated context, ordinary memory, Proofpress metadata, and tool output count |\n| Isolated diagnostic | all representations derive from one frozen canonical checkpoint history |\n| End-to-end workflow | all arms start from the same task, but later artifacts may diverge as the treatment accumulates |\n| Judge | official Harvey rubric blind to arm; provenance audit blind to arm/model labels |",
+   "id": "ecd15f49",
+   "hash": "517b5eeaf495"
+  },
+  {
+   "type": "heading",
+   "text": "## Accepted follow-up: what varies",
+   "id": "5cc08239",
+   "hash": "ebc1a06d6a7d"
   },
   {
    "type": "code",
-   "text": "```bash\ngit clone --branch v1.0 https://github.com/harveyai/harvey-labs \"$PROOFPRESS_EVAL_HOME/upstream/harvey-labs\"\ngit -C \"$PROOFPRESS_EVAL_HOME/upstream/harvey-labs\" checkout --detach 1da4750171bc5a534960b3d82d15ba7fd2cf653f\ncd \"$PROOFPRESS_EVAL_HOME/upstream/harvey-labs\"\n./scripts/setup.sh\n```",
-   "id": "1a2fbd61",
-   "hash": "af9fa195745c"
+   "text": "```mermaid\nflowchart TB\n  T[\"Pinned Harvey task\"] --> S[\"C0 SAS\\nunified session/history\"]\n  T --> M[\"C1 centralized-memory\\n3 parallel workers + coordination.md\"]\n  T --> P[\"C2 centralized-memory-proofpress\\nsame C1 + embedded lineage\"]\n  M --> R[\"Harvey scorer\"]\n  P --> R\n  S --> R\n```",
+   "id": "4d4c2dcd",
+   "hash": "49da730f634b"
   },
   {
    "type": "para",
-   "text": "Before downloading task assets, record free disk, upstream `git rev-parse HEAD`, Harvey's dependency lock/runtime version, the task license, and a file manifest. Follow Harvey's own installation, credentials, and sandbox requirements rather than substituting an unrelated local runner.",
-   "id": "e2fe1025",
-   "hash": "60e7284b98ec"
+   "text": "The centralized communication baseline is deliberately strong: C1 and C2 may both read and update one ordinary prose `coordination.md`, alongside ordinary worker artifacts. It contains decisions, rationale, open questions, and next actions, but C1 contains no typed source class, decision/acceptance status, authority, signatures/hashes, capsule identifiers, or verification state. C2 keeps that same sidecar and adds native lineage to actual worker findings, orchestration decisions, and final artifacts. Proofpress adds no legal facts, better model, source document, or secret evaluator. The primary fair question is therefore “normal shared-memory team workflow versus the identical workflow augmented with artifact-native admitted lineage.”",
+   "id": "61634a19",
+   "hash": "a0633baaaa84"
   },
   {
    "type": "heading",
-   "text": "## 3. Gate 0: official harness validation",
-   "id": "5499e953",
-   "hash": "e83bbb1d634a"
+   "text": "## Lineage capsule contract",
+   "id": "0e8827af",
+   "hash": "ea61f9ee86c8"
   },
   {
    "type": "para",
-   "text": "Use the upstream tutorial's task-description, run, and evaluation entry points against one pinned task and a model for which credentials are available. The exact command syntax must be copied from the checked-out v1.0 tutorial at execution time, because adapter arguments and supported model identifiers evolve. If the OpenRouter adapter is used, validate its concrete model slug, disabled fallbacks, pinned provider routing, and resolved response metadata before any arm comparison. Save the command, environment-free config, model ID, task hash, result package hash, official score, tokens, duration, and exit status.",
-   "id": "af309dcb",
-   "hash": "0a01baf110ce"
-  },
-  {
-   "type": "para",
-   "text": "Gate 0 passes only if the task completes without changing the task semantics or scorer. A failed setup is a runtime issue, not a negative Proofpress result.",
-   "id": "18bd5ac0",
-   "hash": "cc2dd1f09fd7"
-  },
-  {
-   "type": "heading",
-   "text": "## 4. Implement the official-harness wrapper",
-   "id": "15e322ff",
-   "hash": "cb1847d1b120"
-  },
-  {
-   "type": "para",
-   "text": "Add an adapter that schedules V0–V4 through the Harvey runner while keeping the upstream task directory/scorer intact. Add a deterministic materializer for latest-artifact, ordinary memory, raw history files, and Proofpress lineage. Before any comparison run, add contract tests for:",
-   "id": "493ed3dc",
-   "hash": "90cf09f141d7"
+   "text": "At each accepted V1–V4 checkpoint, the capsule is embedded in the current artifact and records only the claims touched at that checkpoint. Each claim may carry:",
+   "id": "86fb7f8d",
+   "hash": "08d47ac477f8"
   },
   {
    "type": "list",
-   "text": "- one canonical checkpoint history deterministically materializes `mas-artifact`, `mas-memory`, `mas-memory-chain`, and `mas-proofpress-lineage`;\n- public task resources hash identically before and after every receiver;\n- the multi-agent arm prompts have no arm name or treatment disclosure;\n- visible handoff token budgets are within 5%;\n- every receiver is a fresh process/session;\n- each workflow run uses the same exact model and `high` effort at all five roles;\n- OpenRouter cannot silently use `auto`, a latest alias, a fallback provider, or an unresolved model;\n- Proofpress capsules pass import/verify and tampering is recorded as invalid;\n- the official scorer receives an arm-blind final artifact;\n- resume never overwrites a completed run or hides a failed attempt.",
-   "id": "e5d31059",
-   "hash": "38fd3ae8139a"
+   "text": "- source/evidence pointer and source class;\n- decision status (`proposed`, `accepted`, `rejected`, `superseded`, or `conditional`);\n- scope, rationale, actor/role, and acceptance authority;\n- rejection reason or explicit reversal condition when one exists;\n- parent artifact/version hash and verification result.",
+   "id": "ed5ec874",
+   "hash": "38fc6181aba9"
+  },
+  {
+   "type": "para",
+   "text": "The wrapper must verify each embedded capsule before a receiver receives it. A failed verification is a run-level operational event; it may not be silently repaired into a clean treatment input.",
+   "id": "c7b43102",
+   "hash": "e5479175f2f4"
   },
   {
    "type": "heading",
-   "text": "## 5. Gate 1a: isolated-handoff mechanism diagnostic",
-   "id": "612e6e2c",
-   "hash": "96b7c7c70ebf"
+   "text": "## Isolated handoff diagnostic versus end-to-end workflow",
+   "id": "184f0405",
+   "hash": "92d32493f287"
   },
   {
    "type": "para",
-   "text": "Freeze two Harvey tasks, two critical handoff boundaries, one homogeneous reference team, and paired `mas-memory`/`mas-proofpress-lineage` material. Hold upstream checkpoint content constant and run each fresh receiver three times: `2 tasks × 2 boundaries × 2 arms × 3 = 24` receiver-only calls. This is not a substitute for the full workflow; it asks whether the representation itself changes recovery when upstream content is identical.",
-   "id": "5dd3f763",
-   "hash": "96170032b328"
-  },
-  {
-   "type": "para",
-   "text": "Generate an arm-blind provenance audit set and record whether any observed target error is a genuine decision regression, unsupported authority upgrade, correct reversal, or false block. Stop if control inputs contain no target error or if arm isolation is not genuine.",
-   "id": "7e7eb44e",
-   "hash": "8eecec0ab3f7"
+   "text": "The primary study is end-to-end: it measures the system effect across one fan-out/synthesis trial. The completed isolated sidecar diagnostic is retained as an operational check only. It is not rerun or used as a replacement baseline until a future native-carrier mechanism test is justified. A later C3 may remove `coordination.md` to test replacement, but the primary C1-versus-C2 comparison deliberately does not.",
+   "id": "c417481e",
+   "hash": "b33422104ac1"
   },
   {
    "type": "heading",
-   "text": "## 6. Gate 1b, fixed-model matrix, and robustness sweep",
-   "id": "97f97430",
-   "hash": "69bd9e47abc3"
+   "text": "## Homogeneous model teams and transport",
+   "id": "0eba534e",
+   "hash": "4e71ae57fbf0"
   },
   {
    "type": "para",
-   "text": "After a reviewable Gate 1a, run the 12-workflow end-to-end mechanism gate: `2 tasks × 2 arms (memory, Proofpress) × 3 attempts`, with five model stages and no revision. Only then freeze the six-task, five-arm fixed-model matrix. Finally run the two-arm cross-model sweep. Keep all runs on the Harvey harness. The sweep tests model interaction; it does not claim a harness comparison. Budget, pricing, model availability, rate limits, provider resolution, and routing changes are execution conditions.",
-   "id": "9645d311",
-   "hash": "13028d411161"
+   "text": "For one workflow slice, OP, E, D, W, and OR all use the same exact model and `high` effort. This prevents a role-model assignment from masquerading as a handoff effect. The Harvey task and scorer remain fixed; an OpenRouter adapter is only a transport layer. It uses concrete model slugs, no `auto` routing, no version aliases, no fallbacks, pinned provider routing, and logs the resolved provider/model, request settings, tokens, and cost metadata.",
+   "id": "95a47d98",
+   "hash": "14dbf87da9a2"
   },
   {
    "type": "heading",
-   "text": "## 7. Package results for review",
-   "id": "ac917bfb",
-   "hash": "f2d8173a5260"
+   "text": "## Reversal test",
+   "id": "97e7f533",
+   "hash": "23a2b7831b4e"
   },
   {
    "type": "para",
-   "text": "For each frozen slice, publish only a sanitized review package in Git: configuration, source/task manifests, artifact/trace hashes, aggregate CSV/JSON, plots, blinded audit metadata, and a small license-permitted example. Keep raw task documents, full traces, credentials, and any restricted materials in the external data home. Update `ara/evidence/` with result pointers and use Proofpress snapshots only when a research artifact is meaningfully accepted or revised.",
-   "id": "67f97c4e",
-   "hash": "f1e40f603fa6"
+   "text": "The desired behavior is neither blind obedience to history nor casual overwriting. When a later source changes a factual premise, or an explicit expiry/reversal condition is met, the receiver should identify the prior accepted decision, cite the new evidence, and produce a superseding decision. The scorer distinguishes this correct reversal from a decision regression and from a false block.",
+   "id": "0d02d03b",
+   "hash": "cb46ba2ba2c3"
   }
  ]
 }
