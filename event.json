@@ -1,29 +1,29 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/ara/logic/experiments.md",
- "artifact_id": "pp_15fb7a0bcf0891f7cee01068",
- "version": "7557333d",
- "parent": "d8e671e0",
+ "artifact": "experiments/provenance_handoff/ara/PAPER.md",
+ "artifact_id": "pp_cb6d0883f4bda071d2137869",
+ "version": "d4ea9112",
+ "parent": "f031f4cb",
  "author": {
   "name": "unknown",
   "kind": "agent",
   "session": null
  },
  "note": null,
- "ts": "2026-08-08T11:22:10+00:00",
+ "ts": "2026-08-08T11:22:16+00:00",
  "stats": {
   "modified": 1
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "28fb9f31",
-   "type": "list",
-   "context": "E08: Active STALE / CUPMem Phase 1"
+   "block": "d6d1bb11",
+   "type": "para",
+   "context": "Research notebook — admitted provenance "
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:a1b1a4d198d40d458e751e5c525a85cead161acc22173471c68adf169e012f5b",
+ "soft_fingerprint": "ppsb1:5460b09c0748b2cecf4c610775ee3086a6dd34987caeb6b0dfe9be1fa6c7d60e",
  "actors": {
   "requested_by": [
    "user"
@@ -41,13 +41,13 @@
  "attribution_basis": "environment_attested",
  "claims": [
   {
-   "block": "28fb9f31",
+   "block": "d6d1bb11",
    "kind": "modified",
-   "note": "Records the E08 pilot score and stop/narrow disposition."
+   "note": "Updates the research notebook status and active substrate after the pilot gate."
   }
  ],
  "context": {
-  "why": "Update the ARA experiment index with the measured E08 pilot and its pre-registered stop/narrow outcome."
+  "why": "Update the research notebook status after the STALE/CUPMem pilot gate."
  },
- "event_id": "ppe_e0f5c02faf55e36010026883"
+ "event_id": "ppe_7cc0561d596965a583b0d4e6"
 }
