@@ -1,29 +1,29 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/ara/logic/experiments.md",
- "artifact_id": "pp_15fb7a0bcf0891f7cee01068",
- "version": "d8e671e0",
- "parent": "4df64693",
+ "artifact": "experiments/provenance_handoff/docs/STALE_PHASE1_PLAN.md",
+ "artifact_id": "pp_6cf0c8f0e4ef1cb9c59aae65",
+ "version": "78f2c71f",
+ "parent": "57384204",
  "author": {
   "name": "codex",
   "kind": "agent",
   "session": null
  },
  "note": null,
- "ts": "2026-08-08T10:46:51+00:00",
+ "ts": "2026-08-08T10:46:54+00:00",
  "stats": {
   "modified": 1
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "28fb9f31",
-   "type": "list",
-   "context": "E08: Active STALE / CUPMem Phase 1"
+   "block": "05b3cc93",
+   "type": "para",
+   "context": "Status and scope"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:41ac824c2169783e310a16f21cdd06af9253c227f1a73c64fab8a21c83e3da10",
+ "soft_fingerprint": "ppsb1:d46c5c95831fa797da18b3e8d9d60cf125f60ec286f2b992eb4e05412f7b0a9f",
  "actors": {
   "requested_by": [
    "richardtang"
@@ -41,28 +41,13 @@
  "attribution_basis": "environment_attested",
  "claims": [
   {
-   "block": "09bca4f7",
+   "block": "05b3cc93",
    "kind": "modified",
-   "note": "Reclassified MemConflict as a historical mechanism check."
-  },
-  {
-   "block": "0c502e6c",
-   "kind": "modified",
-   "note": "Kept the null-result boundary separate from STALE."
-  },
-  {
-   "block": "958a5698",
-   "kind": "added",
-   "note": "Added the active STALE/CUPMem experiment record."
-  },
-  {
-   "block": "28fb9f31",
-   "kind": "added",
-   "note": "Recorded the four-condition protocol and input-freeze state."
+   "note": "Recorded that the upstream input-freeze passed while S0/S1 reproduction and treatments remain pending."
   }
  ],
  "context": {
-  "why": "Add the active STALE/CUPMem Phase 1 experiment and reclassify MemConflict as historical."
+  "why": "Record the passed upstream input-freeze while keeping model reproduction and treatments pending."
  },
- "event_id": "ppe_a9209a739cc8c6bd50c80d34"
+ "event_id": "ppe_fe265f552482110a83632680"
 }
