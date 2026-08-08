@@ -1,29 +1,35 @@
 {
  "event": "version_created",
- "artifact": "docs/ARA_PROOFPRESS.md",
- "artifact_id": "pp_888d6d87b2222eb35ce165fc",
- "version": "bd6dd7e9",
- "parent": "b410462e",
+ "artifact": "/Users/richardtang/proofpress-dev/docs/internal/experiments/PROVENANCE_HANDOFF_EVALUATION_PLAN.md",
+ "artifact_id": "pp_dfeff80ca8348068acae1718",
+ "version": "0a965a2f",
+ "parent": "fbedde8c",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-08T06:18:16+00:00",
+ "ts": "2026-08-08T06:18:19+00:00",
  "stats": {
-  "modified": 1
+  "modified": 2
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "35a9ce23",
+   "block": "37ed6078",
    "type": "para",
-   "context": "How this study uses both"
+   "context": "Provenance Handoff Evaluation Plan"
+  },
+  {
+   "kind": "modified",
+   "block": "632a1024",
+   "type": "para",
+   "context": "Provenance Handoff Evaluation Plan"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:cc3cd6fa4a3de20a4c240c9b627a677e7cc04273b9218190547d4245ef6378db",
+ "soft_fingerprint": "ppsb1:9b979cdbbe401b02dc6d39030ca3830ad9438f34caf11d262d7b3c5ab5cdacd2",
  "actors": {
   "requested_by": [
    "Richard Tang"
@@ -41,13 +47,18 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "35e9ce23",
+   "block": "37ed6078",
    "kind": "modified",
-   "note": "Updated ARA record to the accepted single-agent route and Harvey boundary."
+   "note": "Updated plan status and scope to the single-agent route."
+  },
+  {
+   "block": "632a1024",
+   "kind": "modified",
+   "note": "Replaced legacy SAS/MAS active estimand with the three conditions."
   }
  ],
  "context": {
-  "why": "Record the accepted research route in the ARA boundary document."
+  "why": "Promote the approved single-agent continuity route to the canonical evaluation plan."
  },
- "event_id": "ppe_8396f478505540d1ddb4a13c"
+ "event_id": "ppe_9ff34b16d1338df012b8547c"
 }
