@@ -1,42 +1,46 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/ara/logic/experiments.md",
- "artifact_id": "pp_15fb7a0bcf0891f7cee01068",
- "version": "2613e45b",
- "parent": "9b230ac2",
+ "artifact": "experiments/provenance_handoff/ara/PAPER.md",
+ "artifact_id": "pp_cb6d0883f4bda071d2137869",
+ "version": "3a1e0983",
+ "parent": "666066ef",
  "author": {
   "name": "codex-preflight",
   "kind": "system",
   "session": null
  },
  "note": "best-effort fallback capture; edit attribution unknown",
- "ts": "2026-08-08T10:25:37+00:00",
+ "ts": "2026-08-08T10:25:49+00:00",
  "stats": {
-  "added": 2
+  "modified": 3
  },
  "changes": [
   {
-   "kind": "added",
-   "block": "09bca4f7",
-   "type": "heading",
-   "context": "E07: MemConflict mechanism gate",
-   "preview": "## E07: MemConflict mechanism gate"
+   "kind": "modified",
+   "block": "d6d1bb11",
+   "type": "para",
+   "context": "Provenance-Preserving Lineage for Long-H"
   },
   {
-   "kind": "added",
-   "block": "0c502e6c",
+   "kind": "modified",
+   "block": "b9c6dba5",
    "type": "list",
-   "context": "E07: MemConflict mechanism gate",
-   "preview": "- **Question**: Does a native Proofpress continuity carrier "
+   "context": "Artifact map"
+  },
+  {
+   "kind": "modified",
+   "block": "4b96e0aa",
+   "type": "para",
+   "context": "Abstract (draft)"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:709e31c51947f8f669a3aaad31abf86312f2ecf4ad2bcc8f609948151ed41173",
+ "soft_fingerprint": "ppsb1:526f39f72742a3000975a22b0f3527a7f4165d19b2d2be90e5dd9e91d9cf0c19",
  "actors": {
   "recorded_by": [
    "codex-preflight"
   ]
  },
  "attribution_basis": "harness_attested",
- "event_id": "ppe_c0e60837286048f731e4828e"
+ "event_id": "ppe_b449d81d7bf28329e89a614b"
 }
