@@ -1,35 +1,30 @@
 {
  "event": "version_created",
- "artifact": "docs/EXECUTION_PLAN.md",
- "artifact_id": "pp_120f0f61aa69ad67431b9659",
- "version": "bfd1a55e",
- "parent": "66d3d0d5",
+ "artifact": "docs/RESULTS_MATRIX.md",
+ "artifact_id": "pp_d40d46a12d4d493fcbc9c0e9",
+ "version": "71048d6e",
+ "parent": "5e90af99",
  "author": {
   "name": "codex",
   "kind": "agent",
   "session": null
  },
  "note": null,
- "ts": "2026-08-08T02:16:58+00:00",
+ "ts": "2026-08-08T02:17:01+00:00",
  "stats": {
-  "modified": 2
+  "added": 1
  },
  "changes": [
   {
-   "kind": "modified",
-   "block": "1d585184",
+   "kind": "added",
+   "block": "19feb171",
    "type": "para",
-   "context": "Review state"
-  },
-  {
-   "kind": "modified",
-   "block": "574f6ebb",
-   "type": "table",
-   "context": "Study modes"
+   "context": "Accepted Matrix D: Gateway Harvey B0 and",
+   "preview": "Two new immutable PSA qualification slices are in flight: `g"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:3c42a3316058fb6411f3fe7a98fc6c9235d602db7e4ac10bc6f00771a0a627ec",
+ "soft_fingerprint": "ppsb1:19bbac39f96084c8906d5d08bd8fa02152bfead34e13f2f3719312d216192323",
  "actors": {
   "requested_by": [
    "richardtang"
@@ -47,18 +42,13 @@
  "attribution_basis": "environment_attested",
  "claims": [
   {
-   "block": "1d585184",
-   "kind": "modified",
-   "note": "Archives DeepSeek transport history and identifies active GLM/Gemini qualification slices."
-  },
-  {
-   "block": "574f6ebb",
-   "kind": "modified",
-   "note": "Adds the concurrent Gateway model-qualification execution mode."
+   "block": "19feb171",
+   "kind": "added",
+   "note": "Registers the two immutable in-flight model qualification slices and their budgets."
   }
  ],
  "context": {
-  "why": "Record the active model-qualification execution mode requested by the study owner."
+  "why": "Register immutable in-flight GLM and Gemini qualification slices without interpreting outcomes."
  },
- "event_id": "ppe_12048a0c15562c3a91686662"
+ "event_id": "ppe_b443a6929b90052ef4555e4c"
 }
