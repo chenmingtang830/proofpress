@@ -1,35 +1,42 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/ara/evidence/README.md",
- "artifact_id": "pp_d903bfb55a61339cd26f454f",
- "version": "a0cf1252",
- "parent": "c0b60538",
+ "artifact": "experiments/provenance_handoff/ara/logic/experiments.md",
+ "artifact_id": "pp_15fb7a0bcf0891f7cee01068",
+ "version": "2613e45b",
+ "parent": "9b230ac2",
  "author": {
   "name": "codex-preflight",
   "kind": "system",
   "session": null
  },
  "note": "best-effort fallback capture; edit attribution unknown",
- "ts": "2026-08-08T10:25:26+00:00",
+ "ts": "2026-08-08T10:25:37+00:00",
  "stats": {
-  "added": 1
+  "added": 2
  },
  "changes": [
   {
    "kind": "added",
-   "block": "563cb8db",
-   "type": "para",
-   "context": "Current state",
-   "preview": "The independent internal MemConflict mechanism gate is now c"
+   "block": "09bca4f7",
+   "type": "heading",
+   "context": "E07: MemConflict mechanism gate",
+   "preview": "## E07: MemConflict mechanism gate"
+  },
+  {
+   "kind": "added",
+   "block": "0c502e6c",
+   "type": "list",
+   "context": "E07: MemConflict mechanism gate",
+   "preview": "- **Question**: Does a native Proofpress continuity carrier "
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:a4803376ba82b342ca0c11fb8d2725178be98be4d9b0db00247235868bbdca3a",
+ "soft_fingerprint": "ppsb1:709e31c51947f8f669a3aaad31abf86312f2ecf4ad2bcc8f609948151ed41173",
  "actors": {
   "recorded_by": [
    "codex-preflight"
   ]
  },
  "attribution_basis": "harness_attested",
- "event_id": "ppe_e1510dd4a4e41e87cc0dfc33"
+ "event_id": "ppe_c0e60837286048f731e4828e"
 }
