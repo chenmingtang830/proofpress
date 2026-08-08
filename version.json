@@ -1,132 +1,84 @@
 {
- "artifact": "experiments/provenance_handoff/docs/ARCHITECTURE.md",
- "artifact_id": "pp_b36338c1e353bb457f78ad8c",
+ "artifact": "experiments/provenance_handoff/docs/ARA_PROOFPRESS.md",
+ "artifact_id": "pp_888d6d87b2222eb35ce165fc",
  "blocks": [
   {
    "type": "heading",
-   "text": "# Archived architecture — Harvey/C&H workflow",
-   "id": "7c8825e6",
-   "hash": "ebb66cc8af74"
+   "text": "# ARA and Proofpress: Complementary Layers",
+   "id": "177f7396",
+   "hash": "e42c47ed1366"
   },
   {
    "type": "heading",
-   "text": "## Supersession notice",
-   "id": "6ce64306",
-   "hash": "1e100dd983e3"
+   "text": "## Separation of responsibility",
+   "id": "0ed6b13b",
+   "hash": "89170992c86e"
   },
   {
    "type": "para",
-   "text": "This document records the prior Harvey/C&H workflow design. It is archived, not an active architecture for Phase 1. The active Phase 1 uses STALE's defined conflict scenarios and its baseline/CUPMem memory interface; the Proofpress treatment is limited to a matched admitted ledger, as specified in [STALE_PHASE1_PLAN.md](STALE_PHASE1_PLAN.md).",
-   "id": "4e00d031",
-   "hash": "5aabd4258779"
-  },
-  {
-   "type": "heading",
-   "text": "## Fixed centralized multi-agent system",
-   "id": "dd991385",
-   "hash": "b43486ed00a7"
-  },
-  {
-   "type": "code",
-   "text": "```mermaid\nsequenceDiagram\n    participant H as Harvey harness\n    participant O as Central orchestrator\n    participant W1 as Specialist worker 1\n    participant W2 as Specialist worker 2\n    participant W3 as Specialist worker 3\n    H->>O: Task workspace + instruction\n    O->>W1: Delegate domain review\n    O->>W2: Delegate domain review\n    O->>W3: Delegate domain review\n    W1-->>O: Specialist artifact\n    W2-->>O: Specialist artifact\n    W3-->>O: Specialist artifact\n    O->>O: Accept/reject/merge findings; synthesize final memo + tracker\n    O-->>H: Final deliverable + run manifest\n    H->>H: Official rubric + provenance checks\n```",
-   "id": "7ad9bc6b",
-   "hash": "c98e72dd35b6"
-  },
-  {
-   "type": "para",
-   "text": "There is one orchestrator **role**, shown once because it plans/delegates and later synthesizes in fresh sessions. The three specialists are parallel workers, not a serial handoff chain, and do not message peers. C1 and C2 both use the same shared ordinary workspace state: `coordination.md` plus normal worker artifacts. In C2 only, deterministic Proofpress code records and verifies native lineage on selected worker artifacts, adoption/rejection/merge decisions, and final outputs. No role carries private memory between stages.",
-   "id": "ac99cf68",
-   "hash": "ad0f88cc725c"
-  },
-  {
-   "type": "heading",
-   "text": "## What stays constant",
-   "id": "63b87997",
-   "hash": "fbca9e35fb0c"
+   "text": "ARA manages the research process: questions, current claims, concepts, experiment design, evidence inventory, and append-only exploration history. Proofpress records independently verifiable versions of accepted research artifacts. They overlap at a meaningful accepted revision, but they do not duplicate ownership.",
+   "id": "01219092",
+   "hash": "679f393d2624"
   },
   {
    "type": "table",
-   "text": "| Controlled factor | Rule |\n|---|---|\n| Task | same pinned Harvey task ID, source files, hashes, deliverable, scorer |\n| Architecture | same orchestrator role, three parallel specialist roles, fan-out/synthesis schedule, revision cap, and fresh-session rule |\n| Tools | same official Harvey tool policy and sandbox |\n| Model | same exact homogeneous-team configuration within a paired comparison |\n| Budget | same trial-level billable input-plus-output token cap; all repeated context, ordinary memory, Proofpress metadata, and tool output count |\n| Isolated diagnostic | all representations derive from one frozen canonical checkpoint history |\n| End-to-end workflow | all arms start from the same task, but later artifacts may diverge as the treatment accumulates |\n| Judge | official Harvey rubric blind to arm; provenance audit blind to arm/model labels |",
-   "id": "ecd15f49",
-   "hash": "517b5eeaf495"
+   "text": "| ARA owns | Proofpress adds |\n|---|---|\n| C/N/E identifiers, claim-to-evidence relationships, and research DAG | independently verifiable versions of a concrete artifact |\n| session before/after logic records | actor, reason, declaration, and difference for an accepted revision |\n| mutable current-state `logic/` plus append-only `trace/`, `staging/`, `evidence/` | portable, artifact-level lineage that survives outside the original repo/session |\n| scientific rigor review | evidence envelope proving integrity of named files and claimed version continuity |",
+   "id": "443f330b",
+   "hash": "87fbd79408dd"
+  },
+  {
+   "type": "para",
+   "text": "Proofpress does not decide whether an experiment result is scientifically valid; ARA's rigor-review process does. ARA does not replace the portable integrity and revision provenance of a Proofpress capsule.",
+   "id": "3aea7242",
+   "hash": "bc709024dab0"
   },
   {
    "type": "heading",
-   "text": "## Accepted follow-up: what varies",
-   "id": "5cc08239",
-   "hash": "ebc1a06d6a7d"
+   "text": "## How this study uses both",
+   "id": "2065e7cf",
+   "hash": "85343c67d896"
+  },
+  {
+   "type": "para",
+   "text": "`ara/` is the laboratory notebook and paper-management layer. It records the active sequence—STALE/CUPMem, Memory Laundering/PPMF, MAST, then ARA/APEX—alongside historical MemConflict, Harvey, and C&H records. It is never injected into a benchmark agent's context and is not an experimental condition.",
+   "id": "35a9ce23",
+   "hash": "5897dcd22ed8"
+  },
+  {
+   "type": "para",
+   "text": "At a meaningful accepted research milestone, Proofpress snapshots the affected Markdown artifact—for example this protocol, an accepted `ara/logic/*.md` revision, `PAPER.md`, or a sanitized evidence index. The snapshot claims JSON points to only the changed ARA C/E/N IDs and evidence paths. The corresponding ARA session record stores the Proofpress event/evidence ID rather than duplicating full history.",
+   "id": "2d022c3f",
+   "hash": "277d7be5a99b"
+  },
+  {
+   "type": "heading",
+   "text": "## Research artifact lifecycle",
+   "id": "d833310f",
+   "hash": "371a6fbc592c"
   },
   {
    "type": "code",
-   "text": "```mermaid\nflowchart TB\n  T[\"Pinned Harvey task\"] --> S[\"C0 SAS\\nunified session/history\"]\n  T --> M[\"C1 centralized-memory\\n3 parallel workers + coordination.md\"]\n  T --> P[\"C2 centralized-memory-proofpress\\nsame C1 + embedded lineage\"]\n  M --> R[\"Harvey scorer\"]\n  P --> R\n  S --> R\n```",
-   "id": "4d4c2dcd",
-   "hash": "49da730f634b"
+   "text": "```mermaid\nflowchart LR\n  S[\"Research session\"] --> A[\"ARA: logic, trace, evidence\"]\n  A --> R[\"Accepted research revision\"]\n  R --> P[\"Proofpress portable snapshot\"]\n  P --> E[\"Evidence envelope + revision ID\"]\n  E --> T[\"ARA session record stores pointer\"]\n  T --> W[\"Paper / reproducible review package\"]\n```",
+   "id": "46a5dc29",
+   "hash": "737cd7c4dc1d"
   },
   {
    "type": "para",
-   "text": "The centralized communication baseline is deliberately strong: C1 and C2 may both read and update one ordinary prose `coordination.md`, alongside ordinary worker artifacts. It contains decisions, rationale, open questions, and next actions, but C1 contains no typed source class, decision/acceptance status, authority, signatures/hashes, capsule identifiers, or verification state. C2 keeps that same sidecar and adds native lineage to actual worker findings, orchestration decisions, and final artifacts. Proofpress adds no legal facts, better model, source document, or secret evaluator. The primary fair question is therefore “normal shared-memory team workflow versus the identical workflow augmented with artifact-native admitted lineage.”",
-   "id": "61634a19",
-   "hash": "a0633baaaa84"
+   "text": "The evidence envelope validates the completeness and identity of named files. It does not certify that a research conclusion is true. That boundary is intentional and should be stated in the paper.",
+   "id": "5583bdb9",
+   "hash": "0c00e7292fcc"
   },
   {
    "type": "heading",
-   "text": "## Lineage capsule contract",
-   "id": "0e8827af",
-   "hash": "ea61f9ee86c8"
+   "text": "## Installed dependency",
+   "id": "afa232dc",
+   "hash": "31cb5d217562"
   },
   {
    "type": "para",
-   "text": "At each accepted V1–V4 checkpoint, the capsule is embedded in the current artifact and records only the claims touched at that checkpoint. Each claim may carry:",
-   "id": "86fb7f8d",
-   "hash": "08d47ac477f8"
-  },
-  {
-   "type": "list",
-   "text": "- source/evidence pointer and source class;\n- decision status (`proposed`, `accepted`, `rejected`, `superseded`, or `conditional`);\n- scope, rationale, actor/role, and acceptance authority;\n- rejection reason or explicit reversal condition when one exists;\n- parent artifact/version hash and verification result.",
-   "id": "ed5ec874",
-   "hash": "38fc6181aba9"
-  },
-  {
-   "type": "para",
-   "text": "The wrapper must verify each embedded capsule before a receiver receives it. A failed verification is a run-level operational event; it may not be silently repaired into a clean treatment input.",
-   "id": "c7b43102",
-   "hash": "e5479175f2f4"
-  },
-  {
-   "type": "heading",
-   "text": "## Isolated handoff diagnostic versus end-to-end workflow",
-   "id": "184f0405",
-   "hash": "92d32493f287"
-  },
-  {
-   "type": "para",
-   "text": "The primary study is end-to-end: it measures the system effect across one fan-out/synthesis trial. The completed isolated sidecar diagnostic is retained as an operational check only. It is not rerun or used as a replacement baseline until a future native-carrier mechanism test is justified. A later C3 may remove `coordination.md` to test replacement, but the primary C1-versus-C2 comparison deliberately does not.",
-   "id": "c417481e",
-   "hash": "b33422104ac1"
-  },
-  {
-   "type": "heading",
-   "text": "## Homogeneous model teams and transport",
-   "id": "0eba534e",
-   "hash": "4e71ae57fbf0"
-  },
-  {
-   "type": "para",
-   "text": "For one workflow slice, OP, E, D, W, and OR all use the same exact model and `high` effort. This prevents a role-model assignment from masquerading as a handoff effect. The Harvey task and scorer remain fixed; an OpenRouter adapter is only a transport layer. It uses concrete model slugs, no `auto` routing, no version aliases, no fallbacks, pinned provider routing, and logs the resolved provider/model, request settings, tokens, and cost metadata.",
-   "id": "95a47d98",
-   "hash": "14dbf87da9a2"
-  },
-  {
-   "type": "heading",
-   "text": "## Reversal test",
-   "id": "97e7f533",
-   "hash": "23a2b7831b4e"
-  },
-  {
-   "type": "para",
-   "text": "The desired behavior is neither blind obedience to history nor casual overwriting. When a later source changes a factual premise, or an explicit expiry/reversal condition is met, the receiver should identify the prior accepted decision, cite the new evidence, and produce a superseding decision. The scorer distinguishes this correct reversal from a decision regression and from a false block.",
-   "id": "0d02d03b",
-   "hash": "cb46ba2ba2c3"
+   "text": "The official ARA source is cloned locally at `third_party/ara-source`; the official installer added six repository-local Codex skills under `.codex/skills/`. Both are ignored to prevent a vendored external project or local agent configuration from being committed. Reinstall/verify instructions and the fixed upstream commit are in `ara/UPSTREAM.md`.",
+   "id": "d20a0aae",
+   "hash": "c528e0a78aba"
   }
  ]
 }

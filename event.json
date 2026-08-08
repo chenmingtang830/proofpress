@@ -1,41 +1,29 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/docs/ARCHITECTURE.md",
- "artifact_id": "pp_b36338c1e353bb457f78ad8c",
- "version": "475d14d4",
- "parent": "92b020bb",
+ "artifact": "experiments/provenance_handoff/docs/ARA_PROOFPRESS.md",
+ "artifact_id": "pp_888d6d87b2222eb35ce165fc",
+ "version": "2cc31a4b",
+ "parent": "bd6dd7e9",
  "author": {
   "name": "codex",
   "kind": "agent",
   "session": null
  },
  "note": null,
- "ts": "2026-08-08T10:46:26+00:00",
+ "ts": "2026-08-08T10:46:29+00:00",
  "stats": {
-  "modified": 3
+  "modified": 1
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "7c8825e6",
-   "type": "heading",
-   "context": "Archived architecture — Harvey/C&H workf"
-  },
-  {
-   "kind": "modified",
-   "block": "6ce64306",
-   "type": "heading",
-   "context": "Supersession notice"
-  },
-  {
-   "kind": "modified",
-   "block": "4e00d031",
+   "block": "35a9ce23",
    "type": "para",
-   "context": "Supersession notice"
+   "context": "How this study uses both"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:41165d7403e51ac11c12b68ac8c25a294f05e15e3f1d649e550aff9ce8df7395",
+ "soft_fingerprint": "ppsb1:d84fa93f7af2fc78fa5ef5a62c540e4e2d608bb387c2119f6d46d6c49ab17be8",
  "actors": {
   "requested_by": [
    "richardtang"
@@ -53,38 +41,13 @@
  "attribution_basis": "environment_attested",
  "claims": [
   {
-   "block": "7ad9bc6b",
+   "block": "35a9ce23",
    "kind": "modified",
-   "note": "Archived the former centralized workflow contract."
-  },
-  {
-   "block": "ac99cf68",
-   "kind": "modified",
-   "note": "Preserved former workflow context as historical."
-  },
-  {
-   "block": "ecd15f49",
-   "kind": "modified",
-   "note": "Retained fixed-variable documentation as archival context."
-  },
-  {
-   "block": "4d4c2dcd",
-   "kind": "modified",
-   "note": "Retained the prior treatment representation only as history."
-  },
-  {
-   "block": "61634a19",
-   "kind": "modified",
-   "note": "Redirected the active architecture to STALE/CUPMem."
-  },
-  {
-   "block": "c417481e",
-   "kind": "modified",
-   "note": "Preserved the old isolated-handoff diagnostic boundary as history."
+   "note": "Updated the active research sequence and separated historical routes."
   }
  ],
  "context": {
-  "why": "Archive the Harvey/C&H workflow architecture and direct Phase 1 to STALE/CUPMem."
+  "why": "Update the research-management sequence to the user-approved benchmark order."
  },
- "event_id": "ppe_f8756724a3d0215b505b8150"
+ "event_id": "ppe_e65e661599354ea3a2ebd0de"
 }
