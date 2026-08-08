@@ -1,41 +1,49 @@
 {
  "event": "version_created",
- "artifact": "docs/RESEARCH_PLAN.md",
- "artifact_id": "pp_00e96ce828caea19ac7221ae",
- "version": "1091d7e4",
- "parent": "2a3bfa1b",
+ "artifact": "docs/EXECUTION_PLAN.md",
+ "artifact_id": "pp_120f0f61aa69ad67431b9659",
+ "version": "55a6acbe",
+ "parent": "39e43649",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-08T03:32:56+00:00",
+ "ts": "2026-08-08T03:32:58+00:00",
  "stats": {
   "modified": 2
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "37044759",
+   "block": "1d585184",
    "type": "para",
-   "context": "Decision in one sentence"
-  },
-  {
-   "kind": "modified",
-   "block": "8cf1443c",
-   "type": "para",
-   "context": "Model plan",
+   "context": "Review state",
    "numbers": [
     [
-     "$0",
+     "400",
+     "400."
+    ],
+    [
+     "$2.00",
+     "75"
+    ],
+    [
+     "$2.003337",
      "500"
     ]
    ]
+  },
+  {
+   "kind": "modified",
+   "block": "1f0678aa",
+   "type": "table",
+   "context": "Gate sequence and exact counts"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:0cf1fa6d93ece4f4a4b034f689a466a982c5b78173e7aee005ba0f43a4780fd6",
+ "soft_fingerprint": "ppsb1:fc09df3e620ae6017f2c86a2aaae75d8243225a4b924000bb8a487b16c6af1f0",
  "actors": {
   "requested_by": [
    "richardtang"
@@ -53,18 +61,18 @@
  "attribution_basis": "environment_attested",
  "claims": [
   {
-   "block": "37044759",
+   "block": "1d585184",
    "kind": "modified",
-   "note": "Records the completed three-trial PSA execution and all nine final score cells with paired descriptive differences."
+   "note": "Records completed execution and immutable scorer-extension completion."
   },
   {
-   "block": "8cf1443c",
+   "block": "1f0678aa",
    "kind": "modified",
-   "note": "Closes the v2 and independent scorer-extension history while preserving transient failure roots."
+   "note": "Marks the trial, grading, and cross-trial gates complete with separate retry roots."
   }
  ],
  "context": {
   "why": "Records the completed three-trial Harvey PSA execution, independent scorer extensions, and final descriptive analysis."
  },
- "event_id": "ppe_bd6a7d8fdd8b6d20739af06a"
+ "event_id": "ppe_977bb41b17f90c6fc8dd1f24"
 }
