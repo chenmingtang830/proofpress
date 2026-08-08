@@ -1,29 +1,35 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/docs/STALE_PHASE1_PLAN.md",
- "artifact_id": "pp_6cf0c8f0e4ef1cb9c59aae65",
- "version": "84d6d2da",
- "parent": "ffe93a77",
+ "artifact": "experiments/provenance_handoff/research/phase1/README.md",
+ "artifact_id": "pp_3628f0ea19e46c87bf454b52",
+ "version": "9271393c",
+ "parent": "20a061de",
  "author": {
   "name": "unknown",
   "kind": "agent",
   "session": null
  },
  "note": null,
- "ts": "2026-08-08T11:18:58+00:00",
+ "ts": "2026-08-08T11:21:36+00:00",
  "stats": {
-  "modified": 1
+  "modified": 2
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "2bf59710",
+   "block": "71f8059f",
    "type": "para",
-   "context": "Exploratory pilot result (not confirmato"
+   "context": "Migrated Phase 1 planning inputs"
+  },
+  {
+   "kind": "modified",
+   "block": "507f4b15",
+   "type": "para",
+   "context": "Migrated Phase 1 planning inputs"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:b44ab9f171679020761fe96b465c2af0ab7a9104d64bf6b988cb6df98090d939",
+ "soft_fingerprint": "ppsb1:8b791c829d906b286a70fcc15e4050faae132a0664b92ba7883393919b28e2e9",
  "actors": {
   "requested_by": [
    "user"
@@ -41,13 +47,18 @@
  "attribution_basis": "environment_attested",
  "claims": [
   {
-   "block": "2bf59710",
+   "block": "71f8059f",
    "kind": "modified",
-   "note": "Records that the pre-registered CUPMem-versus-S3 stop/narrow rule fired and closes Phase 1 at a narrow pilot conclusion."
+   "note": "Marks the pilot report as the current result and the confirmatory matrix as not run."
+  },
+  {
+   "block": "507f4b15",
+   "kind": "modified",
+   "note": "Points to the current exploratory runner and records its per-query CUPMem limitation."
   }
  ],
  "context": {
-  "why": "Apply the pre-registered stop/narrow rule after the exploratory pilot: CUPMem matched or beat the hybrid on every native dimension in the sampled T1/T2 records."
+  "why": "Synchronize Phase 1 planning inputs with the completed exploratory pilot and stop/narrow disposition."
  },
- "event_id": "ppe_1d0f11d206cc8e17ca96f3f5"
+ "event_id": "ppe_0657cf7fec047aa5cc4400d2"
 }
