@@ -1,29 +1,29 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/ara/logic/experiments.md",
- "artifact_id": "pp_15fb7a0bcf0891f7cee01068",
- "version": "2f55c5e5",
- "parent": "7557333d",
+ "artifact": "experiments/provenance_handoff/ara/PAPER.md",
+ "artifact_id": "pp_cb6d0883f4bda071d2137869",
+ "version": "2be45c4c",
+ "parent": "d4ea9112",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-08T12:04:35+00:00",
+ "ts": "2026-08-08T12:04:38+00:00",
  "stats": {
   "modified": 1
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "28fb9f31",
-   "type": "list",
-   "context": "E08: Active STALE / CUPMem Phase 1"
+   "block": "d6d1bb11",
+   "type": "para",
+   "context": "Research notebook — admitted provenance "
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:2e7e07e91796e99ef0ee44108142d6d9cb46dc5a11cdf0ffbc19f8ef49757a84",
+ "soft_fingerprint": "ppsb1:6db1b2234f75e3d633e80c03d17a91c3c01a829c925eb22db973c54de0d7d97a",
  "actors": {
   "requested_by": [
    "richard"
@@ -41,13 +41,13 @@
  "attribution_basis": "environment_attested",
  "claims": [
   {
-   "block": "28fb9f31",
+   "block": "d6d1bb11",
    "kind": "modified",
-   "note": "Updated Phase 1 experiment status and causal interpretation."
+   "note": "Updated paper status to superseded pilot and active implementation."
   }
  ],
  "context": {
-  "why": "Update E08 status after invalidating the old prompt-policy comparison."
+  "why": "Update paper status to reflect the superseded pilot and active implementation."
  },
- "event_id": "ppe_ae8ca2d3e426d614edd0b2e2"
+ "event_id": "ppe_4b8547b3270ab013191a95cb"
 }
