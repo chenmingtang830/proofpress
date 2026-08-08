@@ -1,54 +1,156 @@
 {
- "artifact": "experiments/provenance_handoff/ara/evidence/README.md",
- "artifact_id": "pp_d903bfb55a61339cd26f454f",
+ "artifact": "experiments/provenance_handoff/README.md",
+ "artifact_id": "pp_556b115de711b0cd33eed260",
  "blocks": [
   {
    "type": "heading",
-   "text": "# Evidence index",
-   "id": "1fd7cb93",
-   "hash": "1287755cd4bb"
+   "text": "# Proofpress Provenance Continuity Evaluation",
+   "id": "da60723f",
+   "hash": "88671750d817"
   },
   {
    "type": "heading",
-   "text": "## Current state",
-   "id": "2f55c2b1",
-   "hash": "5ae697c46c4b"
+   "text": "## Review status",
+   "id": "0c4a8f5e",
+   "hash": "546856f064e7"
   },
   {
    "type": "para",
-   "text": "There is no Gateway C0/C3 empirical outcome in this artifact. The PSA qualification slice stopped in C0 after 37 Chat Completions calls and `$0.093275` actual cost: that endpoint returned unversioned Flash and omitted routing metadata. A minimal OpenResponses probe returned exact 0731 and detailed dynamic provider/fallback attempts but no `usage.cost`. These controlled records establish an endpoint-level telemetry mismatch, not support for any hypothesis; C3 and the scorer did not run. Archived OpenRouter/Novita and unversioned-Flash smoke records remain historical operational evidence only.",
-   "id": "687aeafa",
-   "hash": "d92a039e07aa"
+   "text": "This directory records immutable historical slices and the active comparative study of admitted artifact provenance. The sole active execution route is [STALE / CUPMem Phase 1](docs/STALE_PHASE1_PLAN.md). Historic Harvey PSA, OpenRouter/Novita, C&H, and multi-agent artifacts remain auditable history only; they are not resumed, pooled, or treated as the next experiment.",
+   "id": "d86e9669",
+   "hash": "936b6bfe2d40"
   },
   {
    "type": "para",
-   "text": "The active evidence target is the STALE/CUPMem Phase 1 freeze and result package. It has not started. The independent internal MemConflict mechanism check is complete: 72 local Codex runs across 12 reversal cases, two attempts, and three single-agent conditions. Gate A passed and Gate B failed. Proofpress reduced stale/regression errors (12.5% to 4.2%) but did not improve trusted success over ordinary memory (83.3% versus 83.3%) and had lower task success (87.5% versus 95.8%). Because this runner lacked resolved-provider, Gateway-cost, and fallback telemetry, it is historical mechanism evidence only—not Phase 1 or a formal treatment estimate. The sanitized package is `../evidence/phase1-memconflict-v1/`.",
-   "id": "563cb8db",
-   "hash": "68c937ff2205"
-  },
-  {
-   "type": "para",
-   "text": "The package contains aggregate metrics and SHA-256 pointers only; raw prompts, traces, credentials, and model outputs remain outside Git in `PROOFPRESS_EVAL_HOME`.",
-   "id": "4a2a703a",
-   "hash": "9ff64506f60c"
+   "text": "This `proofpress-dev` checkout is the canonical maintenance root for the study. `/Users/richardtang/Documents/Proofpress` is not a second source of truth and should not receive further research or documentation updates.",
+   "id": "344529db",
+   "hash": "509cbad685ea"
   },
   {
    "type": "heading",
-   "text": "## Design inputs",
-   "id": "a8111b7b",
-   "hash": "d5db9f9978e7"
-  },
-  {
-   "type": "table",
-   "text": "| ID | Item | Role | Location |\n|---|---|---|---|\n| E01 | Harvey LAB repository/architecture | task and official harness substrate | https://github.com/harveyai/harvey-labs |\n| E02 | Harvey LAB v1.0 tutorial | execution/model adapter reference | https://github.com/harveyai/harvey-labs/blob/v1.0/docs/tutorial.md |\n| E03 | Google agent-system architecture study | rationale for fixed centralized architecture | https://arxiv.org/abs/2512.08296 |\n| E04 | ARA paper/repository | research-artifact management structure | https://arxiv.org/abs/2604.24658 |\n| E05 | Proofpress protocol/docs in this repository | portable artifact-lineage mechanism | `../../README.md` and `../../docs/` |",
-   "id": "fb3d38b9",
-   "hash": "7775914bf23a"
+   "text": "## The research question",
+   "id": "13a7e0d8",
+   "hash": "005d1b935877"
   },
   {
    "type": "para",
-   "text": "Active STALE result entries must name the frozen configuration, task/source hashes, CUPMem revision, requested/resolved model, actual provider, per-call cost, fallback status/metadata, token/latency values, run records, native scorer output, semantic-information matching audit, and any applicable Proofpress capsule verification record. Missing telemetry is a qualification failure, not a zero-cost observation or permission for after-the-fact aggregate reporting. ARA indexes research meaning and evidence pointers; Proofpress supplies admitted lineage and independent verification, never a benchmark agent's implicit memory or raw session transcript.",
-   "id": "d49d601a",
-   "hash": "809ad449cd66"
+   "text": "Under the same task and budget, does a verified Proofpress continuity artifact help one agent in a fresh session recover the current justified decision better than an equal-sized ordinary memory note?",
+   "id": "efb84a51",
+   "hash": "042fc92b3d36"
+  },
+  {
+   "type": "para",
+   "text": "The study is deliberately not a claim that more context or more agents are better. It compares a continuous baseline, ordinary memory, and verified provenance; no future formal slice adds agents, roles, or raw-history conditions.",
+   "id": "51799240",
+   "hash": "413858a2a846"
+  },
+  {
+   "type": "heading",
+   "text": "## Scope and comparison",
+   "id": "2873d37b",
+   "hash": "4e91fd527af3"
+  },
+  {
+   "type": "para",
+   "text": "Phase 1 uses the upstream STALE benchmark and compares its memory baseline and CUPMem remedy with a Proofpress admission ledger and a CUPMem-plus-Proofpress hybrid. It holds the benchmark task and its three native measures fixed while adding separately reported auditability and cost observations. Earlier Harvey/C&H material is preserved below only as a historical record, not an active substrate.",
+   "id": "1030b33f",
+   "hash": "3b91498cf5b6"
+  },
+  {
+   "type": "para",
+   "text": "The active formal conditions are:",
+   "id": "48aa7881",
+   "hash": "aee80324c8e1"
+  },
+  {
+   "type": "list",
+   "text": "- `S0 — baseline`: STALE's original memory baseline.\n- `S1 — CUPMem`: the benchmark authors' state-consolidation remedy.\n- `S2 — Proofpress`: an admitted ledger with status, evidence binding, and revision lineage.\n- `S3 — hybrid`: CUPMem current-state handling plus the same Proofpress ledger.",
+   "id": "27c19da2",
+   "hash": "8daa0157b46b"
+  },
+  {
+   "type": "para",
+   "text": "The primary Phase 1 comparisons are `S2 − S0`, `S2 − S1`, and `S3 − S1`; all are reported on STALE's State Resolution, Premise Resistance, and Implicit Policy Adaptation measures. Semantic information must be matched between S1 and S2. The wider sequence is STALE/CUPMem, then Memory Laundering/PPMF, MAST, and ARA/APEX revision—not C&H.",
+   "id": "146ef700",
+   "hash": "795114f24bfa"
+  },
+  {
+   "type": "heading",
+   "text": "## What is here today",
+   "id": "949eb6a5",
+   "hash": "c7f8c0c9beb7"
+  },
+  {
+   "type": "list",
+   "text": "- `docs/STALE_PHASE1_PLAN.md` — canonical, executable Phase 1 protocol and analysis boundary.\n- `docs/RESEARCH_PLAN.md`, `docs/EXECUTION_PLAN.md`, `docs/RESULTS_MATRIX.md`, `docs/RUNBOOK.md`, and `docs/ARCHITECTURE.md` — archived Harvey/C&H planning and results records; not operating instructions.\n- `docs/ARA_PROOFPRESS.md` — ARA as research-management layer; Proofpress as independently verifiable artifact lineage.\n- `ara/` — an Agent-Native Research Artifact for this study. It contains hypotheses and decisions, not invented results.\n- `configs/gate-native-v1.draft.yaml` — a historical three-arm MAS draft, not the active Gateway contract.\n- `pp_eval/`, `suites/`, and `tests/` — the pre-existing lightweight mechanism runtime. It is retained for smoke tests and does not yet claim to execute the official Harvey harness treatment wrapper.",
+   "id": "c1ba01f6",
+   "hash": "7ab1f8726a00"
+  },
+  {
+   "type": "heading",
+   "text": "## ARA installation",
+   "id": "3b50a86f",
+   "hash": "8ba44b751699"
+  },
+  {
+   "type": "para",
+   "text": "The official ARA source has been cloned at `third_party/ara-source` and its six local Codex skills were installed under `.codex/skills/`. Both locations are ignored by Git; their source URL, commit, installation command, and role are recorded in [ara/UPSTREAM.md](ara/UPSTREAM.md). ARA is the research-management layer only. Benchmark agents never receive its files, skills, or prompts.",
+   "id": "b9231698",
+   "hash": "b53a84e22894"
+  },
+  {
+   "type": "heading",
+   "text": "## Historical internal mechanism result",
+   "id": "61817201",
+   "hash": "a759992c0360"
+  },
+  {
+   "type": "para",
+   "text": "The internal MemConflict mechanism check is complete: 12 frozen reversal cases × 2 attempts × 3 conditions = 72 local Codex runs. Gate A passed, Gate B failed. Proofpress matched ordinary memory on trusted success (83.3%), reduced stale/regression errors from 12.5% to 4.2%, but had lower task success (87.5% versus 95.8%). This is a bounded historical mechanism signal, not Phase 1 of the active research plan and not evidence of a task-quality gain. The sanitized record is in [evidence/phase1-memconflict-v1](evidence/phase1-memconflict-v1/README.md).",
+   "id": "0aa324ea",
+   "hash": "7eed56e02bc0"
+  },
+  {
+   "type": "para",
+   "text": "The historical runner recorded a requested model but not resolved provider, Gateway cost, or fallback telemetry. It is therefore not eligible for a formal model-effect estimate. Do not rerun it as if it were missing data.",
+   "id": "d293335c",
+   "hash": "fd42c130ab4d"
+  },
+  {
+   "type": "heading",
+   "text": "## Before the active Phase 1 run",
+   "id": "66569a2c",
+   "hash": "9f041b706ef4"
+  },
+  {
+   "type": "para",
+   "text": "Freeze the STALE data revision, CUPMem implementation/revision, execution model, prompt template, attempt count, randomization, semantic-information matching check, cost cap, and per-call telemetry before any treatment call. A missing required telemetry field makes a run audit-visible but ineligible for the Phase 1 primary table. The explicit stop/analysis rules are in [STALE_PHASE1_PLAN.md](docs/STALE_PHASE1_PLAN.md).",
+   "id": "1fa1b7ec",
+   "hash": "aba45ca1d631"
+  },
+  {
+   "type": "heading",
+   "text": "## Existing lightweight smoke runtime",
+   "id": "f0c71c2d",
+   "hash": "0c264b5b3db6"
+  },
+  {
+   "type": "para",
+   "text": "The existing `pp-eval` commands still work for local fixture validation:",
+   "id": "0c725a2a",
+   "hash": "7514b91a9fd0"
+  },
+  {
+   "type": "code",
+   "text": "```bash\nexport PROOFPRESS_EVAL_HOME=/Users/richardtang/.cache/proofpress-eval\ncd /Users/richardtang/proofpress-dev/experiments/provenance_handoff\nuv sync --frozen\nuv run pp-eval doctor --suite smoke-v1 --data-home \"$PROOFPRESS_EVAL_HOME\"\nuv run pp-eval build --suite smoke-v1 --data-home \"$PROOFPRESS_EVAL_HOME\"\nuv run pp-eval run --suite memconflict-v1 --data-home \"$PROOFPRESS_EVAL_HOME\" --arms baseline_continuous,ordinary_memory,proofpress_provenance --runner codex --model gpt-5.6-luna --attempts 2 --concurrency 1\nuv run pp-eval grade --suite smoke-v1 --data-home \"$PROOFPRESS_EVAL_HOME\"\nuv run pp-eval report --suite smoke-v1 --data-home \"$PROOFPRESS_EVAL_HOME\"\n```",
+   "id": "bc21a929",
+   "hash": "c0bce71c77db"
+  },
+  {
+   "type": "para",
+   "text": "Those fixtures validate package construction, isolation, recording, and reports only. They are not a substitute for the STALE/CUPMem Phase 1 study described in `docs/STALE_PHASE1_PLAN.md`.",
+   "id": "36223643",
+   "hash": "65fc8a265755"
   }
  ]
 }
