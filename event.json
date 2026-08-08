@@ -1,49 +1,29 @@
 {
  "event": "version_created",
- "artifact": "docs/EXECUTION_PLAN.md",
- "artifact_id": "pp_120f0f61aa69ad67431b9659",
- "version": "55a6acbe",
- "parent": "39e43649",
+ "artifact": "docs/RESULTS_MATRIX.md",
+ "artifact_id": "pp_d40d46a12d4d493fcbc9c0e9",
+ "version": "c6615a1f",
+ "parent": "559b3da1",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-08T03:32:58+00:00",
+ "ts": "2026-08-08T03:33:01+00:00",
  "stats": {
-  "modified": 2
+  "modified": 1
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "1d585184",
+   "block": "19feb171",
    "type": "para",
-   "context": "Review state",
-   "numbers": [
-    [
-     "400",
-     "400."
-    ],
-    [
-     "$2.00",
-     "75"
-    ],
-    [
-     "$2.003337",
-     "500"
-    ]
-   ]
-  },
-  {
-   "kind": "modified",
-   "block": "1f0678aa",
-   "type": "table",
-   "context": "Gate sequence and exact counts"
+   "context": "Accepted Matrix D: Gateway Harvey B0 and"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:fc09df3e620ae6017f2c86a2aaae75d8243225a4b924000bb8a487b16c6af1f0",
+ "soft_fingerprint": "ppsb1:33201b3ffd742e5559fa6b54ed054d571f40a096b49457028407317c4a8b6e50",
  "actors": {
   "requested_by": [
    "richardtang"
@@ -61,18 +41,13 @@
  "attribution_basis": "environment_attested",
  "claims": [
   {
-   "block": "1d585184",
+   "block": "19feb171",
    "kind": "modified",
-   "note": "Records completed execution and immutable scorer-extension completion."
-  },
-  {
-   "block": "1f0678aa",
-   "kind": "modified",
-   "note": "Marks the trial, grading, and cross-trial gates complete with separate retry roots."
+   "note": "Records all nine completed PSA score cells and the permitted descriptive contrasts."
   }
  ],
  "context": {
   "why": "Records the completed three-trial Harvey PSA execution, independent scorer extensions, and final descriptive analysis."
  },
- "event_id": "ppe_977bb41b17f90c6fc8dd1f24"
+ "event_id": "ppe_f4ec0d4fe2fdf11ac92f6428"
 }
