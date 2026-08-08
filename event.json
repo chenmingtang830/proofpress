@@ -1,95 +1,47 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/README.md",
- "artifact_id": "pp_556b115de711b0cd33eed260",
- "version": "1a2134e5",
- "parent": "00175864",
+ "artifact": "experiments/provenance_handoff/docs/RESEARCH_PLAN.md",
+ "artifact_id": "pp_00e96ce828caea19ac7221ae",
+ "version": "e62487d9",
+ "parent": "c37b1585",
  "author": {
   "name": "codex",
   "kind": "agent",
   "session": null
  },
  "note": null,
- "ts": "2026-08-08T10:45:48+00:00",
+ "ts": "2026-08-08T10:45:51+00:00",
  "stats": {
-  "modified": 11
+  "modified": 4
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "d86e9669",
-   "type": "para",
-   "context": "Review status"
-  },
-  {
-   "kind": "modified",
-   "block": "1030b33f",
-   "type": "para",
-   "context": "Scope and comparison",
-   "numbers": [
-    [
-     "0",
-     "1"
-    ]
-   ]
-  },
-  {
-   "kind": "modified",
-   "block": "27c19da2",
-   "type": "list",
-   "context": "Scope and comparison"
-  },
-  {
-   "kind": "modified",
-   "block": "146ef700",
-   "type": "para",
-   "context": "Scope and comparison"
-  },
-  {
-   "kind": "modified",
-   "block": "c1ba01f6",
-   "type": "list",
-   "context": "What is here today"
-  },
-  {
-   "kind": "modified",
-   "block": "61817201",
+   "block": "211f3829",
    "type": "heading",
-   "context": "Historical internal mechanism result"
+   "context": "Archived planning record — Harvey/C&H si"
   },
   {
    "kind": "modified",
-   "block": "0aa324ea",
-   "type": "para",
-   "context": "Historical internal mechanism result"
-  },
-  {
-   "kind": "modified",
-   "block": "d293335c",
-   "type": "para",
-   "context": "Historical internal mechanism result"
-  },
-  {
-   "kind": "modified",
-   "block": "66569a2c",
+   "block": "bb2e63a1",
    "type": "heading",
-   "context": "Before the active Phase 1 run"
+   "context": "Supersession notice"
   },
   {
    "kind": "modified",
-   "block": "1fa1b7ec",
+   "block": "37044759",
    "type": "para",
-   "context": "Before the active Phase 1 run"
+   "context": "Supersession notice"
   },
   {
    "kind": "modified",
-   "block": "36223643",
+   "block": "6e8d4f21",
    "type": "para",
-   "context": "Existing lightweight smoke runtime"
+   "context": "Supersession notice"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:da515f26f5910779cbf649e4355f3562806723087820698cedb7217ff45289ea",
+ "soft_fingerprint": "ppsb1:2d626fa0afc3e4edcd5569306946eea861fe837054d27202c7a8fc14ec1b5498",
  "actors": {
   "requested_by": [
    "richardtang"
@@ -107,38 +59,23 @@
  "attribution_basis": "environment_attested",
  "claims": [
   {
-   "block": "344529db",
-   "kind": "added",
-   "note": "Recorded proofpress-dev as the only maintained study checkout."
-  },
-  {
-   "block": "61817201",
+   "block": "211f3829",
    "kind": "modified",
-   "note": "Reclassified the prior mechanism result as historical."
+   "note": "Marked the Harvey/C&H plan as archived."
   },
   {
-   "block": "0aa324ea",
-   "kind": "added",
-   "note": "Preserved the historical MemConflict result and its boundary."
-  },
-  {
-   "block": "d293335c",
-   "kind": "added",
-   "note": "Recorded the historical telemetry limitation."
-  },
-  {
-   "block": "66569a2c",
-   "kind": "added",
-   "note": "Added the active pre-run gate."
-  },
-  {
-   "block": "1fa1b7ec",
+   "block": "37044759",
    "kind": "modified",
-   "note": "Replaced the C&H route with STALE/CUPMem Phase 1."
+   "note": "Added the superseding STALE protocol notice."
+  },
+  {
+   "block": "6e8d4f21",
+   "kind": "modified",
+   "note": "Kept prior results as historical material only."
   }
  ],
  "context": {
-  "why": "Supersede the C&H route with the user-approved STALE/CUPMem Phase 1 while preserving historical evidence."
+  "why": "Mark the prior Harvey/C&H plan as archived so it cannot authorize the active research route."
  },
- "event_id": "ppe_42e3c0feb2d8cb116728f7dc"
+ "event_id": "ppe_71679055f11d9280146f2d3c"
 }
