@@ -1,24 +1,18 @@
 {
- "artifact": "experiments/provenance_handoff/ara/src/artifacts.md",
- "artifact_id": "pp_291b3809bccf45f00ecbdf3e",
+ "artifact": "experiments/provenance_handoff/ara/src/environment.md",
+ "artifact_id": "pp_d4f0f4ca5617c9d0528dea8e",
  "blocks": [
   {
    "type": "heading",
-   "text": "# Experiment artifact index",
-   "id": "22426eb6",
-   "hash": "2fcf38b2db2b"
+   "text": "# Environment",
+   "id": "a548e2e8",
+   "hash": "4d65b7458bc8"
   },
   {
-   "type": "table",
-   "text": "| Artifact | Role | Status |\n|---|---|---|\n| `README.md` | entry point and review boundary | updated for active STALE/CUPMem Phase 1 |\n| `docs/RESEARCH_PLAN.md` | preregistration-style protocol | draft for review |\n| `docs/ARCHITECTURE.md` | workflow/treatment specification | draft for review |\n| `docs/EXECUTION_PLAN.md` | staged implementation, model transport, and gate sequence | draft for review |\n| `docs/RESULTS_MATRIX.md` | result matrices and interpretation rules | draft for review |\n| `docs/RUNBOOK.md` | operational prerequisites | draft for review |\n| `docs/ARA_PROOFPRESS.md` | layer-boundary explanation | draft for review |\n| `configs/*.template.yaml` | freezeable workflow, model, gate, and OpenRouter transport contracts | placeholders pending review/access check |\n| `pp_eval/models.py`, `pp_eval/arms.py`, `pp_eval/suite.py` | existing lightweight mechanism runtime | retained as historical/internal tooling; STALE adapter pending |\n| `pp_eval/datasets.py` | upstream pins and sparse substrate preparation | existing |\n| `suites/*.json` | local technical fixtures | retained; not primary paper data |\n| `tests/test_eval.py` | existing mechanism runtime tests | retained |",
-   "id": "1d77e0a6",
-   "hash": "507ddd9dcaf1"
-  },
-  {
-   "type": "para",
-   "text": "The active implementation target is a STALE adapter, pinned CUPMem comparison, semantically matched Proofpress carrier, and sanitized Phase 1 result manifest. The Harvey/C&H wrapper is archived and not pending work.",
-   "id": "9136fe62",
-   "hash": "6f8d2c17c80c"
+   "type": "list",
+   "text": "- **Experiment repository**: `/Users/richardtang/proofpress-dev/experiments/provenance_handoff`\n- **Experiment runtime**: Python project managed with `uv`; current lightweight modules are `pp_eval/`.\n- **Active upstream target**: STALE benchmark data plus a pinned CUPMem implementation revision, to be recorded in the Phase 1 freeze manifest. Harvey LAB v1.0 remains an archived prototype target.\n- **ARA upstream**: `https://github.com/ARA-Labs/Agent-Native-Research-Artifact`, local source commit `35981edc35c51413d291ab8e504ea7c907fd67e7`.\n- **External data home**: `PROOFPRESS_EVAL_HOME`; raw data/traces/results stay there.\n- **Planned model transport**: selected only at the STALE freeze gate, with exact requested/resolved model, provider, cost, retries, and fallback state recorded per call. Vercel/Gateway, OpenRouter/Novita, and unversioned-Flash records are archived transport history, not active routing requirements. Credentials remain outside Git.\n- **Core model policy**: one homogeneous model team with `high` effort per workflow attempt; Proofpress itself never makes a model call.\n- **Gateway evidence rule**: every model call must record requested/resolved model, actual provider, Gateway `usage.cost`, fallback status/metadata, token values, and latency. A record lacking any required telemetry remains audit-visible but is not qualified for a formal result; a wrapper-local `$0` is never substituted.\n- **Execution state**: historical Harvey/Gateway qualification is stopped and unqualified. Its event logs and aborted manifest remain failed transport evidence, never treatment evidence. The active STALE Phase 1 has not begun; no scored call is authorized until its independent data, CUPMem, model, telemetry, and semantic-matching freeze gate passes.",
+   "id": "a84a1149",
+   "hash": "d60b71b34222"
   }
  ]
 }
