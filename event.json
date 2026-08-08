@@ -1,32 +1,68 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/ara/src/environment.md",
- "artifact_id": "pp_d4f0f4ca5617c9d0528dea8e",
- "version": "7bce8de2",
- "parent": "8c9f2424",
+ "artifact": "experiments/provenance_handoff/docs/STALE_PHASE1_PLAN.md",
+ "artifact_id": "pp_6cf0c8f0e4ef1cb9c59aae65",
+ "version": "1ab49a67",
+ "parent": "a143e7f7",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-08T12:07:07+00:00",
+ "ts": "2026-08-08T17:40:55+00:00",
  "stats": {
-  "modified": 1
+  "modified": 7
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "a84a1149",
+   "block": "05b3cc93",
+   "type": "para",
+   "context": "Status and scope"
+  },
+  {
+   "kind": "modified",
+   "block": "c6455aa4",
+   "type": "para",
+   "context": "Current production-carrier pilot"
+  },
+  {
+   "kind": "modified",
+   "block": "d8ad0219",
+   "type": "table",
+   "context": "Frozen conditions"
+  },
+  {
+   "kind": "modified",
+   "block": "6ff9f4db",
+   "type": "para",
+   "context": "Frozen conditions"
+  },
+  {
+   "kind": "modified",
+   "block": "9785fbaa",
+   "type": "para",
+   "context": "Primary measures and comparisons"
+  },
+  {
+   "kind": "modified",
+   "block": "fbc3ab99",
    "type": "list",
-   "context": "Environment"
+   "context": "Execution sequence"
+  },
+  {
+   "kind": "modified",
+   "block": "6bccbf52",
+   "type": "para",
+   "context": "Pilot, confirmatory gate, and reporting"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:c4b1f5d5c38e84b23a8e7c40fff23b1cca663d064b9105e6765b4df0ba573d18",
+ "soft_fingerprint": "ppsb1:5c82fef90215daa206930b2f1f41ad4e0e480a11ef80bd8983a1f51fe66e3aa7",
  "actors": {
   "requested_by": [
-   "richard"
+   "richardtang"
   ],
   "produced_by": [
    "codex"
@@ -41,13 +77,43 @@
  "attribution_basis": "environment_attested",
  "claims": [
   {
-   "block": "a84a1149",
+   "block": "05b3cc93",
    "kind": "modified",
-   "note": "Updated active execution state to production-carrier implementation."
+   "note": "Replaced the in-progress pilot status with the Nano-first, Luna-gated four-arm matrix."
+  },
+  {
+   "block": "c6455aa4",
+   "kind": "modified",
+   "note": "Recorded the batch runner, P2 projection, immutable records, and blinded scorer adapter."
+  },
+  {
+   "block": "d8ad0219",
+   "kind": "modified",
+   "note": "Defined V0, V1, P2, and P3 with their fairness boundaries."
+  },
+  {
+   "block": "6ff9f4db",
+   "kind": "modified",
+   "note": "Added the per-scenario parity and length-matching requirement."
+  },
+  {
+   "block": "9785fbaa",
+   "kind": "modified",
+   "note": "Set P3 minus P2 as the primary causal comparison."
+  },
+  {
+   "block": "fbc3ab99",
+   "kind": "modified",
+   "note": "Recorded qualification, full Nano execution, and the Luna gate sequence."
+  },
+  {
+   "block": "6bccbf52",
+   "kind": "modified",
+   "note": "Recorded formal telemetry and Luna launch gates."
   }
  ],
  "context": {
-  "why": "Record the final active Phase 1 carrier wording."
+  "why": "Replace the superseded prompt-policy framing with a production four-arm Nano-first Phase 1 matrix and predeclared Luna replication gate."
  },
- "event_id": "ppe_1c2ee20798a2845ab8f3f999"
+ "event_id": "ppe_55609effb97376bc43f68507"
 }
