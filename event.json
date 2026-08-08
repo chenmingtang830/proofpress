@@ -1,37 +1,35 @@
 {
  "event": "version_created",
- "artifact": "docs/RESEARCH_PLAN.md",
- "artifact_id": "pp_00e96ce828caea19ac7221ae",
- "version": "58351185",
- "parent": "f613dcac",
+ "artifact": "docs/EXECUTION_PLAN.md",
+ "artifact_id": "pp_120f0f61aa69ad67431b9659",
+ "version": "bfd1a55e",
+ "parent": "66d3d0d5",
  "author": {
   "name": "codex",
   "kind": "agent",
   "session": null
  },
  "note": null,
- "ts": "2026-08-08T02:16:56+00:00",
+ "ts": "2026-08-08T02:16:58+00:00",
  "stats": {
-  "modified": 1,
-  "added": 1
+  "modified": 2
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "37044759",
+   "block": "1d585184",
    "type": "para",
-   "context": "Decision in one sentence"
+   "context": "Review state"
   },
   {
-   "kind": "added",
-   "block": "8cf1443c",
-   "type": "para",
-   "context": "Model plan",
-   "preview": "The current GLM 5.2 and Gemini 3.1 Flash Lite slices are imm"
+   "kind": "modified",
+   "block": "574f6ebb",
+   "type": "table",
+   "context": "Study modes"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:f3b615ca0268bf0a978f7b0430e9a18f39690fc1096d7b3b738b9ec51cfabcb7",
+ "soft_fingerprint": "ppsb1:3c42a3316058fb6411f3fe7a98fc6c9235d602db7e4ac10bc6f00771a0a627ec",
  "actors": {
   "requested_by": [
    "richardtang"
@@ -49,18 +47,18 @@
  "attribution_basis": "environment_attested",
  "claims": [
   {
-   "block": "37044759",
+   "block": "1d585184",
    "kind": "modified",
-   "note": "Records GLM and Gemini B0/C0/C3 qualification before any fixed-model estimand."
+   "note": "Archives DeepSeek transport history and identifies active GLM/Gemini qualification slices."
   },
   {
-   "block": "8cf1443c",
-   "kind": "added",
-   "note": "Defines isolated concurrent model-slice and telemetry/budget disqualification rules."
+   "block": "574f6ebb",
+   "kind": "modified",
+   "note": "Adds the concurrent Gateway model-qualification execution mode."
   }
  ],
  "context": {
-  "why": "Record concurrent GLM and Gemini Gateway qualification slices requested by the study owner."
+  "why": "Record the active model-qualification execution mode requested by the study owner."
  },
- "event_id": "ppe_2d60db29346390aa2a0649ba"
+ "event_id": "ppe_12048a0c15562c3a91686662"
 }
