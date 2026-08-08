@@ -2,28 +2,28 @@
  "event": "version_created",
  "artifact": "experiments/provenance_handoff/README.md",
  "artifact_id": "pp_556b115de711b0cd33eed260",
- "version": "06624e76",
- "parent": "3711931e",
+ "version": "6e3e7d3f",
+ "parent": "06624e76",
  "author": {
   "name": "unknown",
   "kind": "agent",
   "session": null
  },
  "note": null,
- "ts": "2026-08-08T11:23:21+00:00",
+ "ts": "2026-08-08T11:23:54+00:00",
  "stats": {
   "modified": 1
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "1fa1b7ec",
-   "type": "para",
-   "context": "Phase 1 pilot disposition"
+   "block": "66569a2c",
+   "type": "heading",
+   "context": "Phase 1 pilot disposition — stop/narrow "
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:246b6a715c5b3af1dbeef558be574ca7c798931e449dcaa67b93712711dc0369",
+ "soft_fingerprint": "ppsb1:33b9a5641c2ecc16f0d9394502fc91df1302c38e7fe427bbe305f034d50373fc",
  "actors": {
   "requested_by": [
    "user"
@@ -43,16 +43,11 @@
   {
    "block": "66569a2c",
    "kind": "modified",
-   "note": "Renames the pre-run section to the Phase 1 pilot disposition."
-  },
-  {
-   "block": "1fa1b7ec",
-   "kind": "modified",
-   "note": "Records the completed pilot scores and stop/narrow gate in the repository index."
+   "note": "Clarifies in the index heading that Phase 1 ended at the stop/narrow gate."
   }
  ],
  "context": {
-  "why": "Record the pilot disposition paragraph and its raw-data boundary as an explicit ledger claim."
+  "why": "Clarify the repository index heading after the Phase 1 stop/narrow gate."
  },
- "event_id": "ppe_acb2993c9920bdc46970abbb"
+ "event_id": "ppe_388d465a294ae706e4fa33ed"
 }
