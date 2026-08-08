@@ -1,29 +1,35 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/ara/PAPER.md",
- "artifact_id": "pp_cb6d0883f4bda071d2137869",
- "version": "d4ea9112",
- "parent": "f031f4cb",
+ "artifact": "experiments/provenance_handoff/README.md",
+ "artifact_id": "pp_556b115de711b0cd33eed260",
+ "version": "3711931e",
+ "parent": "1a2134e5",
  "author": {
   "name": "unknown",
   "kind": "agent",
   "session": null
  },
  "note": null,
- "ts": "2026-08-08T11:22:16+00:00",
+ "ts": "2026-08-08T11:22:22+00:00",
  "stats": {
-  "modified": 1
+  "modified": 2
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "d6d1bb11",
+   "block": "66569a2c",
+   "type": "heading",
+   "context": "Phase 1 pilot disposition"
+  },
+  {
+   "kind": "modified",
+   "block": "1fa1b7ec",
    "type": "para",
-   "context": "Research notebook — admitted provenance "
+   "context": "Phase 1 pilot disposition"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:5460b09c0748b2cecf4c610775ee3086a6dd34987caeb6b0dfe9be1fa6c7d60e",
+ "soft_fingerprint": "ppsb1:05ba8ad62d273bc49399f25e596cf3990e183903add22e4d779eadfce1fcc4c4",
  "actors": {
   "requested_by": [
    "user"
@@ -41,13 +47,13 @@
  "attribution_basis": "environment_attested",
  "claims": [
   {
-   "block": "d6d1bb11",
+   "block": "66569a2c",
    "kind": "modified",
-   "note": "Updates the research notebook status and active substrate after the pilot gate."
+   "note": "Replaces the pre-run section with the completed pilot disposition and score summary."
   }
  ],
  "context": {
-  "why": "Update the research notebook status after the STALE/CUPMem pilot gate."
+  "why": "Replace the pre-run index entry with the completed Phase 1 pilot disposition."
  },
- "event_id": "ppe_7cc0561d596965a583b0d4e6"
+ "event_id": "ppe_0c46fac83c91eef44b81605f"
 }
