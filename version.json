@@ -1,48 +1,18 @@
 {
- "artifact": "experiments/provenance_handoff/ara/PAPER.md",
- "artifact_id": "pp_cb6d0883f4bda071d2137869",
+ "artifact": "experiments/provenance_handoff/ara/src/environment.md",
+ "artifact_id": "pp_d4f0f4ca5617c9d0528dea8e",
  "blocks": [
   {
    "type": "heading",
-   "text": "# Research notebook — admitted provenance comparative study",
-   "id": "5ad8477e",
-   "hash": "1a305208da3f"
-  },
-  {
-   "type": "para",
-   "text": "**Status:** the original STALE/CUPMem prompt-policy pilot is superseded for causal interpretation because its condition execution boundaries were not matched. The production-style carrier implementation is in progress; historic Harvey/C&H records and the internal MemConflict mechanism check remain historical only and do not constitute a formal efficacy claim.\n**Authors:** Proofpress research team (draft)\n**Year:** 2026\n**Active substrate:** STALE benchmark and its CUPMem comparison, with the superseded two-record harness record in `research/phase1/pilot_report.json` and the active carrier path in `research/phase1/run_production_pilot.py`; no held-out confirmatory run is claimed.",
-   "id": "d6d1bb11",
-   "hash": "0ff3d227101b"
-  },
-  {
-   "type": "heading",
-   "text": "## Artifact map",
-   "id": "6ce745c5",
-   "hash": "86cbf94b78e1"
+   "text": "# Environment",
+   "id": "a548e2e8",
+   "hash": "4d65b7458bc8"
   },
   {
    "type": "list",
-   "text": "- `logic/problem.md` — why conventional handoff does not preserve accepted decision state.\n- `logic/claims.md` — falsifiable, currently testing hypotheses only.\n- `logic/concepts.md` — treatment and measurement definitions.\n- `logic/experiments.md` — gates and comparison matrix.\n- `logic/related_work.md` — historical Harvey context plus active benchmark-comparison context.\n- `logic/solution/constraints.md` — non-negotiable fairness and safety constraints.\n- `src/` — environment and experiment artifact index.\n- `trace/` — append-only decisions and session record.\n- `evidence/` — source and sanitized result index, including historical internal MemConflict evidence.",
-   "id": "b9c6dba5",
-   "hash": "8a272d978577"
-  },
-  {
-   "type": "heading",
-   "text": "## Abstract (draft)",
-   "id": "6979663a",
-   "hash": "3513d178db19"
-  },
-  {
-   "type": "para",
-   "text": "This study evaluates admitted artifact provenance as a candidate intervention for documented failures in long-horizon memory, multi-agent coordination, and artifact revision. Its active first test holds the STALE task/scoring protocol fixed while comparing the native baseline and CUPMem with a semantically matched Proofpress admission ledger and a hybrid. The completed internal MemConflict check found a stale/regression reduction but no trusted-success gain over ordinary memory; it is historical mechanism evidence only because provider, cost, and fallback telemetry were missing. Outcomes preserve benchmark-native scores as primary, with auditability and efficiency reported separately, and retain null or negative results.",
-   "id": "4b96e0aa",
-   "hash": "748e4ac83242"
-  },
-  {
-   "type": "para",
-   "text": "The historical MemConflict result is a mechanism boundary, not a product claim: provenance may help a receiver notice stale authority in a controlled reversal fixture, but ordinary memory remained at least as good on the primary trusted-success endpoint. STALE/CUPMem is the active Phase 1 test.",
-   "id": "4249cd4c",
-   "hash": "67e72a93989f"
+   "text": "- **Experiment repository**: `/Users/richardtang/proofpress-dev/experiments/provenance_handoff`\n- **Experiment runtime**: Python project managed with `uv`; current lightweight modules are `pp_eval/`.\n- **Active upstream target**: STALE benchmark data plus the pinned CUPMem implementation revision recorded in the Phase 1 pilot report. Harvey LAB v1.0 remains an archived prototype target.\n- **ARA upstream**: `https://github.com/ARA-Labs/Agent-Native-Research-Artifact`, local source commit `35981edc35c51413d291ab8e504ea7c907fd67e7`.\n- **External data home**: `PROOFPRESS_EVAL_HOME`; raw data/traces/results stay there.\n- **Planned model transport**: selected only at the STALE freeze gate, with exact requested/resolved model, provider, cost, retries, and fallback state recorded per call. Vercel/Gateway, OpenRouter/Novita, and unversioned-Flash records are archived transport history, not active routing requirements. Credentials remain outside Git.\n- **Core model policy**: one homogeneous model team with `high` effort per workflow attempt; Proofpress itself never makes a model call.\n- **Gateway evidence rule**: every model call must record requested/resolved model, actual provider, Gateway `usage.cost`, fallback status/metadata, token values, and latency. A record lacking any required telemetry remains audit-visible but is not qualified for a formal result; a wrapper-local `$0` is never substituted.\n- **Execution state**: historical Harvey/Gateway qualification is stopped and unqualified. Its event logs and aborted manifest remain failed transport evidence, never treatment evidence. The original STALE prompt-policy pilot is superseded for causal interpretation; the production-style Proofpress carrier implementation is in progress, and no held-out confirmatory efficacy run is claimed.",
+   "id": "a84a1149",
+   "hash": "faf4acd5fac5"
   }
  ]
 }

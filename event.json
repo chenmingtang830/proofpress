@@ -1,53 +1,34 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/ara/PAPER.md",
- "artifact_id": "pp_cb6d0883f4bda071d2137869",
- "version": "2be45c4c",
- "parent": "d4ea9112",
+ "artifact": "experiments/provenance_handoff/ara/src/environment.md",
+ "artifact_id": "pp_d4f0f4ca5617c9d0528dea8e",
+ "version": "8c9f2424",
+ "parent": "b3df50b2",
  "author": {
-  "name": "unknown",
-  "kind": "human",
+  "name": "codex-preflight",
+  "kind": "system",
   "session": null
  },
- "note": null,
- "ts": "2026-08-08T12:04:38+00:00",
+ "note": "best-effort fallback capture; edit attribution unknown",
+ "ts": "2026-08-08T12:06:25+00:00",
  "stats": {
   "modified": 1
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "d6d1bb11",
-   "type": "para",
-   "context": "Research notebook — admitted provenance "
+   "block": "a84a1149",
+   "type": "list",
+   "context": "Environment"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:6db1b2234f75e3d633e80c03d17a91c3c01a829c925eb22db973c54de0d7d97a",
+ "soft_fingerprint": "ppsb1:8125f9cddb3c01404e750cae3ba0abd2df094590f6968a4fc93700d51192fef9",
  "actors": {
-  "requested_by": [
-   "richard"
-  ],
-  "produced_by": [
-   "codex"
-  ],
-  "edited_by": [
-   "codex"
-  ],
   "recorded_by": [
-   "codex"
+   "codex-preflight"
   ]
  },
- "attribution_basis": "environment_attested",
- "claims": [
-  {
-   "block": "d6d1bb11",
-   "kind": "modified",
-   "note": "Updated paper status to superseded pilot and active implementation."
-  }
- ],
- "context": {
-  "why": "Update paper status to reflect the superseded pilot and active implementation."
- },
- "event_id": "ppe_4b8547b3270ab013191a95cb"
+ "attribution_basis": "harness_attested",
+ "event_id": "ppe_323ec36694ae0747cd672571"
 }
