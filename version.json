@@ -1,84 +1,234 @@
 {
- "artifact": "ara/logic/experiments.md",
- "artifact_id": "pp_15fb7a0bcf0891f7cee01068",
+ "artifact": "docs/internal/NOTION_ADAPTER_STRATEGY.md",
+ "artifact_id": "pp_d538d330797f1110077aece3",
  "blocks": [
   {
    "type": "heading",
-   "text": "# Experiments",
-   "id": "68361165",
-   "hash": "58b2a1c3f41e"
+   "text": "# ProofPress for Notion — internal adapter strategy",
+   "id": "5a9d4c01",
+   "hash": "8e42af981c19"
   },
   {
    "type": "heading",
-   "text": "## E01: Archived official Harvey and OpenRouter runtime validation",
-   "id": "4392bdd3",
-   "hash": "ec92e4ec9e45"
+   "text": "## Decision",
+   "id": "70b93ea2",
+   "hash": "e6ce75215fb1"
   },
   {
-   "type": "list",
-   "text": "- **Question**: Can the pinned v1.0 task and official scorer run without changing task semantics, while recording an explicit model transport configuration?\n- **Status**: completed-for-transport-prototype; not an active route\n- **Inputs**: one task from each initially selected family; one accessible frozen reference team; exact OpenRouter routing metadata if that transport is used.\n- **Outputs**: immutable environment/task manifest, sanitized result pointer, official score, token/latency record.\n- **Decision rule**: a setup failure is fixed before any treatment comparison; it is not scored as a provenance outcome. The official all-pass endpoint was 0/36 in the completed prototype and is retained as a hard-task diagnostic rather than a continuous primary quality result.",
-   "id": "d94b548d",
-   "hash": "13fbea670c51"
+   "type": "para",
+   "text": "Explore a narrow private Notion adapter before committing to a public API,\nMarketplace listing, or partnership request. This is a product strategy, not a\npublic ProofPress protocol commitment.",
+   "id": "a91e4354",
+   "hash": "3a3c6de9cdd4"
   },
   {
-   "type": "heading",
-   "text": "## E02: Isolated handoff mechanism diagnostic",
-   "id": "7095f47a",
-   "hash": "69017771f821"
-  },
-  {
-   "type": "list",
-   "text": "- **Question**: Does Proofpress lineage change a fresh receiver's decision recovery against strong ordinary memory when upstream content is identical?\n- **Status**: completed-and-archived\n- **Design**: 2 tasks × 2 critical boundaries × 2 paired arms (`mas-memory`, `mas-proofpress-lineage`) × 3 attempts = 24 receiver-only calls.\n- **Controls**: identical canonical upstream artifact/workspace hashes, fresh receiver session, visible token budget, frozen homogeneous model team, Harvey tools, and source workspace.\n- **Result boundary**: the required receiver-call execution completed and validated transport integrity. It did not score a document-native carrier and therefore does not authorize a scale-up claim.",
-   "id": "018ec3e4",
-   "hash": "1ef8c3928b78"
+   "type": "para",
+   "text": "> Notion manages collaborative page evolution. ProofPress records which\n> revisions and decisions were explicitly admitted, on what evidence, by whom,\n> and whether they still verify independently.",
+   "id": "6d780ce7",
+   "hash": "0f3a143143c2"
   },
   {
    "type": "heading",
-   "text": "## E03: External-sidecar end-to-end prototype",
-   "id": "cab7fd7c",
-   "hash": "a66074b9c0c7"
+   "text": "## Product boundary",
+   "id": "0896ff3c",
+   "hash": "62f4fc87b2b8"
   },
   {
-   "type": "list",
-   "text": "- **Question**: What did an external `memory.md`/`handoff.log` versus `provenance.md` transport prototype show before the product-form treatment was corrected?\n- **Status**: completed-and-superseded-for-product-efficacy\n- **Design**: 3 homogeneous teams × 2 tasks × 2 external-sidecar arms × 3 attempts = 36 five-stage workflows.\n- **Results**: 36/36 workflow records and clean five-stage runs; 35/36 nonempty finals; Harvey all-pass 0/36; criterion diagnostics were DeepSeek 79.2% memory versus 78.4% sidecar Proofpress, Muse 87.5% versus 77.3%, and Luna 76.8% versus 78.9%.\n- **Decision**: do not treat this as Proofpress product efficacy. It lacked single-agent and centralized communication baselines, exposed a Muse V4-output preflight failure, and tested an external sidecar rather than native artifact carriage.",
-   "id": "c146ea63",
-   "hash": "656c70545518"
-  },
-  {
-   "type": "heading",
-   "text": "## E04: Archived document-native OpenRouter/Novita DeepSeek matrix",
-   "id": "62ab94d5",
-   "hash": "5e213fcb8c1e"
-  },
-  {
-   "type": "list",
-   "text": "- **Question**: On hard Harvey tasks, does artifact-native Proofpress improve a normal centralized fan-out team that retains shared mutable ordinary coordination memory, and how does that team compare with a budget-neutral single agent?\n- **Status**: phase-1-complete-phase-2-paused-transport-incomplete; archived operational slice\n- **Design**: DeepSeek V4 Flash 0731 only, fixed `novita/fp8` route for this execution slice, `high` effort, no fallback. The originally proposed DeepInfra/fp4 route is retained as an archived provider-outage attempt and is not pooled with this slice. Phase 1 is M&A C0-versus-C1, three attempts per condition. Phase 2 is M&A + PSA × C0/C1/C2 × three attempts = 18 workflows. C1 and C2 use orchestrator → three parallel specialist workers → central synthesis; C2 retains C1's `coordination.md` and adds native Proofpress to key worker, decision, and final artifacts.\n- **Primary outcome**: paired C2-minus-C1 per-criterion Harvey success with numerator and denominator. C0-minus-C1 is the architecture comparison. Official all-pass is secondary; trust/reversal/integrity and cost are reported alongside it.\n- **Budget rule**: same billable input-plus-output token cap per trial; prompts, repeated context, ordinary coordination, Proofpress metadata, worker artifacts, and tool output all count. Record the categories separately; do not use filler padding.\n- **Prerequisites**: native carrier implementation, C1 leakage test, DOCX/XLSX final-output preflight, complete token ledger, and one scorer smoke run per arm.\n- **Execution note (2026-08-07)**: No valid Phase 1 workflow or score was produced on DeepInfra/fp4. Three initial C0 transport attempts were rejected because `max_tokens=128000` exceeded that endpoint's current 65536 completion limit; after correcting the request to 32768 and then 16384, two C0 attempts still stalled after the data-room read and were archived as provider failures. The same model is now being executed in a separate pinned `novita/fp8` slice; its scores and resolved-provider metadata must be reported separately from the DeepInfra outage records.\n- **Phase 1 result (2026-08-07)**: M&A C0 and C1 each passed 116/150 criteria (77.3%), with 0/3 official all-pass runs. All six final DOCX/XLSX preflights passed. C1 had two runs whose final artifacts were present but whose orchestrator/worker loop did not finish cleanly at the 40-turn cap; this is reported as an operational cost/latency issue, not discarded as a score failure. C1 was therefore not materially worse than C0 on the architecture pilot, and Phase 2 was authorized.\n- **Phase 1 cost note**: C0 used 8,016,332 billable tokens and estimated $0.7375 across three attempts; C1 used 44,555,634 tokens and estimated $4.0771. The equal criterion result does not justify claiming MAS benefit; it supports continuing to test the C1-versus-C2 product contrast while reporting this large coordination cost.\n- **Phase 2 implementation note**: C2 now embeds verified Proofpress carriers in worker findings, worker coordination updates, and the central decision register. A native final-artifact index hashes the official DOCX/XLSX outputs. C1 uses the same ordinary coordination workspace and is checked for Proofpress leakage; no external `provenance.md` is used in C2.\n- **Phase 2 partial execution (2026-08-07)**: M&A produced nine workflow records; eight had valid final-output preflights and one C2 synthesis was aborted before its final output. PSA produced four valid workflows so far: C0 attempts 2 and 3, C1 attempt 1, and C2 attempt 1; the remaining five nominal attempts were not scorable because the pinned Novita/fp8 route returned upstream 429 rate limits, after one earlier SSL-read hang was archived. The Phase 2 scorer was intentionally not run because the 18-workflow matrix is incomplete; these partial records do not support a C1-versus-C2 or C0-versus-C1 claim.\n- **Transport audit note**: the runtime now uses a hard-watchdog HTTPS client for read timeouts and records event-log tokens/cost when a stage aborts before writing its stage record. Quarantined partial runs are preserved outside the scorer result tree under the evaluation data home's `archives/phase2-aborted-20260807` directory.\n- **Pause note (2026-08-07)**: execution was paused after repeated long-synthesis transport failures on the pinned `novita/fp8` route. At pause, the DeepSeek primary tree contained 12 clean, preflight-passing records: M&A C0 3/3 and C1 2/3; PSA C0 3/3, C1 3/3, and C2 1/3. M&A C2 had no clean primary record, and the remaining nominal C1/C2 slots were incomplete or audit-only after BrokenPipe/SSL/429 interruptions or manual stop. The 18-workflow Phase 2 scorer was not run. These records support an operational-stop decision, not a C1-versus-C2 efficacy claim. They are immutable historical transport evidence and will not be resumed, pooled, or used to define the next estimand.",
-   "id": "b37d7d2c",
-   "hash": "12a7aa2ef3f4"
+   "type": "para",
+   "text": "Notion version history is useful for recovery and collaboration, but it is not\na portable, claim-level record of accepted evidence and downstream reliance.\nProofPress must not claim to replace Notion history or to capture every edit.\nIt is an explicit admission and verification layer at meaningful checkpoints.",
+   "id": "2a87435f",
+   "hash": "2ba01272e8fb"
   },
   {
    "type": "heading",
-   "text": "## E05: Cross-model robustness sweep",
-   "id": "df59a8f1",
-   "hash": "acff760e1722"
+   "text": "## Intended user flow",
+   "id": "fe807ca5",
+   "hash": "c45141781c4b"
   },
   {
    "type": "list",
-   "text": "- **Question**: Does the native Proofpress contrast replicate in an independent model/provider follow-up when the pinned DeepSeek line is operationally rate-limited?\n- **Status**: completed-as-isolated-m-and-a-follow-up; not part of the DeepSeek primary matrix\n- **Design**: one M&A data-room task; homogeneous `z-ai/glm-5.2` teams at `xhigh` reasoning, fixed `baidu/fp8` provider, no fallback, and three parallel conditions run once each: C0 single-agent SAS, C1 centralized parallel MAS with ordinary shared memory, and C2 the same MAS with native Proofpress lineage. The C2 attempt 1 was operationally aborted and excluded; attempt 2 was the valid C2 trial. A separate `openai/gpt-5.6-terra` high-effort judge scored only the three valid GLM workflows.\n- **Results**: C0 passed 40/50 criteria (80.0%), C1 passed 39/50 (78.0%), and C2 passed 40/50 (80.0%); official all-pass was 0/3. All three final DOCX/XLSX preflights passed. C1 had no Proofpress leakage; C2 contained eight verified native Proofpress carriers spanning worker findings, worker coordination, the central decision register, and the final-artifact index.\n- **Cost and operations**: estimated workflow costs were C0 $1.584, C1 $7.179, and valid C2 $6.125. The first C2 attempt consumed approximately $2.222 before an SSL/BrokenPipe/provider interruption and is retained as an aborted audit record, not a score. The valid C2 run recovered two final-stage 429s on the same pinned route without fallback.\n- **Interpretation**: this single M&A follow-up is descriptive only. It shows no detectable C1-versus-C2 criterion advantage in this slice, while confirming that native carriers and the scorer can operate with GLM. It is not a cross-harness generalization, model leaderboard, or replacement for the incomplete DeepSeek Phase 2 matrix.",
-   "id": "6559b8b4",
-   "hash": "287408f2f12a"
+   "text": "1. A person or approved agent edits a Notion page normally.\n2. At a semantic checkpoint, they choose **Admit with ProofPress**, or an",
+   "id": "da8b67c5",
+   "hash": "e2dd44749ace"
+  },
+  {
+   "type": "para",
+   "text": "   approved workflow invokes the equivalent action.",
+   "id": "fd03616d",
+   "hash": "8511269e8c72"
+  },
+  {
+   "type": "list",
+   "text": "3. The adapter fetches the current authorized page representation and creates",
+   "id": "313dfd44",
+   "hash": "865e3cf1d4a9"
+  },
+  {
+   "type": "para",
+   "text": "   a candidate revision.",
+   "id": "04d2d550",
+   "hash": "81a2913b7448"
+  },
+  {
+   "type": "list",
+   "text": "4. The actor supplies concise claims and attribution. No raw prompt or session",
+   "id": "93806a74",
+   "hash": "b42b69a1d745"
+  },
+  {
+   "type": "para",
+   "text": "   transcript is captured.",
+   "id": "36fe7706",
+   "hash": "83dad2da8d43"
+  },
+  {
+   "type": "list",
+   "text": "5. ProofPress snapshots and verifies the admitted carrier.\n6. Notion receives a compact status block with revision, verifier state, and a",
+   "id": "022dedc2",
+   "hash": "dda8c1b07c3d"
+  },
+  {
+   "type": "para",
+   "text": "   link to the portable ProofPress record.",
+   "id": "e0103860",
+   "hash": "381c4f02f456"
+  },
+  {
+   "type": "para",
+   "text": "Do not snapshot every keystroke, webhook, or conversational turn.",
+   "id": "8c0d2446",
+   "hash": "33135a7525db"
   },
   {
    "type": "heading",
-   "text": "## E06: Gateway Harvey B0 baseline and SAS qualification",
-   "id": "7aa4e24f",
-   "hash": "e99555787754"
+   "text": "## Adapter architecture",
+   "id": "9a1a077e",
+   "hash": "cb28cba764a8"
+  },
+  {
+   "type": "code",
+   "text": "```text\nNotion edit or explicit admission\n  -> webhook signal / action\n  -> fetch page Markdown and block structure\n  -> canonicalize into a deterministic carrier\n  -> capture + claims + attributed snapshot + verify\n  -> immutable portable ledger and content hash\n  -> Notion status projection and verification link\n```",
+   "id": "7abe6376",
+   "hash": "b7940a150cd0"
+  },
+  {
+   "type": "para",
+   "text": "Notion remains the authoring source of truth. The portable ProofPress ledger\nand content hash are the source of truth for an admitted revision. The Notion\nstatus block is only a projection, never the sole verification record.",
+   "id": "c43f2917",
+   "hash": "d65b60b8a585"
+  },
+  {
+   "type": "heading",
+   "text": "## Identity and consistency",
+   "id": "16633e61",
+   "hash": "ed50e0a9571e"
+  },
+  {
+   "type": "para",
+   "text": "Retain page ID, parent context, block IDs where available, fetch time, content\nhash, and optional Notion revision metadata. A webhook is only a signal: fetch\nthe latest authorized content, reconcile by hash, and handle duplicate or\nreordered deliveries idempotently.",
+   "id": "fa39821e",
+   "hash": "8daab5bc81e2"
+  },
+  {
+   "type": "para",
+   "text": "Derive ProofPress anchors from stable Notion block identity where available plus\na canonicalized carrier. Moves, splits, merges, or unsupported blocks must\nproduce a new revision or fail admission explicitly; they must not be silently\ndropped. Keep the Notion-block-to-ProofPress-anchor mapping as audit metadata,\nnot hidden page text.",
+   "id": "38de05c8",
+   "hash": "57da4f774eb9"
+  },
+  {
+   "type": "heading",
+   "text": "## Privacy and safety rules",
+   "id": "ab1c2de6",
+   "hash": "682321ecb993"
   },
   {
    "type": "list",
-   "text": "- **Question**: On the same PSA task and frozen model, what is the original Harvey one-shot baseline (B0), what changes under five fresh-session SAS ordinary continuity (C0−B0), and does admitted artifact-native lineage increment outcome under matched SAS (C3−C0)?\n- **Status**: active transport/runner qualification only; no treatment outcome. Historical v1 and v2 C0/C3 Gateway slices remain failed, immutable operational evidence. The native AI SDK v4 C0/C3 v3 slice and the independent B0 v1 slice run with separate ledgers and result roots.\n- **Design and failure record**: B0 is one Harvey agent in one continuous `SINGLE` session: it has no SAS handoff, Proofpress metadata, ARA files, or raw session transcript. C0 and C3 each use five fresh-session checkpoints (plan, evidence, decision, draft, review), identical task/model/tools/prompt contract/caps, and a shared $25 SAS qualification ceiling. C0 receives ordinary continuity; C3 receives only admitted Proofpress checkpoint carriers and a final hash index. B0 has its own $5 actual-cost guard and never contributes to the C0/C3 slice-level qualification verdict. Chat Completions v1 and native-SDK v2 failure records remain archived, not resumed or overwritten.\n- **Telemetry rule**: every call records requested/resolved model, actual provider, Gateway `usage.cost`, fallback status/metadata, tokens, and latency in the same auditable call record. Missing telemetry remains audit-visible and disqualifies the workflow; a local `$0` value or after-the-fact aggregate is never substituted. The C0 events, endpoint probes, and aborted manifest are operational evidence of a failed transport qualification, not C3−C0 evidence.\n- **Comparison boundary**: `C0−B0` is the sessionization effect; `C3−C0` is the Proofpress lineage increment; `C3−B0` is a mixed total difference and cannot be attributed to Proofpress. No comparison is interpreted before its relevant transport/runner qualification passes.\n- **Evidence boundary**: ARA indexes the research semantics, hypotheses, and evidence pointers. Proofpress supplies C3's admitted artifact lineage and independent verification; neither system turns raw agent-session history into benchmark context.\n- **Follow-on gates**: after an audited Harvey report, run STATE-Bench and MemConflict as independent C0/C3 slices. HiEviDR-Bench and DeepResearch Bench require their own adapter/scorer gates before separately reported external-validity runs. Do not pool results across benchmarks.",
-   "id": "0b9f8f55",
-   "hash": "f6e086984190"
+   "text": "- Use OAuth or an internal integration with least-privilege page access.\n- Scope each connection to an explicit page, folder, or database.\n- Do not ingest workspace-wide content, unrelated child pages, credentials,",
+   "id": "cbb212a9",
+   "hash": "496ec4a9577d"
+  },
+  {
+   "type": "para",
+   "text": "  raw agent transcripts, or hidden memory by default.",
+   "id": "77e41d14",
+   "hash": "8aa032de32eb"
+  },
+  {
+   "type": "list",
+   "text": "- Support redaction or content-hash-only mode for sensitive pilots.\n- Verify webhook signatures and idempotency before acting.\n- Display pending, failed, and verified states honestly; never infer",
+   "id": "e13f5465",
+   "hash": "c9d6ccfedd2c"
+  },
+  {
+   "type": "para",
+   "text": "  authorship, rationale, or verification success.",
+   "id": "009d198a",
+   "hash": "b18830a239af"
+  },
+  {
+   "type": "heading",
+   "text": "## MVP and non-goals",
+   "id": "2853f9c7",
+   "hash": "6283dbf76006"
+  },
+  {
+   "type": "para",
+   "text": "The first pilot supports one selected page or database record, explicit manual\nadmission, canonicalization, ProofPress snapshot/verify, a portable export,\nand a compact Notion status block.",
+   "id": "83a9bea8",
+   "hash": "fee4b05a85d8"
+  },
+  {
+   "type": "para",
+   "text": "It does not continuously surveil a workspace, replace Notion history/comments/\npermissions, automatically generate claims without attribution, alter Notion\ndatabase schemas, or treat Notion AI output as trusted by origin alone.",
+   "id": "eccdbb58",
+   "hash": "381997df007a"
+  },
+  {
+   "type": "heading",
+   "text": "## Pilot hypotheses and PR gate",
+   "id": "65d9d049",
+   "hash": "3b57f19a02ab"
+  },
+  {
+   "type": "para",
+   "text": "Use five to ten high-consequence examples: research decisions, diligence\nmemos, customer-facing operations, policy handoffs, and agent-produced plans.\nThe pilot must let participants answer more reliably which revision was\naccepted, what evidence supported it, who recorded it, and whether it verifies\nwithout Notion access.",
+   "id": "cc4fa8f7",
+   "hash": "026f113207ff"
+  },
+  {
+   "type": "para",
+   "text": "Open an implementation PR only after these are frozen:",
+   "id": "1d1abd3b",
+   "hash": "ae5a4145cc0c"
+  },
+  {
+   "type": "list",
+   "text": "1. deterministic canonicalization for supported Notion blocks;\n2. duplicate/out-of-order webhook behavior;\n3. permission and partial-capture failure behavior;\n4. transcript and sensitive-data exclusion tests;\n5. independent `verify` after portable export; and\n6. evidence that explicit admission is preferred to passive version logging.",
+   "id": "95438dcb",
+   "hash": "3605c128bd01"
+  },
+  {
+   "type": "heading",
+   "text": "## Notion relationship",
+   "id": "f1b3cd98",
+   "hash": "4e6e25ae8c85"
+  },
+  {
+   "type": "para",
+   "text": "Build a working adapter and collect pilot evidence before approaching Notion.\nThe eventual pitch is complementary: Notion owns collaborative authoring;\nProofPress makes high-stakes human and agent decisions portable and\nindependently checkable. The useful ask is a native admission entry point or\nricher revision/block metadata, not access to every workspace revision.",
+   "id": "740f8270",
+   "hash": "ebb5253d8e55"
+  },
+  {
+   "type": "heading",
+   "text": "## Revisit trigger",
+   "id": "5f6e10b3",
+   "hash": "65d4a0593c92"
+  },
+  {
+   "type": "para",
+   "text": "Revisit this strategy when the first pilot artifact type and privacy posture\nare chosen. Do not start implementation until the scope, identity mapping,\nfailure behavior, and fixtures are agreed.",
+   "id": "d4b1e21f",
+   "hash": "144f39a990e4"
   }
  ]
 }
