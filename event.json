@@ -1,77 +1,41 @@
 {
  "event": "version_created",
- "artifact": "README.md",
- "artifact_id": "pp_556b115de711b0cd33eed260",
- "version": "2cd013f6",
- "parent": "5019ed82",
+ "artifact": "docs/RESEARCH_PLAN.md",
+ "artifact_id": "pp_00e96ce828caea19ac7221ae",
+ "version": "c37b1585",
+ "parent": "1091d7e4",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-08T06:18:05+00:00",
+ "ts": "2026-08-08T06:18:08+00:00",
  "stats": {
-  "modified": 8
+  "modified": 3
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "da60723f",
+   "block": "211f3829",
    "type": "heading",
-   "context": "Proofpress Provenance Continuity Evaluat"
+   "context": "Proofpress Continuity Evaluation Study —"
   },
   {
    "kind": "modified",
-   "block": "d86e9669",
+   "block": "37044759",
    "type": "para",
-   "context": "Review status"
+   "context": "Decision in one sentence"
   },
   {
    "kind": "modified",
-   "block": "efb84a51",
+   "block": "6e8d4f21",
    "type": "para",
-   "context": "The research question"
-  },
-  {
-   "kind": "modified",
-   "block": "51799240",
-   "type": "para",
-   "context": "The research question"
-  },
-  {
-   "kind": "modified",
-   "block": "48aa7881",
-   "type": "para",
-   "context": "Scope and comparison"
-  },
-  {
-   "kind": "modified",
-   "block": "27c19da2",
-   "type": "list",
-   "context": "Scope and comparison"
-  },
-  {
-   "kind": "modified",
-   "block": "146ef700",
-   "type": "para",
-   "context": "Scope and comparison"
-  },
-  {
-   "kind": "modified",
-   "block": "bc21a929",
-   "type": "code",
-   "context": "Existing lightweight smoke runtime",
-   "numbers": [
-    [
-     "1",
-     "2"
-    ]
-   ]
+   "context": "Decision in one sentence"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:5ef1de0a55c99045b72582c7192b011e4b8a61ab1b1fdad491521ba07efdfcc4",
+ "soft_fingerprint": "ppsb1:70ee27268b8ee6361c441c622d4664b954d85f8e4d1facf1609bbc0100742baa",
  "actors": {
   "requested_by": [
    "Richard Tang"
@@ -89,23 +53,18 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "d86e9669",
+   "block": "37044759",
    "kind": "modified",
-   "note": "Reframed active study as single-agent continuity evaluation."
+   "note": "Recorded the accepted MemConflict to C&H to APEX route."
   },
   {
-   "block": "efb84a51",
+   "block": "6e8d4f21",
    "kind": "modified",
-   "note": "Replaced SAS question with continuity question."
-  },
-  {
-   "block": "27c19da2",
-   "kind": "modified",
-   "note": "Defined the three current conditions."
+   "note": "Classified Harvey PSA and multi-agent work as historical negative-boundary evidence."
   }
  ],
  "context": {
-  "why": "Adopt the approved single-agent continuity route."
+  "why": "Replace the future Harvey-first multi-agent path with MemConflict, C&H, and APEX."
  },
- "event_id": "ppe_e75dbdeeb8987741b8ffc279"
+ "event_id": "ppe_467a2c3f31db25344742348a"
 }
