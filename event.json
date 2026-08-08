@@ -1,161 +1,54 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/docs/STALE_PHASE1_PLAN.md",
- "artifact_id": "pp_6cf0c8f0e4ef1cb9c59aae65",
- "version": "57384204",
- "parent": "1d4e6723",
+ "artifact": "experiments/provenance_handoff/research/phase1/README.md",
+ "artifact_id": "pp_3628f0ea19e46c87bf454b52",
+ "version": "c1f9572d",
+ "parent": "0b25acf0",
  "author": {
   "name": "codex-preflight",
   "kind": "system",
   "session": null
  },
  "note": "best-effort fallback capture; edit attribution unknown",
- "ts": "2026-08-08T10:42:16+00:00",
+ "ts": "2026-08-08T10:42:27+00:00",
  "stats": {
-  "added": 19
+  "modified": 3,
+  "removed": 1
  },
  "changes": [
   {
-   "kind": "added",
-   "block": "5e07da53",
+   "kind": "modified",
+   "block": "53177c26",
    "type": "heading",
-   "context": "Starting evidence and mechanism boundary",
-   "preview": "## Starting evidence and mechanism boundary"
+   "context": "Migrated Phase 1 planning inputs"
   },
   {
-   "kind": "added",
-   "block": "de6d63ec",
+   "kind": "modified",
+   "block": "71f8059f",
    "type": "para",
-   "context": "Starting evidence and mechanism boundary",
-   "preview": "The historical internal MemConflict check found no clear tas"
+   "context": "Migrated Phase 1 planning inputs"
   },
   {
-   "kind": "added",
-   "block": "85723dd2",
+   "kind": "modified",
+   "block": "507f4b15",
    "type": "para",
-   "context": "Starting evidence and mechanism boundary",
-   "preview": "Provenance has a causal path only when a successor uses it t"
+   "context": "Migrated Phase 1 planning inputs"
   },
   {
-   "kind": "added",
-   "block": "7823440b",
-   "type": "table",
-   "context": "Starting evidence and mechanism boundary",
-   "preview": "| Mechanism | What it adds | Outcome family |\n|---|---|---|\n"
-  },
-  {
-   "kind": "added",
-   "block": "e77fb07f",
-   "type": "para",
-   "context": "Starting evidence and mechanism boundary",
-   "preview": "These mechanisms remain distinct: a ledger without a success"
-  },
-  {
-   "kind": "added",
-   "block": "e1107823",
+   "kind": "removed",
+   "block": "fdc67060",
    "type": "heading",
-   "context": "Research hypotheses and discipline",
-   "preview": "## Research hypotheses and discipline"
-  },
-  {
-   "kind": "added",
-   "block": "cea32510",
-   "type": "list",
-   "context": "Research hypotheses and discipline",
-   "preview": "- **H1 — State inheritance:** when a successor lacks predece"
-  },
-  {
-   "kind": "added",
-   "block": "acbedaff",
-   "type": "para",
-   "context": "Research hypotheses and discipline",
-   "preview": "H1 and H2 may affect task or artifact quality. H3 primarily "
-  },
-  {
-   "kind": "added",
-   "block": "304e5abe",
-   "type": "para",
-   "context": "Research hypotheses and discipline",
-   "preview": "Every phase follows these rules: enter independently defined"
-  },
-  {
-   "kind": "added",
-   "block": "6ff9f4db",
-   "type": "para",
-   "context": "Frozen conditions",
-   "preview": "The S2/S3 successor policy is intentionally minimal: inspect"
-  },
-  {
-   "kind": "added",
-   "block": "5811c6df",
-   "type": "para",
-   "context": "Freeze gate before execution",
-   "preview": "The migrated exploratory condition manifest, preregistration"
-  },
-  {
-   "kind": "added",
-   "block": "42c50c5e",
-   "type": "heading",
-   "context": "Pilot, confirmatory gate, and reporting",
-   "preview": "## Pilot, confirmatory gate, and reporting"
-  },
-  {
-   "kind": "added",
-   "block": "61acbff8",
-   "type": "para",
-   "context": "Pilot, confirmatory gate, and reporting",
-   "preview": "The initial pilot is exploratory: it validates the official "
-  },
-  {
-   "kind": "added",
-   "block": "6bccbf52",
-   "type": "para",
-   "context": "Pilot, confirmatory gate, and reporting",
-   "preview": "The confirmatory run may proceed only if the official S0/S1 "
-  },
-  {
-   "kind": "added",
-   "block": "ad09e58a",
-   "type": "para",
-   "context": "Pilot, confirmatory gate, and reporting",
-   "preview": "Report point estimates and uncertainty; T1/T2 breakdowns; ea"
-  },
-  {
-   "kind": "added",
-   "block": "64460f7e",
-   "type": "heading",
-   "context": "Later phases (not authorized by Phase 1)",
-   "preview": "## Later phases (not authorized by Phase 1)"
-  },
-  {
-   "kind": "added",
-   "block": "9ea108cb",
-   "type": "list",
-   "context": "Later phases (not authorized by Phase 1)",
-   "preview": "1. **Memory Laundering / PPMF:** compare vanilla consolidate"
-  },
-  {
-   "kind": "added",
-   "block": "1fcffe4a",
-   "type": "heading",
-   "context": "Immediate work queue",
-   "preview": "## Immediate work queue"
-  },
-  {
-   "kind": "added",
-   "block": "0cf8df5d",
-   "type": "list",
-   "context": "Immediate work queue",
-   "preview": "1. Reproduce the official STALE/CUPMem baseline unchanged an"
+   "context": "",
+   "preview": "# Migrated Phase 1 planning inputs"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:ad2d3d665400f28cb6d95072f44f5f5662bb56dd584d2ddfbda90d7607d15fd1",
+ "soft_fingerprint": "ppsb1:94c7cbd6d9efe7883250b60020e201c7d9d2d218ab7d8af48fb9ae4648e47a3e",
  "actors": {
   "recorded_by": [
    "codex-preflight"
   ]
  },
  "attribution_basis": "harness_attested",
- "event_id": "ppe_e40581f621bf4ccee41cb5d9"
+ "event_id": "ppe_a4a6d9a0e0ccee0206539f2d"
 }
