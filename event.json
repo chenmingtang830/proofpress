@@ -1,29 +1,29 @@
 {
  "event": "version_created",
- "artifact": "docs/RESEARCH_PLAN.md",
- "artifact_id": "pp_00e96ce828caea19ac7221ae",
- "version": "2a3bfa1b",
- "parent": "2c93614d",
+ "artifact": "docs/EXECUTION_PLAN.md",
+ "artifact_id": "pp_120f0f61aa69ad67431b9659",
+ "version": "39e43649",
+ "parent": "96960545",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-08T03:12:23+00:00",
+ "ts": "2026-08-08T03:12:25+00:00",
  "stats": {
   "modified": 1
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "37044759",
+   "block": "1d585184",
    "type": "para",
-   "context": "Decision in one sentence"
+   "context": "Review state"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:2c13fa17ffd25476bf154082c7c4e36b83ecae90ade543b3d0d3161ffaad8566",
+ "soft_fingerprint": "ppsb1:3036b57573fa6b5fd41ab17e01e94e9cd6e796cf0fba2a7bd8c6aec313095748",
  "actors": {
   "requested_by": [
    "richardtang"
@@ -41,12 +41,12 @@
  "attribution_basis": "environment_attested",
  "claims": [
   {
-   "block_id": "37044759",
-   "claim": "Records v2's three completed audited execution trials and the incomplete B0 scoring cap event."
+   "block_id": "1d585184",
+   "claim": "Records that v2 execution passed but its frozen B0 scoring ledger stopped at the cap."
   }
  ],
  "context": {
   "why": "Records v2 execution completion and the immutable B0 scorer-cap stop."
  },
- "event_id": "ppe_be6d6250f82ac41d02e7ee81"
+ "event_id": "ppe_0fba7ac07e0b4bfa65cf91ac"
 }
