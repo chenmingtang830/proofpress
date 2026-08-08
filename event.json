@@ -2,17 +2,17 @@
  "event": "version_created",
  "artifact": "/Users/richardtang/proofpress-dev/experiments/provenance_handoff/docs/STALE_PHASE1_PLAN.md",
  "artifact_id": "pp_6cf0c8f0e4ef1cb9c59aae65",
- "version": "04efd1f4",
- "parent": "7a71d7aa",
+ "version": "4f218aba",
+ "parent": "04efd1f4",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-08T18:49:02+00:00",
+ "ts": "2026-08-08T20:02:19+00:00",
  "stats": {
-  "modified": 2
+  "modified": 1
  },
  "changes": [
   {
@@ -20,16 +20,10 @@
    "block": "88912b9f",
    "type": "para",
    "context": "Freeze gate before execution"
-  },
-  {
-   "kind": "modified",
-   "block": "fbc3ab99",
-   "type": "list",
-   "context": "Execution sequence"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:5fa0a0845e255d70167126f67a15571aa02e28cf1dd74a7c065eb333eff7b90b",
+ "soft_fingerprint": "ppsb1:9a66edd21ff8930185a34ec8d882fd40437fe21117d8057837ef716ccd26b8d3",
  "actors": {
   "requested_by": [
    "richardtang"
@@ -49,16 +43,11 @@
   {
    "block": "88912b9f",
    "kind": "modified",
-   "note": "Require the deterministic scenario-shard count to be captured in the frozen execution manifest."
-  },
-  {
-   "block": "fbc3ab99",
-   "kind": "modified",
-   "note": "Record the two-shard Gateway qualification setting as an execution-only throughput constraint that does not alter arms."
+   "note": "Record the user-authorized limit of two logged retries only for Gateway requests with no usable model result from infrastructure failures."
   }
  ],
  "context": {
-  "why": "Record the verified two-shard qualification execution setting after a four-shard Gateway run produced an ineligible provider 500; retain the frozen arms and fail-closed telemetry gate."
+  "why": "User authorized two additional logged attempts only for Gateway transport failures after a zero-retry qualification run was invalidated by an OpenAI-provider HTTP 500."
  },
- "event_id": "ppe_8f66b2060259b6f3585ba8a9"
+ "event_id": "ppe_d98f0c434f20ffa8a4861c01"
 }

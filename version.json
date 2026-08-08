@@ -178,9 +178,9 @@
   },
   {
    "type": "para",
-   "text": "Before the first scored call, record: STALE repository/data commit and file hashes; license and allowed-use notes; CUPMem source/revision and reproducibility status; exact model/provider; prompt and decoding parameters; context and token caps; number of scenarios and attempts; randomization/ordering; semantic-information matching audit; grader version; cost cap; shard count; and per-call requested/resolved model, provider, tokens, latency, cost, retries, fallback state, and cache-token detail. Nano uses the native Vercel AI Gateway bridge with the provider pinned to OpenAI, no transport retry or fallback, and no explicit reasoning parameter; native routing metadata is the authoritative resolved-model record. Any missing required field leaves a run auditable but excludes it from the primary table.",
+   "text": "Before the first scored call, record: STALE repository/data commit and file hashes; license and allowed-use notes; CUPMem source/revision and reproducibility status; exact model/provider; prompt and decoding parameters; context and token caps; number of scenarios and attempts; randomization/ordering; semantic-information matching audit; grader version; cost cap; shard count; and per-call requested/resolved model, provider, tokens, latency, cost, retries, fallback state, and cache-token detail. Nano uses the native Vercel AI Gateway bridge with the provider pinned to OpenAI and no fallback. By explicit execution authorization, a request that produces no usable model result may make at most two additional attempts only for a Gateway timeout, malformed bridge response, no-output error, or HTTP 5xx; every failed and recovered attempt is retained in telemetry. Model/content errors, admission/evidence gates, and all non-transport failures are never retried. No explicit reasoning parameter is sent; native routing metadata is the authoritative resolved-model record. Any missing required field leaves a run auditable but excludes it from the primary table.",
    "id": "88912b9f",
-   "hash": "84ca15311cb4"
+   "hash": "002f2e6009fd"
   },
   {
    "type": "para",
