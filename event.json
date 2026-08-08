@@ -1,29 +1,29 @@
 {
  "event": "version_created",
- "artifact": "ara/logic/experiments.md",
- "artifact_id": "pp_15fb7a0bcf0891f7cee01068",
- "version": "2f84645f",
- "parent": "8a4de38a",
+ "artifact": "docs/RESEARCH_PLAN.md",
+ "artifact_id": "pp_00e96ce828caea19ac7221ae",
+ "version": "2a3bfa1b",
+ "parent": "2c93614d",
  "author": {
-  "name": "codex",
-  "kind": "agent",
-  "session": "gateway-luna-terra-retry-20260807"
+  "name": "unknown",
+  "kind": "human",
+  "session": null
  },
  "note": null,
- "ts": "2026-08-08T02:52:56+00:00",
+ "ts": "2026-08-08T03:12:23+00:00",
  "stats": {
   "modified": 1
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "0b9f8f55",
-   "type": "list",
-   "context": "E06: Gateway Harvey B0 baseline and SAS "
+   "block": "37044759",
+   "type": "para",
+   "context": "Decision in one sentence"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:c44fa29987b5810c0e1b48e70189c6c3803bfc2ba029300d5709abccd2079290",
+ "soft_fingerprint": "ppsb1:2c13fa17ffd25476bf154082c7c4e36b83ecae90ade543b3d0d3161ffaad8566",
  "actors": {
   "requested_by": [
    "richardtang"
@@ -41,13 +41,12 @@
  "attribution_basis": "environment_attested",
  "claims": [
   {
-   "block": "0b9f8f55",
-   "kind": "modified",
-   "note": "Records v1's pre-inference parameter failure and the authorized v2 retry scope."
+   "block_id": "37044759",
+   "claim": "Records v2's three completed audited execution trials and the incomplete B0 scoring cap event."
   }
  ],
  "context": {
-  "why": "The user authorized a new immutable v2 retry after v1 failed before inference at Gateway parameter validation."
+  "why": "Records v2 execution completion and the immutable B0 scorer-cap stop."
  },
- "event_id": "ppe_cff66dd4f1dd362121199791"
+ "event_id": "ppe_be6d6250f82ac41d02e7ee81"
 }
