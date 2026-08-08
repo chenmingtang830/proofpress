@@ -40,9 +40,9 @@
   },
   {
    "type": "para",
-   "text": "This slice supports the benchmark remedy, not a Proofpress task-accuracy claim: `S2` matched `S0`, while `S3` was one dimension below `S1`. CUPMem calls were executed as independent per-query checkpoints for the pilot because the unmodified full-record adapter exceeded local memory limits; this is a protocol limitation, not evidence of a treatment effect. The result therefore gates repair and held-out execution; it does not close Phase 1 or justify generalization.",
+   "text": "This slice supports the benchmark remedy, not a Proofpress task-accuracy claim: `S2` matched `S0`, while `S3` was one dimension below `S1`. CUPMem calls were executed as independent per-query checkpoints for the pilot because the unmodified full-record adapter exceeded local memory limits; this is a protocol limitation, not evidence of a treatment effect. The pre-registered stop/narrow rule is triggered because CUPMem matches or beats `S3` on every native dimension in this slice. Phase 1 therefore ends at a narrow pilot conclusion; no held-out confirmatory run is claimed or authorized by this result.",
    "id": "2bf59710",
-   "hash": "990f080930b7"
+   "hash": "9cb1f8a2d87d"
   },
   {
    "type": "heading",
