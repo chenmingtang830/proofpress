@@ -2,140 +2,160 @@
  "event": "version_created",
  "artifact": "experiments/provenance_handoff/docs/STALE_PHASE1_PLAN.md",
  "artifact_id": "pp_6cf0c8f0e4ef1cb9c59aae65",
- "version": "1d4e6723",
- "parent": "18ae6e94",
+ "version": "57384204",
+ "parent": "1d4e6723",
  "author": {
   "name": "codex-preflight",
   "kind": "system",
   "session": null
  },
  "note": "best-effort fallback capture; edit attribution unknown",
- "ts": "2026-08-08T10:38:27+00:00",
+ "ts": "2026-08-08T10:42:16+00:00",
  "stats": {
-  "modified": 7,
-  "removed": 10
+  "added": 19
  },
  "changes": [
   {
-   "kind": "modified",
-   "block": "05b3cc93",
-   "type": "para",
-   "context": "Status and scope"
+   "kind": "added",
+   "block": "5e07da53",
+   "type": "heading",
+   "context": "Starting evidence and mechanism boundary",
+   "preview": "## Starting evidence and mechanism boundary"
   },
   {
-   "kind": "modified",
-   "block": "6c906779",
+   "kind": "added",
+   "block": "de6d63ec",
    "type": "para",
-   "context": "Research question"
+   "context": "Starting evidence and mechanism boundary",
+   "preview": "The historical internal MemConflict check found no clear tas"
   },
   {
-   "kind": "modified",
-   "block": "2e1f1a2a",
+   "kind": "added",
+   "block": "85723dd2",
    "type": "para",
-   "context": "Primary measures and comparisons"
+   "context": "Starting evidence and mechanism boundary",
+   "preview": "Provenance has a causal path only when a successor uses it t"
   },
   {
-   "kind": "modified",
-   "block": "9785fbaa",
-   "type": "para",
-   "context": "Primary measures and comparisons"
+   "kind": "added",
+   "block": "7823440b",
+   "type": "table",
+   "context": "Starting evidence and mechanism boundary",
+   "preview": "| Mechanism | What it adds | Outcome family |\n|---|---|---|\n"
   },
   {
-   "kind": "modified",
-   "block": "8336234b",
+   "kind": "added",
+   "block": "e77fb07f",
    "type": "para",
-   "context": "Primary measures and comparisons"
+   "context": "Starting evidence and mechanism boundary",
+   "preview": "These mechanisms remain distinct: a ledger without a success"
   },
   {
-   "kind": "modified",
-   "block": "88912b9f",
-   "type": "para",
-   "context": "Freeze gate before execution"
+   "kind": "added",
+   "block": "e1107823",
+   "type": "heading",
+   "context": "Research hypotheses and discipline",
+   "preview": "## Research hypotheses and discipline"
   },
   {
-   "kind": "modified",
-   "block": "28a4e5f4",
-   "type": "para",
-   "context": "Interpretation boundary"
+   "kind": "added",
+   "block": "cea32510",
+   "type": "list",
+   "context": "Research hypotheses and discipline",
+   "preview": "- **H1 — State inheritance:** when a successor lacks predece"
   },
   {
-   "kind": "removed",
-   "block": "60288f42",
+   "kind": "added",
+   "block": "acbedaff",
    "type": "para",
-   "context": "",
-   "preview": "[//]: # (ob:stalephase1-title)"
+   "context": "Research hypotheses and discipline",
+   "preview": "H1 and H2 may affect task or artifact quality. H3 primarily "
   },
   {
-   "kind": "removed",
-   "block": "41ca46ed",
+   "kind": "added",
+   "block": "304e5abe",
    "type": "para",
-   "context": "",
-   "preview": "[//]: # (ob:stalephase1-status)"
+   "context": "Research hypotheses and discipline",
+   "preview": "Every phase follows these rules: enter independently defined"
   },
   {
-   "kind": "removed",
-   "block": "d7a9e002",
+   "kind": "added",
+   "block": "6ff9f4db",
    "type": "para",
-   "context": "",
-   "preview": "[//]: # (ob:stalephase1-question)"
+   "context": "Frozen conditions",
+   "preview": "The S2/S3 successor policy is intentionally minimal: inspect"
   },
   {
-   "kind": "removed",
-   "block": "49d6abe1",
+   "kind": "added",
+   "block": "5811c6df",
    "type": "para",
-   "context": "",
-   "preview": "[//]: # (ob:stalephase1-conditions)"
+   "context": "Freeze gate before execution",
+   "preview": "The migrated exploratory condition manifest, preregistration"
   },
   {
-   "kind": "removed",
-   "block": "b1a1b907",
-   "type": "para",
-   "context": "",
-   "preview": "[//]: # (ob:stalephase1-table)"
+   "kind": "added",
+   "block": "42c50c5e",
+   "type": "heading",
+   "context": "Pilot, confirmatory gate, and reporting",
+   "preview": "## Pilot, confirmatory gate, and reporting"
   },
   {
-   "kind": "removed",
-   "block": "0e50c1a2",
+   "kind": "added",
+   "block": "61acbff8",
    "type": "para",
-   "context": "",
-   "preview": "[//]: # (ob:stalephase1-primary)"
+   "context": "Pilot, confirmatory gate, and reporting",
+   "preview": "The initial pilot is exploratory: it validates the official "
   },
   {
-   "kind": "removed",
-   "block": "f7063a6e",
+   "kind": "added",
+   "block": "6bccbf52",
    "type": "para",
-   "context": "",
-   "preview": "[//]: # (ob:stalephase1-freeze)"
+   "context": "Pilot, confirmatory gate, and reporting",
+   "preview": "The confirmatory run may proceed only if the official S0/S1 "
   },
   {
-   "kind": "removed",
-   "block": "396830aa",
+   "kind": "added",
+   "block": "ad09e58a",
    "type": "para",
-   "context": "",
-   "preview": "[//]: # (ob:stalephase1-run)"
+   "context": "Pilot, confirmatory gate, and reporting",
+   "preview": "Report point estimates and uncertainty; T1/T2 breakdowns; ea"
   },
   {
-   "kind": "removed",
-   "block": "baed5b92",
-   "type": "para",
-   "context": "",
-   "preview": "[//]: # (ob:stalephase1-steps)"
+   "kind": "added",
+   "block": "64460f7e",
+   "type": "heading",
+   "context": "Later phases (not authorized by Phase 1)",
+   "preview": "## Later phases (not authorized by Phase 1)"
   },
   {
-   "kind": "removed",
-   "block": "595ce155",
-   "type": "para",
-   "context": "",
-   "preview": "[//]: # (ob:stalephase1-decision)"
+   "kind": "added",
+   "block": "9ea108cb",
+   "type": "list",
+   "context": "Later phases (not authorized by Phase 1)",
+   "preview": "1. **Memory Laundering / PPMF:** compare vanilla consolidate"
+  },
+  {
+   "kind": "added",
+   "block": "1fcffe4a",
+   "type": "heading",
+   "context": "Immediate work queue",
+   "preview": "## Immediate work queue"
+  },
+  {
+   "kind": "added",
+   "block": "0cf8df5d",
+   "type": "list",
+   "context": "Immediate work queue",
+   "preview": "1. Reproduce the official STALE/CUPMem baseline unchanged an"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:1b5a5aa5c60e481f514ec2531f0e32f69b9b51231fd1f873368fe6c9e8c84a8b",
+ "soft_fingerprint": "ppsb1:ad2d3d665400f28cb6d95072f44f5f5662bb56dd584d2ddfbda90d7607d15fd1",
  "actors": {
   "recorded_by": [
    "codex-preflight"
   ]
  },
  "attribution_basis": "harness_attested",
- "event_id": "ppe_b60916217b423613a96d9d45"
+ "event_id": "ppe_e40581f621bf4ccee41cb5d9"
 }
