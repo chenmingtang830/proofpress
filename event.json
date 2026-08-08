@@ -1,32 +1,61 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/research/phase1/README.md",
- "artifact_id": "pp_3628f0ea19e46c87bf454b52",
- "version": "20a061de",
- "parent": "c1f9572d",
+ "artifact": "experiments/provenance_handoff/docs/STALE_PHASE1_PLAN.md",
+ "artifact_id": "pp_6cf0c8f0e4ef1cb9c59aae65",
+ "version": "ffe93a77",
+ "parent": "78f2c71f",
  "author": {
-  "name": "codex",
+  "name": "unknown",
   "kind": "agent",
   "session": null
  },
  "note": null,
- "ts": "2026-08-08T10:46:57+00:00",
+ "ts": "2026-08-08T11:17:56+00:00",
  "stats": {
-  "modified": 1
+  "modified": 1,
+  "added": 4
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "71f8059f",
+   "block": "05b3cc93",
    "type": "para",
-   "context": "Migrated Phase 1 planning inputs"
+   "context": "Status and scope"
+  },
+  {
+   "kind": "added",
+   "block": "2bc3a0e1",
+   "type": "heading",
+   "context": "Exploratory pilot result (not confirmato",
+   "preview": "## Exploratory pilot result (not confirmatory)"
+  },
+  {
+   "kind": "added",
+   "block": "ef357a6e",
+   "type": "para",
+   "context": "Exploratory pilot result (not confirmato",
+   "preview": "The pilot used one frozen T1 record and one frozen T2 record"
+  },
+  {
+   "kind": "added",
+   "block": "facf0a54",
+   "type": "table",
+   "context": "Exploratory pilot result (not confirmato",
+   "preview": "| Condition | Mechanism | Native STALE score |\n|---|---|---:"
+  },
+  {
+   "kind": "added",
+   "block": "2bf59710",
+   "type": "para",
+   "context": "Exploratory pilot result (not confirmato",
+   "preview": "This slice supports the benchmark remedy, not a Proofpress t"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:44d66231cd478e7fa1d7da6c690219010c7facd96f489b80c7a48fe4f8cf2738",
+ "soft_fingerprint": "ppsb1:177c3d6456581467469858b6219206d1b2ea23de43bc279f3eca4d91fab47969",
  "actors": {
   "requested_by": [
-   "richardtang"
+   "user"
   ],
   "produced_by": [
    "codex"
@@ -41,13 +70,33 @@
  "attribution_basis": "environment_attested",
  "claims": [
   {
-   "block": "71f8059f",
+   "block": "05b3cc93",
    "kind": "modified",
-   "note": "Recorded the verified upstream data/commit and remaining execution gates."
+   "note": "Status now records the completed two-record exploratory pilot and keeps the held-out confirmatory matrix pending."
+  },
+  {
+   "block": "2bc3a0e1",
+   "kind": "added",
+   "note": "Adds the exploratory pilot result section."
+  },
+  {
+   "block": "ef357a6e",
+   "kind": "added",
+   "note": "Records frozen pilot sample, evaluator, model, provider, and machine-readable report."
+  },
+  {
+   "block": "facf0a54",
+   "kind": "added",
+   "note": "Records native STALE scores for S0 through S3."
+  },
+  {
+   "block": "2bf59710",
+   "kind": "added",
+   "note": "Records the non-confirmatory interpretation and CUPMem adapter limitation."
   }
  ],
  "context": {
-  "why": "Record which migrated inputs were reverified and which Phase 1 gates remain."
+  "why": "Record the completed exploratory STALE/CUPMem Phase 1 pilot while preserving the pre-registered confirmatory gate and its protocol limitations."
  },
- "event_id": "ppe_4d96c517966db71f2a577b29"
+ "event_id": "ppe_2dfb752b54229317578cc5be"
 }
