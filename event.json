@@ -1,59 +1,29 @@
 {
  "event": "version_created",
- "artifact": "docs/RESULTS_MATRIX.md",
- "artifact_id": "pp_d40d46a12d4d493fcbc9c0e9",
- "version": "66e5e5f1",
- "parent": "71048d6e",
+ "artifact": "ara/logic/experiments.md",
+ "artifact_id": "pp_15fb7a0bcf0891f7cee01068",
+ "version": "8a4de38a",
+ "parent": "8bd781ff",
  "author": {
   "name": "codex",
   "kind": "agent",
   "session": "gateway-luna-terra-20260807"
  },
  "note": null,
- "ts": "2026-08-08T02:49:11+00:00",
+ "ts": "2026-08-08T02:49:13+00:00",
  "stats": {
-  "modified": 3
+  "modified": 1
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "f9ecf7b5",
-   "type": "para",
-   "context": "Review state"
-  },
-  {
-   "kind": "modified",
-   "block": "19feb171",
-   "type": "para",
-   "context": "Accepted Matrix D: Gateway Harvey B0 and",
-   "numbers": [
-    [
-     "2",
-     "500"
-    ],
-    [
-     "$15",
-     "1"
-    ],
-    [
-     "1",
-     "2"
-    ],
-    [
-     "$6",
-     "3"
-    ]
-   ]
-  },
-  {
-   "kind": "modified",
-   "block": "17f95fa2",
-   "type": "table",
-   "context": "The result table that should appear in t"
+   "block": "0b9f8f55",
+   "type": "list",
+   "context": "E06: Gateway Harvey B0 baseline and SAS "
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:65a575dae4e17f6f9c97c689000bf4d8dd315e64362b48029ca9fa4bb6564d99",
+ "soft_fingerprint": "ppsb1:c4fcb42c0b8cece738b154788f1bc965196251b63fb1cb6951d0ab7adf6805c1",
  "actors": {
   "requested_by": [
    "richardtang"
@@ -71,23 +41,13 @@
  "attribution_basis": "environment_attested",
  "claims": [
   {
-   "block": "f9ecf7b5",
+   "block": "0b9f8f55",
    "kind": "modified",
-   "note": "Updates active-versus-archived transport state."
-  },
-  {
-   "block": "19feb171",
-   "kind": "modified",
-   "note": "Records the active staged Luna/Terra slice and its analysis gate."
-  },
-  {
-   "block": "17f95fa2",
-   "kind": "modified",
-   "note": "Updates the planned paper table model and transport labels."
+   "note": "Updates E06 with the staged Luna/Terra protocol, telemetry, budgets, and analysis boundary."
   }
  ],
  "context": {
   "why": "User authorized a staged GPT-5.6 Luna execution and Terra blind-scoring qualification after archived Gateway failures."
  },
- "event_id": "ppe_cb60654cf66fe54cada4c963"
+ "event_id": "ppe_2bef5960b7e8147ae657f2bf"
 }
