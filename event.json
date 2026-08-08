@@ -1,41 +1,29 @@
 {
  "event": "version_created",
- "artifact": "docs/RESULTS_MATRIX.md",
- "artifact_id": "pp_d40d46a12d4d493fcbc9c0e9",
- "version": "edf8ee41",
- "parent": "c6615a1f",
+ "artifact": "docs/ARA_PROOFPRESS.md",
+ "artifact_id": "pp_888d6d87b2222eb35ce165fc",
+ "version": "bd6dd7e9",
+ "parent": "b410462e",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-08T06:18:13+00:00",
+ "ts": "2026-08-08T06:18:16+00:00",
  "stats": {
-  "modified": 3
+  "modified": 1
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "8f5f32ed",
-   "type": "heading",
-   "context": "Results Matrix and Interpretation Guide "
-  },
-  {
-   "kind": "modified",
-   "block": "f9ecf7b5",
+   "block": "35a9ce23",
    "type": "para",
-   "context": "Review state"
-  },
-  {
-   "kind": "modified",
-   "block": "d227002e",
-   "type": "code",
-   "context": "What the paper must distinguish"
+   "context": "How this study uses both"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:9273de2a3c449c9fbea4333537336cd096f7f031471d76051d14bd57c2d2907f",
+ "soft_fingerprint": "ppsb1:cc3cd6fa4a3de20a4c240c9b627a677e7cc04273b9218190547d4245ef6378db",
  "actors": {
   "requested_by": [
    "Richard Tang"
@@ -53,18 +41,13 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "f9ecf7b5",
+   "block": "35e9ce23",
    "kind": "modified",
-   "note": "Defined current result conditions and separate reporting rule."
-  },
-  {
-   "block": "d227002e",
-   "kind": "modified",
-   "note": "Updated evaluation sequence to MemConflict C&H and APEX."
+   "note": "Updated ARA record to the accepted single-agent route and Harvey boundary."
   }
  ],
  "context": {
-  "why": "Align result interpretation with the approved three-condition single-agent study."
+  "why": "Record the accepted research route in the ARA boundary document."
  },
- "event_id": "ppe_8b99f3f868952442638f7f14"
+ "event_id": "ppe_8396f478505540d1ddb4a13c"
 }
