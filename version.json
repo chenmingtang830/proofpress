@@ -1,24 +1,18 @@
 {
- "artifact": "experiments/provenance_handoff/research/phase1/README.md",
- "artifact_id": "pp_3628f0ea19e46c87bf454b52",
+ "artifact": "experiments/provenance_handoff/ara/src/environment.md",
+ "artifact_id": "pp_d4f0f4ca5617c9d0528dea8e",
  "blocks": [
   {
    "type": "heading",
-   "text": "# Migrated Phase 1 planning inputs",
-   "id": "53177c26",
-   "hash": "828894af271a"
+   "text": "# Environment",
+   "id": "a548e2e8",
+   "hash": "4d65b7458bc8"
   },
   {
-   "type": "para",
-   "text": "These files were migrated from the former `/Users/richardtang/Documents/Proofpress` checkout, which is no longer maintained. They preserve the STALE/CUPMem condition contract, exploratory preregistration, and observed dataset profile. The source data hash and upstream commit were reverified in `upstream_lock.json`; the two-record pilot and official scorer run are recorded in `pilot_report.json`. The pre-registered stop/narrow gate fired, so no held-out confirmatory matrix was run.",
-   "id": "71f8059f",
-   "hash": "99e3359c064a"
-  },
-  {
-   "type": "para",
-   "text": "The former two-arm local Codex pilot was intentionally not migrated as an executable runner. The current `run_pilot.py` is the exploratory adapter used for S0–S3; its CUPMem S1/S3 results use independent per-query checkpoints because the full-record adapter exceeded local memory limits. Those adapter limitations keep the result narrow and non-confirmatory.",
-   "id": "507f4b15",
-   "hash": "75605b459ffb"
+   "type": "list",
+   "text": "- **Experiment repository**: `/Users/richardtang/proofpress-dev/experiments/provenance_handoff`\n- **Experiment runtime**: Python project managed with `uv`; current lightweight modules are `pp_eval/`.\n- **Active upstream target**: STALE benchmark data plus the pinned CUPMem implementation revision recorded in the Phase 1 pilot report. Harvey LAB v1.0 remains an archived prototype target.\n- **ARA upstream**: `https://github.com/ARA-Labs/Agent-Native-Research-Artifact`, local source commit `35981edc35c51413d291ab8e504ea7c907fd67e7`.\n- **External data home**: `PROOFPRESS_EVAL_HOME`; raw data/traces/results stay there.\n- **Planned model transport**: selected only at the STALE freeze gate, with exact requested/resolved model, provider, cost, retries, and fallback state recorded per call. Vercel/Gateway, OpenRouter/Novita, and unversioned-Flash records are archived transport history, not active routing requirements. Credentials remain outside Git.\n- **Core model policy**: one homogeneous model team with `high` effort per workflow attempt; Proofpress itself never makes a model call.\n- **Gateway evidence rule**: every model call must record requested/resolved model, actual provider, Gateway `usage.cost`, fallback status/metadata, token values, and latency. A record lacking any required telemetry remains audit-visible but is not qualified for a formal result; a wrapper-local `$0` is never substituted.\n- **Execution state**: historical Harvey/Gateway qualification is stopped and unqualified. Its event logs and aborted manifest remain failed transport evidence, never treatment evidence. The active STALE Phase 1 exploratory pilot is complete and triggered the pre-registered stop/narrow gate; no held-out confirmatory run is claimed.",
+   "id": "a84a1149",
+   "hash": "297436040bb3"
   }
  ]
 }

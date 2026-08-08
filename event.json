@@ -1,35 +1,29 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/research/phase1/README.md",
- "artifact_id": "pp_3628f0ea19e46c87bf454b52",
- "version": "9271393c",
- "parent": "20a061de",
+ "artifact": "experiments/provenance_handoff/ara/src/environment.md",
+ "artifact_id": "pp_d4f0f4ca5617c9d0528dea8e",
+ "version": "d3d2a251",
+ "parent": "ca35d5e5",
  "author": {
   "name": "unknown",
   "kind": "agent",
   "session": null
  },
  "note": null,
- "ts": "2026-08-08T11:21:36+00:00",
+ "ts": "2026-08-08T11:21:42+00:00",
  "stats": {
-  "modified": 2
+  "modified": 1
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "71f8059f",
-   "type": "para",
-   "context": "Migrated Phase 1 planning inputs"
-  },
-  {
-   "kind": "modified",
-   "block": "507f4b15",
-   "type": "para",
-   "context": "Migrated Phase 1 planning inputs"
+   "block": "a84a1149",
+   "type": "list",
+   "context": "Environment"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:8b791c829d906b286a70fcc15e4050faae132a0664b92ba7883393919b28e2e9",
+ "soft_fingerprint": "ppsb1:a71a8f6b6d4e46722318506f0aae889e2f3d7130cecbcde2f5702d12194ff872",
  "actors": {
   "requested_by": [
    "user"
@@ -47,18 +41,13 @@
  "attribution_basis": "environment_attested",
  "claims": [
   {
-   "block": "71f8059f",
+   "block": "a84a1149",
    "kind": "modified",
-   "note": "Marks the pilot report as the current result and the confirmatory matrix as not run."
-  },
-  {
-   "block": "507f4b15",
-   "kind": "modified",
-   "note": "Points to the current exploratory runner and records its per-query CUPMem limitation."
+   "note": "Updates the execution state to the completed pilot and stop/narrow gate."
   }
  ],
  "context": {
-  "why": "Synchronize Phase 1 planning inputs with the completed exploratory pilot and stop/narrow disposition."
+  "why": "Synchronize the ARA environment index with the completed Phase 1 pilot gate."
  },
- "event_id": "ppe_0657cf7fec047aa5cc4400d2"
+ "event_id": "ppe_a9526db8e65e614fe4033643"
 }
