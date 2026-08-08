@@ -1,29 +1,29 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/ara/evidence/README.md",
- "artifact_id": "pp_d903bfb55a61339cd26f454f",
- "version": "1e915887",
- "parent": "f1c814c9",
+ "artifact": "experiments/provenance_handoff/ara/logic/experiments.md",
+ "artifact_id": "pp_15fb7a0bcf0891f7cee01068",
+ "version": "7557333d",
+ "parent": "d8e671e0",
  "author": {
   "name": "unknown",
   "kind": "agent",
   "session": null
  },
  "note": null,
- "ts": "2026-08-08T11:21:48+00:00",
+ "ts": "2026-08-08T11:22:10+00:00",
  "stats": {
   "modified": 1
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "563cb8db",
-   "type": "para",
-   "context": "Current state"
+   "block": "28fb9f31",
+   "type": "list",
+   "context": "E08: Active STALE / CUPMem Phase 1"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:43e6803853266fa1a6c6dec02a127b160ea569bbd5565822eb634d80e988bc17",
+ "soft_fingerprint": "ppsb1:a1b1a4d198d40d458e751e5c525a85cead161acc22173471c68adf169e012f5b",
  "actors": {
   "requested_by": [
    "user"
@@ -41,13 +41,13 @@
  "attribution_basis": "environment_attested",
  "claims": [
   {
-   "block": "563cb8db",
+   "block": "28fb9f31",
    "kind": "modified",
-   "note": "Indexes the machine-readable pilot result and records that no confirmatory matrix ran."
+   "note": "Records the E08 pilot score and stop/narrow disposition."
   }
  ],
  "context": {
-  "why": "Index the machine-readable STALE/CUPMem pilot result and its non-confirmatory boundary."
+  "why": "Update the ARA experiment index with the measured E08 pilot and its pre-registered stop/narrow outcome."
  },
- "event_id": "ppe_76d8ab70161bdd5013f086b2"
+ "event_id": "ppe_e0f5c02faf55e36010026883"
 }
