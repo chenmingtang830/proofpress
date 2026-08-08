@@ -1,29 +1,29 @@
 {
  "event": "version_created",
- "artifact": "docs/EXECUTION_PLAN.md",
- "artifact_id": "pp_120f0f61aa69ad67431b9659",
- "version": "39e43649",
- "parent": "96960545",
+ "artifact": "docs/RESULTS_MATRIX.md",
+ "artifact_id": "pp_d40d46a12d4d493fcbc9c0e9",
+ "version": "559b3da1",
+ "parent": "7ca53d84",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-08T03:12:25+00:00",
+ "ts": "2026-08-08T03:12:28+00:00",
  "stats": {
   "modified": 1
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "1d585184",
+   "block": "19feb171",
    "type": "para",
-   "context": "Review state"
+   "context": "Accepted Matrix D: Gateway Harvey B0 and"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:3036b57573fa6b5fd41ab17e01e94e9cd6e796cf0fba2a7bd8c6aec313095748",
+ "soft_fingerprint": "ppsb1:0bb0d2156958e490c45ebfad194cb03d44b09616419dd920892e6504ff081582",
  "actors": {
   "requested_by": [
    "richardtang"
@@ -41,12 +41,12 @@
  "attribution_basis": "environment_attested",
  "claims": [
   {
-   "block_id": "1d585184",
-   "claim": "Records that v2 execution passed but its frozen B0 scoring ledger stopped at the cap."
+   "block_id": "19feb171",
+   "claim": "Records v2 operational success and the incomplete B0 score boundary without an effect claim."
   }
  ],
  "context": {
   "why": "Records v2 execution completion and the immutable B0 scorer-cap stop."
  },
- "event_id": "ppe_0fba7ac07e0b4bfa65cf91ac"
+ "event_id": "ppe_f7fc4d3666ffb48996eb18a0"
 }
