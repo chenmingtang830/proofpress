@@ -1,71 +1,59 @@
 {
  "event": "version_created",
- "artifact": "docs/EXECUTION_PLAN.md",
- "artifact_id": "pp_120f0f61aa69ad67431b9659",
- "version": "35eaa954",
- "parent": "bfd1a55e",
+ "artifact": "docs/RESULTS_MATRIX.md",
+ "artifact_id": "pp_d40d46a12d4d493fcbc9c0e9",
+ "version": "66e5e5f1",
+ "parent": "71048d6e",
  "author": {
   "name": "codex",
   "kind": "agent",
   "session": "gateway-luna-terra-20260807"
  },
  "note": null,
- "ts": "2026-08-08T02:49:08+00:00",
+ "ts": "2026-08-08T02:49:11+00:00",
  "stats": {
-  "modified": 8
+  "modified": 3
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "1d585184",
+   "block": "f9ecf7b5",
    "type": "para",
    "context": "Review state"
   },
   {
    "kind": "modified",
-   "block": "574f6ebb",
-   "type": "table",
-   "context": "Study modes"
-  },
-  {
-   "kind": "modified",
-   "block": "386d8701",
-   "type": "list",
-   "context": "Implementation work before any compariso"
-  },
-  {
-   "kind": "modified",
-   "block": "fa2c5953",
-   "type": "list",
-   "context": "Gateway freeze contract"
-  },
-  {
-   "kind": "modified",
-   "block": "855ce8eb",
+   "block": "19feb171",
    "type": "para",
-   "context": "Gateway freeze contract"
+   "context": "Accepted Matrix D: Gateway Harvey B0 and",
+   "numbers": [
+    [
+     "2",
+     "500"
+    ],
+    [
+     "$15",
+     "1"
+    ],
+    [
+     "1",
+     "2"
+    ],
+    [
+     "$6",
+     "3"
+    ]
+   ]
   },
   {
    "kind": "modified",
-   "block": "1f0678aa",
+   "block": "17f95fa2",
    "type": "table",
-   "context": "Gate sequence and exact counts"
-  },
-  {
-   "kind": "modified",
-   "block": "590ee263",
-   "type": "para",
-   "context": "Gate sequence and exact counts"
-  },
-  {
-   "kind": "modified",
-   "block": "aa49c13e",
-   "type": "list",
-   "context": "Execution order for the operator"
+   "context": "The result table that should appear in t"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:fa5f7183d3a938366193e10b6b07aa9ef8e9de5812b6202a6755a47e6d4563f2",
+ "soft_fingerprint": "ppsb1:65a575dae4e17f6f9c97c689000bf4d8dd315e64362b48029ca9fa4bb6564d99",
  "actors": {
   "requested_by": [
    "richardtang"
@@ -83,48 +71,23 @@
  "attribution_basis": "environment_attested",
  "claims": [
   {
-   "block": "1d585184",
+   "block": "f9ecf7b5",
    "kind": "modified",
-   "note": "Records the active immutable Luna/Terra staged protocol."
+   "note": "Updates active-versus-archived transport state."
   },
   {
-   "block": "574f6ebb",
+   "block": "19feb171",
    "kind": "modified",
-   "note": "Defines the staged qualification mode and its review gate."
+   "note": "Records the active staged Luna/Terra slice and its analysis gate."
   },
   {
-   "block": "386d8701",
+   "block": "17f95fa2",
    "kind": "modified",
-   "note": "Updates the adapter task to the two frozen model roles."
-  },
-  {
-   "block": "fa2c5953",
-   "kind": "modified",
-   "note": "Updates the Gateway freeze requirements."
-  },
-  {
-   "block": "855ce8eb",
-   "kind": "modified",
-   "note": "Defines Luna execution and Terra blind-scoring roles."
-  },
-  {
-   "block": "1f0678aa",
-   "kind": "modified",
-   "note": "Replaces old gates with the three-trial execution and grading sequence."
-  },
-  {
-   "block": "590ee263",
-   "kind": "modified",
-   "note": "Clarifies the trial-one review boundary."
-  },
-  {
-   "block": "aa49c13e",
-   "kind": "modified",
-   "note": "Updates the operator execution sequence."
+   "note": "Updates the planned paper table model and transport labels."
   }
  ],
  "context": {
   "why": "User authorized a staged GPT-5.6 Luna execution and Terra blind-scoring qualification after archived Gateway failures."
  },
- "event_id": "ppe_acb4723de2f9385ba6774ae2"
+ "event_id": "ppe_cb60654cf66fe54cada4c963"
 }
