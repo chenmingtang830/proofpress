@@ -1,498 +1,66 @@
 {
  "event": "version_created",
- "artifact": "docs/internal/NOTION_ADAPTER_STRATEGY.md",
- "artifact_id": "pp_d538d330797f1110077aece3",
- "version": "a979bead",
- "parent": null,
+ "artifact": "docs/RESEARCH_PLAN.md",
+ "artifact_id": "pp_00e96ce828caea19ac7221ae",
+ "version": "58351185",
+ "parent": "f613dcac",
  "author": {
-  "name": "unknown",
-  "kind": "human",
+  "name": "codex",
+  "kind": "agent",
   "session": null
  },
  "note": null,
- "ts": "2026-08-08T00:02:45+00:00",
+ "ts": "2026-08-08T02:16:56+00:00",
  "stats": {
-  "added": 38
+  "modified": 1,
+  "added": 1
  },
  "changes": [
   {
-   "kind": "added",
-   "block": "5a9d4c01",
-   "type": "heading",
-   "context": "ProofPress for Notion — internal adapter",
-   "preview": "# ProofPress for Notion — internal adapter strategy"
-  },
-  {
-   "kind": "added",
-   "block": "70b93ea2",
-   "type": "heading",
-   "context": "Decision",
-   "preview": "## Decision"
-  },
-  {
-   "kind": "added",
-   "block": "a91e4354",
+   "kind": "modified",
+   "block": "37044759",
    "type": "para",
-   "context": "Decision",
-   "preview": "Explore a narrow private Notion adapter before committing to"
+   "context": "Decision in one sentence"
   },
   {
    "kind": "added",
-   "block": "6d780ce7",
+   "block": "8cf1443c",
    "type": "para",
-   "context": "Decision",
-   "preview": "> Notion manages collaborative page evolution. ProofPress re"
-  },
-  {
-   "kind": "added",
-   "block": "0896ff3c",
-   "type": "heading",
-   "context": "Product boundary",
-   "preview": "## Product boundary"
-  },
-  {
-   "kind": "added",
-   "block": "2a87435f",
-   "type": "para",
-   "context": "Product boundary",
-   "preview": "Notion version history is useful for recovery and collaborat"
-  },
-  {
-   "kind": "added",
-   "block": "fe807ca5",
-   "type": "heading",
-   "context": "Intended user flow",
-   "preview": "## Intended user flow"
-  },
-  {
-   "kind": "added",
-   "block": "da8b67c5",
-   "type": "list",
-   "context": "Intended user flow",
-   "preview": "1. A person or approved agent edits a Notion page normally.\n"
-  },
-  {
-   "kind": "added",
-   "block": "fd03616d",
-   "type": "para",
-   "context": "Intended user flow",
-   "preview": "   approved workflow invokes the equivalent action."
-  },
-  {
-   "kind": "added",
-   "block": "313dfd44",
-   "type": "list",
-   "context": "Intended user flow",
-   "preview": "3. The adapter fetches the current authorized page represent"
-  },
-  {
-   "kind": "added",
-   "block": "04d2d550",
-   "type": "para",
-   "context": "Intended user flow",
-   "preview": "   a candidate revision."
-  },
-  {
-   "kind": "added",
-   "block": "93806a74",
-   "type": "list",
-   "context": "Intended user flow",
-   "preview": "4. The actor supplies concise claims and attribution. No raw"
-  },
-  {
-   "kind": "added",
-   "block": "36fe7706",
-   "type": "para",
-   "context": "Intended user flow",
-   "preview": "   transcript is captured."
-  },
-  {
-   "kind": "added",
-   "block": "022dedc2",
-   "type": "list",
-   "context": "Intended user flow",
-   "preview": "5. ProofPress snapshots and verifies the admitted carrier.\n6"
-  },
-  {
-   "kind": "added",
-   "block": "e0103860",
-   "type": "para",
-   "context": "Intended user flow",
-   "preview": "   link to the portable ProofPress record."
-  },
-  {
-   "kind": "added",
-   "block": "8c0d2446",
-   "type": "para",
-   "context": "Intended user flow",
-   "preview": "Do not snapshot every keystroke, webhook, or conversational "
-  },
-  {
-   "kind": "added",
-   "block": "9a1a077e",
-   "type": "heading",
-   "context": "Adapter architecture",
-   "preview": "## Adapter architecture"
-  },
-  {
-   "kind": "added",
-   "block": "7abe6376",
-   "type": "code",
-   "context": "Adapter architecture",
-   "preview": "```text\nNotion edit or explicit admission\n  -> webhook signa"
-  },
-  {
-   "kind": "added",
-   "block": "c43f2917",
-   "type": "para",
-   "context": "Adapter architecture",
-   "preview": "Notion remains the authoring source of truth. The portable P"
-  },
-  {
-   "kind": "added",
-   "block": "16633e61",
-   "type": "heading",
-   "context": "Identity and consistency",
-   "preview": "## Identity and consistency"
-  },
-  {
-   "kind": "added",
-   "block": "fa39821e",
-   "type": "para",
-   "context": "Identity and consistency",
-   "preview": "Retain page ID, parent context, block IDs where available, f"
-  },
-  {
-   "kind": "added",
-   "block": "38de05c8",
-   "type": "para",
-   "context": "Identity and consistency",
-   "preview": "Derive ProofPress anchors from stable Notion block identity "
-  },
-  {
-   "kind": "added",
-   "block": "ab1c2de6",
-   "type": "heading",
-   "context": "Privacy and safety rules",
-   "preview": "## Privacy and safety rules"
-  },
-  {
-   "kind": "added",
-   "block": "cbb212a9",
-   "type": "list",
-   "context": "Privacy and safety rules",
-   "preview": "- Use OAuth or an internal integration with least-privilege "
-  },
-  {
-   "kind": "added",
-   "block": "77e41d14",
-   "type": "para",
-   "context": "Privacy and safety rules",
-   "preview": "  raw agent transcripts, or hidden memory by default."
-  },
-  {
-   "kind": "added",
-   "block": "e13f5465",
-   "type": "list",
-   "context": "Privacy and safety rules",
-   "preview": "- Support redaction or content-hash-only mode for sensitive "
-  },
-  {
-   "kind": "added",
-   "block": "009d198a",
-   "type": "para",
-   "context": "Privacy and safety rules",
-   "preview": "  authorship, rationale, or verification success."
-  },
-  {
-   "kind": "added",
-   "block": "2853f9c7",
-   "type": "heading",
-   "context": "MVP and non-goals",
-   "preview": "## MVP and non-goals"
-  },
-  {
-   "kind": "added",
-   "block": "83a9bea8",
-   "type": "para",
-   "context": "MVP and non-goals",
-   "preview": "The first pilot supports one selected page or database recor"
-  },
-  {
-   "kind": "added",
-   "block": "eccdbb58",
-   "type": "para",
-   "context": "MVP and non-goals",
-   "preview": "It does not continuously surveil a workspace, replace Notion"
-  },
-  {
-   "kind": "added",
-   "block": "65d9d049",
-   "type": "heading",
-   "context": "Pilot hypotheses and PR gate",
-   "preview": "## Pilot hypotheses and PR gate"
-  },
-  {
-   "kind": "added",
-   "block": "cc4fa8f7",
-   "type": "para",
-   "context": "Pilot hypotheses and PR gate",
-   "preview": "Use five to ten high-consequence examples: research decision"
-  },
-  {
-   "kind": "added",
-   "block": "1d1abd3b",
-   "type": "para",
-   "context": "Pilot hypotheses and PR gate",
-   "preview": "Open an implementation PR only after these are frozen:"
-  },
-  {
-   "kind": "added",
-   "block": "95438dcb",
-   "type": "list",
-   "context": "Pilot hypotheses and PR gate",
-   "preview": "1. deterministic canonicalization for supported Notion block"
-  },
-  {
-   "kind": "added",
-   "block": "f1b3cd98",
-   "type": "heading",
-   "context": "Notion relationship",
-   "preview": "## Notion relationship"
-  },
-  {
-   "kind": "added",
-   "block": "740f8270",
-   "type": "para",
-   "context": "Notion relationship",
-   "preview": "Build a working adapter and collect pilot evidence before ap"
-  },
-  {
-   "kind": "added",
-   "block": "5f6e10b3",
-   "type": "heading",
-   "context": "Revisit trigger",
-   "preview": "## Revisit trigger"
-  },
-  {
-   "kind": "added",
-   "block": "d4b1e21f",
-   "type": "para",
-   "context": "Revisit trigger",
-   "preview": "Revisit this strategy when the first pilot artifact type and"
+   "context": "Model plan",
+   "preview": "The current GLM 5.2 and Gemini 3.1 Flash Lite slices are imm"
   }
  ],
- "policy": "local",
- "soft_fingerprint": "ppsb1:1d6111a6443760996c80f2594c7f87c5e184acca9001dc42e748bfb2e06a2847",
+ "policy": "portable",
+ "soft_fingerprint": "ppsb1:f3b615ca0268bf0a978f7b0430e9a18f39690fc1096d7b3b738b9ec51cfabcb7",
  "actors": {
   "requested_by": [
    "richardtang"
   ],
   "produced_by": [
-   "Codex"
+   "codex"
   ],
   "edited_by": [
-   "Codex"
+   "codex"
   ],
   "recorded_by": [
-   "Codex"
+   "codex"
   ]
  },
- "attribution_basis": "self_asserted",
+ "attribution_basis": "environment_attested",
  "claims": [
   {
-   "block": "5a9d4c01",
-   "kind": "added",
-   "note": "Adds the internal Notion adapter strategy title."
+   "block": "37044759",
+   "kind": "modified",
+   "note": "Records GLM and Gemini B0/C0/C3 qualification before any fixed-model estimand."
   },
   {
-   "block": "70b93ea2",
+   "block": "8cf1443c",
    "kind": "added",
-   "note": "Adds the strategy decision and product boundary."
-  },
-  {
-   "block": "a91e4354",
-   "kind": "added",
-   "note": "Adds supporting strategy content for the Notion adapter proposal."
-  },
-  {
-   "block": "6d780ce7",
-   "kind": "added",
-   "note": "Adds supporting strategy content for the Notion adapter proposal."
-  },
-  {
-   "block": "0896ff3c",
-   "kind": "added",
-   "note": "Adds the distinction between Notion history and admitted provenance."
-  },
-  {
-   "block": "2a87435f",
-   "kind": "added",
-   "note": "Adds supporting strategy content for the Notion adapter proposal."
-  },
-  {
-   "block": "fe807ca5",
-   "kind": "added",
-   "note": "Adds the explicit admission user flow."
-  },
-  {
-   "block": "da8b67c5",
-   "kind": "added",
-   "note": "Adds supporting strategy content for the Notion adapter proposal."
-  },
-  {
-   "block": "fd03616d",
-   "kind": "added",
-   "note": "Adds supporting strategy content for the Notion adapter proposal."
-  },
-  {
-   "block": "313dfd44",
-   "kind": "added",
-   "note": "Adds supporting strategy content for the Notion adapter proposal."
-  },
-  {
-   "block": "04d2d550",
-   "kind": "added",
-   "note": "Adds supporting strategy content for the Notion adapter proposal."
-  },
-  {
-   "block": "93806a74",
-   "kind": "added",
-   "note": "Adds supporting strategy content for the Notion adapter proposal."
-  },
-  {
-   "block": "36fe7706",
-   "kind": "added",
-   "note": "Adds supporting strategy content for the Notion adapter proposal."
-  },
-  {
-   "block": "022dedc2",
-   "kind": "added",
-   "note": "Adds supporting strategy content for the Notion adapter proposal."
-  },
-  {
-   "block": "e0103860",
-   "kind": "added",
-   "note": "Adds supporting strategy content for the Notion adapter proposal."
-  },
-  {
-   "block": "8c0d2446",
-   "kind": "added",
-   "note": "Adds supporting strategy content for the Notion adapter proposal."
-  },
-  {
-   "block": "9a1a077e",
-   "kind": "added",
-   "note": "Adds the adapter architecture and ledger projection boundary."
-  },
-  {
-   "block": "7abe6376",
-   "kind": "added",
-   "note": "Adds supporting strategy content for the Notion adapter proposal."
-  },
-  {
-   "block": "c43f2917",
-   "kind": "added",
-   "note": "Adds supporting strategy content for the Notion adapter proposal."
-  },
-  {
-   "block": "16633e61",
-   "kind": "added",
-   "note": "Adds identity, canonicalization, and webhook consistency rules."
-  },
-  {
-   "block": "fa39821e",
-   "kind": "added",
-   "note": "Adds supporting strategy content for the Notion adapter proposal."
-  },
-  {
-   "block": "38de05c8",
-   "kind": "added",
-   "note": "Adds supporting strategy content for the Notion adapter proposal."
-  },
-  {
-   "block": "ab1c2de6",
-   "kind": "added",
-   "note": "Adds privacy, permission, and safety rules."
-  },
-  {
-   "block": "cbb212a9",
-   "kind": "added",
-   "note": "Adds supporting strategy content for the Notion adapter proposal."
-  },
-  {
-   "block": "77e41d14",
-   "kind": "added",
-   "note": "Adds supporting strategy content for the Notion adapter proposal."
-  },
-  {
-   "block": "e13f5465",
-   "kind": "added",
-   "note": "Adds supporting strategy content for the Notion adapter proposal."
-  },
-  {
-   "block": "009d198a",
-   "kind": "added",
-   "note": "Adds supporting strategy content for the Notion adapter proposal."
-  },
-  {
-   "block": "2853f9c7",
-   "kind": "added",
-   "note": "Adds MVP scope and non-goals."
-  },
-  {
-   "block": "83a9bea8",
-   "kind": "added",
-   "note": "Adds supporting strategy content for the Notion adapter proposal."
-  },
-  {
-   "block": "eccdbb58",
-   "kind": "added",
-   "note": "Adds supporting strategy content for the Notion adapter proposal."
-  },
-  {
-   "block": "65d9d049",
-   "kind": "added",
-   "note": "Adds pilot hypotheses and implementation PR gates."
-  },
-  {
-   "block": "cc4fa8f7",
-   "kind": "added",
-   "note": "Adds supporting strategy content for the Notion adapter proposal."
-  },
-  {
-   "block": "1d1abd3b",
-   "kind": "added",
-   "note": "Adds supporting strategy content for the Notion adapter proposal."
-  },
-  {
-   "block": "95438dcb",
-   "kind": "added",
-   "note": "Adds supporting strategy content for the Notion adapter proposal."
-  },
-  {
-   "block": "f1b3cd98",
-   "kind": "added",
-   "note": "Adds the proposed Notion relationship and sequencing."
-  },
-  {
-   "block": "740f8270",
-   "kind": "added",
-   "note": "Adds supporting strategy content for the Notion adapter proposal."
-  },
-  {
-   "block": "5f6e10b3",
-   "kind": "added",
-   "note": "Adds the strategy revisit trigger."
-  },
-  {
-   "block": "d4b1e21f",
-   "kind": "added",
-   "note": "Adds supporting strategy content for the Notion adapter proposal."
+   "note": "Defines isolated concurrent model-slice and telemetry/budget disqualification rules."
   }
  ],
  "context": {
-  "why": "Record the private Notion adapter strategy for a future ProofPress implementation proposal."
+  "why": "Record concurrent GLM and Gemini Gateway qualification slices requested by the study owner."
  },
- "event_id": "ppe_9897649b50896d4018506230"
+ "event_id": "ppe_2d60db29346390aa2a0649ba"
 }
