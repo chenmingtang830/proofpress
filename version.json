@@ -1,156 +1,264 @@
 {
- "artifact": "experiments/provenance_handoff/README.md",
- "artifact_id": "pp_556b115de711b0cd33eed260",
+ "artifact": "experiments/provenance_handoff/docs/STALE_PHASE1_PLAN.md",
+ "artifact_id": "pp_6cf0c8f0e4ef1cb9c59aae65",
  "blocks": [
   {
    "type": "heading",
-   "text": "# Proofpress Provenance Continuity Evaluation",
-   "id": "da60723f",
-   "hash": "88671750d817"
+   "text": "# Phase 1 Protocol — STALE / CUPMem comparative study",
+   "id": "e7be3524",
+   "hash": "74e6a0e3c82b"
   },
   {
    "type": "heading",
-   "text": "## Review status",
-   "id": "0c4a8f5e",
-   "hash": "546856f064e7"
+   "text": "## Status and scope",
+   "id": "0b6e1d4f",
+   "hash": "fd34f9fb637e"
   },
   {
    "type": "para",
-   "text": "This directory records immutable historical slices and the active comparative study of admitted artifact provenance. The sole active execution route is [STALE / CUPMem Phase 1](docs/STALE_PHASE1_PLAN.md). Historic Harvey PSA, OpenRouter/Novita, C&H, and multi-agent artifacts remain auditable history only; they are not resumed, pooled, or treated as the next experiment.",
-   "id": "d86e9669",
-   "hash": "936b6bfe2d40"
-  },
-  {
-   "type": "para",
-   "text": "This `proofpress-dev` checkout is the canonical maintenance root for the study. `/Users/richardtang/Documents/Proofpress` is not a second source of truth and should not receive further research or documentation updates.",
-   "id": "344529db",
-   "hash": "509cbad685ea"
+   "text": "**Active protocol.** This is the sole authorized Phase 1 route. It tests admitted artifact provenance against an already documented stale-memory failure using STALE and its proposed CUPMem remedy. It does not test C&H, Harvey, APEX, or the historical MemConflict fixture; those remain separate records and are not pooled. The first prompt-policy pilot is superseded because its S1/S3 execution boundary did not match S0/S2. The current production-carrier implementation pilot is in progress; no efficacy stop/narrow decision has been made.",
+   "id": "05b3cc93",
+   "hash": "284a524f7618"
   },
   {
    "type": "heading",
-   "text": "## The research question",
-   "id": "13a7e0d8",
-   "hash": "005d1b935877"
+   "text": "## Superseded prompt-policy pilot",
+   "id": "2bc3a0e1",
+   "hash": "fb9747e98aa6"
   },
   {
    "type": "para",
-   "text": "Under the same task and budget, does a verified Proofpress continuity artifact help one agent in a fresh session recover the current justified decision better than an equal-sized ordinary memory note?",
-   "id": "efb84a51",
-   "hash": "042fc92b3d36"
+   "text": "The pilot used one frozen T1 record and one frozen T2 record, three native STALE dimensions per record, the official evaluator, `openai/gpt-5.4-nano` through OpenRouter, and the same endpoint/grader across conditions. The complete machine-readable record is `../research/phase1/pilot_report.json`.",
+   "id": "ef357a6e",
+   "hash": "c84ad34d9de7"
+  },
+  {
+   "type": "table",
+   "text": "| Condition | Mechanism | Native STALE score |\n|---|---|---:|\n| `S0` | Original/plain memory carrier | 1/6 (16.7%) |\n| `S1` | CUPMem | 6/6 (100%) |\n| `S2` | Metadata-only Proofpress successor policy | 1/6 (16.7%) |\n| `S3` | CUPMem + Proofpress policy | 5/6 (83.3%) |",
+   "id": "facf0a54",
+   "hash": "02e64c94f2ef"
   },
   {
    "type": "para",
-   "text": "The study is deliberately not a claim that more context or more agents are better. It compares a continuous baseline, ordinary memory, and verified provenance; no future formal slice adds agents, roles, or raw-history conditions.",
-   "id": "51799240",
-   "hash": "413858a2a846"
+   "text": "This table is retained as a harness record only. `S1` and `S3` used independent per-query CUPMem checkpoints while `S0` and `S2` used a continuous three-query path; therefore the native score differences are not a valid causal comparison. The prior stop/narrow interpretation is withdrawn.",
+   "id": "2bf59710",
+   "hash": "5d9bd885f6fa"
   },
   {
    "type": "heading",
-   "text": "## Scope and comparison",
-   "id": "2873d37b",
-   "hash": "4e91fd527af3"
+   "text": "## Current production-carrier pilot",
+   "id": "87374336",
+   "hash": "b1d927576bf2"
   },
   {
    "type": "para",
-   "text": "Phase 1 uses the upstream STALE benchmark and compares its memory baseline and CUPMem remedy with a Proofpress admission ledger and a CUPMem-plus-Proofpress hybrid. It holds the benchmark task and its three native measures fixed while adding separately reported auditability and cost observations. Earlier Harvey/C&H material is preserved below only as a historical record, not an active substrate.",
-   "id": "1030b33f",
-   "hash": "3b91498cf5b6"
+   "text": "The replacement implementation is `research/phase1/proofpress_carrier.py` plus `run_production_pilot.py`. It materializes admitted transitions, evidence references, status, supersedes relations, semantic/artifact digests, integrity verification, and a bounded successor inspection context. The admission producer reads bounded user-state history and a deterministic gate rejects invented evidence, invalid statuses, missing current state, and malformed lineage references. The carrier is never sent to a successor unless the gate passes.",
+   "id": "c6455aa4",
+   "hash": "9a2f0077f153"
   },
   {
    "type": "para",
-   "text": "The active formal conditions are:",
-   "id": "48aa7881",
-   "hash": "aee80324c8e1"
+   "text": "The first implementation checks are positive but not efficacy evidence: T1 carrier integrity passed and both flat-state (`P2`) and real-carrier (`P3`) successors scored 3/3; a CUPMem-derived T2 carrier scored 0/3 because the upstream CUPMem trace itself failed to admit the newly introduced scorpion fact. A decoupled admission-producer smoke path captured the T2 scorpion evidence but omitted the Portland location state, demonstrating a writer-coverage failure that must be measured as an admission failure, not hidden as a Proofpress task result. The machine-readable implementation records remain outside the repository until the carrier contract and parity audit are frozen.",
+   "id": "aa5e763b",
+   "hash": "604925e8f89d"
+  },
+  {
+   "type": "heading",
+   "text": "## Research question",
+   "id": "68ce61b4",
+   "hash": "4f0bcffa3de4"
+  },
+  {
+   "type": "para",
+   "text": "When a fresh agent inherits state after a conflict update, does a Proofpress admission ledger improve state handling beyond a strong ordinary memory baseline or CUPMem, without receiving more semantic information?",
+   "id": "6c906779",
+   "hash": "310d35a29387"
+  },
+  {
+   "type": "heading",
+   "text": "## Starting evidence and mechanism boundary",
+   "id": "5e07da53",
+   "hash": "f1021beb134a"
+  },
+  {
+   "type": "para",
+   "text": "The historical internal MemConflict check found no clear task-success advantage for a provenance condition over ordinary memory when both carried similar semantic information in a closed, trusted system. Ordinary memory was often sufficient; a small stale-authority signal was not conclusive. That null result is retained as the baseline for this study, not recast as Phase 1 success.",
+   "id": "de6d63ec",
+   "hash": "3439b5d553ef"
+  },
+  {
+   "type": "para",
+   "text": "Provenance has a causal path only when a successor uses it to reconstruct or challenge state, makes a different decision, and thereby changes an outcome. A richer Markdown format alone is not an intervention.",
+   "id": "85723dd2",
+   "hash": "725471de60f6"
+  },
+  {
+   "type": "table",
+   "text": "| Mechanism | What it adds | Outcome family |\n|---|---|---|\n| Revision provenance | Versions, semantic diffs, actors, evidence, reasons, and prior/current state | Reconstruction and decision regression |\n| Admission semantics | Provisional, accepted, rejected, superseded, withdrawn, and current states | State inheritance and trust calibration |\n| Integrity evidence | Hashes, signatures, and optional external witnesses | Tamper, fork, and substitution detection |\n| Successor policy | Rules to inspect, trust, abstain, re-verify, roll back, or refuse | Behavior and task outcomes |",
+   "id": "7823440b",
+   "hash": "daa4f93313d0"
+  },
+  {
+   "type": "para",
+   "text": "These mechanisms remain distinct: a ledger without a successor policy may improve audit reconstruction without changing behavior; an authority label without an action gate may not stop a high-risk action; and a hash can show unchanged bytes without showing a claim is true or sufficiently authoritative.",
+   "id": "e77fb07f",
+   "hash": "db8df9979de9"
+  },
+  {
+   "type": "heading",
+   "text": "## Research hypotheses and discipline",
+   "id": "e1107823",
+   "hash": "af8399ffe4aa"
   },
   {
    "type": "list",
-   "text": "- `S0 — baseline`: STALE's original memory baseline.\n- `S1 — CUPMem`: the benchmark authors' state-consolidation remedy.\n- `S2 — Proofpress`: an admitted ledger with status, evidence binding, and revision lineage.\n- `S3 — hybrid`: CUPMem current-state handling plus the same Proofpress ledger.",
-   "id": "27c19da2",
-   "hash": "8daa0157b46b"
+   "text": "- **H1 — State inheritance:** when a successor lacks predecessor hidden context, admission-aware provenance improves current-state reconstruction.\n- **H2 — Decision regression:** across artifact revisions, accepted/rejected/superseded history reduces resurrection of superseded claims and rejected approaches.\n- **H3 — Authority preservation:** across consolidation or handoff, source/admission provenance reduces unsupported authority elevation.\n- **H4 — Integrity across trust boundaries:** across systems or organizations, cryptographic binding and external witnessing detect tampering, forks, or wholesale lineage substitution.",
+   "id": "cea32510",
+   "hash": "255098cd09db"
   },
   {
    "type": "para",
-   "text": "The primary Phase 1 comparisons are `S2 − S0`, `S2 − S1`, and `S3 − S1`; all are reported on STALE's State Resolution, Premise Resistance, and Implicit Policy Adaptation measures. Semantic information must be matched between S1 and S2. The wider sequence is STALE/CUPMem, then Memory Laundering/PPMF, MAST, and ARA/APEX revision—not C&H.",
-   "id": "146ef700",
-   "hash": "795114f24bfa"
+   "text": "H1 and H2 may affect task or artifact quality. H3 primarily concerns safety and trust calibration. H4 is an integrity property. They must not be collapsed into a Proofpress-specific composite score.",
+   "id": "acbedaff",
+   "hash": "4311992606b3"
+  },
+  {
+   "type": "para",
+   "text": "Every phase follows these rules: enter independently defined benchmarks first; compare with the benchmark's strongest remedy and a strong ordinary baseline; match semantic information and context budgets; keep native metrics primary; pre-register outcomes/exclusions/stopping rules; freeze model, prompts, tools, retrieval, and graders; use condition-independent grading where practical; report tokens, latency, and cost; run mechanism ablations; preserve nulls; and label any post-outcome hypothesis exploratory.",
+   "id": "304e5abe",
+   "hash": "31e23a2ee39e"
   },
   {
    "type": "heading",
-   "text": "## What is here today",
-   "id": "949eb6a5",
-   "hash": "c7f8c0c9beb7"
+   "text": "## Frozen conditions",
+   "id": "e897e744",
+   "hash": "a7107a7d14ef"
+  },
+  {
+   "type": "table",
+   "text": "| Condition | Mechanism | Required fairness boundary |\n|---|---|---|\n| `S0` | STALE/original memory baseline | upstream task, model, context budget, prompt, retrieval policy, and attempt count frozen |\n| `S1` | CUPMem | benchmark authors' state consolidation and propagation method at a pinned revision |\n| `S2` | Proofpress admission ledger | same semantic claims, evidence, and current-state content as the matched S1 input; only admission status, evidence binding, revision lineage, and verification interface differ |\n| `S3` | CUPMem + Proofpress | S1 current-state handling plus S2 portable admitted lineage |",
+   "id": "d8ad0219",
+   "hash": "2a8d713112b9"
+  },
+  {
+   "type": "para",
+   "text": "The S2/S3 successor policy is intentionally minimal: inspect relevant admitted transitions, prefer the current accepted state, surface conflicts rather than silently blend them, and abstain or re-verify when authority is insufficient. It is a state-use policy, not a runtime permission system.",
+   "id": "6ff9f4db",
+   "hash": "01260779f774"
+  },
+  {
+   "type": "heading",
+   "text": "## Primary measures and comparisons",
+   "id": "75f577d3",
+   "hash": "1d277f458b25"
+  },
+  {
+   "type": "para",
+   "text": "Preserve STALE's native measures as primary outcomes: **State Resolution**, **Premise Resistance**, and **Implicit Policy Adaptation**. Report each condition's numerator, denominator, rate, confidence interval, and paired difference where the benchmark pairing permits it. Do not replace these measures with Proofpress-specific scores.",
+   "id": "2e1f1a2a",
+   "hash": "5b8743fe952b"
+  },
+  {
+   "type": "para",
+   "text": "The prespecified comparisons are `S2 − S0`, `S2 − S1`, and `S3 − S1`. `S1 − S0` measures the benchmark remedy's contribution; `S3 − S2` tests whether CUPMem's current-state layer adds value beyond admitted history. A negative or null Proofpress result is retained without redefinition of the primary endpoint.",
+   "id": "9785fbaa",
+   "hash": "657953552f5f"
+  },
+  {
+   "type": "para",
+   "text": "Secondary, separately reported observations are evidence reconstruction, supersession faithfulness, unsupported inheritance, audit reconstruction completeness, input/output tokens, latency, and cost. They can explain a mechanism or operational trade-off but cannot substitute for the native task measures.",
+   "id": "8336234b",
+   "hash": "4d7bd812b665"
+  },
+  {
+   "type": "heading",
+   "text": "## Freeze gate before execution",
+   "id": "5abd2e71",
+   "hash": "9bf9da16b6fb"
+  },
+  {
+   "type": "para",
+   "text": "Before the first scored call, record: STALE repository/data commit and file hashes; license and allowed-use notes; CUPMem source/revision and reproducibility status; exact model/provider; prompt and decoding parameters; context and token caps; number of scenarios and attempts; randomization/ordering; semantic-information matching audit; grader version; cost cap; and per-call requested/resolved model, provider, tokens, latency, cost, retries, and fallback state. Any missing required field leaves a run auditable but excludes it from the primary table.",
+   "id": "88912b9f",
+   "hash": "2fea80cc2d62"
+  },
+  {
+   "type": "para",
+   "text": "The migrated exploratory condition manifest, preregistration template, and observed data profile live under `../research/phase1/`. They are planning inputs, not evidence of a completed STALE treatment run. In particular, no treatment can receive `M_old` or `M_new` ground-truth labels directly when a comparison condition must infer state from the released haystack.",
+   "id": "5811c6df",
+   "hash": "9429ebf0028e"
+  },
+  {
+   "type": "heading",
+   "text": "## Execution sequence",
+   "id": "88bb088d",
+   "hash": "575758075be4"
   },
   {
    "type": "list",
-   "text": "- `docs/STALE_PHASE1_PLAN.md` — canonical, executable Phase 1 protocol and analysis boundary.\n- `docs/RESEARCH_PLAN.md`, `docs/EXECUTION_PLAN.md`, `docs/RESULTS_MATRIX.md`, `docs/RUNBOOK.md`, and `docs/ARCHITECTURE.md` — archived Harvey/C&H planning and results records; not operating instructions.\n- `docs/ARA_PROOFPRESS.md` — ARA as research-management layer; Proofpress as independently verifiable artifact lineage.\n- `ara/` — an Agent-Native Research Artifact for this study. It contains hypotheses and decisions, not invented results.\n- `configs/gate-native-v1.draft.yaml` — a historical three-arm MAS draft, not the active Gateway contract.\n- `pp_eval/`, `suites/`, and `tests/` — the pre-existing lightweight mechanism runtime. It is retained for smoke tests and does not yet claim to execute the official Harvey harness treatment wrapper.",
-   "id": "c1ba01f6",
-   "hash": "7ab1f8726a00"
+   "text": "1. Inspect and pin the upstream STALE data and CUPMem implementation; run their published checks before adapting anything.\n2. Build deterministic S0–S3 carriers from one canonical conflict-state representation, including a semantic-information matching check between S1 and S2.\n3. Dry-run a small, unscored stratified sample to validate parsing, scorer compatibility, fresh-session boundaries, telemetry, and capsule verification.\n4. Freeze the manifest and run the prespecified stratified Phase 1 matrix; keep original STALE scoring separate from secondary audit checks.\n5. Analyze native scores first, then cost/auditability and failure slices; publish nulls, limitations, and any protocol deviations.",
+   "id": "fbc3ab99",
+   "hash": "60e89b8b44b5"
   },
   {
    "type": "heading",
-   "text": "## ARA installation",
-   "id": "3b50a86f",
-   "hash": "8ba44b751699"
+   "text": "## Pilot, confirmatory gate, and reporting",
+   "id": "42c50c5e",
+   "hash": "3f54d0474895"
   },
   {
    "type": "para",
-   "text": "The official ARA source has been cloned at `third_party/ara-source` and its six local Codex skills were installed under `.codex/skills/`. Both locations are ignored by Git; their source URL, commit, installation command, and role are recorded in [ara/UPSTREAM.md](ara/UPSTREAM.md). ARA is the research-management layer only. Benchmark agents never receive its files, skills, or prompts.",
-   "id": "b9231698",
-   "hash": "b53a84e22894"
+   "text": "The initial pilot is exploratory: it validates the official adapter, CUPMem reproduction, parity checker, parsing, scoring, and telemetry on a small stratified sample. Its effect sizes are never confirmatory evidence. Only after repair and a freeze do we run the pre-registered confirmatory matrix on held-out scenarios.",
+   "id": "61acbff8",
+   "hash": "d986cc05ecb0"
+  },
+  {
+   "type": "para",
+   "text": "The confirmatory run may proceed only if the official S0/S1 baselines reproduce within expected run variance, held-out S1/S2 parity passes, no condition has oracle state labels, and the model endpoint, grader, and cost budget are equal across conditions. Stop or narrow the claim if CUPMem matches or beats S3 on all native outcomes, if Proofpress changes only audit reconstruction, or if the endpoint/grader/budget differs across conditions.",
+   "id": "6bccbf52",
+   "hash": "7b54d7f69af1"
+  },
+  {
+   "type": "para",
+   "text": "Report point estimates and uncertainty; T1/T2 breakdowns; each STALE dimension; paired deltas versus S1; exclusions and parity violations; tokens, latency, and cost overhead; and all negative/null outcomes. Claim an accuracy benefit only from the native measures. Claim an auditability benefit only from the secondary audit measures.",
+   "id": "ad09e58a",
+   "hash": "c61428ec94a4"
   },
   {
    "type": "heading",
-   "text": "## Historical internal mechanism result",
-   "id": "61817201",
-   "hash": "a759992c0360"
+   "text": "## Interpretation boundary",
+   "id": "82b1228f",
+   "hash": "f4e118944ee3"
   },
   {
    "type": "para",
-   "text": "The internal MemConflict mechanism check is complete: 12 frozen reversal cases × 2 attempts × 3 conditions = 72 local Codex runs. Gate A passed, Gate B failed. Proofpress matched ordinary memory on trusted success (83.3%), reduced stale/regression errors from 12.5% to 4.2%, but had lower task success (87.5% versus 95.8%). This is a bounded historical mechanism signal, not Phase 1 of the active research plan and not evidence of a task-quality gain. The sanitized record is in [evidence/phase1-memconflict-v1](evidence/phase1-memconflict-v1/README.md).",
-   "id": "0aa324ea",
-   "hash": "7eed56e02bc0"
-  },
-  {
-   "type": "para",
-   "text": "The historical runner recorded a requested model but not resolved provider, Gateway cost, or fallback telemetry. It is therefore not eligible for a formal model-effect estimate. Do not rerun it as if it were missing data.",
-   "id": "d293335c",
-   "hash": "fd42c130ab4d"
+   "text": "Possible outcomes are all informative: CUPMem may outperform Proofpress on accuracy; Proofpress may leave task scores unchanged while improving auditability; the hybrid may improve both; or Proofpress may show no incremental value on STALE. This phase establishes only a benchmark-and-model-slice result. It does not claim that hashes establish truth, that a ledger is a runtime authority gate, or that the result generalizes to multi-agent coordination or cross-organization integrity.",
+   "id": "28a4e5f4",
+   "hash": "cc85584265c8"
   },
   {
    "type": "heading",
-   "text": "## Phase 1 pilot disposition — stop/narrow gate",
-   "id": "66569a2c",
-   "hash": "ec9469f35ccc"
+   "text": "## Later phases (not authorized by Phase 1)",
+   "id": "64460f7e",
+   "hash": "4887a82bf45e"
   },
   {
-   "type": "para",
-   "text": "The two-record STALE/CUPMem pilot is recorded in [pilot_report.json](research/phase1/pilot_report.json): S0 1/6, S1 6/6, S2 1/6, S3 5/6 on the official native scorer. The pre-registered stop/narrow rule fired because CUPMem matched or beat S3 on every native dimension in the sampled T1/T2 records. Phase 1 therefore ends with a narrow, exploratory conclusion; no held-out confirmatory run is claimed. Raw prompts, traces, and credentials remain outside Git. The full protocol and limitations remain in [STALE_PHASE1_PLAN.md](docs/STALE_PHASE1_PLAN.md).",
-   "id": "1fa1b7ec",
-   "hash": "e5c5c8df5dbf"
+   "type": "list",
+   "text": "1. **Memory Laundering / PPMF:** compare vanilla consolidated memory, ledger-only, PPMF, ledger plus platform authority labels/action gate, an integrity ablation, and PPMF plus portable artifact. Measure attack success, unauthorized high-risk actions, false blocking, benign utility, provenance preservation, cross-platform verification, and audit reconstruction. PPMF is the reference solution for runtime prevention.\n2. **MAST subset:** pre-classify provenance-addressable failure modes, then compare original MAS, structured shared state, structured state plus verifier, revision provenance, provenance plus admission gate, and an ablation without reasons/rejected history. Do not generalize from a subset to all coordination failures.\n3. **ARA/APEX artifact revision:** compare final artifact only, flat full history, structured current state, information-matched provenance, and ablations without rejected decisions, evidence binding, or integrity verification. Use a condition-independent artifact rubric as primary.\n4. **New benchmark decision:** create an Artifact Handoff Reliability benchmark only if multiple existing benchmarks reveal the same uncovered construct, with mechanism-neutral tasks and strong non-Proofpress controls.",
+   "id": "9ea108cb",
+   "hash": "65a753987f7e"
   },
   {
    "type": "heading",
-   "text": "## Existing lightweight smoke runtime",
-   "id": "f0c71c2d",
-   "hash": "0c264b5b3db6"
+   "text": "## Immediate work queue",
+   "id": "1fcffe4a",
+   "hash": "3e73d647a44c"
   },
   {
-   "type": "para",
-   "text": "The existing `pp-eval` commands still work for local fixture validation:",
-   "id": "0c725a2a",
-   "hash": "7514b91a9fd0"
-  },
-  {
-   "type": "code",
-   "text": "```bash\nexport PROOFPRESS_EVAL_HOME=/Users/richardtang/.cache/proofpress-eval\ncd /Users/richardtang/proofpress-dev/experiments/provenance_handoff\nuv sync --frozen\nuv run pp-eval doctor --suite smoke-v1 --data-home \"$PROOFPRESS_EVAL_HOME\"\nuv run pp-eval build --suite smoke-v1 --data-home \"$PROOFPRESS_EVAL_HOME\"\nuv run pp-eval run --suite memconflict-v1 --data-home \"$PROOFPRESS_EVAL_HOME\" --arms baseline_continuous,ordinary_memory,proofpress_provenance --runner codex --model gpt-5.6-luna --attempts 2 --concurrency 1\nuv run pp-eval grade --suite smoke-v1 --data-home \"$PROOFPRESS_EVAL_HOME\"\nuv run pp-eval report --suite smoke-v1 --data-home \"$PROOFPRESS_EVAL_HOME\"\n```",
-   "id": "bc21a929",
-   "hash": "c0bce71c77db"
-  },
-  {
-   "type": "para",
-   "text": "Those fixtures validate package construction, isolation, recording, and reports only. They are not a substitute for the STALE/CUPMem Phase 1 study described in `docs/STALE_PHASE1_PLAN.md`.",
-   "id": "36223643",
-   "hash": "65fc8a265755"
+   "type": "list",
+   "text": "1. Reproduce the official STALE/CUPMem baseline unchanged and record the reproducibility result.\n2. Define the minimal STALE ledger schema: claim/state ID, evidence reference, admission status, supersedes relation, actor, and transition reason.\n3. Implement the semantic-parity/context-budget report for every scenario.\n4. Validate the minimal successor policy and condition-independent scoring in an exploratory pilot.\n5. Freeze the confirmatory plan only after the pilot/harness repair; then execute Phase 1 through analysis.",
+   "id": "0cf8df5d",
+   "hash": "66397ba702f5"
   }
  ]
 }

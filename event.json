@@ -1,32 +1,66 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/README.md",
- "artifact_id": "pp_556b115de711b0cd33eed260",
- "version": "6e3e7d3f",
- "parent": "06624e76",
+ "artifact": "experiments/provenance_handoff/docs/STALE_PHASE1_PLAN.md",
+ "artifact_id": "pp_6cf0c8f0e4ef1cb9c59aae65",
+ "version": "a143e7f7",
+ "parent": "84d6d2da",
  "author": {
   "name": "unknown",
-  "kind": "agent",
+  "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-08T11:23:54+00:00",
+ "ts": "2026-08-08T12:04:20+00:00",
  "stats": {
-  "modified": 1
+  "modified": 3,
+  "added": 3
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "66569a2c",
+   "block": "05b3cc93",
+   "type": "para",
+   "context": "Status and scope"
+  },
+  {
+   "kind": "modified",
+   "block": "2bc3a0e1",
    "type": "heading",
-   "context": "Phase 1 pilot disposition — stop/narrow "
+   "context": "Superseded prompt-policy pilot"
+  },
+  {
+   "kind": "modified",
+   "block": "2bf59710",
+   "type": "para",
+   "context": "Superseded prompt-policy pilot"
+  },
+  {
+   "kind": "added",
+   "block": "87374336",
+   "type": "heading",
+   "context": "Current production-carrier pilot",
+   "preview": "## Current production-carrier pilot"
+  },
+  {
+   "kind": "added",
+   "block": "c6455aa4",
+   "type": "para",
+   "context": "Current production-carrier pilot",
+   "preview": "The replacement implementation is `research/phase1/proofpres"
+  },
+  {
+   "kind": "added",
+   "block": "aa5e763b",
+   "type": "para",
+   "context": "Current production-carrier pilot",
+   "preview": "The first implementation checks are positive but not efficac"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:33b9a5641c2ecc16f0d9394502fc91df1302c38e7fe427bbe305f034d50373fc",
+ "soft_fingerprint": "ppsb1:884fc8cf1c45c4abb0bda2cc6e31bc1ae00a89d5b210f617160981f0eb9fe969",
  "actors": {
   "requested_by": [
-   "user"
+   "richard"
   ],
   "produced_by": [
    "codex"
@@ -41,13 +75,38 @@
  "attribution_basis": "environment_attested",
  "claims": [
   {
-   "block": "66569a2c",
+   "block": "05b3cc93",
    "kind": "modified",
-   "note": "Clarifies in the index heading that Phase 1 ended at the stop/narrow gate."
+   "note": "Clarified that the old prompt-policy pilot is superseded and production-carrier work is active."
+  },
+  {
+   "block": "2bc3a0e1",
+   "kind": "modified",
+   "note": "Renamed the historical pilot section."
+  },
+  {
+   "block": "2bf59710",
+   "kind": "modified",
+   "note": "Withdrew the invalid stop/narrow causal interpretation."
+  },
+  {
+   "block": "87374336",
+   "kind": "added",
+   "note": "Added production-carrier pilot scope."
+  },
+  {
+   "block": "c6455aa4",
+   "kind": "added",
+   "note": "Documented carrier contract and admission gate."
+  },
+  {
+   "block": "aa5e763b",
+   "kind": "added",
+   "note": "Recorded implementation smoke results and limitations."
   }
  ],
  "context": {
-  "why": "Clarify the repository index heading after the Phase 1 stop/narrow gate."
+  "why": "Replaced the non-causal prompt-policy pilot interpretation with a production-style admitted carrier and explicit implementation gate."
  },
- "event_id": "ppe_388d465a294ae706e4fa33ed"
+ "event_id": "ppe_b9ff160c30a867f40416d840"
 }
