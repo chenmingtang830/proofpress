@@ -1,53 +1,35 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/ara/PAPER.md",
- "artifact_id": "pp_cb6d0883f4bda071d2137869",
- "version": "f031f4cb",
- "parent": "1a901ac9",
+ "artifact": "experiments/provenance_handoff/ara/src/artifacts.md",
+ "artifact_id": "pp_291b3809bccf45f00ecbdf3e",
+ "version": "bc123264",
+ "parent": "7155fbe2",
  "author": {
   "name": "codex",
   "kind": "agent",
   "session": null
  },
  "note": null,
- "ts": "2026-08-08T10:46:31+00:00",
+ "ts": "2026-08-08T10:46:34+00:00",
  "stats": {
-  "modified": 5
+  "modified": 2
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "5ad8477e",
-   "type": "heading",
-   "context": "Research notebook — admitted provenance "
+   "block": "1d77e0a6",
+   "type": "table",
+   "context": "Experiment artifact index"
   },
   {
    "kind": "modified",
-   "block": "d6d1bb11",
+   "block": "9136fe62",
    "type": "para",
-   "context": "Research notebook — admitted provenance "
-  },
-  {
-   "kind": "modified",
-   "block": "b9c6dba5",
-   "type": "list",
-   "context": "Artifact map"
-  },
-  {
-   "kind": "modified",
-   "block": "4b96e0aa",
-   "type": "para",
-   "context": "Abstract (draft)"
-  },
-  {
-   "kind": "modified",
-   "block": "4249cd4c",
-   "type": "para",
-   "context": "Abstract (draft)"
+   "context": "Experiment artifact index"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:b91b54556a7d76de4cf3b499ff7536715b25d5a57404405409d8d5e9a4800573",
+ "soft_fingerprint": "ppsb1:613b20a0e06cedd00b469f9d1c5a0f6e8f5002257c0bcac1c646bfa18e9633b0",
  "actors": {
   "requested_by": [
    "richardtang"
@@ -65,13 +47,13 @@
  "attribution_basis": "environment_attested",
  "claims": [
   {
-   "block": "d6d1bb11",
+   "block": "1d77e0a6",
    "kind": "modified",
-   "note": "Updated active substrate, status, and claim boundary for STALE/CUPMem."
+   "note": "Updated the experiment index to the active STALE adapter target."
   }
  ],
  "context": {
-  "why": "Align the research-notebook paper framing with the active STALE/CUPMem Phase 1."
+  "why": "Point the artifact index at the active STALE adapter rather than the archived wrapper."
  },
- "event_id": "ppe_61623eed202a7298e46cf59f"
+ "event_id": "ppe_ddfca204b7ed84dfc9f778fe"
 }

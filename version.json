@@ -1,48 +1,24 @@
 {
- "artifact": "experiments/provenance_handoff/ara/PAPER.md",
- "artifact_id": "pp_cb6d0883f4bda071d2137869",
+ "artifact": "experiments/provenance_handoff/ara/src/artifacts.md",
+ "artifact_id": "pp_291b3809bccf45f00ecbdf3e",
  "blocks": [
   {
    "type": "heading",
-   "text": "# Research notebook — admitted provenance comparative study",
-   "id": "5ad8477e",
-   "hash": "1a305208da3f"
+   "text": "# Experiment artifact index",
+   "id": "22426eb6",
+   "hash": "2fcf38b2db2b"
+  },
+  {
+   "type": "table",
+   "text": "| Artifact | Role | Status |\n|---|---|---|\n| `README.md` | entry point and review boundary | updated for active STALE/CUPMem Phase 1 |\n| `docs/RESEARCH_PLAN.md` | preregistration-style protocol | draft for review |\n| `docs/ARCHITECTURE.md` | workflow/treatment specification | draft for review |\n| `docs/EXECUTION_PLAN.md` | staged implementation, model transport, and gate sequence | draft for review |\n| `docs/RESULTS_MATRIX.md` | result matrices and interpretation rules | draft for review |\n| `docs/RUNBOOK.md` | operational prerequisites | draft for review |\n| `docs/ARA_PROOFPRESS.md` | layer-boundary explanation | draft for review |\n| `configs/*.template.yaml` | freezeable workflow, model, gate, and OpenRouter transport contracts | placeholders pending review/access check |\n| `pp_eval/models.py`, `pp_eval/arms.py`, `pp_eval/suite.py` | existing lightweight mechanism runtime | retained as historical/internal tooling; STALE adapter pending |\n| `pp_eval/datasets.py` | upstream pins and sparse substrate preparation | existing |\n| `suites/*.json` | local technical fixtures | retained; not primary paper data |\n| `tests/test_eval.py` | existing mechanism runtime tests | retained |",
+   "id": "1d77e0a6",
+   "hash": "507ddd9dcaf1"
   },
   {
    "type": "para",
-   "text": "**Status:** active Phase 1 is STALE/CUPMem; historic Harvey/C&H records and the internal MemConflict mechanism check are retained but do not constitute Phase 1 or a formal efficacy result.\n**Authors:** Proofpress research team (draft)\n**Year:** 2026\n**Active substrate:** STALE benchmark and its CUPMem comparison, to be pinned before treatment calls",
-   "id": "d6d1bb11",
-   "hash": "4dcddb59b5dc"
-  },
-  {
-   "type": "heading",
-   "text": "## Artifact map",
-   "id": "6ce745c5",
-   "hash": "86cbf94b78e1"
-  },
-  {
-   "type": "list",
-   "text": "- `logic/problem.md` — why conventional handoff does not preserve accepted decision state.\n- `logic/claims.md` — falsifiable, currently testing hypotheses only.\n- `logic/concepts.md` — treatment and measurement definitions.\n- `logic/experiments.md` — gates and comparison matrix.\n- `logic/related_work.md` — historical Harvey context plus active benchmark-comparison context.\n- `logic/solution/constraints.md` — non-negotiable fairness and safety constraints.\n- `src/` — environment and experiment artifact index.\n- `trace/` — append-only decisions and session record.\n- `evidence/` — source and sanitized result index, including historical internal MemConflict evidence.",
-   "id": "b9c6dba5",
-   "hash": "8a272d978577"
-  },
-  {
-   "type": "heading",
-   "text": "## Abstract (draft)",
-   "id": "6979663a",
-   "hash": "3513d178db19"
-  },
-  {
-   "type": "para",
-   "text": "This study evaluates admitted artifact provenance as a candidate intervention for documented failures in long-horizon memory, multi-agent coordination, and artifact revision. Its active first test holds the STALE task/scoring protocol fixed while comparing the native baseline and CUPMem with a semantically matched Proofpress admission ledger and a hybrid. The completed internal MemConflict check found a stale/regression reduction but no trusted-success gain over ordinary memory; it is historical mechanism evidence only because provider, cost, and fallback telemetry were missing. Outcomes preserve benchmark-native scores as primary, with auditability and efficiency reported separately, and retain null or negative results.",
-   "id": "4b96e0aa",
-   "hash": "748e4ac83242"
-  },
-  {
-   "type": "para",
-   "text": "The historical MemConflict result is a mechanism boundary, not a product claim: provenance may help a receiver notice stale authority in a controlled reversal fixture, but ordinary memory remained at least as good on the primary trusted-success endpoint. STALE/CUPMem is the active Phase 1 test.",
-   "id": "4249cd4c",
-   "hash": "67e72a93989f"
+   "text": "The active implementation target is a STALE adapter, pinned CUPMem comparison, semantically matched Proofpress carrier, and sanitized Phase 1 result manifest. The Harvey/C&H wrapper is archived and not pending work.",
+   "id": "9136fe62",
+   "hash": "6f8d2c17c80c"
   }
  ]
 }
