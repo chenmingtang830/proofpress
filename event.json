@@ -1,29 +1,29 @@
 {
  "event": "version_created",
- "artifact": "docs/RESULTS_MATRIX.md",
- "artifact_id": "pp_d40d46a12d4d493fcbc9c0e9",
- "version": "559b3da1",
- "parent": "7ca53d84",
+ "artifact": "ara/logic/experiments.md",
+ "artifact_id": "pp_15fb7a0bcf0891f7cee01068",
+ "version": "f6f6f108",
+ "parent": "2f84645f",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-08T03:12:28+00:00",
+ "ts": "2026-08-08T03:12:30+00:00",
  "stats": {
   "modified": 1
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "19feb171",
-   "type": "para",
-   "context": "Accepted Matrix D: Gateway Harvey B0 and"
+   "block": "0b9f8f55",
+   "type": "list",
+   "context": "E06: Gateway Harvey B0 baseline and SAS "
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:0bb0d2156958e490c45ebfad194cb03d44b09616419dd920892e6504ff081582",
+ "soft_fingerprint": "ppsb1:7129df729a0969990ce41b873f719fba34e14c1d65e304fd7e9b0e21a31531f3",
  "actors": {
   "requested_by": [
    "richardtang"
@@ -41,12 +41,12 @@
  "attribution_basis": "environment_attested",
  "claims": [
   {
-   "block_id": "19feb171",
-   "claim": "Records v2 operational success and the incomplete B0 score boundary without an effect claim."
+   "block_id": "0b9f8f55",
+   "claim": "Records the v2 execution gate outcome and B0 scorer cap failure as an archived audit fact."
   }
  ],
  "context": {
   "why": "Records v2 execution completion and the immutable B0 scorer-cap stop."
  },
- "event_id": "ppe_f7fc4d3666ffb48996eb18a0"
+ "event_id": "ppe_def885a9e9a523e899fee7b0"
 }
