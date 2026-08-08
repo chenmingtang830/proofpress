@@ -1,53 +1,53 @@
 {
  "event": "version_created",
- "artifact": "/Users/richardtang/proofpress-dev/experiments/provenance_handoff/docs/STALE_PHASE1_PLAN.md",
+ "artifact": "experiments/provenance_handoff/docs/STALE_PHASE1_PLAN.md",
  "artifact_id": "pp_6cf0c8f0e4ef1cb9c59aae65",
- "version": "4f218aba",
- "parent": "04efd1f4",
+ "version": "d8577602",
+ "parent": "4f218aba",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-08T20:02:19+00:00",
+ "ts": "2026-08-08T20:13:40+00:00",
  "stats": {
   "modified": 1
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "88912b9f",
-   "type": "para",
-   "context": "Freeze gate before execution"
+   "block": "fbc3ab99",
+   "type": "list",
+   "context": "Execution sequence"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:9a66edd21ff8930185a34ec8d882fd40437fe21117d8057837ef716ccd26b8d3",
+ "soft_fingerprint": "ppsb1:5d52d17f5bf550538f5394b9cd61c377058ea2675eb193ec7b9759550d06a17e",
  "actors": {
   "requested_by": [
-   "richardtang"
+   "Richard Tang"
   ],
   "produced_by": [
-   "codex"
+   "Codex"
   ],
   "edited_by": [
-   "codex"
+   "Codex"
   ],
   "recorded_by": [
-   "codex"
+   "Codex"
   ]
  },
  "attribution_basis": "environment_attested",
  "claims": [
   {
-   "block": "88912b9f",
+   "block": "fbc3ab99",
    "kind": "modified",
-   "note": "Record the user-authorized limit of two logged retries only for Gateway requests with no usable model result from infrastructure failures."
+   "note": "Record the user-authorized qualification execution setting of one concurrent deterministic shard per selected scenario, while preserving within-scenario ordering and excluding the earlier partial low-concurrency attempt from efficacy analysis."
   }
  ],
  "context": {
-  "why": "User authorized two additional logged attempts only for Gateway transport failures after a zero-retry qualification run was invalidated by an OpenAI-provider HTTP 500."
+  "why": "User directed that the remaining qualification scenarios run in parallel; concurrency is recorded as execution metadata and does not alter the frozen arm mechanisms."
  },
- "event_id": "ppe_d98f0c434f20ffa8a4861c01"
+ "event_id": "ppe_3c77ee32da3e83c5d1648156"
 }
