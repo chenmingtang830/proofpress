@@ -124,9 +124,9 @@
   },
   {
    "type": "para",
-   "text": "The two-record STALE/CUPMem pilot is recorded in [pilot_report.json](research/phase1/pilot_report.json): S0 1/6, S1 6/6, S2 1/6, S3 5/6 on the official native scorer. The pre-registered stop/narrow rule fired because CUPMem matched or beat S3 on every native dimension in the sampled T1/T2 records. Phase 1 therefore ends with a narrow, exploratory conclusion; no held-out confirmatory run is claimed. The full protocol and limitations remain in [STALE_PHASE1_PLAN.md](docs/STALE_PHASE1_PLAN.md).",
+   "text": "The two-record STALE/CUPMem pilot is recorded in [pilot_report.json](research/phase1/pilot_report.json): S0 1/6, S1 6/6, S2 1/6, S3 5/6 on the official native scorer. The pre-registered stop/narrow rule fired because CUPMem matched or beat S3 on every native dimension in the sampled T1/T2 records. Phase 1 therefore ends with a narrow, exploratory conclusion; no held-out confirmatory run is claimed. Raw prompts, traces, and credentials remain outside Git. The full protocol and limitations remain in [STALE_PHASE1_PLAN.md](docs/STALE_PHASE1_PLAN.md).",
    "id": "1fa1b7ec",
-   "hash": "1fa8287c10fa"
+   "hash": "e5c5c8df5dbf"
   },
   {
    "type": "heading",

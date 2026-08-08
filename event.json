@@ -2,25 +2,19 @@
  "event": "version_created",
  "artifact": "experiments/provenance_handoff/README.md",
  "artifact_id": "pp_556b115de711b0cd33eed260",
- "version": "3711931e",
- "parent": "1a2134e5",
+ "version": "06624e76",
+ "parent": "3711931e",
  "author": {
   "name": "unknown",
   "kind": "agent",
   "session": null
  },
  "note": null,
- "ts": "2026-08-08T11:22:22+00:00",
+ "ts": "2026-08-08T11:23:21+00:00",
  "stats": {
-  "modified": 2
+  "modified": 1
  },
  "changes": [
-  {
-   "kind": "modified",
-   "block": "66569a2c",
-   "type": "heading",
-   "context": "Phase 1 pilot disposition"
-  },
   {
    "kind": "modified",
    "block": "1fa1b7ec",
@@ -29,7 +23,7 @@
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:05ba8ad62d273bc49399f25e596cf3990e183903add22e4d779eadfce1fcc4c4",
+ "soft_fingerprint": "ppsb1:246b6a715c5b3af1dbeef558be574ca7c798931e449dcaa67b93712711dc0369",
  "actors": {
   "requested_by": [
    "user"
@@ -49,11 +43,16 @@
   {
    "block": "66569a2c",
    "kind": "modified",
-   "note": "Replaces the pre-run section with the completed pilot disposition and score summary."
+   "note": "Renames the pre-run section to the Phase 1 pilot disposition."
+  },
+  {
+   "block": "1fa1b7ec",
+   "kind": "modified",
+   "note": "Records the completed pilot scores and stop/narrow gate in the repository index."
   }
  ],
  "context": {
-  "why": "Replace the pre-run index entry with the completed Phase 1 pilot disposition."
+  "why": "Record the pilot disposition paragraph and its raw-data boundary as an explicit ledger claim."
  },
- "event_id": "ppe_0c46fac83c91eef44b81605f"
+ "event_id": "ppe_acb2993c9920bdc46970abbb"
 }
