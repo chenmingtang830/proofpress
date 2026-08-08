@@ -1,29 +1,30 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/ara/logic/experiments.md",
- "artifact_id": "pp_15fb7a0bcf0891f7cee01068",
- "version": "99a0e96f",
- "parent": "2613e45b",
+ "artifact": "experiments/provenance_handoff/ara/PAPER.md",
+ "artifact_id": "pp_cb6d0883f4bda071d2137869",
+ "version": "46c80a6c",
+ "parent": "3a1e0983",
  "author": {
   "name": "codex",
   "kind": "agent",
   "session": null
  },
  "note": null,
- "ts": "2026-08-08T10:29:10+00:00",
+ "ts": "2026-08-08T10:29:13+00:00",
  "stats": {
-  "modified": 1
+  "added": 1
  },
  "changes": [
   {
-   "kind": "modified",
-   "block": "0c502e6c",
-   "type": "list",
-   "context": "E07: MemConflict mechanism gate"
+   "kind": "added",
+   "block": "4249cd4c",
+   "type": "para",
+   "context": "Abstract (draft)",
+   "preview": "The Phase 1 result is a mechanism boundary, not a product cl"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:9f21635795fa982218daea3a8b9c2ec1a95678506501af3d1751d882e9aef30a",
+ "soft_fingerprint": "ppsb1:5379ef951db2a68f76f7a6b96d4b53533f70804d6e063b0bf2b8956b2b452a75",
  "actors": {
   "requested_by": [
    "user"
@@ -41,13 +42,13 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "0c502e6c",
-   "kind": "modified",
-   "note": "Linked E07 to the canonical sanitized evidence package and raw-data boundary."
+   "block": "4249cd4c",
+   "kind": "added",
+   "note": "Added the bounded Phase 1 interpretation to the paper draft."
   }
  ],
  "context": {
-  "why": "Link the experiment registry to the canonical Phase 1 evidence package."
+  "why": "Keep the paper draft aligned with the bounded Phase 1 result and null task-quality conclusion."
  },
- "event_id": "ppe_2b797f3436428862f16e303f"
+ "event_id": "ppe_255b4d57a165d617e12371a4"
 }
