@@ -1,29 +1,41 @@
 {
  "event": "version_created",
- "artifact": "ara/logic/experiments.md",
- "artifact_id": "pp_15fb7a0bcf0891f7cee01068",
- "version": "f6f6f108",
- "parent": "2f84645f",
+ "artifact": "docs/RESEARCH_PLAN.md",
+ "artifact_id": "pp_00e96ce828caea19ac7221ae",
+ "version": "1091d7e4",
+ "parent": "2a3bfa1b",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-08T03:12:30+00:00",
+ "ts": "2026-08-08T03:32:56+00:00",
  "stats": {
-  "modified": 1
+  "modified": 2
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "0b9f8f55",
-   "type": "list",
-   "context": "E06: Gateway Harvey B0 baseline and SAS "
+   "block": "37044759",
+   "type": "para",
+   "context": "Decision in one sentence"
+  },
+  {
+   "kind": "modified",
+   "block": "8cf1443c",
+   "type": "para",
+   "context": "Model plan",
+   "numbers": [
+    [
+     "$0",
+     "500"
+    ]
+   ]
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:7129df729a0969990ce41b873f719fba34e14c1d65e304fd7e9b0e21a31531f3",
+ "soft_fingerprint": "ppsb1:0cf1fa6d93ece4f4a4b034f689a466a982c5b78173e7aee005ba0f43a4780fd6",
  "actors": {
   "requested_by": [
    "richardtang"
@@ -41,12 +53,18 @@
  "attribution_basis": "environment_attested",
  "claims": [
   {
-   "block_id": "0b9f8f55",
-   "claim": "Records the v2 execution gate outcome and B0 scorer cap failure as an archived audit fact."
+   "block": "37044759",
+   "kind": "modified",
+   "note": "Records the completed three-trial PSA execution and all nine final score cells with paired descriptive differences."
+  },
+  {
+   "block": "8cf1443c",
+   "kind": "modified",
+   "note": "Closes the v2 and independent scorer-extension history while preserving transient failure roots."
   }
  ],
  "context": {
-  "why": "Records v2 execution completion and the immutable B0 scorer-cap stop."
+  "why": "Records the completed three-trial Harvey PSA execution, independent scorer extensions, and final descriptive analysis."
  },
- "event_id": "ppe_def885a9e9a523e899fee7b0"
+ "event_id": "ppe_bd6a7d8fdd8b6d20739af06a"
 }
