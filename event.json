@@ -1,59 +1,71 @@
 {
  "event": "version_created",
- "artifact": "docs/RESEARCH_PLAN.md",
- "artifact_id": "pp_00e96ce828caea19ac7221ae",
- "version": "db1ef479",
- "parent": "58351185",
+ "artifact": "docs/EXECUTION_PLAN.md",
+ "artifact_id": "pp_120f0f61aa69ad67431b9659",
+ "version": "35eaa954",
+ "parent": "bfd1a55e",
  "author": {
   "name": "codex",
   "kind": "agent",
   "session": "gateway-luna-terra-20260807"
  },
  "note": null,
- "ts": "2026-08-08T02:49:06+00:00",
+ "ts": "2026-08-08T02:49:08+00:00",
  "stats": {
-  "modified": 6
+  "modified": 8
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "37044759",
+   "block": "1d585184",
    "type": "para",
-   "context": "Decision in one sentence"
+   "context": "Review state"
   },
   {
    "kind": "modified",
-   "block": "a20de7f5",
-   "type": "para",
-   "context": "Fixed runtime and workflow"
-  },
-  {
-   "kind": "modified",
-   "block": "743b9bd8",
+   "block": "574f6ebb",
    "type": "table",
-   "context": "Model plan"
+   "context": "Study modes"
   },
   {
    "kind": "modified",
-   "block": "0cafb062",
-   "type": "para",
-   "context": "Model plan"
+   "block": "386d8701",
+   "type": "list",
+   "context": "Implementation work before any compariso"
   },
   {
    "kind": "modified",
-   "block": "8cf1443c",
-   "type": "para",
-   "context": "Model plan"
+   "block": "fa2c5953",
+   "type": "list",
+   "context": "Gateway freeze contract"
   },
   {
    "kind": "modified",
-   "block": "c91c4e94",
+   "block": "855ce8eb",
    "type": "para",
-   "context": "Model plan"
+   "context": "Gateway freeze contract"
+  },
+  {
+   "kind": "modified",
+   "block": "1f0678aa",
+   "type": "table",
+   "context": "Gate sequence and exact counts"
+  },
+  {
+   "kind": "modified",
+   "block": "590ee263",
+   "type": "para",
+   "context": "Gate sequence and exact counts"
+  },
+  {
+   "kind": "modified",
+   "block": "aa49c13e",
+   "type": "list",
+   "context": "Execution order for the operator"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:bdd31baba3fc9271818e6dba3625f872d28f4973c3bcf8346dd8026430cc3a66",
+ "soft_fingerprint": "ppsb1:fa5f7183d3a938366193e10b6b07aa9ef8e9de5812b6202a6755a47e6d4563f2",
  "actors": {
   "requested_by": [
    "richardtang"
@@ -71,38 +83,48 @@
  "attribution_basis": "environment_attested",
  "claims": [
   {
-   "block": "37044759",
+   "block": "1d585184",
    "kind": "modified",
-   "note": "Freezes the staged Luna-execution and Terra-scoring qualification protocol."
+   "note": "Records the active immutable Luna/Terra staged protocol."
   },
   {
-   "block": "a20de7f5",
+   "block": "574f6ebb",
    "kind": "modified",
-   "note": "Updates the active Harvey transport model pair."
+   "note": "Defines the staged qualification mode and its review gate."
   },
   {
-   "block": "743b9bd8",
+   "block": "386d8701",
    "kind": "modified",
-   "note": "Replaces the active matrix plan with archived routes and staged PSA trials."
+   "note": "Updates the adapter task to the two frozen model roles."
   },
   {
-   "block": "0cafb062",
+   "block": "fa2c5953",
    "kind": "modified",
-   "note": "Records pinned models, provider policy, effort, and separate ledgers."
+   "note": "Updates the Gateway freeze requirements."
   },
   {
-   "block": "8cf1443c",
+   "block": "855ce8eb",
    "kind": "modified",
-   "note": "Archives GLM/Gemini qualification outcomes and defines trial-one readiness."
+   "note": "Defines Luna execution and Terra blind-scoring roles."
   },
   {
-   "block": "c91c4e94",
+   "block": "1f0678aa",
    "kind": "modified",
-   "note": "Records the active Luna/Terra OpenAI-only model policy."
+   "note": "Replaces old gates with the three-trial execution and grading sequence."
+  },
+  {
+   "block": "590ee263",
+   "kind": "modified",
+   "note": "Clarifies the trial-one review boundary."
+  },
+  {
+   "block": "aa49c13e",
+   "kind": "modified",
+   "note": "Updates the operator execution sequence."
   }
  ],
  "context": {
   "why": "User authorized a staged GPT-5.6 Luna execution and Terra blind-scoring qualification after archived Gateway failures."
  },
- "event_id": "ppe_64d7e87d0385a0409a42cc06"
+ "event_id": "ppe_acb4723de2f9385ba6774ae2"
 }
