@@ -1,156 +1,24 @@
 {
- "artifact": "experiments/provenance_handoff/README.md",
- "artifact_id": "pp_556b115de711b0cd33eed260",
+ "artifact": "experiments/provenance_handoff/research/phase1/README.md",
+ "artifact_id": "pp_3628f0ea19e46c87bf454b52",
  "blocks": [
   {
    "type": "heading",
-   "text": "# Proofpress Provenance Continuity Evaluation",
-   "id": "da60723f",
-   "hash": "88671750d817"
-  },
-  {
-   "type": "heading",
-   "text": "## Review status",
-   "id": "0c4a8f5e",
-   "hash": "546856f064e7"
+   "text": "# Migrated Phase 1 planning inputs",
+   "id": "53177c26",
+   "hash": "828894af271a"
   },
   {
    "type": "para",
-   "text": "This directory records immutable historical slices and the active comparative study of admitted artifact provenance. The sole active execution route is [STALE / CUPMem Phase 1](docs/STALE_PHASE1_PLAN.md). Historic Harvey PSA, OpenRouter/Novita, C&H, and multi-agent artifacts remain auditable history only; they are not resumed, pooled, or treated as the next experiment.",
-   "id": "d86e9669",
-   "hash": "936b6bfe2d40"
+   "text": "These files were migrated from the former `/Users/richardtang/Documents/Proofpress` checkout, which is no longer maintained. They preserve the STALE/CUPMem condition contract, exploratory preregistration, and observed dataset profile. The source data hash and upstream commit were reverified in `upstream_lock.json`. The original two-record prompt-policy pilot is recorded in `pilot_report.json` as superseded because its execution boundaries were not matched; the production-style carrier implementation is documented in `../../docs/STALE_PHASE1_PLAN.md`. No held-out confirmatory efficacy matrix has been run.",
+   "id": "71f8059f",
+   "hash": "9f1d6bbe1ee3"
   },
   {
    "type": "para",
-   "text": "This `proofpress-dev` checkout is the canonical maintenance root for the study. `/Users/richardtang/Documents/Proofpress` is not a second source of truth and should not receive further research or documentation updates.",
-   "id": "344529db",
-   "hash": "509cbad685ea"
-  },
-  {
-   "type": "heading",
-   "text": "## The research question",
-   "id": "13a7e0d8",
-   "hash": "005d1b935877"
-  },
-  {
-   "type": "para",
-   "text": "Under the same task and budget, does a verified Proofpress continuity artifact help one agent in a fresh session recover the current justified decision better than an equal-sized ordinary memory note?",
-   "id": "efb84a51",
-   "hash": "042fc92b3d36"
-  },
-  {
-   "type": "para",
-   "text": "The study is deliberately not a claim that more context or more agents are better. It compares a continuous baseline, ordinary memory, and verified provenance; no future formal slice adds agents, roles, or raw-history conditions.",
-   "id": "51799240",
-   "hash": "413858a2a846"
-  },
-  {
-   "type": "heading",
-   "text": "## Scope and comparison",
-   "id": "2873d37b",
-   "hash": "4e91fd527af3"
-  },
-  {
-   "type": "para",
-   "text": "Phase 1 uses the upstream STALE benchmark and compares its memory baseline and CUPMem remedy with a Proofpress admission ledger and a CUPMem-plus-Proofpress hybrid. It holds the benchmark task and its three native measures fixed while adding separately reported auditability and cost observations. Earlier Harvey/C&H material is preserved below only as a historical record, not an active substrate.",
-   "id": "1030b33f",
-   "hash": "3b91498cf5b6"
-  },
-  {
-   "type": "para",
-   "text": "The active formal conditions are:",
-   "id": "48aa7881",
-   "hash": "aee80324c8e1"
-  },
-  {
-   "type": "list",
-   "text": "- `S0 — baseline`: STALE's original memory baseline.\n- `S1 — CUPMem`: the benchmark authors' state-consolidation remedy.\n- `S2 — Proofpress`: an admitted ledger with status, evidence binding, and revision lineage.\n- `S3 — hybrid`: CUPMem current-state handling plus the same Proofpress ledger.",
-   "id": "27c19da2",
-   "hash": "8daa0157b46b"
-  },
-  {
-   "type": "para",
-   "text": "The primary Phase 1 comparisons are `S2 − S0`, `S2 − S1`, and `S3 − S1`; all are reported on STALE's State Resolution, Premise Resistance, and Implicit Policy Adaptation measures. Semantic information must be matched between S1 and S2. The wider sequence is STALE/CUPMem, then Memory Laundering/PPMF, MAST, and ARA/APEX revision—not C&H.",
-   "id": "146ef700",
-   "hash": "795114f24bfa"
-  },
-  {
-   "type": "heading",
-   "text": "## What is here today",
-   "id": "949eb6a5",
-   "hash": "c7f8c0c9beb7"
-  },
-  {
-   "type": "list",
-   "text": "- `docs/STALE_PHASE1_PLAN.md` — canonical, executable Phase 1 protocol and analysis boundary.\n- `docs/RESEARCH_PLAN.md`, `docs/EXECUTION_PLAN.md`, `docs/RESULTS_MATRIX.md`, `docs/RUNBOOK.md`, and `docs/ARCHITECTURE.md` — archived Harvey/C&H planning and results records; not operating instructions.\n- `docs/ARA_PROOFPRESS.md` — ARA as research-management layer; Proofpress as independently verifiable artifact lineage.\n- `ara/` — an Agent-Native Research Artifact for this study. It contains hypotheses and decisions, not invented results.\n- `configs/gate-native-v1.draft.yaml` — a historical three-arm MAS draft, not the active Gateway contract.\n- `pp_eval/`, `suites/`, and `tests/` — the pre-existing lightweight mechanism runtime. It is retained for smoke tests and does not yet claim to execute the official Harvey harness treatment wrapper.",
-   "id": "c1ba01f6",
-   "hash": "7ab1f8726a00"
-  },
-  {
-   "type": "heading",
-   "text": "## ARA installation",
-   "id": "3b50a86f",
-   "hash": "8ba44b751699"
-  },
-  {
-   "type": "para",
-   "text": "The official ARA source has been cloned at `third_party/ara-source` and its six local Codex skills were installed under `.codex/skills/`. Both locations are ignored by Git; their source URL, commit, installation command, and role are recorded in [ara/UPSTREAM.md](ara/UPSTREAM.md). ARA is the research-management layer only. Benchmark agents never receive its files, skills, or prompts.",
-   "id": "b9231698",
-   "hash": "b53a84e22894"
-  },
-  {
-   "type": "heading",
-   "text": "## Historical internal mechanism result",
-   "id": "61817201",
-   "hash": "a759992c0360"
-  },
-  {
-   "type": "para",
-   "text": "The internal MemConflict mechanism check is complete: 12 frozen reversal cases × 2 attempts × 3 conditions = 72 local Codex runs. Gate A passed, Gate B failed. Proofpress matched ordinary memory on trusted success (83.3%), reduced stale/regression errors from 12.5% to 4.2%, but had lower task success (87.5% versus 95.8%). This is a bounded historical mechanism signal, not Phase 1 of the active research plan and not evidence of a task-quality gain. The sanitized record is in [evidence/phase1-memconflict-v1](evidence/phase1-memconflict-v1/README.md).",
-   "id": "0aa324ea",
-   "hash": "7eed56e02bc0"
-  },
-  {
-   "type": "para",
-   "text": "The historical runner recorded a requested model but not resolved provider, Gateway cost, or fallback telemetry. It is therefore not eligible for a formal model-effect estimate. Do not rerun it as if it were missing data.",
-   "id": "d293335c",
-   "hash": "fd42c130ab4d"
-  },
-  {
-   "type": "heading",
-   "text": "## Phase 1 implementation status",
-   "id": "66569a2c",
-   "hash": "de026d050629"
-  },
-  {
-   "type": "para",
-   "text": "The original two-record S0–S3 table is retained in [pilot_report.json](research/phase1/pilot_report.json) as a superseded harness record, not as a causal result: S1/S3 used a different execution boundary from S0/S2, and S2 was only prompt policy. The prior stop/narrow interpretation is withdrawn. The active implementation is the production-style P2 flat-state versus P3 Proofpress-carrier path in `research/phase1/run_production_pilot.py`; no held-out confirmatory efficacy run has been claimed. Raw prompts, traces, and credentials remain outside Git. The protocol and decision boundary remain in [STALE_PHASE1_PLAN.md](docs/STALE_PHASE1_PLAN.md).",
-   "id": "1fa1b7ec",
-   "hash": "702b6acd6c88"
-  },
-  {
-   "type": "heading",
-   "text": "## Existing lightweight smoke runtime",
-   "id": "f0c71c2d",
-   "hash": "0c264b5b3db6"
-  },
-  {
-   "type": "para",
-   "text": "The existing `pp-eval` commands still work for local fixture validation:",
-   "id": "0c725a2a",
-   "hash": "7514b91a9fd0"
-  },
-  {
-   "type": "code",
-   "text": "```bash\nexport PROOFPRESS_EVAL_HOME=/Users/richardtang/.cache/proofpress-eval\ncd /Users/richardtang/proofpress-dev/experiments/provenance_handoff\nuv sync --frozen\nuv run pp-eval doctor --suite smoke-v1 --data-home \"$PROOFPRESS_EVAL_HOME\"\nuv run pp-eval build --suite smoke-v1 --data-home \"$PROOFPRESS_EVAL_HOME\"\nuv run pp-eval run --suite memconflict-v1 --data-home \"$PROOFPRESS_EVAL_HOME\" --arms baseline_continuous,ordinary_memory,proofpress_provenance --runner codex --model gpt-5.6-luna --attempts 2 --concurrency 1\nuv run pp-eval grade --suite smoke-v1 --data-home \"$PROOFPRESS_EVAL_HOME\"\nuv run pp-eval report --suite smoke-v1 --data-home \"$PROOFPRESS_EVAL_HOME\"\n```",
-   "id": "bc21a929",
-   "hash": "c0bce71c77db"
-  },
-  {
-   "type": "para",
-   "text": "Those fixtures validate package construction, isolation, recording, and reports only. They are not a substitute for the STALE/CUPMem Phase 1 study described in `docs/STALE_PHASE1_PLAN.md`.",
-   "id": "36223643",
-   "hash": "65fc8a265755"
+   "text": "The former two-arm local Codex pilot was intentionally not migrated as an executable runner. The current `run_pilot.py` is the exploratory adapter used for S0–S3; its CUPMem S1/S3 results use independent per-query checkpoints because the full-record adapter exceeded local memory limits. Those adapter limitations keep the result narrow and non-confirmatory.",
+   "id": "507f4b15",
+   "hash": "75605b459ffb"
   }
  ]
 }

@@ -1,35 +1,29 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/README.md",
- "artifact_id": "pp_556b115de711b0cd33eed260",
- "version": "ba7c429e",
- "parent": "6e3e7d3f",
+ "artifact": "experiments/provenance_handoff/research/phase1/README.md",
+ "artifact_id": "pp_3628f0ea19e46c87bf454b52",
+ "version": "53d9d6f2",
+ "parent": "9271393c",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-08T12:04:23+00:00",
+ "ts": "2026-08-08T12:04:26+00:00",
  "stats": {
-  "modified": 2
+  "modified": 1
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "66569a2c",
-   "type": "heading",
-   "context": "Phase 1 implementation status"
-  },
-  {
-   "kind": "modified",
-   "block": "1fa1b7ec",
+   "block": "71f8059f",
    "type": "para",
-   "context": "Phase 1 implementation status"
+   "context": "Migrated Phase 1 planning inputs"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:afff77e39608404fef265d2d8a9a5d60ffbdb30d12bdbdccbc80c37a025e9446",
+ "soft_fingerprint": "ppsb1:f6460fa2171ff594614db07b65c5c0679bbc6686d4996468fc6dadb7cb1854e8",
  "actors": {
   "requested_by": [
    "richard"
@@ -47,18 +41,13 @@
  "attribution_basis": "environment_attested",
  "claims": [
   {
-   "block": "66569a2c",
+   "block": "71f8059f",
    "kind": "modified",
-   "note": "Updated Phase 1 status heading."
-  },
-  {
-   "block": "1fa1b7ec",
-   "kind": "modified",
-   "note": "Marked old pilot as superseded and linked active carrier path."
+   "note": "Updated migrated Phase 1 status and removed the obsolete stop/narrow claim."
   }
  ],
  "context": {
-  "why": "Synchronize the repository overview with the superseded pilot and active production-carrier implementation."
+  "why": "Synchronize the Phase 1 research index with the active carrier implementation."
  },
- "event_id": "ppe_fe0652f8dc88c5e039a67183"
+ "event_id": "ppe_829884c29eb9945907e01426"
 }
