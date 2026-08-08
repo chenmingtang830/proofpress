@@ -1,46 +1,123 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/ara/PAPER.md",
- "artifact_id": "pp_cb6d0883f4bda071d2137869",
- "version": "3a1e0983",
- "parent": "666066ef",
+ "artifact": "experiments/provenance_handoff/README.md",
+ "artifact_id": "pp_556b115de711b0cd33eed260",
+ "version": "00175864",
+ "parent": "2cd013f6",
  "author": {
-  "name": "codex-preflight",
-  "kind": "system",
+  "name": "codex",
+  "kind": "agent",
   "session": null
  },
- "note": "best-effort fallback capture; edit attribution unknown",
- "ts": "2026-08-08T10:25:49+00:00",
+ "note": null,
+ "ts": "2026-08-08T10:28:16+00:00",
  "stats": {
-  "modified": 3
+  "added": 4,
+  "modified": 2
  },
  "changes": [
   {
-   "kind": "modified",
-   "block": "d6d1bb11",
+   "kind": "added",
+   "block": "344529db",
    "type": "para",
-   "context": "Provenance-Preserving Lineage for Long-H"
+   "context": "Review status",
+   "preview": "This `proofpress-dev` checkout is the canonical maintenance "
   },
   {
    "kind": "modified",
-   "block": "b9c6dba5",
-   "type": "list",
-   "context": "Artifact map"
+   "block": "61817201",
+   "type": "heading",
+   "context": "Phase 1 status"
+  },
+  {
+   "kind": "added",
+   "block": "0aa324ea",
+   "type": "para",
+   "context": "Phase 1 status",
+   "preview": "The internal MemConflict mechanism gate is complete: 12 froz"
+  },
+  {
+   "kind": "added",
+   "block": "d293335c",
+   "type": "para",
+   "context": "Phase 1 status",
+   "preview": "The Phase 1 runner recorded a requested model but not resolv"
+  },
+  {
+   "kind": "added",
+   "block": "66569a2c",
+   "type": "heading",
+   "context": "Before any new model run",
+   "preview": "## Before any new model run"
   },
   {
    "kind": "modified",
-   "block": "4b96e0aa",
+   "block": "1fa1b7ec",
    "type": "para",
-   "context": "Abstract (draft)"
+   "context": "Before any new model run",
+   "numbers": [
+    [
+     "$25.",
+     "$0"
+    ],
+    [
+     "$0",
+     "1."
+    ]
+   ]
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:526f39f72742a3000975a22b0f3527a7f4165d19b2d2be90e5dd9e91d9cf0c19",
+ "soft_fingerprint": "ppsb1:d5462f208c732351261d445e2eefc95eae72d76ff1a1de3f83c5e4deb10a3425",
  "actors": {
+  "requested_by": [
+   "user"
+  ],
+  "produced_by": [
+   "codex"
+  ],
+  "edited_by": [
+   "codex"
+  ],
   "recorded_by": [
-   "codex-preflight"
+   "codex"
   ]
  },
- "attribution_basis": "harness_attested",
- "event_id": "ppe_b449d81d7bf28329e89a614b"
+ "attribution_basis": "self_asserted",
+ "claims": [
+  {
+   "block": "344529db",
+   "kind": "added",
+   "note": "Marked proofpress-dev as canonical for this study."
+  },
+  {
+   "block": "61817201",
+   "kind": "modified",
+   "note": "Updated the formal-run boundary after the completed Phase 1 gate."
+  },
+  {
+   "block": "0aa324ea",
+   "kind": "added",
+   "note": "Added the sanitized Phase 1 status and bounded interpretation."
+  },
+  {
+   "block": "d293335c",
+   "kind": "added",
+   "note": "Updated the next-run route and telemetry requirements."
+  },
+  {
+   "block": "66569a2c",
+   "kind": "added",
+   "note": "Preserved the existing smoke-runtime boundary while linking Phase 1 evidence."
+  },
+  {
+   "block": "1fa1b7ec",
+   "kind": "modified",
+   "note": "Renamed the pre-run section to distinguish new runs from completed Phase 1."
+  }
+ ],
+ "context": {
+  "why": "Consolidate the study under proofpress-dev and record the completed Phase 1 mechanism gate without claiming a task-quality gain."
+ },
+ "event_id": "ppe_d4ae4acc5bf52689b295f638"
 }
