@@ -1,54 +1,55 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/research/phase1/README.md",
- "artifact_id": "pp_3628f0ea19e46c87bf454b52",
- "version": "c1f9572d",
- "parent": "0b25acf0",
+ "artifact": "experiments/provenance_handoff/ara/logic/experiments.md",
+ "artifact_id": "pp_15fb7a0bcf0891f7cee01068",
+ "version": "4df64693",
+ "parent": "99a0e96f",
  "author": {
   "name": "codex-preflight",
   "kind": "system",
   "session": null
  },
  "note": "best-effort fallback capture; edit attribution unknown",
- "ts": "2026-08-08T10:42:27+00:00",
+ "ts": "2026-08-08T10:42:39+00:00",
  "stats": {
-  "modified": 3,
-  "removed": 1
+  "modified": 2,
+  "added": 2
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "53177c26",
+   "block": "09bca4f7",
    "type": "heading",
-   "context": "Migrated Phase 1 planning inputs"
+   "context": "E07: Historical MemConflict mechanism ch"
   },
   {
    "kind": "modified",
-   "block": "71f8059f",
-   "type": "para",
-   "context": "Migrated Phase 1 planning inputs"
+   "block": "0c502e6c",
+   "type": "list",
+   "context": "E07: Historical MemConflict mechanism ch"
   },
   {
-   "kind": "modified",
-   "block": "507f4b15",
-   "type": "para",
-   "context": "Migrated Phase 1 planning inputs"
-  },
-  {
-   "kind": "removed",
-   "block": "fdc67060",
+   "kind": "added",
+   "block": "958a5698",
    "type": "heading",
-   "context": "",
-   "preview": "# Migrated Phase 1 planning inputs"
+   "context": "E08: Active STALE / CUPMem Phase 1",
+   "preview": "## E08: Active STALE / CUPMem Phase 1"
+  },
+  {
+   "kind": "added",
+   "block": "28fb9f31",
+   "type": "list",
+   "context": "E08: Active STALE / CUPMem Phase 1",
+   "preview": "- **Question**: Does an admitted Proofpress ledger improve S"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:94c7cbd6d9efe7883250b60020e201c7d9d2d218ab7d8af48fb9ae4648e47a3e",
+ "soft_fingerprint": "ppsb1:2703122ee4c47101d86820d605a758341a9500cea24cead5e79056ae5b0fd9d4",
  "actors": {
   "recorded_by": [
    "codex-preflight"
   ]
  },
  "attribution_basis": "harness_attested",
- "event_id": "ppe_a4a6d9a0e0ccee0206539f2d"
+ "event_id": "ppe_cdfdae8d618cf0f95b6921f3"
 }
