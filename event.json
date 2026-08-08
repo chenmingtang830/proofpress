@@ -1,29 +1,29 @@
 {
  "event": "version_created",
- "artifact": "docs/RESULTS_MATRIX.md",
- "artifact_id": "pp_d40d46a12d4d493fcbc9c0e9",
- "version": "c6615a1f",
- "parent": "559b3da1",
+ "artifact": "ara/logic/experiments.md",
+ "artifact_id": "pp_15fb7a0bcf0891f7cee01068",
+ "version": "9b230ac2",
+ "parent": "f6f6f108",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-08T03:33:01+00:00",
+ "ts": "2026-08-08T03:33:04+00:00",
  "stats": {
   "modified": 1
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "19feb171",
-   "type": "para",
-   "context": "Accepted Matrix D: Gateway Harvey B0 and"
+   "block": "0b9f8f55",
+   "type": "list",
+   "context": "E06: Gateway Harvey B0 baseline and SAS "
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:33201b3ffd742e5559fa6b54ed054d571f40a096b49457028407317c4a8b6e50",
+ "soft_fingerprint": "ppsb1:5554e7189913864751eb373510451cf28595c5d22f6368ac6b8a6ac0045e6a3e",
  "actors": {
   "requested_by": [
    "richardtang"
@@ -41,13 +41,13 @@
  "attribution_basis": "environment_attested",
  "claims": [
   {
-   "block": "19feb171",
+   "block": "0b9f8f55",
    "kind": "modified",
-   "note": "Records all nine completed PSA score cells and the permitted descriptive contrasts."
+   "note": "Records completed B0/C0/C3 execution and scorer extensions with the final comparison boundary."
   }
  ],
  "context": {
   "why": "Records the completed three-trial Harvey PSA execution, independent scorer extensions, and final descriptive analysis."
  },
- "event_id": "ppe_f4ec0d4fe2fdf11ac92f6428"
+ "event_id": "ppe_4e62508b292988550167e92b"
 }
