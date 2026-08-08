@@ -1,41 +1,41 @@
 {
  "event": "version_created",
- "artifact": "docs/RESEARCH_PLAN.md",
- "artifact_id": "pp_00e96ce828caea19ac7221ae",
- "version": "c37b1585",
- "parent": "1091d7e4",
+ "artifact": "docs/EXECUTION_PLAN.md",
+ "artifact_id": "pp_120f0f61aa69ad67431b9659",
+ "version": "0dd14a61",
+ "parent": "55a6acbe",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-08T06:18:08+00:00",
+ "ts": "2026-08-08T06:18:11+00:00",
  "stats": {
   "modified": 3
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "211f3829",
+   "block": "3beda344",
    "type": "heading",
-   "context": "Proofpress Continuity Evaluation Study —"
+   "context": "Execution Plan: Proofpress Single-Agent "
   },
   {
    "kind": "modified",
-   "block": "37044759",
+   "block": "f62ad8be",
    "type": "para",
-   "context": "Decision in one sentence"
+   "context": "Purpose and execution boundary"
   },
   {
    "kind": "modified",
-   "block": "6e8d4f21",
-   "type": "para",
-   "context": "Decision in one sentence"
+   "block": "4b9c9552",
+   "type": "code",
+   "context": "Study modes"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:70ee27268b8ee6361c441c622d4664b954d85f8e4d1facf1609bbc0100742baa",
+ "soft_fingerprint": "ppsb1:8985283183bf985781dccdc662286a1681880b8a18addee7c07fe0ef90bf4496",
  "actors": {
   "requested_by": [
    "Richard Tang"
@@ -53,18 +53,18 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "37044759",
+   "block": "f62ad8be",
    "kind": "modified",
-   "note": "Recorded the accepted MemConflict to C&H to APEX route."
+   "note": "Changed execution boundary to one-agent continuity conditions."
   },
   {
-   "block": "6e8d4f21",
+   "block": "4b9c9552",
    "kind": "modified",
-   "note": "Classified Harvey PSA and multi-agent work as historical negative-boundary evidence."
+   "note": "Replaced legacy workflow diagram with the three-phase route."
   }
  ],
  "context": {
-  "why": "Replace the future Harvey-first multi-agent path with MemConflict, C&H, and APEX."
+  "why": "Align execution sequencing with the approved three-condition single-agent study."
  },
- "event_id": "ppe_467a2c3f31db25344742348a"
+ "event_id": "ppe_3075ddf782885edd63c76dbf"
 }
