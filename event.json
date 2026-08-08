@@ -1,35 +1,29 @@
 {
  "event": "version_created",
- "artifact": "docs/EXECUTION_PLAN.md",
- "artifact_id": "pp_120f0f61aa69ad67431b9659",
- "version": "96960545",
- "parent": "35eaa954",
+ "artifact": "docs/RESULTS_MATRIX.md",
+ "artifact_id": "pp_d40d46a12d4d493fcbc9c0e9",
+ "version": "7ca53d84",
+ "parent": "66e5e5f1",
  "author": {
   "name": "codex",
   "kind": "agent",
   "session": "gateway-luna-terra-retry-20260807"
  },
  "note": null,
- "ts": "2026-08-08T02:52:51+00:00",
+ "ts": "2026-08-08T02:52:54+00:00",
  "stats": {
-  "modified": 2
+  "modified": 1
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "1d585184",
+   "block": "19feb171",
    "type": "para",
-   "context": "Review state"
-  },
-  {
-   "kind": "modified",
-   "block": "1f0678aa",
-   "type": "table",
-   "context": "Gate sequence and exact counts"
+   "context": "Accepted Matrix D: Gateway Harvey B0 and"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:8479586dc1b72bbffc6631afa9530e011cb079a8872b5f46690a2d2b3e7a3adf",
+ "soft_fingerprint": "ppsb1:06f9d4ac7bf418c2aede698cb05c4ba04bdcee63e8c03da6ef0d6fab2655f8f1",
  "actors": {
   "requested_by": [
    "richardtang"
@@ -47,18 +41,13 @@
  "attribution_basis": "environment_attested",
  "claims": [
   {
-   "block": "1d585184",
+   "block": "19feb171",
    "kind": "modified",
-   "note": "Records the v1 failure and user-authorized v2 retry boundary."
-  },
-  {
-   "block": "1f0678aa",
-   "kind": "modified",
-   "note": "Adds archived-v1 and proposed-v2 trial gates."
+   "note": "Records Luna/Terra v1's immutable failure and the authorized isolated v2 retry."
   }
  ],
  "context": {
   "why": "The user authorized a new immutable v2 retry after v1 failed before inference at Gateway parameter validation."
  },
- "event_id": "ppe_98d4cbc804e2aba3d6858d32"
+ "event_id": "ppe_1e123ae8469eb6c4226d7e04"
 }
