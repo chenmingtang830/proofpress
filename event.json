@@ -1,30 +1,29 @@
 {
  "event": "version_created",
- "artifact": "docs/RESULTS_MATRIX.md",
- "artifact_id": "pp_d40d46a12d4d493fcbc9c0e9",
- "version": "71048d6e",
- "parent": "5e90af99",
+ "artifact": "ara/logic/experiments.md",
+ "artifact_id": "pp_15fb7a0bcf0891f7cee01068",
+ "version": "8bd781ff",
+ "parent": "4a2e3974",
  "author": {
   "name": "codex",
   "kind": "agent",
   "session": null
  },
  "note": null,
- "ts": "2026-08-08T02:17:01+00:00",
+ "ts": "2026-08-08T02:17:04+00:00",
  "stats": {
-  "added": 1
+  "modified": 1
  },
  "changes": [
   {
-   "kind": "added",
-   "block": "19feb171",
-   "type": "para",
-   "context": "Accepted Matrix D: Gateway Harvey B0 and",
-   "preview": "Two new immutable PSA qualification slices are in flight: `g"
+   "kind": "modified",
+   "block": "0b9f8f55",
+   "type": "list",
+   "context": "E06: Gateway Harvey B0 baseline and SAS "
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:19bbac39f96084c8906d5d08bd8fa02152bfead34e13f2f3719312d216192323",
+ "soft_fingerprint": "ppsb1:3b65676777fbfc75f3e69fd0c8c063c08b068b65ab9820301b147978b29da802",
  "actors": {
   "requested_by": [
    "richardtang"
@@ -42,13 +41,13 @@
  "attribution_basis": "environment_attested",
  "claims": [
   {
-   "block": "19feb171",
-   "kind": "added",
-   "note": "Registers the two immutable in-flight model qualification slices and their budgets."
+   "block": "0b9f8f55",
+   "kind": "modified",
+   "note": "Adds the current GLM/Gemini model-gate evidence and disqualification boundary."
   }
  ],
  "context": {
-  "why": "Register immutable in-flight GLM and Gemini qualification slices without interpreting outcomes."
+  "why": "Index the active model-gate evidence boundary in ARA."
  },
- "event_id": "ppe_b443a6929b90052ef4555e4c"
+ "event_id": "ppe_956530d0ed0b0d41e7022c45"
 }
