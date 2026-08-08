@@ -1,29 +1,29 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/ara/src/environment.md",
- "artifact_id": "pp_d4f0f4ca5617c9d0528dea8e",
- "version": "b3df50b2",
- "parent": "d3d2a251",
+ "artifact": "experiments/provenance_handoff/ara/logic/experiments.md",
+ "artifact_id": "pp_15fb7a0bcf0891f7cee01068",
+ "version": "2f55c5e5",
+ "parent": "7557333d",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-08T12:04:32+00:00",
+ "ts": "2026-08-08T12:04:35+00:00",
  "stats": {
   "modified": 1
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "a84a1149",
+   "block": "28fb9f31",
    "type": "list",
-   "context": "Environment"
+   "context": "E08: Active STALE / CUPMem Phase 1"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:6793b2ef34d736830df469b45a2cfbb5dfb106665d7d8ebbabd3f9bdc508c604",
+ "soft_fingerprint": "ppsb1:2e7e07e91796e99ef0ee44108142d6d9cb46dc5a11cdf0ffbc19f8ef49757a84",
  "actors": {
   "requested_by": [
    "richard"
@@ -41,13 +41,13 @@
  "attribution_basis": "environment_attested",
  "claims": [
   {
-   "block": "a548e2e8",
+   "block": "28fb9f31",
    "kind": "modified",
-   "note": "Updated active execution state to production-carrier implementation."
+   "note": "Updated Phase 1 experiment status and causal interpretation."
   }
  ],
  "context": {
-  "why": "Update execution state to production-carrier implementation."
+  "why": "Update E08 status after invalidating the old prompt-policy comparison."
  },
- "event_id": "ppe_209623925c586a593f443a7d"
+ "event_id": "ppe_ae8ca2d3e426d614edd0b2e2"
 }
