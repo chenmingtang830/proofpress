@@ -1,41 +1,35 @@
 {
  "event": "version_created",
- "artifact": "docs/RESEARCH_PLAN.md",
- "artifact_id": "pp_00e96ce828caea19ac7221ae",
- "version": "2c93614d",
- "parent": "db1ef479",
+ "artifact": "docs/EXECUTION_PLAN.md",
+ "artifact_id": "pp_120f0f61aa69ad67431b9659",
+ "version": "96960545",
+ "parent": "35eaa954",
  "author": {
   "name": "codex",
   "kind": "agent",
   "session": "gateway-luna-terra-retry-20260807"
  },
  "note": null,
- "ts": "2026-08-08T02:52:49+00:00",
+ "ts": "2026-08-08T02:52:51+00:00",
  "stats": {
   "modified": 2
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "37044759",
+   "block": "1d585184",
    "type": "para",
-   "context": "Decision in one sentence"
+   "context": "Review state"
   },
   {
    "kind": "modified",
-   "block": "8cf1443c",
-   "type": "para",
-   "context": "Model plan",
-   "numbers": [
-    [
-     "1",
-     "$0"
-    ]
-   ]
+   "block": "1f0678aa",
+   "type": "table",
+   "context": "Gate sequence and exact counts"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:6597caeb8dcb75f13ad49f06a0e41f4e9320485d45fbd108ae3649bb909cd27d",
+ "soft_fingerprint": "ppsb1:8479586dc1b72bbffc6631afa9530e011cb079a8872b5f46690a2d2b3e7a3adf",
  "actors": {
   "requested_by": [
    "richardtang"
@@ -53,18 +47,18 @@
  "attribution_basis": "environment_attested",
  "claims": [
   {
-   "block": "37044759",
+   "block": "1d585184",
    "kind": "modified",
-   "note": "Records Luna/Terra v1's pre-inference failure and the independently authorized v2 retry."
+   "note": "Records the v1 failure and user-authorized v2 retry boundary."
   },
   {
-   "block": "8cf1443c",
+   "block": "1f0678aa",
    "kind": "modified",
-   "note": "Records the scalar reasoning-field root cause and preserves v1 cost gaps."
+   "note": "Adds archived-v1 and proposed-v2 trial gates."
   }
  ],
  "context": {
   "why": "The user authorized a new immutable v2 retry after v1 failed before inference at Gateway parameter validation."
  },
- "event_id": "ppe_e74a540aa921cfa90650d83c"
+ "event_id": "ppe_98d4cbc804e2aba3d6858d32"
 }
