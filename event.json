@@ -1,53 +1,111 @@
 {
  "event": "version_created",
- "artifact": "ara/logic/experiments.md",
- "artifact_id": "pp_15fb7a0bcf0891f7cee01068",
- "version": "9b230ac2",
- "parent": "f6f6f108",
+ "artifact": "README.md",
+ "artifact_id": "pp_556b115de711b0cd33eed260",
+ "version": "2cd013f6",
+ "parent": "5019ed82",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-08T03:33:04+00:00",
+ "ts": "2026-08-08T06:18:05+00:00",
  "stats": {
-  "modified": 1
+  "modified": 8
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "0b9f8f55",
+   "block": "da60723f",
+   "type": "heading",
+   "context": "Proofpress Provenance Continuity Evaluat"
+  },
+  {
+   "kind": "modified",
+   "block": "d86e9669",
+   "type": "para",
+   "context": "Review status"
+  },
+  {
+   "kind": "modified",
+   "block": "efb84a51",
+   "type": "para",
+   "context": "The research question"
+  },
+  {
+   "kind": "modified",
+   "block": "51799240",
+   "type": "para",
+   "context": "The research question"
+  },
+  {
+   "kind": "modified",
+   "block": "48aa7881",
+   "type": "para",
+   "context": "Scope and comparison"
+  },
+  {
+   "kind": "modified",
+   "block": "27c19da2",
    "type": "list",
-   "context": "E06: Gateway Harvey B0 baseline and SAS "
+   "context": "Scope and comparison"
+  },
+  {
+   "kind": "modified",
+   "block": "146ef700",
+   "type": "para",
+   "context": "Scope and comparison"
+  },
+  {
+   "kind": "modified",
+   "block": "bc21a929",
+   "type": "code",
+   "context": "Existing lightweight smoke runtime",
+   "numbers": [
+    [
+     "1",
+     "2"
+    ]
+   ]
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:5554e7189913864751eb373510451cf28595c5d22f6368ac6b8a6ac0045e6a3e",
+ "soft_fingerprint": "ppsb1:5ef1de0a55c99045b72582c7192b011e4b8a61ab1b1fdad491521ba07efdfcc4",
  "actors": {
   "requested_by": [
-   "richardtang"
+   "Richard Tang"
   ],
   "produced_by": [
-   "codex"
+   "Codex"
   ],
   "edited_by": [
-   "codex"
+   "Codex"
   ],
   "recorded_by": [
-   "codex"
+   "Codex"
   ]
  },
- "attribution_basis": "environment_attested",
+ "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "0b9f8f55",
+   "block": "d86e9669",
    "kind": "modified",
-   "note": "Records completed B0/C0/C3 execution and scorer extensions with the final comparison boundary."
+   "note": "Reframed active study as single-agent continuity evaluation."
+  },
+  {
+   "block": "efb84a51",
+   "kind": "modified",
+   "note": "Replaced SAS question with continuity question."
+  },
+  {
+   "block": "27c19da2",
+   "kind": "modified",
+   "note": "Defined the three current conditions."
   }
  ],
  "context": {
-  "why": "Records the completed three-trial Harvey PSA execution, independent scorer extensions, and final descriptive analysis."
+  "why": "Adopt the approved single-agent continuity route."
  },
- "event_id": "ppe_4e62508b292988550167e92b"
+ "event_id": "ppe_e75dbdeeb8987741b8ffc279"
 }
