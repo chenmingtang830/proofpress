@@ -1,5 +1,5 @@
 {
- "artifact": "experiments/provenance_handoff/docs/STALE_PHASE1_PLAN.md",
+ "artifact": "/Users/richardtang/proofpress-dev/experiments/provenance_handoff/docs/STALE_PHASE1_PLAN.md",
  "artifact_id": "pp_6cf0c8f0e4ef1cb9c59aae65",
  "blocks": [
   {
@@ -178,9 +178,9 @@
   },
   {
    "type": "para",
-   "text": "Before the first scored call, record: STALE repository/data commit and file hashes; license and allowed-use notes; CUPMem source/revision and reproducibility status; exact model/provider; prompt and decoding parameters; context and token caps; number of scenarios and attempts; randomization/ordering; semantic-information matching audit; grader version; cost cap; and per-call requested/resolved model, provider, tokens, latency, cost, retries, fallback state, and cache-token detail. Nano uses the native Vercel AI Gateway bridge with the provider pinned to OpenAI, no transport retry or fallback, and no explicit reasoning parameter; native routing metadata is the authoritative resolved-model record. Any missing required field leaves a run auditable but excludes it from the primary table.",
+   "text": "Before the first scored call, record: STALE repository/data commit and file hashes; license and allowed-use notes; CUPMem source/revision and reproducibility status; exact model/provider; prompt and decoding parameters; context and token caps; number of scenarios and attempts; randomization/ordering; semantic-information matching audit; grader version; cost cap; shard count; and per-call requested/resolved model, provider, tokens, latency, cost, retries, fallback state, and cache-token detail. Nano uses the native Vercel AI Gateway bridge with the provider pinned to OpenAI, no transport retry or fallback, and no explicit reasoning parameter; native routing metadata is the authoritative resolved-model record. Any missing required field leaves a run auditable but excludes it from the primary table.",
    "id": "88912b9f",
-   "hash": "c8e5ad88b14d"
+   "hash": "84ca15311cb4"
   },
   {
    "type": "para",
@@ -196,9 +196,9 @@
   },
   {
    "type": "list",
-   "text": "1. Inspect and pin the upstream STALE data and CUPMem implementation; run their published checks before adapting anything.\n2. Build one canonical admission packet per P2/P3 scenario, with exact-evidence validation, semantic parity, neutral length matching, and immutable hashes.\n3. Run 80 balanced T1/T2 qualification scenarios without releasing aggregate efficacy results; validate official scorer compatibility, fresh-session boundaries, full-session CUPMem, telemetry, and carrier verification. Scenarios may be deterministically sharded for throughput, but calls within a scenario remain sequential and each immutable record retains its scenario ID.\n4. Freeze the manifest and automatically run all 400 scenarios / 1,200 queries with Nano. Keep arm-blinded original STALE scoring separate from secondary audit checks.\n5. Analyze native scores first, then cost/auditability and admission-failure slices. Launch the identical Luna matrix only when Nano `P3 − P2` is at least +5.0 percentage points with a scenario-clustered 95% confidence-interval lower bound above zero and all parity/telemetry gates passing.",
+   "text": "1. Inspect and pin the upstream STALE data and CUPMem implementation; run their published checks before adapting anything.\n2. Build one canonical admission packet per P2/P3 scenario, with exact-evidence validation, semantic parity, neutral length matching, and immutable hashes.\n3. Run 80 balanced T1/T2 qualification scenarios without releasing aggregate efficacy results; validate official scorer compatibility, fresh-session boundaries, full-session CUPMem, telemetry, and carrier verification. Scenarios may be deterministically sharded for throughput, but calls within a scenario remain sequential and each immutable record retains its scenario ID. The Gateway qualification uses two scenario shards: this is an execution-only throughput setting recorded in the immutable manifest, not a change to any arm's prompt, model, or memory mechanism.\n4. Freeze the manifest and automatically run all 400 scenarios / 1,200 queries with Nano. Keep arm-blinded original STALE scoring separate from secondary audit checks.\n5. Analyze native scores first, then cost/auditability and admission-failure slices. Launch the identical Luna matrix only when Nano `P3 − P2` is at least +5.0 percentage points with a scenario-clustered 95% confidence-interval lower bound above zero and all parity/telemetry gates passing.",
    "id": "fbc3ab99",
-   "hash": "01c1020c6a31"
+   "hash": "653bad1baf52"
   },
   {
    "type": "heading",
