@@ -1,29 +1,29 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/ara/evidence/README.md",
- "artifact_id": "pp_d903bfb55a61339cd26f454f",
- "version": "30dce380",
- "parent": "1e915887",
+ "artifact": "experiments/provenance_handoff/ara/src/environment.md",
+ "artifact_id": "pp_d4f0f4ca5617c9d0528dea8e",
+ "version": "b3df50b2",
+ "parent": "d3d2a251",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-08T12:04:29+00:00",
+ "ts": "2026-08-08T12:04:32+00:00",
  "stats": {
   "modified": 1
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "563cb8db",
-   "type": "para",
-   "context": "Current state"
+   "block": "a84a1149",
+   "type": "list",
+   "context": "Environment"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:5e2a8add082fef6d10cdfcd77b2bd60c79847ee5109257c2a3505987f564d9d4",
+ "soft_fingerprint": "ppsb1:6793b2ef34d736830df469b45a2cfbb5dfb106665d7d8ebbabd3f9bdc508c604",
  "actors": {
   "requested_by": [
    "richard"
@@ -41,13 +41,13 @@
  "attribution_basis": "environment_attested",
  "claims": [
   {
-   "block": "563cb8db",
+   "block": "a548e2e8",
    "kind": "modified",
-   "note": "Updated evidence package status and withdrew the invalid causal gate."
+   "note": "Updated active execution state to production-carrier implementation."
   }
  ],
  "context": {
-  "why": "Withdraw the invalid causal gate statement from the evidence index."
+  "why": "Update execution state to production-carrier implementation."
  },
- "event_id": "ppe_3e35f7bee1d2b775eb98b630"
+ "event_id": "ppe_209623925c586a593f443a7d"
 }
