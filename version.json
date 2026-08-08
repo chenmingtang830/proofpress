@@ -1,156 +1,246 @@
 {
- "artifact": "experiments/provenance_handoff/README.md",
- "artifact_id": "pp_556b115de711b0cd33eed260",
+ "artifact": "experiments/provenance_handoff/docs/EXECUTION_PLAN.md",
+ "artifact_id": "pp_120f0f61aa69ad67431b9659",
  "blocks": [
   {
    "type": "heading",
-   "text": "# Proofpress Provenance Continuity Evaluation",
-   "id": "da60723f",
-   "hash": "88671750d817"
+   "text": "# Execution Plan: Proofpress Single-Agent Continuity Study",
+   "id": "3beda344",
+   "hash": "f80b55321814"
   },
   {
    "type": "heading",
-   "text": "## Review status",
-   "id": "0c4a8f5e",
-   "hash": "546856f064e7"
+   "text": "## Review state",
+   "id": "6743bd05",
+   "hash": "37f70bcbd882"
   },
   {
    "type": "para",
-   "text": "This directory records immutable transport-history slices and the accepted single-agent continuity follow-up. New formal work uses `openai/gpt-5.6-luna` for execution and `openai/gpt-5.6-terra` for blind scoring. Historic Harvey PSA, OpenRouter/Novita, and multi-agent artifacts remain auditable history only and are not resumed or pooled.",
-   "id": "d86e9669",
-   "hash": "c1e2f0f304a9"
+   "text": "The internal Phase 1 MemConflict mechanism gate is complete and recorded at `evidence/phase1-memconflict-v1`. Its 72 local Codex runs passed Gate A but failed Gate B: Proofpress reduced stale/regression errors but did not improve trusted success over ordinary memory. Because the runner did not record resolved provider, Gateway cost, or fallback telemetry, this result is mechanism evidence only and is not eligible for the formal Gateway matrix. The next authorized work is the C&H adapter/cost gate; do not rerun or pool the Phase 1 fixture as a Gateway result.",
+   "id": "941fa27e",
+   "hash": "b10ff0ee43a0"
   },
   {
    "type": "para",
-   "text": "This `proofpress-dev` checkout is the canonical maintenance root for the study. `/Users/richardtang/Documents/Proofpress` is not a second source of truth and should not receive further research or documentation updates.",
-   "id": "344529db",
-   "hash": "509cbad685ea"
+   "text": "The DeepSeek Harvey C0/C1/C2 OpenRouter/Novita slice is paused after repeated long-synthesis transport failures. Its clean records and aborted attempts remain auditable, but the incomplete matrix is not scored or resumed. DeepSeek, GLM 5.2, and Gemini 3.1 Flash Lite Gateway records are likewise archived transport history. Luna/Terra v1 is archived after the pre-inference Gateway 400. Immutable v2 completed all three B0/C0/C3 execution trials; independent scorer-extension roots then completed all nine 75-criterion score cells, with transient scorer 500s isolated and retried under new roots. Final PSA-only descriptive differences are recorded; no historic transport data is pooled.",
+   "id": "1d585184",
+   "hash": "89611d9cd9de"
   },
   {
    "type": "heading",
-   "text": "## The research question",
-   "id": "13a7e0d8",
-   "hash": "005d1b935877"
+   "text": "## Purpose and execution boundary",
+   "id": "12bb5436",
+   "hash": "0d66cc691c4b"
   },
   {
    "type": "para",
-   "text": "Under the same task and budget, does a verified Proofpress continuity artifact help one agent in a fresh session recover the current justified decision better than an equal-sized ordinary memory note?",
-   "id": "efb84a51",
-   "hash": "042fc92b3d36"
+   "text": "This plan turns the protocol into a reviewable sequence. It does not authorize model spending merely because the repository is configured. No empirical result exists until a frozen slice has completed, been scored, and been audited.",
+   "id": "e54d6ee8",
+   "hash": "d94b0a8734d8"
   },
   {
    "type": "para",
-   "text": "The study is deliberately not a claim that more context or more agents are better. It compares a continuous baseline, ordinary memory, and verified provenance; no future formal slice adds agents, roles, or raw-history conditions.",
-   "id": "51799240",
-   "hash": "413858a2a846"
+   "text": "The study changes only what the same agent can recover after a fixed fresh-session boundary: no continuity artifact, ordinary memory, or verified provenance. It does not test multi-agent coordination. The execution order is MemConflict, C&H, and APEX; ARA remains research management only and is never mounted into an agent workspace.",
+   "id": "f62ad8be",
+   "hash": "8d5b686bf1c5"
   },
   {
    "type": "heading",
-   "text": "## Scope and comparison",
-   "id": "2873d37b",
-   "hash": "4e91fd527af3"
-  },
-  {
-   "type": "para",
-   "text": "The execution runtime is [Harvey LAB](https://github.com/harveyai/harvey-labs) v1.0's own task and scoring harness. Harvey tasks are not inherently agent-to-agent handoff tasks; our wrapper creates the controlled long-horizon workflow. One orchestrator role (in fresh planning and review sessions) coordinates evidence, decision-register, and drafting stages. Each completed stage emits a real work artifact, producing `V0 → V1 → V2 → V3 → V4` rather than one artificial two-agent transfer.",
-   "id": "1030b33f",
-   "hash": "2b202ad195ec"
-  },
-  {
-   "type": "para",
-   "text": "The active formal conditions are:",
-   "id": "48aa7881",
-   "hash": "aee80324c8e1"
-  },
-  {
-   "type": "list",
-   "text": "- `baseline_continuous`: one continuous session with no handoff artifact.\n- `ordinary_memory`: the same agent resumes in a fresh session with an ordinary continuity note.\n- `proofpress_provenance`: the same fresh-session flow with a verified native Proofpress continuity artifact.",
-   "id": "27c19da2",
-   "hash": "bec29ecc9f68"
-  },
-  {
-   "type": "para",
-   "text": "The primary causal contrast is `proofpress_provenance − ordinary_memory`; `ordinary_memory − baseline_continuous` is only the session-restart reference. The route is MemConflict mechanism gate, C&H qualification slice, then APEX external-validity slice.",
-   "id": "146ef700",
-   "hash": "b691f5ecaa57"
-  },
-  {
-   "type": "heading",
-   "text": "## What is here today",
-   "id": "949eb6a5",
-   "hash": "c7f8c0c9beb7"
-  },
-  {
-   "type": "list",
-   "text": "- `docs/RESEARCH_PLAN.md` — accepted follow-up protocol, observed Gate 1 boundary, arms, metrics, and gates.\n- `docs/ARCHITECTURE.md` — the fixed centralized workflow and the treatment boundary.\n- `docs/EXECUTION_PLAN.md` — staged implementation and run plan, including explicit stopping gates.\n- `docs/RESULTS_MATRIX.md` — the three result matrices and how to interpret them.\n- `docs/RUNBOOK.md` — operational prerequisites and what is or is not implemented today.\n- `docs/ARA_PROOFPRESS.md` — ARA as research-management layer; Proofpress as independently verifiable artifact lineage.\n- `ara/` — an Agent-Native Research Artifact for this study. It contains hypotheses and decisions, not invented results.\n- `configs/gate-native-v1.draft.yaml` — a historical three-arm MAS draft, not the active Gateway contract.\n- `pp_eval/`, `suites/`, and `tests/` — the pre-existing lightweight mechanism runtime. It is retained for smoke tests and does not yet claim to execute the official Harvey harness treatment wrapper.",
-   "id": "c1ba01f6",
-   "hash": "46b7f45826be"
-  },
-  {
-   "type": "heading",
-   "text": "## ARA installation",
-   "id": "3b50a86f",
-   "hash": "8ba44b751699"
-  },
-  {
-   "type": "para",
-   "text": "The official ARA source has been cloned at `third_party/ara-source` and its six local Codex skills were installed under `.codex/skills/`. Both locations are ignored by Git; their source URL, commit, installation command, and role are recorded in [ara/UPSTREAM.md](ara/UPSTREAM.md). ARA is the research-management layer only. Benchmark agents never receive its files, skills, or prompts.",
-   "id": "b9231698",
-   "hash": "b53a84e22894"
-  },
-  {
-   "type": "heading",
-   "text": "## Phase 1 status",
-   "id": "61817201",
-   "hash": "787ba13c22f3"
-  },
-  {
-   "type": "para",
-   "text": "The internal MemConflict mechanism gate is complete: 12 frozen reversal cases × 2 attempts × 3 conditions = 72 local Codex runs. Gate A passed, Gate B failed. Proofpress matched ordinary memory on trusted success (83.3%), reduced stale/regression errors from 12.5% to 4.2%, but had lower task success (87.5% versus 95.8%). This is a bounded mechanism signal, not evidence of a task-quality gain. The sanitized record is in [evidence/phase1-memconflict-v1](evidence/phase1-memconflict-v1/README.md).",
-   "id": "0aa324ea",
-   "hash": "001ed1d23e29"
-  },
-  {
-   "type": "para",
-   "text": "The Phase 1 runner recorded a requested model but not resolved provider, Gateway cost, or fallback telemetry. It is therefore not eligible for the formal Gateway matrix. Do not rerun it as if it were missing data; fix the telemetry boundary and independently qualify the next benchmark slice.",
-   "id": "d293335c",
-   "hash": "4ecbc2d78a72"
-  },
-  {
-   "type": "heading",
-   "text": "## Before any new model run",
-   "id": "66569a2c",
-   "hash": "d25d186f6aee"
-  },
-  {
-   "type": "para",
-   "text": "The completed Harvey Gate 1a/1b records are retained as evidence about an **external transport prototype** only. The accepted route is now MemConflict mechanism gate → C&H adapter/cost gate → APEX external-validity slice. The next model run must use the frozen Gateway contract and record requested/resolved model, actual provider, Gateway-reported `usage.cost`, token/latency values, and fallback status/metadata. A missing field is audit-visible but disqualifies that workflow from the formal matrix; local `$0` is never a cost substitute. Harvey, STATE-Bench, and later evidence/research benchmarks remain separate slices and are never pooled with Phase 1.",
-   "id": "1fa1b7ec",
-   "hash": "82dc13144777"
-  },
-  {
-   "type": "heading",
-   "text": "## Existing lightweight smoke runtime",
-   "id": "f0c71c2d",
-   "hash": "0c264b5b3db6"
-  },
-  {
-   "type": "para",
-   "text": "The existing `pp-eval` commands still work for local fixture validation:",
-   "id": "0c725a2a",
-   "hash": "7514b91a9fd0"
+   "text": "## Study modes",
+   "id": "e4382b4f",
+   "hash": "d413bdccf305"
   },
   {
    "type": "code",
-   "text": "```bash\nexport PROOFPRESS_EVAL_HOME=/Users/richardtang/.cache/proofpress-eval\ncd /Users/richardtang/proofpress-dev/experiments/provenance_handoff\nuv sync --frozen\nuv run pp-eval doctor --suite smoke-v1 --data-home \"$PROOFPRESS_EVAL_HOME\"\nuv run pp-eval build --suite smoke-v1 --data-home \"$PROOFPRESS_EVAL_HOME\"\nuv run pp-eval run --suite memconflict-v1 --data-home \"$PROOFPRESS_EVAL_HOME\" --arms baseline_continuous,ordinary_memory,proofpress_provenance --runner codex --model gpt-5.6-luna --attempts 2 --concurrency 1\nuv run pp-eval grade --suite smoke-v1 --data-home \"$PROOFPRESS_EVAL_HOME\"\nuv run pp-eval report --suite smoke-v1 --data-home \"$PROOFPRESS_EVAL_HOME\"\n```",
-   "id": "bc21a929",
-   "hash": "c0bce71c77db"
+   "text": "```mermaid\nflowchart LR\n  M[\"1. MemConflict\\n12 tasks × 2 × 3 conditions\"] --> C[\"2. C&H adapter/cost gate\\n2 tasks × 1 × 3\"]\n  C --> H[\"3. C&H formal slice\\n8 tasks × 2 × 3\"]\n  H --> A[\"4. APEX formal slice\\n8 tasks × 2 × 3\"]\n  M -->|\"no mechanism\"| X[\"Stop and report\"]\n  C -->|\"adapter/cost failure\"| X\n```",
+   "id": "4b9c9552",
+   "hash": "432ccb1c384a"
+  },
+  {
+   "type": "table",
+   "text": "| Mode | What is held equal | What varies | Why it exists |\n|---|---|---|---|\n| 0: adapter doctor | one pinned task, official task semantics and scorer | no treatment | proves that the runtime record is viable, not that Proofpress helps |\n| 1a: isolated handoff | upstream checkpoint, workspace, role instruction, model, tools | ordinary memory versus Proofpress representation | cleanly tests a single receiver's recovery and trust behavior |\n| 1b: end-to-end gate | task, workflow, model team, role prompts, tools and caps | ordinary memory versus Proofpress at every edge | tests whether any mechanism survives cumulative multi-agent work |\n| 2a: Gateway B0 baseline | one Harvey task and official scorer | original single continuous-session agent | establishes the original Harvey baseline in its own audited slice |\n| 2b: Gateway SAS qualification | one Harvey task, scorer and carrier contract | C0/C3 | qualifies SAS transport and complete telemetry, not an efficacy result |\n| 2c: staged Gateway qualification | one PSA task, prompt/tool contract, OpenAI provider pin, no fallback, and separate execution/scoring ledgers | B0/C0/C3 execution concurrent within each trial; Terra grading concurrent only after readiness review | trial 1 is operational qualification only; trials 2/3 and all effect analysis require a clean trial-1 readiness record |\n| 3: Harvey formal matrix | two tasks, SAS flow, frozen Gateway config | C0/C3 × 3 attempts | estimates the primary SAS Proofpress contrast |\n| 4: benchmark extensions | each benchmark's own task/scorer gate | C0/C3 | reports STATE-Bench, MemConflict, HiEviDR-Bench, and DeepResearch Bench independently |",
+   "id": "574f6ebb",
+   "hash": "ece358cb08f1"
+  },
+  {
+   "type": "heading",
+   "text": "## Fixed system contract",
+   "id": "8439e386",
+   "hash": "645cb3b434cf"
   },
   {
    "type": "para",
-   "text": "Those fixtures validate package construction, isolation, recording, and reports only. They are not a substitute for the Harvey-first study described in `docs/`.",
-   "id": "36223643",
-   "hash": "033e6320c439"
+   "text": "The Gateway qualification workflow contains five model stages: plan (`V0`), evidence (`V1`), decision (`V2`), draft (`V3`), and review (`V4`). Both C0 and C3 use the same single SAS role in fresh sessions at every checkpoint; the handoff materializer is deterministic code, never another agent. C0 materializes ordinary continuity, while C3 admits and verifies the native Markdown checkpoint artifact and final-artifact index.",
+   "id": "9e5893a0",
+   "hash": "c8f2a0e6d1f4"
+  },
+  {
+   "type": "para",
+   "text": "Within any workflow run, all five calls use one exact **homogeneous model team**: same concrete model slug, provider policy, reasoning effort (`high`), temperature, tool policy, and model-adapter version. This avoids a coordinator/worker model mix becoming an accidental treatment. Proofpress verification and materialization never call a model.",
+   "id": "a617c9a5",
+   "hash": "191c638cad50"
+  },
+  {
+   "type": "heading",
+   "text": "## Arms to freeze",
+   "id": "f3c9a37c",
+   "hash": "e4e4bdd7c4c0"
+  },
+  {
+   "type": "table",
+   "text": "| Arm | Receiver-visible continuity | Question it answers |\n|---|---|---|\n| `B0 harvey-one-shot` | one original Harvey agent in one continuous session; no handoff artifact | original Harvey one-shot baseline |\n| `C0 sas-ordinary` | one serial SAS role across the same five fresh checkpoints, with ordinary continuity | fresh-session SAS ordinary control |\n| `C1 centralized-memory` | centralized fan-out plus ordinary worker artifacts and `coordination.md` | later MAS extension only |\n| `C2 centralized-memory-proofpress` | C1 plus verified lineage on findings, decisions, and final artifacts | later MAS extension only |\n| `C3 sas-proofpress` | same C0 serial SAS task flow plus verified native Proofpress checkpoints and final-artifact index | active primary Proofpress contrast within SAS |",
+   "id": "17d5429d",
+   "hash": "d40a83fcad58"
+  },
+  {
+   "type": "para",
+   "text": "`C1` must be a good-faith ordinary-memory control, not a strawman. It may state decisions, rationale, caveats, next actions, and unanswered questions in ordinary prose, but must not expose Proofpress metadata or verification signals. `C3` uses a hybrid checkpoint contract: the system schedules meaningful checkpoints, the agent supplies semantic content, and deterministic Proofpress validates and commits it; it does not force a ledger write after every step.",
+   "id": "bc4f867e",
+   "hash": "e93327bcbcbe"
+  },
+  {
+   "type": "para",
+   "text": "For all paired handoff comparisons, visible material must be token-matched within 5%. The underlying source workspace remains equally accessible according to the Harvey task rules.",
+   "id": "94075229",
+   "hash": "9e1d44035ea4"
+  },
+  {
+   "type": "heading",
+   "text": "## Implementation work before any comparison",
+   "id": "a9d6d3f6",
+   "hash": "81c8c3a5229d"
+  },
+  {
+   "type": "list",
+   "text": "1. **Pin and record Harvey.** Clone tag `v1.0`, detach at `1da4750171bc5a534960b3d82d15ba7fd2cf653f`, record task IDs, license, task-file hashes, harness revision, and score command.\n2. **Add model transport.** Implement a Vercel AI Gateway adapter at the Harvey model boundary. The active frozen protocol accepts only `openai/gpt-5.6-luna` for execution and `openai/gpt-5.6-terra` for scoring, passes the exact tool schema, pins OpenAI/no-fallback, and records Gateway request/response metadata.\n3. **Implement the materializer.** From a canonical checkpoint history, deterministically generate matched C0 ordinary and C3 Proofpress inputs. The isolated mode must reproduce byte-identical public inputs within each declared comparison; the end-to-end mode starts identical but allows later outputs to diverge.\n4. **Implement provenance checks.** Verify Proofpress lineage before exposure; record stripped or tampered capsules as invalid treatment inputs, never silently repair them.\n5. **Implement scoring and recording.** Preserve the official Harvey scorer and add deterministic checks for decision regression, unsupported authority upgrade, correct reversal, false block, input/output tokens, wall time, tool calls, history reads, requested/resolved model, actual provider, `usage.cost`, fallback status/metadata, and artifact hashes.\n6. **Add contract tests.** Test token matching, no treatment labels in prompts, fresh sessions, immutable public inputs, resume safety, arm-blind grading inputs, and reversal variants.\n7. **Generate a review package.** Store only manifests, hashes, configs, aggregate tables, and license-permitted sanitized examples in Git. Store source documents, raw traces, and credentials under `PROOFPRESS_EVAL_HOME`.",
+   "id": "386d8701",
+   "hash": "2f870bfa9fdd"
+  },
+  {
+   "type": "heading",
+   "text": "## Gateway freeze contract",
+   "id": "ad972abc",
+   "hash": "c8fe6f792d50"
+  },
+  {
+   "type": "para",
+   "text": "The adapter uses Vercel AI Gateway only as model transport; it is not a second task harness. Every frozen model slice must contain:",
+   "id": "72ba0aad",
+   "hash": "12c3f3889725"
+  },
+  {
+   "type": "list",
+   "text": "- exact `openai/gpt-5.6-luna` execution and `openai/gpt-5.6-terra` scoring slugs—never an unversioned or `latest` alias;\n- an explicit OpenAI-only, no-fallback policy;\n- fixed `reasoning_effort: high`, temperature, tool settings, timeout, and retry policy;\n- request model slug plus resolved model, actual provider, Gateway `usage.cost`, fallback status/metadata, token usage, latency, and adapter commit;\n- independent attempts rather than a shared seed claim when the model does not support seeds.",
+   "id": "fa2c5953",
+   "hash": "48972e01a764"
+  },
+  {
+   "type": "para",
+   "text": "The active roster is a fixed two-role model pair: Luna executes every B0/C0/C3 workflow and Terra performs blind official scoring. Both must resolve to OpenAI exactly; provider, fallback, and numeric actual cost remain per-call evidence rather than assumptions from configuration.",
+   "id": "855ce8eb",
+   "hash": "196cde0f3e41"
+  },
+  {
+   "type": "heading",
+   "text": "## Gate sequence and exact counts",
+   "id": "7121b57e",
+   "hash": "a3a8dac66ade"
+  },
+  {
+   "type": "table",
+   "text": "| Gate | Pre-frozen design | Count | Proceed only if |\n|---|---|---:|---|\n| Archived trial 1 | PSA × B0/C0/C3 × 1; Luna/OpenAI/no-fallback/high | 3 workflows concurrent | all three stopped at identical pre-inference Gateway 400; preserve null-cost audit records and do not score or resume |\n| Completed v2 trials | same frozen PSA/B0/C0/C3 design with scalar AI SDK `reasoning: high` mapping | 9 workflows | all execution gates passed; independent scorer extensions completed all score cells |\n| Operational analysis | no model call; inspect immutable trial-1 manifests/events/ledgers | 1 analysis record | all three workflows are operationally ready; only then authorize trial-1 blind grade and trials 2/3 |\n| Trials 2/3 plus grading | two more concurrent B0/C0/C3 trials; Terra grades each ready trial concurrently in immutable score extensions | 6 executions + 6 SAS grades + 3 B0 grades | each completed score cell resolves to its frozen model/provider with complete telemetry; transient failures are isolated and retried |\n| Cross-trial analysis | PSA × B0/C0/C3 × 3 complete and graded trials | 9 workflows / 9 score cells | report `C0−B0` and `C3−C0`; never interpret `C3−B0` as a Proofpress effect |\n| STATE-Bench | benchmark-specific C0/C3 protocol | separately frozen | Harvey is audited and STATE adapter/scorer gate passes |\n| MemConflict | benchmark-specific C0/C3 protocol | separately frozen | its conflict/reversal gate passes; do not pool with STATE |\n| HiEviDR-Bench / DeepResearch Bench | adapter/scorer gates, then separate C0/C3 slices | separately frozen | each external-validity adapter is valid before spending |",
+   "id": "1f0678aa",
+   "hash": "6f19d59ef7a3"
+  },
+  {
+   "type": "para",
+   "text": "The three-trial PSA count is a staged qualification program, not a request to launch trials 2/3 before trial 1's immutable readiness analysis is clean. Grade does not start before that review; once authorized, grade calls may run concurrently with the next two execution trials. Do not resume historical transport slices.",
+   "id": "590ee263",
+   "hash": "9057099ff48b"
+  },
+  {
+   "type": "heading",
+   "text": "## Freeze checklist",
+   "id": "9c8c2698",
+   "hash": "3e11f2d5de5e"
+  },
+  {
+   "type": "para",
+   "text": "Before a gate begins, create `configs/frozen/YYYY-MM-DD-<gate>-<slug>/` with immutable copies of:",
+   "id": "6c9081fe",
+   "hash": "b21d605c5101"
+  },
+  {
+   "type": "list",
+   "text": "- task IDs, licenses, source/task manifests, and hashes;\n- role prompts, output schemas, workflow version, and declared revision cap;\n- arm materializer version, expected visible-token budgets, and Proofpress verifier version;\n- Gateway model slug, provider allowlist, effort, temperature, retry/timeout policy, and pricing snapshot;\n- scorer version, blind-audit rubric, randomization/attempt order, and stop conditions.",
+   "id": "0405cffd",
+   "hash": "da3ec5c5b45b"
+  },
+  {
+   "type": "para",
+   "text": "Freeze does not include secrets. `AI_GATEWAY_API_KEY` stays in a local environment or keychain and is never written to a run record.",
+   "id": "cf920a25",
+   "hash": "6d2bd4900840"
+  },
+  {
+   "type": "heading",
+   "text": "## What each run records",
+   "id": "51803251",
+   "hash": "d9ada326a211"
+  },
+  {
+   "type": "para",
+   "text": "`RunRecord` must include `run_id`, task/attempt/arm, gate/frozen-config ID, workflow stage, input and output hashes, runner and adapter commits, requested/resolved model, actual provider, Gateway `usage.cost`, fallback status/metadata, timestamps, token/tool/latency usage, exit and rate-limit state, official and provenance scores, and links to external raw trace locations. Missing telemetry is visible but disqualifies the workflow from formal analysis. A failed or timed-out run is a result-bearing operational event; resume may not overwrite it.",
+   "id": "4e78c8b3",
+   "hash": "a06a45d8d5d8"
+  },
+  {
+   "type": "heading",
+   "text": "## Decision and reporting rules",
+   "id": "3e21a59b",
+   "hash": "2652d52bf263"
+  },
+  {
+   "type": "para",
+   "text": "The current Harvey endpoint remains `trusted_task_success`: official task success plus no decision regression or unsupported authority upgrade. `C0 − B0` is the sessionization contrast; the primary product contrast is `C3 − C0`; `C3 − B0` is mixed and not a product-effect estimate. The later benchmark endpoints additionally report current-conclusion accuracy, stale-conclusion misuse, correct revision/reversal, evidence-to-claim coverage, decision-lineage completeness, session-restart recovery, and token cost per successful task; every benchmark keeps its own C3−C0 report.",
+   "id": "cab94d5b",
+   "hash": "e4e2007f83ee"
+  },
+  {
+   "type": "para",
+   "text": "Gate review should inspect per-task and per-model outcomes before aggregates. Report quality, trust, tokens, latency, cost, tool calls, and history reads together. Use blinded provenance review for at least 20% of samples and report Cohen's kappa; do not promote an unvalidated judge to ground truth. If the memory control never makes the predicted kind of error, stop rather than scaling a story with no mechanism to explain.",
+   "id": "d49c5c2a",
+   "hash": "b568325f9ca9"
+  },
+  {
+   "type": "heading",
+   "text": "## Execution order for the operator",
+   "id": "fb7a66e6",
+   "hash": "bb0dd8ce0b3a"
+  },
+  {
+   "type": "list",
+   "text": "1. Run the local doctor and the pinned Harvey setup check.\n2. Review and freeze Gate 0 configuration; run it and package its records.\n3. Implement and unit-test the adapter/materializer/scorer changes; review an arm-blind example package.\n4. Freeze and run PSA trial 1 as three concurrent Luna workflows: B0 one-shot, C0 SAS ordinary, and C3 SAS + Proofpress. Do not grade or interpret it yet.\n5. Write and snapshot an operational readiness analysis covering model/provider/cost/fallback telemetry, preflight, C3 lineage, errors, and budgets; make a stop/proceed decision in ARA.\n6. If proceeding, run Terra blind grades for trial 1 concurrently with the six Luna workflows in PSA trials 2/3; after those executions finish, run their Terra grades concurrently. Only then analyze the three complete trials.",
+   "id": "aa49c13e",
+   "hash": "f8d5780574de"
+  },
+  {
+   "type": "list",
+   "text": "7. After Harvey is complete and audited, freeze and report STATE-Bench and MemConflict independently.\n8. Pass HiEviDR-Bench and DeepResearch Bench adapter/scorer gates before their own independent C0/C3 slices. MAS C1/C2 remains a later architectural extension.",
+   "id": "8d2e6f41",
+   "hash": "0d49490374fb"
+  },
+  {
+   "type": "heading",
+   "text": "## References",
+   "id": "ca5c9aa9",
+   "hash": "3f17be8543bd"
+  },
+  {
+   "type": "list",
+   "text": "- [Vercel AI Gateway](https://vercel.com/docs/ai-gateway)\n- [Harvey LAB v1.0 architecture](https://github.com/harveyai/harvey-labs/blob/v1.0/docs/architecture.md)",
+   "id": "1336f9dd",
+   "hash": "fee51385a5a4"
   }
  ]
 }
