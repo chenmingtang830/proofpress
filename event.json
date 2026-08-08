@@ -1,29 +1,29 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/docs/STALE_PHASE1_PLAN.md",
- "artifact_id": "pp_6cf0c8f0e4ef1cb9c59aae65",
- "version": "78f2c71f",
- "parent": "57384204",
+ "artifact": "experiments/provenance_handoff/research/phase1/README.md",
+ "artifact_id": "pp_3628f0ea19e46c87bf454b52",
+ "version": "20a061de",
+ "parent": "c1f9572d",
  "author": {
   "name": "codex",
   "kind": "agent",
   "session": null
  },
  "note": null,
- "ts": "2026-08-08T10:46:54+00:00",
+ "ts": "2026-08-08T10:46:57+00:00",
  "stats": {
   "modified": 1
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "05b3cc93",
+   "block": "71f8059f",
    "type": "para",
-   "context": "Status and scope"
+   "context": "Migrated Phase 1 planning inputs"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:d46c5c95831fa797da18b3e8d9d60cf125f60ec286f2b992eb4e05412f7b0a9f",
+ "soft_fingerprint": "ppsb1:44d66231cd478e7fa1d7da6c690219010c7facd96f489b80c7a48fe4f8cf2738",
  "actors": {
   "requested_by": [
    "richardtang"
@@ -41,13 +41,13 @@
  "attribution_basis": "environment_attested",
  "claims": [
   {
-   "block": "05b3cc93",
+   "block": "71f8059f",
    "kind": "modified",
-   "note": "Recorded that the upstream input-freeze passed while S0/S1 reproduction and treatments remain pending."
+   "note": "Recorded the verified upstream data/commit and remaining execution gates."
   }
  ],
  "context": {
-  "why": "Record the passed upstream input-freeze while keeping model reproduction and treatments pending."
+  "why": "Record which migrated inputs were reverified and which Phase 1 gates remain."
  },
- "event_id": "ppe_fe265f552482110a83632680"
+ "event_id": "ppe_4d96c517966db71f2a577b29"
 }
