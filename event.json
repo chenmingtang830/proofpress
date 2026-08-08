@@ -2,34 +2,34 @@
  "event": "version_created",
  "artifact": "experiments/provenance_handoff/docs/STALE_PHASE1_PLAN.md",
  "artifact_id": "pp_6cf0c8f0e4ef1cb9c59aae65",
- "version": "2e456a17",
- "parent": "1ab49a67",
+ "version": "7a71d7aa",
+ "parent": "2e456a17",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-08T17:42:33+00:00",
+ "ts": "2026-08-08T17:58:23+00:00",
  "stats": {
   "modified": 2
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "aa5e763b",
+   "block": "88912b9f",
    "type": "para",
-   "context": "Current production-carrier pilot"
+   "context": "Freeze gate before execution"
   },
   {
    "kind": "modified",
-   "block": "ad09e58a",
-   "type": "para",
-   "context": "Pilot, confirmatory gate, and reporting"
+   "block": "fbc3ab99",
+   "type": "list",
+   "context": "Execution sequence"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:897221e754cdeb4ab9c7c599aa901e40231474cfbb12213776f2912d6efe750a",
+ "soft_fingerprint": "ppsb1:10bb10344b352072cdde46bc87cdd35b1ce5acd9633ebbc0dee5295340054405",
  "actors": {
   "requested_by": [
    "richardtang"
@@ -47,18 +47,18 @@
  "attribution_basis": "environment_attested",
  "claims": [
   {
-   "block": "aa5e763b",
+   "block": "88912b9f",
    "kind": "modified",
-   "note": "Superseded old smoke scores for the newly information-matched P2 projection and preserved writer coverage as an admission failure."
+   "note": "Freeze Nano Gateway routing, provider pinning, retry and fallback policy, omitted reasoning, and cache-token telemetry before scoring."
   },
   {
-   "block": "ad09e58a",
+   "block": "fbc3ab99",
    "kind": "modified",
-   "note": "Aligned reporting with the P3 minus P2 primary and V1 minus V0 reproduction contrasts."
+   "note": "Permit deterministic scenario sharding while retaining sequential calls and immutable records within each scenario."
   }
  ],
  "context": {
-  "why": "Clarify that the old smoke output does not score the new information-matched P2 interface and align outcome reporting with the frozen contrasts."
+  "why": "Record the frozen Nano AI Gateway execution boundary and deterministic scenario sharding discovered during qualification readiness."
  },
- "event_id": "ppe_d43bc50e9883b057e1344cb0"
+ "event_id": "ppe_f41025c4b667eab042d70deb"
 }
