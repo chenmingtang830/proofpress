@@ -1,64 +1,35 @@
 {
  "event": "version_created",
- "artifact": "/Users/richardtang/proofpress-dev/docs/internal/experiments/PROVENANCE_HANDOFF_EVALUATION_PLAN.md",
- "artifact_id": "pp_dfeff80ca8348068acae1718",
- "version": "0a965a2f",
- "parent": "fbedde8c",
+ "artifact": "experiments/provenance_handoff/ara/evidence/README.md",
+ "artifact_id": "pp_d903bfb55a61339cd26f454f",
+ "version": "a0cf1252",
+ "parent": "c0b60538",
  "author": {
-  "name": "unknown",
-  "kind": "human",
+  "name": "codex-preflight",
+  "kind": "system",
   "session": null
  },
- "note": null,
- "ts": "2026-08-08T06:18:19+00:00",
+ "note": "best-effort fallback capture; edit attribution unknown",
+ "ts": "2026-08-08T10:25:26+00:00",
  "stats": {
-  "modified": 2
+  "added": 1
  },
  "changes": [
   {
-   "kind": "modified",
-   "block": "37ed6078",
+   "kind": "added",
+   "block": "563cb8db",
    "type": "para",
-   "context": "Provenance Handoff Evaluation Plan"
-  },
-  {
-   "kind": "modified",
-   "block": "632a1024",
-   "type": "para",
-   "context": "Provenance Handoff Evaluation Plan"
+   "context": "Current state",
+   "preview": "The independent internal MemConflict mechanism gate is now c"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:9b979cdbbe401b02dc6d39030ca3830ad9438f34caf11d262d7b3c5ab5cdacd2",
+ "soft_fingerprint": "ppsb1:a4803376ba82b342ca0c11fb8d2725178be98be4d9b0db00247235868bbdca3a",
  "actors": {
-  "requested_by": [
-   "Richard Tang"
-  ],
-  "produced_by": [
-   "Codex"
-  ],
-  "edited_by": [
-   "Codex"
-  ],
   "recorded_by": [
-   "Codex"
+   "codex-preflight"
   ]
  },
- "attribution_basis": "self_asserted",
- "claims": [
-  {
-   "block": "37ed6078",
-   "kind": "modified",
-   "note": "Updated plan status and scope to the single-agent route."
-  },
-  {
-   "block": "632a1024",
-   "kind": "modified",
-   "note": "Replaced legacy SAS/MAS active estimand with the three conditions."
-  }
- ],
- "context": {
-  "why": "Promote the approved single-agent continuity route to the canonical evaluation plan."
- },
- "event_id": "ppe_9ff34b16d1338df012b8547c"
+ "attribution_basis": "harness_attested",
+ "event_id": "ppe_e1510dd4a4e41e87cc0dfc33"
 }
