@@ -1,48 +1,108 @@
 {
- "artifact": "experiments/provenance_handoff/ara/PAPER.md",
- "artifact_id": "pp_cb6d0883f4bda071d2137869",
+ "artifact": "experiments/provenance_handoff/docs/STALE_PHASE1_PLAN.md",
+ "artifact_id": "pp_6cf0c8f0e4ef1cb9c59aae65",
  "blocks": [
   {
    "type": "heading",
-   "text": "# Provenance-Preserving Lineage for Long-Horizon Multi-Agent Legal Workflows",
-   "id": "5ad8477e",
-   "hash": "f450ea971b55"
-  },
-  {
-   "type": "para",
-   "text": "**Status:** study design plus completed internal MemConflict mechanism gate; no formal Gateway efficacy result\n**Authors:** Proofpress research team (draft)\n**Year:** 2026\n**Primary substrate:** Harvey LAB v1.0, fixed official harness",
-   "id": "d6d1bb11",
-   "hash": "7741258508f0"
+   "text": "# Phase 1 Protocol — STALE / CUPMem comparative study",
+   "id": "e7be3524",
+   "hash": "74e6a0e3c82b"
   },
   {
    "type": "heading",
-   "text": "## Artifact map",
-   "id": "6ce745c5",
-   "hash": "86cbf94b78e1"
+   "text": "## Status and scope",
+   "id": "0b6e1d4f",
+   "hash": "fd34f9fb637e"
+  },
+  {
+   "type": "para",
+   "text": "**Active protocol.** This is the sole authorized Phase 1 route. It tests admitted artifact provenance against an already documented stale-memory failure using STALE and its proposed CUPMem remedy. It does not test C&H, Harvey, APEX, or the historical MemConflict fixture; those remain separate records and are not pooled.",
+   "id": "05b3cc93",
+   "hash": "0a671869c690"
+  },
+  {
+   "type": "heading",
+   "text": "## Research question",
+   "id": "68ce61b4",
+   "hash": "4f0bcffa3de4"
+  },
+  {
+   "type": "para",
+   "text": "When a fresh agent inherits state after a conflict update, does a Proofpress admission ledger improve state handling beyond a strong ordinary memory baseline or CUPMem, without receiving more semantic information?",
+   "id": "6c906779",
+   "hash": "310d35a29387"
+  },
+  {
+   "type": "heading",
+   "text": "## Frozen conditions",
+   "id": "e897e744",
+   "hash": "a7107a7d14ef"
+  },
+  {
+   "type": "table",
+   "text": "| Condition | Mechanism | Required fairness boundary |\n|---|---|---|\n| `S0` | STALE/original memory baseline | upstream task, model, context budget, prompt, retrieval policy, and attempt count frozen |\n| `S1` | CUPMem | benchmark authors' state consolidation and propagation method at a pinned revision |\n| `S2` | Proofpress admission ledger | same semantic claims, evidence, and current-state content as the matched S1 input; only admission status, evidence binding, revision lineage, and verification interface differ |\n| `S3` | CUPMem + Proofpress | S1 current-state handling plus S2 portable admitted lineage |",
+   "id": "d8ad0219",
+   "hash": "2a8d713112b9"
+  },
+  {
+   "type": "heading",
+   "text": "## Primary measures and comparisons",
+   "id": "75f577d3",
+   "hash": "1d277f458b25"
+  },
+  {
+   "type": "para",
+   "text": "Preserve STALE's native measures as primary outcomes: **State Resolution**, **Premise Resistance**, and **Implicit Policy Adaptation**. Report each condition's numerator, denominator, rate, confidence interval, and paired difference where the benchmark pairing permits it. Do not replace these measures with Proofpress-specific scores.",
+   "id": "2e1f1a2a",
+   "hash": "5b8743fe952b"
+  },
+  {
+   "type": "para",
+   "text": "The prespecified comparisons are `S2 − S0`, `S2 − S1`, and `S3 − S1`. `S1 − S0` measures the benchmark remedy's contribution; `S3 − S2` tests whether CUPMem's current-state layer adds value beyond admitted history. A negative or null Proofpress result is retained without redefinition of the primary endpoint.",
+   "id": "9785fbaa",
+   "hash": "657953552f5f"
+  },
+  {
+   "type": "para",
+   "text": "Secondary, separately reported observations are evidence reconstruction, supersession faithfulness, unsupported inheritance, audit reconstruction completeness, input/output tokens, latency, and cost. They can explain a mechanism or operational trade-off but cannot substitute for the native task measures.",
+   "id": "8336234b",
+   "hash": "4d7bd812b665"
+  },
+  {
+   "type": "heading",
+   "text": "## Freeze gate before execution",
+   "id": "5abd2e71",
+   "hash": "9bf9da16b6fb"
+  },
+  {
+   "type": "para",
+   "text": "Before the first scored call, record: STALE repository/data commit and file hashes; license and allowed-use notes; CUPMem source/revision and reproducibility status; exact model/provider; prompt and decoding parameters; context and token caps; number of scenarios and attempts; randomization/ordering; semantic-information matching audit; grader version; cost cap; and per-call requested/resolved model, provider, tokens, latency, cost, retries, and fallback state. Any missing required field leaves a run auditable but excludes it from the primary table.",
+   "id": "88912b9f",
+   "hash": "2fea80cc2d62"
+  },
+  {
+   "type": "heading",
+   "text": "## Execution sequence",
+   "id": "88bb088d",
+   "hash": "575758075be4"
   },
   {
    "type": "list",
-   "text": "- `logic/problem.md` — why conventional handoff does not preserve accepted decision state.\n- `logic/claims.md` — falsifiable, currently testing hypotheses only.\n- `logic/concepts.md` — treatment and measurement definitions.\n- `logic/experiments.md` — gates and comparison matrix.\n- `logic/related_work.md` — Harvey, ARA, and multi-agent architecture context.\n- `logic/solution/constraints.md` — non-negotiable fairness and safety constraints.\n- `src/` — environment and experiment artifact index.\n- `trace/` — append-only decisions and session record.\n- `evidence/` — source and sanitized result index, including the completed internal MemConflict gate.",
-   "id": "b9c6dba5",
-   "hash": "aa57b112a678"
+   "text": "1. Inspect and pin the upstream STALE data and CUPMem implementation; run their published checks before adapting anything.\n2. Build deterministic S0–S3 carriers from one canonical conflict-state representation, including a semantic-information matching check between S1 and S2.\n3. Dry-run a small, unscored stratified sample to validate parsing, scorer compatibility, fresh-session boundaries, telemetry, and capsule verification.\n4. Freeze the manifest and run the prespecified stratified Phase 1 matrix; keep original STALE scoring separate from secondary audit checks.\n5. Analyze native scores first, then cost/auditability and failure slices; publish nulls, limitations, and any protocol deviations.",
+   "id": "fbc3ab99",
+   "hash": "60e89b8b44b5"
   },
   {
    "type": "heading",
-   "text": "## Abstract (draft)",
-   "id": "6979663a",
-   "hash": "3513d178db19"
+   "text": "## Interpretation boundary",
+   "id": "82b1228f",
+   "hash": "f4e118944ee3"
   },
   {
    "type": "para",
-   "text": "Long-horizon multi-agent workflows exchange intermediate artifacts whose factual support, decision authority, and acceptance state are often implicit. This study evaluates whether portable Proofpress lineage can preserve that information more effectively than a strong ordinary filesystem-memory handoff, or the same memory plus browseable raw historical files. The completed internal MemConflict mechanism gate found a stale/regression reduction but no trusted-success gain over ordinary memory; it is not a formal Gateway result because provider, cost, and fallback telemetry were missing. The remaining route holds the official task/scoring harness fixed while varying only checkpoint-history representation. Outcomes combine official task scores with auditability, justified reversal, and efficiency measures, and preserve null or negative results.",
-   "id": "4b96e0aa",
-   "hash": "f8f7a033243a"
-  },
-  {
-   "type": "para",
-   "text": "The Phase 1 result is a mechanism boundary, not a product claim: provenance may help a receiver notice stale authority in a controlled reversal fixture, but ordinary memory remained at least as good on the primary trusted-success endpoint.",
-   "id": "4249cd4c",
-   "hash": "f38a5d30f655"
+   "text": "Possible outcomes are all informative: CUPMem may outperform Proofpress on accuracy; Proofpress may leave task scores unchanged while improving auditability; the hybrid may improve both; or Proofpress may show no incremental value on STALE. This phase establishes only a benchmark-and-model-slice result. It does not claim that hashes establish truth, that a ledger is a runtime authority gate, or that the result generalizes to multi-agent coordination or cross-organization integrity.",
+   "id": "28a4e5f4",
+   "hash": "cc85584265c8"
   }
  ]
 }

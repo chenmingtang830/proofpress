@@ -1,53 +1,141 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/ara/PAPER.md",
- "artifact_id": "pp_cb6d0883f4bda071d2137869",
- "version": "1a901ac9",
- "parent": "46c80a6c",
+ "artifact": "experiments/provenance_handoff/docs/STALE_PHASE1_PLAN.md",
+ "artifact_id": "pp_6cf0c8f0e4ef1cb9c59aae65",
+ "version": "1d4e6723",
+ "parent": "18ae6e94",
  "author": {
-  "name": "codex",
-  "kind": "agent",
+  "name": "codex-preflight",
+  "kind": "system",
   "session": null
  },
- "note": null,
- "ts": "2026-08-08T10:31:01+00:00",
+ "note": "best-effort fallback capture; edit attribution unknown",
+ "ts": "2026-08-08T10:38:27+00:00",
  "stats": {
-  "modified": 1
+  "modified": 7,
+  "removed": 10
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "d6d1bb11",
+   "block": "05b3cc93",
    "type": "para",
-   "context": "Provenance-Preserving Lineage for Long-H"
+   "context": "Status and scope"
+  },
+  {
+   "kind": "modified",
+   "block": "6c906779",
+   "type": "para",
+   "context": "Research question"
+  },
+  {
+   "kind": "modified",
+   "block": "2e1f1a2a",
+   "type": "para",
+   "context": "Primary measures and comparisons"
+  },
+  {
+   "kind": "modified",
+   "block": "9785fbaa",
+   "type": "para",
+   "context": "Primary measures and comparisons"
+  },
+  {
+   "kind": "modified",
+   "block": "8336234b",
+   "type": "para",
+   "context": "Primary measures and comparisons"
+  },
+  {
+   "kind": "modified",
+   "block": "88912b9f",
+   "type": "para",
+   "context": "Freeze gate before execution"
+  },
+  {
+   "kind": "modified",
+   "block": "28a4e5f4",
+   "type": "para",
+   "context": "Interpretation boundary"
+  },
+  {
+   "kind": "removed",
+   "block": "60288f42",
+   "type": "para",
+   "context": "",
+   "preview": "[//]: # (ob:stalephase1-title)"
+  },
+  {
+   "kind": "removed",
+   "block": "41ca46ed",
+   "type": "para",
+   "context": "",
+   "preview": "[//]: # (ob:stalephase1-status)"
+  },
+  {
+   "kind": "removed",
+   "block": "d7a9e002",
+   "type": "para",
+   "context": "",
+   "preview": "[//]: # (ob:stalephase1-question)"
+  },
+  {
+   "kind": "removed",
+   "block": "49d6abe1",
+   "type": "para",
+   "context": "",
+   "preview": "[//]: # (ob:stalephase1-conditions)"
+  },
+  {
+   "kind": "removed",
+   "block": "b1a1b907",
+   "type": "para",
+   "context": "",
+   "preview": "[//]: # (ob:stalephase1-table)"
+  },
+  {
+   "kind": "removed",
+   "block": "0e50c1a2",
+   "type": "para",
+   "context": "",
+   "preview": "[//]: # (ob:stalephase1-primary)"
+  },
+  {
+   "kind": "removed",
+   "block": "f7063a6e",
+   "type": "para",
+   "context": "",
+   "preview": "[//]: # (ob:stalephase1-freeze)"
+  },
+  {
+   "kind": "removed",
+   "block": "396830aa",
+   "type": "para",
+   "context": "",
+   "preview": "[//]: # (ob:stalephase1-run)"
+  },
+  {
+   "kind": "removed",
+   "block": "baed5b92",
+   "type": "para",
+   "context": "",
+   "preview": "[//]: # (ob:stalephase1-steps)"
+  },
+  {
+   "kind": "removed",
+   "block": "595ce155",
+   "type": "para",
+   "context": "",
+   "preview": "[//]: # (ob:stalephase1-decision)"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:5379ef951db2a68f76f7a6b96d4b53533f70804d6e063b0bf2b8956b2b452a75",
+ "soft_fingerprint": "ppsb1:1b5a5aa5c60e481f514ec2531f0e32f69b9b51231fd1f873368fe6c9e8c84a8b",
  "actors": {
-  "requested_by": [
-   "user"
-  ],
-  "produced_by": [
-   "codex"
-  ],
-  "edited_by": [
-   "codex"
-  ],
   "recorded_by": [
-   "codex"
+   "codex-preflight"
   ]
  },
- "attribution_basis": "self_asserted",
- "claims": [
-  {
-   "block": "d6d1bb11",
-   "kind": "modified",
-   "note": "Removed Markdown hard-break whitespace without changing the paper's content."
-  }
- ],
- "context": {
-  "why": "Normalize Markdown line endings in the already accepted paper update without changing its content."
- },
- "event_id": "ppe_9dd37de5922fef36475b0c5b"
+ "attribution_basis": "harness_attested",
+ "event_id": "ppe_b60916217b423613a96d9d45"
 }
