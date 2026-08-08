@@ -1,47 +1,47 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/docs/EXECUTION_PLAN.md",
- "artifact_id": "pp_120f0f61aa69ad67431b9659",
- "version": "41a14d74",
- "parent": "91203cea",
+ "artifact": "experiments/provenance_handoff/docs/RESULTS_MATRIX.md",
+ "artifact_id": "pp_d40d46a12d4d493fcbc9c0e9",
+ "version": "3353d852",
+ "parent": "05a87553",
  "author": {
   "name": "codex",
   "kind": "agent",
   "session": null
  },
  "note": null,
- "ts": "2026-08-08T10:45:54+00:00",
+ "ts": "2026-08-08T10:45:56+00:00",
  "stats": {
   "modified": 4
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "3beda344",
+   "block": "8f5f32ed",
    "type": "heading",
-   "context": "Archived execution record — Harvey/C&H s"
+   "context": "Results matrix — archived Harvey/C&H and"
   },
   {
    "kind": "modified",
-   "block": "6743bd05",
+   "block": "569ecb4f",
    "type": "heading",
    "context": "Supersession notice"
   },
   {
    "kind": "modified",
-   "block": "941fa27e",
+   "block": "f9ecf7b5",
    "type": "para",
    "context": "Supersession notice"
   },
   {
    "kind": "modified",
-   "block": "f62ad8be",
+   "block": "0010f5cd",
    "type": "para",
-   "context": "Purpose and execution boundary"
+   "context": "Completed Matrix E: MemConflict mechanis"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:5ba814eb00713e6a55a21ae75af7bc457e72bb78ad6b25a89014c1afce613c87",
+ "soft_fingerprint": "ppsb1:a8e1976a2b9c891d917c6de9f7fe977ff742fd623b863cb8d7f8eaaf1187453c",
  "actors": {
   "requested_by": [
    "richardtang"
@@ -59,13 +59,28 @@
  "attribution_basis": "environment_attested",
  "claims": [
   {
-   "block": "941fa27e",
+   "block": "3f057bba",
    "kind": "added",
-   "note": "Recorded that STALE/CUPMem, not C&H, is the active Phase 1."
+   "note": "Marked the MemConflict matrix as historical."
+  },
+  {
+   "block": "0010f5cd",
+   "kind": "added",
+   "note": "Recorded that the fixture is not active Phase 1."
+  },
+  {
+   "block": "434153db",
+   "kind": "added",
+   "note": "Preserved the historical mechanism measurements."
+  },
+  {
+   "block": "1948adf8",
+   "kind": "added",
+   "note": "Preserved the null-result interpretation."
   }
  ],
  "context": {
-  "why": "Make STALE/CUPMem the sole active Phase 1 execution plan."
+  "why": "Keep MemConflict results as historical mechanism evidence rather than an active Phase 1 result."
  },
- "event_id": "ppe_b0efc61c7b158e1a38e159f1"
+ "event_id": "ppe_0cf9298c07eb836d4583dfca"
 }
