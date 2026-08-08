@@ -1,63 +1,35 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/docs/STALE_PHASE1_PLAN.md",
- "artifact_id": "pp_6cf0c8f0e4ef1cb9c59aae65",
- "version": "a143e7f7",
- "parent": "84d6d2da",
+ "artifact": "experiments/provenance_handoff/README.md",
+ "artifact_id": "pp_556b115de711b0cd33eed260",
+ "version": "ba7c429e",
+ "parent": "6e3e7d3f",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-08T12:04:20+00:00",
+ "ts": "2026-08-08T12:04:23+00:00",
  "stats": {
-  "modified": 3,
-  "added": 3
+  "modified": 2
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "05b3cc93",
-   "type": "para",
-   "context": "Status and scope"
+   "block": "66569a2c",
+   "type": "heading",
+   "context": "Phase 1 implementation status"
   },
   {
    "kind": "modified",
-   "block": "2bc3a0e1",
-   "type": "heading",
-   "context": "Superseded prompt-policy pilot"
-  },
-  {
-   "kind": "modified",
-   "block": "2bf59710",
+   "block": "1fa1b7ec",
    "type": "para",
-   "context": "Superseded prompt-policy pilot"
-  },
-  {
-   "kind": "added",
-   "block": "87374336",
-   "type": "heading",
-   "context": "Current production-carrier pilot",
-   "preview": "## Current production-carrier pilot"
-  },
-  {
-   "kind": "added",
-   "block": "c6455aa4",
-   "type": "para",
-   "context": "Current production-carrier pilot",
-   "preview": "The replacement implementation is `research/phase1/proofpres"
-  },
-  {
-   "kind": "added",
-   "block": "aa5e763b",
-   "type": "para",
-   "context": "Current production-carrier pilot",
-   "preview": "The first implementation checks are positive but not efficac"
+   "context": "Phase 1 implementation status"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:884fc8cf1c45c4abb0bda2cc6e31bc1ae00a89d5b210f617160981f0eb9fe969",
+ "soft_fingerprint": "ppsb1:afff77e39608404fef265d2d8a9a5d60ffbdb30d12bdbdccbc80c37a025e9446",
  "actors": {
   "requested_by": [
    "richard"
@@ -75,38 +47,18 @@
  "attribution_basis": "environment_attested",
  "claims": [
   {
-   "block": "05b3cc93",
+   "block": "66569a2c",
    "kind": "modified",
-   "note": "Clarified that the old prompt-policy pilot is superseded and production-carrier work is active."
+   "note": "Updated Phase 1 status heading."
   },
   {
-   "block": "2bc3a0e1",
+   "block": "1fa1b7ec",
    "kind": "modified",
-   "note": "Renamed the historical pilot section."
-  },
-  {
-   "block": "2bf59710",
-   "kind": "modified",
-   "note": "Withdrew the invalid stop/narrow causal interpretation."
-  },
-  {
-   "block": "87374336",
-   "kind": "added",
-   "note": "Added production-carrier pilot scope."
-  },
-  {
-   "block": "c6455aa4",
-   "kind": "added",
-   "note": "Documented carrier contract and admission gate."
-  },
-  {
-   "block": "aa5e763b",
-   "kind": "added",
-   "note": "Recorded implementation smoke results and limitations."
+   "note": "Marked old pilot as superseded and linked active carrier path."
   }
  ],
  "context": {
-  "why": "Replaced the non-causal prompt-policy pilot interpretation with a production-style admitted carrier and explicit implementation gate."
+  "why": "Synchronize the repository overview with the superseded pilot and active production-carrier implementation."
  },
- "event_id": "ppe_b9ff160c30a867f40416d840"
+ "event_id": "ppe_fe0652f8dc88c5e039a67183"
 }
