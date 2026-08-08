@@ -1,29 +1,29 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/ara/src/environment.md",
- "artifact_id": "pp_d4f0f4ca5617c9d0528dea8e",
- "version": "ca35d5e5",
- "parent": "cd1418fa",
+ "artifact": "experiments/provenance_handoff/ara/evidence/README.md",
+ "artifact_id": "pp_d903bfb55a61339cd26f454f",
+ "version": "f1c814c9",
+ "parent": "702ecfcb",
  "author": {
   "name": "codex",
   "kind": "agent",
   "session": null
  },
  "note": null,
- "ts": "2026-08-08T10:46:37+00:00",
+ "ts": "2026-08-08T10:46:48+00:00",
  "stats": {
   "modified": 1
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "a84a1149",
-   "type": "list",
-   "context": "Environment"
+   "block": "563cb8db",
+   "type": "para",
+   "context": "Current state"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:68b9e9c914675d5f5b2d914cd7cdec9022bc4a1d1aaa1097117bd4ea1af2ad66",
+ "soft_fingerprint": "ppsb1:124ef656e839aaba72372efe104bab01b1032c309eec2c1d9623dbb04008d7ca",
  "actors": {
   "requested_by": [
    "richardtang"
@@ -41,13 +41,13 @@
  "attribution_basis": "environment_attested",
  "claims": [
   {
-   "block": "a84a1149",
+   "block": "563cb8db",
    "kind": "modified",
-   "note": "Replaced the active Harvey transport target with the STALE freeze requirements."
+   "note": "Recorded the passed STALE upstream input-freeze and pending reproduction gate."
   }
  ],
  "context": {
-  "why": "Record STALE input and telemetry requirements as the active environment boundary."
+  "why": "Record the passed STALE upstream input-freeze without overstating a treatment result."
  },
- "event_id": "ppe_328061829a8686b625892336"
+ "event_id": "ppe_7cee5cfe6f8c426806a64841"
 }
