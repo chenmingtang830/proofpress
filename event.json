@@ -1,41 +1,41 @@
 {
  "event": "version_created",
- "artifact": "docs/EXECUTION_PLAN.md",
- "artifact_id": "pp_120f0f61aa69ad67431b9659",
- "version": "0dd14a61",
- "parent": "55a6acbe",
+ "artifact": "docs/RESULTS_MATRIX.md",
+ "artifact_id": "pp_d40d46a12d4d493fcbc9c0e9",
+ "version": "edf8ee41",
+ "parent": "c6615a1f",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-08T06:18:11+00:00",
+ "ts": "2026-08-08T06:18:13+00:00",
  "stats": {
   "modified": 3
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "3beda344",
+   "block": "8f5f32ed",
    "type": "heading",
-   "context": "Execution Plan: Proofpress Single-Agent "
+   "context": "Results Matrix and Interpretation Guide "
   },
   {
    "kind": "modified",
-   "block": "f62ad8be",
+   "block": "f9ecf7b5",
    "type": "para",
-   "context": "Purpose and execution boundary"
+   "context": "Review state"
   },
   {
    "kind": "modified",
-   "block": "4b9c9552",
+   "block": "d227002e",
    "type": "code",
-   "context": "Study modes"
+   "context": "What the paper must distinguish"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:8985283183bf985781dccdc662286a1681880b8a18addee7c07fe0ef90bf4496",
+ "soft_fingerprint": "ppsb1:9273de2a3c449c9fbea4333537336cd096f7f031471d76051d14bd57c2d2907f",
  "actors": {
   "requested_by": [
    "Richard Tang"
@@ -53,18 +53,18 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "f62ad8be",
+   "block": "f9ecf7b5",
    "kind": "modified",
-   "note": "Changed execution boundary to one-agent continuity conditions."
+   "note": "Defined current result conditions and separate reporting rule."
   },
   {
-   "block": "4b9c9552",
+   "block": "d227002e",
    "kind": "modified",
-   "note": "Replaced legacy workflow diagram with the three-phase route."
+   "note": "Updated evaluation sequence to MemConflict C&H and APEX."
   }
  ],
  "context": {
-  "why": "Align execution sequencing with the approved three-condition single-agent study."
+  "why": "Align result interpretation with the approved three-condition single-agent study."
  },
- "event_id": "ppe_3075ddf782885edd63c76dbf"
+ "event_id": "ppe_8b99f3f868952442638f7f14"
 }
