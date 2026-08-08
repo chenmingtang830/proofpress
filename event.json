@@ -1,51 +1,30 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/docs/RESULTS_MATRIX.md",
- "artifact_id": "pp_d40d46a12d4d493fcbc9c0e9",
- "version": "05a87553",
- "parent": "edf8ee41",
+ "artifact": "experiments/provenance_handoff/ara/evidence/README.md",
+ "artifact_id": "pp_d903bfb55a61339cd26f454f",
+ "version": "ddf0c7b6",
+ "parent": "a0cf1252",
  "author": {
   "name": "codex",
   "kind": "agent",
   "session": null
  },
  "note": null,
- "ts": "2026-08-08T10:28:22+00:00",
+ "ts": "2026-08-08T10:29:06+00:00",
  "stats": {
-  "added": 4
+  "added": 1
  },
  "changes": [
   {
    "kind": "added",
-   "block": "3f057bba",
-   "type": "heading",
-   "context": "Completed Matrix E: MemConflict mechanis",
-   "preview": "## Completed Matrix E: MemConflict mechanism gate"
-  },
-  {
-   "kind": "added",
-   "block": "0010f5cd",
+   "block": "4a2a703a",
    "type": "para",
-   "context": "Completed Matrix E: MemConflict mechanis",
-   "preview": "This internal fixture is the first phase of the accepted sin"
-  },
-  {
-   "kind": "added",
-   "block": "434153db",
-   "type": "table",
-   "context": "Completed Matrix E: MemConflict mechanis",
-   "preview": "| Arm | Runs | Trusted success | Task success | Stale/regres"
-  },
-  {
-   "kind": "added",
-   "block": "1948adf8",
-   "type": "para",
-   "context": "Completed Matrix E: MemConflict mechanis",
-   "preview": "The primary Provenance−Memory contrast is 0.0 points on trus"
+   "context": "Current state",
+   "preview": "The package contains aggregate metrics and SHA-256 pointers "
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:278c50e767f964acad5e222a81c0ce90f8c822194a709b085aba7760a8a24f72",
+ "soft_fingerprint": "ppsb1:523697a7b75c08eaa83b103067ca4157bca070ce2cf0834ae7dbb4701581a69a",
  "actors": {
   "requested_by": [
    "user"
@@ -63,28 +42,13 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "3f057bba",
+   "block": "4a2a703a",
    "kind": "added",
-   "note": "Added the Matrix E section and scope boundary."
-  },
-  {
-   "block": "0010f5cd",
-   "kind": "added",
-   "note": "Added the Matrix E arm table."
-  },
-  {
-   "block": "434153db",
-   "kind": "added",
-   "note": "Added the bounded interpretation and Gate A/Gate B outcome."
-  },
-  {
-   "block": "1948adf8",
-   "kind": "added",
-   "note": "Added the Matrix E null-result reporting boundary."
+   "note": "Clarified that only sanitized aggregates and hashes enter Git."
   }
  ],
  "context": {
-  "why": "Add the auditable Phase 1 aggregate and preserve its null task-quality result."
+  "why": "Make the Phase 1 evidence package portable while keeping raw run material outside Git."
  },
- "event_id": "ppe_9a41a5fdfecd1db353abb79f"
+ "event_id": "ppe_e3262904d76e70032a295780"
 }
