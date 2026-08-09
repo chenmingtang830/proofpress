@@ -1,44 +1,41 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/ara/logic/experiments.md",
- "artifact_id": "pp_15fb7a0bcf0891f7cee01068",
- "version": "9e65acb9",
- "parent": "532e44c5",
+ "artifact": "experiments/provenance_handoff/ara/PAPER.md",
+ "artifact_id": "pp_cb6d0883f4bda071d2137869",
+ "version": "d139dfdf",
+ "parent": "c1351677",
  "author": {
   "name": "codex",
   "kind": "agent",
   "session": null
  },
- "note": "add E12 Artifact Travel v2 protocol record",
- "ts": "2026-08-09T21:21:27+00:00",
+ "note": "reframe notebook around Artifact Travel v2",
+ "ts": "2026-08-09T21:21:34+00:00",
  "stats": {
-  "modified": 1,
-  "added": 2
+  "modified": 3
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "560cdaa4",
-   "type": "list",
-   "context": "E11: Preregistered restricted-access S-C"
+   "block": "d6d1bb11",
+   "type": "para",
+   "context": "Research notebook — admitted provenance "
   },
   {
-   "kind": "added",
-   "block": "43a81843",
-   "type": "heading",
-   "context": "E12: Artifact Travel Benchmark v2 — A→B→",
-   "preview": "## E12: Artifact Travel Benchmark v2 — A→B→independent revie"
+   "kind": "modified",
+   "block": "4b96e0aa",
+   "type": "para",
+   "context": "Abstract (draft)"
   },
   {
-   "kind": "added",
-   "block": "3242ace7",
-   "type": "list",
-   "context": "E12: Artifact Travel Benchmark v2 — A→B→",
-   "preview": "- **Question**: Does the complete Proofpress portable handof"
+   "kind": "modified",
+   "block": "4249cd4c",
+   "type": "para",
+   "context": "Abstract (draft)"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:c503989fefb3c9ad265a5cfa1c3c6576f96f8b7c76ff0b9f0b3513c5af4602e6",
+ "soft_fingerprint": "ppsb1:7eb3ed5d87a85a57a93c57a9e66f245ae46ef6cd3d3a7f0401e5adf4797294a5",
  "actors": {
   "requested_by": [
    "Richard Tang"
@@ -56,23 +53,23 @@
  "attribution_basis": "harness_attested",
  "claims": [
   {
-   "block": "560cdaa4",
+   "block": "d6d1bb11",
    "kind": "modified",
-   "note": "Mark the information-matched SPA v1 protocol superseded without a receiver outcome."
+   "note": "Make Artifact Travel v2 the active substrate while preserving all historical result boundaries."
   },
   {
-   "block": "43a81843",
-   "kind": "added",
-   "note": "Add the Artifact Travel v2 experiment record."
+   "block": "4b96e0aa",
+   "kind": "modified",
+   "note": "Reframe the study around the full portable-package bundle and the A-B-R trust endpoint."
   },
   {
-   "block": "3242ace7",
-   "kind": "added",
-   "note": "Record the bundle estimand, A-B-R design, faults, passed Phase 0 gate, and Phase 1 authorization boundary."
+   "block": "4249cd4c",
+   "kind": "modified",
+   "note": "Keep MemConflict and STALE as separate mechanism evidence rather than product claims."
   }
  ],
  "context": {
-  "why": "Record the approved bundle estimand, passed no-model gate, and explicit Phase 1 authorization boundary."
+  "why": "Align the research notebook with the approved full-package product question while retaining null and bounded historical evidence."
  },
- "event_id": "ppe_01a4d09e6702aafd62e0f241"
+ "event_id": "ppe_155a8a6fe0d13deec1ada388"
 }
