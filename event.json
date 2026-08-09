@@ -1,64 +1,41 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/docs/RESULTS_MATRIX.md",
- "artifact_id": "pp_d40d46a12d4d493fcbc9c0e9",
- "version": "3b525b67",
- "parent": "435e2547",
+ "artifact": "experiments/provenance_handoff/docs/STALE_PHASE1_PLAN.md",
+ "artifact_id": "pp_6cf0c8f0e4ef1cb9c59aae65",
+ "version": "93232967",
+ "parent": "b5e884d3",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-09T08:35:52+00:00",
+ "ts": "2026-08-09T08:35:57+00:00",
  "stats": {
-  "modified": 2,
-  "added": 4
+  "modified": 3
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "f9ecf7b5",
+   "block": "05b3cc93",
    "type": "para",
-   "context": "Supersession notice"
+   "context": "Status and scope"
   },
   {
    "kind": "modified",
-   "block": "61431e3e",
+   "block": "aa5e763b",
    "type": "para",
-   "context": "Completed Matrix F: STALE / CUPMem Phase"
+   "context": "Current production-carrier pilot"
   },
   {
-   "kind": "added",
-   "block": "78a5e027",
-   "type": "heading",
-   "context": "Secondary Matrix F-R: blinded Gemini jud",
-   "preview": "## Secondary Matrix F-R: blinded Gemini judge robustness rep"
-  },
-  {
-   "kind": "added",
-   "block": "1062a080",
-   "type": "para",
-   "context": "Secondary Matrix F-R: blinded Gemini jud",
-   "preview": "The same four frozen, arm-blinded answer exports were rescor"
-  },
-  {
-   "kind": "added",
-   "block": "b749162e",
-   "type": "table",
-   "context": "Secondary Matrix F-R: blinded Gemini jud",
-   "preview": "| Native STALE criterion | V0: vanilla history | V1: full-se"
-  },
-  {
-   "kind": "added",
-   "block": "120af500",
-   "type": "para",
-   "context": "Secondary Matrix F-R: blinded Gemini jud",
-   "preview": "Across the same 80 shared eligible scenarios, Gemini gives p"
+   "kind": "modified",
+   "block": "fbc3ab99",
+   "type": "list",
+   "context": "Execution sequence"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:9406ad8983ddffaa2f49e0880f35e24bbeec0d3217994d5af8d87cde874688a4",
+ "soft_fingerprint": "ppsb1:f5db0851aaa6bb426539c0cf7ef49e36f8bd80e00e3833ee70ffcdfc8f78c239",
  "actors": {
   "requested_by": [
    "user"
@@ -76,38 +53,23 @@
  "attribution_basis": "harness_attested",
  "claims": [
   {
-   "block": "f9ecf7b5",
+   "block": "05b3cc93",
    "kind": "modified",
-   "note": "Preserves the Nano primary result while recording that the direct-Gemini blinded judge replication did not reproduce the P3 minus P2 effect."
+   "note": "Updates Phase 1 status to include the non-reproducing secondary judge result and retains the no-scale-up decision."
   },
   {
-   "block": "61431e3e",
+   "block": "aa5e763b",
    "kind": "modified",
-   "note": "Narrows the conclusion from a Nano-only mechanism signal to judge-sensitive evidence requiring scorer-disagreement analysis."
+   "note": "Records that the matched frozen-answer Gemini rescore prevents a judge-robust treatment-effect claim."
   },
   {
-   "block": "78a5e027",
-   "kind": "added",
-   "note": "Adds the secondary blinded Gemini judge robustness-replication section and its immutable output binding."
-  },
-  {
-   "block": "1062a080",
-   "kind": "added",
-   "note": "Records the direct Gemini model, credential source, official evaluator endpoint, concurrency, completion count, and zero-error status."
-  },
-  {
-   "block": "b749162e",
-   "kind": "added",
-   "note": "Records every Gemini-scored V0 V1 P2 P3 criterion numerator and the P3 minus P2 difference."
-  },
-  {
-   "block": "120af500",
-   "kind": "added",
-   "note": "Records the non-replicating paired estimate and confidence interval without pooling or replacing the Nano primary result."
+   "block": "fbc3ab99",
+   "kind": "modified",
+   "note": "Makes the completed non-reproducing Gemini rescore an explicit part of the Phase 1 analysis boundary."
   }
  ],
  "context": {
-  "why": "Record the requested frozen-answer Gemini judge robustness replication and its non-reproducing result without altering the primary Nano score."
+  "why": "Update the Phase 1 decision boundary after the requested secondary judge did not reproduce the Nano result."
  },
- "event_id": "ppe_6022f7f1e7de3f5f68cbfa9b"
+ "event_id": "ppe_db01dd4f75dcc2c59eb76aa7"
 }
