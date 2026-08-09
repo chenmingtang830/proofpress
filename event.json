@@ -1,71 +1,59 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/docs/RESULTS_MATRIX.md",
- "artifact_id": "pp_d40d46a12d4d493fcbc9c0e9",
- "version": "7c8f6d07",
- "parent": "3353d852",
+ "artifact": "experiments/provenance_handoff/docs/STALE_PHASE1_PLAN.md",
+ "artifact_id": "pp_6cf0c8f0e4ef1cb9c59aae65",
+ "version": "b5e884d3",
+ "parent": "4f218aba",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-09T07:52:33+00:00",
+ "ts": "2026-08-09T07:52:36+00:00",
  "stats": {
-  "modified": 2,
-  "added": 5
+  "modified": 6
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "8f5f32ed",
-   "type": "heading",
-   "context": "Results matrix — qualified STALE Phase 1"
+   "block": "05b3cc93",
+   "type": "para",
+   "context": "Status and scope"
   },
   {
    "kind": "modified",
-   "block": "f9ecf7b5",
+   "block": "aa5e763b",
    "type": "para",
-   "context": "Supersession notice"
+   "context": "Current production-carrier pilot"
   },
   {
-   "kind": "added",
-   "block": "ea4dd4c5",
-   "type": "heading",
-   "context": "Completed Matrix F: STALE / CUPMem Phase",
-   "preview": "## Completed Matrix F: STALE / CUPMem Phase 1 Nano qualifica"
+   "kind": "modified",
+   "block": "fbc3ab99",
+   "type": "list",
+   "context": "Execution sequence"
   },
   {
-   "kind": "added",
-   "block": "d3c8533e",
+   "kind": "modified",
+   "block": "6bccbf52",
    "type": "para",
-   "context": "Completed Matrix F: STALE / CUPMem Phase",
-   "preview": "The sole valid matrix root is `/Users/richardtang/.cache/pro"
+   "context": "Pilot, confirmatory gate, and reporting"
   },
   {
-   "kind": "added",
-   "block": "7289edde",
-   "type": "table",
-   "context": "Completed Matrix F: STALE / CUPMem Phase",
-   "preview": "| Native STALE criterion | V0: vanilla history | V1: full-se"
-  },
-  {
-   "kind": "added",
-   "block": "943042d2",
+   "kind": "modified",
+   "block": "28a4e5f4",
    "type": "para",
-   "context": "Completed Matrix F: STALE / CUPMem Phase",
-   "preview": "The paired primary estimate is `P3 − P2 = +8.33pp` across 80"
+   "context": "Interpretation boundary"
   },
   {
-   "kind": "added",
-   "block": "61431e3e",
-   "type": "para",
-   "context": "Completed Matrix F: STALE / CUPMem Phase",
-   "preview": "The defensible claim is narrow: with non-provenance semantic"
+   "kind": "modified",
+   "block": "0cf8df5d",
+   "type": "list",
+   "context": "Immediate work queue"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:ef96bf7ad3c8c186eddb87c85bf835cdbf75f63095f411df3f244cfcad9b1033",
+ "soft_fingerprint": "ppsb1:4ef6f912f8b6a7f56a557dd81d56ae13c6dc78f0dd1a3dca1dafa2e0dd4fdd1f",
  "actors": {
   "requested_by": [
    "Richard Tang"
@@ -83,43 +71,38 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "8f5f32ed",
+   "block": "05b3cc93",
    "kind": "modified",
-   "note": "Renames the matrix to include the current qualified STALE result."
+   "note": "Marks the valid 80-scenario Nano qualification complete and prevents automatic scale-up."
   },
   {
-   "block": "f9ecf7b5",
+   "block": "aa5e763b",
    "kind": "modified",
-   "note": "Separates the valid 80-scenario mechanism result from historical and invalid records."
+   "note": "Separates earlier smoke failures from the eligible full qualification matrix."
   },
   {
-   "block": "ea4dd4c5",
-   "kind": "added",
-   "note": "Adds the completed valid STALE Phase 1 Nano qualification section."
+   "block": "fbc3ab99",
+   "kind": "modified",
+   "note": "Replaces the automatic 400-scenario sequence with a closed qualification decision checkpoint."
   },
   {
-   "block": "d3c8533e",
-   "kind": "added",
-   "note": "Records the sole valid run root, frozen carrier binding, eligibility, parity, and official blind scorer boundary."
+   "block": "6bccbf52",
+   "kind": "modified",
+   "note": "Records the passed qualification gate and its limited authorization."
   },
   {
-   "block": "7289edde",
-   "kind": "added",
-   "note": "Records official V0, V1, P2, and P3 native criterion numerators and rates."
+   "block": "28a4e5f4",
+   "kind": "modified",
+   "note": "Sets the interpretation boundary for the P3 minus P2 mechanism result and V1 calibration."
   },
   {
-   "block": "943042d2",
-   "kind": "added",
-   "note": "Records the paired primary estimate, confidence interval, scenario outcomes, and V1 calibration interpretation."
-  },
-  {
-   "block": "61431e3e",
-   "kind": "added",
-   "note": "Records the narrow supported claim, limitations, and no-automatic-scale-up decision."
+   "block": "0cf8df5d",
+   "kind": "modified",
+   "note": "Replaces execution steps with preservation, failure analysis, external-validity design, and explicit future authorization."
   }
  ],
  "context": {
-  "why": "Record the verified valid 80-scenario STALE Phase 1 Nano qualification, its narrow P3 minus P2 interpretation, and the decision not to auto-scale."
+  "why": "Close the valid Phase 1 Nano qualification in the protocol and prevent an automatic 400-scenario or Luna continuation."
  },
- "event_id": "ppe_b0339fe8473f2d505ff4b009"
+ "event_id": "ppe_2d9d8a3d701de3345e3823ab"
 }
