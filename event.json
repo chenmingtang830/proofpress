@@ -1,37 +1,65 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/ara/logic/claims.md",
- "artifact_id": "pp_ca8a8ddcc33d3870e9a40bc5",
- "version": "54d2d495",
- "parent": "34ad9e34",
+ "artifact": "experiments/provenance_handoff/ara/logic/related_work.md",
+ "artifact_id": "pp_aeef744ab46114892229ebab",
+ "version": "acc341db",
+ "parent": "6a8bb363",
  "author": {
   "name": "codex",
   "kind": "agent",
   "session": null
  },
  "note": null,
- "ts": "2026-08-09T10:57:41+00:00",
+ "ts": "2026-08-09T10:57:48+00:00",
  "stats": {
-  "added": 2
+  "added": 6
  },
  "changes": [
   {
    "kind": "added",
-   "block": "58d9bfa4",
+   "block": "0db501c8",
    "type": "heading",
-   "context": "C06: Portable declared decision lineage ",
-   "preview": "## C06: Portable declared decision lineage may improve restr"
+   "context": "R05: Provenance interoperability",
+   "preview": "## R05: Provenance interoperability"
   },
   {
    "kind": "added",
-   "block": "a4c1d267",
+   "block": "4e561fc3",
+   "type": "para",
+   "context": "R05: Provenance interoperability",
+   "preview": "W3C PROV defines provenance as information about the entitie"
+  },
+  {
+   "kind": "added",
+   "block": "8cebbd8e",
    "type": "list",
-   "context": "C06: Portable declared decision lineage ",
-   "preview": "- **Statement**: Conditional on a fresh receiver's inability"
+   "context": "R05: Provenance interoperability",
+   "preview": "- Overview: https://www.w3.org/TR/prov-overview/\n- Provenanc"
+  },
+  {
+   "kind": "added",
+   "block": "2c3fe1b7",
+   "type": "heading",
+   "context": "R06: Dynamic access and handoff boundari",
+   "preview": "## R06: Dynamic access and handoff boundaries"
+  },
+  {
+   "kind": "added",
+   "block": "8a2ef79d",
+   "type": "para",
+   "context": "R06: Dynamic access and handoff boundari",
+   "preview": "Agent-memory benchmarks often evaluate retrieval or state re"
+  },
+  {
+   "kind": "added",
+   "block": "91e5a727",
+   "type": "list",
+   "context": "R06: Dynamic access and handoff boundari",
+   "preview": "- Dynamic access architecture: https://csrc.nist.gov/pubs/sp"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:6676591cdaac11a15b114b9bb499591741e8e35ccd75f055ec9fb4a89e96a663",
+ "soft_fingerprint": "ppsb1:1999707e16352805450072dc31a2cf107010616563436359126ea41b130e7f29",
  "actors": {
   "requested_by": [
    "richardtang"
@@ -49,18 +77,38 @@
  "attribution_basis": "environment_attested",
  "claims": [
   {
-   "block": "58d9bfa4",
+   "block": "0db501c8",
    "kind": "added",
-   "note": "Added the restricted-access artifact-handoff claim."
+   "note": "Added provenance interoperability related work."
   },
   {
-   "block": "a4c1d267",
+   "block": "4e561fc3",
    "kind": "added",
-   "note": "Recorded the conditional claim, verification limit, and falsification conditions."
+   "note": "Separated prior PROV infrastructure from the experimental contribution."
+  },
+  {
+   "block": "8cebbd8e",
+   "kind": "added",
+   "note": "Recorded W3C provenance sources."
+  },
+  {
+   "block": "2c3fe1b7",
+   "kind": "added",
+   "note": "Added dynamic access and handoff-boundary related work."
+  },
+  {
+   "block": "8a2ef79d",
+   "kind": "added",
+   "note": "Bounded the access-discontinuity interpretation and verification claim."
+  },
+  {
+   "block": "91e5a727",
+   "kind": "added",
+   "note": "Recorded NIST dynamic-access and retention sources."
   }
  ],
  "context": {
-  "why": "Record the falsifiable conditional claim for restricted-access artifact handoff."
+  "why": "Add provenance interoperability and dynamic-access boundaries to related work."
  },
- "event_id": "ppe_e72ec7301b4da78bfeb77e62"
+ "event_id": "ppe_61a77901ff61e96d2bcdc7ac"
 }

@@ -1,84 +1,120 @@
 {
- "artifact": "experiments/provenance_handoff/ara/logic/claims.md",
- "artifact_id": "pp_ca8a8ddcc33d3870e9a40bc5",
+ "artifact": "experiments/provenance_handoff/ara/logic/related_work.md",
+ "artifact_id": "pp_aeef744ab46114892229ebab",
  "blocks": [
   {
    "type": "heading",
-   "text": "# Claims",
-   "id": "2e584545",
-   "hash": "32475190a135"
+   "text": "# Related Work",
+   "id": "c26ac4be",
+   "hash": "37e5674fb503"
   },
   {
    "type": "heading",
-   "text": "## C01: Typed admitted lineage can improve trusted recovery of prior decisions",
-   "id": "859af48b",
-   "hash": "805ba05733b3"
+   "text": "## R01: Harvey LAB",
+   "id": "a7681fe0",
+   "hash": "87750d1a16ed"
+  },
+  {
+   "type": "para",
+   "text": "Harvey LAB provides legal-work tasks, an open-source execution harness, model adapters, task result packaging, and evaluation rubrics. It is used here as a task/harness substrate, not as a claim that this wrapper reproduces Harvey's published leaderboard.",
+   "id": "5152bcf5",
+   "hash": "2412bc5a7d0c"
   },
   {
    "type": "list",
-   "text": "- **Statement**: In a fixed centralized fan-out multi-agent workflow, artifact-native Proofpress metadata that makes decision authority, source status, and acceptance state explicit may improve criterion-level recovery relative to the identical workflow using the same shared mutable ordinary coordination memory without Proofpress.\n- **Conditions**: Testing hypothesis for the accepted DeepSeek V4 Flash 0731 Harvey follow-up; it does not generalize outside this harness, task pair, model, or workflow.\n- **Sources**: `configs/gate1b-result-summary-v1.yaml` records why the old sidecar prototype is not evidence for this claim.\n- **Status**: testing\n- **Provenance**: user-revised\n- **Falsification**: Matched runs show no improvement in trusted task success, or any task-score gain accompanies equal or higher unsupported authority upgrades or decision regressions.\n- **Proof**: [pending]\n- **Dependencies**: []\n- **Tags**: provenance, handoff, trust, legal-workflow",
-   "id": "6b007068",
-   "hash": "c07ed79b903a"
+   "text": "- Source: https://github.com/harveyai/harvey-labs\n- Architecture: https://github.com/harveyai/harvey-labs/blob/v1.0/docs/architecture.md",
+   "id": "f6b950f4",
+   "hash": "d09bf402d24c"
   },
   {
    "type": "heading",
-   "text": "## C02: Verifiable lineage may reduce the operational burden of historical recovery",
-   "id": "da500dfa",
-   "hash": "9b1f18b4a3b9"
+   "text": "## R02: Scaling agent systems",
+   "id": "502e7400",
+   "hash": "6ec07f73a555"
+  },
+  {
+   "type": "para",
+   "text": "Google's study distinguishes a single-agent system from independent, centralized, decentralized, and hybrid multi-agent architectures. The accepted baseline here is therefore described precisely as a **Google-taxonomy centralized hub-and-spoke** architecture: an orchestrator delegates to three parallel specialists and synthesizes their artifacts while workers do not communicate peer-to-peer. Its mutable `coordination.md` is our conventional communication protocol, not a claim that Google shipped that file format. The study reports multi-agent degradation on strictly sequential tasks but gains on parallelizable information-gathering tasks; that motivates an M&A fan-out pilot and retaining a budget-neutral single-agent arm rather than assuming decomposition helps.",
+   "id": "9b6cacb9",
+   "hash": "054427e8ee1b"
   },
   {
    "type": "list",
-   "text": "- **Statement**: When a centralized team must adopt or reconcile specialist findings, embedded verified lineage may reduce coordination/adoption error or work relative to the same ordinary shared-memory workspace without reducing correct justified reversals.\n- **Conditions**: Testing hypothesis; effectiveness is evaluated with identical source-workspace access and recorded, rather than artificially padded, visible input tokens.\n- **Sources**: [pending: native runs have not begun]\n- **Status**: testing\n- **Provenance**: ai-suggested\n- **Falsification**: Matched runs show no reduction in tokens, latency, or history-search work at comparable trusted success, or lineage materially lowers correct reversals.\n- **Proof**: [pending]\n- **Dependencies**: [C01]\n- **Tags**: efficiency, reversal, lineage",
-   "id": "0aa90748",
-   "hash": "343b41de090c"
+   "text": "- Source: https://arxiv.org/abs/2512.08296\n- Discussion: https://research.google/blog/towards-a-science-of-scaling-agent-systems-when-and-why-agent-systems-work/",
+   "id": "b0795eb4",
+   "hash": "e9891499e086"
   },
   {
    "type": "heading",
-   "text": "## C03: The treatment effect must be distinguished from multi-agent decomposition",
-   "id": "c7a85a7a",
-   "hash": "fbe236733c46"
+   "text": "## R03: Agent-Native Research Artifact",
+   "id": "f45a798f",
+   "hash": "c964ee0a93fb"
+  },
+  {
+   "type": "para",
+   "text": "ARA supplies the research-management structure for this study: logic, source artifacts, trace, and evidence. Its current-state and append-only separation informs how the paper process is recorded.",
+   "id": "a30649b6",
+   "hash": "57db5bd15dfa"
   },
   {
    "type": "list",
-   "text": "- **Statement**: Any observed document-native lineage effect must be interpreted separately from the effect of converting a single-agent task into a parallel centralized hub-and-spoke multi-agent workflow.\n- **Conditions**: The native matrix includes a budget-matched single-agent baseline and fixes all multi-agent stages for the primary lineage comparison.\n- **Sources**: Google architecture study, `ara/logic/related_work.md` R02; accepted native-matrix config.\n- **Status**: testing\n- **Provenance**: user-revised\n- **Falsification**: The wrapper changes multiple multi-agent factors between lineage arms or records do not permit the contrasts to be separated.\n- **Proof**: [pending]\n- **Dependencies**: []\n- **Tags**: causal-design, multi-agent, control",
-   "id": "5364b3f8",
-   "hash": "a37d4ab71628"
+   "text": "- Paper: https://arxiv.org/abs/2604.24658\n- Implementation: https://github.com/ARA-Labs/Agent-Native-Research-Artifact",
+   "id": "213a8475",
+   "hash": "e9a3b22ceac9"
   },
   {
    "type": "heading",
-   "text": "## C04: Isolated and end-to-end evidence answer different questions",
-   "id": "b464ba4e",
-   "hash": "6702e1a7b73e"
+   "text": "## R04: Model transport and sampling source",
+   "id": "4fd097c8",
+   "hash": "324de19f21fb"
+  },
+  {
+   "type": "para",
+   "text": "OpenRouter is a transport/routing layer for the fixed Harvey harness, not a second evaluation harness. The study freezes concrete model slugs and provider routing to avoid silent model/provider substitution. The Chatbot Arena Agent Leaderboard may inform a broad candidate roster but is not evidence about legal-work performance or provenance.",
+   "id": "2686316a",
+   "hash": "aae0f3723262"
   },
   {
    "type": "list",
-   "text": "- **Statement**: The completed isolated sidecar handoff validates transport integrity but cannot establish a native Proofpress mechanism; only the redesigned C1-versus-C2 end-to-end matrix can test the product-form treatment.\n- **Conditions**: The old treatment used external `provenance.md`; the new treatment embeds checkpoints in work artifacts and removes the external sidecar.\n- **Sources**: `configs/gate1b-result-summary-v1.yaml`; `docs/ARCHITECTURE.md`.\n- **Status**: accepted-design-boundary\n- **Provenance**: user-revised\n- **Falsification**: Pair inputs differ outside declared history material, or reporting interprets cumulative end-to-end effects as though every downstream checkpoint were identical.\n- **Proof**: [pending]\n- **Dependencies**: [C01, C03]\n- **Tags**: causal-design, isolated-handoff, long-horizon",
-   "id": "f3383dbe",
-   "hash": "7d521985b16b"
+   "text": "- Routing: https://openrouter.ai/docs/guides/routing/provider-selection\n- Latest-version semantics: https://openrouter.ai/docs/guides/routing/routers/latest-resolution\n- Model metadata: https://openrouter.ai/api/v1/models\n- Candidate sampling source: https://arena.ai/leaderboard/agent",
+   "id": "d4a8d92c",
+   "hash": "58ddab5031de"
   },
   {
    "type": "heading",
-   "text": "## C05: Core model comparison requires homogeneous teams",
-   "id": "163185fb",
-   "hash": "b4a1608d3dba"
+   "text": "## R05: Provenance interoperability",
+   "id": "0db501c8",
+   "hash": "c0028b47afc9"
+  },
+  {
+   "type": "para",
+   "text": "W3C PROV defines provenance as information about the entities, activities, and agents involved in producing an artifact, and provides a model for describing and linking provenance records. It is prior interoperability infrastructure, not evidence that Proofpress or this experiment invented provenance. The restricted-access Lease track instead tests whether a portable, artifact-native declared lineage is useful to a fresh receiver after a workflow boundary.",
+   "id": "4e561fc3",
+   "hash": "fa2336b5a926"
   },
   {
    "type": "list",
-   "text": "- **Statement**: Within the native fixed-model slice, all agent calls use DeepSeek V4 Flash 0731 with the same frozen request configuration so role-model allocation cannot be mistaken for a provenance effect.\n- **Conditions**: The transport records requested/resolved model and DeepInfra routing; Proofpress itself makes no model call.\n- **Sources**: `configs/gate1b-result-summary-v1.yaml`; `configs/gate-native-v1.draft.yaml`.\n- **Status**: testing\n- **Provenance**: user-revised\n- **Falsification**: A core paired comparison mixes models or unrecorded provider fallbacks across roles or arms.\n- **Proof**: [pending]\n- **Dependencies**: [C01, C03]\n- **Tags**: model-control, transport, causal-design",
-   "id": "771b59db",
-   "hash": "2989d01de75f"
+   "text": "- Overview: https://www.w3.org/TR/prov-overview/\n- Provenance bundle links: https://www.w3.org/TR/prov-links/",
+   "id": "8cebbd8e",
+   "hash": "6dda006eb3c9"
   },
   {
    "type": "heading",
-   "text": "## C06: Portable declared decision lineage may improve restricted-access artifact handoff",
-   "id": "58d9bfa4",
-   "hash": "a2d5f9d8b872"
+   "text": "## R06: Dynamic access and handoff boundaries",
+   "id": "2c3fe1b7",
+   "hash": "fedb0c1b5658"
+  },
+  {
+   "type": "para",
+   "text": "Agent-memory benchmarks often evaluate retrieval or state recovery inside a continuing stateful environment. The Lease track instead conditions on a receiver losing a particular source-access path while retaining a delivered artifact and conventional handoff. Dynamic authorization and revocation are established operational patterns; this supports an access-discontinuity scenario, not a claim that organizations normally discard source records. The study therefore distinguishes artifact identity/integrity and declared lineage from verification of inaccessible source truth.",
+   "id": "8a2ef79d",
+   "hash": "cb4c28e6afa2"
   },
   {
    "type": "list",
-   "text": "- **Statement**: Conditional on a fresh receiver's inability to re-enter Agent A's source workspace, a Proofpress artifact carrying the same semantic handoff plus native declared decision lineage may reduce revision regressions or improve trusted success relative to the ordinary artifact plus readable memory/log/handoff.\n- **Conditions**: This tests a cross-boundary/cross-world Lease condition, not a general memory replacement or cross-system interoperability claim. The capsule establishes artifact identity, integrity, and declared lineage; it does not establish the truth or completeness of inaccessible source evidence.\n- **Sources**: `ara/logic/experiments.md` E10; W3C PROV and NIST access-control sources in `ara/logic/related_work.md`.\n- **Status**: planned\n- **Provenance**: user-directed\n- **Falsification**: The ordinary arm has no observable error space; semantic handoff or draft hashes differ; a receiver can recover denied source material; the grader can infer the arm; or Proofpress fails to improve or preserve trusted success while reducing regressions.\n- **Proof**: [pending: E10 boundary pilot]\n- **Dependencies**: [C04]\n- **Tags**: provenance, artifact-handoff, access-discontinuity, causal-design",
-   "id": "a4c1d267",
-   "hash": "88cf5598c0b3"
+   "text": "- Dynamic access architecture: https://csrc.nist.gov/pubs/sp/800/207/final\n- Organizational information retention after termination: https://csrc.nist.gov/CSRC/media/Projects/risk-management/documents/overlayRepo/Electronic%20Physical%20Access%20Control%20Systems/ePACS%20Overlay_v1_SP800-53rev5-April2021.pdf",
+   "id": "91e5a727",
+   "hash": "3779297c3f35"
   }
  ]
 }
