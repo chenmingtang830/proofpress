@@ -1,51 +1,41 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/docs/RESULTS_MATRIX.md",
- "artifact_id": "pp_d40d46a12d4d493fcbc9c0e9",
- "version": "fe21890a",
- "parent": "51b5f801",
+ "artifact": "experiments/provenance_handoff/docs/STALE_PHASE1_PLAN.md",
+ "artifact_id": "pp_6cf0c8f0e4ef1cb9c59aae65",
+ "version": "1d12b4fb",
+ "parent": "dfa06407",
  "author": {
   "name": "Codex",
   "kind": "agent",
   "session": "scorer-disagreement-audit-20260809"
  },
  "note": null,
- "ts": "2026-08-09T09:17:28+00:00",
+ "ts": "2026-08-09T09:17:35+00:00",
  "stats": {
-  "added": 4
+  "modified": 3
  },
  "changes": [
   {
-   "kind": "added",
-   "block": "ca302c54",
-   "type": "heading",
-   "context": "Scorer-disagreement audit: abstention-po",
-   "preview": "## Scorer-disagreement audit: abstention-policy confound"
+   "kind": "modified",
+   "block": "05b3cc93",
+   "type": "para",
+   "context": "Status and scope"
   },
   {
-   "kind": "added",
-   "block": "78790f7e",
-   "type": "para",
-   "context": "Scorer-disagreement audit: abstention-po",
-   "preview": "The frozen-answer audit aligned all 960 arm-by-criterion dec"
+   "kind": "modified",
+   "block": "fbc3ab99",
+   "type": "list",
+   "context": "Execution sequence"
   },
   {
-   "kind": "added",
-   "block": "8bfc426b",
+   "kind": "modified",
+   "block": "28a4e5f4",
    "type": "para",
-   "context": "Scorer-disagreement audit: abstention-po",
-   "preview": "The official Dim 1 rubric says to fail a response that “clai"
-  },
-  {
-   "kind": "added",
-   "block": "ad98f4ec",
-   "type": "para",
-   "context": "Scorer-disagreement audit: abstention-po",
-   "preview": "At the criterion level Nano has 39 P3 gains, 182 ties, and 1"
+   "context": "Interpretation boundary"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:88226fdca8e15fc6f152c84554b9da7ba666412a7dd67a34ab6c594be96637be",
+ "soft_fingerprint": "ppsb1:8ca1867ea9c5af77689100ca11d2bf7111239c57984ee3390efd9c54967a9071",
  "actors": {
   "requested_by": [
    "richardtang"
@@ -63,28 +53,28 @@
  "attribution_basis": "harness_attested",
  "claims": [
   {
-   "block": "ca302c54",
-   "kind": "added",
-   "note": "Introduces the frozen-answer scorer-disagreement audit and its bounded agreement results."
+   "block": "05b3cc93",
+   "kind": "modified",
+   "note": "Updates the Phase 1 status after the completed scorer-disagreement audit while retaining the no-scale-up decision."
   },
   {
-   "block": "78790f7e",
-   "kind": "added",
-   "note": "Records the concentration of Nano versus Gemini-consensus disagreement in portable-arm State Resolution."
+   "block": "aa5e763b",
+   "kind": "modified",
+   "note": "States that the unresolved issue is a safe-abstention rubric confound, not a judge-robust treatment effect."
   },
   {
-   "block": "8bfc426b",
-   "kind": "added",
-   "note": "States the safe-abstention rubric ambiguity without treating either scorer as ground truth."
+   "block": "ad09e58a",
+   "kind": "modified",
+   "note": "Adds scorer/rubric sensitivity to the analysis requirement."
   },
   {
-   "block": "ad98f4ec",
-   "kind": "added",
-   "note": "Records criterion-sign switches and the deterministic blinded adjudication packet."
+   "block": "28a4e5f4",
+   "kind": "modified",
+   "note": "Narrows the qualified Nano result after the audit localized the evaluation ambiguity."
   }
  ],
  "context": {
-  "why": "Record the completed frozen-answer scorer-disagreement audit and safe-abstention measurement boundary."
+  "why": "Update the Phase 1 protocol decision after localizing the scorer disagreement to safe abstention."
  },
- "event_id": "ppe_1444328effc87f9ab4fba673"
+ "event_id": "ppe_858f35db46a367c913ddceea"
 }
