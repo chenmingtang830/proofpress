@@ -1,44 +1,41 @@
 {
  "event": "version_created",
- "artifact": "docs/RESEARCH_PLAN.md",
- "artifact_id": "pp_00e96ce828caea19ac7221ae",
- "version": "4c9d9939",
- "parent": "e4f91230",
+ "artifact": "docs/RESULTS_MATRIX.md",
+ "artifact_id": "pp_d40d46a12d4d493fcbc9c0e9",
+ "version": "55296fa4",
+ "parent": "21a25e58",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-09T13:55:14+00:00",
+ "ts": "2026-08-09T13:55:26+00:00",
  "stats": {
-  "modified": 1,
-  "added": 2
+  "modified": 3
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "7cb13b42",
+   "block": "5b2148d0",
    "type": "heading",
    "context": "Completed APEX-derived Restricted-Access"
   },
   {
-   "kind": "added",
-   "block": "9bb49a1e",
-   "type": "para",
-   "context": "Completed APEX-derived Restricted-Access",
-   "preview": "**Completed boundary pilot and serial 3+3 (2026-08-09).** An"
+   "kind": "modified",
+   "block": "bf7e4d92",
+   "type": "table",
+   "context": "Completed APEX-derived Restricted-Access"
   },
   {
-   "kind": "added",
-   "block": "7930a2fd",
+   "kind": "modified",
+   "block": "6c7fd1ae",
    "type": "para",
-   "context": "Completed APEX-derived Restricted-Access",
-   "preview": "**Results and decision.** Native rubric cells were Proofpres"
+   "context": "Completed APEX-derived Restricted-Access"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:d79a88e546ed662582e9c517be31e0985d15f64e9f8f316e66e25a308ea55409",
+ "soft_fingerprint": "ppsb1:a976b284b48cb7567a073d25a6b67c239880366a5bd389c8231f5c6d00130f19",
  "actors": {
   "requested_by": [
    "user"
@@ -56,28 +53,23 @@
  "attribution_basis": "harness_attested",
  "claims": [
   {
-   "block": "7cb13b42",
+   "block": "5b2148d0",
    "kind": "modified",
-   "note": "Changed the restricted-access Lease section title from planned to completed."
+   "note": "Changed the restricted-access Lease row from planned to completed."
   },
   {
-   "block": "9a78e2c6",
+   "block": "bf7e4d92",
    "kind": "modified",
-   "note": "Retained the prespecified pilot and scoring contract after completion."
+   "note": "Recorded the completed 3+3 status, estimand, isolation, and blind-grade gates."
   },
   {
-   "block": "9bb49a1e",
-   "kind": "added",
-   "note": "Recorded the r1 invalidation, r3 infrastructure abort, r4 pilot, and r2 boundary completion evidence."
-  },
-  {
-   "block": "7930a2fd",
-   "kind": "added",
-   "note": "Recorded bounded native and audit results and the no-expansion decision."
+   "block": "6c7fd1ae",
+   "kind": "modified",
+   "note": "Recorded native, audit, leakage, invalidation, and no-expansion results without an interoperability claim."
   }
  ],
  "context": {
-  "why": "Record the completed restricted-access Lease boundary pilot and serial 3+3 without overclaiming endpoint-inconsistent evidence."
+  "why": "Record the completed restricted-access Lease 3+3 outcome, integrity gates, invalidation history, and no-expansion decision."
  },
- "event_id": "ppe_cdfbe215da1ca3534cb869f1"
+ "event_id": "ppe_4e7f6b46b580d5ac181793a2"
 }
