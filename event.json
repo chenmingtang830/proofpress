@@ -1,29 +1,29 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/ara/logic/experiments.md",
- "artifact_id": "pp_15fb7a0bcf0891f7cee01068",
- "version": "9d3c4a4d",
- "parent": "5575a21d",
+ "artifact": "experiments/provenance_handoff/docs/RESULTS_MATRIX.md",
+ "artifact_id": "pp_d40d46a12d4d493fcbc9c0e9",
+ "version": "51b5f801",
+ "parent": "c16748a2",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-09T09:05:56+00:00",
+ "ts": "2026-08-09T09:06:50+00:00",
  "stats": {
   "modified": 1
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "28fb9f31",
-   "type": "list",
-   "context": "E08: Completed STALE / CUPMem Phase 1 Na"
+   "block": "fcf0f21c",
+   "type": "para",
+   "context": "Same-model Gemini repeat"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:abdd7651d4e80ae7ac944bda608d69ffe93efc8e815110c249cbba2b7132517c",
+ "soft_fingerprint": "ppsb1:e3137d3290f95663f7d73f24f4aa5684b8c15603b8e8c3f84cf22e79d6451a34",
  "actors": {
   "requested_by": [
    "user"
@@ -41,13 +41,13 @@
  "attribution_basis": "harness_attested",
  "claims": [
   {
-   "block": "28fb9f31",
+   "block": "fcf0f21c",
    "kind": "modified",
-   "note": "Records the same-model repeat, agreement range, and resulting judge-sensitive interpretation in ARA."
+   "note": "Clarifies that Gemini repeat agreement is measured across 240 criterion decisions per arm, while retaining the non-pooling boundary."
   }
  ],
  "context": {
-  "why": "Preserve the second Gemini judge pass, repeatability analysis, and judge-sensitive interpretation in ARA."
+  "why": "Clarify the denominator for same-model Gemini agreement so the repeatability result is auditable without pooling repeated judgments."
  },
- "event_id": "ppe_1854732e08a55ab58df65bd1"
+ "event_id": "ppe_dc8e9e5336e8b62f38718e4d"
 }
