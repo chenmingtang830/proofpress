@@ -1,420 +1,414 @@
 {
- "artifact": "experiments/provenance_handoff/docs/RESEARCH_PLAN.md",
- "artifact_id": "pp_00e96ce828caea19ac7221ae",
+ "artifact": "experiments/provenance_handoff/docs/RESULTS_MATRIX.md",
+ "artifact_id": "pp_d40d46a12d4d493fcbc9c0e9",
  "blocks": [
   {
    "type": "heading",
-   "text": "# Archived planning record — Harvey/C&H single-agent route",
-   "id": "211f3829",
-   "hash": "b41695dd148e"
+   "text": "# Results matrix — qualified STALE Phase 1 and archived mechanism records",
+   "id": "8f5f32ed",
+   "hash": "dad5c622ad39"
   },
   {
    "type": "heading",
    "text": "## Supersession notice",
-   "id": "bb2e63a1",
+   "id": "569ecb4f",
    "hash": "1e100dd983e3"
   },
   {
    "type": "para",
-   "text": "This document preserves a prior Harvey/C&H route and its transport history. It is not the active research plan, must not authorize a run, and must not be used to characterize Phase 1. The active, superseding protocol is [STALE_PHASE1_PLAN.md](STALE_PHASE1_PLAN.md): STALE baseline, CUPMem, Proofpress admission ledger, and their hybrid, assessed first on STALE's three native metrics.",
-   "id": "37044759",
-   "hash": "7bfb77a8121b"
-  },
-  {
-   "type": "para",
-   "text": "The completed Harvey PSA slice remains a negative historical boundary. Its B0/C0/C3 records, the OpenRouter/Novita slice, C&H planning, and all multi-agent drafts remain immutable historical material; none is resumed, relabeled, or pooled into the STALE study.",
-   "id": "6e8d4f21",
-   "hash": "d0e9084b30f7"
+   "text": "The valid 80-scenario STALE Phase 1 Nano qualification below remains the predeclared primary result. Two independent Gemini judge passes on the same frozen answers did not reproduce its P3−P2 gain, so the combined evidence is judge-sensitive rather than a robust mechanism effect. Neither result authorizes a 400-scenario run. Historic MemConflict, Harvey, C&H, transport attempts, and technical-invalid STALE inventories are never pooled with it.",
+   "id": "f9ecf7b5",
+   "hash": "1e9a4c2b49a0"
   },
   {
    "type": "heading",
-   "text": "## Motivation and claim boundary: static versus dynamic",
-   "id": "7264eaac",
-   "hash": "95ae98cbea36"
+   "text": "## Completed Matrix F: STALE / CUPMem Phase 1 Nano qualification",
+   "id": "ea4dd4c5",
+   "hash": "5ce70e85e5f3"
   },
   {
    "type": "para",
-   "text": "Harvey tasks are difficult document-work tasks, but an official single-agent run normally need not create a handoff. The study therefore does not mislabel Harvey as already an agent-to-agent benchmark. Instead, it turns a Harvey task into a controlled, long-horizon workflow with meaningful intermediate products. A stage cannot simply tell the next stage “continue”: it hands off an evidence map, a decision/issue register, a draft, and an accepted work product.",
-   "id": "7e4f34c6",
-   "hash": "744ff40fb5bc"
+   "text": "The sole valid matrix root is `/Users/richardtang/.cache/proofpress-eval/phase1-stale-v2/2026-08-08-nano-gateway-qualification-inventory-gated`, bound to the 80-carrier frozen admission inventory. Every selected UID has completed, telemetry-eligible V0/V1/P2/P3 records; P2/P3 verified semantic and prompt-token parity; and arm-blinded official scoring through OpenRouter using `openai/gpt-5.4-nano`. No v17–v20 record or other historical inventory is included.",
+   "id": "d3c8533e",
+   "hash": "4f48e97d8932"
+  },
+  {
+   "type": "table",
+   "text": "| Native STALE criterion | V0: vanilla history | V1: full-session CUPMem | P2: flat admitted state | P3: Proofpress carrier | P3 − P2 |\n|---|---:|---:|---:|---:|---:|\n| State Resolution | 12/80 (15.00%) | 71/80 (88.75%) | 71/80 (88.75%) | 71/80 (88.75%) | +0.00pp |\n| Premise Resistance | 8/80 (10.00%) | 74/80 (92.50%) | 22/80 (27.50%) | 37/80 (46.25%) | +18.75pp |\n| Implicit Policy Adaptation | 34/80 (42.50%) | 55/80 (68.75%) | 33/80 (41.25%) | 38/80 (47.50%) | +6.25pp |\n| Overall (three criteria) | 54/240 (22.50%) | 200/240 (83.33%) | 126/240 (52.50%) | 146/240 (60.83%) | **+8.33pp** |",
+   "id": "7289edde",
+   "hash": "4ee6e04dcb8e"
   },
   {
    "type": "para",
-   "text": "The paper-level claim must stay narrow: for the evaluated tasks, model, and fixed workflow, document-native admitted provenance may improve the quality and cost of recovering prior decisions. It will not claim that all multi-agent systems improve legal work, that Proofpress proves legal correctness, or that a benchmark score is a production safety guarantee.",
-   "id": "1d00380d",
-   "hash": "a193c7af45bc"
+   "text": "The paired primary estimate is `P3 − P2 = +8.33pp` across 80 shared eligible scenarios, with a scenario-clustered 95% CI of `[+1.25pp, +15.42pp]`; 30 scenarios improved, 38 tied, and 12 regressed. The predeclared Luna gate passed. `V1 − V0 = +60.83pp` is a calibration/reproduction contrast, not a provenance-only estimate. P3 does not beat V1 and is not intended to: V1 has full-session CUPMem write-time adjudication and conflict-aware readout, whereas P2/P3 test a portable successor handoff.",
+   "id": "943042d2",
+   "hash": "565936fcc351"
+  },
+  {
+   "type": "para",
+   "text": "The Nano-only claim was narrow: with non-provenance semantic content held equal between P2 and P3, admitted status, lineage, integrity, and the minimal inspect policy improved task behavior in this STALE slice, mainly by reducing unsupported inheritance. The two independent Gemini judge passes below did not reproduce that effect. The result therefore does not establish a judge-robust mechanism effect, generalization, replacement for shared memory, or an independent head-to-head product victory over CUPMem. The next evidence must be scorer-disagreement/failure analysis plus an information-matched shared-memory control and independent artifact-revision handoff work; no 400-scenario run begins automatically.",
+   "id": "61431e3e",
+   "hash": "9c729d22d52f"
   },
   {
    "type": "heading",
-   "text": "## Fixed runtime and workflow",
-   "id": "4734be65",
-   "hash": "c14c365f6594"
+   "text": "## Secondary Matrix F-R: blinded Gemini judge robustness replication",
+   "id": "78a5e027",
+   "hash": "f43ce3281d0b"
   },
   {
    "type": "para",
-   "text": "The initial runtime is the open-source Harvey LAB v1.0 task and scoring harness, not a new benchmark. Its task directory, task instructions, tool contract, result packaging, and official rubric remain unchanged. Our wrapper schedules the fixed stages and materializes their handoff inputs at declared boundaries. The active transport is Vercel AI Gateway with exact `openai/gpt-5.6-luna` execution and exact `openai/gpt-5.6-terra` blind scoring; it may not change a task or scorer. Harvey remains the final-legal-deliverable baseline; it is not the sole long-term validation scenario. Static Harvey results estimate the present task slice only; the next benchmarks test persistent state, conflict, evidence lineage, and research-report continuity separately.",
-   "id": "a20de7f5",
-   "hash": "d8db8454f624"
+   "text": "The same four frozen, arm-blinded answer exports were rescored without rerunning any task, carrier, or admission step. `gemini-3.5-flash-lite` was called through the direct Gemini API using `GEMINI_API_KEY`, the official evaluator's OpenAI-compatible endpoint, and concurrency 2; all 320 judged scenarios completed with zero judge errors. Inputs, score hashes, and the paired analysis are bound in `official_scores/gemini-3.5-flash-lite/replication-manifest.json` under the immutable matrix root.",
+   "id": "1062a080",
+   "hash": "b5a015254653"
+  },
+  {
+   "type": "table",
+   "text": "| Native STALE criterion | V0: vanilla history | V1: full-session CUPMem | P2: flat admitted state | P3: Proofpress carrier | P3 − P2 |\n|---|---:|---:|---:|---:|---:|\n| State Resolution | 11/80 (13.75%) | 65/80 (81.25%) | 32/80 (40.00%) | 26/80 (32.50%) | −7.50pp |\n| Premise Resistance | 1/80 (1.25%) | 63/80 (78.75%) | 4/80 (5.00%) | 6/80 (7.50%) | +2.50pp |\n| Implicit Policy Adaptation | 21/80 (26.25%) | 47/80 (58.75%) | 18/80 (22.50%) | 18/80 (22.50%) | +0.00pp |\n| Overall (three criteria) | 33/240 (13.75%) | 175/240 (72.92%) | 54/240 (22.50%) | 50/240 (20.83%) | **−1.67pp** |",
+   "id": "b749162e",
+   "hash": "85cf62e56e71"
+  },
+  {
+   "type": "para",
+   "text": "Across the same 80 shared eligible scenarios, Gemini gives paired `P3 − P2 = −1.67pp`, scenario-clustered 95% CI `[−7.50pp, +4.17pp]`; its gate does not pass. This is a secondary robustness result, not a replacement or a pooled estimate for the predeclared Nano outcome. It makes the honest current conclusion: the STALE result is sensitive to the LLM judge, so no judge-independent treatment-effect claim is yet warranted.",
+   "id": "120af500",
+   "hash": "d31da4f7215f"
+  },
+  {
+   "type": "heading",
+   "text": "### Same-model Gemini repeat",
+   "id": "2b03ce7b",
+   "hash": "60d215c3bc02"
+  },
+  {
+   "type": "para",
+   "text": "An independent second pass by the same `gemini-3.5-flash-lite` judge, with the same frozen arm-blinded inputs and concurrency 2, also completed 320/320 scenarios with zero judge errors. It scored `P3 − P2 = −2.08pp`, scenario-clustered 95% CI `[−8.33pp, +4.17pp]`;  its gate did not pass. The per-criterion results were State Resolution 30.00% P3 versus 46.25% P2, Premise Resistance 13.75% versus 5.00%, and Implicit Policy Adaptation 26.25% versus 25.00%; overall P3 was 56/240 (23.33%) versus P2 61/240 (25.42%).",
+   "id": "a267b4e3",
+   "hash": "0640afe6ca33"
+  },
+  {
+   "type": "para",
+   "text": "Across the two Gemini passes, agreement across each arm's 240 criterion decisions was 95.83% for V0, 94.58% for V1, 95.42% for P2, and 91.67% for P3. This repeat establishes that the Gemini null/negative direction is not a single-pass fluctuation, but the two passes share the same answers and judge family, so they are not pooled or treated as additional independent task scenarios. Raw outputs, hashes, and the agreement analysis are at `official_scores/gemini-3.5-flash-lite-repeat-2/` under the immutable matrix root.",
+   "id": "fcf0f21c",
+   "hash": "b9dd14ab929b"
+  },
+  {
+   "type": "heading",
+   "text": "## Scorer-disagreement audit: abstention-policy confound",
+   "id": "ca302c54",
+   "hash": "25197ada342c"
+  },
+  {
+   "type": "para",
+   "text": "The frozen-answer audit aligned all 960 arm-by-criterion decisions from Nano with both Gemini passes; it did not rerun a target agent, carrier, or judge. Gemini repeated itself on 906/960 decisions (94.38%), while both Gemini passes jointly disagreed with Nano on 224/960. The concentrated disagreements are in the portable arms' State Resolution criterion: P2 has 36/80 Nano-versus-Gemini-consensus disagreements (22 contain an abstention cue), and P3 has 43/80 (all 43 contain an abstention cue). The corresponding Gemini repeat agreement is 75/80 for P2 and 72/80 for P3.",
+   "id": "78790f7e",
+   "hash": "b8e75f0cdf5c"
+  },
+  {
+   "type": "para",
+   "text": "The official Dim 1 rubric says to fail a response that “claims ignorance.” In the reviewed disagreement traces, Nano treats a carrier-grounded “I cannot determine; abstain/re-verify” as correctly refusing to assume `M_old`; both Gemini passes fail it precisely because it abstains instead of declaring the new state. This is not evidence that either judge has established ground truth. It identifies a measurement-policy ambiguity: the P3 carrier's intended safe behavior is entangled with the judge's treatment of abstention, so the observed P3−P2 contrast is not presently separable into a provenance effect alone.",
+   "id": "8bfc426b",
+   "hash": "34e345aecadc"
+  },
+  {
+   "type": "para",
+   "text": "At the criterion level Nano has 39 P3 gains, 182 ties, and 19 P3 losses; Gemini pass 1 has 21/194/25 and pass 2 has 24/187/29. Where both Gemini passes agree, 30 Nano P3 gains become Gemini ties, 2 become Gemini P3 losses, and 20 Nano ties become Gemini P3 losses. A deterministic 24-case arm-blinded adjudication packet and a separate deblinding key are preserved with `disagreement-summary.json` at `official_scores/scorer-disagreement-audit/` under the immutable root. An independent rubric adjudication must choose how safe abstention scores before selecting a judge or authorizing any scale-up.",
+   "id": "ad98f4ec",
+   "hash": "585678c54c89"
+  },
+  {
+   "type": "heading",
+   "text": "## What the paper must distinguish",
+   "id": "361bc86e",
+   "hash": "48118f405213"
+  },
+  {
+   "type": "para",
+   "text": "The study has three different questions. They should not be collapsed into one leaderboard number.",
+   "id": "3f8c1697",
+   "hash": "1a9c1930769f"
   },
   {
    "type": "code",
-   "text": "```mermaid\nflowchart LR\n  D[\"Harvey task workspace\\nsource documents + instructions\"] --> O[\"Central orchestrator\\nplan / delegate / synthesize\"]\n  O --> W1[\"Worker 1\\nfinancial / commercial review\"]\n  O --> W2[\"Worker 2\\nregulatory / environmental review\"]\n  O --> W3[\"Worker 3\\ncontract / personnel review\"]\n  W1 --> S[\"Central synthesis / review\\nfinal memo + tracker\"]\n  W2 --> S\n  W3 --> S\n  S --> R[\"Harvey official scorer\"]\n  O -. \"ordinary coordination.md in C1/C2\" .-> W1\n  O -. \"ordinary coordination.md in C1/C2\" .-> W2\n  O -. \"ordinary coordination.md in C1/C2\" .-> W3\n  W1 -. \"native lineage in C2 only\" .-> S\n  W2 -. \"native lineage in C2 only\" .-> S\n  W3 -. \"native lineage in C2 only\" .-> S\n```",
-   "id": "20e0e636",
-   "hash": "03410f9e36b6"
-  },
-  {
-   "type": "para",
-   "text": "The planning and synthesis calls are the same **orchestrator role**, invoked as fresh sessions—not two controllers. The workers do not message peers; they write specialist artifacts into the shared workspace and the orchestrator accepts, rejects, or merges their findings. `coordination.md` remains an ordinary mutable team file in both C1 and C2. Proofpress is deterministic carrier/verification code, not another model, and in C2 it records the lineage of selected artifacts and decisions without replacing normal collaboration state.",
-   "id": "f35fd5df",
-   "hash": "edd031af79d3"
+   "text": "```mermaid\nflowchart TB\n  A[\"Does provenance reduce stale-authority use?\\nMemConflict\"] --> B[\"Does it help at enterprise corpus scale?\\nC&H\"]\n  B --> C[\"Does the effect transfer across professional work?\\nAPEX\"]\n```",
+   "id": "d227002e",
+   "hash": "eed4a1960dc0"
   },
   {
    "type": "heading",
-   "text": "### Checkpoint contract",
-   "id": "daeeb317",
-   "hash": "bdfee5ddbbf5"
+   "text": "## Completed Matrix E: MemConflict mechanism gate",
+   "id": "3f057bba",
+   "hash": "29e0cf56aa79"
+  },
+  {
+   "type": "para",
+   "text": "This internal fixture is a historical mechanism check, not the first phase of the active research plan. It is deliberately reported separately from STALE, Harvey, C&H, APEX, and any Gateway qualification because its local Codex runner did not record resolved provider, Gateway cost, or fallback telemetry.",
+   "id": "0010f5cd",
+   "hash": "f9df462aec2e"
   },
   {
    "type": "table",
-   "text": "| Checkpoint | Producer | Required artifact | Receiver must be able to determine |\n|---|---|---|---|\n| P0 | Orchestrator | task plan and delegation map | scope, requested deliverable, worker domains, unresolved questions |\n| W1–W3 | Specialist workers | domain findings / evidence artifacts | sources, claims, caveats, and domain-specific risk conclusions |\n| D1 | Orchestrator | acceptance / merge decision register | which findings are accepted, rejected, superseded, or conditional and why |\n| F1 | Orchestrator | final memo and tracker | consolidated claims, remaining uncertainty, and exact terminal deliverables |",
-   "id": "dc0a9ca9",
-   "hash": "fc8e74e68ef3"
+   "text": "| Arm | Runs | Trusted success | Task success | Stale/regression | Correct reversal |\n|---|---:|---:|---:|---:|---:|\n| `baseline_continuous` | 24 | 62.5% | 75.0% | 12.5% | 75.0% |\n| `ordinary_memory` | 24 | 83.3% | 95.8% | 12.5% | 95.8% |\n| `proofpress_provenance` | 24 | 83.3% | 87.5% | 4.2% | 87.5% |",
+   "id": "434153db",
+   "hash": "34f401d71aa5"
   },
   {
    "type": "para",
-   "text": "Every arm produces the same semantic artifact contract. The treatment changes the **representation and verification of lineage**, not the task, source corpus, roles, tools, model, or maximum stage count. The initial end-to-end gates fix a no-revision path (five model stages); a later frozen matrix may declare a common revision cap.",
-   "id": "7d45012f",
-   "hash": "71b472479ef6"
+   "text": "The primary Provenance−Memory contrast is 0.0 points on trusted success, −8.3 points on task success, and −8.3 points on stale/regression rate. Gate A passed and Gate B failed. The defensible interpretation is a small stale-authority signal without a quality gain; the study must preserve this null result and inspect scorer/answer-normalization behavior before any scale-up.",
+   "id": "1948adf8",
+   "hash": "526d3077c0c5"
   },
   {
    "type": "heading",
-   "text": "### C3 hybrid checkpoint contract",
-   "id": "7a2c9d10",
-   "hash": "f9dab9136d63"
+   "text": "## Completed Matrix A: isolated external-handoff diagnostic",
+   "id": "674666f2",
+   "hash": "13446999c1e3"
   },
   {
    "type": "para",
-   "text": "In `C3 sas-proofpress`, the system schedules only semantically important checkpoints; it does not ask the agent to write a ledger after every step. The agent supplies the evidence, finding, status, rationale, and revision meaning in ordinary task output. Deterministic Proofpress code validates the carrier, anchors, references, and version/decision relationships, then commits the admitted update. The receiver reads the latest artifact head, open decisions, and relevant evidence references instead of replaying the full session or rereading all memory.",
-   "id": "8b31e6a4",
-   "hash": "c3a3bfe3b19b"
+   "text": "This is a single-edge experiment. The upstream artifact and public workspace are identical; only the materialized history changes.",
+   "id": "a5d19464",
+   "hash": "4df9026d3d32"
   },
   {
    "type": "table",
-   "text": "| Checkpoint | Required semantic payload | Proofpress admission check |\n|---|---|---|\n| E0 initial evidence extraction | evidence items, source locations, uncertainty | evidence references and artifact identity |\n| F1 material finding | claim, supporting evidence, caveat, scope | finding-to-evidence links and new version |\n| D1 accept/reject decision | disposition, rationale, alternatives, actor | decision status and parent finding lineage |\n| X1 conflict or new evidence | changed evidence, conflict, proposed consequence | supersession, contradiction, and open-decision continuity |\n| R1 draft | draft artifact and unresolved decisions | artifact head and claim/dependency coverage |\n| V1 validation/revision | validation result, corrected claim, reversal reason | revision chain and justified reversal |\n| T1 final artifact | terminal artifact, remaining uncertainty, open decisions | final head, decision completeness, and integrity |",
-   "id": "4f6a2c91",
-   "hash": "7495e2652b95"
+   "text": "| Dimension | Fixed | Varied |\n|---|---|---|\n| Task | 2 frozen Harvey tasks | task instance |\n| Handoff boundary | `V1 → V2`, `V2 → V3` | boundary |\n| Upstream content | canonical evidence map / decision register | never varies inside a pair |\n| Receiver | fresh session, same role, same M0 model and effort | three independent attempts |\n| Arm | same current artifact and token budget | `mas-memory`, `mas-proofpress-lineage` |",
+   "id": "f749c52a",
+   "hash": "375c4017a16e"
+  },
+  {
+   "type": "para",
+   "text": "Completed cells: `2 tasks × 2 boundaries × 2 arms × 3 attempts = 24` receiver-only calls per tested model. The recorded DeepSeek 0731, Muse Spark 1.2, and GPT-5.6 Luna slices completed their receiver-call integrity checks. This validates the transport path; it is not a native Proofpress outcome score.",
+   "id": "b7b7605e",
+   "hash": "4b2cb79b43c9"
+  },
+  {
+   "type": "para",
+   "text": "Primary measurements: decision recovery accuracy, decision regression, unsupported authority upgrade, correct reversal, false block, input tokens, latency, tool calls/history reads. Its value is causal clarity: if Proofpress changes an outcome here, the difference cannot be blamed on upstream agents having produced different artifacts.",
+   "id": "8459dbf6",
+   "hash": "ff7683a3fb80"
   },
   {
    "type": "heading",
-   "text": "## Accepted next matrix: architecture and communication",
-   "id": "8988a2e7",
-   "hash": "0d44409576f0"
+   "text": "## Completed Matrix B: archived external-transport end-to-end prototype",
+   "id": "5e69bf5b",
+   "hash": "e2fd0247600f"
+  },
+  {
+   "type": "para",
+   "text": "This was a preliminary systems experiment, not the final product-form experiment. It compared `memory.md`/`handoff.log` with an external `provenance.md`; that is now classified as a transport prototype.",
+   "id": "f39ebc31",
+   "hash": "ed560771c4c4"
   },
   {
    "type": "table",
-   "text": "| Arm | Architecture / communication | What the agent receives | What it identifies |\n|---|---|---|---|\n| `B0 harvey-one-shot` | one Harvey agent; one continuous session; no handoff artifact | original task context and source workspace | original Harvey one-shot baseline |\n| `C0 sas-ordinary` | one SAS agent; five fresh-session checkpoints; ordinary continuity | original task plus ordinary checkpoint artifact | fresh-session SAS ordinary control |\n| `C1 centralized-memory` | centralized fan-out: orchestrator → 3 parallel workers → synthesis | ordinary worker artifacts + mutable `coordination.md` | normal shared-memory team baseline |\n| `C2 centralized-memory-proofpress` | exactly C1 | C1 inputs plus native Proofpress lineage on key worker artifacts, adoption/merge decisions, and final artifacts | MAS + Proofpress |\n| `C3 sas-proofpress` | one SAS agent with the same task flow as C0 | C0 inputs plus hybrid Proofpress checkpoints and latest-head/open-decision retrieval | SAS + Proofpress |",
-   "id": "ca5c64c9",
-   "hash": "4f7ae9a1ad66"
+   "text": "| Observed model | Ordinary memory criterion success | External Proofpress sidecar criterion success | Interpretation |\n|---|---:|---|\n| DeepSeek V4 Flash 0731 | 297/375 (79.2%) | 294/375 (78.4%) | near-flat; lowest-cost stable candidate |\n| Muse Spark 1.2 | 328/375 (87.5%) | 290/375 (77.3%) | not interpretable as native effect; one treatment workflow had empty final output |\n| GPT-5.6 Luna | 288/375 (76.8%) | 296/375 (78.9%) | near-flat/slightly positive sidecar result |",
+   "id": "739fc169",
+   "hash": "799e537b61b4"
   },
   {
    "type": "para",
-   "text": "The active Proofpress estimand is `C3 − C0` (lineage increment within matched SAS). `C0 − B0` estimates the effect of fresh-session SAS/sessionization. `C3 − B0` is a mixed total difference and must never be reported as the Proofpress effect. C1/C2 and the architecture interaction remain a future MAS extension. All active contrasts require identical task, fixed model slug, source workspace, tool cap, and total billable-token cap; provider selection and fallback policy are frozen after qualification and recorded per call.",
-   "id": "395029b6",
-   "hash": "13e74d613914"
+   "text": "Across 36 workflows, the Harvey all-pass endpoint was 0/36. Harvey requires every criterion to pass, so this difficult-task endpoint is retained as a secondary hardness diagnostic. The 1,125 per-arm criterion opportunities are the descriptive quality signal, but must be reported by task and model rather than only pooled.",
+   "id": "151c31ec",
+   "hash": "3626bee0cbe7"
   },
   {
    "type": "para",
-   "text": "The static Harvey slice can still estimate whether decomposition is worthwhile, but a null `C0`/`C1` difference is not evidence that MAS or Proofpress lacks value in general: a strong SAS agent can read all static material in one session. Dynamic tasks are required to test stale conclusions, conflict, supersession, restart recovery, and revision cost. Raw-history and status ablations remain secondary diagnostics, not substitutes for C3.",
-   "id": "21b6ed3d",
-   "hash": "43a60af7294a"
+   "text": "All 36 workflow records completed their five stages, 35/36 had nonempty final outputs, and the sole empty final output occurred in the Muse external-Proofpress cell. This exposed a V4 final-output preflight gap. Three Muse route-metadata events were unresolved; DeepSeek recorded 1,076/1,076 resolved DeepInfra events. These operational facts are not treatment-quality outcomes.",
+   "id": "63222dac",
+   "hash": "7ff4e9a9fee8"
   },
   {
    "type": "para",
-   "text": "`proofpress-no-status` is a later diagnostic ablation: preserve the text/rationale but remove source and decision status. It is not a first-wave official Harvey arm unless the mechanism gates show an effect worth decomposing further.",
-   "id": "9a161920",
-   "hash": "1e8f901684cd"
-  },
-  {
-   "type": "heading",
-   "text": "## Hypotheses and falsifiers",
-   "id": "f76a1539",
-   "hash": "a42a1b74ee7e"
+   "text": "For each cell, report:",
+   "id": "5e2460de",
+   "hash": "3f5bdd475a6e"
   },
   {
    "type": "table",
-   "text": "| ID | Hypothesis | Evidence needed | Falsified for this study if |\n|---|---|---|---|\n| H1 | Artifact-native Proofpress lineage improves criterion-level success relative to the same centralized team with ordinary shared memory. | paired per-criterion Harvey score plus deterministic provenance checks. | The paired estimate is null/negative or any criterion gain comes with more unsupported authority upgrades. |\n| H2 | Proofpress reduces handoff/adoption error or coordination work at comparable quality without relying on extra billable tokens. | token ledger, latency, tool reads, adoption/recovery probes. | No operational measure improves after accounting for all prompt, memory, metadata, and artifact tokens. |\n| H3 | A centralized fan-out workflow is not presumed to beat a single agent. | budget-neutral C0-versus-C1 architecture pilot. | reporting claims a decomposition benefit without the reference. |\n| H4 | Lineage preserves justified reversals rather than making agents blindly follow history. | seeded or natural reversal conditions and decision checks. | It increases false blocks or reduces correct reversals materially. |\n| H5 | DeepSeek V4 Flash 0731 is a cost-appropriate fixed-model reference, not a universal best model. | observed Gate 1 criterion results, route metadata, and frozen next-slice configuration. | later reporting turns this operational selection into a cross-model quality claim. |\n| H6 | Proofpress's main value in dynamic work is trustworthy continuity and recovery; quality or token gains may appear only when conflict, revision, or session restart is present. | dynamic-track recovery, stale-use, reversal, lineage, and token measures. | no reduction in stale-use or recovery failures despite valid checkpoint admission, or gains depend on forcing ledger writes at every step. |",
-   "id": "83ba9a78",
-   "hash": "e7f936c1c53c"
-  },
-  {
-   "type": "para",
-   "text": "No hypothesis is marked supported before the planned empirical runs and audit are complete.",
-   "id": "87ac1381",
-   "hash": "78b2944aa727"
+   "text": "| Quality | Trust | Efficiency | Integrity |\n|---|---|---|---|\n| official Harvey rubric and `trusted_task_success` | regression, unsupported upgrade, correct reversal, false block | input/output tokens, latency, cost, tools, history reads | capsule verification, artifact continuity, declared actor/status agreement |",
+   "id": "2a34abf5",
+   "hash": "7552c9880136"
   },
   {
    "type": "heading",
-   "text": "## Task selection",
-   "id": "bc826e13",
-   "hash": "48eb5199e0b9"
+   "text": "## Archived Matrix C: native OpenRouter/Novita follow-up",
+   "id": "1d694b42",
+   "hash": "17946735b6fa"
   },
   {
    "type": "para",
-   "text": "The initial substrate is Harvey LAB v1.0, pinned to commit `1da4750171bc5a534960b3d82d15ba7fd2cf653f` and its upstream license. Gate 0 begins with two legal-work task families already identified in the local adapter manifest:",
-   "id": "48f35f09",
-   "hash": "69cf6032fa42"
+   "text": "Keep the historical harness and workflow description for auditability. This C0/C1/C2 OpenRouter/Novita slice is incomplete and is not scored, resumed, pooled, or used as the next primary estimand.",
+   "id": "87d39096",
+   "hash": "4267dc5134ef"
+  },
+  {
+   "type": "table",
+   "text": "| Arm | Tasks | Attempts | Model calls | Role in interpretation |\n|---|---|---:|---:|---|\n| `C0 sas` | 2 | 3 | 6 | unified-history architecture reference |\n| `C1 centralized-memory` | 2 | 3 | 30 | 3 parallel workers + ordinary shared-memory team baseline |\n| `C2 centralized-memory-proofpress` | 2 | 3 | 30 | exactly C1 plus native Proofpress on key artifacts and decisions |",
+   "id": "013dc920",
+   "hash": "61a2465562e3"
+  },
+  {
+   "type": "para",
+   "text": "Phase 2 was designed as 18 workflows and 66 model calls, but stopped incomplete. Its route-specific records, including DeepInfra and Novita attempts, remain historical transport evidence only. They do not establish an architecture or Proofpress estimate.",
+   "id": "11f988a8",
+   "hash": "e88b390a67a9"
+  },
+  {
+   "type": "para",
+   "text": "The archived quality table must not be reinterpreted. Any future MAS C1/C2 study receives a new frozen protocol; it cannot be inferred from this partial matrix.",
+   "id": "0df4e2b4",
+   "hash": "e46a58ce6c5e"
+  },
+  {
+   "type": "heading",
+   "text": "## Accepted Matrix D: Gateway Harvey B0 and SAS follow-up",
+   "id": "3d0f771a",
+   "hash": "5d0e2d4f36aa"
+  },
+  {
+   "type": "para",
+   "text": "The historical Gateway PSA slice `gateway-0731-harvey-psa-c0-c3-qualification-v1` stopped and is **not qualified**. Its Chat Completions C0 run recorded 37 calls and `$0.093275` actual Gateway cost, but returned unversioned Flash without provider/fallback routing metadata; its record remains immutable operational history. The current native AI SDK v4 adapter is separately frozen for B0 one-shot and C0/C3 SAS slices, requiring exact 0731 model, actual provider, routing/fallback metadata, and numeric `usage.cost` per call. B0 never enters the C0/C3 slice-level qualification verdict, and neither qualification is a treatment-effect analysis.",
+   "id": "2cb9aa42",
+   "hash": "21c631e34faa"
+  },
+  {
+   "type": "para",
+   "text": "The GLM and Gemini PSA qualification slices are complete but unqualified operational history. Luna/Terra v1 is immutable pre-inference history. V2 plus independent scorer-extension roots completed all three B0/C0/C3 executions and all nine 75-criterion score cells with exact OpenAI resolution, no fallback, complete telemetry, preflight, and C3 lineage. The final PSA-only criterion rates are B0 66/75, 66/75, 66/75; C0 64/75, 67/75, 67/75; C3 65/75, 65/75, 65/75. `C0−B0` and `C3−C0` are reported as paired descriptive contrasts below; `C3−B0` remains mixed and cannot be attributed to Proofpress.",
+   "id": "19feb171",
+   "hash": "1d995b6ac4ec"
+  },
+  {
+   "type": "table",
+   "text": "| Arm | Tasks | Attempts | Primary role |\n|---|---:|---:|---|\n| `B0 harvey-one-shot` | 2 | 3 | original Harvey continuous-session baseline |\n| `C0 sas-ordinary` | 2 | 3 | five-stage fresh-session SAS ordinary-continuity control |\n| `C3 sas-proofpress` | 2 | 3 | same SAS flow plus admitted Proofpress lineage and independent verification |",
+   "id": "75b9be1c",
+   "hash": "afb8d3fd94b7"
+  },
+  {
+   "type": "para",
+   "text": "`C0 − B0` is the fresh-session SAS/sessionization comparison. The primary Proofpress estimate is paired `C3 − C0`, reported by task and never pooled with archived transport data. `C3 − B0` is a mixed total difference and cannot be interpreted as a Proofpress effect. Every Gateway call must retain requested/resolved model, actual provider, `usage.cost`, fallback status/metadata, tokens, and latency. Missing telemetry makes a workflow audit-visible but ineligible for the formal matrix; wrapper-local `$0` is not an observed cost. STATE-Bench, MemConflict, HiEviDR-Bench, and DeepResearch Bench follow only as independently frozen/reported slices, with the latter two requiring adapter/scorer gates first.",
+   "id": "7e6f091b",
+   "hash": "f163520b8c0c"
+  },
+  {
+   "type": "heading",
+   "text": "## The result table that should appear in the paper",
+   "id": "bbd3d2f1",
+   "hash": "4d35da4ed4eb"
+  },
+  {
+   "type": "para",
+   "text": "The active main table should show B0, C0, and C3 separately; it may interpret only `C0 − B0` and `C3 − C0`, never `C3 − B0` as a Proofpress effect.",
+   "id": "afab3f3b",
+   "hash": "ec0e439a3c05"
+  },
+  {
+   "type": "table",
+   "text": "| Fixed model/transport | Arm | Trusted success | Official score | Regression / upgrade | Correct reversal | Input tokens | Latency | Gateway cost | Provider/fallback |\n|---|---|---:|---:|---:|---:|---:|---:|---:|---|\n| Luna execution / Terra score / OpenAI pinned Gateway | B0 one-shot | … | … | … | … | … | … | … | no fallback |\n| Luna execution / Terra score / OpenAI pinned Gateway | C0 ordinary | … | … | … | … | … | … | … | no fallback |\n| Luna execution / Terra score / OpenAI pinned Gateway | C3 Proofpress | … | … | … | … | … | … | … | no fallback |\n| Luna execution / Terra score / OpenAI pinned Gateway | **C0 − B0** | … | … | … | … | … | … | … | … |\n| Luna execution / Terra score / OpenAI pinned Gateway | **C3 − C0** | … | … | … | … | … | … | … | … |",
+   "id": "17f95fa2",
+   "hash": "3ed34444a269"
+  },
+  {
+   "type": "para",
+   "text": "Put Matrix B's `single-agent`, artifact, and memory-chain references in a companion table. Show task-level dot plots and per-model differences beside aggregates; do not hide a heterogenous outcome under a single mean.",
+   "id": "a7e1d002",
+   "hash": "a4818a166f5e"
+  },
+  {
+   "type": "heading",
+   "text": "## Interpretation rules",
+   "id": "d324bb25",
+   "hash": "321508d9aaf2"
+  },
+  {
+   "type": "table",
+   "text": "| Observed pattern | Responsible statement |\n|---|---|\n| Proofpress improves isolated recovery and end-to-end trusted success versus strong memory, without reversal harm | Evidence supports a bounded provenance-handoff mechanism for the frozen tasks/workflow/model(s). |\n| Proofpress wins only against latest artifact, not strong memory | Claim ordinary handoff memory matters; do not claim a distinctive Proofpress benefit. |\n| Proofpress matches memory but uses fewer tokens/latency/history reads | Claim an efficiency or auditability advantage only if task/trust quality is not materially worse. |\n| Proofpress is worse at justified reversal or causes false blocks | The preservation framing failed on adaptive decision-making; report it and revise the protocol. |\n| Effect appears only in one model team | State a model interaction, not a general provenance effect. |\n| Controls lack the intended recovery error | Stop or redesign; a scaled matrix would not test the proposed mechanism. |",
+   "id": "e048af31",
+   "hash": "7afc6dfc5dff"
+  },
+  {
+   "type": "heading",
+   "text": "## What is not a valid conclusion",
+   "id": "95029a21",
+   "hash": "8b04c2b6720e"
   },
   {
    "type": "list",
-   "text": "- `corporate-ma/review-data-room-red-flag-review`\n- `real-estate/extract-psa-key-terms/scenario-01`",
-   "id": "94f1f84f",
-   "hash": "a7a70508663f"
-  },
-  {
-   "type": "para",
-   "text": "For the main matrix, select six task instances stratified across document volume, ambiguity, deliverable type, and reversal opportunity. Freeze task IDs, hashes, tool limits, and any decomposition-specific role templates before the first treatment run. Do not tune one arm's prompt after seeing its outputs; a role-template correction applies to every arm and restarts that preregistered slice.",
-   "id": "64fdd051",
-   "hash": "dc84312e181d"
+   "text": "- A higher Harvey rubric alone does not prove preserved trust.\n- A model sweep does not compare harnesses.\n- A raw-history win does not imply that more context is intrinsically better; it may only expose a missing ordinary-memory control.\n- An ARA trace or a valid Proofpress capsule does not certify legal correctness; it records research/artifact provenance at different layers.",
+   "id": "8f35c0d0",
+   "hash": "0da5567e682c"
   },
   {
    "type": "heading",
-   "text": "## Model plan",
-   "id": "06571f54",
-   "hash": "088fce14ca86"
+   "text": "## Archived APEX official-runner qualification and Law task-fit pilot",
+   "id": "7f3a14c9",
+   "hash": "2013933154b4"
   },
   {
    "type": "para",
-   "text": "All first-wave runs use Harvey's task/scoring harness and an explicit Vercel AI Gateway adapter. Pi is intentionally deferred. This keeps **harness constant** and transport auditable; the first paper may claim only the frozen model/benchmark slice, not cross-harness generalization.",
-   "id": "86f6ae8d",
-   "hash": "bcd3378fcb2a"
+   "text": "This is an **APEX official-runner qualification record**, not an official APEX leaderboard score and not a Proofpress efficacy result. The pinned Archipelago checkout used Gemini 3.1 Pro Preview for both the agent and native grader; the task/world/MCP/system prompt and native grader were otherwise unchanged, apart from the disclosed Docker build-compatibility repair. A direct Gemini tool-call canary passed before the runs.",
+   "id": "724ca1df",
+   "hash": "6d6f28e713fa"
+  },
+  {
+   "type": "para",
+   "text": "The Investment Banking task `task_3e2e533b49374381acf2056fe479e3ba` produced four valid completed Gemini runs, each with native score `0/5`. This is not a grader failure: the native rubric reads the final deck and checks the five target enterprise values implied by the unrounded peer median (about `24.18x`). The agent instead selected rounded-display values of `24.3x` or `24.6x`, yielding consistently incorrect enterprise values. A fifth launch stalled in a provider call, was stopped at user direction, and is recorded as an `infrastructure_abort` with no trajectory or grades; it is excluded from the four completed qualifications and from all score denominators. Finance is now archived: it is a single-agent source-authority/modeling task with a floor effect, not an artifact-handoff efficacy substrate.",
+   "id": "53ea6d81",
+   "hash": "9d0e9e7036f1"
+  },
+  {
+   "type": "para",
+   "text": "The Law task `task_323b4e29af5e4c7f86eaf4a24c4487ad` is a better revision-shaped candidate. Its completed Gemini pilot scored `4/6`: the redraft correctly established the lessee as signatory, lessee certifications/warranties, no early termination option, and 0.73 Additional Rent share; it failed to replace `Tenant` with `Lessee` and `Landlord` with `Lessor` consistently. The task therefore has a persistent source artifact, a revision deliverable, and six native rubrics. But its lease, correspondence, and prior certificate are all available to a fresh Agent B in a clean world. It is consequently a Law negative-control/calibration track unless the derived two-stage boundary is kept to Agent A's private review work rather than falsely claiming that provenance supplied inaccessible source facts.",
+   "id": "91b6bce2",
+   "hash": "8c76e37b6b49"
+  },
+  {
+   "type": "heading",
+   "text": "### Archived APEX-derived Law Artifact Handoff Track (public-source negative control, 3+3)",
+   "id": "5ec9a8f6",
+   "hash": "decf81b551de"
+  },
+  {
+   "type": "para",
+   "text": "The calibration run at `/private/tmp/proofpress-apex-law-calibration-20260809/run-3x3-v10` completed all 6/6 receivers with the pinned Archipelago commit `1c3dcd4694b313020cd626699c9c7cc1c0a2fc58`, task/world `task_323b4e29af5e4c7f86eaf4a24c4487ad` / `world_eec3883ca3c54c41a62d3f220a27736c`, Gemini 3.1 Pro Preview through Vercel AI Gateway, 300-second per-call timeout, 3,900-second watchdog, and native Gemini grading of the final snapshot. It is an **APEX-derived Artifact Handoff Track**, never an official APEX score.",
+   "id": "0f10a625",
+   "hash": "9078e7ad0efc"
   },
   {
    "type": "table",
-   "text": "| Phase | Models | Arms | Tasks | Attempts | Purpose |\n|---|---:|---:|---:|---:|---|\n| Completed transport prototype | DeepSeek 0731, Muse Spark 1.2, GPT-5.6 Luna | external `memory` vs `provenance.md` | 2 | 3 | operational result; not product-form treatment evidence |\n| Archived Gateway qualification | DeepSeek 0731, GLM 5.2, Gemini 3.1 Flash Lite | B0, C0, C3 as available | PSA | historical | immutable transport evidence; no failed/incomplete slice is resumed, pooled, or interpreted |\n| Active staged qualification | Luna execution + Terra scorer via Gateway, OpenAI-only/no-fallback | B0, C0, C3 | PSA | 3 staged trials | trial 1 executes all conditions concurrently, then undergoes operational analysis; only a clean analysis permits parallel trials 2/3 and blind Terra grading |\n| Harvey formal matrix | separately frozen after all three staged trials grade cleanly | B0, C0, C3 | M&A + PSA | separately authorized | no formal estimand is implied by the qualification slice |\n| STATE-Bench + MemConflict | separately frozen Gateway configuration | C0, C3 | benchmark-specific | benchmark-specific | independent persistent-state and conflict reports; never pooled |\n| HiEviDR-Bench + DeepResearch Bench | separately frozen Gateway configuration | C0, C3 | benchmark-specific | benchmark-specific | adapter/scorer gates first, then independent evidence/research slices |",
-   "id": "743b9bd8",
-   "hash": "b6139117ff6b"
+   "text": "| Pair | Upstream native | Ordinary native / audit | Proofpress native / audit | Pair interpretation |\n| --- | --- | --- | --- | --- |\n| 1 | 4/6 | 4/6, 3/7 | 4/6, 3/7 | equal residual terminology/revision errors |\n| 2 | 4/6 | 6/6, 7/7 | 6/6, 7/7 | both arms fully repaired the artifact |\n| 3 | 2/6 | 4/6, 5/7 | 4/6, 5/7 | both arms repaired two rubric failures |",
+   "id": "8f997b42",
+   "hash": "4d1205d48216"
   },
   {
    "type": "para",
-   "text": "Each workflow run in the active slice uses exact `openai/gpt-5.6-luna` at `high` effort; every official scorer call uses exact `openai/gpt-5.6-terra` at `high` effort. Both are pinned to OpenAI only with fallback disabled, the same timeout/retry/tool policy, and separate execution/scoring cost ledgers. Proofpress is deterministic materialization/verification code and never makes a model call. At execution freeze, each row must record requested/resolved model, actual Gateway provider, `usage.cost`, fallback status/metadata, token values, latency, endpoint/adapter version, date, and pricing basis. Never substitute a `latest` alias, a local `$0` cost, or an unrecorded fallback.",
-   "id": "0cafb062",
-   "hash": "69fc1edc2acd"
-  },
-  {
-   "type": "para",
-   "text": "The GLM 5.2 and Gemini 3.1 Flash Lite PSA slices are immutable, unqualified transport history: dynamic routing produced 500s or an incompatible provider output limit, and their records are retained without pooling. Luna/Terra v1 likewise remains immutable after its pre-inference parameter failure. V2 and the independent scorer-extension roots are the completed PSA run; transient scorer 500s were retried in new roots with no provider fallback. No historical transport record is pooled into the final analysis.",
-   "id": "8cf1443c",
-   "hash": "a23aa1fd4b50"
-  },
-  {
-   "type": "para",
-   "text": "The active frozen model pair is `openai/gpt-5.6-luna` for execution and `openai/gpt-5.6-terra` for scoring through Vercel AI Gateway. Each call must resolve to the actual provider `openai`; a different provider, fallback, missing numeric cost, or incomplete telemetry is disqualifying. The old Novita/DeepInfra/DeepSeek/GLM/Gemini records are archived operational history, not a provider choice or comparative result for this slice. This is a configuration decision, not a cross-model superiority claim.",
-   "id": "c91c4e94",
-   "hash": "ebe9b78ecaed"
+   "text": "The arms are exactly tied: native pass rate `14/18` (`77.8%`) each and audit pass rate `15/21` (`71.4%`) each. All three Proofpress capsules passed independent verification; ordinary packages had semantic parity with their paired Proofpress package and `not_applicable` capsule verification. There were no v10 infrastructure/model aborts; two ordinary-receiver Gateway connection errors were retried successfully. This null calibration validates execution and integrity instrumentation but supplies no efficacy claim, because the task exposes all underlying sources to a fresh receiver and the sample is only 3+3. It remains an archived public-source negative control: it is not a full-access cell for the next track, cannot identify an access-condition interaction, and must not be reinterpreted as a restricted-access result.",
+   "id": "87ae80d2",
+   "hash": "88c7753103bf"
   },
   {
    "type": "heading",
-   "text": "## Budgets, isolation, and fairness",
-   "id": "fcbf8c84",
-   "hash": "7dd55ffd4f77"
-  },
-  {
-   "type": "list",
-   "text": "- Fresh session at every receiver checkpoint; no hidden session persistence.\n- Identical Harvey tools, source workspace, role prompt template, timeout, and output schema across multi-agent arms.\n- Pair arms by task/model/attempt seed or attempt order where the provider exposes no seed. Randomize arm order within each pair.\n- C1 and C2 share the same mutable ordinary `coordination.md`, source workspace, worker prompts, artifact schema, tool/action caps, roles, and centralized fan-out/synthesis schedule. C1 must contain no Proofpress metadata or verification signal.\n- C2 retains every ordinary C1 coordination channel. It additionally embeds verified Proofpress lineage in key worker findings, adoption/rejection/merge decisions, and final artifacts; it does not use an external `provenance.md` treatment sidecar.\n- B0 is Harvey's original one-agent continuous session: no SAS handoff, Proofpress metadata, ARA input, or raw transcript is injected or persisted. C0 and C3 use the same five fixed fresh-session SAS checkpoints (plan, evidence, decision, draft, review) with one homogeneous role and the same task, tools, prompt contract, and caps. C0 receives ordinary checkpoint continuity. C3 adds only system-scheduled native Proofpress admission: the agent supplies semantic content, deterministic code validates and commits it, and the receiver reads latest admitted artifact heads plus the final-artifact index rather than a transcript or sidecar.\n- Each trial has the same total billable input-plus-output token cap. Worker prompts, repeated source context, ordinary coordination text, Proofpress metadata, and tool output all count. Do not use meaningless padding to match bytes.\n- Record separate token categories: task/evidence content, ordinary coordination, Proofpress metadata, and tool/transport overhead, plus tool calls, wall time, and estimated cost.\n- Use the concrete Gateway model slug, a qualification-derived provider allowlist, no fallback during formal runs, and fixed effort/temperature. Record Gateway response metadata and resolved provider rather than assuming the request ID is sufficient. A workflow with incomplete model/provider/cost/fallback telemetry is not qualified for analysis.\n- The Proofpress capsule is verified before presentation. A tampered/stripped capsule must be classified as invalid or ordinary artifact, never as admitted lineage.\n- A receiver may reverse a prior decision only with new evidence or a recorded reversal condition; all arms receive the same opportunity.\n- Raw prompts, source documents, full traces, credentials, and restricted benchmark material stay in `PROOFPRESS_EVAL_HOME`, outside Git.",
-   "id": "7bcd9b4b",
-   "hash": "93f6aac37076"
-  },
-  {
-   "type": "heading",
-   "text": "## Outcomes and scoring",
-   "id": "4a11e324",
-   "hash": "8fcbcbe3f3db"
-  },
-  {
-   "type": "para",
-   "text": "The primary outcome for the next slice is **per-criterion Harvey success rate**, reported paired by task and arm with its numerator and denominator. Harvey official all-pass remains a hard-task diagnostic and secondary outcome: `0/36` in the completed transport prototype is expectedly uninformative for continuous quality comparison because every criterion must pass. `trusted_task_success` remains a safety/trust composite, not a substitute for the criterion table.",
-   "id": "cc5ca75e",
-   "hash": "b42c5dcf1af8"
+   "text": "### Completed APEX-derived Restricted-Access Artifact Handoff Track",
+   "id": "5b2148d0",
+   "hash": "c3060ea32045"
   },
   {
    "type": "table",
-   "text": "| Dimension | Measure | Source |\n|---|---|---|\n| Task quality | per-criterion pass rate (primary for Harvey); current-conclusion accuracy and successful terminal artifact (dynamic) | fixed scorer + gold decision sheet |\n| Trust | decision regression, unsupported authority upgrade, correct reversal, false block, source/claim fidelity | deterministic checks + blinded audit |\n| Continuity and lineage | stale-conclusion misuse, evidence-to-claim coverage, decision-lineage completeness, session-restart recovery, correct revision/reversal | replay oracle + Proofpress verifier + blinded audit |\n| Efficiency | input/output tokens, wall time, cost estimate, tool calls, history reads, token cost per successful task | harness and wrapper records |\n| Provenance integrity | capsule verification, artifact hash continuity, declared actor/status agreement | Proofpress verifier |",
-   "id": "b75fdf75",
-   "hash": "02d0fc0ce7eb"
+   "text": "| Status | Estimand | Receiver isolation | Blind scoring and expansion gate |\n| --- | --- | --- | --- |\n| completed; bounded/inconclusive 3+3 | `Proofpress − ordinary` conditional on the same semantic handoff and restricted source access | fresh receiver snapshot permits only current artifact plus memory/log/handoff; all original source documents, archives, app data, Agent A trajectory, and scratchpad are denied and leakage-tested | r4 1+1 passed all boundary gates; r2 serial 3+3 passed all pair gates, and native judging used only an arm-neutral final-DOCX package |",
+   "id": "bf7e4d92",
+   "hash": "090624a4682f"
   },
   {
    "type": "para",
-   "text": "The official rubric should run blindly to arm labels. A second blinded judge and a human audit of at least 20% of sampled runs assess provenance-specific annotations. Report inter-rater agreement (target Cohen's κ ≥ 0.70) rather than presenting an unvalidated judge as ground truth.",
-   "id": "9a139c64",
-   "hash": "5de7b185e162"
-  },
-  {
-   "type": "heading",
-   "text": "## Analysis and decision gates",
-   "id": "86f3a861",
-   "hash": "ed27a12b91e4"
+   "text": "The ordinary arm was a conventional readable artifact plus memory/log/handoff. Proofpress carried the same semantic content with native anchors, admitted head, declared decision lineage, and a capsule. The capsule verified package identity, integrity, and declared lineage; it did not verify inaccessible source truth. The r2 native rubric total was Proofpress `10/18` versus ordinary `9/18`, including one versus zero perfect-native runs. The frozen v1 arm-blind audit reported `13/21` in each arm, but a post-run measurement audit found that v1 scanned prefatory analysis together with the operative certificate and treated generic lower-case party words as defined-term failures. The corrected, separately versioned post-hoc v2 audit reports Proofpress `17/21` versus ordinary `16/21`, with the same one terminology cell driving both v2 and the native result. Because v2 was developed after outcomes were visible, it cannot replace the frozen endpoint or establish a treatment effect. All six receivers completed; all pairwise semantic/draft hashes matched; all Proofpress capsules verified; and all runtime leakage audits passed. The earlier r1 serial attempt is invalid because a source filename leaked in pair 2, and r3 is a non-scored Gateway infrastructure abort. The Lease track remains bounded and inconclusive; no additional Lease runs are authorized.",
+   "id": "6c7fd1ae",
+   "hash": "8a3051b24531"
   },
   {
    "type": "para",
-   "text": "Analyze the primary paired contrast with task and model effects, and report episode-cluster bootstrap confidence intervals. For binary trusted success, use a mixed or fixed-effects logistic model only if the sample supports it; otherwise report paired rates and stratified uncertainty without overclaiming significance. Always publish per-model and per-task plots alongside aggregates.",
-   "id": "21d0d9f7",
-   "hash": "5405eb2514cf"
-  },
-  {
-   "type": "table",
-   "text": "| Gate | Pass condition | Stop / revise condition |\n|---|---|---|\n| Completed 1a/1b transport prototype | 24/24 Gate 1a receiver calls and 36/36 clean workflow records establish runtime feasibility | do not interpret sidecar memory versus `provenance.md` as native-product efficacy |\n| B0 baseline | the independent one-shot workflow has preflight/scorer output and complete per-call model/provider/cost/fallback telemetry | retain its audit result separately; do not add it to the C0/C3 qualification verdict |\n| Gateway SAS qualification | both C0/C3 workflows have valid carriers/preflight/scorer output and complete per-call model/provider/cost/fallback telemetry | repair adapter or stop; do not substitute an unversioned model or missing cost |\n| Harvey formal matrix | 12 completed workflows, paired C3−C0 report, and no trust/reversal harm or budget excess | do not pool historical transport records or scale a broken qualification |\n| STATE-Bench + MemConflict | each benchmark has its own frozen task/scorer gate and an interpretable C3−C0 report | keep results independent; stop if continuity failure mode is absent |\n| HiEviDR-Bench + DeepResearch Bench | adapter/scorer gate passes before any external-validity run | repair the benchmark adapter rather than infer from Harvey |",
-   "id": "ae5cc50e",
-   "hash": "79e53e117136"
-  },
-  {
-   "type": "para",
-   "text": "The numerical threshold for Gate 2 will be locked after Gate 0 calibrates score variance and before Gate 1 is run. This avoids inventing a significance threshold from an unvalidated local fixture.",
-   "id": "5a9ebc33",
-   "hash": "65299c3ac181"
-  },
-  {
-   "type": "heading",
-   "text": "## Implementation milestones",
-   "id": "407804e3",
-   "hash": "dae140a79c5f"
-  },
-  {
-   "type": "list",
-   "text": "1. Archive Gate 1a/1b as the external-transport prototype, including its criterion-level diagnostic and operational failures.\n2. Freeze and run the isolated PSA Gateway C0/C3 qualification with five serial SAS checkpoints, native C3 carriers, final-output preflight, full Gateway telemetry, and a $25 shared actual-cost ceiling.\n3. If and only if both workflows qualify, freeze a separate provider-allowlist/no-fallback configuration for the 12-workflow Harvey matrix; otherwise repair the adapter without reinterpreting qualification records.\n4. Use ARA to manage paper evidence and Proofpress to snapshot meaningful accepted research artifacts—not every chat turn or raw transcript.",
-   "id": "9858f44e",
-   "hash": "940acd1e9215"
-  },
-  {
-   "type": "heading",
-   "text": "## Completed APEX-derived Law Artifact Handoff Track (public-source negative control)",
-   "id": "50af478e",
-   "hash": "56ef6b02d816"
-  },
-  {
-   "type": "para",
-   "text": "**Purpose and label.** This is a derived, two-stage artifact-handoff experiment built from APEX Law task `task_323b4e29af5e4c7f86eaf4a24c4487ad`, not a modification of the official one-stage benchmark and not an official APEX score. The preflight native Gemini run was `4/6`: a revision artifact exists and four substantive facts survived, but two mandated terminology corrections regressed. Finance is excluded because its completed Gemini qualifications exposed a one-agent source-authority floor, not a handoff mechanism.",
-   "id": "f42fd332",
-   "hash": "e920969ae030"
-  },
-  {
-   "type": "para",
-   "text": "**Task contract.** Agent A works in a clean official Law world, reviews the existing certificate, lease, and correspondence, and creates an initial decision artifact plus private review notes. Freeze only A's final handoff information. Agent B starts in a new clean Law world with all normal public APEX resources, but never A's private scratchpad/session. B receives a fixed follow-on instruction: produce `Deliverables/Estoppel Certificate Revision 2.docx`, correct the remaining `Tenant` → `Lessee` and `Landlord` → `Lessor` terminology consistently, preserve the four validated substantive positions, and provide a short change log. This makes public-source retrieval ordinary rather than artificially forbidden; the experimentally relevant continuity object is A's reviewed issue-to-change mapping.",
-   "id": "8c4e1b40",
-   "hash": "149a2f547e9d"
-  },
-  {
-   "type": "para",
-   "text": "**Arms and semantic-parity gate.** The ordinary package is a readable portable handoff containing the current artifact location, reviewed facts, conclusions, outstanding corrections, and next actions. The Proofpress package contains exactly the same normalized fact/conclusion/action text plus native anchors, admitted head, evidence-to-decision links, and an independently verifiable capsule. Before any B run, compare normalized package text and a fact inventory; any extra fact, conclusion, or action in either package invalidates the pair. Both arms use Gemini 3.1 Pro Preview, identical public world/task hash, tools, time and step caps, and no access to A's private scratchpad. The only allowed variable is provenance/verification structure.",
-   "id": "2e8d0e86",
-   "hash": "d8ea066e4516"
-  },
-  {
-   "type": "para",
-   "text": "**Execution and scoring.** Execute three ordinary and three Proofpress B runs serially, each from a fresh world, in randomized order under neutral run IDs. Preflight the Gemini tool-call path once; record provider/model, image/config/world hashes, dataset revision, trajectory, final snapshot, native grades, watchdog state, package-parity evidence, capsule-verification result, and condition manifest. The original APEX native rubric is retained as a final-artifact quality gate, but the primary derived outcome is a condition-blind seven-item revision audit: artifact present; each of the two terminology corrections complete; each of the four validated substantive positions preserved; and no contradiction introduced. Record native rubric pass rate, derived audit pass rate, trusted success, regression count, and infrastructure/model aborts separately.",
-   "id": "6a4d0d13",
-   "hash": "e8aab6c9c14b"
-  },
-  {
-   "type": "para",
-   "text": "**Interpretation and decision gate.** Report all six complete runs with numerator/denominator and uncertainty; never turn a 3+3 difference into a confirmed general effect. Continue only if the ordinary arm has observable correction/regression error, package parity holds, capsules verify independently, and Proofpress improves or preserves trusted success without a semantic-information advantage. A null result is still informative for this Law calibration: because Agent B can read every original source, it would show that provenance did not add measurable value on this public-source revision boundary. Any broader efficacy claim requires another revision/update task in which the handoff carries genuine, reviewed, non-public Agent A work while ordinary public resources remain available.",
-   "id": "0a6794d7",
-   "hash": "66d66716cb08"
-  },
-  {
-   "type": "para",
-   "text": "**Completed calibration (2026-08-09).** The precommitted 3+3 completed without an infrastructure abort: all three upstream reviews and all six receivers produced a trajectory, final snapshot, native grades, and a completed watchdog state. Native receiver outcomes were identical by arm: ordinary `4/6, 6/6, 4/6` and Proofpress `4/6, 6/6, 4/6` (mean `4.67/6`, or `77.8%`, in each arm). The condition-blind seven-cell audits were likewise identical: ordinary `3/7, 7/7, 5/7` and Proofpress `3/7, 7/7, 5/7` (mean `5.0/7`, or `71.4%`, in each arm). Pair 2 repaired a `4/6` upstream artifact to `6/6`; pair 3 repaired a `2/6` upstream artifact to `4/6` in both arms. Every Proofpress capsule verified independently, while each ordinary package had the same semantic-handoff SHA-256 and was correctly recorded as `not_applicable` for capsule verification.",
-   "id": "aa7f4c21",
-   "hash": "f94bd63bf74e"
-  },
-  {
-   "type": "para",
-   "text": "**Decision.** This is a calibrated null result, not evidence that Proofpress harms or improves Law-task outcome quality. Both arms repaired the same error space equally, and the public-source Law world leaves Agent B able to independently reconstruct the source facts. The result validates the two-stage runner, parity lock, provenance capsule verification, final-snapshot native grading, and audit collection; it does not establish a Proofpress efficacy effect. Do not expand this task. Select a new revision/update task where Agent A's reviewed work supplies genuine continuity value beyond sources public to Agent B, and make the native judge condition-blind to package filenames before the next efficacy track.",
-   "id": "ab2d723b",
-   "hash": "94b5a874d43f"
-  },
-  {
-   "type": "heading",
-   "text": "## Completed APEX-derived Restricted-Access Artifact Handoff Track",
-   "id": "7cb13b42",
-   "hash": "f5a50f24e2e7"
-  },
-  {
-   "type": "para",
-   "text": "**Purpose, estimand, and real-world boundary.** This derived two-stage Lease experiment estimates `Proofpress − ordinary` only when a receiver starts in a fresh restricted world with the same semantic handoff but cannot re-enter Agent A's source workspace. It is a cross-boundary/cross-world handoff study, not an official APEX score, a general handoff estimate, or an interoperability result across heterogeneous agent systems. The restricted condition models a real access discontinuity—principally a deal-room access window closing or being revoked, with confidentiality boundaries and third-party workspace expiry as related cases. It does not claim that the organization destroyed the source record; it limits only the receiver's access path.",
-   "id": "81f4d9ac",
-   "hash": "7d8cf22ff24c"
-  },
-  {
-   "type": "para",
-   "text": "**Receiver contract and access audit.** Agent A works in a fresh complete official Lease world. Each Agent B starts from a separately materialized restricted receiver snapshot containing only the current redraft, its handoff package, and the same task goal and normal tool budget. The snapshot excludes the lease, amendment, correspondence, certificate source bundle, `.apps_data`, archives, source filenames, Agent A trajectory, and private scratchpad. Before every scored pair, an automated leakage preflight must prove that each denied path is unreadable, unlistable, and unrecoverable from an archive or app-state residue. A failure is a boundary failure, not an outcome.",
-   "id": "6e23c4f1",
-   "hash": "661e20e42dd2"
-  },
-  {
-   "type": "para",
-   "text": "**Matched carrier contrast.** Ordinary handoff is the current artifact plus a readable memory/log/handoff message. The Proofpress handoff carries exactly the same normalized facts, conclusions, outstanding work, and next actions in the artifact, adding only native anchors, admitted head, declared decision lineage, and a verification capsule. Every pair must record an identical `semantic_handoff_sha256` and draft hash; an information mismatch invalidates the pair. Capsule verification establishes artifact identity, integrity, and the declared decision lineage. It does not establish that an inaccessible source fact is true or complete.",
-   "id": "34d5a5c2",
-   "hash": "8ba4009e210d"
-  },
-  {
-   "type": "para",
-   "text": "**Pilot, scoring, and interpretation.** Begin with one upstream A and one ordinary/one Proofpress B. The follow-on instruction asks B to complete outstanding revisions and produce a short change log, without naming the terminology substitutions or substantive answers. Grade only the final DOCX through a neutral, arm-blind package; keep a separate independent seven-cell artifact audit. The 1+1 pilot must pass leakage, semantic-parity, capsule, blind-layout, model/Docker/watchdog, and receiver-completion gates before serial randomized 3+3 begins. Report native rubric pass, audit pass, trusted success, regressions/missed corrections, and capsule status separately. A result applies only to this restricted-access Lease condition; the completed public-source 3+3 is not a matched full-access cell and cannot identify an access-condition interaction.",
-   "id": "9a78e2c6",
-   "hash": "59bfaa5c9e79"
-  },
-  {
-   "type": "para",
-   "text": "**Completed boundary pilot and serial 3+3 (2026-08-09).** An initial formal r1 was invalidated before primary analysis when pair 2's handoff disclosed an original source filename; it is retained only as boundary-debugging evidence. The repaired filename preflight then passed a fresh r4 1+1 pilot: semantic and draft hashes matched, the Proofpress capsule verified, both B worlds completed, neutral final-DOCX-only judging was used, and both runtime-leakage audits passed. The fresh r2 serial 3+3 then completed all six B runs under Gemini 3.1 Pro Preview, a 300-second call limit, and a 3,900-second watchdog. Every pair passed semantic/draft parity, preflight, capsule (Proofpress), receiver-completion, and runtime-leakage gates; all native judges consumed the arm-neutral final-DOCX package only.",
-   "id": "9bb49a1e",
-   "hash": "da201648873e"
-  },
-  {
-   "type": "para",
-   "text": "**Results, measurement correction, and decision.** Native rubric cells were Proofpress `10/18` (mean `0.556`) versus ordinary `9/18` (mean `0.500`); one Proofpress run, and no ordinary run, achieved a perfect native `6/6`. The frozen v1 seven-cell audit reported a `13/21` tie, but post-run inspection found that it scanned the entire DOCX rather than the operative certificate, lowercased defined-party terms so generic phrases counted as failures, and allowed prefatory analysis to satisfy certificate cells. A separately versioned post-hoc v2 audit, scoped to the operative certificate and ineligible as a confirmatory endpoint, reports Proofpress `17/21` versus ordinary `16/21`; the same single terminology cell accounts for the native and v2 differences. The Lease result remains bounded and inconclusive: the correction removes the claimed independent tie but does not turn a post-hoc one-cell contrast into a reliable effect. Do not add Lease runs.",
-   "id": "7930a2fd",
-   "hash": "e404f7ac97cc"
-  },
-  {
-   "type": "heading",
-   "text": "## Preregistered next task: restricted-access S-Corp SPA revision",
-   "id": "51e16978",
-   "hash": "96e0b1ed45bb"
-  },
-  {
-   "type": "para",
-   "text": "**Task choice.** The next candidate is APEX task `task_8705d28530a94c2880fbfd7190e257d4` (`World425_jcf_01`), which edits an existing Stock Purchase Agreement across nine clause-level buyer-protection requirements covering representations, warranties, pre-closing obligations, post-closing cooperation, liability allocation, and indemnity. It was selected before any receiver outcome because it has a persistent transaction artifact, a large diligence workspace, multiple interdependent revision targets, and materially more error space than the Lease terminology cleanup. The task/world hashes and full protocol are frozen in `configs/frozen/apex-scorp-spa-revision-pilot-v1/preregistration.json`.",
-   "id": "d22e0914",
-   "hash": "51dac0ce6f2e"
-  },
-  {
-   "type": "para",
-   "text": "**Carrier and measurement repair.** Both arms receive the same current SPA and normalized facts, decisions, clause targets, status, and next actions. Proofpress may add only anchored decision blocks, admitted status and supersession, clause links, the current-SPA binding digest, and a verifiable capsule. Unlike the Lease carrier's heading/hash-only metadata, each lineage item must identify an actionable clause target and implementation state. The primary scorer must be scoped to named operative SPA sections and pass positive, negative, prefatory-analysis, capitalization, and unrelated-clause-regression fixtures before any model call.",
-   "id": "6300f622",
-   "hash": "59fbc5df0b38"
-  },
-  {
-   "type": "para",
-   "text": "**Authorization gate.** Only a single upstream A plus paired randomized 1+1 receiver pilot is authorized after all source-hash, parity, scorer-fixture, capsule, blind-layout, and leakage preflights pass. The formal 3+3 remains unauthorized. A pilot failure repairs the protocol and is not counted; a clean pilot proceeds only if ordinary has eligible clause-level error space and neither arm has semantic-information advantage.",
-   "id": "556f6be2",
-   "hash": "2809bbdc80b9"
-  },
-  {
-   "type": "para",
-   "text": "**Methodological precedent, not a boundary claim.** ARA's PaperBench reproduction evaluation is the closest design reference for fair representation comparison: it holds model, task, tools, and budget fixed, masks directly copyable expected numeric results, and applies blind requirement-level grading to a structured artifact versus PDF-plus-repository baseline. That supports this track's matched carrier, neutral-prompt, and blind-artifact principles. It does not validate the access-discontinuity estimand: ARA receivers can read the full ARA `logic/`, `src/`, `trace/`, and `evidence/` package, whereas this Lease receiver is intentionally limited to the current artifact and handoff. Proofpress therefore studies a narrower successor-continuity question, not whether ARA's full research package is better.",
-   "id": "1fe4ba29",
-   "hash": "64c8eadf881e"
-  },
-  {
-   "type": "heading",
-   "text": "## References",
-   "id": "343eaac9",
-   "hash": "3f17be8543bd"
-  },
-  {
-   "type": "list",
-   "text": "- Harvey LAB repository and [architecture](https://github.com/harveyai/harvey-labs/blob/v1.0/docs/architecture.md)\n- Harvey LAB [tutorial](https://github.com/harveyai/harvey-labs/blob/v1.0/docs/tutorial.md)\n- Google Research, [Towards a Science of Scaling Agent Systems](https://research.google/blog/towards-a-science-of-scaling-agent-systems-when-and-why-agent-systems-work/), and [paper](https://arxiv.org/abs/2512.08296)\n- Vercel AI Gateway, [provider routing and observability](https://vercel.com/docs/ai-gateway)\n- [Chatbot Arena Agent Leaderboard](https://arena.ai/leaderboard/agent) — sampling input only; it is not a legal-work result or model-selection oracle\n- ARA, [Agent-Native Research Artifact](https://arxiv.org/abs/2604.24658) and [reference implementation](https://github.com/ARA-Labs/Agent-Native-Research-Artifact)\n- Candidate dynamic-task sources to verify and adapt: STATE-Bench, MemConflict, HiEviDR-Bench, DeepResearch Bench, PaperBench, and SWE-bench. These are task/material sources or comparison points, not evidence that Proofpress improves their native headline score.",
-   "id": "9c0d2ccb",
-   "hash": "87f8a82945d5"
+   "text": "The next preregistered candidate is the restricted-access S-Corp Stock Purchase Agreement revision task `task_8705d28530a94c2880fbfd7190e257d4`. Its nine clause-level requirements and persistent SPA create a stronger revision substrate, but only a scorer-fixture and boundary-qualified randomized 1+1 pilot is authorized. The carrier must expose actionable clause targets, decision status, supersession, evidence references, and artifact binding rather than the Lease carrier's heading/hash-only metadata; the formal 3+3 remains unauthorized.",
+   "id": "35f3084b",
+   "hash": "1f82f050a5a0"
   }
  ]
 }

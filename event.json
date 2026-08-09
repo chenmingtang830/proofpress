@@ -1,76 +1,37 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/docs/RESEARCH_PLAN.md",
- "artifact_id": "pp_00e96ce828caea19ac7221ae",
- "version": "4f5cdeed",
- "parent": "4c9d9939",
+ "artifact": "experiments/provenance_handoff/docs/RESULTS_MATRIX.md",
+ "artifact_id": "pp_d40d46a12d4d493fcbc9c0e9",
+ "version": "e03e1c86",
+ "parent": "55296fa4",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-09T19:28:48+00:00",
+ "ts": "2026-08-09T19:28:55+00:00",
  "stats": {
   "modified": 1,
-  "added": 4
+  "added": 1
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "7930a2fd",
+   "block": "6c7fd1ae",
+   "type": "para",
+   "context": "Completed APEX-derived Restricted-Access"
+  },
+  {
+   "kind": "added",
+   "block": "35f3084b",
    "type": "para",
    "context": "Completed APEX-derived Restricted-Access",
-   "numbers": [
-    [
-     "61.9%",
-     "17"
-    ],
-    [
-     "8",
-     "21"
-    ],
-    [
-     "0",
-     "16"
-    ],
-    [
-     "3",
-     "21"
-    ]
-   ]
-  },
-  {
-   "kind": "added",
-   "block": "51e16978",
-   "type": "heading",
-   "context": "Preregistered next task: restricted-acce",
-   "preview": "## Preregistered next task: restricted-access S-Corp SPA rev"
-  },
-  {
-   "kind": "added",
-   "block": "d22e0914",
-   "type": "para",
-   "context": "Preregistered next task: restricted-acce",
-   "preview": "**Task choice.** The next candidate is APEX task `task_8705d"
-  },
-  {
-   "kind": "added",
-   "block": "6300f622",
-   "type": "para",
-   "context": "Preregistered next task: restricted-acce",
-   "preview": "**Carrier and measurement repair.** Both arms receive the sa"
-  },
-  {
-   "kind": "added",
-   "block": "556f6be2",
-   "type": "para",
-   "context": "Preregistered next task: restricted-acce",
-   "preview": "**Authorization gate.** Only a single upstream A plus paired"
+   "preview": "The next preregistered candidate is the restricted-access S-"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:54391ad4fc2256887d65b0e010df10de2d6fc76cd74daf9c5f8438ad567d9201",
+ "soft_fingerprint": "ppsb1:196ac2323a177c99a88c793185d3981129169b0eb3e34cabbe83e4f3a5af4a12",
  "actors": {
   "requested_by": [
    "user"
@@ -88,33 +49,18 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "7930a2fd",
+   "block": "6c7fd1ae",
    "kind": "modified",
-   "note": "Corrects the Lease audit interpretation, records the post-hoc v2 diagnostic, and freezes the no-more-Lease-runs decision."
+   "note": "Corrects the frozen Lease audit interpretation and records the post-hoc diagnostic without upgrading it to a confirmatory endpoint."
   },
   {
-   "block": "51e16978",
+   "block": "35f3084b",
    "kind": "added",
-   "note": "Introduces the preregistered restricted-access S-Corp SPA follow-on task."
-  },
-  {
-   "block": "d22e0914",
-   "kind": "added",
-   "note": "Records the task selection rationale and frozen task and world identity."
-  },
-  {
-   "block": "6300f622",
-   "kind": "added",
-   "note": "Defines actionable carrier content and operative-section scorer requirements."
-  },
-  {
-   "block": "556f6be2",
-   "kind": "added",
-   "note": "Limits authorization to a gated randomized 1+1 pilot and leaves 3+3 unauthorized."
+   "note": "Records the preregistered S-Corp SPA candidate and its preflight-only authorization boundary."
   }
  ],
  "context": {
-  "why": "Correct the post-run Lease measurement interpretation and preregister the bounded S-Corp SPA follow-on after user approval."
+  "why": "Correct the post-run Lease measurement interpretation and record the bounded next-task decision after user approval."
  },
- "event_id": "ppe_20e45e7bb5bce5aea203d7da"
+ "event_id": "ppe_5b7b6e307ab6d60aafa7d4c1"
 }
