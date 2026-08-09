@@ -1,57 +1,56 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/docs/RESULTS_MATRIX.md",
- "artifact_id": "pp_d40d46a12d4d493fcbc9c0e9",
- "version": "21a25e58",
- "parent": "7ff78215",
+ "artifact": "experiments/provenance_handoff/ara/logic/experiments.md",
+ "artifact_id": "pp_15fb7a0bcf0891f7cee01068",
+ "version": "d7c6d505",
+ "parent": "2b376462",
  "author": {
   "name": "codex",
   "kind": "agent",
   "session": null
  },
  "note": null,
- "ts": "2026-08-09T10:57:28+00:00",
+ "ts": "2026-08-09T10:57:35+00:00",
  "stats": {
-  "modified": 2,
-  "added": 3
+  "modified": 3,
+  "added": 2
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "5ec9a8f6",
+   "block": "49cf9342",
    "type": "heading",
-   "context": "Archived APEX-derived Law Artifact Hando"
+   "context": "E09: Completed APEX Law artifact-handoff"
   },
   {
    "kind": "modified",
-   "block": "87ae80d2",
-   "type": "para",
-   "context": "Archived APEX-derived Law Artifact Hando"
+   "block": "2fd07e62",
+   "type": "list",
+   "context": "E09: Completed APEX Law artifact-handoff"
+  },
+  {
+   "kind": "modified",
+   "block": "8c0950d0",
+   "type": "list",
+   "context": "E09: Completed APEX Law artifact-handoff"
   },
   {
    "kind": "added",
-   "block": "5b2148d0",
+   "block": "3a6fb802",
    "type": "heading",
-   "context": "Planned APEX-derived Restricted-Access A",
-   "preview": "### Planned APEX-derived Restricted-Access Artifact Handoff "
+   "context": "E10: Planned APEX-derived Restricted-Acc",
+   "preview": "## E10: Planned APEX-derived Restricted-Access Artifact Hand"
   },
   {
    "kind": "added",
-   "block": "bf7e4d92",
-   "type": "table",
-   "context": "Planned APEX-derived Restricted-Access A",
-   "preview": "| Status | Estimand | Receiver isolation | Blind scoring and"
-  },
-  {
-   "kind": "added",
-   "block": "6c7fd1ae",
-   "type": "para",
-   "context": "Planned APEX-derived Restricted-Access A",
-   "preview": "The ordinary arm is a conventional readable artifact plus me"
+   "block": "dd7a946c",
+   "type": "list",
+   "context": "E10: Planned APEX-derived Restricted-Acc",
+   "preview": "- **Question**: After a source-access discontinuity, does a "
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:cbaf0ee5eb2aae191da97b3b3de19c95f018c480f24aa09e8c3ee03eb17e67ca",
+ "soft_fingerprint": "ppsb1:fe460ae88d35f6f284ef9fe3a01bd939c13c6f55cec2a726a59c90e7396b4167",
  "actors": {
   "requested_by": [
    "richardtang"
@@ -69,33 +68,33 @@
  "attribution_basis": "environment_attested",
  "claims": [
   {
-   "block": "5ec9a8f6",
+   "block": "49cf9342",
    "kind": "modified",
-   "note": "Labelled the completed Law 3+3 as an archived public-source negative control."
+   "note": "Marked E09 as a completed public-source calibration."
   },
   {
-   "block": "87ae80d2",
+   "block": "2fd07e62",
    "kind": "modified",
-   "note": "Prevented reuse of the old 3+3 as a restricted-access or interaction result."
+   "note": "Updated E09 status from designed to completed calibration."
   },
   {
-   "block": "5b2148d0",
-   "kind": "added",
-   "note": "Added the planned restricted-access track heading."
+   "block": "8c0950d0",
+   "kind": "modified",
+   "note": "Separated the E09 null result from a future restricted-access contrast."
   },
   {
-   "block": "bf7e4d92",
+   "block": "3a6fb802",
    "kind": "added",
-   "note": "Added the planned estimand, isolation, and blind-grading matrix row."
+   "note": "Added E10 for the planned restricted-access artifact-handoff experiment."
   },
   {
-   "block": "6c7fd1ae",
+   "block": "dd7a946c",
    "kind": "added",
-   "note": "Documented carrier parity, the verification limit, and expansion gates."
+   "note": "Specified E10 boundary, parity, pilot, scoring, and interpretation gates."
   }
  ],
  "context": {
-  "why": "Separate the archived public-source Law control from the planned restricted-access track."
+  "why": "Add the bounded restricted-access Lease experiment to the ARA record."
  },
- "event_id": "ppe_c4ce5868cd7aa8554c28d3c0"
+ "event_id": "ppe_3db55dc7111d6cc911fcb129"
 }
