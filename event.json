@@ -1,41 +1,44 @@
 {
  "event": "version_created",
- "artifact": "docs/RESULTS_MATRIX.md",
- "artifact_id": "pp_d40d46a12d4d493fcbc9c0e9",
- "version": "55296fa4",
- "parent": "21a25e58",
+ "artifact": "ara/logic/experiments.md",
+ "artifact_id": "pp_15fb7a0bcf0891f7cee01068",
+ "version": "87e470cc",
+ "parent": "d7c6d505",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-09T13:55:26+00:00",
+ "ts": "2026-08-09T13:55:46+00:00",
  "stats": {
-  "modified": 3
+  "modified": 1,
+  "added": 2
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "5b2148d0",
+   "block": "3a6fb802",
    "type": "heading",
-   "context": "Completed APEX-derived Restricted-Access"
+   "context": "E10: Completed APEX-derived Restricted-A"
   },
   {
-   "kind": "modified",
-   "block": "bf7e4d92",
-   "type": "table",
-   "context": "Completed APEX-derived Restricted-Access"
+   "kind": "added",
+   "block": "70a798ce",
+   "type": "list",
+   "context": "E10: Completed APEX-derived Restricted-A",
+   "preview": "- **Boundary history and validity**: the first formal serial"
   },
   {
-   "kind": "modified",
-   "block": "6c7fd1ae",
-   "type": "para",
-   "context": "Completed APEX-derived Restricted-Access"
+   "kind": "added",
+   "block": "34c998d9",
+   "type": "list",
+   "context": "E10: Completed APEX-derived Restricted-A",
+   "preview": "- **Results and decision**: Proofpress had `10/18` native ru"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:a976b284b48cb7567a073d25a6b67c239880366a5bd389c8231f5c6d00130f19",
+ "soft_fingerprint": "ppsb1:1b8951e65a532ae665390c02fe049c6fc34b3a8a8853fcc0ab59cf1900a22050",
  "actors": {
   "requested_by": [
    "user"
@@ -53,23 +56,28 @@
  "attribution_basis": "harness_attested",
  "claims": [
   {
-   "block": "5b2148d0",
+   "block": "3a6fb802",
    "kind": "modified",
-   "note": "Changed the restricted-access Lease row from planned to completed."
+   "note": "Changed E10 from planned to completed."
   },
   {
-   "block": "bf7e4d92",
+   "block": "dd7a946c",
    "kind": "modified",
-   "note": "Recorded the completed 3+3 status, estimand, isolation, and blind-grade gates."
+   "note": "Preserved E10 design and interpretation constraints after the run."
   },
   {
-   "block": "6c7fd1ae",
-   "kind": "modified",
-   "note": "Recorded native, audit, leakage, invalidation, and no-expansion results without an interoperability claim."
+   "block": "70a798ce",
+   "kind": "added",
+   "note": "Recorded boundary repair, infrastructure abort, pilot, and all-pair gate evidence."
+  },
+  {
+   "block": "34c998d9",
+   "kind": "added",
+   "note": "Recorded endpoint-specific results and the bounded no-expansion decision."
   }
  ],
  "context": {
-  "why": "Record the completed restricted-access Lease 3+3 outcome, integrity gates, invalidation history, and no-expansion decision."
+  "why": "Freeze E10 boundary history and the completed restricted-access Lease result with endpoint-specific interpretation."
  },
- "event_id": "ppe_4e7f6b46b580d5ac181793a2"
+ "event_id": "ppe_76b49d630f8e369605730837"
 }
