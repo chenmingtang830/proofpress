@@ -1,9 +1,9 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/docs/STALE_PHASE1_PLAN.md",
- "artifact_id": "pp_6cf0c8f0e4ef1cb9c59aae65",
- "version": "b5e884d3",
- "parent": "4f218aba",
+ "artifact": "experiments/provenance_handoff/ara/logic/experiments.md",
+ "artifact_id": "pp_15fb7a0bcf0891f7cee01068",
+ "version": "7404e133",
+ "parent": "2f55c5e5",
  "author": {
   "name": "unknown",
   "kind": "human",
@@ -12,48 +12,24 @@
  "note": null,
  "ts": "2026-08-09T07:52:36+00:00",
  "stats": {
-  "modified": 6
+  "modified": 2
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "05b3cc93",
-   "type": "para",
-   "context": "Status and scope"
+   "block": "958a5698",
+   "type": "heading",
+   "context": "E08: Completed STALE / CUPMem Phase 1 Na"
   },
   {
    "kind": "modified",
-   "block": "aa5e763b",
-   "type": "para",
-   "context": "Current production-carrier pilot"
-  },
-  {
-   "kind": "modified",
-   "block": "fbc3ab99",
+   "block": "28fb9f31",
    "type": "list",
-   "context": "Execution sequence"
-  },
-  {
-   "kind": "modified",
-   "block": "6bccbf52",
-   "type": "para",
-   "context": "Pilot, confirmatory gate, and reporting"
-  },
-  {
-   "kind": "modified",
-   "block": "28a4e5f4",
-   "type": "para",
-   "context": "Interpretation boundary"
-  },
-  {
-   "kind": "modified",
-   "block": "0cf8df5d",
-   "type": "list",
-   "context": "Immediate work queue"
+   "context": "E08: Completed STALE / CUPMem Phase 1 Na"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:4ef6f912f8b6a7f56a557dd81d56ae13c6dc78f0dd1a3dca1dafa2e0dd4fdd1f",
+ "soft_fingerprint": "ppsb1:be337b705696ede65aa0c764d181fea7750832005608764ffeb9b75c08984281",
  "actors": {
   "requested_by": [
    "Richard Tang"
@@ -71,38 +47,18 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "05b3cc93",
+   "block": "958a5698",
    "kind": "modified",
-   "note": "Marks the valid 80-scenario Nano qualification complete and prevents automatic scale-up."
+   "note": "Changes E08 from active work to completed Nano qualification."
   },
   {
-   "block": "aa5e763b",
+   "block": "28fb9f31",
    "kind": "modified",
-   "note": "Separates earlier smoke failures from the eligible full qualification matrix."
-  },
-  {
-   "block": "fbc3ab99",
-   "kind": "modified",
-   "note": "Replaces the automatic 400-scenario sequence with a closed qualification decision checkpoint."
-  },
-  {
-   "block": "6bccbf52",
-   "kind": "modified",
-   "note": "Records the passed qualification gate and its limited authorization."
-  },
-  {
-   "block": "28a4e5f4",
-   "kind": "modified",
-   "note": "Sets the interpretation boundary for the P3 minus P2 mechanism result and V1 calibration."
-  },
-  {
-   "block": "0cf8df5d",
-   "kind": "modified",
-   "note": "Replaces execution steps with preservation, failure analysis, external-validity design, and explicit future authorization."
+   "note": "Records the matched P3 minus P2 design, qualified results, limitations, and next evidence decision in ARA."
   }
  ],
  "context": {
-  "why": "Close the valid Phase 1 Nano qualification in the protocol and prevent an automatic 400-scenario or Luna continuation."
+  "why": "Record the verified Phase 1 result, interpretation boundary, and next evidence decision in ARA."
  },
- "event_id": "ppe_2d9d8a3d701de3345e3823ab"
+ "event_id": "ppe_703b68dbddf64937cd2d36da"
 }
