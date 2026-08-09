@@ -1,41 +1,43 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/ara/logic/experiments.md",
- "artifact_id": "pp_15fb7a0bcf0891f7cee01068",
- "version": "b95f3d02",
- "parent": "9d3c4a4d",
+ "artifact": "experiments/provenance_handoff/docs/RESEARCH_PLAN.md",
+ "artifact_id": "pp_00e96ce828caea19ac7221ae",
+ "version": "d232453d",
+ "parent": "1331280c",
  "author": {
   "name": "Codex",
   "kind": "agent",
-  "session": "scorer-disagreement-audit-20260809"
+  "session": "apex-law-3x3-20260809"
  },
  "note": null,
- "ts": "2026-08-09T09:17:41+00:00",
+ "ts": "2026-08-09T10:18:06+00:00",
  "stats": {
-  "modified": 2
+  "added": 2
  },
  "changes": [
   {
-   "kind": "modified",
-   "block": "958a5698",
-   "type": "heading",
-   "context": "E08: Completed STALE / CUPMem Phase 1 Na"
+   "kind": "added",
+   "block": "aa7f4c21",
+   "type": "para",
+   "context": "Planned APEX-derived Law Artifact Handof",
+   "preview": "**Completed calibration (2026-08-09).** The precommitted 3+3"
   },
   {
-   "kind": "modified",
-   "block": "28fb9f31",
-   "type": "list",
-   "context": "E08: Completed STALE / CUPMem Phase 1 Na"
+   "kind": "added",
+   "block": "ab2d723b",
+   "type": "para",
+   "context": "Planned APEX-derived Law Artifact Handof",
+   "preview": "**Decision.** This is a calibrated null result, not evidence"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:f75a441feeabeca1b6918d688bd924fb269795bff26305cc81f458b34148c48d",
+ "soft_fingerprint": "ppsb1:15f5f3a848a55c477501514b4f13ba9fdd5dc65e20379e139cfd1e99064c32f6",
  "actors": {
   "requested_by": [
-   "richardtang"
+   "Richard Tang"
   ],
   "produced_by": [
-   "Codex"
+   "Gemini 3.1 Pro Preview via Vercel AI Gateway"
   ],
   "edited_by": [
    "Codex"
@@ -47,18 +49,18 @@
  "attribution_basis": "harness_attested",
  "claims": [
   {
-   "block": "958a5698",
-   "kind": "modified",
-   "note": "Names the completed scorer-disagreement audit in the E08 study record."
+   "block": "aa7f4c21",
+   "kind": "added",
+   "note": "Records the completed 3+3 outcomes, parity, integrity evidence, and per-pair repair results."
   },
   {
-   "block": "28fb9f31",
-   "kind": "modified",
-   "note": "Records the reproducible frozen-answer audit, abstention-policy ambiguity, and blinded adjudication packet."
+   "block": "ab2d723b",
+   "kind": "added",
+   "note": "Records the null-calibration decision and requirements for a future efficacy task."
   }
  ],
  "context": {
-  "why": "Record the E08 scorer-disagreement audit and preserve the no-scale-up research decision."
+  "why": "Freeze the completed APEX-derived Law 3+3 calibration, its tied outcomes, verified capsules, and null-result decision."
  },
- "event_id": "ppe_2461b45f53d89651e65782f9"
+ "event_id": "ppe_7f5858c1b5ee4e99eced76d4"
 }
