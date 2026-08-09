@@ -1,29 +1,35 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/ara/PAPER.md",
- "artifact_id": "pp_cb6d0883f4bda071d2137869",
- "version": "f0a675e1",
- "parent": "337e1172",
+ "artifact": "experiments/provenance_handoff/ara/logic/related_work.md",
+ "artifact_id": "pp_aeef744ab46114892229ebab",
+ "version": "264600dd",
+ "parent": "56a6e6bc",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-09T11:13:10+00:00",
+ "ts": "2026-08-09T11:17:34+00:00",
  "stats": {
-  "modified": 1
+  "modified": 2
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "4b96e0aa",
-   "type": "para",
-   "context": "Abstract (draft)"
+   "block": "8cebbd8e",
+   "type": "list",
+   "context": "R05: Provenance interoperability"
+  },
+  {
+   "kind": "modified",
+   "block": "2cb415a6",
+   "type": "list",
+   "context": "R07: Matched artifact evaluation precede"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:0cf0b736c9391210ec029acf8f98974f8d1c7cf67aaf39f6262e85ea03b60ac9",
+ "soft_fingerprint": "ppsb1:27d00792b5f21e1e096f0642c1708f6b3984c556608838a440437f9d5ff8638f",
  "actors": {
   "requested_by": [
    "workspace user"
@@ -41,13 +47,18 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "4b96e0aa",
+   "block": "8cebbd8e",
    "kind": "modified",
-   "note": "Clarified that ARA informs evaluation method but does not establish the source-access-discontinuity claim."
+   "note": "Restored the pre-existing PROV links to the R05 reference list."
+  },
+  {
+   "block": "2cb415a6",
+   "kind": "modified",
+   "note": "Limited the new R07 reference list to the ARA paper source."
   }
  ],
  "context": {
-  "why": "State the ARA methodological relationship without expanding the paper claim."
+  "why": "Restore pre-existing PROV link ownership while keeping the new ARA reference scoped to R07."
  },
- "event_id": "ppe_a5c9d77fe8e6d77cba4caab9"
+ "event_id": "ppe_74955409c163c5f08c949db5"
 }
