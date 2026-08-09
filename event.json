@@ -1,51 +1,29 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/ara/logic/related_work.md",
- "artifact_id": "pp_aeef744ab46114892229ebab",
- "version": "56a6e6bc",
- "parent": "acc341db",
+ "artifact": "experiments/provenance_handoff/ara/PAPER.md",
+ "artifact_id": "pp_cb6d0883f4bda071d2137869",
+ "version": "f0a675e1",
+ "parent": "337e1172",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-09T11:13:03+00:00",
+ "ts": "2026-08-09T11:13:10+00:00",
  "stats": {
-  "modified": 1,
-  "added": 3
+  "modified": 1
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "8cebbd8e",
-   "type": "list",
-   "context": "R05: Provenance interoperability"
-  },
-  {
-   "kind": "added",
-   "block": "5f138b72",
-   "type": "heading",
-   "context": "R07: Matched artifact evaluation precede",
-   "preview": "## R07: Matched artifact evaluation precedent"
-  },
-  {
-   "kind": "added",
-   "block": "0dbf1a9c",
+   "block": "4b96e0aa",
    "type": "para",
-   "context": "R07: Matched artifact evaluation precede",
-   "preview": "ARA evaluates a structured research artifact against PDF-plu"
-  },
-  {
-   "kind": "added",
-   "block": "2cb415a6",
-   "type": "list",
-   "context": "R07: Matched artifact evaluation precede",
-   "preview": "- Paper: https://arxiv.org/pdf/2604.24658\n- Provenance bundl"
+   "context": "Abstract (draft)"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:65ea07ad31d918a55f6b29a9579dcdc73d122ea73febbd4bd1506e694c639e29",
+ "soft_fingerprint": "ppsb1:0cf0b736c9391210ec029acf8f98974f8d1c7cf67aaf39f6262e85ea03b60ac9",
  "actors": {
   "requested_by": [
    "workspace user"
@@ -63,23 +41,13 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "5f138b72",
-   "kind": "added",
-   "note": "Added a related-work entry for matched artifact evaluation precedent."
-  },
-  {
-   "block": "0dbf1a9c",
-   "kind": "added",
-   "note": "Explained that ARA's full package access differs from the Lease restricted receiver condition."
-  },
-  {
-   "block": "2cb415a6",
-   "kind": "added",
-   "note": "Recorded the ARA paper source for the methodological comparison."
+   "block": "4b96e0aa",
+   "kind": "modified",
+   "note": "Clarified that ARA informs evaluation method but does not establish the source-access-discontinuity claim."
   }
  ],
  "context": {
-  "why": "Differentiate ARA full-package evaluation from Proofpress restricted receiver access."
+  "why": "State the ARA methodological relationship without expanding the paper claim."
  },
- "event_id": "ppe_2a8a9078cffb461bb91e76d1"
+ "event_id": "ppe_a5c9d77fe8e6d77cba4caab9"
 }
