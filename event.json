@@ -1,30 +1,51 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/docs/RESEARCH_PLAN.md",
- "artifact_id": "pp_00e96ce828caea19ac7221ae",
- "version": "e4f91230",
- "parent": "a195c620",
+ "artifact": "experiments/provenance_handoff/ara/logic/related_work.md",
+ "artifact_id": "pp_aeef744ab46114892229ebab",
+ "version": "56a6e6bc",
+ "parent": "acc341db",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-09T11:12:56+00:00",
+ "ts": "2026-08-09T11:13:03+00:00",
  "stats": {
-  "added": 1
+  "modified": 1,
+  "added": 3
  },
  "changes": [
   {
+   "kind": "modified",
+   "block": "8cebbd8e",
+   "type": "list",
+   "context": "R05: Provenance interoperability"
+  },
+  {
    "kind": "added",
-   "block": "1fe4ba29",
+   "block": "5f138b72",
+   "type": "heading",
+   "context": "R07: Matched artifact evaluation precede",
+   "preview": "## R07: Matched artifact evaluation precedent"
+  },
+  {
+   "kind": "added",
+   "block": "0dbf1a9c",
    "type": "para",
-   "context": "Planned APEX-derived Restricted-Access A",
-   "preview": "**Methodological precedent, not a boundary claim.** ARA's Pa"
+   "context": "R07: Matched artifact evaluation precede",
+   "preview": "ARA evaluates a structured research artifact against PDF-plu"
+  },
+  {
+   "kind": "added",
+   "block": "2cb415a6",
+   "type": "list",
+   "context": "R07: Matched artifact evaluation precede",
+   "preview": "- Paper: https://arxiv.org/pdf/2604.24658\n- Provenance bundl"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:7af2fbdd5217c41f3fdee69ce3a553b423369666ce18dbc920915ef0cc0ef74c",
+ "soft_fingerprint": "ppsb1:65ea07ad31d918a55f6b29a9579dcdc73d122ea73febbd4bd1506e694c639e29",
  "actors": {
   "requested_by": [
    "workspace user"
@@ -42,13 +63,23 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "1fe4ba29",
+   "block": "5f138b72",
    "kind": "added",
-   "note": "Distinguished ARA's matched representation and blind grading precedent from the restricted-source access boundary."
+   "note": "Added a related-work entry for matched artifact evaluation precedent."
+  },
+  {
+   "block": "0dbf1a9c",
+   "kind": "added",
+   "note": "Explained that ARA's full package access differs from the Lease restricted receiver condition."
+  },
+  {
+   "block": "2cb415a6",
+   "kind": "added",
+   "note": "Recorded the ARA paper source for the methodological comparison."
   }
  ],
  "context": {
-  "why": "Record ARA as a matched-representation and blind-grading precedent while preserving the restricted-source estimand boundary."
+  "why": "Differentiate ARA full-package evaluation from Proofpress restricted receiver access."
  },
- "event_id": "ppe_b5e3cac62c384d77b1306444"
+ "event_id": "ppe_2a8a9078cffb461bb91e76d1"
 }
