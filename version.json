@@ -1,120 +1,48 @@
 {
- "artifact": "experiments/provenance_handoff/ara/logic/related_work.md",
- "artifact_id": "pp_aeef744ab46114892229ebab",
+ "artifact": "experiments/provenance_handoff/ara/PAPER.md",
+ "artifact_id": "pp_cb6d0883f4bda071d2137869",
  "blocks": [
   {
    "type": "heading",
-   "text": "# Related Work",
-   "id": "c26ac4be",
-   "hash": "37e5674fb503"
-  },
-  {
-   "type": "heading",
-   "text": "## R01: Harvey LAB",
-   "id": "a7681fe0",
-   "hash": "87750d1a16ed"
+   "text": "# Research notebook — admitted provenance comparative study",
+   "id": "5ad8477e",
+   "hash": "1a305208da3f"
   },
   {
    "type": "para",
-   "text": "Harvey LAB provides legal-work tasks, an open-source execution harness, model adapters, task result packaging, and evaluation rubrics. It is used here as a task/harness substrate, not as a claim that this wrapper reproduces Harvey's published leaderboard.",
-   "id": "5152bcf5",
-   "hash": "2412bc5a7d0c"
-  },
-  {
-   "type": "list",
-   "text": "- Source: https://github.com/harveyai/harvey-labs\n- Architecture: https://github.com/harveyai/harvey-labs/blob/v1.0/docs/architecture.md",
-   "id": "f6b950f4",
-   "hash": "d09bf402d24c"
+   "text": "**Status:** the original STALE/CUPMem prompt-policy pilot is superseded for causal interpretation because its condition execution boundaries were not matched. The completed APEX Law 3+3 is an archived public-source negative control. The planned restricted-access Lease track is a conditional cross-boundary artifact-handoff study; historic Harvey/C&H records and the internal MemConflict mechanism check remain historical only and do not constitute a formal efficacy claim.\n**Authors:** Proofpress research team (draft)\n**Year:** 2026\n**Active substrate:** STALE benchmark and its CUPMem comparison, with the superseded two-record harness record in `research/phase1/pilot_report.json` and the active carrier path in `research/phase1/run_production_pilot.py`; no held-out confirmatory run is claimed.",
+   "id": "d6d1bb11",
+   "hash": "0adf2cb0ecab"
   },
   {
    "type": "heading",
-   "text": "## R02: Scaling agent systems",
-   "id": "502e7400",
-   "hash": "6ec07f73a555"
-  },
-  {
-   "type": "para",
-   "text": "Google's study distinguishes a single-agent system from independent, centralized, decentralized, and hybrid multi-agent architectures. The accepted baseline here is therefore described precisely as a **Google-taxonomy centralized hub-and-spoke** architecture: an orchestrator delegates to three parallel specialists and synthesizes their artifacts while workers do not communicate peer-to-peer. Its mutable `coordination.md` is our conventional communication protocol, not a claim that Google shipped that file format. The study reports multi-agent degradation on strictly sequential tasks but gains on parallelizable information-gathering tasks; that motivates an M&A fan-out pilot and retaining a budget-neutral single-agent arm rather than assuming decomposition helps.",
-   "id": "9b6cacb9",
-   "hash": "054427e8ee1b"
+   "text": "## Artifact map",
+   "id": "6ce745c5",
+   "hash": "86cbf94b78e1"
   },
   {
    "type": "list",
-   "text": "- Source: https://arxiv.org/abs/2512.08296\n- Discussion: https://research.google/blog/towards-a-science-of-scaling-agent-systems-when-and-why-agent-systems-work/",
-   "id": "b0795eb4",
-   "hash": "e9891499e086"
+   "text": "- `logic/problem.md` — why conventional handoff does not preserve accepted decision state.\n- `logic/claims.md` — falsifiable, currently testing hypotheses only.\n- `logic/concepts.md` — treatment and measurement definitions.\n- `logic/experiments.md` — gates and comparison matrix.\n- `logic/related_work.md` — historical Harvey context plus active benchmark-comparison context.\n- `logic/solution/constraints.md` — non-negotiable fairness and safety constraints.\n- `src/` — environment and experiment artifact index.\n- `trace/` — append-only decisions and session record.\n- `evidence/` — source and sanitized result index, including historical internal MemConflict evidence.",
+   "id": "b9c6dba5",
+   "hash": "8a272d978577"
   },
   {
    "type": "heading",
-   "text": "## R03: Agent-Native Research Artifact",
-   "id": "f45a798f",
-   "hash": "c964ee0a93fb"
+   "text": "## Abstract (draft)",
+   "id": "6979663a",
+   "hash": "3513d178db19"
   },
   {
    "type": "para",
-   "text": "ARA supplies the research-management structure for this study: logic, source artifacts, trace, and evidence. Its current-state and append-only separation informs how the paper process is recorded.",
-   "id": "a30649b6",
-   "hash": "57db5bd15dfa"
-  },
-  {
-   "type": "list",
-   "text": "- Paper: https://arxiv.org/abs/2604.24658\n- Implementation: https://github.com/ARA-Labs/Agent-Native-Research-Artifact",
-   "id": "213a8475",
-   "hash": "e9a3b22ceac9"
-  },
-  {
-   "type": "heading",
-   "text": "## R04: Model transport and sampling source",
-   "id": "4fd097c8",
-   "hash": "324de19f21fb"
+   "text": "This study evaluates admitted artifact provenance as a candidate intervention for documented failures in long-horizon memory, multi-agent coordination, and artifact revision. It distinguishes stateful memory comparisons from a portable provenance-bearing artifact handoff: the planned APEX-derived restricted-access Lease track tests whether the same semantic handoff is more reliable when native anchors, declared decision lineage, and capsule verification travel with the current artifact across a fresh receiver boundary. It does not claim heterogeneous-system interoperability or that a capsule verifies inaccessible source truth. The completed internal MemConflict check found a stale/regression reduction but no trusted-success gain over ordinary memory; it is historical mechanism evidence only because provider, cost, and fallback telemetry were missing. Outcomes preserve benchmark-native scores as primary, with auditability and efficiency reported separately, and retain null or negative results.",
+   "id": "4b96e0aa",
+   "hash": "89f792c79abe"
   },
   {
    "type": "para",
-   "text": "OpenRouter is a transport/routing layer for the fixed Harvey harness, not a second evaluation harness. The study freezes concrete model slugs and provider routing to avoid silent model/provider substitution. The Chatbot Arena Agent Leaderboard may inform a broad candidate roster but is not evidence about legal-work performance or provenance.",
-   "id": "2686316a",
-   "hash": "aae0f3723262"
-  },
-  {
-   "type": "list",
-   "text": "- Routing: https://openrouter.ai/docs/guides/routing/provider-selection\n- Latest-version semantics: https://openrouter.ai/docs/guides/routing/routers/latest-resolution\n- Model metadata: https://openrouter.ai/api/v1/models\n- Candidate sampling source: https://arena.ai/leaderboard/agent",
-   "id": "d4a8d92c",
-   "hash": "58ddab5031de"
-  },
-  {
-   "type": "heading",
-   "text": "## R05: Provenance interoperability",
-   "id": "0db501c8",
-   "hash": "c0028b47afc9"
-  },
-  {
-   "type": "para",
-   "text": "W3C PROV defines provenance as information about the entities, activities, and agents involved in producing an artifact, and provides a model for describing and linking provenance records. It is prior interoperability infrastructure, not evidence that Proofpress or this experiment invented provenance. The restricted-access Lease track instead tests whether a portable, artifact-native declared lineage is useful to a fresh receiver after a workflow boundary.",
-   "id": "4e561fc3",
-   "hash": "fa2336b5a926"
-  },
-  {
-   "type": "list",
-   "text": "- Overview: https://www.w3.org/TR/prov-overview/\n- Provenance bundle links: https://www.w3.org/TR/prov-links/",
-   "id": "8cebbd8e",
-   "hash": "6dda006eb3c9"
-  },
-  {
-   "type": "heading",
-   "text": "## R06: Dynamic access and handoff boundaries",
-   "id": "2c3fe1b7",
-   "hash": "fedb0c1b5658"
-  },
-  {
-   "type": "para",
-   "text": "Agent-memory benchmarks often evaluate retrieval or state recovery inside a continuing stateful environment. The Lease track instead conditions on a receiver losing a particular source-access path while retaining a delivered artifact and conventional handoff. Dynamic authorization and revocation are established operational patterns; this supports an access-discontinuity scenario, not a claim that organizations normally discard source records. The study therefore distinguishes artifact identity/integrity and declared lineage from verification of inaccessible source truth.",
-   "id": "8a2ef79d",
-   "hash": "cb4c28e6afa2"
-  },
-  {
-   "type": "list",
-   "text": "- Dynamic access architecture: https://csrc.nist.gov/pubs/sp/800/207/final\n- Organizational information retention after termination: https://csrc.nist.gov/CSRC/media/Projects/risk-management/documents/overlayRepo/Electronic%20Physical%20Access%20Control%20Systems/ePACS%20Overlay_v1_SP800-53rev5-April2021.pdf",
-   "id": "91e5a727",
-   "hash": "3779297c3f35"
+   "text": "The historical MemConflict result is a mechanism boundary, not a product claim: provenance may help a receiver notice stale authority in a controlled reversal fixture, but ordinary memory remained at least as good on the primary trusted-success endpoint. STALE/CUPMem is the active Phase 1 test.",
+   "id": "4249cd4c",
+   "hash": "67e72a93989f"
   }
  ]
 }

@@ -1,65 +1,35 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/ara/logic/related_work.md",
- "artifact_id": "pp_aeef744ab46114892229ebab",
- "version": "acc341db",
- "parent": "6a8bb363",
+ "artifact": "experiments/provenance_handoff/ara/PAPER.md",
+ "artifact_id": "pp_cb6d0883f4bda071d2137869",
+ "version": "337e1172",
+ "parent": "2be45c4c",
  "author": {
   "name": "codex",
   "kind": "agent",
   "session": null
  },
  "note": null,
- "ts": "2026-08-09T10:57:48+00:00",
+ "ts": "2026-08-09T10:57:55+00:00",
  "stats": {
-  "added": 6
+  "modified": 2
  },
  "changes": [
   {
-   "kind": "added",
-   "block": "0db501c8",
-   "type": "heading",
-   "context": "R05: Provenance interoperability",
-   "preview": "## R05: Provenance interoperability"
-  },
-  {
-   "kind": "added",
-   "block": "4e561fc3",
+   "kind": "modified",
+   "block": "d6d1bb11",
    "type": "para",
-   "context": "R05: Provenance interoperability",
-   "preview": "W3C PROV defines provenance as information about the entitie"
+   "context": "Research notebook — admitted provenance "
   },
   {
-   "kind": "added",
-   "block": "8cebbd8e",
-   "type": "list",
-   "context": "R05: Provenance interoperability",
-   "preview": "- Overview: https://www.w3.org/TR/prov-overview/\n- Provenanc"
-  },
-  {
-   "kind": "added",
-   "block": "2c3fe1b7",
-   "type": "heading",
-   "context": "R06: Dynamic access and handoff boundari",
-   "preview": "## R06: Dynamic access and handoff boundaries"
-  },
-  {
-   "kind": "added",
-   "block": "8a2ef79d",
+   "kind": "modified",
+   "block": "4b96e0aa",
    "type": "para",
-   "context": "R06: Dynamic access and handoff boundari",
-   "preview": "Agent-memory benchmarks often evaluate retrieval or state re"
-  },
-  {
-   "kind": "added",
-   "block": "91e5a727",
-   "type": "list",
-   "context": "R06: Dynamic access and handoff boundari",
-   "preview": "- Dynamic access architecture: https://csrc.nist.gov/pubs/sp"
+   "context": "Abstract (draft)"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:1999707e16352805450072dc31a2cf107010616563436359126ea41b130e7f29",
+ "soft_fingerprint": "ppsb1:a243677f0e705c2447db5a418b387b7c3a8c648efcf67a412a74bb493338b647",
  "actors": {
   "requested_by": [
    "richardtang"
@@ -77,38 +47,18 @@
  "attribution_basis": "environment_attested",
  "claims": [
   {
-   "block": "0db501c8",
-   "kind": "added",
-   "note": "Added provenance interoperability related work."
+   "block": "d6d1bb11",
+   "kind": "modified",
+   "note": "Added the public-source control and planned restricted-access study status."
   },
   {
-   "block": "4e561fc3",
-   "kind": "added",
-   "note": "Separated prior PROV infrastructure from the experimental contribution."
-  },
-  {
-   "block": "8cebbd8e",
-   "kind": "added",
-   "note": "Recorded W3C provenance sources."
-  },
-  {
-   "block": "2c3fe1b7",
-   "kind": "added",
-   "note": "Added dynamic access and handoff-boundary related work."
-  },
-  {
-   "block": "8a2ef79d",
-   "kind": "added",
-   "note": "Bounded the access-discontinuity interpretation and verification claim."
-  },
-  {
-   "block": "91e5a727",
-   "kind": "added",
-   "note": "Recorded NIST dynamic-access and retention sources."
+   "block": "4b96e0aa",
+   "kind": "modified",
+   "note": "Added the portable artifact-handoff contribution and its limits to the abstract."
   }
  ],
  "context": {
-  "why": "Add provenance interoperability and dynamic-access boundaries to related work."
+  "why": "Align the research notebook status and abstract with the restricted-access artifact-handoff contribution."
  },
- "event_id": "ppe_61a77901ff61e96d2bcdc7ac"
+ "event_id": "ppe_d3075a1a8a79f89f5edf8090"
 }
