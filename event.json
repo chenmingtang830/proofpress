@@ -1,41 +1,35 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/docs/STALE_PHASE1_PLAN.md",
- "artifact_id": "pp_6cf0c8f0e4ef1cb9c59aae65",
- "version": "1d12b4fb",
- "parent": "dfa06407",
+ "artifact": "experiments/provenance_handoff/ara/logic/experiments.md",
+ "artifact_id": "pp_15fb7a0bcf0891f7cee01068",
+ "version": "b95f3d02",
+ "parent": "9d3c4a4d",
  "author": {
   "name": "Codex",
   "kind": "agent",
   "session": "scorer-disagreement-audit-20260809"
  },
  "note": null,
- "ts": "2026-08-09T09:17:35+00:00",
+ "ts": "2026-08-09T09:17:41+00:00",
  "stats": {
-  "modified": 3
+  "modified": 2
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "05b3cc93",
-   "type": "para",
-   "context": "Status and scope"
+   "block": "958a5698",
+   "type": "heading",
+   "context": "E08: Completed STALE / CUPMem Phase 1 Na"
   },
   {
    "kind": "modified",
-   "block": "fbc3ab99",
+   "block": "28fb9f31",
    "type": "list",
-   "context": "Execution sequence"
-  },
-  {
-   "kind": "modified",
-   "block": "28a4e5f4",
-   "type": "para",
-   "context": "Interpretation boundary"
+   "context": "E08: Completed STALE / CUPMem Phase 1 Na"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:8ca1867ea9c5af77689100ca11d2bf7111239c57984ee3390efd9c54967a9071",
+ "soft_fingerprint": "ppsb1:f75a441feeabeca1b6918d688bd924fb269795bff26305cc81f458b34148c48d",
  "actors": {
   "requested_by": [
    "richardtang"
@@ -53,28 +47,18 @@
  "attribution_basis": "harness_attested",
  "claims": [
   {
-   "block": "05b3cc93",
+   "block": "958a5698",
    "kind": "modified",
-   "note": "Updates the Phase 1 status after the completed scorer-disagreement audit while retaining the no-scale-up decision."
+   "note": "Names the completed scorer-disagreement audit in the E08 study record."
   },
   {
-   "block": "aa5e763b",
+   "block": "28fb9f31",
    "kind": "modified",
-   "note": "States that the unresolved issue is a safe-abstention rubric confound, not a judge-robust treatment effect."
-  },
-  {
-   "block": "ad09e58a",
-   "kind": "modified",
-   "note": "Adds scorer/rubric sensitivity to the analysis requirement."
-  },
-  {
-   "block": "28a4e5f4",
-   "kind": "modified",
-   "note": "Narrows the qualified Nano result after the audit localized the evaluation ambiguity."
+   "note": "Records the reproducible frozen-answer audit, abstention-policy ambiguity, and blinded adjudication packet."
   }
  ],
  "context": {
-  "why": "Update the Phase 1 protocol decision after localizing the scorer disagreement to safe abstention."
+  "why": "Record the E08 scorer-disagreement audit and preserve the no-scale-up research decision."
  },
- "event_id": "ppe_858f35db46a367c913ddceea"
+ "event_id": "ppe_2461b45f53d89651e65782f9"
 }
