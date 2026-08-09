@@ -310,9 +310,9 @@
   },
   {
    "type": "para",
-   "text": "**Execution and scoring.** Execute three ordinary and three Proofpress B runs serially, each from a fresh world, in randomized order under neutral run IDs. Preflight the Gemini tool-call path once; record provider/model, image/config/world hashes, dataset revision, trajectory, final snapshot, native grades, watchdog state, package-parity evidence, capsule-verification result, and condition manifest. The original APEX native rubric is retained as a final-artifact quality gate, but the primary derived outcome is a condition-blind six-item revision audit: artifact present, each of the two terminology corrections complete, each of the four validated substantive positions preserved, and no contradiction introduced. Record native rubric pass rate, derived audit pass rate, trusted success, regression count, and infrastructure/model aborts separately.",
+   "text": "**Execution and scoring.** Execute three ordinary and three Proofpress B runs serially, each from a fresh world, in randomized order under neutral run IDs. Preflight the Gemini tool-call path once; record provider/model, image/config/world hashes, dataset revision, trajectory, final snapshot, native grades, watchdog state, package-parity evidence, capsule-verification result, and condition manifest. The original APEX native rubric is retained as a final-artifact quality gate, but the primary derived outcome is a condition-blind seven-item revision audit: artifact present; each of the two terminology corrections complete; each of the four validated substantive positions preserved; and no contradiction introduced. Record native rubric pass rate, derived audit pass rate, trusted success, regression count, and infrastructure/model aborts separately.",
    "id": "6a4d0d13",
-   "hash": "78ea34b8e957"
+   "hash": "e8aab6c9c14b"
   },
   {
    "type": "para",
