@@ -1,44 +1,29 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/ara/logic/claims.md",
- "artifact_id": "pp_ca8a8ddcc33d3870e9a40bc5",
- "version": "fcdb716c",
- "parent": "ae8f5821",
+ "artifact": "experiments/provenance_handoff/ara/PAPER.md",
+ "artifact_id": "pp_cb6d0883f4bda071d2137869",
+ "version": "c1351677",
+ "parent": "026e447f",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-09T19:29:06+00:00",
+ "ts": "2026-08-09T19:29:11+00:00",
  "stats": {
-  "modified": 1,
-  "added": 2
+  "modified": 1
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "a4c1d267",
-   "type": "list",
-   "context": "C06: Portable declared decision lineage "
-  },
-  {
-   "kind": "added",
-   "block": "59fa0d1f",
-   "type": "heading",
-   "context": "C07: Actionable clause-level lineage may",
-   "preview": "## C07: Actionable clause-level lineage may improve restrict"
-  },
-  {
-   "kind": "added",
-   "block": "7e0478f8",
-   "type": "list",
-   "context": "C07: Actionable clause-level lineage may",
-   "preview": "- **Statement**: Conditional on identical semantic handoff c"
+   "block": "4b96e0aa",
+   "type": "para",
+   "context": "Abstract (draft)"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:1b69cfe8f7710776e6db31f8bea2c76e677cabedf36c68afcd031efb9016f73b",
+ "soft_fingerprint": "ppsb1:96e28fd03a63fdada27d95edbd48f604f6fdbd9c295ea7e35113468225fd3b48",
  "actors": {
   "requested_by": [
    "user"
@@ -56,23 +41,13 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "a4c1d267",
+   "block": "4b96e0aa",
    "kind": "modified",
-   "note": "Corrects C06 proof status so neither the flawed frozen audit nor post-hoc v2 is treated as establishing the claim."
-  },
-  {
-   "block": "59fa0d1f",
-   "kind": "added",
-   "note": "Introduces the untested actionable clause-level lineage claim for the SPA task."
-  },
-  {
-   "block": "7e0478f8",
-   "kind": "added",
-   "note": "Defines C07 conditions, falsification, evidence requirements, dependencies, and preregistered status."
+   "note": "Updates the abstract with the Lease measurement correction, bounded interpretation, and gated S-Corp SPA follow-on."
   }
  ],
  "context": {
-  "why": "Correct the tested Lease claim and register the narrower untested SPA lineage claim."
+  "why": "Update the paper abstract to reflect the Lease measurement correction and gated next task."
  },
- "event_id": "ppe_f218c307c0e1bb4113b7ad58"
+ "event_id": "ppe_db16bc5147ec560b69c77e4b"
 }
