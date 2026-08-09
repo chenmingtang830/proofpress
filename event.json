@@ -1,64 +1,54 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/ara/PAPER.md",
- "artifact_id": "pp_cb6d0883f4bda071d2137869",
- "version": "337e1172",
- "parent": "2be45c4c",
+ "artifact": "experiments/provenance_handoff/docs/RESEARCH_PLAN.md",
+ "artifact_id": "pp_00e96ce828caea19ac7221ae",
+ "version": "e4f91230",
+ "parent": "a195c620",
  "author": {
-  "name": "codex",
-  "kind": "agent",
+  "name": "unknown",
+  "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-09T10:57:55+00:00",
+ "ts": "2026-08-09T11:12:56+00:00",
  "stats": {
-  "modified": 2
+  "added": 1
  },
  "changes": [
   {
-   "kind": "modified",
-   "block": "d6d1bb11",
+   "kind": "added",
+   "block": "1fe4ba29",
    "type": "para",
-   "context": "Research notebook — admitted provenance "
-  },
-  {
-   "kind": "modified",
-   "block": "4b96e0aa",
-   "type": "para",
-   "context": "Abstract (draft)"
+   "context": "Planned APEX-derived Restricted-Access A",
+   "preview": "**Methodological precedent, not a boundary claim.** ARA's Pa"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:a243677f0e705c2447db5a418b387b7c3a8c648efcf67a412a74bb493338b647",
+ "soft_fingerprint": "ppsb1:7af2fbdd5217c41f3fdee69ce3a553b423369666ce18dbc920915ef0cc0ef74c",
  "actors": {
   "requested_by": [
-   "richardtang"
+   "workspace user"
   ],
   "produced_by": [
-   "codex"
+   "Codex"
   ],
   "edited_by": [
-   "codex"
+   "Codex"
   ],
   "recorded_by": [
-   "codex"
+   "Codex"
   ]
  },
- "attribution_basis": "environment_attested",
+ "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "d6d1bb11",
-   "kind": "modified",
-   "note": "Added the public-source control and planned restricted-access study status."
-  },
-  {
-   "block": "4b96e0aa",
-   "kind": "modified",
-   "note": "Added the portable artifact-handoff contribution and its limits to the abstract."
+   "block": "1fe4ba29",
+   "kind": "added",
+   "note": "Distinguished ARA's matched representation and blind grading precedent from the restricted-source access boundary."
   }
  ],
  "context": {
-  "why": "Align the research notebook status and abstract with the restricted-access artifact-handoff contribution."
+  "why": "Record ARA as a matched-representation and blind-grading precedent while preserving the restricted-source estimand boundary."
  },
- "event_id": "ppe_d3075a1a8a79f89f5edf8090"
+ "event_id": "ppe_b5e3cac62c384d77b1306444"
 }
