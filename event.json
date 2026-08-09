@@ -1,37 +1,65 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/ara/logic/experiments.md",
- "artifact_id": "pp_15fb7a0bcf0891f7cee01068",
- "version": "f3f84700",
- "parent": "7404e133",
+ "artifact": "experiments/provenance_handoff/docs/RESEARCH_PLAN.md",
+ "artifact_id": "pp_00e96ce828caea19ac7221ae",
+ "version": "bfd99eca",
+ "parent": "e62487d9",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-09T07:54:43+00:00",
+ "ts": "2026-08-09T07:54:46+00:00",
  "stats": {
-  "added": 2
+  "added": 6
  },
  "changes": [
   {
    "kind": "added",
-   "block": "49cf9342",
+   "block": "50af478e",
    "type": "heading",
-   "context": "E09: APEX Law artifact-handoff calibrati",
-   "preview": "## E09: APEX Law artifact-handoff calibration track"
+   "context": "Planned APEX-derived Law Artifact Handof",
+   "preview": "## Planned APEX-derived Law Artifact Handoff Track"
   },
   {
    "kind": "added",
-   "block": "2fd07e62",
-   "type": "list",
-   "context": "E09: APEX Law artifact-handoff calibrati",
-   "preview": "- **Question**: When a fresh legal-work agent receives the s"
+   "block": "f42fd332",
+   "type": "para",
+   "context": "Planned APEX-derived Law Artifact Handof",
+   "preview": "**Purpose and label.** This is a derived, two-stage artifact"
+  },
+  {
+   "kind": "added",
+   "block": "8c4e1b40",
+   "type": "para",
+   "context": "Planned APEX-derived Law Artifact Handof",
+   "preview": "**Task contract.** Agent A works in a clean official Law wor"
+  },
+  {
+   "kind": "added",
+   "block": "2e8d0e86",
+   "type": "para",
+   "context": "Planned APEX-derived Law Artifact Handof",
+   "preview": "**Arms and semantic-parity gate.** The ordinary package is a"
+  },
+  {
+   "kind": "added",
+   "block": "6a4d0d13",
+   "type": "para",
+   "context": "Planned APEX-derived Law Artifact Handof",
+   "preview": "**Execution and scoring.** Execute three ordinary and three "
+  },
+  {
+   "kind": "added",
+   "block": "0a6794d7",
+   "type": "para",
+   "context": "Planned APEX-derived Law Artifact Handof",
+   "preview": "**Interpretation and decision gate.** Report all six complet"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:14caf99315df5ee017177d697c5d7a8c2bd058da679a4d61e02be3b8b237d559",
+ "soft_fingerprint": "ppsb1:52839fc7b8584ef6fc701113abdfec4f41e135131e376998a48ea629c15ca796",
  "actors": {
   "requested_by": [
    "Richard Tang"
@@ -46,21 +74,41 @@
    "Codex"
   ]
  },
- "attribution_basis": "harness_attested",
+ "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "49cf9342",
+   "block": "50af478e",
    "kind": "added",
-   "note": "Registers the APEX-derived Law calibration experiment in ARA."
+   "note": "Adds the planned APEX-derived Law track section."
   },
   {
-   "block": "2fd07e62",
+   "block": "f42fd332",
    "kind": "added",
-   "note": "Records the result boundary, Law pilot evidence, controls, and interpretation limitation."
+   "note": "States task purpose, label, preflight result, and finance exclusion."
+  },
+  {
+   "block": "8c4e1b40",
+   "kind": "added",
+   "note": "Defines the two-stage public-world handoff boundary and B task."
+  },
+  {
+   "block": "2e8d0e86",
+   "kind": "added",
+   "note": "Defines information-matched ordinary and Proofpress packages and parity gate."
+  },
+  {
+   "block": "6a4d0d13",
+   "kind": "added",
+   "note": "Defines serial 3+3 execution, blinded scoring, and frozen evidence."
+  },
+  {
+   "block": "0a6794d7",
+   "kind": "added",
+   "note": "Defines limited interpretation and scale-up decision gate."
   }
  ],
  "context": {
-  "why": "Register the APEX-derived Law handoff calibration experiment and its observed qualification boundary in ARA."
+  "why": "Freeze the planned 3+3 Law artifact-handoff protocol with semantic parity, public-world access, and limited interpretation gates."
  },
- "event_id": "ppe_4bb8faee9e346227130f1e2f"
+ "event_id": "ppe_e3d7708c20f9b292498d7d2f"
 }
