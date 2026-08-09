@@ -1,65 +1,57 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/docs/RESEARCH_PLAN.md",
- "artifact_id": "pp_00e96ce828caea19ac7221ae",
- "version": "a195c620",
- "parent": "d232453d",
+ "artifact": "experiments/provenance_handoff/docs/RESULTS_MATRIX.md",
+ "artifact_id": "pp_d40d46a12d4d493fcbc9c0e9",
+ "version": "21a25e58",
+ "parent": "7ff78215",
  "author": {
   "name": "codex",
   "kind": "agent",
   "session": null
  },
  "note": null,
- "ts": "2026-08-09T10:57:21+00:00",
+ "ts": "2026-08-09T10:57:28+00:00",
  "stats": {
-  "modified": 1,
-  "added": 5
+  "modified": 2,
+  "added": 3
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "50af478e",
+   "block": "5ec9a8f6",
    "type": "heading",
-   "context": "Completed APEX-derived Law Artifact Hand"
+   "context": "Archived APEX-derived Law Artifact Hando"
+  },
+  {
+   "kind": "modified",
+   "block": "87ae80d2",
+   "type": "para",
+   "context": "Archived APEX-derived Law Artifact Hando"
   },
   {
    "kind": "added",
-   "block": "7cb13b42",
+   "block": "5b2148d0",
    "type": "heading",
    "context": "Planned APEX-derived Restricted-Access A",
-   "preview": "## Planned APEX-derived Restricted-Access Artifact Handoff T"
+   "preview": "### Planned APEX-derived Restricted-Access Artifact Handoff "
   },
   {
    "kind": "added",
-   "block": "81f4d9ac",
-   "type": "para",
+   "block": "bf7e4d92",
+   "type": "table",
    "context": "Planned APEX-derived Restricted-Access A",
-   "preview": "**Purpose, estimand, and real-world boundary.** This derived"
+   "preview": "| Status | Estimand | Receiver isolation | Blind scoring and"
   },
   {
    "kind": "added",
-   "block": "6e23c4f1",
+   "block": "6c7fd1ae",
    "type": "para",
    "context": "Planned APEX-derived Restricted-Access A",
-   "preview": "**Receiver contract and access audit.** Agent A works in a f"
-  },
-  {
-   "kind": "added",
-   "block": "34d5a5c2",
-   "type": "para",
-   "context": "Planned APEX-derived Restricted-Access A",
-   "preview": "**Matched carrier contrast.** Ordinary handoff is the curren"
-  },
-  {
-   "kind": "added",
-   "block": "9a78e2c6",
-   "type": "para",
-   "context": "Planned APEX-derived Restricted-Access A",
-   "preview": "**Pilot, scoring, and interpretation.** Begin with one upstr"
+   "preview": "The ordinary arm is a conventional readable artifact plus me"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:fc86ac1267a3ec4e379902a69a1fa9473e01e4e56601f513dbb380f0946187b4",
+ "soft_fingerprint": "ppsb1:cbaf0ee5eb2aae191da97b3b3de19c95f018c480f24aa09e8c3ee03eb17e67ca",
  "actors": {
   "requested_by": [
    "richardtang"
@@ -77,38 +69,33 @@
  "attribution_basis": "environment_attested",
  "claims": [
   {
-   "block": "50af478e",
+   "block": "5ec9a8f6",
    "kind": "modified",
-   "note": "Reclassified the completed Law 3+3 as a public-source negative control."
+   "note": "Labelled the completed Law 3+3 as an archived public-source negative control."
   },
   {
-   "block": "7cb13b42",
-   "kind": "added",
-   "note": "Added the restricted-access Lease track title."
+   "block": "87ae80d2",
+   "kind": "modified",
+   "note": "Prevented reuse of the old 3+3 as a restricted-access or interaction result."
   },
   {
-   "block": "81f4d9ac",
+   "block": "5b2148d0",
    "kind": "added",
-   "note": "Defined the conditional cross-boundary estimand and access-discontinuity framing."
+   "note": "Added the planned restricted-access track heading."
   },
   {
-   "block": "6e23c4f1",
+   "block": "bf7e4d92",
    "kind": "added",
-   "note": "Specified the restricted receiver snapshot and leakage preflight."
+   "note": "Added the planned estimand, isolation, and blind-grading matrix row."
   },
   {
-   "block": "34d5a5c2",
+   "block": "6c7fd1ae",
    "kind": "added",
-   "note": "Defined matched ordinary and Proofpress carriers and the verification limit."
-  },
-  {
-   "block": "9a78e2c6",
-   "kind": "added",
-   "note": "Recorded pilot gates, arm-blind grading, and bounded interpretation."
+   "note": "Documented carrier parity, the verification limit, and expansion gates."
   }
  ],
  "context": {
-  "why": "Record the restricted-access Lease handoff protocol without reinterpreting the completed public-source control."
+  "why": "Separate the archived public-source Law control from the planned restricted-access track."
  },
- "event_id": "ppe_7795391c48f0a1c0fbd16a00"
+ "event_id": "ppe_c4ce5868cd7aa8554c28d3c0"
 }
