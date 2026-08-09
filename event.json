@@ -1,51 +1,37 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/docs/RESULTS_MATRIX.md",
- "artifact_id": "pp_d40d46a12d4d493fcbc9c0e9",
- "version": "7ff78215",
- "parent": "fe21890a",
+ "artifact": "experiments/provenance_handoff/ara/logic/experiments.md",
+ "artifact_id": "pp_15fb7a0bcf0891f7cee01068",
+ "version": "2b376462",
+ "parent": "b95f3d02",
  "author": {
   "name": "Codex",
   "kind": "agent",
   "session": "apex-law-3x3-20260809"
  },
  "note": null,
- "ts": "2026-08-09T10:18:12+00:00",
+ "ts": "2026-08-09T10:18:19+00:00",
  "stats": {
-  "added": 4
+  "added": 2
  },
  "changes": [
   {
    "kind": "added",
-   "block": "5ec9a8f6",
-   "type": "heading",
-   "context": "Completed APEX-derived Law Artifact Hand",
-   "preview": "### Completed APEX-derived Law Artifact Handoff Track (3+3)"
+   "block": "6e357d05",
+   "type": "list",
+   "context": "E09: APEX Law artifact-handoff calibrati",
+   "preview": "- **Completed 3+3 calibration**: all six receiver worlds com"
   },
   {
    "kind": "added",
-   "block": "0f10a625",
-   "type": "para",
-   "context": "Completed APEX-derived Law Artifact Hand",
-   "preview": "The calibration run at `/private/tmp/proofpress-apex-law-cal"
-  },
-  {
-   "kind": "added",
-   "block": "8f997b42",
-   "type": "table",
-   "context": "Completed APEX-derived Law Artifact Hand",
-   "preview": "| Pair | Upstream native | Ordinary native / audit | Proofpr"
-  },
-  {
-   "kind": "added",
-   "block": "87ae80d2",
-   "type": "para",
-   "context": "Completed APEX-derived Law Artifact Hand",
-   "preview": "The arms are exactly tied: native pass rate `14/18` (`77.8%`"
+   "block": "8c0950d0",
+   "type": "list",
+   "context": "E09: APEX Law artifact-handoff calibrati",
+   "preview": "- **Integrity and decision**: all Proofpress capsules indepe"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:7f13977752650a25f55529d5e29ee809b5dc879d620e1a844b28765320bd6d42",
+ "soft_fingerprint": "ppsb1:6b747e23d6e1cf68c63785021b147633b3d32bb2ea611162bf263d759193c8ea",
  "actors": {
   "requested_by": [
    "Richard Tang"
@@ -63,28 +49,18 @@
  "attribution_basis": "harness_attested",
  "claims": [
   {
-   "block": "5ec9a8f6",
+   "block": "6e357d05",
    "kind": "added",
-   "note": "Introduces the completed derived 3+3 result section."
+   "note": "Records the completed 3+3 receiver outcomes and paired repair results."
   },
   {
-   "block": "0f10a625",
+   "block": "8c0950d0",
    "kind": "added",
-   "note": "Records the pinned runner, model, timeout, watchdog, and non-official-score boundary."
-  },
-  {
-   "block": "8f997b42",
-   "kind": "added",
-   "note": "Records pair-level upstream, native-grade, and independent-audit outcomes."
-  },
-  {
-   "block": "87ae80d2",
-   "kind": "added",
-   "note": "Records tied aggregate results, verification status, retry evidence, and null interpretation."
+   "note": "Records capsule verification, no-abort evidence, and the null-calibration decision."
   }
  ],
  "context": {
-  "why": "Freeze the completed APEX-derived Law 3+3 matrix, configuration, pair outcomes, and bounded interpretation."
+  "why": "Record the completed APEX-derived Law calibration in the ARA experiment ledger with its integrity evidence and null decision."
  },
- "event_id": "ppe_1f43b986b15d0cf5685cb961"
+ "event_id": "ppe_7d3b7411eaedac8c70537a66"
 }
