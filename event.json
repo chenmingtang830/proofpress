@@ -1,29 +1,71 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/docs/STALE_PHASE1_PLAN.md",
- "artifact_id": "pp_6cf0c8f0e4ef1cb9c59aae65",
- "version": "d8577602",
- "parent": "4f218aba",
+ "artifact": "experiments/provenance_handoff/docs/RESULTS_MATRIX.md",
+ "artifact_id": "pp_d40d46a12d4d493fcbc9c0e9",
+ "version": "7c8f6d07",
+ "parent": "3353d852",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-08T20:13:40+00:00",
+ "ts": "2026-08-09T07:52:33+00:00",
  "stats": {
-  "modified": 1
+  "modified": 2,
+  "added": 5
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "fbc3ab99",
-   "type": "list",
-   "context": "Execution sequence"
+   "block": "8f5f32ed",
+   "type": "heading",
+   "context": "Results matrix — qualified STALE Phase 1"
+  },
+  {
+   "kind": "modified",
+   "block": "f9ecf7b5",
+   "type": "para",
+   "context": "Supersession notice"
+  },
+  {
+   "kind": "added",
+   "block": "ea4dd4c5",
+   "type": "heading",
+   "context": "Completed Matrix F: STALE / CUPMem Phase",
+   "preview": "## Completed Matrix F: STALE / CUPMem Phase 1 Nano qualifica"
+  },
+  {
+   "kind": "added",
+   "block": "d3c8533e",
+   "type": "para",
+   "context": "Completed Matrix F: STALE / CUPMem Phase",
+   "preview": "The sole valid matrix root is `/Users/richardtang/.cache/pro"
+  },
+  {
+   "kind": "added",
+   "block": "7289edde",
+   "type": "table",
+   "context": "Completed Matrix F: STALE / CUPMem Phase",
+   "preview": "| Native STALE criterion | V0: vanilla history | V1: full-se"
+  },
+  {
+   "kind": "added",
+   "block": "943042d2",
+   "type": "para",
+   "context": "Completed Matrix F: STALE / CUPMem Phase",
+   "preview": "The paired primary estimate is `P3 − P2 = +8.33pp` across 80"
+  },
+  {
+   "kind": "added",
+   "block": "61431e3e",
+   "type": "para",
+   "context": "Completed Matrix F: STALE / CUPMem Phase",
+   "preview": "The defensible claim is narrow: with non-provenance semantic"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:5d52d17f5bf550538f5394b9cd61c377058ea2675eb193ec7b9759550d06a17e",
+ "soft_fingerprint": "ppsb1:ef96bf7ad3c8c186eddb87c85bf835cdbf75f63095f411df3f244cfcad9b1033",
  "actors": {
   "requested_by": [
    "Richard Tang"
@@ -38,16 +80,46 @@
    "Codex"
   ]
  },
- "attribution_basis": "environment_attested",
+ "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "fbc3ab99",
+   "block": "8f5f32ed",
    "kind": "modified",
-   "note": "Record the user-authorized qualification execution setting of one concurrent deterministic shard per selected scenario, while preserving within-scenario ordering and excluding the earlier partial low-concurrency attempt from efficacy analysis."
+   "note": "Renames the matrix to include the current qualified STALE result."
+  },
+  {
+   "block": "f9ecf7b5",
+   "kind": "modified",
+   "note": "Separates the valid 80-scenario mechanism result from historical and invalid records."
+  },
+  {
+   "block": "ea4dd4c5",
+   "kind": "added",
+   "note": "Adds the completed valid STALE Phase 1 Nano qualification section."
+  },
+  {
+   "block": "d3c8533e",
+   "kind": "added",
+   "note": "Records the sole valid run root, frozen carrier binding, eligibility, parity, and official blind scorer boundary."
+  },
+  {
+   "block": "7289edde",
+   "kind": "added",
+   "note": "Records official V0, V1, P2, and P3 native criterion numerators and rates."
+  },
+  {
+   "block": "943042d2",
+   "kind": "added",
+   "note": "Records the paired primary estimate, confidence interval, scenario outcomes, and V1 calibration interpretation."
+  },
+  {
+   "block": "61431e3e",
+   "kind": "added",
+   "note": "Records the narrow supported claim, limitations, and no-automatic-scale-up decision."
   }
  ],
  "context": {
-  "why": "User directed that the remaining qualification scenarios run in parallel; concurrency is recorded as execution metadata and does not alter the frozen arm mechanisms."
+  "why": "Record the verified valid 80-scenario STALE Phase 1 Nano qualification, its narrow P3 minus P2 interpretation, and the decision not to auto-scale."
  },
- "event_id": "ppe_3c77ee32da3e83c5d1648156"
+ "event_id": "ppe_b0339fe8473f2d505ff4b009"
 }
