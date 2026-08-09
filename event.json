@@ -1,56 +1,37 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/ara/logic/experiments.md",
- "artifact_id": "pp_15fb7a0bcf0891f7cee01068",
- "version": "d7c6d505",
- "parent": "2b376462",
+ "artifact": "experiments/provenance_handoff/ara/logic/claims.md",
+ "artifact_id": "pp_ca8a8ddcc33d3870e9a40bc5",
+ "version": "54d2d495",
+ "parent": "34ad9e34",
  "author": {
   "name": "codex",
   "kind": "agent",
   "session": null
  },
  "note": null,
- "ts": "2026-08-09T10:57:35+00:00",
+ "ts": "2026-08-09T10:57:41+00:00",
  "stats": {
-  "modified": 3,
   "added": 2
  },
  "changes": [
   {
-   "kind": "modified",
-   "block": "49cf9342",
+   "kind": "added",
+   "block": "58d9bfa4",
    "type": "heading",
-   "context": "E09: Completed APEX Law artifact-handoff"
-  },
-  {
-   "kind": "modified",
-   "block": "2fd07e62",
-   "type": "list",
-   "context": "E09: Completed APEX Law artifact-handoff"
-  },
-  {
-   "kind": "modified",
-   "block": "8c0950d0",
-   "type": "list",
-   "context": "E09: Completed APEX Law artifact-handoff"
+   "context": "C06: Portable declared decision lineage ",
+   "preview": "## C06: Portable declared decision lineage may improve restr"
   },
   {
    "kind": "added",
-   "block": "3a6fb802",
-   "type": "heading",
-   "context": "E10: Planned APEX-derived Restricted-Acc",
-   "preview": "## E10: Planned APEX-derived Restricted-Access Artifact Hand"
-  },
-  {
-   "kind": "added",
-   "block": "dd7a946c",
+   "block": "a4c1d267",
    "type": "list",
-   "context": "E10: Planned APEX-derived Restricted-Acc",
-   "preview": "- **Question**: After a source-access discontinuity, does a "
+   "context": "C06: Portable declared decision lineage ",
+   "preview": "- **Statement**: Conditional on a fresh receiver's inability"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:fe460ae88d35f6f284ef9fe3a01bd939c13c6f55cec2a726a59c90e7396b4167",
+ "soft_fingerprint": "ppsb1:6676591cdaac11a15b114b9bb499591741e8e35ccd75f055ec9fb4a89e96a663",
  "actors": {
   "requested_by": [
    "richardtang"
@@ -68,33 +49,18 @@
  "attribution_basis": "environment_attested",
  "claims": [
   {
-   "block": "49cf9342",
-   "kind": "modified",
-   "note": "Marked E09 as a completed public-source calibration."
-  },
-  {
-   "block": "2fd07e62",
-   "kind": "modified",
-   "note": "Updated E09 status from designed to completed calibration."
-  },
-  {
-   "block": "8c0950d0",
-   "kind": "modified",
-   "note": "Separated the E09 null result from a future restricted-access contrast."
-  },
-  {
-   "block": "3a6fb802",
+   "block": "58d9bfa4",
    "kind": "added",
-   "note": "Added E10 for the planned restricted-access artifact-handoff experiment."
+   "note": "Added the restricted-access artifact-handoff claim."
   },
   {
-   "block": "dd7a946c",
+   "block": "a4c1d267",
    "kind": "added",
-   "note": "Specified E10 boundary, parity, pilot, scoring, and interpretation gates."
+   "note": "Recorded the conditional claim, verification limit, and falsification conditions."
   }
  ],
  "context": {
-  "why": "Add the bounded restricted-access Lease experiment to the ARA record."
+  "why": "Record the falsifiable conditional claim for restricted-access artifact handoff."
  },
- "event_id": "ppe_3db55dc7111d6cc911fcb129"
+ "event_id": "ppe_e72ec7301b4da78bfeb77e62"
 }
