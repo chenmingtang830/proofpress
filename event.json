@@ -1,35 +1,70 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/docs/RESEARCH_PLAN.md",
- "artifact_id": "pp_00e96ce828caea19ac7221ae",
- "version": "1331280c",
- "parent": "bfd99eca",
+ "artifact": "experiments/provenance_handoff/docs/RESULTS_MATRIX.md",
+ "artifact_id": "pp_d40d46a12d4d493fcbc9c0e9",
+ "version": "3b525b67",
+ "parent": "435e2547",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-09T07:55:12+00:00",
+ "ts": "2026-08-09T08:35:52+00:00",
  "stats": {
-  "modified": 1
+  "modified": 2,
+  "added": 4
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "6a4d0d13",
+   "block": "f9ecf7b5",
    "type": "para",
-   "context": "Planned APEX-derived Law Artifact Handof"
+   "context": "Supersession notice"
+  },
+  {
+   "kind": "modified",
+   "block": "61431e3e",
+   "type": "para",
+   "context": "Completed Matrix F: STALE / CUPMem Phase"
+  },
+  {
+   "kind": "added",
+   "block": "78a5e027",
+   "type": "heading",
+   "context": "Secondary Matrix F-R: blinded Gemini jud",
+   "preview": "## Secondary Matrix F-R: blinded Gemini judge robustness rep"
+  },
+  {
+   "kind": "added",
+   "block": "1062a080",
+   "type": "para",
+   "context": "Secondary Matrix F-R: blinded Gemini jud",
+   "preview": "The same four frozen, arm-blinded answer exports were rescor"
+  },
+  {
+   "kind": "added",
+   "block": "b749162e",
+   "type": "table",
+   "context": "Secondary Matrix F-R: blinded Gemini jud",
+   "preview": "| Native STALE criterion | V0: vanilla history | V1: full-se"
+  },
+  {
+   "kind": "added",
+   "block": "120af500",
+   "type": "para",
+   "context": "Secondary Matrix F-R: blinded Gemini jud",
+   "preview": "Across the same 80 shared eligible scenarios, Gemini gives p"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:bf8ca7ba1cd4f7750c4ef069db895cc837b1a03d988b8ccdbca61e24963ed819",
+ "soft_fingerprint": "ppsb1:9406ad8983ddffaa2f49e0880f35e24bbeec0d3217994d5af8d87cde874688a4",
  "actors": {
   "requested_by": [
-   "Richard Tang"
+   "user"
   ],
   "produced_by": [
-   "Codex"
+   "Gemini official scorer"
   ],
   "edited_by": [
    "Codex"
@@ -38,16 +73,41 @@
    "Codex"
   ]
  },
- "attribution_basis": "self_asserted",
+ "attribution_basis": "harness_attested",
  "claims": [
   {
-   "block": "6a4d0d13",
+   "block": "f9ecf7b5",
    "kind": "modified",
-   "note": "Corrects the derived audit count to seven items and makes its components explicit."
+   "note": "Preserves the Nano primary result while recording that the direct-Gemini blinded judge replication did not reproduce the P3 minus P2 effect."
+  },
+  {
+   "block": "61431e3e",
+   "kind": "modified",
+   "note": "Narrows the conclusion from a Nano-only mechanism signal to judge-sensitive evidence requiring scorer-disagreement analysis."
+  },
+  {
+   "block": "78a5e027",
+   "kind": "added",
+   "note": "Adds the secondary blinded Gemini judge robustness-replication section and its immutable output binding."
+  },
+  {
+   "block": "1062a080",
+   "kind": "added",
+   "note": "Records the direct Gemini model, credential source, official evaluator endpoint, concurrency, completion count, and zero-error status."
+  },
+  {
+   "block": "b749162e",
+   "kind": "added",
+   "note": "Records every Gemini-scored V0 V1 P2 P3 criterion numerator and the P3 minus P2 difference."
+  },
+  {
+   "block": "120af500",
+   "kind": "added",
+   "note": "Records the non-replicating paired estimate and confidence interval without pooling or replacing the Nano primary result."
   }
  ],
  "context": {
-  "why": "Correct the precommitted Law derived revision audit from six to seven explicit checks."
+  "why": "Record the requested frozen-answer Gemini judge robustness replication and its non-reproducing result without altering the primary Nano score."
  },
- "event_id": "ppe_b774814c83bb2541d8fd3f6a"
+ "event_id": "ppe_6022f7f1e7de3f5f68cbfa9b"
 }
