@@ -1,35 +1,57 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/ara/logic/experiments.md",
- "artifact_id": "pp_15fb7a0bcf0891f7cee01068",
- "version": "5575a21d",
- "parent": "f3f84700",
+ "artifact": "experiments/provenance_handoff/docs/RESULTS_MATRIX.md",
+ "artifact_id": "pp_d40d46a12d4d493fcbc9c0e9",
+ "version": "c16748a2",
+ "parent": "3b525b67",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-09T08:36:02+00:00",
+ "ts": "2026-08-09T09:05:41+00:00",
  "stats": {
-  "modified": 2
+  "modified": 2,
+  "added": 3
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "958a5698",
-   "type": "heading",
-   "context": "E08: Completed STALE / CUPMem Phase 1 Na"
+   "block": "f9ecf7b5",
+   "type": "para",
+   "context": "Supersession notice"
   },
   {
    "kind": "modified",
-   "block": "28fb9f31",
-   "type": "list",
-   "context": "E08: Completed STALE / CUPMem Phase 1 Na"
+   "block": "61431e3e",
+   "type": "para",
+   "context": "Completed Matrix F: STALE / CUPMem Phase"
+  },
+  {
+   "kind": "added",
+   "block": "2b03ce7b",
+   "type": "heading",
+   "context": "Same-model Gemini repeat",
+   "preview": "### Same-model Gemini repeat"
+  },
+  {
+   "kind": "added",
+   "block": "a267b4e3",
+   "type": "para",
+   "context": "Same-model Gemini repeat",
+   "preview": "An independent second pass by the same `gemini-3.5-flash-lit"
+  },
+  {
+   "kind": "added",
+   "block": "fcf0f21c",
+   "type": "para",
+   "context": "Same-model Gemini repeat",
+   "preview": "Across the two Gemini passes, per-criterion judgment agreeme"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:4644c33f3c127b8fbd4b8f5d3c9a7cdb29657198fd106cf32a857e4cc78068cf",
+ "soft_fingerprint": "ppsb1:c37642df389dff3f4fc519c881df063b0297bba8c2b38ee962691e75dd239fbe",
  "actors": {
   "requested_by": [
    "user"
@@ -47,18 +69,28 @@
  "attribution_basis": "harness_attested",
  "claims": [
   {
-   "block": "958a5698",
+   "block": "f9ecf7b5",
    "kind": "modified",
-   "note": "Names E08 as the completed Nano qualification plus Gemini judge robustness check."
+   "note": "Updates the result boundary to record two non-reproducing Gemini passes, while preserving the Nano outcome as primary."
   },
   {
-   "block": "28fb9f31",
+   "block": "61431e3e",
    "kind": "modified",
-   "note": "Records the complete Gemini rescore, non-replicating paired result, and judge-sensitive interpretation in ARA."
+   "note": "States that two Gemini passes, not one, prevent a judge-robust mechanism claim."
+  },
+  {
+   "block": "2b03ce7b",
+   "kind": "added",
+   "note": "Records the completed same-model Gemini repeat, its paired negative estimate, and its per-criterion outcomes."
+  },
+  {
+   "block": "a267b4e3",
+   "kind": "added",
+   "note": "Records repeat-level agreement rates and prohibits pooling same-answer judge passes as independent scenarios."
   }
  ],
  "context": {
-  "why": "Preserve the completed secondary judge robustness evidence and the judge-sensitive research interpretation in ARA."
+  "why": "Record the requested same-model Gemini judge repeat, its matching null-negative direction, and the non-pooling boundary."
  },
- "event_id": "ppe_1f78678b619e6bcb0ad1dc22"
+ "event_id": "ppe_dfcf9c6f089bcd1cb933faf6"
 }
