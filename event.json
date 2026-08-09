@@ -1,57 +1,35 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/docs/RESULTS_MATRIX.md",
- "artifact_id": "pp_d40d46a12d4d493fcbc9c0e9",
- "version": "c16748a2",
- "parent": "3b525b67",
+ "artifact": "experiments/provenance_handoff/docs/STALE_PHASE1_PLAN.md",
+ "artifact_id": "pp_6cf0c8f0e4ef1cb9c59aae65",
+ "version": "dfa06407",
+ "parent": "93232967",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-09T09:05:41+00:00",
+ "ts": "2026-08-09T09:05:48+00:00",
  "stats": {
-  "modified": 2,
-  "added": 3
+  "modified": 2
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "f9ecf7b5",
+   "block": "05b3cc93",
    "type": "para",
-   "context": "Supersession notice"
+   "context": "Status and scope"
   },
   {
    "kind": "modified",
-   "block": "61431e3e",
+   "block": "aa5e763b",
    "type": "para",
-   "context": "Completed Matrix F: STALE / CUPMem Phase"
-  },
-  {
-   "kind": "added",
-   "block": "2b03ce7b",
-   "type": "heading",
-   "context": "Same-model Gemini repeat",
-   "preview": "### Same-model Gemini repeat"
-  },
-  {
-   "kind": "added",
-   "block": "a267b4e3",
-   "type": "para",
-   "context": "Same-model Gemini repeat",
-   "preview": "An independent second pass by the same `gemini-3.5-flash-lit"
-  },
-  {
-   "kind": "added",
-   "block": "fcf0f21c",
-   "type": "para",
-   "context": "Same-model Gemini repeat",
-   "preview": "Across the two Gemini passes, per-criterion judgment agreeme"
+   "context": "Current production-carrier pilot"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:c37642df389dff3f4fc519c881df063b0297bba8c2b38ee962691e75dd239fbe",
+ "soft_fingerprint": "ppsb1:d23576d252ff34f286fc36bf42448e6f17c13fce90821c1f461878ca90411e6e",
  "actors": {
   "requested_by": [
    "user"
@@ -69,28 +47,18 @@
  "attribution_basis": "harness_attested",
  "claims": [
   {
-   "block": "f9ecf7b5",
+   "block": "05b3cc93",
    "kind": "modified",
-   "note": "Updates the result boundary to record two non-reproducing Gemini passes, while preserving the Nano outcome as primary."
+   "note": "Updates Phase 1 status to record two non-reproducing Gemini passes and maintain the no-scale-up decision."
   },
   {
-   "block": "61431e3e",
+   "block": "aa5e763b",
    "kind": "modified",
-   "note": "States that two Gemini passes, not one, prevent a judge-robust mechanism claim."
-  },
-  {
-   "block": "2b03ce7b",
-   "kind": "added",
-   "note": "Records the completed same-model Gemini repeat, its paired negative estimate, and its per-criterion outcomes."
-  },
-  {
-   "block": "a267b4e3",
-   "kind": "added",
-   "note": "Records repeat-level agreement rates and prohibits pooling same-answer judge passes as independent scenarios."
+   "note": "Records the two identical-answer Gemini passes as the judge-robustness boundary."
   }
  ],
  "context": {
-  "why": "Record the requested same-model Gemini judge repeat, its matching null-negative direction, and the non-pooling boundary."
+  "why": "Update the Phase 1 no-scale-up boundary after the requested second Gemini judge pass confirmed the non-reproducing direction."
  },
- "event_id": "ppe_dfcf9c6f089bcd1cb933faf6"
+ "event_id": "ppe_354b539034df92579f4505a8"
 }
