@@ -1,29 +1,35 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/docs/ARTIFACT_TRAVEL_V2_PLAN.md",
- "artifact_id": "pp_cbf559b6d07e7baadaed3ed9",
- "version": "38e0b432",
- "parent": "72680582",
+ "artifact": "experiments/provenance_handoff/docs/RESEARCH_PLAN.md",
+ "artifact_id": "pp_00e96ce828caea19ac7221ae",
+ "version": "836243ed",
+ "parent": "4f5cdeed",
  "author": {
   "name": "codex",
   "kind": "agent",
   "session": null
  },
- "note": "record active Artifact Travel v2 protocol and passed Phase 0 gate",
- "ts": "2026-08-09T21:21:06+00:00",
+ "note": "supersede archived route with Artifact Travel v2 pointer",
+ "ts": "2026-08-09T21:21:12+00:00",
  "stats": {
-  "modified": 1
+  "modified": 2
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "e434c3c4",
+   "block": "37044759",
    "type": "para",
-   "context": "Status"
+   "context": "Supersession notice"
+  },
+  {
+   "kind": "modified",
+   "block": "6e8d4f21",
+   "type": "para",
+   "context": "Supersession notice"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:a29fab4e39d95c9a7ec0f98521cd46ff27a7d75ae3112b797ab71568ee9d6b2f",
+ "soft_fingerprint": "ppsb1:981b6f910c2030a312e0529322b3d34234dd3600eb87125e5fcb8bf44013090b",
  "actors": {
   "requested_by": [
    "Richard Tang"
@@ -41,13 +47,18 @@
  "attribution_basis": "harness_attested",
  "claims": [
   {
-   "block": "e434c3c4",
+   "block": "37044759",
    "kind": "modified",
-   "note": "Record the passed no-model Phase 0 gate and preserve that Phase 1 remains unauthorized."
+   "note": "Point the archived Harvey plan to Artifact Travel v2 as the active product benchmark."
+  },
+  {
+   "block": "6e8d4f21",
+   "kind": "modified",
+   "note": "Keep historical Harvey records separate from both STALE and Artifact Travel v2."
   }
  ],
  "context": {
-  "why": "Implement the user-approved bundle-effect A-to-B-to-reviewer benchmark without authorizing paid model runs."
+  "why": "Keep the historical Harvey plan immutable while pointing readers to the approved active product benchmark."
  },
- "event_id": "ppe_b9e07422907d05ffc2c6c5f2"
+ "event_id": "ppe_be975fc8d3f9b7c5add9ef1b"
 }
