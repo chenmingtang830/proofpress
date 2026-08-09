@@ -1,37 +1,44 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/docs/RESULTS_MATRIX.md",
- "artifact_id": "pp_d40d46a12d4d493fcbc9c0e9",
- "version": "e03e1c86",
- "parent": "55296fa4",
+ "artifact": "experiments/provenance_handoff/ara/logic/experiments.md",
+ "artifact_id": "pp_15fb7a0bcf0891f7cee01068",
+ "version": "532e44c5",
+ "parent": "87e470cc",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-09T19:28:55+00:00",
+ "ts": "2026-08-09T19:29:01+00:00",
  "stats": {
   "modified": 1,
-  "added": 1
+  "added": 2
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "6c7fd1ae",
-   "type": "para",
-   "context": "Completed APEX-derived Restricted-Access"
+   "block": "34c998d9",
+   "type": "list",
+   "context": "E10: Completed APEX-derived Restricted-A"
   },
   {
    "kind": "added",
-   "block": "35f3084b",
-   "type": "para",
-   "context": "Completed APEX-derived Restricted-Access",
-   "preview": "The next preregistered candidate is the restricted-access S-"
+   "block": "8d67c434",
+   "type": "heading",
+   "context": "E11: Preregistered restricted-access S-C",
+   "preview": "## E11: Preregistered restricted-access S-Corp SPA revision "
+  },
+  {
+   "kind": "added",
+   "block": "560cdaa4",
+   "type": "list",
+   "context": "E11: Preregistered restricted-access S-C",
+   "preview": "- **Question**: When a receiver loses access to the diligenc"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:196ac2323a177c99a88c793185d3981129169b0eb3e34cabbe83e4f3a5af4a12",
+ "soft_fingerprint": "ppsb1:16a2ce134b79c7cb7dba5d6cf67fbc815091ee92accbc28ecbb84e73754630f8",
  "actors": {
   "requested_by": [
    "user"
@@ -49,18 +56,23 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "6c7fd1ae",
+   "block": "34c998d9",
    "kind": "modified",
-   "note": "Corrects the frozen Lease audit interpretation and records the post-hoc diagnostic without upgrading it to a confirmatory endpoint."
+   "note": "Corrects E10 measurement interpretation, records weak carrier dose, and closes the Lease track as inconclusive."
   },
   {
-   "block": "35f3084b",
+   "block": "8d67c434",
    "kind": "added",
-   "note": "Records the preregistered S-Corp SPA candidate and its preflight-only authorization boundary."
+   "note": "Introduces the preregistered E11 S-Corp SPA revision pilot."
+  },
+  {
+   "block": "560cdaa4",
+   "kind": "added",
+   "note": "Defines E11 question, task, repaired design, start gate, and frozen protocol."
   }
  ],
  "context": {
-  "why": "Correct the post-run Lease measurement interpretation and record the bounded next-task decision after user approval."
+  "why": "Record the E10 failure analysis and preregister E11 without authorizing receiver outcomes."
  },
- "event_id": "ppe_5b7b6e307ab6d60aafa7d4c1"
+ "event_id": "ppe_d7b77348ed92069f1e555ebc"
 }
