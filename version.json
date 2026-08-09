@@ -94,6 +94,30 @@
   },
   {
    "type": "heading",
+   "text": "## Scorer-disagreement audit: abstention-policy confound",
+   "id": "ca302c54",
+   "hash": "25197ada342c"
+  },
+  {
+   "type": "para",
+   "text": "The frozen-answer audit aligned all 960 arm-by-criterion decisions from Nano with both Gemini passes; it did not rerun a target agent, carrier, or judge. Gemini repeated itself on 906/960 decisions (94.38%), while both Gemini passes jointly disagreed with Nano on 224/960. The concentrated disagreements are in the portable arms' State Resolution criterion: P2 has 36/80 Nano-versus-Gemini-consensus disagreements (22 contain an abstention cue), and P3 has 43/80 (all 43 contain an abstention cue). The corresponding Gemini repeat agreement is 75/80 for P2 and 72/80 for P3.",
+   "id": "78790f7e",
+   "hash": "b8e75f0cdf5c"
+  },
+  {
+   "type": "para",
+   "text": "The official Dim 1 rubric says to fail a response that “claims ignorance.” In the reviewed disagreement traces, Nano treats a carrier-grounded “I cannot determine; abstain/re-verify” as correctly refusing to assume `M_old`; both Gemini passes fail it precisely because it abstains instead of declaring the new state. This is not evidence that either judge has established ground truth. It identifies a measurement-policy ambiguity: the P3 carrier's intended safe behavior is entangled with the judge's treatment of abstention, so the observed P3−P2 contrast is not presently separable into a provenance effect alone.",
+   "id": "8bfc426b",
+   "hash": "34e345aecadc"
+  },
+  {
+   "type": "para",
+   "text": "At the criterion level Nano has 39 P3 gains, 182 ties, and 19 P3 losses; Gemini pass 1 has 21/194/25 and pass 2 has 24/187/29. Where both Gemini passes agree, 30 Nano P3 gains become Gemini ties, 2 become Gemini P3 losses, and 20 Nano ties become Gemini P3 losses. A deterministic 24-case arm-blinded adjudication packet and a separate deblinding key are preserved with `disagreement-summary.json` at `official_scores/scorer-disagreement-audit/` under the immutable root. An independent rubric adjudication must choose how safe abstention scores before selecting a judge or authorizing any scale-up.",
+   "id": "ad98f4ec",
+   "hash": "585678c54c89"
+  },
+  {
+   "type": "heading",
    "text": "## What the paper must distinguish",
    "id": "361bc86e",
    "hash": "48118f405213"

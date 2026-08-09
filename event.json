@@ -2,34 +2,56 @@
  "event": "version_created",
  "artifact": "experiments/provenance_handoff/docs/RESULTS_MATRIX.md",
  "artifact_id": "pp_d40d46a12d4d493fcbc9c0e9",
- "version": "51b5f801",
- "parent": "c16748a2",
+ "version": "fe21890a",
+ "parent": "51b5f801",
  "author": {
-  "name": "unknown",
-  "kind": "human",
-  "session": null
+  "name": "Codex",
+  "kind": "agent",
+  "session": "scorer-disagreement-audit-20260809"
  },
  "note": null,
- "ts": "2026-08-09T09:06:50+00:00",
+ "ts": "2026-08-09T09:17:28+00:00",
  "stats": {
-  "modified": 1
+  "added": 4
  },
  "changes": [
   {
-   "kind": "modified",
-   "block": "fcf0f21c",
+   "kind": "added",
+   "block": "ca302c54",
+   "type": "heading",
+   "context": "Scorer-disagreement audit: abstention-po",
+   "preview": "## Scorer-disagreement audit: abstention-policy confound"
+  },
+  {
+   "kind": "added",
+   "block": "78790f7e",
    "type": "para",
-   "context": "Same-model Gemini repeat"
+   "context": "Scorer-disagreement audit: abstention-po",
+   "preview": "The frozen-answer audit aligned all 960 arm-by-criterion dec"
+  },
+  {
+   "kind": "added",
+   "block": "8bfc426b",
+   "type": "para",
+   "context": "Scorer-disagreement audit: abstention-po",
+   "preview": "The official Dim 1 rubric says to fail a response that “clai"
+  },
+  {
+   "kind": "added",
+   "block": "ad98f4ec",
+   "type": "para",
+   "context": "Scorer-disagreement audit: abstention-po",
+   "preview": "At the criterion level Nano has 39 P3 gains, 182 ties, and 1"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:e3137d3290f95663f7d73f24f4aa5684b8c15603b8e8c3f84cf22e79d6451a34",
+ "soft_fingerprint": "ppsb1:88226fdca8e15fc6f152c84554b9da7ba666412a7dd67a34ab6c594be96637be",
  "actors": {
   "requested_by": [
-   "user"
+   "richardtang"
   ],
   "produced_by": [
-   "Gemini official scorer"
+   "Codex"
   ],
   "edited_by": [
    "Codex"
@@ -41,13 +63,28 @@
  "attribution_basis": "harness_attested",
  "claims": [
   {
-   "block": "fcf0f21c",
-   "kind": "modified",
-   "note": "Clarifies that Gemini repeat agreement is measured across 240 criterion decisions per arm, while retaining the non-pooling boundary."
+   "block": "ca302c54",
+   "kind": "added",
+   "note": "Introduces the frozen-answer scorer-disagreement audit and its bounded agreement results."
+  },
+  {
+   "block": "78790f7e",
+   "kind": "added",
+   "note": "Records the concentration of Nano versus Gemini-consensus disagreement in portable-arm State Resolution."
+  },
+  {
+   "block": "8bfc426b",
+   "kind": "added",
+   "note": "States the safe-abstention rubric ambiguity without treating either scorer as ground truth."
+  },
+  {
+   "block": "ad98f4ec",
+   "kind": "added",
+   "note": "Records criterion-sign switches and the deterministic blinded adjudication packet."
   }
  ],
  "context": {
-  "why": "Clarify the denominator for same-model Gemini agreement so the repeatability result is auditable without pooling repeated judgments."
+  "why": "Record the completed frozen-answer scorer-disagreement audit and safe-abstention measurement boundary."
  },
- "event_id": "ppe_dc8e9e5336e8b62f38718e4d"
+ "event_id": "ppe_1444328effc87f9ab4fba673"
 }
