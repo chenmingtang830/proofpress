@@ -1,29 +1,44 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/docs/STALE_PHASE1_PLAN.md",
- "artifact_id": "pp_6cf0c8f0e4ef1cb9c59aae65",
- "version": "f99e641b",
- "parent": "1d12b4fb",
+ "artifact": "experiments/provenance_handoff/ara/logic/experiments.md",
+ "artifact_id": "pp_15fb7a0bcf0891f7cee01068",
+ "version": "9e65acb9",
+ "parent": "532e44c5",
  "author": {
   "name": "codex",
   "kind": "agent",
   "session": null
  },
- "note": "separate closed STALE mechanism evidence from Artifact Travel v2",
- "ts": "2026-08-09T21:21:20+00:00",
+ "note": "add E12 Artifact Travel v2 protocol record",
+ "ts": "2026-08-09T21:21:27+00:00",
  "stats": {
-  "modified": 1
+  "modified": 1,
+  "added": 2
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "05b3cc93",
-   "type": "para",
-   "context": "Status and scope"
+   "block": "560cdaa4",
+   "type": "list",
+   "context": "E11: Preregistered restricted-access S-C"
+  },
+  {
+   "kind": "added",
+   "block": "43a81843",
+   "type": "heading",
+   "context": "E12: Artifact Travel Benchmark v2 — A→B→",
+   "preview": "## E12: Artifact Travel Benchmark v2 — A→B→independent revie"
+  },
+  {
+   "kind": "added",
+   "block": "3242ace7",
+   "type": "list",
+   "context": "E12: Artifact Travel Benchmark v2 — A→B→",
+   "preview": "- **Question**: Does the complete Proofpress portable handof"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:aca7540a38f43a595a8332ffa7f5a1e028591cde6b6a57343603409440b9a84c",
+ "soft_fingerprint": "ppsb1:c503989fefb3c9ad265a5cfa1c3c6576f96f8b7c76ff0b9f0b3513c5af4602e6",
  "actors": {
   "requested_by": [
    "Richard Tang"
@@ -41,13 +56,23 @@
  "attribution_basis": "harness_attested",
  "claims": [
   {
-   "block": "05b3cc93",
+   "block": "560cdaa4",
    "kind": "modified",
-   "note": "Close STALE as a separate judge-sensitive mechanism route and prevent pooling with Artifact Travel v2."
+   "note": "Mark the information-matched SPA v1 protocol superseded without a receiver outcome."
+  },
+  {
+   "block": "43a81843",
+   "kind": "added",
+   "note": "Add the Artifact Travel v2 experiment record."
+  },
+  {
+   "block": "3242ace7",
+   "kind": "added",
+   "note": "Record the bundle estimand, A-B-R design, faults, passed Phase 0 gate, and Phase 1 authorization boundary."
   }
  ],
  "context": {
-  "why": "Prevent the judge-sensitive STALE result from being treated as the active product benchmark or pooled with APEX."
+  "why": "Record the approved bundle estimand, passed no-model gate, and explicit Phase 1 authorization boundary."
  },
- "event_id": "ppe_9306ac9f02a51fe39353ea10"
+ "event_id": "ppe_01a4d09e6702aafd62e0f241"
 }
