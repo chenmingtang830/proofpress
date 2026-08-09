@@ -1,35 +1,51 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/ara/logic/experiments.md",
- "artifact_id": "pp_15fb7a0bcf0891f7cee01068",
- "version": "7404e133",
- "parent": "2f55c5e5",
+ "artifact": "experiments/provenance_handoff/docs/RESULTS_MATRIX.md",
+ "artifact_id": "pp_d40d46a12d4d493fcbc9c0e9",
+ "version": "435e2547",
+ "parent": "7c8f6d07",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-09T07:52:36+00:00",
+ "ts": "2026-08-09T07:54:40+00:00",
  "stats": {
-  "modified": 2
+  "added": 4
  },
  "changes": [
   {
-   "kind": "modified",
-   "block": "958a5698",
+   "kind": "added",
+   "block": "7f3a14c9",
    "type": "heading",
-   "context": "E08: Completed STALE / CUPMem Phase 1 Na"
+   "context": "Archived APEX official-runner qualificat",
+   "preview": "## Archived APEX official-runner qualification and Law task-"
   },
   {
-   "kind": "modified",
-   "block": "28fb9f31",
-   "type": "list",
-   "context": "E08: Completed STALE / CUPMem Phase 1 Na"
+   "kind": "added",
+   "block": "724ca1df",
+   "type": "para",
+   "context": "Archived APEX official-runner qualificat",
+   "preview": "This is an **APEX official-runner qualification record**, no"
+  },
+  {
+   "kind": "added",
+   "block": "53ea6d81",
+   "type": "para",
+   "context": "Archived APEX official-runner qualificat",
+   "preview": "The Investment Banking task `task_3e2e533b49374381acf2056fe4"
+  },
+  {
+   "kind": "added",
+   "block": "91b6bce2",
+   "type": "para",
+   "context": "Archived APEX official-runner qualificat",
+   "preview": "The Law task `task_323b4e29af5e4c7f86eaf4a24c4487ad` is a be"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:be337b705696ede65aa0c764d181fea7750832005608764ffeb9b75c08984281",
+ "soft_fingerprint": "ppsb1:31fa91a396e2654341bf1a725d033eeea7132a7e44dd8abadf89619f0e181cbf",
  "actors": {
   "requested_by": [
    "Richard Tang"
@@ -44,21 +60,31 @@
    "Codex"
   ]
  },
- "attribution_basis": "self_asserted",
+ "attribution_basis": "harness_attested",
  "claims": [
   {
-   "block": "958a5698",
-   "kind": "modified",
-   "note": "Changes E08 from active work to completed Nano qualification."
+   "block": "7f3a14c9",
+   "kind": "added",
+   "note": "Adds the scope boundary for the APEX Gemini qualification record."
   },
   {
-   "block": "28fb9f31",
-   "kind": "modified",
-   "note": "Records the matched P3 minus P2 design, qualified results, limitations, and next evidence decision in ARA."
+   "block": "724ca1df",
+   "kind": "added",
+   "note": "Records the pinned official-runner configuration and non-leaderboard boundary."
+  },
+  {
+   "block": "53ea6d81",
+   "kind": "added",
+   "note": "Records four completed finance zero-score qualifications and the excluded user-terminated provider abort."
+  },
+  {
+   "block": "91b6bce2",
+   "kind": "added",
+   "note": "Records the completed Law pilot, rubric findings, and negative-control limitation."
   }
  ],
  "context": {
-  "why": "Record the verified Phase 1 result, interpretation boundary, and next evidence decision in ARA."
+  "why": "Record the completed APEX Gemini qualification evidence, exclude the user-terminated finance infrastructure abort, and classify Law task fit honestly."
  },
- "event_id": "ppe_703b68dbddf64937cd2d36da"
+ "event_id": "ppe_142b0baac745658f7be1244d"
 }
