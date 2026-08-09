@@ -1,29 +1,35 @@
 {
  "event": "version_created",
- "artifact": "ara/logic/claims.md",
- "artifact_id": "pp_ca8a8ddcc33d3870e9a40bc5",
- "version": "ae8f5821",
- "parent": "54d2d495",
+ "artifact": "ara/PAPER.md",
+ "artifact_id": "pp_cb6d0883f4bda071d2137869",
+ "version": "026e447f",
+ "parent": "f0a675e1",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-09T13:55:53+00:00",
+ "ts": "2026-08-09T13:55:59+00:00",
  "stats": {
-  "modified": 1
+  "modified": 2
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "a4c1d267",
-   "type": "list",
-   "context": "C06: Portable declared decision lineage "
+   "block": "d6d1bb11",
+   "type": "para",
+   "context": "Research notebook — admitted provenance "
+  },
+  {
+   "kind": "modified",
+   "block": "4b96e0aa",
+   "type": "para",
+   "context": "Abstract (draft)"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:9528321049e565d519a47dcb0efd9f40c7273b5fe26ef463dbbc7196271ecff2",
+ "soft_fingerprint": "ppsb1:4d807e13b2cbf0fe44e7a58ff960c4206eb01324c8ac67d1ce5bab56639de428",
  "actors": {
   "requested_by": [
    "user"
@@ -41,13 +47,18 @@
  "attribution_basis": "harness_attested",
  "claims": [
   {
-   "block": "a4c1d267",
+   "block": "d6d1bb11",
    "kind": "modified",
-   "note": "Updated C06 to tested but bounded and inconclusive, with the E10 endpoint evidence."
+   "note": "Updated notebook status to the completed bounded restricted-access Lease result."
+  },
+  {
+   "block": "4b96e0aa",
+   "kind": "modified",
+   "note": "Updated the abstract with the native-audit endpoint split and no-general-efficacy conclusion."
   }
  ],
  "context": {
-  "why": "Update the restricted-access lineage claim to a tested but inconclusive status based on E10."
+  "why": "Update the research notebook status and abstract with the bounded completed E10 result."
  },
- "event_id": "ppe_80c94bb0a1e68dd691ec4cc3"
+ "event_id": "ppe_117328b7e51f872c3b59f4fa"
 }

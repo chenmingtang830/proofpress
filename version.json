@@ -1,84 +1,48 @@
 {
- "artifact": "ara/logic/claims.md",
- "artifact_id": "pp_ca8a8ddcc33d3870e9a40bc5",
+ "artifact": "ara/PAPER.md",
+ "artifact_id": "pp_cb6d0883f4bda071d2137869",
  "blocks": [
   {
    "type": "heading",
-   "text": "# Claims",
-   "id": "2e584545",
-   "hash": "32475190a135"
+   "text": "# Research notebook — admitted provenance comparative study",
+   "id": "5ad8477e",
+   "hash": "1a305208da3f"
+  },
+  {
+   "type": "para",
+   "text": "**Status:** the original STALE/CUPMem prompt-policy pilot is superseded for causal interpretation because its condition execution boundaries were not matched. The completed APEX Law 3+3 is an archived public-source negative control. The completed restricted-access Lease 3+3 is a bounded conditional cross-boundary artifact-handoff result: its native rubric has a small Proofpress advantage, but its independent artifact audit and missed-correction endpoints tie, so it does not establish a general efficacy claim. Historic Harvey/C&H records and the internal MemConflict mechanism check remain historical only.\n**Authors:** Proofpress research team (draft)\n**Year:** 2026\n**Active substrate:** STALE benchmark and its CUPMem comparison, with the superseded two-record harness record in `research/phase1/pilot_report.json` and the active carrier path in `research/phase1/run_production_pilot.py`; no held-out confirmatory run is claimed.",
+   "id": "d6d1bb11",
+   "hash": "c691246b9223"
   },
   {
    "type": "heading",
-   "text": "## C01: Typed admitted lineage can improve trusted recovery of prior decisions",
-   "id": "859af48b",
-   "hash": "805ba05733b3"
+   "text": "## Artifact map",
+   "id": "6ce745c5",
+   "hash": "86cbf94b78e1"
   },
   {
    "type": "list",
-   "text": "- **Statement**: In a fixed centralized fan-out multi-agent workflow, artifact-native Proofpress metadata that makes decision authority, source status, and acceptance state explicit may improve criterion-level recovery relative to the identical workflow using the same shared mutable ordinary coordination memory without Proofpress.\n- **Conditions**: Testing hypothesis for the accepted DeepSeek V4 Flash 0731 Harvey follow-up; it does not generalize outside this harness, task pair, model, or workflow.\n- **Sources**: `configs/gate1b-result-summary-v1.yaml` records why the old sidecar prototype is not evidence for this claim.\n- **Status**: testing\n- **Provenance**: user-revised\n- **Falsification**: Matched runs show no improvement in trusted task success, or any task-score gain accompanies equal or higher unsupported authority upgrades or decision regressions.\n- **Proof**: [pending]\n- **Dependencies**: []\n- **Tags**: provenance, handoff, trust, legal-workflow",
-   "id": "6b007068",
-   "hash": "c07ed79b903a"
+   "text": "- `logic/problem.md` — why conventional handoff does not preserve accepted decision state.\n- `logic/claims.md` — falsifiable, currently testing hypotheses only.\n- `logic/concepts.md` — treatment and measurement definitions.\n- `logic/experiments.md` — gates and comparison matrix.\n- `logic/related_work.md` — historical Harvey context plus active benchmark-comparison context.\n- `logic/solution/constraints.md` — non-negotiable fairness and safety constraints.\n- `src/` — environment and experiment artifact index.\n- `trace/` — append-only decisions and session record.\n- `evidence/` — source and sanitized result index, including historical internal MemConflict evidence.",
+   "id": "b9c6dba5",
+   "hash": "8a272d978577"
   },
   {
    "type": "heading",
-   "text": "## C02: Verifiable lineage may reduce the operational burden of historical recovery",
-   "id": "da500dfa",
-   "hash": "9b1f18b4a3b9"
+   "text": "## Abstract (draft)",
+   "id": "6979663a",
+   "hash": "3513d178db19"
   },
   {
-   "type": "list",
-   "text": "- **Statement**: When a centralized team must adopt or reconcile specialist findings, embedded verified lineage may reduce coordination/adoption error or work relative to the same ordinary shared-memory workspace without reducing correct justified reversals.\n- **Conditions**: Testing hypothesis; effectiveness is evaluated with identical source-workspace access and recorded, rather than artificially padded, visible input tokens.\n- **Sources**: [pending: native runs have not begun]\n- **Status**: testing\n- **Provenance**: ai-suggested\n- **Falsification**: Matched runs show no reduction in tokens, latency, or history-search work at comparable trusted success, or lineage materially lowers correct reversals.\n- **Proof**: [pending]\n- **Dependencies**: [C01]\n- **Tags**: efficiency, reversal, lineage",
-   "id": "0aa90748",
-   "hash": "343b41de090c"
+   "type": "para",
+   "text": "This study evaluates admitted artifact provenance as a candidate intervention for documented failures in long-horizon memory, multi-agent coordination, and artifact revision. It distinguishes stateful memory comparisons from a portable provenance-bearing artifact handoff: the completed APEX-derived restricted-access Lease 3+3 tested the same semantic handoff when native anchors, declared decision lineage, and capsule verification traveled with the current artifact across a fresh receiver boundary. Proofpress recorded `10/18` native rubric cells versus `9/18` ordinary, but the independent seven-cell audit tied `13/21` and missed corrections tied `8`; this small, endpoint-inconsistent result is inconclusive. ARA provides a methodological precedent for matched representation evaluation with blind task-level grading, but it gives agents a complete research package and does not test this source-access discontinuity. This study therefore does not claim heterogeneous-system interoperability or that a capsule verifies inaccessible source truth. The completed internal MemConflict check found a stale/regression reduction but no trusted-success gain over ordinary memory; it is historical mechanism evidence only because provider, cost, and fallback telemetry were missing. Outcomes preserve benchmark-native scores as primary, with auditability and efficiency reported separately, and retain null or negative results.",
+   "id": "4b96e0aa",
+   "hash": "8faae582e6b4"
   },
   {
-   "type": "heading",
-   "text": "## C03: The treatment effect must be distinguished from multi-agent decomposition",
-   "id": "c7a85a7a",
-   "hash": "fbe236733c46"
-  },
-  {
-   "type": "list",
-   "text": "- **Statement**: Any observed document-native lineage effect must be interpreted separately from the effect of converting a single-agent task into a parallel centralized hub-and-spoke multi-agent workflow.\n- **Conditions**: The native matrix includes a budget-matched single-agent baseline and fixes all multi-agent stages for the primary lineage comparison.\n- **Sources**: Google architecture study, `ara/logic/related_work.md` R02; accepted native-matrix config.\n- **Status**: testing\n- **Provenance**: user-revised\n- **Falsification**: The wrapper changes multiple multi-agent factors between lineage arms or records do not permit the contrasts to be separated.\n- **Proof**: [pending]\n- **Dependencies**: []\n- **Tags**: causal-design, multi-agent, control",
-   "id": "5364b3f8",
-   "hash": "a37d4ab71628"
-  },
-  {
-   "type": "heading",
-   "text": "## C04: Isolated and end-to-end evidence answer different questions",
-   "id": "b464ba4e",
-   "hash": "6702e1a7b73e"
-  },
-  {
-   "type": "list",
-   "text": "- **Statement**: The completed isolated sidecar handoff validates transport integrity but cannot establish a native Proofpress mechanism; only the redesigned C1-versus-C2 end-to-end matrix can test the product-form treatment.\n- **Conditions**: The old treatment used external `provenance.md`; the new treatment embeds checkpoints in work artifacts and removes the external sidecar.\n- **Sources**: `configs/gate1b-result-summary-v1.yaml`; `docs/ARCHITECTURE.md`.\n- **Status**: accepted-design-boundary\n- **Provenance**: user-revised\n- **Falsification**: Pair inputs differ outside declared history material, or reporting interprets cumulative end-to-end effects as though every downstream checkpoint were identical.\n- **Proof**: [pending]\n- **Dependencies**: [C01, C03]\n- **Tags**: causal-design, isolated-handoff, long-horizon",
-   "id": "f3383dbe",
-   "hash": "7d521985b16b"
-  },
-  {
-   "type": "heading",
-   "text": "## C05: Core model comparison requires homogeneous teams",
-   "id": "163185fb",
-   "hash": "b4a1608d3dba"
-  },
-  {
-   "type": "list",
-   "text": "- **Statement**: Within the native fixed-model slice, all agent calls use DeepSeek V4 Flash 0731 with the same frozen request configuration so role-model allocation cannot be mistaken for a provenance effect.\n- **Conditions**: The transport records requested/resolved model and DeepInfra routing; Proofpress itself makes no model call.\n- **Sources**: `configs/gate1b-result-summary-v1.yaml`; `configs/gate-native-v1.draft.yaml`.\n- **Status**: testing\n- **Provenance**: user-revised\n- **Falsification**: A core paired comparison mixes models or unrecorded provider fallbacks across roles or arms.\n- **Proof**: [pending]\n- **Dependencies**: [C01, C03]\n- **Tags**: model-control, transport, causal-design",
-   "id": "771b59db",
-   "hash": "2989d01de75f"
-  },
-  {
-   "type": "heading",
-   "text": "## C06: Portable declared decision lineage may improve restricted-access artifact handoff",
-   "id": "58d9bfa4",
-   "hash": "a2d5f9d8b872"
-  },
-  {
-   "type": "list",
-   "text": "- **Statement**: Conditional on a fresh receiver's inability to re-enter Agent A's source workspace, a Proofpress artifact carrying the same semantic handoff plus native declared decision lineage may reduce revision regressions or improve trusted success relative to the ordinary artifact plus readable memory/log/handoff.\n- **Conditions**: This tests a cross-boundary/cross-world Lease condition, not a general memory replacement or cross-system interoperability claim. The capsule establishes artifact identity, integrity, and declared lineage; it does not establish the truth or completeness of inaccessible source evidence.\n- **Sources**: `ara/logic/experiments.md` E10; W3C PROV and NIST access-control sources in `ara/logic/related_work.md`.\n- **Status**: tested; bounded and inconclusive in E10\n- **Provenance**: user-directed\n- **Falsification**: The ordinary arm has no observable error space; semantic handoff or draft hashes differ; a receiver can recover denied source material; the grader can infer the arm; or Proofpress fails to improve or preserve trusted success while reducing regressions.\n- **Proof**: E10 r4 boundary pilot and r2 serial 3+3: all formal pair gates passed, native rubric cells were `10/18` Proofpress versus `9/18` ordinary, but the independent audit tied `13/21` and missed cells tied `8`; this does not establish the conditional claim.\n- **Dependencies**: [C04]\n- **Tags**: provenance, artifact-handoff, access-discontinuity, causal-design",
-   "id": "a4c1d267",
-   "hash": "66cd9798bf33"
+   "type": "para",
+   "text": "The historical MemConflict result is a mechanism boundary, not a product claim: provenance may help a receiver notice stale authority in a controlled reversal fixture, but ordinary memory remained at least as good on the primary trusted-success endpoint. STALE/CUPMem is the active Phase 1 test.",
+   "id": "4249cd4c",
+   "hash": "67e72a93989f"
   }
  ]
 }
