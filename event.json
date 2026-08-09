@@ -1,51 +1,37 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/docs/RESULTS_MATRIX.md",
- "artifact_id": "pp_d40d46a12d4d493fcbc9c0e9",
- "version": "435e2547",
- "parent": "7c8f6d07",
+ "artifact": "experiments/provenance_handoff/ara/logic/experiments.md",
+ "artifact_id": "pp_15fb7a0bcf0891f7cee01068",
+ "version": "f3f84700",
+ "parent": "7404e133",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-09T07:54:40+00:00",
+ "ts": "2026-08-09T07:54:43+00:00",
  "stats": {
-  "added": 4
+  "added": 2
  },
  "changes": [
   {
    "kind": "added",
-   "block": "7f3a14c9",
+   "block": "49cf9342",
    "type": "heading",
-   "context": "Archived APEX official-runner qualificat",
-   "preview": "## Archived APEX official-runner qualification and Law task-"
+   "context": "E09: APEX Law artifact-handoff calibrati",
+   "preview": "## E09: APEX Law artifact-handoff calibration track"
   },
   {
    "kind": "added",
-   "block": "724ca1df",
-   "type": "para",
-   "context": "Archived APEX official-runner qualificat",
-   "preview": "This is an **APEX official-runner qualification record**, no"
-  },
-  {
-   "kind": "added",
-   "block": "53ea6d81",
-   "type": "para",
-   "context": "Archived APEX official-runner qualificat",
-   "preview": "The Investment Banking task `task_3e2e533b49374381acf2056fe4"
-  },
-  {
-   "kind": "added",
-   "block": "91b6bce2",
-   "type": "para",
-   "context": "Archived APEX official-runner qualificat",
-   "preview": "The Law task `task_323b4e29af5e4c7f86eaf4a24c4487ad` is a be"
+   "block": "2fd07e62",
+   "type": "list",
+   "context": "E09: APEX Law artifact-handoff calibrati",
+   "preview": "- **Question**: When a fresh legal-work agent receives the s"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:31fa91a396e2654341bf1a725d033eeea7132a7e44dd8abadf89619f0e181cbf",
+ "soft_fingerprint": "ppsb1:14caf99315df5ee017177d697c5d7a8c2bd058da679a4d61e02be3b8b237d559",
  "actors": {
   "requested_by": [
    "Richard Tang"
@@ -63,28 +49,18 @@
  "attribution_basis": "harness_attested",
  "claims": [
   {
-   "block": "7f3a14c9",
+   "block": "49cf9342",
    "kind": "added",
-   "note": "Adds the scope boundary for the APEX Gemini qualification record."
+   "note": "Registers the APEX-derived Law calibration experiment in ARA."
   },
   {
-   "block": "724ca1df",
+   "block": "2fd07e62",
    "kind": "added",
-   "note": "Records the pinned official-runner configuration and non-leaderboard boundary."
-  },
-  {
-   "block": "53ea6d81",
-   "kind": "added",
-   "note": "Records four completed finance zero-score qualifications and the excluded user-terminated provider abort."
-  },
-  {
-   "block": "91b6bce2",
-   "kind": "added",
-   "note": "Records the completed Law pilot, rubric findings, and negative-control limitation."
+   "note": "Records the result boundary, Law pilot evidence, controls, and interpretation limitation."
   }
  ],
  "context": {
-  "why": "Record the completed APEX Gemini qualification evidence, exclude the user-terminated finance infrastructure abort, and classify Law task fit honestly."
+  "why": "Register the APEX-derived Law handoff calibration experiment and its observed qualification boundary in ARA."
  },
- "event_id": "ppe_142b0baac745658f7be1244d"
+ "event_id": "ppe_4bb8faee9e346227130f1e2f"
 }
