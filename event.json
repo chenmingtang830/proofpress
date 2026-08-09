@@ -1,41 +1,82 @@
 {
  "event": "version_created",
- "artifact": "ara/PAPER.md",
- "artifact_id": "pp_cb6d0883f4bda071d2137869",
- "version": "026e447f",
- "parent": "f0a675e1",
+ "artifact": "experiments/provenance_handoff/docs/RESEARCH_PLAN.md",
+ "artifact_id": "pp_00e96ce828caea19ac7221ae",
+ "version": "4f5cdeed",
+ "parent": "4c9d9939",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-09T13:55:59+00:00",
+ "ts": "2026-08-09T19:28:48+00:00",
  "stats": {
-  "modified": 2
+  "modified": 1,
+  "added": 4
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "d6d1bb11",
+   "block": "7930a2fd",
    "type": "para",
-   "context": "Research notebook — admitted provenance "
+   "context": "Completed APEX-derived Restricted-Access",
+   "numbers": [
+    [
+     "61.9%",
+     "17"
+    ],
+    [
+     "8",
+     "21"
+    ],
+    [
+     "0",
+     "16"
+    ],
+    [
+     "3",
+     "21"
+    ]
+   ]
   },
   {
-   "kind": "modified",
-   "block": "4b96e0aa",
+   "kind": "added",
+   "block": "51e16978",
+   "type": "heading",
+   "context": "Preregistered next task: restricted-acce",
+   "preview": "## Preregistered next task: restricted-access S-Corp SPA rev"
+  },
+  {
+   "kind": "added",
+   "block": "d22e0914",
    "type": "para",
-   "context": "Abstract (draft)"
+   "context": "Preregistered next task: restricted-acce",
+   "preview": "**Task choice.** The next candidate is APEX task `task_8705d"
+  },
+  {
+   "kind": "added",
+   "block": "6300f622",
+   "type": "para",
+   "context": "Preregistered next task: restricted-acce",
+   "preview": "**Carrier and measurement repair.** Both arms receive the sa"
+  },
+  {
+   "kind": "added",
+   "block": "556f6be2",
+   "type": "para",
+   "context": "Preregistered next task: restricted-acce",
+   "preview": "**Authorization gate.** Only a single upstream A plus paired"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:4d807e13b2cbf0fe44e7a58ff960c4206eb01324c8ac67d1ce5bab56639de428",
+ "soft_fingerprint": "ppsb1:54391ad4fc2256887d65b0e010df10de2d6fc76cd74daf9c5f8438ad567d9201",
  "actors": {
   "requested_by": [
    "user"
   ],
   "produced_by": [
-   "Gemini 3.1 Pro Preview and APEX-derived runner"
+   "Codex"
   ],
   "edited_by": [
    "Codex"
@@ -44,21 +85,36 @@
    "Codex"
   ]
  },
- "attribution_basis": "harness_attested",
+ "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "d6d1bb11",
+   "block": "7930a2fd",
    "kind": "modified",
-   "note": "Updated notebook status to the completed bounded restricted-access Lease result."
+   "note": "Corrects the Lease audit interpretation, records the post-hoc v2 diagnostic, and freezes the no-more-Lease-runs decision."
   },
   {
-   "block": "4b96e0aa",
-   "kind": "modified",
-   "note": "Updated the abstract with the native-audit endpoint split and no-general-efficacy conclusion."
+   "block": "51e16978",
+   "kind": "added",
+   "note": "Introduces the preregistered restricted-access S-Corp SPA follow-on task."
+  },
+  {
+   "block": "d22e0914",
+   "kind": "added",
+   "note": "Records the task selection rationale and frozen task and world identity."
+  },
+  {
+   "block": "6300f622",
+   "kind": "added",
+   "note": "Defines actionable carrier content and operative-section scorer requirements."
+  },
+  {
+   "block": "556f6be2",
+   "kind": "added",
+   "note": "Limits authorization to a gated randomized 1+1 pilot and leaves 3+3 unauthorized."
   }
  ],
  "context": {
-  "why": "Update the research notebook status and abstract with the bounded completed E10 result."
+  "why": "Correct the post-run Lease measurement interpretation and preregister the bounded S-Corp SPA follow-on after user approval."
  },
- "event_id": "ppe_117328b7e51f872c3b59f4fa"
+ "event_id": "ppe_20e45e7bb5bce5aea203d7da"
 }
