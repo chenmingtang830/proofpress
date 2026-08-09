@@ -879,10 +879,60 @@ def check_attribution_basis(basis):
                          "signing is implemented; use harness_attested or below")
 
 
+DECISION_SCHEMA = "proofpress/admitted-decisions/v1"
+DECISION_STATUSES = {"accepted", "implemented", "pending", "superseded"}
+
+
+def validate_decisions(value):
+    """Validate host-supplied, portable admitted decision records.
+
+    The protocol deliberately keeps the target and evidence identifiers
+    opaque. Applications can use a clause, issue, work-item, or any other
+    stable target without making the core domain-specific.
+    """
+    if not isinstance(value, dict) or value.get("schema_version") != DECISION_SCHEMA:
+        raise SystemExit(f"decision register must use {DECISION_SCHEMA}")
+    decisions = value.get("decisions")
+    if not isinstance(decisions, list) or not decisions:
+        raise SystemExit("decision register must contain a non-empty decisions array")
+    seen = set()
+    required = {"decision_id", "target", "status", "next_action"}
+    for item in decisions:
+        if not isinstance(item, dict) or not required.issubset(item):
+            raise SystemExit(
+                "every admitted decision requires decision_id, target, status, and next_action"
+            )
+        for key in required:
+            if not isinstance(item[key], str) or not item[key].strip():
+                raise SystemExit(f"decision {key} must be a non-empty string")
+        decision_id = item["decision_id"]
+        if decision_id in seen:
+            raise SystemExit(f"duplicate admitted decision id: {decision_id}")
+        seen.add(decision_id)
+        if item["status"] not in DECISION_STATUSES:
+            raise SystemExit(f"invalid admitted decision status: {item['status']}")
+        for key in ("supersedes", "evidence_refs"):
+            if key in item and (
+                not isinstance(item[key], list)
+                or any(not isinstance(v, str) or not v.strip() for v in item[key])
+            ):
+                raise SystemExit(f"decision {key} must be an array of non-empty strings")
+        binding = item.get("artifact_binding")
+        if binding is not None and (
+            not isinstance(binding, dict)
+            or set(binding) != {"path", "sha256"}
+            or not isinstance(binding["path"], str)
+            or not binding["path"].strip()
+            or not re.fullmatch(r"[0-9a-f]{64}", str(binding["sha256"]))
+        ):
+            raise SystemExit("decision artifact_binding requires path and lowercase sha256")
+    return value
+
+
 def do_snapshot(path, author, kind, session, note, claims=None, context=None,
                 text=None, ts=None, source_commit=None, artifact_id=None,
                 policy="local", actors=None, attribution_basis="unknown",
-                ingredients=None, force_event=False,
+                ingredients=None, decisions=None, force_event=False,
                 prev_event_override=None, prev_version_override=None):
     """Core snapshot: file → block tree → ledger. Returns event or None (no change).
 
@@ -926,6 +976,8 @@ def do_snapshot(path, author, kind, session, note, claims=None, context=None,
     }
     if ingredients:
         event["ingredients"] = ingredients
+    if decisions is not None:
+        event["decisions"] = decisions
     if actors:
         event["actors"] = actors
     event["attribution_basis"] = attribution_basis
@@ -1204,7 +1256,9 @@ def append_capsule(path, body, meta, capsule, event, version):
     normalized = capsule_v2(capsule)
     prior_record = _record_map(normalized)[normalized["head_event"]]
     prior_v = prior_record["version"]
-    if version_id(version) == capsule["head"]:
+    # A decision-only admission may intentionally keep the visible body at
+    # the current head. Preserve that testimony in the portable capsule.
+    if version_id(version) == capsule["head"] and not event.get("decisions"):
         capsule["body_digest"] = body_digest(version)
         return capsule
     changes, stats = semantic_diff(prior_v, version)
@@ -1261,6 +1315,9 @@ def cmd_snapshot(a):
         if not isinstance(claims, list):
             raise SystemExit("--claims file must be a JSON array of "
                              '{"block", "kind", "note"?} objects')
+    decisions = None
+    if getattr(a, "decisions", None):
+        decisions = validate_decisions(json.load(open(a.decisions)))
     context = None
     if a.why or a.rejected:
         context = {}
@@ -1269,12 +1326,15 @@ def cmd_snapshot(a):
         if a.rejected:
             context["rejected"] = a.rejected
     actors = _actors_from_args(a)
-    force_event = False
+    # A decision register is itself an admitted transition, even when the
+    # visible artifact body is unchanged. This lets a handoff carry a new
+    # accepted decision without manufacturing a meaningless text edit.
+    force_event = decisions is not None
     portable_prev_event = portable_prev_version = None
     if meta["policy"] == "portable" and capsule is not None:
         cap_state = validate_capsule(
             body, meta, capsule, carrier_for_path(a.file))
-        force_event = "body_mismatch" in cap_state
+        force_event = force_event or "body_mismatch" in cap_state
         normalized = capsule_v2(capsule)
         head_record = _record_map(normalized)[normalized["head_event"]]
         portable_prev_event = head_record["event"]
@@ -1284,6 +1344,7 @@ def cmd_snapshot(a):
                      artifact_id=meta["artifact_id"], policy=meta["policy"],
                      actors=actors, attribution_basis=a.attribution_basis,
                      ingredients=getattr(a, "ingredients", None),
+                     decisions=decisions,
                      force_event=force_event,
                      prev_event_override=portable_prev_event,
                      prev_version_override=portable_prev_version)
@@ -1792,6 +1853,9 @@ def cmd_merge(a):
         claims = json.load(open(a.claims))
         if not isinstance(claims, list):
             raise SystemExit("--claims file must be a JSON array")
+    decisions = None
+    if getattr(a, "decisions", None):
+        decisions = validate_decisions(json.load(open(a.decisions)))
     context = None
     if a.why or a.rejected:
         context = {}
@@ -1821,6 +1885,8 @@ def cmd_merge(a):
     check_attribution_basis(a.attribution_basis)
     if claims is not None:
         event["claims"] = claims
+    if decisions is not None:
+        event["decisions"] = decisions
     if context is not None:
         event["context"] = context
     event["event_id"] = stable_event_id(event, version)
@@ -2404,6 +2470,10 @@ def cmd_show(a):
         print(C("dim", "ingredient: ")
               + f'{ing.get("artifact_id", "?")} @ {ing.get("version", "?")}'
               + C("dim", f'  ({ing.get("artifact", "")})'))
+    for decision in ev.get("decisions", {}).get("decisions", []):
+        print(C("accent", "decision: ")
+              + f'{decision["decision_id"]} [{decision["status"]}] '
+              + md_term(decision["target"]))
     for edge in ev.get("parents", [])[1:]:
         print(C("dim", "parent: ")
               + f'{edge.get("version", "?")} ({edge.get("event_id", "?")})')
@@ -2602,6 +2672,8 @@ def main():
     s.add_argument("--recorded-by", action="append", default=None)
     s.add_argument("--attribution-basis", choices=ATTRIBUTION_BASES,
                    default="self_asserted")
+    s.add_argument("--decisions", default=None, metavar="JSON_FILE",
+                   help="portable admitted-decision register JSON")
     s.set_defaults(f=cmd_snapshot)
     l = sub.add_parser("log"); l.add_argument("file")
     l.add_argument("--json", action="store_true"); l.set_defaults(f=cmd_log)
@@ -2640,6 +2712,8 @@ def main():
                     choices=["human", "agent", "system"])
     mg.add_argument("--session", default=None); mg.add_argument("--note", default=None)
     mg.add_argument("--claims", default=None)
+    mg.add_argument("--decisions", default=None, metavar="JSON_FILE",
+                    help="portable admitted-decision register JSON")
     mg.add_argument("--why", default=None)
     mg.add_argument("--rejected", action="append", default=None)
     mg.add_argument("--requested-by", action="append", default=None)

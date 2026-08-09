@@ -144,6 +144,57 @@ class PortableArtifactTests(unittest.TestCase):
         self.assertEqual(second["versions"], 2)
         self.assertEqual(self.repo.cli("policy", "a.md").stdout.split()[1], "portable")
 
+    def test_admitted_decisions_travel_in_portable_capsule(self):
+        self.repo.write("a.md", "# Plan\n\nShip the narrow scope.\n")
+        self.repo.cli("policy", "a.md", "portable")
+        self.repo.write("decisions.json", json.dumps({
+            "schema_version": "proofpress/admitted-decisions/v1",
+            "decisions": [{
+                "decision_id": "decision-001",
+                "target": "launch scope",
+                "before": "full platform",
+                "after": "narrow pilot",
+                "status": "implemented",
+                "supersedes": [],
+                "evidence_refs": ["review-42"],
+                "next_action": "verify pilot metrics",
+                "artifact_binding": {
+                    "path": "a.md",
+                    "sha256": "0" * 64,
+                },
+            }],
+        }))
+        self.repo.cli("snapshot", "a.md", "--author", "codex",
+                      "--decisions", "decisions.json")
+
+        inspected = json.loads(self.repo.cli("inspect", "a.md", "--json").stdout)
+        self.assertEqual(inspected["status"], "ok")
+        raw = (self.repo.path / "a.md").read_text()
+        payload = re.search(r"proofpress:capsule:([A-Za-z0-9_-]+)", raw).group(1)
+        decoded = base64.urlsafe_b64decode(payload + "=" * (-len(payload) % 4))
+        capsule = json.loads(zlib.decompress(decoded))
+        event = capsule["records"][-1]["event"]
+        self.assertEqual(event["decisions"]["schema_version"],
+                         "proofpress/admitted-decisions/v1")
+        self.assertEqual(event["decisions"]["decisions"][0]["target"],
+                         "launch scope")
+        shown = self.repo.cli("show", "a.md").stdout
+        self.assertIn("decision: decision-001 [implemented] launch scope", shown)
+
+    def test_admitted_decisions_reject_invalid_status(self):
+        self.repo.write("a.md", "# Plan\n\nShip it.\n")
+        self.repo.write("decisions.json", json.dumps({
+            "schema_version": "proofpress/admitted-decisions/v1",
+            "decisions": [{
+                "decision_id": "decision-001", "target": "scope",
+                "status": "unknown", "next_action": "none",
+            }],
+        }))
+        result = self.repo.cli("snapshot", "a.md", "--decisions", "decisions.json",
+                               check=False)
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn("invalid admitted decision status", result.stderr)
+
     def test_ignored_skips_and_local_never_embeds(self):
         self.repo.write("a.md", "# A\n")
         self.repo.cli("policy", "a.md", "ignored")
