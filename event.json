@@ -1,41 +1,35 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/docs/STALE_PHASE1_PLAN.md",
- "artifact_id": "pp_6cf0c8f0e4ef1cb9c59aae65",
- "version": "93232967",
- "parent": "b5e884d3",
+ "artifact": "experiments/provenance_handoff/ara/logic/experiments.md",
+ "artifact_id": "pp_15fb7a0bcf0891f7cee01068",
+ "version": "5575a21d",
+ "parent": "f3f84700",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-09T08:35:57+00:00",
+ "ts": "2026-08-09T08:36:02+00:00",
  "stats": {
-  "modified": 3
+  "modified": 2
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "05b3cc93",
-   "type": "para",
-   "context": "Status and scope"
+   "block": "958a5698",
+   "type": "heading",
+   "context": "E08: Completed STALE / CUPMem Phase 1 Na"
   },
   {
    "kind": "modified",
-   "block": "aa5e763b",
-   "type": "para",
-   "context": "Current production-carrier pilot"
-  },
-  {
-   "kind": "modified",
-   "block": "fbc3ab99",
+   "block": "28fb9f31",
    "type": "list",
-   "context": "Execution sequence"
+   "context": "E08: Completed STALE / CUPMem Phase 1 Na"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:f5db0851aaa6bb426539c0cf7ef49e36f8bd80e00e3833ee70ffcdfc8f78c239",
+ "soft_fingerprint": "ppsb1:4644c33f3c127b8fbd4b8f5d3c9a7cdb29657198fd106cf32a857e4cc78068cf",
  "actors": {
   "requested_by": [
    "user"
@@ -53,23 +47,18 @@
  "attribution_basis": "harness_attested",
  "claims": [
   {
-   "block": "05b3cc93",
+   "block": "958a5698",
    "kind": "modified",
-   "note": "Updates Phase 1 status to include the non-reproducing secondary judge result and retains the no-scale-up decision."
+   "note": "Names E08 as the completed Nano qualification plus Gemini judge robustness check."
   },
   {
-   "block": "aa5e763b",
+   "block": "28fb9f31",
    "kind": "modified",
-   "note": "Records that the matched frozen-answer Gemini rescore prevents a judge-robust treatment-effect claim."
-  },
-  {
-   "block": "fbc3ab99",
-   "kind": "modified",
-   "note": "Makes the completed non-reproducing Gemini rescore an explicit part of the Phase 1 analysis boundary."
+   "note": "Records the complete Gemini rescore, non-replicating paired result, and judge-sensitive interpretation in ARA."
   }
  ],
  "context": {
-  "why": "Update the Phase 1 decision boundary after the requested secondary judge did not reproduce the Nano result."
+  "why": "Preserve the completed secondary judge robustness evidence and the judge-sensitive research interpretation in ARA."
  },
- "event_id": "ppe_db01dd4f75dcc2c59eb76aa7"
+ "event_id": "ppe_1f78678b619e6bcb0ad1dc22"
 }
