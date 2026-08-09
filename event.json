@@ -1,66 +1,114 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/ara/logic/experiments.md",
- "artifact_id": "pp_15fb7a0bcf0891f7cee01068",
- "version": "2b376462",
- "parent": "b95f3d02",
+ "artifact": "experiments/provenance_handoff/docs/RESEARCH_PLAN.md",
+ "artifact_id": "pp_00e96ce828caea19ac7221ae",
+ "version": "a195c620",
+ "parent": "d232453d",
  "author": {
-  "name": "Codex",
+  "name": "codex",
   "kind": "agent",
-  "session": "apex-law-3x3-20260809"
+  "session": null
  },
  "note": null,
- "ts": "2026-08-09T10:18:19+00:00",
+ "ts": "2026-08-09T10:57:21+00:00",
  "stats": {
-  "added": 2
+  "modified": 1,
+  "added": 5
  },
  "changes": [
   {
-   "kind": "added",
-   "block": "6e357d05",
-   "type": "list",
-   "context": "E09: APEX Law artifact-handoff calibrati",
-   "preview": "- **Completed 3+3 calibration**: all six receiver worlds com"
+   "kind": "modified",
+   "block": "50af478e",
+   "type": "heading",
+   "context": "Completed APEX-derived Law Artifact Hand"
   },
   {
    "kind": "added",
-   "block": "8c0950d0",
-   "type": "list",
-   "context": "E09: APEX Law artifact-handoff calibrati",
-   "preview": "- **Integrity and decision**: all Proofpress capsules indepe"
+   "block": "7cb13b42",
+   "type": "heading",
+   "context": "Planned APEX-derived Restricted-Access A",
+   "preview": "## Planned APEX-derived Restricted-Access Artifact Handoff T"
+  },
+  {
+   "kind": "added",
+   "block": "81f4d9ac",
+   "type": "para",
+   "context": "Planned APEX-derived Restricted-Access A",
+   "preview": "**Purpose, estimand, and real-world boundary.** This derived"
+  },
+  {
+   "kind": "added",
+   "block": "6e23c4f1",
+   "type": "para",
+   "context": "Planned APEX-derived Restricted-Access A",
+   "preview": "**Receiver contract and access audit.** Agent A works in a f"
+  },
+  {
+   "kind": "added",
+   "block": "34d5a5c2",
+   "type": "para",
+   "context": "Planned APEX-derived Restricted-Access A",
+   "preview": "**Matched carrier contrast.** Ordinary handoff is the curren"
+  },
+  {
+   "kind": "added",
+   "block": "9a78e2c6",
+   "type": "para",
+   "context": "Planned APEX-derived Restricted-Access A",
+   "preview": "**Pilot, scoring, and interpretation.** Begin with one upstr"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:6b747e23d6e1cf68c63785021b147633b3d32bb2ea611162bf263d759193c8ea",
+ "soft_fingerprint": "ppsb1:fc86ac1267a3ec4e379902a69a1fa9473e01e4e56601f513dbb380f0946187b4",
  "actors": {
   "requested_by": [
-   "Richard Tang"
+   "richardtang"
   ],
   "produced_by": [
-   "Gemini 3.1 Pro Preview via Vercel AI Gateway"
+   "codex"
   ],
   "edited_by": [
-   "Codex"
+   "codex"
   ],
   "recorded_by": [
-   "Codex"
+   "codex"
   ]
  },
- "attribution_basis": "harness_attested",
+ "attribution_basis": "environment_attested",
  "claims": [
   {
-   "block": "6e357d05",
-   "kind": "added",
-   "note": "Records the completed 3+3 receiver outcomes and paired repair results."
+   "block": "50af478e",
+   "kind": "modified",
+   "note": "Reclassified the completed Law 3+3 as a public-source negative control."
   },
   {
-   "block": "8c0950d0",
+   "block": "7cb13b42",
    "kind": "added",
-   "note": "Records capsule verification, no-abort evidence, and the null-calibration decision."
+   "note": "Added the restricted-access Lease track title."
+  },
+  {
+   "block": "81f4d9ac",
+   "kind": "added",
+   "note": "Defined the conditional cross-boundary estimand and access-discontinuity framing."
+  },
+  {
+   "block": "6e23c4f1",
+   "kind": "added",
+   "note": "Specified the restricted receiver snapshot and leakage preflight."
+  },
+  {
+   "block": "34d5a5c2",
+   "kind": "added",
+   "note": "Defined matched ordinary and Proofpress carriers and the verification limit."
+  },
+  {
+   "block": "9a78e2c6",
+   "kind": "added",
+   "note": "Recorded pilot gates, arm-blind grading, and bounded interpretation."
   }
  ],
  "context": {
-  "why": "Record the completed APEX-derived Law calibration in the ARA experiment ledger with its integrity evidence and null decision."
+  "why": "Record the restricted-access Lease handoff protocol without reinterpreting the completed public-source control."
  },
- "event_id": "ppe_7d3b7411eaedac8c70537a66"
+ "event_id": "ppe_7795391c48f0a1c0fbd16a00"
 }
