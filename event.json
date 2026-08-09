@@ -1,53 +1,53 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/ara/PAPER.md",
- "artifact_id": "pp_cb6d0883f4bda071d2137869",
- "version": "c1351677",
- "parent": "026e447f",
+ "artifact": "experiments/provenance_handoff/docs/ARTIFACT_TRAVEL_V2_PLAN.md",
+ "artifact_id": "pp_cbf559b6d07e7baadaed3ed9",
+ "version": "38e0b432",
+ "parent": "72680582",
  "author": {
-  "name": "unknown",
-  "kind": "human",
+  "name": "codex",
+  "kind": "agent",
   "session": null
  },
- "note": null,
- "ts": "2026-08-09T19:29:11+00:00",
+ "note": "record active Artifact Travel v2 protocol and passed Phase 0 gate",
+ "ts": "2026-08-09T21:21:06+00:00",
  "stats": {
   "modified": 1
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "4b96e0aa",
+   "block": "e434c3c4",
    "type": "para",
-   "context": "Abstract (draft)"
+   "context": "Status"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:96e28fd03a63fdada27d95edbd48f604f6fdbd9c295ea7e35113468225fd3b48",
+ "soft_fingerprint": "ppsb1:a29fab4e39d95c9a7ec0f98521cd46ff27a7d75ae3112b797ab71568ee9d6b2f",
  "actors": {
   "requested_by": [
-   "user"
+   "Richard Tang"
   ],
   "produced_by": [
-   "Codex"
+   "OpenAI Codex"
   ],
   "edited_by": [
-   "Codex"
+   "OpenAI Codex"
   ],
   "recorded_by": [
-   "Codex"
+   "OpenAI Codex"
   ]
  },
- "attribution_basis": "self_asserted",
+ "attribution_basis": "harness_attested",
  "claims": [
   {
-   "block": "4b96e0aa",
+   "block": "e434c3c4",
    "kind": "modified",
-   "note": "Updates the abstract with the Lease measurement correction, bounded interpretation, and gated S-Corp SPA follow-on."
+   "note": "Record the passed no-model Phase 0 gate and preserve that Phase 1 remains unauthorized."
   }
  ],
  "context": {
-  "why": "Update the paper abstract to reflect the Lease measurement correction and gated next task."
+  "why": "Implement the user-approved bundle-effect A-to-B-to-reviewer benchmark without authorizing paid model runs."
  },
- "event_id": "ppe_db16bc5147ec560b69c77e4b"
+ "event_id": "ppe_b9e07422907d05ffc2c6c5f2"
 }

@@ -1,48 +1,294 @@
 {
- "artifact": "experiments/provenance_handoff/ara/PAPER.md",
- "artifact_id": "pp_cb6d0883f4bda071d2137869",
+ "artifact": "experiments/provenance_handoff/docs/ARTIFACT_TRAVEL_V2_PLAN.md",
+ "artifact_id": "pp_cbf559b6d07e7baadaed3ed9",
  "blocks": [
   {
    "type": "heading",
-   "text": "# Research notebook — admitted provenance comparative study",
-   "id": "5ad8477e",
-   "hash": "1a305208da3f"
-  },
-  {
-   "type": "para",
-   "text": "**Status:** the original STALE/CUPMem prompt-policy pilot is superseded for causal interpretation because its condition execution boundaries were not matched. The completed APEX Law 3+3 is an archived public-source negative control. The completed restricted-access Lease 3+3 is a bounded conditional cross-boundary artifact-handoff result: its native rubric has a small Proofpress advantage, but its independent artifact audit and missed-correction endpoints tie, so it does not establish a general efficacy claim. Historic Harvey/C&H records and the internal MemConflict mechanism check remain historical only.\n**Authors:** Proofpress research team (draft)\n**Year:** 2026\n**Active substrate:** STALE benchmark and its CUPMem comparison, with the superseded two-record harness record in `research/phase1/pilot_report.json` and the active carrier path in `research/phase1/run_production_pilot.py`; no held-out confirmatory run is claimed.",
-   "id": "d6d1bb11",
-   "hash": "c691246b9223"
+   "text": "# Proofpress Artifact Travel Benchmark v2",
+   "id": "024c7216",
+   "hash": "91fdd1a0ed84"
   },
   {
    "type": "heading",
-   "text": "## Artifact map",
-   "id": "6ce745c5",
-   "hash": "86cbf94b78e1"
+   "text": "## Status",
+   "id": "79b85ac9",
+   "hash": "e6012e8a29c9"
+  },
+  {
+   "type": "para",
+   "text": "This is the active Proofpress product benchmark plan. The no-model Phase 0 run\npassed all 46 gates across 15 fixture cells with product commit `6b843ee` and\nzero model calls; its sanitized record is\n`../evidence/artifact-travel-v2/phase0-summary.json`. Phase 1 is implemented\nbehind an explicit, hash-bound human authorization record but is not authorized\nby this document. No Phase 1 or Phase 2 outcome exists.",
+   "id": "e434c3c4",
+   "hash": "387c12d8acde"
+  },
+  {
+   "type": "para",
+   "text": "The earlier information-matched SPA v1 protocol remains an immutable\npreflight-only record. It must not be run, pooled, or relabeled as v2.",
+   "id": "3f9e878c",
+   "hash": "57e34f9d7116"
+  },
+  {
+   "type": "heading",
+   "text": "## Research question and estimand",
+   "id": "1b60d47f",
+   "hash": "46af1f9723a5"
+  },
+  {
+   "type": "para",
+   "text": "> Does the complete Proofpress portable handoff package outperform a naturally\n> produced generic memory or continuity handoff at cross-workspace completion,\n> verification, and safe rejection?",
+   "id": "51b2a2ce",
+   "hash": "c1bd4c22d02a"
+  },
+  {
+   "type": "para",
+   "text": "The primary estimand is the bundle effect `C2 − C1`. More information, explicit\ndecision state, portable evidence, artifact binding, and verification are all\nparts of the treatment. This experiment does not identify the isolated effect\nof a hash, capsule, evidence volume, or any other individual component.",
+   "id": "00b40948",
+   "hash": "cb7cfc89e950"
+  },
+  {
+   "type": "para",
+   "text": "`C2 − C0` is a secondary comparison against a bare artifact. It is not the sole\nbaseline because ordinary teams commonly leave a short handoff.",
+   "id": "fa53b778",
+   "hash": "158479ce5710"
+  },
+  {
+   "type": "heading",
+   "text": "## A → B → R boundary",
+   "id": "ac354b44",
+   "hash": "9d6a19b388d9"
   },
   {
    "type": "list",
-   "text": "- `logic/problem.md` — why conventional handoff does not preserve accepted decision state.\n- `logic/claims.md` — falsifiable, currently testing hypotheses only.\n- `logic/concepts.md` — treatment and measurement definitions.\n- `logic/experiments.md` — gates and comparison matrix.\n- `logic/related_work.md` — historical Harvey context plus active benchmark-comparison context.\n- `logic/solution/constraints.md` — non-negotiable fairness and safety constraints.\n- `src/` — environment and experiment artifact index.\n- `trace/` — append-only decisions and session record.\n- `evidence/` — source and sanitized result index, including historical internal MemConflict evidence.",
-   "id": "b9c6dba5",
-   "hash": "8a272d978577"
+   "text": "- **A** works in the complete source workspace and produces the current",
+   "id": "5055a9dc",
+   "hash": "d6b0f80f0521"
+  },
+  {
+   "type": "para",
+   "text": "  business artifact. Independent C1 and C2 packaging stages start from the\n  same frozen A artifact and source workspace.",
+   "id": "7c53cde7",
+   "hash": "2296533520ac"
+  },
+  {
+   "type": "list",
+   "text": "- **B** receives the final goal and a receiver-visible package but cannot",
+   "id": "678cc02b",
+   "hash": "7857c5ab0b29"
+  },
+  {
+   "type": "para",
+   "text": "  access A's workspace, chat, memory, trajectory, scratchpad, or answer key.",
+   "id": "b2972ace",
+   "hash": "4f6ce6b7fbc1"
+  },
+  {
+   "type": "list",
+   "text": "- **R** receives only the exact package B received plus B's delivery. R cannot",
+   "id": "5990198e",
+   "hash": "a8f25029065d"
+  },
+  {
+   "type": "para",
+   "text": "  access A, the hidden oracle, or a repaired package.",
+   "id": "31051ac9",
+   "hash": "ab4468f46122"
+  },
+  {
+   "type": "list",
+   "text": "- **Oracle** is a separate harness record containing the authoritative artifact,",
+   "id": "49077fa8",
+   "hash": "a6e56949ce90"
+  },
+  {
+   "type": "para",
+   "text": "  decision graph, evidence truth, injected fault, and acceptable dispositions.\n  It is never copied into a B or R overlay.",
+   "id": "a32d11d5",
+   "hash": "18cd0a6d43b7"
+  },
+  {
+   "type": "para",
+   "text": "Proofpress verification, the hidden oracle, and R are three independent layers.\nProofpress may verify integrity and declared lineage while the oracle rejects an\ninternally consistent but semantically false decision state.",
+   "id": "53db0379",
+   "hash": "a1487bff4d60"
   },
   {
    "type": "heading",
-   "text": "## Abstract (draft)",
-   "id": "6979663a",
-   "hash": "3513d178db19"
+   "text": "## Conditions",
+   "id": "a20acc7f",
+   "hash": "83625b6129c7"
+  },
+  {
+   "type": "table",
+   "text": "| Arm | Receiver-visible handoff |\n|---|---|\n| `C0 artifact-only` | Final goal and identical current/stale/fork candidates; no continuity |\n| `C1 conventional` | C0 plus A's natural generic summary of completed work, current state, and next action |\n| `C2 proofpress-portable` | C0 plus admitted decisions and supersession, portable evidence, DOCX semantic evidence, artifact binding, native portable carrier, and capsule |",
+   "id": "f92f3fde",
+   "hash": "42881c4c6d84"
   },
   {
    "type": "para",
-   "text": "This study evaluates admitted artifact provenance as a candidate intervention for documented failures in long-horizon memory, multi-agent coordination, and artifact revision. It distinguishes stateful memory comparisons from a portable provenance-bearing artifact handoff: the completed APEX-derived restricted-access Lease 3+3 tested the same semantic handoff when native anchors, declared decision lineage, and capsule verification traveled with the current artifact across a fresh receiver boundary. Proofpress recorded `10/18` native rubric cells versus `9/18` ordinary. The frozen seven-cell audit originally reported a `13/21` tie, but post-run inspection found that it mixed prefatory analysis with the operative certificate and case-folded defined-party terms; a separately versioned post-hoc audit reports `17/21` versus `16/21`, matching the native one-cell direction but remaining ineligible as confirmatory evidence. The Lease result is therefore still inconclusive, and no additional Lease runs are planned. A preregistered S-Corp SPA pilot now requires actionable clause-level lineage and operative-section scorer fixtures before any receiver call. ARA provides a methodological precedent for matched representation evaluation with blind task-level grading, but it gives agents a complete research package and does not test this source-access discontinuity. This study therefore does not claim heterogeneous-system interoperability or that a capsule verifies inaccessible source truth. The completed internal MemConflict check found a stale/regression reduction but no trusted-success gain over ordinary memory; it is historical mechanism evidence only because provider, cost, and fallback telemetry were missing. Outcomes preserve benchmark-native scores as primary, with auditability and efficiency reported separately, and retain null or negative results.",
-   "id": "4b96e0aa",
-   "hash": "ef66645207b5"
+   "text": "C1 is not forced to imitate Proofpress and is not intentionally degraded. All\narms use the same task, candidate artifacts, B/R tools, model capability, and\nmaximum budget. No arm receives padding. Package bytes, tokens, latency, tool\ncalls, and actual cost are reported as treatment costs.",
+   "id": "c5b56a9e",
+   "hash": "9bcc44b3b722"
+  },
+  {
+   "type": "heading",
+   "text": "## Package and decision interfaces",
+   "id": "9b9658f5",
+   "hash": "f65ba5728f37"
+  },
+  {
+   "type": "list",
+   "text": "- `artifact-travel-case/v1` admits one frozen A artifact, independent C1/C2",
+   "id": "b1818212",
+   "hash": "0846da559fa1"
   },
   {
    "type": "para",
-   "text": "The historical MemConflict result is a mechanism boundary, not a product claim: provenance may help a receiver notice stale authority in a controlled reversal fixture, but ordinary memory remained at least as good on the primary trusted-success endpoint. STALE/CUPMem is the active Phase 1 test.",
-   "id": "4249cd4c",
-   "hash": "67e72a93989f"
+   "text": "  packaging snapshots, decisions, evidence, and all input hashes.",
+   "id": "9c79fd67",
+   "hash": "922cf54792cd"
+  },
+  {
+   "type": "list",
+   "text": "- `artifact-travel-package/v2` is the receiver-visible package manifest.\n- `receiver-disposition/v1` requires `continue`, `reject`, or `reverify`, the",
+   "id": "dc6a6c11",
+   "hash": "cb99b4a02b8c"
+  },
+  {
+   "type": "para",
+   "text": "  selected artifact, decision/evidence use, reason codes, and output paths.",
+   "id": "9bb298d7",
+   "hash": "99c49b460e37"
+  },
+  {
+   "type": "list",
+   "text": "- `reviewer-verdict/v1` requires `accept`, `reject`, or `reverify`, reason codes,",
+   "id": "7c2bb905",
+   "hash": "27fd63e0d168"
+  },
+  {
+   "type": "para",
+   "text": "  and explicit identity/state/binding/evidence/fork checks.",
+   "id": "381ba3c0",
+   "hash": "949e35d20b39"
+  },
+  {
+   "type": "list",
+   "text": "- `fault-oracle/v1` is hidden and supplies semantic ground truth.",
+   "id": "fcd2331f",
+   "hash": "f97eeede10ff"
+  },
+  {
+   "type": "para",
+   "text": "C2 invokes the product at commit\n`6b843ee95807ccd39fcb46ca21219da73b875bf2`. The runtime records that commit,\nthe `proofpress.py` digest, all `inspect` and provenance-verification outputs,\nand any missing telemetry as unknown rather than zero.",
+   "id": "68449a67",
+   "hash": "67a2257f5dad"
+  },
+  {
+   "type": "heading",
+   "text": "## Fault matrix",
+   "id": "c35abfcc",
+   "hash": "eae25d05d6cd"
+  },
+  {
+   "type": "para",
+   "text": "The frozen package states are clean, stale artifact selected, superseded\ndecision revived, implemented decision omitted/regressed, evidence\nmissing/mismatched, and artifact binding/fork mismatch. C1 and C2 run all six.\nC0 runs clean, stale, and fork only, for 15 total Phase 1 cells.",
+   "id": "4fe621c7",
+   "hash": "806e8a65a398"
+  },
+  {
+   "type": "para",
+   "text": "The supersession and implemented-omission C2 faults are deliberately admitted\nas internally consistent carrier states. Proofpress integrity may pass them;\nonly the hidden oracle can judge their semantics. Evidence and fork faults must\nexercise real portable evidence and DOCX semantic verification failures.",
+   "id": "cf2fef5b",
+   "hash": "b723799f72a4"
+  },
+  {
+   "type": "heading",
+   "text": "## Outcomes",
+   "id": "821da1ab",
+   "hash": "9ccb9f6c9546"
+  },
+  {
+   "type": "list",
+   "text": "- **Clean trusted completion:** correct final task and artifact, no decision",
+   "id": "c0ccb4ad",
+   "hash": "c9c0cd5cfd45"
+  },
+  {
+   "type": "para",
+   "text": "  regression, traceable changes, and correct R acceptance.",
+   "id": "094f35a1",
+   "hash": "503828e55019"
+  },
+  {
+   "type": "list",
+   "text": "- **Faulted safe disposition:** B and R correctly reject or request",
+   "id": "f9ca6ed4",
+   "hash": "e7e4b67cb700"
+  },
+  {
+   "type": "para",
+   "text": "  re-verification, give an oracle-aligned reason, and do not continue unsafely.",
+   "id": "2ee4e9c3",
+   "hash": "1816b9092db9"
+  },
+  {
+   "type": "list",
+   "text": "- **Reviewer verdict accuracy:** R's verdict and reason agree with the oracle.\n- **End-to-end trusted handoff:** clean completion/acceptance or faulted safe",
+   "id": "2f377498",
+   "hash": "2f703f2691ca"
+  },
+  {
+   "type": "para",
+   "text": "  refusal/reverification.",
+   "id": "5de0dc21",
+   "hash": "d2acc5faeb12"
+  },
+  {
+   "type": "para",
+   "text": "Final DOCX rubric, artifact selection, decision state, regression, evidence\ncoverage, binding, tamper/fork detection, false reject, unsafe accept, tokens,\nlatency, package size, and cost remain separate reported measures.",
+   "id": "bf005a3e",
+   "hash": "4bd35cc2ba19"
+  },
+  {
+   "type": "heading",
+   "text": "## Execution gates",
+   "id": "f37c3bac",
+   "hash": "93484e5d36b9"
+  },
+  {
+   "type": "para",
+   "text": "Phase 0 generates all 15 fixture packages without model calls. It verifies\nreceiver isolation, real Proofpress portable carriers, DOCX semantic evidence,\nbinding, fault injection, schema validation, oracle separation, and synthetic\nend-to-end scoring. A failed gate stops the protocol.",
+   "id": "865ab0ee",
+   "hash": "56f9483df899"
+  },
+  {
+   "type": "para",
+   "text": "Phase 1 consumes a separately admitted case bundle. It uses one fresh\n`google/gemini-3.1-pro-preview` B and one fresh `openai/gpt-5.6-terra` R per\ncell, serially. The runner refuses to start unless an explicit human\nauthorization record matches the exact Phase 0 report, case bundle,\npreregistration, and product commit hashes. Missing provider, usage, fallback,\ntoken, or cost telemetry invalidates a cell.",
+   "id": "daa09766",
+   "hash": "ad64893e49c8"
+  },
+  {
+   "type": "para",
+   "text": "At least three of the 15 R verdicts require human blind audit, emphasizing\nunsafe accepts, false rejects, and reason correctness. Phase 1 completion does\nnot authorize Phase 2. Formal sample size is designed only after observing\npilot error space and scorer agreement.",
+   "id": "3b45ecc1",
+   "hash": "e01ef47c0be4"
+  },
+  {
+   "type": "heading",
+   "text": "## Benchmark boundaries",
+   "id": "d05286df",
+   "hash": "b241704c56ab"
+  },
+  {
+   "type": "para",
+   "text": "STALE becomes a separate Decision Trail Stress Suite for state, supersession,\nauthority, and predeclared abstention/reverification semantics. HiEviDR is a\nlater evidence-to-claim check. STATE-Bench is shared-memory calibration. APEX\nFinance is excluded, and Harvey remains historical final-quality evidence.\nNone of these scores are pooled with Artifact Travel v2.",
+   "id": "2388fae4",
+   "hash": "1e44e34d76e3"
+  },
+  {
+   "type": "para",
+   "text": "Proofpress currently has no signed identity or non-repudiation claim. This\ntrack tests portable structure, integrity, binding, evidence coverage, state\nhandling, and safe disposition only.",
+   "id": "52fa926f",
+   "hash": "6cf38fea9258"
   }
  ]
 }
