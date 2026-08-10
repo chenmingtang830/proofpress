@@ -31,6 +31,18 @@
    "id": "b2f7e31f",
    "text": "The revised SPA is the working candidate. The prior draft is no longer the current handoff artifact.",
    "type": "para"
+  },
+  {
+   "hash": "f130e792dc75",
+   "id": "7a400003",
+   "text": "## Current handoff",
+   "type": "heading"
+  },
+  {
+   "hash": "82422214e857",
+   "id": "20518573",
+   "text": "The current candidate is ready for downstream QC. The general-tax-indemnity alternative was considered but is not authorized by the available evidence.",
+   "type": "para"
   }
  ]
 }

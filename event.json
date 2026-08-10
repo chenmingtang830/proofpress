@@ -23,71 +23,74 @@
  },
  "changes": [
   {
-   "block": "7a400002",
-   "context": "Revision decision",
+   "block": "7a400003",
+   "context": "Current handoff",
    "kind": "added",
-   "preview": "## Revision decision",
+   "preview": "## Current handoff",
    "type": "heading"
   },
   {
-   "block": "b2f7e31f",
-   "context": "Revision decision",
+   "block": "20518573",
+   "context": "Current handoff",
    "kind": "added",
-   "preview": "The revised SPA is the working candidate. The prior draft is",
+   "preview": "The current candidate is ready for downstream QC. The genera",
    "type": "para"
   }
  ],
  "claims": [
   {
-   "block": "7a400002",
+   "block": "20518573",
    "kind": "added",
-   "note": "v1 temporal state admitted"
+   "note": "v2 temporal state admitted"
   },
   {
-   "block": "b2f7e31f",
+   "block": "7a400003",
    "kind": "added",
-   "note": "v1 temporal state admitted"
+   "note": "v2 temporal state admitted"
   }
  ],
  "context": {
-  "why": "record the substantive buyer-protection revision that supersedes v0"
+  "rejected": [
+   "general-tax-indemnity — unsupported by the admitted evidence"
+  ],
+  "why": "record the current handoff candidate and rejected alternative"
  },
  "event": "version_created",
- "event_id": "ppe_fd8b2ecebba0fabdbf8590fc",
+ "event_id": "ppe_d17b95c5d430e69cff4bceb2",
  "note": null,
- "parent": "655ad113",
+ "parent": "21ae5ade",
  "parents": [
   {
    "changes": [
     {
-     "block": "7a400002",
-     "context": "Revision decision",
+     "block": "7a400003",
+     "context": "Current handoff",
      "kind": "added",
-     "preview": "## Revision decision",
+     "preview": "## Current handoff",
      "type": "heading"
     },
     {
-     "block": "b2f7e31f",
-     "context": "Revision decision",
+     "block": "20518573",
+     "context": "Current handoff",
      "kind": "added",
-     "preview": "The revised SPA is the working candidate. The prior draft is",
+     "preview": "The current candidate is ready for downstream QC. The genera",
      "type": "para"
     }
    ],
-   "event_id": "ppe_9a04274cfce4a0c1e7f030ae",
+   "event_id": "ppe_fd8b2ecebba0fabdbf8590fc",
    "stats": {
     "added": 2
    },
-   "version": "655ad113"
+   "version": "21ae5ade"
   }
  ],
  "policy": "portable",
  "portable_lineage_id": "ppl_1fdb7f18f75baa14a1cfbee0",
- "soft_fingerprint": "ppsb1:f228aa52d370989a67af778da10c9d326937d393b35ffefedad4c27b71a4ac82",
+ "soft_fingerprint": "ppsb1:80c494ae74cc090ecabe11b801c7413268fce4d039b1b1b70e8b743368242463",
  "stats": {
   "added": 2
  },
  "ts": "2026-08-10T23:08:34+00:00",
- "version": "21ae5ade",
+ "version": "41708c84",
  "imported_from_capsule": true
 }
