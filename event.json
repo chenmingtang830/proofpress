@@ -23,90 +23,71 @@
  },
  "changes": [
   {
-   "block": "8af41f93",
-   "context": "SPA handoff trail",
+   "block": "7a400002",
+   "context": "Revision decision",
    "kind": "added",
-   "preview": "# SPA handoff trail",
+   "preview": "## Revision decision",
    "type": "heading"
   },
   {
-   "block": "7a400001",
-   "context": "Initial review",
+   "block": "b2f7e31f",
+   "context": "Revision decision",
    "kind": "added",
-   "preview": "## Initial review",
-   "type": "heading"
-  },
-  {
-   "block": "13a79009",
-   "context": "Initial review",
-   "kind": "added",
-   "preview": "The initial SPA candidate is under review. Preserve the S-Co",
+   "preview": "The revised SPA is the working candidate. The prior draft is",
    "type": "para"
   }
  ],
  "claims": [
   {
-   "block": "13a79009",
+   "block": "7a400002",
    "kind": "added",
-   "note": "v0 temporal state admitted"
+   "note": "v1 temporal state admitted"
   },
   {
-   "block": "7a400001",
+   "block": "b2f7e31f",
    "kind": "added",
-   "note": "v0 temporal state admitted"
-  },
-  {
-   "block": "8af41f93",
-   "kind": "added",
-   "note": "v0 temporal state admitted"
+   "note": "v1 temporal state admitted"
   }
  ],
  "context": {
-  "why": "record initial artifact review"
+  "why": "record the substantive buyer-protection revision that supersedes v0"
  },
  "event": "version_created",
- "event_id": "ppe_9a04274cfce4a0c1e7f030ae",
+ "event_id": "ppe_fd8b2ecebba0fabdbf8590fc",
  "note": null,
- "parent": "d30e68fc",
+ "parent": "655ad113",
  "parents": [
   {
    "changes": [
     {
-     "block": "8af41f93",
-     "context": "SPA handoff trail",
+     "block": "7a400002",
+     "context": "Revision decision",
      "kind": "added",
-     "preview": "# SPA handoff trail",
+     "preview": "## Revision decision",
      "type": "heading"
     },
     {
-     "block": "7a400001",
-     "context": "Initial review",
+     "block": "b2f7e31f",
+     "context": "Revision decision",
      "kind": "added",
-     "preview": "## Initial review",
-     "type": "heading"
-    },
-    {
-     "block": "13a79009",
-     "context": "Initial review",
-     "kind": "added",
-     "preview": "The initial SPA candidate is under review. Preserve the S-Co",
+     "preview": "The revised SPA is the working candidate. The prior draft is",
      "type": "para"
     }
    ],
-   "event_id": "ppe_cd78f5bd1beb19d7aedd7116",
+   "event_id": "ppe_9a04274cfce4a0c1e7f030ae",
    "stats": {
-    "added": 3
+    "added": 2
    },
-   "version": "d30e68fc"
+   "version": "655ad113"
   }
  ],
  "policy": "portable",
  "portable_lineage_id": "ppl_1fdb7f18f75baa14a1cfbee0",
- "soft_fingerprint": "ppsb1:61c4780b07aecfdb1f95020f3545313f6b069d2c64f4e7ec753d39a6f3240ac3",
+ "soft_fingerprint": "ppsb1:f228aa52d370989a67af778da10c9d326937d393b35ffefedad4c27b71a4ac82",
  "stats": {
-  "added": 3
+  "added": 2
  },
- "ts": "2026-08-10T23:08:33+00:00",
- "version": "655ad113",
+ "ts": "2026-08-10T23:08:34+00:00",
+ "version": "21ae5ade",
  "imported_from_capsule": true
 }

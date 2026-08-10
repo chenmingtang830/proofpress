@@ -19,6 +19,18 @@
    "id": "13a79009",
    "text": "The initial SPA candidate is under review. Preserve the S-Corporation protections while evidence is reconciled.",
    "type": "para"
+  },
+  {
+   "hash": "35f2298abff0",
+   "id": "7a400002",
+   "text": "## Revision decision",
+   "type": "heading"
+  },
+  {
+   "hash": "a589dcdffc5d",
+   "id": "b2f7e31f",
+   "text": "The revised SPA is the working candidate. The prior draft is no longer the current handoff artifact.",
+   "type": "para"
   }
  ]
 }
