@@ -1,37 +1,37 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/ara/PAPER.md",
- "artifact_id": "pp_cb6d0883f4bda071d2137869",
- "version": "24f075b0",
- "parent": "15f6d1a8",
+ "artifact": "experiments/provenance_handoff/ara/logic/experiments.md",
+ "artifact_id": "pp_15fb7a0bcf0891f7cee01068",
+ "version": "617eb8e2",
+ "parent": "414cf870",
  "author": {
   "name": "codex",
   "kind": "agent",
   "session": "artifact-travel-v4-docs"
  },
  "note": null,
- "ts": "2026-08-10T18:37:51+00:00",
+ "ts": "2026-08-10T18:37:54+00:00",
  "stats": {
   "added": 2
  },
  "changes": [
   {
    "kind": "added",
-   "block": "6c420001",
+   "block": "6c430001",
    "type": "heading",
-   "context": "Artifact Travel v4 temporal calibration",
-   "preview": "## Artifact Travel v4 temporal calibration"
+   "context": "E14: Artifact Travel v4 temporal Proofpr",
+   "preview": "## E14: Artifact Travel v4 temporal Proofpress calibration"
   },
   {
    "kind": "added",
-   "block": "6c420002",
-   "type": "para",
-   "context": "Artifact Travel v4 temporal calibration",
-   "preview": "v4 is the next no-model-qualified protocol, not a reinterpre"
+   "block": "6c430002",
+   "type": "list",
+   "context": "E14: Artifact Travel v4 temporal Proofpr",
+   "preview": "- **Question**: does an A-authored, multi-event Proofpress t"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:e91e8013a1a4c161490bf3977d4551c271c85a350dd662116961c7f6fbcbf63d",
+ "soft_fingerprint": "ppsb1:ec1537f872d7958e812337e2bc271ccd53c6c2de4c68566088bd5725ac14d178",
  "actors": {
   "requested_by": [
    "user"
@@ -49,18 +49,18 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "6c420001",
+   "block": "6c430001",
    "kind": "added",
-   "note": "Introduce v4 as the temporal calibration successor to the frozen v3 result."
+   "note": "Register the v4 temporal calibration experiment in ARA logic."
   },
   {
-   "block": "6c420002",
+   "block": "6c430002",
    "kind": "added",
-   "note": "State v3's static-carrier limitation and v4's outcome separation and efficacy gate."
+   "note": "Record the sparse C1, temporal C2, separate rejection scoring, and clean-path stop gate."
   }
  ],
  "context": {
-  "why": "record v4 temporal calibration and v3 limitation"
+  "why": "register v4 temporal calibration logic and stop gate"
  },
- "event_id": "ppe_63394b39aa3558e5c9ccf384"
+ "event_id": "ppe_06e3d59ecc4f86357b83a8f6"
 }
