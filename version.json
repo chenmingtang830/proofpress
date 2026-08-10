@@ -1,5 +1,24 @@
 {
  "artifact": "filesystem/Proofpress/proofpress-trail.md",
  "artifact_id": "pp_d931a4c536cf7d08a05ac5cb",
- "blocks": []
+ "blocks": [
+  {
+   "hash": "3256fb8ffabb",
+   "id": "3a1f764c",
+   "text": "# SPA handoff trail",
+   "type": "heading"
+  },
+  {
+   "hash": "eae558db618a",
+   "id": "7a400001",
+   "text": "## Initial review",
+   "type": "heading"
+  },
+  {
+   "hash": "5f1aa046c3ee",
+   "id": "bbe0533c",
+   "text": "The initial SPA candidate is under review. Preserve the S-Corporation protections while evidence is reconciled.",
+   "type": "para"
+  }
+ ]
 }
