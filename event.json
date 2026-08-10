@@ -1,54 +1,102 @@
 {
  "event": "version_created",
- "artifact": "README.md",
- "artifact_id": "pp_556b115de711b0cd33eed260",
- "version": "81bf5348",
- "parent": "768cd519",
+ "artifact": "experiments/provenance_handoff/docs/ARTIFACT_TRAVEL_V2_PLAN.md",
+ "artifact_id": "pp_cbf559b6d07e7baadaed3ed9",
+ "version": "d55ff647",
+ "parent": "38e0b432",
  "author": {
-  "name": "codex",
+  "name": "Codex",
   "kind": "agent",
-  "session": null
+  "session": "artifact-travel-v2-r3-results"
  },
- "note": "Added the hero image as the only README visual change; did not add inline article images.",
- "ts": "2026-08-10T01:33:09+00:00",
+ "note": null,
+ "ts": "2026-08-10T07:21:26+00:00",
  "stats": {
-  "added": 1
+  "modified": 1,
+  "added": 4
  },
  "changes": [
   {
-   "kind": "added",
-   "block": "df7a085e",
+   "kind": "modified",
+   "block": "e434c3c4",
    "type": "para",
-   "context": "Proofpress",
-   "preview": "<p align=\"center\">\n  <img src=\"assets/articles/memory-table-"
+   "context": "Status"
+  },
+  {
+   "kind": "added",
+   "block": "30f9eeef",
+   "type": "para",
+   "context": "Status",
+   "preview": "The completed pilot is a transport-switched, one-case operat"
+  },
+  {
+   "kind": "added",
+   "block": "7cb785e2",
+   "type": "heading",
+   "context": "Current pilot interpretation",
+   "preview": "## Current pilot interpretation"
+  },
+  {
+   "kind": "added",
+   "block": "c0e67a88",
+   "type": "para",
+   "context": "Current pilot interpretation",
+   "preview": "The completed SPA pilot recorded no unsafe accept in 15 cell"
+  },
+  {
+   "kind": "added",
+   "block": "3b112fb4",
+   "type": "para",
+   "context": "Current pilot interpretation",
+   "preview": "This means the pilot demonstrates that the package-and-revie"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:758fd7112d5731a5327ecbf18221d7f4b906f32fbbfc9927b0bb293c4a6915da",
+ "soft_fingerprint": "ppsb1:93f1b55667f9afa9533c7bccfdae65a23e5a599a1e872e45668426fcb22dfdae",
  "actors": {
   "requested_by": [
-   "user"
+   "richardtang"
   ],
   "produced_by": [
-   "codex"
+   "Codex"
   ],
   "edited_by": [
-   "codex"
+   "Codex"
   ],
   "recorded_by": [
-   "codex"
+   "Codex"
   ]
  },
- "attribution_basis": "harness_attested",
+ "attribution_basis": "environment_attested",
  "claims": [
   {
-   "block": "df7a085e",
+   "block": "e434c3c4",
+   "kind": "modified",
+   "note": "Record the completed authorized 15-cell pilot and its immutable final report."
+  },
+  {
+   "block": "30f9eeef",
    "kind": "added",
-   "note": "Added the generated provenance hero image to the production README brand surface with concise alt text."
+   "note": "State the mixed receiver transport, complete telemetry, pending audit, and non-confirmatory boundary."
+  },
+  {
+   "block": "7cb785e2",
+   "kind": "added",
+   "note": "Add a pilot interpretation section."
+  },
+  {
+   "block": "c0e67a88",
+   "kind": "added",
+   "note": "Record the arm-level safety endpoints and the C2 implemented-decision reason error."
+  },
+  {
+   "block": "3b112fb4",
+   "kind": "added",
+   "note": "Limit the pilot to auditable-refusal protocol evidence and descriptive error-space evidence."
   }
  ],
  "context": {
-  "why": "The user authorized publishing the generated provenance hero image in the production README; refresh the portable capsule for the accepted visual block."
+  "why": "Record the completed Artifact Travel v2 SPA pilot, including its transport boundary, observed safety endpoints, and non-confirmatory interpretation."
  },
- "event_id": "ppe_7b95374b8792ab3783233ae1"
+ "event_id": "ppe_ddb3a77f1566120f888dcbc6"
 }

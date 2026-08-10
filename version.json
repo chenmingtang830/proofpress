@@ -1,354 +1,318 @@
 {
- "artifact": "README.md",
- "artifact_id": "pp_556b115de711b0cd33eed260",
+ "artifact": "experiments/provenance_handoff/docs/ARTIFACT_TRAVEL_V2_PLAN.md",
+ "artifact_id": "pp_cbf559b6d07e7baadaed3ed9",
  "blocks": [
   {
-   "type": "para",
-   "text": "<p align=\"center\">\n  <img src=\"assets/logo.svg\" alt=\"Proofpress logo\" width=\"88\" height=\"88\">\n</p>",
-   "id": "6ec771b4",
-   "hash": "4f16a6485cef"
+   "type": "heading",
+   "text": "# Proofpress Artifact Travel Benchmark v2",
+   "id": "024c7216",
+   "hash": "91fdd1a0ed84"
   },
   {
    "type": "heading",
-   "text": "# Proofpress",
-   "id": "de7999eb",
-   "hash": "8576f3816903"
+   "text": "## Status",
+   "id": "79b85ac9",
+   "hash": "e6012e8a29c9"
   },
   {
    "type": "para",
-   "text": "[![npm version](https://img.shields.io/npm/v/proofpress.svg)](https://www.npmjs.com/package/proofpress)\n[![CI](https://github.com/chenmingtang830/proofpress/actions/workflows/ci.yml/badge.svg)](https://github.com/chenmingtang830/proofpress/actions/workflows/ci.yml)\n[![License: Apache-2.0](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)",
-   "id": "7542280e",
-   "hash": "b44a3b295f90"
+   "text": "This is the active Proofpress product benchmark plan. The no-model Phase 0 run\npassed all 46 gates across 15 fixture cells with product commit `6b843ee` and\nzero model calls; its sanitized record is\n`../evidence/artifact-travel-v2/phase0-summary.json`. The explicitly\nauthorized Phase 1 SPA pilot completed on 2026-08-10 with 15/15 runtime-valid\ncells. Its final immutable report is\n`/Users/richardtang/.codex/worktrees/artifact-travel-v2/runs/direct-gemini/pilot-gateway-continuation-r3-20260809/report.json`.",
+   "id": "e434c3c4",
+   "hash": "f52d40b4bda3"
   },
   {
    "type": "para",
-   "text": "**The admitted-history layer for agent-native work.**",
-   "id": "e667d986",
-   "hash": "3bbf504e5ffa"
+   "text": "The completed pilot is a transport-switched, one-case operational result, not\na confirmatory efficacy result and not authorization for Phase 2. C0 receiver\ncells used direct Gemini (3 cells), while C1/C2 receiver cells used AI Gateway\n(12 cells); R used the independent Terra Gateway route in all 15 cells. Every\ncell recorded complete telemetry and empty fallback values. The required three\nhuman-blind audits remain pending.",
+   "id": "30f9eeef",
+   "hash": "4a0fb18abf52"
   },
   {
    "type": "para",
-   "text": "Proofpress is the open Artifact Provenance Protocol for knowledge work. As\npeople and agents split work into atomic items, explore alternatives in\nparallel, and reassemble results into documents or decisions, Proofpress keeps\nthe admitted history attached to the artifact: what changed, what was accepted,\nwho participated, and what evidence or reason supported the transition.",
-   "id": "0e0e9d9a",
-   "hash": "2bd2c2e5215d"
-  },
-  {
-   "type": "para",
-   "text": "Its native ledger travels with Markdown and static HTML artifacts—even when Git\ndoes not. Its format-agnostic evidence envelope can also bind provenance to the\nexact bytes of any file without pretending to understand that file's semantics.",
-   "id": "92fbc10e",
-   "hash": "a8d22e6da64c"
-  },
-  {
-   "type": "para",
-   "text": "> Git made code collaborative. Proofpress makes intelligence compound.",
-   "id": "6ef36a68",
-   "hash": "d7856cec5e32"
-  },
-  {
-   "type": "para",
-   "text": "<p align=\"center\">\n  <img src=\"assets/articles/memory-table-stakes-provenance-engineering-hero.png\" alt=\"Illustration of a provenance ledger traveling with an artifact\" width=\"1200\">\n</p>",
-   "id": "df7a085e",
-   "hash": "105e5d76eb00"
-  },
-  {
-   "type": "para",
-   "text": "Think C2PA for knowledge work: a portable, inspectable record of admitted\nhistory—not a claim of C2PA compatibility, signed authorship, or complete\ncapture.",
-   "id": "cd8c1f66",
-   "hash": "08947a0cec6f"
+   "text": "The earlier information-matched SPA v1 protocol remains an immutable\npreflight-only record. It must not be run, pooled, or relabeled as v2.",
+   "id": "3f9e878c",
+   "hash": "57e34f9d7116"
   },
   {
    "type": "heading",
-   "text": "## Why admitted history matters",
-   "id": "6a39b2e1",
-   "hash": "19db318a451f"
+   "text": "## Research question and estimand",
+   "id": "1b60d47f",
+   "hash": "46af1f9723a5"
   },
   {
    "type": "para",
-   "text": "Agent-native work is not a linear document followed from start to finish. It\nis a graph of hypotheses, source material, decisions, revisions, handoffs, and\nevidence. Different tools can generate different views of that graph—a brief,\na research artifact, a design review, or an executable task—but the work only\ncompounds when collaborators can tell which changes became dependable shared\nknowledge.",
-   "id": "6c80c41a",
-   "hash": "1ee12722aa18"
+   "text": "> Does the complete Proofpress portable handoff package outperform a naturally\n> produced generic memory or continuity handoff at cross-workspace completion,\n> verification, and safe rejection?",
+   "id": "51b2a2ce",
+   "hash": "c1bd4c22d02a"
   },
   {
    "type": "para",
-   "text": "Proofpress operates at that boundary. It does not attempt to orchestrate every\nagent or capture every thought. It records meaningful, accepted transitions in\nthe artifacts that survive the workflow, so a later person or agent can inspect\nand verify the history without needing the original session, workspace, or\norchestrator.",
-   "id": "6dfb284f",
-   "hash": "1063d78a3d7e"
+   "text": "The primary estimand is the bundle effect `C2 − C1`. More information, explicit\ndecision state, portable evidence, artifact binding, and verification are all\nparts of the treatment. This experiment does not identify the isolated effect\nof a hash, capsule, evidence volume, or any other individual component.",
+   "id": "00b40948",
+   "hash": "cb7cfc89e950"
+  },
+  {
+   "type": "para",
+   "text": "`C2 − C0` is a secondary comparison against a bare artifact. It is not the sole\nbaseline because ordinary teams commonly leave a short handoff.",
+   "id": "fa53b778",
+   "hash": "158479ce5710"
   },
   {
    "type": "heading",
-   "text": "## Install",
-   "id": "cc376e2b",
-   "hash": "8fdd8c811597"
-  },
-  {
-   "type": "para",
-   "text": "Requires Python 3.11+, Git, and Node 22+:",
-   "id": "d6f9f208",
-   "hash": "2e2016a0f1b7"
-  },
-  {
-   "type": "code",
-   "text": "```sh\nnpm install --save-dev proofpress\nnpx --no-install proofpress --version\nnpx --no-install proofpress setup --agent codex\n```",
-   "id": "7b197ac1",
-   "hash": "cd4f90b37ace"
-  },
-  {
-   "type": "para",
-   "text": "`setup` installs the agent adapter and writes `.proofpress/manifest.json`. Use\n`--agent claude`, `cursor`, or `all` for another supported harness.",
-   "id": "5ae48e1b",
-   "hash": "d2456cd38af5"
-  },
-  {
-   "type": "heading",
-   "text": "## Try Proofpress in two minutes",
-   "id": "8fb4a17c",
-   "hash": "5cbfd9e95bb7"
-  },
-  {
-   "type": "para",
-   "text": "Start with a real Markdown artifact that already carries two admitted versions.\n`inspect` reads its portable capsule before any local Proofpress ledger exists;\n`import` reconstructs that ledger from the file alone. The demo uses a\nrepository-local Git identity, so it also works on a clean machine:",
-   "id": "d61fe659",
-   "hash": "793c42a39377"
-  },
-  {
-   "type": "code",
-   "text": "```sh\nmkdir proofpress-quickstart && cd proofpress-quickstart\ngit init\ngit config user.name \"Proofpress Quickstart\"\ngit config user.email \"quickstart@example.invalid\"\nnpm init -y\nnpm install --save-dev proofpress\ncurl -LO https://raw.githubusercontent.com/chenmingtang830/proofpress/main/examples/portable-handoff/strategy.md\n\nnpx --no-install proofpress inspect strategy.md\nnpx --no-install proofpress import strategy.md\nnpx --no-install proofpress log strategy.md\n```",
-   "id": "9a25e119",
-   "hash": "e19822df4785"
-  },
-  {
-   "type": "para",
-   "text": "![Proofpress inspect, import, and log output](assets/quickstart/native-history.svg)",
-   "id": "862797da",
-   "hash": "384e333e13be"
-  },
-  {
-   "type": "para",
-   "text": "Review the accepted change and check that its recorded claims match the actual\ndocument diff:",
-   "id": "66c93d16",
-   "hash": "931e509fee6f"
-  },
-  {
-   "type": "code",
-   "text": "```sh\nnpx --no-install proofpress diff strategy.md\nnpx --no-install proofpress verify strategy.md\n```",
-   "id": "d63d3ab4",
-   "hash": "3f834925227d"
-  },
-  {
-   "type": "para",
-   "text": "![Proofpress diff and verify output](assets/quickstart/native-diff-verify.svg)",
-   "id": "399f86cf",
-   "hash": "f1e750b347df"
-  },
-  {
-   "type": "para",
-   "text": "Static HTML carries the same native ledger. Download\n[`strategy.html`](examples/portable-handoff/strategy.html) and substitute it for\n`strategy.md` in the commands above.",
-   "id": "07612948",
-   "hash": "bd607b375b61"
-  },
-  {
-   "type": "para",
-   "text": "DOCX uses a sidecar evidence record rather than an embedded revision ledger:",
-   "id": "ec2e5323",
-   "hash": "3392552b8666"
-  },
-  {
-   "type": "code",
-   "text": "```sh\ncurl -LO https://raw.githubusercontent.com/chenmingtang830/proofpress/main/examples/portable-handoff/proposal.docx\ncurl -LO https://raw.githubusercontent.com/chenmingtang830/proofpress/main/examples/portable-handoff/proposal.provenance.json\nnpx --no-install proofpress provenance verify proposal.docx \\\n  --evidence proposal.provenance.json\n```",
-   "id": "3ebf7611",
-   "hash": "fa0be3399248"
-  },
-  {
-   "type": "para",
-   "text": "![Proofpress DOCX provenance verification output](assets/quickstart/docx-provenance.svg)",
-   "id": "a528a698",
-   "hash": "61f2346da063"
-  },
-  {
-   "type": "para",
-   "text": "To continue the native-ledger demo, edit the visible Markdown or HTML content,\nthen admit the new version and inspect the updated history:",
-   "id": "4149c80a",
-   "hash": "e23b7e305cb1"
-  },
-  {
-   "type": "code",
-   "text": "```sh\nnpx --no-install proofpress snapshot strategy.md --kind human --author you \\\n  --why \"accepted the revised volunteer plan\"\nnpx --no-install proofpress log strategy.md\n```",
-   "id": "9df616af",
-   "hash": "5269322d2b10"
-  },
-  {
-   "type": "para",
-   "text": "See the [complete portable handoff example](examples/portable-handoff/README.md)\nfor the files, expected behavior, and security boundary.",
-   "id": "20a32f50",
-   "hash": "28994eb234d1"
-  },
-  {
-   "type": "heading",
-   "text": "## Create a portable document",
-   "id": "4273537d",
-   "hash": "d5d74e3e6de2"
-  },
-  {
-   "type": "para",
-   "text": "Run these commands on a Markdown or static HTML file:",
-   "id": "1160e434",
-   "hash": "a29deb09c2a9"
-  },
-  {
-   "type": "code",
-   "text": "```sh\nnpx --no-install proofpress policy proposal.md portable\nnpx --no-install proofpress anchor proposal.md\nnpx --no-install proofpress snapshot proposal.md --kind agent --author codex \\\n  --why \"accepted the smaller launch scope\"\nnpx --no-install proofpress verify proposal.md\n```",
-   "id": "2b655d31",
-   "hash": "0276a8f71021"
-  },
-  {
-   "type": "para",
-   "text": "Applications that need clause-, issue-, or work-item-level handoff context\ncan attach a host-defined admitted-decision register to the same portable\nevent:",
-   "id": "f46e6643",
-   "hash": "d45f59a38867"
-  },
-  {
-   "type": "code",
-   "text": "```sh\nnpx --no-install proofpress snapshot proposal.md --kind agent --author codex \\\n  --decisions decisions.json \\\n  --why \"accepted the revised implementation state\"\n```",
-   "id": "d7acbb2d",
-   "hash": "42412293abe9"
-  },
-  {
-   "type": "para",
-   "text": "The register uses `proofpress/admitted-decisions/v1` and travels inside the\nportable capsule. Its target and evidence identifiers remain host-defined;\nProofpress validates the record shape and integrity, not the truth of the\ndecision.",
-   "id": "eb60d5b2",
-   "hash": "d7d92da0a727"
-  },
-  {
-   "type": "para",
-   "text": "The policy is sticky. Each accepted snapshot refreshes the hidden capsule in\nthe file. Source code stays in Git; the native Proofpress ledger manages only\nMarkdown and static HTML knowledge artifacts. Artifact evidence may reference\nother file types without placing them in that ledger.",
-   "id": "5796ae98",
-   "hash": "8f00714a7daa"
-  },
-  {
-   "type": "heading",
-   "text": "## Verify documents and other artifacts",
-   "id": "d8a43a89",
-   "hash": "d1464f727b4c"
-  },
-  {
-   "type": "para",
-   "text": "Create a sidecar evidence record. Proofpress automatically selects the\nstrongest built-in adapter: semantic OOXML verification for Word documents,\nformat-aware byte verification for PDFs, and byte verification for other\nfiles.",
-   "id": "b8c9468f",
-   "hash": "fca388dda1da"
-  },
-  {
-   "type": "code",
-   "text": "```sh\nnpx --no-install proofpress provenance create proposal.docx \\\n  --output proposal.provenance.json\nnpx --no-install proofpress provenance verify proposal.docx \\\n  --evidence proposal.provenance.json\n```",
-   "id": "989efad2",
-   "hash": "0783c6b611af"
-  },
-  {
-   "type": "para",
-   "text": "For DOCX, `semantic` verification canonicalizes the meaningful OOXML package:\ndocument content, tables, styles, relationships, headers, footers, comments,\nfootnotes, and embedded media. Repacking the ZIP does not change the result,\nwhile changing document content does. PDF evidence remains `byte` level; it\nrecords format metadata but does not claim the document rendered correctly.\nUse `--level byte` when exact DOCX package bytes are required.",
-   "id": "227de120",
-   "hash": "ea3300c8aed4"
-  },
-  {
-   "type": "heading",
-   "text": "## Hand off a document",
-   "id": "949eb6a5",
-   "hash": "083b4be56435"
-  },
-  {
-   "type": "para",
-   "text": "Send the original file. The recipient does not need your repository, session,\nor local ledger:",
-   "id": "2173502c",
-   "hash": "591b0bed6a77"
-  },
-  {
-   "type": "code",
-   "text": "```sh\nnpx --no-install proofpress inspect proposal.md\nnpx --no-install proofpress import proposal.md\nnpx --no-install proofpress log proposal.md\n```",
-   "id": "af7113fa",
-   "hash": "673239838972"
-  },
-  {
-   "type": "heading",
-   "text": "### GitHub or a raw file",
-   "id": "5e991c72",
-   "hash": "d359de7f2fa1"
-  },
-  {
-   "type": "table",
-   "text": "| Route | What travels |\n|---|---|\n| GitHub | The file and capsule move through ordinary commits and pull requests |\n| Outside Git | The raw file carries its own public history |",
-   "id": "398568bb",
-   "hash": "367b9776defd"
-  },
-  {
-   "type": "para",
-   "text": "`refs/proofpress/ledger` remains the complete local working record. Portable\nfiles do not depend on it: their capsule crosses the repository boundary with\nthe file. A team that also wants to share the complete ledger must run\n`npx --no-install proofpress sync` explicitly; an ordinary `git push` does not\npush the special ref.",
-   "id": "a908fde7",
-   "hash": "ea6f7441b471"
-  },
-  {
-   "type": "heading",
-   "text": "## What is—and is not—recorded",
-   "id": "226a29fd",
-   "hash": "a004d57784cc"
-  },
-  {
-   "type": "para",
-   "text": "Proofpress records accepted versions, computed block changes, stated actor\nroles, reasons, and consequential rejections. Claims are checked against the\nactual document diff.",
-   "id": "cfc1c3aa",
-   "hash": "309cdb7d7710"
-  },
-  {
-   "type": "para",
-   "text": "It does not automatically store raw prompts, transcripts, private reasoning,\ntool traces, casual brainstorming, or every save. See the\n[privacy boundary](docs/PRIVACY_AND_DISCLOSURE.md) for the complete rules.",
-   "id": "5e0b34ed",
-   "hash": "c467f1afe0ad"
-  },
-  {
-   "type": "heading",
-   "text": "## Merge parallel copies",
-   "id": "47f21d3a",
-   "hash": "de99a57e8d8c"
-  },
-  {
-   "type": "para",
-   "text": "Keep every original copy. First, ask Proofpress to find the common ancestor and\nreport only genuine block conflicts:",
-   "id": "55bcd98e",
-   "hash": "5bdaf4799af4"
-  },
-  {
-   "type": "code",
-   "text": "```sh\nnpx --no-install proofpress merge-plan proposal-alice.md \\\n  --from proposal-bob.md --json\n```",
-   "id": "8f498c01",
-   "hash": "53d7df9f05bf"
-  },
-  {
-   "type": "para",
-   "text": "After an agent or user resolves the visible body, record the reunion:",
-   "id": "d4ed0d79",
-   "hash": "23d3fc50d580"
-  },
-  {
-   "type": "code",
-   "text": "```sh\nnpx --no-install proofpress anchor proposal-alice.md\nnpx --no-install proofpress merge proposal-alice.md --from proposal-bob.md \\\n  --kind agent --author codex --why \"resolved the parallel review copies\"\nnpx --no-install proofpress verify proposal-alice.md\n```",
-   "id": "74883804",
-   "hash": "0f086785080a"
-  },
-  {
-   "type": "para",
-   "text": "Same-document branches become `parents`. Other source documents remain\n`ingredients`; record those with `merge-lineage`.",
-   "id": "1575e201",
-   "hash": "1c64af5acfc7"
-  },
-  {
-   "type": "heading",
-   "text": "## Go deeper",
-   "id": "2a955c60",
-   "hash": "f934177280d6"
+   "text": "## A → B → R boundary",
+   "id": "ac354b44",
+   "hash": "9d6a19b388d9"
   },
   {
    "type": "list",
-   "text": "- [Two-minute portable handoff demo](examples/portable-handoff/README.md)\n- [Documentation map](docs/README.md)\n- [Executable V1 contract](docs/PORTABLE_ARTIFACT_SPEC.md)\n- [Artifact Provenance Protocol and adapter API](docs/ARTIFACT_PROVENANCE_PROTOCOL.md)\n- [Privacy boundaries](docs/PRIVACY_AND_DISCLOSURE.md)\n- [Agent adapters](skills/README.md)\n- [Contributing](CONTRIBUTING.md) · [Changelog](CHANGELOG.md) ·\n  [Security](SECURITY.md) · [Code of Conduct](CODE_OF_CONDUCT.md)",
-   "id": "8deed5b3",
-   "hash": "272254413559"
+   "text": "- **A** works in the complete source workspace and produces the current",
+   "id": "5055a9dc",
+   "hash": "d6b0f80f0521"
+  },
+  {
+   "type": "para",
+   "text": "  business artifact. Independent C1 and C2 packaging stages start from the\n  same frozen A artifact and source workspace.",
+   "id": "7c53cde7",
+   "hash": "2296533520ac"
+  },
+  {
+   "type": "list",
+   "text": "- **B** receives the final goal and a receiver-visible package but cannot",
+   "id": "678cc02b",
+   "hash": "7857c5ab0b29"
+  },
+  {
+   "type": "para",
+   "text": "  access A's workspace, chat, memory, trajectory, scratchpad, or answer key.",
+   "id": "b2972ace",
+   "hash": "4f6ce6b7fbc1"
+  },
+  {
+   "type": "list",
+   "text": "- **R** receives only the exact package B received plus B's delivery. R cannot",
+   "id": "5990198e",
+   "hash": "a8f25029065d"
+  },
+  {
+   "type": "para",
+   "text": "  access A, the hidden oracle, or a repaired package.",
+   "id": "31051ac9",
+   "hash": "ab4468f46122"
+  },
+  {
+   "type": "list",
+   "text": "- **Oracle** is a separate harness record containing the authoritative artifact,",
+   "id": "49077fa8",
+   "hash": "a6e56949ce90"
+  },
+  {
+   "type": "para",
+   "text": "  decision graph, evidence truth, injected fault, and acceptable dispositions.\n  It is never copied into a B or R overlay.",
+   "id": "a32d11d5",
+   "hash": "18cd0a6d43b7"
+  },
+  {
+   "type": "para",
+   "text": "Proofpress verification, the hidden oracle, and R are three independent layers.\nProofpress may verify integrity and declared lineage while the oracle rejects an\ninternally consistent but semantically false decision state.",
+   "id": "53db0379",
+   "hash": "a1487bff4d60"
+  },
+  {
+   "type": "heading",
+   "text": "## Conditions",
+   "id": "a20acc7f",
+   "hash": "83625b6129c7"
+  },
+  {
+   "type": "table",
+   "text": "| Arm | Receiver-visible handoff |\n|---|---|\n| `C0 artifact-only` | Final goal and identical current/stale/fork candidates; no continuity |\n| `C1 conventional` | C0 plus A's natural generic summary of completed work, current state, and next action |\n| `C2 proofpress-portable` | C0 plus admitted decisions and supersession, portable evidence, DOCX semantic evidence, artifact binding, native portable carrier, and capsule |",
+   "id": "f92f3fde",
+   "hash": "42881c4c6d84"
+  },
+  {
+   "type": "para",
+   "text": "C1 is not forced to imitate Proofpress and is not intentionally degraded. All\narms use the same task, candidate artifacts, B/R tools, model capability, and\nmaximum budget. No arm receives padding. Package bytes, tokens, latency, tool\ncalls, and actual cost are reported as treatment costs.",
+   "id": "c5b56a9e",
+   "hash": "9bcc44b3b722"
+  },
+  {
+   "type": "heading",
+   "text": "## Package and decision interfaces",
+   "id": "9b9658f5",
+   "hash": "f65ba5728f37"
+  },
+  {
+   "type": "list",
+   "text": "- `artifact-travel-case/v1` admits one frozen A artifact, independent C1/C2",
+   "id": "b1818212",
+   "hash": "0846da559fa1"
+  },
+  {
+   "type": "para",
+   "text": "  packaging snapshots, decisions, evidence, and all input hashes.",
+   "id": "9c79fd67",
+   "hash": "922cf54792cd"
+  },
+  {
+   "type": "list",
+   "text": "- `artifact-travel-package/v2` is the receiver-visible package manifest.\n- `receiver-disposition/v1` requires `continue`, `reject`, or `reverify`, the",
+   "id": "dc6a6c11",
+   "hash": "cb99b4a02b8c"
+  },
+  {
+   "type": "para",
+   "text": "  selected artifact, decision/evidence use, reason codes, and output paths.",
+   "id": "9bb298d7",
+   "hash": "99c49b460e37"
+  },
+  {
+   "type": "list",
+   "text": "- `reviewer-verdict/v1` requires `accept`, `reject`, or `reverify`, reason codes,",
+   "id": "7c2bb905",
+   "hash": "27fd63e0d168"
+  },
+  {
+   "type": "para",
+   "text": "  and explicit identity/state/binding/evidence/fork checks.",
+   "id": "381ba3c0",
+   "hash": "949e35d20b39"
+  },
+  {
+   "type": "list",
+   "text": "- `fault-oracle/v1` is hidden and supplies semantic ground truth.",
+   "id": "fcd2331f",
+   "hash": "f97eeede10ff"
+  },
+  {
+   "type": "para",
+   "text": "C2 invokes the product at commit\n`6b843ee95807ccd39fcb46ca21219da73b875bf2`. The runtime records that commit,\nthe `proofpress.py` digest, all `inspect` and provenance-verification outputs,\nand any missing telemetry as unknown rather than zero.",
+   "id": "68449a67",
+   "hash": "67a2257f5dad"
+  },
+  {
+   "type": "heading",
+   "text": "## Fault matrix",
+   "id": "c35abfcc",
+   "hash": "eae25d05d6cd"
+  },
+  {
+   "type": "para",
+   "text": "The frozen package states are clean, stale artifact selected, superseded\ndecision revived, implemented decision omitted/regressed, evidence\nmissing/mismatched, and artifact binding/fork mismatch. C1 and C2 run all six.\nC0 runs clean, stale, and fork only, for 15 total Phase 1 cells.",
+   "id": "4fe621c7",
+   "hash": "806e8a65a398"
+  },
+  {
+   "type": "para",
+   "text": "The supersession and implemented-omission C2 faults are deliberately admitted\nas internally consistent carrier states. Proofpress integrity may pass them;\nonly the hidden oracle can judge their semantics. Evidence and fork faults must\nexercise real portable evidence and DOCX semantic verification failures.",
+   "id": "cf2fef5b",
+   "hash": "b723799f72a4"
+  },
+  {
+   "type": "heading",
+   "text": "## Outcomes",
+   "id": "821da1ab",
+   "hash": "9ccb9f6c9546"
+  },
+  {
+   "type": "list",
+   "text": "- **Clean trusted completion:** correct final task and artifact, no decision",
+   "id": "c0ccb4ad",
+   "hash": "c9c0cd5cfd45"
+  },
+  {
+   "type": "para",
+   "text": "  regression, traceable changes, and correct R acceptance.",
+   "id": "094f35a1",
+   "hash": "503828e55019"
+  },
+  {
+   "type": "list",
+   "text": "- **Faulted safe disposition:** B and R correctly reject or request",
+   "id": "f9ca6ed4",
+   "hash": "e7e4b67cb700"
+  },
+  {
+   "type": "para",
+   "text": "  re-verification, give an oracle-aligned reason, and do not continue unsafely.",
+   "id": "2ee4e9c3",
+   "hash": "1816b9092db9"
+  },
+  {
+   "type": "list",
+   "text": "- **Reviewer verdict accuracy:** R's verdict and reason agree with the oracle.\n- **End-to-end trusted handoff:** clean completion/acceptance or faulted safe",
+   "id": "2f377498",
+   "hash": "2f703f2691ca"
+  },
+  {
+   "type": "para",
+   "text": "  refusal/reverification.",
+   "id": "5de0dc21",
+   "hash": "d2acc5faeb12"
+  },
+  {
+   "type": "para",
+   "text": "Final DOCX rubric, artifact selection, decision state, regression, evidence\ncoverage, binding, tamper/fork detection, false reject, unsafe accept, tokens,\nlatency, package size, and cost remain separate reported measures.",
+   "id": "bf005a3e",
+   "hash": "4bd35cc2ba19"
+  },
+  {
+   "type": "heading",
+   "text": "## Current pilot interpretation",
+   "id": "7cb785e2",
+   "hash": "b4a33735ed21"
+  },
+  {
+   "type": "para",
+   "text": "The completed SPA pilot recorded no unsafe accept in 15 cells. Faulted safe\ndisposition was 2/2 in C0, 5/5 in C1, and 4/5 in C2; clean trusted completion\nwas 0/1 in every arm. C2 matched C1 on five shared package states, but on the\nimplemented-decision-regression state B rejected correctly while using only the\ngeneric `decision-trail-incomplete` reason; R accepted that rationale, so the\noracle did not credit faulted safe disposition or end-to-end trusted handoff.",
+   "id": "c0e67a88",
+   "hash": "45142b72e73b"
+  },
+  {
+   "type": "para",
+   "text": "This means the pilot demonstrates that the package-and-review protocol can\nproduce auditable refusals under several injected faults. It does not show\ncross-workspace task completion, a Proofpress quality gain, or a C0-versus-C1/\nC2 causal comparison. C1-C2 is transport-aligned in this run but still has one\nobservation per state; it is descriptive error-space evidence only.",
+   "id": "3b112fb4",
+   "hash": "dfd29bc498ff"
+  },
+  {
+   "type": "heading",
+   "text": "## Execution gates",
+   "id": "f37c3bac",
+   "hash": "93484e5d36b9"
+  },
+  {
+   "type": "para",
+   "text": "Phase 0 generates all 15 fixture packages without model calls. It verifies\nreceiver isolation, real Proofpress portable carriers, DOCX semantic evidence,\nbinding, fault injection, schema validation, oracle separation, and synthetic\nend-to-end scoring. A failed gate stops the protocol.",
+   "id": "865ab0ee",
+   "hash": "56f9483df899"
+  },
+  {
+   "type": "para",
+   "text": "Phase 1 consumes a separately admitted case bundle. It uses one fresh\n`google/gemini-3.1-pro-preview` B and one fresh `openai/gpt-5.6-terra` R per\ncell, serially. The runner refuses to start unless an explicit human\nauthorization record matches the exact Phase 0 report, case bundle,\npreregistration, and product commit hashes. Missing provider, usage, fallback,\ntoken, or cost telemetry invalidates a cell.",
+   "id": "daa09766",
+   "hash": "ad64893e49c8"
+  },
+  {
+   "type": "para",
+   "text": "At least three of the 15 R verdicts require human blind audit, emphasizing\nunsafe accepts, false rejects, and reason correctness. Phase 1 completion does\nnot authorize Phase 2. Formal sample size is designed only after observing\npilot error space and scorer agreement.",
+   "id": "3b45ecc1",
+   "hash": "e01ef47c0be4"
+  },
+  {
+   "type": "heading",
+   "text": "## Benchmark boundaries",
+   "id": "d05286df",
+   "hash": "b241704c56ab"
+  },
+  {
+   "type": "para",
+   "text": "STALE becomes a separate Decision Trail Stress Suite for state, supersession,\nauthority, and predeclared abstention/reverification semantics. HiEviDR is a\nlater evidence-to-claim check. STATE-Bench is shared-memory calibration. APEX\nFinance is excluded, and Harvey remains historical final-quality evidence.\nNone of these scores are pooled with Artifact Travel v2.",
+   "id": "2388fae4",
+   "hash": "1e44e34d76e3"
+  },
+  {
+   "type": "para",
+   "text": "Proofpress currently has no signed identity or non-repudiation claim. This\ntrack tests portable structure, integrity, binding, evidence coverage, state\nhandling, and safe disposition only.",
+   "id": "52fa926f",
+   "hash": "6cf38fea9258"
   }
  ]
 }
