@@ -1,51 +1,35 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/docs/RESULTS_MATRIX.md",
- "artifact_id": "pp_d40d46a12d4d493fcbc9c0e9",
- "version": "d2571f4c",
- "parent": "e03e1c86",
+ "artifact": "experiments/provenance_handoff/ara/PAPER.md",
+ "artifact_id": "pp_cb6d0883f4bda071d2137869",
+ "version": "7f38b2aa",
+ "parent": "74cc7326",
  "author": {
   "name": "Codex",
   "kind": "agent",
   "session": "artifact-travel-v2-r3-results"
  },
  "note": null,
- "ts": "2026-08-10T07:21:34+00:00",
+ "ts": "2026-08-10T07:21:42+00:00",
  "stats": {
-  "added": 4
+  "modified": 2
  },
  "changes": [
   {
-   "kind": "added",
-   "block": "baa1dd91",
-   "type": "heading",
-   "context": "Artifact Travel v2 SPA pilot — separate ",
-   "preview": "## Artifact Travel v2 SPA pilot — separate operational recor"
-  },
-  {
-   "kind": "added",
-   "block": "ac987422",
+   "kind": "modified",
+   "block": "d6d1bb11",
    "type": "para",
-   "context": "Artifact Travel v2 SPA pilot — separate ",
-   "preview": "The completed 15-cell SPA pilot is not pooled with STALE or "
+   "context": "Research notebook — admitted provenance "
   },
   {
-   "kind": "added",
-   "block": "ade01dc4",
-   "type": "table",
-   "context": "Artifact Travel v2 SPA pilot — separate ",
-   "preview": "| Arm | Valid cells | Faulted safe disposition | Clean trust"
-  },
-  {
-   "kind": "added",
-   "block": "4a3414a1",
+   "kind": "modified",
+   "block": "4b96e0aa",
    "type": "para",
-   "context": "Artifact Travel v2 SPA pilot — separate ",
-   "preview": "All 15 cells had complete telemetry and no recorded fallback"
+   "context": "Abstract (draft)"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:c8ef138a018454d3681ff467123e941c613855bd7f796abc092e8c01c86d143a",
+ "soft_fingerprint": "ppsb1:1c8c798e48274eaba0a0447904fa305776ac479f9e57cf70b0587c86ac394f79",
  "actors": {
   "requested_by": [
    "richardtang"
@@ -63,28 +47,23 @@
  "attribution_basis": "environment_attested",
  "claims": [
   {
-   "block": "baa1dd91",
-   "kind": "added",
-   "note": "Create a separate Artifact Travel v2 operational-results section."
+   "block": "d6d1bb11",
+   "kind": "modified",
+   "note": "Update study status with the completed transport-switched pilot and its non-efficacy boundary."
   },
   {
-   "block": "ac987422",
-   "kind": "added",
-   "note": "Bind the separate pilot record to its immutable final report and exclude it from STALE pooling."
+   "block": "4b96e0aa",
+   "kind": "modified",
+   "note": "Update the abstract with valid-cell, safety, clean-completion, and causal-interpretation results."
   },
   {
-   "block": "ade01dc4",
-   "kind": "added",
-   "note": "Report validity, clean, faulted-safe, end-to-end, and unsafe-accept endpoints by arm."
-  },
-  {
-   "block": "4a3414a1",
-   "kind": "added",
-   "note": "Record transport confounding, one-observation-per-state limits, and pending blind audits."
+   "block": "4249cd4c",
+   "kind": "modified",
+   "note": "Keep historical mechanism results separate from the Artifact Travel product study."
   }
  ],
  "context": {
-  "why": "Record the completed Artifact Travel v2 SPA pilot separately from STALE with its final immutable report and interpretation limits."
+  "why": "Update the ARA research narrative with the completed Artifact Travel pilot while preserving its non-efficacy boundary."
  },
- "event_id": "ppe_e6ca3cf2fffaf45a775bfe5f"
+ "event_id": "ppe_1af940ca1889117d92856790"
 }
