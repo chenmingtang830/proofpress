@@ -1,75 +1,68 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/ara/PAPER.md",
- "artifact_id": "pp_cb6d0883f4bda071d2137869",
- "version": "d139dfdf",
- "parent": "c1351677",
+ "artifact": "experiments/provenance_handoff/ara/logic/experiments.md",
+ "artifact_id": "pp_15fb7a0bcf0891f7cee01068",
+ "version": "6a87adfe",
+ "parent": "9e65acb9",
  "author": {
   "name": "codex",
   "kind": "agent",
   "session": null
  },
- "note": "reframe notebook around Artifact Travel v2",
- "ts": "2026-08-09T21:21:34+00:00",
+ "note": "Record Artifact Travel v2 Phase 1 pilot status and validity boundary.",
+ "ts": "2026-08-10T00:17:16+00:00",
  "stats": {
-  "modified": 3
+  "modified": 1
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "d6d1bb11",
-   "type": "para",
-   "context": "Research notebook — admitted provenance "
-  },
-  {
-   "kind": "modified",
-   "block": "4b96e0aa",
-   "type": "para",
-   "context": "Abstract (draft)"
-  },
-  {
-   "kind": "modified",
-   "block": "4249cd4c",
-   "type": "para",
-   "context": "Abstract (draft)"
+   "block": "3242ace7",
+   "type": "list",
+   "context": "E12: Artifact Travel Benchmark v2 — A→B→"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:7eb3ed5d87a85a57a93c57a9e66f245ae46ef6cd3d3a7f0401e5adf4797294a5",
+ "soft_fingerprint": "ppsb1:509803782656b539d8b5065e7c1b9b1eb0d561dca5b950504547852ac000eb97",
  "actors": {
   "requested_by": [
-   "Richard Tang"
+   "user"
   ],
   "produced_by": [
-   "OpenAI Codex"
+   "artifact-travel-phase1-runner"
   ],
   "edited_by": [
-   "OpenAI Codex"
+   "codex"
   ],
   "recorded_by": [
-   "OpenAI Codex"
+   "proofpress"
   ]
  },
- "attribution_basis": "harness_attested",
+ "attribution_basis": "environment_attested",
  "claims": [
   {
-   "block": "d6d1bb11",
+   "block": "560cdaa4",
    "kind": "modified",
-   "note": "Make Artifact Travel v2 the active substrate while preserving all historical result boundaries."
+   "note": "Mark the information-matched SPA v1 protocol superseded without a receiver outcome."
   },
   {
-   "block": "4b96e0aa",
-   "kind": "modified",
-   "note": "Reframe the study around the full portable-package bundle and the A-B-R trust endpoint."
+   "block": "43a81843",
+   "kind": "added",
+   "note": "Add the Artifact Travel v2 experiment record."
   },
   {
-   "block": "4249cd4c",
+   "block": "3242ace7",
+   "kind": "added",
+   "note": "Record the bundle estimand, A-B-R design, faults, passed Phase 0 gate, and Phase 1 authorization boundary."
+  },
+  {
+   "block": "3242ace7",
    "kind": "modified",
-   "note": "Keep MemConflict and STALE as separate mechanism evidence rather than product claims."
+   "note": "Record the explicitly authorized 15-cell Phase 1 pilot as incomplete_or_invalid with zero valid cells, preserve its immutable report boundary, and require telemetry regression coverage before rerun."
   }
  ],
  "context": {
-  "why": "Align the research notebook with the approved full-package product question while retaining null and bounded historical evidence."
+  "why": "The explicitly authorized SPA pilot completed with no valid cells; preserve the immutable protocol record and prevent efficacy or Phase 2 interpretation."
  },
- "event_id": "ppe_155a8a6fe0d13deec1ada388"
+ "event_id": "ppe_8b9678c02b5abf3b80209783"
 }
