@@ -1,37 +1,37 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/docs/ARTIFACT_TRAVEL_V4_PLAN.md",
- "artifact_id": "pp_35c2e10d1ba741a1619a848a",
- "version": "79cd6e3e",
- "parent": "61d98154",
+ "artifact": "experiments/provenance_handoff/ara/PAPER.md",
+ "artifact_id": "pp_cb6d0883f4bda071d2137869",
+ "version": "24f075b0",
+ "parent": "15f6d1a8",
  "author": {
   "name": "codex",
   "kind": "agent",
   "session": "artifact-travel-v4-docs"
  },
  "note": null,
- "ts": "2026-08-10T18:37:47+00:00",
+ "ts": "2026-08-10T18:37:51+00:00",
  "stats": {
   "added": 2
  },
  "changes": [
   {
    "kind": "added",
-   "block": "6c41000d",
+   "block": "6c420001",
    "type": "heading",
-   "context": "Implementation record",
-   "preview": "## Implementation record"
+   "context": "Artifact Travel v4 temporal calibration",
+   "preview": "## Artifact Travel v4 temporal calibration"
   },
   {
    "kind": "added",
-   "block": "6c41000e",
+   "block": "6c420002",
    "type": "para",
-   "context": "Implementation record",
-   "preview": "The checked-in Phase 0 runtime materializes the 24 isolated "
+   "context": "Artifact Travel v4 temporal calibration",
+   "preview": "v4 is the next no-model-qualified protocol, not a reinterpre"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:bf1837eda814d4696b255c7f012b92d2a6b5d77bf31cf79091f6a24985460492",
+ "soft_fingerprint": "ppsb1:e91e8013a1a4c161490bf3977d4551c271c85a350dd662116961c7f6fbcbf63d",
  "actors": {
   "requested_by": [
    "user"
@@ -49,18 +49,18 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "6c41000d",
+   "block": "6c420001",
    "kind": "added",
-   "note": "Record the deterministic Phase 0 implementation boundary and paid-run authorization gate."
+   "note": "Introduce v4 as the temporal calibration successor to the frozen v3 result."
   },
   {
-   "block": "6c41000e",
+   "block": "6c420002",
    "kind": "added",
-   "note": "Record the real C2 CLI export/import/verify smoke coverage without model calls."
+   "note": "State v3's static-carrier limitation and v4's outcome separation and efficacy gate."
   }
  ],
  "context": {
-  "why": "record deterministic Phase 0 implementation boundary"
+  "why": "record v4 temporal calibration and v3 limitation"
  },
- "event_id": "ppe_c00574d3d1506e0b99382678"
+ "event_id": "ppe_63394b39aa3558e5c9ccf384"
 }
