@@ -1,79 +1,111 @@
 {
  "event": "version_created",
- "artifact": "/Users/richardtang/.codex/worktrees/artifact-travel-v2/proofpress-dev/experiments/provenance_handoff/docs/RESULTS_MATRIX.md",
- "artifact_id": "pp_d40d46a12d4d493fcbc9c0e9",
- "version": "e1b29df9",
- "parent": "d2571f4c",
+ "artifact": "/Users/richardtang/.codex/worktrees/artifact-travel-v2/proofpress-dev/experiments/provenance_handoff/ara/logic/experiments.md",
+ "artifact_id": "pp_15fb7a0bcf0891f7cee01068",
+ "version": "414cf870",
+ "parent": "1e005d3e",
  "author": {
   "name": "codex",
   "kind": "agent",
   "session": "artifact-travel-v3-r2-finalization-20260810"
  },
- "note": "Artifact Travel v3-r2 final results matrix",
- "ts": "2026-08-10T11:51:51+00:00",
+ "note": "Artifact Travel v3-r2 ARA experiment record",
+ "ts": "2026-08-10T11:51:59+00:00",
  "stats": {
-  "added": 8
+  "modified": 3,
+  "added": 2,
+  "removed": 4
  },
  "changes": [
   {
+   "kind": "modified",
+   "block": "2fd07e62",
+   "type": "list",
+   "context": "E09: Completed APEX Law artifact-handoff"
+  },
+  {
+   "kind": "modified",
+   "block": "dd7a946c",
+   "type": "list",
+   "context": "E10: Completed APEX-derived Restricted-A"
+  },
+  {
+   "kind": "modified",
+   "block": "3242ace7",
+   "type": "list",
+   "context": "E12: Artifact Travel Benchmark v2 — A→B→",
+   "numbers": [
+    [
+     "1",
+     "0"
+    ],
+    [
+     "0",
+     "45"
+    ],
+    [
+     "46",
+     "45"
+    ],
+    [
+     "15",
+     "45"
+    ],
+    [
+     "15",
+     "44"
+    ],
+    [
+     "15",
+     "5"
+    ]
+   ]
+  },
+  {
    "kind": "added",
-   "block": "e5ad494e",
+   "block": "6e976f99",
    "type": "heading",
-   "context": "Artifact Travel v3 replicated pilot — se",
-   "preview": "## Artifact Travel v3 replicated pilot — separate 45-cell re"
+   "context": "E13: Artifact Travel Benchmark v3 — repl",
+   "preview": "## E13: Artifact Travel Benchmark v3 — replicated Gateway ma"
   },
   {
    "kind": "added",
-   "block": "9f583349",
-   "type": "para",
-   "context": "Artifact Travel v3 replicated pilot — se",
-   "preview": "Artifact Travel v3-r2 is a new, independently frozen success"
+   "block": "b8cd3cfc",
+   "type": "list",
+   "context": "E13: Artifact Travel Benchmark v3 — repl",
+   "preview": "- **Question**: After removing v2's C0 transport confound an"
   },
   {
-   "kind": "added",
-   "block": "19bf7ed8",
-   "type": "para",
-   "context": "Artifact Travel v3 replicated pilot — se",
-   "preview": "Phase 0 passed with 45/45 materialized cells, all clean-pack"
+   "kind": "removed",
+   "block": "6e357d05",
+   "type": "list",
+   "context": "",
+   "preview": "- **Completed 3+3 calibration**: all six receiver worlds com"
   },
   {
-   "kind": "added",
-   "block": "b25dbe05",
-   "type": "para",
-   "context": "Artifact Travel v3 replicated pilot — se",
-   "preview": "The estimand remains descriptive: compare C2 with C1 only wi"
+   "kind": "removed",
+   "block": "8c0950d0",
+   "type": "list",
+   "context": "",
+   "preview": "- **Integrity and decision**: all Proofpress capsules indepe"
   },
   {
-   "kind": "added",
-   "block": "4f3f0b91",
-   "type": "heading",
-   "context": "Final v3-r2 results",
-   "preview": "### Final v3-r2 results"
+   "kind": "removed",
+   "block": "70a798ce",
+   "type": "list",
+   "context": "",
+   "preview": "- **Boundary history and validity**: the first formal serial"
   },
   {
-   "kind": "added",
-   "block": "7f9c6d22",
-   "type": "table",
-   "context": "Final v3-r2 results",
-   "preview": "| Arm | Cells | Scorable | Clean completion | End-to-end | F"
-  },
-  {
-   "kind": "added",
-   "block": "0d67a4fe",
-   "type": "para",
-   "context": "Final v3-r2 results",
-   "preview": "The primary paired C2-versus-C1 comparison has 18 matched pa"
-  },
-  {
-   "kind": "added",
-   "block": "4a5e0d4b",
-   "type": "para",
-   "context": "Final v3-r2 results",
-   "preview": "Transport telemetry is complete for 45 B attempts and 44 R a"
+   "kind": "removed",
+   "block": "34c998d9",
+   "type": "list",
+   "context": "",
+   "preview": "- **Results, measurement correction, and decision**: Proofpr"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:e0c5d385f256a1c0eb37dd78964ed89a8aab1fc32f38d869c35cf4cd120acb3f",
+ "soft_fingerprint": "ppsb1:feb543715d08066e0b9132592841d8a54ec010a0c1b3f308b908eaba99a56a2f",
  "actors": {
   "requested_by": [
    "user"
@@ -91,43 +123,43 @@
  "attribution_basis": "harness_attested",
  "claims": [
   {
-   "block": "e5ad494e",
+   "block": "3242ace7",
    "kind": "modified",
-   "note": "Keep v3 as a separate immutable results record."
+   "note": "Keep v2 historical and point current implementation status to v3-r2."
   },
   {
-   "block": "19bf7ed8",
+   "block": "b8cd3cfc",
    "kind": "modified",
-   "note": "Record final materialization, isolation, and scorable status."
+   "note": "Record v3-r2 design and final descriptive status."
   },
   {
-   "block": "b25dbe05",
+   "block": "6e976f99",
    "kind": "modified",
-   "note": "Preserve the descriptive estimand and stop rule."
+   "note": "Add final interpretation and invalid-observation boundary."
   },
   {
-   "block": "4f3f0b91",
-   "kind": "added",
-   "note": "Add the final v3-r2 results section."
+   "block": "8c0950d0",
+   "kind": "removed",
+   "note": "Anchor no longer present after current carrier normalization."
   },
   {
-   "block": "7f9c6d22",
-   "kind": "added",
-   "note": "Add arm-level criteria counts."
+   "block": "34c998d9",
+   "kind": "removed",
+   "note": "Anchor no longer present after current carrier normalization."
   },
   {
-   "block": "0d67a4fe",
-   "kind": "added",
-   "note": "Add paired comparison and invalid-observation boundary."
+   "block": "70a798ce",
+   "kind": "removed",
+   "note": "Anchor no longer present after current carrier normalization."
   },
   {
-   "block": "4a5e0d4b",
-   "kind": "added",
-   "note": "Add transport and provider-retry telemetry."
+   "block": "6e357d05",
+   "kind": "removed",
+   "note": "Anchor no longer present after current carrier normalization."
   }
  ],
  "context": {
-  "why": "Publish the final C0/C1/C2 descriptive table and transport audit from the already completed immutable v3-r2 results root."
+  "why": "Update the ARA experiment registry with the completed v3-r2 descriptive replication and its stop rule."
  },
- "event_id": "ppe_8f850226c4dd932f65089b9f"
+ "event_id": "ppe_35d4ec82b20e1a5bad2c0b99"
 }
