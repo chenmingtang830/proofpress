@@ -1,66 +1,29 @@
 {
- "event": "version_created",
- "artifact": "experiments/provenance_handoff/ara/logic/experiments.md",
- "artifact_id": "pp_15fb7a0bcf0891f7cee01068",
- "version": "617eb8e2",
- "parent": "414cf870",
- "author": {
-  "name": "codex",
-  "kind": "agent",
-  "session": "artifact-travel-v4-docs"
- },
- "note": null,
- "ts": "2026-08-10T18:37:54+00:00",
- "stats": {
-  "added": 2
- },
- "changes": [
-  {
-   "kind": "added",
-   "block": "6c430001",
-   "type": "heading",
-   "context": "E14: Artifact Travel v4 temporal Proofpr",
-   "preview": "## E14: Artifact Travel v4 temporal Proofpress calibration"
-  },
-  {
-   "kind": "added",
-   "block": "6c430002",
-   "type": "list",
-   "context": "E14: Artifact Travel v4 temporal Proofpr",
-   "preview": "- **Question**: does an A-authored, multi-event Proofpress t"
-  }
- ],
- "policy": "portable",
- "soft_fingerprint": "ppsb1:ec1537f872d7958e812337e2bc271ccd53c6c2de4c68566088bd5725ac14d178",
  "actors": {
-  "requested_by": [
-   "user"
-  ],
-  "produced_by": [
-   "codex"
-  ],
-  "edited_by": [
-   "codex"
-  ],
   "recorded_by": [
-   "codex"
+   "agent-a"
   ]
  },
- "attribution_basis": "self_asserted",
- "claims": [
-  {
-   "block": "6c430001",
-   "kind": "added",
-   "note": "Register the v4 temporal calibration experiment in ARA logic."
-  },
-  {
-   "block": "6c430002",
-   "kind": "added",
-   "note": "Record the sparse C1, temporal C2, separate rejection scoring, and clean-path stop gate."
-  }
- ],
- "context": {
-  "why": "register v4 temporal calibration logic and stop gate"
+ "artifact": "filesystem/Proofpress/proofpress-trail.md",
+ "artifact_id": "pp_d931a4c536cf7d08a05ac5cb",
+ "attribution_basis": "harness_attested",
+ "author": {
+  "kind": "system",
+  "name": "agent-a",
+  "session": null
  },
- "event_id": "ppe_06e3d59ecc4f86357b83a8f6"
+ "changes": [],
+ "event": "version_created",
+ "event_id": "ppe_31d182adb0a0a79894c0c0dc",
+ "note": "portable lineage checkpoint",
+ "parent": null,
+ "parents": [],
+ "policy": "portable",
+ "portable_checkpoint": true,
+ "portable_lineage_id": "ppl_ebd63046ceb331a3f149e6dc",
+ "soft_fingerprint": "ppsb1:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+ "stats": {},
+ "ts": "2026-08-10T23:08:30+00:00",
+ "version": "7119f362",
+ "imported_from_capsule": true
 }
