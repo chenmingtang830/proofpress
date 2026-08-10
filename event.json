@@ -2,28 +2,34 @@
  "event": "version_created",
  "artifact": "experiments/provenance_handoff/ara/PAPER.md",
  "artifact_id": "pp_cb6d0883f4bda071d2137869",
- "version": "8ba56ec3",
- "parent": "7f38b2aa",
+ "version": "29813857",
+ "parent": "8ba56ec3",
  "author": {
   "name": "Codex",
   "kind": "agent",
   "session": "artifact-travel-v2-r3-results"
  },
  "note": null,
- "ts": "2026-08-10T07:22:42+00:00",
+ "ts": "2026-08-10T07:23:23+00:00",
  "stats": {
-  "modified": 1
+  "modified": 2
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "4249cd4c",
+   "block": "d6d1bb11",
+   "type": "para",
+   "context": "Research notebook — admitted provenance "
+  },
+  {
+   "kind": "modified",
+   "block": "4b96e0aa",
    "type": "para",
    "context": "Abstract (draft)"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:3f18ba34aeb0690e9877a968b879d7df7e047ca54191ea80d5493a20b4ab6587",
+ "soft_fingerprint": "ppsb1:1d45ce828f47a2b6bad74c738e4543215911f4fa63240ad7753242f6903f0e13",
  "actors": {
   "requested_by": [
    "richardtang"
@@ -43,21 +49,21 @@
   {
    "block": "d6d1bb11",
    "kind": "modified",
-   "note": "Update study status with the completed transport-switched pilot and its non-efficacy boundary."
+   "note": "Clarify that the direct-route abort and mixed-route completion are separate immutable operational records."
   },
   {
    "block": "4b96e0aa",
    "kind": "modified",
-   "note": "Update the abstract with valid-cell, safety, clean-completion, and causal-interpretation results."
+   "note": "Clarify that the transport-aligned C1-C2 pilot remains a non-generalizable one-case description."
   },
   {
    "block": "4249cd4c",
    "kind": "modified",
-   "note": "Keep historical mechanism results separate from Artifact Travel and exclude the one-case pilot from every pooled treatment estimate."
+   "note": "Exclude the one-case pilot from every pooled treatment estimate."
   }
  ],
  "context": {
-  "why": "Clarify that the single-case Artifact Travel pilot is not pooled with historical mechanism evidence or converted into a treatment estimate."
+  "why": "Record the immutable direct-route abort alongside the mixed-route completion and clarify the one-case non-generalizability boundary."
  },
- "event_id": "ppe_436b0a2bf97307f702165538"
+ "event_id": "ppe_deeb992ab9b14c29af5effbb"
 }
