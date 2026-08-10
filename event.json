@@ -1,69 +1,139 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/ara/PAPER.md",
- "artifact_id": "pp_cb6d0883f4bda071d2137869",
- "version": "29813857",
- "parent": "8ba56ec3",
+ "artifact": "/Users/richardtang/.codex/worktrees/artifact-travel-v2/proofpress-dev/experiments/provenance_handoff/docs/ARTIFACT_TRAVEL_V2_PLAN.md",
+ "artifact_id": "pp_cbf559b6d07e7baadaed3ed9",
+ "version": "07ab8545",
+ "parent": "d55ff647",
  "author": {
-  "name": "Codex",
+  "name": "codex",
   "kind": "agent",
-  "session": "artifact-travel-v2-r3-results"
+  "session": "artifact-travel-v3-r2-finalization-20260810"
  },
- "note": null,
- "ts": "2026-08-10T07:23:23+00:00",
+ "note": "Artifact Travel v3-r2 final plan update",
+ "ts": "2026-08-10T11:51:44+00:00",
  "stats": {
-  "modified": 2
+  "added": 3,
+  "modified": 4
  },
  "changes": [
   {
-   "kind": "modified",
-   "block": "d6d1bb11",
+   "kind": "added",
+   "block": "f50a557f",
+   "type": "heading",
+   "context": "v3 successor (2026-08-10)",
+   "preview": "### v3 successor (2026-08-10)"
+  },
+  {
+   "kind": "added",
+   "block": "349a58da",
    "type": "para",
-   "context": "Research notebook — admitted provenance "
+   "context": "v3 successor (2026-08-10)",
+   "preview": "The v2 record above is immutable. The authorized successor i"
+  },
+  {
+   "kind": "added",
+   "block": "4c944235",
+   "type": "para",
+   "context": "v3 successor (2026-08-10)",
+   "preview": "The formal execution uses three isolated Archipelago worker "
   },
   {
    "kind": "modified",
-   "block": "4b96e0aa",
+   "block": "e434c3c4",
    "type": "para",
-   "context": "Abstract (draft)"
+   "context": "v3 successor (2026-08-10)",
+   "numbers": [
+    [
+     "46",
+     "6"
+    ],
+    [
+     "15",
+     "45"
+    ],
+    [
+     "6",
+     "45"
+    ],
+    [
+     "1",
+     "45"
+    ],
+    [
+     "2026",
+     "44"
+    ],
+    [
+     "15",
+     "45"
+    ]
+   ]
+  },
+  {
+   "kind": "modified",
+   "block": "30f9eeef",
+   "type": "para",
+   "context": "v3 successor (2026-08-10)"
+  },
+  {
+   "kind": "modified",
+   "block": "c0e67a88",
+   "type": "para",
+   "context": "Current pilot interpretation"
+  },
+  {
+   "kind": "modified",
+   "block": "3b112fb4",
+   "type": "para",
+   "context": "Current pilot interpretation"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:1d45ce828f47a2b6bad74c738e4543215911f4fa63240ad7753242f6903f0e13",
+ "soft_fingerprint": "ppsb1:224b1e631eb32f488ece268bace8a49544d088468a31e2d0df60459f1c2519a0",
  "actors": {
   "requested_by": [
-   "richardtang"
+   "user"
   ],
   "produced_by": [
-   "Codex"
+   "artifact-travel-v3-r2-runner-and-audit"
   ],
   "edited_by": [
-   "Codex"
+   "codex"
   ],
   "recorded_by": [
-   "Codex"
+   "codex"
   ]
  },
- "attribution_basis": "environment_attested",
+ "attribution_basis": "harness_attested",
  "claims": [
   {
-   "block": "d6d1bb11",
+   "block": "349a58da",
    "kind": "modified",
-   "note": "Clarify that the direct-route abort and mixed-route completion are separate immutable operational records."
+   "note": "Bind the v3-r2 freeze and execution root."
   },
   {
-   "block": "4b96e0aa",
+   "block": "e434c3c4",
    "kind": "modified",
-   "note": "Clarify that the transport-aligned C1-C2 pilot remains a non-generalizable one-case description."
+   "note": "Record 45-cell coverage, 44 scorable cells, and the canonical report."
   },
   {
-   "block": "4249cd4c",
+   "block": "30f9eeef",
    "kind": "modified",
-   "note": "Exclude the one-case pilot from every pooled treatment estimate."
+   "note": "Record same-transport arm interpretation and preserved invalid observation."
+  },
+  {
+   "block": "c0e67a88",
+   "kind": "modified",
+   "note": "Record final arm-level endpoints."
+  },
+  {
+   "block": "3b112fb4",
+   "kind": "modified",
+   "note": "Record descriptive task-fit conclusion and stop rule."
   }
  ],
  "context": {
-  "why": "Record the immutable direct-route abort alongside the mixed-route completion and clarify the one-case non-generalizability boundary."
+  "why": "Record the completed Artifact Travel v3-r2 matrix without rerunning semantic observations; correct stale v2 language while preserving the immutable v2 record."
  },
- "event_id": "ppe_deeb992ab9b14c29af5effbb"
+ "event_id": "ppe_e44bd7a414ceae1a6ab8b13a"
 }
