@@ -1,96 +1,29 @@
 {
  "actors": {
-  "edited_by": [
-   "agent-a"
-  ],
-  "produced_by": [
-   "agent-a"
-  ],
   "recorded_by": [
    "agent-a"
-  ],
-  "requested_by": [
-   "benchmark-protocol"
   ]
  },
- "artifact": "filesystem/Proofpress/proofpress-trail.md",
- "artifact_id": "pp_d931a4c536cf7d08a05ac5cb",
+ "artifact": "Proofpress/proofpress-trail.md",
+ "artifact_id": "pp_59d01b568ed200fe62e0103e",
  "attribution_basis": "harness_attested",
  "author": {
-  "kind": "agent",
+  "kind": "system",
   "name": "agent-a",
-  "session": "artifact-travel-v4-a"
+  "session": null
  },
- "changes": [
-  {
-   "block": "7a400003",
-   "context": "Current handoff",
-   "kind": "added",
-   "preview": "## Current handoff",
-   "type": "heading"
-  },
-  {
-   "block": "e69a5317",
-   "context": "Current handoff",
-   "kind": "added",
-   "preview": "The current candidate is ready for downstream QC. The genera",
-   "type": "para"
-  }
- ],
- "claims": [
-  {
-   "block": "7a400003",
-   "kind": "added",
-   "note": "v2 temporal state admitted"
-  },
-  {
-   "block": "e69a5317",
-   "kind": "added",
-   "note": "v2 temporal state admitted"
-  }
- ],
- "context": {
-  "rejected": [
-   "general-tax-indemnity — unsupported by the admitted evidence"
-  ],
-  "why": "record the current handoff candidate and rejected alternative"
- },
+ "changes": [],
  "event": "version_created",
- "event_id": "ppe_a470b6793930bccb4ffdad13",
- "note": null,
- "parent": "72199241",
- "parents": [
-  {
-   "changes": [
-    {
-     "block": "7a400003",
-     "context": "Current handoff",
-     "kind": "added",
-     "preview": "## Current handoff",
-     "type": "heading"
-    },
-    {
-     "block": "e69a5317",
-     "context": "Current handoff",
-     "kind": "added",
-     "preview": "The current candidate is ready for downstream QC. The genera",
-     "type": "para"
-    }
-   ],
-   "event_id": "ppe_6051e34ad188559b3778180a",
-   "stats": {
-    "added": 2
-   },
-   "version": "72199241"
-  }
- ],
+ "event_id": "ppe_cd78f5bd1beb19d7aedd7116",
+ "note": "portable lineage checkpoint",
+ "parent": null,
+ "parents": [],
  "policy": "portable",
- "portable_lineage_id": "ppl_ebd63046ceb331a3f149e6dc",
- "soft_fingerprint": "ppsb1:80c494ae74cc090ecabe11b801c7413268fce4d039b1b1b70e8b743368242463",
- "stats": {
-  "added": 2
- },
- "ts": "2026-08-10T23:08:31+00:00",
- "version": "336ae2f5",
+ "portable_checkpoint": true,
+ "portable_lineage_id": "ppl_1fdb7f18f75baa14a1cfbee0",
+ "soft_fingerprint": "ppsb1:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+ "stats": {},
+ "ts": "2026-08-10T23:08:33+00:00",
+ "version": "d30e68fc",
  "imported_from_capsule": true
 }

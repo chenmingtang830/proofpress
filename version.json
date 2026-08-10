@@ -1,48 +1,5 @@
 {
- "artifact": "filesystem/Proofpress/proofpress-trail.md",
- "artifact_id": "pp_d931a4c536cf7d08a05ac5cb",
- "blocks": [
-  {
-   "hash": "3256fb8ffabb",
-   "id": "3a1f764c",
-   "text": "# SPA handoff trail",
-   "type": "heading"
-  },
-  {
-   "hash": "eae558db618a",
-   "id": "7a400001",
-   "text": "## Initial review",
-   "type": "heading"
-  },
-  {
-   "hash": "5f1aa046c3ee",
-   "id": "bbe0533c",
-   "text": "The initial SPA candidate is under review. Preserve the S-Corporation protections while evidence is reconciled.",
-   "type": "para"
-  },
-  {
-   "hash": "35f2298abff0",
-   "id": "7a400002",
-   "text": "## Revision decision",
-   "type": "heading"
-  },
-  {
-   "hash": "a589dcdffc5d",
-   "id": "f6d3b0ed",
-   "text": "The revised SPA is the working candidate. The prior draft is no longer the current handoff artifact.",
-   "type": "para"
-  },
-  {
-   "hash": "f130e792dc75",
-   "id": "7a400003",
-   "text": "## Current handoff",
-   "type": "heading"
-  },
-  {
-   "hash": "82422214e857",
-   "id": "e69a5317",
-   "text": "The current candidate is ready for downstream QC. The general-tax-indemnity alternative was considered but is not authorized by the available evidence.",
-   "type": "para"
-  }
- ]
+ "artifact": "Proofpress/proofpress-trail.md",
+ "artifact_id": "pp_59d01b568ed200fe62e0103e",
+ "blocks": []
 }
