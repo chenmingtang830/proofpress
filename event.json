@@ -1,29 +1,112 @@
 {
  "actors": {
+  "edited_by": [
+   "agent-a"
+  ],
+  "produced_by": [
+   "agent-a"
+  ],
   "recorded_by": [
    "agent-a"
+  ],
+  "requested_by": [
+   "benchmark-protocol"
   ]
  },
  "artifact": "Proofpress/proofpress-trail.md",
  "artifact_id": "pp_59d01b568ed200fe62e0103e",
  "attribution_basis": "harness_attested",
  "author": {
-  "kind": "system",
+  "kind": "agent",
   "name": "agent-a",
-  "session": null
+  "session": "artifact-travel-v4-a"
  },
- "changes": [],
+ "changes": [
+  {
+   "block": "8af41f93",
+   "context": "SPA handoff trail",
+   "kind": "added",
+   "preview": "# SPA handoff trail",
+   "type": "heading"
+  },
+  {
+   "block": "7a400001",
+   "context": "Initial review",
+   "kind": "added",
+   "preview": "## Initial review",
+   "type": "heading"
+  },
+  {
+   "block": "13a79009",
+   "context": "Initial review",
+   "kind": "added",
+   "preview": "The initial SPA candidate is under review. Preserve the S-Co",
+   "type": "para"
+  }
+ ],
+ "claims": [
+  {
+   "block": "13a79009",
+   "kind": "added",
+   "note": "v0 temporal state admitted"
+  },
+  {
+   "block": "7a400001",
+   "kind": "added",
+   "note": "v0 temporal state admitted"
+  },
+  {
+   "block": "8af41f93",
+   "kind": "added",
+   "note": "v0 temporal state admitted"
+  }
+ ],
+ "context": {
+  "why": "record initial artifact review"
+ },
  "event": "version_created",
- "event_id": "ppe_cd78f5bd1beb19d7aedd7116",
- "note": "portable lineage checkpoint",
- "parent": null,
- "parents": [],
+ "event_id": "ppe_9a04274cfce4a0c1e7f030ae",
+ "note": null,
+ "parent": "d30e68fc",
+ "parents": [
+  {
+   "changes": [
+    {
+     "block": "8af41f93",
+     "context": "SPA handoff trail",
+     "kind": "added",
+     "preview": "# SPA handoff trail",
+     "type": "heading"
+    },
+    {
+     "block": "7a400001",
+     "context": "Initial review",
+     "kind": "added",
+     "preview": "## Initial review",
+     "type": "heading"
+    },
+    {
+     "block": "13a79009",
+     "context": "Initial review",
+     "kind": "added",
+     "preview": "The initial SPA candidate is under review. Preserve the S-Co",
+     "type": "para"
+    }
+   ],
+   "event_id": "ppe_cd78f5bd1beb19d7aedd7116",
+   "stats": {
+    "added": 3
+   },
+   "version": "d30e68fc"
+  }
+ ],
  "policy": "portable",
- "portable_checkpoint": true,
  "portable_lineage_id": "ppl_1fdb7f18f75baa14a1cfbee0",
- "soft_fingerprint": "ppsb1:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
- "stats": {},
+ "soft_fingerprint": "ppsb1:61c4780b07aecfdb1f95020f3545313f6b069d2c64f4e7ec753d39a6f3240ac3",
+ "stats": {
+  "added": 3
+ },
  "ts": "2026-08-10T23:08:33+00:00",
- "version": "d30e68fc",
+ "version": "655ad113",
  "imported_from_capsule": true
 }
