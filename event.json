@@ -1,97 +1,607 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/ara/PAPER.md",
- "artifact_id": "pp_cb6d0883f4bda071d2137869",
- "version": "74cc7326",
- "parent": "d139dfdf",
+ "artifact": "README.md",
+ "artifact_id": "pp_556b115de711b0cd33eed260",
+ "version": "38efd1df",
+ "parent": "ba7c429e",
  "author": {
   "name": "codex",
   "kind": "agent",
   "session": null
  },
- "note": "Update the research notebook with the invalid Phase 1 pilot boundary.",
- "ts": "2026-08-10T00:17:22+00:00",
+ "note": "Added the hero image as a single README visual with concise alt text; did not add inline article images.",
+ "ts": "2026-08-10T01:18:20+00:00",
  "stats": {
-  "modified": 2
+  "added": 55,
+  "modified": 1,
+  "removed": 24
  },
  "changes": [
   {
-   "kind": "modified",
-   "block": "d6d1bb11",
+   "kind": "added",
+   "block": "6ec771b4",
    "type": "para",
-   "context": "Research notebook — admitted provenance "
+   "context": "(文首)",
+   "preview": "<p align=\"center\">\n  <img src=\"assets/logo.svg\" alt=\"Proofpr"
+  },
+  {
+   "kind": "added",
+   "block": "de7999eb",
+   "type": "heading",
+   "context": "Proofpress",
+   "preview": "# Proofpress"
+  },
+  {
+   "kind": "added",
+   "block": "e667d986",
+   "type": "para",
+   "context": "Proofpress",
+   "preview": "Proofpress is the trust layer for multiplayer AI: an open, a"
+  },
+  {
+   "kind": "added",
+   "block": "0e0e9d9a",
+   "type": "para",
+   "context": "Proofpress",
+   "preview": "Humans and agents can produce a document quickly, but the de"
+  },
+  {
+   "kind": "added",
+   "block": "7c5ed81a",
+   "type": "para",
+   "context": "Proofpress",
+   "preview": "Think C2PA, but for knowledge work: a portable, inspectable "
+  },
+  {
+   "kind": "added",
+   "block": "1b5546b8",
+   "type": "para",
+   "context": "Proofpress",
+   "preview": "> Git made code collaborative. Proofpress makes intelligence"
+  },
+  {
+   "kind": "added",
+   "block": "df7a085e",
+   "type": "para",
+   "context": "Proofpress",
+   "preview": "<p align=\"center\">\n  <img src=\"assets/articles/memory-table-"
+  },
+  {
+   "kind": "added",
+   "block": "169d8523",
+   "type": "heading",
+   "context": "Status",
+   "preview": "## Status"
+  },
+  {
+   "kind": "added",
+   "block": "d6f9f208",
+   "type": "para",
+   "context": "Status",
+   "preview": "Proofpress 0.1.0 is the first stable npm release. The CLI is"
+  },
+  {
+   "kind": "added",
+   "block": "19210f53",
+   "type": "heading",
+   "context": "Install",
+   "preview": "## Install"
+  },
+  {
+   "kind": "added",
+   "block": "989f25ec",
+   "type": "para",
+   "context": "Install",
+   "preview": "Proofpress keeps its zero-dependency Python engine and adds "
+  },
+  {
+   "kind": "added",
+   "block": "7b197ac1",
+   "type": "code",
+   "context": "Install",
+   "preview": "```sh\nnpm install --save-dev proofpress\nnpx --no-install pro"
+  },
+  {
+   "kind": "added",
+   "block": "5ae48e1b",
+   "type": "para",
+   "context": "Install",
+   "preview": "`setup` installs a package-aware adapter and writes\n`.proofp"
+  },
+  {
+   "kind": "added",
+   "block": "2b655d31",
+   "type": "para",
+   "context": "Install",
+   "preview": "To add a visible, transparent distribution mark to a reposit"
+  },
+  {
+   "kind": "added",
+   "block": "d4916c37",
+   "type": "code",
+   "context": "Install",
+   "preview": "```sh\nnpx --no-install proofpress setup --agent codex --badg"
+  },
+  {
+   "kind": "added",
+   "block": "5796ae98",
+   "type": "para",
+   "context": "Install",
+   "preview": "The badge says that revision provenance uses Proofpress; it "
+  },
+  {
+   "kind": "added",
+   "block": "e7b4f799",
+   "type": "heading",
+   "context": "Single-file install",
+   "preview": "## Single-file install"
+  },
+  {
+   "kind": "added",
+   "block": "d8cafbd3",
+   "type": "para",
+   "context": "Single-file install",
+   "preview": "Proofpress is a single Python file with no third-party runti"
+  },
+  {
+   "kind": "added",
+   "block": "0b5b4916",
+   "type": "code",
+   "context": "Single-file install",
+   "preview": "```sh\ngit clone https://github.com/chenmingtang830/proofpres"
+  },
+  {
+   "kind": "added",
+   "block": "166fd594",
+   "type": "para",
+   "context": "Single-file install",
+   "preview": "To use it in another repository, vendor `proofpress.py` at t"
   },
   {
    "kind": "modified",
-   "block": "4b96e0aa",
+   "block": "949eb6a5",
+   "type": "heading",
+   "context": "What “portable” means"
+  },
+  {
+   "kind": "added",
+   "block": "2173502c",
    "type": "para",
-   "context": "Abstract (draft)",
-   "numbers": [
-    [
-     "3",
-     "1"
-    ],
-    [
-     "3",
-     "15"
-    ],
-    [
-     "0",
-     "3"
-    ],
-    [
-     "1",
-     "3"
-    ]
-   ]
+   "context": "What “portable” means",
+   "preview": "Turn portability on once:"
+  },
+  {
+   "kind": "added",
+   "block": "c44f6768",
+   "type": "code",
+   "context": "What “portable” means",
+   "preview": "```sh\npython3 proofpress.py policy proposal.md portable\n```"
+  },
+  {
+   "kind": "added",
+   "block": "79416c44",
+   "type": "para",
+   "context": "What “portable” means",
+   "preview": "The setting is sticky. Later accepted revisions refresh a co"
+  },
+  {
+   "kind": "added",
+   "block": "af7113fa",
+   "type": "code",
+   "context": "What “portable” means",
+   "preview": "```sh\npython3 proofpress.py inspect proposal.md\npython3 proo"
+  },
+  {
+   "kind": "added",
+   "block": "bfc931ca",
+   "type": "para",
+   "context": "What “portable” means",
+   "preview": "The capsule is declarative data, not agent instructions. It "
+  },
+  {
+   "kind": "added",
+   "block": "839fc8a1",
+   "type": "para",
+   "context": "What “portable” means",
+   "preview": "Portable carriers include a non-rendering discovery marker w"
+  },
+  {
+   "kind": "added",
+   "block": "cc095bd4",
+   "type": "heading",
+   "context": "Static HTML carrier",
+   "preview": "## Static HTML carrier"
+  },
+  {
+   "kind": "added",
+   "block": "e6463f5e",
+   "type": "para",
+   "context": "Static HTML carrier",
+   "preview": "Proofpress also supports static `.html` and `.htm` artifacts"
+  },
+  {
+   "kind": "added",
+   "block": "b8abc9df",
+   "type": "code",
+   "context": "Static HTML carrier",
+   "preview": "```sh\npython3 proofpress.py policy launch-plan.html portable"
+  },
+  {
+   "kind": "added",
+   "block": "00768820",
+   "type": "para",
+   "context": "Static HTML carrier",
+   "preview": "This is a static-HTML carrier MVP, not a framework or CMS in"
+  },
+  {
+   "kind": "added",
+   "block": "226a29fd",
+   "type": "heading",
+   "context": "What gets recorded",
+   "preview": "## What gets recorded"
+  },
+  {
+   "kind": "added",
+   "block": "cfc1c3aa",
+   "type": "para",
+   "context": "What gets recorded",
+   "preview": "Proofpress records accepted artifact versions, their compute"
+  },
+  {
+   "kind": "added",
+   "block": "5e0b34ed",
+   "type": "para",
+   "context": "What gets recorded",
+   "preview": "It does not automatically store raw prompts, transcripts, to"
+  },
+  {
+   "kind": "added",
+   "block": "d8387b0b",
+   "type": "heading",
+   "context": "Privacy modes",
+   "preview": "## Privacy modes"
+  },
+  {
+   "kind": "added",
+   "block": "5df13acf",
+   "type": "para",
+   "context": "Privacy modes",
+   "preview": "Each artifact has one policy:"
+  },
+  {
+   "kind": "added",
+   "block": "3b52e3b3",
+   "type": "list",
+   "context": "Privacy modes",
+   "preview": "- `portable`: future accepted versions refresh the embedded "
+  },
+  {
+   "kind": "added",
+   "block": "126978a2",
+   "type": "para",
+   "context": "Privacy modes",
+   "preview": "  removed."
+  },
+  {
+   "kind": "added",
+   "block": "0890e114",
+   "type": "list",
+   "context": "Privacy modes",
+   "preview": "- `ignored`: future capture is skipped."
+  },
+  {
+   "kind": "added",
+   "block": "c6642117",
+   "type": "para",
+   "context": "Privacy modes",
+   "preview": "Switching from portable to local cannot recall copies alread"
+  },
+  {
+   "kind": "added",
+   "block": "18995a53",
+   "type": "para",
+   "context": "Privacy modes",
+   "preview": "For a one-off history-free copy, use:"
+  },
+  {
+   "kind": "added",
+   "block": "f28051ef",
+   "type": "code",
+   "context": "Privacy modes",
+   "preview": "```sh\npython3 proofpress.py clean proposal.md --output propo"
+  },
+  {
+   "kind": "added",
+   "block": "bfac82a8",
+   "type": "heading",
+   "context": "Core workflow",
+   "preview": "## Core workflow"
+  },
+  {
+   "kind": "added",
+   "block": "706dcea3",
+   "type": "code",
+   "context": "Core workflow",
+   "preview": "```sh\npython3 proofpress.py anchor proposal.md\npython3 proof"
+  },
+  {
+   "kind": "added",
+   "block": "33e05aa8",
+   "type": "para",
+   "context": "Core workflow",
+   "preview": "Use `--rejected` only for consequential dead branches that f"
+  },
+  {
+   "kind": "added",
+   "block": "59769c11",
+   "type": "heading",
+   "context": "Merged lineage and stripped copies",
+   "preview": "## Merged lineage and stripped copies"
+  },
+  {
+   "kind": "added",
+   "block": "91a8deb1",
+   "type": "para",
+   "context": "Merged lineage and stripped copies",
+   "preview": "When one document merges several Proofpress-managed sources,"
+  },
+  {
+   "kind": "added",
+   "block": "100c5aa7",
+   "type": "code",
+   "context": "Merged lineage and stripped copies",
+   "preview": "```sh\npython3 proofpress.py merge-lineage proposal.md \\\n  --"
+  },
+  {
+   "kind": "added",
+   "block": "144c3d60",
+   "type": "para",
+   "context": "Merged lineage and stripped copies",
+   "preview": "When a copy lost its metadata and capsule (pasted as plain t"
+  },
+  {
+   "kind": "added",
+   "block": "28dec45f",
+   "type": "code",
+   "context": "Merged lineage and stripped copies",
+   "preview": "```sh\npython3 proofpress.py identify pasted-copy.md\n```"
+  },
+  {
+   "kind": "added",
+   "block": "b705ac38",
+   "type": "para",
+   "context": "Merged lineage and stripped copies",
+   "preview": "`identify` answers identity — \"this is that artifact\" — on a"
+  },
+  {
+   "kind": "added",
+   "block": "2a955c60",
+   "type": "heading",
+   "context": "Surfaces",
+   "preview": "## Surfaces"
+  },
+  {
+   "kind": "added",
+   "block": "8deed5b3",
+   "type": "list",
+   "context": "Surfaces",
+   "preview": "- `proofpress.py`: zero-dependency engine and CLI.\n- npm pac"
+  },
+  {
+   "kind": "added",
+   "block": "1f7d312f",
+   "type": "para",
+   "context": "Surfaces",
+   "preview": "  best-effort fallback hooks."
+  },
+  {
+   "kind": "added",
+   "block": "605a678d",
+   "type": "list",
+   "context": "Surfaces",
+   "preview": "- Embedded portable capsule: path-independent handoff outsid"
+  },
+  {
+   "kind": "added",
+   "block": "820f39ab",
+   "type": "para",
+   "context": "Surfaces",
+   "preview": "Start with the [documentation index](docs/README.md). The ex"
+  },
+  {
+   "kind": "removed",
+   "block": "da60723f",
+   "type": "heading",
+   "context": "",
+   "preview": "# Proofpress Provenance Continuity Evaluation"
+  },
+  {
+   "kind": "removed",
+   "block": "0c4a8f5e",
+   "type": "heading",
+   "context": "",
+   "preview": "## Review status"
+  },
+  {
+   "kind": "removed",
+   "block": "d86e9669",
+   "type": "para",
+   "context": "",
+   "preview": "This directory records immutable historical slices and the a"
+  },
+  {
+   "kind": "removed",
+   "block": "344529db",
+   "type": "para",
+   "context": "",
+   "preview": "This `proofpress-dev` checkout is the canonical maintenance "
+  },
+  {
+   "kind": "removed",
+   "block": "13a7e0d8",
+   "type": "heading",
+   "context": "",
+   "preview": "## The research question"
+  },
+  {
+   "kind": "removed",
+   "block": "efb84a51",
+   "type": "para",
+   "context": "",
+   "preview": "Under the same task and budget, does a verified Proofpress c"
+  },
+  {
+   "kind": "removed",
+   "block": "51799240",
+   "type": "para",
+   "context": "",
+   "preview": "The study is deliberately not a claim that more context or m"
+  },
+  {
+   "kind": "removed",
+   "block": "2873d37b",
+   "type": "heading",
+   "context": "",
+   "preview": "## Scope and comparison"
+  },
+  {
+   "kind": "removed",
+   "block": "1030b33f",
+   "type": "para",
+   "context": "",
+   "preview": "Phase 1 uses the upstream STALE benchmark and compares its m"
+  },
+  {
+   "kind": "removed",
+   "block": "48aa7881",
+   "type": "para",
+   "context": "",
+   "preview": "The active formal conditions are:"
+  },
+  {
+   "kind": "removed",
+   "block": "27c19da2",
+   "type": "list",
+   "context": "",
+   "preview": "- `S0 — baseline`: STALE's original memory baseline.\n- `S1 —"
+  },
+  {
+   "kind": "removed",
+   "block": "146ef700",
+   "type": "para",
+   "context": "",
+   "preview": "The primary Phase 1 comparisons are `S2 − S0`, `S2 − S1`, an"
+  },
+  {
+   "kind": "removed",
+   "block": "c1ba01f6",
+   "type": "list",
+   "context": "",
+   "preview": "- `docs/STALE_PHASE1_PLAN.md` — canonical, executable Phase "
+  },
+  {
+   "kind": "removed",
+   "block": "3b50a86f",
+   "type": "heading",
+   "context": "",
+   "preview": "## ARA installation"
+  },
+  {
+   "kind": "removed",
+   "block": "b9231698",
+   "type": "para",
+   "context": "",
+   "preview": "The official ARA source has been cloned at `third_party/ara-"
+  },
+  {
+   "kind": "removed",
+   "block": "61817201",
+   "type": "heading",
+   "context": "",
+   "preview": "## Historical internal mechanism result"
+  },
+  {
+   "kind": "removed",
+   "block": "0aa324ea",
+   "type": "para",
+   "context": "",
+   "preview": "The internal MemConflict mechanism check is complete: 12 fro"
+  },
+  {
+   "kind": "removed",
+   "block": "d293335c",
+   "type": "para",
+   "context": "",
+   "preview": "The historical runner recorded a requested model but not res"
+  },
+  {
+   "kind": "removed",
+   "block": "66569a2c",
+   "type": "heading",
+   "context": "",
+   "preview": "## Phase 1 implementation status"
+  },
+  {
+   "kind": "removed",
+   "block": "1fa1b7ec",
+   "type": "para",
+   "context": "",
+   "preview": "The original two-record S0–S3 table is retained in [pilot_re"
+  },
+  {
+   "kind": "removed",
+   "block": "f0c71c2d",
+   "type": "heading",
+   "context": "",
+   "preview": "## Existing lightweight smoke runtime"
+  },
+  {
+   "kind": "removed",
+   "block": "0c725a2a",
+   "type": "para",
+   "context": "",
+   "preview": "The existing `pp-eval` commands still work for local fixture"
+  },
+  {
+   "kind": "removed",
+   "block": "bc21a929",
+   "type": "code",
+   "context": "",
+   "preview": "```bash\nexport PROOFPRESS_EVAL_HOME=/Users/richardtang/.cach"
+  },
+  {
+   "kind": "removed",
+   "block": "36223643",
+   "type": "para",
+   "context": "",
+   "preview": "Those fixtures validate package construction, isolation, rec"
   }
  ],
- "policy": "portable",
- "soft_fingerprint": "ppsb1:0e9d9e67ccf78a5092069d75cc570297d71c3f726d8b09d82296af92020fdc5d",
+ "policy": "local",
+ "soft_fingerprint": "ppsb1:c3ac73681e02c90a0c5ed816dbc6da4a9a81748ddc63ab0db5129b688e9bfbb1",
  "actors": {
   "requested_by": [
    "user"
   ],
   "produced_by": [
-   "artifact-travel-phase1-runner"
+   "codex"
   ],
   "edited_by": [
    "codex"
   ],
   "recorded_by": [
-   "proofpress"
+   "codex"
   ]
  },
- "attribution_basis": "environment_attested",
+ "attribution_basis": "harness_attested",
  "claims": [
   {
-   "block": "d6d1bb11",
-   "kind": "modified",
-   "note": "Make Artifact Travel v2 the active substrate while preserving all historical result boundaries."
-  },
-  {
-   "block": "4b96e0aa",
-   "kind": "modified",
-   "note": "Reframe the study around the full portable-package bundle and the A-B-R trust endpoint."
-  },
-  {
-   "block": "4249cd4c",
-   "kind": "modified",
-   "note": "Keep MemConflict and STALE as separate mechanism evidence rather than product claims."
-  },
-  {
-   "block": "d6d1bb11",
-   "kind": "modified",
-   "note": "Record that the authorized Phase 1 pilot completed with no valid scored cells and remains non-efficacy protocol evidence."
-  },
-  {
-   "block": "4b96e0aa",
-   "kind": "modified",
-   "note": "Add the immutable 15-cell invalid pilot boundary to the study abstract."
+   "block": "df7a085e",
+   "kind": "added",
+   "note": "Added the generated provenance hero image to the README brand surface with concise alt text."
   }
  ],
  "context": {
-  "why": "The authorized SPA pilot was attempted but did not pass the runtime/schema validity gate, so the notebook must not imply an efficacy result."
- },
- "event_id": "ppe_b9f949771c1d545006343f5c"
+  "why": "The user requested the generated provenance hero image be incorporated into the production repository README, and the existing README had a top-level visual surface but no article-asset section."
+ }
 }
