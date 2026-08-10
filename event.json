@@ -1,29 +1,53 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/ara/logic/experiments.md",
- "artifact_id": "pp_15fb7a0bcf0891f7cee01068",
- "version": "6a87adfe",
- "parent": "9e65acb9",
+ "artifact": "experiments/provenance_handoff/ara/PAPER.md",
+ "artifact_id": "pp_cb6d0883f4bda071d2137869",
+ "version": "74cc7326",
+ "parent": "d139dfdf",
  "author": {
   "name": "codex",
   "kind": "agent",
   "session": null
  },
- "note": "Record Artifact Travel v2 Phase 1 pilot status and validity boundary.",
- "ts": "2026-08-10T00:17:16+00:00",
+ "note": "Update the research notebook with the invalid Phase 1 pilot boundary.",
+ "ts": "2026-08-10T00:17:22+00:00",
  "stats": {
-  "modified": 1
+  "modified": 2
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "3242ace7",
-   "type": "list",
-   "context": "E12: Artifact Travel Benchmark v2 — A→B→"
+   "block": "d6d1bb11",
+   "type": "para",
+   "context": "Research notebook — admitted provenance "
+  },
+  {
+   "kind": "modified",
+   "block": "4b96e0aa",
+   "type": "para",
+   "context": "Abstract (draft)",
+   "numbers": [
+    [
+     "3",
+     "1"
+    ],
+    [
+     "3",
+     "15"
+    ],
+    [
+     "0",
+     "3"
+    ],
+    [
+     "1",
+     "3"
+    ]
+   ]
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:509803782656b539d8b5065e7c1b9b1eb0d561dca5b950504547852ac000eb97",
+ "soft_fingerprint": "ppsb1:0e9d9e67ccf78a5092069d75cc570297d71c3f726d8b09d82296af92020fdc5d",
  "actors": {
   "requested_by": [
    "user"
@@ -41,28 +65,33 @@
  "attribution_basis": "environment_attested",
  "claims": [
   {
-   "block": "560cdaa4",
+   "block": "d6d1bb11",
    "kind": "modified",
-   "note": "Mark the information-matched SPA v1 protocol superseded without a receiver outcome."
+   "note": "Make Artifact Travel v2 the active substrate while preserving all historical result boundaries."
   },
   {
-   "block": "43a81843",
-   "kind": "added",
-   "note": "Add the Artifact Travel v2 experiment record."
-  },
-  {
-   "block": "3242ace7",
-   "kind": "added",
-   "note": "Record the bundle estimand, A-B-R design, faults, passed Phase 0 gate, and Phase 1 authorization boundary."
-  },
-  {
-   "block": "3242ace7",
+   "block": "4b96e0aa",
    "kind": "modified",
-   "note": "Record the explicitly authorized 15-cell Phase 1 pilot as incomplete_or_invalid with zero valid cells, preserve its immutable report boundary, and require telemetry regression coverage before rerun."
+   "note": "Reframe the study around the full portable-package bundle and the A-B-R trust endpoint."
+  },
+  {
+   "block": "4249cd4c",
+   "kind": "modified",
+   "note": "Keep MemConflict and STALE as separate mechanism evidence rather than product claims."
+  },
+  {
+   "block": "d6d1bb11",
+   "kind": "modified",
+   "note": "Record that the authorized Phase 1 pilot completed with no valid scored cells and remains non-efficacy protocol evidence."
+  },
+  {
+   "block": "4b96e0aa",
+   "kind": "modified",
+   "note": "Add the immutable 15-cell invalid pilot boundary to the study abstract."
   }
  ],
  "context": {
-  "why": "The explicitly authorized SPA pilot completed with no valid cells; preserve the immutable protocol record and prevent efficacy or Phase 2 interpretation."
+  "why": "The authorized SPA pilot was attempted but did not pass the runtime/schema validity gate, so the notebook must not imply an efficacy result."
  },
- "event_id": "ppe_8b9678c02b5abf3b80209783"
+ "event_id": "ppe_b9f949771c1d545006343f5c"
 }
