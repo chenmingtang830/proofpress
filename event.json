@@ -1,58 +1,51 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/docs/ARTIFACT_TRAVEL_V2_PLAN.md",
- "artifact_id": "pp_cbf559b6d07e7baadaed3ed9",
- "version": "d55ff647",
- "parent": "38e0b432",
+ "artifact": "experiments/provenance_handoff/docs/RESULTS_MATRIX.md",
+ "artifact_id": "pp_d40d46a12d4d493fcbc9c0e9",
+ "version": "d2571f4c",
+ "parent": "e03e1c86",
  "author": {
   "name": "Codex",
   "kind": "agent",
   "session": "artifact-travel-v2-r3-results"
  },
  "note": null,
- "ts": "2026-08-10T07:21:26+00:00",
+ "ts": "2026-08-10T07:21:34+00:00",
  "stats": {
-  "modified": 1,
   "added": 4
  },
  "changes": [
   {
-   "kind": "modified",
-   "block": "e434c3c4",
-   "type": "para",
-   "context": "Status"
-  },
-  {
    "kind": "added",
-   "block": "30f9eeef",
-   "type": "para",
-   "context": "Status",
-   "preview": "The completed pilot is a transport-switched, one-case operat"
-  },
-  {
-   "kind": "added",
-   "block": "7cb785e2",
+   "block": "baa1dd91",
    "type": "heading",
-   "context": "Current pilot interpretation",
-   "preview": "## Current pilot interpretation"
+   "context": "Artifact Travel v2 SPA pilot — separate ",
+   "preview": "## Artifact Travel v2 SPA pilot — separate operational recor"
   },
   {
    "kind": "added",
-   "block": "c0e67a88",
+   "block": "ac987422",
    "type": "para",
-   "context": "Current pilot interpretation",
-   "preview": "The completed SPA pilot recorded no unsafe accept in 15 cell"
+   "context": "Artifact Travel v2 SPA pilot — separate ",
+   "preview": "The completed 15-cell SPA pilot is not pooled with STALE or "
   },
   {
    "kind": "added",
-   "block": "3b112fb4",
+   "block": "ade01dc4",
+   "type": "table",
+   "context": "Artifact Travel v2 SPA pilot — separate ",
+   "preview": "| Arm | Valid cells | Faulted safe disposition | Clean trust"
+  },
+  {
+   "kind": "added",
+   "block": "4a3414a1",
    "type": "para",
-   "context": "Current pilot interpretation",
-   "preview": "This means the pilot demonstrates that the package-and-revie"
+   "context": "Artifact Travel v2 SPA pilot — separate ",
+   "preview": "All 15 cells had complete telemetry and no recorded fallback"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:93f1b55667f9afa9533c7bccfdae65a23e5a599a1e872e45668426fcb22dfdae",
+ "soft_fingerprint": "ppsb1:c8ef138a018454d3681ff467123e941c613855bd7f796abc092e8c01c86d143a",
  "actors": {
   "requested_by": [
    "richardtang"
@@ -70,33 +63,28 @@
  "attribution_basis": "environment_attested",
  "claims": [
   {
-   "block": "e434c3c4",
-   "kind": "modified",
-   "note": "Record the completed authorized 15-cell pilot and its immutable final report."
+   "block": "baa1dd91",
+   "kind": "added",
+   "note": "Create a separate Artifact Travel v2 operational-results section."
   },
   {
-   "block": "30f9eeef",
+   "block": "ac987422",
    "kind": "added",
-   "note": "State the mixed receiver transport, complete telemetry, pending audit, and non-confirmatory boundary."
+   "note": "Bind the separate pilot record to its immutable final report and exclude it from STALE pooling."
   },
   {
-   "block": "7cb785e2",
+   "block": "ade01dc4",
    "kind": "added",
-   "note": "Add a pilot interpretation section."
+   "note": "Report validity, clean, faulted-safe, end-to-end, and unsafe-accept endpoints by arm."
   },
   {
-   "block": "c0e67a88",
+   "block": "4a3414a1",
    "kind": "added",
-   "note": "Record the arm-level safety endpoints and the C2 implemented-decision reason error."
-  },
-  {
-   "block": "3b112fb4",
-   "kind": "added",
-   "note": "Limit the pilot to auditable-refusal protocol evidence and descriptive error-space evidence."
+   "note": "Record transport confounding, one-observation-per-state limits, and pending blind audits."
   }
  ],
  "context": {
-  "why": "Record the completed Artifact Travel v2 SPA pilot, including its transport boundary, observed safety endpoints, and non-confirmatory interpretation."
+  "why": "Record the completed Artifact Travel v2 SPA pilot separately from STALE with its final immutable report and interpretation limits."
  },
- "event_id": "ppe_ddb3a77f1566120f888dcbc6"
+ "event_id": "ppe_e6ca3cf2fffaf45a775bfe5f"
 }
