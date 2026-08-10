@@ -1,66 +1,240 @@
 {
- "artifact": "/Users/richardtang/.codex/worktrees/artifact-travel-v2/proofpress-dev/experiments/provenance_handoff/ara/PAPER.md",
- "artifact_id": "pp_cb6d0883f4bda071d2137869",
+ "artifact": "experiments/provenance_handoff/docs/ARTIFACT_TRAVEL_V2_PLAN.md",
+ "artifact_id": "pp_cbf559b6d07e7baadaed3ed9",
  "blocks": [
   {
    "type": "heading",
-   "text": "# Research notebook — admitted provenance comparative study",
-   "id": "5ad8477e",
-   "hash": "1a305208da3f"
-  },
-  {
-   "type": "para",
-   "text": "**Status:** Artifact Travel v3-r2 is the active product-benchmark record. Phase 0 passed; the explicitly authorized 45-cell SPA replication covered all 45 cells on one AI Gateway transport, with 44 scorable cells and one preserved schema-invalid receiver observation. Its direct-Gemini abort and v2 mixed-route report remain separate immutable operational records. This is one-case descriptive evidence, not an efficacy or Phase 2 claim: no arm achieved clean trusted completion, C2 did not beat C1 on the paired end-to-end endpoint, and no arm produced an unsafe accept. The valid STALE/CUPMem phase is closed as judge-sensitive mechanism evidence. The completed APEX Law 3+3 is an archived public-source negative control, and the restricted-access Lease 3+3 remains bounded and inconclusive. Historic Harvey/C&H records and the internal MemConflict mechanism check remain historical only.\n**Authors:** Proofpress research team (draft)\n**Year:** 2026\n**Active substrate:** APEX-derived S-Corp SPA Artifact Travel v3-r2 with a three-arm package comparison, injected clean/fault states, receiver B, independent reviewer R, and a hidden oracle. Phase 0 is no-model protocol evidence. The final record has 45 cell directories, 44 scorable cells, complete transport telemetry for completed stages, and one explicit schema-invalid observation; it remains a single-case descriptive replication, not a confirmatory result.",
-   "id": "d6d1bb11",
-   "hash": "53c1b5037c5f"
+   "text": "# Proofpress Artifact Travel Benchmark v2",
+   "id": "024c7216",
+   "hash": "91fdd1a0ed84"
   },
   {
    "type": "heading",
-   "text": "## Artifact map",
-   "id": "6ce745c5",
-   "hash": "86cbf94b78e1"
+   "text": "## Status",
+   "id": "79b85ac9",
+   "hash": "e6012e8a29c9"
+  },
+  {
+   "type": "heading",
+   "text": "### v3 successor (2026-08-10)",
+   "id": "f50a557f",
+   "hash": "e7b54af74406"
+  },
+  {
+   "type": "para",
+   "text": "The v2 record above is immutable. The authorized successor is the separately\nfrozen Artifact Travel v3-r2 replicated pilot: 15 matrix cells × 3 independent\nrepeats = 45 cells. B uses AI Gateway\n`deepseek/deepseek-v4-flash-0731` at `high`; R uses AI Gateway\n`openai/gpt-5.6-terra` at `medium`; no direct/Gateway arm fallback is allowed.\nB is capped at three concurrent workers and R at two. The preregistration,\ncase bundle, Phase 0 report, canary, and authorization record are bound under\n`/Users/richardtang/.codex/worktrees/artifact-travel-v2/runs/direct-gemini/artifact-travel-v3-20260810-r3/`.",
+   "id": "349a58da",
+   "hash": "650fc0012733"
+  },
+  {
+   "type": "para",
+   "text": "The formal execution uses three isolated Archipelago worker roots with unique\ncontainer names, compose projects, host ports, environment URLs, and output\nroots. Infrastructure-only aborts may retry within the frozen budget; semantic\nobservations are never rerun. The active formal root is\n`/Users/richardtang/.codex/worktrees/artifact-travel-v2/runs/direct-gemini/artifact-travel-v3-20260810-resume1/pilot/`.\nIt carries two already-completed cells from the earlier diagnostic root\nwithout rerunning them, after correcting only the route classifier from their\nimmutable telemetry; it will be analyzed separately and never pooled with v2.",
+   "id": "4c944235",
+   "hash": "3cb0747ac051"
+  },
+  {
+   "type": "para",
+   "text": "This is the active Proofpress product benchmark plan. The no-model v3-r2 Phase\n0 run passed before paid calls, with product commit `6b843ee`, zero model calls,\nand 45/45 materialized fixture cells. The explicitly authorized v3-r2 run\ncovered all 45 cells. Its final report has 44 scorable cells and one preserved\nschema-invalid receiver observation; it is therefore not relabeled as 45/45\nvalid. The canonical report is\n`/Users/richardtang/.codex/worktrees/artifact-travel-v2/runs/direct-gemini/artifact-travel-v3-20260810-resume1/pilot/report.json`.",
+   "id": "e434c3c4",
+   "hash": "4dec428e8a39"
+  },
+  {
+   "type": "para",
+   "text": "The completed v3-r2 matrix is a one-case descriptive replication, not a\nconfirmatory efficacy result and not authorization for Phase 2. C0, C1, and C2\nused the same Gateway transport and fixed B/R models. There was no direct/\nGateway arm switch; provider-level failover inside Gateway is retained as\ntelemetry. No arm achieved clean trusted completion or unsafe accept. C1 was\n8/18 and C2 7/18 on end-to-end trusted handoff; the paired comparison was one\nC2 win, two C1 wins, and 15 ties. The clean DOCX task passed only 2/9 audited\noperative cells wherever a continuation reached the native audit. The one\ninvalid C0 receiver observation remains in the report and is excluded from\nscorable denominators.",
+   "id": "30f9eeef",
+   "hash": "110737e8d11f"
+  },
+  {
+   "type": "para",
+   "text": "The earlier information-matched SPA v1 protocol remains an immutable\npreflight-only record. It must not be run, pooled, or relabeled as v2.",
+   "id": "3f9e878c",
+   "hash": "57e34f9d7116"
+  },
+  {
+   "type": "heading",
+   "text": "## Research question and estimand",
+   "id": "1b60d47f",
+   "hash": "46af1f9723a5"
+  },
+  {
+   "type": "para",
+   "text": "> Does the complete Proofpress portable handoff package outperform a naturally\n> produced generic memory or continuity handoff at cross-workspace completion,\n> verification, and safe rejection?",
+   "id": "51b2a2ce",
+   "hash": "c1bd4c22d02a"
+  },
+  {
+   "type": "para",
+   "text": "The primary estimand is the bundle effect `C2 − C1`. More information, explicit\ndecision state, portable evidence, artifact binding, and verification are all\nparts of the treatment. This experiment does not identify the isolated effect\nof a hash, capsule, evidence volume, or any other individual component.",
+   "id": "00b40948",
+   "hash": "cb7cfc89e950"
+  },
+  {
+   "type": "para",
+   "text": "`C2 − C0` is a secondary comparison against a bare artifact. It is not the sole\nbaseline because ordinary teams commonly leave a short handoff.",
+   "id": "fa53b778",
+   "hash": "158479ce5710"
+  },
+  {
+   "type": "heading",
+   "text": "## A → B → R boundary",
+   "id": "ac354b44",
+   "hash": "9d6a19b388d9"
   },
   {
    "type": "list",
-   "text": "- `logic/problem.md` — why conventional handoff does not preserve accepted decision state.\n- `logic/claims.md` — falsifiable, currently testing hypotheses only.\n- `logic/concepts.md` — treatment and measurement definitions.\n- `logic/experiments.md` — gates and comparison matrix.\n- `logic/related_work.md` — historical Harvey context plus active benchmark-comparison context.\n- `logic/solution/constraints.md` — non-negotiable fairness and safety constraints.\n- `src/` — environment and experiment artifact index.\n- `trace/` — append-only decisions and session record.\n- `evidence/` — source and sanitized result index, including historical internal MemConflict evidence.",
-   "id": "b9c6dba5",
-   "hash": "8a272d978577"
+   "text": "- **A** works in the complete source workspace and produces the current\n  business artifact. Independent C1 and C2 packaging stages start from the\n  same frozen A artifact and source workspace.\n- **B** receives the final goal and a receiver-visible package but cannot\n  access A's workspace, chat, memory, trajectory, scratchpad, or answer key.\n- **R** receives only the exact package B received plus B's delivery. R cannot\n  access A, the hidden oracle, or a repaired package.\n- **Oracle** is a separate harness record containing the authoritative artifact,\n  decision graph, evidence truth, injected fault, and acceptable dispositions.\n  It is never copied into a B or R overlay.",
+   "id": "5055a9dc",
+   "hash": "93015e672a2c"
+  },
+  {
+   "type": "para",
+   "text": "Proofpress verification, the hidden oracle, and R are three independent layers.\nProofpress may verify integrity and declared lineage while the oracle rejects an\ninternally consistent but semantically false decision state.",
+   "id": "53db0379",
+   "hash": "a1487bff4d60"
   },
   {
    "type": "heading",
-   "text": "## Abstract (draft)",
-   "id": "6979663a",
-   "hash": "3513d178db19"
+   "text": "## Conditions",
+   "id": "a20acc7f",
+   "hash": "83625b6129c7"
+  },
+  {
+   "type": "table",
+   "text": "| Arm | Receiver-visible handoff |\n|---|---|\n| `C0 artifact-only` | Final goal and identical current/stale/fork candidates; no continuity |\n| `C1 conventional` | C0 plus A's natural generic summary of completed work, current state, and next action |\n| `C2 proofpress-portable` | C0 plus admitted decisions and supersession, portable evidence, DOCX semantic evidence, artifact binding, native portable carrier, and capsule |",
+   "id": "f92f3fde",
+   "hash": "42881c4c6d84"
   },
   {
    "type": "para",
-   "text": "This study evaluates the full Proofpress portable handoff package as an information product for work that leaves its original workspace. Artifact Travel compares a bare artifact, a naturally produced generic continuity handoff, and a richer Proofpress package containing admitted decision state, supersession, portable evidence, DOCX evidence, artifact binding, and verification. A fresh receiver B must complete or safely refuse; an independent reviewer R must accept, reject, or request re-verification without access to A; and a hidden oracle grades semantic truth separately from Proofpress integrity. The v3-r2 replication removes v2's C0 transport confound and repeats 15 package-state cells three times. It produced no unsafe accept, but no arm completed the clean task: C1 end-to-end trusted handoff was 8/18 and C2 was 7/18, with one C2 win, two C1 wins, and 15 ties. The native DOCX audit passed only 2/9 operative cells in clean continuations. This is a descriptive single-case result, not a generalizable estimate. The earlier restricted-access Lease 3+3 remains bounded and inconclusive, and the information-matched SPA v1 protocol is superseded without a receiver outcome. ARA remains a methodological precedent for richer artifact structure, not evidence for this cross-workspace estimand. The study does not claim that a capsule proves source truth, signed identity, or non-repudiation.",
-   "id": "4b96e0aa",
-   "hash": "1936e38ccbb1"
+   "text": "C1 is not forced to imitate Proofpress and is not intentionally degraded. All\narms use the same task, candidate artifacts, B/R tools, model capability, and\nmaximum budget. No arm receives padding. Package bytes, tokens, latency, tool\ncalls, and actual cost are reported as treatment costs.",
+   "id": "c5b56a9e",
+   "hash": "9bcc44b3b722"
   },
   {
    "type": "heading",
-   "text": "## Artifact Travel v3 replication status (2026-08-10)",
-   "id": "da70fd3c",
-   "hash": "ba88690eeee2"
+   "text": "## Package and decision interfaces",
+   "id": "9b9658f5",
+   "hash": "f65ba5728f37"
+  },
+  {
+   "type": "list",
+   "text": "- `artifact-travel-case/v1` admits one frozen A artifact, independent C1/C2\n  packaging snapshots, decisions, evidence, and all input hashes.\n- `artifact-travel-package/v2` is the receiver-visible package manifest.\n- `receiver-disposition/v1` requires `continue`, `reject`, or `reverify`, the\n  selected artifact, decision/evidence use, reason codes, and output paths.\n- `reviewer-verdict/v1` requires `accept`, `reject`, or `reverify`, reason codes,\n  and explicit identity/state/binding/evidence/fork checks.\n- `fault-oracle/v1` is hidden and supplies semantic ground truth.",
+   "id": "b1818212",
+   "hash": "02a1a973481a"
   },
   {
    "type": "para",
-   "text": "Artifact Travel v3-r2 is a separately frozen 45-cell successor: 15 package-state\ncells repeated three times. It aligns C0, C1, and C2 on one AI Gateway transport,\nuses fixed B/R models and reasoning settings, isolates three workers, and\nprohibits fallback. The clean contract now treats the tax-counsel item as a\nnon-blocking post-delivery follow-up; a runnable clean package still requires a\nfinal DOCX. Phase 0 and authorization passed before model calls. The active\nformal report is kept in a new resumable results root; two completed cells were\ncarried from an earlier diagnostic root without rerunning model calls, and only\nmissing cells are executed. It will be interpreted as a single-case\ndescriptive replication, never pooled with v2 or promoted to general efficacy.",
-   "id": "d143b86a",
-   "hash": "02e98314839e"
+   "text": "C2 invokes the product at commit\n`6b843ee95807ccd39fcb46ca21219da73b875bf2`. The runtime records that commit,\nthe `proofpress.py` digest, all `inspect` and provenance-verification outputs,\nand any missing telemetry as unknown rather than zero.",
+   "id": "68449a67",
+   "hash": "67a2257f5dad"
+  },
+  {
+   "type": "heading",
+   "text": "## Fault matrix",
+   "id": "c35abfcc",
+   "hash": "eae25d05d6cd"
   },
   {
    "type": "para",
-   "text": "The completed report contains 44 scorable cells and one invalid C0 receiver\nobservation. Arm results are C0 clean/end-to-end/fault-safe/unsafe-accept =\n0/8, 5/8, 5/8, 0/8; C1 = 0/18, 8/18, 8/18, 0/18; and C2 = 0/18, 7/18,\n7/18, 0/18. The invalid observation is preserved as\n`receiver-output:receiver selected_artifact must be a non-empty string`.\nProvider-level Gateway retries are disclosed as transport telemetry, not as a\nfallback arm. Under the preregistered interpretation rule, zero C2 clean\ncompletion stops fault-matrix expansion and prioritizes repair of the runnable\nclean handoff and native DOCX task execution.",
-   "id": "9a3a3a77",
-   "hash": "a74169be5d8d"
+   "text": "The frozen package states are clean, stale artifact selected, superseded\ndecision revived, implemented decision omitted/regressed, evidence\nmissing/mismatched, and artifact binding/fork mismatch. C1 and C2 run all six.\nC0 runs clean, stale, and fork only, for 15 total Phase 1 cells.",
+   "id": "4fe621c7",
+   "hash": "806e8a65a398"
   },
   {
    "type": "para",
-   "text": "The historical MemConflict and completed STALE results remain mechanism boundaries, not product claims. They are not pooled with Artifact Travel v2, whose primary comparison is the full portable package against natural generic continuity. Conversely, the one-case Artifact Travel pilot is not pooled into either historical mechanism record or converted into a treatment estimate.",
-   "id": "4249cd4c",
-   "hash": "bb2c0472740c"
+   "text": "The supersession and implemented-omission C2 faults are deliberately admitted\nas internally consistent carrier states. Proofpress integrity may pass them;\nonly the hidden oracle can judge their semantics. Evidence and fork faults must\nexercise real portable evidence and DOCX semantic verification failures.",
+   "id": "cf2fef5b",
+   "hash": "b723799f72a4"
+  },
+  {
+   "type": "heading",
+   "text": "## Outcomes",
+   "id": "821da1ab",
+   "hash": "9ccb9f6c9546"
+  },
+  {
+   "type": "list",
+   "text": "- **Clean trusted completion:** correct final task and artifact, no decision\n  regression, traceable changes, and correct R acceptance.\n- **Faulted safe disposition:** B and R correctly reject or request\n  re-verification, give an oracle-aligned reason, and do not continue unsafely.\n- **Reviewer verdict accuracy:** R's verdict and reason agree with the oracle.\n- **End-to-end trusted handoff:** clean completion/acceptance or faulted safe\n  refusal/reverification.",
+   "id": "c0ccb4ad",
+   "hash": "24a61b99fc33"
+  },
+  {
+   "type": "para",
+   "text": "Final DOCX rubric, artifact selection, decision state, regression, evidence\ncoverage, binding, tamper/fork detection, false reject, unsafe accept, tokens,\nlatency, package size, and cost remain separate reported measures.",
+   "id": "bf005a3e",
+   "hash": "4bd35cc2ba19"
+  },
+  {
+   "type": "heading",
+   "text": "## Current pilot interpretation",
+   "id": "7cb785e2",
+   "hash": "b4a33735ed21"
+  },
+  {
+   "type": "para",
+   "text": "The v3-r2 report recorded no unsafe accept. On valid cells, faulted safe\ndisposition was C0 5/8, C1 8/18, and C2 7/18; clean trusted completion was\n0/8, 0/18, and 0/18. The result is driven by task completion, not merely by\nhandoff syntax: clean continuations reached only 2/9 operative DOCX audit\nchecks, so `task_correct` and clean completion remain zero.",
+   "id": "c0e67a88",
+   "hash": "1edd878367c1"
+  },
+  {
+   "type": "para",
+   "text": "This means the replicated protocol produces auditable safe behavior in several\nfaulted states, but the runnable clean handoff/task fit is still unsolved. C2\ndoes not show a positive task-level advantage over C1 in this matrix. The\nresult is descriptive single-case evidence only; it does not establish a\ngeneral Proofpress efficacy claim or justify expanding the fault matrix.",
+   "id": "3b112fb4",
+   "hash": "23c200b01b37"
+  },
+  {
+   "type": "heading",
+   "text": "## v4 temporal successor",
+   "id": "6c400001",
+   "hash": "1a5bf102e9fd"
+  },
+  {
+   "type": "para",
+   "text": "v3-r2 remains frozen and is not rerun. Its C1 continuity was harness-authored,\nand its C2 carrier was CLI-generated by the packager rather than written and\ncontinued by agents A and B. Those choices make it a static-carrier diagnostic,\nnot a test of a temporal Proofpress workflow. The executable successor is\n[`ARTIFACT_TRAVEL_V4_PLAN.md`](ARTIFACT_TRAVEL_V4_PLAN.md): C1 is a bounded\nordinary handoff, while C2 adds an A-authored multi-snapshot trail and B's\nfresh-workspace inspect/import/verify path.",
+   "id": "6c400002",
+   "hash": "19220101dff9"
+  },
+  {
+   "type": "heading",
+   "text": "## Execution gates",
+   "id": "f37c3bac",
+   "hash": "93484e5d36b9"
+  },
+  {
+   "type": "para",
+   "text": "Phase 0 generates all 15 fixture packages without model calls. It verifies\nreceiver isolation, real Proofpress portable carriers, DOCX semantic evidence,\nbinding, fault injection, schema validation, oracle separation, and synthetic\nend-to-end scoring. A failed gate stops the protocol.",
+   "id": "865ab0ee",
+   "hash": "56f9483df899"
+  },
+  {
+   "type": "para",
+   "text": "Phase 1 consumes a separately admitted case bundle. It uses one fresh\n`google/gemini-3.1-pro-preview` B and one fresh `openai/gpt-5.6-terra` R per\ncell, serially. The runner refuses to start unless an explicit human\nauthorization record matches the exact Phase 0 report, case bundle,\npreregistration, and product commit hashes. Missing provider, usage, fallback,\ntoken, or cost telemetry invalidates a cell.",
+   "id": "daa09766",
+   "hash": "ad64893e49c8"
+  },
+  {
+   "type": "para",
+   "text": "At least three of the 15 R verdicts require human blind audit, emphasizing\nunsafe accepts, false rejects, and reason correctness. Phase 1 completion does\nnot authorize Phase 2. Formal sample size is designed only after observing\npilot error space and scorer agreement.",
+   "id": "3b45ecc1",
+   "hash": "e01ef47c0be4"
+  },
+  {
+   "type": "heading",
+   "text": "## Benchmark boundaries",
+   "id": "d05286df",
+   "hash": "b241704c56ab"
+  },
+  {
+   "type": "para",
+   "text": "STALE becomes a separate Decision Trail Stress Suite for state, supersession,\nauthority, and predeclared abstention/reverification semantics. HiEviDR is a\nlater evidence-to-claim check. STATE-Bench is shared-memory calibration. APEX\nFinance is excluded, and Harvey remains historical final-quality evidence.\nNone of these scores are pooled with Artifact Travel v2.",
+   "id": "2388fae4",
+   "hash": "1e44e34d76e3"
+  },
+  {
+   "type": "para",
+   "text": "Proofpress currently has no signed identity or non-repudiation claim. This\ntrack tests portable structure, integrity, binding, evidence coverage, state\nhandling, and safe disposition only.",
+   "id": "52fa926f",
+   "hash": "6cf38fea9258"
   }
  ]
 }

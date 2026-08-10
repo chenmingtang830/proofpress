@@ -1,96 +1,291 @@
 {
  "event": "version_created",
- "artifact": "/Users/richardtang/.codex/worktrees/artifact-travel-v2/proofpress-dev/experiments/provenance_handoff/ara/PAPER.md",
- "artifact_id": "pp_cb6d0883f4bda071d2137869",
- "version": "15f6d1a8",
- "parent": "29813857",
+ "artifact": "experiments/provenance_handoff/docs/ARTIFACT_TRAVEL_V2_PLAN.md",
+ "artifact_id": "pp_cbf559b6d07e7baadaed3ed9",
+ "version": "fe0fa3e3",
+ "parent": "07ab8545",
  "author": {
   "name": "codex",
   "kind": "agent",
-  "session": "artifact-travel-v3-r2-finalization-20260810"
+  "session": "artifact-travel-v4-docs"
  },
- "note": "Artifact Travel v3-r2 paper update",
- "ts": "2026-08-10T11:52:06+00:00",
+ "note": null,
+ "ts": "2026-08-10T18:37:43+00:00",
  "stats": {
-  "modified": 2,
-  "added": 3
+  "modified": 3,
+  "added": 2,
+  "removed": 18
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "d6d1bb11",
-   "type": "para",
-   "context": "Research notebook — admitted provenance "
+   "block": "5055a9dc",
+   "type": "list",
+   "context": "A → B → R boundary"
   },
   {
    "kind": "modified",
-   "block": "4b96e0aa",
-   "type": "para",
-   "context": "Abstract (draft)"
+   "block": "b1818212",
+   "type": "list",
+   "context": "Package and decision interfaces"
+  },
+  {
+   "kind": "modified",
+   "block": "c0ccb4ad",
+   "type": "list",
+   "context": "Outcomes"
   },
   {
    "kind": "added",
-   "block": "da70fd3c",
+   "block": "6c400001",
    "type": "heading",
-   "context": "Artifact Travel v3 replication status (2",
-   "preview": "## Artifact Travel v3 replication status (2026-08-10)"
+   "context": "v4 temporal successor",
+   "preview": "## v4 temporal successor"
   },
   {
    "kind": "added",
-   "block": "d143b86a",
+   "block": "6c400002",
    "type": "para",
-   "context": "Artifact Travel v3 replication status (2",
-   "preview": "Artifact Travel v3-r2 is a separately frozen 45-cell success"
+   "context": "v4 temporal successor",
+   "preview": "v3-r2 remains frozen and is not rerun. Its C1 continuity was"
   },
   {
-   "kind": "added",
-   "block": "9a3a3a77",
+   "kind": "removed",
+   "block": "7c53cde7",
    "type": "para",
-   "context": "Artifact Travel v3 replication status (2",
-   "preview": "The completed report contains 44 scorable cells and one inva"
+   "context": "",
+   "preview": "  business artifact. Independent C1 and C2 packaging stages "
+  },
+  {
+   "kind": "removed",
+   "block": "678cc02b",
+   "type": "list",
+   "context": "",
+   "preview": "- **B** receives the final goal and a receiver-visible packa"
+  },
+  {
+   "kind": "removed",
+   "block": "b2972ace",
+   "type": "para",
+   "context": "",
+   "preview": "  access A's workspace, chat, memory, trajectory, scratchpad"
+  },
+  {
+   "kind": "removed",
+   "block": "5990198e",
+   "type": "list",
+   "context": "",
+   "preview": "- **R** receives only the exact package B received plus B's "
+  },
+  {
+   "kind": "removed",
+   "block": "31051ac9",
+   "type": "para",
+   "context": "",
+   "preview": "  access A, the hidden oracle, or a repaired package."
+  },
+  {
+   "kind": "removed",
+   "block": "49077fa8",
+   "type": "list",
+   "context": "",
+   "preview": "- **Oracle** is a separate harness record containing the aut"
+  },
+  {
+   "kind": "removed",
+   "block": "a32d11d5",
+   "type": "para",
+   "context": "",
+   "preview": "  decision graph, evidence truth, injected fault, and accept"
+  },
+  {
+   "kind": "removed",
+   "block": "9c79fd67",
+   "type": "para",
+   "context": "",
+   "preview": "  packaging snapshots, decisions, evidence, and all input ha"
+  },
+  {
+   "kind": "removed",
+   "block": "dc6a6c11",
+   "type": "list",
+   "context": "",
+   "preview": "- `artifact-travel-package/v2` is the receiver-visible packa"
+  },
+  {
+   "kind": "removed",
+   "block": "9bb298d7",
+   "type": "para",
+   "context": "",
+   "preview": "  selected artifact, decision/evidence use, reason codes, an"
+  },
+  {
+   "kind": "removed",
+   "block": "7c2bb905",
+   "type": "list",
+   "context": "",
+   "preview": "- `reviewer-verdict/v1` requires `accept`, `reject`, or `rev"
+  },
+  {
+   "kind": "removed",
+   "block": "381ba3c0",
+   "type": "para",
+   "context": "",
+   "preview": "  and explicit identity/state/binding/evidence/fork checks."
+  },
+  {
+   "kind": "removed",
+   "block": "fcd2331f",
+   "type": "list",
+   "context": "",
+   "preview": "- `fault-oracle/v1` is hidden and supplies semantic ground t"
+  },
+  {
+   "kind": "removed",
+   "block": "094f35a1",
+   "type": "para",
+   "context": "",
+   "preview": "  regression, traceable changes, and correct R acceptance."
+  },
+  {
+   "kind": "removed",
+   "block": "f9ca6ed4",
+   "type": "list",
+   "context": "",
+   "preview": "- **Faulted safe disposition:** B and R correctly reject or "
+  },
+  {
+   "kind": "removed",
+   "block": "2ee4e9c3",
+   "type": "para",
+   "context": "",
+   "preview": "  re-verification, give an oracle-aligned reason, and do not"
+  },
+  {
+   "kind": "removed",
+   "block": "2f377498",
+   "type": "list",
+   "context": "",
+   "preview": "- **Reviewer verdict accuracy:** R's verdict and reason agre"
+  },
+  {
+   "kind": "removed",
+   "block": "5de0dc21",
+   "type": "para",
+   "context": "",
+   "preview": "  refusal/reverification."
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:e1b7888343b2a9860a1b5cb1d5cb612eae832933d5da0d8a47d37827b0e22c66",
+ "soft_fingerprint": "ppsb1:5cba44840a8a1ae251d40d7a79bf4f4af1452e99984bae31c9aed7e3916a2456",
  "actors": {
   "requested_by": [
    "user"
-  ],
-  "produced_by": [
-   "artifact-travel-v3-r2-runner-and-audit"
-  ],
-  "edited_by": [
-   "codex"
   ],
   "recorded_by": [
    "codex"
   ]
  },
- "attribution_basis": "harness_attested",
+ "attribution_basis": "unknown",
  "claims": [
   {
-   "block": "d6d1bb11",
-   "kind": "modified",
-   "note": "Make v3-r2 the active descriptive record."
-  },
-  {
-   "block": "4b96e0aa",
-   "kind": "modified",
-   "note": "Update the abstract with final v3-r2 results and limits."
-  },
-  {
-   "block": "d143b86a",
-   "kind": "modified",
-   "note": "Preserve the frozen v3-r2 protocol and no-rerun carried-cell rule."
-  },
-  {
-   "block": "9a3a3a77",
+   "block": "6c400001",
    "kind": "added",
-   "note": "Add final arm results, invalid observation, telemetry disclosure, and next decision."
+   "note": "Link the frozen v3 plan to the new v4 temporal calibration."
+  },
+  {
+   "block": "6c400002",
+   "kind": "added",
+   "note": "Disclose v3's static harness-authored C1 and non-agent-operated C2 limitation."
+  },
+  {
+   "block": "2ee4e9c3",
+   "kind": "removed",
+   "note": "Pre-existing unrepresented removal detected during the v4 anchor audit; authorship is not asserted by this snapshot."
+  },
+  {
+   "block": "f9ca6ed4",
+   "kind": "removed",
+   "note": "Pre-existing unrepresented removal detected during the v4 anchor audit; authorship is not asserted by this snapshot."
+  },
+  {
+   "block": "49077fa8",
+   "kind": "removed",
+   "note": "Pre-existing unrepresented removal detected during the v4 anchor audit; authorship is not asserted by this snapshot."
+  },
+  {
+   "block": "678cc02b",
+   "kind": "removed",
+   "note": "Pre-existing unrepresented removal detected during the v4 anchor audit; authorship is not asserted by this snapshot."
+  },
+  {
+   "block": "dc6a6c11",
+   "kind": "removed",
+   "note": "Pre-existing unrepresented removal detected during the v4 anchor audit; authorship is not asserted by this snapshot."
+  },
+  {
+   "block": "7c2bb905",
+   "kind": "removed",
+   "note": "Pre-existing unrepresented removal detected during the v4 anchor audit; authorship is not asserted by this snapshot."
+  },
+  {
+   "block": "5de0dc21",
+   "kind": "removed",
+   "note": "Pre-existing unrepresented removal detected during the v4 anchor audit; authorship is not asserted by this snapshot."
+  },
+  {
+   "block": "a32d11d5",
+   "kind": "removed",
+   "note": "Pre-existing unrepresented removal detected during the v4 anchor audit; authorship is not asserted by this snapshot."
+  },
+  {
+   "block": "b2972ace",
+   "kind": "removed",
+   "note": "Pre-existing unrepresented removal detected during the v4 anchor audit; authorship is not asserted by this snapshot."
+  },
+  {
+   "block": "9c79fd67",
+   "kind": "removed",
+   "note": "Pre-existing unrepresented removal detected during the v4 anchor audit; authorship is not asserted by this snapshot."
+  },
+  {
+   "block": "7c53cde7",
+   "kind": "removed",
+   "note": "Pre-existing unrepresented removal detected during the v4 anchor audit; authorship is not asserted by this snapshot."
+  },
+  {
+   "block": "381ba3c0",
+   "kind": "removed",
+   "note": "Pre-existing unrepresented removal detected during the v4 anchor audit; authorship is not asserted by this snapshot."
+  },
+  {
+   "block": "9bb298d7",
+   "kind": "removed",
+   "note": "Pre-existing unrepresented removal detected during the v4 anchor audit; authorship is not asserted by this snapshot."
+  },
+  {
+   "block": "fcd2331f",
+   "kind": "removed",
+   "note": "Pre-existing unrepresented removal detected during the v4 anchor audit; authorship is not asserted by this snapshot."
+  },
+  {
+   "block": "094f35a1",
+   "kind": "removed",
+   "note": "Pre-existing unrepresented removal detected during the v4 anchor audit; authorship is not asserted by this snapshot."
+  },
+  {
+   "block": "5990198e",
+   "kind": "removed",
+   "note": "Pre-existing unrepresented removal detected during the v4 anchor audit; authorship is not asserted by this snapshot."
+  },
+  {
+   "block": "2f377498",
+   "kind": "removed",
+   "note": "Pre-existing unrepresented removal detected during the v4 anchor audit; authorship is not asserted by this snapshot."
   }
  ],
  "context": {
-  "why": "Update the ARA paper with the final v3-r2 evidence, explicit invalid observation, and non-efficacy interpretation."
+  "why": "record v4 successor and disclose static v3 limitations"
  },
- "event_id": "ppe_2c7cfb1c67edb3a546014acf"
+ "event_id": "ppe_f19e1bef205cebed8e8fad3e"
 }
