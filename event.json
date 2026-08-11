@@ -1,44 +1,51 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/docs/APEX_DIRECT_PLAN.md",
- "artifact_id": "pp_198013bb2b0ca5ac13efea45",
- "version": "ec160617",
- "parent": "29f4f41c",
+ "artifact": "experiments/provenance_handoff/docs/RESULTS_MATRIX.md",
+ "artifact_id": "pp_d40d46a12d4d493fcbc9c0e9",
+ "version": "b5296a8e",
+ "parent": "e1b29df9",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-11T06:36:47+00:00",
+ "ts": "2026-08-11T06:37:17+00:00",
  "stats": {
-  "added": 3
+  "added": 4
  },
  "changes": [
   {
    "kind": "added",
-   "block": "adf00105",
+   "block": "adf00108",
    "type": "heading",
-   "context": "Completed formal matrix (2026-08-10)",
-   "preview": "## Completed formal matrix (2026-08-10)"
+   "context": "APEX-direct SPA Artifact Handoff — 18-ce",
+   "preview": "## APEX-direct SPA Artifact Handoff — 18-cell formal matrix"
   },
   {
    "kind": "added",
-   "block": "adf00106",
+   "block": "adf00109",
    "type": "para",
-   "context": "Completed formal matrix (2026-08-10)",
-   "preview": "The frozen three-repeat matrix completed all 18 cells using\n"
+   "context": "APEX-direct SPA Artifact Handoff — 18-ce",
+   "preview": "This is a new APEX-derived result, separate from Artifact Tr"
   },
   {
    "kind": "added",
-   "block": "adf00107",
+   "block": "adf00110",
+   "type": "table",
+   "context": "APEX-direct SPA Artifact Handoff — 18-ce",
+   "preview": "| Arm | Clean admission correct | Fault admission correct | "
+  },
+  {
+   "kind": "added",
+   "block": "adf00111",
    "type": "para",
-   "context": "Completed formal matrix (2026-08-10)",
-   "preview": "The downstream outcome does not establish a general artifact"
+   "context": "APEX-direct SPA Artifact Handoff — 18-ce",
+   "preview": "The 3/3 C2 fault detection versus 0/3 for C0 and C1 is direc"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:a7fdcab271aebe9eebc1a9d25a823d2a5b247959fefbfdf780b056437d572433",
+ "soft_fingerprint": "ppsb1:a7398715dae9c3010269d456bb25b96652a00432aeb1389e5272835cf2365eae",
  "actors": {
   "requested_by": [
    "richardtang"
@@ -56,20 +63,28 @@
  "attribution_basis": "harness_attested",
  "claims": [
   {
-   "block_id": "adf00105",
-   "claim": "The formal APEX-direct matrix completed."
+   "block": "adf00108",
+   "kind": "added",
+   "note": "Separate the new APEX-derived formal record from historic matrices."
   },
   {
-   "block_id": "adf00106",
-   "claim": "The primary admission results are reported with their arm denominators."
+   "block": "adf00109",
+   "kind": "added",
+   "note": "Record the matched arm contrast and admission endpoint."
   },
   {
-   "block_id": "adf00107",
-   "claim": "Downstream scores use the stated conditional denominator and preserve completion failures."
+   "block": "adf00110",
+   "kind": "added",
+   "note": "Record observed counts and conditional native-quality denominators."
+  },
+  {
+   "block": "adf00111",
+   "kind": "added",
+   "note": "State the bounded admission interpretation and preserved failures."
   }
  ],
  "context": {
-  "why": "Record completed frozen APEX-direct formal matrix and denominator-safe interpretation."
+  "why": "Record the completed formal APEX-direct matrix with separated admission, completion, and conditional native-quality endpoints."
  },
- "event_id": "ppe_59f892715f342ff81a91dd88"
+ "event_id": "ppe_08ddfee125bd8f50b10cf52b"
 }
