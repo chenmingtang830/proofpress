@@ -2,28 +2,28 @@
  "event": "version_created",
  "artifact": "experiments/provenance_handoff/docs/APEX_DIRECT_PLAN.md",
  "artifact_id": "pp_198013bb2b0ca5ac13efea45",
- "version": "a6ce932b",
- "parent": "4c345b94",
+ "version": "29f4f41c",
+ "parent": "a6ce932b",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-11T04:17:39+00:00",
+ "ts": "2026-08-11T04:37:56+00:00",
  "stats": {
   "modified": 1
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "3719e34c",
+   "block": "dd34eaeb",
    "type": "para",
-   "context": "Outcomes"
+   "context": "Expansion gate"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:f16b47f988394aaf9f4e9d15d37c789fa8ce73ee4cef38ef531c91b5808a7155",
+ "soft_fingerprint": "ppsb1:4b3a91b40e7d14354f4a4e670168465b79762bc6afc337b017ff338e0810791f",
  "actors": {
   "requested_by": [
    "richardtang"
@@ -41,13 +41,13 @@
  "attribution_basis": "environment_attested",
  "claims": [
   {
-   "block": "3719e34c",
+   "block": "dd34eaeb",
    "kind": "modified",
-   "note": "Define frozen native APEX semantic nine-rubric grading as task success and retain the deterministic audit only as a diagnostic."
+   "note": "Freeze the three-repeat 18-cell formal C0 C1 C2 clean and near-current-fault matrix and outcome denominators."
   }
  ],
  "context": {
-  "why": "Qualification exposed disagreement between lexical audit and native semantic rubric; task success must use the frozen native APEX rubric."
+  "why": "Near-current fault qualification separated C2 provenance detection from C0 and C1 ordinary continuity; freeze the repeated formal matrix before paid execution."
  },
- "event_id": "ppe_0d8067c0f00dc250d825c86b"
+ "event_id": "ppe_1d407e49caba7a5e97053d1c"
 }

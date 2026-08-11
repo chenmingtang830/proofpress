@@ -100,9 +100,9 @@
   },
   {
    "type": "para",
-   "text": "After qualification, freeze task and world hashes, Agent A outputs, package and\nscorer hashes, model/provider settings, repeats, ordering, retry/exclusion\nrules, and a cost ceiling. Run independent receiver cells at the maximum\nconcurrency that does not share mutable APEX/Docker state. Preserve every\nattempt and analyze paired C2-C1 admission correctness first, then clean\nnon-inferiority and downstream artifact quality.",
+   "text": "After qualification, freeze task and world hashes, Agent A outputs, package and\nscorer hashes, model/provider settings, repeats, ordering, retry/exclusion\nrules, and a cost ceiling. The formal matrix is three independently randomized\nrepeats of C0/C1/C2 under clean and near-current binding-fault states (18 cells).\nFault cells test admission only; clean cells test native APEX nine-rubric task\nsuccess after a correct proceed. Run independent receiver cells at the maximum\nconcurrency that does not share mutable APEX/Docker state. Preserve every\nattempt and analyze paired C2-C1 admission correctness first, then clean\nnon-inferiority and downstream artifact quality.",
    "id": "dd34eaeb",
-   "hash": "24c874c6205f"
+   "hash": "1005f2a89110"
   },
   {
    "type": "heading",
