@@ -1,37 +1,93 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/docs/ARTIFACT_TRAVEL_V4_PLAN.md",
- "artifact_id": "pp_35c2e10d1ba741a1619a848a",
- "version": "d8bd13b4",
- "parent": "79cd6e3e",
+ "artifact": "experiments/provenance_handoff/ara/logic/experiments.md",
+ "artifact_id": "pp_15fb7a0bcf0891f7cee01068",
+ "version": "31e5ea31",
+ "parent": "617eb8e2",
  "author": {
   "name": "codex",
   "kind": "agent",
   "session": "artifact-travel-v5-analysis"
  },
  "note": null,
- "ts": "2026-08-11T00:02:28+00:00",
+ "ts": "2026-08-11T00:02:36+00:00",
  "stats": {
-  "added": 2
+  "added": 9,
+  "modified": 1
  },
  "changes": [
   {
    "kind": "added",
-   "block": "6c410010",
+   "block": "7aa4e290",
    "type": "heading",
-   "context": "v5 live calibration record (2026-08-10)",
-   "preview": "## v5 live calibration record (2026-08-10)"
+   "context": "Artifact Travel v5 invalid calibration (",
+   "preview": "## Artifact Travel v5 invalid calibration (2026-08-10)"
   },
   {
    "kind": "added",
-   "block": "a239e618",
+   "block": "2f1ee5ef",
    "type": "para",
-   "context": "v5 live calibration record (2026-08-10)",
-   "preview": "The corrected delivery-QC matrix completed 24/24 cells throu"
+   "context": "Artifact Travel v5 invalid calibration (",
+   "preview": "**Status:** completed-as-harness-invalid; not an efficacy ob"
+  },
+  {
+   "kind": "modified",
+   "block": "6c430002",
+   "type": "list",
+   "context": "E14: Artifact Travel v4 temporal Proofpr"
+  },
+  {
+   "kind": "added",
+   "block": "3b7efb89",
+   "type": "para",
+   "context": "E14: Artifact Travel v4 temporal Proofpr",
+   "preview": "  complete, verify, or safely refuse more than the same spar"
+  },
+  {
+   "kind": "added",
+   "block": "2b1e2b11",
+   "type": "list",
+   "context": "E14: Artifact Travel v4 temporal Proofpr",
+   "preview": "- **Design**: three paired C1/C2 A trajectories; each derive"
+  },
+  {
+   "kind": "added",
+   "block": "a0d67d10",
+   "type": "para",
+   "context": "E14: Artifact Travel v4 temporal Proofpr",
+   "preview": "  stale superseded, revived rejected, and evidence/binding m"
+  },
+  {
+   "kind": "added",
+   "block": "5348eeed",
+   "type": "list",
+   "context": "E14: Artifact Travel v4 temporal Proofpr",
+   "preview": "- **Scoring/gate**: score `x/9` and 9/9 only for expected co"
+  },
+  {
+   "kind": "added",
+   "block": "e8f2c5fe",
+   "type": "para",
+   "context": "E14: Artifact Travel v4 temporal Proofpr",
+   "preview": "  correct refusal has no DOCX denominator. Do not scale abse"
+  },
+  {
+   "kind": "added",
+   "block": "78089e53",
+   "type": "list",
+   "context": "E14: Artifact Travel v4 temporal Proofpr",
+   "preview": "- **Status**: deterministic CLI Phase 0 is implemented and m"
+  },
+  {
+   "kind": "added",
+   "block": "a9b0636b",
+   "type": "para",
+   "context": "E14: Artifact Travel v4 temporal Proofpr",
+   "preview": "  a new immutable output root before any separately authoriz"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:a9ef5ffca54bf082b6ad45e862e4d12dcbbf229e4f89ffcefcbe80bd4b5e89ad",
+ "soft_fingerprint": "ppsb1:6f5d702bc29ec25e3711104ba8471f5111e49a2742ca2cd68f74cfa75e1718e3",
  "actors": {
   "requested_by": [
    "richardtang"
@@ -49,18 +105,18 @@
  "attribution_basis": "environment_attested",
  "claims": [
   {
-   "block": "6c410010",
+   "block": "7aa4e290",
    "kind": "added",
-   "note": "Records the v5 calibration status and prohibits an efficacy claim because the C2 verifier binding was absent."
+   "note": "Adds a dated ARA entry classifying v5 as completed-as-harness-invalid."
   },
   {
-   "block": "a239e618",
+   "block": "2f1ee5ef",
    "kind": "added",
-   "note": "States the completed cell count, clean-path observations, frozen report location, and rerun authorization boundary."
+   "note": "Records the live counts, the unset verifier binding, the resulting invalid inference boundary, and the fresh-authorization requirement."
   }
  ],
  "context": {
-  "why": "Record the completed v5 live calibration and prevent an invalid C2 efficacy interpretation."
+  "why": "Index the completed v5 calibration as harness-invalid evidence and preserve the rerun authorization boundary."
  },
- "event_id": "ppe_aaf0fa111100efc5552aa34f"
+ "event_id": "ppe_d10bfcfb7d13e70ce1a8912b"
 }
