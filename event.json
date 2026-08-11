@@ -1,37 +1,72 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/ara/logic/experiments.md",
- "artifact_id": "pp_15fb7a0bcf0891f7cee01068",
- "version": "2e0a209d",
- "parent": "4cf71f1e",
+ "artifact": "experiments/provenance_handoff/ara/logic/claims.md",
+ "artifact_id": "pp_ca8a8ddcc33d3870e9a40bc5",
+ "version": "3a193d37",
+ "parent": "db1755df",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-11T20:49:44+00:00",
+ "ts": "2026-08-11T20:49:53+00:00",
  "stats": {
-  "added": 2
+  "added": 7
  },
  "changes": [
   {
    "kind": "added",
-   "block": "adf00124",
+   "block": "7e0478fd",
    "type": "heading",
-   "context": "HiEviDR-derived Artifact Handoff Track R",
-   "preview": "## HiEviDR-derived Artifact Handoff Track R2 (semantic revis"
+   "context": "C10: R2 semantic faults show recovery-pa",
+   "preview": "## C10: R2 semantic faults show recovery-path, not demonstra"
   },
   {
    "kind": "added",
-   "block": "adf00125",
+   "block": "7e0478fe",
+   "type": "list",
+   "context": "C10: R2 semantic faults show recovery-pa",
+   "preview": "- **Statement**: In the selected HiEviDR-derived semantic-re"
+  },
+  {
+   "kind": "added",
+   "block": "e758f043",
    "type": "para",
-   "context": "HiEviDR-derived Artifact Handoff Track R",
-   "preview": "**Status:** completed-bounded-local-debug evidence; not form"
+   "context": "C10: R2 semantic faults show recovery-pa",
+   "preview": "  consistently produced an auditable reverify-and-grounded-r"
+  },
+  {
+   "kind": "added",
+   "block": "7e0478ff",
+   "type": "list",
+   "context": "C10: R2 semantic faults show recovery-pa",
+   "preview": "- **Conditions**: Three selected text-only public records; v"
+  },
+  {
+   "kind": "added",
+   "block": "4bd9c374",
+   "type": "para",
+   "context": "C10: R2 semantic faults show recovery-pa",
+   "preview": "  evidence was deliberately shared by both arms; local Claud"
+  },
+  {
+   "kind": "added",
+   "block": "7e04780a",
+   "type": "list",
+   "context": "C10: R2 semantic faults show recovery-pa",
+   "preview": "- **Proof**: among nine valid semantic-fault cells per arm, "
+  },
+  {
+   "kind": "added",
+   "block": "fbbb2225",
+   "type": "para",
+   "context": "C10: R2 semantic faults show recovery-pa",
+   "preview": "  `9/9` and C1 recovery `5/9` (Fisher two-sided `p=0.08235`)"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:77a1582dd5813afb8e6fe94b30aff82c2c40179e79c49048d48201652d200539",
+ "soft_fingerprint": "ppsb1:b1e23927ce67aec821c1c12651dddaae0c31fad8397a68af59287a2f22144493",
  "actors": {
   "requested_by": [
    "user"
@@ -49,18 +84,43 @@
  "attribution_basis": "harness_attested",
  "claims": [
   {
-   "block": "adf00124",
+   "block": "7e0478fd",
    "kind": "added",
-   "note": "Adds the bounded R2 semantic-revision experiment record."
+   "note": "Adds the bounded R2 claim heading."
   },
   {
-   "block": "adf00125",
+   "block": "7e0478fe",
    "kind": "added",
-   "note": "Records frozen design, valid denominator, replacements, recovery outcome, and non-formal boundary."
+   "note": "States the recovery-path claim without an unsupported safety claim."
+  },
+  {
+   "block": "e758f043",
+   "kind": "added",
+   "note": "Carries the continuation of the statement."
+  },
+  {
+   "block": "7e0478ff",
+   "kind": "added",
+   "note": "Sets the shared-evidence and local-debug applicability boundary."
+  },
+  {
+   "block": "4bd9c374",
+   "kind": "added",
+   "note": "Carries the continuation of the conditions."
+  },
+  {
+   "block": "7e04780a",
+   "kind": "added",
+   "note": "Records the eligible counts and Fisher result."
+  },
+  {
+   "block": "fbbb2225",
+   "kind": "added",
+   "note": "Carries the continuation of the proof."
   }
  ],
  "context": {
-  "why": "Record the completed bounded R2 local-debug semantic-revision matrix and preserve its non-formal interpretation boundary."
+  "why": "Record the bounded R2 recovery-path finding without asserting an unsupported safety advantage."
  },
- "event_id": "ppe_c1b5865c94277c6235bdb3a5"
+ "event_id": "ppe_90bc6a02dc3f28d0c9e38cc7"
 }
