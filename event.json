@@ -1,165 +1,53 @@
 {
- "actors": {
-  "recorded_by": [
-   "codex"
-  ]
- },
+ "event": "version_created",
  "artifact": "experiments/provenance_handoff/docs/APEX_DIRECT_PLAN.md",
  "artifact_id": "pp_198013bb2b0ca5ac13efea45",
- "attribution_basis": "self_asserted",
+ "version": "a6ce932b",
+ "parent": "4c345b94",
  "author": {
-  "kind": "system",
-  "name": "codex",
+  "name": "unknown",
+  "kind": "human",
   "session": null
+ },
+ "note": null,
+ "ts": "2026-08-11T04:17:39+00:00",
+ "stats": {
+  "modified": 1
  },
  "changes": [
   {
-   "block": "43d03ed1",
-   "context": "APEX-direct Proofpress evaluation plan",
-   "kind": "added",
-   "preview": "# APEX-direct Proofpress evaluation plan",
-   "type": "heading"
-  },
-  {
-   "block": "bf25e835",
-   "context": "Objective",
-   "kind": "added",
-   "preview": "## Objective",
-   "type": "heading"
-  },
-  {
-   "block": "8bb99867",
-   "context": "Objective",
-   "kind": "added",
-   "preview": "Estimate whether Proofpress improves a successor agent's adm",
-   "type": "para"
-  },
-  {
-   "block": "9b96966f",
-   "context": "Causal design",
-   "kind": "added",
-   "preview": "## Causal design",
-   "type": "heading"
-  },
-  {
-   "block": "4f52966f",
-   "context": "Causal design",
-   "kind": "added",
-   "preview": "One Agent A works once in the complete frozen APEX Law world",
-   "type": "para"
-  },
-  {
-   "block": "2aa452e7",
-   "context": "Causal design",
-   "kind": "added",
-   "preview": "- C0 receives the current artifact only.\n- C1 receives the a",
-   "type": "list"
-  },
-  {
-   "block": "6cfc692a",
-   "context": "Causal design",
-   "kind": "added",
-   "preview": "  native portable Proofpress trail, decision/evidence links,",
-   "type": "para"
-  },
-  {
-   "block": "f4dae872",
-   "context": "Causal design",
-   "kind": "added",
-   "preview": "The task, artifact, receiver instruction, source-access boun",
-   "type": "para"
-  },
-  {
-   "block": "ec695436",
-   "context": "Outcomes",
-   "kind": "added",
-   "preview": "## Outcomes",
-   "type": "heading"
-  },
-  {
-   "block": "9846ac87",
-   "context": "Outcomes",
-   "kind": "added",
-   "preview": "Before editing, B must freeze `Admission Decision.json`: sel",
-   "type": "para"
-  },
-  {
+   "kind": "modified",
    "block": "3719e34c",
-   "context": "Outcomes",
-   "kind": "added",
-   "preview": "After a correct proceed decision, B creates the final SPA an",
-   "type": "para"
-  },
-  {
-   "block": "cf3dd0c3",
-   "context": "Qualification and repair loop",
-   "kind": "added",
-   "preview": "## Qualification and repair loop",
-   "type": "heading"
-  },
-  {
-   "block": "345196e0",
-   "context": "Qualification and repair loop",
-   "kind": "added",
-   "preview": "The first qualification is one shared A checkpoint followed ",
-   "type": "para"
-  },
-  {
-   "block": "f5097971",
-   "context": "Qualification and repair loop",
-   "kind": "added",
-   "preview": "Every model cell is then inspected for admission-before-edit",
-   "type": "para"
-  },
-  {
-   "block": "40bd3bff",
-   "context": "Expansion gate",
-   "kind": "added",
-   "preview": "## Expansion gate",
-   "type": "heading"
-  },
-  {
-   "block": "cc001a5a",
-   "context": "Expansion gate",
-   "kind": "added",
-   "preview": "No formal matrix begins unless C1 and C2 both complete the c",
-   "type": "para"
-  },
-  {
-   "block": "dd34eaeb",
-   "context": "Expansion gate",
-   "kind": "added",
-   "preview": "After qualification, freeze task and world hashes, Agent A o",
-   "type": "para"
-  },
-  {
-   "block": "287997ba",
-   "context": "Claim boundary",
-   "kind": "added",
-   "preview": "## Claim boundary",
-   "type": "heading"
-  },
-  {
-   "block": "52569147",
-   "context": "Claim boundary",
-   "kind": "added",
-   "preview": "The result is an APEX-derived Artifact Handoff Track, never ",
-   "type": "para"
+   "type": "para",
+   "context": "Outcomes"
   }
  ],
- "event": "version_created",
- "event_id": "ppe_cb114cbc0a419994cb2f2c79",
- "note": "portable lineage checkpoint",
- "parent": null,
- "parents": [],
  "policy": "portable",
- "portable_checkpoint": true,
- "portable_lineage_id": "ppl_f48bc010c4642e65122dd444",
- "soft_fingerprint": "ppsb1:d3bb246c5e7ae30e48e046857e7b3e6cab9a5b903fb0647801f845f1c221de6c",
- "stats": {
-  "added": 19
+ "soft_fingerprint": "ppsb1:f16b47f988394aaf9f4e9d15d37c789fa8ce73ee4cef38ef531c91b5808a7155",
+ "actors": {
+  "requested_by": [
+   "richardtang"
+  ],
+  "produced_by": [
+   "Codex"
+  ],
+  "edited_by": [
+   "Codex"
+  ],
+  "recorded_by": [
+   "Codex"
+  ]
  },
- "ts": "2026-08-11T02:18:38+00:00",
- "version": "4c345b94",
- "imported_from_capsule": true
+ "attribution_basis": "environment_attested",
+ "claims": [
+  {
+   "block": "3719e34c",
+   "kind": "modified",
+   "note": "Define frozen native APEX semantic nine-rubric grading as task success and retain the deterministic audit only as a diagnostic."
+  }
+ ],
+ "context": {
+  "why": "Qualification exposed disagreement between lexical audit and native semantic rubric; task success must use the frozen native APEX rubric."
+ },
+ "event_id": "ppe_0d8067c0f00dc250d825c86b"
 }

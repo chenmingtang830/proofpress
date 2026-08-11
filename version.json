@@ -3,118 +3,118 @@
  "artifact_id": "pp_198013bb2b0ca5ac13efea45",
  "blocks": [
   {
-   "hash": "66ebb178bd41",
-   "id": "43d03ed1",
+   "type": "heading",
    "text": "# APEX-direct Proofpress evaluation plan",
-   "type": "heading"
+   "id": "43d03ed1",
+   "hash": "66ebb178bd41"
   },
   {
-   "hash": "025b047ce965",
-   "id": "bf25e835",
+   "type": "heading",
    "text": "## Objective",
-   "type": "heading"
+   "id": "bf25e835",
+   "hash": "025b047ce965"
   },
   {
-   "hash": "68875d8b8792",
-   "id": "8bb99867",
+   "type": "para",
    "text": "Estimate whether Proofpress improves a successor agent's admission of an APEX\nprofessional artifact, relative to a realistic ordinary colleague handoff, and\nwhether any admission gain carries through to native downstream artifact\nquality.",
-   "type": "para"
+   "id": "8bb99867",
+   "hash": "68875d8b8792"
   },
   {
-   "hash": "2190de05871b",
-   "id": "9b96966f",
+   "type": "heading",
    "text": "## Causal design",
-   "type": "heading"
+   "id": "9b96966f",
+   "hash": "2190de05871b"
   },
   {
-   "hash": "5ff17dca5e91",
-   "id": "4f52966f",
+   "type": "para",
    "text": "One Agent A works once in the complete frozen APEX Law world. At the handoff\ncheckpoint A emits the current DOCX, one ordinary handoff of at most 120 words,\nand a private structured capture of decisions actually made. The same frozen A\ncheckpoint feeds every receiver arm; A is never rerun by arm.",
-   "type": "para"
+   "id": "4f52966f",
+   "hash": "5ff17dca5e91"
   },
   {
-   "hash": "d51351c3fdb3",
-   "id": "2aa452e7",
+   "type": "list",
    "text": "- C0 receives the current artifact only.\n- C1 receives the artifact and A's unedited natural handoff.\n- C2 receives the identical artifact and byte-identical natural handoff, plus a",
-   "type": "list"
+   "id": "2aa452e7",
+   "hash": "d51351c3fdb3"
   },
   {
-   "hash": "774d1b6756e8",
-   "id": "6cfc692a",
+   "type": "para",
    "text": "  native portable Proofpress trail, decision/evidence links, artifact binding,\n  DOCX provenance evidence, and the verification tool.",
-   "type": "para"
+   "id": "6cfc692a",
+   "hash": "774d1b6756e8"
   },
   {
-   "hash": "fe4cdcd7b125",
-   "id": "f4dae872",
+   "type": "para",
    "text": "The task, artifact, receiver instruction, source-access boundary, model, tools,\nand budget are fixed within each matched comparison. C2's additional\nprovenance and verification are the treatment, so decision fields are not\ncopied into C1 prose. No receiver-visible file may contain an arm, condition,\nfault label, expected action, or oracle answer.",
-   "type": "para"
+   "id": "f4dae872",
+   "hash": "fe4cdcd7b125"
   },
   {
-   "hash": "9ccb9f6c9546",
-   "id": "ec695436",
+   "type": "heading",
    "text": "## Outcomes",
-   "type": "heading"
+   "id": "ec695436",
+   "hash": "9ccb9f6c9546"
   },
   {
-   "hash": "d947927a87ab",
-   "id": "9846ac87",
+   "type": "para",
    "text": "Before editing, B must freeze `Admission Decision.json`: selected artifact,\nproceed/reverify/stop disposition, visible basis, and integrity status. The\nprimary outcome is deterministic admission correctness against a hidden oracle.\nUnsafe continuation from a stale or binding-invalid artifact is reported\nseparately.",
-   "type": "para"
+   "id": "9846ac87",
+   "hash": "d947927a87ab"
   },
   {
-   "hash": "ea1363704060",
+   "type": "para",
+   "text": "After a correct proceed decision, B creates the final SPA and change log. The\nsecondary task-success outcome is frozen native APEX nine-rubric grading of the\nfinal DOCX. The deterministic operative-section audit is a diagnostic for clause\nplacement and unrelated-clause regressions, not a replacement task-success\nmeasure: its narrower lexical rules may disagree with the native semantic rubric.\nCompletion, cost, latency, and tool use are reported separately. Fault cells have\nno DOCX denominator; a correct safe stop is not scored as zero task quality.",
    "id": "3719e34c",
-   "text": "After a correct proceed decision, B creates the final SPA and change log. The\nsecondary outcome is the frozen nine-cell operative-section audit, with native\nAPEX grading, unrelated-clause regressions, completion, cost, latency, and tool\nuse reported separately. Fault cells have no DOCX denominator; a correct safe\nstop is not scored as zero task quality.",
-   "type": "para"
+   "hash": "16cbd8a0deb0"
   },
   {
-   "hash": "d5be8ae1e466",
-   "id": "cf3dd0c3",
+   "type": "heading",
    "text": "## Qualification and repair loop",
-   "type": "heading"
+   "id": "cf3dd0c3",
+   "hash": "d5be8ae1e466"
   },
   {
-   "hash": "90713445e00b",
-   "id": "345196e0",
+   "type": "para",
    "text": "The first qualification is one shared A checkpoint followed by six cells: C0,\nC1, and C2 under clean and stale-binding states. Deterministic gates first prove\nnatural-handoff validity, C1/C2 byte identity for the common artifact and\nsummary, additive C2-only Proofpress files, no oracle leakage, native clean\nverification, native fault detection, and scorer fixtures.",
-   "type": "para"
+   "id": "345196e0",
+   "hash": "90713445e00b"
   },
   {
-   "hash": "89e1fcda45c9",
-   "id": "f5097971",
+   "type": "para",
    "text": "Every model cell is then inspected for admission-before-edit ordering, output\ncontract, actual carrier use, source leakage, and downstream scoreability. An\ninfrastructure failure is retained and may be retried in a new immutable root.\nA design, leakage, scorer, or task failure invalidates that protocol version;\nthe fixture or harness is repaired and requalified under a new version rather\nthan silently replacing the observation.",
-   "type": "para"
+   "id": "f5097971",
+   "hash": "89e1fcda45c9"
   },
   {
-   "hash": "17837f252e5e",
-   "id": "40bd3bff",
+   "type": "heading",
    "text": "## Expansion gate",
-   "type": "heading"
+   "id": "40bd3bff",
+   "hash": "17837f252e5e"
   },
   {
-   "hash": "ea3600aaedfb",
-   "id": "cc001a5a",
+   "type": "para",
    "text": "No formal matrix begins unless C1 and C2 both complete the clean task, C2\nverification succeeds on clean and fails on the binding fault, the hidden\noracle remains inaccessible, admission is written before downstream edits, the\nordinary handoff is useful but does not reproduce the complete Proofpress\nrecord, and the downstream scorer has eligible non-ceiling error space.",
-   "type": "para"
+   "id": "cc001a5a",
+   "hash": "ea3600aaedfb"
   },
   {
-   "hash": "24c874c6205f",
-   "id": "dd34eaeb",
+   "type": "para",
    "text": "After qualification, freeze task and world hashes, Agent A outputs, package and\nscorer hashes, model/provider settings, repeats, ordering, retry/exclusion\nrules, and a cost ceiling. Run independent receiver cells at the maximum\nconcurrency that does not share mutable APEX/Docker state. Preserve every\nattempt and analyze paired C2-C1 admission correctness first, then clean\nnon-inferiority and downstream artifact quality.",
-   "type": "para"
+   "id": "dd34eaeb",
+   "hash": "24c874c6205f"
   },
   {
-   "hash": "327e3f245e18",
-   "id": "287997ba",
+   "type": "heading",
    "text": "## Claim boundary",
-   "type": "heading"
+   "id": "287997ba",
+   "hash": "327e3f245e18"
   },
   {
-   "hash": "ea3266906b2f",
-   "id": "52569147",
+   "type": "para",
    "text": "The result is an APEX-derived Artifact Handoff Track, never an official APEX\nleaderboard score. A positive result supports a bounded product claim about\nportable, verifiable artifact admission and continuation under the tested\nhandoff boundary. A null or negative result is retained. Integrity verification\ndoes not certify the legal truth of Agent A's admitted decisions.",
-   "type": "para"
+   "id": "52569147",
+   "hash": "ea3266906b2f"
   }
  ]
 }
