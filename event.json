@@ -1,122 +1,165 @@
 {
- "event": "version_created",
- "artifact": "experiments/provenance_handoff/ara/logic/experiments.md",
- "artifact_id": "pp_15fb7a0bcf0891f7cee01068",
- "version": "31e5ea31",
- "parent": "617eb8e2",
- "author": {
-  "name": "codex",
-  "kind": "agent",
-  "session": "artifact-travel-v5-analysis"
- },
- "note": null,
- "ts": "2026-08-11T00:02:36+00:00",
- "stats": {
-  "added": 9,
-  "modified": 1
- },
- "changes": [
-  {
-   "kind": "added",
-   "block": "7aa4e290",
-   "type": "heading",
-   "context": "Artifact Travel v5 invalid calibration (",
-   "preview": "## Artifact Travel v5 invalid calibration (2026-08-10)"
-  },
-  {
-   "kind": "added",
-   "block": "2f1ee5ef",
-   "type": "para",
-   "context": "Artifact Travel v5 invalid calibration (",
-   "preview": "**Status:** completed-as-harness-invalid; not an efficacy ob"
-  },
-  {
-   "kind": "modified",
-   "block": "6c430002",
-   "type": "list",
-   "context": "E14: Artifact Travel v4 temporal Proofpr"
-  },
-  {
-   "kind": "added",
-   "block": "3b7efb89",
-   "type": "para",
-   "context": "E14: Artifact Travel v4 temporal Proofpr",
-   "preview": "  complete, verify, or safely refuse more than the same spar"
-  },
-  {
-   "kind": "added",
-   "block": "2b1e2b11",
-   "type": "list",
-   "context": "E14: Artifact Travel v4 temporal Proofpr",
-   "preview": "- **Design**: three paired C1/C2 A trajectories; each derive"
-  },
-  {
-   "kind": "added",
-   "block": "a0d67d10",
-   "type": "para",
-   "context": "E14: Artifact Travel v4 temporal Proofpr",
-   "preview": "  stale superseded, revived rejected, and evidence/binding m"
-  },
-  {
-   "kind": "added",
-   "block": "5348eeed",
-   "type": "list",
-   "context": "E14: Artifact Travel v4 temporal Proofpr",
-   "preview": "- **Scoring/gate**: score `x/9` and 9/9 only for expected co"
-  },
-  {
-   "kind": "added",
-   "block": "e8f2c5fe",
-   "type": "para",
-   "context": "E14: Artifact Travel v4 temporal Proofpr",
-   "preview": "  correct refusal has no DOCX denominator. Do not scale abse"
-  },
-  {
-   "kind": "added",
-   "block": "78089e53",
-   "type": "list",
-   "context": "E14: Artifact Travel v4 temporal Proofpr",
-   "preview": "- **Status**: deterministic CLI Phase 0 is implemented and m"
-  },
-  {
-   "kind": "added",
-   "block": "a9b0636b",
-   "type": "para",
-   "context": "E14: Artifact Travel v4 temporal Proofpr",
-   "preview": "  a new immutable output root before any separately authoriz"
-  }
- ],
- "policy": "portable",
- "soft_fingerprint": "ppsb1:6f5d702bc29ec25e3711104ba8471f5111e49a2742ca2cd68f74cfa75e1718e3",
  "actors": {
-  "requested_by": [
-   "richardtang"
-  ],
-  "produced_by": [
-   "codex"
-  ],
-  "edited_by": [
-   "codex"
-  ],
   "recorded_by": [
    "codex"
   ]
  },
- "attribution_basis": "environment_attested",
- "claims": [
+ "artifact": "experiments/provenance_handoff/docs/APEX_DIRECT_PLAN.md",
+ "artifact_id": "pp_198013bb2b0ca5ac13efea45",
+ "attribution_basis": "self_asserted",
+ "author": {
+  "kind": "system",
+  "name": "codex",
+  "session": null
+ },
+ "changes": [
   {
-   "block": "7aa4e290",
+   "block": "43d03ed1",
+   "context": "APEX-direct Proofpress evaluation plan",
    "kind": "added",
-   "note": "Adds a dated ARA entry classifying v5 as completed-as-harness-invalid."
+   "preview": "# APEX-direct Proofpress evaluation plan",
+   "type": "heading"
   },
   {
-   "block": "2f1ee5ef",
+   "block": "bf25e835",
+   "context": "Objective",
    "kind": "added",
-   "note": "Records the live counts, the unset verifier binding, the resulting invalid inference boundary, and the fresh-authorization requirement."
+   "preview": "## Objective",
+   "type": "heading"
+  },
+  {
+   "block": "8bb99867",
+   "context": "Objective",
+   "kind": "added",
+   "preview": "Estimate whether Proofpress improves a successor agent's adm",
+   "type": "para"
+  },
+  {
+   "block": "9b96966f",
+   "context": "Causal design",
+   "kind": "added",
+   "preview": "## Causal design",
+   "type": "heading"
+  },
+  {
+   "block": "4f52966f",
+   "context": "Causal design",
+   "kind": "added",
+   "preview": "One Agent A works once in the complete frozen APEX Law world",
+   "type": "para"
+  },
+  {
+   "block": "2aa452e7",
+   "context": "Causal design",
+   "kind": "added",
+   "preview": "- C0 receives the current artifact only.\n- C1 receives the a",
+   "type": "list"
+  },
+  {
+   "block": "6cfc692a",
+   "context": "Causal design",
+   "kind": "added",
+   "preview": "  native portable Proofpress trail, decision/evidence links,",
+   "type": "para"
+  },
+  {
+   "block": "f4dae872",
+   "context": "Causal design",
+   "kind": "added",
+   "preview": "The task, artifact, receiver instruction, source-access boun",
+   "type": "para"
+  },
+  {
+   "block": "ec695436",
+   "context": "Outcomes",
+   "kind": "added",
+   "preview": "## Outcomes",
+   "type": "heading"
+  },
+  {
+   "block": "9846ac87",
+   "context": "Outcomes",
+   "kind": "added",
+   "preview": "Before editing, B must freeze `Admission Decision.json`: sel",
+   "type": "para"
+  },
+  {
+   "block": "3719e34c",
+   "context": "Outcomes",
+   "kind": "added",
+   "preview": "After a correct proceed decision, B creates the final SPA an",
+   "type": "para"
+  },
+  {
+   "block": "cf3dd0c3",
+   "context": "Qualification and repair loop",
+   "kind": "added",
+   "preview": "## Qualification and repair loop",
+   "type": "heading"
+  },
+  {
+   "block": "345196e0",
+   "context": "Qualification and repair loop",
+   "kind": "added",
+   "preview": "The first qualification is one shared A checkpoint followed ",
+   "type": "para"
+  },
+  {
+   "block": "f5097971",
+   "context": "Qualification and repair loop",
+   "kind": "added",
+   "preview": "Every model cell is then inspected for admission-before-edit",
+   "type": "para"
+  },
+  {
+   "block": "40bd3bff",
+   "context": "Expansion gate",
+   "kind": "added",
+   "preview": "## Expansion gate",
+   "type": "heading"
+  },
+  {
+   "block": "cc001a5a",
+   "context": "Expansion gate",
+   "kind": "added",
+   "preview": "No formal matrix begins unless C1 and C2 both complete the c",
+   "type": "para"
+  },
+  {
+   "block": "dd34eaeb",
+   "context": "Expansion gate",
+   "kind": "added",
+   "preview": "After qualification, freeze task and world hashes, Agent A o",
+   "type": "para"
+  },
+  {
+   "block": "287997ba",
+   "context": "Claim boundary",
+   "kind": "added",
+   "preview": "## Claim boundary",
+   "type": "heading"
+  },
+  {
+   "block": "52569147",
+   "context": "Claim boundary",
+   "kind": "added",
+   "preview": "The result is an APEX-derived Artifact Handoff Track, never ",
+   "type": "para"
   }
  ],
- "context": {
-  "why": "Index the completed v5 calibration as harness-invalid evidence and preserve the rerun authorization boundary."
+ "event": "version_created",
+ "event_id": "ppe_cb114cbc0a419994cb2f2c79",
+ "note": "portable lineage checkpoint",
+ "parent": null,
+ "parents": [],
+ "policy": "portable",
+ "portable_checkpoint": true,
+ "portable_lineage_id": "ppl_f48bc010c4642e65122dd444",
+ "soft_fingerprint": "ppsb1:d3bb246c5e7ae30e48e046857e7b3e6cab9a5b903fb0647801f845f1c221de6c",
+ "stats": {
+  "added": 19
  },
- "event_id": "ppe_d10bfcfb7d13e70ce1a8912b"
+ "ts": "2026-08-11T02:18:38+00:00",
+ "version": "4c345b94",
+ "imported_from_capsule": true
 }
