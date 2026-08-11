@@ -1,44 +1,100 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/ara/logic/experiments.md",
- "artifact_id": "pp_15fb7a0bcf0891f7cee01068",
- "version": "86259b69",
- "parent": "3dfa34ac",
+ "artifact": "experiments/provenance_handoff/ara/logic/claims.md",
+ "artifact_id": "pp_ca8a8ddcc33d3870e9a40bc5",
+ "version": "861d110c",
+ "parent": "fcdb716c",
  "author": {
   "name": "codex",
   "kind": "agent",
   "session": "ara-local-debug-20260811"
  },
  "note": null,
- "ts": "2026-08-11T18:40:20+00:00",
+ "ts": "2026-08-11T18:40:28+00:00",
  "stats": {
-  "added": 3
+  "added": 11
  },
  "changes": [
   {
    "kind": "added",
-   "block": "adf00120",
+   "block": "7e0478f9",
    "type": "heading",
-   "context": "APEX-direct Claude CLI local-debug admis",
-   "preview": "## APEX-direct Claude CLI local-debug admission replication "
+   "context": "C08: Native artifact binding can block s",
+   "preview": "## C08: Native artifact binding can block stale-artifact con"
   },
   {
    "kind": "added",
-   "block": "adf00121",
-   "type": "para",
-   "context": "APEX-direct Claude CLI local-debug admis",
-   "preview": "**Status:** completed-bounded-local-debug-mechanism-evidence"
+   "block": "7e0478fa",
+   "type": "list",
+   "context": "C08: Native artifact binding can block s",
+   "preview": "- **Statement**: In the frozen APEX-derived SPA stale-bindin"
   },
   {
    "kind": "added",
-   "block": "adf00119",
+   "block": "cba0f633",
    "type": "para",
-   "context": "APEX-direct Artifact Handoff admission m",
-   "preview": "**Post-run validity correction:** classify this matrix as cl"
+   "context": "C08: Native artifact binding can block s",
+   "preview": "  receiver with C2's native Proofpress carrier and DOCX prov"
+  },
+  {
+   "kind": "added",
+   "block": "ffe4fc31",
+   "type": "list",
+   "context": "C08: Native artifact binding can block s",
+   "preview": "- **Conditions**: This is a Claude CLI local-debug observati"
+  },
+  {
+   "kind": "added",
+   "block": "6edc149a",
+   "type": "para",
+   "context": "C08: Native artifact binding can block s",
+   "preview": "  local verifier preflight, 12 valid trials per arm/state, a"
+  },
+  {
+   "kind": "added",
+   "block": "4d8ea751",
+   "type": "list",
+   "context": "C08: Native artifact binding can block s",
+   "preview": "- **Sources**: `/private/tmp/proofpress-apex-direct-v3-ledge"
+  },
+  {
+   "kind": "added",
+   "block": "120122de",
+   "type": "para",
+   "context": "C08: Native artifact binding can block s",
+   "preview": "  output-contract, and verifier-preflight gates shows C2 uns"
+  },
+  {
+   "kind": "added",
+   "block": "8e73e2c5",
+   "type": "list",
+   "context": "C08: Native artifact binding can block s",
+   "preview": "- **Proof**: C2 fault safe disposition `12/12` versus C1 `0/"
+  },
+  {
+   "kind": "added",
+   "block": "6bbf0ff4",
+   "type": "para",
+   "context": "C08: Native artifact binding can block s",
+   "preview": "  proceed `0/12` versus C1 `12/12`; Fisher two-sided `p=7.4e"
+  },
+  {
+   "kind": "added",
+   "block": "14b9a6eb",
+   "type": "list",
+   "context": "C08: Native artifact binding can block s",
+   "preview": "- **Dependencies**: [C07]\n- **Tags**: provenance, artifact-b"
+  },
+  {
+   "kind": "added",
+   "block": "75cfaa0c",
+   "type": "para",
+   "context": "C08: Native artifact binding can block s",
+   "preview": "  causal-design"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:28618ebdc82cf8fd07764ee08465a1356416db065554f888406703258faa1387",
+ "soft_fingerprint": "ppsb1:9e4b4f3ee9e13d0d4556987afbea798489845e4f2fe596a85f7921b3c54cc468",
  "actors": {
   "requested_by": [
    "richardtang"
@@ -56,23 +112,63 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "adf00120",
+   "block": "7e0478f9",
    "kind": "added",
-   "note": "Adds the bounded local-debug replication record."
+   "note": "Adds the bounded stale-artifact continuation claim."
   },
   {
-   "block": "adf00121",
+   "block": "7e0478fa",
    "kind": "added",
-   "note": "Records the repaired 12-per-cell results, exclusions, and strict claim boundary."
+   "note": "States the tested contrast and disposition observation."
   },
   {
-   "block": "adf00119",
+   "block": "cba0f633",
    "kind": "added",
-   "note": "Preserves the previously unledgered clean-path validity correction for the earlier matrix."
+   "note": "Completes the tested C2 versus C1 disposition statement."
+  },
+  {
+   "block": "ffe4fc31",
+   "kind": "added",
+   "note": "States the local-debug condition and scope boundary."
+  },
+  {
+   "block": "6edc149a",
+   "kind": "added",
+   "note": "Completes the limitation statement."
+  },
+  {
+   "block": "4d8ea751",
+   "kind": "added",
+   "note": "Records source, status, provenance, and falsification setup."
+  },
+  {
+   "block": "120122de",
+   "kind": "added",
+   "note": "Completes the falsification criteria."
+  },
+  {
+   "block": "8e73e2c5",
+   "kind": "added",
+   "note": "Records the quantitative evidence label."
+  },
+  {
+   "block": "6bbf0ff4",
+   "kind": "added",
+   "note": "Records the effect counts, Fisher result, and clean admission result."
+  },
+  {
+   "block": "14b9a6eb",
+   "kind": "added",
+   "note": "Records dependencies and claim tags."
+  },
+  {
+   "block": "75cfaa0c",
+   "kind": "added",
+   "note": "Completes the claim tag block."
   }
  ],
  "context": {
-  "why": "record the repaired bounded Claude CLI local-debug admission result and prior validity correction"
+  "why": "record the bounded stale-artifact continuation claim with explicit local-debug limits"
  },
- "event_id": "ppe_01c8fca63b86b1d6379fa317"
+ "event_id": "ppe_f0ff728343710abd76001102"
 }
