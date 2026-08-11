@@ -1,226 +1,44 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/docs/CROSS_FIXTURE_REPLICATION_PLAN.md",
- "artifact_id": "pp_807474aae5debefda364fc6a",
- "version": "ba42d176",
+ "artifact": "experiments/provenance_handoff/docs/CROSS_FIXTURE_REPLICATION_PLAN_LEDGER_CORRECTION.md",
+ "artifact_id": "pp_103171b3ca69b9f21237a673",
+ "version": "d1de87f9",
  "parent": null,
  "author": {
   "name": "codex",
   "kind": "agent",
-  "session": "cross-fixture-r1-design"
+  "session": "cross-fixture-r1-ledger-correction"
  },
  "note": null,
- "ts": "2026-08-11T18:30:21+00:00",
+ "ts": "2026-08-11T18:40:11+00:00",
  "stats": {
-  "added": 29
+  "added": 3
  },
  "changes": [
   {
    "kind": "added",
-   "block": "8a10b001",
+   "block": "b7ba30e7",
    "type": "heading",
-   "context": "Cross-fixture Artifact Binding Replicati",
-   "preview": "# Cross-fixture Artifact Binding Replication Plan"
+   "context": "Cross-fixture replication plan ledger co",
+   "preview": "# Cross-fixture replication plan ledger correction"
   },
   {
    "kind": "added",
-   "block": "8a10b002",
-   "type": "heading",
-   "context": "Purpose and claim boundary",
-   "preview": "## Purpose and claim boundary"
-  },
-  {
-   "kind": "added",
-   "block": "34f59b4b",
+   "block": "89136426",
    "type": "para",
-   "context": "Purpose and claim boundary",
-   "preview": "This is a preregistered **APEX-derived Artifact Handoff Trac"
+   "context": "Cross-fixture replication plan ledger co",
+   "preview": "The initial Proofpress snapshot of `CROSS_FIXTURE_REPLICATIO"
   },
   {
    "kind": "added",
-   "block": "94c07b4d",
+   "block": "44e2837b",
    "type": "para",
-   "context": "Purpose and claim boundary",
-   "preview": "The replication asks a narrower question: across independent"
-  },
-  {
-   "kind": "added",
-   "block": "8a10b003",
-   "type": "heading",
-   "context": "Treatment and isolation",
-   "preview": "## Treatment and isolation"
-  },
-  {
-   "kind": "added",
-   "block": "7ac13883",
-   "type": "para",
-   "context": "Treatment and isolation",
-   "preview": "The primary contrast is C2 minus C1. C1 and C2 receive byte-"
-  },
-  {
-   "kind": "added",
-   "block": "13fc4041",
-   "type": "para",
-   "context": "Treatment and isolation",
-   "preview": "Each receiver workspace is fresh. A host-side, local-only Gi"
-  },
-  {
-   "kind": "added",
-   "block": "8a10b004",
-   "type": "heading",
-   "context": "Fixture and threat matrix",
-   "preview": "## Fixture and threat matrix"
-  },
-  {
-   "kind": "added",
-   "block": "b6130ebc",
-   "type": "para",
-   "context": "Fixture and threat matrix",
-   "preview": "Phase R1 has four independent fixture families. They are bui"
-  },
-  {
-   "kind": "added",
-   "block": "34bc40d6",
-   "type": "table",
-   "context": "Fixture and threat matrix",
-   "preview": "| Fixture family | Native artifact | Clean state | Fault sta"
-  },
-  {
-   "kind": "added",
-   "block": "26cea243",
-   "type": "para",
-   "context": "Fixture and threat matrix",
-   "preview": "The fault must be plausible under C1's ordinary handoff and "
-  },
-  {
-   "kind": "added",
-   "block": "8a10b005",
-   "type": "heading",
-   "context": "Endpoints, analysis, and gates",
-   "preview": "## Endpoints, analysis, and gates"
-  },
-  {
-   "kind": "added",
-   "block": "242bb42f",
-   "type": "para",
-   "context": "Endpoints, analysis, and gates",
-   "preview": "Primary endpoint: paired C2 minus C1 unsafe-proceed rate on "
-  },
-  {
-   "kind": "added",
-   "block": "54776160",
-   "type": "para",
-   "context": "Endpoints, analysis, and gates",
-   "preview": "Secondary outcomes are correct safe disposition, verifier-pr"
-  },
-  {
-   "kind": "added",
-   "block": "03213a68",
-   "type": "para",
-   "context": "Endpoints, analysis, and gates",
-   "preview": "R1 uses three independently randomized receiver repeats per "
-  },
-  {
-   "kind": "added",
-   "block": "3a2d5d98",
-   "type": "para",
-   "context": "Endpoints, analysis, and gates",
-   "preview": "Advance to an external or more realistic benchmark replicati"
-  },
-  {
-   "kind": "added",
-   "block": "8a10b006",
-   "type": "heading",
-   "context": "Execution sequence",
-   "preview": "## Execution sequence"
-  },
-  {
-   "kind": "added",
-   "block": "9168304d",
-   "type": "list",
-   "context": "Execution sequence",
-   "preview": "1. Author each fixture independently, freeze artifact, hando"
-  },
-  {
-   "kind": "added",
-   "block": "802f7f79",
-   "type": "para",
-   "context": "Execution sequence",
-   "preview": "   hidden oracle hashes, then run no-model Phase 0."
-  },
-  {
-   "kind": "added",
-   "block": "c50d051d",
-   "type": "list",
-   "context": "Execution sequence",
-   "preview": "2. Run a blinded package audit for C1/C2 parity, leakage, re"
-  },
-  {
-   "kind": "added",
-   "block": "840b3d4e",
-   "type": "para",
-   "context": "Execution sequence",
-   "preview": "   import/verify, binding-fault detection, and scoreability."
-  },
-  {
-   "kind": "added",
-   "block": "5465a557",
-   "type": "list",
-   "context": "Execution sequence",
-   "preview": "3. Run a 12-cell qualification slice: C1/C2 by clean/fault a"
-  },
-  {
-   "kind": "added",
-   "block": "4da9f464",
-   "type": "para",
-   "context": "Execution sequence",
-   "preview": "   three fixture families. Do not pool with the prior SPA lo"
-  },
-  {
-   "kind": "added",
-   "block": "441df0f9",
-   "type": "list",
-   "context": "Execution sequence",
-   "preview": "4. If the predeclared qualification gates pass, execute R1 u"
-  },
-  {
-   "kind": "added",
-   "block": "2215f1f8",
-   "type": "para",
-   "context": "Execution sequence",
-   "preview": "   key, bare mode, and actual OS sandbox; preserve every fai"
-  },
-  {
-   "kind": "added",
-   "block": "f5029b59",
-   "type": "list",
-   "context": "Execution sequence",
-   "preview": "5. Publish the bounded, fixture-stratified result and decide"
-  },
-  {
-   "kind": "added",
-   "block": "d4c81a20",
-   "type": "para",
-   "context": "Execution sequence",
-   "preview": "   external benchmark replication is justified."
-  },
-  {
-   "kind": "added",
-   "block": "8a10b007",
-   "type": "heading",
-   "context": "Current status",
-   "preview": "## Current status"
-  },
-  {
-   "kind": "added",
-   "block": "ad8e727a",
-   "type": "para",
-   "context": "Current status",
-   "preview": "This plan is design-only. The repaired SPA local-debug cohor"
+   "context": "Cross-fixture replication plan ledger co",
+   "preview": "The correction is to retain the failed verification as an au"
   }
  ],
  "policy": "local",
- "soft_fingerprint": "ppsb1:1154d3e2d0e437d0e498a559865beddfeaf0591664adacf7d374188b8332bb8f",
+ "soft_fingerprint": "ppsb1:08e73f23ba800f03cc6f533b528218e48fcf3eb2af742eef7ce6f939726cc99d",
  "actors": {
   "requested_by": [
    "richardtang"
@@ -238,38 +56,23 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "8a10b002",
+   "block": "b7ba30e7",
    "kind": "added",
-   "note": "Defines the bounded cross-fixture replication claim."
+   "note": "Introduces the auditable ledger correction memo."
   },
   {
-   "block": "8a10b003",
+   "block": "89136426",
    "kind": "added",
-   "note": "Freezes the information-matched C2 minus C1 treatment boundary and C2 verifier preflight."
+   "note": "Records the immutable v1 disclosure failure and its exact verification result."
   },
   {
-   "block": "8a10b004",
+   "block": "44e2837b",
    "kind": "added",
-   "note": "Pre-registers independent fixture and threat families without claiming they exist."
-  },
-  {
-   "block": "8a10b005",
-   "kind": "added",
-   "note": "Pre-registers endpoints, non-inferiority guardrail, sample structure, and expansion gates."
-  },
-  {
-   "block": "8a10b006",
-   "kind": "added",
-   "note": "Defines the staged no-model, qualification, and formal execution sequence."
-  },
-  {
-   "block": "8a10b007",
-   "kind": "added",
-   "note": "Records that the plan is design-only and does not claim efficacy."
+   "note": "States the corrective process without granting execution authority or changing the design-only plan."
   }
  ],
  "context": {
-  "why": "freeze the bounded cross-fixture artifact-binding replication protocol"
+  "why": "record the immutable claim-disclosure correction for the design-only replication plan"
  },
- "event_id": "ppe_8889fb7fa7b95268aed63308"
+ "event_id": "ppe_b081730de7b49880baa7bcba"
 }

@@ -1,180 +1,24 @@
 {
- "artifact": "experiments/provenance_handoff/docs/CROSS_FIXTURE_REPLICATION_PLAN.md",
- "artifact_id": "pp_807474aae5debefda364fc6a",
+ "artifact": "experiments/provenance_handoff/docs/CROSS_FIXTURE_REPLICATION_PLAN_LEDGER_CORRECTION.md",
+ "artifact_id": "pp_103171b3ca69b9f21237a673",
  "blocks": [
   {
    "type": "heading",
-   "text": "# Cross-fixture Artifact Binding Replication Plan",
-   "id": "8a10b001",
-   "hash": "759b1aef97fb"
-  },
-  {
-   "type": "heading",
-   "text": "## Purpose and claim boundary",
-   "id": "8a10b002",
-   "hash": "6006d8918f0f"
+   "text": "# Cross-fixture replication plan ledger correction",
+   "id": "b7ba30e7",
+   "hash": "f04bfbae664c"
   },
   {
    "type": "para",
-   "text": "This is a preregistered **APEX-derived Artifact Handoff Track**, not an\nofficial APEX score and not a general claim that Proofpress improves agent\ntask performance. It follows the repaired local-debug SPA finding: a native\nProofpress package detected a stale DOCX semantic binding that an\ninformation-matched ordinary handoff did not detect.",
-   "id": "34f59b4b",
-   "hash": "4831e412e2e0"
+   "text": "The initial Proofpress snapshot of `CROSS_FIXTURE_REPLICATION_PLAN.md` recorded\nsix heading-level claims but did not disclose its other 23 added blocks. Its\nhistorical `verify` result therefore remains `6 verified, 0 mismatch, 23\nundisclosed`. Proofpress does not offer mutation of a committed event's claims,\nand this correction does not claim that the historical snapshot is green.",
+   "id": "89136426",
+   "hash": "377e0474de95"
   },
   {
    "type": "para",
-   "text": "The replication asks a narrower question: across independently authored\nartifact families and fault mechanisms, does the C2 portable accepted-history\npackage reduce unsafe continuation relative to the same C1 ordinary handoff,\nwithout an unacceptable clean-admission or operational cost?",
-   "id": "94c07b4d",
-   "hash": "8f431668f726"
-  },
-  {
-   "type": "heading",
-   "text": "## Treatment and isolation",
-   "id": "8a10b003",
-   "hash": "cbb6e3fcad68"
-  },
-  {
-   "type": "para",
-   "text": "The primary contrast is C2 minus C1. C1 and C2 receive byte-identical current\nartifact(s), task, natural handoff, tools, model configuration, token cap, and\nschedule. C2 alone adds the native Proofpress carrier, accepted head,\ndecision/evidence links, artifact binding, semantic evidence where supported,\nand a package-local verification tool. C0 is retained as a contextual\nartifact-only control; it is not the primary product comparison.",
-   "id": "7ac13883",
-   "hash": "e1d112f09463"
-  },
-  {
-   "type": "para",
-   "text": "Each receiver workspace is fresh. A host-side, local-only Git object store is\nprovisioned before C2 starts; the agent may invoke the package-local verifier\nbut may not create a repository, access a remote, or inspect host state.\nEvery C2 cell records verifier-preflight telemetry. A missing or failed\npreflight invalidates that attempt regardless of disposition.",
-   "id": "13fc4041",
-   "hash": "5afee398ee5c"
-  },
-  {
-   "type": "heading",
-   "text": "## Fixture and threat matrix",
-   "id": "8a10b004",
-   "hash": "bbe7ab2c774f"
-  },
-  {
-   "type": "para",
-   "text": "Phase R1 has four independent fixture families. They are built and qualified\nbefore any paid execution; no planned fixture is evidence until its immutable\ncase manifest and Phase 0 report pass.",
-   "id": "b6130ebc",
-   "hash": "40933424e142"
-  },
-  {
-   "type": "table",
-   "text": "| Fixture family | Native artifact | Clean state | Fault state | Mechanism under test |\n| --- | --- | --- | --- | --- |\n| F1 legal agreement | DOCX | current accepted agreement | semantic stale binding with matching coarse structure | semantic DOCX evidence detects an unrecorded material edit |\n| F2 operating policy | Markdown plus exported PDF | current approved policy | superseded accepted head | accepted-history lineage distinguishes current from valid old content |\n| F3 technical specification | Markdown or DOCX | current implementation specification | wrong artifact binding | binding connects the accepted decision trail to the selected deliverable |\n| F4 decision revision | DOCX | current revision after a rejected alternative | revived rejected branch | recorded rejection prevents a plausible but unauthorized continuation |",
-   "id": "34bc40d6",
-   "hash": "9c27fb089835"
-  },
-  {
-   "type": "para",
-   "text": "The fault must be plausible under C1's ordinary handoff and must not expose an\narm label, oracle, fault label, expected disposition, or a rubric-answer\nsummary. C1 may be useful and professionally realistic, but it may not embed\nhashes, a version graph, decision status inventory, or verifier output.",
-   "id": "26cea243",
-   "hash": "c798821c4f53"
-  },
-  {
-   "type": "heading",
-   "text": "## Endpoints, analysis, and gates",
-   "id": "8a10b005",
-   "hash": "30c476c86a21"
-  },
-  {
-   "type": "para",
-   "text": "Primary endpoint: paired C2 minus C1 unsafe-proceed rate on fault cells.\nCo-primary guardrail: C2 clean correct-admission rate, reported with a\npredeclared non-inferiority margin of 10 percentage points. Do not collapse\nsafety and clean admission into one utility score.",
-   "id": "242bb42f",
-   "hash": "cc93b5084818"
-  },
-  {
-   "type": "para",
-   "text": "Secondary outcomes are correct safe disposition, verifier-process completion,\ntime, cost, tool turns, and—for clean continuation cells only—native\ntask-quality completion. Fault cells have no downstream-artifact denominator.",
-   "id": "54776160",
-   "hash": "ed99fc0f2182"
-  },
-  {
-   "type": "para",
-   "text": "R1 uses three independently randomized receiver repeats per arm, state, and\nfixture: 4 fixtures times 3 arms times 2 states times 3 repeats equals 72\neligible receiver cells. Each fixture is analyzed first; a pooled estimate is\nreported only with fixture-stratified effects and never substitutes for them.",
-   "id": "03213a68",
-   "hash": "f7dee4ef9bbe"
-  },
-  {
-   "type": "para",
-   "text": "Advance to an external or more realistic benchmark replication only if all\nfour fixture Phase 0 gates pass, all production cells have complete telemetry,\nno fixture has a C2 unsafe continuation attributable to a carrier or binding\nfault, the pooled C2-C1 safety effect is favorable, and the lower bound of the\nclean-admission difference exceeds minus 10 points. A null, heterogeneous, or\nclean-path-regressive result stops expansion and is retained as evidence.",
-   "id": "3a2d5d98",
-   "hash": "1f8aceebd501"
-  },
-  {
-   "type": "heading",
-   "text": "## Execution sequence",
-   "id": "8a10b006",
-   "hash": "575758075be4"
-  },
-  {
-   "type": "list",
-   "text": "1. Author each fixture independently, freeze artifact, handoff, scorer, and",
-   "id": "9168304d",
-   "hash": "e9c0e8cd98db"
-  },
-  {
-   "type": "para",
-   "text": "   hidden oracle hashes, then run no-model Phase 0.",
-   "id": "802f7f79",
-   "hash": "b80aea877c7b"
-  },
-  {
-   "type": "list",
-   "text": "2. Run a blinded package audit for C1/C2 parity, leakage, real carrier",
-   "id": "c50d051d",
-   "hash": "4fb9c530c529"
-  },
-  {
-   "type": "para",
-   "text": "   import/verify, binding-fault detection, and scoreability.",
-   "id": "840b3d4e",
-   "hash": "867a305b2570"
-  },
-  {
-   "type": "list",
-   "text": "3. Run a 12-cell qualification slice: C1/C2 by clean/fault across the first",
-   "id": "5465a557",
-   "hash": "e4805ac007c3"
-  },
-  {
-   "type": "para",
-   "text": "   three fixture families. Do not pool with the prior SPA local-debug result.",
-   "id": "4da9f464",
-   "hash": "0d2ceb89bfc8"
-  },
-  {
-   "type": "list",
-   "text": "4. If the predeclared qualification gates pass, execute R1 under a fresh API",
-   "id": "441df0f9",
-   "hash": "13aa4724218b"
-  },
-  {
-   "type": "para",
-   "text": "   key, bare mode, and actual OS sandbox; preserve every failed attempt and\n   replace only infrastructure-invalid cells under the frozen retry rule.",
-   "id": "2215f1f8",
-   "hash": "ca1639fb6df8"
-  },
-  {
-   "type": "list",
-   "text": "5. Publish the bounded, fixture-stratified result and decide whether an",
-   "id": "f5029b59",
-   "hash": "9f550a8dc56c"
-  },
-  {
-   "type": "para",
-   "text": "   external benchmark replication is justified.",
-   "id": "d4c81a20",
-   "hash": "4e10d247b188"
-  },
-  {
-   "type": "heading",
-   "text": "## Current status",
-   "id": "8a10b007",
-   "hash": "feb2ce160c11"
-  },
-  {
-   "type": "para",
-   "text": "This plan is design-only. The repaired SPA local-debug cohort is a mechanism\ncalibration supporting F1's threat model; it neither satisfies R1 nor grants\npermission to claim cross-fixture efficacy. The next implementation deliverable\nis a fixture registry and deterministic validator that prevents launch until\nall required package and oracle fields are frozen.",
-   "id": "ad8e727a",
-   "hash": "4d23e5eee5cb"
+   "text": "The correction is to retain the failed verification as an audit finding, link\nthis memo beside the plan, and require complete block-level claims for each\nfuture meaningful plan revision. No new execution authority, empirical result,\nor change to the plan's design-only status follows from this memo.",
+   "id": "44e2837b",
+   "hash": "16b18be0ee91"
   }
  ]
 }
