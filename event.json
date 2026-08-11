@@ -1,37 +1,37 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/ara/PAPER.md",
- "artifact_id": "pp_cb6d0883f4bda071d2137869",
- "version": "033a340b",
- "parent": "24f075b0",
+ "artifact": "experiments/provenance_handoff/ara/logic/experiments.md",
+ "artifact_id": "pp_15fb7a0bcf0891f7cee01068",
+ "version": "3dfa34ac",
+ "parent": "31e5ea31",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-11T06:37:26+00:00",
+ "ts": "2026-08-11T06:37:35+00:00",
  "stats": {
   "added": 2
  },
  "changes": [
   {
    "kind": "added",
-   "block": "adf00112",
+   "block": "adf00114",
    "type": "heading",
-   "context": "APEX-direct admission matrix (2026-08-10",
-   "preview": "## APEX-direct admission matrix (2026-08-10)"
+   "context": "APEX-direct Artifact Handoff admission m",
+   "preview": "## APEX-direct Artifact Handoff admission matrix (2026-08-10"
   },
   {
    "kind": "added",
-   "block": "adf00113",
+   "block": "adf00115",
    "type": "para",
-   "context": "APEX-direct admission matrix (2026-08-10",
-   "preview": "The completed 18-cell APEX-derived SPA matrix isolates a nar"
+   "context": "APEX-direct Artifact Handoff admission m",
+   "preview": "**Status:** completed-bounded-mechanism-evidence. **Question"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:54027a6625324f76ad5ff3980237af0187138b6df29b1e9eb61657db73cc0d2a",
+ "soft_fingerprint": "ppsb1:5082472e34fe2b9c46b50f87ab175e9276138bb68b80c44c6c8f0290e2a1e233",
  "actors": {
   "requested_by": [
    "richardtang"
@@ -49,18 +49,18 @@
  "attribution_basis": "harness_attested",
  "claims": [
   {
-   "block": "adf00112",
+   "block": "adf00114",
    "kind": "added",
-   "note": "Add the completed APEX-direct matrix to the research record."
+   "note": "Register the completed APEX-direct experiment in ARA logic."
   },
   {
-   "block": "adf00113",
+   "block": "adf00115",
    "kind": "added",
-   "note": "Separate bounded admission evidence from conditional downstream quality."
+   "note": "Record observed outcomes and bounded claim conditions."
   }
  ],
  "context": {
-  "why": "Update the ARA paper record with the bounded formal admission finding and its downstream limitation."
+  "why": "Record formal APEX-direct outcomes and claim boundary in ARA logic."
  },
- "event_id": "ppe_5de0af32cceea3e125c9bcf8"
+ "event_id": "ppe_d0f50ee383a1aef58de96013"
 }
