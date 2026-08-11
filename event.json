@@ -1,174 +1,66 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/ara/logic/claims.md",
- "artifact_id": "pp_ca8a8ddcc33d3870e9a40bc5",
- "version": "db1755df",
- "parent": "861d110c",
+ "artifact": "experiments/provenance_handoff/ara/logic/experiments.md",
+ "artifact_id": "pp_15fb7a0bcf0891f7cee01068",
+ "version": "2e0a209d",
+ "parent": "4cf71f1e",
  "author": {
-  "name": "codex",
-  "kind": "agent",
-  "session": "hievidr-r1-local-debug-20260811"
+  "name": "unknown",
+  "kind": "human",
+  "session": null
  },
  "note": null,
- "ts": "2026-08-11T19:23:46+00:00",
+ "ts": "2026-08-11T20:49:44+00:00",
  "stats": {
-  "added": 11
+  "added": 2
  },
  "changes": [
   {
    "kind": "added",
-   "block": "7e0478fb",
+   "block": "adf00124",
    "type": "heading",
-   "context": "C09: The tested native binding mechanism",
-   "preview": "## C09: The tested native binding mechanism replicated on Hi"
+   "context": "HiEviDR-derived Artifact Handoff Track R",
+   "preview": "## HiEviDR-derived Artifact Handoff Track R2 (semantic revis"
   },
   {
    "kind": "added",
-   "block": "7e0478fc",
-   "type": "list",
-   "context": "C09: The tested native binding mechanism",
-   "preview": "- **Statement**: In the three selected public HiEviDR `arxiv"
-  },
-  {
-   "kind": "added",
-   "block": "6fbf8638",
+   "block": "adf00125",
    "type": "para",
-   "context": "C09: The tested native binding mechanism",
-   "preview": "  records, a C2 receiver with a native admitted working-synt"
-  },
-  {
-   "kind": "added",
-   "block": "3132953c",
-   "type": "list",
-   "context": "C09: The tested native binding mechanism",
-   "preview": "- **Conditions**: This is a local-login, safe-mode, HiEviDR-"
-  },
-  {
-   "kind": "added",
-   "block": "222aed31",
-   "type": "para",
-   "context": "C09: The tested native binding mechanism",
-   "preview": "  adaptation with three selected text-only records and a con"
-  },
-  {
-   "kind": "added",
-   "block": "7f378a7f",
-   "type": "list",
-   "context": "C09: The tested native binding mechanism",
-   "preview": "- **Sources**: `/private/tmp/proofpress-hievidr-r1-repairs-2"
-  },
-  {
-   "kind": "added",
-   "block": "77702d9b",
-   "type": "para",
-   "context": "C09: The tested native binding mechanism",
-   "preview": "  semantic inputs and an independently validated fault shows"
-  },
-  {
-   "kind": "added",
-   "block": "791f103c",
-   "type": "list",
-   "context": "C09: The tested native binding mechanism",
-   "preview": "- **Proof**: fault safe C2 `9/9` versus C1 `0/9`; unsafe pro"
-  },
-  {
-   "kind": "added",
-   "block": "78bf14cb",
-   "type": "para",
-   "context": "C09: The tested native binding mechanism",
-   "preview": "  versus C1 `9/9`; Fisher two-sided `p=4.11e-5`; clean corre"
-  },
-  {
-   "kind": "added",
-   "block": "1a256631",
-   "type": "list",
-   "context": "C09: The tested native binding mechanism",
-   "preview": "- **Dependencies**: [C08]\n- **Tags**: provenance, artifact-b"
-  },
-  {
-   "kind": "added",
-   "block": "155e4f7b",
-   "type": "para",
-   "context": "C09: The tested native binding mechanism",
-   "preview": "  local-debug"
+   "context": "HiEviDR-derived Artifact Handoff Track R",
+   "preview": "**Status:** completed-bounded-local-debug evidence; not form"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:8344656e05289128720ca606799f5b3904ddc163fa0cae133c99134a72209a29",
+ "soft_fingerprint": "ppsb1:77a1582dd5813afb8e6fe94b30aff82c2c40179e79c49048d48201652d200539",
  "actors": {
   "requested_by": [
-   "richardtang"
+   "user"
   ],
   "produced_by": [
-   "codex"
+   "local Claude Code CLI R2 harness"
   ],
   "edited_by": [
-   "codex"
+   "Codex"
   ],
   "recorded_by": [
-   "codex"
+   "Codex"
   ]
  },
- "attribution_basis": "self_asserted",
+ "attribution_basis": "harness_attested",
  "claims": [
   {
-   "block": "7e0478fb",
+   "block": "adf00124",
    "kind": "added",
-   "note": "Adds the bounded HiEviDR-derived replication claim."
+   "note": "Adds the bounded R2 semantic-revision experiment record."
   },
   {
-   "block": "7e0478fc",
+   "block": "adf00125",
    "kind": "added",
-   "note": "States the C2 versus C1 fault continuation observation."
-  },
-  {
-   "block": "6fbf8638",
-   "kind": "added",
-   "note": "Completes the quantitative continuation statement."
-  },
-  {
-   "block": "3132953c",
-   "kind": "added",
-   "note": "States the local-debug experimental conditions."
-  },
-  {
-   "block": "222aed31",
-   "kind": "added",
-   "note": "Completes the official-score and efficacy limitation."
-  },
-  {
-   "block": "7f378a7f",
-   "kind": "added",
-   "note": "Records source, status, and falsification setup."
-  },
-  {
-   "block": "77702d9b",
-   "kind": "added",
-   "note": "Completes the falsification criteria."
-  },
-  {
-   "block": "791f103c",
-   "kind": "added",
-   "note": "Records the quantitative proof label."
-  },
-  {
-   "block": "78bf14cb",
-   "kind": "added",
-   "note": "Records safety, unsafe continuation, p-value, and clean-admission counts."
-  },
-  {
-   "block": "1a256631",
-   "kind": "added",
-   "note": "Records dependency and tags."
-  },
-  {
-   "block": "155e4f7b",
-   "kind": "added",
-   "note": "Completes the claim tags."
+   "note": "Records frozen design, valid denominator, replacements, recovery outcome, and non-formal boundary."
   }
  ],
  "context": {
-  "why": "record the bounded HiEviDR-derived native-binding replication claim"
+  "why": "Record the completed bounded R2 local-debug semantic-revision matrix and preserve its non-formal interpretation boundary."
  },
- "event_id": "ppe_b3953871b38484e135e0cadc"
+ "event_id": "ppe_c1b5865c94277c6235bdb3a5"
 }
