@@ -1,37 +1,51 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/ara/logic/experiments.md",
- "artifact_id": "pp_15fb7a0bcf0891f7cee01068",
- "version": "3dfa34ac",
- "parent": "31e5ea31",
+ "artifact": "experiments/provenance_handoff/evidence/apex-direct-v1/live-run-20260810-gateway-formal/README.md",
+ "artifact_id": "pp_38b72446d761fdcad44d2ef9",
+ "version": "b543fbbe",
+ "parent": null,
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-11T06:37:35+00:00",
+ "ts": "2026-08-11T06:37:48+00:00",
  "stats": {
-  "added": 2
+  "added": 4
  },
  "changes": [
   {
    "kind": "added",
-   "block": "adf00114",
+   "block": "adf00101",
    "type": "heading",
-   "context": "APEX-direct Artifact Handoff admission m",
-   "preview": "## APEX-direct Artifact Handoff admission matrix (2026-08-10"
+   "context": "APEX-direct formal matrix — frozen evide",
+   "preview": "# APEX-direct formal matrix — frozen evidence index"
   },
   {
    "kind": "added",
-   "block": "adf00115",
+   "block": "adf00102",
    "type": "para",
-   "context": "APEX-direct Artifact Handoff admission m",
-   "preview": "**Status:** completed-bounded-mechanism-evidence. **Question"
+   "context": "APEX-direct formal matrix — frozen evide",
+   "preview": "This directory preserves the valid three-repeat, 18-cell APE"
+  },
+  {
+   "kind": "added",
+   "block": "adf00103",
+   "type": "para",
+   "context": "APEX-direct formal matrix — frozen evide",
+   "preview": "The primary endpoint is admission correctness before continu"
+  },
+  {
+   "kind": "added",
+   "block": "adf00104",
+   "type": "table",
+   "context": "APEX-direct formal matrix — frozen evide",
+   "preview": "| File | SHA-256 |\n|---|---|\n| `analysis-v2.json` | `81706b8"
   }
  ],
- "policy": "portable",
- "soft_fingerprint": "ppsb1:5082472e34fe2b9c46b50f87ab175e9276138bb68b80c44c6c8f0290e2a1e233",
+ "policy": "local",
+ "soft_fingerprint": "ppsb1:405c1bfd5137438567dcd7499292c05f4743072c0a5d7c2d1dd566de6e5e7063",
  "actors": {
   "requested_by": [
    "richardtang"
@@ -49,18 +63,28 @@
  "attribution_basis": "harness_attested",
  "claims": [
   {
-   "block": "adf00114",
+   "block": "adf00101",
    "kind": "added",
-   "note": "Register the completed APEX-direct experiment in ARA logic."
+   "note": "Identify the frozen formal evidence package."
   },
   {
-   "block": "adf00115",
+   "block": "adf00102",
    "kind": "added",
-   "note": "Record observed outcomes and bounded claim conditions."
+   "note": "Describe the preserved reports and deterministic analysis."
+  },
+  {
+   "block": "adf00103",
+   "kind": "added",
+   "note": "Explain the denominator policy."
+  },
+  {
+   "block": "adf00104",
+   "kind": "added",
+   "note": "Record integrity hashes for the preserved JSON evidence."
   }
  ],
  "context": {
-  "why": "Record formal APEX-direct outcomes and claim boundary in ARA logic."
+  "why": "Index frozen formal reports, denominator policy, and integrity hashes."
  },
- "event_id": "ppe_d0f50ee383a1aef58de96013"
+ "event_id": "ppe_f936cbf526cf5af53d546958"
 }
