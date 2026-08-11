@@ -2,65 +2,65 @@
  "event": "version_created",
  "artifact": "experiments/provenance_handoff/ara/logic/experiments.md",
  "artifact_id": "pp_15fb7a0bcf0891f7cee01068",
- "version": "f8b64dd8",
- "parent": "2e0a209d",
+ "version": "a31710f1",
+ "parent": "f8b64dd8",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-11T23:21:24+00:00",
+ "ts": "2026-08-11T23:38:41+00:00",
  "stats": {
   "added": 2
  },
  "changes": [
   {
    "kind": "added",
-   "block": "adf00126",
+   "block": "adf00128",
    "type": "heading",
-   "context": "Policy-revision R1 (2026-08-11)",
-   "preview": "## Policy-revision R1 (2026-08-11)"
+   "context": "Policy-revision R1 OpenRouter/Luna repli",
+   "preview": "## Policy-revision R1 OpenRouter/Luna replication (2026-08-1"
   },
   {
    "kind": "added",
-   "block": "adf00127",
+   "block": "adf00129",
    "type": "para",
-   "context": "Policy-revision R1 (2026-08-11)",
-   "preview": "**Status:** completed-bounded-local-debug evidence. **Design"
+   "context": "Policy-revision R1 OpenRouter/Luna repli",
+   "preview": "**Status:** completed-bounded OpenRouter local-debug replica"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:0e058f5d2e993c3892ce1df105b17f1f6b91898bbf1c54ef6511e1806340c06f",
+ "soft_fingerprint": "ppsb1:1e40400e232c70daca4f5a3aa0863a1cb3371baa8eb965f30d55756d4064fbc5",
  "actors": {
   "requested_by": [
-   "user"
+   "richardtang"
   ],
   "produced_by": [
-   "local Claude Code CLI policy-revision harness"
+   "OpenRouter Luna runner and analyzer"
   ],
   "edited_by": [
-   "Codex"
+   "Codex GPT-5"
   ],
   "recorded_by": [
-   "Codex"
+   "Codex GPT-5"
   ]
  },
  "attribution_basis": "harness_attested",
  "claims": [
   {
-   "block": "adf00126",
+   "block": "adf00128",
    "kind": "added",
-   "note": "Adds the bounded independent policy-revision experiment record."
+   "note": "Adds the separate OpenRouter/Luna replication record."
   },
   {
-   "block": "adf00127",
+   "block": "adf00129",
    "kind": "added",
-   "note": "Records eligible counts, admission-path contrast, and local-debug boundary."
+   "note": "Records valid counts, routing telemetry, recovery contrast, and its boundary."
   }
  ],
  "context": {
-  "why": "Record the completed bounded policy-revision local-debug matrix and its admission-path interpretation."
+  "why": "Records the completed, separately analyzed OpenRouter Luna replication of the frozen policy-revision R1 mechanism study."
  },
- "event_id": "ppe_9bc4c98b9255e6c957dd7db3"
+ "event_id": "ppe_7519e66d8e9a20b2d071e317"
 }

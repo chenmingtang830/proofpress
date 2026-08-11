@@ -46,6 +46,18 @@
   },
   {
    "type": "heading",
+   "text": "## Policy-revision R1 OpenRouter/Luna replication (2026-08-11)",
+   "id": "adf00128",
+   "hash": "afab203905c8"
+  },
+  {
+   "type": "para",
+   "text": "**Status:** completed-bounded OpenRouter local-debug replication; separate\nfrom the Claude slice. **Design:** the frozen three-fixture policy-revision R1\npackages, C1/C2 × clean/superseded-clause × three fresh repeats, with exact\n`openai/gpt-5.6-luna`, OpenAI-only routing, no fallback, and per-call resolved\nmodel/provider, cost, token, and output-contract telemetry. All 36 cells were\nvalid. **Result:** clean admission was `9/9` in both arms. C2 reverified and\nrecovered `9/9` faults versus C1 `0/9`; C1 self-corrected proceeds were `9/9`\nversus C2 `0/9`; both arms had `0/9` unsafe propagation. Recovery/admission\nFisher two-sided `p=4.11e-5`; charged model cost was `$0.03759`.\n**Boundary:** this independently reproduces the recovery-path mechanism on a\nconstructed visible-evidence fixture. The restricted tool surface is not bare\nOS confinement, and equal zero unsafe-propagation rates do not establish an\nunsafe-safety advantage or a general product-efficacy claim.",
+   "id": "adf00129",
+   "hash": "aad738e0c90e"
+  },
+  {
+   "type": "heading",
    "text": "## APEX-direct Claude CLI local-debug admission replication (2026-08-11)",
    "id": "adf00120",
    "hash": "721c4e4b129a"
