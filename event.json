@@ -1,78 +1,43 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/ara/logic/claims.md",
- "artifact_id": "pp_ca8a8ddcc33d3870e9a40bc5",
- "version": "3a193d37",
- "parent": "db1755df",
+ "artifact": "experiments/provenance_handoff/ara/logic/experiments.md",
+ "artifact_id": "pp_15fb7a0bcf0891f7cee01068",
+ "version": "f8b64dd8",
+ "parent": "2e0a209d",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-11T20:49:53+00:00",
+ "ts": "2026-08-11T23:21:24+00:00",
  "stats": {
-  "added": 7
+  "added": 2
  },
  "changes": [
   {
    "kind": "added",
-   "block": "7e0478fd",
+   "block": "adf00126",
    "type": "heading",
-   "context": "C10: R2 semantic faults show recovery-pa",
-   "preview": "## C10: R2 semantic faults show recovery-path, not demonstra"
+   "context": "Policy-revision R1 (2026-08-11)",
+   "preview": "## Policy-revision R1 (2026-08-11)"
   },
   {
    "kind": "added",
-   "block": "7e0478fe",
-   "type": "list",
-   "context": "C10: R2 semantic faults show recovery-pa",
-   "preview": "- **Statement**: In the selected HiEviDR-derived semantic-re"
-  },
-  {
-   "kind": "added",
-   "block": "e758f043",
+   "block": "adf00127",
    "type": "para",
-   "context": "C10: R2 semantic faults show recovery-pa",
-   "preview": "  consistently produced an auditable reverify-and-grounded-r"
-  },
-  {
-   "kind": "added",
-   "block": "7e0478ff",
-   "type": "list",
-   "context": "C10: R2 semantic faults show recovery-pa",
-   "preview": "- **Conditions**: Three selected text-only public records; v"
-  },
-  {
-   "kind": "added",
-   "block": "4bd9c374",
-   "type": "para",
-   "context": "C10: R2 semantic faults show recovery-pa",
-   "preview": "  evidence was deliberately shared by both arms; local Claud"
-  },
-  {
-   "kind": "added",
-   "block": "7e04780a",
-   "type": "list",
-   "context": "C10: R2 semantic faults show recovery-pa",
-   "preview": "- **Proof**: among nine valid semantic-fault cells per arm, "
-  },
-  {
-   "kind": "added",
-   "block": "fbbb2225",
-   "type": "para",
-   "context": "C10: R2 semantic faults show recovery-pa",
-   "preview": "  `9/9` and C1 recovery `5/9` (Fisher two-sided `p=0.08235`)"
+   "context": "Policy-revision R1 (2026-08-11)",
+   "preview": "**Status:** completed-bounded-local-debug evidence. **Design"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:b1e23927ce67aec821c1c12651dddaae0c31fad8397a68af59287a2f22144493",
+ "soft_fingerprint": "ppsb1:0e058f5d2e993c3892ce1df105b17f1f6b91898bbf1c54ef6511e1806340c06f",
  "actors": {
   "requested_by": [
    "user"
   ],
   "produced_by": [
-   "local Claude Code CLI R2 harness"
+   "local Claude Code CLI policy-revision harness"
   ],
   "edited_by": [
    "Codex"
@@ -84,43 +49,18 @@
  "attribution_basis": "harness_attested",
  "claims": [
   {
-   "block": "7e0478fd",
+   "block": "adf00126",
    "kind": "added",
-   "note": "Adds the bounded R2 claim heading."
+   "note": "Adds the bounded independent policy-revision experiment record."
   },
   {
-   "block": "7e0478fe",
+   "block": "adf00127",
    "kind": "added",
-   "note": "States the recovery-path claim without an unsupported safety claim."
-  },
-  {
-   "block": "e758f043",
-   "kind": "added",
-   "note": "Carries the continuation of the statement."
-  },
-  {
-   "block": "7e0478ff",
-   "kind": "added",
-   "note": "Sets the shared-evidence and local-debug applicability boundary."
-  },
-  {
-   "block": "4bd9c374",
-   "kind": "added",
-   "note": "Carries the continuation of the conditions."
-  },
-  {
-   "block": "7e04780a",
-   "kind": "added",
-   "note": "Records the eligible counts and Fisher result."
-  },
-  {
-   "block": "fbbb2225",
-   "kind": "added",
-   "note": "Carries the continuation of the proof."
+   "note": "Records eligible counts, admission-path contrast, and local-debug boundary."
   }
  ],
  "context": {
-  "why": "Record the bounded R2 recovery-path finding without asserting an unsupported safety advantage."
+  "why": "Record the completed bounded policy-revision local-debug matrix and its admission-path interpretation."
  },
- "event_id": "ppe_90bc6a02dc3f28d0c9e38cc7"
+ "event_id": "ppe_9bc4c98b9255e6c957dd7db3"
 }
