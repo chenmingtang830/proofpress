@@ -115,6 +115,24 @@
    "text": "The result is an APEX-derived Artifact Handoff Track, never an official APEX\nleaderboard score. A positive result supports a bounded product claim about\nportable, verifiable artifact admission and continuation under the tested\nhandoff boundary. A null or negative result is retained. Integrity verification\ndoes not certify the legal truth of Agent A's admitted decisions.",
    "id": "52569147",
    "hash": "ea3266906b2f"
+  },
+  {
+   "type": "heading",
+   "text": "## Completed formal matrix (2026-08-10)",
+   "id": "adf00105",
+   "hash": "f88219698800"
+  },
+  {
+   "type": "para",
+   "text": "The frozen three-repeat matrix completed all 18 cells using\n`google/gemini-3.1-pro-preview` through Vercel AI Gateway. C1 and C2 shared\nthe same natural handoff bytes; C2 alone received the verifiable provenance\ntrail and verification workflow. The primary admission result is C0 `2/6`, C1\n`3/6`, and C2 `5/6` correct across clean and stale-binding states. More\nspecifically, C2 detected the stale binding in `3/3`; C0 and C1 each made an\nunsafe proceed in `3/3` fault cells.",
+   "id": "adf00106",
+   "hash": "0d28e313cfae"
+  },
+  {
+   "type": "para",
+   "text": "The downstream outcome does not establish a general artifact-quality effect.\nAmong clean cells that both admitted correctly and produced a native artifact,\nC1 averaged `4.67/9` (`3/3` artifacts), C2 `5.00/9` (`2/3`), and C0 `5.00/9`\n(`1/3`). C2 had one clean false stop; C0 had one clean false reverify and one\nagent step-limit/unfinalized attempt. These remain completion failures, not\nfabricated native zeros. The evidence index is\n`evidence/apex-direct-v1/live-run-20260810-gateway-formal/`.",
+   "id": "adf00107",
+   "hash": "e319435de9c4"
   }
  ]
 }
