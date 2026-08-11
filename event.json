@@ -1,44 +1,44 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/docs/CROSS_FIXTURE_REPLICATION_PLAN_LEDGER_CORRECTION.md",
- "artifact_id": "pp_103171b3ca69b9f21237a673",
- "version": "d1de87f9",
- "parent": null,
+ "artifact": "experiments/provenance_handoff/ara/logic/experiments.md",
+ "artifact_id": "pp_15fb7a0bcf0891f7cee01068",
+ "version": "86259b69",
+ "parent": "3dfa34ac",
  "author": {
   "name": "codex",
   "kind": "agent",
-  "session": "cross-fixture-r1-ledger-correction"
+  "session": "ara-local-debug-20260811"
  },
  "note": null,
- "ts": "2026-08-11T18:40:11+00:00",
+ "ts": "2026-08-11T18:40:20+00:00",
  "stats": {
   "added": 3
  },
  "changes": [
   {
    "kind": "added",
-   "block": "b7ba30e7",
+   "block": "adf00120",
    "type": "heading",
-   "context": "Cross-fixture replication plan ledger co",
-   "preview": "# Cross-fixture replication plan ledger correction"
+   "context": "APEX-direct Claude CLI local-debug admis",
+   "preview": "## APEX-direct Claude CLI local-debug admission replication "
   },
   {
    "kind": "added",
-   "block": "89136426",
+   "block": "adf00121",
    "type": "para",
-   "context": "Cross-fixture replication plan ledger co",
-   "preview": "The initial Proofpress snapshot of `CROSS_FIXTURE_REPLICATIO"
+   "context": "APEX-direct Claude CLI local-debug admis",
+   "preview": "**Status:** completed-bounded-local-debug-mechanism-evidence"
   },
   {
    "kind": "added",
-   "block": "44e2837b",
+   "block": "adf00119",
    "type": "para",
-   "context": "Cross-fixture replication plan ledger co",
-   "preview": "The correction is to retain the failed verification as an au"
+   "context": "APEX-direct Artifact Handoff admission m",
+   "preview": "**Post-run validity correction:** classify this matrix as cl"
   }
  ],
- "policy": "local",
- "soft_fingerprint": "ppsb1:08e73f23ba800f03cc6f533b528218e48fcf3eb2af742eef7ce6f939726cc99d",
+ "policy": "portable",
+ "soft_fingerprint": "ppsb1:28618ebdc82cf8fd07764ee08465a1356416db065554f888406703258faa1387",
  "actors": {
   "requested_by": [
    "richardtang"
@@ -56,23 +56,23 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "b7ba30e7",
+   "block": "adf00120",
    "kind": "added",
-   "note": "Introduces the auditable ledger correction memo."
+   "note": "Adds the bounded local-debug replication record."
   },
   {
-   "block": "89136426",
+   "block": "adf00121",
    "kind": "added",
-   "note": "Records the immutable v1 disclosure failure and its exact verification result."
+   "note": "Records the repaired 12-per-cell results, exclusions, and strict claim boundary."
   },
   {
-   "block": "44e2837b",
+   "block": "adf00119",
    "kind": "added",
-   "note": "States the corrective process without granting execution authority or changing the design-only plan."
+   "note": "Preserves the previously unledgered clean-path validity correction for the earlier matrix."
   }
  ],
  "context": {
-  "why": "record the immutable claim-disclosure correction for the design-only replication plan"
+  "why": "record the repaired bounded Claude CLI local-debug admission result and prior validity correction"
  },
- "event_id": "ppe_b081730de7b49880baa7bcba"
+ "event_id": "ppe_01c8fca63b86b1d6379fa317"
 }
