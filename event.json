@@ -1,51 +1,37 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/docs/RESULTS_MATRIX.md",
- "artifact_id": "pp_d40d46a12d4d493fcbc9c0e9",
- "version": "b5296a8e",
- "parent": "e1b29df9",
+ "artifact": "experiments/provenance_handoff/ara/PAPER.md",
+ "artifact_id": "pp_cb6d0883f4bda071d2137869",
+ "version": "033a340b",
+ "parent": "24f075b0",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-11T06:37:17+00:00",
+ "ts": "2026-08-11T06:37:26+00:00",
  "stats": {
-  "added": 4
+  "added": 2
  },
  "changes": [
   {
    "kind": "added",
-   "block": "adf00108",
+   "block": "adf00112",
    "type": "heading",
-   "context": "APEX-direct SPA Artifact Handoff — 18-ce",
-   "preview": "## APEX-direct SPA Artifact Handoff — 18-cell formal matrix"
+   "context": "APEX-direct admission matrix (2026-08-10",
+   "preview": "## APEX-direct admission matrix (2026-08-10)"
   },
   {
    "kind": "added",
-   "block": "adf00109",
+   "block": "adf00113",
    "type": "para",
-   "context": "APEX-direct SPA Artifact Handoff — 18-ce",
-   "preview": "This is a new APEX-derived result, separate from Artifact Tr"
-  },
-  {
-   "kind": "added",
-   "block": "adf00110",
-   "type": "table",
-   "context": "APEX-direct SPA Artifact Handoff — 18-ce",
-   "preview": "| Arm | Clean admission correct | Fault admission correct | "
-  },
-  {
-   "kind": "added",
-   "block": "adf00111",
-   "type": "para",
-   "context": "APEX-direct SPA Artifact Handoff — 18-ce",
-   "preview": "The 3/3 C2 fault detection versus 0/3 for C0 and C1 is direc"
+   "context": "APEX-direct admission matrix (2026-08-10",
+   "preview": "The completed 18-cell APEX-derived SPA matrix isolates a nar"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:a7398715dae9c3010269d456bb25b96652a00432aeb1389e5272835cf2365eae",
+ "soft_fingerprint": "ppsb1:54027a6625324f76ad5ff3980237af0187138b6df29b1e9eb61657db73cc0d2a",
  "actors": {
   "requested_by": [
    "richardtang"
@@ -63,28 +49,18 @@
  "attribution_basis": "harness_attested",
  "claims": [
   {
-   "block": "adf00108",
+   "block": "adf00112",
    "kind": "added",
-   "note": "Separate the new APEX-derived formal record from historic matrices."
+   "note": "Add the completed APEX-direct matrix to the research record."
   },
   {
-   "block": "adf00109",
+   "block": "adf00113",
    "kind": "added",
-   "note": "Record the matched arm contrast and admission endpoint."
-  },
-  {
-   "block": "adf00110",
-   "kind": "added",
-   "note": "Record observed counts and conditional native-quality denominators."
-  },
-  {
-   "block": "adf00111",
-   "kind": "added",
-   "note": "State the bounded admission interpretation and preserved failures."
+   "note": "Separate bounded admission evidence from conditional downstream quality."
   }
  ],
  "context": {
-  "why": "Record the completed formal APEX-direct matrix with separated admission, completion, and conditional native-quality endpoints."
+  "why": "Update the ARA paper record with the bounded formal admission finding and its downstream limitation."
  },
- "event_id": "ppe_08ddfee125bd8f50b10cf52b"
+ "event_id": "ppe_5de0af32cceea3e125c9bcf8"
 }
