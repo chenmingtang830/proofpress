@@ -1,96 +1,66 @@
 {
- "actors": {
-  "edited_by": [
-   "agent-a"
-  ],
-  "produced_by": [
-   "agent-a"
-  ],
-  "recorded_by": [
-   "agent-a"
-  ],
-  "requested_by": [
-   "benchmark-protocol"
-  ]
- },
- "artifact": "Proofpress/proofpress-trail.md",
- "artifact_id": "pp_59d01b568ed200fe62e0103e",
- "attribution_basis": "harness_attested",
- "author": {
-  "kind": "agent",
-  "name": "agent-a",
-  "session": "artifact-travel-v4-a"
- },
- "changes": [
-  {
-   "block": "7a400003",
-   "context": "Current handoff",
-   "kind": "added",
-   "preview": "## Current handoff",
-   "type": "heading"
-  },
-  {
-   "block": "20518573",
-   "context": "Current handoff",
-   "kind": "added",
-   "preview": "The current candidate is ready for downstream QC. The genera",
-   "type": "para"
-  }
- ],
- "claims": [
-  {
-   "block": "20518573",
-   "kind": "added",
-   "note": "v2 temporal state admitted"
-  },
-  {
-   "block": "7a400003",
-   "kind": "added",
-   "note": "v2 temporal state admitted"
-  }
- ],
- "context": {
-  "rejected": [
-   "general-tax-indemnity — unsupported by the admitted evidence"
-  ],
-  "why": "record the current handoff candidate and rejected alternative"
- },
  "event": "version_created",
- "event_id": "ppe_d17b95c5d430e69cff4bceb2",
+ "artifact": "experiments/provenance_handoff/docs/ARTIFACT_TRAVEL_V4_PLAN.md",
+ "artifact_id": "pp_35c2e10d1ba741a1619a848a",
+ "version": "d8bd13b4",
+ "parent": "79cd6e3e",
+ "author": {
+  "name": "codex",
+  "kind": "agent",
+  "session": "artifact-travel-v5-analysis"
+ },
  "note": null,
- "parent": "21ae5ade",
- "parents": [
-  {
-   "changes": [
-    {
-     "block": "7a400003",
-     "context": "Current handoff",
-     "kind": "added",
-     "preview": "## Current handoff",
-     "type": "heading"
-    },
-    {
-     "block": "20518573",
-     "context": "Current handoff",
-     "kind": "added",
-     "preview": "The current candidate is ready for downstream QC. The genera",
-     "type": "para"
-    }
-   ],
-   "event_id": "ppe_fd8b2ecebba0fabdbf8590fc",
-   "stats": {
-    "added": 2
-   },
-   "version": "21ae5ade"
-  }
- ],
- "policy": "portable",
- "portable_lineage_id": "ppl_1fdb7f18f75baa14a1cfbee0",
- "soft_fingerprint": "ppsb1:80c494ae74cc090ecabe11b801c7413268fce4d039b1b1b70e8b743368242463",
+ "ts": "2026-08-11T00:02:28+00:00",
  "stats": {
   "added": 2
  },
- "ts": "2026-08-10T23:08:34+00:00",
- "version": "41708c84",
- "imported_from_capsule": true
+ "changes": [
+  {
+   "kind": "added",
+   "block": "6c410010",
+   "type": "heading",
+   "context": "v5 live calibration record (2026-08-10)",
+   "preview": "## v5 live calibration record (2026-08-10)"
+  },
+  {
+   "kind": "added",
+   "block": "a239e618",
+   "type": "para",
+   "context": "v5 live calibration record (2026-08-10)",
+   "preview": "The corrected delivery-QC matrix completed 24/24 cells throu"
+  }
+ ],
+ "policy": "portable",
+ "soft_fingerprint": "ppsb1:a9ef5ffca54bf082b6ad45e862e4d12dcbbf229e4f89ffcefcbe80bd4b5e89ad",
+ "actors": {
+  "requested_by": [
+   "richardtang"
+  ],
+  "produced_by": [
+   "codex"
+  ],
+  "edited_by": [
+   "codex"
+  ],
+  "recorded_by": [
+   "codex"
+  ]
+ },
+ "attribution_basis": "environment_attested",
+ "claims": [
+  {
+   "block": "6c410010",
+   "kind": "added",
+   "note": "Records the v5 calibration status and prohibits an efficacy claim because the C2 verifier binding was absent."
+  },
+  {
+   "block": "a239e618",
+   "kind": "added",
+   "note": "States the completed cell count, clean-path observations, frozen report location, and rerun authorization boundary."
+  }
+ ],
+ "context": {
+  "why": "Record the completed v5 live calibration and prevent an invalid C2 efficacy interpretation."
+ },
+ "event_id": "ppe_aaf0fa111100efc5552aa34f"
 }

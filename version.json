@@ -1,48 +1,108 @@
 {
- "artifact": "Proofpress/proofpress-trail.md",
- "artifact_id": "pp_59d01b568ed200fe62e0103e",
+ "artifact": "experiments/provenance_handoff/docs/ARTIFACT_TRAVEL_V4_PLAN.md",
+ "artifact_id": "pp_35c2e10d1ba741a1619a848a",
  "blocks": [
   {
-   "hash": "3256fb8ffabb",
-   "id": "8af41f93",
-   "text": "# SPA handoff trail",
-   "type": "heading"
+   "type": "heading",
+   "text": "# Artifact Travel v4 — temporal Proofpress handoff calibration",
+   "id": "4339de00",
+   "hash": "8015ab51dcef"
   },
   {
-   "hash": "eae558db618a",
-   "id": "7a400001",
-   "text": "## Initial review",
-   "type": "heading"
+   "type": "heading",
+   "text": "## v5 live calibration record (2026-08-10)",
+   "id": "6c410010",
+   "hash": "de57dedc7205"
   },
   {
-   "hash": "5f1aa046c3ee",
-   "id": "13a79009",
-   "text": "The initial SPA candidate is under review. Preserve the S-Corporation protections while evidence is reconciled.",
-   "type": "para"
+   "type": "para",
+   "text": "The corrected delivery-QC matrix completed 24/24 cells through Vercel AI\nGateway (334 calls). C1 clean was 9/9 in all three repeats; C2 clean was\n0/9, 0/9, and 8/9. This is **not** a C2 efficacy finding: the v5 fixed C2\nreceiver verifier had no `PROOFPRESS_CLI` binding, so inspect/import/verify\nnever executed. R correctly rejected the only C2 continuation for that missing\nrequired verification. The frozen report is\n`evidence/artifact-travel-v5/live-run-20260810-gateway-final-merged/report.json`.\nThe binding is fixed for a separately authorized rerun; do not pool or claim\nC2 inferiority from this invalid calibration.",
+   "id": "a239e618",
+   "hash": "60fdc03d0fda"
   },
   {
-   "hash": "35f2298abff0",
-   "id": "7a400002",
-   "text": "## Revision decision",
-   "type": "heading"
+   "type": "heading",
+   "text": "## Status and question",
+   "id": "6c410001",
+   "hash": "81e6c8b03cfc"
   },
   {
-   "hash": "a589dcdffc5d",
-   "id": "b2f7e31f",
-   "text": "The revised SPA is the working candidate. The prior draft is no longer the current handoff artifact.",
-   "type": "para"
+   "type": "para",
+   "text": "This is a no-model-qualified, not-yet-authorized APEX-derived Artifact Handoff\nTrack. It does not alter or rerun v3-r2. The primary estimand is `C2 − C1`:\ndoes ordinary sparse continuity plus a real, temporal Proofpress trail improve\ncross-workspace completion, verification, or safe rejection over the same\nordinary continuity alone?",
+   "id": "6c410002",
+   "hash": "622f1897bd3e"
   },
   {
-   "hash": "f130e792dc75",
-   "id": "7a400003",
-   "text": "## Current handoff",
-   "type": "heading"
+   "type": "heading",
+   "text": "## Roles and visible information",
+   "id": "6c410003",
+   "hash": "678a7b5a6b32"
   },
   {
-   "hash": "82422214e857",
-   "id": "20518573",
-   "text": "The current candidate is ready for downstream QC. The general-tax-indemnity alternative was considered but is not authorized by the available evidence.",
-   "type": "para"
+   "type": "para",
+   "text": "A works through an initial artifact, one substantive revision that supersedes\nan earlier version, one considered-but-rejected branch, and a current handoff\ncandidate for B's remaining QC/final-delivery work. A and B never share a\nworkspace, chat, trajectory, scratchpad, or oracle.",
+   "id": "6c410004",
+   "hash": "fb485526fb50"
+  },
+  {
+   "type": "para",
+   "text": "C1 and C2 both expose the same final goal, candidate artifacts, source\nevidence, and a natural `handoff.md` with only Current artifact, Next action,\nand Blockers and risks. The handoff is at most 150 words and may not contain a\nversion graph, decision-status inventory, hashes, evidence inventory, binding\ndata, or verification output. `C1-rich` is archived and excluded.",
+   "id": "6c410005",
+   "hash": "00be020084aa"
+  },
+  {
+   "type": "para",
+   "text": "Only C2 gives A and B Proofpress CLI workflow. A sets portable policy, anchors\nand snapshots every material trail state with honest claims and attribution,\nrecords the rejected alternative, verifies each snapshot, exports its ledger,\nand emits DOCX semantic evidence. B in a fresh workspace inspects, imports,\nand verifies the trail and DOCX evidence before continuing. A valid C2\ncontinuation requires B to snapshot, verify, and export its own change log.\nR is tool-neutral: it reviews exactly B's package and delivery and cannot\nrepair either. The hidden oracle/scorer remains separate.",
+   "id": "6c410006",
+   "hash": "6c05c7545c3d"
+  },
+  {
+   "type": "heading",
+   "text": "## Matrix and outcomes",
+   "id": "6c410007",
+   "hash": "424218a5d26a"
+  },
+  {
+   "type": "para",
+   "text": "Three paired A trajectories per arm each produce four B-visible states: clean\ncurrent, stale superseded version, revived rejected branch, and\nevidence/artifact-binding mismatch. This is 24 B/R cells. Faults derive only\nfrom immutable A outputs. A stale or revived branch may be integrity-valid and\nmust be recognized from the trail; the binding mismatch must fail native DOCX\nevidence verification.",
+   "id": "6c410008",
+   "hash": "7d79c02ce4ac"
+  },
+  {
+   "type": "para",
+   "text": "DOCX scoring applies only when the oracle expects continuation: report each\ncriterion, per-run `x/9`, and full `9/9` completion. A correct reject or\nreverify has a zero DOCX denominator and is evaluated by correct action,\nreason, early detection, and unsafe continuation. R verdict/reason accuracy is\nsecondary, never the final grader.",
+   "id": "6c410009",
+   "hash": "32815ff5728c"
+  },
+  {
+   "type": "heading",
+   "text": "## Gates and interpretation",
+   "id": "6c41000a",
+   "hash": "123cee39936f"
+  },
+  {
+   "type": "para",
+   "text": "Phase 0 must prove C1 has no carrier, C2 has three or more actual CLI\nsnapshots, clean C2 packages import and verify in a fresh B workspace, the\nbinding fault fails DOCX verification, and no oracle leaks. It makes zero model\ncalls. Paid execution requires a separate explicit authorization after this\ngate and a blind package inspection.",
+   "id": "6c41000b",
+   "hash": "6f2e5903bfa7"
+  },
+  {
+   "type": "para",
+   "text": "Do not scale or claim efficacy unless C2's median clean-path `x/9` exceeds C1\nby at least one criterion, at least two of three paired clean trajectories\nfavor C2, and C2 has no unsafe continuation. Otherwise stop at diagnosis; do\nnot enlarge the fault matrix or replace task completion with a process metric.",
+   "id": "6c41000c",
+   "hash": "fceb6d0f4f9d"
+  },
+  {
+   "type": "heading",
+   "text": "## Implementation record",
+   "id": "6c41000d",
+   "hash": "79d3a11829f6"
+  },
+  {
+   "type": "para",
+   "text": "The checked-in Phase 0 runtime materializes the 24 isolated packages, validates\nthe sparse-handoff boundary, and exercises the real C2 CLI/export/import/verify\npath without calling an A, B, or R model. Paid execution remains blocked pending\nthe blind package inspection and explicit authorization stated above.",
+   "id": "6c41000e",
+   "hash": "b593372c48ea"
   }
  ]
 }
