@@ -1,66 +1,66 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/ara/logic/experiments.md",
- "artifact_id": "pp_15fb7a0bcf0891f7cee01068",
- "version": "d030f2d4",
- "parent": "a31710f1",
+ "artifact": "experiments/provenance_handoff/ara/logic/claims.md",
+ "artifact_id": "pp_ca8a8ddcc33d3870e9a40bc5",
+ "version": "43bf4fa3",
+ "parent": "0a569be3",
  "author": {
-  "name": "unknown",
-  "kind": "human",
+  "name": "Codex",
+  "kind": "agent",
   "session": null
  },
- "note": null,
- "ts": "2026-08-12T00:47:44+00:00",
+ "note": "Record bounded three-model cross-model formal replication claim",
+ "ts": "2026-08-12T09:20:28+00:00",
  "stats": {
   "added": 2
  },
  "changes": [
   {
    "kind": "added",
-   "block": "adf00130",
+   "block": "e50d79d1",
    "type": "heading",
-   "context": "Formal confirmatory Luna R1 (2026-08-11)",
-   "preview": "## Formal confirmatory Luna R1 (2026-08-11)"
+   "context": "C12: The bounded stale-binding result re",
+   "preview": "## C12: The bounded stale-binding result replicated across t"
   },
   {
    "kind": "added",
-   "block": "adf00131",
+   "block": "f7480e8d",
    "type": "para",
-   "context": "Formal confirmatory Luna R1 (2026-08-11)",
-   "preview": "**Status:** completed; preregistered bounded confirmatory su"
+   "context": "C12: The bounded stale-binding result re",
+   "preview": "**Statement and proof:** In a preregistered, frozen APEX-der"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:2245118f2dd539d9c101e66c4b1896dadc9681d6a24912c9c74bca8a76ce9678",
+ "soft_fingerprint": "ppsb1:193afba93de29f05235896518a58b2c76d31fe4f39cddbf0843e7e26d74d1ab6",
  "actors": {
   "requested_by": [
-   "richardtang"
+   "user"
   ],
   "produced_by": [
-   "OpenRouter Luna formal confirmatory harness"
+   "cross-model OpenRouter formal matrix"
   ],
   "edited_by": [
-   "Codex GPT-5"
+   "Codex"
   ],
   "recorded_by": [
-   "Codex GPT-5"
+   "Codex"
   ]
  },
  "attribution_basis": "harness_attested",
  "claims": [
   {
-   "block": "adf00130",
+   "block": "e50d79d1",
    "kind": "added",
-   "note": "Adds the formal Luna R1 experiment heading."
+   "note": "Adds bounded three-model cross-model replication claim."
   },
   {
-   "block": "adf00131",
+   "block": "f7480e8d",
    "kind": "added",
-   "note": "Records denominators, effects, exclusions, runtime boundary, cost, and analyzer correction."
+   "note": "Records model-wise and pooled stale-binding results, providers, cost, and boundary."
   }
  ],
  "context": {
-  "why": "Records the completed preregistered APEX primary and Policy independent replication with exclusions, sensitivity, cost, confinement, and analysis correction."
+  "why": "The completed GLM, Kimi K3, and Qwen 3.8 Max matrix was not yet represented in ARA; add the model-wise effect, pooled descriptive effect, cost, provider audit, and confinement boundary."
  },
- "event_id": "ppe_2f2765d238ef938be472fc11"
+ "event_id": "ppe_ba34e5a1cff202facacdfc0e"
 }
