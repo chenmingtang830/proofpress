@@ -1,29 +1,29 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/ara/logic/claims.md",
- "artifact_id": "pp_ca8a8ddcc33d3870e9a40bc5",
- "version": "ced188f0",
- "parent": "43bf4fa3",
+ "artifact": "experiments/provenance_handoff/ara/logic/experiments.md",
+ "artifact_id": "pp_15fb7a0bcf0891f7cee01068",
+ "version": "68bcd8ec",
+ "parent": "27e62912",
  "author": {
   "name": "Codex",
   "kind": "agent",
   "session": null
  },
- "note": "Correct cross-model preregistration status",
- "ts": "2026-08-12T09:34:55+00:00",
+ "note": "Correct cross-model experiment registration boundary",
+ "ts": "2026-08-12T09:35:05+00:00",
  "stats": {
   "modified": 1
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "f7480e8d",
+   "block": "a834895e",
    "type": "para",
-   "context": "C12: The bounded stale-binding result re"
+   "context": "Cross-model formal replication (2026-08-"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:f3e05e691b596655d4c68c1f0b7aed7e9e983fc9fc9f7c1cae016d61325d56d7",
+ "soft_fingerprint": "ppsb1:c260f3d0e273c7aa6258dc3b00c56312bb00fcc23094eabee33a4caa26320f43",
  "actors": {
   "requested_by": [
    "user"
@@ -41,13 +41,13 @@
  "attribution_basis": "environment_attested",
  "claims": [
   {
-   "block": "f7480e8d",
+   "block": "a834895e",
    "kind": "modified",
-   "note": "Corrects the three-model follow-up from preregistered to frozen-protocol and states the missing separate preregistration artifact."
+   "note": "Separates the frozen cross-model follow-up from the preregistered Luna R1 study."
   }
  ],
  "context": {
-  "why": "No separate run-before-analysis preregistration artifact exists for the three-model follow-up; distinguish its frozen launcher from the preregistered Luna R1 study."
+  "why": "Prevent the frozen-protocol follow-up from being reported as preregistered when only Luna R1 has a separate preregistration artifact."
  },
- "event_id": "ppe_600e49be9a4dc7b9c4367cbf"
+ "event_id": "ppe_e834f1725cbc8dd5b2fc524a"
 }
