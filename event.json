@@ -1,37 +1,37 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/ara/logic/related_work.md",
- "artifact_id": "pp_aeef744ab46114892229ebab",
- "version": "5f4deba5",
- "parent": "264600dd",
+ "artifact": "experiments/provenance_handoff/ara/logic/claims.md",
+ "artifact_id": "pp_ca8a8ddcc33d3870e9a40bc5",
+ "version": "d6c435c7",
+ "parent": "ced188f0",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-12T09:45:27+00:00",
+ "ts": "2026-08-12T09:45:38+00:00",
  "stats": {
   "added": 2
  },
  "changes": [
   {
    "kind": "added",
-   "block": "877c488a",
+   "block": "bdc2ed0e",
    "type": "heading",
-   "context": "Review status: scoped inventory, not a s",
-   "preview": "## Review status: scoped inventory, not a systematic literat"
+   "context": "C13: Perfect separation on the primary f",
+   "preview": "## C13: Perfect separation on the primary fixture is mechani"
   },
   {
    "kind": "added",
-   "block": "f3c33000",
-   "type": "para",
-   "context": "Review status: scoped inventory, not a s",
-   "preview": "This file records sources used to motivate and constrain the"
+   "block": "292d0bbb",
+   "type": "list",
+   "context": "C13: Perfect separation on the primary f",
+   "preview": "- **Statement**: Because Proofpress natively verifies artifa"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:2a4b0613b1f6a31e963a766a0ad252a8c6352013ec58c26097c94b50348ca241",
+ "soft_fingerprint": "ppsb1:362c2a087bfd7f46457eecfd2068b4e4d1186579a4af998e2379fa8c5ee480f5",
  "actors": {
   "requested_by": [
    "Richard Tang"
@@ -49,18 +49,18 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "877c488a",
+   "block": "bdc2ed0e",
    "kind": "added",
-   "note": "Labels the current related-work record as incomplete."
+   "note": "Adds the construct-validity interpretation claim."
   },
   {
-   "block": "f3c33000",
+   "block": "292d0bbb",
    "kind": "added",
-   "note": "Lists the missing review areas and prohibits exhaustive novelty wording."
+   "note": "Bounds perfect separation to mechanism evidence and defines external falsification gates."
   }
  ],
  "context": {
-  "why": "Disclose that the current source inventory is not a systematic literature review and bound novelty language."
+  "why": "Add an explicit construct-validity claim that separates mechanism evidence from broad efficacy."
  },
- "event_id": "ppe_34616bb04d690334b8cc1e74"
+ "event_id": "ppe_82909de3572baab2020bec92"
 }
