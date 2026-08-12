@@ -1,37 +1,37 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/ara/logic/claims.md",
- "artifact_id": "pp_ca8a8ddcc33d3870e9a40bc5",
- "version": "0a569be3",
- "parent": "3a193d37",
+ "artifact": "experiments/provenance_handoff/ara/logic/experiments.md",
+ "artifact_id": "pp_15fb7a0bcf0891f7cee01068",
+ "version": "d030f2d4",
+ "parent": "a31710f1",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-12T00:47:36+00:00",
+ "ts": "2026-08-12T00:47:44+00:00",
  "stats": {
   "added": 2
  },
  "changes": [
   {
    "kind": "added",
-   "block": "7e0478d0",
+   "block": "adf00130",
    "type": "heading",
-   "context": "C11: Native artifact binding has confirm",
-   "preview": "## C11: Native artifact binding has confirmatory support for"
+   "context": "Formal confirmatory Luna R1 (2026-08-11)",
+   "preview": "## Formal confirmatory Luna R1 (2026-08-11)"
   },
   {
    "kind": "added",
-   "block": "7e0478d1",
+   "block": "adf00131",
    "type": "para",
-   "context": "C11: Native artifact binding has confirm",
-   "preview": "**Statement and proof:** In the preregistered OpenRouter/Lun"
+   "context": "Formal confirmatory Luna R1 (2026-08-11)",
+   "preview": "**Status:** completed; preregistered bounded confirmatory su"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:03b349b2906d6cf47031927ec6b3232ab8fc437fd536c39fb7d277f884cb9bb8",
+ "soft_fingerprint": "ppsb1:2245118f2dd539d9c101e66c4b1896dadc9681d6a24912c9c74bca8a76ce9678",
  "actors": {
   "requested_by": [
    "richardtang"
@@ -49,18 +49,18 @@
  "attribution_basis": "harness_attested",
  "claims": [
   {
-   "block": "7e0478d0",
+   "block": "adf00130",
    "kind": "added",
-   "note": "Adds the bounded formal confirmatory claim."
+   "note": "Adds the formal Luna R1 experiment heading."
   },
   {
-   "block": "7e0478d1",
+   "block": "adf00131",
    "kind": "added",
-   "note": "Records primary safety evidence, independent recovery replication, sensitivity, correction, and claim boundary."
+   "note": "Records denominators, effects, exclusions, runtime boundary, cost, and analyzer correction."
   }
  ],
  "context": {
-  "why": "Adopts the preregistered bounded confirmatory Luna result as C11 while preserving the independent recovery-only boundary and post-unblinding correction."
+  "why": "Records the completed preregistered APEX primary and Policy independent replication with exclusions, sensitivity, cost, confinement, and analysis correction."
  },
- "event_id": "ppe_e3a40a4d3029ddd2adaca0ff"
+ "event_id": "ppe_2f2765d238ef938be472fc11"
 }
