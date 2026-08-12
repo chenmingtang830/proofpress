@@ -1,66 +1,90 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/ara/logic/claims.md",
- "artifact_id": "pp_ca8a8ddcc33d3870e9a40bc5",
- "version": "00539ab9",
- "parent": "d6c435c7",
+ "artifact": "docs/internal/ARA_RIT_PROOFPRESS_STRATEGY_DISCUSSION.md",
+ "artifact_id": "pp_1b8bff070a2e63f00c362124",
+ "version": "7f200453",
+ "parent": "6e4e1fef",
  "author": {
-  "name": "unknown",
-  "kind": "human",
-  "session": null
+  "name": "Claude (AO worker proofpress-dev-2)",
+  "kind": "agent",
+  "session": "proofpress-dev-2"
  },
- "note": null,
- "ts": "2026-08-12T09:58:39+00:00",
+ "note": "Add section 4.1: RIT Hub internal ledger reuses Proofpress event semantics, not its file-level carrier",
+ "ts": "2026-08-12T10:19:01+00:00",
  "stats": {
-  "added": 2
+  "added": 4
  },
  "changes": [
   {
    "kind": "added",
-   "block": "68be2471",
+   "block": "9a53396a",
    "type": "heading",
-   "context": "C14: The contribution is a joint agent-h",
-   "preview": "## C14: The contribution is a joint agent-handoff evaluation"
+   "context": "4.1 RIT Hub 内部账本：复用 Proofpress 的 event 语",
+   "preview": "### 4.1 RIT Hub 内部账本：复用 Proofpress 的 event 语义，而非其文件级 carrier"
   },
   {
    "kind": "added",
-   "block": "9c9e5fa7",
+   "block": "1261a235",
+   "type": "para",
+   "context": "4.1 RIT Hub 内部账本：复用 Proofpress 的 event 语",
+   "preview": "Proofpress 现有的记录能力可以直接迁移进 RIT Hub，但要迁移的是它的**事件语义**（actor / c"
+  },
+  {
+   "kind": "added",
+   "block": "3d8d09d7",
+   "type": "para",
+   "context": "4.1 RIT Hub 内部账本：复用 Proofpress 的 event 语",
+   "preview": "原因：RIT Hub 里的信任单位是 **claim（graph node）**，不是文件——一条 claim 可能来自"
+  },
+  {
+   "kind": "added",
+   "block": "cbdcad46",
    "type": "list",
-   "context": "C14: The contribution is a joint agent-h",
-   "preview": "- **Statement**: Prior work already covers obsolete memory, "
+   "context": "4.1 RIT Hub 内部账本：复用 Proofpress 的 event 语",
+   "preview": "- **锚点单位从 block 换成 claim**：Proofpress 今天在 markdown/html bloc"
   }
  ],
- "policy": "portable",
- "soft_fingerprint": "ppsb1:0ffd6cce8d43a74b53f7135b5c0272c5e7ed7fd95adc3bb9251e56326a1e819f",
+ "policy": "local",
+ "soft_fingerprint": "ppsb1:b7aa184a21aeaf7ff28f2cb63843779ca30d142403180c4dfbcf85a988587cea",
  "actors": {
   "requested_by": [
-   "Richard Tang"
+   "chenmingtang830 (founder)"
   ],
   "produced_by": [
-   "OpenAI Codex with parallel research agents"
+   "founder + Claude orchestrator session 6b0b2a60-3891-5ef7-8b43-a478d0c6152f (drafted the insight in strategy_doc_addition.md)"
   ],
   "edited_by": [
-   "OpenAI Codex"
+   "Claude, AO worker session proofpress-dev-2"
   ],
   "recorded_by": [
-   "OpenAI Codex"
+   "Claude, AO worker session proofpress-dev-2"
   ]
  },
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "68be2471",
+   "block": "9a53396a",
    "kind": "added",
-   "note": "Adds the scoped related-work positioning claim."
+   "note": "4.1 heading: RIT Hub internal ledger reuses Proofpress event semantics, not its file-level carrier"
   },
   {
-   "block": "9c9e5fa7",
+   "block": "1261a235",
    "kind": "added",
-   "note": "Records established prior art, narrow joint contribution, and falsification condition."
+   "note": "What migrates is event semantics (actor/claim/evidence/why/accept-reject-open/parent + claims-vs-diff check), not the single-file portable capsule carrier"
+  },
+  {
+   "block": "3d8d09d7",
+   "kind": "added",
+   "note": "Why: RIT Hub's trust unit is the claim (graph node), not a file"
+  },
+  {
+   "block": "cbdcad46",
+   "kind": "added",
+   "note": "Four consequences: anchor unit becomes claim not block; no same-identity revision bookkeeping needed; human approval layer stays outside RIT's kernel/extractor; portable capsule becomes an export feature, not the internal default"
   }
  ],
  "context": {
-  "why": "Add the scoped contribution claim and explicit falsification condition derived from the closest-prior-art review."
+  "why": "Founder + orchestrator session (6b0b2a60) 战略讨论产出的架构判断：RIT Hub 内部账本应迁移 Proofpress 的事件语义（actor/claim/evidence/why/accept-reject-open/parent + claims-vs-diff 检查），而不是它现在单文件 portable capsule 的载体实现；记录为新增小节 4.1，插入第4节与第5节之间。"
  },
- "event_id": "ppe_18601cda1d7a4a4b687ca0ff"
+ "event_id": "ppe_58039fe0baf01394db5403ba"
 }
