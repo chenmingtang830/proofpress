@@ -1,49 +1,103 @@
 {
  "event": "version_created",
- "artifact": "docs/internal/ARA_RIT_PROOFPRESS_STRATEGY_DISCUSSION.md",
- "artifact_id": "pp_1b8bff070a2e63f00c362124",
- "version": "813c82c7",
- "parent": "4e39c8db",
+ "artifact": "experiments/provenance_handoff/docs/KNOWLEDGE_HANDOFF_DEBT_PLAN.md",
+ "artifact_id": "pp_2a2e62252d677e3b6e52cce7",
+ "version": "faf049dc",
+ "parent": "5e36b0d6",
  "author": {
-  "name": "Claude (AO worker proofpress-dev-9)",
+  "name": "codex",
   "kind": "agent",
-  "session": "proofpress-dev-9"
+  "session": "knowledge-handoff-debt-phase2-primary-deepseek-r1"
  },
  "note": null,
- "ts": "2026-08-12T12:27:44+00:00",
+ "ts": "2026-08-12T15:11:43+00:00",
  "stats": {
-  "modified": 3
+  "modified": 5
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "c9500edd",
+   "block": "39da68a1",
    "type": "para",
-   "context": "Mission"
+   "context": "Phase 2 — Frozen pilot"
   },
   {
    "kind": "modified",
-   "block": "79ef06e6",
+   "block": "72a6cf02",
    "type": "para",
-   "context": "Mission"
+   "context": "Phase 3 — Formal independently authored ",
+   "numbers": [
+    [
+     "3.8",
+     "0731"
+    ]
+   ]
   },
   {
    "kind": "modified",
-   "block": "35e41d2c",
+   "block": "9518eb81",
+   "type": "table",
+   "context": "7. Frozen harness, routing, model, and s"
+  },
+  {
+   "kind": "modified",
+   "block": "52c3e64d",
    "type": "para",
-   "context": "Mission"
+   "context": "7. Frozen harness, routing, model, and s"
+  },
+  {
+   "kind": "modified",
+   "block": "2b233531",
+   "type": "para",
+   "context": "7. Frozen harness, routing, model, and s"
   }
  ],
  "policy": "local",
- "soft_fingerprint": "ppsb1:00d67bead73ee37b0bf33c8b647ebf28bba7b4389cffaf0485d1c8f2da9b148b",
+ "soft_fingerprint": "ppsb1:f21cf5e87025952b66847aa0364e976a619d5d153c89adad291d17a3cb042464",
  "actors": {
+  "requested_by": [
+   "richardtang"
+  ],
+  "produced_by": [
+   "codex"
+  ],
+  "edited_by": [
+   "codex"
+  ],
   "recorded_by": [
-   "Claude (AO worker proofpress-dev-9)"
+   "codex"
   ]
  },
  "attribution_basis": "self_asserted",
+ "claims": [
+  {
+   "block": "39da68a1",
+   "kind": "modified",
+   "note": "Replaces the proposed pilot model with the exact DeepSeek V4 Flash 0731 slug and freezes DeepInfra as sole ordered provider."
+  },
+  {
+   "block": "72a6cf02",
+   "kind": "modified",
+   "note": "Makes DeepSeek V4 Flash 0731 through DeepInfra the primary formal slice while retaining GLM 5.2 as the first robustness slice."
+  },
+  {
+   "block": "9518eb81",
+   "kind": "modified",
+   "note": "Updates the frozen stack table for the DeepSeek primary and the separate same-model OpenRouter transport slice."
+  },
+  {
+   "block": "52c3e64d",
+   "kind": "modified",
+   "note": "Requires DeepInfra in both Gateway only and order policies and forbids transport substitution in a formal matrix."
+  },
+  {
+   "block": "2b233531",
+   "kind": "modified",
+   "note": "Updates the conditional Kimi discrepancy trigger to compare DeepSeek with GLM."
+  }
+ ],
  "context": {
-  "why": "Revise Mission block: shift from 'ignited by' warmth to trust-in-inheritance + looking after successors, per user request for a restrained middle-ground temperature; explicitly include agent predecessors, not only human ones"
+  "why": "User replaced Qwen primary because of cost; exact DeepSeek V4 Flash 0731 with a DeepInfra-only Gateway route preserves an auditable no-fallback primary."
  },
- "event_id": "ppe_570e57e0955e9449c7a4cfc4"
+ "event_id": "ppe_f6863d9ff35e3402e4d90a68"
 }

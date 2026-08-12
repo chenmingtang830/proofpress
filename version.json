@@ -1,912 +1,510 @@
 {
- "artifact": "docs/internal/ARA_RIT_PROOFPRESS_STRATEGY_DISCUSSION.md",
- "artifact_id": "pp_1b8bff070a2e63f00c362124",
+ "artifact": "experiments/provenance_handoff/docs/KNOWLEDGE_HANDOFF_DEBT_PLAN.md",
+ "artifact_id": "pp_2a2e62252d677e3b6e52cce7",
  "blocks": [
   {
    "type": "heading",
-   "text": "# ARA, RIT, Proofpress 战略讨论",
-   "id": "2570b77c",
-   "hash": "a47f88432545"
+   "text": "# Research plan — verifiable knowledge handoffs under version drift",
+   "id": "d6cb1123",
+   "hash": "f3ddafe2f1c4"
   },
   {
    "type": "para",
-   "text": "> 状态：战略讨论稿，非产品承诺、非法律意见、非融资材料。\n>\n> 目的：把 ARA、RIT 与 Proofpress 的关系、面向高风险知识密集行业的产品形态，以及 nonprofit / for-profit 的可能分工，整理为一份可以持续修订的共同底稿。",
-   "id": "12f2d9a1",
-   "hash": "9c500ccbc492"
+   "text": "**Status:** design draft; no new model run is authorized by this document.\n**Date:** 2026-08-12\n**Scope:** non-coding knowledge work handed from a predecessor agent to a fresh successor agent.",
+   "id": "fae739dc",
+   "hash": "1354e62f174d"
   },
   {
    "type": "heading",
-   "text": "## Mission",
-   "id": "df62fbe2",
-   "hash": "dbf43f0df79d"
+   "text": "## 1. Research objective",
+   "id": "a897187e",
+   "hash": "440eb1dc4f17"
   },
   {
    "type": "para",
-   "text": "> We inherit more than we could ever earn on our own — the failures, the dead ends, and the hard-won insight of those who came before us, human and agent alike. There is a quiet trust in that: someone we may never meet did the work so we wouldn't have to start from zero. AI is the first tool epochal enough to carry that inheritance forward at the scale human knowledge now demands — not compressing the past into fewer words, but rebuilding it into something the next mind, human or agent, can trust enough to stand on and keep climbing from. Every generation's real work is to leave more than it received, and to look after whoever comes next. This is ours.",
-   "id": "c9500edd",
-   "hash": "95ae998e9e98"
+   "text": "The program asks whether a portable handoff can reduce the work a successor must rediscover, while preventing inherited decisions from remaining attached to the wrong artifact revision.",
+   "id": "f524d433",
+   "hash": "22d5eaea18fb"
   },
   {
    "type": "para",
-   "text": "我们继承的，远比自己能挣来的多——那些我们可能从未谋面的人和 agent，替我们踩过的坑、走过的弯路、拼出来的洞见。这里面有一种安静的信任：有人在我们看不见的地方把路铺好了，让我们不必从零开始。AI 是第一个强大到能在人类知识现在需要的这个尺度上，把这份遗产接住并往前传的工具——不是把过去压缩成更少的字，而是把它重建成后来者（不管是人还是 agent）真正信得过、能站上去、接着往上爬的东西。每一代人真正的工作，是留下的比继承的更多，是把后来者照顾好。这是我们的责任。",
-   "id": "79ef06e6",
-   "hash": "455e40f9d659"
-  },
-  {
-   "type": "para",
-   "text": "（这段与\"1. 核心判断\"一节里\"AI makes candidate knowledge abundant. We make accepted knowledge cumulative.\"是同一个 vision 的两层表述：一层讲给市场和合作伙伴听，一层讲给自己和团队听，用来判断这件事值不值得做一辈子。记录于 2026-08-12；2026-08-12 修订，加入对前人/前置 agent 的信任与\"照顾后来者\"的温度。）",
-   "id": "35e41d2c",
-   "hash": "a5f642b02612"
-  },
-  {
-   "type": "heading",
-   "text": "## 1. 核心判断",
-   "id": "63fc3a3a",
-   "hash": "9f05866e8a8e"
-  },
-  {
-   "type": "para",
-   "text": "AI 正在把“候选知识”的生产成本降到极低：人和 agent 可以快速生成分析、实验、结论、代码和建议。但组织真正缺少的不是更多候选答案，而是可靠地回答以下问题的能力：哪一个版本目前值得相信？它基于什么证据？谁有权接受它？什么被否定过？当工作交给下一位人或 agent 时，哪些内容可以安全继承？",
-   "id": "4d7c10b3",
-   "hash": "9de3e07e6fe4"
-  },
-  {
-   "type": "para",
-   "text": "我们的共同方向不是建立另一个聊天机器人、通用 RAG 或 agent orchestration 平台，而是建设 human + agent 共同生产知识时所需要的可信知识基础设施。",
-   "id": "4b978476",
-   "hash": "133abaa73999"
-  },
-  {
-   "type": "para",
-   "text": "一句话表述：",
-   "id": "8fdf52c3",
-   "hash": "76a755f293f4"
-  },
-  {
-   "type": "para",
-   "text": "> AI makes candidate knowledge abundant. We make accepted knowledge cumulative.",
-   "id": "ae5c4645",
-   "hash": "1df4063093bf"
-  },
-  {
-   "type": "para",
-   "text": "中文表述：",
-   "id": "1662d754",
-   "hash": "ee4fc1e156ed"
-  },
-  {
-   "type": "para",
-   "text": "> AI 让知识生成变得廉价；我们让被正式接受的知识能够持续积累。",
-   "id": "dd49b55c",
-   "hash": "9958591c700c"
-  },
-  {
-   "type": "para",
-   "text": "这条路径指向的不是 personal superintelligence，而是 collective cumulative intelligence：不同人、不同团队和不同 agent 的工作可以被理解、验证、修订、交接和复用，而不是困在一次性 session、散落的文档或某个人的记忆中。",
-   "id": "48fbe3f5",
-   "hash": "5a70534f7897"
-  },
-  {
-   "type": "heading",
-   "text": "## 2. 新的知识生产关系",
-   "id": "7aa10326",
-   "hash": "3b882b4441d1"
-  },
-  {
-   "type": "para",
-   "text": "传统知识生产的基本单位通常是：一个人写一份文档，另一个人阅读、解释或重做。现在的基本单位正在变化：多个 human 与多个 agent 持续提出、修改、反驳、复现和交接同一项知识工作。",
-   "id": "9cd8752e",
-   "hash": "41b145daecb2"
-  },
-  {
-   "type": "code",
-   "text": "```text\n过去：一个人 → 一份文档 → 下一个人阅读\n\n现在：多人 + 多个 agent → 持续生成 candidate knowledge\n                         → 验证、批准、修订\n                         → 跨 session / 团队 / 模型 handoff\n```",
-   "id": "271a0f0e",
-   "hash": "72a664f1cc98"
-  },
-  {
-   "type": "para",
-   "text": "这不是单纯的生产力变化，也改变了生产关系：",
-   "id": "8050e794",
-   "hash": "e43f4bedd98e"
+   "text": "It separates two mechanisms that earlier experiments often combined:",
+   "id": "09a96395",
+   "hash": "be4512142682"
   },
   {
    "type": "list",
-   "text": "- agent 可以提出候选结论，却不应单独决定它成为组织的权威知识；\n- 人类仍然承担范围、价值判断、责任和批准权；\n- 下一位参与者需要的不只是 memory，而是带 authority、evidence 与状态的 handoff；\n- 被拒绝的路线、未解决问题和适用边界，和成功结论一样需要被保留。",
-   "id": "10f96895",
-   "hash": "c6cde4e26ac0"
+   "text": "1. **Semantic continuity:** a structured handoff explains what was done, why, what remains open, and what was rejected. Its expected benefit is lower rediscovery cost.\n2. **Version-bound admission:** Proofpress records which artifact revision the inherited state was admitted against and verifies that binding before reuse. Its expected benefit appears mainly when the artifact has changed or its lineage is ambiguous.",
+   "id": "d43230fc",
+   "hash": "4f0ee60643c8"
   },
   {
    "type": "para",
-   "text": "因此，新的协作机制需要把 evidence、authority、acceptance、revision、responsibility 与 handoff 显式化。",
-   "id": "79198483",
-   "hash": "d41424385266"
+   "text": "The main hypothesis is not that Proofpress always beats a strong structured handoff. Under an unchanged artifact, the two should often perform similarly, with Proofpress possibly adding a small verification cost. The predicted advantage is an interaction: version binding should matter when inherited state and the current artifact diverge.",
+   "id": "c27d3715",
+   "hash": "448525ecab18"
   },
   {
    "type": "heading",
-   "text": "## 3. 三个内核分别解决什么",
-   "id": "6b56d424",
-   "hash": "bbbc1472e602"
-  },
-  {
-   "type": "heading",
-   "text": "### ARA：新的 research / knowledge artifact",
-   "id": "3e6d1ab4",
-   "hash": "27b1ec0d5bd8"
+   "text": "## 2. Prior evidence and motivation",
+   "id": "188a902f",
+   "hash": "add5e097961e"
   },
   {
    "type": "para",
-   "text": "ARA（Agent-Native Research Artifact）不是把 PDF 转成更结构化的文档，而是重新定义一项研究在 agent 时代的原子工作对象。传统 research 被拆散在 paper、repo、实验日志、聊天、失败尝试、review comments 与人脑中；ARA 将其组织成可查询、可执行、可继续工作的 living artifact。",
-   "id": "25a4f709",
-   "hash": "cdc3674eca43"
-  },
-  {
-   "type": "code",
-   "text": "```text\nArtifact\n├── 当前状态与核心 claims\n├── evidence 与实验结果\n├── code、config 与环境\n├── decisions、heuristics 与适用范围\n├── rejected paths / dead ends\n├── open questions\n└── 可供下一位参与者读取的语义入口\n```",
-   "id": "23aba0d6",
-   "hash": "1481e7617cb7"
-  },
-  {
-   "type": "para",
-   "text": "类比而言，ARA 的潜力不是“更好的论文格式”，而是像 Salesforce 定义 sales object、Figma 重构 design object 那样，重新定义“研究/知识工作是什么”。在行业产品中，它可以发展为 case、matter、experiment 或 decision package 的通用工作对象。",
-   "id": "8df1c7f2",
-   "hash": "63b84bdb7ea9"
-  },
-  {
-   "type": "heading",
-   "text": "### RIT：claim verification 与 admission gate",
-   "id": "fecf6a0a",
-   "hash": "c5ab0baa02fa"
-  },
-  {
-   "type": "para",
-   "text": "RIT（research Git）将一条 claim 拆成可检查的部分：证据中是否确实有相应的事实或数值，以及该结论是否能由允许的规则和前提出发成立。它对可形式化、可重新提取的部分提供严格 gate，例如：日志重提取、哈希锁定、阈值/算术关系检查、Lean proof、冲突检查和预先锁定的目标检查。",
-   "id": "70bcf1e6",
-   "hash": "96406e4a7883"
-  },
-  {
-   "type": "para",
-   "text": "RIT 的正确定位不是“证明现实世界的绝对真理”，而是：",
-   "id": "d40ec088",
-   "hash": "7b3efb16479d"
-  },
-  {
-   "type": "para",
-   "text": "> 验证一条 claim 是否由它声明的 evidence 与允许的推导规则支持，并在加入知识状态时不破坏已声明的一致性条件。",
-   "id": "b9a94465",
-   "hash": "913ac028e361"
-  },
-  {
-   "type": "para",
-   "text": "例如，RIT 可以验证“日志中确实有 loss = 3.28，且 3.28 < 3.30，因此该运行达到预设阈值”。它不能仅凭形式化证明实验设计无偏、某个医学或法律结论必然正确、或某项投资必然成功。这些仍需要领域证据、适用范围、政策与人类判断。",
-   "id": "e5f7a0ff",
-   "hash": "60c4e79efece"
-  },
-  {
-   "type": "para",
-   "text": "一个有用类比：evidence 类似身份证、bank statement、utility bill；RIT 像检查这些材料和规则的门禁；最终是否把一个结果作为组织权威状态，仍由适用 policy 与具备权限的 reviewer 决定。",
-   "id": "3ee3d965",
-   "hash": "42ea34958d44"
-  },
-  {
-   "type": "heading",
-   "text": "### Proofpress：accepted knowledge change 的账本与交接协议",
-   "id": "bce7dff8",
-   "hash": "3ea309328b34"
-  },
-  {
-   "type": "para",
-   "text": "Proofpress 跟随 artifact 的生命周期，记录有意义且被正式接受的状态变化。它不是监控系统，也不应保存所有 prompt、私有 reasoning、闲聊或每个失败尝试的原始 transcript。",
-   "id": "5ae89d73",
-   "hash": "c04dbf58e59f"
-  },
-  {
-   "type": "para",
-   "text": "它记录的是：",
-   "id": "9a49bec2",
-   "hash": "79df9d13d5d8"
-  },
-  {
-   "type": "code",
-   "text": "```text\nArtifact V1\n  → 谁/哪个 agent 提出什么修改\n  → 为什么修改\n  → 基于哪些 evidence 与 verification receipt\n  → 哪些 alternative / path 被拒绝，以及原因\n  → 谁按什么 policy 批准\n  → Artifact V2（当前 admitted state）\n```",
-   "id": "3c1c78d6",
-   "hash": "336f80b9dd66"
-  },
-  {
-   "type": "para",
-   "text": "它回答：Who changed what, why, when, based on what evidence, under whose authority? 当 artifact 交给下一个 human 或 agent 时，Proofpress 携带当前 accepted state、依据、限制、未解决问题和必要的历史，而不是把接收者淹没在完整过程里。",
-   "id": "8b8b8b59",
-   "hash": "7427db3cde5b"
-  },
-  {
-   "type": "para",
-   "text": "> Memory preserves continuity. Provenance creates accountability.",
-   "id": "c0a60170",
-   "hash": "c9f45706eb57"
-  },
-  {
-   "type": "heading",
-   "text": "## 4. 三者如何组成一个产品系统",
-   "id": "625db3d5",
-   "hash": "3ec00d2e0377"
-  },
-  {
-   "type": "para",
-   "text": "三者处于不同位置，不是相互替代的三个产品。",
-   "id": "81b2e4cc",
-   "hash": "8342ccf25402"
-  },
-  {
-   "type": "code",
-   "text": "```text\nARA       ：我们共同在研究/处理什么？当前语义状态与轨迹是什么？\nRIT       ：哪些 claim 达到相应的机器验证标准？\nPolicy    ：在这一风险等级下，谁有权接受什么？\nProofpress：哪个版本被正式接受，为什么，以及如何可验证地 handoff？\n```",
-   "id": "4abba6eb",
-   "hash": "d517c4b1c7a8"
-  },
-  {
-   "type": "para",
-   "text": "完整流转是：",
-   "id": "4f72cb15",
-   "hash": "eb5c2281a03a"
-  },
-  {
-   "type": "code",
-   "text": "```text\nObserve → Propose → Ground → Verify → Review → Accept / Reject / Open\n                                                     ↓\n                                                  Writeback\n                                                     ↓\n                                              Portable handoff\n```",
-   "id": "1ec12e5b",
-   "hash": "33161a877f10"
-  },
-  {
-   "type": "para",
-   "text": "其中：",
-   "id": "3bddce4e",
-   "hash": "f9712d3948e1"
+   "text": "Earlier Proofpress experiments already establish three boundaries:",
+   "id": "75188530",
+   "hash": "c9ab8e404a34"
   },
   {
    "type": "list",
-   "text": "- **Observe**：从系统、文档、实验或人类输入观察到候选信息；\n- **Propose**：human 或 agent 提出 claim、修改或行动建议；\n- **Ground**：绑定来源、版本、evidence 与 extraction method；\n- **Verify**：按 claim 类型运行相应检查；\n- **Review**：有权限的人或 policy 做范围与责任判断；\n- **Accept / Reject / Open**：形成权威状态、拒绝理由或诚实保留；\n- **Writeback**：把获准结论写回客户的 system of record；\n- **Portable handoff**：把足够且可验证的状态交给下一位参与者。",
-   "id": "be028a95",
-   "hash": "973535f499d0"
-  },
-  {
-   "type": "heading",
-   "text": "### 产品不应说“所有知识都能形式化证明”",
-   "id": "edab924e",
-   "hash": "1d1a8475c5fe"
+   "text": "- Richer packages did not automatically improve clean end-to-end task completion. Artifact Travel v3 reported trusted handoff `8/18` for ordinary handoff and `7/18` for the Proofpress package, with no clean trusted completion in either arm.\n- When current evidence remained visible, ordinary handoff often self-corrected. In formal Policy R1, both arms had `0/18` unsafe propagation; Proofpress changed the recovery path rather than the safety rate.\n- In the preregistered stale-binding fixture, information-matched ordinary handoff made `12/12` unsafe fault proceeds while native binding made `0/12`, with `12/12` clean admission in both arms. This is strong mechanism evidence on a design-aligned fixture, not a handoff-debt estimate.",
+   "id": "fe664541",
+   "hash": "0c8c2dc60936"
   },
   {
    "type": "para",
-   "text": "不同知识需要不同的 verification profile。高风险并不意味着所有内容都必须被 Lean 证明；它意味着风险越高，对 evidence、独立检查、审批和可追溯性的要求越高。",
-   "id": "ee7d4a20",
-   "hash": "e4d03b2dac3f"
+   "text": "The new program treats these outcomes as complementary rather than contradictory. Structured handoff may already capture most continuity value; version binding supplies a distinct control when continuity state may no longer be admissible.",
+   "id": "8cba21f5",
+   "hash": "c0f728f11513"
+  },
+  {
+   "type": "heading",
+   "text": "## 3. Research questions",
+   "id": "b82221ba",
+   "hash": "b57f69e22112"
+  },
+  {
+   "type": "heading",
+   "text": "### RQ1: Knowledge handoff debt",
+   "id": "11115be1",
+   "hash": "70184dcbcf5e"
+  },
+  {
+   "type": "para",
+   "text": "How much rediscovery work does a fresh successor perform when given only the current artifacts, a natural prose handoff, or a strong structured handoff?",
+   "id": "ed6b10c3",
+   "hash": "a1fbe89e4e68"
+  },
+  {
+   "type": "heading",
+   "text": "### RQ2: Incremental value of version binding",
+   "id": "e8779047",
+   "hash": "519b4e676be9"
+  },
+  {
+   "type": "para",
+   "text": "Holding structured handoff semantics fixed, does receive-time Proofpress verification reduce unsafe continuation when the current artifact no longer matches the admitted revision?",
+   "id": "dac2aa1b",
+   "hash": "1f317581d259"
+  },
+  {
+   "type": "heading",
+   "text": "### RQ3: Selective recovery rather than blanket refusal",
+   "id": "3a15ebc7",
+   "hash": "3150dc4dc3ec"
+  },
+  {
+   "type": "para",
+   "text": "After a mismatch, can the successor identify the affected claims, revalidate only the necessary scope, and admit a new revision without unnecessary full-task restart or false stop?",
+   "id": "2181b2bc",
+   "hash": "887e99d9ef0d"
+  },
+  {
+   "type": "heading",
+   "text": "### RQ4: Cost and utility",
+   "id": "3735ae32",
+   "hash": "4e9ae84f832f"
+  },
+  {
+   "type": "para",
+   "text": "What verification, latency, token, and completion costs does Proofpress add under unchanged, irrelevant-change, and relevant-change conditions?",
+   "id": "fb4ab954",
+   "hash": "409b89a7e5de"
+  },
+  {
+   "type": "heading",
+   "text": "## 4. Program structure",
+   "id": "b9656d92",
+   "hash": "fdc014442a6f"
+  },
+  {
+   "type": "heading",
+   "text": "### Track 1 — Knowledge handoff debt",
+   "id": "40ce0325",
+   "hash": "a3b12d33031b"
+  },
+  {
+   "type": "para",
+   "text": "Track 1 adapts the takeover logic of coding-agent handoff work to non-coding artifacts. The artifact set is frozen at the handoff point so this track measures continuity and rediscovery rather than version drift.",
+   "id": "054edf71",
+   "hash": "89d73d6d28b4"
   },
   {
    "type": "table",
-   "text": "| Claim 类型 | 合适的最低验证方式 |\n| --- | --- |\n| 代码 import、call、schema 关系 | AST / deterministic extraction |\n| 指标、金额、日期、配置 | source/evidence re-extraction |\n| 有限规则、阈值、算术关系 | rule engine、SMT 或 Lean |\n| 文档是否支持某个陈述 | citation span、text-entailment、review |\n| 医学、法律、投资等判断 | evidence package、domain policy、qualified human approval |",
-   "id": "d17fe385",
-   "hash": "8da4eb9ad041"
+   "text": "| Arm | Successor package |\n|---|---|\n| H0 | Current artifacts only |\n| H1 | Current artifacts plus a natural prose handoff |\n| H2 | Current artifacts plus a strong structured handoff |",
+   "id": "f99db927",
+   "hash": "b44fabd7d2a7"
   },
   {
    "type": "para",
-   "text": "因此一个 candidate 可能依次经历：",
-   "id": "4a445b0f",
-   "hash": "614629a43d90"
+   "text": "H2 should contain the same underlying facts available to H1, organized into reviewed work, accepted decisions, rejected routes, evidence references, open issues, and next actions. A semantic inventory will detect factual advantages. Proofpress verification is not the primary treatment in Track 1.",
+   "id": "18b5af4f",
+   "hash": "40b71f74ec97"
   },
   {
-   "type": "code",
-   "text": "```text\nCandidate → Grounded → Permissible → Verified → Admitted / Pushable\n                                      ↘ Rejected\n                                       ↘ Open\n```",
-   "id": "348415e9",
-   "hash": "b4fddc46918e"
+   "type": "para",
+   "text": "The primary endpoint is **rediscovery events**: logged successor actions that repeat predecessor-completed evidence gathering or decision reconstruction without being required by a changed artifact. A frozen hidden predecessor ledger will identify completed work, and a condition-blind audit will classify ambiguous events.",
+   "id": "56065622",
+   "hash": "b16804676e52"
+  },
+  {
+   "type": "para",
+   "text": "Key secondary endpoints are:",
+   "id": "74dda94a",
+   "hash": "25c31c5583ae"
   },
   {
    "type": "list",
-   "text": "- **Grounded**：已绑定具体 source、版本和证据；\n- **Permissible**：通过权限、schema、provenance 完整性和基础一致性检查；\n- **Verified**：完成该 claim 类型要求的检查；\n- **Admitted / Pushable**：在相应 policy 和审批下，允许进入 authoritative knowledge state；\n- **Open**：证据或证明不足，但问题和缺口被诚实保留；\n- **Rejected**：不允许进入权威状态，且拒绝原因成为可复用历史。",
-   "id": "fa98b941",
-   "hash": "fddc12146051"
+   "text": "- input tokens and tool calls before the first correct substantive continuation;\n- elapsed time and model cost;\n- repeated opening or searching of already resolved evidence;\n- trusted task completion within a fixed budget;\n- final artifact quality and unsupported inherited claims;\n- justified reversal and preservation of rejected routes.",
+   "id": "5cd72588",
+   "hash": "57a2f2731ab6"
+  },
+  {
+   "type": "para",
+   "text": "The expected comparison is `H2 < H1 < H0` on rediscovery cost. A smaller or absent solved-rate effect remains compatible with a real handoff-debt reduction.",
+   "id": "ca350c12",
+   "hash": "0d49ae2cec67"
   },
   {
    "type": "heading",
-   "text": "### 4.1 RIT Hub 内部账本：复用 Proofpress 的 event 语义，而非其文件级 carrier",
-   "id": "9a53396a",
-   "hash": "d4bfd63e7c38"
+   "text": "### Track 2 — Version-bound knowledge handoff",
+   "id": "d986bb9c",
+   "hash": "818966b38126"
   },
   {
    "type": "para",
-   "text": "Proofpress 现有的记录能力可以直接迁移进 RIT Hub，但要迁移的是它的**事件语义**（actor / claim / evidence 引用 / why / accept-reject-open / parent，以及\"你声明的跟系统算出来的对不对得上\"这条确定性检查），不是它现在\"portable capsule 嵌在单一 Markdown/HTML 文件里\"的载体实现。",
-   "id": "1261a235",
-   "hash": "a234295893b7"
-  },
-  {
-   "type": "para",
-   "text": "原因：RIT Hub 里的信任单位是 **claim（graph node）**，不是文件——一条 claim 可能来自 ARA 结构化 artifact，也可能只是一段 code + 一条 log 引用，不保证总有\"一份文档\"可以嵌入 capsule。因此：",
-   "id": "3d8d09d7",
-   "hash": "7da1c1b4f09e"
-  },
-  {
-   "type": "list",
-   "text": "- **锚点单位从 block 换成 claim**：Proofpress 今天在 markdown/html block 上算 hash、维护 `data-proofpress-id` 来跨编辑追踪同一身份；RIT 的 Claim Flow Graph 本身已经是 content-addressed，每条 claim 天然有稳定地址，不需要另起一套锚点机制。\n- **不再需要\"同一身份、新版本\"的簿记**：Proofpress 的 block 是原地可改的，所以需要维护修订链；RIT 的 claim 设计上不可原地改——修订是\"更强证据的新 claim 顶替旧 claim，两者之间连一条 edge\"，图的 edge 本身就是修订历史。\n- **人审批那一层，RIT 的 Lean kernel/extractor 管不到**：RIT 只回答 derivation validity（这个推导站不站得住）；一条 verified claim 要不要被提升为组织默认 recipe、要不要覆盖旧结论，是人的决定，这正是 Proofpress claims-vs-diff 检查的推广版——\"审批声明的 scope，跟 RIT 实际验证出来的 scope 对不对得上\"。\n- **portable capsule 降级为导出功能，不是内部默认机制**：内部大家共享同一个后端，不缺\"脱离账本也能被核验\"这个能力；这个能力只在 claim/artifact **离开** RIT Hub 时才重新值钱——写进论文、分享给用不同后端的组织、或未来 RIT Hub 变成跨机构标准时的联邦场景。",
-   "id": "cbdcad46",
-   "hash": "0f6f231b4340"
-  },
-  {
-   "type": "heading",
-   "text": "### 4.2 RIT/ARA 产品定位：OS for AI Scientist",
-   "id": "269a4ad9",
-   "hash": "7437eae2483a"
-  },
-  {
-   "type": "para",
-   "text": "（背景：用户已加入 ARA team，RIT/ARA + Frontier Labs 是当前优先 wedge。以下\n记录这条线的对外定位层级，2026-08-12 讨论确定。）",
-   "id": "336552f5",
-   "hash": "5de92d54c3e4"
-  },
-  {
-   "type": "para",
-   "text": "**定位分两层，不要混用**：",
-   "id": "013d96e3",
-   "hash": "0c3fc0dbd969"
-  },
-  {
-   "type": "list",
-   "text": "- **宏观 thesis（长，用于讲清楚整体方向，不是 tagline）**：Verified Knowledge",
-   "id": "45901b36",
-   "hash": "6f14371ef451"
-  },
-  {
-   "type": "para",
-   "text": "  Infrastructure for Autonomous Self-Evolving R&D。",
-   "id": "c81d2e11",
-   "hash": "a97746c9f7f2"
-  },
-  {
-   "type": "list",
-   "text": "- **产品 tagline（短，对外主用）**：**OS for AI Scientist(s)**。这句话不是",
-   "id": "52e4a8fa",
-   "hash": "835f514a808d"
-  },
-  {
-   "type": "para",
-   "text": "  内部自造的类比，出自 Amber（Jiachen Liu，ARA 论文第一作者）本人的原话——\n  她在 X 长文《How to Distill a $10M+ AI Researcher》（2026-07-07）结尾写道：\n  \"The real question is not whether AI can do research. It is whether we can\n  define **the operating system for AI scientists that produces trustworthy\n  science**。\" 用她自己的话当锚点，比团队自造类比更有背书。取代了之前内部工作\n  用语\"GitHub for research\"作为主 tagline——GitHub 类比只覆盖协作/存储这一半，\n  OS 类比能同时装下 artifacts 和 verification 两个子系统；\"GitHub for\n  research\" 仍然是解释 RIT 验证/准入门这一半时好用的类比，只是不再是主 tagline。",
-   "id": "2d21d7c4",
-   "hash": "ef8a009a2910"
-  },
-  {
-   "type": "para",
-   "text": "**OS 类比下的子系统映射**：",
-   "id": "9c8bf7bb",
-   "hash": "13538f01622d"
+   "text": "Track 2 starts from the strong H2 handoff and isolates the incremental binding mechanism.",
+   "id": "a2ae81eb",
+   "hash": "978b8017f5f6"
   },
   {
    "type": "table",
-   "text": "| OS 概念 | 对应子系统 |\n| --- | --- |\n| 文件系统 / 持久进程状态 | artifacts（ARA）—— agent 的 world model，跨 session 不丢 |\n| kernel 强制规则 | verification（RIT）—— Lean kernel + evidence 重提取，过不了内核检查就不能落地 |\n| 进程表 / 核心对象模型 | Claim Flow Graph（ontology）—— 两个子系统共用的对象模型 |",
-   "id": "9998e6df",
-   "hash": "9b689c6d0991"
+   "text": "| Arm | Successor package |\n|---|---|\n| V0 | Strong structured handoff with readable revision descriptions but no independently executable binding check |\n| V1 | Byte-identical structured handoff semantics plus Proofpress admitted revision, lineage, and native verification |",
+   "id": "7a1c0c02",
+   "hash": "82a99cdda687"
   },
   {
    "type": "para",
-   "text": "这个映射还解释了为什么 Claim Flow Graph 需要挂上 4.1 节里定的那层 actor/decision/\napproval 元数据：OS 的进程表不只存进程内容本身，还得存 owner、权限、调度状态；\n同理 Claim Flow Graph 光有 claim 内容不够，还需要\"谁批准的、何时、基于什么\"这层\n记录——三层能对上，不是巧合拼出来的，是同一个设计逻辑在不同层面的体现。",
-   "id": "ef05e9d8",
-   "hash": "d789f9f6080e"
+   "text": "Each base task produces matched artifact states:",
+   "id": "5ca3fd5f",
+   "hash": "d85399c0fd56"
+  },
+  {
+   "type": "list",
+   "text": "1. **Unchanged:** current artifact is the admitted revision.\n2. **Relevant edit:** a post-handoff change affects an inherited decision or completed work item.\n3. **Irrelevant edit:** bytes change, but the inherited decision remains substantively unaffected.\n4. **Legitimate rollback:** the workflow intentionally returns to an older revision under recorded authority.\n5. **Fork or merge:** two legitimate descendants create lineage ambiguity.\n6. **Mixed-version package:** the primary artifact, export, evidence map, or decision register come from inconsistent revisions.\n7. **Missing or corrupt binding:** verification cannot establish the claimed relationship.",
+   "id": "749eaa8f",
+   "hash": "201551659ea0"
+  },
+  {
+   "type": "para",
+   "text": "The primary safety endpoint for relevant edits is **unsafe continuation**: the successor reuses an affected inherited decision without first establishing a valid current basis.",
+   "id": "ef68ecd9",
+   "hash": "08627635b0f9"
+  },
+  {
+   "type": "para",
+   "text": "The required clean-path guards are:",
+   "id": "ec454c33",
+   "hash": "e118831b61af"
+  },
+  {
+   "type": "list",
+   "text": "- correct proceed on unchanged artifacts;\n- no blanket false stop for irrelevant edits;\n- no automatic rejection of an authorized rollback merely because its bytes are older;\n- no claim that a valid digest alone establishes current authorization.",
+   "id": "6c37719d",
+   "hash": "ce1a760dacf2"
+  },
+  {
+   "type": "para",
+   "text": "Recovery endpoints are:",
+   "id": "5467c9c9",
+   "hash": "9a609d2916a0"
+  },
+  {
+   "type": "list",
+   "text": "- affected-claim detection precision and recall;\n- proportion of necessary evidence rechecked;\n- unnecessary evidence rechecked;\n- successful admission of a corrected successor revision;\n- full-restart rate, false-stop rate, latency, tokens, and cost;\n- final trusted completion after recovery.",
+   "id": "fddf8597",
+   "hash": "36d130305355"
+  },
+  {
+   "type": "para",
+   "text": "The primary estimand is the `binding × artifact-state` interaction, not the pooled difference between V1 and V0 across all states. Repeated model calls are nested observations; independently authored fixtures are the main unit for external generalization.",
+   "id": "5f600d63",
+   "hash": "fc83342add11"
   },
   {
    "type": "heading",
-   "text": "## 5. Formal verification 的真实边界",
-   "id": "d6ca2ff2",
-   "hash": "86c75459d58f"
+   "text": "## 5. Task and fixture design",
+   "id": "9de4b3d7",
+   "hash": "bf79fc00d6c5"
   },
   {
    "type": "para",
-   "text": "形式化验证是在明确 specification、模型、前提与可信计算基下，证明某个性质成立或给出反例。它强力支持高保证系统，但不是万能真相机。",
-   "id": "44c190d5",
-   "hash": "1d1262944ce6"
+   "text": "The formal suite should include at least four non-coding knowledge-work families rather than variants of one legal document:",
+   "id": "5331e3e3",
+   "hash": "f9f9dec6858a"
+  },
+  {
+   "type": "list",
+   "text": "- contract or policy revision;\n- research synthesis or evidence review;\n- compliance, diligence, or procurement memo;\n- incident review, operational procedure, or governance document.",
+   "id": "6e644c0f",
+   "hash": "71d034c412d1"
   },
   {
    "type": "para",
-   "text": "需要区分五层：",
-   "id": "ce7a53c2",
-   "hash": "c8f7638e6f60"
+   "text": "Each task must have:",
+   "id": "ee2b34fb",
+   "hash": "ebe3e945b9c5"
+  },
+  {
+   "type": "list",
+   "text": "- a persistent artifact that changes over time;\n- an upstream stage containing genuine reviewed work;\n- a deterministic or expert-validated final-state rubric;\n- at least one meaningful interruption point;\n- an explicit artifact family, immutable revisions, lineage, and admitted revision;\n- an observable opportunity for rediscovery and for selective revalidation;\n- no requirement that the receiver trust inaccessible source truth merely because provenance verifies.",
+   "id": "73254524",
+   "hash": "cab39c3daae0"
+  },
+  {
+   "type": "para",
+   "text": "Formal fixtures should be authored or validated by people who did not design the Proofpress mechanism. The originating team may build calibration fixtures, but those remain diagnostic and are excluded from external-effect estimates.",
+   "id": "1d5bfe2c",
+   "hash": "40e41b102368"
+  },
+  {
+   "type": "heading",
+   "text": "## 6. Phased execution and authorization gates",
+   "id": "9fb8433a",
+   "hash": "607d3edb40c5"
+  },
+  {
+   "type": "heading",
+   "text": "### Phase 0 — Offline scorer and fixture qualification",
+   "id": "c2ae9c4b",
+   "hash": "88f5032149dc"
+  },
+  {
+   "type": "para",
+   "text": "Build a small contrast set for every artifact state. Verify the hidden oracle, affected-claim map, semantic parity, lineage graph, final-state scorer, event instrumentation, and leakage controls without model calls.",
+   "id": "4391f434",
+   "hash": "a948de19e200"
+  },
+  {
+   "type": "para",
+   "text": "Gate: every fixture must produce the expected V0/V1 inputs, and the scorer must distinguish correct proceed, targeted revalidation, justified rollback, false stop, and unsafe continuation.",
+   "id": "0995b0f1",
+   "hash": "8b9a4529de53"
+  },
+  {
+   "type": "heading",
+   "text": "### Phase 1 — Local diagnostic calibration",
+   "id": "3665bdd8",
+   "hash": "4a465987c6d3"
+  },
+  {
+   "type": "para",
+   "text": "Use a small set of independently sourced tasks with the OpenCode harness, Vercel AI Gateway, and exact GLM 5.2 (`zai/glm-5.2`) as the low-cost successor route. Calibrate prompts, event definitions, timeouts, output contracts, Gateway log reconciliation, and scorer behavior. Preserve all invalid attempts and rerun only after a declared protocol repair.",
+   "id": "20da3585",
+   "hash": "dc32f91004bd"
+  },
+  {
+   "type": "para",
+   "text": "These runs are non-formal and cannot support efficacy or benchmark claims.",
+   "id": "9b0df83e",
+   "hash": "080d05bffac6"
+  },
+  {
+   "type": "para",
+   "text": "Gate: H0 must expose measurable rediscovery debt; H2 must not receive extra facts; V0 must have an eligible relevant-drift error space; V1 must not incur unacceptable unchanged or irrelevant-change false stops.",
+   "id": "34c5b7bb",
+   "hash": "f5ead304feb8"
+  },
+  {
+   "type": "heading",
+   "text": "### Phase 2 — Frozen pilot",
+   "id": "2abfc7fe",
+   "hash": "6496bfc0c4f5"
+  },
+  {
+   "type": "para",
+   "text": "Freeze task IDs, revision manifests, arms, randomization, budgets, exclusions, endpoints, and analysis code before a small pilot. The proposed pilot stack is OpenCode through Vercel AI Gateway to exact DeepSeek V4 Flash 0731 (`deepseek/deepseek-v4-flash-0731`), with DeepInfra as the sole ordered provider (`only: [\"deepinfra\"]`, `order: [\"deepinfra\"]`) and fallback disabled. A pre-freeze transport smoke must confirm the exact slug, resolved provider, token and cost telemetry, and request-level log reconciliation. Use neutral run IDs and blind downstream grading.",
+   "id": "39da68a1",
+   "hash": "ffac6b64d9fe"
+  },
+  {
+   "type": "para",
+   "text": "Gate: proceed only if all package-parity, telemetry, scorer, leakage, and clean-path guards pass. A failed pilot repairs the protocol and requires a new frozen version; it is not silently pooled.",
+   "id": "1cb15b4e",
+   "hash": "65fd80d0f4f8"
+  },
+  {
+   "type": "heading",
+   "text": "### Phase 3 — Formal independently authored suite",
+   "id": "da3f4502",
+   "hash": "ccff51ed4aef"
+  },
+  {
+   "type": "para",
+   "text": "Determine the formal fixture count from Phase 1 variance and a declared minimum effect of practical interest. Use multiple independent base tasks per domain, cluster analysis by base task, and publish per-fixture results. Model repetition measures reliability but does not substitute for fixture diversity.",
+   "id": "e6583f96",
+   "hash": "35ba4bd883a3"
+  },
+  {
+   "type": "para",
+   "text": "The primary formal slice retains the qualified OpenCode × AI Gateway × DeepSeek V4 Flash 0731 stack, DeepInfra-only provider order, no fallback, and frozen harness version. GLM 5.2 on the same harness and router is the first model-robustness slice only after the primary suite passes. Additional model, router, or harness slices require separate preregistration and are never pooled into the primary estimate.",
+   "id": "72a6cf02",
+   "hash": "26d5acae4416"
+  },
+  {
+   "type": "heading",
+   "text": "### Phase 4 — Independent environment replication",
+   "id": "4d845828",
+   "hash": "d585bbceef71"
+  },
+  {
+   "type": "para",
+   "text": "Provide sealed manifests, portable packages, scorer fixtures, analyzer tests, and a clean runner to an external executor. The external party controls credentials, runtime, and result root. Do not tune the protocol using external formal outcomes.",
+   "id": "128a4fa9",
+   "hash": "85a0ef78e8b0"
+  },
+  {
+   "type": "heading",
+   "text": "## 7. Frozen harness, routing, model, and scoring plan",
+   "id": "a0f957a0",
+   "hash": "29ad4729d4e5"
+  },
+  {
+   "type": "para",
+   "text": "The execution stack is selected to avoid changing harness, router, and model at the same time:",
+   "id": "c0ac7f54",
+   "hash": "b718280c38fd"
   },
   {
    "type": "table",
-   "text": "| 层 | 回答的问题 |\n| --- | --- |\n| Integrity | 文件、日志或证据字节是否被篡改？ |\n| Provenance | 它来自谁、何时、哪个版本、经由什么过程？ |\n| Support | 来源材料是否支持该 claim？ |\n| Derivation validity | 结论是否由已接受前提和允许规则推出？ |\n| Decision admission | 在此风险、policy 与权限下，是否可成为权威状态？ |",
-   "id": "a8e8d1be",
-   "hash": "a31e711d3a37"
+   "text": "| Purpose | Harness | Router | Model | Status |\n|---|---|---|---|---|\n| Phase 1 calibration | OpenCode | Vercel AI Gateway | exact GLM 5.2 (`zai/glm-5.2`) | low-cost diagnostic only |\n| Phase 2 pilot and Phase 3 primary | OpenCode | Vercel AI Gateway | exact DeepSeek V4 Flash 0731 (`deepseek/deepseek-v4-flash-0731`) | DeepInfra-only (`only` and `order`), no fallback; subject to pre-freeze route qualification |\n| First model robustness | OpenCode | Vercel AI Gateway | exact GLM 5.2 | only after primary success |\n| Optional strong-model ceiling check | OpenCode | Vercel AI Gateway | exact Luna route | small preregistered slice only |\n| Router robustness | OpenCode | OpenRouter | the same exact DeepSeek V4 Flash 0731 (`deepseek/deepseek-v4-flash-0731`) | separately frozen transport slice only |\n| Compatibility | Codex and Claude Code native harnesses | native routes | native models | inspect/import/verify smoke only |",
+   "id": "9518eb81",
+   "hash": "2f5e852a84ea"
   },
   {
    "type": "para",
-   "text": "Hash 和签名主要服务 integrity；citation 与 source review 服务 support；RIT 的重新提取、证明与冲突检查主要服务 derivation validity；Proofpress 承载 provenance 与 decision admission。任何一层都不能自动替代其他层。",
-   "id": "41e04f33",
-   "hash": "66e2a210e890"
+   "text": "Every formal Gateway call must carry a stable experiment, fixture, arm, state, and attempt tag. Sidecar telemetry must reconcile one-to-one with Gateway logs and record request ID, requested and resolved model, resolved provider, tokens, latency, cost, finish or error state, and fallback metadata. Dynamic model aliases, provider fallback, cross-router retry within a formal attempt, and missing telemetry are prohibited. The Phase 2/3 Gateway policy must set both `only` and `order` to `deepinfra`. If the DeepSeek Gateway route fails qualification, no replacement transport may enter that formal matrix; OpenRouter may be selected only as a separately preregistered same-model transport slice before its own formal freeze. The two transports are never mixed within a matrix.",
+   "id": "52c3e64d",
+   "hash": "a964b94d611c"
   },
   {
    "type": "para",
-   "text": "Graphify 的 `EXTRACTED / INFERRED / AMBIGUOUS` 标签应被视为很有价值的 provenance classification：它区分直接从 source 解析出来的关系、模型推断和无法安全消解的关系。但它本身不等于全代码库的行为等价证明。类似地，ProVe 类系统检验记录的来源文本是否支持一条知识图谱陈述，提供的是文本支持证据而非现实真值的数学证明。",
-   "id": "301fe2ee",
-   "hash": "5c2b6a338d64"
+   "text": "Kimi K3 is not in the default matrix. It is added only if DeepSeek and GLM produce a material interaction discrepancy or a separately justified third-model robustness test is preregistered. Luna is not a full-matrix default; its role is a small ceiling check asking whether a stronger model can eliminate the structured-handoff error space without binding.",
+   "id": "2b233531",
+   "hash": "6c451f8fa63e"
+  },
+  {
+   "type": "para",
+   "text": "The predecessor does not run separately by arm. One upstream Agent A checkpoint is created, independently validated, and frozen; H0/H1/H2 or V0/V1 are then deterministically materialized from that common state. Formal fixtures should prefer expert-authored or expert-validated upstream work. Agent B is the experimental agent and uses the frozen successor stack for every arm.",
+   "id": "67d77c1d",
+   "hash": "fb69acf3eb99"
+  },
+  {
+   "type": "para",
+   "text": "Scoring uses three layers. Deterministic analysis grades revision identity, verification, tool and file events, final artifact state, and predefined outcome contracts. A condition-blind semantic judge grades only aspects that cannot be deterministically resolved, such as whether rediscovery or revalidation was necessary and whether affected claims were repaired. Human review covers every unsafe-continuation and false-stop candidate plus at least 20% of the remaining formal records. An LLM judge is never the sole ground truth, and any fixed judge route is frozen separately from the successor route.",
+   "id": "0b8e9045",
+   "hash": "bbffdd8748d6"
   },
   {
    "type": "heading",
-   "text": "## 6. Enterprise AI 的通用骨架与我们的切入点",
-   "id": "ebbc4432",
-   "hash": "8a41da416aaa"
-  },
-  {
-   "type": "para",
-   "text": "大型企业通常已有大量 legacy systems：LIMS、ELN、QMS、ERP、CRM、DMS、SharePoint、data warehouse、文件服务器、纸面/桌面系统等。通用 enterprise AI 方案通常包含三层：",
-   "id": "2f80e76b",
-   "hash": "ad5968bcaae9"
-  },
-  {
-   "type": "code",
-   "text": "```text\nLegacy systems / data\n        ↓\nConnection / ingestion layer\n        ↓\nSemantic / ontology / graph layer\n        ↓\nAgent orchestration layer\n        ↓\nBusiness action\n```",
-   "id": "18ec15c1",
-   "hash": "69e8f024e948"
-  },
-  {
-   "type": "para",
-   "text": "Connection 可以来自 API、数据库只读、结构化导出、文件连接器、event stream，或在无 API 的旧系统上使用 browser / desktop automation、OCR 与 computer vision。语义层将各系统中不同名称和结构的对象对齐；orchestration 层协调 agent、人类和自动化。",
-   "id": "82c4a79a",
-   "hash": "8481b609ccbe"
-  },
-  {
-   "type": "para",
-   "text": "这个骨架是正确的，但我们不应试图在早期重造完整 enterprise data platform、全企业 ontology 或通用 agent OS。那会迅速变成多年集成与咨询工程。",
-   "id": "728e15a4",
-   "hash": "40d796b33048"
-  },
-  {
-   "type": "para",
-   "text": "我们的候选位置是：",
-   "id": "1cb5d819",
-   "hash": "d0d1606fe6d5"
-  },
-  {
-   "type": "para",
-   "text": "> **Knowledge Trust / Admission Control Plane：在 agent 形成候选知识、准备把结论或动作写回企业 system of record 之前，提供 evidence、verification、approval、provenance 和 handoff。**",
-   "id": "f439f209",
-   "hash": "d99617d18799"
-  },
-  {
-   "type": "code",
-   "text": "```text\nLegacy systems\n     ↓ read\nSemantic context / existing agent platform\n     ↓\nHuman + agent workspace（ARA-style artifact）\n     ↓\nKnowledge admission gate（verification + policy + review）\n     ↓                              ↘ Proofpress ledger\nAccepted knowledge / approved decision\n     ↓ writeback\nExisting system of record\n```",
-   "id": "58b5cbae",
-   "hash": "ba5f2326fa8b"
-  },
-  {
-   "type": "para",
-   "text": "企业已有数据的 system of record；我们成为“为什么某次知识变化值得被组织相信”的 system of record。",
-   "id": "f035d5e4",
-   "hash": "9d55394a3297"
-  },
-  {
-   "type": "heading",
-   "text": "## 7. Legacy integration 的原则",
-   "id": "1204ec6c",
-   "hash": "ed84fd081b53"
-  },
-  {
-   "type": "para",
-   "text": "产品应当是 overlay，而不是客户所有系统的替代品。早期连接优先级如下：",
-   "id": "1c965df7",
-   "hash": "f03b4713d7af"
+   "text": "## 8. Fairness and leakage controls",
+   "id": "41018ab1",
+   "hash": "2bdd5658e19e"
   },
   {
    "type": "list",
-   "text": "1. 官方 API / event stream：可获得稳定 object ID、版本、权限和时间戳；\n2. 只读数据库连接或 structured export：CSV、JSON、XML、warehouse；\n3. 文件与文档连接：PDF、DOCX、Excel、实验日志、报告、合同；\n4. browser / desktop automation：没有 API 的旧系统；\n5. 纯视觉操作：最后手段，兼容性最广但 assurance 最弱。",
-   "id": "9e72bf3f",
-   "hash": "7d19f7ca3389"
-  },
-  {
-   "type": "para",
-   "text": "如果 agent 通过 UI 或 computer vision 读写旧系统，不能只保存“agent 说做完了”。至少需要记录：目标 record ID、操作前后状态/截图、抽取值、系统时间、actor/session、权限上下文、写入确认与 verification receipt。并且 evidence 必须标注它是 API-observed、file-extracted 还是 visually observed，因为不同采集方式有不同的可靠性边界。",
-   "id": "bb8f64f3",
-   "hash": "56525521ee54"
+   "text": "- H1 and H2 share a normalized fact inventory; differences in organization are the Track 1 treatment.\n- V0 and V1 have byte-identical semantic handoff text; only verifiable binding and declared lineage differ.\n- All arms use the same current artifacts, tools, source visibility, model, budgets, and role prompt except for the declared treatment.\n- Arm labels and filenames are neutralized for model and grader contexts.\n- The receiver cannot access the hidden oracle, affected-claim map, scorer fixtures, or expected action.\n- Every call records requested and resolved model/provider, fallback state, tokens, latency, cost, output contract, and exclusions.\n- Runtime success, verification success, and task success remain separate outcomes.",
+   "id": "a4e0581d",
+   "hash": "db3c4c42f97b"
   },
   {
    "type": "heading",
-   "text": "## 8. 最小 ontology，而不是全企业 ontology",
-   "id": "a1f1c3b1",
-   "hash": "23be4fdb3ab3"
+   "text": "## 9. Analysis plan",
+   "id": "0d53ae38",
+   "hash": "c04000aead51"
   },
   {
    "type": "para",
-   "text": "早期不建立“描述整个企业世界”的 ontology。只建立让 candidate knowledge 变为 accepted knowledge 所必需的小核：",
-   "id": "7ab9fb3e",
-   "hash": "62ff37503dcc"
-  },
-  {
-   "type": "code",
-   "text": "```text\nWork Item      Artifact       Version       Claim\nEvidence       Decision       Actor         Policy\nVerification   Approval       Rejection     Handoff\n```",
-   "id": "e73e8bfe",
-   "hash": "5e0372ec681a"
+   "text": "Track 1 reports paired or clustered differences in rediscovery events, tokens, time, cost, and trusted completion. Track 2 reports state-stratified unsafe continuation, correct proceed, targeted recovery, and false-stop rates. Do not pool unchanged and relevant-drift cells into one headline efficacy number.",
+   "id": "fa35765a",
+   "hash": "c695720ad241"
   },
   {
    "type": "para",
-   "text": "再通过行业 adapter 扩展：",
-   "id": "ce4741d7",
-   "hash": "f0a949a0f008"
-  },
-  {
-   "type": "table",
-   "text": "| 行业 | 典型扩展对象 |\n| --- | --- |\n| Pharma / R&D | Experiment、Protocol、Sample、Assay、Result、Scientific Claim、Reviewer |\n| Legal | Matter、Document、Clause、Legal Position、Authority、Reviewer |\n| Finance | Company、Model、Assumption、Data Source、Investment Claim、Risk、Approval |\n| Heavy industry | Asset、Procedure、Inspection、Deviation、Change Order、Safety Case |",
-   "id": "d3edbd0c",
-   "hash": "903ff03eaa9a"
-  },
-  {
-   "type": "para",
-   "text": "我们描述的不是完整企业现实，而是“知识改变如何被证据支持、验证、批准和交接”的那部分现实。",
-   "id": "73418b6d",
-   "hash": "9cfc67286559"
+   "text": "Use the base fixture as the clustering unit. Report denominators, exclusions, replacement attempts, per-task plots, uncertainty intervals, and sensitivity analyses that conservatively include infrastructure failures. Statistical models are selected and frozen only after calibration reveals the outcome distribution; language models do not perform the numerical analysis.",
+   "id": "6e488f9e",
+   "hash": "7caa2b4b756e"
   },
   {
    "type": "heading",
-   "text": "## 9. 用户实际看到的产品",
-   "id": "365b4750",
-   "hash": "9bbee25c4f4d"
+   "text": "## 10. Success and stop rules",
+   "id": "7a8c3adb",
+   "hash": "e03e8b46be5d"
   },
   {
    "type": "para",
-   "text": "用户不应面对三个分离协议，而应面对一款 **Verified Knowledge Workspace**。针对科研/制药的第一个表达可以是 **Verified R&D Knowledge Base**。",
-   "id": "6e9c821f",
-   "hash": "d289b7240edb"
-  },
-  {
-   "type": "heading",
-   "text": "### 9.1 Artifact workspace",
-   "id": "62ea8979",
-   "hash": "5cd5def49c67"
-  },
-  {
-   "type": "para",
-   "text": "一个 work item 可以是一项实验、一个合同 matter、一份 investment memo、一个工程变更或一个 clinical decision package。human 和 agent 在其中维护当前 artifact，而不是只进行 chat。",
-   "id": "eedcda03",
-   "hash": "fc7fa1779ec7"
-  },
-  {
-   "type": "heading",
-   "text": "### 9.2 Claim & evidence review",
-   "id": "6df7f620",
-   "hash": "0c1b2b5062fe"
-  },
-  {
-   "type": "para",
-   "text": "每一条重要 claim 显示：claim 内容、evidence、source authority、verification level、适用范围、冲突、open assumptions、proposer 与 status。",
-   "id": "9d7a6584",
-   "hash": "5dbca3d53e42"
-  },
-  {
-   "type": "heading",
-   "text": "### 9.3 Admission queue",
-   "id": "261d29ca",
-   "hash": "f9e9dd1842c4"
-  },
-  {
-   "type": "para",
-   "text": "合格 reviewer 能看到：这次修改了什么、哪些内容被机器验证、哪些无法验证、与旧版本有何冲突、agent 的建议及其依据。可执行的决定应包括：Accept、Reject、Request evidence、Scope the claim、Leave OPEN。",
-   "id": "a3a57d1d",
-   "hash": "01d3b7305c90"
-  },
-  {
-   "type": "heading",
-   "text": "### 9.4 Decision timeline 与 verified handoff",
-   "id": "f00e1daf",
-   "hash": "0236e1ce1d99"
-  },
-  {
-   "type": "para",
-   "text": "时间线展示 `V1 → proposed change → evidence → review → accepted V2`。下一位 human 或 agent 获得当前 admitted artifact、verified claims、evidence references、rejected paths、unresolved questions、approval history 与 receipts，而不是未经筛选的完整 transcript。",
-   "id": "fb257a10",
-   "hash": "5b059bc3224c"
-  },
-  {
-   "type": "heading",
-   "text": "## 10. 第一个 vertical：Pharma / R&D 的候选流程",
-   "id": "4418a9f0",
-   "hash": "ae01fb734c5c"
-  },
-  {
-   "type": "para",
-   "text": "Pharma R&D 是一个有吸引力的首个 wedge，而不是因为它已经被验证为市场，而是因为它同时具备研究连续性、高错误成本、复杂 evidence、跨团队 handoff、企业预算以及潜在 director-level discovery lead。",
-   "id": "f74a12be",
-   "hash": "7473f6a3b0b1"
-  },
-  {
-   "type": "para",
-   "text": "一个可能的 pilot workflow：",
-   "id": "5a56fe66",
-   "hash": "34d62851f1d8"
-  },
-  {
-   "type": "code",
-   "text": "```text\nELN / LIMS / assay data / report / analysis code\n                 ↓\nAgent 生成 candidate scientific claim\n                 ↓\nARA-style experiment artifact\n                 ↓\nEvidence & verification checks\n                 ↓\nScientist scopes and approves / rejects / leaves open\n                 ↓\nProofpress records accepted revision and rationale\n                 ↓\nApproved conclusion writes back to R&D knowledge base\n```",
-   "id": "5264c97f",
-   "hash": "f6a88f6bb93f"
-  },
-  {
-   "type": "para",
-   "text": "例：agent 提出“Compound X 在 protocol V3 下显著提高 response，建议进入下一阶段”。系统可以验证数字来源、protocol 版本、样本量、统计关系和与旧实验的冲突；scientist 可以把它缩窄为“在 cell line A、protocol V3 与当前样本规模下观察到 response improvement”。Proofpress 记录原始 broad claim、缩窄理由、evidence、reviewer、accepted version 和仍然开放的限制。",
-   "id": "6f6cbc58",
-   "hash": "31db96656af5"
-  },
-  {
-   "type": "para",
-   "text": "首个 vertical slice 不需要完整 enterprise stack：三个连接器、一个 artifact workspace、claim/evidence extraction、两到三类 verifier、人类审批、Proofpress history，以及 export/writeback 已足以检验价值。",
-   "id": "f7185e64",
-   "hash": "adc402c7dd47"
-  },
-  {
-   "type": "heading",
-   "text": "## 11. 从 research 到其他高风险行业",
-   "id": "64b5283e",
-   "hash": "a7b72d3a3608"
-  },
-  {
-   "type": "para",
-   "text": "长期愿景可以覆盖 AI scientists、AI-native law firms、financial research、pharma 与其他 enterprise AI 场景。但 go-to-market 必须有先后顺序；“Verification, provenance, eval as a service”适合作为底层能力描述，不能作为第一天面向所有客户的产品范围。",
-   "id": "a8e903dd",
-   "hash": "48378f5f3984"
-  },
-  {
-   "type": "para",
-   "text": "可复用的跨行业状态机是相同的，变化的是：",
-   "id": "5d0a877f",
-   "hash": "6a0c0ad76a24"
+   "text": "The research program is supported if:",
+   "id": "362a71ef",
+   "hash": "3b402836a68c"
   },
   {
    "type": "list",
-   "text": "- 接入的 legacy systems；\n- domain schema；\n- evidence type；\n- verification recipe；\n- policy / approval chain；\n- writeback adapter。",
-   "id": "b6d97ad6",
-   "hash": "38a36db9a033"
+   "text": "- H2 measurably reduces rediscovery cost relative to weaker handoffs without lowering trusted completion;\n- V1 reduces unsafe continuation on independently authored relevant-drift fixtures relative to information-matched V0;\n- V1 preserves unchanged admission and avoids material blanket false stops on irrelevant changes;\n- recovery is targeted enough that verification cost does not erase the continuity benefit.",
+   "id": "0978616d",
+   "hash": "96549997fcc7"
   },
   {
    "type": "para",
-   "text": "因此扩张不是重复建一家公司，而是给同一 trust layer 添加行业 adapter 与 workflow pack。",
-   "id": "393ec4e0",
-   "hash": "0ca132602510"
+   "text": "Stop or narrow the claim if:",
+   "id": "026cea8a",
+   "hash": "bfb04af55035"
+  },
+  {
+   "type": "list",
+   "text": "- strong structured handoff removes the eligible drift error space;\n- binding only induces generic caution rather than verifier-grounded behavior;\n- false stops or full restarts dominate targeted recovery;\n- effects disappear outside designer-authored fixtures;\n- analyzer or judge validity cannot be established independently.",
+   "id": "7c7d6e89",
+   "hash": "dafaeef4b336"
   },
   {
    "type": "heading",
-   "text": "### 11.1 Proofpress 单独出发时的产品形态：与\"Company Brain\"类产品的分野，以及 claims 校验的分级升级",
-   "id": "a039c31b",
-   "hash": "0a8ab58af842"
+   "text": "## 11. Interoperability qualification, not a primary study",
+   "id": "ec8a5ac9",
+   "hash": "e0ae8088e19f"
   },
   {
    "type": "para",
-   "text": "（背景：RIT/ARA 优先做 Frontier Lab 这个 wedge 之后，Proofpress 被有意搁置，留给\n后续 verification 门槛更低的 vertical——law / finance / healthcare / 泛\nknowledge work。以下记录这条线自己的产品判断。）",
-   "id": "3f152506",
-   "hash": "37d4ac3739b6"
-  },
-  {
-   "type": "para",
-   "text": "**三种验证哲学，Proofpress 和 Graphify 同属一家，RIT 是例外**：",
-   "id": "ef6b4fa2",
-   "hash": "1d5b1888adc6"
-  },
-  {
-   "type": "list",
-   "text": "- RIT = 门禁式：Lean kernel + evidence 重提取，证明或拒绝，二选一，进去的东西",
-   "id": "e07b5cad",
-   "hash": "95a1aae05193"
-  },
-  {
-   "type": "para",
-   "text": "  全部同等可信。",
-   "id": "e175a8a1",
-   "hash": "15de229ffd1a"
-  },
-  {
-   "type": "list",
-   "text": "- Proofpress 现有的 `--claims` = 诚实性检查：声明的 block 改动跟系统算出来的",
-   "id": "5aea2a97",
-   "hash": "703251a43fa4"
-  },
-  {
-   "type": "para",
-   "text": "  实际 diff 对不对得上，回答\"有没有漏报\"，不是\"是不是真的\"。",
-   "id": "03a496ac",
-   "hash": "dbdf19e3562c"
-  },
-  {
-   "type": "list",
-   "text": "- Graphify = 分级诚实标注：EXTRACTED / INFERRED / AMBIGUOUS，不设准入门槛，",
-   "id": "9fa22692",
-   "hash": "dba4f930d4ed"
-  },
-  {
-   "type": "para",
-   "text": "  全部放进图里，只老实标注可信度来源。",
-   "id": "71cd4614",
-   "hash": "64e82db9b7ae"
-  },
-  {
-   "type": "para",
-   "text": "Proofpress 和 Graphify 都不试图证明真理，只让\"来源可信度\"变得可核查——这跟\nProofpress 一直以来的边界（tamper-evident 不是 tamper-proof）是同一套哲学，\nRIT 才是那个走到形式证明的例外。",
-   "id": "b49cc76a",
-   "hash": "9e5c42caadd6"
-  },
-  {
-   "type": "para",
-   "text": "**与 Company Brain 类产品（泛指企业知识助手/RAG 检索工具）的分野**：差异不在\n检索能力，在有没有\"接受/拒绝/替代\"这个状态机。Company Brain 把所有文档一股脑\n索引，检索出来的内容地位平等，不知道是否被正式接受过、有没有被推翻。Proofpress",
-   "id": "ea5d665b",
-   "hash": "1ddfc64e2b63"
-  },
-  {
-   "type": "list",
-   "text": "+ claim graph 多一层状态判定：当前生效 / 已被更强证据顶替 / 曾提出但被拒绝。",
-   "id": "f9be5d07",
-   "hash": "6f073e9b2f0b"
-  },
-  {
-   "type": "para",
-   "text": "定位是：**比 Company Brain 高一档（有 accept/reject/supersede 状态机），比\nRIT 低一档（不做形式证明，这是刻意的边界，不是能力不足）**。",
-   "id": "0749a7ab",
-   "hash": "0329a166f77c"
-  },
-  {
-   "type": "para",
-   "text": "**claims 校验需要从 block 级升级到内容级**：现在的 `--claims` 只回答\"哪些\nblock 改了，对不对得上\"，企业场景需要回答\"具体陈述有没有支撑\"。借用 Graphify\n的三级标注模式（EXTRACTED 可回指具体来源 / INFERRED 作者综合判断 / UNSUPPORTED\n无可追溯来源），`verify` 从二元结果（✅/⚠️）变成支撑度分布（如\"80% EXTRACTED、\n15% INFERRED、5% 无来源\"）。注意：分层\"模式\"可以抄 Graphify，但底层判定机制\n不同——代码结构关系可以用 AST 算法判定，法律/财务/医疗文档里的自然语言陈述要靠\ntext-entailment/citation-span 匹配，是完全不同的技术栈。",
-   "id": "4457983c",
-   "hash": "390250b454e0"
-  },
-  {
-   "type": "para",
-   "text": "**产品形态：卡在 candidate → accepted 断点上的 overlay**：不是新系统，是附着\n在用户已有工具（Word/Docs/Notion/邮件）里的文档上，在\"候选结论\"要变成\"组织\n正式立场\"那一刻起作用：",
-   "id": "038358af",
-   "hash": "86434683833b"
-  },
-  {
-   "type": "list",
-   "text": "1. Admission queue：人审界面，展示改动、机器能核对的部分、核对不了的部分、跟",
-   "id": "446ad603",
-   "hash": "94c2e99b4314"
-  },
-  {
-   "type": "para",
-   "text": "   旧结论的冲突；动作包括 Accept / Reject / Request evidence / Scope the\n   claim / Leave Open。",
-   "id": "81917782",
-   "hash": "65a2f3cdab0a"
-  },
-  {
-   "type": "list",
-   "text": "2. Decision timeline + verified handoff：下一个人/agent 拿到的是当前 accepted",
-   "id": "9765641d",
-   "hash": "5a27d79d5296"
-  },
-  {
-   "type": "para",
-   "text": "   状态 + evidence 引用 + 被拒绝路径 + 未解决问题 + 批准记录，不是完整过程。\n   这是 portable capsule 已经在做的事，企业版只需要 claim 内容更丰富。",
-   "id": "68e3be98",
-   "hash": "9ef842faef80"
-  },
-  {
-   "type": "list",
-   "text": "3. **Portability 在这里是核心机制，不是边缘功能**——这点与 RIT Hub 场景刚好",
-   "id": "1ea4810f",
-   "hash": "2c65f94813b1"
-  },
-  {
-   "type": "para",
-   "text": "   相反：RIT Hub 内部大家共享同一后端，portable capsule 只在导出/跨机构时才\n   值钱；企业知识工作天然分散在几十个互不相通的工具和组织边界之间（甲方乙方、\n   公司与外部律所/审计方），没有共享的唯一真相源，所以\"历史跟着文件走、不依赖\n   中心账本\"必须是默认机制。这是 Proofpress 相对于\"又一个企业 RAG/知识库产品\"\n   的真正护城河。",
-   "id": "83f9a70c",
-   "hash": "1021aac33672"
-  },
-  {
-   "type": "para",
-   "text": "**落地纪律**：沿用第10节的最小切片配方——connector 优先级（API > 只读导出 >\n文件连接器 > 浏览器自动化）+ 一个 artifact workspace + claim/evidence\nextraction + 两三类 verifier + 人审 + Proofpress history + writeback，不要\n先重建平台。law / finance / healthcare 三个候选 vertical 里选哪个先做，仍是\n未决问题。",
-   "id": "534d6ce9",
-   "hash": "5db3e99654cc"
+   "text": "Proofpress support across Codex, Claude Code, OpenCode, AI Gateway, and OpenRouter is treated as implementation qualification. Maintain a compatibility matrix and small inspect/import/verify smoke tests, but do not spend a formal efficacy sample merely to show that the package can be transported. A runtime that cannot consume the frozen package is repaired or excluded before the research comparison.",
+   "id": "3affbd41",
+   "hash": "976fac61673f"
   },
   {
    "type": "heading",
-   "text": "## 12. Nonprofit / for-profit 的可能分工",
-   "id": "e6eeb92c",
-   "hash": "c2de4f67c05c"
-  },
-  {
-   "type": "para",
-   "text": "这是战略假设，不是既定组织方案。合理的分工可以是：",
-   "id": "5c3ff12e",
-   "hash": "a71d7a8ba99f"
-  },
-  {
-   "type": "table",
-   "text": "| Nonprofit / open ecosystem | For-profit product company |\n| --- | --- |\n| ARA/RIT 协议、公共 research、benchmark、reference implementation | 企业工作区、连接器、私有部署、policy、workflow、support、SLA |\n| 开放治理、公共证据与可复现实验 | 高质量 ingestion、domain adapter、enterprise integration 与 customer success |\n| 公平、可解释的 certification / evaluation rule | 将标准带入客户的真实工作流与 system-of-record writeback |",
-   "id": "edaa8e0a",
-   "hash": "a5886767dee8"
-  },
-  {
-   "type": "para",
-   "text": "这种拆分的价值是：开放协议与 benchmark 有机会获得公信力，商业公司则能承载客户数据、部署、服务和收入。风险也非常明确：如果 nonprofit 的公信力被一家商业公司私有化，协议、benchmark 和认证都会被质疑。",
-   "id": "bc8b756b",
-   "hash": "40214474cb20"
-  },
-  {
-   "type": "para",
-   "text": "在任何合并既有项目或加入公司之前，必须由合格法律与公司顾问明确：",
-   "id": "4a364adf",
-   "hash": "f366d018329e"
+   "text": "## 12. Permitted claims by stage",
+   "id": "075f580a",
+   "hash": "217992255791"
   },
   {
    "type": "list",
-   "text": "- pre-existing IP 的归属、assignment 或 license；\n- ARA、RIT、Proofpress、品牌与 benchmark 的权利边界；\n- nonprofit 与 for-profit 的控制关系、股权、董事会与利益冲突规则；\n- 客户数据、研究发表和开源贡献的边界；\n- founder 角色、归属、equity、vesting 与重大决策权；\n- 协议/benchmark 是否对其他商业参与者公平可用。",
-   "id": "26a12c00",
-   "hash": "64491ac758d8"
+   "text": "- **After qualification:** the package and scorer operate on the tested runtimes.\n- **After Track 1 formal evidence:** structured handoff reduces measured rediscovery debt in the sampled non-coding tasks.\n- **After Track 2 formal evidence:** version-bound admission reduces unsafe inheritance under the sampled drift conditions, with disclosed clean-path and recovery costs.\n- **After independent replication:** the bounded result reproduces beyond the originating fixture authors and runtime.",
+   "id": "38443d4f",
+   "hash": "f333506a8685"
   },
   {
    "type": "para",
-   "text": "“你来我就可以做产品”是强烈的 founder complementarity 信号，但不是条款本身。应先把角色、IP、权利与最初 design-partner pilot 写清楚。",
-   "id": "c6044e59",
-   "hash": "be4866cca388"
-  },
-  {
-   "type": "heading",
-   "text": "## 13. 明确不做什么",
-   "id": "d6cc14b3",
-   "hash": "256fb1e6adff"
-  },
-  {
-   "type": "para",
-   "text": "我们不应把自己表述为：",
-   "id": "7da183d2",
-   "hash": "9051197685f9"
-  },
-  {
-   "type": "list",
-   "text": "- 替换所有 legacy systems 的新 ERP；\n- 又一家通用 enterprise search、RAG 或 agent orchestration 平台；\n- 一个需要先重建整个企业 ontology 的咨询项目；\n- 自动证明所有企业知识为真实的系统；\n- 通用 security / permissions / audit-log 产品；\n- 承诺广泛合规、法院可采性或零错误的产品。",
-   "id": "2d2f0caf",
-   "hash": "421cea3f2668"
-  },
-  {
-   "type": "para",
-   "text": "我们应保持的边界是：",
-   "id": "1dab9d87",
-   "hash": "a32cca22a500"
-  },
-  {
-   "type": "para",
-   "text": "> 企业已有记录数据的系统；我们记录并控制某个知识变化为什么、如何、在什么权限与证据下成为值得信任的组织状态。",
-   "id": "37a7e61c",
-   "hash": "b7afd0b523e5"
-  },
-  {
-   "type": "heading",
-   "text": "## 14. 当前的关键未知与下一步",
-   "id": "434a7210",
-   "hash": "2f91d492553e"
-  },
-  {
-   "type": "para",
-   "text": "本文件是战略推演，不代表需求已经验证。当前最重要的不确定性是：客户是否愿意为 accepted-knowledge workflow 付费；最先痛的工作流是什么；谁是 economic buyer；现有系统中的 writeback 与审批究竟如何发生；以及 nonprofit / for-profit 与 founder/IP 结构是否能公平成立。",
-   "id": "91af7ef5",
-   "hash": "554cc1356e23"
-  },
-  {
-   "type": "para",
-   "text": "下一步建议不是构建完整平台，而是：",
-   "id": "7d438c9d",
-   "hash": "0b3d40b00116"
-  },
-  {
-   "type": "list",
-   "text": "1. 与潜在 pharma director 做 discovery，而非先做产品演示；\n2. 画出一个具体 workflow 的现状：系统、角色、evidence、审批、异常、handoff 与 writeback；\n3. 找到一个高成本的 `candidate knowledge → accepted knowledge` 断点；\n4. 用最小 vertical slice 验证是否缩短 review/handoff、减少错误继承、提升可审查性；\n5. 在产品承诺之前完成 founder / IP / entity 的书面讨论。",
-   "id": "c9e198d9",
-   "hash": "7b8ca07fb4d2"
-  },
-  {
-   "type": "para",
-   "text": "对客户最值得问的问题不是“你想要 AI knowledge base 吗？”，而是：",
-   "id": "81013630",
-   "hash": "e472e3ad18e1"
-  },
-  {
-   "type": "para",
-   "text": "> 最近一次一个关键结论被修改、撤回、交接或审计时，组织花了多少时间弄清楚：当前该信什么、为什么、谁批准、以及缺了什么证据？",
-   "id": "f55f4ae5",
-   "hash": "70231f856c97"
-  },
-  {
-   "type": "para",
-   "text": "如果这个问题带来具体、昂贵、反复发生的故事，才是产品的真实起点。",
-   "id": "b24171e0",
-   "hash": "2469f63a65f5"
+   "text": "No stage alone establishes universal product efficacy, legal or factual truth, real-world fault prevalence, or that provenance determines the semantically correct current artifact.",
+   "id": "ec2bead2",
+   "hash": "22b3327fabd2"
   }
  ]
 }
