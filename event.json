@@ -1,145 +1,29 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/docs/KNOWLEDGE_HANDOFF_DEBT_PLAN.md",
- "artifact_id": "pp_2a2e62252d677e3b6e52cce7",
- "version": "5e36b0d6",
- "parent": "3c6422ca",
+ "artifact": "experiments/provenance_handoff/ara/logic/experiments.md",
+ "artifact_id": "pp_15fb7a0bcf0891f7cee01068",
+ "version": "98baaacb",
+ "parent": "eb520cc4",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-12T11:46:54+00:00",
+ "ts": "2026-08-12T11:47:06+00:00",
  "stats": {
-  "modified": 8,
-  "added": 7
+  "modified": 1
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "20da3585",
+   "block": "a5a49edb",
    "type": "para",
-   "context": "Phase 1 — Local diagnostic calibration"
-  },
-  {
-   "kind": "modified",
-   "block": "39da68a1",
-   "type": "para",
-   "context": "Phase 2 — Frozen pilot"
-  },
-  {
-   "kind": "modified",
-   "block": "72a6cf02",
-   "type": "para",
-   "context": "Phase 3 — Formal independently authored "
-  },
-  {
-   "kind": "modified",
-   "block": "a0f957a0",
-   "type": "heading",
-   "context": "7. Frozen harness, routing, model, and s"
-  },
-  {
-   "kind": "added",
-   "block": "c0ac7f54",
-   "type": "para",
-   "context": "7. Frozen harness, routing, model, and s",
-   "preview": "The execution stack is selected to avoid changing harness, r"
-  },
-  {
-   "kind": "added",
-   "block": "9518eb81",
-   "type": "table",
-   "context": "7. Frozen harness, routing, model, and s",
-   "preview": "| Purpose | Harness | Router | Model | Status |\n|---|---|---"
-  },
-  {
-   "kind": "added",
-   "block": "52c3e64d",
-   "type": "para",
-   "context": "7. Frozen harness, routing, model, and s",
-   "preview": "Every formal Gateway call must carry a stable experiment, fi"
-  },
-  {
-   "kind": "added",
-   "block": "2b233531",
-   "type": "para",
-   "context": "7. Frozen harness, routing, model, and s",
-   "preview": "Kimi K3 is not in the default matrix. It is added only if Qw"
-  },
-  {
-   "kind": "added",
-   "block": "67d77c1d",
-   "type": "para",
-   "context": "7. Frozen harness, routing, model, and s",
-   "preview": "The predecessor does not run separately by arm. One upstream"
-  },
-  {
-   "kind": "added",
-   "block": "0b8e9045",
-   "type": "para",
-   "context": "7. Frozen harness, routing, model, and s",
-   "preview": "Scoring uses three layers. Deterministic analysis grades rev"
-  },
-  {
-   "kind": "added",
-   "block": "41018ab1",
-   "type": "heading",
-   "context": "8. Fairness and leakage controls",
-   "preview": "## 8. Fairness and leakage controls"
-  },
-  {
-   "kind": "modified",
-   "block": "0d53ae38",
-   "type": "heading",
-   "context": "9. Analysis plan",
-   "numbers": [
-    [
-     "8.",
-     "9."
-    ]
-   ]
-  },
-  {
-   "kind": "modified",
-   "block": "7a8c3adb",
-   "type": "heading",
-   "context": "10. Success and stop rules",
-   "numbers": [
-    [
-     "9.",
-     "10."
-    ]
-   ]
-  },
-  {
-   "kind": "modified",
-   "block": "ec8a5ac9",
-   "type": "heading",
-   "context": "11. Interoperability qualification, not ",
-   "numbers": [
-    [
-     "10.",
-     "11."
-    ]
-   ]
-  },
-  {
-   "kind": "modified",
-   "block": "075f580a",
-   "type": "heading",
-   "context": "12. Permitted claims by stage",
-   "numbers": [
-    [
-     "11.",
-     "12."
-    ]
-   ]
+   "context": "Registered next program: knowledge hando"
   }
  ],
- "policy": "local",
- "soft_fingerprint": "ppsb1:3f622e54816621059b62b9fcf61df08340060b1694acf0eb044a49ebb5bb014f",
+ "policy": "portable",
+ "soft_fingerprint": "ppsb1:a80a4e7d7f1bcffbe866058bd2ee03bc66d8b20e51d06e91cf6066af5e68d059",
  "actors": {
   "requested_by": [
    "Richard Tang"
@@ -157,83 +41,13 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "20da3585",
+   "block": "a5a49edb",
    "kind": "modified",
-   "note": "Fixes Phase 1 to OpenCode, AI Gateway, and exact GLM 5.2 calibration."
-  },
-  {
-   "block": "39da68a1",
-   "kind": "modified",
-   "note": "Fixes the proposed pilot to qualified OpenCode, AI Gateway, and Qwen 3.8 Max routing."
-  },
-  {
-   "block": "72a6cf02",
-   "kind": "modified",
-   "note": "Fixes the primary stack and orders model robustness after primary success."
-  },
-  {
-   "block": "a0f957a0",
-   "kind": "modified",
-   "note": "Replaces the former section position with the frozen routing and scoring plan heading."
-  },
-  {
-   "block": "c0ac7f54",
-   "kind": "added",
-   "note": "Explains why harness, router, and model are not changed simultaneously."
-  },
-  {
-   "block": "9518eb81",
-   "kind": "added",
-   "note": "Records the purpose-specific harness, router, and model matrix."
-  },
-  {
-   "block": "52c3e64d",
-   "kind": "added",
-   "note": "Defines Gateway request reconciliation, provider pinning, fallback prohibition, and pre-freeze route substitution."
-  },
-  {
-   "block": "2b233531",
-   "kind": "added",
-   "note": "Limits Kimi and Luna to separately justified robustness or ceiling checks."
-  },
-  {
-   "block": "67d77c1d",
-   "kind": "added",
-   "note": "Freezes one validated predecessor checkpoint and identifies Agent B as the experimental agent."
-  },
-  {
-   "block": "0b8e9045",
-   "kind": "added",
-   "note": "Defines deterministic, blind semantic, and human scoring layers."
-  },
-  {
-   "block": "41018ab1",
-   "kind": "added",
-   "note": "Adds the renumbered fairness and leakage controls heading."
-  },
-  {
-   "block": "0d53ae38",
-   "kind": "modified",
-   "note": "Renumbers the analysis section after inserting the routing plan."
-  },
-  {
-   "block": "7a8c3adb",
-   "kind": "modified",
-   "note": "Renumbers the success and stop rules section."
-  },
-  {
-   "block": "ec8a5ac9",
-   "kind": "modified",
-   "note": "Renumbers the interoperability qualification section."
-  },
-  {
-   "block": "075f580a",
-   "kind": "modified",
-   "note": "Renumbers the permitted-claims section."
+   "note": "Registers the proposed primary, calibration, robustness, and compatibility stacks."
   }
  ],
  "context": {
-  "why": "Freeze the proposed OpenCode, AI Gateway, Qwen primary stack; GLM calibration and robustness; transport and compatibility boundaries; common predecessor checkpoint; and layered scoring plan."
+  "why": "Register the proposed harness, router, and model allocation for the next knowledge-handoff program without authorizing execution."
  },
- "event_id": "ppe_3ad57dedabfbe930dd9d91f0"
+ "event_id": "ppe_0b4621abd178232efefb6945"
 }
