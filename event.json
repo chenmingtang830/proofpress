@@ -1,43 +1,43 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/ara/logic/experiments.md",
- "artifact_id": "pp_15fb7a0bcf0891f7cee01068",
- "version": "a31710f1",
- "parent": "f8b64dd8",
+ "artifact": "experiments/provenance_handoff/ara/logic/claims.md",
+ "artifact_id": "pp_ca8a8ddcc33d3870e9a40bc5",
+ "version": "0a569be3",
+ "parent": "3a193d37",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-11T23:38:41+00:00",
+ "ts": "2026-08-12T00:47:36+00:00",
  "stats": {
   "added": 2
  },
  "changes": [
   {
    "kind": "added",
-   "block": "adf00128",
+   "block": "7e0478d0",
    "type": "heading",
-   "context": "Policy-revision R1 OpenRouter/Luna repli",
-   "preview": "## Policy-revision R1 OpenRouter/Luna replication (2026-08-1"
+   "context": "C11: Native artifact binding has confirm",
+   "preview": "## C11: Native artifact binding has confirmatory support for"
   },
   {
    "kind": "added",
-   "block": "adf00129",
+   "block": "7e0478d1",
    "type": "para",
-   "context": "Policy-revision R1 OpenRouter/Luna repli",
-   "preview": "**Status:** completed-bounded OpenRouter local-debug replica"
+   "context": "C11: Native artifact binding has confirm",
+   "preview": "**Statement and proof:** In the preregistered OpenRouter/Lun"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:1e40400e232c70daca4f5a3aa0863a1cb3371baa8eb965f30d55756d4064fbc5",
+ "soft_fingerprint": "ppsb1:03b349b2906d6cf47031927ec6b3232ab8fc437fd536c39fb7d277f884cb9bb8",
  "actors": {
   "requested_by": [
    "richardtang"
   ],
   "produced_by": [
-   "OpenRouter Luna runner and analyzer"
+   "OpenRouter Luna formal confirmatory harness"
   ],
   "edited_by": [
    "Codex GPT-5"
@@ -49,18 +49,18 @@
  "attribution_basis": "harness_attested",
  "claims": [
   {
-   "block": "adf00128",
+   "block": "7e0478d0",
    "kind": "added",
-   "note": "Adds the separate OpenRouter/Luna replication record."
+   "note": "Adds the bounded formal confirmatory claim."
   },
   {
-   "block": "adf00129",
+   "block": "7e0478d1",
    "kind": "added",
-   "note": "Records valid counts, routing telemetry, recovery contrast, and its boundary."
+   "note": "Records primary safety evidence, independent recovery replication, sensitivity, correction, and claim boundary."
   }
  ],
  "context": {
-  "why": "Records the completed, separately analyzed OpenRouter Luna replication of the frozen policy-revision R1 mechanism study."
+  "why": "Adopts the preregistered bounded confirmatory Luna result as C11 while preserving the independent recovery-only boundary and post-unblinding correction."
  },
- "event_id": "ppe_7519e66d8e9a20b2d071e317"
+ "event_id": "ppe_e3a40a4d3029ddd2adaca0ff"
 }
