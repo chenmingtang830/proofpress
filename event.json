@@ -1,185 +1,239 @@
 {
  "event": "version_created",
- "artifact": "docs/internal/ARA_RIT_PROOFPRESS_STRATEGY_DISCUSSION.md",
- "artifact_id": "pp_1b8bff070a2e63f00c362124",
- "version": "bb1cda20",
- "parent": "7f200453",
+ "artifact": "experiments/provenance_handoff/docs/KNOWLEDGE_HANDOFF_DEBT_PLAN.md",
+ "artifact_id": "pp_2a2e62252d677e3b6e52cce7",
+ "version": "5e36b0d6",
+ "parent": "3c6422ca",
  "author": {
-  "name": "Claude (AO worker proofpress-dev-7)",
-  "kind": "agent",
-  "session": "proofpress-dev-7"
+  "name": "unknown",
+  "kind": "human",
+  "session": null
  },
  "note": null,
- "ts": "2026-08-12T11:42:49+00:00",
+ "ts": "2026-08-12T11:46:54+00:00",
  "stats": {
-  "added": 22
+  "modified": 8,
+  "added": 7
  },
  "changes": [
   {
-   "kind": "added",
-   "block": "a039c31b",
+   "kind": "modified",
+   "block": "20da3585",
+   "type": "para",
+   "context": "Phase 1 — Local diagnostic calibration"
+  },
+  {
+   "kind": "modified",
+   "block": "39da68a1",
+   "type": "para",
+   "context": "Phase 2 — Frozen pilot"
+  },
+  {
+   "kind": "modified",
+   "block": "72a6cf02",
+   "type": "para",
+   "context": "Phase 3 — Formal independently authored "
+  },
+  {
+   "kind": "modified",
+   "block": "a0f957a0",
    "type": "heading",
-   "context": "11.1 Proofpress 单独出发时的产品形态：与\"Company Bra",
-   "preview": "### 11.1 Proofpress 单独出发时的产品形态：与\"Company Brain\"类产品的分野，以及 cla"
+   "context": "7. Frozen harness, routing, model, and s"
   },
   {
    "kind": "added",
-   "block": "3f152506",
+   "block": "c0ac7f54",
    "type": "para",
-   "context": "11.1 Proofpress 单独出发时的产品形态：与\"Company Bra",
-   "preview": "（背景：RIT/ARA 优先做 Frontier Lab 这个 wedge 之后，Proofpress 被有意搁置，留给"
+   "context": "7. Frozen harness, routing, model, and s",
+   "preview": "The execution stack is selected to avoid changing harness, r"
   },
   {
    "kind": "added",
-   "block": "ef6b4fa2",
+   "block": "9518eb81",
+   "type": "table",
+   "context": "7. Frozen harness, routing, model, and s",
+   "preview": "| Purpose | Harness | Router | Model | Status |\n|---|---|---"
+  },
+  {
+   "kind": "added",
+   "block": "52c3e64d",
    "type": "para",
-   "context": "11.1 Proofpress 单独出发时的产品形态：与\"Company Bra",
-   "preview": "**三种验证哲学，Proofpress 和 Graphify 同属一家，RIT 是例外**："
+   "context": "7. Frozen harness, routing, model, and s",
+   "preview": "Every formal Gateway call must carry a stable experiment, fi"
   },
   {
    "kind": "added",
-   "block": "e07b5cad",
-   "type": "list",
-   "context": "11.1 Proofpress 单独出发时的产品形态：与\"Company Bra",
-   "preview": "- RIT = 门禁式：Lean kernel + evidence 重提取，证明或拒绝，二选一，进去的东西"
-  },
-  {
-   "kind": "added",
-   "block": "e175a8a1",
+   "block": "2b233531",
    "type": "para",
-   "context": "11.1 Proofpress 单独出发时的产品形态：与\"Company Bra",
-   "preview": "  全部同等可信。"
+   "context": "7. Frozen harness, routing, model, and s",
+   "preview": "Kimi K3 is not in the default matrix. It is added only if Qw"
   },
   {
    "kind": "added",
-   "block": "5aea2a97",
-   "type": "list",
-   "context": "11.1 Proofpress 单独出发时的产品形态：与\"Company Bra",
-   "preview": "- Proofpress 现有的 `--claims` = 诚实性检查：声明的 block 改动跟系统算出来的"
-  },
-  {
-   "kind": "added",
-   "block": "03a496ac",
+   "block": "67d77c1d",
    "type": "para",
-   "context": "11.1 Proofpress 单独出发时的产品形态：与\"Company Bra",
-   "preview": "  实际 diff 对不对得上，回答\"有没有漏报\"，不是\"是不是真的\"。"
+   "context": "7. Frozen harness, routing, model, and s",
+   "preview": "The predecessor does not run separately by arm. One upstream"
   },
   {
    "kind": "added",
-   "block": "9fa22692",
-   "type": "list",
-   "context": "11.1 Proofpress 单独出发时的产品形态：与\"Company Bra",
-   "preview": "- Graphify = 分级诚实标注：EXTRACTED / INFERRED / AMBIGUOUS，不设准入门槛，"
-  },
-  {
-   "kind": "added",
-   "block": "71cd4614",
+   "block": "0b8e9045",
    "type": "para",
-   "context": "11.1 Proofpress 单独出发时的产品形态：与\"Company Bra",
-   "preview": "  全部放进图里，只老实标注可信度来源。"
+   "context": "7. Frozen harness, routing, model, and s",
+   "preview": "Scoring uses three layers. Deterministic analysis grades rev"
   },
   {
    "kind": "added",
-   "block": "b49cc76a",
-   "type": "para",
-   "context": "11.1 Proofpress 单独出发时的产品形态：与\"Company Bra",
-   "preview": "Proofpress 和 Graphify 都不试图证明真理，只让\"来源可信度\"变得可核查——这跟\nProofpress"
+   "block": "41018ab1",
+   "type": "heading",
+   "context": "8. Fairness and leakage controls",
+   "preview": "## 8. Fairness and leakage controls"
   },
   {
-   "kind": "added",
-   "block": "ea5d665b",
-   "type": "para",
-   "context": "11.1 Proofpress 单独出发时的产品形态：与\"Company Bra",
-   "preview": "**与 Company Brain 类产品（泛指企业知识助手/RAG 检索工具）的分野**：差异不在\n检索能力，在有没有"
+   "kind": "modified",
+   "block": "0d53ae38",
+   "type": "heading",
+   "context": "9. Analysis plan",
+   "numbers": [
+    [
+     "8.",
+     "9."
+    ]
+   ]
   },
   {
-   "kind": "added",
-   "block": "f9be5d07",
-   "type": "list",
-   "context": "11.1 Proofpress 单独出发时的产品形态：与\"Company Bra",
-   "preview": "+ claim graph 多一层状态判定：当前生效 / 已被更强证据顶替 / 曾提出但被拒绝。"
+   "kind": "modified",
+   "block": "7a8c3adb",
+   "type": "heading",
+   "context": "10. Success and stop rules",
+   "numbers": [
+    [
+     "9.",
+     "10."
+    ]
+   ]
   },
   {
-   "kind": "added",
-   "block": "0749a7ab",
-   "type": "para",
-   "context": "11.1 Proofpress 单独出发时的产品形态：与\"Company Bra",
-   "preview": "定位是：**比 Company Brain 高一档（有 accept/reject/supersede 状态机），比\nR"
+   "kind": "modified",
+   "block": "ec8a5ac9",
+   "type": "heading",
+   "context": "11. Interoperability qualification, not ",
+   "numbers": [
+    [
+     "10.",
+     "11."
+    ]
+   ]
   },
   {
-   "kind": "added",
-   "block": "4457983c",
-   "type": "para",
-   "context": "11.1 Proofpress 单独出发时的产品形态：与\"Company Bra",
-   "preview": "**claims 校验需要从 block 级升级到内容级**：现在的 `--claims` 只回答\"哪些\nblock 改"
-  },
-  {
-   "kind": "added",
-   "block": "038358af",
-   "type": "para",
-   "context": "11.1 Proofpress 单独出发时的产品形态：与\"Company Bra",
-   "preview": "**产品形态：卡在 candidate → accepted 断点上的 overlay**：不是新系统，是附着\n在用户已"
-  },
-  {
-   "kind": "added",
-   "block": "446ad603",
-   "type": "list",
-   "context": "11.1 Proofpress 单独出发时的产品形态：与\"Company Bra",
-   "preview": "1. Admission queue：人审界面，展示改动、机器能核对的部分、核对不了的部分、跟"
-  },
-  {
-   "kind": "added",
-   "block": "81917782",
-   "type": "para",
-   "context": "11.1 Proofpress 单独出发时的产品形态：与\"Company Bra",
-   "preview": "   旧结论的冲突；动作包括 Accept / Reject / Request evidence / Scope th"
-  },
-  {
-   "kind": "added",
-   "block": "9765641d",
-   "type": "list",
-   "context": "11.1 Proofpress 单独出发时的产品形态：与\"Company Bra",
-   "preview": "2. Decision timeline + verified handoff：下一个人/agent 拿到的是当前 ac"
-  },
-  {
-   "kind": "added",
-   "block": "68e3be98",
-   "type": "para",
-   "context": "11.1 Proofpress 单独出发时的产品形态：与\"Company Bra",
-   "preview": "   状态 + evidence 引用 + 被拒绝路径 + 未解决问题 + 批准记录，不是完整过程。\n   这是 por"
-  },
-  {
-   "kind": "added",
-   "block": "1ea4810f",
-   "type": "list",
-   "context": "11.1 Proofpress 单独出发时的产品形态：与\"Company Bra",
-   "preview": "3. **Portability 在这里是核心机制，不是边缘功能**——这点与 RIT Hub 场景刚好"
-  },
-  {
-   "kind": "added",
-   "block": "83f9a70c",
-   "type": "para",
-   "context": "11.1 Proofpress 单独出发时的产品形态：与\"Company Bra",
-   "preview": "   相反：RIT Hub 内部大家共享同一后端，portable capsule 只在导出/跨机构时才\n   值钱；企"
-  },
-  {
-   "kind": "added",
-   "block": "534d6ce9",
-   "type": "para",
-   "context": "11.1 Proofpress 单独出发时的产品形态：与\"Company Bra",
-   "preview": "**落地纪律**：沿用第10节的最小切片配方——connector 优先级（API > 只读导出 >\n文件连接器 > 浏"
+   "kind": "modified",
+   "block": "075f580a",
+   "type": "heading",
+   "context": "12. Permitted claims by stage",
+   "numbers": [
+    [
+     "11.",
+     "12."
+    ]
+   ]
   }
  ],
  "policy": "local",
- "soft_fingerprint": "ppsb1:115718de576e182831ea7eca51bd9dfe5272ddf70924d818ea2fc3ed8b254cd9",
+ "soft_fingerprint": "ppsb1:3f622e54816621059b62b9fcf61df08340060b1694acf0eb044a49ebb5bb014f",
  "actors": {
+  "requested_by": [
+   "Richard Tang"
+  ],
+  "produced_by": [
+   "OpenAI Codex"
+  ],
+  "edited_by": [
+   "OpenAI Codex"
+  ],
   "recorded_by": [
-   "Claude (AO worker proofpress-dev-7)"
+   "OpenAI Codex"
   ]
  },
  "attribution_basis": "self_asserted",
+ "claims": [
+  {
+   "block": "20da3585",
+   "kind": "modified",
+   "note": "Fixes Phase 1 to OpenCode, AI Gateway, and exact GLM 5.2 calibration."
+  },
+  {
+   "block": "39da68a1",
+   "kind": "modified",
+   "note": "Fixes the proposed pilot to qualified OpenCode, AI Gateway, and Qwen 3.8 Max routing."
+  },
+  {
+   "block": "72a6cf02",
+   "kind": "modified",
+   "note": "Fixes the primary stack and orders model robustness after primary success."
+  },
+  {
+   "block": "a0f957a0",
+   "kind": "modified",
+   "note": "Replaces the former section position with the frozen routing and scoring plan heading."
+  },
+  {
+   "block": "c0ac7f54",
+   "kind": "added",
+   "note": "Explains why harness, router, and model are not changed simultaneously."
+  },
+  {
+   "block": "9518eb81",
+   "kind": "added",
+   "note": "Records the purpose-specific harness, router, and model matrix."
+  },
+  {
+   "block": "52c3e64d",
+   "kind": "added",
+   "note": "Defines Gateway request reconciliation, provider pinning, fallback prohibition, and pre-freeze route substitution."
+  },
+  {
+   "block": "2b233531",
+   "kind": "added",
+   "note": "Limits Kimi and Luna to separately justified robustness or ceiling checks."
+  },
+  {
+   "block": "67d77c1d",
+   "kind": "added",
+   "note": "Freezes one validated predecessor checkpoint and identifies Agent B as the experimental agent."
+  },
+  {
+   "block": "0b8e9045",
+   "kind": "added",
+   "note": "Defines deterministic, blind semantic, and human scoring layers."
+  },
+  {
+   "block": "41018ab1",
+   "kind": "added",
+   "note": "Adds the renumbered fairness and leakage controls heading."
+  },
+  {
+   "block": "0d53ae38",
+   "kind": "modified",
+   "note": "Renumbers the analysis section after inserting the routing plan."
+  },
+  {
+   "block": "7a8c3adb",
+   "kind": "modified",
+   "note": "Renumbers the success and stop rules section."
+  },
+  {
+   "block": "ec8a5ac9",
+   "kind": "modified",
+   "note": "Renumbers the interoperability qualification section."
+  },
+  {
+   "block": "075f580a",
+   "kind": "modified",
+   "note": "Renumbers the permitted-claims section."
+  }
+ ],
  "context": {
-  "why": "Add section 11.1: Proofpress's standalone product shape vs Company Brain-style products, and the block-level to content-level claims verification upgrade, per RIT/ARA strategy discussion follow-up"
+  "why": "Freeze the proposed OpenCode, AI Gateway, Qwen primary stack; GLM calibration and robustness; transport and compatibility boundaries; common predecessor checkpoint; and layered scoring plan."
  },
- "event_id": "ppe_084409c61b0e746bfe8e02db"
+ "event_id": "ppe_3ad57dedabfbe930dd9d91f0"
 }
