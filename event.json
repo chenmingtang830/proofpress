@@ -1,53 +1,113 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/ara/PAPER.md",
- "artifact_id": "pp_cb6d0883f4bda071d2137869",
- "version": "98f900a6",
- "parent": "a7b4def8",
+ "artifact": "experiments/provenance_handoff/ara/logic/related_work.md",
+ "artifact_id": "pp_aeef744ab46114892229ebab",
+ "version": "8735e430",
+ "parent": "5f4deba5",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-12T09:58:09+00:00",
+ "ts": "2026-08-12T09:58:19+00:00",
  "stats": {
-  "modified": 5
+  "modified": 2,
+  "added": 11
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "d6d1bb11",
-   "type": "para",
-   "context": "Research notebook — admitted provenance "
+   "block": "877c488a",
+   "type": "heading",
+   "context": "Review status and method"
   },
   {
    "kind": "modified",
-   "block": "b9c6dba5",
-   "type": "list",
-   "context": "Artifact map"
+   "block": "f3c33000",
+   "type": "para",
+   "context": "Review status and method"
   },
   {
-   "kind": "modified",
-   "block": "4b96e0aa",
-   "type": "para",
-   "context": "Abstract (draft)"
+   "kind": "added",
+   "block": "ac488866",
+   "type": "heading",
+   "context": "Review synthesis: the broad ideas are es",
+   "preview": "## Review synthesis: the broad ideas are established"
   },
   {
-   "kind": "modified",
-   "block": "f9ce7655",
+   "kind": "added",
+   "block": "c84994f8",
    "type": "para",
-   "context": "Abstract (draft)"
+   "context": "Review synthesis: the broad ideas are es",
+   "preview": "Prior work already evaluates obsolete memories and evolving "
   },
   {
-   "kind": "modified",
-   "block": "52a2ea22",
+   "kind": "added",
+   "block": "5e4d5266",
+   "type": "heading",
+   "context": "Closest agent-memory and handoff work",
+   "preview": "## Closest agent-memory and handoff work"
+  },
+  {
+   "kind": "added",
+   "block": "0e061db7",
+   "type": "table",
+   "context": "Closest agent-memory and handoff work",
+   "preview": "| Work | What it evaluates | Relationship and remaining dist"
+  },
+  {
+   "kind": "added",
+   "block": "a7a3a721",
+   "type": "heading",
+   "context": "Provenance, versioning, and consume-time",
+   "preview": "## Provenance, versioning, and consume-time admission"
+  },
+  {
+   "kind": "added",
+   "block": "a1be6cea",
+   "type": "table",
+   "context": "Provenance, versioning, and consume-time",
+   "preview": "| Work or standard | Established mechanism | Boundary relati"
+  },
+  {
+   "kind": "added",
+   "block": "218ed699",
+   "type": "heading",
+   "context": "Benchmark validity and interpretation",
+   "preview": "## Benchmark validity and interpretation"
+  },
+  {
+   "kind": "added",
+   "block": "96041c8c",
+   "type": "table",
+   "context": "Benchmark validity and interpretation",
+   "preview": "| Work | Guidance applied here |\n|---|---|\n| [Measuring What"
+  },
+  {
+   "kind": "added",
+   "block": "d0da681a",
+   "type": "heading",
+   "context": "Scoped novelty and non-novelty conclusio",
+   "preview": "## Scoped novelty and non-novelty conclusion"
+  },
+  {
+   "kind": "added",
+   "block": "d96b6d09",
    "type": "para",
-   "context": "Interpretation and remaining validity wo"
+   "context": "Scoped novelty and non-novelty conclusio",
+   "preview": "Content identity does not imply currentness: a digest can es"
+  },
+  {
+   "kind": "added",
+   "block": "c7970100",
+   "type": "para",
+   "context": "Scoped novelty and non-novelty conclusio",
+   "preview": "Within the primary-source literature covered by this search,"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:2dcf814e151b96b1adf1efd8b9cb2efa22ac3424d7024a5ca763cbb986a3dc2b",
+ "soft_fingerprint": "ppsb1:ce3a32f289befd61f737dd819472bedb3cf36666757deddb6d3050f93baf6ddd",
  "actors": {
   "requested_by": [
    "Richard Tang"
@@ -65,33 +125,73 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "d6d1bb11",
+   "block": "877c488a",
    "kind": "modified",
-   "note": "Updates paper status to distinguish completed scoping review from pending systematic review."
+   "note": "Recasts the review heading around method and status."
   },
   {
-   "block": "b9c6dba5",
+   "block": "f3c33000",
    "kind": "modified",
-   "note": "Updates the artifact map description for related work."
+   "note": "Records sources, query families, inclusion logic, date, and review limitations."
   },
   {
-   "block": "4b96e0aa",
-   "kind": "modified",
-   "note": "Positions Proofpress as an adaptation of established provenance mechanisms."
+   "block": "ac488866",
+   "kind": "added",
+   "note": "Adds the broad-prior-art synthesis heading."
   },
   {
-   "block": "f9ce7655",
-   "kind": "modified",
-   "note": "Adds closest-prior-art and narrows the abstract contribution."
+   "block": "c84994f8",
+   "kind": "added",
+   "note": "Records established components and the narrow joint research object."
   },
   {
-   "block": "52a2ea22",
-   "kind": "modified",
-   "note": "Clarifies that a reproducible systematic review remains an evidentiary gate."
+   "block": "5e4d5266",
+   "kind": "added",
+   "note": "Adds the closest agent-memory and handoff review heading."
+  },
+  {
+   "block": "0e061db7",
+   "kind": "added",
+   "note": "Compares fourteen closest agent-memory and handoff works."
+  },
+  {
+   "block": "a7a3a721",
+   "kind": "added",
+   "note": "Adds provenance and consume-time admission review heading."
+  },
+  {
+   "block": "a1be6cea",
+   "kind": "added",
+   "note": "Compares provenance standards, supply-chain admission, and agent provenance systems."
+  },
+  {
+   "block": "218ed699",
+   "kind": "added",
+   "note": "Adds benchmark-validity review heading."
+  },
+  {
+   "block": "96041c8c",
+   "kind": "added",
+   "note": "Records construct-validity and benchmark-design guidance."
+  },
+  {
+   "block": "d0da681a",
+   "kind": "added",
+   "note": "Adds scoped novelty conclusion heading."
+  },
+  {
+   "block": "d96b6d09",
+   "kind": "added",
+   "note": "Distinguishes artifact identity from policy currentness and states the joint contribution."
+  },
+  {
+   "block": "c7970100",
+   "kind": "added",
+   "note": "Records the scoped search finding and remaining systematic-review requirements."
   }
  ],
  "context": {
-  "why": "Update the paper abstract and status after the parallel primary-source scoping review, positioning Proofpress against established provenance mechanisms and closest agent prior art."
+  "why": "Record the structured primary-source scoping review, closest prior art, search method, limitations, and scoped novelty boundary."
  },
- "event_id": "ppe_981b27a0cd36a52dcb654af1"
+ "event_id": "ppe_1f713320f92df5f1649095b1"
 }
