@@ -1,78 +1,51 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/ara/PAPER.md",
- "artifact_id": "pp_cb6d0883f4bda071d2137869",
- "version": "a7b4def8",
- "parent": "033a340b",
+ "artifact": "experiments/provenance_handoff/ara/logic/problem.md",
+ "artifact_id": "pp_ba47077a9e44465b384f3b33",
+ "version": "2c7bbbea",
+ "parent": "6aadfdaf",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-12T09:44:57+00:00",
+ "ts": "2026-08-12T09:45:06+00:00",
  "stats": {
-  "modified": 2,
-  "added": 6
+  "added": 4
  },
  "changes": [
   {
-   "kind": "modified",
-   "block": "d6d1bb11",
-   "type": "para",
-   "context": "Research notebook — admitted provenance "
-  },
-  {
-   "kind": "modified",
-   "block": "4b96e0aa",
-   "type": "para",
-   "context": "Abstract (draft)"
-  },
-  {
    "kind": "added",
-   "block": "cd3b597c",
-   "type": "para",
-   "context": "Abstract (draft)",
-   "preview": "In a preregistered APEX-derived document fixture, ordinary h"
-  },
-  {
-   "kind": "added",
-   "block": "f9ce7655",
-   "type": "para",
-   "context": "Abstract (draft)",
-   "preview": "The separation is unusually clean because Proofpress was des"
-  },
-  {
-   "kind": "added",
-   "block": "6618b21b",
+   "block": "36339a7c",
    "type": "heading",
-   "context": "Interpretation and remaining validity wo",
-   "preview": "## Interpretation and remaining validity work"
+   "context": "P02: Version drift turns handoff into an",
+   "preview": "## P02: Version drift turns handoff into an artifact-admissi"
   },
   {
    "kind": "added",
-   "block": "141f1610",
+   "block": "f1498f86",
    "type": "para",
-   "context": "Interpretation and remaining validity wo",
-   "preview": "The primary fixture is mechanism-targeted and design-aligned"
+   "context": "P02: Version drift turns handoff into an",
+   "preview": "A receiver must decide not only whether prior information ca"
   },
   {
    "kind": "added",
-   "block": "52a2ea22",
-   "type": "para",
-   "context": "Interpretation and remaining validity wo",
-   "preview": "The next evidentiary gate is not more sampling on the same f"
+   "block": "eb6d1b42",
+   "type": "heading",
+   "context": "P03: A design-aligned fixture can overst",
+   "preview": "## P03: A design-aligned fixture can overstate external effe"
   },
   {
    "kind": "added",
-   "block": "adf00118",
+   "block": "d925bd21",
    "type": "para",
-   "context": "APEX-direct admission matrix (2026-08-10",
-   "preview": "**Correction:** v1 cannot estimate C2 clean admission or dow"
+   "context": "P03: A design-aligned fixture can overst",
+   "preview": "Proofpress was designed to verify artifact binding, and the "
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:cab4a2879ff7ebd8d17f3325a82eeeeb8b8cb63ce8da5f157020e42148cc3108",
+ "soft_fingerprint": "ppsb1:2f9bc3f969249744ce1613e06a92d9d5a160053e188fa27f808979ded7f330f1",
  "actors": {
   "requested_by": [
    "Richard Tang"
@@ -90,48 +63,28 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "d6d1bb11",
-   "kind": "modified",
-   "note": "Updates the paper status and active substrate to the bounded confirmatory mechanism evidence."
-  },
-  {
-   "block": "4b96e0aa",
-   "kind": "modified",
-   "note": "Defines the handoff failure and Proofpress for a reader without product context."
-  },
-  {
-   "block": "cd3b597c",
+   "block": "36339a7c",
    "kind": "added",
-   "note": "Summarizes the primary and cross-model results without overloading the abstract."
+   "note": "Adds the artifact-admission problem heading."
   },
   {
-   "block": "f9ce7655",
+   "block": "f1498f86",
    "kind": "added",
-   "note": "States why the clean separation is design-aligned and bounds the conclusion."
+   "note": "Defines stale admission under version drift."
   },
   {
-   "block": "6618b21b",
+   "block": "eb6d1b42",
    "kind": "added",
-   "note": "Adds the validity-interpretation section."
+   "note": "Adds the design-alignment validity problem heading."
   },
   {
-   "block": "141f1610",
+   "block": "d925bd21",
    "kind": "added",
-   "note": "Distinguishes a construct check from a broad treatment-effect estimate."
-  },
-  {
-   "block": "52a2ea22",
-   "kind": "added",
-   "note": "Records the independent-task and literature-review gates."
-  },
-  {
-   "block": "adf00118",
-   "kind": "added",
-   "note": "Records the pre-existing v1 packaging correction that was already present before this paper revision."
+   "note": "Explains why the primary fixture cannot estimate external effect size."
   }
  ],
  "context": {
-  "why": "Reframe the paper around bounded artifact-admission evidence, define Proofpress for outside readers, and expose design-alignment and incomplete-review limits."
+  "why": "Define version drift as artifact admission and record design alignment as an external-validity problem."
  },
- "event_id": "ppe_2cd5f3766b095c03b899889a"
+ "event_id": "ppe_505664eec47749ccb4e27848"
 }

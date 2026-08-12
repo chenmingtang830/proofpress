@@ -1,126 +1,54 @@
 {
- "artifact": "experiments/provenance_handoff/ara/PAPER.md",
- "artifact_id": "pp_cb6d0883f4bda071d2137869",
+ "artifact": "experiments/provenance_handoff/ara/logic/problem.md",
+ "artifact_id": "pp_ba47077a9e44465b384f3b33",
  "blocks": [
   {
    "type": "heading",
-   "text": "# Research notebook — admitted provenance comparative study",
-   "id": "5ad8477e",
-   "hash": "1a305208da3f"
-  },
-  {
-   "type": "para",
-   "text": "**Status:** The current paper record is a bounded mechanism study of artifact admission under version drift. A preregistered Luna R1 experiment and a frozen-protocol three-model follow-up found complete separation on one APEX-derived stale-binding fixture while preserving clean admission; constructed policy fixtures independently reproduced the provenance-triggered recovery path. These results are confirmatory within the frozen harness, not a general product-efficacy estimate. The evaluation suite is a benchmark prototype rather than a comprehensive benchmark: systematic related-work review, independently authored fixtures, and independent-environment replication remain open.\n**Authors:** Proofpress research team (draft)\n**Year:** 2026\n**Active substrate:** An information-matched C1/C2 admission comparison on an APEX-derived S-Corp SPA, with clean and injected stale-binding states, plus three constructed policy-revision fixtures. Earlier Artifact Travel, STALE/CUPMem, restricted-access, and HiEviDR-derived records remain separate bounded or diagnostic evidence and are not pooled into the primary claim.",
-   "id": "d6d1bb11",
-   "hash": "e80f2c10b917"
+   "text": "# Problem",
+   "id": "5b4d530f",
+   "hash": "d95279f6caf4"
   },
   {
    "type": "heading",
-   "text": "## Artifact map",
-   "id": "6ce745c5",
-   "hash": "86cbf94b78e1"
+   "text": "## P01: Intermediate legal-work artifacts lose decision context at handoff",
+   "id": "75d8ff5d",
+   "hash": "ab4735682f31"
   },
   {
-   "type": "list",
-   "text": "- `logic/problem.md` — why conventional handoff does not preserve accepted decision state.\n- `logic/claims.md` — falsifiable, currently testing hypotheses only.\n- `logic/concepts.md` — treatment and measurement definitions.\n- `logic/experiments.md` — gates and comparison matrix.\n- `logic/related_work.md` — historical Harvey context plus active benchmark-comparison context.\n- `logic/solution/constraints.md` — non-negotiable fairness and safety constraints.\n- `src/` — environment and experiment artifact index.\n- `trace/` — append-only decisions and session record.\n- `evidence/` — source and sanitized result index, including historical internal MemConflict evidence.",
-   "id": "b9c6dba5",
-   "hash": "8a272d978577"
+   "type": "para",
+   "text": "In a multi-stage document workflow, a successor may see an evidence map, issue register, or draft without being able to tell which statements are source-backed, which routes were rejected, who accepted a decision, or when a decision should be reversed. Passing the complete raw history can restore context but may impose search and context costs. Passing only a final artifact leaves decisions easy to regress or upgrade without authority.",
+   "id": "cf5b74f2",
+   "hash": "9f17ce17ea18"
+  },
+  {
+   "type": "para",
+   "text": "The study asks whether a portable, verifiable lineage supplies a better handoff boundary. It does not assume that more agents or more versions are automatically beneficial.",
+   "id": "f73aa5b4",
+   "hash": "10ac6a0364f6"
   },
   {
    "type": "heading",
-   "text": "## Abstract (draft)",
-   "id": "6979663a",
-   "hash": "3513d178db19"
+   "text": "## P02: Version drift turns handoff into an artifact-admission problem",
+   "id": "36339a7c",
+   "hash": "3a2fc08d7c4a"
   },
   {
    "type": "para",
-   "text": "Agents often inherit an artifact together with prose describing prior work. If the artifact changes, that prose can remain plausible while referring to the wrong version. We study this as an artifact-admission problem. Proofpress is a deterministic provenance layer that records an admitted artifact revision and lets a receiving agent verify that the artifact currently in hand is still bound to that revision before reusing prior decisions.",
-   "id": "4b96e0aa",
-   "hash": "539a0af84299"
-  },
-  {
-   "type": "para",
-   "text": "In a preregistered APEX-derived document fixture, ordinary handoff continued from stale artifacts in 12 of 12 trials, whereas Proofpress-assisted handoff did so in 0 of 12; both arms admitted all 12 clean artifacts. A frozen-protocol follow-up reproduced the same pattern with GLM 5.2, Kimi K3, and Qwen 3.8 Max. Constructed policy tasks also reproduced deterministic re-verification and grounded recovery, but not a second safety-rate advantage because both arms avoided unsafe policy propagation.",
-   "id": "cd3b597c",
-   "hash": "965c3243fc41"
-  },
-  {
-   "type": "para",
-   "text": "The separation is unusually clean because Proofpress was designed to detect binding mismatch and the primary fixture directly injects that failure. The result therefore shows that native artifact binding controls admission in this harness; it does not estimate how often stale binding occurs, how Proofpress performs on independently authored tasks, or whether it improves general agent capability. Systematic literature review and independent-environment validation remain open.",
-   "id": "f9ce7655",
-   "hash": "fdbdeb772cc2"
+   "text": "A receiver must decide not only whether prior information can be retrieved, but whether that information is still bound to the artifact currently being used. A semantically plausible handoff can preserve memory while silently referring to a superseded or modified artifact. The evaluated failure is therefore stale admission: reusing accepted state after its artifact binding no longer holds.",
+   "id": "f1498f86",
+   "hash": "dcb241d31b9c"
   },
   {
    "type": "heading",
-   "text": "## Interpretation and remaining validity work",
-   "id": "6618b21b",
-   "hash": "63b5b0275fb7"
+   "text": "## P03: A design-aligned fixture can overstate external effect size",
+   "id": "eb6d1b42",
+   "hash": "f6a8ba524207"
   },
   {
    "type": "para",
-   "text": "The primary fixture is mechanism-targeted and design-aligned: its injected fault is the exact condition that the deterministic verifier is intended to expose. Perfect separation is therefore credible as a construct check without being a credible estimate of a broad real-world treatment effect. Cross-model repetition reduces the chance that the result is peculiar to one receiver model, but it does not remove dependence on the shared fixture, prompt, scorer, or harness.",
-   "id": "141f1610",
-   "hash": "95c5d9653f42"
-  },
-  {
-   "type": "para",
-   "text": "The next evidentiary gate is not more sampling on the same fixture. It is evaluation on independently authored and naturally varying version-drift tasks, including ambiguous lineage, incomplete provenance, benign revisions, and cases where re-verification may impose a false stop or recovery cost. Until that gate and a systematic literature review are complete, the paper should describe a controlled evaluation suite and mechanism result, not a comprehensive benchmark or a general efficacy result.",
-   "id": "52a2ea22",
-   "hash": "1e586f187c58"
-  },
-  {
-   "type": "heading",
-   "text": "## Artifact Travel v3 replication status (2026-08-10)",
-   "id": "da70fd3c",
-   "hash": "ba88690eeee2"
-  },
-  {
-   "type": "para",
-   "text": "Artifact Travel v3-r2 is a separately frozen 45-cell successor: 15 package-state\ncells repeated three times. It aligns C0, C1, and C2 on one AI Gateway transport,\nuses fixed B/R models and reasoning settings, isolates three workers, and\nprohibits fallback. The clean contract now treats the tax-counsel item as a\nnon-blocking post-delivery follow-up; a runnable clean package still requires a\nfinal DOCX. Phase 0 and authorization passed before model calls. The active\nformal report is kept in a new resumable results root; two completed cells were\ncarried from an earlier diagnostic root without rerunning model calls, and only\nmissing cells are executed. It will be interpreted as a single-case\ndescriptive replication, never pooled with v2 or promoted to general efficacy.",
-   "id": "d143b86a",
-   "hash": "02e98314839e"
-  },
-  {
-   "type": "para",
-   "text": "The completed report contains 44 scorable cells and one invalid C0 receiver\nobservation. Arm results are C0 clean/end-to-end/fault-safe/unsafe-accept =\n0/8, 5/8, 5/8, 0/8; C1 = 0/18, 8/18, 8/18, 0/18; and C2 = 0/18, 7/18,\n7/18, 0/18. The invalid observation is preserved as\n`receiver-output:receiver selected_artifact must be a non-empty string`.\nProvider-level Gateway retries are disclosed as transport telemetry, not as a\nfallback arm. Under the preregistered interpretation rule, zero C2 clean\ncompletion stops fault-matrix expansion and prioritizes repair of the runnable\nclean handoff and native DOCX task execution.",
-   "id": "9a3a3a77",
-   "hash": "a74169be5d8d"
-  },
-  {
-   "type": "heading",
-   "text": "## Artifact Travel v4 temporal calibration",
-   "id": "6c420001",
-   "hash": "c06196d41e5c"
-  },
-  {
-   "type": "para",
-   "text": "v4 is the next no-model-qualified protocol, not a reinterpretation of v3.\nv3's C1 summary was harness-authored and its C2 carrier was packaged before B,\nso its result does not estimate A/B use of Proofpress across time. v4 retains a\nsparse ordinary handoff in both arms, gives only C2 a multi-snapshot A trail\nand B inspect/import/verify workflow, and keeps R tool-neutral. Its primary\nclean outcome is the native per-criterion and `9/9` DOCX result; safe refusal\nis scored separately with no DOCX denominator. No efficacy claim is available\nuntil its predeclared clean-path C2 gate is met.",
-   "id": "6c420002",
-   "hash": "01a1a6674c57"
-  },
-  {
-   "type": "heading",
-   "text": "## APEX-direct admission matrix (2026-08-10)",
-   "id": "adf00112",
-   "hash": "5dbdb7ce5023"
-  },
-  {
-   "type": "para",
-   "text": "The completed 18-cell APEX-derived SPA matrix isolates a narrower product\nclaim than prior Artifact Travel runs: whether a successor can admit the\ncurrent artifact before doing downstream work. C1 and C2 had byte-identical\nordinary handoff text; C2 alone added a verifiable proof trail. On the\nnear-current stale-binding fault, C2 correctly reverified in 3/3 repeats;\nboth C0 and C1 made an unsafe proceed in 3/3. On clean cells, C2 correctly\nproceeded in 2/3, versus C1 3/3 and C0 2/3. This supports a bounded admission\nmechanism, but not a general downstream-quality claim: native quality among\ncorrectly admitted, artifact-producing clean cells was C1 `4.67/9` (n=3), C2\n`5.00/9` (n=2), and C0 `5.00/9` (n=1). The missing clean artifacts are reported\nas false rejection or step-limit completion failures, not zeros.",
-   "id": "adf00113",
-   "hash": "68fd3bdf6a33"
-  },
-  {
-   "type": "para",
-   "text": "**Correction:** v1 cannot estimate C2 clean admission or downstream efficacy.\nTrajectory audit showed that the C2 clean receiver stopped after importing a\nreceiver-visible harness-only synthetic `capsule.json`, rather than the actual\nportable carrier; its `missing_meta` error was therefore induced by packaging.\nThe observed stale-binding actions remain preserved, but the matrix is now an\noperational/fault-mechanism record pending a v2 carrier-only qualification.",
-   "id": "adf00118",
-   "hash": "69d0f064af8b"
-  },
-  {
-   "type": "para",
-   "text": "The historical MemConflict and completed STALE results remain mechanism boundaries, not product claims. They are not pooled with Artifact Travel v2, whose primary comparison is the full portable package against natural generic continuity. Conversely, the one-case Artifact Travel pilot is not pooled into either historical mechanism record or converted into a treatment estimate.",
-   "id": "4249cd4c",
-   "hash": "bb2c0472740c"
+   "text": "Proofpress was designed to verify artifact binding, and the primary stale-binding fixture directly injects a binding mismatch. Complete treatment separation is a strong test that the specified mechanism operates, but it is not an estimate of failure prevalence or benefit on independently authored task distributions. External validity requires fixtures and environments not designed around the treatment's native detection boundary.",
+   "id": "d925bd21",
+   "hash": "53eb4cedf18a"
   }
  ]
 }
