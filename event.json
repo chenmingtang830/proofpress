@@ -1,37 +1,37 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/ara/logic/claims.md",
- "artifact_id": "pp_ca8a8ddcc33d3870e9a40bc5",
- "version": "43bf4fa3",
- "parent": "0a569be3",
+ "artifact": "experiments/provenance_handoff/ara/logic/experiments.md",
+ "artifact_id": "pp_15fb7a0bcf0891f7cee01068",
+ "version": "27e62912",
+ "parent": "d030f2d4",
  "author": {
   "name": "Codex",
   "kind": "agent",
   "session": null
  },
- "note": "Record bounded three-model cross-model formal replication claim",
- "ts": "2026-08-12T09:20:28+00:00",
+ "note": "Record cross-model formal replication experiment",
+ "ts": "2026-08-12T09:20:39+00:00",
  "stats": {
   "added": 2
  },
  "changes": [
   {
    "kind": "added",
-   "block": "e50d79d1",
+   "block": "b7584c43",
    "type": "heading",
-   "context": "C12: The bounded stale-binding result re",
-   "preview": "## C12: The bounded stale-binding result replicated across t"
+   "context": "Cross-model formal replication (2026-08-",
+   "preview": "## Cross-model formal replication (2026-08-12)"
   },
   {
    "kind": "added",
-   "block": "f7480e8d",
+   "block": "a834895e",
    "type": "para",
-   "context": "C12: The bounded stale-binding result re",
-   "preview": "**Statement and proof:** In a preregistered, frozen APEX-der"
+   "context": "Cross-model formal replication (2026-08-",
+   "preview": "**Status:** completed; preregistered bounded cross-model rep"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:193afba93de29f05235896518a58b2c76d31fe4f39cddbf0843e7e26d74d1ab6",
+ "soft_fingerprint": "ppsb1:c98a1ae037973f34ecfe249c42cada345d9b0cbc2f9682f51eb8b7d55d445b8d",
  "actors": {
   "requested_by": [
    "user"
@@ -49,18 +49,18 @@
  "attribution_basis": "harness_attested",
  "claims": [
   {
-   "block": "e50d79d1",
+   "block": "b7584c43",
    "kind": "added",
-   "note": "Adds bounded three-model cross-model replication claim."
+   "note": "Adds the cross-model formal replication experiment record."
   },
   {
-   "block": "f7480e8d",
+   "block": "a834895e",
    "kind": "added",
-   "note": "Records model-wise and pooled stale-binding results, providers, cost, and boundary."
+   "note": "Records design, results, runtime boundary, and non-efficacy scope."
   }
  ],
  "context": {
-  "why": "The completed GLM, Kimi K3, and Qwen 3.8 Max matrix was not yet represented in ARA; add the model-wise effect, pooled descriptive effect, cost, provider audit, and confinement boundary."
+  "why": "Document the completed frozen-fixture replication across three OpenRouter models and preserve its runtime and external-validity boundaries."
  },
- "event_id": "ppe_ba34e5a1cff202facacdfc0e"
+ "event_id": "ppe_91e400503e8c0d458504a9e4"
 }
