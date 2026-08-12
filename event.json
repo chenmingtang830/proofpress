@@ -1,57 +1,35 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/docs/RESULTS_MATRIX.md",
- "artifact_id": "pp_d40d46a12d4d493fcbc9c0e9",
- "version": "712af9a1",
- "parent": "b5296a8e",
+ "artifact": "experiments/provenance_handoff/ara/logic/claims.md",
+ "artifact_id": "pp_ca8a8ddcc33d3870e9a40bc5",
+ "version": "ced188f0",
+ "parent": "43bf4fa3",
  "author": {
   "name": "Codex",
   "kind": "agent",
   "session": null
  },
- "note": "Add cross-model formal replication to results matrix",
- "ts": "2026-08-12T09:20:49+00:00",
+ "note": "Correct cross-model preregistration status",
+ "ts": "2026-08-12T09:34:55+00:00",
  "stats": {
-  "added": 4
+  "modified": 1
  },
  "changes": [
   {
-   "kind": "added",
-   "block": "8d6e6310",
-   "type": "heading",
-   "context": "Cross-model formal stale-binding replica",
-   "preview": "## Cross-model formal stale-binding replication — 144 cells"
-  },
-  {
-   "kind": "added",
-   "block": "2e32107f",
+   "kind": "modified",
+   "block": "f7480e8d",
    "type": "para",
-   "context": "Cross-model formal stale-binding replica",
-   "preview": "This is a separate bounded replication of the frozen APEX-de"
-  },
-  {
-   "kind": "added",
-   "block": "7d97f78e",
-   "type": "para",
-   "context": "Cross-model formal stale-binding replica",
-   "preview": "Evidence summary: `/private/tmp/proofpress-three-model-forma"
-  },
-  {
-   "kind": "added",
-   "block": "adf00117",
-   "type": "para",
-   "context": "APEX-direct SPA Artifact Handoff — 18-ce",
-   "preview": "**Validity correction.** v1 is retained as an operational/fa"
+   "context": "C12: The bounded stale-binding result re"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:e884f5948d63cad6b4e96feb43a6b38555b2a209d60a99666aad9bbbffb25583",
+ "soft_fingerprint": "ppsb1:f3e05e691b596655d4c68c1f0b7aed7e9e983fc9fc9f7c1cae016d61325d56d7",
  "actors": {
   "requested_by": [
    "user"
   ],
   "produced_by": [
-   "cross-model OpenRouter formal matrix"
+   "current artifact audit"
   ],
   "edited_by": [
    "Codex"
@@ -60,31 +38,16 @@
    "Codex"
   ]
  },
- "attribution_basis": "harness_attested",
+ "attribution_basis": "environment_attested",
  "claims": [
   {
-   "block": "8d6e6310",
-   "kind": "added",
-   "note": "Adds the cross-model formal replication results-matrix heading."
-  },
-  {
-   "block": "2e32107f",
-   "kind": "added",
-   "note": "Records the 144-cell matrix and per-model effects."
-  },
-  {
-   "block": "7d97f78e",
-   "kind": "added",
-   "note": "Records provider, confinement, cost, and claim boundary."
-  },
-  {
-   "block": "adf00117",
-   "kind": "added",
-   "note": "Links the formal cross-model evidence summary."
+   "block": "f7480e8d",
+   "kind": "modified",
+   "note": "Corrects the three-model follow-up from preregistered to frozen-protocol and states the missing separate preregistration artifact."
   }
  ],
  "context": {
-  "why": "Make the completed three-model replication discoverable in the local results documentation without pooling it with STALE or benchmark efficacy records."
+  "why": "No separate run-before-analysis preregistration artifact exists for the three-model follow-up; distinguish its frozen launcher from the preregistered Luna R1 study."
  },
- "event_id": "ppe_1dd91a4536cb3baf1bfd9d69"
+ "event_id": "ppe_600e49be9a4dc7b9c4367cbf"
 }
