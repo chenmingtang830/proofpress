@@ -1,54 +1,120 @@
 {
- "artifact": "experiments/provenance_handoff/ara/logic/problem.md",
- "artifact_id": "pp_ba47077a9e44465b384f3b33",
+ "artifact": "experiments/provenance_handoff/ara/logic/concepts.md",
+ "artifact_id": "pp_e833a86ea89426121ab55437",
  "blocks": [
   {
    "type": "heading",
-   "text": "# Problem",
-   "id": "5b4d530f",
-   "hash": "d95279f6caf4"
+   "text": "# Concepts",
+   "id": "a7d8f041",
+   "hash": "187fcbf455d1"
   },
   {
    "type": "heading",
-   "text": "## P01: Intermediate legal-work artifacts lose decision context at handoff",
-   "id": "75d8ff5d",
-   "hash": "ab4735682f31"
+   "text": "## K01: Trusted task success",
+   "id": "64be4783",
+   "hash": "80c042002636"
   },
   {
    "type": "para",
-   "text": "In a multi-stage document workflow, a successor may see an evidence map, issue register, or draft without being able to tell which statements are source-backed, which routes were rejected, who accepted a decision, or when a decision should be reversed. Passing the complete raw history can restore context but may impose search and context costs. Passing only a final artifact leaves decisions easy to regress or upgrade without authority.",
-   "id": "cf5b74f2",
-   "hash": "9f17ce17ea18"
-  },
-  {
-   "type": "para",
-   "text": "The study asks whether a portable, verifiable lineage supplies a better handoff boundary. It does not assume that more agents or more versions are automatically beneficial.",
-   "id": "f73aa5b4",
-   "hash": "10ac6a0364f6"
+   "text": "An outcome that satisfies the fixed Harvey task score and contains no defined decision regression or unsupported authority upgrade; where a reversal condition exists, it must also handle that condition correctly.",
+   "id": "8f6c2cc4",
+   "hash": "fb540b2aab33"
   },
   {
    "type": "heading",
-   "text": "## P02: Version drift turns handoff into an artifact-admission problem",
-   "id": "36339a7c",
-   "hash": "3a2fc08d7c4a"
+   "text": "## K02: Version chain",
+   "id": "459ab317",
+   "hash": "70aea8e7255d"
   },
   {
    "type": "para",
-   "text": "A receiver must decide not only whether prior information can be retrieved, but whether that information is still bound to the artifact currently being used. A semantically plausible handoff can preserve memory while silently referring to a superseded or modified artifact. The evaluated failure is therefore stale admission: reusing accepted state after its artifact binding no longer holds.",
-   "id": "f1498f86",
-   "hash": "dcb241d31b9c"
+   "text": "Browseable intermediate artifact versions with no typed claim, source-status, acceptance, or verification semantics.",
+   "id": "fd826d86",
+   "hash": "6f899f01546a"
   },
   {
    "type": "heading",
-   "text": "## P03: A design-aligned fixture can overstate external effect size",
-   "id": "eb6d1b42",
-   "hash": "f6a8ba524207"
+   "text": "## K03: Proofpress lineage",
+   "id": "f3efffe2",
+   "hash": "2912a252474b"
   },
   {
    "type": "para",
-   "text": "Proofpress was designed to verify artifact binding, and the primary stale-binding fixture directly injects a binding mismatch. Complete treatment separation is a strong test that the specified mechanism operates, but it is not an estimate of failure prevalence or benefit on independently authored task distributions. External validity requires fixtures and environments not designed around the treatment's native detection boundary.",
-   "id": "d925bd21",
-   "hash": "53eb4cedf18a"
+   "text": "A portable chain of accepted checkpoint artifacts with explicit claims, source class, decision status, rationale, actors, rejection/reversal state, artifact hashes, and verification results.",
+   "id": "90549363",
+   "hash": "a3fde8a68d28"
+  },
+  {
+   "type": "heading",
+   "text": "## K04: Correct reversal",
+   "id": "0990e58d",
+   "hash": "1506a33ad264"
+  },
+  {
+   "type": "para",
+   "text": "A successor supersedes a prior accepted decision only when new admissible evidence or its recorded reversal condition supports the change, and records that relationship.",
+   "id": "6fed2b50",
+   "hash": "ef11115e45f4"
+  },
+  {
+   "type": "heading",
+   "text": "## K05: Strong ordinary memory",
+   "id": "6715b9f4",
+   "hash": "c27860324ead"
+  },
+  {
+   "type": "para",
+   "text": "The latest artifact plus ordinary prose `memory.md` and `handoff.log` that may explain decisions, rationale, caveats, open questions, and next actions, but does not provide typed source/decision/acceptance semantics or independently verifiable admission state.",
+   "id": "51fa574d",
+   "hash": "78f4d39ab552"
+  },
+  {
+   "type": "heading",
+   "text": "## K06: Isolated handoff diagnostic",
+   "id": "885dce8e",
+   "hash": "c003edc33d34"
+  },
+  {
+   "type": "para",
+   "text": "A receiver-only comparison in which upstream checkpoint artifacts, public workspace, role prompt, model configuration, and token budget are frozen. Only the matched handoff representation varies. It measures receiver recovery, trust behavior, and recovery cost at one edge.",
+   "id": "80b0e242",
+   "hash": "903314776769"
+  },
+  {
+   "type": "heading",
+   "text": "## K07: Homogeneous model team",
+   "id": "ba42f23b",
+   "hash": "5d4d19a4a691"
+  },
+  {
+   "type": "para",
+   "text": "One exact model, provider-routing configuration, reasoning effort, temperature, tool policy, and adapter version used by planning orchestrator, evidence, decision, drafting, and review orchestrator within a workflow attempt.",
+   "id": "89113f3c",
+   "hash": "63944c9e9c55"
+  },
+  {
+   "type": "heading",
+   "text": "## K08: Proofpress",
+   "id": "b50b278c",
+   "hash": "eaf46e5eeb59"
+  },
+  {
+   "type": "para",
+   "text": "A deterministic artifact-provenance and admission layer. It records accepted revisions, claims, actors, lineage, and artifact hashes, then verifies whether a current artifact remains bound to the admitted state before that state is reused. It is not a language model, a source-truth oracle, or proof that a recorded decision is substantively correct.",
+   "id": "0ada9f0d",
+   "hash": "4e2c46173b7c"
+  },
+  {
+   "type": "heading",
+   "text": "## K09: Design-aligned mechanism fixture",
+   "id": "7c6b1d59",
+   "hash": "d0999bcc3776"
+  },
+  {
+   "type": "para",
+   "text": "An evaluation fixture whose injected fault directly instantiates the condition a treatment was designed to detect. Such a fixture can establish that the mechanism fires and can measure clean-path interference under controlled conditions, but its effect size should not be treated as an estimate over independently sampled real-world tasks.",
+   "id": "f809db12",
+   "hash": "d3b9e3b6a759"
   }
  ]
 }

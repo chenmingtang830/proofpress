@@ -1,51 +1,51 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/ara/logic/problem.md",
- "artifact_id": "pp_ba47077a9e44465b384f3b33",
- "version": "2c7bbbea",
- "parent": "6aadfdaf",
+ "artifact": "experiments/provenance_handoff/ara/logic/concepts.md",
+ "artifact_id": "pp_e833a86ea89426121ab55437",
+ "version": "59ab4195",
+ "parent": "6bb4cb45",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-12T09:45:06+00:00",
+ "ts": "2026-08-12T09:45:16+00:00",
  "stats": {
   "added": 4
  },
  "changes": [
   {
    "kind": "added",
-   "block": "36339a7c",
+   "block": "b50b278c",
    "type": "heading",
-   "context": "P02: Version drift turns handoff into an",
-   "preview": "## P02: Version drift turns handoff into an artifact-admissi"
+   "context": "K08: Proofpress",
+   "preview": "## K08: Proofpress"
   },
   {
    "kind": "added",
-   "block": "f1498f86",
+   "block": "0ada9f0d",
    "type": "para",
-   "context": "P02: Version drift turns handoff into an",
-   "preview": "A receiver must decide not only whether prior information ca"
+   "context": "K08: Proofpress",
+   "preview": "A deterministic artifact-provenance and admission layer. It "
   },
   {
    "kind": "added",
-   "block": "eb6d1b42",
+   "block": "7c6b1d59",
    "type": "heading",
-   "context": "P03: A design-aligned fixture can overst",
-   "preview": "## P03: A design-aligned fixture can overstate external effe"
+   "context": "K09: Design-aligned mechanism fixture",
+   "preview": "## K09: Design-aligned mechanism fixture"
   },
   {
    "kind": "added",
-   "block": "d925bd21",
+   "block": "f809db12",
    "type": "para",
-   "context": "P03: A design-aligned fixture can overst",
-   "preview": "Proofpress was designed to verify artifact binding, and the "
+   "context": "K09: Design-aligned mechanism fixture",
+   "preview": "An evaluation fixture whose injected fault directly instanti"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:2f9bc3f969249744ce1613e06a92d9d5a160053e188fa27f808979ded7f330f1",
+ "soft_fingerprint": "ppsb1:6787f710b8642ffbefb573845d6980068e5d1dae87f679246174a10aba335285",
  "actors": {
   "requested_by": [
    "Richard Tang"
@@ -63,28 +63,28 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "36339a7c",
+   "block": "b50b278c",
    "kind": "added",
-   "note": "Adds the artifact-admission problem heading."
+   "note": "Adds a reader-facing Proofpress concept heading."
   },
   {
-   "block": "f1498f86",
+   "block": "0ada9f0d",
    "kind": "added",
-   "note": "Defines stale admission under version drift."
+   "note": "Defines Proofpress and its truth boundary."
   },
   {
-   "block": "eb6d1b42",
+   "block": "7c6b1d59",
    "kind": "added",
-   "note": "Adds the design-alignment validity problem heading."
+   "note": "Adds the design-aligned fixture concept heading."
   },
   {
-   "block": "d925bd21",
+   "block": "f809db12",
    "kind": "added",
-   "note": "Explains why the primary fixture cannot estimate external effect size."
+   "note": "Defines the interpretation boundary for mechanism-targeted fixtures."
   }
  ],
  "context": {
-  "why": "Define version drift as artifact admission and record design alignment as an external-validity problem."
+  "why": "Define Proofpress and the design-aligned mechanism-fixture concept for third-party interpretation."
  },
- "event_id": "ppe_505664eec47749ccb4e27848"
+ "event_id": "ppe_21aa5a5c45a20ced161f62f3"
 }
