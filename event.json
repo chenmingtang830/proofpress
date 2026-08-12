@@ -1,37 +1,30 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/ara/logic/solution/constraints.md",
- "artifact_id": "pp_73ebebcca36fa08a7d4aed88",
- "version": "dec7d1a0",
- "parent": "002fae0c",
+ "artifact": "experiments/provenance_handoff/docs/RESULTS_MATRIX.md",
+ "artifact_id": "pp_d40d46a12d4d493fcbc9c0e9",
+ "version": "cd910987",
+ "parent": "712af9a1",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-12T09:46:00+00:00",
+ "ts": "2026-08-12T09:47:05+00:00",
  "stats": {
-  "added": 2
+  "added": 1
  },
  "changes": [
   {
    "kind": "added",
-   "block": "15d19199",
-   "type": "heading",
-   "context": "S05: Treat design alignment as a constru",
-   "preview": "## S05: Treat design alignment as a construct-validity risk"
-  },
-  {
-   "kind": "added",
-   "block": "c45aa313",
+   "block": "0d0994c1",
    "type": "para",
-   "context": "S05: Treat design alignment as a constru",
-   "preview": "A fixture that injects the exact failure Proofpress was desi"
+   "context": "Cross-model formal stale-binding replica",
+   "preview": "Interpretation caution: the result is perfectly separated pa"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:03dce651e2e71ec6e098c66c87418706500504e83e822399b2cc7aa1aac88bf7",
+ "soft_fingerprint": "ppsb1:2b2f12cdfa7eee9219f493add7f74e10ffe2c9d1a7c4d8cffab02c1e092c593e",
  "actors": {
   "requested_by": [
    "Richard Tang"
@@ -49,18 +42,13 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "15d19199",
+   "block": "0d0994c1",
    "kind": "added",
-   "note": "Adds the design-alignment constraint heading."
-  },
-  {
-   "block": "c45aa313",
-   "kind": "added",
-   "note": "Requires independent tasks and cost measurement before general claims."
+   "note": "Explains why perfect separation is mechanism evidence rather than an external effect estimate."
   }
  ],
  "context": {
-  "why": "Prevent mechanism-targeted fixtures from being reported as representative general-efficacy estimates."
+  "why": "Synchronize the local results matrix with the design-aligned construct-validity boundary recorded in ARA."
  },
- "event_id": "ppe_930db9b27889b4562f90bb8b"
+ "event_id": "ppe_dee37dfd758ea2a30a89443e"
 }
