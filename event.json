@@ -1,51 +1,37 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/ara/logic/concepts.md",
- "artifact_id": "pp_e833a86ea89426121ab55437",
- "version": "59ab4195",
- "parent": "6bb4cb45",
+ "artifact": "experiments/provenance_handoff/ara/logic/related_work.md",
+ "artifact_id": "pp_aeef744ab46114892229ebab",
+ "version": "5f4deba5",
+ "parent": "264600dd",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-12T09:45:16+00:00",
+ "ts": "2026-08-12T09:45:27+00:00",
  "stats": {
-  "added": 4
+  "added": 2
  },
  "changes": [
   {
    "kind": "added",
-   "block": "b50b278c",
+   "block": "877c488a",
    "type": "heading",
-   "context": "K08: Proofpress",
-   "preview": "## K08: Proofpress"
+   "context": "Review status: scoped inventory, not a s",
+   "preview": "## Review status: scoped inventory, not a systematic literat"
   },
   {
    "kind": "added",
-   "block": "0ada9f0d",
+   "block": "f3c33000",
    "type": "para",
-   "context": "K08: Proofpress",
-   "preview": "A deterministic artifact-provenance and admission layer. It "
-  },
-  {
-   "kind": "added",
-   "block": "7c6b1d59",
-   "type": "heading",
-   "context": "K09: Design-aligned mechanism fixture",
-   "preview": "## K09: Design-aligned mechanism fixture"
-  },
-  {
-   "kind": "added",
-   "block": "f809db12",
-   "type": "para",
-   "context": "K09: Design-aligned mechanism fixture",
-   "preview": "An evaluation fixture whose injected fault directly instanti"
+   "context": "Review status: scoped inventory, not a s",
+   "preview": "This file records sources used to motivate and constrain the"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:6787f710b8642ffbefb573845d6980068e5d1dae87f679246174a10aba335285",
+ "soft_fingerprint": "ppsb1:2a4b0613b1f6a31e963a766a0ad252a8c6352013ec58c26097c94b50348ca241",
  "actors": {
   "requested_by": [
    "Richard Tang"
@@ -63,28 +49,18 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "b50b278c",
+   "block": "877c488a",
    "kind": "added",
-   "note": "Adds a reader-facing Proofpress concept heading."
+   "note": "Labels the current related-work record as incomplete."
   },
   {
-   "block": "0ada9f0d",
+   "block": "f3c33000",
    "kind": "added",
-   "note": "Defines Proofpress and its truth boundary."
-  },
-  {
-   "block": "7c6b1d59",
-   "kind": "added",
-   "note": "Adds the design-aligned fixture concept heading."
-  },
-  {
-   "block": "f809db12",
-   "kind": "added",
-   "note": "Defines the interpretation boundary for mechanism-targeted fixtures."
+   "note": "Lists the missing review areas and prohibits exhaustive novelty wording."
   }
  ],
  "context": {
-  "why": "Define Proofpress and the design-aligned mechanism-fixture concept for third-party interpretation."
+  "why": "Disclose that the current source inventory is not a systematic literature review and bound novelty language."
  },
- "event_id": "ppe_21aa5a5c45a20ced161f62f3"
+ "event_id": "ppe_34616bb04d690334b8cc1e74"
 }
