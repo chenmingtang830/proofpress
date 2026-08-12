@@ -1,37 +1,37 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/ara/logic/claims.md",
- "artifact_id": "pp_ca8a8ddcc33d3870e9a40bc5",
- "version": "d6c435c7",
- "parent": "ced188f0",
+ "artifact": "experiments/provenance_handoff/ara/logic/experiments.md",
+ "artifact_id": "pp_15fb7a0bcf0891f7cee01068",
+ "version": "51632060",
+ "parent": "68bcd8ec",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-12T09:45:38+00:00",
+ "ts": "2026-08-12T09:45:49+00:00",
  "stats": {
   "added": 2
  },
  "changes": [
   {
    "kind": "added",
-   "block": "bdc2ed0e",
+   "block": "47b80f8c",
    "type": "heading",
-   "context": "C13: Perfect separation on the primary f",
-   "preview": "## C13: Perfect separation on the primary fixture is mechani"
+   "context": "Interpretation audit and next validity g",
+   "preview": "## Interpretation audit and next validity gate (2026-08-12)"
   },
   {
    "kind": "added",
-   "block": "292d0bbb",
-   "type": "list",
-   "context": "C13: Perfect separation on the primary f",
-   "preview": "- **Statement**: Because Proofpress natively verifies artifa"
+   "block": "699fb171",
+   "type": "para",
+   "context": "Interpretation audit and next validity g",
+   "preview": "The primary APEX-derived experiment is a design-aligned mech"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:362c2a087bfd7f46457eecfd2068b4e4d1186579a4af998e2379fa8c5ee480f5",
+ "soft_fingerprint": "ppsb1:90c765578049d5f054b8ff5afcba53fb62896803c6f8bff70c5cdfd001a6d3af",
  "actors": {
   "requested_by": [
    "Richard Tang"
@@ -49,18 +49,18 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "bdc2ed0e",
+   "block": "47b80f8c",
    "kind": "added",
-   "note": "Adds the construct-validity interpretation claim."
+   "note": "Adds the experiment interpretation-audit heading."
   },
   {
-   "block": "292d0bbb",
+   "block": "699fb171",
    "kind": "added",
-   "note": "Bounds perfect separation to mechanism evidence and defines external falsification gates."
+   "note": "Records design alignment and the next independent validity gate."
   }
  ],
  "context": {
-  "why": "Add an explicit construct-validity claim that separates mechanism evidence from broad efficacy."
+  "why": "Record the design-aligned interpretation audit and the independent-task validity gate."
  },
- "event_id": "ppe_82909de3572baab2020bec92"
+ "event_id": "ppe_5882633feb355e5c12a44a8e"
 }
