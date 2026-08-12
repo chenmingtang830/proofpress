@@ -1,90 +1,966 @@
 {
  "event": "version_created",
- "artifact": "docs/internal/ARA_RIT_PROOFPRESS_STRATEGY_DISCUSSION.md",
- "artifact_id": "pp_1b8bff070a2e63f00c362124",
- "version": "7f200453",
- "parent": "6e4e1fef",
+ "artifact": "experiments/provenance_handoff/docs/KNOWLEDGE_HANDOFF_DEBT_PLAN.md",
+ "artifact_id": "pp_2a2e62252d677e3b6e52cce7",
+ "version": "3c6422ca",
+ "parent": null,
  "author": {
-  "name": "Claude (AO worker proofpress-dev-2)",
-  "kind": "agent",
-  "session": "proofpress-dev-2"
+  "name": "unknown",
+  "kind": "human",
+  "session": null
  },
- "note": "Add section 4.1: RIT Hub internal ledger reuses Proofpress event semantics, not its file-level carrier",
- "ts": "2026-08-12T10:19:01+00:00",
+ "note": null,
+ "ts": "2026-08-12T11:33:29+00:00",
  "stats": {
-  "added": 4
+  "added": 77
  },
  "changes": [
   {
    "kind": "added",
-   "block": "9a53396a",
+   "block": "d6cb1123",
    "type": "heading",
-   "context": "4.1 RIT Hub 内部账本：复用 Proofpress 的 event 语",
-   "preview": "### 4.1 RIT Hub 内部账本：复用 Proofpress 的 event 语义，而非其文件级 carrier"
+   "context": "Research plan — verifiable knowledge han",
+   "preview": "# Research plan — verifiable knowledge handoffs under versio"
   },
   {
    "kind": "added",
-   "block": "1261a235",
+   "block": "fae739dc",
    "type": "para",
-   "context": "4.1 RIT Hub 内部账本：复用 Proofpress 的 event 语",
-   "preview": "Proofpress 现有的记录能力可以直接迁移进 RIT Hub，但要迁移的是它的**事件语义**（actor / c"
+   "context": "Research plan — verifiable knowledge han",
+   "preview": "**Status:** design draft; no new model run is authorized by "
   },
   {
    "kind": "added",
-   "block": "3d8d09d7",
+   "block": "a897187e",
+   "type": "heading",
+   "context": "1. Research objective",
+   "preview": "## 1. Research objective"
+  },
+  {
+   "kind": "added",
+   "block": "f524d433",
    "type": "para",
-   "context": "4.1 RIT Hub 内部账本：复用 Proofpress 的 event 语",
-   "preview": "原因：RIT Hub 里的信任单位是 **claim（graph node）**，不是文件——一条 claim 可能来自"
+   "context": "1. Research objective",
+   "preview": "The program asks whether a portable handoff can reduce the w"
   },
   {
    "kind": "added",
-   "block": "cbdcad46",
+   "block": "09a96395",
+   "type": "para",
+   "context": "1. Research objective",
+   "preview": "It separates two mechanisms that earlier experiments often c"
+  },
+  {
+   "kind": "added",
+   "block": "d43230fc",
    "type": "list",
-   "context": "4.1 RIT Hub 内部账本：复用 Proofpress 的 event 语",
-   "preview": "- **锚点单位从 block 换成 claim**：Proofpress 今天在 markdown/html bloc"
+   "context": "1. Research objective",
+   "preview": "1. **Semantic continuity:** a structured handoff explains wh"
+  },
+  {
+   "kind": "added",
+   "block": "c27d3715",
+   "type": "para",
+   "context": "1. Research objective",
+   "preview": "The main hypothesis is not that Proofpress always beats a st"
+  },
+  {
+   "kind": "added",
+   "block": "188a902f",
+   "type": "heading",
+   "context": "2. Prior evidence and motivation",
+   "preview": "## 2. Prior evidence and motivation"
+  },
+  {
+   "kind": "added",
+   "block": "75188530",
+   "type": "para",
+   "context": "2. Prior evidence and motivation",
+   "preview": "Earlier Proofpress experiments already establish three bound"
+  },
+  {
+   "kind": "added",
+   "block": "fe664541",
+   "type": "list",
+   "context": "2. Prior evidence and motivation",
+   "preview": "- Richer packages did not automatically improve clean end-to"
+  },
+  {
+   "kind": "added",
+   "block": "8cba21f5",
+   "type": "para",
+   "context": "2. Prior evidence and motivation",
+   "preview": "The new program treats these outcomes as complementary rathe"
+  },
+  {
+   "kind": "added",
+   "block": "b82221ba",
+   "type": "heading",
+   "context": "3. Research questions",
+   "preview": "## 3. Research questions"
+  },
+  {
+   "kind": "added",
+   "block": "11115be1",
+   "type": "heading",
+   "context": "RQ1: Knowledge handoff debt",
+   "preview": "### RQ1: Knowledge handoff debt"
+  },
+  {
+   "kind": "added",
+   "block": "ed6b10c3",
+   "type": "para",
+   "context": "RQ1: Knowledge handoff debt",
+   "preview": "How much rediscovery work does a fresh successor perform whe"
+  },
+  {
+   "kind": "added",
+   "block": "e8779047",
+   "type": "heading",
+   "context": "RQ2: Incremental value of version bindin",
+   "preview": "### RQ2: Incremental value of version binding"
+  },
+  {
+   "kind": "added",
+   "block": "dac2aa1b",
+   "type": "para",
+   "context": "RQ2: Incremental value of version bindin",
+   "preview": "Holding structured handoff semantics fixed, does receive-tim"
+  },
+  {
+   "kind": "added",
+   "block": "3a15ebc7",
+   "type": "heading",
+   "context": "RQ3: Selective recovery rather than blan",
+   "preview": "### RQ3: Selective recovery rather than blanket refusal"
+  },
+  {
+   "kind": "added",
+   "block": "2181b2bc",
+   "type": "para",
+   "context": "RQ3: Selective recovery rather than blan",
+   "preview": "After a mismatch, can the successor identify the affected cl"
+  },
+  {
+   "kind": "added",
+   "block": "3735ae32",
+   "type": "heading",
+   "context": "RQ4: Cost and utility",
+   "preview": "### RQ4: Cost and utility"
+  },
+  {
+   "kind": "added",
+   "block": "fb4ab954",
+   "type": "para",
+   "context": "RQ4: Cost and utility",
+   "preview": "What verification, latency, token, and completion costs does"
+  },
+  {
+   "kind": "added",
+   "block": "b9656d92",
+   "type": "heading",
+   "context": "4. Program structure",
+   "preview": "## 4. Program structure"
+  },
+  {
+   "kind": "added",
+   "block": "40ce0325",
+   "type": "heading",
+   "context": "Track 1 — Knowledge handoff debt",
+   "preview": "### Track 1 — Knowledge handoff debt"
+  },
+  {
+   "kind": "added",
+   "block": "054edf71",
+   "type": "para",
+   "context": "Track 1 — Knowledge handoff debt",
+   "preview": "Track 1 adapts the takeover logic of coding-agent handoff wo"
+  },
+  {
+   "kind": "added",
+   "block": "f99db927",
+   "type": "table",
+   "context": "Track 1 — Knowledge handoff debt",
+   "preview": "| Arm | Successor package |\n|---|---|\n| H0 | Current artifac"
+  },
+  {
+   "kind": "added",
+   "block": "18b5af4f",
+   "type": "para",
+   "context": "Track 1 — Knowledge handoff debt",
+   "preview": "H2 should contain the same underlying facts available to H1,"
+  },
+  {
+   "kind": "added",
+   "block": "56065622",
+   "type": "para",
+   "context": "Track 1 — Knowledge handoff debt",
+   "preview": "The primary endpoint is **rediscovery events**: logged succe"
+  },
+  {
+   "kind": "added",
+   "block": "74dda94a",
+   "type": "para",
+   "context": "Track 1 — Knowledge handoff debt",
+   "preview": "Key secondary endpoints are:"
+  },
+  {
+   "kind": "added",
+   "block": "5cd72588",
+   "type": "list",
+   "context": "Track 1 — Knowledge handoff debt",
+   "preview": "- input tokens and tool calls before the first correct subst"
+  },
+  {
+   "kind": "added",
+   "block": "ca350c12",
+   "type": "para",
+   "context": "Track 1 — Knowledge handoff debt",
+   "preview": "The expected comparison is `H2 < H1 < H0` on rediscovery cos"
+  },
+  {
+   "kind": "added",
+   "block": "d986bb9c",
+   "type": "heading",
+   "context": "Track 2 — Version-bound knowledge handof",
+   "preview": "### Track 2 — Version-bound knowledge handoff"
+  },
+  {
+   "kind": "added",
+   "block": "a2ae81eb",
+   "type": "para",
+   "context": "Track 2 — Version-bound knowledge handof",
+   "preview": "Track 2 starts from the strong H2 handoff and isolates the i"
+  },
+  {
+   "kind": "added",
+   "block": "7a1c0c02",
+   "type": "table",
+   "context": "Track 2 — Version-bound knowledge handof",
+   "preview": "| Arm | Successor package |\n|---|---|\n| V0 | Strong structur"
+  },
+  {
+   "kind": "added",
+   "block": "5ca3fd5f",
+   "type": "para",
+   "context": "Track 2 — Version-bound knowledge handof",
+   "preview": "Each base task produces matched artifact states:"
+  },
+  {
+   "kind": "added",
+   "block": "749eaa8f",
+   "type": "list",
+   "context": "Track 2 — Version-bound knowledge handof",
+   "preview": "1. **Unchanged:** current artifact is the admitted revision."
+  },
+  {
+   "kind": "added",
+   "block": "ef68ecd9",
+   "type": "para",
+   "context": "Track 2 — Version-bound knowledge handof",
+   "preview": "The primary safety endpoint for relevant edits is **unsafe c"
+  },
+  {
+   "kind": "added",
+   "block": "ec454c33",
+   "type": "para",
+   "context": "Track 2 — Version-bound knowledge handof",
+   "preview": "The required clean-path guards are:"
+  },
+  {
+   "kind": "added",
+   "block": "6c37719d",
+   "type": "list",
+   "context": "Track 2 — Version-bound knowledge handof",
+   "preview": "- correct proceed on unchanged artifacts;\n- no blanket false"
+  },
+  {
+   "kind": "added",
+   "block": "5467c9c9",
+   "type": "para",
+   "context": "Track 2 — Version-bound knowledge handof",
+   "preview": "Recovery endpoints are:"
+  },
+  {
+   "kind": "added",
+   "block": "fddf8597",
+   "type": "list",
+   "context": "Track 2 — Version-bound knowledge handof",
+   "preview": "- affected-claim detection precision and recall;\n- proportio"
+  },
+  {
+   "kind": "added",
+   "block": "5f600d63",
+   "type": "para",
+   "context": "Track 2 — Version-bound knowledge handof",
+   "preview": "The primary estimand is the `binding × artifact-state` inter"
+  },
+  {
+   "kind": "added",
+   "block": "9de4b3d7",
+   "type": "heading",
+   "context": "5. Task and fixture design",
+   "preview": "## 5. Task and fixture design"
+  },
+  {
+   "kind": "added",
+   "block": "5331e3e3",
+   "type": "para",
+   "context": "5. Task and fixture design",
+   "preview": "The formal suite should include at least four non-coding kno"
+  },
+  {
+   "kind": "added",
+   "block": "6e644c0f",
+   "type": "list",
+   "context": "5. Task and fixture design",
+   "preview": "- contract or policy revision;\n- research synthesis or evide"
+  },
+  {
+   "kind": "added",
+   "block": "ee2b34fb",
+   "type": "para",
+   "context": "5. Task and fixture design",
+   "preview": "Each task must have:"
+  },
+  {
+   "kind": "added",
+   "block": "73254524",
+   "type": "list",
+   "context": "5. Task and fixture design",
+   "preview": "- a persistent artifact that changes over time;\n- an upstrea"
+  },
+  {
+   "kind": "added",
+   "block": "1d5bfe2c",
+   "type": "para",
+   "context": "5. Task and fixture design",
+   "preview": "Formal fixtures should be authored or validated by people wh"
+  },
+  {
+   "kind": "added",
+   "block": "9fb8433a",
+   "type": "heading",
+   "context": "6. Phased execution and authorization ga",
+   "preview": "## 6. Phased execution and authorization gates"
+  },
+  {
+   "kind": "added",
+   "block": "c2ae9c4b",
+   "type": "heading",
+   "context": "Phase 0 — Offline scorer and fixture qua",
+   "preview": "### Phase 0 — Offline scorer and fixture qualification"
+  },
+  {
+   "kind": "added",
+   "block": "4391f434",
+   "type": "para",
+   "context": "Phase 0 — Offline scorer and fixture qua",
+   "preview": "Build a small contrast set for every artifact state. Verify "
+  },
+  {
+   "kind": "added",
+   "block": "0995b0f1",
+   "type": "para",
+   "context": "Phase 0 — Offline scorer and fixture qua",
+   "preview": "Gate: every fixture must produce the expected V0/V1 inputs, "
+  },
+  {
+   "kind": "added",
+   "block": "3665bdd8",
+   "type": "heading",
+   "context": "Phase 1 — Local diagnostic calibration",
+   "preview": "### Phase 1 — Local diagnostic calibration"
+  },
+  {
+   "kind": "added",
+   "block": "20da3585",
+   "type": "para",
+   "context": "Phase 1 — Local diagnostic calibration",
+   "preview": "Use a small set of independently sourced tasks and one low-c"
+  },
+  {
+   "kind": "added",
+   "block": "9b0df83e",
+   "type": "para",
+   "context": "Phase 1 — Local diagnostic calibration",
+   "preview": "These runs are non-formal and cannot support efficacy or ben"
+  },
+  {
+   "kind": "added",
+   "block": "34c5b7bb",
+   "type": "para",
+   "context": "Phase 1 — Local diagnostic calibration",
+   "preview": "Gate: H0 must expose measurable rediscovery debt; H2 must no"
+  },
+  {
+   "kind": "added",
+   "block": "2abfc7fe",
+   "type": "heading",
+   "context": "Phase 2 — Frozen pilot",
+   "preview": "### Phase 2 — Frozen pilot"
+  },
+  {
+   "kind": "added",
+   "block": "39da68a1",
+   "type": "para",
+   "context": "Phase 2 — Frozen pilot",
+   "preview": "Freeze task IDs, revision manifests, arms, randomization, mo"
+  },
+  {
+   "kind": "added",
+   "block": "1cb15b4e",
+   "type": "para",
+   "context": "Phase 2 — Frozen pilot",
+   "preview": "Gate: proceed only if all package-parity, telemetry, scorer,"
+  },
+  {
+   "kind": "added",
+   "block": "da3f4502",
+   "type": "heading",
+   "context": "Phase 3 — Formal independently authored ",
+   "preview": "### Phase 3 — Formal independently authored suite"
+  },
+  {
+   "kind": "added",
+   "block": "e6583f96",
+   "type": "para",
+   "context": "Phase 3 — Formal independently authored ",
+   "preview": "Determine the formal fixture count from Phase 1 variance and"
+  },
+  {
+   "kind": "added",
+   "block": "72a6cf02",
+   "type": "para",
+   "context": "Phase 3 — Formal independently authored ",
+   "preview": "The primary formal slice uses one exact successor model and "
+  },
+  {
+   "kind": "added",
+   "block": "4d845828",
+   "type": "heading",
+   "context": "Phase 4 — Independent environment replic",
+   "preview": "### Phase 4 — Independent environment replication"
+  },
+  {
+   "kind": "added",
+   "block": "128a4fa9",
+   "type": "para",
+   "context": "Phase 4 — Independent environment replic",
+   "preview": "Provide sealed manifests, portable packages, scorer fixtures"
+  },
+  {
+   "kind": "added",
+   "block": "a0f957a0",
+   "type": "heading",
+   "context": "7. Fairness and leakage controls",
+   "preview": "## 7. Fairness and leakage controls"
+  },
+  {
+   "kind": "added",
+   "block": "a4e0581d",
+   "type": "list",
+   "context": "7. Fairness and leakage controls",
+   "preview": "- H1 and H2 share a normalized fact inventory; differences i"
+  },
+  {
+   "kind": "added",
+   "block": "0d53ae38",
+   "type": "heading",
+   "context": "8. Analysis plan",
+   "preview": "## 8. Analysis plan"
+  },
+  {
+   "kind": "added",
+   "block": "fa35765a",
+   "type": "para",
+   "context": "8. Analysis plan",
+   "preview": "Track 1 reports paired or clustered differences in rediscove"
+  },
+  {
+   "kind": "added",
+   "block": "6e488f9e",
+   "type": "para",
+   "context": "8. Analysis plan",
+   "preview": "Use the base fixture as the clustering unit. Report denomina"
+  },
+  {
+   "kind": "added",
+   "block": "7a8c3adb",
+   "type": "heading",
+   "context": "9. Success and stop rules",
+   "preview": "## 9. Success and stop rules"
+  },
+  {
+   "kind": "added",
+   "block": "362a71ef",
+   "type": "para",
+   "context": "9. Success and stop rules",
+   "preview": "The research program is supported if:"
+  },
+  {
+   "kind": "added",
+   "block": "0978616d",
+   "type": "list",
+   "context": "9. Success and stop rules",
+   "preview": "- H2 measurably reduces rediscovery cost relative to weaker "
+  },
+  {
+   "kind": "added",
+   "block": "026cea8a",
+   "type": "para",
+   "context": "9. Success and stop rules",
+   "preview": "Stop or narrow the claim if:"
+  },
+  {
+   "kind": "added",
+   "block": "7c7d6e89",
+   "type": "list",
+   "context": "9. Success and stop rules",
+   "preview": "- strong structured handoff removes the eligible drift error"
+  },
+  {
+   "kind": "added",
+   "block": "ec8a5ac9",
+   "type": "heading",
+   "context": "10. Interoperability qualification, not ",
+   "preview": "## 10. Interoperability qualification, not a primary study"
+  },
+  {
+   "kind": "added",
+   "block": "3affbd41",
+   "type": "para",
+   "context": "10. Interoperability qualification, not ",
+   "preview": "Proofpress support across Codex, Claude Code, OpenCode, AI G"
+  },
+  {
+   "kind": "added",
+   "block": "075f580a",
+   "type": "heading",
+   "context": "11. Permitted claims by stage",
+   "preview": "## 11. Permitted claims by stage"
+  },
+  {
+   "kind": "added",
+   "block": "38443d4f",
+   "type": "list",
+   "context": "11. Permitted claims by stage",
+   "preview": "- **After qualification:** the package and scorer operate on"
+  },
+  {
+   "kind": "added",
+   "block": "ec2bead2",
+   "type": "para",
+   "context": "11. Permitted claims by stage",
+   "preview": "No stage alone establishes universal product efficacy, legal"
   }
  ],
  "policy": "local",
- "soft_fingerprint": "ppsb1:b7aa184a21aeaf7ff28f2cb63843779ca30d142403180c4dfbcf85a988587cea",
+ "soft_fingerprint": "ppsb1:3713b765d5b5c26e6fcd008e525e0aefe66183e150d2cb12908a4548d03c317c",
  "actors": {
   "requested_by": [
-   "chenmingtang830 (founder)"
+   "Richard Tang"
   ],
   "produced_by": [
-   "founder + Claude orchestrator session 6b0b2a60-3891-5ef7-8b43-a478d0c6152f (drafted the insight in strategy_doc_addition.md)"
+   "OpenAI Codex"
   ],
   "edited_by": [
-   "Claude, AO worker session proofpress-dev-2"
+   "OpenAI Codex"
   ],
   "recorded_by": [
-   "Claude, AO worker session proofpress-dev-2"
+   "OpenAI Codex"
   ]
  },
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "9a53396a",
+   "block": "d6cb1123",
    "kind": "added",
-   "note": "4.1 heading: RIT Hub internal ledger reuses Proofpress event semantics, not its file-level carrier"
+   "note": "Adds research-plan block 1 for the two-track knowledge-handoff program."
   },
   {
-   "block": "1261a235",
+   "block": "fae739dc",
    "kind": "added",
-   "note": "What migrates is event semantics (actor/claim/evidence/why/accept-reject-open/parent + claims-vs-diff check), not the single-file portable capsule carrier"
+   "note": "Adds research-plan block 2 for the two-track knowledge-handoff program."
   },
   {
-   "block": "3d8d09d7",
+   "block": "a897187e",
    "kind": "added",
-   "note": "Why: RIT Hub's trust unit is the claim (graph node), not a file"
+   "note": "Adds research-plan block 3 for the two-track knowledge-handoff program."
   },
   {
-   "block": "cbdcad46",
+   "block": "f524d433",
    "kind": "added",
-   "note": "Four consequences: anchor unit becomes claim not block; no same-identity revision bookkeeping needed; human approval layer stays outside RIT's kernel/extractor; portable capsule becomes an export feature, not the internal default"
+   "note": "Adds research-plan block 4 for the two-track knowledge-handoff program."
+  },
+  {
+   "block": "09a96395",
+   "kind": "added",
+   "note": "Adds research-plan block 5 for the two-track knowledge-handoff program."
+  },
+  {
+   "block": "d43230fc",
+   "kind": "added",
+   "note": "Adds research-plan block 6 for the two-track knowledge-handoff program."
+  },
+  {
+   "block": "c27d3715",
+   "kind": "added",
+   "note": "Adds research-plan block 7 for the two-track knowledge-handoff program."
+  },
+  {
+   "block": "188a902f",
+   "kind": "added",
+   "note": "Adds research-plan block 8 for the two-track knowledge-handoff program."
+  },
+  {
+   "block": "75188530",
+   "kind": "added",
+   "note": "Adds research-plan block 9 for the two-track knowledge-handoff program."
+  },
+  {
+   "block": "fe664541",
+   "kind": "added",
+   "note": "Adds research-plan block 10 for the two-track knowledge-handoff program."
+  },
+  {
+   "block": "8cba21f5",
+   "kind": "added",
+   "note": "Adds research-plan block 11 for the two-track knowledge-handoff program."
+  },
+  {
+   "block": "b82221ba",
+   "kind": "added",
+   "note": "Adds research-plan block 12 for the two-track knowledge-handoff program."
+  },
+  {
+   "block": "11115be1",
+   "kind": "added",
+   "note": "Adds research-plan block 13 for the two-track knowledge-handoff program."
+  },
+  {
+   "block": "ed6b10c3",
+   "kind": "added",
+   "note": "Adds research-plan block 14 for the two-track knowledge-handoff program."
+  },
+  {
+   "block": "e8779047",
+   "kind": "added",
+   "note": "Adds research-plan block 15 for the two-track knowledge-handoff program."
+  },
+  {
+   "block": "dac2aa1b",
+   "kind": "added",
+   "note": "Adds research-plan block 16 for the two-track knowledge-handoff program."
+  },
+  {
+   "block": "3a15ebc7",
+   "kind": "added",
+   "note": "Adds research-plan block 17 for the two-track knowledge-handoff program."
+  },
+  {
+   "block": "2181b2bc",
+   "kind": "added",
+   "note": "Adds research-plan block 18 for the two-track knowledge-handoff program."
+  },
+  {
+   "block": "3735ae32",
+   "kind": "added",
+   "note": "Adds research-plan block 19 for the two-track knowledge-handoff program."
+  },
+  {
+   "block": "fb4ab954",
+   "kind": "added",
+   "note": "Adds research-plan block 20 for the two-track knowledge-handoff program."
+  },
+  {
+   "block": "b9656d92",
+   "kind": "added",
+   "note": "Adds research-plan block 21 for the two-track knowledge-handoff program."
+  },
+  {
+   "block": "40ce0325",
+   "kind": "added",
+   "note": "Adds research-plan block 22 for the two-track knowledge-handoff program."
+  },
+  {
+   "block": "054edf71",
+   "kind": "added",
+   "note": "Adds research-plan block 23 for the two-track knowledge-handoff program."
+  },
+  {
+   "block": "f99db927",
+   "kind": "added",
+   "note": "Adds research-plan block 24 for the two-track knowledge-handoff program."
+  },
+  {
+   "block": "18b5af4f",
+   "kind": "added",
+   "note": "Adds research-plan block 25 for the two-track knowledge-handoff program."
+  },
+  {
+   "block": "56065622",
+   "kind": "added",
+   "note": "Adds research-plan block 26 for the two-track knowledge-handoff program."
+  },
+  {
+   "block": "74dda94a",
+   "kind": "added",
+   "note": "Adds research-plan block 27 for the two-track knowledge-handoff program."
+  },
+  {
+   "block": "5cd72588",
+   "kind": "added",
+   "note": "Adds research-plan block 28 for the two-track knowledge-handoff program."
+  },
+  {
+   "block": "ca350c12",
+   "kind": "added",
+   "note": "Adds research-plan block 29 for the two-track knowledge-handoff program."
+  },
+  {
+   "block": "d986bb9c",
+   "kind": "added",
+   "note": "Adds research-plan block 30 for the two-track knowledge-handoff program."
+  },
+  {
+   "block": "a2ae81eb",
+   "kind": "added",
+   "note": "Adds research-plan block 31 for the two-track knowledge-handoff program."
+  },
+  {
+   "block": "7a1c0c02",
+   "kind": "added",
+   "note": "Adds research-plan block 32 for the two-track knowledge-handoff program."
+  },
+  {
+   "block": "5ca3fd5f",
+   "kind": "added",
+   "note": "Adds research-plan block 33 for the two-track knowledge-handoff program."
+  },
+  {
+   "block": "749eaa8f",
+   "kind": "added",
+   "note": "Adds research-plan block 34 for the two-track knowledge-handoff program."
+  },
+  {
+   "block": "ef68ecd9",
+   "kind": "added",
+   "note": "Adds research-plan block 35 for the two-track knowledge-handoff program."
+  },
+  {
+   "block": "ec454c33",
+   "kind": "added",
+   "note": "Adds research-plan block 36 for the two-track knowledge-handoff program."
+  },
+  {
+   "block": "6c37719d",
+   "kind": "added",
+   "note": "Adds research-plan block 37 for the two-track knowledge-handoff program."
+  },
+  {
+   "block": "5467c9c9",
+   "kind": "added",
+   "note": "Adds research-plan block 38 for the two-track knowledge-handoff program."
+  },
+  {
+   "block": "fddf8597",
+   "kind": "added",
+   "note": "Adds research-plan block 39 for the two-track knowledge-handoff program."
+  },
+  {
+   "block": "5f600d63",
+   "kind": "added",
+   "note": "Adds research-plan block 40 for the two-track knowledge-handoff program."
+  },
+  {
+   "block": "9de4b3d7",
+   "kind": "added",
+   "note": "Adds research-plan block 41 for the two-track knowledge-handoff program."
+  },
+  {
+   "block": "5331e3e3",
+   "kind": "added",
+   "note": "Adds research-plan block 42 for the two-track knowledge-handoff program."
+  },
+  {
+   "block": "6e644c0f",
+   "kind": "added",
+   "note": "Adds research-plan block 43 for the two-track knowledge-handoff program."
+  },
+  {
+   "block": "ee2b34fb",
+   "kind": "added",
+   "note": "Adds research-plan block 44 for the two-track knowledge-handoff program."
+  },
+  {
+   "block": "73254524",
+   "kind": "added",
+   "note": "Adds research-plan block 45 for the two-track knowledge-handoff program."
+  },
+  {
+   "block": "1d5bfe2c",
+   "kind": "added",
+   "note": "Adds research-plan block 46 for the two-track knowledge-handoff program."
+  },
+  {
+   "block": "9fb8433a",
+   "kind": "added",
+   "note": "Adds research-plan block 47 for the two-track knowledge-handoff program."
+  },
+  {
+   "block": "c2ae9c4b",
+   "kind": "added",
+   "note": "Adds research-plan block 48 for the two-track knowledge-handoff program."
+  },
+  {
+   "block": "4391f434",
+   "kind": "added",
+   "note": "Adds research-plan block 49 for the two-track knowledge-handoff program."
+  },
+  {
+   "block": "0995b0f1",
+   "kind": "added",
+   "note": "Adds research-plan block 50 for the two-track knowledge-handoff program."
+  },
+  {
+   "block": "3665bdd8",
+   "kind": "added",
+   "note": "Adds research-plan block 51 for the two-track knowledge-handoff program."
+  },
+  {
+   "block": "20da3585",
+   "kind": "added",
+   "note": "Adds research-plan block 52 for the two-track knowledge-handoff program."
+  },
+  {
+   "block": "9b0df83e",
+   "kind": "added",
+   "note": "Adds research-plan block 53 for the two-track knowledge-handoff program."
+  },
+  {
+   "block": "34c5b7bb",
+   "kind": "added",
+   "note": "Adds research-plan block 54 for the two-track knowledge-handoff program."
+  },
+  {
+   "block": "2abfc7fe",
+   "kind": "added",
+   "note": "Adds research-plan block 55 for the two-track knowledge-handoff program."
+  },
+  {
+   "block": "39da68a1",
+   "kind": "added",
+   "note": "Adds research-plan block 56 for the two-track knowledge-handoff program."
+  },
+  {
+   "block": "1cb15b4e",
+   "kind": "added",
+   "note": "Adds research-plan block 57 for the two-track knowledge-handoff program."
+  },
+  {
+   "block": "da3f4502",
+   "kind": "added",
+   "note": "Adds research-plan block 58 for the two-track knowledge-handoff program."
+  },
+  {
+   "block": "e6583f96",
+   "kind": "added",
+   "note": "Adds research-plan block 59 for the two-track knowledge-handoff program."
+  },
+  {
+   "block": "72a6cf02",
+   "kind": "added",
+   "note": "Adds research-plan block 60 for the two-track knowledge-handoff program."
+  },
+  {
+   "block": "4d845828",
+   "kind": "added",
+   "note": "Adds research-plan block 61 for the two-track knowledge-handoff program."
+  },
+  {
+   "block": "128a4fa9",
+   "kind": "added",
+   "note": "Adds research-plan block 62 for the two-track knowledge-handoff program."
+  },
+  {
+   "block": "a0f957a0",
+   "kind": "added",
+   "note": "Adds research-plan block 63 for the two-track knowledge-handoff program."
+  },
+  {
+   "block": "a4e0581d",
+   "kind": "added",
+   "note": "Adds research-plan block 64 for the two-track knowledge-handoff program."
+  },
+  {
+   "block": "0d53ae38",
+   "kind": "added",
+   "note": "Adds research-plan block 65 for the two-track knowledge-handoff program."
+  },
+  {
+   "block": "fa35765a",
+   "kind": "added",
+   "note": "Adds research-plan block 66 for the two-track knowledge-handoff program."
+  },
+  {
+   "block": "6e488f9e",
+   "kind": "added",
+   "note": "Adds research-plan block 67 for the two-track knowledge-handoff program."
+  },
+  {
+   "block": "7a8c3adb",
+   "kind": "added",
+   "note": "Adds research-plan block 68 for the two-track knowledge-handoff program."
+  },
+  {
+   "block": "362a71ef",
+   "kind": "added",
+   "note": "Adds research-plan block 69 for the two-track knowledge-handoff program."
+  },
+  {
+   "block": "0978616d",
+   "kind": "added",
+   "note": "Adds research-plan block 70 for the two-track knowledge-handoff program."
+  },
+  {
+   "block": "026cea8a",
+   "kind": "added",
+   "note": "Adds research-plan block 71 for the two-track knowledge-handoff program."
+  },
+  {
+   "block": "7c7d6e89",
+   "kind": "added",
+   "note": "Adds research-plan block 72 for the two-track knowledge-handoff program."
+  },
+  {
+   "block": "ec8a5ac9",
+   "kind": "added",
+   "note": "Adds research-plan block 73 for the two-track knowledge-handoff program."
+  },
+  {
+   "block": "3affbd41",
+   "kind": "added",
+   "note": "Adds research-plan block 74 for the two-track knowledge-handoff program."
+  },
+  {
+   "block": "075f580a",
+   "kind": "added",
+   "note": "Adds research-plan block 75 for the two-track knowledge-handoff program."
+  },
+  {
+   "block": "38443d4f",
+   "kind": "added",
+   "note": "Adds research-plan block 76 for the two-track knowledge-handoff program."
+  },
+  {
+   "block": "ec2bead2",
+   "kind": "added",
+   "note": "Adds research-plan block 77 for the two-track knowledge-handoff program."
   }
  ],
  "context": {
-  "why": "Founder + orchestrator session (6b0b2a60) 战略讨论产出的架构判断：RIT Hub 内部账本应迁移 Proofpress 的事件语义（actor/claim/evidence/why/accept-reject-open/parent + claims-vs-diff 检查），而不是它现在单文件 portable capsule 的载体实现；记录为新增小节 4.1，插入第4节与第5节之间。"
+  "why": "Create the next research program separating knowledge-work rediscovery debt from version-bound artifact admission, with independent-fixture and cost guards."
  },
- "event_id": "ppe_58039fe0baf01394db5403ba"
+ "event_id": "ppe_061e0c0e2b8609085168a9e6"
 }
