@@ -2,50 +2,40 @@
  "event": "version_created",
  "artifact": "docs/internal/ARA_RIT_PROOFPRESS_STRATEGY_DISCUSSION.md",
  "artifact_id": "pp_1b8bff070a2e63f00c362124",
- "version": "4e39c8db",
- "parent": "bac4e457",
+ "version": "813c82c7",
+ "parent": "4e39c8db",
  "author": {
   "name": "Claude (AO worker proofpress-dev-9)",
   "kind": "agent",
   "session": "proofpress-dev-9"
  },
  "note": null,
- "ts": "2026-08-12T12:17:26+00:00",
+ "ts": "2026-08-12T12:27:44+00:00",
  "stats": {
-  "added": 4
+  "modified": 3
  },
  "changes": [
   {
-   "kind": "added",
-   "block": "df62fbe2",
-   "type": "heading",
-   "context": "Mission",
-   "preview": "## Mission"
-  },
-  {
-   "kind": "added",
+   "kind": "modified",
    "block": "c9500edd",
    "type": "para",
-   "context": "Mission",
-   "preview": "> We all stand on the shoulders of giants — the people who c"
+   "context": "Mission"
   },
   {
-   "kind": "added",
+   "kind": "modified",
    "block": "79ef06e6",
    "type": "para",
-   "context": "Mission",
-   "preview": "我们都站在前人的肩膀上——他们的失败、走过的弯路、拼出来的洞见，我们不用重新经历一遍就能继承。AI 是第一个强大到能在人"
+   "context": "Mission"
   },
   {
-   "kind": "added",
+   "kind": "modified",
    "block": "35e41d2c",
    "type": "para",
-   "context": "Mission",
-   "preview": "（这段与\"1. 核心判断\"一节里\"AI makes candidate knowledge abundant. We m"
+   "context": "Mission"
   }
  ],
  "policy": "local",
- "soft_fingerprint": "ppsb1:b37316525d748c038e766bf044edcf9d540bfcf224a326307cc2b73dd041391c",
+ "soft_fingerprint": "ppsb1:00d67bead73ee37b0bf33c8b647ebf28bba7b4389cffaf0485d1c8f2da9b148b",
  "actors": {
   "recorded_by": [
    "Claude (AO worker proofpress-dev-9)"
@@ -53,7 +43,7 @@
  },
  "attribution_basis": "self_asserted",
  "context": {
-  "why": "Add Mission block ahead of section 1: the values-level 'stand on the shoulders of giants' statement that the product-framed 核心判断 section sits underneath"
+  "why": "Revise Mission block: shift from 'ignited by' warmth to trust-in-inheritance + looking after successors, per user request for a restrained middle-ground temperature; explicitly include agent predecessors, not only human ones"
  },
- "event_id": "ppe_d50060647ff64cfae4bd5df8"
+ "event_id": "ppe_570e57e0955e9449c7a4cfc4"
 }

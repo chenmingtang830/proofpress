@@ -22,21 +22,21 @@
   },
   {
    "type": "para",
-   "text": "> We all stand on the shoulders of giants — the people who came before us, whose failures, dead ends, and hard-won insight we inherited without ever having to relive them ourselves. AI is the first tool epochal enough to do this reshaping at the scale human knowledge now demands: not compressing the past into fewer words, but rebuilding it into something the next mind — human or agent — can actually stand on and keep climbing from. Every generation's job is to leave the trail better than they found it, and hand the torch forward, not just carry it. This is ours.",
+   "text": "> We inherit more than we could ever earn on our own — the failures, the dead ends, and the hard-won insight of those who came before us, human and agent alike. There is a quiet trust in that: someone we may never meet did the work so we wouldn't have to start from zero. AI is the first tool epochal enough to carry that inheritance forward at the scale human knowledge now demands — not compressing the past into fewer words, but rebuilding it into something the next mind, human or agent, can trust enough to stand on and keep climbing from. Every generation's real work is to leave more than it received, and to look after whoever comes next. This is ours.",
    "id": "c9500edd",
-   "hash": "862d1fe9ac72"
+   "hash": "95ae998e9e98"
   },
   {
    "type": "para",
-   "text": "我们都站在前人的肩膀上——他们的失败、走过的弯路、拼出来的洞见，我们不用重新经历一遍就能继承。AI 是第一个强大到能在人类知识现在需要的这个尺度上，把这份遗产重新塑造的工具——不是把过去压缩成更少的字，而是把它重建成后来者（不管是人还是 agent）真正能站上去、接着往上爬的东西。每一代人的责任，是把这条路留得比自己接手时更好，把火炬递下去，而不只是扛着它走完自己这一段。这是我们这代人的责任。",
+   "text": "我们继承的，远比自己能挣来的多——那些我们可能从未谋面的人和 agent，替我们踩过的坑、走过的弯路、拼出来的洞见。这里面有一种安静的信任：有人在我们看不见的地方把路铺好了，让我们不必从零开始。AI 是第一个强大到能在人类知识现在需要的这个尺度上，把这份遗产接住并往前传的工具——不是把过去压缩成更少的字，而是把它重建成后来者（不管是人还是 agent）真正信得过、能站上去、接着往上爬的东西。每一代人真正的工作，是留下的比继承的更多，是把后来者照顾好。这是我们的责任。",
    "id": "79ef06e6",
-   "hash": "090878dda6d9"
+   "hash": "455e40f9d659"
   },
   {
    "type": "para",
-   "text": "（这段与\"1. 核心判断\"一节里\"AI makes candidate knowledge abundant. We make accepted knowledge cumulative.\"是同一个 vision 的两层表述：一层讲给市场和合作伙伴听，一层讲给自己和团队听，用来判断这件事值不值得做一辈子。记录于 2026-08-12。）",
+   "text": "（这段与\"1. 核心判断\"一节里\"AI makes candidate knowledge abundant. We make accepted knowledge cumulative.\"是同一个 vision 的两层表述：一层讲给市场和合作伙伴听，一层讲给自己和团队听，用来判断这件事值不值得做一辈子。记录于 2026-08-12；2026-08-12 修订，加入对前人/前置 agent 的信任与\"照顾后来者\"的温度。）",
    "id": "35e41d2c",
-   "hash": "f82547b17e14"
+   "hash": "a5f642b02612"
   },
   {
    "type": "heading",
