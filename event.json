@@ -1,37 +1,37 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/ara/logic/concepts.md",
- "artifact_id": "pp_e833a86ea89426121ab55437",
- "version": "089c7217",
- "parent": "59ab4195",
+ "artifact": "experiments/provenance_handoff/ara/logic/claims.md",
+ "artifact_id": "pp_ca8a8ddcc33d3870e9a40bc5",
+ "version": "00539ab9",
+ "parent": "d6c435c7",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-12T09:58:29+00:00",
+ "ts": "2026-08-12T09:58:39+00:00",
  "stats": {
   "added": 2
  },
  "changes": [
   {
    "kind": "added",
-   "block": "7842c425",
+   "block": "68be2471",
    "type": "heading",
-   "context": "K10: Identity is not currentness",
-   "preview": "## K10: Identity is not currentness"
+   "context": "C14: The contribution is a joint agent-h",
+   "preview": "## C14: The contribution is a joint agent-handoff evaluation"
   },
   {
    "kind": "added",
-   "block": "c411b331",
-   "type": "para",
-   "context": "K10: Identity is not currentness",
-   "preview": "A digest, signature, or content-addressed identifier can est"
+   "block": "9c9e5fa7",
+   "type": "list",
+   "context": "C14: The contribution is a joint agent-h",
+   "preview": "- **Statement**: Prior work already covers obsolete memory, "
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:48893fe8aed2f043b5069e32df7aecc3857add34bd839d41e16994966bacf1cb",
+ "soft_fingerprint": "ppsb1:0ffd6cce8d43a74b53f7135b5c0272c5e7ed7fd95adc3bb9251e56326a1e819f",
  "actors": {
   "requested_by": [
    "Richard Tang"
@@ -49,18 +49,18 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "7842c425",
+   "block": "68be2471",
    "kind": "added",
-   "note": "Adds the identity-versus-currentness concept heading."
+   "note": "Adds the scoped related-work positioning claim."
   },
   {
-   "block": "c411b331",
+   "block": "9c9e5fa7",
    "kind": "added",
-   "note": "Defines why content identity requires a separate trusted admission control."
+   "note": "Records established prior art, narrow joint contribution, and falsification condition."
   }
  ],
  "context": {
-  "why": "Distinguish immutable revision identity from policy-relative currentness after the provenance systems review."
+  "why": "Add the scoped contribution claim and explicit falsification condition derived from the closest-prior-art review."
  },
- "event_id": "ppe_31711108deea47d610cb5f1f"
+ "event_id": "ppe_18601cda1d7a4a4b687ca0ff"
 }
