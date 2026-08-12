@@ -1,54 +1,1374 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/docs/RESULTS_MATRIX.md",
- "artifact_id": "pp_d40d46a12d4d493fcbc9c0e9",
- "version": "cd910987",
- "parent": "712af9a1",
+ "artifact": "docs/internal/ARA_RIT_PROOFPRESS_STRATEGY_DISCUSSION.md",
+ "artifact_id": "pp_1b8bff070a2e63f00c362124",
+ "version": "6e4e1fef",
+ "parent": null,
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-12T09:47:05+00:00",
+ "ts": "2026-08-12T09:50:02+00:00",
  "stats": {
-  "added": 1
+  "added": 111
  },
  "changes": [
   {
    "kind": "added",
-   "block": "0d0994c1",
+   "block": "2570b77c",
+   "type": "heading",
+   "context": "ARA, RIT, Proofpress 战略讨论",
+   "preview": "# ARA, RIT, Proofpress 战略讨论"
+  },
+  {
+   "kind": "added",
+   "block": "12f2d9a1",
    "type": "para",
-   "context": "Cross-model formal stale-binding replica",
-   "preview": "Interpretation caution: the result is perfectly separated pa"
+   "context": "ARA, RIT, Proofpress 战略讨论",
+   "preview": "> 状态：战略讨论稿，非产品承诺、非法律意见、非融资材料。\n>\n> 目的：把 ARA、RIT 与 Proofpress "
+  },
+  {
+   "kind": "added",
+   "block": "63fc3a3a",
+   "type": "heading",
+   "context": "1. 核心判断",
+   "preview": "## 1. 核心判断"
+  },
+  {
+   "kind": "added",
+   "block": "4d7c10b3",
+   "type": "para",
+   "context": "1. 核心判断",
+   "preview": "AI 正在把“候选知识”的生产成本降到极低：人和 agent 可以快速生成分析、实验、结论、代码和建议。但组织真正缺少的"
+  },
+  {
+   "kind": "added",
+   "block": "4b978476",
+   "type": "para",
+   "context": "1. 核心判断",
+   "preview": "我们的共同方向不是建立另一个聊天机器人、通用 RAG 或 agent orchestration 平台，而是建设 hum"
+  },
+  {
+   "kind": "added",
+   "block": "8fdf52c3",
+   "type": "para",
+   "context": "1. 核心判断",
+   "preview": "一句话表述："
+  },
+  {
+   "kind": "added",
+   "block": "ae5c4645",
+   "type": "para",
+   "context": "1. 核心判断",
+   "preview": "> AI makes candidate knowledge abundant. We make accepted kn"
+  },
+  {
+   "kind": "added",
+   "block": "1662d754",
+   "type": "para",
+   "context": "1. 核心判断",
+   "preview": "中文表述："
+  },
+  {
+   "kind": "added",
+   "block": "dd49b55c",
+   "type": "para",
+   "context": "1. 核心判断",
+   "preview": "> AI 让知识生成变得廉价；我们让被正式接受的知识能够持续积累。"
+  },
+  {
+   "kind": "added",
+   "block": "48fbe3f5",
+   "type": "para",
+   "context": "1. 核心判断",
+   "preview": "这条路径指向的不是 personal superintelligence，而是 collective cumulativ"
+  },
+  {
+   "kind": "added",
+   "block": "7aa10326",
+   "type": "heading",
+   "context": "2. 新的知识生产关系",
+   "preview": "## 2. 新的知识生产关系"
+  },
+  {
+   "kind": "added",
+   "block": "9cd8752e",
+   "type": "para",
+   "context": "2. 新的知识生产关系",
+   "preview": "传统知识生产的基本单位通常是：一个人写一份文档，另一个人阅读、解释或重做。现在的基本单位正在变化：多个 human 与多"
+  },
+  {
+   "kind": "added",
+   "block": "271a0f0e",
+   "type": "code",
+   "context": "2. 新的知识生产关系",
+   "preview": "```text\n过去：一个人 → 一份文档 → 下一个人阅读\n\n现在：多人 + 多个 agent → 持续生成 cand"
+  },
+  {
+   "kind": "added",
+   "block": "8050e794",
+   "type": "para",
+   "context": "2. 新的知识生产关系",
+   "preview": "这不是单纯的生产力变化，也改变了生产关系："
+  },
+  {
+   "kind": "added",
+   "block": "10f96895",
+   "type": "list",
+   "context": "2. 新的知识生产关系",
+   "preview": "- agent 可以提出候选结论，却不应单独决定它成为组织的权威知识；\n- 人类仍然承担范围、价值判断、责任和批准权；\n"
+  },
+  {
+   "kind": "added",
+   "block": "79198483",
+   "type": "para",
+   "context": "2. 新的知识生产关系",
+   "preview": "因此，新的协作机制需要把 evidence、authority、acceptance、revision、responsi"
+  },
+  {
+   "kind": "added",
+   "block": "6b56d424",
+   "type": "heading",
+   "context": "3. 三个内核分别解决什么",
+   "preview": "## 3. 三个内核分别解决什么"
+  },
+  {
+   "kind": "added",
+   "block": "3e6d1ab4",
+   "type": "heading",
+   "context": "ARA：新的 research / knowledge artifact",
+   "preview": "### ARA：新的 research / knowledge artifact"
+  },
+  {
+   "kind": "added",
+   "block": "25a4f709",
+   "type": "para",
+   "context": "ARA：新的 research / knowledge artifact",
+   "preview": "ARA（Agent-Native Research Artifact）不是把 PDF 转成更结构化的文档，而是重新定义一"
+  },
+  {
+   "kind": "added",
+   "block": "23aba0d6",
+   "type": "code",
+   "context": "ARA：新的 research / knowledge artifact",
+   "preview": "```text\nArtifact\n├── 当前状态与核心 claims\n├── evidence 与实验结果\n├── c"
+  },
+  {
+   "kind": "added",
+   "block": "8df1c7f2",
+   "type": "para",
+   "context": "ARA：新的 research / knowledge artifact",
+   "preview": "类比而言，ARA 的潜力不是“更好的论文格式”，而是像 Salesforce 定义 sales object、Figma"
+  },
+  {
+   "kind": "added",
+   "block": "fecf6a0a",
+   "type": "heading",
+   "context": "RIT：claim verification 与 admission gate",
+   "preview": "### RIT：claim verification 与 admission gate"
+  },
+  {
+   "kind": "added",
+   "block": "70bcf1e6",
+   "type": "para",
+   "context": "RIT：claim verification 与 admission gate",
+   "preview": "RIT（research Git）将一条 claim 拆成可检查的部分：证据中是否确实有相应的事实或数值，以及该结论是否"
+  },
+  {
+   "kind": "added",
+   "block": "d40ec088",
+   "type": "para",
+   "context": "RIT：claim verification 与 admission gate",
+   "preview": "RIT 的正确定位不是“证明现实世界的绝对真理”，而是："
+  },
+  {
+   "kind": "added",
+   "block": "b9a94465",
+   "type": "para",
+   "context": "RIT：claim verification 与 admission gate",
+   "preview": "> 验证一条 claim 是否由它声明的 evidence 与允许的推导规则支持，并在加入知识状态时不破坏已声明的一致性"
+  },
+  {
+   "kind": "added",
+   "block": "e5f7a0ff",
+   "type": "para",
+   "context": "RIT：claim verification 与 admission gate",
+   "preview": "例如，RIT 可以验证“日志中确实有 loss = 3.28，且 3.28 < 3.30，因此该运行达到预设阈值”。它不"
+  },
+  {
+   "kind": "added",
+   "block": "3ee3d965",
+   "type": "para",
+   "context": "RIT：claim verification 与 admission gate",
+   "preview": "一个有用类比：evidence 类似身份证、bank statement、utility bill；RIT 像检查这些材"
+  },
+  {
+   "kind": "added",
+   "block": "bce7dff8",
+   "type": "heading",
+   "context": "Proofpress：accepted knowledge change 的账本",
+   "preview": "### Proofpress：accepted knowledge change 的账本与交接协议"
+  },
+  {
+   "kind": "added",
+   "block": "5ae89d73",
+   "type": "para",
+   "context": "Proofpress：accepted knowledge change 的账本",
+   "preview": "Proofpress 跟随 artifact 的生命周期，记录有意义且被正式接受的状态变化。它不是监控系统，也不应保存所"
+  },
+  {
+   "kind": "added",
+   "block": "9a49bec2",
+   "type": "para",
+   "context": "Proofpress：accepted knowledge change 的账本",
+   "preview": "它记录的是："
+  },
+  {
+   "kind": "added",
+   "block": "3c1c78d6",
+   "type": "code",
+   "context": "Proofpress：accepted knowledge change 的账本",
+   "preview": "```text\nArtifact V1\n  → 谁/哪个 agent 提出什么修改\n  → 为什么修改\n  → 基于哪些"
+  },
+  {
+   "kind": "added",
+   "block": "8b8b8b59",
+   "type": "para",
+   "context": "Proofpress：accepted knowledge change 的账本",
+   "preview": "它回答：Who changed what, why, when, based on what evidence, und"
+  },
+  {
+   "kind": "added",
+   "block": "c0a60170",
+   "type": "para",
+   "context": "Proofpress：accepted knowledge change 的账本",
+   "preview": "> Memory preserves continuity. Provenance creates accountabi"
+  },
+  {
+   "kind": "added",
+   "block": "625db3d5",
+   "type": "heading",
+   "context": "4. 三者如何组成一个产品系统",
+   "preview": "## 4. 三者如何组成一个产品系统"
+  },
+  {
+   "kind": "added",
+   "block": "81b2e4cc",
+   "type": "para",
+   "context": "4. 三者如何组成一个产品系统",
+   "preview": "三者处于不同位置，不是相互替代的三个产品。"
+  },
+  {
+   "kind": "added",
+   "block": "4abba6eb",
+   "type": "code",
+   "context": "4. 三者如何组成一个产品系统",
+   "preview": "```text\nARA       ：我们共同在研究/处理什么？当前语义状态与轨迹是什么？\nRIT       ：哪些 "
+  },
+  {
+   "kind": "added",
+   "block": "4f72cb15",
+   "type": "para",
+   "context": "4. 三者如何组成一个产品系统",
+   "preview": "完整流转是："
+  },
+  {
+   "kind": "added",
+   "block": "1ec12e5b",
+   "type": "code",
+   "context": "4. 三者如何组成一个产品系统",
+   "preview": "```text\nObserve → Propose → Ground → Verify → Review → Accep"
+  },
+  {
+   "kind": "added",
+   "block": "3bddce4e",
+   "type": "para",
+   "context": "4. 三者如何组成一个产品系统",
+   "preview": "其中："
+  },
+  {
+   "kind": "added",
+   "block": "be028a95",
+   "type": "list",
+   "context": "4. 三者如何组成一个产品系统",
+   "preview": "- **Observe**：从系统、文档、实验或人类输入观察到候选信息；\n- **Propose**：human 或 a"
+  },
+  {
+   "kind": "added",
+   "block": "edab924e",
+   "type": "heading",
+   "context": "产品不应说“所有知识都能形式化证明”",
+   "preview": "### 产品不应说“所有知识都能形式化证明”"
+  },
+  {
+   "kind": "added",
+   "block": "ee7d4a20",
+   "type": "para",
+   "context": "产品不应说“所有知识都能形式化证明”",
+   "preview": "不同知识需要不同的 verification profile。高风险并不意味着所有内容都必须被 Lean 证明；它意味着"
+  },
+  {
+   "kind": "added",
+   "block": "d17fe385",
+   "type": "table",
+   "context": "产品不应说“所有知识都能形式化证明”",
+   "preview": "| Claim 类型 | 合适的最低验证方式 |\n| --- | --- |\n| 代码 import、call、sche"
+  },
+  {
+   "kind": "added",
+   "block": "4a445b0f",
+   "type": "para",
+   "context": "产品不应说“所有知识都能形式化证明”",
+   "preview": "因此一个 candidate 可能依次经历："
+  },
+  {
+   "kind": "added",
+   "block": "348415e9",
+   "type": "code",
+   "context": "产品不应说“所有知识都能形式化证明”",
+   "preview": "```text\nCandidate → Grounded → Permissible → Verified → Admi"
+  },
+  {
+   "kind": "added",
+   "block": "fa98b941",
+   "type": "list",
+   "context": "产品不应说“所有知识都能形式化证明”",
+   "preview": "- **Grounded**：已绑定具体 source、版本和证据；\n- **Permissible**：通过权限、sc"
+  },
+  {
+   "kind": "added",
+   "block": "d6ca2ff2",
+   "type": "heading",
+   "context": "5. Formal verification 的真实边界",
+   "preview": "## 5. Formal verification 的真实边界"
+  },
+  {
+   "kind": "added",
+   "block": "44c190d5",
+   "type": "para",
+   "context": "5. Formal verification 的真实边界",
+   "preview": "形式化验证是在明确 specification、模型、前提与可信计算基下，证明某个性质成立或给出反例。它强力支持高保证系"
+  },
+  {
+   "kind": "added",
+   "block": "ce7a53c2",
+   "type": "para",
+   "context": "5. Formal verification 的真实边界",
+   "preview": "需要区分五层："
+  },
+  {
+   "kind": "added",
+   "block": "a8e8d1be",
+   "type": "table",
+   "context": "5. Formal verification 的真实边界",
+   "preview": "| 层 | 回答的问题 |\n| --- | --- |\n| Integrity | 文件、日志或证据字节是否被篡改？ |"
+  },
+  {
+   "kind": "added",
+   "block": "41e04f33",
+   "type": "para",
+   "context": "5. Formal verification 的真实边界",
+   "preview": "Hash 和签名主要服务 integrity；citation 与 source review 服务 support；R"
+  },
+  {
+   "kind": "added",
+   "block": "301fe2ee",
+   "type": "para",
+   "context": "5. Formal verification 的真实边界",
+   "preview": "Graphify 的 `EXTRACTED / INFERRED / AMBIGUOUS` 标签应被视为很有价值的 pr"
+  },
+  {
+   "kind": "added",
+   "block": "ebbc4432",
+   "type": "heading",
+   "context": "6. Enterprise AI 的通用骨架与我们的切入点",
+   "preview": "## 6. Enterprise AI 的通用骨架与我们的切入点"
+  },
+  {
+   "kind": "added",
+   "block": "2f80e76b",
+   "type": "para",
+   "context": "6. Enterprise AI 的通用骨架与我们的切入点",
+   "preview": "大型企业通常已有大量 legacy systems：LIMS、ELN、QMS、ERP、CRM、DMS、SharePoin"
+  },
+  {
+   "kind": "added",
+   "block": "18ec15c1",
+   "type": "code",
+   "context": "6. Enterprise AI 的通用骨架与我们的切入点",
+   "preview": "```text\nLegacy systems / data\n        ↓\nConnection / ingesti"
+  },
+  {
+   "kind": "added",
+   "block": "82c4a79a",
+   "type": "para",
+   "context": "6. Enterprise AI 的通用骨架与我们的切入点",
+   "preview": "Connection 可以来自 API、数据库只读、结构化导出、文件连接器、event stream，或在无 API 的"
+  },
+  {
+   "kind": "added",
+   "block": "728e15a4",
+   "type": "para",
+   "context": "6. Enterprise AI 的通用骨架与我们的切入点",
+   "preview": "这个骨架是正确的，但我们不应试图在早期重造完整 enterprise data platform、全企业 ontolog"
+  },
+  {
+   "kind": "added",
+   "block": "1cb5d819",
+   "type": "para",
+   "context": "6. Enterprise AI 的通用骨架与我们的切入点",
+   "preview": "我们的候选位置是："
+  },
+  {
+   "kind": "added",
+   "block": "f439f209",
+   "type": "para",
+   "context": "6. Enterprise AI 的通用骨架与我们的切入点",
+   "preview": "> **Knowledge Trust / Admission Control Plane：在 agent 形成候选知识"
+  },
+  {
+   "kind": "added",
+   "block": "58b5cbae",
+   "type": "code",
+   "context": "6. Enterprise AI 的通用骨架与我们的切入点",
+   "preview": "```text\nLegacy systems\n     ↓ read\nSemantic context / existi"
+  },
+  {
+   "kind": "added",
+   "block": "f035d5e4",
+   "type": "para",
+   "context": "6. Enterprise AI 的通用骨架与我们的切入点",
+   "preview": "企业已有数据的 system of record；我们成为“为什么某次知识变化值得被组织相信”的 system of r"
+  },
+  {
+   "kind": "added",
+   "block": "1204ec6c",
+   "type": "heading",
+   "context": "7. Legacy integration 的原则",
+   "preview": "## 7. Legacy integration 的原则"
+  },
+  {
+   "kind": "added",
+   "block": "1c965df7",
+   "type": "para",
+   "context": "7. Legacy integration 的原则",
+   "preview": "产品应当是 overlay，而不是客户所有系统的替代品。早期连接优先级如下："
+  },
+  {
+   "kind": "added",
+   "block": "9e72bf3f",
+   "type": "list",
+   "context": "7. Legacy integration 的原则",
+   "preview": "1. 官方 API / event stream：可获得稳定 object ID、版本、权限和时间戳；\n2. 只读数据库"
+  },
+  {
+   "kind": "added",
+   "block": "bb8f64f3",
+   "type": "para",
+   "context": "7. Legacy integration 的原则",
+   "preview": "如果 agent 通过 UI 或 computer vision 读写旧系统，不能只保存“agent 说做完了”。至少需"
+  },
+  {
+   "kind": "added",
+   "block": "a1f1c3b1",
+   "type": "heading",
+   "context": "8. 最小 ontology，而不是全企业 ontology",
+   "preview": "## 8. 最小 ontology，而不是全企业 ontology"
+  },
+  {
+   "kind": "added",
+   "block": "7ab9fb3e",
+   "type": "para",
+   "context": "8. 最小 ontology，而不是全企业 ontology",
+   "preview": "早期不建立“描述整个企业世界”的 ontology。只建立让 candidate knowledge 变为 accept"
+  },
+  {
+   "kind": "added",
+   "block": "e73e8bfe",
+   "type": "code",
+   "context": "8. 最小 ontology，而不是全企业 ontology",
+   "preview": "```text\nWork Item      Artifact       Version       Claim\nEv"
+  },
+  {
+   "kind": "added",
+   "block": "ce4741d7",
+   "type": "para",
+   "context": "8. 最小 ontology，而不是全企业 ontology",
+   "preview": "再通过行业 adapter 扩展："
+  },
+  {
+   "kind": "added",
+   "block": "d3edbd0c",
+   "type": "table",
+   "context": "8. 最小 ontology，而不是全企业 ontology",
+   "preview": "| 行业 | 典型扩展对象 |\n| --- | --- |\n| Pharma / R&D | Experiment、Pr"
+  },
+  {
+   "kind": "added",
+   "block": "73418b6d",
+   "type": "para",
+   "context": "8. 最小 ontology，而不是全企业 ontology",
+   "preview": "我们描述的不是完整企业现实，而是“知识改变如何被证据支持、验证、批准和交接”的那部分现实。"
+  },
+  {
+   "kind": "added",
+   "block": "365b4750",
+   "type": "heading",
+   "context": "9. 用户实际看到的产品",
+   "preview": "## 9. 用户实际看到的产品"
+  },
+  {
+   "kind": "added",
+   "block": "6e9c821f",
+   "type": "para",
+   "context": "9. 用户实际看到的产品",
+   "preview": "用户不应面对三个分离协议，而应面对一款 **Verified Knowledge Workspace**。针对科研/制药"
+  },
+  {
+   "kind": "added",
+   "block": "62ea8979",
+   "type": "heading",
+   "context": "9.1 Artifact workspace",
+   "preview": "### 9.1 Artifact workspace"
+  },
+  {
+   "kind": "added",
+   "block": "eedcda03",
+   "type": "para",
+   "context": "9.1 Artifact workspace",
+   "preview": "一个 work item 可以是一项实验、一个合同 matter、一份 investment memo、一个工程变更或一"
+  },
+  {
+   "kind": "added",
+   "block": "6df7f620",
+   "type": "heading",
+   "context": "9.2 Claim & evidence review",
+   "preview": "### 9.2 Claim & evidence review"
+  },
+  {
+   "kind": "added",
+   "block": "9d7a6584",
+   "type": "para",
+   "context": "9.2 Claim & evidence review",
+   "preview": "每一条重要 claim 显示：claim 内容、evidence、source authority、verificati"
+  },
+  {
+   "kind": "added",
+   "block": "261d29ca",
+   "type": "heading",
+   "context": "9.3 Admission queue",
+   "preview": "### 9.3 Admission queue"
+  },
+  {
+   "kind": "added",
+   "block": "a3a57d1d",
+   "type": "para",
+   "context": "9.3 Admission queue",
+   "preview": "合格 reviewer 能看到：这次修改了什么、哪些内容被机器验证、哪些无法验证、与旧版本有何冲突、agent 的建议及"
+  },
+  {
+   "kind": "added",
+   "block": "f00e1daf",
+   "type": "heading",
+   "context": "9.4 Decision timeline 与 verified handoff",
+   "preview": "### 9.4 Decision timeline 与 verified handoff"
+  },
+  {
+   "kind": "added",
+   "block": "fb257a10",
+   "type": "para",
+   "context": "9.4 Decision timeline 与 verified handoff",
+   "preview": "时间线展示 `V1 → proposed change → evidence → review → accepted V"
+  },
+  {
+   "kind": "added",
+   "block": "4418a9f0",
+   "type": "heading",
+   "context": "10. 第一个 vertical：Pharma / R&D 的候选流程",
+   "preview": "## 10. 第一个 vertical：Pharma / R&D 的候选流程"
+  },
+  {
+   "kind": "added",
+   "block": "f74a12be",
+   "type": "para",
+   "context": "10. 第一个 vertical：Pharma / R&D 的候选流程",
+   "preview": "Pharma R&D 是一个有吸引力的首个 wedge，而不是因为它已经被验证为市场，而是因为它同时具备研究连续性、高错"
+  },
+  {
+   "kind": "added",
+   "block": "5a56fe66",
+   "type": "para",
+   "context": "10. 第一个 vertical：Pharma / R&D 的候选流程",
+   "preview": "一个可能的 pilot workflow："
+  },
+  {
+   "kind": "added",
+   "block": "5264c97f",
+   "type": "code",
+   "context": "10. 第一个 vertical：Pharma / R&D 的候选流程",
+   "preview": "```text\nELN / LIMS / assay data / report / analysis code\n   "
+  },
+  {
+   "kind": "added",
+   "block": "6f6cbc58",
+   "type": "para",
+   "context": "10. 第一个 vertical：Pharma / R&D 的候选流程",
+   "preview": "例：agent 提出“Compound X 在 protocol V3 下显著提高 response，建议进入下一阶段”"
+  },
+  {
+   "kind": "added",
+   "block": "f7185e64",
+   "type": "para",
+   "context": "10. 第一个 vertical：Pharma / R&D 的候选流程",
+   "preview": "首个 vertical slice 不需要完整 enterprise stack：三个连接器、一个 artifact w"
+  },
+  {
+   "kind": "added",
+   "block": "64b5283e",
+   "type": "heading",
+   "context": "11. 从 research 到其他高风险行业",
+   "preview": "## 11. 从 research 到其他高风险行业"
+  },
+  {
+   "kind": "added",
+   "block": "a8e903dd",
+   "type": "para",
+   "context": "11. 从 research 到其他高风险行业",
+   "preview": "长期愿景可以覆盖 AI scientists、AI-native law firms、financial researc"
+  },
+  {
+   "kind": "added",
+   "block": "5d0a877f",
+   "type": "para",
+   "context": "11. 从 research 到其他高风险行业",
+   "preview": "可复用的跨行业状态机是相同的，变化的是："
+  },
+  {
+   "kind": "added",
+   "block": "b6d97ad6",
+   "type": "list",
+   "context": "11. 从 research 到其他高风险行业",
+   "preview": "- 接入的 legacy systems；\n- domain schema；\n- evidence type；\n- ve"
+  },
+  {
+   "kind": "added",
+   "block": "393ec4e0",
+   "type": "para",
+   "context": "11. 从 research 到其他高风险行业",
+   "preview": "因此扩张不是重复建一家公司，而是给同一 trust layer 添加行业 adapter 与 workflow pack"
+  },
+  {
+   "kind": "added",
+   "block": "e6eeb92c",
+   "type": "heading",
+   "context": "12. Nonprofit / for-profit 的可能分工",
+   "preview": "## 12. Nonprofit / for-profit 的可能分工"
+  },
+  {
+   "kind": "added",
+   "block": "5c3ff12e",
+   "type": "para",
+   "context": "12. Nonprofit / for-profit 的可能分工",
+   "preview": "这是战略假设，不是既定组织方案。合理的分工可以是："
+  },
+  {
+   "kind": "added",
+   "block": "edaa8e0a",
+   "type": "table",
+   "context": "12. Nonprofit / for-profit 的可能分工",
+   "preview": "| Nonprofit / open ecosystem | For-profit product company |\n"
+  },
+  {
+   "kind": "added",
+   "block": "bc8b756b",
+   "type": "para",
+   "context": "12. Nonprofit / for-profit 的可能分工",
+   "preview": "这种拆分的价值是：开放协议与 benchmark 有机会获得公信力，商业公司则能承载客户数据、部署、服务和收入。风险也非"
+  },
+  {
+   "kind": "added",
+   "block": "4a364adf",
+   "type": "para",
+   "context": "12. Nonprofit / for-profit 的可能分工",
+   "preview": "在任何合并既有项目或加入公司之前，必须由合格法律与公司顾问明确："
+  },
+  {
+   "kind": "added",
+   "block": "26a12c00",
+   "type": "list",
+   "context": "12. Nonprofit / for-profit 的可能分工",
+   "preview": "- pre-existing IP 的归属、assignment 或 license；\n- ARA、RIT、Proofp"
+  },
+  {
+   "kind": "added",
+   "block": "c6044e59",
+   "type": "para",
+   "context": "12. Nonprofit / for-profit 的可能分工",
+   "preview": "“你来我就可以做产品”是强烈的 founder complementarity 信号，但不是条款本身。应先把角色、IP、"
+  },
+  {
+   "kind": "added",
+   "block": "d6cc14b3",
+   "type": "heading",
+   "context": "13. 明确不做什么",
+   "preview": "## 13. 明确不做什么"
+  },
+  {
+   "kind": "added",
+   "block": "7da183d2",
+   "type": "para",
+   "context": "13. 明确不做什么",
+   "preview": "我们不应把自己表述为："
+  },
+  {
+   "kind": "added",
+   "block": "2d2f0caf",
+   "type": "list",
+   "context": "13. 明确不做什么",
+   "preview": "- 替换所有 legacy systems 的新 ERP；\n- 又一家通用 enterprise search、RAG "
+  },
+  {
+   "kind": "added",
+   "block": "1dab9d87",
+   "type": "para",
+   "context": "13. 明确不做什么",
+   "preview": "我们应保持的边界是："
+  },
+  {
+   "kind": "added",
+   "block": "37a7e61c",
+   "type": "para",
+   "context": "13. 明确不做什么",
+   "preview": "> 企业已有记录数据的系统；我们记录并控制某个知识变化为什么、如何、在什么权限与证据下成为值得信任的组织状态。"
+  },
+  {
+   "kind": "added",
+   "block": "434a7210",
+   "type": "heading",
+   "context": "14. 当前的关键未知与下一步",
+   "preview": "## 14. 当前的关键未知与下一步"
+  },
+  {
+   "kind": "added",
+   "block": "91af7ef5",
+   "type": "para",
+   "context": "14. 当前的关键未知与下一步",
+   "preview": "本文件是战略推演，不代表需求已经验证。当前最重要的不确定性是：客户是否愿意为 accepted-knowledge wo"
+  },
+  {
+   "kind": "added",
+   "block": "7d438c9d",
+   "type": "para",
+   "context": "14. 当前的关键未知与下一步",
+   "preview": "下一步建议不是构建完整平台，而是："
+  },
+  {
+   "kind": "added",
+   "block": "c9e198d9",
+   "type": "list",
+   "context": "14. 当前的关键未知与下一步",
+   "preview": "1. 与潜在 pharma director 做 discovery，而非先做产品演示；\n2. 画出一个具体 workf"
+  },
+  {
+   "kind": "added",
+   "block": "81013630",
+   "type": "para",
+   "context": "14. 当前的关键未知与下一步",
+   "preview": "对客户最值得问的问题不是“你想要 AI knowledge base 吗？”，而是："
+  },
+  {
+   "kind": "added",
+   "block": "f55f4ae5",
+   "type": "para",
+   "context": "14. 当前的关键未知与下一步",
+   "preview": "> 最近一次一个关键结论被修改、撤回、交接或审计时，组织花了多少时间弄清楚：当前该信什么、为什么、谁批准、以及缺了什么证"
+  },
+  {
+   "kind": "added",
+   "block": "b24171e0",
+   "type": "para",
+   "context": "14. 当前的关键未知与下一步",
+   "preview": "如果这个问题带来具体、昂贵、反复发生的故事，才是产品的真实起点。"
   }
  ],
- "policy": "portable",
- "soft_fingerprint": "ppsb1:2b2f12cdfa7eee9219f493add7f74e10ffe2c9d1a7c4d8cffab02c1e092c593e",
+ "policy": "local",
+ "soft_fingerprint": "ppsb1:37dfd72395cb2a22358b64a1825dba57a72059fdab5a2717d8df2514b18025ff",
  "actors": {
   "requested_by": [
    "Richard Tang"
   ],
   "produced_by": [
-   "OpenAI Codex"
+   "Codex (GPT-5)"
   ],
   "edited_by": [
-   "OpenAI Codex"
+   "Codex (GPT-5)"
   ],
   "recorded_by": [
-   "OpenAI Codex"
+   "Codex (GPT-5)"
   ]
  },
- "attribution_basis": "self_asserted",
+ "attribution_basis": "environment_attested",
  "claims": [
   {
-   "block": "0d0994c1",
+   "block": "2570b77c",
    "kind": "added",
-   "note": "Explains why perfect separation is mechanism evidence rather than an external effect estimate."
+   "note": "Initial strategic discussion document."
+  },
+  {
+   "block": "12f2d9a1",
+   "kind": "added",
+   "note": "Initial strategic discussion document."
+  },
+  {
+   "block": "63fc3a3a",
+   "kind": "added",
+   "note": "Initial strategic discussion document."
+  },
+  {
+   "block": "4d7c10b3",
+   "kind": "added",
+   "note": "Initial strategic discussion document."
+  },
+  {
+   "block": "4b978476",
+   "kind": "added",
+   "note": "Initial strategic discussion document."
+  },
+  {
+   "block": "8fdf52c3",
+   "kind": "added",
+   "note": "Initial strategic discussion document."
+  },
+  {
+   "block": "ae5c4645",
+   "kind": "added",
+   "note": "Initial strategic discussion document."
+  },
+  {
+   "block": "1662d754",
+   "kind": "added",
+   "note": "Initial strategic discussion document."
+  },
+  {
+   "block": "dd49b55c",
+   "kind": "added",
+   "note": "Initial strategic discussion document."
+  },
+  {
+   "block": "48fbe3f5",
+   "kind": "added",
+   "note": "Initial strategic discussion document."
+  },
+  {
+   "block": "7aa10326",
+   "kind": "added",
+   "note": "Initial strategic discussion document."
+  },
+  {
+   "block": "9cd8752e",
+   "kind": "added",
+   "note": "Initial strategic discussion document."
+  },
+  {
+   "block": "271a0f0e",
+   "kind": "added",
+   "note": "Initial strategic discussion document."
+  },
+  {
+   "block": "8050e794",
+   "kind": "added",
+   "note": "Initial strategic discussion document."
+  },
+  {
+   "block": "10f96895",
+   "kind": "added",
+   "note": "Initial strategic discussion document."
+  },
+  {
+   "block": "79198483",
+   "kind": "added",
+   "note": "Initial strategic discussion document."
+  },
+  {
+   "block": "6b56d424",
+   "kind": "added",
+   "note": "Initial strategic discussion document."
+  },
+  {
+   "block": "3e6d1ab4",
+   "kind": "added",
+   "note": "Initial strategic discussion document."
+  },
+  {
+   "block": "25a4f709",
+   "kind": "added",
+   "note": "Initial strategic discussion document."
+  },
+  {
+   "block": "23aba0d6",
+   "kind": "added",
+   "note": "Initial strategic discussion document."
+  },
+  {
+   "block": "8df1c7f2",
+   "kind": "added",
+   "note": "Initial strategic discussion document."
+  },
+  {
+   "block": "fecf6a0a",
+   "kind": "added",
+   "note": "Initial strategic discussion document."
+  },
+  {
+   "block": "70bcf1e6",
+   "kind": "added",
+   "note": "Initial strategic discussion document."
+  },
+  {
+   "block": "d40ec088",
+   "kind": "added",
+   "note": "Initial strategic discussion document."
+  },
+  {
+   "block": "b9a94465",
+   "kind": "added",
+   "note": "Initial strategic discussion document."
+  },
+  {
+   "block": "e5f7a0ff",
+   "kind": "added",
+   "note": "Initial strategic discussion document."
+  },
+  {
+   "block": "3ee3d965",
+   "kind": "added",
+   "note": "Initial strategic discussion document."
+  },
+  {
+   "block": "bce7dff8",
+   "kind": "added",
+   "note": "Initial strategic discussion document."
+  },
+  {
+   "block": "5ae89d73",
+   "kind": "added",
+   "note": "Initial strategic discussion document."
+  },
+  {
+   "block": "9a49bec2",
+   "kind": "added",
+   "note": "Initial strategic discussion document."
+  },
+  {
+   "block": "3c1c78d6",
+   "kind": "added",
+   "note": "Initial strategic discussion document."
+  },
+  {
+   "block": "8b8b8b59",
+   "kind": "added",
+   "note": "Initial strategic discussion document."
+  },
+  {
+   "block": "c0a60170",
+   "kind": "added",
+   "note": "Initial strategic discussion document."
+  },
+  {
+   "block": "625db3d5",
+   "kind": "added",
+   "note": "Initial strategic discussion document."
+  },
+  {
+   "block": "81b2e4cc",
+   "kind": "added",
+   "note": "Initial strategic discussion document."
+  },
+  {
+   "block": "4abba6eb",
+   "kind": "added",
+   "note": "Initial strategic discussion document."
+  },
+  {
+   "block": "4f72cb15",
+   "kind": "added",
+   "note": "Initial strategic discussion document."
+  },
+  {
+   "block": "1ec12e5b",
+   "kind": "added",
+   "note": "Initial strategic discussion document."
+  },
+  {
+   "block": "3bddce4e",
+   "kind": "added",
+   "note": "Initial strategic discussion document."
+  },
+  {
+   "block": "be028a95",
+   "kind": "added",
+   "note": "Initial strategic discussion document."
+  },
+  {
+   "block": "edab924e",
+   "kind": "added",
+   "note": "Initial strategic discussion document."
+  },
+  {
+   "block": "ee7d4a20",
+   "kind": "added",
+   "note": "Initial strategic discussion document."
+  },
+  {
+   "block": "d17fe385",
+   "kind": "added",
+   "note": "Initial strategic discussion document."
+  },
+  {
+   "block": "4a445b0f",
+   "kind": "added",
+   "note": "Initial strategic discussion document."
+  },
+  {
+   "block": "348415e9",
+   "kind": "added",
+   "note": "Initial strategic discussion document."
+  },
+  {
+   "block": "fa98b941",
+   "kind": "added",
+   "note": "Initial strategic discussion document."
+  },
+  {
+   "block": "d6ca2ff2",
+   "kind": "added",
+   "note": "Initial strategic discussion document."
+  },
+  {
+   "block": "44c190d5",
+   "kind": "added",
+   "note": "Initial strategic discussion document."
+  },
+  {
+   "block": "ce7a53c2",
+   "kind": "added",
+   "note": "Initial strategic discussion document."
+  },
+  {
+   "block": "a8e8d1be",
+   "kind": "added",
+   "note": "Initial strategic discussion document."
+  },
+  {
+   "block": "41e04f33",
+   "kind": "added",
+   "note": "Initial strategic discussion document."
+  },
+  {
+   "block": "301fe2ee",
+   "kind": "added",
+   "note": "Initial strategic discussion document."
+  },
+  {
+   "block": "ebbc4432",
+   "kind": "added",
+   "note": "Initial strategic discussion document."
+  },
+  {
+   "block": "2f80e76b",
+   "kind": "added",
+   "note": "Initial strategic discussion document."
+  },
+  {
+   "block": "18ec15c1",
+   "kind": "added",
+   "note": "Initial strategic discussion document."
+  },
+  {
+   "block": "82c4a79a",
+   "kind": "added",
+   "note": "Initial strategic discussion document."
+  },
+  {
+   "block": "728e15a4",
+   "kind": "added",
+   "note": "Initial strategic discussion document."
+  },
+  {
+   "block": "1cb5d819",
+   "kind": "added",
+   "note": "Initial strategic discussion document."
+  },
+  {
+   "block": "f439f209",
+   "kind": "added",
+   "note": "Initial strategic discussion document."
+  },
+  {
+   "block": "58b5cbae",
+   "kind": "added",
+   "note": "Initial strategic discussion document."
+  },
+  {
+   "block": "f035d5e4",
+   "kind": "added",
+   "note": "Initial strategic discussion document."
+  },
+  {
+   "block": "1204ec6c",
+   "kind": "added",
+   "note": "Initial strategic discussion document."
+  },
+  {
+   "block": "1c965df7",
+   "kind": "added",
+   "note": "Initial strategic discussion document."
+  },
+  {
+   "block": "9e72bf3f",
+   "kind": "added",
+   "note": "Initial strategic discussion document."
+  },
+  {
+   "block": "bb8f64f3",
+   "kind": "added",
+   "note": "Initial strategic discussion document."
+  },
+  {
+   "block": "a1f1c3b1",
+   "kind": "added",
+   "note": "Initial strategic discussion document."
+  },
+  {
+   "block": "7ab9fb3e",
+   "kind": "added",
+   "note": "Initial strategic discussion document."
+  },
+  {
+   "block": "e73e8bfe",
+   "kind": "added",
+   "note": "Initial strategic discussion document."
+  },
+  {
+   "block": "ce4741d7",
+   "kind": "added",
+   "note": "Initial strategic discussion document."
+  },
+  {
+   "block": "d3edbd0c",
+   "kind": "added",
+   "note": "Initial strategic discussion document."
+  },
+  {
+   "block": "73418b6d",
+   "kind": "added",
+   "note": "Initial strategic discussion document."
+  },
+  {
+   "block": "365b4750",
+   "kind": "added",
+   "note": "Initial strategic discussion document."
+  },
+  {
+   "block": "6e9c821f",
+   "kind": "added",
+   "note": "Initial strategic discussion document."
+  },
+  {
+   "block": "62ea8979",
+   "kind": "added",
+   "note": "Initial strategic discussion document."
+  },
+  {
+   "block": "eedcda03",
+   "kind": "added",
+   "note": "Initial strategic discussion document."
+  },
+  {
+   "block": "6df7f620",
+   "kind": "added",
+   "note": "Initial strategic discussion document."
+  },
+  {
+   "block": "9d7a6584",
+   "kind": "added",
+   "note": "Initial strategic discussion document."
+  },
+  {
+   "block": "261d29ca",
+   "kind": "added",
+   "note": "Initial strategic discussion document."
+  },
+  {
+   "block": "a3a57d1d",
+   "kind": "added",
+   "note": "Initial strategic discussion document."
+  },
+  {
+   "block": "f00e1daf",
+   "kind": "added",
+   "note": "Initial strategic discussion document."
+  },
+  {
+   "block": "fb257a10",
+   "kind": "added",
+   "note": "Initial strategic discussion document."
+  },
+  {
+   "block": "4418a9f0",
+   "kind": "added",
+   "note": "Initial strategic discussion document."
+  },
+  {
+   "block": "f74a12be",
+   "kind": "added",
+   "note": "Initial strategic discussion document."
+  },
+  {
+   "block": "5a56fe66",
+   "kind": "added",
+   "note": "Initial strategic discussion document."
+  },
+  {
+   "block": "5264c97f",
+   "kind": "added",
+   "note": "Initial strategic discussion document."
+  },
+  {
+   "block": "6f6cbc58",
+   "kind": "added",
+   "note": "Initial strategic discussion document."
+  },
+  {
+   "block": "f7185e64",
+   "kind": "added",
+   "note": "Initial strategic discussion document."
+  },
+  {
+   "block": "64b5283e",
+   "kind": "added",
+   "note": "Initial strategic discussion document."
+  },
+  {
+   "block": "a8e903dd",
+   "kind": "added",
+   "note": "Initial strategic discussion document."
+  },
+  {
+   "block": "5d0a877f",
+   "kind": "added",
+   "note": "Initial strategic discussion document."
+  },
+  {
+   "block": "b6d97ad6",
+   "kind": "added",
+   "note": "Initial strategic discussion document."
+  },
+  {
+   "block": "393ec4e0",
+   "kind": "added",
+   "note": "Initial strategic discussion document."
+  },
+  {
+   "block": "e6eeb92c",
+   "kind": "added",
+   "note": "Initial strategic discussion document."
+  },
+  {
+   "block": "5c3ff12e",
+   "kind": "added",
+   "note": "Initial strategic discussion document."
+  },
+  {
+   "block": "edaa8e0a",
+   "kind": "added",
+   "note": "Initial strategic discussion document."
+  },
+  {
+   "block": "bc8b756b",
+   "kind": "added",
+   "note": "Initial strategic discussion document."
+  },
+  {
+   "block": "4a364adf",
+   "kind": "added",
+   "note": "Initial strategic discussion document."
+  },
+  {
+   "block": "26a12c00",
+   "kind": "added",
+   "note": "Initial strategic discussion document."
+  },
+  {
+   "block": "c6044e59",
+   "kind": "added",
+   "note": "Initial strategic discussion document."
+  },
+  {
+   "block": "d6cc14b3",
+   "kind": "added",
+   "note": "Initial strategic discussion document."
+  },
+  {
+   "block": "7da183d2",
+   "kind": "added",
+   "note": "Initial strategic discussion document."
+  },
+  {
+   "block": "2d2f0caf",
+   "kind": "added",
+   "note": "Initial strategic discussion document."
+  },
+  {
+   "block": "1dab9d87",
+   "kind": "added",
+   "note": "Initial strategic discussion document."
+  },
+  {
+   "block": "37a7e61c",
+   "kind": "added",
+   "note": "Initial strategic discussion document."
+  },
+  {
+   "block": "434a7210",
+   "kind": "added",
+   "note": "Initial strategic discussion document."
+  },
+  {
+   "block": "91af7ef5",
+   "kind": "added",
+   "note": "Initial strategic discussion document."
+  },
+  {
+   "block": "7d438c9d",
+   "kind": "added",
+   "note": "Initial strategic discussion document."
+  },
+  {
+   "block": "c9e198d9",
+   "kind": "added",
+   "note": "Initial strategic discussion document."
+  },
+  {
+   "block": "81013630",
+   "kind": "added",
+   "note": "Initial strategic discussion document."
+  },
+  {
+   "block": "f55f4ae5",
+   "kind": "added",
+   "note": "Initial strategic discussion document."
+  },
+  {
+   "block": "b24171e0",
+   "kind": "added",
+   "note": "Initial strategic discussion document."
   }
  ],
  "context": {
-  "why": "Synchronize the local results matrix with the design-aligned construct-validity boundary recorded in ARA."
+  "why": "Consolidated the ARA, RIT, Proofpress, formal-verification, enterprise-workflow, and organization-model discussion into a reusable strategic artifact."
  },
- "event_id": "ppe_dee37dfd758ea2a30a89443e"
+ "event_id": "ppe_98ed8e4e8d0d8f0a4e8be176"
 }
