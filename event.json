@@ -1,37 +1,37 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/ara/logic/experiments.md",
- "artifact_id": "pp_15fb7a0bcf0891f7cee01068",
- "version": "51632060",
- "parent": "68bcd8ec",
+ "artifact": "experiments/provenance_handoff/ara/logic/solution/constraints.md",
+ "artifact_id": "pp_73ebebcca36fa08a7d4aed88",
+ "version": "dec7d1a0",
+ "parent": "002fae0c",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-12T09:45:49+00:00",
+ "ts": "2026-08-12T09:46:00+00:00",
  "stats": {
   "added": 2
  },
  "changes": [
   {
    "kind": "added",
-   "block": "47b80f8c",
+   "block": "15d19199",
    "type": "heading",
-   "context": "Interpretation audit and next validity g",
-   "preview": "## Interpretation audit and next validity gate (2026-08-12)"
+   "context": "S05: Treat design alignment as a constru",
+   "preview": "## S05: Treat design alignment as a construct-validity risk"
   },
   {
    "kind": "added",
-   "block": "699fb171",
+   "block": "c45aa313",
    "type": "para",
-   "context": "Interpretation audit and next validity g",
-   "preview": "The primary APEX-derived experiment is a design-aligned mech"
+   "context": "S05: Treat design alignment as a constru",
+   "preview": "A fixture that injects the exact failure Proofpress was desi"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:90c765578049d5f054b8ff5afcba53fb62896803c6f8bff70c5cdfd001a6d3af",
+ "soft_fingerprint": "ppsb1:03dce651e2e71ec6e098c66c87418706500504e83e822399b2cc7aa1aac88bf7",
  "actors": {
   "requested_by": [
    "Richard Tang"
@@ -49,18 +49,18 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "47b80f8c",
+   "block": "15d19199",
    "kind": "added",
-   "note": "Adds the experiment interpretation-audit heading."
+   "note": "Adds the design-alignment constraint heading."
   },
   {
-   "block": "699fb171",
+   "block": "c45aa313",
    "kind": "added",
-   "note": "Records design alignment and the next independent validity gate."
+   "note": "Requires independent tasks and cost measurement before general claims."
   }
  ],
  "context": {
-  "why": "Record the design-aligned interpretation audit and the independent-task validity gate."
+  "why": "Prevent mechanism-targeted fixtures from being reported as representative general-efficacy estimates."
  },
- "event_id": "ppe_5882633feb355e5c12a44a8e"
+ "event_id": "ppe_930db9b27889b4562f90bb8b"
 }
