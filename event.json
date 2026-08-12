@@ -2,100 +2,58 @@
  "event": "version_created",
  "artifact": "docs/internal/ARA_RIT_PROOFPRESS_STRATEGY_DISCUSSION.md",
  "artifact_id": "pp_1b8bff070a2e63f00c362124",
- "version": "bac4e457",
- "parent": "bb1cda20",
+ "version": "4e39c8db",
+ "parent": "bac4e457",
  "author": {
-  "name": "Claude (AO worker proofpress-dev-8)",
+  "name": "Claude (AO worker proofpress-dev-9)",
   "kind": "agent",
-  "session": "proofpress-dev-8"
+  "session": "proofpress-dev-9"
  },
  "note": null,
- "ts": "2026-08-12T12:05:57+00:00",
+ "ts": "2026-08-12T12:17:26+00:00",
  "stats": {
-  "added": 10
+  "added": 4
  },
  "changes": [
   {
    "kind": "added",
-   "block": "269a4ad9",
+   "block": "df62fbe2",
    "type": "heading",
-   "context": "4.2 RIT/ARA 产品定位：OS for AI Scientist",
-   "preview": "### 4.2 RIT/ARA 产品定位：OS for AI Scientist"
+   "context": "Mission",
+   "preview": "## Mission"
   },
   {
    "kind": "added",
-   "block": "336552f5",
+   "block": "c9500edd",
    "type": "para",
-   "context": "4.2 RIT/ARA 产品定位：OS for AI Scientist",
-   "preview": "（背景：用户已加入 ARA team，RIT/ARA + Frontier Labs 是当前优先 wedge。以下\n记录"
+   "context": "Mission",
+   "preview": "> We all stand on the shoulders of giants — the people who c"
   },
   {
    "kind": "added",
-   "block": "013d96e3",
+   "block": "79ef06e6",
    "type": "para",
-   "context": "4.2 RIT/ARA 产品定位：OS for AI Scientist",
-   "preview": "**定位分两层，不要混用**："
+   "context": "Mission",
+   "preview": "我们都站在前人的肩膀上——他们的失败、走过的弯路、拼出来的洞见，我们不用重新经历一遍就能继承。AI 是第一个强大到能在人"
   },
   {
    "kind": "added",
-   "block": "45901b36",
-   "type": "list",
-   "context": "4.2 RIT/ARA 产品定位：OS for AI Scientist",
-   "preview": "- **宏观 thesis（长，用于讲清楚整体方向，不是 tagline）**：Verified Knowledge"
-  },
-  {
-   "kind": "added",
-   "block": "c81d2e11",
+   "block": "35e41d2c",
    "type": "para",
-   "context": "4.2 RIT/ARA 产品定位：OS for AI Scientist",
-   "preview": "  Infrastructure for Autonomous Self-Evolving R&D。"
-  },
-  {
-   "kind": "added",
-   "block": "52e4a8fa",
-   "type": "list",
-   "context": "4.2 RIT/ARA 产品定位：OS for AI Scientist",
-   "preview": "- **产品 tagline（短，对外主用）**：**OS for AI Scientist(s)**。这句话不是"
-  },
-  {
-   "kind": "added",
-   "block": "2d21d7c4",
-   "type": "para",
-   "context": "4.2 RIT/ARA 产品定位：OS for AI Scientist",
-   "preview": "  内部自造的类比，出自 Amber（Jiachen Liu，ARA 论文第一作者）本人的原话——\n  她在 X 长文《"
-  },
-  {
-   "kind": "added",
-   "block": "9c8bf7bb",
-   "type": "para",
-   "context": "4.2 RIT/ARA 产品定位：OS for AI Scientist",
-   "preview": "**OS 类比下的子系统映射**："
-  },
-  {
-   "kind": "added",
-   "block": "9998e6df",
-   "type": "table",
-   "context": "4.2 RIT/ARA 产品定位：OS for AI Scientist",
-   "preview": "| OS 概念 | 对应子系统 |\n| --- | --- |\n| 文件系统 / 持久进程状态 | artifacts（"
-  },
-  {
-   "kind": "added",
-   "block": "ef05e9d8",
-   "type": "para",
-   "context": "4.2 RIT/ARA 产品定位：OS for AI Scientist",
-   "preview": "这个映射还解释了为什么 Claim Flow Graph 需要挂上 4.1 节里定的那层 actor/decision/"
+   "context": "Mission",
+   "preview": "（这段与\"1. 核心判断\"一节里\"AI makes candidate knowledge abundant. We m"
   }
  ],
  "policy": "local",
- "soft_fingerprint": "ppsb1:3070ab1a721b73361bb2d32af60724e9356bfa4b0359f9e60bd7c2ab9c76a526",
+ "soft_fingerprint": "ppsb1:b37316525d748c038e766bf044edcf9d540bfcf224a326307cc2b73dd041391c",
  "actors": {
   "recorded_by": [
-   "Claude (AO worker proofpress-dev-8)"
+   "Claude (AO worker proofpress-dev-9)"
   ]
  },
  "attribution_basis": "self_asserted",
  "context": {
-  "why": "Add section 4.2: RIT/ARA product positioning as OS for AI Scientist, per 2026-08-12 strategy discussion"
+  "why": "Add Mission block ahead of section 1: the values-level 'stand on the shoulders of giants' statement that the product-framed 核心判断 section sits underneath"
  },
- "event_id": "ppe_cba74f210664e7d748ea242e"
+ "event_id": "ppe_d50060647ff64cfae4bd5df8"
 }

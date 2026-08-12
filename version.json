@@ -16,6 +16,30 @@
   },
   {
    "type": "heading",
+   "text": "## Mission",
+   "id": "df62fbe2",
+   "hash": "dbf43f0df79d"
+  },
+  {
+   "type": "para",
+   "text": "> We all stand on the shoulders of giants — the people who came before us, whose failures, dead ends, and hard-won insight we inherited without ever having to relive them ourselves. AI is the first tool epochal enough to do this reshaping at the scale human knowledge now demands: not compressing the past into fewer words, but rebuilding it into something the next mind — human or agent — can actually stand on and keep climbing from. Every generation's job is to leave the trail better than they found it, and hand the torch forward, not just carry it. This is ours.",
+   "id": "c9500edd",
+   "hash": "862d1fe9ac72"
+  },
+  {
+   "type": "para",
+   "text": "我们都站在前人的肩膀上——他们的失败、走过的弯路、拼出来的洞见，我们不用重新经历一遍就能继承。AI 是第一个强大到能在人类知识现在需要的这个尺度上，把这份遗产重新塑造的工具——不是把过去压缩成更少的字，而是把它重建成后来者（不管是人还是 agent）真正能站上去、接着往上爬的东西。每一代人的责任，是把这条路留得比自己接手时更好，把火炬递下去，而不只是扛着它走完自己这一段。这是我们这代人的责任。",
+   "id": "79ef06e6",
+   "hash": "090878dda6d9"
+  },
+  {
+   "type": "para",
+   "text": "（这段与\"1. 核心判断\"一节里\"AI makes candidate knowledge abundant. We make accepted knowledge cumulative.\"是同一个 vision 的两层表述：一层讲给市场和合作伙伴听，一层讲给自己和团队听，用来判断这件事值不值得做一辈子。记录于 2026-08-12。）",
+   "id": "35e41d2c",
+   "hash": "f82547b17e14"
+  },
+  {
+   "type": "heading",
    "text": "## 1. 核心判断",
    "id": "63fc3a3a",
    "hash": "9f05866e8a8e"
