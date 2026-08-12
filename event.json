@@ -1,59 +1,35 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/docs/KNOWLEDGE_HANDOFF_DEBT_PLAN.md",
- "artifact_id": "pp_2a2e62252d677e3b6e52cce7",
- "version": "faf049dc",
- "parent": "5e36b0d6",
+ "artifact": "experiments/provenance_handoff/ara/logic/experiments.md",
+ "artifact_id": "pp_15fb7a0bcf0891f7cee01068",
+ "version": "e8ce4eaf",
+ "parent": "98baaacb",
  "author": {
   "name": "codex",
   "kind": "agent",
   "session": "knowledge-handoff-debt-phase2-primary-deepseek-r1"
  },
  "note": null,
- "ts": "2026-08-12T15:11:43+00:00",
+ "ts": "2026-08-12T15:11:53+00:00",
  "stats": {
-  "modified": 5
+  "modified": 1
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "39da68a1",
+   "block": "a5a49edb",
    "type": "para",
-   "context": "Phase 2 — Frozen pilot"
-  },
-  {
-   "kind": "modified",
-   "block": "72a6cf02",
-   "type": "para",
-   "context": "Phase 3 — Formal independently authored ",
+   "context": "Registered next program: knowledge hando",
    "numbers": [
     [
      "3.8",
      "0731"
     ]
    ]
-  },
-  {
-   "kind": "modified",
-   "block": "9518eb81",
-   "type": "table",
-   "context": "7. Frozen harness, routing, model, and s"
-  },
-  {
-   "kind": "modified",
-   "block": "52c3e64d",
-   "type": "para",
-   "context": "7. Frozen harness, routing, model, and s"
-  },
-  {
-   "kind": "modified",
-   "block": "2b233531",
-   "type": "para",
-   "context": "7. Frozen harness, routing, model, and s"
   }
  ],
- "policy": "local",
- "soft_fingerprint": "ppsb1:f21cf5e87025952b66847aa0364e976a619d5d153c89adad291d17a3cb042464",
+ "policy": "portable",
+ "soft_fingerprint": "ppsb1:620a953313259afb144e6191af099e4b582754a50741e96db070b6a8a3c3499d",
  "actors": {
   "requested_by": [
    "richardtang"
@@ -71,33 +47,13 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "39da68a1",
+   "block": "a5a49edb",
    "kind": "modified",
-   "note": "Replaces the proposed pilot model with the exact DeepSeek V4 Flash 0731 slug and freezes DeepInfra as sole ordered provider."
-  },
-  {
-   "block": "72a6cf02",
-   "kind": "modified",
-   "note": "Makes DeepSeek V4 Flash 0731 through DeepInfra the primary formal slice while retaining GLM 5.2 as the first robustness slice."
-  },
-  {
-   "block": "9518eb81",
-   "kind": "modified",
-   "note": "Updates the frozen stack table for the DeepSeek primary and the separate same-model OpenRouter transport slice."
-  },
-  {
-   "block": "52c3e64d",
-   "kind": "modified",
-   "note": "Requires DeepInfra in both Gateway only and order policies and forbids transport substitution in a formal matrix."
-  },
-  {
-   "block": "2b233531",
-   "kind": "modified",
-   "note": "Updates the conditional Kimi discrepancy trigger to compare DeepSeek with GLM."
+   "note": "Updates the registered primary stack to exact DeepSeek V4 Flash 0731 through DeepInfra-only AI Gateway routing with fallback disabled."
   }
  ],
  "context": {
-  "why": "User replaced Qwen primary because of cost; exact DeepSeek V4 Flash 0731 with a DeepInfra-only Gateway route preserves an auditable no-fallback primary."
+  "why": "Align the registered experiment program with the user-authorized DeepSeek V4 Flash 0731 primary route and DeepInfra-only no-fallback policy."
  },
- "event_id": "ppe_f6863d9ff35e3402e4d90a68"
+ "event_id": "ppe_ca2f42db8e8b05773c5087f0"
 }
