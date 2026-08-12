@@ -1,37 +1,51 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/ara/logic/experiments.md",
- "artifact_id": "pp_15fb7a0bcf0891f7cee01068",
- "version": "27e62912",
- "parent": "d030f2d4",
+ "artifact": "experiments/provenance_handoff/docs/RESULTS_MATRIX.md",
+ "artifact_id": "pp_d40d46a12d4d493fcbc9c0e9",
+ "version": "712af9a1",
+ "parent": "b5296a8e",
  "author": {
   "name": "Codex",
   "kind": "agent",
   "session": null
  },
- "note": "Record cross-model formal replication experiment",
- "ts": "2026-08-12T09:20:39+00:00",
+ "note": "Add cross-model formal replication to results matrix",
+ "ts": "2026-08-12T09:20:49+00:00",
  "stats": {
-  "added": 2
+  "added": 4
  },
  "changes": [
   {
    "kind": "added",
-   "block": "b7584c43",
+   "block": "8d6e6310",
    "type": "heading",
-   "context": "Cross-model formal replication (2026-08-",
-   "preview": "## Cross-model formal replication (2026-08-12)"
+   "context": "Cross-model formal stale-binding replica",
+   "preview": "## Cross-model formal stale-binding replication — 144 cells"
   },
   {
    "kind": "added",
-   "block": "a834895e",
+   "block": "2e32107f",
    "type": "para",
-   "context": "Cross-model formal replication (2026-08-",
-   "preview": "**Status:** completed; preregistered bounded cross-model rep"
+   "context": "Cross-model formal stale-binding replica",
+   "preview": "This is a separate bounded replication of the frozen APEX-de"
+  },
+  {
+   "kind": "added",
+   "block": "7d97f78e",
+   "type": "para",
+   "context": "Cross-model formal stale-binding replica",
+   "preview": "Evidence summary: `/private/tmp/proofpress-three-model-forma"
+  },
+  {
+   "kind": "added",
+   "block": "adf00117",
+   "type": "para",
+   "context": "APEX-direct SPA Artifact Handoff — 18-ce",
+   "preview": "**Validity correction.** v1 is retained as an operational/fa"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:c98a1ae037973f34ecfe249c42cada345d9b0cbc2f9682f51eb8b7d55d445b8d",
+ "soft_fingerprint": "ppsb1:e884f5948d63cad6b4e96feb43a6b38555b2a209d60a99666aad9bbbffb25583",
  "actors": {
   "requested_by": [
    "user"
@@ -49,18 +63,28 @@
  "attribution_basis": "harness_attested",
  "claims": [
   {
-   "block": "b7584c43",
+   "block": "8d6e6310",
    "kind": "added",
-   "note": "Adds the cross-model formal replication experiment record."
+   "note": "Adds the cross-model formal replication results-matrix heading."
   },
   {
-   "block": "a834895e",
+   "block": "2e32107f",
    "kind": "added",
-   "note": "Records design, results, runtime boundary, and non-efficacy scope."
+   "note": "Records the 144-cell matrix and per-model effects."
+  },
+  {
+   "block": "7d97f78e",
+   "kind": "added",
+   "note": "Records provider, confinement, cost, and claim boundary."
+  },
+  {
+   "block": "adf00117",
+   "kind": "added",
+   "note": "Links the formal cross-model evidence summary."
   }
  ],
  "context": {
-  "why": "Document the completed frozen-fixture replication across three OpenRouter models and preserve its runtime and external-validity boundaries."
+  "why": "Make the completed three-model replication discoverable in the local results documentation without pooling it with STALE or benchmark efficacy records."
  },
- "event_id": "ppe_91e400503e8c0d458504a9e4"
+ "event_id": "ppe_1dd91a4536cb3baf1bfd9d69"
 }
