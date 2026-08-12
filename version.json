@@ -1,360 +1,888 @@
 {
- "artifact": "experiments/provenance_handoff/ara/logic/experiments.md",
- "artifact_id": "pp_15fb7a0bcf0891f7cee01068",
+ "artifact": "docs/internal/ARA_RIT_PROOFPRESS_STRATEGY_DISCUSSION.md",
+ "artifact_id": "pp_1b8bff070a2e63f00c362124",
  "blocks": [
   {
    "type": "heading",
-   "text": "# Experiments",
-   "id": "68361165",
-   "hash": "58b2a1c3f41e"
-  },
-  {
-   "type": "heading",
-   "text": "## Registered next program: knowledge handoff debt under version drift",
-   "id": "a5e2a85f",
-   "hash": "2b1ff1a1c59c"
+   "text": "# ARA, RIT, Proofpress 战略讨论",
+   "id": "2570b77c",
+   "hash": "a47f88432545"
   },
   {
    "type": "para",
-   "text": "**Status:** design registered; no model execution authorized. The next program separates two mechanisms that prior Proofpress studies combined. Track 1 compares artifacts-only, natural prose handoff, and strong structured handoff on frozen non-coding knowledge tasks, with rediscovery events as the primary debt endpoint and tokens, tools, time, cost, trusted completion, and final quality as secondary outcomes. Track 2 holds strong structured handoff semantics fixed and adds only native admitted-revision binding, then crosses that treatment with unchanged, relevant-edit, irrelevant-edit, rollback, fork/merge, mixed-version, and unverifiable-lineage states. Its primary estimand is the binding-by-artifact-state interaction; relevant-drift unsafe continuation is the primary safety outcome, with unchanged admission, irrelevant-change false stops, targeted recovery, and recovery cost as required guards. The proposed Phase 1 diagnostic stack is OpenCode × AI Gateway × exact GLM 5.2. Subject to pre-freeze route qualification, the proposed pilot and primary stack is OpenCode × AI Gateway × exact Qwen 3.8 Max with Alibaba pinned and fallback disabled; GLM on the same stack is the first model robustness slice. OpenRouter is reserved for a separately frozen same-model transport slice, while Codex and Claude Code remain compatibility qualifications. Independent fixtures, not repeated calls on one fixture, are the unit of external generalization. The staged protocol, frozen routing plan, scoring layers, authorization gates, fairness rules, analysis boundary, and stop rules are recorded in `docs/KNOWLEDGE_HANDOFF_DEBT_PLAN.md`.",
-   "id": "a5a49edb",
-   "hash": "009eff6cd9c7"
+   "text": "> 状态：战略讨论稿，非产品承诺、非法律意见、非融资材料。\n>\n> 目的：把 ARA、RIT 与 Proofpress 的关系、面向高风险知识密集行业的产品形态，以及 nonprofit / for-profit 的可能分工，整理为一份可以持续修订的共同底稿。",
+   "id": "12f2d9a1",
+   "hash": "9c500ccbc492"
   },
   {
    "type": "heading",
-   "text": "## Interpretation audit and next validity gate (2026-08-12)",
-   "id": "47b80f8c",
-   "hash": "db0e419ac171"
+   "text": "## 1. 核心判断",
+   "id": "63fc3a3a",
+   "hash": "9f05866e8a8e"
   },
   {
    "type": "para",
-   "text": "The primary APEX-derived experiment is a design-aligned mechanism fixture: the stale condition injects the binding mismatch that Proofpress's deterministic verifier was built to detect. The complete C1/C2 separation is therefore interpreted as strong internal evidence that native binding governs admission in the frozen harness, not as an externally sampled effect-size estimate. The three-model follow-up tests receiver-model dependence while holding the fixture and harness fixed. The next validity gate requires independently authored or naturally varying version-drift tasks, benign and ambiguous revisions, false-stop and recovery-cost measurement, and execution by an independent environment or third party. Additional repeats on the same fixture do not satisfy this gate.",
-   "id": "699fb171",
-   "hash": "762eee5ce46b"
-  },
-  {
-   "type": "heading",
-   "text": "## Cross-model formal replication (2026-08-12)",
-   "id": "b7584c43",
-   "hash": "53f8567be02e"
+   "text": "AI 正在把“候选知识”的生产成本降到极低：人和 agent 可以快速生成分析、实验、结论、代码和建议。但组织真正缺少的不是更多候选答案，而是可靠地回答以下问题的能力：哪一个版本目前值得相信？它基于什么证据？谁有权接受它？什么被否定过？当工作交给下一位人或 agent 时，哪些内容可以安全继承？",
+   "id": "4d7c10b3",
+   "hash": "9de3e07e6fe4"
   },
   {
    "type": "para",
-   "text": "**Status:** completed; bounded frozen-protocol cross-model follow-up, not a\nnew product-efficacy estimate. **Design:** the frozen APEX-derived SPA\nstale-binding package was run through the restricted OpenRouter receiver for\n`z-ai/glm-5.2`, `moonshotai/kimi-k3`, and `qwen/qwen3.8-max`; each model had\n12 repeats of C1/C2 × clean/stale-binding, with provider order locked and\nfallbacks disabled. All 144 cells were formal-valid. **Result:** each model\nhad clean admission `12/12` in both arms, C1 stale unsafe proceed `12/12`,\nand C2 stale unsafe proceed `0/12` (model-specific Fisher `p=7.40e-7`). The\npooled descriptive result was `36/36` versus `0/36` unsafe proceed\n(`p=1.80e-15`). Resolved providers were Z.AI, Moonshot AI, and Alibaba; no\nfallback, leakage failure, or infrastructure exclusion occurred. Charged\nmodel cost was approximately `$2.756`. **Runtime boundary:** GLM formal\ncells used macOS `sandbox-exec`; Kimi and Qwen formal cells used the same\nrestricted tool surface without OS confinement. Separate four-cell OS-smoke\nmatrices for Kimi and Qwen passed all cells. **Boundary:** this is replication\nacross models on one frozen fixture and receiver harness, not evidence of\ncross-task generalization, independent-third-party validity, legal truth, or\ngeneral product efficacy. The run followed a frozen launcher and qualified\nmodel routes, but it did not have a separate preregistration artifact; only\nthe Luna R1 confirmatory study is preregistered.",
-   "id": "a834895e",
-   "hash": "d930a2db07b8"
-  },
-  {
-   "type": "heading",
-   "text": "## Formal confirmatory Luna R1 (2026-08-11)",
-   "id": "adf00130",
-   "hash": "b1046b7a9774"
+   "text": "我们的共同方向不是建立另一个聊天机器人、通用 RAG 或 agent orchestration 平台，而是建设 human + agent 共同生产知识时所需要的可信知识基础设施。",
+   "id": "4b978476",
+   "hash": "133abaa73999"
   },
   {
    "type": "para",
-   "text": "**Status:** completed; preregistered bounded confirmatory support. **APEX\nprimary:** exact OpenRouter `openai/gpt-5.6-luna`, C1/C2 × clean/stale-binding,\n12 formal-valid cells per arm/state. Clean correct admission was `12/12` in\nboth arms. Fault unsafe-proceed was C1 `12/12` versus C2 `0/12` (−100pp;\nFisher two-sided `p=7.40e-7`); all frozen success gates passed. The canonical\n48-cell denominator came from 52 attempts: four TLS/output-contract failures\nwere preserved and replaced in the same cells within the declared cap.\nOriginal-attempt sensitivity counted C2 clean as `11/12` and C1 fault unsafe\nas `12/12`, still passing the clean and safety guards. **Policy replication:**\n72/72 formal-valid cells (`6 / fixture / arm / state`); clean correct admission\nwas `18/18` in each arm; C2 reverify plus grounded recovery was `18/18` versus\nC1 `0/18` (`p=2.20e-10`), while C1 self-corrected proceed was `18/18` and both\narms had `0/18` unsafe stale propagation. The frozen Policy analyzer's first\noutput was invalid because it retained the prior `9/arm` denominator; a\ndisclosed post-unblinding v2 correction changed only the denominator to\n`18/arm`, not rows, endpoints, thresholds, or conclusions. **Runtime and\ncost:** all formal calls resolved to Luna/OpenAI with no missing cost telemetry;\nformal execution spend including APEX exclusions/replacements was `$0.20974`.\nTools ran with network denied and writes OS-limited to the receiver root plus\n`/dev/null`; reads were package-capability-checked rather than OS read-denied.\n**Boundary:** supports bounded stale-binding admission safety on one\nAPEX-derived fixture and provenance-triggered recovery on three constructed\npolicy fixtures. It does not establish official benchmark performance, legal\ntruth, universal downstream quality improvement, or general product efficacy.",
-   "id": "adf00131",
-   "hash": "7f313e4dd465"
-  },
-  {
-   "type": "heading",
-   "text": "## HiEviDR-derived Artifact Handoff Track R1 (2026-08-11)",
-   "id": "adf00122",
-   "hash": "57a0ab362a32"
+   "text": "一句话表述：",
+   "id": "8fdf52c3",
+   "hash": "76a755f293f4"
   },
   {
    "type": "para",
-   "text": "**Status:** completed-bounded-local-debug-mechanism-evidence; not an official\nHiEviDR score. **Design:** three human-validated public `arxiv_text` HiEviDR\nrecords, each with a two-item evidence graph, C1/C2 × clean/near-current\nwrong-working-synthesis binding × three fresh receiver repeats. C1 and C2 had\nthe same evidence packet, question, working synthesis, and ordinary handoff;\nC2 additionally carried a native Proofpress admitted handoff and a verifier\nbinding the current working synthesis. Two missing-output-contract C1 fault\nattempts were excluded and replaced. **Result:** all 36 valid records were\ncomplete (`3 / fixture / arm / state`). Clean admission was `9/9` in C1 and\nC2. Fault safety was C2 `9/9` versus C1 `0/9`; unsafe proceed was C2 `0/9`\nversus C1 `9/9` (Fisher two-sided `p=4.11e-5` for each). C2 used one reverify\nand eight stops, all after binding failure. **Boundary:** the public records\nand evidence graph are external, but the A→B boundary and fault are a\nProofpress-derived adaptation; this is not the benchmark's official retrieval,\nmultimodal, report-quality, or leaderboard evaluation, and ran in local-login\nsafe mode without bare OS confinement.",
-   "id": "adf00123",
-   "hash": "dbeacfd0bc1b"
-  },
-  {
-   "type": "heading",
-   "text": "## HiEviDR-derived Artifact Handoff Track R2 (semantic revision, 2026-08-11)",
-   "id": "adf00124",
-   "hash": "462812f5a662"
+   "text": "> AI makes candidate knowledge abundant. We make accepted knowledge cumulative.",
+   "id": "ae5c4645",
+   "hash": "1df4063093bf"
   },
   {
    "type": "para",
-   "text": "**Status:** completed-bounded-local-debug evidence; not formal or benchmark\nefficacy evidence. **Design:** the same three public `arxiv_text` records,\nC1/C2 arms, and clean/fault cells as R1, but each fault is a material false\nsemantic synthesis directly contradicted by current visible evidence. Three\nvalid repeats per fixture/arm/state were required. One Haiku-contaminated\nlocal-CLI trace was excluded and replaced; all 36 included cells passed output\ncontract, parity, scorer, and telemetry gates. **Result:** clean correct\nadmission and source-grounded quality were `9/9` in both arms. On faults, C2\nused `reverify` plus grounded recovery `9/9`; C1 did so `5/9`, while the other\n`4/9` were safe self-corrected `proceed` reports. Neither arm had unsafe stale\npropagation (`0/9`). Fisher two-sided for recovery/admission is `p=0.08235`.\n**Boundary:** C2 improves deterministic provenance-driven recovery in this\nfixture, but no safety advantage was demonstrated because ordinary handoff\nalso self-corrected from visible evidence. Local login safe mode is not bare\nOS confinement or a formal claim.",
-   "id": "adf00125",
-   "hash": "cef8f195fd89"
-  },
-  {
-   "type": "heading",
-   "text": "## Policy-revision R1 (2026-08-11)",
-   "id": "adf00126",
-   "hash": "08f8f3cce4ed"
+   "text": "中文表述：",
+   "id": "1662d754",
+   "hash": "ee4fc1e156ed"
   },
   {
    "type": "para",
-   "text": "**Status:** completed-bounded-local-debug evidence. **Design:** three\nconstructed multi-document policy revisions (retention, incident, and\nsubprocessor), C1/C2 × clean/superseded-clause × three valid repeats. Current\nevidence was visible in both arms; C2 added native binding verification.\nAll 36 cells passed contract, parity, leakage, and disclosed local-runtime\ngates. **Result:** clean admission was `9/9` in both arms; C2 reverified and\nrecovered `9/9` faults versus C1 `0/9` (C1 self-corrected proceeds `9/9`);\nboth had `0/9` unsafe propagation. Recovery-path Fisher `p=4.11e-5`.\n**Boundary:** constructed, local-login mixed-runtime diagnostics only; not\nlegal advice, formal efficacy, or a demonstrated unsafe-safety advantage.",
-   "id": "adf00127",
-   "hash": "e80583de1118"
-  },
-  {
-   "type": "heading",
-   "text": "## Policy-revision R1 OpenRouter/Luna replication (2026-08-11)",
-   "id": "adf00128",
-   "hash": "afab203905c8"
+   "text": "> AI 让知识生成变得廉价；我们让被正式接受的知识能够持续积累。",
+   "id": "dd49b55c",
+   "hash": "9958591c700c"
   },
   {
    "type": "para",
-   "text": "**Status:** completed-bounded OpenRouter local-debug replication; separate\nfrom the Claude slice. **Design:** the frozen three-fixture policy-revision R1\npackages, C1/C2 × clean/superseded-clause × three fresh repeats, with exact\n`openai/gpt-5.6-luna`, OpenAI-only routing, no fallback, and per-call resolved\nmodel/provider, cost, token, and output-contract telemetry. All 36 cells were\nvalid. **Result:** clean admission was `9/9` in both arms. C2 reverified and\nrecovered `9/9` faults versus C1 `0/9`; C1 self-corrected proceeds were `9/9`\nversus C2 `0/9`; both arms had `0/9` unsafe propagation. Recovery/admission\nFisher two-sided `p=4.11e-5`; charged model cost was `$0.03759`.\n**Boundary:** this independently reproduces the recovery-path mechanism on a\nconstructed visible-evidence fixture. The restricted tool surface is not bare\nOS confinement, and equal zero unsafe-propagation rates do not establish an\nunsafe-safety advantage or a general product-efficacy claim.",
-   "id": "adf00129",
-   "hash": "aad738e0c90e"
+   "text": "这条路径指向的不是 personal superintelligence，而是 collective cumulative intelligence：不同人、不同团队和不同 agent 的工作可以被理解、验证、修订、交接和复用，而不是困在一次性 session、散落的文档或某个人的记忆中。",
+   "id": "48fbe3f5",
+   "hash": "5a70534f7897"
   },
   {
    "type": "heading",
-   "text": "## APEX-direct Claude CLI local-debug admission replication (2026-08-11)",
-   "id": "adf00120",
-   "hash": "721c4e4b129a"
+   "text": "## 2. 新的知识生产关系",
+   "id": "7aa10326",
+   "hash": "3b882b4441d1"
   },
   {
    "type": "para",
-   "text": "**Status:** completed-bounded-local-debug-mechanism-evidence. **Design:** a\nfresh receiver ran C0/C1/C2 × clean/stale-binding on the same frozen SPA\nfixture, with 12 valid trials per arm/state. C1 and C2 had matched ordinary\nhandoff content; C2 additionally used the native carrier, DOCX provenance\nverification, and a host-side local Git-object preflight that provisioned the\nreceiver verifier without a remote or agent-issued Git command. Seven attempts\nmissing the output contract were excluded and replaced; they are retained in\nthe evidence root rather than counted in any denominator. **Observed\nadmission:** clean correct admission was `12/12` in every arm; in the fault\nstate C2 made `12/12` safe dispositions and `0/12` unsafe proceeds, while C0\nand C1 each made `0/12` safe dispositions and `12/12` unsafe proceeds. The\nC2-minus-C1 (and C2-minus-C0) fault difference was 100 percentage points;\nFisher two-sided `p=7.4e-7` for each comparison. **Boundary:** this establishes\na repeated local-debug artifact-binding mechanism on one fixture, not a\ngeneral product-efficacy, legal-truth, external-benchmark, or formally\nsandboxed result. The next registered step is independent-fixture qualification\nbefore a fresh-key bare-mode OS-sandbox replication.",
-   "id": "adf00121",
-   "hash": "e5cf7cbc0cb5"
+   "text": "传统知识生产的基本单位通常是：一个人写一份文档，另一个人阅读、解释或重做。现在的基本单位正在变化：多个 human 与多个 agent 持续提出、修改、反驳、复现和交接同一项知识工作。",
+   "id": "9cd8752e",
+   "hash": "41b145daecb2"
   },
   {
-   "type": "heading",
-   "text": "## APEX-direct Artifact Handoff admission matrix (2026-08-10)",
-   "id": "adf00114",
-   "hash": "4433ea76392b"
-  },
-  {
-   "type": "para",
-   "text": "**Status:** completed-bounded-mechanism-evidence. **Question:** does C2-only\nverifiable provenance change a successor's pre-edit choice to use a current\nartifact when C1 has the same ordinary handoff text? **Design:** three\nindependent repeats of C0/C1/C2 × clean/stale-binding on an APEX-derived SPA;\nthe model and Gateway transport were frozen. **Observed admission:** C2 fault\ncorrect `3/3`, C0 fault correct `0/3`, C1 fault correct `0/3`; C2 clean correct\n`2/3`, C0 `2/3`, C1 `3/3`. **Downstream:** the native nine-criterion result is\nconditional on correct clean proceed and a completed artifact (C0 `5.00/9`,\nn=1; C1 `4.67/9`, n=3; C2 `5.00/9`, n=2). A C2 false stop, C0 false reverify,\nand C0 step-limit/unfinalized attempt are preserved as completion failures.\n**Boundary:** supports only the tested admission mechanism, not an official\nAPEX score, legal truth, or general Proofpress efficacy.",
-   "id": "adf00115",
-   "hash": "48736c438d4d"
+   "type": "code",
+   "text": "```text\n过去：一个人 → 一份文档 → 下一个人阅读\n\n现在：多人 + 多个 agent → 持续生成 candidate knowledge\n                         → 验证、批准、修订\n                         → 跨 session / 团队 / 模型 handoff\n```",
+   "id": "271a0f0e",
+   "hash": "72a664f1cc98"
   },
   {
    "type": "para",
-   "text": "**Post-run validity correction:** classify this matrix as clean-path invalid.\nThe C2 package accidentally made a harness-only synthetic `capsule.json`\nreceiver-visible beside the valid portable carrier. The clean receiver imported\nthe synthetic file, obtained `missing_meta`, and correctly stopped; it did not\ndemonstrate a product false stop. Retain observed fault behavior, but require a\ncarrier-only v2 overlay qualification before any safety/productivity estimate.",
-   "id": "adf00119",
-   "hash": "82d2ee5e6b58"
+   "text": "这不是单纯的生产力变化，也改变了生产关系：",
+   "id": "8050e794",
+   "hash": "e43f4bedd98e"
   },
   {
-   "type": "heading",
-   "text": "## Artifact Travel v5 invalid calibration (2026-08-10)",
-   "id": "7aa4e290",
-   "hash": "b724f91f7bbf"
+   "type": "list",
+   "text": "- agent 可以提出候选结论，却不应单独决定它成为组织的权威知识；\n- 人类仍然承担范围、价值判断、责任和批准权；\n- 下一位参与者需要的不只是 memory，而是带 authority、evidence 与状态的 handoff；\n- 被拒绝的路线、未解决问题和适用边界，和成功结论一样需要被保留。",
+   "id": "10f96895",
+   "hash": "c6cde4e26ac0"
   },
   {
    "type": "para",
-   "text": "**Status:** completed-as-harness-invalid; not an efficacy observation.\n**Evidence:** 24/24 live cells through Vercel AI Gateway with B\n`deepseek/deepseek-v4-flash-0731` and R `openai/gpt-5.6-terra` (334 calls).\nC1 clean was 9/9 in all three repeats; C2 clean was 0/9, 0/9, and 8/9.\n**Invalidating defect:** C2's required receiver-side verifier read an unset\n`PROOFPRESS_CLI` binding, so its inspect/import/verify commands did not run; R\nrejected the sole C2 continuation for that missing verification. Preserve the\nreport as operational evidence only, do not infer C2-minus-C1 efficacy, and\nrequire separate authorization for a fresh paid rerun after the fixed binding.",
-   "id": "2f1ee5ef",
-   "hash": "5c20ccdfea65"
+   "text": "因此，新的协作机制需要把 evidence、authority、acceptance、revision、responsibility 与 handoff 显式化。",
+   "id": "79198483",
+   "hash": "d41424385266"
   },
   {
    "type": "heading",
-   "text": "## E01: Archived official Harvey and OpenRouter runtime validation",
-   "id": "4392bdd3",
-   "hash": "ec92e4ec9e45"
-  },
-  {
-   "type": "list",
-   "text": "- **Question**: Can the pinned v1.0 task and official scorer run without changing task semantics, while recording an explicit model transport configuration?\n- **Status**: completed-for-transport-prototype; not an active route\n- **Inputs**: one task from each initially selected family; one accessible frozen reference team; exact OpenRouter routing metadata if that transport is used.\n- **Outputs**: immutable environment/task manifest, sanitized result pointer, official score, token/latency record.\n- **Decision rule**: a setup failure is fixed before any treatment comparison; it is not scored as a provenance outcome. The official all-pass endpoint was 0/36 in the completed prototype and is retained as a hard-task diagnostic rather than a continuous primary quality result.",
-   "id": "d94b548d",
-   "hash": "13fbea670c51"
+   "text": "## 3. 三个内核分别解决什么",
+   "id": "6b56d424",
+   "hash": "bbbc1472e602"
   },
   {
    "type": "heading",
-   "text": "## E02: Isolated handoff mechanism diagnostic",
-   "id": "7095f47a",
-   "hash": "69017771f821"
-  },
-  {
-   "type": "list",
-   "text": "- **Question**: Does Proofpress lineage change a fresh receiver's decision recovery against strong ordinary memory when upstream content is identical?\n- **Status**: completed-and-archived\n- **Design**: 2 tasks × 2 critical boundaries × 2 paired arms (`mas-memory`, `mas-proofpress-lineage`) × 3 attempts = 24 receiver-only calls.\n- **Controls**: identical canonical upstream artifact/workspace hashes, fresh receiver session, visible token budget, frozen homogeneous model team, Harvey tools, and source workspace.\n- **Result boundary**: the required receiver-call execution completed and validated transport integrity. It did not score a document-native carrier and therefore does not authorize a scale-up claim.",
-   "id": "018ec3e4",
-   "hash": "1ef8c3928b78"
-  },
-  {
-   "type": "heading",
-   "text": "## E03: External-sidecar end-to-end prototype",
-   "id": "cab7fd7c",
-   "hash": "a66074b9c0c7"
-  },
-  {
-   "type": "list",
-   "text": "- **Question**: What did an external `memory.md`/`handoff.log` versus `provenance.md` transport prototype show before the product-form treatment was corrected?\n- **Status**: completed-and-superseded-for-product-efficacy\n- **Design**: 3 homogeneous teams × 2 tasks × 2 external-sidecar arms × 3 attempts = 36 five-stage workflows.\n- **Results**: 36/36 workflow records and clean five-stage runs; 35/36 nonempty finals; Harvey all-pass 0/36; criterion diagnostics were DeepSeek 79.2% memory versus 78.4% sidecar Proofpress, Muse 87.5% versus 77.3%, and Luna 76.8% versus 78.9%.\n- **Decision**: do not treat this as Proofpress product efficacy. It lacked single-agent and centralized communication baselines, exposed a Muse V4-output preflight failure, and tested an external sidecar rather than native artifact carriage.",
-   "id": "c146ea63",
-   "hash": "656c70545518"
-  },
-  {
-   "type": "heading",
-   "text": "## E04: Archived document-native OpenRouter/Novita DeepSeek matrix",
-   "id": "62ab94d5",
-   "hash": "5e213fcb8c1e"
-  },
-  {
-   "type": "list",
-   "text": "- **Question**: On hard Harvey tasks, does artifact-native Proofpress improve a normal centralized fan-out team that retains shared mutable ordinary coordination memory, and how does that team compare with a budget-neutral single agent?\n- **Status**: phase-1-complete-phase-2-paused-transport-incomplete; archived operational slice\n- **Design**: DeepSeek V4 Flash 0731 only, fixed `novita/fp8` route for this execution slice, `high` effort, no fallback. The originally proposed DeepInfra/fp4 route is retained as an archived provider-outage attempt and is not pooled with this slice. Phase 1 is M&A C0-versus-C1, three attempts per condition. Phase 2 is M&A + PSA × C0/C1/C2 × three attempts = 18 workflows. C1 and C2 use orchestrator → three parallel specialist workers → central synthesis; C2 retains C1's `coordination.md` and adds native Proofpress to key worker, decision, and final artifacts.\n- **Primary outcome**: paired C2-minus-C1 per-criterion Harvey success with numerator and denominator. C0-minus-C1 is the architecture comparison. Official all-pass is secondary; trust/reversal/integrity and cost are reported alongside it.\n- **Budget rule**: same billable input-plus-output token cap per trial; prompts, repeated context, ordinary coordination, Proofpress metadata, worker artifacts, and tool output all count. Record the categories separately; do not use filler padding.\n- **Prerequisites**: native carrier implementation, C1 leakage test, DOCX/XLSX final-output preflight, complete token ledger, and one scorer smoke run per arm.\n- **Execution note (2026-08-07)**: No valid Phase 1 workflow or score was produced on DeepInfra/fp4. Three initial C0 transport attempts were rejected because `max_tokens=128000` exceeded that endpoint's current 65536 completion limit; after correcting the request to 32768 and then 16384, two C0 attempts still stalled after the data-room read and were archived as provider failures. The same model is now being executed in a separate pinned `novita/fp8` slice; its scores and resolved-provider metadata must be reported separately from the DeepInfra outage records.\n- **Phase 1 result (2026-08-07)**: M&A C0 and C1 each passed 116/150 criteria (77.3%), with 0/3 official all-pass runs. All six final DOCX/XLSX preflights passed. C1 had two runs whose final artifacts were present but whose orchestrator/worker loop did not finish cleanly at the 40-turn cap; this is reported as an operational cost/latency issue, not discarded as a score failure. C1 was therefore not materially worse than C0 on the architecture pilot, and Phase 2 was authorized.\n- **Phase 1 cost note**: C0 used 8,016,332 billable tokens and estimated $0.7375 across three attempts; C1 used 44,555,634 tokens and estimated $4.0771. The equal criterion result does not justify claiming MAS benefit; it supports continuing to test the C1-versus-C2 product contrast while reporting this large coordination cost.\n- **Phase 2 implementation note**: C2 now embeds verified Proofpress carriers in worker findings, worker coordination updates, and the central decision register. A native final-artifact index hashes the official DOCX/XLSX outputs. C1 uses the same ordinary coordination workspace and is checked for Proofpress leakage; no external `provenance.md` is used in C2.\n- **Phase 2 partial execution (2026-08-07)**: M&A produced nine workflow records; eight had valid final-output preflights and one C2 synthesis was aborted before its final output. PSA produced four valid workflows so far: C0 attempts 2 and 3, C1 attempt 1, and C2 attempt 1; the remaining five nominal attempts were not scorable because the pinned Novita/fp8 route returned upstream 429 rate limits, after one earlier SSL-read hang was archived. The Phase 2 scorer was intentionally not run because the 18-workflow matrix is incomplete; these partial records do not support a C1-versus-C2 or C0-versus-C1 claim.\n- **Transport audit note**: the runtime now uses a hard-watchdog HTTPS client for read timeouts and records event-log tokens/cost when a stage aborts before writing its stage record. Quarantined partial runs are preserved outside the scorer result tree under the evaluation data home's `archives/phase2-aborted-20260807` directory.\n- **Pause note (2026-08-07)**: execution was paused after repeated long-synthesis transport failures on the pinned `novita/fp8` route. At pause, the DeepSeek primary tree contained 12 clean, preflight-passing records: M&A C0 3/3 and C1 2/3; PSA C0 3/3, C1 3/3, and C2 1/3. M&A C2 had no clean primary record, and the remaining nominal C1/C2 slots were incomplete or audit-only after BrokenPipe/SSL/429 interruptions or manual stop. The 18-workflow Phase 2 scorer was not run. These records support an operational-stop decision, not a C1-versus-C2 efficacy claim. They are immutable historical transport evidence and will not be resumed, pooled, or used to define the next estimand.",
-   "id": "b37d7d2c",
-   "hash": "12a7aa2ef3f4"
-  },
-  {
-   "type": "heading",
-   "text": "## E05: Cross-model robustness sweep",
-   "id": "df59a8f1",
-   "hash": "acff760e1722"
-  },
-  {
-   "type": "list",
-   "text": "- **Question**: Does the native Proofpress contrast replicate in an independent model/provider follow-up when the pinned DeepSeek line is operationally rate-limited?\n- **Status**: completed-as-isolated-m-and-a-follow-up; not part of the DeepSeek primary matrix\n- **Design**: one M&A data-room task; homogeneous `z-ai/glm-5.2` teams at `xhigh` reasoning, fixed `baidu/fp8` provider, no fallback, and three parallel conditions run once each: C0 single-agent SAS, C1 centralized parallel MAS with ordinary shared memory, and C2 the same MAS with native Proofpress lineage. The C2 attempt 1 was operationally aborted and excluded; attempt 2 was the valid C2 trial. A separate `openai/gpt-5.6-terra` high-effort judge scored only the three valid GLM workflows.\n- **Results**: C0 passed 40/50 criteria (80.0%), C1 passed 39/50 (78.0%), and C2 passed 40/50 (80.0%); official all-pass was 0/3. All three final DOCX/XLSX preflights passed. C1 had no Proofpress leakage; C2 contained eight verified native Proofpress carriers spanning worker findings, worker coordination, the central decision register, and the final-artifact index.\n- **Cost and operations**: estimated workflow costs were C0 $1.584, C1 $7.179, and valid C2 $6.125. The first C2 attempt consumed approximately $2.222 before an SSL/BrokenPipe/provider interruption and is retained as an aborted audit record, not a score. The valid C2 run recovered two final-stage 429s on the same pinned route without fallback.\n- **Interpretation**: this single M&A follow-up is descriptive only. It shows no detectable C1-versus-C2 criterion advantage in this slice, while confirming that native carriers and the scorer can operate with GLM. It is not a cross-harness generalization, model leaderboard, or replacement for the incomplete DeepSeek Phase 2 matrix.",
-   "id": "6559b8b4",
-   "hash": "287408f2f12a"
-  },
-  {
-   "type": "heading",
-   "text": "## E06: Gateway Harvey B0 baseline and SAS qualification",
-   "id": "7aa4e24f",
-   "hash": "e99555787754"
-  },
-  {
-   "type": "list",
-   "text": "- **Question**: On the same PSA task and frozen model, what is the original Harvey one-shot baseline (B0), what changes under five fresh-session SAS ordinary continuity (C0−B0), and does admitted artifact-native lineage increment outcome under matched SAS (C3−C0)?\n- **Status**: Luna/Terra v1 stopped and is immutable operational evidence, not a treatment outcome. Historical DeepSeek, GLM, and Gemini Gateway slices likewise remain neither resumed nor pooled. Immutable v2 changed only scalar AI SDK effort encoding; all three PSA execution trials passed their operational gates. Independent B0/C0/C3 scorer extensions completed all nine 75-criterion cells; transient scorer 500s remain in their failed roots and were retried without fallback. Final rates are B0 66/75 across trials, C0 64/75 then 67/75 twice, and C3 65/75 across trials. The only permitted contrasts are C0−B0 and C3−C0; C3−B0 is mixed.\n- **Design and failure record**: B0 is one Harvey agent in one continuous `SINGLE` session: it has no SAS handoff, Proofpress metadata, ARA files, or raw session transcript. C0 and C3 each use five fresh-session checkpoints (plan, evidence, decision, draft, review), identical task/tools/prompt contract/caps. Luna (`openai/gpt-5.6-luna`) was configured to execute all three conditions at `high`; C0 receives ordinary continuity and C3 receives only admitted Proofpress checkpoint carriers plus a final hash index. v1 ran B0/C0/C3 concurrently under its `$13` shared execution ceiling, but all first calls failed with the same `GatewayInvalidRequestError` 400 before token use or output. Root cause: the bridge sent an object-shaped reasoning option although AI SDK v4 requires the scalar effort value. The bridge correction is tested locally; any v2 retry must be a newly authorized immutable root with no re-use of v1 records.\n- **Telemetry and scorer rule**: every execution call records requested/resolved Luna model, actual provider, Gateway `usage.cost`, fallback status/metadata, tokens, latency, finish/error state, and `high` effort; every blind scorer call records the same fields for Terra (`openai/gpt-5.6-terra`). Both are OpenAI-only/no-fallback and have separate actual-cost ledgers; Batch is prohibited. Missing telemetry remains audit-visible and disqualifies the workflow; a local `$0` value or after-the-fact aggregate is never substituted. Historical C0 events, endpoint probes, and aborted manifests are operational evidence of failed transport qualification, not C3−C0 evidence.\n- **Comparison boundary**: `C0−B0` is the sessionization effect; `C3−C0` is the Proofpress lineage increment; `C3−B0` is a mixed total difference and cannot be attributed to Proofpress. No comparison is interpreted before its relevant transport/runner qualification passes.\n- **Current model gate**: the active Luna/Terra root has three PSA trials, not a formal matrix. Trial 1 concurrently runs B0/C0/C3 execution only; its immutable operational analysis checks complete telemetry, exact OpenAI resolution, no fallback, no transport error, preflight, C3 lineage, and budget integrity. Only a clean analysis permits trials 2/3 and blind grading. After all three trials have completed and been graded, `C0−B0` and `C3−C0` may be analyzed; `C3−B0` remains mixed. A failure stops the protocol without overwriting records or forcing a retry.\n- **Evidence boundary**: ARA indexes the research semantics, hypotheses, and evidence pointers. Proofpress supplies C3's admitted artifact lineage and independent verification; neither system turns raw agent-session history into benchmark context.\n- **Follow-on gates**: after an audited Harvey report, run STATE-Bench and MemConflict as independent C0/C3 slices. HiEviDR-Bench and DeepResearch Bench require their own adapter/scorer gates before separately reported external-validity runs. Do not pool results across benchmarks.",
-   "id": "0b9f8f55",
-   "hash": "9f641c1cbbeb"
-  },
-  {
-   "type": "heading",
-   "text": "## E07: Historical MemConflict mechanism check",
-   "id": "09bca4f7",
-   "hash": "3229897b14e9"
-  },
-  {
-   "type": "list",
-   "text": "- **Question**: Does a native Proofpress continuity carrier reduce stale-authority or decision-regression errors relative to ordinary memory on a controlled reversal fixture?\n- **Status**: completed; Gate A passed, Gate B failed; mechanism evidence only.\n- **Design**: 12 frozen internal reversal cases × 2 attempts × `baseline_continuous`, `ordinary_memory`, and `proofpress_provenance` = 72 local Codex runs.\n- **Results**: baseline trusted success 62.5%, ordinary memory 83.3%, Proofpress 83.3%; ordinary memory task success 95.8%, Proofpress 87.5%; stale/regression 12.5% for ordinary memory versus 4.2% for Proofpress. The primary trusted-success contrast is 0.0 points.\n- **Decision**: preserve the null task-quality result. Do not claim a product gain. Keep the sanitized package under `../evidence/phase1-memconflict-v1/` and do not pool it with STALE, Harvey, C&H, APEX, or Gateway results.\n- **Evidence**: `../evidence/phase1-memconflict-v1/README.md` and its hash manifest are the canonical review package; the external data home is the only location for raw run material.",
-   "id": "0c502e6c",
-   "hash": "391a2cf627fa"
-  },
-  {
-   "type": "heading",
-   "text": "## E08: Completed STALE / CUPMem Phase 1 Nano qualification, Gemini robustness, and scorer-disagreement audit",
-   "id": "958a5698",
-   "hash": "74474bb802dd"
-  },
-  {
-   "type": "list",
-   "text": "- **Question**: In a portable cross-session handoff, does admission-aware provenance—what changed, why/evidence, who had authority, when and what superseded what—improve a successor's STALE decisions beyond the same state, history, evidence, and timing without provenance semantics?\n- **Design**: V0 is the official complete-history baseline; V1 is pinned full-session official CUPMem; P2 is the provenance-scrubbed projection of the P3 admission packet; P3 is the Proofpress carrier plus a minimal inspect policy. The primary causal contrast is paired `P3 − P2`; V1 is a benchmark calibration/upper-bound condition, not a fair portable-handoff product comparison. Preserve State Resolution, Premise Resistance, and Implicit Policy Adaptation as primary outcomes. The 80 selected scenarios are balanced T1/T2 and every valid UID must have completed eligible V0/V1/P2/P3 records plus P2/P3 verified parity before blind scoring.\n- **Result and status (2026-08-09)**: completed Nano qualification, not a confirmatory general-efficacy study. All 80 UIDs and 320 arm records were completed and eligible; no P2/P3 parity failure or score exclusion occurred. The official arm-blinded scorer used `openai/gpt-5.4-nano` through OpenRouter, never AI Gateway. Overall accuracy was V0 54/240 (22.50%), V1 200/240 (83.33%), P2 126/240 (52.50%), and P3 146/240 (60.83%). `P3 − P2 = +8.33pp`, scenario-clustered 95% CI `[+1.25pp, +15.42pp]`, passing the predeclared Nano gate. The gain is 0.00pp on State Resolution, +18.75pp on Premise Resistance, and +6.25pp on Implicit Policy Adaptation. `V1 − V0 = +60.83pp` is calibration, not a provenance estimate.\n- **Secondary judge robustness (2026-08-09)**: the exact four frozen arm-blinded answer exports were rescored twice, without any execution rerun, by direct Gemini API `gemini-3.5-flash-lite` at concurrency 2. Both 320-scenario passes completed with zero judge errors. The first Gemini pass scored V0 33/240 (13.75%), V1 175/240 (72.92%), P2 54/240 (22.50%), and P3 50/240 (20.83%); paired `P3 − P2 = −1.67pp`, scenario-clustered 95% CI `[−7.50pp, +4.17pp]`. The same-model repeat scored P2 61/240 (25.42%) and P3 56/240 (23.33%); paired `P3 − P2 = −2.08pp`, 95% CI `[−8.33pp, +4.17pp]`. Neither Gemini pass met the gate. Their per-criterion agreement is 91.67%–95.83% by arm, supporting a repeatable Gemini null/negative direction; they are not pooled as independent scenarios. Hash-bound raw scores and agreement analysis are at `official_scores/gemini-3.5-flash-lite/` and `official_scores/gemini-3.5-flash-lite-repeat-2/` under the immutable matrix root.\n- **Scorer-disagreement audit (2026-08-09)**: all 960 frozen arm-by-criterion decisions were aligned across Nano and both Gemini passes without rerunning targets or judges. Gemini repeats agreed on 906/960 (94.38%) decisions; both Gemini passes jointly disagreed with Nano on 224/960. The disagreement concentrates in portable-arm State Resolution: P2 has 36/80 Nano-versus-Gemini-consensus disagreements (22 with an abstention cue), and P3 has 43/80 (all 43 with an abstention cue). Reviewed traces reveal a rubric-policy ambiguity rather than an adjudicated truth: Nano passes carrier-grounded “cannot determine; abstain/re-verify” as non-inheritance of `M_old`, while Gemini fails it as “claims ignorance.” Nano's 39/182/19 P3 gain/tie/loss criterion signs become 21/194/25 and 24/187/29 on the Gemini passes; 30 Nano P3 gains become Gemini ties and 20 Nano ties become Gemini P3 losses where both Gemini passes agree. A deterministic 24-case arm-blinded adjudication packet and separate deblinding key live at `official_scores/scorer-disagreement-audit/` under the immutable matrix root.\n- **Interpretation and decision**: the Nano result is a qualified primary-score signal, but it did not survive two direct-Gemini judge passes. The current result is therefore judge-sensitive, not a judge-robust provenance mechanism effect. It does not show that Proofpress beats CUPMem, replaces shared memory, or generalizes beyond STALE. The valid phase is closed. No v17–v20 diagnostic is resumed, and no 400-scenario or Luna matrix begins automatically. Next work is scorer-disagreement/P3 failure analysis, then an information-matched shared-memory control and independent artifact-revision handoff tasks.",
-   "id": "28fb9f31",
-   "hash": "795f0e582e85"
-  },
-  {
-   "type": "heading",
-   "text": "## E09: Completed APEX Law artifact-handoff calibration track (public-source negative control)",
-   "id": "49cf9342",
-   "hash": "15ad00d0d1ee"
-  },
-  {
-   "type": "list",
-   "text": "- **Question**: When a fresh legal-work agent receives the same readable decision handoff, do Proofpress anchors, admitted head, evidence-to-decision links, and an independently verifiable capsule reduce revision/regression errors relative to an information-matched ordinary portable handoff?\n- **Status**: completed calibration; not an efficacy result. The finance runner qualification is archived separately: four completed Gemini 3.1 Pro Preview runs scored `0/5` on Investment Banking because the agent selected rounded comparable-company multiples, while a fifth provider-stalled launch was user-terminated and excluded as infrastructure abort. That task has no receiver handoff boundary and will not be used for this experiment.\n- **Law calibration evidence**: A completed native run of `task_323b4e29af5e4c7f86eaf4a24c4487ad` scored `4/6`. It retained `Tenant` and `Landlord` where the prompt required `Lessee` and `Lessor`, while correctly preserving the four substantive lease findings. This supports a concrete second-stage revision target, not a claim that the native grader or Gemini provider is defective.\n- **Boundary and limitation**: Agent B retains the ordinary public APEX Law world. Agent A's source-selection rationale, reconciliation notes, and issue-to-change mapping are private and are frozen only through the handoff. Since B can independently inspect every underlying source document, this is a negative-control/calibration study for revision integrity and non-regression—not evidence that provenance is needed to access source facts.\n- **Precommitted comparison**: run three fresh ordinary and three fresh Proofpress receiver worlds serially. The two packages have identical facts, conclusions, and next actions; only the Proofpress arm adds native anchors, admitted head, evidence-to-decision links, and a verification capsule. Use neutral run identifiers and condition-blind artifact audit. Label every output **APEX-derived Artifact Handoff Track**, never an official APEX score.\n- **Completed 3+3 calibration**: all six receiver worlds completed under Gemini 3.1 Pro Preview via Vercel AI Gateway. Ordinary and Proofpress were tied on every pair: native `4/6, 6/6, 4/6` and audit `3/7, 7/7, 5/7` respectively. Thus both arms had `14/18` native passes and `15/21` audit passes. Pair 2 upgraded a `4/6` upstream document to `6/6`; pair 3 upgraded `2/6` to `4/6` in both arms.\n- **Integrity and decision**: all Proofpress capsules independently verified; ordinary handoffs had the same semantic-handoff digest but no capsule by design. No completed v10 run aborted. The result is a null calibration: it validates parity, provenance verification, native final-snapshot grading, and condition-blind audit collection, but it neither supports an efficacy claim nor supplies a matched full-access cell for a future restricted-access experiment.",
-   "id": "2fd07e62",
-   "hash": "b4b49d8ddb2f"
-  },
-  {
-   "type": "heading",
-   "text": "## E10: Completed APEX-derived Restricted-Access Artifact Handoff Track",
-   "id": "3a6fb802",
-   "hash": "a994ff83b9a0"
-  },
-  {
-   "type": "list",
-   "text": "- **Question**: After a source-access discontinuity, does a portable provenance-bearing artifact reduce receiver revision regressions relative to the same current artifact plus ordinary readable memory/log/handoff?\n- **Boundary**: A works in a complete official Lease world; B is a fresh restricted receiver world. This is a conditional cross-boundary/cross-world effect, not a general handoff or cross-system interoperability effect. The scenario models a VDR or third-party workspace access window closing, revocation, or a confidentiality boundary; it does not posit destruction of organizational records.\n- **Design**: Both arms receive the same current redraft and normalized facts, conclusions, outstanding work, and next actions. Ordinary receives the readable artifact plus memory/log/handoff; Proofpress adds only native anchors, admitted head, declared decision lineage, and capsule. Record equal semantic-handoff and draft hashes. Deny source documents, source filenames, archives, `.apps_data`, A trajectory, and scratchpad; preflight proves every denied item unreadable, unlistable, and unrecoverable. The follow-on prompt requests completion of outstanding revisions and a change log without supplying the rubric answers.\n- **Pilot and score rule**: run one A with one ordinary and one Proofpress receiver before any formal count. Require semantic parity, capsule verification, no leakage, neutral layout, final-DOCX-only arm-blind native judging, independent arm-blind seven-cell audit, and no model/Docker/watchdog abort. Pilot failure repairs the boundary and is not scored. Only then run randomized serial 3+3 under Gemini 3.1 Pro Preview, 300-second call limit, and 3,900-second watchdog.\n- **Interpretation**: capsule verification proves artifact identity, integrity, and declared decision lineage, not inaccessible source truth. Report native pass, audit pass, trusted success, regressions/missed corrections, and verification separately. Expand only if ordinary has observable error space, all pair gates pass, and Proofpress improves or preserves trusted success without semantic advantage. The archived E09 result is not pooled and cannot establish an access-condition interaction.\n- **Boundary history and validity**: the first formal serial attempt (r1) was invalidated before analysis when a handoff exposed the original certificate filename; r3 was stopped as a non-scored Gateway tool-schema infrastructure abort. A corrected fresh r4 1+1 pilot passed semantic/draft parity, capsule verification, neutral final-artifact grading, completion, preflight, and runtime-leakage gates. The r2 serial 3+3 then completed all six receivers with every pair gate passing; all receiver native judges read only an arm-neutral final-DOCX package.\n- **Results, measurement correction, and decision**: Proofpress had `10/18` native rubric cells (mean `0.556`) versus ordinary `9/18` (mean `0.500`) and one versus zero perfect-native receiver runs. The frozen v1 audit reported a `13/21` tie, but post-run review found whole-DOCX scope leakage between prefatory analysis and the operative certificate plus incorrect case-folding of defined-party terms. A separately versioned post-hoc v2 audit reports Proofpress `17/21` versus ordinary `16/21`; the same one `Tenant` cell explains the native and v2 differences. V2 is diagnostic and cannot replace the frozen endpoint or establish a treatment effect. All three Proofpress receivers opened the supplemental files, but those files contained headings and hashes rather than actionable clause-level lineage. Preserve E10 as bounded and inconclusive, add no Lease runs, and do not claim general efficacy, source-truth verification, or cross-system interoperability. Evidence: `../evidence/apex-law-20260809/restricted-lease-posthoc-measurement-audit.json`.",
-   "id": "dd7a946c",
-   "hash": "9595bb0e6473"
-  },
-  {
-   "type": "heading",
-   "text": "## E11: Preregistered restricted-access S-Corp SPA revision pilot",
-   "id": "8d67c434",
-   "hash": "cd2876fcf904"
-  },
-  {
-   "type": "list",
-   "text": "- **Question**: When a receiver loses access to the diligence workspace, does an actionable provenance-bearing decision register improve completion of a nine-clause Stock Purchase Agreement revision relative to an information-matched readable handoff?\n- **Status**: superseded preflight-only protocol; no receiver outcome exists, its 1+1 runner must not be started, and the formal 3+3 remains unauthorized.\n- **Task**: APEX-derived Law task `task_8705d28530a94c2880fbfd7190e257d4` (`World425_jcf_01`), editing an existing SPA across representations, warranties, pre-closing obligations, post-closing cooperation, liability allocation, and indemnity.\n- **Design repair**: both arms receive identical facts, decisions, clause targets, status, and next actions. Proofpress adds anchored decision blocks, admitted status/supersession, evidence references, clause links, current-SPA binding, and capsule verification. The primary scorer is restricted to identified operative clauses and must pass frozen scope/regression fixtures before any model call.\n- **Gate**: after source/task hashes, parity, scorer fixtures, capsule, blind final-artifact layout, and leakage preflight pass, authorize only one upstream A and paired randomized 1+1 receivers. Continue to a fresh serial 3+3 only if both receivers complete, ordinary exposes eligible error space, and no measurement, leakage, semantic-parity, or infrastructure gate fails.\n- **Frozen protocol**: `../configs/frozen/apex-scorp-spa-revision-pilot-v1/preregistration.json`.",
-   "id": "560cdaa4",
-   "hash": "5d635fa0691c"
-  },
-  {
-   "type": "heading",
-   "text": "## E12: Artifact Travel Benchmark v2 — A→B→independent reviewer",
-   "id": "43a81843",
-   "hash": "641400a995cb"
-  },
-  {
-   "type": "list",
-   "text": "- **Question**: Does the complete Proofpress portable handoff package, including richer decision state, portable evidence, artifact binding, and independent verification, outperform a naturally produced generic continuity handoff at cross-workspace completion, verification, and safe rejection?\n- **Estimand**: the primary contrast is the bundle effect `C2 proofpress-portable − C1 conventional`; information volume and structure are treatment components, not parity constraints. `C2 − C0 artifact-only` is secondary. No component-level cryptographic or information-volume effect is identified.\n- **Design**: one frozen A artifact feeds independent C1 and C2 packaging stages. B receives the same final goal and current/stale/fork candidates in 15 applicable arm-by-package-state cells. R receives only B's delivery and the exact package B received. A hidden oracle, Proofpress verifier, and R remain independent.\n- **Faults and endpoints**: clean, stale artifact, revived superseded decision, omitted/regressed implemented decision, missing/mismatched evidence, and binding/fork mismatch. Clean trusted completion and faulted safe disposition are separate; the combined endpoint accepts correct completion in clean cells and correct reject/reverify behavior in faulted cells.\n- **Implementation and pilot status (2026-08-10)**: Phase 0 runtime, schemas, real product carrier at commit `6b843ee`, DOCX semantic evidence, fault injection, hidden oracle, B/R scoring, and an explicit-authorization runner are implemented. The separately frozen v3-r2 Phase 0 passed with 45/45 materialized cells and zero model calls. Its active immutable report at `/Users/richardtang/.codex/worktrees/artifact-travel-v2/runs/direct-gemini/artifact-travel-v3-20260810-resume1/pilot/report.json` covers all 45 cells: 44 are scorable and one is preserved as a schema-invalid receiver observation. C0, C1, and C2 share AI Gateway transport and fixed B/R models; no direct/Gateway arm switch occurred. Valid endpoints were C0 5/8, C1 8/18, and C2 7/18 for end-to-end trusted handoff; clean completion was 0 in every arm and unsafe accept was 0 in every arm. The paired C2-versus-C1 result is one C2 win, two C1 wins, and 15 ties. This is descriptive single-case evidence only; Phase 2 remains unauthorized and the fault matrix should not be expanded before repairing clean task execution.\n- **Frozen protocol**: `../configs/frozen/apex-artifact-travel-v2/preregistration.json` and `../docs/ARTIFACT_TRAVEL_V2_PLAN.md`. STALE, HiEviDR, STATE-Bench, Harvey, and APEX Finance remain separately interpreted and are never pooled.",
-   "id": "3242ace7",
-   "hash": "ed713453beb4"
-  },
-  {
-   "type": "heading",
-   "text": "## E13: Artifact Travel Benchmark v3 — replicated Gateway matrix",
-   "id": "6e976f99",
-   "hash": "e29d7e21d965"
-  },
-  {
-   "type": "list",
-   "text": "- **Question**: After removing v2's C0 transport confound and repairing the clean handoff contract, does C2 show a descriptive advantage over C1 for completion, verification, and safe rejection on the same SPA case?\n- **Design**: A new frozen 15-cell matrix is repeated independently three times (45 cells). C0, C1, and C2 use the same AI Gateway transport; B is `deepseek/deepseek-v4-flash-0731` at high reasoning and R is `openai/gpt-5.6-terra` at medium reasoning. B and R concurrency are capped at 3 and 2, respectively, with three isolated worker roots. No fallback is permitted.\n- **Contract repair**: `dec_tax_counsel_review` is explicitly non-blocking. A runnable clean package must produce and deliver the final DOCX; pending non-blocking work is recorded after delivery. C1's current artifact must match the manifest, and C2's pending decisions must declare their blocking status. Faulted packages remain stop-safely observations.\n- **Reliability rule**: only infrastructure aborts, missing telemetry, 429/503, and timeout may retry within the preregistered budget. Semantic reject/reverify, wrong reasons, and wrong DOCX outputs are valid observations and are never rerun.\n- **Phase 0/status**: the v3-r2 case, 45 packages, hidden oracles, and authorization passed the no-model gates. The active formal root is `/Users/richardtang/.codex/worktrees/artifact-travel-v2/runs/direct-gemini/artifact-travel-v3-20260810-resume1/pilot/`. It carries two completed cells from the prior v3 diagnostic root after a telemetry-only route-gate repair and runs only the remaining 43 cells. Earlier Docker executable/storage failures and the stopped empty r3 root are immutable diagnostics excluded from the denominator. Results will be read as a single-case descriptive replication, not cross-task efficacy.\n- **Frozen references**: `../configs/frozen/apex-artifact-travel-v3-r2/preregistration.json`, `../docs/ARTIFACT_TRAVEL_V2_PLAN.md` (v3 successor section), and the v3-r2 authorization/Phase 0 records under the results root.\n- **Final interpretation**: clean continuations passed only 2/9 operative native DOCX audit cells, which explains the zero clean-completion result. The invalid C0 observation is retained with reason `receiver-output:receiver selected_artifact must be a non-empty string`; it is not silently rerun or pooled. Provider-level 503/500 retries occurred inside the fixed Gateway transport and are telemetry, not a fallback arm.",
-   "id": "b8cd3cfc",
-   "hash": "de33cf1372c9"
-  },
-  {
-   "type": "heading",
-   "text": "## E14: Artifact Travel v4 temporal Proofpress calibration",
-   "id": "6c430001",
-   "hash": "569e41487dc0"
-  },
-  {
-   "type": "list",
-   "text": "- **Question**: does an A-authored, multi-event Proofpress trail help fresh B",
-   "id": "6c430002",
-   "hash": "4f36409f61d7"
+   "text": "### ARA：新的 research / knowledge artifact",
+   "id": "3e6d1ab4",
+   "hash": "27b1ec0d5bd8"
   },
   {
    "type": "para",
-   "text": "  complete, verify, or safely refuse more than the same sparse conventional\n  handoff without Proofpress?",
-   "id": "3b7efb89",
-   "hash": "dc428cb08de2"
+   "text": "ARA（Agent-Native Research Artifact）不是把 PDF 转成更结构化的文档，而是重新定义一项研究在 agent 时代的原子工作对象。传统 research 被拆散在 paper、repo、实验日志、聊天、失败尝试、review comments 与人脑中；ARA 将其组织成可查询、可执行、可继续工作的 living artifact。",
+   "id": "25a4f709",
+   "hash": "cdc3674eca43"
   },
   {
-   "type": "list",
-   "text": "- **Design**: three paired C1/C2 A trajectories; each derives clean current,",
-   "id": "2b1e2b11",
-   "hash": "53c545e1df69"
-  },
-  {
-   "type": "para",
-   "text": "  stale superseded, revived rejected, and evidence/binding mismatch B packages\n  for 24 B/R cells. C1 carries only the bounded ordinary handoff. C2 requires\n  A policy/anchor/snapshot/verify/export, B inspect/import/verify, and B's\n  post-continuation snapshot. R remains tool-neutral; oracle is hidden.",
-   "id": "a0d67d10",
-   "hash": "946c0e3b8b0e"
-  },
-  {
-   "type": "list",
-   "text": "- **Scoring/gate**: score `x/9` and 9/9 only for expected continuations;",
-   "id": "5348eeed",
-   "hash": "97a959e202f7"
+   "type": "code",
+   "text": "```text\nArtifact\n├── 当前状态与核心 claims\n├── evidence 与实验结果\n├── code、config 与环境\n├── decisions、heuristics 与适用范围\n├── rejected paths / dead ends\n├── open questions\n└── 可供下一位参与者读取的语义入口\n```",
+   "id": "23aba0d6",
+   "hash": "1481e7617cb7"
   },
   {
    "type": "para",
-   "text": "  correct refusal has no DOCX denominator. Do not scale absent median C2 clean\n  improvement of at least one criterion, two of three paired clean wins, and\n  zero C2 unsafe continuations.",
-   "id": "e8f2c5fe",
-   "hash": "d7478b1ebd7c"
+   "text": "类比而言，ARA 的潜力不是“更好的论文格式”，而是像 Salesforce 定义 sales object、Figma 重构 design object 那样，重新定义“研究/知识工作是什么”。在行业产品中，它可以发展为 case、matter、experiment 或 decision package 的通用工作对象。",
+   "id": "8df1c7f2",
+   "hash": "63b84bdb7ea9"
   },
   {
-   "type": "list",
-   "text": "- **Status**: deterministic CLI Phase 0 is implemented and must be rerun into",
-   "id": "78089e53",
-   "hash": "613309850c9d"
+   "type": "heading",
+   "text": "### RIT：claim verification 与 admission gate",
+   "id": "fecf6a0a",
+   "hash": "c5ab0baa02fa"
   },
   {
    "type": "para",
-   "text": "  a new immutable output root before any separately authorized model execution.",
-   "id": "a9b0636b",
-   "hash": "2240efca587b"
+   "text": "RIT（research Git）将一条 claim 拆成可检查的部分：证据中是否确实有相应的事实或数值，以及该结论是否能由允许的规则和前提出发成立。它对可形式化、可重新提取的部分提供严格 gate，例如：日志重提取、哈希锁定、阈值/算术关系检查、Lean proof、冲突检查和预先锁定的目标检查。",
+   "id": "70bcf1e6",
+   "hash": "96406e4a7883"
+  },
+  {
+   "type": "para",
+   "text": "RIT 的正确定位不是“证明现实世界的绝对真理”，而是：",
+   "id": "d40ec088",
+   "hash": "7b3efb16479d"
+  },
+  {
+   "type": "para",
+   "text": "> 验证一条 claim 是否由它声明的 evidence 与允许的推导规则支持，并在加入知识状态时不破坏已声明的一致性条件。",
+   "id": "b9a94465",
+   "hash": "913ac028e361"
+  },
+  {
+   "type": "para",
+   "text": "例如，RIT 可以验证“日志中确实有 loss = 3.28，且 3.28 < 3.30，因此该运行达到预设阈值”。它不能仅凭形式化证明实验设计无偏、某个医学或法律结论必然正确、或某项投资必然成功。这些仍需要领域证据、适用范围、政策与人类判断。",
+   "id": "e5f7a0ff",
+   "hash": "60c4e79efece"
+  },
+  {
+   "type": "para",
+   "text": "一个有用类比：evidence 类似身份证、bank statement、utility bill；RIT 像检查这些材料和规则的门禁；最终是否把一个结果作为组织权威状态，仍由适用 policy 与具备权限的 reviewer 决定。",
+   "id": "3ee3d965",
+   "hash": "42ea34958d44"
+  },
+  {
+   "type": "heading",
+   "text": "### Proofpress：accepted knowledge change 的账本与交接协议",
+   "id": "bce7dff8",
+   "hash": "3ea309328b34"
+  },
+  {
+   "type": "para",
+   "text": "Proofpress 跟随 artifact 的生命周期，记录有意义且被正式接受的状态变化。它不是监控系统，也不应保存所有 prompt、私有 reasoning、闲聊或每个失败尝试的原始 transcript。",
+   "id": "5ae89d73",
+   "hash": "c04dbf58e59f"
+  },
+  {
+   "type": "para",
+   "text": "它记录的是：",
+   "id": "9a49bec2",
+   "hash": "79df9d13d5d8"
+  },
+  {
+   "type": "code",
+   "text": "```text\nArtifact V1\n  → 谁/哪个 agent 提出什么修改\n  → 为什么修改\n  → 基于哪些 evidence 与 verification receipt\n  → 哪些 alternative / path 被拒绝，以及原因\n  → 谁按什么 policy 批准\n  → Artifact V2（当前 admitted state）\n```",
+   "id": "3c1c78d6",
+   "hash": "336f80b9dd66"
+  },
+  {
+   "type": "para",
+   "text": "它回答：Who changed what, why, when, based on what evidence, under whose authority? 当 artifact 交给下一个 human 或 agent 时，Proofpress 携带当前 accepted state、依据、限制、未解决问题和必要的历史，而不是把接收者淹没在完整过程里。",
+   "id": "8b8b8b59",
+   "hash": "7427db3cde5b"
+  },
+  {
+   "type": "para",
+   "text": "> Memory preserves continuity. Provenance creates accountability.",
+   "id": "c0a60170",
+   "hash": "c9f45706eb57"
+  },
+  {
+   "type": "heading",
+   "text": "## 4. 三者如何组成一个产品系统",
+   "id": "625db3d5",
+   "hash": "3ec00d2e0377"
+  },
+  {
+   "type": "para",
+   "text": "三者处于不同位置，不是相互替代的三个产品。",
+   "id": "81b2e4cc",
+   "hash": "8342ccf25402"
+  },
+  {
+   "type": "code",
+   "text": "```text\nARA       ：我们共同在研究/处理什么？当前语义状态与轨迹是什么？\nRIT       ：哪些 claim 达到相应的机器验证标准？\nPolicy    ：在这一风险等级下，谁有权接受什么？\nProofpress：哪个版本被正式接受，为什么，以及如何可验证地 handoff？\n```",
+   "id": "4abba6eb",
+   "hash": "d517c4b1c7a8"
+  },
+  {
+   "type": "para",
+   "text": "完整流转是：",
+   "id": "4f72cb15",
+   "hash": "eb5c2281a03a"
+  },
+  {
+   "type": "code",
+   "text": "```text\nObserve → Propose → Ground → Verify → Review → Accept / Reject / Open\n                                                     ↓\n                                                  Writeback\n                                                     ↓\n                                              Portable handoff\n```",
+   "id": "1ec12e5b",
+   "hash": "33161a877f10"
+  },
+  {
+   "type": "para",
+   "text": "其中：",
+   "id": "3bddce4e",
+   "hash": "f9712d3948e1"
+  },
+  {
+   "type": "list",
+   "text": "- **Observe**：从系统、文档、实验或人类输入观察到候选信息；\n- **Propose**：human 或 agent 提出 claim、修改或行动建议；\n- **Ground**：绑定来源、版本、evidence 与 extraction method；\n- **Verify**：按 claim 类型运行相应检查；\n- **Review**：有权限的人或 policy 做范围与责任判断；\n- **Accept / Reject / Open**：形成权威状态、拒绝理由或诚实保留；\n- **Writeback**：把获准结论写回客户的 system of record；\n- **Portable handoff**：把足够且可验证的状态交给下一位参与者。",
+   "id": "be028a95",
+   "hash": "973535f499d0"
+  },
+  {
+   "type": "heading",
+   "text": "### 产品不应说“所有知识都能形式化证明”",
+   "id": "edab924e",
+   "hash": "1d1a8475c5fe"
+  },
+  {
+   "type": "para",
+   "text": "不同知识需要不同的 verification profile。高风险并不意味着所有内容都必须被 Lean 证明；它意味着风险越高，对 evidence、独立检查、审批和可追溯性的要求越高。",
+   "id": "ee7d4a20",
+   "hash": "e4d03b2dac3f"
+  },
+  {
+   "type": "table",
+   "text": "| Claim 类型 | 合适的最低验证方式 |\n| --- | --- |\n| 代码 import、call、schema 关系 | AST / deterministic extraction |\n| 指标、金额、日期、配置 | source/evidence re-extraction |\n| 有限规则、阈值、算术关系 | rule engine、SMT 或 Lean |\n| 文档是否支持某个陈述 | citation span、text-entailment、review |\n| 医学、法律、投资等判断 | evidence package、domain policy、qualified human approval |",
+   "id": "d17fe385",
+   "hash": "8da4eb9ad041"
+  },
+  {
+   "type": "para",
+   "text": "因此一个 candidate 可能依次经历：",
+   "id": "4a445b0f",
+   "hash": "614629a43d90"
+  },
+  {
+   "type": "code",
+   "text": "```text\nCandidate → Grounded → Permissible → Verified → Admitted / Pushable\n                                      ↘ Rejected\n                                       ↘ Open\n```",
+   "id": "348415e9",
+   "hash": "b4fddc46918e"
+  },
+  {
+   "type": "list",
+   "text": "- **Grounded**：已绑定具体 source、版本和证据；\n- **Permissible**：通过权限、schema、provenance 完整性和基础一致性检查；\n- **Verified**：完成该 claim 类型要求的检查；\n- **Admitted / Pushable**：在相应 policy 和审批下，允许进入 authoritative knowledge state；\n- **Open**：证据或证明不足，但问题和缺口被诚实保留；\n- **Rejected**：不允许进入权威状态，且拒绝原因成为可复用历史。",
+   "id": "fa98b941",
+   "hash": "fddc12146051"
+  },
+  {
+   "type": "heading",
+   "text": "### 4.1 RIT Hub 内部账本：复用 Proofpress 的 event 语义，而非其文件级 carrier",
+   "id": "9a53396a",
+   "hash": "d4bfd63e7c38"
+  },
+  {
+   "type": "para",
+   "text": "Proofpress 现有的记录能力可以直接迁移进 RIT Hub，但要迁移的是它的**事件语义**（actor / claim / evidence 引用 / why / accept-reject-open / parent，以及\"你声明的跟系统算出来的对不对得上\"这条确定性检查），不是它现在\"portable capsule 嵌在单一 Markdown/HTML 文件里\"的载体实现。",
+   "id": "1261a235",
+   "hash": "a234295893b7"
+  },
+  {
+   "type": "para",
+   "text": "原因：RIT Hub 里的信任单位是 **claim（graph node）**，不是文件——一条 claim 可能来自 ARA 结构化 artifact，也可能只是一段 code + 一条 log 引用，不保证总有\"一份文档\"可以嵌入 capsule。因此：",
+   "id": "3d8d09d7",
+   "hash": "7da1c1b4f09e"
+  },
+  {
+   "type": "list",
+   "text": "- **锚点单位从 block 换成 claim**：Proofpress 今天在 markdown/html block 上算 hash、维护 `data-proofpress-id` 来跨编辑追踪同一身份；RIT 的 Claim Flow Graph 本身已经是 content-addressed，每条 claim 天然有稳定地址，不需要另起一套锚点机制。\n- **不再需要\"同一身份、新版本\"的簿记**：Proofpress 的 block 是原地可改的，所以需要维护修订链；RIT 的 claim 设计上不可原地改——修订是\"更强证据的新 claim 顶替旧 claim，两者之间连一条 edge\"，图的 edge 本身就是修订历史。\n- **人审批那一层，RIT 的 Lean kernel/extractor 管不到**：RIT 只回答 derivation validity（这个推导站不站得住）；一条 verified claim 要不要被提升为组织默认 recipe、要不要覆盖旧结论，是人的决定，这正是 Proofpress claims-vs-diff 检查的推广版——\"审批声明的 scope，跟 RIT 实际验证出来的 scope 对不对得上\"。\n- **portable capsule 降级为导出功能，不是内部默认机制**：内部大家共享同一个后端，不缺\"脱离账本也能被核验\"这个能力；这个能力只在 claim/artifact **离开** RIT Hub 时才重新值钱——写进论文、分享给用不同后端的组织、或未来 RIT Hub 变成跨机构标准时的联邦场景。",
+   "id": "cbdcad46",
+   "hash": "0f6f231b4340"
+  },
+  {
+   "type": "heading",
+   "text": "### 4.2 RIT/ARA 产品定位：OS for AI Scientist",
+   "id": "269a4ad9",
+   "hash": "7437eae2483a"
+  },
+  {
+   "type": "para",
+   "text": "（背景：用户已加入 ARA team，RIT/ARA + Frontier Labs 是当前优先 wedge。以下\n记录这条线的对外定位层级，2026-08-12 讨论确定。）",
+   "id": "336552f5",
+   "hash": "5de92d54c3e4"
+  },
+  {
+   "type": "para",
+   "text": "**定位分两层，不要混用**：",
+   "id": "013d96e3",
+   "hash": "0c3fc0dbd969"
+  },
+  {
+   "type": "list",
+   "text": "- **宏观 thesis（长，用于讲清楚整体方向，不是 tagline）**：Verified Knowledge",
+   "id": "45901b36",
+   "hash": "6f14371ef451"
+  },
+  {
+   "type": "para",
+   "text": "  Infrastructure for Autonomous Self-Evolving R&D。",
+   "id": "c81d2e11",
+   "hash": "a97746c9f7f2"
+  },
+  {
+   "type": "list",
+   "text": "- **产品 tagline（短，对外主用）**：**OS for AI Scientist(s)**。这句话不是",
+   "id": "52e4a8fa",
+   "hash": "835f514a808d"
+  },
+  {
+   "type": "para",
+   "text": "  内部自造的类比，出自 Amber（Jiachen Liu，ARA 论文第一作者）本人的原话——\n  她在 X 长文《How to Distill a $10M+ AI Researcher》（2026-07-07）结尾写道：\n  \"The real question is not whether AI can do research. It is whether we can\n  define **the operating system for AI scientists that produces trustworthy\n  science**。\" 用她自己的话当锚点，比团队自造类比更有背书。取代了之前内部工作\n  用语\"GitHub for research\"作为主 tagline——GitHub 类比只覆盖协作/存储这一半，\n  OS 类比能同时装下 artifacts 和 verification 两个子系统；\"GitHub for\n  research\" 仍然是解释 RIT 验证/准入门这一半时好用的类比，只是不再是主 tagline。",
+   "id": "2d21d7c4",
+   "hash": "ef8a009a2910"
+  },
+  {
+   "type": "para",
+   "text": "**OS 类比下的子系统映射**：",
+   "id": "9c8bf7bb",
+   "hash": "13538f01622d"
+  },
+  {
+   "type": "table",
+   "text": "| OS 概念 | 对应子系统 |\n| --- | --- |\n| 文件系统 / 持久进程状态 | artifacts（ARA）—— agent 的 world model，跨 session 不丢 |\n| kernel 强制规则 | verification（RIT）—— Lean kernel + evidence 重提取，过不了内核检查就不能落地 |\n| 进程表 / 核心对象模型 | Claim Flow Graph（ontology）—— 两个子系统共用的对象模型 |",
+   "id": "9998e6df",
+   "hash": "9b689c6d0991"
+  },
+  {
+   "type": "para",
+   "text": "这个映射还解释了为什么 Claim Flow Graph 需要挂上 4.1 节里定的那层 actor/decision/\napproval 元数据：OS 的进程表不只存进程内容本身，还得存 owner、权限、调度状态；\n同理 Claim Flow Graph 光有 claim 内容不够，还需要\"谁批准的、何时、基于什么\"这层\n记录——三层能对上，不是巧合拼出来的，是同一个设计逻辑在不同层面的体现。",
+   "id": "ef05e9d8",
+   "hash": "d789f9f6080e"
+  },
+  {
+   "type": "heading",
+   "text": "## 5. Formal verification 的真实边界",
+   "id": "d6ca2ff2",
+   "hash": "86c75459d58f"
+  },
+  {
+   "type": "para",
+   "text": "形式化验证是在明确 specification、模型、前提与可信计算基下，证明某个性质成立或给出反例。它强力支持高保证系统，但不是万能真相机。",
+   "id": "44c190d5",
+   "hash": "1d1262944ce6"
+  },
+  {
+   "type": "para",
+   "text": "需要区分五层：",
+   "id": "ce7a53c2",
+   "hash": "c8f7638e6f60"
+  },
+  {
+   "type": "table",
+   "text": "| 层 | 回答的问题 |\n| --- | --- |\n| Integrity | 文件、日志或证据字节是否被篡改？ |\n| Provenance | 它来自谁、何时、哪个版本、经由什么过程？ |\n| Support | 来源材料是否支持该 claim？ |\n| Derivation validity | 结论是否由已接受前提和允许规则推出？ |\n| Decision admission | 在此风险、policy 与权限下，是否可成为权威状态？ |",
+   "id": "a8e8d1be",
+   "hash": "a31e711d3a37"
+  },
+  {
+   "type": "para",
+   "text": "Hash 和签名主要服务 integrity；citation 与 source review 服务 support；RIT 的重新提取、证明与冲突检查主要服务 derivation validity；Proofpress 承载 provenance 与 decision admission。任何一层都不能自动替代其他层。",
+   "id": "41e04f33",
+   "hash": "66e2a210e890"
+  },
+  {
+   "type": "para",
+   "text": "Graphify 的 `EXTRACTED / INFERRED / AMBIGUOUS` 标签应被视为很有价值的 provenance classification：它区分直接从 source 解析出来的关系、模型推断和无法安全消解的关系。但它本身不等于全代码库的行为等价证明。类似地，ProVe 类系统检验记录的来源文本是否支持一条知识图谱陈述，提供的是文本支持证据而非现实真值的数学证明。",
+   "id": "301fe2ee",
+   "hash": "5c2b6a338d64"
+  },
+  {
+   "type": "heading",
+   "text": "## 6. Enterprise AI 的通用骨架与我们的切入点",
+   "id": "ebbc4432",
+   "hash": "8a41da416aaa"
+  },
+  {
+   "type": "para",
+   "text": "大型企业通常已有大量 legacy systems：LIMS、ELN、QMS、ERP、CRM、DMS、SharePoint、data warehouse、文件服务器、纸面/桌面系统等。通用 enterprise AI 方案通常包含三层：",
+   "id": "2f80e76b",
+   "hash": "ad5968bcaae9"
+  },
+  {
+   "type": "code",
+   "text": "```text\nLegacy systems / data\n        ↓\nConnection / ingestion layer\n        ↓\nSemantic / ontology / graph layer\n        ↓\nAgent orchestration layer\n        ↓\nBusiness action\n```",
+   "id": "18ec15c1",
+   "hash": "69e8f024e948"
+  },
+  {
+   "type": "para",
+   "text": "Connection 可以来自 API、数据库只读、结构化导出、文件连接器、event stream，或在无 API 的旧系统上使用 browser / desktop automation、OCR 与 computer vision。语义层将各系统中不同名称和结构的对象对齐；orchestration 层协调 agent、人类和自动化。",
+   "id": "82c4a79a",
+   "hash": "8481b609ccbe"
+  },
+  {
+   "type": "para",
+   "text": "这个骨架是正确的，但我们不应试图在早期重造完整 enterprise data platform、全企业 ontology 或通用 agent OS。那会迅速变成多年集成与咨询工程。",
+   "id": "728e15a4",
+   "hash": "40d796b33048"
+  },
+  {
+   "type": "para",
+   "text": "我们的候选位置是：",
+   "id": "1cb5d819",
+   "hash": "d0d1606fe6d5"
+  },
+  {
+   "type": "para",
+   "text": "> **Knowledge Trust / Admission Control Plane：在 agent 形成候选知识、准备把结论或动作写回企业 system of record 之前，提供 evidence、verification、approval、provenance 和 handoff。**",
+   "id": "f439f209",
+   "hash": "d99617d18799"
+  },
+  {
+   "type": "code",
+   "text": "```text\nLegacy systems\n     ↓ read\nSemantic context / existing agent platform\n     ↓\nHuman + agent workspace（ARA-style artifact）\n     ↓\nKnowledge admission gate（verification + policy + review）\n     ↓                              ↘ Proofpress ledger\nAccepted knowledge / approved decision\n     ↓ writeback\nExisting system of record\n```",
+   "id": "58b5cbae",
+   "hash": "ba5f2326fa8b"
+  },
+  {
+   "type": "para",
+   "text": "企业已有数据的 system of record；我们成为“为什么某次知识变化值得被组织相信”的 system of record。",
+   "id": "f035d5e4",
+   "hash": "9d55394a3297"
+  },
+  {
+   "type": "heading",
+   "text": "## 7. Legacy integration 的原则",
+   "id": "1204ec6c",
+   "hash": "ed84fd081b53"
+  },
+  {
+   "type": "para",
+   "text": "产品应当是 overlay，而不是客户所有系统的替代品。早期连接优先级如下：",
+   "id": "1c965df7",
+   "hash": "f03b4713d7af"
+  },
+  {
+   "type": "list",
+   "text": "1. 官方 API / event stream：可获得稳定 object ID、版本、权限和时间戳；\n2. 只读数据库连接或 structured export：CSV、JSON、XML、warehouse；\n3. 文件与文档连接：PDF、DOCX、Excel、实验日志、报告、合同；\n4. browser / desktop automation：没有 API 的旧系统；\n5. 纯视觉操作：最后手段，兼容性最广但 assurance 最弱。",
+   "id": "9e72bf3f",
+   "hash": "7d19f7ca3389"
+  },
+  {
+   "type": "para",
+   "text": "如果 agent 通过 UI 或 computer vision 读写旧系统，不能只保存“agent 说做完了”。至少需要记录：目标 record ID、操作前后状态/截图、抽取值、系统时间、actor/session、权限上下文、写入确认与 verification receipt。并且 evidence 必须标注它是 API-observed、file-extracted 还是 visually observed，因为不同采集方式有不同的可靠性边界。",
+   "id": "bb8f64f3",
+   "hash": "56525521ee54"
+  },
+  {
+   "type": "heading",
+   "text": "## 8. 最小 ontology，而不是全企业 ontology",
+   "id": "a1f1c3b1",
+   "hash": "23be4fdb3ab3"
+  },
+  {
+   "type": "para",
+   "text": "早期不建立“描述整个企业世界”的 ontology。只建立让 candidate knowledge 变为 accepted knowledge 所必需的小核：",
+   "id": "7ab9fb3e",
+   "hash": "62ff37503dcc"
+  },
+  {
+   "type": "code",
+   "text": "```text\nWork Item      Artifact       Version       Claim\nEvidence       Decision       Actor         Policy\nVerification   Approval       Rejection     Handoff\n```",
+   "id": "e73e8bfe",
+   "hash": "5e0372ec681a"
+  },
+  {
+   "type": "para",
+   "text": "再通过行业 adapter 扩展：",
+   "id": "ce4741d7",
+   "hash": "f0a949a0f008"
+  },
+  {
+   "type": "table",
+   "text": "| 行业 | 典型扩展对象 |\n| --- | --- |\n| Pharma / R&D | Experiment、Protocol、Sample、Assay、Result、Scientific Claim、Reviewer |\n| Legal | Matter、Document、Clause、Legal Position、Authority、Reviewer |\n| Finance | Company、Model、Assumption、Data Source、Investment Claim、Risk、Approval |\n| Heavy industry | Asset、Procedure、Inspection、Deviation、Change Order、Safety Case |",
+   "id": "d3edbd0c",
+   "hash": "903ff03eaa9a"
+  },
+  {
+   "type": "para",
+   "text": "我们描述的不是完整企业现实，而是“知识改变如何被证据支持、验证、批准和交接”的那部分现实。",
+   "id": "73418b6d",
+   "hash": "9cfc67286559"
+  },
+  {
+   "type": "heading",
+   "text": "## 9. 用户实际看到的产品",
+   "id": "365b4750",
+   "hash": "9bbee25c4f4d"
+  },
+  {
+   "type": "para",
+   "text": "用户不应面对三个分离协议，而应面对一款 **Verified Knowledge Workspace**。针对科研/制药的第一个表达可以是 **Verified R&D Knowledge Base**。",
+   "id": "6e9c821f",
+   "hash": "d289b7240edb"
+  },
+  {
+   "type": "heading",
+   "text": "### 9.1 Artifact workspace",
+   "id": "62ea8979",
+   "hash": "5cd5def49c67"
+  },
+  {
+   "type": "para",
+   "text": "一个 work item 可以是一项实验、一个合同 matter、一份 investment memo、一个工程变更或一个 clinical decision package。human 和 agent 在其中维护当前 artifact，而不是只进行 chat。",
+   "id": "eedcda03",
+   "hash": "fc7fa1779ec7"
+  },
+  {
+   "type": "heading",
+   "text": "### 9.2 Claim & evidence review",
+   "id": "6df7f620",
+   "hash": "0c1b2b5062fe"
+  },
+  {
+   "type": "para",
+   "text": "每一条重要 claim 显示：claim 内容、evidence、source authority、verification level、适用范围、冲突、open assumptions、proposer 与 status。",
+   "id": "9d7a6584",
+   "hash": "5dbca3d53e42"
+  },
+  {
+   "type": "heading",
+   "text": "### 9.3 Admission queue",
+   "id": "261d29ca",
+   "hash": "f9e9dd1842c4"
+  },
+  {
+   "type": "para",
+   "text": "合格 reviewer 能看到：这次修改了什么、哪些内容被机器验证、哪些无法验证、与旧版本有何冲突、agent 的建议及其依据。可执行的决定应包括：Accept、Reject、Request evidence、Scope the claim、Leave OPEN。",
+   "id": "a3a57d1d",
+   "hash": "01d3b7305c90"
+  },
+  {
+   "type": "heading",
+   "text": "### 9.4 Decision timeline 与 verified handoff",
+   "id": "f00e1daf",
+   "hash": "0236e1ce1d99"
+  },
+  {
+   "type": "para",
+   "text": "时间线展示 `V1 → proposed change → evidence → review → accepted V2`。下一位 human 或 agent 获得当前 admitted artifact、verified claims、evidence references、rejected paths、unresolved questions、approval history 与 receipts，而不是未经筛选的完整 transcript。",
+   "id": "fb257a10",
+   "hash": "5b059bc3224c"
+  },
+  {
+   "type": "heading",
+   "text": "## 10. 第一个 vertical：Pharma / R&D 的候选流程",
+   "id": "4418a9f0",
+   "hash": "ae01fb734c5c"
+  },
+  {
+   "type": "para",
+   "text": "Pharma R&D 是一个有吸引力的首个 wedge，而不是因为它已经被验证为市场，而是因为它同时具备研究连续性、高错误成本、复杂 evidence、跨团队 handoff、企业预算以及潜在 director-level discovery lead。",
+   "id": "f74a12be",
+   "hash": "7473f6a3b0b1"
+  },
+  {
+   "type": "para",
+   "text": "一个可能的 pilot workflow：",
+   "id": "5a56fe66",
+   "hash": "34d62851f1d8"
+  },
+  {
+   "type": "code",
+   "text": "```text\nELN / LIMS / assay data / report / analysis code\n                 ↓\nAgent 生成 candidate scientific claim\n                 ↓\nARA-style experiment artifact\n                 ↓\nEvidence & verification checks\n                 ↓\nScientist scopes and approves / rejects / leaves open\n                 ↓\nProofpress records accepted revision and rationale\n                 ↓\nApproved conclusion writes back to R&D knowledge base\n```",
+   "id": "5264c97f",
+   "hash": "f6a88f6bb93f"
+  },
+  {
+   "type": "para",
+   "text": "例：agent 提出“Compound X 在 protocol V3 下显著提高 response，建议进入下一阶段”。系统可以验证数字来源、protocol 版本、样本量、统计关系和与旧实验的冲突；scientist 可以把它缩窄为“在 cell line A、protocol V3 与当前样本规模下观察到 response improvement”。Proofpress 记录原始 broad claim、缩窄理由、evidence、reviewer、accepted version 和仍然开放的限制。",
+   "id": "6f6cbc58",
+   "hash": "31db96656af5"
+  },
+  {
+   "type": "para",
+   "text": "首个 vertical slice 不需要完整 enterprise stack：三个连接器、一个 artifact workspace、claim/evidence extraction、两到三类 verifier、人类审批、Proofpress history，以及 export/writeback 已足以检验价值。",
+   "id": "f7185e64",
+   "hash": "adc402c7dd47"
+  },
+  {
+   "type": "heading",
+   "text": "## 11. 从 research 到其他高风险行业",
+   "id": "64b5283e",
+   "hash": "a7b72d3a3608"
+  },
+  {
+   "type": "para",
+   "text": "长期愿景可以覆盖 AI scientists、AI-native law firms、financial research、pharma 与其他 enterprise AI 场景。但 go-to-market 必须有先后顺序；“Verification, provenance, eval as a service”适合作为底层能力描述，不能作为第一天面向所有客户的产品范围。",
+   "id": "a8e903dd",
+   "hash": "48378f5f3984"
+  },
+  {
+   "type": "para",
+   "text": "可复用的跨行业状态机是相同的，变化的是：",
+   "id": "5d0a877f",
+   "hash": "6a0c0ad76a24"
+  },
+  {
+   "type": "list",
+   "text": "- 接入的 legacy systems；\n- domain schema；\n- evidence type；\n- verification recipe；\n- policy / approval chain；\n- writeback adapter。",
+   "id": "b6d97ad6",
+   "hash": "38a36db9a033"
+  },
+  {
+   "type": "para",
+   "text": "因此扩张不是重复建一家公司，而是给同一 trust layer 添加行业 adapter 与 workflow pack。",
+   "id": "393ec4e0",
+   "hash": "0ca132602510"
+  },
+  {
+   "type": "heading",
+   "text": "### 11.1 Proofpress 单独出发时的产品形态：与\"Company Brain\"类产品的分野，以及 claims 校验的分级升级",
+   "id": "a039c31b",
+   "hash": "0a8ab58af842"
+  },
+  {
+   "type": "para",
+   "text": "（背景：RIT/ARA 优先做 Frontier Lab 这个 wedge 之后，Proofpress 被有意搁置，留给\n后续 verification 门槛更低的 vertical——law / finance / healthcare / 泛\nknowledge work。以下记录这条线自己的产品判断。）",
+   "id": "3f152506",
+   "hash": "37d4ac3739b6"
+  },
+  {
+   "type": "para",
+   "text": "**三种验证哲学，Proofpress 和 Graphify 同属一家，RIT 是例外**：",
+   "id": "ef6b4fa2",
+   "hash": "1d5b1888adc6"
+  },
+  {
+   "type": "list",
+   "text": "- RIT = 门禁式：Lean kernel + evidence 重提取，证明或拒绝，二选一，进去的东西",
+   "id": "e07b5cad",
+   "hash": "95a1aae05193"
+  },
+  {
+   "type": "para",
+   "text": "  全部同等可信。",
+   "id": "e175a8a1",
+   "hash": "15de229ffd1a"
+  },
+  {
+   "type": "list",
+   "text": "- Proofpress 现有的 `--claims` = 诚实性检查：声明的 block 改动跟系统算出来的",
+   "id": "5aea2a97",
+   "hash": "703251a43fa4"
+  },
+  {
+   "type": "para",
+   "text": "  实际 diff 对不对得上，回答\"有没有漏报\"，不是\"是不是真的\"。",
+   "id": "03a496ac",
+   "hash": "dbdf19e3562c"
+  },
+  {
+   "type": "list",
+   "text": "- Graphify = 分级诚实标注：EXTRACTED / INFERRED / AMBIGUOUS，不设准入门槛，",
+   "id": "9fa22692",
+   "hash": "dba4f930d4ed"
+  },
+  {
+   "type": "para",
+   "text": "  全部放进图里，只老实标注可信度来源。",
+   "id": "71cd4614",
+   "hash": "64e82db9b7ae"
+  },
+  {
+   "type": "para",
+   "text": "Proofpress 和 Graphify 都不试图证明真理，只让\"来源可信度\"变得可核查——这跟\nProofpress 一直以来的边界（tamper-evident 不是 tamper-proof）是同一套哲学，\nRIT 才是那个走到形式证明的例外。",
+   "id": "b49cc76a",
+   "hash": "9e5c42caadd6"
+  },
+  {
+   "type": "para",
+   "text": "**与 Company Brain 类产品（泛指企业知识助手/RAG 检索工具）的分野**：差异不在\n检索能力，在有没有\"接受/拒绝/替代\"这个状态机。Company Brain 把所有文档一股脑\n索引，检索出来的内容地位平等，不知道是否被正式接受过、有没有被推翻。Proofpress",
+   "id": "ea5d665b",
+   "hash": "1ddfc64e2b63"
+  },
+  {
+   "type": "list",
+   "text": "+ claim graph 多一层状态判定：当前生效 / 已被更强证据顶替 / 曾提出但被拒绝。",
+   "id": "f9be5d07",
+   "hash": "6f073e9b2f0b"
+  },
+  {
+   "type": "para",
+   "text": "定位是：**比 Company Brain 高一档（有 accept/reject/supersede 状态机），比\nRIT 低一档（不做形式证明，这是刻意的边界，不是能力不足）**。",
+   "id": "0749a7ab",
+   "hash": "0329a166f77c"
+  },
+  {
+   "type": "para",
+   "text": "**claims 校验需要从 block 级升级到内容级**：现在的 `--claims` 只回答\"哪些\nblock 改了，对不对得上\"，企业场景需要回答\"具体陈述有没有支撑\"。借用 Graphify\n的三级标注模式（EXTRACTED 可回指具体来源 / INFERRED 作者综合判断 / UNSUPPORTED\n无可追溯来源），`verify` 从二元结果（✅/⚠️）变成支撑度分布（如\"80% EXTRACTED、\n15% INFERRED、5% 无来源\"）。注意：分层\"模式\"可以抄 Graphify，但底层判定机制\n不同——代码结构关系可以用 AST 算法判定，法律/财务/医疗文档里的自然语言陈述要靠\ntext-entailment/citation-span 匹配，是完全不同的技术栈。",
+   "id": "4457983c",
+   "hash": "390250b454e0"
+  },
+  {
+   "type": "para",
+   "text": "**产品形态：卡在 candidate → accepted 断点上的 overlay**：不是新系统，是附着\n在用户已有工具（Word/Docs/Notion/邮件）里的文档上，在\"候选结论\"要变成\"组织\n正式立场\"那一刻起作用：",
+   "id": "038358af",
+   "hash": "86434683833b"
+  },
+  {
+   "type": "list",
+   "text": "1. Admission queue：人审界面，展示改动、机器能核对的部分、核对不了的部分、跟",
+   "id": "446ad603",
+   "hash": "94c2e99b4314"
+  },
+  {
+   "type": "para",
+   "text": "   旧结论的冲突；动作包括 Accept / Reject / Request evidence / Scope the\n   claim / Leave Open。",
+   "id": "81917782",
+   "hash": "65a2f3cdab0a"
+  },
+  {
+   "type": "list",
+   "text": "2. Decision timeline + verified handoff：下一个人/agent 拿到的是当前 accepted",
+   "id": "9765641d",
+   "hash": "5a27d79d5296"
+  },
+  {
+   "type": "para",
+   "text": "   状态 + evidence 引用 + 被拒绝路径 + 未解决问题 + 批准记录，不是完整过程。\n   这是 portable capsule 已经在做的事，企业版只需要 claim 内容更丰富。",
+   "id": "68e3be98",
+   "hash": "9ef842faef80"
+  },
+  {
+   "type": "list",
+   "text": "3. **Portability 在这里是核心机制，不是边缘功能**——这点与 RIT Hub 场景刚好",
+   "id": "1ea4810f",
+   "hash": "2c65f94813b1"
+  },
+  {
+   "type": "para",
+   "text": "   相反：RIT Hub 内部大家共享同一后端，portable capsule 只在导出/跨机构时才\n   值钱；企业知识工作天然分散在几十个互不相通的工具和组织边界之间（甲方乙方、\n   公司与外部律所/审计方），没有共享的唯一真相源，所以\"历史跟着文件走、不依赖\n   中心账本\"必须是默认机制。这是 Proofpress 相对于\"又一个企业 RAG/知识库产品\"\n   的真正护城河。",
+   "id": "83f9a70c",
+   "hash": "1021aac33672"
+  },
+  {
+   "type": "para",
+   "text": "**落地纪律**：沿用第10节的最小切片配方——connector 优先级（API > 只读导出 >\n文件连接器 > 浏览器自动化）+ 一个 artifact workspace + claim/evidence\nextraction + 两三类 verifier + 人审 + Proofpress history + writeback，不要\n先重建平台。law / finance / healthcare 三个候选 vertical 里选哪个先做，仍是\n未决问题。",
+   "id": "534d6ce9",
+   "hash": "5db3e99654cc"
+  },
+  {
+   "type": "heading",
+   "text": "## 12. Nonprofit / for-profit 的可能分工",
+   "id": "e6eeb92c",
+   "hash": "c2de4f67c05c"
+  },
+  {
+   "type": "para",
+   "text": "这是战略假设，不是既定组织方案。合理的分工可以是：",
+   "id": "5c3ff12e",
+   "hash": "a71d7a8ba99f"
+  },
+  {
+   "type": "table",
+   "text": "| Nonprofit / open ecosystem | For-profit product company |\n| --- | --- |\n| ARA/RIT 协议、公共 research、benchmark、reference implementation | 企业工作区、连接器、私有部署、policy、workflow、support、SLA |\n| 开放治理、公共证据与可复现实验 | 高质量 ingestion、domain adapter、enterprise integration 与 customer success |\n| 公平、可解释的 certification / evaluation rule | 将标准带入客户的真实工作流与 system-of-record writeback |",
+   "id": "edaa8e0a",
+   "hash": "a5886767dee8"
+  },
+  {
+   "type": "para",
+   "text": "这种拆分的价值是：开放协议与 benchmark 有机会获得公信力，商业公司则能承载客户数据、部署、服务和收入。风险也非常明确：如果 nonprofit 的公信力被一家商业公司私有化，协议、benchmark 和认证都会被质疑。",
+   "id": "bc8b756b",
+   "hash": "40214474cb20"
+  },
+  {
+   "type": "para",
+   "text": "在任何合并既有项目或加入公司之前，必须由合格法律与公司顾问明确：",
+   "id": "4a364adf",
+   "hash": "f366d018329e"
+  },
+  {
+   "type": "list",
+   "text": "- pre-existing IP 的归属、assignment 或 license；\n- ARA、RIT、Proofpress、品牌与 benchmark 的权利边界；\n- nonprofit 与 for-profit 的控制关系、股权、董事会与利益冲突规则；\n- 客户数据、研究发表和开源贡献的边界；\n- founder 角色、归属、equity、vesting 与重大决策权；\n- 协议/benchmark 是否对其他商业参与者公平可用。",
+   "id": "26a12c00",
+   "hash": "64491ac758d8"
+  },
+  {
+   "type": "para",
+   "text": "“你来我就可以做产品”是强烈的 founder complementarity 信号，但不是条款本身。应先把角色、IP、权利与最初 design-partner pilot 写清楚。",
+   "id": "c6044e59",
+   "hash": "be4866cca388"
+  },
+  {
+   "type": "heading",
+   "text": "## 13. 明确不做什么",
+   "id": "d6cc14b3",
+   "hash": "256fb1e6adff"
+  },
+  {
+   "type": "para",
+   "text": "我们不应把自己表述为：",
+   "id": "7da183d2",
+   "hash": "9051197685f9"
+  },
+  {
+   "type": "list",
+   "text": "- 替换所有 legacy systems 的新 ERP；\n- 又一家通用 enterprise search、RAG 或 agent orchestration 平台；\n- 一个需要先重建整个企业 ontology 的咨询项目；\n- 自动证明所有企业知识为真实的系统；\n- 通用 security / permissions / audit-log 产品；\n- 承诺广泛合规、法院可采性或零错误的产品。",
+   "id": "2d2f0caf",
+   "hash": "421cea3f2668"
+  },
+  {
+   "type": "para",
+   "text": "我们应保持的边界是：",
+   "id": "1dab9d87",
+   "hash": "a32cca22a500"
+  },
+  {
+   "type": "para",
+   "text": "> 企业已有记录数据的系统；我们记录并控制某个知识变化为什么、如何、在什么权限与证据下成为值得信任的组织状态。",
+   "id": "37a7e61c",
+   "hash": "b7afd0b523e5"
+  },
+  {
+   "type": "heading",
+   "text": "## 14. 当前的关键未知与下一步",
+   "id": "434a7210",
+   "hash": "2f91d492553e"
+  },
+  {
+   "type": "para",
+   "text": "本文件是战略推演，不代表需求已经验证。当前最重要的不确定性是：客户是否愿意为 accepted-knowledge workflow 付费；最先痛的工作流是什么；谁是 economic buyer；现有系统中的 writeback 与审批究竟如何发生；以及 nonprofit / for-profit 与 founder/IP 结构是否能公平成立。",
+   "id": "91af7ef5",
+   "hash": "554cc1356e23"
+  },
+  {
+   "type": "para",
+   "text": "下一步建议不是构建完整平台，而是：",
+   "id": "7d438c9d",
+   "hash": "0b3d40b00116"
+  },
+  {
+   "type": "list",
+   "text": "1. 与潜在 pharma director 做 discovery，而非先做产品演示；\n2. 画出一个具体 workflow 的现状：系统、角色、evidence、审批、异常、handoff 与 writeback；\n3. 找到一个高成本的 `candidate knowledge → accepted knowledge` 断点；\n4. 用最小 vertical slice 验证是否缩短 review/handoff、减少错误继承、提升可审查性；\n5. 在产品承诺之前完成 founder / IP / entity 的书面讨论。",
+   "id": "c9e198d9",
+   "hash": "7b8ca07fb4d2"
+  },
+  {
+   "type": "para",
+   "text": "对客户最值得问的问题不是“你想要 AI knowledge base 吗？”，而是：",
+   "id": "81013630",
+   "hash": "e472e3ad18e1"
+  },
+  {
+   "type": "para",
+   "text": "> 最近一次一个关键结论被修改、撤回、交接或审计时，组织花了多少时间弄清楚：当前该信什么、为什么、谁批准、以及缺了什么证据？",
+   "id": "f55f4ae5",
+   "hash": "70231f856c97"
+  },
+  {
+   "type": "para",
+   "text": "如果这个问题带来具体、昂贵、反复发生的故事，才是产品的真实起点。",
+   "id": "b24171e0",
+   "hash": "2469f63a65f5"
   }
  ]
 }
