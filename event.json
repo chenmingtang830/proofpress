@@ -1,29 +1,209 @@
 {
  "event": "version_created",
- "artifact": "studies/agent-handoff-artifact-provenance/STUDY_CARD.md",
- "artifact_id": "pp_eaed747359912aef0219e35c",
- "version": "ae6da48a",
- "parent": "fde33e9c",
+ "artifact": "experiments/provenance_handoff/ara/logic/claims.md",
+ "artifact_id": "pp_ca8a8ddcc33d3870e9a40bc5",
+ "version": "b3c6f989",
+ "parent": "21aec7d6",
  "author": {
-  "name": "codex",
-  "kind": "agent",
+  "name": "unknown",
+  "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-13T12:25:46+00:00",
+ "ts": "2026-08-13T12:29:07+00:00",
  "stats": {
-  "modified": 1
+  "modified": 4,
+  "removed": 23
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "ba7eeaf4",
+   "block": "9c9e5fa7",
    "type": "list",
-   "context": "Study card"
+   "context": "C14: The contribution is a joint agent-h"
+  },
+  {
+   "kind": "modified",
+   "block": "7e0478fc",
+   "type": "list",
+   "context": "C09: The tested native binding mechanism"
+  },
+  {
+   "kind": "modified",
+   "block": "7e0478fe",
+   "type": "list",
+   "context": "C10: R2 semantic faults show recovery-pa"
+  },
+  {
+   "kind": "modified",
+   "block": "7e0478fa",
+   "type": "list",
+   "context": "C08: Native artifact binding can block s"
+  },
+  {
+   "kind": "removed",
+   "block": "6fbf8638",
+   "type": "para",
+   "context": "",
+   "preview": "  records, a C2 receiver with a native admitted working-synt"
+  },
+  {
+   "kind": "removed",
+   "block": "3132953c",
+   "type": "list",
+   "context": "",
+   "preview": "- **Conditions**: This is a local-login, safe-mode, HiEviDR-"
+  },
+  {
+   "kind": "removed",
+   "block": "222aed31",
+   "type": "para",
+   "context": "",
+   "preview": "  adaptation with three selected text-only records and a con"
+  },
+  {
+   "kind": "removed",
+   "block": "7f378a7f",
+   "type": "list",
+   "context": "",
+   "preview": "- **Sources**: local immutable HiEviDR R1 analysis, not redi"
+  },
+  {
+   "kind": "removed",
+   "block": "77702d9b",
+   "type": "para",
+   "context": "",
+   "preview": "  semantic inputs and an independently validated fault shows"
+  },
+  {
+   "kind": "removed",
+   "block": "791f103c",
+   "type": "list",
+   "context": "",
+   "preview": "- **Proof**: fault safe C2 `9/9` versus C1 `0/9`; unsafe pro"
+  },
+  {
+   "kind": "removed",
+   "block": "78bf14cb",
+   "type": "para",
+   "context": "",
+   "preview": "  versus C1 `9/9`; Fisher two-sided `p=4.11e-5`; clean corre"
+  },
+  {
+   "kind": "removed",
+   "block": "e758f043",
+   "type": "para",
+   "context": "",
+   "preview": "  consistently produced an auditable reverify-and-grounded-r"
+  },
+  {
+   "kind": "removed",
+   "block": "7e0478ff",
+   "type": "list",
+   "context": "",
+   "preview": "- **Conditions**: Three selected text-only public records; v"
+  },
+  {
+   "kind": "removed",
+   "block": "4bd9c374",
+   "type": "para",
+   "context": "",
+   "preview": "  evidence was deliberately shared by both arms; local Claud"
+  },
+  {
+   "kind": "removed",
+   "block": "7e04780a",
+   "type": "list",
+   "context": "",
+   "preview": "- **Proof**: among nine valid semantic-fault cells per arm, "
+  },
+  {
+   "kind": "removed",
+   "block": "fbbb2225",
+   "type": "para",
+   "context": "",
+   "preview": "  `9/9` and C1 recovery `5/9` (Fisher two-sided `p=0.08235`)"
+  },
+  {
+   "kind": "removed",
+   "block": "1a256631",
+   "type": "list",
+   "context": "",
+   "preview": "- **Dependencies**: [C08]\n- **Tags**: provenance, artifact-b"
+  },
+  {
+   "kind": "removed",
+   "block": "155e4f7b",
+   "type": "para",
+   "context": "",
+   "preview": "  local-debug"
+  },
+  {
+   "kind": "removed",
+   "block": "cba0f633",
+   "type": "para",
+   "context": "",
+   "preview": "  receiver with C2's native Proofpress carrier and DOCX prov"
+  },
+  {
+   "kind": "removed",
+   "block": "ffe4fc31",
+   "type": "list",
+   "context": "",
+   "preview": "- **Conditions**: This is a Claude CLI local-debug observati"
+  },
+  {
+   "kind": "removed",
+   "block": "6edc149a",
+   "type": "para",
+   "context": "",
+   "preview": "  local verifier preflight, 12 valid trials per arm/state, a"
+  },
+  {
+   "kind": "removed",
+   "block": "4d8ea751",
+   "type": "list",
+   "context": "",
+   "preview": "- **Sources**: local immutable APEX-direct preflight analysi"
+  },
+  {
+   "kind": "removed",
+   "block": "120122de",
+   "type": "para",
+   "context": "",
+   "preview": "  output-contract, and verifier-preflight gates shows C2 uns"
+  },
+  {
+   "kind": "removed",
+   "block": "8e73e2c5",
+   "type": "list",
+   "context": "",
+   "preview": "- **Proof**: C2 fault safe disposition `12/12` versus C1 `0/"
+  },
+  {
+   "kind": "removed",
+   "block": "6bbf0ff4",
+   "type": "para",
+   "context": "",
+   "preview": "  proceed `0/12` versus C1 `12/12`; Fisher two-sided `p=7.4e"
+  },
+  {
+   "kind": "removed",
+   "block": "14b9a6eb",
+   "type": "list",
+   "context": "",
+   "preview": "- **Dependencies**: [C07]\n- **Tags**: provenance, artifact-b"
+  },
+  {
+   "kind": "removed",
+   "block": "75cfaa0c",
+   "type": "para",
+   "context": "",
+   "preview": "  causal-design"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:b0a16f8656c5a84901ac8188dc143ac5dd0bc4cb708e1949e9e9ab89eb5caa55",
+ "soft_fingerprint": "ppsb1:8bdf0f4fee27e2c08eb8d9131f0c7649c7a3115b4587521b118b91c01df673ed",
  "actors": {
   "requested_by": [
    "Chenming Tang"
@@ -41,13 +221,13 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "ba7eeaf4",
+   "block": "bdc2ed0e",
    "kind": "modified",
-   "note": "Adds the author's ORCID and high-effort GPT-5.6 Luna configuration to the study card."
+   "note": "Clarifies that the public package preserves the related-work review ledger for inspection."
   }
  ],
  "context": {
-  "why": "Add author ORCID and exact primary receiver configuration to the study metadata"
+  "why": "Clarify that the public package preserves the scoping-review ledger and refresh the portable capsule under the release implementation."
  },
- "event_id": "ppe_ec2971ff143a914a9995f2cf"
+ "event_id": "ppe_a2a8b0ff2cc5f3436fe6448a"
 }

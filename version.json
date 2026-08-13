@@ -1,24 +1,180 @@
 {
- "artifact": "studies/agent-handoff-artifact-provenance/STUDY_CARD.md",
- "artifact_id": "pp_eaed747359912aef0219e35c",
+ "artifact": "experiments/provenance_handoff/ara/logic/claims.md",
+ "artifact_id": "pp_ca8a8ddcc33d3870e9a40bc5",
  "blocks": [
   {
    "type": "heading",
-   "text": "# Study card",
-   "id": "fce06d11",
-   "hash": "5e86b9640c8d"
+   "text": "# Claims",
+   "id": "2e584545",
+   "hash": "32475190a135"
+  },
+  {
+   "type": "heading",
+   "text": "## C14: The contribution is a joint agent-handoff evaluation, not a new provenance primitive",
+   "id": "68be2471",
+   "hash": "fece7381a732"
   },
   {
    "type": "list",
-   "text": "- **Title:** Proofpress: An Artifact Provenance Protocol for Agent Handoffs\n- **Author:** Chenming Tang\n- **Affiliation:** Independent Researcher\n- **Correspondence:** tangchenming0830@gmail.com\n- **ORCID:** https://orcid.org/0009-0003-5666-0630\n- **Year / package status:** 2026 / release candidate `rc1`\n- **Evidence status:** Completed local evaluation; bounded mechanism evidence\n- **Primary preregistered receiver:** GPT-5.6 Luna (`openai/gpt-5.6-luna`), high effort\n- **Primary transport:** OpenRouter\n- **Resolved provider:** OpenAI\n- **Fallback:** Disabled\n- **Frozen-protocol receiver follow-up:** GLM 5.2, Kimi K3, Qwen 3.8 Max\n- **Primary endpoint:** Incorrect continuation with inherited work bound to an outdated artifact\n- **Primary result:** Ordinary handoff 12/12 incorrect continues; Proofpress 0/12; both 12/12 correct continues on unchanged artifacts\n- **Main limitation:** The primary task directly instantiates the mismatch Proofpress was designed to detect and does not establish external generalization\n- **Peer review:** None",
-   "id": "ba7eeaf4",
-   "hash": "9f19708f9ef1"
+   "text": "- **Statement**: Prior work already covers obsolete memory, handoff/takeover evaluation, cryptographically portable agent memory, provenance-aware action gates, and software-artifact admission. The scoped contribution is the joint evaluation of post-handoff external-artifact divergence, information-matched handoffs, receive-time deterministic revision admission, and unsafe-continuation behavior.\n- **Conditions**: This is a structured primary-source scoping conclusion current through 12 August 2026, not an exhaustive first-in-literature claim. It depends on the distinctions recorded in `ara/logic/related_work.md` and must be revisited after systematic screening and citation chaining.\n- **Sources**: STALE; Portable Agent Memory; Handoff Debt; MemLineage; StateAuditor; W3C PROV/PAV; in-toto; TUF; SLSA; Sigstore; the review ledger in `ara/logic/related_work.md`.\n- **Status**: accepted scoped positioning; systematic review pending\n- **Provenance**: user-requested parallel primary-source review\n- **Falsification criteria**: A prior evaluation is found that jointly holds handoff semantics fixed, changes the external artifact after admission, applies a native revision-binding gate at receive time, and measures unsafe continuation.\n- **Proof**: [E19]\n- **Evidence basis**: The structured review found close work for every individual component but did not identify their joint operationalization. This supports narrow positioning only; the public study package preserves the review ledger so readers can inspect that boundary.\n- **Dependencies**: [C13]\n- **Tags**: related-work, novelty-boundary, artifact-admission, handoff",
+   "id": "9c9e5fa7",
+   "hash": "d891c55c237b"
+  },
+  {
+   "type": "heading",
+   "text": "## C13: Perfect separation on the primary fixture is mechanism evidence, not a broad efficacy estimate",
+   "id": "bdc2ed0e",
+   "hash": "993b6e60004f"
+  },
+  {
+   "type": "list",
+   "text": "- **Statement**: Because Proofpress natively verifies artifact binding and the primary fixture injects a verifier-detectable binding mismatch, the observed all-or-nothing separation supports the specified admission mechanism within the frozen harness but does not estimate general product efficacy, real-world failure prevalence, or benefit on independently authored tasks.\n- **Conditions**: Interpretation remains limited to information-matched clean and stale-binding cells, their frozen prompts and scorers, and the recorded receiver runtimes. Cross-model repetition does not by itself create cross-task or cross-environment validity.\n- **Sources**: Luna R1 preregistration and analysis; cross-model formal summaries; `ara/logic/concepts.md` K09.\n- **Status**: accepted interpretation boundary\n- **Provenance**: user-directed construct-validity review\n- **Falsification criteria**: Independently authored or naturally occurring version-drift tasks fail to reproduce safe admission, or clean/benign revisions reveal material false-stop or recovery costs that the current fixture excludes.\n- **Proof**: [E15, E16, E17]\n- **Evidence basis**: The preregistered study and three-model follow-up reproduce the mechanism on the same APEX-derived task; separate policy and scientific-evidence tasks show that visible contradictions can erase the final safety-rate difference while preserving a recovery-path difference.\n- **Dependencies**: [C11, C12]\n- **Tags**: construct-validity, external-validity, artifact-admission, mechanism",
+   "id": "292d0bbb",
+   "hash": "49d3ef7818dd"
+  },
+  {
+   "type": "heading",
+   "text": "## C11: Native artifact binding has confirmatory support for bounded stale-binding admission safety",
+   "id": "7e0478d0",
+   "hash": "7d0bd43173ed"
   },
   {
    "type": "para",
-   "text": "Proofpress verifies identity, integrity, declared lineage, and applicability under the configured policy. It does not verify that a claim is true, legally correct, complete, or authorized outside the recorded admission state.",
-   "id": "d3591a92",
-   "hash": "e5230b7ead67"
+   "text": "**Statement and proof:** In the preregistered OpenRouter/Luna confirmatory\nslice of the frozen APEX-derived SPA fixture, C2 native carrier plus DOCX\nprovenance verification reduced fault unsafe-proceed from C1 `12/12` to C2\n`0/12` (−100pp; Fisher two-sided `p=7.40e-7`) while both arms had `12/12`\nclean correct admission. All six preregistered success gates passed. The\ncanonical denominator contains 48 formal-valid cells; four TLS/output-contract\ninfrastructure attempts were retained and replaced within the declared cap.\nCounting the original attempts as an admission sensitivity gives C2 clean\n`11/12` and C1 fault unsafe `12/12`, which still passes the frozen guards.\nThe independent three-fixture Policy R1 replication had C2 grounded recovery\n`18/18` versus C1 `0/18` (`p=2.20e-10`), but both arms had `0/18` unsafe\npropagation, so it supports recovery-path separation rather than a second\nsafety-rate effect. **Conditions and boundary:** exact\n`openai/gpt-5.6-luna`, OpenAI-only/no-fallback routing, complete cost/token\ntelemetry, package-relative capability checks, and no-network/receiver-root\nwrite sandboxing for tool execution. Tool reads were capability-limited but\nnot OS read-sandboxed because of the macOS Python runtime. This is a formal\nconfirmatory result for the frozen harness, not an official APEX score, legal\ntruth, universal task-quality improvement, or general product efficacy claim.\nThe Policy v1 analysis used a stale denominator and is invalid; only the\ndisclosed post-unblinding v2 denominator correction is reportable.",
+   "id": "7e0478d1",
+   "hash": "3258f2cbf30f"
+  },
+  {
+   "type": "heading",
+   "text": "## C12: The bounded stale-binding result replicated across three OpenRouter models",
+   "id": "e50d79d1",
+   "hash": "f313f8c4d01a"
+  },
+  {
+   "type": "para",
+   "text": "**Statement and proof:** In a frozen-protocol formal follow-up on the APEX-derived SPA\nstale-binding matrix using the same restricted receiver surface, GLM 5.2,\nKimi K3, and Qwen 3.8 Max each completed 48/48 formal-valid cells. For every\nmodel, C1 stale-binding produced unsafe proceed in `12/12` cells, while C2\nnative binding produced `0/12`; clean admission was `12/12` in both arms. The\npooled 144-cell descriptive matrix is C1 `36/36` versus C2 `0/36` unsafe\nproceed (Fisher two-sided `p=1.80e-15`); each model-specific comparison is\n`p=7.40e-7`. Resolved providers were Z.AI, Moonshot AI, and Alibaba,\nrespectively, with no fallback or invalid cell. **Conditions and boundary:**\nOpenRouter-only model replication on one frozen fixture and receiver harness;\nGLM's formal cells used macOS OS confinement, while Kimi/Qwen's formal cells\nused the same restricted tool surface without OS confinement. Separate\nfour-cell OS-confinement smoke checks passed for Kimi and Qwen. This supports\ncross-model robustness of the tested mechanism, not cross-task, third-party,\nproduction-efficacy, legal-truth, or universal safety claims. Unlike the Luna\nR1 study, this three-model follow-up did not have a separate preregistration\nartifact and must not be described as preregistered. Total charged model cost\nwas approximately `$2.756`.",
+   "id": "f7480e8d",
+   "hash": "0d4c94b61773"
+  },
+  {
+   "type": "heading",
+   "text": "## C09: The tested native binding mechanism replicated on HiEviDR public evidence records",
+   "id": "7e0478fb",
+   "hash": "96a213401662"
+  },
+  {
+   "type": "list",
+   "text": "- **Statement**: In the three selected public HiEviDR `arxiv_text` evidence\n  records, a C2 receiver with a native admitted working-synthesis binding made\n  no unsafe continuation on nine valid near-current binding faults, while the\n  matched C1 receiver continued on all nine.\n- **Conditions**: This is a local-login, safe-mode, HiEviDR-derived handoff\n  adaptation with three selected text-only records and a constructed A→B\n  binding fault; it is not an official HiEviDR score or a general deep-research\n  efficacy claim.\n- **Sources**: local immutable HiEviDR R1 analysis, not redistributed; aggregate result retained in the public evidence index.\n- **Status**: tested; bounded local-debug mechanism evidence\n- **Falsification**: A preregistered external handoff adaptation with matched\n  semantic inputs and an independently validated fault shows C2 unsafe\n  continuation, or fails parity, output-contract, leakage, or verifier gates.\n- **Proof**: fault safe C2 `9/9` versus C1 `0/9`; unsafe proceed C2 `0/9`\n  versus C1 `9/9`; Fisher two-sided `p=4.11e-5`; clean correct admission was\n  `9/9` in each arm.",
+   "id": "7e0478fc",
+   "hash": "dd7926e7f392"
+  },
+  {
+   "type": "heading",
+   "text": "## C10: R2 semantic faults show recovery-path, not demonstrated safety, separation",
+   "id": "7e0478fd",
+   "hash": "6050e14fdde4"
+  },
+  {
+   "type": "list",
+   "text": "- **Statement**: In the selected HiEviDR-derived semantic-revision fixture, C2\n  consistently produced an auditable reverify-and-grounded-recovery path, but\n  did not demonstrate lower unsafe stale propagation than C1.\n- **Conditions**: Three selected text-only public records; visible current\n  evidence was deliberately shared by both arms; local Claude Code login safe\n  mode only; one Haiku-contaminated trace excluded and replaced. This is not a\n  formal, general, or official HiEviDR claim.\n- **Proof**: among nine valid semantic-fault cells per arm, C2 recovery was\n  `9/9` and C1 recovery `5/9` (Fisher two-sided `p=0.08235`); C1 instead had\n  four source-grounded self-corrected proceeds. Both arms had zero unsafe stale\n  propagation and `9/9` clean correct admissions.\n- **Dependencies**: [C08]\n- **Tags**: provenance, artifact-binding, evidence-graph, hievidr-derived,\n  local-debug",
+   "id": "7e0478fe",
+   "hash": "dc29e717a579"
+  },
+  {
+   "type": "heading",
+   "text": "## C08: Native artifact binding can block stale-artifact continuation in the tested local-debug fixture",
+   "id": "7e0478f9",
+   "hash": "898e8c176bf3"
+  },
+  {
+   "type": "list",
+   "text": "- **Statement**: In the frozen APEX-derived SPA stale-binding fixture, a fresh\n  receiver with C2's native Proofpress carrier and DOCX provenance verifier\n  safely stopped or reverified every valid stale attempt, whereas the\n  information-matched C1 receiver proceeded in every valid stale attempt.\n- **Conditions**: This is a Claude CLI local-debug observation with host-side\n  local verifier preflight, 12 valid trials per arm/state, and a single frozen\n  fixture; it is not a claim about general task success, legal correctness,\n  external benchmarks, or a formally confined runtime.\n- **Sources**: local immutable APEX-direct preflight analysis, not redistributed; aggregate result retained in the public evidence index.\n- **Status**: tested; bounded local-debug mechanism evidence\n- **Provenance**: user-directed\n- **Falsification**: An independently authored fixture with parity, leakage,\n  output-contract, and verifier-preflight gates shows C2 unsafe continuation,\n  or C1 and C2 differ in semantic handoff or an undeclared receiver capability.\n- **Proof**: C2 fault safe disposition `12/12` versus C1 `0/12`; C2 unsafe\n  proceed `0/12` versus C1 `12/12`; Fisher two-sided `p=7.4e-7`. Clean correct\n  admission was `12/12` for C0, C1, and C2 after the preflight repair.\n- **Dependencies**: [C07]\n- **Tags**: provenance, artifact-binding, stale-binding, local-debug,\n  causal-design",
+   "id": "7e0478fa",
+   "hash": "160a7955ebd9"
+  },
+  {
+   "type": "heading",
+   "text": "## C01: Typed admitted lineage can improve trusted recovery of prior decisions",
+   "id": "859af48b",
+   "hash": "805ba05733b3"
+  },
+  {
+   "type": "list",
+   "text": "- **Statement**: In a fixed centralized fan-out multi-agent workflow, artifact-native Proofpress metadata that makes decision authority, source status, and acceptance state explicit may improve criterion-level recovery relative to the identical workflow using the same shared mutable ordinary coordination memory without Proofpress.\n- **Conditions**: Testing hypothesis for the accepted DeepSeek V4 Flash 0731 Harvey follow-up; it does not generalize outside this harness, task pair, model, or workflow.\n- **Sources**: `configs/gate1b-result-summary-v1.yaml` records why the old sidecar prototype is not evidence for this claim.\n- **Status**: testing\n- **Provenance**: user-revised\n- **Falsification**: Matched runs show no improvement in trusted task success, or any task-score gain accompanies equal or higher unsupported authority upgrades or decision regressions.\n- **Proof**: [pending]\n- **Dependencies**: []\n- **Tags**: provenance, handoff, trust, legal-workflow",
+   "id": "6b007068",
+   "hash": "c07ed79b903a"
+  },
+  {
+   "type": "heading",
+   "text": "## C02: Verifiable lineage may reduce the operational burden of historical recovery",
+   "id": "da500dfa",
+   "hash": "9b1f18b4a3b9"
+  },
+  {
+   "type": "list",
+   "text": "- **Statement**: When a centralized team must adopt or reconcile specialist findings, embedded verified lineage may reduce coordination/adoption error or work relative to the same ordinary shared-memory workspace without reducing correct justified reversals.\n- **Conditions**: Testing hypothesis; effectiveness is evaluated with identical source-workspace access and recorded, rather than artificially padded, visible input tokens.\n- **Sources**: [pending: native runs have not begun]\n- **Status**: testing\n- **Provenance**: ai-suggested\n- **Falsification**: Matched runs show no reduction in tokens, latency, or history-search work at comparable trusted success, or lineage materially lowers correct reversals.\n- **Proof**: [pending]\n- **Dependencies**: [C01]\n- **Tags**: efficiency, reversal, lineage",
+   "id": "0aa90748",
+   "hash": "343b41de090c"
+  },
+  {
+   "type": "heading",
+   "text": "## C03: The treatment effect must be distinguished from multi-agent decomposition",
+   "id": "c7a85a7a",
+   "hash": "fbe236733c46"
+  },
+  {
+   "type": "list",
+   "text": "- **Statement**: Any observed document-native lineage effect must be interpreted separately from the effect of converting a single-agent task into a parallel centralized hub-and-spoke multi-agent workflow.\n- **Conditions**: The native matrix includes a budget-matched single-agent baseline and fixes all multi-agent stages for the primary lineage comparison.\n- **Sources**: Google architecture study, `ara/logic/related_work.md` R02; accepted native-matrix config.\n- **Status**: testing\n- **Provenance**: user-revised\n- **Falsification**: The wrapper changes multiple multi-agent factors between lineage arms or records do not permit the contrasts to be separated.\n- **Proof**: [pending]\n- **Dependencies**: []\n- **Tags**: causal-design, multi-agent, control",
+   "id": "5364b3f8",
+   "hash": "a37d4ab71628"
+  },
+  {
+   "type": "heading",
+   "text": "## C04: Isolated and end-to-end evidence answer different questions",
+   "id": "b464ba4e",
+   "hash": "6702e1a7b73e"
+  },
+  {
+   "type": "list",
+   "text": "- **Statement**: The completed isolated sidecar handoff validates transport integrity but cannot establish a native Proofpress mechanism; only the redesigned C1-versus-C2 end-to-end matrix can test the product-form treatment.\n- **Conditions**: The old treatment used external `provenance.md`; the new treatment embeds checkpoints in work artifacts and removes the external sidecar.\n- **Sources**: `configs/gate1b-result-summary-v1.yaml`; `docs/ARCHITECTURE.md`.\n- **Status**: accepted-design-boundary\n- **Provenance**: user-revised\n- **Falsification**: Pair inputs differ outside declared history material, or reporting interprets cumulative end-to-end effects as though every downstream checkpoint were identical.\n- **Proof**: [pending]\n- **Dependencies**: [C01, C03]\n- **Tags**: causal-design, isolated-handoff, long-horizon",
+   "id": "f3383dbe",
+   "hash": "7d521985b16b"
+  },
+  {
+   "type": "heading",
+   "text": "## C05: Core model comparison requires homogeneous teams",
+   "id": "163185fb",
+   "hash": "b4a1608d3dba"
+  },
+  {
+   "type": "list",
+   "text": "- **Statement**: Within the native fixed-model slice, all agent calls use DeepSeek V4 Flash 0731 with the same frozen request configuration so role-model allocation cannot be mistaken for a provenance effect.\n- **Conditions**: The transport records requested/resolved model and DeepInfra routing; Proofpress itself makes no model call.\n- **Sources**: `configs/gate1b-result-summary-v1.yaml`; `configs/gate-native-v1.draft.yaml`.\n- **Status**: testing\n- **Provenance**: user-revised\n- **Falsification**: A core paired comparison mixes models or unrecorded provider fallbacks across roles or arms.\n- **Proof**: [pending]\n- **Dependencies**: [C01, C03]\n- **Tags**: model-control, transport, causal-design",
+   "id": "771b59db",
+   "hash": "2989d01de75f"
+  },
+  {
+   "type": "heading",
+   "text": "## C06: Portable declared decision lineage may improve restricted-access artifact handoff",
+   "id": "58d9bfa4",
+   "hash": "a2d5f9d8b872"
+  },
+  {
+   "type": "list",
+   "text": "- **Statement**: Conditional on a fresh receiver's inability to re-enter Agent A's source workspace, a Proofpress artifact carrying the same semantic handoff plus native declared decision lineage may reduce revision regressions or improve trusted success relative to the ordinary artifact plus readable memory/log/handoff.\n- **Conditions**: This tests a cross-boundary/cross-world Lease condition, not a general memory replacement or cross-system interoperability claim. The capsule establishes artifact identity, integrity, and declared lineage; it does not establish the truth or completeness of inaccessible source evidence.\n- **Sources**: `ara/logic/experiments.md` E10; W3C PROV and NIST access-control sources in `ara/logic/related_work.md`.\n- **Status**: tested; bounded and inconclusive in E10\n- **Provenance**: user-directed\n- **Falsification**: The ordinary arm has no observable error space; semantic handoff or draft hashes differ; a receiver can recover denied source material; the grader can infer the arm; or Proofpress fails to improve or preserve trusted success while reducing regressions.\n- **Proof**: E10 r4 boundary pilot and r2 serial 3+3 passed all formal pair gates. Native rubric cells were `10/18` Proofpress versus `9/18` ordinary. The frozen v1 audit's `13/21` tie is measurement-invalid for causal interpretation because it mixed prefatory analysis with the operative certificate and case-folded defined-party terms; a post-hoc v2 audit reports `17/21` versus `16/21` but is ineligible as a confirmatory endpoint. Neither version establishes the conditional claim.\n- **Dependencies**: [C04]\n- **Tags**: provenance, artifact-handoff, access-discontinuity, causal-design",
+   "id": "a4c1d267",
+   "hash": "37d205ea8e4c"
+  },
+  {
+   "type": "heading",
+   "text": "## C07: Actionable clause-level lineage may improve restricted-access SPA revision",
+   "id": "59fa0d1f",
+   "hash": "667738e8825a"
+  },
+  {
+   "type": "list",
+   "text": "- **Statement**: Conditional on identical semantic handoff content and loss of the diligence workspace, anchored clause targets, admitted implementation status, supersession, evidence references, artifact binding, and capsule verification may reduce missed buyer-protection provisions or unrelated-clause regressions relative to a readable ordinary handoff.\n- **Conditions**: This is limited to the preregistered S-Corp SPA task and a fresh receiver boundary. Heading/hash-only metadata is not an adequate treatment. The capsule verifies identity, integrity, and declared lineage, not the truth or completeness of inaccessible diligence evidence.\n- **Sources**: `ara/logic/experiments.md` E11 and `configs/frozen/apex-scorp-spa-revision-pilot-v1/preregistration.json`.\n- **Status**: preregistered; untested\n- **Provenance**: user-directed after E10 failure analysis\n- **Falsification**: scorer scope fixtures fail; package semantics differ; source leakage occurs; ordinary has no eligible error space; or Proofpress fails to preserve trusted clause completion without added semantic information.\n- **Proof**: [pending]\n- **Dependencies**: [C06]\n- **Tags**: provenance, artifact-handoff, clause-lineage, access-discontinuity, preregistration",
+   "id": "7e0478f8",
+   "hash": "6793207e19b3"
   }
  ]
 }
