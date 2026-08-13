@@ -1,208 +1,37 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/ara/PAPER.md",
- "artifact_id": "pp_cb6d0883f4bda071d2137869",
- "version": "83f56f31",
- "parent": "4060996a",
+ "artifact": "experiments/provenance_handoff/ara/logic/concepts.md",
+ "artifact_id": "pp_e833a86ea89426121ab55437",
+ "version": "26bb96e5",
+ "parent": "089c7217",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-13T08:31:05+00:00",
+ "ts": "2026-08-13T08:31:15+00:00",
  "stats": {
-  "added": 20,
-  "modified": 6,
-  "removed": 1
+  "added": 2
  },
  "changes": [
   {
    "kind": "added",
-   "block": "3de79e34",
-   "type": "para",
-   "context": "(文首)",
-   "preview": "---\ntitle: \"Proofpress: A Version-Bound Admission Protocol f"
+   "block": "ba420001",
+   "type": "heading",
+   "context": "K11: Proofpress Version-Bound Admission ",
+   "preview": "## K11: Proofpress Version-Bound Admission Protocol"
   },
   {
    "kind": "added",
-   "block": "109f499a",
+   "block": "ba420002",
    "type": "list",
-   "context": "(文首)",
-   "preview": "  - \"Readable handoffs reduce rediscovery, but do not establ"
-  },
-  {
-   "kind": "added",
-   "block": "28b52783",
-   "type": "para",
-   "context": "(文首)",
-   "preview": "abstract: \"AI agents increasingly inherit work whose underly"
-  },
-  {
-   "kind": "modified",
-   "block": "ba410001",
-   "type": "heading",
-   "context": "Proofpress: A Version-Bound Admission Pr"
-  },
-  {
-   "kind": "modified",
-   "block": "ba41000d",
-   "type": "para",
-   "context": "1. Introduction"
-  },
-  {
-   "kind": "modified",
-   "block": "ba41000e",
-   "type": "para",
-   "context": "1. Introduction"
-  },
-  {
-   "kind": "modified",
-   "block": "3240f8d2",
-   "type": "list",
-   "context": "1. Introduction"
-  },
-  {
-   "kind": "added",
-   "block": "ba410051",
-   "type": "heading",
-   "context": "2.0 Protocol overview",
-   "preview": "### 2.0 Protocol overview"
-  },
-  {
-   "kind": "added",
-   "block": "ba410052",
-   "type": "para",
-   "context": "2.0 Protocol overview",
-   "preview": "VBAP has five logical operations: **record** an accepted art"
-  },
-  {
-   "kind": "modified",
-   "block": "ba41003f",
-   "type": "heading",
-   "context": "6.1 Agent memory and handoff"
-  },
-  {
-   "kind": "added",
-   "block": "0d91390e",
-   "type": "para",
-   "context": "6.1 Agent memory and handoff",
-   "preview": "Long-context and evolving-memory evaluations such as [LongMe"
-  },
-  {
-   "kind": "added",
-   "block": "ba410053",
-   "type": "heading",
-   "context": "6.2 Portable memory and provenance-aware",
-   "preview": "### 6.2 Portable memory and provenance-aware agents"
-  },
-  {
-   "kind": "added",
-   "block": "ba410054",
-   "type": "para",
-   "context": "6.2 Portable memory and provenance-aware",
-   "preview": "[Portable Agent Memory](https://arxiv.org/abs/2605.11032) an"
-  },
-  {
-   "kind": "modified",
-   "block": "ba410040",
-   "type": "heading",
-   "context": "6.3 Provenance and consume-time admissio"
-  },
-  {
-   "kind": "added",
-   "block": "5e2b5905",
-   "type": "para",
-   "context": "6.3 Provenance and consume-time admissio",
-   "preview": "Provenance standards and software supply-chain systems—inclu"
-  },
-  {
-   "kind": "added",
-   "block": "ba410055",
-   "type": "heading",
-   "context": "6.4 Scoped research gap",
-   "preview": "### 6.4 Scoped research gap"
-  },
-  {
-   "kind": "added",
-   "block": "ba410056",
-   "type": "para",
-   "context": "6.4 Scoped research gap",
-   "preview": "The literature therefore supplies each broad ingredient sepa"
-  },
-  {
-   "kind": "added",
-   "block": "ba410057",
-   "type": "heading",
-   "context": "Layer Index",
-   "preview": "## Layer Index"
-  },
-  {
-   "kind": "added",
-   "block": "ba410058",
-   "type": "heading",
-   "context": "Cognitive Layer (`/logic`)",
-   "preview": "### Cognitive Layer (`/logic`)"
-  },
-  {
-   "kind": "added",
-   "block": "61923531",
-   "type": "table",
-   "context": "Cognitive Layer (`/logic`)",
-   "preview": "| File | Description |\n|---|---|\n| [problem.md](logic/proble"
-  },
-  {
-   "kind": "added",
-   "block": "ba410059",
-   "type": "heading",
-   "context": "Physical Layer (`/src`)",
-   "preview": "### Physical Layer (`/src`)"
-  },
-  {
-   "kind": "added",
-   "block": "42cb0b87",
-   "type": "table",
-   "context": "Physical Layer (`/src`)",
-   "preview": "| File | Description |\n|---|---|\n| [environment.md](src/envi"
-  },
-  {
-   "kind": "added",
-   "block": "ba41005a",
-   "type": "heading",
-   "context": "Exploration Graph (`/trace`)",
-   "preview": "### Exploration Graph (`/trace`)"
-  },
-  {
-   "kind": "added",
-   "block": "48cbe2d4",
-   "type": "table",
-   "context": "Exploration Graph (`/trace`)",
-   "preview": "| File | Description |\n|---|---|\n| [exploration_tree.yaml](t"
-  },
-  {
-   "kind": "added",
-   "block": "ba41005b",
-   "type": "heading",
-   "context": "Evidence (`/evidence`)",
-   "preview": "### Evidence (`/evidence`)"
-  },
-  {
-   "kind": "added",
-   "block": "45399eb2",
-   "type": "table",
-   "context": "Evidence (`/evidence`)",
-   "preview": "| File | Description |\n|---|---|\n| [README.md](evidence/READ"
-  },
-  {
-   "kind": "removed",
-   "block": "ba410002",
-   "type": "heading",
-   "context": "",
-   "preview": "## Version-bound admission for portable agent handoffs"
+   "context": "K11: Proofpress Version-Bound Admission ",
+   "preview": "- **Notation**: `VBAP = (record, bind, transfer, verify, dis"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:3957e2a4bd037385a66107d4c2f37f31254bfb326f1e9728f451bbc6e4c5762b",
+ "soft_fingerprint": "ppsb1:ed932cf5f9a7db4016c2eab09880e7150c3675147589f42b42036586e7c4b1ea",
  "actors": {
   "requested_by": [
    "user"
@@ -220,143 +49,18 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "ba410001",
-   "kind": "modified",
-   "note": "Renames the paper around Proofpress and the version-bound admission protocol."
-  },
-  {
-   "block": "ba41000d",
-   "kind": "modified",
-   "note": "Introduces VBAP as the named agent-provenance protocol."
-  },
-  {
-   "block": "ba41000e",
-   "kind": "modified",
-   "note": "Explains Proofpress as an implementation of the protocol."
-  },
-  {
-   "block": "3240f8d2",
-   "kind": "modified",
-   "note": "Recasts the first contribution as a protocol definition."
-  },
-  {
-   "block": "ba41003f",
-   "kind": "modified",
-   "note": "Expands prior work on memory and handoff."
-  },
-  {
-   "block": "ba410040",
-   "kind": "modified",
-   "note": "Expands provenance and consume-time admission prior work."
-  },
-  {
-   "block": "ba410002",
-   "kind": "removed",
-   "note": "Removes the former subtitle after promoting the protocol framing to the title."
-  },
-  {
-   "block": "3de79e34",
+   "block": "ba420001",
    "kind": "added",
-   "note": "Adds ARA YAML frontmatter."
+   "note": "Adds VBAP as a formal ARA concept."
   },
   {
-   "block": "109f499a",
+   "block": "ba420002",
    "kind": "added",
-   "note": "Adds ARA YAML frontmatter metadata."
-  },
-  {
-   "block": "28b52783",
-   "kind": "added",
-   "note": "Adds ARA YAML frontmatter metadata."
-  },
-  {
-   "block": "ba410051",
-   "kind": "added",
-   "note": "Adds the protocol-overview section."
-  },
-  {
-   "block": "ba410052",
-   "kind": "added",
-   "note": "Defines the five protocol operations."
-  },
-  {
-   "block": "0d91390e",
-   "kind": "added",
-   "note": "Adds a related-work subsection heading."
-  },
-  {
-   "block": "ba410053",
-   "kind": "added",
-   "note": "Adds portable-memory and agent-provenance prior work."
-  },
-  {
-   "block": "ba410054",
-   "kind": "added",
-   "note": "States the delta from verifier-aware agent systems."
-  },
-  {
-   "block": "5e2b5905",
-   "kind": "added",
-   "note": "Adds the consume-time admission subsection."
-  },
-  {
-   "block": "ba410055",
-   "kind": "added",
-   "note": "Adds the scoped research-gap subsection."
-  },
-  {
-   "block": "ba410056",
-   "kind": "added",
-   "note": "States the scoped literature conclusion and non-novelty boundary."
-  },
-  {
-   "block": "ba410057",
-   "kind": "added",
-   "note": "Adds the required ARA Layer Index."
-  },
-  {
-   "block": "ba410058",
-   "kind": "added",
-   "note": "Indexes the cognitive layer."
-  },
-  {
-   "block": "61923531",
-   "kind": "added",
-   "note": "Lists cognitive-layer files."
-  },
-  {
-   "block": "ba410059",
-   "kind": "added",
-   "note": "Indexes the physical layer."
-  },
-  {
-   "block": "42cb0b87",
-   "kind": "added",
-   "note": "Lists physical-layer files."
-  },
-  {
-   "block": "ba41005a",
-   "kind": "added",
-   "note": "Indexes the exploration graph."
-  },
-  {
-   "block": "48cbe2d4",
-   "kind": "added",
-   "note": "Lists trace files."
-  },
-  {
-   "block": "ba41005b",
-   "kind": "added",
-   "note": "Indexes the evidence layer."
-  },
-  {
-   "block": "45399eb2",
-   "kind": "added",
-   "note": "Lists the evidence index."
+   "note": "Defines the protocol notation, boundary, and related concepts."
   }
  ],
  "context": {
-  "why": "Reframe the external paper around Proofpress VBAP, add explicit prior work and the required ARA root manifest."
+  "why": "Register VBAP as a formal ARA concept with explicit boundaries."
  },
- "event_id": "ppe_12716d58d505272754ea65ca"
+ "event_id": "ppe_575a14df665e312955e7dd2d"
 }
