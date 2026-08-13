@@ -1,64 +1,35 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/ara/PAPER.md",
- "artifact_id": "pp_cb6d0883f4bda071d2137869",
- "version": "30720713",
- "parent": "eb933092",
+ "artifact": "experiments/provenance_handoff/ara/evidence/tables/derived_main_results.md",
+ "artifact_id": "pp_be637ba6a8dd5eb84262c8bd",
+ "version": "dcec9804",
+ "parent": "418380cf",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-13T13:09:25+00:00",
+ "ts": "2026-08-13T13:09:33+00:00",
  "stats": {
-  "modified": 3,
-  "added": 1,
-  "removed": 2
+  "modified": 2
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "ba41005b",
+   "block": "4a65ffee",
    "type": "table",
-   "context": "4.6 Overhead varied by study, model, and"
+   "context": "End-to-end overhead in the three-model c"
   },
   {
    "kind": "modified",
-   "block": "aa1f2aee",
-   "type": "table",
-   "context": "4.6 Overhead varied by study, model, and"
-  },
-  {
-   "kind": "modified",
-   "block": "57827d0a",
+   "block": "067f2a02",
    "type": "para",
-   "context": "4.6 Overhead varied by study, model, and"
-  },
-  {
-   "kind": "added",
-   "block": "3170fcc3",
-   "type": "para",
-   "context": "4.6 Overhead varied by study, model, and",
-   "preview": "This receive-time work should be interpreted against what th"
-  },
-  {
-   "kind": "removed",
-   "block": "67636667",
-   "type": "para",
-   "context": "",
-   "preview": "Percentages in parentheses are Proofpress relative to the ma"
-  },
-  {
-   "kind": "removed",
-   "block": "ba92d646",
-   "type": "para",
-   "context": "",
-   "preview": "Percentages in parentheses are V1 Proofpress relative to the"
+   "context": "End-to-end overhead in the three-model c"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:21fc4f49e4c325125c3d6bb4de95d13e2053b0640df8b676896044790f3f112d",
+ "soft_fingerprint": "ppsb1:04893acb8ceb1f7575d024a17ea7b7db42bf1d868b3795bb6c7709baf4f02c7e",
  "actors": {
   "requested_by": [
    "Chenming Tang"
@@ -76,38 +47,18 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "ba41005b",
+   "block": "4a65ffee",
    "kind": "modified",
-   "note": "Removes visually dominant relative percentages while preserving absolute per-model overhead measurements."
+   "note": "Removes relative percentages while preserving the absolute derived overhead measurements."
   },
   {
-   "block": "67636667",
-   "kind": "removed",
-   "note": "Removes the no-longer-needed controlled-table percentage legend."
-  },
-  {
-   "block": "aa1f2aee",
+   "block": "067f2a02",
    "kind": "modified",
-   "note": "Removes relative percentages while preserving absolute DeepSeek Gateway telemetry."
-  },
-  {
-   "block": "ba92d646",
-   "kind": "removed",
-   "note": "Removes the no-longer-needed DeepSeek percentage legend."
-  },
-  {
-   "block": "57827d0a",
-   "kind": "modified",
-   "note": "Uses qualitative comparison language while retaining the exact Gateway reconciliation boundary."
-  },
-  {
-   "block": "3170fcc3",
-   "kind": "added",
-   "note": "Frames receive-time overhead against avoided incorrect continuation without claiming unmeasured net savings from downstream rework or audit."
+   "note": "Adds the boundary that downstream rework, audit, and propagated-error costs were not monetized."
   }
  ],
  "context": {
-  "why": "Remove visually dominant percentage annotations and contextualize measured receive-time overhead against avoided incorrect continuation without claiming unmeasured downstream savings."
+  "why": "Return the derived table to absolute measurements and add the unmeasured downstream-cost boundary."
  },
- "event_id": "ppe_0d87b96bdf992fcb941e0e2f"
+ "event_id": "ppe_0cfc65f08b66a27b744c1c9d"
 }
