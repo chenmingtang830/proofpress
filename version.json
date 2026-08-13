@@ -1,696 +1,612 @@
 {
- "artifact": "experiments/provenance_handoff/ara/PAPER.md",
- "artifact_id": "pp_cb6d0883f4bda071d2137869",
+ "artifact": "rit-hub-demo/DECISIONS.md",
+ "artifact_id": "pp_4d20cb5ec74e9b6747d4cc3e",
  "blocks": [
   {
+   "type": "heading",
+   "text": "# RIT Hub Demo — Decisions & Contract",
+   "id": "830b2b69",
+   "hash": "9dc842292713"
+  },
+  {
    "type": "para",
-   "text": "---\ntitle: \"Proofpress: An Artifact Provenance Protocol for Agent Handoffs\"\nauthors: [\"Proofpress Research Team\"]\nyear: 2026\nvenue: \"Technical report\"\ndoi: \"Not assigned\"\nara_version: \"1.0\"\ndomain: \"AI agent provenance and reliable handoff\"\nkeywords: [\"AI agents\", \"artifact provenance\", \"agent handoff\", \"artifact versioning\", \"knowledge reuse\", \"stale information\", \"workflow continuity\", \"reproducible evaluation\"]\nclaims_summary:",
-   "id": "3de79e34",
-   "hash": "5f7bee4bf470"
+   "text": "**这份文档是唯一契约。** 所有 worker 并行开工时只依据本文档，彼此不通信。\n要改需求，改这份文档，然后重新下发给对应 worker。",
+   "id": "2ce0b989",
+   "hash": "a38d6dfdc799"
   },
   {
    "type": "list",
-   "text": "  - \"Readable handoffs reduce rediscovery, but do not establish that inherited work still applies to the current artifact revision.\"\n  - \"Artifact-version checks prevented reuse of work tied to an outdated document in the strongest controlled study.\"\n  - \"The present evidence supports a bounded protocol-mechanism claim, not a general product-efficacy claim.\"",
-   "id": "5f7d290a",
-   "hash": "ca421b2796a2"
+   "text": "- Owner: orchestrator（本文档只由 orchestrator 修改，worker 不得编辑）\n- 受众：**投资人 / 招募**。目标是一张能截图的画面 + 一个 60 秒能讲完的故事。\n- 状态：v1，2026-08-12",
+   "id": "51d916db",
+   "hash": "d7091c6c9c46"
   },
   {
    "type": "para",
-   "text": "abstract: \"Prior research on agent memory studies how systems retain, update, and discard information, while agent-handoff benchmarks study whether a successor can continue earlier work. Provenance standards separately record how digital artifacts were produced and changed. These areas leave a practical question: what should a successor do when it receives a useful handoff but the underlying document has changed? We introduce Proofpress, an artifact provenance protocol that records which version of a document inherited claims and decisions refer to. A successor can check that relationship before continuing, reopen only affected work, or refuse an unverifiable handoff. We evaluated Proofpress using document-handoff tasks adapted from legal and scientific-evidence benchmarks, policy-change scenarios, and purpose-built documentation tasks. In the strongest preregistered comparison, ordinary handoff reused work tied to an outdated document in 12 of 12 trials; Proofpress did so in 0 of 12, while both conditions continued correctly in all 12 unchanged-document trials. The same pattern was reproduced with three additional models on the same task. Other studies showed that ordinary handoffs can recover when the contradiction is already visible, and that readable handoffs reduce repeated research. We did not find consistent evidence that Proofpress improves answer quality when documents are unchanged. The evidence therefore supports a bounded provenance-checking mechanism, not a general claim that Proofpress makes agents more capable.\"\n---",
-   "id": "2d20bdc2",
-   "hash": "c399a9dad06f"
+   "text": "---",
+   "id": "e312a32b",
+   "hash": "f1624c9c50ca"
   },
   {
    "type": "heading",
-   "text": "# Proofpress: An Artifact Provenance Protocol for Agent Handoffs",
-   "id": "ba410001",
-   "hash": "0abbb44de69d"
+   "text": "## 0. 一句话目标",
+   "id": "b55737a2",
+   "hash": "46f5f4fe41d3"
   },
   {
    "type": "para",
-   "text": "**Working paper — Proofpress research team.** **Evidence status:** local evaluation through 12 August 2026; paper narrative refreshed 13 August 2026. The strongest result is a repeated, design-aligned mechanism finding, not a real-world product-effect estimate.",
-   "id": "ba410003",
-   "hash": "573c292604f8"
+   "text": "把 ARA 论文和 RIT 论文里**已经形式化定义、但从来没有被画出来**的那个对象——\nClaim Flow Graph——第一次变成一个人能用鼠标点的东西。",
+   "id": "8160dafa",
+   "hash": "59efdac5f526"
   },
   {
    "type": "para",
-   "text": "> **Takeaway:** A handoff tells a successor agent what its predecessor knew. Proofpress addresses a different question: whether that inherited knowledge still belongs to the artifact the successor has now.",
-   "id": "ba410004",
-   "hash": "1b7c7cc614e9"
+   "text": "不是做新产品，是把两篇论文可视化。这个定位对投资人更强：证明底下有真东西。",
+   "id": "d95ac352",
+   "hash": "baaa7a274afe"
+  },
+  {
+   "type": "para",
+   "text": "---",
+   "id": "2aba4b6d",
+   "hash": "f1624c9c50ca"
   },
   {
    "type": "heading",
-   "text": "## Abstract",
-   "id": "ba410005",
-   "hash": "5d61343d21dd"
+   "text": "## 1. 本轮明确不做的事",
+   "id": "6f22bdce",
+   "hash": "731689609d78"
+  },
+  {
+   "type": "table",
+   "text": "| 不做 | 原因 |\n|---|---|\n| ARA Seal L1–L4 与 RIT tier L1/L2/L3 的命名冲突 | 用户决定本轮不管。UI 按各自论文原样显示，不做翻译层 |\n| 真的跑 Lean / 真的做 re-extraction | demo 是 viewer，数据是预先固化的 fixture |\n| 上传任意 PDF 的通用抽取 pipeline | 只用两份固定数据集 |\n| 账号、后端、实时、数据库 | 纯静态 |\n| 构建工具（webpack/vite/npm） | 见 §3 |\n| dead_end 是否正式进 RIT CFG 的形式化定义 | 这是产品决策，本 demo 先在**视觉上**合并，不动论文定义 |",
+   "id": "25f09126",
+   "hash": "73c0e901d682"
   },
   {
    "type": "para",
-   "text": "Prior research on agent memory studies how systems retain, update, and discard information, while agent-handoff benchmarks study whether a successor can continue earlier work. Provenance standards separately record how digital artifacts were produced and changed. These areas leave a practical question: what should a successor do when it receives a useful handoff but the underlying document has changed?",
-   "id": "ba410006",
-   "hash": "436d0be29b5d"
-  },
-  {
-   "type": "para",
-   "text": "We introduce **Proofpress, an artifact provenance protocol for agent handoffs**. Proofpress records which version of a document inherited claims and decisions refer to. Before continuing, a successor can check that relationship, reopen only the work affected by a change, or refuse a handoff whose history cannot be verified. The protocol complements readable context: the handoff explains prior work, while provenance establishes which artifact that work belongs to.",
-   "id": "ba410007",
-   "hash": "08ab6a3e2e3d"
-  },
-  {
-   "type": "para",
-   "text": "We evaluated Proofpress using document-handoff tasks adapted from legal and scientific-evidence benchmarks, policy-change scenarios, and purpose-built documentation tasks. In the strongest preregistered comparison, ordinary handoff reused work tied to an outdated document in 12/12 trials; Proofpress did so in 0/12, while both conditions continued correctly in all 12 unchanged-document trials. The same pattern was reproduced with GLM 5.2, Kimi K3, and Qwen 3.8 Max on the same task. Other studies showed that ordinary handoffs can recover when the contradiction is already visible, and that readable handoffs reduce repeated research. Across the wider program, however, we did not find consistent evidence that Proofpress improves answer quality when documents are unchanged.",
-   "id": "ba410008",
-   "hash": "5cdeab39e4a1"
-  },
-  {
-   "type": "para",
-   "text": "These results support a bounded conclusion: readable handoffs help agents continue prior work, while artifact provenance can prevent that work from being reused against the wrong document version. They do not establish a general increase in agent capability or a real-world average effect.",
-   "id": "ba410009",
-   "hash": "37a16a750889"
+   "text": "---",
+   "id": "af15c0be",
+   "hash": "f1624c9c50ca"
   },
   {
    "type": "heading",
-   "text": "## 1. Introduction",
-   "id": "ba41000a",
-   "hash": "b325a57b2a92"
+   "text": "## 2. 核心叙事：三层挂一个 node",
+   "id": "a6d9dfda",
+   "hash": "a861edaa2aaa"
   },
   {
    "type": "para",
-   "text": "Agent memory and handoff research has largely focused on retaining information, updating obsolete memories, reducing rediscovery, and completing work begun by another agent. [LongMemEval](https://arxiv.org/abs/2410.10813), [STALE](https://arxiv.org/abs/2605.06527), and [Memora](https://arxiv.org/abs/2604.20006) test whether stored information remains useful as facts and preferences change; [Handoff Debt](https://arxiv.org/abs/2606.02875) and [AgentAsk](https://aclanthology.org/2026.acl-long.1294/) study continuity and error propagation when work passes between agents. This literature establishes that outdated information and incomplete handoffs are consequential, but it does not by itself identify which version of an independently changing document a transferred conclusion belongs to.",
-   "id": "ba41000b",
-   "hash": "663345913d94"
-  },
-  {
-   "type": "para",
-   "text": "Agent handoff is already an explicit systems pattern rather than a hypothetical future workflow. OpenAI's [agent-building guide](https://openai.com/business/guides-and-resources/a-practical-guide-to-building-ai-agents/) defines decentralized handoff as transferring execution and the latest conversation state to another agent, while [GitHub coding agents](https://docs.github.com/en/enterprise-cloud@latest/copilot/concepts/agents/about-third-party-coding-agents) can work asynchronously on repository tasks and continue work through pull-request review. Empirical work also identifies the boundary as failure-prone: Handoff Debt finds substantial rediscovery costs when successor coding agents inherit incomplete context, and AgentAsk identifies data gaps, signal corruption, and referential drift in inter-agent messages. Importantly, Handoff Debt freezes the repository at takeover to isolate context transfer. That design establishes the handoff problem but intentionally removes the case studied here: the shared artifact changing after the predecessor's work was recorded.",
-   "id": "ba41005f",
-   "hash": "a8d36a84a03a"
-  },
-  {
-   "type": "para",
-   "text": "Provenance research addresses a complementary problem. [W3C PROV](https://www.w3.org/TR/prov-overview/) represents entities, activities, agents, and derivations; [in-toto](https://in-toto.io/), [TUF](https://theupdateframework.io/), [SLSA](https://slsa.dev/), and [Sigstore](https://www.sigstore.dev/) show how software consumers can verify identity, history, and policy before using an artifact. Recent agent systems such as [Portable Agent Memory](https://arxiv.org/abs/2605.11032), [MemLineage](https://arxiv.org/abs/2605.14421), [StateAuditor](https://arxiv.org/abs/2608.01619), and [ProvenanceGuard](https://arxiv.org/abs/2606.18037) apply related ideas to memory transfer, ancestry, source support, or action gates. These systems provide direct precedent for verifiable lineage. The remaining gap studied here is narrower: a predecessor hands off claims and decisions, the external document changes independently, and the successor must decide whether the inherited work still applies.",
-   "id": "ba41000c",
-   "hash": "57f1526a7705"
-  },
-  {
-   "type": "para",
-   "text": "The risk created by mutable artifacts is likewise established outside agent-handoff research. The [W3C PROV model](https://www.w3.org/TR/prov-constraints/) represents successive document versions as different entities connected by revision, generation, usage, and invalidation events. Production software workflows apply the same principle operationally: GitHub's [required-status-check guidance](https://docs.github.com/en/enterprise-server@3.18/pull-requests/collaborating-with-pull-requests/collaborating-on-repositories-with-code-quality-features/troubleshooting-required-status-checks) can require a branch to be brought up to date and tested against the latest base before merge. These practices do not prove that agent handoffs routinely fail because of document changes. They establish the underlying systems hazard: work validated against one artifact state cannot automatically be assumed valid for a later state. This paper tests that intersection directly.",
-   "id": "ba410060",
-   "hash": "d847ebcd2579"
-  },
-  {
-   "type": "para",
-   "text": "This paper introduces **Proofpress**, an artifact provenance protocol designed for that boundary. It distinguishes two problems that ordinary discussions of “agent memory” often combine:",
-   "id": "ba41000d",
-   "hash": "f9f5a9f6ae8a"
+   "text": "Demo 唯一的智力贡献 —— 把两张目前分离的图合成一张：",
+   "id": "21a2f312",
+   "hash": "ca3e2e0b2c42"
   },
   {
    "type": "list",
-   "text": "1. **Continuity:** missing context forces a successor to rediscover sources, decisions, and rationale.\n2. **Version mismatch:** preserved context is reused after the underlying artifact has changed.",
-   "id": "62bd04aa",
-   "hash": "e226cf9ca21a"
+   "text": "- **RIT 的 Claim Flow Graph 里没有 dead end。** 被 gate 拒掉的 commit 退回给作者，不留在图上。\n- **ARA 的 Exploration Graph 里没有验证状态。** dead_end 节点带 hypothesis / failure_mode / lesson，但不知道自己被不被 kernel 认。",
+   "id": "adf0ae42",
+   "hash": "998a7e1a53c7"
   },
   {
    "type": "para",
-   "text": "A strong memo can reduce the first problem. The second requires a relationship between the memo, the accepted artifact revision, and the revision now being used.",
-   "id": "ae1caf8d",
-   "hash": "099d93205ca0"
-  },
-  {
-   "type": "para",
-   "text": "Proofpress records accepted artifact versions, claims, actors, and revision history in a verifiable carrier. At handoff, the successor checks whether the inherited claims still refer to the document currently in hand. This check can authorize continuation, reopen affected work, or stop reuse when the history cannot be verified. It does not decide whether a claim is true, whether a legal conclusion is correct, or whether a newer document is substantively better.",
-   "id": "ba41000e",
-   "hash": "a42cdd739606"
-  },
-  {
-   "type": "para",
-   "text": "We make three contributions:",
-   "id": "ba41000f",
-   "hash": "a41f0bbebe7e"
-  },
-  {
-   "type": "list",
-   "text": "1. We define an artifact provenance protocol for carrying claims, decisions, and revision history across an agent handoff.\n2. We evaluate it against ordinary handoffs containing the same readable information, using tasks adapted from existing legal and scientific-evidence benchmarks together with policy and documentation tasks.\n3. We report both the strongest result and its limits: provenance checks prevented reuse of work tied to an outdated document in the controlled studies, but did not consistently improve answer quality when documents were unchanged.",
-   "id": "3240f8d2",
-   "hash": "2639ca7d99d8"
-  },
-  {
-   "type": "heading",
-   "text": "## 2. Proofpress protocol",
-   "id": "ba410010",
-   "hash": "b9e35d96f0c3"
-  },
-  {
-   "type": "heading",
-   "text": "### 2.1 Protocol overview",
-   "id": "ba410051",
-   "hash": "594cd92ed780"
-  },
-  {
-   "type": "para",
-   "text": "Proofpress performs five operations: **record** the accepted document and its claims; **link** those claims to that document version; **transfer** the readable handoff and provenance record; **check** the document received by the successor; and **decide** whether to continue, revisit affected work, or refuse reuse. The protocol uses established identity and provenance primitives; its contribution is the handoff contract connecting those primitives to an agent's decision to reuse prior work.",
-   "id": "ba410052",
-   "hash": "449e3864b8ea"
-  },
-  {
-   "type": "para",
-   "text": "The Proofpress reference implementation is [open source under Apache-2.0](https://github.com/chenmingtang830/proofpress). The evaluation package used in this report is maintained separately from the product repository and, at the time of writing, has not yet been published as a versioned review artifact.",
-   "id": "ac376353",
-   "hash": "f01b433c8efe"
-  },
-  {
-   "type": "heading",
-   "text": "### 2.2 System model",
-   "id": "ba410011",
-   "hash": "c14bafcc572f"
-  },
-  {
-   "type": "para",
-   "text": "Let a predecessor produce document version `A_t`, handoff `H_t`, and accepted decisions `D_t`. A successor later receives document `A_t+1`. An ordinary handoff asks whether `H_t` contains enough information to continue. Proofpress asks an additional, mechanically checkable question: were the inherited decisions accepted for the document version now being used?",
-   "id": "ba410012",
-   "hash": "94cd0cb3ff4d"
+   "text": "合并后，一个节点同时挂三层：",
+   "id": "a2118603",
+   "hash": "5bc294cab16a"
   },
   {
    "type": "code",
-   "text": "```text\nOriginating agent                         Successor agent\n\nartifact A_t ──► accepted decisions D_t ──► readable handoff H_t\n      │                                              │\n      └──── recorded version + provenance check ─────┤\n                                                     ▼\n                                             current artifact A_t+1\n                                                     │\n                              same accepted version ─┼──► continue\n                              relevant change ───────┼──► revisit affected work\n                              unverifiable history ──┴──► stop or refuse\n```",
-   "id": "ba410013",
-   "hash": "26f226d360fe"
+   "text": "```\nnode\n├── verification（RIT）    status · grounding tier · dispute / perspective ref\n├── process（ARA）         kind: question|decision|experiment|dead_end|pivot\n│                          provenance: user|ai-suggested|ai-executed|user-revised\n│                          failure_mode + lesson（仅 dead_end）\n└── admission（Proofpress） 谁接受的 · 何时 · 为什么 · 被什么取代\n```",
+   "id": "0659526c",
+   "hash": "9d2465612698"
   },
   {
    "type": "para",
-   "text": "The purpose of the check is not to reject every change. A useful provenance protocol should preserve continuation when a revision is identical or irrelevant, reopen only affected claims when a change matters, and stop when the recorded history cannot support reuse.",
-   "id": "ba410014",
-   "hash": "f338b0c2a559"
-  },
-  {
-   "type": "heading",
-   "text": "### 2.3 What Proofpress adds",
-   "id": "ba410015",
-   "hash": "7461a2f83f8f"
+   "text": "UI 上这三层必须视觉可分辨（见 §6 drawer 的三段式）。",
+   "id": "b9e2f874",
+   "hash": "404724714dae"
   },
   {
    "type": "para",
-   "text": "The ordinary handoff condition contains natural-language context: prior conclusions, rationale, caveats, open questions, and next steps. The Proofpress condition preserves that same content and adds a machine-checkable document version, artifact digest, claim-to-artifact relationship, and verification operation. This design treats the readable handoff as the continuity mechanism and the provenance check as the experimental intervention.",
-   "id": "ba410016",
-   "hash": "a6e731ddb9f9"
+   "text": "---",
+   "id": "fb6f06b6",
+   "hash": "f1624c9c50ca"
   },
   {
    "type": "heading",
-   "text": "### 2.4 What Proofpress does not add",
-   "id": "ba410017",
-   "hash": "b721d71b8313"
+   "text": "## 3. 技术决策（不可协商）",
+   "id": "76776e23",
+   "hash": "2ca14c9a7ed7"
+  },
+  {
+   "type": "table",
+   "text": "| 项 | 决定 |\n|---|---|\n| 构建 | 不装 npm 包，不写 package.json，不用 CDN。**唯一例外**：一个 Python 标准库写的内联脚本，见 §12 |\n| JS | 原生 ES modules（`<script type=\"module\">`），无框架 |\n| CSS | 手写，无预处理器。变量集中在 `css/tokens.css` |\n| 数据 | **`.js` 文件，`export const ledger = {...}`**。不用 `.json` + fetch |\n| 图形 | 内联 SVG，手写。不引入 d3 / cytoscape |\n| 主题 | **只做浅色一套，暖米白纸面系**，以 https://www.agenticresearch.sh/rit 现网实测取值为准（paper 底 `#fbf8f1`，ink 正文 `#1a1530`）——投资人看到的应该是 ARA Labs 自己产品已经在用的调性，不是我们独立发明的一套深色 terminal 皮肤 |\n| 浏览器 | 只需 Chrome 最新版跑通 |\n| 字体 | **照抄 ARA 现网的三条降级链**（标题 `\"Instrument Serif\",\"Iowan Old Style\",Georgia,serif`；正文 `\"Inter\",-apple-system,BlinkMacSystemFont,\"Segoe UI\",sans-serif`；等宽 `\"JetBrains Mono\",ui-monospace,SFMono-Regular,Menlo,monospace`）。不请求 Google Fonts、不用 CDN、不 base64 内嵌——本地未装 Instrument Serif / Inter / JetBrains Mono 时优雅降级到链上一环（Mac 上标题落到 Iowan Old Style，正文/等宽落到系统栈），零外部引用不变 |",
+   "id": "c2f8f6e2",
+   "hash": "edea447c4525"
   },
   {
    "type": "para",
-   "text": "Proofpress is not a language model, memory service, semantic conflict resolver, or truth oracle. A verified record establishes identity, integrity, and declared history under a specified policy. It does not establish that every recorded claim is correct or that a document remains authorized under information the receiver was never given.",
-   "id": "ba410018",
-   "hash": "f9dc931cbb3e"
-  },
-  {
-   "type": "heading",
-   "text": "## 3. Evaluation design",
-   "id": "ba410019",
-   "hash": "71a0fe53a484"
-  },
-  {
-   "type": "heading",
-   "text": "### 3.1 Research questions",
-   "id": "ba41001a",
-   "hash": "dabc523bbe8b"
+   "text": "理由：四个 worker 在各自 git worktree 里并行，任何共享配置文件都是冲突源。",
+   "id": "c6a6aa46",
+   "hash": "515b33b2f3f9"
   },
   {
    "type": "para",
-   "text": "We organized the evaluation around four questions:",
-   "id": "ba41001b",
-   "hash": "56249c48437c"
+   "text": "---",
+   "id": "b1eed91a",
+   "hash": "f1624c9c50ca"
+  },
+  {
+   "type": "heading",
+   "text": "## 4. 文件归属（硬边界，越界即冲突）",
+   "id": "6211b225",
+   "hash": "19de04fc03a8"
+  },
+  {
+   "type": "para",
+   "text": "所有文件在仓库的 `rit-hub-demo/` 下。**每个 worker 只创建和修改自己名下的文件。**",
+   "id": "214678db",
+   "hash": "6da9836a40ff"
+  },
+  {
+   "type": "code",
+   "text": "```\nrit-hub-demo/\n  DECISIONS.md              ← orchestrator，任何人不得编辑\n  index.html                ← W2\n  css/tokens.css            ← W2\n  css/app.css               ← W2\n  js/app.js                 ← W2   路由 / 顶栏 / 数据集切换 / 状态\n  js/ledger.js              ← W2   ledger 表格视图\n  js/drawer.js              ← W3\n  css/drawer.css            ← W3\n  dev/drawer-harness.html   ← W3   独立自测页\n  js/graph.js               ← W4\n  css/graph.css             ← W4\n  dev/graph-harness.html    ← W4   独立自测页\n  data/paper-ftrl.js        ← W1\n  data/self-research.js     ← W1\n  data/SOURCES.md           ← W1   每条数据的出处标注\n```",
+   "id": "dc74bef4",
+   "hash": "635b94fbb3c4"
+  },
+  {
+   "type": "para",
+   "text": "W3 / W4 的 harness 页面自带 3–4 个内联假节点，**不依赖 W1 交付**，保证真并行。",
+   "id": "a57bc43c",
+   "hash": "ec3f1c7241ef"
+  },
+  {
+   "type": "para",
+   "text": "---",
+   "id": "5c758393",
+   "hash": "f1624c9c50ca"
+  },
+  {
+   "type": "heading",
+   "text": "## 5. 数据契约（Schema v1）",
+   "id": "764e2a7f",
+   "hash": "0ea45b877b08"
+  },
+  {
+   "type": "para",
+   "text": "`data/*.js` 必须导出如下结构。W2/W3/W4 按此结构编码，不等 W1。",
+   "id": "769ecab7",
+   "hash": "16269d8fe878"
+  },
+  {
+   "type": "code",
+   "text": "```js\nexport const ledger = {\n  id: \"ftrl-2025\",\n  title: \"…论文标题…\",\n  subtitle: \"29 claims extracted · grounded only against released code and data\",\n  source: { kind: \"paper\" | \"live-research\", ref: \"arXiv:… 或 repo 路径\" },\n  root_hash: \"sha256:7ef5…\",\n  counts: { settled: 9, open: 18, rejected: 2, dead_end: 0 },\n\n  // 可选。页脚 provenance 行的文案（§9）。缺席时用 §9 默认文案。\n  // 每个数据集应各自提供 —— 默认文案讲的是 RIT §7.4，挂在 My Research 上不准确。\n  provenance: \"Fixture data · … · no live verification performed\",\n\n  // 首屏要高亮的那一条（见 §6.1 callout）\n  spotlight: { node_id: \"c14\", message: \"This paper's headline number is OPEN.\" },\n\n  nodes: [\n    {\n      id: \"c07\",\n      label: \"val_loss floor of 3.28 is reached within 3000 steps\",   // 自然语言 @claim\n      kind: \"claim\",            // claim|question|decision|experiment|dead_end|pivot\n      status: \"settled\",        // settled|open|rejected|disputed\n      tier: \"L2\",               // T0|T1|L1|L2|L3|K|null   (RIT Table 2)\n      provenance: \"ai-executed\",// user|ai-suggested|ai-executed|user-revised (ARA P2)\n      depends_on: [\"c02\"],\n\n      // Hume's fork：一条 claim 劈成两半，走两个不同 oracle\n      empirical: [{\n        assertion: \"val_loss <= 3.28\",\n        evidence_path: \"evidence/data/train.log\",\n        sha256: \"a41f9c…\",\n        extractor: { kind: \"regex_float\", pattern: \"step:(\\\\d+)/M val_loss:([\\\\d.]+)\", group: 2 },\n        claimed: 3.28,\n        extracted: 3.28,\n        verdict: \"pass\"        // pass|fail|unreachable\n      }],\n      analytical: [{\n        theorem: \"reach_3025 : steps_to_target <= 3025\",\n        lean: \"theorem reach_3025 : steps_to_target <= 3025 := by decide\",\n        verdict: \"pass\",        // pass|fail|unchecked\n        axioms: [\"Lean.trustCompiler\", \"cfg_grounding_b2\"],\n        whitelist_ok: true,\n        has_sorry: false\n      }],\n\n      admission: {\n        actor: \"referee\", actor_kind: \"agent\",   // human|agent\n        at: \"2026-05-11T09:22Z\",\n        why: \"both oracles discharged; no collision with admitted set\",\n        supersedes: null\n      },\n\n      // 仅 status===\"open\" 时出现：为什么够不到\n      unreachable: {\n        reason: \"The value is an average over training runs recorded in a wandb log the repository does not ship.\",\n        missing: [\"wandb/run-*/summary.json\"]\n      },\n\n      // 仅 kind===\"dead_end\" 时出现（ARA Table 1）\n      dead_end: { hypothesis: \"…\", failure_mode: \"…\", lesson: \"…\" },\n\n      // 仅 status===\"disputed\" 时出现（RIT Table 3）\n      dispute: { with: \"c11\", kind: \"A\", proof: \"theorem boom : False := …\", resolution: \"…\" }\n    }\n  ]\n};\n```",
+   "id": "42970cd8",
+   "hash": "10564db7ece8"
+  },
+  {
+   "type": "para",
+   "text": "**字段可选性**：`empirical` / `analytical` 都可以是空数组（一条 claim 可能只有其中一半）。\n`unreachable` / `dead_end` / `dispute` 按上述条件出现，其余情况**字段缺席**（不是 null）。",
+   "id": "a1a6c3c2",
+   "hash": "61840fd1213e"
+  },
+  {
+   "type": "para",
+   "text": "---",
+   "id": "3f27c6c8",
+   "hash": "f1624c9c50ca"
+  },
+  {
+   "type": "heading",
+   "text": "## 6. 屏幕设计",
+   "id": "5a93b1bd",
+   "hash": "09dc3a437a61"
+  },
+  {
+   "type": "para",
+   "text": "根路由 `#/` 是 Home 看板（见 §6.5），列出 hub 持有的全部 ledger；点进任一 ledger 才进入下面描述的详情页。\n详情页顶栏：产品名 `rit hub` + 两个数据集 tab：**`Paper`** / **`My Research`**，右侧 root hash。\n两个 tab 用同一套组件渲染不同数据 —— 这本身就是论点（同一个对象模型装得下两种研究）。看板本身没有这条顶栏、也不显示 root hash——看板列的是\"有哪些 ledger\"，root hash 是某个 ledger 自己的属性，不是看板的属性。\n详情页 MAIN 区域在 6.1 的 Ledger 表格和 6.3 的 Graph 之间整体切换，**默认打开 Graph**——图是不用讲解就看得懂的画面，表格一键可达，不是被替代。",
+   "id": "e1190c1e",
+   "hash": "b10dbb52aa9b"
+  },
+  {
+   "type": "heading",
+   "text": "### 6.1 Ledger 表格视图",
+   "id": "790bc003",
+   "hash": "526c3050ce41"
+  },
+  {
+   "type": "para",
+   "text": "非默认落地屏——默认落地屏是 6.3 的 Graph，这里是从 Graph 顶部的切换按钮点过去的表格视图。切过去之后，从上到下：",
+   "id": "a34ac172",
+   "hash": "545d5ee2640f"
   },
   {
    "type": "list",
-   "text": "- **RQ1 — Continuity:** Does a readable handoff reduce repeated research?\n- **RQ2 — Unchanged documents:** Does provenance improve the quality of work when the document has not changed?\n- **RQ3 — Outdated documents:** Does checking document provenance prevent a successor from using work tied to an earlier version?\n- **RQ4 — Selective recovery:** Can the successor ignore harmless edits while revisiting changes that affect prior claims?",
-   "id": "8265ed30",
-   "hash": "ec55be2711c7"
-  },
-  {
-   "type": "heading",
-   "text": "### 3.2 Tasks and comparisons",
-   "id": "ba41001c",
-   "hash": "7b18dbff16e4"
+   "text": "1. **标题区**：ledger.title + subtitle + `source.ref`\n2. **三个大数字**（这是首屏视觉重心，字号要大）：",
+   "id": "b2619c4c",
+   "hash": "2a11aac3c348"
   },
   {
    "type": "para",
-   "text": "We adapted materials from APEX-style legal-document work, HiEviDR scientific-evidence records, and policy revisions into predecessor-to-successor tasks. We also created small documentation tasks to test continuity and selective recovery. These are adaptations, not official benchmark submissions. The ordinary and Proofpress conditions received the same readable conclusions, rationale, and next steps. Only the Proofpress condition received a verifiable record linking that work to an accepted document version.",
-   "id": "ba41001d",
-   "hash": "04077f0008b5"
-  },
-  {
-   "type": "table",
-   "text": "| Study family | Source or task type | Comparison | Question answered |\n|---|---|---|---|\n| Continuity | Purpose-built documentation tasks | Artifacts only vs prose handoff vs structured handoff | Does any useful handoff reduce repeated research? |\n| Controlled document-version check | APEX-derived legal document | Ordinary vs Proofpress; unchanged vs replaced document | Does provenance prevent reuse against the wrong version? |\n| Scientific-evidence revision | HiEviDR-derived records | Ordinary vs Proofpress; hidden vs visible contradiction | When does provenance change the final decision rather than only the recovery path? |\n| Policy revision | Policy text changed after handoff | Ordinary vs Proofpress | Does explicit provenance cause grounded rechecking when both agents can read the new rule? |\n| Selective recovery | Documentation, evidence, and dependency updates | Harmless edit vs decision-relevant edit | Can the protocol revisit affected work without stopping on every change? |\n| Clean-task studies | Legal, document, and research workflows | Ordinary vs Proofpress on unchanged inputs | Does provenance generally improve answer quality? |",
-   "id": "a4691d62",
-   "hash": "cdcdd6eefbfb"
-  },
-  {
-   "type": "heading",
-   "text": "### 3.3 Outcomes and evidence standards",
-   "id": "ba41001e",
-   "hash": "2a133d830bf4"
-  },
-  {
-   "type": "para",
-   "text": "We measured whether the successor repeated source discovery, continued correctly, revisited affected work, or reused a conclusion tied to an outdated document. Artifact identity and protocol actions were scored deterministically. Semantic quality used blind model judging and human audit where required. Formal comparisons fixed model routes, prompts, task inputs, retry rules, and scoring contracts; provider fallback and cross-router retries were not allowed.",
-   "id": "ba41001f",
-   "hash": "e23b3c197961"
-  },
-  {
-   "type": "para",
-   "text": "We report repeated trials separately from task diversity. Repeating one task with several models shows that the observed behavior is not unique to one model, but it does not create several independent real-world cases. Engineering qualifications, invalid runs, and superseded analyses are disclosed in the appendices and are not pooled with the main comparisons.",
-   "id": "ba410020",
-   "hash": "a667fd34e738"
-  },
-  {
-   "type": "heading",
-   "text": "## 4. Results",
-   "id": "ba410021",
-   "hash": "f7f6eb301d4a"
-  },
-  {
-   "type": "heading",
-   "text": "### 4.1 Main result: provenance prevented reuse against an outdated document",
-   "id": "ba410022",
-   "hash": "f299bc0bcbc6"
-  },
-  {
-   "type": "para",
-   "text": "The strongest study isolated one decision: whether a successor should continue using inherited work after the underlying document was replaced. In the preregistered Luna comparison, ordinary handoff continued in all 12 outdated-document trials; Proofpress continued in none. Both conditions continued correctly in all 12 unchanged-document trials.",
-   "id": "ba410023",
-   "hash": "1407897be17c"
-  },
-  {
-   "type": "para",
-   "text": "The frozen comparison was then repeated with GLM 5.2, Kimi K3, and Qwen 3.8 Max. Every model showed the same pattern. These are repeated model runs on one controlled task, so the combined counts describe reliability within that task rather than performance over independent documents.",
-   "id": "ba410024",
-   "hash": "39490697e249"
-  },
-  {
-   "type": "table",
-   "text": "| Model study | Condition | Unchanged document: correct continue | Outdated document: incorrect continue |\n|---|---|---:|---:|\n| Preregistered Luna | Ordinary handoff | 12/12 | 12/12 |\n| Preregistered Luna | Proofpress | 12/12 | 0/12 |\n| GLM 5.2 follow-up | Ordinary handoff | 12/12 | 12/12 |\n| GLM 5.2 follow-up | Proofpress | 12/12 | 0/12 |\n| Kimi K3 follow-up | Ordinary handoff | 12/12 | 12/12 |\n| Kimi K3 follow-up | Proofpress | 12/12 | 0/12 |\n| Qwen 3.8 Max follow-up | Ordinary handoff | 12/12 | 12/12 |\n| Qwen 3.8 Max follow-up | Proofpress | 12/12 | 0/12 |",
-   "id": "14648c7e",
-   "hash": "b3d55b7c329b"
-  },
-  {
-   "type": "heading",
-   "text": "### 4.2 The benefit depends on whether the problem is otherwise visible",
-   "id": "ba410025",
-   "hash": "d500633f9e05"
-  },
-  {
-   "type": "para",
-   "text": "The controlled result was strongest when the inherited conclusion still looked plausible and only the document-version check exposed the problem. A HiEviDR-derived task showed the same separation under that condition: Proofpress avoided incorrect continuation in 9/9 trials, while ordinary handoff continued incorrectly in 9/9.",
-   "id": "ba410026",
-   "hash": "7d59614e7253"
-  },
-  {
-   "type": "para",
-   "text": "When the current evidence directly contradicted the inherited conclusion, both conditions avoided the wrong final answer. Proofpress consistently reopened and grounded the earlier work; ordinary handoff sometimes explicitly rechecked it and sometimes corrected itself from the visible evidence. Policy tasks produced the same boundary: provenance changed how recovery occurred, but not the final safety rate.",
-   "id": "ba410027",
-   "hash": "4516156805f3"
-  },
-  {
-   "type": "table",
-   "text": "| Task condition | Ordinary handoff | Proofpress | Interpretation |\n|---|---:|---:|---|\n| Scientific-evidence change, mismatch not obvious | 9/9 incorrect continues | 0/9 incorrect continues | Provenance changed the final decision |\n| Scientific-evidence change, contradiction visible | 0/9 incorrect outcomes; 5/9 explicit recoveries | 0/9 incorrect outcomes; 9/9 explicit recoveries | Both were safe; provenance changed the recovery path |\n| Policy change, current rule visible | 0/18 incorrect outcomes; 0/18 provenance-grounded recoveries | 0/18 incorrect outcomes; 18/18 provenance-grounded recoveries | Both were safe; provenance made rechecking explicit |",
-   "id": "f6073d74",
-   "hash": "7816a56eeaf1"
-  },
-  {
-   "type": "heading",
-   "text": "### 4.3 Proofpress supported selective recovery rather than blanket rejection",
-   "id": "ba410028",
-   "hash": "40a47c20f2db"
-  },
-  {
-   "type": "para",
-   "text": "Across six documentation and evidence-update cases repeated with GLM 5.2 and DeepSeek, Proofpress continued on all 6 harmless edits and revisited the affected work on all 6 decision-relevant edits. Ordinary handoff also continued on all harmless edits, but continued without targeted rechecking in 4 of the 6 relevant-edit responses.",
-   "id": "ba410029",
-   "hash": "b69289fc1e58"
-  },
-  {
-   "type": "para",
-   "text": "This matters because a useful provenance protocol should not halt work after every byte-level edit. The intended behavior is narrower: preserve continuation when a change is irrelevant and reopen only the claims whose basis may have changed.",
-   "id": "ba41002a",
-   "hash": "7f095607e1ed"
-  },
-  {
-   "type": "table",
-   "text": "| Change to the document | Ordinary handoff | Proofpress |\n|---|---:|---:|\n| Harmless edit | Continued 6/6 | Continued 6/6 |\n| Edit affecting an inherited claim | Targeted recheck 2/6; continued 4/6 | Targeted recheck 6/6 |",
-   "id": "ba41002b",
-   "hash": "d5d7190dec3e"
-  },
-  {
-   "type": "heading",
-   "text": "### 4.4 A readable handoff reduced repeated research",
-   "id": "ba41002c",
-   "hash": "8a567de4cbeb"
-  },
-  {
-   "type": "para",
-   "text": "Three documentation tasks compared artifacts alone, a prose handoff, and a structured handoff. With artifacts alone, the successor repeated source discovery in 3/3 tasks. With either prose or structured handoff, it did so in 0/3. This supports the value of a competent handoff, but does not show that structured provenance is better than well-written prose when the document is unchanged.",
-   "id": "ba41002d",
-   "hash": "faf7c91c23af"
-  },
-  {
-   "type": "table",
-   "text": "| Information given to successor | Repeated source discovery |\n|---|---:|\n| Artifacts only | 3/3 |\n| Prose handoff | 0/3 |\n| Structured handoff | 0/3 |",
-   "id": "ba41002e",
-   "hash": "28efbb1306fd"
-  },
-  {
-   "type": "heading",
-   "text": "### 4.5 We did not find a general answer-quality improvement",
-   "id": "ba41002f",
-   "hash": "fa3cd38f4492"
-  },
-  {
-   "type": "para",
-   "text": "Across legal, document-production, restricted-access, policy, and scientific-evidence studies using unchanged inputs, results were usually tied, mixed, or limited by the underlying task. Ordinary and Proofpress handoffs tied at 14/18 on the APEX Law rubric and 15/21 in its blind audit; the Restricted-Access Lease audit tied at 13/21. In another document workflow, every condition failed the clean completion criterion because the underlying document task failed.",
-   "id": "ba410030",
-   "hash": "b3ce19c6aa3d"
-  },
-  {
-   "type": "para",
-   "text": "These null and failed studies bound the claim. Provenance cannot replace missing evidence, repair an underspecified task, or improve document execution by itself. The current evidence does not support presenting Proofpress as a general agent-quality booster.",
-   "id": "ba410031",
-   "hash": "901f740a4891"
-  },
-  {
-   "type": "para",
-   "text": "One additional memory study was sensitive to the semantic judge: the same frozen answers favored Proofpress under one scorer and favored the comparison under two others. We therefore treat that study as evidence about measurement sensitivity, not product efficacy; full details appear in the appendix.",
-   "id": "ba410032",
-   "hash": "ac119c297986"
-  },
-  {
-   "type": "heading",
-   "text": "### 4.6 The evaluated Proofpress path used more tokens, time, and model spend",
-   "id": "ba410059",
-   "hash": "82c2322eed97"
-  },
-  {
-   "type": "para",
-   "text": "The three-model controlled follow-up recorded token usage, wall-clock time, and provider-reported model cost for every valid run. Averaged across unchanged- and outdated-document trials, the Proofpress condition used 18,503 tokens, 39.7 seconds, and $0.0270 per run, compared with 6,381 tokens, 29.8 seconds, and $0.0113 for ordinary handoff.",
-   "id": "ba41005a",
-   "hash": "7043bf3f11f3"
-  },
-  {
-   "type": "table",
-   "text": "| Condition | Valid runs | Mean tokens | Mean wall time | Mean model cost |\n|---|---:|---:|---:|---:|\n| Ordinary handoff | 72 | 6,381 | 29.8 s | $0.0113 |\n| Proofpress | 72 | 18,503 | 39.7 s | $0.0270 |",
-   "id": "ba41005b",
-   "hash": "daae82e023cd"
-  },
-  {
-   "type": "para",
-   "text": "This is an end-to-end harness comparison, not an isolated benchmark of the deterministic protocol. The Proofpress condition included a larger carrier, verifier tool calls, and additional agent turns, so the observed 2.9× token use, 1.33× wall time, and 2.4× model cost cannot be attributed to hashing or verification alone. The data establish that the tested integration was not free; a production overhead estimate requires instrumenting deterministic verification separately from model-mediated recovery.",
-   "id": "ba41005c",
-   "hash": "76b955265b92"
-  },
-  {
-   "type": "heading",
-   "text": "## 5. Discussion",
-   "id": "ba410033",
-   "hash": "53c9ee5a5929"
-  },
-  {
-   "type": "heading",
-   "text": "### 5.1 The central result",
-   "id": "ba410034",
-   "hash": "4aa8bf7e49c5"
-  },
-  {
-   "type": "para",
-   "text": "The experiments separate two functions that are often collapsed into “memory.” Natural-language handoff carries meaning: conclusions, rationale, caveats, and next steps. Artifact provenance carries applicability: which document those conclusions and decisions were made for. Proofpress's distinctive contribution is the second relationship, not additional prose.",
-   "id": "ba410035",
-   "hash": "596e7623ad49"
-  },
-  {
-   "type": "para",
-   "text": "This distinction explains both the positive and null results. When a document is unchanged and the handoff is good, provenance has little reason to improve the final answer. When the new document obviously contradicts the old conclusion, a capable model may correct itself without a provenance record. The clearest benefit appears when inherited work remains plausible even though the underlying document has changed.",
-   "id": "ba410036",
-   "hash": "4ea8126b39b3"
-  },
-  {
-   "type": "heading",
-   "text": "### 5.2 Product implication",
-   "id": "ba410037",
-   "hash": "e3fead44ab40"
-  },
-  {
-   "type": "para",
-   "text": "The supported product claim is narrow but useful: **Proofpress gives successor agents a portable, independently checkable provenance record for inherited work. In the tested tasks, it prevented reuse against the wrong document version and prompted consistent rechecking of decision-relevant changes without blocking harmless edits.**",
-   "id": "ba410038",
-   "hash": "5df164333410"
-  },
-  {
-   "type": "para",
-   "text": "The relevant comparison is therefore not “Proofpress versus memory.” A practical system needs both. The handoff explains prior work; Proofpress verifies which artifact that work belongs to.",
-   "id": "ba410039",
-   "hash": "9075e9d62796"
-  },
-  {
-   "type": "heading",
-   "text": "### 5.3 Why the negative results matter",
-   "id": "ba41003a",
-   "hash": "0d94957eb0ea"
-  },
-  {
-   "type": "para",
-   "text": "The lack of a broad quality advantage prevents the strongest controlled result from becoming a vague capability claim. Provenance does not make weak research complete, repair a broken document workflow, or turn a recorded assertion into truth. Its demonstrated value is concentrated at a handoff boundary: continue, revisit, or refuse inherited work.",
-   "id": "ba41003b",
-   "hash": "351affd98f47"
-  },
-  {
-   "type": "heading",
-   "text": "### 5.4 Measurement sensitivity",
-   "id": "ba41003c",
-   "hash": "2787879ff72d"
-  },
-  {
-   "type": "para",
-   "text": "The STALE/CUPMem study illustrates why semantic outcomes require caution. Its preregistered Nano scorer gave Proofpress a paired +8.33 percentage-point advantage over an information-matched flat record, with 95% CI [+1.25, +15.42]. Two Gemini rescoring passes on the same frozen answers gave −1.67 and −2.08 points. Much of the disagreement concerned whether a source-grounded refusal to answer counted as correct. We therefore treat this result as evidence that scoring policy can dominate the measured effect, not as scorer-independent product evidence.",
-   "id": "ba41003d",
-   "hash": "88ddeacbeb8b"
-  },
-  {
-   "type": "heading",
-   "text": "## 6. Related work",
-   "id": "ba41003e",
-   "hash": "c6bbdbca9e50"
-  },
-  {
-   "type": "heading",
-   "text": "### 6.1 Agent memory and handoff",
-   "id": "ba41003f",
-   "hash": "0a47a4cd3268"
-  },
-  {
-   "type": "para",
-   "text": "Long-context and evolving-memory evaluations such as [LongMemEval](https://arxiv.org/abs/2410.10813), [STALE](https://arxiv.org/abs/2605.06527), and [Memora](https://arxiv.org/abs/2604.20006) show that agents must update, invalidate, or abstain on obsolete information. [Handoff Debt](https://arxiv.org/abs/2606.02875) measures successor rediscovery under coding-agent handoffs, while [AgentAsk](https://aclanthology.org/2026.acl-long.1294/) examines error propagation at handoff boundaries. These works establish stale-state and handoff failures, but they do not isolate whether inherited knowledge remains bound to an independently mutable external artifact.",
-   "id": "0d91390e",
-   "hash": "b099915cc8cb"
-  },
-  {
-   "type": "heading",
-   "text": "### 6.2 Portable memory and provenance-aware agents",
-   "id": "ba410053",
-   "hash": "209ab8f3b413"
-  },
-  {
-   "type": "para",
-   "text": "[Portable Agent Memory](https://arxiv.org/abs/2605.11032) and [MemLineage](https://arxiv.org/abs/2605.14421) introduce cryptographically verifiable or lineage-aware cross-agent memory. [StateAuditor](https://arxiv.org/abs/2608.01619) and [ProvenanceGuard](https://arxiv.org/abs/2606.18037) combine deterministic provenance checks with repair, re-verification, or action gates. They are direct precedents for verifier-aware agent behavior. Proofpress differs in the evaluated object: accepted work is transferred between agents, the external document can change independently, and the measured decision is whether earlier work is reused against that changed document.",
-   "id": "ba410054",
-   "hash": "86697755835d"
-  },
-  {
-   "type": "heading",
-   "text": "### 6.3 Provenance and verification before use",
-   "id": "ba410040",
-   "hash": "bcb8b5fabaa1"
-  },
-  {
-   "type": "para",
-   "text": "Provenance standards and software supply-chain systems—including [W3C PROV](https://www.w3.org/TR/prov-overview/), [in-toto](https://in-toto.io/), [TUF](https://theupdateframework.io/), [SLSA](https://slsa.dev/), and [Sigstore](https://www.sigstore.dev/)—already establish entity lineage, immutable identity, attestations, rollback protection, and verification before use. Proofpress does not claim to invent these primitives. It applies that pattern to agent-produced knowledge artifacts and makes the successor's decision to reuse prior work explicit.",
-   "id": "5e2b5905",
-   "hash": "a5be69047884"
-  },
-  {
-   "type": "heading",
-   "text": "### 6.4 Scoped research gap",
-   "id": "ba410055",
-   "hash": "5ed5568c6234"
-  },
-  {
-   "type": "para",
-   "text": "The literature therefore supplies each broad ingredient separately. Within our structured primary-source scoping review, we did not identify an evaluation that gives two successors the same readable handoff, changes an external artifact after that handoff was recorded, lets only one successor verify the artifact version, and measures whether outdated work is reused. That is the scoped gap addressed here. It is not a claim that Proofpress invented provenance, content addressing, stale-state evaluation, or agent handoff. The complete search method, comparison tables, and non-novelty boundary are maintained in `logic/related_work.md`.",
-   "id": "ba410056",
-   "hash": "eed862d06cf4"
-  },
-  {
-   "type": "heading",
-   "text": "## 7. Limitations",
-   "id": "ba410041",
-   "hash": "1f052e5c3761"
-  },
-  {
-   "type": "para",
-   "text": "First, the strongest 100% separation is a **mechanism test aligned with Proofpress's design**: the task deliberately creates the document-version mismatch that Proofpress is built to detect, and only the Proofpress condition receives the check that reveals it. The result shows that the version-binding and admission path worked reliably under those controlled conditions. It does not show how often the condition occurs in practice, how well the protocol handles unanticipated forms of change, or whether the effect generalizes to independently authored workflows.",
-   "id": "ba410042",
-   "hash": "6493d60ced8e"
-  },
-  {
-   "type": "para",
-   "text": "Second, repeated trials and cross-model replication do not create independent task diversity. Third, most tasks were constructed or adapted locally; they do not establish official APEX or HiEviDR benchmark performance. Fourth, the evaluated Proofpress path used substantially more tokens, wall time, and model spend, while the experiment did not isolate deterministic verification cost from carrier size, tool interaction, and recovery turns. Fifth, unnecessary stops, user trust, and long-term organizational benefit remain undermeasured. Sixth, Proofpress verifies declared artifact history, not source truth, legal correctness, or authorization outside the supplied policy.",
-   "id": "ba41005d",
-   "hash": "552fdc55c51d"
-  },
-  {
-   "type": "para",
-   "text": "The next meaningful test is independently authored or naturally occurring document revision: harmless, ambiguous, and material changes; incomplete or conflicting history; receiver environments operated by another team; and explicit measurement of unnecessary stops and recovery cost. More calls on the existing controlled task would measure receiver consistency without addressing real-world coverage.",
-   "id": "ba410043",
-   "hash": "895462bfc79a"
-  },
-  {
-   "type": "heading",
-   "text": "## 8. Conclusion",
-   "id": "ba410044",
-   "hash": "d510a8deea19"
-  },
-  {
-   "type": "para",
-   "text": "Agent handoff is not one problem. A successor needs enough context to avoid repeating the predecessor's work, and it needs a way to know which artifact that context belongs to. Our local experiments show that good handoffs address the first need. They do not show that provenance broadly improves work on unchanged documents. They do show, consistently within the tested tasks, that artifact-version checks can prevent reuse against the wrong document and prompt targeted review when a relevant change occurs.",
-   "id": "ba410045",
-   "hash": "41b9a4ddc204"
-  },
-  {
-   "type": "para",
-   "text": "The clearest way to understand Proofpress is therefore not as “better memory,” but as an artifact provenance protocol for portable agent work.",
-   "id": "ba410046",
-   "hash": "eae2f164cf24"
-  },
-  {
-   "type": "heading",
-   "text": "## Appendix A — experiment and evidence map",
-   "id": "ba410047",
-   "hash": "47fedec8cbb7"
-  },
-  {
-   "type": "para",
-   "text": "The complete local experiment inventory, denominators, valid results, evidence classifications, and current interpretations are maintained in `../docs/LOCAL_EXPERIMENT_RESULTS.md`. The canonical detailed matrices and analysis boundaries are in `../docs/RESULTS_MATRIX.md`; registered experiment states are in `logic/experiments.md`.",
-   "id": "ba410048",
-   "hash": "216cf1d7cfff"
-  },
-  {
-   "type": "table",
-   "text": "| Evidence family | Role in this paper | Main-body use |\n|---|---|---|\n| Knowledge Handoff Tracks 1–2 | Continuity and selective version-drift mechanism | RQ1 and RQ4 |\n| APEX-direct, Luna R1, three-model follow-up | Clean/stale admission mechanism and model robustness | Primary RQ3 evidence |\n| HiEviDR-derived and Policy R1 | Visible-evidence and recovery-path boundary | Qualification of RQ3 |\n| Sidecar, Harvey, APEX Law, Restricted Lease, Artifact Travel | Feasibility, negative controls, and clean-quality boundary | RQ2 synthesis |\n| MemConflict and STALE/CUPMem | Historical stale-authority signal and judge sensitivity | Measurement boundary |",
-   "id": "ba410049",
-   "hash": "4d91598fb3cc"
-  },
-  {
-   "type": "heading",
-   "text": "## Appendix B — invalid, excluded, and superseded paths",
-   "id": "ba41004a",
-   "hash": "840c77d07431"
-  },
-  {
-   "type": "para",
-   "text": "Invalid runs are not silently folded into the narrative. Major categories include transport failures; missing output contracts; a synthetic capsule exposed by the APEX-direct v1 harness; mixed transport in Artifact Travel v2; missing reviewer events in v4; a disabled verifier in v5; scorer disagreement in STALE; and repaired missing-checkpoint or timeout cells in Knowledge Handoff. The complete path-by-path disclosure, including exclusions and replacement rules, is in Appendix B of `../docs/LOCAL_EXPERIMENT_RESULTS.md`.",
-   "id": "ba41004b",
-   "hash": "944c94843039"
-  },
-  {
-   "type": "heading",
-   "text": "## Appendix C — reproducibility and claim boundaries",
-   "id": "ba41004c",
-   "hash": "bc6b15b84c15"
-  },
-  {
-   "type": "para",
-   "text": "Machine-readable summaries, immutable reports, hashes, routing records, and Proofpress claim files are stored under `evidence/` and `../evidence/`. Formal comparisons require exact model and provider resolution, no fallback, valid output contracts, complete required artifacts, and parity across all inputs except the declared treatment.",
-   "id": "ba41004d",
-   "hash": "27fff232d9f7"
-  },
-  {
-   "type": "para",
-   "text": "The Proofpress implementation is publicly available at [github.com/chenmingtang830/proofpress](https://github.com/chenmingtang830/proofpress). The present ARA directory is the internal source package for this report, not yet a public release: some evidence pointers still refer to local immutable roots, and the task bundle has not yet been assigned a release version, archival identifier, or redistribution manifest. Releasing the evaluation therefore requires a portability and licensing pass rather than copying the development directory into the product repository unchanged.",
-   "id": "ba41005e",
-   "hash": "e2019350f980"
-  },
-  {
-   "type": "para",
-   "text": "The paper supports three claims: handoff can reduce visible rediscovery; generic clean-quality improvement has not been established; and version binding governs admission in the tested drift fixtures. It does not support a pooled product-effect estimate, an official external benchmark score, a truth-verification claim, or a claim that Proofpress replaces shared memory.",
-   "id": "ba41004e",
-   "hash": "9f06c1f71149"
-  },
-  {
-   "type": "heading",
-   "text": "## Appendix D — ARA artifact map",
-   "id": "ba41004f",
-   "hash": "d81800825d52"
+   "text": "   `SETTLED 9` · `OPEN 18` · `REJECTED 2`\n   颜色分别 ok / open / bad。三个数字下面一行小字：\"every count is what a kernel decided, not what an author asserted\"",
+   "id": "67d3f2b0",
+   "hash": "d3f0d7bf2de1"
   },
   {
    "type": "list",
-   "text": "- `logic/problem.md` — research problem and validity threat.\n- `logic/claims.md` — falsifiable claims and their status.\n- `logic/concepts.md` — treatment and measurement definitions.\n- `logic/experiments.md` — experiment registry and analysis boundaries.\n- `logic/related_work.md` — structured primary-source scoping review.\n- `logic/solution/constraints.md` — fairness and safety constraints.\n- `trace/` — append-only research decisions.\n- `evidence/` — source and result index.",
-   "id": "ba410050",
-   "hash": "db057b48e727"
+   "text": "3. **Spotlight callout**：一条醒目横幅，引用 `ledger.spotlight.message`，点击跳到并打开该节点的 drawer。",
+   "id": "a6e2882b",
+   "hash": "25ff3e1951a5"
+  },
+  {
+   "type": "para",
+   "text": "   这是那张截图的主体，不能做得不起眼。",
+   "id": "049b03a1",
+   "hash": "9e0a2056f43d"
+  },
+  {
+   "type": "list",
+   "text": "4. **Ledger 表格**：列依次为",
+   "id": "309bb56a",
+   "hash": "22a992d643d4"
+  },
+  {
+   "type": "para",
+   "text": "   `ID` · `Claim` · `Status` · `Tier` · `Evidence` · `Depends on`",
+   "id": "7f53ba65",
+   "hash": "b8ce89b3a16f"
+  },
+  {
+   "type": "list",
+   "text": "   - Status 用彩色 pill\n   - Tier 用等宽小标签（T0/T1/L1/L2/L3/K），T0/T1 要视觉降级（论文里它们 permanently flagged as unverified）\n   - `Evidence` 列显示 evidence_path 的 basename + sha 前 6 位，等宽字体；unreachable 的显示删除线\n   - `Depends on` 列显示依赖的 ID chips\n   - 整行可点 → 打开 drawer\n   - 表格上方一排 filter chips：`All / Settled / Open / Rejected / Dead end`",
+   "id": "0199091a",
+   "hash": "32c870bf06f6"
   },
   {
    "type": "heading",
-   "text": "## Layer Index",
-   "id": "ba410057",
-   "hash": "fd96d608076b"
+   "text": "### 6.2 Claim Drawer（右侧抽屉）— 这是最重要的一屏",
+   "id": "96d0422d",
+   "hash": "4d5caeda1f18"
   },
   {
-   "type": "heading",
-   "text": "### Cognitive Layer (`/logic`)",
-   "id": "ba410058",
-   "hash": "7174834f3553"
+   "type": "para",
+   "text": "宽度约 640px，从右滑入，Esc / 点遮罩关闭。内容自上而下：",
+   "id": "f311cec9",
+   "hash": "70d36069aba7"
+  },
+  {
+   "type": "list",
+   "text": "1. **头部**：node.id + status pill + tier + kind badge + provenance badge\n2. **claim 自然语言原文**，字号偏大，这是 `-- @claim` 那一行\n3. **Hume's fork 分栏 —— drawer 的核心，必须左右两栏并置：**",
+   "id": "9e3d43b4",
+   "hash": "24a0e46ca987"
   },
   {
    "type": "table",
-   "text": "| File | Description |\n|---|---|\n| [problem.md](logic/problem.md) | Research problem, validity threat, and key admission gap |\n| [claims.md](logic/claims.md) | Current falsifiable claims and evidence boundaries |\n| [concepts.md](logic/concepts.md) | Technical vocabulary for Proofpress and artifact-version checks |\n| [experiments.md](logic/experiments.md) | Registered and completed experiment program |\n| [architecture.md](logic/solution/architecture.md) | Protocol objects, operations, trust model, and dispositions |\n| [constraints.md](logic/solution/constraints.md) | Fairness, safety, and interpretation constraints |\n| [heuristics.md](logic/solution/heuristics.md) | Operational design heuristics |\n| [related_work.md](logic/related_work.md) | Structured primary-source scoping review and novelty boundary |",
-   "id": "61923531",
-   "hash": "9d429f7856c0"
+   "text": "   | 左栏 `EMPIRICAL — re-extraction` | 右栏 `ANALYTICAL — Lean 4 kernel` |\n   |---|---|\n   | evidence 路径 + `sha256` 前 12 位（等宽） | theorem 语句（等宽代码块） |\n   | extractor 的 regex（等宽，高亮） | kernel verdict |\n   | `claimed 3.28` vs `extracted 3.28` 并置对比 | `#print axioms` 结果列表 |\n   | 大的 ✓/✗/— 判定标记 | whitelist ✓ / `sorry` 检测 |",
+   "id": "f28a23f7",
+   "hash": "73aa4e2cad3b"
+  },
+  {
+   "type": "para",
+   "text": "   两栏之间画一条竖分隔线，顶上一行小字：`Hume's fork — every claim splits, each half routed to its only possible oracle`。\n   **某一半为空数组时**，那一栏显示灰色占位：\"no analytical assertions in this claim\"，不要塌掉布局——保持两栏对称是这一屏的全部意义。",
+   "id": "3427e66f",
+   "hash": "6cf530670206"
+  },
+  {
+   "type": "list",
+   "text": "4. **verdict 条**：一行大字给出最终 status，附 admission.why\n5. **三层元数据段**（对应 §2，必须视觉分组、三个小标题）：\n   - `VERIFICATION` — status / tier / dispute\n   - `PROCESS` — kind / provenance /（dead_end 时）hypothesis · failure_mode · lesson\n   - `ADMISSION` — actor（human/agent 图标区分）/ at / why / supersedes\n6. **`unreachable` 存在时**：一个醒目的说明块，写清 reason + missing 文件清单。这是 OPEN 的\"为什么\"，比 settled 更值钱。\n7. 底部：`depends on` / `depended on by` 两组可点 chips，点了切到那个节点（drawer 不关）",
+   "id": "a6ddbda4",
+   "hash": "3bfd919be23e"
   },
   {
    "type": "heading",
-   "text": "### Physical Layer (`/src`)",
-   "id": "00f89bc5",
-   "hash": "4ad97cf898be"
+   "text": "### 6.3 Graph 视图 —— 默认落地屏",
+   "id": "967a0e85",
+   "hash": "0014abd761eb"
   },
   {
-   "type": "table",
-   "text": "| File | Description |\n|---|---|\n| [environment.md](src/environment.md) | Execution environments, models, transports, and reproducibility status |\n| [artifacts.md](src/artifacts.md) | Pointer index to persistent experiment and implementation artifacts |",
-   "id": "42cb0b87",
-   "hash": "52d5cde65a92"
+   "type": "para",
+   "text": "打开任一 ledger 详情页，**先看到的是这一屏**，不是 6.1 的表格——表格从这里一键切过去。同屏可切换（ledger 表格 / 图）。手写 SVG DAG：",
+   "id": "c5f9b735",
+   "hash": "31ec100cafae"
+  },
+  {
+   "type": "list",
+   "text": "- 节点按 `depends_on` 分层（简单的 longest-path layering + 同层水平排开即可，不要力导向）\n- 节点配色 = status 配色；`dead_end` 节点画成**虚线边框 + 叉号标记**，与 claim 节点明显不同\n- dispute 关系画成红色双向虚线\n- 点节点 → 打开同一个 drawer\n- 悬停节点 → 高亮它的全部上游链路\n- 需要一个 legend",
+   "id": "c1726a4a",
+   "hash": "fa54a5c92de0"
+  },
+  {
+   "type": "para",
+   "text": "**这一屏的说服力在于：dead_end 节点和 settled claim 出现在同一张图上。** 这是 §2 说的合并，视觉上必须一眼看出来。",
+   "id": "fc1b94aa",
+   "hash": "9e81e6cf0106"
   },
   {
    "type": "heading",
-   "text": "### Exploration Graph (`/trace`)",
-   "id": "938f7636",
-   "hash": "be91df19ec37"
+   "text": "### 6.4 `My Research` tab",
+   "id": "2c86f9cd",
+   "hash": "1e14751bfa7f"
   },
   {
-   "type": "table",
-   "text": "| File | Description |\n|---|---|\n| [exploration_tree.yaml](trace/exploration_tree.yaml) | Source-backed research decisions, experiments, pivots, and dead ends |\n| [pm_reasoning_log.yaml](trace/pm_reasoning_log.yaml) | Append-only research-manager reasoning log |\n| [sessions/](trace/sessions/) | Calendar-day research session records |",
-   "id": "48cbe2d4",
-   "hash": "ae64b3b3ac5e"
+   "type": "para",
+   "text": "同样的三屏，数据换成团队自己的 ARA artifact。这个 tab 的重心在 dead_end：\n表格默认 filter 到 `Dead end` 也可以，spotlight callout 换成 lesson 类的文案。",
+   "id": "2bb99788",
+   "hash": "6c6af32520ea"
   },
   {
    "type": "heading",
-   "text": "### Evidence (`/evidence`)",
-   "id": "4f4ad1e8",
-   "hash": "1c4d87ee1aa8"
+   "text": "### 6.5 Home 看板（根路由 `#/`）",
+   "id": "da7e3d1d",
+   "hash": "d405e41e37e2"
+  },
+  {
+   "type": "para",
+   "text": "hub 的默认入口，列出 hub 持有的全部 ledger 作为可点卡片，点进去才是 6.1–6.4 描述的详情页。加这一屏的原因：用户反馈\"没搞懂 Paper 和 My Research 的区别\"——两个裸 tab 没说清楚它们是什么，看板补上这一层。",
+   "id": "48df8e60",
+   "hash": "ab2dce526d1d"
+  },
+  {
+   "type": "para",
+   "text": "分组依据 `source.kind`：**Your work**（`live-research`）／**From others**（其余，含 `paper`）。这是 tab 名字一直没讲清楚的那个区分。",
+   "id": "ca652988",
+   "hash": "9e6581faed7b"
+  },
+  {
+   "type": "para",
+   "text": "卡片形态照抄 ARA Labs 现网 agenticresearch.sh 的 \"Explore public ledgers\" 板块——同一套卡片解剖：徽标行 → 标题 → 一行描述 → 一个用状态色画的 `✓/⟳/✗/⊘` 读数（对应 settled/open/rejected/dead_end 的计数）→ root hash → `open ledger →`。同款式同调色，看起来是他们网站的延伸，不是一个新发明的组件。",
+   "id": "0374b162",
+   "hash": "cc3082c467f2"
+  },
+  {
+   "type": "para",
+   "text": "看板本身**没有** 6.1–6.4 那条详情页顶栏——不显示两个 tab，也不显示 root hash（看板列的是\"有哪些 ledger\"，root hash 是某个 ledger 自己的属性，不是看板的属性）。货架上只放 hub 里真实存在的 ledger（现在是两个），不铺占位卡片凑数——一个只有两条 ledger 的 hub，看起来就该像只有两条 ledger。",
+   "id": "39c942a4",
+   "hash": "4b79c984c447"
+  },
+  {
+   "type": "para",
+   "text": "路由：根路径 `#/` 是看板；`#/<dataset>/<view>[/<node>]` 不变，所有已有的深链接照常解析。",
+   "id": "f1f3b661",
+   "hash": "5ec7bf06ab1d"
+  },
+  {
+   "type": "para",
+   "text": "---",
+   "id": "bd3d65ba",
+   "hash": "f1624c9c50ca"
+  },
+  {
+   "type": "heading",
+   "text": "## 7. 组件接口（跨 worker 的唯一 API）",
+   "id": "a85a95d5",
+   "hash": "1bff4f4ffa3c"
+  },
+  {
+   "type": "para",
+   "text": "`js/drawer.js`（W3 提供）必须导出：",
+   "id": "952aa806",
+   "hash": "f43c0dc4e5f5"
+  },
+  {
+   "type": "code",
+   "text": "```js\nexport function openDrawer(node, ledger, { onNavigate });\n// onNavigate(nodeId) —— drawer 内点依赖 chip 时回调，由调用方决定切哪个节点\nexport function closeDrawer();\nexport function isOpen();\n```",
+   "id": "83dc936d",
+   "hash": "7c49b281bbdf"
+  },
+  {
+   "type": "para",
+   "text": "`js/graph.js`（W4 提供）必须导出：",
+   "id": "2ff7e4b8",
+   "hash": "c9766c666786"
+  },
+  {
+   "type": "code",
+   "text": "```js\nexport function renderGraph(container, ledger, { onSelect });\n// 返回 { focus(nodeId), destroy() }\n// onSelect(nodeId) —— 点节点时回调\n```",
+   "id": "fbbbe12d",
+   "hash": "1ed78ab464d2"
+  },
+  {
+   "type": "para",
+   "text": "W2 在 `js/app.js` 里 import 这两个模块并接线。W3/W4 不 import 对方，也不 import W2。",
+   "id": "9750c47a",
+   "hash": "ef54ad85d3fd"
+  },
+  {
+   "type": "para",
+   "text": "---",
+   "id": "006eec30",
+   "hash": "f1624c9c50ca"
+  },
+  {
+   "type": "heading",
+   "text": "## 8. 设计 token（W2 写进 `css/tokens.css`，W3/W4 直接使用这些名字）",
+   "id": "7de15d89",
+   "hash": "8b27ee6f97cc"
+  },
+  {
+   "type": "para",
+   "text": "W3/W4 在自己的 CSS 里**只能引用下列变量名**，不得硬编码颜色。",
+   "id": "74d110a0",
+   "hash": "1efa3a192c94"
+  },
+  {
+   "type": "code",
+   "text": "```\n--bg              页面底\n--bg-raised       卡片 / drawer 面\n--bg-sunken       代码块 / 表头\n--border          常规描边\n--border-strong   强调描边\n--text            主文字\n--text-dim        次要文字\n--text-faint      三级文字\n--accent          品牌强调色\n--ok              settled（绿）\n--open            open（琥珀/冷灰蓝）\n--bad             rejected（红）\n--warn            disputed（橙）\n--dead            dead_end（低饱和紫灰）\n--font-sans       系统无衬线栈\n--font-mono       系统等宽栈\n--radius          圆角\n--shadow          浮层阴影\n```",
+   "id": "b5c0e866",
+   "hash": "420a4ef4eec8"
+  },
+  {
+   "type": "para",
+   "text": "深色底。整体调性：终端 / 账本 / 内核，不要 SaaS 渐变紫，不要圆润卡通。\n等宽字体承担大量信息（hash、regex、Lean、路径），这是这个产品该有的样子。",
+   "id": "12a5e1e6",
+   "hash": "b50c0165c931"
+  },
+  {
+   "type": "para",
+   "text": "---",
+   "id": "411344e7",
+   "hash": "f1624c9c50ca"
+  },
+  {
+   "type": "heading",
+   "text": "## 9. 数据诚实性要求（硬性，不可省略）",
+   "id": "54e0de19",
+   "hash": "dd820d564ff2"
+  },
+  {
+   "type": "para",
+   "text": "受众是投资人，而这个产品本身攻击的就是\"看起来可信但没被核过\"的东西。\n**Demo 自身不能犯它要解决的错误。**",
+   "id": "3951af0d",
+   "hash": "79f929999bf7"
+  },
+  {
+   "type": "list",
+   "text": "- `data/SOURCES.md` 必须逐条标注每个数字的出处：来自论文哪一节 / 哪张表，还是为凑齐视图生成的示例行。\n- 页面**页脚必须常驻一行 provenance**，内容取自 `ledger.provenance`（§5，每个数据集各自提供）。",
+   "id": "a1bc1c0d",
+   "hash": "ff2f28f6ea76"
+  },
+  {
+   "type": "para",
+   "text": "  字段缺席时回退到默认文案：\n  `Fixture data · claim counts and the spotlight case from RIT §7.4 / Table 9 · remaining rows illustrative · no live verification performed`\n  这行随数据集切换而变 —— Paper 和 My Research 的出处不同，两边共用一句话本身就是不诚实的。",
+   "id": "4d77729e",
+   "hash": "b31c9d88cb29"
+  },
+  {
+   "type": "list",
+   "text": "- **Home 看板**（§6.5）不属于任何一个数据集，页脚 provenance 行不借用 `ledger.provenance`——换成看板自己的自述文案，说清楚\"这是什么\"（一个列出本 hub 全部 ledger 的看板），并指向下面的卡片去看各自的出处，不冒充是某一条 ledger 的 provenance。",
+   "id": "c774398c",
+   "hash": "91b28abb46b5"
+  },
+  {
+   "type": "list",
+   "text": "- 任何**论文里没有的具体数字**，不得看起来像是论文结论。宁可用明显是示例的值。\n- 来自 RIT §7.4 的那个核心事实必须原样保真：29 条 claim，头条数字（NetHack return 10,588）因 wandb log 未 ship 而保持 OPEN。",
+   "id": "43201ab4",
+   "hash": "ba405d3c3ad8"
+  },
+  {
+   "type": "para",
+   "text": "这一行页脚同时是产品理念的演示 —— ledger line 永远跟着 artifact 走。",
+   "id": "66547a66",
+   "hash": "f1b56e5c36ca"
+  },
+  {
+   "type": "para",
+   "text": "---",
+   "id": "7754b752",
+   "hash": "f1624c9c50ca"
+  },
+  {
+   "type": "heading",
+   "text": "## 10. 本文档自身的 decision trail",
+   "id": "fa7da809",
+   "hash": "4c49f8ed3edf"
+  },
+  {
+   "type": "para",
+   "text": "**这份文档由 Proofpress 管理。** 它是这个 demo 唯一的需求来源，所以它自己的修改历史\n必须可核验 —— 否则我们就在用一份没有 provenance 的文档，去做一个讲 provenance 的产品。",
+   "id": "bd3bb646",
+   "hash": "10d8c8a443aa"
+  },
+  {
+   "type": "code",
+   "text": "```sh\npython3 proofpress.py policy rit-hub-demo/DECISIONS.md portable\npython3 proofpress.py anchor rit-hub-demo/DECISIONS.md\npython3 proofpress.py snapshot rit-hub-demo/DECISIONS.md --kind agent --author orchestrator \\\n  --why \"…这次改了什么、为什么…\"\npython3 proofpress.py verify rit-hub-demo/DECISIONS.md\n```",
+   "id": "9c19dec9",
+   "hash": "6cb6c9176f39"
+  },
+  {
+   "type": "para",
+   "text": "规则：",
+   "id": "53c76b40",
+   "hash": "fddef40ca113"
+  },
+  {
+   "type": "list",
+   "text": "- 需求变更**只改本文档**，不在 worker 对话里口头改。口头说的不算数。\n- 每次改动必须跟一次 `snapshot --why`，`--why` 写**决策理由**，不是 diff 摘要。\n- 被否掉的方案如果值得后人知道，用 `--rejected` 记下来，别只留结论。\n- 改完后重新下发给受影响的 worker，并在消息里点明改了哪一节。",
+   "id": "3b0858e2",
+   "hash": "ac6035bd26d3"
+  },
+  {
+   "type": "para",
+   "text": "这样这份 spec 自己就是一个小号的 Claim Flow Graph：决策、理由、被放弃的分支，\n全都留在 artifact 上，跟着文件走。demo 讲的故事，从它的需求文档开始就已经在跑了。",
+   "id": "f39bde4f",
+   "hash": "b85fcee1b82a"
+  },
+  {
+   "type": "para",
+   "text": "---",
+   "id": "3cf4ff03",
+   "hash": "f1624c9c50ca"
+  },
+  {
+   "type": "heading",
+   "text": "## 12. 交付形态：源码用 module，交付用单文件",
+   "id": "1f2e76bf",
+   "hash": "06f4e6ed54b4"
+  },
+  {
+   "type": "para",
+   "text": "**背景（W4 于 2026-08-12 实测发现）**：Chrome 下 `file://` 的 origin 是 null，\n外部 ES module 的 `import` 会被 CORS 拦截。原 §3 里\"用 `.js` 而不是 JSON 就能双击打开\"\n的推理是错的 —— 那只解决了 `fetch`，没解决 module 加载本身。",
+   "id": "5989c0a6",
+   "hash": "5d4d75b94e8c"
+  },
+  {
+   "type": "para",
+   "text": "**决定：不改 module 架构，改交付形态。** 两种形态并存：",
+   "id": "5c7943b8",
+   "hash": "393126b1151d"
   },
   {
    "type": "table",
-   "text": "| File | Description |\n|---|---|\n| [README.md](evidence/README.md) | Evidence index and links to canonical result records |",
-   "id": "45399eb2",
-   "hash": "1458b75ddc2c"
+   "text": "| 形态 | 路径 | 怎么跑 | 给谁 |\n|---|---|---|---|\n| 开发态 | `rit-hub-demo/index.html` + `js/` `css/` `data/` | `python3 -m http.server` 后开 localhost | worker 开发、逐文件 review |\n| 交付态 | `rit-hub-demo/dist/rit-hub-demo.html` | **双击即开**，`file://` 直接跑 | 用户验收、投资人演示、发给别人 |",
+   "id": "7bb39ce9",
+   "hash": "09a44dd37b6b"
+  },
+  {
+   "type": "para",
+   "text": "交付态由 §12 的内联脚本从开发态生成：把所有 CSS `<style>` 进去、把所有 module\n按依赖顺序拼成**一个 inline `<script type=\"module\">`**（内联 module script 在\n`file://` 下可以执行，被拦的只是外部 module 的 fetch），SVG 和数据一并内联。\n产物必须零外部引用。",
+   "id": "1b878e75",
+   "hash": "86fe8446cdc9"
+  },
+  {
+   "type": "para",
+   "text": "`build.py` —— 只用 Python 标准库，不装任何依赖，归**整合 worker**所有。\n它不是 webpack 意义上的构建工具，是个几十行的拼接脚本，所以不违反 §3 的精神。",
+   "id": "52404a2e",
+   "hash": "1a4b229a094f"
+  },
+  {
+   "type": "para",
+   "text": "单文件交付顺带是个正确的产品隐喻：**一个自包含、可核验、能独立旅行的 artifact** ——\n跟 Proofpress portable capsule 是同一个想法。§9 那行 provenance 页脚要一起带走。",
+   "id": "cabd0c14",
+   "hash": "30b551a46376"
+  },
+  {
+   "type": "para",
+   "text": "---",
+   "id": "0016331f",
+   "hash": "f1624c9c50ca"
+  },
+  {
+   "type": "heading",
+   "text": "## 11. 验收标准",
+   "id": "f6e5ba01",
+   "hash": "3c2c0034d688"
+  },
+  {
+   "type": "list",
+   "text": "1. `dist/rit-hub-demo.html` 双击用 Chrome 打开就能跑（`file://`，零外部引用）；",
+   "id": "81d06d0c",
+   "hash": "09bd97173697"
+  },
+  {
+   "type": "para",
+   "text": "   开发态 `index.html` 在 `python3 -m http.server` 下跑通",
+   "id": "3e962ee3",
+   "hash": "f515ac09debc"
+  },
+  {
+   "type": "list",
+   "text": "2. 两个 tab 都有数据，都能切\n3. 表格任意行可点开 drawer，drawer 里 Hume's fork 两栏并置\n4. Graph 视图里能同时看到 settled claim 和 dead_end 节点\n5. Spotlight callout 可点，直达那条 OPEN 的头条 claim\n6. 页脚 provenance 行常驻\n7. 控制台零报错\n8. 1440×900 下不横向滚动；drawer 打开时主体不跳动",
+   "id": "d74165c7",
+   "hash": "e12c390e9bd6"
   }
  ]
 }
