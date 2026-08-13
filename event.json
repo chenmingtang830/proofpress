@@ -1,29 +1,29 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/docs/KNOWLEDGE_HANDOFF_EARLY_RESULTS.md",
- "artifact_id": "pp_7c6f8a471ae2d0fc7121a5cb",
- "version": "6a85623a",
- "parent": "29917c85",
+ "artifact": "experiments/provenance_handoff/ara/logic/experiments.md",
+ "artifact_id": "pp_15fb7a0bcf0891f7cee01068",
+ "version": "0c2e19cf",
+ "parent": "fc5660a6",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-13T02:51:25+00:00",
+ "ts": "2026-08-13T02:51:41+00:00",
  "stats": {
   "modified": 1
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "ceab1026",
-   "type": "list",
-   "context": "Evidence index"
+   "block": "ea022003",
+   "type": "para",
+   "context": "Knowledge handoff early-testing results "
   }
  ],
- "policy": "local",
- "soft_fingerprint": "ppsb1:04c122d0a92848d69e327316d1f90557f7bfab019159dabd33a74a3661cc3103",
+ "policy": "portable",
+ "soft_fingerprint": "ppsb1:af4294b3f7987d48215c3504bf3166d8c527a312fb66b9f41f9e0ee3c1739235",
  "actors": {
   "requested_by": [
    "user"
@@ -41,13 +41,13 @@
  "attribution_basis": "environment_attested",
  "claims": [
   {
-   "block": "ceab1026",
+   "block": "ea022003",
    "kind": "modified",
-   "note": "Adds the repository-local machine-readable result manifest to the technical write-up evidence index."
+   "note": "Links the ARA interpretation to the durable machine-readable result manifest."
   }
  ],
  "context": {
-  "why": "Add a repository-local machine-readable evidence manifest to the public technical write-up."
+  "why": "Link the registered Knowledge Handoff interpretation to its durable machine-readable evidence manifest."
  },
- "event_id": "ppe_c3e0dff69813775830ca9bd2"
+ "event_id": "ppe_38b0f723b8a5968b67f2cd3a"
 }
