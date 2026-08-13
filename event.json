@@ -1,29 +1,240 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/ara/logic/experiments.md",
- "artifact_id": "pp_15fb7a0bcf0891f7cee01068",
- "version": "0c2e19cf",
- "parent": "fc5660a6",
+ "artifact": "experiments/provenance_handoff/docs/LOCAL_EXPERIMENT_RESULTS.md",
+ "artifact_id": "pp_47a61d74cdce40800bff1790",
+ "version": "efacf119",
+ "parent": null,
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-13T02:51:41+00:00",
+ "ts": "2026-08-13T03:08:49+00:00",
  "stats": {
-  "modified": 1
+  "added": 31
  },
  "changes": [
   {
-   "kind": "modified",
-   "block": "ea022003",
+   "kind": "added",
+   "block": "ab310001",
+   "type": "heading",
+   "context": "What our local Proofpress experiments ac",
+   "preview": "# What our local Proofpress experiments actually showed"
+  },
+  {
+   "kind": "added",
+   "block": "ab310002",
    "type": "para",
-   "context": "Knowledge handoff early-testing results "
+   "context": "What our local Proofpress experiments ac",
+   "preview": "**Status:** comprehensive local-results synthesis through 20"
+  },
+  {
+   "kind": "added",
+   "block": "ab310003",
+   "type": "heading",
+   "context": "The question behind the experiments",
+   "preview": "## The question behind the experiments"
+  },
+  {
+   "kind": "added",
+   "block": "ab310004",
+   "type": "para",
+   "context": "The question behind the experiments",
+   "preview": "AI agents do not only need memory. They need a way to decide"
+  },
+  {
+   "kind": "added",
+   "block": "ab310005",
+   "type": "heading",
+   "context": "The short answer",
+   "preview": "## The short answer"
+  },
+  {
+   "kind": "added",
+   "block": "ab310006",
+   "type": "para",
+   "context": "The short answer",
+   "preview": "The broad “better provenance makes agents produce better wor"
+  },
+  {
+   "kind": "added",
+   "block": "ab310007",
+   "type": "para",
+   "context": "The short answer",
+   "preview": "The result is best understood as a product boundary. Proofpr"
+  },
+  {
+   "kind": "added",
+   "block": "ab310008",
+   "type": "heading",
+   "context": "What held up across the experiment progr",
+   "preview": "## What held up across the experiment program"
+  },
+  {
+   "kind": "added",
+   "block": "ab310009",
+   "type": "table",
+   "context": "What held up across the experiment progr",
+   "preview": "| Finding | Evidence across local studies | Current interpre"
+  },
+  {
+   "kind": "added",
+   "block": "ab31000a",
+   "type": "heading",
+   "context": "1. Early work established feasibility, n",
+   "preview": "## 1. Early work established feasibility, not product advant"
+  },
+  {
+   "kind": "added",
+   "block": "ab31000b",
+   "type": "para",
+   "context": "1. Early work established feasibility, n",
+   "preview": "The first experiments showed that agent teams could emit, tr"
+  },
+  {
+   "kind": "added",
+   "block": "ab31000c",
+   "type": "heading",
+   "context": "2. Portable provenance showed a real but",
+   "preview": "## 2. Portable provenance showed a real but unstable reasoni"
+  },
+  {
+   "kind": "added",
+   "block": "ab31000d",
+   "type": "para",
+   "context": "2. Portable provenance showed a real but",
+   "preview": "MemConflict reduced stale/regression errors from `12.5%` wit"
+  },
+  {
+   "kind": "added",
+   "block": "ab31000e",
+   "type": "heading",
+   "context": "3. Full portable handoff packages did no",
+   "preview": "## 3. Full portable handoff packages did not improve clean t"
+  },
+  {
+   "kind": "added",
+   "block": "ab31000f",
+   "type": "para",
+   "context": "3. Full portable handoff packages did no",
+   "preview": "The APEX Law public-source comparison tied ordinary and Proo"
+  },
+  {
+   "kind": "added",
+   "block": "ab310010",
+   "type": "heading",
+   "context": "4. Receive-time binding produced the cle",
+   "preview": "## 4. Receive-time binding produced the clearest causal patt"
+  },
+  {
+   "kind": "added",
+   "block": "ab310011",
+   "type": "para",
+   "context": "4. Receive-time binding produced the cle",
+   "preview": "In the corrected APEX-direct Claude replication, all arms ad"
+  },
+  {
+   "kind": "added",
+   "block": "ab310012",
+   "type": "para",
+   "context": "4. Receive-time binding produced the cle",
+   "preview": "The more natural revision tasks add an important qualificati"
+  },
+  {
+   "kind": "added",
+   "block": "ab310013",
+   "type": "heading",
+   "context": "5. Knowledge Handoff connected the mecha",
+   "preview": "## 5. Knowledge Handoff connected the mechanism to a simple "
+  },
+  {
+   "kind": "added",
+   "block": "ab310014",
+   "type": "para",
+   "context": "5. Knowledge Handoff connected the mecha",
+   "preview": "Track 1 showed the continuity value of any competent handoff"
+  },
+  {
+   "kind": "added",
+   "block": "ab310015",
+   "type": "heading",
+   "context": "The product claim we can make",
+   "preview": "## The product claim we can make"
+  },
+  {
+   "kind": "added",
+   "block": "ab310016",
+   "type": "para",
+   "context": "The product claim we can make",
+   "preview": "**Proofpress gives successor agents a portable, independentl"
+  },
+  {
+   "kind": "added",
+   "block": "ab310017",
+   "type": "para",
+   "context": "The product claim we can make",
+   "preview": "What we should not claim is equally clear. The local program"
+  },
+  {
+   "kind": "added",
+   "block": "ab310018",
+   "type": "heading",
+   "context": "Appendix A — complete local experiment i",
+   "preview": "## Appendix A — complete local experiment inventory"
+  },
+  {
+   "kind": "added",
+   "block": "ab310019",
+   "type": "table",
+   "context": "Appendix A — complete local experiment i",
+   "preview": "| Experiment | Valid result | Current status |\n|---|---|---|"
+  },
+  {
+   "kind": "added",
+   "block": "ab31001a",
+   "type": "heading",
+   "context": "Appendix B — invalid, excluded, stopped,",
+   "preview": "## Appendix B — invalid, excluded, stopped, and repaired pat"
+  },
+  {
+   "kind": "added",
+   "block": "ab31001b",
+   "type": "list",
+   "context": "Appendix B — invalid, excluded, stopped,",
+   "preview": "- Early DeepInfra Harvey attempts exceeded endpoint completi"
+  },
+  {
+   "kind": "added",
+   "block": "ab31001c",
+   "type": "heading",
+   "context": "Appendix C — evidence classes and non-po",
+   "preview": "## Appendix C — evidence classes and non-pooling rules"
+  },
+  {
+   "kind": "added",
+   "block": "ab31001d",
+   "type": "para",
+   "context": "Appendix C — evidence classes and non-po",
+   "preview": "Transport qualifications, raw completed matrices, local diag"
+  },
+  {
+   "kind": "added",
+   "block": "ab31001e",
+   "type": "heading",
+   "context": "Appendix D — source documents",
+   "preview": "## Appendix D — source documents"
+  },
+  {
+   "kind": "added",
+   "block": "ab31001f",
+   "type": "list",
+   "context": "Appendix D — source documents",
+   "preview": "- `RESULTS_MATRIX.md` — canonical detailed matrix and interp"
   }
  ],
- "policy": "portable",
- "soft_fingerprint": "ppsb1:af4294b3f7987d48215c3504bf3166d8c527a312fb66b9f41f9e0ee3c1739235",
+ "policy": "local",
+ "soft_fingerprint": "ppsb1:48cfac01311ee747e3b2b8794aad788425f7bb9e499bb1dfe369e9f76c2b7ed3",
  "actors": {
   "requested_by": [
    "user"
@@ -41,13 +252,163 @@
  "attribution_basis": "environment_attested",
  "claims": [
   {
-   "block": "ea022003",
-   "kind": "modified",
-   "note": "Links the ARA interpretation to the durable machine-readable result manifest."
+   "block": "ab310001",
+   "kind": "added",
+   "note": "Adds the comprehensive local-results synthesis title."
+  },
+  {
+   "block": "ab310002",
+   "kind": "added",
+   "note": "Defines scope, date, and main-body versus appendix structure."
+  },
+  {
+   "block": "ab310003",
+   "kind": "added",
+   "note": "Adds the program-level research question heading."
+  },
+  {
+   "block": "ab310004",
+   "kind": "added",
+   "note": "Frames transport, quality, continuity, and admission as progressively narrower questions."
+  },
+  {
+   "block": "ab310005",
+   "kind": "added",
+   "note": "Adds the short-answer heading."
+  },
+  {
+   "block": "ab310006",
+   "kind": "added",
+   "note": "States the clean-quality null and the stronger receive-time admission result."
+  },
+  {
+   "block": "ab310007",
+   "kind": "added",
+   "note": "Defines Proofpress as an admission and audit layer rather than a memory replacement."
+  },
+  {
+   "block": "ab310008",
+   "kind": "added",
+   "note": "Adds the cross-program findings heading."
+  },
+  {
+   "block": "ab310009",
+   "kind": "added",
+   "note": "Summarizes transport, quality, binding, visible-evidence, judge-sensitivity, and handoff findings."
+  },
+  {
+   "block": "ab31000a",
+   "kind": "added",
+   "note": "Adds the early feasibility section."
+  },
+  {
+   "block": "ab31000b",
+   "kind": "added",
+   "note": "Interprets receiver, sidecar, DeepSeek, GLM, and Harvey studies as feasibility rather than efficacy."
+  },
+  {
+   "block": "ab31000c",
+   "kind": "added",
+   "note": "Adds the portable-provenance reasoning section."
+  },
+  {
+   "block": "ab31000d",
+   "kind": "added",
+   "note": "Records MemConflict and STALE results and the judge-sensitive interpretation."
+  },
+  {
+   "block": "ab31000e",
+   "kind": "added",
+   "note": "Adds the full-handoff clean-task section."
+  },
+  {
+   "block": "ab31000f",
+   "kind": "added",
+   "note": "Records APEX Law, Restricted Lease, and Artifact Travel negative or null results."
+  },
+  {
+   "block": "ab310010",
+   "kind": "added",
+   "note": "Adds the receive-time binding section."
+  },
+  {
+   "block": "ab310011",
+   "kind": "added",
+   "note": "Records APEX-direct, Luna, and three-model stale-binding separations."
+  },
+  {
+   "block": "ab310012",
+   "kind": "added",
+   "note": "Qualifies the mechanism with HiEviDR and Policy recovery-path results."
+  },
+  {
+   "block": "ab310013",
+   "kind": "added",
+   "note": "Adds the Knowledge Handoff product-story section."
+  },
+  {
+   "block": "ab310014",
+   "kind": "added",
+   "note": "Records Track 1 rediscovery and Track 2 two-state outcomes."
+  },
+  {
+   "block": "ab310015",
+   "kind": "added",
+   "note": "Adds the supported product-claim heading."
+  },
+  {
+   "block": "ab310016",
+   "kind": "added",
+   "note": "States the bounded portable admission-layer product claim."
+  },
+  {
+   "block": "ab310017",
+   "kind": "added",
+   "note": "States prohibited general-quality, benchmark, truth, and shared-memory claims."
+  },
+  {
+   "block": "ab310018",
+   "kind": "added",
+   "note": "Adds the complete experiment inventory appendix heading."
+  },
+  {
+   "block": "ab310019",
+   "kind": "added",
+   "note": "Records valid outcomes and evidence status for the complete local experiment lineage."
+  },
+  {
+   "block": "ab31001a",
+   "kind": "added",
+   "note": "Adds the invalid, excluded, stopped, and repaired paths appendix heading."
+  },
+  {
+   "block": "ab31001b",
+   "kind": "added",
+   "note": "Discloses transport failures, invalid harnesses, exclusions, replacements, and repairs."
+  },
+  {
+   "block": "ab31001c",
+   "kind": "added",
+   "note": "Adds the evidence-class and non-pooling appendix heading."
+  },
+  {
+   "block": "ab31001d",
+   "kind": "added",
+   "note": "Defines evidence classes, denominator boundaries, and carrier claim limits."
+  },
+  {
+   "block": "ab31001e",
+   "kind": "added",
+   "note": "Adds the source-document appendix heading."
+  },
+  {
+   "block": "ab31001f",
+   "kind": "added",
+   "note": "Indexes the canonical result, plan, sub-study, registry, and evidence sources."
   }
  ],
  "context": {
-  "why": "Link the registered Knowledge Handoff interpretation to its durable machine-readable evidence manifest."
+  "why": "Synthesize every local provenance-handoff experiment into one technical-blog narrative while moving run details and failure paths to appendices."
  },
- "event_id": "ppe_38b0f723b8a5968b67f2cd3a"
+ "event_id": "ppe_5e4196c390fd2185e6d2ad03"
 }
