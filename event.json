@@ -1,30 +1,44 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/docs/RESULTS_MATRIX.md",
- "artifact_id": "pp_d40d46a12d4d493fcbc9c0e9",
- "version": "ea9906e0",
- "parent": "cd910987",
+ "artifact": "experiments/provenance_handoff/ara/logic/experiments.md",
+ "artifact_id": "pp_15fb7a0bcf0891f7cee01068",
+ "version": "74b67f26",
+ "parent": "0c2e19cf",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-13T03:09:00+00:00",
+ "ts": "2026-08-13T03:09:11+00:00",
  "stats": {
-  "added": 1
+  "added": 3
  },
  "changes": [
   {
    "kind": "added",
-   "block": "ab320001",
+   "block": "ab330001",
+   "type": "heading",
+   "context": "Comprehensive local experiment synthesis",
+   "preview": "## Comprehensive local experiment synthesis (2026-08-12)"
+  },
+  {
+   "kind": "added",
+   "block": "ab330002",
    "type": "para",
-   "context": "Supersession notice",
-   "preview": "The comprehensive, blog-readable synthesis of all local `pro"
+   "context": "Comprehensive local experiment synthesis",
+   "preview": "`docs/LOCAL_EXPERIMENT_RESULTS.md` now synthesizes the compl"
+  },
+  {
+   "kind": "added",
+   "block": "ab330003",
+   "type": "para",
+   "context": "Comprehensive local experiment synthesis",
+   "preview": "The comprehensive write-up keeps all valid outcomes in the m"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:dae73f19632f8a3468078bb1c6c465a0652495da3baea577941c672331e26c44",
+ "soft_fingerprint": "ppsb1:86172db3f6b35663e54957636f8fd4618753225934428fe2988935cc0609a241",
  "actors": {
   "requested_by": [
    "user"
@@ -42,13 +56,23 @@
  "attribution_basis": "environment_attested",
  "claims": [
   {
-   "block": "ab320001",
+   "block": "ab330001",
    "kind": "added",
-   "note": "Links the canonical results matrix to the comprehensive local experiment synthesis."
+   "note": "Registers the comprehensive local experiment synthesis."
+  },
+  {
+   "block": "ab330002",
+   "kind": "added",
+   "note": "Records the all-local conclusion across clean quality, admission, recovery, STALE, Artifact Travel, and Knowledge Handoff."
+  },
+  {
+   "block": "ab330003",
+   "kind": "added",
+   "note": "Records the appendix structure and prohibits heterogeneous pooling or universal effect claims."
   }
  ],
  "context": {
-  "why": "Link the canonical detailed results matrix to the comprehensive local experiment synthesis."
+  "why": "Register the comprehensive all-local synthesis, its bounded conclusion, and non-pooling rules in ARA."
  },
- "event_id": "ppe_b134aa976cd97a4a827bc978"
+ "event_id": "ppe_09a392732e378a1bab2011d5"
 }
