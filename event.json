@@ -1,148 +1,29 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/ara/PAPER.md",
- "artifact_id": "pp_cb6d0883f4bda071d2137869",
- "version": "f888116e",
- "parent": "3ab3b8c1",
+ "artifact": "studies/agent-handoff-artifact-provenance/README.md",
+ "artifact_id": "pp_3d8c31782858290ae4729c8f",
+ "version": "41339012",
+ "parent": "2d9750b6",
  "author": {
   "name": "codex",
   "kind": "agent",
   "session": null
  },
  "note": null,
- "ts": "2026-08-13T12:25:23+00:00",
+ "ts": "2026-08-13T12:25:34+00:00",
  "stats": {
-  "modified": 15,
-  "added": 4
+  "modified": 1
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "3de79e34",
+   "block": "958a3798",
    "type": "para",
-   "context": "(文首)"
-  },
-  {
-   "kind": "modified",
-   "block": "ba410003",
-   "type": "para",
-   "context": "Proofpress: An Artifact Provenance Proto"
-  },
-  {
-   "kind": "modified",
-   "block": "ba41000e",
-   "type": "para",
-   "context": "1. Introduction"
-  },
-  {
-   "kind": "modified",
-   "block": "ba410052",
-   "type": "para",
-   "context": "2.1 Protocol overview"
-  },
-  {
-   "kind": "modified",
-   "block": "ac376353",
-   "type": "para",
-   "context": "2.1 Protocol overview"
-  },
-  {
-   "kind": "added",
-   "block": "ba410061",
-   "type": "para",
-   "context": "2.3 What Proofpress adds",
-   "preview": "The following schematic shows the information difference. It"
-  },
-  {
-   "kind": "added",
-   "block": "ba410062",
-   "type": "table",
-   "context": "2.3 What Proofpress adds",
-   "preview": "| Ordinary handoff | Proofpress-assisted handoff |\n|---|---|"
-  },
-  {
-   "kind": "modified",
-   "block": "a4691d62",
-   "type": "table",
-   "context": "3.2 Tasks and comparisons"
-  },
-  {
-   "kind": "modified",
-   "block": "ba41001f",
-   "type": "para",
-   "context": "3.3 Outcomes and evidence standards"
-  },
-  {
-   "kind": "added",
-   "block": "ba410063",
-   "type": "para",
-   "context": "3.3 Outcomes and evidence standards",
-   "preview": "The main quantitative tables combine studies with different "
-  },
-  {
-   "kind": "added",
-   "block": "ba410064",
-   "type": "table",
-   "context": "3.3 Outcomes and evidence standards",
-   "preview": "| Result family | Receiver harness | Transport and provider "
-  },
-  {
-   "kind": "modified",
-   "block": "ba410022",
-   "type": "heading",
-   "context": "4.1 Main result: an artifact-version che"
-  },
-  {
-   "kind": "modified",
-   "block": "ba410023",
-   "type": "para",
-   "context": "4.1 Main result: an artifact-version che"
-  },
-  {
-   "kind": "modified",
-   "block": "14648c7e",
-   "type": "table",
-   "context": "4.1 Main result: an artifact-version che"
-  },
-  {
-   "kind": "modified",
-   "block": "ba410029",
-   "type": "para",
-   "context": "4.3 Proofpress supported selective recov",
-   "numbers": [
-    [
-     "5.2",
-     "2"
-    ]
-   ]
-  },
-  {
-   "kind": "modified",
-   "block": "ba41002d",
-   "type": "para",
-   "context": "4.4 A readable handoff reduced repeated "
-  },
-  {
-   "kind": "modified",
-   "block": "ba410048",
-   "type": "para",
-   "context": "Appendix A — experiment and evidence map"
-  },
-  {
-   "kind": "modified",
-   "block": "ba41004b",
-   "type": "para",
-   "context": "Appendix B — invalid, excluded, and supe"
-  },
-  {
-   "kind": "modified",
-   "block": "ba41005e",
-   "type": "para",
-   "context": "Appendix C — reproducibility and claim b"
+   "context": "Main finding"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:1f9d77d5a3e5dfd99cf82e71ae73af5e39acc782b3797d7718eee157b4a2d7ad",
+ "soft_fingerprint": "ppsb1:709bcbda4f882d9f7989e928085eb38f4c05f6ec8fc2cc329dab50a9e7189a34",
  "actors": {
   "requested_by": [
    "Chenming Tang"
@@ -160,103 +41,13 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "3de79e34",
+   "block": "958a3798",
    "kind": "modified",
-   "note": "Adds the author's verified ORCID to the paper metadata."
-  },
-  {
-   "block": "ba410003",
-   "kind": "modified",
-   "note": "Adds the author's ORCID to the visible working-paper notice."
-  },
-  {
-   "block": "ba41000e",
-   "kind": "modified",
-   "note": "Explains the native in-document capsule for Markdown and static HTML and the evidence-envelope boundary for other formats."
-  },
-  {
-   "block": "ba410052",
-   "kind": "modified",
-   "note": "Updates the protocol overview against current Proofpress product behavior."
-  },
-  {
-   "block": "ac376353",
-   "kind": "modified",
-   "note": "Pins the product implementation commit audited for this report and distinguishes it from the study package."
-  },
-  {
-   "block": "ba410061",
-   "kind": "added",
-   "note": "Introduces a schematic ordinary-versus-Proofpress handoff example."
-  },
-  {
-   "block": "ba410062",
-   "kind": "added",
-   "note": "Shows the side-by-side information and decision difference without presenting fabricated model output."
-  },
-  {
-   "block": "a4691d62",
-   "kind": "modified",
-   "note": "Adds concrete successor-task summaries to the study-family table."
-  },
-  {
-   "block": "ba41001f",
-   "kind": "modified",
-   "note": "Defines repeated source discovery operationally."
-  },
-  {
-   "block": "ba410063",
-   "kind": "added",
-   "note": "Introduces explicit receiver configuration disclosure."
-  },
-  {
-   "block": "ba410064",
-   "kind": "added",
-   "note": "Reports harness transport exact model provider and effort for the main quantitative families."
-  },
-  {
-   "block": "ba410022",
-   "kind": "modified",
-   "note": "Names the artifact-version check rather than provenance generically in the main result heading."
-  },
-  {
-   "block": "ba410023",
-   "kind": "modified",
-   "note": "Names GPT-5.6 Luna high effort and the restricted receiver harness in the main result."
-  },
-  {
-   "block": "14648c7e",
-   "kind": "modified",
-   "note": "Adds exact receiver slugs and effort levels to the cross-model result table."
-  },
-  {
-   "block": "ba410029",
-   "kind": "modified",
-   "note": "Names OpenCode exact GLM and DeepSeek endpoints and high effort for selective recovery."
-  },
-  {
-   "block": "ba41002d",
-   "kind": "modified",
-   "note": "Defines the continuity event in plain language and names the DeepSeek OpenCode configuration."
-  },
-  {
-   "block": "ba410048",
-   "kind": "modified",
-   "note": "Makes the ARA itself the self-contained experiment and evidence appendix."
-  },
-  {
-   "block": "ba41004b",
-   "kind": "modified",
-   "note": "Routes failure-path detail to the internal ARA registry rather than missing development documents."
-  },
-  {
-   "block": "ba41005e",
-   "kind": "modified",
-   "note": "Updates the study from internal-only status to portable rc1 with remaining tag and license gates."
+   "note": "Names GPT-5.6 Luna high effort and the low-effort three-model follow-up in the public entry point."
   }
  ],
  "context": {
-  "why": "Make the public paper self-contained with current protocol behavior concrete task summaries and exact receiver configurations"
+  "why": "Expose the exact primary model and follow-up effort in the public study entry point"
  },
- "event_id": "ppe_aed44c2bb47b4ef3e45ed8c9"
+ "event_id": "ppe_fd7a42baf0d2b11ed54d8851"
 }
