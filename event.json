@@ -1,289 +1,51 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/docs/KNOWLEDGE_HANDOFF_EARLY_RESULTS.md",
- "artifact_id": "pp_7c6f8a471ae2d0fc7121a5cb",
- "version": "29917c85",
- "parent": null,
+ "artifact": "experiments/provenance_handoff/docs/KNOWLEDGE_HANDOFF_DEBT_PLAN.md",
+ "artifact_id": "pp_2a2e62252d677e3b6e52cce7",
+ "version": "3c15fc2a",
+ "parent": "22051f8f",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-13T02:47:46+00:00",
+ "ts": "2026-08-13T02:47:57+00:00",
  "stats": {
-  "added": 38
+  "modified": 1,
+  "added": 3
  },
  "changes": [
   {
+   "kind": "modified",
+   "block": "fae739dc",
+   "type": "para",
+   "context": "Research plan — verifiable knowledge han"
+  },
+  {
    "kind": "added",
-   "block": "ceab1001",
+   "block": "ea021001",
    "type": "heading",
-   "context": "When an AI agent inherits yesterday's wo",
-   "preview": "# When an AI agent inherits yesterday's work, how does it kn"
+   "context": "Early-testing outcome",
+   "preview": "### Early-testing outcome"
   },
   {
    "kind": "added",
-   "block": "ceab1002",
+   "block": "ea021002",
    "type": "para",
-   "context": "When an AI agent inherits yesterday's wo",
-   "preview": "**A technical write-up of Proofpress knowledge-handoff early"
+   "context": "Early-testing outcome",
+   "preview": "Track 1 produced 9/9 valid DeepSeek responses across three f"
   },
   {
    "kind": "added",
-   "block": "ceab1003",
-   "type": "heading",
-   "context": "The problem is not just memory",
-   "preview": "## The problem is not just memory"
-  },
-  {
-   "kind": "added",
-   "block": "ceab1004",
+   "block": "ea021003",
    "type": "para",
-   "context": "The problem is not just memory",
-   "preview": "Long-running agent work rarely stays inside one context wind"
-  },
-  {
-   "kind": "added",
-   "block": "ceab1005",
-   "type": "para",
-   "context": "The problem is not just memory",
-   "preview": "Proofpress is designed around a simple distinction. A struct"
-  },
-  {
-   "kind": "added",
-   "block": "ceab1006",
-   "type": "heading",
-   "context": "What we tested",
-   "preview": "## What we tested"
-  },
-  {
-   "kind": "added",
-   "block": "ceab1007",
-   "type": "para",
-   "context": "What we tested",
-   "preview": "We ran two complementary tracks using fixed public GitHub Do"
-  },
-  {
-   "kind": "added",
-   "block": "ceab1008",
-   "type": "table",
-   "context": "What we tested",
-   "preview": "| Track | Arm | What the successor received |\n|---|---|---|\n"
-  },
-  {
-   "kind": "added",
-   "block": "ceab1009",
-   "type": "para",
-   "context": "What we tested",
-   "preview": "Track 1 used three unchanged-artifact fixtures: an alert-sty"
-  },
-  {
-   "kind": "added",
-   "block": "ceab100a",
-   "type": "para",
-   "context": "What we tested",
-   "preview": "The primary DeepSeek receiver was OpenCode through Vercel AI"
-  },
-  {
-   "kind": "added",
-   "block": "ceab100b",
-   "type": "heading",
-   "context": "Result 1: a handoff prevented visible re",
-   "preview": "## Result 1: a handoff prevented visible rediscovery, but st"
-  },
-  {
-   "kind": "added",
-   "block": "ceab100c",
-   "type": "para",
-   "context": "Result 1: a handoff prevented visible re",
-   "preview": "All nine DeepSeek Track 1 responses were valid: three fixtur"
-  },
-  {
-   "kind": "added",
-   "block": "ceab100d",
-   "type": "table",
-   "context": "Result 1: a handoff prevented visible re",
-   "preview": "| Track 1 arm | Valid responses | Fixtures with a rediscover"
-  },
-  {
-   "kind": "added",
-   "block": "ceab100e",
-   "type": "para",
-   "context": "Result 1: a handoff prevented visible re",
-   "preview": "The useful conclusion is modest but practical: in these thre"
-  },
-  {
-   "kind": "added",
-   "block": "ceab100f",
-   "type": "heading",
-   "context": "Result 2: version binding produced the i",
-   "preview": "## Result 2: version binding produced the intended two-state"
-  },
-  {
-   "kind": "added",
-   "block": "ceab1010",
-   "type": "para",
-   "context": "Result 2: version binding produced the i",
-   "preview": "The repaired GLM 5.2 Track 2 evidence contains 12 valid V0/V"
-  },
-  {
-   "kind": "added",
-   "block": "ceab1011",
-   "type": "table",
-   "context": "Result 2: version binding produced the i",
-   "preview": "| GLM 5.2 state | V0 observed | V1 observed |\n|---|---:|---:"
-  },
-  {
-   "kind": "added",
-   "block": "ceab1012",
-   "type": "para",
-   "context": "Result 2: version binding produced the i",
-   "preview": "This was a repaired diagnostic rather than a clean first-pas"
-  },
-  {
-   "kind": "added",
-   "block": "ceab1013",
-   "type": "heading",
-   "context": "Result 3: DeepSeek reproduced the Track ",
-   "preview": "## Result 3: DeepSeek reproduced the Track 2 aggregate patte"
-  },
-  {
-   "kind": "added",
-   "block": "ceab1014",
-   "type": "para",
-   "context": "Result 3: DeepSeek reproduced the Track ",
-   "preview": "DeepSeek then ran the same six-fixture V0/V1 comparison. All"
-  },
-  {
-   "kind": "added",
-   "block": "ceab1015",
-   "type": "table",
-   "context": "Result 3: DeepSeek reproduced the Track ",
-   "preview": "| DeepSeek state | V0 observed | V1 observed |\n|---|---:|---"
-  },
-  {
-   "kind": "added",
-   "block": "ceab1016",
-   "type": "para",
-   "context": "Result 3: DeepSeek reproduced the Track ",
-   "preview": "The model-level totals are repetitions over the same fixture"
-  },
-  {
-   "kind": "added",
-   "block": "ceab1017",
-   "type": "heading",
-   "context": "What the mechanism appears to be doing",
-   "preview": "## What the mechanism appears to be doing"
-  },
-  {
-   "kind": "added",
-   "block": "ceab1018",
-   "type": "para",
-   "context": "What the mechanism appears to be doing",
-   "preview": "The result is not “hash mismatch means stop.” Every V1 fixtu"
-  },
-  {
-   "kind": "added",
-   "block": "ceab1019",
-   "type": "para",
-   "context": "What the mechanism appears to be doing",
-   "preview": "That distinction matters for product design. A system that m"
-  },
-  {
-   "kind": "added",
-   "block": "ceab101a",
-   "type": "heading",
-   "context": "What failed during the study, and why it",
-   "preview": "## What failed during the study, and why it matters"
-  },
-  {
-   "kind": "added",
-   "block": "ceab101b",
-   "type": "para",
-   "context": "What failed during the study, and why it",
-   "preview": "Several early runs were preserved but excluded. Besides the "
-  },
-  {
-   "kind": "added",
-   "block": "ceab101c",
-   "type": "para",
-   "context": "What failed during the study, and why it",
-   "preview": "The DeepSeek Track 1 Gateway aggregate endpoint also lagged "
-  },
-  {
-   "kind": "added",
-   "block": "ceab101d",
-   "type": "heading",
-   "context": "What we can say now",
-   "preview": "## What we can say now"
-  },
-  {
-   "kind": "added",
-   "block": "ceab101e",
-   "type": "para",
-   "context": "What we can say now",
-   "preview": "The strongest supported product statement is: **in fixed Git"
-  },
-  {
-   "kind": "added",
-   "block": "ceab101f",
-   "type": "para",
-   "context": "What we can say now",
-   "preview": "For a short public version: **“We tested whether an AI agent"
-  },
-  {
-   "kind": "added",
-   "block": "ceab1020",
-   "type": "heading",
-   "context": "What we cannot say yet",
-   "preview": "## What we cannot say yet"
-  },
-  {
-   "kind": "added",
-   "block": "ceab1021",
-   "type": "para",
-   "context": "What we cannot say yet",
-   "preview": "These fixtures use real public document revisions, but their"
-  },
-  {
-   "kind": "added",
-   "block": "ceab1022",
-   "type": "para",
-   "context": "What we cannot say yet",
-   "preview": "The formal-gate audit passed package and scorer qualificatio"
-  },
-  {
-   "kind": "added",
-   "block": "ceab1023",
-   "type": "heading",
-   "context": "Where this goes next",
-   "preview": "## Where this goes next"
-  },
-  {
-   "kind": "added",
-   "block": "ceab1024",
-   "type": "para",
-   "context": "Where this goes next",
-   "preview": "The immediate product use is a public early-evidence release"
-  },
-  {
-   "kind": "added",
-   "block": "ceab1025",
-   "type": "heading",
-   "context": "Evidence index",
-   "preview": "## Evidence index"
-  },
-  {
-   "kind": "added",
-   "block": "ceab1026",
-   "type": "list",
-   "context": "Evidence index",
-   "preview": "- Registered design and claim rules: `KNOWLEDGE_HANDOFF_DEBT"
+   "context": "Early-testing outcome",
+   "preview": "The formal Phase 2 pilot remains unexecuted. The Phase 0 for"
   }
  ],
  "policy": "local",
- "soft_fingerprint": "ppsb1:cc17e03ddc1ada840a33c4e17438a804e2916c1d22dff0481366863411a0aa5d",
+ "soft_fingerprint": "ppsb1:e29cb684234d81f68f77d790283da4ffcdabbf49a5751cb6682ce68764e30542",
  "actors": {
   "requested_by": [
    "user"
@@ -301,198 +63,28 @@
  "attribution_basis": "environment_attested",
  "claims": [
   {
-   "block": "ceab1001",
-   "kind": "added",
-   "note": "Adds the technical-blog title framing stale inherited agent work."
+   "block": "fae739dc",
+   "kind": "modified",
+   "note": "Changes the registered program status from authorized to completed early testing and links the results write-up."
   },
   {
-   "block": "ceab1002",
+   "block": "ea021001",
    "kind": "added",
-   "note": "States the report date, completion status, and bounded evidence class."
+   "note": "Adds the early-testing outcome section."
   },
   {
-   "block": "ceab1003",
+   "block": "ea021002",
    "kind": "added",
-   "note": "Adds the problem section."
+   "note": "Records Track 1, GLM Track 2, and DeepSeek Track 2 denominators and outcomes."
   },
   {
-   "block": "ceab1004",
+   "block": "ea021003",
    "kind": "added",
-   "note": "Separates rediscovery debt from stale inheritance risk."
-  },
-  {
-   "block": "ceab1005",
-   "kind": "added",
-   "note": "Explains semantic continuity and version-bound admission as distinct mechanisms."
-  },
-  {
-   "block": "ceab1006",
-   "kind": "added",
-   "note": "Adds the experimental design section."
-  },
-  {
-   "block": "ceab1007",
-   "kind": "added",
-   "note": "Summarizes the two complementary experiment tracks."
-  },
-  {
-   "block": "ceab1008",
-   "kind": "added",
-   "note": "Defines H0, H1, H2, V0, and V1 successor packages."
-  },
-  {
-   "block": "ceab1009",
-   "kind": "added",
-   "note": "Describes the three Track 1 and six Track 2 fixtures."
-  },
-  {
-   "block": "ceab100a",
-   "kind": "added",
-   "note": "Records the exact DeepSeek and GLM execution routes and routing controls."
-  },
-  {
-   "block": "ceab100b",
-   "kind": "added",
-   "note": "Adds the Track 1 result section."
-  },
-  {
-   "block": "ceab100c",
-   "kind": "added",
-   "note": "Records nine valid Track 1 responses and deterministic rediscovery events."
-  },
-  {
-   "block": "ceab100d",
-   "kind": "added",
-   "note": "Reports Track 1 denominators by arm."
-  },
-  {
-   "block": "ceab100e",
-   "kind": "added",
-   "note": "Interprets handoff versus artifacts-only while preserving the H1-H2 null distinction."
-  },
-  {
-   "block": "ceab100f",
-   "kind": "added",
-   "note": "Adds the GLM Track 2 result section."
-  },
-  {
-   "block": "ceab1010",
-   "kind": "added",
-   "note": "Records the repaired GLM twelve-response two-state result."
-  },
-  {
-   "block": "ceab1011",
-   "kind": "added",
-   "note": "Reports GLM V0 and V1 dispositions by artifact state."
-  },
-  {
-   "block": "ceab1012",
-   "kind": "added",
-   "note": "Discloses the missing-checkpoint repair, timeout retry, and canonical evidence composition."
-  },
-  {
-   "block": "ceab1013",
-   "kind": "added",
-   "note": "Adds the DeepSeek Track 2 replication section."
-  },
-  {
-   "block": "ceab1014",
-   "kind": "added",
-   "note": "Records twelve valid DeepSeek V0 and V1 responses."
-  },
-  {
-   "block": "ceab1015",
-   "kind": "added",
-   "note": "Reports DeepSeek V0 and V1 dispositions by artifact state."
-  },
-  {
-   "block": "ceab1016",
-   "kind": "added",
-   "note": "Reports descriptive cross-model totals and warns that fixtures are repeated."
-  },
-  {
-   "block": "ceab1017",
-   "kind": "added",
-   "note": "Adds the mechanism interpretation section."
-  },
-  {
-   "block": "ceab1018",
-   "kind": "added",
-   "note": "Explains selective admission using carrier verification and affected claims."
-  },
-  {
-   "block": "ceab1019",
-   "kind": "added",
-   "note": "Connects selective admission to the product design rationale."
-  },
-  {
-   "block": "ceab101a",
-   "kind": "added",
-   "note": "Adds the protocol-failure disclosure section."
-  },
-  {
-   "block": "ceab101b",
-   "kind": "added",
-   "note": "Discloses preserved exclusions and the DeepSeek correlation-key repair."
-  },
-  {
-   "block": "ceab101c",
-   "kind": "added",
-   "note": "Explains per-call reconciliation and distinguishes API calls from experiment responses."
-  },
-  {
-   "block": "ceab101d",
-   "kind": "added",
-   "note": "Adds the supported-claims section."
-  },
-  {
-   "block": "ceab101e",
-   "kind": "added",
-   "note": "States the strongest bounded product interpretation."
-  },
-  {
-   "block": "ceab101f",
-   "kind": "added",
-   "note": "Provides a concise public-facing early-testing claim with denominators."
-  },
-  {
-   "block": "ceab1020",
-   "kind": "added",
-   "note": "Adds the limitations section."
-  },
-  {
-   "block": "ceab1021",
-   "kind": "added",
-   "note": "Records fixture, state, repetition, and inference limitations."
-  },
-  {
-   "block": "ceab1022",
-   "kind": "added",
-   "note": "Records the failed formal-eligibility gate and distinguishes blog evidence from formal efficacy."
-  },
-  {
-   "block": "ceab1023",
-   "kind": "added",
-   "note": "Adds the next-validation section."
-  },
-  {
-   "block": "ceab1024",
-   "kind": "added",
-   "note": "Separates immediate publication from optional stronger validation."
-  },
-  {
-   "block": "ceab1025",
-   "kind": "added",
-   "note": "Adds the evidence index heading."
-  },
-  {
-   "block": "ceab1026",
-   "kind": "added",
-   "note": "Records source reports, evidence hashes, design, and focused-result pointers."
+   "note": "Preserves the unexecuted formal-pilot boundary while allowing bounded early-results publication."
   }
  ],
  "context": {
-  "why": "Create a complete technical-blog-style account of the completed Knowledge Handoff early tests, including results, repairs, limitations, and evidence hashes."
+  "why": "Update the registered plan with completed early-testing outcomes and the remaining formal-eligibility boundary."
  },
- "event_id": "ppe_c776c7b7cdceefdccc5d7544"
+ "event_id": "ppe_967617cc3817e01b9caabef1"
 }

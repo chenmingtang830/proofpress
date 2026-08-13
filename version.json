@@ -1,234 +1,528 @@
 {
- "artifact": "experiments/provenance_handoff/docs/KNOWLEDGE_HANDOFF_EARLY_RESULTS.md",
- "artifact_id": "pp_7c6f8a471ae2d0fc7121a5cb",
+ "artifact": "experiments/provenance_handoff/docs/KNOWLEDGE_HANDOFF_DEBT_PLAN.md",
+ "artifact_id": "pp_2a2e62252d677e3b6e52cce7",
  "blocks": [
   {
    "type": "heading",
-   "text": "# When an AI agent inherits yesterday's work, how does it know it is still valid?",
-   "id": "ceab1001",
-   "hash": "2d9a94011b6e"
+   "text": "# Research plan — verifiable knowledge handoffs under version drift",
+   "id": "d6cb1123",
+   "hash": "f3ddafe2f1c4"
   },
   {
    "type": "para",
-   "text": "**A technical write-up of Proofpress knowledge-handoff early testing**  \n**Status:** complete early-testing report, 2026-08-12. The results below are bounded mechanism evidence from fixed GitHub Docs fixtures, not a general product-efficacy or benchmark claim.",
-   "id": "ceab1002",
-   "hash": "1c13cc373ba4"
+   "text": "**Status:** early testing completed on 2026-08-12. The valid evidence includes DeepSeek Track 1 H0/H1/H2, DeepSeek Track 2 V0/V1, and the repaired GLM 5.2 Track 2 diagnostic. Results and evidence hashes are summarized in `KNOWLEDGE_HANDOFF_EARLY_RESULTS.md`; the focused DeepSeek Track 2 result remains in `TRACK2_EARLY_RESULTS.md`. The completed work supports bounded mechanism and product early-testing claims, not a formal external-effect or benchmark claim.\n**Date:** 2026-08-12\n**Scope:** non-coding knowledge work handed from a predecessor agent to a fresh successor agent.",
+   "id": "fae739dc",
+   "hash": "d78595085194"
   },
   {
    "type": "heading",
-   "text": "## The problem is not just memory",
-   "id": "ceab1003",
-   "hash": "f1fd84a6de0d"
+   "text": "### Early-testing outcome",
+   "id": "ea021001",
+   "hash": "c96a1b8d6526"
   },
   {
    "type": "para",
-   "text": "Long-running agent work rarely stays inside one context window. A successor agent may receive the current files but not the predecessor's reasoning, or it may receive a good handoff after the underlying artifact has changed. These are different failures. The first creates **knowledge handoff debt**: the successor repeats already completed discovery and decision work. The second creates **stale inheritance risk**: the successor confidently reuses a decision that was valid for an older artifact revision.",
-   "id": "ceab1004",
-   "hash": "f404da7f0730"
+   "text": "Track 1 produced 9/9 valid DeepSeek responses across three fixtures. H0 showed one predefined rediscovery event in each fixture, while H1 and H2 showed none; this supports handoff versus artifacts-only continuity but does not distinguish strong structured H2 from natural prose H1. Track 2 produced 12/12 valid responses for both GLM 5.2 and DeepSeek. For each model, V1 proceeded on 3/3 irrelevant edits and targeted revalidation on 3/3 relevant edits; V0 proceeded on all irrelevant edits and on 2/3 relevant edits. Across the repeated same-fixture model slices, V1 was 6/6 correct proceed on irrelevant edits and 6/6 targeted revalidation on relevant edits, while V0 proceeded on 4/6 relevant-edit responses. These are descriptive repeated-fixture totals, not independent-task inference.",
+   "id": "ea021002",
+   "hash": "ac815827f321"
   },
   {
    "type": "para",
-   "text": "Proofpress is designed around a simple distinction. A structured handoff carries semantic continuity: reviewed facts, accepted decisions, rejected routes, evidence references, open questions, and next actions. A version-bound handoff adds an independently executable check of the admitted artifact revision and a map of which inherited claims are affected when the current bytes differ. The expected benefit is therefore conditional, not universal: ordinary handoff should help when nothing changed; binding should matter when the artifact changed in a decision-relevant way.",
-   "id": "ceab1005",
-   "hash": "d2e2ea23d999"
+   "text": "The formal Phase 2 pilot remains unexecuted. The Phase 0 formal-gate audit passed package and scorer qualification but found the current fixtures ineligible for formal external-effect estimation because they are originating-team calibration fixtures with constructed state variants. This does not block publication of the bounded early-testing write-up; it prevents promotion of the result to a formal efficacy claim.",
+   "id": "ea021003",
+   "hash": "ddac91e8d017"
   },
   {
    "type": "heading",
-   "text": "## What we tested",
-   "id": "ceab1006",
-   "hash": "06b645d4be25"
+   "text": "## 1. Research objective",
+   "id": "a897187e",
+   "hash": "440eb1dc4f17"
   },
   {
    "type": "para",
-   "text": "We ran two complementary tracks using fixed public GitHub Docs revision pairs. Track 1 asked whether handing off prior work reduces rediscovery. Track 2 held the semantic handoff fixed and asked whether executable version binding changes the successor's response to artifact drift.",
-   "id": "ceab1007",
-   "hash": "8424e9665baf"
-  },
-  {
-   "type": "table",
-   "text": "| Track | Arm | What the successor received |\n|---|---|---|\n| Knowledge handoff debt | H0 | Current artifact only |\n| Knowledge handoff debt | H1 | Current artifact plus a natural prose handoff |\n| Knowledge handoff debt | H2 | Current artifact plus a strong structured handoff |\n| Version-bound handoff | V0 | Strong structured handoff with readable revision descriptions but no executable binding check |\n| Version-bound handoff | V1 | The same semantic handoff plus admitted revision, lineage, native verification helper, and affected-claim map |",
-   "id": "ceab1008",
-   "hash": "952c4d353ae1"
+   "text": "The program asks whether a portable handoff can reduce the work a successor must rediscover, while preventing inherited decisions from remaining attached to the wrong artifact revision.",
+   "id": "f524d433",
+   "hash": "22d5eaea18fb"
   },
   {
    "type": "para",
-   "text": "Track 1 used three unchanged-artifact fixtures: an alert-style revision, a how-to-structure revision, and a versioning-guidance revision. Track 2 used six fixtures: three irrelevant edits that changed bytes without affecting the inherited decision, and three relevant edits that narrowed supported Dependabot commands, retracted a legacy Copilot metrics API, or widened documented license-management permissions.",
-   "id": "ceab1009",
-   "hash": "c2e03ed423a0"
-  },
-  {
-   "type": "para",
-   "text": "The primary DeepSeek receiver was OpenCode through Vercel AI Gateway to exact `deepseek/deepseek-v4-flash-0731`, with DeepInfra set as both the only and ordered provider and fallback disabled. The earlier mechanism calibration used the same harness and router with exact `zai/glm-5.2` and Z.AI-only routing. Per-call proxy telemetry was reconciled for the valid DeepSeek runs; all calls returned HTTP 200, resolved to the requested model and provider, and showed no fallback or cross-provider retry.",
-   "id": "ceab100a",
-   "hash": "6613098615c1"
-  },
-  {
-   "type": "heading",
-   "text": "## Result 1: a handoff prevented visible rediscovery, but structure did not yet beat prose",
-   "id": "ceab100b",
-   "hash": "11a51efe9390"
-  },
-  {
-   "type": "para",
-   "text": "All nine DeepSeek Track 1 responses were valid: three fixtures crossed with H0, H1, and H2. Every arm completed with the expected `proceed` disposition. The deterministic event scorer found one predefined source-rediscovery event in every H0 cell and none in either handoff arm.",
-   "id": "ceab100c",
-   "hash": "2324c1962788"
-  },
-  {
-   "type": "table",
-   "text": "| Track 1 arm | Valid responses | Fixtures with a rediscovery event |\n|---|---:|---:|\n| H0: artifact only | 3/3 | 3/3 |\n| H1: natural prose handoff | 3/3 | 0/3 |\n| H2: strong structured handoff | 3/3 | 0/3 |",
-   "id": "ceab100d",
-   "hash": "0f94da6f37f7"
-  },
-  {
-   "type": "para",
-   "text": "The useful conclusion is modest but practical: in these three tasks, giving the successor a handoff avoided an observable source-read that the artifact-only successor used to reconstruct prior work. The experiment does **not** show that H2 outperformed H1. Both handoff formats carried enough information for these simple unchanged-artifact tasks, so the incremental value of stronger organization remains unresolved.",
-   "id": "ceab100e",
-   "hash": "d2c73c7ca4ac"
-  },
-  {
-   "type": "heading",
-   "text": "## Result 2: version binding produced the intended two-state behavior with GLM 5.2",
-   "id": "ceab100f",
-   "hash": "0122906ab1b2"
-  },
-  {
-   "type": "para",
-   "text": "The repaired GLM 5.2 Track 2 evidence contains 12 valid V0/V1 responses across the six fixtures. V1 ran the native binding helper in every fixture. It proceeded on all three irrelevant edits and targeted revalidation on all three relevant edits. V0 also proceeded on every irrelevant edit, but it continued on two of the three relevant edits; it independently noticed the direct Dependabot body conflict in the remaining fixture.",
-   "id": "ceab1010",
-   "hash": "ca782560bc26"
-  },
-  {
-   "type": "table",
-   "text": "| GLM 5.2 state | V0 observed | V1 observed |\n|---|---:|---:|\n| Irrelevant edit | `proceed` 3/3 | `proceed` 3/3 |\n| Relevant edit | `proceed` 2/3; `targeted_revalidate` 1/3 | `targeted_revalidate` 3/3 |",
-   "id": "ceab1011",
-   "hash": "2735af91c3ca"
-  },
-  {
-   "type": "para",
-   "text": "This was a repaired diagnostic rather than a clean first-pass run. The original V1 materialization omitted the required checkpoint, so all six V1 cells were isolated and rerun after the fixture repair. One timed-out V0 Dependabot cell was rerun separately. The repaired V1 report and the missing V0 retry, combined with the five unaffected original V0 cells, form the canonical 12-response result; the defective V1 cells and timed-out attempt are not treated as evidence.",
-   "id": "ceab1012",
-   "hash": "4646017c300e"
-  },
-  {
-   "type": "heading",
-   "text": "## Result 3: DeepSeek reproduced the Track 2 aggregate pattern",
-   "id": "ceab1013",
-   "hash": "99278a804644"
-  },
-  {
-   "type": "para",
-   "text": "DeepSeek then ran the same six-fixture V0/V1 comparison. All 12 responses were valid. V1 again proceeded on all three irrelevant edits and targeted revalidation on all three relevant edits. V0 again continued on two of the three relevant edits, although this time it independently detected the Copilot API conflict rather than the Dependabot conflict.",
-   "id": "ceab1014",
-   "hash": "2c3bad529017"
-  },
-  {
-   "type": "table",
-   "text": "| DeepSeek state | V0 observed | V1 observed |\n|---|---:|---:|\n| Irrelevant edit | `proceed` 3/3 | `proceed` 3/3 |\n| Relevant edit | `proceed` 2/3; `targeted_revalidate` 1/3 | `targeted_revalidate` 3/3 |",
-   "id": "ceab1015",
-   "hash": "8a9a248a8978"
-  },
-  {
-   "type": "para",
-   "text": "The model-level totals are repetitions over the same fixtures, so they are not 12 independent tasks. Descriptively, across both receivers V1 correctly proceeded on 6/6 irrelevant-edit responses and targeted revalidation on 6/6 relevant-edit responses. V0 proceeded on 6/6 irrelevant-edit responses but also proceeded on 4/6 relevant-edit responses. The fact that GLM and DeepSeek spontaneously caught different V0 conflicts is itself informative: readable prose sometimes enables self-correction, but which conflict gets noticed is not stable. The executable binding plus affected-claim path made the disposition stable on this fixture set.",
-   "id": "ceab1016",
-   "hash": "7376b16fe61b"
-  },
-  {
-   "type": "heading",
-   "text": "## What the mechanism appears to be doing",
-   "id": "ceab1017",
-   "hash": "d386b7aa76d9"
-  },
-  {
-   "type": "para",
-   "text": "The result is not “hash mismatch means stop.” Every V1 fixture had a revision mismatch. For irrelevant edits, the native helper established that the present artifact was the declared current revision, and the affected-claim map was empty, so the successor proceeded. For relevant edits, the same check established a valid current carrier while the impact map identified inherited claims whose basis had changed, so the successor revalidated only those claims. The observed behavior was selective admission: proceed through harmless drift, reopen affected work under relevant drift.",
-   "id": "ceab1018",
-   "hash": "2d92bf61b5b9"
-  },
-  {
-   "type": "para",
-   "text": "That distinction matters for product design. A system that merely warns whenever bytes change will create alert fatigue and false stops. A system that merely writes a better summary can still leave the successor guessing whether the summary belongs to the artifact in front of it. The early result suggests that semantic handoff and version binding solve separate parts of the continuity problem.",
-   "id": "ceab1019",
-   "hash": "4ecbda1d6b08"
-  },
-  {
-   "type": "heading",
-   "text": "## What failed during the study, and why it matters",
-   "id": "ceab101a",
-   "hash": "c6600ab0fe43"
-  },
-  {
-   "type": "para",
-   "text": "Several early runs were preserved but excluded. Besides the missing GLM V1 checkpoint and one V0 timeout, early DeepSeek Track 1 attempts exposed an overlong Gateway correlation value that produced HTTP 400 responses. The runner was changed to retain the human-readable run label while sending a deterministic short correlation key, and only the resulting r4 runs enter the reported nine-response denominator. These repairs are protocol evidence, not favorable outcomes silently pooled into the results.",
-   "id": "ceab101b",
-   "hash": "79c84cc73f6c"
-  },
-  {
-   "type": "para",
-   "text": "The DeepSeek Track 1 Gateway aggregate endpoint also lagged the local call ledger by one or two calls for each run. We therefore use the immutable per-call reconciliation as the routing validity source and treat the eventually consistent aggregate report as corroboration, not as a substitute. The three Track 1 reconciliations cover 18, 23, and 20 local calls; the Track 2 reconciliation covers 82. These are tool-loop API calls, not independent experimental responses.",
-   "id": "ceab101c",
-   "hash": "3b77f8d542c3"
-  },
-  {
-   "type": "heading",
-   "text": "## What we can say now",
-   "id": "ceab101d",
-   "hash": "d337295c750c"
-  },
-  {
-   "type": "para",
-   "text": "The strongest supported product statement is: **in fixed GitHub Docs early tests, a handoff reduced visible rediscovery relative to artifacts alone, and adding Proofpress version binding plus affected-claim information made two different receiver models consistently distinguish harmless revision drift from decision-relevant drift.**",
-   "id": "ceab101e",
-   "hash": "90e47101f502"
-  },
-  {
-   "type": "para",
-   "text": "For a short public version: **“We tested whether an AI agent could safely inherit work after the underlying document changed. Across two receiver models on six fixed revision fixtures, the Proofpress-bound handoff proceeded on 6/6 harmless changes and selectively revalidated 6/6 decision-relevant changes. An unbound but equally detailed handoff proceeded on 4/6 relevant changes. In a separate three-fixture test, either prose or structured handoff avoided rediscovery seen with artifacts alone.”**",
-   "id": "ceab101f",
-   "hash": "cbbd3f48ba8d"
-  },
-  {
-   "type": "heading",
-   "text": "## What we cannot say yet",
-   "id": "ceab1020",
-   "hash": "6975ba965161"
-  },
-  {
-   "type": "para",
-   "text": "These fixtures use real public document revisions, but their experimental selection, handoffs, and state labels were produced by the originating team. Track 1 has only three unchanged tasks. Track 2 covers only irrelevant and relevant edits, not unchanged admission, authorized rollback, fork/merge ambiguity, mixed-version packages, or corrupt lineage. Each model contributed one response per cell. The reported results therefore do not establish a population effect size, statistical significance, real-world fault prevalence, or general superiority over ordinary handoffs.",
-   "id": "ceab1021",
-   "hash": "6d3362d212a9"
-  },
-  {
-   "type": "para",
-   "text": "The formal-gate audit passed package and scorer qualification but correctly set `formal_eligible=false` because the calibration fixtures were agent-authored and the state variants were constructed. Blind semantic judging and human audit were not completed for the reported DeepSeek Track 1 diagnostic. That does not invalidate the early product demonstration; it defines the boundary between a transparent technical blog and a formal external-efficacy claim.",
-   "id": "ceab1022",
-   "hash": "90ded654f737"
-  },
-  {
-   "type": "heading",
-   "text": "## Where this goes next",
-   "id": "ceab1023",
-   "hash": "1944a07107df"
-  },
-  {
-   "type": "para",
-   "text": "The immediate product use is a public early-evidence release with the exact denominators, a small demo of the native binding decision, and links to the method and results. Stronger validation can then add independently authored fixtures, the remaining five artifact states, repeated receiver runs, recovery-cost measurement, and condition-blind review. Those additions would support a broader claim, but they are not prerequisites for sharing the bounded result above.",
-   "id": "ceab1024",
-   "hash": "4fca73c4f6b7"
-  },
-  {
-   "type": "heading",
-   "text": "## Evidence index",
-   "id": "ceab1025",
-   "hash": "f6837222c6c2"
+   "text": "It separates two mechanisms that earlier experiments often combined:",
+   "id": "09a96395",
+   "hash": "be4512142682"
   },
   {
    "type": "list",
-   "text": "- Registered design and claim rules: `KNOWLEDGE_HANDOFF_DEBT_PLAN.md`\n- Track 2 focused result: `TRACK2_EARLY_RESULTS.md`\n- GLM repaired V1 report: `/Users/richardtang/.cache/proofpress-eval/knowledge-handoff-debt/phase1-r2-two-state-diagnostic-r2-v1-repair/report.json` (SHA-256 `209af420924766a3f5d458702ae05a9815306650aa65a18ec00a286af344234a`)\n- GLM missing V0 retry: `/Users/richardtang/.cache/proofpress-eval/knowledge-handoff-debt/phase1-r2-two-state-diagnostic-r3-v0-retry/report.json` (SHA-256 `f33fad60713240ba70bcdb7e655147c3f1b7d16080f534c9fd7fe115e7482dfc`)\n- DeepSeek Track 1 summary: `/Users/richardtang/.cache/proofpress-eval/knowledge-handoff-debt/track1-deepseek-early-r4-summary.json` (SHA-256 `cc76a045e6cd6954426491300f4508e5c0bbdca87af8ebfeacb9f7de12383cad`)\n- DeepSeek Track 2 report: `/Users/richardtang/.cache/proofpress-eval/knowledge-handoff-debt/track2-deepseek-r2-two-state-early-r1/report.json` (SHA-256 `0fa27a438b0a5f4968244534fc4a20300e8cf6be471f93e7d299be37223f41d4`)\n- DeepSeek Track 2 per-call reconciliation: `/Users/richardtang/.cache/proofpress-eval/knowledge-handoff-debt/track2-deepseek-r2-two-state-early-r1/reconciliation-r1.json` (SHA-256 `76b569ce679fd570de3ed66ca3f6621e34887198838ccd952067c26bc8d8ce4a`)\n- Formal-gate audit: `/Users/richardtang/.cache/proofpress-eval/knowledge-handoff-debt/phase0-github-docs-r9-formal-gate-audit/phase0-report.json` (SHA-256 `45447657d81c402a56496882b19894c6511526921542838e56f32ae54b8ac903`)",
-   "id": "ceab1026",
-   "hash": "81d0951d5b79"
+   "text": "1. **Semantic continuity:** a structured handoff explains what was done, why, what remains open, and what was rejected. Its expected benefit is lower rediscovery cost.\n2. **Version-bound admission:** Proofpress records which artifact revision the inherited state was admitted against and verifies that binding before reuse. Its expected benefit appears mainly when the artifact has changed or its lineage is ambiguous.",
+   "id": "d43230fc",
+   "hash": "4f0ee60643c8"
+  },
+  {
+   "type": "para",
+   "text": "The main hypothesis is not that Proofpress always beats a strong structured handoff. Under an unchanged artifact, the two should often perform similarly, with Proofpress possibly adding a small verification cost. The predicted advantage is an interaction: version binding should matter when inherited state and the current artifact diverge.",
+   "id": "c27d3715",
+   "hash": "448525ecab18"
+  },
+  {
+   "type": "heading",
+   "text": "## 2. Prior evidence and motivation",
+   "id": "188a902f",
+   "hash": "add5e097961e"
+  },
+  {
+   "type": "para",
+   "text": "Earlier Proofpress experiments already establish three boundaries:",
+   "id": "75188530",
+   "hash": "c9ab8e404a34"
+  },
+  {
+   "type": "list",
+   "text": "- Richer packages did not automatically improve clean end-to-end task completion. Artifact Travel v3 reported trusted handoff `8/18` for ordinary handoff and `7/18` for the Proofpress package, with no clean trusted completion in either arm.\n- When current evidence remained visible, ordinary handoff often self-corrected. In formal Policy R1, both arms had `0/18` unsafe propagation; Proofpress changed the recovery path rather than the safety rate.\n- In the preregistered stale-binding fixture, information-matched ordinary handoff made `12/12` unsafe fault proceeds while native binding made `0/12`, with `12/12` clean admission in both arms. This is strong mechanism evidence on a design-aligned fixture, not a handoff-debt estimate.",
+   "id": "fe664541",
+   "hash": "0c8c2dc60936"
+  },
+  {
+   "type": "para",
+   "text": "The new program treats these outcomes as complementary rather than contradictory. Structured handoff may already capture most continuity value; version binding supplies a distinct control when continuity state may no longer be admissible.",
+   "id": "8cba21f5",
+   "hash": "c0f728f11513"
+  },
+  {
+   "type": "heading",
+   "text": "## 3. Research questions",
+   "id": "b82221ba",
+   "hash": "b57f69e22112"
+  },
+  {
+   "type": "heading",
+   "text": "### RQ1: Knowledge handoff debt",
+   "id": "11115be1",
+   "hash": "70184dcbcf5e"
+  },
+  {
+   "type": "para",
+   "text": "How much rediscovery work does a fresh successor perform when given only the current artifacts, a natural prose handoff, or a strong structured handoff?",
+   "id": "ed6b10c3",
+   "hash": "a1fbe89e4e68"
+  },
+  {
+   "type": "heading",
+   "text": "### RQ2: Incremental value of version binding",
+   "id": "e8779047",
+   "hash": "519b4e676be9"
+  },
+  {
+   "type": "para",
+   "text": "Holding structured handoff semantics fixed, does receive-time Proofpress verification reduce unsafe continuation when the current artifact no longer matches the admitted revision?",
+   "id": "dac2aa1b",
+   "hash": "1f317581d259"
+  },
+  {
+   "type": "heading",
+   "text": "### RQ3: Selective recovery rather than blanket refusal",
+   "id": "3a15ebc7",
+   "hash": "3150dc4dc3ec"
+  },
+  {
+   "type": "para",
+   "text": "After a mismatch, can the successor identify the affected claims, revalidate only the necessary scope, and admit a new revision without unnecessary full-task restart or false stop?",
+   "id": "2181b2bc",
+   "hash": "887e99d9ef0d"
+  },
+  {
+   "type": "heading",
+   "text": "### RQ4: Cost and utility",
+   "id": "3735ae32",
+   "hash": "4e9ae84f832f"
+  },
+  {
+   "type": "para",
+   "text": "What verification, latency, token, and completion costs does Proofpress add under unchanged, irrelevant-change, and relevant-change conditions?",
+   "id": "fb4ab954",
+   "hash": "409b89a7e5de"
+  },
+  {
+   "type": "heading",
+   "text": "## 4. Program structure",
+   "id": "b9656d92",
+   "hash": "fdc014442a6f"
+  },
+  {
+   "type": "heading",
+   "text": "### Track 1 — Knowledge handoff debt",
+   "id": "40ce0325",
+   "hash": "a3b12d33031b"
+  },
+  {
+   "type": "para",
+   "text": "Track 1 adapts the takeover logic of coding-agent handoff work to non-coding artifacts. The artifact set is frozen at the handoff point so this track measures continuity and rediscovery rather than version drift.",
+   "id": "054edf71",
+   "hash": "89d73d6d28b4"
+  },
+  {
+   "type": "table",
+   "text": "| Arm | Successor package |\n|---|---|\n| H0 | Current artifacts only |\n| H1 | Current artifacts plus a natural prose handoff |\n| H2 | Current artifacts plus a strong structured handoff |",
+   "id": "f99db927",
+   "hash": "b44fabd7d2a7"
+  },
+  {
+   "type": "para",
+   "text": "H2 should contain the same underlying facts available to H1, organized into reviewed work, accepted decisions, rejected routes, evidence references, open issues, and next actions. A semantic inventory will detect factual advantages. Proofpress verification is not the primary treatment in Track 1.",
+   "id": "18b5af4f",
+   "hash": "40b71f74ec97"
+  },
+  {
+   "type": "para",
+   "text": "The primary endpoint is **rediscovery events**: logged successor actions that repeat predecessor-completed evidence gathering or decision reconstruction without being required by a changed artifact. A frozen hidden predecessor ledger will identify completed work, and a condition-blind audit will classify ambiguous events.",
+   "id": "56065622",
+   "hash": "b16804676e52"
+  },
+  {
+   "type": "para",
+   "text": "Key secondary endpoints are:",
+   "id": "74dda94a",
+   "hash": "25c31c5583ae"
+  },
+  {
+   "type": "list",
+   "text": "- input tokens and tool calls before the first correct substantive continuation;\n- elapsed time and model cost;\n- repeated opening or searching of already resolved evidence;\n- trusted task completion within a fixed budget;\n- final artifact quality and unsupported inherited claims;\n- justified reversal and preservation of rejected routes.",
+   "id": "5cd72588",
+   "hash": "57a2f2731ab6"
+  },
+  {
+   "type": "para",
+   "text": "The expected comparison is `H2 < H1 < H0` on rediscovery cost. A smaller or absent solved-rate effect remains compatible with a real handoff-debt reduction.",
+   "id": "ca350c12",
+   "hash": "0d49ae2cec67"
+  },
+  {
+   "type": "heading",
+   "text": "### Track 2 — Version-bound knowledge handoff",
+   "id": "d986bb9c",
+   "hash": "818966b38126"
+  },
+  {
+   "type": "para",
+   "text": "Track 2 starts from the strong H2 handoff and isolates the incremental binding mechanism.",
+   "id": "a2ae81eb",
+   "hash": "978b8017f5f6"
+  },
+  {
+   "type": "table",
+   "text": "| Arm | Successor package |\n|---|---|\n| V0 | Strong structured handoff with readable revision descriptions but no independently executable binding check |\n| V1 | Byte-identical structured handoff semantics plus Proofpress admitted revision, lineage, and native verification |",
+   "id": "7a1c0c02",
+   "hash": "82a99cdda687"
+  },
+  {
+   "type": "para",
+   "text": "Each base task produces matched artifact states:",
+   "id": "5ca3fd5f",
+   "hash": "d85399c0fd56"
+  },
+  {
+   "type": "list",
+   "text": "1. **Unchanged:** current artifact is the admitted revision.\n2. **Relevant edit:** a post-handoff change affects an inherited decision or completed work item.\n3. **Irrelevant edit:** bytes change, but the inherited decision remains substantively unaffected.\n4. **Legitimate rollback:** the workflow intentionally returns to an older revision under recorded authority.\n5. **Fork or merge:** two legitimate descendants create lineage ambiguity.\n6. **Mixed-version package:** the primary artifact, export, evidence map, or decision register come from inconsistent revisions.\n7. **Missing or corrupt binding:** verification cannot establish the claimed relationship.",
+   "id": "749eaa8f",
+   "hash": "201551659ea0"
+  },
+  {
+   "type": "para",
+   "text": "The primary safety endpoint for relevant edits is **unsafe continuation**: the successor reuses an affected inherited decision without first establishing a valid current basis.",
+   "id": "ef68ecd9",
+   "hash": "08627635b0f9"
+  },
+  {
+   "type": "para",
+   "text": "The required clean-path guards are:",
+   "id": "ec454c33",
+   "hash": "e118831b61af"
+  },
+  {
+   "type": "list",
+   "text": "- correct proceed on unchanged artifacts;\n- no blanket false stop for irrelevant edits;\n- no automatic rejection of an authorized rollback merely because its bytes are older;\n- no claim that a valid digest alone establishes current authorization.",
+   "id": "6c37719d",
+   "hash": "ce1a760dacf2"
+  },
+  {
+   "type": "para",
+   "text": "Recovery endpoints are:",
+   "id": "5467c9c9",
+   "hash": "9a609d2916a0"
+  },
+  {
+   "type": "list",
+   "text": "- affected-claim detection precision and recall;\n- proportion of necessary evidence rechecked;\n- unnecessary evidence rechecked;\n- successful admission of a corrected successor revision;\n- full-restart rate, false-stop rate, latency, tokens, and cost;\n- final trusted completion after recovery.",
+   "id": "fddf8597",
+   "hash": "36d130305355"
+  },
+  {
+   "type": "para",
+   "text": "The primary estimand is the `binding × artifact-state` interaction, not the pooled difference between V1 and V0 across all states. Repeated model calls are nested observations; independently authored fixtures are the main unit for external generalization.",
+   "id": "5f600d63",
+   "hash": "fc83342add11"
+  },
+  {
+   "type": "heading",
+   "text": "## 5. Task and fixture design",
+   "id": "9de4b3d7",
+   "hash": "bf79fc00d6c5"
+  },
+  {
+   "type": "para",
+   "text": "The formal suite should include at least four non-coding knowledge-work families rather than variants of one legal document:",
+   "id": "5331e3e3",
+   "hash": "f9f9dec6858a"
+  },
+  {
+   "type": "list",
+   "text": "- contract or policy revision;\n- research synthesis or evidence review;\n- compliance, diligence, or procurement memo;\n- incident review, operational procedure, or governance document.",
+   "id": "6e644c0f",
+   "hash": "71d034c412d1"
+  },
+  {
+   "type": "para",
+   "text": "Each task must have:",
+   "id": "ee2b34fb",
+   "hash": "ebe3e945b9c5"
+  },
+  {
+   "type": "list",
+   "text": "- a persistent artifact that changes over time;\n- an upstream stage containing genuine reviewed work;\n- a deterministic or expert-validated final-state rubric;\n- at least one meaningful interruption point;\n- an explicit artifact family, immutable revisions, lineage, and admitted revision;\n- an observable opportunity for rediscovery and for selective revalidation;\n- no requirement that the receiver trust inaccessible source truth merely because provenance verifies.",
+   "id": "73254524",
+   "hash": "cab39c3daae0"
+  },
+  {
+   "type": "para",
+   "text": "Formal fixtures should be authored or validated by people who did not design the Proofpress mechanism. The originating team may build calibration fixtures, but those remain diagnostic and are excluded from external-effect estimates.",
+   "id": "1d5bfe2c",
+   "hash": "40e41b102368"
+  },
+  {
+   "type": "heading",
+   "text": "## 6. Phased execution and authorization gates",
+   "id": "9fb8433a",
+   "hash": "607d3edb40c5"
+  },
+  {
+   "type": "heading",
+   "text": "### Phase 0 — Offline scorer and fixture qualification",
+   "id": "c2ae9c4b",
+   "hash": "88f5032149dc"
+  },
+  {
+   "type": "para",
+   "text": "Build a small contrast set for every artifact state. Verify the hidden oracle, affected-claim map, semantic parity, lineage graph, final-state scorer, event instrumentation, and leakage controls without model calls.",
+   "id": "4391f434",
+   "hash": "a948de19e200"
+  },
+  {
+   "type": "para",
+   "text": "Gate: every fixture must produce the expected V0/V1 inputs, and the scorer must distinguish correct proceed, targeted revalidation, justified rollback, false stop, and unsafe continuation.",
+   "id": "0995b0f1",
+   "hash": "8b9a4529de53"
+  },
+  {
+   "type": "heading",
+   "text": "### Phase 1 — Local diagnostic calibration",
+   "id": "3665bdd8",
+   "hash": "4a465987c6d3"
+  },
+  {
+   "type": "para",
+   "text": "Use a small set of independently sourced tasks with the OpenCode harness, Vercel AI Gateway, and exact GLM 5.2 (`zai/glm-5.2`) as the low-cost successor route. Calibrate prompts, event definitions, timeouts, output contracts, Gateway log reconciliation, and scorer behavior. Preserve all invalid attempts and rerun only after a declared protocol repair.",
+   "id": "20da3585",
+   "hash": "dc32f91004bd"
+  },
+  {
+   "type": "para",
+   "text": "These runs are non-formal and cannot support efficacy or benchmark claims.",
+   "id": "9b0df83e",
+   "hash": "080d05bffac6"
+  },
+  {
+   "type": "para",
+   "text": "Gate: H0 must expose measurable rediscovery debt; H2 must not receive extra facts; V0 must have an eligible relevant-drift error space; V1 must not incur unacceptable unchanged or irrelevant-change false stops.",
+   "id": "34c5b7bb",
+   "hash": "f5ead304feb8"
+  },
+  {
+   "type": "heading",
+   "text": "### Phase 2 — Frozen pilot",
+   "id": "2abfc7fe",
+   "hash": "6496bfc0c4f5"
+  },
+  {
+   "type": "para",
+   "text": "Freeze task IDs, revision manifests, arms, randomization, budgets, exclusions, endpoints, and analysis code before a small pilot. The proposed pilot stack is OpenCode through Vercel AI Gateway to exact DeepSeek V4 Flash 0731 (`deepseek/deepseek-v4-flash-0731`), with DeepInfra as the sole ordered provider (`only: [\"deepinfra\"]`, `order: [\"deepinfra\"]`) and fallback disabled. A pre-freeze transport smoke must confirm the exact slug, resolved provider, token and cost telemetry, and request-level log reconciliation. Use neutral run IDs and blind downstream grading.",
+   "id": "39da68a1",
+   "hash": "ffac6b64d9fe"
+  },
+  {
+   "type": "para",
+   "text": "Gate: proceed only if all package-parity, telemetry, scorer, leakage, and clean-path guards pass. A failed pilot repairs the protocol and requires a new frozen version; it is not silently pooled.",
+   "id": "1cb15b4e",
+   "hash": "65fd80d0f4f8"
+  },
+  {
+   "type": "heading",
+   "text": "### Phase 3 — Formal independently authored suite",
+   "id": "da3f4502",
+   "hash": "ccff51ed4aef"
+  },
+  {
+   "type": "para",
+   "text": "Determine the formal fixture count from Phase 1 variance and a declared minimum effect of practical interest. Use multiple independent base tasks per domain, cluster analysis by base task, and publish per-fixture results. Model repetition measures reliability but does not substitute for fixture diversity.",
+   "id": "e6583f96",
+   "hash": "35ba4bd883a3"
+  },
+  {
+   "type": "para",
+   "text": "The primary formal slice retains the qualified OpenCode × AI Gateway × DeepSeek V4 Flash 0731 stack, DeepInfra-only provider order, no fallback, and frozen harness version. GLM 5.2 on the same harness and router is the first model-robustness slice only after the primary suite passes. Additional model, router, or harness slices require separate preregistration and are never pooled into the primary estimate.",
+   "id": "72a6cf02",
+   "hash": "26d5acae4416"
+  },
+  {
+   "type": "heading",
+   "text": "### Phase 4 — Independent environment replication",
+   "id": "4d845828",
+   "hash": "d585bbceef71"
+  },
+  {
+   "type": "para",
+   "text": "Provide sealed manifests, portable packages, scorer fixtures, analyzer tests, and a clean runner to an external executor. The external party controls credentials, runtime, and result root. Do not tune the protocol using external formal outcomes.",
+   "id": "128a4fa9",
+   "hash": "85a0ef78e8b0"
+  },
+  {
+   "type": "heading",
+   "text": "## 7. Frozen harness, routing, model, and scoring plan",
+   "id": "a0f957a0",
+   "hash": "29ad4729d4e5"
+  },
+  {
+   "type": "para",
+   "text": "The execution stack is selected to avoid changing harness, router, and model at the same time:",
+   "id": "c0ac7f54",
+   "hash": "b718280c38fd"
+  },
+  {
+   "type": "table",
+   "text": "| Purpose | Harness | Router | Model | Status |\n|---|---|---|---|---|\n| Phase 1 calibration | OpenCode | Vercel AI Gateway | exact GLM 5.2 (`zai/glm-5.2`) | low-cost diagnostic only |\n| Phase 2 pilot and Phase 3 primary | OpenCode | Vercel AI Gateway | exact DeepSeek V4 Flash 0731 (`deepseek/deepseek-v4-flash-0731`) | DeepInfra-only (`only` and `order`), no fallback; subject to pre-freeze route qualification |\n| First model robustness | OpenCode | Vercel AI Gateway | exact GLM 5.2 | only after primary success |\n| Optional strong-model ceiling check | OpenCode | Vercel AI Gateway | exact Luna route | small preregistered slice only |\n| Router robustness | OpenCode | OpenRouter | the same exact DeepSeek V4 Flash 0731 (`deepseek/deepseek-v4-flash-0731`) | separately frozen transport slice only |\n| Compatibility | Codex and Claude Code native harnesses | native routes | native models | inspect/import/verify smoke only |",
+   "id": "9518eb81",
+   "hash": "2f5e852a84ea"
+  },
+  {
+   "type": "para",
+   "text": "Every formal Gateway call must carry a stable experiment, fixture, arm, state, and attempt tag. Sidecar telemetry must reconcile one-to-one with Gateway logs and record request ID, requested and resolved model, resolved provider, tokens, latency, cost, finish or error state, and fallback metadata. Dynamic model aliases, provider fallback, cross-router retry within a formal attempt, and missing telemetry are prohibited. The Phase 2/3 Gateway policy must set both `only` and `order` to `deepinfra`. If the DeepSeek Gateway route fails qualification, no replacement transport may enter that formal matrix; OpenRouter may be selected only as a separately preregistered same-model transport slice before its own formal freeze. The two transports are never mixed within a matrix.",
+   "id": "52c3e64d",
+   "hash": "a964b94d611c"
+  },
+  {
+   "type": "para",
+   "text": "Kimi K3 is not in the default matrix. It is added only if DeepSeek and GLM produce a material interaction discrepancy or a separately justified third-model robustness test is preregistered. Luna is not a full-matrix default; its role is a small ceiling check asking whether a stronger model can eliminate the structured-handoff error space without binding.",
+   "id": "2b233531",
+   "hash": "6c451f8fa63e"
+  },
+  {
+   "type": "para",
+   "text": "The predecessor does not run separately by arm. One upstream Agent A checkpoint is created, independently validated, and frozen; H0/H1/H2 or V0/V1 are then deterministically materialized from that common state. Formal fixtures should prefer expert-authored or expert-validated upstream work. Agent B is the experimental agent and uses the frozen successor stack for every arm.",
+   "id": "67d77c1d",
+   "hash": "fb69acf3eb99"
+  },
+  {
+   "type": "para",
+   "text": "Scoring uses three layers. Deterministic analysis grades revision identity, verification, tool and file events, final artifact state, and predefined outcome contracts. A condition-blind semantic judge grades only aspects that cannot be deterministically resolved, such as whether rediscovery or revalidation was necessary and whether affected claims were repaired. Human review covers every unsafe-continuation and false-stop candidate plus at least 20% of the remaining formal records. An LLM judge is never the sole ground truth, and any fixed judge route is frozen separately from the successor route.",
+   "id": "0b8e9045",
+   "hash": "bbffdd8748d6"
+  },
+  {
+   "type": "heading",
+   "text": "## 8. Fairness and leakage controls",
+   "id": "41018ab1",
+   "hash": "2bdd5658e19e"
+  },
+  {
+   "type": "list",
+   "text": "- H1 and H2 share a normalized fact inventory; differences in organization are the Track 1 treatment.\n- V0 and V1 have byte-identical semantic handoff text; only verifiable binding and declared lineage differ.\n- All arms use the same current artifacts, tools, source visibility, model, budgets, and role prompt except for the declared treatment.\n- Arm labels and filenames are neutralized for model and grader contexts.\n- The receiver cannot access the hidden oracle, affected-claim map, scorer fixtures, or expected action.\n- Every call records requested and resolved model/provider, fallback state, tokens, latency, cost, output contract, and exclusions.\n- Runtime success, verification success, and task success remain separate outcomes.",
+   "id": "a4e0581d",
+   "hash": "db3c4c42f97b"
+  },
+  {
+   "type": "heading",
+   "text": "## 9. Analysis plan",
+   "id": "0d53ae38",
+   "hash": "c04000aead51"
+  },
+  {
+   "type": "para",
+   "text": "Track 1 reports paired or clustered differences in rediscovery events, tokens, time, cost, and trusted completion. Track 2 reports state-stratified unsafe continuation, correct proceed, targeted recovery, and false-stop rates. Do not pool unchanged and relevant-drift cells into one headline efficacy number.",
+   "id": "fa35765a",
+   "hash": "c695720ad241"
+  },
+  {
+   "type": "para",
+   "text": "Use the base fixture as the clustering unit. Report denominators, exclusions, replacement attempts, per-task plots, uncertainty intervals, and sensitivity analyses that conservatively include infrastructure failures. Statistical models are selected and frozen only after calibration reveals the outcome distribution; language models do not perform the numerical analysis.",
+   "id": "6e488f9e",
+   "hash": "7caa2b4b756e"
+  },
+  {
+   "type": "heading",
+   "text": "## 10. Success and stop rules",
+   "id": "7a8c3adb",
+   "hash": "e03e8b46be5d"
+  },
+  {
+   "type": "para",
+   "text": "The research program is supported if:",
+   "id": "362a71ef",
+   "hash": "3b402836a68c"
+  },
+  {
+   "type": "list",
+   "text": "- H2 measurably reduces rediscovery cost relative to weaker handoffs without lowering trusted completion;\n- V1 reduces unsafe continuation on independently authored relevant-drift fixtures relative to information-matched V0;\n- V1 preserves unchanged admission and avoids material blanket false stops on irrelevant changes;\n- recovery is targeted enough that verification cost does not erase the continuity benefit.",
+   "id": "0978616d",
+   "hash": "96549997fcc7"
+  },
+  {
+   "type": "para",
+   "text": "Stop or narrow the claim if:",
+   "id": "026cea8a",
+   "hash": "bfb04af55035"
+  },
+  {
+   "type": "list",
+   "text": "- strong structured handoff removes the eligible drift error space;\n- binding only induces generic caution rather than verifier-grounded behavior;\n- false stops or full restarts dominate targeted recovery;\n- effects disappear outside designer-authored fixtures;\n- analyzer or judge validity cannot be established independently.",
+   "id": "7c7d6e89",
+   "hash": "dafaeef4b336"
+  },
+  {
+   "type": "heading",
+   "text": "## 11. Interoperability qualification, not a primary study",
+   "id": "ec8a5ac9",
+   "hash": "e0ae8088e19f"
+  },
+  {
+   "type": "para",
+   "text": "Proofpress support across Codex, Claude Code, OpenCode, AI Gateway, and OpenRouter is treated as implementation qualification. Maintain a compatibility matrix and small inspect/import/verify smoke tests, but do not spend a formal efficacy sample merely to show that the package can be transported. A runtime that cannot consume the frozen package is repaired or excluded before the research comparison.",
+   "id": "3affbd41",
+   "hash": "976fac61673f"
+  },
+  {
+   "type": "heading",
+   "text": "## 12. Permitted claims by stage",
+   "id": "075f580a",
+   "hash": "217992255791"
+  },
+  {
+   "type": "list",
+   "text": "- **After qualification:** the package and scorer operate on the tested runtimes.\n- **After Track 1 formal evidence:** structured handoff reduces measured rediscovery debt in the sampled non-coding tasks.\n- **After Track 2 formal evidence:** version-bound admission reduces unsafe inheritance under the sampled drift conditions, with disclosed clean-path and recovery costs.\n- **After independent replication:** the bounded result reproduces beyond the originating fixture authors and runtime.",
+   "id": "38443d4f",
+   "hash": "f333506a8685"
+  },
+  {
+   "type": "para",
+   "text": "No stage alone establishes universal product efficacy, legal or factual truth, real-world fault prevalence, or that provenance determines the semantically correct current artifact.",
+   "id": "ec2bead2",
+   "hash": "22b3327fabd2"
   }
  ]
 }
