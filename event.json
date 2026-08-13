@@ -1,29 +1,29 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/ara/logic/claims.md",
- "artifact_id": "pp_ca8a8ddcc33d3870e9a40bc5",
- "version": "43487f93",
- "parent": "b3c6f989",
+ "artifact": "experiments/provenance_handoff/ara/logic/experiments.md",
+ "artifact_id": "pp_15fb7a0bcf0891f7cee01068",
+ "version": "aa2013c5",
+ "parent": "d147d038",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-13T12:30:19+00:00",
+ "ts": "2026-08-13T12:30:25+00:00",
  "stats": {
   "modified": 1
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "9c9e5fa7",
+   "block": "4128c6c7",
    "type": "list",
-   "context": "C14: The contribution is a joint agent-h"
+   "context": "E19: Structured related-work scoping rev"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:2df470f50b334819029734cd50f5a56396de1bd91f39344d4539235c136b5451",
+ "soft_fingerprint": "ppsb1:ed8fc93afb30f086b9b29bdd23ef7d36d4da3cd3bb058276c8555ee46f562215",
  "actors": {
   "requested_by": [
    "Chenming Tang"
@@ -41,13 +41,13 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "9c9e5fa7",
+   "block": "4128c6c7",
    "kind": "modified",
-   "note": "Clarifies that the public package preserves the complete related-work review ledger for inspection."
+   "note": "Makes the complete public scoping-review ledger an explicit evidence location."
   }
  ],
  "context": {
-  "why": "Finalize the public scoping-review ledger pointer after migrating the portable capsule to the release parser."
+  "why": "Finalize the public evidence pointer after migrating the portable capsule to the release parser."
  },
- "event_id": "ppe_73f036b9d16b72e302b8eaaa"
+ "event_id": "ppe_d35741d15d23cca9fb1f3a95"
 }
