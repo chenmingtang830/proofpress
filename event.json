@@ -1,155 +1,64 @@
 {
  "event": "version_created",
- "artifact": "rit-hub-demo/DECISIONS.md",
- "artifact_id": "pp_4d20cb5ec74e9b6747d4cc3e",
- "version": "7559812c",
- "parent": "dc6a23ff",
+ "artifact": "experiments/provenance_handoff/ara/logic/problem.md",
+ "artifact_id": "pp_ba47077a9e44465b384f3b33",
+ "version": "5916d2c0",
+ "parent": "8e00587f",
  "author": {
-  "name": "orchestrator",
+  "name": "codex",
   "kind": "agent",
-  "session": "proofpress-dev-19"
+  "session": null
  },
  "note": null,
- "ts": "2026-08-13T10:06:09+00:00",
+ "ts": "2026-08-13T10:08:09+00:00",
  "stats": {
-  "modified": 9,
-  "added": 7
+  "modified": 2
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "e1190c1e",
+   "block": "f1498f86",
    "type": "para",
-   "context": "6. 屏幕设计",
-   "numbers": [
-    [
-     "6.1",
-     "6.5"
-    ],
-    [
-     "6.3",
-     "6.6"
-    ]
-   ]
-  },
-  {
-   "kind": "added",
-   "block": "d194b7d8",
-   "type": "para",
-   "context": "6. 屏幕设计",
-   "preview": "点一张 ledger 卡片，右侧内容区切换成详情页，顶栏只剩两个数据集 tab：**`Paper`** / **`My "
-  },
-  {
-   "kind": "added",
-   "block": "074a930f",
-   "type": "para",
-   "context": "6. 屏幕设计",
-   "preview": "详情页 MAIN 区域在 6.1 的 Ledger 表格和 6.3 的 Graph 之间整体切换，**默认打开 Grap"
+   "context": "O2: Artifacts can change independently a"
   },
   {
    "kind": "modified",
-   "block": "da7e3d1d",
-   "type": "heading",
-   "context": "6.5 侧边栏 + 卡片货架（`Public` / `My Work`）"
-  },
-  {
-   "kind": "added",
-   "block": "d158b202",
+   "block": "d925bd21",
    "type": "para",
-   "context": "6.5 侧边栏 + 卡片货架（`Public` / `My Work`）",
-   "preview": "**这一节取代了 v3 的\"Home 看板单页两组卡片堆叠\"设计**，改成侧边栏驱动的 workspace 外壳。原因："
-  },
-  {
-   "kind": "modified",
-   "block": "48df8e60",
-   "type": "para",
-   "context": "6.5 侧边栏 + 卡片货架（`Public` / `My Work`）"
-  },
-  {
-   "kind": "modified",
-   "block": "ca652988",
-   "type": "para",
-   "context": "6.5 侧边栏 + 卡片货架（`Public` / `My Work`）"
-  },
-  {
-   "kind": "modified",
-   "block": "0374b162",
-   "type": "para",
-   "context": "6.5 侧边栏 + 卡片货架（`Public` / `My Work`）"
-  },
-  {
-   "kind": "added",
-   "block": "fe41bebd",
-   "type": "para",
-   "context": "6.5 侧边栏 + 卡片货架（`Public` / `My Work`）",
-   "preview": "`My Work` 的卡片额外带一个 `Draft` 徽标——用户想要\"未发布的 work\"这个概念在界面上存在。本轮*"
-  },
-  {
-   "kind": "modified",
-   "block": "39c942a4",
-   "type": "para",
-   "context": "6.5 侧边栏 + 卡片货架（`Public` / `My Work`）"
-  },
-  {
-   "kind": "modified",
-   "block": "f1f3b661",
-   "type": "para",
-   "context": "6.5 侧边栏 + 卡片货架（`Public` / `My Work`）"
-  },
-  {
-   "kind": "added",
-   "block": "1e0b3d75",
-   "type": "heading",
-   "context": "6.6 Ingest 入口（`#/ingest`）—— fixture 级别，不",
-   "preview": "### 6.6 Ingest 入口（`#/ingest`）—— fixture 级别，不是真功能"
-  },
-  {
-   "kind": "added",
-   "block": "6e2886cf",
-   "type": "para",
-   "context": "6.6 Ingest 入口（`#/ingest`）—— fixture 级别，不",
-   "preview": "**边界，写清楚不许猜**：§1 已经明确\"上传任意 PDF 的通用抽取 pipeline\"是本轮不做的事，只用两份固定"
-  },
-  {
-   "kind": "added",
-   "block": "2ec91c15",
-   "type": "list",
-   "context": "6.6 Ingest 入口（`#/ingest`）—— fixture 级别，不",
-   "preview": "1. 内容区是一个表单外观：一个输入框（placeholder 或预填类似 `arXiv:2xxx.xxxxx` 或仓库"
-  },
-  {
-   "kind": "modified",
-   "block": "b5c0e866",
-   "type": "code",
-   "context": "8. 设计 token（W2 写进 `css/tokens.css`，W3/W4"
-  },
-  {
-   "kind": "modified",
-   "block": "12a5e1e6",
-   "type": "para",
-   "context": "8. 设计 token（W2 写进 `css/tokens.css`，W3/W4"
+   "context": "O3: Design-aligned tests establish mecha"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:1db0f53e81abfe63ee06147b0f33c053a9b1f4b8235d2a0970ce5bf0cc9b77a8",
+ "soft_fingerprint": "ppsb1:a0cac45f3a8d4ca09eaffc4c5c2fa38c7b0c11d0d1e7e1761b5ab68a5451211f",
  "actors": {
   "requested_by": [
-   "proofpress-dev-1"
+   "Richard Tang"
+  ],
+  "produced_by": [
+   "OpenAI Codex"
   ],
   "edited_by": [
-   "design worker (proofpress-dev-19), executing on orchestrator's behalf"
+   "OpenAI Codex"
   ],
   "recorded_by": [
-   "orchestrator"
+   "OpenAI Codex"
   ]
  },
  "attribution_basis": "self_asserted",
+ "claims": [
+  {
+   "block": "f1498f86",
+   "kind": "modified",
+   "note": "Defines stale admission as a mismatch between recorded and current artifact identity."
+  },
+  {
+   "block": "d925bd21",
+   "kind": "modified",
+   "note": "Distinguishes validation of the decision rule from external efficacy."
+  }
+ ],
  "context": {
-  "why": "两处裁决落地：§8 的“深色底…不要圆润卡通”改成主题无关的通用表述（不再绑定具体底色），--font-serif 正式收进 §8 的 17-token 闭集。另加一次调研+spec：用户要求 demo 参照 Vercel workspace 类产品的侧边栏交互，§6.5 从“单页两组卡片堆叠的 Home 看板”改写成“持久左侧边栏（Public/My Work/Ingest）+ 右侧内容区整体替换”的 workspace 外壳，调研依据是 Vercel 2026-02-26 全量上线的新版 dashboard 侧边栏改版和 Vercel 官方 Next.js dashboard 教程的侧边栏交互骨架（只借交互骨架，配色仍是 §2 的 ARA 纸面系统）。新增 §6.6 Ingest 入口，明确写死这是 fixture 级别的脚本化演示流程，不是真实抽取——直接呼应 §1 “不做真的上传抽取 pipeline”的边界，防止被当成真功能实现。My Work 卡片加 Draft 徽标示意“未发布 work”概念，未新增数据，草稿字段命名（建议 publish_state）只是给 orchestrator/W1 的建议，不是已拍板的 schema 变更。",
-  "rejected": [
-   "把 Ingest 做成弹窗而不是侧边栏项 — 用户明确说了三项都在侧边栏（Public/My Work/一个 ingest 入口），弹窗会削弱它作为一等 workspace 分区的存在感",
-   "侧边栏收纳所有已有的详情页顶栏内容（把两个数据集 tab 也挪进侧边栏） — 会让详情页内部路由和顶层 workspace 路由绑死，且和已经落地的 rit-integrate 实现（commit 0dc6e5e，两个 tab 是详情页内部状态）冲突面更大，改成只挪 wordmark，两个 tab 留在详情页顶栏"
-  ]
+  "why": "Clarify stale admission and the mechanism validity boundary"
  },
- "event_id": "ppe_1ecccfbf69e66611628a90ac"
+ "event_id": "ppe_bb395d789c3eb5fc3875356a"
 }
