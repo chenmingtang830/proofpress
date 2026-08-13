@@ -118,9 +118,9 @@
   },
   {
    "type": "table",
-   "text": "| 项 | 决定 |\n|---|---|\n| 构建 | **无构建步骤。** 不装 npm 包，不写 package.json，不用 CDN |\n| JS | 原生 ES modules（`<script type=\"module\">`），无框架 |\n| CSS | 手写，无预处理器。变量集中在 `css/tokens.css` |\n| 数据 | **`.js` 文件，`export const ledger = {...}`**。不用 `.json` + fetch —— 保证 `file://` 直接双击能跑 |\n| 图形 | 内联 SVG，手写。不引入 d3 / cytoscape |\n| 主题 | **只做深色一套**，刻意选择。infra 产品调性，投影仪友好 |\n| 浏览器 | 只需 Chrome 最新版跑通 |\n| 字体 | 只用系统字体栈，不加载外部字体 |",
+   "text": "| 项 | 决定 |\n|---|---|\n| 构建 | 不装 npm 包，不写 package.json，不用 CDN。**唯一例外**：一个 Python 标准库写的内联脚本，见 §12 |\n| JS | 原生 ES modules（`<script type=\"module\">`），无框架 |\n| CSS | 手写，无预处理器。变量集中在 `css/tokens.css` |\n| 数据 | **`.js` 文件，`export const ledger = {...}`**。不用 `.json` + fetch |\n| 图形 | 内联 SVG，手写。不引入 d3 / cytoscape |\n| 主题 | **只做深色一套**，刻意选择。infra 产品调性，投影仪友好 |\n| 浏览器 | 只需 Chrome 最新版跑通 |\n| 字体 | 只用系统字体栈，不加载外部字体 |",
    "id": "c2f8f6e2",
-   "hash": "be028193a44a"
+   "hash": "2eb042699dea"
   },
   {
    "type": "para",
@@ -178,9 +178,9 @@
   },
   {
    "type": "code",
-   "text": "```js\nexport const ledger = {\n  id: \"ftrl-2025\",\n  title: \"…论文标题…\",\n  subtitle: \"29 claims extracted · grounded only against released code and data\",\n  source: { kind: \"paper\" | \"live-research\", ref: \"arXiv:… 或 repo 路径\" },\n  root_hash: \"sha256:7ef5…\",\n  counts: { settled: 9, open: 18, rejected: 2, dead_end: 0 },\n\n  // 首屏要高亮的那一条（见 §6.1 callout）\n  spotlight: { node_id: \"c14\", message: \"This paper's headline number is OPEN.\" },\n\n  nodes: [\n    {\n      id: \"c07\",\n      label: \"val_loss floor of 3.28 is reached within 3000 steps\",   // 自然语言 @claim\n      kind: \"claim\",            // claim|question|decision|experiment|dead_end|pivot\n      status: \"settled\",        // settled|open|rejected|disputed\n      tier: \"L2\",               // T0|T1|L1|L2|L3|K|null   (RIT Table 2)\n      provenance: \"ai-executed\",// user|ai-suggested|ai-executed|user-revised (ARA P2)\n      depends_on: [\"c02\"],\n\n      // Hume's fork：一条 claim 劈成两半，走两个不同 oracle\n      empirical: [{\n        assertion: \"val_loss <= 3.28\",\n        evidence_path: \"evidence/data/train.log\",\n        sha256: \"a41f9c…\",\n        extractor: { kind: \"regex_float\", pattern: \"step:(\\\\d+)/M val_loss:([\\\\d.]+)\", group: 2 },\n        claimed: 3.28,\n        extracted: 3.28,\n        verdict: \"pass\"        // pass|fail|unreachable\n      }],\n      analytical: [{\n        theorem: \"reach_3025 : steps_to_target <= 3025\",\n        lean: \"theorem reach_3025 : steps_to_target <= 3025 := by decide\",\n        verdict: \"pass\",        // pass|fail|unchecked\n        axioms: [\"Lean.trustCompiler\", \"cfg_grounding_b2\"],\n        whitelist_ok: true,\n        has_sorry: false\n      }],\n\n      admission: {\n        actor: \"referee\", actor_kind: \"agent\",   // human|agent\n        at: \"2026-05-11T09:22Z\",\n        why: \"both oracles discharged; no collision with admitted set\",\n        supersedes: null\n      },\n\n      // 仅 status===\"open\" 时出现：为什么够不到\n      unreachable: {\n        reason: \"The value is an average over training runs recorded in a wandb log the repository does not ship.\",\n        missing: [\"wandb/run-*/summary.json\"]\n      },\n\n      // 仅 kind===\"dead_end\" 时出现（ARA Table 1）\n      dead_end: { hypothesis: \"…\", failure_mode: \"…\", lesson: \"…\" },\n\n      // 仅 status===\"disputed\" 时出现（RIT Table 3）\n      dispute: { with: \"c11\", kind: \"A\", proof: \"theorem boom : False := …\", resolution: \"…\" }\n    }\n  ]\n};\n```",
+   "text": "```js\nexport const ledger = {\n  id: \"ftrl-2025\",\n  title: \"…论文标题…\",\n  subtitle: \"29 claims extracted · grounded only against released code and data\",\n  source: { kind: \"paper\" | \"live-research\", ref: \"arXiv:… 或 repo 路径\" },\n  root_hash: \"sha256:7ef5…\",\n  counts: { settled: 9, open: 18, rejected: 2, dead_end: 0 },\n\n  // 可选。页脚 provenance 行的文案（§9）。缺席时用 §9 默认文案。\n  // 每个数据集应各自提供 —— 默认文案讲的是 RIT §7.4，挂在 My Research 上不准确。\n  provenance: \"Fixture data · … · no live verification performed\",\n\n  // 首屏要高亮的那一条（见 §6.1 callout）\n  spotlight: { node_id: \"c14\", message: \"This paper's headline number is OPEN.\" },\n\n  nodes: [\n    {\n      id: \"c07\",\n      label: \"val_loss floor of 3.28 is reached within 3000 steps\",   // 自然语言 @claim\n      kind: \"claim\",            // claim|question|decision|experiment|dead_end|pivot\n      status: \"settled\",        // settled|open|rejected|disputed\n      tier: \"L2\",               // T0|T1|L1|L2|L3|K|null   (RIT Table 2)\n      provenance: \"ai-executed\",// user|ai-suggested|ai-executed|user-revised (ARA P2)\n      depends_on: [\"c02\"],\n\n      // Hume's fork：一条 claim 劈成两半，走两个不同 oracle\n      empirical: [{\n        assertion: \"val_loss <= 3.28\",\n        evidence_path: \"evidence/data/train.log\",\n        sha256: \"a41f9c…\",\n        extractor: { kind: \"regex_float\", pattern: \"step:(\\\\d+)/M val_loss:([\\\\d.]+)\", group: 2 },\n        claimed: 3.28,\n        extracted: 3.28,\n        verdict: \"pass\"        // pass|fail|unreachable\n      }],\n      analytical: [{\n        theorem: \"reach_3025 : steps_to_target <= 3025\",\n        lean: \"theorem reach_3025 : steps_to_target <= 3025 := by decide\",\n        verdict: \"pass\",        // pass|fail|unchecked\n        axioms: [\"Lean.trustCompiler\", \"cfg_grounding_b2\"],\n        whitelist_ok: true,\n        has_sorry: false\n      }],\n\n      admission: {\n        actor: \"referee\", actor_kind: \"agent\",   // human|agent\n        at: \"2026-05-11T09:22Z\",\n        why: \"both oracles discharged; no collision with admitted set\",\n        supersedes: null\n      },\n\n      // 仅 status===\"open\" 时出现：为什么够不到\n      unreachable: {\n        reason: \"The value is an average over training runs recorded in a wandb log the repository does not ship.\",\n        missing: [\"wandb/run-*/summary.json\"]\n      },\n\n      // 仅 kind===\"dead_end\" 时出现（ARA Table 1）\n      dead_end: { hypothesis: \"…\", failure_mode: \"…\", lesson: \"…\" },\n\n      // 仅 status===\"disputed\" 时出现（RIT Table 3）\n      dispute: { with: \"c11\", kind: \"A\", proof: \"theorem boom : False := …\", resolution: \"…\" }\n    }\n  ]\n};\n```",
    "id": "42970cd8",
-   "hash": "1d7b23a610c5"
+   "hash": "10564db7ece8"
   },
   {
    "type": "para",
@@ -424,15 +424,15 @@
   },
   {
    "type": "list",
-   "text": "- `data/SOURCES.md` 必须逐条标注每个数字的出处：来自论文哪一节 / 哪张表，还是为凑齐视图生成的示例行。\n- 页面**页脚必须常驻一行 provenance**，例如：",
+   "text": "- `data/SOURCES.md` 必须逐条标注每个数字的出处：来自论文哪一节 / 哪张表，还是为凑齐视图生成的示例行。\n- 页面**页脚必须常驻一行 provenance**，内容取自 `ledger.provenance`（§5，每个数据集各自提供）。",
    "id": "a1bc1c0d",
-   "hash": "0a94d504e5ea"
+   "hash": "ff2f28f6ea76"
   },
   {
    "type": "para",
-   "text": "  `Fixture data · claim counts and the spotlight case from RIT §7.4 / Table 9 · remaining rows illustrative · no live verification performed`",
+   "text": "  字段缺席时回退到默认文案：\n  `Fixture data · claim counts and the spotlight case from RIT §7.4 / Table 9 · remaining rows illustrative · no live verification performed`\n  这行随数据集切换而变 —— Paper 和 My Research 的出处不同，两边共用一句话本身就是不诚实的。",
    "id": "4d77729e",
-   "hash": "de5cdd2299ea"
+   "hash": "b31c9d88cb29"
   },
   {
    "type": "list",
@@ -496,15 +496,75 @@
   },
   {
    "type": "heading",
-   "text": "## 11. 验收标准",
+   "text": "## 12. 交付形态：源码用 module，交付用单文件",
    "id": "1f2e76bf",
-   "hash": "3c2c0034d688"
+   "hash": "06f4e6ed54b4"
+  },
+  {
+   "type": "para",
+   "text": "**背景（W4 于 2026-08-12 实测发现）**：Chrome 下 `file://` 的 origin 是 null，\n外部 ES module 的 `import` 会被 CORS 拦截。原 §3 里\"用 `.js` 而不是 JSON 就能双击打开\"\n的推理是错的 —— 那只解决了 `fetch`，没解决 module 加载本身。",
+   "hash": "5d4d75b94e8c",
+   "id": "5989c0a6"
+  },
+  {
+   "type": "para",
+   "text": "**决定：不改 module 架构，改交付形态。** 两种形态并存：",
+   "hash": "393126b1151d",
+   "id": "5c7943b8"
+  },
+  {
+   "type": "table",
+   "text": "| 形态 | 路径 | 怎么跑 | 给谁 |\n|---|---|---|---|\n| 开发态 | `rit-hub-demo/index.html` + `js/` `css/` `data/` | `python3 -m http.server` 后开 localhost | worker 开发、逐文件 review |\n| 交付态 | `rit-hub-demo/dist/rit-hub-demo.html` | **双击即开**，`file://` 直接跑 | 用户验收、投资人演示、发给别人 |",
+   "hash": "09a44dd37b6b",
+   "id": "7bb39ce9"
+  },
+  {
+   "type": "para",
+   "text": "交付态由 §12 的内联脚本从开发态生成：把所有 CSS `<style>` 进去、把所有 module\n按依赖顺序拼成**一个 inline `<script type=\"module\">`**（内联 module script 在\n`file://` 下可以执行，被拦的只是外部 module 的 fetch），SVG 和数据一并内联。\n产物必须零外部引用。",
+   "hash": "86fe8446cdc9",
+   "id": "1b878e75"
+  },
+  {
+   "type": "para",
+   "text": "`build.py` —— 只用 Python 标准库，不装任何依赖，归**整合 worker**所有。\n它不是 webpack 意义上的构建工具，是个几十行的拼接脚本，所以不违反 §3 的精神。",
+   "hash": "1a4b229a094f",
+   "id": "52404a2e"
+  },
+  {
+   "type": "para",
+   "text": "单文件交付顺带是个正确的产品隐喻：**一个自包含、可核验、能独立旅行的 artifact** ——\n跟 Proofpress portable capsule 是同一个想法。§9 那行 provenance 页脚要一起带走。",
+   "hash": "30b551a46376",
+   "id": "cabd0c14"
+  },
+  {
+   "type": "para",
+   "text": "---",
+   "hash": "f1624c9c50ca",
+   "id": "0016331f"
+  },
+  {
+   "type": "heading",
+   "text": "## 11. 验收标准",
+   "hash": "3c2c0034d688",
+   "id": "f6e5ba01"
   },
   {
    "type": "list",
-   "text": "1. 双击 `index.html` 用 Chrome 打开就能跑（`file://`，无需服务器）\n2. 两个 tab 都有数据，都能切\n3. 表格任意行可点开 drawer，drawer 里 Hume's fork 两栏并置\n4. Graph 视图里能同时看到 settled claim 和 dead_end 节点\n5. Spotlight callout 可点，直达那条 OPEN 的头条 claim\n6. 页脚 provenance 行常驻\n7. 控制台零报错\n8. 1440×900 下不横向滚动；drawer 打开时主体不跳动",
+   "text": "1. `dist/rit-hub-demo.html` 双击用 Chrome 打开就能跑（`file://`，零外部引用）；",
    "id": "81d06d0c",
-   "hash": "8250330db63e"
+   "hash": "09bd97173697"
+  },
+  {
+   "type": "para",
+   "text": "   开发态 `index.html` 在 `python3 -m http.server` 下跑通",
+   "hash": "f515ac09debc",
+   "id": "3e962ee3"
+  },
+  {
+   "type": "list",
+   "text": "2. 两个 tab 都有数据，都能切\n3. 表格任意行可点开 drawer，drawer 里 Hume's fork 两栏并置\n4. Graph 视图里能同时看到 settled claim 和 dead_end 节点\n5. Spotlight callout 可点，直达那条 OPEN 的头条 claim\n6. 页脚 provenance 行常驻\n7. 控制台零报错\n8. 1440×900 下不横向滚动；drawer 打开时主体不跳动",
+   "hash": "e12c390e9bd6",
+   "id": "d74165c7"
   }
  ]
 }
