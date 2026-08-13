@@ -2,751 +2,207 @@
  "event": "version_created",
  "artifact": "experiments/provenance_handoff/ara/PAPER.md",
  "artifact_id": "pp_cb6d0883f4bda071d2137869",
- "version": "4060996a",
- "parent": "98f900a6",
+ "version": "83f56f31",
+ "parent": "4060996a",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-13T07:37:43+00:00",
+ "ts": "2026-08-13T08:31:05+00:00",
  "stats": {
-  "added": 84,
-  "removed": 20
+  "added": 20,
+  "modified": 6,
+  "removed": 1
  },
  "changes": [
   {
    "kind": "added",
+   "block": "3de79e34",
+   "type": "para",
+   "context": "(文首)",
+   "preview": "---\ntitle: \"Proofpress: A Version-Bound Admission Protocol f"
+  },
+  {
+   "kind": "added",
+   "block": "109f499a",
+   "type": "list",
+   "context": "(文首)",
+   "preview": "  - \"Readable handoffs reduce rediscovery, but do not establ"
+  },
+  {
+   "kind": "added",
+   "block": "28b52783",
+   "type": "para",
+   "context": "(文首)",
+   "preview": "abstract: \"AI agents increasingly inherit work whose underly"
+  },
+  {
+   "kind": "modified",
    "block": "ba410001",
    "type": "heading",
-   "context": "When can an AI agent trust inherited wor",
-   "preview": "# When can an AI agent trust inherited work?"
+   "context": "Proofpress: A Version-Bound Admission Pr"
   },
   {
-   "kind": "added",
-   "block": "ba410002",
-   "type": "heading",
-   "context": "Version-bound admission for portable age",
-   "preview": "## Version-bound admission for portable agent handoffs"
-  },
-  {
-   "kind": "added",
-   "block": "ba410003",
-   "type": "para",
-   "context": "Version-bound admission for portable age",
-   "preview": "**Working paper — Proofpress research team.** **Evidence sta"
-  },
-  {
-   "kind": "added",
-   "block": "ba410004",
-   "type": "para",
-   "context": "Version-bound admission for portable age",
-   "preview": "> **Takeaway:** A handoff tells a successor agent what its p"
-  },
-  {
-   "kind": "added",
-   "block": "ba410005",
-   "type": "heading",
-   "context": "Abstract",
-   "preview": "## Abstract"
-  },
-  {
-   "kind": "added",
-   "block": "ba410006",
-   "type": "para",
-   "context": "Abstract",
-   "preview": "AI agents increasingly inherit documents, analyses, and deci"
-  },
-  {
-   "kind": "added",
-   "block": "ba410007",
-   "type": "para",
-   "context": "Abstract",
-   "preview": "We study stale inheritance as an admission problem. Proofpre"
-  },
-  {
-   "kind": "added",
-   "block": "ba410008",
-   "type": "para",
-   "context": "Abstract",
-   "preview": "Across three knowledge-handoff fixtures, both prose and stru"
-  },
-  {
-   "kind": "added",
-   "block": "ba410009",
-   "type": "para",
-   "context": "Abstract",
-   "preview": "These results support a bounded conclusion: readable handoff"
-  },
-  {
-   "kind": "added",
-   "block": "ba41000a",
-   "type": "heading",
-   "context": "1. Introduction",
-   "preview": "## 1. Introduction"
-  },
-  {
-   "kind": "added",
-   "block": "ba41000b",
-   "type": "para",
-   "context": "1. Introduction",
-   "preview": "Imagine that one agent researches a policy, writes a recomme"
-  },
-  {
-   "kind": "added",
-   "block": "ba41000c",
-   "type": "para",
-   "context": "1. Introduction",
-   "preview": "This failure is not primarily about retrieval. The successor"
-  },
-  {
-   "kind": "added",
+   "kind": "modified",
    "block": "ba41000d",
    "type": "para",
-   "context": "1. Introduction",
-   "preview": "This paper distinguishes two handoff problems:"
+   "context": "1. Introduction"
   },
   {
-   "kind": "added",
-   "block": "62bd04aa",
-   "type": "list",
-   "context": "1. Introduction",
-   "preview": "1. **Knowledge handoff debt:** missing context forces a succ"
-  },
-  {
-   "kind": "added",
-   "block": "ae1caf8d",
-   "type": "para",
-   "context": "1. Introduction",
-   "preview": "A strong memo can reduce the first problem. The second requi"
-  },
-  {
-   "kind": "added",
+   "kind": "modified",
    "block": "ba41000e",
    "type": "para",
-   "context": "1. Introduction",
-   "preview": "Proofpress is a deterministic artifact-provenance and admiss"
+   "context": "1. Introduction"
   },
   {
-   "kind": "added",
-   "block": "ba41000f",
-   "type": "para",
-   "context": "1. Introduction",
-   "preview": "We make three contributions:"
-  },
-  {
-   "kind": "added",
+   "kind": "modified",
    "block": "3240f8d2",
    "type": "list",
-   "context": "1. Introduction",
-   "preview": "1. We formulate agent handoff under artifact drift as a rece"
+   "context": "1. Introduction"
   },
   {
    "kind": "added",
-   "block": "ba410010",
+   "block": "ba410051",
    "type": "heading",
-   "context": "2. From memory transfer to artifact admi",
-   "preview": "## 2. From memory transfer to artifact admission"
+   "context": "2.0 Protocol overview",
+   "preview": "### 2.0 Protocol overview"
   },
   {
    "kind": "added",
-   "block": "ba410011",
-   "type": "heading",
-   "context": "2.1 System model",
-   "preview": "### 2.1 System model"
-  },
-  {
-   "kind": "added",
-   "block": "ba410012",
+   "block": "ba410052",
    "type": "para",
-   "context": "2.1 System model",
-   "preview": "Let an originating agent produce artifact revision `A_t`, ha"
+   "context": "2.0 Protocol overview",
+   "preview": "VBAP has five logical operations: **record** an accepted art"
   },
   {
-   "kind": "added",
-   "block": "ba410013",
-   "type": "code",
-   "context": "2.1 System model",
-   "preview": "```text\nOriginating agent                         Successor "
-  },
-  {
-   "kind": "added",
-   "block": "ba410014",
-   "type": "para",
-   "context": "2.1 System model",
-   "preview": "The purpose of the check is not to reject every change. A us"
-  },
-  {
-   "kind": "added",
-   "block": "ba410015",
-   "type": "heading",
-   "context": "2.2 What Proofpress adds",
-   "preview": "### 2.2 What Proofpress adds"
-  },
-  {
-   "kind": "added",
-   "block": "ba410016",
-   "type": "para",
-   "context": "2.2 What Proofpress adds",
-   "preview": "The ordinary handoff condition contains natural-language con"
-  },
-  {
-   "kind": "added",
-   "block": "ba410017",
-   "type": "heading",
-   "context": "2.3 What Proofpress does not add",
-   "preview": "### 2.3 What Proofpress does not add"
-  },
-  {
-   "kind": "added",
-   "block": "ba410018",
-   "type": "para",
-   "context": "2.3 What Proofpress does not add",
-   "preview": "Proofpress is not a language model, memory service, semantic"
-  },
-  {
-   "kind": "added",
-   "block": "ba410019",
-   "type": "heading",
-   "context": "3. Evaluation design",
-   "preview": "## 3. Evaluation design"
-  },
-  {
-   "kind": "added",
-   "block": "ba41001a",
-   "type": "heading",
-   "context": "3.1 Research questions",
-   "preview": "### 3.1 Research questions"
-  },
-  {
-   "kind": "added",
-   "block": "ba41001b",
-   "type": "para",
-   "context": "3.1 Research questions",
-   "preview": "The local program converged on four questions:"
-  },
-  {
-   "kind": "added",
-   "block": "8265ed30",
-   "type": "list",
-   "context": "3.1 Research questions",
-   "preview": "- **RQ1 — Continuity:** Does any competent handoff reduce su"
-  },
-  {
-   "kind": "added",
-   "block": "ba41001c",
-   "type": "heading",
-   "context": "3.2 Conditions",
-   "preview": "### 3.2 Conditions"
-  },
-  {
-   "kind": "added",
-   "block": "ba41001d",
-   "type": "para",
-   "context": "3.2 Conditions",
-   "preview": "The continuity study compared artifacts only (H0), natural p"
-  },
-  {
-   "kind": "added",
-   "block": "ba41001e",
-   "type": "heading",
-   "context": "3.3 Outcomes and evidence hierarchy",
-   "preview": "### 3.3 Outcomes and evidence hierarchy"
-  },
-  {
-   "kind": "added",
-   "block": "ba41001f",
-   "type": "para",
-   "context": "3.3 Outcomes and evidence hierarchy",
-   "preview": "Primary outcomes were source rediscovery, correct proceed/re"
-  },
-  {
-   "kind": "added",
-   "block": "ba410020",
-   "type": "para",
-   "context": "3.3 Outcomes and evidence hierarchy",
-   "preview": "We do not pool transport qualifications, raw matrices, local"
-  },
-  {
-   "kind": "added",
-   "block": "ba410021",
-   "type": "heading",
-   "context": "4. Results",
-   "preview": "## 4. Results"
-  },
-  {
-   "kind": "added",
-   "block": "ba410022",
-   "type": "heading",
-   "context": "4.1 A readable handoff reduces rediscove",
-   "preview": "### 4.1 A readable handoff reduces rediscovery"
-  },
-  {
-   "kind": "added",
-   "block": "ba410023",
-   "type": "para",
-   "context": "4.1 A readable handoff reduces rediscove",
-   "preview": "Knowledge Handoff Track 1 tested three non-coding documentat"
-  },
-  {
-   "kind": "added",
-   "block": "ba410024",
-   "type": "para",
-   "context": "4.1 A readable handoff reduces rediscove",
-   "preview": "This is the simplest result in the program: a competent hand"
-  },
-  {
-   "kind": "added",
-   "block": "ba410025",
-   "type": "heading",
-   "context": "4.2 Provenance did not show a general cl",
-   "preview": "### 4.2 Provenance did not show a general clean-task quality"
-  },
-  {
-   "kind": "added",
-   "block": "ba410026",
-   "type": "para",
-   "context": "4.2 Provenance did not show a general cl",
-   "preview": "Across sidecar, multi-agent document, public-source legal, r"
-  },
-  {
-   "kind": "added",
-   "block": "ba410027",
-   "type": "para",
-   "context": "4.2 Provenance did not show a general cl",
-   "preview": "The negative result narrows the claim. Adding lineage cannot"
-  },
-  {
-   "kind": "added",
-   "block": "ba410028",
-   "type": "heading",
-   "context": "4.3 Version binding prevented stale cont",
-   "preview": "### 4.3 Version binding prevented stale continuation in the "
-  },
-  {
-   "kind": "added",
-   "block": "ba410029",
-   "type": "para",
-   "context": "4.3 Version binding prevented stale cont",
-   "preview": "The strongest experiment isolated receive-time admission on "
-  },
-  {
-   "kind": "added",
-   "block": "ba41002a",
-   "type": "para",
-   "context": "4.3 Version binding prevented stale cont",
-   "preview": "A frozen-protocol model-robustness follow-up repeated the sa"
-  },
-  {
-   "kind": "added",
-   "block": "ba41002b",
-   "type": "para",
-   "context": "4.3 Version binding prevented stale cont",
-   "preview": "The complete separation is interpretable because the interve"
-  },
-  {
-   "kind": "added",
-   "block": "ba41002c",
-   "type": "heading",
-   "context": "4.4 Binding supports selective revalidat",
-   "preview": "### 4.4 Binding supports selective revalidation rather than "
-  },
-  {
-   "kind": "added",
-   "block": "ba41002d",
-   "type": "para",
-   "context": "4.4 Binding supports selective revalidat",
-   "preview": "Knowledge Handoff Track 2 tested six fixed two-state fixture"
-  },
-  {
-   "kind": "added",
-   "block": "ba41002e",
-   "type": "para",
-   "context": "4.4 Binding supports selective revalidat",
-   "preview": "This result supplies the product behavior missing from a sim"
-  },
-  {
-   "kind": "added",
-   "block": "ba41002f",
-   "type": "heading",
-   "context": "4.5 Visible contradictions can erase the",
-   "preview": "### 4.5 Visible contradictions can erase the final safety di"
-  },
-  {
-   "kind": "added",
-   "block": "ba410030",
-   "type": "para",
-   "context": "4.5 Visible contradictions can erase the",
-   "preview": "In the HiEviDR-derived R1 fault, the stale working synthesis"
-  },
-  {
-   "kind": "added",
-   "block": "ba410031",
-   "type": "para",
-   "context": "4.5 Visible contradictions can erase the",
-   "preview": "The Policy R1 studies showed the same distinction. In the pr"
-  },
-  {
-   "kind": "added",
-   "block": "ba410032",
-   "type": "para",
-   "context": "4.5 Visible contradictions can erase the",
-   "preview": "These results show a recovery-path effect rather than a univ"
-  },
-  {
-   "kind": "added",
-   "block": "ba410033",
-   "type": "heading",
-   "context": "5. Discussion",
-   "preview": "## 5. Discussion"
-  },
-  {
-   "kind": "added",
-   "block": "ba410034",
-   "type": "heading",
-   "context": "5.1 The central result",
-   "preview": "### 5.1 The central result"
-  },
-  {
-   "kind": "added",
-   "block": "ba410035",
-   "type": "para",
-   "context": "5.1 The central result",
-   "preview": "The experiments separate two layers that are easy to collaps"
-  },
-  {
-   "kind": "added",
-   "block": "ba410036",
-   "type": "para",
-   "context": "5.1 The central result",
-   "preview": "This distinction explains both the positive and null results"
-  },
-  {
-   "kind": "added",
-   "block": "ba410037",
-   "type": "heading",
-   "context": "5.2 Product implication",
-   "preview": "### 5.2 Product implication"
-  },
-  {
-   "kind": "added",
-   "block": "ba410038",
-   "type": "para",
-   "context": "5.2 Product implication",
-   "preview": "The supported product claim is narrow but useful: **Proofpre"
-  },
-  {
-   "kind": "added",
-   "block": "ba410039",
-   "type": "para",
-   "context": "5.2 Product implication",
-   "preview": "The relevant comparison is therefore not “Proofpress versus "
-  },
-  {
-   "kind": "added",
-   "block": "ba41003a",
-   "type": "heading",
-   "context": "5.3 Why the negative results matter",
-   "preview": "### 5.3 Why the negative results matter"
-  },
-  {
-   "kind": "added",
-   "block": "ba41003b",
-   "type": "para",
-   "context": "5.3 Why the negative results matter",
-   "preview": "The failed broad-quality hypothesis prevents the mechanism r"
-  },
-  {
-   "kind": "added",
-   "block": "ba41003c",
-   "type": "heading",
-   "context": "5.4 Measurement sensitivity",
-   "preview": "### 5.4 Measurement sensitivity"
-  },
-  {
-   "kind": "added",
-   "block": "ba41003d",
-   "type": "para",
-   "context": "5.4 Measurement sensitivity",
-   "preview": "The STALE/CUPMem study illustrates why semantic outcomes req"
-  },
-  {
-   "kind": "added",
-   "block": "ba41003e",
-   "type": "heading",
-   "context": "6. Related work",
-   "preview": "## 6. Related work"
-  },
-  {
-   "kind": "added",
+   "kind": "modified",
    "block": "ba41003f",
-   "type": "para",
-   "context": "6. Related work",
-   "preview": "The broad ingredients are established. Long-context and evol"
+   "type": "heading",
+   "context": "6.1 Agent memory and handoff"
   },
   {
    "kind": "added",
-   "block": "ba410040",
+   "block": "0d91390e",
    "type": "para",
-   "context": "6. Related work",
+   "context": "6.1 Agent memory and handoff",
+   "preview": "Long-context and evolving-memory evaluations such as [LongMe"
+  },
+  {
+   "kind": "added",
+   "block": "ba410053",
+   "type": "heading",
+   "context": "6.2 Portable memory and provenance-aware",
+   "preview": "### 6.2 Portable memory and provenance-aware agents"
+  },
+  {
+   "kind": "added",
+   "block": "ba410054",
+   "type": "para",
+   "context": "6.2 Portable memory and provenance-aware",
+   "preview": "[Portable Agent Memory](https://arxiv.org/abs/2605.11032) an"
+  },
+  {
+   "kind": "modified",
+   "block": "ba410040",
+   "type": "heading",
+   "context": "6.3 Provenance and consume-time admissio"
+  },
+  {
+   "kind": "added",
+   "block": "5e2b5905",
+   "type": "para",
+   "context": "6.3 Provenance and consume-time admissio",
    "preview": "Provenance standards and software supply-chain systems—inclu"
   },
   {
    "kind": "added",
-   "block": "ba410041",
+   "block": "ba410055",
    "type": "heading",
-   "context": "7. Limitations",
-   "preview": "## 7. Limitations"
+   "context": "6.4 Scoped research gap",
+   "preview": "### 6.4 Scoped research gap"
   },
   {
    "kind": "added",
-   "block": "ba410042",
+   "block": "ba410056",
    "type": "para",
-   "context": "7. Limitations",
-   "preview": "First, the largest safety separation comes from a design-ali"
+   "context": "6.4 Scoped research gap",
+   "preview": "The literature therefore supplies each broad ingredient sepa"
   },
   {
    "kind": "added",
-   "block": "ba410043",
-   "type": "para",
-   "context": "7. Limitations",
-   "preview": "The next meaningful gate is independently authored or natura"
-  },
-  {
-   "kind": "added",
-   "block": "ba410044",
+   "block": "ba410057",
    "type": "heading",
-   "context": "8. Conclusion",
-   "preview": "## 8. Conclusion"
+   "context": "Layer Index",
+   "preview": "## Layer Index"
   },
   {
    "kind": "added",
-   "block": "ba410045",
-   "type": "para",
-   "context": "8. Conclusion",
-   "preview": "Agent handoff is not one problem. A successor needs enough s"
-  },
-  {
-   "kind": "added",
-   "block": "ba410046",
-   "type": "para",
-   "context": "8. Conclusion",
-   "preview": "The clearest way to understand Proofpress is therefore not a"
-  },
-  {
-   "kind": "added",
-   "block": "ba410047",
+   "block": "ba410058",
    "type": "heading",
-   "context": "Appendix A — experiment and evidence map",
-   "preview": "## Appendix A — experiment and evidence map"
+   "context": "Cognitive Layer (`/logic`)",
+   "preview": "### Cognitive Layer (`/logic`)"
   },
   {
    "kind": "added",
-   "block": "ba410048",
-   "type": "para",
-   "context": "Appendix A — experiment and evidence map",
-   "preview": "The complete local experiment inventory, denominators, valid"
-  },
-  {
-   "kind": "added",
-   "block": "ba410049",
+   "block": "61923531",
    "type": "table",
-   "context": "Appendix A — experiment and evidence map",
-   "preview": "| Evidence family | Role in this paper | Main-body use |\n|--"
+   "context": "Cognitive Layer (`/logic`)",
+   "preview": "| File | Description |\n|---|---|\n| [problem.md](logic/proble"
   },
   {
    "kind": "added",
-   "block": "ba41004a",
+   "block": "ba410059",
    "type": "heading",
-   "context": "Appendix B — invalid, excluded, and supe",
-   "preview": "## Appendix B — invalid, excluded, and superseded paths"
+   "context": "Physical Layer (`/src`)",
+   "preview": "### Physical Layer (`/src`)"
   },
   {
    "kind": "added",
-   "block": "ba41004b",
-   "type": "para",
-   "context": "Appendix B — invalid, excluded, and supe",
-   "preview": "Invalid runs are not silently folded into the narrative. Maj"
+   "block": "42cb0b87",
+   "type": "table",
+   "context": "Physical Layer (`/src`)",
+   "preview": "| File | Description |\n|---|---|\n| [environment.md](src/envi"
   },
   {
    "kind": "added",
-   "block": "ba41004c",
+   "block": "ba41005a",
    "type": "heading",
-   "context": "Appendix C — reproducibility and claim b",
-   "preview": "## Appendix C — reproducibility and claim boundaries"
+   "context": "Exploration Graph (`/trace`)",
+   "preview": "### Exploration Graph (`/trace`)"
   },
   {
    "kind": "added",
-   "block": "ba41004d",
-   "type": "para",
-   "context": "Appendix C — reproducibility and claim b",
-   "preview": "Machine-readable summaries, immutable reports, hashes, routi"
+   "block": "48cbe2d4",
+   "type": "table",
+   "context": "Exploration Graph (`/trace`)",
+   "preview": "| File | Description |\n|---|---|\n| [exploration_tree.yaml](t"
   },
   {
    "kind": "added",
-   "block": "ba41004e",
-   "type": "para",
-   "context": "Appendix C — reproducibility and claim b",
-   "preview": "The paper supports three claims: handoff can reduce visible "
+   "block": "ba41005b",
+   "type": "heading",
+   "context": "Evidence (`/evidence`)",
+   "preview": "### Evidence (`/evidence`)"
   },
   {
    "kind": "added",
-   "block": "ba41004f",
-   "type": "heading",
-   "context": "Appendix D — ARA artifact map",
-   "preview": "## Appendix D — ARA artifact map"
-  },
-  {
-   "kind": "added",
-   "block": "ba410050",
-   "type": "list",
-   "context": "Appendix D — ARA artifact map",
-   "preview": "- `logic/problem.md` — research problem and validity threat."
+   "block": "45399eb2",
+   "type": "table",
+   "context": "Evidence (`/evidence`)",
+   "preview": "| File | Description |\n|---|---|\n| [README.md](evidence/READ"
   },
   {
    "kind": "removed",
-   "block": "5ad8477e",
+   "block": "ba410002",
    "type": "heading",
    "context": "",
-   "preview": "# Research notebook — admitted provenance comparative study"
-  },
-  {
-   "kind": "removed",
-   "block": "d6d1bb11",
-   "type": "para",
-   "context": "",
-   "preview": "**Status:** The current paper record is a bounded mechanism "
-  },
-  {
-   "kind": "removed",
-   "block": "6ce745c5",
-   "type": "heading",
-   "context": "",
-   "preview": "## Artifact map"
-  },
-  {
-   "kind": "removed",
-   "block": "b9c6dba5",
-   "type": "list",
-   "context": "",
-   "preview": "- `logic/problem.md` — why conventional handoff does not pre"
-  },
-  {
-   "kind": "removed",
-   "block": "6979663a",
-   "type": "heading",
-   "context": "",
-   "preview": "## Abstract (draft)"
-  },
-  {
-   "kind": "removed",
-   "block": "4b96e0aa",
-   "type": "para",
-   "context": "",
-   "preview": "Agents often inherit an artifact together with prose describ"
-  },
-  {
-   "kind": "removed",
-   "block": "cd3b597c",
-   "type": "para",
-   "context": "",
-   "preview": "In a preregistered APEX-derived document fixture, ordinary h"
-  },
-  {
-   "kind": "removed",
-   "block": "f9ce7655",
-   "type": "para",
-   "context": "",
-   "preview": "The separation is unusually clean because Proofpress was des"
-  },
-  {
-   "kind": "removed",
-   "block": "6618b21b",
-   "type": "heading",
-   "context": "",
-   "preview": "## Interpretation and remaining validity work"
-  },
-  {
-   "kind": "removed",
-   "block": "141f1610",
-   "type": "para",
-   "context": "",
-   "preview": "The primary fixture is mechanism-targeted and design-aligned"
-  },
-  {
-   "kind": "removed",
-   "block": "52a2ea22",
-   "type": "para",
-   "context": "",
-   "preview": "The next evidentiary gate is not more sampling on the same f"
-  },
-  {
-   "kind": "removed",
-   "block": "da70fd3c",
-   "type": "heading",
-   "context": "",
-   "preview": "## Artifact Travel v3 replication status (2026-08-10)"
-  },
-  {
-   "kind": "removed",
-   "block": "d143b86a",
-   "type": "para",
-   "context": "",
-   "preview": "Artifact Travel v3-r2 is a separately frozen 45-cell success"
-  },
-  {
-   "kind": "removed",
-   "block": "9a3a3a77",
-   "type": "para",
-   "context": "",
-   "preview": "The completed report contains 44 scorable cells and one inva"
-  },
-  {
-   "kind": "removed",
-   "block": "6c420001",
-   "type": "heading",
-   "context": "",
-   "preview": "## Artifact Travel v4 temporal calibration"
-  },
-  {
-   "kind": "removed",
-   "block": "6c420002",
-   "type": "para",
-   "context": "",
-   "preview": "v4 is the next no-model-qualified protocol, not a reinterpre"
-  },
-  {
-   "kind": "removed",
-   "block": "adf00112",
-   "type": "heading",
-   "context": "",
-   "preview": "## APEX-direct admission matrix (2026-08-10)"
-  },
-  {
-   "kind": "removed",
-   "block": "adf00113",
-   "type": "para",
-   "context": "",
-   "preview": "The completed 18-cell APEX-derived SPA matrix isolates a nar"
-  },
-  {
-   "kind": "removed",
-   "block": "adf00118",
-   "type": "para",
-   "context": "",
-   "preview": "**Correction:** v1 cannot estimate C2 clean admission or dow"
-  },
-  {
-   "kind": "removed",
-   "block": "4249cd4c",
-   "type": "para",
-   "context": "",
-   "preview": "The historical MemConflict and completed STALE results remai"
+   "preview": "## Version-bound admission for portable agent handoffs"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:6d41c3343e1fec0a427699d2ef1fb60feadaefc0ec00f0c3caaffbf47d24f67e",
+ "soft_fingerprint": "ppsb1:3957e2a4bd037385a66107d4c2f37f31254bfb326f1e9728f451bbc6e4c5762b",
  "actors": {
   "requested_by": [
    "user"
@@ -761,531 +217,146 @@
    "Codex"
   ]
  },
- "attribution_basis": "environment_attested",
+ "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "3240f8d2",
-   "kind": "added",
-   "note": "Adds one block to the externally oriented research-paper narrative."
-  },
-  {
-   "block": "62bd04aa",
-   "kind": "added",
-   "note": "Adds one block to the externally oriented research-paper narrative."
-  },
-  {
-   "block": "8265ed30",
-   "kind": "added",
-   "note": "Adds one block to the externally oriented research-paper narrative."
-  },
-  {
-   "block": "ae1caf8d",
-   "kind": "added",
-   "note": "Adds one block to the externally oriented research-paper narrative."
-  },
-  {
    "block": "ba410001",
-   "kind": "added",
-   "note": "Adds one block to the externally oriented research-paper narrative."
-  },
-  {
-   "block": "ba410002",
-   "kind": "added",
-   "note": "Adds one block to the externally oriented research-paper narrative."
-  },
-  {
-   "block": "ba410003",
-   "kind": "added",
-   "note": "Adds one block to the externally oriented research-paper narrative."
-  },
-  {
-   "block": "ba410004",
-   "kind": "added",
-   "note": "Adds one block to the externally oriented research-paper narrative."
-  },
-  {
-   "block": "ba410005",
-   "kind": "added",
-   "note": "Adds one block to the externally oriented research-paper narrative."
-  },
-  {
-   "block": "ba410006",
-   "kind": "added",
-   "note": "Adds one block to the externally oriented research-paper narrative."
-  },
-  {
-   "block": "ba410007",
-   "kind": "added",
-   "note": "Adds one block to the externally oriented research-paper narrative."
-  },
-  {
-   "block": "ba410008",
-   "kind": "added",
-   "note": "Adds one block to the externally oriented research-paper narrative."
-  },
-  {
-   "block": "ba410009",
-   "kind": "added",
-   "note": "Adds one block to the externally oriented research-paper narrative."
-  },
-  {
-   "block": "ba41000a",
-   "kind": "added",
-   "note": "Adds one block to the externally oriented research-paper narrative."
-  },
-  {
-   "block": "ba41000b",
-   "kind": "added",
-   "note": "Adds one block to the externally oriented research-paper narrative."
-  },
-  {
-   "block": "ba41000c",
-   "kind": "added",
-   "note": "Adds one block to the externally oriented research-paper narrative."
+   "kind": "modified",
+   "note": "Renames the paper around Proofpress and the version-bound admission protocol."
   },
   {
    "block": "ba41000d",
-   "kind": "added",
-   "note": "Adds one block to the externally oriented research-paper narrative."
+   "kind": "modified",
+   "note": "Introduces VBAP as the named agent-provenance protocol."
   },
   {
    "block": "ba41000e",
-   "kind": "added",
-   "note": "Adds one block to the externally oriented research-paper narrative."
+   "kind": "modified",
+   "note": "Explains Proofpress as an implementation of the protocol."
   },
   {
-   "block": "ba41000f",
-   "kind": "added",
-   "note": "Adds one block to the externally oriented research-paper narrative."
-  },
-  {
-   "block": "ba410010",
-   "kind": "added",
-   "note": "Adds one block to the externally oriented research-paper narrative."
-  },
-  {
-   "block": "ba410011",
-   "kind": "added",
-   "note": "Adds one block to the externally oriented research-paper narrative."
-  },
-  {
-   "block": "ba410012",
-   "kind": "added",
-   "note": "Adds one block to the externally oriented research-paper narrative."
-  },
-  {
-   "block": "ba410013",
-   "kind": "added",
-   "note": "Adds one block to the externally oriented research-paper narrative."
-  },
-  {
-   "block": "ba410014",
-   "kind": "added",
-   "note": "Adds one block to the externally oriented research-paper narrative."
-  },
-  {
-   "block": "ba410015",
-   "kind": "added",
-   "note": "Adds one block to the externally oriented research-paper narrative."
-  },
-  {
-   "block": "ba410016",
-   "kind": "added",
-   "note": "Adds one block to the externally oriented research-paper narrative."
-  },
-  {
-   "block": "ba410017",
-   "kind": "added",
-   "note": "Adds one block to the externally oriented research-paper narrative."
-  },
-  {
-   "block": "ba410018",
-   "kind": "added",
-   "note": "Adds one block to the externally oriented research-paper narrative."
-  },
-  {
-   "block": "ba410019",
-   "kind": "added",
-   "note": "Adds one block to the externally oriented research-paper narrative."
-  },
-  {
-   "block": "ba41001a",
-   "kind": "added",
-   "note": "Adds one block to the externally oriented research-paper narrative."
-  },
-  {
-   "block": "ba41001b",
-   "kind": "added",
-   "note": "Adds one block to the externally oriented research-paper narrative."
-  },
-  {
-   "block": "ba41001c",
-   "kind": "added",
-   "note": "Adds one block to the externally oriented research-paper narrative."
-  },
-  {
-   "block": "ba41001d",
-   "kind": "added",
-   "note": "Adds one block to the externally oriented research-paper narrative."
-  },
-  {
-   "block": "ba41001e",
-   "kind": "added",
-   "note": "Adds one block to the externally oriented research-paper narrative."
-  },
-  {
-   "block": "ba41001f",
-   "kind": "added",
-   "note": "Adds one block to the externally oriented research-paper narrative."
-  },
-  {
-   "block": "ba410020",
-   "kind": "added",
-   "note": "Adds one block to the externally oriented research-paper narrative."
-  },
-  {
-   "block": "ba410021",
-   "kind": "added",
-   "note": "Adds one block to the externally oriented research-paper narrative."
-  },
-  {
-   "block": "ba410022",
-   "kind": "added",
-   "note": "Adds one block to the externally oriented research-paper narrative."
-  },
-  {
-   "block": "ba410023",
-   "kind": "added",
-   "note": "Adds one block to the externally oriented research-paper narrative."
-  },
-  {
-   "block": "ba410024",
-   "kind": "added",
-   "note": "Adds one block to the externally oriented research-paper narrative."
-  },
-  {
-   "block": "ba410025",
-   "kind": "added",
-   "note": "Adds one block to the externally oriented research-paper narrative."
-  },
-  {
-   "block": "ba410026",
-   "kind": "added",
-   "note": "Adds one block to the externally oriented research-paper narrative."
-  },
-  {
-   "block": "ba410027",
-   "kind": "added",
-   "note": "Adds one block to the externally oriented research-paper narrative."
-  },
-  {
-   "block": "ba410028",
-   "kind": "added",
-   "note": "Adds one block to the externally oriented research-paper narrative."
-  },
-  {
-   "block": "ba410029",
-   "kind": "added",
-   "note": "Adds one block to the externally oriented research-paper narrative."
-  },
-  {
-   "block": "ba41002a",
-   "kind": "added",
-   "note": "Adds one block to the externally oriented research-paper narrative."
-  },
-  {
-   "block": "ba41002b",
-   "kind": "added",
-   "note": "Adds one block to the externally oriented research-paper narrative."
-  },
-  {
-   "block": "ba41002c",
-   "kind": "added",
-   "note": "Adds one block to the externally oriented research-paper narrative."
-  },
-  {
-   "block": "ba41002d",
-   "kind": "added",
-   "note": "Adds one block to the externally oriented research-paper narrative."
-  },
-  {
-   "block": "ba41002e",
-   "kind": "added",
-   "note": "Adds one block to the externally oriented research-paper narrative."
-  },
-  {
-   "block": "ba41002f",
-   "kind": "added",
-   "note": "Adds one block to the externally oriented research-paper narrative."
-  },
-  {
-   "block": "ba410030",
-   "kind": "added",
-   "note": "Adds one block to the externally oriented research-paper narrative."
-  },
-  {
-   "block": "ba410031",
-   "kind": "added",
-   "note": "Adds one block to the externally oriented research-paper narrative."
-  },
-  {
-   "block": "ba410032",
-   "kind": "added",
-   "note": "Adds one block to the externally oriented research-paper narrative."
-  },
-  {
-   "block": "ba410033",
-   "kind": "added",
-   "note": "Adds one block to the externally oriented research-paper narrative."
-  },
-  {
-   "block": "ba410034",
-   "kind": "added",
-   "note": "Adds one block to the externally oriented research-paper narrative."
-  },
-  {
-   "block": "ba410035",
-   "kind": "added",
-   "note": "Adds one block to the externally oriented research-paper narrative."
-  },
-  {
-   "block": "ba410036",
-   "kind": "added",
-   "note": "Adds one block to the externally oriented research-paper narrative."
-  },
-  {
-   "block": "ba410037",
-   "kind": "added",
-   "note": "Adds one block to the externally oriented research-paper narrative."
-  },
-  {
-   "block": "ba410038",
-   "kind": "added",
-   "note": "Adds one block to the externally oriented research-paper narrative."
-  },
-  {
-   "block": "ba410039",
-   "kind": "added",
-   "note": "Adds one block to the externally oriented research-paper narrative."
-  },
-  {
-   "block": "ba41003a",
-   "kind": "added",
-   "note": "Adds one block to the externally oriented research-paper narrative."
-  },
-  {
-   "block": "ba41003b",
-   "kind": "added",
-   "note": "Adds one block to the externally oriented research-paper narrative."
-  },
-  {
-   "block": "ba41003c",
-   "kind": "added",
-   "note": "Adds one block to the externally oriented research-paper narrative."
-  },
-  {
-   "block": "ba41003d",
-   "kind": "added",
-   "note": "Adds one block to the externally oriented research-paper narrative."
-  },
-  {
-   "block": "ba41003e",
-   "kind": "added",
-   "note": "Adds one block to the externally oriented research-paper narrative."
+   "block": "3240f8d2",
+   "kind": "modified",
+   "note": "Recasts the first contribution as a protocol definition."
   },
   {
    "block": "ba41003f",
-   "kind": "added",
-   "note": "Adds one block to the externally oriented research-paper narrative."
+   "kind": "modified",
+   "note": "Expands prior work on memory and handoff."
   },
   {
    "block": "ba410040",
+   "kind": "modified",
+   "note": "Expands provenance and consume-time admission prior work."
+  },
+  {
+   "block": "ba410002",
+   "kind": "removed",
+   "note": "Removes the former subtitle after promoting the protocol framing to the title."
+  },
+  {
+   "block": "3de79e34",
    "kind": "added",
-   "note": "Adds one block to the externally oriented research-paper narrative."
+   "note": "Adds ARA YAML frontmatter."
   },
   {
-   "block": "ba410041",
+   "block": "109f499a",
    "kind": "added",
-   "note": "Adds one block to the externally oriented research-paper narrative."
+   "note": "Adds ARA YAML frontmatter metadata."
   },
   {
-   "block": "ba410042",
+   "block": "28b52783",
    "kind": "added",
-   "note": "Adds one block to the externally oriented research-paper narrative."
+   "note": "Adds ARA YAML frontmatter metadata."
   },
   {
-   "block": "ba410043",
+   "block": "ba410051",
    "kind": "added",
-   "note": "Adds one block to the externally oriented research-paper narrative."
+   "note": "Adds the protocol-overview section."
   },
   {
-   "block": "ba410044",
+   "block": "ba410052",
    "kind": "added",
-   "note": "Adds one block to the externally oriented research-paper narrative."
+   "note": "Defines the five protocol operations."
   },
   {
-   "block": "ba410045",
+   "block": "0d91390e",
    "kind": "added",
-   "note": "Adds one block to the externally oriented research-paper narrative."
+   "note": "Adds a related-work subsection heading."
   },
   {
-   "block": "ba410046",
+   "block": "ba410053",
    "kind": "added",
-   "note": "Adds one block to the externally oriented research-paper narrative."
+   "note": "Adds portable-memory and agent-provenance prior work."
   },
   {
-   "block": "ba410047",
+   "block": "ba410054",
    "kind": "added",
-   "note": "Adds one block to the externally oriented research-paper narrative."
+   "note": "States the delta from verifier-aware agent systems."
   },
   {
-   "block": "ba410048",
+   "block": "5e2b5905",
    "kind": "added",
-   "note": "Adds one block to the externally oriented research-paper narrative."
+   "note": "Adds the consume-time admission subsection."
   },
   {
-   "block": "ba410049",
+   "block": "ba410055",
    "kind": "added",
-   "note": "Adds one block to the externally oriented research-paper narrative."
+   "note": "Adds the scoped research-gap subsection."
   },
   {
-   "block": "ba41004a",
+   "block": "ba410056",
    "kind": "added",
-   "note": "Adds one block to the externally oriented research-paper narrative."
+   "note": "States the scoped literature conclusion and non-novelty boundary."
   },
   {
-   "block": "ba41004b",
+   "block": "ba410057",
    "kind": "added",
-   "note": "Adds one block to the externally oriented research-paper narrative."
+   "note": "Adds the required ARA Layer Index."
   },
   {
-   "block": "ba41004c",
+   "block": "ba410058",
    "kind": "added",
-   "note": "Adds one block to the externally oriented research-paper narrative."
+   "note": "Indexes the cognitive layer."
   },
   {
-   "block": "ba41004d",
+   "block": "61923531",
    "kind": "added",
-   "note": "Adds one block to the externally oriented research-paper narrative."
+   "note": "Lists cognitive-layer files."
   },
   {
-   "block": "ba41004e",
+   "block": "ba410059",
    "kind": "added",
-   "note": "Adds one block to the externally oriented research-paper narrative."
+   "note": "Indexes the physical layer."
   },
   {
-   "block": "ba41004f",
+   "block": "42cb0b87",
    "kind": "added",
-   "note": "Adds one block to the externally oriented research-paper narrative."
+   "note": "Lists physical-layer files."
   },
   {
-   "block": "ba410050",
+   "block": "ba41005a",
    "kind": "added",
-   "note": "Adds one block to the externally oriented research-paper narrative."
+   "note": "Indexes the exploration graph."
   },
   {
-   "block": "f9ce7655",
-   "kind": "removed",
-   "note": "Removes one stale research-notebook block superseded by the new paper narrative."
+   "block": "48cbe2d4",
+   "kind": "added",
+   "note": "Lists trace files."
   },
   {
-   "block": "cd3b597c",
-   "kind": "removed",
-   "note": "Removes one stale research-notebook block superseded by the new paper narrative."
+   "block": "ba41005b",
+   "kind": "added",
+   "note": "Indexes the evidence layer."
   },
   {
-   "block": "4249cd4c",
-   "kind": "removed",
-   "note": "Removes one stale research-notebook block superseded by the new paper narrative."
-  },
-  {
-   "block": "6c420001",
-   "kind": "removed",
-   "note": "Removes one stale research-notebook block superseded by the new paper narrative."
-  },
-  {
-   "block": "d6d1bb11",
-   "kind": "removed",
-   "note": "Removes one stale research-notebook block superseded by the new paper narrative."
-  },
-  {
-   "block": "9a3a3a77",
-   "kind": "removed",
-   "note": "Removes one stale research-notebook block superseded by the new paper narrative."
-  },
-  {
-   "block": "4b96e0aa",
-   "kind": "removed",
-   "note": "Removes one stale research-notebook block superseded by the new paper narrative."
-  },
-  {
-   "block": "6ce745c5",
-   "kind": "removed",
-   "note": "Removes one stale research-notebook block superseded by the new paper narrative."
-  },
-  {
-   "block": "52a2ea22",
-   "kind": "removed",
-   "note": "Removes one stale research-notebook block superseded by the new paper narrative."
-  },
-  {
-   "block": "6618b21b",
-   "kind": "removed",
-   "note": "Removes one stale research-notebook block superseded by the new paper narrative."
-  },
-  {
-   "block": "da70fd3c",
-   "kind": "removed",
-   "note": "Removes one stale research-notebook block superseded by the new paper narrative."
-  },
-  {
-   "block": "6979663a",
-   "kind": "removed",
-   "note": "Removes one stale research-notebook block superseded by the new paper narrative."
-  },
-  {
-   "block": "adf00112",
-   "kind": "removed",
-   "note": "Removes one stale research-notebook block superseded by the new paper narrative."
-  },
-  {
-   "block": "141f1610",
-   "kind": "removed",
-   "note": "Removes one stale research-notebook block superseded by the new paper narrative."
-  },
-  {
-   "block": "d143b86a",
-   "kind": "removed",
-   "note": "Removes one stale research-notebook block superseded by the new paper narrative."
-  },
-  {
-   "block": "adf00113",
-   "kind": "removed",
-   "note": "Removes one stale research-notebook block superseded by the new paper narrative."
-  },
-  {
-   "block": "adf00118",
-   "kind": "removed",
-   "note": "Removes one stale research-notebook block superseded by the new paper narrative."
-  },
-  {
-   "block": "b9c6dba5",
-   "kind": "removed",
-   "note": "Removes one stale research-notebook block superseded by the new paper narrative."
-  },
-  {
-   "block": "5ad8477e",
-   "kind": "removed",
-   "note": "Removes one stale research-notebook block superseded by the new paper narrative."
-  },
-  {
-   "block": "6c420002",
-   "kind": "removed",
-   "note": "Removes one stale research-notebook block superseded by the new paper narrative."
+   "block": "45399eb2",
+   "kind": "added",
+   "note": "Lists the evidence index."
   }
  ],
  "context": {
-  "why": "Replace the stale internal research notebook with an externally readable working-paper narrative centered on the distinction between handoff continuity and version-bound admission; move run failures and implementation chronology to appendices."
+  "why": "Reframe the external paper around Proofpress VBAP, add explicit prior work and the required ARA root manifest."
  },
- "event_id": "ppe_be92c352278cff4650a7511f"
+ "event_id": "ppe_12716d58d505272754ea65ca"
 }

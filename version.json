@@ -3,16 +3,28 @@
  "artifact_id": "pp_cb6d0883f4bda071d2137869",
  "blocks": [
   {
-   "type": "heading",
-   "text": "# When can an AI agent trust inherited work?",
-   "id": "ba410001",
-   "hash": "87d43f2cdfa4"
+   "type": "para",
+   "text": "---\ntitle: \"Proofpress: A Version-Bound Admission Protocol for Agent Handoffs\"\nauthors: [\"Proofpress Research Team\"]\nyear: 2026\nvenue: \"Technical report\"\ndoi: \"Not assigned\"\nara_version: \"1.0\"\ndomain: \"AI agent provenance and artifact admission\"\nkeywords: [\"AI agents\", \"provenance\", \"agent handoff\", \"artifact versioning\", \"admission control\", \"stale inheritance\", \"knowledge continuity\"]\nclaims_summary:",
+   "id": "3de79e34",
+   "hash": "08e2e30848cd"
+  },
+  {
+   "type": "list",
+   "text": "  - \"Readable handoffs reduce rediscovery, but do not establish that inherited work still applies to the current artifact revision.\"\n  - \"Version-bound admission separated clean continuation from stale-artifact continuation in the tested mechanism-aligned fixtures.\"\n  - \"The present evidence supports a bounded protocol-mechanism claim, not a general product-efficacy claim.\"",
+   "id": "109f499a",
+   "hash": "5150480536d0"
+  },
+  {
+   "type": "para",
+   "text": "abstract: \"AI agents increasingly inherit work whose underlying artifacts can change after a handoff. We introduce the Proofpress Version-Bound Admission Protocol, an agent-provenance protocol that binds accepted knowledge to an artifact revision and requires a receive-time disposition before reuse. Across local continuity, clean-task, stale-binding, policy, scientific-evidence, and two-state drift studies, readable handoffs reduced rediscovery but did not establish a general quality advantage; the stronger finding was that executable revision binding consistently changed stale-work admission in mechanism-aligned fixtures. The result is early, bounded evidence for the protocol's admission mechanism rather than a population estimate of product efficacy.\"\n---",
+   "id": "28b52783",
+   "hash": "93b5c7caaf88"
   },
   {
    "type": "heading",
-   "text": "## Version-bound admission for portable agent handoffs",
-   "id": "ba410002",
-   "hash": "6391d52b4e37"
+   "text": "# Proofpress: A Version-Bound Admission Protocol for Agent Handoffs",
+   "id": "ba410001",
+   "hash": "6fbece5a5e16"
   },
   {
    "type": "para",
@@ -76,9 +88,9 @@
   },
   {
    "type": "para",
-   "text": "This paper distinguishes two handoff problems:",
+   "text": "This paper introduces the **Proofpress Version-Bound Admission Protocol (VBAP)**, an agent-provenance protocol for deciding whether inherited work may be reused against the artifact a successor actually receives. It distinguishes two handoff problems:",
    "id": "ba41000d",
-   "hash": "bd2cf8eee84b"
+   "hash": "08b27cf83bb3"
   },
   {
    "type": "list",
@@ -94,9 +106,9 @@
   },
   {
    "type": "para",
-   "text": "Proofpress is a deterministic artifact-provenance and admission layer. It records accepted revisions, claims, actors, lineage, and artifact hashes. At receive time, it verifies whether a current artifact remains bound to that admitted state. It does not decide whether a source is true, whether a legal conclusion is correct, or whether a newer revision is substantively better.",
+   "text": "Proofpress implements VBAP as a deterministic artifact-provenance and admission layer. The protocol records accepted revisions, claims, actors, lineage, and artifact hashes; transfers that state in a verifiable carrier; and requires the receiver to verify the current artifact before inherited state is admitted. It does not decide whether a source is true, whether a legal conclusion is correct, or whether a newer revision is substantively better.",
    "id": "ba41000e",
-   "hash": "49b5084229c9"
+   "hash": "fc63aca25d2f"
   },
   {
    "type": "para",
@@ -106,15 +118,27 @@
   },
   {
    "type": "list",
-   "text": "1. We formulate agent handoff under artifact drift as a receive-time admission problem, distinct from memory retrieval and handoff completeness.\n2. We evaluate an information-matched intervention in which ordinary and Proofpress arms receive the same readable handoff, while only the Proofpress arm receives executable revision binding.\n3. We synthesize positive, null, and failed local studies into a scoped empirical result: handoff improves continuity; generic clean-task quality improvement is not established; version binding consistently changes stale-work admission on the tested fixtures.",
+   "text": "1. We define VBAP: a receive-time protocol that binds accepted agent work to a specific artifact revision and returns an explicit reuse disposition.\n2. We evaluate an information-matched intervention in which ordinary and Proofpress arms receive the same readable handoff, while only the Proofpress arm receives executable revision binding.\n3. We synthesize positive, null, and failed local studies into a scoped empirical result: handoff improves continuity; generic clean-task quality improvement is not established; version binding consistently changes stale-work admission on the tested fixtures.",
    "id": "3240f8d2",
-   "hash": "fee7f96d553d"
+   "hash": "5874e7f2037f"
   },
   {
    "type": "heading",
    "text": "## 2. From memory transfer to artifact admission",
    "id": "ba410010",
    "hash": "06037dfd2674"
+  },
+  {
+   "type": "heading",
+   "text": "### 2.0 Protocol overview",
+   "id": "ba410051",
+   "hash": "54955dccf158"
+  },
+  {
+   "type": "para",
+   "text": "VBAP has five logical operations: **record** an accepted artifact revision and its declared knowledge; **bind** that state to immutable artifact identity; **transfer** the readable handoff and verifiable carrier; **verify** the received artifact and lineage against the admitted state; and **dispose** the inherited work as `proceed`, `targeted_revalidate`, or `stop/refuse`. The protocol contribution is this decision contract, not a new hash, signature, or provenance vocabulary. Its formal objects, trust assumptions, and failure semantics are specified in `logic/solution/architecture.md`.",
+   "id": "ba410052",
+   "hash": "4415f0dde016"
   },
   {
    "type": "heading",
@@ -399,16 +423,52 @@
    "hash": "c6bbdbca9e50"
   },
   {
-   "type": "para",
-   "text": "The broad ingredients are established. Long-context and evolving-memory evaluations such as [LongMemEval](https://arxiv.org/abs/2410.10813), [STALE](https://arxiv.org/abs/2605.06527), and [Memora](https://arxiv.org/abs/2604.20006) study obsolete information and temporal updates. [Handoff Debt](https://arxiv.org/abs/2606.02875) studies successor rediscovery under different coding-agent handoffs. [Portable Agent Memory](https://arxiv.org/abs/2605.11032) and [MemLineage](https://arxiv.org/abs/2605.14421) introduce cryptographically verifiable or lineage-aware cross-agent memory.",
+   "type": "heading",
+   "text": "### 6.1 Agent memory and handoff",
    "id": "ba41003f",
-   "hash": "fc96fbaf62ce"
+   "hash": "0a47a4cd3268"
   },
   {
    "type": "para",
-   "text": "Provenance standards and software supply-chain systems—including [W3C PROV](https://www.w3.org/TR/prov-overview/), [in-toto](https://in-toto.io/), [SLSA](https://slsa.dev/), and [Sigstore](https://www.sigstore.dev/)—already establish entity lineage, attestations, and consume-time verification. Proofpress does not claim to invent these mechanisms. The narrower research object is their application to an information-matched predecessor-to-successor handoff where an independently mutable knowledge artifact diverges after admission and the receiver must decide whether prior work remains reusable. The full scoping review and novelty boundary are maintained in `logic/related_work.md`.",
+   "text": "Long-context and evolving-memory evaluations such as [LongMemEval](https://arxiv.org/abs/2410.10813), [STALE](https://arxiv.org/abs/2605.06527), and [Memora](https://arxiv.org/abs/2604.20006) show that agents must update, invalidate, or abstain on obsolete information. [Handoff Debt](https://arxiv.org/abs/2606.02875) measures successor rediscovery under coding-agent handoffs, while [AgentAsk](https://aclanthology.org/2026.acl-long.1294/) examines error propagation at handoff boundaries. These works establish stale-state and handoff failures, but they do not isolate whether inherited knowledge remains bound to an independently mutable external artifact.",
+   "id": "0d91390e",
+   "hash": "b099915cc8cb"
+  },
+  {
+   "type": "heading",
+   "text": "### 6.2 Portable memory and provenance-aware agents",
+   "id": "ba410053",
+   "hash": "209ab8f3b413"
+  },
+  {
+   "type": "para",
+   "text": "[Portable Agent Memory](https://arxiv.org/abs/2605.11032) and [MemLineage](https://arxiv.org/abs/2605.14421) introduce cryptographically verifiable or lineage-aware cross-agent memory. [StateAuditor](https://arxiv.org/abs/2608.01619) and [ProvenanceGuard](https://arxiv.org/abs/2606.18037) combine deterministic provenance checks with repair, re-verification, or action gates. They are direct precedents for verifier-aware agent behavior. VBAP differs in the evaluated object: accepted work is transferred between agents, the external artifact can change independently after admission, and the measured decision is whether stale work is reused.",
+   "id": "ba410054",
+   "hash": "e7f134eca9e5"
+  },
+  {
+   "type": "heading",
+   "text": "### 6.3 Provenance and consume-time admission",
    "id": "ba410040",
-   "hash": "afa1b38d651e"
+   "hash": "817fed6854d7"
+  },
+  {
+   "type": "para",
+   "text": "Provenance standards and software supply-chain systems—including [W3C PROV](https://www.w3.org/TR/prov-overview/), [in-toto](https://in-toto.io/), [TUF](https://theupdateframework.io/), [SLSA](https://slsa.dev/), and [Sigstore](https://www.sigstore.dev/)—already establish entity lineage, immutable identity, attestations, rollback protection, and consume-time verification. Proofpress does not claim to invent these primitives. It applies the consume-time admission pattern to agent-produced knowledge artifacts and makes the receiver's reuse disposition explicit.",
+   "id": "5e2b5905",
+   "hash": "d5cdc22d3543"
+  },
+  {
+   "type": "heading",
+   "text": "### 6.4 Scoped research gap",
+   "id": "ba410055",
+   "hash": "5ed5568c6234"
+  },
+  {
+   "type": "para",
+   "text": "The literature therefore supplies each broad ingredient separately. Within our structured primary-source scoping review, we did not identify an evaluation that jointly holds handoff semantics fixed, changes an external artifact after admission, applies deterministic revision binding at receive time, and measures unsafe continuation. That is the scoped gap addressed here. It is not a claim that Proofpress invented provenance, content addressing, stale-state evaluation, or agent handoff. The complete search method, comparison tables, and non-novelty boundary are maintained in `logic/related_work.md`.",
+   "id": "ba410056",
+   "hash": "97d404b7624a"
   },
   {
    "type": "heading",
@@ -505,6 +565,60 @@
    "text": "- `logic/problem.md` — research problem and validity threat.\n- `logic/claims.md` — falsifiable claims and their status.\n- `logic/concepts.md` — treatment and measurement definitions.\n- `logic/experiments.md` — experiment registry and analysis boundaries.\n- `logic/related_work.md` — structured primary-source scoping review.\n- `logic/solution/constraints.md` — fairness and safety constraints.\n- `trace/` — append-only research decisions.\n- `evidence/` — source and result index.",
    "id": "ba410050",
    "hash": "db057b48e727"
+  },
+  {
+   "type": "heading",
+   "text": "## Layer Index",
+   "id": "ba410057",
+   "hash": "fd96d608076b"
+  },
+  {
+   "type": "heading",
+   "text": "### Cognitive Layer (`/logic`)",
+   "id": "ba410058",
+   "hash": "7174834f3553"
+  },
+  {
+   "type": "table",
+   "text": "| File | Description |\n|---|---|\n| [problem.md](logic/problem.md) | Research problem, validity threat, and key admission gap |\n| [claims.md](logic/claims.md) | Current falsifiable claims and evidence boundaries |\n| [concepts.md](logic/concepts.md) | Technical vocabulary, including VBAP |\n| [experiments.md](logic/experiments.md) | Registered and completed experiment program |\n| [architecture.md](logic/solution/architecture.md) | Protocol objects, operations, trust model, and dispositions |\n| [constraints.md](logic/solution/constraints.md) | Fairness, safety, and interpretation constraints |\n| [heuristics.md](logic/solution/heuristics.md) | Operational design heuristics |\n| [related_work.md](logic/related_work.md) | Structured primary-source scoping review and novelty boundary |",
+   "id": "61923531",
+   "hash": "c654a6cd9e4c"
+  },
+  {
+   "type": "heading",
+   "text": "### Physical Layer (`/src`)",
+   "id": "ba410059",
+   "hash": "4ad97cf898be"
+  },
+  {
+   "type": "table",
+   "text": "| File | Description |\n|---|---|\n| [environment.md](src/environment.md) | Execution environments, models, transports, and reproducibility status |\n| [artifacts.md](src/artifacts.md) | Pointer index to persistent experiment and implementation artifacts |",
+   "id": "42cb0b87",
+   "hash": "52d5cde65a92"
+  },
+  {
+   "type": "heading",
+   "text": "### Exploration Graph (`/trace`)",
+   "id": "ba41005a",
+   "hash": "be91df19ec37"
+  },
+  {
+   "type": "table",
+   "text": "| File | Description |\n|---|---|\n| [exploration_tree.yaml](trace/exploration_tree.yaml) | Source-backed research decisions, experiments, pivots, and dead ends |\n| [pm_reasoning_log.yaml](trace/pm_reasoning_log.yaml) | Append-only research-manager reasoning log |\n| [sessions/](trace/sessions/) | Calendar-day research session records |",
+   "id": "48cbe2d4",
+   "hash": "ae64b3b3ac5e"
+  },
+  {
+   "type": "heading",
+   "text": "### Evidence (`/evidence`)",
+   "id": "ba41005b",
+   "hash": "1c4d87ee1aa8"
+  },
+  {
+   "type": "table",
+   "text": "| File | Description |\n|---|---|\n| [README.md](evidence/README.md) | Evidence index and links to canonical result records |",
+   "id": "45399eb2",
+   "hash": "1458b75ddc2c"
   }
  ]
 }
