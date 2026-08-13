@@ -1,29 +1,29 @@
 {
  "event": "version_created",
- "artifact": "studies/agent-handoff-artifact-provenance/README.md",
- "artifact_id": "pp_3d8c31782858290ae4729c8f",
- "version": "41339012",
- "parent": "2d9750b6",
+ "artifact": "studies/agent-handoff-artifact-provenance/STUDY_CARD.md",
+ "artifact_id": "pp_eaed747359912aef0219e35c",
+ "version": "ae6da48a",
+ "parent": "fde33e9c",
  "author": {
   "name": "codex",
   "kind": "agent",
   "session": null
  },
  "note": null,
- "ts": "2026-08-13T12:25:34+00:00",
+ "ts": "2026-08-13T12:25:46+00:00",
  "stats": {
   "modified": 1
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "958a3798",
-   "type": "para",
-   "context": "Main finding"
+   "block": "ba7eeaf4",
+   "type": "list",
+   "context": "Study card"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:709bcbda4f882d9f7989e928085eb38f4c05f6ec8fc2cc329dab50a9e7189a34",
+ "soft_fingerprint": "ppsb1:b0a16f8656c5a84901ac8188dc143ac5dd0bc4cb708e1949e9e9ab89eb5caa55",
  "actors": {
   "requested_by": [
    "Chenming Tang"
@@ -41,13 +41,13 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "958a3798",
+   "block": "ba7eeaf4",
    "kind": "modified",
-   "note": "Names GPT-5.6 Luna high effort and the low-effort three-model follow-up in the public entry point."
+   "note": "Adds the author's ORCID and high-effort GPT-5.6 Luna configuration to the study card."
   }
  ],
  "context": {
-  "why": "Expose the exact primary model and follow-up effort in the public study entry point"
+  "why": "Add author ORCID and exact primary receiver configuration to the study metadata"
  },
- "event_id": "ppe_fd7a42baf0d2b11ed54d8851"
+ "event_id": "ppe_ec2971ff143a914a9995f2cf"
 }
