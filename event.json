@@ -1,29 +1,29 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/docs/KNOWLEDGE_HANDOFF_DEBT_PLAN.md",
- "artifact_id": "pp_2a2e62252d677e3b6e52cce7",
- "version": "22051f8f",
- "parent": "faf049dc",
+ "artifact": "experiments/provenance_handoff/ara/logic/experiments.md",
+ "artifact_id": "pp_15fb7a0bcf0891f7cee01068",
+ "version": "2108e405",
+ "parent": "e8ce4eaf",
  "author": {
   "name": "codex",
   "kind": "agent",
   "session": "knowledge-handoff-early-testing-20260812"
  },
  "note": null,
- "ts": "2026-08-13T01:49:30+00:00",
+ "ts": "2026-08-13T01:49:42+00:00",
  "stats": {
   "modified": 1
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "fae739dc",
+   "block": "a5a49edb",
    "type": "para",
-   "context": "Research plan — verifiable knowledge han"
+   "context": "Registered next program: knowledge hando"
   }
  ],
- "policy": "local",
- "soft_fingerprint": "ppsb1:3be77be30afac67cd02e75473f3f301e4645888ca7e26061c28a1c6e771043e0",
+ "policy": "portable",
+ "soft_fingerprint": "ppsb1:4122fb8c90ebf2bfc1720f6cc7d36c2e2527c4594a54847adf03cf73b593800b",
  "actors": {
   "requested_by": [
    "user"
@@ -41,13 +41,13 @@
  "attribution_basis": "harness_attested",
  "claims": [
   {
-   "block": "fae739dc",
+   "block": "a5a49edb",
    "kind": "modified",
-   "note": "Records user authorization to execute the bounded DeepSeek Track 2 replication and Track 1 early-testing study, while preserving the non-formal claim boundary."
+   "note": "Records user authorization for bounded Track 1 and Track 2 early testing and preserves the exclusion of formal external-effect claims."
   }
  ],
  "context": {
   "why": "The user authorized bounded public-facing early testing after the diagnostic mechanism result, including Track 1 and the DeepSeek Track 2 replication, with repair and affected-cell rerun discipline."
  },
- "event_id": "ppe_7711cb775ea17ba2bb979f43"
+ "event_id": "ppe_80281e53c3c752599f2b7f9f"
 }
