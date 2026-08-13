@@ -1,159 +1,46 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/ara/PAPER.md",
- "artifact_id": "pp_cb6d0883f4bda071d2137869",
- "version": "f4b93aac",
- "parent": "c539f07a",
+ "artifact": "rit-hub-demo/DECISIONS.md",
+ "artifact_id": "pp_4d20cb5ec74e9b6747d4cc3e",
+ "version": "c503cbc5",
+ "parent": "8f7cdd3c",
  "author": {
-  "name": "codex",
+  "name": "orchestrator",
   "kind": "agent",
-  "session": null
+  "session": "proofpress-dev-19"
  },
  "note": null,
- "ts": "2026-08-13T09:46:53+00:00",
+ "ts": "2026-08-13T09:49:26+00:00",
  "stats": {
-  "added": 7,
-  "modified": 4
+  "modified": 1
  },
  "changes": [
   {
-   "kind": "added",
-   "block": "ac376353",
-   "type": "para",
-   "context": "2.1 Protocol overview",
-   "preview": "The Proofpress reference implementation is [open source unde"
-  },
-  {
    "kind": "modified",
-   "block": "ba410059",
-   "type": "heading",
-   "context": "4.6 The evaluated Proofpress path used m",
-   "also_moved": true
-  },
-  {
-   "kind": "modified",
-   "block": "ba41005a",
-   "type": "para",
-   "context": "4.6 The evaluated Proofpress path used m",
-   "also_moved": true
-  },
-  {
-   "kind": "modified",
-   "block": "ba41005b",
+   "block": "c2f8f6e2",
    "type": "table",
-   "context": "4.6 The evaluated Proofpress path used m",
-   "also_moved": true
-  },
-  {
-   "kind": "added",
-   "block": "ba41005c",
-   "type": "para",
-   "context": "4.6 The evaluated Proofpress path used m",
-   "preview": "This is an end-to-end harness comparison, not an isolated be"
-  },
-  {
-   "kind": "modified",
-   "block": "ba410042",
-   "type": "para",
-   "context": "7. Limitations"
-  },
-  {
-   "kind": "added",
-   "block": "ba41005d",
-   "type": "para",
-   "context": "7. Limitations",
-   "preview": "Second, repeated trials and cross-model replication do not c"
-  },
-  {
-   "kind": "added",
-   "block": "ba41005e",
-   "type": "para",
-   "context": "Appendix C — reproducibility and claim b",
-   "preview": "The Proofpress implementation is publicly available at [gith"
-  },
-  {
-   "kind": "added",
-   "block": "00f89bc5",
-   "type": "heading",
-   "context": "Physical Layer (`/src`)",
-   "preview": "### Physical Layer (`/src`)"
-  },
-  {
-   "kind": "added",
-   "block": "938f7636",
-   "type": "heading",
-   "context": "Exploration Graph (`/trace`)",
-   "preview": "### Exploration Graph (`/trace`)"
-  },
-  {
-   "kind": "added",
-   "block": "4f4ad1e8",
-   "type": "heading",
-   "context": "Evidence (`/evidence`)",
-   "preview": "### Evidence (`/evidence`)"
+   "context": "3. 技术决策（不可协商）"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:41c877e141692666e7d47d2886fd7dd72dcb447063b97acfd86acc03b03c0709",
+ "soft_fingerprint": "ppsb1:4839a715d57be64514db907f0a96f3ac57e42e6f725b072f09199adaa1b460e2",
  "actors": {
   "requested_by": [
-   "Richard Tang"
-  ],
-  "produced_by": [
-   "OpenAI Codex"
+   "proofpress-dev-1"
   ],
   "edited_by": [
-   "OpenAI Codex"
+   "design worker (proofpress-dev-19), executing on orchestrator's behalf"
   ],
   "recorded_by": [
-   "OpenAI Codex"
+   "orchestrator"
   ]
  },
  "attribution_basis": "self_asserted",
- "claims": [
-  {
-   "block": "ac376353",
-   "kind": "added",
-   "note": "Distinguishes the public Apache-2.0 Proofpress implementation from the not-yet-published evaluation package."
-  },
-  {
-   "block": "ba410059",
-   "kind": "added",
-   "note": "Adds a results subsection for measured evaluation overhead."
-  },
-  {
-   "block": "ba41005a",
-   "kind": "added",
-   "note": "Reports mean token, time, and provider-cost telemetry for the three-model controlled follow-up."
-  },
-  {
-   "block": "ba41005b",
-   "kind": "added",
-   "note": "Presents descriptive ordinary-handoff and Proofpress overhead in a comparison table."
-  },
-  {
-   "block": "ba41005c",
-   "kind": "added",
-   "note": "Explains why end-to-end harness overhead is not an isolated deterministic protocol benchmark."
-  },
-  {
-   "block": "ba410042",
-   "kind": "modified",
-   "note": "States explicitly that the perfect controlled result is a design-aligned mechanism test and does not establish generalization."
-  },
-  {
-   "block": "ba41005d",
-   "kind": "added",
-   "note": "Adds task-diversity, benchmark, overhead, organizational, and truth-verification limitations."
-  },
-  {
-   "block": "ba41005e",
-   "kind": "added",
-   "note": "Records the current public implementation and internal evaluation-package availability boundary."
-  }
- ],
  "context": {
-  "why": "Clarify the design-aligned mechanism boundary, report observed end-to-end overhead, and distinguish the open implementation from the unreleased evaluation package."
+  "why": "用户明确要求 rit-hub-demo 采用 ARA Labs 现网 agenticresearch.sh/rit 已有的设计系统而非独立发明的深色 terminal 皮肤。§3 主题行改为浅色暖米白纸面系（paper #fbf8f1 / ink #1a1530，实测取自现网 CSS），§3 字体行改为 ARA 现网三条字体降级链（Instrument Serif/Inter/JetBrains Mono，本地不预装时优雅降级，仍零外部引用，不违反不加载外部字体的原则）。",
+  "rejected": [
+   "维持原深色 terminal 方案 — 与 ARA Labs 自己产品的实际视觉身份不符，投资人/招募受众认不出这是同一个生态"
+  ]
  },
- "event_id": "ppe_80be1e8a7fe8a45fe0e7c04e"
+ "event_id": "ppe_31692b903621801e1d263f63"
 }
