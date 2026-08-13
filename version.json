@@ -1,60 +1,18 @@
 {
- "artifact": "experiments/provenance_handoff/ara/logic/solution/algorithm.md",
- "artifact_id": "pp_b7b199753c48f08569ba233a",
+ "artifact": "experiments/provenance_handoff/ara/src/configs/training.md",
+ "artifact_id": "pp_07f4d964ddf20ecf6f1a0739",
  "blocks": [
   {
    "type": "heading",
-   "text": "# Admission decision procedure",
-   "id": "bfcfd57a",
-   "hash": "22b7fc570366"
-  },
-  {
-   "type": "heading",
-   "text": "## Inputs",
-   "id": "8ab82529",
-   "hash": "f679398c02c4"
-  },
-  {
-   "type": "list",
-   "text": "- A readable handoff containing inherited claims and decisions.\n- A verifiable carrier naming the accepted artifact revision and governing admission state.\n- The artifact revision currently held by the receiver.\n- An affected-claim map when selective recovery is available.",
-   "id": "a92eaa2d",
-   "hash": "35fc638f70d3"
-  },
-  {
-   "type": "heading",
-   "text": "## Procedure",
-   "id": "93115f81",
-   "hash": "f946dc54b228"
-  },
-  {
-   "type": "list",
-   "text": "1. Verify carrier integrity and declared lineage.\n2. Resolve the accepted artifact revision under the stated admission control.\n3. Compute or verify the identity of the current artifact.\n4. If integrity, lineage, or admission state cannot be established, return `stop/refuse`.\n5. If the current artifact matches the accepted revision, return `proceed`.\n6. If the artifact changed but no inherited claim is affected under the declared map, return `proceed` and record the checked change.\n7. If one or more inherited claims may be affected, return `targeted_revalidate` with those claims as the revalidation scope.",
-   "id": "73212bc1",
-   "hash": "1a4c0e8dd967"
-  },
-  {
-   "type": "heading",
-   "text": "## Safety boundary",
-   "id": "39339de2",
-   "hash": "6d86e84e6879"
+   "text": "# Training configuration",
+   "id": "945105f9",
+   "hash": "9e45c9efc5d8"
   },
   {
    "type": "para",
-   "text": "The procedure verifies identity, integrity, declared history, and applicability under the configured policy. It does not establish claim truth, legal correctness, the completeness of the affected-claim map, or authorization that was never represented in the admission state.",
-   "id": "fe7cb6f9",
-   "hash": "4eaafb710949"
-  },
-  {
-   "type": "heading",
-   "text": "## Implementation reference",
-   "id": "f8ab03ad",
-   "hash": "c70b923284fa"
-  },
-  {
-   "type": "para",
-   "text": "The persistent implementation is `proofpress.py`, exposed in this package through `src/execution/proofpress.py`; the link must resolve at the tagged repository revision used for release. Protocol objects and trust assumptions are specified in `architecture.md`.",
-   "id": "dd254c1e",
-   "hash": "63e81103c56f"
+   "text": "Not applicable. This work evaluates an artifact-provenance protocol and does not train, fine-tune, or alter the weights of any model. No optimizer, learning rate, training dataset, checkpoint, or training hardware should be inferred.",
+   "id": "80c00192",
+   "hash": "9ba37eff9633"
   }
  ]
 }

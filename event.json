@@ -1,29 +1,29 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/ara/logic/solution/algorithm.md",
- "artifact_id": "pp_b7b199753c48f08569ba233a",
- "version": "19a85f43",
- "parent": "c5b797fd",
+ "artifact": "experiments/provenance_handoff/ara/src/configs/training.md",
+ "artifact_id": "pp_07f4d964ddf20ecf6f1a0739",
+ "version": "7a5a8348",
+ "parent": "5ca1f937",
  "author": {
   "name": "codex",
   "kind": "agent",
   "session": null
  },
  "note": null,
- "ts": "2026-08-13T10:08:21+00:00",
+ "ts": "2026-08-13T10:08:32+00:00",
  "stats": {
   "modified": 1
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "dd254c1e",
+   "block": "80c00192",
    "type": "para",
-   "context": "Implementation reference"
+   "context": "Training configuration"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:acd71b3b361d33c299791e1e09bc56f212f1c81c09c8194a11d0452b75855325",
+ "soft_fingerprint": "ppsb1:6cefd8d8b3f6d2659a7201aeaac83edcd4462469b3f9ff649b8b1cd903d73ac7",
  "actors": {
   "requested_by": [
    "Richard Tang"
@@ -41,13 +41,13 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "dd254c1e",
+   "block": "80c00192",
    "kind": "modified",
-   "note": "Adds the tagged-release requirement to the implementation pointer."
+   "note": "Clarifies that the evaluation does not alter model weights."
   }
  ],
  "context": {
-  "why": "Bind the implementation pointer to a tagged public release"
+  "why": "Clarify the no-training boundary"
  },
- "event_id": "ppe_aa944ccef7f7165b3d862da7"
+ "event_id": "ppe_427510c1ba023bd3b7e342b9"
 }
