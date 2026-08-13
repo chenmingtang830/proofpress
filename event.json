@@ -1,47 +1,29 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/ara/logic/solution/architecture.md",
- "artifact_id": "pp_78e9d4dc876608cba9bcbbff",
- "version": "6bb93e78",
- "parent": "c5697ea7",
+ "artifact": "experiments/provenance_handoff/ara/PAPER.md",
+ "artifact_id": "pp_cb6d0883f4bda071d2137869",
+ "version": "c539f07a",
+ "parent": "f630e1fa",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-13T09:13:49+00:00",
+ "ts": "2026-08-13T09:15:52+00:00",
  "stats": {
-  "modified": 4
+  "modified": 1
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "467804be",
-   "type": "heading",
-   "context": "Proofpress Artifact Provenance Protocol"
-  },
-  {
-   "kind": "modified",
-   "block": "fb36d431",
+   "block": "3de79e34",
    "type": "para",
-   "context": "Purpose"
-  },
-  {
-   "kind": "modified",
-   "block": "6f2a9e85",
-   "type": "para",
-   "context": "Admission authority"
-  },
-  {
-   "kind": "modified",
-   "block": "10be2bb8",
-   "type": "para",
-   "context": "Trust and threat model"
+   "context": "(文首)"
   }
  ],
- "policy": "local",
- "soft_fingerprint": "ppsb1:a886fc95524f2821584ff3c5f499eadd89c7150981b6fb6ddfe5157c65a5e905",
+ "policy": "portable",
+ "soft_fingerprint": "ppsb1:b38c81670dbb9e10be8649d25306be691eb69645c5fe315d98045a9cd9d58202",
  "actors": {
   "requested_by": [
    "user"
@@ -59,28 +41,13 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "467804be",
+   "block": "3de79e34",
    "kind": "modified",
-   "note": "Renames the architecture around artifact provenance."
-  },
-  {
-   "block": "fb36d431",
-   "kind": "modified",
-   "note": "Defines Proofpress as an artifact provenance protocol."
-  },
-  {
-   "block": "6f2a9e85",
-   "kind": "modified",
-   "note": "Uses Proofpress rather than VBAP for the authority boundary."
-  },
-  {
-   "block": "43b00f4a",
-   "kind": "modified",
-   "note": "Updates the trust and threat model to the artifact provenance framing."
+   "note": "Updates the ARA frontmatter title, domain, keywords, claim summaries, and abstract for the artifact provenance narrative."
   }
  ],
  "context": {
-  "why": "Align the protocol architecture and trust model with the artifact provenance narrative."
+  "why": "Finalize the ARA frontmatter metadata and record its artifact provenance and reproducible-evaluation framing."
  },
- "event_id": "ppe_2e1220d46edd7553a424cc25"
+ "event_id": "ppe_e7a22829d6b75e58dc81a240"
 }
