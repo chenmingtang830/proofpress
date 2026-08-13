@@ -1,53 +1,159 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/ara/logic/solution/architecture.md",
- "artifact_id": "pp_78e9d4dc876608cba9bcbbff",
- "version": "082b6d11",
- "parent": "6bb93e78",
+ "artifact": "experiments/provenance_handoff/ara/PAPER.md",
+ "artifact_id": "pp_cb6d0883f4bda071d2137869",
+ "version": "f4b93aac",
+ "parent": "c539f07a",
  "author": {
-  "name": "unknown",
-  "kind": "human",
+  "name": "codex",
+  "kind": "agent",
   "session": null
  },
  "note": null,
- "ts": "2026-08-13T09:16:57+00:00",
+ "ts": "2026-08-13T09:46:53+00:00",
  "stats": {
-  "modified": 1
+  "added": 7,
+  "modified": 4
  },
  "changes": [
   {
-   "kind": "modified",
-   "block": "10be2bb8",
+   "kind": "added",
+   "block": "ac376353",
    "type": "para",
-   "context": "Trust and threat model"
+   "context": "2.1 Protocol overview",
+   "preview": "The Proofpress reference implementation is [open source unde"
+  },
+  {
+   "kind": "modified",
+   "block": "ba410059",
+   "type": "heading",
+   "context": "4.6 The evaluated Proofpress path used m",
+   "also_moved": true
+  },
+  {
+   "kind": "modified",
+   "block": "ba41005a",
+   "type": "para",
+   "context": "4.6 The evaluated Proofpress path used m",
+   "also_moved": true
+  },
+  {
+   "kind": "modified",
+   "block": "ba41005b",
+   "type": "table",
+   "context": "4.6 The evaluated Proofpress path used m",
+   "also_moved": true
+  },
+  {
+   "kind": "added",
+   "block": "ba41005c",
+   "type": "para",
+   "context": "4.6 The evaluated Proofpress path used m",
+   "preview": "This is an end-to-end harness comparison, not an isolated be"
+  },
+  {
+   "kind": "modified",
+   "block": "ba410042",
+   "type": "para",
+   "context": "7. Limitations"
+  },
+  {
+   "kind": "added",
+   "block": "ba41005d",
+   "type": "para",
+   "context": "7. Limitations",
+   "preview": "Second, repeated trials and cross-model replication do not c"
+  },
+  {
+   "kind": "added",
+   "block": "ba41005e",
+   "type": "para",
+   "context": "Appendix C — reproducibility and claim b",
+   "preview": "The Proofpress implementation is publicly available at [gith"
+  },
+  {
+   "kind": "added",
+   "block": "00f89bc5",
+   "type": "heading",
+   "context": "Physical Layer (`/src`)",
+   "preview": "### Physical Layer (`/src`)"
+  },
+  {
+   "kind": "added",
+   "block": "938f7636",
+   "type": "heading",
+   "context": "Exploration Graph (`/trace`)",
+   "preview": "### Exploration Graph (`/trace`)"
+  },
+  {
+   "kind": "added",
+   "block": "4f4ad1e8",
+   "type": "heading",
+   "context": "Evidence (`/evidence`)",
+   "preview": "### Evidence (`/evidence`)"
   }
  ],
- "policy": "local",
- "soft_fingerprint": "ppsb1:8a29643daa47cb37b70b0c47cabdfa5b4cb2cd3bfc43f05dc6f228618f45a113",
+ "policy": "portable",
+ "soft_fingerprint": "ppsb1:41c877e141692666e7d47d2886fd7dd72dcb447063b97acfd86acc03b03c0709",
  "actors": {
   "requested_by": [
-   "user"
+   "Richard Tang"
   ],
   "produced_by": [
-   "Codex"
+   "OpenAI Codex"
   ],
   "edited_by": [
-   "Codex"
+   "OpenAI Codex"
   ],
   "recorded_by": [
-   "Codex"
+   "OpenAI Codex"
   ]
  },
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "10be2bb8",
+   "block": "ac376353",
+   "kind": "added",
+   "note": "Distinguishes the public Apache-2.0 Proofpress implementation from the not-yet-published evaluation package."
+  },
+  {
+   "block": "ba410059",
+   "kind": "added",
+   "note": "Adds a results subsection for measured evaluation overhead."
+  },
+  {
+   "block": "ba41005a",
+   "kind": "added",
+   "note": "Reports mean token, time, and provider-cost telemetry for the three-model controlled follow-up."
+  },
+  {
+   "block": "ba41005b",
+   "kind": "added",
+   "note": "Presents descriptive ordinary-handoff and Proofpress overhead in a comparison table."
+  },
+  {
+   "block": "ba41005c",
+   "kind": "added",
+   "note": "Explains why end-to-end harness overhead is not an isolated deterministic protocol benchmark."
+  },
+  {
+   "block": "ba410042",
    "kind": "modified",
-   "note": "Finalizes the artifact provenance trust and threat model and corrects its block-level attribution."
+   "note": "States explicitly that the perfect controlled result is a design-aligned mechanism test and does not establish generalization."
+  },
+  {
+   "block": "ba41005d",
+   "kind": "added",
+   "note": "Adds task-diversity, benchmark, overhead, organizational, and truth-verification limitations."
+  },
+  {
+   "block": "ba41005e",
+   "kind": "added",
+   "note": "Records the current public implementation and internal evaluation-package availability boundary."
   }
  ],
  "context": {
-  "why": "Finalize the artifact provenance trust model and repair the prior block-level claim pointer."
+  "why": "Clarify the design-aligned mechanism boundary, report observed end-to-end overhead, and distinguish the open implementation from the unreleased evaluation package."
  },
- "event_id": "ppe_0e54c4a43b1d933bbd50d33b"
+ "event_id": "ppe_80be1e8a7fe8a45fe0e7c04e"
 }
