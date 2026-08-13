@@ -1,59 +1,41 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/ara/evidence/README.md",
- "artifact_id": "pp_d903bfb55a61339cd26f454f",
- "version": "a45f5fcb",
- "parent": "30dce380",
+ "artifact": "experiments/provenance_handoff/ara/src/artifacts.md",
+ "artifact_id": "pp_291b3809bccf45f00ecbdf3e",
+ "version": "204b54bd",
+ "parent": "bc123264",
  "author": {
   "name": "codex",
   "kind": "agent",
   "session": null
  },
  "note": null,
- "ts": "2026-08-13T10:05:13+00:00",
+ "ts": "2026-08-13T10:05:24+00:00",
  "stats": {
-  "modified": 6
+  "modified": 2
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "2f55c2b1",
-   "type": "heading",
-   "context": "Release evidence map"
+   "block": "1d77e0a6",
+   "type": "table",
+   "context": "Experiment artifact index",
+   "numbers": [
+    [
+     "1",
+     "2"
+    ]
+   ]
   },
   {
    "kind": "modified",
-   "block": "687aeafa",
+   "block": "9136fe62",
    "type": "para",
-   "context": "Release evidence map"
-  },
-  {
-   "kind": "modified",
-   "block": "563cb8db",
-   "type": "para",
-   "context": "Release evidence map"
-  },
-  {
-   "kind": "modified",
-   "block": "4a2a703a",
-   "type": "para",
-   "context": "Release evidence map"
-  },
-  {
-   "kind": "modified",
-   "block": "a8111b7b",
-   "type": "heading",
-   "context": "Source and design inputs"
-  },
-  {
-   "kind": "modified",
-   "block": "d49d601a",
-   "type": "para",
-   "context": "Source and design inputs"
+   "context": "Experiment artifact index"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:1e8a9ffca0d48c105397946dc5c9d1a87df85b19cc6f34110658a47c2cee2cb9",
+ "soft_fingerprint": "ppsb1:09592ac176c0cf91b09465bd6494e75d2be8507b71c6506c59e250181f777425",
  "actors": {
   "requested_by": [
    "Richard Tang"
@@ -71,38 +53,18 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "2f55c2b1",
+   "block": "1d77e0a6",
    "kind": "modified",
-   "note": "Reframes the evidence index for external review."
+   "note": "Replaces the stale pilot inventory with the completed study code and document index."
   },
   {
-   "block": "687aeafa",
+   "block": "9136fe62",
    "kind": "modified",
-   "note": "Points readers to the principal result synthesis and states its scope."
-  },
-  {
-   "block": "563cb8db",
-   "kind": "modified",
-   "note": "Indexes the primary machine summaries and canonical result documents."
-  },
-  {
-   "block": "4a2a703a",
-   "kind": "modified",
-   "note": "States the boundary between included aggregates and external raw records."
-  },
-  {
-   "block": "a8111b7b",
-   "kind": "modified",
-   "note": "Renames the source-input section for public readers."
-  },
-  {
-   "block": "d49d601a",
-   "kind": "modified",
-   "note": "Defines evidence qualification without presenting an obsolete active target."
+   "note": "States stable-link and redistribution work required before public packaging."
   }
  ],
  "context": {
-  "why": "Replace the stale evidence status with a release-oriented evidence map"
+  "why": "Replace the stale pilot inventory with the completed artifact index"
  },
- "event_id": "ppe_28524f4543c14e3bace6ec77"
+ "event_id": "ppe_ede3ff9edd1473fad6e8ac13"
 }

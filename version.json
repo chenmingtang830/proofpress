@@ -1,54 +1,24 @@
 {
- "artifact": "experiments/provenance_handoff/ara/evidence/README.md",
- "artifact_id": "pp_d903bfb55a61339cd26f454f",
+ "artifact": "experiments/provenance_handoff/ara/src/artifacts.md",
+ "artifact_id": "pp_291b3809bccf45f00ecbdf3e",
  "blocks": [
   {
    "type": "heading",
-   "text": "# Evidence index",
-   "id": "1fd7cb93",
-   "hash": "1287755cd4bb"
-  },
-  {
-   "type": "heading",
-   "text": "## Release evidence map",
-   "id": "2f55c2b1",
-   "hash": "c34290c7dd0c"
-  },
-  {
-   "type": "para",
-   "text": "The principal reader-facing synthesis is [derived_main_results.md](tables/derived_main_results.md), with a rendered companion at [derived_main_results.png](tables/derived_main_results.png). It reports the clean-versus-outdated admission comparisons, receiver-model robustness, visible-contradiction boundary, selective revalidation, continuity result, and measured token, latency, and cost overhead. Values are derived from the machine-readable summaries and canonical reports listed below; the table is not a new experiment.",
-   "id": "687aeafa",
-   "hash": "a7bd3c806ec1"
-  },
-  {
-   "type": "para",
-   "text": "The primary machine summaries in this ARA are `cross-model-formal-summary-20260812.json`, `cross-model-kimi-summary-20260812.json`, `cross-model-qwen-summary-20260812.json`, `knowledge-handoff-early-results-20260812.json`, and `results-matrix-cross-model-formal-20260812.json`. The complete local experiment inventory and invalid/superseded paths remain in `../../docs/LOCAL_EXPERIMENT_RESULTS.md`; the interpretation matrix is `../../docs/RESULTS_MATRIX.md`. Those documents distinguish valid treatment evidence from diagnostics, compatibility checks, and transport failures.",
-   "id": "563cb8db",
-   "hash": "a198b4cf28c2"
-  },
-  {
-   "type": "para",
-   "text": "The current ARA contains aggregate metrics, selected machine summaries, hashes, and evidence pointers. Raw prompts, full traces, credentials, and some immutable run reports remain outside Git in `PROOFPRESS_EVAL_HOME`. Therefore this directory is reviewable but is not yet a self-contained public reproduction archive.",
-   "id": "4a2a703a",
-   "hash": "d13fc7c51080"
-  },
-  {
-   "type": "heading",
-   "text": "## Source and design inputs",
-   "id": "a8111b7b",
-   "hash": "f210aa4d792a"
+   "text": "# Experiment artifact index",
+   "id": "22426eb6",
+   "hash": "2fcf38b2db2b"
   },
   {
    "type": "table",
-   "text": "| ID | Item | Role | Location |\n|---|---|---|---|\n| E01 | Harvey LAB repository/architecture | task and official harness substrate | https://github.com/harveyai/harvey-labs |\n| E02 | Harvey LAB v1.0 tutorial | execution/model adapter reference | https://github.com/harveyai/harvey-labs/blob/v1.0/docs/tutorial.md |\n| E03 | Google agent-system architecture study | rationale for fixed centralized architecture | https://arxiv.org/abs/2512.08296 |\n| E04 | ARA paper/repository | research-artifact management structure | https://arxiv.org/abs/2604.24658 |\n| E05 | Proofpress protocol/docs in this repository | portable artifact-lineage mechanism | `../../README.md` and `../../docs/` |",
-   "id": "fb3d38b9",
-   "hash": "7775914bf23a"
+   "text": "| Artifact | Role | Status |\n|---|---|---|\n| `proofpress.py` | Proofpress CLI and protocol implementation | persistent implementation; linked as `execution/proofpress.py` |\n| `research/knowledge_handoff_debt/run_r2_two_state_diagnostic.py` | two-state knowledge-handoff runner | completed local mechanism study |\n| `research/knowledge_handoff_debt/run_phase2_track2.py` | Track 2 runner | completed local study |\n| `research/apex_direct/run_apex_direct.py` and associated runners | controlled clean/outdated admission studies | completed local studies; exact variants indexed by the experiment docs |\n| `docs/KNOWLEDGE_HANDOFF_DEBT_PLAN.md` | registered knowledge-handoff protocol | completed design record with later result cross-links |\n| `docs/LOCAL_EXPERIMENT_RESULTS.md` | complete result inventory and failure appendix | current synthesis |\n| `docs/RESULTS_MATRIX.md` | result matrices and interpretation rules | current synthesis |\n| `pp_eval/` and `tests/test_eval.py` | earlier mechanism runtime and tests | historical/internal tooling |\n| `suites/*.json` | local technical fixtures | local fixtures; redistribution status must be checked before release |",
+   "id": "1d77e0a6",
+   "hash": "33c258ed8dd4"
   },
   {
    "type": "para",
-   "text": "Qualified model-run evidence names the frozen configuration, source hashes, requested and resolved model, provider, fallback state, token and latency telemetry, and the applicable scorer or verification record. Missing required telemetry is a qualification failure, not a zero-cost observation. ARA indexes research meaning and evidence pointers; Proofpress supplies admitted lineage and independent verification, never a benchmark agent's implicit memory or a raw session transcript.",
-   "id": "d49d601a",
-   "hash": "4565f48ff657"
+   "text": "This ARA points to code in the surrounding experiment repository instead of copying independent implementations into the package. Before public release, these pointers must be converted to stable repository-relative links at a tagged commit, and the derived task bundle must receive an explicit redistribution manifest. Historical STALE, Harvey, and transport experiments remain part of the failure appendix, not the main empirical claim.",
+   "id": "9136fe62",
+   "hash": "80ce7869a235"
   }
  ]
 }
