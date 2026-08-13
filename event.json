@@ -1,53 +1,198 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/ara/logic/experiments.md",
- "artifact_id": "pp_15fb7a0bcf0891f7cee01068",
- "version": "2108e405",
- "parent": "e8ce4eaf",
+ "artifact": "experiments/provenance_handoff/docs/TRACK2_EARLY_RESULTS.md",
+ "artifact_id": "pp_a4aae4366d7346901db2ecac",
+ "version": "7edb74a1",
+ "parent": null,
  "author": {
-  "name": "codex",
-  "kind": "agent",
-  "session": "knowledge-handoff-early-testing-20260812"
+  "name": "unknown",
+  "kind": "human",
+  "session": null
  },
  "note": null,
- "ts": "2026-08-13T01:49:42+00:00",
+ "ts": "2026-08-13T02:29:06+00:00",
  "stats": {
-  "modified": 1
+  "added": 13
  },
  "changes": [
   {
-   "kind": "modified",
-   "block": "a5a49edb",
+   "kind": "added",
+   "block": "d32b4ca8",
+   "type": "heading",
+   "context": "Track 2 early-testing results",
+   "preview": "# Track 2 early-testing results"
+  },
+  {
+   "kind": "added",
+   "block": "6e881a09",
    "type": "para",
-   "context": "Registered next program: knowledge hando"
+   "context": "Track 2 early-testing results",
+   "preview": "**Status:** completed early test. This is a six-fixture, two"
+  },
+  {
+   "kind": "added",
+   "block": "ec7713da",
+   "type": "heading",
+   "context": "Question",
+   "preview": "## Question"
+  },
+  {
+   "kind": "added",
+   "block": "53cd8db5",
+   "type": "para",
+   "context": "Question",
+   "preview": "When a successor receives an equally detailed handoff, does "
+  },
+  {
+   "kind": "added",
+   "block": "80568660",
+   "type": "heading",
+   "context": "Fixed execution",
+   "preview": "## Fixed execution"
+  },
+  {
+   "kind": "added",
+   "block": "ab696c94",
+   "type": "para",
+   "context": "Fixed execution",
+   "preview": "The receiver was OpenCode through Vercel AI Gateway, request"
+  },
+  {
+   "kind": "added",
+   "block": "48f33a8d",
+   "type": "heading",
+   "context": "Results",
+   "preview": "## Results"
+  },
+  {
+   "kind": "added",
+   "block": "4cc13fad",
+   "type": "para",
+   "context": "Results",
+   "preview": "There were six fixed GitHub Docs fixtures and 12 valid V0/V1"
+  },
+  {
+   "kind": "added",
+   "block": "563ca459",
+   "type": "table",
+   "context": "Results",
+   "preview": "| State | V0 observed disposition | V1 expected / observed d"
+  },
+  {
+   "kind": "added",
+   "block": "0e8cda6c",
+   "type": "para",
+   "context": "Results",
+   "preview": "Every V1 response ran the native binding helper. The V0 targ"
+  },
+  {
+   "kind": "added",
+   "block": "a7d0f0d4",
+   "type": "heading",
+   "context": "Evidence and claim boundary",
+   "preview": "## Evidence and claim boundary"
+  },
+  {
+   "kind": "added",
+   "block": "9b8f4caf",
+   "type": "para",
+   "context": "Evidence and claim boundary",
+   "preview": "The immutable run report is `/Users/richardtang/.cache/proof"
+  },
+  {
+   "kind": "added",
+   "block": "1cc8c51b",
+   "type": "para",
+   "context": "Evidence and claim boundary",
+   "preview": "Appropriate early-testing claim: in this six-fixture test, v"
   }
  ],
- "policy": "portable",
- "soft_fingerprint": "ppsb1:4122fb8c90ebf2bfc1720f6cc7d36c2e2527c4594a54847adf03cf73b593800b",
+ "policy": "local",
+ "soft_fingerprint": "ppsb1:62471dda604a03ced70985465e1b5dba5d79241b599263f0a3cb753bcc3e2867",
  "actors": {
   "requested_by": [
    "user"
   ],
   "produced_by": [
-   "codex"
+   "Codex"
   ],
   "edited_by": [
-   "codex"
+   "Codex"
   ],
   "recorded_by": [
-   "codex"
+   "Codex"
   ]
  },
- "attribution_basis": "harness_attested",
+ "attribution_basis": "environment_attested",
  "claims": [
   {
-   "block": "a5a49edb",
-   "kind": "modified",
-   "note": "Records user authorization for bounded Track 1 and Track 2 early testing and preserves the exclusion of formal external-effect claims."
+   "block": "d32b4ca8",
+   "kind": "added",
+   "note": "Adds the Track 2 early-testing results artifact."
+  },
+  {
+   "block": "6e881a09",
+   "kind": "added",
+   "note": "States completion and the local two-state diagnostic boundary."
+  },
+  {
+   "block": "ec7713da",
+   "kind": "added",
+   "note": "Adds the question tested by Track 2."
+  },
+  {
+   "block": "53cd8db5",
+   "kind": "added",
+   "note": "Defines the version-binding distinction under test."
+  },
+  {
+   "block": "80568660",
+   "kind": "added",
+   "note": "Adds the fixed execution section."
+  },
+  {
+   "block": "ab696c94",
+   "kind": "added",
+   "note": "Records the exact DeepSeek and DeepInfra route and reconciled telemetry summary."
+  },
+  {
+   "block": "48f33a8d",
+   "kind": "added",
+   "note": "Adds the results section."
+  },
+  {
+   "block": "4cc13fad",
+   "kind": "added",
+   "note": "Records the six fixtures, twelve valid responses, and arm definitions."
+  },
+  {
+   "block": "563ca459",
+   "kind": "added",
+   "note": "Records state-stratified V0 and V1 observed dispositions."
+  },
+  {
+   "block": "0e8cda6c",
+   "kind": "added",
+   "note": "Records native-helper execution and the bounded interpretation."
+  },
+  {
+   "block": "a7d0f0d4",
+   "kind": "added",
+   "note": "Adds evidence paths and claim boundary."
+  },
+  {
+   "block": "9b8f4caf",
+   "kind": "added",
+   "note": "Links the immutable run report and routing reconciliation."
+  },
+  {
+   "block": "1cc8c51b",
+   "kind": "added",
+   "note": "Separates the allowed early-testing claim from unsupported formal efficacy claims."
   }
  ],
  "context": {
-  "why": "The user authorized bounded public-facing early testing after the diagnostic mechanism result, including Track 1 and the DeepSeek Track 2 replication, with repair and affected-cell rerun discipline."
+  "why": "Record the completed DeepSeek Track 2 early-test results in one reviewable artifact."
  },
- "event_id": "ppe_80281e53c3c752599f2b7f9f"
+ "event_id": "ppe_0a75e737f4df1254ee972dd4"
 }
