@@ -1,24 +1,42 @@
 {
- "artifact": "experiments/provenance_handoff/ara/src/configs/model.md",
- "artifact_id": "pp_fff303460d0bd5b1b151b7c8",
+ "artifact": "experiments/provenance_handoff/ara/evidence/tables/derived_main_results.md",
+ "artifact_id": "pp_be637ba6a8dd5eb84262c8bd",
  "blocks": [
   {
    "type": "heading",
-   "text": "# Receiver-model configuration",
-   "id": "025066dc",
-   "hash": "c504e7fae79b"
+   "text": "# Derived synthesis of main reported results",
+   "id": "44cd5f23",
+   "hash": "a6b76684dd44"
+  },
+  {
+   "type": "list",
+   "text": "- **Source**: Derived from `cross-model-formal-summary-20260812.json`, `knowledge-handoff-early-results-20260812.json`, and the immutable formal summaries indexed in `README.md`.\n- **Extraction type**: `derived_synthesis`.\n- **Screenshot**: `derived_main_results.png`.\n- **Scope**: Descriptive aggregation of the paper's principal local comparisons; rows are not pooled into one effect estimate.",
+   "id": "414d8f54",
+   "hash": "463dff88fce3"
+  },
+  {
+   "type": "table",
+   "text": "| Evidence family | Ordinary handoff | Proofpress | Supported interpretation |\n|---|---:|---:|---|\n| Preregistered unchanged document | correct continue 12/12 | correct continue 12/12 | No clean-admission penalty in the controlled task |\n| Preregistered outdated document | incorrect continue 12/12 | incorrect continue 0/12 | Design-aligned admission mechanism |\n| Three-model outdated-document follow-up | incorrect continue 36/36 | incorrect continue 0/36 | Receiver-model robustness on the same task |\n| Scientific-evidence change, contradiction visible | incorrect outcome 0/9; explicit recovery 5/9 | incorrect outcome 0/9; explicit recovery 9/9 | Recovery-path difference without a safety-rate difference |\n| Selective-recovery harmless edits | continue 6/6 | continue 6/6 | No blanket rejection in tested cases |\n| Selective-recovery relevant edits | targeted recheck 2/6 | targeted recheck 6/6 | More consistent affected-claim revalidation |\n| Continuity with artifacts only versus readable handoff | rediscovery 3/3 with artifacts only; 0/3 with prose | rediscovery 0/3 with structured handoff | Readable handoff reduces visible rediscovery |",
+   "id": "0a15d294",
+   "hash": "e9369940d068"
+  },
+  {
+   "type": "heading",
+   "text": "## End-to-end overhead in the three-model controlled follow-up",
+   "id": "c02035f2",
+   "hash": "97e45029bacc"
+  },
+  {
+   "type": "table",
+   "text": "| Condition | Valid runs | Mean tokens | Mean wall time | Mean model cost |\n|---|---:|---:|---:|---:|\n| Ordinary handoff | 72 | 6,381 | 29.8 s | $0.0113 |\n| Proofpress | 72 | 18,503 | 39.7 s | $0.0270 |",
+   "id": "4a65ffee",
+   "hash": "daae82e023cd"
   },
   {
    "type": "para",
-   "text": "This is an evaluation configuration, not a trained model specification. Exact requested and resolved model/provider pairs, fallback state, token usage, latency, and provider-reported cost are retained in the machine-readable evidence summaries. Formal comparisons prohibit provider fallback and cross-router retry.",
-   "id": "0477a0a4",
-   "hash": "6c22509fd14c"
-  },
-  {
-   "type": "para",
-   "text": "The main controlled follow-up uses the frozen receiver task with GLM 5.2, Kimi K3, and Qwen 3.8 Max in separately reported model slices. The preregistered comparison uses Luna. These names describe evaluation endpoints rather than model endorsements; Proofpress itself makes no model call.",
-   "id": "ecb75eaf",
-   "hash": "dd60b58e8196"
+   "text": "The overhead row includes carrier size, verifier tool calls, and additional agent turns. It is an end-to-end harness measurement, not an isolated benchmark of deterministic hashing or verification, and should not be projected to production workloads.",
+   "id": "067f2a02",
+   "hash": "162470d606a6"
   }
  ]
 }

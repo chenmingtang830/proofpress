@@ -1,29 +1,29 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/ara/src/configs/model.md",
- "artifact_id": "pp_fff303460d0bd5b1b151b7c8",
- "version": "6e5d6e9c",
- "parent": "961468a1",
+ "artifact": "experiments/provenance_handoff/ara/evidence/tables/derived_main_results.md",
+ "artifact_id": "pp_be637ba6a8dd5eb84262c8bd",
+ "version": "2d77c719",
+ "parent": "41b033b7",
  "author": {
   "name": "codex",
   "kind": "agent",
   "session": null
  },
  "note": null,
- "ts": "2026-08-13T10:08:44+00:00",
+ "ts": "2026-08-13T10:08:55+00:00",
  "stats": {
   "modified": 1
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "ecb75eaf",
+   "block": "067f2a02",
    "type": "para",
-   "context": "Receiver-model configuration"
+   "context": "End-to-end overhead in the three-model c"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:05a7b17683787653b27402fb8ac5bd5e3d2b0fc0a3f079390b71ca364f543967",
+ "soft_fingerprint": "ppsb1:c550952244b4da6bfc3a59e0fb79d48ceda944b9e5c0db8d4fe8450976554d5f",
  "actors": {
   "requested_by": [
    "Richard Tang"
@@ -41,13 +41,13 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "ecb75eaf",
+   "block": "067f2a02",
    "kind": "modified",
-   "note": "Clarifies that listed receivers are evaluation endpoints, not endorsements."
+   "note": "Bounds the overhead result to the end-to-end harness and tested workloads."
   }
  ],
  "context": {
-  "why": "Clarify the role of receiver model endpoints"
+  "why": "Bound overhead interpretation to the tested harness"
  },
- "event_id": "ppe_a0aea242b77593b78b56cf97"
+ "event_id": "ppe_de0f24eee591937d6f4dcbad"
 }
