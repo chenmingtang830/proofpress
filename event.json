@@ -1,35 +1,29 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/ara/logic/experiments.md",
- "artifact_id": "pp_15fb7a0bcf0891f7cee01068",
- "version": "36d7de3d",
- "parent": "e8af86f6",
+ "artifact": "studies/agent-handoff-artifact-provenance/README.md",
+ "artifact_id": "pp_3d8c31782858290ae4729c8f",
+ "version": "2d9750b6",
+ "parent": "e7822386",
  "author": {
   "name": "codex",
   "kind": "agent",
   "session": null
  },
  "note": null,
- "ts": "2026-08-13T12:01:09+00:00",
+ "ts": "2026-08-13T12:01:43+00:00",
  "stats": {
-  "modified": 2
+  "modified": 1
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "3242ace7",
-   "type": "list",
-   "context": "E12: Artifact Travel Benchmark v2 — A→B→"
-  },
-  {
-   "kind": "modified",
-   "block": "b8cd3cfc",
-   "type": "list",
-   "context": "E13: Artifact Travel Benchmark v3 — repl"
+   "block": "6ea55a0a",
+   "type": "para",
+   "context": "Status"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:1bdc75112b306ccf1ac373f31e0fdcd5199f56bfa6c43ebf633efd3bb4754d19",
+ "soft_fingerprint": "ppsb1:625e86ee4df5d8871d0ed6185ccbc687637c457a181ffe2416ee3188c68c1f76",
  "actors": {
   "requested_by": [
    "Chenming Tang"
@@ -47,18 +41,13 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "3242ace7",
+   "block": "6ea55a0a",
    "kind": "modified",
-   "note": "Removes a machine-local report path while retaining the diagnostic result and non-redistribution boundary."
-  },
-  {
-   "block": "b8cd3cfc",
-   "kind": "modified",
-   "note": "Removes a machine-local formal-root path while retaining the diagnostic status."
+   "note": "Marks the public study package as release candidate rc1 and retains the fixed-tag gate."
   }
  ],
  "context": {
-  "why": "Remove machine-local diagnostic paths from the public research source"
+  "why": "Create the human-readable entry point for the public study release candidate"
  },
- "event_id": "ppe_c3574e72ae78aef036d1a3d7"
+ "event_id": "ppe_7ddf4c9c889226251286cc0d"
 }
