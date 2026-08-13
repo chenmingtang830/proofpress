@@ -1,93 +1,41 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/ara/logic/related_work.md",
- "artifact_id": "pp_aeef744ab46114892229ebab",
- "version": "48631d47",
- "parent": "8735e430",
+ "artifact": "experiments/provenance_handoff/ara/PAPER.md",
+ "artifact_id": "pp_cb6d0883f4bda071d2137869",
+ "version": "80b901d8",
+ "parent": "abc3ff07",
  "author": {
   "name": "codex",
   "kind": "agent",
   "session": null
  },
  "note": null,
- "ts": "2026-08-13T10:04:05+00:00",
+ "ts": "2026-08-13T10:05:01+00:00",
  "stats": {
-  "added": 10
+  "modified": 3
  },
  "changes": [
   {
-   "kind": "added",
-   "block": "d9502ea1",
-   "type": "heading",
-   "context": "RW01: Handoff Debt",
-   "preview": "## RW01: Handoff Debt"
+   "kind": "modified",
+   "block": "61923531",
+   "type": "table",
+   "context": "Cognitive Layer (`/logic`)"
   },
   {
-   "kind": "added",
-   "block": "05c49886",
-   "type": "list",
-   "context": "RW01: Handoff Debt",
-   "preview": "- **Type**: baseline and boundary.\n- **Source**: https://arx"
+   "kind": "modified",
+   "block": "42cb0b87",
+   "type": "table",
+   "context": "Physical Layer (`/src`)"
   },
   {
-   "kind": "added",
-   "block": "f38a0111",
-   "type": "heading",
-   "context": "RW02: AgentAsk",
-   "preview": "## RW02: AgentAsk"
-  },
-  {
-   "kind": "added",
-   "block": "52e9607e",
-   "type": "list",
-   "context": "RW02: AgentAsk",
-   "preview": "- **Type**: failure taxonomy.\n- **Source**: https://aclantho"
-  },
-  {
-   "kind": "added",
-   "block": "897cf011",
-   "type": "heading",
-   "context": "RW03: W3C PROV",
-   "preview": "## RW03: W3C PROV"
-  },
-  {
-   "kind": "added",
-   "block": "019a1aaf",
-   "type": "list",
-   "context": "RW03: W3C PROV",
-   "preview": "- **Type**: imported provenance model.\n- **Source**: https:/"
-  },
-  {
-   "kind": "added",
-   "block": "47987ae5",
-   "type": "heading",
-   "context": "RW04: Software consume-time verification",
-   "preview": "## RW04: Software consume-time verification"
-  },
-  {
-   "kind": "added",
-   "block": "a030095a",
-   "type": "list",
-   "context": "RW04: Software consume-time verification",
-   "preview": "- **Type**: mechanism precedent.\n- **Source**: in-toto, TUF,"
-  },
-  {
-   "kind": "added",
-   "block": "0ef2f001",
-   "type": "heading",
-   "context": "RW05: Portable and provenance-aware agen",
-   "preview": "## RW05: Portable and provenance-aware agent memory"
-  },
-  {
-   "kind": "added",
-   "block": "1db27cf6",
-   "type": "list",
-   "context": "RW05: Portable and provenance-aware agen",
-   "preview": "- **Type**: closest agent-system precedent.\n- **Source**: Po"
+   "kind": "modified",
+   "block": "45399eb2",
+   "type": "table",
+   "context": "Evidence (`/evidence`)"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:d2d5d28225f291bb2a98fe3fe16c7eeeadcfe03499ce0dee869a9eb1405167fb",
+ "soft_fingerprint": "ppsb1:3d78e7fb91f51c3cfbf7dcb056846d74fbd52fd451e0249158b4b59c69ff5f7d",
  "actors": {
   "requested_by": [
    "Richard Tang"
@@ -105,58 +53,23 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "d9502ea1",
-   "kind": "added",
-   "note": "Adds a structured related-work entry for agent handoff."
+   "block": "61923531",
+   "kind": "modified",
+   "note": "Indexes the receiver-side algorithm in the cognitive layer."
   },
   {
-   "block": "05c49886",
-   "kind": "added",
-   "note": "Records its contribution and Proofpress delta."
+   "block": "42cb0b87",
+   "kind": "modified",
+   "note": "Indexes evaluation configs and grounded execution pointers in the physical layer."
   },
   {
-   "block": "f38a0111",
-   "kind": "added",
-   "note": "Adds a structured related-work entry for context engineering."
-  },
-  {
-   "block": "52e9607e",
-   "kind": "added",
-   "note": "Records its contribution and Proofpress delta."
-  },
-  {
-   "block": "897cf011",
-   "kind": "added",
-   "note": "Adds a structured related-work entry for stale knowledge."
-  },
-  {
-   "block": "019a1aaf",
-   "kind": "added",
-   "note": "Records its contribution and Proofpress delta."
-  },
-  {
-   "block": "47987ae5",
-   "kind": "added",
-   "note": "Adds a structured related-work entry for provenance."
-  },
-  {
-   "block": "a030095a",
-   "kind": "added",
-   "note": "Records its contribution and Proofpress delta."
-  },
-  {
-   "block": "0ef2f001",
-   "kind": "added",
-   "note": "Adds a structured related-work entry for research artifacts."
-  },
-  {
-   "block": "1db27cf6",
-   "kind": "added",
-   "note": "Records its contribution and Proofpress delta."
+   "block": "45399eb2",
+   "kind": "modified",
+   "note": "Indexes the reader-facing result table and rendered companion."
   }
  ],
  "context": {
-  "why": "Represent related work as typed ARA dependencies"
+  "why": "Complete the ARA layer index for external review"
  },
- "event_id": "ppe_6c7fa7f4b859b1da5fcbc6fe"
+ "event_id": "ppe_daa1a99908174c7958d90a4b"
 }
