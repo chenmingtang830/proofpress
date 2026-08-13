@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Proofpress agent handoff study</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #0c0e13;
+      --panel: #131821;
+      --line: #2a3342;
+      --text: #f2efe8;
+      --muted: #aab4c5;
+      --teal: #4aaec2;
+      --ordinary: #d99696;
+      --proofpress: #75cfa0;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      width: 1200px;
+      height: 1200px;
+      margin: 0;
+      overflow: hidden;
+      background: var(--bg);
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    main {
+      width: 100%;
+      height: 100%;
+      padding: 72px 78px 68px;
+      display: grid;
+      grid-template-rows: auto auto 1fr auto;
+      gap: 44px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      font-size: 24px;
+      font-weight: 650;
+      letter-spacing: .03em;
+    }
+
+    .brand img { width: 54px; height: 54px; }
+
+    .intro h1 {
+      max-width: 980px;
+      margin: 0;
+      font-size: 54px;
+      line-height: 1.09;
+      letter-spacing: -.035em;
+      font-weight: 650;
+    }
+
+    .intro p {
+      max-width: 940px;
+      margin: 20px 0 0;
+      color: var(--muted);
+      font-size: 27px;
+      line-height: 1.42;
+      letter-spacing: -.01em;
+    }
+
+    .matrix {
+      display: grid;
+      grid-template-columns: 245px 1fr 1fr;
+      grid-template-rows: 88px 1fr 1fr;
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      overflow: hidden;
+      background: var(--panel);
+    }
+
+    .cell {
+      padding: 28px 30px;
+      border-right: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .cell:nth-child(3n) { border-right: 0; }
+    .cell:nth-last-child(-n + 3) { border-bottom: 0; }
+
+    .corner { background: #10151d; }
+
+    .column-label {
+      color: var(--muted);
+      background: #10151d;
+      font-size: 20px;
+      font-weight: 600;
+      letter-spacing: .01em;
+    }
+
+    .row-label {
+      font-size: 22px;
+      font-weight: 650;
+      line-height: 1.2;
+    }
+
+    .row-label.ordinary { color: var(--ordinary); }
+    .row-label.proofpress { color: var(--proofpress); }
+
+    .result strong {
+      display: block;
+      margin-bottom: 12px;
+      font-size: 46px;
+      line-height: 1;
+      letter-spacing: -.04em;
+      font-weight: 650;
+    }
+
+    .result span {
+      color: var(--muted);
+      font-size: 22px;
+      line-height: 1.3;
+    }
+
+    .result.highlight {
+      background: linear-gradient(135deg, rgba(74, 174, 194, .12), rgba(117, 207, 160, .07));
+      box-shadow: inset 0 0 0 1px rgba(117, 207, 160, .22);
+    }
+
+    footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 28px;
+      color: var(--muted);
+      font-size: 17px;
+      line-height: 1.35;
+    }
+
+    footer strong { color: var(--text); font-weight: 600; }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="brand">
+      <img src="../logo-on-dark.svg" alt="Proofpress">
+      <span>Proofpress</span>
+    </div>
+
+    <section class="intro">
+      <h1>A handoff can preserve prior reasoning without proving that it still applies.</h1>
+      <p>We tested whether inherited work was reused after the underlying document changed.</p>
+    </section>
+
+    <section class="matrix" aria-label="Controlled study results">
+      <div class="cell corner"></div>
+      <div class="cell column-label">Document unchanged</div>
+      <div class="cell column-label">Document changed</div>
+
+      <div class="cell row-label ordinary">Ordinary<br>handoff</div>
+      <div class="cell result">
+        <strong>12 / 12</strong>
+        <span>continued correctly</span>
+      </div>
+      <div class="cell result">
+        <strong>12 / 12</strong>
+        <span>reused stale work</span>
+      </div>
+
+      <div class="cell row-label proofpress">Proofpress</div>
+      <div class="cell result">
+        <strong>12 / 12</strong>
+        <span>continued correctly</span>
+      </div>
+      <div class="cell result highlight">
+        <strong>0 / 12</strong>
+        <span>reused stale work</span>
+      </div>
+    </section>
+
+    <footer>
+      <span><strong>Preregistered controlled comparison</strong></span>
+      <span>GPT-5.6 Luna · high effort</span>
+    </footer>
+  </main>
+</body>
+</html>
