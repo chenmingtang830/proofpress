@@ -1,75 +1,37 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/ara/PAPER.md",
- "artifact_id": "pp_cb6d0883f4bda071d2137869",
- "version": "24d49d90",
- "parent": "70cd4bf5",
+ "artifact": "experiments/provenance_handoff/ara/evidence/tables/derived_main_results.md",
+ "artifact_id": "pp_be637ba6a8dd5eb84262c8bd",
+ "version": "369eae30",
+ "parent": "65f30d0e",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-13T12:57:11+00:00",
+ "ts": "2026-08-13T12:57:17+00:00",
  "stats": {
-  "modified": 4,
-  "added": 3
+  "modified": 1,
+  "added": 1
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "ba410059",
-   "type": "heading",
-   "context": "4.6 Overhead varied by study, model, and"
-  },
-  {
-   "kind": "modified",
-   "block": "ba41005a",
-   "type": "para",
-   "context": "4.6 Overhead varied by study, model, and",
-   "numbers": [
-    [
-     "144",
-     "6"
-    ]
-   ]
-  },
-  {
-   "kind": "modified",
-   "block": "ba41005b",
+   "block": "4a65ffee",
    "type": "table",
-   "context": "4.6 Overhead varied by study, model, and"
-  },
-  {
-   "kind": "modified",
-   "block": "ba41005c",
-   "type": "para",
-   "context": "4.6 Overhead varied by study, model, and"
+   "context": "End-to-end overhead in the three-model c"
   },
   {
    "kind": "added",
-   "block": "5e6a26c0",
+   "block": "f64ffe80",
    "type": "para",
-   "context": "4.6 Overhead varied by study, model, and",
-   "preview": "The high-effort DeepSeek selective-recovery study used a dif"
-  },
-  {
-   "kind": "added",
-   "block": "aa1f2aee",
-   "type": "table",
-   "context": "4.6 Overhead varied by study, model, and",
-   "preview": "| DeepSeek Track 2 condition | Valid responses | Mean report"
-  },
-  {
-   "kind": "added",
-   "block": "57827d0a",
-   "type": "para",
-   "context": "4.6 Overhead varied by study, model, and",
-   "preview": "The DeepSeek token means do not show an overhead increase in"
+   "context": "End-to-end overhead in the three-model c",
+   "preview": "The separate high-effort DeepSeek Track 2 selective-recovery"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:708938bfd3bb3c51163940816e8f727ce554dc11854ea717e7ef516aab05ad90",
+ "soft_fingerprint": "ppsb1:35e65318ae67a95a97aa256bd13e434ea7f3e2af6fd470b15e685dfc5817a64a",
  "actors": {
   "requested_by": [
    "Chenming Tang"
@@ -87,43 +49,18 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "ba410059",
+   "block": "4a65ffee",
    "kind": "modified",
-   "note": "Broadens the overhead section heading to cover study, model, and telemetry differences."
+   "note": "Adds GPT-5.6 Luna and explicit effort labels to the controlled document-version overhead table."
   },
   {
-   "block": "ba41005a",
-   "kind": "modified",
-   "note": "Adds the preregistered GPT-5.6 Luna study and explains why only the low-effort follow-up is pooled."
-  },
-  {
-   "block": "ba41005b",
-   "kind": "modified",
-   "note": "Adds high-effort GPT-5.6 Luna ordinary and Proofpress overhead rows alongside the three low-effort follow-up models."
-  },
-  {
-   "block": "ba41005c",
-   "kind": "modified",
-   "note": "Separates Luna overhead ratios from the low-effort follow-up and preserves the end-to-end attribution boundary."
-  },
-  {
-   "block": "5e6a26c0",
+   "block": "f64ffe80",
    "kind": "added",
-   "note": "Explains that DeepSeek used a different task and lacked reliable wall-time and cost telemetry."
-  },
-  {
-   "block": "aa1f2aee",
-   "kind": "added",
-   "note": "Reports response-level DeepSeek V0 and V1 token means without treating zero cost fields as free inference."
-  },
-  {
-   "block": "57827d0a",
-   "kind": "added",
-   "note": "States the bounded overhead conclusion across the controlled and selective-recovery studies."
+   "note": "Records the separately scoped DeepSeek token telemetry and missing time and cost coverage."
   }
  ],
  "context": {
-  "why": "Complete overhead reporting by adding the GPT-5.6 Luna controlled study and separately disclosing the available and missing DeepSeek telemetry."
+  "why": "Extend the derived overhead evidence with Luna and separately scoped DeepSeek telemetry coverage."
  },
- "event_id": "ppe_03aef1dce66c9d79dc20ce20"
+ "event_id": "ppe_4059dcea67d5244d803cd12d"
 }
