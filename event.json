@@ -1,51 +1,29 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/docs/KNOWLEDGE_HANDOFF_DEBT_PLAN.md",
- "artifact_id": "pp_2a2e62252d677e3b6e52cce7",
- "version": "3c15fc2a",
- "parent": "22051f8f",
+ "artifact": "experiments/provenance_handoff/docs/TRACK2_EARLY_RESULTS.md",
+ "artifact_id": "pp_a4aae4366d7346901db2ecac",
+ "version": "d98380e4",
+ "parent": "7edb74a1",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-13T02:47:57+00:00",
+ "ts": "2026-08-13T02:48:07+00:00",
  "stats": {
-  "modified": 1,
-  "added": 3
+  "modified": 1
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "fae739dc",
+   "block": "6e881a09",
    "type": "para",
-   "context": "Research plan — verifiable knowledge han"
-  },
-  {
-   "kind": "added",
-   "block": "ea021001",
-   "type": "heading",
-   "context": "Early-testing outcome",
-   "preview": "### Early-testing outcome"
-  },
-  {
-   "kind": "added",
-   "block": "ea021002",
-   "type": "para",
-   "context": "Early-testing outcome",
-   "preview": "Track 1 produced 9/9 valid DeepSeek responses across three f"
-  },
-  {
-   "kind": "added",
-   "block": "ea021003",
-   "type": "para",
-   "context": "Early-testing outcome",
-   "preview": "The formal Phase 2 pilot remains unexecuted. The Phase 0 for"
+   "context": "Track 2 early-testing results"
   }
  ],
  "policy": "local",
- "soft_fingerprint": "ppsb1:e29cb684234d81f68f77d790283da4ffcdabbf49a5751cb6682ce68764e30542",
+ "soft_fingerprint": "ppsb1:fdb91fa135ed2547ecd821730fa3463f4769fd50eaadd7a9b02aae33384362df",
  "actors": {
   "requested_by": [
    "user"
@@ -63,28 +41,13 @@
  "attribution_basis": "environment_attested",
  "claims": [
   {
-   "block": "fae739dc",
+   "block": "6e881a09",
    "kind": "modified",
-   "note": "Changes the registered program status from authorized to completed early testing and links the results write-up."
-  },
-  {
-   "block": "ea021001",
-   "kind": "added",
-   "note": "Adds the early-testing outcome section."
-  },
-  {
-   "block": "ea021002",
-   "kind": "added",
-   "note": "Records Track 1, GLM Track 2, and DeepSeek Track 2 denominators and outcomes."
-  },
-  {
-   "block": "ea021003",
-   "kind": "added",
-   "note": "Preserves the unexecuted formal-pilot boundary while allowing bounded early-results publication."
+   "note": "Links the focused Track 2 result to the combined Knowledge Handoff technical write-up."
   }
  ],
  "context": {
-  "why": "Update the registered plan with completed early-testing outcomes and the remaining formal-eligibility boundary."
+  "why": "Cross-link the focused Track 2 report to the combined Knowledge Handoff technical write-up."
  },
- "event_id": "ppe_967617cc3817e01b9caabef1"
+ "event_id": "ppe_53477ff5d99ddea44874dec9"
 }
