@@ -1,41 +1,29 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/ara/PAPER.md",
- "artifact_id": "pp_cb6d0883f4bda071d2137869",
- "version": "5b1676da",
- "parent": "24d49d90",
+ "artifact": "experiments/provenance_handoff/ara/evidence/tables/derived_main_results.md",
+ "artifact_id": "pp_be637ba6a8dd5eb84262c8bd",
+ "version": "0cf1e2c1",
+ "parent": "369eae30",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-13T13:03:11+00:00",
+ "ts": "2026-08-13T13:03:17+00:00",
  "stats": {
-  "modified": 3
+  "modified": 1
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "5e6a26c0",
+   "block": "f64ffe80",
    "type": "para",
-   "context": "4.6 Overhead varied by study, model, and"
-  },
-  {
-   "kind": "modified",
-   "block": "aa1f2aee",
-   "type": "table",
-   "context": "4.6 Overhead varied by study, model, and"
-  },
-  {
-   "kind": "modified",
-   "block": "57827d0a",
-   "type": "para",
-   "context": "4.6 Overhead varied by study, model, and"
+   "context": "End-to-end overhead in the three-model c"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:d5021cbabe1d31dc2a82a960993e9bdfb4648fa4b621455235c90d3cd3445f91",
+ "soft_fingerprint": "ppsb1:d359cab9c9ed772a90c31e5dc31930ae6ea7a5aea444240b0e5dfa9960048244",
  "actors": {
   "requested_by": [
    "Chenming Tang"
@@ -53,23 +41,13 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "5e6a26c0",
+   "block": "f64ffe80",
    "kind": "modified",
-   "note": "Corrects the telemetry interpretation using the underlying AI Gateway request ledger rather than OpenCode's zero-cost response summary."
-  },
-  {
-   "block": "aa1f2aee",
-   "kind": "modified",
-   "note": "Reports DeepSeek V0 and V1 Gateway request counts, billable tokens, cumulative request duration, and market model cost."
-  },
-  {
-   "block": "57827d0a",
-   "kind": "modified",
-   "note": "Quantifies DeepSeek condition ratios and discloses the 82-call local versus 81-call aggregate Gateway reconciliation difference."
+   "note": "Replaces missing-telemetry language with request-level AI Gateway time, token, and cost measurements and their reconciliation boundary."
   }
  ],
  "context": {
-  "why": "Correct DeepSeek overhead reporting from the persisted AI Gateway request ledger, including time, cost, and the aggregate reconciliation discrepancy."
+  "why": "Replace the DeepSeek missing-telemetry note with request-level Gateway measurements and an explicit reconciliation boundary."
  },
- "event_id": "ppe_60bd7a66b773b029cd1e939e"
+ "event_id": "ppe_c18134760ccc739e1132abc9"
 }
