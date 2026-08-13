@@ -1,209 +1,85 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/ara/logic/claims.md",
- "artifact_id": "pp_ca8a8ddcc33d3870e9a40bc5",
- "version": "b3c6f989",
- "parent": "21aec7d6",
+ "artifact": "experiments/provenance_handoff/ara/logic/experiments.md",
+ "artifact_id": "pp_15fb7a0bcf0891f7cee01068",
+ "version": "d147d038",
+ "parent": "36d7de3d",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-13T12:29:07+00:00",
+ "ts": "2026-08-13T12:29:14+00:00",
  "stats": {
-  "modified": 4,
-  "removed": 23
+  "modified": 2,
+  "removed": 7
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "9c9e5fa7",
+   "block": "4128c6c7",
    "type": "list",
-   "context": "C14: The contribution is a joint agent-h"
+   "context": "E19: Structured related-work scoping rev"
   },
   {
    "kind": "modified",
-   "block": "7e0478fc",
+   "block": "6c430002",
    "type": "list",
-   "context": "C09: The tested native binding mechanism"
-  },
-  {
-   "kind": "modified",
-   "block": "7e0478fe",
-   "type": "list",
-   "context": "C10: R2 semantic faults show recovery-pa"
-  },
-  {
-   "kind": "modified",
-   "block": "7e0478fa",
-   "type": "list",
-   "context": "C08: Native artifact binding can block s"
+   "context": "E14: Artifact Travel v4 temporal Proofpr"
   },
   {
    "kind": "removed",
-   "block": "6fbf8638",
+   "block": "3b7efb89",
    "type": "para",
    "context": "",
-   "preview": "  records, a C2 receiver with a native admitted working-synt"
+   "preview": "  complete, verify, or safely refuse more than the same spar"
   },
   {
    "kind": "removed",
-   "block": "3132953c",
+   "block": "2b1e2b11",
    "type": "list",
    "context": "",
-   "preview": "- **Conditions**: This is a local-login, safe-mode, HiEviDR-"
+   "preview": "- **Design**: three paired C1/C2 A trajectories; each derive"
   },
   {
    "kind": "removed",
-   "block": "222aed31",
+   "block": "a0d67d10",
    "type": "para",
    "context": "",
-   "preview": "  adaptation with three selected text-only records and a con"
+   "preview": "  stale superseded, revived rejected, and evidence/binding m"
   },
   {
    "kind": "removed",
-   "block": "7f378a7f",
+   "block": "5348eeed",
    "type": "list",
    "context": "",
-   "preview": "- **Sources**: local immutable HiEviDR R1 analysis, not redi"
+   "preview": "- **Scoring/gate**: score `x/9` and 9/9 only for expected co"
   },
   {
    "kind": "removed",
-   "block": "77702d9b",
+   "block": "e8f2c5fe",
    "type": "para",
    "context": "",
-   "preview": "  semantic inputs and an independently validated fault shows"
+   "preview": "  correct refusal has no DOCX denominator. Do not scale abse"
   },
   {
    "kind": "removed",
-   "block": "791f103c",
+   "block": "78089e53",
    "type": "list",
    "context": "",
-   "preview": "- **Proof**: fault safe C2 `9/9` versus C1 `0/9`; unsafe pro"
+   "preview": "- **Status**: deterministic CLI Phase 0 is implemented and m"
   },
   {
    "kind": "removed",
-   "block": "78bf14cb",
+   "block": "a9b0636b",
    "type": "para",
    "context": "",
-   "preview": "  versus C1 `9/9`; Fisher two-sided `p=4.11e-5`; clean corre"
-  },
-  {
-   "kind": "removed",
-   "block": "e758f043",
-   "type": "para",
-   "context": "",
-   "preview": "  consistently produced an auditable reverify-and-grounded-r"
-  },
-  {
-   "kind": "removed",
-   "block": "7e0478ff",
-   "type": "list",
-   "context": "",
-   "preview": "- **Conditions**: Three selected text-only public records; v"
-  },
-  {
-   "kind": "removed",
-   "block": "4bd9c374",
-   "type": "para",
-   "context": "",
-   "preview": "  evidence was deliberately shared by both arms; local Claud"
-  },
-  {
-   "kind": "removed",
-   "block": "7e04780a",
-   "type": "list",
-   "context": "",
-   "preview": "- **Proof**: among nine valid semantic-fault cells per arm, "
-  },
-  {
-   "kind": "removed",
-   "block": "fbbb2225",
-   "type": "para",
-   "context": "",
-   "preview": "  `9/9` and C1 recovery `5/9` (Fisher two-sided `p=0.08235`)"
-  },
-  {
-   "kind": "removed",
-   "block": "1a256631",
-   "type": "list",
-   "context": "",
-   "preview": "- **Dependencies**: [C08]\n- **Tags**: provenance, artifact-b"
-  },
-  {
-   "kind": "removed",
-   "block": "155e4f7b",
-   "type": "para",
-   "context": "",
-   "preview": "  local-debug"
-  },
-  {
-   "kind": "removed",
-   "block": "cba0f633",
-   "type": "para",
-   "context": "",
-   "preview": "  receiver with C2's native Proofpress carrier and DOCX prov"
-  },
-  {
-   "kind": "removed",
-   "block": "ffe4fc31",
-   "type": "list",
-   "context": "",
-   "preview": "- **Conditions**: This is a Claude CLI local-debug observati"
-  },
-  {
-   "kind": "removed",
-   "block": "6edc149a",
-   "type": "para",
-   "context": "",
-   "preview": "  local verifier preflight, 12 valid trials per arm/state, a"
-  },
-  {
-   "kind": "removed",
-   "block": "4d8ea751",
-   "type": "list",
-   "context": "",
-   "preview": "- **Sources**: local immutable APEX-direct preflight analysi"
-  },
-  {
-   "kind": "removed",
-   "block": "120122de",
-   "type": "para",
-   "context": "",
-   "preview": "  output-contract, and verifier-preflight gates shows C2 uns"
-  },
-  {
-   "kind": "removed",
-   "block": "8e73e2c5",
-   "type": "list",
-   "context": "",
-   "preview": "- **Proof**: C2 fault safe disposition `12/12` versus C1 `0/"
-  },
-  {
-   "kind": "removed",
-   "block": "6bbf0ff4",
-   "type": "para",
-   "context": "",
-   "preview": "  proceed `0/12` versus C1 `12/12`; Fisher two-sided `p=7.4e"
-  },
-  {
-   "kind": "removed",
-   "block": "14b9a6eb",
-   "type": "list",
-   "context": "",
-   "preview": "- **Dependencies**: [C07]\n- **Tags**: provenance, artifact-b"
-  },
-  {
-   "kind": "removed",
-   "block": "75cfaa0c",
-   "type": "para",
-   "context": "",
-   "preview": "  causal-design"
+   "preview": "  a new immutable output root before any separately authoriz"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:8bdf0f4fee27e2c08eb8d9131f0c7649c7a3115b4587521b118b91c01df673ed",
+ "soft_fingerprint": "ppsb1:ca8d67cc7656234c011ad2728155e18fa88e9fc069ea92f4b227cfd6dac520e2",
  "actors": {
   "requested_by": [
    "Chenming Tang"
@@ -221,13 +97,13 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "bdc2ed0e",
+   "block": "4128c6c7",
    "kind": "modified",
-   "note": "Clarifies that the public package preserves the related-work review ledger for inspection."
+   "note": "Makes the public study package an explicit evidence location for the scoping review."
   }
  ],
  "context": {
-  "why": "Clarify that the public package preserves the scoping-review ledger and refresh the portable capsule under the release implementation."
+  "why": "Expose the scoping-review evidence location in the public study package and refresh the portable capsule under the release implementation."
  },
- "event_id": "ppe_a2a8b0ff2cc5f3436fe6448a"
+ "event_id": "ppe_5b8b2359cfd6b336596c86a2"
 }
