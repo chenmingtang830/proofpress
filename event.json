@@ -1,32 +1,44 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/ara/evidence/tables/derived_main_results.md",
- "artifact_id": "pp_be637ba6a8dd5eb84262c8bd",
- "version": "2d77c719",
- "parent": "41b033b7",
+ "artifact": "experiments/provenance_handoff/ara/PAPER.md",
+ "artifact_id": "pp_cb6d0883f4bda071d2137869",
+ "version": "3ab3b8c1",
+ "parent": "80b901d8",
  "author": {
   "name": "codex",
   "kind": "agent",
   "session": null
  },
  "note": null,
- "ts": "2026-08-13T10:08:55+00:00",
+ "ts": "2026-08-13T11:58:03+00:00",
  "stats": {
-  "modified": 1
+  "modified": 3
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "067f2a02",
+   "block": "3de79e34",
    "type": "para",
-   "context": "End-to-end overhead in the three-model c"
+   "context": "(文首)"
+  },
+  {
+   "kind": "modified",
+   "block": "ba410003",
+   "type": "para",
+   "context": "Proofpress: An Artifact Provenance Proto"
+  },
+  {
+   "kind": "modified",
+   "block": "ba410008",
+   "type": "para",
+   "context": "Abstract"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:c550952244b4da6bfc3a59e0fb79d48ceda944b9e5c0db8d4fe8450976554d5f",
+ "soft_fingerprint": "ppsb1:c9f7f7689b78f38d513629bed02992a44a73fca68540923795560bdbbbf1321d",
  "actors": {
   "requested_by": [
-   "Richard Tang"
+   "Chenming Tang"
   ],
   "produced_by": [
    "OpenAI Codex"
@@ -41,13 +53,23 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "067f2a02",
+   "block": "3de79e34",
    "kind": "modified",
-   "note": "Bounds the overhead result to the end-to-end harness and tested workloads."
+   "note": "Replaces the team placeholder with the named author, independent affiliation, correspondence email, and pending ORCID status."
+  },
+  {
+   "block": "ba410003",
+   "kind": "modified",
+   "note": "Adds named author and correspondence metadata to the working-paper notice."
+  },
+  {
+   "block": "ba410008",
+   "kind": "modified",
+   "note": "Names the exact Luna endpoint used in the preregistered main comparison."
   }
  ],
  "context": {
-  "why": "Bound overhead interpretation to the tested harness"
+  "why": "Name the author and exact model used in the primary preregistered result"
  },
- "event_id": "ppe_de0f24eee591937d6f4dcbad"
+ "event_id": "ppe_31100f2d771b32c1587f2bfb"
 }
