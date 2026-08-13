@@ -1,41 +1,59 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/ara/PAPER.md",
- "artifact_id": "pp_cb6d0883f4bda071d2137869",
- "version": "80b901d8",
- "parent": "abc3ff07",
+ "artifact": "experiments/provenance_handoff/ara/evidence/README.md",
+ "artifact_id": "pp_d903bfb55a61339cd26f454f",
+ "version": "a45f5fcb",
+ "parent": "30dce380",
  "author": {
   "name": "codex",
   "kind": "agent",
   "session": null
  },
  "note": null,
- "ts": "2026-08-13T10:05:01+00:00",
+ "ts": "2026-08-13T10:05:13+00:00",
  "stats": {
-  "modified": 3
+  "modified": 6
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "61923531",
-   "type": "table",
-   "context": "Cognitive Layer (`/logic`)"
+   "block": "2f55c2b1",
+   "type": "heading",
+   "context": "Release evidence map"
   },
   {
    "kind": "modified",
-   "block": "42cb0b87",
-   "type": "table",
-   "context": "Physical Layer (`/src`)"
+   "block": "687aeafa",
+   "type": "para",
+   "context": "Release evidence map"
   },
   {
    "kind": "modified",
-   "block": "45399eb2",
-   "type": "table",
-   "context": "Evidence (`/evidence`)"
+   "block": "563cb8db",
+   "type": "para",
+   "context": "Release evidence map"
+  },
+  {
+   "kind": "modified",
+   "block": "4a2a703a",
+   "type": "para",
+   "context": "Release evidence map"
+  },
+  {
+   "kind": "modified",
+   "block": "a8111b7b",
+   "type": "heading",
+   "context": "Source and design inputs"
+  },
+  {
+   "kind": "modified",
+   "block": "d49d601a",
+   "type": "para",
+   "context": "Source and design inputs"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:3d78e7fb91f51c3cfbf7dcb056846d74fbd52fd451e0249158b4b59c69ff5f7d",
+ "soft_fingerprint": "ppsb1:1e8a9ffca0d48c105397946dc5c9d1a87df85b19cc6f34110658a47c2cee2cb9",
  "actors": {
   "requested_by": [
    "Richard Tang"
@@ -53,23 +71,38 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "61923531",
+   "block": "2f55c2b1",
    "kind": "modified",
-   "note": "Indexes the receiver-side algorithm in the cognitive layer."
+   "note": "Reframes the evidence index for external review."
   },
   {
-   "block": "42cb0b87",
+   "block": "687aeafa",
    "kind": "modified",
-   "note": "Indexes evaluation configs and grounded execution pointers in the physical layer."
+   "note": "Points readers to the principal result synthesis and states its scope."
   },
   {
-   "block": "45399eb2",
+   "block": "563cb8db",
    "kind": "modified",
-   "note": "Indexes the reader-facing result table and rendered companion."
+   "note": "Indexes the primary machine summaries and canonical result documents."
+  },
+  {
+   "block": "4a2a703a",
+   "kind": "modified",
+   "note": "States the boundary between included aggregates and external raw records."
+  },
+  {
+   "block": "a8111b7b",
+   "kind": "modified",
+   "note": "Renames the source-input section for public readers."
+  },
+  {
+   "block": "d49d601a",
+   "kind": "modified",
+   "note": "Defines evidence qualification without presenting an obsolete active target."
   }
  ],
  "context": {
-  "why": "Complete the ARA layer index for external review"
+  "why": "Replace the stale evidence status with a release-oriented evidence map"
  },
- "event_id": "ppe_daa1a99908174c7958d90a4b"
+ "event_id": "ppe_28524f4543c14e3bace6ec77"
 }
