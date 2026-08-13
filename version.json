@@ -1,24 +1,60 @@
 {
- "artifact": "studies/agent-handoff-artifact-provenance/STUDY_CARD.md",
- "artifact_id": "pp_eaed747359912aef0219e35c",
+ "artifact": "studies/agent-handoff-artifact-provenance/RELEASE_MANIFEST.md",
+ "artifact_id": "pp_24d4e0beedeba47c25eda0d7",
  "blocks": [
   {
    "type": "heading",
-   "text": "# Study card",
-   "id": "fce06d11",
-   "hash": "5e86b9640c8d"
+   "text": "# Release manifest — candidate `rc1`",
+   "id": "21136172",
+   "hash": "13bbb26056a0"
+  },
+  {
+   "type": "heading",
+   "text": "## Included",
+   "id": "b4ea023e",
+   "hash": "98572bffd21c"
   },
   {
    "type": "list",
-   "text": "- **Title:** Proofpress: An Artifact Provenance Protocol for Agent Handoffs\n- **Author:** Chenming Tang\n- **Affiliation:** Independent Researcher\n- **Correspondence:** tangchenming0830@gmail.com\n- **ORCID:** Pending author registration\n- **Year / package status:** 2026 / release candidate `rc1`\n- **Evidence status:** Completed local evaluation; bounded mechanism evidence\n- **Primary preregistered receiver:** `openai/gpt-5.6-luna`\n- **Primary transport:** OpenRouter\n- **Resolved provider:** OpenAI\n- **Fallback:** Disabled\n- **Frozen-protocol receiver follow-up:** GLM 5.2, Kimi K3, Qwen 3.8 Max\n- **Primary endpoint:** Incorrect continuation with inherited work bound to an outdated artifact\n- **Primary result:** Ordinary handoff 12/12 incorrect continues; Proofpress 0/12; both 12/12 correct continues on unchanged artifacts\n- **Main limitation:** The primary task directly instantiates the mismatch Proofpress was designed to detect and does not establish external generalization\n- **Peer review:** None",
-   "id": "ba7eeaf4",
-   "hash": "b4eb1a3f2c51"
+   "text": "- The complete ARA source package under `ara/`.\n- A reader-facing technical report and main-result table.\n- Aggregate and selected machine-readable result summaries already committed to the ARA evidence layer.\n- Protocol descriptions and repository-relative implementation pointers.\n- Proofpress revision capsules embedded in accepted Markdown artifacts where applicable.",
+   "id": "02e04a0e",
+   "hash": "ab5f955e4a5d"
+  },
+  {
+   "type": "heading",
+   "text": "## Excluded",
+   "id": "72cbdec6",
+   "hash": "4726a797f85b"
+  },
+  {
+   "type": "list",
+   "text": "- API credentials and provider account data.\n- Raw prompts, private traces, and full model outputs stored outside Git.\n- Local cache directories and machine-specific immutable run roots.\n- Third-party benchmark source material that has not passed a redistribution-license review.\n- Failed-run detail from the main narrative; diagnostic and superseded paths remain indexed in the ARA appendices where redistributable.",
+   "id": "253f71e3",
+   "hash": "174c06f6ba44"
+  },
+  {
+   "type": "heading",
+   "text": "## Release gates",
+   "id": "6c46a2e5",
+   "hash": "f695a7600ae7"
+  },
+  {
+   "type": "list",
+   "text": "- Replace every remaining machine-local pointer with a stable public artifact, checksum-only record, or an explicit unavailable-evidence marker.\n- Confirm redistribution terms for all benchmark-derived task material.\n- Generate `SHA256SUMS` after the package is frozen.\n- Validate ARA Seal Level 1 and all public Markdown links from a clean checkout.\n- Create a fixed Git tag and use that tag in social posts and citations.",
+   "id": "4d17e537",
+   "hash": "d5f1a59a044a"
+  },
+  {
+   "type": "heading",
+   "text": "## Licensing status",
+   "id": "b33f9f8c",
+   "hash": "e0f02afcae43"
   },
   {
    "type": "para",
-   "text": "Proofpress verifies identity, integrity, declared lineage, and applicability under the configured policy. It does not verify that a claim is true, legally correct, complete, or authorized outside the recorded admission state.",
-   "id": "d3591a92",
-   "hash": "e5230b7ead67"
+   "text": "Proofpress source code is distributed under the repository's Apache-2.0 license. A separate license for the paper and study data has not yet been selected. No license grant in this package overrides third-party benchmark terms.",
+   "id": "0dda8884",
+   "hash": "fad9aeceb5af"
   }
  ]
 }
