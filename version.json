@@ -1,24 +1,18 @@
 {
- "artifact": "experiments/provenance_handoff/ara/src/artifacts.md",
- "artifact_id": "pp_291b3809bccf45f00ecbdf3e",
+ "artifact": "experiments/provenance_handoff/ara/src/environment.md",
+ "artifact_id": "pp_d4f0f4ca5617c9d0528dea8e",
  "blocks": [
   {
    "type": "heading",
-   "text": "# Experiment artifact index",
-   "id": "22426eb6",
-   "hash": "2fcf38b2db2b"
+   "text": "# Environment",
+   "id": "a548e2e8",
+   "hash": "4d65b7458bc8"
   },
   {
-   "type": "table",
-   "text": "| Artifact | Role | Status |\n|---|---|---|\n| `proofpress.py` | Proofpress CLI and protocol implementation | persistent implementation; linked as `execution/proofpress.py` |\n| `research/knowledge_handoff_debt/run_r2_two_state_diagnostic.py` | two-state knowledge-handoff runner | completed local mechanism study |\n| `research/knowledge_handoff_debt/run_phase2_track2.py` | Track 2 runner | completed local study |\n| `research/apex_direct/run_apex_direct.py` and associated runners | controlled clean/outdated admission studies | completed local studies; exact variants indexed by the experiment docs |\n| `docs/KNOWLEDGE_HANDOFF_DEBT_PLAN.md` | registered knowledge-handoff protocol | completed design record with later result cross-links |\n| `docs/LOCAL_EXPERIMENT_RESULTS.md` | complete result inventory and failure appendix | current synthesis |\n| `docs/RESULTS_MATRIX.md` | result matrices and interpretation rules | current synthesis |\n| `pp_eval/` and `tests/test_eval.py` | earlier mechanism runtime and tests | historical/internal tooling |\n| `suites/*.json` | local technical fixtures | local fixtures; redistribution status must be checked before release |",
-   "id": "1d77e0a6",
-   "hash": "33c258ed8dd4"
-  },
-  {
-   "type": "para",
-   "text": "This ARA points to code in the surrounding experiment repository instead of copying independent implementations into the package. Before public release, these pointers must be converted to stable repository-relative links at a tagged commit, and the derived task bundle must receive an explicit redistribution manifest. Historical STALE, Harvey, and transport experiments remain part of the failure appendix, not the main empirical claim.",
-   "id": "9136fe62",
-   "hash": "80ce7869a235"
+   "type": "list",
+   "text": "- **Experiment repository**: repository-relative root `experiments/provenance_handoff/`.\n- **Experiment runtime**: Python project managed with `uv`; individual runners record their own dependencies and resolved model routes.\n- **Study status**: the local experiment program summarized by this ARA is complete. STALE/CUPMem and Harvey LAB runs are historical branches and are not the primary admission evidence.\n- **ARA upstream**: `https://github.com/ARA-Labs/Agent-Native-Research-Artifact`, local source commit `35981edc35c51413d291ab8e504ea7c907fd67e7`.\n- **External data home**: `PROOFPRESS_EVAL_HOME`; raw data/traces/results stay there.\n- **Model transport**: formal comparisons lock requested/resolved model, provider, retries, and fallback state. Cross-router retries and provider fallback are excluded from formal cells. Credentials remain outside Git.\n- **Model policy**: the completed studies use the frozen model routes documented per experiment; Proofpress itself never makes a model call.\n- **Telemetry rule**: qualified model calls record requested/resolved model, actual provider, fallback metadata, token values, latency, and cost when the transport exposes it. A missing required field remains audit-visible but is not silently treated as zero.\n- **Reproduction boundary**: aggregate evidence is included here, while some raw traces and immutable reports remain in `PROOFPRESS_EVAL_HOME`. A public reproduction archive must vendor or archive the permitted subset and replace local-only pointers with stable URLs and checksums.",
+   "id": "a84a1149",
+   "hash": "09927791ae42"
   }
  ]
 }
