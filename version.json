@@ -436,15 +436,27 @@
   },
   {
    "type": "para",
-   "text": "**Paper 数据集的真实规模**（实测自 `data/paper-ftrl.js`，不是占位数字）：10 个已交付证据文件（其中 9 个带 `sha256`）／21 项从未交付／9 个 theorem／4 组非空 axioms。**10 对 21 这个落差本身就是 RIT §7.4 的论点**——一篇已发表论文里，能核验的东西远少于论文断言的东西。这个事实现在只埋在 spotlight 指向的 c14 那一条 claim 的 drawer 里，没人会翻遍 29 条 claim 才看见。Evidence 视图把它从\"藏在某一条 claim 里\"升到 ledger 级别一眼可见的事实——这是加这一屏的实际论点，不只是给 demo 添一个\"working product\"的手感。",
-   "id": "609dd2a4",
-   "hash": "89cd59794c0b"
+   "text": "**\"已交付\"/\"从未交付\"的口径，写死在这里，不要每个实现者各数一遍**：",
+   "id": "9b1c4e2a",
+   "hash": "b7ac1d9ef67b"
+  },
+  {
+   "type": "list",
+   "text": "- **已交付** = 这个文件被某条 claim 的 `evidence_path` 引用，**且**没有出现在任何 claim 的 `unreachable.missing` 里——也就是真的有 claim 拿它当证据用，kernel/re-extraction verdict 不是 `unreachable`。\n- **从未交付** = 所有 claim 的 `unreachable.missing` 条目，**按文本去重**后的条数（同一句缺失描述被多条 claim 引用只算一次）。\n- 一个文件如果既被某条 claim 当证据引用、又在另一条 claim 里被列进 `missing`（verdict 是 `unreachable`，`extracted` 为 `null`）——按\"从未交付\"算，不算\"已交付\"。算成已交付等于宣称一个实际没交付的东西交付了，这正是 c14 保持 OPEN 的理由，算错了这一屏就和 demo 的头号论点自相矛盾。",
+   "id": "709db09e",
+   "hash": "2336b92df7f7"
   },
   {
    "type": "para",
-   "text": "My Research 数据集同样跑这一套结构，规模小得多、FORMAL 组当前是空的——这个数据集还没有形式化验证这条腿。如实显示空/小的状态，不因为\"看起来单薄\"就把 FORMAL 组隐藏或补假数据。",
+   "text": "**Paper 数据集的真实规模**（实测自 `data/paper-ftrl.js`，按上面口径核对过，不是占位数字）：8 个已交付证据文件（全部 8 个带 `sha256`）／21 项从未交付（raw 27 条，去重后 21）／9 个 theorem／4 组非空 axioms。**8 对 21 这个落差本身就是 RIT §7.4 的论点**——一篇已发表论文里，能核验的东西远少于论文断言的东西。这个事实现在只埋在 spotlight 指向的 c14 那一条 claim 的 drawer 里，没人会翻遍 29 条 claim 才看见。Evidence 视图把它从\"藏在某一条 claim 里\"升到 ledger 级别一眼可见的事实——这是加这一屏的实际论点，不只是给 demo 添一个\"working product\"的手感。",
+   "id": "609dd2a4",
+   "hash": "3562a4316e87"
+  },
+  {
+   "type": "para",
+   "text": "My Research 数据集同样跑这一套结构，规模小得多：2 个已交付（2 个带 `sha256`）／10 项从未交付（raw 12 条，去重后 10）／theorem 和 axiom 都是 0——这个数据集还没有形式化验证这条腿。如实显示空/小的状态，不因为\"看起来单薄\"就把 FORMAL 组隐藏或补假数据。",
    "id": "dc5002f1",
-   "hash": "52faeaa45b91"
+   "hash": "068711f0cafd"
   },
   {
    "type": "para",
