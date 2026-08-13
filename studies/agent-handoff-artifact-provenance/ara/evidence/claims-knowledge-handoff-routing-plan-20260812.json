@@ -1,0 +1,17 @@
+[
+  {"block":"20da3585","kind":"modified","note":"Fixes Phase 1 to OpenCode, AI Gateway, and exact GLM 5.2 calibration."},
+  {"block":"39da68a1","kind":"modified","note":"Fixes the proposed pilot to qualified OpenCode, AI Gateway, and Qwen 3.8 Max routing."},
+  {"block":"72a6cf02","kind":"modified","note":"Fixes the primary stack and orders model robustness after primary success."},
+  {"block":"a0f957a0","kind":"modified","note":"Replaces the former section position with the frozen routing and scoring plan heading."},
+  {"block":"c0ac7f54","kind":"added","note":"Explains why harness, router, and model are not changed simultaneously."},
+  {"block":"9518eb81","kind":"added","note":"Records the purpose-specific harness, router, and model matrix."},
+  {"block":"52c3e64d","kind":"added","note":"Defines Gateway request reconciliation, provider pinning, fallback prohibition, and pre-freeze route substitution."},
+  {"block":"2b233531","kind":"added","note":"Limits Kimi and Luna to separately justified robustness or ceiling checks."},
+  {"block":"67d77c1d","kind":"added","note":"Freezes one validated predecessor checkpoint and identifies Agent B as the experimental agent."},
+  {"block":"0b8e9045","kind":"added","note":"Defines deterministic, blind semantic, and human scoring layers."},
+  {"block":"41018ab1","kind":"added","note":"Adds the renumbered fairness and leakage controls heading."},
+  {"block":"0d53ae38","kind":"modified","note":"Renumbers the analysis section after inserting the routing plan."},
+  {"block":"7a8c3adb","kind":"modified","note":"Renumbers the success and stop rules section."},
+  {"block":"ec8a5ac9","kind":"modified","note":"Renumbers the interoperability qualification section."},
+  {"block":"075f580a","kind":"modified","note":"Renumbers the permitted-claims section."}
+]

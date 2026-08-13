@@ -1,0 +1,4 @@
+[
+  {"block":"f1498f86","kind":"modified","note":"Defines stale admission as a mismatch between recorded and current artifact identity."},
+  {"block":"d925bd21","kind":"modified","note":"Distinguishes validation of the decision rule from external efficacy."}
+]

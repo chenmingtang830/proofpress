@@ -1,0 +1,17 @@
+[
+  {
+    "block": "ba41005a",
+    "kind": "modified",
+    "note": "Explains why overhead is reported separately by receiver model and condition."
+  },
+  {
+    "block": "ba41005b",
+    "kind": "modified",
+    "note": "Breaks token, wall-time, and model-cost means down by GLM 5.2, Kimi K3, and Qwen 3.8 Max within each condition."
+  },
+  {
+    "block": "ba41005c",
+    "kind": "modified",
+    "note": "Reports the observed per-model range of overhead ratios while preserving the end-to-end attribution boundary."
+  }
+]

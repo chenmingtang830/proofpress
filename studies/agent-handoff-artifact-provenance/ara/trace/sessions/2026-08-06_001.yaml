@@ -1,0 +1,143 @@
+session:
+  id: "2026-08-06_001"
+  date: "2026-08-06"
+  started: "2026-08-06T00:00"
+  last_turn: "2026-08-06T00:00"
+  turn_count: 1
+  summary: "Initialized a Harvey-first controlled multi-agent lineage design; no empirical run has occurred."
+
+events_logged:
+  - turn: 1
+    type: question
+    id: N01
+    routing: direct
+    provenance: user
+    summary: "Asked whether provenance affects long-horizon and cross-agent outcomes."
+  - turn: 1
+    type: decision
+    id: N02
+    routing: direct
+    provenance: user-revised
+    summary: "Selected Harvey LAB as the primary task and harness substrate."
+  - turn: 1
+    type: decision
+    id: N03
+    routing: direct
+    provenance: user-revised
+    summary: "Required multiple real intermediate artifact versions in a centralized workflow."
+  - turn: 1
+    type: decision
+    id: N04
+    routing: direct
+    provenance: user-revised
+    summary: "Selected unaudited version chain as the primary multi-agent control."
+  - turn: 1
+    type: dead_end
+    id: N05
+    routing: direct
+    provenance: user
+    summary: "Deferred Pi to avoid adding a harness confound in the first wave."
+  - turn: 1
+    type: decision
+    id: N06
+    routing: direct
+    provenance: user
+    summary: "Installed ARA for laboratory management only."
+
+ai_actions:
+  - turn: 1
+    action: "Cloned the official ARA source at the recorded revision and installed six local Codex skills."
+    provenance: ai-executed
+    files_changed: [".codex/skills/", ".ara-skills.json", "third_party/ara-source/"]
+  - turn: 1
+    action: "Created the review-ready study protocol and ARA artifact without creating empirical outcomes."
+    provenance: ai-executed
+    files_changed: ["README.md", "docs/", "ara/"]
+  - turn: 1
+    action: "Added freezeable workflow, model-roster, and gate templates; exact model IDs remain intentionally unresolved until execution access is checked."
+    provenance: ai-executed
+    files_changed: ["configs/workflow-v1.template.yaml", "configs/model-roster.template.yaml", "configs/gates-v1.template.yaml"]
+  - turn: 1
+    action: "Validated all ARA/config YAML with the local Ruby YAML parser; ran six existing lightweight runtime unit tests and the no-model doctor check."
+    provenance: ai-executed
+    files_changed: []
+  - turn: 1
+    action: "Recorded Proofpress claims snapshots for README.md and ara/src/artifacts.md; their verification reports mismatch because the generated claim baseline used the ledger head rather than the portable capsule head."
+    provenance: ai-executed
+    files_changed: ["README.md", "ara/src/artifacts.md"]
+
+claims_touched:
+  - id: C01
+    action: created
+    turn: 1
+  - id: C02
+    action: created
+    turn: 1
+  - id: C03
+    action: created
+    turn: 1
+
+logic_revisions: []
+
+key_context:
+  - turn: 1
+    excerpt: "Use Harvey's harness as the comparison environment; vary current frontier models, defer Pi, and use ARA to manage the paper rather than the benchmark treatment."
+
+open_threads:
+  - "Review and freeze exact Harvey task IDs and source hashes."
+  - "Confirm available provider credentials and exact model roster at execution time."
+  - "Implement and contract-test the official Harvey multi-agent wrapper."
+  - "Set practical Gate 2 threshold after Gate 0 calibration and before Gate 1."
+  - "Decide whether to create a new, human-reviewed Proofpress revision that corrects the claims-mismatch record; do not create one merely to force green."
+
+ai_suggestions_pending:
+  - "Use a two-arm, 24-workflow Gate 1 before the full model sweep."
+
+continuations:
+  - turn: 2
+    timestamp: "2026-08-06T00:00"
+    summary: "Refined the ordinary-memory control, isolated mechanism diagnostic, homogeneous model-team rule, and OpenRouter transport contract; no empirical run occurred."
+
+events_appended:
+  - turn: 2
+    type: decision
+    id: N07
+    routing: direct
+    provenance: user-revised
+    summary: "Selected strong ordinary memory as the primary control and raw history as a secondary comparator."
+  - turn: 2
+    type: decision
+    id: N08
+    routing: direct
+    provenance: user-revised
+    summary: "Kept isolated handoff as a small mechanism diagnostic before the full end-to-end workflow."
+  - turn: 2
+    type: decision
+    id: N09
+    routing: direct
+    provenance: user-revised
+    summary: "Required homogeneous high-effort model teams and concrete OpenRouter routing in core slices."
+  - turn: 2
+    type: decision
+    id: N10
+    routing: direct
+    provenance: user
+    summary: "Named DeepSeek V4 Flash, Qwen 3.8, and Muse Spark 1.2 as priority later-sweep candidates."
+
+claims_appended:
+  - id: C04
+    action: created
+    turn: 2
+  - id: C05
+    action: created
+    turn: 2
+
+ai_actions_appended:
+  - turn: 2
+    action: "Updated protocol, execution plan, result matrix, freeze templates, and ARA logic to distinguish isolated mechanism evidence from end-to-end systems evidence."
+    provenance: ai-executed
+    files_changed: ["README.md", "docs/", "configs/", "ara/"]
+  - turn: 2
+    action: "Documented OpenRouter as a transport contract with no model invocation or credential capture."
+    provenance: ai-executed
+    files_changed: ["configs/openrouter-v1.template.yaml", "docs/EXECUTION_PLAN.md"]

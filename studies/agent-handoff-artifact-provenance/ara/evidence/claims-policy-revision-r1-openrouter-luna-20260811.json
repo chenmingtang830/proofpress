@@ -1,0 +1,12 @@
+[
+  {
+    "block": "adf00128",
+    "kind": "added",
+    "note": "Adds the separate OpenRouter/Luna replication record."
+  },
+  {
+    "block": "adf00129",
+    "kind": "added",
+    "note": "Records valid counts, routing telemetry, recovery contrast, and its boundary."
+  }
+]

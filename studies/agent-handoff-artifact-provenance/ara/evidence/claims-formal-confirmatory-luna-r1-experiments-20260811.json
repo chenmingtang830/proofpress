@@ -1,0 +1,12 @@
+[
+  {
+    "block": "adf00130",
+    "kind": "added",
+    "note": "Adds the formal Luna R1 experiment heading."
+  },
+  {
+    "block": "adf00131",
+    "kind": "added",
+    "note": "Records denominators, effects, exclusions, runtime boundary, cost, and analyzer correction."
+  }
+]

@@ -1,0 +1,12 @@
+[
+  {
+    "block": "7e0478d0",
+    "kind": "added",
+    "note": "Adds the bounded formal confirmatory claim."
+  },
+  {
+    "block": "7e0478d1",
+    "kind": "added",
+    "note": "Records primary safety evidence, independent recovery replication, sensitivity, correction, and claim boundary."
+  }
+]

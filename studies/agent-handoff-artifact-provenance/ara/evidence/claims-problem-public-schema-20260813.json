@@ -1,0 +1,22 @@
+[
+  {"block":"75d8ff5d","kind":"modified","note":"Organizes the research problem as observations."},
+  {"block":"98d591eb","kind":"added","note":"Adds the first observation heading."},
+  {"block":"cf5b74f2","kind":"modified","note":"States evidence of multi-agent handoff as a real workflow pattern."},
+  {"block":"fcdbd7ed","kind":"added","note":"Adds evidence and implication for the first observation."},
+  {"block":"f73aa5b4","kind":"modified","note":"Clarifies the raw-history limitation."},
+  {"block":"36339a7c","kind":"modified","note":"Adds the artifact drift observation heading."},
+  {"block":"f1498f86","kind":"modified","note":"Defines stale artifact admission."},
+  {"block":"689aafcb","kind":"added","note":"Adds evidence and implication for artifact drift."},
+  {"block":"eb6d1b42","kind":"modified","note":"Adds the evaluation validity observation heading."},
+  {"block":"d925bd21","kind":"modified","note":"States the design-alignment validity threat."},
+  {"block":"c99188ca","kind":"added","note":"Adds evidence and implication for the validity threat."},
+  {"block":"2152be5a","kind":"added","note":"Adds the gaps section."},
+  {"block":"d7d0911f","kind":"added","note":"Adds the unbound handoff gap."},
+  {"block":"fba9cc86","kind":"added","note":"Defines the first research gap."},
+  {"block":"b5da0db8","kind":"added","note":"Adds the evidence gap."},
+  {"block":"6853ed72","kind":"added","note":"Defines the second research gap."},
+  {"block":"8baeebfc","kind":"added","note":"Adds the key insight section."},
+  {"block":"5f4a1f20","kind":"added","note":"States the version-bound admission insight."},
+  {"block":"67dbdd77","kind":"added","note":"Adds assumptions."},
+  {"block":"dc3b03a3","kind":"added","note":"Bounds the assumptions behind the study."}
+]

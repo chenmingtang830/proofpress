@@ -1,0 +1,32 @@
+[
+  {
+    "block": "ba41005b",
+    "kind": "modified",
+    "note": "Removes visually dominant relative percentages while preserving absolute per-model overhead measurements."
+  },
+  {
+    "block": "67636667",
+    "kind": "removed",
+    "note": "Removes the no-longer-needed controlled-table percentage legend."
+  },
+  {
+    "block": "aa1f2aee",
+    "kind": "modified",
+    "note": "Removes relative percentages while preserving absolute DeepSeek Gateway telemetry."
+  },
+  {
+    "block": "ba92d646",
+    "kind": "removed",
+    "note": "Removes the no-longer-needed DeepSeek percentage legend."
+  },
+  {
+    "block": "57827d0a",
+    "kind": "modified",
+    "note": "Uses qualitative comparison language while retaining the exact Gateway reconciliation boundary."
+  },
+  {
+    "block": "3170fcc3",
+    "kind": "added",
+    "note": "Frames receive-time overhead against avoided incorrect continuation without claiming unmeasured net savings from downstream rework or audit."
+  }
+]

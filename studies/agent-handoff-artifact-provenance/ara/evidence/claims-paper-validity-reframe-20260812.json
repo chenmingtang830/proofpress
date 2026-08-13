@@ -1,0 +1,10 @@
+[
+  {"block":"d6d1bb11","kind":"modified","note":"Updates the paper status and active substrate to the bounded confirmatory mechanism evidence."},
+  {"block":"4b96e0aa","kind":"modified","note":"Defines the handoff failure and Proofpress for a reader without product context."},
+  {"block":"cd3b597c","kind":"added","note":"Summarizes the primary and cross-model results without overloading the abstract."},
+  {"block":"f9ce7655","kind":"added","note":"States why the clean separation is design-aligned and bounds the conclusion."},
+  {"block":"6618b21b","kind":"added","note":"Adds the validity-interpretation section."},
+  {"block":"141f1610","kind":"added","note":"Distinguishes a construct check from a broad treatment-effect estimate."},
+  {"block":"52a2ea22","kind":"added","note":"Records the independent-task and literature-review gates."},
+  {"block":"adf00118","kind":"added","note":"Records the pre-existing v1 packaging correction that was already present before this paper revision."}
+]

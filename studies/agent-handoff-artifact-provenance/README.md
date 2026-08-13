@@ -1,0 +1,51 @@
+[//]: # (ob:f7a2ceb1)
+# Proofpress agent-handoff artifact-provenance study
+
+[//]: # (ob:8659b65b)
+This public study package reports an early, bounded evaluation of Proofpress as an artifact provenance protocol for agent handoffs.
+
+[//]: # (ob:b79996ba)
+## Main finding
+
+[//]: # (ob:958a3798)
+In the preregistered controlled comparison using GPT-5.6 Luna (`openai/gpt-5.6-luna`) at high effort, ordinary handoff reused work tied to an outdated document in 12/12 trials, while Proofpress-assisted handoff did so in 0/12. Both conditions correctly continued in 12/12 unchanged-document trials. A frozen-protocol, low-effort follow-up reproduced the same pattern with GLM 5.2, Kimi K3, and Qwen 3.8 Max on the same task.
+
+[//]: # (ob:1506d627)
+This is evidence that the version-binding admission mechanism operated reliably on a purpose-built task. It is not an estimate of real-world failure prevalence, general product efficacy, or agent capability improvement.
+
+[//]: # (ob:c070d792)
+## Start here
+
+[//]: # (ob:d8540180)
+- `ara/PAPER.md` — full technical report.
+- `ara/evidence/tables/derived_main_results.md` — compact result and overhead table.
+- `ara/evidence/README.md` — evidence map and qualification rules.
+- `STUDY_CARD.md` — scope, author, models, and release boundary.
+- `RELEASE_MANIFEST.md` — included artifacts and exclusions.
+- `STUDY_LICENSE.md` — licenses, attribution, and third-party-material boundary.
+- `SHA256SUMS` — checksums for every released file except the checksum manifest itself.
+
+[//]: # (ob:fad76ddf)
+The `ara/` directory is the Agent-Native Research Artifact. It contains the current claims, experiment registry, protocol description, evidence summaries, and research trace. Readers do not need ARA tooling to read the Markdown files.
+
+[//]: # (ob:6d6e6dab)
+## Reproduction boundary
+
+[//]: # (ob:929001df)
+This package makes the paper, aggregate evidence, selected machine summaries, and protocol implementation pointers reviewable. It does not publish credentials, raw prompts, private model outputs, or third-party benchmark material whose redistribution permission has not been confirmed.
+
+[//]: # (ob:2f94f2fd)
+## Citation
+
+[//]: # (ob:481b9f52)
+Tang, Chenming. 2026. “Proofpress: An Artifact Provenance Protocol for Agent Handoffs.” Technical report, public study package.
+
+[//]: # (ob:52ac336d)
+## Status
+
+[//]: # (ob:6ea55a0a)
+Prepared as release candidate `rc1` for public technical review. Not peer reviewed. The package-level checks are complete; a fixed Git commit and tag remain the publication-time identity to use in citations and announcements.
+
+[//]: # (proofpress:meta:eyJhcnRpZmFjdF9pZCI6InBwXzNkOGMzMTc4Mjg1ODI5MGFlNDcyOWM4ZiIsInBvbGljeSI6InBvcnRhYmxlIiwicG9ydGFibGVfaGVhZCI6Ijk5MGE1ZWZkIiwicG9ydGFibGVfaGVhZF9ldmVudCI6InBwZV8wMWNhZGVhZDhkOWU2MGIxM2JlZjIwZTUiLCJwb3J0YWJsZV9saW5lYWdlX2lkIjoicHBsXzA5ZTAzY2UxNjk3OTAxMDJjZjM5ZjJlNCIsInByb29mcHJlc3MiOjF9)
+[//]: # (proofpress:discovery:Verifiable revision history by Proofpress | https://github.com/chenmingtang830/proofpress)
+[//]: # (proofpress:capsule:eNrtXOluG8kRfpUG90-CkNR0z838UrzKxljbcSxtgGBj0H1UixMNZ7hzWFIMA_sQ-Zm83D5JqnsODmWSOtZr5BjAhqnhTHXd9dUn0h8mvKgSzWW1TNRkMdlslq6KpEvDiEV-xGKHgxeyWEZ6Mp2IXN0uVXIJZYX3livO_GDhMRpq4fqOI5VyRQjgaEdFApwolEpzP1DSdQA4aEpBeq6IQTiuG0LoaDwC5aqklPl7KG4niw_mh2pZ8Us8IeWVOWqKLwSkeOHPUCQ64SIFUsD7pEzyjKzw_ry4JeKWvC7yXG8KKEt8ZsPlFb8EY9TO5SL_G6C5dWEErqpqUy5OTi6TalWLuczXJ3IF2TrJLiueXUauc7LzdAE_1Am-XtYlFEuZZyVk6IuqqOHjdLICbpwYo9d80GrSXFnCe3sTOheWDpVc4cVIxRA4groCNHPAN5rlRWVMW6ZJBqh5F5F06cTguBJoEIexQx0mtRtrBl5jTqvdUvJNWadoMDN6yrxQ5WTx_YdJe_yHCUY5L0rzqnkb1FKgy7-f1NlVll9nk7doQ5cPJsBVrRIoT1CXrJqteKZyrWfdDTM8GiXzTMLJm7PTr1-ezdfG5MckFK-qIhF1hXFcCl4mpTkVUr3kJfq3AiuvrlZ5YbS-SjIjsrwtK1jjOxlfm_B22k_x0dKkxGSR1WmKtkjUGZPVekGkubzCu3XImQRB8XYMXwU3xtJt4pAdY8kdY_GhVgmulNVuY_IQrvHKV-ShUozLiHHuLQqobjfGCJMomHSTj9OtqlHgxyLwxWdX9QJrhmxqkSay0YO0xYJVZbIQRWcEeJHeTonI6wyfJ_CepzWvkq3KG17wHX1FGMdxIPiOvi95khGNmhjrjrnvK3Ln1iOeif2Iu2EcPemk5xmpVkDwQgGX2DzwH0WMmCJPU_tyjaYlJfaWukRZ5F2-waAlJ5eb6oj11HcCFbDwSTrZiOAf_FmBSY9qxSurJrZFk9Mz0QghXK0Tm-VkDSa_k_KITtIJHRXGbEen8wpThazQ7HvisXPjkWioyPccGjlPOGVG3qHOJ69PX5-9wfbxjvz04z-IxuolFVqXJZKnbU7O_5q1N3c-Oqn4Vq8UA7mjlOYqDJTST1DqAt1uT3pHFDZ7accLBseE49TW3CsshPdA3kCJVSJX5LStvTk5EgzMDggU3y3nN4DlqmppWmBTa7y4vScuh545VjDYeB16xxuPPrvpG22rWPMraHyy4RsoptiOLrGgcGT3WTwl2MzRf1hU6yOOYTr2NLPzcqvcs6TiRrF7fDG47Yj5XkRFrH326BMucIBMybMWEswJc1gwxyT957YNL8hp1ieAmQFdh39dHLHZZ1y6bqDupmdVl_dXZXPTEXsD4L7PHf5I6a-x1LjphjovuvkwrENz25y8yiuyASjaC6DmBCvmrq1vpx3wmLQtbCkL4M1Mt-90AAGWyqOBG8cexfER68DkAg0YNzKzvLIyW2xEWmxEEKXJq02eZJWFeoU9yYz97icz9d8aUIVG3A4kDIHWQIiFcE_EYGWuqyU2-UsoNkXSQr1S0IWKFaMeVr2UjnAl9ZmOGOW-0trRcRxxX7iUM81DkG7kRnEQRlLFvud5oIRnqrXEoFnI1kRrQT3ENebKxKTizIlm1L2gdOFHC4_-xnEWjmnDrcfxLkDcxdwowPTYXv3wZVGezcoGha14ucL7nYAjuGFobejiDVbGAJi1Cfv5EFV7rMexMALPUTSS3bEDkNUe-3PQETbSXO-obe_u1CUDdfFllcs8tcVmrSOtdeV8T-NoTQggprg1cBb6cWfCAHd1nnsImOqcEsg4lFS42tWdxAG-aiX-HNA08-fBLK0z_m5KcO1IMhwzna3oU1ylFLnOiytSJfiqyo3H8rpSplkQlct6bZyD5lB2QhnBlYGn5ZRcr5IUBr6e4dJgNFO9bJUoUubmSQcfnJPf5dXKKK0SE6kSXxZmvKe31pIkq_HZ_pg6a9YHNetVaE6ek1Oii_zvkM0GMUzT_HpWb0yO2KFqLEGHlbijYP5U6LCMXOOWSb558ZL4czYl3ybrhHzr4uDMFPnTNWTEnUcYtxuSZ9tnK15eHckHPzIZwTzfV9BFb4BEhyn9RHi5JhjJwsaigNQs37dGQY4lUmzyEmaiTtKq0ZM8r8wx2LRtjZRVsjZ4IDdh5ukMg5zicOFJWhc2l7BqGpyA6Y9npKQFJAS0xpkjb03CtMWB6y0XSZpUiMXWto5MTI64xlU-x2bk-Fo4nWsGgHhbKvfh3FZeDIhTHKWlEFEnbwB9W3k_E9Hi7ClPFBQIL9VyjTW8xNSu06rsZdlKQxc1123yGO7EKEzs83vk9p27EdGnwZpvrIAfap4mxuO2gxU1KtFIOb_47uu_LJ-dvvm6f7iUmA-YtHYtn5J1rsBUoxGD-QG8hB5LNjLenL04Oz0_W748ffX892fnF72kJJNpbbpn1x5LKwVu8LJJwWEf7PF917WwiTsspFKJ7QTZQv4-75-O5DGVTVfAEDT3y7oobB6mPFmjwXCDZZHYvtC0xAKztW8ICkpZJBvjz-nW32W9XmOXhN5f7alVwSXMUQuOoS-x59kSygB9c_rmFFsiohgsTmyNhQ0zqvOSF1cqvzY93kTrcBlw11VCBlRGjug8NVhFtmXwiLWiFc2oH0g_5qEHffMZbBo78_RpWwOXKwRid_3WexkbQWrbQJO4FsoZBzbI1BaDiaPKoWlKdqqXOANweuFTzRwp-LWRuN5UpQlg8t4oY9PaTKFNbS5jF6pWSaFm6F1sQAL1XKFGV8T0NzMVcBphL8SDDX3ZcVoIk4uunaLLrAoCsNFjYumkWCN0Phw3IWLhCiaUDv3OuYNNaRu34ytQh7gQtbLADyPPQlYrbbAVdaH6WevOAM_Y4iJ_6PDMTz_-i1zcaX_TvRjriEMgcCiDiCOs7KHPYI3a6ecHN6RWlo6pYwoCZNRn7mBp6rm2p-9Dd6BjucprnH0CuiaJXQ-bN1bvDb78JjED9BLfxpOAJHaKysSUgJl_WYbVKPdky9uPxqY9BC-mYdXTu39EJHb6nDzDlL6ZvLWcsQUoB96-Qw5_-vYPNZRb6V22EJM8_yUUslVnyyBLa9vD-OMHrdbYPXCc2rPvLsXN-Dgk8tPn2wXYtPu2b-7bTHjZD1-JTk4MdiaFpO2Y2U4xm28zk2um584blTo7PkyuV2ZXfmYXdXv_ql7zbGamjl2_0W04QW2ftUXxiUKfaGEWzwcTASFOb09iZKOYsYD5lEVmd976YbjhD7fb4db_4ReJ28Mpi35l76Ut6Mf9O_l9BMVnYSHQj4BbAnhK-yqKQqocUAGNfCkRF0Rh4IbS80NOI6o1MDQMwKVRhO9JqsPgsEmf8BBs4dCF5-7hIZiKQ98RIw8x8hAjDzHyECMPMfIQIw8x8hAjDzHyEP_PPISIOaU0Qpzq8gfwEHvXvHe4570bKYqRonjCp6MeR1QMBB8kKl6hviX55vWFQdvkBaJtskouVwZJYbHZtmm6rkGp7aVqVQDMmka3xa9JNiQXBrzDAc7i7MaAQPsM3DQrDoI-fKgRbM7dCm9P3j2jqYbBSY-iLrQKuccE145iglJQvofLtk8PURf9Qnw_dfF54vlwquVeAmO7zH8RAiN0YiGF4p6OIjxaoytiiFnkRD4IN0IzEFsHgMUmmZQuixFR-A6PIcTOyl3vUQQG8xeut4fA8KjrosZsJDBGAuPA7xQcYBg1IZXrfUYCY6eV_movnfFrM6gHXfZ_ld6YDsfGSHWMVMdIdYxUx0h1jFTHSHWMVMdIddxLdXxRAsN-cuCp39J78FeKPl14P_km0C_wiY2BegeJkFPzgf0uT_EvZJjKppXabx1gex1SDThNDqh8UP6zlBf2UpfDs8EnP2z52bXJzjyDakxSNNo0nTux7Rg7K2bP5gCp8hJHx-EPnZgUmDVTV1ggu8Uj9hMjt_NHMShHvhq7l0HpN_L7GZT_pHR6OG-0h7RgH_dzEl-Gh8F4UOUHThhSgSjEkTIIOUqiDmc0EMB05GpPU0_ImLqgPZdpqvEM8xUYHhw26RMexl3QYOHv-0JL_-XqgzzMyK6M7MrIrozsysiu3MOucBy4oS9xmgVsZFe-CLsy0OHF82dnr863NrQQ0Zy8hdvT9hdm_R4867ffXZ3O_3DK_OD8u5fnrVNbkFnavg3mP1fZ7jqGvzBawaapmR6RImJPNGY57jwG3I1k0EgGjWTQSAZ9fjKIMa4lY37IpPryZFBr6yzFvpi23Q97NthRlEIFv93hgvDqOmk_usAv23V6sBbb6M8QGsB2qcZWgZDQADHZpkczCzr2yBRNuY9Bevvx34IDQ18)

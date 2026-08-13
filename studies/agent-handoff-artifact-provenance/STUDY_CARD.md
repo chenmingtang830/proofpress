@@ -1,0 +1,29 @@
+[//]: # (ob:fce06d11)
+# Study card
+
+[//]: # (ob:ba7eeaf4)
+- **Title:** Proofpress: An Artifact Provenance Protocol for Agent Handoffs
+- **Author:** Chenming Tang
+- **Affiliation:** Independent Researcher
+- **Correspondence:** tangchenming0830@gmail.com
+- **ORCID:** https://orcid.org/0009-0003-5666-0630
+- **Year / package status:** 2026 / release candidate `rc1`
+- **Evidence status:** Completed local evaluation; bounded mechanism evidence
+- **Primary preregistered receiver:** GPT-5.6 Luna (`openai/gpt-5.6-luna`), high effort
+- **Primary transport:** OpenRouter
+- **Resolved provider:** OpenAI
+- **Fallback:** Disabled
+- **Frozen-protocol receiver follow-up:** GLM 5.2, Kimi K3, Qwen 3.8 Max
+- **Primary endpoint:** Incorrect continuation with inherited work bound to an outdated artifact
+- **Primary result:** Ordinary handoff 12/12 incorrect continues; Proofpress 0/12; both 12/12 correct continues on unchanged artifacts
+- **Main limitation:** The primary task directly instantiates the mismatch Proofpress was designed to detect and does not establish external generalization
+- **Peer review:** None
+- **Study-content license:** CC BY 4.0; see `STUDY_LICENSE.md`
+- **Code license:** Apache-2.0; see the repository root `LICENSE`
+
+[//]: # (ob:d3591a92)
+Proofpress verifies identity, integrity, declared lineage, and applicability under the configured policy. It does not verify that a claim is true, legally correct, complete, or authorized outside the recorded admission state.
+
+[//]: # (proofpress:meta:eyJhcnRpZmFjdF9pZCI6InBwX2VhZWQ3NDczNTk5MTJhZWYwMjE5ZTM1YyIsInBvbGljeSI6InBvcnRhYmxlIiwicG9ydGFibGVfaGVhZCI6IjM0ZGQ4MGY5IiwicG9ydGFibGVfaGVhZF9ldmVudCI6InBwZV8xYTI1ZDViOTRiYzkxNmVlMmU3N2JhYzEiLCJwb3J0YWJsZV9saW5lYWdlX2lkIjoicHBsX2VlZDVkNjU4ZmVkMWE4MmE0NjQ3MmY1OCIsInByb29mcHJlc3MiOjF9)
+[//]: # (proofpress:discovery:Verifiable revision history by Proofpress | https://github.com/chenmingtang830/proofpress)
+[//]: # (proofpress:capsule:eNrtWmlzG8cR_StTyIckCkDufUBfwlCKw7JkyxKdKpWjAntneoAJF7vwHqQgFv97umd3AVAkJVFOpNhGsYq1nKPP190PS1yNoGqMBtnMjBpNR6vVDAFVHMR-mKauB6gdz03RD-VoPMpKtZ4pM8e6obP1ArwwmqaRimNHJ4kXpqET6BCCzAdPZ0HqJ-j4oXYxiWIXfJ3EOoi9JAIP4kCGUstMxSRXmVqWF1itR9Mr_qOZNTAnDTk0rGpMDxnmtPBPrIw2kOUoKrwwtSkLsaDzZbUW2Vq8qMpSryqsa7qzAnkOc2SnbixX5b-R3G0rFrhomlU9PTycm2bRZgeyXB7KBRZLU8wbKOaJ7xzeuF3hz62h51lbYzWTZVFjQbFoqhavx6MFAgfRD5RKHJ2OupUZXthDFFycuRQzFWZpkMnUjRA9jOMMpMuWlVXDrs1yUyBZPmQknyGqUEVholG5kHgQRBRGHSadO711Mwmrus3JYY_tlGWl6tH0p6tRr_5qRFkuq5qfum1Us4xC_tOoLc6L8rIYvSEfBjxwgptWGawPyZaimSygUKXWk-HAhFSTZCgkHr46_fHJ69nx0csnB0s1Gj8IVNA0lcnahnI5y6A2NWvGXM-gphg3aOW1zaKs2PJzU7DIel03uKSdApac4sGDMV2tGRajadHmOfkjyW4CrI1ElpfynE5riU6kXA46pbDBt-ztK_J2LSRUrLBXA0pZ_StGG17Syh_EjXPNesXqOc0EmdH1eKskgxgRdPAZSibi0aNT0-Q4ffRoB9RTcVSIoz60vN6Hnx-bUpa50BSkjVE5FcYNixSF34XU-wyLtkaIC1uDWAujCBamWY-FIWHzyj4qlDlUqEQP4rGArUUrqGB0_WY8QHJEsjhZM1khdJm2OwNskHCTOpGHWiZBlIIKUqUD6iaaM182VmZfNYNCQfUrz1cl2WSbQGU1MRiGvxgLb7jcciPXOxJ2S3BHiC3uz6zOutTNTBMysFpVpm8CdeZOJWidZJFMA0-rJHWkEyvQSlFTUFEsZeL4PgbUUZXEgDqrrzHRKUSppxwKMSO3bqCxxdxla-oT2Hlh5DleNHGSieufuu40TKah9xfHmToOXeoDzmCgQGYYxYSQ7erVly9_C86uPBdQL-h8SAnO0ihwZMLCrIydiu1x-_FC7MUFmVKp9rXK0mQQt1ObvbhfUnLiiCMk_tFFqP5XwcKObMtiacf9QBGn1In6Ta1NboB7Hp84KRSusOB6Ei-xRqgIf1V39LisyJBVybvSWseDaRhSDk2ov86XYHKeXd2N718enzyxbpBI1tt1T5qYc-oIldXanXxNmvggI6ZbeXphrB7B6Gpra365XOXYcEmXEnKBF5C3VshjkZUt2aXEErnNmnpJu52ATtyLyiyBZjPFstOO3Bpo-qAhzLH0s5IcB3M4XzWT8CCa5G0BZzcvk8lFzeXH57-n4y_LthnCQ-Eq8wsSynAk1dVw6OikO_B3yHMasOe8_sTUXMKq36nKd1gwjrtMDmZRSvO8vJy0K77zzbPnIjzwxuJbszTiW38sfrjEQvgHiXgOb29aSvG2PaPLqeTMEWq415qiC5m4JKJB_ZLSazikl2V13kVRNKWAQpBriluhGGropgaCQpt3gagot7zUF6ZwvUPXI9HvqcX68Q6ehUOHOG9kRXfh1nFBVrZFNza3ZvSofg6moE67NM0GvKcLpOD3qYL6XCjDAvM12UIoIqnM4kRDx5aEEGjkYtegS6hpaNRmXqCNgSKokTnklFAl3aM2L4gEUt5MvRBUrFgVhEKqOKwgN-924PwCsRLdyGLDvisLvGMa9m0BQ893spj6RRQPbWFnQPZt4ZfMPfIAaD4YCRkVe7MWXCuVDQQFW5t5y-e7MXQgTpqtv1YVRXMBFAhBgs1SGAohDyKR45wgvR4SN6aHrkDHgoq8q3XzjiQTlGqy1SocCJ8ARUmwvJkrHA9uDedrjtEdlBEVA7YnjF2BUWtQ-Hb0xrJQ1cp7t9-jm7e3fybcbaXfaJi_IlJqTdpyUmn9-zRG-slkcVkqRqF6H9gURouTe8Xevt8TqJfdRwULkzUNBAvcSrqi_wDVjwICuz1SW6OW2AD1KTjoNA8mX40uF-uNzGHwkE7MrVjcjBdJfd_OTpa5aqm6ZS-6whyhphqhC4Z7ITOUTyaMkQtxBDKO0zBS4Kos8D2AHcK4ywR3adAuO7z6n-Xo0-ntht5tpE3d67sJ3MfI7H-FsaapVK5HH-czLw69yA8T4q8pfcrnT7SxjpwMpZ_5vqMzJm9U7Z7ELJax9hMn9IL7XbpFWr2pQ7w1uIO0aoXEi1P5myetGeWW35h4MnT3pPUWaRWH73WngcXSxq3-Ic6om53t-e2e3-757Z7f7vnt74zfHqme3Hb-_LEWdtZY_C7MfDFBTeOwEd-8OOUOLZ5Rh94AuGtqVLZb6sv23kN7SdUwt7Y68C1P4dWmwfVN-AMaBnL9IOKL0ktjV2s38CF1A0jTNCT6cC_x3VCpr0J8P0DTP0p8tyTwixDfzAE30kkURjKEJEgdF2TiJomSHGoZKuVkMpBZ7CTopkGK9ANZkmIWSoAwfBDx9cJpEN1BfAEpTEECv3nim2o3pUjqFPXvjPgO_4osK2nUQVnNDx3HSSf0y5-EUUQgiXzn10iBbzTWP91JiP88tq1YdK14T4_39HhPj_f0-C56_MVJ76JdQvG5XzT46q91KeWWU06s-qIrLCbuBFSJBfnw4Te4lpTSNJHck_rXtMPN4Y0wA5Dn7a03ww9grx_4Wsyd7HXDh77Oa9v7ufZH2euWyX0R9hq7nkvXUuWAAxj7LviBG8egozCkIol1kMVZwCWiYieMkxgpFW4GievFIcjoAezVn7rRNPTvYK-bL0Tdy17_rzmpQ2l2WSva2bDnpHtOuueke076mZy023h1Yyr3I9Xi_lj87bUIDpzHNHipSLrO-Ozk-Ol3r55Sczwbino7w_naERXeAifecK9jfauyNvbLseRcI856KWd7WvxwWvzm-j_qTiFU)

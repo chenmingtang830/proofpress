@@ -1,0 +1,4 @@
+[
+  {"block":"bdc2ed0e","kind":"added","note":"Adds the construct-validity interpretation claim."},
+  {"block":"292d0bbb","kind":"added","note":"Bounds perfect separation to mechanism evidence and defines external falsification gates."}
+]

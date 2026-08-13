@@ -1,0 +1,4 @@
+[
+  {"block":"7842c425","kind":"added","note":"Adds the identity-versus-currentness concept heading."},
+  {"block":"c411b331","kind":"added","note":"Defines why content identity requires a separate trusted admission control."}
+]

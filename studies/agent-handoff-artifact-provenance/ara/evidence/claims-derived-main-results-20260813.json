@@ -1,0 +1,8 @@
+[
+  {"block":"44cd5f23","kind":"added","note":"Adds the principal result synthesis."},
+  {"block":"414d8f54","kind":"added","note":"Records derivation sources and scope."},
+  {"block":"0a15d294","kind":"added","note":"Presents the main controlled and boundary results."},
+  {"block":"c02035f2","kind":"added","note":"Adds the measured overhead section."},
+  {"block":"4a65ffee","kind":"added","note":"Presents token, latency, and cost telemetry."},
+  {"block":"067f2a02","kind":"added","note":"Bounds the overhead interpretation."}
+]

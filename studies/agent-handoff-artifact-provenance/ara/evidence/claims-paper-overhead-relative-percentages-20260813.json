@@ -1,0 +1,22 @@
+[
+  {
+    "block": "ba41005b",
+    "kind": "modified",
+    "note": "Adds Proofpress-relative percentage changes for tokens, elapsed time, and model cost within each controlled study model."
+  },
+  {
+    "block": "67636667",
+    "kind": "added",
+    "note": "Defines the controlled-table percentage denominator and direction."
+  },
+  {
+    "block": "aa1f2aee",
+    "kind": "modified",
+    "note": "Adds V1-relative percentage changes for DeepSeek Gateway tokens, cumulative request duration, and market model cost."
+  },
+  {
+    "block": "ba92d646",
+    "kind": "added",
+    "note": "Defines V0 as the DeepSeek percentage baseline."
+  }
+]

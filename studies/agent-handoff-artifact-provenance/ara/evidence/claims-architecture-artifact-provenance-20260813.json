@@ -1,0 +1,6 @@
+[
+  {"block":"467804be","kind":"modified","note":"Renames the architecture around artifact provenance."},
+  {"block":"fb36d431","kind":"modified","note":"Defines Proofpress as an artifact provenance protocol."},
+  {"block":"6f2a9e85","kind":"modified","note":"Uses Proofpress rather than VBAP for the authority boundary."},
+  {"block":"43b00f4a","kind":"modified","note":"Updates the trust and threat model to the artifact provenance framing."}
+]

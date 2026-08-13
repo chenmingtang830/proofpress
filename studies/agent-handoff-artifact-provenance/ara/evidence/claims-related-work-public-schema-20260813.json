@@ -1,0 +1,12 @@
+[
+  {"block":"d9502ea1","kind":"added","note":"Adds a structured related-work entry for agent handoff."},
+  {"block":"05c49886","kind":"added","note":"Records its contribution and Proofpress delta."},
+  {"block":"f38a0111","kind":"added","note":"Adds a structured related-work entry for context engineering."},
+  {"block":"52e9607e","kind":"added","note":"Records its contribution and Proofpress delta."},
+  {"block":"897cf011","kind":"added","note":"Adds a structured related-work entry for stale knowledge."},
+  {"block":"019a1aaf","kind":"added","note":"Records its contribution and Proofpress delta."},
+  {"block":"47987ae5","kind":"added","note":"Adds a structured related-work entry for provenance."},
+  {"block":"a030095a","kind":"added","note":"Records its contribution and Proofpress delta."},
+  {"block":"0ef2f001","kind":"added","note":"Adds a structured related-work entry for research artifacts."},
+  {"block":"1db27cf6","kind":"added","note":"Records its contribution and Proofpress delta."}
+]

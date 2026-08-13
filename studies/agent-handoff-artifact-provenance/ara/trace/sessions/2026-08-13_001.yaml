@@ -1,0 +1,141 @@
+session:
+  id: "2026-08-13_001"
+  date: "2026-08-13"
+  started: "2026-08-13T08:20"
+  last_turn: "2026-08-13T05:05"
+  turn_count: 5
+  summary: "Prepared a portable rc1 study package around the sealed ARA and fixed the author and exact primary-model metadata."
+
+events_logged:
+  - turn: 1
+    type: decision
+    id: N11
+    routing: direct
+    provenance: user-revised
+    summary: "Adopt protocol-centered public narrative with explicit prior-work and novelty boundaries."
+  - turn: 1
+    type: concept
+    id: O11
+    routing: crystallized
+    provenance: user-revised
+    summary: "Defined VBAP and promoted it to K11 via artifact commitment."
+  - turn: 2
+    type: decision
+    id: N11
+    routing: direct
+    provenance: user-revised
+    summary: "Refined the product category from version-bound admission to artifact provenance and requested a full-paper revamp."
+  - turn: 3
+    type: decision
+    id: N12
+    routing: direct
+    provenance: user-revised
+    summary: "Require the Introduction to establish agent handoff and independently mutable artifacts as evidenced systems concerns before presenting the research gap."
+  - turn: 4
+    type: decision
+    id: N13
+    routing: direct
+    provenance: user
+    summary: "Target an arXiv-style public preprint plus LinkedIn and X release without making peer review the immediate bar."
+  - turn: 4
+    type: experiment
+    id: N14
+    routing: direct
+    provenance: ai-executed
+    summary: "ARA Level 1 passed 86/86; release audit found five local path references and missing preprint/package metadata."
+  - turn: 5
+    type: decision
+    id: N15
+    routing: direct
+    provenance: user-revised
+    summary: "Package the study under a human-readable Proofpress studies directory while retaining the complete ARA as the research source."
+
+ai_actions:
+  - turn: 1
+    action: "Installed the official local ARA skill bundle, applied the compiler schema, created protocol architecture, rewrote PAPER.md framing and related work, and ran Level 1."
+    provenance: ai-executed
+    files_changed:
+      - "PAPER.md"
+      - "logic/concepts.md"
+      - "logic/solution/architecture.md"
+      - "level1_report.json"
+  - turn: 2
+    action: "Used the ARA compiler workflow to audit source results, rewrite the full external narrative, and add five main-text tables."
+    provenance: ai-executed
+    files_changed:
+      - "PAPER.md"
+      - "logic/concepts.md"
+      - "logic/solution/architecture.md"
+  - turn: 3
+    action: "Added evidence-backed handoff and artifact-drift motivation, a three-model overhead table, a design-aligned mechanism limitation, and explicit implementation-versus-evaluation-package availability status; reran Proofpress and ARA Level 1 checks."
+    provenance: ai-executed
+    files_changed:
+      - "PAPER.md"
+      - "evidence/claims-paper-limitations-overhead-release-20260813.json"
+      - "evidence/claims-paper-handoff-drift-motivation-20260813.json"
+  - turn: 4
+    action: "Repaired all ARA Level 1 schema failures, added a grounded algorithm, model/training boundary files, a derived main-results visual, and public-facing evidence, artifact, environment, and layer indexes; completed Proofpress verification and a release-portability audit."
+    provenance: ai-executed
+    files_changed:
+      - "PAPER.md"
+      - "logic/problem.md"
+      - "logic/claims.md"
+      - "logic/experiments.md"
+      - "logic/related_work.md"
+      - "logic/solution/algorithm.md"
+      - "logic/solution/heuristics.md"
+      - "src/artifacts.md"
+      - "src/environment.md"
+      - "src/configs/model.md"
+      - "src/configs/training.md"
+      - "src/execution/protocol_vocabulary.py"
+      - "evidence/README.md"
+      - "evidence/tables/derived_main_results.md"
+      - "evidence/tables/derived_main_results.png"
+      - "level1_report.json"
+  - turn: 5
+    action: "Named Chenming Tang as the independent author, identified `openai/gpt-5.6-luna` as the preregistered receiver, sanitized all local paths, and built and validated the 3.5 MB rc1 public study package."
+    provenance: ai-executed
+    files_changed:
+      - "PAPER.md"
+      - "logic/claims.md"
+      - "logic/experiments.md"
+      - "studies/agent-handoff-artifact-provenance/"
+
+claims_touched: []
+
+logic_revisions:
+  - turn: 1
+    entry: K11
+    field: definition
+    before: "Not present"
+    after: "VBAP = record, bind, transfer, verify, dispose, with explicit receiver disposition and bounded trust semantics."
+    signal: artifact-commitment
+    provenance: user-revised
+  - turn: 2
+    entry: K11
+    field: definition
+    before: "Proofpress Version-Bound Admission Protocol"
+    after: "Proofpress artifact provenance protocol"
+    signal: user-directive
+    provenance: user-revised
+
+key_context:
+  - turn: 1
+    excerpt: "The paper should introduce Proofpress as a version-bound admission protocol for agent handoffs rather than read like an internal experiment summary."
+  - turn: 3
+    excerpt: "Establish agent handoff and artifact drift early with literature or industry evidence; do not present the problem as invented for the paper."
+  - turn: 4
+    excerpt: "The intended next step is a public preprint and LinkedIn/X release, not a claim that the work has passed peer review."
+  - turn: 5
+    excerpt: "Use Chenming Tang, Independent Researcher, as the author and package the complete public evidence beside the ARA."
+
+open_threads:
+  - "Convert PAPER.md into an arXiv-compilable LaTeX/PDF bundle and perform a clean-room compilation check."
+  - "Register or recover Chenming Tang's ORCID iD and add the resulting identifier to the package."
+  - "Confirm arXiv category/endorsement and submission license if an arXiv version is pursued."
+  - "Audit redistribution licenses for benchmark-derived tasks and publish a tagged code/evidence release."
+  - "Review and intentionally migrate the rc1 study directory into the freshly cloned Proofpress checkout before creating a public tag."
+
+ai_suggestions_pending:
+  - "Create one canonical launch page and one chart-led LinkedIn/X announcement after the preprint URL and release tag exist."

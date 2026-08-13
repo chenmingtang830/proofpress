@@ -1,0 +1,21 @@
+[
+  {"block":"3de79e34","kind":"modified","note":"Adds the author's verified ORCID to the paper metadata."},
+  {"block":"ba410003","kind":"modified","note":"Adds the author's ORCID to the visible working-paper notice."},
+  {"block":"ba41000e","kind":"modified","note":"Explains the native in-document capsule for Markdown and static HTML and the evidence-envelope boundary for other formats."},
+  {"block":"ba410052","kind":"modified","note":"Updates the protocol overview against current Proofpress product behavior."},
+  {"block":"ac376353","kind":"modified","note":"Pins the product implementation commit audited for this report and distinguishes it from the study package."},
+  {"block":"ba410061","kind":"added","note":"Introduces a schematic ordinary-versus-Proofpress handoff example."},
+  {"block":"ba410062","kind":"added","note":"Shows the side-by-side information and decision difference without presenting fabricated model output."},
+  {"block":"a4691d62","kind":"modified","note":"Adds concrete successor-task summaries to the study-family table."},
+  {"block":"ba41001f","kind":"modified","note":"Defines repeated source discovery operationally."},
+  {"block":"ba410063","kind":"added","note":"Introduces explicit receiver configuration disclosure."},
+  {"block":"ba410064","kind":"added","note":"Reports harness transport exact model provider and effort for the main quantitative families."},
+  {"block":"ba410022","kind":"modified","note":"Names the artifact-version check rather than provenance generically in the main result heading."},
+  {"block":"ba410023","kind":"modified","note":"Names GPT-5.6 Luna high effort and the restricted receiver harness in the main result."},
+  {"block":"14648c7e","kind":"modified","note":"Adds exact receiver slugs and effort levels to the cross-model result table."},
+  {"block":"ba410029","kind":"modified","note":"Names OpenCode exact GLM and DeepSeek endpoints and high effort for selective recovery."},
+  {"block":"ba41002d","kind":"modified","note":"Defines the continuity event in plain language and names the DeepSeek OpenCode configuration."},
+  {"block":"ba410048","kind":"modified","note":"Makes the ARA itself the self-contained experiment and evidence appendix."},
+  {"block":"ba41004b","kind":"modified","note":"Routes failure-path detail to the internal ARA registry rather than missing development documents."},
+  {"block":"ba41005e","kind":"modified","note":"Updates the study from internal-only status to portable rc1 with remaining tag and license gates."}
+]

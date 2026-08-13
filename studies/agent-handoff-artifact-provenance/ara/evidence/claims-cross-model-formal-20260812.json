@@ -1,0 +1,4 @@
+[
+  {"block":"e50d79d1","kind":"added","note":"Adds bounded three-model cross-model replication claim."},
+  {"block":"f7480e8d","kind":"added","note":"Records model-wise and pooled stale-binding results, providers, cost, and boundary."}
+]
