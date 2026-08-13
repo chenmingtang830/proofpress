@@ -1,41 +1,35 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/ara/PAPER.md",
- "artifact_id": "pp_cb6d0883f4bda071d2137869",
- "version": "3ab3b8c1",
- "parent": "80b901d8",
+ "artifact": "experiments/provenance_handoff/ara/logic/claims.md",
+ "artifact_id": "pp_ca8a8ddcc33d3870e9a40bc5",
+ "version": "21aec7d6",
+ "parent": "6f8d7b16",
  "author": {
   "name": "codex",
   "kind": "agent",
   "session": null
  },
  "note": null,
- "ts": "2026-08-13T11:58:03+00:00",
+ "ts": "2026-08-13T12:00:57+00:00",
  "stats": {
-  "modified": 3
+  "modified": 2
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "3de79e34",
-   "type": "para",
-   "context": "(文首)"
+   "block": "7f378a7f",
+   "type": "list",
+   "context": "C09: The tested native binding mechanism"
   },
   {
    "kind": "modified",
-   "block": "ba410003",
-   "type": "para",
-   "context": "Proofpress: An Artifact Provenance Proto"
-  },
-  {
-   "kind": "modified",
-   "block": "ba410008",
-   "type": "para",
-   "context": "Abstract"
+   "block": "4d8ea751",
+   "type": "list",
+   "context": "C08: Native artifact binding can block s"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:c9f7f7689b78f38d513629bed02992a44a73fca68540923795560bdbbbf1321d",
+ "soft_fingerprint": "ppsb1:933cd31d2db11826a74fb232481e67a30b0fcf66e14e4781b9eb0a44b5479b2d",
  "actors": {
   "requested_by": [
    "Chenming Tang"
@@ -53,23 +47,18 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "3de79e34",
+   "block": "7f378a7f",
    "kind": "modified",
-   "note": "Replaces the team placeholder with the named author, independent affiliation, correspondence email, and pending ORCID status."
+   "note": "Replaces a local HiEviDR path with an explicit non-redistribution disclosure."
   },
   {
-   "block": "ba410003",
+   "block": "4d8ea751",
    "kind": "modified",
-   "note": "Adds named author and correspondence metadata to the working-paper notice."
-  },
-  {
-   "block": "ba410008",
-   "kind": "modified",
-   "note": "Names the exact Luna endpoint used in the preregistered main comparison."
+   "note": "Replaces a local APEX path with an explicit non-redistribution disclosure."
   }
  ],
  "context": {
-  "why": "Name the author and exact model used in the primary preregistered result"
+  "why": "Replace local-only evidence paths with explicit public-package disclosures"
  },
- "event_id": "ppe_31100f2d771b32c1587f2bfb"
+ "event_id": "ppe_5ffaba364318c9b55fed0274"
 }
