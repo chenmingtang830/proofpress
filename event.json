@@ -1,46 +1,66 @@
 {
  "event": "version_created",
- "artifact": "rit-hub-demo/DECISIONS.md",
- "artifact_id": "pp_4d20cb5ec74e9b6747d4cc3e",
- "version": "c503cbc5",
- "parent": "8f7cdd3c",
+ "artifact": "experiments/provenance_handoff/ara/PAPER.md",
+ "artifact_id": "pp_cb6d0883f4bda071d2137869",
+ "version": "abc3ff07",
+ "parent": "f4b93aac",
  "author": {
-  "name": "orchestrator",
+  "name": "codex",
   "kind": "agent",
-  "session": "proofpress-dev-19"
+  "session": null
  },
  "note": null,
- "ts": "2026-08-13T09:49:26+00:00",
+ "ts": "2026-08-13T09:49:34+00:00",
  "stats": {
-  "modified": 1
+  "added": 2
  },
  "changes": [
   {
-   "kind": "modified",
-   "block": "c2f8f6e2",
-   "type": "table",
-   "context": "3. 技术决策（不可协商）"
+   "kind": "added",
+   "block": "ba41005f",
+   "type": "para",
+   "context": "1. Introduction",
+   "preview": "Agent handoff is already an explicit systems pattern rather "
+  },
+  {
+   "kind": "added",
+   "block": "ba410060",
+   "type": "para",
+   "context": "1. Introduction",
+   "preview": "The risk created by mutable artifacts is likewise establishe"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:4839a715d57be64514db907f0a96f3ac57e42e6f725b072f09199adaa1b460e2",
+ "soft_fingerprint": "ppsb1:4ed75144f8d66cd65ac34df81f3881659921ddcf05775e023139b8a63243a53b",
  "actors": {
   "requested_by": [
-   "proofpress-dev-1"
+   "Richard Tang"
+  ],
+  "produced_by": [
+   "OpenAI Codex"
   ],
   "edited_by": [
-   "design worker (proofpress-dev-19), executing on orchestrator's behalf"
+   "OpenAI Codex"
   ],
   "recorded_by": [
-   "orchestrator"
+   "OpenAI Codex"
   ]
  },
  "attribution_basis": "self_asserted",
+ "claims": [
+  {
+   "block": "ba41005f",
+   "kind": "added",
+   "note": "Establishes agent handoff as an implemented industry pattern and an empirically observed failure boundary, while noting that prior takeover work freezes the repository."
+  },
+  {
+   "block": "ba410060",
+   "kind": "added",
+   "note": "Connects document revision identity and up-to-date validation practices to the artifact-drift hazard tested in this paper."
+  }
+ ],
  "context": {
-  "why": "用户明确要求 rit-hub-demo 采用 ARA Labs 现网 agenticresearch.sh/rit 已有的设计系统而非独立发明的深色 terminal 皮肤。§3 主题行改为浅色暖米白纸面系（paper #fbf8f1 / ink #1a1530，实测取自现网 CSS），§3 字体行改为 ARA 现网三条字体降级链（Instrument Serif/Inter/JetBrains Mono，本地不预装时优雅降级，仍零外部引用，不违反不加载外部字体的原则）。",
-  "rejected": [
-   "维持原深色 terminal 方案 — 与 ARA Labs 自己产品的实际视觉身份不符，投资人/招募受众认不出这是同一个生态"
-  ]
+  "why": "Establish agent handoff and independent artifact revision as evidenced systems concerns before stating the research gap."
  },
- "event_id": "ppe_31692b903621801e1d263f63"
+ "event_id": "ppe_4eeb51ff42bae552d7466086"
 }
