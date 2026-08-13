@@ -1,117 +1,264 @@
 {
  "event": "version_created",
- "artifact": "rit-hub-demo/DECISIONS.md",
- "artifact_id": "pp_4d20cb5ec74e9b6747d4cc3e",
- "version": "dc6a23ff",
- "parent": "c503cbc5",
+ "artifact": "experiments/provenance_handoff/ara/logic/problem.md",
+ "artifact_id": "pp_ba47077a9e44465b384f3b33",
+ "version": "8e00587f",
+ "parent": "2c7bbbea",
  "author": {
-  "name": "orchestrator",
+  "name": "codex",
   "kind": "agent",
-  "session": "proofpress-dev-19"
+  "session": null
  },
  "note": null,
- "ts": "2026-08-13T09:58:18+00:00",
+ "ts": "2026-08-13T10:02:52+00:00",
  "stats": {
   "modified": 5,
-  "added": 7
+  "added": 13
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "e1190c1e",
-   "type": "para",
-   "context": "6. 屏幕设计"
-  },
-  {
-   "kind": "modified",
-   "block": "790bc003",
+   "block": "75d8ff5d",
    "type": "heading",
-   "context": "6.1 Ledger 表格视图"
+   "context": "Observations"
   },
   {
-   "kind": "modified",
-   "block": "a34ac172",
-   "type": "para",
-   "context": "6.1 Ledger 表格视图"
-  },
-  {
-   "kind": "modified",
-   "block": "967a0e85",
+   "kind": "added",
+   "block": "98d591eb",
    "type": "heading",
-   "context": "6.3 Graph 视图 —— 默认落地屏"
+   "context": "O1: Agent handoffs preserve work imperfe",
+   "preview": "### O1: Agent handoffs preserve work imperfectly"
   },
   {
    "kind": "modified",
-   "block": "c5f9b735",
+   "block": "cf5b74f2",
    "type": "para",
-   "context": "6.3 Graph 视图 —— 默认落地屏"
+   "context": "O1: Agent handoffs preserve work imperfe"
   },
   {
    "kind": "added",
-   "block": "da7e3d1d",
-   "type": "heading",
-   "context": "6.5 Home 看板（根路由 `#/`）",
-   "preview": "### 6.5 Home 看板（根路由 `#/`）"
-  },
-  {
-   "kind": "added",
-   "block": "48df8e60",
-   "type": "para",
-   "context": "6.5 Home 看板（根路由 `#/`）",
-   "preview": "hub 的默认入口，列出 hub 持有的全部 ledger 作为可点卡片，点进去才是 6.1–6.4 描述的详情页。加这"
-  },
-  {
-   "kind": "added",
-   "block": "ca652988",
-   "type": "para",
-   "context": "6.5 Home 看板（根路由 `#/`）",
-   "preview": "分组依据 `source.kind`：**Your work**（`live-research`）／**From oth"
-  },
-  {
-   "kind": "added",
-   "block": "0374b162",
-   "type": "para",
-   "context": "6.5 Home 看板（根路由 `#/`）",
-   "preview": "卡片形态照抄 ARA Labs 现网 agenticresearch.sh 的 \"Explore public ledg"
-  },
-  {
-   "kind": "added",
-   "block": "39c942a4",
-   "type": "para",
-   "context": "6.5 Home 看板（根路由 `#/`）",
-   "preview": "看板本身**没有** 6.1–6.4 那条详情页顶栏——不显示两个 tab，也不显示 root hash（看板列的是\"有"
-  },
-  {
-   "kind": "added",
-   "block": "f1f3b661",
-   "type": "para",
-   "context": "6.5 Home 看板（根路由 `#/`）",
-   "preview": "路由：根路径 `#/` 是看板；`#/<dataset>/<view>[/<node>]` 不变，所有已有的深链接照常解"
-  },
-  {
-   "kind": "added",
-   "block": "c774398c",
+   "block": "fcdbd7ed",
    "type": "list",
-   "context": "9. 数据诚实性要求（硬性，不可省略）",
-   "preview": "- **Home 看板**（§6.5）不属于任何一个数据集，页脚 provenance 行不借用 `ledger.pro"
+   "context": "O1: Agent handoffs preserve work imperfe",
+   "preview": "- **Evidence**: Handoff Debt; AgentAsk; the continuity compa"
+  },
+  {
+   "kind": "modified",
+   "block": "f73aa5b4",
+   "type": "para",
+   "context": "O1: Agent handoffs preserve work imperfe"
+  },
+  {
+   "kind": "modified",
+   "block": "36339a7c",
+   "type": "heading",
+   "context": "O2: Artifacts can change independently a"
+  },
+  {
+   "kind": "added",
+   "block": "689aafcb",
+   "type": "list",
+   "context": "O2: Artifacts can change independently a",
+   "preview": "- **Evidence**: W3C PROV models document revisions as distin"
+  },
+  {
+   "kind": "modified",
+   "block": "eb6d1b42",
+   "type": "heading",
+   "context": "O3: Design-aligned tests establish mecha"
+  },
+  {
+   "kind": "added",
+   "block": "c99188ca",
+   "type": "list",
+   "context": "O3: Design-aligned tests establish mecha",
+   "preview": "- **Evidence**: The controlled admission and cross-model res"
+  },
+  {
+   "kind": "added",
+   "block": "2152be5a",
+   "type": "heading",
+   "context": "Gaps",
+   "preview": "## Gaps"
+  },
+  {
+   "kind": "added",
+   "block": "d7d0911f",
+   "type": "heading",
+   "context": "G1: Handoff studies usually do not manip",
+   "preview": "### G1: Handoff studies usually do not manipulate independen"
+  },
+  {
+   "kind": "added",
+   "block": "fba9cc86",
+   "type": "list",
+   "context": "G1: Handoff studies usually do not manip",
+   "preview": "- **Statement**: Existing handoff work studies context trans"
+  },
+  {
+   "kind": "added",
+   "block": "b5da0db8",
+   "type": "heading",
+   "context": "G2: Controlled mechanism evidence can be",
+   "preview": "### G2: Controlled mechanism evidence can be mistaken for pr"
+  },
+  {
+   "kind": "added",
+   "block": "6853ed72",
+   "type": "list",
+   "context": "G2: Controlled mechanism evidence can be",
+   "preview": "- **Statement**: Repetition across receiver models on one pu"
+  },
+  {
+   "kind": "added",
+   "block": "8baeebfc",
+   "type": "heading",
+   "context": "Key Insight",
+   "preview": "## Key Insight"
+  },
+  {
+   "kind": "added",
+   "block": "5f4a1f20",
+   "type": "list",
+   "context": "Key Insight",
+   "preview": "- **Insight**: Agent handoff has two separable requirements:"
+  },
+  {
+   "kind": "added",
+   "block": "67dbdd77",
+   "type": "heading",
+   "context": "Assumptions",
+   "preview": "## Assumptions"
+  },
+  {
+   "kind": "added",
+   "block": "dc3b03a3",
+   "type": "list",
+   "context": "Assumptions",
+   "preview": "- **A1**: Artifact content can be assigned stable identity u"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:54e52d2f547d539bd6cc276ae44846da7ba89b9e134f6bc0d54558c6bcbd4f4c",
+ "soft_fingerprint": "ppsb1:23de227389fbe852da0629812e748d88a3dd7791d50aaa96035fc20f55736dbe",
  "actors": {
   "requested_by": [
-   "proofpress-dev-1"
+   "Richard Tang"
+  ],
+  "produced_by": [
+   "OpenAI Codex"
   ],
   "edited_by": [
-   "design worker (proofpress-dev-19), executing on orchestrator's behalf"
+   "OpenAI Codex"
   ],
   "recorded_by": [
-   "orchestrator"
+   "OpenAI Codex"
   ]
  },
  "attribution_basis": "self_asserted",
+ "claims": [
+  {
+   "block": "75d8ff5d",
+   "kind": "modified",
+   "note": "Organizes the research problem as observations."
+  },
+  {
+   "block": "98d591eb",
+   "kind": "added",
+   "note": "Adds the first observation heading."
+  },
+  {
+   "block": "cf5b74f2",
+   "kind": "modified",
+   "note": "States evidence of multi-agent handoff as a real workflow pattern."
+  },
+  {
+   "block": "fcdbd7ed",
+   "kind": "added",
+   "note": "Adds evidence and implication for the first observation."
+  },
+  {
+   "block": "f73aa5b4",
+   "kind": "modified",
+   "note": "Clarifies the raw-history limitation."
+  },
+  {
+   "block": "36339a7c",
+   "kind": "modified",
+   "note": "Adds the artifact drift observation heading."
+  },
+  {
+   "block": "f1498f86",
+   "kind": "modified",
+   "note": "Defines stale artifact admission."
+  },
+  {
+   "block": "689aafcb",
+   "kind": "added",
+   "note": "Adds evidence and implication for artifact drift."
+  },
+  {
+   "block": "eb6d1b42",
+   "kind": "modified",
+   "note": "Adds the evaluation validity observation heading."
+  },
+  {
+   "block": "d925bd21",
+   "kind": "modified",
+   "note": "States the design-alignment validity threat."
+  },
+  {
+   "block": "c99188ca",
+   "kind": "added",
+   "note": "Adds evidence and implication for the validity threat."
+  },
+  {
+   "block": "2152be5a",
+   "kind": "added",
+   "note": "Adds the gaps section."
+  },
+  {
+   "block": "d7d0911f",
+   "kind": "added",
+   "note": "Adds the unbound handoff gap."
+  },
+  {
+   "block": "fba9cc86",
+   "kind": "added",
+   "note": "Defines the first research gap."
+  },
+  {
+   "block": "b5da0db8",
+   "kind": "added",
+   "note": "Adds the evidence gap."
+  },
+  {
+   "block": "6853ed72",
+   "kind": "added",
+   "note": "Defines the second research gap."
+  },
+  {
+   "block": "8baeebfc",
+   "kind": "added",
+   "note": "Adds the key insight section."
+  },
+  {
+   "block": "5f4a1f20",
+   "kind": "added",
+   "note": "States the version-bound admission insight."
+  },
+  {
+   "block": "67dbdd77",
+   "kind": "added",
+   "note": "Adds assumptions."
+  },
+  {
+   "block": "dc3b03a3",
+   "kind": "added",
+   "note": "Bounds the assumptions behind the study."
+  }
+ ],
  "context": {
-  "why": "补记 rit-integrate（proofpress-dev-18，commit 0dc6e5e）已落地的信息架构改动：详情页默认落地屏从 6.1 Ledger 表格改为 6.3 Graph（表格一键可达，不是被替代）；新增根路由 #/ 的 Home 看板（§6.5），按 source.kind 分 Your work / From others 两组卡片解决用户反馈的'看不懂 Paper 和 My Research 区别'，卡片形态照抄 ARA Labs 现网 agenticresearch.sh 的 Explore public ledgers 板块；看板不借用任一数据集的 provenance 文案，§9 补一条看板自己的自述文案要求。这是加法，不替换现有的两个数据集 tab / root hash 顶栏，§11 验收标准不受影响。"
+  "why": "Restructure the research problem for the public ARA schema"
  },
- "event_id": "ppe_deafcad57b300bae75c201b5"
+ "event_id": "ppe_96988db8caaacefcba417c4c"
 }
