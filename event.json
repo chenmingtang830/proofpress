@@ -1,29 +1,77 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/docs/TRACK2_EARLY_RESULTS.md",
- "artifact_id": "pp_a4aae4366d7346901db2ecac",
- "version": "d98380e4",
- "parent": "7edb74a1",
+ "artifact": "experiments/provenance_handoff/ara/logic/experiments.md",
+ "artifact_id": "pp_15fb7a0bcf0891f7cee01068",
+ "version": "fc5660a6",
+ "parent": "2108e405",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-13T02:48:07+00:00",
+ "ts": "2026-08-13T02:48:18+00:00",
  "stats": {
-  "modified": 1
+  "modified": 1,
+  "added": 3
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "6e881a09",
+   "block": "a5a49edb",
    "type": "para",
-   "context": "Track 2 early-testing results"
+   "context": "Registered next program: knowledge hando",
+   "numbers": [
+    [
+     "2",
+     "1"
+    ],
+    [
+     "1",
+     "2"
+    ],
+    [
+     "1",
+     "0731"
+    ],
+    [
+     "2",
+     "1"
+    ],
+    [
+     "1",
+     "2,"
+    ],
+    [
+     "5.2.",
+     "5.2"
+    ]
+   ]
+  },
+  {
+   "kind": "added",
+   "block": "ea022001",
+   "type": "heading",
+   "context": "Knowledge handoff early-testing results ",
+   "preview": "### Knowledge handoff early-testing results (2026-08-12)"
+  },
+  {
+   "kind": "added",
+   "block": "ea022002",
+   "type": "para",
+   "context": "Knowledge handoff early-testing results ",
+   "preview": "**Track 1:** 9/9 DeepSeek responses were valid across three "
+  },
+  {
+   "kind": "added",
+   "block": "ea022003",
+   "type": "para",
+   "context": "Knowledge handoff early-testing results ",
+   "preview": "**Interpretation:** the early evidence supports two separabl"
   }
  ],
- "policy": "local",
- "soft_fingerprint": "ppsb1:fdb91fa135ed2547ecd821730fa3463f4769fd50eaadd7a9b02aae33384362df",
+ "policy": "portable",
+ "soft_fingerprint": "ppsb1:4ab62c428422e11699b74c0f6d51290f5e240ec997898fe8f5e7647bfa626bf1",
  "actors": {
   "requested_by": [
    "user"
@@ -41,13 +89,28 @@
  "attribution_basis": "environment_attested",
  "claims": [
   {
-   "block": "6e881a09",
+   "block": "a5a49edb",
    "kind": "modified",
-   "note": "Links the focused Track 2 result to the combined Knowledge Handoff technical write-up."
+   "note": "Updates the ARA experiment registration from authorized design to completed bounded early testing."
+  },
+  {
+   "block": "ea022001",
+   "kind": "added",
+   "note": "Adds the Knowledge Handoff early-testing results section."
+  },
+  {
+   "block": "ea022002",
+   "kind": "added",
+   "note": "Records Track 1 and Track 2 valid denominators, outcomes, and cross-model stability."
+  },
+  {
+   "block": "ea022003",
+   "kind": "added",
+   "note": "Records the two product mechanisms and formal claim boundary."
   }
  ],
  "context": {
-  "why": "Cross-link the focused Track 2 report to the combined Knowledge Handoff technical write-up."
+  "why": "Register the completed Knowledge Handoff early-testing results, interpretation, and formal claim boundary in ARA."
  },
- "event_id": "ppe_53477ff5d99ddea44874dec9"
+ "event_id": "ppe_7e4df10730497ca7fc89810c"
 }
