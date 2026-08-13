@@ -1,44 +1,29 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/ara/logic/experiments.md",
- "artifact_id": "pp_15fb7a0bcf0891f7cee01068",
- "version": "74b67f26",
- "parent": "0c2e19cf",
+ "artifact": "experiments/provenance_handoff/docs/KNOWLEDGE_HANDOFF_EARLY_RESULTS.md",
+ "artifact_id": "pp_7c6f8a471ae2d0fc7121a5cb",
+ "version": "81a65d86",
+ "parent": "6a85623a",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-13T03:09:11+00:00",
+ "ts": "2026-08-13T03:09:22+00:00",
  "stats": {
-  "added": 3
+  "modified": 1
  },
  "changes": [
   {
-   "kind": "added",
-   "block": "ab330001",
-   "type": "heading",
-   "context": "Comprehensive local experiment synthesis",
-   "preview": "## Comprehensive local experiment synthesis (2026-08-12)"
-  },
-  {
-   "kind": "added",
-   "block": "ab330002",
+   "kind": "modified",
+   "block": "ceab1002",
    "type": "para",
-   "context": "Comprehensive local experiment synthesis",
-   "preview": "`docs/LOCAL_EXPERIMENT_RESULTS.md` now synthesizes the compl"
-  },
-  {
-   "kind": "added",
-   "block": "ab330003",
-   "type": "para",
-   "context": "Comprehensive local experiment synthesis",
-   "preview": "The comprehensive write-up keeps all valid outcomes in the m"
+   "context": "When an AI agent inherits yesterday's wo"
   }
  ],
- "policy": "portable",
- "soft_fingerprint": "ppsb1:86172db3f6b35663e54957636f8fd4618753225934428fe2988935cc0609a241",
+ "policy": "local",
+ "soft_fingerprint": "ppsb1:737da2a1dc6775f77f620533db582e7533ab523ee16d76a76359866139817030",
  "actors": {
   "requested_by": [
    "user"
@@ -56,23 +41,13 @@
  "attribution_basis": "environment_attested",
  "claims": [
   {
-   "block": "ab330001",
-   "kind": "added",
-   "note": "Registers the comprehensive local experiment synthesis."
-  },
-  {
-   "block": "ab330002",
-   "kind": "added",
-   "note": "Records the all-local conclusion across clean quality, admission, recovery, STALE, Artifact Travel, and Knowledge Handoff."
-  },
-  {
-   "block": "ab330003",
-   "kind": "added",
-   "note": "Records the appendix structure and prohibits heterogeneous pooling or universal effect claims."
+   "block": "ceab1002",
+   "kind": "modified",
+   "note": "Clarifies that Knowledge Handoff is a sub-study and links the comprehensive all-local synthesis."
   }
  ],
  "context": {
-  "why": "Register the comprehensive all-local synthesis, its bounded conclusion, and non-pooling rules in ARA."
+  "why": "Clarify that Knowledge Handoff is a sub-study and point readers to the complete local experiment synthesis."
  },
- "event_id": "ppe_09a392732e378a1bab2011d5"
+ "event_id": "ppe_dd1bb14432abf2f2dd3b6090"
 }
