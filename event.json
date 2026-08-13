@@ -1,37 +1,41 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/ara/evidence/tables/derived_main_results.md",
- "artifact_id": "pp_be637ba6a8dd5eb84262c8bd",
- "version": "369eae30",
- "parent": "65f30d0e",
+ "artifact": "experiments/provenance_handoff/ara/PAPER.md",
+ "artifact_id": "pp_cb6d0883f4bda071d2137869",
+ "version": "5b1676da",
+ "parent": "24d49d90",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-13T12:57:17+00:00",
+ "ts": "2026-08-13T13:03:11+00:00",
  "stats": {
-  "modified": 1,
-  "added": 1
+  "modified": 3
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "4a65ffee",
-   "type": "table",
-   "context": "End-to-end overhead in the three-model c"
+   "block": "5e6a26c0",
+   "type": "para",
+   "context": "4.6 Overhead varied by study, model, and"
   },
   {
-   "kind": "added",
-   "block": "f64ffe80",
+   "kind": "modified",
+   "block": "aa1f2aee",
+   "type": "table",
+   "context": "4.6 Overhead varied by study, model, and"
+  },
+  {
+   "kind": "modified",
+   "block": "57827d0a",
    "type": "para",
-   "context": "End-to-end overhead in the three-model c",
-   "preview": "The separate high-effort DeepSeek Track 2 selective-recovery"
+   "context": "4.6 Overhead varied by study, model, and"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:35e65318ae67a95a97aa256bd13e434ea7f3e2af6fd470b15e685dfc5817a64a",
+ "soft_fingerprint": "ppsb1:d5021cbabe1d31dc2a82a960993e9bdfb4648fa4b621455235c90d3cd3445f91",
  "actors": {
   "requested_by": [
    "Chenming Tang"
@@ -49,18 +53,23 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "4a65ffee",
+   "block": "5e6a26c0",
    "kind": "modified",
-   "note": "Adds GPT-5.6 Luna and explicit effort labels to the controlled document-version overhead table."
+   "note": "Corrects the telemetry interpretation using the underlying AI Gateway request ledger rather than OpenCode's zero-cost response summary."
   },
   {
-   "block": "f64ffe80",
-   "kind": "added",
-   "note": "Records the separately scoped DeepSeek token telemetry and missing time and cost coverage."
+   "block": "aa1f2aee",
+   "kind": "modified",
+   "note": "Reports DeepSeek V0 and V1 Gateway request counts, billable tokens, cumulative request duration, and market model cost."
+  },
+  {
+   "block": "57827d0a",
+   "kind": "modified",
+   "note": "Quantifies DeepSeek condition ratios and discloses the 82-call local versus 81-call aggregate Gateway reconciliation difference."
   }
  ],
  "context": {
-  "why": "Extend the derived overhead evidence with Luna and separately scoped DeepSeek telemetry coverage."
+  "why": "Correct DeepSeek overhead reporting from the persisted AI Gateway request ledger, including time, cost, and the aggregate reconciliation discrepancy."
  },
- "event_id": "ppe_4059dcea67d5244d803cd12d"
+ "event_id": "ppe_60bd7a66b773b029cd1e939e"
 }
