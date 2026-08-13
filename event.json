@@ -1,67 +1,262 @@
 {
  "event": "version_created",
- "artifact": "rit-hub-demo/DECISIONS.md",
- "artifact_id": "pp_4d20cb5ec74e9b6747d4cc3e",
- "version": "74d73f60",
- "parent": "4fbd1a87",
+ "artifact": "experiments/provenance_handoff/ara/PAPER.md",
+ "artifact_id": "pp_cb6d0883f4bda071d2137869",
+ "version": "f888116e",
+ "parent": "3ab3b8c1",
  "author": {
-  "name": "orchestrator",
+  "name": "codex",
   "kind": "agent",
-  "session": "proofpress-dev-19"
+  "session": null
  },
  "note": null,
- "ts": "2026-08-13T12:17:59+00:00",
+ "ts": "2026-08-13T12:25:23+00:00",
  "stats": {
-  "added": 2,
-  "modified": 2
+  "modified": 15,
+  "added": 4
  },
  "changes": [
   {
-   "kind": "added",
-   "block": "9b1c4e2a",
+   "kind": "modified",
+   "block": "3de79e34",
    "type": "para",
-   "context": "6.7 Evidence 视图（第三个视图 tab，路由 `#/<dataset",
-   "preview": "**\"已交付\"/\"从未交付\"的口径，写死在这里，不要每个实现者各数一遍**："
-  },
-  {
-   "kind": "added",
-   "block": "709db09e",
-   "type": "list",
-   "context": "6.7 Evidence 视图（第三个视图 tab，路由 `#/<dataset",
-   "preview": "- **已交付** = 这个文件被某条 claim 的 `evidence_path` 引用，**且**没有出现在任何 "
+   "context": "(文首)"
   },
   {
    "kind": "modified",
-   "block": "609dd2a4",
+   "block": "ba410003",
    "type": "para",
-   "context": "6.7 Evidence 视图（第三个视图 tab，路由 `#/<dataset"
+   "context": "Proofpress: An Artifact Provenance Proto"
   },
   {
    "kind": "modified",
-   "block": "dc5002f1",
+   "block": "ba41000e",
    "type": "para",
-   "context": "6.7 Evidence 视图（第三个视图 tab，路由 `#/<dataset"
+   "context": "1. Introduction"
+  },
+  {
+   "kind": "modified",
+   "block": "ba410052",
+   "type": "para",
+   "context": "2.1 Protocol overview"
+  },
+  {
+   "kind": "modified",
+   "block": "ac376353",
+   "type": "para",
+   "context": "2.1 Protocol overview"
+  },
+  {
+   "kind": "added",
+   "block": "ba410061",
+   "type": "para",
+   "context": "2.3 What Proofpress adds",
+   "preview": "The following schematic shows the information difference. It"
+  },
+  {
+   "kind": "added",
+   "block": "ba410062",
+   "type": "table",
+   "context": "2.3 What Proofpress adds",
+   "preview": "| Ordinary handoff | Proofpress-assisted handoff |\n|---|---|"
+  },
+  {
+   "kind": "modified",
+   "block": "a4691d62",
+   "type": "table",
+   "context": "3.2 Tasks and comparisons"
+  },
+  {
+   "kind": "modified",
+   "block": "ba41001f",
+   "type": "para",
+   "context": "3.3 Outcomes and evidence standards"
+  },
+  {
+   "kind": "added",
+   "block": "ba410063",
+   "type": "para",
+   "context": "3.3 Outcomes and evidence standards",
+   "preview": "The main quantitative tables combine studies with different "
+  },
+  {
+   "kind": "added",
+   "block": "ba410064",
+   "type": "table",
+   "context": "3.3 Outcomes and evidence standards",
+   "preview": "| Result family | Receiver harness | Transport and provider "
+  },
+  {
+   "kind": "modified",
+   "block": "ba410022",
+   "type": "heading",
+   "context": "4.1 Main result: an artifact-version che"
+  },
+  {
+   "kind": "modified",
+   "block": "ba410023",
+   "type": "para",
+   "context": "4.1 Main result: an artifact-version che"
+  },
+  {
+   "kind": "modified",
+   "block": "14648c7e",
+   "type": "table",
+   "context": "4.1 Main result: an artifact-version che"
+  },
+  {
+   "kind": "modified",
+   "block": "ba410029",
+   "type": "para",
+   "context": "4.3 Proofpress supported selective recov",
+   "numbers": [
+    [
+     "5.2",
+     "2"
+    ]
+   ]
+  },
+  {
+   "kind": "modified",
+   "block": "ba41002d",
+   "type": "para",
+   "context": "4.4 A readable handoff reduced repeated "
+  },
+  {
+   "kind": "modified",
+   "block": "ba410048",
+   "type": "para",
+   "context": "Appendix A — experiment and evidence map"
+  },
+  {
+   "kind": "modified",
+   "block": "ba41004b",
+   "type": "para",
+   "context": "Appendix B — invalid, excluded, and supe"
+  },
+  {
+   "kind": "modified",
+   "block": "ba41005e",
+   "type": "para",
+   "context": "Appendix C — reproducibility and claim b"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:94b5d6000e0dd06c2510153fced189a82d0aac4f1102788ab850c23ad80482b7",
+ "soft_fingerprint": "ppsb1:1f9d77d5a3e5dfd99cf82e71ae73af5e39acc782b3797d7718eee157b4a2d7ad",
  "actors": {
   "requested_by": [
-   "proofpress-dev-1"
+   "Chenming Tang"
+  ],
+  "produced_by": [
+   "OpenAI Codex"
   ],
   "edited_by": [
-   "design worker (proofpress-dev-19), executing on orchestrator's behalf"
+   "OpenAI Codex"
   ],
   "recorded_by": [
-   "orchestrator"
+   "OpenAI Codex"
   ]
  },
  "attribution_basis": "self_asserted",
+ "claims": [
+  {
+   "block": "3de79e34",
+   "kind": "modified",
+   "note": "Adds the author's verified ORCID to the paper metadata."
+  },
+  {
+   "block": "ba410003",
+   "kind": "modified",
+   "note": "Adds the author's ORCID to the visible working-paper notice."
+  },
+  {
+   "block": "ba41000e",
+   "kind": "modified",
+   "note": "Explains the native in-document capsule for Markdown and static HTML and the evidence-envelope boundary for other formats."
+  },
+  {
+   "block": "ba410052",
+   "kind": "modified",
+   "note": "Updates the protocol overview against current Proofpress product behavior."
+  },
+  {
+   "block": "ac376353",
+   "kind": "modified",
+   "note": "Pins the product implementation commit audited for this report and distinguishes it from the study package."
+  },
+  {
+   "block": "ba410061",
+   "kind": "added",
+   "note": "Introduces a schematic ordinary-versus-Proofpress handoff example."
+  },
+  {
+   "block": "ba410062",
+   "kind": "added",
+   "note": "Shows the side-by-side information and decision difference without presenting fabricated model output."
+  },
+  {
+   "block": "a4691d62",
+   "kind": "modified",
+   "note": "Adds concrete successor-task summaries to the study-family table."
+  },
+  {
+   "block": "ba41001f",
+   "kind": "modified",
+   "note": "Defines repeated source discovery operationally."
+  },
+  {
+   "block": "ba410063",
+   "kind": "added",
+   "note": "Introduces explicit receiver configuration disclosure."
+  },
+  {
+   "block": "ba410064",
+   "kind": "added",
+   "note": "Reports harness transport exact model provider and effort for the main quantitative families."
+  },
+  {
+   "block": "ba410022",
+   "kind": "modified",
+   "note": "Names the artifact-version check rather than provenance generically in the main result heading."
+  },
+  {
+   "block": "ba410023",
+   "kind": "modified",
+   "note": "Names GPT-5.6 Luna high effort and the restricted receiver harness in the main result."
+  },
+  {
+   "block": "14648c7e",
+   "kind": "modified",
+   "note": "Adds exact receiver slugs and effort levels to the cross-model result table."
+  },
+  {
+   "block": "ba410029",
+   "kind": "modified",
+   "note": "Names OpenCode exact GLM and DeepSeek endpoints and high effort for selective recovery."
+  },
+  {
+   "block": "ba41002d",
+   "kind": "modified",
+   "note": "Defines the continuity event in plain language and names the DeepSeek OpenCode configuration."
+  },
+  {
+   "block": "ba410048",
+   "kind": "modified",
+   "note": "Makes the ARA itself the self-contained experiment and evidence appendix."
+  },
+  {
+   "block": "ba41004b",
+   "kind": "modified",
+   "note": "Routes failure-path detail to the internal ARA registry rather than missing development documents."
+  },
+  {
+   "block": "ba41005e",
+   "kind": "modified",
+   "note": "Updates the study from internal-only status to portable rc1 with remaining tag and license gates."
+  }
+ ],
  "context": {
-  "why": "rit-integrate 用真实 ES module 求值核对了 §6.7 的 Evidence 数字：Paper 的'10 已交付'是错的，应为 8——10 是加诚实性规则之前的旧数，两个文件(wandb/run-*/summary.json、evidence/data/per_seed_index.csv)同时被 claim 引用又出现在另一条 claim 的 unreachable.missing 里，算已交付就等于宣称一个实际没交付的东西交付了，直接和 c14 保持 OPEN 的理由矛盾。My Research 的'10 从未交付'核对后是对的（raw 12 条去重后 10，我之前用简单正则复核时漏看了同一 claim 里的第二条 missing 项，只得到 6-7）。补充写死了'已交付'/'从未交付'的判定口径（已交付=被引用且不在任何 missing 列表里；从未交付=去重后的 missing 条数），避免下一个实现者又数出第三个数字。",
-  "rejected": [
-   "把两条口径存疑就直接按 rit-integrate 上一轮报的 10/10 写死 — 这正是本产品要防的'看起来可信但没被核过'，Paper 这边正是核对之后才发现原数是错的，不该跳过这一步"
-  ]
+  "why": "Make the public paper self-contained with current protocol behavior concrete task summaries and exact receiver configurations"
  },
- "event_id": "ppe_19e61db2ac59065f53f4782d"
+ "event_id": "ppe_aed44c2bb47b4ef3e45ed8c9"
 }
