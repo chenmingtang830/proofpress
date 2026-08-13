@@ -1,145 +1,35 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/ara/logic/problem.md",
- "artifact_id": "pp_ba47077a9e44465b384f3b33",
- "version": "8e00587f",
- "parent": "2c7bbbea",
+ "artifact": "experiments/provenance_handoff/ara/logic/claims.md",
+ "artifact_id": "pp_ca8a8ddcc33d3870e9a40bc5",
+ "version": "6f8d7b16",
+ "parent": "00539ab9",
  "author": {
   "name": "codex",
   "kind": "agent",
   "session": null
  },
  "note": null,
- "ts": "2026-08-13T10:02:52+00:00",
+ "ts": "2026-08-13T10:03:29+00:00",
  "stats": {
-  "modified": 5,
-  "added": 13
+  "modified": 2
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "75d8ff5d",
-   "type": "heading",
-   "context": "Observations"
-  },
-  {
-   "kind": "added",
-   "block": "98d591eb",
-   "type": "heading",
-   "context": "O1: Agent handoffs preserve work imperfe",
-   "preview": "### O1: Agent handoffs preserve work imperfectly"
+   "block": "9c9e5fa7",
+   "type": "list",
+   "context": "C14: The contribution is a joint agent-h"
   },
   {
    "kind": "modified",
-   "block": "cf5b74f2",
-   "type": "para",
-   "context": "O1: Agent handoffs preserve work imperfe"
-  },
-  {
-   "kind": "added",
-   "block": "fcdbd7ed",
+   "block": "292d0bbb",
    "type": "list",
-   "context": "O1: Agent handoffs preserve work imperfe",
-   "preview": "- **Evidence**: Handoff Debt; AgentAsk; the continuity compa"
-  },
-  {
-   "kind": "modified",
-   "block": "f73aa5b4",
-   "type": "para",
-   "context": "O1: Agent handoffs preserve work imperfe"
-  },
-  {
-   "kind": "modified",
-   "block": "36339a7c",
-   "type": "heading",
-   "context": "O2: Artifacts can change independently a"
-  },
-  {
-   "kind": "added",
-   "block": "689aafcb",
-   "type": "list",
-   "context": "O2: Artifacts can change independently a",
-   "preview": "- **Evidence**: W3C PROV models document revisions as distin"
-  },
-  {
-   "kind": "modified",
-   "block": "eb6d1b42",
-   "type": "heading",
-   "context": "O3: Design-aligned tests establish mecha"
-  },
-  {
-   "kind": "added",
-   "block": "c99188ca",
-   "type": "list",
-   "context": "O3: Design-aligned tests establish mecha",
-   "preview": "- **Evidence**: The controlled admission and cross-model res"
-  },
-  {
-   "kind": "added",
-   "block": "2152be5a",
-   "type": "heading",
-   "context": "Gaps",
-   "preview": "## Gaps"
-  },
-  {
-   "kind": "added",
-   "block": "d7d0911f",
-   "type": "heading",
-   "context": "G1: Handoff studies usually do not manip",
-   "preview": "### G1: Handoff studies usually do not manipulate independen"
-  },
-  {
-   "kind": "added",
-   "block": "fba9cc86",
-   "type": "list",
-   "context": "G1: Handoff studies usually do not manip",
-   "preview": "- **Statement**: Existing handoff work studies context trans"
-  },
-  {
-   "kind": "added",
-   "block": "b5da0db8",
-   "type": "heading",
-   "context": "G2: Controlled mechanism evidence can be",
-   "preview": "### G2: Controlled mechanism evidence can be mistaken for pr"
-  },
-  {
-   "kind": "added",
-   "block": "6853ed72",
-   "type": "list",
-   "context": "G2: Controlled mechanism evidence can be",
-   "preview": "- **Statement**: Repetition across receiver models on one pu"
-  },
-  {
-   "kind": "added",
-   "block": "8baeebfc",
-   "type": "heading",
-   "context": "Key Insight",
-   "preview": "## Key Insight"
-  },
-  {
-   "kind": "added",
-   "block": "5f4a1f20",
-   "type": "list",
-   "context": "Key Insight",
-   "preview": "- **Insight**: Agent handoff has two separable requirements:"
-  },
-  {
-   "kind": "added",
-   "block": "67dbdd77",
-   "type": "heading",
-   "context": "Assumptions",
-   "preview": "## Assumptions"
-  },
-  {
-   "kind": "added",
-   "block": "dc3b03a3",
-   "type": "list",
-   "context": "Assumptions",
-   "preview": "- **A1**: Artifact content can be assigned stable identity u"
+   "context": "C13: Perfect separation on the primary f"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:23de227389fbe852da0629812e748d88a3dd7791d50aaa96035fc20f55736dbe",
+ "soft_fingerprint": "ppsb1:da14b5971d9bf25e01dad32adb69e826e771aa5d460b94f7e5c5b03688261dda",
  "actors": {
   "requested_by": [
    "Richard Tang"
@@ -157,108 +47,18 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "75d8ff5d",
+   "block": "9c9e5fa7",
    "kind": "modified",
-   "note": "Organizes the research problem as observations."
+   "note": "Adds standardized falsification and proof fields to C14."
   },
   {
-   "block": "98d591eb",
-   "kind": "added",
-   "note": "Adds the first observation heading."
-  },
-  {
-   "block": "cf5b74f2",
+   "block": "292d0bbb",
    "kind": "modified",
-   "note": "States evidence of multi-agent handoff as a real workflow pattern."
-  },
-  {
-   "block": "fcdbd7ed",
-   "kind": "added",
-   "note": "Adds evidence and implication for the first observation."
-  },
-  {
-   "block": "f73aa5b4",
-   "kind": "modified",
-   "note": "Clarifies the raw-history limitation."
-  },
-  {
-   "block": "36339a7c",
-   "kind": "modified",
-   "note": "Adds the artifact drift observation heading."
-  },
-  {
-   "block": "f1498f86",
-   "kind": "modified",
-   "note": "Defines stale artifact admission."
-  },
-  {
-   "block": "689aafcb",
-   "kind": "added",
-   "note": "Adds evidence and implication for artifact drift."
-  },
-  {
-   "block": "eb6d1b42",
-   "kind": "modified",
-   "note": "Adds the evaluation validity observation heading."
-  },
-  {
-   "block": "d925bd21",
-   "kind": "modified",
-   "note": "States the design-alignment validity threat."
-  },
-  {
-   "block": "c99188ca",
-   "kind": "added",
-   "note": "Adds evidence and implication for the validity threat."
-  },
-  {
-   "block": "2152be5a",
-   "kind": "added",
-   "note": "Adds the gaps section."
-  },
-  {
-   "block": "d7d0911f",
-   "kind": "added",
-   "note": "Adds the unbound handoff gap."
-  },
-  {
-   "block": "fba9cc86",
-   "kind": "added",
-   "note": "Defines the first research gap."
-  },
-  {
-   "block": "b5da0db8",
-   "kind": "added",
-   "note": "Adds the evidence gap."
-  },
-  {
-   "block": "6853ed72",
-   "kind": "added",
-   "note": "Defines the second research gap."
-  },
-  {
-   "block": "8baeebfc",
-   "kind": "added",
-   "note": "Adds the key insight section."
-  },
-  {
-   "block": "5f4a1f20",
-   "kind": "added",
-   "note": "States the version-bound admission insight."
-  },
-  {
-   "block": "67dbdd77",
-   "kind": "added",
-   "note": "Adds assumptions."
-  },
-  {
-   "block": "dc3b03a3",
-   "kind": "added",
-   "note": "Bounds the assumptions behind the study."
+   "note": "Adds standardized falsification and proof fields to C13."
   }
  ],
  "context": {
-  "why": "Restructure the research problem for the public ARA schema"
+  "why": "Standardize claim falsification and evidence pointers"
  },
- "event_id": "ppe_96988db8caaacefcba417c4c"
+ "event_id": "ppe_cb422c164b7114c01cc2349a"
 }
