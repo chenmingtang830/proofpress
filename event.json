@@ -1,50 +1,35 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/ara/PAPER.md",
- "artifact_id": "pp_cb6d0883f4bda071d2137869",
- "version": "eb933092",
- "parent": "5b1676da",
+ "artifact": "experiments/provenance_handoff/ara/evidence/tables/derived_main_results.md",
+ "artifact_id": "pp_be637ba6a8dd5eb84262c8bd",
+ "version": "418380cf",
+ "parent": "0cf1e2c1",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-13T13:05:51+00:00",
+ "ts": "2026-08-13T13:05:57+00:00",
  "stats": {
-  "modified": 2,
-  "added": 2
+  "modified": 2
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "ba41005b",
+   "block": "4a65ffee",
    "type": "table",
-   "context": "4.6 Overhead varied by study, model, and"
-  },
-  {
-   "kind": "added",
-   "block": "67636667",
-   "type": "para",
-   "context": "4.6 Overhead varied by study, model, and",
-   "preview": "Percentages in parentheses are Proofpress relative to the ma"
+   "context": "End-to-end overhead in the three-model c"
   },
   {
    "kind": "modified",
-   "block": "aa1f2aee",
-   "type": "table",
-   "context": "4.6 Overhead varied by study, model, and"
-  },
-  {
-   "kind": "added",
-   "block": "ba92d646",
+   "block": "067f2a02",
    "type": "para",
-   "context": "4.6 Overhead varied by study, model, and",
-   "preview": "Percentages in parentheses are V1 Proofpress relative to the"
+   "context": "End-to-end overhead in the three-model c"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:423fd96be610f35f2743fbbfc1e1d1e8213a6ed160ead664ed956d136dd90b85",
+ "soft_fingerprint": "ppsb1:8de2cb16d854f9f238efca083dd1b52c504138db8eebca3d0819f1e809f39a67",
  "actors": {
   "requested_by": [
    "Chenming Tang"
@@ -62,28 +47,18 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "ba41005b",
+   "block": "4a65ffee",
    "kind": "modified",
-   "note": "Adds Proofpress-relative percentage changes for tokens, elapsed time, and model cost within each controlled study model."
+   "note": "Adds matched-baseline percentage changes to the derived controlled overhead table."
   },
   {
-   "block": "67636667",
-   "kind": "added",
-   "note": "Defines the controlled-table percentage denominator and direction."
-  },
-  {
-   "block": "aa1f2aee",
+   "block": "067f2a02",
    "kind": "modified",
-   "note": "Adds V1-relative percentage changes for DeepSeek Gateway tokens, cumulative request duration, and market model cost."
-  },
-  {
-   "block": "ba92d646",
-   "kind": "added",
-   "note": "Defines V0 as the DeepSeek percentage baseline."
+   "note": "Defines the percentage comparison while retaining the end-to-end overhead boundary."
   }
  ],
  "context": {
-  "why": "Make model-specific overhead immediately interpretable by adding matched-baseline percentage changes to the controlled and DeepSeek tables."
+  "why": "Carry the matched-baseline overhead percentages into the derived evidence table."
  },
- "event_id": "ppe_c5f45cef1985b9612f51150a"
+ "event_id": "ppe_996647357c31bec53c21461f"
 }
