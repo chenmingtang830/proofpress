@@ -1,29 +1,93 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/ara/logic/solution/heuristics.md",
- "artifact_id": "pp_9c316ffb73a7828c62317cdb",
- "version": "fc505d38",
- "parent": "6ac58f75",
+ "artifact": "experiments/provenance_handoff/ara/logic/related_work.md",
+ "artifact_id": "pp_aeef744ab46114892229ebab",
+ "version": "48631d47",
+ "parent": "8735e430",
  "author": {
   "name": "codex",
   "kind": "agent",
   "session": null
  },
  "note": null,
- "ts": "2026-08-13T10:03:53+00:00",
+ "ts": "2026-08-13T10:04:05+00:00",
  "stats": {
-  "modified": 1
+  "added": 10
  },
  "changes": [
   {
-   "kind": "modified",
-   "block": "d67744d7",
+   "kind": "added",
+   "block": "d9502ea1",
+   "type": "heading",
+   "context": "RW01: Handoff Debt",
+   "preview": "## RW01: Handoff Debt"
+  },
+  {
+   "kind": "added",
+   "block": "05c49886",
    "type": "list",
-   "context": "H01: Freeze one harness before varying m"
+   "context": "RW01: Handoff Debt",
+   "preview": "- **Type**: baseline and boundary.\n- **Source**: https://arx"
+  },
+  {
+   "kind": "added",
+   "block": "f38a0111",
+   "type": "heading",
+   "context": "RW02: AgentAsk",
+   "preview": "## RW02: AgentAsk"
+  },
+  {
+   "kind": "added",
+   "block": "52e9607e",
+   "type": "list",
+   "context": "RW02: AgentAsk",
+   "preview": "- **Type**: failure taxonomy.\n- **Source**: https://aclantho"
+  },
+  {
+   "kind": "added",
+   "block": "897cf011",
+   "type": "heading",
+   "context": "RW03: W3C PROV",
+   "preview": "## RW03: W3C PROV"
+  },
+  {
+   "kind": "added",
+   "block": "019a1aaf",
+   "type": "list",
+   "context": "RW03: W3C PROV",
+   "preview": "- **Type**: imported provenance model.\n- **Source**: https:/"
+  },
+  {
+   "kind": "added",
+   "block": "47987ae5",
+   "type": "heading",
+   "context": "RW04: Software consume-time verification",
+   "preview": "## RW04: Software consume-time verification"
+  },
+  {
+   "kind": "added",
+   "block": "a030095a",
+   "type": "list",
+   "context": "RW04: Software consume-time verification",
+   "preview": "- **Type**: mechanism precedent.\n- **Source**: in-toto, TUF,"
+  },
+  {
+   "kind": "added",
+   "block": "0ef2f001",
+   "type": "heading",
+   "context": "RW05: Portable and provenance-aware agen",
+   "preview": "## RW05: Portable and provenance-aware agent memory"
+  },
+  {
+   "kind": "added",
+   "block": "1db27cf6",
+   "type": "list",
+   "context": "RW05: Portable and provenance-aware agen",
+   "preview": "- **Type**: closest agent-system precedent.\n- **Source**: Po"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:a07298ac942a5e6247bcd5835506e4dfa79acc5d8626ff93fb86d2415ab863bf",
+ "soft_fingerprint": "ppsb1:d2d5d28225f291bb2a98fe3fe16c7eeeadcfe03499ce0dee869a9eb1405167fb",
  "actors": {
   "requested_by": [
    "Richard Tang"
@@ -41,13 +105,58 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "d67744d7",
-   "kind": "modified",
-   "note": "Adds explicit operating bounds to the protocol heuristics."
+   "block": "d9502ea1",
+   "kind": "added",
+   "note": "Adds a structured related-work entry for agent handoff."
+  },
+  {
+   "block": "05c49886",
+   "kind": "added",
+   "note": "Records its contribution and Proofpress delta."
+  },
+  {
+   "block": "f38a0111",
+   "kind": "added",
+   "note": "Adds a structured related-work entry for context engineering."
+  },
+  {
+   "block": "52e9607e",
+   "kind": "added",
+   "note": "Records its contribution and Proofpress delta."
+  },
+  {
+   "block": "897cf011",
+   "kind": "added",
+   "note": "Adds a structured related-work entry for stale knowledge."
+  },
+  {
+   "block": "019a1aaf",
+   "kind": "added",
+   "note": "Records its contribution and Proofpress delta."
+  },
+  {
+   "block": "47987ae5",
+   "kind": "added",
+   "note": "Adds a structured related-work entry for provenance."
+  },
+  {
+   "block": "a030095a",
+   "kind": "added",
+   "note": "Records its contribution and Proofpress delta."
+  },
+  {
+   "block": "0ef2f001",
+   "kind": "added",
+   "note": "Adds a structured related-work entry for research artifacts."
+  },
+  {
+   "block": "1db27cf6",
+   "kind": "added",
+   "note": "Records its contribution and Proofpress delta."
   }
  ],
  "context": {
-  "why": "Bound the operational heuristics"
+  "why": "Represent related work as typed ARA dependencies"
  },
- "event_id": "ppe_61f2200cacb66a8cd8efad26"
+ "event_id": "ppe_6c7fa7f4b859b1da5fcbc6fe"
 }
