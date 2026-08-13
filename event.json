@@ -1,53 +1,619 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/docs/KNOWLEDGE_HANDOFF_EARLY_RESULTS.md",
- "artifact_id": "pp_7c6f8a471ae2d0fc7121a5cb",
- "version": "81a65d86",
- "parent": "6a85623a",
+ "artifact": "rit-hub-demo/DECISIONS.md",
+ "artifact_id": "pp_4d20cb5ec74e9b6747d4cc3e",
+ "version": "6d9ce017",
+ "parent": null,
  "author": {
-  "name": "unknown",
-  "kind": "human",
+  "name": "orchestrator",
+  "kind": "agent",
   "session": null
  },
  "note": null,
- "ts": "2026-08-13T03:09:22+00:00",
+ "ts": "2026-08-13T03:49:01+00:00",
  "stats": {
-  "modified": 1
+  "added": 84
  },
  "changes": [
   {
-   "kind": "modified",
-   "block": "ceab1002",
+   "kind": "added",
+   "block": "830b2b69",
+   "type": "heading",
+   "context": "RIT Hub Demo — Decisions & Contract",
+   "preview": "# RIT Hub Demo — Decisions & Contract"
+  },
+  {
+   "kind": "added",
+   "block": "2ce0b989",
    "type": "para",
-   "context": "When an AI agent inherits yesterday's wo"
+   "context": "RIT Hub Demo — Decisions & Contract",
+   "preview": "**这份文档是唯一契约。** 所有 worker 并行开工时只依据本文档，彼此不通信。\n要改需求，改这份文档，然后重新下"
+  },
+  {
+   "kind": "added",
+   "block": "51d916db",
+   "type": "list",
+   "context": "RIT Hub Demo — Decisions & Contract",
+   "preview": "- Owner: orchestrator（本文档只由 orchestrator 修改，worker 不得编辑）\n- 受"
+  },
+  {
+   "kind": "added",
+   "block": "e312a32b",
+   "type": "para",
+   "context": "RIT Hub Demo — Decisions & Contract",
+   "preview": "---"
+  },
+  {
+   "kind": "added",
+   "block": "b55737a2",
+   "type": "heading",
+   "context": "0. 一句话目标",
+   "preview": "## 0. 一句话目标"
+  },
+  {
+   "kind": "added",
+   "block": "8160dafa",
+   "type": "para",
+   "context": "0. 一句话目标",
+   "preview": "把 ARA 论文和 RIT 论文里**已经形式化定义、但从来没有被画出来**的那个对象——\nClaim Flow Gra"
+  },
+  {
+   "kind": "added",
+   "block": "d95ac352",
+   "type": "para",
+   "context": "0. 一句话目标",
+   "preview": "不是做新产品，是把两篇论文可视化。这个定位对投资人更强：证明底下有真东西。"
+  },
+  {
+   "kind": "added",
+   "block": "2aba4b6d",
+   "type": "para",
+   "context": "0. 一句话目标",
+   "preview": "---"
+  },
+  {
+   "kind": "added",
+   "block": "6f22bdce",
+   "type": "heading",
+   "context": "1. 本轮明确不做的事",
+   "preview": "## 1. 本轮明确不做的事"
+  },
+  {
+   "kind": "added",
+   "block": "25f09126",
+   "type": "table",
+   "context": "1. 本轮明确不做的事",
+   "preview": "| 不做 | 原因 |\n|---|---|\n| ARA Seal L1–L4 与 RIT tier L1/L2/L3 的"
+  },
+  {
+   "kind": "added",
+   "block": "af15c0be",
+   "type": "para",
+   "context": "1. 本轮明确不做的事",
+   "preview": "---"
+  },
+  {
+   "kind": "added",
+   "block": "a6d9dfda",
+   "type": "heading",
+   "context": "2. 核心叙事：三层挂一个 node",
+   "preview": "## 2. 核心叙事：三层挂一个 node"
+  },
+  {
+   "kind": "added",
+   "block": "21a2f312",
+   "type": "para",
+   "context": "2. 核心叙事：三层挂一个 node",
+   "preview": "Demo 唯一的智力贡献 —— 把两张目前分离的图合成一张："
+  },
+  {
+   "kind": "added",
+   "block": "adf0ae42",
+   "type": "list",
+   "context": "2. 核心叙事：三层挂一个 node",
+   "preview": "- **RIT 的 Claim Flow Graph 里没有 dead end。** 被 gate 拒掉的 commit"
+  },
+  {
+   "kind": "added",
+   "block": "a2118603",
+   "type": "para",
+   "context": "2. 核心叙事：三层挂一个 node",
+   "preview": "合并后，一个节点同时挂三层："
+  },
+  {
+   "kind": "added",
+   "block": "0659526c",
+   "type": "code",
+   "context": "2. 核心叙事：三层挂一个 node",
+   "preview": "```\nnode\n├── verification（RIT）    status · grounding tier · "
+  },
+  {
+   "kind": "added",
+   "block": "b9e2f874",
+   "type": "para",
+   "context": "2. 核心叙事：三层挂一个 node",
+   "preview": "UI 上这三层必须视觉可分辨（见 §6 drawer 的三段式）。"
+  },
+  {
+   "kind": "added",
+   "block": "fb6f06b6",
+   "type": "para",
+   "context": "2. 核心叙事：三层挂一个 node",
+   "preview": "---"
+  },
+  {
+   "kind": "added",
+   "block": "76776e23",
+   "type": "heading",
+   "context": "3. 技术决策（不可协商）",
+   "preview": "## 3. 技术决策（不可协商）"
+  },
+  {
+   "kind": "added",
+   "block": "c2f8f6e2",
+   "type": "table",
+   "context": "3. 技术决策（不可协商）",
+   "preview": "| 项 | 决定 |\n|---|---|\n| 构建 | **无构建步骤。** 不装 npm 包，不写 package.j"
+  },
+  {
+   "kind": "added",
+   "block": "c6a6aa46",
+   "type": "para",
+   "context": "3. 技术决策（不可协商）",
+   "preview": "理由：四个 worker 在各自 git worktree 里并行，任何共享配置文件都是冲突源。"
+  },
+  {
+   "kind": "added",
+   "block": "b1eed91a",
+   "type": "para",
+   "context": "3. 技术决策（不可协商）",
+   "preview": "---"
+  },
+  {
+   "kind": "added",
+   "block": "6211b225",
+   "type": "heading",
+   "context": "4. 文件归属（硬边界，越界即冲突）",
+   "preview": "## 4. 文件归属（硬边界，越界即冲突）"
+  },
+  {
+   "kind": "added",
+   "block": "214678db",
+   "type": "para",
+   "context": "4. 文件归属（硬边界，越界即冲突）",
+   "preview": "所有文件在仓库的 `rit-hub-demo/` 下。**每个 worker 只创建和修改自己名下的文件。**"
+  },
+  {
+   "kind": "added",
+   "block": "dc74bef4",
+   "type": "code",
+   "context": "4. 文件归属（硬边界，越界即冲突）",
+   "preview": "```\nrit-hub-demo/\n  DECISIONS.md              ← orchestrator"
+  },
+  {
+   "kind": "added",
+   "block": "a57bc43c",
+   "type": "para",
+   "context": "4. 文件归属（硬边界，越界即冲突）",
+   "preview": "W3 / W4 的 harness 页面自带 3–4 个内联假节点，**不依赖 W1 交付**，保证真并行。"
+  },
+  {
+   "kind": "added",
+   "block": "5c758393",
+   "type": "para",
+   "context": "4. 文件归属（硬边界，越界即冲突）",
+   "preview": "---"
+  },
+  {
+   "kind": "added",
+   "block": "764e2a7f",
+   "type": "heading",
+   "context": "5. 数据契约（Schema v1）",
+   "preview": "## 5. 数据契约（Schema v1）"
+  },
+  {
+   "kind": "added",
+   "block": "769ecab7",
+   "type": "para",
+   "context": "5. 数据契约（Schema v1）",
+   "preview": "`data/*.js` 必须导出如下结构。W2/W3/W4 按此结构编码，不等 W1。"
+  },
+  {
+   "kind": "added",
+   "block": "42970cd8",
+   "type": "code",
+   "context": "5. 数据契约（Schema v1）",
+   "preview": "```js\nexport const ledger = {\n  id: \"ftrl-2025\",\n  title: \"…"
+  },
+  {
+   "kind": "added",
+   "block": "a1a6c3c2",
+   "type": "para",
+   "context": "5. 数据契约（Schema v1）",
+   "preview": "**字段可选性**：`empirical` / `analytical` 都可以是空数组（一条 claim 可能只有其中"
+  },
+  {
+   "kind": "added",
+   "block": "3f27c6c8",
+   "type": "para",
+   "context": "5. 数据契约（Schema v1）",
+   "preview": "---"
+  },
+  {
+   "kind": "added",
+   "block": "5a93b1bd",
+   "type": "heading",
+   "context": "6. 屏幕设计",
+   "preview": "## 6. 屏幕设计"
+  },
+  {
+   "kind": "added",
+   "block": "e1190c1e",
+   "type": "para",
+   "context": "6. 屏幕设计",
+   "preview": "顶栏：产品名 `rit hub` + 两个数据集 tab：**`Paper`** / **`My Research`**"
+  },
+  {
+   "kind": "added",
+   "block": "790bc003",
+   "type": "heading",
+   "context": "6.1 主屏 — Ledger",
+   "preview": "### 6.1 主屏 — Ledger"
+  },
+  {
+   "kind": "added",
+   "block": "a34ac172",
+   "type": "para",
+   "context": "6.1 主屏 — Ledger",
+   "preview": "从上到下："
+  },
+  {
+   "kind": "added",
+   "block": "b2619c4c",
+   "type": "list",
+   "context": "6.1 主屏 — Ledger",
+   "preview": "1. **标题区**：ledger.title + subtitle + `source.ref`\n2. **三个大数字"
+  },
+  {
+   "kind": "added",
+   "block": "67d3f2b0",
+   "type": "para",
+   "context": "6.1 主屏 — Ledger",
+   "preview": "   `SETTLED 9` · `OPEN 18` · `REJECTED 2`\n   颜色分别 ok / open "
+  },
+  {
+   "kind": "added",
+   "block": "a6e2882b",
+   "type": "list",
+   "context": "6.1 主屏 — Ledger",
+   "preview": "3. **Spotlight callout**：一条醒目横幅，引用 `ledger.spotlight.message"
+  },
+  {
+   "kind": "added",
+   "block": "049b03a1",
+   "type": "para",
+   "context": "6.1 主屏 — Ledger",
+   "preview": "   这是那张截图的主体，不能做得不起眼。"
+  },
+  {
+   "kind": "added",
+   "block": "309bb56a",
+   "type": "list",
+   "context": "6.1 主屏 — Ledger",
+   "preview": "4. **Ledger 表格**：列依次为"
+  },
+  {
+   "kind": "added",
+   "block": "7f53ba65",
+   "type": "para",
+   "context": "6.1 主屏 — Ledger",
+   "preview": "   `ID` · `Claim` · `Status` · `Tier` · `Evidence` · `Depend"
+  },
+  {
+   "kind": "added",
+   "block": "0199091a",
+   "type": "list",
+   "context": "6.1 主屏 — Ledger",
+   "preview": "   - Status 用彩色 pill\n   - Tier 用等宽小标签（T0/T1/L1/L2/L3/K），T0/T"
+  },
+  {
+   "kind": "added",
+   "block": "96d0422d",
+   "type": "heading",
+   "context": "6.2 Claim Drawer（右侧抽屉）— 这是最重要的一屏",
+   "preview": "### 6.2 Claim Drawer（右侧抽屉）— 这是最重要的一屏"
+  },
+  {
+   "kind": "added",
+   "block": "f311cec9",
+   "type": "para",
+   "context": "6.2 Claim Drawer（右侧抽屉）— 这是最重要的一屏",
+   "preview": "宽度约 640px，从右滑入，Esc / 点遮罩关闭。内容自上而下："
+  },
+  {
+   "kind": "added",
+   "block": "9e3d43b4",
+   "type": "list",
+   "context": "6.2 Claim Drawer（右侧抽屉）— 这是最重要的一屏",
+   "preview": "1. **头部**：node.id + status pill + tier + kind badge + proven"
+  },
+  {
+   "kind": "added",
+   "block": "f28a23f7",
+   "type": "table",
+   "context": "6.2 Claim Drawer（右侧抽屉）— 这是最重要的一屏",
+   "preview": "   | 左栏 `EMPIRICAL — re-extraction` | 右栏 `ANALYTICAL — Lean "
+  },
+  {
+   "kind": "added",
+   "block": "3427e66f",
+   "type": "para",
+   "context": "6.2 Claim Drawer（右侧抽屉）— 这是最重要的一屏",
+   "preview": "   两栏之间画一条竖分隔线，顶上一行小字：`Hume's fork — every claim splits, eac"
+  },
+  {
+   "kind": "added",
+   "block": "a6ddbda4",
+   "type": "list",
+   "context": "6.2 Claim Drawer（右侧抽屉）— 这是最重要的一屏",
+   "preview": "4. **verdict 条**：一行大字给出最终 status，附 admission.why\n5. **三层元数据段"
+  },
+  {
+   "kind": "added",
+   "block": "967a0e85",
+   "type": "heading",
+   "context": "6.3 Graph 视图",
+   "preview": "### 6.3 Graph 视图"
+  },
+  {
+   "kind": "added",
+   "block": "c5f9b735",
+   "type": "para",
+   "context": "6.3 Graph 视图",
+   "preview": "同屏可切换（ledger 表格 / 图）。手写 SVG DAG："
+  },
+  {
+   "kind": "added",
+   "block": "c1726a4a",
+   "type": "list",
+   "context": "6.3 Graph 视图",
+   "preview": "- 节点按 `depends_on` 分层（简单的 longest-path layering + 同层水平排开即可，不"
+  },
+  {
+   "kind": "added",
+   "block": "fc1b94aa",
+   "type": "para",
+   "context": "6.3 Graph 视图",
+   "preview": "**这一屏的说服力在于：dead_end 节点和 settled claim 出现在同一张图上。** 这是 §2 说的合"
+  },
+  {
+   "kind": "added",
+   "block": "2c86f9cd",
+   "type": "heading",
+   "context": "6.4 `My Research` tab",
+   "preview": "### 6.4 `My Research` tab"
+  },
+  {
+   "kind": "added",
+   "block": "2bb99788",
+   "type": "para",
+   "context": "6.4 `My Research` tab",
+   "preview": "同样的三屏，数据换成团队自己的 ARA artifact。这个 tab 的重心在 dead_end：\n表格默认 filt"
+  },
+  {
+   "kind": "added",
+   "block": "bd3d65ba",
+   "type": "para",
+   "context": "6.4 `My Research` tab",
+   "preview": "---"
+  },
+  {
+   "kind": "added",
+   "block": "a85a95d5",
+   "type": "heading",
+   "context": "7. 组件接口（跨 worker 的唯一 API）",
+   "preview": "## 7. 组件接口（跨 worker 的唯一 API）"
+  },
+  {
+   "kind": "added",
+   "block": "952aa806",
+   "type": "para",
+   "context": "7. 组件接口（跨 worker 的唯一 API）",
+   "preview": "`js/drawer.js`（W3 提供）必须导出："
+  },
+  {
+   "kind": "added",
+   "block": "83dc936d",
+   "type": "code",
+   "context": "7. 组件接口（跨 worker 的唯一 API）",
+   "preview": "```js\nexport function openDrawer(node, ledger, { onNavigate "
+  },
+  {
+   "kind": "added",
+   "block": "2ff7e4b8",
+   "type": "para",
+   "context": "7. 组件接口（跨 worker 的唯一 API）",
+   "preview": "`js/graph.js`（W4 提供）必须导出："
+  },
+  {
+   "kind": "added",
+   "block": "fbbbe12d",
+   "type": "code",
+   "context": "7. 组件接口（跨 worker 的唯一 API）",
+   "preview": "```js\nexport function renderGraph(container, ledger, { onSel"
+  },
+  {
+   "kind": "added",
+   "block": "9750c47a",
+   "type": "para",
+   "context": "7. 组件接口（跨 worker 的唯一 API）",
+   "preview": "W2 在 `js/app.js` 里 import 这两个模块并接线。W3/W4 不 import 对方，也不 impo"
+  },
+  {
+   "kind": "added",
+   "block": "006eec30",
+   "type": "para",
+   "context": "7. 组件接口（跨 worker 的唯一 API）",
+   "preview": "---"
+  },
+  {
+   "kind": "added",
+   "block": "7de15d89",
+   "type": "heading",
+   "context": "8. 设计 token（W2 写进 `css/tokens.css`，W3/W4",
+   "preview": "## 8. 设计 token（W2 写进 `css/tokens.css`，W3/W4 直接使用这些名字）"
+  },
+  {
+   "kind": "added",
+   "block": "74d110a0",
+   "type": "para",
+   "context": "8. 设计 token（W2 写进 `css/tokens.css`，W3/W4",
+   "preview": "W3/W4 在自己的 CSS 里**只能引用下列变量名**，不得硬编码颜色。"
+  },
+  {
+   "kind": "added",
+   "block": "b5c0e866",
+   "type": "code",
+   "context": "8. 设计 token（W2 写进 `css/tokens.css`，W3/W4",
+   "preview": "```\n--bg              页面底\n--bg-raised       卡片 / drawer 面\n--"
+  },
+  {
+   "kind": "added",
+   "block": "12a5e1e6",
+   "type": "para",
+   "context": "8. 设计 token（W2 写进 `css/tokens.css`，W3/W4",
+   "preview": "深色底。整体调性：终端 / 账本 / 内核，不要 SaaS 渐变紫，不要圆润卡通。\n等宽字体承担大量信息（hash、re"
+  },
+  {
+   "kind": "added",
+   "block": "411344e7",
+   "type": "para",
+   "context": "8. 设计 token（W2 写进 `css/tokens.css`，W3/W4",
+   "preview": "---"
+  },
+  {
+   "kind": "added",
+   "block": "54e0de19",
+   "type": "heading",
+   "context": "9. 数据诚实性要求（硬性，不可省略）",
+   "preview": "## 9. 数据诚实性要求（硬性，不可省略）"
+  },
+  {
+   "kind": "added",
+   "block": "3951af0d",
+   "type": "para",
+   "context": "9. 数据诚实性要求（硬性，不可省略）",
+   "preview": "受众是投资人，而这个产品本身攻击的就是\"看起来可信但没被核过\"的东西。\n**Demo 自身不能犯它要解决的错误。**"
+  },
+  {
+   "kind": "added",
+   "block": "a1bc1c0d",
+   "type": "list",
+   "context": "9. 数据诚实性要求（硬性，不可省略）",
+   "preview": "- `data/SOURCES.md` 必须逐条标注每个数字的出处：来自论文哪一节 / 哪张表，还是为凑齐视图生成的示例"
+  },
+  {
+   "kind": "added",
+   "block": "4d77729e",
+   "type": "para",
+   "context": "9. 数据诚实性要求（硬性，不可省略）",
+   "preview": "  `Fixture data · claim counts and the spotlight case from R"
+  },
+  {
+   "kind": "added",
+   "block": "43201ab4",
+   "type": "list",
+   "context": "9. 数据诚实性要求（硬性，不可省略）",
+   "preview": "- 任何**论文里没有的具体数字**，不得看起来像是论文结论。宁可用明显是示例的值。\n- 来自 RIT §7.4 的那个"
+  },
+  {
+   "kind": "added",
+   "block": "66547a66",
+   "type": "para",
+   "context": "9. 数据诚实性要求（硬性，不可省略）",
+   "preview": "这一行页脚同时是产品理念的演示 —— ledger line 永远跟着 artifact 走。"
+  },
+  {
+   "kind": "added",
+   "block": "7754b752",
+   "type": "para",
+   "context": "9. 数据诚实性要求（硬性，不可省略）",
+   "preview": "---"
+  },
+  {
+   "kind": "added",
+   "block": "fa7da809",
+   "type": "heading",
+   "context": "10. 本文档自身的 decision trail",
+   "preview": "## 10. 本文档自身的 decision trail"
+  },
+  {
+   "kind": "added",
+   "block": "bd3bb646",
+   "type": "para",
+   "context": "10. 本文档自身的 decision trail",
+   "preview": "**这份文档由 Proofpress 管理。** 它是这个 demo 唯一的需求来源，所以它自己的修改历史\n必须可核验 "
+  },
+  {
+   "kind": "added",
+   "block": "9c19dec9",
+   "type": "code",
+   "context": "10. 本文档自身的 decision trail",
+   "preview": "```sh\npython3 proofpress.py policy rit-hub-demo/DECISIONS.md"
+  },
+  {
+   "kind": "added",
+   "block": "53c76b40",
+   "type": "para",
+   "context": "10. 本文档自身的 decision trail",
+   "preview": "规则："
+  },
+  {
+   "kind": "added",
+   "block": "3b0858e2",
+   "type": "list",
+   "context": "10. 本文档自身的 decision trail",
+   "preview": "- 需求变更**只改本文档**，不在 worker 对话里口头改。口头说的不算数。\n- 每次改动必须跟一次 `snaps"
+  },
+  {
+   "kind": "added",
+   "block": "f39bde4f",
+   "type": "para",
+   "context": "10. 本文档自身的 decision trail",
+   "preview": "这样这份 spec 自己就是一个小号的 Claim Flow Graph：决策、理由、被放弃的分支，\n全都留在 arti"
+  },
+  {
+   "kind": "added",
+   "block": "3cf4ff03",
+   "type": "para",
+   "context": "10. 本文档自身的 decision trail",
+   "preview": "---"
+  },
+  {
+   "kind": "added",
+   "block": "1f2e76bf",
+   "type": "heading",
+   "context": "11. 验收标准",
+   "preview": "## 11. 验收标准"
+  },
+  {
+   "kind": "added",
+   "block": "81d06d0c",
+   "type": "list",
+   "context": "11. 验收标准",
+   "preview": "1. 双击 `index.html` 用 Chrome 打开就能跑（`file://`，无需服务器）\n2. 两个 tab"
   }
  ],
  "policy": "local",
- "soft_fingerprint": "ppsb1:737da2a1dc6775f77f620533db582e7533ab523ee16d76a76359866139817030",
+ "soft_fingerprint": "ppsb1:d0d51950f4cb06793df89452c922f6eccf29de972b39feccc2eed07787b3df0c",
  "actors": {
-  "requested_by": [
-   "user"
-  ],
-  "produced_by": [
-   "Codex"
-  ],
-  "edited_by": [
-   "Codex"
-  ],
   "recorded_by": [
-   "Codex"
+   "orchestrator"
   ]
  },
- "attribution_basis": "environment_attested",
- "claims": [
-  {
-   "block": "ceab1002",
-   "kind": "modified",
-   "note": "Clarifies that Knowledge Handoff is a sub-study and links the comprehensive all-local synthesis."
-  }
- ],
+ "attribution_basis": "self_asserted",
  "context": {
-  "why": "Clarify that Knowledge Handoff is a sub-study and point readers to the complete local experiment synthesis."
+  "why": "这份文档是 rit-hub-demo 的唯一需求来源：四个 worker 在各自 git worktree 里并行开工、彼此不通信，交付物能否互相咬合，完全取决于他们读到的是同一份、且未被口头改动过的 spec。因此本文档自身的修改历史必须可核验——否则我们就是在用一份没有 provenance 的需求文档，去做一个讲 provenance 的产品。本次为初始基线（v1，2026-08-12），把当前全文固定为后续所有需求变更的比对起点，不含任何内容改动。"
  },
- "event_id": "ppe_dd1bb14432abf2f2dd3b6090"
+ "event_id": "ppe_2b3a3f4850ba1fe92d638384"
 }
