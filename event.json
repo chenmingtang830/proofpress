@@ -1,93 +1,29 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/ara/logic/experiments.md",
- "artifact_id": "pp_15fb7a0bcf0891f7cee01068",
- "version": "e8af86f6",
- "parent": "74b67f26",
+ "artifact": "experiments/provenance_handoff/ara/logic/solution/heuristics.md",
+ "artifact_id": "pp_9c316ffb73a7828c62317cdb",
+ "version": "fc505d38",
+ "parent": "6ac58f75",
  "author": {
   "name": "codex",
   "kind": "agent",
   "session": null
  },
  "note": null,
- "ts": "2026-08-13T10:03:41+00:00",
+ "ts": "2026-08-13T10:03:53+00:00",
  "stats": {
-  "added": 10
+  "modified": 1
  },
  "changes": [
   {
-   "kind": "added",
-   "block": "4b3816b6",
-   "type": "heading",
-   "context": "E15: Controlled unchanged-versus-outdate",
-   "preview": "## E15: Controlled unchanged-versus-outdated artifact admiss"
-  },
-  {
-   "kind": "added",
-   "block": "aed82b76",
+   "kind": "modified",
+   "block": "d67744d7",
    "type": "list",
-   "context": "E15: Controlled unchanged-versus-outdate",
-   "preview": "- **Verifies**: C11, C13.\n- **Evidence**: `evidence/tables/d"
-  },
-  {
-   "kind": "added",
-   "block": "721cd932",
-   "type": "heading",
-   "context": "E16: Receiver-model robustness on the fr",
-   "preview": "## E16: Receiver-model robustness on the frozen admission ta"
-  },
-  {
-   "kind": "added",
-   "block": "679c0d38",
-   "type": "list",
-   "context": "E16: Receiver-model robustness on the fr",
-   "preview": "- **Verifies**: C12, C13.\n- **Evidence**: `evidence/cross-mo"
-  },
-  {
-   "kind": "added",
-   "block": "7376cb07",
-   "type": "heading",
-   "context": "E17: Visible-contradiction and selective",
-   "preview": "## E17: Visible-contradiction and selective-recovery boundar"
-  },
-  {
-   "kind": "added",
-   "block": "f0121770",
-   "type": "list",
-   "context": "E17: Visible-contradiction and selective",
-   "preview": "- **Verifies**: C09, C10, C13.\n- **Evidence**: `evidence/kno"
-  },
-  {
-   "kind": "added",
-   "block": "16cf66d3",
-   "type": "heading",
-   "context": "E18: Handoff continuity without artifact",
-   "preview": "## E18: Handoff continuity without artifact change"
-  },
-  {
-   "kind": "added",
-   "block": "0a0c86dd",
-   "type": "list",
-   "context": "E18: Handoff continuity without artifact",
-   "preview": "- **Verifies**: C02, C13.\n- **Evidence**: `evidence/knowledg"
-  },
-  {
-   "kind": "added",
-   "block": "0046f96b",
-   "type": "heading",
-   "context": "E19: Structured related-work scoping rev",
-   "preview": "## E19: Structured related-work scoping review"
-  },
-  {
-   "kind": "added",
-   "block": "4128c6c7",
-   "type": "list",
-   "context": "E19: Structured related-work scoping rev",
-   "preview": "- **Verifies**: C14.\n- **Evidence**: `logic/related_work.md`"
+   "context": "H01: Freeze one harness before varying m"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:eec921d580b94835014c476e1b96bffa2f91a5f3dc30b0a2a05aed6a41753330",
+ "soft_fingerprint": "ppsb1:a07298ac942a5e6247bcd5835506e4dfa79acc5d8626ff93fb86d2415ab863bf",
  "actors": {
   "requested_by": [
    "Richard Tang"
@@ -105,58 +41,13 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "4b3816b6",
-   "kind": "added",
-   "note": "Registers the controlled admission experiment."
-  },
-  {
-   "block": "aed82b76",
-   "kind": "added",
-   "note": "Defines its design and evidence pointers."
-  },
-  {
-   "block": "721cd932",
-   "kind": "added",
-   "note": "Registers receiver-model robustness."
-  },
-  {
-   "block": "679c0d38",
-   "kind": "added",
-   "note": "Defines its design and evidence pointers."
-  },
-  {
-   "block": "7376cb07",
-   "kind": "added",
-   "note": "Registers visible-contradiction recovery."
-  },
-  {
-   "block": "f0121770",
-   "kind": "added",
-   "note": "Defines its design and evidence pointers."
-  },
-  {
-   "block": "16cf66d3",
-   "kind": "added",
-   "note": "Registers continuity testing."
-  },
-  {
-   "block": "0a0c86dd",
-   "kind": "added",
-   "note": "Defines its design and evidence pointers."
-  },
-  {
-   "block": "0046f96b",
-   "kind": "added",
-   "note": "Registers the scoping review."
-  },
-  {
-   "block": "4128c6c7",
-   "kind": "added",
-   "note": "Defines its review method and evidence pointers."
+   "block": "d67744d7",
+   "kind": "modified",
+   "note": "Adds explicit operating bounds to the protocol heuristics."
   }
  ],
  "context": {
-  "why": "Register the public-facing completed experiment families"
+  "why": "Bound the operational heuristics"
  },
- "event_id": "ppe_28db39619bae4171e4dbe21c"
+ "event_id": "ppe_61f2200cacb66a8cd8efad26"
 }
