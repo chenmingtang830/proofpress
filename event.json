@@ -1,29 +1,75 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/ara/evidence/tables/derived_main_results.md",
- "artifact_id": "pp_be637ba6a8dd5eb84262c8bd",
- "version": "65f30d0e",
- "parent": "2d77c719",
+ "artifact": "experiments/provenance_handoff/ara/PAPER.md",
+ "artifact_id": "pp_cb6d0883f4bda071d2137869",
+ "version": "24d49d90",
+ "parent": "70cd4bf5",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-13T12:53:22+00:00",
+ "ts": "2026-08-13T12:57:11+00:00",
  "stats": {
-  "modified": 1
+  "modified": 4,
+  "added": 3
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "4a65ffee",
+   "block": "ba410059",
+   "type": "heading",
+   "context": "4.6 Overhead varied by study, model, and"
+  },
+  {
+   "kind": "modified",
+   "block": "ba41005a",
+   "type": "para",
+   "context": "4.6 Overhead varied by study, model, and",
+   "numbers": [
+    [
+     "144",
+     "6"
+    ]
+   ]
+  },
+  {
+   "kind": "modified",
+   "block": "ba41005b",
    "type": "table",
-   "context": "End-to-end overhead in the three-model c"
+   "context": "4.6 Overhead varied by study, model, and"
+  },
+  {
+   "kind": "modified",
+   "block": "ba41005c",
+   "type": "para",
+   "context": "4.6 Overhead varied by study, model, and"
+  },
+  {
+   "kind": "added",
+   "block": "5e6a26c0",
+   "type": "para",
+   "context": "4.6 Overhead varied by study, model, and",
+   "preview": "The high-effort DeepSeek selective-recovery study used a dif"
+  },
+  {
+   "kind": "added",
+   "block": "aa1f2aee",
+   "type": "table",
+   "context": "4.6 Overhead varied by study, model, and",
+   "preview": "| DeepSeek Track 2 condition | Valid responses | Mean report"
+  },
+  {
+   "kind": "added",
+   "block": "57827d0a",
+   "type": "para",
+   "context": "4.6 Overhead varied by study, model, and",
+   "preview": "The DeepSeek token means do not show an overhead increase in"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:9497a53143cd89da8bd5c8e5189c62f29dced69d7be8376bb695dca20f5eef6d",
+ "soft_fingerprint": "ppsb1:708938bfd3bb3c51163940816e8f727ce554dc11854ea717e7ef516aab05ad90",
  "actors": {
   "requested_by": [
    "Chenming Tang"
@@ -41,13 +87,43 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "4a65ffee",
+   "block": "ba410059",
    "kind": "modified",
-   "note": "Adds the per-model and per-condition overhead breakdown underlying the paper table."
+   "note": "Broadens the overhead section heading to cover study, model, and telemetry differences."
+  },
+  {
+   "block": "ba41005a",
+   "kind": "modified",
+   "note": "Adds the preregistered GPT-5.6 Luna study and explains why only the low-effort follow-up is pooled."
+  },
+  {
+   "block": "ba41005b",
+   "kind": "modified",
+   "note": "Adds high-effort GPT-5.6 Luna ordinary and Proofpress overhead rows alongside the three low-effort follow-up models."
+  },
+  {
+   "block": "ba41005c",
+   "kind": "modified",
+   "note": "Separates Luna overhead ratios from the low-effort follow-up and preserves the end-to-end attribution boundary."
+  },
+  {
+   "block": "5e6a26c0",
+   "kind": "added",
+   "note": "Explains that DeepSeek used a different task and lacked reliable wall-time and cost telemetry."
+  },
+  {
+   "block": "aa1f2aee",
+   "kind": "added",
+   "note": "Reports response-level DeepSeek V0 and V1 token means without treating zero cost fields as free inference."
+  },
+  {
+   "block": "57827d0a",
+   "kind": "added",
+   "note": "States the bounded overhead conclusion across the controlled and selective-recovery studies."
   }
  ],
  "context": {
-  "why": "Expose the per-model overhead values used by the revised paper table."
+  "why": "Complete overhead reporting by adding the GPT-5.6 Luna controlled study and separately disclosing the available and missing DeepSeek telemetry."
  },
- "event_id": "ppe_e93ffec988ab91e38cd87011"
+ "event_id": "ppe_03aef1dce66c9d79dc20ce20"
 }
