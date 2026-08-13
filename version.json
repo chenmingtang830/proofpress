@@ -1,18 +1,24 @@
 {
- "artifact": "experiments/provenance_handoff/ara/src/configs/training.md",
- "artifact_id": "pp_07f4d964ddf20ecf6f1a0739",
+ "artifact": "experiments/provenance_handoff/ara/src/configs/model.md",
+ "artifact_id": "pp_fff303460d0bd5b1b151b7c8",
  "blocks": [
   {
    "type": "heading",
-   "text": "# Training configuration",
-   "id": "945105f9",
-   "hash": "9e45c9efc5d8"
+   "text": "# Receiver-model configuration",
+   "id": "025066dc",
+   "hash": "c504e7fae79b"
   },
   {
    "type": "para",
-   "text": "Not applicable. This work evaluates an artifact-provenance protocol and does not train, fine-tune, or alter the weights of any model. No optimizer, learning rate, training dataset, checkpoint, or training hardware should be inferred.",
-   "id": "80c00192",
-   "hash": "9ba37eff9633"
+   "text": "This is an evaluation configuration, not a trained model specification. Exact requested and resolved model/provider pairs, fallback state, token usage, latency, and provider-reported cost are retained in the machine-readable evidence summaries. Formal comparisons prohibit provider fallback and cross-router retry.",
+   "id": "0477a0a4",
+   "hash": "6c22509fd14c"
+  },
+  {
+   "type": "para",
+   "text": "The main controlled follow-up uses the frozen receiver task with GLM 5.2, Kimi K3, and Qwen 3.8 Max in separately reported model slices. The preregistered comparison uses Luna. These names describe evaluation endpoints rather than model endorsements; Proofpress itself makes no model call.",
+   "id": "ecb75eaf",
+   "hash": "dd60b58e8196"
   }
  ]
 }
