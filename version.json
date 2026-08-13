@@ -1,90 +1,24 @@
 {
- "artifact": "studies/agent-handoff-artifact-provenance/README.md",
- "artifact_id": "pp_3d8c31782858290ae4729c8f",
+ "artifact": "studies/agent-handoff-artifact-provenance/STUDY_CARD.md",
+ "artifact_id": "pp_eaed747359912aef0219e35c",
  "blocks": [
   {
    "type": "heading",
-   "text": "# Proofpress agent-handoff artifact-provenance study",
-   "id": "f7a2ceb1",
-   "hash": "06a865278c73"
-  },
-  {
-   "type": "para",
-   "text": "This public study package reports an early, bounded evaluation of Proofpress as an artifact provenance protocol for agent handoffs.",
-   "id": "8659b65b",
-   "hash": "4a6ea640d18c"
-  },
-  {
-   "type": "heading",
-   "text": "## Main finding",
-   "id": "b79996ba",
-   "hash": "6e91b13a2759"
-  },
-  {
-   "type": "para",
-   "text": "In the preregistered controlled comparison using `openai/gpt-5.6-luna`, ordinary handoff reused work tied to an outdated document in 12/12 trials, while Proofpress-assisted handoff did so in 0/12. Both conditions correctly continued in 12/12 unchanged-document trials. A frozen-protocol follow-up reproduced the same pattern with GLM 5.2, Kimi K3, and Qwen 3.8 Max on the same task.",
-   "id": "958a3798",
-   "hash": "46c97c1b3f3f"
-  },
-  {
-   "type": "para",
-   "text": "This is evidence that the version-binding admission mechanism operated reliably on a purpose-built task. It is not an estimate of real-world failure prevalence, general product efficacy, or agent capability improvement.",
-   "id": "1506d627",
-   "hash": "586e912455de"
-  },
-  {
-   "type": "heading",
-   "text": "## Start here",
-   "id": "c070d792",
-   "hash": "3d5a85805fb0"
+   "text": "# Study card",
+   "id": "fce06d11",
+   "hash": "5e86b9640c8d"
   },
   {
    "type": "list",
-   "text": "- `ara/PAPER.md` — full technical report.\n- `ara/evidence/tables/derived_main_results.md` — compact result and overhead table.\n- `ara/evidence/README.md` — evidence map and qualification rules.\n- `STUDY_CARD.md` — scope, author, models, and release boundary.\n- `RELEASE_MANIFEST.md` — included artifacts and exclusions.",
-   "id": "d8540180",
-   "hash": "9ef940dfcbb8"
+   "text": "- **Title:** Proofpress: An Artifact Provenance Protocol for Agent Handoffs\n- **Author:** Chenming Tang\n- **Affiliation:** Independent Researcher\n- **Correspondence:** tangchenming0830@gmail.com\n- **ORCID:** Pending author registration\n- **Year / package status:** 2026 / release candidate `rc1`\n- **Evidence status:** Completed local evaluation; bounded mechanism evidence\n- **Primary preregistered receiver:** `openai/gpt-5.6-luna`\n- **Primary transport:** OpenRouter\n- **Resolved provider:** OpenAI\n- **Fallback:** Disabled\n- **Frozen-protocol receiver follow-up:** GLM 5.2, Kimi K3, Qwen 3.8 Max\n- **Primary endpoint:** Incorrect continuation with inherited work bound to an outdated artifact\n- **Primary result:** Ordinary handoff 12/12 incorrect continues; Proofpress 0/12; both 12/12 correct continues on unchanged artifacts\n- **Main limitation:** The primary task directly instantiates the mismatch Proofpress was designed to detect and does not establish external generalization\n- **Peer review:** None",
+   "id": "ba7eeaf4",
+   "hash": "b4eb1a3f2c51"
   },
   {
    "type": "para",
-   "text": "The `ara/` directory is the Agent-Native Research Artifact. It contains the current claims, experiment registry, protocol description, evidence summaries, and research trace. Readers do not need ARA tooling to read the Markdown files.",
-   "id": "fad76ddf",
-   "hash": "40d10271cdb3"
-  },
-  {
-   "type": "heading",
-   "text": "## Reproduction boundary",
-   "id": "6d6e6dab",
-   "hash": "a33dbc61c80b"
-  },
-  {
-   "type": "para",
-   "text": "This package makes the paper, aggregate evidence, selected machine summaries, and protocol implementation pointers reviewable. It does not publish credentials, raw prompts, private model outputs, or third-party benchmark material whose redistribution permission has not been confirmed.",
-   "id": "929001df",
-   "hash": "2156c59a74ee"
-  },
-  {
-   "type": "heading",
-   "text": "## Citation",
-   "id": "2f94f2fd",
-   "hash": "bb9b3b2bdf75"
-  },
-  {
-   "type": "para",
-   "text": "Tang, Chenming. 2026. “Proofpress: An Artifact Provenance Protocol for Agent Handoffs.” Technical report, public study package.",
-   "id": "481b9f52",
-   "hash": "0790265784e4"
-  },
-  {
-   "type": "heading",
-   "text": "## Status",
-   "id": "52ac336d",
-   "hash": "e6012e8a29c9"
-  },
-  {
-   "type": "para",
-   "text": "Prepared as release candidate `rc1` for public technical review. Not peer reviewed. The study package should be released at a fixed Git tag before it is cited or announced.",
-   "id": "6ea55a0a",
-   "hash": "b9a111890a3a"
+   "text": "Proofpress verifies identity, integrity, declared lineage, and applicability under the configured policy. It does not verify that a claim is true, legally correct, complete, or authorized outside the recorded admission state.",
+   "id": "d3591a92",
+   "hash": "e5230b7ead67"
   }
  ]
 }

@@ -1,29 +1,29 @@
 {
  "event": "version_created",
- "artifact": "studies/agent-handoff-artifact-provenance/README.md",
- "artifact_id": "pp_3d8c31782858290ae4729c8f",
- "version": "2d9750b6",
- "parent": "e7822386",
+ "artifact": "studies/agent-handoff-artifact-provenance/STUDY_CARD.md",
+ "artifact_id": "pp_eaed747359912aef0219e35c",
+ "version": "fde33e9c",
+ "parent": "df4ebe67",
  "author": {
   "name": "codex",
   "kind": "agent",
   "session": null
  },
  "note": null,
- "ts": "2026-08-13T12:01:43+00:00",
+ "ts": "2026-08-13T12:01:54+00:00",
  "stats": {
   "modified": 1
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "6ea55a0a",
-   "type": "para",
-   "context": "Status"
+   "block": "ba7eeaf4",
+   "type": "list",
+   "context": "Study card"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:625e86ee4df5d8871d0ed6185ccbc687637c457a181ffe2416ee3188c68c1f76",
+ "soft_fingerprint": "ppsb1:99cd12035b275263588b69fb41a257f60bec3b330fbb964ded2ceb7c7f380524",
  "actors": {
   "requested_by": [
    "Chenming Tang"
@@ -41,13 +41,13 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "6ea55a0a",
+   "block": "ba7eeaf4",
    "kind": "modified",
-   "note": "Marks the public study package as release candidate rc1 and retains the fixed-tag gate."
+   "note": "Records the year and rc1 package status in the study metadata."
   }
  ],
  "context": {
-  "why": "Create the human-readable entry point for the public study release candidate"
+  "why": "Record author model and evidence scope for the public study release candidate"
  },
- "event_id": "ppe_7ddf4c9c889226251286cc0d"
+ "event_id": "ppe_61a76ac77956da1db432aa6f"
 }
