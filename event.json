@@ -1,53 +1,123 @@
 {
  "event": "version_created",
- "artifact": "studies/agent-handoff-artifact-provenance/RELEASE_MANIFEST.md",
- "artifact_id": "pp_24d4e0beedeba47c25eda0d7",
- "version": "8d7008c8",
- "parent": "020f5357",
+ "artifact": "rit-hub-demo/DECISIONS.md",
+ "artifact_id": "pp_4d20cb5ec74e9b6747d4cc3e",
+ "version": "4fbd1a87",
+ "parent": "7559812c",
  "author": {
-  "name": "codex",
+  "name": "orchestrator",
   "kind": "agent",
-  "session": null
+  "session": "proofpress-dev-19"
  },
  "note": null,
- "ts": "2026-08-13T12:02:04+00:00",
+ "ts": "2026-08-13T12:08:47+00:00",
  "stats": {
-  "modified": 1
+  "modified": 6,
+  "added": 7
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "21136172",
+   "block": "d194b7d8",
+   "type": "para",
+   "context": "6. 屏幕设计"
+  },
+  {
+   "kind": "modified",
+   "block": "074a930f",
+   "type": "para",
+   "context": "6. 屏幕设计"
+  },
+  {
+   "kind": "modified",
+   "block": "a34ac172",
+   "type": "para",
+   "context": "6.1 Ledger 表格视图"
+  },
+  {
+   "kind": "modified",
+   "block": "2c86f9cd",
    "type": "heading",
-   "context": "Release manifest — candidate `rc1`"
+   "context": "6.4 `My Research` 数据集"
+  },
+  {
+   "kind": "modified",
+   "block": "2bb99788",
+   "type": "para",
+   "context": "6.4 `My Research` 数据集"
+  },
+  {
+   "kind": "added",
+   "block": "0888996e",
+   "type": "heading",
+   "context": "6.7 Evidence 视图（第三个视图 tab，路由 `#/<dataset",
+   "preview": "### 6.7 Evidence 视图（第三个视图 tab，路由 `#/<dataset>/evidence`）"
+  },
+  {
+   "kind": "added",
+   "block": "4c58b696",
+   "type": "para",
+   "context": "6.7 Evidence 视图（第三个视图 tab，路由 `#/<dataset",
+   "preview": "**这一屏回答的问题**：这条 ledger 站在什么证据上。**不是**论文原文的重现——用户口头最初想要的是\"pap"
+  },
+  {
+   "kind": "added",
+   "block": "ad48ce19",
+   "type": "para",
+   "context": "6.7 Evidence 视图（第三个视图 tab，路由 `#/<dataset",
+   "preview": "内容分三组，每一组每一项都能点回引用它的 claim（打开同一个 drawer，和表格行/graph 节点点开的是同一个"
+  },
+  {
+   "kind": "added",
+   "block": "751f8225",
+   "type": "list",
+   "context": "6.7 Evidence 视图（第三个视图 tab，路由 `#/<dataset",
+   "preview": "1. **DELIVERED**——有 `evidence_path` 的证据文件，按文件去重后列。有 `sha256`"
+  },
+  {
+   "kind": "added",
+   "block": "609dd2a4",
+   "type": "para",
+   "context": "6.7 Evidence 视图（第三个视图 tab，路由 `#/<dataset",
+   "preview": "**Paper 数据集的真实规模**（实测自 `data/paper-ftrl.js`，不是占位数字）：10 个已交付证"
+  },
+  {
+   "kind": "added",
+   "block": "dc5002f1",
+   "type": "para",
+   "context": "6.7 Evidence 视图（第三个视图 tab，路由 `#/<dataset",
+   "preview": "My Research 数据集同样跑这一套结构，规模小得多、FORMAL 组当前是空的——这个数据集还没有形式化验证这条"
+  },
+  {
+   "kind": "added",
+   "block": "a703d3a3",
+   "type": "para",
+   "context": "6.7 Evidence 视图（第三个视图 tab，路由 `#/<dataset",
+   "preview": "header（面包屑 + 三个大数字 + spotlight）在这一屏和其余两个视图一样保持不变，见 §6 开头。"
+  },
+  {
+   "kind": "modified",
+   "block": "d74165c7",
+   "type": "list",
+   "context": "11. 验收标准"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:62ec28f650fb55d8b37654e0c73748dbbc1397dad2ea254a82b78a8a08f9dc90",
+ "soft_fingerprint": "ppsb1:16f09abc23c3688cd01e27268001a07c0583ce9a6b763b760aff0fd8696735ba",
  "actors": {
   "requested_by": [
-   "Chenming Tang"
-  ],
-  "produced_by": [
-   "OpenAI Codex"
+   "proofpress-dev-1"
   ],
   "edited_by": [
-   "OpenAI Codex"
+   "design worker (proofpress-dev-19), executing on orchestrator's behalf"
   ],
   "recorded_by": [
-   "OpenAI Codex"
+   "orchestrator"
   ]
  },
  "attribution_basis": "self_asserted",
- "claims": [
-  {
-   "block": "21136172",
-   "kind": "modified",
-   "note": "Names the release manifest as candidate rc1."
-  }
- ],
  "context": {
-  "why": "Record release contents exclusions licensing and gates"
+  "why": "文档追平 rit-integrate 正在同步实现的三处 IA 修正（用户口头批准，方案已定，本次只是把文档写清楚，不是重新设计）：(1) 详情页顶栏的两个数据集 tab 是侧边栏加上来之前的旧 IA 残留，和 Public/My Work 语义重复，改成面包屑 Public/<title> + root hash；(2) title/三个大数字/spotlight 钉死为 Graph/Ledger/Evidence 三视图共用的持久 header，切视图不重渲染，§11.2 验收标准同步改成按货架而不是按 tab 验收；(3) 新增 §6.7 Evidence 视图——不是编造论文原文（那是 §9 明令禁止的造假），而是把 empirical/analytical/unreachable 里已有的证据聚合到 ledger 级别：已交付(带/不带 sha256 区分)、从未交付(强制大白话描述缺什么，不许伪造路径)、theorem/axiom 统计。Paper 数据集实测 10 已交付(9 带 sha256)/21 从未交付/9 theorem/4 组 axioms——10 对 21 这个落差就是 RIT §7.4 的论点本身，目前只埋在 c14 一条 claim 的 drawer 里，这一屏把它升到 ledger 级别可见。"
  },
- "event_id": "ppe_b526b673ed1cc10ff6ca47b1"
+ "event_id": "ppe_7d29fb555936f79f74ba5f47"
 }
