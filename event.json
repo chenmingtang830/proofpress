@@ -1,41 +1,29 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/ara/PAPER.md",
- "artifact_id": "pp_cb6d0883f4bda071d2137869",
- "version": "70cd4bf5",
- "parent": "f888116e",
+ "artifact": "experiments/provenance_handoff/ara/evidence/tables/derived_main_results.md",
+ "artifact_id": "pp_be637ba6a8dd5eb84262c8bd",
+ "version": "65f30d0e",
+ "parent": "2d77c719",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-13T12:53:16+00:00",
+ "ts": "2026-08-13T12:53:22+00:00",
  "stats": {
-  "modified": 3
+  "modified": 1
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "ba41005a",
-   "type": "para",
-   "context": "4.6 The evaluated Proofpress path used m"
-  },
-  {
-   "kind": "modified",
-   "block": "ba41005b",
+   "block": "4a65ffee",
    "type": "table",
-   "context": "4.6 The evaluated Proofpress path used m"
-  },
-  {
-   "kind": "modified",
-   "block": "ba41005c",
-   "type": "para",
-   "context": "4.6 The evaluated Proofpress path used m"
+   "context": "End-to-end overhead in the three-model c"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:3a39a7df6dba9c2597f09be85c94f9ac8720753184926d6df4ba7a7a8eccf77c",
+ "soft_fingerprint": "ppsb1:9497a53143cd89da8bd5c8e5189c62f29dced69d7be8376bb695dca20f5eef6d",
  "actors": {
   "requested_by": [
    "Chenming Tang"
@@ -53,23 +41,13 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "ba41005a",
+   "block": "4a65ffee",
    "kind": "modified",
-   "note": "Explains why overhead is reported separately by receiver model and condition."
-  },
-  {
-   "block": "ba41005b",
-   "kind": "modified",
-   "note": "Breaks token, wall-time, and model-cost means down by GLM 5.2, Kimi K3, and Qwen 3.8 Max within each condition."
-  },
-  {
-   "block": "ba41005c",
-   "kind": "modified",
-   "note": "Reports the observed per-model range of overhead ratios while preserving the end-to-end attribution boundary."
+   "note": "Adds the per-model and per-condition overhead breakdown underlying the paper table."
   }
  ],
  "context": {
-  "why": "Replace pooled-only overhead reporting with a model-by-condition breakdown so model-specific token, latency, and pricing behavior remains visible."
+  "why": "Expose the per-model overhead values used by the revised paper table."
  },
- "event_id": "ppe_a37bb2ac3c5a81daf3811ddf"
+ "event_id": "ppe_e93ffec988ab91e38cd87011"
 }
