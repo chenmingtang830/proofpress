@@ -1,85 +1,29 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/ara/logic/experiments.md",
- "artifact_id": "pp_15fb7a0bcf0891f7cee01068",
- "version": "d147d038",
- "parent": "36d7de3d",
+ "artifact": "experiments/provenance_handoff/ara/logic/claims.md",
+ "artifact_id": "pp_ca8a8ddcc33d3870e9a40bc5",
+ "version": "43487f93",
+ "parent": "b3c6f989",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-13T12:29:14+00:00",
+ "ts": "2026-08-13T12:30:19+00:00",
  "stats": {
-  "modified": 2,
-  "removed": 7
+  "modified": 1
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "4128c6c7",
+   "block": "9c9e5fa7",
    "type": "list",
-   "context": "E19: Structured related-work scoping rev"
-  },
-  {
-   "kind": "modified",
-   "block": "6c430002",
-   "type": "list",
-   "context": "E14: Artifact Travel v4 temporal Proofpr"
-  },
-  {
-   "kind": "removed",
-   "block": "3b7efb89",
-   "type": "para",
-   "context": "",
-   "preview": "  complete, verify, or safely refuse more than the same spar"
-  },
-  {
-   "kind": "removed",
-   "block": "2b1e2b11",
-   "type": "list",
-   "context": "",
-   "preview": "- **Design**: three paired C1/C2 A trajectories; each derive"
-  },
-  {
-   "kind": "removed",
-   "block": "a0d67d10",
-   "type": "para",
-   "context": "",
-   "preview": "  stale superseded, revived rejected, and evidence/binding m"
-  },
-  {
-   "kind": "removed",
-   "block": "5348eeed",
-   "type": "list",
-   "context": "",
-   "preview": "- **Scoring/gate**: score `x/9` and 9/9 only for expected co"
-  },
-  {
-   "kind": "removed",
-   "block": "e8f2c5fe",
-   "type": "para",
-   "context": "",
-   "preview": "  correct refusal has no DOCX denominator. Do not scale abse"
-  },
-  {
-   "kind": "removed",
-   "block": "78089e53",
-   "type": "list",
-   "context": "",
-   "preview": "- **Status**: deterministic CLI Phase 0 is implemented and m"
-  },
-  {
-   "kind": "removed",
-   "block": "a9b0636b",
-   "type": "para",
-   "context": "",
-   "preview": "  a new immutable output root before any separately authoriz"
+   "context": "C14: The contribution is a joint agent-h"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:ca8d67cc7656234c011ad2728155e18fa88e9fc069ea92f4b227cfd6dac520e2",
+ "soft_fingerprint": "ppsb1:2df470f50b334819029734cd50f5a56396de1bd91f39344d4539235c136b5451",
  "actors": {
   "requested_by": [
    "Chenming Tang"
@@ -97,13 +41,13 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "4128c6c7",
+   "block": "9c9e5fa7",
    "kind": "modified",
-   "note": "Makes the public study package an explicit evidence location for the scoping review."
+   "note": "Clarifies that the public package preserves the complete related-work review ledger for inspection."
   }
  ],
  "context": {
-  "why": "Expose the scoping-review evidence location in the public study package and refresh the portable capsule under the release implementation."
+  "why": "Finalize the public scoping-review ledger pointer after migrating the portable capsule to the release parser."
  },
- "event_id": "ppe_5b8b2359cfd6b336596c86a2"
+ "event_id": "ppe_73f036b9d16b72e302b8eaaa"
 }
