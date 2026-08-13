@@ -1,132 +1,60 @@
 {
- "artifact": "experiments/provenance_handoff/ara/logic/problem.md",
- "artifact_id": "pp_ba47077a9e44465b384f3b33",
+ "artifact": "experiments/provenance_handoff/ara/logic/solution/algorithm.md",
+ "artifact_id": "pp_b7b199753c48f08569ba233a",
  "blocks": [
   {
    "type": "heading",
-   "text": "# Problem",
-   "id": "5b4d530f",
-   "hash": "d95279f6caf4"
+   "text": "# Admission decision procedure",
+   "id": "bfcfd57a",
+   "hash": "22b7fc570366"
   },
   {
    "type": "heading",
-   "text": "## Observations",
-   "id": "75d8ff5d",
-   "hash": "428ff1011c81"
+   "text": "## Inputs",
+   "id": "8ab82529",
+   "hash": "f679398c02c4"
+  },
+  {
+   "type": "list",
+   "text": "- A readable handoff containing inherited claims and decisions.\n- A verifiable carrier naming the accepted artifact revision and governing admission state.\n- The artifact revision currently held by the receiver.\n- An affected-claim map when selective recovery is available.",
+   "id": "a92eaa2d",
+   "hash": "35fc638f70d3"
   },
   {
    "type": "heading",
-   "text": "### O1: Agent handoffs preserve work imperfectly",
-   "id": "98d591eb",
-   "hash": "1331c79e38a8"
+   "text": "## Procedure",
+   "id": "93115f81",
+   "hash": "f946dc54b228"
+  },
+  {
+   "type": "list",
+   "text": "1. Verify carrier integrity and declared lineage.\n2. Resolve the accepted artifact revision under the stated admission control.\n3. Compute or verify the identity of the current artifact.\n4. If integrity, lineage, or admission state cannot be established, return `stop/refuse`.\n5. If the current artifact matches the accepted revision, return `proceed`.\n6. If the artifact changed but no inherited claim is affected under the declared map, return `proceed` and record the checked change.\n7. If one or more inherited claims may be affected, return `targeted_revalidate` with those claims as the revalidation scope.",
+   "id": "73212bc1",
+   "hash": "1a4c0e8dd967"
+  },
+  {
+   "type": "heading",
+   "text": "## Safety boundary",
+   "id": "39339de2",
+   "hash": "6d86e84e6879"
   },
   {
    "type": "para",
-   "text": "In multi-stage work, a successor may receive an evidence map, issue register, draft, or summary without knowing which statements are source-backed, which routes were rejected, who accepted a decision, or when it should be reversed. Handoff Debt measures the resulting rediscovery cost in coding-agent takeover, while AgentAsk identifies data gaps, signal corruption, and referential drift at inter-agent message boundaries.",
-   "id": "cf5b74f2",
-   "hash": "6cba5cc3fedc"
+   "text": "The procedure verifies identity, integrity, declared history, and applicability under the configured policy. It does not establish claim truth, legal correctness, the completeness of the affected-claim map, or authorization that was never represented in the admission state.",
+   "id": "fe7cb6f9",
+   "hash": "4eaafb710949"
   },
   {
-   "type": "list",
-   "text": "- **Evidence**: Handoff Debt; AgentAsk; the continuity comparison indexed in `evidence/tables/derived_main_results.md`.\n- **Implication**: Readable context is necessary for continuity, but continuity alone does not establish whether inherited work still applies.",
-   "id": "fcdbd7ed",
-   "hash": "5704b420ddcf"
+   "type": "heading",
+   "text": "## Implementation reference",
+   "id": "f8ab03ad",
+   "hash": "c70b923284fa"
   },
   {
    "type": "para",
-   "text": "Passing complete raw history can restore context but may impose search and context costs. Passing only a final artifact leaves decisions easy to regress or upgrade without authority. The study does not assume that more agents or more versions are automatically beneficial.",
-   "id": "f73aa5b4",
-   "hash": "3a1e21e7f886"
-  },
-  {
-   "type": "heading",
-   "text": "### O2: Artifacts can change independently after handoff state is recorded",
-   "id": "36339a7c",
-   "hash": "192e6666984a"
-  },
-  {
-   "type": "para",
-   "text": "A receiver must decide not only whether prior information can be retrieved, but whether that information is still bound to the artifact currently being used. A semantically plausible handoff can preserve memory while silently referring to a superseded or modified artifact. The evaluated failure is therefore stale admission: reusing accepted state after its recorded artifact identity no longer matches the current artifact.",
-   "id": "f1498f86",
-   "hash": "0b1c9a21adff"
-  },
-  {
-   "type": "list",
-   "text": "- **Evidence**: W3C PROV models document revisions as distinct entities; GitHub can require an out-of-date branch to be updated and retested against the latest base before merge.\n- **Implication**: Work validated against one artifact state cannot automatically be admitted against a later state.",
-   "id": "689aafcb",
-   "hash": "96c18188902e"
-  },
-  {
-   "type": "heading",
-   "text": "### O3: Design-aligned tests establish mechanisms, not prevalence",
-   "id": "eb6d1b42",
-   "hash": "21fd6b14e7b6"
-  },
-  {
-   "type": "para",
-   "text": "Proofpress was designed to verify artifact binding, and the primary stale-binding fixture directly injects a binding mismatch. Complete treatment separation is a strong test that the specified decision rule operates, but it is not an estimate of failure prevalence or benefit on independently authored task distributions. External validity requires fixtures and environments not designed around the treatment's native detection boundary.",
-   "id": "d925bd21",
-   "hash": "300abf68a492"
-  },
-  {
-   "type": "list",
-   "text": "- **Evidence**: The controlled admission and cross-model results indexed in `evidence/tables/derived_main_results.md`; the interpretation boundary in C13.\n- **Implication**: Reliability within the controlled task must be reported separately from generalization.",
-   "id": "c99188ca",
-   "hash": "350d2fc058bb"
-  },
-  {
-   "type": "heading",
-   "text": "## Gaps",
-   "id": "2152be5a",
-   "hash": "de790f5a9cfd"
-  },
-  {
-   "type": "heading",
-   "text": "### G1: Handoff studies usually do not manipulate independent artifact revision",
-   "id": "d7d0911f",
-   "hash": "7fe9dd7a46eb"
-  },
-  {
-   "type": "list",
-   "text": "- **Statement**: Existing handoff work studies context transfer, takeover, communication error, or frozen repository state, but does not directly test whether inherited decisions remain applicable after an external artifact changes.\n- **Caused by**: O1 and O2.\n- **Existing attempts**: Agent memory updating, clarification at handoff, portable memory, and provenance-aware retrieval.\n- **Why they fail**: These mechanisms do not isolate an information-matched receiver decision conditioned on the version of an independently mutable work artifact.",
-   "id": "fba9cc86",
-   "hash": "0121e3db129f"
-  },
-  {
-   "type": "heading",
-   "text": "### G2: Controlled mechanism evidence can be mistaken for product efficacy",
-   "id": "b5da0db8",
-   "hash": "fb7340c03369"
-  },
-  {
-   "type": "list",
-   "text": "- **Statement**: Repetition across receiver models on one purpose-built mismatch does not estimate real-world frequency, task diversity, unnecessary stops, or organizational benefit.\n- **Caused by**: O3.\n- **Existing attempts**: Repeated trials, model robustness checks, and benchmark-derived tasks.\n- **Why they fail**: They improve within-task reliability evidence without creating independent task or deployment samples.",
-   "id": "6853ed72",
-   "hash": "4ec5f8c613f7"
-  },
-  {
-   "type": "heading",
-   "text": "## Key Insight",
-   "id": "8baeebfc",
-   "hash": "4069846227c2"
-  },
-  {
-   "type": "list",
-   "text": "- **Insight**: Agent handoff has two separable requirements: semantic continuity and artifact applicability. A readable handoff carries what the predecessor concluded; a provenance check establishes which artifact revision those conclusions were accepted for.\n- **Derived from**: O1, O2, and O3.\n- **Enables**: An information-matched comparison in which only one receiver can verify the accepted artifact version before deciding to proceed, revalidate affected work, or refuse reuse.",
-   "id": "5f4a1f20",
-   "hash": "f4ce699c3fcd"
-  },
-  {
-   "type": "heading",
-   "text": "## Assumptions",
-   "id": "67dbdd77",
-   "hash": "a548acdf944c"
-  },
-  {
-   "type": "list",
-   "text": "- **A1**: Artifact content can be assigned stable identity under the declared canonicalization rule.\n- **A2**: The accepted-version control is protected by the stated trust policy.\n- **A3**: Ordinary and Proofpress conditions receive equivalent readable handoff semantics.\n- **A4**: Verification establishes identity, integrity, and declared history—not source truth or external authorization.",
-   "id": "dc3b03a3",
-   "hash": "dde725c2cd1d"
+   "text": "The persistent implementation is `proofpress.py`, exposed in this package through `src/execution/proofpress.py`; the link must resolve at the tagged repository revision used for release. Protocol objects and trust assumptions are specified in `architecture.md`.",
+   "id": "dd254c1e",
+   "hash": "63e81103c56f"
   }
  ]
 }
