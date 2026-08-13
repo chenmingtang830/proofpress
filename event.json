@@ -1,240 +1,51 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/ara/logic/solution/architecture.md",
- "artifact_id": "pp_78e9d4dc876608cba9bcbbff",
- "version": "c5697ea7",
- "parent": null,
+ "artifact": "experiments/provenance_handoff/ara/PAPER.md",
+ "artifact_id": "pp_cb6d0883f4bda071d2137869",
+ "version": "fc71b699",
+ "parent": "83f56f31",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-13T08:31:30+00:00",
+ "ts": "2026-08-13T08:52:49+00:00",
  "stats": {
-  "added": 31
+  "added": 1,
+  "modified": 2,
+  "removed": 1
  },
  "changes": [
   {
    "kind": "added",
-   "block": "467804be",
-   "type": "heading",
-   "context": "Proofpress Version-Bound Admission Proto",
-   "preview": "# Proofpress Version-Bound Admission Protocol"
-  },
-  {
-   "kind": "added",
-   "block": "ada2bef0",
-   "type": "heading",
-   "context": "Purpose",
-   "preview": "## Purpose"
-  },
-  {
-   "kind": "added",
-   "block": "fb36d431",
+   "block": "5e0eb4aa",
    "type": "para",
-   "context": "Purpose",
-   "preview": "The Proofpress Version-Bound Admission Protocol (VBAP) gover"
+   "context": "(文首)",
+   "preview": "abstract: \"AI agents increasingly inherit work whose underly"
   },
   {
-   "kind": "added",
-   "block": "150568d9",
-   "type": "heading",
-   "context": "Roles",
-   "preview": "## Roles"
-  },
-  {
-   "kind": "added",
-   "block": "33bf169a",
-   "type": "heading",
-   "context": "Originating agent",
-   "preview": "### Originating agent"
-  },
-  {
-   "kind": "added",
-   "block": "43948670",
+   "kind": "modified",
+   "block": "ba410007",
    "type": "para",
-   "context": "Originating agent",
-   "preview": "Produces or accepts a knowledge artifact, records the claims"
+   "context": "Abstract"
   },
   {
-   "kind": "added",
-   "block": "c46e951c",
-   "type": "heading",
-   "context": "Receiving agent",
-   "preview": "### Receiving agent"
-  },
-  {
-   "kind": "added",
-   "block": "cdf8b4ce",
+   "kind": "modified",
+   "block": "ba410008",
    "type": "para",
-   "context": "Receiving agent",
-   "preview": "Receives the artifact, readable handoff, and carrier; verifi"
+   "context": "Abstract"
   },
   {
-   "kind": "added",
-   "block": "577af53f",
-   "type": "heading",
-   "context": "Admission authority",
-   "preview": "### Admission authority"
-  },
-  {
-   "kind": "added",
-   "block": "6f2a9e85",
+   "kind": "removed",
+   "block": "28b52783",
    "type": "para",
-   "context": "Admission authority",
-   "preview": "Controls which revision is accepted for reuse. This may be a"
-  },
-  {
-   "kind": "added",
-   "block": "ae5dfd8e",
-   "type": "heading",
-   "context": "Protocol objects",
-   "preview": "## Protocol objects"
-  },
-  {
-   "kind": "added",
-   "block": "92c5d29f",
-   "type": "table",
-   "context": "Protocol objects",
-   "preview": "| Object | Purpose | Required relationship |\n|---|---|---|\n|"
-  },
-  {
-   "kind": "added",
-   "block": "1031457e",
-   "type": "heading",
-   "context": "Operations",
-   "preview": "## Operations"
-  },
-  {
-   "kind": "added",
-   "block": "4a36cba2",
-   "type": "heading",
-   "context": "1. Record",
-   "preview": "### 1. Record"
-  },
-  {
-   "kind": "added",
-   "block": "d2c00d33",
-   "type": "para",
-   "context": "1. Record",
-   "preview": "Record the accepted artifact revision, declared claims and d"
-  },
-  {
-   "kind": "added",
-   "block": "118efe2a",
-   "type": "heading",
-   "context": "2. Bind",
-   "preview": "### 2. Bind"
-  },
-  {
-   "kind": "added",
-   "block": "53bf7bbc",
-   "type": "para",
-   "context": "2. Bind",
-   "preview": "Bind the accepted knowledge state to immutable artifact iden"
-  },
-  {
-   "kind": "added",
-   "block": "707e95d4",
-   "type": "heading",
-   "context": "3. Transfer",
-   "preview": "### 3. Transfer"
-  },
-  {
-   "kind": "added",
-   "block": "b8099be9",
-   "type": "para",
-   "context": "3. Transfer",
-   "preview": "Transfer both the readable handoff and the verifiable carrie"
-  },
-  {
-   "kind": "added",
-   "block": "d23136b7",
-   "type": "heading",
-   "context": "4. Verify",
-   "preview": "### 4. Verify"
-  },
-  {
-   "kind": "added",
-   "block": "ad206507",
-   "type": "para",
-   "context": "4. Verify",
-   "preview": "Before reuse, verify carrier integrity and lineage, resolve "
-  },
-  {
-   "kind": "added",
-   "block": "dc22da73",
-   "type": "heading",
-   "context": "5. Dispose",
-   "preview": "### 5. Dispose"
-  },
-  {
-   "kind": "added",
-   "block": "3c1d6242",
-   "type": "list",
-   "context": "5. Dispose",
-   "preview": "- `proceed`: the binding holds, or a declared irrelevant cha"
-  },
-  {
-   "kind": "added",
-   "block": "5121f3c0",
-   "type": "heading",
-   "context": "Decision invariant",
-   "preview": "## Decision invariant"
-  },
-  {
-   "kind": "added",
-   "block": "035845ae",
-   "type": "para",
-   "context": "Decision invariant",
-   "preview": "Inherited knowledge must not be treated as admitted solely b"
-  },
-  {
-   "kind": "added",
-   "block": "43b00f4a",
-   "type": "heading",
-   "context": "Trust and threat model",
-   "preview": "## Trust and threat model"
-  },
-  {
-   "kind": "added",
-   "block": "10be2bb8",
-   "type": "para",
-   "context": "Trust and threat model",
-   "preview": "VBAP assumes that the selected content canonicalization is s"
-  },
-  {
-   "kind": "added",
-   "block": "12fee1c4",
-   "type": "heading",
-   "context": "Experimental isolation",
-   "preview": "## Experimental isolation"
-  },
-  {
-   "kind": "added",
-   "block": "461e894a",
-   "type": "para",
-   "context": "Experimental isolation",
-   "preview": "The ordinary and Proofpress conditions receive the same read"
-  },
-  {
-   "kind": "added",
-   "block": "d9da6eaf",
-   "type": "heading",
-   "context": "Implementation mapping",
-   "preview": "## Implementation mapping"
-  },
-  {
-   "kind": "added",
-   "block": "0458bd5a",
-   "type": "para",
-   "context": "Implementation mapping",
-   "preview": "Proofpress's carrier-native workflow maps the protocol to ar"
+   "context": "",
+   "preview": "abstract: \"AI agents increasingly inherit work whose underly"
   }
  ],
- "policy": "local",
- "soft_fingerprint": "ppsb1:26580efba6e6913d45d9855d953a4ba09e0515a01fea455e1a30beea0f4a0674",
+ "policy": "portable",
+ "soft_fingerprint": "ppsb1:f15424f285bd1d392053da76765ea4452bde82c254623071b501314fb22559f2",
  "actors": {
   "requested_by": [
    "user"
@@ -252,163 +63,28 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "467804be",
-   "kind": "added",
-   "note": "Introduces the VBAP architecture artifact."
+   "block": "ba410007",
+   "kind": "modified",
+   "note": "Introduces Proofpress and explains the protocol before describing its evaluation."
   },
   {
-   "block": "ada2bef0",
-   "kind": "added",
-   "note": "Defines protocol purpose."
+   "block": "ba410008",
+   "kind": "modified",
+   "note": "Leads with the multi-harness, multi-model evaluation and strongest admission result, then reports weaker and null findings."
   },
   {
-   "block": "fb36d431",
-   "kind": "added",
-   "note": "Defines protocol roles."
+   "block": "28b52783",
+   "kind": "removed",
+   "note": "Replaces the earlier frontmatter abstract with a protocol-first, evidence-ordered summary."
   },
   {
-   "block": "150568d9",
+   "block": "5e0eb4aa",
    "kind": "added",
-   "note": "Defines the originating-agent role."
-  },
-  {
-   "block": "33bf169a",
-   "kind": "added",
-   "note": "Defines the originating-agent responsibility."
-  },
-  {
-   "block": "43948670",
-   "kind": "added",
-   "note": "Defines the receiving-agent role."
-  },
-  {
-   "block": "c46e951c",
-   "kind": "added",
-   "note": "Defines the receiving-agent responsibility."
-  },
-  {
-   "block": "cdf8b4ce",
-   "kind": "added",
-   "note": "Defines the admission-authority role."
-  },
-  {
-   "block": "577af53f",
-   "kind": "added",
-   "note": "Defines admission-control assumptions."
-  },
-  {
-   "block": "6f2a9e85",
-   "kind": "added",
-   "note": "Introduces protocol objects."
-  },
-  {
-   "block": "ae5dfd8e",
-   "kind": "added",
-   "note": "Enumerates protocol objects and relationships."
-  },
-  {
-   "block": "92c5d29f",
-   "kind": "added",
-   "note": "Introduces protocol operations."
-  },
-  {
-   "block": "1031457e",
-   "kind": "added",
-   "note": "Defines record."
-  },
-  {
-   "block": "4a36cba2",
-   "kind": "added",
-   "note": "Bounds record semantics."
-  },
-  {
-   "block": "d2c00d33",
-   "kind": "added",
-   "note": "Defines bind."
-  },
-  {
-   "block": "118efe2a",
-   "kind": "added",
-   "note": "Separates identity from admission."
-  },
-  {
-   "block": "53bf7bbc",
-   "kind": "added",
-   "note": "Defines transfer."
-  },
-  {
-   "block": "707e95d4",
-   "kind": "added",
-   "note": "Requires semantic and verifiable handoff state."
-  },
-  {
-   "block": "b8099be9",
-   "kind": "added",
-   "note": "Defines verify."
-  },
-  {
-   "block": "d23136b7",
-   "kind": "added",
-   "note": "Defines receiver verification behavior."
-  },
-  {
-   "block": "ad206507",
-   "kind": "added",
-   "note": "Defines dispose."
-  },
-  {
-   "block": "dc22da73",
-   "kind": "added",
-   "note": "Defines protocol dispositions."
-  },
-  {
-   "block": "3c1d6242",
-   "kind": "added",
-   "note": "Introduces the decision invariant."
-  },
-  {
-   "block": "5121f3c0",
-   "kind": "added",
-   "note": "States the admission invariant."
-  },
-  {
-   "block": "035845ae",
-   "kind": "added",
-   "note": "Introduces the trust and threat model."
-  },
-  {
-   "block": "43b00f4a",
-   "kind": "added",
-   "note": "Bounds the protocol threat model."
-  },
-  {
-   "block": "10be2bb8",
-   "kind": "added",
-   "note": "Introduces experimental isolation."
-  },
-  {
-   "block": "12fee1c4",
-   "kind": "added",
-   "note": "Defines the information-matched intervention."
-  },
-  {
-   "block": "461e894a",
-   "kind": "added",
-   "note": "Introduces implementation mapping."
-  },
-  {
-   "block": "d9da6eaf",
-   "kind": "added",
-   "note": "Maps protocol operations to Proofpress workflow."
-  },
-  {
-   "block": "0458bd5a",
-   "kind": "added",
-   "note": "Records Proofpress artifact metadata."
+   "note": "Synchronizes the ARA frontmatter abstract with the revised body abstract."
   }
  ],
  "context": {
-  "why": "Define the Proofpress version-bound admission protocol architecture and trust model."
+  "why": "Reorder the abstract to define Proofpress first, lead with the strongest cross-harness and cross-model admission evidence, and place continuity and broad-quality limits afterward."
  },
- "event_id": "ppe_1b197efc8469d90c4fb418f2"
+ "event_id": "ppe_f8d6e93e6449c485d7138433"
 }
