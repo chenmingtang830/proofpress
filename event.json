@@ -1,38 +1,32 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/ara/logic/experiments.md",
- "artifact_id": "pp_15fb7a0bcf0891f7cee01068",
- "version": "e8ce4eaf",
- "parent": "98baaacb",
+ "artifact": "experiments/provenance_handoff/docs/KNOWLEDGE_HANDOFF_DEBT_PLAN.md",
+ "artifact_id": "pp_2a2e62252d677e3b6e52cce7",
+ "version": "22051f8f",
+ "parent": "faf049dc",
  "author": {
   "name": "codex",
   "kind": "agent",
-  "session": "knowledge-handoff-debt-phase2-primary-deepseek-r1"
+  "session": "knowledge-handoff-early-testing-20260812"
  },
  "note": null,
- "ts": "2026-08-12T15:11:53+00:00",
+ "ts": "2026-08-13T01:49:30+00:00",
  "stats": {
   "modified": 1
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "a5a49edb",
+   "block": "fae739dc",
    "type": "para",
-   "context": "Registered next program: knowledge hando",
-   "numbers": [
-    [
-     "3.8",
-     "0731"
-    ]
-   ]
+   "context": "Research plan — verifiable knowledge han"
   }
  ],
- "policy": "portable",
- "soft_fingerprint": "ppsb1:620a953313259afb144e6191af099e4b582754a50741e96db070b6a8a3c3499d",
+ "policy": "local",
+ "soft_fingerprint": "ppsb1:3be77be30afac67cd02e75473f3f301e4645888ca7e26061c28a1c6e771043e0",
  "actors": {
   "requested_by": [
-   "richardtang"
+   "user"
   ],
   "produced_by": [
    "codex"
@@ -44,16 +38,16 @@
    "codex"
   ]
  },
- "attribution_basis": "self_asserted",
+ "attribution_basis": "harness_attested",
  "claims": [
   {
-   "block": "a5a49edb",
+   "block": "fae739dc",
    "kind": "modified",
-   "note": "Updates the registered primary stack to exact DeepSeek V4 Flash 0731 through DeepInfra-only AI Gateway routing with fallback disabled."
+   "note": "Records user authorization to execute the bounded DeepSeek Track 2 replication and Track 1 early-testing study, while preserving the non-formal claim boundary."
   }
  ],
  "context": {
-  "why": "Align the registered experiment program with the user-authorized DeepSeek V4 Flash 0731 primary route and DeepInfra-only no-fallback policy."
+  "why": "The user authorized bounded public-facing early testing after the diagnostic mechanism result, including Track 1 and the DeepSeek Track 2 replication, with repair and affected-cell rerun discipline."
  },
- "event_id": "ppe_ca2f42db8e8b05773c5087f0"
+ "event_id": "ppe_7711cb775ea17ba2bb979f43"
 }
