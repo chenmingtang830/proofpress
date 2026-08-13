@@ -4,27 +4,27 @@
  "blocks": [
   {
    "type": "para",
-   "text": "---\ntitle: \"Proofpress: A Version-Bound Admission Protocol for Agent Handoffs\"\nauthors: [\"Proofpress Research Team\"]\nyear: 2026\nvenue: \"Technical report\"\ndoi: \"Not assigned\"\nara_version: \"1.0\"\ndomain: \"AI agent provenance and artifact admission\"\nkeywords: [\"AI agents\", \"provenance\", \"agent handoff\", \"artifact versioning\", \"admission control\", \"stale inheritance\", \"knowledge continuity\"]\nclaims_summary:",
+   "text": "---\ntitle: \"Proofpress: An Artifact Provenance Protocol for Agent Handoffs\"\nauthors: [\"Proofpress Research Team\"]\nyear: 2026\nvenue: \"Technical report\"\ndoi: \"Not assigned\"\nara_version: \"1.0\"\ndomain: \"AI agent provenance and reliable handoff\"\nkeywords: [\"AI agents\", \"artifact provenance\", \"agent handoff\", \"artifact versioning\", \"knowledge reuse\", \"stale information\", \"workflow continuity\"]\nclaims_summary:",
    "id": "3de79e34",
-   "hash": "08e2e30848cd"
+   "hash": "e03125127a72"
   },
   {
    "type": "list",
-   "text": "  - \"Readable handoffs reduce rediscovery, but do not establish that inherited work still applies to the current artifact revision.\"\n  - \"Version-bound admission separated clean continuation from stale-artifact continuation in the tested mechanism-aligned fixtures.\"\n  - \"The present evidence supports a bounded protocol-mechanism claim, not a general product-efficacy claim.\"",
-   "id": "109f499a",
-   "hash": "5150480536d0"
+   "text": "  - \"Readable handoffs reduce rediscovery, but do not establish that inherited work still applies to the current artifact revision.\"\n  - \"Artifact-version checks prevented reuse of work tied to an outdated document in the strongest controlled study.\"\n  - \"The present evidence supports a bounded protocol-mechanism claim, not a general product-efficacy claim.\"",
+   "id": "5f7d290a",
+   "hash": "ca421b2796a2"
   },
   {
    "type": "para",
-   "text": "abstract: \"AI agents increasingly inherit work whose underlying artifacts can change after a handoff. We introduce Proofpress, a Version-Bound Admission Protocol for agent handoffs that couples readable context with a verifiable record of the artifact revision for which inherited claims and decisions were accepted. Before reuse, a successor checks that binding and receives an explicit disposition: proceed, revalidate affected work, or refuse. We evaluated the protocol through benchmark-derived and purpose-built handoff tasks spanning multiple harness families, document domains, and models. The strongest result was repeated clean-versus-stale admission separation in a preregistered APEX-derived fixture and a frozen-protocol three-model follow-up. Additional policy, scientific-evidence, and two-state drift tasks showed when binding enables selective revalidation and when visible contradictions let ordinary handoff recover safely. Readable handoffs also reduced rediscovery, but the wider local program did not establish a general clean-task quality advantage. These findings provide bounded evidence for the admission mechanism, not a population estimate of product efficacy.\"\n---",
-   "id": "5e0eb4aa",
-   "hash": "00f6f387344e"
+   "text": "abstract: \"Prior research on agent memory studies how systems retain, update, and discard information, while agent-handoff benchmarks study whether a successor can continue earlier work. Provenance standards separately record how digital artifacts were produced and changed. These areas leave a practical question: what should a successor do when it receives a useful handoff but the underlying document has changed? We introduce Proofpress, an artifact provenance protocol that records which version of a document inherited claims and decisions refer to. A successor can check that relationship before continuing, reopen only affected work, or refuse an unverifiable handoff. We evaluated Proofpress using document-handoff tasks adapted from legal and scientific-evidence benchmarks, policy-change scenarios, and purpose-built documentation tasks. In the strongest preregistered comparison, ordinary handoff reused work tied to an outdated document in 12 of 12 trials; Proofpress did so in 0 of 12, while both conditions continued correctly in all 12 unchanged-document trials. The same pattern was reproduced with three additional models on the same task. Other studies showed that ordinary handoffs can recover when the contradiction is already visible, and that readable handoffs reduce repeated research. We did not find consistent evidence that Proofpress improves answer quality when documents are unchanged. The evidence therefore supports a bounded provenance-checking mechanism, not a general claim that Proofpress makes agents more capable.\"\n---",
+   "id": "2d20bdc2",
+   "hash": "c399a9dad06f"
   },
   {
    "type": "heading",
-   "text": "# Proofpress: A Version-Bound Admission Protocol for Agent Handoffs",
+   "text": "# Proofpress: An Artifact Provenance Protocol for Agent Handoffs",
    "id": "ba410001",
-   "hash": "6fbece5a5e16"
+   "hash": "0abbb44de69d"
   },
   {
    "type": "para",
@@ -46,27 +46,27 @@
   },
   {
    "type": "para",
-   "text": "AI agents increasingly inherit documents, analyses, and decisions produced by earlier agents. Existing handoff mechanisms can preserve context, but context can remain persuasive after the artifact it describes has changed. We call this **stale inheritance**: a successor reuses previously accepted work against the wrong artifact revision.",
+   "text": "Prior research on agent memory studies how systems retain, update, and discard information, while agent-handoff benchmarks study whether a successor can continue earlier work. Provenance standards separately record how digital artifacts were produced and changed. These areas leave a practical question: what should a successor do when it receives a useful handoff but the underlying document has changed?",
    "id": "ba410006",
-   "hash": "77c4cd161fd5"
+   "hash": "436d0be29b5d"
   },
   {
    "type": "para",
-   "text": "We introduce **Proofpress, a Version-Bound Admission Protocol for agent handoffs**. Proofpress couples a readable handoff with a verifiable record of the artifact revision for which its claims and decisions were accepted. Before relying on inherited work, a successor checks that binding and receives an explicit disposition: proceed, revalidate the affected work, or refuse reuse. This separates semantic continuity—what the predecessor knew—from admission—whether that knowledge still applies to the artifact now in hand.",
+   "text": "We introduce **Proofpress, an artifact provenance protocol for agent handoffs**. Proofpress records which version of a document inherited claims and decisions refer to. Before continuing, a successor can check that relationship, reopen only the work affected by a change, or refuse a handoff whose history cannot be verified. The protocol complements readable context: the handoff explains prior work, while provenance establishes which artifact that work belongs to.",
    "id": "ba410007",
-   "hash": "c150a27e35e6"
+   "hash": "08ab6a3e2e3d"
   },
   {
    "type": "para",
-   "text": "We evaluated Proofpress by adapting existing benchmark materials into agent-handoff and post-handoff artifact-drift tasks, supplemented by purpose-built two-state fixtures. The resulting program spans multiple harness families, document domains, and models. Its strongest result is receive-time admission separation: in a preregistered APEX-derived fixture, ordinary handoff continued from a stale artifact in 12/12 trials while Proofpress-assisted handoff did so in 0/12, with both arms admitting 12/12 clean artifacts. A frozen-protocol follow-up reproduced that per-model pattern with GLM 5.2, Kimi K3, and Qwen 3.8 Max. Policy, scientific-evidence, and two-state drift tasks further showed when binding enables targeted revalidation and when an already-visible contradiction allows ordinary handoff to recover safely. Across three continuity fixtures, readable prose and structured handoffs both eliminated the source-rediscovery event observed with artifacts alone; across the wider local program, however, we did not find consistent evidence that provenance improves clean-task quality in general.",
+   "text": "We evaluated Proofpress using document-handoff tasks adapted from legal and scientific-evidence benchmarks, policy-change scenarios, and purpose-built documentation tasks. In the strongest preregistered comparison, ordinary handoff reused work tied to an outdated document in 12/12 trials; Proofpress did so in 0/12, while both conditions continued correctly in all 12 unchanged-document trials. The same pattern was reproduced with GLM 5.2, Kimi K3, and Qwen 3.8 Max on the same task. Other studies showed that ordinary handoffs can recover when the contradiction is already visible, and that readable handoffs reduce repeated research. Across the wider program, however, we did not find consistent evidence that Proofpress improves answer quality when documents are unchanged.",
    "id": "ba410008",
-   "hash": "6c4288ae03e6"
+   "hash": "5cdeab39e4a1"
   },
   {
    "type": "para",
-   "text": "These results support a bounded conclusion: readable handoffs address continuity, while executable artifact binding governs whether inherited state remains admissible. They do not establish a general increase in agent capability or task quality, and the largest separation comes from fixtures designed around the failure the mechanism detects.",
+   "text": "These results support a bounded conclusion: readable handoffs help agents continue prior work, while artifact provenance can prevent that work from being reused against the wrong document version. They do not establish a general increase in agent capability or a real-world average effect.",
    "id": "ba410009",
-   "hash": "f7001cd7bcea"
+   "hash": "37a16a750889"
   },
   {
    "type": "heading",
@@ -76,27 +76,27 @@
   },
   {
    "type": "para",
-   "text": "Imagine that one agent researches a policy, writes a recommendation, and hands the work to another agent. The handoff is clear: it names the sources, explains the decision, and lists the next action. Before the successor begins, someone edits the underlying policy. The handoff is still readable. Its reasoning may still sound correct. But it now describes a different artifact.",
+   "text": "Agent memory and handoff research has largely focused on retaining information, updating obsolete memories, reducing rediscovery, and completing work begun by another agent. [LongMemEval](https://arxiv.org/abs/2410.10813), [STALE](https://arxiv.org/abs/2605.06527), and [Memora](https://arxiv.org/abs/2604.20006) test whether stored information remains useful as facts and preferences change; [Handoff Debt](https://arxiv.org/abs/2606.02875) and [AgentAsk](https://aclanthology.org/2026.acl-long.1294/) study continuity and error propagation when work passes between agents. This literature establishes that outdated information and incomplete handoffs are consequential, but it does not by itself identify which version of an independently changing document a transferred conclusion belongs to.",
    "id": "ba41000b",
-   "hash": "6045cef3ad3e"
+   "hash": "663345913d94"
   },
   {
    "type": "para",
-   "text": "This failure is not primarily about retrieval. The successor may successfully retrieve every sentence the predecessor wrote and still make the wrong decision. Nor is it solved by a checksum alone: a digest can identify a revision, but it does not say whether that revision remains the accepted basis for reuse. The missing operation is **admission**—checking whether inherited state is still authorized for the artifact currently in hand.",
+   "text": "Provenance research addresses a complementary problem. [W3C PROV](https://www.w3.org/TR/prov-overview/) represents entities, activities, agents, and derivations; [in-toto](https://in-toto.io/), [TUF](https://theupdateframework.io/), [SLSA](https://slsa.dev/), and [Sigstore](https://www.sigstore.dev/) show how software consumers can verify identity, history, and policy before using an artifact. Recent agent systems such as [Portable Agent Memory](https://arxiv.org/abs/2605.11032), [MemLineage](https://arxiv.org/abs/2605.14421), [StateAuditor](https://arxiv.org/abs/2608.01619), and [ProvenanceGuard](https://arxiv.org/abs/2606.18037) apply related ideas to memory transfer, ancestry, source support, or action gates. These systems provide direct precedent for verifiable lineage. The remaining gap studied here is narrower: a predecessor hands off claims and decisions, the external document changes independently, and the successor must decide whether the inherited work still applies.",
    "id": "ba41000c",
-   "hash": "a640ba7f1c6f"
+   "hash": "57f1526a7705"
   },
   {
    "type": "para",
-   "text": "This paper introduces the **Proofpress Version-Bound Admission Protocol (VBAP)**, an agent-provenance protocol for deciding whether inherited work may be reused against the artifact a successor actually receives. It distinguishes two handoff problems:",
+   "text": "This paper introduces **Proofpress**, an artifact provenance protocol designed for that boundary. It distinguishes two problems that ordinary discussions of “agent memory” often combine:",
    "id": "ba41000d",
-   "hash": "08b27cf83bb3"
+   "hash": "f9f5a9f6ae8a"
   },
   {
    "type": "list",
-   "text": "1. **Knowledge handoff debt:** missing context forces a successor to rediscover sources, decisions, and rationale.\n2. **Stale inheritance risk:** preserved context is reused after its artifact binding no longer holds.",
+   "text": "1. **Continuity:** missing context forces a successor to rediscover sources, decisions, and rationale.\n2. **Version mismatch:** preserved context is reused after the underlying artifact has changed.",
    "id": "62bd04aa",
-   "hash": "d71ae042907d"
+   "hash": "e226cf9ca21a"
   },
   {
    "type": "para",
@@ -106,9 +106,9 @@
   },
   {
    "type": "para",
-   "text": "Proofpress implements VBAP as a deterministic artifact-provenance and admission layer. The protocol records accepted revisions, claims, actors, lineage, and artifact hashes; transfers that state in a verifiable carrier; and requires the receiver to verify the current artifact before inherited state is admitted. It does not decide whether a source is true, whether a legal conclusion is correct, or whether a newer revision is substantively better.",
+   "text": "Proofpress records accepted artifact versions, claims, actors, and revision history in a verifiable carrier. At handoff, the successor checks whether the inherited claims still refer to the document currently in hand. This check can authorize continuation, reopen affected work, or stop reuse when the history cannot be verified. It does not decide whether a claim is true, whether a legal conclusion is correct, or whether a newer document is substantively better.",
    "id": "ba41000e",
-   "hash": "fc63aca25d2f"
+   "hash": "a42cdd739606"
   },
   {
    "type": "para",
@@ -118,75 +118,75 @@
   },
   {
    "type": "list",
-   "text": "1. We define VBAP: a receive-time protocol that binds accepted agent work to a specific artifact revision and returns an explicit reuse disposition.\n2. We evaluate an information-matched intervention in which ordinary and Proofpress arms receive the same readable handoff, while only the Proofpress arm receives executable revision binding.\n3. We synthesize positive, null, and failed local studies into a scoped empirical result: handoff improves continuity; generic clean-task quality improvement is not established; version binding consistently changes stale-work admission on the tested fixtures.",
+   "text": "1. We define an artifact provenance protocol for carrying claims, decisions, and revision history across an agent handoff.\n2. We evaluate it against ordinary handoffs containing the same readable information, using tasks adapted from existing legal and scientific-evidence benchmarks together with policy and documentation tasks.\n3. We report both the strongest result and its limits: provenance checks prevented reuse of work tied to an outdated document in the controlled studies, but did not consistently improve answer quality when documents were unchanged.",
    "id": "3240f8d2",
-   "hash": "5874e7f2037f"
+   "hash": "2639ca7d99d8"
   },
   {
    "type": "heading",
-   "text": "## 2. From memory transfer to artifact admission",
+   "text": "## 2. Proofpress protocol",
    "id": "ba410010",
-   "hash": "06037dfd2674"
+   "hash": "b9e35d96f0c3"
   },
   {
    "type": "heading",
-   "text": "### 2.0 Protocol overview",
+   "text": "### 2.1 Protocol overview",
    "id": "ba410051",
-   "hash": "54955dccf158"
+   "hash": "594cd92ed780"
   },
   {
    "type": "para",
-   "text": "VBAP has five logical operations: **record** an accepted artifact revision and its declared knowledge; **bind** that state to immutable artifact identity; **transfer** the readable handoff and verifiable carrier; **verify** the received artifact and lineage against the admitted state; and **dispose** the inherited work as `proceed`, `targeted_revalidate`, or `stop/refuse`. The protocol contribution is this decision contract, not a new hash, signature, or provenance vocabulary. Its formal objects, trust assumptions, and failure semantics are specified in `logic/solution/architecture.md`.",
+   "text": "Proofpress performs five operations: **record** the accepted document and its claims; **link** those claims to that document version; **transfer** the readable handoff and provenance record; **check** the document received by the successor; and **decide** whether to continue, revisit affected work, or refuse reuse. The protocol uses established identity and provenance primitives; its contribution is the handoff contract connecting those primitives to an agent's decision to reuse prior work.",
    "id": "ba410052",
-   "hash": "4415f0dde016"
+   "hash": "449e3864b8ea"
   },
   {
    "type": "heading",
-   "text": "### 2.1 System model",
+   "text": "### 2.2 System model",
    "id": "ba410011",
-   "hash": "c3e363a6c405"
+   "hash": "c14bafcc572f"
   },
   {
    "type": "para",
-   "text": "Let an originating agent produce artifact revision `A_t`, handoff `H_t`, and a set of accepted decisions `D_t`. A successor later receives an artifact `A_t+1`. Ordinary handoff asks whether `H_t` contains enough information to continue. Version-bound admission asks an additional question: does the accepted state represented by `H_t` and `D_t` remain bound to `A_t+1`?",
+   "text": "Let a predecessor produce document version `A_t`, handoff `H_t`, and accepted decisions `D_t`. A successor later receives document `A_t+1`. An ordinary handoff asks whether `H_t` contains enough information to continue. Proofpress asks an additional, mechanically checkable question: were the inherited decisions accepted for the document version now being used?",
    "id": "ba410012",
-   "hash": "97900a92865b"
+   "hash": "94cd0cb3ff4d"
   },
   {
    "type": "code",
-   "text": "```text\nOriginating agent                         Successor agent\n\nartifact A_t ──► accepted decisions D_t ──► readable handoff H_t\n      │                                              │\n      └──── admitted revision + content binding ─────┤\n                                                     ▼\n                                             current artifact A_t+1\n                                                     │\n                              binding holds ─────────┼──► proceed\n                              relevant drift ────────┼──► revalidate affected work\n                              invalid lineage ───────┴──► stop or refuse\n```",
+   "text": "```text\nOriginating agent                         Successor agent\n\nartifact A_t ──► accepted decisions D_t ──► readable handoff H_t\n      │                                              │\n      └──── recorded version + provenance check ─────┤\n                                                     ▼\n                                             current artifact A_t+1\n                                                     │\n                              same accepted version ─┼──► continue\n                              relevant change ───────┼──► revisit affected work\n                              unverifiable history ──┴──► stop or refuse\n```",
    "id": "ba410013",
-   "hash": "b47f46e980f3"
+   "hash": "26f226d360fe"
   },
   {
    "type": "para",
-   "text": "The purpose of the check is not to reject every change. A useful admission layer must preserve continuation when a revision is identical or irrelevant, reopen only affected claims when a change matters, and stop when the lineage cannot support reuse.",
+   "text": "The purpose of the check is not to reject every change. A useful provenance protocol should preserve continuation when a revision is identical or irrelevant, reopen only affected claims when a change matters, and stop when the recorded history cannot support reuse.",
    "id": "ba410014",
-   "hash": "b9825aebf25b"
+   "hash": "f338b0c2a559"
   },
   {
    "type": "heading",
-   "text": "### 2.2 What Proofpress adds",
+   "text": "### 2.3 What Proofpress adds",
    "id": "ba410015",
-   "hash": "949c728b83dc"
+   "hash": "7461a2f83f8f"
   },
   {
    "type": "para",
-   "text": "The ordinary handoff condition contains natural-language context: prior conclusions, rationale, caveats, open questions, and next steps. The Proofpress condition preserves that same semantic content and adds a machine-checkable admitted revision, artifact digest, claim-to-artifact relationship, and verification operation. This design treats the readable handoff as the continuity mechanism and the binding check as the experimental intervention.",
+   "text": "The ordinary handoff condition contains natural-language context: prior conclusions, rationale, caveats, open questions, and next steps. The Proofpress condition preserves that same content and adds a machine-checkable document version, artifact digest, claim-to-artifact relationship, and verification operation. This design treats the readable handoff as the continuity mechanism and the provenance check as the experimental intervention.",
    "id": "ba410016",
-   "hash": "fc4cdb68d91d"
+   "hash": "a6e731ddb9f9"
   },
   {
    "type": "heading",
-   "text": "### 2.3 What Proofpress does not add",
+   "text": "### 2.4 What Proofpress does not add",
    "id": "ba410017",
-   "hash": "14e58d2992fa"
+   "hash": "b721d71b8313"
   },
   {
    "type": "para",
-   "text": "Proofpress is not a language model, memory service, semantic conflict resolver, or truth oracle. A verified carrier establishes identity, integrity, and declared lineage under a specified admission policy. It does not establish that every recorded claim is correct or that an accepted revision remains current under an authority the receiver was never given.",
+   "text": "Proofpress is not a language model, memory service, semantic conflict resolver, or truth oracle. A verified record establishes identity, integrity, and declared history under a specified policy. It does not establish that every recorded claim is correct or that a document remains authorized under information the receiver was never given.",
    "id": "ba410018",
-   "hash": "7ca45d115612"
+   "hash": "f9dc931cbb3e"
   },
   {
    "type": "heading",
@@ -202,45 +202,51 @@
   },
   {
    "type": "para",
-   "text": "The local program converged on four questions:",
+   "text": "We organized the evaluation around four questions:",
    "id": "ba41001b",
-   "hash": "55551daac5da"
+   "hash": "56249c48437c"
   },
   {
    "type": "list",
-   "text": "- **RQ1 — Continuity:** Does any competent handoff reduce successor rediscovery relative to artifacts alone?\n- **RQ2 — Quality:** Does structured or version-bound provenance improve clean downstream task quality?\n- **RQ3 — Admission:** When an artifact has drifted, does executable binding reduce unsafe continuation while preserving clean continuation?\n- **RQ4 — Selectivity:** Can the receiver distinguish irrelevant change from decision-relevant change rather than treating every mismatch as a stop?",
+   "text": "- **RQ1 — Continuity:** Does a readable handoff reduce repeated research?\n- **RQ2 — Unchanged documents:** Does provenance improve the quality of work when the document has not changed?\n- **RQ3 — Outdated documents:** Does checking document provenance prevent a successor from using work tied to an earlier version?\n- **RQ4 — Selective recovery:** Can the successor ignore harmless edits while revisiting changes that affect prior claims?",
    "id": "8265ed30",
-   "hash": "f634891790d8"
+   "hash": "ec55be2711c7"
   },
   {
    "type": "heading",
-   "text": "### 3.2 Conditions",
+   "text": "### 3.2 Tasks and comparisons",
    "id": "ba41001c",
-   "hash": "d01c2ae850ca"
+   "hash": "7b18dbff16e4"
   },
   {
    "type": "para",
-   "text": "The continuity study compared artifacts only (H0), natural prose handoff (H1), and strong structured handoff (H2). Admission studies compared an information-matched ordinary handoff (C1 or V0) with the same handoff plus native Proofpress binding and verification (C2 or V1). Depending on the fixture, the artifact state was clean/current, irrelevantly modified, materially modified, or stale-bound.",
+   "text": "We adapted materials from APEX-style legal-document work, HiEviDR scientific-evidence records, and policy revisions into predecessor-to-successor tasks. We also created small documentation tasks to test continuity and selective recovery. These are adaptations, not official benchmark submissions. The ordinary and Proofpress conditions received the same readable conclusions, rationale, and next steps. Only the Proofpress condition received a verifiable record linking that work to an accepted document version.",
    "id": "ba41001d",
-   "hash": "ff050df025f4"
+   "hash": "04077f0008b5"
+  },
+  {
+   "type": "table",
+   "text": "| Study family | Source or task type | Comparison | Question answered |\n|---|---|---|---|\n| Continuity | Purpose-built documentation tasks | Artifacts only vs prose handoff vs structured handoff | Does any useful handoff reduce repeated research? |\n| Controlled document-version check | APEX-derived legal document | Ordinary vs Proofpress; unchanged vs replaced document | Does provenance prevent reuse against the wrong version? |\n| Scientific-evidence revision | HiEviDR-derived records | Ordinary vs Proofpress; hidden vs visible contradiction | When does provenance change the final decision rather than only the recovery path? |\n| Policy revision | Policy text changed after handoff | Ordinary vs Proofpress | Does explicit provenance cause grounded rechecking when both agents can read the new rule? |\n| Selective recovery | Documentation, evidence, and dependency updates | Harmless edit vs decision-relevant edit | Can the protocol revisit affected work without stopping on every change? |\n| Clean-task studies | Legal, document, and research workflows | Ordinary vs Proofpress on unchanged inputs | Does provenance generally improve answer quality? |",
+   "id": "a4691d62",
+   "hash": "cdcdd6eefbfb"
   },
   {
    "type": "heading",
-   "text": "### 3.3 Outcomes and evidence hierarchy",
+   "text": "### 3.3 Outcomes and evidence standards",
    "id": "ba41001e",
-   "hash": "6124e9c21237"
+   "hash": "2a133d830bf4"
   },
   {
    "type": "para",
-   "text": "Primary outcomes were source rediscovery, correct proceed/revalidate/stop disposition, unsafe stale continuation, grounded recovery, and clean-path task quality. Deterministic scorers were preferred for artifact identity and disposition; semantic judges and human audits were used where outcomes required interpretation. Formal slices froze models, routing, prompts, fixtures, retry rules, and scorer contracts, and prohibited provider fallback or cross-router retry.",
+   "text": "We measured whether the successor repeated source discovery, continued correctly, revisited affected work, or reused a conclusion tied to an outdated document. Artifact identity and protocol actions were scored deterministically. Semantic quality used blind model judging and human audit where required. Formal comparisons fixed model routes, prompts, task inputs, retry rules, and scoring contracts; provider fallback and cross-router retries were not allowed.",
    "id": "ba41001f",
-   "hash": "3a3ac42cf910"
+   "hash": "e23b3c197961"
   },
   {
    "type": "para",
-   "text": "We do not pool transport qualifications, raw matrices, local diagnostics, preregistered confirmatory runs, and adapted public-dataset fixtures into one sample size. Repeated calls on the same fixture estimate receiver consistency, not task diversity. The paper therefore presents a sequence of linked findings rather than a single aggregate treatment effect.",
+   "text": "We report repeated trials separately from task diversity. Repeating one task with several models shows that the observed behavior is not unique to one model, but it does not create several independent real-world cases. Engineering qualifications, invalid runs, and superseded analyses are disclosed in the appendices and are not pooled with the main comparisons.",
    "id": "ba410020",
-   "hash": "c50574f0e999"
+   "hash": "a667fd34e738"
   },
   {
    "type": "heading",
@@ -250,105 +256,117 @@
   },
   {
    "type": "heading",
-   "text": "### 4.1 A readable handoff reduces rediscovery",
+   "text": "### 4.1 Main result: provenance prevented reuse against an outdated document",
    "id": "ba410022",
-   "hash": "727289fbff2c"
+   "hash": "f299bc0bcbc6"
   },
   {
    "type": "para",
-   "text": "Knowledge Handoff Track 1 tested three non-coding documentation tasks with DeepSeek. All 9 responses were valid. The artifacts-only condition triggered the predefined source-rediscovery event in 3/3 fixtures. Natural prose handoff and structured handoff triggered it in 0/3 each.",
+   "text": "The strongest study isolated one decision: whether a successor should continue using inherited work after the underlying document was replaced. In the preregistered Luna comparison, ordinary handoff continued in all 12 outdated-document trials; Proofpress continued in none. Both conditions continued correctly in all 12 unchanged-document trials.",
    "id": "ba410023",
-   "hash": "e4db7a4aa185"
+   "hash": "1407897be17c"
   },
   {
    "type": "para",
-   "text": "This is the simplest result in the program: a competent handoff preserves continuity better than artifacts alone. The experiment did not distinguish H1 from H2, so it does not show that structured provenance is better than well-written prose when the underlying artifact is unchanged.",
+   "text": "The frozen comparison was then repeated with GLM 5.2, Kimi K3, and Qwen 3.8 Max. Every model showed the same pattern. These are repeated model runs on one controlled task, so the combined counts describe reliability within that task rather than performance over independent documents.",
    "id": "ba410024",
-   "hash": "29ee53430a4f"
+   "hash": "39490697e249"
+  },
+  {
+   "type": "table",
+   "text": "| Model study | Condition | Unchanged document: correct continue | Outdated document: incorrect continue |\n|---|---|---:|---:|\n| Preregistered Luna | Ordinary handoff | 12/12 | 12/12 |\n| Preregistered Luna | Proofpress | 12/12 | 0/12 |\n| GLM 5.2 follow-up | Ordinary handoff | 12/12 | 12/12 |\n| GLM 5.2 follow-up | Proofpress | 12/12 | 0/12 |\n| Kimi K3 follow-up | Ordinary handoff | 12/12 | 12/12 |\n| Kimi K3 follow-up | Proofpress | 12/12 | 0/12 |\n| Qwen 3.8 Max follow-up | Ordinary handoff | 12/12 | 12/12 |\n| Qwen 3.8 Max follow-up | Proofpress | 12/12 | 0/12 |",
+   "id": "14648c7e",
+   "hash": "b3d55b7c329b"
   },
   {
    "type": "heading",
-   "text": "### 4.2 Provenance did not show a general clean-task quality advantage",
+   "text": "### 4.2 The benefit depends on whether the problem is otherwise visible",
    "id": "ba410025",
-   "hash": "340371d62a71"
+   "hash": "d500633f9e05"
   },
   {
    "type": "para",
-   "text": "Across sidecar, multi-agent document, public-source legal, restricted-access, Artifact Travel, policy, and scientific-evidence studies, clean-task results were usually tied, mixed, or dominated by the underlying workflow. For example, ordinary and Proofpress handoffs tied at 14/18 on the APEX Law native rubric and 15/21 in its blind audit; the Restricted-Access Lease frozen audit tied at 13/21. Artifact Travel v3 produced zero clean trusted completions in every arm because the operative document task itself failed.",
+   "text": "The controlled result was strongest when the inherited conclusion still looked plausible and only the document-version check exposed the problem. A HiEviDR-derived task showed the same separation under that condition: Proofpress avoided incorrect continuation in 9/9 trials, while ordinary handoff continued incorrectly in 9/9.",
    "id": "ba410026",
-   "hash": "c53362ad0519"
+   "hash": "7d59614e7253"
   },
   {
    "type": "para",
-   "text": "The negative result narrows the claim. Adding lineage cannot compensate for missing sources, a broken task contract, or poor document execution. Our evidence does not support describing Proofpress as a generic agent-quality booster.",
+   "text": "When the current evidence directly contradicted the inherited conclusion, both conditions avoided the wrong final answer. Proofpress consistently reopened and grounded the earlier work; ordinary handoff sometimes explicitly rechecked it and sometimes corrected itself from the visible evidence. Policy tasks produced the same boundary: provenance changed how recovery occurred, but not the final safety rate.",
    "id": "ba410027",
-   "hash": "88e38d40bc71"
+   "hash": "4516156805f3"
+  },
+  {
+   "type": "table",
+   "text": "| Task condition | Ordinary handoff | Proofpress | Interpretation |\n|---|---:|---:|---|\n| Scientific-evidence change, mismatch not obvious | 9/9 incorrect continues | 0/9 incorrect continues | Provenance changed the final decision |\n| Scientific-evidence change, contradiction visible | 0/9 incorrect outcomes; 5/9 explicit recoveries | 0/9 incorrect outcomes; 9/9 explicit recoveries | Both were safe; provenance changed the recovery path |\n| Policy change, current rule visible | 0/18 incorrect outcomes; 0/18 provenance-grounded recoveries | 0/18 incorrect outcomes; 18/18 provenance-grounded recoveries | Both were safe; provenance made rechecking explicit |",
+   "id": "f6073d74",
+   "hash": "7816a56eeaf1"
   },
   {
    "type": "heading",
-   "text": "### 4.3 Version binding prevented stale continuation in the mechanism-targeted fixture",
+   "text": "### 4.3 Proofpress supported selective recovery rather than blanket rejection",
    "id": "ba410028",
-   "hash": "3801554bd194"
+   "hash": "40a47c20f2db"
   },
   {
    "type": "para",
-   "text": "The strongest experiment isolated receive-time admission on an APEX-derived document fixture. In the preregistered Luna R1 study, ordinary handoff made an unsafe proceed on 12/12 stale-binding trials, while Proofpress-assisted handoff made 0/12; both arms correctly proceeded on 12/12 clean trials. The two-sided Fisher exact test for the stale condition was `p=7.40e-7`.",
+   "text": "Across six documentation and evidence-update cases repeated with GLM 5.2 and DeepSeek, Proofpress continued on all 6 harmless edits and revisited the affected work on all 6 decision-relevant edits. Ordinary handoff also continued on all harmless edits, but continued without targeted rechecking in 4 of the 6 relevant-edit responses.",
    "id": "ba410029",
-   "hash": "ab4b2b007043"
+   "hash": "b69289fc1e58"
   },
   {
    "type": "para",
-   "text": "A frozen-protocol model-robustness follow-up repeated the same C1/C2 × clean/stale matrix with GLM 5.2, Kimi K3, and Qwen 3.8 Max. Each model reproduced clean proceed at 12/12 in both arms, ordinary stale unsafe proceed at 12/12, and Proofpress stale unsafe proceed at 0/12. Across models the descriptive total was 36/36 versus 0/36, but this is cross-model replication on one fixture—not 36 independent tasks.",
+   "text": "This matters because a useful provenance protocol should not halt work after every byte-level edit. The intended behavior is narrower: preserve continuation when a change is irrelevant and reopen only the claims whose basis may have changed.",
    "id": "ba41002a",
-   "hash": "83a0e98e231e"
+   "hash": "7f095607e1ed"
   },
   {
-   "type": "para",
-   "text": "The complete separation is interpretable because the intervention and fault align: Proofpress verifies artifact binding, and the fixture injects a binding mismatch. The result establishes that the mechanism controls admission in the frozen harness. It does not estimate how often this failure occurs in real deployments.",
+   "type": "table",
+   "text": "| Change to the document | Ordinary handoff | Proofpress |\n|---|---:|---:|\n| Harmless edit | Continued 6/6 | Continued 6/6 |\n| Edit affecting an inherited claim | Targeted recheck 2/6; continued 4/6 | Targeted recheck 6/6 |",
    "id": "ba41002b",
-   "hash": "31030c9c35f0"
+   "hash": "d5d7190dec3e"
   },
   {
    "type": "heading",
-   "text": "### 4.4 Binding supports selective revalidation rather than blanket stopping",
+   "text": "### 4.4 A readable handoff reduced repeated research",
    "id": "ba41002c",
-   "hash": "99b109484149"
+   "hash": "8a567de4cbeb"
   },
   {
    "type": "para",
-   "text": "Knowledge Handoff Track 2 tested six fixed two-state fixtures with both GLM 5.2 and DeepSeek. In the combined repeated-fixture result, the version-bound condition proceeded on 6/6 irrelevant edits and targeted revalidation on 6/6 relevant edits. The ordinary condition also proceeded on all irrelevant edits but continued without targeted revalidation on 4/6 relevant-edit responses.",
+   "text": "Three documentation tasks compared artifacts alone, a prose handoff, and a structured handoff. With artifacts alone, the successor repeated source discovery in 3/3 tasks. With either prose or structured handoff, it did so in 0/3. This supports the value of a competent handoff, but does not show that structured provenance is better than well-written prose when the document is unchanged.",
    "id": "ba41002d",
-   "hash": "b0e34dbd54d9"
+   "hash": "faf7c91c23af"
   },
   {
-   "type": "para",
-   "text": "This result supplies the product behavior missing from a simple stale-versus-clean test. The mechanism need not reject every byte change: when given affected-claim information, it can preserve harmless continuation while reopening decision-relevant work.",
+   "type": "table",
+   "text": "| Information given to successor | Repeated source discovery |\n|---|---:|\n| Artifacts only | 3/3 |\n| Prose handoff | 0/3 |\n| Structured handoff | 0/3 |",
    "id": "ba41002e",
-   "hash": "e3834fa9e6d8"
+   "hash": "28efbb1306fd"
   },
   {
    "type": "heading",
-   "text": "### 4.5 Visible contradictions can erase the final safety difference",
+   "text": "### 4.5 We did not find a general answer-quality improvement",
    "id": "ba41002f",
-   "hash": "fad9005e62b5"
+   "hash": "fa3cd38f4492"
   },
   {
    "type": "para",
-   "text": "In the HiEviDR-derived R1 fault, the stale working synthesis remained plausible unless the binding was checked: Proofpress was safe in 9/9 trials and ordinary handoff in 0/9. R2 made the semantic contradiction directly visible in current evidence. Both arms then had 0/9 unsafe propagation; Proofpress reverified and recovered in 9/9, while ordinary handoff explicitly recovered in 5/9 and safely self-corrected while proceeding in the other 4.",
+   "text": "Across legal, document-production, restricted-access, policy, and scientific-evidence studies using unchanged inputs, results were usually tied, mixed, or limited by the underlying task. Ordinary and Proofpress handoffs tied at 14/18 on the APEX Law rubric and 15/21 in its blind audit; the Restricted-Access Lease audit tied at 13/21. In another document workflow, every condition failed the clean completion criterion because the underlying document task failed.",
    "id": "ba410030",
-   "hash": "7f078a146dc7"
+   "hash": "b3ce19c6aa3d"
   },
   {
    "type": "para",
-   "text": "The Policy R1 studies showed the same distinction. In the preregistered Luna replication, Proofpress used reverification and grounded recovery in 18/18 fault trials versus 0/18 for ordinary handoff, yet both arms had zero unsafe propagation because ordinary handoff self-corrected from the visible policy text.",
+   "text": "These null and failed studies bound the claim. Provenance cannot replace missing evidence, repair an underspecified task, or improve document execution by itself. The current evidence does not support presenting Proofpress as a general agent-quality booster.",
    "id": "ba410031",
-   "hash": "7b239a66f8a9"
+   "hash": "901f740a4891"
   },
   {
    "type": "para",
-   "text": "These results show a recovery-path effect rather than a universal safety-rate effect. Binding matters most when stale state would otherwise remain plausible, hidden, or cheaper to accept than to rederive.",
+   "text": "One additional memory study was sensitive to the semantic judge: the same frozen answers favored Proofpress under one scorer and favored the comparison under two others. We therefore treat that study as evidence about measurement sensitivity, not product efficacy; full details appear in the appendix.",
    "id": "ba410032",
-   "hash": "b75aff31a5f5"
+   "hash": "ac119c297986"
   },
   {
    "type": "heading",
@@ -364,15 +382,15 @@
   },
   {
    "type": "para",
-   "text": "The experiments separate two layers that are easy to collapse into “memory.” Natural-language handoff is already valuable: it reduces rediscovery and can enable semantic self-correction. Proofpress's distinctive contribution is not more prose. It is a verifiable relationship between inherited decisions and the artifact revision for which they were accepted.",
+   "text": "The experiments separate two functions that are often collapsed into “memory.” Natural-language handoff carries meaning: conclusions, rationale, caveats, and next steps. Artifact provenance carries applicability: which document those conclusions and decisions were made for. Proofpress's distinctive contribution is the second relationship, not additional prose.",
    "id": "ba410035",
-   "hash": "bb14da213133"
+   "hash": "596e7623ad49"
   },
   {
    "type": "para",
-   "text": "This distinction explains both the positive and null results. When the artifact is unchanged and the handoff is good, binding has little reason to improve the final answer. When current evidence makes an old conclusion obviously false, a capable model may self-correct without provenance. But when inherited work remains plausible after the artifact changes, a deterministic admission check supplies information that prose alone does not.",
+   "text": "This distinction explains both the positive and null results. When a document is unchanged and the handoff is good, provenance has little reason to improve the final answer. When the new document obviously contradicts the old conclusion, a capable model may correct itself without a provenance record. The clearest benefit appears when inherited work remains plausible even though the underlying document has changed.",
    "id": "ba410036",
-   "hash": "b1536bcfccc8"
+   "hash": "4ea8126b39b3"
   },
   {
    "type": "heading",
@@ -382,15 +400,15 @@
   },
   {
    "type": "para",
-   "text": "The supported product claim is narrow but useful: **Proofpress gives successor agents a portable, independently checkable admission layer for inherited work. On the tested fixtures, it made stale or decision-relevant changes trigger consistent revalidation while allowing clean and irrelevant changes to proceed.**",
+   "text": "The supported product claim is narrow but useful: **Proofpress gives successor agents a portable, independently checkable provenance record for inherited work. In the tested tasks, it prevented reuse against the wrong document version and prompted consistent rechecking of decision-relevant changes without blocking harmless edits.**",
    "id": "ba410038",
-   "hash": "cf71cdbb2134"
+   "hash": "5df164333410"
   },
   {
    "type": "para",
-   "text": "The relevant comparison is therefore not “Proofpress versus memory.” A practical system needs both. Memory or handoff carries semantic state; Proofpress governs whether that state may be reused against the current artifact.",
+   "text": "The relevant comparison is therefore not “Proofpress versus memory.” A practical system needs both. The handoff explains prior work; Proofpress verifies which artifact that work belongs to.",
    "id": "ba410039",
-   "hash": "8cf2a5b5a7ae"
+   "hash": "9075e9d62796"
   },
   {
    "type": "heading",
@@ -400,9 +418,9 @@
   },
   {
    "type": "para",
-   "text": "The failed broad-quality hypothesis prevents the mechanism result from becoming a vague capability claim. Provenance does not make weak research complete, repair a broken document workflow, or turn recorded authority into substantive truth. Its value is concentrated at a boundary: accepting, reopening, or refusing inherited work.",
+   "text": "The lack of a broad quality advantage prevents the strongest controlled result from becoming a vague capability claim. Provenance does not make weak research complete, repair a broken document workflow, or turn a recorded assertion into truth. Its demonstrated value is concentrated at a handoff boundary: continue, revisit, or refuse inherited work.",
    "id": "ba41003b",
-   "hash": "38f59efd3dd2"
+   "hash": "351affd98f47"
   },
   {
    "type": "heading",
@@ -412,9 +430,9 @@
   },
   {
    "type": "para",
-   "text": "The STALE/CUPMem study illustrates why semantic outcomes require caution. Its preregistered Nano scorer gave Proofpress's portable carrier a paired +8.33 percentage-point advantage over information-matched flat state, with 95% CI [+1.25, +15.42]. Two Gemini rescoring passes on the same frozen answers gave −1.67 and −2.08 points. Much of the disagreement concerned whether grounded abstention counted as correct behavior. We therefore treat STALE as evidence that evaluation policy can dominate the measured effect, not as judge-independent efficacy evidence.",
+   "text": "The STALE/CUPMem study illustrates why semantic outcomes require caution. Its preregistered Nano scorer gave Proofpress a paired +8.33 percentage-point advantage over an information-matched flat record, with 95% CI [+1.25, +15.42]. Two Gemini rescoring passes on the same frozen answers gave −1.67 and −2.08 points. Much of the disagreement concerned whether a source-grounded refusal to answer counted as correct. We therefore treat this result as evidence that scoring policy can dominate the measured effect, not as scorer-independent product evidence.",
    "id": "ba41003d",
-   "hash": "30fa2843fc1a"
+   "hash": "88ddeacbeb8b"
   },
   {
    "type": "heading",
@@ -442,21 +460,21 @@
   },
   {
    "type": "para",
-   "text": "[Portable Agent Memory](https://arxiv.org/abs/2605.11032) and [MemLineage](https://arxiv.org/abs/2605.14421) introduce cryptographically verifiable or lineage-aware cross-agent memory. [StateAuditor](https://arxiv.org/abs/2608.01619) and [ProvenanceGuard](https://arxiv.org/abs/2606.18037) combine deterministic provenance checks with repair, re-verification, or action gates. They are direct precedents for verifier-aware agent behavior. VBAP differs in the evaluated object: accepted work is transferred between agents, the external artifact can change independently after admission, and the measured decision is whether stale work is reused.",
+   "text": "[Portable Agent Memory](https://arxiv.org/abs/2605.11032) and [MemLineage](https://arxiv.org/abs/2605.14421) introduce cryptographically verifiable or lineage-aware cross-agent memory. [StateAuditor](https://arxiv.org/abs/2608.01619) and [ProvenanceGuard](https://arxiv.org/abs/2606.18037) combine deterministic provenance checks with repair, re-verification, or action gates. They are direct precedents for verifier-aware agent behavior. Proofpress differs in the evaluated object: accepted work is transferred between agents, the external document can change independently, and the measured decision is whether earlier work is reused against that changed document.",
    "id": "ba410054",
-   "hash": "e7f134eca9e5"
+   "hash": "86697755835d"
   },
   {
    "type": "heading",
-   "text": "### 6.3 Provenance and consume-time admission",
+   "text": "### 6.3 Provenance and verification before use",
    "id": "ba410040",
-   "hash": "817fed6854d7"
+   "hash": "bcb8b5fabaa1"
   },
   {
    "type": "para",
-   "text": "Provenance standards and software supply-chain systems—including [W3C PROV](https://www.w3.org/TR/prov-overview/), [in-toto](https://in-toto.io/), [TUF](https://theupdateframework.io/), [SLSA](https://slsa.dev/), and [Sigstore](https://www.sigstore.dev/)—already establish entity lineage, immutable identity, attestations, rollback protection, and consume-time verification. Proofpress does not claim to invent these primitives. It applies the consume-time admission pattern to agent-produced knowledge artifacts and makes the receiver's reuse disposition explicit.",
+   "text": "Provenance standards and software supply-chain systems—including [W3C PROV](https://www.w3.org/TR/prov-overview/), [in-toto](https://in-toto.io/), [TUF](https://theupdateframework.io/), [SLSA](https://slsa.dev/), and [Sigstore](https://www.sigstore.dev/)—already establish entity lineage, immutable identity, attestations, rollback protection, and verification before use. Proofpress does not claim to invent these primitives. It applies that pattern to agent-produced knowledge artifacts and makes the successor's decision to reuse prior work explicit.",
    "id": "5e2b5905",
-   "hash": "d5cdc22d3543"
+   "hash": "a5be69047884"
   },
   {
    "type": "heading",
@@ -466,9 +484,9 @@
   },
   {
    "type": "para",
-   "text": "The literature therefore supplies each broad ingredient separately. Within our structured primary-source scoping review, we did not identify an evaluation that jointly holds handoff semantics fixed, changes an external artifact after admission, applies deterministic revision binding at receive time, and measures unsafe continuation. That is the scoped gap addressed here. It is not a claim that Proofpress invented provenance, content addressing, stale-state evaluation, or agent handoff. The complete search method, comparison tables, and non-novelty boundary are maintained in `logic/related_work.md`.",
+   "text": "The literature therefore supplies each broad ingredient separately. Within our structured primary-source scoping review, we did not identify an evaluation that gives two successors the same readable handoff, changes an external artifact after that handoff was recorded, lets only one successor verify the artifact version, and measures whether outdated work is reused. That is the scoped gap addressed here. It is not a claim that Proofpress invented provenance, content addressing, stale-state evaluation, or agent handoff. The complete search method, comparison tables, and non-novelty boundary are maintained in `logic/related_work.md`.",
    "id": "ba410056",
-   "hash": "97d404b7624a"
+   "hash": "eed862d06cf4"
   },
   {
    "type": "heading",
@@ -478,15 +496,15 @@
   },
   {
    "type": "para",
-   "text": "First, the largest safety separation comes from a design-aligned fixture that directly instantiates Proofpress's native detection boundary. Second, repeated trials and cross-model replication do not create independent task diversity. Third, most tasks were constructed or adapted locally; they do not establish official APEX or HiEviDR benchmark performance. Fourth, false-stop cost, recovery latency, user trust, and long-horizon organizational benefit remain undermeasured. Fifth, Proofpress verifies declared binding and lineage, not source truth, legal correctness, authorization outside the supplied policy, or semantic currentness by itself.",
+   "text": "First, the largest difference comes from a controlled task built to test the exact document-version mismatch Proofpress detects. Second, repeated trials and cross-model replication do not create independent task diversity. Third, most tasks were constructed or adapted locally; they do not establish official APEX or HiEviDR benchmark performance. Fourth, unnecessary stops, recovery time, user trust, and long-term organizational benefit remain undermeasured. Fifth, Proofpress verifies declared artifact history, not source truth, legal correctness, or authorization outside the supplied policy.",
    "id": "ba410042",
-   "hash": "c3b42724b62d"
+   "hash": "3c2b33c25a9d"
   },
   {
    "type": "para",
-   "text": "The next meaningful gate is independently authored or naturally occurring version-drift work: benign, ambiguous, and material revisions; incomplete or conflicting lineage; receiver environments operated by another team; and explicit measurement of false stops and recovery cost. More calls on the existing fixture would increase precision about receiver consistency without addressing external validity.",
+   "text": "The next meaningful test is independently authored or naturally occurring document revision: harmless, ambiguous, and material changes; incomplete or conflicting history; receiver environments operated by another team; and explicit measurement of unnecessary stops and recovery cost. More calls on the existing controlled task would measure receiver consistency without addressing real-world coverage.",
    "id": "ba410043",
-   "hash": "83ecc47a5578"
+   "hash": "895462bfc79a"
   },
   {
    "type": "heading",
@@ -496,15 +514,15 @@
   },
   {
    "type": "para",
-   "text": "Agent handoff is not one problem. A successor needs enough semantic context to avoid repeating the predecessor's work, and it needs a way to know whether that context is still admissible. Our local experiments show that good handoffs address the first need. They do not show that provenance broadly improves clean task quality. They do show, consistently within the tested fixtures, that native artifact binding changes the second decision: clean and irrelevant changes proceed, while stale or decision-relevant changes trigger explicit revalidation.",
+   "text": "Agent handoff is not one problem. A successor needs enough context to avoid repeating the predecessor's work, and it needs a way to know which artifact that context belongs to. Our local experiments show that good handoffs address the first need. They do not show that provenance broadly improves work on unchanged documents. They do show, consistently within the tested tasks, that artifact-version checks can prevent reuse against the wrong document and prompt targeted review when a relevant change occurs.",
    "id": "ba410045",
-   "hash": "fbdcd1e9d076"
+   "hash": "41b9a4ddc204"
   },
   {
    "type": "para",
-   "text": "The clearest way to understand Proofpress is therefore not as “better memory,” but as an admission layer for portable knowledge.",
+   "text": "The clearest way to understand Proofpress is therefore not as “better memory,” but as an artifact provenance protocol for portable agent work.",
    "id": "ba410046",
-   "hash": "2957306a37f7"
+   "hash": "eae2f164cf24"
   },
   {
    "type": "heading",
@@ -580,9 +598,9 @@
   },
   {
    "type": "table",
-   "text": "| File | Description |\n|---|---|\n| [problem.md](logic/problem.md) | Research problem, validity threat, and key admission gap |\n| [claims.md](logic/claims.md) | Current falsifiable claims and evidence boundaries |\n| [concepts.md](logic/concepts.md) | Technical vocabulary, including VBAP |\n| [experiments.md](logic/experiments.md) | Registered and completed experiment program |\n| [architecture.md](logic/solution/architecture.md) | Protocol objects, operations, trust model, and dispositions |\n| [constraints.md](logic/solution/constraints.md) | Fairness, safety, and interpretation constraints |\n| [heuristics.md](logic/solution/heuristics.md) | Operational design heuristics |\n| [related_work.md](logic/related_work.md) | Structured primary-source scoping review and novelty boundary |",
+   "text": "| File | Description |\n|---|---|\n| [problem.md](logic/problem.md) | Research problem, validity threat, and key admission gap |\n| [claims.md](logic/claims.md) | Current falsifiable claims and evidence boundaries |\n| [concepts.md](logic/concepts.md) | Technical vocabulary for Proofpress and artifact-version checks |\n| [experiments.md](logic/experiments.md) | Registered and completed experiment program |\n| [architecture.md](logic/solution/architecture.md) | Protocol objects, operations, trust model, and dispositions |\n| [constraints.md](logic/solution/constraints.md) | Fairness, safety, and interpretation constraints |\n| [heuristics.md](logic/solution/heuristics.md) | Operational design heuristics |\n| [related_work.md](logic/related_work.md) | Structured primary-source scoping review and novelty boundary |",
    "id": "61923531",
-   "hash": "c654a6cd9e4c"
+   "hash": "9d429f7856c0"
   },
   {
    "type": "heading",
