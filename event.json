@@ -1,35 +1,47 @@
 {
  "event": "version_created",
- "artifact": "experiments/provenance_handoff/ara/logic/concepts.md",
- "artifact_id": "pp_e833a86ea89426121ab55437",
- "version": "cdd9bef5",
- "parent": "26bb96e5",
+ "artifact": "experiments/provenance_handoff/ara/logic/solution/architecture.md",
+ "artifact_id": "pp_78e9d4dc876608cba9bcbbff",
+ "version": "6bb93e78",
+ "parent": "c5697ea7",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-13T09:13:39+00:00",
+ "ts": "2026-08-13T09:13:49+00:00",
  "stats": {
-  "modified": 2
+  "modified": 4
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "ba420001",
+   "block": "467804be",
    "type": "heading",
-   "context": "K11: Proofpress artifact provenance prot"
+   "context": "Proofpress Artifact Provenance Protocol"
   },
   {
    "kind": "modified",
-   "block": "ba420002",
-   "type": "list",
-   "context": "K11: Proofpress artifact provenance prot"
+   "block": "fb36d431",
+   "type": "para",
+   "context": "Purpose"
+  },
+  {
+   "kind": "modified",
+   "block": "6f2a9e85",
+   "type": "para",
+   "context": "Admission authority"
+  },
+  {
+   "kind": "modified",
+   "block": "10be2bb8",
+   "type": "para",
+   "context": "Trust and threat model"
   }
  ],
- "policy": "portable",
- "soft_fingerprint": "ppsb1:8e2fc04f4d7f3c1891710caab4d8a7ef6397ebc96c110403483d37188fdf744e",
+ "policy": "local",
+ "soft_fingerprint": "ppsb1:a886fc95524f2821584ff3c5f499eadd89c7150981b6fb6ddfe5157c65a5e905",
  "actors": {
   "requested_by": [
    "user"
@@ -47,18 +59,28 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "ba420001",
+   "block": "467804be",
    "kind": "modified",
-   "note": "Renames K11 around Proofpress's artifact provenance category."
+   "note": "Renames the architecture around artifact provenance."
   },
   {
-   "block": "ba420002",
+   "block": "fb36d431",
    "kind": "modified",
-   "note": "Defines the protocol using record, link, transfer, check, and decide."
+   "note": "Defines Proofpress as an artifact provenance protocol."
+  },
+  {
+   "block": "6f2a9e85",
+   "kind": "modified",
+   "note": "Uses Proofpress rather than VBAP for the authority boundary."
+  },
+  {
+   "block": "43b00f4a",
+   "kind": "modified",
+   "note": "Updates the trust and threat model to the artifact provenance framing."
   }
  ],
  "context": {
-  "why": "Align the formal concept with Proofpress artifact provenance rather than using VBAP as the product category."
+  "why": "Align the protocol architecture and trust model with the artifact provenance narrative."
  },
- "event_id": "ppe_7ff0189dd8b191649d62ebf8"
+ "event_id": "ppe_2e1220d46edd7553a424cc25"
 }

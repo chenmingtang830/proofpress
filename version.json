@@ -1,144 +1,192 @@
 {
- "artifact": "experiments/provenance_handoff/ara/logic/concepts.md",
- "artifact_id": "pp_e833a86ea89426121ab55437",
+ "artifact": "experiments/provenance_handoff/ara/logic/solution/architecture.md",
+ "artifact_id": "pp_78e9d4dc876608cba9bcbbff",
  "blocks": [
   {
    "type": "heading",
-   "text": "# Concepts",
-   "id": "a7d8f041",
-   "hash": "187fcbf455d1"
+   "text": "# Proofpress Artifact Provenance Protocol",
+   "id": "467804be",
+   "hash": "9ae933047ae1"
   },
   {
    "type": "heading",
-   "text": "## K01: Trusted task success",
-   "id": "64be4783",
-   "hash": "80c042002636"
+   "text": "## Purpose",
+   "id": "ada2bef0",
+   "hash": "2a742d7fc2b0"
   },
   {
    "type": "para",
-   "text": "An outcome that satisfies the fixed Harvey task score and contains no defined decision regression or unsupported authority upgrade; where a reversal condition exists, it must also handle that condition correctly.",
-   "id": "8f6c2cc4",
-   "hash": "fb540b2aab33"
+   "text": "Proofpress is an artifact provenance protocol for carrying claims, decisions, actors, and revision history across an agent handoff. It complements semantic handoff: the handoff explains prior work, while Proofpress verifies which artifact version that work belongs to before reuse.",
+   "id": "fb36d431",
+   "hash": "7b6c10e0fa4d"
   },
   {
    "type": "heading",
-   "text": "## K02: Version chain",
-   "id": "459ab317",
-   "hash": "70aea8e7255d"
+   "text": "## Roles",
+   "id": "150568d9",
+   "hash": "ef58664a90a8"
+  },
+  {
+   "type": "heading",
+   "text": "### Originating agent",
+   "id": "33bf169a",
+   "hash": "66b3d7359ba8"
   },
   {
    "type": "para",
-   "text": "Browseable intermediate artifact versions with no typed claim, source-status, acceptance, or verification semantics.",
-   "id": "fd826d86",
-   "hash": "6f899f01546a"
+   "text": "Produces or accepts a knowledge artifact, records the claims and decisions intended for reuse, and creates a verifiable carrier bound to the accepted artifact revision.",
+   "id": "43948670",
+   "hash": "8b7ef3b2d46b"
   },
   {
    "type": "heading",
-   "text": "## K03: Proofpress lineage",
-   "id": "f3efffe2",
-   "hash": "2912a252474b"
+   "text": "### Receiving agent",
+   "id": "c46e951c",
+   "hash": "c5d9dac58c82"
   },
   {
    "type": "para",
-   "text": "A portable chain of accepted checkpoint artifacts with explicit claims, source class, decision status, rationale, actors, rejection/reversal state, artifact hashes, and verification results.",
-   "id": "90549363",
-   "hash": "a3fde8a68d28"
+   "text": "Receives the artifact, readable handoff, and carrier; verifies them before relying on inherited state; and follows the resulting disposition.",
+   "id": "cdf8b4ce",
+   "hash": "7ab3eb9d8df8"
   },
   {
    "type": "heading",
-   "text": "## K04: Correct reversal",
-   "id": "0990e58d",
-   "hash": "1506a33ad264"
+   "text": "### Admission authority",
+   "id": "577af53f",
+   "hash": "3988a892adbc"
   },
   {
    "type": "para",
-   "text": "A successor supersedes a prior accepted decision only when new admissible evidence or its recorded reversal condition supports the change, and records that relationship.",
-   "id": "6fed2b50",
-   "hash": "ef11115e45f4"
+   "text": "Controls which revision is accepted for reuse. This may be a protected local ledger, signed snapshot, accepted-version pointer, or another explicitly trusted policy control. Proofpress does not infer authority from recency alone.",
+   "id": "6f2a9e85",
+   "hash": "2584580019d8"
   },
   {
    "type": "heading",
-   "text": "## K05: Strong ordinary memory",
-   "id": "6715b9f4",
-   "hash": "c27860324ead"
+   "text": "## Protocol objects",
+   "id": "ae5dfd8e",
+   "hash": "5939df63a144"
+  },
+  {
+   "type": "table",
+   "text": "| Object | Purpose | Required relationship |\n|---|---|---|\n| Artifact revision | Immutable bytes or canonical content presented for work | Has stable content identity |\n| Accepted knowledge state | Claims, decisions, rationale, actors, and relevant lineage | Declares the artifact revision for which it was accepted |\n| Readable handoff | Semantic context needed for continuity | Information-matched across experimental conditions |\n| Verifiable carrier | Portable representation of accepted state and binding | Integrity-protected and linked to admission state |\n| Current artifact | Revision actually held by the receiver | Compared with the admitted revision before reuse |\n| Disposition | Receiver action on inherited state | `proceed`, `targeted_revalidate`, or `stop/refuse` |",
+   "id": "92c5d29f",
+   "hash": "1aa2b0e200bc"
+  },
+  {
+   "type": "heading",
+   "text": "## Operations",
+   "id": "1031457e",
+   "hash": "a73a5de4efe4"
+  },
+  {
+   "type": "heading",
+   "text": "### 1. Record",
+   "id": "4a36cba2",
+   "hash": "43fa5a53b3a8"
   },
   {
    "type": "para",
-   "text": "The latest artifact plus ordinary prose `memory.md` and `handoff.log` that may explain decisions, rationale, caveats, open questions, and next actions, but does not provide typed source/decision/acceptance semantics or independently verifiable admission state.",
-   "id": "51fa574d",
-   "hash": "78f4d39ab552"
+   "text": "Record the accepted artifact revision, declared claims and decisions, lineage, actors, and policy-relevant state. Recording states what was accepted; it does not prove the accepted content is true.",
+   "id": "d2c00d33",
+   "hash": "f1d4f2def6b0"
   },
   {
    "type": "heading",
-   "text": "## K06: Isolated handoff diagnostic",
-   "id": "885dce8e",
-   "hash": "c003edc33d34"
+   "text": "### 2. Bind",
+   "id": "118efe2a",
+   "hash": "e26558a48934"
   },
   {
    "type": "para",
-   "text": "A receiver-only comparison in which upstream checkpoint artifacts, public workspace, role prompt, model configuration, and token budget are frozen. Only the matched handoff representation varies. It measures receiver recovery, trust behavior, and recovery cost at one edge.",
-   "id": "80b0e242",
-   "hash": "903314776769"
+   "text": "Bind the accepted knowledge state to immutable artifact identity and to the applicable admission control. Identity answers “which bytes?”; admission answers “which revision is authorized as the basis for reuse?”",
+   "id": "53bf7bbc",
+   "hash": "4a25a42f4696"
   },
   {
    "type": "heading",
-   "text": "## K07: Homogeneous model team",
-   "id": "ba42f23b",
-   "hash": "5d4d19a4a691"
+   "text": "### 3. Transfer",
+   "id": "707e95d4",
+   "hash": "051aeae25f14"
   },
   {
    "type": "para",
-   "text": "One exact model, provider-routing configuration, reasoning effort, temperature, tool policy, and adapter version used by planning orchestrator, evidence, decision, drafting, and review orchestrator within a workflow attempt.",
-   "id": "89113f3c",
-   "hash": "63944c9e9c55"
+   "text": "Transfer both the readable handoff and the verifiable carrier. The protocol does not replace semantic context with a digest: a successor needs the meaning of prior work and the means to check its applicability.",
+   "id": "b8099be9",
+   "hash": "7c5a958ad79a"
   },
   {
    "type": "heading",
-   "text": "## K08: Proofpress",
-   "id": "b50b278c",
-   "hash": "eaf46e5eeb59"
+   "text": "### 4. Verify",
+   "id": "d23136b7",
+   "hash": "3ec5331c111c"
   },
   {
    "type": "para",
-   "text": "A deterministic artifact-provenance and admission layer. It records accepted revisions, claims, actors, lineage, and artifact hashes, then verifies whether a current artifact remains bound to the admitted state before that state is reused. It is not a language model, a source-truth oracle, or proof that a recorded decision is substantively correct.",
-   "id": "0ada9f0d",
-   "hash": "4e2c46173b7c"
+   "text": "Before reuse, verify carrier integrity and lineage, resolve the admitted revision under the declared control, and compare that state with the current artifact. A failed integrity or authority check cannot be repaired by persuasive prose.",
+   "id": "ad206507",
+   "hash": "4b0ed3610793"
   },
   {
    "type": "heading",
-   "text": "## K09: Design-aligned mechanism fixture",
-   "id": "7c6b1d59",
-   "hash": "d0999bcc3776"
-  },
-  {
-   "type": "para",
-   "text": "An evaluation fixture whose injected fault directly instantiates the condition a treatment was designed to detect. Such a fixture can establish that the mechanism fires and can measure clean-path interference under controlled conditions, but its effect size should not be treated as an estimate over independently sampled real-world tasks.",
-   "id": "f809db12",
-   "hash": "d3b9e3b6a759"
-  },
-  {
-   "type": "heading",
-   "text": "## K10: Identity is not currentness",
-   "id": "7842c425",
-   "hash": "76575e7e4908"
-  },
-  {
-   "type": "para",
-   "text": "A digest, signature, or content-addressed identifier can establish which immutable revision is present. It cannot by itself establish that this revision remains the one currently authorized for reuse. Currentness is relative to a trusted policy control such as an admission record, protected reference, signed snapshot, or accepted-version pointer. Proofpress verifies binding under declared admission state; it does not infer semantic currentness from content or time alone.",
-   "id": "c411b331",
-   "hash": "5b4211e46626"
-  },
-  {
-   "type": "heading",
-   "text": "## K11: Proofpress artifact provenance protocol",
-   "id": "ba420001",
-   "hash": "1d805ec77686"
+   "text": "### 5. Dispose",
+   "id": "dc22da73",
+   "hash": "eaf240e50f99"
   },
   {
    "type": "list",
-   "text": "- **Notation**: `Proofpress = (record, link, transfer, check, decide)`\n- **Definition**: An artifact provenance protocol in which claims and decisions are recorded with the artifact version for which they were accepted, transferred with a readable handoff, and checked by the successor against the artifact actually received before reuse.\n- **Boundary conditions**: Proofpress verifies declared identity, integrity, revision history, and the relationship between inherited work and an artifact version. It does not establish source truth, semantic correctness, external authorization not represented in the control state, or whether every change affects a claim.\n- **Related concepts**: Proofpress lineage; Version chain; Identity is not currentness; Correct reversal.",
-   "id": "ba420002",
-   "hash": "650a08a3ffbf"
+   "text": "- `proceed`: the binding holds, or a declared irrelevant change leaves the affected knowledge admissible.\n- `targeted_revalidate`: the artifact changed in a way that may affect specified claims or decisions; reopen only the affected work.\n- `stop/refuse`: integrity, lineage, or admission state is invalid or unavailable, so reuse is not authorized.",
+   "id": "3c1d6242",
+   "hash": "da2d421162b3"
+  },
+  {
+   "type": "heading",
+   "text": "## Decision invariant",
+   "id": "5121f3c0",
+   "hash": "b2f3102afa3f"
+  },
+  {
+   "type": "para",
+   "text": "Inherited knowledge must not be treated as admitted solely because it is readable, plausible, recent, or cryptographically intact. It is admissible only when the receiver can establish the required relationship among the current artifact, the recorded accepted revision, and the governing admission state.",
+   "id": "035845ae",
+   "hash": "ffa7f8c6eddb"
+  },
+  {
+   "type": "heading",
+   "text": "## Trust and threat model",
+   "id": "43b00f4a",
+   "hash": "d2b5e3b18e27"
+  },
+  {
+   "type": "para",
+   "text": "Proofpress assumes that the selected content canonicalization is stable and that the accepted-version control is protected according to the deployment's policy. It addresses accidental or adversarial artifact substitution, outdated-but-plausible inherited work, and broken revision history. It does not protect against a malicious trusted authority, false claims accepted into the ledger, undisclosed external policy changes, or semantic changes that the configured affected-claim logic cannot recognize.",
+   "id": "10be2bb8",
+   "hash": "04c5d2938e86"
+  },
+  {
+   "type": "heading",
+   "text": "## Experimental isolation",
+   "id": "12fee1c4",
+   "hash": "8f4712e66129"
+  },
+  {
+   "type": "para",
+   "text": "The ordinary and Proofpress conditions receive the same readable semantic handoff. The treatment is executable revision binding and its receive-time verification path. This information-matched design separates continuity benefits from admission effects.",
+   "id": "461e894a",
+   "hash": "a99ff66506b6"
+  },
+  {
+   "type": "heading",
+   "text": "## Implementation mapping",
+   "id": "d9da6eaf",
+   "hash": "ab3ffc9b8a29"
+  },
+  {
+   "type": "para",
+   "text": "Proofpress's carrier-native workflow maps the protocol to artifact policy inspection, anchored revision records, claims attached to changed blocks, snapshots with explicit actors and reasons, portable inspection/import where required, and deterministic verification. The persistent implementation and experiment entry points are indexed in `../../src/artifacts.md`.",
+   "id": "0458bd5a",
+   "hash": "47d5ccef33c0"
   }
  ]
 }
