@@ -1,0 +1,448 @@
+{
+  "artifact_id": "ara",
+  "artifact_path": "ara",
+  "level_1": {
+    "level": "1_structural_integrity",
+    "passed": true,
+    "checks": [
+      {
+        "check": "dir_exists:logic",
+        "passed": true,
+        "message": ""
+      },
+      {
+        "check": "dir_exists:logic/solution",
+        "passed": true,
+        "message": ""
+      },
+      {
+        "check": "dir_exists:src",
+        "passed": true,
+        "message": ""
+      },
+      {
+        "check": "dir_exists:src/configs",
+        "passed": true,
+        "message": ""
+      },
+      {
+        "check": "dir_exists:trace",
+        "passed": true,
+        "message": ""
+      },
+      {
+        "check": "dir_exists:evidence",
+        "passed": true,
+        "message": ""
+      },
+      {
+        "check": "file_exists:PAPER.md",
+        "passed": true,
+        "message": ""
+      },
+      {
+        "check": "file_exists:logic/problem.md",
+        "passed": true,
+        "message": ""
+      },
+      {
+        "check": "file_exists:logic/claims.md",
+        "passed": true,
+        "message": ""
+      },
+      {
+        "check": "file_exists:logic/concepts.md",
+        "passed": true,
+        "message": ""
+      },
+      {
+        "check": "file_exists:logic/experiments.md",
+        "passed": true,
+        "message": ""
+      },
+      {
+        "check": "file_exists:logic/solution/architecture.md",
+        "passed": true,
+        "message": ""
+      },
+      {
+        "check": "file_exists:logic/solution/algorithm.md",
+        "passed": true,
+        "message": ""
+      },
+      {
+        "check": "file_exists:logic/solution/constraints.md",
+        "passed": true,
+        "message": ""
+      },
+      {
+        "check": "file_exists:logic/solution/heuristics.md",
+        "passed": true,
+        "message": ""
+      },
+      {
+        "check": "file_exists:logic/related_work.md",
+        "passed": true,
+        "message": ""
+      },
+      {
+        "check": "file_exists:src/configs/training.md",
+        "passed": true,
+        "message": ""
+      },
+      {
+        "check": "file_exists:src/configs/model.md",
+        "passed": true,
+        "message": ""
+      },
+      {
+        "check": "file_exists:src/environment.md",
+        "passed": true,
+        "message": ""
+      },
+      {
+        "check": "file_exists:trace/exploration_tree.yaml",
+        "passed": true,
+        "message": ""
+      },
+      {
+        "check": "file_exists:evidence/README.md",
+        "passed": true,
+        "message": ""
+      },
+      {
+        "check": "yaml_frontmatter",
+        "passed": true,
+        "message": ""
+      },
+      {
+        "check": "paper_has_layer_index",
+        "passed": true,
+        "message": ""
+      },
+      {
+        "check": "evidence_readme_has_index",
+        "passed": true,
+        "message": ""
+      },
+      {
+        "check": "field_present:logic/claims.md:claim_block",
+        "passed": true,
+        "message": ""
+      },
+      {
+        "check": "field_present:logic/claims.md:Statement",
+        "passed": true,
+        "message": ""
+      },
+      {
+        "check": "field_present:logic/claims.md:Status",
+        "passed": true,
+        "message": ""
+      },
+      {
+        "check": "field_present:logic/claims.md:Falsification criteria",
+        "passed": true,
+        "message": ""
+      },
+      {
+        "check": "field_present:logic/claims.md:Proof",
+        "passed": true,
+        "message": ""
+      },
+      {
+        "check": "field_present:logic/concepts.md:concept_block",
+        "passed": true,
+        "message": ""
+      },
+      {
+        "check": "field_present:logic/concepts.md:Definition",
+        "passed": true,
+        "message": ""
+      },
+      {
+        "check": "field_present:logic/problem.md:observation_block",
+        "passed": true,
+        "message": ""
+      },
+      {
+        "check": "field_present:logic/problem.md:gap_block",
+        "passed": true,
+        "message": ""
+      },
+      {
+        "check": "field_present:logic/problem.md:Key Insight",
+        "passed": true,
+        "message": ""
+      },
+      {
+        "check": "field_present:logic/experiments.md:experiment_block",
+        "passed": true,
+        "message": ""
+      },
+      {
+        "check": "field_present:logic/experiments.md:Verifies",
+        "passed": true,
+        "message": ""
+      },
+      {
+        "check": "field_present:logic/experiments.md:Setup",
+        "passed": true,
+        "message": ""
+      },
+      {
+        "check": "field_present:logic/experiments.md:Procedure",
+        "passed": true,
+        "message": ""
+      },
+      {
+        "check": "field_present:logic/experiments.md:Expected outcome",
+        "passed": true,
+        "message": ""
+      },
+      {
+        "check": "field_present:logic/solution/heuristics.md:heuristic_block",
+        "passed": true,
+        "message": ""
+      },
+      {
+        "check": "field_present:logic/solution/heuristics.md:Rationale",
+        "passed": true,
+        "message": ""
+      },
+      {
+        "check": "field_present:logic/solution/heuristics.md:Sensitivity",
+        "passed": true,
+        "message": ""
+      },
+      {
+        "check": "field_present:logic/solution/heuristics.md:Bounds",
+        "passed": true,
+        "message": ""
+      },
+      {
+        "check": "field_present:logic/related_work.md:rw_block",
+        "passed": true,
+        "message": ""
+      },
+      {
+        "check": "field_present:logic/related_work.md:Type",
+        "passed": true,
+        "message": ""
+      },
+      {
+        "check": "field_present:logic/related_work.md:Delta",
+        "passed": true,
+        "message": ""
+      },
+      {
+        "check": "concepts_count",
+        "passed": true,
+        "message": ""
+      },
+      {
+        "check": "experiments_count",
+        "passed": true,
+        "message": ""
+      },
+      {
+        "check": "code_stubs_count",
+        "passed": true,
+        "message": ""
+      },
+      {
+        "check": "evidence_data_count",
+        "passed": true,
+        "message": ""
+      },
+      {
+        "check": "evidence_has_table:evidence/tables/derived_main_results.md",
+        "passed": true,
+        "message": ""
+      },
+      {
+        "check": "evidence_has_source:evidence/tables/derived_main_results.md",
+        "passed": true,
+        "message": ""
+      },
+      {
+        "check": "tree_yaml_parse",
+        "passed": true,
+        "message": ""
+      },
+      {
+        "check": "tree_node_count",
+        "passed": true,
+        "message": ""
+      },
+      {
+        "check": "tree_has_dead_end",
+        "passed": true,
+        "message": ""
+      },
+      {
+        "check": "tree_has_decision",
+        "passed": true,
+        "message": ""
+      },
+      {
+        "check": "proof_refs_experiment:E19",
+        "passed": true,
+        "message": ""
+      },
+      {
+        "check": "proof_refs_experiment:E15",
+        "passed": true,
+        "message": ""
+      },
+      {
+        "check": "proof_refs_experiment:E16",
+        "passed": true,
+        "message": ""
+      },
+      {
+        "check": "proof_refs_experiment:E17",
+        "passed": true,
+        "message": ""
+      },
+      {
+        "check": "experiment_verifies_claim:C11",
+        "passed": true,
+        "message": ""
+      },
+      {
+        "check": "experiment_verifies_claim:C13",
+        "passed": true,
+        "message": ""
+      },
+      {
+        "check": "experiment_verifies_claim:C12",
+        "passed": true,
+        "message": ""
+      },
+      {
+        "check": "experiment_verifies_claim:C13",
+        "passed": true,
+        "message": ""
+      },
+      {
+        "check": "experiment_verifies_claim:C09",
+        "passed": true,
+        "message": ""
+      },
+      {
+        "check": "experiment_verifies_claim:C10",
+        "passed": true,
+        "message": ""
+      },
+      {
+        "check": "experiment_verifies_claim:C13",
+        "passed": true,
+        "message": ""
+      },
+      {
+        "check": "experiment_verifies_claim:C02",
+        "passed": true,
+        "message": ""
+      },
+      {
+        "check": "experiment_verifies_claim:C13",
+        "passed": true,
+        "message": ""
+      },
+      {
+        "check": "experiment_verifies_claim:C14",
+        "passed": true,
+        "message": ""
+      },
+      {
+        "check": "arch_component_has_code:Purpose",
+        "passed": true,
+        "message": ""
+      },
+      {
+        "check": "arch_component_has_code:Roles",
+        "passed": true,
+        "message": ""
+      },
+      {
+        "check": "arch_component_has_code:Originating agent",
+        "passed": true,
+        "message": ""
+      },
+      {
+        "check": "arch_component_has_code:Receiving agent",
+        "passed": true,
+        "message": ""
+      },
+      {
+        "check": "arch_component_has_code:Admission authority",
+        "passed": true,
+        "message": ""
+      },
+      {
+        "check": "arch_component_has_code:Protocol objects",
+        "passed": true,
+        "message": ""
+      },
+      {
+        "check": "arch_component_has_code:Operations",
+        "passed": true,
+        "message": ""
+      },
+      {
+        "check": "arch_component_has_code:1. Record",
+        "passed": true,
+        "message": ""
+      },
+      {
+        "check": "arch_component_has_code:2. Bind",
+        "passed": true,
+        "message": ""
+      },
+      {
+        "check": "arch_component_has_code:3. Transfer",
+        "passed": true,
+        "message": ""
+      },
+      {
+        "check": "tree_evidence_resolves:N08:C04",
+        "passed": true,
+        "message": ""
+      },
+      {
+        "check": "tree_evidence_resolves:N09:C05",
+        "passed": true,
+        "message": ""
+      },
+      {
+        "check": "tree_evidence_resolves:N11:C13",
+        "passed": true,
+        "message": ""
+      },
+      {
+        "check": "tree_evidence_resolves:N11:C14",
+        "passed": true,
+        "message": ""
+      },
+      {
+        "check": "tree_evidence_resolves:N12:C13",
+        "passed": true,
+        "message": ""
+      },
+      {
+        "check": "tree_evidence_resolves:N12:C14",
+        "passed": true,
+        "message": ""
+      }
+    ]
+  },
+  "level_2": null,
+  "level_3": null,
+  "test_cases": null,
+  "feedback_for_ingestor": "",
+  "compiler_adapter": {
+    "name": "proofpress-carrier-comment-strip",
+    "reason": "ARA Seal requires YAML frontmatter at byte zero; compilation strips carrier-native Proofpress comments from a temporary copy without changing research content."
+  }
+}

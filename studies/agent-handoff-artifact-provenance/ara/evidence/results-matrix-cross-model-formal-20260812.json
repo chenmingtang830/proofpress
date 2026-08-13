@@ -1,0 +1,5 @@
+[
+  {"block":"8d6e6310","kind":"added","note":"Adds the cross-model formal replication results-matrix heading."},
+  {"block":"2e32107f","kind":"added","note":"Records the 144-cell matrix and per-model effects."},
+  {"block":"7d97f78e","kind":"added","note":"Records provider, confinement, cost, and claim boundary."}
+]

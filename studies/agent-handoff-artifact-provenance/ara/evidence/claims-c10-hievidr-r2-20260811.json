@@ -1,0 +1,9 @@
+[
+  {"block":"7e0478fd","kind":"added","note":"Adds the bounded R2 claim heading."},
+  {"block":"7e0478fe","kind":"added","note":"States the recovery-path claim without an unsupported safety claim."},
+  {"block":"e758f043","kind":"added","note":"Carries the continuation of the statement."},
+  {"block":"7e0478ff","kind":"added","note":"Sets the shared-evidence and local-debug applicability boundary."},
+  {"block":"4bd9c374","kind":"added","note":"Carries the continuation of the conditions."},
+  {"block":"7e04780a","kind":"added","note":"Records the eligible counts and Fisher result."},
+  {"block":"fbbb2225","kind":"added","note":"Carries the continuation of the proof."}
+]

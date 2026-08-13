@@ -1,0 +1,7 @@
+[
+  {
+    "block": "f64ffe80",
+    "kind": "modified",
+    "note": "Replaces missing-telemetry language with request-level AI Gateway time, token, and cost measurements and their reconciliation boundary."
+  }
+]

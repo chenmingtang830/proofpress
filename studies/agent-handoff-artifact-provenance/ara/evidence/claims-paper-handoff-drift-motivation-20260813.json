@@ -1,0 +1,12 @@
+[
+  {
+    "block": "ba41005f",
+    "kind": "added",
+    "note": "Establishes agent handoff as an implemented industry pattern and an empirically observed failure boundary, while noting that prior takeover work freezes the repository."
+  },
+  {
+    "block": "ba410060",
+    "kind": "added",
+    "note": "Connects document revision identity and up-to-date validation practices to the artifact-drift hazard tested in this paper."
+  }
+]

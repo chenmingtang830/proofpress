@@ -1,0 +1,7 @@
+[
+  {
+    "block": "0458bd5a",
+    "kind": "modified",
+    "note": "Distinguishes native in-document capsules for Markdown and static HTML from other format-aware evidence carriers."
+  }
+]

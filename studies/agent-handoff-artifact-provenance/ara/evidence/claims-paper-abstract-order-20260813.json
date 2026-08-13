@@ -1,0 +1,6 @@
+[
+  {"block":"ba410007","kind":"modified","note":"Introduces Proofpress and explains the protocol before describing its evaluation."},
+  {"block":"ba410008","kind":"modified","note":"Leads with the multi-harness, multi-model evaluation and strongest admission result, then reports weaker and null findings."},
+  {"block":"28b52783","kind":"removed","note":"Replaces the earlier frontmatter abstract with a protocol-first, evidence-ordered summary."},
+  {"block":"5e0eb4aa","kind":"added","note":"Synchronizes the ARA frontmatter abstract with the revised body abstract."}
+]

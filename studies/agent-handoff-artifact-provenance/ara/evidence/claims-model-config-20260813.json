@@ -1,0 +1,5 @@
+[
+  {"block":"025066dc","kind":"added","note":"Adds the evaluation model configuration heading."},
+  {"block":"0477a0a4","kind":"added","note":"Records the tested receiver endpoints without treating them as trained models."},
+  {"block":"ecb75eaf","kind":"added","note":"States the frozen routing and no-fallback boundary."}
+]

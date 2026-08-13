@@ -1,0 +1,5 @@
+[
+  {"block":"3de79e34","kind":"modified","note":"Replaces the team placeholder with the named author, independent affiliation, correspondence email, and pending ORCID status."},
+  {"block":"ba410003","kind":"modified","note":"Adds named author and correspondence metadata to the working-paper notice."},
+  {"block":"ba410008","kind":"modified","note":"Names the exact Luna endpoint used in the preregistered main comparison."}
+]

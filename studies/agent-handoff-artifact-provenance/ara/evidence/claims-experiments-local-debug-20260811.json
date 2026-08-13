@@ -1,0 +1,5 @@
+[
+  {"block": "adf00120", "kind": "added", "note": "Adds the bounded local-debug replication record."},
+  {"block": "adf00121", "kind": "added", "note": "Records the repaired 12-per-cell results, exclusions, and strict claim boundary."},
+  {"block": "adf00119", "kind": "added", "note": "Preserves the previously unledgered clean-path validity correction for the earlier matrix."}
+]

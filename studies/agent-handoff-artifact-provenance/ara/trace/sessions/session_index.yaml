@@ -1,0 +1,37 @@
+sessions:
+  - id: "2026-08-13_001"
+    date: "2026-08-13"
+    summary: "Reframed Proofpress as VBAP, added protocol architecture and literature-gap narrative, and ran ARA Level 1."
+    turn_count: 1
+    events_count: 2
+    claims_touched: []
+    open_threads: 1
+  - id: "2026-08-06_001"
+    date: "2026-08-06"
+    summary: "Initialized Harvey-first multi-agent lineage study and installed ARA as research-management dependency."
+    turn_count: 1
+    events_count: 6
+    claims_touched: [C01, C02, C03]
+    open_threads: 4
+
+updates:
+  - session_id: "2026-08-13_001"
+    turn: 5
+    events_added: [N15]
+    claims_added: []
+    summary: "Built and validated the rc1 public study package, named the author, identified the exact Luna route, and removed all machine-local paths."
+  - session_id: "2026-08-13_001"
+    turn: 4
+    events_added: [N13, N14]
+    claims_added: []
+    summary: "Sealed ARA Level 1 at 86/86 and bounded the remaining arXiv, licensing, portability, and social-release work."
+  - session_id: "2026-08-13_001"
+    turn: 3
+    events_added: [N12]
+    claims_added: []
+    summary: "Established the handoff-plus-artifact-drift motivation and added measured overhead and public-release boundaries to the paper."
+  - session_id: "2026-08-06_001"
+    turn: 2
+    events_added: [N07, N08, N09, N10]
+    claims_added: [C04, C05]
+    summary: "Added strong-memory primary control, isolated mechanism diagnostic, homogeneous model teams, explicit OpenRouter transport contract, and priority candidate roster; no empirical outcome added."

@@ -1,0 +1,11 @@
+[
+  {"block":"bfcfd57a","kind":"added","note":"Adds the receiver-side protocol decision procedure."},
+  {"block":"8ab82529","kind":"added","note":"Defines algorithm inputs."},
+  {"block":"a92eaa2d","kind":"added","note":"Lists the bound artifact and claim inputs."},
+  {"block":"93115f81","kind":"added","note":"Adds the procedure section."},
+  {"block":"73212bc1","kind":"added","note":"Specifies the admission and revalidation sequence."},
+  {"block":"39339de2","kind":"added","note":"Adds the safety boundary."},
+  {"block":"fe7cb6f9","kind":"added","note":"States what the procedure does not establish."},
+  {"block":"f8ab03ad","kind":"added","note":"Adds the implementation reference."},
+  {"block":"dd254c1e","kind":"added","note":"Links the algorithm to the persistent CLI implementation."}
+]

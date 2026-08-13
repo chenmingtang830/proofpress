@@ -1,0 +1,42 @@
+[
+  {
+    "block": "ac376353",
+    "kind": "added",
+    "note": "Distinguishes the public Apache-2.0 Proofpress implementation from the not-yet-published evaluation package."
+  },
+  {
+    "block": "ba410059",
+    "kind": "added",
+    "note": "Adds a results subsection for measured evaluation overhead."
+  },
+  {
+    "block": "ba41005a",
+    "kind": "added",
+    "note": "Reports mean token, time, and provider-cost telemetry for the three-model controlled follow-up."
+  },
+  {
+    "block": "ba41005b",
+    "kind": "added",
+    "note": "Presents descriptive ordinary-handoff and Proofpress overhead in a comparison table."
+  },
+  {
+    "block": "ba41005c",
+    "kind": "added",
+    "note": "Explains why end-to-end harness overhead is not an isolated deterministic protocol benchmark."
+  },
+  {
+    "block": "ba410042",
+    "kind": "modified",
+    "note": "States explicitly that the perfect controlled result is a design-aligned mechanism test and does not establish generalization."
+  },
+  {
+    "block": "ba41005d",
+    "kind": "added",
+    "note": "Adds task-diversity, benchmark, overhead, organizational, and truth-verification limitations."
+  },
+  {
+    "block": "ba41005e",
+    "kind": "added",
+    "note": "Records the current public implementation and internal evaluation-package availability boundary."
+  }
+]

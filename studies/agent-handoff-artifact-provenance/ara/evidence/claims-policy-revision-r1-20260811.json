@@ -1,0 +1,12 @@
+[
+  {
+    "block": "adf00126",
+    "kind": "added",
+    "note": "Adds the bounded independent policy-revision experiment record."
+  },
+  {
+    "block": "adf00127",
+    "kind": "added",
+    "note": "Records eligible counts, admission-path contrast, and local-debug boundary."
+  }
+]

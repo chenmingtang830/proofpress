@@ -1,0 +1,15 @@
+[
+  {"block":"877c488a","kind":"modified","note":"Recasts the review heading around method and status."},
+  {"block":"f3c33000","kind":"modified","note":"Records sources, query families, inclusion logic, date, and review limitations."},
+  {"block":"ac488866","kind":"added","note":"Adds the broad-prior-art synthesis heading."},
+  {"block":"c84994f8","kind":"added","note":"Records established components and the narrow joint research object."},
+  {"block":"5e4d5266","kind":"added","note":"Adds the closest agent-memory and handoff review heading."},
+  {"block":"0e061db7","kind":"added","note":"Compares fourteen closest agent-memory and handoff works."},
+  {"block":"a7a3a721","kind":"added","note":"Adds provenance and consume-time admission review heading."},
+  {"block":"a1be6cea","kind":"added","note":"Compares provenance standards, supply-chain admission, and agent provenance systems."},
+  {"block":"218ed699","kind":"added","note":"Adds benchmark-validity review heading."},
+  {"block":"96041c8c","kind":"added","note":"Records construct-validity and benchmark-design guidance."},
+  {"block":"d0da681a","kind":"added","note":"Adds scoped novelty conclusion heading."},
+  {"block":"d96b6d09","kind":"added","note":"Distinguishes artifact identity from policy currentness and states the joint contribution."},
+  {"block":"c7970100","kind":"added","note":"Records the scoped search finding and remaining systematic-review requirements."}
+]

@@ -1,0 +1,172 @@
+tree:
+  - id: N01
+    type: question
+    title: "Does provenance improve long-horizon multi-agent handoff?"
+    provenance: user
+    timestamp: "2026-08-06T00:00"
+    description: "Evaluate whether preserved trust, shorter recovered context, lower cost/time, or higher quality emerges when provenance is available at agent handoff."
+    status: resolved
+    children:
+      - id: N02
+        type: decision
+        title: "Use Harvey LAB as the primary task and harness substrate"
+        provenance: user-revised
+        timestamp: "2026-08-06T00:00"
+        choice: "Use Harvey LAB's official open-source harness for the first study, with legal-work tasks as the primary substrate."
+        alternatives: ["WorkBench-first primary study", "new second harness in first wave"]
+        evidence: ["E01", "E02"]
+        status: resolved
+        children:
+          - id: N03
+            type: decision
+            title: "Create a genuine multi-checkpoint centralized workflow"
+            provenance: user-revised
+            timestamp: "2026-08-06T00:00"
+            choice: "Use one orchestrator and evidence, decision, drafting stages with V0 through V4 intermediate artifacts; compare identical workflow arms."
+            alternatives: ["single artificial one-time handoff", "uncontrolled peer-to-peer MAS"]
+            evidence: ["E03"]
+            status: resolved
+            children:
+              - id: N04
+                type: decision
+                title: "Treat unaudited version chain as primary control"
+                provenance: user-revised
+                timestamp: "2026-08-06T00:00"
+                choice: "Compare Proofpress lineage to the same workflow with browseable versions but no typed provenance."
+                alternatives: ["final artifact only as sole control"]
+                evidence: ["E05"]
+                status: resolved
+              - id: N05
+                type: dead_end
+                title: "Defer Pi harness"
+                provenance: user
+                timestamp: "2026-08-06T00:00"
+                hypothesis: "A minimalist second harness could be introduced for a future replication."
+                failure_mode: "Adding a harness factor now would confound model and harness effects and increase implementation risk."
+                lesson: "Fix Harvey's harness for the first paper and treat cross-harness replication as follow-up work."
+                status: resolved
+              - id: N06
+                type: decision
+                title: "Use ARA for research management, not benchmark treatment"
+                provenance: user
+                timestamp: "2026-08-06T00:00"
+                choice: "Install ARA locally and maintain this research artifact; exclude it from agent contexts."
+                alternatives: ["include ARA skills in benchmark agents", "do not record study provenance"]
+                evidence: ["E04", "E05"]
+                status: resolved
+              - id: N07
+                type: decision
+                title: "Use strong ordinary memory as the primary control"
+                provenance: user-revised
+                timestamp: "2026-08-06T00:00"
+                choice: "Compare Proofpress lineage first with a token-matched ordinary memory.md and handoff.log; retain raw browseable history as a secondary comparator."
+                alternatives: ["version chain as sole primary control", "final artifact only as primary control"]
+                evidence: ["E02", "E03"]
+                supersedes: N04
+                status: resolved
+              - id: N08
+                type: decision
+                title: "Retain isolated handoff as a mechanism diagnostic"
+                provenance: user-revised
+                timestamp: "2026-08-06T00:00"
+                choice: "Run a small receiver-only diagnostic with identical upstream checkpoint content before the full V0-V4 workflow; do not present it as the main task baseline."
+                alternatives: ["end-to-end workflow only", "isolated handoff as the primary study"]
+                evidence: ["E02", "C04"]
+                status: resolved
+              - id: N09
+                type: decision
+                title: "Use homogeneous model teams through one OpenRouter transport"
+                provenance: user-revised
+                timestamp: "2026-08-06T00:00"
+                choice: "For each core workflow slice, use one exact model at high effort for all roles; use concrete OpenRouter model slugs with no automatic fallback or latest alias."
+                alternatives: ["mixed coordinator/worker models in the causal matrix", "add Pi as a second harness now"]
+                evidence: ["E01", "E03", "C05"]
+                status: resolved
+              - id: N10
+                type: decision
+                title: "Include priority candidate model teams in later sweep"
+                provenance: user
+                timestamp: "2026-08-06T00:00"
+                choice: "Include DeepSeek V4 Flash (High), Qwen 3.8, and Muse Spark 1.2 as named candidate teams, subject to freeze-time tool-contract/access checks."
+                alternatives: ["single-model paper", "unbounded model grid before mechanism gate"]
+                evidence: ["E04"]
+                status: resolved
+  - id: N11
+    type: decision
+    title: "Present Proofpress as a version-bound admission protocol"
+    provenance: user-revised
+    timestamp: "2026-08-13T08:35"
+    support_level: explicit
+    source_refs:
+      - "2026-08-13 user direction: introduce Proofpress as a version-bound admission protocol for agent handoffs"
+    choice: "Define Proofpress VBAP as the central research object and restructure the external paper around protocol, prior work, scoped gap, evidence, and boundaries."
+    alternatives:
+      - "Retain the internal experiment-summary narrative"
+      - "Claim a new generic provenance primitive"
+    evidence: ["C13", "C14"]
+    status: resolved
+    also_depends_on: [N06, N08]
+  - id: N12
+    type: decision
+    title: "Establish handoff and mutable-artifact risk before the research gap"
+    provenance: user-revised
+    timestamp: "2026-08-13T02:50"
+    support_level: explicit
+    source_refs:
+      - "2026-08-13 user direction: establish agent handoff and artifact drift with literature or industry evidence early in the paper"
+    choice: "Ground the Introduction in deployed handoff patterns, empirical handoff-boundary failures, document revision identity, and up-to-date validation practices; then state that their intersection remains under-evaluated."
+    alternatives:
+      - "Treat artifact drift as a self-evident hypothetical"
+      - "Claim that earlier literature already demonstrates the exact Proofpress mechanism"
+    evidence: ["C13", "C14"]
+    status: resolved
+    also_depends_on: [N11]
+  - id: N13
+    type: decision
+    title: "Prepare a public preprint and social release rather than a peer-review submission"
+    provenance: user
+    timestamp: "2026-08-13T03:10"
+    support_level: explicit
+    source_refs:
+      - "2026-08-13 user direction: publish the research as an arXiv-style preprint and share it on LinkedIn and X without treating peer review as the immediate bar"
+    choice: "Package the work for public technical review with bounded claims, a reproducible release, and social summaries; do not delay solely to reach journal-level evidence."
+    alternatives:
+      - "Keep the study internal"
+      - "Require a peer-review-ready efficacy program before public release"
+    evidence: ["PAPER.md", "evidence/tables/derived_main_results.md"]
+    status: resolved
+    also_depends_on: [N11, N12]
+  - id: N14
+    type: experiment
+    title: "ARA structural and release-readiness audit"
+    provenance: ai-executed
+    timestamp: "2026-08-13T03:10"
+    support_level: explicit
+    source_refs:
+      - "2026-08-13 ARA Seal Level 1 output"
+      - "2026-08-13 repository portability scan"
+    result: "ARA Seal Level 1 passed 86/86 checks and the revised public-facing files verified through Proofpress. The package is reviewable but not upload-ready because historical files retain five local path references and no LaTeX/PDF release bundle, named-author metadata, or task redistribution manifest exists yet."
+    evidence:
+      - "level1_report.json"
+      - "evidence/README.md"
+      - "src/environment.md"
+    status: resolved
+    also_depends_on: [N13]
+  - id: N15
+    type: decision
+    title: "Release the study as a human-readable wrapper around a complete ARA"
+    provenance: user-revised
+    timestamp: "2026-08-13T05:05"
+    support_level: explicit
+    source_refs:
+      - "2026-08-13 user request: place the study in the Proofpress repository, package the public evidence, and identify the author as Chenming Tang"
+    choice: "Prepare `studies/agent-handoff-artifact-provenance/` with a normal README, study card, release manifest, and complete ARA; use Chenming Tang, Independent Researcher, as the named author."
+    alternatives:
+      - "Publish only the raw ARA directory"
+      - "Publish only a prose report without machine-readable research structure"
+    evidence:
+      - "studies/agent-handoff-artifact-provenance/README.md"
+      - "studies/agent-handoff-artifact-provenance/STUDY_CARD.md"
+      - "studies/agent-handoff-artifact-provenance/ara/PAPER.md"
+    status: resolved
+    also_depends_on: [N13, N14]

@@ -1,0 +1,17 @@
+[
+  {
+    "block": "5e6a26c0",
+    "kind": "modified",
+    "note": "Corrects the telemetry interpretation using the underlying AI Gateway request ledger rather than OpenCode's zero-cost response summary."
+  },
+  {
+    "block": "aa1f2aee",
+    "kind": "modified",
+    "note": "Reports DeepSeek V0 and V1 Gateway request counts, billable tokens, cumulative request duration, and market model cost."
+  },
+  {
+    "block": "57827d0a",
+    "kind": "modified",
+    "note": "Quantifies DeepSeek condition ratios and discloses the 82-call local versus 81-call aggregate Gateway reconciliation difference."
+  }
+]

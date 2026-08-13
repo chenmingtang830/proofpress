@@ -1,0 +1,13 @@
+[
+  {"block": "7e0478f9", "kind": "added", "note": "Adds the bounded stale-artifact continuation claim."},
+  {"block": "7e0478fa", "kind": "added", "note": "States the tested contrast and disposition observation."},
+  {"block": "cba0f633", "kind": "added", "note": "Completes the tested C2 versus C1 disposition statement."},
+  {"block": "ffe4fc31", "kind": "added", "note": "States the local-debug condition and scope boundary."},
+  {"block": "6edc149a", "kind": "added", "note": "Completes the limitation statement."},
+  {"block": "4d8ea751", "kind": "added", "note": "Records source, status, provenance, and falsification setup."},
+  {"block": "120122de", "kind": "added", "note": "Completes the falsification criteria."},
+  {"block": "8e73e2c5", "kind": "added", "note": "Records the quantitative evidence label."},
+  {"block": "6bbf0ff4", "kind": "added", "note": "Records the effect counts, Fisher result, and clean admission result."},
+  {"block": "14b9a6eb", "kind": "added", "note": "Records dependencies and claim tags."},
+  {"block": "75cfaa0c", "kind": "added", "note": "Completes the claim tag block."}
+]

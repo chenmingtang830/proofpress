@@ -1,0 +1,4 @@
+[
+  {"block":"945105f9","kind":"added","note":"Adds the training configuration file required by the pinned validator."},
+  {"block":"80c00192","kind":"added","note":"States honestly that the evaluation performs no training."}
+]

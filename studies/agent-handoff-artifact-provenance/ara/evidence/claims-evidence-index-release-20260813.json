@@ -1,0 +1,8 @@
+[
+  {"block":"2f55c2b1","kind":"modified","note":"Reframes the evidence index for external review."},
+  {"block":"687aeafa","kind":"modified","note":"Points readers to the principal result synthesis and states its scope."},
+  {"block":"563cb8db","kind":"modified","note":"Indexes the primary machine summaries and canonical result documents."},
+  {"block":"4a2a703a","kind":"modified","note":"States the boundary between included aggregates and external raw records."},
+  {"block":"a8111b7b","kind":"modified","note":"Renames the source-input section for public readers."},
+  {"block":"d49d601a","kind":"modified","note":"Defines evidence qualification without presenting an obsolete active target."}
+]

@@ -1,0 +1,12 @@
+[
+  {
+    "block": "4a65ffee",
+    "kind": "modified",
+    "note": "Removes relative percentages while preserving the absolute derived overhead measurements."
+  },
+  {
+    "block": "067f2a02",
+    "kind": "modified",
+    "note": "Adds the boundary that downstream rework, audit, and propagated-error costs were not monetized."
+  }
+]

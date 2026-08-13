@@ -1,0 +1,5 @@
+[
+  {"block":"61923531","kind":"modified","note":"Indexes the receiver-side algorithm in the cognitive layer."},
+  {"block":"42cb0b87","kind":"modified","note":"Indexes evaluation configs and grounded execution pointers in the physical layer."},
+  {"block":"45399eb2","kind":"modified","note":"Indexes the reader-facing result table and rendered companion."}
+]

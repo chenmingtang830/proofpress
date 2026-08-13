@@ -1,0 +1,36 @@
+[//]: # (ob:3873a5b9)
+# Constraints
+
+[//]: # (ob:f7b0790b)
+## S01: Do not make the treatment a hidden capability advantage
+
+[//]: # (ob:596a41ee)
+All multi-agent arms share the same task, role sequence, tools, source workspace, model configuration, revision cap, and visible token budget. Proofpress may structure and verify history but may not add facts, private prompts, or extra tool access.
+
+[//]: # (ob:dfe03b5f)
+## S02: Preserve justified reversals
+
+[//]: # (ob:4a498a67)
+The scorer must separate correct reversal, decision regression, unsupported authority upgrade, and false block. A system that never changes decisions does not thereby preserve trust.
+
+[//]: # (ob:d32c7509)
+## S03: Keep research management out of treatment
+
+[//]: # (ob:10cc7c8e)
+ARA files and skills are laboratory-management tools. They are excluded from all benchmark-agent contexts and from the experimental independent variable.
+
+[//]: # (ob:48002399)
+## S04: Respect source licenses and confidentiality
+
+[//]: # (ob:6de91d7e)
+Raw upstream documents, model traces, credentials, and potentially restricted materials remain outside Git. Review packages contain manifests, hashes, aggregate results, and only license-permitted sanitized examples.
+
+[//]: # (ob:15d19199)
+## S05: Treat design alignment as a construct-validity risk
+
+[//]: # (ob:c45aa313)
+A fixture that injects the exact failure Proofpress was designed to detect may establish mechanism operation but may not be presented as a representative treatment-effect estimate. General-efficacy or benchmark claims require independently authored tasks, nontrivial benign revisions, ambiguous or incomplete lineage, clean-path cost measurement, and execution beyond the originating harness.
+
+[//]: # (proofpress:meta:eyJhcnRpZmFjdF9pZCI6InBwXzczZWJlYmNjYTM2ZmEwOGE3ZDRhZWQ4OCIsInBvbGljeSI6InBvcnRhYmxlIiwicG9ydGFibGVfaGVhZCI6ImRlYzdkMWEwIiwicG9ydGFibGVfaGVhZF9ldmVudCI6InBwZV85MzBkYjliMjc4ODliNDU2MmY5MGJiOGIiLCJwb3J0YWJsZV9saW5lYWdlX2lkIjoicHBsXzlhNWY5YWE0ZGRjN2E2NDdmOGQ4ZDEwMyIsInByb29mcHJlc3MiOjF9)
+[//]: # (proofpress:discovery:Verifiable revision history by Proofpress | https://github.com/chenmingtang830/proofpress)
+[//]: # (proofpress:capsule:eNrtWdtu48gR_ZWG9nFlm_eL3owEWAR5yMIZ5GVhCM3uotQrilTYTduKMf-eUyQl0R6P7B07izwYmBnw0qzLqcup0jzOZOtMKZVbGj1bzHa7ZRpSQYVSMkxK6WUy1ZEknWWz-axo9H6pzYqsw1m7lkGcLKJMZkEexpnnhYGflJEOMiUpyLyo1GEaelHmlZmfhbkfxaGSOg5Sz1NRnCVZGikNudpY1dxRu58tHvnGLZ1cQUNNDw6vK1lQhdt_UWtKI4uKREt3xpqmFmucbtq9KPbi17Zpyl1L1uKbnVQbuSJ26cnjtvmd4GzXssC1czu7uLpaGbfuikvVbK_UmuqtqVdO1qss9K6efN3SvzuD62VnqV2qprZUAwnXdvR1PluTZAg1qVT70psNT5Z01x8CtLTMQ08XeRGkWZYXUZwEZe4VRVawZU3r2LVlZWqC5Yd4VMtcxmUuZaS1SmUSpWWmM-174eDOaN1SyZ3tKjgcsJ2qabWdLX57nI3qH2eIcdNavhpek14WAPy3WVdv6ua-nt3Ch0M2QLVs5VXVrIy6sk3VOYB9xR67Vpra2cstB-6PJI90rjVFL2hZSGsspxBV5VJaoOmol9e5ddOyjRtTs0i7t462eFPLLQfzYOscn1pOgNmi7qoKlqs1IkaDz0XVqA1Oh1kayrjIcRymO86mxewvJyfwfNQjte4N2HFi0T2e_CSeHnT7HRvAIUV6zL7OT2rKtPBSBPKJmn96_kL8tRF148RWbki4Nf62JN0WARESmQudtThrw0_irWIQflmYyri9kPpO1u68yXGeyMgn-nCTr6tKbLvKmQvkMH_Ubq1Ap2gHaRZhFE7azVy0DerYoqKoVjQXrmlOJu-QfE_s1SV5YRGXz-wNFqh6Qvrckfi9s0hGQ5qbA7VWVvZVbF___gyGkYzyTCbpx9n0hRFCbVILDK0DOgyEI4FnKFp3lDIX6DJDA2xpxfVvzoEXBiqNvfyZoeFC_J1oJ9hY2ao1Yl4jaH2smw5_Sw7-qxi-TcyQQ-cB9T2lUpXRh9t5fXMtSlORFbLWwm5MVeESKQlmaQAwCORiIhSpWNlLgWigmM7gCmLzgjB_jmu0EDdkdxwv23StghqjCFwxqMfR0ujXcX2bmNoZyVV_HtlEU-7rlD7c0ht5L7qd5QBvhW5UxwDaudg2miqERSrCnWpptBQ3LHnXOKqfI3s7P5DVjLOceUJx4vQq-zcHmqFlUEZ5FPpZnMbgm4QiirwgI-4P6F69zJFPxcinAsyuNrvG9FkIjb0mJo_DHXPHLRMxQNhPJEzJeSKkp_0f5G3blG5ZIkrU7lozjge28Bde4GlVRlSEFIWFJoJ_qVYal54flIkO4lh6gcrhv47LMMswaeRxqfOsLFThs2wnXU_zQ7QWOciRH8wCL0guvOzCS7546SKMF2H-s-ctPJ5URsBxCildSvIU8uf09PF_ORj0SToQ91raNfM2eeSVvpKR5PrrZUy4fMzfNzD0KC-TcUh5kmS5Tg7yJqR9kPcOtuVR85wFURZGflqWMRXewYIJB48WvIc8ubTGIr5v2o3FAEyHOuwLedWh0yFY89PwDDeGeuR7rhXXbOBd0ekVucvJQA0w9gJQd8p1MKb_hIfx_Wn-7lx_iJFD4gkOPixCdt8xgWFQ3e74QdMK-NrK3mQhFfqDvXyhx464-b6mxCsIpX3MhMksMI3cD3H5qKZQkafiKCjDoDiomdD7qOY99My4d7XtdtwvYNcw6XICdbtVKzUNgShhKYm-Ii7FtRjGXwRfOlGzcDGOuUcFuGpwy7AjRVrCHrQ7oIB4WXcGXJX4qMg4B48dy2IyK0zBfT_JHwoh9T2SMldpUh50Tnj_UAjvIGycogdVdWh-okTaCYmqKlAn661sN2NljSw4yO9PcYHRww5ZzSJlJUB5tKOaiUvcybbfO8-ASUEZRxRgvYuCYwqdBoQpmB_B7KPWhLIilmkWoEYOWidkP2p9D0vzfbXnwGN9U5y6W6R8y6fwcIvmywlgYbD4xaBp3PSjgRj3b9sjzYcQLlNCCGSz7axQrlAbKy4gSEfbG9U2NfSNiFwgIFvjWK2FAGf-gyt6kNsdkuObaNx-ZWhe2HhJG3fcd_-BqF7_DeSh6WF22y_RulPfff1sW_72NZqwPUm_MSjRVosvqNPnK_Upvyz_sAA7Jdr3EiWtm7K8-r_YuNcdIvWjC7cfaz_3v5mI44X4wt0BXcuaVY2KxL8DoyLlxeBk9-pE_DYxyl3c4Y3m3toauzk_GasoljL0ww-3mBvYQ8-Wffc2Nf_uZMc2gwCi1ZuKX09Y9l7aXuELk7GqpNl-F-xnVowj8LXWg8LBiYuTE6e0EiMol99D5WXRN-MvYU-6JI8mhxYGetyStHCwV1hQCd4U6L3UorcO3lwOnh1gf5zdr3nu_rXtKxjfc4oZu71wssVAwv18gNQOLbsgGI7ecaBUbkg9-aHjOHN3VHdBZWmUVHuBQjXcvlj1H9g2zvxsN-AxXSOmM_R0tXj8rJg_tWLevjE-35iCry8vRK8thx-zAYZaURL7FFDqk0rIyzOVJCpLIz9LvST2vNiLKAspC3i2KAIMT1L6UqosK8r0O_482QD94IuXL6IEu98LG-DxB-zvboB_Mo99LoifC-Lngvi5IH4uiJ8L4vsWxBMuJZEukzzLUz86ptlpFptG4yOHqFG7VqX2OMPT4BiVyVx1SPJ3DESrGji4BteO04g7L7BFihq7Pk3WogF8fdN_0p8LEuMcPYzV8vlgfSxlHq1Z_mGwvhS_PJ-50dCPxTUO_mL8j_RpCSGkQ8tju3mRmMOUGil1h0xiCQz9gZg4EbYFGKvpLCswtWo44u74cz-ytSJZX-ykW3-zjgxpRA-kusF32jd4wMCi5a5MDS-xWYBX65fY5_Yr_vwXYGonkQ)

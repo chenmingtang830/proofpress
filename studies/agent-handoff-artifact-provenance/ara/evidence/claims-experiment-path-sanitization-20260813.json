@@ -1,0 +1,4 @@
+[
+  {"block":"3242ace7","kind":"modified","note":"Removes a machine-local report path while retaining the diagnostic result and non-redistribution boundary."},
+  {"block":"b8cd3cfc","kind":"modified","note":"Removes a machine-local formal-root path while retaining the diagnostic status."}
+]

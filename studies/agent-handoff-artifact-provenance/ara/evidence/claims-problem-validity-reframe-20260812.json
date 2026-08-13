@@ -1,0 +1,6 @@
+[
+  {"block":"36339a7c","kind":"added","note":"Adds the artifact-admission problem heading."},
+  {"block":"f1498f86","kind":"added","note":"Defines stale admission under version drift."},
+  {"block":"eb6d1b42","kind":"added","note":"Adds the design-alignment validity problem heading."},
+  {"block":"d925bd21","kind":"added","note":"Explains why the primary fixture cannot estimate external effect size."}
+]

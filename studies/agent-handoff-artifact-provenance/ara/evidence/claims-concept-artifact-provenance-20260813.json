@@ -1,0 +1,4 @@
+[
+  {"block":"ba420001","kind":"modified","note":"Renames K11 around Proofpress's artifact provenance category."},
+  {"block":"ba420002","kind":"modified","note":"Defines the protocol using record, link, transfer, check, and decide."}
+]

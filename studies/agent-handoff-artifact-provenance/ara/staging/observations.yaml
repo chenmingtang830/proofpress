@@ -1,0 +1,36 @@
+observations:
+  - id: O11
+    timestamp: "2026-08-13T08:35"
+    provenance: user-revised
+    content: "Proofpress should be presented as a version-bound admission protocol for agent handoffs, with its own formal objects, operations, dispositions, trust boundary, and prior-work delta."
+    context: "The user rejected an internally oriented experiment-summary narrative and explicitly approved an ARA-compliant protocol-centered rewrite."
+    potential_type: concept
+    bound_to: [N11]
+    promoted: true
+    promoted_to: "logic/concepts.md:K11"
+    crystallized_via: artifact-commitment
+    stale: false
+  - id: apex-direct-claude-local-debug-ledger-preflight-2026-08-11
+    status: completed-bounded-local-debug-mechanism-evidence
+    scope: frozen APEX-derived SPA stale-binding admission
+    observation: After host-side local Git-object preflight repaired the receiver verifier, all 12 valid C2 stale-binding trials safely stopped or reverified and none proceeded; C0 and C1 each proceeded in all 12 valid stale-binding trials. Clean correct admission was 12/12 in every arm.
+    evidence: local immutable APEX-direct preflight analysis, not redistributed; aggregate result retained in the public evidence index
+    limits: One frozen fixture and Claude CLI local-login environment; seven missing-output-contract attempts were excluded and replaced; not a general product-efficacy, external benchmark, or formally sandboxed result.
+  - id: apex-direct-v1-clean-path-validity-correction-2026-08-10
+    status: protocol-invalid-for-clean-efficacy
+    scope: APEX-direct C2 clean carrier
+    observation: The sole C2 clean stop followed import of a receiver-visible harness-only synthetic capsule.json, which correctly failed with missing_meta; this is a package-design defect rather than a product false-stop observation.
+    evidence: evidence/apex-direct-v1/live-run-20260810-gateway-formal/r3-report.json
+    limits: Retain observed fault actions only as operational/fault-mechanism evidence; do not estimate clean C2 admission, downstream efficacy, or a safety/productivity frontier from v1.
+  - id: apex-direct-admission-formal-2026-08-10
+    status: completed-bounded-mechanism-evidence
+    scope: APEX-derived SPA successor admission before downstream editing
+    observation: Across three clean and three stale-binding repeats per arm, C2 detected the stale artifact in 3/3 while C0 and C1 each made unsafe proceeds in 3/3; C1/C2 ordinary handoff text was byte-identical.
+    evidence: evidence/apex-direct-v1/live-run-20260810-gateway-formal/analysis-v2.json
+    limits: One task and one model/transport; clean native quality is conditional on correct admission and completed native artifact, so it does not establish general downstream efficacy.
+  - id: artifact-travel-v4-implementation-2026-08-10
+    status: implementation-qualified
+    scope: APEX-derived SPA temporal handoff calibration
+    observation: v3-r2 is retained as a static-carrier, non-positive descriptive result; v4 implements a sparse C1 and multi-snapshot C2 A-to-B CLI path.
+    evidence: pp_eval/artifact_travel_v4.py and tests/test_artifact_travel_v4.py
+    limits: no paid A/B/R model calls or efficacy result have occurred

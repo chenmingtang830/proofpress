@@ -1,0 +1,37 @@
+[
+  {
+    "block": "ba410059",
+    "kind": "modified",
+    "note": "Broadens the overhead section heading to cover study, model, and telemetry differences."
+  },
+  {
+    "block": "ba41005a",
+    "kind": "modified",
+    "note": "Adds the preregistered GPT-5.6 Luna study and explains why only the low-effort follow-up is pooled."
+  },
+  {
+    "block": "ba41005b",
+    "kind": "modified",
+    "note": "Adds high-effort GPT-5.6 Luna ordinary and Proofpress overhead rows alongside the three low-effort follow-up models."
+  },
+  {
+    "block": "ba41005c",
+    "kind": "modified",
+    "note": "Separates Luna overhead ratios from the low-effort follow-up and preserves the end-to-end attribution boundary."
+  },
+  {
+    "block": "5e6a26c0",
+    "kind": "added",
+    "note": "Explains that DeepSeek used a different task and lacked reliable wall-time and cost telemetry."
+  },
+  {
+    "block": "aa1f2aee",
+    "kind": "added",
+    "note": "Reports response-level DeepSeek V0 and V1 token means without treating zero cost fields as free inference."
+  },
+  {
+    "block": "57827d0a",
+    "kind": "added",
+    "note": "States the bounded overhead conclusion across the controlled and selective-recovery studies."
+  }
+]

@@ -1,0 +1,13 @@
+[
+  {"block":"7e0478fb","kind":"added","note":"Adds the bounded HiEviDR-derived replication claim."},
+  {"block":"7e0478fc","kind":"added","note":"States the C2 versus C1 fault continuation observation."},
+  {"block":"6fbf8638","kind":"added","note":"Completes the quantitative continuation statement."},
+  {"block":"3132953c","kind":"added","note":"States the local-debug experimental conditions."},
+  {"block":"222aed31","kind":"added","note":"Completes the official-score and efficacy limitation."},
+  {"block":"7f378a7f","kind":"added","note":"Records source, status, and falsification setup."},
+  {"block":"77702d9b","kind":"added","note":"Completes the falsification criteria."},
+  {"block":"791f103c","kind":"added","note":"Records the quantitative proof label."},
+  {"block":"78bf14cb","kind":"added","note":"Records safety, unsafe continuation, p-value, and clean-admission counts."},
+  {"block":"1a256631","kind":"added","note":"Records dependency and tags."},
+  {"block":"155e4f7b","kind":"added","note":"Completes the claim tags."}
+]

@@ -1,0 +1,4 @@
+[
+  {"block":"adf00124","kind":"added","note":"Adds the bounded R2 semantic-revision experiment record."},
+  {"block":"adf00125","kind":"added","note":"Records frozen design, valid denominator, replacements, recovery outcome, and non-formal boundary."}
+]

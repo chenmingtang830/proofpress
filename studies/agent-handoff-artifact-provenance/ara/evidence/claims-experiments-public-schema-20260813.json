@@ -1,0 +1,12 @@
+[
+  {"block":"4b3816b6","kind":"added","note":"Registers the controlled admission experiment."},
+  {"block":"aed82b76","kind":"added","note":"Defines its design and evidence pointers."},
+  {"block":"721cd932","kind":"added","note":"Registers receiver-model robustness."},
+  {"block":"679c0d38","kind":"added","note":"Defines its design and evidence pointers."},
+  {"block":"7376cb07","kind":"added","note":"Registers visible-contradiction recovery."},
+  {"block":"f0121770","kind":"added","note":"Defines its design and evidence pointers."},
+  {"block":"16cf66d3","kind":"added","note":"Registers continuity testing."},
+  {"block":"0a0c86dd","kind":"added","note":"Defines its design and evidence pointers."},
+  {"block":"0046f96b","kind":"added","note":"Registers the scoping review."},
+  {"block":"4128c6c7","kind":"added","note":"Defines its review method and evidence pointers."}
+]

@@ -1,0 +1,129 @@
+{
+  "schema_version": "proofpress/knowledge-handoff-early-results/v1",
+  "date": "2026-08-12",
+  "status": "completed_early_testing",
+  "evidence_class": "bounded_fixed_fixture_mechanism_evidence",
+  "track1_deepseek": {
+    "design": "three unchanged GitHub Docs fixtures crossed with H0, H1, and H2",
+    "fixture_count": 3,
+    "attempted_responses": 9,
+    "valid_responses": 9,
+    "excluded_responses": 0,
+    "rediscovery_candidate_events": {
+      "H0": {"events": 3, "responses": 3},
+      "H1": {"events": 0, "responses": 3},
+      "H2": {"events": 0, "responses": 3}
+    },
+    "interpretation": "Supports handoff versus artifacts-only continuity on these fixtures; does not distinguish H2 from H1.",
+    "route": {
+      "harness": "OpenCode",
+      "router": "Vercel AI Gateway",
+      "requested_model": "deepseek/deepseek-v4-flash-0731",
+      "resolved_model": "deepseek/deepseek-v4-flash-0731",
+      "provider": "deepinfra",
+      "only_and_order": ["deepinfra"],
+      "fallback_or_retry": false,
+      "reconciled_local_calls": [18, 23, 20]
+    },
+    "source_summary": {
+      "path": "local-run://track1-deepseek-early-r4-summary.json",
+      "sha256": "cc76a045e6cd6954426491300f4508e5c0bbdca87af8ebfeacb9f7de12383cad"
+    }
+  },
+  "track2_glm52": {
+    "design": "six GitHub Docs fixtures, three irrelevant edits and three relevant edits, crossed with V0 and V1",
+    "fixture_count": 6,
+    "canonical_valid_responses": 12,
+    "V0": {
+      "irrelevant_edit": {"proceed": 3, "responses": 3},
+      "relevant_edit": {"proceed": 2, "targeted_revalidate": 1, "responses": 3}
+    },
+    "V1": {
+      "irrelevant_edit": {"proceed": 3, "responses": 3},
+      "relevant_edit": {"targeted_revalidate": 3, "responses": 3},
+      "native_binding_helper_executed": 6
+    },
+    "route": {
+      "harness": "OpenCode",
+      "router": "Vercel AI Gateway",
+      "requested_model": "zai/glm-5.2",
+      "resolved_model": "zai/glm-5.2",
+      "provider": "zai",
+      "only_and_order": ["zai"],
+      "fallback": false
+    },
+    "canonical_evidence": [
+      {
+        "role": "all six repaired V1 cells",
+        "path": "local-run://phase1-r2-two-state-diagnostic-r2-v1-repair/report.json",
+        "sha256": "209af420924766a3f5d458702ae05a9815306650aa65a18ec00a286af344234a"
+      },
+      {
+        "role": "timed-out Dependabot V0 replacement",
+        "path": "local-run://phase1-r2-two-state-diagnostic-r3-v0-retry/report.json",
+        "sha256": "f33fad60713240ba70bcdb7e655147c3f1b7d16080f534c9fd7fe115e7482dfc"
+      }
+    ],
+    "repair_boundary": "The six original V1 cells lacked the required checkpoint and are excluded; one original timed-out V0 cell is replaced. Five unaffected original V0 cells complete the canonical denominator."
+  },
+  "track2_deepseek": {
+    "design": "the same six two-state fixtures crossed with V0 and V1",
+    "fixture_count": 6,
+    "valid_responses": 12,
+    "excluded_responses": 0,
+    "V0": {
+      "irrelevant_edit": {"proceed": 3, "responses": 3},
+      "relevant_edit": {"proceed": 2, "targeted_revalidate": 1, "responses": 3}
+    },
+    "V1": {
+      "irrelevant_edit": {"proceed": 3, "responses": 3},
+      "relevant_edit": {"targeted_revalidate": 3, "responses": 3},
+      "native_binding_helper_executed": 6
+    },
+    "route": {
+      "harness": "OpenCode",
+      "router": "Vercel AI Gateway",
+      "requested_model": "deepseek/deepseek-v4-flash-0731",
+      "resolved_model": "deepseek/deepseek-v4-flash-0731",
+      "provider": "deepinfra",
+      "only_and_order": ["deepinfra"],
+      "fallback_or_retry": false,
+      "reconciled_local_calls": 82
+    },
+    "source_report": {
+      "path": "local-run://track2-deepseek-r2-two-state-early-r1/report.json",
+      "sha256": "0fa27a438b0a5f4968244534fc4a20300e8cf6be471f93e7d299be37223f41d4"
+    },
+    "source_reconciliation": {
+      "path": "local-run://track2-deepseek-r2-two-state-early-r1/reconciliation-r1.json",
+      "sha256": "76b569ce679fd570de3ed66ca3f6621e34887198838ccd952067c26bc8d8ce4a"
+    }
+  },
+  "cross_model_descriptive_repeat": {
+    "independent_fixture_count": 6,
+    "receiver_models": 2,
+    "warning": "These totals repeat the same fixtures across two receiver models and are not twelve independent tasks.",
+    "V1_irrelevant_correct_proceed": {"count": 6, "responses": 6},
+    "V1_relevant_targeted_revalidate": {"count": 6, "responses": 6},
+    "V0_irrelevant_proceed": {"count": 6, "responses": 6},
+    "V0_relevant_proceed": {"count": 4, "responses": 6}
+  },
+  "formal_gate": {
+    "formal_eligible": false,
+    "reason": "Originating-team-authored calibration fixtures and constructed state variants; formal blind and human review layers are incomplete for the reported diagnostic.",
+    "source": {
+      "path": "local-run://phase0-github-docs-r9-formal-gate-audit/phase0-report.json",
+      "sha256": "45447657d81c402a56496882b19894c6511526921542838e56f32ae54b8ac903"
+    }
+  },
+  "claim_boundary": {
+    "supported": "On these fixed early-test fixtures, handoff reduced visible rediscovery relative to artifacts alone, and version binding plus affected-claim information produced selective proceed versus targeted-revalidation behavior under two drift states.",
+    "not_supported": [
+      "general product efficacy",
+      "population effect size or statistical significance",
+      "real-world fault prevalence",
+      "H2 superiority over H1",
+      "coverage of unchanged, rollback, fork or merge, mixed-version, or corrupt-lineage states"
+    ]
+  }
+}

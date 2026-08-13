@@ -1,0 +1,12 @@
+[
+  {
+    "block": "4a65ffee",
+    "kind": "modified",
+    "note": "Adds GPT-5.6 Luna and explicit effort labels to the controlled document-version overhead table."
+  },
+  {
+    "block": "f64ffe80",
+    "kind": "added",
+    "note": "Records the separately scoped DeepSeek token telemetry and missing time and cost coverage."
+  }
+]

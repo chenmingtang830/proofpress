@@ -1,0 +1,42 @@
+{
+  "schema_version": "proofpress/deepseek-track2-gateway-overhead/v1",
+  "source_run": "track2-deepseek-r2-two-state-early-r1",
+  "method": {
+    "cell_mapping": "Gateway events are ordered by cell; each cell contains one initialization request plus one request per OpenCode step_finish event.",
+    "tokens": "Sum of AI Gateway prompt_tokens and completion_tokens across mapped requests; these are billable request-level tokens and differ from OpenCode's response summary.",
+    "time": "Sum of AI Gateway duration_seconds across mapped requests. This is cumulative request duration, not wall-clock time; overlapping requests can make it larger than the cell event-stream span.",
+    "model_cost": "Sum of AI Gateway marketCost across mapped requests; excludes the per-request reporting-tag surcharge included in gatewayCost."
+  },
+  "conditions": {
+    "V0_ordinary_handoff": {
+      "valid_responses": 6,
+      "gateway_requests": 39,
+      "mean_gateway_tokens": 42894.666666666664,
+      "mean_cumulative_gateway_request_seconds": 41.993833333333335,
+      "mean_market_model_cost": 0.001854573,
+      "total_market_model_cost": 0.011127438,
+      "total_gateway_cost_including_reporting_tag_surcharge": 0.028677438000000003
+    },
+    "V1_proofpress": {
+      "valid_responses": 6,
+      "gateway_requests": 43,
+      "mean_gateway_tokens": 47630.5,
+      "mean_cumulative_gateway_request_seconds": 46.5015,
+      "mean_market_model_cost": 0.002270106,
+      "total_market_model_cost": 0.013620636,
+      "total_gateway_cost_including_reporting_tag_surcharge": 0.032970636
+    }
+  },
+  "local_gateway_ledger": {
+    "http_200_requests": 82,
+    "market_model_cost": 0.024748074,
+    "gateway_cost_including_reporting_tag_surcharge": 0.061648074
+  },
+  "gateway_aggregate_report": {
+    "request_count": 81,
+    "provider": "deepinfra",
+    "market_cost": 0.024302844,
+    "total_cost": 0.060752844,
+    "boundary": "The aggregate report contains one fewer request than the locally persisted 82-call Gateway ledger. Condition means therefore use the request-level local Gateway metadata; both totals are disclosed."
+  }
+}
