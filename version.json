@@ -1,48 +1,714 @@
 {
- "artifact": "experiments/provenance_handoff/ara/evidence/tables/derived_main_results.md",
- "artifact_id": "pp_be637ba6a8dd5eb84262c8bd",
+ "artifact": "rit-hub-demo/DECISIONS.md",
+ "artifact_id": "pp_4d20cb5ec74e9b6747d4cc3e",
  "blocks": [
   {
    "type": "heading",
-   "text": "# Derived synthesis of main reported results",
-   "id": "44cd5f23",
-   "hash": "a6b76684dd44"
+   "text": "# RIT Hub Demo — Decisions & Contract",
+   "id": "830b2b69",
+   "hash": "9dc842292713"
+  },
+  {
+   "type": "para",
+   "text": "**这份文档是唯一契约。** 所有 worker 并行开工时只依据本文档，彼此不通信。\n要改需求，改这份文档，然后重新下发给对应 worker。",
+   "id": "2ce0b989",
+   "hash": "a38d6dfdc799"
   },
   {
    "type": "list",
-   "text": "- **Source**: Derived from `cross-model-formal-summary-20260812.json`, `knowledge-handoff-early-results-20260812.json`, and the immutable formal summaries indexed in `README.md`.\n- **Extraction type**: `derived_synthesis`.\n- **Screenshot**: `derived_main_results.png`.\n- **Scope**: Descriptive aggregation of the paper's principal local comparisons; rows are not pooled into one effect estimate.",
-   "id": "414d8f54",
-   "hash": "463dff88fce3"
+   "text": "- Owner: orchestrator（本文档只由 orchestrator 修改，worker 不得编辑）\n- 受众：**投资人 / 招募**。目标是一张能截图的画面 + 一个 60 秒能讲完的故事。\n- 状态：v1，2026-08-12",
+   "id": "51d916db",
+   "hash": "d7091c6c9c46"
   },
   {
-   "type": "table",
-   "text": "| Evidence family | Ordinary handoff | Proofpress | Supported interpretation |\n|---|---:|---:|---|\n| Preregistered unchanged document | correct continue 12/12 | correct continue 12/12 | No clean-admission penalty in the controlled task |\n| Preregistered outdated document | incorrect continue 12/12 | incorrect continue 0/12 | Design-aligned admission mechanism |\n| Three-model outdated-document follow-up | incorrect continue 36/36 | incorrect continue 0/36 | Receiver-model robustness on the same task |\n| Scientific-evidence change, contradiction visible | incorrect outcome 0/9; explicit recovery 5/9 | incorrect outcome 0/9; explicit recovery 9/9 | Recovery-path difference without a safety-rate difference |\n| Selective-recovery harmless edits | continue 6/6 | continue 6/6 | No blanket rejection in tested cases |\n| Selective-recovery relevant edits | targeted recheck 2/6 | targeted recheck 6/6 | More consistent affected-claim revalidation |\n| Continuity with artifacts only versus readable handoff | rediscovery 3/3 with artifacts only; 0/3 with prose | rediscovery 0/3 with structured handoff | Readable handoff reduces visible rediscovery |",
-   "id": "0a15d294",
-   "hash": "e9369940d068"
+   "type": "para",
+   "text": "---",
+   "id": "e312a32b",
+   "hash": "f1624c9c50ca"
   },
   {
    "type": "heading",
-   "text": "## End-to-end overhead in the three-model controlled follow-up",
-   "id": "c02035f2",
-   "hash": "97e45029bacc"
+   "text": "## 0. 一句话目标",
+   "id": "b55737a2",
+   "hash": "46f5f4fe41d3"
+  },
+  {
+   "type": "para",
+   "text": "把 ARA 论文和 RIT 论文里**已经形式化定义、但从来没有被画出来**的那个对象——\nClaim Flow Graph——第一次变成一个人能用鼠标点的东西。",
+   "id": "8160dafa",
+   "hash": "59efdac5f526"
+  },
+  {
+   "type": "para",
+   "text": "不是做新产品，是把两篇论文可视化。这个定位对投资人更强：证明底下有真东西。",
+   "id": "d95ac352",
+   "hash": "baaa7a274afe"
+  },
+  {
+   "type": "para",
+   "text": "---",
+   "id": "2aba4b6d",
+   "hash": "f1624c9c50ca"
+  },
+  {
+   "type": "heading",
+   "text": "## 1. 本轮明确不做的事",
+   "id": "6f22bdce",
+   "hash": "731689609d78"
   },
   {
    "type": "table",
-   "text": "| Study model and effort | Condition | Valid runs | Mean tokens | Mean wall time | Mean model cost |\n|---|---|---:|---:|---:|---:|\n| GPT-5.6 Luna (high) | Ordinary handoff | 24 | 55,244 | 14.6 s | $0.0013 |\n| GPT-5.6 Luna (high) | Proofpress | 24 | 164,863 | 17.7 s | $0.0041 |\n| GLM 5.2 (low) | Ordinary handoff | 24 | 5,829 | 27.3 s | $0.0060 |\n| GLM 5.2 (low) | Proofpress | 24 | 17,544 | 37.1 s | $0.0147 |\n| Kimi K3 (low) | Ordinary handoff | 24 | 5,699 | 38.1 s | $0.0136 |\n| Kimi K3 (low) | Proofpress | 24 | 16,718 | 44.7 s | $0.0378 |\n| Qwen 3.8 Max (low) | Ordinary handoff | 24 | 7,614 | 24.0 s | $0.0143 |\n| Qwen 3.8 Max (low) | Proofpress | 24 | 21,247 | 37.3 s | $0.0286 |\n| **Three-model follow-up pooled (low)** | **Ordinary handoff** | **72** | **6,381** | **29.8 s** | **$0.0113** |\n| **Three-model follow-up pooled (low)** | **Proofpress** | **72** | **18,503** | **39.7 s** | **$0.0270** |",
-   "id": "4a65ffee",
-   "hash": "b84c06e93640"
+   "text": "| 不做 | 原因 |\n|---|---|\n| ARA Seal L1–L4 与 RIT tier L1/L2/L3 的命名冲突 | 用户决定本轮不管。UI 按各自论文原样显示，不做翻译层 |\n| 真的跑 Lean / 真的做 re-extraction | demo 是 viewer，数据是预先固化的 fixture |\n| 上传任意 PDF 的通用抽取 pipeline | 只用两份固定数据集 |\n| 账号、后端、实时、数据库 | 纯静态 |\n| 构建工具（webpack/vite/npm） | 见 §3 |\n| dead_end 是否正式进 RIT CFG 的形式化定义 | 这是产品决策，本 demo 先在**视觉上**合并，不动论文定义 |",
+   "id": "25f09126",
+   "hash": "73c0e901d682"
   },
   {
    "type": "para",
-   "text": "The overhead row includes carrier size, verifier tool calls, and additional agent turns. It is an end-to-end harness measurement, not an isolated benchmark of deterministic hashing or verification, and should not be projected to production workloads. The study measured avoided incorrect continuation but did not monetize downstream rework, audit, or propagated-error costs.",
-   "id": "067f2a02",
-   "hash": "68f60b781cea"
+   "text": "---",
+   "id": "af15c0be",
+   "hash": "f1624c9c50ca"
+  },
+  {
+   "type": "heading",
+   "text": "## 2. 核心叙事：三层挂一个 node",
+   "id": "a6d9dfda",
+   "hash": "a861edaa2aaa"
   },
   {
    "type": "para",
-   "text": "The separate high-effort DeepSeek Track 2 selective-recovery slice used a different task and harness, so it is not pooled above. Its request-level AI Gateway ledger gives V0 ordinary handoff 42,895 mean Gateway tokens, 42.0 seconds of mean cumulative Gateway request duration, and $0.00185 mean market model cost across six responses; V1 Proofpress used 47,631 tokens, 46.5 seconds, and $0.00227 across six responses. The persisted ledger contains 82 successful calls, while the tag-filtered aggregate Gateway report returned 81; the condition split uses the request-level ledger and preserves that discrepancy in `evidence/deepseek-track2-gateway-overhead-20260813.json`.",
-   "id": "f64ffe80",
-   "hash": "2c44c04d18f7"
+   "text": "Demo 的智力贡献**不是**\"补上 RIT 图里缺失的 dead end\"。现网 rithub demo 已经把被拒的尝试记在账本上了：\n页头计数是 `23 real commits + 6 refused attempts`，图例里有 `✗ rejected (no commit)`，`outin` 就是这样一个虚线 + ✗ 的节点。\n这条已经走完，不能再当卖点讲。",
+   "id": "21a2f312",
+   "hash": "3b69fe90b582"
+  },
+  {
+   "type": "para",
+   "text": "真正剩下的缺口是三条：",
+   "id": "adf0ae42",
+   "hash": "d86ce2a0510c"
+  },
+  {
+   "type": "list",
+   "text": "- **被拒的 proof attempt ≠ 研究意义上的 dead end。** `outin` 记录的是一次机械失败——kernel 证不出 `prover_out_tok > prover_in_tok`。没有 failure_mode，没有 lesson，没有\"下一个 agent 该换哪个方向\"。ARA 的 Exploration Graph 里，`dead_end` 节点这三样都带。\n- **多数真正的死路根本走不到 commit attempt。** 图上只有进了形式化流程的东西；在形式化之前就被放弃的研究方向，一个都不会出现。\n- **整张图没有 admission 层。** 现网所有状态都是 kernel 裁的（verified / refuted / rejected），没有一处记录\"谁接受的、何时、依据什么、被什么取代\"——全是机器判定，没有 actor 判定。",
+   "id": "beb30c24",
+   "hash": "2d64d3cda3ba"
+  },
+  {
+   "type": "para",
+   "text": "第三条正是三层结构里 Proofpress 那一层要补的东西。把这三条补上，一个节点同时挂三层：",
+   "id": "a2118603",
+   "hash": "263926a944ce"
+  },
+  {
+   "type": "code",
+   "text": "```\nnode\n├── verification（RIT）    status · grounding tier · dispute / perspective ref\n├── process（ARA）         kind: question|decision|experiment|dead_end|pivot\n│                          provenance: user|ai-suggested|ai-executed|user-revised\n│                          failure_mode + lesson（仅 dead_end）\n└── admission（Proofpress） 谁接受的 · 何时 · 为什么 · 被什么取代\n```",
+   "id": "0659526c",
+   "hash": "9d2465612698"
+  },
+  {
+   "type": "para",
+   "text": "UI 上这三层必须视觉可分辨（见 §6 drawer 的三段式）。",
+   "id": "b9e2f874",
+   "hash": "404724714dae"
+  },
+  {
+   "type": "para",
+   "text": "---",
+   "id": "fb6f06b6",
+   "hash": "f1624c9c50ca"
+  },
+  {
+   "type": "heading",
+   "text": "## 3. 技术决策（不可协商）",
+   "id": "76776e23",
+   "hash": "2ca14c9a7ed7"
+  },
+  {
+   "type": "table",
+   "text": "| 项 | 决定 |\n|---|---|\n| 构建 | 不装 npm 包，不写 package.json，不用 CDN。**唯一例外**：一个 Python 标准库写的内联脚本，见 §12 |\n| JS | 原生 ES modules（`<script type=\"module\">`），无框架 |\n| CSS | 手写，无预处理器。变量集中在 `css/tokens.css` |\n| 数据 | **`.js` 文件，`export const ledger = {...}`**。不用 `.json` + fetch |\n| 图形 | 内联 SVG，手写。不引入 d3 / cytoscape |\n| 主题 | **只做浅色一套，暖米白纸面系**，以 https://www.agenticresearch.sh/rit 现网实测取值为准（paper 底 `#fbf8f1`，ink 正文 `#1a1530`）——投资人看到的应该是 ARA Labs 自己产品已经在用的调性，不是我们独立发明的一套深色 terminal 皮肤 |\n| 浏览器 | 只需 Chrome 最新版跑通 |\n| 字体 | **照抄 ARA 现网的三条降级链**（标题 `\"Instrument Serif\",\"Iowan Old Style\",Georgia,serif`；正文 `\"Inter\",-apple-system,BlinkMacSystemFont,\"Segoe UI\",sans-serif`；等宽 `\"JetBrains Mono\",ui-monospace,SFMono-Regular,Menlo,monospace`）。不请求 Google Fonts、不用 CDN、不 base64 内嵌——本地未装 Instrument Serif / Inter / JetBrains Mono 时优雅降级到链上一环（Mac 上标题落到 Iowan Old Style，正文/等宽落到系统栈），零外部引用不变 |",
+   "id": "c2f8f6e2",
+   "hash": "edea447c4525"
+  },
+  {
+   "type": "para",
+   "text": "理由：四个 worker 在各自 git worktree 里并行，任何共享配置文件都是冲突源。",
+   "id": "c6a6aa46",
+   "hash": "515b33b2f3f9"
+  },
+  {
+   "type": "para",
+   "text": "---",
+   "id": "b1eed91a",
+   "hash": "f1624c9c50ca"
+  },
+  {
+   "type": "heading",
+   "text": "## 4. 文件归属（硬边界，越界即冲突）",
+   "id": "6211b225",
+   "hash": "19de04fc03a8"
+  },
+  {
+   "type": "para",
+   "text": "所有文件在仓库的 `rit-hub-demo/` 下。**每个 worker 只创建和修改自己名下的文件。**",
+   "id": "214678db",
+   "hash": "6da9836a40ff"
+  },
+  {
+   "type": "code",
+   "text": "```\nrit-hub-demo/\n  DECISIONS.md              ← orchestrator，任何人不得编辑\n  index.html                ← W2\n  css/tokens.css            ← W2\n  css/app.css               ← W2\n  js/app.js                 ← W2   路由 / 顶栏 / 数据集切换 / 状态\n  js/ledger.js              ← W2   ledger 表格视图\n  js/drawer.js              ← W3\n  css/drawer.css            ← W3\n  dev/drawer-harness.html   ← W3   独立自测页\n  js/graph.js               ← W4\n  css/graph.css             ← W4\n  dev/graph-harness.html    ← W4   独立自测页\n  data/paper-ftrl.js        ← W1\n  data/self-research.js     ← W1\n  data/SOURCES.md           ← W1   每条数据的出处标注\n```",
+   "id": "dc74bef4",
+   "hash": "635b94fbb3c4"
+  },
+  {
+   "type": "para",
+   "text": "W3 / W4 的 harness 页面自带 3–4 个内联假节点，**不依赖 W1 交付**，保证真并行。",
+   "id": "a57bc43c",
+   "hash": "ec3f1c7241ef"
+  },
+  {
+   "type": "para",
+   "text": "---",
+   "id": "5c758393",
+   "hash": "f1624c9c50ca"
+  },
+  {
+   "type": "heading",
+   "text": "## 5. 数据契约（Schema v1）",
+   "id": "764e2a7f",
+   "hash": "0ea45b877b08"
+  },
+  {
+   "type": "para",
+   "text": "`data/*.js` 必须导出如下结构。W2/W3/W4 按此结构编码，不等 W1。",
+   "id": "769ecab7",
+   "hash": "16269d8fe878"
+  },
+  {
+   "type": "code",
+   "text": "```js\nexport const ledger = {\n  id: \"ftrl-2025\",\n  title: \"…论文标题…\",\n  subtitle: \"29 claims extracted · grounded only against released code and data\",\n  source: { kind: \"paper\" | \"live-research\", ref: \"arXiv:… 或 repo 路径\" },\n  root_hash: \"sha256:7ef5…\",\n  counts: { settled: 9, open: 18, rejected: 2, dead_end: 0 },\n\n  // 可选。页脚 provenance 行的文案（§9）。缺席时用 §9 默认文案。\n  // 每个数据集应各自提供 —— 默认文案讲的是 RIT §7.4，挂在 My Research 上不准确。\n  provenance: \"Fixture data · … · no live verification performed\",\n\n  // 首屏要高亮的那一条（见 §6.1 callout）\n  spotlight: { node_id: \"c14\", message: \"This paper's headline number is OPEN.\" },\n\n  nodes: [\n    {\n      id: \"c07\",\n      label: \"val_loss floor of 3.28 is reached within 3000 steps\",   // 自然语言 @claim\n      kind: \"claim\",            // claim|question|decision|experiment|dead_end|pivot\n      status: \"settled\",        // settled|open|rejected|disputed\n      tier: \"L2\",               // T0|T1|L1|L2|L3|K|null   (RIT Table 2)\n      provenance: \"ai-executed\",// user|ai-suggested|ai-executed|user-revised (ARA P2)\n      depends_on: [\"c02\"],\n\n      // Hume's fork：一条 claim 劈成两半，走两个不同 oracle\n      empirical: [{\n        assertion: \"val_loss <= 3.28\",\n        evidence_path: \"evidence/data/train.log\",\n        sha256: \"a41f9c…\",\n        extractor: { kind: \"regex_float\", pattern: \"step:(\\\\d+)/M val_loss:([\\\\d.]+)\", group: 2 },\n        claimed: 3.28,\n        extracted: 3.28,\n        verdict: \"pass\"        // pass|fail|unreachable\n      }],\n      analytical: [{\n        theorem: \"reach_3025 : steps_to_target <= 3025\",\n        lean: \"theorem reach_3025 : steps_to_target <= 3025 := by decide\",\n        verdict: \"pass\",        // pass|fail|unchecked\n        axioms: [\"Lean.trustCompiler\", \"cfg_grounding_b2\"],\n        whitelist_ok: true,\n        has_sorry: false\n      }],\n\n      admission: {\n        actor: \"referee\", actor_kind: \"agent\",   // human|agent\n        at: \"2026-05-11T09:22Z\",\n        why: \"both oracles discharged; no collision with admitted set\",\n        supersedes: null\n      },\n\n      // 仅 status===\"open\" 时出现：为什么够不到\n      unreachable: {\n        reason: \"The value is an average over training runs recorded in a wandb log the repository does not ship.\",\n        missing: [\"wandb/run-*/summary.json\"]\n      },\n\n      // 仅 kind===\"dead_end\" 时出现（ARA Table 1）\n      dead_end: { hypothesis: \"…\", failure_mode: \"…\", lesson: \"…\" },\n\n      // 仅 status===\"disputed\" 时出现（RIT Table 3）\n      dispute: { with: \"c11\", kind: \"A\", proof: \"theorem boom : False := …\", resolution: \"…\" }\n    }\n  ]\n};\n```",
+   "id": "42970cd8",
+   "hash": "10564db7ece8"
+  },
+  {
+   "type": "para",
+   "text": "**字段可选性**：`empirical` / `analytical` 都可以是空数组（一条 claim 可能只有其中一半）。\n`unreachable` / `dead_end` / `dispute` 按上述条件出现，其余情况**字段缺席**（不是 null）。",
+   "id": "a1a6c3c2",
+   "hash": "61840fd1213e"
+  },
+  {
+   "type": "para",
+   "text": "---",
+   "id": "3f27c6c8",
+   "hash": "f1624c9c50ca"
+  },
+  {
+   "type": "heading",
+   "text": "## 6. 屏幕设计",
+   "id": "5a93b1bd",
+   "hash": "09dc3a437a61"
+  },
+  {
+   "type": "para",
+   "text": "整个 hub 是一个持久的**左侧边栏 + 右侧内容区**的 workspace 外壳（§6.5 的调研结论，取代了原来\"根路由一屏、详情页另一屏\"的纯路由切换）。侧边栏三项：`Public` / `My Work` / `Ingest`（§6.5/§6.6），全局品牌 wordmark `rit hub` 只在侧边栏顶部出现一次。",
+   "id": "e1190c1e",
+   "hash": "2d3a3a07e9ed"
+  },
+  {
+   "type": "para",
+   "text": "点一张 ledger 卡片，右侧内容区切换成详情页。**顶栏不再是\"两个数据集 tab\"**——那是侧边栏加上来之前的产物，和侧边栏的 `Public`/`My Work` 语义重复了，用户点出来的旧 IA 残留。现在顶栏是一条面包屑：`Public / <ledger.title>`（或 `My Work / <ledger.title>`，取决于从哪个货架点进来），右侧 root hash——不重复 wordmark，侧边栏已经有了。侧边栏在详情页依然可见，点面包屑第一节或侧边栏的 `Public`/`My Work` 都能回到卡片列表。",
+   "id": "d194b7d8",
+   "hash": "4073a4877a4f"
+  },
+  {
+   "type": "para",
+   "text": "面包屑下面是**ledger 级 header，Graph / Ledger / Evidence 三个视图共用，切视图时不变**：subtitle + `source.ref`、三个大数字（settled/open/rejected，见 6.1）、spotlight callout（见 6.1）。header 下面是视图 tab：**`Graph` / `Ledger` / `Evidence`**（新增 Evidence，见 §6.7），**默认打开 Graph**——图是不用讲解就看得懂的画面，表格和证据一键可达，不是被替代。",
+   "id": "074a930f",
+   "hash": "5501c86cd8b8"
+  },
+  {
+   "type": "heading",
+   "text": "### 6.1 Ledger 表格视图",
+   "id": "790bc003",
+   "hash": "526c3050ce41"
+  },
+  {
+   "type": "para",
+   "text": "三个视图 tab 之一（另两个是 6.3 的 Graph、6.7 的 Evidence），不是默认落地屏——默认落地屏是 6.3 的 Graph，这里是从视图 tab 点过去的表格视图。**下面 1–3 项（标题区/三个大数字/spotlight）其实是三个视图共用的持久 header**（见 §6 开头），切到 Graph/Evidence 时原样保留、不重新渲染——沿用原文把它们列在这里方便查阅，不代表它们只属于表格视图。真正只属于这个视图的是第 4 项。从上到下：",
+   "id": "a34ac172",
+   "hash": "da30f1414634"
+  },
+  {
+   "type": "list",
+   "text": "1. **标题区**：ledger.title + subtitle + `source.ref`\n2. **三个大数字**（这是首屏视觉重心，字号要大）：",
+   "id": "b2619c4c",
+   "hash": "2a11aac3c348"
+  },
+  {
+   "type": "para",
+   "text": "   `SETTLED 9` · `OPEN 18` · `REJECTED 2`\n   颜色分别 ok / open / bad。三个数字下面一行小字：\"every count is what a kernel decided, not what an author asserted\"",
+   "id": "67d3f2b0",
+   "hash": "d3f0d7bf2de1"
+  },
+  {
+   "type": "list",
+   "text": "3. **Spotlight callout**：一条醒目横幅，引用 `ledger.spotlight.message`，点击跳到并打开该节点的 drawer。",
+   "id": "a6e2882b",
+   "hash": "25ff3e1951a5"
+  },
+  {
+   "type": "para",
+   "text": "   这是那张截图的主体，不能做得不起眼。",
+   "id": "049b03a1",
+   "hash": "9e0a2056f43d"
+  },
+  {
+   "type": "list",
+   "text": "4. **Ledger 表格**：列依次为",
+   "id": "309bb56a",
+   "hash": "22a992d643d4"
+  },
+  {
+   "type": "para",
+   "text": "   `ID` · `Claim` · `Status` · `Tier` · `Evidence` · `Depends on`",
+   "id": "7f53ba65",
+   "hash": "b8ce89b3a16f"
+  },
+  {
+   "type": "list",
+   "text": "   - Status 用彩色 pill\n   - Tier 用等宽小标签（T0/T1/L1/L2/L3/K），T0/T1 要视觉降级（论文里它们 permanently flagged as unverified）\n   - `Evidence` 列显示 evidence_path 的 basename + sha 前 6 位，等宽字体；unreachable 的显示删除线\n   - `Depends on` 列显示依赖的 ID chips\n   - 整行可点 → 打开 drawer\n   - 表格上方一排 filter chips：`All / Settled / Open / Rejected / Dead end`",
+   "id": "0199091a",
+   "hash": "32c870bf06f6"
+  },
+  {
+   "type": "heading",
+   "text": "### 6.2 Claim Drawer（右侧抽屉）— 这是最重要的一屏",
+   "id": "96d0422d",
+   "hash": "4d5caeda1f18"
+  },
+  {
+   "type": "para",
+   "text": "宽度约 640px，从右滑入，Esc / 点遮罩关闭。内容自上而下：",
+   "id": "f311cec9",
+   "hash": "70d36069aba7"
+  },
+  {
+   "type": "list",
+   "text": "1. **头部**：node.id + status pill + tier + kind badge + provenance badge\n2. **claim 自然语言原文**，字号偏大，这是 `-- @claim` 那一行\n3. **Hume's fork 分栏 —— drawer 的核心，必须左右两栏并置：**",
+   "id": "9e3d43b4",
+   "hash": "24a0e46ca987"
+  },
+  {
+   "type": "table",
+   "text": "   | 左栏 `EMPIRICAL — re-extraction` | 右栏 `ANALYTICAL — Lean 4 kernel` |\n   |---|---|\n   | evidence 路径 + `sha256` 前 12 位（等宽） | theorem 语句（等宽代码块） |\n   | extractor 的 regex（等宽，高亮） | kernel verdict |\n   | `claimed 3.28` vs `extracted 3.28` 并置对比 | `#print axioms` 结果列表 |\n   | 大的 ✓/✗/— 判定标记 | whitelist ✓ / `sorry` 检测 |",
+   "id": "f28a23f7",
+   "hash": "73aa4e2cad3b"
+  },
+  {
+   "type": "para",
+   "text": "   两栏之间画一条竖分隔线，顶上一行小字：`Hume's fork — every claim splits, each half routed to its only possible oracle`。\n   **某一半为空数组时**，那一栏显示灰色占位：\"no analytical assertions in this claim\"，不要塌掉布局——保持两栏对称是这一屏的全部意义。",
+   "id": "3427e66f",
+   "hash": "6cf530670206"
+  },
+  {
+   "type": "list",
+   "text": "4. **verdict 条**：一行大字给出最终 status，附 admission.why\n5. **三层元数据段**（对应 §2，必须视觉分组、三个小标题）：\n   - `VERIFICATION` — status / tier / dispute\n   - `PROCESS` — kind / provenance /（dead_end 时）hypothesis · failure_mode · lesson\n   - `ADMISSION` — actor（human/agent 图标区分）/ at / why / supersedes\n6. **`unreachable` 存在时**：一个醒目的说明块，写清 reason + missing 文件清单。这是 OPEN 的\"为什么\"，比 settled 更值钱。\n7. 底部：`depends on` / `depended on by` 两组可点 chips，点了切到那个节点（drawer 不关）",
+   "id": "a6ddbda4",
+   "hash": "3bfd919be23e"
+  },
+  {
+   "type": "heading",
+   "text": "### 6.3 Graph 视图 —— 默认落地屏",
+   "id": "967a0e85",
+   "hash": "0014abd761eb"
+  },
+  {
+   "type": "para",
+   "text": "打开任一 ledger 详情页，**先看到的是这一屏**，不是 6.1 的表格——表格从这里一键切过去。同屏可切换（ledger 表格 / 图）。手写 SVG DAG：",
+   "id": "c5f9b735",
+   "hash": "31ec100cafae"
+  },
+  {
+   "type": "list",
+   "text": "- 节点按 `depends_on` 分层（简单的 longest-path layering + 同层水平排开即可，不要力导向）\n- 节点配色 = status 配色；`dead_end` 节点画成**虚线边框 + 叉号标记**，与 claim 节点明显不同\n- dispute 关系画成红色双向虚线\n- 点节点 → 打开同一个 drawer\n- 悬停节点 → 高亮它的全部上游链路\n- 需要一个 legend",
+   "id": "c1726a4a",
+   "hash": "fa54a5c92de0"
+  },
+  {
+   "type": "para",
+   "text": "**这一屏的说服力在于：dead_end 节点和 settled claim 出现在同一张图上。** 这是 §2 说的合并，视觉上必须一眼看出来。",
+   "id": "fc1b94aa",
+   "hash": "9e81e6cf0106"
+  },
+  {
+   "type": "heading",
+   "text": "### 6.4 `My Research` 数据集",
+   "id": "2c86f9cd",
+   "hash": "1a830ab73d27"
+  },
+  {
+   "type": "para",
+   "text": "从 `My Work` 货架点进去的 ledger，同样的这几个视图（Graph / Ledger / Evidence），数据换成团队自己的 ARA artifact。这个数据集的重心在 dead_end：\n表格默认 filter 到 `Dead end` 也可以，spotlight callout 换成 lesson 类的文案。Evidence 视图（§6.7）同样跑一遍，规模比 Paper 小得多，如实显示，不因为单薄就补假数据。",
+   "id": "2bb99788",
+   "hash": "8df6ad907f05"
+  },
+  {
+   "type": "heading",
+   "text": "### 6.5 侧边栏 + 卡片货架（`Public` / `My Work`）",
+   "id": "da7e3d1d",
+   "hash": "4fd654e510f0"
+  },
+  {
+   "type": "para",
+   "text": "**这一节取代了 v3 的\"Home 看板单页两组卡片堆叠\"设计**，改成侧边栏驱动的 workspace 外壳。原因：用户明确要求参考 Vercel workspace 类产品的交互——左侧边栏导航，见下面\"调研依据\"。",
+   "id": "d158b202",
+   "hash": "b17db32c1533"
+  },
+  {
+   "type": "para",
+   "text": "**调研依据**：Vercel 2026 年新版 dashboard（2026-02-26 全量上线）把原来的横向 tab 收进一条可隐藏 / 可调宽的侧边栏，团队级和项目级用同一套侧边栏结构，\"project\"表现为对同一侧边栏的过滤而不是另开一套导航。Vercel 官方 Next.js 教程的 dashboard 范例（`nextjs.org/learn/dashboard-app`）给出更具体的交互骨架：侧边栏是一组固定链接（图标+文字），当前项用色块高亮（tint 底 + 强调色字），点击后右侧内容区整体替换，不整页刷新。本 demo 只借这套**交互骨架**（侧边栏固定列表 + 高亮当前项 + 右侧内容区整体替换），不借 Vercel 的具体视觉样式——配色仍然是 §2 的 ARA 纸面系统。",
+   "id": "48df8e60",
+   "hash": "3725ac273658"
+  },
+  {
+   "type": "para",
+   "text": "**侧边栏三项**：`Public` / `My Work` / `Ingest`（Ingest 见 §6.6，视觉上和前两项区分开，不是同类导航项）。默认选中 `Public`——这是最接近旧版 `#/` 默认行为的选择，也是这个 demo 面向投资人的头号论点（RIT §7.4 那条 headline claim）所在的分组，第一屏就该看到它。",
+   "id": "ca652988",
+   "hash": "dbc58980a2f2"
+  },
+  {
+   "type": "para",
+   "text": "`Public` 和 `My Work` 各自的内容区是**同一个卡片货架组件**，只是喂给它的 ledger 列表不同（分组依据 `source.kind`：`live-research` → My Work，其余含 `paper` → Public——这是旧版 tab 名字一直没讲清楚的那个区分，现在挪到侧边栏，讲得更清楚）。卡片形态照抄 ARA Labs 现网 agenticresearch.sh 的 \"Explore public ledgers\" 板块——徽标行 → 标题 → 一行描述 → 一个用状态色画的 `✓/⟳/✗/⊘` 读数（对应 settled/open/rejected/dead_end 的计数）→ root hash → `open ledger →`。同款式同调色，看起来是他们网站的延伸，不是一个新发明的组件。",
+   "id": "0374b162",
+   "hash": "8707434b7d30"
+  },
+  {
+   "type": "para",
+   "text": "`My Work` 的卡片额外带一个 `Draft` 徽标——用户想要\"未发布的 work\"这个概念在界面上存在。本轮**不新增草稿数据**（货架诚实原则不变，见下），只给已有的 My Research 这一条卡片挂上 Draft 徽标示意\"这类东西会长什么样\"。如果之后要多张真正的草稿卡片，需要在 §5 schema 里加一个 ledger 级别字段（建议命名 `publish_state: \"draft\" | \"published\"`，不要复用节点级别的 `status` 字段名，会和 settled/open/rejected 混淆）——这是本节给 orchestrator/W1 的建议，不是已经拍板的 schema 变更。",
+   "id": "fe41bebd",
+   "hash": "17d32446d9d8"
+  },
+  {
+   "type": "para",
+   "text": "`Public` / `My Work` 页面**没有** 6.1–6.4 那条详情页顶栏——不显示两个 tab，也不显示 root hash（这两页列的是\"有哪些 ledger\"，root hash 是某个 ledger 自己的属性）。货架上只放 hub 里真实存在的 ledger（现在两组各一个），不铺占位卡片凑数——一个只有两条 ledger 的 hub，看起来就该像只有两条 ledger。",
+   "id": "39c942a4",
+   "hash": "9a7c658bc543"
+  },
+  {
+   "type": "para",
+   "text": "路由：`#/public`（默认，`#/` 是它的别名）／`#/mine`／`#/ingest`（§6.6）驱动侧边栏选中项 + 右侧内容区；`#/<dataset>/<view>[/<node>]` 不变，点卡片进入的详情页仍然是这个路由形态，所有已有深链接照常解析，侧边栏在详情页保持渲染（选中态回退到\"最近来自哪个货架\"，没有强绑定）。",
+   "id": "f1f3b661",
+   "hash": "1f3b5672995e"
+  },
+  {
+   "type": "heading",
+   "text": "### 6.6 Ingest 入口（`#/ingest`）—— fixture 级别，不是真功能",
+   "id": "1e0b3d75",
+   "hash": "58ea30d940ad"
+  },
+  {
+   "type": "para",
+   "text": "**边界，写清楚不许猜**：§1 已经明确\"上传任意 PDF 的通用抽取 pipeline\"是本轮不做的事，只用两份固定数据集。这条没有变。`Ingest` 侧边栏项存在的目的是让 demo 有\"这是一个能导入东西的产品\"的手感，**不是**真的接一个抽取后端。下面这套流程是唯一允许实现的版本，rit-integrate 不要自行发挥出一个真实上传/解析功能：",
+   "id": "6e2886cf",
+   "hash": "f508fdcb0a77"
+  },
+  {
+   "type": "list",
+   "text": "1. 内容区是一个表单外观：一个输入框（placeholder 或预填类似 `arXiv:2xxx.xxxxx` 或仓库路径的示例文本，输入框**可编辑**，让它显得是活的），一个主按钮 `Ingest`。\n2. 点 `Ingest` 后，**不管输入框里写了什么**，都播放同一段写死的脚本化进度序列——几行 mono 状态文案依次点亮（例如 `Extracting claims…` → `Grounding against evidence…` → `Routing to Hume's fork…` → `Kernel verifying…`），每行带 tabular-nums 的假计时，总时长 2–3 秒，视觉上借用 §2 的状态色（做完一步变 `--ok` 绿勾）。\n3. 序列结束后，**跳转到已有的 Paper ledger 的 Graph 视图**（复用真实存在的 fixture 数据，不生成新数据），并且弹一条一次性的横幅：明确写\"这是在重放 RIT §7.4 数据集的 ingest 过程，本版本里输入新的论文不会触发真实抽取\"一类的措辞（原样英文或中文均可，但必须出现，不能省略——这是 §9 数据诚实性要求在这个新交互点上的落地，demo 自己不能在这个动作上装作有一个它没有的功能）。\n4. 不做真的文件上传控件（没有 `<input type=\"file\">`），不接任何网络请求——纯前端脚本化时间轴，这也是保持\"零外部引用、纯静态\"（§3）成立的前提。",
+   "id": "2ec91c15",
+   "hash": "89c9bd5ca0d5"
+  },
+  {
+   "type": "heading",
+   "text": "### 6.7 Evidence 视图（第三个视图 tab，路由 `#/<dataset>/evidence`）",
+   "id": "0888996e",
+   "hash": "79e93d829443"
+  },
+  {
+   "type": "para",
+   "text": "**这一屏回答的问题**：这条 ledger 站在什么证据上。**不是**论文原文的重现——用户口头最初想要的是\"paper 原文\"，但 demo 里没有论文正文，编一段看起来像原文的东西正是 §9 说的\"demo 自身不能犯它要解决的错误\"那种造假，明确不做。全部数据来自现有 fixture 的 `empirical` / `analytical` / `unreachable` 字段，不新造数据，不新增 schema。",
+   "id": "4c58b696",
+   "hash": "ffff44d1fbf7"
+  },
+  {
+   "type": "para",
+   "text": "内容分三组，每一组每一项都能点回引用它的 claim（打开同一个 drawer，和表格行/graph 节点点开的是同一个组件）：",
+   "id": "ad48ce19",
+   "hash": "dcd71399dba9"
+  },
+  {
+   "type": "list",
+   "text": "1. **DELIVERED**——有 `evidence_path` 的证据文件，按文件去重后列。有 `sha256` 的用 `--ok`（已核验完整性）；有路径但缺 `sha256` 的用 `--warn`（存在但没法核验完整性，不能用绿色暗示\"已核验\"）。\n2. **NEVER DELIVERED**——`unreachable.missing` 指向的、从未随 repo 交付的东西，`--open` 色（呼应节点级 `status: open` 的同一个语义：不是错，是够不着）。**每一条必须是大白话描述缺什么**（例如 \"a Lean obligation for this claim\"、\"the wandb run summary this metric depends on\"）——**不允许编一个看起来像真路径的字符串充数**，宁可写得笼统也不能写得像假证据。这是硬约束，rit-integrate 实现时不要自己拼一个 `evidence/xxx.json` 式的假路径。\n3. **FORMAL**——`analytical` 里的 theorem / axiom 统计：theorem 数、非空 axioms 组数；每条 theorem 可展开看 `verdict`，复用已有的 pass/fail/unchecked 语义色，不新发明一套。",
+   "id": "751f8225",
+   "hash": "072708cc1669"
+  },
+  {
+   "type": "para",
+   "text": "**\"已交付\"/\"从未交付\"的口径，写死在这里，不要每个实现者各数一遍**：",
+   "id": "9b1c4e2a",
+   "hash": "b7ac1d9ef67b"
+  },
+  {
+   "type": "list",
+   "text": "- **已交付** = 这个文件被某条 claim 的 `evidence_path` 引用，**且**没有出现在任何 claim 的 `unreachable.missing` 里——也就是真的有 claim 拿它当证据用，kernel/re-extraction verdict 不是 `unreachable`。\n- **从未交付** = 所有 claim 的 `unreachable.missing` 条目，**按文本去重**后的条数（同一句缺失描述被多条 claim 引用只算一次）。\n- 一个文件如果既被某条 claim 当证据引用、又在另一条 claim 里被列进 `missing`（verdict 是 `unreachable`，`extracted` 为 `null`）——按\"从未交付\"算，不算\"已交付\"。算成已交付等于宣称一个实际没交付的东西交付了，这正是 c14 保持 OPEN 的理由，算错了这一屏就和 demo 的头号论点自相矛盾。",
+   "id": "709db09e",
+   "hash": "2336b92df7f7"
+  },
+  {
+   "type": "para",
+   "text": "**Paper 数据集的真实规模**（实测自 `data/paper-ftrl.js`，按上面口径核对过，不是占位数字）：8 个已交付证据文件（全部 8 个带 `sha256`）／21 项从未交付（raw 27 条，去重后 21）／9 个 theorem／4 组非空 axioms。**8 对 21 这个落差本身就是 RIT §7.4 的论点**——一篇已发表论文里，能核验的东西远少于论文断言的东西。这个事实现在只埋在 spotlight 指向的 c14 那一条 claim 的 drawer 里，没人会翻遍 29 条 claim 才看见。Evidence 视图把它从\"藏在某一条 claim 里\"升到 ledger 级别一眼可见的事实——这是加这一屏的实际论点，不只是给 demo 添一个\"working product\"的手感。",
+   "id": "609dd2a4",
+   "hash": "3562a4316e87"
+  },
+  {
+   "type": "para",
+   "text": "My Research 数据集同样跑这一套结构，规模小得多：2 个已交付（2 个带 `sha256`）／10 项从未交付（raw 12 条，去重后 10）／theorem 和 axiom 都是 0——这个数据集还没有形式化验证这条腿。如实显示空/小的状态，不因为\"看起来单薄\"就把 FORMAL 组隐藏或补假数据。",
+   "id": "dc5002f1",
+   "hash": "068711f0cafd"
+  },
+  {
+   "type": "para",
+   "text": "header（面包屑 + 三个大数字 + spotlight）在这一屏和其余两个视图一样保持不变，见 §6 开头。",
+   "id": "a703d3a3",
+   "hash": "9c1cc47b4a30"
+  },
+  {
+   "type": "para",
+   "text": "---",
+   "id": "bd3d65ba",
+   "hash": "f1624c9c50ca"
+  },
+  {
+   "type": "heading",
+   "text": "## 7. 组件接口（跨 worker 的唯一 API）",
+   "id": "a85a95d5",
+   "hash": "1bff4f4ffa3c"
+  },
+  {
+   "type": "para",
+   "text": "`js/drawer.js`（W3 提供）必须导出：",
+   "id": "952aa806",
+   "hash": "f43c0dc4e5f5"
+  },
+  {
+   "type": "code",
+   "text": "```js\nexport function openDrawer(node, ledger, { onNavigate });\n// onNavigate(nodeId) —— drawer 内点依赖 chip 时回调，由调用方决定切哪个节点\nexport function closeDrawer();\nexport function isOpen();\n```",
+   "id": "83dc936d",
+   "hash": "7c49b281bbdf"
+  },
+  {
+   "type": "para",
+   "text": "`js/graph.js`（W4 提供）必须导出：",
+   "id": "2ff7e4b8",
+   "hash": "c9766c666786"
+  },
+  {
+   "type": "code",
+   "text": "```js\nexport function renderGraph(container, ledger, { onSelect });\n// 返回 { focus(nodeId), destroy() }\n// onSelect(nodeId) —— 点节点时回调\n```",
+   "id": "fbbbe12d",
+   "hash": "1ed78ab464d2"
+  },
+  {
+   "type": "para",
+   "text": "W2 在 `js/app.js` 里 import 这两个模块并接线。W3/W4 不 import 对方，也不 import W2。",
+   "id": "9750c47a",
+   "hash": "ef54ad85d3fd"
+  },
+  {
+   "type": "para",
+   "text": "---",
+   "id": "006eec30",
+   "hash": "f1624c9c50ca"
+  },
+  {
+   "type": "heading",
+   "text": "## 8. 设计 token（W2 写进 `css/tokens.css`，W3/W4 直接使用这些名字）",
+   "id": "7de15d89",
+   "hash": "8b27ee6f97cc"
+  },
+  {
+   "type": "para",
+   "text": "W3/W4 在自己的 CSS 里**只能引用下列变量名**，不得硬编码颜色。",
+   "id": "74d110a0",
+   "hash": "1efa3a192c94"
+  },
+  {
+   "type": "code",
+   "text": "```\n--bg              页面底\n--bg-raised       卡片 / drawer 面\n--bg-sunken       代码块 / 表头\n--border          常规描边\n--border-strong   强调描边\n--text            主文字\n--text-dim        次要文字\n--text-faint      三级文字\n--accent          品牌强调色\n--ok              settled（绿）\n--open            open（琥珀/冷灰蓝）\n--bad             rejected（红）\n--warn            disputed（橙）\n--dead            dead_end（低饱和紫灰）\n--font-sans       系统无衬线栈\n--font-mono       系统等宽栈\n--font-serif      衬线大标题栈（仅 W2 页面级标题使用，如 Home 看板/ledger.title；drawer/graph 不需要）\n--radius          圆角\n--shadow          浮层阴影\n```",
+   "id": "b5c0e866",
+   "hash": "b1060a4c0062"
+  },
+  {
+   "type": "para",
+   "text": "整体调性：账本 / 内核，避免装饰性圆润和卡通感，不要 SaaS 渐变紫——这是主题无关的通用美学约束，不绑定某个具体底色（2026-08-13 起主题是浅色暖米白，见 §3；这条约束在深色/浅色下都成立）。\n等宽字体承担大量信息（hash、regex、Lean、路径），这是这个产品该有的样子。",
+   "id": "12a5e1e6",
+   "hash": "cf418b08f1af"
+  },
+  {
+   "type": "para",
+   "text": "---",
+   "id": "411344e7",
+   "hash": "f1624c9c50ca"
+  },
+  {
+   "type": "heading",
+   "text": "## 9. 数据诚实性要求（硬性，不可省略）",
+   "id": "54e0de19",
+   "hash": "dd820d564ff2"
+  },
+  {
+   "type": "para",
+   "text": "受众是投资人，而这个产品本身攻击的就是\"看起来可信但没被核过\"的东西。\n**Demo 自身不能犯它要解决的错误。**",
+   "id": "3951af0d",
+   "hash": "79f929999bf7"
+  },
+  {
+   "type": "list",
+   "text": "- `data/SOURCES.md` 必须逐条标注每个数字的出处：来自论文哪一节 / 哪张表，还是为凑齐视图生成的示例行。\n- 页面**页脚必须常驻一行 provenance**，内容取自 `ledger.provenance`（§5，每个数据集各自提供）。",
+   "id": "a1bc1c0d",
+   "hash": "ff2f28f6ea76"
+  },
+  {
+   "type": "para",
+   "text": "  字段缺席时回退到默认文案：\n  `Fixture data · claim counts and the spotlight case from RIT §7.4 / Table 9 · remaining rows illustrative · no live verification performed`\n  这行随数据集切换而变 —— Paper 和 My Research 的出处不同，两边共用一句话本身就是不诚实的。",
+   "id": "4d77729e",
+   "hash": "b31c9d88cb29"
+  },
+  {
+   "type": "list",
+   "text": "- **Home 看板**（§6.5）不属于任何一个数据集，页脚 provenance 行不借用 `ledger.provenance`——换成看板自己的自述文案，说清楚\"这是什么\"（一个列出本 hub 全部 ledger 的看板），并指向下面的卡片去看各自的出处，不冒充是某一条 ledger 的 provenance。",
+   "id": "c774398c",
+   "hash": "91b28abb46b5"
+  },
+  {
+   "type": "list",
+   "text": "- 任何**论文里没有的具体数字**，不得看起来像是论文结论。宁可用明显是示例的值。\n- 来自 RIT §7.4 的那个核心事实必须原样保真：29 条 claim，头条数字（NetHack return 10,588）因 wandb log 未 ship 而保持 OPEN。",
+   "id": "43201ab4",
+   "hash": "ba405d3c3ad8"
+  },
+  {
+   "type": "para",
+   "text": "这一行页脚同时是产品理念的演示 —— ledger line 永远跟着 artifact 走。",
+   "id": "66547a66",
+   "hash": "f1b56e5c36ca"
+  },
+  {
+   "type": "para",
+   "text": "---",
+   "id": "7754b752",
+   "hash": "f1624c9c50ca"
+  },
+  {
+   "type": "heading",
+   "text": "## 10. 本文档自身的 decision trail",
+   "id": "fa7da809",
+   "hash": "4c49f8ed3edf"
+  },
+  {
+   "type": "para",
+   "text": "**这份文档由 Proofpress 管理。** 它是这个 demo 唯一的需求来源，所以它自己的修改历史\n必须可核验 —— 否则我们就在用一份没有 provenance 的文档，去做一个讲 provenance 的产品。",
+   "id": "bd3bb646",
+   "hash": "10d8c8a443aa"
+  },
+  {
+   "type": "code",
+   "text": "```sh\npython3 proofpress.py policy rit-hub-demo/DECISIONS.md portable\npython3 proofpress.py anchor rit-hub-demo/DECISIONS.md\npython3 proofpress.py snapshot rit-hub-demo/DECISIONS.md --kind agent --author orchestrator \\\n  --why \"…这次改了什么、为什么…\"\npython3 proofpress.py verify rit-hub-demo/DECISIONS.md\n```",
+   "id": "9c19dec9",
+   "hash": "6cb6c9176f39"
+  },
+  {
+   "type": "para",
+   "text": "规则：",
+   "id": "53c76b40",
+   "hash": "fddef40ca113"
+  },
+  {
+   "type": "list",
+   "text": "- 需求变更**只改本文档**，不在 worker 对话里口头改。口头说的不算数。\n- 每次改动必须跟一次 `snapshot --why`，`--why` 写**决策理由**，不是 diff 摘要。\n- 被否掉的方案如果值得后人知道，用 `--rejected` 记下来，别只留结论。\n- 改完后重新下发给受影响的 worker，并在消息里点明改了哪一节。",
+   "id": "3b0858e2",
+   "hash": "ac6035bd26d3"
+  },
+  {
+   "type": "para",
+   "text": "这样这份 spec 自己就是一个小号的 Claim Flow Graph：决策、理由、被放弃的分支，\n全都留在 artifact 上，跟着文件走。demo 讲的故事，从它的需求文档开始就已经在跑了。",
+   "id": "f39bde4f",
+   "hash": "b85fcee1b82a"
+  },
+  {
+   "type": "para",
+   "text": "---",
+   "id": "3cf4ff03",
+   "hash": "f1624c9c50ca"
+  },
+  {
+   "type": "heading",
+   "text": "## 12. 交付形态：源码用 module，交付用单文件",
+   "id": "1f2e76bf",
+   "hash": "06f4e6ed54b4"
+  },
+  {
+   "type": "para",
+   "text": "**背景（W4 于 2026-08-12 实测发现）**：Chrome 下 `file://` 的 origin 是 null，\n外部 ES module 的 `import` 会被 CORS 拦截。原 §3 里\"用 `.js` 而不是 JSON 就能双击打开\"\n的推理是错的 —— 那只解决了 `fetch`，没解决 module 加载本身。",
+   "id": "5989c0a6",
+   "hash": "5d4d75b94e8c"
+  },
+  {
+   "type": "para",
+   "text": "**决定：不改 module 架构，改交付形态。** 两种形态并存：",
+   "id": "5c7943b8",
+   "hash": "393126b1151d"
+  },
+  {
+   "type": "table",
+   "text": "| 形态 | 路径 | 怎么跑 | 给谁 |\n|---|---|---|---|\n| 开发态 | `rit-hub-demo/index.html` + `js/` `css/` `data/` | `python3 -m http.server` 后开 localhost | worker 开发、逐文件 review |\n| 交付态 | `rit-hub-demo/dist/rit-hub-demo.html` | **双击即开**，`file://` 直接跑 | 用户验收、投资人演示、发给别人 |",
+   "id": "7bb39ce9",
+   "hash": "09a44dd37b6b"
+  },
+  {
+   "type": "para",
+   "text": "交付态由 §12 的内联脚本从开发态生成：把所有 CSS `<style>` 进去、把所有 module\n按依赖顺序拼成**一个 inline `<script type=\"module\">`**（内联 module script 在\n`file://` 下可以执行，被拦的只是外部 module 的 fetch），SVG 和数据一并内联。\n产物必须零外部引用。",
+   "id": "1b878e75",
+   "hash": "86fe8446cdc9"
+  },
+  {
+   "type": "para",
+   "text": "`build.py` —— 只用 Python 标准库，不装任何依赖，归**整合 worker**所有。\n它不是 webpack 意义上的构建工具，是个几十行的拼接脚本，所以不违反 §3 的精神。",
+   "id": "52404a2e",
+   "hash": "1a4b229a094f"
+  },
+  {
+   "type": "para",
+   "text": "单文件交付顺带是个正确的产品隐喻：**一个自包含、可核验、能独立旅行的 artifact** ——\n跟 Proofpress portable capsule 是同一个想法。§9 那行 provenance 页脚要一起带走。",
+   "id": "cabd0c14",
+   "hash": "30b551a46376"
+  },
+  {
+   "type": "para",
+   "text": "---",
+   "id": "0016331f",
+   "hash": "f1624c9c50ca"
+  },
+  {
+   "type": "heading",
+   "text": "## 11. 验收标准",
+   "id": "f6e5ba01",
+   "hash": "3c2c0034d688"
+  },
+  {
+   "type": "list",
+   "text": "1. `dist/rit-hub-demo.html` 双击用 Chrome 打开就能跑（`file://`，零外部引用）；",
+   "id": "81d06d0c",
+   "hash": "09bd97173697"
+  },
+  {
+   "type": "para",
+   "text": "   开发态 `index.html` 在 `python3 -m http.server` 下跑通",
+   "id": "3e962ee3",
+   "hash": "f515ac09debc"
+  },
+  {
+   "type": "list",
+   "text": "2. 两个货架（`Public`/`My Work`）都有数据、都能进入各自的 ledger\n3. 表格任意行可点开 drawer，drawer 里 Hume's fork 两栏并置\n4. Graph 视图里能同时看到 settled claim 和 dead_end 节点\n5. Spotlight callout 可点，直达那条 OPEN 的头条 claim\n6. 页脚 provenance 行常驻\n7. 控制台零报错\n8. 1440×900 下不横向滚动；drawer 打开时主体不跳动",
+   "id": "d74165c7",
+   "hash": "07539c3bd0ef"
   }
  ]
 }
