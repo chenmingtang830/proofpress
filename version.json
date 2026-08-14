@@ -58,9 +58,9 @@
   },
   {
    "type": "table",
-   "text": "| 不做 | 原因 |\n|---|---|\n| ARA Seal L1–L4 与 RIT tier L1/L2/L3 的命名冲突 | 用户决定本轮不管。UI 按各自论文原样显示，不做翻译层 |\n| 真的跑 Lean / 真的做 re-extraction | demo 是 viewer，数据是预先固化的 fixture |\n| 上传任意 PDF 的通用抽取 pipeline | 只用两份固定数据集 |\n| 账号、后端、实时、数据库 | 纯静态 |\n| 构建工具（webpack/vite/npm） | 见 §3 |\n| dead_end 是否正式进 RIT CFG 的形式化定义 | 这是产品决策，本 demo 先在**视觉上**合并，不动论文定义 |",
+   "text": "| 不做 | 原因 |\n|---|---|\n| ARA Seal L1–L4 与 RIT tier L1/L2/L3 的命名冲突 | 用户决定本轮不管。UI 按各自论文原样显示，不做翻译层 |\n| 真的跑 Lean / 真的做 re-extraction | demo 是 viewer，数据是预先固化的 fixture |\n| 上传任意 PDF 的通用抽取 pipeline | 只用两份固定数据集 |\n| 账号、后端、实时、数据库 | 纯静态 |\n| 构建工具（webpack/vite/npm） | 见 §3 |\n| admission 层（谁接受的 / 何时 / 依据什么 / 被什么取代）是否正式进 RIT CFG 的形式化定义 | 这是产品决策，本 demo 先在**视觉上**把第三层挂上去，不动论文定义 |\n| dead_end 的 failure_mode / lesson 语义是否进 RIT CFG 的形式化定义 | 现网只记到\"被拒的 proof attempt\"这一层（见 §2），研究语义仍在定义之外。同样只做视觉，不动论文定义 |",
    "id": "25f09126",
-   "hash": "73c0e901d682"
+   "hash": "222fe6665f2f"
   },
   {
    "type": "para",
@@ -334,9 +334,9 @@
   },
   {
    "type": "para",
-   "text": "**这一屏的说服力在于：dead_end 节点和 settled claim 出现在同一张图上。** 这是 §2 说的合并，视觉上必须一眼看出来。",
+   "text": "**这一屏的说服力在于：三层挂在同一个节点上、同屏可辨。** kernel 裁决（verification）、研究过程（process，dead_end 带 failure_mode / lesson）、谁接受的（admission）——其中 admission 那一层现网完全没有，是这一屏真正的新东西。dead_end 节点与 settled claim 同图，现网已经做到了（见 §2），不是差异点，不要再当说服力讲。",
    "id": "fc1b94aa",
-   "hash": "9e81e6cf0106"
+   "hash": "f5e77a9dd650"
   },
   {
    "type": "heading",

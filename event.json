@@ -2,51 +2,37 @@
  "event": "version_created",
  "artifact": "rit-hub-demo/DECISIONS.md",
  "artifact_id": "pp_4d20cb5ec74e9b6747d4cc3e",
- "version": "4da74b0e",
- "parent": "74d73f60",
+ "version": "6b14dc18",
+ "parent": "4da74b0e",
  "author": {
   "name": "proofpress-dev-21 worker",
   "kind": "agent",
   "session": "proofpress-dev-21"
  },
  "note": null,
- "ts": "2026-08-14T10:15:14+00:00",
+ "ts": "2026-08-14T18:09:09+00:00",
  "stats": {
-  "modified": 3,
-  "added": 1
+  "modified": 2
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "21a2f312",
-   "type": "para",
-   "context": "2. 核心叙事：三层挂一个 node"
+   "block": "25f09126",
+   "type": "table",
+   "context": "1. 本轮明确不做的事"
   },
   {
    "kind": "modified",
-   "block": "adf0ae42",
+   "block": "fc1b94aa",
    "type": "para",
-   "context": "2. 核心叙事：三层挂一个 node"
-  },
-  {
-   "kind": "added",
-   "block": "beb30c24",
-   "type": "list",
-   "context": "2. 核心叙事：三层挂一个 node",
-   "preview": "- **被拒的 proof attempt ≠ 研究意义上的 dead end。** `outin` 记录的是一次机械失"
-  },
-  {
-   "kind": "modified",
-   "block": "a2118603",
-   "type": "para",
-   "context": "2. 核心叙事：三层挂一个 node"
+   "context": "6.3 Graph 视图 —— 默认落地屏"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:4464842110048616f3d803a5814455b6390c129aa4c08b215b4e8d082c649712",
+ "soft_fingerprint": "ppsb1:fb172b4b6163eb3f16bc44919e833b0589cbcba6df915bf4d0d90da902542c3c",
  "actors": {
   "requested_by": [
-   "orchestrator (DECISIONS.md owner, 明确授权本次仅限 §2)"
+   "orchestrator (DECISIONS.md owner, 授权本次仅限 §1 表格该行与 §6.3 说服力声明)"
   ],
   "produced_by": [
    "claude-opus-5 (AO worker session proofpress-dev-21)"
@@ -61,32 +47,22 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "21a2f312",
+   "block": "25f09126",
    "kind": "modified",
-   "note": "原文把 demo 的智力贡献定义为'把两张分离的图合成一张'，前提是 RIT 图里缺 dead end。改为直接声明现网已经把被拒尝试记在账本上，并引用页头计数、图例、outin 节点三处可核对的证据。"
+   "note": "§1 表格：删掉'dead_end 是否正式进 RIT CFG 的形式化定义'那一行（它预设 dead_end 还没进图，与现网不符）。换成两行本轮真正悬而未决的形式化问题：admission 层是否进 CFG 定义；dead_end 的 failure_mode / lesson 语义是否进 CFG 定义。两行都维持'本轮只做视觉、不动论文定义'的口径。"
   },
   {
-   "block": "adf0ae42",
+   "block": "fc1b94aa",
    "kind": "modified",
-   "note": "原本承载两条 bullet（其中'RIT 的 CFG 里没有 dead end / 不留在图上'与现网不符）。改为三条缺口的引入句，错误论证整体移除。"
-  },
-  {
-   "block": "beb30c24",
-   "kind": "added",
-   "note": "新增三条缺口：(1) 被拒的 proof attempt 缺 failure_mode/lesson/方向，不等于研究意义上的 dead end；(2) 未进形式化流程的死路根本不在图上；(3) 全图只有 kernel 裁决，没有 admission 层。"
-  },
-  {
-   "block": "a2118603",
-   "kind": "modified",
-   "note": "过渡句由'合并后'改为承接三条缺口，并点明第三条对应三层结构里的 Proofpress 层。下方三层 code block 不变。"
+   "note": "§6.3 说服力声明：原文把这一屏的卖点押在'dead_end 节点和 settled claim 同图'上，而现网已经做到这件事。改为三层同节点、同屏可辨（verification / process / admission），并点明 admission 是现网完全没有的那一层；同时写死 dead_end 同图不再算差异点。上方的实现规格 bullet 未动。"
   }
  ],
  "context": {
-  "why": "§2 的第一条 bullet 与现网 rithub demo 不符：它声称 RIT 的 Claim Flow Graph 里没有 dead end、被 gate 拒掉的 commit 退回作者不留在图上。现网实测三处证据都相反——页头计数 '23 real commits + 6 refused attempts'、图例里的 '✗ rejected (no commit)'、以及虚线+✗ 的 outin 节点（正文写 kernel refuses，下挂 ✗ prover_out_tok > prover_in_tok，播放条文案明确说 the attempt itself is on the ledger）。这份文档是 worker 的唯一契约，一条错误前提会让整个 demo 的卖点建立在一个投资人当场能证伪的说法上。改为更窄但准确的三条缺口：被拒的 proof attempt 缺 failure_mode/lesson/下一步方向，不等于 ARA 意义上的 dead_end；多数真正的死路在形式化之前就被放弃、根本走不到 commit attempt；整张图全是 kernel 裁决（verified/refuted/rejected），没有任何 admission 记录（谁接受的、何时、依据什么、被什么取代）——第三条正是三层结构里 Proofpress 那一层的位置。§2 的三层 code block 与其余章节不动。",
+  "why": "v8 只改了 §2，留下两处仍然依赖旧前提的文字，本次按 owner 下发一并收口。§1 表格那一行把'dead_end 是否正式进 RIT CFG'列为本轮不做的事，预设 dead_end 还没进图；现网已经把 refused attempts 记在账本上，这个问题已经不是本轮真正悬着的那个。换成两条真正开放的形式化问题：admission 层（谁接受的/何时/依据什么/被什么取代）是否进 CFG 定义，以及 dead_end 的 failure_mode / lesson 研究语义是否进 CFG 定义——后者独立成行，因为现网只记到'被拒的 proof attempt'这一层，与 §2 第一条缺口对应。§6.3 的问题更要紧：它把 Graph 屏的说服力押在'dead_end 节点和 settled claim 同图'上，而这正是现网已经做到的事，等于拿一个已经不成立的差异当卖点，投资人现场一点就穿。改为三层挂同一节点、同屏可辨（verification / process / admission），并明确 admission 是现网完全没有的那一层，同时写死 dead_end 同图不再是差异点。§6.3 上方的实现规格 bullet（分层、虚线+叉号、dispute 双向虚线、drawer、hover、legend）按 owner 要求一字未动。",
   "rejected": [
-   "只删掉'不留在图上'半句、保留'RIT 图里没有 dead end'的框架 — 现网连计数、图例带节点都在账本上，框架本身就是错的，删半句只会留下一个更含糊的错误说法",
-   "顺手改 §1 表格里'dead_end 是否正式进 RIT CFG 的形式化定义'和 §6.3 引用 §2 的那句 — owner 只授权 §2，改动范围要 owner 先定，已在报告里列出"
+   "§1 只把那一行的主语从 dead_end 换成 admission、不加第二行 — 会丢掉 §2 第一条缺口对应的形式化问题（failure_mode / lesson 语义仍在 CFG 定义之外），表格与 §2 就对不上了",
+   "§6.3 保留'dead_end 与 settled claim 同图'作为次要卖点 — owner 明确要求不再当说服力讲，且现网已实现，留着就是同一个错误的弱化版"
   ]
  },
- "event_id": "ppe_65492f63e290530bffb0746a"
+ "event_id": "ppe_b6d4d8eb64df473bf3fbe3aa"
 }
