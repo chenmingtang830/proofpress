@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "id": "C2_PROOFPRESS",
+  "label": "Proofpress-bound workspace",
+  "stress_track": "EVOLVING_NEGOTIATION_STATE",
+  "substantive_package": "identical_to_C1",
+  "handoff_representation": "the C1 readable workspace plus Proofpress bindings and verification affordance",
+  "proofpress_carrier": true,
+  "verifier_required_before_receiver_action": true,
+  "allowed_arm_only_paths": [
+    "proofpress/portable-carrier.test-only.json"
+  ],
+  "forbidden_carrier_content": [
+    "legal conclusion",
+    "negotiation recommendation",
+    "hidden rubric information",
+    "substantive summary unavailable to C1"
+  ],
+  "claim_boundary": "Verification concerns declared provenance and applicability only; it does not determine truth, quality, authorship, or external authority."
+}

@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "recorded_at": "2026-08-22T15:21:46Z",
+  "proofpress_revision": "10ee8c4c9a6d56dfedf563a0679e6a5bb167fa0a",
+  "working_directory": "<proofpress-repository-root>",
+  "results": [
+    {
+      "command": ["python3", "proofpress.py", "verify", "studies/long-horizon-eval/relaybench/README.md"],
+      "exit_code": 0,
+      "stdout": "verify studies/long-horizon-eval/relaybench/README.md @ 8706c072 (v1)\n\n  ✓ [added] RelayBench v0.1 — H4 Phase Zero freeze c / para: Repository integration note: this subtree is stacked on  (979c2fd0) — \"Added the exact Proofpress stacked-base and isolation note for repository freeze review.\"\n\n  1 verified\n",
+      "stderr": ""
+    },
+    {
+      "command": ["python3", "proofpress.py", "verify", "studies/long-horizon-eval/relaybench/RICHARD_PLAN_ALIGNMENT.md"],
+      "exit_code": 0,
+      "stdout": "verify studies/long-horizon-eval/relaybench/RICHARD_PLAN_ALIGNMENT.md @ f037b519 (v1)\n\n  ✓ [added] Source of truth / para: Integration decision: the Proofpress branch is stacked o (e6cbf462) — \"Recorded the decision to stack on Richard's exact PR head and isolate RelayBench beneath the long-horizon study directory.\"\n\n  1 verified\n",
+      "stderr": ""
+    },
+    {
+      "command": ["python3", "proofpress.py", "verify", "studies/long-horizon-eval/relaybench/BENCHMARK_PROTOCOL.md"],
+      "exit_code": 0,
+      "stdout": "verify studies/long-horizon-eval/relaybench/BENCHMARK_PROTOCOL.md @ e5ca5713 (v1)\n\n  ✓ [added] Status and role / para: The complete freeze-review surface, upstream source iden (91ca81d4) — \"Added the single freeze-packet entry point for the complete review surface and unresolved decisions.\"\n\n  1 verified\n",
+      "stderr": ""
+    },
+    {
+      "command": ["python3", "proofpress.py", "verify", "studies/long-horizon-eval/relaybench/CLAIM_BOUNDARIES.md"],
+      "exit_code": 0,
+      "stdout": "verify studies/long-horizon-eval/relaybench/CLAIM_BOUNDARIES.md @ b41eaa0d (v1)\n\n  ✓ [added] RelayBench claim boundaries / para: Source-integrity boundary: the synthetic releases are no (9f8d1abd) — \"Added the source-integrity boundary distinguishing synthetic mechanics releases from pinned, non-vendored Harvey materials.\"\n\n  1 verified\n",
+      "stderr": ""
+    },
+    {
+      "command": ["python3", "proofpress.py", "verify", "studies/long-horizon-eval/relaybench/PHASE_ZERO_FREEZE_PACKET.md"],
+      "exit_code": 0,
+      "stdout": "verify studies/long-horizon-eval/relaybench/PHASE_ZERO_FREEZE_PACKET.md @ 24792d6e (v2)\n\n  ✓ [modified] 2. Harvey source identity, hashes, and l / table (d12ed2bf) — \"Corrected the displayed SHA-256 for the pinned exclusive-negotiation-letter.docx Git blob from a truncated 62-character value to the independently verified 64-character acquisition-manifest value.\"\n\n  1 verified\n",
+      "stderr": ""
+    },
+    {
+      "command": ["python3", "proofpress.py", "verify", "studies/long-horizon-eval/relaybench/bench/fixtures/h4-msa-escalation-candidate/test-double/common-instruction.md"],
+      "exit_code": 0,
+      "stdout": "verify studies/long-horizon-eval/relaybench/bench/fixtures/h4-msa-escalation-candidate/test-double/common-instruction.md @ 49d217d4 (v1)\n\n  ✓ [added] TEST-ONLY receiver instruction / para: If TEST-ONLY verifier evidence is supplied, treat it onl (65001821) — \"Added the binding-only interpretation rule for TEST-ONLY verifier evidence and expressly denied stronger legal or identity claims.\"\n\n  1 verified\n",
+      "stderr": ""
+    },
+    {
+      "command": ["python3", "proofpress.py", "verify", "studies/long-horizon-eval/relaybench/BENCHMARK_READINESS_REPORT.md"],
+      "exit_code": 0,
+      "stdout": "verify studies/long-horizon-eval/relaybench/BENCHMARK_READINESS_REPORT.md @ 0f9c3e05 (v3)\n\n  ✓ [modified] Validation / list (2b452c3b) — \"Corrected the Proofpress Python test count to the final observed 65-test suite output.\"\n\n  1 verified\n",
+      "stderr": ""
+    }
+  ]
+}

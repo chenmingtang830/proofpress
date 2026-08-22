@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "id": "C1_ORDINARY_PORTABLE",
+  "label": "Ordinary portable workspace",
+  "stress_track": "EVOLVING_NEGOTIATION_STATE",
+  "substantive_package": "identical_to_C2",
+  "handoff_representation": "complete readable matter workspace and readable handoff state",
+  "proofpress_carrier": false,
+  "verifier_required_before_receiver_action": false,
+  "allowed_arm_only_paths": [],
+  "claim_boundary": "No provenance status is inferred; C1 is not deprived of substantive matter information."
+}

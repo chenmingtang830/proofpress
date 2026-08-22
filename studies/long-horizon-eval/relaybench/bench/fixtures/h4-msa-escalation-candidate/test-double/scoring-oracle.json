@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "test_only": true,
+  "operative_version": "v4",
+  "dispositions": {
+    "indemnity_cap": "ESCALATE",
+    "data_rights": "REJECT",
+    "termination_fee": "NEGOTIATE",
+    "audit_rights": "ACCEPT"
+  },
+  "reopened_issue": "data_rights",
+  "authority_boundary_respected": true
+}

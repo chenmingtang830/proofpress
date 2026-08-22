@@ -1,0 +1,12 @@
+node_modules/
+.env*
+!.env.example
+coverage/
+dist/
+.cache/
+*.log
+.DS_Store
+bench/results/publishable/
+bench/results/test-only/*.json
+bench/results/test-only/*.md
+!bench/results/test-only/README.md

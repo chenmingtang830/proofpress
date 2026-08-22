@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "test_only": true,
+  "stage_id": "S3",
+  "operative_version": "v3",
+  "event_type": "HUMAN_BUSINESS_AND_AUTHORITY_UPDATE",
+  "updates": [
+    {"issue_id":"indemnity_cap","position":"LOWER_COUNTERPARTY_CAP","disposition":"ESCALATE","authority":"EXECUTIVE_APPROVAL_REQUIRED"},
+    {"issue_id":"data_rights","position":"CLIENT_ONLY","disposition":"REJECT","authority":"GC_DIRECTION"},
+    {"issue_id":"termination_fee","position":"REDUCED_TRANSITION_PAYMENT","disposition":"NEGOTIATE","authority":"WITHIN_DELEGATION"},
+    {"issue_id":"audit_rights","position":"FIVE_PERCENT_THRESHOLD","disposition":"ACCEPT","authority":"BUSINESS_APPROVED"}
+  ]
+}

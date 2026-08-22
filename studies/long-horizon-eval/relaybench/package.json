@@ -1,0 +1,19 @@
+{
+  "name": "relaybench",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "lint": "node scripts/bench-lint.mjs",
+    "test": "node --test bench/tests/*.test.mjs",
+    "bench:run": "node scripts/bench-run.mjs",
+    "bench:score": "node scripts/bench-score.mjs",
+    "bench:report": "node scripts/bench-report.mjs",
+    "verify:fixtures": "node scripts/bench-verify-fixtures.mjs",
+    "readiness": "node scripts/bench-readiness.mjs",
+    "check": "npm run lint && npm run verify:fixtures && npm test && npm run readiness"
+  }
+}

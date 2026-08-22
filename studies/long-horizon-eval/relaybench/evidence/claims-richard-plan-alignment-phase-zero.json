@@ -1,0 +1,7 @@
+[
+  {
+    "block": "e6cbf462",
+    "kind": "added",
+    "note": "Recorded the decision to stack on Richard's exact PR head and isolate RelayBench beneath the long-horizon study directory."
+  }
+]

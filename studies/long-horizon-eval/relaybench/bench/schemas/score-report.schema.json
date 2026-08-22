@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://relaybench.local/schemas/h4-score-report.schema.json",
+  "title": "RelayBench H4 aggregate score report",
+  "type": "object",
+  "required": ["schema_version", "generated_at", "publishable_records_seen", "valid_publishable_records", "excluded_test_only_records", "invalid_runs", "metrics", "by_condition", "note"],
+  "properties": {
+    "schema_version": {"const": 2},
+    "generated_at": {"type": "string", "format": "date-time"},
+    "publishable_records_seen": {"type": "integer", "minimum": 0},
+    "valid_publishable_records": {"type": "integer", "minimum": 0},
+    "excluded_test_only_records": {"type": "integer", "minimum": 0},
+    "invalid_runs": {"type": "object"},
+    "metrics": {"type": "object"},
+    "by_condition": {"type": "object"},
+    "note": {"type": "string"}
+  }
+}

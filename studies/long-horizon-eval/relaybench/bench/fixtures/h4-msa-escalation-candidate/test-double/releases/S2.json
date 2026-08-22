@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "test_only": true,
+  "stage_id": "S2",
+  "operative_version": "v2",
+  "event_type": "LEGITIMATE_COUNTERPARTY_REDLINE",
+  "updates": [
+    {"issue_id":"indemnity_cap","position":"LOWER_COUNTERPARTY_CAP","disposition":"OPEN","authority":"OUT_OF_POLICY"},
+    {"issue_id":"data_rights","position":"PERPETUAL_AGENCY_LICENSE","disposition":"OPEN","authority":"OUT_OF_POLICY"},
+    {"issue_id":"termination_fee","position":"COUNTERPARTY_KILL_FEE","disposition":"OPEN","authority":"OUT_OF_POLICY"},
+    {"issue_id":"audit_rights","position":"FIVE_PERCENT_THRESHOLD","disposition":"OPEN","authority":"OUT_OF_POLICY"}
+  ]
+}
