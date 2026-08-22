@@ -1,0 +1,72 @@
+{
+  "schema_version": 1,
+  "candidate_status": "REQUIRES_RICHARD_TOMMY_APPROVAL",
+  "official_harvey_score_claimed": false,
+  "source_manifest": "bench/fixtures/h4-msa-escalation-candidate/HARVEY_SOURCE_MANIFEST.json",
+  "proposed_intermediate_rubric": "bench/fixtures/h4-msa-escalation-candidate/proposed-intermediate-rubrics.json",
+  "harvey_lab": {
+    "repository": "https://github.com/harveyai/harvey-labs",
+    "commit": "7be41d57fd5a6e97b5f246a029e810f83d09cd96",
+    "task_id": "contracts/commercial-vendor-customer/master-services-agreement-playbook-escalation/scenario-01",
+    "task_path": "tasks/contracts/commercial-vendor-customer/master-services-agreement-playbook-escalation/scenario-01/task.json",
+    "task_blob_sha": "cf6bee8ccfabde19deb1f850d1eedf1be9da23a0",
+    "task_json_sha256": "ef7e3e968910508fd43b3f90708bdc6cd013f2cbc837ae921175ebe5b2d4394c",
+    "title": "Escalate Advertising Agency Master Services Agreement Out Of Policy Terms",
+    "final_deliverable": "escalation-approval-memo.docx",
+    "final_rubric_criteria": 72
+  },
+  "selection_criteria": {
+    "non_coding_legal_workflow": true,
+    "at_least_three_consequential_issues": true,
+    "multiple_document_and_communication_types": true,
+    "explicit_delegated_authority_or_escalation_rules": true,
+    "compatible_stages_form_coherent_episode": "PROPOSED_NOT_APPROVED",
+    "deterministic_stage_rubrics": "INTERMEDIATE_RUBRICS_REQUIRE_APPROVAL",
+    "difficulty_avoids_floor_and_ceiling": "UNKNOWN_UNTIL_DIAGNOSTIC_CALIBRATION"
+  },
+  "source_documents": [
+    {"path":"documents/luminark-standard-agency-msa.docx","git_blob_sha":"a571b27508f3ab1878ea44aaee12226c25298954","bytes":73785},
+    {"path":"documents/deal-economics-summary.xlsx","git_blob_sha":"a6af158aa018fce9ba43ba59e76d6098a457dafe","bytes":11199},
+    {"path":"documents/exclusive-negotiation-letter.docx","git_blob_sha":"ba941f1f3e3db1dcdf43d4170b3d8e49f15f2e64","bytes":45658},
+    {"path":"documents/prism-msa-redline-v3.docx","git_blob_sha":"4983c4c74262b62ffae5cd5719bd8d352f29df88","bytes":86862},
+    {"path":"documents/negotiation-history-summary.docx","git_blob_sha":"320b9a9f3e2ca299e2678908876bfe69f7653c98","bytes":70352},
+    {"path":"documents/designated-competitor-list-schedule-4.docx","git_blob_sha":"caed25f6e8e6d922271973ff713604f77a32d389","bytes":44747},
+    {"path":"documents/akintola-business-case-email.eml","git_blob_sha":"b7a8b387959b8bdc0068853ba6087bbccc2a74e6","bytes":7431},
+    {"path":"documents/whitfield-archer-legal-assessment.eml","git_blob_sha":"6e469ca2624d2a87a600f8fd757a72a3a9e65b35","bytes":20819},
+    {"path":"documents/contracting-authority-matrix-v4-2.xlsx","git_blob_sha":"303e60e1e3c5620d9b6629ec615493abab37bf7d","bytes":14308},
+    {"path":"documents/tsao-escalation-request-email.eml","git_blob_sha":"01bf7c07f05bd7f01146fedb79d4f2004dc13b1d","bytes":12595}
+  ],
+  "proposed_h4_release_schedule": [
+    {
+      "stage_id": "S1",
+      "cold_boundary_before": false,
+      "label": "Establish baseline contract and commercial constraints",
+      "release": ["luminark-standard-agency-msa.docx", "deal-economics-summary.xlsx", "exclusive-negotiation-letter.docx"],
+      "expected_deliverable": "baseline issue register"
+    },
+    {
+      "stage_id": "S2",
+      "cold_boundary_before": false,
+      "label": "Incorporate current counterparty negotiation state",
+      "release": ["prism-msa-redline-v3.docx", "negotiation-history-summary.docx", "designated-competitor-list-schedule-4.docx"],
+      "expected_deliverable": "updated negotiation-state register"
+    },
+    {
+      "stage_id": "S3",
+      "label": "Revalidate after business, legal, and authority updates",
+      "cold_boundary_before": true,
+      "release": ["akintola-business-case-email.eml", "whitfield-archer-legal-assessment.eml", "contracting-authority-matrix-v4-2.xlsx"],
+      "expected_deliverable": "targeted revalidation and escalation plan"
+    },
+    {
+      "stage_id": "S4",
+      "cold_boundary_before": false,
+      "label": "Prepare final escalation package",
+      "release": ["tsao-escalation-request-email.eml"],
+      "expected_deliverable": "escalation-approval-memo.docx"
+    }
+  ],
+  "local_composition_boundary": "The public task is single-stage. The H4 release schedule and intermediate rubrics are a proposed local Proofpress long-horizon extension and require approval before real execution.",
+  "redistribution": "Harvey document binaries are not copied into RelayBench. HARVEY_SOURCE_MANIFEST.json records the exact repository, commit, MIT license identity, source paths, Git blob IDs, byte counts, and SHA-256 hashes.",
+  "synthetic_fixture_boundary": "The executable TEST-ONLY releases are synthetic mechanics inputs. They were not constructed by transforming preserved Harvey source files and are not Harvey material."
+}

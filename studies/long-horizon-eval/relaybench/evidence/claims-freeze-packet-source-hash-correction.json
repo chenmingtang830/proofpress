@@ -1,0 +1,7 @@
+[
+  {
+    "block": "d12ed2bf",
+    "kind": "modified",
+    "note": "Corrected the displayed SHA-256 for the pinned exclusive-negotiation-letter.docx Git blob from a truncated 62-character value to the independently verified 64-character acquisition-manifest value."
+  }
+]

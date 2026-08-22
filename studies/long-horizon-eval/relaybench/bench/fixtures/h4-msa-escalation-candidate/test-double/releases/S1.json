@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "test_only": true,
+  "stage_id": "S1",
+  "operative_version": "v1",
+  "event_type": "BASELINE_CONSTRAINTS",
+  "updates": [
+    {"issue_id":"indemnity_cap","position":"STANDARD","disposition":"OPEN","authority":"WITHIN_POLICY"},
+    {"issue_id":"data_rights","position":"CLIENT_ONLY","disposition":"OPEN","authority":"WITHIN_POLICY"},
+    {"issue_id":"termination_fee","position":"NO_KILL_FEE","disposition":"OPEN","authority":"WITHIN_POLICY"},
+    {"issue_id":"audit_rights","position":"THREE_PERCENT_THRESHOLD","disposition":"OPEN","authority":"WITHIN_POLICY"}
+  ]
+}

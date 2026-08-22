@@ -1,0 +1,532 @@
+{
+  "$schema": "./bench/schemas/benchmark-manifest.schema.json",
+  "schema_version": 2,
+  "benchmark": {
+    "name": "RelayBench",
+    "version": "0.1.0-h4-phase-zero-freeze-candidate",
+    "role": "Execution, parity-audit, deterministic aggregation, and reporting layer beneath Richard Tang's Proofpress long-horizon research plan",
+    "result_status": "NO_BENCHMARK_RESULTS"
+  },
+  "proofpress_integration": {
+    "base_commit": "10ee8c4c9a6d56dfedf563a0679e6a5bb167fa0a",
+    "branch": "relaybench/h4-phase-zero",
+    "stacked_on_unmerged_pr": 22,
+    "richard_plan_files_modified": false,
+    "proofpress_engine_modified": false
+  },
+  "canonical_research_plan": {
+    "repository": "https://github.com/chenmingtang830/proofpress",
+    "pull_request": 22,
+    "pull_request_url": "https://github.com/chenmingtang830/proofpress/pull/22",
+    "head_commit": "10ee8c4c9a6d56dfedf563a0679e6a5bb167fa0a",
+    "artifacts": [
+      {
+        "path": "studies/LONG_HORIZON_EVAL_RESEARCH_PLAN.md",
+        "sha256": "8189dfd932cd98b28aa1bc6728b3e4543520ebba2821a36acf3ad1c709a7dec2"
+      },
+      {
+        "path": "studies/LONG_HORIZON_EVAL_FLOW.md",
+        "sha256": "41acdf04bb8bc33a7e5fbd87dfa713c0b733c793b40264f0d43c64a8a51b4dab"
+      }
+    ],
+    "status": "PROPOSED_RESEARCH_PLAN_NO_RESULTS"
+  },
+  "freeze_status": {
+    "manifest_status": "FROZEN_CANDIDATE_REQUIRES_RICHARD_TOMMY_APPROVAL",
+    "test_double_mechanics_ready": true,
+    "scientific_freeze_approved": false,
+    "real_run_ready": false,
+    "decision_count": 12,
+    "decision_register": [
+      {
+        "id": "FR-01",
+        "field": "study.objective_and_claim_boundary",
+        "classification": "Defined by Richard's plan",
+        "status": "RESOLVED",
+        "resolution": "Version-bound admitted decision/evidence continuity, not legal intelligence."
+      },
+      {
+        "id": "FR-02",
+        "field": "horizon.structure",
+        "classification": "Defined by Richard's plan",
+        "status": "RESOLVED",
+        "resolution": "H4; four stages; one session boundary; no branch merge."
+      },
+      {
+        "id": "FR-03",
+        "field": "conditions.primary_comparison",
+        "classification": "Defined by Richard's plan",
+        "status": "RESOLVED",
+        "resolution": "C2 Proofpress versus C1 ordinary portable workspace."
+      },
+      {
+        "id": "FR-04",
+        "field": "stress_track_separation",
+        "classification": "Defined by Richard's plan",
+        "status": "RESOLVED",
+        "resolution": "Clean continuity, evolving negotiation state, and integrity faults remain separate; only evolving state is active here."
+      },
+      {
+        "id": "FR-05",
+        "field": "cold_boundary.process_mechanics",
+        "classification": "Safe implementation detail",
+        "status": "RESOLVED",
+        "resolution": "Fresh child process and empty workspace before S3; sender process exited and source workspace removed."
+      },
+      {
+        "id": "FR-06",
+        "field": "information_parity.machine_projection",
+        "classification": "Safe implementation detail",
+        "status": "RESOLVED",
+        "resolution": "Complete common-file byte equality plus enumerated C2-only bindings carrier; human semantic audit still required."
+      },
+      {
+        "id": "FR-07",
+        "field": "upstream.source_revision_pins",
+        "classification": "Requires Richard/Tommy approval",
+        "status": "BLOCKED",
+        "recommended_default": "Proofpress PR head 10ee8c4, engine base a5e5ea5, Harvey LAB 7be41d5; use these review-time public revisions unless approval selects another pin."
+      },
+      {
+        "id": "FR-08",
+        "field": "candidate_matter.selection",
+        "classification": "Requires Richard/Tommy approval",
+        "status": "BLOCKED",
+        "recommended_default": "Harvey LAB MSA playbook-escalation scenario-01 because it has seven consequential issues, explicit authority limits, varied documents, evolving negotiations, and 72 final criteria."
+      },
+      {
+        "id": "FR-09",
+        "field": "h4.release_schedule_and_intermediate_rubrics",
+        "classification": "Requires Richard/Tommy approval",
+        "status": "BLOCKED",
+        "recommended_default": "Use the four-stage document release in candidate.json and the proposed stage criteria in proposed-intermediate-rubrics.json; retain the upstream 72 criteria only for the final deliverable."
+      },
+      {
+        "id": "FR-10",
+        "field": "c1.native_session_and_memory_facilities",
+        "classification": "Requires Richard/Tommy approval",
+        "status": "BLOCKED",
+        "recommended_default": "Allow ordinary files and readable handoff state only across the registered cold boundary; no hidden session, transcript, or cross-worker memory in either arm."
+      },
+      {
+        "id": "FR-11",
+        "field": "model.provider_route_resolved_identity_reasoning_sampling_tools_and_cost_telemetry",
+        "classification": "Provider-dependent",
+        "status": "BLOCKED",
+        "recommended_default": "Select and qualify one no-fallback route later; do not select a provider/model during Phase Zero mechanics calibration."
+      },
+      {
+        "id": "FR-12",
+        "field": "formal_timeout_retry_budget_repeat_analysis_and_later_tracks",
+        "classification": "Deferred beyond H4 calibration",
+        "status": "DEFERRED",
+        "recommended_default": "Preregister after calibration review; do not run C0, clean/integrity expansion, H8+, or the 72-run pilot in this phase."
+      }
+    ]
+  },
+  "upstream_proofpress": {
+    "repository": "https://github.com/chenmingtang830/proofpress",
+    "engine_candidate_commit": "a5e5ea5e3174c2c51982ea36537cef362a973ce5",
+    "package_version_at_candidate_commit": "0.3.0",
+    "cli_sha256": "66a5bc498f0b5792ee54decec882f471e36c9067e5c8a39365d1e751866a5f6d",
+    "engine_modified": false,
+    "formal_runtime_checkout": null
+  },
+  "harvey_lab": {
+    "repository": "https://github.com/harveyai/harvey-labs",
+    "candidate_commit": "7be41d57fd5a6e97b5f246a029e810f83d09cd96",
+    "source_manifest": "bench/fixtures/h4-msa-escalation-candidate/HARVEY_SOURCE_MANIFEST.json",
+    "runtime_checkout": null,
+    "filesystem_first_harness_required": true,
+    "existing_evaluator_required_for_final_legal_quality": true,
+    "composed_episode_label": "Proofpress long-horizon extension using version-pinned Harvey LAB materials; not an official Harvey LAB score"
+  },
+  "candidate_matter": {
+    "id": "harvey-msa-playbook-escalation-scenario-01",
+    "status": "REQUIRES_RICHARD_TOMMY_APPROVAL",
+    "definition": "bench/fixtures/h4-msa-escalation-candidate/candidate.json",
+    "source_manifest": "bench/fixtures/h4-msa-escalation-candidate/HARVEY_SOURCE_MANIFEST.json",
+    "proposed_intermediate_rubric": "bench/fixtures/h4-msa-escalation-candidate/proposed-intermediate-rubrics.json",
+    "test_double_fixture": "bench/fixtures/h4-msa-escalation-candidate/test-double",
+    "test_double_is_harvey_content": false
+  },
+  "scope": {
+    "phase": "PHASE_ZERO",
+    "horizon": "H4",
+    "stress_track": "EVOLVING_NEGOTIATION_STATE",
+    "conditions": [
+      "C1_ORDINARY_PORTABLE",
+      "C2_PROOFPRESS"
+    ],
+    "real_model_calls": false,
+    "paid_calls": false,
+    "pilot_runs": false
+  },
+  "conditions": [
+    {
+      "id": "C1_ORDINARY_PORTABLE",
+      "definition": "bench/conditions/c1-ordinary-portable.json",
+      "verifier_required": false
+    },
+    {
+      "id": "C2_PROOFPRESS",
+      "definition": "bench/conditions/c2-proofpress.json",
+      "verifier_required": true
+    }
+  ],
+  "horizon": {
+    "id": "H4",
+    "stages": 4,
+    "cold_boundaries": 1,
+    "branch_merges": 0,
+    "stage_schedule": [
+      {
+        "stage_id": "S1",
+        "cold_boundary_before": false,
+        "release_file": "bench/fixtures/h4-msa-escalation-candidate/test-double/releases/S1.json"
+      },
+      {
+        "stage_id": "S2",
+        "cold_boundary_before": false,
+        "release_file": "bench/fixtures/h4-msa-escalation-candidate/test-double/releases/S2.json"
+      },
+      {
+        "stage_id": "S3",
+        "cold_boundary_before": true,
+        "release_file": "bench/fixtures/h4-msa-escalation-candidate/test-double/releases/S3.json"
+      },
+      {
+        "stage_id": "S4",
+        "cold_boundary_before": false,
+        "release_file": "bench/fixtures/h4-msa-escalation-candidate/test-double/releases/S4.json"
+      }
+    ]
+  },
+  "information_parity": {
+    "implementation": "bench/parity/information-parity.mjs",
+    "common_substantive_files": "byte-identical",
+    "allowed_c2_only_paths": [
+      "proofpress/portable-carrier.test-only.json"
+    ],
+    "verifier_evidence_is_affordance_not_substance": true,
+    "human_semantic_audit_required_before_real_calls": true
+  },
+  "cold_boundary": {
+    "before_stage": "S3",
+    "fresh_os_process": true,
+    "fresh_empty_workspace": true,
+    "sender_process_must_exit": true,
+    "sender_workspace_must_be_removed_before_receiver_invocation": true,
+    "prohibited_transfer_state": [
+      ".git",
+      ".proofpress",
+      "sender ledger",
+      "session",
+      "transcript",
+      "conversation",
+      "hidden memory",
+      "orchestrator state"
+    ]
+  },
+  "model": {
+    "provider": null,
+    "route": null,
+    "resolved_model": null,
+    "reasoning_effort": null,
+    "temperature": {
+      "supported": null,
+      "value": null
+    },
+    "seed": {
+      "supported": null,
+      "value": null
+    },
+    "provider_fallback": false,
+    "cross_provider_retries": false
+  },
+  "execution": {
+    "test_only_adapter": "deterministic-test",
+    "real_adapter_attached": false,
+    "timeout_ms": null,
+    "max_attempts": null,
+    "retry_on": null,
+    "network_for_test_double": false
+  },
+  "run_plan": {
+    "test_only_paired_replicates": 1,
+    "real_repeats": null,
+    "real_calls_authorized": false
+  },
+  "scorer": {
+    "type": "deterministic_aggregation",
+    "contract": "bench/scoring/metric-definitions.json",
+    "implementation": "bench/scoring/score.mjs",
+    "lab_evaluator_execution": "NOT_RUN_TEST_ONLY",
+    "test_only_outputs_metric_eligible": false
+  },
+  "invalidation_rules": [
+    "freeze_mismatch",
+    "stage_order_or_release_hash_mismatch",
+    "cold_boundary_failed",
+    "undeclared_transfer_state",
+    "cross_arm_information_parity_failed",
+    "required_verifier_missing_malformed_unpinned_or_not_ok",
+    "adapter_route_model_or_fallback_drift",
+    "missing_required_record_or_telemetry",
+    "test_only_output_in_publishable_location"
+  ],
+  "frozen_files": [
+    {
+      "path": ".gitignore",
+      "sha256": "beffed792337321f7b9889f4b08a961c8eacb25f1ab3cf10e46ad234b69fffb4"
+    },
+    {
+      "path": "BENCHMARK_PROTOCOL.md",
+      "sha256": "3f3225759c9816d0cefe068c86fe78d73a65e2c8b2c5a41c552326c3333e5526"
+    },
+    {
+      "path": "BENCHMARK_READINESS_REPORT.md",
+      "sha256": "e039720ba0d43fd81e462e5d78550c4f35b0d8020267b6694b03c333edbd5ee4"
+    },
+    {
+      "path": "CLAIM_BOUNDARIES.md",
+      "sha256": "3ea2bf7d8d134387286fb167bd9bdca08bd09a07ecd4c3594efc9d736ee6af3b"
+    },
+    {
+      "path": "PHASE_ZERO_FREEZE_PACKET.md",
+      "sha256": "4d50139a14bad41242c6aa1f75d9d786d3e24cfc1842a90ea53703a33ec04d43"
+    },
+    {
+      "path": "PROOFPRESS_VERIFICATION.json",
+      "sha256": "eee44e3d9682e7facafd9424a7ab876e9f7793813ade4336ca3016cc5ecc638f"
+    },
+    {
+      "path": "README.md",
+      "sha256": "055c6483a909fafe81bdad90f14467d010f008cec10ef77129e16378b2c662c7"
+    },
+    {
+      "path": "RICHARD_PLAN_ALIGNMENT.md",
+      "sha256": "007ad89099c30b1edd2caf3ca1a8cf1e09d2502ea72bb8f1f37f58c7323779aa"
+    },
+    {
+      "path": "bench/adapters/adapter-contract.mjs",
+      "sha256": "4bdb8e86c66a7a3a64befc8d2ba0d733fea0f60abb58ad1cfe6a11badaeb788d"
+    },
+    {
+      "path": "bench/adapters/deterministic-test.mjs",
+      "sha256": "b06689d18358a0d5c3f7a7dfeeda046aec76d2a3e29b842f9d943d91d0da6d4a"
+    },
+    {
+      "path": "bench/adapters/provider-template.mjs",
+      "sha256": "97e5bfc494690d059aff8535779b0d03ff56a485d0c3fdeaaf2155f468f93ff7"
+    },
+    {
+      "path": "bench/conditions/c1-ordinary-portable.json",
+      "sha256": "e73a90723d382f3c80e4783972394761d69ded109f4895ac0fd941d965e1096e"
+    },
+    {
+      "path": "bench/conditions/c2-proofpress.json",
+      "sha256": "130831c747f5b7943a5453803ee9f135c7d0287db5bcca38ecf1f264fc9c0ccc"
+    },
+    {
+      "path": "bench/controller/stage-controller.mjs",
+      "sha256": "814595f2d060b80d1372b936ede2d5bd1f30bf28b4c015f55e6b798f498c2c49"
+    },
+    {
+      "path": "bench/fixtures/h4-msa-escalation-candidate/HARVEY_SOURCE_MANIFEST.json",
+      "sha256": "9801cf776aa47b5846a3a989ccf4d3413d85da32c6c3eaee213fb1fd3685756b"
+    },
+    {
+      "path": "bench/fixtures/h4-msa-escalation-candidate/candidate.json",
+      "sha256": "0631947dd19a1c1a8f245292ca9fb858fd522d2ae76575d16f551b1d1ef5b884"
+    },
+    {
+      "path": "bench/fixtures/h4-msa-escalation-candidate/proposed-intermediate-rubrics.json",
+      "sha256": "be4512306363c00a576c20acb5fe44bfa7d93b62ff2e60da4f6626f7110b4821"
+    },
+    {
+      "path": "bench/fixtures/h4-msa-escalation-candidate/test-double/common-instruction.md",
+      "sha256": "9d019980160c5aa52a863b499e2150fbea6d44c4933d5c5a386c0be57b4e128e"
+    },
+    {
+      "path": "bench/fixtures/h4-msa-escalation-candidate/test-double/releases/S1.json",
+      "sha256": "9aeab101ac8aa24a385176e5187ba7a06309284c4a6d32092e5881e7fa4e5096"
+    },
+    {
+      "path": "bench/fixtures/h4-msa-escalation-candidate/test-double/releases/S2.json",
+      "sha256": "d3e7508dce7d0316cdaf343ae9e3f05c85bd97a70276bb9dea94ba43653c4505"
+    },
+    {
+      "path": "bench/fixtures/h4-msa-escalation-candidate/test-double/releases/S3.json",
+      "sha256": "ef307f30f6e9a83889b998591518e390a04457b5c922bed8da26bb532d4bcc5b"
+    },
+    {
+      "path": "bench/fixtures/h4-msa-escalation-candidate/test-double/releases/S4.json",
+      "sha256": "f4885854bff557acfcf0e80e300e66f4ee849e7f05e26748ebb9aee26271413d"
+    },
+    {
+      "path": "bench/fixtures/h4-msa-escalation-candidate/test-double/scoring-oracle.json",
+      "sha256": "f646afcdb973a69ff7365434be43a146bbde58530cd8796e5c325aabb9dcd1d2"
+    },
+    {
+      "path": "bench/lib/core.mjs",
+      "sha256": "f3d3db62677d3964f67a60d02e16257f19d549b0f3cd97d38bf25e6294bd16a8"
+    },
+    {
+      "path": "bench/lib/manifest.mjs",
+      "sha256": "c794fb243e75848cd4d96b1080bc5d5480380b59f0db05328b743aff1da367db"
+    },
+    {
+      "path": "bench/lib/results.mjs",
+      "sha256": "6e107e1300bdd5633df93c98b17f1465dce5d0d81b378662e93da94fcb17dda6"
+    },
+    {
+      "path": "bench/lib/runner.mjs",
+      "sha256": "f76dbf4f39378273a458ac69a3f354e5f953471fe9cb97491915539141f622a3"
+    },
+    {
+      "path": "bench/lib/worker-session.mjs",
+      "sha256": "eea3fb6f9af4c10f06e2d50af87a1e9d7f308d048898ca22de757807df2e7112"
+    },
+    {
+      "path": "bench/parity/information-parity.mjs",
+      "sha256": "09645b9534abaf53032d054ba70526438931e34938dd2c4fefc87e1eefe37f3c"
+    },
+    {
+      "path": "bench/policies/test-verifier-h4.mjs",
+      "sha256": "5f96646b15722d4adb7383d224e58d18283d872e329f0583fa5e7ae6b6da4392"
+    },
+    {
+      "path": "bench/schemas/adapter-request.schema.json",
+      "sha256": "84f7470fdc63e72cd90eb47959cb54311db7d9344112b9ce45dcf409704890df"
+    },
+    {
+      "path": "bench/schemas/benchmark-manifest.schema.json",
+      "sha256": "063ff4cbc005ed88e7dceeb3aff37007feb4f9bfbd5a5ee9b4c24262633fd519"
+    },
+    {
+      "path": "bench/schemas/run-record.schema.json",
+      "sha256": "0ce0dcf902b8c6f5ec038164652da63d32d63ca321b14fff8e64cbce8894f2e5"
+    },
+    {
+      "path": "bench/schemas/score-report.schema.json",
+      "sha256": "1e97d1710599802f02e90691350e7ba7efb0d6f427ad4571e024efd6980d0c8e"
+    },
+    {
+      "path": "bench/schemas/validate.mjs",
+      "sha256": "c916deec09d4463f2b223950f8bf230bc8415b08e572caa0675cd3d3156c5f15"
+    },
+    {
+      "path": "bench/scoring/metric-definitions.json",
+      "sha256": "a9e66e89dc89ca7ac18fbb337ff9bbabb1061ca5a656dfd1d1d933a2e00fa12b"
+    },
+    {
+      "path": "bench/scoring/score.mjs",
+      "sha256": "034b95bcbe60d832d79236d69296f8d7b348c9b39fd74430d65868c78e8837c1"
+    },
+    {
+      "path": "bench/tests/fixtures.test.mjs",
+      "sha256": "34ef1b03232b3966377916864b47487cb0a70f5441648b270589bbd0169bd9e3"
+    },
+    {
+      "path": "bench/tests/parity.test.mjs",
+      "sha256": "683bf7b3a275a0b89e3e5dc451d386aecdf6ca201f955fe238eef9d047d8a5d8"
+    },
+    {
+      "path": "bench/tests/report.test.mjs",
+      "sha256": "43c6effe9bf13578dd117dc6e1b344ce802749b16c8ecf5c83dbf79cf58cf4af"
+    },
+    {
+      "path": "bench/tests/runner.test.mjs",
+      "sha256": "134c9f0a64e6f2ea0827a7fb74b4cef6e681a48f4f586e151f97fab40e95a349"
+    },
+    {
+      "path": "bench/tests/scoring.test.mjs",
+      "sha256": "e312d438207c444f9bcf8fa73ec01fe08654d21bd1390e2d0729bc0edcbadaf1"
+    },
+    {
+      "path": "bench/tests/stage-controller.test.mjs",
+      "sha256": "0f86dc8be25c957282604d1f7c608d6d9a30eee31e4646613697ab8baa9ada13"
+    },
+    {
+      "path": "bench/workers/deterministic-test-worker.mjs",
+      "sha256": "f7b55764711ec020e5471896b8c782c6c2713d8088266a29538c966387a627ac"
+    },
+    {
+      "path": "evidence/claims-benchmark-protocol-phase-zero.json",
+      "sha256": "d0bf48428757257ba594a7732a6c24f898b2a2e8f7af2077d65c374b3e113dc3"
+    },
+    {
+      "path": "evidence/claims-claim-boundaries-phase-zero.json",
+      "sha256": "b25ea30a05b87c0a5e23499152515c7414a784e1e921e4d2a549825f2559c8ba"
+    },
+    {
+      "path": "evidence/claims-common-instruction-phase-zero.json",
+      "sha256": "2f0c388e9011e6c5fc0cdba81ac9bca8e05ecf8aa3440ed748507ab007c22313"
+    },
+    {
+      "path": "evidence/claims-freeze-packet-phase-zero.json",
+      "sha256": "365aaf84ce3558b08aafef905b0f3800cd28419be24d734fae7c6c9947a4d0d1"
+    },
+    {
+      "path": "evidence/claims-freeze-packet-source-hash-correction.json",
+      "sha256": "b8effe2e30ba1e4b47c68124973ffed04c29676cca412290cfac51749c09b489"
+    },
+    {
+      "path": "evidence/claims-readiness-integration-note.json",
+      "sha256": "db50db57366a2c57af6c3ab1d6f7711df57076130f733b0818cfdbd3cafd32bb"
+    },
+    {
+      "path": "evidence/claims-readiness-validation-correction.json",
+      "sha256": "7a2511ab23e274eeb5c52c237651db5aad7eda8dfb4a2260b6e7ab12004ec06d"
+    },
+    {
+      "path": "evidence/claims-readme-phase-zero.json",
+      "sha256": "ddf615c0d46469a3f372ce83008034a460cb97772fff08f7a74abc79b0788eaf"
+    },
+    {
+      "path": "evidence/claims-richard-plan-alignment-phase-zero.json",
+      "sha256": "dbc82580d53357edb9cd03d99fbf3a062d4f7d5b4006604006264d8a6e3796fe"
+    },
+    {
+      "path": "package-lock.json",
+      "sha256": "31db3d0b332d25eb53ba9bd21c25ee98223f5c74f0efc70ec2454f4c15516a2d"
+    },
+    {
+      "path": "package.json",
+      "sha256": "e1b4f2032cab4061e9dc1a820a7654e80b9a62d258627f5e71fc1399e517790c"
+    },
+    {
+      "path": "scripts/bench-generate-proofpress-claims.mjs",
+      "sha256": "f930ff820978a4da6f118aab9a0759992f581798d5d57a048ffdeeb0a0156eb7"
+    },
+    {
+      "path": "scripts/bench-lint.mjs",
+      "sha256": "804caa3b208a614e430705a0fbd0174dde30819ab98e829c9baea3712b5c80e6"
+    },
+    {
+      "path": "scripts/bench-readiness.mjs",
+      "sha256": "21338e01ac73c67fee73f29bd3d7d45d7b00a857d9e04fde4eb9bd2c1db89559"
+    },
+    {
+      "path": "scripts/bench-report.mjs",
+      "sha256": "fa874a1beaa3413a7947f377e4037cbf6e406400c6d35609a875b088427cb407"
+    },
+    {
+      "path": "scripts/bench-run.mjs",
+      "sha256": "a25d14cdbb4952c17fb846211076427cbb3778b1e27d6a05d3b71f342f0d71c1"
+    },
+    {
+      "path": "scripts/bench-score.mjs",
+      "sha256": "fdb9d135bd4255f858d2e9ce0de7b5aa103b1a9b250e86b0e6387fa5d0c0854a"
+    },
+    {
+      "path": "scripts/bench-verify-fixtures.mjs",
+      "sha256": "5d268999928d20cf25147be8cce83589d19585a0830f077c8e9b29c171fd4a2b"
+    },
+    {
+      "path": "scripts/bench-verify-harvey-source.mjs",
+      "sha256": "34627c5297a67f038ceae07f266423515e6642fc92e54f537ee9acfd82a99f09"
+    }
+  ]
+}

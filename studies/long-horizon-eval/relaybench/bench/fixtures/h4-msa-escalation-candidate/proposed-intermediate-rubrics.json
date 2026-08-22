@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "status": "PROPOSED_REQUIRES_RICHARD_TOMMY_APPROVAL",
+  "official_harvey_rubric": false,
+  "benchmark_metric_eligible": false,
+  "purpose": "Candidate deterministic state criteria for Phase Zero freeze review. They are not executed by the TEST-ONLY calibration and must be approved before real diagnostics.",
+  "leakage_rule": "Rubric criteria and expected values are evaluator inputs only and must not be exposed to either C1 or C2 receivers.",
+  "stages": [
+    {
+      "stage_id": "S1",
+      "deliverable": "baseline issue register",
+      "status": "APPROVAL_BLOCKED",
+      "criteria": [
+        {"id":"S1-R01","criterion":"Records the standard MSA, deal-economics summary, and exclusivity letter as the complete released source set."},
+        {"id":"S1-R02","criterion":"Records the standard positions that are supported by the released MSA without inventing unavailable counterparty or authority facts."},
+        {"id":"S1-R03","criterion":"Records TCV, ACV, initial term, exclusivity deadline, and other released timing constraints with source bindings."},
+        {"id":"S1-R04","criterion":"Marks authority, counterparty position, and legal-risk fields that cannot yet be resolved as pending rather than guessed."}
+      ]
+    },
+    {
+      "stage_id": "S2",
+      "deliverable": "updated negotiation-state register",
+      "status": "APPROVAL_BLOCKED",
+      "criteria": [
+        {"id":"S2-R01","criterion":"Selects Prism MSA redline v3 as the operative counterparty draft and preserves the S1 source state."},
+        {"id":"S2-R02","criterion":"Identifies all seven out-of-policy issue families and records standard versus current counterparty positions with source bindings."},
+        {"id":"S2-R03","criterion":"Incorporates negotiation-history status without treating a proposal, discussion, or concession as an approval."},
+        {"id":"S2-R04","criterion":"Records the Designated Competitor schedule, including the Sable Media objection and its stated basis, without resolving authority not yet released."}
+      ]
+    },
+    {
+      "stage_id": "S3",
+      "deliverable": "targeted revalidation and escalation plan",
+      "status": "APPROVAL_BLOCKED",
+      "criteria": [
+        {"id":"S3-R01","criterion":"Uses the newly released authority matrix to identify the ACV, term, and substantive deviations requiring escalation."},
+        {"id":"S3-R02","criterion":"Incorporates the business case and outside-counsel risk assessment while keeping business preference, legal risk, and formal approval distinct."},
+        {"id":"S3-R03","criterion":"Revalidates affected issue states after the cold boundary and preserves still-supported S1/S2 state with explicit source/version bindings."},
+        {"id":"S3-R04","criterion":"Does not infer final CMO or General Counsel authorization from the released advisory or authority materials."}
+      ]
+    },
+    {
+      "stage_id": "S4",
+      "deliverable": "escalation-approval-memo.docx",
+      "status": "APPROVAL_BLOCKED",
+      "criteria": [
+        {"id":"S4-R01","criterion":"Runs the unchanged upstream 72-criterion final Harvey evaluator against the final memo; local criteria do not replace or relabel that score."},
+        {"id":"S4-R02","criterion":"Records the escalation-request email as the final released instruction and keeps Prism redline v3 as the operative contract version."},
+        {"id":"S4-R03","criterion":"Carries all seven issue states, their evidence, risk, disposition, and delegated-authority status into the final work product without unsafe superseded-state propagation."},
+        {"id":"S4-R04","criterion":"Reports final legal-work-product quality, state consistency, unsafe propagation, recovery, false-stop, and cost families separately."}
+      ]
+    }
+  ]
+}
