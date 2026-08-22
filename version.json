@@ -52,39 +52,15 @@
   },
   {
    "type": "heading",
-   "text": "<h2>Where this decision came from.</h2>",
+   "text": "<h2>The decision is a path, not a note.</h2>",
    "id": "185f2164",
-   "hash": "01f534cce4cd"
+   "hash": "5dbde752a997"
   },
   {
    "type": "para",
-   "text": "<p>The main surface answers “can we continue?” This graph answers “what evidence and review state led here?”</p>",
+   "text": "<p>Every reusable claim keeps its source, experiment, evidence status, review state, and the prior knowledge it builds on.</p>",
    "id": "5a61ca84",
-   "hash": "e144ad5145f9"
-  },
-  {
-   "type": "heading",
-   "text": "<h3>TRACE EVENTS</h3>",
-   "id": "b1d1374e",
-   "hash": "586b1a5bfd0a"
-  },
-  {
-   "type": "heading",
-   "text": "<h3>EXPERIMENTS</h3>",
-   "id": "da688c90",
-   "hash": "0c99a5c83f3e"
-  },
-  {
-   "type": "heading",
-   "text": "<h3>CANDIDATE CLAIMS</h3>",
-   "id": "dcde9235",
-   "hash": "c2493e03f61d"
-  },
-  {
-   "type": "heading",
-   "text": "<h3>ADMISSION</h3>",
-   "id": "c4ddb8c9",
-   "hash": "e51d8b121e71"
+   "hash": "3d53f06b602b"
   },
   {
    "type": "heading",

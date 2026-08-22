@@ -2,69 +2,112 @@
  "event": "version_created",
  "artifact": "examples/verified-knowledge-ledger/demo.partner-style.html",
  "artifact_id": "pp_c5949563fc662476994db4f8",
- "version": "0c34b903",
- "parent": "62c32e38",
+ "version": "e8387a21",
+ "parent": "0c34b903",
  "author": {
-  "name": "codex-preflight",
-  "kind": "system",
+  "name": "unknown",
+  "kind": "human",
   "session": null
  },
- "note": "best-effort fallback capture; edit attribution unknown",
- "ts": "2026-08-22T20:59:51+00:00",
+ "note": null,
+ "ts": "2026-08-22T21:30:00+00:00",
  "stats": {
-  "added": 6
+  "modified": 2,
+  "removed": 4
  },
  "changes": [
   {
-   "kind": "added",
+   "kind": "modified",
    "block": "185f2164",
    "type": "heading",
-   "context": "<h2>Where this decision came from.</h2>",
-   "preview": "<h2>Where this decision came from.</h2>"
+   "context": "<h2>The decision is a path, not a note.<"
   },
   {
-   "kind": "added",
+   "kind": "modified",
    "block": "5a61ca84",
    "type": "para",
-   "context": "<h2>Where this decision came from.</h2>",
-   "preview": "<p>The main surface answers “can we continue?” This graph an"
+   "context": "<h2>The decision is a path, not a note.<"
   },
   {
-   "kind": "added",
+   "kind": "removed",
    "block": "b1d1374e",
    "type": "heading",
-   "context": "<h3>TRACE EVENTS</h3>",
+   "context": "",
    "preview": "<h3>TRACE EVENTS</h3>"
   },
   {
-   "kind": "added",
+   "kind": "removed",
    "block": "da688c90",
    "type": "heading",
-   "context": "<h3>EXPERIMENTS</h3>",
+   "context": "",
    "preview": "<h3>EXPERIMENTS</h3>"
   },
   {
-   "kind": "added",
+   "kind": "removed",
    "block": "dcde9235",
    "type": "heading",
-   "context": "<h3>CANDIDATE CLAIMS</h3>",
+   "context": "",
    "preview": "<h3>CANDIDATE CLAIMS</h3>"
   },
   {
-   "kind": "added",
+   "kind": "removed",
    "block": "c4ddb8c9",
    "type": "heading",
-   "context": "<h3>ADMISSION</h3>",
+   "context": "",
    "preview": "<h3>ADMISSION</h3>"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:19eb963fabe29e5be2cc07b8e73680a2dd39ab6e6fdf874f8e9f3099c4368bd7",
+ "soft_fingerprint": "ppsb1:c5cc378f2458e8d920ee51df8cbad0c946ae6f27944eba26747f7db240dd5490",
  "actors": {
+  "requested_by": [
+   "Richard Tang"
+  ],
+  "produced_by": [
+   "Codex"
+  ],
+  "edited_by": [
+   "Codex"
+  ],
   "recorded_by": [
-   "codex-preflight"
+   "Codex"
   ]
  },
- "attribution_basis": "harness_attested",
- "event_id": "ppe_0f401137ff7e01050ef1a5d9"
+ "attribution_basis": "self_asserted",
+ "claims": [
+  {
+   "block": "185f2164",
+   "kind": "modified",
+   "note": "Reframes the graph as a visible decision path rather than a secondary reference."
+  },
+  {
+   "block": "5a61ca84",
+   "kind": "modified",
+   "note": "Makes the claim properties and dependency on prior admitted knowledge explicit."
+  },
+  {
+   "block": "b1d1374e",
+   "kind": "removed",
+   "note": "Replaces the previous trace heading-only block with time-stamped source nodes in the connected graph."
+  },
+  {
+   "block": "da688c90",
+   "kind": "removed",
+   "note": "Replaces the previous experiment heading-only block with measured experiment nodes in the connected graph."
+  },
+  {
+   "block": "dcde9235",
+   "kind": "removed",
+   "note": "Replaces the previous candidate-claims block with claim nodes that expose scope, evidence count, and status."
+  },
+  {
+   "block": "c4ddb8c9",
+   "kind": "removed",
+   "note": "Replaces the previous admission block with governed-knowledge nodes and a fresh-agent continuation state."
+  }
+ ],
+ "context": {
+  "why": "Makes Lineage and Evidence a connected, visible decision graph so a fresh agent can see claims build on prior admitted knowledge before opening details."
+ },
+ "event_id": "ppe_6e469b70cc8cc7bba58dc498"
 }
