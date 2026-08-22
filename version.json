@@ -1,354 +1,456 @@
 {
- "artifact": "docs/internal/PERSONAL_VISION_AND_SELF_ACTUALIZATION.md",
- "artifact_id": "pp_0b167d168662e34ad3b7a705",
+ "artifact": "planning/2026-08-22-verified-knowledge-ledger-hackathon.md",
+ "artifact_id": "pp_862e26ccbd5d53cf9f2cc69d",
  "blocks": [
   {
    "type": "heading",
-   "text": "# 个人愿景与自我实现",
-   "id": "a3a0a3a6",
-   "hash": "e7ced491c878"
+   "text": "# Hackathon plan: verified knowledge ledger for autonomous AI agents",
+   "id": "7a3f0e21",
+   "hash": "55a932cbb1d4"
   },
   {
    "type": "para",
-   "text": "> 这是一份写给自己的内部文档。它记录我为什么被 ARA 吸引、这项事业与我过去长期关心的问题如何相连，以及我希望以什么方式参与建设。它不是对外产品承诺，也不替代对市场、团队、角色与合作条件的理性验证。",
-   "id": "53430e56",
-   "hash": "08528d74768b"
+   "text": "**Status:** proposed build plan for the Coframe / AGI House Long Horizon Agents event",
+   "id": "5e9d1c42",
+   "hash": "123abed9fb0a"
+  },
+  {
+   "type": "para",
+   "text": "**Product position:** Proofpress is the verified knowledge ledger for autonomous AI agents.",
+   "id": "93a8b4f7",
+   "hash": "8ff5fe4e4c15"
+  },
+  {
+   "type": "para",
+   "text": "> Telemetry is the source. Claims are the unit. Admission is the product. Artifacts are portable views of the ledger.",
+   "id": "2d47c8a1",
+   "hash": "6d94a2f85c60"
   },
   {
    "type": "heading",
-   "text": "## 1. 同一个内核",
-   "id": "e80c9771",
-   "hash": "ebca6548d56f"
+   "text": "## Executive decision",
+   "id": "6fb1a924",
+   "hash": "874bfc442239"
   },
   {
    "type": "para",
-   "text": "隔着不同的项目与时间，我写下过两组看似不同的话。",
-   "id": "4748bc85",
-   "hash": "c1afe31cb8f1"
+   "text": "Build a narrow end-to-end vertical slice that turns existing agent and experiment telemetry into candidate claims, sends those claims through deterministic and review gates, and gives a fresh agent only the currently admitted organizational knowledge. The demo should show that a new session can continue from a compact, governed state without rereading a full trace or blindly trusting a generated summary.",
+   "id": "c43d8f15",
+   "hash": "79e82d3be233"
   },
   {
    "type": "para",
-   "text": "做知识画布时，我写道：",
-   "id": "1f8f58d7",
-   "hash": "c51159ae920d"
-  },
-  {
-   "type": "para",
-   "text": "> Because the world doesn't change when people memorize facts. It changes when people feel the power of their own thinking.",
-   "id": "95fcdb84",
-   "hash": "9ab2eefb7c61"
-  },
-  {
-   "type": "para",
-   "text": "那时我关心的是知识如何变成一种鲜活的感受：思想能够自由生长、彼此碰撞、激发新的问题；人能够感受到自己思考与探索的力量，而不只是被动记住事实。",
-   "id": "a6d488a7",
-   "hash": "b4296873b817"
-  },
-  {
-   "type": "para",
-   "text": "后来，我又写道：",
-   "id": "63f393d8",
-   "hash": "7540540350fc"
-  },
-  {
-   "type": "para",
-   "text": "> Every generation's real work is to leave more than it received, and to look after whoever comes next. This is ours.",
-   "id": "52ebe802",
-   "hash": "a07b24e54cb2"
-  },
-  {
-   "type": "para",
-   "text": "这一次，我关心的是知识如何成为一种继承：前人走过的弯路、失败的实验、艰难获得的洞察，不应随着一个人离开、一次 session 结束或一份论文完成而消失；它们应当成为后来者能够信任、站立并继续攀登的基础。",
-   "id": "1c2f9e50",
-   "hash": "1524974deac8"
-  },
-  {
-   "type": "para",
-   "text": "从 **knowledge as felt experience** 到 **knowledge as inheritance**，表达改变了，那条线却从未断过。我不是被 ARA 突然点燃的。更准确地说，我很早就在关心同一件事，而 ARA 让这份关切第一次遇见了一个足以承载它的结构。",
-   "id": "61d56a04",
-   "hash": "03f686cd22f5"
+   "text": "The product is not a generic knowledge base, an observability backend, or a truth oracle. It is the semantic and admission layer above execution systems. OpenTelemetry is an input adapter; a CLI drives the workflow; a graph UI makes the trust chain inspectable; portable Markdown or static HTML artifacts remain an output and exchange format.",
+   "id": "e7a3056b",
+   "hash": "ad65dc8c8c32"
   },
   {
    "type": "heading",
-   "text": "## 2. 从个体觉醒到集体继承",
-   "id": "0682c5bc",
-   "hash": "7cfd5a32465f"
+   "text": "## Why this is the right wedge",
+   "id": "81b96d30",
+   "hash": "0216481dd54d"
   },
   {
    "type": "para",
-   "text": "知识画布的愿景主要面向个体：让一个人的思想变得可见，让连接自然形成，让好奇心拥有自由展开的空间。",
-   "id": "285f59ae",
-   "hash": "2f5f4587c68f"
+   "text": "Long-horizon agents already produce logs, commits, runs, traces, evaluations, and experiment metrics. Systems such as Coframe also maintain experiment state and learn from performance. The missing layer is not “memory” in the broad sense. It is a defensible answer to: **Which conclusions may a future agent rely on, within what scope, based on which evidence, approved by whom or what policy, and until when?**",
+   "id": "a1c943e8",
+   "hash": "90370ebf9b29"
   },
   {
    "type": "para",
-   "text": "ARA 把同一个问题扩展到了人与 agent 共同工作的尺度。当越来越多研究由多个 human、多个 agent、多个模型和多次 session 持续推进时，真正稀缺的不再只是生成一个答案的能力，而是让已经发生过的理解能够留下来：",
-   "id": "3abc7ab4",
-   "hash": "37db655ef401"
+   "text": "The attached ARA product exploration describes a ladder in which each lower unit becomes evidence for the unit above it:",
+   "id": "cb4ae812",
+   "hash": "7611233b02c2"
   },
   {
    "type": "list",
-   "text": "- 当前研究真正相信什么，边界是什么；\n- 哪些实验支持哪些 claim；\n- 哪些路线失败过，为什么失败；\n- 哪些问题仍然开放；\n- 哪个结论已经被验证、接受或替代；\n- 下一位人或 agent 可以从哪里安全地继续。",
-   "id": "063ecd3c",
-   "hash": "27bbe4d1cb2a"
+   "text": "1. **Commit / run / trace:** what happened.\n2. **Claim:** what the result is asserted to mean.\n3. **Verified finding:** what the organization has admitted and may build on.",
+   "id": "fd2c51a9",
+   "hash": "95ff9401fb7f"
   },
   {
    "type": "para",
-   "text": "这不只是让知识“感觉鲜活”，而是为它建立可以被验证、被继承、被修订和继续建设的机制。",
-   "id": "6298812b",
-   "hash": "12ee2bd6998a"
-  },
-  {
-   "type": "para",
-   "text": "这是从诗人到建造者的距离。诗人说世界可以是什么样；建造者寻找让它真正发生的对象、协议、产品与组织。我希望自己既不失去前者，也愿意承担后者。",
-   "id": "83a10969",
-   "hash": "f3c6701ec214"
+   "text": "This build operationalizes that ladder for autonomous agents. It extends Proofpress beyond an artifact-bound interaction model without discarding the existing artifact provenance implementation.",
+   "id": "b936de40",
+   "hash": "62982364e7f8"
   },
   {
    "type": "heading",
-   "text": "## 3. 为什么是这个时刻",
-   "id": "2e201d56",
-   "hash": "fc11f5960c12"
+   "text": "## What “verified” means",
+   "id": "1c7a84df",
+   "hash": "22a646dbc10f"
   },
   {
    "type": "para",
-   "text": "过去，完整保存研究过程的成本很高。人类没有足够精力，把每一次判断、尝试、失败、条件和证据都整理成下一位参与者能够消费的状态。论文压缩了结果，repo 保存了代码，实验平台保存了指标，但真正让理解得以形成的许多部分仍留在聊天、日志、临时文件和人的脑中。",
-   "id": "f2ab2503",
-   "hash": "6dc448aa4160"
+   "text": "For the MVP, a verified claim is not guaranteed to be universally true. It is a claim that:",
+   "id": "3ef62190",
+   "hash": "52c9dae472a6"
+  },
+  {
+   "type": "list",
+   "text": "- is bound to inspectable evidence and its provenance;\n- satisfies declared deterministic checks;\n- has a recorded review decision from an authorized human or policy agent;\n- carries explicit scope, status, and expiry or supersession semantics; and\n- can be traced backward and revised without erasing prior decisions.",
+   "id": "6b82e14c",
+   "hash": "b03dbcc1e0d8"
   },
   {
    "type": "para",
-   "text": "AI 改变了这个成本结构。Agent 不仅能够参与研究，也可能在研究发生的同时捕获实验与决策、连接 claim 与 evidence、提炼 dead ends、检查结果并维护可继续工作的 artifact。",
-   "id": "43077330",
-   "hash": "627ba6d11ce4"
-  },
-  {
-   "type": "para",
-   "text": "但 AI 也会把旧问题成倍放大：更多候选结论、更多无人阅读的轨迹、更多被悄悄重复的失败，以及更多看起来像知识、实际上没有可靠地基的文本。",
-   "id": "b2b5a3c8",
-   "hash": "0540a1fea100"
-  },
-  {
-   "type": "para",
-   "text": "这是一个 pivotal moment。AI 正在极大增加 candidate knowledge 的产量，而我们有机会影响这些产量最终成为一次性噪音，还是成为全人类可以持续继承的共同理解。",
-   "id": "9af82fed",
-   "hash": "8dd763026664"
+   "text": "The interface must keep three questions separate: **Is the record intact? Does the evidence support the claim under the declared method? Has the organization admitted the claim for reuse?** Proofpress can prove the first, encode evidence for the second, and govern the third. It must not collapse them into “the claim is objectively true.”",
+   "id": "40d56bc7",
+   "hash": "b18aad1a53b6"
   },
   {
    "type": "heading",
-   "text": "## 4. 我想参与建造的桥",
-   "id": "c462632d",
-   "hash": "eff0f86443a7"
+   "text": "## Product hierarchy",
+   "id": "d0e3b879",
+   "hash": "160663368d37"
+  },
+  {
+   "type": "table",
+   "text": "| Level | Unit | Core question | MVP treatment |\n|---|---|---|---|\n| L0 Telemetry | logs, commits, tool calls, traces, spans | What happened? | Import a bounded OTLP JSON fixture and existing file/Git evidence. |\n| L1 Evidence | experiment result, test output, metric window, document block | What observation can be inspected? | Normalize selected source events into addressable evidence records. |\n| L2 Claims | scoped semantic assertions | What do we think the evidence means? | CLI creates candidate claims with evidence references and qualifiers. |\n| L3 Admission | accepted, rejected, unresolved, superseded, expired | May an agent rely on this claim? | Deterministic gate, policy-agent recommendation, and human decision. |\n| L4 Governed knowledge | current reusable organizational state | What should the next agent inherit? | Query and materialize only admitted, non-expired claims. |",
+   "id": "49a21c6e",
+   "hash": "798c55b644c7"
   },
   {
    "type": "para",
-   "text": "我们没有任何人真正从零开始。我们继承的远比自己能够独立挣得的更多：那些可能从未谋面的人，以及 human 与 agent，替我们踩过的坑、走过的弯路、拼出的洞见和留下的工具。有人在我们看不见的地方把路铺好，让我们不必从零开始。",
-   "id": "1cbac5d2",
-   "hash": "5bb27bc9b2a2"
+   "text": "The implementation should be graph-native internally and artifact-friendly externally. The graph represents relationships across runs, claims, decisions, and outputs. Artifacts remain portable projections that can travel outside the service and retain a checkable accepted history.",
+   "id": "715ee263",
+   "hash": "81a124341ec6"
+  },
+  {
+   "type": "heading",
+   "text": "## Minimal ledger model",
+   "id": "97c5d041",
+   "hash": "c7e841f0dbb7"
+  },
+  {
+   "type": "heading",
+   "text": "### Nodes",
+   "id": "dfa73c68",
+   "hash": "fb5801659071"
+  },
+  {
+   "type": "list",
+   "text": "- `SourceEvent`: an imported trace span, commit, tool event, or evaluation record.\n- `Evidence`: a selected, immutable observation with a digest and source pointer.\n- `Claim`: a scoped assertion proposed from one or more evidence records.\n- `Admission`: an append-only decision about a claim under a named policy version.\n- `Artifact`: a materialized or imported carrier such as Markdown, static HTML, or a report.",
+   "id": "f91bc7e2",
+   "hash": "a7c3cfca1ae5"
+  },
+  {
+   "type": "heading",
+   "text": "### Edges",
+   "id": "6304a5ed",
+   "hash": "080c86871473"
+  },
+  {
+   "type": "list",
+   "text": "- `derived_from`: evidence or claim was derived from an upstream record.\n- `supports` / `refutes`: evidence bears on a claim without implying final truth.\n- `admitted_by`: a claim is governed by an admission event.\n- `supersedes`: a newer claim or decision replaces an older one without deleting it.\n- `materialized_in`: governed knowledge appears in a portable artifact.",
+   "id": "214ff9c7",
+   "hash": "639e5e50eb6a"
+  },
+  {
+   "type": "heading",
+   "text": "### Required claim fields",
+   "id": "8db51a36",
+   "hash": "feab020446e7"
   },
   {
    "type": "para",
-   "text": "今天，人与 AI 开始以前所未有的规模共同创造知识。我们需要一座桥，把这一代形成的理解——包括成功、失败、证据、边界和未解决的问题——带给下一代 human 或 agent。",
-   "id": "b7252db1",
-   "hash": "2d47531d1821"
+   "text": "`claim_id`, statement, scope, evidence references, proposer, creation time, confidence or uncertainty, policy version, current admission state, reviewer identity, rationale, expiry, and superseded-by reference. IDs and digests must be stable; absent evidence and inconclusive results remain visible rather than being coerced into success.",
+   "id": "9b6312a4",
+   "hash": "d5b3186f1107"
+  },
+  {
+   "type": "heading",
+   "text": "## MVP components",
+   "id": "ea6420fd",
+   "hash": "a8c17b285ad6"
+  },
+  {
+   "type": "heading",
+   "text": "### 1. OpenTelemetry ingest adapter",
+   "id": "0d86fb7a",
+   "hash": "4bd97923ef67"
   },
   {
    "type": "para",
-   "text": "这座桥连接的是：",
-   "id": "aa95f6a5",
-   "hash": "113d30f4f16f"
+   "text": "Accept a prebuilt OTLP JSON export containing three website experiments. Preserve trace and span IDs, timestamps, selected attributes, source identity, and a canonical digest. Map only allow-listed fields and keep raw prompt bodies, secrets, user payloads, and high-cardinality noise out of the ledger by default.",
+   "id": "c85214e3",
+   "hash": "b0ea0f69b761"
+  },
+  {
+   "type": "para",
+   "text": "The hackathon build does not run an OpenTelemetry Collector or compete with a trace store. It demonstrates that existing telemetry can become provenance for higher-level claims.",
+   "id": "507b918f",
+   "hash": "e99da24cb860"
+  },
+  {
+   "type": "heading",
+   "text": "### 2. CLI workflow",
+   "id": "4bf15ca0",
+   "hash": "72fdfb9f1670"
+  },
+  {
+   "type": "para",
+   "text": "Expose one coherent happy path:",
+   "id": "98d06f37",
+   "hash": "3cfe2d7bf9f6"
   },
   {
    "type": "code",
-   "text": "```text\n越来越强、越来越快的 human-agent research\n                         ↓\n              可信、可修订、可继承的知识\n                         ↓\n       后来者能够站上去，并继续探索更远的世界\n```",
-   "id": "75b6b5bc",
-   "hash": "f26c7f420e0e"
+   "text": "```text\nproofpress ingest demo/experiments.otlp.json\nproofpress propose --from-trace TRACE_ID --claims demo/claims.json\nproofpress review CLAIM_ID --policy demo/policy.yaml\nproofpress admit CLAIM_ID --reviewer human:richard --why \"...\"\nproofpress reject CLAIM_ID --reviewer agent:policy-reviewer --why \"...\"\nproofpress context --scope coframe-demo --format json\nproofpress materialize --scope coframe-demo --output current-knowledge.md\n```",
+   "id": "e15fa48c",
+   "hash": "a1901bdbdb38"
   },
   {
    "type": "para",
-   "text": "桥的意义不在于让建造者成为过河的英雄，而在于让许多甚至不会认识建造者的人得以通过。它是一种 force multiplier：自己不必完成每一次发现，却能让无数次发现更可靠地积累。",
-   "id": "5be29ca3",
-   "hash": "a10506de5f08"
-  },
-  {
-   "type": "para",
-   "text": "这与我对自己的理解相连。我是一个多面手，也习惯观察结构、发现系统之间没有连接起来的地方。我真正希望证明的，不是自己会做很多事情，而是这些洞察能够成为建设世界的能力：看到缺失的一块，把它补上，让整个系统开始运转。",
-   "id": "dd35c180",
-   "hash": "4106680c75ea"
-  },
-  {
-   "type": "para",
-   "text": "Verified Knowledge 字面意义上就是这样一座桥：让这一代验证过、理解过、拒绝过和仍然不知道的东西，能够承载下一代继续向前。",
-   "id": "89fecd6a",
-   "hash": "085bcb04b6d5"
+   "text": "The exact production command surface may evolve. For the demo, commands may be thin wrappers around one local ledger, but their output must use stable IDs and machine-readable JSON so another agent can consume it.",
+   "id": "f81099a6",
+   "hash": "3f1da82f1e04"
   },
   {
    "type": "heading",
-   "text": "## 5. ARA 为什么可能成为配得上这份愿景的载体",
-   "id": "a773c5f2",
-   "hash": "950af206930e"
+   "text": "### 3. Review gates",
+   "id": "e3d0b749",
+   "hash": "4c48e9bb1a1a"
   },
   {
    "type": "para",
-   "text": "ARA 不是简单地保存更多历史，也不只是把论文换成新的文件格式。它重新提出了一个更根本的问题：当 agent 成为研究的第一类参与者时，一项研究应当以什么形式存在？",
-   "id": "2a365ff0",
-   "hash": "81f7e4e27575"
-  },
-  {
-   "type": "para",
-   "text": "它可以是一份 living artifact，保存当前 claims、实验、配置、证据、决策、失败路径与开放问题；RIT 可以为其中能够独立检查的部分建立 verification gate；admission 与 provenance 则记录哪些状态被谁、基于什么依据正式接受、拒绝或替代。",
-   "id": "95981885",
-   "hash": "32541063be58"
-  },
-  {
-   "type": "para",
-   "text": "这套结构真正吸引我的地方，是它没有把“生成更多知识”误认为“拥有更多可信知识”。它试图让研究不仅更快，也更诚实；不仅更 autonomous，也更能被理解、审查和继承。",
-   "id": "2dc1a871",
-   "hash": "91c6c5c80bb4"
-  },
-  {
-   "type": "para",
-   "text": "如果 Amber 与研究团队证明这种新知识对象为什么在技术与研究上成立，我希望参与完成另一半证明：它怎样进入真实团队与真实工作流，怎样成为人们每天依赖的产品，怎样获得可以持续生长的经济形式，同时不在商业化过程中失去最初要保护的东西。",
-   "id": "7de59f68",
-   "hash": "0ac34336ac35"
-  },
-  {
-   "type": "para",
-   "text": "这也是我对 To B 产品与 CPO 角色最深的理解。CPO 不是这份意义本身，而是承担这段责任的组织名称：把 research capability、customer workflow、product wedge 与长期愿景连接起来，让一种思想获得现实世界的形状。",
-   "id": "44ca6699",
-   "hash": "f9dd8dd8912e"
-  },
-  {
-   "type": "heading",
-   "text": "## 6. 为什么它可能通往更远的地方",
-   "id": "8d408e3b",
-   "hash": "20247b923293"
-  },
-  {
-   "type": "para",
-   "text": "知识可信、可积累、可被 build upon，并不会自动治疗疾病，也不能保证每一次科学发现更快发生。真正的研究仍需要实验、领域判断、资源、时间与人的责任。",
-   "id": "6112211e",
-   "hash": "65db54a21d70"
-  },
-  {
-   "type": "para",
-   "text": "但可靠的知识基础设施可以降低一个长期存在的摩擦：后来者不必持续重新发现同样的失败，不必重新考古一个结论为什么成立，也不必在无法区分证据、推断和叙事的状态上继续建设。",
-   "id": "44f6ee97",
-   "hash": "b6b9784022b7"
-  },
-  {
-   "type": "para",
-   "text": "如果这层基础存在，scientific discovery 就更有可能形成复利。更多研究时间可以用于真正未知的问题；跨团队、跨模型与跨代际的协作可以从更可靠的起点开始；药物发现、疾病治疗与人类认知边界的突破，也就多了一种更坚实的支撑。",
-   "id": "cd518b45",
-   "hash": "74c1cd22f750"
-  },
-  {
-   "type": "para",
-   "text": "我们不能承诺自己完成所有这些结果。但我们可以建设让这些结果更可能发生的基础。",
-   "id": "3167911d",
-   "hash": "0bc7f2942cf8"
-  },
-  {
-   "type": "heading",
-   "text": "## 7. 这件事对我的自我实现意味着什么",
-   "id": "2997f51a",
-   "hash": "7b329088ddd2"
-  },
-  {
-   "type": "para",
-   "text": "这可能是我过去许多看似分散的兴趣第一次汇聚到同一条线上：",
-   "id": "4d454dc2",
-   "hash": "b658d3ae4b30"
+   "text": "Run gates in order:",
+   "id": "b316f5e8",
+   "hash": "95dd409c0b0b"
   },
   {
    "type": "list",
-   "text": "- 我关心 knowledge canvas，因为我想让思想连接与生长；\n- 我关心 provenance，因为我在意一个结论从哪里来；\n- 我关心 verification，因为“被记录”不等于“值得相信”；\n- 我关心 handoff，因为知识只有被后来者接住，才真正形成积累；\n- 我关心 enterprise adoption，因为思想只有进入真实组织、改变真实工作流，才会成为世界的一部分。",
-   "id": "c8535ede",
-   "hash": "721c434ad266"
+   "text": "1. **Deterministic verification:** schema validity, digest integrity, required evidence, sample-size floor, metric and guardrail checks.\n2. **Agent policy review:** a separate policy agent recommends accept, reject, or unresolved and cites the evidence and rule it used.\n3. **Human review:** a reviewer sees the claim, evidence, automated checks, and recommendation, then makes the final admission decision for high-impact knowledge.",
+   "id": "04e93bc6",
+   "hash": "d848ff9fec9b"
   },
   {
    "type": "para",
-   "text": "从帮助一个人保存自己的思考，到帮助 human 与 agent 保存整个研究共同体的思考，这是一条比任何单独职位都更完整的个人叙事。",
-   "id": "02f05a78",
-   "hash": "df71065565ca"
-  },
-  {
-   "type": "para",
-   "text": "如果我能够参与定义什么是 agent-native research artifact、什么是可以继承的研究状态、什么是 verified claim、什么必须由机器检查、什么仍需要人承担责任，那么我参与的不只是一款产品，而是一套未来的人与 agent 用来理解知识的早期语言。",
-   "id": "a1cb1f06",
-   "hash": "4f46542e0177"
-  },
-  {
-   "type": "para",
-   "text": "我想成为那个让本来只存在于论文、repo 和少数研究者想象里的未来，第一次进入真实组织、真实工作流和真实经济世界的人之一。",
-   "id": "0d5be703",
-   "hash": "2f526763bb1c"
+   "text": "The proposer must not self-approve by default. Agent review is a policy decision, not proof of semantic truth. Every gate records its identity, version, inputs, outcome, and rationale.",
+   "id": "ee532af0",
+   "hash": "d38ccf22d757"
   },
   {
    "type": "heading",
-   "text": "## 8. 愿景的深度，不改变入场的方式",
-   "id": "9e69e6af",
-   "hash": "8e6ff0680f5e"
+   "text": "### 4. Frontend graph",
+   "id": "5a97c213",
+   "hash": "ab3c23fdbbd9"
   },
   {
    "type": "para",
-   "text": "正因为这件事对我意义很深，我更需要用配得上它的方式去建设。",
-   "id": "31cb70ab",
-   "hash": "b0ff7e85c733"
+   "text": "Provide three zoom levels:",
+   "id": "81743ed6",
+   "hash": "fef24a99b9b7"
+  },
+  {
+   "type": "list",
+   "text": "- **Runs / traces:** source events and experiment measurements.\n- **Claims / experiments:** candidate interpretations and their support or refutation links.\n- **Governed knowledge:** accepted, current claims available to agents.",
+   "id": "1653cf2a",
+   "hash": "e9d7f4c21ebe"
   },
   {
    "type": "para",
-   "text": "愿意为一份事业长期付出，与立刻采用最戏剧化、风险最高的投入姿态，并不是同一件事。一个值得奉献的事业，不会因为从 fractional collaboration、清晰 milestone 和真实 design partner 开始就失去意义；它也不会因为一个人过早 all-in 就自动更接近成功。",
-   "id": "347dab67",
-   "hash": "6c124d7c9f6f"
-  },
-  {
-   "type": "para",
-   "text": "真正配得上这份愿景的，不是证明我愿意燃烧多少，而是选择最能让桥最终建成的路径：保留判断力，建立真实证据，可靠交付，确认团队能够共同承担，并让投入随着 conviction 与现实信号逐层增加。",
-   "id": "24afb67d",
-   "hash": "47eed92d99b6"
-  },
-  {
-   "type": "para",
-   "text": "奉献是心的事，落地是手的事。我的心可以先抵达很远的地方；我的手仍然需要一块石头、一块石头地把桥搭出来。",
-   "id": "f8f90726",
-   "hash": "b4a9b6113372"
+   "text": "Default to the governed-knowledge view. A user can click a claim to traverse its admission and evidence back to a source span. Color communicates state, not truth: candidate, accepted, rejected, unresolved, superseded, or expired.",
+   "id": "3472dc81",
+   "hash": "ffc0a42afacb"
   },
   {
    "type": "heading",
-   "text": "## 9. 我的回答",
-   "id": "1d8af674",
-   "hash": "d669dde662ce"
+   "text": "### 5. Agent context endpoint",
+   "id": "6973d48c",
+   "hash": "aff94766c84f"
   },
   {
    "type": "para",
-   "text": "我想参与这项事业，不只是因为它可能成为一家公司，也不只是因为它给我一个成为 CPO 或关键拼图的机会。",
-   "id": "a6bc898e",
-   "hash": "66d92869a8ce"
+   "text": "Return only current, in-scope knowledge by default, along with compact provenance handles and policy metadata. A fresh agent should receive the minimum sufficient state, not the entire event history. It can request deeper evidence when uncertainty or policy requires it.",
+   "id": "c6ba2715",
+   "hash": "060d4bda7d91"
+  },
+  {
+   "type": "heading",
+   "text": "## End-to-end demo script",
+   "id": "b9a76204",
+   "hash": "1d92090f19dc"
+  },
+  {
+   "type": "list",
+   "text": "1. Import one OTLP JSON fixture containing three prior website experiments.\n2. Generate three candidate claims from those experiments.\n3. Apply deterministic policy: one claim passes; one remains unresolved because the sample is insufficient; one is rejected because a guardrail metric regressed.\n4. Display all three candidates and their evidence edges in the graph.\n5. Let a human accept or reject the reviewable claim.\n6. Append the admission events to the ledger.\n7. Materialize `current-knowledge.md` from accepted, non-expired knowledge.\n8. Start a fresh agent session with only `proofpress context` or the materialized artifact.\n9. Ask the fresh agent to choose the next experiment and explain which admitted knowledge it used.\n10. Traverse the chosen claim back to the original experiment span.",
+   "id": "99d357ae",
+   "hash": "b02f3f6427f1"
   },
   {
    "type": "para",
-   "text": "我想参与，是因为它触及了一个我很早就在意的问题：我们如何不浪费已经发生过的思考，如何让前人的工作真正成为后来者的起点，如何在人与 AI 无限协作的时代，让知识不仅被大量生成，而且能够被信任、被继承、被继续建设。",
-   "id": "51e16526",
-   "hash": "d588a69e7cc2"
+   "text": "**Hero moment:** “Thousands of agent events became three candidate claims. Only one became organizational knowledge. A fresh agent continued from that governed knowledge—not from the raw trace.”",
+   "id": "4b6110c2",
+   "hash": "c8ca05133f04"
+  },
+  {
+   "type": "heading",
+   "text": "## Build plan",
+   "id": "36a8c209",
+   "hash": "c9ce1f1c68d0"
+  },
+  {
+   "type": "heading",
+   "text": "### Phase 0 — freeze the contract",
+   "id": "8d9e3f40",
+   "hash": "281e4a5ba9df"
+  },
+  {
+   "type": "list",
+   "text": "- Define the five node types, six edge types, admission states, and minimal JSON schema.\n- Write the policy semantics and the precise meaning of “verified.”\n- Freeze the three-experiment fixture and expected outcomes.",
+   "id": "302741ba",
+   "hash": "1e5055e3c714"
+  },
+  {
+   "type": "heading",
+   "text": "### Phase 1 — vertical slice",
+   "id": "e36da479",
+   "hash": "a649673b73f2"
+  },
+  {
+   "type": "list",
+   "text": "- Implement OTLP JSON import and deterministic canonical IDs.\n- Implement claim proposal, policy review, admission events, and current-context query.\n- Reuse existing Proofpress artifact digests, actor fields, reasons, claims, and append-only event concepts where compatible.\n- Materialize a portable Markdown view without making the artifact the database.",
+   "id": "3f6c980e",
+   "hash": "aa6694986fd5"
+  },
+  {
+   "type": "heading",
+   "text": "### Phase 2 — demo UI",
+   "id": "a63295c7",
+   "hash": "1fc108547409"
+  },
+  {
+   "type": "list",
+   "text": "- Build the three-level graph and claim detail drawer.\n- Add a human Accept / Reject / Mark unresolved action.\n- Show policy version, reviewer, evidence coverage, expiry, and supersession.",
+   "id": "7ce0a431",
+   "hash": "46189efc9a10"
+  },
+  {
+   "type": "heading",
+   "text": "### Phase 3 — continuity proof",
+   "id": "15bf08cf",
+   "hash": "bf484c567d03"
+  },
+  {
+   "type": "list",
+   "text": "- Launch a fresh agent with no prior session transcript.\n- Give it only governed context and provenance handles.\n- Capture whether it selects the intended next experiment and refuses to rely on rejected or unresolved claims.\n- Present this as a demo acceptance check, not as a scientific study or broad efficacy result.",
+   "id": "268f7a35",
+   "hash": "f1d4c8775745"
+  },
+  {
+   "type": "heading",
+   "text": "## Acceptance criteria",
+   "id": "73ce08a1",
+   "hash": "cfddbd76e752"
+  },
+  {
+   "type": "list",
+   "text": "- The same fixture produces deterministic evidence and claim identifiers on repeated import.\n- Every claim can be traced to one or more immutable evidence records and source-event pointers.\n- A claim cannot enter current context without a valid admission event.\n- Rejected, unresolved, expired, and superseded claims never appear as current knowledge by default.\n- The proposer cannot approve its own claim under the default policy.\n- Changing evidence, claim text, or policy inputs invalidates or creates a new review decision rather than silently mutating history.\n- A fresh agent receives only current governed knowledge and can request the supporting chain.\n- The UI never labels integrity, evidence support, or admission as universal truth.\n- Raw prompts, secrets, and full trace payloads are excluded from portable materialization.",
+   "id": "9ea724d0",
+   "hash": "0c4caedc39d1"
+  },
+  {
+   "type": "heading",
+   "text": "## Non-goals for the hackathon",
+   "id": "0317bd62",
+   "hash": "543276743f97"
+  },
+  {
+   "type": "list",
+   "text": "- No full OpenTelemetry Collector, storage backend, or real-time trace viewer.\n- No generic RAG or “company brain.”\n- No ingestion of every prompt, transcript, or tool payload.\n- No semantic truth oracle or automatic natural-language-to-formal equivalence claim.\n- No complex RBAC, enterprise tenancy, or multi-user real-time collaboration.\n- No arbitrary policy language or broad connector marketplace.\n- No full migration away from existing artifact-centric Proofpress behavior.\n- No Harvey or Cold Handoff study rerun; collaborator research remains a separate evidence track.",
+   "id": "4ce19b83",
+   "hash": "55eb2b3261eb"
+  },
+  {
+   "type": "heading",
+   "text": "## Backward-compatible product evolution",
+   "id": "072b3e94",
+   "hash": "4db7452aacc5"
   },
   {
    "type": "para",
-   "text": "如果这个未来有机会被建出来，我不想只是站在旁边观看。",
-   "id": "53fbbebe",
-   "hash": "c0f2d32002af"
+   "text": "Current Proofpress records accepted artifact versions, computed block changes, actor roles, reasons, consequential rejections, and portable history. Those primitives become one projection of the broader ledger:",
+   "id": "f1c48520",
+   "hash": "af71ad2c2c7c"
+  },
+  {
+   "type": "list",
+   "text": "- existing artifact events remain valid `Artifact` and `Admission` records;\n- artifact claims can reference new ledger `Claim` IDs;\n- existing digests and actor roles are reused rather than replaced;\n- portable capsules carry a bounded view or references, not the entire telemetry graph;\n- existing `verify` continues to report integrity and claim-to-diff consistency, while a new admission view reports governance state.",
+   "id": "d81e4fc3",
+   "hash": "37b47f31ddfa"
   },
   {
    "type": "para",
-   "text": "我愿意做一个造桥的人。也许走过桥的人不会知道是谁铺下了每一块石头，也许我看不到桥最终抵达的全部远方。但我愿意长期、清醒地去做，因为桥的另一端，是后来的人与 agent 可以继续探索的世界。",
-   "id": "5a98885b",
-   "hash": "38903f5f468f"
+   "text": "This is an upgrade in product center of gravity: from “the ledger travels with each artifact” to “the ledger governs claims across sources, and artifacts are portable views.” It should be implemented as additive schema and commands so the existing release remains usable.",
+   "id": "b33f1860",
+   "hash": "52bee6683dbd"
+  },
+  {
+   "type": "heading",
+   "text": "## Design-partner motion at the event",
+   "id": "4528f6a9",
+   "hash": "6267eb266645"
   },
   {
    "type": "para",
-   "text": "> We shape our tools, and our tools shape us.\n>\n> We inherit more than we could ever earn on our own. Our work is to leave more than we received, and to look after whoever comes next.\n>\n> This is ours.",
-   "id": "eabca67a",
-   "hash": "030d24292f44"
+   "text": "Offer hosts and participating teams a **Trusted Continuation Track**:",
+   "id": "693a41c2",
+   "hash": "05baf8a7c744"
+  },
+  {
+   "type": "list",
+   "text": "1. Bring one completed or paused long-horizon run with existing telemetry.\n2. Select two to five claims that a future agent would need.\n3. Bind them to evidence and run the review gate.\n4. Start a fresh session or model from the governed context.\n5. Compare the continuation decision with the team's intended next step.",
+   "id": "05d6b48f",
+   "hash": "66e688d750b6"
+  },
+  {
+   "type": "para",
+   "text": "The design-partner question is not “Do you need memory?” Ask instead: **Which conclusion from a prior run would be costly or dangerous for a new agent to trust incorrectly, and who is allowed to approve it?** A promising partner has multi-session work, meaningful claims, real handoffs, and consequences for reusing an invalid conclusion.",
+   "id": "17dd4ec7",
+   "hash": "273c34d15a72"
+  },
+  {
+   "type": "para",
+   "text": "For Coframe specifically, position Proofpress as complementary to its experimentation loop: Coframe generates and evaluates variants; Proofpress makes selected conclusions portable, scoped, evidence-backed, revisable, and safe for a fresh session or model to inherit. Do not claim Coframe lacks experiment memory or telemetry.",
+   "id": "66f904d8",
+   "hash": "5c5cecd065e6"
+  },
+  {
+   "type": "heading",
+   "text": "## Risks and open questions",
+   "id": "5bfe8a93",
+   "hash": "39df16488f89"
+  },
+  {
+   "type": "list",
+   "text": "- **Unit boundary:** when should multiple metric observations become one claim rather than several claims?\n- **Policy ownership:** which decisions may be agent-reviewed, and which require a human?\n- **Revocation:** should expiry be time-based, evidence-based, or both?\n- **Privacy:** which source fields may be stored locally, shared with reviewers, or materialized into portable artifacts?\n- **Identity:** what attests that a named agent or human actually made a decision?\n- **External trust:** when is an external witness or signature required beyond the current tamper-evident local chain?\n- **Value proof:** does governed context materially improve safe continuation for a real partner workflow? The hackathon demo can expose this question but cannot answer it broadly.",
+   "id": "c2d173a0",
+   "hash": "4e90dc425667"
+  },
+  {
+   "type": "heading",
+   "text": "## Immediate owner split",
+   "id": "4be65d1f",
+   "hash": "e0f43b7430ed"
+  },
+  {
+   "type": "list",
+   "text": "- **Proofpress core:** ledger schema, admission state machine, provenance, CLI, context projection, and portable materialization.\n- **Demo frontend:** graph navigation, evidence drawer, review action, and fresh-session launch.\n- **Coframe / partner adapter:** bounded OTLP fixture and mapping from experiment spans to evidence.\n- **Harvey collaborator:** continue the separate research and handoff work; provide lessons or reusable fixtures only where their evidence scope is explicit.",
+   "id": "ad27f5c8",
+   "hash": "98f36135c8dd"
+  },
+  {
+   "type": "heading",
+   "text": "## Sources",
+   "id": "f7c1246a",
+   "hash": "cbaf035b4184"
+  },
+  {
+   "type": "list",
+   "text": "- `ara-product-exploration.html` (local attachment supplied for this planning request), especially “the structure layer” and the distinction between traces, claims, and verified findings.\n- `README.md` and `docs/PORTABLE_ARTIFACT_SPEC.md` for current Proofpress behavior and trust boundaries.\n- `rit-hub-demo/DECISIONS.md` for the verification / process / admission separation. This file is present in the active development checkout but is not part of the PR base.\n- `experiments/provenance_handoff/README.md` for the boundary between the current STALE/CUPMem work and the archived Harvey study. This file is present in the active development checkout but is not part of the PR base.",
+   "id": "b17e9034",
+   "hash": "57877c2ed7bf"
   }
  ]
 }
