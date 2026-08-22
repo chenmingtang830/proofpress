@@ -4,8 +4,8 @@
       "resource": {"attributes": [{"key": "service.name", "value": {"stringValue": "coframe-long-horizon-demo"}}]},
       "scopeSpans": [{
         "spans": [
-          {"traceId": "trace-001", "spanId": "span-001", "name": "experiment.result", "status": {"code": "OK"}, "attributes": {"experiment.id": "exp-001", "experiment.variant": "baseline", "metric.conversion_rate": 0.12, "experiment.outcome": "measured"}},
-          {"traceId": "trace-002", "spanId": "span-002", "name": "experiment.result", "status": {"code": "OK"}, "attributes": {"experiment.id": "exp-002", "experiment.variant": "candidate-b", "metric.conversion_rate": 0.18, "experiment.outcome": "measured"}},
+          {"traceId": "trace-001", "spanId": "span-001", "name": "experiment.result", "status": {"code": "OK"}, "attributes": {"experiment.id": "exp-001", "experiment.variant": "baseline", "metric.conversion_rate": 0.12, "sample.size": 120, "experiment.outcome": "measured"}},
+          {"traceId": "trace-002", "spanId": "span-002", "name": "experiment.result", "status": {"code": "OK"}, "attributes": {"experiment.id": "exp-002", "experiment.variant": "candidate-b", "metric.conversion_rate": 0.18, "sample.size": 128, "experiment.outcome": "measured"}},
           {"traceId": "trace-003", "spanId": "span-003", "name": "experiment.result", "status": {"code": "ERROR"}, "attributes": {"experiment.id": "exp-003", "experiment.variant": "candidate-c", "experiment.outcome": "timeout"}, "events": [{"name": "retry_exhausted", "attributes": {"retry.count": 3}}]}
         ]
       }]

@@ -1,326 +1,187 @@
 #!/usr/bin/env python3
-"""Minimal verified-knowledge ledger for the long-horizon-agent MVP.
-
-This module deliberately sits above raw telemetry.  It turns a small OTLP-ish
-export into a portable, inspectable graph of source events, experiments,
-candidate claims, reviews, and admitted knowledge.  It is a deterministic
-prototype, not a truth oracle: admission means that the declared evidence and
-review policy passed, not that a claim is universally true.
-"""
-
+"""File-backed admission ledger: telemetry is input; admitted claims are context."""
 from __future__ import annotations
 
-import argparse
-import hashlib
-import json
-import os
-import tempfile
+import argparse, hashlib, json, os, tempfile
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
-SCHEMA = "proofpress/knowledge-ledger/v0"
+SCHEMA = "proofpress/knowledge-ledger/v1"
+ALLOWED = {"service.name","experiment.id","experiment_id","experimentId","experiment.variant","variant","metric.conversion_rate","conversion_rate","metric.value","experiment.outcome","outcome","sample.size","sample_size"}
+DEFAULT_POLICY = {"id":"mvp-evidence-and-completeness","version":1,"min_sample_size":1,"require_guardrail_pass":False,"attribute_allowlist_version":"v1"}
 
-
-def _now() -> str:
-    return datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
-
-
-def _canonical(value: Any) -> bytes:
-    return json.dumps(value, ensure_ascii=False, sort_keys=True,
-                      separators=(",", ":")).encode("utf-8")
-
-
-def _hash(value: Any, prefix: str = "") -> str:
-    return prefix + hashlib.sha256(_canonical(value)).hexdigest()[:16]
-
-
-def _attr_value(value: Any) -> Any:
-    if isinstance(value, dict) and "value" in value:
-        value = value["value"]
-    if isinstance(value, dict) and len(value) == 1:
-        key = next(iter(value))
-        if key in {"stringValue", "intValue", "doubleValue", "boolValue"}:
-            value = value[key]
-    if isinstance(value, (int, float, str)):
-        return value
-    return value
-
-
-def _attributes(raw: Any) -> dict[str, Any]:
-    if isinstance(raw, dict):
-        return {str(k): _attr_value(v) for k, v in raw.items()}
-    result: dict[str, Any] = {}
-    for item in raw or []:
-        if isinstance(item, dict) and item.get("key"):
-            result[str(item["key"])] = _attr_value(item.get("value"))
-    return result
-
-
-def _spans(payload: dict[str, Any]) -> list[dict[str, Any]]:
-    """Accept a compact fixture and the common OTLP JSON resourceSpans shape."""
-    if isinstance(payload.get("spans"), list):
-        return list(payload["spans"])
-    found: list[dict[str, Any]] = []
-    for resource in payload.get("resourceSpans", []):
-        resource_attrs = _attributes(resource.get("resource", {}).get("attributes"))
-        for scope in resource.get("scopeSpans", resource.get("instrumentationLibrarySpans", [])):
-            for span in scope.get("spans", []):
-                copy = dict(span)
-                attrs = dict(resource_attrs)
-                attrs.update(_attributes(span.get("attributes")))
-                copy["attributes"] = attrs
-                found.append(copy)
-    return found
-
-
-def _event_id(span: dict[str, Any]) -> str:
-    raw = {"trace": span.get("traceId"), "span": span.get("spanId"),
-           "name": span.get("name"), "start": span.get("startTimeUnixNano")}
-    return _hash(raw, "src_")
-
-
-def _experiment_id(attrs: dict[str, Any]) -> str | None:
-    for key in ("experiment.id", "experiment_id", "experimentId"):
-        if attrs.get(key):
-            return str(attrs[key])
+def now(): return datetime.now(timezone.utc).isoformat().replace("+00:00","Z")
+def canon(v): return json.dumps(v,ensure_ascii=False,sort_keys=True,separators=(",",":")).encode()
+def digest(v): return "sha256:"+hashlib.sha256(canon(v)).hexdigest()
+def ident(v,prefix): return prefix+hashlib.sha256(canon(v)).hexdigest()[:16]
+def number(d,*keys):
+    for key in keys:
+        if key in d:
+            try: return float(d[key])
+            except (TypeError,ValueError): return None
     return None
-
-
-def _metric(attrs: dict[str, Any]) -> float | None:
-    for key in ("metric.conversion_rate", "conversion_rate", "metric.value"):
-        if key in attrs:
-            try:
-                return float(attrs[key])
-            except (TypeError, ValueError):
-                return None
-    return None
-
-
-def _source_event(span: dict[str, Any]) -> dict[str, Any]:
-    attrs = _attributes(span.get("attributes"))
-    events = []
-    for event in span.get("events", []) or []:
-        events.append({"name": event.get("name"),
-                       "attributes": _attributes(event.get("attributes")),
-                       "time": event.get("timeUnixNano")})
-    record = {
-        "id": _event_id(span),
-        "kind": "trace",
-        "trace_id": span.get("traceId"),
-        "span_id": span.get("spanId"),
-        "name": span.get("name", "unnamed"),
-        "timestamp": span.get("startTimeUnixNano"),
-        "status": span.get("status", {}).get("code", span.get("status")),
-        "attributes": attrs,
-        "events": events,
-    }
-    record["record_hash"] = _hash(record, "sha256:")
-    return record
-
-
-def _experiments(sources: list[dict[str, Any]]) -> list[dict[str, Any]]:
-    grouped: dict[str, list[dict[str, Any]]] = {}
-    for source in sources:
-        exp_id = _experiment_id(source["attributes"])
-        if exp_id:
-            grouped.setdefault(exp_id, []).append(source)
-    result = []
-    for exp_id, records in sorted(grouped.items()):
-        attrs = records[-1]["attributes"]
-        metric = next((m for m in (_metric(r["attributes"]) for r in records) if m is not None), None)
-        outcome = attrs.get("experiment.outcome", attrs.get("outcome", "unknown"))
-        status = "complete" if any(str(r.get("status", "")).lower() in {"ok", "success", "unset", "0"}
-                                    for r in records) else "unresolved"
-        if any(str(r.get("status", "")).lower() in {"error", "failed", "2"} for r in records):
-            status = "failed"
-        result.append({
-            "id": exp_id,
-            "variant": attrs.get("experiment.variant", attrs.get("variant")),
-            "metric": {"name": "conversion_rate", "value": metric},
-            "outcome": outcome,
-            "status": status,
-            "source_refs": [r["id"] for r in records],
-        })
-    return result
-
-
-def _claims(experiments: list[dict[str, Any]], old: list[dict[str, Any]] | None = None) -> list[dict[str, Any]]:
-    old_by_id = {claim["id"]: claim for claim in (old or [])}
-    result = []
-    for exp in experiments:
-        metric = exp["metric"]["value"]
-        if metric is None:
-            statement = f"Experiment {exp['id']} produced no measured conversion rate."
-        else:
-            variant = exp.get("variant") or "unknown variant"
-            statement = f"Variant {variant} produced a conversion rate of {metric:.4f} in experiment {exp['id']}."
-        claim_id = _hash({"experiment": exp["id"], "statement": statement}, "clm_")
-        previous = old_by_id.get(claim_id, {})
-        result.append({
-            "id": claim_id,
-            "kind": "candidate_claim",
-            "statement": statement,
-            "experiment_ref": exp["id"],
-            "evidence_refs": exp["source_refs"],
-            "support": {"metric": exp["metric"], "experiment_status": exp["status"]},
-            "status": previous.get("status", "proposed"),
-            "gate": _gate(exp),
-            **({"admitted_by": previous["admitted_by"]} if previous.get("admitted_by") else {}),
-        })
-    return result
-
-
-def _gate(experiment: dict[str, Any]) -> dict[str, Any]:
-    checks = {
-        "has_source_evidence": bool(experiment["source_refs"]),
-        "experiment_complete": experiment["status"] == "complete",
-        "measured_metric": experiment["metric"]["value"] is not None,
-        "no_error_status": experiment["status"] != "failed",
-    }
-    return {"eligible": all(checks.values()), "checks": checks,
-            "policy": "mvp-evidence-and-completeness-v0"}
-
-
-def _ledger_hash(ledger: dict[str, Any]) -> str:
-    body = {k: v for k, v in ledger.items() if k not in {"ledger_hash", "updated_at"}}
-    return "sha256:" + hashlib.sha256(_canonical(body)).hexdigest()
-
-
-def _new_ledger() -> dict[str, Any]:
-    return {"schema_version": SCHEMA, "ledger_id": _hash(_now(), "ldg_"),
-            "created_at": _now(), "updated_at": _now(),
-            "source_events": [], "experiments": [], "claims": [],
-            "reviews": [], "admissions": [], "ledger_hash": ""}
-
-
-def _read(path: str | os.PathLike[str]) -> dict[str, Any]:
-    with open(path, encoding="utf-8") as handle:
-        ledger = json.load(handle)
-    if ledger.get("schema_version") != SCHEMA:
-        raise ValueError(f"unsupported ledger schema: {ledger.get('schema_version')}")
-    return ledger
-
-
-def _write(path: str | os.PathLike[str], ledger: dict[str, Any]) -> None:
-    ledger["updated_at"] = _now()
-    ledger["ledger_hash"] = _ledger_hash(ledger)
-    target = Path(path)
-    target.parent.mkdir(parents=True, exist_ok=True)
-    fd, tmp = tempfile.mkstemp(prefix=f".{target.name}.", dir=str(target.parent), text=True)
+def val(v):
+    if isinstance(v,dict) and "value" in v: v=v["value"]
+    if isinstance(v,dict) and len(v)==1:
+        key=next(iter(v))
+        if key in {"stringValue","intValue","doubleValue","boolValue"}: v=v[key]
+    return v if isinstance(v,(str,int,float,bool)) else None
+def attrs(raw):
+    if isinstance(raw,dict): items=raw.items()
+    else: items=((x.get("key"),x.get("value")) for x in (raw or []) if isinstance(x,dict))
+    out={str(k):val(v) for k,v in items if k}
+    return {k:v for k,v in out.items() if v is not None and (k in ALLOWED or k.startswith("guardrail."))}
+def spans(payload):
+    if isinstance(payload.get("spans"),list): return list(payload["spans"])
+    out=[]
+    for resource in payload.get("resourceSpans",[]):
+        base=attrs(resource.get("resource",{}).get("attributes"))
+        for scope in resource.get("scopeSpans",resource.get("instrumentationLibrarySpans",[])):
+            for span in scope.get("spans",[]):
+                item=dict(span); item["attributes"]={**base,**attrs(span.get("attributes"))}; out.append(item)
+    return out
+def source(span):
+    record={"id":ident({"trace":span.get("traceId"),"span":span.get("spanId"),"name":span.get("name"),"start":span.get("startTimeUnixNano")},"src_"),"kind":"source_event","trace_id":span.get("traceId"),"span_id":span.get("spanId"),"name":span.get("name","unnamed"),"timestamp":span.get("startTimeUnixNano"),"status":span.get("status",{}).get("code",span.get("status")),"attributes":attrs(span.get("attributes"))}
+    record["record_hash"]=digest(record); return record
+def evidence(src):
+    item={"id":ident({"source":src["id"],"hash":src["record_hash"]},"evd_"),"kind":"evidence","source_ref":src["id"],"source_digest":src["record_hash"],"observation":{"name":src["name"],"timestamp":src["timestamp"],"status":src["status"],"attributes":src["attributes"]}}
+    item["digest"]=digest(item); return item
+def policy(raw=None):
+    item={**DEFAULT_POLICY,**(raw or {})}; item.pop("digest",None); item["digest"]=digest(item); return item
+def ledger_hash(ledger): return digest({k:v for k,v in ledger.items() if k not in {"ledger_hash","updated_at"}})
+def new_ledger():
+    item={"schema_version":SCHEMA,"ledger_id":ident(now(),"ldg_"),"created_at":now(),"updated_at":now(),"active_policy":policy(),"source_events":[],"evidence":[],"experiments":[],"claims":[],"reviews":[],"admissions":[],"supersessions":[],"ledger_hash":""}
+    item["ledger_hash"]=ledger_hash(item); return item
+def read(path):
+    with open(path,encoding="utf-8") as h: item=json.load(h)
+    if item.get("schema_version")!=SCHEMA: raise ValueError("unsupported ledger schema: "+str(item.get("schema_version")))
+    return item
+def load(path):
+    p=Path(path); return new_ledger() if not p.exists() or p.stat().st_size==0 else read(path)
+def write(path,item):
+    item["updated_at"]=now(); item["ledger_hash"]=ledger_hash(item); target=Path(path); target.parent.mkdir(parents=True,exist_ok=True)
+    fd,tmp=tempfile.mkstemp(prefix="."+target.name+".",dir=str(target.parent),text=True)
     try:
-        with os.fdopen(fd, "w", encoding="utf-8") as handle:
-            json.dump(ledger, handle, ensure_ascii=False, indent=2)
-            handle.write("\n")
-        os.replace(tmp, target)
+        with os.fdopen(fd,"w",encoding="utf-8") as h: json.dump(item,h,ensure_ascii=False,indent=2); h.write("\n")
+        os.replace(tmp,target)
     finally:
-        if os.path.exists(tmp):
-            os.unlink(tmp)
-
-
-def ingest(input_path: str, output_path: str, propose: bool = True) -> dict[str, Any]:
-    with open(input_path, encoding="utf-8") as handle:
-        payload = json.load(handle)
-    ledger = _read(output_path) if os.path.exists(output_path) else _new_ledger()
-    existing = {event["id"] for event in ledger["source_events"]}
-    for span in _spans(payload):
-        source = _source_event(span)
-        if source["id"] not in existing:
-            ledger["source_events"].append(source)
-    ledger["experiments"] = _experiments(ledger["source_events"])
-    if propose:
-        ledger["claims"] = _claims(ledger["experiments"], ledger["claims"])
-    _write(output_path, ledger)
-    return ledger
-
-
-def review(path: str, claim_id: str, decision: str, reviewer: str, note: str | None = None) -> dict[str, Any]:
-    ledger = _read(path)
-    claim = next((c for c in ledger["claims"] if c["id"] == claim_id), None)
-    if claim is None:
-        raise ValueError(f"claim not found: {claim_id}")
-    if decision == "accept" and not claim["gate"]["eligible"]:
-        raise ValueError("claim is blocked by the deterministic admission gate")
-    status = "admitted" if decision == "accept" else "rejected"
-    claim["status"] = status
-    claim["admitted_by"] = reviewer if status == "admitted" else None
-    review_record = {"id": _hash({"claim": claim_id, "reviewer": reviewer, "time": _now()}, "rev_"),
-                     "claim_ref": claim_id, "decision": decision, "reviewer": reviewer,
-                     "note": note, "created_at": _now()}
-    ledger["reviews"].append(review_record)
-    ledger["admissions"].append({"claim_ref": claim_id, "status": status,
-                                  "review_ref": review_record["id"],
-                                  "evidence_refs": claim["evidence_refs"],
-                                  "policy": claim["gate"]["policy"]})
-    _write(path, ledger)
-    return {"claim": claim, "review": review_record}
-
-
-def context(path: str) -> dict[str, Any]:
-    ledger = _read(path)
-    admitted = [claim for claim in ledger["claims"] if claim.get("status") == "admitted"]
-    return {"schema_version": "proofpress/agent-context/v0", "ledger_id": ledger["ledger_id"],
-            "ledger_hash": ledger["ledger_hash"], "knowledge": admitted,
-            "open_claims": [claim["id"] for claim in ledger["claims"]
-                            if claim.get("status") in {"proposed", "rejected"}],
-            "next_action": "continue from admitted knowledge; review open claims before use"}
-
-
-def verify(path: str) -> dict[str, Any]:
-    ledger = _read(path)
-    checks = {
-        "ledger_hash": ledger.get("ledger_hash") == _ledger_hash(ledger),
-        "claim_evidence_refs": all(ref in {e["id"] for e in ledger["source_events"]}
-                                    for claim in ledger["claims"] for ref in claim["evidence_refs"]),
-        "admission_review_refs": all(admission["review_ref"] in {r["id"] for r in ledger["reviews"]}
-                                     for admission in ledger["admissions"]),
-    }
-    return {"ok": all(checks.values()), "schema_version": SCHEMA, "ledger_id": ledger["ledger_id"],
-            "ledger_hash": ledger["ledger_hash"], "checks": checks}
-
-
-def add_cli(subparsers: Any) -> None:
-    parser = subparsers.add_parser("knowledge", help="ingest traces and govern reusable agent knowledge")
-    commands = parser.add_subparsers(dest="knowledge_cmd", required=True)
-    ingest_parser = commands.add_parser("ingest", help="ingest OTLP JSON and propose claims")
-    ingest_parser.add_argument("input")
-    ingest_parser.add_argument("-o", "--output", required=True)
-    ingest_parser.add_argument("--no-propose", action="store_true")
-    ingest_parser.set_defaults(f=cmd)
-    propose_parser = commands.add_parser("propose", help="recompute candidate claims from ingested traces")
-    propose_parser.add_argument("ledger")
-    propose_parser.set_defaults(f=cmd)
-    review_parser = commands.add_parser("review", help="apply a human or policy review decision")
-    review_parser.add_argument("ledger")
-    review_parser.add_argument("--claim", required=True)
-    review_parser.add_argument("--decision", choices=["accept", "reject"], required=True)
-    review_parser.add_argument("--reviewer", required=True)
-    review_parser.add_argument("--note")
-    review_parser.set_defaults(f=cmd)
-    for name in ("context", "verify"):
-        p = commands.add_parser(name)
-        p.add_argument("ledger")
-        p.set_defaults(f=cmd)
-
-
-def cmd(args: argparse.Namespace) -> None:
-    if args.knowledge_cmd == "ingest":
-        ledger = ingest(args.input, args.output, not args.no_propose)
-        print(json.dumps({"ok": True, "ledger": args.output, "source_events": len(ledger["source_events"]),
-                          "experiments": len(ledger["experiments"]), "claims": len(ledger["claims"]),
-                          "ledger_hash": ledger["ledger_hash"]}, ensure_ascii=False, indent=2))
-    elif args.knowledge_cmd == "propose":
-        ledger = _read(args.ledger)
-        ledger["claims"] = _claims(ledger["experiments"], ledger["claims"])
-        _write(args.ledger, ledger)
-        print(json.dumps({"ok": True, "claims": ledger["claims"]}, ensure_ascii=False, indent=2))
-    elif args.knowledge_cmd == "review":
-        print(json.dumps(review(args.ledger, args.claim, args.decision, args.reviewer, args.note),
-                          ensure_ascii=False, indent=2))
-    elif args.knowledge_cmd == "context":
-        print(json.dumps(context(args.ledger), ensure_ascii=False, indent=2))
-    elif args.knowledge_cmd == "verify":
-        result = verify(args.ledger)
-        print(json.dumps(result, ensure_ascii=False, indent=2))
-        if not result["ok"]:
-            raise SystemExit(1)
+        if os.path.exists(tmp): os.unlink(tmp)
+def experiment_id(a): return next((str(a[k]) for k in ("experiment.id","experiment_id","experimentId") if a.get(k)),None)
+def experiments(sources,evidence_rows):
+    ev={x["source_ref"]:x["id"] for x in evidence_rows}; groups={}
+    for row in sources:
+        if eid:=experiment_id(row["attributes"]): groups.setdefault(eid,[]).append(row)
+    out=[]
+    for eid,rows in sorted(groups.items()):
+        a=rows[-1]["attributes"]; statuses={str(x.get("status","")).lower() for x in rows}
+        status="failed" if statuses & {"error","failed","2"} else "complete" if statuses & {"ok","success","unset","0"} else "unresolved"
+        metric=next((number(x["attributes"],"metric.conversion_rate","conversion_rate","metric.value") for x in rows if number(x["attributes"],"metric.conversion_rate","conversion_rate","metric.value") is not None),None)
+        sample=next((number(x["attributes"],"sample.size","sample_size") for x in rows if number(x["attributes"],"sample.size","sample_size") is not None),None)
+        out.append({"id":eid,"kind":"experiment","variant":a.get("experiment.variant",a.get("variant")),"metric":{"name":"conversion_rate","value":metric},"sample_size":sample,"outcome":a.get("experiment.outcome",a.get("outcome","unknown")),"status":status,"source_refs":[x["id"] for x in rows],"evidence_refs":[ev[x["id"]] for x in rows],"guardrails":{k:v for k,v in a.items() if k.startswith("guardrail.")}})
+    return out
+def gate(exp,p):
+    guards=list(exp["guardrails"].values())
+    checks={"has_evidence":bool(exp["evidence_refs"]),"experiment_complete":exp["status"]=="complete","measured_metric":exp["metric"]["value"] is not None,"sample_size_floor":(exp["sample_size"] or 0)>=p["min_sample_size"],"guardrails_pass":not p["require_guardrail_pass"] or (bool(guards) and all(x is True for x in guards)),"no_error_status":exp["status"]!="failed"}
+    return {"eligible":all(checks.values()),"checks":checks,"policy_id":p["id"],"policy_digest":p["digest"]}
+def add_claims(item,scope,proposer,expires):
+    old={x["id"] for x in item["claims"]}
+    for exp in item["experiments"]:
+        metric=exp["metric"]["value"]; text=(f"Variant {exp.get('variant') or 'unknown variant'} produced a conversion rate of {metric:.4f} in experiment {exp['id']}." if metric is not None else f"Experiment {exp['id']} produced no measured conversion rate.")
+        cid=ident({"experiment":exp["id"],"statement":text,"scope":scope,"evidence":exp["evidence_refs"]},"clm_")
+        if cid in old: continue
+        item["claims"].append({"id":cid,"kind":"claim","statement":text,"scope":scope,"proposer":proposer,"created_at":now(),"expires_at":expires,"experiment_ref":exp["id"],"evidence_refs":exp["evidence_refs"],"qualifiers":{"metric":exp["metric"],"sample_size":exp["sample_size"],"experiment_status":exp["status"],"guardrails":exp["guardrails"]},"gate":gate(exp,item["active_policy"]),"policy_snapshot":item["active_policy"]})
+def ingest(input_path,output,propose=True,scope="default",proposer="agent:proposer",expires=None):
+    with open(input_path,encoding="utf-8") as h: payload=json.load(h)
+    item=load(output); existing={x["id"]:x for x in item["source_events"]}
+    for span in spans(payload):
+        row=source(span)
+        if row["id"] in existing and existing[row["id"]]["record_hash"]!=row["record_hash"]: raise ValueError("source event conflict for "+row["id"])
+        if row["id"] not in existing: item["source_events"].append(row)
+    ev={x["id"] for x in item["evidence"]}
+    for row in item["source_events"]:
+        e=evidence(row)
+        if e["id"] not in ev: item["evidence"].append(e)
+    item["experiments"]=experiments(item["source_events"],item["evidence"])
+    if propose: add_claims(item,scope,proposer,expires)
+    write(output,item); return item
+def claim(item,cid):
+    found=next((x for x in item["claims"] if x["id"]==cid),None)
+    if not found: raise ValueError("claim not found: "+cid)
+    return found
+def superseded(item,cid): return next((x["superseded_by"] for x in reversed(item["supersessions"]) if x["claim_ref"]==cid),None)
+def state(item,row):
+    if superseded(item,row["id"]): return "superseded"
+    if row.get("expires_at") and row["expires_at"]<=now(): return "expired"
+    events=[x for x in item["admissions"] if x["claim_ref"]==row["id"]]
+    if not events: return "proposed"
+    if events[-1]["policy_digest"]!=item["active_policy"]["digest"]: return "unresolved"
+    return {"accept":"admitted","reject":"rejected","unresolved":"unresolved"}[events[-1]["decision"]]
+def policy_review(path,cid,reviewer):
+    item=read(path); row=claim(item,cid); g=row["gate"]; recommendation="accept" if g["eligible"] else ("reject" if not g["checks"]["no_error_status"] else "unresolved")
+    review={"id":ident({"claim":cid,"reviewer":reviewer,"time":now()},"rev_"),"kind":"policy_recommendation","claim_ref":cid,"reviewer":reviewer,"identity_basis":"self_asserted","recommendation":recommendation,"rationale":"deterministic gate passed" if g["eligible"] else "deterministic gate did not pass","policy_digest":row["policy_snapshot"]["digest"],"created_at":now()}
+    item["reviews"].append(review); write(path,item); return review
+def review(path,cid,decision,reviewer,note=None):
+    item=read(path); row=claim(item,cid)
+    if decision=="accept" and not row["gate"]["eligible"]: raise ValueError("claim is blocked by the deterministic admission gate")
+    if decision=="accept" and reviewer==row["proposer"]: raise ValueError("proposer may not self-approve a claim")
+    r={"id":ident({"claim":cid,"reviewer":reviewer,"decision":decision,"time":now()},"rev_"),"kind":"human_review","claim_ref":cid,"decision":decision,"reviewer":reviewer,"identity_basis":"self_asserted","note":note,"created_at":now()}
+    a={"id":ident({"review":r["id"],"claim":cid},"adm_"),"kind":"admission","claim_ref":cid,"decision":decision,"review_ref":r["id"],"evidence_refs":row["evidence_refs"],"policy_digest":row["policy_snapshot"]["digest"],"created_at":now()}
+    item["reviews"].append(r); item["admissions"].append(a); write(path,item); return {"claim":row,"review":r,"admission":a}
+def supersede(path,cid,by,reviewer,note=None):
+    item=read(path); old,new=claim(item,cid),claim(item,by)
+    if old["scope"]!=new["scope"]: raise ValueError("claims from different scopes cannot supersede each other")
+    event={"id":ident({"claim":cid,"by":by,"time":now()},"sup_"),"kind":"supersession","claim_ref":cid,"superseded_by":by,"reviewer":reviewer,"identity_basis":"self_asserted","note":note,"created_at":now()}
+    item["supersessions"].append(event); write(path,item); return event
+def set_policy(path,min_sample_size,require_guardrail_pass=False):
+    item=read(path); previous=item["active_policy"]
+    item["active_policy"]=policy({**previous,"version":int(previous["version"])+1,"min_sample_size":min_sample_size,"require_guardrail_pass":require_guardrail_pass})
+    write(path,item); return item["active_policy"]
+def context(path,scope=None):
+    item=read(path); rows=[x for x in item["claims"] if scope is None or x["scope"]==scope]; states={x["id"]:state(item,x) for x in rows}
+    return {"schema_version":"proofpress/agent-context/v1","ledger_id":item["ledger_id"],"ledger_hash":item["ledger_hash"],"scope":scope,"policy":item["active_policy"],"knowledge":[x for x in rows if states[x["id"]]=="admitted"],"open_claims":[x["id"] for x in rows if states[x["id"]] in {"proposed","unresolved"}],"next_action":"continue from admitted knowledge; inspect provenance handles before relying on open claims"}
+def view(path,scope=None):
+    item=read(path); rows=[x for x in item["claims"] if scope is None or x["scope"]==scope]; cids={x["id"] for x in rows}; eids={r for x in rows for r in x["evidence_refs"]}; evid=[x for x in item["evidence"] if x["id"] in eids]; sids={x["source_ref"] for x in evid}; exids={x["experiment_ref"] for x in rows}
+    nodes=[{**x,"node_type":"source_event"} for x in item["source_events"] if x["id"] in sids]+[{**x,"node_type":"evidence"} for x in evid]+[{**x,"node_type":"experiment"} for x in item["experiments"] if x["id"] in exids]+[{**x,"node_type":"claim","current_state":state(item,x)} for x in rows]+[{**x,"node_type":"admission"} for x in item["admissions"] if x["claim_ref"] in cids]
+    edges=[{"type":"derived_from","from":x["id"],"to":x["source_ref"]} for x in evid]
+    for x in rows: edges += [{"type":"supports","from":r,"to":x["id"]} for r in x["evidence_refs"]]
+    for x in item["admissions"]:
+        if x["claim_ref"] in cids: edges.append({"type":"admitted_by","from":x["claim_ref"],"to":x["id"]})
+    return {"schema_version":"proofpress/ledger-view/v1","ledger_id":item["ledger_id"],"ledger_hash":item["ledger_hash"],"scope":scope,"nodes":nodes,"edges":edges}
+def materialize(path,output,scope=None):
+    projection=context(path,scope); lines=["# Governed knowledge","",f"Ledger: `{projection['ledger_id']}`",f"Digest: `{projection['ledger_hash']}`",""]
+    for row in projection["knowledge"]: lines += [f"## {row['statement']}","",f"- Claim: `{row['id']}`",f"- Scope: `{row['scope']}`",f"- Evidence: {', '.join('`'+x+'`' for x in row['evidence_refs'])}",""]
+    if not projection["knowledge"]: lines += ["No admitted knowledge for this scope.",""]
+    Path(output).write_text("\n".join(lines),encoding="utf-8"); return {"ok":True,"output":output,"knowledge_count":len(projection["knowledge"]),"ledger_hash":projection["ledger_hash"]}
+def verify(path):
+    item=read(path); sources={x["id"]:x for x in item["source_events"]}; evid={x["id"]:x for x in item["evidence"]}; claims={x["id"]:x for x in item["claims"]}; reviews={x["id"]:x for x in item["reviews"]}
+    checks={"ledger_hash":item["ledger_hash"]==ledger_hash(item),"source_records":all(x["record_hash"]==digest({k:v for k,v in x.items() if k!="record_hash"}) for x in sources.values()),"evidence_digests":all(x["source_ref"] in sources and x["source_digest"]==sources[x["source_ref"]]["record_hash"] and x["digest"]==digest({k:v for k,v in x.items() if k!="digest"}) for x in evid.values()),"claim_evidence_refs":all(r in evid for x in claims.values() for r in x["evidence_refs"]),"admission_review_refs":all(x["review_ref"] in reviews and x["claim_ref"] in claims for x in item["admissions"]),"policy_snapshot_integrity":all(x["policy_snapshot"]["digest"]==policy(x["policy_snapshot"])["digest"] for x in claims.values()),"no_self_approval":all(x["decision"]!="accept" or reviews[x["review_ref"]]["reviewer"]!=claims[x["claim_ref"]]["proposer"] for x in item["admissions"]),"admitted_gate":all(x["decision"]!="accept" or claims[x["claim_ref"]]["gate"]["eligible"] for x in item["admissions"])}
+    return {"ok":all(checks.values()),"schema_version":SCHEMA,"ledger_id":item["ledger_id"],"ledger_hash":item["ledger_hash"],"checks":checks}
+def add_cli(sub):
+    parser=sub.add_parser("knowledge",help="ingest telemetry and govern reusable agent knowledge"); commands=parser.add_subparsers(dest="knowledge_cmd",required=True)
+    def command(name,*args):
+        p=commands.add_parser(name)
+        for args_,kwargs in args: p.add_argument(*args_,**kwargs)
+        p.set_defaults(f=cmd); return p
+    common=[(("ledger",),{})]
+    command("ingest",(("input",),{}),(("-o","--output"),{"required":True}),(("--no-propose",),{"action":"store_true"}),(("--scope",),{"default":"default"}),(("--proposer",),{"default":"agent:proposer"}),(("--expires-at",),{}))
+    command("propose",*common,(("--scope",),{"default":"default"}),(("--proposer",),{"default":"agent:proposer"}),(("--expires-at",),{}))
+    command("policy-review",*common,(("--claim",),{"required":True}),(("--reviewer",),{"default":"agent:policy-reviewer"}))
+    command("review",*common,(("--claim",),{"required":True}),(("--decision",),{"choices":["accept","reject","unresolved"],"required":True}),(("--reviewer",),{"required":True}),(("--note",),{}))
+    command("supersede",*common,(("--claim",),{"required":True}),(("--by",),{"required":True}),(("--reviewer",),{"required":True}),(("--note",),{}))
+    command("policy-set",*common,(("--min-sample-size",),{"type":int,"required":True}),(("--require-guardrail-pass",),{"action":"store_true"}))
+    for name in ("context","view","verify"): command(name,*common, *(((("--scope",),{}),) if name!="verify" else ()))
+    command("materialize",*common,(("-o","--output"),{"required":True}),(("--scope",),{}))
+def cmd(a):
+    if a.knowledge_cmd=="ingest": item=ingest(a.input,a.output,not a.no_propose,a.scope,a.proposer,a.expires_at); out={"ok":True,"ledger":a.output,"source_events":len(item["source_events"]),"evidence":len(item["evidence"]),"experiments":len(item["experiments"]),"claims":len(item["claims"]),"ledger_hash":item["ledger_hash"]}
+    elif a.knowledge_cmd=="propose": item=read(a.ledger); add_claims(item,a.scope,a.proposer,a.expires_at); write(a.ledger,item); out={"ok":True,"claims":item["claims"]}
+    elif a.knowledge_cmd=="policy-review": out=policy_review(a.ledger,a.claim,a.reviewer)
+    elif a.knowledge_cmd=="review": out=review(a.ledger,a.claim,a.decision,a.reviewer,a.note)
+    elif a.knowledge_cmd=="supersede": out=supersede(a.ledger,a.claim,a.by,a.reviewer,a.note)
+    elif a.knowledge_cmd=="policy-set": out=set_policy(a.ledger,a.min_sample_size,a.require_guardrail_pass)
+    elif a.knowledge_cmd=="context": out=context(a.ledger,a.scope)
+    elif a.knowledge_cmd=="view": out=view(a.ledger,a.scope)
+    elif a.knowledge_cmd=="materialize": out=materialize(a.ledger,a.output,a.scope)
+    else: out=verify(a.ledger)
+    print(json.dumps(out,ensure_ascii=False,indent=2))
+    if a.knowledge_cmd=="verify" and not out["ok"]: raise SystemExit(1)

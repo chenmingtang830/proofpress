@@ -45,6 +45,8 @@
 
 
 
+
+
 <meta name="proofpress:meta" content="eyJhcnRpZmFjdF9pZCI6InBwX2M1OTQ5NTYzZmM2NjI0NzY5OTRkYjRmOCIsInBvbGljeSI6InBvcnRhYmxlIiwicG9ydGFibGVfaGVhZCI6ImVlMmY2ZmM0IiwicG9ydGFibGVfaGVhZF9ldmVudCI6InBwZV9kNzFjMmI4NWY2MzA2YWUxODdlNzkyOWQiLCJwb3J0YWJsZV9saW5lYWdlX2lkIjoicHBsXzNkNzYxMmI3Y2Q2OGIwMWIzMGZhYzdlNiIsInByb29mcHJlc3MiOjF9">
 <meta name="proofpress:discovery" content="Verifiable revision history by Proofpress | https://github.com/chenmingtang830/proofpress">
 </head>
@@ -149,6 +151,37 @@
   })();
 </script>
 
+
+<script>
+  // Read-only P2 seam: the explorer remains a client of the ledger, never its source of truth.
+  (async () => {
+    try {
+      const response = await fetch('./demo.ledger-view.json');
+      if (!response.ok) throw new Error(`ledger view ${response.status}`);
+      const ledgerView = await response.json();
+      const claimFor = Object.fromEntries(ledgerView.nodes
+        .filter((node) => node.node_type === 'claim')
+        .map((node) => [node.experiment_ref, node]));
+      const cases = {baseline:'exp-001', candidate:'exp-002', failed:'exp-003'};
+      Object.entries(cases).forEach(([name, experiment]) => {
+        const claim = claimFor[experiment];
+        if (!claim) return;
+        states[name].ledger_claim = claim.id;
+        states[name].ledger_state = claim.current_state;
+        states[name].result = claim.current_state;
+        document.querySelectorAll(`[data-case="${name}"]`).forEach((node) => {
+          node.dataset.ledgerClaim = claim.id;
+          node.dataset.ledgerState = claim.current_state;
+        });
+      });
+      const status = document.querySelector('.status');
+      status.textContent = `● LEDGER VIEW · ${ledgerView.nodes.length} NODES · ${ledgerView.ledger_hash.slice(0, 16)}`;
+      render();
+    } catch (_) {
+      // file:// previews retain their static fixture; the served demo uses the real ledger view.
+    }
+  })();
+</script>
 <script type="application/vnd.proofpress+json" data-proofpress="capsule">eNrtW-lu5MYRfpXG_M1oRHbznCgyZK2QLLK7NnYFJ4C9GPRRrWHEIWkeq5WFBfwgyXPkfx7FT5JqXkNJc65kJ7YHuxBmyD6qquv4vhrybsTzMtJclrNIjaajLJtJN3RC12Naeh51fC8MHSUcHYzGI5Gq25mKrqAocWwx59T1pkBDTW3u42Dph0pK7jAqLUdSSwbcchzXUiqwXOGzkGpLaGF7VEiPOUzhvxDXVVEh0w-Q346md-ZLOSv5Fe4Q89JsNcYPAmK88A3kkY64iIHk8CEqojQhcxyf5rdE3JKv8zTVWQ5FgXMyLq_5FRil7l3O038AqlvlZsF5WWbF9Pj4KirnlZjIdHEs55AsouSq5MlVwKzje7Nz-L6K8POsKiCfyTQpIEFblHkFn8ajOXBjRACqPS2dUXNlBh_qQWhcmCnfllQErvaY5XGwAx_8kIbKSJbmpVFtFkcJoOTdicQzpnzPpsKXyguEZQtm4Yn54DXqtNLNJM-KKkaFqZFTprkqRtNv70bt9ncjPOU0L8yn5jaomUCTfzuqkuskvUlG71GHzh-MHh_5IouhOP5Qmx3UkRkWg7qCo_pvfqxgkU4ynJNAflSUtzFM5uUiHo338itelnkkqhKPcyZ4ERXGuyDWM16gmUsw1uFVOU9zI_x1lJgli9uihAXeSfjCnHKnxBinFsYzRtOkimNUSc7xKKExhohTeY2jKRrUF76Nw_EUS_hoFD6Z26eXf7kgF3__-uLty9cXby7J27M3k5Mi40l948XF-ct3L7_CSa0QXKlausy4I9zsscYb8ubi4sU7ckbeXpxfvPz6cnJyjAuVt5lRxvgN-uDo03gpshvaNsaZen6Rs9NXaXJ1hPaNfsCIQt9LyoLgX8gxAkntQMVkEF5kwa-hIOUcliKjF_B78nLlcsezvQfy0tO_zXlJJE_MfJLg9WZHUnAN8S2Jkjnkm0282xpR-cXJMY7dYlbKhReAen4xs9PzeZoWQNIEjfgxQ4kWZgEd5UU5IV9lkJA21nEILnmDqYfcphVJNpjVYko7tiUeyMtIpP70HQ7HbS6jMobvRqfnPFGRMkf4JYorc-AFbDbsrqsogntjWjBxho47Z1uMDLbnavrId59F6GywyJdYoXCNSywKJKodFAsFZkU8O6Lx07w9wwVHa3P8sMHQrnIDJRhbLXO5StyCQBxdRaY-6Z0MvXWVNCfNrF2sbFuuZtKXP4fErZVFY-CLD5GCRIJZwGQEtOm4tvbAzbGYYvXA7D3eZGVpWW6A9eBh-DXbqZzfrHaN__y7kXxLoth1mfvG3iFtUGVTy-UP5WanL1DlHAEEwpJIEq4WUV2NCOIKeV10p7jJNXZc4qFw78ddqR-1kTkz0dOUz_pOV4th5jLGg1C6jkVdETJqacWVr402SVrWB9WikT5D1ZtnaZSUNbjK651Mhe2-mQL73sCYOJK3gxWG0GawSA2aPhP1FKkuZxq1hjzLoxZcFcKeMhZaStgBlkkaOlS6EDCXelJhrQdKfUuEthTMcangtnI9JbkrGWJXRKLM8rlZu-RlDZKas5naFkIIc2VELeodWcERpZfUmjrh1LH-YFlTy8JZrcVxlEclo8AC9Jbl1bv_Ca6qfbXBPXNezE1OwwThYshxzzF5rV5jAIX2BBWrMEw9Bl3UXhM_rSCOx5nkIXDQ0AkyADidIE9AJgQhuq5iU6hkXNXxc1KUOS53imwjM2mpCTrjfWOCOaGu7HUW6IpFiyRJmXaIwmjYLHJynJ2uyGutfr7QPtIjjV7rd_oNANGeMGMzkmm3DIVyJHN9gUHSm3QJbpYm_WxUAlj3a1MUGVIoMk9vaqEVyIaK3XBjfwWTzbYRFhNID10bVC_oANXsjQ52BSPt9swJQVPMCCLoY2CAT3o7PQVWoJVyQAeckEsc2wQ1uQbIcD5OKkuOmbAxJvrzArWocvyeV0ntiI1jEpOKthmT2qEX-pa2GesdbYBc9gYBOwGOdm8JjAVKauXJsNt7gEEeWPLzoIMxh7m7AOSI0kzqrDXBvDOvFhg5KHNTdVrR0dZYOeO49kyF6QBdGNfIcSGcLyDG-MWDSEgx58bsffrdYmuPcQhcy5NYLzt9B_hlf_CyM-poBcDaFriuwzWrOwZN-l4Ckb1RyCMI8clstr1hIFMFH4_w9DRqMS__rxoHeKSJaYfgPSh27B081Ge3HoIdYM6wPWcFc4QcGmfrc6PEnTBXpItJd8xb-O0uS2yitdyzJQ-eX7js1KS0BTfhU-V4UoAxWqCjF-SnH_9pCtkNmIRcRkkFX_z0479InTavcp5hmtzEbIWtbOY78AhSX749O0c08g0CkXc7AehVEzbYSnEvCGRoPdp4CYB223fF-E3bSgUhZe6jbc_P3rx4-eLs8oKcvzp7-Xq3vddN2iCAdBQmlDp33xfg7MXrl-8MwNtp50ejn8JMLO1YNrqB1j5YWEws0DZ3VbhkJgLD-gg05k0ELTyOBZfX6MFZiUXhjwRUU2C7vECWfcGOtCwh-pC63B1i_BDjhxh_aozv1GN4yLG9T6sZ9LZ2wrP0DOwQRIjwggugIbj4V0rLFwH4zAssTpViIbIo8LTSgY_AA0LNrDCUDt4Xap0-K1oGbjh17RUtA0syR4QWO7QMDi2DQ8vg0DI4tAx-My0Dy9Yuc6QER_aMfYAp98Zs6y0LtuNgurAdV_eWHQDEZSw_Cdr1I29MDoLuYB56oPFfYhQyK2y2kBt4AhG-0MrindwDlLgFIm7olcgw5K4MmGZ9yhiAwM0IcIMDUydkYDHt2f2BDkDeDghvwxG6tgqETW2oS2vTX1rit03gbf2iv9-mlaGCfcvq3LR4Ru_rJ2ZUJR9ff9DiGlz_vqobSe2NtxHyxFyRSySLv64nZurM97kPzKwlwpfDco6ZgpOMl_MxQbaOnw1nn5ws2cUiVbVhPpPYPnWz3fjocoUcT-vDz0Q-t-_yDFRz-ybPxSm377QLh5QxjxZrPe_xubY9obegc_TqBme1tcp4h3lG0OSr3meMuxAkAk1px2rHEbGjEornBgpoLFlYzybrvHGtAK97DlFrgDAF-QIGNF40tVEBYmRTKm-JESKPDGPA_FaWQyxh8AxiEqQM63z0kYV7_bMYS3kjQW31tMIvuSnvrXmPamRer0luIrRCicAJMxBmLJShSKscxyapwT5RwyzQLAmCdrxbW3SyzqX3E2qA2dZJ1oPbwdg9JFvGwX6Sya7YHTVeOBSpOdVGiLKGPh8zw4hqXjheAiGZVgac1tQQgVBVTNZFzn6yLYvhQKgr89BsMqwyrYRm-5ZmHDU0o0V0vG6JNiShibcufu9GN_Pb3pFftWzOLNSjb760-_hxZDVRV6QP-I1BlAW0YYEmraJYbYwBAQgukEdiwKBv4Polj-LajLs3kT1wvFD4lpSBlMjaOJIb6YRBb-XhcyvDBswTGsKHOniog89XB3f_VaTvPfan3DwA3uw9dT6t7jT-Iq1V6UrJ_EBTxw0gUCG1wHAcHUjBFRI0x-PgaeqHjgOCU893fO0rQR1LKdep_WQH9R51Wu0pMz3WFZ1WCFjgc2ofOq2HTuuh03rotB46rb-ZTqurhAIfYyoM_c2d1l3A09aAZspl2vKEZ1Gxsd16YV5sqx2ufpy6IRKdtxUt8RoPDDxgEw2FGN9zuaXVGwi9RM7ovDW8Lkgdaocn2X65pmDeNAXLX11PsE6Ny55go-BuHUHXkdoF6T2RnKx81wSjpCjQ8bpIODKzhvkJQ-G2uJeru97LQ6df3VQaCP9AjpaGnyllJMfhPCZ_Ntx2TF7VxzW-z4pNzwYJa167f5MqjasidS3nOdzLnMYMGM2RwTzGTfFCMiY_pOliGdT9bHQ9iLKSNLG3hq3_FfNIPQ0x2FWU8Lg3_FH3645xrqYhoFRD4ZFQJyZ7N5Lfe8nDjOuzT51zek_v9ZubF2vRjRLSHtl-3HzDG7AruXkP2bdz81-PR-7er3j0Osqn1XzmF-FzoU9dHgquESIyzW3P85C3OYHwqM805ZQqzUEx1_M0cnAZhhSYzy0vtC1FwVmjzyMCR6c0mDpsFYHr3q0-ELgDgTsQuAOBOxC4A4H7HRK4wAlDzj0qwevDbAB_ls7xBNyyMAIVVWYwBOpQpMskiqoWae0ay195usRlBom0an5SxYsl2p6kmpR51SBbjosuFnj3QFLx_38BDGElWg</script>
 </body>
 </html>

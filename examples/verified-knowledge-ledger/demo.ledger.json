@@ -1,0 +1,401 @@
+{
+  "schema_version": "proofpress/knowledge-ledger/v1",
+  "ledger_id": "ldg_e317b0d5985e0618",
+  "created_at": "2026-08-22T22:43:15.682963Z",
+  "updated_at": "2026-08-22T22:44:14.517576Z",
+  "active_policy": {
+    "id": "mvp-evidence-and-completeness",
+    "version": 1,
+    "min_sample_size": 1,
+    "require_guardrail_pass": false,
+    "attribute_allowlist_version": "v1",
+    "digest": "sha256:462c242d17e27cd3fe50817e2c5fa460810cb8fda11a01d847a97ef21515dc5c"
+  },
+  "source_events": [
+    {
+      "id": "src_3493cff8574e6614",
+      "kind": "source_event",
+      "trace_id": "trace-001",
+      "span_id": "span-001",
+      "name": "experiment.result",
+      "timestamp": null,
+      "status": "OK",
+      "attributes": {
+        "service.name": "coframe-long-horizon-demo",
+        "experiment.id": "exp-001",
+        "experiment.variant": "baseline",
+        "metric.conversion_rate": 0.12,
+        "sample.size": 120,
+        "experiment.outcome": "measured"
+      },
+      "record_hash": "sha256:d7266d4ad52313449c6bac7b1997384eba22e6099f32d6ddfbcefea071f22ead"
+    },
+    {
+      "id": "src_ee60c1ab116f293c",
+      "kind": "source_event",
+      "trace_id": "trace-002",
+      "span_id": "span-002",
+      "name": "experiment.result",
+      "timestamp": null,
+      "status": "OK",
+      "attributes": {
+        "service.name": "coframe-long-horizon-demo",
+        "experiment.id": "exp-002",
+        "experiment.variant": "candidate-b",
+        "metric.conversion_rate": 0.18,
+        "sample.size": 128,
+        "experiment.outcome": "measured"
+      },
+      "record_hash": "sha256:ab98897df7b259f037b6f872beba96768727aced847d1d5dfe9ce3bc109d9df3"
+    },
+    {
+      "id": "src_724b49f0c004419d",
+      "kind": "source_event",
+      "trace_id": "trace-003",
+      "span_id": "span-003",
+      "name": "experiment.result",
+      "timestamp": null,
+      "status": "ERROR",
+      "attributes": {
+        "service.name": "coframe-long-horizon-demo",
+        "experiment.id": "exp-003",
+        "experiment.variant": "candidate-c",
+        "experiment.outcome": "timeout"
+      },
+      "record_hash": "sha256:9509a501ad74595410a523bcd4a92edbe450ea255cf68ef0590e0c50c466f8e3"
+    }
+  ],
+  "evidence": [
+    {
+      "id": "evd_0dfeaed848d8213d",
+      "kind": "evidence",
+      "source_ref": "src_3493cff8574e6614",
+      "source_digest": "sha256:d7266d4ad52313449c6bac7b1997384eba22e6099f32d6ddfbcefea071f22ead",
+      "observation": {
+        "name": "experiment.result",
+        "timestamp": null,
+        "status": "OK",
+        "attributes": {
+          "service.name": "coframe-long-horizon-demo",
+          "experiment.id": "exp-001",
+          "experiment.variant": "baseline",
+          "metric.conversion_rate": 0.12,
+          "sample.size": 120,
+          "experiment.outcome": "measured"
+        }
+      },
+      "digest": "sha256:b947eb26839e57f937f363c71c72a73a3b8d950517c7c1eb8fb3159cc58a4bf5"
+    },
+    {
+      "id": "evd_9f6d62d432e812fc",
+      "kind": "evidence",
+      "source_ref": "src_ee60c1ab116f293c",
+      "source_digest": "sha256:ab98897df7b259f037b6f872beba96768727aced847d1d5dfe9ce3bc109d9df3",
+      "observation": {
+        "name": "experiment.result",
+        "timestamp": null,
+        "status": "OK",
+        "attributes": {
+          "service.name": "coframe-long-horizon-demo",
+          "experiment.id": "exp-002",
+          "experiment.variant": "candidate-b",
+          "metric.conversion_rate": 0.18,
+          "sample.size": 128,
+          "experiment.outcome": "measured"
+        }
+      },
+      "digest": "sha256:9aef371eb7c356d5af5163519acd27ce5d89e8f67cdce67d2496c3b2eeac8828"
+    },
+    {
+      "id": "evd_3ea6c2094cc2d53b",
+      "kind": "evidence",
+      "source_ref": "src_724b49f0c004419d",
+      "source_digest": "sha256:9509a501ad74595410a523bcd4a92edbe450ea255cf68ef0590e0c50c466f8e3",
+      "observation": {
+        "name": "experiment.result",
+        "timestamp": null,
+        "status": "ERROR",
+        "attributes": {
+          "service.name": "coframe-long-horizon-demo",
+          "experiment.id": "exp-003",
+          "experiment.variant": "candidate-c",
+          "experiment.outcome": "timeout"
+        }
+      },
+      "digest": "sha256:de5ce0dc48c3cd8db87bbb15f28bf95e6942c7f81de560690919f9db17f11008"
+    }
+  ],
+  "experiments": [
+    {
+      "id": "exp-001",
+      "kind": "experiment",
+      "variant": "baseline",
+      "metric": {
+        "name": "conversion_rate",
+        "value": 0.12
+      },
+      "sample_size": 120.0,
+      "outcome": "measured",
+      "status": "complete",
+      "source_refs": [
+        "src_3493cff8574e6614"
+      ],
+      "evidence_refs": [
+        "evd_0dfeaed848d8213d"
+      ],
+      "guardrails": {}
+    },
+    {
+      "id": "exp-002",
+      "kind": "experiment",
+      "variant": "candidate-b",
+      "metric": {
+        "name": "conversion_rate",
+        "value": 0.18
+      },
+      "sample_size": 128.0,
+      "outcome": "measured",
+      "status": "complete",
+      "source_refs": [
+        "src_ee60c1ab116f293c"
+      ],
+      "evidence_refs": [
+        "evd_9f6d62d432e812fc"
+      ],
+      "guardrails": {}
+    },
+    {
+      "id": "exp-003",
+      "kind": "experiment",
+      "variant": "candidate-c",
+      "metric": {
+        "name": "conversion_rate",
+        "value": null
+      },
+      "sample_size": null,
+      "outcome": "timeout",
+      "status": "failed",
+      "source_refs": [
+        "src_724b49f0c004419d"
+      ],
+      "evidence_refs": [
+        "evd_3ea6c2094cc2d53b"
+      ],
+      "guardrails": {}
+    }
+  ],
+  "claims": [
+    {
+      "id": "clm_1d72b3e636b87dc0",
+      "kind": "claim",
+      "statement": "Variant baseline produced a conversion rate of 0.1200 in experiment exp-001.",
+      "scope": "coframe-demo",
+      "proposer": "agent:experiment-runner",
+      "created_at": "2026-08-22T22:43:15.683083Z",
+      "expires_at": null,
+      "experiment_ref": "exp-001",
+      "evidence_refs": [
+        "evd_0dfeaed848d8213d"
+      ],
+      "qualifiers": {
+        "metric": {
+          "name": "conversion_rate",
+          "value": 0.12
+        },
+        "sample_size": 120.0,
+        "experiment_status": "complete",
+        "guardrails": {}
+      },
+      "gate": {
+        "eligible": true,
+        "checks": {
+          "has_evidence": true,
+          "experiment_complete": true,
+          "measured_metric": true,
+          "sample_size_floor": true,
+          "guardrails_pass": true,
+          "no_error_status": true
+        },
+        "policy_id": "mvp-evidence-and-completeness",
+        "policy_digest": "sha256:462c242d17e27cd3fe50817e2c5fa460810cb8fda11a01d847a97ef21515dc5c"
+      },
+      "policy_snapshot": {
+        "id": "mvp-evidence-and-completeness",
+        "version": 1,
+        "min_sample_size": 1,
+        "require_guardrail_pass": false,
+        "attribute_allowlist_version": "v1",
+        "digest": "sha256:462c242d17e27cd3fe50817e2c5fa460810cb8fda11a01d847a97ef21515dc5c"
+      }
+    },
+    {
+      "id": "clm_7a96fc1576ed61d4",
+      "kind": "claim",
+      "statement": "Variant candidate-b produced a conversion rate of 0.1800 in experiment exp-002.",
+      "scope": "coframe-demo",
+      "proposer": "agent:experiment-runner",
+      "created_at": "2026-08-22T22:43:15.683091Z",
+      "expires_at": null,
+      "experiment_ref": "exp-002",
+      "evidence_refs": [
+        "evd_9f6d62d432e812fc"
+      ],
+      "qualifiers": {
+        "metric": {
+          "name": "conversion_rate",
+          "value": 0.18
+        },
+        "sample_size": 128.0,
+        "experiment_status": "complete",
+        "guardrails": {}
+      },
+      "gate": {
+        "eligible": true,
+        "checks": {
+          "has_evidence": true,
+          "experiment_complete": true,
+          "measured_metric": true,
+          "sample_size_floor": true,
+          "guardrails_pass": true,
+          "no_error_status": true
+        },
+        "policy_id": "mvp-evidence-and-completeness",
+        "policy_digest": "sha256:462c242d17e27cd3fe50817e2c5fa460810cb8fda11a01d847a97ef21515dc5c"
+      },
+      "policy_snapshot": {
+        "id": "mvp-evidence-and-completeness",
+        "version": 1,
+        "min_sample_size": 1,
+        "require_guardrail_pass": false,
+        "attribute_allowlist_version": "v1",
+        "digest": "sha256:462c242d17e27cd3fe50817e2c5fa460810cb8fda11a01d847a97ef21515dc5c"
+      }
+    },
+    {
+      "id": "clm_4687181182df2604",
+      "kind": "claim",
+      "statement": "Experiment exp-003 produced no measured conversion rate.",
+      "scope": "coframe-demo",
+      "proposer": "agent:experiment-runner",
+      "created_at": "2026-08-22T22:43:15.683097Z",
+      "expires_at": null,
+      "experiment_ref": "exp-003",
+      "evidence_refs": [
+        "evd_3ea6c2094cc2d53b"
+      ],
+      "qualifiers": {
+        "metric": {
+          "name": "conversion_rate",
+          "value": null
+        },
+        "sample_size": null,
+        "experiment_status": "failed",
+        "guardrails": {}
+      },
+      "gate": {
+        "eligible": false,
+        "checks": {
+          "has_evidence": true,
+          "experiment_complete": false,
+          "measured_metric": false,
+          "sample_size_floor": false,
+          "guardrails_pass": true,
+          "no_error_status": false
+        },
+        "policy_id": "mvp-evidence-and-completeness",
+        "policy_digest": "sha256:462c242d17e27cd3fe50817e2c5fa460810cb8fda11a01d847a97ef21515dc5c"
+      },
+      "policy_snapshot": {
+        "id": "mvp-evidence-and-completeness",
+        "version": 1,
+        "min_sample_size": 1,
+        "require_guardrail_pass": false,
+        "attribute_allowlist_version": "v1",
+        "digest": "sha256:462c242d17e27cd3fe50817e2c5fa460810cb8fda11a01d847a97ef21515dc5c"
+      }
+    }
+  ],
+  "reviews": [
+    {
+      "id": "rev_58d3b3fa3f12ecc9",
+      "kind": "policy_recommendation",
+      "claim_ref": "clm_1d72b3e636b87dc0",
+      "reviewer": "agent:policy-reviewer",
+      "identity_basis": "self_asserted",
+      "recommendation": "accept",
+      "rationale": "deterministic gate passed",
+      "policy_digest": "sha256:462c242d17e27cd3fe50817e2c5fa460810cb8fda11a01d847a97ef21515dc5c",
+      "created_at": "2026-08-22T22:43:15.753730Z"
+    },
+    {
+      "id": "rev_1b6ff534a7e711a1",
+      "kind": "human_review",
+      "claim_ref": "clm_1d72b3e636b87dc0",
+      "decision": "accept",
+      "reviewer": "human:demo",
+      "identity_basis": "self_asserted",
+      "note": "baseline admitted for the continuation preview",
+      "created_at": "2026-08-22T22:43:15.819522Z"
+    },
+    {
+      "id": "rev_7dd9bb889da385ce",
+      "kind": "policy_recommendation",
+      "claim_ref": "clm_7a96fc1576ed61d4",
+      "reviewer": "agent:policy-reviewer",
+      "identity_basis": "self_asserted",
+      "recommendation": "accept",
+      "rationale": "deterministic gate passed",
+      "policy_digest": "sha256:462c242d17e27cd3fe50817e2c5fa460810cb8fda11a01d847a97ef21515dc5c",
+      "created_at": "2026-08-22T22:44:14.395786Z"
+    },
+    {
+      "id": "rev_bee5ac996824a6da",
+      "kind": "policy_recommendation",
+      "claim_ref": "clm_4687181182df2604",
+      "reviewer": "agent:policy-reviewer",
+      "identity_basis": "self_asserted",
+      "recommendation": "reject",
+      "rationale": "deterministic gate did not pass",
+      "policy_digest": "sha256:462c242d17e27cd3fe50817e2c5fa460810cb8fda11a01d847a97ef21515dc5c",
+      "created_at": "2026-08-22T22:44:14.454578Z"
+    },
+    {
+      "id": "rev_2dd383f9936c9cac",
+      "kind": "human_review",
+      "claim_ref": "clm_4687181182df2604",
+      "decision": "reject",
+      "reviewer": "human:demo",
+      "identity_basis": "self_asserted",
+      "note": "timeout has no measured metric",
+      "created_at": "2026-08-22T22:44:14.517564Z"
+    }
+  ],
+  "admissions": [
+    {
+      "id": "adm_62a0c33471f0b591",
+      "kind": "admission",
+      "claim_ref": "clm_1d72b3e636b87dc0",
+      "decision": "accept",
+      "review_ref": "rev_1b6ff534a7e711a1",
+      "evidence_refs": [
+        "evd_0dfeaed848d8213d"
+      ],
+      "policy_digest": "sha256:462c242d17e27cd3fe50817e2c5fa460810cb8fda11a01d847a97ef21515dc5c",
+      "created_at": "2026-08-22T22:43:15.819534Z"
+    },
+    {
+      "id": "adm_5924a6d90dcc3753",
+      "kind": "admission",
+      "claim_ref": "clm_4687181182df2604",
+      "decision": "reject",
+      "review_ref": "rev_2dd383f9936c9cac",
+      "evidence_refs": [
+        "evd_3ea6c2094cc2d53b"
+      ],
+      "policy_digest": "sha256:462c242d17e27cd3fe50817e2c5fa460810cb8fda11a01d847a97ef21515dc5c",
+      "created_at": "2026-08-22T22:44:14.517574Z"
+    }
+  ],
+  "supersessions": [],
+  "ledger_hash": "sha256:08ce5bacaf967054ad9fd20f1cd301be1b41bf11ab583d0adc44efbc23b75202"
+}
