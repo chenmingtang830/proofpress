@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Proofpress — Trusted Continuation Preview</title>
+  <style>
+    :root { --bg:#0b0f14; --panel:#111821; --panel-2:#151f2b; --line:#263442; --ink:#ecf3f7; --muted:#8ea1af; --cyan:#79d4d1; --green:#77d39b; --amber:#e6b86e; --red:#e77d82; --blue:#94b8ff; }
+    * { box-sizing:border-box; }
+    body { margin:0; min-height:100vh; color:var(--ink); background:radial-gradient(circle at 80% -10%, #17333d 0, transparent 38%), var(--bg); font:14px/1.45 Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    button { font:inherit; color:inherit; }
+    .shell { max-width:1480px; margin:auto; padding:28px 34px 40px; }
+    .topline { display:flex; align-items:center; justify-content:space-between; gap:20px; margin-bottom:46px; }
+    .brand { display:flex; align-items:center; gap:12px; letter-spacing:.08em; text-transform:uppercase; font-size:11px; color:var(--muted); font-weight:700; }
+    .mark { width:28px; height:28px; border:1px solid var(--cyan); border-radius:9px; position:relative; transform:rotate(45deg); }
+    .mark:after { content:""; position:absolute; width:8px; height:8px; border-radius:50%; background:var(--cyan); inset:9px; }
+    .preview { display:inline-flex; align-items:center; gap:8px; padding:7px 11px; border-radius:999px; border:1px solid #315051; color:var(--cyan); background:#112527; font-size:11px; letter-spacing:.04em; }
+    .preview i { width:6px; height:6px; border-radius:50%; background:var(--green); box-shadow:0 0 0 4px #234436; }
+    .hero { max-width:920px; margin-bottom:34px; }
+    .eyebrow { color:var(--cyan); letter-spacing:.14em; text-transform:uppercase; font-size:11px; font-weight:700; margin-bottom:12px; }
+    h1 { font-size:clamp(35px, 5vw, 68px); line-height:1.02; letter-spacing:-.055em; margin:0 0 18px; max-width:840px; }
+    .lede { margin:0; color:#b7c7d1; font-size:17px; max-width:760px; }
+    .lede strong { color:var(--ink); font-weight:600; }
+    .workspace { border:1px solid var(--line); border-radius:18px; background:rgba(17,24,33,.86); box-shadow:0 22px 70px #0005; overflow:hidden; }
+    .workspace-head { display:flex; align-items:center; justify-content:space-between; gap:18px; padding:17px 20px; border-bottom:1px solid var(--line); background:#101720; }
+    .workspace-title { display:flex; align-items:center; gap:12px; }
+    .workspace-title b { font-size:15px; }
+    .workspace-title span { color:var(--muted); font-size:12px; }
+    .tabs { display:flex; gap:6px; }
+    .tab { border:1px solid transparent; border-radius:8px; padding:7px 10px; cursor:pointer; color:var(--muted); background:transparent; }
+    .tab:hover, .tab.active { border-color:var(--line); background:var(--panel-2); color:var(--ink); }
+    .workspace-grid { display:grid; grid-template-columns:220px minmax(500px,1fr) 310px; min-height:610px; }
+    .runs { border-right:1px solid var(--line); padding:17px 14px; background:#0f151d; }
+    .section-label { color:#708594; font-size:10px; letter-spacing:.14em; text-transform:uppercase; font-weight:700; padding:0 8px 10px; }
+    .run { width:100%; text-align:left; display:block; border:1px solid transparent; background:transparent; border-radius:10px; padding:12px 10px; cursor:pointer; margin-bottom:6px; }
+    .run:hover, .run.selected { border-color:#2d4b52; background:#13252a; }
+    .run strong { display:block; font-size:13px; margin-bottom:3px; }
+    .run small { color:var(--muted); display:block; }
+    .run .mini { display:flex; align-items:center; gap:5px; margin-top:8px; color:var(--green); font-size:10px; text-transform:uppercase; letter-spacing:.08em; }
+    .run.failed .mini { color:var(--red); }
+    .run .dot { width:6px; height:6px; background:currentColor; border-radius:50%; }
+    .graph-wrap { padding:24px; min-width:0; }
+    .graph-caption { display:flex; justify-content:space-between; color:var(--muted); font-size:12px; margin-bottom:20px; }
+    .graph { position:relative; display:grid; grid-template-columns:repeat(4, minmax(100px,1fr)); gap:11px; min-height:454px; }
+    .graph:before { content:""; position:absolute; left:10%; right:10%; top:50%; border-top:1px dashed #38515d; opacity:.65; }
+    .column { position:relative; z-index:1; }
+    .column > h3 { color:#718692; text-transform:uppercase; font-size:10px; letter-spacing:.13em; margin:0 0 13px; }
+    .node { border:1px solid var(--line); background:#131c26; border-radius:11px; padding:12px; margin-bottom:13px; cursor:pointer; transition:.18s ease; }
+    .node:hover, .node.selected { border-color:var(--cyan); transform:translateY(-2px); box-shadow:0 8px 25px #0004; }
+    .node .node-id { color:var(--muted); font:11px ui-monospace, SFMono-Regular, Menlo, monospace; margin-bottom:6px; }
+    .node b { display:block; font-size:12px; margin-bottom:5px; }
+    .node p { color:#9fb1bd; font-size:11px; margin:0; }
+    .node .metric { color:var(--cyan); font-weight:700; font-size:13px; margin-top:7px; }
+    .node.source { border-left:3px solid var(--blue); }
+    .node.exp { border-left:3px solid var(--amber); }
+    .node.claim { border-left:3px solid var(--cyan); }
+    .node.decision { border-left:3px solid var(--green); }
+    .node.decision.blocked { border-left-color:var(--red); }
+    .node-tag { display:inline-flex; margin-top:8px; font-size:9px; letter-spacing:.08em; text-transform:uppercase; border-radius:999px; padding:3px 6px; color:var(--muted); background:#1c2934; }
+    .node-tag.good { color:var(--green); background:#183329; }
+    .node-tag.bad { color:var(--red); background:#351e27; }
+    .detail { border-left:1px solid var(--line); padding:22px 19px; background:#101820; }
+    .detail h2 { margin:0 0 6px; font-size:16px; }
+    .detail .sub { color:var(--muted); font-size:12px; margin-bottom:20px; }
+    .state { display:flex; align-items:center; justify-content:space-between; padding:11px 12px; border:1px solid #315051; background:#122428; border-radius:10px; margin-bottom:18px; }
+    .state span { color:var(--muted); font-size:11px; }
+    .state strong { color:var(--green); text-transform:uppercase; letter-spacing:.1em; font-size:10px; }
+    .fact { border-top:1px solid var(--line); padding:12px 0; }
+    .fact label { display:block; color:#718692; text-transform:uppercase; letter-spacing:.1em; font-size:9px; margin-bottom:4px; }
+    .fact p { margin:0; color:#c5d1d8; font-size:12px; }
+    .refs { display:flex; flex-wrap:wrap; gap:5px; }
+    .ref { color:var(--blue); font:10px ui-monospace, SFMono-Regular, Menlo, monospace; background:#162539; border-radius:5px; padding:4px 6px; }
+    .actions { display:grid; gap:8px; margin-top:20px; }
+    .action { border:1px solid var(--line); border-radius:8px; padding:9px 11px; text-align:left; background:#17212b; cursor:pointer; }
+    .action:hover { border-color:var(--cyan); }
+    .action.primary { border-color:#4b8e87; background:#16322f; color:#bff1d3; }
+    .action:disabled { opacity:.45; cursor:not-allowed; }
+    .foot { display:flex; align-items:center; justify-content:space-between; gap:15px; border-top:1px solid var(--line); padding:13px 20px; color:#748895; font-size:11px; }
+    .foot code { color:#9db5c2; }
+    .context-view { display:none; padding:27px; min-height:610px; }
+    .context-view.show { display:block; }
+    .context-card { max-width:780px; border:1px solid #315051; background:#122428; border-radius:14px; padding:22px; }
+    .context-card h2 { margin:0 0 7px; font-size:21px; }
+    .context-card p { color:#b5c7cf; margin:0 0 18px; }
+    .context-claim { border-top:1px solid #2c4c4b; padding:15px 0 0; }
+    .context-claim b { display:block; color:#d8f4e3; margin-bottom:5px; }
+    .context-claim small { color:#9fb6bd; }
+    @media (max-width:1050px) { .workspace-grid { grid-template-columns:190px 1fr; } .detail { grid-column:1 / -1; border-left:0; border-top:1px solid var(--line); } }
+    @media (max-width:700px) { .shell { padding:20px 14px 30px; } .topline { margin-bottom:33px; } .workspace-head { align-items:flex-start; flex-direction:column; } .workspace-grid { display:block; } .runs { border-right:0; border-bottom:1px solid var(--line); display:flex; gap:8px; overflow:auto; } .section-label { display:none; } .run { min-width:145px; } .graph-wrap { overflow:auto; } .graph { min-width:620px; } .detail { border-top:1px solid var(--line); } .foot { align-items:flex-start; flex-direction:column; } }
+  </style>
+
+
+
+
+
+
+
+
+
+
+<meta name="proofpress:meta" content="eyJhcnRpZmFjdF9pZCI6InBwXzQwZWYxNTU0ZTRiMjI1ODE0MWFiMTgyNCIsInBvbGljeSI6InBvcnRhYmxlIiwicG9ydGFibGVfaGVhZCI6IjMzMzdjNjU2IiwicG9ydGFibGVfaGVhZF9ldmVudCI6InBwZV9mNzk0MDMwYmVkM2Y3ZTk3NzM5NzJkMTIiLCJwb3J0YWJsZV9saW5lYWdlX2lkIjoicHBsX2NmM2E5NzEzZWZhMmQ3ZTIzZDEzMmJlNiIsInByb29mcHJlc3MiOjF9">
+<meta name="proofpress:discovery" content="Verifiable revision history by Proofpress | https://github.com/chenmingtang830/proofpress">
+</head>
+<body>
+  <main class="shell">
+    <header class="topline">
+      <div class="brand"><span class="mark" aria-hidden="true"></span> Proofpress / Coframe continuation</div>
+      <div class="preview"><i></i> MVP PREVIEW · NOT A TRUTH ORACLE</div>
+    </header>
+    <section class="hero">
+      <div class="eyebrow">Verified knowledge ledger for autonomous AI agents</div>
+      <h1 data-proofpress-id="01a812de">Make the next session inherit reviewed, scoped decisions.</h1>
+      <p class="lede" data-proofpress-id="42f4b1e5">A long-horizon agent can generate thousands of events. Proofpress turns the useful subset into <strong>scoped, reviewable knowledge</strong> that a fresh agent can safely pick up.</p>
+    </section>
+
+    <section class="workspace" aria-label="Verified knowledge ledger preview">
+      <div class="workspace-head">
+        <div class="workspace-title"><b>Website optimization / experiment ledger</b><span>3 experiments · 3 candidate claims · 1 admitted</span></div>
+        <nav class="tabs" aria-label="Ledger views"><button class="tab active" data-view="graph">Ledger graph</button><button class="tab" data-view="context">Fresh-agent context</button></nav>
+      </div>
+      <div id="graphView" class="workspace-grid">
+        <aside class="runs"><div class="section-label">Experiments</div>
+          <button class="run selected" data-claim="clm_d8f77ab73b82276a"><strong>exp-001 · baseline</strong><small>conversion_rate 0.1200</small><span class="mini"><i class="dot"></i> complete</span></button>
+          <button class="run" data-claim="clm_d8e55c7eb1afef48"><strong>exp-002 · candidate-b</strong><small>conversion_rate 0.1800</small><span class="mini"><i class="dot"></i> complete</span></button>
+          <button class="run failed" data-claim="clm_262554fbc83a8aeb"><strong>exp-003 · candidate-c</strong><small>timeout · retries exhausted</small><span class="mini"><i class="dot"></i> failed</span></button>
+        </aside>
+        <div class="graph-wrap">
+          <div class="graph-caption"><span>Evidence lineage</span><span>select a claim to inspect its gate</span></div>
+          <div class="graph">
+            <div class="column"><h3 data-proofpress-id="e74d13e2">Trace events</h3><div class="node source"><div class="node-id">src_3493…</div><b>experiment.result</b><p data-proofpress-id="e9fc2dbb">trace-001 · span-001</p><span class="node-tag">OTel span</span></div><div class="node source"><div class="node-id">src_ee60…</div><b>experiment.result</b><p data-proofpress-id="72307dcb">trace-002 · span-002</p><span class="node-tag">OTel span</span></div><div class="node source"><div class="node-id">src_724b…</div><b>experiment.result</b><p data-proofpress-id="e232f039">trace-003 · retry_exhausted</p><span class="node-tag bad">error</span></div></div>
+            <div class="column"><h3 data-proofpress-id="3040838a">Experiments</h3><div class="node exp"><div class="node-id">exp-001</div><b>baseline</b><p data-proofpress-id="d4feeb66">measured outcome</p><div class="metric">12.00%</div></div><div class="node exp"><div class="node-id">exp-002</div><b>candidate-b</b><p data-proofpress-id="cb3fe077">measured outcome</p><div class="metric">18.00%</div></div><div class="node exp"><div class="node-id">exp-003</div><b>candidate-c</b><p data-proofpress-id="02b7b4e0">timeout</p><span class="node-tag bad">unresolved</span></div></div>
+            <div class="column"><h3 data-proofpress-id="83cf1e3b">Candidate claims</h3><div class="node claim selected" data-claim="clm_d8f77ab73b82276a"><div class="node-id">clm_d8f77…</div><b>baseline produced 12%</b><p data-proofpress-id="03e89e79">1 source ref · metric present</p><span class="node-tag">proposed</span></div><div class="node claim" data-claim="clm_d8e55c7eb1afef48"><div class="node-id">clm_d8e55c…</div><b>candidate-b produced 18%</b><p data-proofpress-id="005ddbd1">1 source ref · metric present</p><span class="node-tag">proposed</span></div><div class="node claim" data-claim="clm_262554fbc83a8aeb"><div class="node-id">clm_262554…</div><b>candidate-c result</b><p data-proofpress-id="ba746120">source is an error span</p><span class="node-tag bad">blocked</span></div></div>
+            <div class="column"><h3 data-proofpress-id="1cb69f29">Admission</h3><div class="node decision" data-claim="clm_d8f77ab73b82276a"><div class="node-id">gate / human review</div><b>Admitted knowledge</b><p data-proofpress-id="110cf0ef">reviewed by human:demo</p><span class="node-tag good">accepted</span></div><div class="node decision" data-claim="clm_d8e55c7eb1afef48"><div class="node-id">gate / pending</div><b>Review required</b><p data-proofpress-id="66b6123e">eligible, not yet accepted</p><span class="node-tag">open</span></div><div class="node decision blocked" data-claim="clm_262554fbc83a8aeb"><div class="node-id">gate / policy</div><b>Cannot admit</b><p data-proofpress-id="a46950eb">experiment failed</p><span class="node-tag bad">blocked</span></div></div>
+          </div>
+        </div>
+        <aside class="detail" aria-live="polite"><h2 id="detailTitle" data-proofpress-id="3bfa1040">baseline produced 12%</h2><div class="sub" id="detailId">clm_d8f77ab73b82276a · candidate claim</div><div class="state"><span>Current state</span><strong id="detailState">admitted</strong></div><div class="fact"><label>Statement</label><p id="detailStatement" data-proofpress-id="c4c8fb24">Variant baseline produced a conversion rate of 0.1200 in experiment exp-001.</p></div><div class="fact"><label>Evidence refs</label><div class="refs" id="detailRefs"><span class="ref">src_3493cff8574e6614</span></div></div><div class="fact"><label>Admission gate</label><p id="detailGate" data-proofpress-id="0519651c">Source evidence ✓ · experiment complete ✓ · metric ✓ · no error ✓</p></div><div class="actions"><button class="action primary" id="admitButton">Admit to fresh-agent context</button><button class="action" id="reviewButton">Open review note</button></div></aside>
+      </div>
+      <div id="contextView" class="context-view"><div class="context-card"><div class="eyebrow">Portable continuation context</div><h2 data-proofpress-id="44ca7280">What a fresh agent receives</h2><p data-proofpress-id="2580a249">This view contains admitted knowledge only. Open or blocked claims remain visible as work to review, but are not silently promoted into the next session.</p><div class="context-claim"><b id="contextClaim">Variant baseline produced a conversion rate of 0.1200 in experiment exp-001.</b><small>admitted · evidence src_3493cff8574e6614 · human review human:demo</small></div></div></div>
+      <footer class="foot"><span>Integrity is not truth. Admission means the declared evidence and review policy passed.</span><code>ledger_hash · sha256:b9aa29bbdb3ca428…</code></footer>
+    </section>
+  </main>
+  <script>
+    const claims = {
+      clm_d8f77ab73b82276a: { title:'baseline produced 12%', state:'admitted', statement:'Variant baseline produced a conversion rate of 0.1200 in experiment exp-001.', ref:'src_3493cff8574e6614', gate:'Source evidence ✓ · experiment complete ✓ · metric ✓ · no error ✓', eligible:true },
+      clm_d8e55c7eb1afef48: { title:'candidate-b produced 18%', state:'proposed', statement:'Variant candidate-b produced a conversion rate of 0.1800 in experiment exp-002.', ref:'src_ee60c1ab116f293c', gate:'Source evidence ✓ · experiment complete ✓ · metric ✓ · no error ✓', eligible:true },
+      clm_262554fbc83a8aeb: { title:'candidate-c result', state:'blocked', statement:'Experiment exp-003 has no measured conversion rate and ended with an error status.', ref:'src_724b49f0c004419d', gate:'Source evidence ✓ · experiment complete × · metric × · no error ×', eligible:false }
+    };
+    let selected = 'clm_d8f77ab73b82276a';
+    const $ = (id) => document.getElementById(id);
+    function renderClaim(id) { selected=id; const c=claims[id]; $('detailTitle').textContent=c.title; $('detailId').textContent=id+' · candidate claim'; $('detailState').textContent=c.state; $('detailState').style.color=c.state==='admitted'?'var(--green)':c.state==='blocked'?'var(--red)':'var(--amber)'; $('detailStatement').textContent=c.statement; $('detailRefs').innerHTML='<span class="ref">'+c.ref+'</span>'; $('detailGate').textContent=c.gate; $('admitButton').disabled=!c.eligible||c.state==='admitted'; $('admitButton').textContent=c.state==='admitted'?'Already in fresh-agent context':c.state==='blocked'?'Blocked by admission gate':'Admit to fresh-agent context'; $('contextClaim').textContent=claims.clm_d8f77ab73b82276a.statement; document.querySelectorAll('[data-claim]').forEach(n=>n.classList.toggle('selected',n.dataset.claim===id)); }
+    document.querySelectorAll('[data-claim]').forEach(n=>n.addEventListener('click',()=>renderClaim(n.dataset.claim)));
+    $('admitButton').addEventListener('click',()=>{ if(!claims[selected].eligible)return; claims[selected].state='admitted'; renderClaim(selected); });
+    $('reviewButton').addEventListener('click',()=>alert('Review gate: inspect evidence refs, experiment status, and policy checks before accepting a claim.'));
+    document.querySelectorAll('.tab').forEach(tab=>tab.addEventListener('click',()=>{ document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active')); tab.classList.add('active'); const context=tab.dataset.view==='context'; $('graphView').style.display=context?'none':'grid'; $('contextView').classList.toggle('show',context); }));
+  </script>
+
+
+
+
+
+<script type="application/vnd.proofpress+json" data-proofpress="capsule">eNrtW9uO28gR_ZWGgCAPmdF0N9m8CM4AmyAIAmSxC9hwHnYNoS_VI-5IJJcX28rAX5HX_Efe8yn5klSTFMUZieKMZ9ZrLPRgQ6LIU9XV1VXnFO27mSyqxEpdLRMzW8zyfOlTsEwIH3zFuYiYz6RiEfdnFzOVme3SJDdQVnhvuZJcBAtOY8GMDMCXAfU9LSEOPSk4DSwPPU-pKIit9SECn1PNLfUs87RhkgONmGcR1ySlzt5DsZ0t7tyXalnJG7SwlpUzdYEfFKzxwlsoEptItQZSwPukTLKUrPD-rNgStSXfF1lm8wLKEp_Jpb6VN-AWde9ykf0EuNy6cICrqsrLxdXVTVKtajXX2eZKryDdJOlNJdObyKNX954u4Oc6wc_LuoRiqbO0hBRjURU1fLqYrUC6IHqeF-pABLP2yhLeNzdhcGFpw9inHlVgPBtipEIvDrlh3HmWFZVb2nKdpICe73ZkvdTWk3HIPLCSmxC4Z5jHFQTtcjrvllrmZb3GBXPnp84KU84WP9zNOvN3M9zlrCjdp_ZnMEuFIf9hVqe3afYhnb3DNezyAU3DR7nJ11BevW_CDubS3bYGcwOXzd_FlYFNNl9Vm_Xs4kmZJKuqSFRd4QYulSyT0uUTrO1SlhjYCoy7p65WWeHcvU1SB1luywo2-EsqN25fd25f4KOly4XZIq3Xa1yEXuHmQbt8tc70Ld5NmYwYN4C3475V8NEt8dWKXX8rb4FUKyApXiMdFEnSFa66IgY05hk-1DkhjWm8y10CwocnYGCyXJA0q8hPdVmRqpAaXEpV29wtxmUKZt3s08XeZZ9bXzEQL-9yTvQaQ_3HH2e4kfDj7Pobss7Sm0sMePJPhML0SyuiZUrwAxR4DtFcVpcyNSXZO53LQt7zGEIfcxP4A4-96zduuaRJxfLVFV44HdHjD5wIFcRWc6PUMw3n182-XFLKyH__Q8pcpu7zq6v8-sSqQ-7R0OiXM84HxvmEcSwHrqjGL2bcc8YLqIrtEj6uJCYrmAkfPOrTyIvkgQ9_-ZhjSm4evetH7j-x6ca3ACoInmc2v96ALOsCDMnqClsATKxWK88CDcMvbJZyFSof6HPNVngrWpywFnnaMvAOc_rPWAMS4yoClpBk87h9HXvoxOZSD6IYwvgFHMivGSmzutCONliX3htM70QT1zgxbFOBp8IYZdiv74mSoR8wTl_Ek86PpCRY5qEosqIpORMuMK2Qz_HDbfnGbJKmDz0qIQ7uPpEJjFFtkUs8x2R-3X7G04ZEcVVvZLpw5GVitUGgMN4ePM80rJObBJld2_63UBGpNeTTdVX6QSwoqGea7-sDsTJZT1dzZSXDiv7AKieJQcJgoEKQN0m1drwByRs4vooJnJlaY3jZ6a1_LAr_HS6NT2SG9nVkVcMoX9zTfAjyusKz5SKIQG9lkUiM5SGgJOgFkuWGfI1WE8HiQDD9i_v8V3QZMV63xxzvMZDih__9-1-u7gySAnsP0vyq-emE476vZcijg7S4_sdKYkYTiyVs1TFHFBiQvIdyt4enEuIxz5_IAVQWVHI_flm38us3KCyJ--o2FeOZYp3EU1fhqSW9DiJZut7OyXc5pATrZ-vTgxC-u9hJsFmTGyh5dAGyFTnNLzvFBEvPUIXyTgaxZyXlJlB-IHzjFACWjgazU4mkU4kE9aq-zbMkrRrRWzSWnA7afXMy6J2Tl-tEbwcIQ8k5AGnE7Geq0TKz1dLiDkGRF0knekvFFgz5ceTHcSiEkTb2A2k0j5kMI-RSQUw9KZBvoD7T3BdSSoyCUsZoEBwf5Y5qlXgEG_Ha7taCeyj03JUZpzy4pNEl5284XXjxgtM_ULqgLlO7iLtaYZQIUBph8uyv3n0hvdskRqtHV7JcOe5qjNWRiTnnrrw3GAOJ-kSxd0xbzjHL2cjh6Zzgcawx5IxBQysbJwaic-fEs9RiZjsNMh_MZ0hVF3ig3KrqEmy9JmWtSmyMmDQZeVVWBeJflzrLwVyQ9lg2Wd_vyKur7iYEOTjnzpVSWlhvSZ7oW1Ln85Ge1wXCUgYxDeKA6ngXiIGWnVBVJwLsxRJYZJSNvR53L1X7AD9JdnbYEYAQXhhpHUQ77IESPcR-jKrcxcPzFONBYKNmjNX6vReah9hPEI2dCV9jlhkuozDqc2-gI0_rm_GIB56NPKuFpnG_kwOduPf8kerrBOxAB34urLFG-cgvI1x5XwX2Om8Q55OirUMLQy183wDEgd6hDXTcI_TCeFyZYEqIKDBBM6xsPd1LtL2nnyVwThnZq68XMmIiaSgL0VQf84Gw2ht5mkDq0GPPZyrmSKFtX9cHmukUhx8PPg015TYA6Yn-rAxU0d7lJ4mcDhwYx-MBVoQCduAD3bMHf7KM2YVEUCU4jT1Ge-8HymZg4JFCZYcb6DAIpDI26IvUQLs8mVqflBw7m9aygFsVcLGvA3sVsu-YzxAP2FGbHoqdk84xKSl2xSFfx4-uO0y0NGRoIsTzaSTri8FAexz19LMkw-D8dd_SrDsu-P20k57wscMKGkq_z72Bzngamx_ftTAwnsCWFoaK7cwMdMM-Az-b9OPvbSVFrzb4HHFvpxxhkSX5kBW3BGlNezgviKpxJQU0p6jENE8rx1OKbJM5Mw0Dekj3ju71u09uiUde74BJqv7ljs4MfJy9a14VNZn28PqDl0GD6z_XUO6B3Cuvr_0VUZMY-zdE7Vp-0fdDnWTsteQmM00gjuQjxrTNkTG7hxCd6Hu9kgVmW0uYS_wCDRn-9u33xKE3hUQWWZ0a0neAXhjMx94pPVC_nS1kW-sm8Z2tlt5V2X5bu4JVNQmblDAfe_9zHP3v7k3uELtJX3JTyHxF1nILxXzsvc5xwNer7EOLZ5MCtU_XtBvw-dhbmimoEo8ExnIca8CFJ91qOtk9LOQTpiXLpCPL7oiPvVGZDOSgLo_GcUCBTzksSc9f-w7VEdn52DuQR-LpnnIeBRyw3qmI1ik2gWz9fhp0QH4no9hDXTaHdDyUA9Z7HPRPidO9DrOPYQuJhb2831rnYy8appD1fQI_CT0guMehv5XFbef0sJ_9vuxa-XHYAbOdDLDc8d3x0A447VQSNOy2q3akaX3E4p_Dbj0fG-ifzts2rPKDTCos3p2h-dh0fsrbdvh2uQvtPhRH03ZAYqcr1Rp0tdst0tK4-diQfAqtBSl3fLWpU80QZj42wj6FiM5AsUnSBOubHqy5GTY-bEt70ncc8m9p1fKXrqo6HnjZTXvadk0Od2jA8UYcdUst2xGSY3XH2J4uMmQcXYDQVJLW0hVsolzDlcV23rb2HWm4m31YuTkrSlM8-qbdf2Q-KRSXSH5cNvVNG4_txtGLLo9v3IHGco7JklRuUPnowbEBR3BRyfEwoIYprbjkoPZLHU6Eh9PQ4ZT47tcjRo-fg_dz4B5wwT4dH_ROTb1fZLRt4sDGzAYs9ATXqNRl5P4tnGYiDoyIrIx9LYShbsSDuyOYCvE3rnwPP2NbHl_SkeG2Txc8OjLcNnh0lKLqKxluB74MjAlDr_33fZ893D4ks-cp93nKfZ5yn6fc5yn3ecp9nnKfp9znKfd5yn2ecv82ptzOhfKkXN5JY8wkt_Z2NnF_1H1MiW-kgUfhEomavjqAfZISP_E_fI4q8V66fZ1K_MRgYVKJ71XpF1HiHtNxTLWggUB1IFQA1oZGSBNj1GysbGSYby1Hvg_aRMJqkEIANjbDRMDE05Q4W9DwiBLv__PX16HEmYFI-SwUQvGXUOIXh2fuLMDPAvwswM8C_CzAzwL8LMDPAvwswH9zAvzdp_8DU_89Jg</script>
+</body>
+</html>
