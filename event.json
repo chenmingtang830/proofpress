@@ -2,131 +2,32 @@
  "event": "version_created",
  "artifact": "examples/verified-knowledge-ledger/demo.partner-style.html",
  "artifact_id": "pp_c5949563fc662476994db4f8",
- "version": "19d437f2",
+ "version": "ee2f6fc4",
  "parent": "e8387a21",
  "author": {
-  "name": "unknown",
-  "kind": "human",
+  "name": "Codex",
+  "kind": "agent",
   "session": null
  },
  "note": null,
- "ts": "2026-08-22T22:18:45+00:00",
+ "ts": "2026-08-22T22:28:43+00:00",
  "stats": {
-  "added": 3,
-  "removed": 12
+  "added": 1
  },
  "changes": [
   {
    "kind": "added",
-   "block": "0ff4b2b6",
+   "block": "54cf5ec6",
    "type": "para",
-   "context": "(文首)",
-   "preview": "<p class=\"side-note\"><b>FOR PEOPLE + AGENTS</b>See what was "
-  },
-  {
-   "kind": "added",
-   "block": "a493f2d1",
-   "type": "heading",
-   "context": "<h1>What can this team <span>safely carr",
-   "preview": "<h1>What can this team <span>safely carry forward?</span></h"
-  },
-  {
-   "kind": "added",
-   "block": "f440bb62",
-   "type": "para",
-   "context": "<h1>What can this team <span>safely carr",
-   "preview": "<p>A shared record for people and agents: what happened, wha"
-  },
-  {
-   "kind": "removed",
-   "block": "26127b71",
-   "type": "heading",
-   "context": "",
-   "preview": "<h1>THE EXPERIMENT RAN.<span>THE DECISION NEEDS A RECEIPT.</"
-  },
-  {
-   "kind": "removed",
-   "block": "59111a7d",
-   "type": "para",
-   "context": "",
-   "preview": "<p>Long-horizon agents generate events. Proofpress makes the"
-  },
-  {
-   "kind": "removed",
-   "block": "ad5a4616",
-   "type": "heading",
-   "context": "",
-   "preview": "<h2>What can the next agent safely inherit?</h2>"
-  },
-  {
-   "kind": "removed",
-   "block": "52ab68ed",
-   "type": "para",
-   "context": "",
-   "preview": "<p>Choose one experiment first. Open lineage only when you n"
-  },
-  {
-   "kind": "removed",
-   "block": "03df410b",
-   "type": "heading",
-   "context": "",
-   "preview": "<h3 id=\"paperTitle\">Candidate B increased conversion.</h3>"
-  },
-  {
-   "kind": "removed",
-   "block": "e165f27d",
-   "type": "para",
-   "context": "",
-   "preview": "<p id=\"paperBody\">This is the result a fresh agent may want "
-  },
-  {
-   "kind": "removed",
-   "block": "5d58db33",
-   "type": "heading",
-   "context": "",
-   "preview": "<h3 id=\"title\">Candidate B is eligible for review.</h3>"
-  },
-  {
-   "kind": "removed",
-   "block": "105f3c7c",
-   "type": "para",
-   "context": "",
-   "preview": "<p id=\"body\">Evidence is present, the experiment completed, "
-  },
-  {
-   "kind": "removed",
-   "block": "185f2164",
-   "type": "heading",
-   "context": "",
-   "preview": "<h2>The decision is a path, not a note.</h2>"
-  },
-  {
-   "kind": "removed",
-   "block": "5a61ca84",
-   "type": "para",
-   "context": "",
-   "preview": "<p>Every reusable claim keeps its source, experiment, eviden"
-  },
-  {
-   "kind": "removed",
-   "block": "c0058247",
-   "type": "heading",
-   "context": "",
-   "preview": "<h2 id=\"drawerTitle\">Candidate B · eligible for review</h2>"
-  },
-  {
-   "kind": "removed",
-   "block": "2d1205a7",
-   "type": "heading",
-   "context": "",
-   "preview": "<h3>Deterministic admission checks</h3>"
+   "context": "<h2>The decision is a path, not a note.<",
+   "preview": "<p class=\"evidence-note\">Evidence stays attached to the clai"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:03b12973320acbbac5f79938dc99a9ceb65b5795eda4ea65186d580e4827ae9d",
+ "soft_fingerprint": "ppsb1:9725a9bafb4c3fa1666eba48b6273f2a22dfaed3566fe92c992e37a06910d2e4",
  "actors": {
   "requested_by": [
-   "Richard Tang"
+   "richardtang"
   ],
   "produced_by": [
    "Codex"
@@ -141,83 +42,13 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "0ff4b2b6",
+   "block": "54cf5ec6",
    "kind": "added",
-   "note": "Introduces plain-language framing for people and agents using the same trusted graph."
-  },
-  {
-   "block": "a493f2d1",
-   "kind": "added",
-   "note": "States the explorer's core question in terms of safe continuation rather than technical workflow stages."
-  },
-  {
-   "block": "f440bb62",
-   "kind": "added",
-   "note": "Explains the graph's human-readable boundary: observed activity, evidence support, and permission to guide a next session."
-  },
-  {
-   "block": "2d1205a7",
-   "kind": "removed",
-   "note": "Replaces the fixed admission-check heading with per-node checks in the interactive detail drawer."
-  },
-  {
-   "block": "e165f27d",
-   "kind": "removed",
-   "note": "Replaces the static result narrative with graph nodes derived from the ledger fixture."
-  },
-  {
-   "block": "52ab68ed",
-   "kind": "removed",
-   "note": "Replaces the decision-surface explanation with a three-view explorer for graph, ledger, and evidence."
-  },
-  {
-   "block": "03df410b",
-   "kind": "removed",
-   "note": "Replaces the single paper-style result card with an explorable knowledge-path canvas."
-  },
-  {
-   "block": "5d58db33",
-   "kind": "removed",
-   "note": "Replaces the fixed candidate verdict with state-specific detail records for every path."
-  },
-  {
-   "block": "ad5a4616",
-   "kind": "removed",
-   "note": "Replaces the static decision-surface heading with a safe-continuation explorer headline."
-  },
-  {
-   "block": "105f3c7c",
-   "kind": "removed",
-   "note": "Replaces the fixed verdict copy with evidence, policy, and continuation explanations that change by selected node."
-  },
-  {
-   "block": "59111a7",
-   "kind": "removed",
-   "note": "Replaces the prior product copy with plain-language trusted-knowledge graph framing."
-  },
-  {
-   "block": "185f2164",
-   "kind": "removed",
-   "note": "Replaces the static decision-path heading with a zoomable graph as the primary exploration surface."
-  },
-  {
-   "block": "26127b71",
-   "kind": "removed",
-   "note": "Replaces the prior campaign headline with the new safe-continuation question."
-  },
-  {
-   "block": "c0058247",
-   "kind": "removed",
-   "note": "Replaces the fixed drawer title with the selected activity, experiment, claim, or governed-knowledge record."
-  },
-  {
-   "block": "5a61ca84",
-   "kind": "removed",
-   "note": "Replaces the fixed lineage description with explicit Graph, Ledger, and Evidence views."
+   "note": "Adds a local Graph, Ledger, and Evidence explorer for the existing three experiment paths, including pan, zoom, and the existing receipt drawer."
   }
  ],
  "context": {
-  "why": "Replaces the static partner-style preview with a data-derived Trusted Knowledge Graph whose Graph, Ledger, and Evidence views let people and agents inspect what may safely carry into a fresh session."
+  "why": "Keep the original decision-surface demo and add a contained, explorable lineage and evidence view requested for the hackathon preview."
  },
- "event_id": "ppe_8d95c699fb6777463fb7bb8f"
+ "event_id": "ppe_d71c2b85f6306ae187e7929d"
 }

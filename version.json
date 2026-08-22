@@ -3,22 +3,82 @@
  "artifact_id": "pp_c5949563fc662476994db4f8",
  "blocks": [
   {
+   "type": "heading",
+   "text": "<h1>THE EXPERIMENT RAN.<span>THE DECISION NEEDS A RECEIPT.</span></h1>",
+   "id": "26127b71",
+   "hash": "55f35c00a643"
+  },
+  {
    "type": "para",
-   "text": "<p class=\"side-note\"><b>FOR PEOPLE + AGENTS</b>See what was observed, what was reviewed, and what a fresh session can safely continue from.</p>",
-   "id": "0ff4b2b6",
-   "hash": "35e3bf45327a"
+   "text": "<p>Long-horizon agents generate events. Proofpress makes the useful conclusion <strong>scoped, reviewable, and safe for a fresh session to inherit.</strong></p>",
+   "id": "59111a7d",
+   "hash": "46a3ca9eaefe"
   },
   {
    "type": "heading",
-   "text": "<h1>What can this team <span>safely carry forward?</span></h1>",
-   "id": "a493f2d1",
-   "hash": "1c31e4cb3377"
+   "text": "<h2>What can the next agent safely inherit?</h2>",
+   "id": "ad5a4616",
+   "hash": "7bf7a25fb307"
   },
   {
    "type": "para",
-   "text": "<p>A shared record for people and agents: what happened, what the evidence supports, and what has earned permission to guide the next session.</p>",
-   "id": "f440bb62",
-   "hash": "b0bdfb7e4e44"
+   "text": "<p>Choose one experiment first. Open lineage only when you need to inspect how the decision was made.</p>",
+   "id": "52ab68ed",
+   "hash": "9bd4c357bc7e"
+  },
+  {
+   "type": "heading",
+   "text": "<h3 id=\"paperTitle\">Candidate B increased conversion.</h3>",
+   "id": "03df410b",
+   "hash": "b03b4c251ede"
+  },
+  {
+   "type": "para",
+   "text": "<p id=\"paperBody\">This is the result a fresh agent may want to reuse. The ledger keeps it attached to its measured run and review state.</p>",
+   "id": "e165f27d",
+   "hash": "349ef2d7bb83"
+  },
+  {
+   "type": "heading",
+   "text": "<h3 id=\"title\">Candidate B is eligible for review.</h3>",
+   "id": "5d58db33",
+   "hash": "2196970f1337"
+  },
+  {
+   "type": "para",
+   "text": "<p id=\"body\">Evidence is present, the experiment completed, and the metric is measured. A human or policy reviewer still decides whether this belongs in shared knowledge.</p>",
+   "id": "105f3c7c",
+   "hash": "ce338dcfd6c9"
+  },
+  {
+   "type": "heading",
+   "text": "<h2>The decision is a path, not a note.</h2>",
+   "id": "185f2164",
+   "hash": "5dbde752a997"
+  },
+  {
+   "type": "para",
+   "text": "<p>Every reusable claim keeps its source, experiment, evidence status, review state, and the prior knowledge it builds on.</p>",
+   "id": "5a61ca84",
+   "hash": "3d53f06b602b"
+  },
+  {
+   "type": "para",
+   "text": "<p class=\"evidence-note\">Evidence stays attached to the claim it supports, so the next person or agent can inspect the boundary instead of trusting a summary.</p>",
+   "id": "54cf5ec6",
+   "hash": "8499aa62ce63"
+  },
+  {
+   "type": "heading",
+   "text": "<h2 id=\"drawerTitle\">Candidate B · eligible for review</h2>",
+   "id": "c0058247",
+   "hash": "63ae8506c20f"
+  },
+  {
+   "type": "heading",
+   "text": "<h3>Deterministic admission checks</h3>",
+   "id": "2d1205a7",
+   "hash": "0db8554af39d"
   }
  ]
 }
