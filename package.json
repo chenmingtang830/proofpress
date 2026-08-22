@@ -12,6 +12,7 @@
     "lib/",
     "skills/",
     "proofpress.py",
+    "proofpress_knowledge.py",
     "proofpress_evidence.py",
     "README.md"
   ],
