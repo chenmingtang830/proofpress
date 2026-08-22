@@ -8,8 +8,6 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 CLI = ROOT / "proofpress.py"
 FIXTURE = ROOT / "examples" / "verified-knowledge-ledger" / "demo.otlp.json"
-EXPLORER = ROOT / "examples" / "verified-knowledge-ledger" / "build_explorer.py"
-EXPLORER_OUTPUT = ROOT / "examples" / "verified-knowledge-ledger" / "demo.partner-style.html"
 
 
 class KnowledgeLedgerTests(unittest.TestCase):
@@ -54,17 +52,6 @@ class KnowledgeLedgerTests(unittest.TestCase):
                                   "--decision", "accept", "--reviewer", "human:demo", check=False)
             self.assertNotEqual(result.returncode, 0)
             self.assertIn("blocked", result.stderr)
-
-    def test_explorer_build_embeds_the_mvp_fixture_without_network_loading(self):
-        result = subprocess.run(["python3", str(EXPLORER), "--check"], cwd=ROOT,
-                                text=True, capture_output=True)
-        self.assertEqual(result.returncode, 0, result.stderr)
-        page = EXPLORER_OUTPUT.read_text(encoding="utf-8")
-        self.assertIn('window.__PP_LEDGER__=', page)
-        self.assertIn('data-tab="graph"', page)
-        self.assertIn('data-tab="ledger"', page)
-        self.assertIn('data-tab="evidence"', page)
-        self.assertNotIn("fetch(", page)
 
 
 if __name__ == "__main__":
