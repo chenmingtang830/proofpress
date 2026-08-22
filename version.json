@@ -3,142 +3,142 @@
  "artifact_id": "pp_40ef1554e4b2258141ab1824",
  "blocks": [
   {
-   "hash": "dddfc8d9222b",
+   "type": "heading",
+   "text": "<h1>Make the next session inherit reviewed decisions, not just traces.</h1>",
    "id": "01a812de",
-   "text": "<h1>Make the next session inherit decisions, not just traces.</h1>",
-   "type": "heading"
+   "hash": "64a6dd77313f"
   },
   {
-   "hash": "299c2c211ee0",
-   "id": "42f4b1e5",
+   "type": "para",
    "text": "<p class=\"lede\">A long-horizon agent can generate thousands of events. Proofpress turns the useful subset into <strong>scoped, reviewable knowledge</strong> that a fresh agent can safely pick up.</p>",
-   "type": "para"
+   "id": "42f4b1e5",
+   "hash": "299c2c211ee0"
   },
   {
-   "hash": "f01e906960c9",
-   "id": "e74d13e2",
+   "type": "heading",
    "text": "<h3>Trace events</h3>",
-   "type": "heading"
+   "id": "e74d13e2",
+   "hash": "f01e906960c9"
   },
   {
-   "hash": "239ae18dbf93",
-   "id": "e9fc2dbb",
+   "type": "para",
    "text": "<p>trace-001 · span-001</p>",
-   "type": "para"
+   "id": "e9fc2dbb",
+   "hash": "239ae18dbf93"
   },
   {
-   "hash": "8ee55378cc68",
-   "id": "72307dcb",
+   "type": "para",
    "text": "<p>trace-002 · span-002</p>",
-   "type": "para"
+   "id": "72307dcb",
+   "hash": "8ee55378cc68"
   },
   {
-   "hash": "f33b1266f856",
-   "id": "e232f039",
+   "type": "para",
    "text": "<p>trace-003 · retry_exhausted</p>",
-   "type": "para"
+   "id": "e232f039",
+   "hash": "f33b1266f856"
   },
   {
-   "hash": "4cb1ed2a8780",
-   "id": "3040838a",
+   "type": "heading",
    "text": "<h3>Experiments</h3>",
-   "type": "heading"
+   "id": "3040838a",
+   "hash": "4cb1ed2a8780"
   },
   {
-   "hash": "63f83fc5c099",
+   "type": "para",
+   "text": "<p>measured outcome</p>",
    "id": "d4feeb66",
-   "text": "<p>measured outcome</p>",
-   "type": "para"
+   "hash": "63f83fc5c099"
   },
   {
-   "hash": "63f83fc5c099",
+   "type": "para",
+   "text": "<p>measured outcome</p>",
    "id": "cb3fe077",
-   "text": "<p>measured outcome</p>",
-   "type": "para"
+   "hash": "63f83fc5c099"
   },
   {
-   "hash": "dfdb423e8304",
-   "id": "02b7b4e0",
+   "type": "para",
    "text": "<p>timeout</p>",
-   "type": "para"
+   "id": "02b7b4e0",
+   "hash": "dfdb423e8304"
   },
   {
-   "hash": "77c544dee96c",
-   "id": "83cf1e3b",
+   "type": "heading",
    "text": "<h3>Candidate claims</h3>",
-   "type": "heading"
+   "id": "83cf1e3b",
+   "hash": "77c544dee96c"
   },
   {
-   "hash": "151b5586d612",
+   "type": "para",
+   "text": "<p>1 source ref · metric present</p>",
    "id": "03e89e79",
-   "text": "<p>1 source ref · metric present</p>",
-   "type": "para"
+   "hash": "151b5586d612"
   },
   {
-   "hash": "151b5586d612",
+   "type": "para",
+   "text": "<p>1 source ref · metric present</p>",
    "id": "005ddbd1",
-   "text": "<p>1 source ref · metric present</p>",
-   "type": "para"
+   "hash": "151b5586d612"
   },
   {
-   "hash": "1d8ad0171b54",
-   "id": "ba746120",
+   "type": "para",
    "text": "<p>source is an error span</p>",
-   "type": "para"
+   "id": "ba746120",
+   "hash": "1d8ad0171b54"
   },
   {
-   "hash": "9341b92bfafb",
-   "id": "1cb69f29",
+   "type": "heading",
    "text": "<h3>Admission</h3>",
-   "type": "heading"
+   "id": "1cb69f29",
+   "hash": "9341b92bfafb"
   },
   {
-   "hash": "07c02f6ea350",
-   "id": "110cf0ef",
+   "type": "para",
    "text": "<p>reviewed by human:demo</p>",
-   "type": "para"
+   "id": "110cf0ef",
+   "hash": "07c02f6ea350"
   },
   {
-   "hash": "e12feeef575e",
-   "id": "66b6123e",
+   "type": "para",
    "text": "<p>eligible, not yet accepted</p>",
-   "type": "para"
+   "id": "66b6123e",
+   "hash": "e12feeef575e"
   },
   {
-   "hash": "950b52093100",
-   "id": "a46950eb",
+   "type": "para",
    "text": "<p>experiment failed</p>",
-   "type": "para"
+   "id": "a46950eb",
+   "hash": "950b52093100"
   },
   {
-   "hash": "96c766abdf66",
-   "id": "3bfa1040",
+   "type": "heading",
    "text": "<h2 id=\"detailTitle\">baseline produced 12%</h2>",
-   "type": "heading"
+   "id": "3bfa1040",
+   "hash": "96c766abdf66"
   },
   {
-   "hash": "9ff162fb6259",
-   "id": "c4c8fb24",
+   "type": "para",
    "text": "<p id=\"detailStatement\">Variant baseline produced a conversion rate of 0.1200 in experiment exp-001.</p>",
-   "type": "para"
+   "id": "c4c8fb24",
+   "hash": "9ff162fb6259"
   },
   {
-   "hash": "71357e89da1c",
-   "id": "0519651c",
+   "type": "para",
    "text": "<p id=\"detailGate\">Source evidence ✓ · experiment complete ✓ · metric ✓ · no error ✓</p>",
-   "type": "para"
+   "id": "0519651c",
+   "hash": "71357e89da1c"
   },
   {
-   "hash": "3543e2507a4e",
-   "id": "44ca7280",
+   "type": "heading",
    "text": "<h2>What a fresh agent receives</h2>",
-   "type": "heading"
+   "id": "44ca7280",
+   "hash": "3543e2507a4e"
   },
   {
-   "hash": "76d3533b77b1",
-   "id": "2580a249",
+   "type": "para",
    "text": "<p>This view contains admitted knowledge only. Open or blocked claims remain visible as work to review, but are not silently promoted into the next session.</p>",
-   "type": "para"
+   "id": "2580a249",
+   "hash": "76d3533b77b1"
   }
  ]
 }

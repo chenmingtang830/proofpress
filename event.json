@@ -1,193 +1,163 @@
 {
- "actors": {
-  "recorded_by": [
-   "unknown"
-  ]
- },
+ "event": "version_created",
  "artifact": "examples/verified-knowledge-ledger/demo.html",
  "artifact_id": "pp_40ef1554e4b2258141ab1824",
- "attribution_basis": "self_asserted",
+ "version": "d280bb0b",
+ "parent": "cdb56dec",
  "author": {
-  "kind": "system",
-  "name": "unknown",
+  "name": "codex",
+  "kind": "agent",
   "session": null
+ },
+ "note": null,
+ "ts": "2026-08-22T20:40:28+00:00",
+ "stats": {
+  "modified": 1
  },
  "changes": [
   {
+   "kind": "modified",
    "block": "01a812de",
-   "context": "<h1>Make the next session inherit decisi",
-   "kind": "added",
-   "preview": "<h1>Make the next session inherit decisions, not just traces",
-   "type": "heading"
+   "type": "heading",
+   "context": "<h1>Make the next session inherit review"
+  }
+ ],
+ "policy": "portable",
+ "soft_fingerprint": "ppsb1:d96f91f617352c07ca86e4ac1596d58fa94c55d08304f2751b7c152b43751d4f",
+ "actors": {
+  "requested_by": [
+   "user"
+  ],
+  "produced_by": [
+   "codex"
+  ],
+  "edited_by": [
+   "codex"
+  ],
+  "recorded_by": [
+   "codex"
+  ]
+ },
+ "attribution_basis": "self_asserted",
+ "claims": [
+  {
+   "block": "01a812de",
+   "kind": "modified",
+   "note": "Sharpens the shareable MVP headline around reviewed decisions."
   },
   {
    "block": "42f4b1e5",
-   "context": "<h1>Make the next session inherit decisi",
    "kind": "added",
-   "preview": "<p class=\"lede\">A long-horizon agent can generate thousands ",
-   "type": "para"
+   "note": "Explains the trace-to-knowledge product promise."
   },
   {
    "block": "e74d13e2",
-   "context": "<h3>Trace events</h3>",
    "kind": "added",
-   "preview": "<h3>Trace events</h3>",
-   "type": "heading"
+   "note": "Labels the trace-event graph layer."
   },
   {
    "block": "e9fc2dbb",
-   "context": "<h3>Trace events</h3>",
    "kind": "added",
-   "preview": "<p>trace-001 · span-001</p>",
-   "type": "para"
+   "note": "Shows the first source trace."
   },
   {
    "block": "72307dcb",
-   "context": "<h3>Trace events</h3>",
    "kind": "added",
-   "preview": "<p>trace-002 · span-002</p>",
-   "type": "para"
+   "note": "Shows the second source trace."
   },
   {
    "block": "e232f039",
-   "context": "<h3>Trace events</h3>",
    "kind": "added",
-   "preview": "<p>trace-003 · retry_exhausted</p>",
-   "type": "para"
+   "note": "Shows the failed source trace and retry exhaustion."
   },
   {
    "block": "3040838a",
-   "context": "<h3>Experiments</h3>",
    "kind": "added",
-   "preview": "<h3>Experiments</h3>",
-   "type": "heading"
+   "note": "Labels the experiment graph layer."
   },
   {
    "block": "d4feeb66",
-   "context": "<h3>Experiments</h3>",
    "kind": "added",
-   "preview": "<p>measured outcome</p>",
-   "type": "para"
+   "note": "Shows a measured baseline outcome."
   },
   {
    "block": "cb3fe077",
-   "context": "<h3>Experiments</h3>",
    "kind": "added",
-   "preview": "<p>measured outcome</p>",
-   "type": "para"
+   "note": "Shows a measured candidate outcome."
   },
   {
    "block": "02b7b4e0",
-   "context": "<h3>Experiments</h3>",
    "kind": "added",
-   "preview": "<p>timeout</p>",
-   "type": "para"
+   "note": "Shows the unresolved candidate outcome."
   },
   {
    "block": "83cf1e3b",
-   "context": "<h3>Candidate claims</h3>",
    "kind": "added",
-   "preview": "<h3>Candidate claims</h3>",
-   "type": "heading"
+   "note": "Labels the candidate-claim graph layer."
   },
   {
    "block": "03e89e79",
-   "context": "<h3>Candidate claims</h3>",
    "kind": "added",
-   "preview": "<p>1 source ref · metric present</p>",
-   "type": "para"
+   "note": "Binds the baseline claim to source evidence."
   },
   {
    "block": "005ddbd1",
-   "context": "<h3>Candidate claims</h3>",
    "kind": "added",
-   "preview": "<p>1 source ref · metric present</p>",
-   "type": "para"
+   "note": "Binds the candidate claim to source evidence."
   },
   {
    "block": "ba746120",
-   "context": "<h3>Candidate claims</h3>",
    "kind": "added",
-   "preview": "<p>source is an error span</p>",
-   "type": "para"
+   "note": "Marks the blocked claim's error evidence."
   },
   {
    "block": "1cb69f29",
-   "context": "<h3>Admission</h3>",
    "kind": "added",
-   "preview": "<h3>Admission</h3>",
-   "type": "heading"
+   "note": "Labels the admission graph layer."
   },
   {
    "block": "110cf0ef",
-   "context": "<h3>Admission</h3>",
    "kind": "added",
-   "preview": "<p>reviewed by human:demo</p>",
-   "type": "para"
+   "note": "Shows the human review actor for admitted knowledge."
   },
   {
    "block": "66b6123e",
-   "context": "<h3>Admission</h3>",
    "kind": "added",
-   "preview": "<p>eligible, not yet accepted</p>",
-   "type": "para"
+   "note": "Shows a claim awaiting review."
   },
   {
    "block": "a46950eb",
-   "context": "<h3>Admission</h3>",
    "kind": "added",
-   "preview": "<p>experiment failed</p>",
-   "type": "para"
+   "note": "Shows the policy-blocked admission outcome."
   },
   {
    "block": "3bfa1040",
-   "context": "<h2 id=\"detailTitle\">baseline produced 1",
    "kind": "added",
-   "preview": "<h2 id=\"detailTitle\">baseline produced 12%</h2>",
-   "type": "heading"
+   "note": "Shows the selected claim detail."
   },
   {
    "block": "c4c8fb24",
-   "context": "<h2 id=\"detailTitle\">baseline produced 1",
    "kind": "added",
-   "preview": "<p id=\"detailStatement\">Variant baseline produced a conversi",
-   "type": "para"
+   "note": "Shows the claim statement and scope."
   },
   {
    "block": "0519651c",
-   "context": "<h2 id=\"detailTitle\">baseline produced 1",
    "kind": "added",
-   "preview": "<p id=\"detailGate\">Source evidence ✓ · experiment complete ✓",
-   "type": "para"
+   "note": "Shows deterministic admission checks."
   },
   {
    "block": "44ca7280",
-   "context": "<h2>What a fresh agent receives</h2>",
    "kind": "added",
-   "preview": "<h2>What a fresh agent receives</h2>",
-   "type": "heading"
+   "note": "Introduces the fresh-agent context view."
   },
   {
    "block": "2580a249",
-   "context": "<h2>What a fresh agent receives</h2>",
    "kind": "added",
-   "preview": "<p>This view contains admitted knowledge only. Open or block",
-   "type": "para"
+   "note": "States that only admitted knowledge crosses the continuation boundary."
   }
  ],
- "event": "version_created",
- "event_id": "ppe_3d0b23da693fa02d6b4654d5",
- "note": "portable lineage checkpoint",
- "parent": null,
- "parents": [],
- "policy": "portable",
- "portable_checkpoint": true,
- "portable_lineage_id": "ppl_cf3a9713efa2d7e23d132be6",
- "soft_fingerprint": "ppsb1:107d8499755daf946adc291a78b3f6903a53cf812c245aaa0b2bbddce5210727",
- "stats": {
-  "added": 23
+ "context": {
+  "why": "refined the partner-facing headline to make review gate explicit"
  },
- "ts": "2026-08-22T20:39:20+00:00",
- "version": "cdb56dec",
- "imported_from_capsule": true
+ "event_id": "ppe_de353312f2760d1bcb2a2ebd"
 }
