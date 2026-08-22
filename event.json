@@ -1,508 +1,54 @@
 {
- "actors": {
-  "recorded_by": [
-   "unknown"
-  ]
- },
+ "event": "version_created",
  "artifact": "planning/2026-08-22-hackathon-presentation-layer.md",
  "artifact_id": "pp_ffd63e1c02900570cefc606c",
- "attribution_basis": "self_asserted",
+ "version": "110c3bf2",
+ "parent": "6c83e366",
  "author": {
-  "kind": "system",
   "name": "unknown",
+  "kind": "human",
   "session": null
+ },
+ "note": null,
+ "ts": "2026-08-22T23:48:56+00:00",
+ "stats": {
+  "added": 1
  },
  "changes": [
   {
-   "block": "20c1dba7",
+   "kind": "added",
+   "block": "e13b8e72",
+   "type": "para",
    "context": "Hackathon presentation layer — narrative",
-   "kind": "added",
-   "preview": "# Hackathon presentation layer — narrative product demo",
-   "type": "heading"
-  },
-  {
-   "block": "788e6d89",
-   "context": "Decision",
-   "kind": "added",
-   "preview": "## Decision",
-   "type": "heading"
-  },
-  {
-   "block": "530af484",
-   "context": "Decision",
-   "kind": "added",
-   "preview": "Build a guided, real product demo—not a separate slide deck.",
-   "type": "para"
-  },
-  {
-   "block": "a6fbf8db",
-   "context": "Decision",
-   "kind": "added",
-   "preview": "The existing verified-knowledge-ledger demo remains the prod",
-   "type": "para"
-  },
-  {
-   "block": "9d649ec7",
-   "context": "Decision",
-   "kind": "added",
-   "preview": "This avoids maintaining two divergent artifacts and makes th",
-   "type": "para"
-  },
-  {
-   "block": "82424ac8",
-   "context": "Product sentence",
-   "kind": "added",
-   "preview": "## Product sentence",
-   "type": "heading"
-  },
-  {
-   "block": "234ae578",
-   "context": "Product sentence",
-   "kind": "added",
-   "preview": "Proofpress is verified knowledge infrastructure for autonomo",
-   "type": "para"
-  },
-  {
-   "block": "c70c3949",
-   "context": "Product sentence",
-   "kind": "added",
-   "preview": "**Cumulative knowledge humans and agents can verify, govern,",
-   "type": "para"
-  },
-  {
-   "block": "a210d415",
-   "context": "Audience question",
-   "kind": "added",
-   "preview": "## Audience question",
-   "type": "heading"
-  },
-  {
-   "block": "b9ba5238",
-   "context": "Audience question",
-   "kind": "added",
-   "preview": "A long-horizon agent finishes a task with an artifact, multi",
-   "type": "para"
-  },
-  {
-   "block": "3ffb28dc",
-   "context": "Audience question",
-   "kind": "added",
-   "preview": "> Which conclusions can I safely build on?",
-   "type": "para"
-  },
-  {
-   "block": "21a66f6d",
-   "context": "Audience question",
-   "kind": "added",
-   "preview": "The demo must answer this question before teaching the audie",
-   "type": "para"
-  },
-  {
-   "block": "7bf705f0",
-   "context": "Narrative structure",
-   "kind": "added",
-   "preview": "## Narrative structure",
-   "type": "heading"
-  },
-  {
-   "block": "0cd1ec09",
-   "context": "1. Cold open — the handoff",
-   "kind": "added",
-   "preview": "### 1. Cold open — the handoff",
-   "type": "heading"
-  },
-  {
-   "block": "ac0553a6",
-   "context": "1. Cold open — the handoff",
-   "kind": "added",
-   "preview": "Show one completed artifact and a concise handoff state. Sta",
-   "type": "para"
-  },
-  {
-   "block": "43427c4d",
-   "context": "1. Cold open — the handoff",
-   "kind": "added",
-   "preview": "Hero line:",
-   "type": "para"
-  },
-  {
-   "block": "37d07198",
-   "context": "1. Cold open — the handoff",
-   "kind": "added",
-   "preview": "> 100 traces produced one artifact and three claims. Only on",
-   "type": "para"
-  },
-  {
-   "block": "946a0d38",
-   "context": "1. Cold open — the handoff",
-   "kind": "added",
-   "preview": "Do not open with graph terminology, hashes, node counts, or ",
-   "type": "para"
-  },
-  {
-   "block": "e7c318b1",
-   "context": "2. The missing layer",
-   "kind": "added",
-   "preview": "### 2. The missing layer",
-   "type": "heading"
-  },
-  {
-   "block": "e8da70eb",
-   "context": "2. The missing layer",
-   "kind": "added",
-   "preview": "Show the stack as a dependency, not three peer categories:",
-   "type": "para"
-  },
-  {
-   "block": "305ab25f",
-   "context": "2. The missing layer",
-   "kind": "added",
-   "preview": "1. Observability captures activity: logs, commits, tool call",
-   "type": "list"
-  },
-  {
-   "block": "3fca7b53",
-   "context": "2. The missing layer",
-   "kind": "added",
-   "preview": "The short spoken version is:",
-   "type": "para"
-  },
-  {
-   "block": "4d2280d2",
-   "context": "2. The missing layer",
-   "kind": "added",
-   "preview": "> Observability tells us what happened. Memory and ontology ",
-   "type": "para"
-  },
-  {
-   "block": "1ae5eeb7",
-   "context": "3. From activity to knowledge",
-   "kind": "added",
-   "preview": "### 3. From activity to knowledge",
-   "type": "heading"
-  },
-  {
-   "block": "76366fe9",
-   "context": "3. From activity to knowledge",
-   "kind": "added",
-   "preview": "Reveal three candidate claims in plain language:",
-   "type": "para"
-  },
-  {
-   "block": "c9eed237",
-   "context": "3. From activity to knowledge",
-   "kind": "added",
-   "preview": "- one current and admitted;\n- one unresolved and awaiting re",
-   "type": "list"
-  },
-  {
-   "block": "57008899",
-   "context": "3. From activity to knowledge",
-   "kind": "added",
-   "preview": "The audience should understand these states before seeing th",
-   "type": "para"
-  },
-  {
-   "block": "2f49b287",
-   "context": "4. Real product interaction",
-   "kind": "added",
-   "preview": "### 4. Real product interaction",
-   "type": "heading"
-  },
-  {
-   "block": "79acad14",
-   "context": "4. Real product interaction",
-   "kind": "added",
-   "preview": "Use the existing workbench and its real ledger-backed read m",
-   "type": "para"
-  },
-  {
-   "block": "2e2f68b5",
-   "context": "4. Real product interaction",
-   "kind": "added",
-   "preview": "- select a candidate;\n- inspect its artifact consequence;\n- ",
-   "type": "list"
-  },
-  {
-   "block": "41a25b90",
-   "context": "4. Real product interaction",
-   "kind": "added",
-   "preview": "This is the center of the presentation. It must remain usabl",
-   "type": "para"
-  },
-  {
-   "block": "d3e70d2e",
-   "context": "5. Trusted continuation",
-   "kind": "added",
-   "preview": "### 5. Trusted continuation",
-   "type": "heading"
-  },
-  {
-   "block": "59aade6f",
-   "context": "5. Trusted continuation",
-   "kind": "added",
-   "preview": "Show the fresh-agent context before and after admission. The",
-   "type": "para"
-  },
-  {
-   "block": "7d479e24",
-   "context": "5. Trusted continuation",
-   "kind": "added",
-   "preview": "The audience should see both outcomes:",
-   "type": "para"
-  },
-  {
-   "block": "61453f8f",
-   "context": "5. Trusted continuation",
-   "kind": "added",
-   "preview": "- the ledger preserves the complete history;\n- the fresh age",
-   "type": "list"
-  },
-  {
-   "block": "e7fbf9f9",
-   "context": "6. Ledger versus graph lifecycle",
-   "kind": "added",
-   "preview": "### 6. Ledger versus graph lifecycle",
-   "type": "heading"
-  },
-  {
-   "block": "28a20ff0",
-   "context": "6. Ledger versus graph lifecycle",
-   "kind": "added",
-   "preview": "Make the pruning boundary explicit:",
-   "type": "para"
-  },
-  {
-   "block": "3f099f98",
-   "context": "6. Ledger versus graph lifecycle",
-   "kind": "added",
-   "preview": "- the ledger is append-only for consequential knowledge and ",
-   "type": "list"
-  },
-  {
-   "block": "15c1e725",
-   "context": "6. Ledger versus graph lifecycle",
-   "kind": "added",
-   "preview": "Append-only must never be presented as an infinitely noisy h",
-   "type": "para"
-  },
-  {
-   "block": "5621c4a3",
-   "context": "7. Where it applies",
-   "kind": "added",
-   "preview": "### 7. Where it applies",
-   "type": "heading"
-  },
-  {
-   "block": "29d707ef",
-   "context": "7. Where it applies",
-   "kind": "added",
-   "preview": "Present three flagship verticals:",
-   "type": "para"
-  },
-  {
-   "block": "f3135bb2",
-   "context": "7. Where it applies",
-   "kind": "added",
-   "preview": "1. **Harvey / legal work:** a governed knowledge graph plus ",
-   "type": "list"
-  },
-  {
-   "block": "e73d2723",
-   "context": "7. Where it applies",
-   "kind": "added",
-   "preview": "Then present the current website experiment as the collabora",
-   "type": "para"
-  },
-  {
-   "block": "1c05f044",
-   "context": "7. Where it applies",
-   "kind": "added",
-   "preview": "> A Coframe or growth-experiment team supplies OTLP traces; ",
-   "type": "para"
-  },
-  {
-   "block": "a454d673",
-   "context": "7. Where it applies",
-   "kind": "added",
-   "preview": "This fixture demonstrates integration and design-partner mot",
-   "type": "para"
-  },
-  {
-   "block": "5baa8eaa",
-   "context": "8. Close",
-   "kind": "added",
-   "preview": "### 8. Close",
-   "type": "heading"
-  },
-  {
-   "block": "f80fa860",
-   "context": "8. Close",
-   "kind": "added",
-   "preview": "> We don't just need smarter agents. We need cumulative know",
-   "type": "para"
-  },
-  {
-   "block": "3f93e8de",
-   "context": "Interaction architecture",
-   "kind": "added",
-   "preview": "## Interaction architecture",
-   "type": "heading"
-  },
-  {
-   "block": "e2b84362",
-   "context": "Interaction architecture",
-   "kind": "added",
-   "preview": "Add presentation mode as a progressive enhancement to the ex",
-   "type": "para"
-  },
-  {
-   "block": "91879a6f",
-   "context": "Interaction architecture",
-   "kind": "added",
-   "preview": "- a small **Guided demo** control starts the narrative;\n- ea",
-   "type": "list"
-  },
-  {
-   "block": "04f70fd4",
-   "context": "Interaction architecture",
-   "kind": "added",
-   "preview": "Do not convert the entire page into full-screen slides. The ",
-   "type": "para"
-  },
-  {
-   "block": "c5872ea6",
-   "context": "Data and evidence contract",
-   "kind": "added",
-   "preview": "## Data and evidence contract",
-   "type": "heading"
-  },
-  {
-   "block": "5004ef0a",
-   "context": "Data and evidence contract",
-   "kind": "added",
-   "preview": "The presentation layer is a client of the ledger, never a se",
-   "type": "para"
-  },
-  {
-   "block": "9ca9737d",
-   "context": "Data and evidence contract",
-   "kind": "added",
-   "preview": "- Continue loading `demo.ledger-view.json` for nodes, edges,",
-   "type": "list"
-  },
-  {
-   "block": "43062757",
-   "context": "Implementation sequence",
-   "kind": "added",
-   "preview": "## Implementation sequence",
-   "type": "heading"
-  },
-  {
-   "block": "372f417d",
-   "context": "P0 — narrative shell",
-   "kind": "added",
-   "preview": "### P0 — narrative shell",
-   "type": "heading"
-  },
-  {
-   "block": "be5ab015",
-   "context": "P0 — narrative shell",
-   "kind": "added",
-   "preview": "- Add the tagline and handoff question above the current dem",
-   "type": "list"
-  },
-  {
-   "block": "43cb1ee8",
-   "context": "P1 — continuation proof",
-   "kind": "added",
-   "preview": "### P1 — continuation proof",
-   "type": "heading"
-  },
-  {
-   "block": "3e31c02f",
-   "context": "P1 — continuation proof",
-   "kind": "added",
-   "preview": "- Bind the pre/post fresh-agent context panel to the ledger ",
-   "type": "list"
-  },
-  {
-   "block": "b6ca9525",
-   "context": "P2 — vertical fixture packs",
-   "kind": "added",
-   "preview": "### P2 — vertical fixture packs",
-   "type": "heading"
-  },
-  {
-   "block": "d8c7277f",
-   "context": "P2 — vertical fixture packs",
-   "kind": "added",
-   "preview": "- Harvey: import only real benchmark evidence and label unre",
-   "type": "list"
-  },
-  {
-   "block": "3144a33d",
-   "context": "P2 — vertical fixture packs",
-   "kind": "added",
-   "preview": "P2 is not required for the first guided-demo PR to be useful",
-   "type": "para"
-  },
-  {
-   "block": "24a9c758",
-   "context": "Acceptance criteria",
-   "kind": "added",
-   "preview": "## Acceptance criteria",
-   "type": "heading"
-  },
-  {
-   "block": "4ab84b40",
-   "context": "Acceptance criteria",
-   "kind": "added",
-   "preview": "- A first-time viewer can state the problem and product cate",
-   "type": "list"
-  },
-  {
-   "block": "e5df1989",
-   "context": "Explicit non-goals",
-   "kind": "added",
-   "preview": "## Explicit non-goals",
-   "type": "heading"
-  },
-  {
-   "block": "398cdf34",
-   "context": "Explicit non-goals",
-   "kind": "added",
-   "preview": "- A standalone pitch deck with screenshots of a separate dem",
-   "type": "list"
-  },
-  {
-   "block": "39046702",
-   "context": "Review decision for the first HTML draft",
-   "kind": "added",
-   "preview": "## Review decision for the first HTML draft",
-   "type": "heading"
-  },
-  {
-   "block": "97d99a9c",
-   "context": "Review decision for the first HTML draft",
-   "kind": "added",
-   "preview": "Use **Pro mode** unless the team explicitly chooses a keynot",
-   "type": "para"
+   "preview": "**Status:** Draft implementation plan for the presentation-l"
   }
  ],
- "event": "version_created",
- "event_id": "ppe_81617b6b4b63d9d750dc9a9d",
- "note": "portable lineage checkpoint",
- "parent": null,
- "parents": [],
  "policy": "portable",
- "portable_checkpoint": true,
- "portable_lineage_id": "ppl_14e9b6764c9b4e949da5f745",
- "soft_fingerprint": "ppsb1:85de1671dd81ef695593408461bd70d425dd6f253c8f458bb74f543f9d7c5c46",
- "stats": {
-  "added": 68
+ "soft_fingerprint": "ppsb1:484fbed0e6fbba4c1da9eee8c76779ee4f4613af942c901a9e653c59f8605445",
+ "actors": {
+  "requested_by": [
+   "user:richardtang"
+  ],
+  "produced_by": [
+   "agent:codex"
+  ],
+  "edited_by": [
+   "agent:codex"
+  ],
+  "recorded_by": [
+   "agent:codex"
+  ]
  },
- "ts": "2026-08-22T23:47:09+00:00",
- "version": "6c83e366",
- "imported_from_capsule": true
+ "attribution_basis": "self_asserted",
+ "claims": [
+  {
+   "block": "e13b8e72",
+   "kind": "added",
+   "note": "Added the explicit draft status for the presentation-layer implementation plan."
+  }
+ ],
+ "context": {
+  "why": "Mark the presentation-layer plan as the draft implementation contract for the new PR."
+ },
+ "event_id": "ppe_e172e6c1a0cab781f2721f4e"
 }

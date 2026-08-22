@@ -3,412 +3,418 @@
  "artifact_id": "pp_ffd63e1c02900570cefc606c",
  "blocks": [
   {
-   "hash": "4c564eaabb31",
-   "id": "20c1dba7",
+   "type": "heading",
    "text": "# Hackathon presentation layer — narrative product demo",
-   "type": "heading"
+   "id": "20c1dba7",
+   "hash": "4c564eaabb31"
   },
   {
-   "hash": "e6ce75215fb1",
-   "id": "788e6d89",
+   "type": "para",
+   "text": "**Status:** Draft implementation plan for the presentation-layer PR.",
+   "id": "e13b8e72",
+   "hash": "0eca1690ab5b"
+  },
+  {
+   "type": "heading",
    "text": "## Decision",
-   "type": "heading"
+   "id": "788e6d89",
+   "hash": "e6ce75215fb1"
   },
   {
-   "hash": "71fa505af5da",
-   "id": "530af484",
+   "type": "para",
    "text": "Build a guided, real product demo—not a separate slide deck.",
-   "type": "para"
+   "id": "530af484",
+   "hash": "71fa505af5da"
   },
   {
-   "hash": "9c72fc06e9f6",
-   "id": "a6fbf8db",
+   "type": "para",
    "text": "The existing verified-knowledge-ledger demo remains the product surface and\ncontinues to consume the backend ledger view. A lightweight presentation mode\nadds a six-to-eight-minute narrative path through that surface. The presenter\ncan follow the path on stage; a design partner can ignore it and explore the\nsame controls, graph, ledger, evidence, and receipts directly.",
-   "type": "para"
+   "id": "a6fbf8db",
+   "hash": "9c72fc06e9f6"
   },
   {
-   "hash": "8eb6666e2032",
-   "id": "9d649ec7",
+   "type": "para",
    "text": "This avoids maintaining two divergent artifacts and makes the strongest claim\nhonest: the story resolves into a working product interaction rather than a\nmockup of one.",
-   "type": "para"
+   "id": "9d649ec7",
+   "hash": "8eb6666e2032"
   },
   {
-   "hash": "2e3dc253e0fb",
-   "id": "82424ac8",
+   "type": "heading",
    "text": "## Product sentence",
-   "type": "heading"
+   "id": "82424ac8",
+   "hash": "2e3dc253e0fb"
   },
   {
-   "hash": "d638fa96f18c",
-   "id": "234ae578",
+   "type": "para",
    "text": "Proofpress is verified knowledge infrastructure for autonomous agents.",
-   "type": "para"
+   "id": "234ae578",
+   "hash": "d638fa96f18c"
   },
   {
-   "hash": "066d45c023ae",
-   "id": "c70c3949",
+   "type": "para",
    "text": "**Cumulative knowledge humans and agents can verify, govern, and safely build\non.**",
-   "type": "para"
+   "id": "c70c3949",
+   "hash": "066d45c023ae"
   },
   {
-   "hash": "a08a939d9ef4",
-   "id": "a210d415",
+   "type": "heading",
    "text": "## Audience question",
-   "type": "heading"
+   "id": "a210d415",
+   "hash": "a08a939d9ef4"
   },
   {
-   "hash": "670a05266825",
-   "id": "b9ba5238",
+   "type": "para",
    "text": "A long-horizon agent finishes a task with an artifact, multiple versions,\nexperiments, and hundreds of traces. A fresh agent takes over:",
-   "type": "para"
+   "id": "b9ba5238",
+   "hash": "670a05266825"
   },
   {
-   "hash": "dd7e52c71d4b",
-   "id": "3ffb28dc",
+   "type": "para",
    "text": "> Which conclusions can I safely build on?",
-   "type": "para"
+   "id": "3ffb28dc",
+   "hash": "dd7e52c71d4b"
   },
   {
-   "hash": "ac99cb930ee4",
-   "id": "21a66f6d",
+   "type": "para",
    "text": "The demo must answer this question before teaching the audience the data model.",
-   "type": "para"
+   "id": "21a66f6d",
+   "hash": "ac99cb930ee4"
   },
   {
-   "hash": "2c87ce63d6cb",
-   "id": "7bf705f0",
+   "type": "heading",
    "text": "## Narrative structure",
-   "type": "heading"
+   "id": "7bf705f0",
+   "hash": "2c87ce63d6cb"
   },
   {
-   "hash": "107d63d815b4",
-   "id": "0cd1ec09",
+   "type": "heading",
    "text": "### 1. Cold open — the handoff",
-   "type": "heading"
+   "id": "0cd1ec09",
+   "hash": "107d63d815b4"
   },
   {
-   "hash": "5f895ebfdaa0",
-   "id": "ac0553a6",
+   "type": "para",
    "text": "Show one completed artifact and a concise handoff state. State the scale in\nhuman terms: one artifact, several experiments or revisions, and more raw\nevents than a new agent should reread.",
-   "type": "para"
+   "id": "ac0553a6",
+   "hash": "5f895ebfdaa0"
   },
   {
-   "hash": "8ce31cab5da5",
-   "id": "43427c4d",
+   "type": "para",
    "text": "Hero line:",
-   "type": "para"
+   "id": "43427c4d",
+   "hash": "8ce31cab5da5"
   },
   {
-   "hash": "18e101347d98",
-   "id": "37d07198",
+   "type": "para",
    "text": "> 100 traces produced one artifact and three claims. Only one crossed into\n> shared knowledge.",
-   "type": "para"
+   "id": "37d07198",
+   "hash": "18e101347d98"
   },
   {
-   "hash": "d5b998abfc88",
-   "id": "946a0d38",
+   "type": "para",
    "text": "Do not open with graph terminology, hashes, node counts, or CLI commands.",
-   "type": "para"
+   "id": "946a0d38",
+   "hash": "d5b998abfc88"
   },
   {
-   "hash": "af3bf748bc9f",
-   "id": "e7c318b1",
+   "type": "heading",
    "text": "### 2. The missing layer",
-   "type": "heading"
+   "id": "e7c318b1",
+   "hash": "af3bf748bc9f"
   },
   {
-   "hash": "d5a1d5c870d2",
-   "id": "e8da70eb",
+   "type": "para",
    "text": "Show the stack as a dependency, not three peer categories:",
-   "type": "para"
+   "id": "e8da70eb",
+   "hash": "d5a1d5c870d2"
   },
   {
-   "hash": "df2020ed8587",
-   "id": "305ab25f",
+   "type": "list",
    "text": "1. Observability captures activity: logs, commits, tool calls, traces, spans.\n2. Memory and ontology organize context: what is remembered and how entities\n   relate.\n3. Proofpress governs reliance: what may be trusted, why, within which scope,\n   and under whose approval.",
-   "type": "list"
+   "id": "305ab25f",
+   "hash": "df2020ed8587"
   },
   {
-   "hash": "537c2f42eec1",
-   "id": "3fca7b53",
+   "type": "para",
    "text": "The short spoken version is:",
-   "type": "para"
+   "id": "3fca7b53",
+   "hash": "537c2f42eec1"
   },
   {
-   "hash": "2a1faac35e57",
-   "id": "4d2280d2",
+   "type": "para",
    "text": "> Observability tells us what happened. Memory and ontology organize what it\n> means. Proofpress decides what may become cumulative knowledge.",
-   "type": "para"
+   "id": "4d2280d2",
+   "hash": "2a1faac35e57"
   },
   {
-   "hash": "2d08a478919f",
-   "id": "1ae5eeb7",
+   "type": "heading",
    "text": "### 3. From activity to knowledge",
-   "type": "heading"
+   "id": "1ae5eeb7",
+   "hash": "2d08a478919f"
   },
   {
-   "hash": "6e72aafa284d",
-   "id": "76366fe9",
+   "type": "para",
    "text": "Reveal three candidate claims in plain language:",
-   "type": "para"
+   "id": "76366fe9",
+   "hash": "6e72aafa284d"
   },
   {
-   "hash": "6ea920f22ad3",
-   "id": "c9eed237",
+   "type": "list",
    "text": "- one current and admitted;\n- one unresolved and awaiting review;\n- one rejected, expired, or superseded.",
-   "type": "list"
+   "id": "c9eed237",
+   "hash": "6ea920f22ad3"
   },
   {
-   "hash": "7d1375d6b647",
-   "id": "57008899",
+   "type": "para",
    "text": "The audience should understand these states before seeing their implementation\ndetails. Color communicates lifecycle state, never universal truth.",
-   "type": "para"
+   "id": "57008899",
+   "hash": "7d1375d6b647"
   },
   {
-   "hash": "c43e67373fa8",
-   "id": "2f49b287",
+   "type": "heading",
    "text": "### 4. Real product interaction",
-   "type": "heading"
+   "id": "2f49b287",
+   "hash": "c43e67373fa8"
   },
   {
-   "hash": "4c28fdd08d74",
-   "id": "79acad14",
+   "type": "para",
    "text": "Use the existing workbench and its real ledger-backed read model:",
-   "type": "para"
+   "id": "79acad14",
+   "hash": "4c28fdd08d74"
   },
   {
-   "hash": "be44fb7cbc16",
-   "id": "2e2f68b5",
+   "type": "list",
    "text": "- select a candidate;\n- inspect its artifact consequence;\n- open Lineage and Evidence;\n- switch among Graph, Ledger, and Evidence;\n- click a node to inspect its receipt and review boundary;\n- admit only an eligible claim.",
-   "type": "list"
+   "id": "2e2f68b5",
+   "hash": "be44fb7cbc16"
   },
   {
-   "hash": "8151a719b458",
-   "id": "41a25b90",
+   "type": "para",
    "text": "This is the center of the presentation. It must remain usable without\npresentation mode.",
-   "type": "para"
+   "id": "41a25b90",
+   "hash": "8151a719b458"
   },
   {
-   "hash": "43e1407ea7e0",
-   "id": "d3e70d2e",
+   "type": "heading",
    "text": "### 5. Trusted continuation",
-   "type": "heading"
+   "id": "d3e70d2e",
+   "hash": "43e1407ea7e0"
   },
   {
-   "hash": "44df02041582",
-   "id": "59aade6f",
+   "type": "para",
    "text": "Show the fresh-agent context before and after admission. The new agent receives\nonly current, in-scope, non-expired admitted knowledge, with compact provenance\nhandles and the ability to inspect deeper evidence.",
-   "type": "para"
+   "id": "59aade6f",
+   "hash": "44df02041582"
   },
   {
-   "hash": "ecf3472b3da1",
-   "id": "7d479e24",
+   "type": "para",
    "text": "The audience should see both outcomes:",
-   "type": "para"
+   "id": "7d479e24",
+   "hash": "ecf3472b3da1"
   },
   {
-   "hash": "1bd20cb5234e",
-   "id": "61453f8f",
+   "type": "list",
    "text": "- the ledger preserves the complete history;\n- the fresh agent receives a deliberately small current-state projection.",
-   "type": "list"
+   "id": "61453f8f",
+   "hash": "1bd20cb5234e"
   },
   {
-   "hash": "f1c58d5e107a",
-   "id": "e7fbf9f9",
+   "type": "heading",
    "text": "### 6. Ledger versus graph lifecycle",
-   "type": "heading"
+   "id": "e7fbf9f9",
+   "hash": "f1c58d5e107a"
   },
   {
-   "hash": "e0f2ed5a9c5b",
-   "id": "28a20ff0",
+   "type": "para",
    "text": "Make the pruning boundary explicit:",
-   "type": "para"
+   "id": "28a20ff0",
+   "hash": "e0f2ed5a9c5b"
   },
   {
-   "hash": "9a6492353635",
-   "id": "3f099f98",
+   "type": "list",
    "text": "- the ledger is append-only for consequential knowledge and lifecycle events;\n- raw telemetry follows retention, allow-list, and cold-storage policy;\n- the graph is a rebuildable read model that can hide, collapse, or archive\n  stale branches;\n- superseded knowledge remains traceable without polluting the default view;\n- legal or privacy deletion leaves a redaction or tombstone receipt.",
-   "type": "list"
+   "id": "3f099f98",
+   "hash": "9a6492353635"
   },
   {
-   "hash": "35a30a7c1b94",
-   "id": "15c1e725",
+   "type": "para",
    "text": "Append-only must never be presented as an infinitely noisy hot graph.",
-   "type": "para"
+   "id": "15c1e725",
+   "hash": "35a30a7c1b94"
   },
   {
-   "hash": "8d82e18af0b8",
-   "id": "5621c4a3",
+   "type": "heading",
    "text": "### 7. Where it applies",
-   "type": "heading"
+   "id": "5621c4a3",
+   "hash": "8d82e18af0b8"
   },
   {
-   "hash": "41f13f4f77ba",
-   "id": "29d707ef",
+   "type": "para",
    "text": "Present three flagship verticals:",
-   "type": "para"
+   "id": "29d707ef",
+   "hash": "41f13f4f77ba"
   },
   {
-   "hash": "1f51d933cfe2",
-   "id": "f3135bb2",
+   "type": "list",
    "text": "1. **Harvey / legal work:** a governed knowledge graph plus separately measured\n   long-horizon evaluation results. Do not claim baseline improvement until an\n   actual evaluation establishes it.\n2. **Finance:** documents, calculations, model versions, and analyst review\n   become approved assumptions, risks, and a traceable memo handoff.\n3. **Agentic commerce:** catalog facts, policies, order, payment, fulfillment,\n   and dispute evidence become the trusted state an agent may act on.",
-   "type": "list"
+   "id": "f3135bb2",
+   "hash": "1f51d933cfe2"
   },
   {
-   "hash": "3b1ebce9a3b0",
-   "id": "e73d2723",
+   "type": "para",
    "text": "Then present the current website experiment as the collaboration extension:",
-   "type": "para"
+   "id": "e73d2723",
+   "hash": "3b1ebce9a3b0"
   },
   {
-   "hash": "6c659cf618df",
-   "id": "1c05f044",
+   "type": "para",
    "text": "> A Coframe or growth-experiment team supplies OTLP traces; Proofpress turns\n> selected conclusions into a reviewed, portable verified knowledge graph.",
-   "type": "para"
+   "id": "1c05f044",
+   "hash": "6c659cf618df"
   },
   {
-   "hash": "f732885c3305",
-   "id": "a454d673",
+   "type": "para",
    "text": "This fixture demonstrates integration and design-partner motion. It is not a\nfourth flagship vertical and does not imply that Coframe lacks memory or\nexperiment state.",
-   "type": "para"
+   "id": "a454d673",
+   "hash": "f732885c3305"
   },
   {
-   "hash": "2a2fa3879af7",
-   "id": "5baa8eaa",
+   "type": "heading",
    "text": "### 8. Close",
-   "type": "heading"
+   "id": "5baa8eaa",
+   "hash": "2a2fa3879af7"
   },
   {
-   "hash": "40583b71a65b",
-   "id": "f80fa860",
+   "type": "para",
    "text": "> We don't just need smarter agents. We need cumulative knowledge that humans\n> and agents can verify, govern, and safely build on.",
-   "type": "para"
+   "id": "f80fa860",
+   "hash": "40583b71a65b"
   },
   {
-   "hash": "b378f6fd30a6",
-   "id": "3f93e8de",
+   "type": "heading",
    "text": "## Interaction architecture",
-   "type": "heading"
+   "id": "3f93e8de",
+   "hash": "b378f6fd30a6"
   },
   {
-   "hash": "b9bbb48af202",
-   "id": "e2b84362",
+   "type": "para",
    "text": "Add presentation mode as a progressive enhancement to the existing page:",
-   "type": "para"
+   "id": "e2b84362",
+   "hash": "b9bbb48af202"
   },
   {
-   "hash": "e10ea2d33354",
-   "id": "91879a6f",
+   "type": "list",
    "text": "- a small **Guided demo** control starts the narrative;\n- each beat highlights or scrolls to a real product region;\n- **Next**, **Back**, arrow keys, and **Exit tour** are always available;\n- the tour never disables normal product controls;\n- direct links can open a specific beat for collaborator review;\n- reduced-motion users receive immediate state changes without animated camera\n  movement;\n- the page still works from a local static server and without new dependencies.",
-   "type": "list"
+   "id": "91879a6f",
+   "hash": "e10ea2d33354"
   },
   {
-   "hash": "0a7a6618b890",
-   "id": "04f70fd4",
+   "type": "para",
    "text": "Do not convert the entire page into full-screen slides. The guided layer may use\nshort, viewport-fitted interstitial beats, but the graph and workbench remain\nthe actual product UI.",
-   "type": "para"
+   "id": "04f70fd4",
+   "hash": "0a7a6618b890"
   },
   {
-   "hash": "05620a939061",
-   "id": "c5872ea6",
+   "type": "heading",
    "text": "## Data and evidence contract",
-   "type": "heading"
+   "id": "c5872ea6",
+   "hash": "05620a939061"
   },
   {
-   "hash": "c7aa04c09b41",
-   "id": "5004ef0a",
+   "type": "para",
    "text": "The presentation layer is a client of the ledger, never a second source of\ntruth.",
-   "type": "para"
+   "id": "5004ef0a",
+   "hash": "c7aa04c09b41"
   },
   {
-   "hash": "565e23609218",
-   "id": "9ca9737d",
+   "type": "list",
    "text": "- Continue loading `demo.ledger-view.json` for nodes, edges, states, and hashes.\n- Do not invent admitted states or relationships in presentation code.\n- Keep static fallback copy only for `file://` preview, clearly labeled as a\n  fixture.\n- Keep integrity, evidence support, and lifecycle/admission as independent\n  dimensions.\n- Treat the current growth-experiment data as an illustrative integration\n  fixture, not Harvey, finance, or commerce evidence.",
-   "type": "list"
+   "id": "9ca9737d",
+   "hash": "565e23609218"
   },
   {
-   "hash": "9ee33f623f3b",
-   "id": "43062757",
+   "type": "heading",
    "text": "## Implementation sequence",
-   "type": "heading"
+   "id": "43062757",
+   "hash": "9ee33f623f3b"
   },
   {
-   "hash": "64cb5b2ed41e",
-   "id": "372f417d",
+   "type": "heading",
    "text": "### P0 — narrative shell",
-   "type": "heading"
+   "id": "372f417d",
+   "hash": "64cb5b2ed41e"
   },
   {
-   "hash": "689f97e25c4d",
-   "id": "be5ab015",
+   "type": "list",
    "text": "- Add the tagline and handoff question above the current demo.\n- Add a guided-demo controller and eight narrative beats.\n- Reuse the existing workbench and Lineage / Ledger / Evidence explorer.\n- Add a final vertical map and closing statement.",
-   "type": "list"
+   "id": "be5ab015",
+   "hash": "689f97e25c4d"
   },
   {
-   "hash": "4f5488e37a38",
-   "id": "43cb1ee8",
+   "type": "heading",
    "text": "### P1 — continuation proof",
-   "type": "heading"
+   "id": "43cb1ee8",
+   "hash": "4f5488e37a38"
   },
   {
-   "hash": "6e50b59a0e75",
-   "id": "3e31c02f",
+   "type": "list",
    "text": "- Bind the pre/post fresh-agent context panel to the ledger view.\n- Make admission visibly change the context projection.\n- Show the source pointer and decision receipt for the inherited claim.",
-   "type": "list"
+   "id": "3e31c02f",
+   "hash": "6e50b59a0e75"
   },
   {
-   "hash": "abc60c098877",
-   "id": "b6ca9525",
+   "type": "heading",
    "text": "### P2 — vertical fixture packs",
-   "type": "heading"
+   "id": "b6ca9525",
+   "hash": "abc60c098877"
   },
   {
-   "hash": "340486ba5a96",
-   "id": "d8c7277f",
+   "type": "list",
    "text": "- Harvey: import only real benchmark evidence and label unresolved results\n  honestly.\n- Finance: adapt the Apex investment-analyst artifact into the same node and\n  receipt contract.\n- Commerce: add a compact order/policy/evidence fixture when a real workflow is\n  available.",
-   "type": "list"
+   "id": "d8c7277f",
+   "hash": "340486ba5a96"
   },
   {
-   "hash": "c9d16151ab37",
-   "id": "3144a33d",
+   "type": "para",
    "text": "P2 is not required for the first guided-demo PR to be useful.",
-   "type": "para"
+   "id": "3144a33d",
+   "hash": "c9d16151ab37"
   },
   {
-   "hash": "cfddbd76e752",
-   "id": "24a9c758",
+   "type": "heading",
    "text": "## Acceptance criteria",
-   "type": "heading"
+   "id": "24a9c758",
+   "hash": "cfddbd76e752"
   },
   {
-   "hash": "4ce8663839cf",
-   "id": "4ab84b40",
+   "type": "list",
    "text": "- A first-time viewer can state the problem and product category within sixty\n  seconds.\n- The first screen asks which conclusions are safe to inherit; it does not ask\n  the viewer to decode a graph.\n- The guided path reaches a real interactive Graph / Ledger / Evidence view.\n- Every displayed lifecycle state matches the ledger view or is explicitly\n  labeled fixture copy.\n- The default graph excludes stale knowledge while preserving a discoverable\n  supersession or rejection path.\n- The product remains fully usable after exiting the guided path.\n- No slide or interstitial scrolls internally at the reference viewport.\n- Keyboard navigation and reduced-motion behavior work.\n- The story names Harvey, finance, and agentic commerce as the three main\n  verticals and growth experiments as the collaboration extension.\n- No benchmark improvement, universal truth, or unsupported design-partner\n  claim is implied.",
-   "type": "list"
+   "id": "4ab84b40",
+   "hash": "4ce8663839cf"
   },
   {
-   "hash": "040c78d3dc3e",
-   "id": "e5df1989",
+   "type": "heading",
    "text": "## Explicit non-goals",
-   "type": "heading"
+   "id": "e5df1989",
+   "hash": "040c78d3dc3e"
   },
   {
-   "hash": "bda1a6d5f76e",
-   "id": "398cdf34",
+   "type": "list",
    "text": "- A standalone pitch deck with screenshots of a separate demo.\n- Replacing the existing product UI or graph implementation.\n- Rebuilding the backend, ledger schema, or OpenTelemetry adapter.\n- Adding synthetic Harvey results to make the story look complete.\n- Presenting raw observability data as organizational knowledge.",
-   "type": "list"
+   "id": "398cdf34",
+   "hash": "bda1a6d5f76e"
   },
   {
-   "hash": "3dc498bbda13",
-   "id": "39046702",
+   "type": "heading",
    "text": "## Review decision for the first HTML draft",
-   "type": "heading"
+   "id": "39046702",
+   "hash": "3dc498bbda13"
   },
   {
-   "hash": "74c59ae92790",
-   "id": "97d99a9c",
+   "type": "para",
    "text": "Use **Pro mode** unless the team explicitly chooses a keynote-like Vibe mode.\nPro is the better default because the center of the experience is a technical\nproduct interaction, and the existing light lineage explorer should remain\nvisually continuous with the guided narrative.",
-   "type": "para"
+   "id": "97d99a9c",
+   "hash": "74c59ae92790"
   }
  ]
 }
