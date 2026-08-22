@@ -76,6 +76,30 @@
   },
   {
    "type": "heading",
+   "text": "## Relationship to the production ARA lifecycle",
+   "id": "33b83ec5",
+   "hash": "54d6fbbe3fdd"
+  },
+  {
+   "type": "para",
+   "text": "The production repository already defines a five-stage research lifecycle: **Design → Freeze → Execute → Admit → Synthesize**. The hackathon product should consume and expose that lifecycle rather than invent a parallel research system:",
+   "id": "bf0ff8c5",
+   "hash": "89c25732ca26"
+  },
+  {
+   "type": "list",
+   "text": "- `SourceEvent` and `Evidence` are produced during Execute and checked against the frozen protocol.\n- `Claim` is the explicit semantic unit entering Admit and Synthesize.\n- `Admission` records whether a result or claim may contribute to governed knowledge.\n- `context` projects the latest admitted synthesis for downstream agents.",
+   "id": "d73561a8",
+   "hash": "32668d17e848"
+  },
+  {
+   "type": "para",
+   "text": "The existing Long Horizon Eval ARA remains a research lifecycle record and is currently Phase Zero, with no real-model efficacy result. The hackathon work is a product demonstration built on those semantics—not a new benchmark result, Harvey LAB evaluation, or validation of long-horizon effectiveness.",
+   "id": "eb6216c1",
+   "hash": "67c446ca5be5"
+  },
+  {
+   "type": "heading",
    "text": "## What “verified” means",
    "id": "1c7a84df",
    "hash": "22a646dbc10f"
@@ -448,9 +472,9 @@
   },
   {
    "type": "list",
-   "text": "- `ara-product-exploration.html` (local attachment supplied for this planning request), especially “the structure layer” and the distinction between traces, claims, and verified findings.\n- `README.md` and `docs/PORTABLE_ARTIFACT_SPEC.md` for current Proofpress behavior and trust boundaries.\n- `rit-hub-demo/DECISIONS.md` for the verification / process / admission separation. This file is present in the active development checkout but is not part of the PR base.\n- `experiments/provenance_handoff/README.md` for the boundary between the current STALE/CUPMem work and the archived Harvey study. This file is present in the active development checkout but is not part of the PR base.",
+   "text": "- `ara-product-exploration.html` (local attachment supplied for this planning request), especially “the structure layer” and the distinction between traces, claims, and verified findings.\n- `README.md` and `docs/PORTABLE_ARTIFACT_SPEC.md` for current Proofpress behavior and trust boundaries.\n- `studies/long-horizon-eval/ara/` for the production Design / Freeze / Execute / Admit / Synthesize lifecycle, Phase Zero boundary, claim register, and evidence policy.\n- `studies/LONG_HORIZON_EVAL_FLOW.md` for the cold-boundary intervention and the separation of safe continuation from general agent capability.\n- `rit-hub-demo/DECISIONS.md` and `experiments/provenance_handoff/README.md` in the development checkout for the verification / process / admission separation and the Harvey research boundary; these files are supporting context, not part of this PR base.",
    "id": "b17e9034",
-   "hash": "57877c2ed7bf"
+   "hash": "473019da9076"
   }
  ]
 }
