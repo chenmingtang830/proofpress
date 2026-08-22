@@ -1,144 +1,66 @@
 {
- "artifact": "examples/verified-knowledge-ledger/demo.html",
- "artifact_id": "pp_40ef1554e4b2258141ab1824",
+ "artifact": "examples/verified-knowledge-ledger/demo.partner-style.html",
+ "artifact_id": "pp_c5949563fc662476994db4f8",
  "blocks": [
   {
-   "type": "heading",
-   "text": "<h1>Make the next session inherit reviewed, scoped decisions.</h1>",
-   "id": "01a812de",
-   "hash": "1de8b41755b2"
+   "hash": "55f35c00a643",
+   "id": "26127b71",
+   "text": "<h1>THE EXPERIMENT RAN.<span>THE DECISION NEEDS A RECEIPT.</span></h1>",
+   "type": "heading"
   },
   {
-   "type": "para",
-   "text": "<p class=\"lede\">A long-horizon agent can generate thousands of events. Proofpress turns the useful subset into <strong>scoped, reviewable knowledge</strong> that a fresh agent can safely pick up.</p>",
-   "id": "42f4b1e5",
-   "hash": "299c2c211ee0"
+   "hash": "46a3ca9eaefe",
+   "id": "59111a7d",
+   "text": "<p>Long-horizon agents generate events. Proofpress makes the useful conclusion <strong>scoped, reviewable, and safe for a fresh session to inherit.</strong></p>",
+   "type": "para"
   },
   {
-   "type": "heading",
-   "text": "<h3>Trace events</h3>",
-   "id": "e74d13e2",
-   "hash": "f01e906960c9"
+   "hash": "7bf7a25fb307",
+   "id": "ad5a4616",
+   "text": "<h2>What can the next agent safely inherit?</h2>",
+   "type": "heading"
   },
   {
-   "type": "para",
-   "text": "<p>trace-001 · span-001</p>",
-   "id": "e9fc2dbb",
-   "hash": "239ae18dbf93"
+   "hash": "9bd4c357bc7e",
+   "id": "52ab68ed",
+   "text": "<p>Choose one experiment first. Open lineage only when you need to inspect how the decision was made.</p>",
+   "type": "para"
   },
   {
-   "type": "para",
-   "text": "<p>trace-002 · span-002</p>",
-   "id": "72307dcb",
-   "hash": "8ee55378cc68"
+   "hash": "b03b4c251ede",
+   "id": "03df410b",
+   "text": "<h3 id=\"paperTitle\">Candidate B increased conversion.</h3>",
+   "type": "heading"
   },
   {
-   "type": "para",
-   "text": "<p>trace-003 · retry_exhausted</p>",
-   "id": "e232f039",
-   "hash": "f33b1266f856"
+   "hash": "349ef2d7bb83",
+   "id": "e165f27d",
+   "text": "<p id=\"paperBody\">This is the result a fresh agent may want to reuse. The ledger keeps it attached to its measured run and review state.</p>",
+   "type": "para"
   },
   {
-   "type": "heading",
-   "text": "<h3>Experiments</h3>",
-   "id": "3040838a",
-   "hash": "4cb1ed2a8780"
+   "hash": "2196970f1337",
+   "id": "5d58db33",
+   "text": "<h3 id=\"title\">Candidate B is eligible for review.</h3>",
+   "type": "heading"
   },
   {
-   "type": "para",
-   "text": "<p>measured outcome</p>",
-   "id": "d4feeb66",
-   "hash": "63f83fc5c099"
+   "hash": "ce338dcfd6c9",
+   "id": "105f3c7c",
+   "text": "<p id=\"body\">Evidence is present, the experiment completed, and the metric is measured. A human or policy reviewer still decides whether this belongs in shared knowledge.</p>",
+   "type": "para"
   },
   {
-   "type": "para",
-   "text": "<p>measured outcome</p>",
-   "id": "cb3fe077",
-   "hash": "63f83fc5c099"
+   "hash": "63ae8506c20f",
+   "id": "c0058247",
+   "text": "<h2 id=\"drawerTitle\">Candidate B · eligible for review</h2>",
+   "type": "heading"
   },
   {
-   "type": "para",
-   "text": "<p>timeout</p>",
-   "id": "02b7b4e0",
-   "hash": "dfdb423e8304"
-  },
-  {
-   "type": "heading",
-   "text": "<h3>Candidate claims</h3>",
-   "id": "83cf1e3b",
-   "hash": "77c544dee96c"
-  },
-  {
-   "type": "para",
-   "text": "<p>1 source ref · metric present</p>",
-   "id": "03e89e79",
-   "hash": "151b5586d612"
-  },
-  {
-   "type": "para",
-   "text": "<p>1 source ref · metric present</p>",
-   "id": "005ddbd1",
-   "hash": "151b5586d612"
-  },
-  {
-   "type": "para",
-   "text": "<p>source is an error span</p>",
-   "id": "ba746120",
-   "hash": "1d8ad0171b54"
-  },
-  {
-   "type": "heading",
-   "text": "<h3>Admission</h3>",
-   "id": "1cb69f29",
-   "hash": "9341b92bfafb"
-  },
-  {
-   "type": "para",
-   "text": "<p>reviewed by human:demo</p>",
-   "id": "110cf0ef",
-   "hash": "07c02f6ea350"
-  },
-  {
-   "type": "para",
-   "text": "<p>eligible, not yet accepted</p>",
-   "id": "66b6123e",
-   "hash": "e12feeef575e"
-  },
-  {
-   "type": "para",
-   "text": "<p>experiment failed</p>",
-   "id": "a46950eb",
-   "hash": "950b52093100"
-  },
-  {
-   "type": "heading",
-   "text": "<h2 id=\"detailTitle\">baseline produced 12%</h2>",
-   "id": "3bfa1040",
-   "hash": "96c766abdf66"
-  },
-  {
-   "type": "para",
-   "text": "<p id=\"detailStatement\">Variant baseline produced a conversion rate of 0.1200 in experiment exp-001.</p>",
-   "id": "c4c8fb24",
-   "hash": "9ff162fb6259"
-  },
-  {
-   "type": "para",
-   "text": "<p id=\"detailGate\">Source evidence ✓ · experiment complete ✓ · metric ✓ · no error ✓</p>",
-   "id": "0519651c",
-   "hash": "71357e89da1c"
-  },
-  {
-   "type": "heading",
-   "text": "<h2>What a fresh agent receives</h2>",
-   "id": "44ca7280",
-   "hash": "3543e2507a4e"
-  },
-  {
-   "type": "para",
-   "text": "<p>This view contains admitted knowledge only. Open or blocked claims remain visible as work to review, but are not silently promoted into the next session.</p>",
-   "id": "2580a249",
-   "hash": "76d3533b77b1"
+   "hash": "0db8554af39d",
+   "id": "2d1205a7",
+   "text": "<h3>Deterministic admission checks</h3>",
+   "type": "heading"
   }
  ]
 }

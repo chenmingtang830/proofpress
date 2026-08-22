@@ -1,53 +1,102 @@
 {
- "event": "version_created",
- "artifact": "examples/verified-knowledge-ledger/demo.html",
- "artifact_id": "pp_40ef1554e4b2258141ab1824",
- "version": "3337c656",
- "parent": "d280bb0b",
- "author": {
-  "name": "codex",
-  "kind": "agent",
-  "session": null
+ "actors": {
+  "recorded_by": [
+   "unknown"
+  ]
  },
- "note": null,
- "ts": "2026-08-22T20:41:07+00:00",
- "stats": {
-  "modified": 1
+ "artifact": "examples/verified-knowledge-ledger/demo.partner-style.html",
+ "artifact_id": "pp_c5949563fc662476994db4f8",
+ "attribution_basis": "self_asserted",
+ "author": {
+  "kind": "system",
+  "name": "unknown",
+  "session": null
  },
  "changes": [
   {
-   "kind": "modified",
-   "block": "01a812de",
-   "type": "heading",
-   "context": "<h1>Make the next session inherit review"
-  }
- ],
- "policy": "portable",
- "soft_fingerprint": "ppsb1:31c990c50657dc5b6eff7d5ad9812f9bf8d14ff26f8ecd85fcea55ec4cd15615",
- "actors": {
-  "requested_by": [
-   "user"
-  ],
-  "produced_by": [
-   "codex"
-  ],
-  "edited_by": [
-   "codex"
-  ],
-  "recorded_by": [
-   "codex"
-  ]
- },
- "attribution_basis": "self_asserted",
- "claims": [
+   "block": "26127b71",
+   "context": "<h1>THE EXPERIMENT RAN.<span>THE DECISIO",
+   "kind": "added",
+   "preview": "<h1>THE EXPERIMENT RAN.<span>THE DECISION NEEDS A RECEIPT.</",
+   "type": "heading"
+  },
   {
-   "block": "01a812de",
-   "kind": "modified",
-   "note": "Makes the partner-facing headline explicitly name scoped decisions."
+   "block": "59111a7d",
+   "context": "<h1>THE EXPERIMENT RAN.<span>THE DECISIO",
+   "kind": "added",
+   "preview": "<p>Long-horizon agents generate events. Proofpress makes the",
+   "type": "para"
+  },
+  {
+   "block": "ad5a4616",
+   "context": "<h2>What can the next agent safely inher",
+   "kind": "added",
+   "preview": "<h2>What can the next agent safely inherit?</h2>",
+   "type": "heading"
+  },
+  {
+   "block": "52ab68ed",
+   "context": "<h2>What can the next agent safely inher",
+   "kind": "added",
+   "preview": "<p>Choose one experiment first. Open lineage only when you n",
+   "type": "para"
+  },
+  {
+   "block": "03df410b",
+   "context": "<h3 id=\"paperTitle\">Candidate B increase",
+   "kind": "added",
+   "preview": "<h3 id=\"paperTitle\">Candidate B increased conversion.</h3>",
+   "type": "heading"
+  },
+  {
+   "block": "e165f27d",
+   "context": "<h3 id=\"paperTitle\">Candidate B increase",
+   "kind": "added",
+   "preview": "<p id=\"paperBody\">This is the result a fresh agent may want ",
+   "type": "para"
+  },
+  {
+   "block": "5d58db33",
+   "context": "<h3 id=\"title\">Candidate B is eligible f",
+   "kind": "added",
+   "preview": "<h3 id=\"title\">Candidate B is eligible for review.</h3>",
+   "type": "heading"
+  },
+  {
+   "block": "105f3c7c",
+   "context": "<h3 id=\"title\">Candidate B is eligible f",
+   "kind": "added",
+   "preview": "<p id=\"body\">Evidence is present, the experiment completed, ",
+   "type": "para"
+  },
+  {
+   "block": "c0058247",
+   "context": "<h2 id=\"drawerTitle\">Candidate B · eligi",
+   "kind": "added",
+   "preview": "<h2 id=\"drawerTitle\">Candidate B · eligible for review</h2>",
+   "type": "heading"
+  },
+  {
+   "block": "2d1205a7",
+   "context": "<h3>Deterministic admission checks</h3>",
+   "kind": "added",
+   "preview": "<h3>Deterministic admission checks</h3>",
+   "type": "heading"
   }
  ],
- "context": {
-  "why": "made the partner-facing headline explicit about scoped decisions"
+ "event": "version_created",
+ "event_id": "ppe_533a89c54025b9320fdad7f7",
+ "note": "portable lineage checkpoint",
+ "parent": null,
+ "parents": [],
+ "policy": "portable",
+ "portable_checkpoint": true,
+ "portable_lineage_id": "ppl_3d7612b7cd68b01b30fac7e6",
+ "soft_fingerprint": "ppsb1:3390db18a7d2942c5e83526cd7b7e2270b91cb3452ba1d56dca5c37623d3307a",
+ "stats": {
+  "added": 10
  },
- "event_id": "ppe_f794030bed3f7e9773972d12"
+ "ts": "2026-08-22T20:49:40+00:00",
+ "version": "62c32e38",
+ "imported_from_capsule": true
 }
