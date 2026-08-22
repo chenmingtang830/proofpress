@@ -1,0 +1,7 @@
+[
+  {
+    "block": "9f8d1abd",
+    "kind": "added",
+    "note": "Added the source-integrity boundary distinguishing synthetic mechanics releases from pinned, non-vendored Harvey materials."
+  }
+]

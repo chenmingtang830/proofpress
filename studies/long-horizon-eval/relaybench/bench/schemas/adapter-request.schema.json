@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://relaybench.local/schemas/h4-stage-adapter-request.schema.json",
+  "title": "RelayBench H4 stage adapter request",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "test_only", "condition", "horizon", "stress_track", "stage_id", "common_instruction_path", "verifier_evidence"],
+  "properties": {
+    "schema_version": {"const": 2},
+    "test_only": {"type": "boolean"},
+    "condition": {"enum": ["C1_ORDINARY_PORTABLE", "C2_PROOFPRESS"]},
+    "horizon": {"const": "H4"},
+    "stress_track": {"const": "EVOLVING_NEGOTIATION_STATE"},
+    "stage_id": {"enum": ["S1", "S2", "S3", "S4"]},
+    "common_instruction_path": {"type": "string"},
+    "verifier_evidence": {"type": ["object", "null"]}
+  }
+}
