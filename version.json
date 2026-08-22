@@ -1,480 +1,144 @@
 {
- "artifact": "planning/2026-08-22-verified-knowledge-ledger-hackathon.md",
- "artifact_id": "pp_862e26ccbd5d53cf9f2cc69d",
+ "artifact": "examples/verified-knowledge-ledger/demo.html",
+ "artifact_id": "pp_40ef1554e4b2258141ab1824",
  "blocks": [
   {
-   "type": "heading",
-   "text": "# Hackathon plan: verified knowledge ledger for autonomous AI agents",
-   "id": "7a3f0e21",
-   "hash": "55a932cbb1d4"
+   "hash": "dddfc8d9222b",
+   "id": "01a812de",
+   "text": "<h1>Make the next session inherit decisions, not just traces.</h1>",
+   "type": "heading"
   },
   {
-   "type": "para",
-   "text": "**Status:** proposed build plan for the Coframe / AGI House Long Horizon Agents event",
-   "id": "5e9d1c42",
-   "hash": "123abed9fb0a"
+   "hash": "299c2c211ee0",
+   "id": "42f4b1e5",
+   "text": "<p class=\"lede\">A long-horizon agent can generate thousands of events. Proofpress turns the useful subset into <strong>scoped, reviewable knowledge</strong> that a fresh agent can safely pick up.</p>",
+   "type": "para"
   },
   {
-   "type": "para",
-   "text": "**Product position:** Proofpress is the verified knowledge ledger for autonomous AI agents.",
-   "id": "93a8b4f7",
-   "hash": "8ff5fe4e4c15"
+   "hash": "f01e906960c9",
+   "id": "e74d13e2",
+   "text": "<h3>Trace events</h3>",
+   "type": "heading"
   },
   {
-   "type": "para",
-   "text": "> Telemetry is the source. Claims are the unit. Admission is the product. Artifacts are portable views of the ledger.",
-   "id": "2d47c8a1",
-   "hash": "6d94a2f85c60"
+   "hash": "239ae18dbf93",
+   "id": "e9fc2dbb",
+   "text": "<p>trace-001 · span-001</p>",
+   "type": "para"
   },
   {
-   "type": "heading",
-   "text": "## Executive decision",
-   "id": "6fb1a924",
-   "hash": "874bfc442239"
+   "hash": "8ee55378cc68",
+   "id": "72307dcb",
+   "text": "<p>trace-002 · span-002</p>",
+   "type": "para"
   },
   {
-   "type": "para",
-   "text": "Build a narrow end-to-end vertical slice that turns existing agent and experiment telemetry into candidate claims, sends those claims through deterministic and review gates, and gives a fresh agent only the currently admitted organizational knowledge. The demo should show that a new session can continue from a compact, governed state without rereading a full trace or blindly trusting a generated summary.",
-   "id": "c43d8f15",
-   "hash": "79e82d3be233"
+   "hash": "f33b1266f856",
+   "id": "e232f039",
+   "text": "<p>trace-003 · retry_exhausted</p>",
+   "type": "para"
   },
   {
-   "type": "para",
-   "text": "The product is not a generic knowledge base, an observability backend, or a truth oracle. It is the semantic and admission layer above execution systems. OpenTelemetry is an input adapter; a CLI drives the workflow; a graph UI makes the trust chain inspectable; portable Markdown or static HTML artifacts remain an output and exchange format.",
-   "id": "e7a3056b",
-   "hash": "ad65dc8c8c32"
+   "hash": "4cb1ed2a8780",
+   "id": "3040838a",
+   "text": "<h3>Experiments</h3>",
+   "type": "heading"
   },
   {
-   "type": "heading",
-   "text": "## Why this is the right wedge",
-   "id": "81b96d30",
-   "hash": "0216481dd54d"
+   "hash": "63f83fc5c099",
+   "id": "d4feeb66",
+   "text": "<p>measured outcome</p>",
+   "type": "para"
   },
   {
-   "type": "para",
-   "text": "Long-horizon agents already produce logs, commits, runs, traces, evaluations, and experiment metrics. Systems such as Coframe also maintain experiment state and learn from performance. The missing layer is not “memory” in the broad sense. It is a defensible answer to: **Which conclusions may a future agent rely on, within what scope, based on which evidence, approved by whom or what policy, and until when?**",
-   "id": "a1c943e8",
-   "hash": "90370ebf9b29"
+   "hash": "63f83fc5c099",
+   "id": "cb3fe077",
+   "text": "<p>measured outcome</p>",
+   "type": "para"
   },
   {
-   "type": "para",
-   "text": "The attached ARA product exploration describes a ladder in which each lower unit becomes evidence for the unit above it:",
-   "id": "cb4ae812",
-   "hash": "7611233b02c2"
+   "hash": "dfdb423e8304",
+   "id": "02b7b4e0",
+   "text": "<p>timeout</p>",
+   "type": "para"
   },
   {
-   "type": "list",
-   "text": "1. **Commit / run / trace:** what happened.\n2. **Claim:** what the result is asserted to mean.\n3. **Verified finding:** what the organization has admitted and may build on.",
-   "id": "fd2c51a9",
-   "hash": "95ff9401fb7f"
+   "hash": "77c544dee96c",
+   "id": "83cf1e3b",
+   "text": "<h3>Candidate claims</h3>",
+   "type": "heading"
   },
   {
-   "type": "para",
-   "text": "This build operationalizes that ladder for autonomous agents. It extends Proofpress beyond an artifact-bound interaction model without discarding the existing artifact provenance implementation.",
-   "id": "b936de40",
-   "hash": "62982364e7f8"
+   "hash": "151b5586d612",
+   "id": "03e89e79",
+   "text": "<p>1 source ref · metric present</p>",
+   "type": "para"
   },
   {
-   "type": "heading",
-   "text": "## Relationship to the production ARA lifecycle",
-   "id": "33b83ec5",
-   "hash": "54d6fbbe3fdd"
+   "hash": "151b5586d612",
+   "id": "005ddbd1",
+   "text": "<p>1 source ref · metric present</p>",
+   "type": "para"
   },
   {
-   "type": "para",
-   "text": "The production repository already defines a five-stage research lifecycle: **Design → Freeze → Execute → Admit → Synthesize**. The hackathon product should consume and expose that lifecycle rather than invent a parallel research system:",
-   "id": "bf0ff8c5",
-   "hash": "89c25732ca26"
+   "hash": "1d8ad0171b54",
+   "id": "ba746120",
+   "text": "<p>source is an error span</p>",
+   "type": "para"
   },
   {
-   "type": "list",
-   "text": "- `SourceEvent` and `Evidence` are produced during Execute and checked against the frozen protocol.\n- `Claim` is the explicit semantic unit entering Admit and Synthesize.\n- `Admission` records whether a result or claim may contribute to governed knowledge.\n- `context` projects the latest admitted synthesis for downstream agents.",
-   "id": "d73561a8",
-   "hash": "32668d17e848"
+   "hash": "9341b92bfafb",
+   "id": "1cb69f29",
+   "text": "<h3>Admission</h3>",
+   "type": "heading"
   },
   {
-   "type": "para",
-   "text": "The existing Long Horizon Eval ARA remains a research lifecycle record and is currently Phase Zero, with no real-model efficacy result. The hackathon work is a product demonstration built on those semantics—not a new benchmark result, Harvey LAB evaluation, or validation of long-horizon effectiveness.",
-   "id": "eb6216c1",
-   "hash": "67c446ca5be5"
+   "hash": "07c02f6ea350",
+   "id": "110cf0ef",
+   "text": "<p>reviewed by human:demo</p>",
+   "type": "para"
   },
   {
-   "type": "heading",
-   "text": "## What “verified” means",
-   "id": "1c7a84df",
-   "hash": "22a646dbc10f"
+   "hash": "e12feeef575e",
+   "id": "66b6123e",
+   "text": "<p>eligible, not yet accepted</p>",
+   "type": "para"
   },
   {
-   "type": "para",
-   "text": "For the MVP, a verified claim is not guaranteed to be universally true. It is a claim that:",
-   "id": "3ef62190",
-   "hash": "52c9dae472a6"
+   "hash": "950b52093100",
+   "id": "a46950eb",
+   "text": "<p>experiment failed</p>",
+   "type": "para"
   },
   {
-   "type": "list",
-   "text": "- is bound to inspectable evidence and its provenance;\n- satisfies declared deterministic checks;\n- has a recorded review decision from an authorized human or policy agent;\n- carries explicit scope, status, and expiry or supersession semantics; and\n- can be traced backward and revised without erasing prior decisions.",
-   "id": "6b82e14c",
-   "hash": "b03dbcc1e0d8"
+   "hash": "96c766abdf66",
+   "id": "3bfa1040",
+   "text": "<h2 id=\"detailTitle\">baseline produced 12%</h2>",
+   "type": "heading"
   },
   {
-   "type": "para",
-   "text": "The interface must keep three questions separate: **Is the record intact? Does the evidence support the claim under the declared method? Has the organization admitted the claim for reuse?** Proofpress can prove the first, encode evidence for the second, and govern the third. It must not collapse them into “the claim is objectively true.”",
-   "id": "40d56bc7",
-   "hash": "b18aad1a53b6"
+   "hash": "9ff162fb6259",
+   "id": "c4c8fb24",
+   "text": "<p id=\"detailStatement\">Variant baseline produced a conversion rate of 0.1200 in experiment exp-001.</p>",
+   "type": "para"
   },
   {
-   "type": "heading",
-   "text": "## Product hierarchy",
-   "id": "d0e3b879",
-   "hash": "160663368d37"
+   "hash": "71357e89da1c",
+   "id": "0519651c",
+   "text": "<p id=\"detailGate\">Source evidence ✓ · experiment complete ✓ · metric ✓ · no error ✓</p>",
+   "type": "para"
   },
   {
-   "type": "table",
-   "text": "| Level | Unit | Core question | MVP treatment |\n|---|---|---|---|\n| L0 Telemetry | logs, commits, tool calls, traces, spans | What happened? | Import a bounded OTLP JSON fixture and existing file/Git evidence. |\n| L1 Evidence | experiment result, test output, metric window, document block | What observation can be inspected? | Normalize selected source events into addressable evidence records. |\n| L2 Claims | scoped semantic assertions | What do we think the evidence means? | CLI creates candidate claims with evidence references and qualifiers. |\n| L3 Admission | accepted, rejected, unresolved, superseded, expired | May an agent rely on this claim? | Deterministic gate, policy-agent recommendation, and human decision. |\n| L4 Governed knowledge | current reusable organizational state | What should the next agent inherit? | Query and materialize only admitted, non-expired claims. |",
-   "id": "49a21c6e",
-   "hash": "798c55b644c7"
+   "hash": "3543e2507a4e",
+   "id": "44ca7280",
+   "text": "<h2>What a fresh agent receives</h2>",
+   "type": "heading"
   },
   {
-   "type": "para",
-   "text": "The implementation should be graph-native internally and artifact-friendly externally. The graph represents relationships across runs, claims, decisions, and outputs. Artifacts remain portable projections that can travel outside the service and retain a checkable accepted history.",
-   "id": "715ee263",
-   "hash": "81a124341ec6"
-  },
-  {
-   "type": "heading",
-   "text": "## Minimal ledger model",
-   "id": "97c5d041",
-   "hash": "c7e841f0dbb7"
-  },
-  {
-   "type": "heading",
-   "text": "### Nodes",
-   "id": "dfa73c68",
-   "hash": "fb5801659071"
-  },
-  {
-   "type": "list",
-   "text": "- `SourceEvent`: an imported trace span, commit, tool event, or evaluation record.\n- `Evidence`: a selected, immutable observation with a digest and source pointer.\n- `Claim`: a scoped assertion proposed from one or more evidence records.\n- `Admission`: an append-only decision about a claim under a named policy version.\n- `Artifact`: a materialized or imported carrier such as Markdown, static HTML, or a report.",
-   "id": "f91bc7e2",
-   "hash": "a7c3cfca1ae5"
-  },
-  {
-   "type": "heading",
-   "text": "### Edges",
-   "id": "6304a5ed",
-   "hash": "080c86871473"
-  },
-  {
-   "type": "list",
-   "text": "- `derived_from`: evidence or claim was derived from an upstream record.\n- `supports` / `refutes`: evidence bears on a claim without implying final truth.\n- `admitted_by`: a claim is governed by an admission event.\n- `supersedes`: a newer claim or decision replaces an older one without deleting it.\n- `materialized_in`: governed knowledge appears in a portable artifact.",
-   "id": "214ff9c7",
-   "hash": "639e5e50eb6a"
-  },
-  {
-   "type": "heading",
-   "text": "### Required claim fields",
-   "id": "8db51a36",
-   "hash": "feab020446e7"
-  },
-  {
-   "type": "para",
-   "text": "`claim_id`, statement, scope, evidence references, proposer, creation time, confidence or uncertainty, policy version, current admission state, reviewer identity, rationale, expiry, and superseded-by reference. IDs and digests must be stable; absent evidence and inconclusive results remain visible rather than being coerced into success.",
-   "id": "9b6312a4",
-   "hash": "d5b3186f1107"
-  },
-  {
-   "type": "heading",
-   "text": "## MVP components",
-   "id": "ea6420fd",
-   "hash": "a8c17b285ad6"
-  },
-  {
-   "type": "heading",
-   "text": "### 1. OpenTelemetry ingest adapter",
-   "id": "0d86fb7a",
-   "hash": "4bd97923ef67"
-  },
-  {
-   "type": "para",
-   "text": "Accept a prebuilt OTLP JSON export containing three website experiments. Preserve trace and span IDs, timestamps, selected attributes, source identity, and a canonical digest. Map only allow-listed fields and keep raw prompt bodies, secrets, user payloads, and high-cardinality noise out of the ledger by default.",
-   "id": "c85214e3",
-   "hash": "b0ea0f69b761"
-  },
-  {
-   "type": "para",
-   "text": "The hackathon build does not run an OpenTelemetry Collector or compete with a trace store. It demonstrates that existing telemetry can become provenance for higher-level claims.",
-   "id": "507b918f",
-   "hash": "e99da24cb860"
-  },
-  {
-   "type": "heading",
-   "text": "### 2. CLI workflow",
-   "id": "4bf15ca0",
-   "hash": "72fdfb9f1670"
-  },
-  {
-   "type": "para",
-   "text": "Expose one coherent happy path:",
-   "id": "98d06f37",
-   "hash": "3cfe2d7bf9f6"
-  },
-  {
-   "type": "code",
-   "text": "```text\nproofpress ingest demo/experiments.otlp.json\nproofpress propose --from-trace TRACE_ID --claims demo/claims.json\nproofpress review CLAIM_ID --policy demo/policy.yaml\nproofpress admit CLAIM_ID --reviewer human:richard --why \"...\"\nproofpress reject CLAIM_ID --reviewer agent:policy-reviewer --why \"...\"\nproofpress context --scope coframe-demo --format json\nproofpress materialize --scope coframe-demo --output current-knowledge.md\n```",
-   "id": "e15fa48c",
-   "hash": "a1901bdbdb38"
-  },
-  {
-   "type": "para",
-   "text": "The exact production command surface may evolve. For the demo, commands may be thin wrappers around one local ledger, but their output must use stable IDs and machine-readable JSON so another agent can consume it.",
-   "id": "f81099a6",
-   "hash": "3f1da82f1e04"
-  },
-  {
-   "type": "heading",
-   "text": "### 3. Review gates",
-   "id": "e3d0b749",
-   "hash": "4c48e9bb1a1a"
-  },
-  {
-   "type": "para",
-   "text": "Run gates in order:",
-   "id": "b316f5e8",
-   "hash": "95dd409c0b0b"
-  },
-  {
-   "type": "list",
-   "text": "1. **Deterministic verification:** schema validity, digest integrity, required evidence, sample-size floor, metric and guardrail checks.\n2. **Agent policy review:** a separate policy agent recommends accept, reject, or unresolved and cites the evidence and rule it used.\n3. **Human review:** a reviewer sees the claim, evidence, automated checks, and recommendation, then makes the final admission decision for high-impact knowledge.",
-   "id": "04e93bc6",
-   "hash": "d848ff9fec9b"
-  },
-  {
-   "type": "para",
-   "text": "The proposer must not self-approve by default. Agent review is a policy decision, not proof of semantic truth. Every gate records its identity, version, inputs, outcome, and rationale.",
-   "id": "ee532af0",
-   "hash": "d38ccf22d757"
-  },
-  {
-   "type": "heading",
-   "text": "### 4. Frontend graph",
-   "id": "5a97c213",
-   "hash": "ab3c23fdbbd9"
-  },
-  {
-   "type": "para",
-   "text": "Provide three zoom levels:",
-   "id": "81743ed6",
-   "hash": "fef24a99b9b7"
-  },
-  {
-   "type": "list",
-   "text": "- **Runs / traces:** source events and experiment measurements.\n- **Claims / experiments:** candidate interpretations and their support or refutation links.\n- **Governed knowledge:** accepted, current claims available to agents.",
-   "id": "1653cf2a",
-   "hash": "e9d7f4c21ebe"
-  },
-  {
-   "type": "para",
-   "text": "Default to the governed-knowledge view. A user can click a claim to traverse its admission and evidence back to a source span. Color communicates state, not truth: candidate, accepted, rejected, unresolved, superseded, or expired.",
-   "id": "3472dc81",
-   "hash": "ffc0a42afacb"
-  },
-  {
-   "type": "heading",
-   "text": "### 5. Agent context endpoint",
-   "id": "6973d48c",
-   "hash": "aff94766c84f"
-  },
-  {
-   "type": "para",
-   "text": "Return only current, in-scope knowledge by default, along with compact provenance handles and policy metadata. A fresh agent should receive the minimum sufficient state, not the entire event history. It can request deeper evidence when uncertainty or policy requires it.",
-   "id": "c6ba2715",
-   "hash": "060d4bda7d91"
-  },
-  {
-   "type": "heading",
-   "text": "## End-to-end demo script",
-   "id": "b9a76204",
-   "hash": "1d92090f19dc"
-  },
-  {
-   "type": "list",
-   "text": "1. Import one OTLP JSON fixture containing three prior website experiments.\n2. Generate three candidate claims from those experiments.\n3. Apply deterministic policy: one claim passes; one remains unresolved because the sample is insufficient; one is rejected because a guardrail metric regressed.\n4. Display all three candidates and their evidence edges in the graph.\n5. Let a human accept or reject the reviewable claim.\n6. Append the admission events to the ledger.\n7. Materialize `current-knowledge.md` from accepted, non-expired knowledge.\n8. Start a fresh agent session with only `proofpress context` or the materialized artifact.\n9. Ask the fresh agent to choose the next experiment and explain which admitted knowledge it used.\n10. Traverse the chosen claim back to the original experiment span.",
-   "id": "99d357ae",
-   "hash": "b02f3f6427f1"
-  },
-  {
-   "type": "para",
-   "text": "**Hero moment:** “Thousands of agent events became three candidate claims. Only one became organizational knowledge. A fresh agent continued from that governed knowledge—not from the raw trace.”",
-   "id": "4b6110c2",
-   "hash": "c8ca05133f04"
-  },
-  {
-   "type": "heading",
-   "text": "## Build plan",
-   "id": "36a8c209",
-   "hash": "c9ce1f1c68d0"
-  },
-  {
-   "type": "heading",
-   "text": "### Phase 0 — freeze the contract",
-   "id": "8d9e3f40",
-   "hash": "281e4a5ba9df"
-  },
-  {
-   "type": "list",
-   "text": "- Define the five node types, six edge types, admission states, and minimal JSON schema.\n- Write the policy semantics and the precise meaning of “verified.”\n- Freeze the three-experiment fixture and expected outcomes.",
-   "id": "302741ba",
-   "hash": "1e5055e3c714"
-  },
-  {
-   "type": "heading",
-   "text": "### Phase 1 — vertical slice",
-   "id": "e36da479",
-   "hash": "a649673b73f2"
-  },
-  {
-   "type": "list",
-   "text": "- Implement OTLP JSON import and deterministic canonical IDs.\n- Implement claim proposal, policy review, admission events, and current-context query.\n- Reuse existing Proofpress artifact digests, actor fields, reasons, claims, and append-only event concepts where compatible.\n- Materialize a portable Markdown view without making the artifact the database.",
-   "id": "3f6c980e",
-   "hash": "aa6694986fd5"
-  },
-  {
-   "type": "heading",
-   "text": "### Phase 2 — demo UI",
-   "id": "a63295c7",
-   "hash": "1fc108547409"
-  },
-  {
-   "type": "list",
-   "text": "- Build the three-level graph and claim detail drawer.\n- Add a human Accept / Reject / Mark unresolved action.\n- Show policy version, reviewer, evidence coverage, expiry, and supersession.",
-   "id": "7ce0a431",
-   "hash": "46189efc9a10"
-  },
-  {
-   "type": "heading",
-   "text": "### Phase 3 — continuity proof",
-   "id": "15bf08cf",
-   "hash": "bf484c567d03"
-  },
-  {
-   "type": "list",
-   "text": "- Launch a fresh agent with no prior session transcript.\n- Give it only governed context and provenance handles.\n- Capture whether it selects the intended next experiment and refuses to rely on rejected or unresolved claims.\n- Present this as a demo acceptance check, not as a scientific study or broad efficacy result.",
-   "id": "268f7a35",
-   "hash": "f1d4c8775745"
-  },
-  {
-   "type": "heading",
-   "text": "## Acceptance criteria",
-   "id": "73ce08a1",
-   "hash": "cfddbd76e752"
-  },
-  {
-   "type": "list",
-   "text": "- The same fixture produces deterministic evidence and claim identifiers on repeated import.\n- Every claim can be traced to one or more immutable evidence records and source-event pointers.\n- A claim cannot enter current context without a valid admission event.\n- Rejected, unresolved, expired, and superseded claims never appear as current knowledge by default.\n- The proposer cannot approve its own claim under the default policy.\n- Changing evidence, claim text, or policy inputs invalidates or creates a new review decision rather than silently mutating history.\n- A fresh agent receives only current governed knowledge and can request the supporting chain.\n- The UI never labels integrity, evidence support, or admission as universal truth.\n- Raw prompts, secrets, and full trace payloads are excluded from portable materialization.",
-   "id": "9ea724d0",
-   "hash": "0c4caedc39d1"
-  },
-  {
-   "type": "heading",
-   "text": "## Non-goals for the hackathon",
-   "id": "0317bd62",
-   "hash": "543276743f97"
-  },
-  {
-   "type": "list",
-   "text": "- No full OpenTelemetry Collector, storage backend, or real-time trace viewer.\n- No generic RAG or “company brain.”\n- No ingestion of every prompt, transcript, or tool payload.\n- No semantic truth oracle or automatic natural-language-to-formal equivalence claim.\n- No complex RBAC, enterprise tenancy, or multi-user real-time collaboration.\n- No arbitrary policy language or broad connector marketplace.\n- No full migration away from existing artifact-centric Proofpress behavior.\n- No Harvey or Cold Handoff study rerun; collaborator research remains a separate evidence track.",
-   "id": "4ce19b83",
-   "hash": "55eb2b3261eb"
-  },
-  {
-   "type": "heading",
-   "text": "## Backward-compatible product evolution",
-   "id": "072b3e94",
-   "hash": "4db7452aacc5"
-  },
-  {
-   "type": "para",
-   "text": "Current Proofpress records accepted artifact versions, computed block changes, actor roles, reasons, consequential rejections, and portable history. Those primitives become one projection of the broader ledger:",
-   "id": "f1c48520",
-   "hash": "af71ad2c2c7c"
-  },
-  {
-   "type": "list",
-   "text": "- existing artifact events remain valid `Artifact` and `Admission` records;\n- artifact claims can reference new ledger `Claim` IDs;\n- existing digests and actor roles are reused rather than replaced;\n- portable capsules carry a bounded view or references, not the entire telemetry graph;\n- existing `verify` continues to report integrity and claim-to-diff consistency, while a new admission view reports governance state.",
-   "id": "d81e4fc3",
-   "hash": "37b47f31ddfa"
-  },
-  {
-   "type": "para",
-   "text": "This is an upgrade in product center of gravity: from “the ledger travels with each artifact” to “the ledger governs claims across sources, and artifacts are portable views.” It should be implemented as additive schema and commands so the existing release remains usable.",
-   "id": "b33f1860",
-   "hash": "52bee6683dbd"
-  },
-  {
-   "type": "heading",
-   "text": "## Design-partner motion at the event",
-   "id": "4528f6a9",
-   "hash": "6267eb266645"
-  },
-  {
-   "type": "para",
-   "text": "Offer hosts and participating teams a **Trusted Continuation Track**:",
-   "id": "693a41c2",
-   "hash": "05baf8a7c744"
-  },
-  {
-   "type": "list",
-   "text": "1. Bring one completed or paused long-horizon run with existing telemetry.\n2. Select two to five claims that a future agent would need.\n3. Bind them to evidence and run the review gate.\n4. Start a fresh session or model from the governed context.\n5. Compare the continuation decision with the team's intended next step.",
-   "id": "05d6b48f",
-   "hash": "66e688d750b6"
-  },
-  {
-   "type": "para",
-   "text": "The design-partner question is not “Do you need memory?” Ask instead: **Which conclusion from a prior run would be costly or dangerous for a new agent to trust incorrectly, and who is allowed to approve it?** A promising partner has multi-session work, meaningful claims, real handoffs, and consequences for reusing an invalid conclusion.",
-   "id": "17dd4ec7",
-   "hash": "273c34d15a72"
-  },
-  {
-   "type": "para",
-   "text": "For Coframe specifically, position Proofpress as complementary to its experimentation loop: Coframe generates and evaluates variants; Proofpress makes selected conclusions portable, scoped, evidence-backed, revisable, and safe for a fresh session or model to inherit. Do not claim Coframe lacks experiment memory or telemetry.",
-   "id": "66f904d8",
-   "hash": "5c5cecd065e6"
-  },
-  {
-   "type": "heading",
-   "text": "## Risks and open questions",
-   "id": "5bfe8a93",
-   "hash": "39df16488f89"
-  },
-  {
-   "type": "list",
-   "text": "- **Unit boundary:** when should multiple metric observations become one claim rather than several claims?\n- **Policy ownership:** which decisions may be agent-reviewed, and which require a human?\n- **Revocation:** should expiry be time-based, evidence-based, or both?\n- **Privacy:** which source fields may be stored locally, shared with reviewers, or materialized into portable artifacts?\n- **Identity:** what attests that a named agent or human actually made a decision?\n- **External trust:** when is an external witness or signature required beyond the current tamper-evident local chain?\n- **Value proof:** does governed context materially improve safe continuation for a real partner workflow? The hackathon demo can expose this question but cannot answer it broadly.",
-   "id": "c2d173a0",
-   "hash": "4e90dc425667"
-  },
-  {
-   "type": "heading",
-   "text": "## Immediate owner split",
-   "id": "4be65d1f",
-   "hash": "e0f43b7430ed"
-  },
-  {
-   "type": "list",
-   "text": "- **Proofpress core:** ledger schema, admission state machine, provenance, CLI, context projection, and portable materialization.\n- **Demo frontend:** graph navigation, evidence drawer, review action, and fresh-session launch.\n- **Coframe / partner adapter:** bounded OTLP fixture and mapping from experiment spans to evidence.\n- **Harvey collaborator:** continue the separate research and handoff work; provide lessons or reusable fixtures only where their evidence scope is explicit.",
-   "id": "ad27f5c8",
-   "hash": "98f36135c8dd"
-  },
-  {
-   "type": "heading",
-   "text": "## Sources",
-   "id": "f7c1246a",
-   "hash": "cbaf035b4184"
-  },
-  {
-   "type": "list",
-   "text": "- `ara-product-exploration.html` (local attachment supplied for this planning request), especially “the structure layer” and the distinction between traces, claims, and verified findings.\n- `README.md` and `docs/PORTABLE_ARTIFACT_SPEC.md` for current Proofpress behavior and trust boundaries.\n- `studies/long-horizon-eval/ara/` for the production Design / Freeze / Execute / Admit / Synthesize lifecycle, Phase Zero boundary, claim register, and evidence policy.\n- `studies/LONG_HORIZON_EVAL_FLOW.md` for the cold-boundary intervention and the separation of safe continuation from general agent capability.\n- `rit-hub-demo/DECISIONS.md` and `experiments/provenance_handoff/README.md` in the development checkout for the verification / process / admission separation and the Harvey research boundary; these files are supporting context, not part of this PR base.",
-   "id": "b17e9034",
-   "hash": "473019da9076"
+   "hash": "76d3533b77b1",
+   "id": "2580a249",
+   "text": "<p>This view contains admitted knowledge only. Open or blocked claims remain visible as work to review, but are not silently promoted into the next session.</p>",
+   "type": "para"
   }
  ]
 }
