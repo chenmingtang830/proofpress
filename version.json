@@ -3,64 +3,100 @@
  "artifact_id": "pp_c5949563fc662476994db4f8",
  "blocks": [
   {
-   "hash": "55f35c00a643",
-   "id": "26127b71",
+   "type": "heading",
    "text": "<h1>THE EXPERIMENT RAN.<span>THE DECISION NEEDS A RECEIPT.</span></h1>",
-   "type": "heading"
+   "id": "26127b71",
+   "hash": "55f35c00a643"
   },
   {
-   "hash": "46a3ca9eaefe",
-   "id": "59111a7d",
+   "type": "para",
    "text": "<p>Long-horizon agents generate events. Proofpress makes the useful conclusion <strong>scoped, reviewable, and safe for a fresh session to inherit.</strong></p>",
-   "type": "para"
+   "id": "59111a7d",
+   "hash": "46a3ca9eaefe"
   },
   {
-   "hash": "7bf7a25fb307",
-   "id": "ad5a4616",
+   "type": "heading",
    "text": "<h2>What can the next agent safely inherit?</h2>",
-   "type": "heading"
+   "id": "ad5a4616",
+   "hash": "7bf7a25fb307"
   },
   {
-   "hash": "9bd4c357bc7e",
-   "id": "52ab68ed",
+   "type": "para",
    "text": "<p>Choose one experiment first. Open lineage only when you need to inspect how the decision was made.</p>",
-   "type": "para"
+   "id": "52ab68ed",
+   "hash": "9bd4c357bc7e"
   },
   {
-   "hash": "b03b4c251ede",
-   "id": "03df410b",
+   "type": "heading",
    "text": "<h3 id=\"paperTitle\">Candidate B increased conversion.</h3>",
-   "type": "heading"
+   "id": "03df410b",
+   "hash": "b03b4c251ede"
   },
   {
-   "hash": "349ef2d7bb83",
-   "id": "e165f27d",
+   "type": "para",
    "text": "<p id=\"paperBody\">This is the result a fresh agent may want to reuse. The ledger keeps it attached to its measured run and review state.</p>",
-   "type": "para"
+   "id": "e165f27d",
+   "hash": "349ef2d7bb83"
   },
   {
-   "hash": "2196970f1337",
-   "id": "5d58db33",
+   "type": "heading",
    "text": "<h3 id=\"title\">Candidate B is eligible for review.</h3>",
-   "type": "heading"
+   "id": "5d58db33",
+   "hash": "2196970f1337"
   },
   {
-   "hash": "ce338dcfd6c9",
-   "id": "105f3c7c",
+   "type": "para",
    "text": "<p id=\"body\">Evidence is present, the experiment completed, and the metric is measured. A human or policy reviewer still decides whether this belongs in shared knowledge.</p>",
-   "type": "para"
+   "id": "105f3c7c",
+   "hash": "ce338dcfd6c9"
   },
   {
-   "hash": "63ae8506c20f",
-   "id": "c0058247",
+   "type": "heading",
+   "text": "<h2>Where this decision came from.</h2>",
+   "id": "185f2164",
+   "hash": "01f534cce4cd"
+  },
+  {
+   "type": "para",
+   "text": "<p>The main surface answers “can we continue?” This graph answers “what evidence and review state led here?”</p>",
+   "id": "5a61ca84",
+   "hash": "e144ad5145f9"
+  },
+  {
+   "type": "heading",
+   "text": "<h3>TRACE EVENTS</h3>",
+   "id": "b1d1374e",
+   "hash": "586b1a5bfd0a"
+  },
+  {
+   "type": "heading",
+   "text": "<h3>EXPERIMENTS</h3>",
+   "id": "da688c90",
+   "hash": "0c99a5c83f3e"
+  },
+  {
+   "type": "heading",
+   "text": "<h3>CANDIDATE CLAIMS</h3>",
+   "id": "dcde9235",
+   "hash": "c2493e03f61d"
+  },
+  {
+   "type": "heading",
+   "text": "<h3>ADMISSION</h3>",
+   "id": "c4ddb8c9",
+   "hash": "e51d8b121e71"
+  },
+  {
+   "type": "heading",
    "text": "<h2 id=\"drawerTitle\">Candidate B · eligible for review</h2>",
-   "type": "heading"
+   "id": "c0058247",
+   "hash": "63ae8506c20f"
   },
   {
-   "hash": "0db8554af39d",
-   "id": "2d1205a7",
+   "type": "heading",
    "text": "<h3>Deterministic admission checks</h3>",
-   "type": "heading"
+   "id": "2d1205a7",
+   "hash": "0db8554af39d"
   }
  ]
 }

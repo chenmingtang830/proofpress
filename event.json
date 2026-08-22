@@ -1,102 +1,70 @@
 {
- "actors": {
-  "recorded_by": [
-   "unknown"
-  ]
- },
+ "event": "version_created",
  "artifact": "examples/verified-knowledge-ledger/demo.partner-style.html",
  "artifact_id": "pp_c5949563fc662476994db4f8",
- "attribution_basis": "self_asserted",
+ "version": "0c34b903",
+ "parent": "62c32e38",
  "author": {
+  "name": "codex-preflight",
   "kind": "system",
-  "name": "unknown",
   "session": null
+ },
+ "note": "best-effort fallback capture; edit attribution unknown",
+ "ts": "2026-08-22T20:59:51+00:00",
+ "stats": {
+  "added": 6
  },
  "changes": [
   {
-   "block": "26127b71",
-   "context": "<h1>THE EXPERIMENT RAN.<span>THE DECISIO",
    "kind": "added",
-   "preview": "<h1>THE EXPERIMENT RAN.<span>THE DECISION NEEDS A RECEIPT.</",
-   "type": "heading"
+   "block": "185f2164",
+   "type": "heading",
+   "context": "<h2>Where this decision came from.</h2>",
+   "preview": "<h2>Where this decision came from.</h2>"
   },
   {
-   "block": "59111a7d",
-   "context": "<h1>THE EXPERIMENT RAN.<span>THE DECISIO",
    "kind": "added",
-   "preview": "<p>Long-horizon agents generate events. Proofpress makes the",
-   "type": "para"
+   "block": "5a61ca84",
+   "type": "para",
+   "context": "<h2>Where this decision came from.</h2>",
+   "preview": "<p>The main surface answers “can we continue?” This graph an"
   },
   {
-   "block": "ad5a4616",
-   "context": "<h2>What can the next agent safely inher",
    "kind": "added",
-   "preview": "<h2>What can the next agent safely inherit?</h2>",
-   "type": "heading"
+   "block": "b1d1374e",
+   "type": "heading",
+   "context": "<h3>TRACE EVENTS</h3>",
+   "preview": "<h3>TRACE EVENTS</h3>"
   },
   {
-   "block": "52ab68ed",
-   "context": "<h2>What can the next agent safely inher",
    "kind": "added",
-   "preview": "<p>Choose one experiment first. Open lineage only when you n",
-   "type": "para"
+   "block": "da688c90",
+   "type": "heading",
+   "context": "<h3>EXPERIMENTS</h3>",
+   "preview": "<h3>EXPERIMENTS</h3>"
   },
   {
-   "block": "03df410b",
-   "context": "<h3 id=\"paperTitle\">Candidate B increase",
    "kind": "added",
-   "preview": "<h3 id=\"paperTitle\">Candidate B increased conversion.</h3>",
-   "type": "heading"
+   "block": "dcde9235",
+   "type": "heading",
+   "context": "<h3>CANDIDATE CLAIMS</h3>",
+   "preview": "<h3>CANDIDATE CLAIMS</h3>"
   },
   {
-   "block": "e165f27d",
-   "context": "<h3 id=\"paperTitle\">Candidate B increase",
    "kind": "added",
-   "preview": "<p id=\"paperBody\">This is the result a fresh agent may want ",
-   "type": "para"
-  },
-  {
-   "block": "5d58db33",
-   "context": "<h3 id=\"title\">Candidate B is eligible f",
-   "kind": "added",
-   "preview": "<h3 id=\"title\">Candidate B is eligible for review.</h3>",
-   "type": "heading"
-  },
-  {
-   "block": "105f3c7c",
-   "context": "<h3 id=\"title\">Candidate B is eligible f",
-   "kind": "added",
-   "preview": "<p id=\"body\">Evidence is present, the experiment completed, ",
-   "type": "para"
-  },
-  {
-   "block": "c0058247",
-   "context": "<h2 id=\"drawerTitle\">Candidate B · eligi",
-   "kind": "added",
-   "preview": "<h2 id=\"drawerTitle\">Candidate B · eligible for review</h2>",
-   "type": "heading"
-  },
-  {
-   "block": "2d1205a7",
-   "context": "<h3>Deterministic admission checks</h3>",
-   "kind": "added",
-   "preview": "<h3>Deterministic admission checks</h3>",
-   "type": "heading"
+   "block": "c4ddb8c9",
+   "type": "heading",
+   "context": "<h3>ADMISSION</h3>",
+   "preview": "<h3>ADMISSION</h3>"
   }
  ],
- "event": "version_created",
- "event_id": "ppe_533a89c54025b9320fdad7f7",
- "note": "portable lineage checkpoint",
- "parent": null,
- "parents": [],
  "policy": "portable",
- "portable_checkpoint": true,
- "portable_lineage_id": "ppl_3d7612b7cd68b01b30fac7e6",
- "soft_fingerprint": "ppsb1:3390db18a7d2942c5e83526cd7b7e2270b91cb3452ba1d56dca5c37623d3307a",
- "stats": {
-  "added": 10
+ "soft_fingerprint": "ppsb1:19eb963fabe29e5be2cc07b8e73680a2dd39ab6e6fdf874f8e9f3099c4368bd7",
+ "actors": {
+  "recorded_by": [
+   "codex-preflight"
+  ]
  },
- "ts": "2026-08-22T20:49:40+00:00",
- "version": "62c32e38",
- "imported_from_capsule": true
+ "attribution_basis": "harness_attested",
+ "event_id": "ppe_0f401137ff7e01050ef1a5d9"
 }
