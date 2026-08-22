@@ -1,0 +1,24 @@
+[//]: # (ob:01b8a95d)
+# Claim register
+
+[//]: # (ob:c84eefb7)
+## C-LH-01: Phase Zero mechanics readiness
+
+[//]: # (ob:8756ce27)
+The RelayBench H4 test-double harness can enforce a declared cold boundary, machine-check C1/C2 file-level parity, produce deterministic state-scoring records, and exclude TEST-ONLY output from benchmark metrics. This is a harness-readiness claim, not behavioral evidence from a language model.
+
+[//]: # (ob:c528753a)
+## C-LH-02: Future efficacy claim is conditional
+
+[//]: # (ob:2a0398fe)
+Only admitted real execution can support a conditional claim that Proofpress helped preserve or safely revalidate authorized negotiation state across a cold boundary. It cannot support a claim that Proofpress improves legal knowledge, drafting skill, retrieval, factual truth, or independent authorization.
+
+[//]: # (ob:8276420f)
+## C-LH-03: Meaningful null result
+
+[//]: # (ob:8a13c1ec)
+If C2 does not improve safety, recovery cost, or final episode quality under a frozen information-matched protocol—or materially increases false stops—the study should report that null or negative outcome rather than reinterpret a mechanics pass as product efficacy.
+
+[//]: # (proofpress:meta:eyJhcnRpZmFjdF9pZCI6InBwXzkyNjY0NDczOGM0YTE5ODE5OGNkMmJmNyIsInBvbGljeSI6InBvcnRhYmxlIiwicG9ydGFibGVfaGVhZCI6ImM3OTg4NjA1IiwicG9ydGFibGVfaGVhZF9ldmVudCI6InBwZV8zOTQ3ZjBhODlkMDUwZDEyZDViYzliMzQiLCJwb3J0YWJsZV9saW5lYWdlX2lkIjoicHBsXzQzNDBjZWNiZjJiMTU5YmE5MmVjMjAxYSIsInByb29mcHJlc3MiOjF9)
+[//]: # (proofpress:discovery:Verifiable revision history by Proofpress | https://github.com/chenmingtang830/proofpress)
+[//]: # (proofpress:capsule:eNq9V-1u2zYUfRVC-zk7lqhv_9uKDS3QrcUWDNiKQODHpcVFFlWSSusGAfYQe8I9yS5l2XHaLEuXYkCA2DJ57-G5955DXUfMeq2Y8I2W0ToahqamRZFlZVqJjCV1hX9CUq7KaBFxI3eN1BtwHte6ltG8WHORVQlAmai6pDQWKc1zRjOAWPCizhKR1LlIVZkWkEJBGWeqKtOMQUUlKylgXKmdMFdgd9H6OnzxjWcbzNAxH1It8AOHDh_8AlYrzXgHxMKVdtr0pMX1xu4I35HX1hg1WHAO9wxMXLINhEPdeWzN74DHHW0I2Ho_uPVqtdG-HfmZMNuVaKHf6n7jWb-p0nh1Z7eFt6PGz83owDbC9A565MLbEW4WUQsskCjKuqqKOI_2Txq4mhYhudCkdVaqmFW1jPNYJlTmXNQ8zQIyY304WtPpHhD5oSJdk6VZLEBwRXmS15zVFASNE7Y_zoyuEWxwY4cHpgGnMFa6aP3mOprTX0dYZWNd-LT_GWTDkfI30asB-m9ekGdGwvvoAg9yaIpQZT9KDW7VmX6zbI3VH0y_hCvWrZhl-HSjxUp0TG_d2VZGi8_qJ-a91Xz0WMaGM6ddyAedaphDej1M8UaPWQPoS92HkG7nPGzxl55tQ3XvgF_gfhfaIlr3Y9fhUUSLdYQ9E7wz4hK3xAmvWJ2H8FhCD-_DQZ-FQ2BbbbCfwOJPcz4m5QRkCB0H7_DJV-STtX43BCyh3Ng60c3iNpmocBYUL-8mW758voyTNXndMgfkN7CGbCFg1cJh4BBm33H_jAJhPDrKA_iqMi8E0C-O77wF8hN0bPct9KIlzzMShnkpzRjGt2U2BCCC9QR6ZawAwogEbCU7BZoRD9hld-nMKSJO2T1w6Zp8P_rRAgGltGBiR6bOJBrzmF5q_yg-_z0M9hfrHmaVsjitKwVfHOarvtsRJrfa43yESnQE3oOYhmhi041DUBJk8wTsPsMDtFa0LDIaq3vwpmvyA2Dh-40aOxLGCtOi0jyOzYd2P9SVLElFAuJL4XmhyDNKpAFHeuOJ3qJwXgFxTIHfLUgQxGBAyJnzC2IsUTrQBoN25mPaLhYHTY1wT1CbRmAh9no1_XIQvwf1HnFMMWfZJ7PsEzQgcTkY3fvJxeyUKRzz8C2I2UXwi06L3UmEUw85CTK503-0F2eUb5CKDdjB6tnFHE_WgldJmfAELT0GEcegapVCFatcxTxVLMEYMU_iOE14zmqJd4Iil4XK6ozFtAp95jzzkxvtq7UuUa3Dg4jGtFjG1ZLS86RcZ_U6zr6O43Uc46aZ8FOXvTl5ev1_WdfUp3tXQYVscX0JMsbLTSVUGZibYpwYzdzCj_OOOWSBCWleq6Sq-SHkiZ0cQj7RCOZkEkunKkUrgGOyE2-Ykz1F1XG4Okm4GXvJLA7dlokWcS2nXiXPkhVOqNIdLDscoo5gs-swmzipcsRAEpAvvJkhb1qQ0D2wxHsjtuWGzPedBWG9RD0U3SiBnH_38_ny1Y8vfyVm9MPoibJmS3gAvmX2EhnC64dwZ-Qc75BBfdnhAMsjZXvhXEyiwaFlV9rYoAtXWmIc2IdkpMNLxhiGd4vXkO7sHqGdWaaJKGJecZw0cSzpraV9XNInedGxMXOpyjynMkkOKU_saU75FF8hvmX-5PZNWugGjBK-gEWZRT0NSosZbJg_LbF2ZH-z0x9wYQ8b4zWbck2FJUxY49yU7KRnzsgLH8CEapzguRfDLPGOdLBBoJe9edeB3MCCSMuUD13jLjWqKmLCPgi4FiSM_4irUTJ9O_kAGgrgDROr7Y-IJ6APFLmQFU1RB6lS6XGUbg324yJ_pkUekhRxlauiZIWsj0luXXNO8hTfwxF6i2TgEBKkHyxSje3-AXokBWd7O9GwxH84wKHYxhus1l9__Ilh8Cm-q7EOS6774I54L0d2O1QnfF0bHK7ybfg8yh1xrRm70HRTQadCTixgHOwMTBNaaPT4dobvfQz32bCoxw1oScGZILTBreANLLSOm5XDH2fnk5Jd3ODf3wPg-98)
