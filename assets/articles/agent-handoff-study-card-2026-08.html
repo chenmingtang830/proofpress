@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Proofpress agent handoff study</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #0c0e13;
+      --panel: #131821;
+      --line: #2a3342;
+      --text: #f2efe8;
+      --muted: #aab4c5;
+      --teal: #4aaec2;
+      --ordinary: #d99696;
+      --proofpress: #75cfa0;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      width: 1200px;
+      height: 1200px;
+      margin: 0;
+      overflow: hidden;
+      background: var(--bg);
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    main {
+      width: 100%;
+      height: 100%;
+      padding: 72px 78px 68px;
+      display: grid;
+      grid-template-rows: auto auto 1fr auto;
+      gap: 44px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      font-size: 24px;
+      font-weight: 650;
+      letter-spacing: .03em;
+    }
+
+    .brand img { width: 54px; height: 54px; }
+
+    .intro h1 {
+      max-width: 980px;
+      margin: 0;
+      font-size: 54px;
+      line-height: 1.09;
+      letter-spacing: -.035em;
+      font-weight: 650;
+    }
+
+    .intro p {
+      max-width: 940px;
+      margin: 20px 0 0;
+      color: var(--muted);
+      font-size: 27px;
+      line-height: 1.42;
+      letter-spacing: -.01em;
+    }
+
+    .comparison {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+
+    .card {
+      padding: 42px 42px 38px;
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      background: var(--panel);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .card-label {
+      font-size: 23px;
+      font-weight: 650;
+      line-height: 1.25;
+    }
+
+    .card.ordinary .card-label { color: var(--ordinary); }
+    .card.proofpress .card-label { color: var(--proofpress); }
+
+    .number {
+      display: block;
+      margin: 40px 0 18px;
+      font-size: 86px;
+      line-height: 1;
+      letter-spacing: -.04em;
+      font-weight: 650;
+    }
+
+    .outcome {
+      color: var(--muted);
+      font-size: 25px;
+      line-height: 1.35;
+    }
+
+    .card.proofpress {
+      background: linear-gradient(135deg, rgba(74, 174, 194, .12), rgba(117, 207, 160, .07));
+      box-shadow: inset 0 0 0 1px rgba(117, 207, 160, .22);
+    }
+
+    .mechanism {
+      margin-top: 46px;
+      padding-top: 28px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 20px;
+      line-height: 1.4;
+    }
+
+    .mechanism strong { color: var(--text); font-weight: 600; }
+
+    footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 28px;
+      color: var(--muted);
+      font-size: 17px;
+      line-height: 1.35;
+    }
+
+    footer strong { color: var(--text); font-weight: 600; }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="brand">
+      <img src="../logo-on-dark.svg" alt="Proofpress">
+      <span>Proofpress</span>
+    </div>
+
+    <section class="intro">
+      <h1>What happens when an agent’s memory is based on an older version of the file?</h1>
+      <p>The handoff described earlier work, but the file had since been updated.</p>
+    </section>
+
+    <section class="comparison" aria-label="Controlled study results when the document changed">
+      <article class="card ordinary">
+        <div>
+          <div class="card-label">Handoff memory only</div>
+          <strong class="number">0 / 12</strong>
+          <div class="outcome">stopped stale reuse</div>
+        </div>
+        <div class="mechanism">The agent received the prior context, but no check that it still matched the file.</div>
+      </article>
+
+      <article class="card proofpress">
+        <div>
+          <div class="card-label">Handoff + Proofpress</div>
+          <strong class="number">12 / 12</strong>
+          <div class="outcome">stopped stale reuse</div>
+        </div>
+        <div class="mechanism"><strong>Proofpress checked the file version</strong> before the agent reused the earlier work.</div>
+      </article>
+    </section>
+
+    <footer>
+      <span><strong>Controlled study · GPT-5.6 Luna · high effort</strong></span>
+      <span>On unchanged files, both conditions continued correctly: 12 / 12</span>
+    </footer>
+  </main>
+</body>
+</html>
