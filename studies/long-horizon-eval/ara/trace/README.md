@@ -1,0 +1,24 @@
+[//]: # (ob:b21f1062)
+# Run-record and trace policy
+
+[//]: # (ob:c5275df2)
+## Retain
+
+[//]: # (ob:65f2d8b6)
+For each real attempt, retain a structured run record with condition, manifest/source hashes, stage and boundary evidence, parity result, verifier result, resolved model/provider identity, telemetry, evaluator/scoring status, and invalidation reason. Retain failed, timed-out, partial, and abstained attempts alongside successful attempts.
+
+[//]: # (ob:6c415d8e)
+## Exclude
+
+[//]: # (ob:9cc6b663)
+Do not treat raw prompts, private transcripts, hidden chain-of-thought, credentials, or unlicensed source documents as default ARA evidence. When a permitted evaluator output is necessary, record a bounded reference or hash and its access conditions.
+
+[//]: # (ob:c4096bc3)
+## Admission
+
+[//]: # (ob:0897cb6f)
+A run may contribute to a claim only after the record verifies against the frozen protocol and has no unresolved invalidation. TEST-ONLY records remain retained as engineering evidence but are ineligible for benchmark aggregation.
+
+[//]: # (proofpress:meta:eyJhcnRpZmFjdF9pZCI6InBwXzhkYTU5MTYwYTg5NTAxMjQyMGMzNjI0NSIsInBvbGljeSI6InBvcnRhYmxlIiwicG9ydGFibGVfaGVhZCI6IjJkMTBmNGEwIiwicG9ydGFibGVfaGVhZF9ldmVudCI6InBwZV8yMTRkMDRlNjM3NjcxMTFlMWZlYjJkOGUiLCJwb3J0YWJsZV9saW5lYWdlX2lkIjoicHBsXzA1MDM5ZGIwMzMwNDU3MzhhMjE3MDc2OSIsInByb29mcHJlc3MiOjF9)
+[//]: # (proofpress:discovery:Verifiable revision history by Proofpress | https://github.com/chenmingtang830/proofpress)
+[//]: # (proofpress:capsule:eNq9VtuO2zYQ_RVCfay91v3it0WTAgV6Qxq0KIJAGJIjm12JdElqE2ex_96hLK29aeEgCVDAgCWKPHM5M2f4EIH1qgPhWyWjbXQ4tLWEoknKGOqmiJM0T2ORlWleRKuIG3lspdqh87TX7SEtym1SVWkcF1lSZQBlnkFdFnlVZF3NZdMkCdQ1j8u8q4sKK14Ab4qSLEhZyAqyrCFcqZww92iP0fYhvPjWw44s9OCDqRU9cOxp4Xe0qlPAe2QW75VTRrM97Tf2yPiR_WqN6Q4WnaMzBxB3sMMQ1LNla_5CCne0AXDv_cFtN5ud8vuR3wgzbMQe9aD0zoPe1Vm8eXba4t-joud2dGhbYbRDTbnwdsTHVbRHCElMZRJ3OcTRaaXF-2kTJRfbNMllnGOZVWWVJAkmHfJU1hg8M9aH0NpeaSTPF0b6Ni7irJE8zrI4L6qshjSp4qpsTuHM3rUCDm7sKeA0-CmMlS7avnmIZvMPEbFsrAtPp88oW04pfxP9ckB9-wP7zkh8H72lQJaiCCz7USp0m97o3XpvrPpg9Brvod-AhY23IHDz6uXti59e3gwyWn1WPYH3VvHRE40tB6dcsId914Kj9Hqc8EZPVoPTd0oHSHd0Hgf6omEI7D5zfkXnXSiLaKvHvqdQxJ54xFMmeG_EHR3hadIlcZnSdqLQ4_sQ6KtRr095YaAlmyJjB9MrcaR9s3GQcvLqEMoP39HKN-z6QX88BC9DIVBRRY-rsxuiSKtCdh-5gR6UvmqRTC6brqCXRUeFxcvPRP_eWIYg9tRg0DNiCIeDX9FbOMiAOap14UeLktlRsznwd9Q_TJwdOlBxPPdG5ElxqvOzNy_fi36U-Ilgz7uuRNsIUfKyzD4X_4Vh2ngiDcEzC-8YNRQF7Fb0oO5JfwKf2gmrpsW9IgTNqKiUXl8JV-RxU3Lx3J1bOahTcV4P-HLflZDjuqkEL7vPt3E7UTfAkYWDUwtSnIbYFT2ogRndHxl0Hi3ze1w4vp_E9-Og364WgYloQ7DcipDMyeT0ZVGCq-JHJEyYswayWQMp0yjuDkZpP0m6nSyF1l7eQme_DeI59dsZ4VJQL0Amqf5CrXWm821HNKCl4pgl3fFkG3d1I5KiAZEJKBPJZZE0nGNBsSZxXtVVLCR0RVnlDUHyJq5SYq6CpoYswdA3zoOfpPnE1rYi6QoLURqn5Tqu12n6Oqm2ebONy2_jeBuH6TIn_HLkPF6sPvxfOj5V5Eli9-D2tL_mmNHMbsoiDY5OGBeqOxfrF2jnjN8hNoXMqcOKbMG_kNMF_7pSzli8qeKyTJMCClywLsRzxvoaXTRaqjDkVtRzWnV0p9k4M1oKNbiApCtEPxV7SAE3o5ZA9xlqVpIagaREYJU_EiSNdzJ56kPqzWWB_k1_T4YHmoF9uLCEo5aF855OrpjHHgf0lh4D5SPQRWBDdy6q4l2w7UfyIVhXmj4rCcHbEKkz-mbOIetA9SgJTA0o12b0k2deQX86C9yFfeTHnB3HIFSbIz-YG4WgydyNT7lzN_-hn0v5JHXXdHmVZln3RMl5gpzpvTobZrACGsxTgWmV5gvYxbiYwb5mEJhuTZeUcbenlJD4TWmHnnZRzYyaihnpnijZzLk0YhyCcjFwTGIHRCK7fXX7xPgN-4PuoFRTB7SDomzJM2uM8n4YPVOOaQwZhUDq0kKn6gkliB3agBVcCHk4sRtsTjyca_IaDUlJF_YqTrsG66cuO0-2Mw2fmFgzHCQ1iIYXknR_gbsYYssE-4rhhBTfjhhxfvrWWfOBEklMeiNMP-WAfCGiiZanrrms-Rv2-uVvr9e__PzjnzOyo_8hlP-p00N1O4Z6R484tc_CGiNHGY0kwsNe7VSYYh1ln9PH_QD2jlzbWdyd7PxrjD7S7x9fJ3dq)
