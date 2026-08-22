@@ -2,15 +2,15 @@
  "event": "version_created",
  "artifact": "examples/verified-knowledge-ledger/demo.html",
  "artifact_id": "pp_40ef1554e4b2258141ab1824",
- "version": "d280bb0b",
- "parent": "cdb56dec",
+ "version": "3337c656",
+ "parent": "d280bb0b",
  "author": {
   "name": "codex",
   "kind": "agent",
   "session": null
  },
  "note": null,
- "ts": "2026-08-22T20:40:28+00:00",
+ "ts": "2026-08-22T20:41:07+00:00",
  "stats": {
   "modified": 1
  },
@@ -23,7 +23,7 @@
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:d96f91f617352c07ca86e4ac1596d58fa94c55d08304f2751b7c152b43751d4f",
+ "soft_fingerprint": "ppsb1:31c990c50657dc5b6eff7d5ad9812f9bf8d14ff26f8ecd85fcea55ec4cd15615",
  "actors": {
   "requested_by": [
    "user"
@@ -43,121 +43,11 @@
   {
    "block": "01a812de",
    "kind": "modified",
-   "note": "Sharpens the shareable MVP headline around reviewed decisions."
-  },
-  {
-   "block": "42f4b1e5",
-   "kind": "added",
-   "note": "Explains the trace-to-knowledge product promise."
-  },
-  {
-   "block": "e74d13e2",
-   "kind": "added",
-   "note": "Labels the trace-event graph layer."
-  },
-  {
-   "block": "e9fc2dbb",
-   "kind": "added",
-   "note": "Shows the first source trace."
-  },
-  {
-   "block": "72307dcb",
-   "kind": "added",
-   "note": "Shows the second source trace."
-  },
-  {
-   "block": "e232f039",
-   "kind": "added",
-   "note": "Shows the failed source trace and retry exhaustion."
-  },
-  {
-   "block": "3040838a",
-   "kind": "added",
-   "note": "Labels the experiment graph layer."
-  },
-  {
-   "block": "d4feeb66",
-   "kind": "added",
-   "note": "Shows a measured baseline outcome."
-  },
-  {
-   "block": "cb3fe077",
-   "kind": "added",
-   "note": "Shows a measured candidate outcome."
-  },
-  {
-   "block": "02b7b4e0",
-   "kind": "added",
-   "note": "Shows the unresolved candidate outcome."
-  },
-  {
-   "block": "83cf1e3b",
-   "kind": "added",
-   "note": "Labels the candidate-claim graph layer."
-  },
-  {
-   "block": "03e89e79",
-   "kind": "added",
-   "note": "Binds the baseline claim to source evidence."
-  },
-  {
-   "block": "005ddbd1",
-   "kind": "added",
-   "note": "Binds the candidate claim to source evidence."
-  },
-  {
-   "block": "ba746120",
-   "kind": "added",
-   "note": "Marks the blocked claim's error evidence."
-  },
-  {
-   "block": "1cb69f29",
-   "kind": "added",
-   "note": "Labels the admission graph layer."
-  },
-  {
-   "block": "110cf0ef",
-   "kind": "added",
-   "note": "Shows the human review actor for admitted knowledge."
-  },
-  {
-   "block": "66b6123e",
-   "kind": "added",
-   "note": "Shows a claim awaiting review."
-  },
-  {
-   "block": "a46950eb",
-   "kind": "added",
-   "note": "Shows the policy-blocked admission outcome."
-  },
-  {
-   "block": "3bfa1040",
-   "kind": "added",
-   "note": "Shows the selected claim detail."
-  },
-  {
-   "block": "c4c8fb24",
-   "kind": "added",
-   "note": "Shows the claim statement and scope."
-  },
-  {
-   "block": "0519651c",
-   "kind": "added",
-   "note": "Shows deterministic admission checks."
-  },
-  {
-   "block": "44ca7280",
-   "kind": "added",
-   "note": "Introduces the fresh-agent context view."
-  },
-  {
-   "block": "2580a249",
-   "kind": "added",
-   "note": "States that only admitted knowledge crosses the continuation boundary."
+   "note": "Makes the partner-facing headline explicitly name scoped decisions."
   }
  ],
  "context": {
-  "why": "refined the partner-facing headline to make review gate explicit"
+  "why": "made the partner-facing headline explicit about scoped decisions"
  },
- "event_id": "ppe_de353312f2760d1bcb2a2ebd"
+ "event_id": "ppe_f794030bed3f7e9773972d12"
 }

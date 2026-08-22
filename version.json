@@ -4,9 +4,9 @@
  "blocks": [
   {
    "type": "heading",
-   "text": "<h1>Make the next session inherit reviewed decisions, not just traces.</h1>",
+   "text": "<h1>Make the next session inherit reviewed, scoped decisions.</h1>",
    "id": "01a812de",
-   "hash": "64a6dd77313f"
+   "hash": "1de8b41755b2"
   },
   {
    "type": "para",
