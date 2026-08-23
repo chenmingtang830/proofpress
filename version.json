@@ -4,21 +4,21 @@
  "blocks": [
   {
    "type": "heading",
-   "text": "<h2>Verified cumulative knowledge<span>for autonomous AI agents.</span></h2>",
+   "text": "<h2>The verified knowledge ledger<span>for autonomous AI agents.</span></h2>",
    "id": "67be4882",
-   "hash": "4f9a69d2559d"
-  },
-  {
-   "type": "heading",
-   "text": "<h2 class=\"section-title\">Long-horizon agents remember more.<span>But what should they trust?</span></h2>",
-   "id": "9b7bc598",
-   "hash": "450427c8a92e"
+   "hash": "b780cdf8cf68"
   },
   {
    "type": "para",
-   "text": "<p>Across sessions, an unsupported conclusion can become memory, then policy, then an action—without anyone seeing where it came from.</p>",
-   "id": "35407fa5",
-   "hash": "362e5dcbba49"
+   "text": "<p class=\"tour-lede\">A cumulative knowledge system powered by verification, traceability, and governance.</p>",
+   "id": "6e4ac837",
+   "hash": "294852d88bb0"
+  },
+  {
+   "type": "heading",
+   "text": "<h2 class=\"section-title\">Agents remember more.<span>But memory is not trust.</span></h2>",
+   "id": "9b7bc598",
+   "hash": "e4811b7646a1"
   },
   {
    "type": "heading",
@@ -28,9 +28,9 @@
   },
   {
    "type": "para",
-   "text": "<p>Logs and traces tell us what happened.</p>",
+   "text": "<p>What happened?</p>",
    "id": "31c19cab",
-   "hash": "1ce5aff81ce6"
+   "hash": "f328451e5294"
   },
   {
    "type": "heading",
@@ -40,57 +40,33 @@
   },
   {
    "type": "para",
-   "text": "<p>Retrieval and structure tell agents what to carry forward.</p>",
+   "text": "<p>What should be carried forward?</p>",
    "id": "676412d2",
-   "hash": "5bcdcec479e2"
+   "hash": "94d26c97d5bf"
   },
   {
    "type": "heading",
-   "text": "<h3>Verification + governance</h3>",
+   "text": "<h3>Proofpress</h3>",
    "id": "e2163537",
-   "hash": "4ea8802f7f50"
+   "hash": "10d1e1b52040"
   },
   {
    "type": "para",
-   "text": "<p>Proofpress decides what is evidence-backed, scoped, current, and safe to rely on.</p>",
+   "text": "<p>What may be relied on—and why?</p>",
    "id": "4a6c7b6e",
-   "hash": "551dafe1cecf"
+   "hash": "f8784456631a"
   },
   {
    "type": "heading",
-   "text": "<h2 class=\"section-title\">Turn raw trajectories into<span>trusted organizational knowledge.</span></h2>",
+   "text": "<h2 class=\"section-title\">From traces<span>to governed knowledge.</span></h2>",
    "id": "68accac5",
-   "hash": "15a2e8ca25a3"
+   "hash": "975dc4f6bbbf"
   },
   {
    "type": "heading",
-   "text": "<h2 class=\"section-title\">Inspect the claim.<span>Then decide whether to rely on it.</span></h2>",
+   "text": "<h2 class=\"section-title\">Which conclusions<span>become knowledge?</span></h2>",
    "id": "aa8102c4",
-   "hash": "2bcecdfeb800"
-  },
-  {
-   "type": "para",
-   "text": "<p>The ledger answers: how did this state become current, and who changed it?</p>",
-   "id": "5bf504b3",
-   "hash": "da5753485f17"
-  },
-  {
-   "type": "para",
-   "text": "<p>18% is supported only for this measured experiment.</p>",
-   "id": "5f4cb6fe",
-   "hash": "e0400575779d"
-  },
-  {
-   "type": "para",
-   "text": "<p>Evidence makes the claim reviewable, not automatically true.</p>",
-   "id": "0aa28b06",
-   "hash": "01faf8d6e0a8"
-  },
-  {
-   "type": "para",
-   "text": "<p>It does not enter fresh-agent context until approved.</p>",
-   "id": "d7d2df44",
-   "hash": "4c6bd7e14b82"
+   "hash": "42f1b0deb838"
   },
   {
    "type": "heading",
@@ -124,9 +100,9 @@
   },
   {
    "type": "para",
-   "text": "<p>Accretion / dilution and sensitivity, inside the analyst's existing workflow.</p>",
+   "text": "<p>The analyst sees the conclusion and its trust state in the same workflow.</p>",
    "id": "24a1ba3d",
-   "hash": "2d06fb10e9b3"
+   "hash": "bb3adef07ddc"
   },
   {
    "type": "heading",
@@ -136,9 +112,9 @@
   },
   {
    "type": "para",
-   "text": "<p>The conclusion travels with its run, evidence, review state, and scope.</p>",
+   "text": "<p>Run, evidence, reviewer, and scope travel with the conclusion.</p>",
    "id": "d007e1f1",
-   "hash": "c1ce69055cc2"
+   "hash": "22fbbdce1a19"
   },
   {
    "type": "heading",
@@ -178,15 +154,9 @@
   },
   {
    "type": "heading",
-   "text": "<h3>One decision needs a human.</h3>",
-   "id": "52b8d8dc",
-   "hash": "6fc67c5a10da"
-  },
-  {
-   "type": "para",
-   "text": "<p>The admin sees what may enter reusable organizational knowledge—and why.</p>",
-   "id": "7d52c724",
-   "hash": "1cc10bf7a228"
+   "text": "<h3>What enters shared knowledge?</h3>",
+   "id": "d02ce2d7",
+   "hash": "295fdbd67643"
   },
   {
    "type": "heading",
@@ -202,15 +172,9 @@
   },
   {
    "type": "heading",
-   "text": "<h2>Let intelligence compound.<span>Without letting trust decay.</span></h2>",
+   "text": "<h2>From autonomous agents<span>to self-improving companies.</span></h2>",
    "id": "e3cb86a6",
-   "hash": "c657ec0482b5"
-  },
-  {
-   "type": "para",
-   "text": "<p class=\"tour-lede\">Every agent leaves behind verified knowledge that the next agent—and the organization—can safely build on.</p>",
-   "id": "147e38ee",
-   "hash": "ca71bca41a94"
+   "hash": "c2613f4dbdf6"
   },
   {
    "type": "heading",
