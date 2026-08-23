@@ -28,9 +28,9 @@
   },
   {
    "type": "para",
-   "text": "The existing verified-knowledge-ledger demo remains the product surface and\ncontinues to consume the backend ledger view. A lightweight presentation mode\nadds a six-to-eight-minute narrative path through that surface. The presenter\ncan follow the path on stage; a design partner can ignore it and explore the\nsame controls, graph, ledger, evidence, and receipts directly.",
+   "text": "The existing verified-knowledge-ledger demo remains the product surface and\ncontinues to consume the backend ledger view. A lightweight presentation mode\nadds a three-minute narrative path through that surface. The presenter\ncan follow the path on stage; a design partner can ignore it and explore the\nsame controls, graph, ledger, evidence, and receipts directly.",
    "id": "a6fbf8db",
-   "hash": "9c72fc06e9f6"
+   "hash": "42232e775ca8"
   },
   {
    "type": "para",
@@ -82,9 +82,45 @@
   },
   {
    "type": "heading",
-   "text": "## Narrative structure",
+   "text": "## Build Day constraints",
+   "id": "49ac0ede",
+   "hash": "e895f036f91d"
+  },
+  {
+   "type": "para",
+   "text": "The event instructions require the presentation and implementation to respect\nfive concrete constraints:",
+   "id": "0c15ae22",
+   "hash": "80f9567830a2"
+  },
+  {
+   "type": "list",
+   "text": "- the demo is three minutes;\n- the demonstrated increment must be original work built at the event, though\n  it may extend an existing project;\n- the project must be open source;\n- a project draft must be saved by 7:00pm for finalist selection;\n- the final submission is due by 8:00pm and cannot be edited after submission.",
+   "id": "b3e4a788",
+   "hash": "81c47099b789"
+  },
+  {
+   "type": "para",
+   "text": "The pitch must therefore name the build-day delta: the existing backend ledger\nand graph are the foundation; the new work is the event-specific guided\npresentation, trusted-continuation interaction, and integration story.",
+   "id": "639859b2",
+   "hash": "2edecc1418e7"
+  },
+  {
+   "type": "para",
+   "text": "The event primer defines long-horizon work structurally, not by wall-clock\nduration: many tightly coupled decisions, feedback, and revision form one\ncoherent trajectory. It distinguishes H1 intra-context reasoning, H2\ncross-context continuation, and H3 cross-task accumulation. Proofpress should\nenter at the H2/H3 boundary: it governs which conclusions survive context and\ntask boundaries.",
+   "id": "b89e8624",
+   "hash": "ae763c7562ff"
+  },
+  {
+   "type": "heading",
+   "text": "## Three-minute narrative structure",
    "id": "7bf705f0",
-   "hash": "2c87ce63d6cb"
+   "hash": "4d4acbf27ae0"
+  },
+  {
+   "type": "para",
+   "text": "Target timing: 20 seconds problem, 25 seconds stack, 95 seconds real product,\n30 seconds trusted continuation, and 10 seconds closing.",
+   "id": "92908d5a",
+   "hash": "5013dd97f3fb"
   },
   {
    "type": "heading",
@@ -145,6 +181,12 @@
    "text": "> Observability tells us what happened. Memory and ontology organize what it\n> means. Proofpress decides what may become cumulative knowledge.",
    "id": "4d2280d2",
    "hash": "2a1faac35e57"
+  },
+  {
+   "type": "para",
+   "text": "The memory-layer example should be collaborative, not adversarial. Stash helps\nagents learn across rollouts and accumulate useful context; Proofpress can sit\nabove a memory system and govern which evidence-bound claims become safe shared\nknowledge. This is especially important because the event primer names the\nhard memory problems directly: what to forget, context poisoning from a bad\nsummary, and multi-session consistency.",
+   "id": "661f5ff4",
+   "hash": "3f063cdb046d"
   },
   {
    "type": "heading",
@@ -250,15 +292,15 @@
   },
   {
    "type": "para",
-   "text": "Present three flagship verticals:",
+   "text": "Present three different kinds of proof, not three copies of the same product\nstory:",
    "id": "29d707ef",
-   "hash": "41f13f4f77ba"
+   "hash": "aeed647af939"
   },
   {
    "type": "list",
-   "text": "1. **Harvey / legal work:** a governed knowledge graph plus separately measured\n   long-horizon evaluation results. Do not claim baseline improvement until an\n   actual evaluation establishes it.\n2. **Finance:** documents, calculations, model versions, and analyst review\n   become approved assumptions, risks, and a traceable memo handoff.\n3. **Agentic commerce:** catalog facts, policies, order, payment, fulfillment,\n   and dispute evidence become the trusted state an agent may act on.",
+   "text": "1. **Harvey / effect proof:** evaluation only. It answers whether governed\n   continuity improves a long-horizon baseline. Do not use Harvey as a product\n   workspace mockup, and do not claim improvement until an actual evaluation\n   establishes it.\n2. **Finance / product proof:** the primary workflow and admin-workspace\n   demonstration. Documents, calculations, model versions, and analyst review\n   become approved assumptions, risks, and a navigable governed knowledge\n   graph.\n3. **Agentic commerce / extension proof:** a different telemetry visualization\n   showing how the same ledger contract extends to policies, orders, payments,\n   fulfillment, disputes, and other domains. Do not repeat the finance graph\n   with renamed nodes.",
    "id": "f3135bb2",
-   "hash": "1f51d933cfe2"
+   "hash": "efba06fa4091"
   },
   {
    "type": "para",
@@ -277,6 +319,12 @@
    "text": "This fixture demonstrates integration and design-partner motion. It is not a\nfourth flagship vertical and does not imply that Coframe lacks memory or\nexperiment state.",
    "id": "a454d673",
    "hash": "f732885c3305"
+  },
+  {
+   "type": "para",
+   "text": "The event primer identifies Coframe as an H3 system in the wild: an open-ended\ngrowth loop that generates variants, measures a real reward, and keeps\noptimizing. That makes the complementary boundary concrete. Coframe owns the\ngrowth loop; Proofpress records which conclusions are evidence-backed,\nreviewed, scoped, reversible, and safe for a future session to inherit. The\ndemo may connect this to verification, brand safety, and rollback without\nclaiming Coframe lacks those capabilities.",
+   "id": "c34613a1",
+   "hash": "09d093348a12"
   },
   {
    "type": "heading",
@@ -304,9 +352,9 @@
   },
   {
    "type": "list",
-   "text": "- a small **Guided demo** control starts the narrative;\n- each beat highlights or scrolls to a real product region;\n- **Next**, **Back**, arrow keys, and **Exit tour** are always available;\n- the tour never disables normal product controls;\n- direct links can open a specific beat for collaborator review;\n- reduced-motion users receive immediate state changes without animated camera\n  movement;\n- the page still works from a local static server and without new dependencies.",
+   "text": "- a small **Guided demo** control starts the narrative;\n- five timed beats highlight or scroll to a real product region;\n- **Next**, **Back**, arrow keys, and **Exit tour** are always available;\n- a visible 3:00 clock makes the event constraint operational;\n- the tour never disables normal product controls;\n- direct links can open a specific beat for collaborator review;\n- reduced-motion users receive immediate state changes without animated camera\n  movement;\n- the page still works from a local static server and without new dependencies.",
    "id": "91879a6f",
-   "hash": "e10ea2d33354"
+   "hash": "2f8b46ed0e05"
   },
   {
    "type": "para",
@@ -346,9 +394,9 @@
   },
   {
    "type": "list",
-   "text": "- Add the tagline and handoff question above the current demo.\n- Add a guided-demo controller and eight narrative beats.\n- Reuse the existing workbench and Lineage / Ledger / Evidence explorer.\n- Add a final vertical map and closing statement.",
+   "text": "- Add the tagline and handoff question above the current demo.\n- Add a guided-demo controller and five timed narrative beats.\n- Reuse the existing workbench and Lineage / Ledger / Evidence explorer.\n- Add a final vertical map and closing statement.\n- Label the exact build-day increment and open-source repository.",
    "id": "be5ab015",
-   "hash": "689f97e25c4d"
+   "hash": "4247ed6c6ad6"
   },
   {
    "type": "heading",
@@ -370,9 +418,9 @@
   },
   {
    "type": "list",
-   "text": "- Harvey: import only real benchmark evidence and label unresolved results\n  honestly.\n- Finance: adapt the Apex investment-analyst artifact into the same node and\n  receipt contract.\n- Commerce: add a compact order/policy/evidence fixture when a real workflow is\n  available.",
+   "text": "- Harvey: report only real evaluation evidence and label unresolved results\n  honestly; no separate Harvey product UI is required.\n- Finance: adapt the Apex investment-analyst artifact into the primary workflow,\n  admin workspace, knowledge graph, and receipt contract.\n- Commerce: build a domain-extension visualization around telemetry flowing\n  into policy-constrained trusted action state when a real workflow is\n  available.",
    "id": "d8c7277f",
-   "hash": "340486ba5a96"
+   "hash": "b27ce64ec250"
   },
   {
    "type": "para",
@@ -388,9 +436,9 @@
   },
   {
    "type": "list",
-   "text": "- A first-time viewer can state the problem and product category within sixty\n  seconds.\n- The first screen asks which conclusions are safe to inherit; it does not ask\n  the viewer to decode a graph.\n- The guided path reaches a real interactive Graph / Ledger / Evidence view.\n- Every displayed lifecycle state matches the ledger view or is explicitly\n  labeled fixture copy.\n- The default graph excludes stale knowledge while preserving a discoverable\n  supersession or rejection path.\n- The product remains fully usable after exiting the guided path.\n- No slide or interstitial scrolls internally at the reference viewport.\n- Keyboard navigation and reduced-motion behavior work.\n- The story names Harvey, finance, and agentic commerce as the three main\n  verticals and growth experiments as the collaboration extension.\n- No benchmark improvement, universal truth, or unsupported design-partner\n  claim is implied.",
+   "text": "- A first-time viewer can state the problem and product category within sixty\n  seconds.\n- The complete guided path can be delivered within three minutes.\n- The presentation identifies what was built at the event on top of the\n  existing open-source Proofpress foundation.\n- The first screen asks which conclusions are safe to inherit; it does not ask\n  the viewer to decode a graph.\n- The guided path reaches a real interactive Graph / Ledger / Evidence view.\n- Every displayed lifecycle state matches the ledger view or is explicitly\n  labeled fixture copy.\n- The default graph excludes stale knowledge while preserving a discoverable\n  supersession or rejection path.\n- The product remains fully usable after exiting the guided path.\n- No slide or interstitial scrolls internally at the reference viewport.\n- Keyboard navigation and reduced-motion behavior work.\n- The story gives Harvey, finance, and agentic commerce distinct jobs: effect\n  proof, product proof, and extension proof. Growth experiments remain the\n  collaboration integration example.\n- No benchmark improvement, universal truth, or unsupported design-partner\n  claim is implied.\n- Stash is presented as a composable memory layer, not attacked as a\n  competitor.\n- Coframe is presented as the H3 growth system; Proofpress is the complementary\n  verified-knowledge and governance layer.",
    "id": "4ab84b40",
-   "hash": "4ce8663839cf"
+   "hash": "bce1384ed7d7"
   },
   {
    "type": "heading",
@@ -415,6 +463,18 @@
    "text": "Use **Pro mode** unless the team explicitly chooses a keynote-like Vibe mode.\nPro is the better default because the center of the experience is a technical\nproduct interaction, and the existing light lineage explorer should remain\nvisually continuous with the guided narrative.",
    "id": "97d99a9c",
    "hash": "74c59ae92790"
+  },
+  {
+   "type": "heading",
+   "text": "## Event sources",
+   "id": "8f7199a0",
+   "hash": "16125fa1f02f"
+  },
+  {
+   "type": "list",
+   "text": "- [Long Horizon Agents Build Day — Day-of Instructions](https://app.agihouse.org/events/long-horizon-agents-build-day/instructions)\n- [Long-Horizon Agents: A Technical Primer](https://blog.agihouse.org/posts/long-horizon-agents-a-technical-primer)",
+   "id": "390e8366",
+   "hash": "4e701c824fd3"
   }
  ]
 }

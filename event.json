@@ -2,29 +2,141 @@
  "event": "version_created",
  "artifact": "planning/2026-08-22-hackathon-presentation-layer.md",
  "artifact_id": "pp_ffd63e1c02900570cefc606c",
- "version": "110c3bf2",
- "parent": "6c83e366",
+ "version": "5a7c2d14",
+ "parent": "110c3bf2",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-22T23:48:56+00:00",
+ "ts": "2026-08-23T00:12:01+00:00",
  "stats": {
-  "added": 1
+  "modified": 8,
+  "added": 10
  },
  "changes": [
   {
-   "kind": "added",
-   "block": "e13b8e72",
+   "kind": "modified",
+   "block": "a6fbf8db",
    "type": "para",
-   "context": "Hackathon presentation layer — narrative",
-   "preview": "**Status:** Draft implementation plan for the presentation-l"
+   "context": "Decision"
+  },
+  {
+   "kind": "added",
+   "block": "49ac0ede",
+   "type": "heading",
+   "context": "Build Day constraints",
+   "preview": "## Build Day constraints"
+  },
+  {
+   "kind": "added",
+   "block": "0c15ae22",
+   "type": "para",
+   "context": "Build Day constraints",
+   "preview": "The event instructions require the presentation and implemen"
+  },
+  {
+   "kind": "added",
+   "block": "b3e4a788",
+   "type": "list",
+   "context": "Build Day constraints",
+   "preview": "- the demo is three minutes;\n- the demonstrated increment mu"
+  },
+  {
+   "kind": "added",
+   "block": "639859b2",
+   "type": "para",
+   "context": "Build Day constraints",
+   "preview": "The pitch must therefore name the build-day delta: the exist"
+  },
+  {
+   "kind": "added",
+   "block": "b89e8624",
+   "type": "para",
+   "context": "Build Day constraints",
+   "preview": "The event primer defines long-horizon work structurally, not"
+  },
+  {
+   "kind": "modified",
+   "block": "7bf705f0",
+   "type": "heading",
+   "context": "Three-minute narrative structure"
+  },
+  {
+   "kind": "added",
+   "block": "92908d5a",
+   "type": "para",
+   "context": "Three-minute narrative structure",
+   "preview": "Target timing: 20 seconds problem, 25 seconds stack, 95 seco"
+  },
+  {
+   "kind": "added",
+   "block": "661f5ff4",
+   "type": "para",
+   "context": "2. The missing layer",
+   "preview": "The memory-layer example should be collaborative, not advers"
+  },
+  {
+   "kind": "modified",
+   "block": "29d707ef",
+   "type": "para",
+   "context": "7. Where it applies"
+  },
+  {
+   "kind": "modified",
+   "block": "f3135bb2",
+   "type": "list",
+   "context": "7. Where it applies"
+  },
+  {
+   "kind": "added",
+   "block": "c34613a1",
+   "type": "para",
+   "context": "7. Where it applies",
+   "preview": "The event primer identifies Coframe as an H3 system in the w"
+  },
+  {
+   "kind": "modified",
+   "block": "91879a6f",
+   "type": "list",
+   "context": "Interaction architecture"
+  },
+  {
+   "kind": "modified",
+   "block": "be5ab015",
+   "type": "list",
+   "context": "P0 — narrative shell"
+  },
+  {
+   "kind": "modified",
+   "block": "d8c7277f",
+   "type": "list",
+   "context": "P2 — vertical fixture packs"
+  },
+  {
+   "kind": "modified",
+   "block": "4ab84b40",
+   "type": "list",
+   "context": "Acceptance criteria"
+  },
+  {
+   "kind": "added",
+   "block": "8f7199a0",
+   "type": "heading",
+   "context": "Event sources",
+   "preview": "## Event sources"
+  },
+  {
+   "kind": "added",
+   "block": "390e8366",
+   "type": "list",
+   "context": "Event sources",
+   "preview": "- [Long Horizon Agents Build Day — Day-of Instructions](http"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:484fbed0e6fbba4c1da9eee8c76779ee4f4613af942c901a9e653c59f8605445",
+ "soft_fingerprint": "ppsb1:8518a6c1258a3177f7babd17d20f39d9c81544415f1acd7e20a56f7e087f5179",
  "actors": {
   "requested_by": [
    "user:richardtang"
@@ -42,13 +154,98 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "e13b8e72",
+   "block": "a6fbf8db",
+   "kind": "modified",
+   "note": "Constrained the guided narrative to the event's three-minute demo window."
+  },
+  {
+   "block": "49ac0ede",
    "kind": "added",
-   "note": "Added the explicit draft status for the presentation-layer implementation plan."
+   "note": "Added the official Build Day constraints section."
+  },
+  {
+   "block": "0c15ae22",
+   "kind": "added",
+   "note": "Explains why event constraints shape the presentation implementation."
+  },
+  {
+   "block": "b3e4a788",
+   "kind": "added",
+   "note": "Records the demo duration, original-work, open-source, and submission requirements."
+  },
+  {
+   "block": "639859b2",
+   "kind": "added",
+   "note": "Defines the honest build-day delta on top of the existing ledger foundation."
+  },
+  {
+   "block": "b89e8624",
+   "kind": "added",
+   "note": "Connects the product story to the event primer's H1, H2, and H3 model."
+  },
+  {
+   "block": "7bf705f0",
+   "kind": "modified",
+   "note": "Renamed the narrative as a three-minute structure."
+  },
+  {
+   "block": "92908d5a",
+   "kind": "added",
+   "note": "Allocates the three-minute presentation across five concise beats."
+  },
+  {
+   "block": "661f5ff4",
+   "kind": "added",
+   "note": "Positions Stash as a complementary memory layer below Proofpress governance."
+  },
+  {
+   "block": "29d707ef",
+   "kind": "modified",
+   "note": "Reframed the verticals as three different proof obligations."
+  },
+  {
+   "block": "f3135bb2",
+   "kind": "modified",
+   "note": "Assigned Harvey to eval, finance to the product workspace, and commerce to domain extension."
+  },
+  {
+   "block": "c34613a1",
+   "kind": "added",
+   "note": "Defines Coframe as an H3 growth system and Proofpress as its complementary trust layer."
+  },
+  {
+   "block": "91879a6f",
+   "kind": "modified",
+   "note": "Added five timed beats and a visible three-minute clock to the interaction architecture."
+  },
+  {
+   "block": "be5ab015",
+   "kind": "modified",
+   "note": "Updated P0 to five beats and an explicit build-day increment."
+  },
+  {
+   "block": "d8c7277f",
+   "kind": "modified",
+   "note": "Updated P2 so each vertical produces distinct evidence rather than duplicate interfaces."
+  },
+  {
+   "block": "4ab84b40",
+   "kind": "modified",
+   "note": "Expanded acceptance criteria for timing, vertical roles, Stash, Coframe, and honest claims."
+  },
+  {
+   "block": "8f7199a0",
+   "kind": "added",
+   "note": "Added the official event source section."
+  },
+  {
+   "block": "390e8366",
+   "kind": "added",
+   "note": "Links the Day-of Instructions and technical primer used by the plan."
   }
  ],
  "context": {
-  "why": "Mark the presentation-layer plan as the draft implementation contract for the new PR."
+  "why": "Update the hackathon narrative from official event constraints and give Harvey, finance, and agentic commerce distinct proof roles."
  },
- "event_id": "ppe_e172e6c1a0cab781f2721f4e"
+ "event_id": "ppe_daf81687f2889eb196b47ee0"
 }
