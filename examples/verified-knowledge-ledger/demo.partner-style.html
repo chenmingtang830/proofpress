@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="generator" content="html-slides v0.9.4">
-  <title>Proofpress — Partner-style Continuation Preview</title>
+  <title>Proofpress — Verified Cumulative Knowledge</title>
   <style>
     :root{--black:#07090b;--carbon:#0d1115;--raised:#11171c;--paper:#e8e2d5;--ink:#d7dee7;--muted:#7d8996;--cyan:#76d8ff;--green:#69f0ae;--amber:#ffbf69;--red:#ff5d73;--line:#26323a;--mono:ui-monospace,SFMono-Regular,Consolas,monospace;--sans:Inter,"Helvetica Neue",system-ui,sans-serif}
     *{box-sizing:border-box}[hidden]{display:none!important}html{background:var(--black)}body{margin:0;background:linear-gradient(#12303a18 1px,transparent 1px),linear-gradient(90deg,#12303a18 1px,transparent 1px),var(--black);background-size:48px 48px;color:var(--ink);font:14px/1.5 var(--sans)}button{font:inherit;color:inherit;cursor:pointer}button:focus-visible{outline:2px solid var(--cyan);outline-offset:3px}
@@ -53,7 +53,7 @@
     .header-actions{display:flex;align-items:center;gap:clamp(8px,1vw,14px)}
     .tour-launch{padding:clamp(7px,1vh,10px) clamp(10px,1.2vw,15px);border:1px solid var(--cyan);border-radius:999px;background:#76d8ff0d;color:var(--cyan);font:650 clamp(9px,.75vw,11px) var(--mono);letter-spacing:.1em}
     .tour-launch:hover{background:var(--cyan);color:var(--black)}
-    body.tour-running{overflow:hidden}
+    body{overflow:hidden}.shell{display:none!important}
     .tour-layer{--tour-bg:#faf9f5;--tour-paper:#fff;--tour-ink:#20222b;--tour-muted:#5a5d6b;--tour-dim:#8b8e9c;--tour-line:#e3e1d9;--tour-wash:#f1efe8;--tour-teal:#0e5e6f;--tour-teal-soft:#e3eef0;--tour-green:#2e7d4f;--tour-green-soft:#e7f2ea;--tour-amber:#8a6210;--tour-amber-soft:#f5eedc;--tour-red:#b4453a;--tour-red-soft:#f7e9e7;position:fixed;inset:0;z-index:40;width:100vw;height:100vh;height:100dvh;overflow:hidden;background:var(--tour-bg);color:var(--tour-ink);font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue",sans-serif}
     .tour-layer[hidden],.tour-dock[hidden]{display:none!important}
     .tour-layer:before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 82% 4%,#d8e8e5 0,transparent 30%),radial-gradient(circle at 5% 92%,#eadfca 0,transparent 28%);opacity:.64;pointer-events:none}
@@ -149,11 +149,13 @@
 
 
 
+
+
 <meta name="proofpress:meta" content="eyJhcnRpZmFjdF9pZCI6InBwX2M1OTQ5NTYzZmM2NjI0NzY5OTRkYjRmOCIsInBvbGljeSI6InBvcnRhYmxlIiwicG9ydGFibGVfaGVhZCI6Ijc2MmY3ZTdmIiwicG9ydGFibGVfaGVhZF9ldmVudCI6InBwZV81MTQyNTU2ODY2NGViYjEyNWM5NTVjZGIiLCJwb3J0YWJsZV9saW5lYWdlX2lkIjoicHBsXzNkNzYxMmI3Y2Q2OGIwMWIzMGZhYzdlNiIsInByb29mcHJlc3MiOjF9">
 <meta name="proofpress:discovery" content="Verifiable revision history by Proofpress | https://github.com/chenmingtang830/proofpress">
 </head>
 <body>
-  <div class="tour-layer" id="tourLayer" hidden aria-live="polite">
+  <div class="tour-layer" id="tourLayer" aria-live="polite">
     <div class="tour-brand"><img src="../../assets/logo.svg" alt="Proofpress"> PROOFPRESS / VERIFIED CUMULATIVE KNOWLEDGE</div>
     <div class="deck" id="deck">
       <div class="slide active" data-slide="0">
@@ -315,7 +317,7 @@
     </div>
     <div class="tour-progress" id="tourProgress" style="width:12.5%"></div>
   </div>
-  <aside class="tour-dock" id="tourDock" hidden aria-label="Guided demo controls"><div class="tour-clock" id="tourClock">3:00</div><div class="tour-copy"><b id="tourTitle">Positioning</b><span><span class="tour-slide-count" id="tourSlideCount">1 / 8</span> · three-minute story</span></div><nav class="tour-nav"><button id="tourExit" type="button">EXIT</button><button id="tourBack" type="button">BACK</button><button class="tour-next" id="tourNext" type="button">NEXT</button></nav></aside>
+  <aside class="tour-dock" id="tourDock" aria-label="Presentation controls"><div class="tour-clock" id="tourClock">3:00</div><div class="tour-copy"><b id="tourTitle">Positioning</b><span><span class="tour-slide-count" id="tourSlideCount">1 / 8</span> · three-minute story</span></div><nav class="tour-nav"><button id="tourBack" type="button">BACK</button><button class="tour-next" id="tourNext" type="button">NEXT</button></nav></aside>
   <main class="shell"><div class="rule"></div><header><div class="wordmark"><span class="mark">PP</span>PROOFPRESS / TRUSTED CONTINUATION</div><div class="header-actions"><button class="tour-launch" id="tourLaunch" type="button">GUIDED DEMO · 3:00</button><div class="status"><i></i> LEDGER PREVIEW · 3 EXPERIMENTS</div></div></header>
     <section class="hero"><div><div class="eyebrow">VERIFIED KNOWLEDGE INFRASTRUCTURE FOR AUTONOMOUS AI AGENTS</div><h1 data-proofpress-id="26127b71">THE WORK OUTLIVED THE CONTEXT.<span>WHICH CONCLUSION CAN THE NEXT AGENT TRUST?</span></h1><p data-proofpress-id="59111a7d">Long-horizon work is a chain of coupled decisions across contexts and tasks. Proofpress makes selected conclusions <strong>evidence-bound, governed, and safe to inherit.</strong></p></div><div class="meta"><div><span>SOURCE</span><b>OTLP TRACES → CLAIMS</b></div><div><span>MODE</span><b>OPEN SOURCE / LOCAL</b></div><div><span>BUILD-DAY DELTA</span><b>GUIDED TRUSTED HANDOFF</b></div></div></section>
     <section class="section"><div class="section-head"><div><div class="index">01 / DECISION SURFACE</div><h2 data-proofpress-id="ad5a4616">What can the next agent safely inherit?</h2></div><p data-proofpress-id="52ab68ed">Choose one experiment first. Open lineage only when you need to inspect how the decision was made.</p></div>
@@ -483,11 +485,16 @@
       count.textContent = `${current + 1} / ${slides.length}`;
       progress.style.width = `${(current + 1) / slides.length * 100}%`;
       document.getElementById('tourBack').disabled = current === 0;
-      document.getElementById('tourNext').textContent = current === slides.length - 1 ? 'FINISH' : 'NEXT';
+      document.getElementById('tourNext').textContent = current === slides.length - 1 ? 'RESTART' : 'NEXT';
       history.replaceState(null,'',`${location.pathname}${location.search}#guided-${current + 1}`);
       showNotes(current);
     };
-    window.next = () => current === slides.length - 1 ? exit() : goTo(current + 1);
+    window.next = () => {
+      if (current < slides.length - 1) return goTo(current + 1);
+      startedAt = Date.now();
+      updateClock();
+      goTo(0);
+    };
     window.prev = () => goTo(current - 1);
     const start = () => {
       running = true;
@@ -501,21 +508,10 @@
       updateClock();
       goTo(0);
     };
-    function exit() {
-      running = false;
-      clearInterval(timer);
-      layer.hidden = true;
-      dock.hidden = true;
-      document.body.classList.remove('tour-running');
-      history.replaceState(null,'',`${location.pathname}${location.search}`);
-    }
-    document.getElementById('tourLaunch').addEventListener('click',start);
-    document.getElementById('tourExit').addEventListener('click',exit);
     document.getElementById('tourBack').addEventListener('click',prev);
     document.getElementById('tourNext').addEventListener('click',next);
     document.addEventListener('keydown',(event) => {
       if (!running) return;
-      if (event.key === 'Escape') exit();
       if (event.key === 'ArrowRight' || event.key === 'PageDown' || event.key === ' ') {event.preventDefault();next();}
       if (event.key === 'ArrowLeft' || event.key === 'PageUp') {event.preventDefault();prev();}
       if (event.key === 'Home') {event.preventDefault();goTo(0);}
@@ -553,10 +549,10 @@
       document.getElementById('nodeDrawerTraces').innerHTML = detail.traces.map((trace) => `<code>${trace}</code>`).join('');
     };
     document.querySelectorAll('.mini-node').forEach((node) => node.addEventListener('click', () => showExplorerNode(node.dataset.nodeKey)));
-    const requested = new URLSearchParams(location.search).get('tour') === '1';
-    if (requested) requestAnimationFrame(start);
+    requestAnimationFrame(start);
   })();
 </script>
+
 
 
 
