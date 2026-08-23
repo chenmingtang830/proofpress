@@ -1,65 +1,41 @@
 {
  "event": "version_created",
- "artifact": "README.md",
- "artifact_id": "pp_556b115de711b0cd33eed260",
- "version": "5774a9e6",
- "parent": "73c77c17",
+ "artifact": "docs/README.md",
+ "artifact_id": "pp_4e50106dcbfad18e3ab0668c",
+ "version": "2458de7b",
+ "parent": "88dcc1ad",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-23T19:05:03+00:00",
+ "ts": "2026-08-23T19:05:07+00:00",
  "stats": {
-  "modified": 1,
-  "added": 5
+  "modified": 3
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "8fb4a17c",
-   "type": "heading",
-   "context": "Choose your path"
-  },
-  {
-   "kind": "added",
-   "block": "eac911f1",
+   "block": "c6e0b8d1",
    "type": "table",
-   "context": "Choose your path",
-   "preview": "| If you need to… | Start here |\n|---|---|\n| Verify a docume"
+   "context": "Proofpress documentation"
   },
   {
-   "kind": "added",
-   "block": "32f0ea79",
-   "type": "heading",
-   "context": "Current focus",
-   "preview": "## Current focus"
-  },
-  {
-   "kind": "added",
-   "block": "4902cb38",
+   "kind": "modified",
+   "block": "717c12e2",
    "type": "para",
-   "context": "Current focus",
-   "preview": "Proofpress is validating the developer wedge for trusted con"
+   "context": "Proofpress documentation"
   },
   {
-   "kind": "added",
-   "block": "99c9f31b",
+   "kind": "modified",
+   "block": "aef7f16a",
    "type": "para",
-   "context": "Current focus",
-   "preview": "The next proof point is a real design-partner workflow with "
-  },
-  {
-   "kind": "added",
-   "block": "2f4c353f",
-   "type": "heading",
-   "context": "Try Proofpress in two minutes",
-   "preview": "## Try Proofpress in two minutes"
+   "context": "Proofpress documentation"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:9181e31a8b8ff274dda0c445525024acc505026a08d798c5df56fe450cfc383e",
+ "soft_fingerprint": "ppsb1:9bd32d235a7464c6dd8cf486bb80893c000574febb2274dade3f5b57cdc77bd4",
  "actors": {
   "requested_by": [
    "human:richard-tang"
@@ -77,38 +53,23 @@
  "attribution_basis": "harness_attested",
  "claims": [
   {
-   "block": "8fb4a17c",
+   "block": "c6e0b8d1",
    "kind": "modified",
-   "note": "Replace the next quickstart heading with a navigation entry point."
+   "note": "Add the verified knowledge ledger to the public documentation navigation."
   },
   {
-   "block": "eac911f1",
-   "kind": "added",
-   "note": "Add task-based navigation between artifact provenance and the knowledge ledger."
+   "block": "717c12e2",
+   "kind": "modified",
+   "note": "Distinguish normative protocol documents from the developer wedge."
   },
   {
-   "block": "32f0ea79",
-   "kind": "added",
-   "note": "Add a public current-focus heading."
-  },
-  {
-   "block": "4902cb38",
-   "kind": "added",
-   "note": "State the trusted-continuation developer wedge."
-  },
-  {
-   "block": "99c9f31b",
-   "kind": "added",
-   "note": "State the design-partner proof point and product boundaries."
-  },
-  {
-   "block": "2f4c353f",
-   "kind": "added",
-   "note": "Retain the artifact-provenance quickstart under its new position."
+   "block": "aef7f16a",
+   "kind": "modified",
+   "note": "Clarify public trust and efficacy boundaries."
   }
  ],
  "context": {
-  "why": "Make the public repository entry points distinguish artifact provenance from the verified knowledge ledger and publish the current validation focus."
+  "why": "Add the ledger developer overview to public documentation navigation while preserving protocol boundaries."
  },
- "event_id": "ppe_e3591a5e8ecb4aa8dff1781f"
+ "event_id": "ppe_0320c4dc7ef1507edf30e0ce"
 }
