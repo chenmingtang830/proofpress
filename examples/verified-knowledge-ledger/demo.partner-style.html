@@ -3,6 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="generator" content="html-slides v0.9.4">
   <title>Proofpress — Partner-style Continuation Preview</title>
   <style>
     :root{--black:#07090b;--carbon:#0d1115;--raised:#11171c;--paper:#e8e2d5;--ink:#d7dee7;--muted:#7d8996;--cyan:#76d8ff;--green:#69f0ae;--amber:#ffbf69;--red:#ff5d73;--line:#26323a;--mono:ui-monospace,SFMono-Regular,Consolas,monospace;--sans:Inter,"Helvetica Neue",system-ui,sans-serif}
@@ -48,57 +49,218 @@
 
 
   <style>
-    /* === AGI HOUSE THREE-MINUTE GUIDED DEMO === */
+    /* === AGI HOUSE THREE-MINUTE PRESENTATION === */
     .header-actions{display:flex;align-items:center;gap:clamp(8px,1vw,14px)}
     .tour-launch{padding:clamp(7px,1vh,10px) clamp(10px,1.2vw,15px);border:1px solid var(--cyan);border-radius:999px;background:#76d8ff0d;color:var(--cyan);font:650 clamp(9px,.75vw,11px) var(--mono);letter-spacing:.1em}
     .tour-launch:hover{background:var(--cyan);color:var(--black)}
-    .tour-layer{position:fixed;inset:0;z-index:40;display:grid;place-items:center;height:100vh;height:100dvh;padding:clamp(18px,4vw,56px);overflow:hidden;background:rgba(247,243,235,.97);color:#292724}
+    body.tour-running{overflow:hidden}
+    .tour-layer{--tour-bg:#faf9f5;--tour-paper:#fff;--tour-ink:#20222b;--tour-muted:#5a5d6b;--tour-dim:#8b8e9c;--tour-line:#e3e1d9;--tour-wash:#f1efe8;--tour-teal:#0e5e6f;--tour-teal-soft:#e3eef0;--tour-green:#2e7d4f;--tour-green-soft:#e7f2ea;--tour-amber:#8a6210;--tour-amber-soft:#f5eedc;--tour-red:#b4453a;--tour-red-soft:#f7e9e7;position:fixed;inset:0;z-index:40;width:100vw;height:100vh;height:100dvh;overflow:hidden;background:var(--tour-bg);color:var(--tour-ink);font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue",sans-serif}
     .tour-layer[hidden],.tour-dock[hidden]{display:none!important}
-    .tour-panel{display:none;width:min(1120px,100%);max-height:calc(100dvh - clamp(80px,12vh,140px));overflow:hidden}
-    .tour-panel.active{display:grid;animation:tourIn .35s cubic-bezier(.2,.8,.2,1) both}
-    .tour-kicker{margin-bottom:clamp(10px,2vh,20px);color:#826a4e;font:700 clamp(10px,.9vw,13px) var(--mono);letter-spacing:.15em;text-transform:uppercase}
-    .tour-panel h2{max-width:1000px;margin:0;color:#252526;font-size:clamp(34px,6vw,76px);line-height:.98;letter-spacing:-.055em}
-    .tour-panel h2 span{display:block;color:#3d808a}
-    .tour-lede{max-width:850px;margin:clamp(16px,3vh,28px) 0 0;color:#5f5a52;font-size:clamp(15px,1.6vw,22px);line-height:1.45}
-    .tour-proof{display:flex;flex-wrap:wrap;gap:clamp(8px,1vw,13px);margin-top:clamp(18px,4vh,36px)}
-    .tour-proof span{padding:clamp(8px,1vh,11px) clamp(11px,1.2vw,16px);border:1px solid #cfc5b6;border-radius:999px;background:#fffaf1;color:#6f6558;font:650 clamp(9px,.8vw,11px) var(--mono);letter-spacing:.08em}
-    .trust-stack{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(10px,1.6vw,22px);margin-top:clamp(20px,4vh,40px)}
-    .stack-card{min-height:clamp(150px,24vh,240px);padding:clamp(18px,2.5vw,30px);border:1px solid #d4cbbb;border-radius:8px;background:#fffaf2;box-shadow:0 16px 60px #554b3c0d}
-    .stack-card small{color:#8d806d;font:700 clamp(9px,.75vw,11px) var(--mono);letter-spacing:.12em}
-    .stack-card h3{margin:clamp(12px,2vh,20px) 0 clamp(8px,1.4vh,14px);font-size:clamp(20px,2.3vw,32px);letter-spacing:-.035em}
-    .stack-card p{margin:0;color:#6e665a;font-size:clamp(12px,1.1vw,16px);line-height:1.45}
-    .stack-card.memory{border-top:4px solid #c29651}.stack-card.proofpress{border-top:4px solid #2c9861}.stack-card.observe{border-top:4px solid #708da0}
-    .vertical-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(9px,1.3vw,18px);margin-top:clamp(18px,3vh,30px)}
-    .vertical{padding:clamp(14px,2vw,24px);border:1px solid #d4cbbb;border-radius:6px;background:#fffaf2}
-    .vertical small{display:block;margin-bottom:8px;color:#3d808a;font:700 clamp(8px,.72vw,10px) var(--mono);letter-spacing:.11em}.vertical b{display:block;margin-bottom:7px;font-size:clamp(14px,1.3vw,19px)}.vertical span{color:#756c60;font-size:clamp(11px,.95vw,14px)}
-    .event-source{margin-top:clamp(12px,2vh,20px);color:#8a7d6b;font:clamp(9px,.78vw,11px) var(--mono);letter-spacing:.06em}
-    .tour-dock{position:fixed;left:50%;bottom:clamp(14px,2.2vh,24px);z-index:45;display:grid;grid-template-columns:auto minmax(220px,620px) auto;align-items:center;gap:clamp(10px,1.5vw,18px);width:min(960px,calc(100% - 28px));padding:clamp(10px,1.4vw,15px);border:1px solid #c9c0b1;border-radius:10px;background:#fffdf8ef;color:#292724;box-shadow:0 18px 70px #0002;backdrop-filter:blur(14px);transform:translateX(-50%)}
-    .tour-clock{min-width:74px;color:#3d808a;font:700 clamp(11px,1vw,14px) var(--mono)}
-    .tour-copy b{display:block;font-size:clamp(12px,1.05vw,15px)}.tour-copy span{display:block;margin-top:2px;color:#756c60;font-size:clamp(10px,.9vw,13px)}
-    .tour-nav{display:flex;gap:7px}.tour-nav button{padding:8px 10px;border:1px solid #cfc5b6;border-radius:5px;background:#fbf8f2;color:#4d4942;font:700 9px var(--mono);letter-spacing:.08em}.tour-nav button:hover{border-color:#3d808a;color:#276b74}.tour-nav .tour-next{border-color:#3d808a;background:#3d808a;color:#fff}
-    .tour-focus{position:relative;z-index:20;box-shadow:0 0 0 5px #76d8ff55,0 22px 90px #0003;transition:box-shadow .25s ease}
-    body.tour-running:before{content:"";position:fixed;inset:0;z-index:15;pointer-events:none;background:#0002}
+    .tour-layer:before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 82% 4%,#d8e8e5 0,transparent 30%),radial-gradient(circle at 5% 92%,#eadfca 0,transparent 28%);opacity:.64;pointer-events:none}
+    .tour-brand{position:fixed;top:clamp(15px,2.5vh,28px);left:clamp(18px,3vw,44px);z-index:46;display:flex;align-items:center;gap:10px;color:var(--tour-muted);font:700 clamp(9px,.78vw,11px) var(--mono);letter-spacing:.13em}
+    .tour-brand img{width:30px;height:30px;color:var(--tour-ink)}
+    .deck{position:relative;width:100vw;height:100vh;height:100dvh}
+    .tour-layer .slide{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;width:100vw;height:100vh;height:100dvh;padding:clamp(62px,9vh,105px) clamp(24px,7vw,108px) clamp(86px,12vh,130px);overflow:hidden;opacity:0;pointer-events:none;transition:opacity .34s cubic-bezier(.2,.8,.2,1)}
+    .tour-layer .slide.active{opacity:1;pointer-events:auto}
+    .slide-content{display:flex;flex:1;flex-direction:column;justify-content:center;width:min(1180px,100%);max-height:100%;margin:auto;overflow:hidden}
+    .tour-kicker{margin-bottom:clamp(9px,1.6vh,17px);color:#806d54;font:700 clamp(9px,.78vw,11px) var(--mono);letter-spacing:.15em;text-transform:uppercase}
+    .tour-layer h2{max-width:1080px;margin:0;color:var(--tour-ink);font-family:"Songti SC","Noto Serif SC",Georgia,serif;font-size:clamp(34px,5.6vw,76px);font-weight:900;line-height:.98;letter-spacing:-.045em}
+    .tour-layer h2 span{display:block;color:var(--tour-teal)}
+    .tour-layer .section-title{font-size:clamp(27px,3.7vw,52px);line-height:1.02}
+    .tour-lede{max-width:880px;margin:clamp(13px,2.4vh,25px) 0 0;color:var(--tour-muted);font-size:clamp(14px,1.45vw,20px);line-height:1.45}
+    .tour-tagline{margin-top:clamp(20px,4vh,42px);padding-left:clamp(12px,1.5vw,20px);border-left:3px solid var(--tour-teal);color:var(--tour-ink);font:900 clamp(17px,2vw,28px)/1.25 "Songti SC","Noto Serif SC",Georgia,serif}
+    .tour-chips{display:flex;flex-wrap:wrap;gap:clamp(7px,.8vw,11px);margin-top:clamp(17px,3vh,30px)}
+    .tour-chips span{padding:clamp(7px,1vh,10px) clamp(10px,1.1vw,15px);border:1px solid var(--tour-line);border-radius:999px;background:#fffaf1;color:#6f6558;font:700 clamp(8px,.7vw,10px) var(--mono);letter-spacing:.08em}
+
+    /* === PROBLEM / TRUST STACK === */
+    .problem-grid{display:grid;grid-template-columns:.85fr 1.15fr;gap:clamp(22px,4vw,58px);align-items:center;margin-top:clamp(18px,3vh,34px)}
+    .problem-callout{padding:clamp(18px,2.3vw,30px);border-left:4px solid var(--tour-red);background:#fffaf5;box-shadow:0 18px 55px #76654e10}
+    .problem-callout b{display:block;margin-bottom:9px;font-size:clamp(18px,2vw,27px)}
+    .problem-callout p{margin:0;color:var(--tour-muted);font-size:clamp(12px,1.15vw,16px)}
+    .trust-stack{display:grid;gap:clamp(8px,1.2vh,13px)}
+    .stack-card{display:grid;grid-template-columns:110px 1fr;gap:clamp(10px,1.4vw,18px);align-items:center;padding:clamp(12px,1.7vw,20px);border:1px solid var(--tour-line);border-radius:8px;background:var(--tour-paper)}
+    .stack-card small{color:#8b7d6a;font:700 clamp(8px,.7vw,10px) var(--mono);letter-spacing:.1em}.stack-card h3{margin:0;font-size:clamp(17px,1.75vw,24px);letter-spacing:-.03em}.stack-card p{margin:4px 0 0;color:var(--tour-muted);font-size:clamp(11px,1vw,14px)}
+    .stack-card.proofpress{border-color:var(--tour-green);background:var(--tour-green-soft)}.stack-card.proofpress h3{color:var(--tour-green)}
+
+    /* === ARCHITECTURE === */
+    .pipeline{display:grid;grid-template-columns:repeat(9,auto);align-items:center;margin-top:clamp(22px,4vh,40px)}
+    .pipe-stage{display:flex;min-height:clamp(135px,21vh,205px);flex-direction:column;justify-content:space-between;padding:clamp(13px,1.7vw,21px);border:1px solid var(--tour-line);border-radius:8px;background:var(--tour-paper);box-shadow:0 14px 42px #5e54450b}
+    .pipe-stage small{color:#8a7c69;font:700 clamp(8px,.65vw,10px) var(--mono);letter-spacing:.1em}.pipe-stage b{font-size:clamp(15px,1.45vw,21px)}.pipe-stage span{color:var(--tour-muted);font-size:clamp(10px,.9vw,13px);line-height:1.35}.pipe-stage.govern{border-color:var(--tour-green);background:var(--tour-green-soft)}.pipe-arrow{padding:0 clamp(5px,.8vw,11px);color:var(--tour-dim);font:700 clamp(13px,1.5vw,20px) var(--mono)}
+    .architecture-foot{display:flex;justify-content:space-between;gap:20px;margin-top:clamp(14px,2vh,20px);color:#746c61;font:clamp(9px,.78vw,11px) var(--mono);letter-spacing:.05em}
+
+    /* === INTERACTIVE EXPLORER === */
+    .tour-explorer{margin-top:clamp(13px,2vh,20px);border:1px solid var(--tour-line);border-radius:10px;background:var(--tour-paper);box-shadow:0 18px 60px #554b3c12;overflow:hidden}
+    .tour-tabs{display:flex;gap:25px;padding:0 clamp(15px,2vw,24px);border-bottom:1px solid var(--tour-line)}
+    .tour-tab{padding:clamp(10px,1.4vh,14px) 0;border:0;border-bottom:2px solid transparent;background:transparent;color:#817767;font:700 clamp(8px,.7vw,10px) var(--mono);letter-spacing:.1em}.tour-tab[aria-selected="true"]{border-color:#cc7c4c;color:var(--tour-ink)}
+    .tour-explorer-panel{min-height:clamp(285px,42vh,430px);padding:clamp(12px,1.5vw,18px)}
+    .tour-explorer-panel[hidden]{display:none}
+    .mini-axis,.mini-lanes{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(14px,2.7vw,40px)}
+    .mini-axis{margin-bottom:10px;color:#887c6b;font:700 clamp(7px,.62vw,9px) var(--mono);letter-spacing:.1em}.mini-canvas{position:relative;min-height:clamp(230px,34vh,330px);padding:10px;border:1px solid #ded6ca;background:radial-gradient(#d9d1c5 1px,transparent 1px) 0 0/16px 16px,#f4f0e8}
+    .mini-links{position:absolute;inset:38px 10px 10px;width:calc(100% - 20px);height:calc(100% - 48px);pointer-events:none}.mini-links path{fill:none;stroke:#a5aaa4;stroke-width:1.3}.mini-links path.safe{stroke:#3d808a;stroke-width:2}.mini-links path.blocked{stroke:#bd6e64;stroke-dasharray:4 4}
+    .mini-lanes{position:relative;z-index:2}.mini-column{display:grid;gap:clamp(9px,1.5vh,15px)}
+    .mini-node{min-height:clamp(70px,10vh,92px);padding:clamp(8px,1vw,12px);text-align:left;border:1px solid #cec5b7;border-left:3px solid #7896a2;border-radius:5px;background:#fffdf8;color:#373531;box-shadow:0 1px 0 #d6cdbf}.mini-node:hover,.mini-node.selected{border-color:var(--tour-teal);box-shadow:0 3px 0 var(--tour-teal)}.mini-node.experiment{border-left-color:#bd904c}.mini-node.claim,.mini-node.governed{border-left-color:#2c9861}.mini-node.blocked{border-left-color:#c76e68;opacity:.7}.mini-node small{display:block;color:#82776a;font:clamp(7px,.62vw,9px) var(--mono)}.mini-node b{display:block;margin-top:5px;font-size:clamp(10px,.9vw,13px);line-height:1.15}.mini-node span{display:block;margin-top:4px;color:#7d7366;font-size:clamp(8px,.72vw,10px)}
+    .mini-detail{display:flex;justify-content:space-between;gap:18px;margin-top:9px;color:#6f675d;font-size:clamp(9px,.82vw,12px)}.mini-detail strong{color:var(--tour-teal)}
+    .tour-records{display:grid;gap:9px}.tour-record{display:grid;grid-template-columns:110px 1fr auto;gap:14px;align-items:center;padding:clamp(10px,1.2vw,15px);border:1px solid var(--tour-line);background:#fffdf8}.tour-record code{color:#806f5b;font:clamp(8px,.68vw,10px) var(--mono)}.tour-record b{font-size:clamp(11px,1vw,14px)}.tour-record span{color:var(--tour-muted);font-size:clamp(9px,.8vw,12px)}.tour-state{padding:3px 6px;background:#e8e0d3!important;color:#766a5a!important;font:700 clamp(7px,.6vw,9px) var(--mono)!important}.tour-state.good{background:#dceee3!important;color:#367452!important}.tour-state.bad{background:#f2dddd!important;color:#9b4e51!important}
+    .evidence-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(9px,1.4vw,16px)}.evidence-card{padding:clamp(13px,1.7vw,20px);border:1px solid var(--tour-line);background:#fffdf8}.evidence-card small{color:#806f5b;font:700 clamp(8px,.68vw,10px) var(--mono)}.evidence-card b{display:block;margin-top:7px;font-size:clamp(13px,1.15vw,17px)}.evidence-card p{margin:5px 0 0;color:var(--tour-muted);font-size:clamp(10px,.9vw,13px)}
+
+    /* === HARVEY EVAL === */
+    .eval-layout{display:grid;grid-template-columns:.72fr 1.28fr;gap:clamp(25px,5vw,70px);align-items:center;margin-top:clamp(18px,3vh,30px)}
+    .eval-status{padding:clamp(18px,2.3vw,30px);border-left:4px solid var(--tour-amber);background:#fffaf2}.eval-status small{color:#8a7658;font:700 clamp(8px,.7vw,10px) var(--mono);letter-spacing:.1em}.eval-status b{display:block;margin:9px 0;font-size:clamp(22px,2.6vw,38px);line-height:1}.eval-status p{margin:0;color:var(--tour-muted);font-size:clamp(11px,1vw,14px)}
+    .eval-bars{display:grid;gap:clamp(12px,2vh,20px)}.eval-row{display:grid;grid-template-columns:150px 1fr 55px;gap:12px;align-items:center}.eval-row label{font:700 clamp(9px,.8vw,11px) var(--mono)}.eval-track{height:clamp(19px,2.6vh,28px);border-radius:4px;background:repeating-linear-gradient(135deg,var(--tour-wash),var(--tour-wash) 8px,#e7e4dc 8px,#e7e4dc 16px);overflow:hidden}.eval-fill{height:100%;background:#7896a2}.eval-fill.c0{background:var(--tour-amber)}.eval-fill.c3{background:var(--tour-green)}.eval-row strong{font:700 clamp(10px,.85vw,12px) var(--mono)}.eval-caption{margin-top:12px;color:var(--tour-muted);font-size:clamp(9px,.82vw,12px)}
+
+    /* === FINANCE WORKFLOW === */
+    .finance-workspace{display:grid;grid-template-columns:190px 1fr;min-height:clamp(320px,48vh,470px);margin-top:clamp(14px,2vh,22px);border:1px solid var(--tour-line);border-radius:10px;background:var(--tour-paper);overflow:hidden;box-shadow:0 18px 60px #554b3c12}
+    .finance-admin{padding:clamp(14px,1.7vw,21px);border-right:1px solid var(--tour-line);background:#f0ebe2}.finance-admin small{color:#847764;font:700 clamp(8px,.68vw,10px) var(--mono);letter-spacing:.1em}.finance-admin h3{margin:8px 0 18px;font-size:clamp(15px,1.4vw,20px)}.admin-item{display:flex;justify-content:space-between;margin:8px 0;padding:8px 0;border-bottom:1px solid #d8d0c3;color:#6e665b;font-size:clamp(9px,.8vw,11px)}.admin-item b{color:var(--tour-green);font-family:var(--mono)}
+    .finance-canvas{position:relative;padding:clamp(15px,2vw,25px);background:radial-gradient(#d9d1c5 1px,transparent 1px) 0 0/18px 18px,#faf7f1}.finance-links{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}.finance-links path{fill:none;stroke:#9da49f;stroke-width:1.5}.finance-nodes{position:relative;z-index:2;display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(2,1fr);gap:clamp(22px,4vw,60px);height:100%}.finance-node{align-self:center;padding:clamp(10px,1.2vw,15px);border:1px solid #cfc5b6;border-left:4px solid #7995a2;border-radius:5px;background:#fffdf8;box-shadow:0 2px 0 #d6cdbf}.finance-node.claim{border-left-color:#bd904c}.finance-node.current{border-color:#5c9d79;border-left-color:#33865d;background:#f2faf4}.finance-node small{color:#817565;font:700 clamp(7px,.6vw,9px) var(--mono)}.finance-node b{display:block;margin-top:5px;font-size:clamp(10px,.92vw,13px)}.finance-node span{display:block;margin-top:4px;color:#746c61;font-size:clamp(8px,.72vw,10px)}
+
+    /* === COMMERCE TELEMETRY === */
+    .commerce-flow{margin-top:clamp(18px,3vh,30px);padding:clamp(18px,2.3vw,28px);border:1px solid var(--tour-line);border-radius:10px;background:var(--tour-paper);box-shadow:0 18px 60px #554b3c10}.commerce-lane{display:grid;grid-template-columns:140px repeat(6,1fr);gap:clamp(6px,.8vw,10px);align-items:center;margin:clamp(9px,1.4vh,14px) 0}.commerce-lane>strong{color:#7a6d5c;font:700 clamp(8px,.72vw,10px) var(--mono);letter-spacing:.08em}.commerce-event{padding:clamp(9px,1.1vw,13px);border-radius:5px;background:#ece7df;color:#696259;font-size:clamp(8px,.72vw,10px);text-align:center}.commerce-event.trace{background:#e5edf0;color:#4d6a73}.commerce-event.policy{background:#f2e8d5;color:#8a672c}.commerce-event.trusted{background:#dfeee4;color:#2f714f}.commerce-event.blocked{background:#f2dddd;color:#995053}.commerce-boundary{display:flex;align-items:center;gap:12px;margin-top:clamp(12px,2vh,20px);color:#6e665b;font-size:clamp(10px,.9vw,13px)}.commerce-boundary i{display:block;width:54px;height:3px;background:linear-gradient(90deg,var(--tour-red),var(--tour-green))}
+
+    /* === CLOSE + CHROME === */
+    .close-proof{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(9px,1.3vw,17px);margin-top:clamp(19px,3vh,32px)}.proof-card{padding:clamp(13px,1.7vw,21px);border:1px solid var(--tour-line);border-radius:7px;background:var(--tour-paper)}.proof-card small{color:var(--tour-teal);font:700 clamp(8px,.68vw,10px) var(--mono);letter-spacing:.1em}.proof-card b{display:block;margin:7px 0 4px;font-size:clamp(13px,1.25vw,18px)}.proof-card span{color:var(--tour-muted);font-size:clamp(9px,.82vw,12px)}
+    .tour-dock{--tour-teal:#0e5e6f;--tour-green:#2e7d4f;position:fixed;left:50%;bottom:clamp(10px,1.7vh,18px);z-index:45;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:clamp(10px,1.5vw,18px);width:min(1060px,calc(100% - 28px));padding:clamp(8px,1vw,11px) clamp(11px,1.4vw,17px);border:1px solid #e3e1d9;border-radius:8px;background:#fffffff2;color:#20222b;box-shadow:0 12px 45px #0001;backdrop-filter:blur(14px);transform:translateX(-50%)}
+    .tour-clock{color:var(--tour-teal);font:700 clamp(10px,.85vw,12px) var(--mono)}.tour-copy b{display:block;font-size:clamp(10px,.9vw,13px)}.tour-copy span{color:#8a7f70;font:clamp(8px,.68vw,10px) var(--mono)}.tour-nav{display:flex;gap:6px}.tour-nav button{padding:7px 9px;border:1px solid #cfc5b6;border-radius:4px;background:#fbf8f2;color:#4d4942;font:700 8px var(--mono);letter-spacing:.08em}.tour-nav button:hover{border-color:var(--tour-teal);color:#276b74}.tour-nav .tour-next{border-color:var(--tour-teal);background:var(--tour-teal);color:#fff}
+    .tour-progress{position:fixed;left:0;bottom:0;z-index:47;height:3px;background:linear-gradient(90deg,var(--tour-teal),var(--tour-green));transition:width .3s ease}.tour-slide-count{color:#8a7f70;font:700 9px var(--mono)}
     @keyframes tourIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
-    @media(max-width:850px){header{align-items:flex-start;gap:12px}.header-actions{align-items:flex-end;flex-direction:column}.trust-stack,.vertical-grid{grid-template-columns:1fr}.stack-card{min-height:0}.tour-dock{grid-template-columns:1fr auto}.tour-clock{display:none}.tour-copy span{display:none}}
-    @media(max-height:700px){.tour-panel h2{font-size:clamp(30px,5vw,56px)}.stack-card{min-height:130px}.tour-lede{margin-top:12px}.trust-stack{margin-top:18px}}
-    @media(max-height:600px){.tour-proof{margin-top:12px}.stack-card p,.vertical span{font-size:11px}.event-source{display:none}.tour-dock{bottom:8px;padding:8px}}
-    @media(max-height:500px){.tour-kicker{margin-bottom:8px}.tour-panel h2{font-size:clamp(28px,4.5vw,44px)}.trust-stack{grid-template-columns:repeat(3,1fr)}.stack-card{padding:12px}.stack-card h3{margin:7px 0 5px}.vertical-grid{margin-top:10px}.vertical{padding:10px}}
+    .tour-layer .slide.active .tour-kicker,.tour-layer .slide.active h2,.tour-layer .slide.active .tour-lede,.tour-layer .slide.active .tour-tagline,.tour-layer .slide.active .problem-grid,.tour-layer .slide.active .pipeline,.tour-layer .slide.active .tour-explorer,.tour-layer .slide.active .eval-layout,.tour-layer .slide.active .finance-workspace,.tour-layer .slide.active .commerce-flow,.tour-layer .slide.active .close-proof{animation:tourIn .38s cubic-bezier(.2,.8,.2,1) both}.tour-layer .slide.active h2{animation-delay:.05s}.tour-layer .slide.active .tour-lede,.tour-layer .slide.active .problem-grid,.tour-layer .slide.active .pipeline,.tour-layer .slide.active .tour-explorer,.tour-layer .slide.active .eval-layout,.tour-layer .slide.active .finance-workspace,.tour-layer .slide.active .commerce-flow,.tour-layer .slide.active .close-proof{animation-delay:.11s}
+    @media(max-width:850px){header{align-items:flex-start;gap:12px}.header-actions{align-items:flex-end;flex-direction:column}.problem-grid,.eval-layout{grid-template-columns:1fr}.pipeline{grid-template-columns:repeat(9,auto)}.pipe-arrow{padding:0 4px;text-align:center}.pipe-stage{padding:10px}.finance-workspace{grid-template-columns:145px 1fr}.commerce-lane{grid-template-columns:90px repeat(6,1fr)}.tour-dock{grid-template-columns:auto 1fr auto}.tour-copy span{display:none}}
+    @media(max-height:700px){.tour-layer .slide{padding-top:55px;padding-bottom:75px}.tour-layer h2{font-size:clamp(30px,4.8vw,56px)}.pipe-stage{min-height:120px}.tour-explorer-panel{min-height:270px}.finance-workspace{min-height:300px}}
+    @media(max-height:600px){.tour-brand{top:10px}.tour-layer .slide{padding-top:44px;padding-bottom:63px}.tour-lede{margin-top:9px}.tour-tagline,.tour-chips{margin-top:12px}.problem-grid,.pipeline,.tour-explorer,.eval-layout,.finance-workspace,.commerce-flow,.close-proof{margin-top:10px}.pipe-stage{min-height:98px}.mini-node{min-height:58px}.tour-explorer-panel{min-height:230px}.finance-workspace{min-height:250px}.tour-dock{bottom:6px;padding:6px 9px}}
+    @media(max-height:500px){.tour-brand{display:none}.tour-layer .slide{padding-top:25px;padding-bottom:55px}.tour-layer h2{font-size:clamp(25px,4vw,42px)}.tour-kicker{margin-bottom:6px}.problem-callout{padding:12px}.stack-card{padding:8px}.pipe-stage{min-height:82px;padding:9px}.tour-explorer-panel{min-height:205px;padding:8px}.finance-workspace{min-height:215px}.commerce-flow{padding:11px}.tour-dock{bottom:4px}}
     @media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;animation-duration:.01ms!important;transition-duration:.01ms!important}}
   </style>
 
 
 
 
-<meta name="proofpress:meta" content="eyJhcnRpZmFjdF9pZCI6InBwX2M1OTQ5NTYzZmM2NjI0NzY5OTRkYjRmOCIsInBvbGljeSI6InBvcnRhYmxlIiwicG9ydGFibGVfaGVhZCI6IjA5MzI3ZWViIiwicG9ydGFibGVfaGVhZF9ldmVudCI6InBwZV9jNWZlMjExZjIyYjJmZjljYmZjOTEzYzkiLCJwb3J0YWJsZV9saW5lYWdlX2lkIjoicHBsXzNkNzYxMmI3Y2Q2OGIwMWIzMGZhYzdlNiIsInByb29mcHJlc3MiOjF9">
+
+
+
+
+<meta name="proofpress:meta" content="eyJhcnRpZmFjdF9pZCI6InBwX2M1OTQ5NTYzZmM2NjI0NzY5OTRkYjRmOCIsInBvbGljeSI6InBvcnRhYmxlIiwicG9ydGFibGVfaGVhZCI6ImNkOGJjYTY1IiwicG9ydGFibGVfaGVhZF9ldmVudCI6InBwZV9hZDYxOGY1M2Y2ODQ2MmIwM2NlNzFiNzMiLCJwb3J0YWJsZV9saW5lYWdlX2lkIjoicHBsXzNkNzYxMmI3Y2Q2OGIwMWIzMGZhYzdlNiIsInByb29mcHJlc3MiOjF9">
 <meta name="proofpress:discovery" content="Verifiable revision history by Proofpress | https://github.com/chenmingtang830/proofpress">
 </head>
 <body>
   <div class="tour-layer" id="tourLayer" hidden aria-live="polite">
-    <section class="tour-panel active" data-tour-panel="0"><div class="tour-kicker">LONG HORIZON AGENTS BUILD DAY · BUILT TODAY</div><h2 data-proofpress-id="67be4882">100+ events.<span>Which conclusion can the next agent trust?</span></h2><p class="tour-lede" data-proofpress-id="fa689308">Long-horizon work outlives one context window. A fresh agent should not inherit a raw trace or an unverified summary as organizational knowledge.</p><div class="tour-proof"><span>OPEN SOURCE</span><span>OTLP → CLAIMS</span><span>APPEND-ONLY DECISIONS</span><span>FRESH-AGENT CONTEXT</span></div><script type="application/json" class="tour-notes">{"title":"The handoff problem","script":"A long-horizon agent produced more activity than the next agent should reread. The question is not what happened. It is which conclusions the next agent can safely build on.","notes":["Long-horizon work crosses context boundaries","Raw activity is not trusted organizational knowledge"]}</script></section>
-    <section class="tour-panel" data-tour-panel="1"><div class="tour-kicker">THE MISSING LAYER · H2 → H3</div><h2 data-proofpress-id="9b7bc598">Activity becomes context.<span>Context still needs governance.</span></h2><div class="trust-stack"><article class="stack-card observe"><small>BOTTOM LAYER</small><h3 data-proofpress-id="093934d3">Observability</h3><p data-proofpress-id="31c19cab">Logs, tool calls, traces, and spans record what happened across the trajectory.</p></article><article class="stack-card memory"><small>MIDDLE LAYER</small><h3 data-proofpress-id="b4b90585">Memory + ontology</h3><p data-proofpress-id="676412d2">Systems such as Stash help agents learn across rollouts and organize what to remember.</p></article><article class="stack-card proofpress"><small>TRUST LAYER</small><h3 data-proofpress-id="e2163537">Proofpress</h3><p data-proofpress-id="4a6c7b6e">Evidence, scope, review, lifecycle, and provenance govern what may be relied on.</p></article></div><script type="application/json" class="tour-notes">{"title":"The trust stack","script":"Observability captures activity. Memory and ontology organize context. Proofpress governs which evidence-bound claims may become cumulative knowledge.","notes":["Stash is a composable memory layer","Proofpress adds verification and governance above memory"]}</script></section>
-    <section class="tour-panel" data-tour-panel="4"><div class="tour-kicker">THREE PROOFS · ONE TRUST LAYER</div><h2 data-proofpress-id="e3cb86a6">Cumulative knowledge<span>humans and agents can safely build on.</span></h2><div class="vertical-grid"><article class="vertical"><small>EFFECT PROOF</small><b>Harvey eval</b><span>Measure the long-horizon baseline. No separate Harvey product UI; no improvement claim before the result exists.</span></article><article class="vertical"><small>PRODUCT PROOF</small><b>Finance workspace</b><span>Workflow, admin controls, and a governed knowledge graph for assumptions, risks, evidence, and review.</span></article><article class="vertical"><small>EXTENSION PROOF</small><b>Agentic commerce</b><span>A different telemetry-to-trusted-state visualization for policy, payment, fulfillment, and disputes.</span></article></div><p class="event-source" data-proofpress-id="e2b8e473">COLLABORATION EXAMPLE · COFRAME H3 GROWTH TRACES → REVIEWED, PORTABLE KNOWLEDGE</p><script type="application/json" class="tour-notes">{"title":"Three proofs","script":"These verticals do different jobs. Harvey measures effect. Finance demonstrates the product. Agentic commerce shows how the telemetry and ledger contract extend to another domain.","notes":["Harvey is eval only","Finance is the primary workspace demo","Commerce is the domain-extension visualization"]}</script></section>
+    <div class="tour-brand"><img src="../../assets/logo.svg" alt="Proofpress"> PROOFPRESS / VERIFIED CUMULATIVE KNOWLEDGE</div>
+    <div class="deck" id="deck">
+      <div class="slide active" data-slide="0">
+        <div class="slide-content">
+          <div class="tour-kicker">PROOFPRESS · TRUST INFRASTRUCTURE FOR AUTONOMOUS WORK</div>
+          <h2 data-proofpress-id="67be4882">Verified cumulative knowledge<span>for autonomous AI agents.</span></h2>
+          <p class="tour-lede" data-proofpress-id="fa689308">Proofpress turns agent activity into evidence-bound knowledge that humans and future agents can verify, govern, and safely build on.</p>
+          <div class="tour-tagline">Scale intelligence. Preserve trust.</div>
+          <div class="tour-chips"><span>TRACEABLE</span><span>VERIFIABLE</span><span>GOVERNED</span><span>PORTABLE</span></div>
+        </div>
+        <script type="application/json" class="slide-notes">{"title":"Positioning","script":"Proofpress is verified cumulative knowledge infrastructure for autonomous AI agents. We turn activity into knowledge that people and future agents can trust and build on.","notes":["Clear product category","Scale intelligence while preserving trust"]}</script>
+      </div>
+
+      <div class="slide" data-slide="1">
+        <div class="slide-content">
+          <div class="tour-kicker">THE PROBLEM · ACTIVITY IS NOT KNOWLEDGE</div>
+          <h2 class="section-title" data-proofpress-id="9b7bc598">Long-horizon agents remember more.<span>But what should they trust?</span></h2>
+          <div class="problem-grid">
+            <article class="problem-callout"><b>One bad summary compounds.</b><p data-proofpress-id="35407fa5">Across sessions, an unsupported conclusion can become memory, then policy, then an action—without anyone seeing where it came from.</p></article>
+            <div class="trust-stack">
+              <article class="stack-card observe"><small>01 / RECORD</small><div><h3 data-proofpress-id="093934d3">Observability</h3><p data-proofpress-id="31c19cab">Logs and traces tell us what happened.</p></div></article>
+              <article class="stack-card memory"><small>02 / ORGANIZE</small><div><h3 data-proofpress-id="b4b90585">Memory + ontology</h3><p data-proofpress-id="676412d2">Retrieval and structure tell agents what to carry forward.</p></div></article>
+              <article class="stack-card proofpress"><small>03 / RELY</small><div><h3 data-proofpress-id="e2163537">Verification + governance</h3><p data-proofpress-id="4a6c7b6e">Proofpress decides what is evidence-backed, scoped, current, and safe to rely on.</p></div></article>
+            </div>
+          </div>
+        </div>
+        <script type="application/json" class="slide-notes">{"title":"Why verification matters","script":"Observability records activity. Memory and ontology organize context. But neither answers the governance question: which conclusions are evidence-backed, current, and safe for the next agent to rely on?","notes":["Bad summaries compound across sessions","Verification controls what becomes shared knowledge"]}</script>
+      </div>
+
+      <div class="slide" data-slide="2">
+        <div class="slide-content">
+          <div class="tour-kicker">PRODUCT ARCHITECTURE · FROM TELEMETRY TO GOVERNANCE</div>
+          <h2 class="section-title" data-proofpress-id="68accac5">Turn raw trajectories into<span>trusted organizational knowledge.</span></h2>
+          <div class="pipeline">
+            <article class="pipe-stage"><small>01 / CAPTURE</small><b>Traces</b><span>OTel spans, tool calls, artifacts, commits</span></article><i class="pipe-arrow">→</i>
+            <article class="pipe-stage"><small>02 / EXTRACT</small><b>Claims</b><span>Decisions and conclusions worth reusing</span></article><i class="pipe-arrow">→</i>
+            <article class="pipe-stage"><small>03 / BIND</small><b>Evidence</b><span>Source, version, run, scope, provenance</span></article><i class="pipe-arrow">→</i>
+            <article class="pipe-stage"><small>04 / REVIEW</small><b>Human + policy gates</b><span>Approve, dispute, supersede, expire</span></article><i class="pipe-arrow">→</i>
+            <article class="pipe-stage govern"><small>05 / CONTINUE</small><b>Governed knowledge</b><span>Safe context for the next human or agent</span></article>
+          </div>
+          <div class="architecture-foot"><span>APPEND-ONLY LEDGER / COMPLETE HISTORY</span><span>CURRENT-STATE GRAPH / SAFE CONTEXT</span></div>
+        </div>
+        <script type="application/json" class="slide-notes">{"title":"Product architecture","script":"We ingest traces and artifacts, extract the claims worth carrying forward, bind each claim to evidence and scope, and apply human or policy review. The result is governed knowledge for the next session—not another transcript.","notes":["Five-stage telemetry-to-governance pipeline","Ledger preserves history; graph projects current knowledge"]}</script>
+      </div>
+
+      <div class="slide" data-slide="3">
+        <div class="slide-content">
+          <div class="tour-kicker">PRODUCT DEMO · ONE DECISION, THREE VIEWS</div>
+          <h2 class="section-title" data-proofpress-id="aa8102c4">Inspect the claim.<span>Then decide whether to rely on it.</span></h2>
+          <div class="tour-explorer">
+            <nav class="tour-tabs" aria-label="Knowledge views"><button class="tour-tab" type="button" data-tour-view="graph" aria-selected="true">GRAPH</button><button class="tour-tab" type="button" data-tour-view="ledger" aria-selected="false">LEDGER</button><button class="tour-tab" type="button" data-tour-view="evidence" aria-selected="false">EVIDENCE</button></nav>
+            <div class="tour-explorer-panel" data-tour-panel="graph">
+              <div class="mini-canvas">
+                <div class="mini-axis"><span>OBSERVED</span><span>EXPERIMENT</span><span>CLAIM</span><span>SAFE CONTEXT</span></div>
+                <svg class="mini-links" viewBox="0 0 1000 260" preserveAspectRatio="none" aria-hidden="true"><path class="safe" d="M205 50 C235 50 250 50 280 50 M455 50 C485 50 500 50 530 50 M705 50 C735 50 750 50 780 50"/><path d="M205 180 C235 180 250 180 280 180 M455 180 C485 180 500 180 530 180 M705 180 C735 180 750 180 780 180"/></svg>
+                <div class="mini-lanes">
+                  <div class="mini-column"><button class="mini-node selected" data-mini-detail="18% conversion observed in completed run EXP-002."><small>TRACE · 14:12</small><b>18% conversion</b><span>measured result</span></button><button class="mini-node" data-mini-detail="12% conversion observed in the baseline run."><small>TRACE · 09:04</small><b>12% conversion</b><span>baseline result</span></button></div>
+                  <div class="mini-column"><button class="mini-node experiment selected" data-mini-detail="Candidate B completed with a measurable outcome."><small>EXP-002</small><b>Candidate B</b><span>complete</span></button><button class="mini-node experiment" data-mini-detail="The baseline establishes the prior accepted comparison."><small>EXP-001</small><b>Baseline</b><span>complete</span></button></div>
+                  <div class="mini-column"><button class="mini-node claim selected" data-mini-detail="Evidence exists, but the claim still requires review before reuse."><small>CLAIM · OPEN</small><b>B produced 18%</b><span>scope: this run</span></button><button class="mini-node claim" data-mini-detail="The baseline claim has evidence and recorded approval."><small>CLAIM · VERIFIED</small><b>Baseline produced 12%</b><span>reviewed</span></button></div>
+                  <div class="mini-column"><button class="mini-node governed selected" data-mini-detail="Current decision: review before this claim enters shared context."><small>NEXT · REVIEW</small><b>Review before reuse</b><span>not shared yet</span></button><button class="mini-node governed" data-mini-detail="The verified baseline is available to a fresh session."><small>CONTEXT · CURRENT</small><b>Safe to continue</b><span>available</span></button></div>
+                </div>
+              </div>
+              <div class="mini-detail"><span><strong id="miniDetailTitle">Selected claim</strong> · <span id="miniDetail">18% conversion observed in completed run EXP-002.</span></span><span>Click any node</span></div>
+            </div>
+            <div class="tour-explorer-panel" data-tour-panel="ledger" hidden><div class="tour-records"><div class="tour-record"><code>EXP-001</code><div><b>Baseline · 12%</b><span>Reviewed claim is available to future sessions.</span></div><span class="tour-state good">CURRENT</span></div><div class="tour-record"><code>EXP-002</code><div><b>Candidate B · 18%</b><span>Evidence complete; review decision remains open.</span></div><span class="tour-state">REVIEW</span></div><div class="tour-record"><code>EXP-003</code><div><b>Candidate C · no result</b><span>Failure retained for audit; not available as knowledge.</span></div><span class="tour-state bad">BLOCKED</span></div></div></div>
+            <div class="tour-explorer-panel" data-tour-panel="evidence" hidden><div class="evidence-grid"><article class="evidence-card"><small>SOURCE</small><b>OTel trace-002</b><p data-proofpress-id="8a2d35fe">Completed run with recorded conversion metric.</p></article><article class="evidence-card"><small>SUPPORT</small><b>1 bound result</b><p data-proofpress-id="5f4cb6fe">18% is supported only for this measured experiment.</p></article><article class="evidence-card"><small>REVIEW</small><b>Human or policy</b><p data-proofpress-id="0aa28b06">Evidence makes the claim reviewable, not automatically true.</p></article><article class="evidence-card"><small>LIFECYCLE</small><b>Open</b><p data-proofpress-id="d7d2df44">It does not enter fresh-agent context until approved.</p></article></div></div>
+          </div>
+        </div>
+        <script type="application/json" class="slide-notes">{"title":"Graph, ledger, evidence","script":"The graph shows what builds on what. The ledger shows the full decision history. Evidence shows why a claim has its current state. Together they let a human or agent inspect before inheriting.","notes":["Three complementary views","Interactive nodes expose the review boundary"]}</script>
+      </div>
+
+      <div class="slide" data-slide="4">
+        <div class="slide-content">
+          <div class="tour-kicker">HARVEY BENCHMARK · EFFECT PROOF</div>
+          <h2 class="section-title" data-proofpress-id="8a674112">Does verified continuity<span>improve the long-horizon baseline?</span></h2>
+          <div class="eval-layout">
+            <article class="eval-status"><small>RESULT SLOT</small><b>+X% pending</b><p data-proofpress-id="e417ce97">The Harvey benchmark is eval only. Replace this placeholder with the measured result from the separate benchmark run—never with demo data.</p></article>
+            <div><div class="eval-bars"><div class="eval-row"><label>BASELINE</label><div class="eval-track"></div><strong>TBD</strong></div><div class="eval-row"><label>+ VERIFIED KNOWLEDGE</label><div class="eval-track"></div><strong>TBD</strong></div></div><p class="eval-caption" data-proofpress-id="2bc15033">Result intentionally blank · populate with the separate Harvey benchmark's actual baseline, treatment, denominator, and confidence interval.</p></div>
+          </div>
+        </div>
+        <script type="application/json" class="slide-notes">{"title":"Harvey benchmark","script":"Harvey is our effect proof, not another product mockup. We compare a matched long-horizon baseline with verified continuity and report the measured lift, denominator, and uncertainty. The number on this draft remains intentionally pending.","notes":["Harvey is eval only","No result claim until the separate benchmark is complete"]}</script>
+      </div>
+
+      <div class="slide" data-slide="5">
+        <div class="slide-content">
+          <div class="tour-kicker">FINANCE · PRODUCT PROOF</div>
+          <h2 class="section-title" data-proofpress-id="b6b4cb57">A governed workspace for<span>investment decisions that outlive the analyst.</span></h2>
+          <div class="finance-workspace">
+            <aside class="finance-admin"><small>ADMIN / APEX CAPITAL</small><h3 data-proofpress-id="3ddfafec">IC Memo · Q3</h3><div class="admin-item"><span>Evidence policy</span><b>PASS</b></div><div class="admin-item"><span>Model owner</span><b>R. CHEN</b></div><div class="admin-item"><span>Open disputes</span><b>1</b></div><div class="admin-item"><span>Review due</span><b>FRI</b></div><div class="admin-item"><span>Current memo</span><b>V12</b></div></aside>
+            <div class="finance-canvas"><svg class="finance-links" viewBox="0 0 900 460" preserveAspectRatio="none" aria-hidden="true"><path d="M150 115 C270 115 300 115 390 115 M150 345 C270 345 300 345 390 345 M510 115 C620 115 650 210 750 230 M510 345 C620 345 650 250 750 230"/></svg><div class="finance-nodes"><article class="finance-node"><small>10-Q / SOURCE</small><b>Revenue +12% YoY</b><span>filed evidence</span></article><article class="finance-node claim"><small>MODEL V12 / ASSUMPTION</small><b>FY27 growth = 9%</b><span>derived · reviewed</span></article><article class="finance-node current" style="grid-row:1 / span 2;grid-column:3"><small>CURRENT / IC KNOWLEDGE</small><b>Proceed at ≤ 14× EBITDA</b><span>approved by IC · expires on earnings</span></article><article class="finance-node"><small>CALL / SOURCE</small><b>Customer churn risk</b><span>transcript evidence</span></article><article class="finance-node claim"><small>RISK / DISPUTED</small><b>Retention is stable</b><span>open challenge · owner assigned</span></article></div></div>
+          </div>
+        </div>
+        <script type="application/json" class="slide-notes">{"title":"Finance workflow","script":"Finance is the primary product demonstration. The analyst and admin see source documents, model assumptions, open disputes, owners, review deadlines, and the current investment decision in one governed graph.","notes":["Real workflow and admin controls","Knowledge graph connects evidence to the current IC decision"]}</script>
+      </div>
+
+      <div class="slide" data-slide="6">
+        <div class="slide-content">
+          <div class="tour-kicker">AGENTIC COMMERCE · EXTENSION PROOF</div>
+          <h2 class="section-title" data-proofpress-id="c2ec8e67">The same trust contract.<span>A different operational surface.</span></h2>
+          <p class="tour-lede" data-proofpress-id="9a956087">Commerce is not another finance graph. It is a telemetry-to-trusted-action view across policy, payment, fulfillment, and disputes.</p>
+          <div class="commerce-flow"><div class="commerce-lane"><strong>OTEL TELEMETRY</strong><span class="commerce-event trace">catalog.read</span><span class="commerce-event trace">cart.updated</span><span class="commerce-event trace">policy.check</span><span class="commerce-event trace">payment.auth</span><span class="commerce-event trace">fulfillment</span><span class="commerce-event trace">dispute.open</span></div><div class="commerce-lane"><strong>TRUST POLICY</strong><span class="commerce-event policy">price current</span><span class="commerce-event policy">consent bound</span><span class="commerce-event trusted">limit passed</span><span class="commerce-event trusted">authorized</span><span class="commerce-event trusted">receipt bound</span><span class="commerce-event blocked">human review</span></div><div class="commerce-lane"><strong>AGENT ACTION</strong><span class="commerce-event trusted">recommend</span><span class="commerce-event trusted">reserve</span><span class="commerce-event trusted">purchase</span><span class="commerce-event trusted">pay</span><span class="commerce-event trusted">track</span><span class="commerce-event blocked">pause refund</span></div><div class="commerce-boundary"><i></i><span>Every action inherits an evidence-bound policy state; disputed or expired state stops autonomous execution.</span></div></div>
+        </div>
+        <script type="application/json" class="slide-notes">{"title":"Agentic commerce","script":"The ledger contract extends beyond knowledge work. In commerce, telemetry becomes policy-aware trusted state, and that state controls whether an agent may recommend, purchase, pay, fulfill, or must stop for review.","notes":["Different visualization for an operational domain","Policy state controls autonomous action"]}</script>
+      </div>
+
+      <div class="slide" data-slide="7">
+        <div class="slide-content">
+          <div class="tour-kicker">THE TRUST LAYER FOR LONG-HORIZON AGENTS</div>
+          <h2 data-proofpress-id="e3cb86a6">We don't just need smarter agents.<span>We need knowledge they can safely build on.</span></h2>
+          <p class="tour-lede" data-proofpress-id="147e38ee">Cumulative knowledge that humans and agents can verify, govern, trace back, and carry into the next session.</p>
+          <div class="close-proof"><article class="proof-card"><small>MEASURE</small><b>Harvey benchmark</b><span>Prove the effect against a real baseline.</span></article><article class="proof-card"><small>OPERATE</small><b>Finance workspace</b><span>Govern real knowledge, evidence, owners, and review.</span></article><article class="proof-card"><small>EXTEND</small><b>Agentic commerce</b><span>Turn telemetry into policy-constrained trusted action.</span></article></div>
+          <div class="tour-tagline" data-proofpress-id="e2b8e473">Bring your traces. Build on verified knowledge.</div>
+        </div>
+        <script type="application/json" class="slide-notes">{"title":"Closing","script":"We do not just need smarter agents. We need cumulative knowledge that humans and agents can verify, govern, and safely build on. Bring us your traces, and let the next session start from trusted ground.","notes":["One trust layer across evaluation, knowledge work, and operations","Verified knowledge makes intelligence compound safely"]}</script>
+      </div>
+    </div>
+    <div class="tour-progress" id="tourProgress" style="width:12.5%"></div>
   </div>
-  <aside class="tour-dock" id="tourDock" hidden aria-label="Guided demo controls"><div class="tour-clock" id="tourClock">3:00</div><div class="tour-copy"><b id="tourTitle">The handoff problem</b><span id="tourInstruction">Start with the question the fresh agent must answer.</span></div><nav class="tour-nav"><button id="tourExit" type="button">EXIT</button><button id="tourBack" type="button">BACK</button><button class="tour-next" id="tourNext" type="button">NEXT</button></nav></aside>
+  <aside class="tour-dock" id="tourDock" hidden aria-label="Guided demo controls"><div class="tour-clock" id="tourClock">3:00</div><div class="tour-copy"><b id="tourTitle">Positioning</b><span><span class="tour-slide-count" id="tourSlideCount">1 / 8</span> · three-minute story</span></div><nav class="tour-nav"><button id="tourExit" type="button">EXIT</button><button id="tourBack" type="button">BACK</button><button class="tour-next" id="tourNext" type="button">NEXT</button></nav></aside>
   <main class="shell"><div class="rule"></div><header><div class="wordmark"><span class="mark">PP</span>PROOFPRESS / TRUSTED CONTINUATION</div><div class="header-actions"><button class="tour-launch" id="tourLaunch" type="button">GUIDED DEMO · 3:00</button><div class="status"><i></i> LEDGER PREVIEW · 3 EXPERIMENTS</div></div></header>
     <section class="hero"><div><div class="eyebrow">VERIFIED KNOWLEDGE INFRASTRUCTURE FOR AUTONOMOUS AI AGENTS</div><h1 data-proofpress-id="26127b71">THE WORK OUTLIVED THE CONTEXT.<span>WHICH CONCLUSION CAN THE NEXT AGENT TRUST?</span></h1><p data-proofpress-id="59111a7d">Long-horizon work is a chain of coupled decisions across contexts and tasks. Proofpress makes selected conclusions <strong>evidence-bound, governed, and safe to inherit.</strong></p></div><div class="meta"><div><span>SOURCE</span><b>OTLP TRACES → CLAIMS</b></div><div><span>MODE</span><b>OPEN SOURCE / LOCAL</b></div><div><span>BUILD-DAY DELTA</span><b>GUIDED TRUSTED HANDOFF</b></div></div></section>
     <section class="section"><div class="section-head"><div><div class="index">01 / DECISION SURFACE</div><h2 data-proofpress-id="ad5a4616">What can the next agent safely inherit?</h2></div><p data-proofpress-id="52ab68ed">Choose one experiment first. Open lineage only when you need to inspect how the decision was made.</p></div>
@@ -231,103 +393,98 @@
   })();
 </script>
 <script>
-  /* === THREE-MINUTE GUIDED DEMO RUNTIME === */
+  /* === THREE-MINUTE PRESENTATION RUNTIME === */
   (() => {
-    const steps = [
-      {panel:0,title:'The handoff problem',instruction:'Start with the question the fresh agent must answer.',script:'A long-horizon agent produced more activity than the next agent should reread. Which conclusions are safe to inherit?'},
-      {panel:1,title:'The trust stack',instruction:'Observability records. Memory organizes. Proofpress governs reliance.',script:'Memory can carry context across rollouts. Proofpress records the evidence, scope, review, and lifecycle that make a claim safe to reuse.'},
-      {target:'.section',title:'From traces to candidate claims',instruction:'Compare admitted, reviewable, and blocked paths—then open Lineage and Evidence.',script:'The same trace substrate produced three different knowledge outcomes. Evidence makes a claim eligible; admission makes it available.'},
-      {target:'.lineage-explorer-section',title:'Inspect before inheriting',instruction:'Use Graph, Ledger, and Evidence. Click any node for its receipt and review boundary.',script:'The graph is a current-state projection. The append-only ledger keeps the complete decision history, including paths that did not cross into shared context.'},
-      {panel:4,title:'Three proofs, one trust layer',instruction:'Harvey measures effect. Finance demonstrates the product. Commerce shows domain extension.',script:'We do not just need smarter agents. We need cumulative knowledge humans and agents can verify, govern, and safely build on.'}
-    ];
+    const titles = ['Positioning','Why verification','Product architecture','Graph · Ledger · Evidence','Harvey benchmark','Finance workflow','Agentic commerce','The trust layer'];
     const layer = document.getElementById('tourLayer');
     const dock = document.getElementById('tourDock');
     const clock = document.getElementById('tourClock');
     const title = document.getElementById('tourTitle');
-    const instruction = document.getElementById('tourInstruction');
-    let step = 0;
+    const count = document.getElementById('tourSlideCount');
+    const progress = document.getElementById('tourProgress');
+    const slides = [...layer.querySelectorAll('.slide')];
+    let current = 0;
     let startedAt = 0;
     let timer = null;
     let running = false;
-    const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    const clearFocus = () => document.querySelectorAll('.tour-focus').forEach((node) => node.classList.remove('tour-focus'));
     const updateClock = () => {
       const remaining = Math.max(0, 180 - Math.floor((Date.now() - startedAt) / 1000));
       clock.textContent = `${Math.floor(remaining / 60)}:${String(remaining % 60).padStart(2,'0')}`;
       clock.style.color = remaining <= 20 ? '#ba4b4b' : '#3d808a';
     };
-    const showNotes = () => {
-      const current = steps[step];
+    const showNotes = (index) => {
+      const notes = slides[index].querySelector('.slide-notes');
+      if (!notes) return;
+      const currentNotes = JSON.parse(notes.textContent);
       console.clear();
-      console.log(`%cGuided demo ${step + 1}/${steps.length}: ${current.title}\n%c${current.script}`,'font:700 16px ui-monospace;color:#3d808a','font:14px sans-serif;color:#826a4e;line-height:1.5');
+      console.log(`%cSlide ${index + 1}/${slides.length}: ${currentNotes.title}\n%c${currentNotes.script}`,'font:700 16px ui-monospace;color:#3d808a','font:14px sans-serif;color:#826a4e;line-height:1.5');
     };
-    const renderStep = () => {
-      const current = steps[step];
-      clearFocus();
-      document.body.classList.remove('tour-running');
-      document.querySelectorAll('[data-tour-panel]').forEach((panel) => panel.classList.toggle('active', Number(panel.dataset.tourPanel) === current.panel));
-      title.textContent = current.title;
-      instruction.textContent = current.instruction;
-      document.getElementById('tourBack').disabled = step === 0;
-      document.getElementById('tourNext').textContent = step === steps.length - 1 ? 'FINISH' : 'NEXT';
-      if (Number.isInteger(current.panel)) {
-        layer.hidden = false;
-      } else {
-        layer.hidden = true;
-        document.body.classList.add('tour-running');
-        const target = document.querySelector(current.target);
-        if (target) {
-          target.classList.add('tour-focus');
-          target.scrollIntoView({behavior:reducedMotion ? 'auto' : 'smooth',block:'center'});
-        }
-        if (step === 2) document.querySelector('.case[data-case="candidate"]').click();
-        if (step === 3) document.querySelector('[data-lineage-view="graph"]').click();
-      }
-      history.replaceState(null,'',`${location.pathname}${location.search}#guided-${step + 1}`);
-      showNotes();
+    window.goTo = (index) => {
+      if (!running || index < 0 || index >= slides.length) return;
+      current = index;
+      slides.forEach((slide, slideIndex) => slide.classList.toggle('active', slideIndex === current));
+      title.textContent = titles[current];
+      count.textContent = `${current + 1} / ${slides.length}`;
+      progress.style.width = `${(current + 1) / slides.length * 100}%`;
+      document.getElementById('tourBack').disabled = current === 0;
+      document.getElementById('tourNext').textContent = current === slides.length - 1 ? 'FINISH' : 'NEXT';
+      history.replaceState(null,'',`${location.pathname}${location.search}#guided-${current + 1}`);
+      showNotes(current);
     };
+    window.next = () => current === slides.length - 1 ? exit() : goTo(current + 1);
+    window.prev = () => goTo(current - 1);
     const start = () => {
       running = true;
-      step = 0;
+      current = 0;
       startedAt = Date.now();
+      document.body.classList.add('tour-running');
+      layer.hidden = false;
       dock.hidden = false;
       clearInterval(timer);
       timer = setInterval(updateClock, 250);
       updateClock();
-      renderStep();
+      goTo(0);
     };
-    const exit = () => {
+    function exit() {
       running = false;
       clearInterval(timer);
       layer.hidden = true;
       dock.hidden = true;
-      clearFocus();
       document.body.classList.remove('tour-running');
       history.replaceState(null,'',`${location.pathname}${location.search}`);
-    };
-    const move = (delta) => {
-      if (!running) return;
-      if (step === steps.length - 1 && delta > 0) return exit();
-      step = Math.max(0,Math.min(steps.length - 1,step + delta));
-      renderStep();
-    };
+    }
     document.getElementById('tourLaunch').addEventListener('click',start);
     document.getElementById('tourExit').addEventListener('click',exit);
-    document.getElementById('tourBack').addEventListener('click',() => move(-1));
-    document.getElementById('tourNext').addEventListener('click',() => move(1));
+    document.getElementById('tourBack').addEventListener('click',prev);
+    document.getElementById('tourNext').addEventListener('click',next);
     document.addEventListener('keydown',(event) => {
       if (!running) return;
       if (event.key === 'Escape') exit();
-      if (event.key === 'ArrowRight' || event.key === 'PageDown' || event.key === ' ') {event.preventDefault();move(1);}
-      if (event.key === 'ArrowLeft' || event.key === 'PageUp') {event.preventDefault();move(-1);}
+      if (event.key === 'ArrowRight' || event.key === 'PageDown' || event.key === ' ') {event.preventDefault();next();}
+      if (event.key === 'ArrowLeft' || event.key === 'PageUp') {event.preventDefault();prev();}
+      if (event.key === 'Home') {event.preventDefault();goTo(0);}
+      if (event.key === 'End') {event.preventDefault();goTo(slides.length - 1);}
     });
+    document.querySelectorAll('.tour-tab').forEach((tab) => tab.addEventListener('click', () => {
+      const view = tab.dataset.tourView;
+      document.querySelectorAll('.tour-tab').forEach((item) => item.setAttribute('aria-selected', String(item === tab)));
+      document.querySelectorAll('[data-tour-panel]').forEach((panel) => { panel.hidden = panel.dataset.tourPanel !== view; });
+    }));
+    document.querySelectorAll('.mini-node').forEach((node) => node.addEventListener('click', () => {
+      document.querySelectorAll('.mini-node').forEach((item) => item.classList.remove('selected'));
+      node.classList.add('selected');
+      document.getElementById('miniDetailTitle').textContent = node.querySelector('b').textContent;
+      document.getElementById('miniDetail').textContent = node.dataset.miniDetail;
+    }));
     const requested = new URLSearchParams(location.search).get('tour') === '1';
     if (requested) requestAnimationFrame(start);
   })();
 </script>
 
 
-<script type="application/vnd.proofpress+json" data-proofpress="capsule">eNrtXNty48a1_RUUX01xADSuPBO5ZInxqKyRpjS0x1XJlKqvIiIQYABQGnlqqvKUDzjPyXec9_Mp_pLs7sZNIgmCkuLYMV9UFC7du3fvy1obG_g8wFkRCUyLq4gNxoPF4oq6oRO6HhLU82zH98LQYcQRwWA4ICm7v2LRNc8LuDafYdv1xp4puGDEFg5nTsgtLExKGfaI6TOHuNQMmOV7nCE7tBkTAjGLhAJ5JsauK3wO47Iop-ktz-4H48_yn-KqwNcwQ4wLOdUQfhAew4EfeBaJCJOYGxm_jfIoTYwZXJ9m9wa5N95laSoWGc9zuGeB6Q2-5nJRDw5n6V84LHeZyQFnRbHIx69eXUfFbElGNJ2_ojOezKPkusDJdYDMVw_uzvhflxH8vlrmPLuiaZLzBHRRZEv-ZTiYcSyVaIbI9jknA33kit-qi0C5HLQruG1ZwrZBYyKkRNDQQjSUkqVZIZd2FUcJB8mrHYmvEPM9yyY-ZV5ATIsgE3bM555eTindFcWLfBnDgm0pJ00zlg_Gf_o8KKf_PIBdTrNc_tKnObsioPI_DZbJTZLeJYOPsIbKHmBq_gnPFzHPX90qtXN2IC-LObvmB-pv9orxeTpawD0Jzw7y4j7mo1kxjwfDnewKF0UWkWUB23lFcB7l0rp4LK5wDmouOJPXLItZmknhb6JEDpnf5wWfw5kEz-UuV4sYwq25tIzBOFnGMSyJzmAruVYGiVN6A1fboFCf-BZcDrtY8E9ywa9n1uH0zcSY_Phucnn6dnI-NS6Pzkev8wVO1ImTyfHp-9MLuKkUAjOmpFtIc-R3O4xxbpxPJifvjSPjcnI8OX03Hb1-BQMV9wu5GGk3YIODL8NGZDe0LAv77OVFXhyepcn1Aeg3-gk8CmwvKXID_vIMPNBQBpSPWu5lzPENz41ixhuRwQrwA3kxc7HjWd4jee3DDzNcGBQn8n4jgeN6RiPHgsf3RpTMeNat4n5jRMXXr1_BtVvUamPiBZy9vJiLw-NZmubcSBNQ4qcFSDSXA4goy4uRcbHgiVH6OlwCQ95B6DHu06WRdKjVREw4lkkeyYuMiP3hz3A5TDONipj_eXB4jBMWMbmF34C4NOM4592K7TsKM2BuCAvSz8BwZ2iLkrnlucJesd0XEXrRGuQbyFAwxhSSghEpA4VEAVER9s4Q8GtW7uEcg7Yx_OhQtMvcgBGE1stcrBM3N3gcXUcyP4leit46SpoZ-q4-WrZMVyDq03-HxKWWiVbw5DZiPKFcDiAjAuh0qLTdMnNIppA9IHoPu7RMTdMNIB88dj89Hcvw3XrT-P__05JvCRR9h3mo7B5hw2aWbbr4sdzo8ASWnAGAAFgSUQOzeaSykQG4gt7k1S52mUbPIR4L93FYpfpB6ZlX0nt0-lRnqlzMr1yEcBBS1zFtlwBcMQXDzBdyNUlaqI0q0UgdodTkizRKCgWuMjWTzLDVfzLBfpQwJo7ofWuENrRpDaJA0xNRT56K4krAqnm2yKISXOXEGiMUmoxYAaRJO3Rs6vIAubZHGeR6btu-SUKLEuS4NsEWcz1GsUuR79mIIWT6WI5d4EKBJL03Y8sECCGPDGzT9g7M4MC2p7Y5dsKxY35lmmPThLtKjcNVnk2RzVEA1tIc_fwfwVXKVjXumeF8JmMaBAiA5Cb2HBnX1BgtKLQjqFiHYdQ1YKLWBv8pBXE8jCgOOeaCV4K0AE4lyDOQiQEQXSxjmahovFT-8zovMhjuENjGQoYl7XTS-oYGxASV2VUUqJJFiSSNIq0QhVyhHuT1q8XhmrhWrs8nwgd6JMBq_Wp9LUC0I8zoRjLllCFhDkWuT6jfqLQBN41Kn4xKOOR9pYp8ARTKmKV3SmjGqaZid1jqn_FRt26IiYhDbdfirBa0hWp2Rgd9wUg5PQKWKmyICCSofaCFT2o9PQdWgJYyDgY4MqZwrXZq44bzBdwPNxUFhkiolQn2PIdVLDP4P1smyhC1YRoyFG1Tpm2FXuibwkKoNrQWctkZBPQCHOXclCMUMCqYpwismruFQR5p8mnQQapDnp1z4IhU3lRpawRxZ7acg-eAzDrrlKKDriFzxrGyTAbhAEwYxshgILif8Bj8FzYiMfIZlmqvw-8WXXsI88A1PQr5slpvC7_sDl56o45SAMhtges6WKCQ1eG7ASI7o5AVCPFFTra9YEBTxj8dwO4JWMWs-FUVDmBLE1kOgXM871k7eLyefjUEK4CYYXnOGubIM66NrY6NFGaCWJHOR9U2b-G3fYboorXYsygOXl64xaEMaXMs3WeZwU5x8NEcDD03fv7bP2Qiu-MyIBdRsuRf__y3fxoqbF5neAFhsovZEotZyHf4CqSeXh4dAxr5AYDI-14Aet0NHbpi2AsCGporEzcAqN-8a67vmpYyHtrIXZn2-Oj85PTkaDoxjs-OTt_2m3vTTR0CUIdBQFGx-6EARydvT99LgNdr5pWrn8NMTOGYFpiBED43IZmYXFjYZWHDTAi49QEXEDcBtOA4JpjegAUvCkgK_2NwphNsFReMpi5YkZYGorepy-e9j-99fO_jz_XxXjWGxxzb-7KeQW8rJ7xIzcAKOQkBXmDC7ZC78JdS0ycB95EXmNhmDIXAorgnmAh8AB48FMgMQ-rAecI2rWdNycANx661pmRgUuSQ0ET7ksG-ZLAvGexLBvuSwX9NycC0hIscSrlDa8bewpQ7Y7bNmuWW40C4sBxX1JptAcTGl58F7eor72QM4tXGPLZAab-GXJAcoVtDbuARQPhEMBNXcrdQ4haI2FEroWGIXRoggeqQ0QKB3Qiww4BtJ0TcRMKz6g1tgbweCK9jC12LBcSyLa5Sq64vNfitC7xtHvT3W7SSVLAuWR3LEs_go-qYYUu6evxRiat1_K9LVUgqT1xGwBMzZkyBLP62OmZU5Htqw8xGIjxtp3OIFNhY4GI2NICtw2_J2UevG3YxT5lSzBOJ7XMn68dHmxEy2K3bfxP53D7LC1DN7ZO8FKfcPlMfDkljHM03Wt7qvpY1oUsuMrBqjbPKXCWtQ_YIynhV24w0FwOIgE7tkO0wIHZYBMOZhAICUhbks9Ema9wowNuaQ6gVAEwBvgAODQdlbmQcMLJMlfeGFCKLJGOA-FYUbSwh8QxgEqAMm2x0RcP1-hcxpHItgdJ6uoR_MpneS_UeKGSuxjTuItBCAcAJIhBELJAhT5cZXJukEvtEmlmAWhIA7XBWaXS0yaR3E6qF2TZJVoPb1rU7SNb4wW6S0SrZHWgrbIukd1ULUSjo82khGZHihcMGCNF0KcGpooYAhJb5aJPn7CZbkwxbQl3LptmknWVKCeX0Jc040DSjRHRYlUQ1SdD-Vvnv58Hd7L425LOSzcmBavSNG70PVz1Le12ePuI3ElHmvHQLUOkyilmnDxAO4AJ4JDgM2AaMX-AoVmrsX0T2uOOFxDcpDSgF1oaB3FAnDGott_tW2gWYZxSE93lwnwdfLg_2fypS1x7rXdYN4HrusfNlfaXxFymtUpdS5AfCdtyAByy0TS45jggowQwImuNh7gnbDx2HE2x7vuMLnxHbMRlzHWUnPZa3Umm1xkjWWNdUWnmAAh_b1r7Suq-07iut-0rrvtL6X1NpdRlh3AefCkO_u9LaBzxtdWjEXCRMj3imTTrLrRP5YpsyONVOrYlEZW15SbyGLQW32ISmEMMHJtdoXUPoBjmD8Sp4nRvK1fadbL9cUTDTRcHiN1cTVKGxqQnqBfarCLoOFS6n3jPJydp3TcBL8hwMr_KEA3lXOz6BK9znD2J1VXt5bPTri0ot4R_JUdLwI8ak5HA5jo1vJbcdGmdqu4YPWbGs2QBhzZT561ApTRWoazHL-IPIKdUA3hxJzCPNFA4kQ-OnNJ03Tl3fDabHo0VhaN_bwNa_gziibgMMdh0lOK4Vf1A93ZHGpQsCjGkKD4Q6kdFbS_7gJQ95XR19VMypLb1e30y-WAtmlBjllu3GzZlvURucX3jIBPhvBT73Qztkm7h5Ddm3c_PfjkX2r1esvI7yZT2f-UX4XOjbLg4JFgARkcCW53nA25yAeLaPhI1tmwnMGXI9TwAHp2Foc-Rj0wstk9nc2bCeFQJnj-1g7KB1BI7bwhPU2RO4PYHbE7g9gdsTuD2B-z0SuMAJQ4w9m3KvdrMW_GmM4xm4ZS4FypcLiSFgDXnaBFFYap4q02ie8lSBS15E0qV-pAoHC9C9kQqjyJYa2WIYdD6Hs3uS2oekKg2P6Qaq-ujsI8K6cvYhbZVfsRn_Zrnrs_pZPJ9wJwjsFa5gmeZXFfTRmOzDDDTURjp025sdfcZYxSRF1v24SWAvCJEZvLzITZgoIJrJrZUu9AAc3qXZjZEuizi65blCN6UMXR93AE5DYNdXJT6iRXQbFfeQLiAbwYDl6VL8Y_nfNiX3GQPE07lKoqtcPzDvVrIZohA5bOWrH4cXBCzxFpMohjl7vTOx9o6OqZFFrZBi8typJay_hoBdpCkAdBzH8rdsBclLIA7qyQ0dKQzVxznDwEITiP5dT4jlg0M3WH2T5S1EAIj0X4FRFGmcXvdTzsa7OhTk-Z5j2cx-CREWh-_VS6CQwJdUdQu9LyDqGzMeLyomFHOcAWSkWQrUJ0vjGOwfUmWHkjiAFeSi1a-CNByql3ZWL-9Qi4M96hOPP2vSRY0IhlVTiz45BL4iOL2nFY-DBAShBkvsoBtQuvSBKAk8vFqROV7OlzEGB-YN_tF-q6K6amHZFgD6jFFtpWpD0ZyPbPlUkU0C7vjo5UVugzEQ6kAjR4lVLs7Ojr65uDyaStY_-fHo7buziUQtxxd_vDx6OzHeIOPbDi13fszsw8Xld8bF99Oz0x8mJ4Y8cnxxPp38OC3j5M49KV2fIXvOZF3l2la23liu5RpUV41DkPNZKoShEI9MgVX9UpVlDwCsLQEcXi8jeaNCMZuS7foZJ58WIGci6c89QFoAn2W_HUyzTCrAVEFdSVPg4qUQEY1UQaBVCFE2OtqUOddPf5oUGgiWWU07JNb0WcFP0EGM74GXYQIXQBij2oA1o1eZclPmWz_lueqwTNvJqJqQpEWRzsv5JNaXepZ4X9ILejPalOfWT3TCRZRsmqrMW4pQYPkpRxn5cYkFRptSVteK5jp7yGhR5Y9GkYzJ8nivdbXS0_rpvgdgWqYZ1Z2qibikjNJCSrAtp1EZ56DMOKV8o02JpmtprdJduSItvVrQaFMW6d6V1pgty5OdmUCBcik-3zmTjDZljY6HM5qmpsrQYSSwea27NWG6qT2uZIbRpuC_fuY_6jbj41T1GxvXWXonW2kVuqo2NY7B4zLdahmBo12Xv8sNHm2K3R3dzaolVMe3gtNZEsmnUjOepWUr74w_6PbUm1xFvtGm-L1xwmqrdZFChplCYn8Js-Ui61qCovnDug91WNVTdaGkZh_5hqdXR-qJ1Lp4rB2urEXUj8QqUdQjrbtZFHNd48pu9eM2rtSdqWDAFWMhIOZMg14u84sahguwwmJYDadtEQTjiW4Rl_a92zOtjq-6rn-mVT3F2P5Ma89T9zx1z1P3PHXPU_c8dc9Tf1U8tX9jy0rTgzVs97N_Wd_h8Iu0dHBCWOBbngCQwUyXupxT3xMhRDCEQYWYIcIID4A-2qYjbOTYNoLkQ-EA9h-26G9c3cMGDzQ1zbFlj01v3bdQqo_n_xobPELYX-w5gSBB_UCoBdB2hDrrkBXg9q-bNo9tr_zj0BUOChkovhKnBb5WHwI-ATXdgRukd_JpcPtRfD5LlzFTD1xLyP-4BIKTdVUQSF9pdo2T6CdFiYDE9H067NsQoTkPKThYtdYWbNsRs63DW5qI9la-FWDCCbUpFXbdZ9GAsm2wqOPBNA49bJo-dln9QYQW5Go37zwRPZVIQZcDqhrKtk4I2aLGfBo4fvOZhgZq9QE5Xd8ocDzwOSZ40zTSAlHNkp-MhWRtRxse18pQPSRzPic827Jyy2QWt4gL4c-sO1oa_NSJYzpatEIcINskjhPW9twCSO32gyfCHb1O2TRDZNUsln64va8AMdOhju2EzTa3wNGOMGMdqilfAO3vaB4HN_cI8RweNvqvwc-6VofdUcvlxYfpG0O9zvje-Pnv_2tcTn44nXyYnAyNdxeX06Nv4Jbvzi8-nE1Ovp10q1B4PLA4ZQFh4fYuwG1I5MOb0-M38tjx2feqKfD46Fxddg7XGEffyvbB6eX376df9-4O9DzfxpT5CBPUvztQpQjVbENn8usxstSWLhexqp7rXpy88rsy4mobABe9WddFmPNYv8PdKhTVTYSbS0x1K-G-bXDfNrhvG9y3De7bBvdtg7-3tsGPX_4Fs81RRw</script>
+
+
+<script type="application/vnd.proofpress+json" data-proofpress="capsule">eNrtXVlv5EaS_iuEgMU8WKrmfWh725DVGltwH1617B5gxhDyooojFlnDo9Uao4F52h-w2Mfd37Hv-1P8SzYik1epSBZLUnvsGb50SyoyMzIyMuKLK-unA5IVUUhYcRXxg-OD9fqKOYEdOK4VMtc1bc8NAptTO_QPDg9oyu-ueHQt8gKezZfEdNxjCo_ogrFAmBajhmV53HXMkFkBdZnlcsf2HF8w4tCA2YFPA1u3TN1yfRF6geMRGJdHOUs_iOzu4Pgn_KW4Ksg1zJCIjwV8HBMqYvj1B5FFYURoLLRMfIjyKE20JTydZncavdO-y9I0XGciz-GdNWE35Frgkjb-nKV_FrDYMsMBl0Wxzo-fPbuOimVJFyxdPWNLkayi5LogybVv6c823s7EX8oIfr4qc5FdsTTJRQKcKLJSfDo8WAqCLGTcp4y4zoH6y5X4IB8C1oorwl3DDx0rdH3bNaluMeEZ1LOQsjQrcGlXcZQIoLzej_jK4p5rmNRj3PWpblBLh_3yhKuWU1F3xcg6L2NYsIl0sjTj-cHxH386qKb_6QD2OM1y_El9LPgVBYb_8aBMbpL0Njn4EdZQSwNMLT6S1ToW-bMPku2CH-FjseDX4kj-mz3jYpUu1vBOIrKjvLiLxWJZrOKDw72kihRFFtGygO28oiSPcpQtEYdXJAc2F4LjM2WxTDMk_iZKcMj8Li_ECj5JyAp3uV7EIbyao2QcHCdlHMOS2BK2Uihm0DhlN_C0CQz1qGfA47CLBYrZ8cHzpfHi8psz7ewP351dnL8-e3OpXZy8WTzP1ySRH7w8Oz1_d_4WXqqIIJxL6tYojuJ2jzHeaG_Ozl6-0060i7PTs_PvLhfPn8FAxd0aF4NyAzJ48OmwJdkJDMMgHn96ktcvXqXJ9RHwN_ornCiQvaTINfhXZKQQmhSgfNE5XtqK3IhcK5aiJRmkgGzQS7hDbNdw79Frvni_JIXGSILva3jC1YxaTkIR32lRshTZOIunjREVXz5_Bs_uYKtJKKgi_vRkrl-cLtM0F1qaABM_roGiFQ4QRlleLLS3a5Fo1VmHR2DIW1A92l1aaskIW3WLh7ah03v0WlrE_-1P8DhMcxkVsfjTwYtTkvCI4xZ-BeSyTJBcjDN26ihcg7lBLeA5A8FdWjuYLAzXCc0t2X0SotedQb4C-wRjXIJR0CIpoGAoQCvC3mkh_LSs9nBFgNsEfhhhtMMdn1PL6qe56CM310QcXUdon8JJjN45Sppp6q0pXDZ0J7SYxz4HxRWXqWLw2YeIi4QJHAA1AvD0UHK7I-ZgTMF6gPY-HOMy03XHB3tw__ip6XhGbvtF4__-V1G-Q1FMHWaT2RPUhskNU3fIfbqtFy9hyRkACIAlEdMIX0XSGmmAK9hNXu_imGhMHOI-cT8e1qb-oDqZV3h6lPmUn9S2WFw5lkX8gDm2bgIqAzQWcsK9EFeTpIXcqAqNNBpKTr5Oo6SQ4CqTM6GFrX9DA_sjwpg4YnedEbrQpjOIBE0PRD15GhZXIaxaZOssqsBVTo1jywp0Tg0fzKQZ2CZzhG85pss42Hphmp5OA4NRy3ZMSgzuuBxQKbM817S4ZekSiuYFKSRIUntzbOgAIfAvB6Zuuke6f2Sal6Z-bAfHtv6Frh_rOrxVcRyeck1mmcLyQVrav_70d8FVUlYV7lmSfIk6DRSEA0eOuDbqNTlGBwrtCSr6MIx8BkTUGDg_FSG2SyxGAkFEKGpCOgCnJuQRyEQDiB6WMRoqFpfy_DzPiwyGewG-xhrVkjp0KH2HGugEadmlFqiNRYUktSKtEQWuUA3y_Nn6RY9eq9bn0dAD5ygEqfXq9XUA0Z4wYxzJVFMGlNvMcjwKh6RhaQtuWpY-GJUIsPuSFfkaXChtmd5KorlgyhW7Jch_LhbjvAGvh9rMdAzBG0I7qGZvdDAVjFTTW3YgQhM0AvWbM9DBJw2fHgMrgEuZAAFcaJfwrDrU2o0Qa3gfXioKAppQMRPkeQWrKDP4PSsTKYhKMDVURbuYaRqBG3h6iG53s-stctkbBEwCHNXcTFiWz1nIXRbUc3cwyD1OPgw6IDvw05UAH5HhSzW3FqB3luUKTg7QrKxORTrwGixnHEvJ5KAOQIRhjAwGgvepiOH8wkYkWr4kyPZG_e7gtWsR4Tu6y8Be1uvt4Jf9wctk1FERALbNdxybhFbAG_XdApG9UcgWhPiEk-0OGLCUi49HsHshrGJZ_KoCB7ClCYZD4DORT4wd3F_PtBiC4YPOMFy7x3MUmVDC1uhGBjOBrkhXi3qbd_i3U4YYc2uJazDiPz1x6xeo0lYEj0-ZwU4JOKM5CHqu_fy3_0ZDditQIRdRUoovf_7b_2hSbV5nZA1qcsyzpQY3LM8WW5D68uLkFNDIDwBE3k0C0H0vjPCKE9f3WaBvTdwCoGnz9jw_Ni3jIjAtZ2va05M3L89fnlyeaaevTs5fT5t76KURApjNQaFI3b1JwMnL1-fvEOBNmnnr6cd4Jnpo6waIQRh6QgdjoovQIA4PWs-EwrE-EiHoTQAtJI4pYTcgwesCjMK_aoIrA1vrBa2NC9ZOSwvRu67LT_MZn8_4fMYfe8YnxRju-9jup34Pelc44UliBkYgaADwglBhBsKBfxnTPeoLz3J9nZicWwF4UcINeeh7ADxEEFp6EDAbPqd8aD09IQMnOHaMnpCBziybBro1hwzmkMEcMphDBnPI4B8mZKAboWPZjAmbNR57B1PujdmGOSsM2wZ1YdhO2HC2AxDbs_woaNc8eYs6SNQbc18CUX41XBCOMM4hx3cpIHwacp3UdHdQ4g6IOBIrYUFAHOZbodWojA4IHEeAIwJs2oEldCt0jWZDOyBvAsIb2ULH4D41TENI06riSy1-GwNvw4P-8wat0BVsQlanGOI5-FFWzPCSbf_9Xoir8_e_lDKQVH1wEYGfmHHtEpzF31bFjNR8Dy2YGXSEL7vmHDQF0dakWB5q4K3Dz-izL5633sUq5ZIxD3RsHzvZNH-0HSGD3frwmZzP3bM8gau5e5Kn8il3zzTFh2QxiVaDkre9r1VM6EKEGUi1wlmVrULpwBpB1FeNzKC4aOAIKNMO1o4AYodFcJIhFAjBZIE9WwxJ4yABrxsfQq4AYAr4C3Cg4Y9oG7kAjIym8k5DIrIIPQbQb0XRxRKIZwCTgMswJKNbHG7Wv47BlCsKJNfTEn7J0LxX7D2SyFyOqd1GwIUCgBNoINBYQEOelhk8m6SIfSLlWQBbEgDt8Knk6GJIpPcjqoPZhihrwG3n2T0oa8_BfpSx2tgdKSnskqR2VRFRSOjzcY0ekfQLD1sgxNISwal0DQEIlfli6OTsR1trDDtEXWPJbNK1MhWFOH3lZhwpN6NCdESGRJWToM5bfX5_Orhd3jWC_Kry5nCgBn2Tlu-H2ydLnbo8veffIKLMRXUsgKVlFPPRM0AFgAvwI-HAgGzA-AWJYsnG6UFkV9huQD2dMZ8x8NoIODdYetxwuVu30g3APCIgPNvB2Q4-nR2cnhVpYo_NLqsCcDX3sf2pP9L4i4RWmcOY5fmhaTu-8Hlg6gJ9nNBnlHBw0GyXCDc0vcC2BSWm69le6HFq2jrnji3lZMLytiKtxrGFMdaeSKvwLd8jpjFHWudI6xxpnSOtc6T1HybS6nDKhQdnKgi88UjrFPC080Bb3LFC3aWubtLRcOsZtrVJgZPl1MqRqKUtrxyvww6DO96EciEON0Su5bqC0C1yBuGV8DrX5FGbK9l-uaBgpoKCxW8uJihVYxsTVAucFhF0bBY6grmPdE56e03glOQ5CF59Eo7wra5-gqNwl2_o6jr2cl_o-4NKHeLv0VG54SecI-XwOIm1r9G3PdReye063PSKMWYDDmsmxV-pShRVcF2LZSY2NCeyAU5zhJgHxRT-kBxqf03TVXuom7dB9ES0LjR19ga89W9Bj8jXAINdRwmJG8Yf1dkdFC4VEOBcufDgUCeovRXlG00e-FyjfaTOaSS9Wd8SG2tBjBKt2rL9fHPuGcyEwx-6lg7w3_A94QVmwId88way7_bNfzsSOT1esdWO8qnfn_lF_LnAMx0SUBICRLRCYriuC36b7VPX9KzQJKbJQyK45bhuCD44CwJTWB7R3cDQuSnsgfVsOXDmsekf21afAyfM0A2ZPTtwswM3O3CzAzc7cLMD98_owPl2EBDimky4zTHrwJ9WOB6BW1ZIUF6uEUPAGvK0VaKw1DyVotFmeWrFhQ_RtFQpVfhjAbzX0lArslIhWwKDrlbw6eykTnFSJYeP2YCreu_Tew7r1qebbiveYnP8m_VdH1XP4npU2L5vbvkKhq5_UUMfhcneL4FDXaTDdnV2TBljG5MU2Xi6KSSuH1i6__Qkt2qiAG2GW4tHaAMc3qbZjZaWRRx9ELlENxUNY5c7gE9DYde3KT5hRfQhKu7AXIA1ggGrjyvyT_G3XUyeMgaQp2wVoqtcJczHmawHVmDZfOvWjxdvKUjiB0KjGOac1DPR-8bI1JbBjIAR-tipEdZfg8Iu0hQAOolj_BlLQfIKiAN7ck1pCk3WcS4JeKEJaP-xDDEmDh1_u5PlNWgA0PRfgFAUaZxeT2PO4FsjDHI91zZMbj4FCesX72QTKBjwkslqoXcFaH1tKeJ17QnFgmQAGVmWguuTpXEM8g-mcoRJAsCK5Vjbt4K0PtQk7mw_PsIWm7jMo6541KTrBhEc1kUt6sND8FdCwe5Y7ceBAQJVQxA7qAKUMX5YjPou2Y7InJarMiZwgEWLf9S5lVpdlrDsUgBTxqi3UpahKJ-P7riqyKS-sD3r6UnugjEg6kghR8Qqb1-9Ovnq7cXJJXr9Z384ef3dqzNELadvf39x8vpM-8bSvh7h8uhlZu_fXnyrvf3-8tX5D2cvNfzL6ds3l2d_uKz05N41KWPXkD1msrFwbcdaD4ZrhQLVdeEQ2HyehqEmEQ-awDp-KcOyRwDWSgCH12WEL0oUM2Rs-2c8-7gGOhN0f-4A0gL4rOrtYJoyqQFTDXXRTYGHyzCMWCQDAp1AiJTRxZDl7J_-PCkUEKysmjqQRLnPEn4CD2JyB34ZofAAqDGmBFh59NJSDlm-_infyArLtGuM6glpWhTpqpoPsT7yGfE-uhfsZjFk5_oneinCKBmaqrJb0qEgeJUjan5SYYHFkMkaW9FKWQ_UFrX9aBnJOYbHJ62rY576p_segGllZmR1qnLE0WVECanANk4jLc5RZXEq-hZDhmZsaZ3QXbUiRb1c0GLIiozvSmfMjuRhZSa4QDmSL_a2JIshqzGSnFFuaioFHUYCmVe861HTbexxyzIshpR__8y_V2XGp6msN9aus_QWS2kluqo3NY7hxGWq1DKCg3Zd_Vxt8GJId49UN8uSUKXfCsGWSYRZqaXI0qqUdyk2qj3VJteabzGkvwcnrLdaBSlQzRSI_RFm4yKbWIJ08w-bOtTDOp6qAiWN95EPZK9OZEaqTx-rA1fFIpqUWE2KTGndLqNYqBhX9kGl24RkdyaVgZAeCwUylwr0CrQvchgRghQWh_VwShaBMJGoEnGU7_1yWswJ4UAaoWlSMwwDRkMWGBYLBnNadRZjd05r9lNnP3X2U2c_dfZTZz919lN_VX7q9MKWraIH47Bbz_6pv8LhFynpEJRy3zPcEEAG1x3mCME8NwxAg1kEWEi4RTkVPriPpm6HpmWbpgXGh8EfiLdZoj-4us0CD-tS148N81h3--5CCSzTE4L-Kgs8Athf4tp-SP0mIdQBaHtCnT5kBbj9y7bMY1fLPwmc0LYCDoyvyemAr-0k4ANQ0y0cg_QWs8HdVHy-TMuYy4RrBfnvh0BI0hcFAfOVZtckif4qXSJwYqZmhz0TNLQQAYMDVq-1A9v2xGx9eEs5opOZb_iECspMxkKzqbNoQdkuWDSSmCaBS3TdIw5vLkToQK5u8c4D0VOFFFQ4oI6h7KqEwBI17jHf9tprGlqoNQXkjN1RYLtw5ngo2qKRDohql_xgLISxHSV4QjFD1pCsxIqKbMfKDZ0bwqAOqD-9qWhp8dMojhkp0QqIb5k6te2gkecOQOqWHzwQ7qh1YtEMxahZjOdwd12BxXWb2aYdtNvcAUd7wow-VFM1gE4_aK6AY-5S6toiaPnfgJ--Uof9UcvF2_eX32iynfGd9vN__Kd2cfbD-dn7s5eH2ndvLy5PvoJXvn3z9v2rs5dfn42zMHSFbwj8Ehge7K4C3IVE3n9zfvoN_u301feyKPD05I187A08o518jeWDlxffv7v8cnJ1oOt6JmHcswi1plcHShMhi23YEm-PwVBbWq5jGT1XtTh5fe4qjatkAI7oTV8VYS5i1cPdCRQ1RYTDIaamlHAuG5zLBueywblscC4bnMsG57LBuWzw71s2-EPt6rJBXBzuG8IaTKQ8drLJCZBGD-RwRLGrrDZVm40j-y7McmzdC4nz6Ol6A8QnCoRW2yndYa1MKo20gTelAlJhAsyyjzDoQTmPCYx_cKpgwtiDQX4lPkxlpb_oRD92zrFXWP_h02yzCeOPhE0XmMsSHOAqIPXnXSm6iaOgno3kJVRFqg7ZrkwoIb6hm8yeTPZ5xxiy-KFkb44CFrluLkOnQcKvcbJ9YnLLCcXnIBs8nRpHSmQt6xdq89PxGSpsOWTrmyh_aDPqfi5SDf9fECi2qkP6XqqQrAN6OyBuF706IaZPdffz0Nugs9W96-i6vXgS7pZFuoKDiXHDu42E_hbF3OMmuIH256H4vNB4CqQiUQKLN7ZuLUPcWCbgOWhkLWNcfBePfeJ6tmGYkyl-iRQ0seqHnrrNUaoL19AoyLMXrdY7lIWwDY-JwPscZKtbf78h2QeB4cCELQFIy3CO-EBiKdYLrSozUrItf1ym8ZhWNikzHH3rGzKfhuKOC0LiI_x-DxgJxrhQPj5W-iQqhyAvDyTJDQL2dbpGQDRWH-BSUBnOdDafNMEnjIE9VDo2R7kBmWDSq6ikA9TeDsjEeUhCsfXdni_OTzXECrj4f7cmJe173xi75swUzBfudI6hrOVYHid9twcb341R5IHC0q7Klp1oPBonOyDgNej-ZyG7P6UGlm0lMhVFkVoW_sEIRxhVcXl5WaX2kDqE9wL0ZPK7Qvsz8kIG_XI4wqgwqzrG5_m-wM2wPWH5Qjxysuns6avMlJdpbmQMRhFtT83Djgv3nraaYWp5-uAVtZtF6iTDiEfHavSxSJaKg8FO0pW8CrSnbnW7Wn2bgHcYRVKgYDO6LvleoXOMdbQz12W1UaLJYncN1Ox1CQTsKlbfnr1Tr44UxF2HTh1wmAxmX9UXgLZ1ruoK0F015MNVrDvKyDdyo7squodnGagizxDGSiOr7oTNSoZfVCUDnrfjFdnbNd7bs6sy7w9dT6uzm52WAEwAyt8nlX4PL7OTxmmGLGUN9lbV970EJeZO7lfob1d6b8_8_Zo3glvXexfpfRUSlpKtIwnHoQjEjvYOTKhgVqYbQajLGXAaDIvLU4RuYR3ylpqMbRdfd_zYnW0dVXoefjwq0qOeu35JxpYRHBNc-GLI75w0TbdseuyuoyZ6Xl0utBhyGwdm5QjZwqieNY5B8jOl7jDFdSmwG6KQYXMJ8pSuXgx5fP2zvEPpyzvBdLVtdYi6z2kbctEGJlCl5CJv3CqlWfCLOlrPCs91cf9q6taX6h_6W5kfQOtQX5iMDSCgpHZ5RSReDPlAo40MlUtA1F1XHZ2MKqu6Lrq_j6DjrvTP8Bo8DLXRVe19jwNSJ-zA3xCJvBKrE_lXakUW-4MGIIsh36N_-ldRXtSqD7RvOyfIH-ZKMKgdoRxU9mZd0jjKl9IqJxq6a3DitqWj4z7sPFo17qtUcOMAVI0HR-gIhGgGcI2JOgpbiqrF_WONPlvnCT2KvKgTd_KWbdF6HoshgL9zTVIEQbpZjXWl6HDZoYFdImuR1aVdTUvFYgiXjzcadacoGtWADFOCggcabaeode09UNTBt_0TgSvZYqJe6FU3vcgo1ZaVldq5Ov27-oh67nmXf1C9O2kGK627io4wfoIzNeauyqExKadVE0wnig1jS1PFU_z_KBElUBYPNN20Xj62t33EoBYsDFCB-qICOCFHbecMwve2xQjzPjVxqEDxu3KPqADrSzN4WUq2zB1LFh12m3OWYEIR41WnvKNdqpwfGIX9em4Idw0_dKzQ9W3XpLrFhGdQyfL-O97rwtJH9NzMSZ45yTMneeYkz5zkmZM8c5JnTvLMSZ45yTMneeYkz5zk-UdL8ky_4GGr-9Hpdj_6ne8q2ry6u210_EX6PH0X3EwqDNNxBbiBzHQDi-qhgV8oBe6uoRMjcE1OHGq5Djd9nfg-g8EDTuFz3dx7pT09n5Z-bJo9PZ_YK8OI6_wqez7tMCBuwE3HCXb0fE5x2DdTeSfnzVmb2g3FPZODaSO6COjePZ-d5E0BXk8VzWtuT1IxtXvJweFTvJ1ykbtzV3frtGmfzb6vseJt29Ft02M-CUwx2uY5MYqgaKs7_TRwt0VlW74qC5X6q3pZQYnf7duAa7mmcDijlNhNr0Un7NE2Azw4WpFmd7IRI6kyS9Uv-MWlctk__-2_0LnCLAFJ7jBPlQuBEbZb-XXiUbHxHeKjbY6fq5_VYMIhYejD_-7OftY2ripjvrFW5vcStH_HNlWHMs4Es71AmKNtqhcDSV-5okom6y5URrJMupu3JNu1OluAVtbN0AudHa2oO8MyI6t0DA5nFraLjXemdrRJ29MDi4q6N0QRdoMdQ_WXArAyy0TzDalVG1-GCmKnajAcYgqfEdMhbZNwGzLaO17UF-lR2YSRFvWJigGcJsF4KKivNxvViRPt7WD3hXdE20HVsFBTzZDTiPRCOBiB4wUGbza6ExXq9CY-RTCnvrNAt3Xd8RzPa81pJ77TTvp0YZm6LccA38rnrgBo0yi4NlKz3XG9d4Cl3NWrZjOXck8YNvUbBdIJvbQkPGXEpG6L4kYIIEeEluG0u90EUfZ27PtiH3jP5FZ1DyW5QAg73awCBvBIEArYm7bjuw2ctGx6cLxDdLJabaOnCjrINP5G2rqTry7R4ibgHVQDtNnpce4zbhACR41ZpFEInchKX-Pd_gER0S5qMOX-O2zSLkrMiFf7gtdGCFKoFkQQ_HQFnizoRqWjYZvDujcUBRErDcaXyl2LhsQHSWv1dCces3cwpi-MUmW228ZziU2rC0wkAwiw6C7fQxtS2wGfSPd1YTeKqROP2RWMGVGzeMiIwcFnaLa-E23ZO2bRFyQJ5RfXb6bf6xqd6fbABtXEQhubWRvs3cZXxl2LiWGR80J13jb5fKxtquzukYK06nvHqpsEatS7JndKQMMyDqM4XjUggkf5uixEvkMqA93wbBG6uuXvuNhiSmBE3swg1IddB0ncPfKuC8fnpkVBS7QmuRPB2bEF00Ivg96aursHEVt19CUyVXUWdQdv5cEs5isw5isw5isw5isw5isw5isw5isw5iswfvkrMH789P_R7JDV</script>
 </body>
 </html>
