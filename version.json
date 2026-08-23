@@ -1,486 +1,240 @@
 {
- "artifact": "planning/2026-08-22-hackathon-presentation-layer.md",
- "artifact_id": "pp_ffd63e1c02900570cefc606c",
+ "artifact": "examples/verified-knowledge-ledger/demo.partner-style.html",
+ "artifact_id": "pp_c5949563fc662476994db4f8",
  "blocks": [
   {
    "type": "heading",
-   "text": "# Hackathon presentation layer — narrative product demo",
-   "id": "20c1dba7",
-   "hash": "4c564eaabb31"
+   "text": "<h2>Verified cumulative knowledge<span>for autonomous AI agents.</span></h2>",
+   "id": "67be4882",
+   "hash": "4f9a69d2559d"
   },
   {
    "type": "para",
-   "text": "**Status:** Implemented and verified in the presentation-layer PR.",
-   "id": "e13b8e72",
-   "hash": "4a4953a7cee7"
+   "text": "<p class=\"tour-lede\">Proofpress turns agent activity into evidence-bound knowledge that humans and future agents can verify, govern, and safely build on.</p>",
+   "id": "fa689308",
+   "hash": "d72d4cba0e9b"
   },
   {
    "type": "heading",
-   "text": "## Decision",
-   "id": "788e6d89",
-   "hash": "e6ce75215fb1"
+   "text": "<h2 class=\"section-title\">Long-horizon agents remember more.<span>But what should they trust?</span></h2>",
+   "id": "9b7bc598",
+   "hash": "450427c8a92e"
   },
   {
    "type": "para",
-   "text": "Build a guided, real product demo—not a separate slide deck.",
-   "id": "530af484",
-   "hash": "71fa505af5da"
-  },
-  {
-   "type": "para",
-   "text": "The existing verified-knowledge-ledger demo remains the product surface and\ncontinues to consume the backend ledger view. A lightweight presentation mode\nadds a three-minute narrative path through that surface. The presenter\ncan follow the path on stage; a design partner can ignore it and explore the\nsame controls, graph, ledger, evidence, and receipts directly.",
-   "id": "a6fbf8db",
-   "hash": "42232e775ca8"
-  },
-  {
-   "type": "para",
-   "text": "This avoids maintaining two divergent artifacts and makes the strongest claim\nhonest: the story resolves into a working product interaction rather than a\nmockup of one.",
-   "id": "9d649ec7",
-   "hash": "8eb6666e2032"
+   "text": "<p>Across sessions, an unsupported conclusion can become memory, then policy, then an action—without anyone seeing where it came from.</p>",
+   "id": "35407fa5",
+   "hash": "362e5dcbba49"
   },
   {
    "type": "heading",
-   "text": "## Product sentence",
-   "id": "82424ac8",
-   "hash": "2e3dc253e0fb"
+   "text": "<h3>Observability</h3>",
+   "id": "093934d3",
+   "hash": "18abebc2ccf2"
   },
   {
    "type": "para",
-   "text": "Proofpress is verified knowledge infrastructure for autonomous agents.",
-   "id": "234ae578",
-   "hash": "d638fa96f18c"
-  },
-  {
-   "type": "para",
-   "text": "**Cumulative knowledge humans and agents can verify, govern, and safely build\non.**",
-   "id": "c70c3949",
-   "hash": "066d45c023ae"
+   "text": "<p>Logs and traces tell us what happened.</p>",
+   "id": "31c19cab",
+   "hash": "1ce5aff81ce6"
   },
   {
    "type": "heading",
-   "text": "## Audience question",
-   "id": "a210d415",
-   "hash": "a08a939d9ef4"
+   "text": "<h3>Memory + ontology</h3>",
+   "id": "b4b90585",
+   "hash": "2e469d7c847a"
   },
   {
    "type": "para",
-   "text": "A long-horizon agent finishes a task with an artifact, multiple versions,\nexperiments, and hundreds of traces. A fresh agent takes over:",
-   "id": "b9ba5238",
-   "hash": "670a05266825"
-  },
-  {
-   "type": "para",
-   "text": "> Which conclusions can I safely build on?",
-   "id": "3ffb28dc",
-   "hash": "dd7e52c71d4b"
-  },
-  {
-   "type": "para",
-   "text": "The demo must answer this question before teaching the audience the data model.",
-   "id": "21a66f6d",
-   "hash": "ac99cb930ee4"
+   "text": "<p>Retrieval and structure tell agents what to carry forward.</p>",
+   "id": "676412d2",
+   "hash": "5bcdcec479e2"
   },
   {
    "type": "heading",
-   "text": "## Build Day constraints",
-   "id": "49ac0ede",
-   "hash": "e895f036f91d"
+   "text": "<h3>Verification + governance</h3>",
+   "id": "e2163537",
+   "hash": "4ea8802f7f50"
   },
   {
    "type": "para",
-   "text": "The event instructions require the presentation and implementation to respect\nfive concrete constraints:",
-   "id": "0c15ae22",
-   "hash": "80f9567830a2"
-  },
-  {
-   "type": "list",
-   "text": "- the demo is three minutes;\n- the demonstrated increment must be original work built at the event, though\n  it may extend an existing project;\n- the project must be open source;\n- a project draft must be saved by 7:00pm for finalist selection;\n- the final submission is due by 8:00pm and cannot be edited after submission.",
-   "id": "b3e4a788",
-   "hash": "81c47099b789"
-  },
-  {
-   "type": "para",
-   "text": "The pitch must therefore name the build-day delta: the existing backend ledger\nand graph are the foundation; the new work is the event-specific guided\npresentation, trusted-continuation interaction, and integration story.",
-   "id": "639859b2",
-   "hash": "2edecc1418e7"
-  },
-  {
-   "type": "para",
-   "text": "The event primer defines long-horizon work structurally, not by wall-clock\nduration: many tightly coupled decisions, feedback, and revision form one\ncoherent trajectory. It distinguishes H1 intra-context reasoning, H2\ncross-context continuation, and H3 cross-task accumulation. Proofpress should\nenter at the H2/H3 boundary: it governs which conclusions survive context and\ntask boundaries.",
-   "id": "b89e8624",
-   "hash": "ae763c7562ff"
+   "text": "<p>Proofpress decides what is evidence-backed, scoped, current, and safe to rely on.</p>",
+   "id": "4a6c7b6e",
+   "hash": "551dafe1cecf"
   },
   {
    "type": "heading",
-   "text": "## Three-minute narrative structure",
-   "id": "7bf705f0",
-   "hash": "4d4acbf27ae0"
-  },
-  {
-   "type": "para",
-   "text": "Target timing: eight light, full-viewport beats delivered in three minutes. The\nunderlying dark product demo remains available after **Exit**, but it never\nappears inside the guided narrative.",
-   "id": "92908d5a",
-   "hash": "739b122e5b5c"
+   "text": "<h2 class=\"section-title\">Turn raw trajectories into<span>trusted organizational knowledge.</span></h2>",
+   "id": "68accac5",
+   "hash": "15a2e8ca25a3"
   },
   {
    "type": "heading",
-   "text": "### 1. Positioning and purpose",
-   "id": "0cd1ec09",
-   "hash": "3c8e4bbdf8d7"
+   "text": "<h2 class=\"section-title\">Inspect the claim.<span>Then decide whether to rely on it.</span></h2>",
+   "id": "aa8102c4",
+   "hash": "2bcecdfeb800"
   },
   {
    "type": "para",
-   "text": "State the product category and purpose before presenting a problem or diagram:\nverified cumulative knowledge infrastructure for autonomous AI agents.",
-   "id": "ac0553a6",
-   "hash": "0cb9b162e0e4"
+   "text": "<p>The ledger answers: how did this state become current, and who changed it?</p>",
+   "id": "5bf504b3",
+   "hash": "da5753485f17"
   },
   {
    "type": "para",
-   "text": "Tagline:",
-   "id": "43427c4d",
-   "hash": "2bfcd47dfd0a"
+   "text": "<p>Completed run with recorded conversion metric.</p>",
+   "id": "8a2d35fe",
+   "hash": "7f4b995791df"
   },
   {
    "type": "para",
-   "text": "> Scale intelligence. Preserve trust.",
-   "id": "37d07198",
-   "hash": "fdf17acf8cbf"
+   "text": "<p>18% is supported only for this measured experiment.</p>",
+   "id": "5f4cb6fe",
+   "hash": "e0400575779d"
   },
   {
    "type": "para",
-   "text": "Supporting promise: Proofpress turns agent activity into evidence-bound\nknowledge that humans and future agents can verify, govern, and safely build\non. Do not open with graph terminology, hashes, node counts, or CLI commands.",
-   "id": "946a0d38",
-   "hash": "d8d58613fa2b"
+   "text": "<p>Evidence makes the claim reviewable, not automatically true.</p>",
+   "id": "0aa28b06",
+   "hash": "01faf8d6e0a8"
+  },
+  {
+   "type": "para",
+   "text": "<p>It does not enter fresh-agent context until approved.</p>",
+   "id": "d7d2df44",
+   "hash": "4c6bd7e14b82"
   },
   {
    "type": "heading",
-   "text": "### 2. The missing layer",
-   "id": "e7c318b1",
-   "hash": "af3bf748bc9f"
+   "text": "<h2 class=\"section-title\">Does verified continuity<span>improve the long-horizon baseline?</span></h2>",
+   "id": "8a674112",
+   "hash": "6d1fb4fef315"
   },
   {
    "type": "para",
-   "text": "Show the stack as a dependency, not three peer categories:",
-   "id": "e8da70eb",
-   "hash": "d5a1d5c870d2"
-  },
-  {
-   "type": "list",
-   "text": "1. Observability captures activity: logs, commits, tool calls, traces, spans.\n2. Memory and ontology organize context: what is remembered and how entities\n   relate.\n3. Proofpress governs reliance: what may be trusted, why, within which scope,\n   and under whose approval.",
-   "id": "305ab25f",
-   "hash": "df2020ed8587"
+   "text": "<p>The Harvey benchmark is eval only. Replace this placeholder with the measured result from the separate benchmark run—never with demo data.</p>",
+   "id": "e417ce97",
+   "hash": "5047a9fea289"
   },
   {
    "type": "para",
-   "text": "The short spoken version is:",
-   "id": "3fca7b53",
-   "hash": "537c2f42eec1"
-  },
-  {
-   "type": "para",
-   "text": "> Observability tells us what happened. Memory and ontology organize what it\n> means. Proofpress decides what may become cumulative knowledge.",
-   "id": "4d2280d2",
-   "hash": "2a1faac35e57"
-  },
-  {
-   "type": "para",
-   "text": "The memory-layer example should be collaborative, not adversarial. Stash helps\nagents learn across rollouts and accumulate useful context; Proofpress can sit\nabove a memory system and govern which evidence-bound claims become safe shared\nknowledge. This is especially important because the event primer names the\nhard memory problems directly: what to forget, context poisoning from a bad\nsummary, and multi-session consistency.",
-   "id": "661f5ff4",
-   "hash": "3f063cdb046d"
+   "text": "<p class=\"eval-caption\">Result intentionally blank · populate with the separate Harvey benchmark's actual baseline, treatment, denominator, and confidence interval.</p>",
+   "id": "2bc15033",
+   "hash": "cd1aa579c3a0"
   },
   {
    "type": "heading",
-   "text": "### 3. Product architecture",
-   "id": "1ae5eeb7",
-   "hash": "d2061c462205"
-  },
-  {
-   "type": "para",
-   "text": "Show one left-to-right product mechanism:",
-   "id": "76366fe9",
-   "hash": "6f35f54f916b"
-  },
-  {
-   "type": "list",
-   "text": "- capture traces and artifacts;\n- extract claims worth reusing;\n- bind evidence, versions, runs, scope, and provenance;\n- apply human and policy review;\n- project governed knowledge for the next human or agent.",
-   "id": "c9eed237",
-   "hash": "7450928df0f5"
-  },
-  {
-   "type": "para",
-   "text": "The append-only ledger preserves the full consequential history. The graph is a\ncurrent-state projection. Semantic color communicates lifecycle state, never\nuniversal truth.",
-   "id": "57008899",
-   "hash": "07d6af08595a"
+   "text": "<h2 class=\"section-title\">A governed workspace for<span>investment decisions that outlive the analyst.</span></h2>",
+   "id": "b6b4cb57",
+   "hash": "d63bfa8fefa3"
   },
   {
    "type": "heading",
-   "text": "### 4. Graph / Ledger / Evidence",
-   "id": "2f49b287",
-   "hash": "3c692538be31"
-  },
-  {
-   "type": "para",
-   "text": "Use one self-contained light explorer inside the presentation:",
-   "id": "79acad14",
-   "hash": "f15d9de02ed1"
-  },
-  {
-   "type": "list",
-   "text": "- **Graph** shows what builds on what and which state is current;\n- **Ledger** shows current, open, and blocked decisions;\n- **Evidence** shows source, support, review, and lifecycle separately;\n- clicking a node updates a concise detail line without opening another page.",
-   "id": "2e2f68b5",
-   "hash": "cefc84897153"
-  },
-  {
-   "type": "para",
-   "text": "This is the center of the presentation. It must not reveal or scroll to the\nunderlying dark workbench. The full product remains available after exiting the\ntour.",
-   "id": "41a25b90",
-   "hash": "234531e833f9"
+   "text": "<h3>IC Memo · Q3</h3>",
+   "id": "3ddfafec",
+   "hash": "b45269080e4d"
   },
   {
    "type": "heading",
-   "text": "### 5. Harvey benchmark — effect proof",
-   "id": "d3e70d2e",
-   "hash": "ef9eb66c649b"
+   "text": "<h2 class=\"section-title\">The same trust contract.<span>A different operational surface.</span></h2>",
+   "id": "c2ec8e67",
+   "hash": "7a674a1d7be0"
   },
   {
    "type": "para",
-   "text": "Harvey is evaluation only, not a product workspace. Show baseline versus\nProofpress-assisted long-horizon performance and the measured delta only after\nthe separate Harvey benchmark produces a real result.",
-   "id": "59aade6f",
-   "hash": "c254e2db985f"
-  },
-  {
-   "type": "para",
-   "text": "Until then, the visual must say `+X% pending` and leave both score bars blank.\nWhen populated, report:",
-   "id": "7d479e24",
-   "hash": "0f7e292a574d"
-  },
-  {
-   "type": "list",
-   "text": "- baseline and treatment scores;\n- denominator and exclusions;\n- uncertainty or confidence interval;\n- the exact definition of the claimed improvement.",
-   "id": "61453f8f",
-   "hash": "b0fbfd26e2c5"
+   "text": "<p class=\"tour-lede\">Commerce is not another finance graph. It is a telemetry-to-trusted-action view across policy, payment, fulfillment, and disputes.</p>",
+   "id": "9a956087",
+   "hash": "747e1cf461ca"
   },
   {
    "type": "heading",
-   "text": "### 6. Finance workflow — product proof",
-   "id": "e7fbf9f9",
-   "hash": "f6b477ffcbf6"
+   "text": "<h2>We don't just need smarter agents.<span>We need knowledge they can safely build on.</span></h2>",
+   "id": "e3cb86a6",
+   "hash": "90174ef6038a"
   },
   {
    "type": "para",
-   "text": "Show a real company-facing workspace and admin surface:",
-   "id": "28a20ff0",
-   "hash": "cde7287a7c99"
-  },
-  {
-   "type": "list",
-   "text": "- source filings and transcripts;\n- derived model assumptions;\n- disputed risks and assigned owners;\n- review deadlines and evidence policy;\n- the current investment-committee decision and its expiry boundary.",
-   "id": "3f099f98",
-   "hash": "f93ee9ea4e99"
-  },
-  {
-   "type": "para",
-   "text": "Finance is the main product proof: workflow, admin controls, and governed\nknowledge graph in one coherent surface.",
-   "id": "15c1e725",
-   "hash": "2ba7188a08b9"
+   "text": "<p class=\"tour-lede\">Cumulative knowledge that humans and agents can verify, govern, trace back, and carry into the next session.</p>",
+   "id": "147e38ee",
+   "hash": "658d23bc3adf"
   },
   {
    "type": "heading",
-   "text": "### 7. Agentic commerce — extension proof",
-   "id": "5621c4a3",
-   "hash": "7d344d6abe47"
+   "text": "<h1>THE WORK OUTLIVED THE CONTEXT.<span>WHICH CONCLUSION CAN THE NEXT AGENT TRUST?</span></h1>",
+   "id": "26127b71",
+   "hash": "f6e81ecd8bd9"
   },
   {
    "type": "para",
-   "text": "Do not repeat the finance graph with renamed nodes. Use a telemetry-to-trusted-\naction surface across catalog, cart, policy, payment, fulfillment, and dispute\nevents.",
-   "id": "29d707ef",
-   "hash": "5300738026d1"
-  },
-  {
-   "type": "para",
-   "text": "The view has three lanes—OpenTelemetry events, trusted policy state, and agent\naction. Verified, current state allows execution; disputed or expired state\nstops autonomy and routes to human review.",
-   "id": "f3135bb2",
-   "hash": "2023b18a2bd5"
-  },
-  {
-   "type": "para",
-   "text": "The current website experiment remains an optional collaboration example after\nthe eight-beat narrative, not a fourth presentation vertical:",
-   "id": "e73d2723",
-   "hash": "b2bc1de2e414"
-  },
-  {
-   "type": "para",
-   "text": "> A Coframe or growth-experiment team supplies OTLP traces; Proofpress turns\n> selected conclusions into a reviewed, portable verified knowledge graph.",
-   "id": "1c05f044",
-   "hash": "6c659cf618df"
-  },
-  {
-   "type": "para",
-   "text": "This fixture demonstrates integration and design-partner motion. It is not a\nfourth flagship vertical and does not imply that Coframe lacks memory or\nexperiment state.",
-   "id": "a454d673",
-   "hash": "f732885c3305"
-  },
-  {
-   "type": "para",
-   "text": "The event primer identifies Coframe as an H3 system in the wild: an open-ended\ngrowth loop that generates variants, measures a real reward, and keeps\noptimizing. That makes the complementary boundary concrete. Coframe owns the\ngrowth loop; Proofpress records which conclusions are evidence-backed,\nreviewed, scoped, reversible, and safe for a future session to inherit. The\ndemo may connect this to verification, brand safety, and rollback without\nclaiming Coframe lacks those capabilities.",
-   "id": "c34613a1",
-   "hash": "09d093348a12"
+   "text": "<p>Long-horizon work is a chain of coupled decisions across contexts and tasks. Proofpress makes selected conclusions <strong>evidence-bound, governed, and safe to inherit.</strong></p>",
+   "id": "59111a7d",
+   "hash": "6672acd73ab3"
   },
   {
    "type": "heading",
-   "text": "### 8. Close",
-   "id": "5baa8eaa",
-   "hash": "2a2fa3879af7"
+   "text": "<h2>What can the next agent safely inherit?</h2>",
+   "id": "ad5a4616",
+   "hash": "7bf7a25fb307"
   },
   {
    "type": "para",
-   "text": "> We don't just need smarter agents. We need cumulative knowledge that humans\n> and agents can verify, govern, and safely build on.",
-   "id": "f80fa860",
-   "hash": "40583b71a65b"
+   "text": "<p>Choose one experiment first. Open lineage only when you need to inspect how the decision was made.</p>",
+   "id": "52ab68ed",
+   "hash": "9bd4c357bc7e"
   },
   {
    "type": "heading",
-   "text": "## Interaction architecture",
-   "id": "3f93e8de",
-   "hash": "b378f6fd30a6"
+   "text": "<h3 id=\"paperTitle\">Candidate B increased conversion.</h3>",
+   "id": "03df410b",
+   "hash": "b03b4c251ede"
   },
   {
    "type": "para",
-   "text": "Add presentation mode as a progressive enhancement to the existing page:",
-   "id": "e2b84362",
-   "hash": "b9bbb48af202"
+   "text": "<p id=\"paperBody\">This is the result a fresh agent may want to reuse. The ledger keeps it attached to its measured run and review state.</p>",
+   "id": "e165f27d",
+   "hash": "349ef2d7bb83"
   },
   {
-   "type": "list",
-   "text": "- a small **Guided demo** control starts the narrative;\n- eight light, full-viewport slides form one coherent visual system;\n- **Next**, **Back**, arrow keys, and **Exit tour** are always available;\n- a visible 3:00 clock makes the event constraint operational;\n- the underlying product is fully opaque during the tour and becomes available\n  only after exit;\n- direct links can open a specific beat for collaborator review;\n- reduced-motion users receive immediate state changes without animated camera\n  movement;\n- the page still works from a local static server and without new dependencies.",
-   "id": "91879a6f",
-   "hash": "2e77872c4319"
+   "type": "heading",
+   "text": "<h3 id=\"title\">Candidate B is eligible for review.</h3>",
+   "id": "5d58db33",
+   "hash": "2196970f1337"
   },
   {
    "type": "para",
-   "text": "The guided layer is intentionally a self-contained presentation. It includes a\nsmall interactive Graph / Ledger / Evidence explorer rather than exposing the\nfull technical workbench mid-story.",
-   "id": "04f70fd4",
-   "hash": "714900f39395"
+   "text": "<p id=\"body\">Evidence is present, the experiment completed, and the metric is measured. A human or policy reviewer still decides whether this belongs in shared knowledge.</p>",
+   "id": "105f3c7c",
+   "hash": "ce338dcfd6c9"
   },
   {
    "type": "heading",
-   "text": "## Data and evidence contract",
-   "id": "c5872ea6",
-   "hash": "05620a939061"
+   "text": "<h2>The decision is a path, not a note.</h2>",
+   "id": "185f2164",
+   "hash": "5dbde752a997"
   },
   {
    "type": "para",
-   "text": "The presentation layer is a client of the ledger, never a second source of\ntruth.",
-   "id": "5004ef0a",
-   "hash": "c7aa04c09b41"
-  },
-  {
-   "type": "list",
-   "text": "- Continue loading `demo.ledger-view.json` for nodes, edges, states, and hashes.\n- Do not invent admitted states or relationships in presentation code.\n- Keep static fallback copy only for `file://` preview, clearly labeled as a\n  fixture.\n- Keep integrity, evidence support, and lifecycle/admission as independent\n  dimensions.\n- Treat the current growth-experiment data as an illustrative integration\n  fixture, not Harvey, finance, or commerce evidence.",
-   "id": "9ca9737d",
-   "hash": "565e23609218"
-  },
-  {
-   "type": "heading",
-   "text": "## Implementation sequence",
-   "id": "43062757",
-   "hash": "9ee33f623f3b"
-  },
-  {
-   "type": "heading",
-   "text": "### P0 — narrative shell",
-   "id": "372f417d",
-   "hash": "64cb5b2ed41e"
-  },
-  {
-   "type": "list",
-   "text": "- Add the positioning, purpose, and tagline before the problem.\n- Add a guided-demo controller and eight timed narrative beats.\n- Embed a concise interactive Graph / Ledger / Evidence explorer.\n- Add distinct Harvey, finance, and commerce proof surfaces.\n- Add a final synthesis and closing statement.\n- Label the exact build-day increment and open-source repository.",
-   "id": "be5ab015",
-   "hash": "434d29d3e440"
-  },
-  {
-   "type": "heading",
-   "text": "### P1 — continuation proof",
-   "id": "43cb1ee8",
-   "hash": "4f5488e37a38"
-  },
-  {
-   "type": "list",
-   "text": "- Bind the pre/post fresh-agent context panel to the ledger view.\n- Make admission visibly change the context projection.\n- Show the source pointer and decision receipt for the inherited claim.",
-   "id": "3e31c02f",
-   "hash": "6e50b59a0e75"
-  },
-  {
-   "type": "heading",
-   "text": "### P2 — vertical fixture packs",
-   "id": "b6ca9525",
-   "hash": "abc60c098877"
-  },
-  {
-   "type": "list",
-   "text": "- Harvey: report only real evaluation evidence and label unresolved results\n  honestly; no separate Harvey product UI is required.\n- Finance: adapt the Apex investment-analyst artifact into the primary workflow,\n  admin workspace, knowledge graph, and receipt contract.\n- Commerce: build a domain-extension visualization around telemetry flowing\n  into policy-constrained trusted action state when a real workflow is\n  available.",
-   "id": "d8c7277f",
-   "hash": "b27ce64ec250"
+   "text": "<p>Every reusable claim keeps its source, experiment, evidence status, review state, and the prior knowledge it builds on.</p>",
+   "id": "5a61ca84",
+   "hash": "3d53f06b602b"
   },
   {
    "type": "para",
-   "text": "P2 is not required for the first guided-demo PR to be useful.",
-   "id": "3144a33d",
-   "hash": "c9d16151ab37"
+   "text": "<p class=\"evidence-note\">Evidence stays attached to the claim it supports, so the next person or agent can inspect the boundary instead of trusting a summary.</p>",
+   "id": "54cf5ec6",
+   "hash": "8499aa62ce63"
   },
   {
    "type": "heading",
-   "text": "## Acceptance criteria",
-   "id": "24a9c758",
-   "hash": "cfddbd76e752"
-  },
-  {
-   "type": "list",
-   "text": "- A first-time viewer can state the positioning, purpose, tagline, and problem\n  within sixty seconds.\n- The complete guided path can be delivered within three minutes.\n- The presentation identifies what was built at the event on top of the\n  existing open-source Proofpress foundation.\n- The first screen names the product category and tagline; the second explains\n  the problem and trust stack before any graph appears.\n- The guided path reaches a real interactive Graph / Ledger / Evidence view.\n- Every displayed lifecycle state matches the ledger view or is explicitly\n  labeled fixture copy; the Harvey result remains visibly pending until real.\n- The default graph excludes stale knowledge while preserving a discoverable\n  supersession or rejection path.\n- The product remains fully usable after exiting the guided path.\n- No slide or interstitial scrolls internally at the reference viewport.\n- Keyboard navigation and reduced-motion behavior work.\n- The story gives Harvey, finance, and agentic commerce distinct jobs: effect\n  proof, product proof, and extension proof. Growth experiments remain the\n  collaboration integration example.\n- No benchmark improvement, universal truth, or unsupported design-partner\n  claim is implied.\n- Stash is presented as a composable memory layer, not attacked as a\n  competitor.\n- Coframe is presented as the H3 growth system; Proofpress is the complementary\n  verified-knowledge and governance layer.",
-   "id": "4ab84b40",
-   "hash": "030844a33cc2"
+   "text": "<h2 id=\"drawerTitle\">Candidate B · eligible for review</h2>",
+   "id": "c0058247",
+   "hash": "63ae8506c20f"
   },
   {
    "type": "heading",
-   "text": "## Explicit non-goals",
-   "id": "e5df1989",
-   "hash": "040c78d3dc3e"
-  },
-  {
-   "type": "list",
-   "text": "- A standalone pitch deck with screenshots of a separate demo.\n- Replacing the existing product UI or graph implementation.\n- Rebuilding the backend, ledger schema, or OpenTelemetry adapter.\n- Adding synthetic Harvey results to make the story look complete.\n- Presenting raw observability data as organizational knowledge.",
-   "id": "398cdf34",
-   "hash": "bda1a6d5f76e"
-  },
-  {
-   "type": "heading",
-   "text": "## Review decision for the first HTML draft",
-   "id": "39046702",
-   "hash": "3dc498bbda13"
-  },
-  {
-   "type": "para",
-   "text": "Use **Pro mode** unless the team explicitly chooses a keynote-like Vibe mode.\nPro is the better default because the center of the experience is a technical\nproduct interaction, and the existing light lineage explorer should remain\nvisually continuous with the guided narrative.",
-   "id": "97d99a9c",
-   "hash": "74c59ae92790"
-  },
-  {
-   "type": "para",
-   "text": "Apply the Proofpress review-surface design contract: paper `#FAF9F5`, ink\n`#20222B`, cyan accent `#0E5E6F`, and semantic green/red/orange only for\nverified/rejected/attention states. Use the official `assets/logo.svg`, serif\ndisplay typography, system sans-serif body copy, and monospace metadata.",
-   "id": "d2455154",
-   "hash": "160730e7614a"
-  },
-  {
-   "type": "heading",
-   "text": "## Event sources",
-   "id": "8f7199a0",
-   "hash": "16125fa1f02f"
-  },
-  {
-   "type": "list",
-   "text": "- [Long Horizon Agents Build Day — Day-of Instructions](https://app.agihouse.org/events/long-horizon-agents-build-day/instructions)\n- [Long-Horizon Agents: A Technical Primer](https://blog.agihouse.org/posts/long-horizon-agents-a-technical-primer)",
-   "id": "390e8366",
-   "hash": "4e701c824fd3"
+   "text": "<h3>Deterministic admission checks</h3>",
+   "id": "2d1205a7",
+   "hash": "0db8554af39d"
   }
  ]
 }

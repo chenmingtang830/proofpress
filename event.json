@@ -1,29 +1,30 @@
 {
  "event": "version_created",
- "artifact": "planning/2026-08-22-hackathon-presentation-layer.md",
- "artifact_id": "pp_ffd63e1c02900570cefc606c",
- "version": "e60c5daf",
- "parent": "309f3615",
+ "artifact": "examples/verified-knowledge-ledger/demo.partner-style.html",
+ "artifact_id": "pp_c5949563fc662476994db4f8",
+ "version": "762f7e7f",
+ "parent": "cd8bca65",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-23T00:34:49+00:00",
+ "ts": "2026-08-23T00:48:04+00:00",
  "stats": {
-  "modified": 1
+  "added": 1
  },
  "changes": [
   {
-   "kind": "modified",
-   "block": "e13b8e72",
+   "kind": "added",
+   "block": "5bf504b3",
    "type": "para",
-   "context": "Hackathon presentation layer — narrative"
+   "context": "<h2 class=\"section-title\">Inspect the cl",
+   "preview": "<p>The ledger answers: how did this state become current, an"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:af4eef1447b9b54f65028e6d549b58be0ab53563cd6b85ca5be7323c6de06f91",
+ "soft_fingerprint": "ppsb1:69bd90c605e5a58b4fe686d8a968250a21dd2442537ac55dfe4ed9307cd69928",
  "actors": {
   "requested_by": [
    "user:richardtang"
@@ -41,13 +42,13 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "e13b8e72",
-   "kind": "modified",
-   "note": "Updates the plan status from draft to implemented and verified after the presentation and browser checks were completed."
+   "block": "5bf504b3",
+   "kind": "added",
+   "note": "Clarifies that the Ledger view is an append-only account of how the current knowledge state was reached and who changed it."
   }
  ],
  "context": {
-  "why": "Mark the presentation plan implemented and verified now that the eight-beat deck, browser fit audit, and production-repository capsule repair are complete."
+  "why": "Upgrade the presentation's fourth slide from a simplified flow into a state-aware, explorable knowledge surface: Graph exposes dependencies and current lifecycle state, Ledger records chronological decisions, and Evidence explains the current reliance boundary."
  },
- "event_id": "ppe_a377100830af6966f2134e8e"
+ "event_id": "ppe_51425568664ebb125c955cdb"
 }
