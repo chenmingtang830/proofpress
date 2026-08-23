@@ -1,222 +1,408 @@
 {
- "artifact": "examples/verified-knowledge-ledger/demo.partner-style.html",
- "artifact_id": "pp_c5949563fc662476994db4f8",
+ "artifact": "README.md",
+ "artifact_id": "pp_556b115de711b0cd33eed260",
  "blocks": [
   {
+   "type": "para",
+   "text": "<p align=\"center\">\n  <img src=\"assets/logo.svg\" alt=\"Proofpress logo\" width=\"88\" height=\"88\">\n</p>",
+   "id": "6ec771b4",
+   "hash": "4f16a6485cef"
+  },
+  {
    "type": "heading",
-   "text": "<h2>The verified knowledge ledger<span>for autonomous AI agents.</span></h2>",
-   "id": "67be4882",
-   "hash": "b780cdf8cf68"
+   "text": "# Proofpress",
+   "id": "de7999eb",
+   "hash": "8576f3816903"
   },
   {
    "type": "para",
-   "text": "<p class=\"tour-lede\">A cumulative knowledge system powered by verification, traceability, and governance.</p>",
-   "id": "6e4ac837",
-   "hash": "294852d88bb0"
-  },
-  {
-   "type": "heading",
-   "text": "<h2 class=\"section-title\">Small errors compound.<span>Memory can preserve the wrong state.</span></h2>",
-   "id": "9b7bc598",
-   "hash": "d49182bdba4b"
-  },
-  {
-   "type": "heading",
-   "text": "<h3>Observability</h3>",
-   "id": "093934d3",
-   "hash": "18abebc2ccf2"
+   "text": "[![npm version](https://img.shields.io/npm/v/proofpress.svg)](https://www.npmjs.com/package/proofpress)\n[![CI](https://github.com/chenmingtang830/proofpress/actions/workflows/ci.yml/badge.svg)](https://github.com/chenmingtang830/proofpress/actions/workflows/ci.yml)\n[![License: Apache-2.0](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)",
+   "id": "7542280e",
+   "hash": "b44a3b295f90"
   },
   {
    "type": "para",
-   "text": "<p>What happened across the trajectory?</p>",
-   "id": "31c19cab",
-   "hash": "3a05416657cd"
-  },
-  {
-   "type": "heading",
-   "text": "<h3>Memory + ontology</h3>",
-   "id": "b4b90585",
-   "hash": "2e469d7c847a"
+   "text": "**Verified knowledge infrastructure for agent-native workflows.**",
+   "id": "e667d986",
+   "hash": "77cae73c702e"
   },
   {
    "type": "para",
-   "text": "<p>What does the system remember—and how is it organized?</p>",
-   "id": "676412d2",
-   "hash": "866b65c92da9"
-  },
-  {
-   "type": "heading",
-   "text": "<h3>Proofpress</h3>",
-   "id": "e2163537",
-   "hash": "10d1e1b52040"
+   "text": "Proofpress is the open Artifact Provenance Protocol for knowledge work. As\npeople and agents split work into atomic items, explore alternatives in\nparallel, and reassemble results into documents or decisions, Proofpress keeps\nthe admitted history attached to the artifact: what changed, what was accepted,\nwho participated, and what evidence or reason supported the transition.",
+   "id": "0e0e9d9a",
+   "hash": "2bd2c2e5215d"
   },
   {
    "type": "para",
-   "text": "<p>Who did what, why—and why should we trust it?</p>",
-   "id": "4a6c7b6e",
-   "hash": "53d0e4d97f17"
-  },
-  {
-   "type": "heading",
-   "text": "<h2 class=\"section-title\">From traces<span>to governed knowledge.</span></h2>",
-   "id": "68accac5",
-   "hash": "975dc4f6bbbf"
-  },
-  {
-   "type": "heading",
-   "text": "<h2 class=\"section-title\">Which conclusions<span>become knowledge?</span></h2>",
-   "id": "aa8102c4",
-   "hash": "42f1b0deb838"
-  },
-  {
-   "type": "heading",
-   "text": "<h2 class=\"section-title\">Proofpress eliminated stale reuse<span>without reducing clean continuation.</span></h2>",
-   "id": "8a674112",
-   "hash": "da9f21afcb17"
+   "text": "Its native ledger travels with Markdown and static HTML artifacts—even when Git\ndoes not. Its format-agnostic evidence envelope can also bind provenance to the\nexact bytes of any file without pretending to understand that file's semantics.",
+   "id": "92fbc10e",
+   "hash": "a8d22e6da64c"
   },
   {
    "type": "para",
-   "text": "<p>Clean control: both conditions continued correctly 12/12. Preregistered, purpose-built artifact-provenance task; bounded mechanism evidence, not an estimate of general product efficacy.</p>",
-   "id": "e417ce97",
-   "hash": "e32e09432239"
+   "text": "Proofpress also includes a **verified knowledge ledger** for long-horizon agent\nwork: it distills bounded telemetry and artifacts into candidate knowledge,\nbinds it to inspectable evidence, records deterministic, policy, and human\nreview gates, and projects only governed current context for the next human or\nagent. It is not a trace backend, generic memory store, or truth oracle.",
+   "id": "815b673d",
+   "hash": "9e6630337ee1"
   },
   {
    "type": "para",
-   "text": "<p class=\"study-status\">HARVEY / RELAYBENCH PAIRED CALIBRATION UNDERWAY</p>",
-   "id": "2bc15033",
-   "hash": "956fdb30f5b6"
-  },
-  {
-   "type": "heading",
-   "text": "<h2 class=\"section-title\">The analyst works.<span>The organization governs.</span></h2>",
-   "id": "b6b4cb57",
-   "hash": "c4c5479fca50"
-  },
-  {
-   "type": "heading",
-   "text": "<h3>BBDC / TVPG merger analysis</h3>",
-   "id": "f709c3f0",
-   "hash": "8d692963b3bd"
+   "text": "> Git made code collaborative. Proofpress makes intelligence compound.",
+   "id": "6ef36a68",
+   "hash": "d7856cec5e32"
   },
   {
    "type": "para",
-   "text": "<p>The analyst can inspect this draft, but it cannot be reused as organizational knowledge until a human approves it.</p>",
-   "id": "24a1ba3d",
-   "hash": "1f0f6dd87ef8"
-  },
-  {
-   "type": "heading",
-   "text": "<h3>Human review required</h3>",
-   "id": "ff329ce6",
-   "hash": "b57458d49477"
+   "text": "<p align=\"center\">\n  <img src=\"assets/articles/memory-table-stakes-provenance-engineering-hero.png\" alt=\"Illustration of a provenance ledger traveling with an artifact\" width=\"1200\">\n</p>",
+   "id": "df7a085e",
+   "hash": "105e5d76eb00"
   },
   {
    "type": "para",
-   "text": "<p>Evidence and automated checks are attached, but this conclusion is not yet admitted to the verified ledger.</p>",
-   "id": "d007e1f1",
-   "hash": "72a31dd8f469"
+   "text": "Think C2PA for knowledge work: a portable, inspectable record of admitted\nhistory—not a claim of C2PA compatibility, signed authorship, or complete\ncapture.",
+   "id": "cd8c1f66",
+   "hash": "08947a0cec6f"
   },
   {
    "type": "heading",
-   "text": "<h3>What enters shared finance knowledge?</h3>",
-   "id": "d02ce2d7",
-   "hash": "a92a4f3414f0"
-  },
-  {
-   "type": "heading",
-   "text": "<h2 class=\"section-title\">A $1,234.50 offer survived four agents.<span>Its provenance did not.</span></h2>",
-   "id": "c2ec8e67",
-   "hash": "a7db062027a2"
+   "text": "## Evidence",
+   "id": "9c6c7f6a",
+   "hash": "3615cfe3af4c"
   },
   {
    "type": "para",
-   "text": "<p class=\"tour-lede\">UOR-ADDR computes identity at each transfer; Proofpress binds it to evidence and governs the trust receipt—so the next agent can prove what it inherited.</p>",
-   "id": "9a956087",
-   "hash": "e32329e44bba"
-  },
-  {
-   "type": "heading",
-   "text": "<h2>Verification is the bottleneck.<span>Trusted RSI builds only on what survives.</span></h2>",
-   "id": "e3cb86a6",
-   "hash": "d2e0838fb7c7"
-  },
-  {
-   "type": "heading",
-   "text": "<h1>THE WORK OUTLIVED THE CONTEXT.<span>WHICH CONCLUSION CAN THE NEXT AGENT TRUST?</span></h1>",
-   "id": "26127b71",
-   "hash": "f6e81ecd8bd9"
+   "text": "We published a bounded evaluation of Proofpress for agent handoffs. In a preregistered controlled task where a document had changed, ordinary handoff continued incorrectly in 12/12 trials; Proofpress-assisted handoff did so in 0/12. Both conditions continued correctly in all 12 unchanged-document trials. This is evidence for the version-checking mechanism on that task, not a general claim that Proofpress improves agent capability.",
+   "id": "30685e8d",
+   "hash": "dc47b2314997"
   },
   {
    "type": "para",
-   "text": "<p>Long-horizon work is a chain of coupled decisions across contexts and tasks. Proofpress makes selected conclusions <strong>evidence-bound, governed, and safe to inherit.</strong></p>",
-   "id": "59111a7d",
-   "hash": "6672acd73ab3"
-  },
-  {
-   "type": "heading",
-   "text": "<h2>What can the next agent safely inherit?</h2>",
-   "id": "ad5a4616",
-   "hash": "7bf7a25fb307"
+   "text": "[![Controlled agent-handoff study: ordinary handoff 12/12 incorrect continues; Proofpress 0/12](assets/articles/agent-handoff-study-card-2026-08.png)](studies/agent-handoff-artifact-provenance/README.md)",
+   "id": "cf466876",
+   "hash": "b7037024a825"
   },
   {
    "type": "para",
-   "text": "<p>Choose one experiment first. Open lineage only when you need to inspect how the decision was made.</p>",
-   "id": "52ab68ed",
-   "hash": "9bd4c357bc7e"
+   "text": "Read the [open study package](studies/agent-handoff-artifact-provenance/README.md) for the technical report, evidence, methods, limitations, and checksums.",
+   "id": "aea6ced7",
+   "hash": "0384ae8680c9"
   },
   {
    "type": "heading",
-   "text": "<h3 id=\"paperTitle\">Candidate B increased conversion.</h3>",
-   "id": "03df410b",
-   "hash": "b03b4c251ede"
+   "text": "## Why admitted history matters",
+   "id": "6a39b2e1",
+   "hash": "19db318a451f"
   },
   {
    "type": "para",
-   "text": "<p id=\"paperBody\">This is the result a fresh agent may want to reuse. The ledger keeps it attached to its measured run and review state.</p>",
-   "id": "e165f27d",
-   "hash": "349ef2d7bb83"
-  },
-  {
-   "type": "heading",
-   "text": "<h3 id=\"title\">Candidate B is eligible for review.</h3>",
-   "id": "5d58db33",
-   "hash": "2196970f1337"
+   "text": "Agent-native work is not a linear document followed from start to finish. It\nis a graph of hypotheses, source material, decisions, revisions, handoffs, and\nevidence. Different tools can generate different views of that graph—a brief,\na research artifact, a design review, or an executable task—but the work only\ncompounds when collaborators can tell which changes became dependable shared\nknowledge.",
+   "id": "6c80c41a",
+   "hash": "1ee12722aa18"
   },
   {
    "type": "para",
-   "text": "<p id=\"body\">Evidence is present, the experiment completed, and the metric is measured. A human or policy reviewer still decides whether this belongs in shared knowledge.</p>",
-   "id": "105f3c7c",
-   "hash": "ce338dcfd6c9"
+   "text": "Proofpress operates at that boundary. It does not attempt to orchestrate every\nagent or capture every thought. It records meaningful, accepted transitions in\nthe artifacts that survive the workflow, so a later person or agent can inspect\nand verify the history without needing the original session, workspace, or\norchestrator.",
+   "id": "6dfb284f",
+   "hash": "1063d78a3d7e"
   },
   {
    "type": "heading",
-   "text": "<h2>The decision is a path, not a note.</h2>",
-   "id": "185f2164",
-   "hash": "5dbde752a997"
+   "text": "## Install",
+   "id": "cc376e2b",
+   "hash": "8fdd8c811597"
   },
   {
    "type": "para",
-   "text": "<p>Every reusable claim keeps its source, experiment, evidence status, review state, and the prior knowledge it builds on.</p>",
-   "id": "5a61ca84",
-   "hash": "3d53f06b602b"
+   "text": "Requires Python 3.11+, Git, and Node 22+:",
+   "id": "d6f9f208",
+   "hash": "2e2016a0f1b7"
+  },
+  {
+   "type": "code",
+   "text": "```sh\nnpm install --save-dev proofpress\nnpx --no-install proofpress --version\nnpx --no-install proofpress setup --agent codex\n```",
+   "id": "7b197ac1",
+   "hash": "cd4f90b37ace"
   },
   {
    "type": "para",
-   "text": "<p class=\"evidence-note\">Evidence stays attached to the claim it supports, so the next person or agent can inspect the boundary instead of trusting a summary.</p>",
-   "id": "54cf5ec6",
-   "hash": "8499aa62ce63"
+   "text": "`setup` installs the agent adapter and writes `.proofpress/manifest.json`. Use\n`--agent claude`, `cursor`, or `all` for another supported harness.",
+   "id": "5ae48e1b",
+   "hash": "d2456cd38af5"
   },
   {
    "type": "heading",
-   "text": "<h2 id=\"drawerTitle\">Candidate B · eligible for review</h2>",
-   "id": "c0058247",
-   "hash": "63ae8506c20f"
+   "text": "## Verified knowledge ledger quickstart",
+   "id": "4ccd51b9",
+   "hash": "4dd0eef378ac"
+  },
+  {
+   "type": "para",
+   "text": "Bring a bounded OpenTelemetry-style JSON export. The sample below creates\ncandidate claims from the included fixture, checks them against the current\npolicy, records a human review, and exposes only admitted knowledge to a fresh\nagent:",
+   "id": "460f8108",
+   "hash": "9e4cd43b92d3"
+  },
+  {
+   "type": "code",
+   "text": "```sh\nnpx --no-install proofpress knowledge ingest \\\n  node_modules/proofpress/examples/verified-knowledge-ledger/demo.otlp.json \\\n  -o /tmp/proofpress-ledger.json \\\n  --scope demo --proposer agent:experiment-runner\n\nnpx --no-install proofpress knowledge policy-review /tmp/proofpress-ledger.json \\\n  --claim CLAIM_ID\nnpx --no-install proofpress knowledge review /tmp/proofpress-ledger.json \\\n  --claim CLAIM_ID --decision accept --reviewer human:reviewer\nnpx --no-install proofpress knowledge context /tmp/proofpress-ledger.json --scope demo\nnpx --no-install proofpress knowledge verify /tmp/proofpress-ledger.json\n```",
+   "id": "8b9b3369",
+   "hash": "8037ca743ab7"
+  },
+  {
+   "type": "para",
+   "text": "`context` excludes rejected, unresolved, expired, and superseded candidates by\ndefault. `view` emits a stable graph read model, and `materialize` writes a\nportable Markdown projection. See the repository's\n[`examples/verified-knowledge-ledger/README.txt`](examples/verified-knowledge-ledger/README.txt)\nfor the complete local walkthrough.",
+   "id": "20fbea6e",
+   "hash": "2bd15dc522a8"
   },
   {
    "type": "heading",
-   "text": "<h3>Deterministic admission checks</h3>",
-   "id": "2d1205a7",
-   "hash": "0db8554af39d"
+   "text": "## Try Proofpress in two minutes",
+   "id": "8fb4a17c",
+   "hash": "5cbfd9e95bb7"
+  },
+  {
+   "type": "para",
+   "text": "Start with a real Markdown artifact that already carries two admitted versions.\n`inspect` reads its portable capsule before any local Proofpress ledger exists;\n`import` reconstructs that ledger from the file alone. The demo uses a\nrepository-local Git identity, so it also works on a clean machine:",
+   "id": "d61fe659",
+   "hash": "793c42a39377"
+  },
+  {
+   "type": "code",
+   "text": "```sh\nmkdir proofpress-quickstart && cd proofpress-quickstart\ngit init\ngit config user.name \"Proofpress Quickstart\"\ngit config user.email \"quickstart@example.invalid\"\nnpm init -y\nnpm install --save-dev proofpress\ncurl -LO https://raw.githubusercontent.com/chenmingtang830/proofpress/main/examples/portable-handoff/strategy.md\n\nnpx --no-install proofpress inspect strategy.md\nnpx --no-install proofpress import strategy.md\nnpx --no-install proofpress log strategy.md\n```",
+   "id": "9a25e119",
+   "hash": "e19822df4785"
+  },
+  {
+   "type": "para",
+   "text": "![Proofpress inspect, import, and log output](assets/quickstart/native-history.svg)",
+   "id": "862797da",
+   "hash": "384e333e13be"
+  },
+  {
+   "type": "para",
+   "text": "Review the accepted change and check that its recorded claims match the actual\ndocument diff:",
+   "id": "66c93d16",
+   "hash": "931e509fee6f"
+  },
+  {
+   "type": "code",
+   "text": "```sh\nnpx --no-install proofpress diff strategy.md\nnpx --no-install proofpress verify strategy.md\n```",
+   "id": "d63d3ab4",
+   "hash": "3f834925227d"
+  },
+  {
+   "type": "para",
+   "text": "![Proofpress diff and verify output](assets/quickstart/native-diff-verify.svg)",
+   "id": "399f86cf",
+   "hash": "f1e750b347df"
+  },
+  {
+   "type": "para",
+   "text": "Static HTML carries the same native ledger. Download\n[`strategy.html`](examples/portable-handoff/strategy.html) and substitute it for\n`strategy.md` in the commands above.",
+   "id": "07612948",
+   "hash": "bd607b375b61"
+  },
+  {
+   "type": "para",
+   "text": "DOCX uses a sidecar evidence record rather than an embedded revision ledger:",
+   "id": "ec2e5323",
+   "hash": "3392552b8666"
+  },
+  {
+   "type": "code",
+   "text": "```sh\ncurl -LO https://raw.githubusercontent.com/chenmingtang830/proofpress/main/examples/portable-handoff/proposal.docx\ncurl -LO https://raw.githubusercontent.com/chenmingtang830/proofpress/main/examples/portable-handoff/proposal.provenance.json\nnpx --no-install proofpress provenance verify proposal.docx \\\n  --evidence proposal.provenance.json\n```",
+   "id": "3ebf7611",
+   "hash": "fa0be3399248"
+  },
+  {
+   "type": "para",
+   "text": "![Proofpress DOCX provenance verification output](assets/quickstart/docx-provenance.svg)",
+   "id": "a528a698",
+   "hash": "61f2346da063"
+  },
+  {
+   "type": "para",
+   "text": "To continue the native-ledger demo, edit the visible Markdown or HTML content,\nthen admit the new version and inspect the updated history:",
+   "id": "4149c80a",
+   "hash": "e23b7e305cb1"
+  },
+  {
+   "type": "code",
+   "text": "```sh\nnpx --no-install proofpress snapshot strategy.md --kind human --author you \\\n  --why \"accepted the revised volunteer plan\"\nnpx --no-install proofpress log strategy.md\n```",
+   "id": "9df616af",
+   "hash": "5269322d2b10"
+  },
+  {
+   "type": "para",
+   "text": "See the [complete portable handoff example](examples/portable-handoff/README.md)\nfor the files, expected behavior, and security boundary.",
+   "id": "20a32f50",
+   "hash": "28994eb234d1"
+  },
+  {
+   "type": "heading",
+   "text": "## Create a portable document",
+   "id": "4273537d",
+   "hash": "d5d74e3e6de2"
+  },
+  {
+   "type": "para",
+   "text": "Run these commands on a Markdown or static HTML file:",
+   "id": "1160e434",
+   "hash": "a29deb09c2a9"
+  },
+  {
+   "type": "code",
+   "text": "```sh\nnpx --no-install proofpress policy proposal.md portable\nnpx --no-install proofpress anchor proposal.md\nnpx --no-install proofpress snapshot proposal.md --kind agent --author codex \\\n  --why \"accepted the smaller launch scope\"\nnpx --no-install proofpress verify proposal.md\n```",
+   "id": "2b655d31",
+   "hash": "0276a8f71021"
+  },
+  {
+   "type": "para",
+   "text": "Applications that need clause-, issue-, or work-item-level handoff context\ncan attach a host-defined admitted-decision register to the same portable\nevent:",
+   "id": "f46e6643",
+   "hash": "d45f59a38867"
+  },
+  {
+   "type": "code",
+   "text": "```sh\nnpx --no-install proofpress snapshot proposal.md --kind agent --author codex \\\n  --decisions decisions.json \\\n  --why \"accepted the revised implementation state\"\n```",
+   "id": "d7acbb2d",
+   "hash": "42412293abe9"
+  },
+  {
+   "type": "para",
+   "text": "The register uses `proofpress/admitted-decisions/v1` and travels inside the\nportable capsule. Its target and evidence identifiers remain host-defined;\nProofpress validates the record shape and integrity, not the truth of the\ndecision.",
+   "id": "eb60d5b2",
+   "hash": "d7d92da0a727"
+  },
+  {
+   "type": "para",
+   "text": "The policy is sticky. Each accepted snapshot refreshes the hidden capsule in\nthe file. Source code stays in Git; the native Proofpress ledger manages only\nMarkdown and static HTML knowledge artifacts. Artifact evidence may reference\nother file types without placing them in that ledger.",
+   "id": "5796ae98",
+   "hash": "8f00714a7daa"
+  },
+  {
+   "type": "heading",
+   "text": "## Verify documents and other artifacts",
+   "id": "d8a43a89",
+   "hash": "d1464f727b4c"
+  },
+  {
+   "type": "para",
+   "text": "Create a sidecar evidence record. Proofpress automatically selects the\nstrongest built-in adapter: semantic OOXML verification for Word documents,\nformat-aware byte verification for PDFs, and byte verification for other\nfiles.",
+   "id": "b8c9468f",
+   "hash": "fca388dda1da"
+  },
+  {
+   "type": "code",
+   "text": "```sh\nnpx --no-install proofpress provenance create proposal.docx \\\n  --output proposal.provenance.json\nnpx --no-install proofpress provenance verify proposal.docx \\\n  --evidence proposal.provenance.json\n```",
+   "id": "989efad2",
+   "hash": "0783c6b611af"
+  },
+  {
+   "type": "para",
+   "text": "For DOCX, `semantic` verification canonicalizes the meaningful OOXML package:\ndocument content, tables, styles, relationships, headers, footers, comments,\nfootnotes, and embedded media. Repacking the ZIP does not change the result,\nwhile changing document content does. PDF evidence remains `byte` level; it\nrecords format metadata but does not claim the document rendered correctly.\nUse `--level byte` when exact DOCX package bytes are required.",
+   "id": "227de120",
+   "hash": "ea3300c8aed4"
+  },
+  {
+   "type": "heading",
+   "text": "## Hand off a document",
+   "id": "949eb6a5",
+   "hash": "083b4be56435"
+  },
+  {
+   "type": "para",
+   "text": "Send the original file. The recipient does not need your repository, session,\nor local ledger:",
+   "id": "2173502c",
+   "hash": "591b0bed6a77"
+  },
+  {
+   "type": "code",
+   "text": "```sh\nnpx --no-install proofpress inspect proposal.md\nnpx --no-install proofpress import proposal.md\nnpx --no-install proofpress log proposal.md\n```",
+   "id": "af7113fa",
+   "hash": "673239838972"
+  },
+  {
+   "type": "heading",
+   "text": "### GitHub or a raw file",
+   "id": "5e991c72",
+   "hash": "d359de7f2fa1"
+  },
+  {
+   "type": "table",
+   "text": "| Route | What travels |\n|---|---|\n| GitHub | The file and capsule move through ordinary commits and pull requests |\n| Outside Git | The raw file carries its own public history |",
+   "id": "398568bb",
+   "hash": "367b9776defd"
+  },
+  {
+   "type": "para",
+   "text": "`refs/proofpress/ledger` remains the complete local working record. Portable\nfiles do not depend on it: their capsule crosses the repository boundary with\nthe file. A team that also wants to share the complete ledger must run\n`npx --no-install proofpress sync` explicitly; an ordinary `git push` does not\npush the special ref.",
+   "id": "a908fde7",
+   "hash": "ea6f7441b471"
+  },
+  {
+   "type": "heading",
+   "text": "## What is—and is not—recorded",
+   "id": "226a29fd",
+   "hash": "a004d57784cc"
+  },
+  {
+   "type": "para",
+   "text": "Proofpress records accepted versions, computed block changes, stated actor\nroles, reasons, and consequential rejections. Claims are checked against the\nactual document diff.",
+   "id": "cfc1c3aa",
+   "hash": "309cdb7d7710"
+  },
+  {
+   "type": "para",
+   "text": "It does not automatically store raw prompts, transcripts, private reasoning,\ntool traces, casual brainstorming, or every save. See the\n[privacy boundary](docs/PRIVACY_AND_DISCLOSURE.md) for the complete rules.",
+   "id": "5e0b34ed",
+   "hash": "c467f1afe0ad"
+  },
+  {
+   "type": "heading",
+   "text": "## Merge parallel copies",
+   "id": "47f21d3a",
+   "hash": "de99a57e8d8c"
+  },
+  {
+   "type": "para",
+   "text": "Keep every original copy. First, ask Proofpress to find the common ancestor and\nreport only genuine block conflicts:",
+   "id": "55bcd98e",
+   "hash": "5bdaf4799af4"
+  },
+  {
+   "type": "code",
+   "text": "```sh\nnpx --no-install proofpress merge-plan proposal-alice.md \\\n  --from proposal-bob.md --json\n```",
+   "id": "8f498c01",
+   "hash": "53d7df9f05bf"
+  },
+  {
+   "type": "para",
+   "text": "After an agent or user resolves the visible body, record the reunion:",
+   "id": "d4ed0d79",
+   "hash": "23d3fc50d580"
+  },
+  {
+   "type": "code",
+   "text": "```sh\nnpx --no-install proofpress anchor proposal-alice.md\nnpx --no-install proofpress merge proposal-alice.md --from proposal-bob.md \\\n  --kind agent --author codex --why \"resolved the parallel review copies\"\nnpx --no-install proofpress verify proposal-alice.md\n```",
+   "id": "74883804",
+   "hash": "0f086785080a"
+  },
+  {
+   "type": "para",
+   "text": "Same-document branches become `parents`. Other source documents remain\n`ingredients`; record those with `merge-lineage`.",
+   "id": "1575e201",
+   "hash": "1c64af5acfc7"
+  },
+  {
+   "type": "heading",
+   "text": "## Go deeper",
+   "id": "2a955c60",
+   "hash": "f934177280d6"
+  },
+  {
+   "type": "list",
+   "text": "- [Two-minute portable handoff demo](examples/portable-handoff/README.md)\n- [Documentation map](docs/README.md)\n- [Executable V1 contract](docs/PORTABLE_ARTIFACT_SPEC.md)\n- [Artifact Provenance Protocol and adapter API](docs/ARTIFACT_PROVENANCE_PROTOCOL.md)\n- [Privacy boundaries](docs/PRIVACY_AND_DISCLOSURE.md)\n- [Agent adapters](skills/README.md)\n- [Contributing](CONTRIBUTING.md) · [Changelog](CHANGELOG.md) ·\n  [Security](SECURITY.md) · [Code of Conduct](CODE_OF_CONDUCT.md)",
+   "id": "8deed5b3",
+   "hash": "272254413559"
   }
  ]
 }

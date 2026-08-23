@@ -1,77 +1,114 @@
 {
  "event": "version_created",
- "artifact": "examples/verified-knowledge-ledger/demo.partner-style.html",
- "artifact_id": "pp_c5949563fc662476994db4f8",
- "version": "064cf942",
- "parent": "9919acf3",
+ "artifact": "README.md",
+ "artifact_id": "pp_556b115de711b0cd33eed260",
+ "version": "73c77c17",
+ "parent": "d7d442b8",
  "author": {
-  "name": "Codex",
-  "kind": "agent",
+  "name": "unknown",
+  "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-23T02:44:21+00:00",
+ "ts": "2026-08-23T04:53:12+00:00",
  "stats": {
-  "modified": 2,
-  "removed": 1
+  "modified": 1,
+  "added": 5
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "9a956087",
+   "block": "e667d986",
    "type": "para",
-   "context": "<h2 class=\"section-title\">A $1,234.50 of"
+   "context": "Proofpress"
   },
   {
-   "kind": "modified",
-   "block": "e3cb86a6",
+   "kind": "added",
+   "block": "815b673d",
+   "type": "para",
+   "context": "Proofpress",
+   "preview": "Proofpress also includes a **verified knowledge ledger** for"
+  },
+  {
+   "kind": "added",
+   "block": "4ccd51b9",
    "type": "heading",
-   "context": "<h2>Verification is the bottleneck.<span"
+   "context": "Verified knowledge ledger quickstart",
+   "preview": "## Verified knowledge ledger quickstart"
   },
   {
-   "kind": "removed",
-   "block": "6dbb478d",
+   "kind": "added",
+   "block": "460f8108",
    "type": "para",
-   "context": "",
-   "preview": "<p class=\"vision-thesis\"><strong>Generation creates candidat"
+   "context": "Verified knowledge ledger quickstart",
+   "preview": "Bring a bounded OpenTelemetry-style JSON export. The sample "
+  },
+  {
+   "kind": "added",
+   "block": "8b9b3369",
+   "type": "code",
+   "context": "Verified knowledge ledger quickstart",
+   "preview": "```sh\nnpx --no-install proofpress knowledge ingest \\\n  node_"
+  },
+  {
+   "kind": "added",
+   "block": "20fbea6e",
+   "type": "para",
+   "context": "Verified knowledge ledger quickstart",
+   "preview": "`context` excludes rejected, unresolved, expired, and supers"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:6a1cd43ee5a61551c65d0bf6374a58c8ceabb1f01a6bca0936bf833b63dca25d",
+ "soft_fingerprint": "ppsb1:2c5745b6dcc294654dcb2ebd74e9e4697367dd9c7dfc696736236ac70b886d2f",
  "actors": {
   "requested_by": [
-   "Richard Tang"
+   "human:richard-tang"
   ],
   "produced_by": [
-   "Codex"
+   "agent:codex"
   ],
   "edited_by": [
-   "Codex"
+   "agent:codex"
   ],
   "recorded_by": [
-   "Codex"
+   "agent:codex"
   ]
  },
- "attribution_basis": "self_asserted",
+ "attribution_basis": "harness_attested",
  "claims": [
   {
-   "block": "9a956087",
+   "block": "e667d986",
    "kind": "modified",
-   "note": "Clarifies the commerce trust-overlay boundary: UOR-ADDR computes transfer identity while Proofpress binds it to evidence and governs the resulting receipt."
+   "note": "Update public product positioning to verified knowledge infrastructure."
   },
   {
-   "block": "e3cb86a6",
-   "kind": "modified",
-   "note": "Condenses the closing into the verification bottleneck and the requirement that trusted recursive self-improvement compound only what survives review."
+   "block": "815b673d",
+   "kind": "added",
+   "note": "Introduce the verified knowledge ledger capability and scope boundary."
   },
   {
-   "block": "6dbb478d",
-   "kind": "removed",
-   "note": "Removes the redundant closing explanation because the shortened headline and three-step progression now carry the same idea."
+   "block": "4ccd51b9",
+   "kind": "added",
+   "note": "Add an installable OTLP-to-governed-context quickstart."
+  },
+  {
+   "block": "460f8108",
+   "kind": "added",
+   "note": "Document policy and human review commands."
+  },
+  {
+   "block": "8b9b3369",
+   "kind": "added",
+   "note": "Document current-context safety semantics."
+  },
+  {
+   "block": "20fbea6e",
+   "kind": "added",
+   "note": "Link to the full local ledger walkthrough."
   }
  ],
  "context": {
-  "why": "Apply the UOR-ADDR and Proofpress responsibility split to the commerce trust overlay and simplify the closing slide to one verification thesis plus a three-step path to trusted RSI."
+  "why": "Document the 0.4.0 verified knowledge ledger wedge and reproducible developer quickstart."
  },
- "event_id": "ppe_4633dd3bd4f26a0dfc4b4b50"
+ "event_id": "ppe_bd2efc04e113768b56d7f4fb"
 }
