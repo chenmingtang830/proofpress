@@ -1,0 +1,16 @@
+[
+  {"block":"9b7bc598","kind":"modified","note":"Frames the long-horizon problem as compounding small errors and memory preserving an incorrect state."},
+  {"block":"31c19cab","kind":"modified","note":"Defines observability as recording what happened across the full trajectory."},
+  {"block":"676412d2","kind":"modified","note":"Defines memory and ontology as what the system remembers and how it is organized, without implying verification."},
+  {"block":"4a6c7b6e","kind":"modified","note":"Defines Proofpress by authorship, rationale, and the evidence needed to trust a handoff."},
+  {"block":"24a1ba3d","kind":"modified","note":"Simplifies the analyst experience to one current approved view instead of exposing the organizational review queue."},
+  {"block":"d007e1f1","kind":"modified","note":"Expands the analyst trust receipt to evidence, verifier, reviewer, scope, and version."},
+  {"block":"d02ce2d7","kind":"modified","note":"Scopes the admin governance graph to deciding what enters shared finance knowledge."},
+  {"block":"e3cb86a6","kind":"modified","note":"Raises the north star from self-improving companies to trusted recursive self-improvement."},
+  {"block":"19c1161d","kind":"removed","note":"Removes the separate Fable model-version card because the admin surface now uses the same four-layer ledger graph as the product demo."},
+  {"block":"d3505b5d","kind":"removed","note":"Moves the Fable fixture status into the governed-ledger path rather than a standalone version card."},
+  {"block":"7dd720db","kind":"removed","note":"Removes the separate Opus model-version card in favor of a human-review path through the governance graph."},
+  {"block":"0c0a98c5","kind":"removed","note":"Moves the Opus fixture status into the pending ledger path rather than a standalone version card."},
+  {"block":"231125c5","kind":"removed","note":"Removes the separate GLM model-version card in favor of a rejected path through the governance graph."},
+  {"block":"cc5c1ebe","kind":"removed","note":"Moves the GLM fixture status into the rejected ledger path rather than a standalone version card."}
+]
