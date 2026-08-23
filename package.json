@@ -1,7 +1,7 @@
 {
   "name": "proofpress",
-  "version": "0.3.0",
-  "description": "The trust layer for multiplayer AI: an open, agent-native ledger for knowledge artifacts",
+  "version": "0.4.0",
+  "description": "Verified knowledge infrastructure for agent-native workflows",
   "license": "Apache-2.0",
   "bin": {
     "proofpress": "bin/proofpress.js"
@@ -14,6 +14,7 @@
     "proofpress.py",
     "proofpress_knowledge.py",
     "proofpress_evidence.py",
+    "examples/verified-knowledge-ledger/demo.otlp.json",
     "README.md"
   ],
   "scripts": {
@@ -29,7 +30,10 @@
     "markdown",
     "documentation",
     "ai-agents",
-    "audit-log"
+    "audit-log",
+    "knowledge-ledger",
+    "opentelemetry",
+    "agent-handoff"
   ],
   "repository": {
     "type": "git",

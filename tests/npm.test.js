@@ -26,6 +26,14 @@ test("npm launcher exposes the same version as package.json", () => {
   assert.equal(result.stdout.trim(), `proofpress ${version}`);
 });
 
+test("npm launcher exposes the verified-knowledge ledger commands", () => {
+  const result = run(["knowledge", "--help"]);
+  assert.equal(result.status, 0, result.stderr);
+  assert.match(result.stdout, /\{ingest,propose,policy-review,review,supersede,policy-set,context,view,verify,materialize\}/);
+  assert.match(result.stdout, /policy-review/);
+  assert.match(result.stdout, /materialize/);
+});
+
 test("GitHub Action defaults to its bundled Proofpress CLI", () => {
   const action = fs.readFileSync(path.join(ROOT, "action.yml"), "utf8");
   assert.match(
