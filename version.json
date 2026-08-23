@@ -82,12 +82,6 @@
   },
   {
    "type": "para",
-   "text": "<p>Completed run with recorded conversion metric.</p>",
-   "id": "8a2d35fe",
-   "hash": "7f4b995791df"
-  },
-  {
-   "type": "para",
    "text": "<p>18% is supported only for this measured experiment.</p>",
    "id": "5f4cb6fe",
    "hash": "e0400575779d"

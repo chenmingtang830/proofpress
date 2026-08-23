@@ -2,29 +2,29 @@
  "event": "version_created",
  "artifact": "examples/verified-knowledge-ledger/demo.partner-style.html",
  "artifact_id": "pp_c5949563fc662476994db4f8",
- "version": "762f7e7f",
- "parent": "cd8bca65",
+ "version": "8bb99b9c",
+ "parent": "762f7e7f",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-23T00:48:04+00:00",
+ "ts": "2026-08-23T01:40:41+00:00",
  "stats": {
-  "added": 1
+  "removed": 1
  },
  "changes": [
   {
-   "kind": "added",
-   "block": "5bf504b3",
+   "kind": "removed",
+   "block": "8a2d35fe",
    "type": "para",
-   "context": "<h2 class=\"section-title\">Inspect the cl",
-   "preview": "<p>The ledger answers: how did this state become current, an"
+   "context": "",
+   "preview": "<p>Completed run with recorded conversion metric.</p>"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:69bd90c605e5a58b4fe686d8a968250a21dd2442537ac55dfe4ed9307cd69928",
+ "soft_fingerprint": "ppsb1:ffaef80f03d5a3c5214e8f7100c206bba7582d19ad0f6538487399bebc894827",
  "actors": {
   "requested_by": [
    "user:richardtang"
@@ -42,13 +42,13 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "5bf504b3",
-   "kind": "added",
-   "note": "Clarifies that the Ledger view is an append-only account of how the current knowledge state was reached and who changed it."
+   "block": "8a2d35fe",
+   "kind": "removed",
+   "note": "Removed the separate source card to simplify the live demo; trace binding and experiment scope remain visible in the consolidated Evidence card."
   }
  ],
  "context": {
-  "why": "Upgrade the presentation's fourth slide from a simplified flow into a state-aware, explorable knowledge surface: Graph exposes dependencies and current lifecycle state, Ledger records chronological decisions, and Evidence explains the current reliance boundary."
+  "why": "Increase presentation legibility and simplify the product demo around one decision: two large graph paths, four decisive ledger events, and three reliance checks."
  },
- "event_id": "ppe_51425568664ebb125c955cdb"
+ "event_id": "ppe_913c45a900b1d9817f4dfa7d"
 }
