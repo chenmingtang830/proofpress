@@ -1,0 +1,15 @@
+[
+  {"block":"67be4882","kind":"added","note":"Added the opening handoff question for the three-minute guided demo."},
+  {"block":"fa689308","kind":"added","note":"Explains why a raw trace or unverified summary is insufficient for a fresh agent."},
+  {"block":"9b7bc598","kind":"added","note":"Introduces governance as the missing layer above accumulated context."},
+  {"block":"093934d3","kind":"added","note":"Names observability as the bottom layer of the trust stack."},
+  {"block":"31c19cab","kind":"added","note":"Defines observability as the record of trajectory activity."},
+  {"block":"b4b90585","kind":"added","note":"Names memory and ontology as the middle layer of the trust stack."},
+  {"block":"676412d2","kind":"added","note":"Uses Stash as a complementary example of cross-rollout memory."},
+  {"block":"e2163537","kind":"added","note":"Names Proofpress as the trust layer."},
+  {"block":"4a6c7b6e","kind":"added","note":"Defines Proofpress governance in terms of evidence, scope, review, lifecycle, and provenance."},
+  {"block":"e3cb86a6","kind":"added","note":"Adds the closing promise of cumulative knowledge safe for humans and agents."},
+  {"block":"e2b8e473","kind":"added","note":"Frames Coframe growth traces as a collaboration integration example."},
+  {"block":"26127b71","kind":"modified","note":"Replaced the technical hero with the fresh-agent trust question."},
+  {"block":"59111a7d","kind":"modified","note":"Defines the product outcome as evidence-bound, governed, inheritable conclusions."}
+]

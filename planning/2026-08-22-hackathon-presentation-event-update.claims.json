@@ -1,0 +1,20 @@
+[
+  {"block":"a6fbf8db","kind":"modified","note":"Constrained the guided narrative to the event's three-minute demo window."},
+  {"block":"49ac0ede","kind":"added","note":"Added the official Build Day constraints section."},
+  {"block":"0c15ae22","kind":"added","note":"Explains why event constraints shape the presentation implementation."},
+  {"block":"b3e4a788","kind":"added","note":"Records the demo duration, original-work, open-source, and submission requirements."},
+  {"block":"639859b2","kind":"added","note":"Defines the honest build-day delta on top of the existing ledger foundation."},
+  {"block":"b89e8624","kind":"added","note":"Connects the product story to the event primer's H1, H2, and H3 model."},
+  {"block":"7bf705f0","kind":"modified","note":"Renamed the narrative as a three-minute structure."},
+  {"block":"92908d5a","kind":"added","note":"Allocates the three-minute presentation across five concise beats."},
+  {"block":"661f5ff4","kind":"added","note":"Positions Stash as a complementary memory layer below Proofpress governance."},
+  {"block":"29d707ef","kind":"modified","note":"Reframed the verticals as three different proof obligations."},
+  {"block":"f3135bb2","kind":"modified","note":"Assigned Harvey to eval, finance to the product workspace, and commerce to domain extension."},
+  {"block":"c34613a1","kind":"added","note":"Defines Coframe as an H3 growth system and Proofpress as its complementary trust layer."},
+  {"block":"91879a6f","kind":"modified","note":"Added five timed beats and a visible three-minute clock to the interaction architecture."},
+  {"block":"be5ab015","kind":"modified","note":"Updated P0 to five beats and an explicit build-day increment."},
+  {"block":"d8c7277f","kind":"modified","note":"Updated P2 so each vertical produces distinct evidence rather than duplicate interfaces."},
+  {"block":"4ab84b40","kind":"modified","note":"Expanded acceptance criteria for timing, vertical roles, Stash, Coframe, and honest claims."},
+  {"block":"8f7199a0","kind":"added","note":"Added the official event source section."},
+  {"block":"390e8366","kind":"added","note":"Links the Day-of Instructions and technical primer used by the plan."}
+]
