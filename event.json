@@ -1,16 +1,16 @@
 {
  "event": "version_created",
- "artifact": "CHANGELOG.md",
- "artifact_id": "pp_89c8ab19ff4fd9243ea54406",
- "version": "b8635652",
- "parent": "4e2484ea",
+ "artifact": "README.md",
+ "artifact_id": "pp_556b115de711b0cd33eed260",
+ "version": "5774a9e6",
+ "parent": "73c77c17",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-23T04:53:17+00:00",
+ "ts": "2026-08-23T19:05:03+00:00",
  "stats": {
   "modified": 1,
   "added": 5
@@ -18,54 +18,48 @@
  "changes": [
   {
    "kind": "modified",
-   "block": "ca6a4032",
+   "block": "8fb4a17c",
    "type": "heading",
-   "context": "0.4.0 — 2026-08-23",
-   "numbers": [
-    [
-     "0.3.0",
-     "0.4.0"
-    ]
-   ]
+   "context": "Choose your path"
   },
   {
    "kind": "added",
-   "block": "f86ccfe9",
+   "block": "eac911f1",
+   "type": "table",
+   "context": "Choose your path",
+   "preview": "| If you need to… | Start here |\n|---|---|\n| Verify a docume"
+  },
+  {
+   "kind": "added",
+   "block": "32f0ea79",
    "type": "heading",
-   "context": "Added",
-   "preview": "### Added"
+   "context": "Current focus",
+   "preview": "## Current focus"
   },
   {
    "kind": "added",
-   "block": "bc0bc211",
-   "type": "list",
-   "context": "Added",
-   "preview": "- Verified knowledge ledger CLI: ingest bounded OTLP-style t"
+   "block": "4902cb38",
+   "type": "para",
+   "context": "Current focus",
+   "preview": "Proofpress is validating the developer wedge for trusted con"
   },
   {
    "kind": "added",
-   "block": "de2f1030",
+   "block": "99c9f31b",
+   "type": "para",
+   "context": "Current focus",
+   "preview": "The next proof point is a real design-partner workflow with "
+  },
+  {
+   "kind": "added",
+   "block": "2f4c353f",
    "type": "heading",
-   "context": "Changed",
-   "preview": "### Changed"
-  },
-  {
-   "kind": "added",
-   "block": "94b5cc40",
-   "type": "list",
-   "context": "Changed",
-   "preview": "- npm package messaging now describes Proofpress as verified"
-  },
-  {
-   "kind": "added",
-   "block": "389b1927",
-   "type": "heading",
-   "context": "0.3.0 — 2026-07-31",
-   "preview": "## 0.3.0 — 2026-07-31"
+   "context": "Try Proofpress in two minutes",
+   "preview": "## Try Proofpress in two minutes"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:220e1db79767023c882ac22570e4e4381efd8de1eae1ef51662e6cab31d6f519",
+ "soft_fingerprint": "ppsb1:9181e31a8b8ff274dda0c445525024acc505026a08d798c5df56fe450cfc383e",
  "actors": {
   "requested_by": [
    "human:richard-tang"
@@ -83,33 +77,38 @@
  "attribution_basis": "harness_attested",
  "claims": [
   {
-   "block": "f86ccfe9",
-   "kind": "added",
-   "note": "Add the 0.4.0 release heading."
+   "block": "8fb4a17c",
+   "kind": "modified",
+   "note": "Replace the next quickstart heading with a navigation entry point."
   },
   {
-   "block": "bc0bc211",
+   "block": "eac911f1",
    "kind": "added",
-   "note": "Record the verified knowledge ledger CLI release."
+   "note": "Add task-based navigation between artifact provenance and the knowledge ledger."
   },
   {
-   "block": "de2f1030",
+   "block": "32f0ea79",
    "kind": "added",
-   "note": "Record inclusion of the npm telemetry fixture."
+   "note": "Add a public current-focus heading."
   },
   {
-   "block": "94b5cc40",
+   "block": "4902cb38",
    "kind": "added",
-   "note": "Add the changed-section heading."
+   "note": "State the trusted-continuation developer wedge."
   },
   {
-   "block": "389b1927",
+   "block": "99c9f31b",
    "kind": "added",
-   "note": "Record updated npm package messaging."
+   "note": "State the design-partner proof point and product boundaries."
+  },
+  {
+   "block": "2f4c353f",
+   "kind": "added",
+   "note": "Retain the artifact-provenance quickstart under its new position."
   }
  ],
  "context": {
-  "why": "Record the user-visible 0.4.0 ledger release and package surface."
+  "why": "Make the public repository entry points distinguish artifact provenance from the verified knowledge ledger and publish the current validation focus."
  },
- "event_id": "ppe_16192033e694f040001639bf"
+ "event_id": "ppe_e3591a5e8ecb4aa8dff1781f"
 }
