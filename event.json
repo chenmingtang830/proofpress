@@ -1,41 +1,163 @@
 {
  "event": "version_created",
- "artifact": "docs/README.md",
- "artifact_id": "pp_4e50106dcbfad18e3ab0668c",
- "version": "2458de7b",
- "parent": "88dcc1ad",
+ "artifact": "docs/VERIFIED_KNOWLEDGE_LEDGER.md",
+ "artifact_id": "pp_44546a1bf18752db34bc1eb7",
+ "version": "a75df813",
+ "parent": null,
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-23T19:05:07+00:00",
+ "ts": "2026-08-23T19:05:19+00:00",
  "stats": {
-  "modified": 3
+  "added": 20
  },
  "changes": [
   {
-   "kind": "modified",
-   "block": "c6e0b8d1",
+   "kind": "added",
+   "block": "87dd93fc",
+   "type": "heading",
+   "context": "Verified Knowledge Ledger",
+   "preview": "# Verified Knowledge Ledger"
+  },
+  {
+   "kind": "added",
+   "block": "b71e5de6",
+   "type": "para",
+   "context": "Verified Knowledge Ledger",
+   "preview": "> Status: implemented developer wedge in `proofpress@0.4.0`."
+  },
+  {
+   "kind": "added",
+   "block": "24505103",
+   "type": "heading",
+   "context": "What it is",
+   "preview": "## What it is"
+  },
+  {
+   "kind": "added",
+   "block": "1e12da99",
+   "type": "para",
+   "context": "What it is",
+   "preview": "The verified knowledge ledger turns **bounded** agent teleme"
+  },
+  {
+   "kind": "added",
+   "block": "e2507278",
    "type": "table",
-   "context": "Proofpress documentation"
+   "context": "What it is",
+   "preview": "| Layer | Primary question |\n|---|---|\n| Logs, traces, commi"
   },
   {
-   "kind": "modified",
-   "block": "717c12e2",
+   "kind": "added",
+   "block": "a0ce3955",
    "type": "para",
-   "context": "Proofpress documentation"
+   "context": "What it is",
+   "preview": "**Memory is retrieval. Ontology is structure. Proofpress is "
   },
   {
-   "kind": "modified",
-   "block": "aef7f16a",
+   "kind": "added",
+   "block": "5e5ed818",
    "type": "para",
-   "context": "Proofpress documentation"
+   "context": "What it is",
+   "preview": "The ledger does not make a claim universally true. It record"
+  },
+  {
+   "kind": "added",
+   "block": "7a1cac9c",
+   "type": "heading",
+   "context": "Current workflow",
+   "preview": "## Current workflow"
+  },
+  {
+   "kind": "added",
+   "block": "c3d2a28d",
+   "type": "code",
+   "context": "Current workflow",
+   "preview": "```text\nbounded OTLP-style telemetry or artifact\n  → immutab"
+  },
+  {
+   "kind": "added",
+   "block": "2ef561dc",
+   "type": "para",
+   "context": "Current workflow",
+   "preview": "The reference fixture is\n[`examples/verified-knowledge-ledge"
+  },
+  {
+   "kind": "added",
+   "block": "5c8c136b",
+   "type": "code",
+   "context": "Current workflow",
+   "preview": "```sh\nproofpress knowledge ingest demo.otlp.json -o ledger.j"
+  },
+  {
+   "kind": "added",
+   "block": "58bffc74",
+   "type": "para",
+   "context": "Current workflow",
+   "preview": "`context` returns only admitted, current, in-scope knowledge"
+  },
+  {
+   "kind": "added",
+   "block": "5d269544",
+   "type": "heading",
+   "context": "Relationship to artifact provenance",
+   "preview": "## Relationship to artifact provenance"
+  },
+  {
+   "kind": "added",
+   "block": "1acc88ee",
+   "type": "para",
+   "context": "Relationship to artifact provenance",
+   "preview": "Artifact provenance remains the portable trust primitive: it"
+  },
+  {
+   "kind": "added",
+   "block": "067a97a0",
+   "type": "para",
+   "context": "Relationship to artifact provenance",
+   "preview": "The two surfaces are compatible. A portable artifact can be "
+  },
+  {
+   "kind": "added",
+   "block": "d228259c",
+   "type": "heading",
+   "context": "Non-goals",
+   "preview": "## Non-goals"
+  },
+  {
+   "kind": "added",
+   "block": "9a909f30",
+   "type": "list",
+   "context": "Non-goals",
+   "preview": "- Not a full OpenTelemetry collector or real-time trace back"
+  },
+  {
+   "kind": "added",
+   "block": "b47338ab",
+   "type": "heading",
+   "context": "Evidence boundary and current focus",
+   "preview": "## Evidence boundary and current focus"
+  },
+  {
+   "kind": "added",
+   "block": "b324002e",
+   "type": "para",
+   "context": "Evidence boundary and current focus",
+   "preview": "In the published controlled agent-handoff study, ordinary ha"
+  },
+  {
+   "kind": "added",
+   "block": "c8235573",
+   "type": "para",
+   "context": "Evidence boundary and current focus",
+   "preview": "The next public proof point is a design-partner workflow: se"
   }
  ],
- "policy": "portable",
- "soft_fingerprint": "ppsb1:9bd32d235a7464c6dd8cf486bb80893c000574febb2274dade3f5b57cdc77bd4",
+ "policy": "local",
+ "soft_fingerprint": "ppsb1:84ffcb2f75b555b9fbecee8f5424112a5f5b3d3492b859ded8efa3be48d9fd1d",
  "actors": {
   "requested_by": [
    "human:richard-tang"
@@ -53,23 +175,108 @@
  "attribution_basis": "harness_attested",
  "claims": [
   {
-   "block": "c6e0b8d1",
-   "kind": "modified",
-   "note": "Add the verified knowledge ledger to the public documentation navigation."
+   "block": "87dd93fc",
+   "kind": "added",
+   "note": "Add the verified knowledge ledger overview title."
   },
   {
-   "block": "717c12e2",
-   "kind": "modified",
-   "note": "Distinguish normative protocol documents from the developer wedge."
+   "block": "b71e5de6",
+   "kind": "added",
+   "note": "Declare developer-wedge status and compatibility boundary."
   },
   {
-   "block": "aef7f16a",
-   "kind": "modified",
-   "note": "Clarify public trust and efficacy boundaries."
+   "block": "24505103",
+   "kind": "added",
+   "note": "Introduce the product scope."
+  },
+  {
+   "block": "1e12da99",
+   "kind": "added",
+   "note": "Describe bounded telemetry as the input to candidate knowledge."
+  },
+  {
+   "block": "e2507278",
+   "kind": "added",
+   "note": "Define the observability, memory, and trust-layer distinction."
+  },
+  {
+   "block": "a0ce3955",
+   "kind": "added",
+   "note": "State the memory, ontology, and trust positioning."
+  },
+  {
+   "block": "5e5ed818",
+   "kind": "added",
+   "note": "State the evidence and lifecycle boundary."
+  },
+  {
+   "block": "7a1cac9c",
+   "kind": "added",
+   "note": "Introduce the current workflow."
+  },
+  {
+   "block": "c3d2a28d",
+   "kind": "added",
+   "note": "Document the telemetry-to-governed-context flow."
+  },
+  {
+   "block": "2ef561dc",
+   "kind": "added",
+   "note": "Link the reference fixture."
+  },
+  {
+   "block": "5c8c136b",
+   "kind": "added",
+   "note": "Document the CLI walkthrough."
+  },
+  {
+   "block": "58bffc74",
+   "kind": "added",
+   "note": "Document context projection semantics."
+  },
+  {
+   "block": "5d269544",
+   "kind": "added",
+   "note": "Introduce the relationship to artifact provenance."
+  },
+  {
+   "block": "1acc88ee",
+   "kind": "added",
+   "note": "Explain the portable trust primitive."
+  },
+  {
+   "block": "067a97a0",
+   "kind": "added",
+   "note": "Explain compatibility between the two surfaces."
+  },
+  {
+   "block": "d228259c",
+   "kind": "added",
+   "note": "Introduce non-goals."
+  },
+  {
+   "block": "9a909f30",
+   "kind": "added",
+   "note": "List the product non-goals."
+  },
+  {
+   "block": "b47338ab",
+   "kind": "added",
+   "note": "Introduce evidence and current-focus boundaries."
+  },
+  {
+   "block": "b324002e",
+   "kind": "added",
+   "note": "State the bounded handoff-study evidence."
+  },
+  {
+   "block": "c8235573",
+   "kind": "added",
+   "note": "State the next design-partner proof point."
   }
  ],
  "context": {
-  "why": "Add the ledger developer overview to public documentation navigation while preserving protocol boundaries."
+  "why": "Publish a scoped developer overview of the verified knowledge ledger, its workflow, evidence boundary, and non-goals."
  },
- "event_id": "ppe_0320c4dc7ef1507edf30e0ce"
+ "event_id": "ppe_ed793a077247f32d6047d566"
 }

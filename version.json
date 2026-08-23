@@ -1,36 +1,126 @@
 {
- "artifact": "docs/README.md",
- "artifact_id": "pp_4e50106dcbfad18e3ab0668c",
+ "artifact": "docs/VERIFIED_KNOWLEDGE_LEDGER.md",
+ "artifact_id": "pp_44546a1bf18752db34bc1eb7",
  "blocks": [
   {
    "type": "heading",
-   "text": "# Proofpress documentation",
-   "id": "d16948ea",
-   "hash": "0cf5e1750c41"
+   "text": "# Verified Knowledge Ledger",
+   "id": "87dd93fc",
+   "hash": "33975087e725"
   },
   {
    "type": "para",
-   "text": "Start with the path that matches your task:",
-   "id": "aeed01a6",
-   "hash": "3cd6db57faed"
+   "text": "> Status: implemented developer wedge in `proofpress@0.4.0`. This overview\n> describes the current CLI and fixture. It is not yet a frozen interchange\n> specification or a claim of general long-horizon agent efficacy.",
+   "id": "b71e5de6",
+   "hash": "e6ab33104cc0"
+  },
+  {
+   "type": "heading",
+   "text": "## What it is",
+   "id": "24505103",
+   "hash": "2a4105580934"
+  },
+  {
+   "type": "para",
+   "text": "The verified knowledge ledger turns **bounded** agent telemetry or artifacts\ninto candidate knowledge that a later human or agent can inspect before relying\non it. It is the trust layer above observability and memory:",
+   "id": "1e12da99",
+   "hash": "02fdcbd71b18"
   },
   {
    "type": "table",
-   "text": "| I want to… | Open |\n|---|---|\n| Try a portable handoff | [Five-minute demo](../examples/portable-handoff/) |\n| Implement or verify the protocol | [Portable Artifact V1 contract](PORTABLE_ARTIFACT_SPEC.md) |\n| Bind provenance to any artifact type | [Artifact Provenance Protocol](ARTIFACT_PROVENANCE_PROTOCOL.md) |\n| Carry actionable handoff decisions | [Artifact Provenance Protocol — admitted decisions](ARTIFACT_PROVENANCE_PROTOCOL.md#41-admitted-decisions) |\n| Turn bounded agent telemetry into governed context | [Verified Knowledge Ledger](VERIFIED_KNOWLEDGE_LEDGER.md) |\n| Decide what may be disclosed | [Privacy Boundaries](PRIVACY_AND_DISCLOSURE.md) |\n| Answer common trust and workflow questions | [FAQ](FAQ.md) |\n| Connect an agent harness | [Agent adapters](../skills/) |",
-   "id": "c6e0b8d1",
-   "hash": "11c7f18e0fea"
+   "text": "| Layer | Primary question |\n|---|---|\n| Logs, traces, commits, artifacts | What happened? |\n| Memory and ontology | What does the system remember and how is it structured? |\n| Proofpress | What may be relied on, why, by whom, and within what scope? |",
+   "id": "e2507278",
+   "hash": "c16f27ff4e57"
   },
   {
    "type": "para",
-   "text": "The zero-dependency [`proofpress.py`](../proofpress.py) CLI is the reference\nimplementation. Portable artifact and provenance documents are normative only\nwhere they say so. The verified knowledge ledger is an implemented developer\nwedge, not yet a frozen interchange specification.",
-   "id": "717c12e2",
-   "hash": "3421c0c7586d"
+   "text": "**Memory is retrieval. Ontology is structure. Proofpress is trust.**",
+   "id": "a0ce3955",
+   "hash": "f308a6370ce5"
   },
   {
    "type": "para",
-   "text": "Proofpress provides a checkable record, not signed authorship, complete\ncapture, or a universal truth oracle. Product strategy and experimental\nefficacy claims remain outside the public protocol contract.",
-   "id": "aef7f16a",
-   "hash": "494edb75edff"
+   "text": "The ledger does not make a claim universally true. It records the source,\nselected evidence, declared policy, review receipt, lifecycle state, scope, and\nexpiry or supersession semantics that determine whether an organization may\nreuse it.",
+   "id": "5e5ed818",
+   "hash": "ad1ce653d54b"
+  },
+  {
+   "type": "heading",
+   "text": "## Current workflow",
+   "id": "7a1cac9c",
+   "hash": "bf9ff351f781"
+  },
+  {
+   "type": "code",
+   "text": "```text\nbounded OTLP-style telemetry or artifact\n  → immutable source events and selected evidence\n  → candidate claims\n  → deterministic checks + policy recommendation + human review\n  → governed current context for a fresh human or agent\n```",
+   "id": "c3d2a28d",
+   "hash": "f24cf72b29c7"
+  },
+  {
+   "type": "para",
+   "text": "The reference fixture is\n[`examples/verified-knowledge-ledger/demo.otlp.json`](../examples/verified-knowledge-ledger/demo.otlp.json).",
+   "id": "2ef561dc",
+   "hash": "5c356dee5eda"
+  },
+  {
+   "type": "code",
+   "text": "```sh\nproofpress knowledge ingest demo.otlp.json -o ledger.json \\\n  --scope demo --proposer agent:experiment-runner\nproofpress knowledge policy-review ledger.json --claim CLAIM_ID\nproofpress knowledge review ledger.json --claim CLAIM_ID \\\n  --decision accept --reviewer human:reviewer\nproofpress knowledge context ledger.json --scope demo\nproofpress knowledge verify ledger.json\n```",
+   "id": "5c8c136b",
+   "hash": "c03e4785e7ed"
+  },
+  {
+   "type": "para",
+   "text": "`context` returns only admitted, current, in-scope knowledge. Rejected,\nunresolved, expired, and superseded candidates remain in the audit history but\nare excluded by default. `view` emits a stable graph read model; `materialize`\nwrites a Markdown projection.",
+   "id": "58bffc74",
+   "hash": "3791b5943bb7"
+  },
+  {
+   "type": "heading",
+   "text": "## Relationship to artifact provenance",
+   "id": "5d269544",
+   "hash": "e349ce5fb217"
+  },
+  {
+   "type": "para",
+   "text": "Artifact provenance remains the portable trust primitive: it binds a durable\nartifact to revision history, evidence, actors, and decisions. The knowledge\nledger generalizes the same trust semantics across bounded workflow activity so\nthat a fresh agent can start from governed conclusions rather than raw context.",
+   "id": "1acc88ee",
+   "hash": "da878ede0366"
+  },
+  {
+   "type": "para",
+   "text": "The two surfaces are compatible. A portable artifact can be a materialized view\nof governed knowledge; it does not need to carry the full telemetry graph.",
+   "id": "067a97a0",
+   "hash": "044e0271e257"
+  },
+  {
+   "type": "heading",
+   "text": "## Non-goals",
+   "id": "d228259c",
+   "hash": "fb9224d45fa9"
+  },
+  {
+   "type": "list",
+   "text": "- Not a full OpenTelemetry collector or real-time trace backend.\n- Not a generic RAG, company brain, or replacement for memory.\n- Not a semantic truth oracle or a guarantee that every relevant event was\n  captured.\n- Not a complete RBAC, connector marketplace, or hosted governance service.\n- Not evidence of general agent capability improvement.",
+   "id": "9a909f30",
+   "hash": "d0dc52ed70ef"
+  },
+  {
+   "type": "heading",
+   "text": "## Evidence boundary and current focus",
+   "id": "b47338ab",
+   "hash": "fea7cb66065a"
+  },
+  {
+   "type": "para",
+   "text": "In the published controlled agent-handoff study, ordinary handoff reused stale\nwork in 12/12 trials and Proofpress-assisted handoff did so in 0/12; both\nconditions continued unchanged work correctly in 12/12 trials. This supports a\nversion-checking mechanism on that task, not a general product-efficacy claim.\nSee the [open study package](../studies/agent-handoff-artifact-provenance/README.md).",
+   "id": "b324002e",
+   "hash": "6b406a3083c2"
+  },
+  {
+   "type": "para",
+   "text": "The next public proof point is a design-partner workflow: select two to five\nconclusions from a real long-horizon or multi-agent run, bind them to evidence,\napply the review path, and measure whether governed context changes the next\ndecision. Until then, finance and agentic-commerce interfaces are illustrative\nproduct fixtures, not customer validation.",
+   "id": "c8235573",
+   "hash": "7420e8345340"
   }
  ]
 }
