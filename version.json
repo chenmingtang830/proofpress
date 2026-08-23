@@ -124,15 +124,15 @@
   },
   {
    "type": "heading",
-   "text": "<h2 class=\"section-title\">The same trust contract.<span>A different operational surface.</span></h2>",
+   "text": "<h2 class=\"section-title\">A $1,234.50 offer survived four agents.<span>Its provenance did not.</span></h2>",
    "id": "c2ec8e67",
-   "hash": "7a674a1d7be0"
+   "hash": "a7db062027a2"
   },
   {
    "type": "para",
-   "text": "<p class=\"tour-lede\">Commerce is not another finance graph. It is a telemetry-to-trusted-action view across policy, payment, fulfillment, and disputes.</p>",
+   "text": "<p class=\"tour-lede\">Proofpress turns every agent handoff into an evidence-bound trust receipt—so the next agent can prove what it inherited.</p>",
    "id": "9a956087",
-   "hash": "747e1cf461ca"
+   "hash": "1e2fcd30f179"
   },
   {
    "type": "heading",
