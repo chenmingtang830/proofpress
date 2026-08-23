@@ -1,16 +1,16 @@
 {
  "event": "version_created",
- "artifact": "README.md",
- "artifact_id": "pp_556b115de711b0cd33eed260",
- "version": "73c77c17",
- "parent": "d7d442b8",
+ "artifact": "CHANGELOG.md",
+ "artifact_id": "pp_89c8ab19ff4fd9243ea54406",
+ "version": "b8635652",
+ "parent": "4e2484ea",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-23T04:53:12+00:00",
+ "ts": "2026-08-23T04:53:17+00:00",
  "stats": {
   "modified": 1,
   "added": 5
@@ -18,48 +18,54 @@
  "changes": [
   {
    "kind": "modified",
-   "block": "e667d986",
-   "type": "para",
-   "context": "Proofpress"
-  },
-  {
-   "kind": "added",
-   "block": "815b673d",
-   "type": "para",
-   "context": "Proofpress",
-   "preview": "Proofpress also includes a **verified knowledge ledger** for"
-  },
-  {
-   "kind": "added",
-   "block": "4ccd51b9",
+   "block": "ca6a4032",
    "type": "heading",
-   "context": "Verified knowledge ledger quickstart",
-   "preview": "## Verified knowledge ledger quickstart"
+   "context": "0.4.0 — 2026-08-23",
+   "numbers": [
+    [
+     "0.3.0",
+     "0.4.0"
+    ]
+   ]
   },
   {
    "kind": "added",
-   "block": "460f8108",
-   "type": "para",
-   "context": "Verified knowledge ledger quickstart",
-   "preview": "Bring a bounded OpenTelemetry-style JSON export. The sample "
+   "block": "f86ccfe9",
+   "type": "heading",
+   "context": "Added",
+   "preview": "### Added"
   },
   {
    "kind": "added",
-   "block": "8b9b3369",
-   "type": "code",
-   "context": "Verified knowledge ledger quickstart",
-   "preview": "```sh\nnpx --no-install proofpress knowledge ingest \\\n  node_"
+   "block": "bc0bc211",
+   "type": "list",
+   "context": "Added",
+   "preview": "- Verified knowledge ledger CLI: ingest bounded OTLP-style t"
   },
   {
    "kind": "added",
-   "block": "20fbea6e",
-   "type": "para",
-   "context": "Verified knowledge ledger quickstart",
-   "preview": "`context` excludes rejected, unresolved, expired, and supers"
+   "block": "de2f1030",
+   "type": "heading",
+   "context": "Changed",
+   "preview": "### Changed"
+  },
+  {
+   "kind": "added",
+   "block": "94b5cc40",
+   "type": "list",
+   "context": "Changed",
+   "preview": "- npm package messaging now describes Proofpress as verified"
+  },
+  {
+   "kind": "added",
+   "block": "389b1927",
+   "type": "heading",
+   "context": "0.3.0 — 2026-07-31",
+   "preview": "## 0.3.0 — 2026-07-31"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:2c5745b6dcc294654dcb2ebd74e9e4697367dd9c7dfc696736236ac70b886d2f",
+ "soft_fingerprint": "ppsb1:220e1db79767023c882ac22570e4e4381efd8de1eae1ef51662e6cab31d6f519",
  "actors": {
   "requested_by": [
    "human:richard-tang"
@@ -77,38 +83,33 @@
  "attribution_basis": "harness_attested",
  "claims": [
   {
-   "block": "e667d986",
-   "kind": "modified",
-   "note": "Update public product positioning to verified knowledge infrastructure."
+   "block": "f86ccfe9",
+   "kind": "added",
+   "note": "Add the 0.4.0 release heading."
   },
   {
-   "block": "815b673d",
+   "block": "bc0bc211",
    "kind": "added",
-   "note": "Introduce the verified knowledge ledger capability and scope boundary."
+   "note": "Record the verified knowledge ledger CLI release."
   },
   {
-   "block": "4ccd51b9",
+   "block": "de2f1030",
    "kind": "added",
-   "note": "Add an installable OTLP-to-governed-context quickstart."
+   "note": "Record inclusion of the npm telemetry fixture."
   },
   {
-   "block": "460f8108",
+   "block": "94b5cc40",
    "kind": "added",
-   "note": "Document policy and human review commands."
+   "note": "Add the changed-section heading."
   },
   {
-   "block": "8b9b3369",
+   "block": "389b1927",
    "kind": "added",
-   "note": "Document current-context safety semantics."
-  },
-  {
-   "block": "20fbea6e",
-   "kind": "added",
-   "note": "Link to the full local ledger walkthrough."
+   "note": "Record updated npm package messaging."
   }
  ],
  "context": {
-  "why": "Document the 0.4.0 verified knowledge ledger wedge and reproducible developer quickstart."
+  "why": "Record the user-visible 0.4.0 ledger release and package surface."
  },
- "event_id": "ppe_bd2efc04e113768b56d7f4fb"
+ "event_id": "ppe_16192033e694f040001639bf"
 }
