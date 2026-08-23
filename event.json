@@ -1,197 +1,235 @@
 {
  "event": "version_created",
- "artifact": "examples/verified-knowledge-ledger/demo.partner-style.html",
- "artifact_id": "pp_c5949563fc662476994db4f8",
- "version": "09327eeb",
- "parent": "ee2f6fc4",
+ "artifact": "docs/internal/DESIGN.md",
+ "artifact_id": "pp_d0d37230a5f87d707a339766",
+ "version": "6f2a3e17",
+ "parent": "931c7add",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-23T00:12:06+00:00",
+ "ts": "2026-08-23T00:23:26+00:00",
  "stats": {
-  "added": 11,
-  "modified": 2
+  "modified": 17
  },
  "changes": [
   {
-   "kind": "added",
-   "block": "67be4882",
+   "kind": "modified",
+   "block": "ae580676",
    "type": "heading",
-   "context": "<h2>100+ events.<span>Which conclusion c",
-   "preview": "<h2>100+ events.<span>Which conclusion can the next agent tr"
-  },
-  {
-   "kind": "added",
-   "block": "fa689308",
-   "type": "para",
-   "context": "<h2>100+ events.<span>Which conclusion c",
-   "preview": "<p class=\"tour-lede\">Long-horizon work outlives one context "
-  },
-  {
-   "kind": "added",
-   "block": "9b7bc598",
-   "type": "heading",
-   "context": "<h2>Activity becomes context.<span>Conte",
-   "preview": "<h2>Activity becomes context.<span>Context still needs gover"
-  },
-  {
-   "kind": "added",
-   "block": "093934d3",
-   "type": "heading",
-   "context": "<h3>Observability</h3>",
-   "preview": "<h3>Observability</h3>"
-  },
-  {
-   "kind": "added",
-   "block": "31c19cab",
-   "type": "para",
-   "context": "<h3>Observability</h3>",
-   "preview": "<p>Logs, tool calls, traces, and spans record what happened "
-  },
-  {
-   "kind": "added",
-   "block": "b4b90585",
-   "type": "heading",
-   "context": "<h3>Memory + ontology</h3>",
-   "preview": "<h3>Memory + ontology</h3>"
-  },
-  {
-   "kind": "added",
-   "block": "676412d2",
-   "type": "para",
-   "context": "<h3>Memory + ontology</h3>",
-   "preview": "<p>Systems such as Stash help agents learn across rollouts a"
-  },
-  {
-   "kind": "added",
-   "block": "e2163537",
-   "type": "heading",
-   "context": "<h3>Proofpress</h3>",
-   "preview": "<h3>Proofpress</h3>"
-  },
-  {
-   "kind": "added",
-   "block": "4a6c7b6e",
-   "type": "para",
-   "context": "<h3>Proofpress</h3>",
-   "preview": "<p>Evidence, scope, review, lifecycle, and provenance govern"
-  },
-  {
-   "kind": "added",
-   "block": "e3cb86a6",
-   "type": "heading",
-   "context": "<h2>Cumulative knowledge<span>humans and",
-   "preview": "<h2>Cumulative knowledge<span>humans and agents can safely b"
-  },
-  {
-   "kind": "added",
-   "block": "e2b8e473",
-   "type": "para",
-   "context": "<h2>Cumulative knowledge<span>humans and",
-   "preview": "<p class=\"event-source\">COLLABORATION EXAMPLE · COFRAME H3 G"
+   "context": "Proofpress Design System — Review Surfac"
   },
   {
    "kind": "modified",
-   "block": "26127b71",
-   "type": "heading",
-   "context": "<h1>THE WORK OUTLIVED THE CONTEXT.<span>"
+   "block": "4565936e",
+   "type": "para",
+   "context": "Proofpress Design System — Review Surfac"
   },
   {
    "kind": "modified",
-   "block": "59111a7d",
+   "block": "9787677e",
    "type": "para",
-   "context": "<h1>THE WORK OUTLIVED THE CONTEXT.<span>"
+   "context": "Proofpress Design System — Review Surfac"
+  },
+  {
+   "kind": "modified",
+   "block": "7056876e",
+   "type": "heading",
+   "context": "Color Tokens"
+  },
+  {
+   "kind": "modified",
+   "block": "451376f2",
+   "type": "table",
+   "context": "Color Tokens"
+  },
+  {
+   "kind": "modified",
+   "block": "a8d606fe",
+   "type": "para",
+   "context": "Color Tokens"
+  },
+  {
+   "kind": "modified",
+   "block": "eeee2405",
+   "type": "para",
+   "context": "Color Tokens"
+  },
+  {
+   "kind": "modified",
+   "block": "f49db722",
+   "type": "heading",
+   "context": "Typography"
+  },
+  {
+   "kind": "modified",
+   "block": "53b8c3a4",
+   "type": "list",
+   "context": "Typography",
+   "numbers": [
+    [
+     "1.75",
+     "1.75."
+    ]
+   ]
+  },
+  {
+   "kind": "modified",
+   "block": "46a56fa1",
+   "type": "heading",
+   "context": "Layout"
+  },
+  {
+   "kind": "modified",
+   "block": "8aa0ba5a",
+   "type": "list",
+   "context": "Layout"
+  },
+  {
+   "kind": "modified",
+   "block": "f43f7a30",
+   "type": "heading",
+   "context": "Components"
+  },
+  {
+   "kind": "modified",
+   "block": "0287d639",
+   "type": "list",
+   "context": "Components"
+  },
+  {
+   "kind": "modified",
+   "block": "7578205b",
+   "type": "heading",
+   "context": "Feedback State Machine (Page Copy Follow"
+  },
+  {
+   "kind": "modified",
+   "block": "aae4f716",
+   "type": "para",
+   "context": "Feedback State Machine (Page Copy Follow"
+  },
+  {
+   "kind": "modified",
+   "block": "300ee19f",
+   "type": "heading",
+   "context": "Voice and Language"
+  },
+  {
+   "kind": "modified",
+   "block": "cab7f711",
+   "type": "para",
+   "context": "Voice and Language"
   }
  ],
- "policy": "portable",
- "soft_fingerprint": "ppsb1:ebbd8716f488d05c5eec76f96413a911ad3bdbe8acc204f234223093cacca790",
+ "policy": "local",
+ "soft_fingerprint": "ppsb1:bcf4891598f29a11bc3a059c6915b1b2a7531e5964f27b56609a4fb7533ccfb2",
  "actors": {
   "requested_by": [
-   "user:richardtang"
+   "Richard"
   ],
   "produced_by": [
-   "agent:codex"
+   "Codex"
   ],
   "edited_by": [
-   "agent:codex"
+   "Codex"
   ],
   "recorded_by": [
-   "agent:codex"
+   "Codex"
   ]
  },
- "attribution_basis": "self_asserted",
+ "attribution_basis": "environment_attested",
  "claims": [
   {
-   "block": "67be4882",
-   "kind": "added",
-   "note": "Added the opening handoff question for the three-minute guided demo."
-  },
-  {
-   "block": "fa689308",
-   "kind": "added",
-   "note": "Explains why a raw trace or unverified summary is insufficient for a fresh agent."
-  },
-  {
-   "block": "9b7bc598",
-   "kind": "added",
-   "note": "Introduces governance as the missing layer above accumulated context."
-  },
-  {
-   "block": "093934d3",
-   "kind": "added",
-   "note": "Names observability as the bottom layer of the trust stack."
-  },
-  {
-   "block": "31c19cab",
-   "kind": "added",
-   "note": "Defines observability as the record of trajectory activity."
-  },
-  {
-   "block": "b4b90585",
-   "kind": "added",
-   "note": "Names memory and ontology as the middle layer of the trust stack."
-  },
-  {
-   "block": "676412d2",
-   "kind": "added",
-   "note": "Uses Stash as a complementary example of cross-rollout memory."
-  },
-  {
-   "block": "e2163537",
-   "kind": "added",
-   "note": "Names Proofpress as the trust layer."
-  },
-  {
-   "block": "4a6c7b6e",
-   "kind": "added",
-   "note": "Defines Proofpress governance in terms of evidence, scope, review, lifecycle, and provenance."
-  },
-  {
-   "block": "e3cb86a6",
-   "kind": "added",
-   "note": "Adds the closing promise of cumulative knowledge safe for humans and agents."
-  },
-  {
-   "block": "e2b8e473",
-   "kind": "added",
-   "note": "Frames Coframe growth traces as a collaboration integration example."
-  },
-  {
-   "block": "26127b71",
+   "block": "ae580676",
    "kind": "modified",
-   "note": "Replaced the technical hero with the fresh-agent trust question."
+   "note": "Translated the design-system title into English."
   },
   {
-   "block": "59111a7d",
+   "block": "4565936e",
    "kind": "modified",
-   "note": "Defines the product outcome as evidence-bound, governed, inheritable conclusions."
+   "note": "Translated the archival status and cross-interface brand-language note."
+  },
+  {
+   "block": "9787677e",
+   "kind": "modified",
+   "note": "Translated the core paper-and-ink ledger direction."
+  },
+  {
+   "block": "7056876e",
+   "kind": "modified",
+   "note": "Translated the color-token section heading."
+  },
+  {
+   "block": "451376f2",
+   "kind": "modified",
+   "note": "Translated the color-token table labels and usage descriptions."
+  },
+  {
+   "block": "a8d606fe",
+   "kind": "modified",
+   "note": "Translated the canonical dark-palette rule and semantic-color guidance."
+  },
+  {
+   "block": "eeee2405",
+   "kind": "modified",
+   "note": "Translated the GitHub PR comment fallback mapping and Action metadata clarification."
+  },
+  {
+   "block": "f49db722",
+   "kind": "modified",
+   "note": "Translated the typography section heading."
+  },
+  {
+   "block": "53b8c3a4",
+   "kind": "modified",
+   "note": "Translated the typography specifications."
+  },
+  {
+   "block": "46a56fa1",
+   "kind": "modified",
+   "note": "Translated the layout section heading."
+  },
+  {
+   "block": "8aa0ba5a",
+   "kind": "modified",
+   "note": "Translated the layout specifications."
+  },
+  {
+   "block": "f43f7a30",
+   "kind": "modified",
+   "note": "Translated the components section heading."
+  },
+  {
+   "block": "0287d639",
+   "kind": "modified",
+   "note": "Translated the component specifications."
+  },
+  {
+   "block": "7578205b",
+   "kind": "modified",
+   "note": "Translated the feedback state-machine heading."
+  },
+  {
+   "block": "aae4f716",
+   "kind": "modified",
+   "note": "Translated the feedback state-machine copy and plain-language requirement."
+  },
+  {
+   "block": "300ee19f",
+   "kind": "modified",
+   "note": "Translated the voice-and-language section heading."
+  },
+  {
+   "block": "cab7f711",
+   "kind": "modified",
+   "note": "Translated the product vocabulary and English-source-language rule."
   }
  ],
  "context": {
-  "why": "Add a three-minute guided layer to the existing product demo while preserving the interactive workbench and separating effect, product, and extension proof."
+  "why": "Translate the existing internal Proofpress design system into English so it can serve as the shared reference for the repository and English-first product surfaces."
  },
- "event_id": "ppe_c5fe211f22b2ff9cbfc913c9"
+ "event_id": "ppe_3caddfa9a515a9e9304d3ac5"
 }
