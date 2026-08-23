@@ -16,9 +16,9 @@
   },
   {
    "type": "heading",
-   "text": "<h2 class=\"section-title\">Agents remember more.<span>But memory is not trust.</span></h2>",
+   "text": "<h2 class=\"section-title\">Small errors compound.<span>Memory can preserve the wrong state.</span></h2>",
    "id": "9b7bc598",
-   "hash": "e4811b7646a1"
+   "hash": "d49182bdba4b"
   },
   {
    "type": "heading",
@@ -28,9 +28,9 @@
   },
   {
    "type": "para",
-   "text": "<p>What happened?</p>",
+   "text": "<p>What happened across the trajectory?</p>",
    "id": "31c19cab",
-   "hash": "f328451e5294"
+   "hash": "3a05416657cd"
   },
   {
    "type": "heading",
@@ -40,9 +40,9 @@
   },
   {
    "type": "para",
-   "text": "<p>What should be carried forward?</p>",
+   "text": "<p>What does the system remember—and how is it organized?</p>",
    "id": "676412d2",
-   "hash": "94d26c97d5bf"
+   "hash": "866b65c92da9"
   },
   {
    "type": "heading",
@@ -52,9 +52,9 @@
   },
   {
    "type": "para",
-   "text": "<p>What may be relied on—and why?</p>",
+   "text": "<p>Who did what, why—and why should we trust it?</p>",
    "id": "4a6c7b6e",
-   "hash": "f8784456631a"
+   "hash": "53d0e4d97f17"
   },
   {
    "type": "heading",
@@ -100,9 +100,9 @@
   },
   {
    "type": "para",
-   "text": "<p>The analyst sees the conclusion and its trust state in the same workflow.</p>",
+   "text": "<p>The analyst gets one current, approved view—not the organization's entire review queue.</p>",
    "id": "24a1ba3d",
-   "hash": "bb3adef07ddc"
+   "hash": "f9a5afda002b"
   },
   {
    "type": "heading",
@@ -112,51 +112,15 @@
   },
   {
    "type": "para",
-   "text": "<p>Run, evidence, reviewer, and scope travel with the conclusion.</p>",
+   "text": "<p>Evidence, verifier, reviewer, scope, and version travel with this conclusion.</p>",
    "id": "d007e1f1",
-   "hash": "22fbbdce1a19"
+   "hash": "d48ebbdc9628"
   },
   {
    "type": "heading",
-   "text": "<h3>Fable 5</h3>",
-   "id": "19c1161d",
-   "hash": "66cdd8673336"
-  },
-  {
-   "type": "para",
-   "text": "<p>53.2% · evidence complete</p>",
-   "id": "d3505b5d",
-   "hash": "f284d0f0b056"
-  },
-  {
-   "type": "heading",
-   "text": "<h3>Opus 4.8</h3>",
-   "id": "7dd720db",
-   "hash": "a7d4a5591a7f"
-  },
-  {
-   "type": "para",
-   "text": "<p>51.2% · evidence complete</p>",
-   "id": "0c0a98c5",
-   "hash": "87fea930cd8e"
-  },
-  {
-   "type": "heading",
-   "text": "<h3>GLM-4.7</h3>",
-   "id": "231125c5",
-   "hash": "d22c26866658"
-  },
-  {
-   "type": "para",
-   "text": "<p>8.7% · incomplete evidence</p>",
-   "id": "cc5c1ebe",
-   "hash": "82beab6c0c67"
-  },
-  {
-   "type": "heading",
-   "text": "<h3>What enters shared knowledge?</h3>",
+   "text": "<h3>What enters shared finance knowledge?</h3>",
    "id": "d02ce2d7",
-   "hash": "295fdbd67643"
+   "hash": "a92a4f3414f0"
   },
   {
    "type": "heading",
@@ -172,9 +136,9 @@
   },
   {
    "type": "heading",
-   "text": "<h2>From autonomous agents<span>to self-improving companies.</span></h2>",
+   "text": "<h2>From autonomous agents<span>to trusted recursive self-improvement.</span></h2>",
    "id": "e3cb86a6",
-   "hash": "c2613f4dbdf6"
+   "hash": "f45d5ab5ae4b"
   },
   {
    "type": "heading",

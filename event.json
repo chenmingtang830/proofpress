@@ -2,39 +2,25 @@
  "event": "version_created",
  "artifact": "examples/verified-knowledge-ledger/demo.partner-style.html",
  "artifact_id": "pp_c5949563fc662476994db4f8",
- "version": "3325b4f8",
- "parent": "c6fec88e",
+ "version": "587eb15b",
+ "parent": "3325b4f8",
  "author": {
   "name": "Codex",
   "kind": "agent",
   "session": null
  },
  "note": null,
- "ts": "2026-08-23T02:06:59+00:00",
+ "ts": "2026-08-23T02:21:42+00:00",
  "stats": {
-  "modified": 11,
-  "added": 2,
-  "removed": 8
+  "modified": 8,
+  "removed": 6
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "67be4882",
-   "type": "heading",
-   "context": "<h2>The verified knowledge ledger<span>f"
-  },
-  {
-   "kind": "added",
-   "block": "6e4ac837",
-   "type": "para",
-   "context": "<h2>The verified knowledge ledger<span>f",
-   "preview": "<p class=\"tour-lede\">A cumulative knowledge system powered b"
-  },
-  {
-   "kind": "modified",
    "block": "9b7bc598",
    "type": "heading",
-   "context": "<h2 class=\"section-title\">Agents remembe"
+   "context": "<h2 class=\"section-title\">Small errors c"
   },
   {
    "kind": "modified",
@@ -50,27 +36,9 @@
   },
   {
    "kind": "modified",
-   "block": "e2163537",
-   "type": "heading",
-   "context": "<h3>Proofpress</h3>"
-  },
-  {
-   "kind": "modified",
    "block": "4a6c7b6e",
    "type": "para",
    "context": "<h3>Proofpress</h3>"
-  },
-  {
-   "kind": "modified",
-   "block": "68accac5",
-   "type": "heading",
-   "context": "<h2 class=\"section-title\">From traces<sp"
-  },
-  {
-   "kind": "modified",
-   "block": "aa8102c4",
-   "type": "heading",
-   "context": "<h2 class=\"section-title\">Which conclusi"
   },
   {
    "kind": "modified",
@@ -85,77 +53,62 @@
    "context": "<h3>Safe to reuse</h3>"
   },
   {
-   "kind": "added",
+   "kind": "modified",
    "block": "d02ce2d7",
    "type": "heading",
-   "context": "<h3>What enters shared knowledge?</h3>",
-   "preview": "<h3>What enters shared knowledge?</h3>"
+   "context": "<h3>What enters shared finance knowledge"
   },
   {
    "kind": "modified",
    "block": "e3cb86a6",
    "type": "heading",
-   "context": "<h2>From autonomous agents<span>to self-"
+   "context": "<h2>From autonomous agents<span>to trust"
   },
   {
    "kind": "removed",
-   "block": "35407fa5",
-   "type": "para",
-   "context": "",
-   "preview": "<p>Across sessions, an unsupported conclusion can become mem"
-  },
-  {
-   "kind": "removed",
-   "block": "5bf504b3",
-   "type": "para",
-   "context": "",
-   "preview": "<p>The ledger answers: how did this state become current, an"
-  },
-  {
-   "kind": "removed",
-   "block": "5f4cb6fe",
-   "type": "para",
-   "context": "",
-   "preview": "<p>18% is supported only for this measured experiment.</p>"
-  },
-  {
-   "kind": "removed",
-   "block": "0aa28b06",
-   "type": "para",
-   "context": "",
-   "preview": "<p>Evidence makes the claim reviewable, not automatically tr"
-  },
-  {
-   "kind": "removed",
-   "block": "d7d2df44",
-   "type": "para",
-   "context": "",
-   "preview": "<p>It does not enter fresh-agent context until approved.</p>"
-  },
-  {
-   "kind": "removed",
-   "block": "52b8d8dc",
+   "block": "19c1161d",
    "type": "heading",
    "context": "",
-   "preview": "<h3>One decision needs a human.</h3>"
+   "preview": "<h3>Fable 5</h3>"
   },
   {
    "kind": "removed",
-   "block": "7d52c724",
+   "block": "d3505b5d",
    "type": "para",
    "context": "",
-   "preview": "<p>The admin sees what may enter reusable organizational kno"
+   "preview": "<p>53.2% · evidence complete</p>"
   },
   {
    "kind": "removed",
-   "block": "147e38ee",
+   "block": "7dd720db",
+   "type": "heading",
+   "context": "",
+   "preview": "<h3>Opus 4.8</h3>"
+  },
+  {
+   "kind": "removed",
+   "block": "0c0a98c5",
    "type": "para",
    "context": "",
-   "preview": "<p class=\"tour-lede\">Every agent leaves behind verified know"
+   "preview": "<p>51.2% · evidence complete</p>"
+  },
+  {
+   "kind": "removed",
+   "block": "231125c5",
+   "type": "heading",
+   "context": "",
+   "preview": "<h3>GLM-4.7</h3>"
+  },
+  {
+   "kind": "removed",
+   "block": "cc5c1ebe",
+   "type": "para",
+   "context": "",
+   "preview": "<p>8.7% · incomplete evidence</p>"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:5859a3dd8b26d520b261c80378640dd00219c16c58a4918566dedf75ab268bd3",
+ "soft_fingerprint": "ppsb1:76482178b3e6448ef8af5246163b15604e3c2fd62a9d720447f0b835d45b77fa",
  "actors": {
   "requested_by": [
    "Richard Tang"
@@ -173,113 +126,78 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "67be4882",
-   "kind": "modified",
-   "note": "Names the hackathon MVP as the verified knowledge ledger for autonomous AI agents."
-  },
-  {
-   "block": "6e4ac837",
-   "kind": "added",
-   "note": "Defines the ledger as a cumulative knowledge system powered by verification, traceability, and governance."
-  },
-  {
    "block": "9b7bc598",
    "kind": "modified",
-   "note": "Tightens the problem to the distinction between agent memory and trustworthy knowledge."
+   "note": "Frames the long-horizon problem as compounding small errors and memory preserving an incorrect state."
   },
   {
    "block": "31c19cab",
    "kind": "modified",
-   "note": "Reduces observability to its core question: what happened."
+   "note": "Defines observability as recording what happened across the full trajectory."
   },
   {
    "block": "676412d2",
    "kind": "modified",
-   "note": "Reduces memory and ontology to their core question: what should be carried forward."
-  },
-  {
-   "block": "e2163537",
-   "kind": "modified",
-   "note": "Names Proofpress as the third layer above observability and memory plus ontology."
+   "note": "Defines memory and ontology as what the system remembers and how it is organized, without implying verification."
   },
   {
    "block": "4a6c7b6e",
    "kind": "modified",
-   "note": "Defines the Proofpress layer by the reliance question it answers."
-  },
-  {
-   "block": "68accac5",
-   "kind": "modified",
-   "note": "Condenses the product mechanism into a traces-to-governed-knowledge progression."
-  },
-  {
-   "block": "aa8102c4",
-   "kind": "modified",
-   "note": "Frames the interactive graph as the decision about which conclusions become knowledge."
+   "note": "Defines Proofpress by authorship, rationale, and the evidence needed to trust a handoff."
   },
   {
    "block": "24a1ba3d",
    "kind": "modified",
-   "note": "Places version trust state directly inside the finance analyst workflow."
+   "note": "Simplifies the analyst experience to one current approved view instead of exposing the organizational review queue."
   },
   {
    "block": "d007e1f1",
    "kind": "modified",
-   "note": "Summarizes the portable trust receipt as run, evidence, reviewer, and scope traveling with a conclusion."
+   "note": "Expands the analyst trust receipt to evidence, verifier, reviewer, scope, and version."
   },
   {
    "block": "d02ce2d7",
-   "kind": "added",
-   "note": "Introduces the admin governance graph as the surface for deciding what enters shared knowledge."
+   "kind": "modified",
+   "note": "Scopes the admin governance graph to deciding what enters shared finance knowledge."
   },
   {
    "block": "e3cb86a6",
    "kind": "modified",
-   "note": "Raises the closing vision from autonomous agents to self-improving companies."
+   "note": "Raises the north star from self-improving companies to trusted recursive self-improvement."
   },
   {
-   "block": "35407fa5",
+   "block": "19c1161d",
    "kind": "removed",
-   "note": "Removes the long bad-summary explanation to keep the problem slide focused."
+   "note": "Removes the separate Fable model-version card because the admin surface now uses the same four-layer ledger graph as the product demo."
   },
   {
-   "block": "5bf504b3",
+   "block": "d3505b5d",
    "kind": "removed",
-   "note": "Removes the separate ledger-tab explanation from the product demo slide."
+   "note": "Moves the Fable fixture status into the governed-ledger path rather than a standalone version card."
   },
   {
-   "block": "5f4cb6fe",
+   "block": "7dd720db",
    "kind": "removed",
-   "note": "Removes the first separate evidence-tab card because evidence is now visible in node receipts."
+   "note": "Removes the separate Opus model-version card in favor of a human-review path through the governance graph."
   },
   {
-   "block": "0aa28b06",
+   "block": "0c0a98c5",
    "kind": "removed",
-   "note": "Removes the second separate evidence-tab card because review state is now visible in the graph."
+   "note": "Moves the Opus fixture status into the pending ledger path rather than a standalone version card."
   },
   {
-   "block": "d7d2df44",
+   "block": "231125c5",
    "kind": "removed",
-   "note": "Removes the third separate evidence-tab card because reliance state is now visible in the graph."
+   "note": "Removes the separate GLM model-version card in favor of a rejected path through the governance graph."
   },
   {
-   "block": "52b8d8dc",
+   "block": "cc5c1ebe",
    "kind": "removed",
-   "note": "Replaces the prose governance queue with a compact admin governance graph."
-  },
-  {
-   "block": "7d52c724",
-   "kind": "removed",
-   "note": "Replaces the admin-role explanation with a visual current-review-rejected decision flow."
-  },
-  {
-   "block": "147e38ee",
-   "kind": "removed",
-   "note": "Removes the repetitive closing paragraph so the final vision and tagline carry the close."
+   "note": "Moves the GLM fixture status into the rejected ledger path rather than a standalone version card."
   }
  ],
  "context": {
-  "why": "Tighten the hackathon story around the verified knowledge ledger, simplify the product graph, add finance trust-state product proof, and close on the self-improving-company vision."
+  "why": "Align the presentation with long-horizon reliability failure modes, distinguish memory from trust, make verification gates explicit, unify the product and finance ledger graphs, and extend the north star to trusted recursive self-improvement."
  },
- "event_id": "ppe_50610470564b34f3099b5d42"
+ "event_id": "ppe_7c08c961674dabc5c2f2bfd9"
 }
