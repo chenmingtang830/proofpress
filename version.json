@@ -1,108 +1,234 @@
 {
- "artifact": "docs/internal/DESIGN.md",
- "artifact_id": "pp_d0d37230a5f87d707a339766",
+ "artifact": "examples/verified-knowledge-ledger/demo.partner-style.html",
+ "artifact_id": "pp_c5949563fc662476994db4f8",
  "blocks": [
   {
    "type": "heading",
-   "text": "# Proofpress Design System — Review Surface (Archived: Act II / Cloud UI Blueprint)",
-   "id": "ae580676",
-   "hash": "d1cea272da0d"
+   "text": "<h2>Verified cumulative knowledge<span>for autonomous AI agents.</span></h2>",
+   "id": "67be4882",
+   "hash": "4f9a69d2559d"
   },
   {
    "type": "para",
-   "text": "**Status (2026-07-25):** The serve review surface was removed during the strategic overhaul (decisions now use GitHub-native review), but its color system remains Proofpress's cross-interface brand language. The launch film, CLI terminal, and future UI share the same dark tokens; when GitHub Markdown cannot specify custom text colors, the nearest emoji colors provide the fallback expression.",
-   "id": "4565936e",
-   "hash": "d4d14f1fe884"
+   "text": "<p class=\"tour-lede\">Proofpress turns agent activity into evidence-bound knowledge that humans and future agents can verify, govern, and safely build on.</p>",
+   "id": "fa689308",
+   "hash": "d72d4cba0e9b"
+  },
+  {
+   "type": "heading",
+   "text": "<h2 class=\"section-title\">Long-horizon agents remember more.<span>But what should they trust?</span></h2>",
+   "id": "9b7bc598",
+   "hash": "450427c8a92e"
   },
   {
    "type": "para",
-   "text": "In one phrase: **a paper-and-ink ledger**. A paper-colored surface, ink-colored text, and one cyan-blue accent govern all interaction; semantic colors are reserved for diffs. Information density serves one action—review: summary before full text, changes before unchanged content, and pending work before completed work.",
-   "id": "9787677e",
-   "hash": "267b7a060280"
+   "text": "<p>Across sessions, an unsupported conclusion can become memory, then policy, then an action—without anyone seeing where it came from.</p>",
+   "id": "35407fa5",
+   "hash": "362e5dcbba49"
   },
   {
    "type": "heading",
-   "text": "## Color Tokens",
-   "id": "7056876e",
-   "hash": "8225e730167d"
-  },
-  {
-   "type": "table",
-   "text": "| Token | Light | Dark | Use |\n|---|---|---|---|\n| paper | #FAF9F5 | #15171C | Page background |\n| ink / ink-2 / ink-3 | #20222B / #5A5D6B / #8B8E9C | #E9E7E0 / #A6A9B4 / #787B87 | Primary / secondary / muted text |\n| line | #E3E1D9 | #2C2F38 | Borders |\n| card / wash | #FFFFFF / #F1EFE8 | #1D2027 / #22252D | Cards / wash surface |\n| accent / accent-soft | #0E5E6F / #E3EEF0 | #5FB3C4 / #173741 | Brand color, edit, modified, interaction |\n| add / add-bg | #2E7D4F / #E7F2EA | #6FBF8E / #1B3226 | verified, added, approve |\n| del / del-bg | #B4453A / #F7E9E7 | #C87E82 / #3A2320 | rejected, removed |\n| move / move-bg | #8A6210 / #F5EEDC | #D7B56D / #332B18 | why, moved, attention without alerting |",
-   "id": "451376f2",
-   "hash": "61da61dce3d8"
+   "text": "<h3>Observability</h3>",
+   "id": "093934d3",
+   "hash": "18abebc2ccf2"
   },
   {
    "type": "para",
-   "text": "Rule: the launch film is the canonical palette for dark UI: white `#EAE8E0` carries primary content, cyan `#5FB3C4` carries Proofpress and edit, orange `#D7B56D` carries why, red `#C87E82` carries rejected, and green `#6FBF8E` is reserved for verified. Adjacent diff states use the same meanings: modified is cyan, moved orange, removed red, and added green. Semantic colors are not decorative; both themes must be proofread.",
-   "id": "a8d606fe",
-   "hash": "7fdb040d5efa"
+   "text": "<p>Logs and traces tell us what happened.</p>",
+   "id": "31c19cab",
+   "hash": "1ce5aff81ce6"
+  },
+  {
+   "type": "heading",
+   "text": "<h3>Memory + ontology</h3>",
+   "id": "b4b90585",
+   "hash": "2e469d7c847a"
   },
   {
    "type": "para",
-   "text": "The fixed fallback mapping for GitHub PR comments is `🔵 mod`, `🟣 mov`, `🔴 del`, and `🟢 new`. Blue is the closest GitHub emoji equivalent to the cyan accent; purple deliberately replaces yellow for moved, so an ordinary move is not misread as a warning. `branding.color: blue` in GitHub Action metadata controls only the action icon background in Marketplace/Actions lists; it does not control PR comments.",
-   "id": "eeee2405",
-   "hash": "58c4f4f86303"
+   "text": "<p>Retrieval and structure tell agents what to carry forward.</p>",
+   "id": "676412d2",
+   "hash": "5bcdcec479e2"
   },
   {
    "type": "heading",
-   "text": "## Typography",
-   "id": "f49db722",
-   "hash": "72f51d8d0709"
-  },
-  {
-   "type": "list",
-   "text": "- Page titles / document headings: Songti SC / Noto Serif SC, 900 weight—the ledger's sense of ceremony.\n- Body and UI: system Chinese sans-serif stack (PingFang SC…), 15px / 1.75.\n- Versions, hashes, and numbers: monospace (`ui-monospace`), with `tabular-nums`.",
-   "id": "53b8c3a4",
-   "hash": "ad321df1b1f3"
-  },
-  {
-   "type": "heading",
-   "text": "## Layout",
-   "id": "46a56fa1",
-   "hash": "0963bb8ce440"
-  },
-  {
-   "type": "list",
-   "text": "- Single column, with a maximum content width of 760px; document body lines should be no wider than 70 characters.\n- Fixed top-to-bottom hierarchy: navigation row → metadata row → change-summary card → body → sticky bottom decision bar.\n- The body must render Markdown (tables/lists/bold/code); raw markup symbols are a defect.",
-   "id": "8aa0ba5a",
-   "hash": "de5880a80f03"
-  },
-  {
-   "type": "heading",
-   "text": "## Components",
-   "id": "f43f7a30",
-   "hash": "498e8e594d27"
-  },
-  {
-   "type": "list",
-   "text": "- **Chip:** rounded pill, 11.5px; status colors—published green, pending review/response yellow, agent cyan.\n- **Tag** (diff marker): 10.5px bold small pill, new green / modified cyan / removed red / moved orange, placed inline with the block title.\n- **Change block:** 3px accent rule on the left plus a very light accent wash; word-level changes go inside `<details>` (“View changes in this block”), collapsed by default so the body remains readable.\n- **Comment card:** 3px accent edge on the left, card surface, and a light shadow; status text (“Awaiting response / Recorded · awaiting revision / Resolved”) uses ink-3.\n- **Block hover:** reveal a wash surface and a “＋ Comment” affordance in the upper right; clickability must be explicit.\n- **Decision bar:** sticky at the bottom, with solid green Approve / solid cyan Request changes; **the state changes immediately on click** (disable the button and change the copy to “✓ Recorded · awaiting revision”), preventing repeated clicks without feedback.",
-   "id": "0287d639",
-   "hash": "ee9bfc7fd88b"
-  },
-  {
-   "type": "heading",
-   "text": "## Feedback State Machine (Page Copy Follows Ledger State)",
-   "id": "7578205b",
-   "hash": "31ea6a4270e6"
+   "text": "<h3>Verification + governance</h3>",
+   "id": "e2163537",
+   "hash": "4ea8802f7f50"
   },
   {
    "type": "para",
-   "text": "Awaiting response (feedback is newer than the latest version) → Revising (agent session active, subsequent SSE) → Responded (new version recorded, page refreshes automatically, comment marked resolved). Each step must use plain language: “The agent will receive this the next time it reads its inbox.”",
-   "id": "aae4f716",
-   "hash": "e4c2acda9cc1"
+   "text": "<p>Proofpress decides what is evidence-backed, scoped, current, and safe to rely on.</p>",
+   "id": "4a6c7b6e",
+   "hash": "551dafe1cecf"
   },
   {
    "type": "heading",
-   "text": "## Voice and Language",
-   "id": "300ee19f",
-   "hash": "64d5cc6445dc"
+   "text": "<h2 class=\"section-title\">Turn raw trajectories into<span>trusted organizational knowledge.</span></h2>",
+   "id": "68accac5",
+   "hash": "15a2e8ca25a3"
+  },
+  {
+   "type": "heading",
+   "text": "<h2 class=\"section-title\">Inspect the claim.<span>Then decide whether to rely on it.</span></h2>",
+   "id": "aa8102c4",
+   "hash": "2bcecdfeb800"
   },
   {
    "type": "para",
-   "text": "UI vocabulary uses only the product terms: Draft / Review / Approve / Comment. Internal terms (event, ref, blob) must not appear in the interface. **Language principle (set by Richard on 2026-07-18): English is the primary experience**—all UI strings, CLI output, and documentation surfaces use English as the source language; the interface adapts through `Accept-Language` (with an explicit setting to follow), with Chinese as the first locale. In brand contexts, the product vocabulary (Draft → Review → Approve, for agents) **is never translated**; locale copy is a translation, and must be updated whenever the English source changes.",
-   "id": "cab7f711",
-   "hash": "395cebc2d62a"
+   "text": "<p>Completed run with recorded conversion metric.</p>",
+   "id": "8a2d35fe",
+   "hash": "7f4b995791df"
+  },
+  {
+   "type": "para",
+   "text": "<p>18% is supported only for this measured experiment.</p>",
+   "id": "5f4cb6fe",
+   "hash": "e0400575779d"
+  },
+  {
+   "type": "para",
+   "text": "<p>Evidence makes the claim reviewable, not automatically true.</p>",
+   "id": "0aa28b06",
+   "hash": "01faf8d6e0a8"
+  },
+  {
+   "type": "para",
+   "text": "<p>It does not enter fresh-agent context until approved.</p>",
+   "id": "d7d2df44",
+   "hash": "4c6bd7e14b82"
+  },
+  {
+   "type": "heading",
+   "text": "<h2 class=\"section-title\">Does verified continuity<span>improve the long-horizon baseline?</span></h2>",
+   "id": "8a674112",
+   "hash": "6d1fb4fef315"
+  },
+  {
+   "type": "para",
+   "text": "<p>The Harvey benchmark is eval only. Replace this placeholder with the measured result from the separate benchmark run—never with demo data.</p>",
+   "id": "e417ce97",
+   "hash": "5047a9fea289"
+  },
+  {
+   "type": "para",
+   "text": "<p class=\"eval-caption\">Result intentionally blank · populate with the separate Harvey benchmark's actual baseline, treatment, denominator, and confidence interval.</p>",
+   "id": "2bc15033",
+   "hash": "cd1aa579c3a0"
+  },
+  {
+   "type": "heading",
+   "text": "<h2 class=\"section-title\">A governed workspace for<span>investment decisions that outlive the analyst.</span></h2>",
+   "id": "b6b4cb57",
+   "hash": "d63bfa8fefa3"
+  },
+  {
+   "type": "heading",
+   "text": "<h3>IC Memo · Q3</h3>",
+   "id": "3ddfafec",
+   "hash": "b45269080e4d"
+  },
+  {
+   "type": "heading",
+   "text": "<h2 class=\"section-title\">The same trust contract.<span>A different operational surface.</span></h2>",
+   "id": "c2ec8e67",
+   "hash": "7a674a1d7be0"
+  },
+  {
+   "type": "para",
+   "text": "<p class=\"tour-lede\">Commerce is not another finance graph. It is a telemetry-to-trusted-action view across policy, payment, fulfillment, and disputes.</p>",
+   "id": "9a956087",
+   "hash": "747e1cf461ca"
+  },
+  {
+   "type": "heading",
+   "text": "<h2>We don't just need smarter agents.<span>We need knowledge they can safely build on.</span></h2>",
+   "id": "e3cb86a6",
+   "hash": "90174ef6038a"
+  },
+  {
+   "type": "para",
+   "text": "<p class=\"tour-lede\">Cumulative knowledge that humans and agents can verify, govern, trace back, and carry into the next session.</p>",
+   "id": "147e38ee",
+   "hash": "658d23bc3adf"
+  },
+  {
+   "type": "heading",
+   "text": "<h1>THE WORK OUTLIVED THE CONTEXT.<span>WHICH CONCLUSION CAN THE NEXT AGENT TRUST?</span></h1>",
+   "id": "26127b71",
+   "hash": "f6e81ecd8bd9"
+  },
+  {
+   "type": "para",
+   "text": "<p>Long-horizon work is a chain of coupled decisions across contexts and tasks. Proofpress makes selected conclusions <strong>evidence-bound, governed, and safe to inherit.</strong></p>",
+   "id": "59111a7d",
+   "hash": "6672acd73ab3"
+  },
+  {
+   "type": "heading",
+   "text": "<h2>What can the next agent safely inherit?</h2>",
+   "id": "ad5a4616",
+   "hash": "7bf7a25fb307"
+  },
+  {
+   "type": "para",
+   "text": "<p>Choose one experiment first. Open lineage only when you need to inspect how the decision was made.</p>",
+   "id": "52ab68ed",
+   "hash": "9bd4c357bc7e"
+  },
+  {
+   "type": "heading",
+   "text": "<h3 id=\"paperTitle\">Candidate B increased conversion.</h3>",
+   "id": "03df410b",
+   "hash": "b03b4c251ede"
+  },
+  {
+   "type": "para",
+   "text": "<p id=\"paperBody\">This is the result a fresh agent may want to reuse. The ledger keeps it attached to its measured run and review state.</p>",
+   "id": "e165f27d",
+   "hash": "349ef2d7bb83"
+  },
+  {
+   "type": "heading",
+   "text": "<h3 id=\"title\">Candidate B is eligible for review.</h3>",
+   "id": "5d58db33",
+   "hash": "2196970f1337"
+  },
+  {
+   "type": "para",
+   "text": "<p id=\"body\">Evidence is present, the experiment completed, and the metric is measured. A human or policy reviewer still decides whether this belongs in shared knowledge.</p>",
+   "id": "105f3c7c",
+   "hash": "ce338dcfd6c9"
+  },
+  {
+   "type": "heading",
+   "text": "<h2>The decision is a path, not a note.</h2>",
+   "id": "185f2164",
+   "hash": "5dbde752a997"
+  },
+  {
+   "type": "para",
+   "text": "<p>Every reusable claim keeps its source, experiment, evidence status, review state, and the prior knowledge it builds on.</p>",
+   "id": "5a61ca84",
+   "hash": "3d53f06b602b"
+  },
+  {
+   "type": "para",
+   "text": "<p class=\"evidence-note\">Evidence stays attached to the claim it supports, so the next person or agent can inspect the boundary instead of trusting a summary.</p>",
+   "id": "54cf5ec6",
+   "hash": "8499aa62ce63"
+  },
+  {
+   "type": "heading",
+   "text": "<h2 id=\"drawerTitle\">Candidate B · eligible for review</h2>",
+   "id": "c0058247",
+   "hash": "63ae8506c20f"
+  },
+  {
+   "type": "heading",
+   "text": "<h3>Deterministic admission checks</h3>",
+   "id": "2d1205a7",
+   "hash": "0db8554af39d"
   }
  ]
 }
