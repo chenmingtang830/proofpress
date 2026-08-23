@@ -2,53 +2,249 @@
  "event": "version_created",
  "artifact": "examples/verified-knowledge-ledger/demo.partner-style.html",
  "artifact_id": "pp_c5949563fc662476994db4f8",
- "version": "8bb99b9c",
- "parent": "762f7e7f",
+ "version": "c6fec88e",
+ "parent": "8bb99b9c",
  "author": {
-  "name": "unknown",
-  "kind": "human",
+  "name": "Codex",
+  "kind": "agent",
   "session": null
  },
  "note": null,
- "ts": "2026-08-23T01:40:41+00:00",
+ "ts": "2026-08-23T01:51:31+00:00",
  "stats": {
-  "removed": 1
+  "modified": 3,
+  "added": 12,
+  "removed": 2
  },
  "changes": [
   {
+   "kind": "modified",
+   "block": "b6b4cb57",
+   "type": "heading",
+   "context": "<h2 class=\"section-title\">The analyst wo"
+  },
+  {
+   "kind": "added",
+   "block": "f709c3f0",
+   "type": "heading",
+   "context": "<h3>BBDC / TVPG merger analysis</h3>",
+   "preview": "<h3>BBDC / TVPG merger analysis</h3>"
+  },
+  {
+   "kind": "added",
+   "block": "24a1ba3d",
+   "type": "para",
+   "context": "<h3>BBDC / TVPG merger analysis</h3>",
+   "preview": "<p>Accretion / dilution and sensitivity, inside the analyst'"
+  },
+  {
+   "kind": "added",
+   "block": "ff329ce6",
+   "type": "heading",
+   "context": "<h3>Safe to reuse</h3>",
+   "preview": "<h3>Safe to reuse</h3>"
+  },
+  {
+   "kind": "added",
+   "block": "d007e1f1",
+   "type": "para",
+   "context": "<h3>Safe to reuse</h3>",
+   "preview": "<p>The conclusion travels with its run, evidence, review sta"
+  },
+  {
+   "kind": "added",
+   "block": "19c1161d",
+   "type": "heading",
+   "context": "<h3>Fable 5</h3>",
+   "preview": "<h3>Fable 5</h3>"
+  },
+  {
+   "kind": "added",
+   "block": "d3505b5d",
+   "type": "para",
+   "context": "<h3>Fable 5</h3>",
+   "preview": "<p>53.2% · evidence complete</p>"
+  },
+  {
+   "kind": "added",
+   "block": "7dd720db",
+   "type": "heading",
+   "context": "<h3>Opus 4.8</h3>",
+   "preview": "<h3>Opus 4.8</h3>"
+  },
+  {
+   "kind": "added",
+   "block": "0c0a98c5",
+   "type": "para",
+   "context": "<h3>Opus 4.8</h3>",
+   "preview": "<p>51.2% · evidence complete</p>"
+  },
+  {
+   "kind": "added",
+   "block": "231125c5",
+   "type": "heading",
+   "context": "<h3>GLM-4.7</h3>",
+   "preview": "<h3>GLM-4.7</h3>"
+  },
+  {
+   "kind": "added",
+   "block": "cc5c1ebe",
+   "type": "para",
+   "context": "<h3>GLM-4.7</h3>",
+   "preview": "<p>8.7% · incomplete evidence</p>"
+  },
+  {
+   "kind": "added",
+   "block": "52b8d8dc",
+   "type": "heading",
+   "context": "<h3>One decision needs a human.</h3>",
+   "preview": "<h3>One decision needs a human.</h3>"
+  },
+  {
+   "kind": "added",
+   "block": "7d52c724",
+   "type": "para",
+   "context": "<h3>One decision needs a human.</h3>",
+   "preview": "<p>The admin sees what may enter reusable organizational kno"
+  },
+  {
+   "kind": "modified",
+   "block": "e3cb86a6",
+   "type": "heading",
+   "context": "<h2>Let intelligence compound.<span>With"
+  },
+  {
+   "kind": "modified",
+   "block": "147e38ee",
+   "type": "para",
+   "context": "<h2>Let intelligence compound.<span>With"
+  },
+  {
    "kind": "removed",
-   "block": "8a2d35fe",
+   "block": "fa689308",
    "type": "para",
    "context": "",
-   "preview": "<p>Completed run with recorded conversion metric.</p>"
+   "preview": "<p class=\"tour-lede\">Proofpress turns agent activity into ev"
+  },
+  {
+   "kind": "removed",
+   "block": "3ddfafec",
+   "type": "heading",
+   "context": "",
+   "preview": "<h3>IC Memo · Q3</h3>"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:ffaef80f03d5a3c5214e8f7100c206bba7582d19ad0f6538487399bebc894827",
+ "soft_fingerprint": "ppsb1:3190bdcab45f37d76ddeb1b63e56c79f4420eeb48de677904d9d4ae8f61e2cd5",
  "actors": {
   "requested_by": [
-   "user:richardtang"
+   "Richard Tang"
   ],
   "produced_by": [
-   "agent:codex"
+   "Codex"
   ],
   "edited_by": [
-   "agent:codex"
+   "Codex"
   ],
   "recorded_by": [
-   "agent:codex"
+   "Codex"
   ]
  },
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "8a2d35fe",
+   "block": "fa689308",
    "kind": "removed",
-   "note": "Removed the separate source card to simplify the live demo; trace binding and experiment scope remain visible in the consolidated Evidence card."
+   "note": "Removed the explanatory opening paragraph so the first slide presents only the product category and tagline."
+  },
+  {
+   "block": "3ddfafec",
+   "kind": "removed",
+   "note": "Removed the generic IC Memo admin card in favor of a concrete two-role BBDC and TVPG product proof."
+  },
+  {
+   "block": "b6b4cb57",
+   "kind": "modified",
+   "note": "Reframed finance as one workflow with distinct analyst and organizational governance surfaces."
+  },
+  {
+   "block": "e3cb86a6",
+   "kind": "modified",
+   "note": "Replaced the feature-summary close with the company-level vision of compounding intelligence without decaying trust."
+  },
+  {
+   "block": "147e38ee",
+   "kind": "modified",
+   "note": "Defines the desired cumulative outcome as verified knowledge left by each agent for the next agent and organization."
+  },
+  {
+   "block": "e2b8e473",
+   "kind": "modified",
+   "note": "Restores the concise public tagline Scale intelligence. Preserve trust."
+  },
+  {
+   "block": "f709c3f0",
+   "kind": "added",
+   "note": "Names the illustrative BBDC and TVPG merger artifact used in the finance product proof."
+  },
+  {
+   "block": "24a1ba3d",
+   "kind": "added",
+   "note": "Places trust information inside the analyst's existing accretion and dilution workflow."
+  },
+  {
+   "block": "ff329ce6",
+   "kind": "added",
+   "note": "States the analyst-facing reliance decision for the admitted fixture artifact."
+  },
+  {
+   "block": "d007e1f1",
+   "kind": "added",
+   "note": "Explains that a reusable finance conclusion travels with run, evidence, review state, and scope."
+  },
+  {
+   "block": "19c1161d",
+   "kind": "added",
+   "note": "Shows the admitted Fable 5 fixture version in the admin governance view."
+  },
+  {
+   "block": "d3505b5d",
+   "kind": "added",
+   "note": "Reports the illustrative Fable 5 fixture score and evidence-complete state from the supplied Apex prototype."
+  },
+  {
+   "block": "7dd720db",
+   "kind": "added",
+   "note": "Shows the review-pending Opus 4.8 fixture version in the admin governance view."
+  },
+  {
+   "block": "0c0a98c5",
+   "kind": "added",
+   "note": "Reports the illustrative Opus 4.8 fixture score and evidence-complete state from the supplied Apex prototype."
+  },
+  {
+   "block": "231125c5",
+   "kind": "added",
+   "note": "Shows the blocked GLM-4.7 fixture version in the admin governance view."
+  },
+  {
+   "block": "cc5c1ebe",
+   "kind": "added",
+   "note": "Reports the illustrative GLM-4.7 fixture score and incomplete-evidence state from the supplied Apex prototype."
+  },
+  {
+   "block": "52b8d8dc",
+   "kind": "added",
+   "note": "Makes the admin review queue legible as a concrete human decision rather than dashboard metadata."
+  },
+  {
+   "block": "7d52c724",
+   "kind": "added",
+   "note": "Defines the admin role as governing which claims may enter reusable organizational knowledge."
   }
  ],
  "context": {
-  "why": "Increase presentation legibility and simplify the product demo around one decision: two large graph paths, four decisive ledger events, and three reliance checks."
+  "why": "Simplify the presentation opening and close, repair the graph receipt layout, and distill the supplied Apex analyst workstation and admin dashboard into a two-role finance product proof."
  },
- "event_id": "ppe_913c45a900b1d9817f4dfa7d"
+ "event_id": "ppe_aeaa421a3313fa10d1502e15"
 }

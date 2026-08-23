@@ -9,12 +9,6 @@
    "hash": "4f9a69d2559d"
   },
   {
-   "type": "para",
-   "text": "<p class=\"tour-lede\">Proofpress turns agent activity into evidence-bound knowledge that humans and future agents can verify, govern, and safely build on.</p>",
-   "id": "fa689308",
-   "hash": "d72d4cba0e9b"
-  },
-  {
    "type": "heading",
    "text": "<h2 class=\"section-title\">Long-horizon agents remember more.<span>But what should they trust?</span></h2>",
    "id": "9b7bc598",
@@ -118,15 +112,81 @@
   },
   {
    "type": "heading",
-   "text": "<h2 class=\"section-title\">A governed workspace for<span>investment decisions that outlive the analyst.</span></h2>",
+   "text": "<h2 class=\"section-title\">The analyst works.<span>The organization governs.</span></h2>",
    "id": "b6b4cb57",
-   "hash": "d63bfa8fefa3"
+   "hash": "c4c5479fca50"
   },
   {
    "type": "heading",
-   "text": "<h3>IC Memo · Q3</h3>",
-   "id": "3ddfafec",
-   "hash": "b45269080e4d"
+   "text": "<h3>BBDC / TVPG merger analysis</h3>",
+   "id": "f709c3f0",
+   "hash": "8d692963b3bd"
+  },
+  {
+   "type": "para",
+   "text": "<p>Accretion / dilution and sensitivity, inside the analyst's existing workflow.</p>",
+   "id": "24a1ba3d",
+   "hash": "2d06fb10e9b3"
+  },
+  {
+   "type": "heading",
+   "text": "<h3>Safe to reuse</h3>",
+   "id": "ff329ce6",
+   "hash": "b4edbd4f9b80"
+  },
+  {
+   "type": "para",
+   "text": "<p>The conclusion travels with its run, evidence, review state, and scope.</p>",
+   "id": "d007e1f1",
+   "hash": "c1ce69055cc2"
+  },
+  {
+   "type": "heading",
+   "text": "<h3>Fable 5</h3>",
+   "id": "19c1161d",
+   "hash": "66cdd8673336"
+  },
+  {
+   "type": "para",
+   "text": "<p>53.2% · evidence complete</p>",
+   "id": "d3505b5d",
+   "hash": "f284d0f0b056"
+  },
+  {
+   "type": "heading",
+   "text": "<h3>Opus 4.8</h3>",
+   "id": "7dd720db",
+   "hash": "a7d4a5591a7f"
+  },
+  {
+   "type": "para",
+   "text": "<p>51.2% · evidence complete</p>",
+   "id": "0c0a98c5",
+   "hash": "87fea930cd8e"
+  },
+  {
+   "type": "heading",
+   "text": "<h3>GLM-4.7</h3>",
+   "id": "231125c5",
+   "hash": "d22c26866658"
+  },
+  {
+   "type": "para",
+   "text": "<p>8.7% · incomplete evidence</p>",
+   "id": "cc5c1ebe",
+   "hash": "82beab6c0c67"
+  },
+  {
+   "type": "heading",
+   "text": "<h3>One decision needs a human.</h3>",
+   "id": "52b8d8dc",
+   "hash": "6fc67c5a10da"
+  },
+  {
+   "type": "para",
+   "text": "<p>The admin sees what may enter reusable organizational knowledge—and why.</p>",
+   "id": "7d52c724",
+   "hash": "1cc10bf7a228"
   },
   {
    "type": "heading",
@@ -142,15 +202,15 @@
   },
   {
    "type": "heading",
-   "text": "<h2>We don't just need smarter agents.<span>We need knowledge they can safely build on.</span></h2>",
+   "text": "<h2>Let intelligence compound.<span>Without letting trust decay.</span></h2>",
    "id": "e3cb86a6",
-   "hash": "90174ef6038a"
+   "hash": "c657ec0482b5"
   },
   {
    "type": "para",
-   "text": "<p class=\"tour-lede\">Cumulative knowledge that humans and agents can verify, govern, trace back, and carry into the next session.</p>",
+   "text": "<p class=\"tour-lede\">Every agent leaves behind verified knowledge that the next agent—and the organization—can safely build on.</p>",
    "id": "147e38ee",
-   "hash": "658d23bc3adf"
+   "hash": "ca71bca41a94"
   },
   {
    "type": "heading",
