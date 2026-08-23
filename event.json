@@ -2,34 +2,42 @@
  "event": "version_created",
  "artifact": "examples/verified-knowledge-ledger/demo.partner-style.html",
  "artifact_id": "pp_c5949563fc662476994db4f8",
- "version": "9919acf3",
- "parent": "f29a89ec",
+ "version": "064cf942",
+ "parent": "9919acf3",
  "author": {
   "name": "Codex",
   "kind": "agent",
   "session": null
  },
  "note": null,
- "ts": "2026-08-23T02:39:37+00:00",
+ "ts": "2026-08-23T02:44:21+00:00",
  "stats": {
-  "modified": 2
+  "modified": 2,
+  "removed": 1
  },
  "changes": [
-  {
-   "kind": "modified",
-   "block": "c2ec8e67",
-   "type": "heading",
-   "context": "<h2 class=\"section-title\">A $1,234.50 of"
-  },
   {
    "kind": "modified",
    "block": "9a956087",
    "type": "para",
    "context": "<h2 class=\"section-title\">A $1,234.50 of"
+  },
+  {
+   "kind": "modified",
+   "block": "e3cb86a6",
+   "type": "heading",
+   "context": "<h2>Verification is the bottleneck.<span"
+  },
+  {
+   "kind": "removed",
+   "block": "6dbb478d",
+   "type": "para",
+   "context": "",
+   "preview": "<p class=\"vision-thesis\"><strong>Generation creates candidat"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:47954214ded113d82d3c399cf869446b274e4af3f46ab67e341e004ab22678d1",
+ "soft_fingerprint": "ppsb1:6a1cd43ee5a61551c65d0bf6374a58c8ceabb1f01a6bca0936bf833b63dca25d",
  "actors": {
   "requested_by": [
    "Richard Tang"
@@ -47,18 +55,23 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "c2ec8e67",
-   "kind": "modified",
-   "note": "Replaces the abstract commerce extension headline with the measured four-agent offer handoff and its missing provenance record."
-  },
-  {
    "block": "9a956087",
    "kind": "modified",
-   "note": "Defines the proposed Proofpress commerce treatment as an evidence-bound trust receipt carried across each agent handoff."
+   "note": "Clarifies the commerce trust-overlay boundary: UOR-ADDR computes transfer identity while Proofpress binds it to evidence and governs the resulting receipt."
+  },
+  {
+   "block": "e3cb86a6",
+   "kind": "modified",
+   "note": "Condenses the closing into the verification bottleneck and the requirement that trusted recursive self-improvement compound only what survives review."
+  },
+  {
+   "block": "6dbb478d",
+   "kind": "removed",
+   "note": "Removes the redundant closing explanation because the shortened headline and three-step progression now carry the same idea."
   }
  ],
  "context": {
-  "why": "Replace the abstract commerce extension with a measured four-agent handoff baseline while clearly labeling the Proofpress provenance lane as a proposed design target."
+  "why": "Apply the UOR-ADDR and Proofpress responsibility split to the commerce trust overlay and simplify the closing slide to one verification thesis plus a three-step path to trusted RSI."
  },
- "event_id": "ppe_451db5c7e6233c7e72db2ae7"
+ "event_id": "ppe_4633dd3bd4f26a0dfc4b4b50"
 }

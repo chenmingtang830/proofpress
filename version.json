@@ -130,21 +130,15 @@
   },
   {
    "type": "para",
-   "text": "<p class=\"tour-lede\">Proofpress turns every agent handoff into an evidence-bound trust receipt—so the next agent can prove what it inherited.</p>",
+   "text": "<p class=\"tour-lede\">UOR-ADDR computes identity at each transfer; Proofpress binds it to evidence and governs the trust receipt—so the next agent can prove what it inherited.</p>",
    "id": "9a956087",
-   "hash": "1e2fcd30f179"
+   "hash": "e32329e44bba"
   },
   {
    "type": "heading",
-   "text": "<h2 class=\"section-title\">Self-improvement compounds what the loop accepts.<span>Verification makes RSI trustworthy.</span></h2>",
+   "text": "<h2>Verification is the bottleneck.<span>Trusted RSI builds only on what survives.</span></h2>",
    "id": "e3cb86a6",
-   "hash": "501cce1180b2"
-  },
-  {
-   "type": "para",
-   "text": "<p class=\"vision-thesis\"><strong>Generation creates candidates.</strong> A verified knowledge ledger decides which improvements are evidence-backed, governed, and safe to compound.</p>",
-   "id": "6dbb478d",
-   "hash": "0213e3daf903"
+   "hash": "d2e0838fb7c7"
   },
   {
    "type": "heading",
