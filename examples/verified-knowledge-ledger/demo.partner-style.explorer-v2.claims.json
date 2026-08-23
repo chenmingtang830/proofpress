@@ -1,0 +1,7 @@
+[
+  {
+    "block": "5bf504b3",
+    "kind": "added",
+    "note": "Clarifies that the Ledger view is an append-only account of how the current knowledge state was reached and who changed it."
+  }
+]
