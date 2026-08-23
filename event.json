@@ -1,142 +1,113 @@
 {
  "event": "version_created",
- "artifact": "planning/2026-08-22-hackathon-presentation-layer.md",
- "artifact_id": "pp_ffd63e1c02900570cefc606c",
- "version": "5a7c2d14",
- "parent": "110c3bf2",
+ "artifact": "examples/verified-knowledge-ledger/demo.partner-style.html",
+ "artifact_id": "pp_c5949563fc662476994db4f8",
+ "version": "09327eeb",
+ "parent": "ee2f6fc4",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-23T00:12:01+00:00",
+ "ts": "2026-08-23T00:12:06+00:00",
  "stats": {
-  "modified": 8,
-  "added": 10
+  "added": 11,
+  "modified": 2
  },
  "changes": [
   {
-   "kind": "modified",
-   "block": "a6fbf8db",
-   "type": "para",
-   "context": "Decision"
-  },
-  {
    "kind": "added",
-   "block": "49ac0ede",
+   "block": "67be4882",
    "type": "heading",
-   "context": "Build Day constraints",
-   "preview": "## Build Day constraints"
+   "context": "<h2>100+ events.<span>Which conclusion c",
+   "preview": "<h2>100+ events.<span>Which conclusion can the next agent tr"
   },
   {
    "kind": "added",
-   "block": "0c15ae22",
+   "block": "fa689308",
    "type": "para",
-   "context": "Build Day constraints",
-   "preview": "The event instructions require the presentation and implemen"
+   "context": "<h2>100+ events.<span>Which conclusion c",
+   "preview": "<p class=\"tour-lede\">Long-horizon work outlives one context "
   },
   {
    "kind": "added",
-   "block": "b3e4a788",
-   "type": "list",
-   "context": "Build Day constraints",
-   "preview": "- the demo is three minutes;\n- the demonstrated increment mu"
-  },
-  {
-   "kind": "added",
-   "block": "639859b2",
-   "type": "para",
-   "context": "Build Day constraints",
-   "preview": "The pitch must therefore name the build-day delta: the exist"
-  },
-  {
-   "kind": "added",
-   "block": "b89e8624",
-   "type": "para",
-   "context": "Build Day constraints",
-   "preview": "The event primer defines long-horizon work structurally, not"
-  },
-  {
-   "kind": "modified",
-   "block": "7bf705f0",
+   "block": "9b7bc598",
    "type": "heading",
-   "context": "Three-minute narrative structure"
+   "context": "<h2>Activity becomes context.<span>Conte",
+   "preview": "<h2>Activity becomes context.<span>Context still needs gover"
   },
   {
    "kind": "added",
-   "block": "92908d5a",
-   "type": "para",
-   "context": "Three-minute narrative structure",
-   "preview": "Target timing: 20 seconds problem, 25 seconds stack, 95 seco"
-  },
-  {
-   "kind": "added",
-   "block": "661f5ff4",
-   "type": "para",
-   "context": "2. The missing layer",
-   "preview": "The memory-layer example should be collaborative, not advers"
-  },
-  {
-   "kind": "modified",
-   "block": "29d707ef",
-   "type": "para",
-   "context": "7. Where it applies"
-  },
-  {
-   "kind": "modified",
-   "block": "f3135bb2",
-   "type": "list",
-   "context": "7. Where it applies"
-  },
-  {
-   "kind": "added",
-   "block": "c34613a1",
-   "type": "para",
-   "context": "7. Where it applies",
-   "preview": "The event primer identifies Coframe as an H3 system in the w"
-  },
-  {
-   "kind": "modified",
-   "block": "91879a6f",
-   "type": "list",
-   "context": "Interaction architecture"
-  },
-  {
-   "kind": "modified",
-   "block": "be5ab015",
-   "type": "list",
-   "context": "P0 — narrative shell"
-  },
-  {
-   "kind": "modified",
-   "block": "d8c7277f",
-   "type": "list",
-   "context": "P2 — vertical fixture packs"
-  },
-  {
-   "kind": "modified",
-   "block": "4ab84b40",
-   "type": "list",
-   "context": "Acceptance criteria"
-  },
-  {
-   "kind": "added",
-   "block": "8f7199a0",
+   "block": "093934d3",
    "type": "heading",
-   "context": "Event sources",
-   "preview": "## Event sources"
+   "context": "<h3>Observability</h3>",
+   "preview": "<h3>Observability</h3>"
   },
   {
    "kind": "added",
-   "block": "390e8366",
-   "type": "list",
-   "context": "Event sources",
-   "preview": "- [Long Horizon Agents Build Day — Day-of Instructions](http"
+   "block": "31c19cab",
+   "type": "para",
+   "context": "<h3>Observability</h3>",
+   "preview": "<p>Logs, tool calls, traces, and spans record what happened "
+  },
+  {
+   "kind": "added",
+   "block": "b4b90585",
+   "type": "heading",
+   "context": "<h3>Memory + ontology</h3>",
+   "preview": "<h3>Memory + ontology</h3>"
+  },
+  {
+   "kind": "added",
+   "block": "676412d2",
+   "type": "para",
+   "context": "<h3>Memory + ontology</h3>",
+   "preview": "<p>Systems such as Stash help agents learn across rollouts a"
+  },
+  {
+   "kind": "added",
+   "block": "e2163537",
+   "type": "heading",
+   "context": "<h3>Proofpress</h3>",
+   "preview": "<h3>Proofpress</h3>"
+  },
+  {
+   "kind": "added",
+   "block": "4a6c7b6e",
+   "type": "para",
+   "context": "<h3>Proofpress</h3>",
+   "preview": "<p>Evidence, scope, review, lifecycle, and provenance govern"
+  },
+  {
+   "kind": "added",
+   "block": "e3cb86a6",
+   "type": "heading",
+   "context": "<h2>Cumulative knowledge<span>humans and",
+   "preview": "<h2>Cumulative knowledge<span>humans and agents can safely b"
+  },
+  {
+   "kind": "added",
+   "block": "e2b8e473",
+   "type": "para",
+   "context": "<h2>Cumulative knowledge<span>humans and",
+   "preview": "<p class=\"event-source\">COLLABORATION EXAMPLE · COFRAME H3 G"
+  },
+  {
+   "kind": "modified",
+   "block": "26127b71",
+   "type": "heading",
+   "context": "<h1>THE WORK OUTLIVED THE CONTEXT.<span>"
+  },
+  {
+   "kind": "modified",
+   "block": "59111a7d",
+   "type": "para",
+   "context": "<h1>THE WORK OUTLIVED THE CONTEXT.<span>"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:8518a6c1258a3177f7babd17d20f39d9c81544415f1acd7e20a56f7e087f5179",
+ "soft_fingerprint": "ppsb1:ebbd8716f488d05c5eec76f96413a911ad3bdbe8acc204f234223093cacca790",
  "actors": {
   "requested_by": [
    "user:richardtang"
@@ -154,98 +125,73 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "a6fbf8db",
+   "block": "67be4882",
+   "kind": "added",
+   "note": "Added the opening handoff question for the three-minute guided demo."
+  },
+  {
+   "block": "fa689308",
+   "kind": "added",
+   "note": "Explains why a raw trace or unverified summary is insufficient for a fresh agent."
+  },
+  {
+   "block": "9b7bc598",
+   "kind": "added",
+   "note": "Introduces governance as the missing layer above accumulated context."
+  },
+  {
+   "block": "093934d3",
+   "kind": "added",
+   "note": "Names observability as the bottom layer of the trust stack."
+  },
+  {
+   "block": "31c19cab",
+   "kind": "added",
+   "note": "Defines observability as the record of trajectory activity."
+  },
+  {
+   "block": "b4b90585",
+   "kind": "added",
+   "note": "Names memory and ontology as the middle layer of the trust stack."
+  },
+  {
+   "block": "676412d2",
+   "kind": "added",
+   "note": "Uses Stash as a complementary example of cross-rollout memory."
+  },
+  {
+   "block": "e2163537",
+   "kind": "added",
+   "note": "Names Proofpress as the trust layer."
+  },
+  {
+   "block": "4a6c7b6e",
+   "kind": "added",
+   "note": "Defines Proofpress governance in terms of evidence, scope, review, lifecycle, and provenance."
+  },
+  {
+   "block": "e3cb86a6",
+   "kind": "added",
+   "note": "Adds the closing promise of cumulative knowledge safe for humans and agents."
+  },
+  {
+   "block": "e2b8e473",
+   "kind": "added",
+   "note": "Frames Coframe growth traces as a collaboration integration example."
+  },
+  {
+   "block": "26127b71",
    "kind": "modified",
-   "note": "Constrained the guided narrative to the event's three-minute demo window."
+   "note": "Replaced the technical hero with the fresh-agent trust question."
   },
   {
-   "block": "49ac0ede",
-   "kind": "added",
-   "note": "Added the official Build Day constraints section."
-  },
-  {
-   "block": "0c15ae22",
-   "kind": "added",
-   "note": "Explains why event constraints shape the presentation implementation."
-  },
-  {
-   "block": "b3e4a788",
-   "kind": "added",
-   "note": "Records the demo duration, original-work, open-source, and submission requirements."
-  },
-  {
-   "block": "639859b2",
-   "kind": "added",
-   "note": "Defines the honest build-day delta on top of the existing ledger foundation."
-  },
-  {
-   "block": "b89e8624",
-   "kind": "added",
-   "note": "Connects the product story to the event primer's H1, H2, and H3 model."
-  },
-  {
-   "block": "7bf705f0",
+   "block": "59111a7d",
    "kind": "modified",
-   "note": "Renamed the narrative as a three-minute structure."
-  },
-  {
-   "block": "92908d5a",
-   "kind": "added",
-   "note": "Allocates the three-minute presentation across five concise beats."
-  },
-  {
-   "block": "661f5ff4",
-   "kind": "added",
-   "note": "Positions Stash as a complementary memory layer below Proofpress governance."
-  },
-  {
-   "block": "29d707ef",
-   "kind": "modified",
-   "note": "Reframed the verticals as three different proof obligations."
-  },
-  {
-   "block": "f3135bb2",
-   "kind": "modified",
-   "note": "Assigned Harvey to eval, finance to the product workspace, and commerce to domain extension."
-  },
-  {
-   "block": "c34613a1",
-   "kind": "added",
-   "note": "Defines Coframe as an H3 growth system and Proofpress as its complementary trust layer."
-  },
-  {
-   "block": "91879a6f",
-   "kind": "modified",
-   "note": "Added five timed beats and a visible three-minute clock to the interaction architecture."
-  },
-  {
-   "block": "be5ab015",
-   "kind": "modified",
-   "note": "Updated P0 to five beats and an explicit build-day increment."
-  },
-  {
-   "block": "d8c7277f",
-   "kind": "modified",
-   "note": "Updated P2 so each vertical produces distinct evidence rather than duplicate interfaces."
-  },
-  {
-   "block": "4ab84b40",
-   "kind": "modified",
-   "note": "Expanded acceptance criteria for timing, vertical roles, Stash, Coframe, and honest claims."
-  },
-  {
-   "block": "8f7199a0",
-   "kind": "added",
-   "note": "Added the official event source section."
-  },
-  {
-   "block": "390e8366",
-   "kind": "added",
-   "note": "Links the Day-of Instructions and technical primer used by the plan."
+   "note": "Defines the product outcome as evidence-bound, governed, inheritable conclusions."
   }
  ],
  "context": {
-  "why": "Update the hackathon narrative from official event constraints and give Harvey, finance, and agentic commerce distinct proof roles."
+  "why": "Add a three-minute guided layer to the existing product demo while preserving the interactive workbench and separating effect, product, and extension proof."
  },
- "event_id": "ppe_daf81687f2889eb196b47ee0"
+ "event_id": "ppe_c5fe211f22b2ff9cbfc913c9"
 }
