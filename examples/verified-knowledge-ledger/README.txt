@@ -1,4 +1,23 @@
-Verified Knowledge Ledger MVP fixture
+Verified Knowledge Ledger
+
+Presentation
+------------
+
+Run from the repository root:
+
+  python3 -m http.server 8766
+
+Open:
+
+  http://127.0.0.1:8766/examples/verified-knowledge-ledger/demo.partner-style.html
+
+The light, eight-beat presentation is the primary product story. It includes
+the interactive governed-knowledge graph, the existing Proofpress handoff
+study, the finance workflow, and the agentic-commerce extension. The earlier
+dark workbench is retained only as a historical reference in archive/.
+
+Backend fixture
+---------------
 
 Run from the repository root:
 

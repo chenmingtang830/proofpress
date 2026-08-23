@@ -1,7 +1,0 @@
-[
-  {
-    "block": "8a2d35fe",
-    "kind": "removed",
-    "note": "Removed the separate source card to simplify the live demo; trace binding and experiment scope remain visible in the consolidated Evidence card."
-  }
-]
