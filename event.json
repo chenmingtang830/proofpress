@@ -2,25 +2,20 @@
  "event": "version_created",
  "artifact": "examples/verified-knowledge-ledger/demo.partner-style.html",
  "artifact_id": "pp_c5949563fc662476994db4f8",
- "version": "043feaef",
- "parent": "587eb15b",
+ "version": "f29a89ec",
+ "parent": "043feaef",
  "author": {
   "name": "Codex",
   "kind": "agent",
   "session": null
  },
  "note": null,
- "ts": "2026-08-23T02:26:19+00:00",
+ "ts": "2026-08-23T02:32:29+00:00",
  "stats": {
-  "modified": 3
+  "modified": 5,
+  "added": 1
  },
  "changes": [
-  {
-   "kind": "modified",
-   "block": "8a674112",
-   "type": "heading",
-   "context": "<h2 class=\"section-title\">Proofpress eli"
-  },
   {
    "kind": "modified",
    "block": "e417ce97",
@@ -29,13 +24,38 @@
   },
   {
    "kind": "modified",
-   "block": "2bc15033",
+   "block": "24a1ba3d",
    "type": "para",
-   "context": "<h2 class=\"section-title\">Proofpress eli"
+   "context": "<h3>BBDC / TVPG merger analysis</h3>"
+  },
+  {
+   "kind": "modified",
+   "block": "ff329ce6",
+   "type": "heading",
+   "context": "<h3>Human review required</h3>"
+  },
+  {
+   "kind": "modified",
+   "block": "d007e1f1",
+   "type": "para",
+   "context": "<h3>Human review required</h3>"
+  },
+  {
+   "kind": "modified",
+   "block": "e3cb86a6",
+   "type": "heading",
+   "context": "<h2 class=\"section-title\">Self-improveme"
+  },
+  {
+   "kind": "added",
+   "block": "6dbb478d",
+   "type": "para",
+   "context": "<h2 class=\"section-title\">Self-improveme",
+   "preview": "<p class=\"vision-thesis\"><strong>Generation creates candidat"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:d30c121020dbf116acc8230a337225b7342731202f881d03c2cb9814ef54b749",
+ "soft_fingerprint": "ppsb1:6a24e743507d98599dbdfc18ea069bf907033905b571415e46b08799321f358d",
  "actors": {
   "requested_by": [
    "Richard Tang"
@@ -53,23 +73,38 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "8a674112",
-   "kind": "modified",
-   "note": "Replaces the unsupported Harvey benchmark placeholder with the headline from the existing bounded Proofpress agent-handoff study."
-  },
-  {
    "block": "e417ce97",
    "kind": "modified",
-   "note": "States the purpose-built task, model configuration, and bounded mechanism-evidence limitation for the reported handoff result."
+   "note": "Condenses the unchanged-artifact control into a supporting evidence note while the visual focuses on the stale-artifact result."
   },
   {
-   "block": "2bc15033",
+   "block": "24a1ba3d",
    "kind": "modified",
-   "note": "Records that Harvey and RelayBench paired calibration remains underway rather than presenting an unvalidated result."
+   "note": "Makes the analyst-facing artifact inspectable but explicitly unavailable for organizational reuse until human approval."
+  },
+  {
+   "block": "ff329ce6",
+   "kind": "modified",
+   "note": "Changes the analyst receipt from verified reuse to a required human-review decision."
+  },
+  {
+   "block": "d007e1f1",
+   "kind": "modified",
+   "note": "Clarifies that attached evidence and automated checks do not admit a conclusion to the verified ledger without the pending approval."
+  },
+  {
+   "block": "e3cb86a6",
+   "kind": "modified",
+   "note": "Connects the closing vision to the recursive risk that self-improvement compounds whatever its loop accepts."
+  },
+  {
+   "block": "6dbb478d",
+   "kind": "added",
+   "note": "Defines the verified knowledge ledger as the trust boundary that decides which candidate improvements may safely compound."
   }
  ],
  "context": {
-  "why": "Replace the unsupported Harvey placeholder with the existing bounded Proofpress agent-handoff study and preserve the ongoing Harvey and RelayBench calibration status."
+  "why": "Clarify the long-horizon trust boundary, distinguish non-admitted graph states, show the finance analyst review gate, simplify the handoff study visual, and connect trusted RSI to verification."
  },
- "event_id": "ppe_81378d1c6999a912a88091e4"
+ "event_id": "ppe_d35564d6a6fc01ea960e2371"
 }

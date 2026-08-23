@@ -76,9 +76,9 @@
   },
   {
    "type": "para",
-   "text": "<p>Preregistered, purpose-built artifact-provenance task using GPT-5.6 Luna at high effort. This is bounded evidence for the version-binding mechanism—not an estimate of general product efficacy.</p>",
+   "text": "<p>Clean control: both conditions continued correctly 12/12. Preregistered, purpose-built artifact-provenance task; bounded mechanism evidence, not an estimate of general product efficacy.</p>",
    "id": "e417ce97",
-   "hash": "3d38a5d80f2f"
+   "hash": "e32e09432239"
   },
   {
    "type": "para",
@@ -100,21 +100,21 @@
   },
   {
    "type": "para",
-   "text": "<p>The analyst gets one current, approved view—not the organization's entire review queue.</p>",
+   "text": "<p>The analyst can inspect this draft, but it cannot be reused as organizational knowledge until a human approves it.</p>",
    "id": "24a1ba3d",
-   "hash": "f9a5afda002b"
+   "hash": "1f0f6dd87ef8"
   },
   {
    "type": "heading",
-   "text": "<h3>Safe to reuse</h3>",
+   "text": "<h3>Human review required</h3>",
    "id": "ff329ce6",
-   "hash": "b4edbd4f9b80"
+   "hash": "b57458d49477"
   },
   {
    "type": "para",
-   "text": "<p>Evidence, verifier, reviewer, scope, and version travel with this conclusion.</p>",
+   "text": "<p>Evidence and automated checks are attached, but this conclusion is not yet admitted to the verified ledger.</p>",
    "id": "d007e1f1",
-   "hash": "d48ebbdc9628"
+   "hash": "72a31dd8f469"
   },
   {
    "type": "heading",
@@ -136,9 +136,15 @@
   },
   {
    "type": "heading",
-   "text": "<h2>From autonomous agents<span>to trusted recursive self-improvement.</span></h2>",
+   "text": "<h2 class=\"section-title\">Self-improvement compounds what the loop accepts.<span>Verification makes RSI trustworthy.</span></h2>",
    "id": "e3cb86a6",
-   "hash": "f45d5ab5ae4b"
+   "hash": "501cce1180b2"
+  },
+  {
+   "type": "para",
+   "text": "<p class=\"vision-thesis\"><strong>Generation creates candidates.</strong> A verified knowledge ledger decides which improvements are evidence-backed, governed, and safe to compound.</p>",
+   "id": "6dbb478d",
+   "hash": "0213e3daf903"
   },
   {
    "type": "heading",
