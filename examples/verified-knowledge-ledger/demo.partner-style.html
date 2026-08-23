@@ -329,6 +329,112 @@
           <h2 class="section-title" data-proofpress-id="c2ec8e67">The same trust contract.<span>A different operational surface.</span></h2>
           <p class="tour-lede" data-proofpress-id="9a956087">Commerce is not another finance graph. It is a telemetry-to-trusted-action view across policy, payment, fulfillment, and disputes.</p>
           <div class="commerce-flow"><div class="commerce-lane"><strong>OTEL TELEMETRY</strong><span class="commerce-event trace">catalog.read</span><span class="commerce-event trace">cart.updated</span><span class="commerce-event trace">policy.check</span><span class="commerce-event trace">payment.auth</span><span class="commerce-event trace">fulfillment</span><span class="commerce-event trace">dispute.open</span></div><div class="commerce-lane"><strong>TRUST POLICY</strong><span class="commerce-event policy">price current</span><span class="commerce-event policy">consent bound</span><span class="commerce-event trusted">limit passed</span><span class="commerce-event trusted">authorized</span><span class="commerce-event trusted">receipt bound</span><span class="commerce-event blocked">human review</span></div><div class="commerce-lane"><strong>AGENT ACTION</strong><span class="commerce-event trusted">recommend</span><span class="commerce-event trusted">reserve</span><span class="commerce-event trusted">purchase</span><span class="commerce-event trusted">pay</span><span class="commerce-event trusted">track</span><span class="commerce-event blocked">pause refund</span></div><div class="commerce-boundary"><i></i><span>Every action inherits an evidence-bound policy state; disputed or expired state stops autonomous execution.</span></div></div>
+        <style>
+.measured{
+  --m-ink:var(--tour-ink,#20222b);
+  --m-ink-2:var(--tour-muted,#5a5d6b);
+  --m-ink-3:var(--tour-dim,#8b8e9c);
+  --m-line:var(--tour-line,#e3e1d9);
+  --m-ok:var(--tour-green,#2e7d4f);
+  --m-ok-bg:var(--tour-green-soft,#e7f2ea);
+  --m-why:var(--tour-amber,#8a6210);
+  --m-why-bg:var(--tour-amber-soft,#f5eedc);
+  --m-sans:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue",sans-serif;
+  margin-top:clamp(14px,2.4vh,24px);
+  border-top:1px solid var(--m-line);
+  padding-top:clamp(11px,1.8vh,18px);
+  font-family:var(--m-sans);
+}
+.measured-claim{
+  margin:0; color:var(--m-ink);
+  font:700 clamp(15px,1.7vw,25px)/1.25 var(--m-sans);
+}
+.measured-claim em{
+  font-style:normal; font-family:var(--mono); font-variant-numeric:tabular-nums;
+}
+.measured-claim b{color:var(--m-why)}
+
+/* evidence row — the two numbers carry the argument; source chip stays neutral */
+.measured-strip{
+  display:flex; flex-wrap:wrap; align-items:stretch;
+  gap:clamp(6px,.8vw,10px); margin-top:clamp(10px,1.6vh,16px);
+}
+.measured-fig{
+  display:flex; flex-direction:column; gap:3px;
+  padding:clamp(9px,1.1vw,13px) clamp(11px,1.3vw,16px); border-radius:5px;
+}
+.measured-fig b{
+  font:700 clamp(15px,1.55vw,23px)/1 var(--mono);
+  font-variant-numeric:tabular-nums; letter-spacing:-.01em;
+}
+.measured-fig span{
+  font:700 clamp(8px,.72vw,10px)/1.3 var(--mono); letter-spacing:.08em;
+}
+.measured-fig.ok{background:var(--m-ok-bg)}
+.measured-fig.ok b,.measured-fig.ok span{color:var(--m-ok)}
+.measured-fig.why{background:var(--m-why-bg)}
+.measured-fig.why b,.measured-fig.why span{color:var(--m-why)}
+.measured-src{
+  display:flex; align-items:center;
+  padding:clamp(9px,1.1vw,13px) clamp(11px,1.3vw,16px); border-radius:5px;
+  background:#ece7df; color:#696259;
+  font:clamp(8px,.72vw,10px)/1.45 var(--mono); font-variant-numeric:tabular-nums;
+}
+.measured-src em{font-style:normal; color:var(--m-why)}
+
+.measured-sub{
+  margin:clamp(9px,1.4vh,14px) 0 0; max-width:820px; color:var(--m-ink-2);
+  font-size:clamp(10px,.95vw,14px); line-height:1.55;
+}
+.measured-sub strong{color:var(--m-ink); font-weight:600}
+.measured-caveat{margin:clamp(8px,1.2vh,12px) 0 0; padding-left:11px;
+  border-left:2px solid var(--m-line); color:var(--m-ink-3);
+  font-size:clamp(9px,.82vw,12px); line-height:1.5;}
+
+.measured-ref{
+  margin-top:clamp(9px,1.4vh,14px); padding-top:clamp(7px,1.1vh,11px);
+  border-top:1px solid var(--m-line); color:var(--m-ink-3);
+  font:clamp(7.5px,.66vw,9.5px)/1.6 var(--mono); letter-spacing:.03em;
+  max-width:100%; overflow-wrap:anywhere;
+}
+.measured-ref b{color:var(--m-ink-2); font-weight:600}
+</style>
+
+<div class="measured">
+  <p class="measured-claim">
+    A <em>$1,234.50</em> offer changed hands <em>four</em> times.
+    <b>Nothing in the stack recorded that it moved.</b>
+  </p>
+
+  <div class="measured-strip">
+    <div class="measured-fig ok"><b>10/10</b><span>RELAYS INTACT</span></div>
+    <div class="measured-fig why"><b>0</b><span>RECORDED · 12 LAYERS</span></div>
+    <div class="measured-src"><span>onet-15-1252-t07 · rate_usd 1234.50 · unit <em>µs</em></span></div>
+  </div>
+
+  <p class="measured-sub">
+    Live LLM agents on Project NANDA's NandaTown — a neutral runtime, not ours.
+    Negotiation should have carried the offer; data facts is the nearest thing to an
+    integrity owner. It crossed as bytes and engaged neither.
+    <strong>Four parties could have computed its identity — the issuer, the runtime,
+    each receiver, an auditor afterward. Only the auditor did</strong>, from outside,
+    with an analyzer that returned the wrong answer first.
+    Agent identity gives you an accountable party; a knowledge graph gives you a
+    well-modeled domain. <strong>Neither answers &ldquo;what were the terms.&rdquo;</strong>
+  </p>
+
+  <p class="measured-caveat">Cooperative relay, explicit pass-through, one run,
+    one seed. A floor, not general robustness.</p>
+
+  <div class="measured-ref">
+    <b>Reference</b> — code path unmodified upstream: Project NANDA · NandaTown,
+    <b>github.com/projnanda/nandatown</b>, <b>nest_shell/agent.py</b>
+    (identical at <b>4db7e43</b> and <b>7106ca6</b>) · run performed on a local
+    working tree; scenario <b>lost_in_handoff</b>, analyzer <b>hop_decay.py</b>,
+    identity contract <b>handoff-core/1</b> not yet published · trace
+    <b>lost_in_handoff_fresh.jsonl</b> · <b>2026-08-22</b>
+  </div>
+</div>
         </div>
         <script type="application/json" class="slide-notes">{"title":"Agentic commerce","script":"The ledger contract extends beyond knowledge work. In commerce, telemetry becomes policy-aware trusted state, and that state controls whether an agent may recommend, purchase, pay, fulfill, or must stop for review.","notes":["Different visualization for an operational domain","Policy state controls autonomous action"]}</script>
       </div>
