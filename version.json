@@ -70,21 +70,21 @@
   },
   {
    "type": "heading",
-   "text": "<h2 class=\"section-title\">Does verified continuity<span>improve the long-horizon baseline?</span></h2>",
+   "text": "<h2 class=\"section-title\">Proofpress eliminated stale reuse<span>without reducing clean continuation.</span></h2>",
    "id": "8a674112",
-   "hash": "6d1fb4fef315"
+   "hash": "da9f21afcb17"
   },
   {
    "type": "para",
-   "text": "<p>The Harvey benchmark is eval only. Replace this placeholder with the measured result from the separate benchmark run—never with demo data.</p>",
+   "text": "<p>Preregistered, purpose-built artifact-provenance task using GPT-5.6 Luna at high effort. This is bounded evidence for the version-binding mechanism—not an estimate of general product efficacy.</p>",
    "id": "e417ce97",
-   "hash": "5047a9fea289"
+   "hash": "3d38a5d80f2f"
   },
   {
    "type": "para",
-   "text": "<p class=\"eval-caption\">Result intentionally blank · populate with the separate Harvey benchmark's actual baseline, treatment, denominator, and confidence interval.</p>",
+   "text": "<p class=\"study-status\">HARVEY / RELAYBENCH PAIRED CALIBRATION UNDERWAY</p>",
    "id": "2bc15033",
-   "hash": "cd1aa579c3a0"
+   "hash": "956fdb30f5b6"
   },
   {
    "type": "heading",

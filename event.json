@@ -2,113 +2,40 @@
  "event": "version_created",
  "artifact": "examples/verified-knowledge-ledger/demo.partner-style.html",
  "artifact_id": "pp_c5949563fc662476994db4f8",
- "version": "587eb15b",
- "parent": "3325b4f8",
+ "version": "043feaef",
+ "parent": "587eb15b",
  "author": {
   "name": "Codex",
   "kind": "agent",
   "session": null
  },
  "note": null,
- "ts": "2026-08-23T02:21:42+00:00",
+ "ts": "2026-08-23T02:26:19+00:00",
  "stats": {
-  "modified": 8,
-  "removed": 6
+  "modified": 3
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "9b7bc598",
+   "block": "8a674112",
    "type": "heading",
-   "context": "<h2 class=\"section-title\">Small errors c"
+   "context": "<h2 class=\"section-title\">Proofpress eli"
   },
   {
    "kind": "modified",
-   "block": "31c19cab",
+   "block": "e417ce97",
    "type": "para",
-   "context": "<h3>Observability</h3>"
+   "context": "<h2 class=\"section-title\">Proofpress eli"
   },
   {
    "kind": "modified",
-   "block": "676412d2",
+   "block": "2bc15033",
    "type": "para",
-   "context": "<h3>Memory + ontology</h3>"
-  },
-  {
-   "kind": "modified",
-   "block": "4a6c7b6e",
-   "type": "para",
-   "context": "<h3>Proofpress</h3>"
-  },
-  {
-   "kind": "modified",
-   "block": "24a1ba3d",
-   "type": "para",
-   "context": "<h3>BBDC / TVPG merger analysis</h3>"
-  },
-  {
-   "kind": "modified",
-   "block": "d007e1f1",
-   "type": "para",
-   "context": "<h3>Safe to reuse</h3>"
-  },
-  {
-   "kind": "modified",
-   "block": "d02ce2d7",
-   "type": "heading",
-   "context": "<h3>What enters shared finance knowledge"
-  },
-  {
-   "kind": "modified",
-   "block": "e3cb86a6",
-   "type": "heading",
-   "context": "<h2>From autonomous agents<span>to trust"
-  },
-  {
-   "kind": "removed",
-   "block": "19c1161d",
-   "type": "heading",
-   "context": "",
-   "preview": "<h3>Fable 5</h3>"
-  },
-  {
-   "kind": "removed",
-   "block": "d3505b5d",
-   "type": "para",
-   "context": "",
-   "preview": "<p>53.2% · evidence complete</p>"
-  },
-  {
-   "kind": "removed",
-   "block": "7dd720db",
-   "type": "heading",
-   "context": "",
-   "preview": "<h3>Opus 4.8</h3>"
-  },
-  {
-   "kind": "removed",
-   "block": "0c0a98c5",
-   "type": "para",
-   "context": "",
-   "preview": "<p>51.2% · evidence complete</p>"
-  },
-  {
-   "kind": "removed",
-   "block": "231125c5",
-   "type": "heading",
-   "context": "",
-   "preview": "<h3>GLM-4.7</h3>"
-  },
-  {
-   "kind": "removed",
-   "block": "cc5c1ebe",
-   "type": "para",
-   "context": "",
-   "preview": "<p>8.7% · incomplete evidence</p>"
+   "context": "<h2 class=\"section-title\">Proofpress eli"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:76482178b3e6448ef8af5246163b15604e3c2fd62a9d720447f0b835d45b77fa",
+ "soft_fingerprint": "ppsb1:d30c121020dbf116acc8230a337225b7342731202f881d03c2cb9814ef54b749",
  "actors": {
   "requested_by": [
    "Richard Tang"
@@ -126,78 +53,23 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "9b7bc598",
+   "block": "8a674112",
    "kind": "modified",
-   "note": "Frames the long-horizon problem as compounding small errors and memory preserving an incorrect state."
+   "note": "Replaces the unsupported Harvey benchmark placeholder with the headline from the existing bounded Proofpress agent-handoff study."
   },
   {
-   "block": "31c19cab",
+   "block": "e417ce97",
    "kind": "modified",
-   "note": "Defines observability as recording what happened across the full trajectory."
+   "note": "States the purpose-built task, model configuration, and bounded mechanism-evidence limitation for the reported handoff result."
   },
   {
-   "block": "676412d2",
+   "block": "2bc15033",
    "kind": "modified",
-   "note": "Defines memory and ontology as what the system remembers and how it is organized, without implying verification."
-  },
-  {
-   "block": "4a6c7b6e",
-   "kind": "modified",
-   "note": "Defines Proofpress by authorship, rationale, and the evidence needed to trust a handoff."
-  },
-  {
-   "block": "24a1ba3d",
-   "kind": "modified",
-   "note": "Simplifies the analyst experience to one current approved view instead of exposing the organizational review queue."
-  },
-  {
-   "block": "d007e1f1",
-   "kind": "modified",
-   "note": "Expands the analyst trust receipt to evidence, verifier, reviewer, scope, and version."
-  },
-  {
-   "block": "d02ce2d7",
-   "kind": "modified",
-   "note": "Scopes the admin governance graph to deciding what enters shared finance knowledge."
-  },
-  {
-   "block": "e3cb86a6",
-   "kind": "modified",
-   "note": "Raises the north star from self-improving companies to trusted recursive self-improvement."
-  },
-  {
-   "block": "19c1161d",
-   "kind": "removed",
-   "note": "Removes the separate Fable model-version card because the admin surface now uses the same four-layer ledger graph as the product demo."
-  },
-  {
-   "block": "d3505b5d",
-   "kind": "removed",
-   "note": "Moves the Fable fixture status into the governed-ledger path rather than a standalone version card."
-  },
-  {
-   "block": "7dd720db",
-   "kind": "removed",
-   "note": "Removes the separate Opus model-version card in favor of a human-review path through the governance graph."
-  },
-  {
-   "block": "0c0a98c5",
-   "kind": "removed",
-   "note": "Moves the Opus fixture status into the pending ledger path rather than a standalone version card."
-  },
-  {
-   "block": "231125c5",
-   "kind": "removed",
-   "note": "Removes the separate GLM model-version card in favor of a rejected path through the governance graph."
-  },
-  {
-   "block": "cc5c1ebe",
-   "kind": "removed",
-   "note": "Moves the GLM fixture status into the rejected ledger path rather than a standalone version card."
+   "note": "Records that Harvey and RelayBench paired calibration remains underway rather than presenting an unvalidated result."
   }
  ],
  "context": {
-  "why": "Align the presentation with long-horizon reliability failure modes, distinguish memory from trust, make verification gates explicit, unify the product and finance ledger graphs, and extend the north star to trusted recursive self-improvement."
+  "why": "Replace the unsupported Harvey placeholder with the existing bounded Proofpress agent-handoff study and preserve the ongoing Harvey and RelayBench calibration status."
  },
- "event_id": "ppe_7c08c961674dabc5c2f2bfd9"
+ "event_id": "ppe_81378d1c6999a912a88091e4"
 }
