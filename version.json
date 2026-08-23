@@ -94,21 +94,9 @@
   },
   {
    "type": "list",
-   "text": "- the demo is three minutes;\n- the demonstrated increment must be original work built at the event, though",
+   "text": "- the demo is three minutes;\n- the demonstrated increment must be original work built at the event, though\n  it may extend an existing project;\n- the project must be open source;\n- a project draft must be saved by 7:00pm for finalist selection;\n- the final submission is due by 8:00pm and cannot be edited after submission.",
    "id": "b3e4a788",
-   "hash": "8e5600bca5ca"
-  },
-  {
-   "type": "para",
-   "text": "  it may extend an existing project;",
-   "hash": "464560456e61",
-   "id": "edc6b028"
-  },
-  {
-   "type": "list",
-   "text": "- the project must be open source;\n- a project draft must be saved by 7:00pm for finalist selection;\n- the final submission is due by 8:00pm and cannot be edited after submission.",
-   "hash": "bcc8279a0fb1",
-   "id": "f667b56a"
+   "hash": "81c47099b789"
   },
   {
    "type": "para",
@@ -178,27 +166,9 @@
   },
   {
    "type": "list",
-   "text": "1. Observability captures activity: logs, commits, tool calls, traces, spans.\n2. Memory and ontology organize context: what is remembered and how entities",
+   "text": "1. Observability captures activity: logs, commits, tool calls, traces, spans.\n2. Memory and ontology organize context: what is remembered and how entities\n   relate.\n3. Proofpress governs reliance: what may be trusted, why, within which scope,\n   and under whose approval.",
    "id": "305ab25f",
-   "hash": "847db0139bf8"
-  },
-  {
-   "type": "para",
-   "text": "   relate.",
-   "hash": "3faf5eb97bd1",
-   "id": "087fcb3b"
-  },
-  {
-   "type": "list",
-   "text": "3. Proofpress governs reliance: what may be trusted, why, within which scope,",
-   "hash": "12ac905cbbae",
-   "id": "8044ff8e"
-  },
-  {
-   "type": "para",
-   "text": "   and under whose approval.",
-   "hash": "4df7ff8324e0",
-   "id": "64f1e8da"
+   "hash": "df2020ed8587"
   },
   {
    "type": "para",
@@ -382,33 +352,9 @@
   },
   {
    "type": "list",
-   "text": "- a small **Guided demo** control starts the narrative;\n- eight light, full-viewport slides form one coherent visual system;\n- **Next**, **Back**, arrow keys, and **Exit tour** are always available;\n- a visible 3:00 clock makes the event constraint operational;\n- the underlying product is fully opaque during the tour and becomes available",
+   "text": "- a small **Guided demo** control starts the narrative;\n- eight light, full-viewport slides form one coherent visual system;\n- **Next**, **Back**, arrow keys, and **Exit tour** are always available;\n- a visible 3:00 clock makes the event constraint operational;\n- the underlying product is fully opaque during the tour and becomes available\n  only after exit;\n- direct links can open a specific beat for collaborator review;\n- reduced-motion users receive immediate state changes without animated camera\n  movement;\n- the page still works from a local static server and without new dependencies.",
    "id": "91879a6f",
-   "hash": "6a98aecefffc"
-  },
-  {
-   "type": "para",
-   "text": "  only after exit;",
-   "hash": "87d6a637d27f",
-   "id": "bf1af6ea"
-  },
-  {
-   "type": "list",
-   "text": "- direct links can open a specific beat for collaborator review;\n- reduced-motion users receive immediate state changes without animated camera",
-   "hash": "abe8b428be95",
-   "id": "c488e416"
-  },
-  {
-   "type": "para",
-   "text": "  movement;",
-   "hash": "2a6bb2bd25c1",
-   "id": "882d8470"
-  },
-  {
-   "type": "list",
-   "text": "- the page still works from a local static server and without new dependencies.",
-   "hash": "a839166c1f96",
-   "id": "85534420"
+   "hash": "2e77872c4319"
   },
   {
    "type": "para",
@@ -430,39 +376,9 @@
   },
   {
    "type": "list",
-   "text": "- Continue loading `demo.ledger-view.json` for nodes, edges, states, and hashes.\n- Do not invent admitted states or relationships in presentation code.\n- Keep static fallback copy only for `file://` preview, clearly labeled as a",
+   "text": "- Continue loading `demo.ledger-view.json` for nodes, edges, states, and hashes.\n- Do not invent admitted states or relationships in presentation code.\n- Keep static fallback copy only for `file://` preview, clearly labeled as a\n  fixture.\n- Keep integrity, evidence support, and lifecycle/admission as independent\n  dimensions.\n- Treat the current growth-experiment data as an illustrative integration\n  fixture, not Harvey, finance, or commerce evidence.",
    "id": "9ca9737d",
-   "hash": "790b60e8c614"
-  },
-  {
-   "type": "para",
-   "text": "  fixture.",
-   "hash": "b4e9f2502f66",
-   "id": "dcf5e08e"
-  },
-  {
-   "type": "list",
-   "text": "- Keep integrity, evidence support, and lifecycle/admission as independent",
-   "hash": "98b4d2d41446",
-   "id": "44172486"
-  },
-  {
-   "type": "para",
-   "text": "  dimensions.",
-   "hash": "9a5a1c2d97d2",
-   "id": "a1a8fd39"
-  },
-  {
-   "type": "list",
-   "text": "- Treat the current growth-experiment data as an illustrative integration",
-   "hash": "bd469d1d9992",
-   "id": "d3ff412b"
-  },
-  {
-   "type": "para",
-   "text": "  fixture, not Harvey, finance, or commerce evidence.",
-   "hash": "ad82d8a1217d",
-   "id": "eafbd7c0"
+   "hash": "565e23609218"
   },
   {
    "type": "heading",
@@ -502,39 +418,9 @@
   },
   {
    "type": "list",
-   "text": "- Harvey: report only real evaluation evidence and label unresolved results",
+   "text": "- Harvey: report only real evaluation evidence and label unresolved results\n  honestly; no separate Harvey product UI is required.\n- Finance: adapt the Apex investment-analyst artifact into the primary workflow,\n  admin workspace, knowledge graph, and receipt contract.\n- Commerce: build a domain-extension visualization around telemetry flowing\n  into policy-constrained trusted action state when a real workflow is\n  available.",
    "id": "d8c7277f",
-   "hash": "446c655bc332"
-  },
-  {
-   "type": "para",
-   "text": "  honestly; no separate Harvey product UI is required.",
-   "hash": "ffcbbee1e51f",
-   "id": "98bbc56f"
-  },
-  {
-   "type": "list",
-   "text": "- Finance: adapt the Apex investment-analyst artifact into the primary workflow,",
-   "hash": "56d9f2a66420",
-   "id": "5f33cbab"
-  },
-  {
-   "type": "para",
-   "text": "  admin workspace, knowledge graph, and receipt contract.",
-   "hash": "5f2a815c7908",
-   "id": "274391c4"
-  },
-  {
-   "type": "list",
-   "text": "- Commerce: build a domain-extension visualization around telemetry flowing",
-   "hash": "3732634e3ba8",
-   "id": "04cb9682"
-  },
-  {
-   "type": "para",
-   "text": "  into policy-constrained trusted action state when a real workflow is\n  available.",
-   "hash": "2c85418bac5b",
-   "id": "c29ec34b"
+   "hash": "b27ce64ec250"
   },
   {
    "type": "para",
@@ -550,111 +436,9 @@
   },
   {
    "type": "list",
-   "text": "- A first-time viewer can state the positioning, purpose, tagline, and problem",
+   "text": "- A first-time viewer can state the positioning, purpose, tagline, and problem\n  within sixty seconds.\n- The complete guided path can be delivered within three minutes.\n- The presentation identifies what was built at the event on top of the\n  existing open-source Proofpress foundation.\n- The first screen names the product category and tagline; the second explains\n  the problem and trust stack before any graph appears.\n- The guided path reaches a real interactive Graph / Ledger / Evidence view.\n- Every displayed lifecycle state matches the ledger view or is explicitly\n  labeled fixture copy; the Harvey result remains visibly pending until real.\n- The default graph excludes stale knowledge while preserving a discoverable\n  supersession or rejection path.\n- The product remains fully usable after exiting the guided path.\n- No slide or interstitial scrolls internally at the reference viewport.\n- Keyboard navigation and reduced-motion behavior work.\n- The story gives Harvey, finance, and agentic commerce distinct jobs: effect\n  proof, product proof, and extension proof. Growth experiments remain the\n  collaboration integration example.\n- No benchmark improvement, universal truth, or unsupported design-partner\n  claim is implied.\n- Stash is presented as a composable memory layer, not attacked as a\n  competitor.\n- Coframe is presented as the H3 growth system; Proofpress is the complementary\n  verified-knowledge and governance layer.",
    "id": "4ab84b40",
-   "hash": "e2081ab37985"
-  },
-  {
-   "type": "para",
-   "text": "  within sixty seconds.",
-   "hash": "a76d57b5d6bb",
-   "id": "3f1fd5ac"
-  },
-  {
-   "type": "list",
-   "text": "- The complete guided path can be delivered within three minutes.\n- The presentation identifies what was built at the event on top of the",
-   "hash": "f85439190ae2",
-   "id": "7c1a904a"
-  },
-  {
-   "type": "para",
-   "text": "  existing open-source Proofpress foundation.",
-   "hash": "32c5f04b147f",
-   "id": "af711a76"
-  },
-  {
-   "type": "list",
-   "text": "- The first screen names the product category and tagline; the second explains",
-   "hash": "e27fd6361e75",
-   "id": "36fef211"
-  },
-  {
-   "type": "para",
-   "text": "  the problem and trust stack before any graph appears.",
-   "hash": "1170f864ab08",
-   "id": "9c19ac15"
-  },
-  {
-   "type": "list",
-   "text": "- The guided path reaches a real interactive Graph / Ledger / Evidence view.\n- Every displayed lifecycle state matches the ledger view or is explicitly",
-   "hash": "a681e8fe11c4",
-   "id": "2e7c9c54"
-  },
-  {
-   "type": "para",
-   "text": "  labeled fixture copy; the Harvey result remains visibly pending until real.",
-   "hash": "4fcaf8cc60b7",
-   "id": "ce96c51c"
-  },
-  {
-   "type": "list",
-   "text": "- The default graph excludes stale knowledge while preserving a discoverable",
-   "hash": "69de61aee990",
-   "id": "92a1ca7e"
-  },
-  {
-   "type": "para",
-   "text": "  supersession or rejection path.",
-   "hash": "75b26b30eb77",
-   "id": "29f737ed"
-  },
-  {
-   "type": "list",
-   "text": "- The product remains fully usable after exiting the guided path.\n- No slide or interstitial scrolls internally at the reference viewport.\n- Keyboard navigation and reduced-motion behavior work.\n- The story gives Harvey, finance, and agentic commerce distinct jobs: effect",
-   "hash": "873ca41ef850",
-   "id": "472833ad"
-  },
-  {
-   "type": "para",
-   "text": "  proof, product proof, and extension proof. Growth experiments remain the\n  collaboration integration example.",
-   "hash": "d66729e80fdf",
-   "id": "d240ec09"
-  },
-  {
-   "type": "list",
-   "text": "- No benchmark improvement, universal truth, or unsupported design-partner",
-   "hash": "3c71a32d8c2b",
-   "id": "dcfb305d"
-  },
-  {
-   "type": "para",
-   "text": "  claim is implied.",
-   "hash": "77d735dac2e0",
-   "id": "ef81f52f"
-  },
-  {
-   "type": "list",
-   "text": "- Stash is presented as a composable memory layer, not attacked as a",
-   "hash": "63ed138824fd",
-   "id": "2ff45d97"
-  },
-  {
-   "type": "para",
-   "text": "  competitor.",
-   "hash": "6173030a9b34",
-   "id": "e65deed5"
-  },
-  {
-   "type": "list",
-   "text": "- Coframe is presented as the H3 growth system; Proofpress is the complementary",
-   "hash": "d1520216372d",
-   "id": "b873a0d6"
-  },
-  {
-   "type": "para",
-   "text": "  verified-knowledge and governance layer.",
-   "hash": "70266a1dded9",
-   "id": "5ba7e598"
+   "hash": "030844a33cc2"
   },
   {
    "type": "heading",

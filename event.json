@@ -2,18 +2,18 @@
  "event": "version_created",
  "artifact": "planning/2026-08-22-hackathon-presentation-layer.md",
  "artifact_id": "pp_ffd63e1c02900570cefc606c",
- "version": "4a7dc229",
- "parent": "5a7c2d14",
+ "version": "309f3615",
+ "parent": "4a7dc229",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-23T00:30:30+00:00",
+ "ts": "2026-08-23T00:34:20+00:00",
  "stats": {
-  "modified": 34,
-  "added": 37
+  "modified": 6,
+  "removed": 36
  },
  "changes": [
   {
@@ -23,240 +23,15 @@
    "context": "Build Day constraints"
   },
   {
-   "kind": "added",
-   "block": "edc6b028",
-   "type": "para",
-   "context": "Build Day constraints",
-   "preview": "  it may extend an existing project;"
-  },
-  {
-   "kind": "added",
-   "block": "f667b56a",
-   "type": "list",
-   "context": "Build Day constraints",
-   "preview": "- the project must be open source;\n- a project draft must be"
-  },
-  {
-   "kind": "modified",
-   "block": "92908d5a",
-   "type": "para",
-   "context": "Three-minute narrative structure"
-  },
-  {
-   "kind": "modified",
-   "block": "0cd1ec09",
-   "type": "heading",
-   "context": "1. Positioning and purpose"
-  },
-  {
-   "kind": "modified",
-   "block": "ac0553a6",
-   "type": "para",
-   "context": "1. Positioning and purpose"
-  },
-  {
-   "kind": "modified",
-   "block": "43427c4d",
-   "type": "para",
-   "context": "1. Positioning and purpose"
-  },
-  {
-   "kind": "modified",
-   "block": "37d07198",
-   "type": "para",
-   "context": "1. Positioning and purpose"
-  },
-  {
-   "kind": "modified",
-   "block": "946a0d38",
-   "type": "para",
-   "context": "1. Positioning and purpose"
-  },
-  {
    "kind": "modified",
    "block": "305ab25f",
    "type": "list",
    "context": "2. The missing layer"
   },
   {
-   "kind": "added",
-   "block": "087fcb3b",
-   "type": "para",
-   "context": "2. The missing layer",
-   "preview": "   relate."
-  },
-  {
-   "kind": "added",
-   "block": "8044ff8e",
-   "type": "list",
-   "context": "2. The missing layer",
-   "preview": "3. Proofpress governs reliance: what may be trusted, why, wi"
-  },
-  {
-   "kind": "added",
-   "block": "64f1e8da",
-   "type": "para",
-   "context": "2. The missing layer",
-   "preview": "   and under whose approval."
-  },
-  {
-   "kind": "modified",
-   "block": "1ae5eeb7",
-   "type": "heading",
-   "context": "3. Product architecture"
-  },
-  {
-   "kind": "modified",
-   "block": "76366fe9",
-   "type": "para",
-   "context": "3. Product architecture"
-  },
-  {
-   "kind": "modified",
-   "block": "c9eed237",
-   "type": "list",
-   "context": "3. Product architecture"
-  },
-  {
-   "kind": "modified",
-   "block": "57008899",
-   "type": "para",
-   "context": "3. Product architecture"
-  },
-  {
-   "kind": "modified",
-   "block": "2f49b287",
-   "type": "heading",
-   "context": "4. Graph / Ledger / Evidence"
-  },
-  {
-   "kind": "modified",
-   "block": "79acad14",
-   "type": "para",
-   "context": "4. Graph / Ledger / Evidence"
-  },
-  {
-   "kind": "modified",
-   "block": "2e2f68b5",
-   "type": "list",
-   "context": "4. Graph / Ledger / Evidence"
-  },
-  {
-   "kind": "modified",
-   "block": "41a25b90",
-   "type": "para",
-   "context": "4. Graph / Ledger / Evidence"
-  },
-  {
-   "kind": "modified",
-   "block": "d3e70d2e",
-   "type": "heading",
-   "context": "5. Harvey benchmark — effect proof"
-  },
-  {
-   "kind": "modified",
-   "block": "59aade6f",
-   "type": "para",
-   "context": "5. Harvey benchmark — effect proof"
-  },
-  {
-   "kind": "modified",
-   "block": "7d479e24",
-   "type": "para",
-   "context": "5. Harvey benchmark — effect proof"
-  },
-  {
-   "kind": "modified",
-   "block": "61453f8f",
-   "type": "list",
-   "context": "5. Harvey benchmark — effect proof"
-  },
-  {
-   "kind": "modified",
-   "block": "e7fbf9f9",
-   "type": "heading",
-   "context": "6. Finance workflow — product proof"
-  },
-  {
-   "kind": "modified",
-   "block": "28a20ff0",
-   "type": "para",
-   "context": "6. Finance workflow — product proof"
-  },
-  {
-   "kind": "modified",
-   "block": "3f099f98",
-   "type": "list",
-   "context": "6. Finance workflow — product proof"
-  },
-  {
-   "kind": "modified",
-   "block": "15c1e725",
-   "type": "para",
-   "context": "6. Finance workflow — product proof"
-  },
-  {
-   "kind": "modified",
-   "block": "5621c4a3",
-   "type": "heading",
-   "context": "7. Agentic commerce — extension proof"
-  },
-  {
-   "kind": "modified",
-   "block": "29d707ef",
-   "type": "para",
-   "context": "7. Agentic commerce — extension proof"
-  },
-  {
-   "kind": "modified",
-   "block": "f3135bb2",
-   "type": "para",
-   "context": "7. Agentic commerce — extension proof"
-  },
-  {
-   "kind": "modified",
-   "block": "e73d2723",
-   "type": "para",
-   "context": "7. Agentic commerce — extension proof"
-  },
-  {
    "kind": "modified",
    "block": "91879a6f",
    "type": "list",
-   "context": "Interaction architecture"
-  },
-  {
-   "kind": "added",
-   "block": "bf1af6ea",
-   "type": "para",
-   "context": "Interaction architecture",
-   "preview": "  only after exit;"
-  },
-  {
-   "kind": "added",
-   "block": "c488e416",
-   "type": "list",
-   "context": "Interaction architecture",
-   "preview": "- direct links can open a specific beat for collaborator rev"
-  },
-  {
-   "kind": "added",
-   "block": "882d8470",
-   "type": "para",
-   "context": "Interaction architecture",
-   "preview": "  movement;"
-  },
-  {
-   "kind": "added",
-   "block": "85534420",
-   "type": "list",
-   "context": "Interaction architecture",
-   "preview": "- the page still works from a local static server and withou"
-  },
-  {
-   "kind": "modified",
-   "block": "04f70fd4",
-   "type": "para",
    "context": "Interaction architecture"
   },
   {
@@ -266,86 +41,10 @@
    "context": "Data and evidence contract"
   },
   {
-   "kind": "added",
-   "block": "dcf5e08e",
-   "type": "para",
-   "context": "Data and evidence contract",
-   "preview": "  fixture."
-  },
-  {
-   "kind": "added",
-   "block": "44172486",
-   "type": "list",
-   "context": "Data and evidence contract",
-   "preview": "- Keep integrity, evidence support, and lifecycle/admission "
-  },
-  {
-   "kind": "added",
-   "block": "a1a8fd39",
-   "type": "para",
-   "context": "Data and evidence contract",
-   "preview": "  dimensions."
-  },
-  {
-   "kind": "added",
-   "block": "d3ff412b",
-   "type": "list",
-   "context": "Data and evidence contract",
-   "preview": "- Treat the current growth-experiment data as an illustrativ"
-  },
-  {
-   "kind": "added",
-   "block": "eafbd7c0",
-   "type": "para",
-   "context": "Data and evidence contract",
-   "preview": "  fixture, not Harvey, finance, or commerce evidence."
-  },
-  {
-   "kind": "modified",
-   "block": "be5ab015",
-   "type": "list",
-   "context": "P0 — narrative shell"
-  },
-  {
    "kind": "modified",
    "block": "d8c7277f",
    "type": "list",
    "context": "P2 — vertical fixture packs"
-  },
-  {
-   "kind": "added",
-   "block": "98bbc56f",
-   "type": "para",
-   "context": "P2 — vertical fixture packs",
-   "preview": "  honestly; no separate Harvey product UI is required."
-  },
-  {
-   "kind": "added",
-   "block": "5f33cbab",
-   "type": "list",
-   "context": "P2 — vertical fixture packs",
-   "preview": "- Finance: adapt the Apex investment-analyst artifact into t"
-  },
-  {
-   "kind": "added",
-   "block": "274391c4",
-   "type": "para",
-   "context": "P2 — vertical fixture packs",
-   "preview": "  admin workspace, knowledge graph, and receipt contract."
-  },
-  {
-   "kind": "added",
-   "block": "04cb9682",
-   "type": "list",
-   "context": "P2 — vertical fixture packs",
-   "preview": "- Commerce: build a domain-extension visualization around te"
-  },
-  {
-   "kind": "added",
-   "block": "c29ec34b",
-   "type": "para",
-   "context": "P2 — vertical fixture packs",
-   "preview": "  into policy-constrained trusted action state when a real w"
   },
   {
    "kind": "modified",
@@ -354,130 +53,256 @@
    "context": "Acceptance criteria"
   },
   {
-   "kind": "added",
+   "kind": "removed",
+   "block": "edc6b028",
+   "type": "para",
+   "context": "",
+   "preview": "  it may extend an existing project;"
+  },
+  {
+   "kind": "removed",
+   "block": "f667b56a",
+   "type": "list",
+   "context": "",
+   "preview": "- the project must be open source;\n- a project draft must be"
+  },
+  {
+   "kind": "removed",
+   "block": "087fcb3b",
+   "type": "para",
+   "context": "",
+   "preview": "   relate."
+  },
+  {
+   "kind": "removed",
+   "block": "8044ff8e",
+   "type": "list",
+   "context": "",
+   "preview": "3. Proofpress governs reliance: what may be trusted, why, wi"
+  },
+  {
+   "kind": "removed",
+   "block": "64f1e8da",
+   "type": "para",
+   "context": "",
+   "preview": "   and under whose approval."
+  },
+  {
+   "kind": "removed",
+   "block": "bf1af6ea",
+   "type": "para",
+   "context": "",
+   "preview": "  only after exit;"
+  },
+  {
+   "kind": "removed",
+   "block": "c488e416",
+   "type": "list",
+   "context": "",
+   "preview": "- direct links can open a specific beat for collaborator rev"
+  },
+  {
+   "kind": "removed",
+   "block": "882d8470",
+   "type": "para",
+   "context": "",
+   "preview": "  movement;"
+  },
+  {
+   "kind": "removed",
+   "block": "85534420",
+   "type": "list",
+   "context": "",
+   "preview": "- the page still works from a local static server and withou"
+  },
+  {
+   "kind": "removed",
+   "block": "dcf5e08e",
+   "type": "para",
+   "context": "",
+   "preview": "  fixture."
+  },
+  {
+   "kind": "removed",
+   "block": "44172486",
+   "type": "list",
+   "context": "",
+   "preview": "- Keep integrity, evidence support, and lifecycle/admission "
+  },
+  {
+   "kind": "removed",
+   "block": "a1a8fd39",
+   "type": "para",
+   "context": "",
+   "preview": "  dimensions."
+  },
+  {
+   "kind": "removed",
+   "block": "d3ff412b",
+   "type": "list",
+   "context": "",
+   "preview": "- Treat the current growth-experiment data as an illustrativ"
+  },
+  {
+   "kind": "removed",
+   "block": "eafbd7c0",
+   "type": "para",
+   "context": "",
+   "preview": "  fixture, not Harvey, finance, or commerce evidence."
+  },
+  {
+   "kind": "removed",
+   "block": "98bbc56f",
+   "type": "para",
+   "context": "",
+   "preview": "  honestly; no separate Harvey product UI is required."
+  },
+  {
+   "kind": "removed",
+   "block": "5f33cbab",
+   "type": "list",
+   "context": "",
+   "preview": "- Finance: adapt the Apex investment-analyst artifact into t"
+  },
+  {
+   "kind": "removed",
+   "block": "274391c4",
+   "type": "para",
+   "context": "",
+   "preview": "  admin workspace, knowledge graph, and receipt contract."
+  },
+  {
+   "kind": "removed",
+   "block": "04cb9682",
+   "type": "list",
+   "context": "",
+   "preview": "- Commerce: build a domain-extension visualization around te"
+  },
+  {
+   "kind": "removed",
+   "block": "c29ec34b",
+   "type": "para",
+   "context": "",
+   "preview": "  into policy-constrained trusted action state when a real w"
+  },
+  {
+   "kind": "removed",
    "block": "3f1fd5ac",
    "type": "para",
-   "context": "Acceptance criteria",
+   "context": "",
    "preview": "  within sixty seconds."
   },
   {
-   "kind": "added",
+   "kind": "removed",
    "block": "7c1a904a",
    "type": "list",
-   "context": "Acceptance criteria",
+   "context": "",
    "preview": "- The complete guided path can be delivered within three min"
   },
   {
-   "kind": "added",
+   "kind": "removed",
    "block": "af711a76",
    "type": "para",
-   "context": "Acceptance criteria",
+   "context": "",
    "preview": "  existing open-source Proofpress foundation."
   },
   {
-   "kind": "added",
+   "kind": "removed",
    "block": "36fef211",
    "type": "list",
-   "context": "Acceptance criteria",
+   "context": "",
    "preview": "- The first screen names the product category and tagline; t"
   },
   {
-   "kind": "added",
+   "kind": "removed",
    "block": "9c19ac15",
    "type": "para",
-   "context": "Acceptance criteria",
+   "context": "",
    "preview": "  the problem and trust stack before any graph appears."
   },
   {
-   "kind": "added",
+   "kind": "removed",
    "block": "2e7c9c54",
    "type": "list",
-   "context": "Acceptance criteria",
+   "context": "",
    "preview": "- The guided path reaches a real interactive Graph / Ledger "
   },
   {
-   "kind": "added",
+   "kind": "removed",
    "block": "ce96c51c",
    "type": "para",
-   "context": "Acceptance criteria",
+   "context": "",
    "preview": "  labeled fixture copy; the Harvey result remains visibly pe"
   },
   {
-   "kind": "added",
+   "kind": "removed",
    "block": "92a1ca7e",
    "type": "list",
-   "context": "Acceptance criteria",
+   "context": "",
    "preview": "- The default graph excludes stale knowledge while preservin"
   },
   {
-   "kind": "added",
+   "kind": "removed",
    "block": "29f737ed",
    "type": "para",
-   "context": "Acceptance criteria",
+   "context": "",
    "preview": "  supersession or rejection path."
   },
   {
-   "kind": "added",
+   "kind": "removed",
    "block": "472833ad",
    "type": "list",
-   "context": "Acceptance criteria",
+   "context": "",
    "preview": "- The product remains fully usable after exiting the guided "
   },
   {
-   "kind": "added",
+   "kind": "removed",
    "block": "d240ec09",
    "type": "para",
-   "context": "Acceptance criteria",
+   "context": "",
    "preview": "  proof, product proof, and extension proof. Growth experime"
   },
   {
-   "kind": "added",
+   "kind": "removed",
    "block": "dcfb305d",
    "type": "list",
-   "context": "Acceptance criteria",
+   "context": "",
    "preview": "- No benchmark improvement, universal truth, or unsupported "
   },
   {
-   "kind": "added",
+   "kind": "removed",
    "block": "ef81f52f",
    "type": "para",
-   "context": "Acceptance criteria",
+   "context": "",
    "preview": "  claim is implied."
   },
   {
-   "kind": "added",
+   "kind": "removed",
    "block": "2ff45d97",
    "type": "list",
-   "context": "Acceptance criteria",
+   "context": "",
    "preview": "- Stash is presented as a composable memory layer, not attac"
   },
   {
-   "kind": "added",
+   "kind": "removed",
    "block": "e65deed5",
    "type": "para",
-   "context": "Acceptance criteria",
+   "context": "",
    "preview": "  competitor."
   },
   {
-   "kind": "added",
+   "kind": "removed",
    "block": "b873a0d6",
    "type": "list",
-   "context": "Acceptance criteria",
+   "context": "",
    "preview": "- Coframe is presented as the H3 growth system; Proofpress i"
   },
   {
-   "kind": "added",
+   "kind": "removed",
    "block": "5ba7e598",
    "type": "para",
-   "context": "Acceptance criteria",
+   "context": "",
    "preview": "  verified-knowledge and governance layer."
-  },
-  {
-   "kind": "added",
-   "block": "d2455154",
-   "type": "para",
-   "context": "Review decision for the first HTML draft",
-   "preview": "Apply the Proofpress review-surface design contract: paper `"
   }
  ],
  "policy": "portable",
@@ -655,7 +480,7 @@
   }
  ],
  "context": {
-  "why": "Revise the hackathon presentation plan to the eight-beat narrative, distinct proof roles, and official Proofpress design system requested by the user."
+  "why": "Repair the portable capsule with the production repository CLI after an incompatible serializer produced a body mismatch; content and attributed narrative decisions are unchanged."
  },
- "event_id": "ppe_b62c9efe5a9c86c223f338c9"
+ "event_id": "ppe_59e3741207c37ad40153a146"
 }
