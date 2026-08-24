@@ -1,41 +1,51 @@
 {
  "event": "version_created",
- "artifact": "README.md",
- "artifact_id": "pp_556b115de711b0cd33eed260",
- "version": "0a285662",
- "parent": "abecacd9",
+ "artifact": "CHANGELOG.md",
+ "artifact_id": "pp_89c8ab19ff4fd9243ea54406",
+ "version": "df7f9f91",
+ "parent": "b8635652",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-24T03:29:01+00:00",
+ "ts": "2026-08-24T03:29:05+00:00",
  "stats": {
-  "modified": 3
+  "added": 4
  },
  "changes": [
   {
-   "kind": "modified",
-   "block": "460f8108",
-   "type": "para",
-   "context": "Verified knowledge ledger quickstart"
+   "kind": "added",
+   "block": "7943f01b",
+   "type": "heading",
+   "context": "Added",
+   "preview": "### Added"
   },
   {
-   "kind": "modified",
-   "block": "8b9b3369",
-   "type": "code",
-   "context": "Verified knowledge ledger quickstart"
+   "kind": "added",
+   "block": "4412f40b",
+   "type": "list",
+   "context": "Added",
+   "preview": "- A local append-only knowledge-event ledger on `refs/proofp"
   },
   {
-   "kind": "modified",
-   "block": "20fbea6e",
-   "type": "para",
-   "context": "Verified knowledge ledger quickstart"
+   "kind": "added",
+   "block": "5662006b",
+   "type": "heading",
+   "context": "Compatibility",
+   "preview": "### Compatibility"
+  },
+  {
+   "kind": "added",
+   "block": "f39f974e",
+   "type": "list",
+   "context": "Compatibility",
+   "preview": "- The 0.4 file-backed `proofpress knowledge ...` group remai"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:c0d573dc5e86eef79c12358819829e7488739a55b23f2a8be35d62976194a1c4",
+ "soft_fingerprint": "ppsb1:ef30730bd2d0ea0b1479ee81a68b62bcf9b8f38f41f41f4757a9a8027560962d",
  "actors": {
   "requested_by": [
    "human:richard-tang"
@@ -53,23 +63,28 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "460f8108",
-   "kind": "modified",
-   "note": "Describe append-only evidence import and admitted context."
+   "block": "7943f01b",
+   "kind": "added",
+   "note": "Record the 0.5.0 alpha local MVP heading."
   },
   {
-   "block": "8b9b3369",
-   "kind": "modified",
-   "note": "Replace the deprecated namespace quickstart with flat local-MVP commands."
+   "block": "4412f40b",
+   "kind": "added",
+   "note": "Record the Git-backed event ledger, flat CLI, context gate, and local UI."
   },
   {
-   "block": "20fbea6e",
-   "kind": "modified",
-   "note": "Explain context exclusions, local UI, and the temporary compatibility alias."
+   "block": "5662006b",
+   "kind": "added",
+   "note": "Record the three-layer review model and v1 importer."
+  },
+  {
+   "block": "f39f974e",
+   "kind": "added",
+   "note": "Record the illustrative legal workflow fixture."
   }
  ],
  "context": {
-  "why": "Expose the 0.5 local-first trust-ledger workflow without the redundant knowledge namespace."
+  "why": "Record the user-visible 0.5 alpha local MVP surface."
  },
- "event_id": "ppe_51e1c2d0460b5d729f85e661"
+ "event_id": "ppe_dee20704bfb7c4aabebc4ccf"
 }
