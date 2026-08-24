@@ -26,7 +26,9 @@ test("mocked payable path uses automated policy admission then reaches LAB evalu
   const manifestPath = new URL("../experiments/proofpress-pareto-v1.json", import.meta.url).pathname;
   const manifest = JSON.parse(await fs.readFile(manifestPath));
   const packet = path.join(root, "packet"); await prepareRealPacket({ manifestPath, harveyCheckout: checkout, output: packet });
+  const prompts = [];
   const adapter = { metadata: () => ({ id: "mock" }), invoke: async ({ prompt }) => {
+    prompts.push(prompt);
     const stage = prompt.match(/Current stage: (S\d)/)[1];
     return { raw_output: JSON.stringify({ stage_id: stage, summary: `summary-${stage}`,
       conclusions: stage === "S1" ? [
@@ -46,6 +48,7 @@ test("mocked payable path uses automated policy admission then reaches LAB evalu
     authorizeRealCalls: true, root: repoRoot, adapterOverride: adapter, judgeOverride: judge });
   assert.equal(prepared.status, "POLICY_GATE_COMPLETE");
   assert.deepEqual(prepared.episodes.C2_PROOFPRESS.proposals.map((x) => x.admitted), [true, false]);
+  assert.ok(prompts.filter((x) => x.includes("Current stage: S1")).every((x) => !x.includes("business-team-update.docx")));
   const resumed = await runResume({ output, manifest, authorizeRealCalls: true, root: repoRoot, adapterOverride: adapter });
   assert.equal(resumed.status, "READY_FOR_LAB_EVALUATION");
   const inherited = JSON.parse(await fs.readFile(path.join(output, "receiver/C2_PROOFPRESS/INHERITED_CONTEXT.json")));

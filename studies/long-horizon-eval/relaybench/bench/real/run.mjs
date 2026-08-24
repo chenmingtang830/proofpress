@@ -22,7 +22,8 @@ export async function runPrepare({ packetDir, output, manifest, trackId, authori
     const stages = [];
     let prior = "No prior stage output.";
     for (const stageId of ["S1", "S2"]) {
-      const result = await adapter.invoke({ prompt: stagePrompt({ promptContract, packet, stageId, condition, prior }) }, { workspace, env });
+      const sourcePacket = await stageEvidencePacket(root, packetDir, packet, stageId);
+      const result = await adapter.invoke({ prompt: stagePrompt({ promptContract, packet, stageId, condition, prior, sourcePacket }) }, { workspace, env });
       await fs.writeFile(path.join(workspace, `MODEL_RESPONSE_${stageId}.json`), `${JSON.stringify(result, null, 2)}\n`, { flag: "wx" });
       const parsed = parseWorkerOutput(result.raw_output, stageId);
       stages.push({ stage_id: stageId, output: parsed, telemetry: result.telemetry });
@@ -79,7 +80,8 @@ export async function runResume({ output, manifest, authorizeRealCalls, root, en
     await fs.writeFile(path.join(receiver, "INHERITED_CONTEXT.json"), `${JSON.stringify(inherited, null, 2)}\n`);
     let prior = JSON.stringify(inherited);
     for (const stageId of ["S3", "S4"]) {
-      const result = await adapter.invoke({ prompt: stagePrompt({ promptContract, packet, stageId, condition, prior }) }, { workspace: receiver, env });
+      const sourcePacket = await stageEvidencePacket(root, state.packet_dir, packet, stageId);
+      const result = await adapter.invoke({ prompt: stagePrompt({ promptContract, packet, stageId, condition, prior, sourcePacket }) }, { workspace: receiver, env });
       await fs.writeFile(path.join(receiver, `MODEL_RESPONSE_${stageId}.json`), `${JSON.stringify(result, null, 2)}\n`, { flag: "wx" });
       const parsed = parseWorkerOutput(result.raw_output, stageId);
       state.episodes[condition].stages.push({ stage_id: stageId, output: parsed, telemetry: result.telemetry });
@@ -128,6 +130,13 @@ async function extractEvidence(root, paths) {
     JSON.stringify({ paths, max_chars_per_file: 12000 })], { maxBuffer: 16 * 1024 * 1024 });
   return JSON.parse(stdout);
 }
+async function stageEvidencePacket(root, packetDir, packet, stageId) {
+  const index = packet.stages.findIndex((item) => item.stage_id === stageId);
+  if (index < 0) throw new Error(`unknown stage ${stageId}`);
+  const paths = packet.stages.slice(0, index + 1).flatMap((stage) =>
+    stage.release.map((name) => path.join(packetDir, "source", stage.stage_id, name)));
+  return extractEvidence(root, paths);
+}
 async function researchPolicyAdmit(root, cwd, packet) {
   const { stdout } = await execFileAsync("python3", [path.join(root, "studies/long-horizon-eval/relaybench/bench/real/research-policy-admit.py"),
     JSON.stringify(packet)], { cwd, maxBuffer: 16 * 1024 * 1024 });
@@ -160,9 +169,9 @@ async function copyStageSources(packetDir, workspace, stages) {
     await fs.mkdir(path.dirname(destination), { recursive: true }); await fs.cp(source, destination, { recursive: true, errorOnExist: true });
   }
 }
-function stagePrompt({ promptContract, packet, stageId, condition, prior }) {
+function stagePrompt({ promptContract, packet, stageId, condition, prior, sourcePacket }) {
   const stage = packet.stages.find((x) => x.stage_id === stageId);
-  return `${promptContract}\n\nCondition: ${condition}\nCurrent stage: ${stageId} — ${stage.label}\nNew files: ${stage.release.join(", ")}\nInherited state:\n${prior}\n\nReturn ONLY JSON: {"stage_id":"${stageId}","summary":"...","conclusions":[{"statement":"...","evidence_files":["filename"]}],"final_markdown":"..."}. final_markdown is required only at S4.`;
+  return `${promptContract}\n\nCondition: ${condition}\nCurrent stage: ${stageId} — ${stage.label}\nNew files: ${stage.release.join(", ")}\nInherited state:\n${prior}\n\nReleased source text (deterministically extracted; no later-stage files are present):\n${JSON.stringify(sourcePacket)}\n\nReturn ONLY JSON: {"stage_id":"${stageId}","summary":"...","conclusions":[{"statement":"...","evidence_files":["filename"]}],"final_markdown":"..."}. final_markdown is required only at S4.`;
 }
 function parseWorkerOutput(raw, stageId) {
   let value; try { value = JSON.parse(jsonPayload(raw)); } catch { throw new Error(`model returned invalid JSON at ${stageId}`); }
