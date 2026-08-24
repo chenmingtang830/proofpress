@@ -25,10 +25,36 @@ test("mocked payable path uses automated policy admission then reaches LAB evalu
     await fs.writeFile(path.join(taskRoot, "documents", file), `${stage.stage_id}:${file}`);
   const manifestPath = new URL("../experiments/proofpress-pareto-v1.json", import.meta.url).pathname;
   const manifest = JSON.parse(await fs.readFile(manifestPath));
-  const packet = path.join(root, "packet"); await prepareRealPacket({ manifestPath, harveyCheckout: checkout, output: packet });
+  const stressFixturePath = path.join(root, "stress.json");
+  await fs.writeFile(stressFixturePath, JSON.stringify({ schema_version: 1, id: "stress-test",
+    task_id: "contracts/commercial-vendor-customer/master-services-agreement-playbook-escalation/scenario-01",
+    artifact_filename: "boundary-memory.json", statement: "Expired memory claim",
+    raw_handoff_text: "Expired memory claim; revalidate before reliance.",
+    expires_at: "2026-01-01T00:00:00Z", expected_proofpress_disposition: "expired_and_blocked_from_context" }));
+  const packet = path.join(root, "packet"); await prepareRealPacket({ manifestPath, harveyCheckout: checkout,
+    output: packet, stressFixturePath });
   const prompts = [];
   const adapter = { metadata: () => ({ id: "mock" }), invoke: async ({ prompt }) => {
     prompts.push(prompt);
+    if (prompt.includes("Select only the knowledge receipts")) {
+      const id = prompt.match(/knw_[a-f0-9]+/)[0];
+      return { raw_output: JSON.stringify({ checklist: [{ requirement: "bound term", knowledge_ids: [id], coverage: "covered" }],
+        selected_knowledge_ids: [id], rationale: "inspect bound source" }),
+        telemetry: { model_calls: 1 } };
+    }
+    if (prompt.startsWith("You are planning the evidence-complete working set")
+      || prompt.startsWith("You are the completeness gate")) {
+      const id = prompt.match(/knw_[a-f0-9]+/)[0];
+      return { raw_output: JSON.stringify({ checklist: [{ requirement: "bound term", knowledge_ids: [id], coverage: "covered" }],
+        selected_knowledge_ids: [id], rationale: "coverage complete" }), telemetry: { model_calls: 1 } };
+    }
+    if (prompt.includes("Compile a concise, evidence-complete working set")) {
+      const id = prompt.match(/knw_[a-f0-9]+/)[0];
+      const file = prompt.match(/deal-economics-summary\.xlsx/)?.[0] ?? "deal-economics-summary.xlsx";
+      return { raw_output: JSON.stringify({ requirements: [{ requirement: "bound term",
+        synthesis: "Supported term", knowledge_ids: [id], evidence_files: [file] }], open_gaps: [] }),
+        telemetry: { model_calls: 1 } };
+    }
     const stage = prompt.match(/Current stage: (S\d)/)[1];
     return { raw_output: JSON.stringify({ stage_id: stage, summary: `summary-${stage}`,
       conclusions: stage === "S1" ? [
@@ -39,20 +65,57 @@ test("mocked payable path uses automated policy admission then reaches LAB evalu
   }};
   const output = path.join(root, "run");
   const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../../../../..");
-  const judge = { metadata: () => ({ id: "mock-judge" }), invoke: async ({ prompt }) => ({
-    raw_output: JSON.stringify(prompt.includes("Unsupported conclusion")
-      ? { recommendation: "reject", rationale: "contradicted" }
-      : { recommendation: "accept", rationale: "explicit support" }), telemetry: { model_calls: 1 },
-  }) };
+  const judgePrompts = [];
+  const judge = { metadata: () => ({ id: "mock-judge" }), invoke: async ({ prompt }) => {
+    judgePrompts.push(prompt);
+    const ids = [...prompt.matchAll(/"conclusion_id":"(knw_[a-f0-9]+)"/g)].map((x) => x[1]);
+    return { raw_output: JSON.stringify({ verdicts: ids.map((id, index) => ({ conclusion_id: id,
+      recommendation: index === 1 ? "reject" : "accept", risk_level: "low",
+      rationale: index === 1 ? "contradicted" : "explicit support" })) }), telemetry: { model_calls: 1 } };
+  } };
   const prepared = await runPrepare({ packetDir: packet, output, manifest, trackId: "A_HARVEY_COMPARABLE",
     authorizeRealCalls: true, root: repoRoot, adapterOverride: adapter, judgeOverride: judge });
   assert.equal(prepared.status, "POLICY_GATE_COMPLETE");
-  assert.deepEqual(prepared.episodes.C2_PROOFPRESS.proposals.map((x) => x.admitted), [true, false]);
+  assert.equal(prepared.episodes.C1_ORDINARY_PORTABLE.sender_state, "SHARED_SENDER");
+  assert.equal(prepared.episodes.C2_PROOFPRESS.sender_state, "SHARED_SENDER");
+  assert.deepEqual(prepared.episodes.C1_ORDINARY_PORTABLE.stages, prepared.episodes.C2_PROOFPRESS.stages);
+  assert.equal(prompts.filter((x) => x.includes("Current stage: S1")).length, 1);
+  assert.equal(prompts.filter((x) => x.includes("Current stage: S2")).length, 1);
+  assert.deepEqual(prepared.episodes.C2_PROOFPRESS.proposals.map((x) => x.admitted), [true, false, false]);
+  assert.match(prepared.episodes.C1_ORDINARY_PORTABLE.raw_handoff, /Expired memory claim/);
+  const stressProposal = prepared.episodes.C2_PROOFPRESS.proposals.find((x) => x.stress_fixture_id === "stress-test");
+  assert.equal(stressProposal.evaluation.checks.not_expired, false);
+  assert.equal(stressProposal.admitted, false);
+  assert.equal(judgePrompts.length, 1);
+  assert.equal(prepared.episodes.C2_PROOFPRESS.judge_transaction.conclusion_count, 3);
   assert.ok(prompts.filter((x) => x.includes("Current stage: S1")).every((x) => !x.includes("business-team-update.docx")));
   const resumed = await runResume({ output, manifest, authorizeRealCalls: true, root: repoRoot, adapterOverride: adapter });
   assert.equal(resumed.status, "READY_FOR_LAB_EVALUATION");
   const inherited = JSON.parse(await fs.readFile(path.join(output, "receiver/C2_PROOFPRESS/INHERITED_CONTEXT.json")));
-  assert.equal(inherited.proofpress_trusted_context.knowledge.length, 1);
+  const rawInherited = JSON.parse(await fs.readFile(path.join(output, "receiver/C1_ORDINARY_PORTABLE/INHERITED_CONTEXT.json")));
+  assert.equal(rawInherited.boundary_memory_artifact.id, "stress-test");
+  assert.equal(inherited.proofpress_governed_working_set.requirements.length, 1);
+  assert.deepEqual(inherited.proofpress_trace_expansion.selected_knowledge_ids,
+    inherited.proofpress_governed_working_set.requirements[0].knowledge_ids);
+  assert.equal(inherited.proofpress_trace_expansion.evidence_refs_resolved.length, 1);
+  await assert.rejects(fs.access(path.join(output, "receiver/C1_ORDINARY_PORTABLE/matter/S1")));
+  await assert.rejects(fs.access(path.join(output, "receiver/C2_PROOFPRESS/matter/S2")));
+  assert.ok(prompts.filter((x) => x.includes("Current stage: S3") && x.includes("Condition: C1_ORDINARY_PORTABLE"))
+    .every((x) => !x.includes("S1:deal-economics-summary.xlsx")));
+  assert.ok(prompts.filter((x) => x.includes("Current stage: S3") && x.includes("Condition: C2_PROOFPRESS"))
+    .every((x) => x.includes("Supported term") && !x.includes("S1:deal-economics-summary.xlsx")));
+  assert.ok(prompts.filter((x) => x.includes("Current stage: S4"))
+    .every((x) => x.includes("S3:akintola-business-case-email.eml")
+      && x.includes("S4:tsao-escalation-request-email.eml")));
   for (const condition of ["C1_ORDINARY_PORTABLE", "C2_PROOFPRESS"])
     await fs.access(resumed.episodes[condition].deliverable);
+  const reusedOutput = path.join(root, "run-reused-sender");
+  const senderPromptCount = prompts.filter((x) => /Current stage: S[12]/.test(x)).length;
+  const reused = await runPrepare({ packetDir: packet, output: reusedOutput, manifest,
+    trackId: "A_HARVEY_COMPARABLE", authorizeRealCalls: true, root: repoRoot,
+    adapterOverride: adapter, judgeOverride: judge, sharedSenderFrom: output });
+  assert.equal(reused.sender_reuse.source_run, output);
+  assert.deepEqual(reused.episodes.C1_ORDINARY_PORTABLE.stages,
+    resumed.episodes.C1_ORDINARY_PORTABLE.stages.filter((x) => ["S1", "S2"].includes(x.stage_id)));
+  assert.equal(prompts.filter((x) => /Current stage: S[12]/.test(x)).length, senderPromptCount);
 });

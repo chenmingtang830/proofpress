@@ -29,6 +29,10 @@ export function createVercelGatewayAdapter(config, deps = {}) {
       const controller = new AbortController();
       const timer = setTimeout(() => controller.abort(), config.timeout_ms);
       const started = performance.now();
+      const reasoningEffort = Object.hasOwn(request, "reasoning_effort")
+        ? request.reasoning_effort : config.reasoning_effort;
+      const responseFormat = Object.hasOwn(request, "response_format")
+        ? request.response_format : config.response_format;
       let response;
       try {
         response = await fetchImpl(config.endpoint, {
@@ -39,7 +43,8 @@ export function createVercelGatewayAdapter(config, deps = {}) {
             messages: [{ role: "user", content: request.prompt }],
             temperature: config.temperature,
             max_tokens: request.max_output_tokens ?? config.max_output_tokens,
-            ...(config.reasoning_effort ? { reasoning: { effort: config.reasoning_effort } } : {}),
+            ...(reasoningEffort ? { reasoning: { effort: reasoningEffort } } : {}),
+            ...(responseFormat ? { response_format: responseFormat } : {}),
             providerOptions: { gateway: { only: [config.provider_only] } },
           }),
         });

@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "id": "proofpress-treatment-effect-protocol-v5",
+  "frozen_at": "2026-08-24",
+  "supersedes": "treatment-effect-protocol-v4.json",
+  "observed_before_freeze": {
+    "credit_v4": {"raw": "92/99", "proofpress": "82/99", "delta_pp": -10.1},
+    "mechanism_diagnosis": [
+      "Proofpress S3 input was 5.6x raw because all 31 admitted conclusions were injected",
+      "selector expanded only 2 knowledge receipts and 3 evidence files",
+      "Proofpress final memo was materially shorter, indicating retrieval under-coverage and deliverable incompleteness"
+    ],
+    "invalid_v4": [
+      "MSA receiver timed out before a scorable deliverable",
+      "license batch output truncated once and worker S2 JSON truncated once"
+    ]
+  },
+  "frozen_treatment": {
+    "shared_sender": true,
+    "transaction_batch_policy_review": true,
+    "task_coverage_plan": "derive required-information checklist from the frozen worker contract without exposing evaluator criteria",
+    "selective_graph_working_set": "map checklist items to at most 12 admitted knowledge receipts and expand only their bound evidence",
+    "concise_receiver_context": "do not inject the full governed graph into the S3 worker prompt",
+    "completeness_gate": "before S4, compare task contract, S3 analysis, and S4 sources; retrieve at most 8 additional admitted receipts for uncovered requirements",
+    "structured_output": "request JSON object response mode where supported"
+  },
+  "model": {
+    "track": "E_DEEPSEEK_V4_FLASH_V5_ASSEMBLY",
+    "resolved_model": "deepseek/deepseek-v4-flash-0731",
+    "provider_only": "deepinfra",
+    "reason": "GLM 5.2 was too slow and repeatedly exhausted structured-output budgets; the dated DeepSeek checkpoint previously showed headroom and stable low-cost execution, but v5 outcomes remain unseen"
+  },
+  "frozen_panel": [
+    "contracts/financing/credit-lending-playbook-escalation/scenario-02",
+    "contracts/commercial-vendor-customer/master-services-agreement-playbook-escalation/scenario-04",
+    "contracts/ip-licensing/license-agreement-playbook-escalation/scenario-03"
+  ],
+  "estimands": {
+    "primary": "common-sender paired public-rubric criterion-pass delta",
+    "proof_price": ["quality delta", "unsafe propagation", "input/output/reasoning tokens", "provider cost", "wall-clock latency", "retrieved receipts and evidence files"]
+  },
+  "replication_rule": "run all three pilot tasks; if at least two tasks are non-ceiling and show absolute delta >=3pp, run two additional repeats for every task-condition",
+  "claim_boundary": "v5 tests the coverage-planned graph assembly policy, not verification in the abstract; all prior positive, null, negative, and invalid attempts remain reported"
+}

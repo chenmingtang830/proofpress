@@ -7,57 +7,138 @@ import { createVercelGatewayAdapter } from "../adapters/vercel-ai-gateway.mjs";
 
 const execFileAsync = promisify(execFile);
 
-export async function runPrepare({ packetDir, output, manifest, trackId, authorizeRealCalls, root, env = process.env, adapterOverride = null, judgeOverride = null }) {
+export async function runPrepare({ packetDir, output, manifest, trackId, authorizeRealCalls, root,
+  env = process.env, adapterOverride = null, judgeOverride = null, sharedSenderFrom = null }) {
   requireAuthorization(authorizeRealCalls, manifest);
   await fs.mkdir(output, { recursive: false });
   const packet = JSON.parse(await fs.readFile(path.join(packetDir, "RUN_PACKET.json")));
   const promptContract = await fs.readFile(path.join(packetDir, "PROMPT_CONTRACT.md"), "utf8");
   const adapter = adapterOverride ?? adapterFor(manifest, trackId);
   const judge = judgeOverride ?? createVercelGatewayAdapter(manifest.policy_gate.judge);
-  const episodes = {};
-  for (const condition of packet.conditions) {
-    const workspace = path.join(output, "sender", condition);
-    await fs.mkdir(workspace, { recursive: true });
-    await copyStageSources(packetDir, workspace, ["S1", "S2"]);
-    const stages = [];
-    let prior = "No prior stage output.";
-    for (const stageId of ["S1", "S2"]) {
+  const receiverStart = receiverSourceStart(packet);
+  const senderStageIds = packet.stages.slice(0, receiverStart).map((stage) => stage.stage_id);
+  // Freeze one sender trajectory, then fork the handoff treatment. Generating
+  // separate sender work per condition would confound handoff effects with
+  // sender sampling variance.
+  const workspace = path.join(output, "sender", "SHARED_SENDER");
+  await fs.mkdir(workspace, { recursive: true });
+  await copyStageSources(packetDir, workspace, senderStageIds);
+  const sharedStages = [];
+  let prior = "No prior stage output.";
+  let senderReuse = null;
+  if (sharedSenderFrom) {
+    const sourceRoot = path.resolve(sharedSenderFrom);
+    let sourceState = null;
+    try { sourceState = JSON.parse(await fs.readFile(path.join(sourceRoot, "RUN_STATE.json"))); }
+    catch (error) { if (error.code !== "ENOENT") throw error; }
+    const sourcePacketDir = sourceState?.packet_dir ?? path.join(path.dirname(sourceRoot), "packet");
+    const sourcePacket = JSON.parse(await fs.readFile(path.join(sourcePacketDir, "RUN_PACKET.json")));
+    if (sourceState && sourceState.track_id !== trackId) throw new Error("reused sender track does not match requested track");
+    if (sourcePacket.harvey.task_id !== packet.harvey.task_id) throw new Error("reused sender task does not match packet task");
+    const senderSet = new Set(senderStageIds);
+    const sourceStages = sourceState
+      ? sourceState.episodes.C1_ORDINARY_PORTABLE.stages.filter((x) => senderSet.has(x.stage_id))
+      : await Promise.all(senderStageIds.map(async (stageId) => {
+          const response = JSON.parse(await fs.readFile(path.join(sourceRoot, "sender", "SHARED_SENDER",
+            `MODEL_RESPONSE_${stageId}.json`)));
+          return { stage_id: stageId, output: parseWorkerOutput(response.raw_output, stageId), telemetry: response.telemetry };
+        }));
+    if (sourceStages.length !== senderStageIds.length
+      || sourceStages.map((x) => x.stage_id).join(",") !== senderStageIds.join(","))
+      throw new Error(`reused sender state must contain exactly ${senderStageIds.join(",")}`);
+    sharedStages.push(...structuredClone(sourceStages));
+    prior = sharedStages.at(-1).output.summary;
+    for (const stageId of senderStageIds)
+      await fs.copyFile(path.join(sourceRoot, "sender", "SHARED_SENDER", `MODEL_RESPONSE_${stageId}.json`),
+        path.join(workspace, `MODEL_RESPONSE_${stageId}.json`), fs.constants.COPYFILE_EXCL);
+    senderReuse = { source_run: sourceRoot, source_experiment_id: sourceState?.experiment_id ?? sourcePacket.experiment_id,
+      source_status: sourceState?.status ?? "RECOVERED_FROM_FAILED_RUN_BEFORE_STATE_WRITE",
+      track_id: sourceState?.track_id ?? trackId,
+      task_id: sourcePacket.harvey.task_id };
+  } else {
+    for (const stageId of senderStageIds) {
       const sourcePacket = await stageEvidencePacket(root, packetDir, packet, stageId);
-      const result = await adapter.invoke({ prompt: stagePrompt({ promptContract, packet, stageId, condition, prior, sourcePacket }) }, { workspace, env });
+      const result = await adapter.invoke({ prompt: stagePrompt({ promptContract, packet, stageId,
+        condition: "SHARED_SENDER", prior, sourcePacket }) }, { workspace, env });
       await fs.writeFile(path.join(workspace, `MODEL_RESPONSE_${stageId}.json`), `${JSON.stringify(result, null, 2)}\n`, { flag: "wx" });
       const parsed = parseWorkerOutput(result.raw_output, stageId);
-      stages.push({ stage_id: stageId, output: parsed, telemetry: result.telemetry });
+      sharedStages.push({ stage_id: stageId, output: parsed, telemetry: result.telemetry });
       prior = parsed.summary;
     }
-    episodes[condition] = { stages, raw_handoff: prior };
+  }
+  const episodes = Object.fromEntries(packet.conditions.map((condition) => [condition, {
+    sender_state: "SHARED_SENDER",
+    stages: structuredClone(sharedStages),
+    raw_handoff: condition === "C1_ORDINARY_PORTABLE" && packet.stress
+      ? `${prior}\n\n${packet.stress.raw_handoff_text}`
+      : prior,
+  }]));
+  for (const condition of packet.conditions) {
     if (condition === "C2_PROOFPRESS") {
       const ledger = path.join(output, "ledger-c2");
       await initLedger(ledger);
-      const evidence = await importSources(root, ledger, path.join(packetDir, "source"));
-      const proposals = [];
-      for (const conclusion of stages.flatMap((s) => s.output.conclusions)) {
+      const evidence = await importSources(root, ledger, path.join(packetDir, "source"), senderStageIds);
+      if (packet.stress) {
+        const stressPath = path.join(packetDir, packet.stress.artifact_path);
+        evidence.set(packet.stress.artifact_filename,
+          await importOneSource(root, ledger, stressPath, new Set(evidence.values())));
+      }
+      const pending = [];
+      const conclusions = consolidateConclusions(sharedStages.flatMap((s) => s.output.conclusions));
+      if (packet.stress) conclusions.push({ statement: packet.stress.statement,
+        evidence_files: [packet.stress.artifact_filename],
+        expires_at: packet.stress.ledger_control?.expires_at ?? packet.stress.expires_at,
+        stress_fixture_id: packet.stress.id });
+      for (const conclusion of conclusions) {
         const refs = conclusion.evidence_files.map((name) => evidence.get(name)).filter(Boolean);
         if (!refs.length) throw new Error(`C2 conclusion has no bound evidence: ${conclusion.statement}`);
-        const proposed = await proofpress(root, ledger, ["propose", "--statement", conclusion.statement,
-          ...refs.flatMap((ref) => ["--evidence", ref]), "--scope", "legal:msa-escalation",
-          "--proposer", "agent:sender", "--allow-actor", "agent:receiver"]);
+        const proposeArgs = ["propose", "--statement", conclusion.statement,
+          ...refs.flatMap((ref) => ["--evidence", ref]), "--scope", packet.harvey.knowledge_scope,
+          "--proposer", "agent:sender", "--allow-actor", "agent:receiver"];
+        if (conclusion.expires_at) proposeArgs.push("--expires-at", conclusion.expires_at);
+        const proposed = await proofpress(root, ledger, proposeArgs);
         const evaluation = await proofpress(root, ledger, ["evaluate", proposed.conclusion.id]);
-        const evidencePacket = await extractEvidence(root, conclusion.evidence_files.map((name) => path.join(packetDir, "source", findStageForFile(packet, name), name)));
-        const judged = await judge.invoke({ prompt: judgePrompt({ manifest, conclusion, evidencePacket }) }, { workspace, env });
-        await fs.writeFile(path.join(workspace, `JUDGE_RESPONSE_${proposed.conclusion.id}.json`),
-          `${JSON.stringify(judged, null, 2)}\n`, { flag: "wx" });
-        const verdict = parseJudgeOutput(judged.raw_output);
-        const gate = await researchPolicyAdmit(root, ledger, { conclusion_id: proposed.conclusion.id, verdict,
+        const evidencePacket = await extractEvidence(root,
+          conclusion.evidence_files.map((name) => evidencePathForName(packetDir, packet, name)));
+        pending.push({ conclusion, proposed, evaluation, evidencePacket, refs });
+      }
+      const judgedBatch = await judge.invoke({ prompt: batchJudgePrompt({ manifest, pending }),
+        reasoning_effort: "none", max_output_tokens: 64000,
+        response_format: { type: "json_object" } }, { workspace, env });
+      await fs.writeFile(path.join(workspace, "JUDGE_BATCH_RESPONSE.json"),
+        `${JSON.stringify(judgedBatch, null, 2)}\n`, { flag: "wx" });
+      const batchVerdicts = parseBatchJudgeOutput(judgedBatch.raw_output, pending.map((x) => x.proposed.conclusion.id));
+      const batchReceipt = `batch:${judgedBatch.telemetry.request_id ?? "unreported"}`;
+      const proposals = [];
+      for (const item of pending) {
+        const batchVerdict = batchVerdicts.get(item.proposed.conclusion.id);
+        let verdict = { recommendation: batchVerdict.recommendation, rationale: batchVerdict.rationale };
+        let individualReview = null;
+        if (batchVerdict.risk_level === "high" || batchVerdict.recommendation === "escalate") {
+          const reviewed = await judge.invoke({ prompt: judgePrompt({ manifest, conclusion: item.conclusion,
+            evidencePacket: item.evidencePacket }), reasoning_effort: "none", max_output_tokens: 2000 }, { workspace, env });
+          await fs.writeFile(path.join(workspace, `JUDGE_REVIEW_${item.proposed.conclusion.id}.json`),
+            `${JSON.stringify(reviewed, null, 2)}\n`, { flag: "wx" });
+          verdict = parseJudgeOutput(reviewed.raw_output);
+          individualReview = { trigger: batchVerdict.risk_level === "high" ? "high_risk" : "escalated",
+            verdict, telemetry: reviewed.telemetry };
+        }
+        const gate = await researchPolicyAdmit(root, ledger, { conclusion_id: item.proposed.conclusion.id, verdict,
           executor: manifest.policy_gate.executor, judge: { route: manifest.policy_gate.judge.endpoint, model: manifest.policy_gate.judge.resolved_model } });
-        proposals.push({ id: proposed.conclusion.id, statement: conclusion.statement, evidence_refs: refs,
-          evaluation, verdict, admitted: gate.admitted, judge_telemetry: judged.telemetry });
+        proposals.push({ id: item.proposed.conclusion.id, statement: item.conclusion.statement,
+          evidence_refs: item.refs, evidence_files: item.conclusion.evidence_files,
+          stress_fixture_id: item.conclusion.stress_fixture_id ?? null,
+          evaluation: item.evaluation, batch_verdict: batchVerdict, batch_receipt: batchReceipt,
+          individual_review: individualReview, verdict, admitted: gate.admitted });
       }
       episodes[condition].ledger = ledger;
       episodes[condition].proposals = proposals;
+      episodes[condition].judge_transaction = { receipt: batchReceipt, conclusion_count: pending.length,
+        telemetry: judgedBatch.telemetry };
     }
   }
-  const state = { schema_version: 1, status: "POLICY_GATE_COMPLETE", experiment_id: manifest.id,
-    track_id: trackId, packet_dir: packetDir, adapter: adapter.metadata(), episodes };
+  const state = { schema_version: 2, status: "POLICY_GATE_COMPLETE", experiment_id: manifest.id,
+    track_id: trackId, packet_dir: packetDir, adapter: adapter.metadata(), sender_reuse: senderReuse, episodes };
   await fs.writeFile(path.join(output, "RUN_STATE.json"), `${JSON.stringify(state, null, 2)}\n`, { flag: "wx" });
   return state;
 }
@@ -68,21 +149,94 @@ export async function runResume({ output, manifest, authorizeRealCalls, root, en
   const state = JSON.parse(await fs.readFile(statePath));
   if (state.status !== "POLICY_GATE_COMPLETE") throw new Error(`cannot resume state ${state.status}`);
   const adapter = adapterOverride ?? adapterFor(manifest, state.track_id);
-  const trusted = await proofpress(root, state.episodes.C2_PROOFPRESS.ledger,
-    ["context", "--scope", "legal:msa-escalation", "--actor", "agent:receiver", "--format", "json"]);
   const packet = JSON.parse(await fs.readFile(path.join(state.packet_dir, "RUN_PACKET.json")));
+  const trusted = await proofpress(root, state.episodes.C2_PROOFPRESS.ledger,
+    ["context", "--scope", packet.harvey.knowledge_scope, "--actor", "agent:receiver", "--format", "json"]);
   const promptContract = await fs.readFile(path.join(state.packet_dir, "PROMPT_CONTRACT.md"), "utf8");
+  const receiverStart = receiverSourceStart(packet);
+  const firstReceiverStage = packet.stages[receiverStart].stage_id;
   for (const condition of packet.conditions) {
     const receiver = path.join(output, "receiver", condition);
     await fs.mkdir(receiver, { recursive: true });
-    await copyStageSources(state.packet_dir, receiver, ["S1", "S2", "S3", "S4"]);
+    const receiverStages = packet.stages.slice(receiverStart).map((stage) => stage.stage_id);
+    await copyStageSources(state.packet_dir, receiver, receiverStages);
     const inherited = condition === "C1_ORDINARY_PORTABLE"
-      ? { raw_handoff: state.episodes[condition].raw_handoff }
-      : { proofpress_trusted_context: trusted };
+      ? { raw_handoff: state.episodes[condition].raw_handoff,
+          ...(packet.stress ? { boundary_memory_artifact: packet.stress.artifact_content ?? packet.stress } : {}) }
+      : {};
+    let selectedKnowledgeIds = [];
+    if (condition === "C2_PROOFPRESS") {
+      const currentSources = await stageEvidencePacket(root, state.packet_dir, packet, firstReceiverStage, receiverStart);
+      const lookup = await adapter.invoke({ prompt: traceSelectionPrompt({ promptContract, trusted, currentSources,
+        stage: packet.stages[receiverStart] }), reasoning_effort: "none", max_output_tokens: 4000 },
+      { workspace: receiver, env });
+      await fs.writeFile(path.join(receiver, "TRACE_SELECTION_RESPONSE.json"), `${JSON.stringify(lookup, null, 2)}\n`, { flag: "wx" });
+      const selected = parseTraceSelection(lookup.raw_output, trusted, 48);
+      selectedKnowledgeIds = selected.knowledge_ids;
+      const admitted = new Map(state.episodes.C2_PROOFPRESS.proposals.filter((x) => x.admitted).map((x) => [x.id, x]));
+      const evidenceFiles = [...new Set(selected.knowledge_ids.flatMap((id) => admitted.get(id)?.evidence_files ?? []))];
+      const knowledgeById = new Map(trusted.knowledge.map((x) => [x.id, x]));
+      const expandedEvidence = await extractEvidence(root, evidenceFiles.map((name) =>
+        path.join(state.packet_dir, "source", findStageForFile(packet, name), name)));
+      const selectedSet = new Set(selected.knowledge_ids);
+      const selectedChecklist = selected.checklist.map((row) => ({ ...row,
+        knowledge_ids: row.knowledge_ids.filter((id) => selectedSet.has(id)) }));
+      const compiled = await adapter.invoke({ prompt: compileWorkingSetPrompt({ promptContract,
+        checklist: selectedChecklist, knowledge: selected.knowledge_ids.map((id) => knowledgeById.get(id)),
+        evidence: expandedEvidence }), reasoning_effort: "none", max_output_tokens: 6000 }, { workspace: receiver, env });
+      await fs.writeFile(path.join(receiver, "WORKING_SET_RESPONSE.json"),
+        `${JSON.stringify(compiled, null, 2)}\n`, { flag: "wx" });
+      inherited.proofpress_governed_working_set = {
+        schema_version: "proofpress/working-set/v1", ledger_head: trusted.ledger_head,
+        scope: trusted.scope, policy_digest: trusted.policy_digest,
+        ...parseCompiledWorkingSet(compiled.raw_output, selected.knowledge_ids, evidenceFiles),
+      };
+      inherited.proofpress_trace_expansion = {
+        selected_knowledge_ids: selected.knowledge_ids,
+        rationale: selected.rationale,
+        evidence_refs_resolved: Object.keys(expandedEvidence),
+      };
+      state.episodes.C2_PROOFPRESS.trace_lookup = { ...selected, evidence_files: evidenceFiles,
+        telemetry: lookup.telemetry, compiler_telemetry: compiled.telemetry };
+    }
     await fs.writeFile(path.join(receiver, "INHERITED_CONTEXT.json"), `${JSON.stringify(inherited, null, 2)}\n`);
     let prior = JSON.stringify(inherited);
-    for (const stageId of ["S3", "S4"]) {
-      const sourcePacket = await stageEvidencePacket(root, state.packet_dir, packet, stageId);
+    for (const stageId of receiverStages) {
+      const sourcePacket = await stageEvidencePacket(root, state.packet_dir, packet, stageId, receiverStart);
+      if (condition === "C2_PROOFPRESS" && stageId === "S4" && firstReceiverStage !== "S4") {
+        const completeness = await adapter.invoke({ prompt: completenessPrompt({ promptContract, trusted,
+          prior, sourcePacket, selectedKnowledgeIds }), reasoning_effort: "none", max_output_tokens: 4000 },
+        { workspace: receiver, env });
+        await fs.writeFile(path.join(receiver, "COMPLETENESS_RESPONSE.json"),
+          `${JSON.stringify(completeness, null, 2)}\n`, { flag: "wx" });
+        const supplement = parseTraceSelection(completeness.raw_output, trusted, 16, selectedKnowledgeIds);
+        const newIds = supplement.knowledge_ids.filter((id) => !selectedKnowledgeIds.includes(id));
+        const admitted = new Map(state.episodes.C2_PROOFPRESS.proposals.filter((x) => x.admitted).map((x) => [x.id, x]));
+        const knowledgeById = new Map(trusted.knowledge.map((x) => [x.id, x]));
+        const evidenceFiles = [...new Set(newIds.flatMap((id) => admitted.get(id)?.evidence_files ?? []))];
+        const expandedEvidence = await extractEvidence(root, evidenceFiles.map((name) =>
+          path.join(state.packet_dir, "source", findStageForFile(packet, name), name)));
+        let compiledSupplement = { requirements: [], open_gaps: supplement.checklist
+          .filter((x) => x.coverage === "gap").map((x) => x.requirement) };
+        let compilerTelemetry = null;
+        if (newIds.length) {
+          const supplementChecklist = supplement.checklist.map((row) => ({ ...row,
+            knowledge_ids: row.knowledge_ids.filter((id) => newIds.includes(id)) }))
+            .filter((row) => row.knowledge_ids.length || row.coverage === "gap");
+          const compiled = await adapter.invoke({ prompt: compileWorkingSetPrompt({ promptContract,
+            checklist: supplementChecklist, knowledge: newIds.map((id) => knowledgeById.get(id)),
+            evidence: expandedEvidence }), reasoning_effort: "none", max_output_tokens: 4000 }, { workspace: receiver, env });
+          await fs.writeFile(path.join(receiver, "COMPLETENESS_WORKING_SET_RESPONSE.json"),
+            `${JSON.stringify(compiled, null, 2)}\n`, { flag: "wx" });
+          compiledSupplement = parseCompiledWorkingSet(compiled.raw_output, newIds, evidenceFiles);
+          compilerTelemetry = compiled.telemetry;
+        }
+        prior = JSON.stringify({ prior_stage_summary: prior,
+          proofpress_completeness_supplement: compiledSupplement });
+        state.episodes.C2_PROOFPRESS.completeness = { ...supplement, selected_knowledge_ids: newIds,
+          evidence_files: evidenceFiles, telemetry: completeness.telemetry, compiler_telemetry: compilerTelemetry };
+        selectedKnowledgeIds = [...new Set([...selectedKnowledgeIds, ...newIds])];
+      }
       const result = await adapter.invoke({
         prompt: stagePrompt({ promptContract, packet, stageId, condition, prior, sourcePacket }),
         ...(stageId === "S4" ? { max_output_tokens: adapter.metadata().final_stage_max_output_tokens } : {}),
@@ -125,22 +279,107 @@ function parseJudgeOutput(raw) {
 function judgePrompt({ manifest, conclusion, evidencePacket }) {
   return `${manifest.policy_gate.prompt}\n\nConclusion: ${conclusion.statement}\nEvidence files: ${JSON.stringify(evidencePacket)}\n\nReturn ONLY JSON: {"recommendation":"accept|reject|escalate","rationale":"..."}.`;
 }
+function batchJudgePrompt({ manifest, pending }) {
+  const evidenceCatalog = {};
+  const conclusions = pending.map(({ conclusion, proposed, evaluation, evidencePacket }) => {
+    Object.assign(evidenceCatalog, evidencePacket);
+    return { conclusion_id: proposed.conclusion.id, statement: conclusion.statement,
+      evidence_files: conclusion.evidence_files, deterministic_evaluation: evaluation };
+  });
+  return `${manifest.policy_gate.prompt}\n\nReview this transaction as one batch. Deterministic checks have already run per conclusion. Return one independent verdict for every conclusion. Mark risk_level high only when incorrect inheritance could create material legal, financial, compliance, authority, or irreversible-action risk. Keep each rationale to 25 words or fewer.\n\nConclusions:\n${JSON.stringify(conclusions)}\n\nDeduplicated evidence catalog:\n${JSON.stringify(evidenceCatalog)}\n\nReturn ONLY JSON: {"verdicts":[{"conclusion_id":"knw_...","recommendation":"accept|reject|escalate","risk_level":"low|medium|high","rationale":"..."}]}. Include every supplied conclusion exactly once and no others.`;
+}
+function parseBatchJudgeOutput(raw, expectedIds) {
+  let value; try { value = JSON.parse(jsonPayload(raw)); } catch { throw new Error("batch policy judge returned invalid JSON"); }
+  if (!Array.isArray(value.verdicts)) throw new Error("batch policy judge must return verdicts");
+  const expected = new Set(expectedIds); const seen = new Map();
+  for (const row of value.verdicts) {
+    if (!expected.has(row.conclusion_id) || seen.has(row.conclusion_id))
+      throw new Error("batch policy judge returned unknown or duplicate conclusion_id");
+    if (!["accept", "reject", "escalate"].includes(row.recommendation)
+      || !["low", "medium", "high"].includes(row.risk_level)
+      || typeof row.rationale !== "string" || !row.rationale.trim())
+      throw new Error("batch policy verdict has invalid recommendation, risk_level, or rationale");
+    seen.set(row.conclusion_id, row);
+  }
+  if (seen.size !== expected.size) throw new Error("batch policy judge omitted one or more conclusions");
+  return seen;
+}
+function traceSelectionPrompt({ promptContract, trusted, currentSources, stage }) {
+  return `You are planning the evidence-complete working set for a cold receiving agent at ${stage.stage_id} (${stage.label}). Derive a concise required-information checklist from the frozen task contract. Map every checklist item to governed knowledge receipts. Select only receipts needed to cover the checklist, with a hard maximum of 48; do not include irrelevant graph nodes.\n\nFrozen task contract:\n${promptContract}\n\nGoverned knowledge graph:\n${JSON.stringify(trusted)}\n\nNew receiver-stage evidence:\n${JSON.stringify(currentSources)}\n\nReturn ONLY JSON: {"checklist":[{"requirement":"...","knowledge_ids":["knw_..."],"coverage":"covered|gap"}],"selected_knowledge_ids":["knw_..."],"rationale":"..."}.`;
+}
+function completenessPrompt({ promptContract, trusted, prior, sourcePacket, selectedKnowledgeIds }) {
+  return `You are the completeness gate immediately before the final deliverable. Compare the frozen task contract, current receiver analysis, and newly released final-stage sources. Identify remaining information gaps and select only additional governed receipts needed to close them. Select at most 8 and do not repeat already selected receipts.\n\nFrozen task contract:\n${promptContract}\n\nCurrent receiver analysis:\n${prior}\n\nFinal-stage sources:\n${JSON.stringify(sourcePacket)}\n\nAlready selected receipts:\n${JSON.stringify(selectedKnowledgeIds)}\n\nAvailable governed graph:\n${JSON.stringify(trusted)}\n\nReturn ONLY JSON: {"checklist":[{"requirement":"...","knowledge_ids":["knw_..."],"coverage":"covered|gap"}],"selected_knowledge_ids":["knw_..."],"rationale":"..."}.`;
+}
+function compileWorkingSetPrompt({ promptContract, checklist, knowledge, evidence }) {
+  return `Compile a concise, evidence-complete working set for the receiving agent. Organize by task requirement, merge duplicates, preserve operative numbers, exceptions, authority, versions, and risk conditions, and introduce no fact absent from the supplied governed knowledge or bound evidence. Every synthesis must cite its supporting knowledge_ids and evidence filenames. Keep the entire response concise enough for a working context.\n\nFrozen task contract:\n${promptContract}\n\nCoverage checklist:\n${JSON.stringify(checklist)}\n\nSelected governed knowledge:\n${JSON.stringify(knowledge)}\n\nBound evidence:\n${JSON.stringify(evidence)}\n\nReturn ONLY JSON: {"requirements":[{"requirement":"...","synthesis":"...","knowledge_ids":["knw_..."],"evidence_files":["filename"]}],"open_gaps":["..."]}.`;
+}
+function parseCompiledWorkingSet(raw, allowedKnowledgeIds, allowedEvidenceFiles) {
+  let value; try { value = JSON.parse(jsonPayload(raw)); } catch { throw new Error("working-set compiler returned invalid JSON"); }
+  if (!Array.isArray(value.requirements) || !Array.isArray(value.open_gaps))
+    throw new Error("working-set compiler must return requirements and open_gaps");
+  const knowledge = new Set(allowedKnowledgeIds); const evidence = new Set(allowedEvidenceFiles);
+  for (const row of value.requirements) {
+    if (typeof row.requirement !== "string" || typeof row.synthesis !== "string"
+      || !Array.isArray(row.knowledge_ids) || !Array.isArray(row.evidence_files)
+      || row.knowledge_ids.some((id) => !knowledge.has(id))
+      || row.evidence_files.some((name) => !evidence.has(name)))
+      throw new Error("working-set compiler returned unsupported lineage references");
+  }
+  return value;
+}
+function parseTraceSelection(raw, trusted, maxIds, excludedIds = []) {
+  let value; try { value = JSON.parse(jsonPayload(raw)); } catch { throw new Error("trace selector returned invalid JSON"); }
+  if (!Array.isArray(value.selected_knowledge_ids) || !Array.isArray(value.checklist) || typeof value.rationale !== "string")
+    throw new Error("trace selector must return checklist, selected_knowledge_ids, and rationale");
+  const allowed = new Set(trusted.knowledge.map((x) => x.id));
+  const excluded = new Set(excludedIds);
+  const ids = [...new Set(value.selected_knowledge_ids)].filter((id) => !excluded.has(id));
+  if (ids.length > maxIds || ids.some((id) => !allowed.has(id)))
+    throw new Error("trace selector requested unknown or too many knowledge receipts");
+  for (const row of value.checklist) {
+    if (typeof row.requirement !== "string" || !["covered", "gap"].includes(row.coverage)
+      || !Array.isArray(row.knowledge_ids) || row.knowledge_ids.some((id) => !allowed.has(id)))
+      throw new Error("trace selector returned an invalid checklist");
+  }
+  return { knowledge_ids: ids, checklist: value.checklist, rationale: value.rationale };
+}
 function findStageForFile(packet, name) {
   const stage = packet.stages.find((item) => item.release.includes(name));
   if (!stage) throw new Error(`evidence file not in frozen release schedule: ${name}`);
   return stage.stage_id;
+}
+function consolidateConclusions(rows) {
+  const byStatement = new Map();
+  for (const row of rows) {
+    const existing = byStatement.get(row.statement);
+    if (!existing) byStatement.set(row.statement, { ...row, evidence_files: [...new Set(row.evidence_files)] });
+    else existing.evidence_files = [...new Set([...existing.evidence_files, ...row.evidence_files])];
+  }
+  return [...byStatement.values()];
+}
+function evidencePathForName(packetDir, packet, name) {
+  if (packet.stress?.artifact_filename === name) return path.join(packetDir, packet.stress.artifact_path);
+  return path.join(packetDir, "source", findStageForFile(packet, name), name);
 }
 async function extractEvidence(root, paths) {
   const { stdout } = await execFileAsync("python3", [path.join(root, "studies/long-horizon-eval/relaybench/bench/real/extract-evidence.py"),
     JSON.stringify({ paths, max_chars_per_file: 12000 })], { maxBuffer: 16 * 1024 * 1024 });
   return JSON.parse(stdout);
 }
-async function stageEvidencePacket(root, packetDir, packet, stageId) {
+async function stageEvidencePacket(root, packetDir, packet, stageId, startIndex = 0) {
   const index = packet.stages.findIndex((item) => item.stage_id === stageId);
   if (index < 0) throw new Error(`unknown stage ${stageId}`);
-  const paths = packet.stages.slice(0, index + 1).flatMap((stage) =>
+  if (startIndex < 0 || startIndex > index) throw new Error(`invalid visible stage range for ${stageId}`);
+  const paths = packet.stages.slice(startIndex, index + 1).flatMap((stage) =>
     stage.release.map((name) => path.join(packetDir, "source", stage.stage_id, name)));
   return extractEvidence(root, paths);
+}
+function receiverSourceStart(packet) {
+  const index = packet.stages.findIndex((stage) => stage.cold_boundary_before === true);
+  if (index < 1) throw new Error("packet must place one cold boundary after at least one sender stage");
+  if (packet.stages.slice(index + 1).some((stage) => stage.cold_boundary_before === true))
+    throw new Error("packet must contain exactly one cold boundary");
+  return index;
 }
 async function researchPolicyAdmit(root, cwd, packet) {
   const { stdout } = await execFileAsync("python3", [path.join(root, "studies/long-horizon-eval/relaybench/bench/real/research-policy-admit.py"),
@@ -159,14 +398,20 @@ async function proofpress(root, cwd, args) {
   const { stdout } = await execFileAsync(process.execPath, [path.join(root, "bin/proofpress.js"), ...args], { cwd, maxBuffer: 16 * 1024 * 1024 });
   return JSON.parse(stdout);
 }
-async function importSources(root, ledger, sourceRoot) {
+async function importSources(root, ledger, sourceRoot, stages) {
   const map = new Map(); let previous = new Set();
-  for (const stage of ["S1", "S2"]) for (const name of await fs.readdir(path.join(sourceRoot, stage))) {
+  for (const stage of stages) for (const name of await fs.readdir(path.join(sourceRoot, stage))) {
     const result = await proofpress(root, ledger, ["evidence", "import", path.join(sourceRoot, stage, name)]);
     const current = new Set(result.evidence); const added = [...current].filter((x) => !previous.has(x));
     if (added.length !== 1) throw new Error(`expected one evidence receipt for ${name}`);
     map.set(name, added[0]); previous = current;
   } return map;
+}
+async function importOneSource(root, ledger, sourcePath, previous) {
+  const result = await proofpress(root, ledger, ["evidence", "import", sourcePath]);
+  const current = new Set(result.evidence); const added = [...current].filter((x) => !previous.has(x));
+  if (added.length !== 1) throw new Error(`expected one evidence receipt for ${path.basename(sourcePath)}`);
+  return added[0];
 }
 async function copyStageSources(packetDir, workspace, stages) {
   for (const stage of stages) {

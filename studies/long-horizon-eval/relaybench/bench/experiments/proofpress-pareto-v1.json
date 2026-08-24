@@ -1,13 +1,13 @@
 {
   "schema_version": 1,
   "id": "proofpress-harvey-lab-pareto-v1",
-  "status": "CALIBRATION_RESULT_CEILING_DETECTED",
+  "status": "V9_S4_COLD_BOUNDARY_TWO_BY_TWO_PANEL_FROZEN",
   "ownership": {
     "research_owner": "Proofpress",
     "implementation_review_required_from_relaybench_author": false,
     "phase_zero_frozen_mechanics_modified": false
   },
-  "primary_estimand": "paired quality delta for Proofpress versus raw handoff at matched model, task, evaluator, tools, and execution limits",
+  "primary_estimand": "two linked estimands: clean-arm non-inferiority and proof-price on unmodified LAB tasks; protection effect on separately labeled LAB-derived controlled handoff stress tests",
   "conditions": [
     "C1_ORDINARY_PORTABLE",
     "C2_PROOFPRESS"
@@ -92,31 +92,74 @@
         "fallback": false,
         "retries": 0
       }
+    },
+    {
+      "id": "D_GLM_5_2_RLM_DISTILLATION",
+      "analysis_role": "V3_COMMON_SENDER_TREATMENT_EFFECT_CALIBRATION",
+      "model_candidates": [
+        "zai/glm-5.2"
+      ],
+      "route": "Vercel AI Gateway",
+      "selection_rule": "same frozen three-task LAB panel under v3 common-sender fork; Z.ai only; no fallback or retry",
+      "adapter": {
+        "endpoint": "https://ai-gateway.vercel.sh/v1/chat/completions",
+        "api_key_env": "AI_GATEWAY_API_KEY",
+        "resolved_model": "zai/glm-5.2",
+        "provider_only": "zai",
+        "temperature": 0,
+        "reasoning_effort": "high",
+        "max_output_tokens": 12000,
+        "final_stage_max_output_tokens": 32000,
+        "timeout_ms": 1800000,
+        "fallback": false,
+        "retries": 0
+      }
+    },
+    {
+      "id": "E_DEEPSEEK_V4_FLASH_V5_ASSEMBLY",
+      "analysis_role": "V5_COVERAGE_PLANNED_TREATMENT_EFFECT",
+      "model_candidates": ["deepseek/deepseek-v4-flash-0731"],
+      "route": "Vercel AI Gateway",
+      "selection_rule": "same frozen LAB panel; DeepInfra only; dated checkpoint; no fallback or retry; JSON response mode",
+      "adapter": {
+        "endpoint": "https://ai-gateway.vercel.sh/v1/chat/completions",
+        "api_key_env": "AI_GATEWAY_API_KEY",
+        "resolved_model": "deepseek/deepseek-v4-flash-0731",
+        "provider_only": "deepinfra",
+        "temperature": 0,
+        "reasoning_effort": "none",
+        "response_format": {"type": "json_object"},
+        "max_output_tokens": 12000,
+        "final_stage_max_output_tokens": 32000,
+        "timeout_ms": 900000,
+        "fallback": false,
+        "retries": 0
+      }
     }
   ],
   "task_selection": {
     "source": "public Harvey LAB contracts materials",
     "repository": "https://github.com/harveyai/harvey-labs.git",
     "commit": "7be41d57fd5a6e97b5f246a029e810f83d09cd96",
-    "calibration_count_min": 1,
+    "selection_protocol": "treatment-effect-protocol-v9.json",
+    "calibration_count_min": 3,
     "calibration_count_max": 3,
     "task_ids": [
-      "contracts/commercial-vendor-customer/master-services-agreement-playbook-escalation/scenario-01"
+      "contracts/financing/credit-lending-playbook-escalation/scenario-02",
+      "contracts/commercial-vendor-customer/master-services-agreement-playbook-escalation/scenario-04",
+      "contracts/ip-licensing/license-agreement-playbook-escalation/scenario-03"
     ],
-    "required_paths": [
-      "tasks/contracts/commercial-vendor-customer/master-services-agreement-playbook-escalation/scenario-01/task.json",
-      "tasks/contracts/commercial-vendor-customer/master-services-agreement-playbook-escalation/scenario-01/documents"
-    ],
-    "selection_status": "FROZEN_CALIBRATION"
+    "prior_ceiling_calibration": "contracts/commercial-vendor-customer/master-services-agreement-playbook-escalation/scenario-01",
+    "selection_status": "FROZEN_PANEL_V2_BEFORE_OUTCOMES"
   },
   "policy_gate": {
-    "mode": "research_only_automated_fail_closed",
+    "mode": "research_only_transaction_batch_fail_closed",
     "proposer": "agent:sender",
     "executor": "policy:relaybench-v1",
     "admission_rule": "deterministic_eligible AND frozen_judge_accept",
     "reject_rule": "judge_reject_or_escalate_is_blocked",
     "production_boundary": "research-only treatment; production Proofpress retains authorized human admission",
-    "prompt": "You are the frozen legal-policy gate for a controlled research experiment. Assess only whether the conclusion is supported by the supplied evidence, scoped to the MSA escalation task, and safe to carry into the next stage. Accept only when support is explicit. Reject when contradicted. Escalate when ambiguous, incomplete, or dependent on business risk appetite not fixed in the evidence. Do not decide legal truth beyond this packet.",
+    "prompt": "You are the frozen legal-policy gate for a controlled research experiment. Assess only whether the conclusion is supported by the supplied evidence, scoped to the supplied benchmark task, and safe to carry into the next stage. Accept only when support is explicit. Reject when contradicted. Escalate when ambiguous, incomplete, or dependent on business risk appetite not fixed in the evidence. Do not decide legal truth beyond this packet.",
     "judge": {
       "endpoint": "https://ai-gateway.vercel.sh/v1/chat/completions",
       "api_key_env": "AI_GATEWAY_API_KEY",
@@ -130,6 +173,13 @@
       "retries": 0
     },
     "human_role": "blind_post_run_error_analysis_only"
+    ,"transaction_review": {
+      "unit": "task_or_matter",
+      "deterministic_per_conclusion": true,
+      "batch_inference_calls": 1,
+      "individual_re_review_triggers": ["high_risk", "escalated"],
+      "per_conclusion_receipts": true
+    }
   },
   "budget_policy": {
     "hard_cap_for_calibration": null,

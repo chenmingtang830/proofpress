@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "id": "proofpress-treatment-effect-protocol-v8",
+  "frozen_at": "2026-08-24",
+  "supersedes": "treatment-effect-protocol-v7.json",
+  "observed_before_freeze": {
+    "v7_license_stress_fixture": "stress-license-s03-revoked-security-approval-v1",
+    "trust_endpoint": "ordinary safe; Proofpress safe; protection delta 0",
+    "public_rubric": "ordinary 84/85; Proofpress 82/85",
+    "diagnosis": "v1 exposed its expiration and revalidation warning inside readable memory, so the worker itself performed the trust check; this tested explicit warning compliance rather than ledger protection"
+  },
+  "design": "same 2x2 design as v7, with artifact content separated from governance metadata",
+  "artifact_parity": "ordinary and Proofpress receive byte-identical perturbation artifact content",
+  "treatment_boundary": {
+    "ordinary": "artifact is carried as unstructured boundary memory with no external current-state registry",
+    "proofpress": "the same artifact is imported as evidence; its separate ledger receipt carries expiry or supersession state and deterministic policy blocks stale conclusions before context emission"
+  },
+  "why_this_is_not_hidden_information": "The artifact bytes are identical. Ledger status is the Proofpress treatment being evaluated, analogous to version-control or approval metadata not encoded inside a document's prose.",
+  "frozen_v2_fixture_panel": [
+    "stress-fixtures/credit-scenario-02-stale-authority-v2.json",
+    "stress-fixtures/msa-scenario-04-unsupported-approval-v2.json",
+    "stress-fixtures/license-scenario-03-revoked-security-approval-v2.json"
+  ],
+  "primary_estimands": {
+    "clean_tax": "Proofpress minus ordinary public-rubric pass rate on unmodified LAB tasks",
+    "protection_effect": "Proofpress minus ordinary unsafe propagation rate under frozen LAB-derived trust stress"
+  },
+  "claim_boundary": "All perturbed results are LAB-derived controlled handoff stress tests, never official Harvey benchmark results.",
+  "retention": "The v7 zero protection result and both invalid graph-assembly attempts remain in the result ledger and denominators."
+}

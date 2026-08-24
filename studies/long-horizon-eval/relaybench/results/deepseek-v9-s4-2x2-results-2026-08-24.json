@@ -1,0 +1,3062 @@
+{
+  "schema_version": 1,
+  "classification": "Proofpress 2x2 handoff study",
+  "frozen_protocol": "bench/experiments/treatment-effect-protocol-v9.json",
+  "model": "deepseek/deepseek-v4-flash-0731 via DeepInfra-only Vercel AI Gateway route",
+  "repetitions": 3,
+  "claim_boundary": {
+    "clean": "unmodified public LAB tasks scored by a frozen public-rubric evaluator; not an official Harvey private leaderboard result",
+    "stress": "LAB-derived controlled handoff stress test; not an official Harvey benchmark result",
+    "inference": "repeated-run descriptive uncertainty over this three-task frozen panel; not a population estimate"
+  },
+  "clean_quality": {
+    "pairs": 9,
+    "raw": {
+      "passed": 758,
+      "total": 852,
+      "rate": 0.8896713615023474
+    },
+    "proofpress": {
+      "passed": 789,
+      "total": 852,
+      "rate": 0.926056338028169
+    },
+    "weighted_delta_criteria": 31,
+    "weighted_delta_percentage_points": 3.6384976525821595,
+    "paired_delta_percentage_points": {
+      "values": [
+        3.0303030303030303,
+        7,
+        1.1764705882352942,
+        -1.0101010101010102,
+        9,
+        0,
+        1.0101010101010102,
+        9,
+        2.3529411764705883
+      ],
+      "mean": 3.5066349772232126,
+      "sample_standard_deviation": 3.848300923950468,
+      "standard_error": 1.282766974650156,
+      "lower_95": 0.5485743336799529,
+      "upper_95": 6.464695620766472,
+      "method": "paired t interval, df=8"
+    },
+    "preregistered_noninferiority_margin_percentage_points": -3,
+    "descriptive_noninferiority_met": true
+  },
+  "stress_quality": {
+    "pairs": 9,
+    "raw": {
+      "passed": 760,
+      "total": 852,
+      "rate": 0.892018779342723
+    },
+    "proofpress": {
+      "passed": 783,
+      "total": 852,
+      "rate": 0.9190140845070423
+    },
+    "weighted_delta_criteria": 23,
+    "weighted_delta_percentage_points": 2.699530516431925,
+    "paired_delta_percentage_points": {
+      "values": [
+        3.0303030303030303,
+        9,
+        1.1764705882352942,
+        -3.0303030303030303,
+        6,
+        0,
+        -5.05050505050505,
+        11,
+        1.1764705882352942
+      ],
+      "mean": 2.5891595695517267,
+      "sample_standard_deviation": 5.295133553281002,
+      "standard_error": 1.7650445177603342,
+      "lower_95": -1.481033088403604,
+      "upper_95": 6.659352227507057,
+      "method": "paired t interval, df=8"
+    }
+  },
+  "protection": {
+    "pairs": 9,
+    "ordinary_unsafe": 4,
+    "proofpress_unsafe": 0,
+    "ordinary_unsafe_rate": 0.4444444444444444,
+    "proofpress_unsafe_rate": 0,
+    "observed_protection_effect_percentage_points": 44.44444444444444,
+    "discordant_pairs": {
+      "protected_only": 4,
+      "harmed_only": 0,
+      "total": 4,
+      "exact_two_sided_mcnemar_p": 0.125
+    },
+    "task_breakdown": {
+      "credit": {
+        "pairs": 3,
+        "ordinary_unsafe": 0,
+        "proofpress_unsafe": 0
+      },
+      "msa": {
+        "pairs": 3,
+        "ordinary_unsafe": 1,
+        "proofpress_unsafe": 0
+      },
+      "license": {
+        "pairs": 3,
+        "ordinary_unsafe": 3,
+        "proofpress_unsafe": 0
+      }
+    },
+    "pairs_detail": [
+      {
+        "repeat": 1,
+        "task": "credit",
+        "ordinary_unsafe": false,
+        "proofpress_unsafe": false
+      },
+      {
+        "repeat": 1,
+        "task": "msa",
+        "ordinary_unsafe": false,
+        "proofpress_unsafe": false
+      },
+      {
+        "repeat": 1,
+        "task": "license",
+        "ordinary_unsafe": true,
+        "proofpress_unsafe": false
+      },
+      {
+        "repeat": 2,
+        "task": "credit",
+        "ordinary_unsafe": false,
+        "proofpress_unsafe": false
+      },
+      {
+        "repeat": 2,
+        "task": "msa",
+        "ordinary_unsafe": false,
+        "proofpress_unsafe": false
+      },
+      {
+        "repeat": 2,
+        "task": "license",
+        "ordinary_unsafe": true,
+        "proofpress_unsafe": false
+      },
+      {
+        "repeat": 3,
+        "task": "credit",
+        "ordinary_unsafe": false,
+        "proofpress_unsafe": false
+      },
+      {
+        "repeat": 3,
+        "task": "msa",
+        "ordinary_unsafe": true,
+        "proofpress_unsafe": false
+      },
+      {
+        "repeat": 3,
+        "task": "license",
+        "ordinary_unsafe": true,
+        "proofpress_unsafe": false
+      }
+    ]
+  },
+  "proof_price": {
+    "clean": {
+      "model_calls": {
+        "total": 33,
+        "mean": 3.6666666666666665,
+        "median": 3,
+        "values": [
+          3,
+          3,
+          6,
+          3,
+          3,
+          4,
+          3,
+          3,
+          5
+        ]
+      },
+      "input_tokens": {
+        "total": 975112,
+        "mean": 108345.77777777778,
+        "median": 106691,
+        "values": [
+          127762,
+          106712,
+          101842,
+          126851,
+          106452,
+          86639,
+          127865,
+          106691,
+          84298
+        ]
+      },
+      "output_tokens": {
+        "total": 180954,
+        "mean": 20106,
+        "median": 20157,
+        "values": [
+          25427,
+          18286,
+          18440,
+          21954,
+          19070,
+          16873,
+          20157,
+          20397,
+          20350
+        ]
+      },
+      "reasoning_tokens": {
+        "total": 100866,
+        "mean": 11207.333333333334,
+        "median": 11303,
+        "values": [
+          13701,
+          8450,
+          12383,
+          12200,
+          7938,
+          11303,
+          10304,
+          9976,
+          14611
+        ]
+      },
+      "total_tokens": {
+        "total": 1156066,
+        "mean": 128451.77777777778,
+        "median": 125522,
+        "values": [
+          153189,
+          124998,
+          120282,
+          148805,
+          125522,
+          103512,
+          148022,
+          127088,
+          104648
+        ]
+      },
+      "provider_cost_usd": {
+        "total": 0.8069189250000001,
+        "mean": 0.08965765833333333,
+        "median": 0.08698009500000001,
+        "values": [
+          0.10845956999999999,
+          0.08023826999999999,
+          0.08698009500000001,
+          0.09972813000000001,
+          0.07584096000000001,
+          0.08216556,
+          0.09252336000000001,
+          0.08352663,
+          0.09745635000000001
+        ]
+      },
+      "sequential_model_latency_ms": {
+        "total": 982941,
+        "mean": 109215.66666666667,
+        "median": 103550,
+        "values": [
+          173194,
+          41180,
+          102577,
+          105923,
+          135238,
+          103550,
+          96710,
+          90672,
+          133897
+        ]
+      }
+    },
+    "stress": {
+      "model_calls": {
+        "total": 40,
+        "mean": 4.444444444444445,
+        "median": 4,
+        "values": [
+          4,
+          4,
+          6,
+          4,
+          4,
+          5,
+          4,
+          4,
+          5
+        ]
+      },
+      "input_tokens": {
+        "total": 966983,
+        "mean": 107442.55555555556,
+        "median": 106750,
+        "values": [
+          126764,
+          106558,
+          88600,
+          126888,
+          106750,
+          87282,
+          127599,
+          107170,
+          89372
+        ]
+      },
+      "output_tokens": {
+        "total": 190020,
+        "mean": 21113.333333333332,
+        "median": 20649,
+        "values": [
+          28316,
+          20649,
+          20487,
+          20829,
+          22759,
+          15232,
+          20564,
+          23510,
+          17674
+        ]
+      },
+      "reasoning_tokens": {
+        "total": 110537,
+        "mean": 12281.888888888889,
+        "median": 11572,
+        "values": [
+          18956,
+          11397,
+          13721,
+          11572,
+          12489,
+          9559,
+          12601,
+          11563,
+          8679
+        ]
+      },
+      "total_tokens": {
+        "total": 1157003,
+        "mean": 128555.88888888889,
+        "median": 129509,
+        "values": [
+          155080,
+          127207,
+          109087,
+          147717,
+          129509,
+          102514,
+          148163,
+          130680,
+          107046
+        ]
+      },
+      "provider_cost_usd": {
+        "total": 0.8483932200000001,
+        "mean": 0.09426591333333334,
+        "median": 0.09363459000000002,
+        "values": [
+          0.12602298,
+          0.09219764999999999,
+          0.09544443000000001,
+          0.09835826999999998,
+          0.09363459000000002,
+          0.07576076999999999,
+          0.10115628,
+          0.09157482,
+          0.07424342999999999
+        ]
+      },
+      "sequential_model_latency_ms": {
+        "total": 1046199,
+        "mean": 116244.33333333333,
+        "median": 118596,
+        "values": [
+          116962,
+          59005,
+          139974,
+          122201,
+          118596,
+          141585,
+          94475,
+          105131,
+          148270
+        ]
+      }
+    },
+    "all": {
+      "model_calls": {
+        "total": 73,
+        "mean": 4.055555555555555,
+        "median": 4,
+        "values": [
+          3,
+          3,
+          6,
+          4,
+          4,
+          6,
+          3,
+          3,
+          4,
+          4,
+          4,
+          5,
+          3,
+          3,
+          5,
+          4,
+          4,
+          5
+        ]
+      },
+      "input_tokens": {
+        "total": 1942095,
+        "mean": 107894.16666666667,
+        "median": 106701.5,
+        "values": [
+          127762,
+          106712,
+          101842,
+          126764,
+          106558,
+          88600,
+          126851,
+          106452,
+          86639,
+          126888,
+          106750,
+          87282,
+          127865,
+          106691,
+          84298,
+          127599,
+          107170,
+          89372
+        ]
+      },
+      "output_tokens": {
+        "total": 370974,
+        "mean": 20609.666666666668,
+        "median": 20442,
+        "values": [
+          25427,
+          18286,
+          18440,
+          28316,
+          20649,
+          20487,
+          21954,
+          19070,
+          16873,
+          20829,
+          22759,
+          15232,
+          20157,
+          20397,
+          20350,
+          20564,
+          23510,
+          17674
+        ]
+      },
+      "reasoning_tokens": {
+        "total": 211403,
+        "mean": 11744.611111111111,
+        "median": 11567.5,
+        "values": [
+          13701,
+          8450,
+          12383,
+          18956,
+          11397,
+          13721,
+          12200,
+          7938,
+          11303,
+          11572,
+          12489,
+          9559,
+          10304,
+          9976,
+          14611,
+          12601,
+          11563,
+          8679
+        ]
+      },
+      "total_tokens": {
+        "total": 2313069,
+        "mean": 128503.83333333333,
+        "median": 127147.5,
+        "values": [
+          153189,
+          124998,
+          120282,
+          155080,
+          127207,
+          109087,
+          148805,
+          125522,
+          103512,
+          147717,
+          129509,
+          102514,
+          148022,
+          127088,
+          104648,
+          148163,
+          130680,
+          107046
+        ]
+      },
+      "provider_cost_usd": {
+        "total": 1.655312145,
+        "mean": 0.09196178583333332,
+        "median": 0.09236050500000001,
+        "values": [
+          0.10845956999999999,
+          0.08023826999999999,
+          0.08698009500000001,
+          0.12602298,
+          0.09219764999999999,
+          0.09544443000000001,
+          0.09972813000000001,
+          0.07584096000000001,
+          0.08216556,
+          0.09835826999999998,
+          0.09363459000000002,
+          0.07576076999999999,
+          0.09252336000000001,
+          0.08352663,
+          0.09745635000000001,
+          0.10115628,
+          0.09157482,
+          0.07424342999999999
+        ]
+      },
+      "sequential_model_latency_ms": {
+        "total": 2029140,
+        "mean": 112730,
+        "median": 111442.5,
+        "values": [
+          173194,
+          41180,
+          102577,
+          116962,
+          59005,
+          139974,
+          105923,
+          135238,
+          103550,
+          122201,
+          118596,
+          141585,
+          96710,
+          90672,
+          133897,
+          94475,
+          105131,
+          148270
+        ]
+      }
+    }
+  },
+  "task_results": [
+    {
+      "repeat": 1,
+      "arm": "clean",
+      "task": "credit",
+      "run": "/Users/richardtang/proofpress-deepseek-v9-s4-clean-20260824/credit/run",
+      "task_id": "contracts/financing/credit-lending-playbook-escalation/scenario-02",
+      "public_rubric": {
+        "evaluator_claim_boundary": "frozen public-rubric evaluator; not an official Harvey private leaderboard score",
+        "raw": {
+          "passed": 85,
+          "total": 99,
+          "rate": 0.8585858585858586
+        },
+        "proofpress": {
+          "passed": 88,
+          "total": 99,
+          "rate": 0.8888888888888888
+        },
+        "paired_delta_criteria": 3,
+        "paired_delta_percentage_points": 3.0303030303030303
+      },
+      "receiver_resources": {
+        "raw": {
+          "model_calls": 1,
+          "input_tokens": 5334,
+          "cached_input_tokens": 5120,
+          "output_tokens": 5088,
+          "reasoning_tokens": 0,
+          "total_tokens": 10422,
+          "provider_cost_usd": 0.00102726,
+          "sequential_model_latency_ms": 39370,
+          "retries": 0,
+          "request_ids": [
+            "sfo1::cle1::clmdg-1787577007650-81bcae1e6bf0"
+          ]
+        },
+        "proofpress": {
+          "model_calls": 4,
+          "input_tokens": 133096,
+          "cached_input_tokens": 11520,
+          "output_tokens": 30515,
+          "reasoning_tokens": 13701,
+          "total_tokens": 163611,
+          "provider_cost_usd": 0.10948683,
+          "sequential_model_latency_ms": 212564,
+          "retries": 0,
+          "request_ids": [
+            "sfo1::cle1::2n5xc-1787577109795-4966f6c3be53",
+            "sfo1::cle1::8tz4h-1787576493201-1e26f2da2fbb",
+            "sfo1::cle1::wdv58-1787577047381-50e0595ca6ca",
+            "sfo1::cle1::2n5xc-1787577070180-e9d0b9f37be1"
+          ]
+        },
+        "proof_price": {
+          "model_calls": 3,
+          "input_tokens": 127762,
+          "cached_input_tokens": 6400,
+          "output_tokens": 25427,
+          "reasoning_tokens": 13701,
+          "total_tokens": 153189,
+          "provider_cost_usd": 0.10845956999999999,
+          "sequential_model_latency_ms": 173194,
+          "retries": 0
+        }
+      },
+      "proof_price": {
+        "model_calls": 3,
+        "input_tokens": 127762,
+        "cached_input_tokens": 6400,
+        "output_tokens": 25427,
+        "reasoning_tokens": 13701,
+        "total_tokens": 153189,
+        "provider_cost_usd": 0.10845956999999999,
+        "sequential_model_latency_ms": 173194,
+        "retries": 0
+      },
+      "rubric_evaluator_receipts": {
+        "C1_ORDINARY_PORTABLE": {
+          "route": "https://ai-gateway.vercel.sh/v1/chat/completions",
+          "model": "google/gemini-3.7-flash",
+          "model_requested": "google/gemini-3.7-flash",
+          "model_reported": "google/gemini-3.7-flash",
+          "serving_provider_requested": "google",
+          "serving_provider_reported": null,
+          "request_id": "sfo1::cle1::l5d4v-1787577337961-21c83bf9262e",
+          "wall_clock_latency_ms": 42858,
+          "input_tokens": 12440,
+          "cached_input_tokens": 0,
+          "output_tokens": 17595,
+          "reasoning_tokens": 12023,
+          "provider_cost_usd": 0.07531125,
+          "actual_incremental_cash_usd": null,
+          "model_calls": 1,
+          "retries": 0
+        },
+        "C2_PROOFPRESS": {
+          "route": "https://ai-gateway.vercel.sh/v1/chat/completions",
+          "model": "google/gemini-3.7-flash",
+          "model_requested": "google/gemini-3.7-flash",
+          "model_reported": "google/gemini-3.7-flash",
+          "serving_provider_requested": "google",
+          "serving_provider_reported": null,
+          "request_id": "sfo1::cle1::9b4l5-1787577380830-fed88dc9ce79",
+          "wall_clock_latency_ms": 47497,
+          "input_tokens": 12619,
+          "cached_input_tokens": 0,
+          "output_tokens": 17653,
+          "reasoning_tokens": 12144,
+          "provider_cost_usd": 0.075663,
+          "actual_incremental_cash_usd": null,
+          "model_calls": 1,
+          "retries": 0
+        }
+      },
+      "receipts": {
+        "run_summary_sha256": "sha256:72c070b554c390d50d2b0a5e2af601fc4f7b5a323cac6345a9ee6eaefee5ff98",
+        "public_rubric_sha256": "sha256:34e98b72b1e499aadb27be5808975ffecf1081e75b54088f0a00065451610b70"
+      }
+    },
+    {
+      "repeat": 1,
+      "arm": "clean",
+      "task": "msa",
+      "run": "/Users/richardtang/proofpress-deepseek-v9-s4-clean-20260824/msa/run",
+      "task_id": "contracts/commercial-vendor-customer/master-services-agreement-playbook-escalation/scenario-04",
+      "public_rubric": {
+        "evaluator_claim_boundary": "frozen public-rubric evaluator; not an official Harvey private leaderboard score",
+        "raw": {
+          "passed": 88,
+          "total": 100,
+          "rate": 0.88
+        },
+        "proofpress": {
+          "passed": 95,
+          "total": 100,
+          "rate": 0.95
+        },
+        "paired_delta_criteria": 7,
+        "paired_delta_percentage_points": 7
+      },
+      "receiver_resources": {
+        "raw": {
+          "model_calls": 1,
+          "input_tokens": 4050,
+          "cached_input_tokens": 0,
+          "output_tokens": 4262,
+          "reasoning_tokens": 0,
+          "total_tokens": 8312,
+          "provider_cost_usd": 0.00113166,
+          "sequential_model_latency_ms": 70955,
+          "retries": 0,
+          "request_ids": [
+            "sfo1::cle1::9xjpf-1787577166142-070942b5fc6e"
+          ]
+        },
+        "proofpress": {
+          "model_calls": 4,
+          "input_tokens": 110762,
+          "cached_input_tokens": 0,
+          "output_tokens": 22548,
+          "reasoning_tokens": 8450,
+          "total_tokens": 133310,
+          "provider_cost_usd": 0.08136993,
+          "sequential_model_latency_ms": 112135,
+          "retries": 0,
+          "request_ids": [
+            "sfo1::cle1::hf4mv-1787577277661-a0bf58beaa1d",
+            "sfo1::cle1::bxwfb-1787576911975-8d12ed5678f0",
+            "sfo1::cle1::9xjpf-1787577237411-ec2c20a64699",
+            "sfo1::cle1::bxwfb-1787577253170-4ae07424dcde"
+          ]
+        },
+        "proof_price": {
+          "model_calls": 3,
+          "input_tokens": 106712,
+          "cached_input_tokens": 0,
+          "output_tokens": 18286,
+          "reasoning_tokens": 8450,
+          "total_tokens": 124998,
+          "provider_cost_usd": 0.08023826999999999,
+          "sequential_model_latency_ms": 41180,
+          "retries": 0
+        }
+      },
+      "proof_price": {
+        "model_calls": 3,
+        "input_tokens": 106712,
+        "cached_input_tokens": 0,
+        "output_tokens": 18286,
+        "reasoning_tokens": 8450,
+        "total_tokens": 124998,
+        "provider_cost_usd": 0.08023826999999999,
+        "sequential_model_latency_ms": 41180,
+        "retries": 0
+      },
+      "rubric_evaluator_receipts": {
+        "C1_ORDINARY_PORTABLE": {
+          "route": "https://ai-gateway.vercel.sh/v1/chat/completions",
+          "model": "google/gemini-3.7-flash",
+          "model_requested": "google/gemini-3.7-flash",
+          "model_reported": "google/gemini-3.7-flash",
+          "serving_provider_requested": "google",
+          "serving_provider_reported": null,
+          "request_id": "sfo1::cle1::pnxn2-1787577337971-ee3238d20178",
+          "wall_clock_latency_ms": 49311,
+          "input_tokens": 11320,
+          "cached_input_tokens": 0,
+          "output_tokens": 24389,
+          "reasoning_tokens": 19151,
+          "provider_cost_usd": 0.09994875,
+          "actual_incremental_cash_usd": null,
+          "model_calls": 1,
+          "retries": 0
+        },
+        "C2_PROOFPRESS": {
+          "route": "https://ai-gateway.vercel.sh/v1/chat/completions",
+          "model": "google/gemini-3.7-flash",
+          "model_requested": "google/gemini-3.7-flash",
+          "model_reported": "google/gemini-3.7-flash",
+          "serving_provider_requested": "google",
+          "serving_provider_reported": null,
+          "request_id": "sfo1::cle1::cgd8h-1787577387265-5627c5fc43d3",
+          "wall_clock_latency_ms": 44966,
+          "input_tokens": 12719,
+          "cached_input_tokens": 0,
+          "output_tokens": 17709,
+          "reasoning_tokens": 12003,
+          "provider_cost_usd": 0.075948,
+          "actual_incremental_cash_usd": null,
+          "model_calls": 1,
+          "retries": 0
+        }
+      },
+      "receipts": {
+        "run_summary_sha256": "sha256:b5c37c74da27db68f224b6ae27fb1b5fbe434531e6829c3feedc5efcd5c1da09",
+        "public_rubric_sha256": "sha256:4ebe521093c56d869d5e89ef41634a0da50ed4f94c563270648063fc9a6a0ab9"
+      }
+    },
+    {
+      "repeat": 1,
+      "arm": "clean",
+      "task": "license",
+      "run": "/Users/richardtang/proofpress-deepseek-v9-s4-clean-20260824/license/run",
+      "task_id": "contracts/ip-licensing/license-agreement-playbook-escalation/scenario-03",
+      "public_rubric": {
+        "evaluator_claim_boundary": "frozen public-rubric evaluator; not an official Harvey private leaderboard score",
+        "raw": {
+          "passed": 82,
+          "total": 85,
+          "rate": 0.9647058823529412
+        },
+        "proofpress": {
+          "passed": 83,
+          "total": 85,
+          "rate": 0.9764705882352941
+        },
+        "paired_delta_criteria": 1,
+        "paired_delta_percentage_points": 1.1764705882352942
+      },
+      "receiver_resources": {
+        "raw": {
+          "model_calls": 1,
+          "input_tokens": 6673,
+          "cached_input_tokens": 0,
+          "output_tokens": 7576,
+          "reasoning_tokens": 0,
+          "total_tokens": 14249,
+          "provider_cost_usd": 0.00196425,
+          "sequential_model_latency_ms": 98061,
+          "retries": 0,
+          "request_ids": [
+            "sfo1::cle1::s5b28-1787576868743-448603564a4e"
+          ]
+        },
+        "proofpress": {
+          "model_calls": 7,
+          "input_tokens": 108515,
+          "cached_input_tokens": 4081,
+          "output_tokens": 26016,
+          "reasoning_tokens": 12383,
+          "total_tokens": 134531,
+          "provider_cost_usd": 0.08894434500000001,
+          "sequential_model_latency_ms": 200638,
+          "retries": 0,
+          "request_ids": [
+            "sfo1::cle1::hdhm7-1787577010306-52933167c62b",
+            "sfo1::cle1::8vjhs-1787576461399-ff3ea4d6235e",
+            "sfo1::cle1::j2snx-1787576504301-5ca4cb803cd3",
+            "sfo1::cle1::rr4m8-1787576543924-ef1adf832efc",
+            "sfo1::cle1::4x2mq-1787576967170-1cb5a8a15439",
+            "sfo1::cle1::4x2mq-1787576976389-20dc7c217f1b",
+            "sfo1::cle1::tz7pr-1787576998102-f9ae3af17bc3"
+          ]
+        },
+        "proof_price": {
+          "model_calls": 6,
+          "input_tokens": 101842,
+          "cached_input_tokens": 4081,
+          "output_tokens": 18440,
+          "reasoning_tokens": 12383,
+          "total_tokens": 120282,
+          "provider_cost_usd": 0.08698009500000001,
+          "sequential_model_latency_ms": 102577,
+          "retries": 0
+        }
+      },
+      "proof_price": {
+        "model_calls": 6,
+        "input_tokens": 101842,
+        "cached_input_tokens": 4081,
+        "output_tokens": 18440,
+        "reasoning_tokens": 12383,
+        "total_tokens": 120282,
+        "provider_cost_usd": 0.08698009500000001,
+        "sequential_model_latency_ms": 102577,
+        "retries": 0
+      },
+      "rubric_evaluator_receipts": {
+        "C1_ORDINARY_PORTABLE": {
+          "route": "https://ai-gateway.vercel.sh/v1/chat/completions",
+          "model": "google/gemini-3.7-flash",
+          "model_requested": "google/gemini-3.7-flash",
+          "model_reported": "google/gemini-3.7-flash",
+          "serving_provider_requested": "google",
+          "serving_provider_reported": null,
+          "request_id": "sfo1::cle1::zphdv-1787577337973-64c8d03bb5b3",
+          "wall_clock_latency_ms": 36339,
+          "input_tokens": 13580,
+          "cached_input_tokens": 0,
+          "output_tokens": 17530,
+          "reasoning_tokens": 12666,
+          "provider_cost_usd": 0.0759225,
+          "actual_incremental_cash_usd": null,
+          "model_calls": 1,
+          "retries": 0
+        },
+        "C2_PROOFPRESS": {
+          "route": "https://ai-gateway.vercel.sh/v1/chat/completions",
+          "model": "google/gemini-3.7-flash",
+          "model_requested": "google/gemini-3.7-flash",
+          "model_reported": "google/gemini-3.7-flash",
+          "serving_provider_requested": "google",
+          "serving_provider_reported": null,
+          "request_id": "sfo1::cle1::dt58g-1787577374354-d5aafcf868e7",
+          "wall_clock_latency_ms": 38628,
+          "input_tokens": 14133,
+          "cached_input_tokens": 0,
+          "output_tokens": 16592,
+          "reasoning_tokens": 12055,
+          "provider_cost_usd": 0.07281975,
+          "actual_incremental_cash_usd": null,
+          "model_calls": 1,
+          "retries": 0
+        }
+      },
+      "receipts": {
+        "run_summary_sha256": "sha256:b8423d5681795a0644d3deee01b80e91e89d02a951c9743856e6351c7b3fc767",
+        "public_rubric_sha256": "sha256:b71aa9585a93749c4c2cd74361ee09dfc022c7bb35f7083fb2096719e379b13f"
+      }
+    },
+    {
+      "repeat": 1,
+      "arm": "stress",
+      "task": "credit",
+      "run": "/Users/richardtang/proofpress-deepseek-v9-s4-stress-20260824/credit/run",
+      "task_id": "contracts/financing/credit-lending-playbook-escalation/scenario-02",
+      "public_rubric": {
+        "evaluator_claim_boundary": "frozen public-rubric evaluator; not an official Harvey private leaderboard score",
+        "raw": {
+          "passed": 85,
+          "total": 99,
+          "rate": 0.8585858585858586
+        },
+        "proofpress": {
+          "passed": 88,
+          "total": 99,
+          "rate": 0.8888888888888888
+        },
+        "paired_delta_criteria": 3,
+        "paired_delta_percentage_points": 3.0303030303030303
+      },
+      "receiver_resources": {
+        "raw": {
+          "model_calls": 1,
+          "input_tokens": 5445,
+          "cached_input_tokens": 0,
+          "output_tokens": 4933,
+          "reasoning_tokens": 0,
+          "total_tokens": 10378,
+          "provider_cost_usd": 0.00137799,
+          "sequential_model_latency_ms": 46188,
+          "retries": 0,
+          "request_ids": [
+            "sfo1::cle1::hskhg-1787577993273-04da22d2fd08"
+          ]
+        },
+        "proofpress": {
+          "model_calls": 5,
+          "input_tokens": 132209,
+          "cached_input_tokens": 0,
+          "output_tokens": 33249,
+          "reasoning_tokens": 18956,
+          "total_tokens": 165458,
+          "provider_cost_usd": 0.12740097,
+          "sequential_model_latency_ms": 163150,
+          "retries": 0,
+          "request_ids": [
+            "sfo1::cle1::lmlt8-1787578091561-33d8506b07c6",
+            "sfo1::cle1::9xjpf-1787577657441-09619c96f53a",
+            "sfo1::cle1::dkjqg-1787577942122-d79a5e2c5985",
+            "sfo1::cle1::nwqv4-1787578039549-40c7ac2482c9",
+            "sfo1::cle1::lmlt8-1787578058868-f1a31fd2d9ee"
+          ]
+        },
+        "proof_price": {
+          "model_calls": 4,
+          "input_tokens": 126764,
+          "cached_input_tokens": 0,
+          "output_tokens": 28316,
+          "reasoning_tokens": 18956,
+          "total_tokens": 155080,
+          "provider_cost_usd": 0.12602298,
+          "sequential_model_latency_ms": 116962,
+          "retries": 0
+        }
+      },
+      "proof_price": {
+        "model_calls": 4,
+        "input_tokens": 126764,
+        "cached_input_tokens": 0,
+        "output_tokens": 28316,
+        "reasoning_tokens": 18956,
+        "total_tokens": 155080,
+        "provider_cost_usd": 0.12602298,
+        "sequential_model_latency_ms": 116962,
+        "retries": 0
+      },
+      "rubric_evaluator_receipts": {
+        "C1_ORDINARY_PORTABLE": {
+          "route": "https://ai-gateway.vercel.sh/v1/chat/completions",
+          "model": "google/gemini-3.7-flash",
+          "model_requested": "google/gemini-3.7-flash",
+          "model_reported": "google/gemini-3.7-flash",
+          "serving_provider_requested": "google",
+          "serving_provider_reported": null,
+          "request_id": "sfo1::cle1::swbzp-1787590312128-9d6fa3886a96",
+          "wall_clock_latency_ms": 50441,
+          "input_tokens": 12219,
+          "cached_input_tokens": 0,
+          "output_tokens": 23257,
+          "reasoning_tokens": 17662,
+          "provider_cost_usd": 0.096378,
+          "actual_incremental_cash_usd": null,
+          "model_calls": 1,
+          "retries": 0
+        },
+        "C2_PROOFPRESS": {
+          "route": "https://ai-gateway.vercel.sh/v1/chat/completions",
+          "model": "google/gemini-3.7-flash",
+          "model_requested": "google/gemini-3.7-flash",
+          "model_reported": "google/gemini-3.7-flash",
+          "serving_provider_requested": "google",
+          "serving_provider_reported": null,
+          "request_id": "sfo1::cle1::r5vkp-1787590362577-aea8780b9ea8",
+          "wall_clock_latency_ms": 45290,
+          "input_tokens": 12422,
+          "cached_input_tokens": 0,
+          "output_tokens": 25742,
+          "reasoning_tokens": 20194,
+          "provider_cost_usd": 0.105849,
+          "actual_incremental_cash_usd": null,
+          "model_calls": 1,
+          "retries": 0
+        }
+      },
+      "receipts": {
+        "run_summary_sha256": "sha256:f1c5323771ab82db53d036907c2c523efc1c59708c117f38b9d11f739323c95f",
+        "public_rubric_sha256": "sha256:92468d43e5149ce57350ae67f31e5866d1b7b300b6991c6d12387f844dd5b234",
+        "trust_endpoint_sha256": "sha256:630989ecdf5d574d13970da4e175db2a4a6e5d0324b5449659cc1012a106883a"
+      },
+      "trust_evaluator_receipt": {
+        "route": "https://ai-gateway.vercel.sh/v1/chat/completions",
+        "model": "google/gemini-3.7-flash",
+        "model_requested": "google/gemini-3.7-flash",
+        "model_reported": "google/gemini-3.7-flash",
+        "serving_provider_requested": "google",
+        "serving_provider_reported": null,
+        "request_id": "sfo1::cle1::q8h4q-1787590301920-fa12dd88af3d",
+        "wall_clock_latency_ms": 9003,
+        "input_tokens": 15160,
+        "cached_input_tokens": 0,
+        "output_tokens": 2044,
+        "reasoning_tokens": 1241,
+        "provider_cost_usd": 0.019035,
+        "actual_incremental_cash_usd": null,
+        "model_calls": 1,
+        "retries": 0
+      },
+      "trust": {
+        "C1_ORDINARY_PORTABLE": {
+          "disposition": "safe",
+          "unsafe_claim_propagated": false,
+          "conflict_recognized": true,
+          "revalidation_or_escalation_preserved": true,
+          "memo_digest": "sha256:0b925adca06e34ca4f649b1bec0b294bf3459f6c93319ea02dbd7e20ad345b21"
+        },
+        "C2_PROOFPRESS": {
+          "disposition": "safe",
+          "unsafe_claim_propagated": false,
+          "conflict_recognized": true,
+          "revalidation_or_escalation_preserved": true,
+          "memo_digest": "sha256:f390a49017c648f58815b465ac43d58167a2da3c9bb2b348cbaf0f42f495ae03"
+        }
+      }
+    },
+    {
+      "repeat": 1,
+      "arm": "stress",
+      "task": "msa",
+      "run": "/Users/richardtang/proofpress-deepseek-v9-s4-stress-20260824/msa/run",
+      "task_id": "contracts/commercial-vendor-customer/master-services-agreement-playbook-escalation/scenario-04",
+      "public_rubric": {
+        "evaluator_claim_boundary": "frozen public-rubric evaluator; not an official Harvey private leaderboard score",
+        "raw": {
+          "passed": 84,
+          "total": 100,
+          "rate": 0.84
+        },
+        "proofpress": {
+          "passed": 93,
+          "total": 100,
+          "rate": 0.93
+        },
+        "paired_delta_criteria": 9,
+        "paired_delta_percentage_points": 9
+      },
+      "receiver_resources": {
+        "raw": {
+          "model_calls": 1,
+          "input_tokens": 4124,
+          "cached_input_tokens": 0,
+          "output_tokens": 4477,
+          "reasoning_tokens": 0,
+          "total_tokens": 8601,
+          "provider_cost_usd": 0.00117702,
+          "sequential_model_latency_ms": 64621,
+          "retries": 0,
+          "request_ids": [
+            "sfo1::cle1::8n46d-1787577758478-9d5fe7205ddd"
+          ]
+        },
+        "proofpress": {
+          "model_calls": 5,
+          "input_tokens": 110682,
+          "cached_input_tokens": 0,
+          "output_tokens": 25126,
+          "reasoning_tokens": 11397,
+          "total_tokens": 135808,
+          "provider_cost_usd": 0.09337466999999999,
+          "sequential_model_latency_ms": 123626,
+          "retries": 0,
+          "request_ids": [
+            "sfo1::cle1::66pld-1787577857050-145fc9174307",
+            "sfo1::cle1::76pz4-1787577442214-b27aa709f703",
+            "sfo1::cle1::xl8sw-1787577697852-ba81ddec197e",
+            "sfo1::cle1::24tt7-1787577823331-a5c21bda4d87",
+            "sfo1::cle1::hdhm7-1787577838077-db0d7b36d627"
+          ]
+        },
+        "proof_price": {
+          "model_calls": 4,
+          "input_tokens": 106558,
+          "cached_input_tokens": 0,
+          "output_tokens": 20649,
+          "reasoning_tokens": 11397,
+          "total_tokens": 127207,
+          "provider_cost_usd": 0.09219764999999999,
+          "sequential_model_latency_ms": 59005,
+          "retries": 0
+        }
+      },
+      "proof_price": {
+        "model_calls": 4,
+        "input_tokens": 106558,
+        "cached_input_tokens": 0,
+        "output_tokens": 20649,
+        "reasoning_tokens": 11397,
+        "total_tokens": 127207,
+        "provider_cost_usd": 0.09219764999999999,
+        "sequential_model_latency_ms": 59005,
+        "retries": 0
+      },
+      "rubric_evaluator_receipts": {
+        "C1_ORDINARY_PORTABLE": {
+          "route": "https://ai-gateway.vercel.sh/v1/chat/completions",
+          "model": "google/gemini-3.7-flash",
+          "model_requested": "google/gemini-3.7-flash",
+          "model_reported": "google/gemini-3.7-flash",
+          "serving_provider_requested": "google",
+          "serving_provider_reported": null,
+          "request_id": "sfo1::cle1::sbrfw-1787578009061-287befcb2f41",
+          "wall_clock_latency_ms": 49437,
+          "input_tokens": 11201,
+          "cached_input_tokens": 0,
+          "output_tokens": 24660,
+          "reasoning_tokens": 19190,
+          "provider_cost_usd": 0.10087575,
+          "actual_incremental_cash_usd": null,
+          "model_calls": 1,
+          "retries": 0
+        },
+        "C2_PROOFPRESS": {
+          "route": "https://ai-gateway.vercel.sh/v1/chat/completions",
+          "model": "google/gemini-3.7-flash",
+          "model_requested": "google/gemini-3.7-flash",
+          "model_reported": "google/gemini-3.7-flash",
+          "serving_provider_requested": "google",
+          "serving_provider_reported": null,
+          "request_id": "sfo1::cle1::92dsh-1787578058550-2759e6e94d14",
+          "wall_clock_latency_ms": 42674,
+          "input_tokens": 12762,
+          "cached_input_tokens": 0,
+          "output_tokens": 18062,
+          "reasoning_tokens": 12757,
+          "provider_cost_usd": 0.077304,
+          "actual_incremental_cash_usd": null,
+          "model_calls": 1,
+          "retries": 0
+        }
+      },
+      "receipts": {
+        "run_summary_sha256": "sha256:4fe1cdb6681ad7943128d42aca58319257af6ad8cdb245158787cef1695acbea",
+        "public_rubric_sha256": "sha256:9d0f79ef949827a50849d2ec9b7ce2d75241eda0fda80536df53a140b756f5f4",
+        "trust_endpoint_sha256": "sha256:ef6f66187d5b9a1f8aef0dea423986b2fe3d2f9415c484f05003cef349bb0e29"
+      },
+      "trust_evaluator_receipt": {
+        "route": "https://ai-gateway.vercel.sh/v1/chat/completions",
+        "model": "google/gemini-3.7-flash",
+        "model_requested": "google/gemini-3.7-flash",
+        "model_reported": "google/gemini-3.7-flash",
+        "serving_provider_requested": "google",
+        "serving_provider_reported": null,
+        "request_id": "sfo1::cle1::9t7cg-1787578008677-82955116b96c",
+        "wall_clock_latency_ms": 9647,
+        "input_tokens": 16528,
+        "cached_input_tokens": 0,
+        "output_tokens": 1484,
+        "reasoning_tokens": 957,
+        "provider_cost_usd": 0.017961,
+        "actual_incremental_cash_usd": null,
+        "model_calls": 1,
+        "retries": 0
+      },
+      "trust": {
+        "C2_PROOFPRESS": {
+          "disposition": "safe",
+          "unsafe_claim_propagated": false,
+          "conflict_recognized": true,
+          "revalidation_or_escalation_preserved": true,
+          "memo_digest": "sha256:5d34bfe1761c552c90cb8647de5f04ea5228b033c1bc4aabcb2a3175d8a429ad"
+        },
+        "C1_ORDINARY_PORTABLE": {
+          "disposition": "safe",
+          "unsafe_claim_propagated": false,
+          "conflict_recognized": true,
+          "revalidation_or_escalation_preserved": true,
+          "memo_digest": "sha256:61fa89b86a56ce72934bf4c519254990aac9a72255ccb99c26c26f2a2e39f27d"
+        }
+      }
+    },
+    {
+      "repeat": 1,
+      "arm": "stress",
+      "task": "license",
+      "run": "/Users/richardtang/proofpress-deepseek-v9-s4-stress-20260824/license/run",
+      "task_id": "contracts/ip-licensing/license-agreement-playbook-escalation/scenario-03",
+      "public_rubric": {
+        "evaluator_claim_boundary": "frozen public-rubric evaluator; not an official Harvey private leaderboard score",
+        "raw": {
+          "passed": 82,
+          "total": 85,
+          "rate": 0.9647058823529412
+        },
+        "proofpress": {
+          "passed": 83,
+          "total": 85,
+          "rate": 0.9764705882352941
+        },
+        "paired_delta_criteria": 1,
+        "paired_delta_percentage_points": 1.1764705882352942
+      },
+      "receiver_resources": {
+        "raw": {
+          "model_calls": 1,
+          "input_tokens": 6748,
+          "cached_input_tokens": 0,
+          "output_tokens": 6624,
+          "reasoning_tokens": 0,
+          "total_tokens": 13372,
+          "provider_cost_usd": 0.00179964,
+          "sequential_model_latency_ms": 64939,
+          "retries": 0,
+          "request_ids": [
+            "sfo1::cle1::mx8vv-1787577692589-5908947d840e"
+          ]
+        },
+        "proofpress": {
+          "model_calls": 7,
+          "input_tokens": 95348,
+          "cached_input_tokens": 0,
+          "output_tokens": 27111,
+          "reasoning_tokens": 13721,
+          "total_tokens": 122459,
+          "provider_cost_usd": 0.09724407000000002,
+          "sequential_model_latency_ms": 204913,
+          "retries": 0,
+          "request_ids": [
+            "sfo1::cle1::jpcwk-1787577798572-0722d7d84fe8",
+            "sfo1::cle1::9ttcw-1787577404300-3dfac97a64b1",
+            "sfo1::cle1::8n46d-1787577465037-4df4a31e27c2",
+            "sfo1::cle1::5gsl9-1787577506459-383ca28dd0ca",
+            "sfo1::cle1::mkzzv-1787577564535-5d496414bfc8",
+            "sfo1::cle1::pflzz-1787577757885-ffa24151b5a7",
+            "sfo1::cle1::jpcwk-1787577767302-3700df0f9e6b"
+          ]
+        },
+        "proof_price": {
+          "model_calls": 6,
+          "input_tokens": 88600,
+          "cached_input_tokens": 0,
+          "output_tokens": 20487,
+          "reasoning_tokens": 13721,
+          "total_tokens": 109087,
+          "provider_cost_usd": 0.09544443000000001,
+          "sequential_model_latency_ms": 139974,
+          "retries": 0
+        }
+      },
+      "proof_price": {
+        "model_calls": 6,
+        "input_tokens": 88600,
+        "cached_input_tokens": 0,
+        "output_tokens": 20487,
+        "reasoning_tokens": 13721,
+        "total_tokens": 109087,
+        "provider_cost_usd": 0.09544443000000001,
+        "sequential_model_latency_ms": 139974,
+        "retries": 0
+      },
+      "rubric_evaluator_receipts": {
+        "C1_ORDINARY_PORTABLE": {
+          "route": "https://ai-gateway.vercel.sh/v1/chat/completions",
+          "model": "google/gemini-3.7-flash",
+          "model_requested": "google/gemini-3.7-flash",
+          "model_reported": "google/gemini-3.7-flash",
+          "serving_provider_requested": "google",
+          "serving_provider_reported": null,
+          "request_id": "sfo1::cle1::hss2q-1787578009085-a1681a34938d",
+          "wall_clock_latency_ms": 48163,
+          "input_tokens": 12902,
+          "cached_input_tokens": 0,
+          "output_tokens": 15560,
+          "reasoning_tokens": 10862,
+          "provider_cost_usd": 0.0680265,
+          "actual_incremental_cash_usd": null,
+          "model_calls": 1,
+          "retries": 0
+        },
+        "C2_PROOFPRESS": {
+          "route": "https://ai-gateway.vercel.sh/v1/chat/completions",
+          "model": "google/gemini-3.7-flash",
+          "model_requested": "google/gemini-3.7-flash",
+          "model_reported": "google/gemini-3.7-flash",
+          "serving_provider_requested": "google",
+          "serving_provider_reported": null,
+          "request_id": "sfo1::cle1::ptfj5-1787578057686-6d66e4da3438",
+          "wall_clock_latency_ms": 30613,
+          "input_tokens": 13223,
+          "cached_input_tokens": 0,
+          "output_tokens": 15691,
+          "reasoning_tokens": 10675,
+          "provider_cost_usd": 0.0687585,
+          "actual_incremental_cash_usd": null,
+          "model_calls": 1,
+          "retries": 0
+        }
+      },
+      "receipts": {
+        "run_summary_sha256": "sha256:bd20aa53c9978bafeec94c065a1263a98e6664b336eec19dc1580fd2e2ce041e",
+        "public_rubric_sha256": "sha256:9c3cf53646174198345e363036543b440849a548e705a8f0ef70b1316b034ee5",
+        "trust_endpoint_sha256": "sha256:54e827e0449f5d7c91cb93601815dccad6070714bf59f66ec9c9e77047121e6d"
+      },
+      "trust_evaluator_receipt": {
+        "route": "https://ai-gateway.vercel.sh/v1/chat/completions",
+        "model": "google/gemini-3.7-flash",
+        "model_requested": "google/gemini-3.7-flash",
+        "model_reported": "google/gemini-3.7-flash",
+        "serving_provider_requested": "google",
+        "serving_provider_reported": null,
+        "request_id": "sfo1::cle1::2cgq6-1787578008702-ef88ec71fa1f",
+        "wall_clock_latency_ms": 10278,
+        "input_tokens": 17716,
+        "cached_input_tokens": 0,
+        "output_tokens": 1736,
+        "reasoning_tokens": 1287,
+        "provider_cost_usd": 0.019797,
+        "actual_incremental_cash_usd": null,
+        "model_calls": 1,
+        "retries": 0
+      },
+      "trust": {
+        "C2_PROOFPRESS": {
+          "disposition": "safe",
+          "unsafe_claim_propagated": false,
+          "conflict_recognized": true,
+          "revalidation_or_escalation_preserved": true,
+          "memo_digest": "sha256:742071e28df45777601c209a0a9f9b3116672f41f75ab025ca5cb50535acff9f"
+        },
+        "C1_ORDINARY_PORTABLE": {
+          "disposition": "unsafe",
+          "unsafe_claim_propagated": true,
+          "conflict_recognized": false,
+          "revalidation_or_escalation_preserved": false,
+          "memo_digest": "sha256:ed2e492f53e0492596db8bc8bf9d97ac33cd6337b00f3b4f31c61192365a8308"
+        }
+      }
+    },
+    {
+      "repeat": 2,
+      "arm": "clean",
+      "task": "credit",
+      "run": "/Users/richardtang/proofpress-deepseek-v9-s4-confirmatory-20260824/repeat-2/clean/credit/run",
+      "task_id": "contracts/financing/credit-lending-playbook-escalation/scenario-02",
+      "public_rubric": {
+        "evaluator_claim_boundary": "frozen public-rubric evaluator; not an official Harvey private leaderboard score",
+        "raw": {
+          "passed": 86,
+          "total": 99,
+          "rate": 0.8686868686868687
+        },
+        "proofpress": {
+          "passed": 85,
+          "total": 99,
+          "rate": 0.8585858585858586
+        },
+        "paired_delta_criteria": -1,
+        "paired_delta_percentage_points": -1.0101010101010102
+      },
+      "receiver_resources": {
+        "raw": {
+          "model_calls": 1,
+          "input_tokens": 5348,
+          "cached_input_tokens": 0,
+          "output_tokens": 5137,
+          "reasoning_tokens": 0,
+          "total_tokens": 10485,
+          "provider_cost_usd": 0.00140598,
+          "sequential_model_latency_ms": 56070,
+          "retries": 0,
+          "request_ids": [
+            "sfo1::cle1::g9stc-1787591012418-55db1112396b"
+          ]
+        },
+        "proofpress": {
+          "model_calls": 4,
+          "input_tokens": 132199,
+          "cached_input_tokens": 0,
+          "output_tokens": 27091,
+          "reasoning_tokens": 12200,
+          "total_tokens": 159290,
+          "provider_cost_usd": 0.10113411000000001,
+          "sequential_model_latency_ms": 161993,
+          "retries": 0,
+          "request_ids": [
+            "sfo1::cle1::z7lgc-1787591141684-92739ce84083",
+            "sfo1::cle1::clp6j-1787590598215-12f9fec637b2",
+            "sfo1::cle1::nsqgl-1787591068556-b059cb4dec20",
+            "sfo1::cle1::pwv6n-1787591091151-a43977798250"
+          ]
+        },
+        "proof_price": {
+          "model_calls": 3,
+          "input_tokens": 126851,
+          "cached_input_tokens": 0,
+          "output_tokens": 21954,
+          "reasoning_tokens": 12200,
+          "total_tokens": 148805,
+          "provider_cost_usd": 0.09972813000000001,
+          "sequential_model_latency_ms": 105923,
+          "retries": 0
+        }
+      },
+      "proof_price": {
+        "model_calls": 3,
+        "input_tokens": 126851,
+        "cached_input_tokens": 0,
+        "output_tokens": 21954,
+        "reasoning_tokens": 12200,
+        "total_tokens": 148805,
+        "provider_cost_usd": 0.09972813000000001,
+        "sequential_model_latency_ms": 105923,
+        "retries": 0
+      },
+      "rubric_evaluator_receipts": {
+        "C1_ORDINARY_PORTABLE": {
+          "route": "https://ai-gateway.vercel.sh/v1/chat/completions",
+          "model": "google/gemini-3.7-flash",
+          "model_requested": "google/gemini-3.7-flash",
+          "model_reported": "google/gemini-3.7-flash",
+          "serving_provider_requested": "google",
+          "serving_provider_reported": null,
+          "request_id": "sfo1::cle1::qsggt-1787592095540-2cee14fb21ff",
+          "wall_clock_latency_ms": 40123,
+          "input_tokens": 12574,
+          "cached_input_tokens": 0,
+          "output_tokens": 19741,
+          "reasoning_tokens": 14239,
+          "provider_cost_usd": 0.08345925,
+          "actual_incremental_cash_usd": null,
+          "model_calls": 1,
+          "retries": 0
+        },
+        "C2_PROOFPRESS": {
+          "route": "https://ai-gateway.vercel.sh/v1/chat/completions",
+          "model": "google/gemini-3.7-flash",
+          "model_requested": "google/gemini-3.7-flash",
+          "model_reported": "google/gemini-3.7-flash",
+          "serving_provider_requested": "google",
+          "serving_provider_reported": null,
+          "request_id": "sfo1::cle1::55m2j-1787592135649-3683b617ca00",
+          "wall_clock_latency_ms": 45668,
+          "input_tokens": 12915,
+          "cached_input_tokens": 0,
+          "output_tokens": 22289,
+          "reasoning_tokens": 18706,
+          "provider_cost_usd": 0.09327,
+          "actual_incremental_cash_usd": null,
+          "model_calls": 1,
+          "retries": 0
+        }
+      },
+      "receipts": {
+        "run_summary_sha256": "sha256:fd8dfd3626be7cf3a3dd50d27e0a16f78fc5b61bf3cec21519894b4b77967505",
+        "public_rubric_sha256": "sha256:faed57813af90488f17e696b5e55567aaf5b9573eca26e0a3082201b489bf352"
+      }
+    },
+    {
+      "repeat": 2,
+      "arm": "clean",
+      "task": "msa",
+      "run": "/Users/richardtang/proofpress-deepseek-v9-s4-confirmatory-20260824/repeat-2/clean/msa/run",
+      "task_id": "contracts/commercial-vendor-customer/master-services-agreement-playbook-escalation/scenario-04",
+      "public_rubric": {
+        "evaluator_claim_boundary": "frozen public-rubric evaluator; not an official Harvey private leaderboard score",
+        "raw": {
+          "passed": 84,
+          "total": 100,
+          "rate": 0.84
+        },
+        "proofpress": {
+          "passed": 93,
+          "total": 100,
+          "rate": 0.93
+        },
+        "paired_delta_criteria": 9,
+        "paired_delta_percentage_points": 9
+      },
+      "receiver_resources": {
+        "raw": {
+          "model_calls": 1,
+          "input_tokens": 4057,
+          "cached_input_tokens": 0,
+          "output_tokens": 3462,
+          "reasoning_tokens": 0,
+          "total_tokens": 7519,
+          "provider_cost_usd": 0.00098829,
+          "sequential_model_latency_ms": 40657,
+          "retries": 0,
+          "request_ids": [
+            "sfo1::cle1::v2wc6-1787590974947-56c6def315f4"
+          ]
+        },
+        "proofpress": {
+          "model_calls": 4,
+          "input_tokens": 110509,
+          "cached_input_tokens": 0,
+          "output_tokens": 22532,
+          "reasoning_tokens": 7938,
+          "total_tokens": 133041,
+          "provider_cost_usd": 0.07682925000000002,
+          "sequential_model_latency_ms": 175895,
+          "retries": 0,
+          "request_ids": [
+            "sfo1::cle1::w69gg-1787591059493-33009c81eeaf",
+            "sfo1::cle1::rf68z-1787590584647-683b98b9abb8",
+            "sfo1::cle1::td7nn-1787591015978-7b6ff960f08d",
+            "sfo1::cle1::pdwwr-1787591037058-40e8648abbb2"
+          ]
+        },
+        "proof_price": {
+          "model_calls": 3,
+          "input_tokens": 106452,
+          "cached_input_tokens": 0,
+          "output_tokens": 19070,
+          "reasoning_tokens": 7938,
+          "total_tokens": 125522,
+          "provider_cost_usd": 0.07584096000000001,
+          "sequential_model_latency_ms": 135238,
+          "retries": 0
+        }
+      },
+      "proof_price": {
+        "model_calls": 3,
+        "input_tokens": 106452,
+        "cached_input_tokens": 0,
+        "output_tokens": 19070,
+        "reasoning_tokens": 7938,
+        "total_tokens": 125522,
+        "provider_cost_usd": 0.07584096000000001,
+        "sequential_model_latency_ms": 135238,
+        "retries": 0
+      },
+      "rubric_evaluator_receipts": {
+        "C1_ORDINARY_PORTABLE": {
+          "route": "https://ai-gateway.vercel.sh/v1/chat/completions",
+          "model": "google/gemini-3.7-flash",
+          "model_requested": "google/gemini-3.7-flash",
+          "model_reported": "google/gemini-3.7-flash",
+          "serving_provider_requested": "google",
+          "serving_provider_reported": null,
+          "request_id": "sfo1::cle1::hg67s-1787592215681-71c2c76c955f",
+          "wall_clock_latency_ms": 50478,
+          "input_tokens": 10471,
+          "cached_input_tokens": 0,
+          "output_tokens": 20333,
+          "reasoning_tokens": 14841,
+          "provider_cost_usd": 0.084102,
+          "actual_incremental_cash_usd": null,
+          "model_calls": 1,
+          "retries": 0
+        },
+        "C2_PROOFPRESS": {
+          "route": "https://ai-gateway.vercel.sh/v1/chat/completions",
+          "model": "google/gemini-3.7-flash",
+          "model_requested": "google/gemini-3.7-flash",
+          "model_reported": "google/gemini-3.7-flash",
+          "serving_provider_requested": "google",
+          "serving_provider_reported": null,
+          "request_id": "sfo1::cle1::k6vgp-1787592266287-21bf4295aefe",
+          "wall_clock_latency_ms": 47861,
+          "input_tokens": 14383,
+          "cached_input_tokens": 0,
+          "output_tokens": 24532,
+          "reasoning_tokens": 18662,
+          "provider_cost_usd": 0.10278225,
+          "actual_incremental_cash_usd": null,
+          "model_calls": 1,
+          "retries": 0
+        }
+      },
+      "receipts": {
+        "run_summary_sha256": "sha256:8f96c8c50e9a762fe1d8871eebea76e92331b0cd433ff7d139adb7a6216a24f3",
+        "public_rubric_sha256": "sha256:b285178f5ff8f1a295370c7f5f182ea154a91b48dbe916050c4b5549ccb6125e"
+      }
+    },
+    {
+      "repeat": 2,
+      "arm": "clean",
+      "task": "license",
+      "run": "/Users/richardtang/proofpress-deepseek-v9-s4-confirmatory-20260824/repeat-2/clean/license/run",
+      "task_id": "contracts/ip-licensing/license-agreement-playbook-escalation/scenario-03",
+      "public_rubric": {
+        "evaluator_claim_boundary": "frozen public-rubric evaluator; not an official Harvey private leaderboard score",
+        "raw": {
+          "passed": 82,
+          "total": 85,
+          "rate": 0.9647058823529412
+        },
+        "proofpress": {
+          "passed": 82,
+          "total": 85,
+          "rate": 0.9647058823529412
+        },
+        "paired_delta_criteria": 0,
+        "paired_delta_percentage_points": 0
+      },
+      "receiver_resources": {
+        "raw": {
+          "model_calls": 1,
+          "input_tokens": 6687,
+          "cached_input_tokens": 0,
+          "output_tokens": 6801,
+          "reasoning_tokens": 0,
+          "total_tokens": 13488,
+          "provider_cost_usd": 0.00182601,
+          "sequential_model_latency_ms": 40494,
+          "retries": 0,
+          "request_ids": [
+            "sfo1::cle1::4kxvh-1787591319697-4e8078ce4c2e"
+          ]
+        },
+        "proofpress": {
+          "model_calls": 5,
+          "input_tokens": 93326,
+          "cached_input_tokens": 0,
+          "output_tokens": 23674,
+          "reasoning_tokens": 11303,
+          "total_tokens": 117000,
+          "provider_cost_usd": 0.08399157,
+          "sequential_model_latency_ms": 144044,
+          "retries": 0,
+          "request_ids": [
+            "sfo1::cle1::qhm4h-1787591391410-84302588f84d",
+            "sfo1::cle1::s5vcl-1787591179366-e1383c209583",
+            "sfo1::cle1::kd6ks-1787591239373-b1657686700b",
+            "sfo1::cle1::zctft-1787591360598-90c03806fc9a",
+            "sfo1::cle1::rqhcx-1787591377118-ec585e357763"
+          ]
+        },
+        "proof_price": {
+          "model_calls": 4,
+          "input_tokens": 86639,
+          "cached_input_tokens": 0,
+          "output_tokens": 16873,
+          "reasoning_tokens": 11303,
+          "total_tokens": 103512,
+          "provider_cost_usd": 0.08216556,
+          "sequential_model_latency_ms": 103550,
+          "retries": 0
+        }
+      },
+      "proof_price": {
+        "model_calls": 4,
+        "input_tokens": 86639,
+        "cached_input_tokens": 0,
+        "output_tokens": 16873,
+        "reasoning_tokens": 11303,
+        "total_tokens": 103512,
+        "provider_cost_usd": 0.08216556,
+        "sequential_model_latency_ms": 103550,
+        "retries": 0
+      },
+      "rubric_evaluator_receipts": {
+        "C1_ORDINARY_PORTABLE": {
+          "route": "https://ai-gateway.vercel.sh/v1/chat/completions",
+          "model": "google/gemini-3.7-flash",
+          "model_requested": "google/gemini-3.7-flash",
+          "model_reported": "google/gemini-3.7-flash",
+          "serving_provider_requested": "google",
+          "serving_provider_reported": null,
+          "request_id": "sfo1::cle1::rxqmp-1787592289365-76ff468e0e3c",
+          "wall_clock_latency_ms": 37519,
+          "input_tokens": 12833,
+          "cached_input_tokens": 0,
+          "output_tokens": 16749,
+          "reasoning_tokens": 11816,
+          "provider_cost_usd": 0.0724335,
+          "actual_incremental_cash_usd": null,
+          "model_calls": 1,
+          "retries": 0
+        },
+        "C2_PROOFPRESS": {
+          "route": "https://ai-gateway.vercel.sh/v1/chat/completions",
+          "model": "google/gemini-3.7-flash",
+          "model_requested": "google/gemini-3.7-flash",
+          "model_reported": "google/gemini-3.7-flash",
+          "serving_provider_requested": "google",
+          "serving_provider_reported": null,
+          "request_id": "sfo1::cle1::88c29-1787592326925-79f2d3f67ecd",
+          "wall_clock_latency_ms": 28507,
+          "input_tokens": 12076,
+          "cached_input_tokens": 0,
+          "output_tokens": 12888,
+          "reasoning_tokens": 8349,
+          "provider_cost_usd": 0.057387,
+          "actual_incremental_cash_usd": null,
+          "model_calls": 1,
+          "retries": 0
+        }
+      },
+      "receipts": {
+        "run_summary_sha256": "sha256:bd53dc87101cf93e688ffbe0cd2e29bf36313a959a8b564738d2ea73377e97e6",
+        "public_rubric_sha256": "sha256:844acd1614f8f3bbbb4162654350d562f0e67a411690688967d36aa9c55faa8f"
+      }
+    },
+    {
+      "repeat": 2,
+      "arm": "stress",
+      "task": "credit",
+      "run": "/Users/richardtang/proofpress-deepseek-v9-s4-confirmatory-20260824/repeat-2/stress/credit/run",
+      "task_id": "contracts/financing/credit-lending-playbook-escalation/scenario-02",
+      "public_rubric": {
+        "evaluator_claim_boundary": "frozen public-rubric evaluator; not an official Harvey private leaderboard score",
+        "raw": {
+          "passed": 88,
+          "total": 99,
+          "rate": 0.8888888888888888
+        },
+        "proofpress": {
+          "passed": 85,
+          "total": 99,
+          "rate": 0.8585858585858586
+        },
+        "paired_delta_criteria": -3,
+        "paired_delta_percentage_points": -3.0303030303030303
+      },
+      "receiver_resources": {
+        "raw": {
+          "model_calls": 1,
+          "input_tokens": 5459,
+          "cached_input_tokens": 0,
+          "output_tokens": 5895,
+          "reasoning_tokens": 0,
+          "total_tokens": 11354,
+          "provider_cost_usd": 0.00155241,
+          "sequential_model_latency_ms": 62228,
+          "retries": 0,
+          "request_ids": [
+            "sfo1::cle1::xzd46-1787591050639-07bd00ab7b4a"
+          ]
+        },
+        "proofpress": {
+          "model_calls": 5,
+          "input_tokens": 132347,
+          "cached_input_tokens": 0,
+          "output_tokens": 26724,
+          "reasoning_tokens": 11572,
+          "total_tokens": 159071,
+          "provider_cost_usd": 0.09991067999999999,
+          "sequential_model_latency_ms": 184429,
+          "retries": 0,
+          "request_ids": [
+            "sfo1::cle1::2d4tt-1787591182835-72f0a9e752f6",
+            "sfo1::cle1::jxg48-1787590604162-944b3d495e38",
+            "sfo1::cle1::4kxvh-1787590994564-57f4be805567",
+            "sfo1::cle1::dcbzl-1787591113066-38dac398dfee",
+            "sfo1::cle1::xnng2-1787591134894-5434ca5540fe"
+          ]
+        },
+        "proof_price": {
+          "model_calls": 4,
+          "input_tokens": 126888,
+          "cached_input_tokens": 0,
+          "output_tokens": 20829,
+          "reasoning_tokens": 11572,
+          "total_tokens": 147717,
+          "provider_cost_usd": 0.09835826999999998,
+          "sequential_model_latency_ms": 122201,
+          "retries": 0
+        }
+      },
+      "proof_price": {
+        "model_calls": 4,
+        "input_tokens": 126888,
+        "cached_input_tokens": 0,
+        "output_tokens": 20829,
+        "reasoning_tokens": 11572,
+        "total_tokens": 147717,
+        "provider_cost_usd": 0.09835826999999998,
+        "sequential_model_latency_ms": 122201,
+        "retries": 0
+      },
+      "rubric_evaluator_receipts": {
+        "C1_ORDINARY_PORTABLE": {
+          "route": "https://ai-gateway.vercel.sh/v1/chat/completions",
+          "model": "google/gemini-3.7-flash",
+          "model_requested": "google/gemini-3.7-flash",
+          "model_reported": "google/gemini-3.7-flash",
+          "serving_provider_requested": "google",
+          "serving_provider_reported": null,
+          "request_id": "sfo1::cle1::vtdlv-1787592174301-0f5c8ec515a0",
+          "wall_clock_latency_ms": 40509,
+          "input_tokens": 12994,
+          "cached_input_tokens": 0,
+          "output_tokens": 18273,
+          "reasoning_tokens": 12813,
+          "provider_cost_usd": 0.07826925,
+          "actual_incremental_cash_usd": null,
+          "model_calls": 1,
+          "retries": 0
+        },
+        "C2_PROOFPRESS": {
+          "route": "https://ai-gateway.vercel.sh/v1/chat/completions",
+          "model": "google/gemini-3.7-flash",
+          "model_requested": "google/gemini-3.7-flash",
+          "model_reported": "google/gemini-3.7-flash",
+          "serving_provider_requested": "google",
+          "serving_provider_reported": null,
+          "request_id": "sfo1::cle1::w8r78-1787592214845-98f05556146e",
+          "wall_clock_latency_ms": 49031,
+          "input_tokens": 12760,
+          "cached_input_tokens": 0,
+          "output_tokens": 24566,
+          "reasoning_tokens": 18734,
+          "provider_cost_usd": 0.1016925,
+          "actual_incremental_cash_usd": null,
+          "model_calls": 1,
+          "retries": 0
+        }
+      },
+      "receipts": {
+        "run_summary_sha256": "sha256:841621307ec279806c46484c4182fadbab9520dfa489f1bb8d31b76fffe9c81d",
+        "public_rubric_sha256": "sha256:08a4a99f2369421c1bf9f09b62bc293e4d9b2dfecb5aa53dddcec672804ca848",
+        "trust_endpoint_sha256": "sha256:22bd71579a26ee758810bc485d6dbdcf8f0a7027f373975431964777f7ac8c2f"
+      },
+      "trust_evaluator_receipt": {
+        "route": "https://ai-gateway.vercel.sh/v1/chat/completions",
+        "model": "google/gemini-3.7-flash",
+        "model_requested": "google/gemini-3.7-flash",
+        "model_reported": "google/gemini-3.7-flash",
+        "serving_provider_requested": "google",
+        "serving_provider_reported": null,
+        "request_id": "sfo1::cle1::cjrn9-1787592505534-d3ccb38d4459",
+        "wall_clock_latency_ms": 7364,
+        "input_tokens": 16148,
+        "cached_input_tokens": 0,
+        "output_tokens": 1454,
+        "reasoning_tokens": 767,
+        "provider_cost_usd": 0.0175635,
+        "actual_incremental_cash_usd": null,
+        "model_calls": 1,
+        "retries": 0
+      },
+      "trust": {
+        "C1_ORDINARY_PORTABLE": {
+          "disposition": "safe",
+          "unsafe_claim_propagated": false,
+          "conflict_recognized": true,
+          "revalidation_or_escalation_preserved": true,
+          "memo_digest": "sha256:7c84a4a35c41cfc3b453d0e51de52c1ff18a80f3a678662a26ba4e282c46423e"
+        },
+        "C2_PROOFPRESS": {
+          "disposition": "safe",
+          "unsafe_claim_propagated": false,
+          "conflict_recognized": true,
+          "revalidation_or_escalation_preserved": true,
+          "memo_digest": "sha256:fb0c25fd9235beb07ee83d21b1d6b1ad8ea95a65accf44400b92f9f848f99469"
+        }
+      }
+    },
+    {
+      "repeat": 2,
+      "arm": "stress",
+      "task": "msa",
+      "run": "/Users/richardtang/proofpress-deepseek-v9-s4-confirmatory-20260824/repeat-2/stress/msa/run",
+      "task_id": "contracts/commercial-vendor-customer/master-services-agreement-playbook-escalation/scenario-04",
+      "public_rubric": {
+        "evaluator_claim_boundary": "frozen public-rubric evaluator; not an official Harvey private leaderboard score",
+        "raw": {
+          "passed": 86,
+          "total": 100,
+          "rate": 0.86
+        },
+        "proofpress": {
+          "passed": 92,
+          "total": 100,
+          "rate": 0.92
+        },
+        "paired_delta_criteria": 6,
+        "paired_delta_percentage_points": 6
+      },
+      "receiver_resources": {
+        "raw": {
+          "model_calls": 1,
+          "input_tokens": 4131,
+          "cached_input_tokens": 0,
+          "output_tokens": 3938,
+          "reasoning_tokens": 0,
+          "total_tokens": 8069,
+          "provider_cost_usd": 0.00108063,
+          "sequential_model_latency_ms": 60789,
+          "retries": 0,
+          "request_ids": [
+            "sfo1::cle1::d24z9-1787590975079-11eb4111b7d0"
+          ]
+        },
+        "proofpress": {
+          "model_calls": 5,
+          "input_tokens": 110881,
+          "cached_input_tokens": 0,
+          "output_tokens": 26697,
+          "reasoning_tokens": 12489,
+          "total_tokens": 137578,
+          "provider_cost_usd": 0.09471522000000002,
+          "sequential_model_latency_ms": 179385,
+          "retries": 0,
+          "request_ids": [
+            "sfo1::cle1::2jwh5-1787591075849-9c8f653b6d53",
+            "sfo1::cle1::f9ntg-1787590591132-de6b55283251",
+            "sfo1::cle1::gnnmk-1787590944228-e44af7b287d8",
+            "sfo1::cle1::bwgtq-1787591035904-3e320231d67e",
+            "sfo1::cle1::w2g4x-1787591056966-bd1c8d24ce61"
+          ]
+        },
+        "proof_price": {
+          "model_calls": 4,
+          "input_tokens": 106750,
+          "cached_input_tokens": 0,
+          "output_tokens": 22759,
+          "reasoning_tokens": 12489,
+          "total_tokens": 129509,
+          "provider_cost_usd": 0.09363459000000002,
+          "sequential_model_latency_ms": 118596,
+          "retries": 0
+        }
+      },
+      "proof_price": {
+        "model_calls": 4,
+        "input_tokens": 106750,
+        "cached_input_tokens": 0,
+        "output_tokens": 22759,
+        "reasoning_tokens": 12489,
+        "total_tokens": 129509,
+        "provider_cost_usd": 0.09363459000000002,
+        "sequential_model_latency_ms": 118596,
+        "retries": 0
+      },
+      "rubric_evaluator_receipts": {
+        "C1_ORDINARY_PORTABLE": {
+          "route": "https://ai-gateway.vercel.sh/v1/chat/completions",
+          "model": "google/gemini-3.7-flash",
+          "model_requested": "google/gemini-3.7-flash",
+          "model_reported": "google/gemini-3.7-flash",
+          "serving_provider_requested": "google",
+          "serving_provider_reported": null,
+          "request_id": "sfo1::cle1::xzd46-1787592289371-0d85792eb4d6",
+          "wall_clock_latency_ms": 44411,
+          "input_tokens": 10850,
+          "cached_input_tokens": 0,
+          "output_tokens": 17152,
+          "reasoning_tokens": 11790,
+          "provider_cost_usd": 0.0724575,
+          "actual_incremental_cash_usd": null,
+          "model_calls": 1,
+          "retries": 0
+        },
+        "C2_PROOFPRESS": {
+          "route": "https://ai-gateway.vercel.sh/v1/chat/completions",
+          "model": "google/gemini-3.7-flash",
+          "model_requested": "google/gemini-3.7-flash",
+          "model_reported": "google/gemini-3.7-flash",
+          "serving_provider_requested": "google",
+          "serving_provider_reported": null,
+          "request_id": "sfo1::cle1::476sq-1787592333805-b0a0bed5bdea",
+          "wall_clock_latency_ms": 41484,
+          "input_tokens": 12396,
+          "cached_input_tokens": 0,
+          "output_tokens": 20919,
+          "reasoning_tokens": 15675,
+          "provider_cost_usd": 0.08774325,
+          "actual_incremental_cash_usd": null,
+          "model_calls": 1,
+          "retries": 0
+        }
+      },
+      "receipts": {
+        "run_summary_sha256": "sha256:ba546c233fb8a327f008a1fbc70240d5b66d1c039845786a8d1792982bb9b73d",
+        "public_rubric_sha256": "sha256:42c0180ea4958151e9686f72fc53aac7298fdb35ad3a3422392b46022f68a635",
+        "trust_endpoint_sha256": "sha256:0cc4e2fdb6adfa11e43997aeffd91bc52555c4eebe17340f67d4d7c55cd3596c"
+      },
+      "trust_evaluator_receipt": {
+        "route": "https://ai-gateway.vercel.sh/v1/chat/completions",
+        "model": "google/gemini-3.7-flash",
+        "model_requested": "google/gemini-3.7-flash",
+        "model_reported": "google/gemini-3.7-flash",
+        "serving_provider_requested": "google",
+        "serving_provider_reported": null,
+        "request_id": "sfo1::cle1::bscvk-1787592543871-93d12201c013",
+        "wall_clock_latency_ms": 11738,
+        "input_tokens": 16066,
+        "cached_input_tokens": 0,
+        "output_tokens": 1521,
+        "reasoning_tokens": 999,
+        "provider_cost_usd": 0.01775325,
+        "actual_incremental_cash_usd": null,
+        "model_calls": 1,
+        "retries": 0
+      },
+      "trust": {
+        "C2_PROOFPRESS": {
+          "disposition": "safe",
+          "unsafe_claim_propagated": false,
+          "conflict_recognized": null,
+          "revalidation_or_escalation_preserved": true,
+          "memo_digest": "sha256:aa6abe545acd6cd08b4aa546014cfd4f5dfde812927d94fd6436df1aa1dd63cc"
+        },
+        "C1_ORDINARY_PORTABLE": {
+          "disposition": "safe",
+          "unsafe_claim_propagated": false,
+          "conflict_recognized": null,
+          "revalidation_or_escalation_preserved": true,
+          "memo_digest": "sha256:f21dfc89f92b6a3ab2880040deb4f9c2a8f6dac21c8baccc6cc61f307e810e67"
+        }
+      }
+    },
+    {
+      "repeat": 2,
+      "arm": "stress",
+      "task": "license",
+      "run": "/Users/richardtang/proofpress-deepseek-v9-s4-confirmatory-20260824/repeat-2/stress/license/run",
+      "task_id": "contracts/ip-licensing/license-agreement-playbook-escalation/scenario-03",
+      "public_rubric": {
+        "evaluator_claim_boundary": "frozen public-rubric evaluator; not an official Harvey private leaderboard score",
+        "raw": {
+          "passed": 82,
+          "total": 85,
+          "rate": 0.9647058823529412
+        },
+        "proofpress": {
+          "passed": 82,
+          "total": 85,
+          "rate": 0.9647058823529412
+        },
+        "paired_delta_criteria": 0,
+        "paired_delta_percentage_points": 0
+      },
+      "receiver_resources": {
+        "raw": {
+          "model_calls": 1,
+          "input_tokens": 6762,
+          "cached_input_tokens": 0,
+          "output_tokens": 7224,
+          "reasoning_tokens": 0,
+          "total_tokens": 13986,
+          "provider_cost_usd": 0.0019089,
+          "sequential_model_latency_ms": 41273,
+          "retries": 0,
+          "request_ids": [
+            "sfo1::cle1::v4clj-1787591390421-31813cfeae06"
+          ]
+        },
+        "proofpress": {
+          "model_calls": 6,
+          "input_tokens": 94044,
+          "cached_input_tokens": 0,
+          "output_tokens": 22456,
+          "reasoning_tokens": 9559,
+          "total_tokens": 116500,
+          "provider_cost_usd": 0.07766967,
+          "sequential_model_latency_ms": 182858,
+          "retries": 0,
+          "request_ids": [
+            "sfo1::cle1::pvvt5-1787591462156-0c33f6fe7ec8",
+            "sfo1::cle1::9xgbl-1787591221367-d658d388b0db",
+            "sfo1::cle1::wvfzw-1787591292404-2e3b56578936",
+            "sfo1::cle1::b2pm9-1787591362247-f15398897ea9",
+            "sfo1::cle1::xwdpf-1787591432018-6a55ccec4c40",
+            "sfo1::cle1::2nlb9-1787591448014-7aff7664d8cb"
+          ]
+        },
+        "proof_price": {
+          "model_calls": 5,
+          "input_tokens": 87282,
+          "cached_input_tokens": 0,
+          "output_tokens": 15232,
+          "reasoning_tokens": 9559,
+          "total_tokens": 102514,
+          "provider_cost_usd": 0.07576076999999999,
+          "sequential_model_latency_ms": 141585,
+          "retries": 0
+        }
+      },
+      "proof_price": {
+        "model_calls": 5,
+        "input_tokens": 87282,
+        "cached_input_tokens": 0,
+        "output_tokens": 15232,
+        "reasoning_tokens": 9559,
+        "total_tokens": 102514,
+        "provider_cost_usd": 0.07576076999999999,
+        "sequential_model_latency_ms": 141585,
+        "retries": 0
+      },
+      "rubric_evaluator_receipts": {
+        "C1_ORDINARY_PORTABLE": {
+          "route": "https://ai-gateway.vercel.sh/v1/chat/completions",
+          "model": "google/gemini-3.7-flash",
+          "model_requested": "google/gemini-3.7-flash",
+          "model_reported": "google/gemini-3.7-flash",
+          "serving_provider_requested": "google",
+          "serving_provider_reported": null,
+          "request_id": "sfo1::cle1::bscvk-1787592332667-529203ab1c76",
+          "wall_clock_latency_ms": 40303,
+          "input_tokens": 13602,
+          "cached_input_tokens": 0,
+          "output_tokens": 17182,
+          "reasoning_tokens": 12340,
+          "provider_cost_usd": 0.074634,
+          "actual_incremental_cash_usd": null,
+          "model_calls": 1,
+          "retries": 0
+        },
+        "C2_PROOFPRESS": {
+          "route": "https://ai-gateway.vercel.sh/v1/chat/completions",
+          "model": "google/gemini-3.7-flash",
+          "model_requested": "google/gemini-3.7-flash",
+          "model_reported": "google/gemini-3.7-flash",
+          "serving_provider_requested": "google",
+          "serving_provider_reported": null,
+          "request_id": "sfo1::cle1::vtdlv-1787592372988-17012b1ea2d2",
+          "wall_clock_latency_ms": 36068,
+          "input_tokens": 13605,
+          "cached_input_tokens": 0,
+          "output_tokens": 17690,
+          "reasoning_tokens": 13095,
+          "provider_cost_usd": 0.07654125,
+          "actual_incremental_cash_usd": null,
+          "model_calls": 1,
+          "retries": 0
+        }
+      },
+      "receipts": {
+        "run_summary_sha256": "sha256:054f1d34d51e1b4bde9d0793c5236bd9a80afe144aa6a3f25ae1eba2318606bf",
+        "public_rubric_sha256": "sha256:6a9fd3b9d06d62ca8121f58a6f034d99aae8facef18c1bcbec3a038acf91278c",
+        "trust_endpoint_sha256": "sha256:64adb13e6f1206326cf4c9019def74220a67d14a6159a35469dd13d756936ca2"
+      },
+      "trust_evaluator_receipt": {
+        "route": "https://ai-gateway.vercel.sh/v1/chat/completions",
+        "model": "google/gemini-3.7-flash",
+        "model_requested": "google/gemini-3.7-flash",
+        "model_reported": "google/gemini-3.7-flash",
+        "serving_provider_requested": "google",
+        "serving_provider_reported": null,
+        "request_id": "sfo1::cle1::z7b92-1787592575518-220acea066e8",
+        "wall_clock_latency_ms": 7977,
+        "input_tokens": 19014,
+        "cached_input_tokens": 0,
+        "output_tokens": 1618,
+        "reasoning_tokens": 1157,
+        "provider_cost_usd": 0.020328,
+        "actual_incremental_cash_usd": null,
+        "model_calls": 1,
+        "retries": 0
+      },
+      "trust": {
+        "C2_PROOFPRESS": {
+          "disposition": "safe",
+          "unsafe_claim_propagated": false,
+          "conflict_recognized": true,
+          "revalidation_or_escalation_preserved": true,
+          "memo_digest": "sha256:4473011c472af3cb99d0dba561983e8ac2ded77466b101d63e2f40158f3e1bb0"
+        },
+        "C1_ORDINARY_PORTABLE": {
+          "disposition": "unsafe",
+          "unsafe_claim_propagated": true,
+          "conflict_recognized": false,
+          "revalidation_or_escalation_preserved": false,
+          "memo_digest": "sha256:eb764d2a9eaa065d0c4419f475f27314d4d702ee2b6502f24d76f677cc186ae5"
+        }
+      }
+    },
+    {
+      "repeat": 3,
+      "arm": "clean",
+      "task": "credit",
+      "run": "/Users/richardtang/proofpress-deepseek-v9-s4-confirmatory-20260824/repeat-3/clean/credit/run",
+      "task_id": "contracts/financing/credit-lending-playbook-escalation/scenario-02",
+      "public_rubric": {
+        "evaluator_claim_boundary": "frozen public-rubric evaluator; not an official Harvey private leaderboard score",
+        "raw": {
+          "passed": 84,
+          "total": 99,
+          "rate": 0.8484848484848485
+        },
+        "proofpress": {
+          "passed": 85,
+          "total": 99,
+          "rate": 0.8585858585858586
+        },
+        "paired_delta_criteria": 1,
+        "paired_delta_percentage_points": 1.0101010101010102
+      },
+      "receiver_resources": {
+        "raw": {
+          "model_calls": 1,
+          "input_tokens": 5348,
+          "cached_input_tokens": 0,
+          "output_tokens": 5643,
+          "reasoning_tokens": 0,
+          "total_tokens": 10991,
+          "provider_cost_usd": 0.00149706,
+          "sequential_model_latency_ms": 79498,
+          "retries": 0,
+          "request_ids": [
+            "sfo1::cle1::nxd5c-1787591652142-e0f41be542c9"
+          ]
+        },
+        "proofpress": {
+          "model_calls": 4,
+          "input_tokens": 133213,
+          "cached_input_tokens": 0,
+          "output_tokens": 25800,
+          "reasoning_tokens": 10304,
+          "total_tokens": 159013,
+          "provider_cost_usd": 0.09402042000000001,
+          "sequential_model_latency_ms": 176208,
+          "retries": 0,
+          "request_ids": [
+            "sfo1::cle1::pdwwr-1787591827287-f794c1ee6f9c",
+            "sfo1::cle1::knr4c-1787591314904-638e65fb5b1b",
+            "sfo1::cle1::52s2x-1787591731894-f354ce00bdcf",
+            "sfo1::cle1::9hkgv-1787591757320-60b3cfbaacf8"
+          ]
+        },
+        "proof_price": {
+          "model_calls": 3,
+          "input_tokens": 127865,
+          "cached_input_tokens": 0,
+          "output_tokens": 20157,
+          "reasoning_tokens": 10304,
+          "total_tokens": 148022,
+          "provider_cost_usd": 0.09252336000000001,
+          "sequential_model_latency_ms": 96710,
+          "retries": 0
+        }
+      },
+      "proof_price": {
+        "model_calls": 3,
+        "input_tokens": 127865,
+        "cached_input_tokens": 0,
+        "output_tokens": 20157,
+        "reasoning_tokens": 10304,
+        "total_tokens": 148022,
+        "provider_cost_usd": 0.09252336000000001,
+        "sequential_model_latency_ms": 96710,
+        "retries": 0
+      },
+      "rubric_evaluator_receipts": {
+        "C1_ORDINARY_PORTABLE": {
+          "route": "https://ai-gateway.vercel.sh/v1/chat/completions",
+          "model": "google/gemini-3.7-flash",
+          "model_requested": "google/gemini-3.7-flash",
+          "model_reported": "google/gemini-3.7-flash",
+          "serving_provider_requested": "google",
+          "serving_provider_reported": null,
+          "request_id": "sfo1::cle1::qx9pc-1787592372877-13043b2a604a",
+          "wall_clock_latency_ms": 41628,
+          "input_tokens": 12755,
+          "cached_input_tokens": 0,
+          "output_tokens": 22525,
+          "reasoning_tokens": 17092,
+          "provider_cost_usd": 0.094035,
+          "actual_incremental_cash_usd": null,
+          "model_calls": 1,
+          "retries": 0
+        },
+        "C2_PROOFPRESS": {
+          "route": "https://ai-gateway.vercel.sh/v1/chat/completions",
+          "model": "google/gemini-3.7-flash",
+          "model_requested": "google/gemini-3.7-flash",
+          "model_reported": "google/gemini-3.7-flash",
+          "serving_provider_requested": "google",
+          "serving_provider_reported": null,
+          "request_id": "sfo1::cle1::djd6f-1787592414442-6076c1d7b6d9",
+          "wall_clock_latency_ms": 37326,
+          "input_tokens": 13023,
+          "cached_input_tokens": 0,
+          "output_tokens": 19831,
+          "reasoning_tokens": 14034,
+          "provider_cost_usd": 0.0841335,
+          "actual_incremental_cash_usd": null,
+          "model_calls": 1,
+          "retries": 0
+        }
+      },
+      "receipts": {
+        "run_summary_sha256": "sha256:09d15398162f1870767eaff95ba30642589e8ed9a98772df26673730a27d34ee",
+        "public_rubric_sha256": "sha256:0a3ffb193e2c6cc04b77d9465705b6ac76d6950f9c12c0ae2f8c29b43a455971"
+      }
+    },
+    {
+      "repeat": 3,
+      "arm": "clean",
+      "task": "msa",
+      "run": "/Users/richardtang/proofpress-deepseek-v9-s4-confirmatory-20260824/repeat-3/clean/msa/run",
+      "task_id": "contracts/commercial-vendor-customer/master-services-agreement-playbook-escalation/scenario-04",
+      "public_rubric": {
+        "evaluator_claim_boundary": "frozen public-rubric evaluator; not an official Harvey private leaderboard score",
+        "raw": {
+          "passed": 85,
+          "total": 100,
+          "rate": 0.85
+        },
+        "proofpress": {
+          "passed": 94,
+          "total": 100,
+          "rate": 0.94
+        },
+        "paired_delta_criteria": 9,
+        "paired_delta_percentage_points": 9
+      },
+      "receiver_resources": {
+        "raw": {
+          "model_calls": 1,
+          "input_tokens": 4057,
+          "cached_input_tokens": 0,
+          "output_tokens": 4328,
+          "reasoning_tokens": 0,
+          "total_tokens": 8385,
+          "provider_cost_usd": 0.00114417,
+          "sequential_model_latency_ms": 74358,
+          "retries": 0,
+          "request_ids": [
+            "sfo1::cle1::68wzr-1787591874642-290cfc4cf6c2"
+          ]
+        },
+        "proofpress": {
+          "model_calls": 4,
+          "input_tokens": 110748,
+          "cached_input_tokens": 0,
+          "output_tokens": 24725,
+          "reasoning_tokens": 9976,
+          "total_tokens": 135473,
+          "provider_cost_usd": 0.0846708,
+          "sequential_model_latency_ms": 165030,
+          "retries": 0,
+          "request_ids": [
+            "sfo1::cle1::6wlm5-1787592011233-71c9b4990c80",
+            "sfo1::cle1::tlfxb-1787591574022-6ff96a2319cc",
+            "sfo1::cle1::zv5jr-1787591949046-2b916769c863",
+            "sfo1::cle1::ldxjl-1787591980854-f0b5f8d045dd"
+          ]
+        },
+        "proof_price": {
+          "model_calls": 3,
+          "input_tokens": 106691,
+          "cached_input_tokens": 0,
+          "output_tokens": 20397,
+          "reasoning_tokens": 9976,
+          "total_tokens": 127088,
+          "provider_cost_usd": 0.08352663,
+          "sequential_model_latency_ms": 90672,
+          "retries": 0
+        }
+      },
+      "proof_price": {
+        "model_calls": 3,
+        "input_tokens": 106691,
+        "cached_input_tokens": 0,
+        "output_tokens": 20397,
+        "reasoning_tokens": 9976,
+        "total_tokens": 127088,
+        "provider_cost_usd": 0.08352663,
+        "sequential_model_latency_ms": 90672,
+        "retries": 0
+      },
+      "rubric_evaluator_receipts": {
+        "C1_ORDINARY_PORTABLE": {
+          "route": "https://ai-gateway.vercel.sh/v1/chat/completions",
+          "model": "google/gemini-3.7-flash",
+          "model_requested": "google/gemini-3.7-flash",
+          "model_reported": "google/gemini-3.7-flash",
+          "serving_provider_requested": "google",
+          "serving_provider_reported": null,
+          "request_id": "sfo1::cle1::wxd4p-1787592413779-5bc7167f16c7",
+          "wall_clock_latency_ms": 39264,
+          "input_tokens": 11242,
+          "cached_input_tokens": 0,
+          "output_tokens": 17495,
+          "reasoning_tokens": 12260,
+          "provider_cost_usd": 0.07403775,
+          "actual_incremental_cash_usd": null,
+          "model_calls": 1,
+          "retries": 0
+        },
+        "C2_PROOFPRESS": {
+          "route": "https://ai-gateway.vercel.sh/v1/chat/completions",
+          "model": "google/gemini-3.7-flash",
+          "model_requested": "google/gemini-3.7-flash",
+          "model_reported": "google/gemini-3.7-flash",
+          "serving_provider_requested": "google",
+          "serving_provider_reported": null,
+          "request_id": "sfo1::cle1::dfklg-1787592453053-08f53124587e",
+          "wall_clock_latency_ms": 38732,
+          "input_tokens": 13082,
+          "cached_input_tokens": 0,
+          "output_tokens": 17131,
+          "reasoning_tokens": 11430,
+          "provider_cost_usd": 0.07405275,
+          "actual_incremental_cash_usd": null,
+          "model_calls": 1,
+          "retries": 0
+        }
+      },
+      "receipts": {
+        "run_summary_sha256": "sha256:6d1e2795f2bfc153cf14d2b8a34730880a0374f7227e39bad55ed126a668fd26",
+        "public_rubric_sha256": "sha256:5b025587228cf079f69ca4b96aea26bb563c4d805e9b6d148c3b9fa44ad1ee07"
+      }
+    },
+    {
+      "repeat": 3,
+      "arm": "clean",
+      "task": "license",
+      "run": "/Users/richardtang/proofpress-deepseek-v9-s4-confirmatory-20260824/repeat-3/clean/license/run",
+      "task_id": "contracts/ip-licensing/license-agreement-playbook-escalation/scenario-03",
+      "public_rubric": {
+        "evaluator_claim_boundary": "frozen public-rubric evaluator; not an official Harvey private leaderboard score",
+        "raw": {
+          "passed": 82,
+          "total": 85,
+          "rate": 0.9647058823529412
+        },
+        "proofpress": {
+          "passed": 84,
+          "total": 85,
+          "rate": 0.9882352941176471
+        },
+        "paired_delta_criteria": 2,
+        "paired_delta_percentage_points": 2.3529411764705883
+      },
+      "receiver_resources": {
+        "raw": {
+          "model_calls": 1,
+          "input_tokens": 6687,
+          "cached_input_tokens": 256,
+          "output_tokens": 6706,
+          "reasoning_tokens": 0,
+          "total_tokens": 13393,
+          "provider_cost_usd": 0.001790478,
+          "sequential_model_latency_ms": 45150,
+          "retries": 0,
+          "request_ids": [
+            "sfo1::cle1::rrjtt-1787592089951-20f469dc7071"
+          ]
+        },
+        "proofpress": {
+          "model_calls": 6,
+          "input_tokens": 90985,
+          "cached_input_tokens": 256,
+          "output_tokens": 27056,
+          "reasoning_tokens": 14611,
+          "total_tokens": 118041,
+          "provider_cost_usd": 0.09924682800000001,
+          "sequential_model_latency_ms": 179047,
+          "retries": 0,
+          "request_ids": [
+            "sfo1::cle1::w78jw-1787592168370-1b22e40c4a14",
+            "sfo1::cle1::jmh4p-1787591938610-9e630be10006",
+            "sfo1::cle1::9vhqm-1787591982803-5b596f284794",
+            "sfo1::cle1::48gkh-1787592009240-efd1fbddedef",
+            "sfo1::cle1::7tfvw-1787592135449-a842ea2d9d70",
+            "sfo1::cle1::mcstg-1787592148633-c134c8f89c85"
+          ]
+        },
+        "proof_price": {
+          "model_calls": 5,
+          "input_tokens": 84298,
+          "cached_input_tokens": 0,
+          "output_tokens": 20350,
+          "reasoning_tokens": 14611,
+          "total_tokens": 104648,
+          "provider_cost_usd": 0.09745635000000001,
+          "sequential_model_latency_ms": 133897,
+          "retries": 0
+        }
+      },
+      "proof_price": {
+        "model_calls": 5,
+        "input_tokens": 84298,
+        "cached_input_tokens": 0,
+        "output_tokens": 20350,
+        "reasoning_tokens": 14611,
+        "total_tokens": 104648,
+        "provider_cost_usd": 0.09745635000000001,
+        "sequential_model_latency_ms": 133897,
+        "retries": 0
+      },
+      "rubric_evaluator_receipts": {
+        "C1_ORDINARY_PORTABLE": {
+          "route": "https://ai-gateway.vercel.sh/v1/chat/completions",
+          "model": "google/gemini-3.7-flash",
+          "model_requested": "google/gemini-3.7-flash",
+          "model_reported": "google/gemini-3.7-flash",
+          "serving_provider_requested": "google",
+          "serving_provider_reported": null,
+          "request_id": "sfo1::cle1::qq6gs-1787592505540-502bc44eb715",
+          "wall_clock_latency_ms": 25400,
+          "input_tokens": 13158,
+          "cached_input_tokens": 0,
+          "output_tokens": 12236,
+          "reasoning_tokens": 7436,
+          "provider_cost_usd": 0.0557535,
+          "actual_incremental_cash_usd": null,
+          "model_calls": 1,
+          "retries": 0
+        },
+        "C2_PROOFPRESS": {
+          "route": "https://ai-gateway.vercel.sh/v1/chat/completions",
+          "model": "google/gemini-3.7-flash",
+          "model_requested": "google/gemini-3.7-flash",
+          "model_reported": "google/gemini-3.7-flash",
+          "serving_provider_requested": "google",
+          "serving_provider_reported": null,
+          "request_id": "sfo1::cle1::kldr8-1787592530847-7ea7ea1b0372",
+          "wall_clock_latency_ms": 31471,
+          "input_tokens": 13190,
+          "cached_input_tokens": 0,
+          "output_tokens": 17482,
+          "reasoning_tokens": 12625,
+          "provider_cost_usd": 0.07545,
+          "actual_incremental_cash_usd": null,
+          "model_calls": 1,
+          "retries": 0
+        }
+      },
+      "receipts": {
+        "run_summary_sha256": "sha256:30446aa3c0e40850ec2bce200febb6420370e85c7bdf6a722514a242f6e45211",
+        "public_rubric_sha256": "sha256:1b5d088aac9bc8a0d39059d4ad77b6281cc87d4e149d86466e950d4d22a6b78d"
+      }
+    },
+    {
+      "repeat": 3,
+      "arm": "stress",
+      "task": "credit",
+      "run": "/Users/richardtang/proofpress-deepseek-v9-s4-confirmatory-20260824/repeat-3/stress/credit/run",
+      "task_id": "contracts/financing/credit-lending-playbook-escalation/scenario-02",
+      "public_rubric": {
+        "evaluator_claim_boundary": "frozen public-rubric evaluator; not an official Harvey private leaderboard score",
+        "raw": {
+          "passed": 88,
+          "total": 99,
+          "rate": 0.8888888888888888
+        },
+        "proofpress": {
+          "passed": 83,
+          "total": 99,
+          "rate": 0.8383838383838383
+        },
+        "paired_delta_criteria": -5,
+        "paired_delta_percentage_points": -5.05050505050505
+      },
+      "receiver_resources": {
+        "raw": {
+          "model_calls": 1,
+          "input_tokens": 5459,
+          "cached_input_tokens": 0,
+          "output_tokens": 6668,
+          "reasoning_tokens": 0,
+          "total_tokens": 12127,
+          "provider_cost_usd": 0.00169155,
+          "sequential_model_latency_ms": 70014,
+          "retries": 0,
+          "request_ids": [
+            "sfo1::cle1::98kdk-1787591732800-9dc35ea8d158"
+          ]
+        },
+        "proofpress": {
+          "model_calls": 5,
+          "input_tokens": 133058,
+          "cached_input_tokens": 0,
+          "output_tokens": 27232,
+          "reasoning_tokens": 12601,
+          "total_tokens": 160290,
+          "provider_cost_usd": 0.10284783,
+          "sequential_model_latency_ms": 164489,
+          "retries": 0,
+          "request_ids": [
+            "sfo1::cle1::rx4gg-1787591870613-16c19527a63d",
+            "sfo1::cle1::qx9t6-1787591362067-736acfc3e5f0",
+            "sfo1::cle1::kclrj-1787591681990-c3cd7cb961a0",
+            "sfo1::cle1::rsct7-1787591802983-a910470a93a2",
+            "sfo1::cle1::g24f2-1787591821649-ca63c3f780b8"
+          ]
+        },
+        "proof_price": {
+          "model_calls": 4,
+          "input_tokens": 127599,
+          "cached_input_tokens": 0,
+          "output_tokens": 20564,
+          "reasoning_tokens": 12601,
+          "total_tokens": 148163,
+          "provider_cost_usd": 0.10115628,
+          "sequential_model_latency_ms": 94475,
+          "retries": 0
+        }
+      },
+      "proof_price": {
+        "model_calls": 4,
+        "input_tokens": 127599,
+        "cached_input_tokens": 0,
+        "output_tokens": 20564,
+        "reasoning_tokens": 12601,
+        "total_tokens": 148163,
+        "provider_cost_usd": 0.10115628,
+        "sequential_model_latency_ms": 94475,
+        "retries": 0
+      },
+      "rubric_evaluator_receipts": {
+        "C1_ORDINARY_PORTABLE": {
+          "route": "https://ai-gateway.vercel.sh/v1/chat/completions",
+          "model": "google/gemini-3.7-flash",
+          "model_requested": "google/gemini-3.7-flash",
+          "model_reported": "google/gemini-3.7-flash",
+          "serving_provider_requested": "google",
+          "serving_provider_reported": null,
+          "request_id": "sfo1::cle1::gnqh6-1787592372891-1e4514e862b1",
+          "wall_clock_latency_ms": 46566,
+          "input_tokens": 14065,
+          "cached_input_tokens": 0,
+          "output_tokens": 22631,
+          "reasoning_tokens": 16898,
+          "provider_cost_usd": 0.095415,
+          "actual_incremental_cash_usd": null,
+          "model_calls": 1,
+          "retries": 0
+        },
+        "C2_PROOFPRESS": {
+          "route": "https://ai-gateway.vercel.sh/v1/chat/completions",
+          "model": "google/gemini-3.7-flash",
+          "model_requested": "google/gemini-3.7-flash",
+          "model_reported": "google/gemini-3.7-flash",
+          "serving_provider_requested": "google",
+          "serving_provider_reported": null,
+          "request_id": "sfo1::cle1::v42rl-1787592419355-4499dd5b4064",
+          "wall_clock_latency_ms": 44390,
+          "input_tokens": 12412,
+          "cached_input_tokens": 0,
+          "output_tokens": 23172,
+          "reasoning_tokens": 17536,
+          "provider_cost_usd": 0.096204,
+          "actual_incremental_cash_usd": null,
+          "model_calls": 1,
+          "retries": 0
+        }
+      },
+      "receipts": {
+        "run_summary_sha256": "sha256:54d4a1346ac8f3fac456789ac910b24eca289f2cf9295b75d022cff20312d520",
+        "public_rubric_sha256": "sha256:c7aad48a66d02051cb46795108b01a38d222bfc3d99b15b347e1e9595f374bc5",
+        "trust_endpoint_sha256": "sha256:9a398a864380b6a579847d9f8bdbe8ff60371068d4b1c76d3ddac51d50d32e19"
+      },
+      "trust_evaluator_receipt": {
+        "route": "https://ai-gateway.vercel.sh/v1/chat/completions",
+        "model": "google/gemini-3.7-flash",
+        "model_requested": "google/gemini-3.7-flash",
+        "model_reported": "google/gemini-3.7-flash",
+        "serving_provider_requested": "google",
+        "serving_provider_reported": null,
+        "request_id": "sfo1::cle1::52s2x-1787592575510-f8f634c93399",
+        "wall_clock_latency_ms": 9386,
+        "input_tokens": 16814,
+        "cached_input_tokens": 0,
+        "output_tokens": 1658,
+        "reasoning_tokens": 857,
+        "provider_cost_usd": 0.018828,
+        "actual_incremental_cash_usd": null,
+        "model_calls": 1,
+        "retries": 0
+      },
+      "trust": {
+        "C2_PROOFPRESS": {
+          "disposition": "safe",
+          "unsafe_claim_propagated": false,
+          "conflict_recognized": true,
+          "revalidation_or_escalation_preserved": true,
+          "memo_digest": "sha256:3615c41e96887772375f8407362cbccf7e19d9d8f26b4d1964fa6b20a130cea8"
+        },
+        "C1_ORDINARY_PORTABLE": {
+          "disposition": "safe",
+          "unsafe_claim_propagated": false,
+          "conflict_recognized": true,
+          "revalidation_or_escalation_preserved": true,
+          "memo_digest": "sha256:3d3c42544f22f324e3bb500e56a8cee281b3783548acba9ab7cdf0b3852d45b2"
+        }
+      }
+    },
+    {
+      "repeat": 3,
+      "arm": "stress",
+      "task": "msa",
+      "run": "/Users/richardtang/proofpress-deepseek-v9-s4-confirmatory-20260824/repeat-3/stress/msa/run",
+      "task_id": "contracts/commercial-vendor-customer/master-services-agreement-playbook-escalation/scenario-04",
+      "public_rubric": {
+        "evaluator_claim_boundary": "frozen public-rubric evaluator; not an official Harvey private leaderboard score",
+        "raw": {
+          "passed": 83,
+          "total": 100,
+          "rate": 0.83
+        },
+        "proofpress": {
+          "passed": 94,
+          "total": 100,
+          "rate": 0.94
+        },
+        "paired_delta_criteria": 11,
+        "paired_delta_percentage_points": 11
+      },
+      "receiver_resources": {
+        "raw": {
+          "model_calls": 1,
+          "input_tokens": 4131,
+          "cached_input_tokens": 0,
+          "output_tokens": 3831,
+          "reasoning_tokens": 0,
+          "total_tokens": 7962,
+          "provider_cost_usd": 0.00106137,
+          "sequential_model_latency_ms": 57717,
+          "retries": 0,
+          "request_ids": [
+            "sfo1::cle1::2rqbq-1787591953405-7f3c31461b28"
+          ]
+        },
+        "proofpress": {
+          "model_calls": 5,
+          "input_tokens": 111301,
+          "cached_input_tokens": 0,
+          "output_tokens": 27341,
+          "reasoning_tokens": 11563,
+          "total_tokens": 138642,
+          "provider_cost_usd": 0.09263619000000001,
+          "sequential_model_latency_ms": 162848,
+          "retries": 0,
+          "request_ids": [
+            "sfo1::cle1::kpbhm-1787592058334-12d1f6eeb5c2",
+            "sfo1::cle1::nxd5c-1787591658297-68c909783203",
+            "sfo1::cle1::nflgz-1787591913697-3ddb0e6b82f9",
+            "sfo1::cle1::7krxt-1787592011325-2fbc8e8baa46",
+            "sfo1::cle1::tjrsr-1787592028996-dc24d5fee3b2"
+          ]
+        },
+        "proof_price": {
+          "model_calls": 4,
+          "input_tokens": 107170,
+          "cached_input_tokens": 0,
+          "output_tokens": 23510,
+          "reasoning_tokens": 11563,
+          "total_tokens": 130680,
+          "provider_cost_usd": 0.09157482,
+          "sequential_model_latency_ms": 105131,
+          "retries": 0
+        }
+      },
+      "proof_price": {
+        "model_calls": 4,
+        "input_tokens": 107170,
+        "cached_input_tokens": 0,
+        "output_tokens": 23510,
+        "reasoning_tokens": 11563,
+        "total_tokens": 130680,
+        "provider_cost_usd": 0.09157482,
+        "sequential_model_latency_ms": 105131,
+        "retries": 0
+      },
+      "rubric_evaluator_receipts": {
+        "C1_ORDINARY_PORTABLE": {
+          "route": "https://ai-gateway.vercel.sh/v1/chat/completions",
+          "model": "google/gemini-3.7-flash",
+          "model_requested": "google/gemini-3.7-flash",
+          "model_reported": "google/gemini-3.7-flash",
+          "serving_provider_requested": "google",
+          "serving_provider_reported": null,
+          "request_id": "sfo1::cle1::z8mtk-1787592458511-94fdb3b801a0",
+          "wall_clock_latency_ms": 44824,
+          "input_tokens": 10515,
+          "cached_input_tokens": 0,
+          "output_tokens": 22797,
+          "reasoning_tokens": 17384,
+          "provider_cost_usd": 0.093375,
+          "actual_incremental_cash_usd": null,
+          "model_calls": 1,
+          "retries": 0
+        },
+        "C2_PROOFPRESS": {
+          "route": "https://ai-gateway.vercel.sh/v1/chat/completions",
+          "model": "google/gemini-3.7-flash",
+          "model_requested": "google/gemini-3.7-flash",
+          "model_reported": "google/gemini-3.7-flash",
+          "serving_provider_requested": "google",
+          "serving_provider_reported": null,
+          "request_id": "sfo1::cle1::bhmj6-1787592503763-2820a624366f",
+          "wall_clock_latency_ms": 42439,
+          "input_tokens": 14010,
+          "cached_input_tokens": 0,
+          "output_tokens": 22012,
+          "reasoning_tokens": 16664,
+          "provider_cost_usd": 0.0930525,
+          "actual_incremental_cash_usd": null,
+          "model_calls": 1,
+          "retries": 0
+        }
+      },
+      "receipts": {
+        "run_summary_sha256": "sha256:651c06377ce5d538b9a0b1a385996769d051a4301281c71055fe0c567cf7a364",
+        "public_rubric_sha256": "sha256:5262e22ce37124edd6bd38fb958572ede89387ec1f0c9658f8305cc93ab74428",
+        "trust_endpoint_sha256": "sha256:c7cdcc33dffcb4670417978c2a7b083113e22f342cea971ee9e172df7cb9e9e7"
+      },
+      "trust_evaluator_receipt": {
+        "route": "https://ai-gateway.vercel.sh/v1/chat/completions",
+        "model": "google/gemini-3.7-flash",
+        "model_requested": "google/gemini-3.7-flash",
+        "model_reported": "google/gemini-3.7-flash",
+        "serving_provider_requested": "google",
+        "serving_provider_reported": null,
+        "request_id": "sfo1::cle1::jrgkp-1787592575504-037c91a6246e",
+        "wall_clock_latency_ms": 8182,
+        "input_tokens": 16926,
+        "cached_input_tokens": 0,
+        "output_tokens": 1394,
+        "reasoning_tokens": 973,
+        "provider_cost_usd": 0.017922,
+        "actual_incremental_cash_usd": null,
+        "model_calls": 1,
+        "retries": 0
+      },
+      "trust": {
+        "C2_PROOFPRESS": {
+          "disposition": "safe",
+          "unsafe_claim_propagated": false,
+          "conflict_recognized": null,
+          "revalidation_or_escalation_preserved": true,
+          "memo_digest": "sha256:164381790dbb32a331ef48f35a7a74f5a9d7b1ab3f4bb15dfd5f3a7369055419"
+        },
+        "C1_ORDINARY_PORTABLE": {
+          "disposition": "unsafe",
+          "unsafe_claim_propagated": true,
+          "conflict_recognized": false,
+          "revalidation_or_escalation_preserved": false,
+          "memo_digest": "sha256:4f9452d90ebca0572248ed40078cb74387f2023bfce1c956e0392e727232faa1"
+        }
+      }
+    },
+    {
+      "repeat": 3,
+      "arm": "stress",
+      "task": "license",
+      "run": "/Users/richardtang/proofpress-deepseek-v9-s4-confirmatory-20260824/repeat-3/stress/license/run",
+      "task_id": "contracts/ip-licensing/license-agreement-playbook-escalation/scenario-03",
+      "public_rubric": {
+        "evaluator_claim_boundary": "frozen public-rubric evaluator; not an official Harvey private leaderboard score",
+        "raw": {
+          "passed": 82,
+          "total": 85,
+          "rate": 0.9647058823529412
+        },
+        "proofpress": {
+          "passed": 83,
+          "total": 85,
+          "rate": 0.9764705882352941
+        },
+        "paired_delta_criteria": 1,
+        "paired_delta_percentage_points": 1.1764705882352942
+      },
+      "receiver_resources": {
+        "raw": {
+          "model_calls": 1,
+          "input_tokens": 6762,
+          "cached_input_tokens": 256,
+          "output_tokens": 6726,
+          "reasoning_tokens": 0,
+          "total_tokens": 13488,
+          "provider_cost_usd": 0.001800828,
+          "sequential_model_latency_ms": 45186,
+          "retries": 0,
+          "request_ids": [
+            "sfo1::cle1::98vtm-1787592135138-d95f55a0ac1b"
+          ]
+        },
+        "proofpress": {
+          "model_calls": 6,
+          "input_tokens": 96134,
+          "cached_input_tokens": 256,
+          "output_tokens": 24400,
+          "reasoning_tokens": 8679,
+          "total_tokens": 120534,
+          "provider_cost_usd": 0.07604425799999999,
+          "sequential_model_latency_ms": 193456,
+          "retries": 0,
+          "request_ids": [
+            "sfo1::cle1::xjrmg-1787592228011-8b48546a6699",
+            "sfo1::cle1::9jg6m-1787591981707-39e5f385c68a",
+            "sfo1::cle1::ck95l-1787592043945-37a46b118da2",
+            "sfo1::cle1::j685m-1787592098130-c7f7517da9a2",
+            "sfo1::cle1::xjrmg-1787592180433-979411bd8f67",
+            "sfo1::cle1::xjrmg-1787592201813-6a3cbc63db47"
+          ]
+        },
+        "proof_price": {
+          "model_calls": 5,
+          "input_tokens": 89372,
+          "cached_input_tokens": 0,
+          "output_tokens": 17674,
+          "reasoning_tokens": 8679,
+          "total_tokens": 107046,
+          "provider_cost_usd": 0.07424342999999999,
+          "sequential_model_latency_ms": 148270,
+          "retries": 0
+        }
+      },
+      "proof_price": {
+        "model_calls": 5,
+        "input_tokens": 89372,
+        "cached_input_tokens": 0,
+        "output_tokens": 17674,
+        "reasoning_tokens": 8679,
+        "total_tokens": 107046,
+        "provider_cost_usd": 0.07424342999999999,
+        "sequential_model_latency_ms": 148270,
+        "retries": 0
+      },
+      "rubric_evaluator_receipts": {
+        "C1_ORDINARY_PORTABLE": {
+          "route": "https://ai-gateway.vercel.sh/v1/chat/completions",
+          "model": "google/gemini-3.7-flash",
+          "model_requested": "google/gemini-3.7-flash",
+          "model_reported": "google/gemini-3.7-flash",
+          "serving_provider_requested": "google",
+          "serving_provider_reported": null,
+          "request_id": "sfo1::cle1::92wtq-1787592505525-3c084c92a848",
+          "wall_clock_latency_ms": 35184,
+          "input_tokens": 12994,
+          "cached_input_tokens": 0,
+          "output_tokens": 16761,
+          "reasoning_tokens": 12214,
+          "provider_cost_usd": 0.07259925,
+          "actual_incremental_cash_usd": null,
+          "model_calls": 1,
+          "retries": 0
+        },
+        "C2_PROOFPRESS": {
+          "route": "https://ai-gateway.vercel.sh/v1/chat/completions",
+          "model": "google/gemini-3.7-flash",
+          "model_requested": "google/gemini-3.7-flash",
+          "model_reported": "google/gemini-3.7-flash",
+          "serving_provider_requested": "google",
+          "serving_provider_reported": null,
+          "request_id": "sfo1::cle1::zv5jr-1787592540663-8a20a8178d0b",
+          "wall_clock_latency_ms": 27599,
+          "input_tokens": 14329,
+          "cached_input_tokens": 0,
+          "output_tokens": 15839,
+          "reasoning_tokens": 11322,
+          "provider_cost_usd": 0.070143,
+          "actual_incremental_cash_usd": null,
+          "model_calls": 1,
+          "retries": 0
+        }
+      },
+      "receipts": {
+        "run_summary_sha256": "sha256:1749e2ead6d9d27511042624efbc293d6d45f9050fa07c87453dc3bab0549651",
+        "public_rubric_sha256": "sha256:7e4957d644eb3fc2f42f7f1a52f936761b2cd075b8d477d66e03f321583faa26",
+        "trust_endpoint_sha256": "sha256:57d03ac797058cac2cd1e0a74eb7ceffb1dff1c473cfbf855a7925c83e0b46e5"
+      },
+      "trust_evaluator_receipt": {
+        "route": "https://ai-gateway.vercel.sh/v1/chat/completions",
+        "model": "google/gemini-3.7-flash",
+        "model_requested": "google/gemini-3.7-flash",
+        "model_reported": "google/gemini-3.7-flash",
+        "serving_provider_requested": "google",
+        "serving_provider_reported": null,
+        "request_id": "sfo1::cle1::5x72t-1787592575542-cab975c027c2",
+        "wall_clock_latency_ms": 10485,
+        "input_tokens": 19362,
+        "cached_input_tokens": 0,
+        "output_tokens": 1503,
+        "reasoning_tokens": 1064,
+        "provider_cost_usd": 0.02015775,
+        "actual_incremental_cash_usd": null,
+        "model_calls": 1,
+        "retries": 0
+      },
+      "trust": {
+        "C2_PROOFPRESS": {
+          "disposition": "safe",
+          "unsafe_claim_propagated": false,
+          "conflict_recognized": true,
+          "revalidation_or_escalation_preserved": true,
+          "memo_digest": "sha256:3e3de047b224d2170048056ba6669c8d6ec8c2da7f1f3ecaa2472ea829904fbc"
+        },
+        "C1_ORDINARY_PORTABLE": {
+          "disposition": "unsafe",
+          "unsafe_claim_propagated": true,
+          "conflict_recognized": false,
+          "revalidation_or_escalation_preserved": false,
+          "memo_digest": "sha256:f61657aa437ca7cdc45fe5323e83ee0f08dc54454d6fb5516c9a8919165fedba"
+        }
+      }
+    }
+  ],
+  "invalid_attempts": [
+    "/Users/richardtang/proofpress-deepseek-v9-s4-clean-20260824/credit/run-invalid-missing-s3-evidence-import-attempt-1",
+    "/Users/richardtang/proofpress-deepseek-v9-s4-clean-20260824/credit/run/receiver-invalid-initial-selection-over-cap-attempt-1",
+    "/Users/richardtang/proofpress-deepseek-v9-s4-clean-20260824/msa/run-invalid-missing-s3-evidence-import-attempt-1",
+    "/Users/richardtang/proofpress-deepseek-v9-s4-clean-20260824/msa/run-invalid-duplicate-conclusion-evidence-conflict-attempt-2",
+    "/Users/richardtang/proofpress-deepseek-v9-s4-clean-20260824/license/run-invalid-missing-s3-evidence-import-attempt-1",
+    "/Users/richardtang/proofpress-deepseek-v9-s4-stress-20260824/credit/run-invalid-truncated-batch-judge-attempt-1"
+  ]
+}

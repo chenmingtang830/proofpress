@@ -5,9 +5,10 @@
 ## Decision
 
 [//]: # (ob:e439b2a3)
-This study asks whether Proofpress improves long-horizon legal-agent work when the
-underlying model, task materials, evaluator, tools, and execution limits are held
-constant.
+This study estimates two separate product effects when the underlying model, task
+materials, evaluator, tools, and execution limits are held constant: the clean tax
+of governed handoff on an unmodified task, and the protection effect under a frozen
+trust failure. Current v9 results are reported in `RESULTS_V9_2X2.md`.
 
 [//]: # (ob:46841646)
 The primary comparison is deliberately product-shaped:
@@ -48,15 +49,17 @@ communication surface, not experimental evidence.
 ### Primary
 
 [//]: # (ob:6a191609)
-At matched model and execution limits, does Proofpress increase Harvey LAB final
-all-pass or criterion-pass performance after a cold agent handoff?
+On unmodified public LAB tasks, is Proofpress non-inferior to ordinary handoff while
+adding verification and auditability, and what token, cost, and latency proof-price
+does it impose?
 
 [//]: # (ob:1baca415)
 ### Mechanism
 
 [//]: # (ob:21cc85e2)
-Does Proofpress reduce stale or unsafe state propagation without increasing false
-stops, unnecessary revalidation, or clean-continuation failures?
+In a separately labelled LAB-derived controlled handoff stress test, does
+Proofpress reduce stale or unsafe state propagation without increasing false stops,
+unnecessary revalidation, or clean-continuation failures?
 
 [//]: # (ob:8c2f2a73)
 ### Deployment
@@ -69,21 +72,28 @@ included?
 ## Experimental unit
 
 [//]: # (ob:27d61266)
-One unit is a matched pair on one version-pinned Harvey LAB matter:
+One unit is a matched pair on one version-pinned public LAB matter. The frozen v9
+study uses a 2×2 design: ordinary versus Proofpress handoff crossed with clean versus
+pre-frozen perturbed boundary state:
 
 [//]: # (ob:cc9a861e)
 1. identical initial matter files and staged releases;
 2. identical resolved model, reasoning setting, tools, task instruction, evaluator,
    and provider route;
 3. one registered cold worker/workspace boundary;
-4. raw and Proofpress conditions run with independent model calls; and
-5. final deliverables scored with one frozen evaluator against the 72 public LAB
-   criteria.
+4. S1–S3 sender state is reused exactly, while raw and Proofpress S4 receivers use
+   independent model calls;
+5. the clean arm leaves the task unchanged and the stress arm gives both conditions
+   byte-identical perturbation content while only Proofpress receives ledger state;
+   and
+6. final deliverables are scored with one frozen evaluator against every public
+   task criterion, plus a blinded trust endpoint for the stress arm.
 
 [//]: # (ob:dd7734b6)
 This produces a score on our public-task composition. It is not an official Harvey
 private-leaderboard score because the private evaluation service is not part of the
-public repository.
+public repository. Perturbed results must be called a **LAB-derived controlled
+handoff stress test**, never a Harvey benchmark result.
 
 [//]: # (ob:41a8ded2)
 The first calibration should use 1–3 public contract matters with consequential

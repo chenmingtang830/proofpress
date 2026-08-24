@@ -23,8 +23,6 @@ def main():
     if not conclusion:
         raise ValueError("conclusion not found: " + cid)
     evaluation = pp.evaluate_v2(cid)
-    if not evaluation["eligible"]:
-        raise ValueError("deterministic policy blocked conclusion")
     policy = pp.load_v2_policy()
     verdict = packet["verdict"]
     if verdict.get("recommendation") not in {"accept", "reject", "escalate"}:
@@ -36,6 +34,20 @@ def main():
         "adapter": packet["judge"]["route"], "model": packet["judge"]["model"],
         "research_only": True,
     })
+    if not evaluation["eligible"]:
+        gate = pp.append_v2({
+            "type": "policy_gate_executed", "subject_ref": cid,
+            "decision": "block", "executor": packet["executor"],
+            "rule": "deterministic_checks_precede_lm_recommendation",
+            "recommendation_ref": recommendation["event_id"],
+            "conclusion_digest": conclusion["digest"], "policy_digest": policy["digest"],
+            "failed_checks": [name for name, passed in evaluation["checks"].items() if not passed],
+            "research_only": True,
+        })
+        print(json.dumps({"admitted": False, "recommendation": recommendation,
+                          "gate": gate, "deterministic_block": True,
+                          "failed_checks": gate["failed_checks"]}))
+        return
     if verdict["recommendation"] != "accept":
         print(json.dumps({"admitted": False, "recommendation": recommendation}))
         return

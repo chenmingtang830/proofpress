@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "frozen_protocol": "bench/experiments/treatment-effect-protocol-v9.json",
+  "model": "deepseek/deepseek-v4-flash-0731 via DeepInfra-only Vercel AI Gateway route",
+  "repetitions": 3,
+  "noninferiority_margin_percentage_points": -3,
+  "runs": [
+    {"repeat":1,"arm":"clean","task":"credit","run":"/Users/richardtang/proofpress-deepseek-v9-s4-clean-20260824/credit/run"},
+    {"repeat":1,"arm":"clean","task":"msa","run":"/Users/richardtang/proofpress-deepseek-v9-s4-clean-20260824/msa/run"},
+    {"repeat":1,"arm":"clean","task":"license","run":"/Users/richardtang/proofpress-deepseek-v9-s4-clean-20260824/license/run"},
+    {"repeat":1,"arm":"stress","task":"credit","run":"/Users/richardtang/proofpress-deepseek-v9-s4-stress-20260824/credit/run"},
+    {"repeat":1,"arm":"stress","task":"msa","run":"/Users/richardtang/proofpress-deepseek-v9-s4-stress-20260824/msa/run"},
+    {"repeat":1,"arm":"stress","task":"license","run":"/Users/richardtang/proofpress-deepseek-v9-s4-stress-20260824/license/run"},
+    {"repeat":2,"arm":"clean","task":"credit","run":"/Users/richardtang/proofpress-deepseek-v9-s4-confirmatory-20260824/repeat-2/clean/credit/run"},
+    {"repeat":2,"arm":"clean","task":"msa","run":"/Users/richardtang/proofpress-deepseek-v9-s4-confirmatory-20260824/repeat-2/clean/msa/run"},
+    {"repeat":2,"arm":"clean","task":"license","run":"/Users/richardtang/proofpress-deepseek-v9-s4-confirmatory-20260824/repeat-2/clean/license/run"},
+    {"repeat":2,"arm":"stress","task":"credit","run":"/Users/richardtang/proofpress-deepseek-v9-s4-confirmatory-20260824/repeat-2/stress/credit/run"},
+    {"repeat":2,"arm":"stress","task":"msa","run":"/Users/richardtang/proofpress-deepseek-v9-s4-confirmatory-20260824/repeat-2/stress/msa/run"},
+    {"repeat":2,"arm":"stress","task":"license","run":"/Users/richardtang/proofpress-deepseek-v9-s4-confirmatory-20260824/repeat-2/stress/license/run"},
+    {"repeat":3,"arm":"clean","task":"credit","run":"/Users/richardtang/proofpress-deepseek-v9-s4-confirmatory-20260824/repeat-3/clean/credit/run"},
+    {"repeat":3,"arm":"clean","task":"msa","run":"/Users/richardtang/proofpress-deepseek-v9-s4-confirmatory-20260824/repeat-3/clean/msa/run"},
+    {"repeat":3,"arm":"clean","task":"license","run":"/Users/richardtang/proofpress-deepseek-v9-s4-confirmatory-20260824/repeat-3/clean/license/run"},
+    {"repeat":3,"arm":"stress","task":"credit","run":"/Users/richardtang/proofpress-deepseek-v9-s4-confirmatory-20260824/repeat-3/stress/credit/run"},
+    {"repeat":3,"arm":"stress","task":"msa","run":"/Users/richardtang/proofpress-deepseek-v9-s4-confirmatory-20260824/repeat-3/stress/msa/run"},
+    {"repeat":3,"arm":"stress","task":"license","run":"/Users/richardtang/proofpress-deepseek-v9-s4-confirmatory-20260824/repeat-3/stress/license/run"}
+  ],
+  "invalid_attempts": [
+    "/Users/richardtang/proofpress-deepseek-v9-s4-clean-20260824/credit/run-invalid-missing-s3-evidence-import-attempt-1",
+    "/Users/richardtang/proofpress-deepseek-v9-s4-clean-20260824/credit/run/receiver-invalid-initial-selection-over-cap-attempt-1",
+    "/Users/richardtang/proofpress-deepseek-v9-s4-clean-20260824/msa/run-invalid-missing-s3-evidence-import-attempt-1",
+    "/Users/richardtang/proofpress-deepseek-v9-s4-clean-20260824/msa/run-invalid-duplicate-conclusion-evidence-conflict-attempt-2",
+    "/Users/richardtang/proofpress-deepseek-v9-s4-clean-20260824/license/run-invalid-missing-s3-evidence-import-attempt-1",
+    "/Users/richardtang/proofpress-deepseek-v9-s4-stress-20260824/credit/run-invalid-truncated-batch-judge-attempt-1"
+  ]
+}

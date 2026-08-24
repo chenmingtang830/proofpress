@@ -440,6 +440,70 @@ def judge_v2(cid):
     return event
 
 
+def judge_batch_v2(scope):
+    if not scope: raise ValueError("batch judge requires --scope")
+    projection = v2_projection()
+    rows = [row for row in projection["conclusions"].values()
+            if row.get("scope") == scope and v2_state(projection, row) in {"needs_review", "unresolved"}]
+    if not rows: raise ValueError("no proposed conclusions require review in scope: " + scope)
+    evaluations = {row["id"]: evaluate_v2(row["id"]) for row in rows}
+    projection = v2_projection(); policy = load_v2_policy(); command = policy["judge"]["command"]
+    if not command: raise ValueError("no judge.command configured in .proofpress/policy.json")
+    evidence_ids = sorted({ref for row in rows for ref in row["evidence_refs"]})
+    packet = {
+        "schema_version": "proofpress/judge-batch-request/v1",
+        "transaction": {"scope": scope, "conclusion_ids": [row["id"] for row in rows]},
+        "conclusions": [{"conclusion": row,
+                         "evidence_refs": row["evidence_refs"],
+                         "evaluation": {k: v for k, v in evaluations[row["id"]].items() if k != "commit"}}
+                        for row in rows],
+        "evidence_catalog": {ref: projection["evidence"][ref] for ref in evidence_ids},
+        "policy": policy,
+    }
+    try:
+        result = subprocess.run(command, input=json.dumps(packet), text=True,
+                                capture_output=True, timeout=float(policy["judge"]["timeout_seconds"]))
+    except subprocess.TimeoutExpired as exc:
+        raise ValueError("batch judge command timed out") from exc
+    if result.returncode: raise ValueError("batch judge command failed: " + result.stderr.strip())
+    try: response = json.loads(result.stdout)
+    except json.JSONDecodeError as exc: raise ValueError("batch judge returned invalid JSON") from exc
+    verdicts = response.get("verdicts")
+    if not isinstance(verdicts, list): raise ValueError("batch judge must return verdicts")
+    expected = {row["id"] for row in rows}; seen = {}
+    for verdict in verdicts:
+        cid = verdict.get("conclusion_id")
+        if cid not in expected or cid in seen: raise ValueError("batch judge returned unknown or duplicate conclusion_id")
+        if verdict.get("recommendation") not in {"accept", "reject", "escalate"}:
+            raise ValueError("batch judge recommendation must be accept, reject, or escalate")
+        if verdict.get("risk_level") not in {"low", "medium", "high"}:
+            raise ValueError("batch judge risk_level must be low, medium, or high")
+        if not isinstance(verdict.get("rationale"), str) or not verdict["rationale"].strip():
+            raise ValueError("batch judge rationale is required")
+        seen[cid] = verdict
+    if set(seen) != expected: raise ValueError("batch judge omitted one or more conclusions")
+    transaction = append_v2({"type": "judge_batch_completed", "subject_ref": ident({"scope": scope,
+                            "conclusions": sorted(expected), "policy": policy["digest"], "at": now()}, "jbt_"),
+                            "scope": scope, "conclusion_ids": sorted(expected),
+                            "policy_digest": policy["digest"], "verdict_count": len(seen),
+                            "adapter": response.get("adapter", command[0]), "model": response.get("model")})
+    recorded, individual = [], []
+    for row in rows:
+        verdict = seen[row["id"]]
+        event = append_v2({"type": "judge_recommended", "subject_ref": row["id"],
+                           "conclusion_digest": row["digest"], "policy_digest": policy["digest"],
+                           "recommendation": verdict["recommendation"], "rationale": verdict["rationale"],
+                           "risk_level": verdict["risk_level"], "batch_receipt": transaction["event_id"],
+                           "adapter": response.get("adapter", command[0]), "model": response.get("model")})
+        recorded.append(event)
+        if verdict["risk_level"] == "high" or verdict["recommendation"] == "escalate":
+            individual.append({"conclusion_id": row["id"], "trigger": "high_risk" if verdict["risk_level"] == "high" else "escalated",
+                               "receipt": judge_v2(row["id"])})
+    return {"schema_version": "proofpress/judge-batch-result/v1", "scope": scope,
+            "batch_receipt": transaction["event_id"], "verdicts": recorded,
+            "individual_reviews": individual}
+
+
 def review_v2(cid, decision, reviewer, note=None):
     projection = v2_projection()
     row = projection["conclusions"].get(cid)
@@ -678,6 +742,9 @@ class _UIHandler(BaseHTTPRequestHandler):
             elif path == "/api/judge":
                 if data.get("confirmed") is not True: raise ValueError("judge command requires explicit confirmation")
                 payload = judge_v2(data["conclusion"])
+            elif path == "/api/judge-batch":
+                if data.get("confirmed") is not True: raise ValueError("batch judge requires explicit confirmation")
+                payload = judge_batch_v2(data.get("scope") or self.scope)
             elif path == "/api/reviews": payload = review_v2(data["conclusion"], data["decision"], data["reviewer"], data.get("note"))
             elif path == "/api/supersessions": payload = supersede_v2(data["conclusion"], data["by"], data["reviewer"], data.get("note"))
             elif path == "/api/context/preview": payload = context_v2(data.get("scope"), data.get("actor"), data.get("task"), True)
@@ -710,8 +777,11 @@ def add_flat_cli(sub):
     propose_parser.add_argument("--artifact", action="append", default=[]); propose_parser.add_argument("--scope", required=True)
     propose_parser.add_argument("--proposer", default="agent:proposer"); propose_parser.add_argument("--expires-at")
     propose_parser.add_argument("--allow-actor", action="append", default=[]); propose_parser.set_defaults(f=cmd_flat, flat_cmd="propose")
-    for name in ("evaluate", "judge"):
-        parser = sub.add_parser(name); parser.add_argument("conclusion"); parser.set_defaults(f=cmd_flat, flat_cmd=name)
+    evaluate_parser = sub.add_parser("evaluate"); evaluate_parser.add_argument("conclusion")
+    evaluate_parser.set_defaults(f=cmd_flat, flat_cmd="evaluate")
+    judge_parser = sub.add_parser("judge", help="run an advisory policy judge for one conclusion or one scope batch")
+    judge_parser.add_argument("conclusion", nargs="?"); judge_parser.add_argument("--scope")
+    judge_parser.add_argument("--batch", action="store_true"); judge_parser.set_defaults(f=cmd_flat, flat_cmd="judge")
     review_parser = sub.add_parser("review", help="record the human admission decision")
     review_parser.add_argument("conclusion"); decision = review_parser.add_mutually_exclusive_group(required=True)
     decision.add_argument("--admit", action="store_true"); decision.add_argument("--reject", action="store_true")
@@ -734,7 +804,10 @@ def cmd_flat(a):
     if command == "evidence-import": out = import_evidence_v2(a.input)
     elif command == "propose": out = propose_v2(a.statement, a.evidence, a.scope, a.proposer, a.expires_at, a.artifact, a.allow_actor or None)
     elif command == "evaluate": out = evaluate_v2(a.conclusion)
-    elif command == "judge": out = judge_v2(a.conclusion)
+    elif command == "judge":
+        if a.batch or a.scope: out = judge_batch_v2(a.scope)
+        elif a.conclusion: out = judge_v2(a.conclusion)
+        else: raise ValueError("judge requires a conclusion or --batch --scope")
     elif command == "review": out = review_v2(a.conclusion, "admit" if a.admit else "reject", a.reviewer, a.note)
     elif command == "supersede": out = supersede_v2(a.conclusion, a.by, a.reviewer, a.note)
     elif command == "context":

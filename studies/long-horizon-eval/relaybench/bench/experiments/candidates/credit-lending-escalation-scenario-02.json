@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "selection_rule_id": "proofpress-treatment-effect-selection-v2",
+  "harvey_lab": {
+    "task_id": "contracts/financing/credit-lending-playbook-escalation/scenario-02",
+    "final_deliverable": "escalation-approval-memo.docx"
+  },
+  "proposed_h4_release_schedule": [
+    {
+      "stage_id": "S1",
+      "cold_boundary_before": false,
+      "label": "Establish credit policy, authority, original terms, and economics",
+      "release": [
+        "credit-policy-manual-rev-2024-03.docx",
+        "delegated-authority-matrix-v72.xlsx",
+        "original-term-sheet.docx",
+        "pro-forma-financial-summary.xlsx",
+        "caravel-fund-iii-guaranty-term-summary.docx"
+      ],
+      "expected_deliverable": "policy and original-term register"
+    },
+    {
+      "stage_id": "S2",
+      "cold_boundary_before": false,
+      "label": "Incorporate borrower counterproposal and negotiation record",
+      "release": [
+        "counter-proposed-term-sheet.docx",
+        "counter-proposed-term-sheet-redline.docx",
+        "borrower-counsel-email-july-18.eml",
+        "bank-counsel-to-rm-email-july-21.eml"
+      ],
+      "expected_deliverable": "current deviation register"
+    },
+    {
+      "stage_id": "S3",
+      "cold_boundary_before": true,
+      "label": "Revalidate against credit recommendation and second-line review",
+      "release": [
+        "credit-recommendation-memo.docx",
+        "second-line-risk-review.docx"
+      ],
+      "expected_deliverable": "risk and approval analysis"
+    },
+    {
+      "stage_id": "S4",
+      "cold_boundary_before": false,
+      "label": "Prepare committee escalation memo",
+      "release": [
+        "cco-escalation-request-email.eml",
+        "escalation-approval-memo-template.docx"
+      ],
+      "expected_deliverable": "escalation-approval-memo.docx"
+    }
+  ]
+}
