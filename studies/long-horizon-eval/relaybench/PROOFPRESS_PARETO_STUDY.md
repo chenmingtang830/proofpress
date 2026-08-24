@@ -235,6 +235,10 @@ Report at minimum:
 [//]: # (ob:c70ab3d2)
 ## Execution readiness
 
+[//]: # (ob:1d9da899)
+[Interactive experiment structure: Raw handoff versus Proofpress governed
+handoff](visuals/harvey-proofpress-experiment-map.html)
+
 [//]: # (ob:d209203f)
 The first calibration matter is frozen to Harvey LAB commit
 `7be41d57fd5a6e97b5f246a029e810f83d09cd96`, task

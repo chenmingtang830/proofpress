@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Proofpress × Harvey LAB — Experiment Map</title>
+  <style>
+    :root{--ink:#172027;--muted:#687078;--paper:#fbfaf6;--panel:#fff;--line:#d9d4c8;--raw:#5f8698;--raw-soft:#eaf1f4;--trust:#25845a;--trust-soft:#e7f3ec;--human:#a87512;--human-soft:#fff3d7;--eval:#7559a6;--eval-soft:#f0ebf8;--danger:#b94b42;--mono:ui-monospace,SFMono-Regular,Menlo,monospace;--sans:Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+    *{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans)}
+    main{max-width:1440px;margin:auto;padding:42px 46px 54px}.eyebrow{font:700 12px/1.3 var(--mono);letter-spacing:.13em;text-transform:uppercase;color:#82745d}.top{display:flex;justify-content:space-between;gap:28px;align-items:flex-end;margin-bottom:32px}.top h1{font-size:clamp(34px,4vw,62px);line-height:.98;letter-spacing:-.045em;margin:8px 0 0;max-width:900px}.meta{text-align:right;font:600 12px/1.7 var(--mono);color:var(--muted);white-space:nowrap}.meta strong{color:var(--trust)}
+    .legend{display:flex;gap:20px;flex-wrap:wrap;padding:13px 0 22px;border-top:1px solid var(--line)}.legend span{display:flex;align-items:center;gap:8px;font:650 12px var(--mono);color:var(--muted)}.dot{width:10px;height:10px;border-radius:2px;background:var(--raw)}.dot.trust{background:var(--trust)}.dot.human{background:var(--human)}.dot.eval{background:var(--eval)}.dash{width:20px;border-top:2px dashed var(--line)}
+    .canvas{position:relative;border:1px solid var(--line);background:rgba(255,255,255,.58);padding:26px;border-radius:3px;overflow:hidden}.source-row,.score-row{display:grid;place-items:center}.node{appearance:none;width:100%;text-align:left;border:1px solid var(--line);background:var(--panel);padding:15px 17px;min-height:98px;color:var(--ink);cursor:pointer;transition:.16s ease;position:relative}.node:hover,.node:focus-visible{transform:translateY(-2px);box-shadow:0 8px 24px rgba(45,39,28,.09);outline:none}.node[aria-pressed="true"]{outline:3px solid rgba(37,132,90,.18);border-color:var(--trust)}.node .step{font:700 10px var(--mono);letter-spacing:.1em;color:var(--muted);text-transform:uppercase}.node h3{font-size:16px;line-height:1.15;margin:9px 0 5px}.node p{font-size:12px;line-height:1.35;color:var(--muted);margin:0}.node.raw{border-top:4px solid var(--raw);background:var(--raw-soft)}.node.trust{border-top:4px solid var(--trust);background:var(--trust-soft)}.node.human{border-top:4px solid var(--human);background:var(--human-soft)}.node.eval{border-top:4px solid var(--eval);background:var(--eval-soft)}
+    .source-row .node{max-width:470px;min-height:auto}.fork{height:36px;position:relative}.fork:before{content:"";position:absolute;left:50%;top:0;height:18px;border-left:1.5px solid var(--line)}.fork:after{content:"";position:absolute;left:25%;right:25%;top:18px;border-top:1.5px solid var(--line)}
+    .lanes{display:grid;grid-template-columns:1fr 1fr;gap:26px}.lane{border:1px solid var(--line);background:rgba(255,255,255,.65);padding:17px}.lane-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:14px}.lane-head h2{font-size:18px;margin:0}.lane-head span{font:700 10px var(--mono);color:var(--muted);letter-spacing:.1em}.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;align-items:stretch}.arrow{display:none}.handoff{grid-column:1/-1;margin:11px 0 2px;padding:9px 11px;border:1px dashed var(--line);font:700 10px var(--mono);letter-spacing:.08em;color:var(--muted);text-align:center;background:#fff}.handoff strong{color:var(--ink)}
+    .merge{height:42px;position:relative}.merge:before{content:"";position:absolute;left:25%;right:25%;top:0;border-top:1.5px solid var(--line)}.merge:after{content:"";position:absolute;left:50%;top:0;height:42px;border-left:1.5px solid var(--line)}.score-row{grid-template-columns:minmax(240px,420px) 40px minmax(240px,420px);gap:10px}.score-row .operator{text-align:center;color:var(--muted);font-size:22px}.score-row .node{min-height:112px}
+    .detail{margin-top:18px;border-left:4px solid var(--trust);background:#fff;padding:16px 18px;display:grid;grid-template-columns:180px 1fr 220px;gap:18px;align-items:start;min-height:96px}.detail .label{font:700 11px var(--mono);letter-spacing:.09em;text-transform:uppercase;color:var(--trust)}.detail h4{font-size:17px;margin:0 0 5px}.detail p{font-size:13px;line-height:1.45;color:var(--muted);margin:0}.detail code{font:600 11px/1.45 var(--mono);color:#4a5359;word-break:break-word;white-space:pre-line}.boundary{margin-top:18px;padding-top:13px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:20px;color:var(--muted);font:11px/1.5 var(--mono)}.boundary strong{color:var(--ink)}
+    @media(max-width:1100px){main{padding:28px 24px}.lanes{grid-template-columns:1fr}.fork,.merge{display:none}.steps{grid-template-columns:repeat(2,1fr)}.detail{grid-template-columns:1fr}.meta{text-align:left}.top{display:block}.boundary{display:block}.boundary span{display:block;margin-top:5px}}
+    @media(max-width:620px){main{padding:22px 14px}.steps,.score-row{grid-template-columns:1fr}.score-row .operator{transform:rotate(90deg)}.legend{gap:10px}.canvas{padding:14px}.node{min-height:auto}}
+  </style>
+<meta name="proofpress:meta" content="eyJhcnRpZmFjdF9pZCI6InBwXzgxNmU1N2Q5ZDIxMzUxODY2MjI1NmFlZCIsInBvbGljeSI6ImxvY2FsIiwicHJvb2ZwcmVzcyI6MX0">
+</head>
+<body>
+<main data-proofpress-id="pp-exp-map-shell">
+  <header class="top" data-proofpress-id="pp-exp-map-title">
+    <div><div class="eyebrow">Proofpress × Harvey LAB · Paired calibration</div><h1 data-proofpress-id="2ed4aa7d">Does governed handoff improve long-horizon legal work?</h1></div>
+    <div class="meta"><strong>1 frozen matter</strong><br>11 verified files · 72 public criteria<br>payable calls require explicit authorization</div>
+  </header>
+  <div class="legend" aria-label="Legend" data-proofpress-id="pp-exp-map-legend"><span><i class="dot"></i>RAW WORK</span><span><i class="dot trust"></i>PROOFPRESS</span><span><i class="dot human"></i>HUMAN GATE</span><span><i class="dot eval"></i>EVALUATION</span><span><i class="dash"></i>COLD BOUNDARY</span></div>
+  <section class="canvas" aria-label="Experiment structure" data-proofpress-id="pp-exp-map-canvas">
+    <div class="source-row"><button class="node raw" data-key="source" aria-pressed="true"><span class="step">Frozen input</span><h3 data-proofpress-id="573a7d33">Harvey LAB contract matter</h3><p data-proofpress-id="7027be74">Same task, files, model, tools, limits, and evaluator.</p></button></div>
+    <div class="fork"></div>
+    <div class="lanes">
+      <section class="lane" data-proofpress-id="pp-exp-map-raw-lane"><div class="lane-head"><h2 data-proofpress-id="341ac789">C1 · Raw handoff</h2><span>CONTROL</span></div><div class="steps">
+        <button class="node raw" data-key="raw-s12"><span class="step">S1–S2</span><h3 data-proofpress-id="25a05a29">Agent works</h3><p data-proofpress-id="ec2f7b5a">Reads staged matter files and writes a readable summary.</p></button>
+        <button class="node raw" data-key="raw-pack"><span class="step">Transfer</span><h3 data-proofpress-id="385e57e2">Ordinary workspace</h3><p data-proofpress-id="c5a09dd6">Source files plus raw handoff state.</p></button>
+        <div class="handoff"><strong>FRESH PROCESS + EMPTY WORKSPACE</strong> · before S3</div>
+        <button class="node raw" data-key="raw-s34"><span class="step">S3–S4</span><h3 data-proofpress-id="010913db">Receiver continues</h3><p data-proofpress-id="b9308e26">Trusts or revalidates the readable handoff.</p></button>
+        <button class="node raw" data-key="raw-doc"><span class="step">Output</span><h3 data-proofpress-id="d3c37794">Final legal memo</h3><p data-proofpress-id="184d2c1f">Required DOCX deliverable.</p></button>
+      </div></section>
+      <section class="lane" data-proofpress-id="pp-exp-map-trust-lane"><div class="lane-head"><h2 data-proofpress-id="7824c124">C2 · Proofpress</h2><span>TREATMENT</span></div><div class="steps">
+        <button class="node trust" data-key="pp-distill"><span class="step">S1–S2</span><h3 data-proofpress-id="2d1d9ab4">Evidence → conclusions</h3><p data-proofpress-id="8ad03d4f">Source-bound proposals enter an append-only ledger.</p></button>
+        <button class="node human" data-key="pp-gate"><span class="step">Gate</span><h3 data-proofpress-id="e0e89e87">Checks + human review</h3><p data-proofpress-id="13b5c87e">Deterministic evaluation; authorized non-proposer decides.</p></button>
+        <div class="handoff"><strong>FRESH PROCESS + EMPTY WORKSPACE</strong> · before S3</div>
+        <button class="node trust" data-key="pp-context"><span class="step">S3–S4</span><h3 data-proofpress-id="54c2a9c1">Trusted context only</h3><p data-proofpress-id="09e28841">Receiver inherits admitted, current, in-scope conclusions.</p></button>
+        <button class="node trust" data-key="pp-doc"><span class="step">Output</span><h3 data-proofpress-id="a12ac1dc">Final legal memo</h3><p data-proofpress-id="5b845a9e">Same required DOCX deliverable.</p></button>
+      </div></section>
+    </div>
+    <div class="merge"></div>
+    <div class="score-row" data-proofpress-id="pp-exp-map-score">
+      <button class="node eval" data-key="score"><span class="step">Frozen public rubric</span><h3 data-proofpress-id="ab3529b6">72 criterion decisions</h3><p data-proofpress-id="2a3d0022">Same grader for both conditions; not Harvey's private leaderboard.</p></button><div class="operator">→</div>
+      <button class="node eval" data-key="pareto"><span class="step">Decision</span><h3 data-proofpress-id="3993d021">Quality × cost × latency</h3><p data-proofpress-id="d5cac0d6">Paired delta, regressions, complete treatment overhead, Pareto frontier.</p></button>
+    </div>
+    <aside class="detail" aria-live="polite" data-proofpress-id="pp-exp-map-detail"><div class="label" id="detail-label">FROZEN INPUT</div><div><h4 id="detail-title" data-proofpress-id="f3368726">One matter becomes one matched experiment</h4><p id="detail-body" data-proofpress-id="91cb0f90">Both conditions start from the same pinned Harvey commit and byte-verified matter files. The only intended difference is what crosses the agent handoff.</p></div><code id="detail-proof">commit 7be41d57…<br>11/11 SHA-256 verified<br>72 public criteria</code></aside>
+    <footer class="boundary" data-proofpress-id="pp-exp-map-boundary"><span><strong>Causal comparison:</strong> Raw handoff vs governed handoff.</span><span><strong>Human authority:</strong> judge recommends; only the human reviewer admits.</span><span><strong>Claim boundary:</strong> public-task composition, not official private leaderboard.</span></footer>
+  </section>
+</main>
+<script>
+const details={
+source:["FROZEN INPUT","One matter becomes one matched experiment","Both conditions start from the same pinned Harvey commit and byte-verified matter files. The only intended difference is what crosses the agent handoff.","commit 7be41d57…\n11/11 SHA-256 verified\n72 public criteria"],
+"raw-s12":["CONTROL · S1–S2","Ordinary long-horizon work","The sender sees only the files released for the current stage. Its readable summary becomes the raw handoff state.","same model · same limits\nindependent calls"],
+"raw-pack":["CONTROL · TRANSFER","Raw continuity without governance","The transfer contains the matter workspace and readable summary, but no ledger, verifier receipt, transcript, or hidden memory.","C1 ordinary portable handoff"],
+"raw-s34":["CONTROL · RECEIVER","A fresh agent decides what to trust","The old process and workspace are gone. The receiver must continue from the transferred files and raw summary.","cold boundary before S3"],
+"raw-doc":["CONTROL · OUTPUT","Comparable final artifact","The receiver produces the exact same requested escalation-approval memo as C2.","escalation-approval-memo.docx"],
+"pp-distill":["TREATMENT · DISTILL","Raw work becomes evidence-bound proposals","Proofpress imports the source files, records immutable evidence receipts, and binds candidate conclusions to named evidence.","evidence import → propose → evaluate"],
+"pp-gate":["TREATMENT · AUTHORITY","No model can silently create trusted knowledge","Deterministic checks run first. A model may recommend, but an authorized non-proposer human must admit or reject every conclusion.","AWAITING_HUMAN_REVIEW\nsigned HUMAN_REVIEW.json"],
+"pp-context":["TREATMENT · RECEIVER","Only governed knowledge crosses the boundary","The fresh receiver sees current, admitted, scope- and actor-compatible conclusions. Rejected and unresolved items stay blocked and auditable.","proofpress context\nscope: legal:msa-escalation"],
+"pp-doc":["TREATMENT · OUTPUT","Comparable final artifact","C2 produces the same DOCX under the same model and execution limits; all Proofpress overhead is counted.","distill + review + context cost included"],
+score:["PUBLIC RUBRIC","One frozen grader, every criterion","Both final memos are evaluated against all 72 public task criteria with the same frozen evaluator configuration.","all-pass + criterion-pass\nnot private leaderboard"],
+pareto:["RESEARCH DECISION","Did Proofpress move the frontier?","We compare paired quality, total tokens, normalized cost, latency, unsafe propagation, false stops, and every task-level regression.","quality no worse + resource no worse\nwith ≥1 strict improvement"]};
+document.querySelectorAll(".node[data-key]").forEach(button=>button.addEventListener("click",()=>{document.querySelectorAll(".node[data-key]").forEach(x=>x.setAttribute("aria-pressed","false"));button.setAttribute("aria-pressed","true");const d=details[button.dataset.key];document.getElementById("detail-label").textContent=d[0];document.getElementById("detail-title").textContent=d[1];document.getElementById("detail-body").textContent=d[2];document.getElementById("detail-proof").textContent=d[3]}));
+</script>
+</body>
+</html>
