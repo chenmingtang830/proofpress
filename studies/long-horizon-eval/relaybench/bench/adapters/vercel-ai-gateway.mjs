@@ -5,7 +5,7 @@ export function preflightVercelGateway(config, env = process.env) {
   const errors = [];
   if (!env[keyName]) errors.push(`missing ${keyName}`);
   if (!config.provider_only) errors.push("provider_only must pin exactly one serving provider");
-  if (config.resolved_model !== "moonshotai/kimi-k3") errors.push("resolved_model must be moonshotai/kimi-k3 for Track B");
+  if (!/^[^/]+\/[^/]+$/.test(config.resolved_model ?? "")) errors.push("resolved_model must use provider/model format");
   return { passed: errors.length === 0, endpoint: config.endpoint, model: config.resolved_model,
     provider_only: config.provider_only, credential_present: Boolean(env[keyName]), errors };
 }
@@ -37,6 +37,7 @@ export function createVercelGatewayAdapter(config, deps = {}) {
             messages: [{ role: "user", content: request.prompt }],
             temperature: config.temperature,
             max_tokens: config.max_output_tokens,
+            ...(config.reasoning_effort ? { reasoning: { effort: config.reasoning_effort } } : {}),
             providerOptions: { gateway: { only: [config.provider_only] } },
           }),
         });
@@ -47,7 +48,10 @@ export function createVercelGatewayAdapter(config, deps = {}) {
         raw_output: body.choices?.[0]?.message?.content ?? "",
         telemetry: {
           route: config.endpoint, model: body.model ?? config.resolved_model,
-          serving_provider: response.headers.get("x-ai-gateway-provider") ?? config.provider_only,
+          model_requested: config.resolved_model,
+          model_reported: body.model ?? null,
+          serving_provider_requested: config.provider_only,
+          serving_provider_reported: response.headers.get("x-ai-gateway-provider") ?? null,
           request_id: response.headers.get("x-vercel-id") ?? body.id ?? null,
           wall_clock_latency_ms: Math.round(performance.now() - started),
           input_tokens: body.usage?.prompt_tokens ?? null,
