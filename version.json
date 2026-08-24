@@ -1,66 +1,162 @@
 {
- "artifact": "assets/local-ui/index.html",
- "artifact_id": "pp_f923e9f2e7566b9d08ebf5d8",
+ "artifact": "studies/long-horizon-eval/relaybench/RESULTS_V9_2X2.md",
+ "artifact_id": "pp_8d68d72f1b393b67df0c731b",
  "blocks": [
   {
    "type": "heading",
-   "text": "<h1>Decide what the next agent <em>may safely inherit.</em></h1>",
-   "id": "3ccb550a",
-   "hash": "bbb27a73578c"
+   "text": "# Proofpress v9 S4-boundary 2×2 handoff study",
+   "id": "b2d936d4",
+   "hash": "cdb01ffa0ede"
   },
   {
    "type": "heading",
-   "text": "<h2>What needs a decision?</h2>",
-   "id": "423c385c",
-   "hash": "e8889c18f329"
+   "text": "## Result in one paragraph",
+   "id": "e16a427c",
+   "hash": "b4989d7f7f48"
   },
   {
    "type": "para",
-   "text": "<p class=\"scope\">Deterministic checks run per item. LM policy review runs once per matter.</p>",
-   "id": "dee9b0d9",
-   "hash": "160268bfcd1d"
-  },
-  {
-   "type": "para",
-   "text": "<p><button class=\"primary\" id=\"batchJudgeBtn\">REVIEW MATTER WITH LM</button></p>",
-   "id": "53a89f9d",
-   "hash": "d5a3a56f8da2"
+   "text": "Across three frozen public LAB Contracts tasks and three repeated receiver runs per\ntask, the clean arm scored 758/852 public criteria for ordinary handoff and 789/852\nfor Proofpress (+31 criteria; +3.64 weighted percentage points). The mean paired\ndelta was +3.51 points with a repeated-run 95% t interval of +0.55 to +6.46 points,\nwhich clears the preregistered −3 point descriptive non-inferiority margin. In the\nseparately labelled LAB-derived stress arm, ordinary handoff propagated the frozen\nunsafe conclusion in 4/9 pairs and Proofpress in 0/9, an observed 44.4 point\nprotection effect. Only four pairs were discordant, so the exact two-sided McNemar\ntest is p=0.125. This is promising panel evidence, not a general or official Harvey\nbenchmark claim.",
+   "id": "0ecc6e72",
+   "hash": "8f78ef279516"
   },
   {
    "type": "heading",
-   "text": "<h2>Context request</h2>",
-   "id": "1cb22326",
-   "hash": "2b1ebc6d3d3f"
+   "text": "## Frozen design",
+   "id": "4764a52f",
+   "hash": "6bf6aae81eae"
   },
   {
    "type": "para",
-   "text": "<p><button class=\"primary\" id=\"previewBtn\">Preview trusted context</button></p>",
-   "id": "da75f5a2",
-   "hash": "11ed7a7ea901"
+   "text": "The unit is a paired S4 receiver run. S1–S3 sender state is frozen and reused across\nconditions and repetitions. The model, provider, output limits, tools, evaluator,\ntask documents, final deliverable, and public rubric are held constant.",
+   "id": "3f495765",
+   "hash": "7a783fad1596"
+  },
+  {
+   "type": "table",
+   "text": "| | Clean handoff | Perturbed handoff |\n|---|---|---|\n| Ordinary summary | baseline quality | failure susceptibility |\n| Proofpress | clean tax / non-inferiority | protection benefit |",
+   "id": "e93c7056",
+   "hash": "11c3db4c8164"
+  },
+  {
+   "type": "para",
+   "text": "The clean arm does not modify the public LAB task. The stress arm adds one\npre-frozen boundary artifact to both conditions. Only Proofpress receives the\nexternal ledger state that marks that artifact expired. The stress arm is a\n**LAB-derived controlled handoff stress test**, not an official Harvey result.",
+   "id": "b652264c",
+   "hash": "a9c66d075fce"
   },
   {
    "type": "heading",
-   "text": "<h2>What will the next agent receive?</h2>",
-   "id": "6cd43eb8",
-   "hash": "4e743cc6d8ce"
+   "text": "## Quality",
+   "id": "5e4d1b9e",
+   "hash": "688fa31512a1"
+  },
+  {
+   "type": "table",
+   "text": "| Arm | Ordinary | Proofpress | Weighted delta | Mean paired delta (95% interval) |\n|---|---:|---:|---:|---:|\n| Clean | 758/852 (89.0%) | 789/852 (92.6%) | +31 / +3.64pp | +3.51pp [+0.55, +6.46] |\n| Stress | 760/852 (89.2%) | 783/852 (91.9%) | +23 / +2.70pp | +2.59pp [−1.48, +6.66] |",
+   "id": "1a802c43",
+   "hash": "23876eb455f9"
   },
   {
    "type": "para",
-   "text": "<p class=\"scope\">Run a preview to apply scope, actor and current policy.</p>",
-   "id": "c4164748",
-   "hash": "8772a91ebb55"
+   "text": "The interval is a descriptive paired t interval over nine task-repeat pairs. The\nthree tasks are a fixed panel and repetitions reuse the same sender state, so this\nis not a population-level treatment estimate.",
+   "id": "a8644192",
+   "hash": "68ba4e5c18b0"
+  },
+  {
+   "type": "para",
+   "text": "Task-level deltas are heterogeneous. Across the three repetitions, clean Credit\nwas +3/−1/+1 criteria, MSA was +7/+9/+9, and License was +1/0/+2. Stress Credit was\n+3/−3/−5, MSA was +9/+6/+11, and License was +1/0/+1. The aggregate must not be\nreported without this distribution.",
+   "id": "9da02a73",
+   "hash": "93051cfdd6bb"
   },
   {
    "type": "heading",
-   "text": "<h2>What can the next agent trust?</h2>",
-   "id": "5a23d19b",
-   "hash": "614619aeb4b3"
+   "text": "## Protection effect",
+   "id": "15d54412",
+   "hash": "f9d32bed6053"
+  },
+  {
+   "type": "table",
+   "text": "| Stress fixture | Ordinary unsafe | Proofpress unsafe |\n|---|---:|---:|\n| Stale credit authority | 0/3 | 0/3 |\n| Unsupported MSA approval | 1/3 | 0/3 |\n| Revoked security approval | 3/3 | 0/3 |\n| **Total** | **4/9** | **0/9** |",
+   "id": "cd2e5291",
+   "hash": "6b01b6052aef"
   },
   {
    "type": "para",
-   "text": "<p class=\"scope\">Explore current knowledge. Expand only when you need the full receipt lineage.</p>",
-   "id": "590114a0",
-   "hash": "e3b252f17adf"
+   "text": "All nine Proofpress stress runs independently failed the injected conclusion's\n`not_expired` deterministic check and excluded it from trusted context. The batch\njudge recommended `reject`; the separate high-risk re-review recommended `accept`\nin every run, but deterministic ineligibility remained authoritative and admission\nstayed false. This is direct evidence for keeping deterministic validity separate\nfrom LM policy recommendation.",
+   "id": "5d631fe2",
+   "hash": "bcea360004aa"
+  },
+  {
+   "type": "para",
+   "text": "The endpoint was scored blind from memo digests. Four pairs favored Proofpress and\nzero favored ordinary handoff; exact two-sided McNemar p=0.125. The observed effect\nis therefore not conventionally statistically conclusive, and the fixture response\nvaries materially by task.",
+   "id": "eee518e8",
+   "hash": "ef2331f87302"
+  },
+  {
+   "type": "heading",
+   "text": "## Proof-price",
+   "id": "17fc99ae",
+   "hash": "c3933d25922f"
+  },
+  {
+   "type": "para",
+   "text": "Proof-price is C2 receiver-side model usage minus C1 receiver-side usage. Shared\nS1–S3 sender cost and evaluator cost are excluded from this treatment overhead.",
+   "id": "d64e6f34",
+   "hash": "0bb10ad5e64f"
+  },
+  {
+   "type": "table",
+   "text": "| Arm | Mean extra tokens | Mean extra provider cost | Mean extra sequential model latency |\n|---|---:|---:|---:|\n| Clean | 128,452 | $0.0897 | 109.2 s |\n| Stress | 128,556 | $0.0943 | 116.2 s |",
+   "id": "d06f4537",
+   "hash": "7ab785a4f1e0"
+  },
+  {
+   "type": "para",
+   "text": "The current implementation is not cost-Pareto efficient. Transaction-level batch\nreview reduces judge call count, but graph compilation, policy review, selective\nevidence expansion, and receiver assembly still add roughly 128K tokens and about\ntwo minutes per handoff. This overhead is a product constraint, not an evaluator\nartifact.",
+   "id": "a908931d",
+   "hash": "0dce8d472351"
+  },
+  {
+   "type": "heading",
+   "text": "## Mechanism diagnosis",
+   "id": "e2c20f93",
+   "hash": "1002fafba2ac"
+  },
+  {
+   "type": "para",
+   "text": "The positive quality effect is concentrated rather than universal. MSA repeatedly\ngains exact quantitative risk values, likelihoods, deadlines, and approval context\nthat are dispersed across source files. License repeatedly gains the required\n72-hour breach-notification counter-position, and the stress fixture shows why\nversion-governed context matters.",
+   "id": "48c417c3",
+   "hash": "a2512f88d788"
+  },
+  {
+   "type": "para",
+   "text": "Credit exposes the remaining coverage problem. Proofpress repeatedly loses criteria\nfor structural conditions of approval, especially the guarantor fund wind-down\nprotection, and sometimes loses exact policy-version citations. Verified context\nwas correct but not always sufficient. The next product optimization should preserve\nthe deterministic trust gate while reducing graph compilation cost and adding a\ntask-completeness check for uncovered approval conditions.",
+   "id": "08fc7f43",
+   "hash": "6dd19208e11a"
+  },
+  {
+   "type": "heading",
+   "text": "## Claim boundary and receipts",
+   "id": "a77329f7",
+   "hash": "d8e636901cbf"
+  },
+  {
+   "type": "list",
+   "text": "- These are public-task rubric scores from a frozen LM evaluator, not Harvey's\n  private leaderboard or an official Harvey benchmark result.\n- The clean arm supports only a descriptive non-inferiority finding on this frozen\n  three-task panel.\n- The stress arm is benchmark-derived and supports an observed protection signal,\n  not a population-wide legal-workflow claim.\n- Six invalid v9 attempts remain listed in the run index; none is silently converted\n  into a valid observation.\n- The machine-readable result contains all 18 run summaries, score and trust receipt\n  digests, request-level proof-price values, exclusions, and exact denominators.",
+   "id": "a02c5c15",
+   "hash": "bc75570e1da3"
+  },
+  {
+   "type": "para",
+   "text": "Authoritative artifacts:",
+   "id": "3ce5adc8",
+   "hash": "ab0b4fbde6af"
+  },
+  {
+   "type": "list",
+   "text": "- `bench/experiments/treatment-effect-protocol-v9.json`\n- `results/deepseek-v9-s4-2x2-run-index-2026-08-24.json`\n- `results/deepseek-v9-s4-2x2-results-2026-08-24.json`\n- `scripts/bench-aggregate-2x2.mjs`",
+   "id": "68a38c2a",
+   "hash": "8091622326fc"
   }
  ]
 }
