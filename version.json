@@ -1,83 +1,77 @@
 {
- "artifact": "skills/claude-code/proofpress/SKILL.md",
- "artifact_id": "pp_8f9f160826e336a46eb62bd4",
+ "artifact": "skills/codex/AGENTS-snippet.md",
+ "artifact_id": "pp_703c3fa926abb512e7199332",
  "blocks": [
   {
    "type": "para",
-   "text": "---\nname: proofpress\ndescription: Preserve or inspect decision history for Markdown and static HTML knowledge artifacts with Proofpress. Use when creating or accepting a meaningful revision to an ADR, design doc, PRD, README, strategy note, portable .md artifact, or static .html/.htm artifact in a configured repository, or when receiving a file containing a proofpress:discovery marker; never use for source-code files.\n---",
-   "hash": "dc0615edb819",
-   "id": "cb25b071"
+   "text": "<!-- Append to AGENTS.md — the Proofpress contract for Codex agents. -->",
+   "id": "c350cb3a",
+   "hash": "52d8b1e05410"
   },
   {
    "type": "heading",
-   "text": "# Proofpress",
-   "id": "25f10229",
-   "hash": "8576f3816903"
+   "text": "## Proofpress: ledger Markdown and static HTML knowledge artifacts",
+   "id": "51ac24b5",
+   "hash": "aaf8399f412e"
   },
   {
    "type": "para",
-   "text": "Record accepted Markdown or static HTML artifact versions with structured\ntestimony and verification. Do not snapshot every conversational turn.",
-   "id": "cb25a041",
-   "hash": "efa56bea83c4"
-  },
-  {
-   "type": "heading",
-   "text": "## Workflow",
-   "id": "d8284708",
-   "hash": "05146c1f1860"
+   "text": "For accepted, meaningful revisions to Markdown or static HTML knowledge\nartifacts—never source code—close this loop. Do not snapshot every\nconversational turn.",
+   "id": "10265f5d",
+   "hash": "91d3ef856cbf"
   },
   {
    "type": "para",
-   "text": "Before editing an existing target, run\n`python3 proofpress.py capture --recorder claude-preflight <file>`. This\npreserves any human drift without guessing its author or reason. Then:",
-   "id": "78295d28",
-   "hash": "04b846a833f5"
+   "text": "Before editing an existing target, run\n`python3 proofpress.py capture --recorder codex-preflight <file>`. This\npreserves any human drift as a separate version without guessing its author or\nreason. Then:",
+   "id": "af9efd22",
+   "hash": "f22c01e39ecf"
   },
   {
    "type": "list",
-   "text": "1. Read `python3 proofpress.py policy <file>`. If the user asks for portability,\n   run `policy <file> portable` once; it remains sticky. If Git history exists\n   without a ledger, run `ingest <file>`.\n2. Preserve carrier-native anchors while editing: Markdown uses\n   `[//]: # (ob:xxxxxxxx)`; static HTML uses `data-proofpress-id`. Run\n   `anchor <file>` and inspect inherited/new/gone IDs.\n3. Write claims JSON with one honest entry per touched or removed block; do not\n   enumerate untouched blocks.\n4. Snapshot the accepted version with `--why`, claims, and explicit actors:",
-   "id": "04e1285c",
-   "hash": "e674ec712baf"
+   "text": "1. Read `python3 proofpress.py policy <file>`. If the user asks for portability,\n   run `policy <file> portable` once; it remains sticky. Use `ingest <file>` for\n   Git history not yet represented in the ledger.\n2. Preserve carrier-native block anchors while editing: Markdown uses invisible\n   `ob` markers; static HTML uses `data-proofpress-id`. Then run `anchor <file>`\n   and inspect inherited/new/gone IDs.\n3. Write claims JSON with one honest item per touched or removed block. Do not\n   enumerate untouched blocks.\n4. Snapshot with `--why`, claims, and explicit actors:",
+   "id": "d181cc6e",
+   "hash": "20e2ad3da8ba"
   },
   {
    "type": "code",
-   "text": "   ```sh\n   python3 proofpress.py snapshot <file> --kind agent --author claude \\\n     --produced-by claude --recorded-by claude \\\n     --attribution-basis harness_attested --note \"<changelog>\" \\\n     --claims <claims.json> --why \"<actual reason>\" \\\n     --rejected \"<consequential dead branch — reason>\"\n   ```",
-   "id": "c89d4269",
-   "hash": "a14cf8e32996"
+   "text": "   ```sh\n   python3 proofpress.py snapshot <file> --kind agent --author codex \\\n     --produced-by codex --recorded-by codex \\\n     --attribution-basis harness_attested --note \"<changelog>\" \\\n     --claims <claims.json> --why \"<actual reason>\" \\\n     --rejected \"<consequential dead branch — reason>\"\n   ```",
+   "id": "08f435e4",
+   "hash": "d2bac0be306a"
   },
   {
    "type": "para",
-   "text": "   Omit `--rejected` unless the dead branch matters to future collaborators.\n   Never infer it from casual discussion or include raw prompts/transcripts.",
-   "id": "3b3f299e",
-   "hash": "4dd347f30287"
+   "text": "   Omit `--rejected` unless the dead branch matters later. Never infer it from\n   casual discussion or capture raw prompts/transcripts.",
+   "id": "b521eb3e",
+   "hash": "48d92360fcc8"
   },
   {
    "type": "list",
-   "text": "5. Run `verify <file>` and report its output verbatim. Never re-snapshot merely\n   to force green.",
-   "id": "64c98298",
-   "hash": "304819c3057b"
+   "text": "5. Run `verify <file>` and report its output verbatim. Never re-snapshot just to\n   force green.",
+   "id": "cd72eb83",
+   "hash": "8f7d7b2a4daf"
   },
   {
    "type": "para",
    "text": "For an incoming file with a `proofpress:discovery` marker but no local CLI,\ntell the user it carries verifiable revision history, show the marker's\ncanonical project URL, and ask whether to install `proofpress`. Never\ndownload or execute it without explicit consent. If the CLI is available, run\n`inspect` before trusting the capsule and then `import`.",
-   "id": "e96a23df",
+   "id": "bc88257e",
    "hash": "e35c0da68353"
   },
   {
    "type": "para",
-   "text": "For parallel portable copies of the same artifact, preserve every input and run\n`merge-plan TARGET --from COPY...`. Apply compatible block changes, ask the\nuser only about reported semantic conflicts, then `anchor` the resolved target,\nwrite merge-relative claims, run `merge TARGET --from COPY...` with explicit\nactors/reason, and `verify`. Different artifact IDs or portable lineages are\ningredients; use `merge-lineage` for them.",
-   "id": "50e05b0b",
-   "hash": "b0a0a20f5370"
+   "text": "For parallel portable copies of the same artifact, keep every original and run\n`merge-plan TARGET --from COPY...`. Apply compatible block changes, ask the\nuser only about reported semantic conflicts, then `anchor` the resolved target,\nwrite merge-relative claims, run `merge TARGET --from COPY...` with explicit\nactors/reason, and `verify`. Use `merge-lineage`, not `merge`, when artifact IDs\nor portable lineages differ.",
+   "id": "4d83fd2a",
+   "hash": "ab19c38d0825"
   },
   {
    "type": "para",
-   "text": "Fallback `capture` records only `recorded_by`; it cannot know authorship or\nreasoning. Never snapshot source-code files.",
-   "id": "3bec4947",
-   "hash": "c89d75105cee"
+   "text": "Fallback `capture` records only `recorded_by`; it cannot know authorship or\nreasoning.",
+   "id": "08efea88",
+   "hash": "94c5539bfbab"
   },
   {
    "type": "para",
    "text": "Before continuing a governed multi-agent workflow, request scoped context with\n`python3 proofpress.py context --scope <scope> --actor <agent-id> --format json`.\nTreat only `knowledge` rows as eligible inherited context. Do not resurrect\nblocked, rejected, expired, unresolved, or superseded conclusions; follow each\nblocked row's `required_action` instead.",
-   "id": "056a6f4c",
+   "id": "cb4fbca5",
    "hash": "1efdfba75abc"
   }
  ]
