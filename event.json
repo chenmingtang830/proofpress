@@ -2,32 +2,57 @@
  "event": "version_created",
  "artifact": "studies/long-horizon-eval/relaybench/PROOFPRESS_PARETO_STUDY.md",
  "artifact_id": "pp_ffddb1d2cc98a01371a598e2",
- "version": "33873e27",
- "parent": "cae5e8f8",
+ "version": "0423fd9e",
+ "parent": "33873e27",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-24T05:53:48+00:00",
+ "ts": "2026-08-24T06:06:18+00:00",
  "stats": {
+  "modified": 4,
   "added": 1
  },
  "changes": [
   {
+   "kind": "modified",
+   "block": "57eeadf3",
+   "type": "para",
+   "context": "Decision"
+  },
+  {
+   "kind": "modified",
+   "block": "5947a59d",
+   "type": "para",
+   "context": "C2 — Proofpress governed handoff"
+  },
+  {
+   "kind": "modified",
+   "block": "daa79044",
+   "type": "para",
+   "context": "Execution readiness"
+  },
+  {
+   "kind": "modified",
+   "block": "8a9e8051",
+   "type": "para",
+   "context": "Execution readiness"
+  },
+  {
    "kind": "added",
-   "block": "1d9da899",
+   "block": "4fa7f2a1",
    "type": "para",
    "context": "Execution readiness",
-   "preview": "[Interactive experiment structure: Raw handoff versus Proofp"
+   "preview": "The automated admission path is an experimental treatment, n"
   }
  ],
  "policy": "local",
- "soft_fingerprint": "ppsb1:b3863f8b2fae35f141f1463575f40abc9c8d89f8d2f03bf025c833eef6b008f5",
+ "soft_fingerprint": "ppsb1:4ef9abfee627fd6e5ad059048b7613004485030268970aa0dbcecfc008b3f0c9",
  "actors": {
   "requested_by": [
-   "human:richard-tang"
+   "human:richard"
   ],
   "produced_by": [
    "agent:codex"
@@ -39,16 +64,36 @@
    "agent:codex"
   ]
  },
- "attribution_basis": "environment_attested",
+ "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "1d9da899",
+   "block": "57eeadf3",
+   "kind": "modified",
+   "note": "Count policy-gate work as treatment overhead."
+  },
+  {
+   "block": "5947a59d",
+   "kind": "modified",
+   "note": "Replace runtime human admission with frozen research-only automated policy admission."
+  },
+  {
+   "block": "daa79044",
+   "kind": "modified",
+   "note": "Document automated prepare/resume workflow and post-run human audit boundary."
+  },
+  {
+   "block": "8a9e8051",
+   "kind": "modified",
+   "note": "Document frozen worker and policy-judge routes."
+  },
+  {
+   "block": "4fa7f2a1",
    "kind": "added",
-   "note": "Links the canonical interactive experiment structure from the research plan."
+   "note": "State research-only versus production authority boundary."
   }
  ],
  "context": {
-  "why": "Link the canonical experiment visualization directly from the executable research plan."
+  "why": "Remove runtime human-review confound from the primary causal experiment while preserving a clear production authority boundary."
  },
- "event_id": "ppe_c0af0b4b98dccb310d14cd82"
+ "event_id": "ppe_31df97ff03551d726e46f549"
 }

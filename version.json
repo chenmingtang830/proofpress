@@ -34,9 +34,9 @@
   },
   {
    "type": "para",
-   "text": "This is not a comparison against a separate memory or ontology product. Any\ndistillation, verification, judging, or review used by Proofpress is part of the\ntreatment and its complete token, latency, and dollar cost must be counted.",
+   "text": "This is not a comparison against a separate memory or ontology product. Any\ndistillation, verification, judging, or policy-gate work used by Proofpress is part of the\ntreatment and its complete token, latency, and dollar cost must be counted.",
    "id": "57eeadf3",
-   "hash": "e93a86d6f160"
+   "hash": "14b8624af8fd"
   },
   {
    "type": "heading",
@@ -154,9 +154,9 @@
   },
   {
    "type": "para",
-   "text": "The receiving agent gets byte-identical source material. Before the boundary, the\nsender may import evidence and propose conclusions. Deterministic checks and the\nfrozen policy may evaluate them; an authorized non-proposer review identity makes\nthe admission decision. After the boundary, the receiver gets only the output of:",
+   "text": "The receiving agent gets byte-identical source material. Before the boundary, the\nsender may import evidence and propose conclusions. Deterministic checks run first;\na frozen LM judge returns `accept`, `reject`, or `escalate`; and a deterministic,\nresearch-only policy executor admits only `eligible AND accept`. `reject` and\n`escalate` fail closed. After the boundary, the receiver gets only the output of:",
    "id": "5947a59d",
-   "hash": "8b510fcb5f99"
+   "hash": "bf52fe0504c3"
   },
   {
    "type": "code",
@@ -340,9 +340,9 @@
   },
   {
    "type": "para",
-   "text": "The real runner is two-phase. `prepare` runs S1–S2 independently for C1 and C2,\nbuilds the C2 evidence-bound ledger, then stops at `AWAITING_HUMAN_REVIEW`.\nThe authorized reviewer must decide every conclusion and add `signed_at` to\n`HUMAN_REVIEW.json`. `resume` applies those decisions, materializes trusted context,\ncreates fresh receiver workspaces, runs S3–S4, and converts the final Markdown memo\nto the required DOCX with Pandoc.",
+   "text": "The real runner is two-phase. `prepare` runs S1–S2 independently for C1 and C2,\nbuilds the C2 evidence-bound ledger, extracts bounded source text, runs deterministic\nchecks and the frozen policy judge, then records the research policy decision.\n`resume` materializes trusted context, creates fresh receiver workspaces, runs S3–S4,\nand converts the final Markdown memo to the required DOCX with Pandoc. Human review\nis reserved for blind post-run error analysis and cannot alter continuation.",
    "id": "daa79044",
-   "hash": "428ff034a54d"
+   "hash": "efe09a7c865f"
   },
   {
    "type": "code",
@@ -352,9 +352,15 @@
   },
   {
    "type": "para",
-   "text": "Both phases require the explicit payable-call flag. Track A currently passes the\nnon-payable local preflight with Claude Code 2.1.234. Track B remains blocked until\n`AI_GATEWAY_API_KEY` is present; the gateway adapter hard-pins `moonshotai/kimi-k3`\nand one serving provider and does not permit provider fallback.",
+   "text": "Both phases require the explicit payable-call flag. Track A currently passes the\nnon-payable local preflight with Claude Code 2.1.234. Track B and the policy judge use\n`AI_GATEWAY_API_KEY`; the worker adapter hard-pins `moonshotai/kimi-k3`, the policy\njudge hard-pins `google/gemini-3-flash`, and neither permits provider fallback.",
    "id": "8a9e8051",
-   "hash": "94c86dc2c618"
+   "hash": "e50cd024c09b"
+  },
+  {
+   "type": "para",
+   "text": "The automated admission path is an experimental treatment, not a change to the\nproduction Proofpress authority model. The LM recommendation is not legal truth.\nProduction deployments retain authorized human admission for ambiguous exceptions,\nbusiness risk appetite, and accountable approval; a later C3 ablation can measure\nthat operational workflow separately.",
+   "id": "4fa7f2a1",
+   "hash": "51a1b48155d4"
   },
   {
    "type": "heading",
