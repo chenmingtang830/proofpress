@@ -77,7 +77,13 @@ One unit is a matched pair on one version-pinned Harvey LAB matter:
    and provider route;
 3. one registered cold worker/workspace boundary;
 4. raw and Proofpress conditions run with independent model calls; and
-5. final deliverables scored with the same official LAB evaluator configuration.
+5. final deliverables scored with one frozen evaluator against the 72 public LAB
+   criteria.
+
+[//]: # (ob:dd7734b6)
+This produces a score on our public-task composition. It is not an official Harvey
+private-leaderboard score because the private evaluation service is not part of the
+public repository.
 
 [//]: # (ob:41a8ded2)
 The first calibration should use 1–3 public contract matters with consequential
@@ -165,8 +171,8 @@ cost; the run ledger preserves both.
 ### Quality
 
 [//]: # (ob:223580ee)
-- official LAB all-pass rate;
-- official LAB criterion-pass rate;
+- public-task all-pass rate;
+- public-criterion pass rate;
 - operative-version and stage-disposition correctness;
 - unsafe state propagation;
 - stale or superseded conclusion reuse;
@@ -225,6 +231,51 @@ Report at minimum:
 5. Inspect treatment receipts and task-level differences before expanding.
 6. Freeze repeat count and analysis plan for the publishable pilot.
 7. Run the pilot without changing task selection, prompts, model, or scoring.
+
+[//]: # (ob:c70ab3d2)
+## Execution readiness
+
+[//]: # (ob:d209203f)
+The first calibration matter is frozen to Harvey LAB commit
+`7be41d57fd5a6e97b5f246a029e810f83d09cd96`, task
+`contracts/commercial-vendor-customer/master-services-agreement-playbook-escalation/scenario-01`.
+The acquisition verifier checks all 11 upstream files against their recorded SHA-256
+digests; the public task contains 72 final rubric criteria.
+
+[//]: # (ob:239ce906)
+No-call preparation:
+
+[//]: # (ob:c7b93919)
+```bash
+node scripts/bench-preflight-real.mjs --harvey-checkout <harvey-labs-checkout>
+node scripts/bench-prepare-real.mjs \
+  --harvey-checkout <harvey-labs-checkout> \
+  --output <new-run-packet-directory>
+```
+
+[//]: # (ob:daa79044)
+The real runner is two-phase. `prepare` runs S1–S2 independently for C1 and C2,
+builds the C2 evidence-bound ledger, then stops at `AWAITING_HUMAN_REVIEW`.
+The authorized reviewer must decide every conclusion and add `signed_at` to
+`HUMAN_REVIEW.json`. `resume` applies those decisions, materializes trusted context,
+creates fresh receiver workspaces, runs S3–S4, and converts the final Markdown memo
+to the required DOCX with Pandoc.
+
+[//]: # (ob:96c723ca)
+```bash
+node scripts/bench-run-real.mjs --phase prepare \
+  --packet <run-packet> --output <new-run-directory> \
+  --track A_HARVEY_COMPARABLE --authorize-real-calls
+
+node scripts/bench-run-real.mjs --phase resume \
+  --output <run-directory> --authorize-real-calls
+```
+
+[//]: # (ob:8a9e8051)
+Both phases require the explicit payable-call flag. Track A currently passes the
+non-payable local preflight with Claude Code 2.1.234. Track B remains blocked until
+`AI_GATEWAY_API_KEY` is present; the gateway adapter hard-pins `moonshotai/kimi-k3`
+and one serving provider and does not permit provider fallback.
 
 [//]: # (ob:5b8f65cd)
 ## Implementation plan

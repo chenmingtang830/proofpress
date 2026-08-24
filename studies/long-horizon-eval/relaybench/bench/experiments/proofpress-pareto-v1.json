@@ -19,7 +19,16 @@
         "claude-opus-4.8"
       ],
       "route": "local Claude CLI",
-      "selection_rule": "freeze CLI version, exact resolved model, effort, permissions, timeout, retries, and fallback before calls"
+      "selection_rule": "freeze CLI version, exact resolved model, effort, permissions, timeout, retries, and fallback before calls",
+      "adapter": {
+        "binary": "claude",
+        "cli_version": "2.1.234 (Claude Code)",
+        "resolved_model": "claude-opus-4.8",
+        "timeout_ms": 1800000,
+        "max_buffer_bytes": 16777216,
+        "fallback": false,
+        "retries": 0
+      }
     },
     {
       "id": "B_OPEN_WEIGHT_COST",
@@ -27,15 +36,41 @@
         "moonshotai/kimi-k3"
       ],
       "route": "Vercel AI Gateway",
-      "selection_rule": "hard-allowlist one provider and freeze model identity, license, region, speed tier, prices, reasoning mode, and gateway metadata before calls"
+      "selection_rule": "hard-allowlist one provider and freeze model identity, license, region, speed tier, prices, reasoning mode, and gateway metadata before calls",
+      "adapter": {
+        "endpoint": "https://ai-gateway.vercel.sh/v1/chat/completions",
+        "api_key_env": "AI_GATEWAY_API_KEY",
+        "resolved_model": "moonshotai/kimi-k3",
+        "provider_only": "moonshotai",
+        "temperature": 0,
+        "timeout_ms": 1800000,
+        "fallback": false,
+        "retries": 0
+      }
     }
   ],
   "task_selection": {
     "source": "public Harvey LAB contracts materials",
+    "repository": "https://github.com/harveyai/harvey-labs.git",
+    "commit": "7be41d57fd5a6e97b5f246a029e810f83d09cd96",
     "calibration_count_min": 1,
     "calibration_count_max": 3,
-    "task_ids": [],
-    "selection_status": "REQUIRES_RESEARCH_OWNER_FREEZE"
+    "task_ids": [
+      "contracts/commercial-vendor-customer/master-services-agreement-playbook-escalation/scenario-01"
+    ],
+    "required_paths": [
+      "tasks/contracts/commercial-vendor-customer/master-services-agreement-playbook-escalation/scenario-01/task.json",
+      "tasks/contracts/commercial-vendor-customer/master-services-agreement-playbook-escalation/scenario-01/documents"
+    ],
+    "selection_status": "FROZEN_CALIBRATION"
+  },
+  "review_gate": {
+    "mode": "pause_for_authorized_human",
+    "proposer": "agent:sender",
+    "reviewer_role": "human:research-owner",
+    "identity_basis": "run-manifest-attested",
+    "judge_may_admit": false,
+    "resume_requires_signed_decision_file": true
   },
   "budget_policy": {
     "hard_cap_for_calibration": null,
@@ -63,6 +98,17 @@
     "false_stop",
     "unnecessary_revalidation"
   ],
+  "evaluator": {
+    "status": "FROZEN_PUBLIC_RUBRIC_EVALUATOR",
+    "claim_boundary": "scores the 72 public task criteria; not an official Harvey private leaderboard score",
+    "model": "google/gemini-3-flash",
+    "route": "Vercel AI Gateway",
+    "provider_only": "google",
+    "temperature": 0,
+    "api_key_env": "AI_GATEWAY_API_KEY",
+    "endpoint": "https://ai-gateway.vercel.sh/v1/chat/completions",
+    "timeout_ms": 1800000
+  },
   "pareto": {
     "quality_axis": "lab_criterion_pass_rate",
     "resource_axes": [
