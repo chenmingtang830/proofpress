@@ -33,16 +33,23 @@ export function createClaudeCliAdapter(config, deps = {}) {
         "--safe-mode", "--tools", "", "--strict-mcp-config", "--mcp-config", '{"mcpServers":{}}',
         "--disable-slash-commands"];
       const started = performance.now();
-      const { stdout, stderr } = await run(config.binary ?? "claude", args, {
-        cwd: context.workspace,
-        env: context.env ?? process.env,
-        timeout: config.timeout_ms,
-        maxBuffer: config.max_buffer_bytes ?? 16 * 1024 * 1024,
-      });
+      let stdout = ""; let stderr = ""; let invocationError = null;
+      try {
+        ({ stdout, stderr } = await run(config.binary ?? "claude", args, {
+          cwd: context.workspace,
+          env: context.env ?? process.env,
+          timeout: config.timeout_ms,
+          maxBuffer: config.max_buffer_bytes ?? 16 * 1024 * 1024,
+        }));
+      } catch (error) {
+        invocationError = error;
+        stdout = error.stdout ?? "";
+        stderr = error.stderr ?? "";
+      }
       const elapsed = Math.round(performance.now() - started);
       let envelope;
       try { envelope = JSON.parse(stdout); } catch { envelope = { result: stdout }; }
-      return validateAdapterResult({
+      const result = validateAdapterResult({
         raw_output: String(envelope.result ?? envelope.content ?? stdout),
         telemetry: {
           route: "local Claude CLI", model: config.resolved_model, wall_clock_latency_ms: elapsed,
@@ -53,8 +60,19 @@ export function createClaudeCliAdapter(config, deps = {}) {
           provider_cost_usd: envelope.total_cost_usd ?? null,
           actual_incremental_cash_usd: null, model_calls: 1, retries: 0,
           stderr: stderr || null,
+          invocation_error: invocationError ? {
+            code: invocationError.code ?? null,
+            signal: invocationError.signal ?? null,
+            killed: invocationError.killed ?? false,
+            provider_error: envelope.is_error ? String(envelope.result ?? envelope.error ?? "Claude CLI error") : null,
+          } : null,
         },
       });
+      if (invocationError && !result.raw_output.trim()) {
+        const concise = envelope.result ?? envelope.error ?? stderr ?? invocationError.code ?? "unknown error";
+        throw new Error(`Claude CLI invocation failed: ${String(concise).slice(0, 500)}`);
+      }
+      return result;
     },
   });
 }
