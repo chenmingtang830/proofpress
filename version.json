@@ -112,9 +112,15 @@
   },
   {
    "type": "list",
-   "text": "1. identical initial matter files and staged releases;\n2. identical resolved model, reasoning setting, tools, task instruction, evaluator,\n   and provider route;\n3. one registered cold worker/workspace boundary;\n4. raw and Proofpress conditions run with independent model calls; and\n5. final deliverables scored with the same official LAB evaluator configuration.",
+   "text": "1. identical initial matter files and staged releases;\n2. identical resolved model, reasoning setting, tools, task instruction, evaluator,\n   and provider route;\n3. one registered cold worker/workspace boundary;\n4. raw and Proofpress conditions run with independent model calls; and\n5. final deliverables scored with one frozen evaluator against the 72 public LAB\n   criteria.",
    "id": "cc9a861e",
-   "hash": "73babe256c94"
+   "hash": "3391a4cef5af"
+  },
+  {
+   "type": "para",
+   "text": "This produces a score on our public-task composition. It is not an official Harvey\nprivate-leaderboard score because the private evaluation service is not part of the\npublic repository.",
+   "id": "dd7734b6",
+   "hash": "83e76a1bc735"
   },
   {
    "type": "para",
@@ -238,9 +244,9 @@
   },
   {
    "type": "list",
-   "text": "- official LAB all-pass rate;\n- official LAB criterion-pass rate;\n- operative-version and stage-disposition correctness;\n- unsafe state propagation;\n- stale or superseded conclusion reuse;\n- clean continuation;\n- false stop and unnecessary revalidation rates; and\n- invalid, incomplete, abstained, and inconclusive runs with reasons.",
+   "text": "- public-task all-pass rate;\n- public-criterion pass rate;\n- operative-version and stage-disposition correctness;\n- unsafe state propagation;\n- stale or superseded conclusion reuse;\n- clean continuation;\n- false stop and unnecessary revalidation rates; and\n- invalid, incomplete, abstained, and inconclusive runs with reasons.",
    "id": "223580ee",
-   "hash": "51fae5432fa8"
+   "hash": "56050d16a960"
   },
   {
    "type": "heading",

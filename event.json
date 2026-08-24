@@ -2,71 +2,42 @@
  "event": "version_created",
  "artifact": "studies/long-horizon-eval/relaybench/PROOFPRESS_PARETO_STUDY.md",
  "artifact_id": "pp_ffddb1d2cc98a01371a598e2",
- "version": "bb12408e",
- "parent": "89666ca5",
+ "version": "cae5e8f8",
+ "parent": "bb12408e",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-24T05:37:41+00:00",
+ "ts": "2026-08-24T05:40:25+00:00",
  "stats": {
-  "added": 7
+  "modified": 2,
+  "added": 1
  },
  "changes": [
   {
-   "kind": "added",
-   "block": "c70ab3d2",
-   "type": "heading",
-   "context": "Execution readiness",
-   "preview": "## Execution readiness"
+   "kind": "modified",
+   "block": "cc9a861e",
+   "type": "list",
+   "context": "Experimental unit"
   },
   {
    "kind": "added",
-   "block": "d209203f",
+   "block": "dd7734b6",
    "type": "para",
-   "context": "Execution readiness",
-   "preview": "The first calibration matter is frozen to Harvey LAB commit\n"
+   "context": "Experimental unit",
+   "preview": "This produces a score on our public-task composition. It is "
   },
   {
-   "kind": "added",
-   "block": "239ce906",
-   "type": "para",
-   "context": "Execution readiness",
-   "preview": "No-call preparation:"
-  },
-  {
-   "kind": "added",
-   "block": "c7b93919",
-   "type": "code",
-   "context": "Execution readiness",
-   "preview": "```bash\nnode scripts/bench-preflight-real.mjs --harvey-check"
-  },
-  {
-   "kind": "added",
-   "block": "daa79044",
-   "type": "para",
-   "context": "Execution readiness",
-   "preview": "The real runner is two-phase. `prepare` runs S1–S2 independe"
-  },
-  {
-   "kind": "added",
-   "block": "96c723ca",
-   "type": "code",
-   "context": "Execution readiness",
-   "preview": "```bash\nnode scripts/bench-run-real.mjs --phase prepare \\\n  "
-  },
-  {
-   "kind": "added",
-   "block": "8a9e8051",
-   "type": "para",
-   "context": "Execution readiness",
-   "preview": "Both phases require the explicit payable-call flag. Track A "
+   "kind": "modified",
+   "block": "223580ee",
+   "type": "list",
+   "context": "Quality"
   }
  ],
  "policy": "local",
- "soft_fingerprint": "ppsb1:63bfd3d294dd59c047d0f8e7fce82b9673158a292a92f14365bf3576f3b892e9",
+ "soft_fingerprint": "ppsb1:697d6829f69f2eb6ff169686920d2987bfca0e29902c6c1d9290270c999b14b0",
  "actors": {
   "requested_by": [
    "human:richard-tang"
@@ -84,43 +55,23 @@
  "attribution_basis": "environment_attested",
  "claims": [
   {
-   "block": "c70ab3d2",
-   "kind": "added",
-   "note": "Adds the bounded execution-readiness section."
+   "block": "cc9a861e",
+   "kind": "modified",
+   "note": "Corrects the evaluator contract to one frozen grader over the public LAB criteria."
   },
   {
-   "block": "d209203f",
+   "block": "dd7734b6",
    "kind": "added",
-   "note": "Records the pinned Harvey calibration matter, verified source count, and public rubric count."
+   "note": "States that the public-task score is not an official Harvey private-leaderboard result."
   },
   {
-   "block": "239ce906",
-   "kind": "added",
-   "note": "Introduces the no-call preparation commands."
-  },
-  {
-   "block": "c7b93919",
-   "kind": "added",
-   "note": "Documents the preflight and immutable run-packet commands."
-  },
-  {
-   "block": "daa79044",
-   "kind": "added",
-   "note": "Documents the two-phase runner and mandatory authorized-human review checkpoint."
-  },
-  {
-   "block": "96c723ca",
-   "kind": "added",
-   "note": "Documents the explicitly authorized prepare and resume commands."
-  },
-  {
-   "block": "8a9e8051",
-   "kind": "added",
-   "note": "Records the current non-payable preflight result and remaining Track B credential blocker."
+   "block": "223580ee",
+   "kind": "modified",
+   "note": "Renames the quality metrics to public-task and public-criterion outcomes."
   }
  ],
  "context": {
-  "why": "Make the approved Harvey LAB Pareto calibration operational while preserving explicit payable-call and authorized-human admission gates."
+  "why": "Keep the public Harvey task evaluator reproducible without misrepresenting it as the private official leaderboard service."
  },
- "event_id": "ppe_f2bd451771aee8f3c71c9cf5"
+ "event_id": "ppe_e3c0ffc2bb37f981e11b562a"
 }
