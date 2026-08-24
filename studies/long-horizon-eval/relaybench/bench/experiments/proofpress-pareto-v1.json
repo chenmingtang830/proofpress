@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "id": "proofpress-harvey-lab-pareto-v1",
-  "status": "CALIBRATION_CANDIDATE_NO_RESULTS",
+  "status": "CALIBRATION_RESULT_CEILING_DETECTED",
   "ownership": {
     "research_owner": "Proofpress",
     "implementation_review_required_from_relaybench_author": false,
@@ -67,6 +67,28 @@
         "max_output_tokens": 4000,
         "final_stage_max_output_tokens": 12000,
         "timeout_ms": 300000,
+        "fallback": false,
+        "retries": 0
+      }
+    },
+    {
+      "id": "C_MUSE_SPARK_1_1_LAB_CALIBRATION",
+      "analysis_role": "PAIRED_LAB_CALIBRATION_NOT_EFFICACY_UNTIL_REPLICATED",
+      "model_candidates": [
+        "meta/muse-spark-1.1"
+      ],
+      "route": "Vercel AI Gateway",
+      "selection_rule": "Muse Spark 1.1 is frozen because it has a published Harvey LAB comparison anchor; Meta-only; no fallback; compare C1 versus C2 only within this harness and task",
+      "adapter": {
+        "endpoint": "https://ai-gateway.vercel.sh/v1/chat/completions",
+        "api_key_env": "AI_GATEWAY_API_KEY",
+        "resolved_model": "meta/muse-spark-1.1",
+        "provider_only": "meta",
+        "temperature": 0,
+        "reasoning_effort": "high",
+        "max_output_tokens": 12000,
+        "final_stage_max_output_tokens": 32000,
+        "timeout_ms": 1800000,
         "fallback": false,
         "retries": 0
       }
@@ -166,5 +188,11 @@
     "PRBENCH",
     "LAB_FIRM_KNOWLEDGE"
   ],
-  "results": []
+  "results": [
+    {
+      "id": "muse-spark-1.1-h4-calibration-2026-08-24",
+      "path": "results/muse-spark-1.1-h4-calibration-2026-08-24.json",
+      "interpretation": "both conditions reached the 72/72 public-rubric ceiling; no treatment effect is identifiable on this task"
+    }
+  ]
 }
