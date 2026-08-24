@@ -24,7 +24,8 @@ export async function preflightRealStudy({ manifestPath, harveyCheckout, env = p
   checks.push(check("Track A Claude CLI", claude.passed, claude.error ?? claude.version));
   const vercel = preflightVercelGateway(manifest.tracks.find((x) => x.id === "B_OPEN_WEIGHT_COST").adapter, env);
   checks.push(check("Track B Vercel gateway", vercel.passed, vercel.errors.join("; ")));
-  checks.push(check("evaluator credential", Boolean(env[manifest.evaluator.api_key_env]), `missing ${manifest.evaluator.api_key_env}`));
+  checks.push(check("evaluator credential", Boolean(env[manifest.evaluator.api_key_env]),
+    env[manifest.evaluator.api_key_env] ? "present" : `missing ${manifest.evaluator.api_key_env}`));
 
   if (harveyCheckout) {
     let commit = null;
