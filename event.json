@@ -2,193 +2,71 @@
  "event": "version_created",
  "artifact": "studies/long-horizon-eval/relaybench/PROOFPRESS_PARETO_STUDY.md",
  "artifact_id": "pp_ffddb1d2cc98a01371a598e2",
- "version": "89666ca5",
- "parent": "5d7939ed",
+ "version": "bb12408e",
+ "parent": "89666ca5",
  "author": {
-  "name": "codex",
-  "kind": "agent",
+  "name": "unknown",
+  "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-24T05:28:17+00:00",
+ "ts": "2026-08-24T05:37:41+00:00",
  "stats": {
-  "modified": 5,
-  "added": 20
+  "added": 7
  },
  "changes": [
   {
-   "kind": "modified",
-   "block": "3c438977",
+   "kind": "added",
+   "block": "c70ab3d2",
+   "type": "heading",
+   "context": "Execution readiness",
+   "preview": "## Execution readiness"
+  },
+  {
+   "kind": "added",
+   "block": "d209203f",
    "type": "para",
-   "context": "Relationship to PRs 22, 23, and 34"
+   "context": "Execution readiness",
+   "preview": "The first calibration matter is frozen to Harvey LAB commit\n"
   },
   {
-   "kind": "modified",
-   "block": "704d982d",
-   "type": "heading",
-   "context": "Track A — Claude frontier quality"
-  },
-  {
-   "kind": "modified",
-   "block": "92d5764d",
+   "kind": "added",
+   "block": "239ce906",
    "type": "para",
-   "context": "Track A — Claude frontier quality"
+   "context": "Execution readiness",
+   "preview": "No-call preparation:"
   },
   {
-   "kind": "modified",
-   "block": "066c5e34",
-   "type": "heading",
-   "context": "Track B — Kimi K3 open-weight cost repli"
+   "kind": "added",
+   "block": "c7b93919",
+   "type": "code",
+   "context": "Execution readiness",
+   "preview": "```bash\nnode scripts/bench-preflight-real.mjs --harvey-check"
   },
   {
-   "kind": "modified",
-   "block": "478bda41",
+   "kind": "added",
+   "block": "daa79044",
    "type": "para",
-   "context": "Track B — Kimi K3 open-weight cost repli"
+   "context": "Execution readiness",
+   "preview": "The real runner is two-phase. `prepare` runs S1–S2 independe"
   },
   {
    "kind": "added",
-   "block": "7c94c14e",
-   "type": "heading",
-   "context": "Credits and normalized cost",
-   "preview": "### Credits and normalized cost"
+   "block": "96c723ca",
+   "type": "code",
+   "context": "Execution readiness",
+   "preview": "```bash\nnode scripts/bench-run-real.mjs --phase prepare \\\n  "
   },
   {
    "kind": "added",
-   "block": "885fe02c",
+   "block": "8a9e8051",
    "type": "para",
-   "context": "Credits and normalized cost",
-   "preview": "Credits do not make a run economically free. Record both act"
-  },
-  {
-   "kind": "added",
-   "block": "5b8f65cd",
-   "type": "heading",
-   "context": "Implementation plan",
-   "preview": "## Implementation plan"
-  },
-  {
-   "kind": "added",
-   "block": "8a77ef0b",
-   "type": "heading",
-   "context": "Phase 1 — generalize RelayBench without ",
-   "preview": "### Phase 1 — generalize RelayBench without rewriting it"
-  },
-  {
-   "kind": "added",
-   "block": "4ab38fb2",
-   "type": "list",
-   "context": "Phase 1 — generalize RelayBench without ",
-   "preview": "- preserve the existing H4 stage controller, cold workspace "
-  },
-  {
-   "kind": "added",
-   "block": "63139849",
-   "type": "heading",
-   "context": "Phase 2 — Harvey LAB Contracts calibrati",
-   "preview": "### Phase 2 — Harvey LAB Contracts calibration"
-  },
-  {
-   "kind": "added",
-   "block": "22c33d19",
-   "type": "para",
-   "context": "Phase 2 — Harvey LAB Contracts calibrati",
-   "preview": "Select 1–3 public contract matters with version changes, reo"
-  },
-  {
-   "kind": "added",
-   "block": "17bd325a",
-   "type": "heading",
-   "context": "Phase 3 — publishable Harvey pilot",
-   "preview": "### Phase 3 — publishable Harvey pilot"
-  },
-  {
-   "kind": "added",
-   "block": "3d52df54",
-   "type": "para",
-   "context": "Phase 3 — publishable Harvey pilot",
-   "preview": "Freeze task IDs, repeats, model routes, judge, evaluator, an"
-  },
-  {
-   "kind": "added",
-   "block": "10fb9dd1",
-   "type": "heading",
-   "context": "Extension tracks",
-   "preview": "## Extension tracks"
-  },
-  {
-   "kind": "added",
-   "block": "5962ad71",
-   "type": "heading",
-   "context": "Track C — cross-family frontier robustne",
-   "preview": "### Track C — cross-family frontier robustness"
-  },
-  {
-   "kind": "added",
-   "block": "7b3602cb",
-   "type": "para",
-   "context": "Track C — cross-family frontier robustne",
-   "preview": "Add GPT-5.6 Sol through Vercel AI Gateway after the Harvey c"
-  },
-  {
-   "kind": "added",
-   "block": "f3144a90",
-   "type": "heading",
-   "context": "Track D — distillation and RLM ablation",
-   "preview": "### Track D — distillation and RLM ablation"
-  },
-  {
-   "kind": "added",
-   "block": "ff682143",
-   "type": "para",
-   "context": "Track D — distillation and RLM ablation",
-   "preview": "Use GLM-5.2 only after the basic handoff effect is establish"
-  },
-  {
-   "kind": "added",
-   "block": "e671391a",
-   "type": "heading",
-   "context": "Benchmark 2 — Redline Bench",
-   "preview": "### Benchmark 2 — Redline Bench"
-  },
-  {
-   "kind": "added",
-   "block": "733aa604",
-   "type": "para",
-   "context": "Benchmark 2 — Redline Bench",
-   "preview": "Redline Bench is the most natural second substrate because i"
-  },
-  {
-   "kind": "added",
-   "block": "00ec02db",
-   "type": "heading",
-   "context": "Benchmark 3 — APEX Agents Corporate Lawy",
-   "preview": "### Benchmark 3 — APEX Agents Corporate Lawyer"
-  },
-  {
-   "kind": "added",
-   "block": "9b60dc96",
-   "type": "para",
-   "context": "Benchmark 3 — APEX Agents Corporate Lawy",
-   "preview": "Use the canonical Archipelago environment and corporate-lawy"
-  },
-  {
-   "kind": "added",
-   "block": "13a5bdcb",
-   "type": "heading",
-   "context": "Benchmark 4 — PRBench and knowledge-scal",
-   "preview": "### Benchmark 4 — PRBench and knowledge-scale work"
-  },
-  {
-   "kind": "added",
-   "block": "45b35915",
-   "type": "para",
-   "context": "Benchmark 4 — PRBench and knowledge-scal",
-   "preview": "PRBench can test high-stakes professional reasoning after th"
+   "context": "Execution readiness",
+   "preview": "Both phases require the explicit payable-call flag. Track A "
   }
  ],
  "policy": "local",
- "soft_fingerprint": "ppsb1:c54b66b55c3a92415eb46de21604f382a381261e0512c13adcb31ef92d0f8ae9",
+ "soft_fingerprint": "ppsb1:63bfd3d294dd59c047d0f8e7fce82b9673158a292a92f14365bf3576f3b892e9",
  "actors": {
   "requested_by": [
    "human:richard-tang"
@@ -203,136 +81,46 @@
    "agent:codex"
   ]
  },
- "attribution_basis": "harness_attested",
+ "attribution_basis": "environment_attested",
  "claims": [
   {
-   "block": "3c438977",
-   "kind": "modified",
-   "note": "Finalizes study ownership or the approved Track A and Track B model route."
-  },
-  {
-   "block": "704d982d",
-   "kind": "modified",
-   "note": "Finalizes study ownership or the approved Track A and Track B model route."
-  },
-  {
-   "block": "92d5764d",
-   "kind": "modified",
-   "note": "Finalizes study ownership or the approved Track A and Track B model route."
-  },
-  {
-   "block": "066c5e34",
-   "kind": "modified",
-   "note": "Finalizes study ownership or the approved Track A and Track B model route."
-  },
-  {
-   "block": "478bda41",
-   "kind": "modified",
-   "note": "Finalizes study ownership or the approved Track A and Track B model route."
-  },
-  {
-   "block": "7c94c14e",
+   "block": "c70ab3d2",
    "kind": "added",
-   "note": "Adds implementation phases, normalized cost accounting, or future model and benchmark extensions."
+   "note": "Adds the bounded execution-readiness section."
   },
   {
-   "block": "885fe02c",
+   "block": "d209203f",
    "kind": "added",
-   "note": "Adds implementation phases, normalized cost accounting, or future model and benchmark extensions."
+   "note": "Records the pinned Harvey calibration matter, verified source count, and public rubric count."
   },
   {
-   "block": "5b8f65cd",
+   "block": "239ce906",
    "kind": "added",
-   "note": "Adds implementation phases, normalized cost accounting, or future model and benchmark extensions."
+   "note": "Introduces the no-call preparation commands."
   },
   {
-   "block": "8a77ef0b",
+   "block": "c7b93919",
    "kind": "added",
-   "note": "Adds implementation phases, normalized cost accounting, or future model and benchmark extensions."
+   "note": "Documents the preflight and immutable run-packet commands."
   },
   {
-   "block": "4ab38fb2",
+   "block": "daa79044",
    "kind": "added",
-   "note": "Adds implementation phases, normalized cost accounting, or future model and benchmark extensions."
+   "note": "Documents the two-phase runner and mandatory authorized-human review checkpoint."
   },
   {
-   "block": "63139849",
+   "block": "96c723ca",
    "kind": "added",
-   "note": "Adds implementation phases, normalized cost accounting, or future model and benchmark extensions."
+   "note": "Documents the explicitly authorized prepare and resume commands."
   },
   {
-   "block": "22c33d19",
+   "block": "8a9e8051",
    "kind": "added",
-   "note": "Adds implementation phases, normalized cost accounting, or future model and benchmark extensions."
-  },
-  {
-   "block": "17bd325a",
-   "kind": "added",
-   "note": "Adds implementation phases, normalized cost accounting, or future model and benchmark extensions."
-  },
-  {
-   "block": "3d52df54",
-   "kind": "added",
-   "note": "Adds implementation phases, normalized cost accounting, or future model and benchmark extensions."
-  },
-  {
-   "block": "10fb9dd1",
-   "kind": "added",
-   "note": "Adds implementation phases, normalized cost accounting, or future model and benchmark extensions."
-  },
-  {
-   "block": "5962ad71",
-   "kind": "added",
-   "note": "Adds implementation phases, normalized cost accounting, or future model and benchmark extensions."
-  },
-  {
-   "block": "7b3602cb",
-   "kind": "added",
-   "note": "Adds implementation phases, normalized cost accounting, or future model and benchmark extensions."
-  },
-  {
-   "block": "f3144a90",
-   "kind": "added",
-   "note": "Adds implementation phases, normalized cost accounting, or future model and benchmark extensions."
-  },
-  {
-   "block": "ff682143",
-   "kind": "added",
-   "note": "Adds implementation phases, normalized cost accounting, or future model and benchmark extensions."
-  },
-  {
-   "block": "e671391a",
-   "kind": "added",
-   "note": "Adds implementation phases, normalized cost accounting, or future model and benchmark extensions."
-  },
-  {
-   "block": "733aa604",
-   "kind": "added",
-   "note": "Adds implementation phases, normalized cost accounting, or future model and benchmark extensions."
-  },
-  {
-   "block": "00ec02db",
-   "kind": "added",
-   "note": "Adds implementation phases, normalized cost accounting, or future model and benchmark extensions."
-  },
-  {
-   "block": "9b60dc96",
-   "kind": "added",
-   "note": "Adds implementation phases, normalized cost accounting, or future model and benchmark extensions."
-  },
-  {
-   "block": "13a5bdcb",
-   "kind": "added",
-   "note": "Adds implementation phases, normalized cost accounting, or future model and benchmark extensions."
-  },
-  {
-   "block": "45b35915",
-   "kind": "added",
-   "note": "Adds implementation phases, normalized cost accounting, or future model and benchmark extensions."
+   "note": "Records the current non-payable preflight result and remaining Track B credential blocker."
   }
  ],
  "context": {
-  "why": "Finalize Proofpress ownership, Claude Opus 4.8 and Kimi K3 execution tracks, normalized cost accounting, implementation phases, and benchmark extensions requested by Richard."
+  "why": "Make the approved Harvey LAB Pareto calibration operational while preserving explicit payable-call and authorized-human admission gates."
  },
- "event_id": "ppe_a4ce7450c14b0da57dea4504"
+ "event_id": "ppe_f2bd451771aee8f3c71c9cf5"
 }

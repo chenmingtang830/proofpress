@@ -304,6 +304,48 @@
   },
   {
    "type": "heading",
+   "text": "## Execution readiness",
+   "id": "c70ab3d2",
+   "hash": "44c458f69395"
+  },
+  {
+   "type": "para",
+   "text": "The first calibration matter is frozen to Harvey LAB commit\n`7be41d57fd5a6e97b5f246a029e810f83d09cd96`, task\n`contracts/commercial-vendor-customer/master-services-agreement-playbook-escalation/scenario-01`.\nThe acquisition verifier checks all 11 upstream files against their recorded SHA-256\ndigests; the public task contains 72 final rubric criteria.",
+   "id": "d209203f",
+   "hash": "9b5104726692"
+  },
+  {
+   "type": "para",
+   "text": "No-call preparation:",
+   "id": "239ce906",
+   "hash": "9fcf228e5912"
+  },
+  {
+   "type": "code",
+   "text": "```bash\nnode scripts/bench-preflight-real.mjs --harvey-checkout <harvey-labs-checkout>\nnode scripts/bench-prepare-real.mjs \\\n  --harvey-checkout <harvey-labs-checkout> \\\n  --output <new-run-packet-directory>\n```",
+   "id": "c7b93919",
+   "hash": "466f4c7e1d18"
+  },
+  {
+   "type": "para",
+   "text": "The real runner is two-phase. `prepare` runs S1–S2 independently for C1 and C2,\nbuilds the C2 evidence-bound ledger, then stops at `AWAITING_HUMAN_REVIEW`.\nThe authorized reviewer must decide every conclusion and add `signed_at` to\n`HUMAN_REVIEW.json`. `resume` applies those decisions, materializes trusted context,\ncreates fresh receiver workspaces, runs S3–S4, and converts the final Markdown memo\nto the required DOCX with Pandoc.",
+   "id": "daa79044",
+   "hash": "428ff034a54d"
+  },
+  {
+   "type": "code",
+   "text": "```bash\nnode scripts/bench-run-real.mjs --phase prepare \\\n  --packet <run-packet> --output <new-run-directory> \\\n  --track A_HARVEY_COMPARABLE --authorize-real-calls\n\nnode scripts/bench-run-real.mjs --phase resume \\\n  --output <run-directory> --authorize-real-calls\n```",
+   "id": "96c723ca",
+   "hash": "403988748441"
+  },
+  {
+   "type": "para",
+   "text": "Both phases require the explicit payable-call flag. Track A currently passes the\nnon-payable local preflight with Claude Code 2.1.234. Track B remains blocked until\n`AI_GATEWAY_API_KEY` is present; the gateway adapter hard-pins `moonshotai/kimi-k3`\nand one serving provider and does not permit provider fallback.",
+   "id": "8a9e8051",
+   "hash": "94c86dc2c618"
+  },
+  {
+   "type": "heading",
    "text": "## Implementation plan",
    "id": "5b8f65cd",
    "hash": "d8193e44fe71"
