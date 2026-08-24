@@ -136,21 +136,21 @@
   },
   {
    "type": "para",
-   "text": "Bring a bounded OpenTelemetry-style JSON export. The sample below creates\ncandidate claims from the included fixture, checks them against the current\npolicy, records a human review, and exposes only admitted knowledge to a fresh\nagent:",
+   "text": "Bring a bounded OpenTelemetry-style export or an artifact. Proofpress binds it\nas evidence in a local append-only Git ledger, then exposes only admitted,\ncurrent conclusions to the next agent:",
    "id": "460f8108",
-   "hash": "9e4cd43b92d3"
+   "hash": "5bfc5892d1a3"
   },
   {
    "type": "code",
-   "text": "```sh\nnpx --no-install proofpress knowledge ingest \\\n  node_modules/proofpress/examples/verified-knowledge-ledger/demo.otlp.json \\\n  -o /tmp/proofpress-ledger.json \\\n  --scope demo --proposer agent:experiment-runner\n\nnpx --no-install proofpress knowledge policy-review /tmp/proofpress-ledger.json \\\n  --claim CLAIM_ID\nnpx --no-install proofpress knowledge review /tmp/proofpress-ledger.json \\\n  --claim CLAIM_ID --decision accept --reviewer human:reviewer\nnpx --no-install proofpress knowledge context /tmp/proofpress-ledger.json --scope demo\nnpx --no-install proofpress knowledge verify /tmp/proofpress-ledger.json\n```",
+   "text": "```sh\nnpx --no-install proofpress evidence import \\\n  node_modules/proofpress/examples/verified-knowledge-ledger/demo.otlp.json\n\nnpx --no-install proofpress propose --statement \"The current conclusion\" \\\n  --evidence EVIDENCE_ID --scope demo --proposer agent:runner\nnpx --no-install proofpress evaluate CONCLUSION_ID\nnpx --no-install proofpress review CONCLUSION_ID \\\n  --admit --reviewer human:reviewer\nnpx --no-install proofpress context --scope demo --actor agent:successor\nnpx --no-install proofpress ui --scope demo\n```",
    "id": "8b9b3369",
-   "hash": "8037ca743ab7"
+   "hash": "e64ed56d064b"
   },
   {
    "type": "para",
-   "text": "`context` excludes rejected, unresolved, expired, and superseded candidates by\ndefault. `view` emits a stable graph read model, and `materialize` writes a\nportable Markdown projection. See the repository's\n[`examples/verified-knowledge-ledger/README.txt`](examples/verified-knowledge-ledger/README.txt)\nfor the complete local walkthrough.",
+   "text": "`context` excludes rejected, unresolved, expired, superseded, and actor-mismatched\nconclusions by default. `ui` opens the local review queue, trusted-context\npreview, and lineage graph. The 0.4 `proofpress knowledge ...` command group is\nretained temporarily as a deprecated migration surface. See the repository's\n[`examples/verified-knowledge-ledger/README.txt`](examples/verified-knowledge-ledger/README.txt)\nfor the complete local walkthrough.",
    "id": "20fbea6e",
-   "hash": "2bd15dc522a8"
+   "hash": "6c6b7bfca62f"
   },
   {
    "type": "heading",

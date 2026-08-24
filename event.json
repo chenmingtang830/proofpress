@@ -2,63 +2,74 @@
  "event": "version_created",
  "artifact": "README.md",
  "artifact_id": "pp_556b115de711b0cd33eed260",
- "version": "abecacd9",
- "parent": "5774a9e6",
+ "version": "0a285662",
+ "parent": "abecacd9",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-23T19:16:25+00:00",
+ "ts": "2026-08-24T03:29:01+00:00",
  "stats": {
-  "modified": 2
+  "modified": 3
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "e667d986",
+   "block": "460f8108",
    "type": "para",
-   "context": "Proofpress"
+   "context": "Verified knowledge ledger quickstart"
   },
   {
    "kind": "modified",
-   "block": "0e0e9d9a",
+   "block": "8b9b3369",
+   "type": "code",
+   "context": "Verified knowledge ledger quickstart"
+  },
+  {
+   "kind": "modified",
+   "block": "20fbea6e",
    "type": "para",
-   "context": "Proofpress"
+   "context": "Verified knowledge ledger quickstart"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:7e83332e09c0926a1fe4bd8d1ad079280cc4fb94d370ec0b5e0002d6c3262542",
+ "soft_fingerprint": "ppsb1:c0d573dc5e86eef79c12358819829e7488739a55b23f2a8be35d62976194a1c4",
  "actors": {
   "requested_by": [
-   "Richard Tang"
+   "human:richard-tang"
   ],
   "produced_by": [
-   "Codex"
+   "agent:codex"
   ],
   "edited_by": [
-   "Codex"
+   "agent:codex"
   ],
   "recorded_by": [
-   "Codex"
+   "agent:codex"
   ]
  },
- "attribution_basis": "environment_attested",
+ "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "e667d986",
+   "block": "460f8108",
    "kind": "modified",
-   "note": "Repositions the README headline around autonomous AI agents."
+   "note": "Describe append-only evidence import and admitted context."
   },
   {
-   "block": "0e0e9d9a",
+   "block": "8b9b3369",
    "kind": "modified",
-   "note": "States the long-horizon, multiplayer, and high-stakes value proposition."
+   "note": "Replace the deprecated namespace quickstart with flat local-MVP commands."
+  },
+  {
+   "block": "20fbea6e",
+   "kind": "modified",
+   "note": "Explain context exclusions, local UI, and the temporary compatibility alias."
   }
  ],
  "context": {
-  "why": "Clarify the public positioning around autonomous AI agents and trusted continuation in long-horizon, multiplayer, and high-stakes work."
+  "why": "Expose the 0.5 local-first trust-ledger workflow without the redundant knowledge namespace."
  },
- "event_id": "ppe_01dd942a68dcc9a86a62f67f"
+ "event_id": "ppe_51e1c2d0460b5d729f85e661"
 }
