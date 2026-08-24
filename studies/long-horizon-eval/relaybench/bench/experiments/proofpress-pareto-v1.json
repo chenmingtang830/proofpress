@@ -1,0 +1,70 @@
+{
+  "schema_version": 1,
+  "id": "proofpress-harvey-lab-pareto-v1",
+  "status": "CALIBRATION_CANDIDATE_NO_RESULTS",
+  "primary_estimand": "paired quality delta for Proofpress versus raw handoff at matched model, task, evaluator, tools, and execution limits",
+  "conditions": [
+    "C1_ORDINARY_PORTABLE",
+    "C2_PROOFPRESS"
+  ],
+  "tracks": [
+    {
+      "id": "A_HARVEY_COMPARABLE",
+      "model_candidates": [
+        "gpt-5.5",
+        "claude-opus-4.7"
+      ],
+      "selection_rule": "choose one exact accessible no-fallback route already reported by Harvey and freeze resolved identity before calls"
+    },
+    {
+      "id": "B_OPEN_WEIGHT_COST",
+      "model_candidates": [
+        "kimi-k3-base-exact-checkpoint-tbd"
+      ],
+      "selection_rule": "freeze checkpoint, license, quantization, serving stack, prices, and resolved identity before calls"
+    }
+  ],
+  "task_selection": {
+    "source": "public Harvey LAB contracts materials",
+    "calibration_count_min": 1,
+    "calibration_count_max": 3,
+    "task_ids": [],
+    "selection_status": "REQUIRES_RICHARD_TOM_APPROVAL"
+  },
+  "budget_policy": {
+    "hard_cap_for_calibration": null,
+    "matched_execution_limits_required": true,
+    "count_all_proofpress_overhead": true,
+    "required_axes": [
+      "provider_cost_usd",
+      "wall_clock_latency_ms",
+      "input_tokens",
+      "cached_input_tokens",
+      "reasoning_tokens",
+      "output_tokens",
+      "model_calls",
+      "retries"
+    ]
+  },
+  "quality_metrics": [
+    "lab_all_pass",
+    "lab_criterion_pass_rate",
+    "unsafe_state_propagation",
+    "stale_or_superseded_reuse",
+    "clean_continuation",
+    "false_stop",
+    "unnecessary_revalidation"
+  ],
+  "pareto": {
+    "quality_axis": "lab_criterion_pass_rate",
+    "resource_axes": [
+      "provider_cost_usd",
+      "wall_clock_latency_ms",
+      "total_tokens"
+    ],
+    "strict_dominance": "quality no worse and resource no worse on every frozen axis, with at least one strict improvement"
+  },
+  "real_calls_authorized": false,
+  "results": []
+}
+
