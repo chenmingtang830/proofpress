@@ -44,6 +44,8 @@ export async function runPrepare({ packetDir, output, manifest, trackId, authori
         const evaluation = await proofpress(root, ledger, ["evaluate", proposed.conclusion.id]);
         const evidencePacket = await extractEvidence(root, conclusion.evidence_files.map((name) => path.join(packetDir, "source", findStageForFile(packet, name), name)));
         const judged = await judge.invoke({ prompt: judgePrompt({ manifest, conclusion, evidencePacket }) }, { workspace, env });
+        await fs.writeFile(path.join(workspace, `JUDGE_RESPONSE_${proposed.conclusion.id}.json`),
+          `${JSON.stringify(judged, null, 2)}\n`, { flag: "wx" });
         const verdict = parseJudgeOutput(judged.raw_output);
         const gate = await researchPolicyAdmit(root, ledger, { conclusion_id: proposed.conclusion.id, verdict,
           executor: manifest.policy_gate.executor, judge: { route: manifest.policy_gate.judge.endpoint, model: manifest.policy_gate.judge.resolved_model } });
