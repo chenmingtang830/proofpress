@@ -129,8 +129,9 @@ task-completeness check for uncovered approval conditions.
   three-task panel.
 - The stress arm is benchmark-derived and supports an observed protection signal,
   not a population-wide legal-workflow claim.
-- Six invalid v9 attempts remain listed in the run index; none is silently converted
-  into a valid observation.
+- Six invalid v9 attempts remain listed in the run index. A separate pre-v9 attempt
+  ledger preserves eight valid negative/zero/positive observations and nine invalid
+  attempts from v3–v8; none is silently converted into a valid v9 observation.
 - The machine-readable result contains all 18 run summaries, score and trust receipt
   digests, request-level proof-price values, exclusions, and exact denominators.
 
@@ -141,6 +142,7 @@ Authoritative artifacts:
 - `bench/experiments/treatment-effect-protocol-v9.json`
 - `results/deepseek-v9-s4-2x2-run-index-2026-08-24.json`
 - `results/deepseek-v9-s4-2x2-results-2026-08-24.json`
+- `results/pre-v9-attempt-ledger-2026-08-24.json`
 - `scripts/bench-aggregate-2x2.mjs`
 
 [//]: # (proofpress:meta:eyJhcnRpZmFjdF9pZCI6InBwXzhkNjhkNzJmMWIzOTNiNjdkZjBjNzMxYiIsInBvbGljeSI6ImxvY2FsIiwicHJvb2ZwcmVzcyI6MX0)

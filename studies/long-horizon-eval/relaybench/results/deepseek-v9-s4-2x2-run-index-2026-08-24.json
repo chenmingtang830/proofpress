@@ -3,6 +3,7 @@
   "frozen_protocol": "bench/experiments/treatment-effect-protocol-v9.json",
   "model": "deepseek/deepseek-v4-flash-0731 via DeepInfra-only Vercel AI Gateway route",
   "repetitions": 3,
+  "prior_attempt_ledger": "pre-v9-attempt-ledger-2026-08-24.json",
   "noninferiority_margin_percentage_points": -3,
   "runs": [
     {"repeat":1,"arm":"clean","task":"credit","run":"/Users/richardtang/proofpress-deepseek-v9-s4-clean-20260824/credit/run"},

@@ -3058,5 +3058,9 @@
     "/Users/richardtang/proofpress-deepseek-v9-s4-clean-20260824/msa/run-invalid-duplicate-conclusion-evidence-conflict-attempt-2",
     "/Users/richardtang/proofpress-deepseek-v9-s4-clean-20260824/license/run-invalid-missing-s3-evidence-import-attempt-1",
     "/Users/richardtang/proofpress-deepseek-v9-s4-stress-20260824/credit/run-invalid-truncated-batch-judge-attempt-1"
-  ]
+  ],
+  "prior_attempt_ledger": {
+    "path": "pre-v9-attempt-ledger-2026-08-24.json",
+    "sha256": "sha256:ffc55b174d5c4b821fb29486aa8bf262de4216d42ce2d765307c3707620cc925"
+  }
 }

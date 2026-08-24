@@ -5,6 +5,8 @@ import path from "node:path";
 
 const args = parse(process.argv.slice(2));
 const index = JSON.parse(await fs.readFile(path.resolve(args.index), "utf8"));
+const indexDir = path.dirname(path.resolve(args.index));
+const priorAttemptPath = index.prior_attempt_ledger && path.join(indexDir, index.prior_attempt_ledger);
 const rows = [];
 for (const entry of index.runs) {
   const run = path.resolve(entry.run);
@@ -51,6 +53,8 @@ const result = {
   proof_price: { clean: price(clean), stress: price(stress), all: price(rows) },
   task_results: rows,
   invalid_attempts: index.invalid_attempts,
+  prior_attempt_ledger: priorAttemptPath ? { path: index.prior_attempt_ledger,
+    sha256: await digest(priorAttemptPath) } : null,
 };
 process.stdout.write(`${JSON.stringify(result, null, 2)}\n`);
 
