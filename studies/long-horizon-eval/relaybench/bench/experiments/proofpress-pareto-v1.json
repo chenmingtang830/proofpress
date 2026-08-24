@@ -43,6 +43,7 @@
         "resolved_model": "moonshotai/kimi-k3",
         "provider_only": "moonshotai",
         "temperature": 0,
+        "max_output_tokens": 8000,
         "timeout_ms": 1800000,
         "fallback": false,
         "retries": 0
@@ -78,6 +79,7 @@
       "resolved_model": "google/gemini-3.7-flash",
       "provider_only": "google",
       "temperature": 0,
+      "max_output_tokens": 1000,
       "timeout_ms": 1800000,
       "fallback": false,
       "retries": 0
@@ -117,6 +119,7 @@
     "route": "Vercel AI Gateway",
     "provider_only": "google",
     "temperature": 0,
+    "max_output_tokens": 4000,
     "api_key_env": "AI_GATEWAY_API_KEY",
     "endpoint": "https://ai-gateway.vercel.sh/v1/chat/completions",
     "timeout_ms": 1800000

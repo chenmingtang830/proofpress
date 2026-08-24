@@ -36,6 +36,7 @@ export function createVercelGatewayAdapter(config, deps = {}) {
             model: config.resolved_model,
             messages: [{ role: "user", content: request.prompt }],
             temperature: config.temperature,
+            max_tokens: config.max_output_tokens,
             providerOptions: { gateway: { only: [config.provider_only] } },
           }),
         });

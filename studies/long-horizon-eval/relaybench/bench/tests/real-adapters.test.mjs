@@ -14,7 +14,7 @@ test("Claude adapter pins model and records usage without fallback", async () =>
 });
 
 test("Vercel adapter refuses missing key/provider and hard-pins provider", async () => {
-  const config = { endpoint: "https://example.test/v1/chat/completions", resolved_model: "moonshotai/kimi-k3", provider_only: "test-provider", api_key_env: "K", timeout_ms: 1000, temperature: 0 };
+  const config = { endpoint: "https://example.test/v1/chat/completions", resolved_model: "moonshotai/kimi-k3", provider_only: "test-provider", api_key_env: "K", timeout_ms: 1000, temperature: 0, max_output_tokens: 8000 };
   assert.equal(preflightVercelGateway(config, {}).passed, false);
   let sent;
   const adapter = createVercelGatewayAdapter(config, { fetch: async (_url, init) => {
@@ -23,6 +23,7 @@ test("Vercel adapter refuses missing key/provider and hard-pins provider", async
   }});
   const result = await adapter.invoke({ prompt: "x" }, { env: { K: "secret" } });
   assert.deepEqual(sent.providerOptions.gateway.only, ["test-provider"]);
+  assert.equal(sent.max_tokens, 8000);
   assert.equal(result.telemetry.input_tokens, 4);
 });
 
