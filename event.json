@@ -10,7 +10,7 @@
   "session": null
  },
  "note": null,
- "ts": "2026-08-24T03:29:37+00:00",
+ "ts": "2026-08-24T03:29:40+00:00",
  "stats": {
   "added": 6
  },
@@ -110,5 +110,5 @@
  "context": {
   "why": "Document the bounded illustrative legal workflow used to demonstrate all local review states."
  },
- "event_id": "ppe_74b7b4b08dfe7d1c4ea77450"
+ "event_id": "ppe_bef1a64c8e4ecbb476036600"
 }
