@@ -34,6 +34,18 @@ test("npm launcher exposes the verified-knowledge ledger commands", () => {
   assert.match(result.stdout, /materialize/);
 });
 
+test("npm launcher exposes the flat local-MVP commands", () => {
+  for (const args of [
+    ["evidence", "import", "--help"], ["propose", "--help"],
+    ["evaluate", "--help"], ["judge", "--help"], ["review", "--help"],
+    ["supersede", "--help"], ["context", "--help"], ["ui", "--help"],
+    ["import-v1", "--help"]
+  ]) {
+    const result = run(args);
+    assert.equal(result.status, 0, `${args.join(" ")}\n${result.stderr}`);
+  }
+});
+
 test("GitHub Action defaults to its bundled Proofpress CLI", () => {
   const action = fs.readFileSync(path.join(ROOT, "action.yml"), "utf8");
   assert.match(
