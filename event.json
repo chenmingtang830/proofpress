@@ -1,59 +1,35 @@
 {
  "event": "version_created",
- "artifact": "studies/long-horizon-eval/relaybench/PROOFPRESS_PARETO_STUDY.md",
- "artifact_id": "pp_ffddb1d2cc98a01371a598e2",
- "version": "26f9e83a",
- "parent": "0423fd9e",
+ "artifact": "studies/long-horizon-eval/relaybench/RESULTS_V9_2X2.md",
+ "artifact_id": "pp_8d68d72f1b393b67df0c731b",
+ "version": "5cfb8de5",
+ "parent": "516a6ede",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-24T17:34:35+00:00",
+ "ts": "2026-08-24T17:39:52+00:00",
  "stats": {
-  "modified": 6
+  "modified": 2
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "e439b2a3",
-   "type": "para",
-   "context": "Decision"
-  },
-  {
-   "kind": "modified",
-   "block": "6a191609",
-   "type": "para",
-   "context": "Primary"
-  },
-  {
-   "kind": "modified",
-   "block": "21cc85e2",
-   "type": "para",
-   "context": "Mechanism"
-  },
-  {
-   "kind": "modified",
-   "block": "27d61266",
-   "type": "para",
-   "context": "Experimental unit"
-  },
-  {
-   "kind": "modified",
-   "block": "cc9a861e",
+   "block": "a02c5c15",
    "type": "list",
-   "context": "Experimental unit"
+   "context": "Claim boundary and receipts"
   },
   {
    "kind": "modified",
-   "block": "dd7734b6",
-   "type": "para",
-   "context": "Experimental unit"
+   "block": "68a38c2a",
+   "type": "list",
+   "context": "Claim boundary and receipts"
   }
  ],
  "policy": "local",
- "soft_fingerprint": "ppsb1:1744c9625a67024754762b33dfada21bb0735a69882352bd818b1d5eaf4473ed",
+ "soft_fingerprint": "ppsb1:c20a7ac5305ff1db7a68f9a223abf41a285654ed6fdd900639e00a7dbee1fe8e",
  "actors": {
   "requested_by": [
    "human:richard-tang"
@@ -68,41 +44,21 @@
    "agent:codex"
   ]
  },
- "attribution_basis": "self_asserted",
+ "attribution_basis": "harness_attested",
  "claims": [
   {
-   "block": "e439b2a3",
+   "block": "a02c5c15",
    "kind": "modified",
-   "note": "Reframes the study around clean tax and protection effect and links the v9 report."
+   "note": "Adds the exact pre-v9 valid, zero, negative, and invalid-attempt preservation boundary."
   },
   {
-   "block": "6a191609",
+   "block": "68a38c2a",
    "kind": "modified",
-   "note": "Changes the primary question from mandatory lift to non-inferiority plus proof-price."
-  },
-  {
-   "block": "21cc85e2",
-   "kind": "modified",
-   "note": "Labels protection as a separate LAB-derived controlled stress test."
-  },
-  {
-   "block": "27d61266",
-   "kind": "modified",
-   "note": "Defines the v9 matched-pair 2x2 experimental unit."
-  },
-  {
-   "block": "cc9a861e",
-   "kind": "modified",
-   "note": "Records shared sender reuse, clean/stress parity, and blinded endpoints."
-  },
-  {
-   "block": "dd7734b6",
-   "kind": "modified",
-   "note": "Strengthens the non-official Harvey and perturbed-arm claim boundary."
+   "note": "Adds the machine-readable pre-v9 attempt ledger to authoritative artifacts."
   }
  ],
  "context": {
-  "why": "Align the study contract with the user-approved 2x2 clean non-inferiority and controlled stress protection objective."
+  "why": "Preserve the pre-v9 zero, negative, positive, and invalid attempts as an explicit exclusion ledger beside the confirmatory v9 result."
  },
- "event_id": "ppe_6de6c8024784e9fb8db9be81"
+ "event_id": "ppe_ef10cbb3282289dc23713353"
 }
