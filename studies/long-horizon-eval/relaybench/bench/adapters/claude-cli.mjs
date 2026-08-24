@@ -29,7 +29,9 @@ export function createClaudeCliAdapter(config, deps = {}) {
       timeout_ms: config.timeout_ms,
     }),
     async invoke(request, context = {}) {
-      const args = ["-p", request.prompt, "--model", config.resolved_model, "--output-format", "json"];
+      const args = ["-p", request.prompt, "--model", config.resolved_model, "--output-format", "json",
+        "--safe-mode", "--tools", "", "--strict-mcp-config", "--mcp-config", '{"mcpServers":{}}',
+        "--disable-slash-commands"];
       const started = performance.now();
       const { stdout, stderr } = await run(config.binary ?? "claude", args, {
         cwd: context.workspace,

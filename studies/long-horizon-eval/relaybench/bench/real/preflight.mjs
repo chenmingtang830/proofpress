@@ -27,10 +27,6 @@ export async function preflightRealStudy({ manifestPath, harveyCheckout, env = p
   checks.push(check("Track A Claude CLI", claude.passed, claude.error ?? claude.version));
   const vercel = preflightVercelGateway(manifest.tracks.find((x) => x.id === "B_OPEN_WEIGHT_COST").adapter, env);
   checks.push(check("Track B Vercel gateway", vercel.passed, vercel.errors.join("; ")));
-  const gemini = manifest.tracks.find((x) => x.id === "C_GEMINI_3_7_FLASH")?.adapter;
-  checks.push(check("Track C Gemini 3.7 gateway", gemini?.resolved_model === "google/gemini-3.7-flash"
-    && gemini?.provider_only === "google" && gemini?.fallback === false && Boolean(env[gemini?.api_key_env]),
-    gemini ? `${gemini.resolved_model} via ${gemini.provider_only}` : "missing track"));
   checks.push(check("evaluator credential", Boolean(env[manifest.evaluator.api_key_env]),
     env[manifest.evaluator.api_key_env] ? "present" : `missing ${manifest.evaluator.api_key_env}`));
   checks.push(check("policy judge credential", Boolean(env[manifest.policy_gate.judge.api_key_env]),
