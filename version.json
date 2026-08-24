@@ -1,42 +1,318 @@
 {
- "artifact": "examples/verified-knowledge-ledger/legal/README.md",
- "artifact_id": "pp_bdbad7587e2d28f8e604a118",
+ "artifact": "studies/long-horizon-eval/relaybench/PROOFPRESS_PARETO_STUDY.md",
+ "artifact_id": "pp_ffddb1d2cc98a01371a598e2",
  "blocks": [
   {
    "type": "heading",
-   "text": "# Illustrative legal design-partner fixture",
-   "id": "be77b7ea",
-   "hash": "b4ce6f433a0a"
+   "text": "# Proofpress × Harvey LAB: governed handoff Pareto study",
+   "id": "03db813b",
+   "hash": "b5cc64168945"
+  },
+  {
+   "type": "heading",
+   "text": "## Decision",
+   "id": "f69daa06",
+   "hash": "e6ce75215fb1"
   },
   {
    "type": "para",
-   "text": "This fixture adapts the cold-boundary shape described in Proofpress PR 22: an\ninitial MSA position is followed by a counterparty redline and a changed\nbusiness priority before a successor agent continues the work.",
-   "id": "aeb16898",
-   "hash": "3dd6213a5fa9"
+   "text": "This study asks whether Proofpress improves long-horizon legal-agent work when the\nunderlying model, task materials, evaluator, tools, and execution limits are held\nconstant.",
+   "id": "e439b2a3",
+   "hash": "d291038e3bd1"
   },
   {
    "type": "para",
-   "text": "It is fictional product-demo data. It is not legal advice, a Harvey result, or\nevidence that Proofpress improves legal drafting quality.",
-   "id": "b3aa05bd",
-   "hash": "acd445d4a5d8"
+   "text": "The primary comparison is deliberately product-shaped:",
+   "id": "46841646",
+   "hash": "7c99266e57b1"
+  },
+  {
+   "type": "list",
+   "text": "- **Raw handoff** transfers the ordinary readable workspace available to the next\n  agent.\n- **Proofpress handoff** transfers the same source material and exposes only\n  conclusions admitted through the Proofpress ledger and returned by the trusted\n  context gate.",
+   "id": "76cadfc5",
+   "hash": "dfa94c713ac8"
   },
   {
    "type": "para",
-   "text": "From a clean Git repository containing Proofpress, run:",
-   "id": "296d3fb1",
-   "hash": "7d710c1fd4e9"
+   "text": "This is not a comparison against a separate memory or ontology product. Any\ndistillation, verification, judging, or review used by Proofpress is part of the\ntreatment and its complete token, latency, and dollar cost must be counted.",
+   "id": "57eeadf3",
+   "hash": "e93a86d6f160"
+  },
+  {
+   "type": "heading",
+   "text": "## Relationship to PRs 22, 23, and 34",
+   "id": "8c648201",
+   "hash": "8ad11c6fee4b"
+  },
+  {
+   "type": "list",
+   "text": "- PR 22 defines the original long-horizon research question and claim boundary.\n- PR 23 supplies RelayBench execution, cold-boundary, parity, scoring, and reporting\n  mechanics.\n- PR 34 supplies the product treatment: evidence import, append-only ledger,\n  evaluation, policy recommendation, human admission, trusted context, and local UI.",
+   "id": "7d05415d",
+   "hash": "9cc97ab5755b"
+  },
+  {
+   "type": "para",
+   "text": "This study integrates those surfaces. It does not fork Tom's RelayBench harness and\ndoes not treat the local UI as experimental evidence.",
+   "id": "3c438977",
+   "hash": "9252c1a2678a"
+  },
+  {
+   "type": "heading",
+   "text": "## Research questions",
+   "id": "27d99607",
+   "hash": "0c9c8531d90c"
+  },
+  {
+   "type": "heading",
+   "text": "### Primary",
+   "id": "b63dff18",
+   "hash": "9eda3640593c"
+  },
+  {
+   "type": "para",
+   "text": "At matched model and execution limits, does Proofpress increase Harvey LAB final\nall-pass or criterion-pass performance after a cold agent handoff?",
+   "id": "6a191609",
+   "hash": "a99078436598"
+  },
+  {
+   "type": "heading",
+   "text": "### Mechanism",
+   "id": "1baca415",
+   "hash": "5ca69e85865c"
+  },
+  {
+   "type": "para",
+   "text": "Does Proofpress reduce stale or unsafe state propagation without increasing false\nstops, unnecessary revalidation, or clean-continuation failures?",
+   "id": "21cc85e2",
+   "hash": "f56b42e60f54"
+  },
+  {
+   "type": "heading",
+   "text": "### Deployment",
+   "id": "8c2f2a73",
+   "hash": "aa101db6bacb"
+  },
+  {
+   "type": "para",
+   "text": "Does Proofpress move the quality-cost frontier after all treatment overhead is\nincluded?",
+   "id": "fe993a43",
+   "hash": "2777c023349b"
+  },
+  {
+   "type": "heading",
+   "text": "## Experimental unit",
+   "id": "c12d3992",
+   "hash": "f4401e6487ec"
+  },
+  {
+   "type": "para",
+   "text": "One unit is a matched pair on one version-pinned Harvey LAB matter:",
+   "id": "27d61266",
+   "hash": "58dab0e130d5"
+  },
+  {
+   "type": "list",
+   "text": "1. identical initial matter files and staged releases;\n2. identical resolved model, reasoning setting, tools, task instruction, evaluator,\n   and provider route;\n3. one registered cold worker/workspace boundary;\n4. raw and Proofpress conditions run with independent model calls; and\n5. final deliverables scored with the same official LAB evaluator configuration.",
+   "id": "cc9a861e",
+   "hash": "73babe256c94"
+  },
+  {
+   "type": "para",
+   "text": "The first calibration should use 1–3 public contract matters with consequential\nstate changes across stages. It is a calibration, not a public benchmark result.\nExpansion to a publishable sample is conditional on parity, telemetry, evaluator,\nand treatment-integrity checks passing.",
+   "id": "41a8ded2",
+   "hash": "f0419e42f9ea"
+  },
+  {
+   "type": "heading",
+   "text": "## Conditions",
+   "id": "6852bd0c",
+   "hash": "83625b6129c7"
+  },
+  {
+   "type": "heading",
+   "text": "### C1 — Raw handoff",
+   "id": "2d044e9c",
+   "hash": "c7101a5fdc14"
+  },
+  {
+   "type": "para",
+   "text": "The receiving agent gets the ordinary portable matter workspace and readable handoff\nstate. There is no Proofpress verifier result, ledger, hidden orchestrator state,\ntranscript, or cross-session memory.",
+   "id": "0641ea0f",
+   "hash": "148ee2e36d14"
+  },
+  {
+   "type": "heading",
+   "text": "### C2 — Proofpress governed handoff",
+   "id": "00263ff2",
+   "hash": "6b3df38baf2f"
+  },
+  {
+   "type": "para",
+   "text": "The receiving agent gets byte-identical source material. Before the boundary, the\nsender may import evidence and propose conclusions. Deterministic checks and the\nfrozen policy may evaluate them; an authorized non-proposer review identity makes\nthe admission decision. After the boundary, the receiver gets only the output of:",
+   "id": "5947a59d",
+   "hash": "8b510fcb5f99"
   },
   {
    "type": "code",
-   "text": "```sh\npython3 examples/verified-knowledge-ledger/legal/setup_fixture.py\npython3 proofpress.py ui --scope msa-negotiation\n```",
-   "id": "d55f115b",
-   "hash": "de89b669a9cd"
+   "text": "```text\nproofpress context --scope <scope> --actor <receiver> --format json\n```",
+   "id": "39182e1a",
+   "hash": "1b1f140d8cfb"
   },
   {
    "type": "para",
-   "text": "The resulting local ledger contains admitted, needs-review, rejected, and\nsuperseded conclusions. In **Trusted Context**, request scope\n`msa-negotiation` as `agent:successor` to see exactly what crosses the handoff.",
-   "id": "61b1b719",
-   "hash": "00f2e62bf8a9"
+   "text": "Rejected, expired, superseded, scope-incompatible, and unadmitted conclusions must\nnot appear as trusted context. Their IDs and blocked actions may remain auditable.",
+   "id": "e368caab",
+   "hash": "2d81cb150b7d"
+  },
+  {
+   "type": "heading",
+   "text": "### What may differ",
+   "id": "f31c71e0",
+   "hash": "38d9d5db10e8"
+  },
+  {
+   "type": "para",
+   "text": "The conditions differ only in the treatment mechanics required to create and consume\ngoverned context. Source material and task substance remain identical. Proofpress may\ndistill source-bound candidate conclusions because distillation is part of the\nproduct treatment, but every generated token and every model call is charged to C2.",
+   "id": "8df0559f",
+   "hash": "2e0f111035d0"
+  },
+  {
+   "type": "heading",
+   "text": "## Model tracks",
+   "id": "3358036e",
+   "hash": "d9da9dec7a71"
+  },
+  {
+   "type": "heading",
+   "text": "### Track A — Harvey-comparable",
+   "id": "704d982d",
+   "hash": "54e17567702e"
+  },
+  {
+   "type": "para",
+   "text": "Use a model and configuration already reported by Harvey whenever the exact public\nroute remains accessible. The first candidates are GPT-5.5 or Claude Opus 4.7 because\nHarvey has published LAB all-pass and cost/latency context for them. A result from our\npublic task subset remains our composed long-horizon extension, not an official\nHarvey hold-out score.",
+   "id": "92d5764d",
+   "hash": "c62affb35b9e"
+  },
+  {
+   "type": "heading",
+   "text": "### Track B — open-weight cost replication",
+   "id": "066c5e34",
+   "hash": "babae5348a43"
+  },
+  {
+   "type": "para",
+   "text": "Use one version-pinned open-weight checkpoint served through one no-fallback route.\nPrefer a base family already present in Harvey's published research, such as Kimi K3,\nif the exact checkpoint, license, quantization, serving stack, and resolved identity\ncan be recorded. Do not substitute an unrelated cheap model and describe it as a\nHarvey-matched result.",
+   "id": "478bda41",
+   "hash": "c1668fb8e691"
+  },
+  {
+   "type": "para",
+   "text": "Track B is a cost and reproducibility replication. It does not replace Track A.",
+   "id": "8c71b340",
+   "hash": "d9314162666f"
+  },
+  {
+   "type": "heading",
+   "text": "## Outcomes",
+   "id": "42296223",
+   "hash": "9ccb9f6c9546"
+  },
+  {
+   "type": "heading",
+   "text": "### Quality",
+   "id": "e49abdbb",
+   "hash": "d027cbdcb41a"
+  },
+  {
+   "type": "list",
+   "text": "- official LAB all-pass rate;\n- official LAB criterion-pass rate;\n- operative-version and stage-disposition correctness;\n- unsafe state propagation;\n- stale or superseded conclusion reuse;\n- clean continuation;\n- false stop and unnecessary revalidation rates; and\n- invalid, incomplete, abstained, and inconclusive runs with reasons.",
+   "id": "223580ee",
+   "hash": "51fae5432fa8"
+  },
+  {
+   "type": "heading",
+   "text": "### Resource use",
+   "id": "5bf8f2a8",
+   "hash": "356c19de038e"
+  },
+  {
+   "type": "list",
+   "text": "- total input, cached-input, reasoning, and output tokens;\n- total provider and local inference cost;\n- wall-clock latency;\n- model calls and retries;\n- Proofpress distillation, judge, verification, and review overhead; and\n- tool calls, file reads, and turns when available.",
+   "id": "f2f377e9",
+   "hash": "a08c62e9a5d2"
+  },
+  {
+   "type": "para",
+   "text": "No hard cost ceiling is needed for the calibration. Complete resource accounting is\nmandatory.",
+   "id": "a77c9da2",
+   "hash": "941951119441"
+  },
+  {
+   "type": "heading",
+   "text": "## Pareto analysis",
+   "id": "3b954f6e",
+   "hash": "534be416a843"
+  },
+  {
+   "type": "para",
+   "text": "For each matched model/task configuration, compare quality against total cost,\ntokens, and latency.",
+   "id": "c4c15e9f",
+   "hash": "52f0a57a48c2"
+  },
+  {
+   "type": "para",
+   "text": "Proofpress strictly dominates raw handoff when quality is no worse on every frozen\nquality metric, better on at least one, and resource use is no worse. A result may\nalso advance the empirical frontier when it produces higher quality at higher cost\nand no observed configuration achieves that quality for less. That trade-off must be\nshown, not collapsed into a single marketing score.",
+   "id": "0bbdff6d",
+   "hash": "d71a582bfe6d"
+  },
+  {
+   "type": "para",
+   "text": "Report at minimum:",
+   "id": "62856701",
+   "hash": "177a83d69b6a"
+  },
+  {
+   "type": "list",
+   "text": "- the matched same-budget quality delta;\n- the incremental cost per additional all-pass task and passed criterion when\n  denominators permit;\n- the full non-dominated frontier; and\n- task-level paired outcomes, including regressions.",
+   "id": "8ec0fe29",
+   "hash": "ff00ec28a522"
+  },
+  {
+   "type": "heading",
+   "text": "## Run sequence",
+   "id": "b4a4682f",
+   "hash": "543927ff8b54"
+  },
+  {
+   "type": "list",
+   "text": "1. Freeze upstream Harvey revision, public task IDs, Proofpress revision, model route,\n   judge, tool surface, and evaluator.\n2. Run deterministic RelayBench mechanics and information-parity checks.\n3. Run one smoke pair with outputs excluded from reported metrics.\n4. Run 1–3 calibration task pairs with full telemetry.\n5. Inspect treatment receipts and task-level differences before expanding.\n6. Freeze repeat count and analysis plan for the publishable pilot.\n7. Run the pilot without changing task selection, prompts, model, or scoring.",
+   "id": "f15c27f0",
+   "hash": "47010a61ce03"
+  },
+  {
+   "type": "heading",
+   "text": "## Publication boundary",
+   "id": "8c9683e6",
+   "hash": "691bc7299708"
+  },
+  {
+   "type": "para",
+   "text": "Until the publishable pilot is frozen and complete, the only defensible claim is:",
+   "id": "4239307a",
+   "hash": "7d822d50db3f"
+  },
+  {
+   "type": "para",
+   "text": "> We are testing whether governed, verified handoffs improve long-horizon legal-agent\n> performance at a measurable quality-cost trade-off.",
+   "id": "bdad788e",
+   "hash": "e3d313a62db4"
+  },
+  {
+   "type": "para",
+   "text": "Do not report test doubles, smoke runs, hand-picked successful tasks, or local graph\nscreenshots as benchmark improvement. Preserve nulls, exclusions, failures, and\ninvalid runs.",
+   "id": "2c099878",
+   "hash": "d5f71099462e"
   }
  ]
 }
