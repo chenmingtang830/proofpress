@@ -40,10 +40,22 @@ external ledger state that marks that artifact expired. The stress arm is a
 ## Quality
 
 [//]: # (ob:1a802c43)
-| Arm | Ordinary | Proofpress | Weighted delta | Mean paired delta (95% interval) |
-|---|---:|---:|---:|---:|
-| Clean | 758/852 (89.0%) | 789/852 (92.6%) | +31 / +3.64pp | +3.51pp [+0.55, +6.46] |
-| Stress | 760/852 (89.2%) | 783/852 (91.9%) | +23 / +2.70pp | +2.59pp [−1.48, +6.66] |
+| Arm | Task | Ordinary | Proofpress | Weighted delta |
+|---|---|---:|---:|---:|
+| Clean | Credit | 255/297 (85.9%) | 258/297 (86.9%) | +3 / +1.01pp |
+| Clean | MSA | 257/300 (85.7%) | 282/300 (94.0%) | +25 / +8.33pp |
+| Clean | License | 246/255 (96.5%) | 249/255 (97.6%) | +3 / +1.18pp |
+| **Clean total** | **Three-task panel** | **758/852 (89.0%)** | **789/852 (92.6%)** | **+31 / +3.64pp** |
+| Stress | Credit | 261/297 (87.9%) | 256/297 (86.2%) | −5 / −1.68pp |
+| Stress | MSA | 253/300 (84.3%) | 279/300 (93.0%) | +26 / +8.67pp |
+| Stress | License | 246/255 (96.5%) | 248/255 (97.3%) | +2 / +0.78pp |
+| **Stress total** | **Three-task panel** | **760/852 (89.2%)** | **783/852 (91.9%)** | **+23 / +2.70pp** |
+
+[//]: # (ob:fdab9520)
+Across the nine task-repeat pairs, clean mean paired delta is +3.51pp (95%
+repeated-run interval [+0.55, +6.46]); stress mean paired delta is +2.59pp
+([−1.48, +6.66]). The confirmatory v9 panel uses one worker model only:
+`deepseek/deepseek-v4-flash-0731` through a DeepInfra-only gateway route.
 
 [//]: # (ob:a8644192)
 The interval is a descriptive paired t interval over nine task-repeat pairs. The
