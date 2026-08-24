@@ -101,7 +101,7 @@
       "provider_only": "google",
       "temperature": 0,
       "reasoning_effort": "none",
-      "max_output_tokens": 1000,
+      "max_output_tokens": 4000,
       "timeout_ms": 1800000,
       "fallback": false,
       "retries": 0
