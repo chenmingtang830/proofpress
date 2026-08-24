@@ -1,35 +1,93 @@
 {
  "event": "version_created",
- "artifact": "studies/long-horizon-eval/relaybench/visuals/harvey-proofpress-experiment-map.html",
- "artifact_id": "pp_816e57d9d213518662256aed",
- "version": "28ec87ad",
- "parent": "430c4d60",
+ "artifact": "assets/local-ui/index.html",
+ "artifact_id": "pp_f923e9f2e7566b9d08ebf5d8",
+ "version": "aa15dca8",
+ "parent": null,
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-24T06:06:42+00:00",
+ "ts": "2026-08-24T10:17:40+00:00",
  "stats": {
-  "modified": 2
+  "added": 10
  },
  "changes": [
   {
-   "kind": "modified",
-   "block": "e0e89e87",
+   "kind": "added",
+   "block": "3ccb550a",
    "type": "heading",
-   "context": "<h3>Checks + policy judge</h3>"
+   "context": "<h1>Decide what the next agent <em>may s",
+   "preview": "<h1>Decide what the next agent <em>may safely inherit.</em><"
   },
   {
-   "kind": "modified",
-   "block": "13b5c87e",
+   "kind": "added",
+   "block": "423c385c",
+   "type": "heading",
+   "context": "<h2>What needs a decision?</h2>",
+   "preview": "<h2>What needs a decision?</h2>"
+  },
+  {
+   "kind": "added",
+   "block": "dee9b0d9",
    "type": "para",
-   "context": "<h3>Checks + policy judge</h3>"
+   "context": "<h2>What needs a decision?</h2>",
+   "preview": "<p class=\"scope\">Deterministic checks run per item. LM polic"
+  },
+  {
+   "kind": "added",
+   "block": "53a89f9d",
+   "type": "para",
+   "context": "<h2>What needs a decision?</h2>",
+   "preview": "<p><button class=\"primary\" id=\"batchJudgeBtn\">REVIEW MATTER "
+  },
+  {
+   "kind": "added",
+   "block": "1cb22326",
+   "type": "heading",
+   "context": "<h2>Context request</h2>",
+   "preview": "<h2>Context request</h2>"
+  },
+  {
+   "kind": "added",
+   "block": "da75f5a2",
+   "type": "para",
+   "context": "<h2>Context request</h2>",
+   "preview": "<p><button class=\"primary\" id=\"previewBtn\">Preview trusted c"
+  },
+  {
+   "kind": "added",
+   "block": "6cd43eb8",
+   "type": "heading",
+   "context": "<h2>What will the next agent receive?</h",
+   "preview": "<h2>What will the next agent receive?</h2>"
+  },
+  {
+   "kind": "added",
+   "block": "c4164748",
+   "type": "para",
+   "context": "<h2>What will the next agent receive?</h",
+   "preview": "<p class=\"scope\">Run a preview to apply scope, actor and cur"
+  },
+  {
+   "kind": "added",
+   "block": "5a23d19b",
+   "type": "heading",
+   "context": "<h2>What can the next agent trust?</h2>",
+   "preview": "<h2>What can the next agent trust?</h2>"
+  },
+  {
+   "kind": "added",
+   "block": "590114a0",
+   "type": "para",
+   "context": "<h2>What can the next agent trust?</h2>",
+   "preview": "<p class=\"scope\">Explore current knowledge. Expand only when"
   }
  ],
  "policy": "local",
- "soft_fingerprint": "ppsb1:12d0f1556335cf3d32d8de1539555b839ba01e2459df4c3d285e5351bd3415a3",
+ "soft_fingerprint": "ppsb1:0662812626c5c234a0ddea60b44a781ce71f702eb48104fc089c8ecde688f0a5",
  "actors": {
   "requested_by": [
    "human:richard"
@@ -47,23 +105,18 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "e0e89e87",
+   "block": "dee9b0d9",
    "kind": "modified",
-   "note": "Rename experiment gate to checks plus policy judge."
+   "note": "Review Queue now explains per-item deterministic checks and one LM policy transaction per matter."
   },
   {
-   "block": "13b5c87e",
-   "kind": "modified",
-   "note": "Show fail-closed automated admission rule."
-  },
-  {
-   "block": "5b845a9e",
-   "kind": "modified",
-   "note": "Count judge and policy-gate overhead in the treatment."
+   "block": "53a89f9d",
+   "kind": "added",
+   "note": "Added the matter-level batch judge action; item-level judge remains only as an explicit re-review path."
   }
  ],
  "context": {
-  "why": "Make the experiment map match the frozen automated policy-gate design."
+  "why": "Replace per-conclusion LM policy inference with transaction-level matter review while retaining item-level deterministic checks and ledger receipts."
  },
- "event_id": "ppe_fa77ecdb6ad2204bc3954f32"
+ "event_id": "ppe_c12fcd65e89a9e6389bee4fd"
 }
