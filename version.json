@@ -52,9 +52,9 @@
   },
   {
    "type": "para",
-   "text": "This study integrates those surfaces. It does not fork Tom's RelayBench harness and\ndoes not treat the local UI as experimental evidence.",
+   "text": "This study integrates those surfaces. The Proofpress team owns the integration and\nwill implement it directly on RelayBench without requiring a separate harness-owner\nreview. The frozen Phase Zero mechanics remain unchanged; new real-run adapters,\nexperiment manifests, and analysis live beside them. The local UI is a product and\ncommunication surface, not experimental evidence.",
    "id": "3c438977",
-   "hash": "9252c1a2678a"
+   "hash": "6da877ab3b09"
   },
   {
    "type": "heading",
@@ -184,33 +184,45 @@
   },
   {
    "type": "heading",
-   "text": "### Track A — Harvey-comparable",
+   "text": "### Track A — Claude frontier quality",
    "id": "704d982d",
-   "hash": "54e17567702e"
+   "hash": "3ff4b8456594"
   },
   {
    "type": "para",
-   "text": "Use a model and configuration already reported by Harvey whenever the exact public\nroute remains accessible. The first candidates are GPT-5.5 or Claude Opus 4.7 because\nHarvey has published LAB all-pass and cost/latency context for them. A result from our\npublic task subset remains our composed long-horizon extension, not an official\nHarvey hold-out score.",
+   "text": "Use Claude Opus 4.8 through the local Claude CLI and the user's existing credits.\nFreeze the CLI version, exact resolved model rather than a moving alias, effort\nsetting, tool permissions, timeout, retry policy, and fallback behavior. Capture the\nprovider usage receipt when available. A result from our public task subset remains\nour composed long-horizon extension, not an official Harvey hold-out score.",
    "id": "92d5764d",
-   "hash": "c62affb35b9e"
+   "hash": "db57e5dd54f6"
   },
   {
    "type": "heading",
-   "text": "### Track B — open-weight cost replication",
+   "text": "### Track B — Kimi K3 open-weight cost replication",
    "id": "066c5e34",
-   "hash": "babae5348a43"
+   "hash": "67bd1e86664d"
   },
   {
    "type": "para",
-   "text": "Use one version-pinned open-weight checkpoint served through one no-fallback route.\nPrefer a base family already present in Harvey's published research, such as Kimi K3,\nif the exact checkpoint, license, quantization, serving stack, and resolved identity\ncan be recorded. Do not substitute an unrelated cheap model and describe it as a\nHarvey-matched result.",
+   "text": "Use `moonshotai/kimi-k3` through Vercel AI Gateway and the user's existing credits.\nPin one provider with a hard allowlist and disable automatic provider fallback. Record\nthe exact checkpoint/model identity, license, serving provider, region, speed tier,\nprices, reasoning mode, and gateway request metadata. Kimi K3 is the closest public\nbase-family comparison to Harvey Tenet, which is post-trained from Kimi K3.",
    "id": "478bda41",
-   "hash": "c1668fb8e691"
+   "hash": "6305ad95de4d"
   },
   {
    "type": "para",
    "text": "Track B is a cost and reproducibility replication. It does not replace Track A.",
    "id": "8c71b340",
    "hash": "d9314162666f"
+  },
+  {
+   "type": "heading",
+   "text": "### Credits and normalized cost",
+   "id": "7c94c14e",
+   "hash": "311d9f26157a"
+  },
+  {
+   "type": "para",
+   "text": "Credits do not make a run economically free. Record both actual incremental cash\ncharged to the user and normalized reference cost computed from provider-reported\nusage and the frozen public price schedule. Pareto plots use normalized reference\ncost; the run ledger preserves both.",
+   "id": "885fe02c",
+   "hash": "29ca4becc1b3"
   },
   {
    "type": "heading",
@@ -289,6 +301,114 @@
    "text": "1. Freeze upstream Harvey revision, public task IDs, Proofpress revision, model route,\n   judge, tool surface, and evaluator.\n2. Run deterministic RelayBench mechanics and information-parity checks.\n3. Run one smoke pair with outputs excluded from reported metrics.\n4. Run 1–3 calibration task pairs with full telemetry.\n5. Inspect treatment receipts and task-level differences before expanding.\n6. Freeze repeat count and analysis plan for the publishable pilot.\n7. Run the pilot without changing task selection, prompts, model, or scoring.",
    "id": "f15c27f0",
    "hash": "47010a61ce03"
+  },
+  {
+   "type": "heading",
+   "text": "## Implementation plan",
+   "id": "5b8f65cd",
+   "hash": "d8193e44fe71"
+  },
+  {
+   "type": "heading",
+   "text": "### Phase 1 — generalize RelayBench without rewriting it",
+   "id": "8a77ef0b",
+   "hash": "7af4e903cf41"
+  },
+  {
+   "type": "list",
+   "text": "- preserve the existing H4 stage controller, cold workspace boundary, parity audit,\n  invalidation rules, record schemas, and deterministic scorer;\n- add a Claude CLI adapter and a Vercel AI Gateway adapter behind the existing adapter\n  contract;\n- add a Proofpress C2 treatment adapter that executes the PR 34 lifecycle and exports\n  only trusted-context output to the fresh receiver;\n- add a Raw C1 adapter with the same model, task files, tool surface, and execution\n  limits but no Proofpress context;\n- add normalized-cost, cached-token, reasoning-token, retry, and treatment-overhead\n  telemetry; and\n- retain provider responses and failures in a non-publishable local run ledger.",
+   "id": "4ab38fb2",
+   "hash": "d8531d00ce4b"
+  },
+  {
+   "type": "heading",
+   "text": "### Phase 2 — Harvey LAB Contracts calibration",
+   "id": "63139849",
+   "hash": "95f3d50d0810"
+  },
+  {
+   "type": "para",
+   "text": "Select 1–3 public contract matters with version changes, reopened issues, and authority\nboundaries. Run one excluded smoke pair, then paired C1/C2 calibration on Opus 4.8 and\nKimi K3. Inspect task-level regressions and receipts before setting the publishable\nrepeat count.",
+   "id": "22c33d19",
+   "hash": "c59ca0025669"
+  },
+  {
+   "type": "heading",
+   "text": "### Phase 3 — publishable Harvey pilot",
+   "id": "17bd325a",
+   "hash": "c3bcfed7f004"
+  },
+  {
+   "type": "para",
+   "text": "Freeze task IDs, repeats, model routes, judge, evaluator, analysis, and exclusion\nrules. Expand only after both tracks pass information parity and complete telemetry.\nReport paired effects and the quality-cost-token-latency frontier, not a cherry-picked\naggregate.",
+   "id": "3d52df54",
+   "hash": "466aeb33f7cf"
+  },
+  {
+   "type": "heading",
+   "text": "## Extension tracks",
+   "id": "10fb9dd1",
+   "hash": "7f5e7134fa9a"
+  },
+  {
+   "type": "heading",
+   "text": "### Track C — cross-family frontier robustness",
+   "id": "5962ad71",
+   "hash": "a2b22d65173b"
+  },
+  {
+   "type": "para",
+   "text": "Add GPT-5.6 Sol through Vercel AI Gateway after the Harvey calibration. This track\ntests whether the Proofpress effect transfers across model families. It is especially\nuseful because Harvey reports that changing the APEX harness improved some models and\nregressed GPT-5.6 Sol, demonstrating the need to separate harness effects from the\nProofpress treatment.",
+   "id": "7b3602cb",
+   "hash": "729c707e2df7"
+  },
+  {
+   "type": "heading",
+   "text": "### Track D — distillation and RLM ablation",
+   "id": "f3144a90",
+   "hash": "ece1064e9432"
+  },
+  {
+   "type": "para",
+   "text": "Use GLM-5.2 only after the basic handoff effect is established. Compare plain RLM,\nRLM plus Proofpress governed context, and Proofpress with deeper distillation. This\ntrack asks whether structured cumulative knowledge reduces repeated search and\ndelegation cost; it must not be pooled with the simpler handoff treatment.",
+   "id": "ff682143",
+   "hash": "25cf3de46e1e"
+  },
+  {
+   "type": "heading",
+   "text": "### Benchmark 2 — Redline Bench",
+   "id": "e671391a",
+   "hash": "da951b87cb54"
+  },
+  {
+   "type": "para",
+   "text": "Redline Bench is the most natural second substrate because it already evaluates\nmulti-turn contract negotiation. Test operative-version selection, supersession,\nrejected-path revival, authority boundaries, and document-native redlines while\nretaining its standard Harbor harness and judge configuration.",
+   "id": "733aa604",
+   "hash": "c5c3ebb82a9f"
+  },
+  {
+   "type": "heading",
+   "text": "### Benchmark 3 — APEX Agents Corporate Lawyer",
+   "id": "00ec02db",
+   "hash": "0d4c78336915"
+  },
+  {
+   "type": "para",
+   "text": "Use the canonical Archipelago environment and corporate-lawyer subset. Preserve the\nofficial Gemini 3 Flash judge at low thinking and report Pass@1 over eight trajectories\nwhen reproducing the published setup. Treat any direct-filesystem variant as a\nseparate harness ablation, because Harvey reports material model-dependent score\nmovement from that change.",
+   "id": "9b60dc96",
+   "hash": "fe0db5945ead"
+  },
+  {
+   "type": "heading",
+   "text": "### Benchmark 4 — PRBench and knowledge-scale work",
+   "id": "13a5bdcb",
+   "hash": "dd94a84c4475"
+  },
+  {
+   "type": "para",
+   "text": "PRBench can test high-stakes professional reasoning after the agentic mechanism is\nestablished. LAB Firm Knowledge or a bounded APEX knowledge workflow can later test\nwhether Proofpress distillation improves repeated work over large corpora. These are\nnew interventions and require separate preregistration; they are not automatic\nextensions of the Harvey handoff result.",
+   "id": "45b35915",
+   "hash": "8e2f9a70e994"
   },
   {
    "type": "heading",

@@ -2,386 +2,193 @@
  "event": "version_created",
  "artifact": "studies/long-horizon-eval/relaybench/PROOFPRESS_PARETO_STUDY.md",
  "artifact_id": "pp_ffddb1d2cc98a01371a598e2",
- "version": "5d7939ed",
- "parent": null,
+ "version": "89666ca5",
+ "parent": "5d7939ed",
  "author": {
   "name": "codex",
   "kind": "agent",
   "session": null
  },
  "note": null,
- "ts": "2026-08-24T05:13:35+00:00",
+ "ts": "2026-08-24T05:28:17+00:00",
  "stats": {
-  "added": 52
+  "modified": 5,
+  "added": 20
  },
  "changes": [
   {
-   "kind": "added",
-   "block": "03db813b",
-   "type": "heading",
-   "context": "Proofpress × Harvey LAB: governed handof",
-   "preview": "# Proofpress × Harvey LAB: governed handoff Pareto study"
-  },
-  {
-   "kind": "added",
-   "block": "f69daa06",
-   "type": "heading",
-   "context": "Decision",
-   "preview": "## Decision"
-  },
-  {
-   "kind": "added",
-   "block": "e439b2a3",
-   "type": "para",
-   "context": "Decision",
-   "preview": "This study asks whether Proofpress improves long-horizon leg"
-  },
-  {
-   "kind": "added",
-   "block": "46841646",
-   "type": "para",
-   "context": "Decision",
-   "preview": "The primary comparison is deliberately product-shaped:"
-  },
-  {
-   "kind": "added",
-   "block": "76cadfc5",
-   "type": "list",
-   "context": "Decision",
-   "preview": "- **Raw handoff** transfers the ordinary readable workspace "
-  },
-  {
-   "kind": "added",
-   "block": "57eeadf3",
-   "type": "para",
-   "context": "Decision",
-   "preview": "This is not a comparison against a separate memory or ontolo"
-  },
-  {
-   "kind": "added",
-   "block": "8c648201",
-   "type": "heading",
-   "context": "Relationship to PRs 22, 23, and 34",
-   "preview": "## Relationship to PRs 22, 23, and 34"
-  },
-  {
-   "kind": "added",
-   "block": "7d05415d",
-   "type": "list",
-   "context": "Relationship to PRs 22, 23, and 34",
-   "preview": "- PR 22 defines the original long-horizon research question "
-  },
-  {
-   "kind": "added",
+   "kind": "modified",
    "block": "3c438977",
    "type": "para",
-   "context": "Relationship to PRs 22, 23, and 34",
-   "preview": "This study integrates those surfaces. It does not fork Tom's"
+   "context": "Relationship to PRs 22, 23, and 34"
   },
   {
-   "kind": "added",
-   "block": "27d99607",
-   "type": "heading",
-   "context": "Research questions",
-   "preview": "## Research questions"
-  },
-  {
-   "kind": "added",
-   "block": "b63dff18",
-   "type": "heading",
-   "context": "Primary",
-   "preview": "### Primary"
-  },
-  {
-   "kind": "added",
-   "block": "6a191609",
-   "type": "para",
-   "context": "Primary",
-   "preview": "At matched model and execution limits, does Proofpress incre"
-  },
-  {
-   "kind": "added",
-   "block": "1baca415",
-   "type": "heading",
-   "context": "Mechanism",
-   "preview": "### Mechanism"
-  },
-  {
-   "kind": "added",
-   "block": "21cc85e2",
-   "type": "para",
-   "context": "Mechanism",
-   "preview": "Does Proofpress reduce stale or unsafe state propagation wit"
-  },
-  {
-   "kind": "added",
-   "block": "8c2f2a73",
-   "type": "heading",
-   "context": "Deployment",
-   "preview": "### Deployment"
-  },
-  {
-   "kind": "added",
-   "block": "fe993a43",
-   "type": "para",
-   "context": "Deployment",
-   "preview": "Does Proofpress move the quality-cost frontier after all tre"
-  },
-  {
-   "kind": "added",
-   "block": "c12d3992",
-   "type": "heading",
-   "context": "Experimental unit",
-   "preview": "## Experimental unit"
-  },
-  {
-   "kind": "added",
-   "block": "27d61266",
-   "type": "para",
-   "context": "Experimental unit",
-   "preview": "One unit is a matched pair on one version-pinned Harvey LAB "
-  },
-  {
-   "kind": "added",
-   "block": "cc9a861e",
-   "type": "list",
-   "context": "Experimental unit",
-   "preview": "1. identical initial matter files and staged releases;\n2. id"
-  },
-  {
-   "kind": "added",
-   "block": "41a8ded2",
-   "type": "para",
-   "context": "Experimental unit",
-   "preview": "The first calibration should use 1–3 public contract matters"
-  },
-  {
-   "kind": "added",
-   "block": "6852bd0c",
-   "type": "heading",
-   "context": "Conditions",
-   "preview": "## Conditions"
-  },
-  {
-   "kind": "added",
-   "block": "2d044e9c",
-   "type": "heading",
-   "context": "C1 — Raw handoff",
-   "preview": "### C1 — Raw handoff"
-  },
-  {
-   "kind": "added",
-   "block": "0641ea0f",
-   "type": "para",
-   "context": "C1 — Raw handoff",
-   "preview": "The receiving agent gets the ordinary portable matter worksp"
-  },
-  {
-   "kind": "added",
-   "block": "00263ff2",
-   "type": "heading",
-   "context": "C2 — Proofpress governed handoff",
-   "preview": "### C2 — Proofpress governed handoff"
-  },
-  {
-   "kind": "added",
-   "block": "5947a59d",
-   "type": "para",
-   "context": "C2 — Proofpress governed handoff",
-   "preview": "The receiving agent gets byte-identical source material. Bef"
-  },
-  {
-   "kind": "added",
-   "block": "39182e1a",
-   "type": "code",
-   "context": "C2 — Proofpress governed handoff",
-   "preview": "```text\nproofpress context --scope <scope> --actor <receiver"
-  },
-  {
-   "kind": "added",
-   "block": "e368caab",
-   "type": "para",
-   "context": "C2 — Proofpress governed handoff",
-   "preview": "Rejected, expired, superseded, scope-incompatible, and unadm"
-  },
-  {
-   "kind": "added",
-   "block": "f31c71e0",
-   "type": "heading",
-   "context": "What may differ",
-   "preview": "### What may differ"
-  },
-  {
-   "kind": "added",
-   "block": "8df0559f",
-   "type": "para",
-   "context": "What may differ",
-   "preview": "The conditions differ only in the treatment mechanics requir"
-  },
-  {
-   "kind": "added",
-   "block": "3358036e",
-   "type": "heading",
-   "context": "Model tracks",
-   "preview": "## Model tracks"
-  },
-  {
-   "kind": "added",
+   "kind": "modified",
    "block": "704d982d",
    "type": "heading",
-   "context": "Track A — Harvey-comparable",
-   "preview": "### Track A — Harvey-comparable"
+   "context": "Track A — Claude frontier quality"
   },
   {
-   "kind": "added",
+   "kind": "modified",
    "block": "92d5764d",
    "type": "para",
-   "context": "Track A — Harvey-comparable",
-   "preview": "Use a model and configuration already reported by Harvey whe"
+   "context": "Track A — Claude frontier quality"
   },
   {
-   "kind": "added",
+   "kind": "modified",
    "block": "066c5e34",
    "type": "heading",
-   "context": "Track B — open-weight cost replication",
-   "preview": "### Track B — open-weight cost replication"
+   "context": "Track B — Kimi K3 open-weight cost repli"
   },
   {
-   "kind": "added",
+   "kind": "modified",
    "block": "478bda41",
    "type": "para",
-   "context": "Track B — open-weight cost replication",
-   "preview": "Use one version-pinned open-weight checkpoint served through"
+   "context": "Track B — Kimi K3 open-weight cost repli"
   },
   {
    "kind": "added",
-   "block": "8c71b340",
+   "block": "7c94c14e",
+   "type": "heading",
+   "context": "Credits and normalized cost",
+   "preview": "### Credits and normalized cost"
+  },
+  {
+   "kind": "added",
+   "block": "885fe02c",
    "type": "para",
-   "context": "Track B — open-weight cost replication",
-   "preview": "Track B is a cost and reproducibility replication. It does n"
+   "context": "Credits and normalized cost",
+   "preview": "Credits do not make a run economically free. Record both act"
   },
   {
    "kind": "added",
-   "block": "42296223",
+   "block": "5b8f65cd",
    "type": "heading",
-   "context": "Outcomes",
-   "preview": "## Outcomes"
+   "context": "Implementation plan",
+   "preview": "## Implementation plan"
   },
   {
    "kind": "added",
-   "block": "e49abdbb",
+   "block": "8a77ef0b",
    "type": "heading",
-   "context": "Quality",
-   "preview": "### Quality"
+   "context": "Phase 1 — generalize RelayBench without ",
+   "preview": "### Phase 1 — generalize RelayBench without rewriting it"
   },
   {
    "kind": "added",
-   "block": "223580ee",
+   "block": "4ab38fb2",
    "type": "list",
-   "context": "Quality",
-   "preview": "- official LAB all-pass rate;\n- official LAB criterion-pass "
+   "context": "Phase 1 — generalize RelayBench without ",
+   "preview": "- preserve the existing H4 stage controller, cold workspace "
   },
   {
    "kind": "added",
-   "block": "5bf8f2a8",
+   "block": "63139849",
    "type": "heading",
-   "context": "Resource use",
-   "preview": "### Resource use"
+   "context": "Phase 2 — Harvey LAB Contracts calibrati",
+   "preview": "### Phase 2 — Harvey LAB Contracts calibration"
   },
   {
    "kind": "added",
-   "block": "f2f377e9",
-   "type": "list",
-   "context": "Resource use",
-   "preview": "- total input, cached-input, reasoning, and output tokens;\n-"
-  },
-  {
-   "kind": "added",
-   "block": "a77c9da2",
+   "block": "22c33d19",
    "type": "para",
-   "context": "Resource use",
-   "preview": "No hard cost ceiling is needed for the calibration. Complete"
+   "context": "Phase 2 — Harvey LAB Contracts calibrati",
+   "preview": "Select 1–3 public contract matters with version changes, reo"
   },
   {
    "kind": "added",
-   "block": "3b954f6e",
+   "block": "17bd325a",
    "type": "heading",
-   "context": "Pareto analysis",
-   "preview": "## Pareto analysis"
+   "context": "Phase 3 — publishable Harvey pilot",
+   "preview": "### Phase 3 — publishable Harvey pilot"
   },
   {
    "kind": "added",
-   "block": "c4c15e9f",
+   "block": "3d52df54",
    "type": "para",
-   "context": "Pareto analysis",
-   "preview": "For each matched model/task configuration, compare quality a"
+   "context": "Phase 3 — publishable Harvey pilot",
+   "preview": "Freeze task IDs, repeats, model routes, judge, evaluator, an"
   },
   {
    "kind": "added",
-   "block": "0bbdff6d",
-   "type": "para",
-   "context": "Pareto analysis",
-   "preview": "Proofpress strictly dominates raw handoff when quality is no"
-  },
-  {
-   "kind": "added",
-   "block": "62856701",
-   "type": "para",
-   "context": "Pareto analysis",
-   "preview": "Report at minimum:"
-  },
-  {
-   "kind": "added",
-   "block": "8ec0fe29",
-   "type": "list",
-   "context": "Pareto analysis",
-   "preview": "- the matched same-budget quality delta;\n- the incremental c"
-  },
-  {
-   "kind": "added",
-   "block": "b4a4682f",
+   "block": "10fb9dd1",
    "type": "heading",
-   "context": "Run sequence",
-   "preview": "## Run sequence"
+   "context": "Extension tracks",
+   "preview": "## Extension tracks"
   },
   {
    "kind": "added",
-   "block": "f15c27f0",
-   "type": "list",
-   "context": "Run sequence",
-   "preview": "1. Freeze upstream Harvey revision, public task IDs, Proofpr"
-  },
-  {
-   "kind": "added",
-   "block": "8c9683e6",
+   "block": "5962ad71",
    "type": "heading",
-   "context": "Publication boundary",
-   "preview": "## Publication boundary"
+   "context": "Track C — cross-family frontier robustne",
+   "preview": "### Track C — cross-family frontier robustness"
   },
   {
    "kind": "added",
-   "block": "4239307a",
+   "block": "7b3602cb",
    "type": "para",
-   "context": "Publication boundary",
-   "preview": "Until the publishable pilot is frozen and complete, the only"
+   "context": "Track C — cross-family frontier robustne",
+   "preview": "Add GPT-5.6 Sol through Vercel AI Gateway after the Harvey c"
   },
   {
    "kind": "added",
-   "block": "bdad788e",
-   "type": "para",
-   "context": "Publication boundary",
-   "preview": "> We are testing whether governed, verified handoffs improve"
+   "block": "f3144a90",
+   "type": "heading",
+   "context": "Track D — distillation and RLM ablation",
+   "preview": "### Track D — distillation and RLM ablation"
   },
   {
    "kind": "added",
-   "block": "2c099878",
+   "block": "ff682143",
    "type": "para",
-   "context": "Publication boundary",
-   "preview": "Do not report test doubles, smoke runs, hand-picked successf"
+   "context": "Track D — distillation and RLM ablation",
+   "preview": "Use GLM-5.2 only after the basic handoff effect is establish"
+  },
+  {
+   "kind": "added",
+   "block": "e671391a",
+   "type": "heading",
+   "context": "Benchmark 2 — Redline Bench",
+   "preview": "### Benchmark 2 — Redline Bench"
+  },
+  {
+   "kind": "added",
+   "block": "733aa604",
+   "type": "para",
+   "context": "Benchmark 2 — Redline Bench",
+   "preview": "Redline Bench is the most natural second substrate because i"
+  },
+  {
+   "kind": "added",
+   "block": "00ec02db",
+   "type": "heading",
+   "context": "Benchmark 3 — APEX Agents Corporate Lawy",
+   "preview": "### Benchmark 3 — APEX Agents Corporate Lawyer"
+  },
+  {
+   "kind": "added",
+   "block": "9b60dc96",
+   "type": "para",
+   "context": "Benchmark 3 — APEX Agents Corporate Lawy",
+   "preview": "Use the canonical Archipelago environment and corporate-lawy"
+  },
+  {
+   "kind": "added",
+   "block": "13a5bdcb",
+   "type": "heading",
+   "context": "Benchmark 4 — PRBench and knowledge-scal",
+   "preview": "### Benchmark 4 — PRBench and knowledge-scale work"
+  },
+  {
+   "kind": "added",
+   "block": "45b35915",
+   "type": "para",
+   "context": "Benchmark 4 — PRBench and knowledge-scal",
+   "preview": "PRBench can test high-stakes professional reasoning after th"
   }
  ],
  "policy": "local",
- "soft_fingerprint": "ppsb1:9400f5b4a985b1ab4acc71183c4181e06dd8b85ff6dfabba2328ca5c9dce5392",
+ "soft_fingerprint": "ppsb1:c54b66b55c3a92415eb46de21604f382a381261e0512c13adcb31ef92d0f8ae9",
  "actors": {
   "requested_by": [
    "human:richard-tang"
@@ -399,268 +206,133 @@
  "attribution_basis": "harness_attested",
  "claims": [
   {
-   "block": "ob:03db813b",
-   "kind": "added",
-   "note": "Adds the governed-handoff Pareto study contract."
+   "block": "3c438977",
+   "kind": "modified",
+   "note": "Finalizes study ownership or the approved Track A and Track B model route."
   },
   {
-   "block": "ob:f69daa06",
-   "kind": "added",
-   "note": "Adds the governed-handoff Pareto study contract."
+   "block": "704d982d",
+   "kind": "modified",
+   "note": "Finalizes study ownership or the approved Track A and Track B model route."
   },
   {
-   "block": "ob:e439b2a3",
-   "kind": "added",
-   "note": "Adds the governed-handoff Pareto study contract."
+   "block": "92d5764d",
+   "kind": "modified",
+   "note": "Finalizes study ownership or the approved Track A and Track B model route."
   },
   {
-   "block": "ob:46841646",
-   "kind": "added",
-   "note": "Adds the governed-handoff Pareto study contract."
+   "block": "066c5e34",
+   "kind": "modified",
+   "note": "Finalizes study ownership or the approved Track A and Track B model route."
   },
   {
-   "block": "ob:76cadfc5",
-   "kind": "added",
-   "note": "Adds the governed-handoff Pareto study contract."
+   "block": "478bda41",
+   "kind": "modified",
+   "note": "Finalizes study ownership or the approved Track A and Track B model route."
   },
   {
-   "block": "ob:57eeadf3",
+   "block": "7c94c14e",
    "kind": "added",
-   "note": "Adds the governed-handoff Pareto study contract."
+   "note": "Adds implementation phases, normalized cost accounting, or future model and benchmark extensions."
   },
   {
-   "block": "ob:8c648201",
+   "block": "885fe02c",
    "kind": "added",
-   "note": "Adds the governed-handoff Pareto study contract."
+   "note": "Adds implementation phases, normalized cost accounting, or future model and benchmark extensions."
   },
   {
-   "block": "ob:7d05415d",
+   "block": "5b8f65cd",
    "kind": "added",
-   "note": "Adds the governed-handoff Pareto study contract."
+   "note": "Adds implementation phases, normalized cost accounting, or future model and benchmark extensions."
   },
   {
-   "block": "ob:3c438977",
+   "block": "8a77ef0b",
    "kind": "added",
-   "note": "Adds the governed-handoff Pareto study contract."
+   "note": "Adds implementation phases, normalized cost accounting, or future model and benchmark extensions."
   },
   {
-   "block": "ob:27d99607",
+   "block": "4ab38fb2",
    "kind": "added",
-   "note": "Adds the governed-handoff Pareto study contract."
+   "note": "Adds implementation phases, normalized cost accounting, or future model and benchmark extensions."
   },
   {
-   "block": "ob:b63dff18",
+   "block": "63139849",
    "kind": "added",
-   "note": "Adds the governed-handoff Pareto study contract."
+   "note": "Adds implementation phases, normalized cost accounting, or future model and benchmark extensions."
   },
   {
-   "block": "ob:6a191609",
+   "block": "22c33d19",
    "kind": "added",
-   "note": "Adds the governed-handoff Pareto study contract."
+   "note": "Adds implementation phases, normalized cost accounting, or future model and benchmark extensions."
   },
   {
-   "block": "ob:1baca415",
+   "block": "17bd325a",
    "kind": "added",
-   "note": "Adds the governed-handoff Pareto study contract."
+   "note": "Adds implementation phases, normalized cost accounting, or future model and benchmark extensions."
   },
   {
-   "block": "ob:21cc85e2",
+   "block": "3d52df54",
    "kind": "added",
-   "note": "Adds the governed-handoff Pareto study contract."
+   "note": "Adds implementation phases, normalized cost accounting, or future model and benchmark extensions."
   },
   {
-   "block": "ob:8c2f2a73",
+   "block": "10fb9dd1",
    "kind": "added",
-   "note": "Adds the governed-handoff Pareto study contract."
+   "note": "Adds implementation phases, normalized cost accounting, or future model and benchmark extensions."
   },
   {
-   "block": "ob:fe993a43",
+   "block": "5962ad71",
    "kind": "added",
-   "note": "Adds the governed-handoff Pareto study contract."
+   "note": "Adds implementation phases, normalized cost accounting, or future model and benchmark extensions."
   },
   {
-   "block": "ob:c12d3992",
+   "block": "7b3602cb",
    "kind": "added",
-   "note": "Adds the governed-handoff Pareto study contract."
+   "note": "Adds implementation phases, normalized cost accounting, or future model and benchmark extensions."
   },
   {
-   "block": "ob:27d61266",
+   "block": "f3144a90",
    "kind": "added",
-   "note": "Adds the governed-handoff Pareto study contract."
+   "note": "Adds implementation phases, normalized cost accounting, or future model and benchmark extensions."
   },
   {
-   "block": "ob:cc9a861e",
+   "block": "ff682143",
    "kind": "added",
-   "note": "Adds the governed-handoff Pareto study contract."
+   "note": "Adds implementation phases, normalized cost accounting, or future model and benchmark extensions."
   },
   {
-   "block": "ob:41a8ded2",
+   "block": "e671391a",
    "kind": "added",
-   "note": "Adds the governed-handoff Pareto study contract."
+   "note": "Adds implementation phases, normalized cost accounting, or future model and benchmark extensions."
   },
   {
-   "block": "ob:6852bd0c",
+   "block": "733aa604",
    "kind": "added",
-   "note": "Adds the governed-handoff Pareto study contract."
+   "note": "Adds implementation phases, normalized cost accounting, or future model and benchmark extensions."
   },
   {
-   "block": "ob:2d044e9c",
+   "block": "00ec02db",
    "kind": "added",
-   "note": "Adds the governed-handoff Pareto study contract."
+   "note": "Adds implementation phases, normalized cost accounting, or future model and benchmark extensions."
   },
   {
-   "block": "ob:0641ea0f",
+   "block": "9b60dc96",
    "kind": "added",
-   "note": "Adds the governed-handoff Pareto study contract."
+   "note": "Adds implementation phases, normalized cost accounting, or future model and benchmark extensions."
   },
   {
-   "block": "ob:00263ff2",
+   "block": "13a5bdcb",
    "kind": "added",
-   "note": "Adds the governed-handoff Pareto study contract."
+   "note": "Adds implementation phases, normalized cost accounting, or future model and benchmark extensions."
   },
   {
-   "block": "ob:5947a59d",
+   "block": "45b35915",
    "kind": "added",
-   "note": "Adds the governed-handoff Pareto study contract."
-  },
-  {
-   "block": "ob:39182e1a",
-   "kind": "added",
-   "note": "Adds the governed-handoff Pareto study contract."
-  },
-  {
-   "block": "ob:e368caab",
-   "kind": "added",
-   "note": "Adds the governed-handoff Pareto study contract."
-  },
-  {
-   "block": "ob:f31c71e0",
-   "kind": "added",
-   "note": "Adds the governed-handoff Pareto study contract."
-  },
-  {
-   "block": "ob:8df0559f",
-   "kind": "added",
-   "note": "Adds the governed-handoff Pareto study contract."
-  },
-  {
-   "block": "ob:3358036e",
-   "kind": "added",
-   "note": "Adds the governed-handoff Pareto study contract."
-  },
-  {
-   "block": "ob:704d982d",
-   "kind": "added",
-   "note": "Adds the governed-handoff Pareto study contract."
-  },
-  {
-   "block": "ob:92d5764d",
-   "kind": "added",
-   "note": "Adds the governed-handoff Pareto study contract."
-  },
-  {
-   "block": "ob:066c5e34",
-   "kind": "added",
-   "note": "Adds the governed-handoff Pareto study contract."
-  },
-  {
-   "block": "ob:478bda41",
-   "kind": "added",
-   "note": "Adds the governed-handoff Pareto study contract."
-  },
-  {
-   "block": "ob:8c71b340",
-   "kind": "added",
-   "note": "Adds the governed-handoff Pareto study contract."
-  },
-  {
-   "block": "ob:42296223",
-   "kind": "added",
-   "note": "Adds the governed-handoff Pareto study contract."
-  },
-  {
-   "block": "ob:e49abdbb",
-   "kind": "added",
-   "note": "Adds the governed-handoff Pareto study contract."
-  },
-  {
-   "block": "ob:223580ee",
-   "kind": "added",
-   "note": "Adds the governed-handoff Pareto study contract."
-  },
-  {
-   "block": "ob:5bf8f2a8",
-   "kind": "added",
-   "note": "Adds the governed-handoff Pareto study contract."
-  },
-  {
-   "block": "ob:f2f377e9",
-   "kind": "added",
-   "note": "Adds the governed-handoff Pareto study contract."
-  },
-  {
-   "block": "ob:a77c9da2",
-   "kind": "added",
-   "note": "Adds the governed-handoff Pareto study contract."
-  },
-  {
-   "block": "ob:3b954f6e",
-   "kind": "added",
-   "note": "Adds the governed-handoff Pareto study contract."
-  },
-  {
-   "block": "ob:c4c15e9f",
-   "kind": "added",
-   "note": "Adds the governed-handoff Pareto study contract."
-  },
-  {
-   "block": "ob:0bbdff6d",
-   "kind": "added",
-   "note": "Adds the governed-handoff Pareto study contract."
-  },
-  {
-   "block": "ob:62856701",
-   "kind": "added",
-   "note": "Adds the governed-handoff Pareto study contract."
-  },
-  {
-   "block": "ob:8ec0fe29",
-   "kind": "added",
-   "note": "Adds the governed-handoff Pareto study contract."
-  },
-  {
-   "block": "ob:b4a4682f",
-   "kind": "added",
-   "note": "Adds the governed-handoff Pareto study contract."
-  },
-  {
-   "block": "ob:f15c27f0",
-   "kind": "added",
-   "note": "Adds the governed-handoff Pareto study contract."
-  },
-  {
-   "block": "ob:8c9683e6",
-   "kind": "added",
-   "note": "Adds the governed-handoff Pareto study contract."
-  },
-  {
-   "block": "ob:4239307a",
-   "kind": "added",
-   "note": "Adds the governed-handoff Pareto study contract."
-  },
-  {
-   "block": "ob:bdad788e",
-   "kind": "added",
-   "note": "Adds the governed-handoff Pareto study contract."
-  },
-  {
-   "block": "ob:2c099878",
-   "kind": "added",
-   "note": "Adds the governed-handoff Pareto study contract."
+   "note": "Adds implementation phases, normalized cost accounting, or future model and benchmark extensions."
   }
  ],
  "context": {
-  "why": "Define the matched Raw-versus-Proofpress Harvey LAB research integration and require complete Pareto accounting before real calls."
+  "why": "Finalize Proofpress ownership, Claude Opus 4.8 and Kimi K3 execution tracks, normalized cost accounting, implementation phases, and benchmark extensions requested by Richard."
  },
- "event_id": "ppe_b8de41934a19ea9b186cc051"
+ "event_id": "ppe_a4ce7450c14b0da57dea4504"
 }
