@@ -35,8 +35,11 @@ treatment and its complete token, latency, and dollar cost must be counted.
   evaluation, policy recommendation, human admission, trusted context, and local UI.
 
 [//]: # (ob:3c438977)
-This study integrates those surfaces. It does not fork Tom's RelayBench harness and
-does not treat the local UI as experimental evidence.
+This study integrates those surfaces. The Proofpress team owns the integration and
+will implement it directly on RelayBench without requiring a separate harness-owner
+review. The frozen Phase Zero mechanics remain unchanged; new real-run adapters,
+experiment manifests, and analysis live beside them. The local UI is a product and
+communication surface, not experimental evidence.
 
 [//]: # (ob:27d99607)
 ## Research questions
@@ -124,27 +127,36 @@ product treatment, but every generated token and every model call is charged to 
 ## Model tracks
 
 [//]: # (ob:704d982d)
-### Track A — Harvey-comparable
+### Track A — Claude frontier quality
 
 [//]: # (ob:92d5764d)
-Use a model and configuration already reported by Harvey whenever the exact public
-route remains accessible. The first candidates are GPT-5.5 or Claude Opus 4.7 because
-Harvey has published LAB all-pass and cost/latency context for them. A result from our
-public task subset remains our composed long-horizon extension, not an official
-Harvey hold-out score.
+Use Claude Opus 4.8 through the local Claude CLI and the user's existing credits.
+Freeze the CLI version, exact resolved model rather than a moving alias, effort
+setting, tool permissions, timeout, retry policy, and fallback behavior. Capture the
+provider usage receipt when available. A result from our public task subset remains
+our composed long-horizon extension, not an official Harvey hold-out score.
 
 [//]: # (ob:066c5e34)
-### Track B — open-weight cost replication
+### Track B — Kimi K3 open-weight cost replication
 
 [//]: # (ob:478bda41)
-Use one version-pinned open-weight checkpoint served through one no-fallback route.
-Prefer a base family already present in Harvey's published research, such as Kimi K3,
-if the exact checkpoint, license, quantization, serving stack, and resolved identity
-can be recorded. Do not substitute an unrelated cheap model and describe it as a
-Harvey-matched result.
+Use `moonshotai/kimi-k3` through Vercel AI Gateway and the user's existing credits.
+Pin one provider with a hard allowlist and disable automatic provider fallback. Record
+the exact checkpoint/model identity, license, serving provider, region, speed tier,
+prices, reasoning mode, and gateway request metadata. Kimi K3 is the closest public
+base-family comparison to Harvey Tenet, which is post-trained from Kimi K3.
 
 [//]: # (ob:8c71b340)
 Track B is a cost and reproducibility replication. It does not replace Track A.
+
+[//]: # (ob:7c94c14e)
+### Credits and normalized cost
+
+[//]: # (ob:885fe02c)
+Credits do not make a run economically free. Record both actual incremental cash
+charged to the user and normalized reference cost computed from provider-reported
+usage and the frozen public price schedule. Pareto plots use normalized reference
+cost; the run ledger preserves both.
 
 [//]: # (ob:42296223)
 ## Outcomes
@@ -213,6 +225,94 @@ Report at minimum:
 5. Inspect treatment receipts and task-level differences before expanding.
 6. Freeze repeat count and analysis plan for the publishable pilot.
 7. Run the pilot without changing task selection, prompts, model, or scoring.
+
+[//]: # (ob:5b8f65cd)
+## Implementation plan
+
+[//]: # (ob:8a77ef0b)
+### Phase 1 — generalize RelayBench without rewriting it
+
+[//]: # (ob:4ab38fb2)
+- preserve the existing H4 stage controller, cold workspace boundary, parity audit,
+  invalidation rules, record schemas, and deterministic scorer;
+- add a Claude CLI adapter and a Vercel AI Gateway adapter behind the existing adapter
+  contract;
+- add a Proofpress C2 treatment adapter that executes the PR 34 lifecycle and exports
+  only trusted-context output to the fresh receiver;
+- add a Raw C1 adapter with the same model, task files, tool surface, and execution
+  limits but no Proofpress context;
+- add normalized-cost, cached-token, reasoning-token, retry, and treatment-overhead
+  telemetry; and
+- retain provider responses and failures in a non-publishable local run ledger.
+
+[//]: # (ob:63139849)
+### Phase 2 — Harvey LAB Contracts calibration
+
+[//]: # (ob:22c33d19)
+Select 1–3 public contract matters with version changes, reopened issues, and authority
+boundaries. Run one excluded smoke pair, then paired C1/C2 calibration on Opus 4.8 and
+Kimi K3. Inspect task-level regressions and receipts before setting the publishable
+repeat count.
+
+[//]: # (ob:17bd325a)
+### Phase 3 — publishable Harvey pilot
+
+[//]: # (ob:3d52df54)
+Freeze task IDs, repeats, model routes, judge, evaluator, analysis, and exclusion
+rules. Expand only after both tracks pass information parity and complete telemetry.
+Report paired effects and the quality-cost-token-latency frontier, not a cherry-picked
+aggregate.
+
+[//]: # (ob:10fb9dd1)
+## Extension tracks
+
+[//]: # (ob:5962ad71)
+### Track C — cross-family frontier robustness
+
+[//]: # (ob:7b3602cb)
+Add GPT-5.6 Sol through Vercel AI Gateway after the Harvey calibration. This track
+tests whether the Proofpress effect transfers across model families. It is especially
+useful because Harvey reports that changing the APEX harness improved some models and
+regressed GPT-5.6 Sol, demonstrating the need to separate harness effects from the
+Proofpress treatment.
+
+[//]: # (ob:f3144a90)
+### Track D — distillation and RLM ablation
+
+[//]: # (ob:ff682143)
+Use GLM-5.2 only after the basic handoff effect is established. Compare plain RLM,
+RLM plus Proofpress governed context, and Proofpress with deeper distillation. This
+track asks whether structured cumulative knowledge reduces repeated search and
+delegation cost; it must not be pooled with the simpler handoff treatment.
+
+[//]: # (ob:e671391a)
+### Benchmark 2 — Redline Bench
+
+[//]: # (ob:733aa604)
+Redline Bench is the most natural second substrate because it already evaluates
+multi-turn contract negotiation. Test operative-version selection, supersession,
+rejected-path revival, authority boundaries, and document-native redlines while
+retaining its standard Harbor harness and judge configuration.
+
+[//]: # (ob:00ec02db)
+### Benchmark 3 — APEX Agents Corporate Lawyer
+
+[//]: # (ob:9b60dc96)
+Use the canonical Archipelago environment and corporate-lawyer subset. Preserve the
+official Gemini 3 Flash judge at low thinking and report Pass@1 over eight trajectories
+when reproducing the published setup. Treat any direct-filesystem variant as a
+separate harness ablation, because Harvey reports material model-dependent score
+movement from that change.
+
+[//]: # (ob:13a5bdcb)
+### Benchmark 4 — PRBench and knowledge-scale work
+
+[//]: # (ob:45b35915)
+PRBench can test high-stakes professional reasoning after the agentic mechanism is
+established. LAB Firm Knowledge or a bounded APEX knowledge workflow can later test
+whether Proofpress distillation improves repeated work over large corpora. These are
+new interventions and require separate preregistration; they are not automatic
+extensions of the Harvey handoff result.
 
 [//]: # (ob:8c9683e6)
 ## Publication boundary

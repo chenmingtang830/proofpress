@@ -2,6 +2,11 @@
   "schema_version": 1,
   "id": "proofpress-harvey-lab-pareto-v1",
   "status": "CALIBRATION_CANDIDATE_NO_RESULTS",
+  "ownership": {
+    "research_owner": "Proofpress",
+    "implementation_review_required_from_relaybench_author": false,
+    "phase_zero_frozen_mechanics_modified": false
+  },
   "primary_estimand": "paired quality delta for Proofpress versus raw handoff at matched model, task, evaluator, tools, and execution limits",
   "conditions": [
     "C1_ORDINARY_PORTABLE",
@@ -11,17 +16,18 @@
     {
       "id": "A_HARVEY_COMPARABLE",
       "model_candidates": [
-        "gpt-5.5",
-        "claude-opus-4.7"
+        "claude-opus-4.8"
       ],
-      "selection_rule": "choose one exact accessible no-fallback route already reported by Harvey and freeze resolved identity before calls"
+      "route": "local Claude CLI",
+      "selection_rule": "freeze CLI version, exact resolved model, effort, permissions, timeout, retries, and fallback before calls"
     },
     {
       "id": "B_OPEN_WEIGHT_COST",
       "model_candidates": [
-        "kimi-k3-base-exact-checkpoint-tbd"
+        "moonshotai/kimi-k3"
       ],
-      "selection_rule": "freeze checkpoint, license, quantization, serving stack, prices, and resolved identity before calls"
+      "route": "Vercel AI Gateway",
+      "selection_rule": "hard-allowlist one provider and freeze model identity, license, region, speed tier, prices, reasoning mode, and gateway metadata before calls"
     }
   ],
   "task_selection": {
@@ -29,7 +35,7 @@
     "calibration_count_min": 1,
     "calibration_count_max": 3,
     "task_ids": [],
-    "selection_status": "REQUIRES_RICHARD_TOM_APPROVAL"
+    "selection_status": "REQUIRES_RESEARCH_OWNER_FREEZE"
   },
   "budget_policy": {
     "hard_cap_for_calibration": null,
@@ -37,6 +43,8 @@
     "count_all_proofpress_overhead": true,
     "required_axes": [
       "provider_cost_usd",
+      "actual_incremental_cash_usd",
+      "normalized_reference_cost_usd",
       "wall_clock_latency_ms",
       "input_tokens",
       "cached_input_tokens",
@@ -65,6 +73,13 @@
     "strict_dominance": "quality no worse and resource no worse on every frozen axis, with at least one strict improvement"
   },
   "real_calls_authorized": false,
+  "planned_extensions": [
+    "C_GPT_5_6_SOL_CROSS_FAMILY",
+    "D_GLM_5_2_RLM_DISTILLATION",
+    "REDLINE_BENCH",
+    "APEX_AGENTS_CORPORATE_LAWYER",
+    "PRBENCH",
+    "LAB_FIRM_KNOWLEDGE"
+  ],
   "results": []
 }
-
