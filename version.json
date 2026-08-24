@@ -1,174 +1,126 @@
 {
- "artifact": "CHANGELOG.md",
- "artifact_id": "pp_89c8ab19ff4fd9243ea54406",
+ "artifact": "docs/VERIFIED_KNOWLEDGE_LEDGER.md",
+ "artifact_id": "pp_44546a1bf18752db34bc1eb7",
  "blocks": [
   {
    "type": "heading",
-   "text": "# Changelog",
-   "id": "88bec44c",
-   "hash": "31ccb641aedc"
+   "text": "# Verified Knowledge Ledger",
+   "id": "87dd93fc",
+   "hash": "33975087e725"
   },
   {
    "type": "para",
-   "text": "Proofpress follows [Semantic Versioning](https://semver.org/). This file records\nuser-visible changes; GitHub Releases provide the corresponding tagged source\narchives.",
-   "id": "a0ac1671",
-   "hash": "a63592e42ddc"
+   "text": "> Status: local MVP in `proofpress@0.5.0-alpha.1`. This overview describes the\n> append-only ledger, context gate, and local review UI. It is not yet a frozen interchange\n> specification or a claim of general long-horizon agent efficacy.",
+   "id": "b71e5de6",
+   "hash": "d1cfc9225dfe"
   },
   {
    "type": "heading",
-   "text": "## Unreleased",
-   "id": "45d5f7f4",
-   "hash": "d7e4fa96c0e1"
+   "text": "## What it is",
+   "id": "24505103",
+   "hash": "2a4105580934"
+  },
+  {
+   "type": "para",
+   "text": "The verified knowledge ledger turns **bounded** agent telemetry or artifacts\ninto candidate knowledge that a later human or agent can inspect before relying\non it. It is the trust layer above observability and memory:",
+   "id": "1e12da99",
+   "hash": "02fdcbd71b18"
+  },
+  {
+   "type": "table",
+   "text": "| Layer | Primary question |\n|---|---|\n| Logs, traces, commits, artifacts | What happened? |\n| Memory and ontology | What does the system remember and how is it structured? |\n| Proofpress | What may be relied on, why, by whom, and within what scope? |",
+   "id": "e2507278",
+   "hash": "c16f27ff4e57"
+  },
+  {
+   "type": "para",
+   "text": "**Memory is retrieval. Ontology is structure. Proofpress is trust.**",
+   "id": "a0ce3955",
+   "hash": "f308a6370ce5"
+  },
+  {
+   "type": "para",
+   "text": "The ledger does not make a claim universally true. It records the source,\nselected evidence, declared policy, review receipt, lifecycle state, scope, and\nexpiry or supersession semantics that determine whether an organization may\nreuse it.",
+   "id": "5e5ed818",
+   "hash": "ad1ce653d54b"
   },
   {
    "type": "heading",
-   "text": "### Added",
-   "id": "7943f01b",
-   "hash": "a33ae4f74985"
+   "text": "## Current workflow",
+   "id": "7a1cac9c",
+   "hash": "bf9ff351f781"
+  },
+  {
+   "type": "code",
+   "text": "```text\nbounded OTLP-style telemetry or artifact\n  → append-only source and evidence events\n  → evidence-bound conclusions\n  → deterministic checks + LM recommendation + human review\n  → governed current context for a fresh human or agent\n```",
+   "id": "c3d2a28d",
+   "hash": "dd78ef8b7765"
+  },
+  {
+   "type": "para",
+   "text": "The reference fixture is\n[`examples/verified-knowledge-ledger/demo.otlp.json`](../examples/verified-knowledge-ledger/demo.otlp.json).",
+   "id": "2ef561dc",
+   "hash": "5c356dee5eda"
+  },
+  {
+   "type": "code",
+   "text": "```sh\nproofpress evidence import demo.otlp.json\nproofpress propose --statement \"The current conclusion\" \\\n  --evidence EVIDENCE_ID --scope demo --proposer agent:runner\nproofpress evaluate CONCLUSION_ID\nproofpress review CONCLUSION_ID --admit --reviewer human:reviewer\nproofpress context --scope demo --actor agent:successor\nproofpress ui --scope demo\n```",
+   "id": "5c8c136b",
+   "hash": "aaa192c359bd"
+  },
+  {
+   "type": "para",
+   "text": "`context` returns only admitted, current, in-scope and actor-eligible knowledge.\nRejected, unresolved, expired, and superseded conclusions remain in the\nappend-only audit history but are excluded by default. `ui` renders review,\nreceipt, context-preview, and lineage views from the same Git event projection.",
+   "id": "58bffc74",
+   "hash": "164c9bdbaf79"
+  },
+  {
+   "type": "heading",
+   "text": "## Relationship to artifact provenance",
+   "id": "5d269544",
+   "hash": "e349ce5fb217"
+  },
+  {
+   "type": "para",
+   "text": "Artifact provenance remains the portable trust primitive: it binds a durable\nartifact to revision history, evidence, actors, and decisions. The knowledge\nledger generalizes the same trust semantics across bounded workflow activity so\nthat a fresh agent can start from governed conclusions rather than raw context.",
+   "id": "1acc88ee",
+   "hash": "da878ede0366"
+  },
+  {
+   "type": "para",
+   "text": "The two surfaces are compatible. A portable artifact can be a materialized view\nof governed knowledge; it does not need to carry the full telemetry graph.",
+   "id": "067a97a0",
+   "hash": "044e0271e257"
+  },
+  {
+   "type": "heading",
+   "text": "## Non-goals",
+   "id": "d228259c",
+   "hash": "fb9224d45fa9"
   },
   {
    "type": "list",
-   "text": "- A local append-only knowledge-event ledger on `refs/proofpress/knowledge`.\n- Flat `evidence`, `propose`, `evaluate`, `judge`, `review`, `supersede`,\n  `context`, `import-v1`, and `ui` commands.\n- A provider-neutral LM policy-judge adapter and a localhost review UI with\n  trusted-context and lineage views.\n- An illustrative legal cold-handoff fixture based on the workflow shape in\n  PR 22; it is not a Harvey result or legal advice.",
-   "id": "4412f40b",
-   "hash": "2db00d2fbc75"
+   "text": "- Not a full OpenTelemetry collector or real-time trace backend.\n- Not a generic RAG, company brain, or replacement for memory.\n- Not a semantic truth oracle or a guarantee that every relevant event was\n  captured.\n- Not a complete RBAC, connector marketplace, or hosted governance service.\n- Not evidence of general agent capability improvement.",
+   "id": "9a909f30",
+   "hash": "d0dc52ed70ef"
   },
   {
    "type": "heading",
-   "text": "### Compatibility",
-   "id": "5662006b",
-   "hash": "fe2aa7723e8e"
+   "text": "## Evidence boundary and current focus",
+   "id": "b47338ab",
+   "hash": "fea7cb66065a"
   },
   {
-   "type": "list",
-   "text": "- The 0.4 file-backed `proofpress knowledge ...` group remains available for\n  one alpha migration window. `import-v1` performs a one-way, idempotent import.",
-   "id": "f39f974e",
-   "hash": "94330f32cdca"
+   "type": "para",
+   "text": "In the published controlled agent-handoff study, ordinary handoff reused stale\nwork in 12/12 trials and Proofpress-assisted handoff did so in 0/12; both\nconditions continued unchanged work correctly in 12/12 trials. This supports a\nversion-checking mechanism on that task, not a general product-efficacy claim.\nSee the [open study package](../studies/agent-handoff-artifact-provenance/README.md).",
+   "id": "b324002e",
+   "hash": "6b406a3083c2"
   },
   {
-   "type": "heading",
-   "text": "## 0.4.0 — 2026-08-23",
-   "id": "ca6a4032",
-   "hash": "f9f5d7a05499"
-  },
-  {
-   "type": "heading",
-   "text": "### Added",
-   "id": "f86ccfe9",
-   "hash": "a33ae4f74985"
-  },
-  {
-   "type": "list",
-   "text": "- Verified knowledge ledger CLI: ingest bounded OTLP-style telemetry, bind\n  evidence to candidate knowledge, apply policy and human review, and project\n  governed current context for a fresh agent.\n- A minimal telemetry fixture is included in the npm package for the\n  end-to-end ledger quickstart.",
-   "id": "bc0bc211",
-   "hash": "79a6a11e03a7"
-  },
-  {
-   "type": "heading",
-   "text": "### Changed",
-   "id": "de2f1030",
-   "hash": "545e373f2c1d"
-  },
-  {
-   "type": "list",
-   "text": "- npm package messaging now describes Proofpress as verified knowledge\n  infrastructure for agent-native workflows.",
-   "id": "94b5cc40",
-   "hash": "18db594ffddd"
-  },
-  {
-   "type": "heading",
-   "text": "## 0.3.0 — 2026-07-31",
-   "id": "389b1927",
-   "hash": "4602439c9b0f"
-  },
-  {
-   "type": "heading",
-   "text": "### Added",
-   "id": "b4cefe13",
-   "hash": "a33ae4f74985"
-  },
-  {
-   "type": "list",
-   "text": "- Draft Artifact Provenance Protocol with a format-agnostic evidence envelope,\n  explicit verification levels, and adapter/provider registry boundaries.\n- `provenance create` and `provenance verify` commands for conservative\n  byte-level evidence on any file type.\n- Built-in OOXML Word adapter and semantic provider with canonical DOCX\n  verification that survives ZIP repackaging while detecting content changes.\n- Built-in PDF recognition with version, encryption, linearization, and page\n  count hints while conservatively retaining byte-level verification.\n- A two-minute multi-format quickstart with portable Markdown and HTML history,\n  DOCX semantic evidence, and reproducible CLI screenshots.",
-   "id": "3bb7f15f",
-   "hash": "a5b46c137c8c"
-  },
-  {
-   "type": "heading",
-   "text": "### Changed",
-   "id": "cef1396e",
-   "hash": "545e373f2c1d"
-  },
-  {
-   "type": "list",
-   "text": "- Terminal output now uses semantic colors for native-ledger and provenance\n  verification results while preserving plain piped output.\n- Numeric deltas keep times such as `12:00` intact in display output without\n  changing the capsule wire format used by existing portable artifacts.",
-   "id": "acea2835",
-   "hash": "c58d0f7994c7"
-  },
-  {
-   "type": "heading",
-   "text": "### Documentation",
-   "id": "8961592f",
-   "hash": "d4fb74c95be8"
-  },
-  {
-   "type": "list",
-   "text": "- Expanded the FAQ to distinguish artifact provenance from workspace memory,\n  local vaults, Git, C2PA, knowledge formats, and documentation systems.",
-   "id": "a74eed7f",
-   "hash": "fbc2aea23e17"
-  },
-  {
-   "type": "heading",
-   "text": "### Compatibility",
-   "id": "20b043a7",
-   "hash": "fe2aa7723e8e"
-  },
-  {
-   "type": "list",
-   "text": "- Existing Markdown and static HTML ledger, capsule, snapshot, and verification\n  behavior is unchanged. Generic binary and PDF evidence never claim render,\n  semantic, or native provenance; DOCX callers can still request exact `byte`\n  verification explicitly.",
-   "id": "5ce920e4",
-   "hash": "483d766be959"
-  },
-  {
-   "type": "heading",
-   "text": "## 0.2.0 — 2026-07-26",
-   "id": "c8e27e08",
-   "hash": "844265626b75"
-  },
-  {
-   "type": "heading",
-   "text": "### Added",
-   "id": "2918d404",
-   "hash": "a33ae4f74985"
-  },
-  {
-   "type": "list",
-   "text": "- Portable capsule V1 with stable event IDs and multi-parent history.\n- `merge-plan` and `merge` for parallel Markdown and static HTML copies,\n  including workflows that do not use Git.\n- Portable, English-language official documentation and agent adapters.",
-   "id": "0930bd81",
-   "hash": "9854d37785fe"
-  },
-  {
-   "type": "heading",
-   "text": "### Changed",
-   "id": "51f72ac8",
-   "hash": "545e373f2c1d"
-  },
-  {
-   "type": "list",
-   "text": "- npm and Python CLI versions are aligned at `0.2.0` for this stable\n  release.\n- The public documentation is action-first and includes explicit trust,\n  privacy, and tamper-evidence boundaries.",
-   "id": "7cdcc2e1",
-   "hash": "d54d57ec84c8"
-  },
-  {
-   "type": "heading",
-   "text": "## 0.1.0 — 2026-07-24",
-   "id": "ec1e29fd",
-   "hash": "742d20ecb3c3"
-  },
-  {
-   "type": "list",
-   "text": "- First stable npm release.\n- Portable Markdown and static HTML revision history.\n- Zero-dependency Python engine and npm-based agent setup.",
-   "id": "ea2a7d0d",
-   "hash": "ae107f5570af"
+   "type": "para",
+   "text": "The next public proof point is a design-partner workflow: select two to five\nconclusions from a real long-horizon or multi-agent run, bind them to evidence,\napply the review path, and measure whether governed context changes the next\ndecision. Until then, finance and agentic-commerce interfaces are illustrative\nproduct fixtures, not customer validation.",
+   "id": "c8235573",
+   "hash": "7420e8345340"
   }
  ]
 }

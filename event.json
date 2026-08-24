@@ -1,51 +1,47 @@
 {
  "event": "version_created",
- "artifact": "CHANGELOG.md",
- "artifact_id": "pp_89c8ab19ff4fd9243ea54406",
- "version": "df7f9f91",
- "parent": "b8635652",
+ "artifact": "docs/VERIFIED_KNOWLEDGE_LEDGER.md",
+ "artifact_id": "pp_44546a1bf18752db34bc1eb7",
+ "version": "e5e709c9",
+ "parent": "a75df813",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-24T03:29:05+00:00",
+ "ts": "2026-08-24T03:29:13+00:00",
  "stats": {
-  "added": 4
+  "modified": 4
  },
  "changes": [
   {
-   "kind": "added",
-   "block": "7943f01b",
-   "type": "heading",
-   "context": "Added",
-   "preview": "### Added"
+   "kind": "modified",
+   "block": "b71e5de6",
+   "type": "para",
+   "context": "Verified Knowledge Ledger"
   },
   {
-   "kind": "added",
-   "block": "4412f40b",
-   "type": "list",
-   "context": "Added",
-   "preview": "- A local append-only knowledge-event ledger on `refs/proofp"
+   "kind": "modified",
+   "block": "c3d2a28d",
+   "type": "code",
+   "context": "Current workflow"
   },
   {
-   "kind": "added",
-   "block": "5662006b",
-   "type": "heading",
-   "context": "Compatibility",
-   "preview": "### Compatibility"
+   "kind": "modified",
+   "block": "5c8c136b",
+   "type": "code",
+   "context": "Current workflow"
   },
   {
-   "kind": "added",
-   "block": "f39f974e",
-   "type": "list",
-   "context": "Compatibility",
-   "preview": "- The 0.4 file-backed `proofpress knowledge ...` group remai"
+   "kind": "modified",
+   "block": "58bffc74",
+   "type": "para",
+   "context": "Current workflow"
   }
  ],
- "policy": "portable",
- "soft_fingerprint": "ppsb1:ef30730bd2d0ea0b1479ee81a68b62bcf9b8f38f41f41f4757a9a8027560962d",
+ "policy": "local",
+ "soft_fingerprint": "ppsb1:9cf858cbee563262083442c17ef74484559b169c27164ad59300c6b56d1b1446",
  "actors": {
   "requested_by": [
    "human:richard-tang"
@@ -63,28 +59,28 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "7943f01b",
-   "kind": "added",
-   "note": "Record the 0.5.0 alpha local MVP heading."
+   "block": "b71e5de6",
+   "kind": "modified",
+   "note": "Update implementation status to the 0.5 local MVP."
   },
   {
-   "block": "4412f40b",
-   "kind": "added",
-   "note": "Record the Git-backed event ledger, flat CLI, context gate, and local UI."
+   "block": "c3d2a28d",
+   "kind": "modified",
+   "note": "Describe the append-only conclusion and review pipeline."
   },
   {
-   "block": "5662006b",
-   "kind": "added",
-   "note": "Record the three-layer review model and v1 importer."
+   "block": "5c8c136b",
+   "kind": "modified",
+   "note": "Document the flat command workflow."
   },
   {
-   "block": "f39f974e",
-   "kind": "added",
-   "note": "Record the illustrative legal workflow fixture."
+   "block": "58bffc74",
+   "kind": "modified",
+   "note": "Document actor gating and the local projection UI."
   }
  ],
  "context": {
-  "why": "Record the user-visible 0.5 alpha local MVP surface."
+  "why": "Align the ledger overview with the implemented append-only CLI, context gate, and local UI."
  },
- "event_id": "ppe_dee20704bfb7c4aabebc4ccf"
+ "event_id": "ppe_322b9234d0d3816a0c12264a"
 }
