@@ -1,30 +1,30 @@
 {
  "event": "version_created",
- "artifact": "skills/codex/AGENTS-snippet.md",
- "artifact_id": "pp_703c3fa926abb512e7199332",
- "version": "51013d9c",
- "parent": "f27f8849",
+ "artifact": "skills/cursor/proofpress/SKILL.md",
+ "artifact_id": "pp_0c9edf7d315ab03e0ca06c88",
+ "version": "9d489829",
+ "parent": "7810db47",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-24T03:29:21+00:00",
+ "ts": "2026-08-24T03:29:25+00:00",
  "stats": {
   "added": 1
  },
  "changes": [
   {
    "kind": "added",
-   "block": "cb4fbca5",
+   "block": "53c7ec8f",
    "type": "para",
-   "context": "Proofpress: ledger Markdown and static H",
+   "context": "Workflow",
    "preview": "Before continuing a governed multi-agent workflow, request s"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:0c019a75a47f4312b84203e52d64c203e140534c7c255308c83e164ecbdb59b1",
+ "soft_fingerprint": "ppsb1:5c281e8301d5ef5c12a717155993961d339f520d05a1b3cf68ff877e0fe4cef3",
  "actors": {
   "requested_by": [
    "human:richard-tang"
@@ -42,7 +42,7 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "cb4fbca5",
+   "block": "53c7ec8f",
    "kind": "added",
    "note": "Teach agents to request scoped trusted context before continuation."
   }
@@ -50,5 +50,5 @@
  "context": {
   "why": "Teach installed agents to consume governed context through the flat CLI."
  },
- "event_id": "ppe_991e22c92f3e8848884fd496"
+ "event_id": "ppe_9131aaf955fb5bfe79e9529a"
 }
