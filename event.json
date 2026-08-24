@@ -1,212 +1,30 @@
 {
  "event": "version_created",
- "artifact": "studies/long-horizon-eval/relaybench/visuals/harvey-proofpress-experiment-map.html",
- "artifact_id": "pp_816e57d9d213518662256aed",
- "version": "430c4d60",
- "parent": null,
+ "artifact": "studies/long-horizon-eval/relaybench/PROOFPRESS_PARETO_STUDY.md",
+ "artifact_id": "pp_ffddb1d2cc98a01371a598e2",
+ "version": "33873e27",
+ "parent": "cae5e8f8",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-24T05:52:29+00:00",
+ "ts": "2026-08-24T05:53:48+00:00",
  "stats": {
-  "added": 27
+  "added": 1
  },
  "changes": [
   {
    "kind": "added",
-   "block": "2ed4aa7d",
-   "type": "heading",
-   "context": "<h1>Does governed handoff improve long-h",
-   "preview": "<h1>Does governed handoff improve long-horizon legal work?</"
-  },
-  {
-   "kind": "added",
-   "block": "573a7d33",
-   "type": "heading",
-   "context": "<h3>Harvey LAB contract matter</h3>",
-   "preview": "<h3>Harvey LAB contract matter</h3>"
-  },
-  {
-   "kind": "added",
-   "block": "7027be74",
+   "block": "1d9da899",
    "type": "para",
-   "context": "<h3>Harvey LAB contract matter</h3>",
-   "preview": "<p>Same task, files, model, tools, limits, and evaluator.</p"
-  },
-  {
-   "kind": "added",
-   "block": "341ac789",
-   "type": "heading",
-   "context": "<h2>C1 · Raw handoff</h2>",
-   "preview": "<h2>C1 · Raw handoff</h2>"
-  },
-  {
-   "kind": "added",
-   "block": "25a05a29",
-   "type": "heading",
-   "context": "<h3>Agent works</h3>",
-   "preview": "<h3>Agent works</h3>"
-  },
-  {
-   "kind": "added",
-   "block": "ec2f7b5a",
-   "type": "para",
-   "context": "<h3>Agent works</h3>",
-   "preview": "<p>Reads staged matter files and writes a readable summary.<"
-  },
-  {
-   "kind": "added",
-   "block": "385e57e2",
-   "type": "heading",
-   "context": "<h3>Ordinary workspace</h3>",
-   "preview": "<h3>Ordinary workspace</h3>"
-  },
-  {
-   "kind": "added",
-   "block": "c5a09dd6",
-   "type": "para",
-   "context": "<h3>Ordinary workspace</h3>",
-   "preview": "<p>Source files plus raw handoff state.</p>"
-  },
-  {
-   "kind": "added",
-   "block": "010913db",
-   "type": "heading",
-   "context": "<h3>Receiver continues</h3>",
-   "preview": "<h3>Receiver continues</h3>"
-  },
-  {
-   "kind": "added",
-   "block": "b9308e26",
-   "type": "para",
-   "context": "<h3>Receiver continues</h3>",
-   "preview": "<p>Trusts or revalidates the readable handoff.</p>"
-  },
-  {
-   "kind": "added",
-   "block": "d3c37794",
-   "type": "heading",
-   "context": "<h3>Final legal memo</h3>",
-   "preview": "<h3>Final legal memo</h3>"
-  },
-  {
-   "kind": "added",
-   "block": "184d2c1f",
-   "type": "para",
-   "context": "<h3>Final legal memo</h3>",
-   "preview": "<p>Required DOCX deliverable.</p>"
-  },
-  {
-   "kind": "added",
-   "block": "7824c124",
-   "type": "heading",
-   "context": "<h2>C2 · Proofpress</h2>",
-   "preview": "<h2>C2 · Proofpress</h2>"
-  },
-  {
-   "kind": "added",
-   "block": "2d1d9ab4",
-   "type": "heading",
-   "context": "<h3>Evidence → conclusions</h3>",
-   "preview": "<h3>Evidence → conclusions</h3>"
-  },
-  {
-   "kind": "added",
-   "block": "8ad03d4f",
-   "type": "para",
-   "context": "<h3>Evidence → conclusions</h3>",
-   "preview": "<p>Source-bound proposals enter an append-only ledger.</p>"
-  },
-  {
-   "kind": "added",
-   "block": "e0e89e87",
-   "type": "heading",
-   "context": "<h3>Checks + human review</h3>",
-   "preview": "<h3>Checks + human review</h3>"
-  },
-  {
-   "kind": "added",
-   "block": "13b5c87e",
-   "type": "para",
-   "context": "<h3>Checks + human review</h3>",
-   "preview": "<p>Deterministic evaluation; authorized non-proposer decides"
-  },
-  {
-   "kind": "added",
-   "block": "54c2a9c1",
-   "type": "heading",
-   "context": "<h3>Trusted context only</h3>",
-   "preview": "<h3>Trusted context only</h3>"
-  },
-  {
-   "kind": "added",
-   "block": "09e28841",
-   "type": "para",
-   "context": "<h3>Trusted context only</h3>",
-   "preview": "<p>Receiver inherits admitted, current, in-scope conclusions"
-  },
-  {
-   "kind": "added",
-   "block": "a12ac1dc",
-   "type": "heading",
-   "context": "<h3>Final legal memo</h3>",
-   "preview": "<h3>Final legal memo</h3>"
-  },
-  {
-   "kind": "added",
-   "block": "5b845a9e",
-   "type": "para",
-   "context": "<h3>Final legal memo</h3>",
-   "preview": "<p>Same required DOCX deliverable.</p>"
-  },
-  {
-   "kind": "added",
-   "block": "ab3529b6",
-   "type": "heading",
-   "context": "<h3>72 criterion decisions</h3>",
-   "preview": "<h3>72 criterion decisions</h3>"
-  },
-  {
-   "kind": "added",
-   "block": "2a3d0022",
-   "type": "para",
-   "context": "<h3>72 criterion decisions</h3>",
-   "preview": "<p>Same grader for both conditions; not Harvey's private lea"
-  },
-  {
-   "kind": "added",
-   "block": "3993d021",
-   "type": "heading",
-   "context": "<h3>Quality × cost × latency</h3>",
-   "preview": "<h3>Quality × cost × latency</h3>"
-  },
-  {
-   "kind": "added",
-   "block": "d5cac0d6",
-   "type": "para",
-   "context": "<h3>Quality × cost × latency</h3>",
-   "preview": "<p>Paired delta, regressions, complete treatment overhead, P"
-  },
-  {
-   "kind": "added",
-   "block": "f3368726",
-   "type": "heading",
-   "context": "<h4 id=\"detail-title\">One matter becomes",
-   "preview": "<h4 id=\"detail-title\">One matter becomes one matched experim"
-  },
-  {
-   "kind": "added",
-   "block": "91cb0f90",
-   "type": "para",
-   "context": "<h4 id=\"detail-title\">One matter becomes",
-   "preview": "<p id=\"detail-body\">Both conditions start from the same pinn"
+   "context": "Execution readiness",
+   "preview": "[Interactive experiment structure: Raw handoff versus Proofp"
   }
  ],
  "policy": "local",
- "soft_fingerprint": "ppsb1:7f99ab0a5c434fa0a8615609b2ada2bb01f5eab3e8e9b228bb80ab964619399f",
+ "soft_fingerprint": "ppsb1:b3863f8b2fae35f141f1463575f40abc9c8d89f8d2f03bf025c833eef6b008f5",
  "actors": {
   "requested_by": [
    "human:richard-tang"
@@ -224,143 +42,13 @@
  "attribution_basis": "environment_attested",
  "claims": [
   {
-   "block": "2ed4aa7d",
+   "block": "1d9da899",
    "kind": "added",
-   "note": "States the paired experiment question."
-  },
-  {
-   "block": "573a7d33",
-   "kind": "added",
-   "note": "Identifies the frozen Harvey LAB input matter."
-  },
-  {
-   "block": "7027be74",
-   "kind": "added",
-   "note": "States the matched-input contract."
-  },
-  {
-   "block": "341ac789",
-   "kind": "added",
-   "note": "Labels the Raw handoff control lane."
-  },
-  {
-   "block": "25a05a29",
-   "kind": "added",
-   "note": "Shows the Raw sender work stage."
-  },
-  {
-   "block": "ec2f7b5a",
-   "kind": "added",
-   "note": "Describes Raw staged-file work and summary creation."
-  },
-  {
-   "block": "385e57e2",
-   "kind": "added",
-   "note": "Shows the ordinary Raw transfer package."
-  },
-  {
-   "block": "c5a09dd6",
-   "kind": "added",
-   "note": "Defines Raw transfer substance."
-  },
-  {
-   "block": "010913db",
-   "kind": "added",
-   "note": "Shows the fresh Raw receiver continuation."
-  },
-  {
-   "block": "b9308e26",
-   "kind": "added",
-   "note": "Describes the receiver trust decision in Raw."
-  },
-  {
-   "block": "d3c37794",
-   "kind": "added",
-   "note": "Shows the Raw final artifact."
-  },
-  {
-   "block": "184d2c1f",
-   "kind": "added",
-   "note": "Names the required Raw DOCX output."
-  },
-  {
-   "block": "7824c124",
-   "kind": "added",
-   "note": "Labels the Proofpress treatment lane."
-  },
-  {
-   "block": "2d1d9ab4",
-   "kind": "added",
-   "note": "Shows evidence-bound conclusion distillation."
-  },
-  {
-   "block": "8ad03d4f",
-   "kind": "added",
-   "note": "Describes append-only ledger proposals."
-  },
-  {
-   "block": "e0e89e87",
-   "kind": "added",
-   "note": "Shows deterministic checks and human review."
-  },
-  {
-   "block": "13b5c87e",
-   "kind": "added",
-   "note": "States the authorized non-proposer decision boundary."
-  },
-  {
-   "block": "54c2a9c1",
-   "kind": "added",
-   "note": "Shows trusted context at the fresh receiver."
-  },
-  {
-   "block": "09e28841",
-   "kind": "added",
-   "note": "Defines which conclusions the receiver may inherit."
-  },
-  {
-   "block": "a12ac1dc",
-   "kind": "added",
-   "note": "Shows the Proofpress final artifact."
-  },
-  {
-   "block": "5b845a9e",
-   "kind": "added",
-   "note": "Names the matched Proofpress DOCX output."
-  },
-  {
-   "block": "ab3529b6",
-   "kind": "added",
-   "note": "Shows the frozen public-rubric evaluation."
-  },
-  {
-   "block": "2a3d0022",
-   "kind": "added",
-   "note": "Preserves the non-private-leaderboard claim boundary."
-  },
-  {
-   "block": "3993d021",
-   "kind": "added",
-   "note": "Shows the Pareto research decision."
-  },
-  {
-   "block": "d5cac0d6",
-   "kind": "added",
-   "note": "Defines paired quality and resource comparison."
-  },
-  {
-   "block": "f3368726",
-   "kind": "added",
-   "note": "Adds the default selected-step explanation."
-  },
-  {
-   "block": "91cb0f90",
-   "kind": "added",
-   "note": "Explains the matched experiment and intended treatment difference."
+   "note": "Links the canonical interactive experiment structure from the research plan."
   }
  ],
  "context": {
-  "why": "Make the paired Harvey LAB experiment structure legible to research collaborators without weakening the human authority, cold-boundary, cost, or claim boundaries."
+  "why": "Link the canonical experiment visualization directly from the executable research plan."
  },
- "event_id": "ppe_44b4ddc7af0f024d56a31caa"
+ "event_id": "ppe_c0af0b4b98dccb310d14cd82"
 }
