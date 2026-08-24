@@ -16,6 +16,7 @@ const scores = {};
 for (const condition of packet.conditions) scores[condition] = await evaluatePublicRubric({
   taskPath: upstreamTask, deliverable: state.episodes[condition].deliverable,
   evaluator: manifest.evaluator, env,
+  rawResponsePath: path.join(path.resolve(args.output), `EVALUATOR_RESPONSE_${condition}.json`),
 });
 await fs.writeFile(path.join(path.resolve(args.output), "PUBLIC_RUBRIC_SCORES.json"), `${JSON.stringify(scores, null, 2)}\n`, { flag: "wx" });
 process.stdout.write(`${JSON.stringify(Object.fromEntries(Object.entries(scores).map(([k,v]) => [k, { criteria_passed: v.criteria_passed, criteria_total: v.criteria_total, all_pass: v.all_pass }])), null, 2)}\n`);

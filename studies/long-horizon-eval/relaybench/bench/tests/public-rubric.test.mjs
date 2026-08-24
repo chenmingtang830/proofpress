@@ -14,7 +14,9 @@ test("public rubric evaluator preserves the non-official claim boundary", async 
   const md = path.join(root, "memo.md"), docx = path.join(root, "memo.docx"); await fs.writeFile(md, "# Memo\n");
   await execFileAsync("pandoc", [md, "-o", docx]);
   const adapter = { invoke: async () => ({ raw_output: JSON.stringify({ criteria: [{ id: "C-1", passed: true, rationale: "x" }, { id: "C-2", passed: false, rationale: "y" }] }), telemetry: { model_calls: 1 } }) };
+  const raw = path.join(root, "raw.json");
   const score = await evaluatePublicRubric({ taskPath: task, deliverable: docx,
-    evaluator: { status: "FROZEN_PUBLIC_RUBRIC_EVALUATOR", claim_boundary: "not official" }, adapterOverride: adapter });
+    evaluator: { status: "FROZEN_PUBLIC_RUBRIC_EVALUATOR", claim_boundary: "not official" }, adapterOverride: adapter, rawResponsePath: raw });
   assert.equal(score.criteria_passed, 1); assert.equal(score.criterion_pass_rate, 0.5); assert.equal(score.claim_boundary, "not official");
+  await fs.access(raw);
 });
