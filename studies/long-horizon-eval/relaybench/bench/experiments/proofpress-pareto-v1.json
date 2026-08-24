@@ -47,6 +47,24 @@
         "fallback": false,
         "retries": 0
       }
+    },
+    {
+      "id": "C_GEMINI_3_7_FLASH",
+      "model_candidates": [
+        "google/gemini-3.7-flash"
+      ],
+      "route": "Vercel AI Gateway",
+      "selection_rule": "freeze Google provider, exact Gemini 3.7 Flash model, temperature, timeout, retries, and fallback before calls",
+      "adapter": {
+        "endpoint": "https://ai-gateway.vercel.sh/v1/chat/completions",
+        "api_key_env": "AI_GATEWAY_API_KEY",
+        "resolved_model": "google/gemini-3.7-flash",
+        "provider_only": "google",
+        "temperature": 0,
+        "timeout_ms": 1800000,
+        "fallback": false,
+        "retries": 0
+      }
     }
   ],
   "task_selection": {
