@@ -7,12 +7,13 @@ import { createVercelGatewayAdapter } from "../adapters/vercel-ai-gateway.mjs";
 
 const execFileAsync = promisify(execFile);
 
-export async function runPrepare({ packetDir, output, manifest, trackId, authorizeRealCalls, root, env = process.env, adapterOverride = null }) {
+export async function runPrepare({ packetDir, output, manifest, trackId, authorizeRealCalls, root, env = process.env, adapterOverride = null, judgeOverride = null }) {
   requireAuthorization(authorizeRealCalls, manifest);
   await fs.mkdir(output, { recursive: false });
   const packet = JSON.parse(await fs.readFile(path.join(packetDir, "RUN_PACKET.json")));
   const promptContract = await fs.readFile(path.join(packetDir, "PROMPT_CONTRACT.md"), "utf8");
   const adapter = adapterOverride ?? adapterFor(manifest, trackId);
+  const judge = judgeOverride ?? createVercelGatewayAdapter(manifest.policy_gate.judge);
   const episodes = {};
   for (const condition of packet.conditions) {
     const workspace = path.join(output, "sender", condition);
@@ -38,18 +39,20 @@ export async function runPrepare({ packetDir, output, manifest, trackId, authori
         const proposed = await proofpress(root, ledger, ["propose", "--statement", conclusion.statement,
           ...refs.flatMap((ref) => ["--evidence", ref]), "--scope", "legal:msa-escalation",
           "--proposer", "agent:sender", "--allow-actor", "agent:receiver"]);
-        await proofpress(root, ledger, ["evaluate", proposed.conclusion.id]);
-        proposals.push({ id: proposed.conclusion.id, statement: conclusion.statement, evidence_refs: refs });
+        const evaluation = await proofpress(root, ledger, ["evaluate", proposed.conclusion.id]);
+        const evidencePacket = await extractEvidence(root, conclusion.evidence_files.map((name) => path.join(packetDir, "source", findStageForFile(packet, name), name)));
+        const judged = await judge.invoke({ prompt: judgePrompt({ manifest, conclusion, evidencePacket }) }, { workspace, env });
+        const verdict = parseJudgeOutput(judged.raw_output);
+        const gate = await researchPolicyAdmit(root, ledger, { conclusion_id: proposed.conclusion.id, verdict,
+          executor: manifest.policy_gate.executor, judge: { route: manifest.policy_gate.judge.endpoint, model: manifest.policy_gate.judge.resolved_model } });
+        proposals.push({ id: proposed.conclusion.id, statement: conclusion.statement, evidence_refs: refs,
+          evaluation, verdict, admitted: gate.admitted, judge_telemetry: judged.telemetry });
       }
       episodes[condition].ledger = ledger;
       episodes[condition].proposals = proposals;
     }
   }
-  const review = { schema_version: 1, experiment_id: manifest.id, reviewer: manifest.review_gate.reviewer_role,
-    decisions: episodes.C2_PROOFPRESS.proposals.map(({ id }) => ({ conclusion: id, decision: null, note: null })),
-    attestation: "I reviewed the evidence-bound conclusions and recorded these decisions.", signed_at: null };
-  await fs.writeFile(path.join(output, "HUMAN_REVIEW.json"), `${JSON.stringify(review, null, 2)}\n`, { flag: "wx" });
-  const state = { schema_version: 1, status: "AWAITING_HUMAN_REVIEW", experiment_id: manifest.id,
+  const state = { schema_version: 1, status: "POLICY_GATE_COMPLETE", experiment_id: manifest.id,
     track_id: trackId, packet_dir: packetDir, adapter: adapter.metadata(), episodes };
   await fs.writeFile(path.join(output, "RUN_STATE.json"), `${JSON.stringify(state, null, 2)}\n`, { flag: "wx" });
   return state;
@@ -59,13 +62,8 @@ export async function runResume({ output, manifest, authorizeRealCalls, root, en
   requireAuthorization(authorizeRealCalls, manifest);
   const statePath = path.join(output, "RUN_STATE.json");
   const state = JSON.parse(await fs.readFile(statePath));
-  if (state.status !== "AWAITING_HUMAN_REVIEW") throw new Error(`cannot resume state ${state.status}`);
-  const review = JSON.parse(await fs.readFile(path.join(output, "HUMAN_REVIEW.json")));
-  validateHumanReview(review, state);
+  if (state.status !== "POLICY_GATE_COMPLETE") throw new Error(`cannot resume state ${state.status}`);
   const adapter = adapterOverride ?? adapterFor(manifest, state.track_id);
-  for (const item of review.decisions) await proofpress(root, state.episodes.C2_PROOFPRESS.ledger,
-    ["review", item.conclusion, item.decision === "admit" ? "--admit" : "--reject",
-      "--reviewer", review.reviewer, "--note", item.note || "experiment review"]);
   const trusted = await proofpress(root, state.episodes.C2_PROOFPRESS.ledger,
     ["context", "--scope", "legal:msa-escalation", "--actor", "agent:receiver", "--format", "json"]);
   const packet = JSON.parse(await fs.readFile(path.join(state.packet_dir, "RUN_PACKET.json")));
@@ -94,7 +92,8 @@ export async function runResume({ output, manifest, authorizeRealCalls, root, en
     }
   }
   state.status = "READY_FOR_LAB_EVALUATION";
-  state.human_review = { reviewer: review.reviewer, signed_at: review.signed_at, decisions: review.decisions };
+  state.policy_gate = { mode: manifest.policy_gate.mode, executor: manifest.policy_gate.executor,
+    decisions: state.episodes.C2_PROOFPRESS.proposals.map(({ id, verdict, admitted }) => ({ conclusion: id, verdict, admitted })) };
   await fs.writeFile(statePath, `${JSON.stringify(state, null, 2)}\n`);
   return state;
 }
@@ -108,12 +107,29 @@ function requireAuthorization(flag, manifest) {
   if (!flag) throw new Error("real model calls require --authorize-real-calls");
   if (manifest.real_calls_authorized !== false) throw new Error("manifest safety invariant changed; expected real_calls_authorized=false");
 }
-function validateHumanReview(review, state) {
-  if (!review.signed_at || Number.isNaN(Date.parse(review.signed_at))) throw new Error("human review signed_at is required");
-  if (!review.reviewer?.startsWith("human:")) throw new Error("reviewer must be a human identity");
-  const expected = new Set(state.episodes.C2_PROOFPRESS.proposals.map((x) => x.id));
-  if (review.decisions.length !== expected.size || review.decisions.some((x) => !expected.has(x.conclusion) || !["admit", "reject"].includes(x.decision)))
-    throw new Error("human review must decide every proposed conclusion exactly once");
+function parseJudgeOutput(raw) {
+  let value; try { value = JSON.parse(raw); } catch { throw new Error("policy judge returned invalid JSON"); }
+  if (!["accept", "reject", "escalate"].includes(value.recommendation) || typeof value.rationale !== "string" || !value.rationale.trim())
+    throw new Error("policy judge must return recommendation accept|reject|escalate and rationale");
+  return { recommendation: value.recommendation, rationale: value.rationale };
+}
+function judgePrompt({ manifest, conclusion, evidencePacket }) {
+  return `${manifest.policy_gate.prompt}\n\nConclusion: ${conclusion.statement}\nEvidence files: ${JSON.stringify(evidencePacket)}\n\nReturn ONLY JSON: {"recommendation":"accept|reject|escalate","rationale":"..."}.`;
+}
+function findStageForFile(packet, name) {
+  const stage = packet.stages.find((item) => item.release.includes(name));
+  if (!stage) throw new Error(`evidence file not in frozen release schedule: ${name}`);
+  return stage.stage_id;
+}
+async function extractEvidence(root, paths) {
+  const { stdout } = await execFileAsync("python3", [path.join(root, "studies/long-horizon-eval/relaybench/bench/real/extract-evidence.py"),
+    JSON.stringify({ paths, max_chars_per_file: 12000 })], { maxBuffer: 16 * 1024 * 1024 });
+  return JSON.parse(stdout);
+}
+async function researchPolicyAdmit(root, cwd, packet) {
+  const { stdout } = await execFileAsync("python3", [path.join(root, "studies/long-horizon-eval/relaybench/bench/real/research-policy-admit.py"),
+    JSON.stringify(packet)], { cwd, maxBuffer: 16 * 1024 * 1024 });
+  return JSON.parse(stdout);
 }
 async function initLedger(cwd) {
   await fs.mkdir(cwd, { recursive: true });

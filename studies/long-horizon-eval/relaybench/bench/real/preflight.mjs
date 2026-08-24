@@ -14,8 +14,11 @@ export async function preflightRealStudy({ manifestPath, harveyCheckout, env = p
   checks.push(check("real calls remain opt-in", manifest.real_calls_authorized === false,
     "manifest must remain false; the runner additionally requires --authorize-real-calls"));
   checks.push(check("task selection frozen", manifest.task_selection.selection_status === "FROZEN_CALIBRATION" && manifest.task_selection.task_ids.length > 0));
-  checks.push(check("human gate frozen", manifest.review_gate?.mode === "pause_for_authorized_human" && Boolean(manifest.review_gate?.reviewer_role)));
-  checks.push(check("no proposer self approval", manifest.review_gate?.proposer !== manifest.review_gate?.reviewer_role));
+  checks.push(check("automated policy gate frozen", manifest.policy_gate?.mode === "research_only_automated_fail_closed"
+    && manifest.policy_gate?.admission_rule === "deterministic_eligible AND frozen_judge_accept"));
+  checks.push(check("policy executor is not proposer", manifest.policy_gate?.proposer !== manifest.policy_gate?.executor));
+  checks.push(check("policy judge frozen", manifest.policy_gate?.judge?.resolved_model === "google/gemini-3-flash"
+    && manifest.policy_gate?.judge?.provider_only === "google" && manifest.policy_gate?.judge?.fallback === false));
   checks.push(check("matched execution limits", manifest.budget_policy.matched_execution_limits_required === true));
   checks.push(check("Proofpress overhead counted", manifest.budget_policy.count_all_proofpress_overhead === true));
   checks.push(check("public-rubric evaluator frozen", manifest.evaluator?.status === "FROZEN_PUBLIC_RUBRIC_EVALUATOR" && Boolean(manifest.evaluator?.model)));
@@ -26,6 +29,8 @@ export async function preflightRealStudy({ manifestPath, harveyCheckout, env = p
   checks.push(check("Track B Vercel gateway", vercel.passed, vercel.errors.join("; ")));
   checks.push(check("evaluator credential", Boolean(env[manifest.evaluator.api_key_env]),
     env[manifest.evaluator.api_key_env] ? "present" : `missing ${manifest.evaluator.api_key_env}`));
+  checks.push(check("policy judge credential", Boolean(env[manifest.policy_gate.judge.api_key_env]),
+    env[manifest.policy_gate.judge.api_key_env] ? "present" : `missing ${manifest.policy_gate.judge.api_key_env}`));
 
   if (harveyCheckout) {
     let commit = null;

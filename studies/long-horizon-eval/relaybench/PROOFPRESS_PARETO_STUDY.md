@@ -21,7 +21,7 @@ The primary comparison is deliberately product-shaped:
 
 [//]: # (ob:57eeadf3)
 This is not a comparison against a separate memory or ontology product. Any
-distillation, verification, judging, or review used by Proofpress is part of the
+distillation, verification, judging, or policy-gate work used by Proofpress is part of the
 treatment and its complete token, latency, and dollar cost must be counted.
 
 [//]: # (ob:8c648201)
@@ -107,9 +107,10 @@ transcript, or cross-session memory.
 
 [//]: # (ob:5947a59d)
 The receiving agent gets byte-identical source material. Before the boundary, the
-sender may import evidence and propose conclusions. Deterministic checks and the
-frozen policy may evaluate them; an authorized non-proposer review identity makes
-the admission decision. After the boundary, the receiver gets only the output of:
+sender may import evidence and propose conclusions. Deterministic checks run first;
+a frozen LM judge returns `accept`, `reject`, or `escalate`; and a deterministic,
+research-only policy executor admits only `eligible AND accept`. `reject` and
+`escalate` fail closed. After the boundary, the receiver gets only the output of:
 
 [//]: # (ob:39182e1a)
 ```text
@@ -259,11 +260,11 @@ node scripts/bench-prepare-real.mjs \
 
 [//]: # (ob:daa79044)
 The real runner is two-phase. `prepare` runs S1–S2 independently for C1 and C2,
-builds the C2 evidence-bound ledger, then stops at `AWAITING_HUMAN_REVIEW`.
-The authorized reviewer must decide every conclusion and add `signed_at` to
-`HUMAN_REVIEW.json`. `resume` applies those decisions, materializes trusted context,
-creates fresh receiver workspaces, runs S3–S4, and converts the final Markdown memo
-to the required DOCX with Pandoc.
+builds the C2 evidence-bound ledger, extracts bounded source text, runs deterministic
+checks and the frozen policy judge, then records the research policy decision.
+`resume` materializes trusted context, creates fresh receiver workspaces, runs S3–S4,
+and converts the final Markdown memo to the required DOCX with Pandoc. Human review
+is reserved for blind post-run error analysis and cannot alter continuation.
 
 [//]: # (ob:96c723ca)
 ```bash
@@ -277,9 +278,16 @@ node scripts/bench-run-real.mjs --phase resume \
 
 [//]: # (ob:8a9e8051)
 Both phases require the explicit payable-call flag. Track A currently passes the
-non-payable local preflight with Claude Code 2.1.234. Track B remains blocked until
-`AI_GATEWAY_API_KEY` is present; the gateway adapter hard-pins `moonshotai/kimi-k3`
-and one serving provider and does not permit provider fallback.
+non-payable local preflight with Claude Code 2.1.234. Track B and the policy judge use
+`AI_GATEWAY_API_KEY`; the worker adapter hard-pins `moonshotai/kimi-k3`, the policy
+judge hard-pins `google/gemini-3-flash`, and neither permits provider fallback.
+
+[//]: # (ob:4fa7f2a1)
+The automated admission path is an experimental treatment, not a change to the
+production Proofpress authority model. The LM recommendation is not legal truth.
+Production deployments retain authorized human admission for ambiguous exceptions,
+business risk appetite, and accountable approval; a later C3 ablation can measure
+that operational workflow separately.
 
 [//]: # (ob:5b8f65cd)
 ## Implementation plan

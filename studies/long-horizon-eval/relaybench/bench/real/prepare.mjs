@@ -30,15 +30,14 @@ export async function prepareRealPacket({ manifestPath, harveyCheckout, output }
       resolved_model: adapter.resolved_model, fallback: adapter.fallback, retries: adapter.retries })),
     stages: candidate.proposed_h4_release_schedule.map((stage) => ({ ...stage,
       prompt_contract: stage.stage_id === "S4" ? "produce final memo as Markdown for deterministic pandoc conversion to DOCX" : "produce JSON conclusions and a readable handoff summary" })),
-    copied_sources: copied, review_gate: manifest.review_gate,
+    copied_sources: copied, policy_gate: manifest.policy_gate,
     parity_contract: "C1 and C2 receive byte-identical source releases; only C2 receives governed context emitted by proofpress context",
     payable_calls_authorized: false,
   };
   await fs.writeFile(path.join(output, "RUN_PACKET.json"), `${JSON.stringify(packet, null, 2)}\n`, { flag: "wx" });
-  await fs.writeFile(path.join(output, "HUMAN_REVIEW.template.json"), `${JSON.stringify({
-    schema_version: 1, experiment_id: manifest.id, reviewer: manifest.review_gate.reviewer_role,
-    decisions: [], attestation: "I reviewed the evidence-bound conclusions and recorded these decisions.",
-    signed_at: null,
+  await fs.writeFile(path.join(output, "BLIND_POST_RUN_AUDIT.template.json"), `${JSON.stringify({
+    schema_version: 1, experiment_id: manifest.id, role: manifest.policy_gate.human_role,
+    run_complete: false, condition_labels_hidden: true, error_labels: [], signed_at: null,
   }, null, 2)}\n`, { flag: "wx" });
   await fs.writeFile(path.join(output, "PROMPT_CONTRACT.md"), promptContract(task.instructions), { flag: "wx" });
   return { packet, packet_digest_input: canonicalJson(packet), output };

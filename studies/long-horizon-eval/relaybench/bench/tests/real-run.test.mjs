@@ -14,7 +14,7 @@ test("real runner cannot make a call without the explicit payable-call flag", as
   }), /authorize-real-calls/);
 });
 
-test("mocked payable path pauses for human review then reaches LAB evaluation", async () => {
+test("mocked payable path uses automated policy admission then reaches LAB evaluation", async () => {
   const root = await fs.mkdtemp(path.join(os.tmpdir(), "relaybench-real-run-"));
   const checkout = path.join(root, "harvey");
   const taskRoot = path.join(checkout, "tasks/contracts/commercial-vendor-customer/master-services-agreement-playbook-escalation/scenario-01");
@@ -29,19 +29,27 @@ test("mocked payable path pauses for human review then reaches LAB evaluation", 
   const adapter = { metadata: () => ({ id: "mock" }), invoke: async ({ prompt }) => {
     const stage = prompt.match(/Current stage: (S\d)/)[1];
     return { raw_output: JSON.stringify({ stage_id: stage, summary: `summary-${stage}`,
-      conclusions: stage === "S1" ? [{ statement: "Bound conclusion", evidence_files: ["deal-economics-summary.xlsx"] }] : [],
+      conclusions: stage === "S1" ? [
+        { statement: "Bound conclusion", evidence_files: ["deal-economics-summary.xlsx"] },
+        { statement: "Unsupported conclusion", evidence_files: ["deal-economics-summary.xlsx"] },
+      ] : [],
       ...(stage === "S4" ? { final_markdown: "# Escalation memo\n\nApproved content." } : {}) }), telemetry: { model_calls: 1 } };
   }};
   const output = path.join(root, "run");
   const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../../../../..");
+  const judge = { metadata: () => ({ id: "mock-judge" }), invoke: async ({ prompt }) => ({
+    raw_output: JSON.stringify(prompt.includes("Unsupported conclusion")
+      ? { recommendation: "reject", rationale: "contradicted" }
+      : { recommendation: "accept", rationale: "explicit support" }), telemetry: { model_calls: 1 },
+  }) };
   const prepared = await runPrepare({ packetDir: packet, output, manifest, trackId: "A_HARVEY_COMPARABLE",
-    authorizeRealCalls: true, root: repoRoot, adapterOverride: adapter });
-  assert.equal(prepared.status, "AWAITING_HUMAN_REVIEW");
-  const reviewPath = path.join(output, "HUMAN_REVIEW.json"); const review = JSON.parse(await fs.readFile(reviewPath));
-  review.decisions.forEach((item) => { item.decision = "admit"; }); review.signed_at = new Date().toISOString();
-  await fs.writeFile(reviewPath, JSON.stringify(review));
+    authorizeRealCalls: true, root: repoRoot, adapterOverride: adapter, judgeOverride: judge });
+  assert.equal(prepared.status, "POLICY_GATE_COMPLETE");
+  assert.deepEqual(prepared.episodes.C2_PROOFPRESS.proposals.map((x) => x.admitted), [true, false]);
   const resumed = await runResume({ output, manifest, authorizeRealCalls: true, root: repoRoot, adapterOverride: adapter });
   assert.equal(resumed.status, "READY_FOR_LAB_EVALUATION");
+  const inherited = JSON.parse(await fs.readFile(path.join(output, "receiver/C2_PROOFPRESS/INHERITED_CONTEXT.json")));
+  assert.equal(inherited.proofpress_trusted_context.knowledge.length, 1);
   for (const condition of ["C1_ORDINARY_PORTABLE", "C2_PROOFPRESS"])
     await fs.access(resumed.episodes[condition].deliverable);
 });

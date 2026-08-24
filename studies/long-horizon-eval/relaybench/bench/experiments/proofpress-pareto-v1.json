@@ -64,13 +64,25 @@
     ],
     "selection_status": "FROZEN_CALIBRATION"
   },
-  "review_gate": {
-    "mode": "pause_for_authorized_human",
+  "policy_gate": {
+    "mode": "research_only_automated_fail_closed",
     "proposer": "agent:sender",
-    "reviewer_role": "human:research-owner",
-    "identity_basis": "run-manifest-attested",
-    "judge_may_admit": false,
-    "resume_requires_signed_decision_file": true
+    "executor": "policy:relaybench-v1",
+    "admission_rule": "deterministic_eligible AND frozen_judge_accept",
+    "reject_rule": "judge_reject_or_escalate_is_blocked",
+    "production_boundary": "research-only treatment; production Proofpress retains authorized human admission",
+    "prompt": "You are the frozen legal-policy gate for a controlled research experiment. Assess only whether the conclusion is supported by the supplied evidence, scoped to the MSA escalation task, and safe to carry into the next stage. Accept only when support is explicit. Reject when contradicted. Escalate when ambiguous, incomplete, or dependent on business risk appetite not fixed in the evidence. Do not decide legal truth beyond this packet.",
+    "judge": {
+      "endpoint": "https://ai-gateway.vercel.sh/v1/chat/completions",
+      "api_key_env": "AI_GATEWAY_API_KEY",
+      "resolved_model": "google/gemini-3-flash",
+      "provider_only": "google",
+      "temperature": 0,
+      "timeout_ms": 1800000,
+      "fallback": false,
+      "retries": 0
+    },
+    "human_role": "blind_post_run_error_analysis_only"
   },
   "budget_policy": {
     "hard_cap_for_calibration": null,

@@ -17,6 +17,7 @@
     @media(max-width:1100px){main{padding:28px 24px}.lanes{grid-template-columns:1fr}.fork,.merge{display:none}.steps{grid-template-columns:repeat(2,1fr)}.detail{grid-template-columns:1fr}.meta{text-align:left}.top{display:block}.boundary{display:block}.boundary span{display:block;margin-top:5px}}
     @media(max-width:620px){main{padding:22px 14px}.steps,.score-row{grid-template-columns:1fr}.score-row .operator{transform:rotate(90deg)}.legend{gap:10px}.canvas{padding:14px}.node{min-height:auto}}
   </style>
+
 <meta name="proofpress:meta" content="eyJhcnRpZmFjdF9pZCI6InBwXzgxNmU1N2Q5ZDIxMzUxODY2MjI1NmFlZCIsInBvbGljeSI6ImxvY2FsIiwicHJvb2ZwcmVzcyI6MX0">
 </head>
 <body>
@@ -25,7 +26,7 @@
     <div><div class="eyebrow">Proofpress × Harvey LAB · Paired calibration</div><h1 data-proofpress-id="2ed4aa7d">Does governed handoff improve long-horizon legal work?</h1></div>
     <div class="meta"><strong>1 frozen matter</strong><br>11 verified files · 72 public criteria<br>payable calls require explicit authorization</div>
   </header>
-  <div class="legend" aria-label="Legend" data-proofpress-id="pp-exp-map-legend"><span><i class="dot"></i>RAW WORK</span><span><i class="dot trust"></i>PROOFPRESS</span><span><i class="dot human"></i>HUMAN GATE</span><span><i class="dot eval"></i>EVALUATION</span><span><i class="dash"></i>COLD BOUNDARY</span></div>
+  <div class="legend" aria-label="Legend" data-proofpress-id="pp-exp-map-legend"><span><i class="dot"></i>RAW WORK</span><span><i class="dot trust"></i>PROOFPRESS</span><span><i class="dot human"></i>POLICY GATE</span><span><i class="dot eval"></i>EVALUATION</span><span><i class="dash"></i>COLD BOUNDARY</span></div>
   <section class="canvas" aria-label="Experiment structure" data-proofpress-id="pp-exp-map-canvas">
     <div class="source-row"><button class="node raw" data-key="source" aria-pressed="true"><span class="step">Frozen input</span><h3 data-proofpress-id="573a7d33">Harvey LAB contract matter</h3><p data-proofpress-id="7027be74">Same task, files, model, tools, limits, and evaluator.</p></button></div>
     <div class="fork"></div>
@@ -39,7 +40,7 @@
       </div></section>
       <section class="lane" data-proofpress-id="pp-exp-map-trust-lane"><div class="lane-head"><h2 data-proofpress-id="7824c124">C2 · Proofpress</h2><span>TREATMENT</span></div><div class="steps">
         <button class="node trust" data-key="pp-distill"><span class="step">S1–S2</span><h3 data-proofpress-id="2d1d9ab4">Evidence → conclusions</h3><p data-proofpress-id="8ad03d4f">Source-bound proposals enter an append-only ledger.</p></button>
-        <button class="node human" data-key="pp-gate"><span class="step">Gate</span><h3 data-proofpress-id="e0e89e87">Checks + human review</h3><p data-proofpress-id="13b5c87e">Deterministic evaluation; authorized non-proposer decides.</p></button>
+        <button class="node human" data-key="pp-gate"><span class="step">Gate</span><h3 data-proofpress-id="e0e89e87">Checks + policy judge</h3><p data-proofpress-id="13b5c87e">Eligible + accept enters context; reject or escalate is blocked.</p></button>
         <div class="handoff"><strong>FRESH PROCESS + EMPTY WORKSPACE</strong> · before S3</div>
         <button class="node trust" data-key="pp-context"><span class="step">S3–S4</span><h3 data-proofpress-id="54c2a9c1">Trusted context only</h3><p data-proofpress-id="09e28841">Receiver inherits admitted, current, in-scope conclusions.</p></button>
         <button class="node trust" data-key="pp-doc"><span class="step">Output</span><h3 data-proofpress-id="a12ac1dc">Final legal memo</h3><p data-proofpress-id="5b845a9e">Same required DOCX deliverable.</p></button>
@@ -51,7 +52,7 @@
       <button class="node eval" data-key="pareto"><span class="step">Decision</span><h3 data-proofpress-id="3993d021">Quality × cost × latency</h3><p data-proofpress-id="d5cac0d6">Paired delta, regressions, complete treatment overhead, Pareto frontier.</p></button>
     </div>
     <aside class="detail" aria-live="polite" data-proofpress-id="pp-exp-map-detail"><div class="label" id="detail-label">FROZEN INPUT</div><div><h4 id="detail-title" data-proofpress-id="f3368726">One matter becomes one matched experiment</h4><p id="detail-body" data-proofpress-id="91cb0f90">Both conditions start from the same pinned Harvey commit and byte-verified matter files. The only intended difference is what crosses the agent handoff.</p></div><code id="detail-proof">commit 7be41d57…<br>11/11 SHA-256 verified<br>72 public criteria</code></aside>
-    <footer class="boundary" data-proofpress-id="pp-exp-map-boundary"><span><strong>Causal comparison:</strong> Raw handoff vs governed handoff.</span><span><strong>Human authority:</strong> judge recommends; only the human reviewer admits.</span><span><strong>Claim boundary:</strong> public-task composition, not official private leaderboard.</span></footer>
+    <footer class="boundary" data-proofpress-id="pp-exp-map-boundary"><span><strong>Causal comparison:</strong> Raw handoff vs governed handoff.</span><span><strong>Primary study:</strong> frozen automated gate; human audit is post-run only.</span><span><strong>Claim boundary:</strong> public-task composition, not official private leaderboard.</span></footer>
   </section>
 </main>
 <script>
@@ -62,9 +63,9 @@ source:["FROZEN INPUT","One matter becomes one matched experiment","Both conditi
 "raw-s34":["CONTROL · RECEIVER","A fresh agent decides what to trust","The old process and workspace are gone. The receiver must continue from the transferred files and raw summary.","cold boundary before S3"],
 "raw-doc":["CONTROL · OUTPUT","Comparable final artifact","The receiver produces the exact same requested escalation-approval memo as C2.","escalation-approval-memo.docx"],
 "pp-distill":["TREATMENT · DISTILL","Raw work becomes evidence-bound proposals","Proofpress imports the source files, records immutable evidence receipts, and binds candidate conclusions to named evidence.","evidence import → propose → evaluate"],
-"pp-gate":["TREATMENT · AUTHORITY","No model can silently create trusted knowledge","Deterministic checks run first. A model may recommend, but an authorized non-proposer human must admit or reject every conclusion.","AWAITING_HUMAN_REVIEW\nsigned HUMAN_REVIEW.json"],
+"pp-gate":["TREATMENT · POLICY GATE","A frozen rule controls experimental continuation","Deterministic checks run first. The LM judge recommends accept, reject, or escalate. Only eligible + accept is admitted; every other outcome fails closed.","POLICY_GATE_COMPLETE\nresearch-only executor"],
 "pp-context":["TREATMENT · RECEIVER","Only governed knowledge crosses the boundary","The fresh receiver sees current, admitted, scope- and actor-compatible conclusions. Rejected and unresolved items stay blocked and auditable.","proofpress context\nscope: legal:msa-escalation"],
-"pp-doc":["TREATMENT · OUTPUT","Comparable final artifact","C2 produces the same DOCX under the same model and execution limits; all Proofpress overhead is counted.","distill + review + context cost included"],
+"pp-doc":["TREATMENT · OUTPUT","Comparable final artifact","C2 produces the same DOCX under the same model and execution limits; all Proofpress overhead is counted.","distill + judge + gate + context cost included"],
 score:["PUBLIC RUBRIC","One frozen grader, every criterion","Both final memos are evaluated against all 72 public task criteria with the same frozen evaluator configuration.","all-pass + criterion-pass\nnot private leaderboard"],
 pareto:["RESEARCH DECISION","Did Proofpress move the frontier?","We compare paired quality, total tokens, normalized cost, latency, unsafe propagation, false stops, and every task-level regression.","quality no worse + resource no worse\nwith ≥1 strict improvement"]};
 document.querySelectorAll(".node[data-key]").forEach(button=>button.addEventListener("click",()=>{document.querySelectorAll(".node[data-key]").forEach(x=>x.setAttribute("aria-pressed","false"));button.setAttribute("aria-pressed","true");const d=details[button.dataset.key];document.getElementById("detail-label").textContent=d[0];document.getElementById("detail-title").textContent=d[1];document.getElementById("detail-body").textContent=d[2];document.getElementById("detail-proof").textContent=d[3]}));
