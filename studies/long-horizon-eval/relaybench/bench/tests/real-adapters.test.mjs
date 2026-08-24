@@ -21,9 +21,9 @@ test("Vercel adapter refuses missing key/provider and hard-pins provider", async
     sent = JSON.parse(init.body);
     return { ok: true, status: 200, headers: new Headers(), json: async () => ({ model: "moonshotai/kimi-k3", choices: [{ message: { content: "ok" } }], usage: { prompt_tokens: 4, completion_tokens: 2 } }) };
   }});
-  const result = await adapter.invoke({ prompt: "x" }, { env: { K: "secret" } });
+  const result = await adapter.invoke({ prompt: "x", max_output_tokens: 12000 }, { env: { K: "secret" } });
   assert.deepEqual(sent.providerOptions.gateway.only, ["test-provider"]);
-  assert.equal(sent.max_tokens, 8000);
+  assert.equal(sent.max_tokens, 12000);
   assert.equal(result.telemetry.serving_provider_requested, "test-provider");
   assert.equal(result.telemetry.serving_provider_reported, null);
   assert.equal(result.telemetry.input_tokens, 4);

@@ -65,6 +65,7 @@
         "temperature": 0,
         "reasoning_effort": "none",
         "max_output_tokens": 4000,
+        "final_stage_max_output_tokens": 12000,
         "timeout_ms": 300000,
         "fallback": false,
         "retries": 0

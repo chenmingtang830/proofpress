@@ -83,7 +83,10 @@ export async function runResume({ output, manifest, authorizeRealCalls, root, en
     let prior = JSON.stringify(inherited);
     for (const stageId of ["S3", "S4"]) {
       const sourcePacket = await stageEvidencePacket(root, state.packet_dir, packet, stageId);
-      const result = await adapter.invoke({ prompt: stagePrompt({ promptContract, packet, stageId, condition, prior, sourcePacket }) }, { workspace: receiver, env });
+      const result = await adapter.invoke({
+        prompt: stagePrompt({ promptContract, packet, stageId, condition, prior, sourcePacket }),
+        ...(stageId === "S4" ? { max_output_tokens: adapter.metadata().final_stage_max_output_tokens } : {}),
+      }, { workspace: receiver, env });
       await fs.writeFile(path.join(receiver, `MODEL_RESPONSE_${stageId}.json`), `${JSON.stringify(result, null, 2)}\n`, { flag: "wx" });
       const parsed = parseWorkerOutput(result.raw_output, stageId);
       state.episodes[condition].stages.push({ stage_id: stageId, output: parsed, telemetry: result.telemetry });

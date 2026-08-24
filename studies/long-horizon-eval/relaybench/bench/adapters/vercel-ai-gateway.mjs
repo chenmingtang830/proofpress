@@ -19,6 +19,8 @@ export function createVercelGatewayAdapter(config, deps = {}) {
       provider: "Vercel AI Gateway", route: config.endpoint, resolved_model: config.resolved_model,
       serving_provider_only: config.provider_only, provider_fallback: false,
       cross_provider_retries: false, timeout_ms: config.timeout_ms,
+      max_output_tokens: config.max_output_tokens,
+      final_stage_max_output_tokens: config.final_stage_max_output_tokens ?? config.max_output_tokens,
     }),
     async invoke(request, context = {}) {
       const keyName = config.api_key_env ?? "AI_GATEWAY_API_KEY";
@@ -36,7 +38,7 @@ export function createVercelGatewayAdapter(config, deps = {}) {
             model: config.resolved_model,
             messages: [{ role: "user", content: request.prompt }],
             temperature: config.temperature,
-            max_tokens: config.max_output_tokens,
+            max_tokens: request.max_output_tokens ?? config.max_output_tokens,
             ...(config.reasoning_effort ? { reasoning: { effort: config.reasoning_effort } } : {}),
             providerOptions: { gateway: { only: [config.provider_only] } },
           }),
