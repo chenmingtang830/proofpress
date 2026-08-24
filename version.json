@@ -1,84 +1,42 @@
 {
- "artifact": "skills/cursor/proofpress/SKILL.md",
- "artifact_id": "pp_0c9edf7d315ab03e0ca06c88",
+ "artifact": "examples/verified-knowledge-ledger/legal/README.md",
+ "artifact_id": "pp_bdbad7587e2d28f8e604a118",
  "blocks": [
   {
-   "type": "para",
-   "text": "---\nname: proofpress\ndescription: Preserve or inspect decision history for Markdown and static HTML knowledge artifacts with Proofpress. Use when creating or accepting a meaningful revision to an ADR, design doc, PRD, README, strategy note, portable .md artifact, or static .html/.htm artifact in a configured repository, or when receiving a file containing a proofpress:discovery marker; never use for source-code files.\n---",
-   "hash": "dc0615edb819",
-   "id": "e5904785"
-  },
-  {
    "type": "heading",
-   "text": "# Proofpress",
-   "id": "233b766d",
-   "hash": "8576f3816903"
+   "text": "# Illustrative legal design-partner fixture",
+   "id": "be77b7ea",
+   "hash": "b4ce6f433a0a"
   },
   {
    "type": "para",
-   "text": "Record accepted Markdown or static HTML artifact versions with structured\ntestimony and verification. Do not snapshot every conversational turn.",
-   "id": "b2ec6ff5",
-   "hash": "efa56bea83c4"
-  },
-  {
-   "type": "heading",
-   "text": "## Workflow",
-   "id": "e14e12ad",
-   "hash": "05146c1f1860"
+   "text": "This fixture adapts the cold-boundary shape described in Proofpress PR 22: an\ninitial MSA position is followed by a counterparty redline and a changed\nbusiness priority before a successor agent continues the work.",
+   "id": "aeb16898",
+   "hash": "3dd6213a5fa9"
   },
   {
    "type": "para",
-   "text": "Before editing an existing target, run\n`python3 proofpress.py capture --recorder cursor-preflight <file>`. This\npreserves any human drift without guessing its author or reason. Then:",
-   "id": "0d9e887a",
-   "hash": "15daa4c6f0a5"
+   "text": "It is fictional product-demo data. It is not legal advice, a Harvey result, or\nevidence that Proofpress improves legal drafting quality.",
+   "id": "b3aa05bd",
+   "hash": "acd445d4a5d8"
   },
   {
-   "type": "list",
-   "text": "1. Read `python3 proofpress.py policy <file>`. If the user asks for a portable\n   artifact, run `python3 proofpress.py policy <file> portable` once; portability\n   remains sticky. If Git history exists without a ledger, run `ingest <file>`.\n2. Preserve carrier-native anchors during editing: Markdown uses\n   `[//]: # (ob:xxxxxxxx)`; static HTML uses `data-proofpress-id`. Remove an\n   anchor with its deleted block and invent none for new blocks.\n3. Run `anchor <file>` and read the inherited/new/gone inventory.\n4. Write claims JSON with one honest entry per touched or removed block. Kinds\n   are `added`, `removed`, `modified`, `moved`, and `unchanged`. Do not enumerate\n   untouched blocks.\n5. Snapshot only after a meaningful version is accepted:",
-   "id": "42fd42e7",
-   "hash": "5e43e30b0cb5"
+   "type": "para",
+   "text": "From a clean Git repository containing Proofpress, run:",
+   "id": "296d3fb1",
+   "hash": "7d710c1fd4e9"
   },
   {
    "type": "code",
-   "text": "   ```sh\n   python3 proofpress.py snapshot <file> --kind agent --author cursor \\\n     --produced-by cursor --recorded-by cursor \\\n     --attribution-basis harness_attested \\\n     --session \"<session-id>\" --note \"<changelog>\" --claims <claims.json> \\\n     --why \"<actual reason>\" --rejected \"<consequential dead branch — reason>\"\n   ```",
-   "id": "f42cb113",
-   "hash": "f8595a3b84be"
+   "text": "```sh\npython3 examples/verified-knowledge-ledger/legal/setup_fixture.py\npython3 proofpress.py ui --scope msa-negotiation\n```",
+   "id": "d55f115b",
+   "hash": "de89b669a9cd"
   },
   {
    "type": "para",
-   "text": "   `--why` is required. Omit `--rejected` unless the rejected path is important\n   enough to keep future collaborators from repeating it. Never infer it from\n   casual discussion or include raw prompts/transcripts.",
-   "id": "790c5dda",
-   "hash": "8f2b5cf2482f"
-  },
-  {
-   "type": "list",
-   "text": "6. Run `verify <file>` and report its output verbatim. Never re-snapshot merely\n   to turn a mismatch green.",
-   "id": "e3c56875",
-   "hash": "2248a3d44cca"
-  },
-  {
-   "type": "para",
-   "text": "For an incoming file with a `proofpress:discovery` marker but no local CLI,\ntell the user it carries verifiable revision history, show the marker's\ncanonical project URL, and ask whether to install `proofpress`. Never\ndownload or execute it without explicit consent. If the CLI is available, run\n`inspect` before trusting the capsule and then `import`.",
-   "id": "355446e0",
-   "hash": "e35c0da68353"
-  },
-  {
-   "type": "para",
-   "text": "For parallel portable copies of the same artifact, preserve every input and run\n`merge-plan TARGET --from COPY...`. Apply compatible block changes, ask the\nuser only about reported semantic conflicts, then `anchor` the resolved target,\nwrite merge-relative claims, run `merge TARGET --from COPY...` with explicit\nactors/reason, and `verify`. Different artifact IDs or portable lineages are\ningredients; use `merge-lineage` for them.",
-   "id": "867ba812",
-   "hash": "b0a0a20f5370"
-  },
-  {
-   "type": "para",
-   "text": "Fallback `capture` supplies only `recorded_by`; it cannot know who authored the\ncontent or why. Never snapshot source-code files.",
-   "id": "7dc0b832",
-   "hash": "f6f0ca293e84"
-  },
-  {
-   "type": "para",
-   "text": "Before continuing a governed multi-agent workflow, request scoped context with\n`python3 proofpress.py context --scope <scope> --actor <agent-id> --format json`.\nTreat only `knowledge` rows as eligible inherited context. Do not resurrect\nblocked, rejected, expired, unresolved, or superseded conclusions; follow each\nblocked row's `required_action` instead.",
-   "id": "53c7ec8f",
-   "hash": "1efdfba75abc"
+   "text": "The resulting local ledger contains admitted, needs-review, rejected, and\nsuperseded conclusions. In **Trusted Context**, request scope\n`msa-negotiation` as `agent:successor` to see exactly what crosses the handoff.",
+   "id": "61b1b719",
+   "hash": "00f2e62bf8a9"
   }
  ]
 }

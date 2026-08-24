@@ -1,30 +1,65 @@
 {
  "event": "version_created",
- "artifact": "skills/cursor/proofpress/SKILL.md",
- "artifact_id": "pp_0c9edf7d315ab03e0ca06c88",
- "version": "9d489829",
- "parent": "7810db47",
+ "artifact": "examples/verified-knowledge-ledger/legal/README.md",
+ "artifact_id": "pp_bdbad7587e2d28f8e604a118",
+ "version": "8a11a68d",
+ "parent": null,
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-24T03:29:25+00:00",
+ "ts": "2026-08-24T03:29:37+00:00",
  "stats": {
-  "added": 1
+  "added": 6
  },
  "changes": [
   {
    "kind": "added",
-   "block": "53c7ec8f",
+   "block": "be77b7ea",
+   "type": "heading",
+   "context": "Illustrative legal design-partner fixtur",
+   "preview": "# Illustrative legal design-partner fixture"
+  },
+  {
+   "kind": "added",
+   "block": "aeb16898",
    "type": "para",
-   "context": "Workflow",
-   "preview": "Before continuing a governed multi-agent workflow, request s"
+   "context": "Illustrative legal design-partner fixtur",
+   "preview": "This fixture adapts the cold-boundary shape described in Pro"
+  },
+  {
+   "kind": "added",
+   "block": "b3aa05bd",
+   "type": "para",
+   "context": "Illustrative legal design-partner fixtur",
+   "preview": "It is fictional product-demo data. It is not legal advice, a"
+  },
+  {
+   "kind": "added",
+   "block": "296d3fb1",
+   "type": "para",
+   "context": "Illustrative legal design-partner fixtur",
+   "preview": "From a clean Git repository containing Proofpress, run:"
+  },
+  {
+   "kind": "added",
+   "block": "d55f115b",
+   "type": "code",
+   "context": "Illustrative legal design-partner fixtur",
+   "preview": "```sh\npython3 examples/verified-knowledge-ledger/legal/setup"
+  },
+  {
+   "kind": "added",
+   "block": "61b1b719",
+   "type": "para",
+   "context": "Illustrative legal design-partner fixtur",
+   "preview": "The resulting local ledger contains admitted, needs-review, "
   }
  ],
- "policy": "portable",
- "soft_fingerprint": "ppsb1:5c281e8301d5ef5c12a717155993961d339f520d05a1b3cf68ff877e0fe4cef3",
+ "policy": "local",
+ "soft_fingerprint": "ppsb1:fca6450d2145440413704859cdc65e109d00f48d46213f144df0c07c3b00c34c",
  "actors": {
   "requested_by": [
    "human:richard-tang"
@@ -42,13 +77,38 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "53c7ec8f",
+   "block": "be77b7ea",
    "kind": "added",
-   "note": "Teach agents to request scoped trusted context before continuation."
+   "note": "Add the illustrative legal fixture heading."
+  },
+  {
+   "block": "aeb16898",
+   "kind": "added",
+   "note": "State the fixture's bounded non-benchmark scope."
+  },
+  {
+   "block": "b3aa05bd",
+   "kind": "added",
+   "note": "Explain the four review states produced by the fixture."
+  },
+  {
+   "block": "296d3fb1",
+   "kind": "added",
+   "note": "Document fixture setup."
+  },
+  {
+   "block": "d55f115b",
+   "kind": "added",
+   "note": "Document how to launch the scoped local UI."
+  },
+  {
+   "block": "61b1b719",
+   "kind": "added",
+   "note": "State the no-legal-advice and no-Harvey-result boundary."
   }
  ],
  "context": {
-  "why": "Teach installed agents to consume governed context through the flat CLI."
+  "why": "Document the bounded illustrative legal workflow used to demonstrate all local review states."
  },
- "event_id": "ppe_9131aaf955fb5bfe79e9529a"
+ "event_id": "ppe_74b7b4b08dfe7d1c4ea77450"
 }
