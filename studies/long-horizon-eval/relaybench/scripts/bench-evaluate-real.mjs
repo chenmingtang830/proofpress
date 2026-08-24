@@ -16,14 +16,16 @@ const scores = {};
 for (const condition of packet.conditions) scores[condition] = await evaluatePublicRubric({
   taskPath: upstreamTask, deliverable: state.episodes[condition].deliverable,
   evaluator: manifest.evaluator, env,
-  rawResponsePath: path.join(path.resolve(args.output), `EVALUATOR_RESPONSE_${condition}.json`),
+  rawResponsePath: path.join(path.resolve(args.output), `EVALUATOR_RESPONSE_${condition}_attempt-${args.attempt}.json`),
 });
 await fs.writeFile(path.join(path.resolve(args.output), "PUBLIC_RUBRIC_SCORES.json"), `${JSON.stringify(scores, null, 2)}\n`, { flag: "wx" });
 process.stdout.write(`${JSON.stringify(Object.fromEntries(Object.entries(scores).map(([k,v]) => [k, { criteria_passed: v.criteria_passed, criteria_total: v.criteria_total, all_pass: v.all_pass }])), null, 2)}\n`);
 
-function parse(argv) { const out = {}; for (let i = 0; i < argv.length; i += 1) {
+function parse(argv) { const out = { attempt: 1 }; for (let i = 0; i < argv.length; i += 1) {
   if (argv[i] === "--output") out.output = argv[++i]; else if (argv[i] === "--task") out.task = argv[++i];
   else if (argv[i] === "--manifest") out.manifest = argv[++i]; else if (argv[i] === "--authorize-real-calls") out.authorize = true;
   else if (argv[i] === "--env-file") out.envFile = argv[++i];
+  else if (argv[i] === "--attempt") out.attempt = Number(argv[++i]);
   else throw new Error(`unknown argument: ${argv[i]}`);
-  } if (!out.output || !out.task) throw new Error("--output and --task are required"); return out; }
+  } if (!out.output || !out.task) throw new Error("--output and --task are required");
+  if (!Number.isInteger(out.attempt) || out.attempt < 1) throw new Error("--attempt must be a positive integer"); return out; }

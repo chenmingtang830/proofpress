@@ -143,7 +143,7 @@
     "provider_only": "google",
     "temperature": 0,
     "reasoning_effort": "none",
-    "max_output_tokens": 12000,
+    "max_output_tokens": 32000,
     "api_key_env": "AI_GATEWAY_API_KEY",
     "endpoint": "https://ai-gateway.vercel.sh/v1/chat/completions",
     "timeout_ms": 1800000
