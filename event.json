@@ -2,34 +2,36 @@
  "event": "version_created",
  "artifact": "studies/long-horizon-eval/relaybench/RESULTS_V9_2X2.md",
  "artifact_id": "pp_8d68d72f1b393b67df0c731b",
- "version": "5cfb8de5",
- "parent": "516a6ede",
+ "version": "340fa987",
+ "parent": "5cfb8de5",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-24T17:39:52+00:00",
+ "ts": "2026-08-24T19:32:23+00:00",
  "stats": {
-  "modified": 2
+  "modified": 1,
+  "added": 1
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "a02c5c15",
-   "type": "list",
-   "context": "Claim boundary and receipts"
+   "block": "1a802c43",
+   "type": "table",
+   "context": "Quality"
   },
   {
-   "kind": "modified",
-   "block": "68a38c2a",
-   "type": "list",
-   "context": "Claim boundary and receipts"
+   "kind": "added",
+   "block": "fdab9520",
+   "type": "para",
+   "context": "Quality",
+   "preview": "Across the nine task-repeat pairs, clean mean paired delta i"
   }
  ],
  "policy": "local",
- "soft_fingerprint": "ppsb1:c20a7ac5305ff1db7a68f9a223abf41a285654ed6fdd900639e00a7dbee1fe8e",
+ "soft_fingerprint": "ppsb1:941c4319d319319739cd25fece6c80615220fba48b566d896245163617aeda2e",
  "actors": {
   "requested_by": [
    "human:richard-tang"
@@ -47,18 +49,18 @@
  "attribution_basis": "harness_attested",
  "claims": [
   {
-   "block": "a02c5c15",
+   "block": "1a802c43",
    "kind": "modified",
-   "note": "Adds the exact pre-v9 valid, zero, negative, and invalid-attempt preservation boundary."
+   "note": "Expands aggregate quality outcomes into exact Credit, MSA, and License task-level results for both arms."
   },
   {
-   "block": "68a38c2a",
-   "kind": "modified",
-   "note": "Adds the machine-readable pre-v9 attempt ledger to authoritative artifacts."
+   "block": "fdab9520",
+   "kind": "added",
+   "note": "Preserves paired uncertainty and states that the confirmatory v9 panel used one worker model only."
   }
  ],
  "context": {
-  "why": "Preserve the pre-v9 zero, negative, positive, and invalid attempts as an explicit exclusion ledger beside the confirmatory v9 result."
+  "why": "Expose task-level treatment heterogeneity in the primary quality table and state the single-worker-model evidence boundary before cross-model replication."
  },
- "event_id": "ppe_ef10cbb3282289dc23713353"
+ "event_id": "ppe_ac98564be433e1ea1913465e"
 }

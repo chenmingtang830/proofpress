@@ -52,9 +52,15 @@
   },
   {
    "type": "table",
-   "text": "| Arm | Ordinary | Proofpress | Weighted delta | Mean paired delta (95% interval) |\n|---|---:|---:|---:|---:|\n| Clean | 758/852 (89.0%) | 789/852 (92.6%) | +31 / +3.64pp | +3.51pp [+0.55, +6.46] |\n| Stress | 760/852 (89.2%) | 783/852 (91.9%) | +23 / +2.70pp | +2.59pp [−1.48, +6.66] |",
+   "text": "| Arm | Task | Ordinary | Proofpress | Weighted delta |\n|---|---|---:|---:|---:|\n| Clean | Credit | 255/297 (85.9%) | 258/297 (86.9%) | +3 / +1.01pp |\n| Clean | MSA | 257/300 (85.7%) | 282/300 (94.0%) | +25 / +8.33pp |\n| Clean | License | 246/255 (96.5%) | 249/255 (97.6%) | +3 / +1.18pp |\n| **Clean total** | **Three-task panel** | **758/852 (89.0%)** | **789/852 (92.6%)** | **+31 / +3.64pp** |\n| Stress | Credit | 261/297 (87.9%) | 256/297 (86.2%) | −5 / −1.68pp |\n| Stress | MSA | 253/300 (84.3%) | 279/300 (93.0%) | +26 / +8.67pp |\n| Stress | License | 246/255 (96.5%) | 248/255 (97.3%) | +2 / +0.78pp |\n| **Stress total** | **Three-task panel** | **760/852 (89.2%)** | **783/852 (91.9%)** | **+23 / +2.70pp** |",
    "id": "1a802c43",
-   "hash": "23876eb455f9"
+   "hash": "09a00cfdff81"
+  },
+  {
+   "type": "para",
+   "text": "Across the nine task-repeat pairs, clean mean paired delta is +3.51pp (95%\nrepeated-run interval [+0.55, +6.46]); stress mean paired delta is +2.59pp\n([−1.48, +6.66]). The confirmatory v9 panel uses one worker model only:\n`deepseek/deepseek-v4-flash-0731` through a DeepInfra-only gateway route.",
+   "id": "fdab9520",
+   "hash": "ab93abcc93ab"
   },
   {
    "type": "para",
