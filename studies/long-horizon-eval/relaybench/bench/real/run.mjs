@@ -23,6 +23,7 @@ export async function runPrepare({ packetDir, output, manifest, trackId, authori
     let prior = "No prior stage output.";
     for (const stageId of ["S1", "S2"]) {
       const result = await adapter.invoke({ prompt: stagePrompt({ promptContract, packet, stageId, condition, prior }) }, { workspace, env });
+      await fs.writeFile(path.join(workspace, `MODEL_RESPONSE_${stageId}.json`), `${JSON.stringify(result, null, 2)}\n`, { flag: "wx" });
       const parsed = parseWorkerOutput(result.raw_output, stageId);
       stages.push({ stage_id: stageId, output: parsed, telemetry: result.telemetry });
       prior = parsed.summary;
@@ -79,6 +80,7 @@ export async function runResume({ output, manifest, authorizeRealCalls, root, en
     let prior = JSON.stringify(inherited);
     for (const stageId of ["S3", "S4"]) {
       const result = await adapter.invoke({ prompt: stagePrompt({ promptContract, packet, stageId, condition, prior }) }, { workspace: receiver, env });
+      await fs.writeFile(path.join(receiver, `MODEL_RESPONSE_${stageId}.json`), `${JSON.stringify(result, null, 2)}\n`, { flag: "wx" });
       const parsed = parseWorkerOutput(result.raw_output, stageId);
       state.episodes[condition].stages.push({ stage_id: stageId, output: parsed, telemetry: result.telemetry });
       prior = parsed.summary;
@@ -108,7 +110,7 @@ function requireAuthorization(flag, manifest) {
   if (manifest.real_calls_authorized !== false) throw new Error("manifest safety invariant changed; expected real_calls_authorized=false");
 }
 function parseJudgeOutput(raw) {
-  let value; try { value = JSON.parse(raw); } catch { throw new Error("policy judge returned invalid JSON"); }
+  let value; try { value = JSON.parse(jsonPayload(raw)); } catch { throw new Error("policy judge returned invalid JSON"); }
   if (!["accept", "reject", "escalate"].includes(value.recommendation) || typeof value.rationale !== "string" || !value.rationale.trim())
     throw new Error("policy judge must return recommendation accept|reject|escalate and rationale");
   return { recommendation: value.recommendation, rationale: value.rationale };
@@ -163,8 +165,15 @@ function stagePrompt({ promptContract, packet, stageId, condition, prior }) {
   return `${promptContract}\n\nCondition: ${condition}\nCurrent stage: ${stageId} — ${stage.label}\nNew files: ${stage.release.join(", ")}\nInherited state:\n${prior}\n\nReturn ONLY JSON: {"stage_id":"${stageId}","summary":"...","conclusions":[{"statement":"...","evidence_files":["filename"]}],"final_markdown":"..."}. final_markdown is required only at S4.`;
 }
 function parseWorkerOutput(raw, stageId) {
-  let value; try { value = JSON.parse(raw); } catch { throw new Error(`model returned invalid JSON at ${stageId}`); }
+  let value; try { value = JSON.parse(jsonPayload(raw)); } catch { throw new Error(`model returned invalid JSON at ${stageId}`); }
   if (value.stage_id !== stageId || typeof value.summary !== "string" || !Array.isArray(value.conclusions)) throw new Error(`invalid worker output at ${stageId}`);
   if (stageId === "S4" && typeof value.final_markdown !== "string") throw new Error("S4 final_markdown is required");
   return value;
+}
+function jsonPayload(raw) {
+  const text = String(raw).trim();
+  const fenced = text.match(/```(?:json)?\s*([\s\S]*?)```/i);
+  if (fenced) return fenced[1].trim();
+  const start = text.indexOf("{"); const end = text.lastIndexOf("}");
+  return start >= 0 && end > start ? text.slice(start, end + 1) : text;
 }
