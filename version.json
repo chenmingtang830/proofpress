@@ -1,126 +1,84 @@
 {
- "artifact": "docs/VERIFIED_KNOWLEDGE_LEDGER.md",
- "artifact_id": "pp_44546a1bf18752db34bc1eb7",
+ "artifact": "skills/claude-code/proofpress/SKILL.md",
+ "artifact_id": "pp_8f9f160826e336a46eb62bd4",
  "blocks": [
   {
-   "type": "heading",
-   "text": "# Verified Knowledge Ledger",
-   "id": "87dd93fc",
-   "hash": "33975087e725"
-  },
-  {
    "type": "para",
-   "text": "> Status: local MVP in `proofpress@0.5.0-alpha.1`. This overview describes the\n> append-only ledger, context gate, and local review UI. It is not yet a frozen interchange\n> specification or a claim of general long-horizon agent efficacy.",
-   "id": "b71e5de6",
-   "hash": "d1cfc9225dfe"
+   "text": "---\nname: proofpress\ndescription: Preserve or inspect decision history for Markdown and static HTML knowledge artifacts with Proofpress. Use when creating or accepting a meaningful revision to an ADR, design doc, PRD, README, strategy note, portable .md artifact, or static .html/.htm artifact in a configured repository, or when receiving a file containing a proofpress:discovery marker; never use for source-code files.\n---",
+   "hash": "dc0615edb819",
+   "id": "cb25b071"
   },
   {
    "type": "heading",
-   "text": "## What it is",
-   "id": "24505103",
-   "hash": "2a4105580934"
+   "text": "# Proofpress",
+   "id": "25f10229",
+   "hash": "8576f3816903"
   },
   {
    "type": "para",
-   "text": "The verified knowledge ledger turns **bounded** agent telemetry or artifacts\ninto candidate knowledge that a later human or agent can inspect before relying\non it. It is the trust layer above observability and memory:",
-   "id": "1e12da99",
-   "hash": "02fdcbd71b18"
-  },
-  {
-   "type": "table",
-   "text": "| Layer | Primary question |\n|---|---|\n| Logs, traces, commits, artifacts | What happened? |\n| Memory and ontology | What does the system remember and how is it structured? |\n| Proofpress | What may be relied on, why, by whom, and within what scope? |",
-   "id": "e2507278",
-   "hash": "c16f27ff4e57"
-  },
-  {
-   "type": "para",
-   "text": "**Memory is retrieval. Ontology is structure. Proofpress is trust.**",
-   "id": "a0ce3955",
-   "hash": "f308a6370ce5"
-  },
-  {
-   "type": "para",
-   "text": "The ledger does not make a claim universally true. It records the source,\nselected evidence, declared policy, review receipt, lifecycle state, scope, and\nexpiry or supersession semantics that determine whether an organization may\nreuse it.",
-   "id": "5e5ed818",
-   "hash": "ad1ce653d54b"
+   "text": "Record accepted Markdown or static HTML artifact versions with structured\ntestimony and verification. Do not snapshot every conversational turn.",
+   "id": "cb25a041",
+   "hash": "efa56bea83c4"
   },
   {
    "type": "heading",
-   "text": "## Current workflow",
-   "id": "7a1cac9c",
-   "hash": "bf9ff351f781"
-  },
-  {
-   "type": "code",
-   "text": "```text\nbounded OTLP-style telemetry or artifact\n  → append-only source and evidence events\n  → evidence-bound conclusions\n  → deterministic checks + LM recommendation + human review\n  → governed current context for a fresh human or agent\n```",
-   "id": "c3d2a28d",
-   "hash": "dd78ef8b7765"
+   "text": "## Workflow",
+   "id": "d8284708",
+   "hash": "05146c1f1860"
   },
   {
    "type": "para",
-   "text": "The reference fixture is\n[`examples/verified-knowledge-ledger/demo.otlp.json`](../examples/verified-knowledge-ledger/demo.otlp.json).",
-   "id": "2ef561dc",
-   "hash": "5c356dee5eda"
-  },
-  {
-   "type": "code",
-   "text": "```sh\nproofpress evidence import demo.otlp.json\nproofpress propose --statement \"The current conclusion\" \\\n  --evidence EVIDENCE_ID --scope demo --proposer agent:runner\nproofpress evaluate CONCLUSION_ID\nproofpress review CONCLUSION_ID --admit --reviewer human:reviewer\nproofpress context --scope demo --actor agent:successor\nproofpress ui --scope demo\n```",
-   "id": "5c8c136b",
-   "hash": "aaa192c359bd"
-  },
-  {
-   "type": "para",
-   "text": "`context` returns only admitted, current, in-scope and actor-eligible knowledge.\nRejected, unresolved, expired, and superseded conclusions remain in the\nappend-only audit history but are excluded by default. `ui` renders review,\nreceipt, context-preview, and lineage views from the same Git event projection.",
-   "id": "58bffc74",
-   "hash": "164c9bdbaf79"
-  },
-  {
-   "type": "heading",
-   "text": "## Relationship to artifact provenance",
-   "id": "5d269544",
-   "hash": "e349ce5fb217"
-  },
-  {
-   "type": "para",
-   "text": "Artifact provenance remains the portable trust primitive: it binds a durable\nartifact to revision history, evidence, actors, and decisions. The knowledge\nledger generalizes the same trust semantics across bounded workflow activity so\nthat a fresh agent can start from governed conclusions rather than raw context.",
-   "id": "1acc88ee",
-   "hash": "da878ede0366"
-  },
-  {
-   "type": "para",
-   "text": "The two surfaces are compatible. A portable artifact can be a materialized view\nof governed knowledge; it does not need to carry the full telemetry graph.",
-   "id": "067a97a0",
-   "hash": "044e0271e257"
-  },
-  {
-   "type": "heading",
-   "text": "## Non-goals",
-   "id": "d228259c",
-   "hash": "fb9224d45fa9"
+   "text": "Before editing an existing target, run\n`python3 proofpress.py capture --recorder claude-preflight <file>`. This\npreserves any human drift without guessing its author or reason. Then:",
+   "id": "78295d28",
+   "hash": "04b846a833f5"
   },
   {
    "type": "list",
-   "text": "- Not a full OpenTelemetry collector or real-time trace backend.\n- Not a generic RAG, company brain, or replacement for memory.\n- Not a semantic truth oracle or a guarantee that every relevant event was\n  captured.\n- Not a complete RBAC, connector marketplace, or hosted governance service.\n- Not evidence of general agent capability improvement.",
-   "id": "9a909f30",
-   "hash": "d0dc52ed70ef"
+   "text": "1. Read `python3 proofpress.py policy <file>`. If the user asks for portability,\n   run `policy <file> portable` once; it remains sticky. If Git history exists\n   without a ledger, run `ingest <file>`.\n2. Preserve carrier-native anchors while editing: Markdown uses\n   `[//]: # (ob:xxxxxxxx)`; static HTML uses `data-proofpress-id`. Run\n   `anchor <file>` and inspect inherited/new/gone IDs.\n3. Write claims JSON with one honest entry per touched or removed block; do not\n   enumerate untouched blocks.\n4. Snapshot the accepted version with `--why`, claims, and explicit actors:",
+   "id": "04e1285c",
+   "hash": "e674ec712baf"
   },
   {
-   "type": "heading",
-   "text": "## Evidence boundary and current focus",
-   "id": "b47338ab",
-   "hash": "fea7cb66065a"
-  },
-  {
-   "type": "para",
-   "text": "In the published controlled agent-handoff study, ordinary handoff reused stale\nwork in 12/12 trials and Proofpress-assisted handoff did so in 0/12; both\nconditions continued unchanged work correctly in 12/12 trials. This supports a\nversion-checking mechanism on that task, not a general product-efficacy claim.\nSee the [open study package](../studies/agent-handoff-artifact-provenance/README.md).",
-   "id": "b324002e",
-   "hash": "6b406a3083c2"
+   "type": "code",
+   "text": "   ```sh\n   python3 proofpress.py snapshot <file> --kind agent --author claude \\\n     --produced-by claude --recorded-by claude \\\n     --attribution-basis harness_attested --note \"<changelog>\" \\\n     --claims <claims.json> --why \"<actual reason>\" \\\n     --rejected \"<consequential dead branch — reason>\"\n   ```",
+   "id": "c89d4269",
+   "hash": "a14cf8e32996"
   },
   {
    "type": "para",
-   "text": "The next public proof point is a design-partner workflow: select two to five\nconclusions from a real long-horizon or multi-agent run, bind them to evidence,\napply the review path, and measure whether governed context changes the next\ndecision. Until then, finance and agentic-commerce interfaces are illustrative\nproduct fixtures, not customer validation.",
-   "id": "c8235573",
-   "hash": "7420e8345340"
+   "text": "   Omit `--rejected` unless the dead branch matters to future collaborators.\n   Never infer it from casual discussion or include raw prompts/transcripts.",
+   "id": "3b3f299e",
+   "hash": "4dd347f30287"
+  },
+  {
+   "type": "list",
+   "text": "5. Run `verify <file>` and report its output verbatim. Never re-snapshot merely\n   to force green.",
+   "id": "64c98298",
+   "hash": "304819c3057b"
+  },
+  {
+   "type": "para",
+   "text": "For an incoming file with a `proofpress:discovery` marker but no local CLI,\ntell the user it carries verifiable revision history, show the marker's\ncanonical project URL, and ask whether to install `proofpress`. Never\ndownload or execute it without explicit consent. If the CLI is available, run\n`inspect` before trusting the capsule and then `import`.",
+   "id": "e96a23df",
+   "hash": "e35c0da68353"
+  },
+  {
+   "type": "para",
+   "text": "For parallel portable copies of the same artifact, preserve every input and run\n`merge-plan TARGET --from COPY...`. Apply compatible block changes, ask the\nuser only about reported semantic conflicts, then `anchor` the resolved target,\nwrite merge-relative claims, run `merge TARGET --from COPY...` with explicit\nactors/reason, and `verify`. Different artifact IDs or portable lineages are\ningredients; use `merge-lineage` for them.",
+   "id": "50e05b0b",
+   "hash": "b0a0a20f5370"
+  },
+  {
+   "type": "para",
+   "text": "Fallback `capture` records only `recorded_by`; it cannot know authorship or\nreasoning. Never snapshot source-code files.",
+   "id": "3bec4947",
+   "hash": "c89d75105cee"
+  },
+  {
+   "type": "para",
+   "text": "Before continuing a governed multi-agent workflow, request scoped context with\n`python3 proofpress.py context --scope <scope> --actor <agent-id> --format json`.\nTreat only `knowledge` rows as eligible inherited context. Do not resurrect\nblocked, rejected, expired, unresolved, or superseded conclusions; follow each\nblocked row's `required_action` instead.",
+   "id": "056a6f4c",
+   "hash": "1efdfba75abc"
   }
  ]
 }

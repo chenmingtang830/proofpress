@@ -1,47 +1,30 @@
 {
  "event": "version_created",
- "artifact": "docs/VERIFIED_KNOWLEDGE_LEDGER.md",
- "artifact_id": "pp_44546a1bf18752db34bc1eb7",
- "version": "e5e709c9",
- "parent": "a75df813",
+ "artifact": "skills/claude-code/proofpress/SKILL.md",
+ "artifact_id": "pp_8f9f160826e336a46eb62bd4",
+ "version": "6bdf6415",
+ "parent": "6d50424c",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-24T03:29:13+00:00",
+ "ts": "2026-08-24T03:29:17+00:00",
  "stats": {
-  "modified": 4
+  "added": 1
  },
  "changes": [
   {
-   "kind": "modified",
-   "block": "b71e5de6",
+   "kind": "added",
+   "block": "056a6f4c",
    "type": "para",
-   "context": "Verified Knowledge Ledger"
-  },
-  {
-   "kind": "modified",
-   "block": "c3d2a28d",
-   "type": "code",
-   "context": "Current workflow"
-  },
-  {
-   "kind": "modified",
-   "block": "5c8c136b",
-   "type": "code",
-   "context": "Current workflow"
-  },
-  {
-   "kind": "modified",
-   "block": "58bffc74",
-   "type": "para",
-   "context": "Current workflow"
+   "context": "Workflow",
+   "preview": "Before continuing a governed multi-agent workflow, request s"
   }
  ],
- "policy": "local",
- "soft_fingerprint": "ppsb1:9cf858cbee563262083442c17ef74484559b169c27164ad59300c6b56d1b1446",
+ "policy": "portable",
+ "soft_fingerprint": "ppsb1:171b3a9ef70047764ec95c5b6d6e1e985d7a6a8aadd7467d44290927a489b031",
  "actors": {
   "requested_by": [
    "human:richard-tang"
@@ -59,28 +42,13 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "b71e5de6",
-   "kind": "modified",
-   "note": "Update implementation status to the 0.5 local MVP."
-  },
-  {
-   "block": "c3d2a28d",
-   "kind": "modified",
-   "note": "Describe the append-only conclusion and review pipeline."
-  },
-  {
-   "block": "5c8c136b",
-   "kind": "modified",
-   "note": "Document the flat command workflow."
-  },
-  {
-   "block": "58bffc74",
-   "kind": "modified",
-   "note": "Document actor gating and the local projection UI."
+   "block": "056a6f4c",
+   "kind": "added",
+   "note": "Teach agents to request scoped trusted context before continuation."
   }
  ],
  "context": {
-  "why": "Align the ledger overview with the implemented append-only CLI, context gate, and local UI."
+  "why": "Teach installed agents to consume governed context through the flat CLI."
  },
- "event_id": "ppe_322b9234d0d3816a0c12264a"
+ "event_id": "ppe_f13cf71378a36b20953329ba"
 }
