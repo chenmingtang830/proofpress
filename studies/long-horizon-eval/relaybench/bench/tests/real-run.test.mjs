@@ -35,7 +35,7 @@ test("mocked payable path uses automated policy admission then reaches LAB evalu
         { statement: "Bound conclusion", evidence_files: ["deal-economics-summary.xlsx"] },
         { statement: "Unsupported conclusion", evidence_files: ["deal-economics-summary.xlsx"] },
       ] : [],
-      ...(stage === "S4" ? { final_markdown: "# Escalation memo\n\nApproved content." } : {}) }), telemetry: { model_calls: 1 } };
+      final_markdown: stage === "S4" ? "# Escalation memo\n\nApproved content." : "" }), telemetry: { model_calls: 1 } };
   }};
   const output = path.join(root, "run");
   const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../../../../..");

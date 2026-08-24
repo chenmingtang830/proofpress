@@ -176,12 +176,16 @@ async function copyStageSources(packetDir, workspace, stages) {
 }
 function stagePrompt({ promptContract, packet, stageId, condition, prior, sourcePacket }) {
   const stage = packet.stages.find((x) => x.stage_id === stageId);
-  return `${promptContract}\n\nCondition: ${condition}\nCurrent stage: ${stageId} — ${stage.label}\nNew files: ${stage.release.join(", ")}\nInherited state:\n${prior}\n\nReleased source text (deterministically extracted; no later-stage files are present):\n${JSON.stringify(sourcePacket)}\n\nReturn ONLY JSON: {"stage_id":"${stageId}","summary":"...","conclusions":[{"statement":"...","evidence_files":["filename"]}],"final_markdown":"..."}. final_markdown is required only at S4.`;
+  const deliverableRule = stageId === "S4"
+    ? "S4 is the only deliverable stage: final_markdown must contain the complete final memo."
+    : `${stageId} is not a deliverable stage: final_markdown MUST be an empty string. Do not draft or preview the final memo.`;
+  return `${promptContract}\n\nCondition: ${condition}\nCurrent stage: ${stageId} — ${stage.label}\nNew files: ${stage.release.join(", ")}\nInherited state:\n${prior}\n\nReleased source text (deterministically extracted; no later-stage files are present):\n${JSON.stringify(sourcePacket)}\n\n${deliverableRule}\nReturn ONLY JSON: {"stage_id":"${stageId}","summary":"...","conclusions":[{"statement":"...","evidence_files":["filename"]}],"final_markdown":"..."}.`;
 }
 function parseWorkerOutput(raw, stageId) {
   let value; try { value = JSON.parse(jsonPayload(raw)); } catch { throw new Error(`model returned invalid JSON at ${stageId}`); }
   if (value.stage_id !== stageId || typeof value.summary !== "string" || !Array.isArray(value.conclusions)) throw new Error(`invalid worker output at ${stageId}`);
   if (stageId === "S4" && typeof value.final_markdown !== "string") throw new Error("S4 final_markdown is required");
+  if (stageId !== "S4" && value.final_markdown !== "") throw new Error(`${stageId} final_markdown must be empty`);
   return value;
 }
 function jsonPayload(raw) {
