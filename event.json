@@ -1,55 +1,35 @@
 {
  "event": "version_created",
- "artifact": "studies/long-horizon-eval/relaybench/PROOFPRESS_PARETO_STUDY.md",
- "artifact_id": "pp_ffddb1d2cc98a01371a598e2",
- "version": "0423fd9e",
- "parent": "33873e27",
+ "artifact": "studies/long-horizon-eval/relaybench/visuals/harvey-proofpress-experiment-map.html",
+ "artifact_id": "pp_816e57d9d213518662256aed",
+ "version": "28ec87ad",
+ "parent": "430c4d60",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-24T06:06:18+00:00",
+ "ts": "2026-08-24T06:06:42+00:00",
  "stats": {
-  "modified": 4,
-  "added": 1
+  "modified": 2
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "57eeadf3",
-   "type": "para",
-   "context": "Decision"
+   "block": "e0e89e87",
+   "type": "heading",
+   "context": "<h3>Checks + policy judge</h3>"
   },
   {
    "kind": "modified",
-   "block": "5947a59d",
+   "block": "13b5c87e",
    "type": "para",
-   "context": "C2 — Proofpress governed handoff"
-  },
-  {
-   "kind": "modified",
-   "block": "daa79044",
-   "type": "para",
-   "context": "Execution readiness"
-  },
-  {
-   "kind": "modified",
-   "block": "8a9e8051",
-   "type": "para",
-   "context": "Execution readiness"
-  },
-  {
-   "kind": "added",
-   "block": "4fa7f2a1",
-   "type": "para",
-   "context": "Execution readiness",
-   "preview": "The automated admission path is an experimental treatment, n"
+   "context": "<h3>Checks + policy judge</h3>"
   }
  ],
  "policy": "local",
- "soft_fingerprint": "ppsb1:4ef9abfee627fd6e5ad059048b7613004485030268970aa0dbcecfc008b3f0c9",
+ "soft_fingerprint": "ppsb1:12d0f1556335cf3d32d8de1539555b839ba01e2459df4c3d285e5351bd3415a3",
  "actors": {
   "requested_by": [
    "human:richard"
@@ -67,33 +47,23 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "57eeadf3",
+   "block": "e0e89e87",
    "kind": "modified",
-   "note": "Count policy-gate work as treatment overhead."
+   "note": "Rename experiment gate to checks plus policy judge."
   },
   {
-   "block": "5947a59d",
+   "block": "13b5c87e",
    "kind": "modified",
-   "note": "Replace runtime human admission with frozen research-only automated policy admission."
+   "note": "Show fail-closed automated admission rule."
   },
   {
-   "block": "daa79044",
+   "block": "5b845a9e",
    "kind": "modified",
-   "note": "Document automated prepare/resume workflow and post-run human audit boundary."
-  },
-  {
-   "block": "8a9e8051",
-   "kind": "modified",
-   "note": "Document frozen worker and policy-judge routes."
-  },
-  {
-   "block": "4fa7f2a1",
-   "kind": "added",
-   "note": "State research-only versus production authority boundary."
+   "note": "Count judge and policy-gate overhead in the treatment."
   }
  ],
  "context": {
-  "why": "Remove runtime human-review confound from the primary causal experiment while preserving a clear production authority boundary."
+  "why": "Make the experiment map match the frozen automated policy-gate design."
  },
- "event_id": "ppe_31df97ff03551d726e46f549"
+ "event_id": "ppe_fa77ecdb6ad2204bc3954f32"
 }
