@@ -75,7 +75,7 @@
     "judge": {
       "endpoint": "https://ai-gateway.vercel.sh/v1/chat/completions",
       "api_key_env": "AI_GATEWAY_API_KEY",
-      "resolved_model": "google/gemini-3-flash",
+      "resolved_model": "google/gemini-3.7-flash",
       "provider_only": "google",
       "temperature": 0,
       "timeout_ms": 1800000,
@@ -113,7 +113,7 @@
   "evaluator": {
     "status": "FROZEN_PUBLIC_RUBRIC_EVALUATOR",
     "claim_boundary": "scores the 72 public task criteria; not an official Harvey private leaderboard score",
-    "model": "google/gemini-3-flash",
+    "model": "google/gemini-3.7-flash",
     "route": "Vercel AI Gateway",
     "provider_only": "google",
     "temperature": 0,

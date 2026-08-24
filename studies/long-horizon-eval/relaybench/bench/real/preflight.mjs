@@ -17,7 +17,7 @@ export async function preflightRealStudy({ manifestPath, harveyCheckout, env = p
   checks.push(check("automated policy gate frozen", manifest.policy_gate?.mode === "research_only_automated_fail_closed"
     && manifest.policy_gate?.admission_rule === "deterministic_eligible AND frozen_judge_accept"));
   checks.push(check("policy executor is not proposer", manifest.policy_gate?.proposer !== manifest.policy_gate?.executor));
-  checks.push(check("policy judge frozen", manifest.policy_gate?.judge?.resolved_model === "google/gemini-3-flash"
+  checks.push(check("policy judge frozen", manifest.policy_gate?.judge?.resolved_model === "google/gemini-3.7-flash"
     && manifest.policy_gate?.judge?.provider_only === "google" && manifest.policy_gate?.judge?.fallback === false));
   checks.push(check("matched execution limits", manifest.budget_policy.matched_execution_limits_required === true));
   checks.push(check("Proofpress overhead counted", manifest.budget_policy.count_all_proofpress_overhead === true));
