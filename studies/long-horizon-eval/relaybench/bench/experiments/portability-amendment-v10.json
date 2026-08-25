@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "id": "proofpress-v9-cross-model-portability-amendment-v10",
+  "frozen_at": "2026-08-25T20:00:00Z",
+  "timing": "Frozen after the dfe56d8 route-diagnostic checkpoint and before any post-amendment quality outcome was generated or inspected.",
+  "classification": "PRE_OUTCOME_OPERATIONAL_CORRECTION",
+  "research_invariants": {
+    "tasks": ["credit-scenario-02", "msa-scenario-04", "license-scenario-03"],
+    "arms": ["clean", "stress"],
+    "receiver_repeats": 3,
+    "raw_and_proofpress_worker_caps_identical": true,
+    "provider_allowlist_fixed": true,
+    "provider_fallback": false,
+    "hidden_retry": false,
+    "task_sources_unchanged": true,
+    "rubric_unchanged": true,
+    "stress_fixtures_unchanged": true,
+    "policy_judge_unchanged": true,
+    "blind_evaluator_unchanged": true
+  },
+  "diagnosis": [
+    "Long S4 Markdown embedded in a JSON string caused malformed or truncated worker envelopes despite usable memo text.",
+    "Free-form graph selection required each worker model to reproduce opaque ledger IDs and caused unknown-ID, over-selection, and selector-cap failures.",
+    "Long JSON working-set compilation measured provider schema compliance rather than governed-handoff task quality."
+  ],
+  "corrections": {
+    "s4_transport": "Return the complete final memo as Markdown directly; S4 conclusions are not used after the receiver boundary.",
+    "graph_selection": "Deterministically select current admitted ledger receipts from the trusted-context projection, using only actual IDs and a fixed maximum of 48.",
+    "working_set": "Render each selected conclusion, evidence filename, and bounded extracted evidence locally; do not ask the worker model to regenerate IDs or a JSON graph envelope.",
+    "sender_structure": "Keep S1-S3 JSON but add fixed concision limits; legacy frozen sender responses remain parse-compatible and may be reused.",
+    "attempts": "Every provider or worker failure creates a new explicitly numbered attempt; no automatic retry or fallback is introduced."
+  },
+  "claim_boundary": "Post-amendment panels estimate the governed-handoff treatment with deterministic context assembly. They must not be pooled silently with pre-amendment panels, and all prior invalid attempts remain route-reliability evidence."
+}

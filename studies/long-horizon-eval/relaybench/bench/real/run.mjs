@@ -175,32 +175,18 @@ export async function runResume({ output, manifest, authorizeRealCalls, root, en
       : {};
     let selectedKnowledgeIds = [];
     if (condition === "C2_PROOFPRESS") {
-      const currentSources = await stageEvidencePacket(root, state.packet_dir, packet, firstReceiverStage, receiverStart);
-      const lookup = await adapter.invoke({ prompt: traceSelectionPrompt({ promptContract, trusted, currentSources,
-        stage: packet.stages[receiverStart] }), reasoning_effort: "none", max_output_tokens: 8000 },
-      { workspace: receiver, env });
-      await fs.writeFile(path.join(receiver, "TRACE_SELECTION_RESPONSE.json"), `${JSON.stringify(lookup, null, 2)}\n`, { flag: "wx" });
-      assertForAdapter(lookup, adapter, 8000, "trace graph selection");
-      const selected = parseTraceSelection(lookup.raw_output, trusted, 48);
+      const selected = deterministicTraceSelection(trusted, 48);
       selectedKnowledgeIds = selected.knowledge_ids;
       const admitted = new Map(state.episodes.C2_PROOFPRESS.proposals.filter((x) => x.admitted).map((x) => [x.id, x]));
       const evidenceFiles = [...new Set(selected.knowledge_ids.flatMap((id) => admitted.get(id)?.evidence_files ?? []))];
       const knowledgeById = new Map(trusted.knowledge.map((x) => [x.id, x]));
       const expandedEvidence = await extractEvidence(root, evidenceFiles.map((name) =>
         path.join(state.packet_dir, "source", findStageForFile(packet, name), name)));
-      const selectedSet = new Set(selected.knowledge_ids);
-      const selectedChecklist = selected.checklist.map((row) => ({ ...row,
-        knowledge_ids: row.knowledge_ids.filter((id) => selectedSet.has(id)) }));
-      const compiled = await adapter.invoke({ prompt: compileWorkingSetPrompt({ promptContract,
-        checklist: selectedChecklist, knowledge: selected.knowledge_ids.map((id) => knowledgeById.get(id)),
-        evidence: expandedEvidence }), reasoning_effort: "none", max_output_tokens: 24000 }, { workspace: receiver, env });
-      await fs.writeFile(path.join(receiver, "WORKING_SET_RESPONSE.json"),
-        `${JSON.stringify(compiled, null, 2)}\n`, { flag: "wx" });
-      assertForAdapter(compiled, adapter, 24000, "working-set compiler");
+      const compiled = deterministicWorkingSet({ selected, knowledgeById, admitted });
       inherited.proofpress_governed_working_set = {
         schema_version: "proofpress/working-set/v1", ledger_head: trusted.ledger_head,
         scope: trusted.scope, policy_digest: trusted.policy_digest,
-        ...parseCompiledWorkingSet(compiled.raw_output, selected.knowledge_ids, evidenceFiles),
+        ...compiled,
       };
       inherited.proofpress_trace_expansion = {
         selected_knowledge_ids: selected.knowledge_ids,
@@ -208,48 +194,12 @@ export async function runResume({ output, manifest, authorizeRealCalls, root, en
         evidence_refs_resolved: Object.keys(expandedEvidence),
       };
       state.episodes.C2_PROOFPRESS.trace_lookup = { ...selected, evidence_files: evidenceFiles,
-        telemetry: lookup.telemetry, compiler_telemetry: compiled.telemetry };
+        telemetry: null, compiler_telemetry: null, assembly: "deterministic-v10" };
     }
     await fs.writeFile(path.join(receiver, "INHERITED_CONTEXT.json"), `${JSON.stringify(inherited, null, 2)}\n`);
     let prior = JSON.stringify(inherited);
     for (const stageId of receiverStages) {
       const sourcePacket = await stageEvidencePacket(root, state.packet_dir, packet, stageId, receiverStart);
-      if (condition === "C2_PROOFPRESS" && stageId === "S4" && firstReceiverStage !== "S4") {
-        const completeness = await adapter.invoke({ prompt: completenessPrompt({ promptContract, trusted,
-          prior, sourcePacket, selectedKnowledgeIds }), reasoning_effort: "none", max_output_tokens: 12000 },
-        { workspace: receiver, env });
-        await fs.writeFile(path.join(receiver, "COMPLETENESS_RESPONSE.json"),
-          `${JSON.stringify(completeness, null, 2)}\n`, { flag: "wx" });
-        assertForAdapter(completeness, adapter, 12000, "completeness supplement selection");
-        const supplement = parseTraceSelection(completeness.raw_output, trusted, 16, selectedKnowledgeIds);
-        const newIds = supplement.knowledge_ids.filter((id) => !selectedKnowledgeIds.includes(id));
-        const admitted = new Map(state.episodes.C2_PROOFPRESS.proposals.filter((x) => x.admitted).map((x) => [x.id, x]));
-        const knowledgeById = new Map(trusted.knowledge.map((x) => [x.id, x]));
-        const evidenceFiles = [...new Set(newIds.flatMap((id) => admitted.get(id)?.evidence_files ?? []))];
-        const expandedEvidence = await extractEvidence(root, evidenceFiles.map((name) =>
-          path.join(state.packet_dir, "source", findStageForFile(packet, name), name)));
-        let compiledSupplement = { requirements: [], open_gaps: supplement.checklist
-          .filter((x) => x.coverage === "gap").map((x) => x.requirement) };
-        let compilerTelemetry = null;
-        if (newIds.length) {
-          const supplementChecklist = supplement.checklist.map((row) => ({ ...row,
-            knowledge_ids: row.knowledge_ids.filter((id) => newIds.includes(id)) }))
-            .filter((row) => row.knowledge_ids.length || row.coverage === "gap");
-          const compiled = await adapter.invoke({ prompt: compileWorkingSetPrompt({ promptContract,
-            checklist: supplementChecklist, knowledge: newIds.map((id) => knowledgeById.get(id)),
-            evidence: expandedEvidence }), reasoning_effort: "none", max_output_tokens: 12000 }, { workspace: receiver, env });
-          await fs.writeFile(path.join(receiver, "COMPLETENESS_WORKING_SET_RESPONSE.json"),
-            `${JSON.stringify(compiled, null, 2)}\n`, { flag: "wx" });
-          assertForAdapter(compiled, adapter, 12000, "completeness working-set supplement");
-          compiledSupplement = parseCompiledWorkingSet(compiled.raw_output, newIds, evidenceFiles);
-          compilerTelemetry = compiled.telemetry;
-        }
-        prior = JSON.stringify({ prior_stage_summary: prior,
-          proofpress_completeness_supplement: compiledSupplement });
-        state.episodes.C2_PROOFPRESS.completeness = { ...supplement, selected_knowledge_ids: newIds,
-          evidence_files: evidenceFiles, telemetry: completeness.telemetry, compiler_telemetry: compilerTelemetry };
-        selectedKnowledgeIds = [...new Set([...selectedKnowledgeIds, ...newIds])];
-      }
       const responsePath = path.join(receiver, `MODEL_RESPONSE_${stageId}.json`);
       let result;
       try {
@@ -342,15 +292,6 @@ function parseBatchJudgeOutput(raw, expectedIds) {
   if (seen.size !== expected.size) throw new Error("batch policy judge omitted one or more conclusions");
   return seen;
 }
-function traceSelectionPrompt({ promptContract, trusted, currentSources, stage }) {
-  return `You are planning the evidence-complete working set for a cold receiving agent at ${stage.stage_id} (${stage.label}). Derive a concise required-information checklist from the frozen task contract. Map every checklist item to governed knowledge receipts. Select only receipts needed to cover the checklist, with a hard maximum of 48; do not include irrelevant graph nodes.\n\nFrozen task contract:\n${promptContract}\n\nGoverned knowledge graph:\n${JSON.stringify(trusted)}\n\nNew receiver-stage evidence:\n${JSON.stringify(currentSources)}\n\nReturn ONLY JSON: {"checklist":[{"requirement":"...","knowledge_ids":["knw_..."],"coverage":"covered|gap"}],"selected_knowledge_ids":["knw_..."],"rationale":"..."}.`;
-}
-function completenessPrompt({ promptContract, trusted, prior, sourcePacket, selectedKnowledgeIds }) {
-  return `You are the completeness gate immediately before the final deliverable. Compare the frozen task contract, current receiver analysis, and newly released final-stage sources. Identify remaining information gaps and select only additional governed receipts needed to close them. Select at most 8 and do not repeat already selected receipts.\n\nFrozen task contract:\n${promptContract}\n\nCurrent receiver analysis:\n${prior}\n\nFinal-stage sources:\n${JSON.stringify(sourcePacket)}\n\nAlready selected receipts:\n${JSON.stringify(selectedKnowledgeIds)}\n\nAvailable governed graph:\n${JSON.stringify(trusted)}\n\nReturn ONLY JSON: {"checklist":[{"requirement":"...","knowledge_ids":["knw_..."],"coverage":"covered|gap"}],"selected_knowledge_ids":["knw_..."],"rationale":"..."}.`;
-}
-function compileWorkingSetPrompt({ promptContract, checklist, knowledge, evidence }) {
-  return `Compile a concise, evidence-complete working set for the receiving agent. Organize by task requirement, merge duplicates, preserve operative numbers, exceptions, authority, versions, and risk conditions, and introduce no fact absent from the supplied governed knowledge or bound evidence. Every synthesis must cite its supporting knowledge_ids and evidence filenames. Keep the entire response concise enough for a working context.\n\nFrozen task contract:\n${promptContract}\n\nCoverage checklist:\n${JSON.stringify(checklist)}\n\nSelected governed knowledge:\n${JSON.stringify(knowledge)}\n\nBound evidence:\n${JSON.stringify(evidence)}\n\nReturn ONLY JSON: {"requirements":[{"requirement":"...","synthesis":"...","knowledge_ids":["knw_..."],"evidence_files":["filename"]}],"open_gaps":["..."]}.`;
-}
 function parseCompiledWorkingSet(raw, allowedKnowledgeIds, allowedEvidenceFiles) {
   let value; try { value = JSON.parse(jsonPayload(raw)); } catch { throw new Error("working-set compiler returned invalid JSON"); }
   if (!Array.isArray(value.requirements) || !Array.isArray(value.open_gaps))
@@ -380,6 +321,28 @@ function parseTraceSelection(raw, trusted, maxIds, excludedIds = []) {
       throw new Error("trace selector returned an invalid checklist");
   }
   return { knowledge_ids: ids, checklist: value.checklist, rationale: value.rationale };
+}
+export function deterministicTraceSelection(trusted, maxIds, excludedIds = []) {
+  const excluded = new Set(excludedIds);
+  const candidates = trusted.knowledge.filter((row) => !excluded.has(row.id));
+  const selected = candidates.slice(0, maxIds).map((row) => row.id);
+  return {
+    knowledge_ids: selected,
+    checklist: [{ requirement: "Current admitted governed knowledge at the receiver boundary",
+      knowledge_ids: selected, coverage: candidates.length <= maxIds ? "covered" : "gap" }],
+    rationale: `Deterministic ledger-order selection: ${selected.length}/${candidates.length} current admitted receipts.`,
+  };
+}
+function deterministicWorkingSet({ selected, knowledgeById, admitted }) {
+  return {
+    requirements: selected.knowledge_ids.map((id) => ({
+      requirement: "Governed conclusion",
+      synthesis: knowledgeById.get(id)?.statement ?? knowledgeById.get(id)?.content ?? "",
+      knowledge_ids: [id],
+      evidence_files: admitted.get(id)?.evidence_files ?? [],
+    })),
+    open_gaps: selected.checklist.filter((row) => row.coverage === "gap").map((row) => row.requirement),
+  };
 }
 function findStageForFile(packet, name) {
   const stage = packet.stages.find((item) => item.release.includes(name));
@@ -481,11 +444,21 @@ async function copyStageSources(packetDir, workspace, stages) {
 function stagePrompt({ promptContract, packet, stageId, condition, prior, sourcePacket }) {
   const stage = packet.stages.find((x) => x.stage_id === stageId);
   const deliverableRule = stageId === "S4"
-    ? "S4 is the only deliverable stage: final_markdown must contain the complete final memo."
+    ? "S4 is the only deliverable stage. Return the complete final memo directly as Markdown, with no JSON envelope or code fence."
     : `${stageId} is not a deliverable stage: final_markdown MUST be an empty string. Do not draft or preview the final memo.`;
-  return `${promptContract}\n\nCondition: ${condition}\nCurrent stage: ${stageId} — ${stage.label}\nNew files: ${stage.release.join(", ")}\nInherited state:\n${prior}\n\nReleased source text (deterministically extracted; no later-stage files are present):\n${JSON.stringify(sourcePacket)}\n\n${deliverableRule}\nReturn ONLY JSON: {"stage_id":"${stageId}","summary":"...","conclusions":[{"statement":"...","evidence_files":["filename"]}],"final_markdown":"..."}.`;
+  const responseRule = stageId === "S4" ? "" : " Keep summary under 2,500 words, return at most 48 conclusions, and keep each conclusion under 100 words. Return ONLY JSON: {\"stage_id\":\"" + stageId + "\",\"summary\":\"...\",\"conclusions\":[{\"statement\":\"...\",\"evidence_files\":[\"filename\"]}],\"final_markdown\":\"\"}.";
+  return `${promptContract}\n\nCondition: ${condition}\nCurrent stage: ${stageId} — ${stage.label}\nNew files: ${stage.release.join(", ")}\nInherited state:\n${prior}\n\nReleased source text (deterministically extracted; no later-stage files are present):\n${JSON.stringify(sourcePacket)}\n\n${deliverableRule}${responseRule}`;
 }
 function parseWorkerOutput(raw, stageId) {
+  if (stageId === "S4") {
+    const text = String(raw).trim();
+    try {
+      const legacy = JSON.parse(jsonPayload(text));
+      if (legacy.stage_id === "S4" && typeof legacy.final_markdown === "string") return legacy;
+    } catch {}
+    if (!text) throw new Error("S4 final Markdown is required");
+    return { stage_id: "S4", summary: "Complete final deliverable.", conclusions: [], final_markdown: text };
+  }
   let value; try { value = JSON.parse(jsonPayload(raw)); } catch { throw new Error(`model returned invalid JSON at ${stageId}`); }
   if (value.stage_id !== stageId || typeof value.summary !== "string" || !Array.isArray(value.conclusions)) throw new Error(`invalid worker output at ${stageId}`);
   if (stageId === "S4" && typeof value.final_markdown !== "string") throw new Error("S4 final_markdown is required");

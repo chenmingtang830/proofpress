@@ -5,7 +5,7 @@ import path from "node:path";
 import test from "node:test";
 import { fileURLToPath } from "node:url";
 import { prepareRealPacket } from "../real/prepare.mjs";
-import { normalizeEvidenceFileNames, runPrepare, runResume } from "../real/run.mjs";
+import { deterministicTraceSelection, normalizeEvidenceFileNames, runPrepare, runResume } from "../real/run.mjs";
 
 test("real runner cannot make a call without the explicit payable-call flag", async () => {
   await assert.rejects(runPrepare({
@@ -27,6 +27,20 @@ test("evidence filenames accept exact names, unique basenames, or a bounded anno
   assert.throws(() => normalizeEvidenceFileNames(["credit-policy-manual.docx arbitrary suffix"],
     [...available, "credit-policy-manual.docx"]), /unknown or ambiguous/);
   assert.throws(() => normalizeEvidenceFileNames(["x/shared.docx"], ["S1/shared.docx", "S2/shared.docx"]), /unknown or ambiguous/);
+});
+
+test("deterministic graph selection emits only real current ledger ids", () => {
+  const trusted = { knowledge: [
+    { id: "knw_2", statement: "second" },
+    { id: "knw_1", statement: "first" },
+    { id: "knw_3", statement: "third" },
+  ] };
+  assert.deepEqual(deterministicTraceSelection(trusted, 2, ["knw_2"]), {
+    knowledge_ids: ["knw_1", "knw_3"],
+    checklist: [{ requirement: "Current admitted governed knowledge at the receiver boundary",
+      knowledge_ids: ["knw_1", "knw_3"], coverage: "covered" }],
+    rationale: "Deterministic ledger-order selection: 2/2 current admitted receipts.",
+  });
 });
 
 test("mocked payable path uses automated policy admission then reaches LAB evaluation", async () => {
@@ -118,7 +132,7 @@ test("mocked payable path uses automated policy admission then reaches LAB evalu
   assert.ok(prompts.filter((x) => x.includes("Current stage: S3") && x.includes("Condition: C1_ORDINARY_PORTABLE"))
     .every((x) => !x.includes("S1:deal-economics-summary.xlsx")));
   assert.ok(prompts.filter((x) => x.includes("Current stage: S3") && x.includes("Condition: C2_PROOFPRESS"))
-    .every((x) => x.includes("Supported term") && !x.includes("S1:deal-economics-summary.xlsx")));
+    .every((x) => x.includes("Bound conclusion") && !x.includes("S1:deal-economics-summary.xlsx")));
   assert.ok(prompts.filter((x) => x.includes("Current stage: S4"))
     .every((x) => x.includes("S3:akintola-business-case-email.eml")
       && x.includes("S4:tsao-escalation-request-email.eml")));

@@ -1,6 +1,8 @@
 {
   "schema_version": 1,
   "id": "proofpress-v9-cross-model-replication-v1",
+  "active_operational_amendment": "bench/experiments/portability-amendment-v10.json",
+  "panel_completion_rule": "The frozen 90% attempt-validity gate controls 14-task expansion only. Every declared three-task 2x2 panel continues with explicit attempts until all 18 paired cells are valid.",
   "frozen_at": "2026-08-24T13:10:00-07:00",
   "parent_protocol": "treatment-effect-protocol-v9.json",
   "status": "FROZEN_WITH_PRE_OUTCOME_GUARDRAIL_AMENDMENT",
