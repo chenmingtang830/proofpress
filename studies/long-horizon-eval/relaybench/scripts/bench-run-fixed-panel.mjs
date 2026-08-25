@@ -30,7 +30,9 @@ for (const task of taskNames) {
     }
     const packet = path.join(arm === "clean" ? args.cleanPackets : args.stressPackets, task, "packet");
     let completed = false;
-    for (let attempt = 1; attempt <= args.maxAttempts && !completed; attempt += 1) {
+    const firstAttempt = await nextExplicitAttempt(path.dirname(output));
+    for (let offset = 0; offset < args.maxAttempts && !completed; offset += 1) {
+      const attempt = firstAttempt + offset;
       if (await exists(output)) await preserveAttempt(output, attempt);
       process.stdout.write(`START ${args.track} ${task} ${arm} repeat-${repeat} explicit-attempt-${attempt}\n`);
       await fs.mkdir(path.dirname(output), { recursive: true });
@@ -73,7 +75,9 @@ for (const task of taskNames) {
 async function generateSender(task) {
   const output = path.join(args.root, "senders", task, "run");
   const packet = path.join(args.cleanPackets, task, "packet");
-  for (let attempt = 1; attempt <= args.maxAttempts; attempt += 1) {
+  const firstAttempt = await nextExplicitAttempt(path.dirname(output));
+  for (let offset = 0; offset < args.maxAttempts; offset += 1) {
+    const attempt = firstAttempt + offset;
     if (await exists(output)) await preserveAttempt(output, attempt);
     process.stdout.write(`SENDER START ${args.track} ${task} explicit-attempt-${attempt}\n`);
     await fs.mkdir(path.dirname(output), { recursive: true });
@@ -135,6 +139,22 @@ async function preserveAttempt(output, nextAttempt) {
   } while (await exists(destination));
   await fs.rename(output, destination);
   process.stdout.write(`PRESERVE ${output} -> ${destination}\n`);
+}
+
+async function nextExplicitAttempt(parent) {
+  let maximum = 0;
+  let entries = [];
+  try { entries = await fs.readdir(parent, { withFileTypes: true }); } catch {}
+  for (const entry of entries) {
+    const match = entry.isDirectory() && entry.name.match(/^run-invalid-explicit-attempt-(\d+)$/);
+    if (match) maximum = Math.max(maximum, Number(match[1]));
+  }
+  const currentReceipt = path.join(parent, "run", "INVALID_ATTEMPT.json");
+  try {
+    const receipt = JSON.parse(await fs.readFile(currentReceipt, "utf8"));
+    if (Number.isInteger(receipt.explicit_attempt)) maximum = Math.max(maximum, receipt.explicit_attempt);
+  } catch {}
+  return maximum + 1;
 }
 
 function run(command, argv) {

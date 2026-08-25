@@ -64,5 +64,16 @@
     ],
     "rollback_rule": "If added concurrency produces socket-close or timeout failures, preserve them as concurrency-phase route evidence and return to at most two lanes before new attempts."
   },
+  "local_storage_incident": {
+    "recorded_at": "2026-08-25T23:31:49Z",
+    "classification": "INVALID_LOCAL_OPERATION",
+    "affected_attempts": [
+      "B2_GLM_5_2_GATEWAY_REPLACEMENT credit stress repeat-2 explicit-attempt-1",
+      "R_QWEN_3_8_27B credit sender explicit-attempt-1"
+    ],
+    "cause": "The local data volume reached ENOSPC while receipts were being persisted.",
+    "resolution": "Delete only an unrelated, reproducible legacy evaluation cache; preserve the affected run directories with explicit ineligible receipts; resume with monotonically increasing explicit attempt numbers.",
+    "research_effect": "No model output from either affected attempt is eligible. The correction changes storage and receipt numbering only; all experimental invariants remain frozen."
+  },
   "claim_boundary": "Post-amendment panels estimate the governed-handoff treatment with deterministic context assembly. They must not be pooled silently with pre-amendment panels, and all prior invalid attempts remain route-reliability evidence."
 }
