@@ -1,0 +1,28 @@
+{
+  "schema_version": "proofpress/acceptance/legal-claim-graph/v1",
+  "scope": "apex-world425-s-election",
+  "claims": [
+    {"key":"election-effective","statement":"The S corporation election identified January 1, 2019 as its effective date.","evidence":0,"authority":"company_record","citation_locator":"Form 2553 page 1"},
+    {"key":"election-approved","statement":"A diligence memorandum reports that the IRS approved the election.","evidence":1,"authority":"diligence_memo","citation_locator":"paragraph 4"},
+    {"key":"transfer-occurred","statement":"A 2022 shareholder schedule records a transfer to Carrie Canuck.","evidence":2,"authority":"company_record","citation_locator":"paragraphs 17-20"},
+    {"key":"foreign-address","statement":"The shareholder schedule records a Canadian address for Carrie Canuck.","evidence":2,"authority":"company_record","citation_locator":"paragraph 19"},
+    {"key":"eligibility-risk","statement":"The transfer creates a shareholder-eligibility risk for S corporation status.","evidence":1,"authority":"diligence_memo","citation_locator":"paragraph 8"},
+    {"key":"distribution-risk","statement":"Historic distributions create a second-class-of-stock risk.","evidence":3,"authority":"diligence_memo","citation_locator":"paragraph 10"},
+    {"key":"loan-record-gap","statement":"The reviewed materials did not include identified shareholder loan records.","evidence":3,"authority":"diligence_memo","citation_locator":"paragraph 12"},
+    {"key":"schedule-conflict","statement":"Historical shareholder schedules contain inconsistent transfer treatments.","evidence":4,"authority":"diligence_memo","citation_locator":"paragraph 17"},
+    {"key":"c-corp-risk","statement":"The diligence record identifies potential C corporation treatment beginning in 2022.","evidence":4,"authority":"diligence_memo","citation_locator":"paragraph 41"},
+    {"key":"form-conflict","statement":"Two Form 2553 artifacts require provenance resolution before factual reliance.","evidence":5,"authority":"company_record","citation_locator":"Form 2553 versions"},
+    {"key":"seller-representation","statement":"A draft seller representation allocates S-status risk contractually.","evidence":6,"authority":"draft_agreement","citation_locator":"tax representations"},
+    {"key":"buyer-covenant","statement":"The draft transaction documents contemplate corrective tax cooperation.","evidence":6,"authority":"draft_agreement","citation_locator":"tax covenants"},
+    {"key":"closing-protection","statement":"The identified tax risks support a buyer-protective closing condition.","evidence":6,"authority":"draft_agreement","citation_locator":"closing conditions"}
+  ],
+  "relations": [
+    {"from":"election-approved","to":"election-effective","type":"supports"},
+    {"from":"foreign-address","to":"eligibility-risk","type":"supports"},
+    {"from":"transfer-occurred","to":"eligibility-risk","type":"supports"},
+    {"from":"eligibility-risk","to":"c-corp-risk","type":"supports"},
+    {"from":"distribution-risk","to":"c-corp-risk","type":"supports"},
+    {"from":"form-conflict","to":"election-approved","type":"qualifies"},
+    {"from":"seller-representation","to":"c-corp-risk","type":"depends_on"}
+  ]
+}

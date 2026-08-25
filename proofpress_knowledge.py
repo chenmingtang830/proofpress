@@ -207,6 +207,10 @@ DEFAULT_POLICY_V2 = {
     "allowed_actors": ["*"],
     "judge": {"command": [], "timeout_seconds": 30},
 }
+RELATION_TYPES = {"supports", "qualifies", "contradicts", "supersedes",
+                  "depends_on", "same_as"}
+SYMMETRIC_RELATIONS = {"contradicts", "same_as"}
+LEGAL_PROFILE_SCHEMA = "proofpress/profile/legal/v1"
 
 
 def _git(*args, input=None):
@@ -264,7 +268,7 @@ def append_v2(event):
     event = {"schema_version": EVENT_SCHEMA, **event}
     existing_rows = v2_events()
     immutable = {"source_recorded": "record", "evidence_bound": "evidence",
-                 "conclusion_proposed": "conclusion"}
+                 "conclusion_proposed": "conclusion", "relation_proposed": "relation"}
     if event.get("type") in immutable:
         prior = next((row for row in existing_rows
                       if row.get("type") == event["type"] and
@@ -313,7 +317,10 @@ def v2_projection(events=None):
     result = {
         "sources": {}, "evidence": {}, "conclusions": {}, "evaluations": {},
         "recommendations": {}, "reviews": {}, "admissions": {},
-        "rejections": {}, "supersessions": {}, "events": events,
+        "rejections": {}, "supersessions": {}, "relations": {},
+        "relation_evaluations": {}, "relation_reviews": {},
+        "relation_recommendations": {}, "relation_admissions": {},
+        "relation_rejections": {}, "events": events,
     }
     for event in events:
         kind = event.get("type")
@@ -327,11 +334,37 @@ def v2_projection(events=None):
         elif kind == "conclusion_admitted": result["admissions"][subject] = event
         elif kind == "conclusion_rejected": result["rejections"][subject] = event
         elif kind == "conclusion_superseded": result["supersessions"][subject] = event
+        elif kind == "relation_proposed": result["relations"][subject] = event["relation"]
+        elif kind == "relation_evaluated": result["relation_evaluations"][subject] = event
+        elif kind == "relation_judge_recommended": result["relation_recommendations"][subject] = event
+        elif kind == "relation_reviewed": result["relation_reviews"][subject] = event
+        elif kind == "relation_admitted": result["relation_admissions"][subject] = event
+        elif kind == "relation_rejected": result["relation_rejections"][subject] = event
     return result
 
 
 def _conclusion_digest(row):
     return digest({k: v for k, v in row.items() if k != "digest"})
+
+
+def validate_profile(profile, qualifiers):
+    qualifiers = qualifiers or {}
+    if not profile: return qualifiers
+    if profile != "legal": raise ValueError("unknown claim profile: " + profile)
+    legal = qualifiers.get("legal")
+    if not isinstance(legal, dict):
+        raise ValueError("legal profile requires qualifiers.legal")
+    required = {"jurisdiction", "authority", "citation_locator"}
+    missing = sorted(key for key in required if not isinstance(legal.get(key), str)
+                     or not legal[key].strip())
+    if missing: raise ValueError("legal profile missing: " + ", ".join(missing))
+    allowed = required | {"effective_from", "effective_to", "document_type", "legal_status"}
+    unknown = sorted(set(legal) - allowed)
+    if unknown: raise ValueError("unknown legal profile fields: " + ", ".join(unknown))
+    start, end = legal.get("effective_from"), legal.get("effective_to")
+    if start and end and start > end:
+        raise ValueError("legal effective_from must not be after effective_to")
+    return {**qualifiers, "profile": LEGAL_PROFILE_SCHEMA}
 
 
 def v2_state(projection, conclusion, policy=None):
@@ -386,10 +419,11 @@ def import_evidence_v2(path):
 
 
 def propose_v2(statement, evidence_refs, scope, proposer, expires_at=None,
-               artifact_refs=None, allowed_actors=None, qualifiers=None):
+               artifact_refs=None, allowed_actors=None, qualifiers=None, profile=None):
     projection = v2_projection()
     missing = [ref for ref in evidence_refs if ref not in projection["evidence"]]
     if missing: raise ValueError("unknown evidence: " + ", ".join(missing))
+    qualifiers = validate_profile(profile, qualifiers)
     row = {
         "id": ident({"statement": statement, "evidence": sorted(evidence_refs),
                     "scope": scope}, "knw_"),
@@ -404,6 +438,138 @@ def propose_v2(statement, evidence_refs, scope, proposer, expires_at=None,
     event = append_v2({"type": "conclusion_proposed", "subject_ref": row["id"],
                        "conclusion": row})
     return {"ok": True, "conclusion": row, "event_id": event["event_id"]}
+
+
+def _relation_digest(row):
+    return digest({k: v for k, v in row.items() if k != "digest"})
+
+
+def relation_state(projection, row):
+    rid = row["id"]
+    if rid in projection["relation_rejections"]: return "rejected"
+    admitted = projection["relation_admissions"].get(rid)
+    if not admitted: return "needs_review"
+    if admitted.get("policy_digest") != load_v2_policy()["digest"]: return "unresolved"
+    if admitted.get("relation_digest") != row["digest"]: return "unresolved"
+    return "admitted"
+
+
+def _relation_cycle(projection, source, target, relation_type):
+    if relation_type not in {"depends_on", "supersedes"}: return False
+    graph = {}
+    for row in projection["relations"].values():
+        if row["type"] == relation_type and relation_state(projection, row) != "rejected":
+            graph.setdefault(row["from"], set()).add(row["to"])
+    graph.setdefault(source, set()).add(target)
+    stack, seen = [target], set()
+    while stack:
+        current = stack.pop()
+        if current == source: return True
+        if current in seen: continue
+        seen.add(current); stack.extend(graph.get(current, ()))
+    return False
+
+
+def propose_relation_v2(source, target, relation_type, proposer,
+                        confidence=None, qualifiers=None):
+    if relation_type not in RELATION_TYPES:
+        raise ValueError("relation type must be one of: " + ", ".join(sorted(RELATION_TYPES)))
+    projection = v2_projection()
+    if source not in projection["conclusions"] or target not in projection["conclusions"]:
+        raise ValueError("relation endpoints must reference existing conclusions")
+    if source == target: raise ValueError("relation endpoints must be distinct")
+    if confidence is not None and not 0 <= confidence <= 1:
+        raise ValueError("relation confidence must be between 0 and 1")
+    left, right = (sorted((source, target)) if relation_type in SYMMETRIC_RELATIONS
+                   else (source, target))
+    row = {"id": ident({"from": left, "to": right, "type": relation_type}, "rel_"),
+           "kind": "claim_relation", "from": left, "to": right,
+           "type": relation_type, "proposer": proposer, "confidence": confidence,
+           "qualifiers": qualifiers or {}, "created_at": now()}
+    row["digest"] = _relation_digest(row)
+    event = append_v2({"type": "relation_proposed", "subject_ref": row["id"],
+                       "relation": row})
+    return {"ok": True, "relation": row, "event_id": event["event_id"]}
+
+
+def evaluate_relation_v2(rid):
+    projection = v2_projection(); row = projection["relations"].get(rid); policy = load_v2_policy()
+    if not row: raise ValueError("relation not found: " + rid)
+    left, right = projection["conclusions"].get(row["from"]), projection["conclusions"].get(row["to"])
+    duplicate = [candidate for candidate in projection["relations"].values()
+                 if candidate["id"] != rid and candidate["from"] == row["from"]
+                 and candidate["to"] == row["to"] and candidate["type"] == row["type"]]
+    checks = {
+        "endpoints_present": left is not None and right is not None,
+        "distinct_endpoints": row["from"] != row["to"],
+        "known_relation_type": row["type"] in RELATION_TYPES,
+        "same_scope": bool(left and right and left["scope"] == right["scope"]),
+        "no_duplicate": not duplicate,
+        "acyclic_when_directed": not _relation_cycle(projection, row["from"], row["to"], row["type"]),
+    }
+    event = append_v2({"type": "relation_evaluated", "subject_ref": rid,
+                       "relation_digest": row["digest"], "checks": checks,
+                       "policy_digest": policy["digest"],
+                       "eligible": all(checks.values()),
+                       "semantic_boundary": "structural checks do not establish semantic correctness"})
+    return event
+
+
+def judge_relation_v2(rid):
+    evaluation = evaluate_relation_v2(rid)
+    policy = load_v2_policy(); command = policy["judge"]["command"]
+    if not command: raise ValueError("no judge.command configured in .proofpress/policy.json")
+    projection = v2_projection(); row = projection["relations"].get(rid)
+    packet = {"schema_version": "proofpress/relation-judge-request/v1",
+              "relation": row,
+              "from_claim": projection["conclusions"][row["from"]],
+              "to_claim": projection["conclusions"][row["to"]],
+              "evaluation": {k: v for k, v in evaluation.items() if k != "commit"},
+              "policy": policy,
+              "instruction": "Assess semantic relation correctness; deterministic checks establish structure only."}
+    try:
+        result = subprocess.run(command, input=json.dumps(packet), text=True,
+                                capture_output=True, timeout=float(policy["judge"]["timeout_seconds"]))
+    except subprocess.TimeoutExpired as exc:
+        raise ValueError("relation judge command timed out") from exc
+    if result.returncode: raise ValueError("relation judge command failed: " + result.stderr.strip())
+    try: verdict = json.loads(result.stdout)
+    except json.JSONDecodeError as exc: raise ValueError("relation judge returned invalid JSON") from exc
+    if verdict.get("recommendation") not in {"accept", "reject", "escalate"}:
+        raise ValueError("relation judge recommendation must be accept, reject, or escalate")
+    if not isinstance(verdict.get("rationale"), str) or not verdict["rationale"].strip():
+        raise ValueError("relation judge rationale is required")
+    return append_v2({"type": "relation_judge_recommended", "subject_ref": rid,
+                      "relation_digest": row["digest"],
+                      "policy_digest": policy["digest"],
+                      "recommendation": verdict["recommendation"],
+                      "rationale": verdict["rationale"],
+                      "adapter": verdict.get("adapter", command[0]),
+                      "model": verdict.get("model")})
+
+
+def review_relation_v2(rid, decision, reviewer, note=None):
+    projection = v2_projection(); row = projection["relations"].get(rid)
+    if not row: raise ValueError("relation not found: " + rid)
+    if decision == "admit" and reviewer == row["proposer"]:
+        raise ValueError("proposer may not self-approve a relation")
+    evaluation = evaluate_relation_v2(rid)
+    if decision == "admit" and not evaluation["eligible"]:
+        raise ValueError("relation is blocked by deterministic policy")
+    projection = v2_projection(); recommendation = projection["relation_recommendations"].get(rid)
+    policy = load_v2_policy()
+    if decision == "admit" and policy["require_judge"]:
+        if not recommendation or recommendation.get("relation_digest") != row["digest"] or recommendation.get("policy_digest") != policy["digest"] or recommendation.get("recommendation") != "accept":
+            raise ValueError("current policy requires an accepting relation judge recommendation")
+    review = append_v2({"type": "relation_reviewed", "subject_ref": rid,
+                        "decision": decision, "reviewer": reviewer,
+                        "identity_basis": "self_asserted", "note": note,
+                        "relation_digest": row["digest"], "policy_digest": policy["digest"]})
+    final = append_v2({"type": "relation_admitted" if decision == "admit" else "relation_rejected",
+                       "subject_ref": rid, "review_ref": review["event_id"],
+                       "reviewer": reviewer, "relation_digest": row["digest"],
+                       "policy_digest": policy["digest"]})
+    return {"ok": True, "review": review, "result": final}
 
 
 def evaluate_v2(cid):
@@ -587,9 +753,13 @@ def context_v2(scope=None, actor=None, task=None, include_blocked_statements=Fal
     head = None
     try: head = _git("rev-parse", KNOWLEDGE_REF).strip()
     except ValueError: pass
+    admitted_ids = {row["id"] for row in knowledge}
+    relations = [row for row in projection["relations"].values()
+                 if relation_state(projection, row) == "admitted"
+                 and row["from"] in admitted_ids and row["to"] in admitted_ids]
     return {"schema_version": CONTEXT_SCHEMA, "ledger_head": head, "scope": scope,
             "actor": actor, "task": task, "policy_digest": policy["digest"],
-            "knowledge": knowledge, "blocked": blocked,
+            "knowledge": knowledge, "relations": relations, "blocked": blocked,
             "next_action": "continue from admitted knowledge; reverify or review blocked conclusions"}
 
 
@@ -618,6 +788,10 @@ def graph_v2(scope=None):
             edges.append({"from": review["event_id"] if review else cid, "to": aid, "type": "admitted_by"})
         if cid in projection["supersessions"]:
             edges.append({"from": cid, "to": projection["supersessions"][cid]["superseded_by"], "type": "superseded_by"})
+    for row in projection["relations"].values():
+        if row["from"] in wanted and row["to"] in wanted:
+            edges.append({"id": row["id"], "from": row["from"], "to": row["to"],
+                          "type": row["type"], "state": relation_state(projection, row)})
     return {"nodes": nodes, "edges": edges}
 
 
@@ -642,6 +816,20 @@ def receipt_v2(cid):
             "history": [{"event_id": e["event_id"], "type": e["type"],
                          "created_at": e["created_at"], "commit": e.get("commit")}
                         for e in projection["events"] if e.get("subject_ref") == cid]}
+
+
+def relation_receipt_v2(rid):
+    projection = v2_projection(); row = projection["relations"].get(rid)
+    if not row: raise ValueError("relation not found: " + rid)
+    return {"relation": row, "state": relation_state(projection, row),
+            "evaluation": projection["relation_evaluations"].get(rid),
+            "recommendation": projection["relation_recommendations"].get(rid),
+            "review": projection["relation_reviews"].get(rid),
+            "admission": projection["relation_admissions"].get(rid),
+            "rejection": projection["relation_rejections"].get(rid),
+            "history": [{"event_id": e["event_id"], "type": e["type"],
+                         "created_at": e["created_at"], "commit": e.get("commit")}
+                        for e in projection["events"] if e.get("subject_ref") == rid]}
 
 
 def import_v1(path):
@@ -798,7 +986,9 @@ def add_flat_cli(sub):
     propose_parser.add_argument("--statement", required=True); propose_parser.add_argument("--evidence", action="append", required=True)
     propose_parser.add_argument("--artifact", action="append", default=[]); propose_parser.add_argument("--scope", required=True)
     propose_parser.add_argument("--proposer", default="agent:proposer"); propose_parser.add_argument("--expires-at")
-    propose_parser.add_argument("--allow-actor", action="append", default=[]); propose_parser.set_defaults(f=cmd_flat, flat_cmd="propose")
+    propose_parser.add_argument("--allow-actor", action="append", default=[])
+    propose_parser.add_argument("--profile", choices=["legal"]); propose_parser.add_argument("--qualifiers")
+    propose_parser.set_defaults(f=cmd_flat, flat_cmd="propose")
     evaluate_parser = sub.add_parser("evaluate"); evaluate_parser.add_argument("conclusion")
     evaluate_parser.set_defaults(f=cmd_flat, flat_cmd="evaluate")
     judge_parser = sub.add_parser("judge", help="run an advisory policy judge for one conclusion or one scope batch")
@@ -810,10 +1000,29 @@ def add_flat_cli(sub):
     review_parser.add_argument("--reviewer", required=True); review_parser.add_argument("--note"); review_parser.set_defaults(f=cmd_flat, flat_cmd="review")
     supersede_parser = sub.add_parser("supersede"); supersede_parser.add_argument("conclusion"); supersede_parser.add_argument("--by", required=True)
     supersede_parser.add_argument("--reviewer", required=True); supersede_parser.add_argument("--note"); supersede_parser.set_defaults(f=cmd_flat, flat_cmd="supersede")
+    relation_parser = sub.add_parser("relation", help="propose, evaluate, or review a typed claim relation")
+    relation_sub = relation_parser.add_subparsers(dest="relation_cmd", required=True)
+    relation_propose = relation_sub.add_parser("propose")
+    relation_propose.add_argument("source"); relation_propose.add_argument("--to", required=True)
+    relation_propose.add_argument("--type", required=True, choices=sorted(RELATION_TYPES))
+    relation_propose.add_argument("--proposer", default="agent:proposer")
+    relation_propose.add_argument("--confidence", type=float); relation_propose.add_argument("--qualifiers")
+    relation_propose.set_defaults(f=cmd_flat, flat_cmd="relation-propose")
+    relation_evaluate = relation_sub.add_parser("evaluate"); relation_evaluate.add_argument("relation")
+    relation_evaluate.set_defaults(f=cmd_flat, flat_cmd="relation-evaluate")
+    relation_judge = relation_sub.add_parser("judge"); relation_judge.add_argument("relation")
+    relation_judge.set_defaults(f=cmd_flat, flat_cmd="relation-judge")
+    relation_review = relation_sub.add_parser("review"); relation_review.add_argument("relation")
+    relation_decision = relation_review.add_mutually_exclusive_group(required=True)
+    relation_decision.add_argument("--admit", action="store_true"); relation_decision.add_argument("--reject", action="store_true")
+    relation_review.add_argument("--reviewer", required=True); relation_review.add_argument("--note")
+    relation_review.set_defaults(f=cmd_flat, flat_cmd="relation-review")
     context_parser = sub.add_parser("context", help="materialize only knowledge eligible for the next agent")
     context_parser.add_argument("--scope"); context_parser.add_argument("--actor"); context_parser.add_argument("--task")
     context_parser.add_argument("--format", choices=["json", "markdown"], default="json")
     context_parser.add_argument("--include-blocked-statements", action="store_true"); context_parser.set_defaults(f=cmd_flat, flat_cmd="context")
+    graph_parser = sub.add_parser("graph", help="project the governed claim and evidence graph")
+    graph_parser.add_argument("--scope"); graph_parser.set_defaults(f=cmd_flat, flat_cmd="graph")
     ui_parser = sub.add_parser("ui", help="open the local review and context UI")
     ui_parser.add_argument("--scope"); ui_parser.add_argument("--port", type=int, default=7331); ui_parser.add_argument("--no-open", action="store_true")
     ui_parser.set_defaults(f=cmd_flat, flat_cmd="ui")
@@ -824,7 +1033,10 @@ def add_flat_cli(sub):
 def cmd_flat(a):
     command = getattr(a, "flat_cmd", None) or ("evidence-import" if getattr(a, "evidence_cmd", None) == "import" else None)
     if command == "evidence-import": out = import_evidence_v2(a.input)
-    elif command == "propose": out = propose_v2(a.statement, a.evidence, a.scope, a.proposer, a.expires_at, a.artifact, a.allow_actor or None)
+    elif command == "propose":
+        qualifiers = json.loads(Path(a.qualifiers).read_text(encoding="utf-8")) if a.qualifiers else None
+        out = propose_v2(a.statement, a.evidence, a.scope, a.proposer, a.expires_at,
+                         a.artifact, a.allow_actor or None, qualifiers, a.profile)
     elif command == "evaluate": out = evaluate_v2(a.conclusion)
     elif command == "judge":
         if a.batch or a.scope: out = judge_batch_v2(a.scope)
@@ -832,6 +1044,13 @@ def cmd_flat(a):
         else: raise ValueError("judge requires a conclusion or --batch --scope")
     elif command == "review": out = review_v2(a.conclusion, "admit" if a.admit else "reject", a.reviewer, a.note)
     elif command == "supersede": out = supersede_v2(a.conclusion, a.by, a.reviewer, a.note)
+    elif command == "relation-propose":
+        qualifiers = json.loads(Path(a.qualifiers).read_text(encoding="utf-8")) if a.qualifiers else None
+        out = propose_relation_v2(a.source, a.to, a.type, a.proposer, a.confidence, qualifiers)
+    elif command == "relation-evaluate": out = evaluate_relation_v2(a.relation)
+    elif command == "relation-judge": out = judge_relation_v2(a.relation)
+    elif command == "relation-review": out = review_relation_v2(a.relation, "admit" if a.admit else "reject", a.reviewer, a.note)
+    elif command == "graph": out = graph_v2(a.scope)
     elif command == "context":
         out = context_v2(a.scope, a.actor, a.task, a.include_blocked_statements)
         if a.format == "markdown": print(_markdown_context(out)); return

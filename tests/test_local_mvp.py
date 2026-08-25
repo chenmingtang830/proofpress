@@ -96,6 +96,89 @@ class LocalMVPTests(unittest.TestCase):
         self.assertEqual(reasons[new], "rejected")
         self.assertTrue(all("statement" not in row for row in packet["blocked"]))
 
+    def test_general_claim_relations_require_structural_checks_and_human_admission(self):
+        evidence, first = self.seed()
+        second = self.data("propose", "--statement", "The liability cap excludes fraud",
+                           "--evidence", evidence, "--scope", "msa-negotiation",
+                           "--proposer", "agent:runner")["conclusion"]["id"]
+        relation = self.data("relation", "propose", second, "--to", first,
+                             "--type", "qualifies", "--proposer", "agent:runner",
+                             "--confidence", "0.82")["relation"]
+        evaluation = self.data("relation", "evaluate", relation["id"])
+        self.assertTrue(evaluation["eligible"])
+        self.assertIn("do not establish semantic correctness", evaluation["semantic_boundary"])
+        blocked = self.cli("relation", "review", relation["id"], "--admit",
+                           "--reviewer", "agent:runner", check=False)
+        self.assertIn("self-approve", blocked.stderr)
+        self.data("review", first, "--admit", "--reviewer", "human:alice")
+        self.data("review", second, "--admit", "--reviewer", "human:alice")
+        self.data("relation", "review", relation["id"], "--admit",
+                  "--reviewer", "human:alice")
+        packet = self.data("context", "--scope", "msa-negotiation")
+        self.assertEqual([row["id"] for row in packet["relations"]], [relation["id"]])
+        graph = self.data("graph", "--scope", "msa-negotiation")
+        edge = next(row for row in graph["edges"] if row.get("id") == relation["id"])
+        self.assertEqual((edge["type"], edge["state"]), ("qualifies", "admitted"))
+        policy_dir = self.repo / ".proofpress"; policy_dir.mkdir()
+        (policy_dir / "policy.json").write_text(json.dumps({"min_evidence": 2}))
+        graph = self.data("graph", "--scope", "msa-negotiation")
+        edge = next(row for row in graph["edges"] if row.get("id") == relation["id"])
+        self.assertEqual(edge["state"], "unresolved")
+
+    def test_relation_semantic_judge_is_advisory_and_policy_enforced(self):
+        evidence, first = self.seed()
+        second = self.data("propose", "--statement", "The exception narrows the cap",
+                           "--evidence", evidence, "--scope", "msa-negotiation",
+                           "--proposer", "agent:runner")["conclusion"]["id"]
+        relation = self.data("relation", "propose", second, "--to", first,
+                             "--type", "qualifies", "--proposer", "agent:runner")["relation"]["id"]
+        policy_dir = self.repo / ".proofpress"; policy_dir.mkdir()
+        judge_code = ("import json,sys; p=json.load(sys.stdin); "
+                      "assert p['schema_version']=='proofpress/relation-judge-request/v1'; "
+                      "print(json.dumps({'recommendation':'accept','rationale':'the exception narrows the target claim','adapter':'fixture'}))")
+        (policy_dir / "policy.json").write_text(json.dumps({
+            "require_judge": True,
+            "judge": {"command": [sys.executable, "-c", judge_code], "timeout_seconds": 5},
+        }))
+        missing = self.cli("relation", "review", relation, "--admit",
+                           "--reviewer", "human:alice", check=False)
+        self.assertIn("accepting relation judge", missing.stderr)
+        recommendation = self.data("relation", "judge", relation)
+        self.assertEqual(recommendation["recommendation"], "accept")
+        self.data("relation", "review", relation, "--admit", "--reviewer", "human:alice")
+
+    def test_directed_relation_cycles_fail_closed(self):
+        evidence, first = self.seed()
+        second = self.data("propose", "--statement", "Second conclusion",
+                           "--evidence", evidence, "--scope", "msa-negotiation",
+                           "--proposer", "agent:runner")["conclusion"]["id"]
+        forward = self.data("relation", "propose", first, "--to", second,
+                            "--type", "depends_on")["relation"]["id"]
+        self.data("relation", "review", forward, "--admit", "--reviewer", "human:alice")
+        reverse = self.data("relation", "propose", second, "--to", first,
+                            "--type", "depends_on")["relation"]["id"]
+        evaluation = self.data("relation", "evaluate", reverse)
+        self.assertFalse(evaluation["eligible"])
+        self.assertFalse(evaluation["checks"]["acyclic_when_directed"])
+
+    def test_legal_profile_is_optional_and_validated(self):
+        evidence = self.data("evidence", "import", str(FIXTURE))["evidence"][0]
+        qualifiers = self.repo / "legal.json"
+        qualifiers.write_text(json.dumps({"legal": {
+            "jurisdiction": "US-DE", "authority": "agreement",
+            "citation_locator": "Section 8.1", "effective_from": "2026-01-01",
+            "document_type": "stock_purchase_agreement"
+        }}))
+        row = self.data("propose", "--statement", "The closing condition applies",
+                        "--evidence", evidence, "--scope", "deal", "--profile", "legal",
+                        "--qualifiers", str(qualifiers))["conclusion"]
+        self.assertEqual(row["qualifiers"]["profile"], "proofpress/profile/legal/v1")
+        qualifiers.write_text(json.dumps({"legal": {"jurisdiction": "US-DE"}}))
+        failed = self.cli("propose", "--statement", "Incomplete legal metadata",
+                          "--evidence", evidence, "--scope", "deal", "--profile", "legal",
+                          "--qualifiers", str(qualifiers), check=False)
+        self.assertIn("legal profile missing", failed.stderr)
+
     def test_external_judge_is_advisory_and_required_policy_is_enforced(self):
         _, cid = self.seed()
         policy_dir = self.repo / ".proofpress"
