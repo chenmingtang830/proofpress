@@ -1,47 +1,77 @@
 {
  "event": "version_created",
- "artifact": "studies/long-horizon-eval/relaybench/CLAIM_BOUNDARIES.md",
- "artifact_id": "pp_35745b3850cee6e14c678792",
- "version": "434565a2",
- "parent": "b41eaa0d",
+ "artifact": "studies/long-horizon-eval/relaybench/PROOFPRESS_PARETO_STUDY.md",
+ "artifact_id": "pp_ffddb1d2cc98a01371a598e2",
+ "version": "7e1d07f8",
+ "parent": "26f9e83a",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-25T17:56:05+00:00",
+ "ts": "2026-08-25T17:56:16+00:00",
  "stats": {
-  "modified": 4
+  "modified": 9
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "6a714dce",
+   "block": "e439b2a3",
    "type": "para",
-   "context": "RelayBench claim boundaries"
+   "context": "Decision"
   },
   {
    "kind": "modified",
-   "block": "7a627143",
-   "type": "para",
-   "context": "RelayBench claim boundaries"
+   "block": "704d982d",
+   "type": "heading",
+   "context": "Track A — completed anchors"
   },
   {
    "kind": "modified",
-   "block": "d500afd6",
+   "block": "92d5764d",
    "type": "para",
-   "context": "RelayBench claim boundaries"
+   "context": "Track A — completed anchors"
   },
   {
    "kind": "modified",
-   "block": "4b32ef87",
+   "block": "066c5e34",
+   "type": "heading",
+   "context": "Track B — route-gated breadth replicatio"
+  },
+  {
+   "kind": "modified",
+   "block": "478bda41",
    "type": "para",
-   "context": "RelayBench claim boundaries"
+   "context": "Track B — route-gated breadth replicatio"
+  },
+  {
+   "kind": "modified",
+   "block": "8c71b340",
+   "type": "para",
+   "context": "Track B — route-gated breadth replicatio"
+  },
+  {
+   "kind": "modified",
+   "block": "f15c27f0",
+   "type": "list",
+   "context": "Run sequence"
+  },
+  {
+   "kind": "modified",
+   "block": "d209203f",
+   "type": "para",
+   "context": "Execution readiness"
+  },
+  {
+   "kind": "modified",
+   "block": "daa79044",
+   "type": "para",
+   "context": "Execution readiness"
   }
  ],
- "policy": "portable",
- "soft_fingerprint": "ppsb1:7031e53ed010abc651e49a1fcaccf667c82907f8282048da1550a2d9b15d3339",
+ "policy": "local",
+ "soft_fingerprint": "ppsb1:dcb396dd0e3b2814af94606ca4bcb2a6f5b7f28ea43901629bea9ec194438d30",
  "actors": {
   "requested_by": [
    "human:richard-tang"
@@ -59,28 +89,43 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "6a714dce",
+   "block": "e439b2a3",
    "kind": "modified",
-   "note": "Replaces the obsolete no-results statement with the exact current composed-result boundary."
+   "note": "Extends the study decision from the initial 2x2 panel to gated model replication and task breadth."
   },
   {
-   "block": "7a627143",
+   "block": "92d5764d",
    "kind": "modified",
-   "note": "Requires denominators, invalid attempts, missing cells, heterogeneity, and proof-price with reported aggregates."
+   "note": "Records DeepSeek and Opus as complete provider-pinned panels."
   },
   {
-   "block": "d500afd6",
+   "block": "478bda41",
    "kind": "modified",
-   "note": "Separates clean, stress, replication, and breadth evidence tiers and forbids treating unavailable routes as zero effects."
+   "note": "Records the route-gated Kimi, GLM, Muse, Qwen, and Inkling dispositions."
   },
   {
-   "block": "4b32ef87",
+   "block": "8c71b340",
    "kind": "modified",
-   "note": "Adds the required all-valid and non-floor sensitivity reporting boundary."
+   "note": "Records the failed GLM expansion gate, completed DeepSeek breadth attempt, and unavailable Sol frontier confirmation."
+  },
+  {
+   "block": "f15c27f0",
+   "kind": "modified",
+   "note": "Updates the run sequence to the executed staged ladder and evidence-tier aggregation."
+  },
+  {
+   "block": "d209203f",
+   "kind": "modified",
+   "note": "Updates execution readiness to the three frozen panel tasks and all 14 frozen breadth scenarios."
+  },
+  {
+   "block": "daa79044",
+   "kind": "modified",
+   "note": "Corrects the runner description to frozen S1-S3 sender state, S4 fork, transaction-level policy review, graph compilation, and completeness checks."
   }
  ],
  "context": {
-  "why": "Replace obsolete pre-result language with evidence-tier boundaries that distinguish complete panels, incomplete diagnostics, unavailable routes, and floor-sensitive breadth outcomes."
+  "why": "Reconcile the frozen research plan with the executed provider-pinned model ladder, expansion gate, 14-task breadth run, and S4-boundary mechanism."
  },
- "event_id": "ppe_2a6bc97f825b93cbf62c50f5"
+ "event_id": "ppe_68c5cefd685af25a6d56f886"
 }
