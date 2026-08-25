@@ -5,13 +5,28 @@ import path from "node:path";
 import test from "node:test";
 import { fileURLToPath } from "node:url";
 import { prepareRealPacket } from "../real/prepare.mjs";
-import { runPrepare, runResume } from "../real/run.mjs";
+import { normalizeEvidenceFileNames, runPrepare, runResume } from "../real/run.mjs";
 
 test("real runner cannot make a call without the explicit payable-call flag", async () => {
   await assert.rejects(runPrepare({
     packetDir: "/unused", output: "/unused", root: "/unused", trackId: "A_HARVEY_COMPARABLE",
     authorizeRealCalls: false, manifest: { real_calls_authorized: false },
   }), /authorize-real-calls/);
+});
+
+test("evidence filenames accept exact names, unique basenames, or a bounded annotation", () => {
+  const available = ["second-line-risk-review.docx", "counter-proposed-term-sheet.docx"];
+  assert.deepEqual(normalizeEvidenceFileNames([
+    "credit/packet/source/S3/second-line-risk-review.docx",
+    "counter-proposed-term-sheet.docx",
+    "credit-policy-manual.docx (Rev. 2024-03)",
+    "credit/packet/source/S3/second-line-risk-review.docx",
+  ], [...available, "credit-policy-manual.docx"]),
+  ["second-line-risk-review.docx", "counter-proposed-term-sheet.docx", "credit-policy-manual.docx"]);
+  assert.throws(() => normalizeEvidenceFileNames(["invented.docx"], available), /unknown or ambiguous/);
+  assert.throws(() => normalizeEvidenceFileNames(["credit-policy-manual.docx arbitrary suffix"],
+    [...available, "credit-policy-manual.docx"]), /unknown or ambiguous/);
+  assert.throws(() => normalizeEvidenceFileNames(["x/shared.docx"], ["S1/shared.docx", "S2/shared.docx"]), /unknown or ambiguous/);
 });
 
 test("mocked payable path uses automated policy admission then reaches LAB evaluation", async () => {

@@ -2,6 +2,7 @@ import fs from "node:fs/promises";
 import { execFile } from "node:child_process";
 import { promisify } from "node:util";
 import { createVercelGatewayAdapter } from "../adapters/vercel-ai-gateway.mjs";
+import { assertResponseEligible } from "../real/response-eligibility.mjs";
 
 const execFileAsync = promisify(execFile);
 
@@ -15,6 +16,8 @@ export async function evaluatePublicRubric({ taskPath, deliverable, evaluator, e
   const prompt = `You are a strict rubric grader. Grade each criterion independently against the memo. Return ONLY JSON {"criteria":[{"id":"...","passed":true,"rationale":"brief evidence"}]}. Include every criterion exactly once.\n\nCRITERIA:\n${JSON.stringify(task.criteria)}\n\nMEMO:\n${memo}`;
   const result = await adapter.invoke({ prompt }, { env });
   if (rawResponsePath) await fs.writeFile(rawResponsePath, `${JSON.stringify(result, null, 2)}\n`, { flag: "wx" });
+  assertResponseEligible(result, { label: "public-rubric evaluator", outputCap: evaluator.max_output_tokens,
+    requestedModel: evaluator.model, requestedProvider: evaluator.provider_only });
   let parsed; try { parsed = JSON.parse(jsonPayload(result.raw_output)); } catch { throw new Error("rubric evaluator returned invalid JSON"); }
   const expected = new Set(task.criteria.map((x) => x.id));
   if (!Array.isArray(parsed.criteria) || parsed.criteria.length !== expected.size || parsed.criteria.some((x) => !expected.has(x.id) || typeof x.passed !== "boolean"))

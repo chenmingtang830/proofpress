@@ -12,6 +12,11 @@ if (state.status !== "READY_FOR_LAB_EVALUATION") throw new Error(`run state is $
 const packet = JSON.parse(await fs.readFile(path.join(state.packet_dir, "RUN_PACKET.json")));
 const upstreamTask = path.resolve(args.task);
 const env = await loadEnvFile(args.envFile && path.resolve(args.envFile));
+const expectedS4Cap = state.adapter?.final_stage_max_output_tokens;
+const observedS4Caps = packet.conditions.map((condition) => state.episodes[condition].stages
+  .find((stage) => stage.stage_id === "S4")?.telemetry?.output_cap_tokens);
+if (!Number.isFinite(expectedS4Cap) || observedS4Caps.some((cap) => cap !== expectedS4Cap))
+  throw new Error(`paired run has missing or mismatched S4 caps: expected ${expectedS4Cap}; observed ${observedS4Caps.join(",")}`);
 const scores = {};
 for (const condition of packet.conditions) scores[condition] = await evaluatePublicRubric({
   taskPath: upstreamTask, deliverable: state.episodes[condition].deliverable,

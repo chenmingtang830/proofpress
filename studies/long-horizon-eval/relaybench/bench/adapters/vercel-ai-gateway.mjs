@@ -1,4 +1,6 @@
 import { validateAdapter, validateAdapterResult } from "./adapter-contract.mjs";
+import https from "node:https";
+import { Agent, fetch as undiciFetch } from "undici";
 
 export function preflightVercelGateway(config, env = process.env) {
   const keyName = config.api_key_env ?? "AI_GATEWAY_API_KEY";
@@ -11,7 +13,10 @@ export function preflightVercelGateway(config, env = process.env) {
 }
 
 export function createVercelGatewayAdapter(config, deps = {}) {
-  const fetchImpl = deps.fetch ?? fetch;
+  const dispatcher = new Agent({ headersTimeout: config.timeout_ms, bodyTimeout: config.timeout_ms,
+    connectTimeout: Math.min(config.timeout_ms, 60_000) });
+  const fetchImpl = deps.fetch ?? (config.resolved_model === "moonshotai/kimi-k3" ? null
+    : (url, init) => undiciFetch(url, { ...init, dispatcher }));
   return validateAdapter({
     id: "vercel-ai-gateway",
     testOnly: false,
@@ -26,29 +31,29 @@ export function createVercelGatewayAdapter(config, deps = {}) {
       const keyName = config.api_key_env ?? "AI_GATEWAY_API_KEY";
       const apiKey = (context.env ?? process.env)[keyName];
       if (!apiKey) throw new Error(`missing ${keyName}`);
-      const controller = new AbortController();
-      const timer = setTimeout(() => controller.abort(), config.timeout_ms);
       const started = performance.now();
       const reasoningEffort = Object.hasOwn(request, "reasoning_effort")
         ? request.reasoning_effort : config.reasoning_effort;
       const responseFormat = Object.hasOwn(request, "response_format")
         ? request.response_format : config.response_format;
-      let response;
-      try {
-        response = await fetchImpl(config.endpoint, {
-          method: "POST", signal: controller.signal,
-          headers: { "authorization": `Bearer ${apiKey}`, "content-type": "application/json" },
-          body: JSON.stringify({
+      const outputCap = request.max_output_tokens ?? config.max_output_tokens;
+      const requestBody = {
             model: config.resolved_model,
             messages: [{ role: "user", content: request.prompt }],
             temperature: config.temperature,
-            max_tokens: request.max_output_tokens ?? config.max_output_tokens,
+            max_tokens: outputCap,
             ...(reasoningEffort ? { reasoning: { effort: reasoningEffort } } : {}),
             ...(responseFormat ? { response_format: responseFormat } : {}),
             providerOptions: { gateway: { only: [config.provider_only] } },
-          }),
-        });
-      } finally { clearTimeout(timer); }
+          };
+      const response = fetchImpl
+        ? await fetchImpl(config.endpoint, {
+            method: "POST",
+            headers: { "authorization": `Bearer ${apiKey}`, "content-type": "application/json" },
+            body: JSON.stringify(requestBody),
+          })
+        : await postJson(config.endpoint, requestBody, apiKey, config.timeout_ms,
+          config.resolved_model === "moonshotai/kimi-k3");
       const body = await response.json();
       if (!response.ok) throw new Error(`Vercel AI Gateway ${response.status}: ${JSON.stringify(body)}`);
       return validateAdapterResult({
@@ -64,11 +69,95 @@ export function createVercelGatewayAdapter(config, deps = {}) {
           input_tokens: body.usage?.prompt_tokens ?? null,
           cached_input_tokens: body.usage?.prompt_tokens_details?.cached_tokens ?? null,
           output_tokens: body.usage?.completion_tokens ?? null,
+          output_cap_tokens: outputCap,
+          output_cap_utilization: Number.isFinite(body.usage?.completion_tokens) && Number.isFinite(outputCap)
+            ? body.usage.completion_tokens / outputCap : null,
+          output_cap_hit: Number.isFinite(body.usage?.completion_tokens) && Number.isFinite(outputCap)
+            ? body.usage.completion_tokens >= outputCap : null,
+          finish_reason: body.choices?.[0]?.finish_reason ?? null,
           reasoning_tokens: body.usage?.completion_tokens_details?.reasoning_tokens ?? null,
           provider_cost_usd: body.usage?.cost ?? null,
           actual_incremental_cash_usd: null, model_calls: 1, retries: 0,
         },
       });
     },
+  });
+}
+
+// Node's built-in fetch currently inherits Undici's 300-second headers timeout,
+// which can terminate a valid long model generation before the study's frozen
+// timeout. Use the standard HTTPS client for real calls so the configured
+// timeout is the only transport guardrail. Tests may still inject fetch.
+function postJson(endpoint, body, apiKey, timeoutMs, stream) {
+  return new Promise((resolve, reject) => {
+    const url = new URL(endpoint);
+    // Stream real Gateway responses so long-running generations transmit data
+    // throughout the request instead of depending on a single long-idle TLS
+    // connection. The adapter reconstructs the same OpenAI-compatible body.
+    const payload = JSON.stringify(stream
+      ? { ...body, stream: true, stream_options: { include_usage: true } }
+      : body);
+    let deadline;
+    const request = https.request(url, {
+      method: "POST",
+      headers: {
+        authorization: `Bearer ${apiKey}`,
+        "content-type": "application/json",
+        "content-length": Buffer.byteLength(payload),
+      },
+    }, (response) => {
+      const chunks = [];
+      let pending = "";
+      let content = "";
+      let model = null;
+      let id = null;
+      let usage = null;
+      let finishReason = null;
+      const consumeLine = (line) => {
+        if (!line.startsWith("data:")) return;
+        const data = line.slice(5).trim();
+        if (!data || data === "[DONE]") return;
+        const chunk = JSON.parse(data);
+        model = chunk.model ?? model;
+        id = chunk.id ?? id;
+        usage = chunk.usage ?? usage;
+        finishReason = chunk.choices?.[0]?.finish_reason ?? finishReason;
+        const delta = chunk.choices?.[0]?.delta;
+        if (typeof delta?.content === "string") content += delta.content;
+      };
+      response.on("data", (chunk) => {
+        chunks.push(chunk);
+        if (!stream || response.statusCode < 200 || response.statusCode >= 300) return;
+        pending += chunk.toString("utf8");
+        const lines = pending.split(/\r?\n/);
+        pending = lines.pop() ?? "";
+        try { for (const line of lines) consumeLine(line); } catch (error) { request.destroy(error); }
+      });
+      response.on("end", () => {
+        clearTimeout(deadline);
+        const raw = Buffer.concat(chunks).toString("utf8");
+        if (stream && response.statusCode >= 200 && response.statusCode < 300) {
+          try { consumeLine(pending); } catch (error) { reject(error); return; }
+        }
+        const reconstructed = { id, model,
+          choices: [{ message: { content }, finish_reason: finishReason }], usage };
+        resolve({
+          ok: response.statusCode >= 200 && response.statusCode < 300,
+          status: response.statusCode,
+          headers: { get: (name) => response.headers[String(name).toLowerCase()] ?? null },
+          json: async () => stream && response.statusCode >= 200 && response.statusCode < 300
+            ? reconstructed : JSON.parse(raw),
+        });
+      });
+    });
+    // `request.setTimeout` is an inactivity timeout and SSE keepalive frames
+    // can reset it forever. The frozen experiment timeout is a wall-clock
+    // eligibility boundary, so enforce it independently of socket activity.
+    deadline = setTimeout(() => request.destroy(
+      new Error(`Gateway request exceeded absolute timeout after ${timeoutMs}ms`)), timeoutMs);
+    request.setTimeout(timeoutMs, () => request.destroy(new Error(`Gateway request timed out after ${timeoutMs}ms`)));
+    request.setSocketKeepAlive(true, 30_000);
+    request.on("error", (error) => { clearTimeout(deadline); reject(error); });
+    request.end(payload);
   });
 }

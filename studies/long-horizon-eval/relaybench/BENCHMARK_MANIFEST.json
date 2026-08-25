@@ -490,11 +490,11 @@
     },
     {
       "path": "package-lock.json",
-      "sha256": "31db3d0b332d25eb53ba9bd21c25ee98223f5c74f0efc70ec2454f4c15516a2d"
+      "sha256": "9ce431c9edb99b381a80bc9ecc01e17024b9f03c93aeb34ebae9f8c5807c91e8"
     },
     {
       "path": "package.json",
-      "sha256": "e1b4f2032cab4061e9dc1a820a7654e80b9a62d258627f5e71fc1399e517790c"
+      "sha256": "664d90cd18301f86f43693f78d32a6c8dcd9bf3614fb720d97796472c6d68e71"
     },
     {
       "path": "scripts/bench-generate-proofpress-claims.mjs",

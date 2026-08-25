@@ -4,6 +4,7 @@ import { execFile } from "node:child_process";
 import { promisify } from "node:util";
 import { createClaudeCliAdapter } from "../adapters/claude-cli.mjs";
 import { createVercelGatewayAdapter } from "../adapters/vercel-ai-gateway.mjs";
+import { assertResponseEligible } from "./response-eligibility.mjs";
 
 const execFileAsync = promisify(execFile);
 
@@ -31,8 +32,9 @@ export async function runPrepare({ packetDir, output, manifest, trackId, authori
     let sourceState = null;
     try { sourceState = JSON.parse(await fs.readFile(path.join(sourceRoot, "RUN_STATE.json"))); }
     catch (error) { if (error.code !== "ENOENT") throw error; }
-    const sourcePacketDir = sourceState?.packet_dir ?? path.join(path.dirname(sourceRoot), "packet");
-    const sourcePacket = JSON.parse(await fs.readFile(path.join(sourcePacketDir, "RUN_PACKET.json")));
+    const sourcePacket = sourceState
+      ? JSON.parse(await fs.readFile(path.join(sourceState.packet_dir, "RUN_PACKET.json")))
+      : packet;
     if (sourceState && sourceState.track_id !== trackId) throw new Error("reused sender track does not match requested track");
     if (sourcePacket.harvey.task_id !== packet.harvey.task_id) throw new Error("reused sender task does not match packet task");
     const senderSet = new Set(senderStageIds);
@@ -61,6 +63,7 @@ export async function runPrepare({ packetDir, output, manifest, trackId, authori
       const result = await adapter.invoke({ prompt: stagePrompt({ promptContract, packet, stageId,
         condition: "SHARED_SENDER", prior, sourcePacket }) }, { workspace, env });
       await fs.writeFile(path.join(workspace, `MODEL_RESPONSE_${stageId}.json`), `${JSON.stringify(result, null, 2)}\n`, { flag: "wx" });
+      assertForAdapter(result, adapter, adapter.metadata().max_output_tokens, `sender ${stageId}`);
       const parsed = parseWorkerOutput(result.raw_output, stageId);
       sharedStages.push({ stage_id: stageId, output: parsed, telemetry: result.telemetry });
       prior = parsed.summary;
@@ -90,6 +93,7 @@ export async function runPrepare({ packetDir, output, manifest, trackId, authori
         expires_at: packet.stress.ledger_control?.expires_at ?? packet.stress.expires_at,
         stress_fixture_id: packet.stress.id });
       for (const conclusion of conclusions) {
+        conclusion.evidence_files = normalizeEvidenceFileNames(conclusion.evidence_files, [...evidence.keys()]);
         const refs = conclusion.evidence_files.map((name) => evidence.get(name)).filter(Boolean);
         if (!refs.length) throw new Error(`C2 conclusion has no bound evidence: ${conclusion.statement}`);
         const proposeArgs = ["propose", "--statement", conclusion.statement,
@@ -107,6 +111,7 @@ export async function runPrepare({ packetDir, output, manifest, trackId, authori
         response_format: { type: "json_object" } }, { workspace, env });
       await fs.writeFile(path.join(workspace, "JUDGE_BATCH_RESPONSE.json"),
         `${JSON.stringify(judgedBatch, null, 2)}\n`, { flag: "wx" });
+      assertForAdapter(judgedBatch, judge, 64000, "transaction batch judge");
       const batchVerdicts = parseBatchJudgeOutput(judgedBatch.raw_output, pending.map((x) => x.proposed.conclusion.id));
       const batchReceipt = `batch:${judgedBatch.telemetry.request_id ?? "unreported"}`;
       const proposals = [];
@@ -119,6 +124,7 @@ export async function runPrepare({ packetDir, output, manifest, trackId, authori
             evidencePacket: item.evidencePacket }), reasoning_effort: "none", max_output_tokens: 2000 }, { workspace, env });
           await fs.writeFile(path.join(workspace, `JUDGE_REVIEW_${item.proposed.conclusion.id}.json`),
             `${JSON.stringify(reviewed, null, 2)}\n`, { flag: "wx" });
+          assertForAdapter(reviewed, judge, 2000, `individual policy review ${item.proposed.conclusion.id}`);
           verdict = parseJudgeOutput(reviewed.raw_output);
           individualReview = { trigger: batchVerdict.risk_level === "high" ? "high_risk" : "escalated",
             verdict, telemetry: reviewed.telemetry };
@@ -168,9 +174,10 @@ export async function runResume({ output, manifest, authorizeRealCalls, root, en
     if (condition === "C2_PROOFPRESS") {
       const currentSources = await stageEvidencePacket(root, state.packet_dir, packet, firstReceiverStage, receiverStart);
       const lookup = await adapter.invoke({ prompt: traceSelectionPrompt({ promptContract, trusted, currentSources,
-        stage: packet.stages[receiverStart] }), reasoning_effort: "none", max_output_tokens: 4000 },
+        stage: packet.stages[receiverStart] }), reasoning_effort: "none", max_output_tokens: 8000 },
       { workspace: receiver, env });
       await fs.writeFile(path.join(receiver, "TRACE_SELECTION_RESPONSE.json"), `${JSON.stringify(lookup, null, 2)}\n`, { flag: "wx" });
+      assertForAdapter(lookup, adapter, 8000, "trace graph selection");
       const selected = parseTraceSelection(lookup.raw_output, trusted, 48);
       selectedKnowledgeIds = selected.knowledge_ids;
       const admitted = new Map(state.episodes.C2_PROOFPRESS.proposals.filter((x) => x.admitted).map((x) => [x.id, x]));
@@ -183,9 +190,10 @@ export async function runResume({ output, manifest, authorizeRealCalls, root, en
         knowledge_ids: row.knowledge_ids.filter((id) => selectedSet.has(id)) }));
       const compiled = await adapter.invoke({ prompt: compileWorkingSetPrompt({ promptContract,
         checklist: selectedChecklist, knowledge: selected.knowledge_ids.map((id) => knowledgeById.get(id)),
-        evidence: expandedEvidence }), reasoning_effort: "none", max_output_tokens: 6000 }, { workspace: receiver, env });
+        evidence: expandedEvidence }), reasoning_effort: "none", max_output_tokens: 24000 }, { workspace: receiver, env });
       await fs.writeFile(path.join(receiver, "WORKING_SET_RESPONSE.json"),
         `${JSON.stringify(compiled, null, 2)}\n`, { flag: "wx" });
+      assertForAdapter(compiled, adapter, 24000, "working-set compiler");
       inherited.proofpress_governed_working_set = {
         schema_version: "proofpress/working-set/v1", ledger_head: trusted.ledger_head,
         scope: trusted.scope, policy_digest: trusted.policy_digest,
@@ -205,10 +213,11 @@ export async function runResume({ output, manifest, authorizeRealCalls, root, en
       const sourcePacket = await stageEvidencePacket(root, state.packet_dir, packet, stageId, receiverStart);
       if (condition === "C2_PROOFPRESS" && stageId === "S4" && firstReceiverStage !== "S4") {
         const completeness = await adapter.invoke({ prompt: completenessPrompt({ promptContract, trusted,
-          prior, sourcePacket, selectedKnowledgeIds }), reasoning_effort: "none", max_output_tokens: 4000 },
+          prior, sourcePacket, selectedKnowledgeIds }), reasoning_effort: "none", max_output_tokens: 12000 },
         { workspace: receiver, env });
         await fs.writeFile(path.join(receiver, "COMPLETENESS_RESPONSE.json"),
           `${JSON.stringify(completeness, null, 2)}\n`, { flag: "wx" });
+        assertForAdapter(completeness, adapter, 12000, "completeness supplement selection");
         const supplement = parseTraceSelection(completeness.raw_output, trusted, 16, selectedKnowledgeIds);
         const newIds = supplement.knowledge_ids.filter((id) => !selectedKnowledgeIds.includes(id));
         const admitted = new Map(state.episodes.C2_PROOFPRESS.proposals.filter((x) => x.admitted).map((x) => [x.id, x]));
@@ -225,9 +234,10 @@ export async function runResume({ output, manifest, authorizeRealCalls, root, en
             .filter((row) => row.knowledge_ids.length || row.coverage === "gap");
           const compiled = await adapter.invoke({ prompt: compileWorkingSetPrompt({ promptContract,
             checklist: supplementChecklist, knowledge: newIds.map((id) => knowledgeById.get(id)),
-            evidence: expandedEvidence }), reasoning_effort: "none", max_output_tokens: 4000 }, { workspace: receiver, env });
+            evidence: expandedEvidence }), reasoning_effort: "none", max_output_tokens: 12000 }, { workspace: receiver, env });
           await fs.writeFile(path.join(receiver, "COMPLETENESS_WORKING_SET_RESPONSE.json"),
             `${JSON.stringify(compiled, null, 2)}\n`, { flag: "wx" });
+          assertForAdapter(compiled, adapter, 12000, "completeness working-set supplement");
           compiledSupplement = parseCompiledWorkingSet(compiled.raw_output, newIds, evidenceFiles);
           compilerTelemetry = compiled.telemetry;
         }
@@ -242,6 +252,10 @@ export async function runResume({ output, manifest, authorizeRealCalls, root, en
         ...(stageId === "S4" ? { max_output_tokens: adapter.metadata().final_stage_max_output_tokens } : {}),
       }, { workspace: receiver, env });
       await fs.writeFile(path.join(receiver, `MODEL_RESPONSE_${stageId}.json`), `${JSON.stringify(result, null, 2)}\n`, { flag: "wx" });
+      const workerCap = stageId === "S4"
+        ? adapter.metadata().final_stage_max_output_tokens
+        : adapter.metadata().max_output_tokens;
+      assertForAdapter(result, adapter, workerCap, `${condition} worker ${stageId}`);
       const parsed = parseWorkerOutput(result.raw_output, stageId);
       state.episodes[condition].stages.push({ stage_id: stageId, output: parsed, telemetry: result.telemetry });
       prior = parsed.summary;
@@ -264,7 +278,18 @@ export async function runResume({ output, manifest, authorizeRealCalls, root, en
 function adapterFor(manifest, id) {
   const track = manifest.tracks.find((item) => item.id === id);
   if (!track) throw new Error(`unknown track ${id}`);
-  return id === "A_HARVEY_COMPARABLE" ? createClaudeCliAdapter(track.adapter) : createVercelGatewayAdapter(track.adapter);
+  return track.route === "local Claude CLI"
+    ? createClaudeCliAdapter(track.adapter)
+    : createVercelGatewayAdapter(track.adapter);
+}
+function assertForAdapter(result, adapter, outputCap, label) {
+  const metadata = adapter.metadata();
+  return assertResponseEligible(result, {
+    label,
+    outputCap,
+    requestedModel: metadata.resolved_model,
+    requestedProvider: metadata.serving_provider_only,
+  });
 }
 function requireAuthorization(flag, manifest) {
   if (!flag) throw new Error("real model calls require --authorize-real-calls");
@@ -356,6 +381,27 @@ function consolidateConclusions(rows) {
     else existing.evidence_files = [...new Set([...existing.evidence_files, ...row.evidence_files])];
   }
   return [...byStatement.values()];
+}
+export function normalizeEvidenceFileNames(names, availableNames) {
+  const available = new Set(availableNames);
+  const byBase = new Map();
+  for (const name of availableNames) {
+    const base = path.basename(name);
+    const matches = byBase.get(base) ?? [];
+    matches.push(name);
+    byBase.set(base, matches);
+  }
+  return [...new Set(names.map((name) => {
+    if (available.has(name)) return name;
+    const matches = byBase.get(path.basename(name)) ?? [];
+    if (matches.length === 1) return matches[0];
+    const annotated = availableNames.filter((candidate) => {
+      const suffix = name.slice(candidate.length).trim();
+      return name.startsWith(candidate) && /^\([^)]*\)$/.test(suffix);
+    });
+    if (annotated.length !== 1) throw new Error(`unknown or ambiguous evidence filename: ${name}`);
+    return annotated[0];
+  }))];
 }
 function evidencePathForName(packetDir, packet, name) {
   if (packet.stress?.artifact_filename === name) return path.join(packetDir, packet.stress.artifact_path);

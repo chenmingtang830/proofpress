@@ -5,6 +5,7 @@ import { execFile } from "node:child_process";
 import { promisify } from "node:util";
 import { createVercelGatewayAdapter } from "../bench/adapters/vercel-ai-gateway.mjs";
 import { loadEnvFile } from "../bench/real/env.mjs";
+import { assertResponseEligible } from "../bench/real/response-eligibility.mjs";
 import { blindMemos, parseTrustStress, trustStressPrompt } from "../bench/evaluation/trust-stress.mjs";
 
 const execFileAsync = promisify(execFile);
@@ -42,6 +43,8 @@ const response = await adapter.invoke({ prompt: trustStressPrompt({ fixture: pac
 const attempt = args.attempt ?? "1";
 await fs.writeFile(path.join(output, `TRUST_EVALUATOR_RESPONSE_attempt-${attempt}.json`),
   `${JSON.stringify(response, null, 2)}\n`, { flag: "wx" });
+assertResponseEligible(response, { label: "trust endpoint evaluator", outputCap: 6000,
+  requestedModel: manifest.evaluator.model, requestedProvider: manifest.evaluator.provider_only });
 const scores = { schema_version: 1, classification: "LAB-derived controlled handoff stress test",
   official_harvey_result: false, fixture_id: packet.stress.id, task_id: packet.harvey.task_id,
   evaluator: { model: response.telemetry.model, requested_model: response.telemetry.model_requested,

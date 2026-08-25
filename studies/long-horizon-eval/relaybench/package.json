@@ -15,5 +15,8 @@
     "verify:fixtures": "node scripts/bench-verify-fixtures.mjs",
     "readiness": "node scripts/bench-readiness.mjs",
     "check": "npm run lint && npm run verify:fixtures && npm test && npm run readiness"
+  },
+  "dependencies": {
+    "undici": "^7.29.0"
   }
 }

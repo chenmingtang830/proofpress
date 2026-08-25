@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { createClaudeCliAdapter, preflightClaudeCli } from "../adapters/claude-cli.mjs";
 import { createVercelGatewayAdapter, preflightVercelGateway } from "../adapters/vercel-ai-gateway.mjs";
+import { assertResponseEligible } from "../real/response-eligibility.mjs";
 
 test("Claude adapter pins model and records usage without fallback", async () => {
   const adapter = createClaudeCliAdapter({ resolved_model: "claude-opus-4.8", cli_version: "test", timeout_ms: 1000 }, {
@@ -32,4 +33,33 @@ test("Vercel adapter refuses missing key/provider and hard-pins provider", async
 test("Claude preflight is non-payable and reports missing binary", async () => {
   const result = await preflightClaudeCli({ binary: "definitely-not-a-real-claude-binary", resolved_model: "claude-opus-4.8" }, {});
   assert.equal(result.passed, false);
+});
+
+test("response eligibility accepts a response below the guardrail", () => {
+  const response = { telemetry: { output_tokens: 7999, model_reported: "model-a",
+    serving_provider_reported: "provider-a" } };
+  assert.equal(assertResponseEligible(response, { label: "worker", outputCap: 8000,
+    requestedModel: "model-a", requestedProvider: "provider-a" }), response);
+});
+
+test("response eligibility invalidates an exact cap hit", () => {
+  assert.throws(() => assertResponseEligible({ telemetry: { output_tokens: 8000 } },
+    { label: "worker", outputCap: 8000 }), /output token cap hit \(8000\/8000\)/);
+});
+
+test("response eligibility invalidates model or provider identity mismatch", () => {
+  assert.throws(() => assertResponseEligible({ telemetry: { model_reported: "model-b" } },
+    { label: "worker", requestedModel: "model-a" }), /model identity mismatch/);
+  assert.throws(() => assertResponseEligible({ telemetry: { serving_provider_reported: "provider-b" } },
+    { label: "worker", requestedProvider: "provider-a" }), /provider identity mismatch/);
+});
+
+test("response eligibility invalidates provider invocation failures", () => {
+  assert.throws(() => assertResponseEligible({ telemetry: { invocation_error: "socket closed" } },
+    { label: "worker" }), /provider invocation failed/);
+});
+
+test("response eligibility invalidates a provider truncation finish reason", () => {
+  assert.throws(() => assertResponseEligible({ telemetry: { finish_reason: "length" } },
+    { label: "worker" }), /provider reported truncated output/);
 });

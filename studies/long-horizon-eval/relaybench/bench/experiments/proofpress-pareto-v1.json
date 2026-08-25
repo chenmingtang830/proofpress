@@ -18,14 +18,18 @@
       "model_candidates": [
         "claude-opus-4-8"
       ],
-      "route": "local Claude CLI",
-      "selection_rule": "freeze CLI version, exact resolved model, effort, permissions, timeout, retries, and fallback before calls",
+      "route": "Vercel AI Gateway",
+      "selection_rule": "hard-pin Anthropic's first-party route through Vercel AI Gateway; disable provider and model fallback; freeze the exact model, effort, caps, timeout, and retry policy",
       "adapter": {
-        "binary": "claude",
-        "cli_version": "2.1.241 (Claude Code)",
-        "resolved_model": "claude-opus-4-8",
+        "endpoint": "https://ai-gateway.vercel.sh/v1/chat/completions",
+        "api_key_env": "AI_GATEWAY_API_KEY",
+        "resolved_model": "anthropic/claude-opus-4.8",
+        "provider_only": "anthropic",
+        "temperature": 0,
+        "reasoning_effort": "high",
+        "max_output_tokens": 32000,
+        "final_stage_max_output_tokens": 64000,
         "timeout_ms": 1800000,
-        "max_buffer_bytes": 16777216,
         "fallback": false,
         "retries": 0
       }
@@ -43,7 +47,167 @@
         "resolved_model": "moonshotai/kimi-k3",
         "provider_only": "moonshotai",
         "temperature": 0,
-        "max_output_tokens": 8000,
+        "max_output_tokens": 32000,
+        "final_stage_max_output_tokens": 64000,
+        "timeout_ms": 1800000,
+        "fallback": false,
+        "retries": 0
+      }
+    },
+    {
+      "id": "B2_GLM_5_2_GATEWAY_REPLACEMENT",
+      "analysis_role": "KIMI_ROUTE_FAILURE_REPLACEMENT; ROUTE_SMOKE_EXCLUDED_UNTIL_PROMOTED_BY_PREDECLARED_ELIGIBILITY",
+      "model_candidates": [
+        "zai/glm-5.2"
+      ],
+      "route": "Vercel AI Gateway",
+      "selection_rule": "Kimi K3 produced only one valid pair and repeated provider/parser failures. Pin GLM 5.2 to Z.ai with no fallback or retry; promote only after a complete Credit clean route smoke passes unchanged eligibility checks.",
+      "adapter": {
+        "endpoint": "https://ai-gateway.vercel.sh/v1/chat/completions",
+        "api_key_env": "AI_GATEWAY_API_KEY",
+        "resolved_model": "zai/glm-5.2",
+        "provider_only": "zai",
+        "temperature": 0,
+        "reasoning_effort": "high",
+        "max_output_tokens": 32000,
+        "final_stage_max_output_tokens": 64000,
+        "timeout_ms": 1800000,
+        "fallback": false,
+        "retries": 0
+      }
+    },
+    {
+      "id": "R_MUSE_SPARK_1_1",
+      "analysis_role": "FROZEN_V9_CROSS_MODEL_REPLICATION",
+      "model_candidates": ["meta/muse-spark-1.1"],
+      "route": "Vercel AI Gateway",
+      "selection_rule": "Meta-only route; exact model; no provider/model fallback or retry.",
+      "adapter": {
+        "endpoint": "https://ai-gateway.vercel.sh/v1/chat/completions",
+        "api_key_env": "AI_GATEWAY_API_KEY",
+        "resolved_model": "meta/muse-spark-1.1",
+        "provider_only": "meta",
+        "temperature": 0,
+        "reasoning_effort": "high",
+        "max_output_tokens": 32000,
+        "final_stage_max_output_tokens": 64000,
+        "timeout_ms": 1800000,
+        "fallback": false,
+        "retries": 0
+      }
+    },
+    {
+      "id": "R_GEMINI_3_7_FLASH",
+      "analysis_role": "FROZEN_V9_CROSS_MODEL_REPLICATION; SAME_MODEL_WORKER_AND_BLIND_EVALUATOR_DISCLOSED",
+      "model_candidates": ["google/gemini-3.7-flash"],
+      "route": "Vercel AI Gateway",
+      "selection_rule": "Google-only route; exact model; no provider/model fallback or retry. Same-model worker/evaluator limitation is reported.",
+      "adapter": {
+        "endpoint": "https://ai-gateway.vercel.sh/v1/chat/completions",
+        "api_key_env": "AI_GATEWAY_API_KEY",
+        "resolved_model": "google/gemini-3.7-flash",
+        "provider_only": "google",
+        "temperature": 0,
+        "reasoning_effort": "high",
+        "max_output_tokens": 32000,
+        "final_stage_max_output_tokens": 64000,
+        "timeout_ms": 1800000,
+        "fallback": false,
+        "retries": 0
+      }
+    },
+    {
+      "id": "R_QWEN_3_8_27B",
+      "analysis_role": "FROZEN_V9_CROSS_MODEL_REPLICATION",
+      "model_candidates": ["alibaba/qwen3.8-27b"],
+      "route": "Vercel AI Gateway",
+      "selection_rule": "Alibaba-only route; exact model; no provider/model fallback or retry; provider-default reasoning mode frozen.",
+      "adapter": {
+        "endpoint": "https://ai-gateway.vercel.sh/v1/chat/completions",
+        "api_key_env": "AI_GATEWAY_API_KEY",
+        "resolved_model": "alibaba/qwen3.8-27b",
+        "provider_only": "alibaba",
+        "temperature": 0,
+        "max_output_tokens": 32000,
+        "final_stage_max_output_tokens": 64000,
+        "timeout_ms": 1800000,
+        "fallback": false,
+        "retries": 0
+      }
+    },
+    {
+      "id": "R_INKLING",
+      "analysis_role": "FROZEN_V9_CROSS_MODEL_REPLICATION",
+      "model_candidates": ["thinkingmachines/inkling"],
+      "route": "Vercel AI Gateway",
+      "selection_rule": "Thinking Machines-only route; exact model; no provider/model fallback or retry; provider-default reasoning mode frozen.",
+      "adapter": {
+        "endpoint": "https://ai-gateway.vercel.sh/v1/chat/completions",
+        "api_key_env": "AI_GATEWAY_API_KEY",
+        "resolved_model": "thinkingmachines/inkling",
+        "provider_only": "thinkingmachines",
+        "temperature": 0,
+        "max_output_tokens": 32000,
+        "final_stage_max_output_tokens": 64000,
+        "timeout_ms": 1800000,
+        "fallback": false,
+        "retries": 0
+      }
+    },
+    {
+      "id": "R_GPT_5_6_SOL",
+      "analysis_role": "FROZEN_V9_CROSS_MODEL_REPLICATION",
+      "model_candidates": ["openai/gpt-5.6-sol"],
+      "route": "Vercel AI Gateway",
+      "selection_rule": "OpenAI-only route; exact model; no provider/model fallback or retry.",
+      "adapter": {
+        "endpoint": "https://ai-gateway.vercel.sh/v1/chat/completions",
+        "api_key_env": "AI_GATEWAY_API_KEY",
+        "resolved_model": "openai/gpt-5.6-sol",
+        "provider_only": "openai",
+        "temperature": 0,
+        "reasoning_effort": "high",
+        "max_output_tokens": 32000,
+        "final_stage_max_output_tokens": 64000,
+        "timeout_ms": 1800000,
+        "fallback": false,
+        "retries": 0
+      }
+    },
+    {
+      "id": "R_GPT_5_6_LUNA",
+      "analysis_role": "FROZEN_V9_CROSS_MODEL_REPLICATION",
+      "model_candidates": ["openai/gpt-5.6-luna"],
+      "route": "Vercel AI Gateway",
+      "selection_rule": "OpenAI-only route; exact model; no provider/model fallback or retry.",
+      "adapter": {
+        "endpoint": "https://ai-gateway.vercel.sh/v1/chat/completions",
+        "api_key_env": "AI_GATEWAY_API_KEY",
+        "resolved_model": "openai/gpt-5.6-luna",
+        "provider_only": "openai",
+        "temperature": 0,
+        "reasoning_effort": "high",
+        "max_output_tokens": 32000,
+        "final_stage_max_output_tokens": 64000,
+        "timeout_ms": 1800000,
+        "fallback": false,
+        "retries": 0
+      }
+    },
+    {
+      "id": "R_GROK_4_6",
+      "analysis_role": "FROZEN_V9_CROSS_MODEL_REPLICATION",
+      "model_candidates": ["spacexai/grok-4.6"],
+      "route": "Vercel AI Gateway",
+      "selection_rule": "SpaceXAI-only route; exact model; no provider/model fallback or retry; provider-default reasoning mode frozen.",
+      "adapter": {
+        "endpoint": "https://ai-gateway.vercel.sh/v1/chat/completions",
+        "api_key_env": "AI_GATEWAY_API_KEY",
+        "resolved_model": "spacexai/grok-4.6",
+        "provider_only": "spacexai",
+        "temperature": 0,
+        "max_output_tokens": 32000,
+        "final_stage_max_output_tokens": 64000,
         "timeout_ms": 1800000,
         "fallback": false,
         "retries": 0

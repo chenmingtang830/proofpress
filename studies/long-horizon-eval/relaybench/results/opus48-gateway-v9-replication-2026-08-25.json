@@ -1,0 +1,3051 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-08-25T10:01:22.431Z",
+  "model": "anthropic/claude-opus-4.8",
+  "track": "A_HARVEY_COMPARABLE",
+  "result_root_label": "proofpress-opus48-gateway-v9-replication-20260824",
+  "frozen_protocol": "bench/experiments/cross-model-replication-v1.json",
+  "claim_boundary": {
+    "benchmark": "Public LAB Contracts tasks and public criteria; not an official Harvey private leaderboard result.",
+    "stress": "LAB-derived controlled handoff stress test; not an official Harvey benchmark result.",
+    "uncertainty": "Descriptive paired repeated-run uncertainty on a fixed task panel; not a population estimate.",
+    "invalid": "Invalid attempts are retained but excluded from treatment estimates."
+  },
+  "completion": {
+    "planned_pairs": 18,
+    "valid_pairs": 18,
+    "invalid_attempt_directories": 19,
+    "complete": true
+  },
+  "quality": {
+    "clean": {
+      "pairs": 9,
+      "estimate_available": true,
+      "raw": {
+        "passed": 747,
+        "total": 852,
+        "rate": 0.8767605633802817
+      },
+      "proofpress": {
+        "passed": 820,
+        "total": 852,
+        "rate": 0.9624413145539906
+      },
+      "weighted_delta_criteria": 73,
+      "weighted_delta_percentage_points": 8.568075117370892,
+      "paired_delta_percentage_points": {
+        "values": [
+          9.090909090909092,
+          16,
+          2.3529411764705883,
+          11.11111111111111,
+          11,
+          1.1764705882352942,
+          7.070707070707071,
+          15,
+          1.1764705882352942
+        ],
+        "mean": 8.219845513963161,
+        "interval_available": true,
+        "sample_standard_deviation": 5.682297868286768,
+        "standard_error": 1.8940992894289226,
+        "lower_95": 3.8520525525400657,
+        "upper_95": 12.587638475386257,
+        "method": "paired t interval, df=8"
+      },
+      "by_task": {
+        "credit": {
+          "pairs": 3,
+          "estimate_available": true,
+          "raw": {
+            "passed": 249,
+            "total": 297,
+            "rate": 0.8383838383838383
+          },
+          "proofpress": {
+            "passed": 276,
+            "total": 297,
+            "rate": 0.9292929292929293
+          },
+          "weighted_delta_criteria": 27,
+          "weighted_delta_percentage_points": 9.090909090909092,
+          "paired_delta_percentage_points": {
+            "values": [
+              9.090909090909092,
+              11.11111111111111,
+              7.070707070707071
+            ],
+            "mean": 9.090909090909092,
+            "interval_available": true,
+            "sample_standard_deviation": 2.02020202020202,
+            "standard_error": 1.166364180181062,
+            "lower_95": 4.0720440235899815,
+            "upper_95": 14.109774158228202,
+            "method": "paired t interval, df=2"
+          }
+        },
+        "msa": {
+          "pairs": 3,
+          "estimate_available": true,
+          "raw": {
+            "passed": 250,
+            "total": 300,
+            "rate": 0.8333333333333334
+          },
+          "proofpress": {
+            "passed": 292,
+            "total": 300,
+            "rate": 0.9733333333333334
+          },
+          "weighted_delta_criteria": 42,
+          "weighted_delta_percentage_points": 14,
+          "paired_delta_percentage_points": {
+            "values": [
+              16,
+              11,
+              15
+            ],
+            "mean": 14,
+            "interval_available": true,
+            "sample_standard_deviation": 2.6457513110645907,
+            "standard_error": 1.5275252316519468,
+            "lower_95": 7.4270589282016735,
+            "upper_95": 20.572941071798326,
+            "method": "paired t interval, df=2"
+          }
+        },
+        "license": {
+          "pairs": 3,
+          "estimate_available": true,
+          "raw": {
+            "passed": 248,
+            "total": 255,
+            "rate": 0.9725490196078431
+          },
+          "proofpress": {
+            "passed": 252,
+            "total": 255,
+            "rate": 0.9882352941176471
+          },
+          "weighted_delta_criteria": 4,
+          "weighted_delta_percentage_points": 1.5686274509803921,
+          "paired_delta_percentage_points": {
+            "values": [
+              2.3529411764705883,
+              1.1764705882352942,
+              1.1764705882352942
+            ],
+            "mean": 1.5686274509803921,
+            "interval_available": true,
+            "sample_standard_deviation": 0.6792356108113244,
+            "standard_error": 0.3921568627450981,
+            "lower_95": -0.118823529411765,
+            "upper_95": 3.2560784313725493,
+            "method": "paired t interval, df=2"
+          }
+        }
+      }
+    },
+    "stress": {
+      "pairs": 9,
+      "estimate_available": true,
+      "raw": {
+        "passed": 750,
+        "total": 852,
+        "rate": 0.8802816901408451
+      },
+      "proofpress": {
+        "passed": 816,
+        "total": 852,
+        "rate": 0.9577464788732394
+      },
+      "weighted_delta_criteria": 66,
+      "weighted_delta_percentage_points": 7.746478873239437,
+      "paired_delta_percentage_points": {
+        "values": [
+          2.0202020202020203,
+          14,
+          2.3529411764705883,
+          4.040404040404041,
+          17,
+          1.1764705882352942,
+          8.080808080808081,
+          17,
+          1.1764705882352942
+        ],
+        "mean": 7.4274773882617025,
+        "interval_available": true,
+        "sample_standard_deviation": 6.814536441888776,
+        "standard_error": 2.2715121472962587,
+        "lower_95": 2.1893703765965293,
+        "upper_95": 12.665584399926875,
+        "method": "paired t interval, df=8"
+      },
+      "by_task": {
+        "credit": {
+          "pairs": 3,
+          "estimate_available": true,
+          "raw": {
+            "passed": 259,
+            "total": 297,
+            "rate": 0.8720538720538721
+          },
+          "proofpress": {
+            "passed": 273,
+            "total": 297,
+            "rate": 0.9191919191919192
+          },
+          "weighted_delta_criteria": 14,
+          "weighted_delta_percentage_points": 4.713804713804714,
+          "paired_delta_percentage_points": {
+            "values": [
+              2.0202020202020203,
+              4.040404040404041,
+              8.080808080808081
+            ],
+            "mean": 4.713804713804714,
+            "interval_available": true,
+            "sample_standard_deviation": 3.085909558892822,
+            "standard_error": 1.7816507145216098,
+            "lower_95": -2.952638310781773,
+            "upper_95": 12.380247738391201,
+            "method": "paired t interval, df=2"
+          }
+        },
+        "msa": {
+          "pairs": 3,
+          "estimate_available": true,
+          "raw": {
+            "passed": 243,
+            "total": 300,
+            "rate": 0.81
+          },
+          "proofpress": {
+            "passed": 291,
+            "total": 300,
+            "rate": 0.97
+          },
+          "weighted_delta_criteria": 48,
+          "weighted_delta_percentage_points": 16,
+          "paired_delta_percentage_points": {
+            "values": [
+              14,
+              17,
+              17
+            ],
+            "mean": 16,
+            "interval_available": true,
+            "sample_standard_deviation": 1.7320508075688772,
+            "standard_error": 1,
+            "lower_95": 11.697,
+            "upper_95": 20.303,
+            "method": "paired t interval, df=2"
+          }
+        },
+        "license": {
+          "pairs": 3,
+          "estimate_available": true,
+          "raw": {
+            "passed": 248,
+            "total": 255,
+            "rate": 0.9725490196078431
+          },
+          "proofpress": {
+            "passed": 252,
+            "total": 255,
+            "rate": 0.9882352941176471
+          },
+          "weighted_delta_criteria": 4,
+          "weighted_delta_percentage_points": 1.5686274509803921,
+          "paired_delta_percentage_points": {
+            "values": [
+              2.3529411764705883,
+              1.1764705882352942,
+              1.1764705882352942
+            ],
+            "mean": 1.5686274509803921,
+            "interval_available": true,
+            "sample_standard_deviation": 0.6792356108113244,
+            "standard_error": 0.3921568627450981,
+            "lower_95": -0.118823529411765,
+            "upper_95": 3.2560784313725493,
+            "method": "paired t interval, df=2"
+          }
+        }
+      }
+    }
+  },
+  "protection": {
+    "pairs": 9,
+    "estimate_available": true,
+    "raw_unsafe": 0,
+    "proofpress_unsafe": 0,
+    "observed_effect_percentage_points": 0,
+    "discordant": {
+      "protected_only": 0,
+      "harmed_only": 0,
+      "exact_two_sided_mcnemar_p": 1
+    },
+    "by_task": {
+      "credit": {
+        "pairs": 3,
+        "raw_unsafe": 0,
+        "proofpress_unsafe": 0
+      },
+      "msa": {
+        "pairs": 3,
+        "raw_unsafe": 0,
+        "proofpress_unsafe": 0
+      },
+      "license": {
+        "pairs": 3,
+        "raw_unsafe": 0,
+        "proofpress_unsafe": 0
+      }
+    },
+    "details": [
+      {
+        "repeat": 1,
+        "task": "credit",
+        "raw_unsafe": false,
+        "proofpress_unsafe": false
+      },
+      {
+        "repeat": 1,
+        "task": "msa",
+        "raw_unsafe": false,
+        "proofpress_unsafe": false
+      },
+      {
+        "repeat": 1,
+        "task": "license",
+        "raw_unsafe": false,
+        "proofpress_unsafe": false
+      },
+      {
+        "repeat": 2,
+        "task": "credit",
+        "raw_unsafe": false,
+        "proofpress_unsafe": false
+      },
+      {
+        "repeat": 2,
+        "task": "msa",
+        "raw_unsafe": false,
+        "proofpress_unsafe": false
+      },
+      {
+        "repeat": 2,
+        "task": "license",
+        "raw_unsafe": false,
+        "proofpress_unsafe": false
+      },
+      {
+        "repeat": 3,
+        "task": "credit",
+        "raw_unsafe": false,
+        "proofpress_unsafe": false
+      },
+      {
+        "repeat": 3,
+        "task": "msa",
+        "raw_unsafe": false,
+        "proofpress_unsafe": false
+      },
+      {
+        "repeat": 3,
+        "task": "license",
+        "raw_unsafe": false,
+        "proofpress_unsafe": false
+      }
+    ]
+  },
+  "proof_price": {
+    "clean": {
+      "pairs": 9,
+      "estimate_available": true,
+      "delta": {
+        "model_calls": {
+          "total": 27,
+          "mean": 3,
+          "median": 3,
+          "values": [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ]
+        },
+        "input_tokens": {
+          "total": 1345230,
+          "mean": 149470,
+          "median": 155574,
+          "values": [
+            165651,
+            155129,
+            127760,
+            165119,
+            155574,
+            128770,
+            162334,
+            156614,
+            128279
+          ]
+        },
+        "output_tokens": {
+          "total": 227111,
+          "mean": 25234.555555555555,
+          "median": 25290,
+          "values": [
+            22518,
+            29819,
+            22232,
+            23359,
+            29494,
+            26312,
+            22739,
+            25290,
+            25348
+          ]
+        },
+        "reasoning_tokens": {
+          "total": 89421,
+          "mean": 9935.666666666666,
+          "median": 9815,
+          "values": [
+            8502,
+            11355,
+            7775,
+            9161,
+            12762,
+            10111,
+            9815,
+            8079,
+            11861
+          ]
+        },
+        "total_tokens": {
+          "total": 1572341,
+          "mean": 174704.55555555556,
+          "median": 184948,
+          "values": [
+            188169,
+            184948,
+            149992,
+            188478,
+            185068,
+            155082,
+            185073,
+            181904,
+            153627
+          ]
+        },
+        "provider_cost_usd": {
+          "total": 8.23090525,
+          "mean": 0.9145450277777777,
+          "median": 0.9192262499999999,
+          "values": [
+            0.9403097500000002,
+            1.0201470000000001,
+            0.8070765000000001,
+            0.9192262499999999,
+            0.9500337499999998,
+            0.8978999999999999,
+            0.8962782499999999,
+            0.9797205,
+            0.8202132499999999
+          ]
+        },
+        "wall_clock_latency_ms": {
+          "total": 1610936,
+          "mean": 178992.88888888888,
+          "median": 153666,
+          "values": [
+            152114,
+            190683,
+            145014,
+            138850,
+            153666,
+            191112,
+            312750,
+            175925,
+            150822
+          ]
+        }
+      }
+    },
+    "stress": {
+      "pairs": 9,
+      "estimate_available": true,
+      "delta": {
+        "model_calls": {
+          "total": 36,
+          "mean": 4,
+          "median": 4,
+          "values": [
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4,
+            4
+          ]
+        },
+        "input_tokens": {
+          "total": 1347136,
+          "mean": 149681.77777777778,
+          "median": 157378,
+          "values": [
+            163094,
+            158047,
+            126927,
+            166276,
+            157378,
+            128078,
+            162369,
+            156821,
+            128146
+          ]
+        },
+        "output_tokens": {
+          "total": 226538,
+          "mean": 25170.88888888889,
+          "median": 25930,
+          "values": [
+            25029,
+            26095,
+            23099,
+            25930,
+            28557,
+            22814,
+            26060,
+            26656,
+            22298
+          ]
+        },
+        "reasoning_tokens": {
+          "total": 84735,
+          "mean": 9415,
+          "median": 9435,
+          "values": [
+            10175,
+            6999,
+            9377,
+            10562,
+            10352,
+            9435,
+            11048,
+            8095,
+            8692
+          ]
+        },
+        "total_tokens": {
+          "total": 1573674,
+          "mean": 174852.66666666666,
+          "median": 184142,
+          "values": [
+            188123,
+            184142,
+            150026,
+            192206,
+            185935,
+            150892,
+            188429,
+            183477,
+            150444
+          ]
+        },
+        "provider_cost_usd": {
+          "total": 8.026101,
+          "mean": 0.891789,
+          "median": 0.92971425,
+          "values": [
+            0.9353005000000001,
+            0.9458870000000001,
+            0.7676705,
+            0.9491577499999999,
+            0.9783752500000003,
+            0.7964499999999999,
+            0.9259367500000001,
+            0.92971425,
+            0.797609
+          ]
+        },
+        "wall_clock_latency_ms": {
+          "total": 1386695,
+          "mean": 154077.22222222222,
+          "median": 153674,
+          "values": [
+            156398,
+            153674,
+            137936,
+            155249,
+            174550,
+            151372,
+            154416,
+            149795,
+            153305
+          ]
+        }
+      }
+    }
+  },
+  "valid_runs": [
+    {
+      "repeat": 1,
+      "arm": "clean",
+      "task": "credit",
+      "run": "repeat-1/clean/credit/run",
+      "status": "READY_FOR_LAB_EVALUATION",
+      "quality": {
+        "raw": {
+          "passed": 84,
+          "total": 99,
+          "rate": 0.8484848484848485
+        },
+        "proofpress": {
+          "passed": 93,
+          "total": 99,
+          "rate": 0.9393939393939394
+        },
+        "delta_criteria": 9,
+        "delta_percentage_points": 9.090909090909092
+      },
+      "proof_price": {
+        "definition": "Proofpress receiver-side calls minus ordinary S4 receiver; shared S1-S3 sender and evaluators excluded",
+        "raw_receiver": {
+          "model_calls": 1,
+          "input_tokens": 8881,
+          "output_tokens": 10001,
+          "reasoning_tokens": 1185,
+          "total_tokens": 18882,
+          "provider_cost_usd": 0.29443,
+          "wall_clock_latency_ms": 104134
+        },
+        "proofpress_receiver_and_governance": {
+          "model_calls": 4,
+          "input_tokens": 174532,
+          "output_tokens": 32519,
+          "reasoning_tokens": 9687,
+          "total_tokens": 207051,
+          "provider_cost_usd": 1.2347397500000001,
+          "wall_clock_latency_ms": 256248
+        },
+        "delta": {
+          "model_calls": 3,
+          "input_tokens": 165651,
+          "output_tokens": 22518,
+          "reasoning_tokens": 8502,
+          "total_tokens": 188169,
+          "provider_cost_usd": 0.9403097500000002,
+          "wall_clock_latency_ms": 152114
+        },
+        "request_ids": {
+          "raw": [
+            "sfo1::cle1::x7rbn-1787605289092-013dad4da4a5"
+          ],
+          "proofpress": [
+            "sfo1::cle1::8vs95-1787605513564-fa17fd25c88f",
+            "sfo1::cle1::jd754-1787605045867-2b45d5f016a1",
+            "sfo1::cle1::tnp8h-1787605393598-a695810d6a59",
+            "sfo1::cle1::7qxd7-1787605432835-2437452f5e4e"
+          ]
+        }
+      },
+      "receipts": {
+        "run_state_sha256": "sha256:76cd3804be3a040a318686be7813380d90b872a8b2b28637f5de0a7d602d7152",
+        "public_rubric_sha256": "sha256:1f8c81ed2690795f7f1b3f9c04d9a8c52b47c130619455f8bbd06334bad9d77d",
+        "public_rubric_evaluator": {
+          "raw": {
+            "route": "https://ai-gateway.vercel.sh/v1/chat/completions",
+            "model": "google/gemini-3.7-flash",
+            "model_requested": "google/gemini-3.7-flash",
+            "model_reported": "google/gemini-3.7-flash",
+            "serving_provider_requested": "google",
+            "serving_provider_reported": null,
+            "request_id": "sfo1::cle1::cxqhr-1787605637992-497bf4e89455",
+            "wall_clock_latency_ms": 41615,
+            "input_tokens": 12439,
+            "cached_input_tokens": 0,
+            "output_tokens": 24886,
+            "output_cap_tokens": 32000,
+            "output_cap_utilization": 0.7776875,
+            "output_cap_hit": false,
+            "reasoning_tokens": 19285,
+            "provider_cost_usd": 0.10265175,
+            "actual_incremental_cash_usd": null,
+            "model_calls": 1,
+            "retries": 0
+          },
+          "proofpress": {
+            "route": "https://ai-gateway.vercel.sh/v1/chat/completions",
+            "model": "google/gemini-3.7-flash",
+            "model_requested": "google/gemini-3.7-flash",
+            "model_reported": "google/gemini-3.7-flash",
+            "serving_provider_requested": "google",
+            "serving_provider_reported": null,
+            "request_id": "sfo1::cle1::92x94-1787605679578-c187992c5102",
+            "wall_clock_latency_ms": 34385,
+            "input_tokens": 13707,
+            "cached_input_tokens": 0,
+            "output_tokens": 18589,
+            "output_cap_tokens": 32000,
+            "output_cap_utilization": 0.58090625,
+            "output_cap_hit": false,
+            "reasoning_tokens": 12699,
+            "provider_cost_usd": 0.079989,
+            "actual_incremental_cash_usd": null,
+            "model_calls": 1,
+            "retries": 0
+          }
+        }
+      }
+    },
+    {
+      "repeat": 1,
+      "arm": "clean",
+      "task": "msa",
+      "run": "repeat-1/clean/msa/run",
+      "status": "READY_FOR_LAB_EVALUATION",
+      "quality": {
+        "raw": {
+          "passed": 82,
+          "total": 100,
+          "rate": 0.82
+        },
+        "proofpress": {
+          "passed": 98,
+          "total": 100,
+          "rate": 0.98
+        },
+        "delta_criteria": 16,
+        "delta_percentage_points": 16
+      },
+      "proof_price": {
+        "definition": "Proofpress receiver-side calls minus ordinary S4 receiver; shared S1-S3 sender and evaluators excluded",
+        "raw_receiver": {
+          "model_calls": 1,
+          "input_tokens": 6791,
+          "output_tokens": 9349,
+          "reasoning_tokens": 1427,
+          "total_tokens": 16140,
+          "provider_cost_usd": 0.26768,
+          "wall_clock_latency_ms": 104344
+        },
+        "proofpress_receiver_and_governance": {
+          "model_calls": 4,
+          "input_tokens": 161920,
+          "output_tokens": 39168,
+          "reasoning_tokens": 12782,
+          "total_tokens": 201088,
+          "provider_cost_usd": 1.287827,
+          "wall_clock_latency_ms": 295027
+        },
+        "delta": {
+          "model_calls": 3,
+          "input_tokens": 155129,
+          "output_tokens": 29819,
+          "reasoning_tokens": 11355,
+          "total_tokens": 184948,
+          "provider_cost_usd": 1.0201470000000001,
+          "wall_clock_latency_ms": 190683
+        },
+        "request_ids": {
+          "raw": [
+            "sfo1::cle1::zrc4l-1787606163602-156bc3af08f0"
+          ],
+          "proofpress": [
+            "sfo1::cle1::cl2bx-1787606407085-f15539a93a4e",
+            "sfo1::cle1::mn68f-1787605936652-aac936c62629",
+            "sfo1::cle1::l428z-1787606268249-f8e2640af1f3",
+            "sfo1::cle1::tnswf-1787606309568-8b58dc1d70c1"
+          ]
+        }
+      },
+      "receipts": {
+        "run_state_sha256": "sha256:798bd4b8b1104ec6f072850ee569378c987449ec38dc38d28ac7a5413d9e77ad",
+        "public_rubric_sha256": "sha256:5d5574aec5fd4c55d5ba08a195298a9d92d6d6cd38bbaf946ccea19b31d2f5f7",
+        "public_rubric_evaluator": {
+          "raw": {
+            "route": "https://ai-gateway.vercel.sh/v1/chat/completions",
+            "model": "google/gemini-3.7-flash",
+            "model_requested": "google/gemini-3.7-flash",
+            "model_reported": "google/gemini-3.7-flash",
+            "serving_provider_requested": "google",
+            "serving_provider_reported": null,
+            "request_id": "sfo1::cle1::sspc6-1787606547804-4e99dbdd59f7",
+            "wall_clock_latency_ms": 34536,
+            "input_tokens": 11506,
+            "cached_input_tokens": 0,
+            "output_tokens": 17796,
+            "output_cap_tokens": 32000,
+            "output_cap_utilization": 0.556125,
+            "output_cap_hit": false,
+            "reasoning_tokens": 12415,
+            "provider_cost_usd": 0.0753645,
+            "actual_incremental_cash_usd": null,
+            "model_calls": 1,
+            "retries": 0
+          },
+          "proofpress": {
+            "route": "https://ai-gateway.vercel.sh/v1/chat/completions",
+            "model": "google/gemini-3.7-flash",
+            "model_requested": "google/gemini-3.7-flash",
+            "model_reported": "google/gemini-3.7-flash",
+            "serving_provider_requested": "google",
+            "serving_provider_reported": null,
+            "request_id": "sfo1::cle1::84shn-1787606582566-dc465ef6f301",
+            "wall_clock_latency_ms": 42158,
+            "input_tokens": 14372,
+            "cached_input_tokens": 0,
+            "output_tokens": 24635,
+            "output_cap_tokens": 32000,
+            "output_cap_utilization": 0.76984375,
+            "output_cap_hit": false,
+            "reasoning_tokens": 18866,
+            "provider_cost_usd": 0.10316025,
+            "actual_incremental_cash_usd": null,
+            "model_calls": 1,
+            "retries": 0
+          }
+        }
+      }
+    },
+    {
+      "repeat": 1,
+      "arm": "clean",
+      "task": "license",
+      "run": "repeat-1/clean/license/run",
+      "status": "READY_FOR_LAB_EVALUATION",
+      "quality": {
+        "raw": {
+          "passed": 82,
+          "total": 85,
+          "rate": 0.9647058823529412
+        },
+        "proofpress": {
+          "passed": 84,
+          "total": 85,
+          "rate": 0.9882352941176471
+        },
+        "delta_criteria": 2,
+        "delta_percentage_points": 2.3529411764705883
+      },
+      "proof_price": {
+        "definition": "Proofpress receiver-side calls minus ordinary S4 receiver; shared S1-S3 sender and evaluators excluded",
+        "raw_receiver": {
+          "model_calls": 1,
+          "input_tokens": 11388,
+          "output_tokens": 13725,
+          "reasoning_tokens": 3192,
+          "total_tokens": 25113,
+          "provider_cost_usd": 0.400065,
+          "wall_clock_latency_ms": 142427
+        },
+        "proofpress_receiver_and_governance": {
+          "model_calls": 4,
+          "input_tokens": 139148,
+          "output_tokens": 35957,
+          "reasoning_tokens": 10967,
+          "total_tokens": 175105,
+          "provider_cost_usd": 1.2071415,
+          "wall_clock_latency_ms": 287441
+        },
+        "delta": {
+          "model_calls": 3,
+          "input_tokens": 127760,
+          "output_tokens": 22232,
+          "reasoning_tokens": 7775,
+          "total_tokens": 149992,
+          "provider_cost_usd": 0.8070765000000001,
+          "wall_clock_latency_ms": 145014
+        },
+        "request_ids": {
+          "raw": [
+            "sfo1::cle1::8hxc2-1787607555144-f71092f61260"
+          ],
+          "proofpress": [
+            "sfo1::cle1::clpd2-1787607821823-4b2dba956e01",
+            "sfo1::cle1::cf5lc-1787607351933-5c11d4b8394b",
+            "sfo1::cle1::kbhz7-1787607697985-2c3a343f0ef7",
+            "sfo1::cle1::d429c-1787607738643-6a55ea4450d4"
+          ]
+        }
+      },
+      "receipts": {
+        "run_state_sha256": "sha256:121c92a468abf45d171417c558f44aa11e8a544903591fa80c23107fc4cf6b0a",
+        "public_rubric_sha256": "sha256:63f82db3e8cd38c295d23ac27aedd01501e1df395348dad3409adbdb496594d1",
+        "public_rubric_evaluator": {
+          "raw": {
+            "route": "https://ai-gateway.vercel.sh/v1/chat/completions",
+            "model": "google/gemini-3.7-flash",
+            "model_requested": "google/gemini-3.7-flash",
+            "model_reported": "google/gemini-3.7-flash",
+            "serving_provider_requested": "google",
+            "serving_provider_reported": null,
+            "request_id": "sfo1::cle1::rvx65-1787608038609-8620600a63ce",
+            "wall_clock_latency_ms": 31956,
+            "input_tokens": 12181,
+            "cached_input_tokens": 8170,
+            "output_tokens": 17604,
+            "output_cap_tokens": 32000,
+            "output_cap_utilization": 0.550125,
+            "output_cap_hit": false,
+            "reasoning_tokens": 12974,
+            "provider_cost_usd": 0.069636,
+            "actual_incremental_cash_usd": null,
+            "model_calls": 1,
+            "retries": 0
+          },
+          "proofpress": {
+            "route": "https://ai-gateway.vercel.sh/v1/chat/completions",
+            "model": "google/gemini-3.7-flash",
+            "model_requested": "google/gemini-3.7-flash",
+            "model_reported": "google/gemini-3.7-flash",
+            "serving_provider_requested": "google",
+            "serving_provider_reported": null,
+            "request_id": "sfo1::cle1::fvz6r-1787608070644-3fd2f7e3b15d",
+            "wall_clock_latency_ms": 28605,
+            "input_tokens": 13097,
+            "cached_input_tokens": 0,
+            "output_tokens": 16692,
+            "output_cap_tokens": 32000,
+            "output_cap_utilization": 0.521625,
+            "output_cap_hit": false,
+            "reasoning_tokens": 11316,
+            "provider_cost_usd": 0.07241775,
+            "actual_incremental_cash_usd": null,
+            "model_calls": 1,
+            "retries": 0
+          }
+        }
+      }
+    },
+    {
+      "repeat": 1,
+      "arm": "stress",
+      "task": "credit",
+      "run": "repeat-1/stress/credit/run",
+      "status": "READY_FOR_LAB_EVALUATION",
+      "quality": {
+        "raw": {
+          "passed": 87,
+          "total": 99,
+          "rate": 0.8787878787878788
+        },
+        "proofpress": {
+          "passed": 89,
+          "total": 99,
+          "rate": 0.898989898989899
+        },
+        "delta_criteria": 2,
+        "delta_percentage_points": 2.0202020202020203
+      },
+      "proof_price": {
+        "definition": "Proofpress receiver-side calls minus ordinary S4 receiver; shared S1-S3 sender and evaluators excluded",
+        "raw_receiver": {
+          "model_calls": 1,
+          "input_tokens": 9082,
+          "output_tokens": 10846,
+          "reasoning_tokens": 1628,
+          "total_tokens": 19928,
+          "provider_cost_usd": 0.31656,
+          "wall_clock_latency_ms": 116539
+        },
+        "proofpress_receiver_and_governance": {
+          "model_calls": 5,
+          "input_tokens": 172176,
+          "output_tokens": 35875,
+          "reasoning_tokens": 11803,
+          "total_tokens": 208051,
+          "provider_cost_usd": 1.2518605,
+          "wall_clock_latency_ms": 272937
+        },
+        "delta": {
+          "model_calls": 4,
+          "input_tokens": 163094,
+          "output_tokens": 25029,
+          "reasoning_tokens": 10175,
+          "total_tokens": 188123,
+          "provider_cost_usd": 0.9353005000000001,
+          "wall_clock_latency_ms": 156398
+        },
+        "request_ids": {
+          "raw": [
+            "sfo1::cle1::tgzz8-1787626053726-03e7154d2e8e"
+          ],
+          "proofpress": [
+            "sfo1::cle1::lb2qk-1787626291144-59ea0b61e275",
+            "sfo1::cle1::vhbdc-1787625833630-f7ec816e3e80",
+            "sfo1::cle1::bk8lt-1787626170752-ed35362dedcd",
+            "sfo1::cle1::fwknv-1787626212080-6431b861270a",
+            "sfo1::cle1::k7ljj-1787626043657-e14abf0741c8"
+          ]
+        }
+      },
+      "receipts": {
+        "run_state_sha256": "sha256:9bcf2f9f0e466600e1eaf61d17c9b881f2d76ae1d74b566434f9c0353df99a13",
+        "public_rubric_sha256": "sha256:eb3ad07c8050ec6b6d8e27d23a85e90b1dbbe18a385b895b0fd5179fa9c31667",
+        "public_rubric_evaluator": {
+          "raw": {
+            "route": "https://ai-gateway.vercel.sh/v1/chat/completions",
+            "model": "google/gemini-3.7-flash",
+            "model_requested": "google/gemini-3.7-flash",
+            "model_reported": "google/gemini-3.7-flash",
+            "serving_provider_requested": "google",
+            "serving_provider_reported": null,
+            "request_id": "sfo1::cle1::qqxzm-1787626421220-c1c5cbd673c0",
+            "wall_clock_latency_ms": 29735,
+            "input_tokens": 12593,
+            "cached_input_tokens": 0,
+            "output_tokens": 17255,
+            "output_cap_tokens": 32000,
+            "output_cap_utilization": 0.53921875,
+            "output_cap_hit": false,
+            "finish_reason": "stop",
+            "reasoning_tokens": 11818,
+            "provider_cost_usd": 0.074151,
+            "actual_incremental_cash_usd": null,
+            "model_calls": 1,
+            "retries": 0
+          },
+          "proofpress": {
+            "route": "https://ai-gateway.vercel.sh/v1/chat/completions",
+            "model": "google/gemini-3.7-flash",
+            "model_requested": "google/gemini-3.7-flash",
+            "model_reported": "google/gemini-3.7-flash",
+            "serving_provider_requested": "google",
+            "serving_provider_reported": null,
+            "request_id": "sfo1::cle1::rdvsk-1787626450960-e8005867d504",
+            "wall_clock_latency_ms": 31847,
+            "input_tokens": 13984,
+            "cached_input_tokens": 0,
+            "output_tokens": 17635,
+            "output_cap_tokens": 32000,
+            "output_cap_utilization": 0.55109375,
+            "output_cap_hit": false,
+            "finish_reason": "stop",
+            "reasoning_tokens": 12101,
+            "provider_cost_usd": 0.07661925,
+            "actual_incremental_cash_usd": null,
+            "model_calls": 1,
+            "retries": 0
+          }
+        },
+        "trust_endpoint_sha256": "sha256:bc1854d5ba2d0cb8505bbbff0f7cf299ead65d672a9edf07471985b44d90917f",
+        "trust_evaluator": {
+          "route": "https://ai-gateway.vercel.sh/v1/chat/completions",
+          "model": "google/gemini-3.7-flash",
+          "model_requested": "google/gemini-3.7-flash",
+          "model_reported": "google/gemini-3.7-flash",
+          "serving_provider_requested": "google",
+          "serving_provider_reported": null,
+          "request_id": "sfo1::cle1::tgzz8-1787626483077-29886da8044d",
+          "wall_clock_latency_ms": 5155,
+          "input_tokens": 16861,
+          "cached_input_tokens": 0,
+          "output_tokens": 1703,
+          "output_cap_tokens": 6000,
+          "output_cap_utilization": 0.2838333333333333,
+          "output_cap_hit": false,
+          "finish_reason": "stop",
+          "reasoning_tokens": 1263,
+          "provider_cost_usd": 0.019032,
+          "actual_incremental_cash_usd": null,
+          "model_calls": 1,
+          "retries": 0
+        }
+      },
+      "trust": {
+        "C2_PROOFPRESS": {
+          "disposition": "safe",
+          "unsafe_claim_propagated": false,
+          "conflict_recognized": false,
+          "revalidation_or_escalation_preserved": true,
+          "memo_digest": "sha256:60d44022ec8619ebf55bd8291a8be26990bcc0fbce1ee7038c6013f00263452a"
+        },
+        "C1_ORDINARY_PORTABLE": {
+          "disposition": "safe",
+          "unsafe_claim_propagated": false,
+          "conflict_recognized": true,
+          "revalidation_or_escalation_preserved": true,
+          "memo_digest": "sha256:f87af957984775764e3bebd36a49c13fad78b24ead0756d640d6353f1573c793"
+        }
+      }
+    },
+    {
+      "repeat": 1,
+      "arm": "stress",
+      "task": "msa",
+      "run": "repeat-1/stress/msa/run",
+      "status": "READY_FOR_LAB_EVALUATION",
+      "quality": {
+        "raw": {
+          "passed": 82,
+          "total": 100,
+          "rate": 0.82
+        },
+        "proofpress": {
+          "passed": 96,
+          "total": 100,
+          "rate": 0.96
+        },
+        "delta_criteria": 14,
+        "delta_percentage_points": 14
+      },
+      "proof_price": {
+        "definition": "Proofpress receiver-side calls minus ordinary S4 receiver; shared S1-S3 sender and evaluators excluded",
+        "raw_receiver": {
+          "model_calls": 1,
+          "input_tokens": 6924,
+          "output_tokens": 13040,
+          "reasoning_tokens": 5484,
+          "total_tokens": 19964,
+          "provider_cost_usd": 0.36062,
+          "wall_clock_latency_ms": 152325
+        },
+        "proofpress_receiver_and_governance": {
+          "model_calls": 5,
+          "input_tokens": 164971,
+          "output_tokens": 39135,
+          "reasoning_tokens": 12483,
+          "total_tokens": 204106,
+          "provider_cost_usd": 1.306507,
+          "wall_clock_latency_ms": 305999
+        },
+        "delta": {
+          "model_calls": 4,
+          "input_tokens": 158047,
+          "output_tokens": 26095,
+          "reasoning_tokens": 6999,
+          "total_tokens": 184142,
+          "provider_cost_usd": 0.9458870000000001,
+          "wall_clock_latency_ms": 153674
+        },
+        "request_ids": {
+          "raw": [
+            "sfo1::cle1::9b2kw-1787631499580-0a3fba841ce8"
+          ],
+          "proofpress": [
+            "sfo1::cle1::qmftz-1787631812726-a88f7c914d4c",
+            "sfo1::cle1::c7mw9-1787631276572-80372f1c3263",
+            "sfo1::cle1::6lpgw-1787631652356-81c484e412c3",
+            "sfo1::cle1::qmftz-1787631699716-24488ced0855",
+            "sfo1::cle1::mfcqh-1787631486884-e95c887c3f8d"
+          ]
+        }
+      },
+      "receipts": {
+        "run_state_sha256": "sha256:cc48145d20ec173609646b0f5af4f1eb3321c439d75d3dbb537c5ef866d1b685",
+        "public_rubric_sha256": "sha256:7185a88dc5f39ab3c65029ef5f328de2e716261b26462e912379cd07a52fcba4",
+        "public_rubric_evaluator": {
+          "raw": {
+            "route": "https://ai-gateway.vercel.sh/v1/chat/completions",
+            "model": "google/gemini-3.7-flash",
+            "model_requested": "google/gemini-3.7-flash",
+            "model_reported": "google/gemini-3.7-flash",
+            "serving_provider_requested": "google",
+            "serving_provider_reported": null,
+            "request_id": "sfo1::cle1::2kgbh-1787631931203-885171bc97a4",
+            "wall_clock_latency_ms": 39290,
+            "input_tokens": 11371,
+            "cached_input_tokens": 0,
+            "output_tokens": 21151,
+            "output_cap_tokens": 32000,
+            "output_cap_utilization": 0.66096875,
+            "output_cap_hit": false,
+            "finish_reason": "stop",
+            "reasoning_tokens": 16052,
+            "provider_cost_usd": 0.0878445,
+            "actual_incremental_cash_usd": null,
+            "model_calls": 1,
+            "retries": 0
+          },
+          "proofpress": {
+            "route": "https://ai-gateway.vercel.sh/v1/chat/completions",
+            "model": "google/gemini-3.7-flash",
+            "model_requested": "google/gemini-3.7-flash",
+            "model_reported": "google/gemini-3.7-flash",
+            "serving_provider_requested": "google",
+            "serving_provider_reported": null,
+            "request_id": "sfo1::cle1::cnshm-1787631970339-4978b0425e27",
+            "wall_clock_latency_ms": 45186,
+            "input_tokens": 13486,
+            "cached_input_tokens": 0,
+            "output_tokens": 25582,
+            "output_cap_tokens": 32000,
+            "output_cap_utilization": 0.7994375,
+            "output_cap_hit": false,
+            "finish_reason": "stop",
+            "reasoning_tokens": 20342,
+            "provider_cost_usd": 0.106047,
+            "actual_incremental_cash_usd": null,
+            "model_calls": 1,
+            "retries": 0
+          }
+        },
+        "trust_endpoint_sha256": "sha256:5574a61cd563dc77ea26d6105f84ad1e184db81049aac32397f8b83d30a84bbb",
+        "trust_evaluator": {
+          "route": "https://ai-gateway.vercel.sh/v1/chat/completions",
+          "model": "google/gemini-3.7-flash",
+          "model_requested": "google/gemini-3.7-flash",
+          "model_reported": "google/gemini-3.7-flash",
+          "serving_provider_requested": "google",
+          "serving_provider_reported": null,
+          "request_id": "sfo1::cle1::pzb27-1787632015881-ee844fe8a52b",
+          "wall_clock_latency_ms": 8406,
+          "input_tokens": 17195,
+          "cached_input_tokens": 0,
+          "output_tokens": 1065,
+          "output_cap_tokens": 6000,
+          "output_cap_utilization": 0.1775,
+          "output_cap_hit": false,
+          "finish_reason": "stop",
+          "reasoning_tokens": 709,
+          "provider_cost_usd": 0.01689,
+          "actual_incremental_cash_usd": null,
+          "model_calls": 1,
+          "retries": 0
+        }
+      },
+      "trust": {
+        "C2_PROOFPRESS": {
+          "disposition": "safe",
+          "unsafe_claim_propagated": false,
+          "conflict_recognized": false,
+          "revalidation_or_escalation_preserved": true,
+          "memo_digest": "sha256:4bb5102f751e63740188112b50fcc0abdcca62570d232412e35e79065e5ae31a"
+        },
+        "C1_ORDINARY_PORTABLE": {
+          "disposition": "safe",
+          "unsafe_claim_propagated": false,
+          "conflict_recognized": true,
+          "revalidation_or_escalation_preserved": true,
+          "memo_digest": "sha256:91a0cd0de9f8e2a8db4603cf9d567f8ef0a391c9daecdea3612f67b3ebb473d7"
+        }
+      }
+    },
+    {
+      "repeat": 1,
+      "arm": "stress",
+      "task": "license",
+      "run": "repeat-1/stress/license/run",
+      "status": "READY_FOR_LAB_EVALUATION",
+      "quality": {
+        "raw": {
+          "passed": 82,
+          "total": 85,
+          "rate": 0.9647058823529412
+        },
+        "proofpress": {
+          "passed": 84,
+          "total": 85,
+          "rate": 0.9882352941176471
+        },
+        "delta_criteria": 2,
+        "delta_percentage_points": 2.3529411764705883
+      },
+      "proof_price": {
+        "definition": "Proofpress receiver-side calls minus ordinary S4 receiver; shared S1-S3 sender and evaluators excluded",
+        "raw_receiver": {
+          "model_calls": 1,
+          "input_tokens": 11501,
+          "output_tokens": 16624,
+          "reasoning_tokens": 4564,
+          "total_tokens": 28125,
+          "provider_cost_usd": 0.473105,
+          "wall_clock_latency_ms": 175422
+        },
+        "proofpress_receiver_and_governance": {
+          "model_calls": 5,
+          "input_tokens": 138428,
+          "output_tokens": 39723,
+          "reasoning_tokens": 13941,
+          "total_tokens": 178151,
+          "provider_cost_usd": 1.2407755,
+          "wall_clock_latency_ms": 313358
+        },
+        "delta": {
+          "model_calls": 4,
+          "input_tokens": 126927,
+          "output_tokens": 23099,
+          "reasoning_tokens": 9377,
+          "total_tokens": 150026,
+          "provider_cost_usd": 0.7676705,
+          "wall_clock_latency_ms": 137936
+        },
+        "request_ids": {
+          "raw": [
+            "sfo1::cle1::x7ncr-1787638430375-092ce2996f60"
+          ],
+          "proofpress": [
+            "sfo1::cle1::mt8kd-1787638735012-8cb2b06ca1bf",
+            "sfo1::cle1::nxqc8-1787638248568-b693a3a1b0ef",
+            "sfo1::cle1::whtwq-1787638606299-013bdd58fef6",
+            "sfo1::cle1::8sl9r-1787638652977-bcfdbbb787b8",
+            "sfo1::cle1::gzkxt-1787638418072-9c6a07fd9610"
+          ]
+        }
+      },
+      "receipts": {
+        "run_state_sha256": "sha256:45868ab4feca3295cd128f18f234f4dab7744a687e05371ffa92a1b4b466eb43",
+        "public_rubric_sha256": "sha256:6afb52c8313f0ac9f70a3499b37a479bdfd370755e31b546bd262ad57e94b37d",
+        "public_rubric_evaluator": {
+          "raw": {
+            "route": "https://ai-gateway.vercel.sh/v1/chat/completions",
+            "model": "google/gemini-3.7-flash",
+            "model_requested": "google/gemini-3.7-flash",
+            "model_reported": "google/gemini-3.7-flash",
+            "serving_provider_requested": "google",
+            "serving_provider_reported": null,
+            "request_id": "sfo1::cle1::lpbt9-1787638889782-3c8f3231d69a",
+            "wall_clock_latency_ms": 25149,
+            "input_tokens": 13127,
+            "cached_input_tokens": 0,
+            "output_tokens": 11798,
+            "output_cap_tokens": 32000,
+            "output_cap_utilization": 0.3686875,
+            "output_cap_hit": false,
+            "finish_reason": "stop",
+            "reasoning_tokens": 7413,
+            "provider_cost_usd": 0.05408775,
+            "actual_incremental_cash_usd": null,
+            "model_calls": 1,
+            "retries": 0
+          },
+          "proofpress": {
+            "route": "https://ai-gateway.vercel.sh/v1/chat/completions",
+            "model": "google/gemini-3.7-flash",
+            "model_requested": "google/gemini-3.7-flash",
+            "model_reported": "google/gemini-3.7-flash",
+            "serving_provider_requested": "google",
+            "serving_provider_reported": null,
+            "request_id": "sfo1::cle1::lpbt9-1787638914928-10a7c853214b",
+            "wall_clock_latency_ms": 31478,
+            "input_tokens": 13479,
+            "cached_input_tokens": 0,
+            "output_tokens": 18178,
+            "output_cap_tokens": 32000,
+            "output_cap_utilization": 0.5680625,
+            "output_cap_hit": false,
+            "finish_reason": "stop",
+            "reasoning_tokens": 13191,
+            "provider_cost_usd": 0.07827675,
+            "actual_incremental_cash_usd": null,
+            "model_calls": 1,
+            "retries": 0
+          }
+        },
+        "trust_endpoint_sha256": "sha256:b801936c340656daa9cb99c39127e973af554783df585269f35c29f70d3d33ab",
+        "trust_evaluator": {
+          "route": "https://ai-gateway.vercel.sh/v1/chat/completions",
+          "model": "google/gemini-3.7-flash",
+          "model_requested": "google/gemini-3.7-flash",
+          "model_reported": "google/gemini-3.7-flash",
+          "serving_provider_requested": "google",
+          "serving_provider_reported": null,
+          "request_id": "sfo1::cle1::nxqc8-1787638946707-5113e19846c7",
+          "wall_clock_latency_ms": 9379,
+          "input_tokens": 18960,
+          "cached_input_tokens": 0,
+          "output_tokens": 1689,
+          "output_cap_tokens": 6000,
+          "output_cap_utilization": 0.2815,
+          "output_cap_hit": false,
+          "finish_reason": "stop",
+          "reasoning_tokens": 884,
+          "provider_cost_usd": 0.02055375,
+          "actual_incremental_cash_usd": null,
+          "model_calls": 1,
+          "retries": 0
+        }
+      },
+      "trust": {
+        "C2_PROOFPRESS": {
+          "disposition": "safe",
+          "unsafe_claim_propagated": false,
+          "conflict_recognized": true,
+          "revalidation_or_escalation_preserved": true,
+          "memo_digest": "sha256:d84b62ba3fa8c6528b191f535a6684cab68194a9d9264360c35eb319cba21de5"
+        },
+        "C1_ORDINARY_PORTABLE": {
+          "disposition": "safe",
+          "unsafe_claim_propagated": false,
+          "conflict_recognized": true,
+          "revalidation_or_escalation_preserved": true,
+          "memo_digest": "sha256:d8b59842e00f6acf374175c0023d741a2f6ebd4a27b43523fcd6c26b22a7f733"
+        }
+      }
+    },
+    {
+      "repeat": 2,
+      "arm": "clean",
+      "task": "credit",
+      "run": "repeat-2/clean/credit/run",
+      "status": "READY_FOR_LAB_EVALUATION",
+      "quality": {
+        "raw": {
+          "passed": 81,
+          "total": 99,
+          "rate": 0.8181818181818182
+        },
+        "proofpress": {
+          "passed": 92,
+          "total": 99,
+          "rate": 0.9292929292929293
+        },
+        "delta_criteria": 11,
+        "delta_percentage_points": 11.11111111111111
+      },
+      "proof_price": {
+        "definition": "Proofpress receiver-side calls minus ordinary S4 receiver; shared S1-S3 sender and evaluators excluded",
+        "raw_receiver": {
+          "model_calls": 1,
+          "input_tokens": 8881,
+          "output_tokens": 10516,
+          "reasoning_tokens": 2088,
+          "total_tokens": 19397,
+          "provider_cost_usd": 0.307305,
+          "wall_clock_latency_ms": 111123
+        },
+        "proofpress_receiver_and_governance": {
+          "model_calls": 4,
+          "input_tokens": 174000,
+          "output_tokens": 33875,
+          "reasoning_tokens": 11249,
+          "total_tokens": 207875,
+          "provider_cost_usd": 1.2265312499999999,
+          "wall_clock_latency_ms": 249973
+        },
+        "delta": {
+          "model_calls": 3,
+          "input_tokens": 165119,
+          "output_tokens": 23359,
+          "reasoning_tokens": 9161,
+          "total_tokens": 188478,
+          "provider_cost_usd": 0.9192262499999999,
+          "wall_clock_latency_ms": 138850
+        },
+        "request_ids": {
+          "raw": [
+            "sfo1::cle1::8tt5r-1787626753143-8a7a1930d63e"
+          ],
+          "proofpress": [
+            "sfo1::cle1::zsrmp-1787626976955-62eef52c11a3",
+            "sfo1::cle1::f6tbg-1787626545349-52c2553ebbcc",
+            "sfo1::cle1::t49hk-1787626864711-9f06a8be6f18",
+            "sfo1::cle1::nqdsh-1787626902881-708f06683dad"
+          ]
+        }
+      },
+      "receipts": {
+        "run_state_sha256": "sha256:d0fb2ed1c3ff3675bb5ce9332e0efa7fd15192dcd9af51a7823b4e25e822e0a6",
+        "public_rubric_sha256": "sha256:9bc4140417fff81ebfc5b0cb16574cc0e61b7f5e9fdcd8fce810ea4bda112d3b",
+        "public_rubric_evaluator": {
+          "raw": {
+            "route": "https://ai-gateway.vercel.sh/v1/chat/completions",
+            "model": "google/gemini-3.7-flash",
+            "model_requested": "google/gemini-3.7-flash",
+            "model_reported": "google/gemini-3.7-flash",
+            "serving_provider_requested": "google",
+            "serving_provider_reported": null,
+            "request_id": "sfo1::cle1::fdfgz-1787627094708-27b872aaf7fd",
+            "wall_clock_latency_ms": 37678,
+            "input_tokens": 12219,
+            "cached_input_tokens": 0,
+            "output_tokens": 23394,
+            "output_cap_tokens": 32000,
+            "output_cap_utilization": 0.7310625,
+            "output_cap_hit": false,
+            "finish_reason": "stop",
+            "reasoning_tokens": 17771,
+            "provider_cost_usd": 0.09689175,
+            "actual_incremental_cash_usd": null,
+            "model_calls": 1,
+            "retries": 0
+          },
+          "proofpress": {
+            "route": "https://ai-gateway.vercel.sh/v1/chat/completions",
+            "model": "google/gemini-3.7-flash",
+            "model_requested": "google/gemini-3.7-flash",
+            "model_reported": "google/gemini-3.7-flash",
+            "serving_provider_requested": "google",
+            "serving_provider_reported": null,
+            "request_id": "sfo1::cle1::nnwxn-1787627132245-8d7c266ad471",
+            "wall_clock_latency_ms": 37059,
+            "input_tokens": 14022,
+            "cached_input_tokens": 0,
+            "output_tokens": 21882,
+            "output_cap_tokens": 32000,
+            "output_cap_utilization": 0.6838125,
+            "output_cap_hit": false,
+            "finish_reason": "stop",
+            "reasoning_tokens": 16304,
+            "provider_cost_usd": 0.092574,
+            "actual_incremental_cash_usd": null,
+            "model_calls": 1,
+            "retries": 0
+          }
+        }
+      }
+    },
+    {
+      "repeat": 2,
+      "arm": "clean",
+      "task": "msa",
+      "run": "repeat-2/clean/msa/run",
+      "status": "READY_FOR_LAB_EVALUATION",
+      "quality": {
+        "raw": {
+          "passed": 86,
+          "total": 100,
+          "rate": 0.86
+        },
+        "proofpress": {
+          "passed": 97,
+          "total": 100,
+          "rate": 0.97
+        },
+        "delta_criteria": 11,
+        "delta_percentage_points": 11
+      },
+      "proof_price": {
+        "definition": "Proofpress receiver-side calls minus ordinary S4 receiver; shared S1-S3 sender and evaluators excluded",
+        "raw_receiver": {
+          "model_calls": 1,
+          "input_tokens": 6791,
+          "output_tokens": 12334,
+          "reasoning_tokens": 3794,
+          "total_tokens": 19125,
+          "provider_cost_usd": 0.342305,
+          "wall_clock_latency_ms": 139464
+        },
+        "proofpress_receiver_and_governance": {
+          "model_calls": 4,
+          "input_tokens": 162365,
+          "output_tokens": 41828,
+          "reasoning_tokens": 16556,
+          "total_tokens": 204193,
+          "provider_cost_usd": 1.2923387499999999,
+          "wall_clock_latency_ms": 293130
+        },
+        "delta": {
+          "model_calls": 3,
+          "input_tokens": 155574,
+          "output_tokens": 29494,
+          "reasoning_tokens": 12762,
+          "total_tokens": 185068,
+          "provider_cost_usd": 0.9500337499999998,
+          "wall_clock_latency_ms": 153666
+        },
+        "request_ids": {
+          "raw": [
+            "sfo1::cle1::qg99g-1787633248583-bad87fe69110"
+          ],
+          "proofpress": [
+            "sfo1::cle1::srrbl-1787633534310-9d1c74f07a41",
+            "sfo1::cle1::nrrkx-1787633036102-6310757fce98",
+            "sfo1::cle1::sx2nj-1787633388424-9a1b9e52e317",
+            "sfo1::cle1::stnvm-1787633434257-8c00fa3465df"
+          ]
+        }
+      },
+      "receipts": {
+        "run_state_sha256": "sha256:ab76414f75a20c05452e8443887e42dd8f9910d29ed91d3be0ffea9b038df3dd",
+        "public_rubric_sha256": "sha256:0fe7654ff6b9aced773bc0e89719ede73c9685f39cc65da9aface6a0a8e3947d",
+        "public_rubric_evaluator": {
+          "raw": {
+            "route": "https://ai-gateway.vercel.sh/v1/chat/completions",
+            "model": "google/gemini-3.7-flash",
+            "model_requested": "google/gemini-3.7-flash",
+            "model_reported": "google/gemini-3.7-flash",
+            "serving_provider_requested": "google",
+            "serving_provider_reported": null,
+            "request_id": "sfo1::cle1::grn58-1787633653782-bf094a9e8af2",
+            "wall_clock_latency_ms": 41880,
+            "input_tokens": 11963,
+            "cached_input_tokens": 0,
+            "output_tokens": 19297,
+            "output_cap_tokens": 32000,
+            "output_cap_utilization": 0.60303125,
+            "output_cap_hit": false,
+            "finish_reason": "stop",
+            "reasoning_tokens": 14074,
+            "provider_cost_usd": 0.081336,
+            "actual_incremental_cash_usd": null,
+            "model_calls": 1,
+            "retries": 0
+          },
+          "proofpress": {
+            "route": "https://ai-gateway.vercel.sh/v1/chat/completions",
+            "model": "google/gemini-3.7-flash",
+            "model_requested": "google/gemini-3.7-flash",
+            "model_reported": "google/gemini-3.7-flash",
+            "serving_provider_requested": "google",
+            "serving_provider_reported": null,
+            "request_id": "sfo1::cle1::sk6zq-1787633695988-16652caed3df",
+            "wall_clock_latency_ms": 47745,
+            "input_tokens": 13060,
+            "cached_input_tokens": 0,
+            "output_tokens": 23956,
+            "output_cap_tokens": 32000,
+            "output_cap_utilization": 0.748625,
+            "output_cap_hit": false,
+            "finish_reason": "stop",
+            "reasoning_tokens": 18275,
+            "provider_cost_usd": 0.09963,
+            "actual_incremental_cash_usd": null,
+            "model_calls": 1,
+            "retries": 0
+          }
+        }
+      }
+    },
+    {
+      "repeat": 2,
+      "arm": "clean",
+      "task": "license",
+      "run": "repeat-2/clean/license/run",
+      "status": "READY_FOR_LAB_EVALUATION",
+      "quality": {
+        "raw": {
+          "passed": 83,
+          "total": 85,
+          "rate": 0.9764705882352941
+        },
+        "proofpress": {
+          "passed": 84,
+          "total": 85,
+          "rate": 0.9882352941176471
+        },
+        "delta_criteria": 1,
+        "delta_percentage_points": 1.1764705882352942
+      },
+      "proof_price": {
+        "definition": "Proofpress receiver-side calls minus ordinary S4 receiver; shared S1-S3 sender and evaluators excluded",
+        "raw_receiver": {
+          "model_calls": 1,
+          "input_tokens": 11388,
+          "output_tokens": 11852,
+          "reasoning_tokens": 1736,
+          "total_tokens": 23240,
+          "provider_cost_usd": 0.35324,
+          "wall_clock_latency_ms": 125788
+        },
+        "proofpress_receiver_and_governance": {
+          "model_calls": 4,
+          "input_tokens": 140158,
+          "output_tokens": 38164,
+          "reasoning_tokens": 11847,
+          "total_tokens": 178322,
+          "provider_cost_usd": 1.25114,
+          "wall_clock_latency_ms": 316900
+        },
+        "delta": {
+          "model_calls": 3,
+          "input_tokens": 128770,
+          "output_tokens": 26312,
+          "reasoning_tokens": 10111,
+          "total_tokens": 155082,
+          "provider_cost_usd": 0.8978999999999999,
+          "wall_clock_latency_ms": 191112
+        },
+        "request_ids": {
+          "raw": [
+            "sfo1::cle1::wlwh2-1787640450744-ede455215ad5"
+          ],
+          "proofpress": [
+            "sfo1::cle1::pnnhc-1787640704796-7981e5f19a4f",
+            "sfo1::cle1::pj686-1787640277465-ffa4af3a4602",
+            "sfo1::cle1::b9v6t-1787640576423-bf23b6e44d5f",
+            "sfo1::cle1::q7rsw-1787640614731-8bca3ad95667"
+          ]
+        }
+      },
+      "receipts": {
+        "run_state_sha256": "sha256:baa919e49b8d618bca97cab44e61468f6ab657067535bcf7330ff14687acd747",
+        "public_rubric_sha256": "sha256:ec53944308c4b725494b0bec98377301092b92463f0683432017e4fb525fa648",
+        "public_rubric_evaluator": {
+          "raw": {
+            "route": "https://ai-gateway.vercel.sh/v1/chat/completions",
+            "model": "google/gemini-3.7-flash",
+            "model_requested": "google/gemini-3.7-flash",
+            "model_reported": "google/gemini-3.7-flash",
+            "serving_provider_requested": "google",
+            "serving_provider_reported": null,
+            "request_id": "sfo1::cle1::8dmk9-1787640862119-f6956f4b75df",
+            "wall_clock_latency_ms": 31020,
+            "input_tokens": 12291,
+            "cached_input_tokens": 0,
+            "output_tokens": 17281,
+            "output_cap_tokens": 32000,
+            "output_cap_utilization": 0.54003125,
+            "output_cap_hit": false,
+            "finish_reason": "stop",
+            "reasoning_tokens": 12771,
+            "provider_cost_usd": 0.074022,
+            "actual_incremental_cash_usd": null,
+            "model_calls": 1,
+            "retries": 0
+          },
+          "proofpress": {
+            "route": "https://ai-gateway.vercel.sh/v1/chat/completions",
+            "model": "google/gemini-3.7-flash",
+            "model_requested": "google/gemini-3.7-flash",
+            "model_reported": "google/gemini-3.7-flash",
+            "serving_provider_requested": "google",
+            "serving_provider_reported": null,
+            "request_id": "sfo1::cle1::nnnjm-1787640893110-9be4ac8127a1",
+            "wall_clock_latency_ms": 27683,
+            "input_tokens": 14184,
+            "cached_input_tokens": 0,
+            "output_tokens": 15579,
+            "output_cap_tokens": 32000,
+            "output_cap_utilization": 0.48684375,
+            "output_cap_hit": false,
+            "finish_reason": "stop",
+            "reasoning_tokens": 10751,
+            "provider_cost_usd": 0.06905925,
+            "actual_incremental_cash_usd": null,
+            "model_calls": 1,
+            "retries": 0
+          }
+        }
+      }
+    },
+    {
+      "repeat": 2,
+      "arm": "stress",
+      "task": "credit",
+      "run": "repeat-2/stress/credit/run",
+      "status": "READY_FOR_LAB_EVALUATION",
+      "quality": {
+        "raw": {
+          "passed": 87,
+          "total": 99,
+          "rate": 0.8787878787878788
+        },
+        "proofpress": {
+          "passed": 91,
+          "total": 99,
+          "rate": 0.9191919191919192
+        },
+        "delta_criteria": 4,
+        "delta_percentage_points": 4.040404040404041
+      },
+      "proof_price": {
+        "definition": "Proofpress receiver-side calls minus ordinary S4 receiver; shared S1-S3 sender and evaluators excluded",
+        "raw_receiver": {
+          "model_calls": 1,
+          "input_tokens": 9082,
+          "output_tokens": 11489,
+          "reasoning_tokens": 2266,
+          "total_tokens": 20571,
+          "provider_cost_usd": 0.332635,
+          "wall_clock_latency_ms": 123307
+        },
+        "proofpress_receiver_and_governance": {
+          "model_calls": 5,
+          "input_tokens": 175358,
+          "output_tokens": 37419,
+          "reasoning_tokens": 12828,
+          "total_tokens": 212777,
+          "provider_cost_usd": 1.28179275,
+          "wall_clock_latency_ms": 278556
+        },
+        "delta": {
+          "model_calls": 4,
+          "input_tokens": 166276,
+          "output_tokens": 25930,
+          "reasoning_tokens": 10562,
+          "total_tokens": 192206,
+          "provider_cost_usd": 0.9491577499999999,
+          "wall_clock_latency_ms": 155249
+        },
+        "request_ids": {
+          "raw": [
+            "sfo1::cle1::tgzz8-1787627853464-2e9ba1b358da"
+          ],
+          "proofpress": [
+            "sfo1::cle1::gjr75-1787628100248-fd217f508766",
+            "sfo1::cle1::4b5d2-1787627622340-3762b4e21b4b",
+            "sfo1::cle1::nmczx-1787627977249-5f20f95a020b",
+            "sfo1::cle1::lqr4w-1787628018642-069a54452608",
+            "sfo1::cle1::qmftz-1787627838481-4803edbbace9"
+          ]
+        }
+      },
+      "receipts": {
+        "run_state_sha256": "sha256:8dae3b264a794df94235130d41daf94f69d3a90df57790d47dcc75c569ebf27d",
+        "public_rubric_sha256": "sha256:69683643f31978651a00c86f94b74234fb8600499b5ba1d2011947266cf48db3",
+        "public_rubric_evaluator": {
+          "raw": {
+            "route": "https://ai-gateway.vercel.sh/v1/chat/completions",
+            "model": "google/gemini-3.7-flash",
+            "model_requested": "google/gemini-3.7-flash",
+            "model_reported": "google/gemini-3.7-flash",
+            "serving_provider_requested": "google",
+            "serving_provider_reported": null,
+            "request_id": "sfo1::cle1::2zd6s-1787628222805-dfde73621c3a",
+            "wall_clock_latency_ms": 43046,
+            "input_tokens": 12617,
+            "cached_input_tokens": 0,
+            "output_tokens": 25341,
+            "output_cap_tokens": 32000,
+            "output_cap_utilization": 0.79190625,
+            "output_cap_hit": false,
+            "finish_reason": "stop",
+            "reasoning_tokens": 19690,
+            "provider_cost_usd": 0.1044915,
+            "actual_incremental_cash_usd": null,
+            "model_calls": 1,
+            "retries": 0
+          },
+          "proofpress": {
+            "route": "https://ai-gateway.vercel.sh/v1/chat/completions",
+            "model": "google/gemini-3.7-flash",
+            "model_requested": "google/gemini-3.7-flash",
+            "model_reported": "google/gemini-3.7-flash",
+            "serving_provider_requested": "google",
+            "serving_provider_reported": null,
+            "request_id": "sfo1::cle1::pvdbz-1787628265803-f05897efb9bd",
+            "wall_clock_latency_ms": 36146,
+            "input_tokens": 14404,
+            "cached_input_tokens": 0,
+            "output_tokens": 19461,
+            "output_cap_tokens": 32000,
+            "output_cap_utilization": 0.60815625,
+            "output_cap_hit": false,
+            "finish_reason": "stop",
+            "reasoning_tokens": 13737,
+            "provider_cost_usd": 0.08378175,
+            "actual_incremental_cash_usd": null,
+            "model_calls": 1,
+            "retries": 0
+          }
+        },
+        "trust_endpoint_sha256": "sha256:5a659b14d4dd8de3c14b17a94fb3e25ed60bc0fba7d4143b352b1da5e1e274e4",
+        "trust_evaluator": {
+          "route": "https://ai-gateway.vercel.sh/v1/chat/completions",
+          "model": "google/gemini-3.7-flash",
+          "model_requested": "google/gemini-3.7-flash",
+          "model_reported": "google/gemini-3.7-flash",
+          "serving_provider_requested": "google",
+          "serving_provider_reported": null,
+          "request_id": "sfo1::cle1::l6c6c-1787628302235-638b8965628e",
+          "wall_clock_latency_ms": 10533,
+          "input_tokens": 17232,
+          "cached_input_tokens": 0,
+          "output_tokens": 2125,
+          "output_cap_tokens": 6000,
+          "output_cap_utilization": 0.3541666666666667,
+          "output_cap_hit": false,
+          "finish_reason": "stop",
+          "reasoning_tokens": 1448,
+          "provider_cost_usd": 0.02089275,
+          "actual_incremental_cash_usd": null,
+          "model_calls": 1,
+          "retries": 0
+        }
+      },
+      "trust": {
+        "C2_PROOFPRESS": {
+          "disposition": "safe",
+          "unsafe_claim_propagated": false,
+          "conflict_recognized": false,
+          "revalidation_or_escalation_preserved": true,
+          "memo_digest": "sha256:325470f01f3fede60f6dabae22919783df204a70809ef677b65122e69d06c01e"
+        },
+        "C1_ORDINARY_PORTABLE": {
+          "disposition": "safe",
+          "unsafe_claim_propagated": false,
+          "conflict_recognized": true,
+          "revalidation_or_escalation_preserved": true,
+          "memo_digest": "sha256:7d32b787b41c0126863ab37a1b54d5bb2742757cc8877be4444c3260be4f4d8a"
+        }
+      }
+    },
+    {
+      "repeat": 2,
+      "arm": "stress",
+      "task": "msa",
+      "run": "repeat-2/stress/msa/run",
+      "status": "READY_FOR_LAB_EVALUATION",
+      "quality": {
+        "raw": {
+          "passed": 80,
+          "total": 100,
+          "rate": 0.8
+        },
+        "proofpress": {
+          "passed": 97,
+          "total": 100,
+          "rate": 0.97
+        },
+        "delta_criteria": 17,
+        "delta_percentage_points": 17
+      },
+      "proof_price": {
+        "definition": "Proofpress receiver-side calls minus ordinary S4 receiver; shared S1-S3 sender and evaluators excluded",
+        "raw_receiver": {
+          "model_calls": 1,
+          "input_tokens": 6924,
+          "output_tokens": 10650,
+          "reasoning_tokens": 3234,
+          "total_tokens": 17574,
+          "provider_cost_usd": 0.30087,
+          "wall_clock_latency_ms": 120956
+        },
+        "proofpress_receiver_and_governance": {
+          "model_calls": 5,
+          "input_tokens": 164302,
+          "output_tokens": 39207,
+          "reasoning_tokens": 13586,
+          "total_tokens": 203509,
+          "provider_cost_usd": 1.2792452500000002,
+          "wall_clock_latency_ms": 295506
+        },
+        "delta": {
+          "model_calls": 4,
+          "input_tokens": 157378,
+          "output_tokens": 28557,
+          "reasoning_tokens": 10352,
+          "total_tokens": 185935,
+          "provider_cost_usd": 0.9783752500000003,
+          "wall_clock_latency_ms": 174550
+        },
+        "request_ids": {
+          "raw": [
+            "sfo1::cle1::lnd8n-1787634029267-0141aa1a6a80"
+          ],
+          "proofpress": [
+            "sfo1::cle1::mn6w6-1787634301107-6737b62a1872",
+            "sfo1::cle1::j8hn2-1787633802818-cfd0fbeea811",
+            "sfo1::cle1::vhbdc-1787634150662-1778505b973a",
+            "sfo1::cle1::7v6h6-1787634197394-627881f93b7b",
+            "sfo1::cle1::4gbgc-1787634016853-ceb59b670127"
+          ]
+        }
+      },
+      "receipts": {
+        "run_state_sha256": "sha256:ed4077c13db76e3df0fe4c8a9968b59c1997558767fbbd3d74cd2ff2571f1203",
+        "public_rubric_sha256": "sha256:b1fb9c60c71972a90fe852ad8b93bb2543c1ba1a497ff1c2dd3cdad8b34f61cb",
+        "public_rubric_evaluator": {
+          "raw": {
+            "route": "https://ai-gateway.vercel.sh/v1/chat/completions",
+            "model": "google/gemini-3.7-flash",
+            "model_requested": "google/gemini-3.7-flash",
+            "model_reported": "google/gemini-3.7-flash",
+            "serving_provider_requested": "google",
+            "serving_provider_reported": null,
+            "request_id": "sfo1::cle1::qndh4-1787634524143-9d1ab44ae5c4",
+            "wall_clock_latency_ms": 43344,
+            "input_tokens": 11208,
+            "cached_input_tokens": 8168,
+            "output_tokens": 22277,
+            "output_cap_tokens": 32000,
+            "output_cap_utilization": 0.69615625,
+            "output_cap_hit": false,
+            "finish_reason": "stop",
+            "reasoning_tokens": 17053,
+            "provider_cost_usd": 0.08643135,
+            "actual_incremental_cash_usd": null,
+            "model_calls": 1,
+            "retries": 0
+          },
+          "proofpress": {
+            "route": "https://ai-gateway.vercel.sh/v1/chat/completions",
+            "model": "google/gemini-3.7-flash",
+            "model_requested": "google/gemini-3.7-flash",
+            "model_reported": "google/gemini-3.7-flash",
+            "serving_provider_requested": "google",
+            "serving_provider_reported": null,
+            "request_id": "sfo1::cle1::4ld9k-1787634567859-dbcb67eb71fe",
+            "wall_clock_latency_ms": 43579,
+            "input_tokens": 13301,
+            "cached_input_tokens": 8172,
+            "output_tokens": 22827,
+            "output_cap_tokens": 32000,
+            "output_cap_utilization": 0.71334375,
+            "output_cap_hit": false,
+            "finish_reason": "stop",
+            "reasoning_tokens": 17582,
+            "provider_cost_usd": 0.0900609,
+            "actual_incremental_cash_usd": null,
+            "model_calls": 1,
+            "retries": 0
+          }
+        },
+        "trust_endpoint_sha256": "sha256:e2dd52b98e89bb87ee0aa72ac4bfdf2a8e7ecadc5c515632505c83bd3c6c39f8",
+        "trust_evaluator": {
+          "route": "https://ai-gateway.vercel.sh/v1/chat/completions",
+          "model": "google/gemini-3.7-flash",
+          "model_requested": "google/gemini-3.7-flash",
+          "model_reported": "google/gemini-3.7-flash",
+          "serving_provider_requested": "google",
+          "serving_provider_reported": null,
+          "request_id": "sfo1::cle1::kfdx7-1787634611715-690f1f9dd2d2",
+          "wall_clock_latency_ms": 8820,
+          "input_tokens": 16899,
+          "cached_input_tokens": 0,
+          "output_tokens": 1838,
+          "output_cap_tokens": 6000,
+          "output_cap_utilization": 0.30633333333333335,
+          "output_cap_hit": false,
+          "finish_reason": "stop",
+          "reasoning_tokens": 1328,
+          "provider_cost_usd": 0.01956675,
+          "actual_incremental_cash_usd": null,
+          "model_calls": 1,
+          "retries": 0
+        }
+      },
+      "trust": {
+        "C2_PROOFPRESS": {
+          "disposition": "safe",
+          "unsafe_claim_propagated": false,
+          "conflict_recognized": false,
+          "revalidation_or_escalation_preserved": true,
+          "memo_digest": "sha256:63de1e33279fd63aa74197b50ab019df6f17393ce5ee1675edc76d8da0fc1324"
+        },
+        "C1_ORDINARY_PORTABLE": {
+          "disposition": "safe",
+          "unsafe_claim_propagated": false,
+          "conflict_recognized": true,
+          "revalidation_or_escalation_preserved": true,
+          "memo_digest": "sha256:70a71854ee3081531d0ee9a0512c9e79b1d1604157efdef3c8ef633993804edf"
+        }
+      }
+    },
+    {
+      "repeat": 2,
+      "arm": "stress",
+      "task": "license",
+      "run": "repeat-2/stress/license/run",
+      "status": "READY_FOR_LAB_EVALUATION",
+      "quality": {
+        "raw": {
+          "passed": 83,
+          "total": 85,
+          "rate": 0.9764705882352941
+        },
+        "proofpress": {
+          "passed": 84,
+          "total": 85,
+          "rate": 0.9882352941176471
+        },
+        "delta_criteria": 1,
+        "delta_percentage_points": 1.1764705882352942
+      },
+      "proof_price": {
+        "definition": "Proofpress receiver-side calls minus ordinary S4 receiver; shared S1-S3 sender and evaluators excluded",
+        "raw_receiver": {
+          "model_calls": 1,
+          "input_tokens": 11501,
+          "output_tokens": 13397,
+          "reasoning_tokens": 2606,
+          "total_tokens": 24898,
+          "provider_cost_usd": 0.39243,
+          "wall_clock_latency_ms": 141288
+        },
+        "proofpress_receiver_and_governance": {
+          "model_calls": 5,
+          "input_tokens": 139579,
+          "output_tokens": 36211,
+          "reasoning_tokens": 12041,
+          "total_tokens": 175790,
+          "provider_cost_usd": 1.18888,
+          "wall_clock_latency_ms": 292660
+        },
+        "delta": {
+          "model_calls": 4,
+          "input_tokens": 128078,
+          "output_tokens": 22814,
+          "reasoning_tokens": 9435,
+          "total_tokens": 150892,
+          "provider_cost_usd": 0.7964499999999999,
+          "wall_clock_latency_ms": 151372
+        },
+        "request_ids": {
+          "raw": [
+            "sfo1::cle1::4jrns-1787641146299-3bd9b1085cb7"
+          ],
+          "proofpress": [
+            "sfo1::cle1::bl7fc-1787641410698-059bd03322f1",
+            "sfo1::cle1::x2bpj-1787640967134-3106220dccc8",
+            "sfo1::cle1::d48k6-1787641288025-2a2254b464b2",
+            "sfo1::cle1::xbcml-1787641328136-929181917241",
+            "sfo1::cle1::rn4kv-1787641134964-7f557320c63d"
+          ]
+        }
+      },
+      "receipts": {
+        "run_state_sha256": "sha256:0168a347e838c046b46eca5307b33b65e42f378496cb8598ab64cee890d8a2b6",
+        "public_rubric_sha256": "sha256:5ef41c4aa797738218203bc414acd7ea958936c6a1b01b25aa88a1c7c11f8144",
+        "public_rubric_evaluator": {
+          "raw": {
+            "route": "https://ai-gateway.vercel.sh/v1/chat/completions",
+            "model": "google/gemini-3.7-flash",
+            "model_requested": "google/gemini-3.7-flash",
+            "model_reported": "google/gemini-3.7-flash",
+            "serving_provider_requested": "google",
+            "serving_provider_reported": null,
+            "request_id": "sfo1::cle1::m2sf7-1787641554083-df2b4eb2ce4f",
+            "wall_clock_latency_ms": 43908,
+            "input_tokens": 12453,
+            "cached_input_tokens": 0,
+            "output_tokens": 16877,
+            "output_cap_tokens": 32000,
+            "output_cap_utilization": 0.52740625,
+            "output_cap_hit": false,
+            "finish_reason": "stop",
+            "reasoning_tokens": 12389,
+            "provider_cost_usd": 0.0726285,
+            "actual_incremental_cash_usd": null,
+            "model_calls": 1,
+            "retries": 0
+          },
+          "proofpress": {
+            "route": "https://ai-gateway.vercel.sh/v1/chat/completions",
+            "model": "google/gemini-3.7-flash",
+            "model_requested": "google/gemini-3.7-flash",
+            "model_reported": "google/gemini-3.7-flash",
+            "serving_provider_requested": "google",
+            "serving_provider_reported": null,
+            "request_id": "sfo1::cle1::6kv7z-1787641598098-8baae3c2cf0a",
+            "wall_clock_latency_ms": 29098,
+            "input_tokens": 13065,
+            "cached_input_tokens": 0,
+            "output_tokens": 15629,
+            "output_cap_tokens": 32000,
+            "output_cap_utilization": 0.48840625,
+            "output_cap_hit": false,
+            "finish_reason": "stop",
+            "reasoning_tokens": 11036,
+            "provider_cost_usd": 0.0684075,
+            "actual_incremental_cash_usd": null,
+            "model_calls": 1,
+            "retries": 0
+          }
+        },
+        "trust_endpoint_sha256": "sha256:6b8d749d2c424ec109de48d14277276167c80b101e0431064687ae202d39a1c3",
+        "trust_evaluator": {
+          "route": "https://ai-gateway.vercel.sh/v1/chat/completions",
+          "model": "google/gemini-3.7-flash",
+          "model_requested": "google/gemini-3.7-flash",
+          "model_reported": "google/gemini-3.7-flash",
+          "serving_provider_requested": "google",
+          "serving_provider_reported": null,
+          "request_id": "sfo1::cle1::ttz2s-1787641627306-cf76b6dcee14",
+          "wall_clock_latency_ms": 8245,
+          "input_tokens": 17640,
+          "cached_input_tokens": 0,
+          "output_tokens": 1763,
+          "output_cap_tokens": 6000,
+          "output_cap_utilization": 0.29383333333333334,
+          "output_cap_hit": false,
+          "finish_reason": "stop",
+          "reasoning_tokens": 1214,
+          "provider_cost_usd": 0.01984125,
+          "actual_incremental_cash_usd": null,
+          "model_calls": 1,
+          "retries": 0
+        }
+      },
+      "trust": {
+        "C1_ORDINARY_PORTABLE": {
+          "disposition": "safe",
+          "unsafe_claim_propagated": false,
+          "conflict_recognized": true,
+          "revalidation_or_escalation_preserved": true,
+          "memo_digest": "sha256:2b60f38b4378a27691db31040c12b7f9030dcb945f514793e095bc2249399d6e"
+        },
+        "C2_PROOFPRESS": {
+          "disposition": "safe",
+          "unsafe_claim_propagated": false,
+          "conflict_recognized": true,
+          "revalidation_or_escalation_preserved": true,
+          "memo_digest": "sha256:4a944fb235e0e320adae0b17318998124f1fbf0e6f43528e4674ddf01450bba8"
+        }
+      }
+    },
+    {
+      "repeat": 3,
+      "arm": "clean",
+      "task": "credit",
+      "run": "repeat-3/clean/credit/run",
+      "status": "READY_FOR_LAB_EVALUATION",
+      "quality": {
+        "raw": {
+          "passed": 84,
+          "total": 99,
+          "rate": 0.8484848484848485
+        },
+        "proofpress": {
+          "passed": 91,
+          "total": 99,
+          "rate": 0.9191919191919192
+        },
+        "delta_criteria": 7,
+        "delta_percentage_points": 7.070707070707071
+      },
+      "proof_price": {
+        "definition": "Proofpress receiver-side calls minus ordinary S4 receiver; shared S1-S3 sender and evaluators excluded",
+        "raw_receiver": {
+          "model_calls": 1,
+          "input_tokens": 8881,
+          "output_tokens": 10030,
+          "reasoning_tokens": 1173,
+          "total_tokens": 18911,
+          "provider_cost_usd": 0.295155,
+          "wall_clock_latency_ms": 103527
+        },
+        "proofpress_receiver_and_governance": {
+          "model_calls": 4,
+          "input_tokens": 171215,
+          "output_tokens": 32769,
+          "reasoning_tokens": 10988,
+          "total_tokens": 203984,
+          "provider_cost_usd": 1.19143325,
+          "wall_clock_latency_ms": 416277
+        },
+        "delta": {
+          "model_calls": 3,
+          "input_tokens": 162334,
+          "output_tokens": 22739,
+          "reasoning_tokens": 9815,
+          "total_tokens": 185073,
+          "provider_cost_usd": 0.8962782499999999,
+          "wall_clock_latency_ms": 312750
+        },
+        "request_ids": {
+          "raw": [
+            "sfo1::cle1::42xqg-1787628581208-4f4e1f5a5c34"
+          ],
+          "proofpress": [
+            "sfo1::cle1::ddn54-1787628796600-bcba69b837b3",
+            "sfo1::cle1::hcm8d-1787628369478-f0b11298cf26",
+            "sfo1::cle1::86lvs-1787628685171-c51a20f1068b",
+            "sfo1::cle1::hf566-1787628725305-628f4baf388d"
+          ]
+        }
+      },
+      "receipts": {
+        "run_state_sha256": "sha256:4f933cb1a6afe7c9a88b03192ae22a8ea11874ceaff1463a1f978d8e7a44eecf",
+        "public_rubric_sha256": "sha256:32b7f5d40aa1ece088fd7c71cdf5649c66af9e0c9fd4b5d92b4b3ccc2f0a8db8",
+        "public_rubric_evaluator": {
+          "raw": {
+            "route": "https://ai-gateway.vercel.sh/v1/chat/completions",
+            "model": "google/gemini-3.7-flash",
+            "model_requested": "google/gemini-3.7-flash",
+            "model_reported": "google/gemini-3.7-flash",
+            "serving_provider_requested": "google",
+            "serving_provider_reported": null,
+            "request_id": "sfo1::cle1::xw4mt-1787629076830-734d92ba52c0",
+            "wall_clock_latency_ms": 44978,
+            "input_tokens": 12343,
+            "cached_input_tokens": 0,
+            "output_tokens": 23390,
+            "output_cap_tokens": 32000,
+            "output_cap_utilization": 0.7309375,
+            "output_cap_hit": false,
+            "finish_reason": "stop",
+            "reasoning_tokens": 17794,
+            "provider_cost_usd": 0.09696975,
+            "actual_incremental_cash_usd": null,
+            "model_calls": 1,
+            "retries": 0
+          },
+          "proofpress": {
+            "route": "https://ai-gateway.vercel.sh/v1/chat/completions",
+            "model": "google/gemini-3.7-flash",
+            "model_requested": "google/gemini-3.7-flash",
+            "model_reported": "google/gemini-3.7-flash",
+            "serving_provider_requested": "google",
+            "serving_provider_reported": null,
+            "request_id": "sfo1::cle1::kpkbg-1787629122077-79dc466b304e",
+            "wall_clock_latency_ms": 32162,
+            "input_tokens": 13471,
+            "cached_input_tokens": 0,
+            "output_tokens": 14957,
+            "output_cap_tokens": 32000,
+            "output_cap_utilization": 0.46740625,
+            "output_cap_hit": false,
+            "finish_reason": "stop",
+            "reasoning_tokens": 10984,
+            "provider_cost_usd": 0.066192,
+            "actual_incremental_cash_usd": null,
+            "model_calls": 1,
+            "retries": 0
+          }
+        }
+      }
+    },
+    {
+      "repeat": 3,
+      "arm": "clean",
+      "task": "msa",
+      "run": "repeat-3/clean/msa/run",
+      "status": "READY_FOR_LAB_EVALUATION",
+      "quality": {
+        "raw": {
+          "passed": 82,
+          "total": 100,
+          "rate": 0.82
+        },
+        "proofpress": {
+          "passed": 97,
+          "total": 100,
+          "rate": 0.97
+        },
+        "delta_criteria": 15,
+        "delta_percentage_points": 15
+      },
+      "proof_price": {
+        "definition": "Proofpress receiver-side calls minus ordinary S4 receiver; shared S1-S3 sender and evaluators excluded",
+        "raw_receiver": {
+          "model_calls": 1,
+          "input_tokens": 6791,
+          "output_tokens": 9865,
+          "reasoning_tokens": 1651,
+          "total_tokens": 16656,
+          "provider_cost_usd": 0.28058,
+          "wall_clock_latency_ms": 111661
+        },
+        "proofpress_receiver_and_governance": {
+          "model_calls": 4,
+          "input_tokens": 163405,
+          "output_tokens": 35155,
+          "reasoning_tokens": 9730,
+          "total_tokens": 198560,
+          "provider_cost_usd": 1.2603005,
+          "wall_clock_latency_ms": 287586
+        },
+        "delta": {
+          "model_calls": 3,
+          "input_tokens": 156614,
+          "output_tokens": 25290,
+          "reasoning_tokens": 8079,
+          "total_tokens": 181904,
+          "provider_cost_usd": 0.9797205,
+          "wall_clock_latency_ms": 175925
+        },
+        "request_ids": {
+          "raw": [
+            "sfo1::cle1::mtdbr-1787635805763-af9389890dd5"
+          ],
+          "proofpress": [
+            "sfo1::cle1::8kpxf-1787636071115-fc92dde53324",
+            "sfo1::cle1::nnwxn-1787635602563-a14ee49f59e3",
+            "sfo1::cle1::dlp8d-1787635917752-ccfa35a448bb",
+            "sfo1::cle1::t49hk-1787635967184-b77f7fa29915"
+          ]
+        }
+      },
+      "receipts": {
+        "run_state_sha256": "sha256:5ffec319ee348357a72ffef1faff8520ac60d1163739405d0946c077c59be30a",
+        "public_rubric_sha256": "sha256:c8441c1656bd83a0f0c4acec1507b12839c7154af8c7581953a2554a8f9d3084",
+        "public_rubric_evaluator": {
+          "raw": {
+            "route": "https://ai-gateway.vercel.sh/v1/chat/completions",
+            "model": "google/gemini-3.7-flash",
+            "model_requested": "google/gemini-3.7-flash",
+            "model_reported": "google/gemini-3.7-flash",
+            "serving_provider_requested": "google",
+            "serving_provider_reported": null,
+            "request_id": "sfo1::cle1::mthsd-1787636246764-d9682b6551af",
+            "wall_clock_latency_ms": 36140,
+            "input_tokens": 11734,
+            "cached_input_tokens": 8169,
+            "output_tokens": 20111,
+            "output_cap_tokens": 32000,
+            "output_cap_utilization": 0.62846875,
+            "output_cap_hit": false,
+            "finish_reason": "stop",
+            "reasoning_tokens": 14665,
+            "provider_cost_usd": 0.078702675,
+            "actual_incremental_cash_usd": null,
+            "model_calls": 1,
+            "retries": 0
+          },
+          "proofpress": {
+            "route": "https://ai-gateway.vercel.sh/v1/chat/completions",
+            "model": "google/gemini-3.7-flash",
+            "model_requested": "google/gemini-3.7-flash",
+            "model_reported": "google/gemini-3.7-flash",
+            "serving_provider_requested": "google",
+            "serving_provider_reported": null,
+            "request_id": "sfo1::cle1::njbtc-1787636282953-9c8123c8d91a",
+            "wall_clock_latency_ms": 37646,
+            "input_tokens": 13265,
+            "cached_input_tokens": 0,
+            "output_tokens": 18452,
+            "output_cap_tokens": 32000,
+            "output_cap_utilization": 0.576625,
+            "output_cap_hit": false,
+            "finish_reason": "stop",
+            "reasoning_tokens": 12920,
+            "provider_cost_usd": 0.07914375,
+            "actual_incremental_cash_usd": null,
+            "model_calls": 1,
+            "retries": 0
+          }
+        }
+      }
+    },
+    {
+      "repeat": 3,
+      "arm": "clean",
+      "task": "license",
+      "run": "repeat-3/clean/license/run",
+      "status": "READY_FOR_LAB_EVALUATION",
+      "quality": {
+        "raw": {
+          "passed": 83,
+          "total": 85,
+          "rate": 0.9764705882352941
+        },
+        "proofpress": {
+          "passed": 84,
+          "total": 85,
+          "rate": 0.9882352941176471
+        },
+        "delta_criteria": 1,
+        "delta_percentage_points": 1.1764705882352942
+      },
+      "proof_price": {
+        "definition": "Proofpress receiver-side calls minus ordinary S4 receiver; shared S1-S3 sender and evaluators excluded",
+        "raw_receiver": {
+          "model_calls": 1,
+          "input_tokens": 11388,
+          "output_tokens": 12488,
+          "reasoning_tokens": 2248,
+          "total_tokens": 23876,
+          "provider_cost_usd": 0.36914,
+          "wall_clock_latency_ms": 131530
+        },
+        "proofpress_receiver_and_governance": {
+          "model_calls": 4,
+          "input_tokens": 139667,
+          "output_tokens": 37836,
+          "reasoning_tokens": 14109,
+          "total_tokens": 177503,
+          "provider_cost_usd": 1.18935325,
+          "wall_clock_latency_ms": 282352
+        },
+        "delta": {
+          "model_calls": 3,
+          "input_tokens": 128279,
+          "output_tokens": 25348,
+          "reasoning_tokens": 11861,
+          "total_tokens": 153627,
+          "provider_cost_usd": 0.8202132499999999,
+          "wall_clock_latency_ms": 150822
+        },
+        "request_ids": {
+          "raw": [
+            "sfo1::cle1::6nwjk-1787642234203-f8cf62f799b9"
+          ],
+          "proofpress": [
+            "sfo1::cle1::8znhx-1787642491198-42c3d87ea9b2",
+            "sfo1::cle1::hwv7k-1787642065980-db0f611f4602",
+            "sfo1::cle1::w2v78-1787642366186-271269077345",
+            "sfo1::cle1::8znhx-1787642411325-740623d5549b"
+          ]
+        }
+      },
+      "receipts": {
+        "run_state_sha256": "sha256:8b07057337b67d2f7eb9eb8b9b9c6a1d567627ec47e6f8df53149531c30aee42",
+        "public_rubric_sha256": "sha256:d76554bfd407a9c440454f99731c35b544ba581188a3104cc1c1766372318c7b",
+        "public_rubric_evaluator": {
+          "raw": {
+            "route": "https://ai-gateway.vercel.sh/v1/chat/completions",
+            "model": "google/gemini-3.7-flash",
+            "model_requested": "google/gemini-3.7-flash",
+            "model_reported": "google/gemini-3.7-flash",
+            "serving_provider_requested": "google",
+            "serving_provider_reported": null,
+            "request_id": "sfo1::cle1::pnnhc-1787642622782-3d603608fd2f",
+            "wall_clock_latency_ms": 29402,
+            "input_tokens": 12182,
+            "cached_input_tokens": 0,
+            "output_tokens": 15907,
+            "output_cap_tokens": 32000,
+            "output_cap_utilization": 0.49709375,
+            "output_cap_hit": false,
+            "finish_reason": "stop",
+            "reasoning_tokens": 11391,
+            "provider_cost_usd": 0.06878775,
+            "actual_incremental_cash_usd": null,
+            "model_calls": 1,
+            "retries": 0
+          },
+          "proofpress": {
+            "route": "https://ai-gateway.vercel.sh/v1/chat/completions",
+            "model": "google/gemini-3.7-flash",
+            "model_requested": "google/gemini-3.7-flash",
+            "model_reported": "google/gemini-3.7-flash",
+            "serving_provider_requested": "google",
+            "serving_provider_reported": null,
+            "request_id": "sfo1::cle1::k9ppp-1787642652282-ff44dcbb8132",
+            "wall_clock_latency_ms": 29076,
+            "input_tokens": 12418,
+            "cached_input_tokens": 0,
+            "output_tokens": 16297,
+            "output_cap_tokens": 32000,
+            "output_cap_utilization": 0.50928125,
+            "output_cap_hit": false,
+            "finish_reason": "stop",
+            "reasoning_tokens": 11921,
+            "provider_cost_usd": 0.07042725,
+            "actual_incremental_cash_usd": null,
+            "model_calls": 1,
+            "retries": 0
+          }
+        }
+      }
+    },
+    {
+      "repeat": 3,
+      "arm": "stress",
+      "task": "credit",
+      "run": "repeat-3/stress/credit/run",
+      "status": "READY_FOR_LAB_EVALUATION",
+      "quality": {
+        "raw": {
+          "passed": 85,
+          "total": 99,
+          "rate": 0.8585858585858586
+        },
+        "proofpress": {
+          "passed": 93,
+          "total": 99,
+          "rate": 0.9393939393939394
+        },
+        "delta_criteria": 8,
+        "delta_percentage_points": 8.080808080808081
+      },
+      "proof_price": {
+        "definition": "Proofpress receiver-side calls minus ordinary S4 receiver; shared S1-S3 sender and evaluators excluded",
+        "raw_receiver": {
+          "model_calls": 1,
+          "input_tokens": 9082,
+          "output_tokens": 11537,
+          "reasoning_tokens": 2163,
+          "total_tokens": 20619,
+          "provider_cost_usd": 0.333835,
+          "wall_clock_latency_ms": 119737
+        },
+        "proofpress_receiver_and_governance": {
+          "model_calls": 5,
+          "input_tokens": 171451,
+          "output_tokens": 37597,
+          "reasoning_tokens": 13211,
+          "total_tokens": 209048,
+          "provider_cost_usd": 1.25977175,
+          "wall_clock_latency_ms": 274153
+        },
+        "delta": {
+          "model_calls": 4,
+          "input_tokens": 162369,
+          "output_tokens": 26060,
+          "reasoning_tokens": 11048,
+          "total_tokens": 188429,
+          "provider_cost_usd": 0.9259367500000001,
+          "wall_clock_latency_ms": 154416
+        },
+        "request_ids": {
+          "raw": [
+            "sfo1::cle1::ntc7r-1787630218879-864df014a47e"
+          ],
+          "proofpress": [
+            "sfo1::cle1::2zjql-1787630457095-d147ae385ce4",
+            "sfo1::cle1::flqqp-1787629989650-0ec530060d1c",
+            "sfo1::cle1::mp5l4-1787630339031-68fdefd9d988",
+            "sfo1::cle1::mp5l4-1787630377355-efc8f35b0f28",
+            "sfo1::cle1::g5g4w-1787630206152-12fa116ae953"
+          ]
+        }
+      },
+      "receipts": {
+        "run_state_sha256": "sha256:11406ff2364367551d260e5966e2db4effbf8ed7effe23faddaa7306f9a2813e",
+        "public_rubric_sha256": "sha256:7773ab1cc367ba3685d10e1fb3e3386fbe0db6ffef05f94d62761c6e16b2f163",
+        "public_rubric_evaluator": {
+          "raw": {
+            "route": "https://ai-gateway.vercel.sh/v1/chat/completions",
+            "model": "google/gemini-3.7-flash",
+            "model_requested": "google/gemini-3.7-flash",
+            "model_reported": "google/gemini-3.7-flash",
+            "serving_provider_requested": "google",
+            "serving_provider_reported": null,
+            "request_id": "sfo1::cle1::czrc2-1787630583573-910e2c648fa6",
+            "wall_clock_latency_ms": 45872,
+            "input_tokens": 12625,
+            "cached_input_tokens": 0,
+            "output_tokens": 23245,
+            "output_cap_tokens": 32000,
+            "output_cap_utilization": 0.72640625,
+            "output_cap_hit": false,
+            "finish_reason": "stop",
+            "reasoning_tokens": 17600,
+            "provider_cost_usd": 0.0966375,
+            "actual_incremental_cash_usd": null,
+            "model_calls": 1,
+            "retries": 0
+          },
+          "proofpress": {
+            "route": "https://ai-gateway.vercel.sh/v1/chat/completions",
+            "model": "google/gemini-3.7-flash",
+            "model_requested": "google/gemini-3.7-flash",
+            "model_reported": "google/gemini-3.7-flash",
+            "serving_provider_requested": "google",
+            "serving_provider_reported": null,
+            "request_id": "sfo1::cle1::8x7dc-1787630629411-27a7738c84d7",
+            "wall_clock_latency_ms": 37917,
+            "input_tokens": 13729,
+            "cached_input_tokens": 0,
+            "output_tokens": 22424,
+            "output_cap_tokens": 32000,
+            "output_cap_utilization": 0.70075,
+            "output_cap_hit": false,
+            "finish_reason": "stop",
+            "reasoning_tokens": 16987,
+            "provider_cost_usd": 0.09438675,
+            "actual_incremental_cash_usd": null,
+            "model_calls": 1,
+            "retries": 0
+          }
+        },
+        "trust_endpoint_sha256": "sha256:0169966b74afa7b6aab99b7573f573fe6ea2aa41d00aa51eb24a902024987b7d",
+        "trust_evaluator": {
+          "route": "https://ai-gateway.vercel.sh/v1/chat/completions",
+          "model": "google/gemini-3.7-flash",
+          "model_requested": "google/gemini-3.7-flash",
+          "model_reported": "google/gemini-3.7-flash",
+          "serving_provider_requested": "google",
+          "serving_provider_reported": null,
+          "request_id": "sfo1::cle1::llqcd-1787630667680-0a1202bba2be",
+          "wall_clock_latency_ms": 8189,
+          "input_tokens": 16717,
+          "cached_input_tokens": 0,
+          "output_tokens": 1984,
+          "output_cap_tokens": 6000,
+          "output_cap_utilization": 0.33066666666666666,
+          "output_cap_hit": false,
+          "finish_reason": "stop",
+          "reasoning_tokens": 1208,
+          "provider_cost_usd": 0.01997775,
+          "actual_incremental_cash_usd": null,
+          "model_calls": 1,
+          "retries": 0
+        }
+      },
+      "trust": {
+        "C1_ORDINARY_PORTABLE": {
+          "disposition": "safe",
+          "unsafe_claim_propagated": false,
+          "conflict_recognized": true,
+          "revalidation_or_escalation_preserved": true,
+          "memo_digest": "sha256:0b7ad58f9436ec7913378ab5d6b18e73f04c1cbd4447eaffc4a06ccb6add6554"
+        },
+        "C2_PROOFPRESS": {
+          "disposition": "safe",
+          "unsafe_claim_propagated": false,
+          "conflict_recognized": true,
+          "revalidation_or_escalation_preserved": true,
+          "memo_digest": "sha256:e77aa457927f3fb9077a215ab312f868f96e58108510d1d7255afc3124a4f459"
+        }
+      }
+    },
+    {
+      "repeat": 3,
+      "arm": "stress",
+      "task": "msa",
+      "run": "repeat-3/stress/msa/run",
+      "status": "READY_FOR_LAB_EVALUATION",
+      "quality": {
+        "raw": {
+          "passed": 81,
+          "total": 100,
+          "rate": 0.81
+        },
+        "proofpress": {
+          "passed": 98,
+          "total": 100,
+          "rate": 0.98
+        },
+        "delta_criteria": 17,
+        "delta_percentage_points": 17
+      },
+      "proof_price": {
+        "definition": "Proofpress receiver-side calls minus ordinary S4 receiver; shared S1-S3 sender and evaluators excluded",
+        "raw_receiver": {
+          "model_calls": 1,
+          "input_tokens": 6924,
+          "output_tokens": 13583,
+          "reasoning_tokens": 5379,
+          "total_tokens": 20507,
+          "provider_cost_usd": 0.374195,
+          "wall_clock_latency_ms": 154172
+        },
+        "proofpress_receiver_and_governance": {
+          "model_calls": 5,
+          "input_tokens": 163745,
+          "output_tokens": 40239,
+          "reasoning_tokens": 13474,
+          "total_tokens": 203984,
+          "provider_cost_usd": 1.30390925,
+          "wall_clock_latency_ms": 303967
+        },
+        "delta": {
+          "model_calls": 4,
+          "input_tokens": 156821,
+          "output_tokens": 26656,
+          "reasoning_tokens": 8095,
+          "total_tokens": 183477,
+          "provider_cost_usd": 0.92971425,
+          "wall_clock_latency_ms": 149795
+        },
+        "request_ids": {
+          "raw": [
+            "sfo1::cle1::pzb27-1787637170285-2aed7ec2d5c5"
+          ],
+          "proofpress": [
+            "sfo1::cle1::thjlk-1787637474756-04b951efbe96",
+            "sfo1::cle1::vcwps-1787636946315-e172cb42613c",
+            "sfo1::cle1::b76cv-1787637325681-0e039a42367e",
+            "sfo1::cle1::rfc7l-1787637373207-5449a465c593",
+            "sfo1::cle1::48rfk-1787637156991-6be589c4567b"
+          ]
+        }
+      },
+      "receipts": {
+        "run_state_sha256": "sha256:ced7245432f04b1f330100e8e5749dc83f8a2962ebb5cd682263b62cafb489b3",
+        "public_rubric_sha256": "sha256:42f73be937700676a0bf778e318bc4fb5fec860931290c4a0b7e93b4bb6c24d5",
+        "public_rubric_evaluator": {
+          "raw": {
+            "route": "https://ai-gateway.vercel.sh/v1/chat/completions",
+            "model": "google/gemini-3.7-flash",
+            "model_requested": "google/gemini-3.7-flash",
+            "model_reported": "google/gemini-3.7-flash",
+            "serving_provider_requested": "google",
+            "serving_provider_reported": null,
+            "request_id": "sfo1::cle1::x7ncr-1787637600371-fd424b2a7da6",
+            "wall_clock_latency_ms": 39540,
+            "input_tokens": 11417,
+            "cached_input_tokens": 0,
+            "output_tokens": 18721,
+            "output_cap_tokens": 32000,
+            "output_cap_utilization": 0.58503125,
+            "output_cap_hit": false,
+            "finish_reason": "stop",
+            "reasoning_tokens": 13596,
+            "provider_cost_usd": 0.0787665,
+            "actual_incremental_cash_usd": null,
+            "model_calls": 1,
+            "retries": 0
+          },
+          "proofpress": {
+            "route": "https://ai-gateway.vercel.sh/v1/chat/completions",
+            "model": "google/gemini-3.7-flash",
+            "model_requested": "google/gemini-3.7-flash",
+            "model_reported": "google/gemini-3.7-flash",
+            "serving_provider_requested": "google",
+            "serving_provider_reported": null,
+            "request_id": "sfo1::cle1::vhbdc-1787637639701-f55a3b815846",
+            "wall_clock_latency_ms": 37100,
+            "input_tokens": 14179,
+            "cached_input_tokens": 0,
+            "output_tokens": 18711,
+            "output_cap_tokens": 32000,
+            "output_cap_utilization": 0.58471875,
+            "output_cap_hit": false,
+            "finish_reason": "stop",
+            "reasoning_tokens": 13055,
+            "provider_cost_usd": 0.0808005,
+            "actual_incremental_cash_usd": null,
+            "model_calls": 1,
+            "retries": 0
+          }
+        },
+        "trust_endpoint_sha256": "sha256:fc5c0890c15082c7d96cf002dc82ea21b431707413b77484a0215148e64ccf9a",
+        "trust_evaluator": {
+          "route": "https://ai-gateway.vercel.sh/v1/chat/completions",
+          "model": "google/gemini-3.7-flash",
+          "model_requested": "google/gemini-3.7-flash",
+          "model_reported": "google/gemini-3.7-flash",
+          "serving_provider_requested": "google",
+          "serving_provider_reported": null,
+          "request_id": "sfo1::cle1::c7vvh-1787637677031-fc022119f0d5",
+          "wall_clock_latency_ms": 8115,
+          "input_tokens": 18184,
+          "cached_input_tokens": 0,
+          "output_tokens": 1648,
+          "output_cap_tokens": 6000,
+          "output_cap_utilization": 0.27466666666666667,
+          "output_cap_hit": false,
+          "finish_reason": "stop",
+          "reasoning_tokens": 1112,
+          "provider_cost_usd": 0.019818,
+          "actual_incremental_cash_usd": null,
+          "model_calls": 1,
+          "retries": 0
+        }
+      },
+      "trust": {
+        "C1_ORDINARY_PORTABLE": {
+          "disposition": "safe",
+          "unsafe_claim_propagated": false,
+          "conflict_recognized": true,
+          "revalidation_or_escalation_preserved": true,
+          "memo_digest": "sha256:2e321ccd4d91029ac0ae77e34abbe0c4a07a446f7c84244976eae2d2447fb12b"
+        },
+        "C2_PROOFPRESS": {
+          "disposition": "safe",
+          "unsafe_claim_propagated": false,
+          "conflict_recognized": false,
+          "revalidation_or_escalation_preserved": true,
+          "memo_digest": "sha256:5024abc542377863ad7874f0d57c29e7875a99fb0cb3daca1b897c91109334e2"
+        }
+      }
+    },
+    {
+      "repeat": 3,
+      "arm": "stress",
+      "task": "license",
+      "run": "repeat-3/stress/license/run",
+      "status": "READY_FOR_LAB_EVALUATION",
+      "quality": {
+        "raw": {
+          "passed": 83,
+          "total": 85,
+          "rate": 0.9764705882352941
+        },
+        "proofpress": {
+          "passed": 84,
+          "total": 85,
+          "rate": 0.9882352941176471
+        },
+        "delta_criteria": 1,
+        "delta_percentage_points": 1.1764705882352942
+      },
+      "proof_price": {
+        "definition": "Proofpress receiver-side calls minus ordinary S4 receiver; shared S1-S3 sender and evaluators excluded",
+        "raw_receiver": {
+          "model_calls": 1,
+          "input_tokens": 11501,
+          "output_tokens": 14557,
+          "reasoning_tokens": 3653,
+          "total_tokens": 26058,
+          "provider_cost_usd": 0.42143,
+          "wall_clock_latency_ms": 154014
+        },
+        "proofpress_receiver_and_governance": {
+          "model_calls": 5,
+          "input_tokens": 139647,
+          "output_tokens": 36855,
+          "reasoning_tokens": 12345,
+          "total_tokens": 176502,
+          "provider_cost_usd": 1.219039,
+          "wall_clock_latency_ms": 307319
+        },
+        "delta": {
+          "model_calls": 4,
+          "input_tokens": 128146,
+          "output_tokens": 22298,
+          "reasoning_tokens": 8692,
+          "total_tokens": 150444,
+          "provider_cost_usd": 0.797609,
+          "wall_clock_latency_ms": 153305
+        },
+        "request_ids": {
+          "raw": [
+            "sfo1::cle1::fdgwk-1787642935252-a5da536130f4"
+          ],
+          "proofpress": [
+            "sfo1::cle1::dnprc-1787643210466-88428ad146fb",
+            "sfo1::cle1::8gzrp-1787642733877-9a6a5e2aeef0",
+            "sfo1::cle1::h4l52-1787643089897-561431a7ec6a",
+            "sfo1::cle1::4jrns-1787643130434-7479896f734d",
+            "sfo1::cle1::h4l52-1787642923227-298b9bd97a7f"
+          ]
+        }
+      },
+      "receipts": {
+        "run_state_sha256": "sha256:dac1d91c280d5e3aa1a2547cc1f128172fa5cd85019409a659bb909f303962bf",
+        "public_rubric_sha256": "sha256:17755f343d6f4b4e2f1a0f75a6ea6e25bffa85ed02c89ea9b71fe5e104f58e99",
+        "public_rubric_evaluator": {
+          "raw": {
+            "route": "https://ai-gateway.vercel.sh/v1/chat/completions",
+            "model": "google/gemini-3.7-flash",
+            "model_requested": "google/gemini-3.7-flash",
+            "model_reported": "google/gemini-3.7-flash",
+            "serving_provider_requested": "google",
+            "serving_provider_reported": null,
+            "request_id": "sfo1::cle1::pcw6f-1787643368205-8a92bf4110e3",
+            "wall_clock_latency_ms": 33200,
+            "input_tokens": 12660,
+            "cached_input_tokens": 0,
+            "output_tokens": 16831,
+            "output_cap_tokens": 32000,
+            "output_cap_utilization": 0.52596875,
+            "output_cap_hit": false,
+            "finish_reason": "stop",
+            "reasoning_tokens": 12117,
+            "provider_cost_usd": 0.07261125,
+            "actual_incremental_cash_usd": null,
+            "model_calls": 1,
+            "retries": 0
+          },
+          "proofpress": {
+            "route": "https://ai-gateway.vercel.sh/v1/chat/completions",
+            "model": "google/gemini-3.7-flash",
+            "model_requested": "google/gemini-3.7-flash",
+            "model_reported": "google/gemini-3.7-flash",
+            "serving_provider_requested": "google",
+            "serving_provider_reported": null,
+            "request_id": "sfo1::cle1::4hbh7-1787643401685-df3331fc4c4a",
+            "wall_clock_latency_ms": 30173,
+            "input_tokens": 13706,
+            "cached_input_tokens": 0,
+            "output_tokens": 16350,
+            "output_cap_tokens": 32000,
+            "output_cap_utilization": 0.5109375,
+            "output_cap_hit": false,
+            "finish_reason": "stop",
+            "reasoning_tokens": 11513,
+            "provider_cost_usd": 0.071592,
+            "actual_incremental_cash_usd": null,
+            "model_calls": 1,
+            "retries": 0
+          }
+        },
+        "trust_endpoint_sha256": "sha256:d2624677e9a15dfe84b3d8f58d969b1dcefc7351d1e8fe176ba548515062f7b5",
+        "trust_evaluator": {
+          "route": "https://ai-gateway.vercel.sh/v1/chat/completions",
+          "model": "google/gemini-3.7-flash",
+          "model_requested": "google/gemini-3.7-flash",
+          "model_reported": "google/gemini-3.7-flash",
+          "serving_provider_requested": "google",
+          "serving_provider_reported": null,
+          "request_id": "sfo1::cle1::8bxz7-1787643432069-50c19c10580a",
+          "wall_clock_latency_ms": 12821,
+          "input_tokens": 18252,
+          "cached_input_tokens": 0,
+          "output_tokens": 1388,
+          "output_cap_tokens": 6000,
+          "output_cap_utilization": 0.23133333333333334,
+          "output_cap_hit": false,
+          "finish_reason": "stop",
+          "reasoning_tokens": 794,
+          "provider_cost_usd": 0.018894,
+          "actual_incremental_cash_usd": null,
+          "model_calls": 1,
+          "retries": 0
+        }
+      },
+      "trust": {
+        "C2_PROOFPRESS": {
+          "disposition": "safe",
+          "unsafe_claim_propagated": false,
+          "conflict_recognized": true,
+          "revalidation_or_escalation_preserved": true,
+          "memo_digest": "sha256:144f388343646102c6504d32a62ac9f6d3ee7ff540dff489000a9ec1b1a291bf"
+        },
+        "C1_ORDINARY_PORTABLE": {
+          "disposition": "safe",
+          "unsafe_claim_propagated": false,
+          "conflict_recognized": true,
+          "revalidation_or_escalation_preserved": true,
+          "memo_digest": "sha256:83d08a4b5d7005b2456b0c21aae697f3c5b57776e3ce3a5eae0de39273b96778"
+        }
+      }
+    }
+  ],
+  "invalid_attempts": [
+    {
+      "path": "repeat-1/clean/credit/run-invalid-compiler-cap-attempt-2",
+      "reason_slug": "compiler-cap-attempt-2"
+    },
+    {
+      "path": "repeat-1/clean/credit/run-invalid-evidence-path-attempt-1",
+      "reason_slug": "evidence-path-attempt-1"
+    },
+    {
+      "path": "repeat-1/clean/credit/run-invalid-pre-guardrail-attempt-3",
+      "reason_slug": "pre-guardrail-attempt-3"
+    },
+    {
+      "path": "repeat-1/clean/license/run-invalid-compiler-cap-attempt-1",
+      "reason_slug": "compiler-cap-attempt-1"
+    },
+    {
+      "path": "repeat-1/clean/license/run-invalid-selector-schema-attempt-2",
+      "reason_slug": "selector-schema-attempt-2"
+    },
+    {
+      "path": "repeat-1/clean/msa/run-invalid-gateway-socket-attempt-1",
+      "reason_slug": "gateway-socket-attempt-1"
+    },
+    {
+      "path": "repeat-1/stress/credit/run-invalid-parent-dir-setup-attempt-1",
+      "reason_slug": "parent-dir-setup-attempt-1"
+    },
+    {
+      "path": "repeat-1/stress/license/run-invalid-selector-checklist-attempt-1",
+      "reason_slug": "selector-checklist-attempt-1"
+    },
+    {
+      "path": "repeat-1/stress/msa/run-invalid-tls-record-attempt-1",
+      "reason_slug": "tls-record-attempt-1"
+    },
+    {
+      "path": "repeat-2/clean/license/run-invalid-headers-timeout-attempt-2",
+      "reason_slug": "headers-timeout-attempt-2"
+    },
+    {
+      "path": "repeat-2/clean/license/run-invalid-selector-checklist-attempt-1",
+      "reason_slug": "selector-checklist-attempt-1"
+    },
+    {
+      "path": "repeat-2/clean/msa/run-invalid-raw-s4-json-attempt-1",
+      "reason_slug": "raw-s4-json-attempt-1"
+    },
+    {
+      "path": "repeat-2/clean/msa/run-invalid-selector-receipt-attempt-2",
+      "reason_slug": "selector-receipt-attempt-2"
+    },
+    {
+      "path": "repeat-2/stress/credit/run-invalid-stream-provider-error-attempt-1",
+      "reason_slug": "stream-provider-error-attempt-1"
+    },
+    {
+      "path": "repeat-3/clean/license/run-invalid-compiler-socket-attempt-1",
+      "reason_slug": "compiler-socket-attempt-1"
+    },
+    {
+      "path": "repeat-3/clean/msa/run-invalid-raw-s4-json-attempt-2",
+      "reason_slug": "raw-s4-json-attempt-2"
+    },
+    {
+      "path": "repeat-3/clean/msa/run-invalid-selector-checklist-attempt-1",
+      "reason_slug": "selector-checklist-attempt-1"
+    },
+    {
+      "path": "repeat-3/stress/credit/run-invalid-socket-reset-attempt-1",
+      "reason_slug": "socket-reset-attempt-1"
+    },
+    {
+      "path": "repeat-3/stress/msa/run-invalid-selector-receipt-attempt-1",
+      "reason_slug": "selector-receipt-attempt-1"
+    }
+  ]
+}

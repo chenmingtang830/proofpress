@@ -1,0 +1,119 @@
+{
+  "schema_version": 1,
+  "id": "proofpress-v9-cross-model-replication-v1",
+  "frozen_at": "2026-08-24T13:10:00-07:00",
+  "parent_protocol": "treatment-effect-protocol-v9.json",
+  "status": "FROZEN_WITH_PRE_OUTCOME_GUARDRAIL_AMENDMENT",
+  "route_amendment": {
+    "at": "2026-08-24T13:20:00-07:00",
+    "requested_change": "Run Opus 4.8 through Vercel AI Gateway rather than local Claude CLI.",
+    "valid_outcomes_before_change": "One local-CLI clean Credit pair is retained as route calibration only and excluded from this replication. No valid Kimi pair and no valid Opus stress pair existed.",
+    "invalid_attempts": [
+      "Local Claude CLI session quota interrupted MSA clean, License clean, and Credit stress receiver attempts.",
+      "Kimi JSON response mode produced malformed worker JSON on initial Credit/MSA attempts; the provider does not list response_format as a model capability."
+    ],
+    "operational_fix": "Both worker tracks now use the same Gateway adapter shape. Opus is Anthropic-only. Kimi is MoonshotAI-only. Kimi response_format is omitted; strict JSON remains a prompt and parser requirement."
+    ,
+    "compiler_cap_amendment": "Before any valid Gateway Opus pair, its first License working-set compilation hit the exact v9 6000-token cap and produced truncated JSON. The model-independent compiler cap is 12000 for the replication; all added tokens are charged to Proofpress."
+  },
+  "guardrail_amendment": {
+    "at": "2026-08-24T13:45:00-07:00",
+    "timing": "Frozen before any Kimi quality result and before scoring any Gateway Opus pair. The one Gateway Opus pair generated under 12k/32k is retained as pre-amendment route calibration and excluded.",
+    "reason": "Kimi Credit reached the prior 12000-token worker cap and Opus working-set compilation reached the prior 6000-token compiler cap. Caps must be non-binding runaway guardrails rather than experimental budgets.",
+    "caps": {
+      "worker_s1_s3": 32000,
+      "worker_s4": 64000,
+      "trace_graph_selection": 8000,
+      "working_set_compiler": 24000,
+      "completeness_supplement": 12000,
+      "gemini_transaction_batch_judge": 64000,
+      "rubric_evaluator": "unchanged"
+    },
+    "invalidation": [
+      "output_tokens greater than or equal to the exact call cap",
+      "truncated or invalid JSON",
+      "provider socket or timeout failure",
+      "requested versus reported model or provider identity mismatch",
+      "worker or S4 cap mismatch between paired conditions"
+    ],
+    "preference": "Valid outputs should remain below 80 percent cap utilization. This is monitored, not an exclusion threshold.",
+    "finality": "No later cap adjustment may depend on quality outcomes."
+  },
+  "worker_tracks": [
+    {
+      "id": "A_HARVEY_COMPARABLE",
+      "model": "anthropic/claude-opus-4.8",
+      "route": "Vercel AI Gateway",
+      "provider_only": "anthropic",
+      "fallback": false,
+      "reasoning_effort": "high",
+      "stage_max_output_tokens": 32000,
+      "final_stage_max_output_tokens": 64000
+    },
+    {
+      "id": "B_OPEN_WEIGHT_COST",
+      "model": "moonshotai/kimi-k3",
+      "route": "Vercel AI Gateway",
+      "provider_only": "moonshotai",
+      "fallback": false,
+      "stage_max_output_tokens": 32000,
+      "final_stage_max_output_tokens": 64000,
+      "response_format": null
+    }
+  ],
+  "replacement_amendment": {
+    "at": "2026-08-25T02:15:00-07:00",
+    "timing": "Recorded before any GLM 5.2 result or payable GLM call.",
+    "reason": "The frozen Kimi K3 route produced one valid Credit clean pair but 17 preserved invalid attempts across the panel, including repeated provider finish_reason=error, socket/timeout failures, malformed JSON, and fail-closed selector failures. It cannot support a cross-model replication estimate.",
+    "k3_disposition": "Retain the one valid pair as an isolated route-calibration signal and all invalid attempts as route-availability evidence; exclude K3 from the cross-model replication estimate.",
+    "replacement_track": {
+      "id": "B2_GLM_5_2_GATEWAY_REPLACEMENT",
+      "model": "zai/glm-5.2",
+      "provider_only": "zai",
+      "fallback": false,
+      "reasoning_effort": "high",
+      "stage_max_output_tokens": 32000,
+      "final_stage_max_output_tokens": 64000
+    },
+    "promotion_rule": "Run one Credit clean route smoke excluded from estimates. Promote GLM 5.2 to the frozen 3-task 2x2 replication only if the full paired run, parser, cap, identity, and rubric evaluator checks pass without fallback or retry.",
+    "candidate_choice_boundary": "GLM 5.2 was selected for route independence from the Gemini evaluator, an existing Z.ai-only adapter definition, and lower expected cost than Opus. No model was selected using quality outcomes."
+  },
+  "expanded_model_matrix_amendment": {
+    "at": "2026-08-25T02:20:00-07:00",
+    "timing": "Recorded before payable calls for every newly added model. The GLM 5.2 excluded route smoke was already in progress under its earlier pre-outcome amendment.",
+    "models": [
+      {"track": "B2_GLM_5_2_GATEWAY_REPLACEMENT", "model": "zai/glm-5.2", "provider_only": "zai"},
+      {"track": "R_MUSE_SPARK_1_1", "model": "meta/muse-spark-1.1", "provider_only": "meta"},
+      {"track": "R_GEMINI_3_7_FLASH", "model": "google/gemini-3.7-flash", "provider_only": "google"},
+      {"track": "R_QWEN_3_8_27B", "model": "alibaba/qwen3.8-27b", "provider_only": "alibaba"},
+      {"track": "R_INKLING", "model": "thinkingmachines/inkling", "provider_only": "thinkingmachines"},
+      {"track": "R_GPT_5_6_SOL", "model": "openai/gpt-5.6-sol", "provider_only": "openai"},
+      {"track": "R_GPT_5_6_LUNA", "model": "openai/gpt-5.6-luna", "provider_only": "openai"},
+      {"track": "R_GROK_4_6", "model": "spacexai/grok-4.6", "provider_only": "spacexai"}
+    ],
+    "shared_protocol": "Unchanged v9 three-task 2x2 design, three receiver repeats per cell, one S1-S3 sender per model/task, identical Raw/Proofpress worker caps, Gemini 3.7 Flash batch policy judge and blind evaluator.",
+    "caps": {"worker_s1_s3": 32000, "worker_s4": 64000, "selection": 8000, "compiler": 24000, "supplement": 12000, "batch_judge": 64000},
+    "transport": "Vercel AI Gateway; exact provider allowlist; fallback disabled; retries disabled; 30-minute absolute call timeout.",
+    "concurrency": "At most two long Gateway calls concurrently. Sender calls are never duplicated within a model/task; shared code writes are serialized.",
+    "same_model_limitation": "For the Gemini worker track, Gemini 3.7 Flash also serves as policy judge and blind evaluator. This dependence is disclosed and reported separately rather than treated as independent evaluation."
+  },
+  "judge_and_evaluator": {
+    "model": "google/gemini-3.7-flash",
+    "provider_only": "google",
+    "fallback": false,
+    "roles": ["transaction-level policy review", "blind public-rubric evaluation", "blind trust-endpoint evaluation"]
+  },
+  "panel": {
+    "tasks": ["credit", "msa", "license"],
+    "arms": ["clean", "stress"],
+    "repeats_per_cell": 3,
+    "sender_rule": "One task-specific S1-S3 sender trajectory per worker model is frozen and reused for every C1/C2 arm and repeat.",
+    "receiver_rule": "S4 is regenerated independently for every condition and repeat."
+  },
+  "stopping_rule": "Complete all 36 paired runs (2 models x 3 tasks x 2 arms x 3 repeats) unless an external route remains unavailable after the documented retry window. Preserve every setup, quota, parser, timeout, and provider failure as an invalid attempt.",
+  "analysis": {
+    "primary": ["task-level public-rubric delta", "unsafe propagation", "proof-price"],
+    "uncertainty": "Descriptive paired t intervals over the fixed nine task-repeat pairs per arm and model; exact McNemar for discordant trust pairs.",
+    "claim_boundary": "Cross-model replication on a fixed three-task public LAB panel; not an official Harvey leaderboard result and not a population-level model-family estimate."
+  }
+}
