@@ -50,5 +50,19 @@
       "result_use": "The reasoning-only cap failure remains invalid route evidence. All valid v10 GLM cells use the corrected frozen adapter and are not pooled with pre-correction attempts."
     }
   ],
+  "concurrency_amendment": {
+    "frozen_at": "2026-08-25T22:15:00Z",
+    "authorization": "The user explicitly authorized expanding from two to four simultaneous model lanes after stable post-v10 operation was observed.",
+    "classification": "THROUGHPUT_ONLY_OPERATIONAL_AMENDMENT",
+    "maximum_simultaneous_long_calls": 4,
+    "lanes": ["R_INKLING", "R_MUSE_SPARK_1_1", "B2_GLM_5_2_GATEWAY_REPLACEMENT", "R_QWEN_3_8_27B"],
+    "unchanged": [
+      "model and provider identity pins",
+      "provider fallback and hidden retry disabled",
+      "explicit attempt numbering and invalidation",
+      "task, treatment, caps, prompts, rubric, stress fixtures, policy judge, and evaluator"
+    ],
+    "rollback_rule": "If added concurrency produces socket-close or timeout failures, preserve them as concurrency-phase route evidence and return to at most two lanes before new attempts."
+  },
   "claim_boundary": "Post-amendment panels estimate the governed-handoff treatment with deterministic context assembly. They must not be pooled silently with pre-amendment panels, and all prior invalid attempts remain route-reliability evidence."
 }
