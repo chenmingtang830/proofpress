@@ -2,36 +2,124 @@
  "event": "version_created",
  "artifact": "studies/long-horizon-eval/relaybench/RESULTS_V9_2X2.md",
  "artifact_id": "pp_8d68d72f1b393b67df0c731b",
- "version": "340fa987",
- "parent": "5cfb8de5",
+ "version": "c9fbd16a",
+ "parent": "340fa987",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-24T19:32:23+00:00",
+ "ts": "2026-08-25T17:56:00+00:00",
  "stats": {
-  "modified": 1,
-  "added": 1
+  "modified": 4,
+  "added": 11
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "1a802c43",
-   "type": "table",
-   "context": "Quality"
+   "block": "b2d936d4",
+   "type": "heading",
+   "context": "Proofpress v9 long-horizon handoff study"
+  },
+  {
+   "kind": "modified",
+   "block": "0ecc6e72",
+   "type": "para",
+   "context": "Result in one paragraph"
   },
   {
    "kind": "added",
-   "block": "fdab9520",
+   "block": "4f4144dd",
+   "type": "heading",
+   "context": "Cross-model replication",
+   "preview": "## Cross-model replication"
+  },
+  {
+   "kind": "added",
+   "block": "4ca70d46",
    "type": "para",
-   "context": "Quality",
-   "preview": "Across the nine task-repeat pairs, clean mean paired delta i"
+   "context": "Cross-model replication",
+   "preview": "Only DeepSeek and Opus completed all 18 frozen pairs and sup"
+  },
+  {
+   "kind": "added",
+   "block": "658b678e",
+   "type": "table",
+   "context": "Cross-model replication",
+   "preview": "| Worker model | Valid / planned pairs | Evidence tier | Cle"
+  },
+  {
+   "kind": "added",
+   "block": "113b815d",
+   "type": "para",
+   "context": "Cross-model replication",
+   "preview": "The Opus clean paired mean is +8.22pp with a repeated-run 95"
+  },
+  {
+   "kind": "added",
+   "block": "84e36947",
+   "type": "heading",
+   "context": "DeepSeek 14-task breadth expansion",
+   "preview": "## DeepSeek 14-task breadth expansion"
+  },
+  {
+   "kind": "added",
+   "block": "708dffef",
+   "type": "para",
+   "context": "DeepSeek 14-task breadth expansion",
+   "preview": "The expansion froze every scenario in the three public LAB C"
+  },
+  {
+   "kind": "added",
+   "block": "b84e75c6",
+   "type": "table",
+   "context": "DeepSeek 14-task breadth expansion",
+   "preview": "| Scope | Tasks | Ordinary | Proofpress | Weighted delta | D"
+  },
+  {
+   "kind": "added",
+   "block": "bc410870",
+   "type": "para",
+   "context": "DeepSeek 14-task breadth expansion",
+   "preview": "Three large gains came from tasks where ordinary handoff sco"
+  },
+  {
+   "kind": "added",
+   "block": "d812ed43",
+   "type": "para",
+   "context": "DeepSeek 14-task breadth expansion",
+   "preview": "Mean breadth proof-price was +132,837 receiver-side tokens, "
+  },
+  {
+   "kind": "added",
+   "block": "6b452c0f",
+   "type": "heading",
+   "context": "Frontier and optional tracks",
+   "preview": "## Frontier and optional tracks"
+  },
+  {
+   "kind": "added",
+   "block": "e5a8d0fd",
+   "type": "para",
+   "context": "Frontier and optional tracks",
+   "preview": "GPT-5.6 Sol produced no valid smoke pair: one receiver read "
+  },
+  {
+   "kind": "modified",
+   "block": "a02c5c15",
+   "type": "list",
+   "context": "Claim boundary and receipts"
+  },
+  {
+   "kind": "modified",
+   "block": "68a38c2a",
+   "type": "list",
+   "context": "Claim boundary and receipts"
   }
  ],
  "policy": "local",
- "soft_fingerprint": "ppsb1:941c4319d319319739cd25fece6c80615220fba48b566d896245163617aeda2e",
+ "soft_fingerprint": "ppsb1:ae9e10a660a08efae3bec79f98f9c5067c9fe4302adadf72cae347c68e5ba8c6",
  "actors": {
   "requested_by": [
    "human:richard-tang"
@@ -46,21 +134,86 @@
    "agent:codex"
   ]
  },
- "attribution_basis": "harness_attested",
+ "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "1a802c43",
+   "block": "b2d936d4",
    "kind": "modified",
-   "note": "Expands aggregate quality outcomes into exact Credit, MSA, and License task-level results for both arms."
+   "note": "Broadens the report title from the initial 2x2 panel to the full v9 evidence package."
   },
   {
-   "block": "fdab9520",
+   "block": "0ecc6e72",
+   "kind": "modified",
+   "note": "Summarizes the two complete panels, DeepSeek task breadth, route attrition, and honest claim boundary."
+  },
+  {
+   "block": "4f4144dd",
    "kind": "added",
-   "note": "Preserves paired uncertainty and states that the confirmatory v9 panel used one worker model only."
+   "note": "Introduces cross-model replication as a distinct evidence tier."
+  },
+  {
+   "block": "4ca70d46",
+   "kind": "added",
+   "note": "Defines complete, incomplete, and route-unavailable evidence tiers."
+  },
+  {
+   "block": "658b678e",
+   "kind": "added",
+   "note": "Reports exact model-level denominators and observed deltas without pooling incomplete tracks."
+  },
+  {
+   "block": "113b815d",
+   "kind": "added",
+   "note": "Reports Opus uncertainty, safety endpoint limits, and route invalidity for incomplete tracks."
+  },
+  {
+   "block": "84e36947",
+   "kind": "added",
+   "note": "Introduces the pre-outcome DeepSeek task-breadth expansion."
+  },
+  {
+   "block": "708dffef",
+   "kind": "added",
+   "note": "Reports 12 valid of 14 attempted tasks and two excluded provider failures."
+  },
+  {
+   "block": "b84e75c6",
+   "kind": "added",
+   "note": "Reports exact family, overall, and non-floor task-breadth outcomes."
+  },
+  {
+   "block": "bc410870",
+   "kind": "added",
+   "note": "Discloses floor sensitivity and limits task-level uncertainty interpretation."
+  },
+  {
+   "block": "d812ed43",
+   "kind": "added",
+   "note": "Reports task-breadth proof-price and observed cap utilization."
+  },
+  {
+   "block": "6b452c0f",
+   "kind": "added",
+   "note": "Introduces the frontier and optional-track disposition."
+  },
+  {
+   "block": "e5a8d0fd",
+   "kind": "added",
+   "note": "Records GPT-5.6 Sol route unavailability and the preregistered reason optional tracks were not run."
+  },
+  {
+   "block": "a02c5c15",
+   "kind": "modified",
+   "note": "Updates claim boundaries for complete panels, incomplete tracks, floor sensitivity, and model-specific safety evidence."
+  },
+  {
+   "block": "68a38c2a",
+   "kind": "modified",
+   "note": "Adds authoritative cross-model and task-breadth aggregates and reproducers."
   }
  ],
  "context": {
-  "why": "Expose task-level treatment heterogeneity in the primary quality table and state the single-worker-model evidence boundary before cross-model replication."
+  "why": "Record the frozen cross-model ladder, DeepSeek 14-task breadth expansion, frontier disposition, proof-price, uncertainty, and claim boundaries after all planned routes were attempted."
  },
- "event_id": "ppe_ac98564be433e1ea1913465e"
+ "event_id": "ppe_dc813cfe4b66931fdc1a50a4"
 }
