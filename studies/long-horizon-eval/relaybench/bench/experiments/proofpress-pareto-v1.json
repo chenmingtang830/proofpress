@@ -372,6 +372,7 @@
       "deterministic_per_conclusion": true,
       "batch_inference_calls": 1,
       "individual_re_review_triggers": ["high_risk", "escalated"],
+      "individual_re_review_max_output_tokens": 8000,
       "per_conclusion_receipts": true
     }
   },

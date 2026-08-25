@@ -28,7 +28,8 @@
     "selection": 8000,
     "compiler": 24000,
     "supplement": 12000,
-    "batch_judge": 64000
+    "batch_judge": 64000,
+    "high_risk_individual_re_review": 8000
   },
   "invalidation": "Use the frozen v9 cap, JSON, transport, identity, and paired-cap invalidation rules. Preserve every invalid attempt and do not replace tasks.",
   "pre_outcome_route_amendment": {
@@ -36,6 +37,13 @@
     "evidence": "The first scenario-01 S1 request used the dated Gateway alias deepseek/deepseek-v4-flash-0731, while the fixed DeepInfra route reported deepseek/deepseek-v4-flash. The identity check correctly invalidated the attempt before any paired output or quality evaluation.",
     "change": "Request the canonical reported model id deepseek/deepseek-v4-flash. Provider remains pinned to deepinfra; fallback and retries remain disabled; prompts, tasks, caps, parser, evaluator, and all outcomes remain unchanged.",
     "invalid_attempt": "/Users/richardtang/proofpress-deepseek-14-expansion-20260825/credit-scenario-01/run-invalid-model-identity-attempt-1"
+  },
+  "pre_outcome_individual_review_guardrail_amendment": {
+    "at": "2026-08-25T14:00:00Z",
+    "evidence": "MSA scenario-02 produced no paired deliverable or quality score because one triggered Gemini high-risk individual re-review ended at 1996/2000 output tokens with finish_reason=length.",
+    "change": "Set the rare high-risk/escalated individual re-review cap to 8000 tokens as a non-binding runaway guardrail. The transaction batch judge remains 64000; deterministic checks and per-conclusion ledger receipts are unchanged; all added usage remains proof-price.",
+    "invalid_attempt": "/Users/richardtang/proofpress-deepseek-14-expansion-20260825/msa-scenario-02/run-invalid-prepare-attempt-1",
+    "finality": "No later adjustment to this cap may depend on quality outcomes."
   },
   "staging_rule": "Filename-semantic deterministic staging frozen before outcomes: policy/authority/baseline to S1; negotiation/redlines to S2; risk/financial/legal/business evidence to S3; escalation request/templates to S4. Every source is assigned exactly once.",
   "scenarios": [

@@ -121,11 +121,13 @@ export async function runPrepare({ packetDir, output, manifest, trackId, authori
         let verdict = { recommendation: batchVerdict.recommendation, rationale: batchVerdict.rationale };
         let individualReview = null;
         if (batchVerdict.risk_level === "high" || batchVerdict.recommendation === "escalate") {
+          const individualReviewCap = manifest.policy_gate.transaction_review?.individual_re_review_max_output_tokens ?? 8000;
           const reviewed = await judge.invoke({ prompt: judgePrompt({ manifest, conclusion: item.conclusion,
-            evidencePacket: item.evidencePacket }), reasoning_effort: "none", max_output_tokens: 2000 }, { workspace, env });
+            evidencePacket: item.evidencePacket }), reasoning_effort: "none",
+            max_output_tokens: individualReviewCap }, { workspace, env });
           await fs.writeFile(path.join(workspace, `JUDGE_REVIEW_${item.proposed.conclusion.id}.json`),
             `${JSON.stringify(reviewed, null, 2)}\n`, { flag: "wx" });
-          assertForAdapter(reviewed, judge, 2000, `individual policy review ${item.proposed.conclusion.id}`);
+          assertForAdapter(reviewed, judge, individualReviewCap, `individual policy review ${item.proposed.conclusion.id}`);
           verdict = parseJudgeOutput(reviewed.raw_output);
           individualReview = { trigger: batchVerdict.risk_level === "high" ? "high_risk" : "escalated",
             verdict, telemetry: reviewed.telemetry };
