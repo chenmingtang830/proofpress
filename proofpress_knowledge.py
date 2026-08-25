@@ -797,19 +797,44 @@ def graph_v2(scope=None):
 
 
 def traverse_graph_v2(seeds, scope=None, actor=None, task=None,
-                      max_depth=2, max_claims=48):
+                      max_depth=2, max_claims=48, state="admitted"):
     """Expand admitted claim relations without disclosing ineligible claims."""
     if not seeds: raise ValueError("graph traversal requires at least one seed")
     if max_depth < 0: raise ValueError("max_depth must be non-negative")
     if max_claims < 1: raise ValueError("max_claims must be positive")
+    if state not in {"admitted", "staged"}:
+        raise ValueError("state must be admitted or staged")
     projection, policy = v2_projection(), load_v2_policy()
+
+    def staged_conclusion(cid, row):
+        evaluation = projection["evaluations"].get(cid)
+        recommendation = projection["recommendations"].get(cid)
+        return bool(evaluation and evaluation.get("eligible")
+                    and evaluation.get("conclusion_digest") == row["digest"]
+                    and evaluation.get("policy_digest") == policy["digest"]
+                    and recommendation and recommendation.get("recommendation") == "accept"
+                    and recommendation.get("conclusion_digest") == row["digest"]
+                    and recommendation.get("policy_digest") == policy["digest"])
+
+    def staged_relation(row):
+        evaluation = projection["relation_evaluations"].get(row["id"])
+        recommendation = projection["relation_recommendations"].get(row["id"])
+        return bool(evaluation and evaluation.get("eligible")
+                    and evaluation.get("relation_digest") == row["digest"]
+                    and evaluation.get("policy_digest") == policy["digest"]
+                    and recommendation and recommendation.get("recommendation") == "accept"
+                    and recommendation.get("relation_digest") == row["digest"]
+                    and recommendation.get("policy_digest") == policy["digest"])
 
     def eligibility(cid):
         row = projection["conclusions"].get(cid)
         if not row: return "not_found"
         if scope and row["scope"] != scope: return "scope_mismatch"
         current = v2_state(projection, row, policy)
-        if current != "admitted": return current
+        if current in {"rejected", "expired", "superseded"}: return current
+        if state == "admitted" and current != "admitted": return current
+        if state == "staged" and current != "admitted" and not staged_conclusion(cid, row):
+            return "not_staged"
         actor_ok = (not actor or "*" in row.get("allowed_actors", ["*"])
                     or actor in row.get("allowed_actors", []))
         policy_actor_ok = (not actor or "*" in policy["allowed_actors"]
@@ -827,12 +852,13 @@ def traverse_graph_v2(seeds, scope=None, actor=None, task=None,
     if not eligible_seeds:
         raise ValueError("graph traversal has no eligible seeds")
 
-    admitted_relations = sorted(
+    eligible_relations = sorted(
         (row for row in projection["relations"].values()
-         if relation_state(projection, row) == "admitted"),
+         if (relation_state(projection, row) == "admitted"
+             or state == "staged" and staged_relation(row))),
         key=lambda row: row["id"])
     adjacency = {}
-    for row in admitted_relations:
+    for row in eligible_relations:
         adjacency.setdefault(row["from"], []).append((row["to"], row))
         adjacency.setdefault(row["to"], []).append((row["from"], row))
 
@@ -872,7 +898,7 @@ def traverse_graph_v2(seeds, scope=None, actor=None, task=None,
     try: head = _git("rev-parse", KNOWLEDGE_REF).strip()
     except ValueError: pass
     return {"schema_version": TRAVERSAL_SCHEMA, "ledger_head": head,
-            "scope": scope, "actor": actor, "task": task,
+            "scope": scope, "actor": actor, "task": task, "state": state,
             "seed_conclusion_ids": ordered_seeds,
             "conclusion_ids": selected, "relations": included_relations,
             "blocked_neighbors": blocked,
@@ -1110,6 +1136,7 @@ def add_flat_cli(sub):
     graph_parser.add_argument("--actor"); graph_parser.add_argument("--task")
     graph_parser.add_argument("--max-depth", type=int, default=2)
     graph_parser.add_argument("--max-claims", type=int, default=48)
+    graph_parser.add_argument("--state", choices=["admitted", "staged"], default="admitted")
     graph_parser.set_defaults(f=cmd_flat, flat_cmd="graph")
     ui_parser = sub.add_parser("ui", help="open the local review and context UI")
     ui_parser.add_argument("--scope"); ui_parser.add_argument("--port", type=int, default=7331); ui_parser.add_argument("--no-open", action="store_true")
@@ -1140,7 +1167,7 @@ def cmd_flat(a):
     elif command == "relation-review": out = review_relation_v2(a.relation, "admit" if a.admit else "reject", a.reviewer, a.note)
     elif command == "graph":
         out = (traverse_graph_v2(a.seed, a.scope, a.actor, a.task,
-                                 a.max_depth, a.max_claims)
+                                 a.max_depth, a.max_claims, a.state)
                if a.seed else graph_v2(a.scope))
     elif command == "context":
         out = context_v2(a.scope, a.actor, a.task, a.include_blocked_statements)

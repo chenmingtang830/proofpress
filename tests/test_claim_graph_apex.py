@@ -123,6 +123,42 @@ class ApexClaimGraphAcceptanceTests(unittest.TestCase):
             finally:
                 os.chdir(previous)
 
+    def test_staged_traversal_uses_accepted_recommendations_without_admission(self):
+        with tempfile.TemporaryDirectory() as directory:
+            repo = self._repo(directory); previous = Path.cwd()
+            try:
+                os.chdir(repo)
+                source = repo / "source.txt"; source.write_text("Bound evidence\n")
+                evidence = knowledge.import_evidence_v2(str(source))["evidence"][0]
+                claims = []
+                for statement in ("Staged seed", "Staged neighbor"):
+                    cid = knowledge.propose_v2(
+                        statement, [evidence], "matter-1", "agent:proposer")["conclusion"]["id"]
+                    evaluation = knowledge.evaluate_v2(cid)
+                    row = knowledge.v2_projection()["conclusions"][cid]
+                    knowledge.append_v2({"type": "judge_recommended", "subject_ref": cid,
+                        "conclusion_digest": row["digest"], "policy_digest": evaluation["policy_digest"],
+                        "recommendation": "accept", "rationale": "Accepted for test staging."})
+                    claims.append(cid)
+                rid = knowledge.propose_relation_v2(
+                    claims[0], claims[1], "supports", "agent:proposer")["relation"]["id"]
+                evaluation = knowledge.evaluate_relation_v2(rid)
+                row = knowledge.v2_projection()["relations"][rid]
+                knowledge.append_v2({"type": "relation_judge_recommended", "subject_ref": rid,
+                    "relation_digest": row["digest"], "policy_digest": evaluation["policy_digest"],
+                    "recommendation": "accept", "rationale": "Accepted for test staging."})
+
+                with self.assertRaisesRegex(ValueError, "no eligible seeds"):
+                    knowledge.traverse_graph_v2([claims[0]], "matter-1")
+                result = knowledge.traverse_graph_v2(
+                    [claims[0]], "matter-1", state="staged")
+                self.assertEqual(result["conclusion_ids"], claims)
+                self.assertEqual(result["state"], "staged")
+                self.assertEqual(len(result["relations"]), 1)
+                self.assertFalse(knowledge.v2_projection()["admissions"])
+            finally:
+                os.chdir(previous)
+
 
 if __name__ == "__main__":
     unittest.main()
