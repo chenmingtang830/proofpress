@@ -15,7 +15,7 @@ export function preflightVercelGateway(config, env = process.env) {
 export function createVercelGatewayAdapter(config, deps = {}) {
   const dispatcher = new Agent({ headersTimeout: config.timeout_ms, bodyTimeout: config.timeout_ms,
     connectTimeout: Math.min(config.timeout_ms, 60_000) });
-  const fetchImpl = deps.fetch ?? (config.resolved_model === "moonshotai/kimi-k3" ? null
+  const fetchImpl = deps.fetch ?? (config.stream === true ? null
     : (url, init) => undiciFetch(url, { ...init, dispatcher }));
   return validateAdapter({
     id: "vercel-ai-gateway",
@@ -24,6 +24,7 @@ export function createVercelGatewayAdapter(config, deps = {}) {
       provider: "Vercel AI Gateway", route: config.endpoint, resolved_model: config.resolved_model,
       serving_provider_only: config.provider_only, provider_fallback: false,
       cross_provider_retries: false, timeout_ms: config.timeout_ms,
+      stream: config.stream === true,
       max_output_tokens: config.max_output_tokens,
       final_stage_max_output_tokens: config.final_stage_max_output_tokens ?? config.max_output_tokens,
     }),
@@ -53,7 +54,7 @@ export function createVercelGatewayAdapter(config, deps = {}) {
             body: JSON.stringify(requestBody),
           })
         : await postJson(config.endpoint, requestBody, apiKey, config.timeout_ms,
-          config.resolved_model === "moonshotai/kimi-k3");
+          config.stream === true);
       const body = await response.json();
       if (!response.ok) throw new Error(`Vercel AI Gateway ${response.status}: ${JSON.stringify(body)}`);
       return validateAdapterResult({

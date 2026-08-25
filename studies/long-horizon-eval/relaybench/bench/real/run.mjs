@@ -11,6 +11,7 @@ const execFileAsync = promisify(execFile);
 export async function runPrepare({ packetDir, output, manifest, trackId, authorizeRealCalls, root,
   env = process.env, adapterOverride = null, judgeOverride = null, sharedSenderFrom = null }) {
   requireAuthorization(authorizeRealCalls, manifest);
+  await fs.mkdir(path.dirname(output), { recursive: true });
   await fs.mkdir(output, { recursive: false });
   const packet = JSON.parse(await fs.readFile(path.join(packetDir, "RUN_PACKET.json")));
   const promptContract = await fs.readFile(path.join(packetDir, "PROMPT_CONTRACT.md"), "utf8");
@@ -247,11 +248,18 @@ export async function runResume({ output, manifest, authorizeRealCalls, root, en
           evidence_files: evidenceFiles, telemetry: completeness.telemetry, compiler_telemetry: compilerTelemetry };
         selectedKnowledgeIds = [...new Set([...selectedKnowledgeIds, ...newIds])];
       }
-      const result = await adapter.invoke({
-        prompt: stagePrompt({ promptContract, packet, stageId, condition, prior, sourcePacket }),
-        ...(stageId === "S4" ? { max_output_tokens: adapter.metadata().final_stage_max_output_tokens } : {}),
-      }, { workspace: receiver, env });
-      await fs.writeFile(path.join(receiver, `MODEL_RESPONSE_${stageId}.json`), `${JSON.stringify(result, null, 2)}\n`, { flag: "wx" });
+      const responsePath = path.join(receiver, `MODEL_RESPONSE_${stageId}.json`);
+      let result;
+      try {
+        result = JSON.parse(await fs.readFile(responsePath, "utf8"));
+      } catch (error) {
+        if (error.code !== "ENOENT") throw error;
+        result = await adapter.invoke({
+          prompt: stagePrompt({ promptContract, packet, stageId, condition, prior, sourcePacket }),
+          ...(stageId === "S4" ? { max_output_tokens: adapter.metadata().final_stage_max_output_tokens } : {}),
+        }, { workspace: receiver, env });
+        await fs.writeFile(responsePath, `${JSON.stringify(result, null, 2)}\n`, { flag: "wx" });
+      }
       const workerCap = stageId === "S4"
         ? adapter.metadata().final_stage_max_output_tokens
         : adapter.metadata().max_output_tokens;
@@ -263,7 +271,10 @@ export async function runResume({ output, manifest, authorizeRealCalls, root, en
         const markdown = path.join(receiver, "escalation-approval-memo.md");
         const docx = path.join(receiver, packet.harvey.final_deliverable);
         await fs.writeFile(markdown, parsed.final_markdown);
-        await execFileAsync("pandoc", [markdown, "-o", docx]);
+        // GFM disables Pandoc's YAML metadata extension. A valid deliverable may
+        // begin with a thematic break (`---`), which default Pandoc Markdown
+        // otherwise misreads as an unterminated YAML metadata block.
+        await execFileAsync("pandoc", ["--from=markdown-yaml_metadata_block", markdown, "-o", docx]);
         state.episodes[condition].deliverable = docx;
       }
     }

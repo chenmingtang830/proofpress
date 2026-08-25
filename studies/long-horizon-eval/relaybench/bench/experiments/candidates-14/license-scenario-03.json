@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "selection_rule_id": "proofpress-deepseek-14-task-expansion-v1",
+  "harvey_lab": {
+    "task_id": "contracts/ip-licensing/license-agreement-playbook-escalation/scenario-03",
+    "final_deliverable": "escalation-approval-memo.docx"
+  },
+  "proposed_h4_release_schedule": [
+    {
+      "stage_id": "S1",
+      "cold_boundary_before": false,
+      "label": "Establish governing policy, authority, baseline terms, and original deal context",
+      "release": [
+        "ciso-security-assessment.eml",
+        "it-asset-classification-memo.docx",
+        "parallax-spectraview-sla-v1-clean.docx",
+        "thornfield-approved-contracting-playbook-v4-2.docx",
+        "thornfield-msa-template-excerpt.docx"
+      ],
+      "expected_deliverable": "s1 evidence-bound analysis"
+    },
+    {
+      "stage_id": "S2",
+      "cold_boundary_before": false,
+      "label": "Incorporate negotiated drafts, redlines, and negotiation history",
+      "release": [
+        "parallax-spectraview-sla-v2-redline.docx"
+      ],
+      "expected_deliverable": "s2 evidence-bound analysis"
+    },
+    {
+      "stage_id": "S3",
+      "cold_boundary_before": false,
+      "label": "Revalidate against risk, financial, legal, and business evidence",
+      "release": [
+        "outside-counsel-risk-analysis.docx",
+        "parallax-fy2024-financial-summary.xlsx"
+      ],
+      "expected_deliverable": "s3 evidence-bound analysis"
+    },
+    {
+      "stage_id": "S4",
+      "cold_boundary_before": true,
+      "label": "Prepare the requested escalation deliverable",
+      "release": [
+        "escalation-approval-memo-template.docx",
+        "escalation-request-email.eml"
+      ],
+      "expected_deliverable": "final escalation memo"
+    }
+  ]
+}

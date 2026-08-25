@@ -1,0 +1,233 @@
+{
+  "schema_version": 1,
+  "id": "proofpress-deepseek-14-task-expansion-v1",
+  "frozen_at": "2026-08-25T13:22:44.741Z",
+  "status": "FROZEN_BEFORE_EXPANSION_OUTCOMES",
+  "parent_protocol": "treatment-effect-protocol-v9.json",
+  "design": {
+    "arm": "clean",
+    "paired_runs_per_scenario": 1,
+    "cold_boundary_before": "S4",
+    "conditions": [
+      "C1_ORDINARY_PORTABLE",
+      "C2_PROOFPRESS"
+    ],
+    "purpose": "Task breadth and heterogeneity across all public scenarios in the three predeclared LAB Contracts families; not a stress test and not an official Harvey leaderboard result."
+  },
+  "model": {
+    "track": "R_DEEPSEEK_14_TASK_EXPANSION",
+    "resolved_model": "deepseek/deepseek-v4-flash-0731",
+    "provider_only": "deepinfra",
+    "fallback": false,
+    "retries": 0,
+    "stream": true
+  },
+  "caps": {
+    "worker_s1_s3": 32000,
+    "worker_s4": 64000,
+    "selection": 8000,
+    "compiler": 24000,
+    "supplement": 12000,
+    "batch_judge": 64000
+  },
+  "invalidation": "Use the frozen v9 cap, JSON, transport, identity, and paired-cap invalidation rules. Preserve every invalid attempt and do not replace tasks.",
+  "staging_rule": "Filename-semantic deterministic staging frozen before outcomes: policy/authority/baseline to S1; negotiation/redlines to S2; risk/financial/legal/business evidence to S3; escalation request/templates to S4. Every source is assigned exactly once.",
+  "scenarios": [
+    {
+      "family": "credit",
+      "scenario": "scenario-01",
+      "task_id": "contracts/financing/credit-lending-playbook-escalation/scenario-01",
+      "title": "Escalate Credit Agreement Out Of Policy Terms",
+      "criteria": 78,
+      "candidate": "candidates-14/credit-scenario-01.json",
+      "release_counts": {
+        "S1": 4,
+        "S2": 2,
+        "S3": 3,
+        "S4": 2
+      }
+    },
+    {
+      "family": "credit",
+      "scenario": "scenario-02",
+      "task_id": "contracts/financing/credit-lending-playbook-escalation/scenario-02",
+      "title": "Escalate Loan Agreement Out Of Policy Terms",
+      "criteria": 99,
+      "candidate": "candidates-14/credit-scenario-02.json",
+      "release_counts": {
+        "S1": 3,
+        "S2": 2,
+        "S3": 6,
+        "S4": 2
+      }
+    },
+    {
+      "family": "credit",
+      "scenario": "scenario-03",
+      "task_id": "contracts/financing/credit-lending-playbook-escalation/scenario-03",
+      "title": "Escalate Revolving Credit Facility Agreement Out Of Policy Terms",
+      "criteria": 76,
+      "candidate": "candidates-14/credit-scenario-03.json",
+      "release_counts": {
+        "S1": 4,
+        "S2": 1,
+        "S3": 6,
+        "S4": 2
+      }
+    },
+    {
+      "family": "msa",
+      "scenario": "scenario-01",
+      "task_id": "contracts/commercial-vendor-customer/master-services-agreement-playbook-escalation/scenario-01",
+      "title": "Escalate Advertising Agency Master Services Agreement Out Of Policy Terms",
+      "criteria": 72,
+      "candidate": "candidates-14/msa-scenario-01.json",
+      "release_counts": {
+        "S1": 3,
+        "S2": 3,
+        "S3": 3,
+        "S4": 1
+      }
+    },
+    {
+      "family": "msa",
+      "scenario": "scenario-02",
+      "task_id": "contracts/commercial-vendor-customer/master-services-agreement-playbook-escalation/scenario-02",
+      "title": "Escalate Cro Services Agreement Out Of Policy Terms",
+      "criteria": 46,
+      "candidate": "candidates-14/msa-scenario-02.json",
+      "release_counts": {
+        "S1": 4,
+        "S2": 3,
+        "S3": 3,
+        "S4": 0
+      }
+    },
+    {
+      "family": "msa",
+      "scenario": "scenario-03",
+      "task_id": "contracts/commercial-vendor-customer/master-services-agreement-playbook-escalation/scenario-03",
+      "title": "Escalate Gas Gathering Processing Agreement Out Of Policy Terms",
+      "criteria": 70,
+      "candidate": "candidates-14/msa-scenario-03.json",
+      "release_counts": {
+        "S1": 5,
+        "S2": 2,
+        "S3": 2,
+        "S4": 2
+      }
+    },
+    {
+      "family": "msa",
+      "scenario": "scenario-04",
+      "task_id": "contracts/commercial-vendor-customer/master-services-agreement-playbook-escalation/scenario-04",
+      "title": "Escalate Master Services Agreement Out Of Policy Terms",
+      "criteria": 100,
+      "candidate": "candidates-14/msa-scenario-04.json",
+      "release_counts": {
+        "S1": 4,
+        "S2": 2,
+        "S3": 3,
+        "S4": 2
+      }
+    },
+    {
+      "family": "msa",
+      "scenario": "scenario-05",
+      "task_id": "contracts/commercial-vendor-customer/master-services-agreement-playbook-escalation/scenario-05",
+      "title": "Escalate Subcontract Agreement Out Of Policy Terms",
+      "criteria": 51,
+      "candidate": "candidates-14/msa-scenario-05.json",
+      "release_counts": {
+        "S1": 5,
+        "S2": 2,
+        "S3": 3,
+        "S4": 1
+      }
+    },
+    {
+      "family": "msa",
+      "scenario": "scenario-06",
+      "task_id": "contracts/commercial-vendor-customer/master-services-agreement-playbook-escalation/scenario-06",
+      "title": "Escalate Oilfield Master Service Agreement Out Of Policy Terms",
+      "criteria": 32,
+      "candidate": "candidates-14/msa-scenario-06.json",
+      "release_counts": {
+        "S1": 5,
+        "S2": 3,
+        "S3": 5,
+        "S4": 0
+      }
+    },
+    {
+      "family": "license",
+      "scenario": "scenario-01",
+      "task_id": "contracts/ip-licensing/license-agreement-playbook-escalation/scenario-01",
+      "title": "Escalate License Agreement Out Of Policy Terms",
+      "criteria": 69,
+      "candidate": "candidates-14/license-scenario-01.json",
+      "release_counts": {
+        "S1": 5,
+        "S2": 2,
+        "S3": 3,
+        "S4": 2
+      }
+    },
+    {
+      "family": "license",
+      "scenario": "scenario-02",
+      "task_id": "contracts/ip-licensing/license-agreement-playbook-escalation/scenario-02",
+      "title": "Escalate License Collaboration Agreement Out Of Policy Terms",
+      "criteria": 50,
+      "candidate": "candidates-14/license-scenario-02.json",
+      "release_counts": {
+        "S1": 5,
+        "S2": 2,
+        "S3": 3,
+        "S4": 2
+      }
+    },
+    {
+      "family": "license",
+      "scenario": "scenario-03",
+      "task_id": "contracts/ip-licensing/license-agreement-playbook-escalation/scenario-03",
+      "title": "Escalate Software License Agreement Out Of Policy Terms",
+      "criteria": 85,
+      "candidate": "candidates-14/license-scenario-03.json",
+      "release_counts": {
+        "S1": 5,
+        "S2": 1,
+        "S3": 2,
+        "S4": 2
+      }
+    },
+    {
+      "family": "license",
+      "scenario": "scenario-04",
+      "task_id": "contracts/ip-licensing/license-agreement-playbook-escalation/scenario-04",
+      "title": "Escalate Trademark License Agreement Out Of Policy Terms",
+      "criteria": 55,
+      "candidate": "candidates-14/license-scenario-04.json",
+      "release_counts": {
+        "S1": 4,
+        "S2": 2,
+        "S3": 3,
+        "S4": 1
+      }
+    },
+    {
+      "family": "license",
+      "scenario": "scenario-05",
+      "task_id": "contracts/ip-licensing/license-agreement-playbook-escalation/scenario-05",
+      "title": "Escalate Content Licensing Agreement Out Of Policy Terms",
+      "criteria": 37,
+      "candidate": "candidates-14/license-scenario-05.json",
+      "release_counts": {
+        "S1": 6,
+        "S2": 2,
+        "S3": 1,
+        "S4": 0
+      }
+    }
+  ]
+}
