@@ -5,10 +5,11 @@
 ## Decision
 
 [//]: # (ob:e439b2a3)
-This study estimates two separate product effects when the underlying model, task
+This study estimates product effects when the underlying model, task
 materials, evaluator, tools, and execution limits are held constant: the clean tax
 of governed handoff on an unmodified task, and the protection effect under a frozen
-trust failure. Current v9 results are reported in `RESULTS_V9_2X2.md`.
+trust failure. It then tests model-family replication and task-family breadth under
+predeclared gates. Current v9 results are reported in `RESULTS_V9_2X2.md`.
 
 [//]: # (ob:46841646)
 The primary comparison is deliberately product-shaped:
@@ -144,27 +145,29 @@ product treatment, but every generated token and every model call is charged to 
 ## Model tracks
 
 [//]: # (ob:704d982d)
-### Track A — Claude frontier quality
+### Track A — complete frozen panels
 
 [//]: # (ob:92d5764d)
-Use Claude Opus 4.8 through the local Claude CLI and the user's existing credits.
-Freeze the CLI version, exact resolved model rather than a moving alias, effort
-setting, tool permissions, timeout, retry policy, and fallback behavior. Capture the
-provider usage receipt when available. A result from our public task subset remains
-our composed long-horizon extension, not an official Harvey hold-out score.
+DeepSeek Flash and Claude Opus 4.8 completed the same frozen three-task 2×2 panel.
+Both run through provider-pinned Vercel AI Gateway routes with fallback and hidden
+retry disabled. DeepSeek is the low-cost task-expansion anchor; Opus is the complete
+frontier-quality replication. Neither result is an official Harvey hold-out score.
 
 [//]: # (ob:066c5e34)
-### Track B — Kimi K3 open-weight cost replication
+### Track B — gated replication and breadth
 
 [//]: # (ob:478bda41)
-Use `moonshotai/kimi-k3` through Vercel AI Gateway and the user's existing credits.
-Pin one provider with a hard allowlist and disable automatic provider fallback. Record
-the exact checkpoint/model identity, license, serving provider, region, speed tier,
-prices, reasoning mode, and gateway request metadata. Kimi K3 is the closest public
-base-family comparison to Harvey Tenet, which is post-trained from Kimi K3.
+Kimi K3, GLM 5.2, Muse Spark 1.1, Qwen 3.8 27B, and Inkling were offered the same
+frozen three-task protocol. Every route pins one provider and disables fallback and
+automatic retry. GLM, Muse, and Kimi produced only incomplete descriptive cells;
+Qwen and Inkling produced no valid panel pair. These failures are preserved as
+deployment evidence and are not pooled with complete panels.
 
 [//]: # (ob:8c71b340)
-Track B is a cost and reproducibility replication. It does not replace Track A.
+GLM did not meet the frozen 90% validity gate and therefore did not become a
+14-task expansion anchor. DeepSeek attempted all 14 scenarios; 12 yielded valid
+pairs. GPT-5.6 Sol was attempted last as frontier confirmation but produced no valid
+smoke pair. Optional Luna and Grok tracks were not triggered.
 
 [//]: # (ob:7c94c14e)
 ### Credits and normalized cost
@@ -234,14 +237,16 @@ Report at minimum:
 ## Run sequence
 
 [//]: # (ob:f15c27f0)
-1. Freeze upstream Harvey revision, public task IDs, Proofpress revision, model route,
-   judge, tool surface, and evaluator.
-2. Run deterministic RelayBench mechanics and information-parity checks.
-3. Run one smoke pair with outputs excluded from reported metrics.
-4. Run 1–3 calibration task pairs with full telemetry.
-5. Inspect treatment receipts and task-level differences before expanding.
-6. Freeze repeat count and analysis plan for the publishable pilot.
-7. Run the pilot without changing task selection, prompts, model, or scoring.
+1. Freeze upstream Harvey revision, three public task IDs, Proofpress revision,
+   model routes, judge, tool surface, evaluator, caps, and invalidation rules.
+2. Complete the DeepSeek anchor and Opus replication on 18 pairs each.
+3. Route-gate Kimi, GLM, Muse, Qwen, and Inkling without hiding provider failures.
+4. Freeze all 14 LAB Contracts scenarios before DeepSeek breadth outcomes.
+5. Attempt every frozen scenario once and report missing tasks as invalid, not zero.
+6. Attempt GPT-5.6 Sol frontier confirmation; run optional scaling tracks only if
+   the primary frontier result creates an interpretable scaling question.
+7. Aggregate complete panels, incomplete diagnostics, breadth, proof-price, and
+   claim boundaries as separate evidence tiers.
 
 [//]: # (ob:c70ab3d2)
 ## Execution readiness
@@ -251,11 +256,11 @@ Report at minimum:
 handoff](visuals/harvey-proofpress-experiment-map.html)
 
 [//]: # (ob:d209203f)
-The first calibration matter is frozen to Harvey LAB commit
-`7be41d57fd5a6e97b5f246a029e810f83d09cd96`, task
-`contracts/commercial-vendor-customer/master-services-agreement-playbook-escalation/scenario-01`.
-The acquisition verifier checks all 11 upstream files against their recorded SHA-256
-digests; the public task contains 72 final rubric criteria.
+All work is pinned to Harvey LAB commit
+`7be41d57fd5a6e97b5f246a029e810f83d09cd96`. The repeated panel freezes Credit
+scenario 02, MSA scenario 04, and License scenario 03. The breadth manifest freezes
+all 14 scenarios across those three task families and records every upstream file
+digest before outcomes.
 
 [//]: # (ob:239ce906)
 No-call preparation:
@@ -269,12 +274,13 @@ node scripts/bench-prepare-real.mjs \
 ```
 
 [//]: # (ob:daa79044)
-The real runner is two-phase. `prepare` runs S1–S2 independently for C1 and C2,
-builds the C2 evidence-bound ledger, extracts bounded source text, runs deterministic
-checks and the frozen policy judge, then records the research policy decision.
-`resume` materializes trusted context, creates fresh receiver workspaces, runs S3–S4,
-and converts the final Markdown memo to the required DOCX with Pandoc. Human review
-is reserved for blind post-run error analysis and cannot alter continuation.
+The real runner is two-phase. `prepare` runs one frozen S1–S3 sender state, builds
+the C2 evidence-bound ledger, executes per-item deterministic checks, sends one
+transaction-level policy batch to Gemini 3.7 Flash, and records fail-closed research
+decisions. `resume` forks byte-identical raw and governed S4 receiver workspaces,
+compiles task-relevant graph context, expands selected evidence, checks completeness,
+and converts the final Markdown memo to DOCX. Human review is reserved for blind
+post-run error analysis and cannot alter continuation.
 
 [//]: # (ob:96c723ca)
 ```bash

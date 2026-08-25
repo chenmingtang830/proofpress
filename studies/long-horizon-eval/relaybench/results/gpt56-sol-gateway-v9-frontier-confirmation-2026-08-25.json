@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-08-25T17:30:00Z",
+  "model": "openai/gpt-5.6-sol",
+  "provider_only": "openai",
+  "track": "R_GPT_5_6_SOL",
+  "frozen_protocol": "bench/experiments/cross-model-replication-v1.json",
+  "claim_boundary": {
+    "benchmark": "No benchmark or treatment estimate is available from this track.",
+    "invalid": "Both excluded route-smoke attempts failed before a complete paired output; invalid is not a zero effect.",
+    "frontier": "The study cannot answer whether the Proofpress effect persists for GPT-5.6 Sol."
+  },
+  "completion": {
+    "planned_smoke_pairs": 1,
+    "valid_smoke_pairs": 0,
+    "invalid_smoke_attempts": 2,
+    "formal_panel_started": false,
+    "panel_estimate_available": false,
+    "disposition": "route_unavailable_fail_closed"
+  },
+  "attempts": [
+    {
+      "attempt": 1,
+      "path": "/Users/richardtang/proofpress-gpt56-sol-route-smoke-20260825/credit/run-invalid-resume-attempt-1",
+      "sender_frozen": true,
+      "failure_phase": "receiver",
+      "reason": "read ETIMEDOUT"
+    },
+    {
+      "attempt": 2,
+      "path": "/Users/richardtang/proofpress-gpt56-sol-route-smoke-20260825/credit/run-invalid-selector-attempt-2",
+      "sender_reused_from_attempt": 1,
+      "failure_phase": "trace_graph_selection",
+      "reason": "trace selector requested unknown or too many knowledge receipts"
+    }
+  ],
+  "route_controls": {
+    "provider_allowlist": ["openai"],
+    "fallback": false,
+    "retries_per_attempt": 0,
+    "worker_caps_identical_between_conditions": true
+  }
+}

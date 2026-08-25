@@ -203,6 +203,18 @@
     "validity_math": "Even 18 eventual valid pairs would yield 18/21 = 85.7% attempt validity after three preserved invalid attempts, below the frozen >=90% threshold.",
     "decision": "Stop Inkling early as route/parser incompatible under the frozen selector contract. The excluded smoke pair remains route calibration only; no formal panel estimate is available and no task expansion is permitted."
   },
+  "gpt_5_6_sol_frontier_confirmation_decision": {
+    "at": "2026-08-25T17:30:00Z",
+    "timing": "Recorded after two excluded Credit clean route-smoke attempts and before any formal GPT-5.6 Sol panel sender call.",
+    "smoke_root": "/Users/richardtang/proofpress-gpt56-sol-route-smoke-20260825/credit",
+    "estimate_inclusion": false,
+    "attempts": [
+      {"attempt": 1, "boundary": "receiver transport read ETIMEDOUT after a valid frozen sender and policy gate"},
+      {"attempt": 2, "boundary": "trace selector requested unknown or too many governed knowledge receipts; same sender responses reused"}
+    ],
+    "decision": "Stop GPT-5.6 Sol before the formal panel because no complete fixed-route smoke pair passed the transport and fail-closed selector contract. Preserve both invalid attempts; do not change provider, parser, caps, selection logic, fallback, or retry policy. Frontier treatment effect remains unavailable, not zero.",
+    "optional_tracks": "Do not run GPT-5.6 Luna or Grok 4.6: the predeclared condition for an additional scaling/robustness question is not met while the primary Sol frontier route has no valid pair."
+  },
   "judge_and_evaluator": {
     "model": "google/gemini-3.7-flash",
     "provider_only": "google",

@@ -1,20 +1,20 @@
 [//]: # (ob:b2d936d4)
-# Proofpress v9 S4-boundary 2×2 handoff study
+# Proofpress v9 long-horizon handoff study results
 
 [//]: # (ob:e16a427c)
 ## Result in one paragraph
 
 [//]: # (ob:0ecc6e72)
-Across three frozen public LAB Contracts tasks and three repeated receiver runs per
-task, the clean arm scored 758/852 public criteria for ordinary handoff and 789/852
-for Proofpress (+31 criteria; +3.64 weighted percentage points). The mean paired
-delta was +3.51 points with a repeated-run 95% t interval of +0.55 to +6.46 points,
-which clears the preregistered −3 point descriptive non-inferiority margin. In the
-separately labelled LAB-derived stress arm, ordinary handoff propagated the frozen
-unsafe conclusion in 4/9 pairs and Proofpress in 0/9, an observed 44.4 point
-protection effect. Only four pairs were discordant, so the exact two-sided McNemar
-test is p=0.125. This is promising panel evidence, not a general or official Harvey
-benchmark claim.
+Two models completed the frozen three-task, three-repeat 2×2 panel. DeepSeek scored
++3.64 weighted percentage points on clean handoffs and +2.70 on the separately
+labelled stress arm; ordinary handoff propagated the frozen unsafe conclusion in
+4/9 stress pairs and Proofpress in 0/9. Opus 4.8 scored +8.57 points clean and +7.75
+points under stress, while neither condition propagated the fixture (0/9 versus
+0/9). A frozen DeepSeek breadth expansion attempted all 14 public LAB Contracts
+scenarios and produced 12 valid pairs: +10.59 weighted points overall, but +3.89
+after excluding three raw-floor tasks. These are descriptive public-task results
+with substantial proof-price and route attrition, not general causal estimates or
+official Harvey benchmark claims.
 
 [//]: # (ob:4764a52f)
 ## Frozen design
@@ -131,16 +131,90 @@ was correct but not always sufficient. The next product optimization should pres
 the deterministic trust gate while reducing graph compilation cost and adding a
 task-completeness check for uncovered approval conditions.
 
+[//]: # (ob:4f4144dd)
+## Cross-model replication
+
+[//]: # (ob:4ca70d46)
+Only DeepSeek and Opus completed all 18 frozen pairs and support panel-level
+estimates. Valid cells from incomplete tracks are retained as descriptive route
+signals; zero-valid routes are unavailable evidence, not zero treatment effects.
+
+[//]: # (ob:658b678e)
+| Worker model | Valid / planned pairs | Evidence tier | Clean weighted delta | Stress weighted delta | Unsafe propagation |
+|---|---:|---|---:|---:|---:|
+| DeepSeek Flash | 18/18 | Complete frozen panel | +3.64pp | +2.70pp | 4/9 → 0/9 |
+| Claude Opus 4.8 | 18/18 | Complete frozen panel | +8.57pp | +7.75pp | 0/9 → 0/9 |
+| Kimi K3 | 1/18 | Incomplete; descriptive only | +3.03pp on one cell | — | — |
+| GLM 5.2 | 2/18 | Incomplete; descriptive only | +8.54pp across two cells | — | — |
+| Muse Spark 1.1 | 1/18 | Incomplete; descriptive only | +2.02pp on one cell | — | — |
+| Qwen 3.8 27B | 0/18 | No valid smoke pair | — | — | — |
+| Inkling | 0/18 | No valid formal pair | — | — | — |
+| GPT-5.6 Sol | 0/1 smoke | Frontier route unavailable | — | — | — |
+
+[//]: # (ob:113b815d)
+The Opus clean paired mean is +8.22pp with a repeated-run 95% t interval of
+[+3.85, +12.59]; stress is +7.43pp [+2.19, +12.67]. Its stress fixture produced
+no discordant safety pairs, so it contributes quality replication but no protection
+endpoint signal. Nineteen invalid Opus attempt directories remain preserved despite
+the eventual complete panel. GLM, Muse, and Inkling failed the frozen 90% route
+validity gate; Kimi remained 1/18 valid. Their observed cells must not be pooled
+with complete panels.
+
+[//]: # (ob:84e36947)
+## DeepSeek 14-task breadth expansion
+
+[//]: # (ob:708dffef)
+The expansion froze every scenario in the three public LAB Contracts families before
+outcomes. Twelve of 14 task pairs were valid (85.7%); MSA scenario 05 and License
+scenario 03 failed on provider transport/policy-review calls and are excluded, not
+scored as zero.
+
+[//]: # (ob:b84e75c6)
+| Scope | Tasks | Ordinary | Proofpress | Weighted delta | Direction |
+|---|---:|---:|---:|---:|---:|
+| Credit | 3 | 217/253 | 227/253 | +10 / +3.95pp | 3 positive |
+| MSA | 5 | 228/320 | 273/320 | +45 / +14.06pp | 4 positive, 1 negative |
+| License | 4 | 160/211 | 188/211 | +28 / +13.27pp | 3 positive, 1 tie |
+| **All valid tasks** | **12** | **605/784 (77.2%)** | **688/784 (87.8%)** | **+83 / +10.59pp** | **10 positive, 1 tie, 1 negative** |
+| **Non-floor sensitivity** | **9** | **582/669 (87.0%)** | **608/669 (91.0%)** | **+26 / +3.89pp** | **7 positive, 1 tie, 1 negative** |
+
+[//]: # (ob:bc410870)
+Three large gains came from tasks where ordinary handoff scored below 25%:
+MSA scenarios 02 and 06 and License scenario 05. The all-valid macro paired mean is
++15.47pp with a descriptive task-level interval of [+1.95, +28.99]; the predeclared
+non-floor sensitivity is +4.04pp [+0.18, +7.90]. The latter is the more conservative
+breadth summary. Each task has one receiver pair, so these intervals measure frozen
+task heterogeneity, not repeat-run or population uncertainty.
+
+[//]: # (ob:d812ed43)
+Mean breadth proof-price was +132,837 receiver-side tokens, +$0.1127 provider cost,
+and +145.7 seconds per valid handoff. Maximum observed cap utilization was 72.2%,
+so valid breadth outputs were not cap-bound.
+
+[//]: # (ob:6b452c0f)
+## Frontier and optional tracks
+
+[//]: # (ob:e5a8d0fd)
+GPT-5.6 Sol produced no valid smoke pair: one receiver read timed out and a second
+attempt failed closed on selector IDs. No frontier treatment estimate is available.
+GPT-5.6 Luna and Grok 4.6 were not run because the predeclared condition—an
+interpretable primary frontier result that could motivate a scaling or robustness
+question—was not met.
+
 [//]: # (ob:a77329f7)
 ## Claim boundary and receipts
 
 [//]: # (ob:a02c5c15)
 - These are public-task rubric scores from a frozen LM evaluator, not Harvey's
   private leaderboard or an official Harvey benchmark result.
-- The clean arm supports only a descriptive non-inferiority finding on this frozen
-  three-task panel.
+- Only the complete DeepSeek and Opus panels support panel estimates. Incomplete
+  cross-model cells are descriptive diagnostics and unavailable routes are not
+  evidence of zero effect.
+- The DeepSeek breadth expansion attempted 14 tasks but yielded 12 valid pairs; its
+  large overall delta is floor-sensitive and must be accompanied by the nine-task
+  non-floor sensitivity.
 - The stress arm is benchmark-derived and supports an observed protection signal,
-  not a population-wide legal-workflow claim.
+  only for DeepSeek on this fixture; Opus was 0/9 unsafe in both conditions.
 - Six invalid v9 attempts remain listed in the run index. A separate pre-v9 attempt
   ledger preserves eight valid negative/zero/positive observations and nine invalid
   attempts from v3–v8; none is silently converted into a valid v9 observation.
@@ -155,6 +229,11 @@ Authoritative artifacts:
 - `results/deepseek-v9-s4-2x2-run-index-2026-08-24.json`
 - `results/deepseek-v9-s4-2x2-results-2026-08-24.json`
 - `results/pre-v9-attempt-ledger-2026-08-24.json`
+- `results/opus48-gateway-v9-replication-2026-08-25.json`
+- `results/cross-model-ladder-summary-2026-08-25.json`
+- `results/deepseek-v9-14-task-expansion-2026-08-25.json`
 - `scripts/bench-aggregate-2x2.mjs`
+- `scripts/bench-aggregate-model-ladder.mjs`
+- `scripts/bench-aggregate-task-expansion.mjs`
 
 [//]: # (proofpress:meta:eyJhcnRpZmFjdF9pZCI6InBwXzhkNjhkNzJmMWIzOTNiNjdkZjBjNzMxYiIsInBvbGljeSI6ImxvY2FsIiwicHJvb2ZwcmVzcyI6MX0)
