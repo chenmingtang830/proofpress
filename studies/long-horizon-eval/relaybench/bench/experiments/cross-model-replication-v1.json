@@ -73,7 +73,7 @@
       "model": "zai/glm-5.2",
       "provider_only": "zai",
       "fallback": false,
-      "reasoning_effort": "high",
+      "reasoning_effort": "none",
       "stage_max_output_tokens": 32000,
       "final_stage_max_output_tokens": 64000
     },

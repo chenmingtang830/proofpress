@@ -70,7 +70,7 @@
         "provider_only": "zai",
         "stream": true,
         "temperature": 0,
-        "reasoning_effort": "high",
+        "reasoning_effort": "none",
         "max_output_tokens": 32000,
         "final_stage_max_output_tokens": 64000,
         "timeout_ms": 1800000,

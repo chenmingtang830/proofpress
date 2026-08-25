@@ -30,5 +30,25 @@
     "sender_structure": "Keep S1-S3 JSON but add fixed concision limits; legacy frozen sender responses remain parse-compatible and may be reused.",
     "attempts": "Every provider or worker failure creates a new explicitly numbered attempt; no automatic retry or fallback is introduced."
   },
+  "model_specific_operational_amendments": [
+    {
+      "track_id": "B2_GLM_5_2_GATEWAY_REPLACEMENT",
+      "frozen_at": "2026-08-25T21:10:00Z",
+      "timing": "After one preserved post-v10 invalid Credit clean attempt and before any valid post-v10 GLM quality result.",
+      "observed_failure": "Raw S4 returned finish_reason=length with output_tokens=64001, reasoning_tokens=64000, no answer text, and exact utilization of the unchanged 64000-token non-binding guardrail.",
+      "classification": "PRE_OUTCOME_MODEL_ADAPTER_CORRECTION",
+      "correction": "Set GLM 5.2 reasoning.effort to none for sender and receiver worker calls. Vercel AI Gateway documents none as a supported provider-agnostic reasoning level and maps it to the target model native thinking control.",
+      "unchanged": [
+        "model and Z.ai-only provider pin",
+        "fallback and retry disabled",
+        "worker and final output caps",
+        "task sources and frozen sender rule",
+        "Raw and Proofpress prompts and conditions",
+        "policy judge and evaluator",
+        "rubric, stress fixtures, and claim boundary"
+      ],
+      "result_use": "The reasoning-only cap failure remains invalid route evidence. All valid v10 GLM cells use the corrected frozen adapter and are not pooled with pre-correction attempts."
+    }
+  ],
   "claim_boundary": "Post-amendment panels estimate the governed-handoff treatment with deterministic context assembly. They must not be pooled silently with pre-amendment panels, and all prior invalid attempts remain route-reliability evidence."
 }
