@@ -198,6 +198,7 @@ def cmd(a):
 KNOWLEDGE_REF = "refs/proofpress/knowledge"
 EVENT_SCHEMA = "proofpress/knowledge-event/v2"
 CONTEXT_SCHEMA = "proofpress/agent-context/v2"
+TRAVERSAL_SCHEMA = "proofpress/graph-traversal/v1"
 POLICY_PATH = ".proofpress/policy.json"
 DEFAULT_POLICY_V2 = {
     "id": "proofpress-local-default",
@@ -795,6 +796,89 @@ def graph_v2(scope=None):
     return {"nodes": nodes, "edges": edges}
 
 
+def traverse_graph_v2(seeds, scope=None, actor=None, task=None,
+                      max_depth=2, max_claims=48):
+    """Expand admitted claim relations without disclosing ineligible claims."""
+    if not seeds: raise ValueError("graph traversal requires at least one seed")
+    if max_depth < 0: raise ValueError("max_depth must be non-negative")
+    if max_claims < 1: raise ValueError("max_claims must be positive")
+    projection, policy = v2_projection(), load_v2_policy()
+
+    def eligibility(cid):
+        row = projection["conclusions"].get(cid)
+        if not row: return "not_found"
+        if scope and row["scope"] != scope: return "scope_mismatch"
+        current = v2_state(projection, row, policy)
+        if current != "admitted": return current
+        actor_ok = (not actor or "*" in row.get("allowed_actors", ["*"])
+                    or actor in row.get("allowed_actors", []))
+        policy_actor_ok = (not actor or "*" in policy["allowed_actors"]
+                           or actor in policy["allowed_actors"])
+        return "eligible" if actor_ok and policy_actor_ok else "actor_not_allowed"
+
+    ordered_seeds = list(dict.fromkeys(seeds))
+    blocked = []
+    eligible_seeds = []
+    for cid in ordered_seeds:
+        reason = eligibility(cid)
+        if reason == "eligible": eligible_seeds.append(cid)
+        else: blocked.append({"conclusion_id": cid, "reason": reason,
+                              "required_action": "human_review"})
+    if not eligible_seeds:
+        raise ValueError("graph traversal has no eligible seeds")
+
+    admitted_relations = sorted(
+        (row for row in projection["relations"].values()
+         if relation_state(projection, row) == "admitted"),
+        key=lambda row: row["id"])
+    adjacency = {}
+    for row in admitted_relations:
+        adjacency.setdefault(row["from"], []).append((row["to"], row))
+        adjacency.setdefault(row["to"], []).append((row["from"], row))
+
+    selected, selected_set = [], set()
+    frontier = []
+    for cid in eligible_seeds:
+        if len(selected) >= max_claims: break
+        selected.append(cid); selected_set.add(cid); frontier.append((cid, 0))
+    included_relations, seen_relations, seen_blocked = [], set(), set()
+    cursor = 0
+    while cursor < len(frontier):
+        current, depth = frontier[cursor]; cursor += 1
+        if depth >= max_depth: continue
+        for neighbor, relation in adjacency.get(current, []):
+            reason = eligibility(neighbor)
+            if reason != "eligible":
+                key = (neighbor, relation["id"], reason)
+                if key not in seen_blocked:
+                    blocked.append({"conclusion_id": neighbor,
+                                    "relation_id": relation["id"],
+                                    "relation_type": relation["type"],
+                                    "reason": reason,
+                                    "required_action": "human_review"})
+                    seen_blocked.add(key)
+                continue
+            if relation["id"] not in seen_relations:
+                included_relations.append({"id": relation["id"],
+                                           "from": relation["from"],
+                                           "to": relation["to"],
+                                           "type": relation["type"]})
+                seen_relations.add(relation["id"])
+            if neighbor not in selected_set and len(selected) < max_claims:
+                selected.append(neighbor); selected_set.add(neighbor)
+                frontier.append((neighbor, depth + 1))
+
+    head = None
+    try: head = _git("rev-parse", KNOWLEDGE_REF).strip()
+    except ValueError: pass
+    return {"schema_version": TRAVERSAL_SCHEMA, "ledger_head": head,
+            "scope": scope, "actor": actor, "task": task,
+            "seed_conclusion_ids": ordered_seeds,
+            "conclusion_ids": selected, "relations": included_relations,
+            "blocked_neighbors": blocked,
+            "limits": {"max_depth": max_depth, "max_claims": max_claims}}
+
+
 def summary_v2(scope=None):
     projection = v2_projection(); rows = [r for r in projection["conclusions"].values() if not scope or r["scope"] == scope]
     counts = {key: 0 for key in ("needs_review", "admitted", "rejected", "superseded", "expired", "unresolved")}
@@ -1021,8 +1105,12 @@ def add_flat_cli(sub):
     context_parser.add_argument("--scope"); context_parser.add_argument("--actor"); context_parser.add_argument("--task")
     context_parser.add_argument("--format", choices=["json", "markdown"], default="json")
     context_parser.add_argument("--include-blocked-statements", action="store_true"); context_parser.set_defaults(f=cmd_flat, flat_cmd="context")
-    graph_parser = sub.add_parser("graph", help="project the governed claim and evidence graph")
-    graph_parser.add_argument("--scope"); graph_parser.set_defaults(f=cmd_flat, flat_cmd="graph")
+    graph_parser = sub.add_parser("graph", help="project or traverse the governed claim graph")
+    graph_parser.add_argument("--scope"); graph_parser.add_argument("--seed", action="append")
+    graph_parser.add_argument("--actor"); graph_parser.add_argument("--task")
+    graph_parser.add_argument("--max-depth", type=int, default=2)
+    graph_parser.add_argument("--max-claims", type=int, default=48)
+    graph_parser.set_defaults(f=cmd_flat, flat_cmd="graph")
     ui_parser = sub.add_parser("ui", help="open the local review and context UI")
     ui_parser.add_argument("--scope"); ui_parser.add_argument("--port", type=int, default=7331); ui_parser.add_argument("--no-open", action="store_true")
     ui_parser.set_defaults(f=cmd_flat, flat_cmd="ui")
@@ -1050,7 +1138,10 @@ def cmd_flat(a):
     elif command == "relation-evaluate": out = evaluate_relation_v2(a.relation)
     elif command == "relation-judge": out = judge_relation_v2(a.relation)
     elif command == "relation-review": out = review_relation_v2(a.relation, "admit" if a.admit else "reject", a.reviewer, a.note)
-    elif command == "graph": out = graph_v2(a.scope)
+    elif command == "graph":
+        out = (traverse_graph_v2(a.seed, a.scope, a.actor, a.task,
+                                 a.max_depth, a.max_claims)
+               if a.seed else graph_v2(a.scope))
     elif command == "context":
         out = context_v2(a.scope, a.actor, a.task, a.include_blocked_statements)
         if a.format == "markdown": print(_markdown_context(out)); return
