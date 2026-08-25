@@ -190,9 +190,9 @@
   },
   {
    "type": "heading",
-   "text": "### Track A — completed anchors",
+   "text": "### Track A — complete frozen panels",
    "id": "704d982d",
-   "hash": "577f7a72ee9e"
+   "hash": "39586c8aa8af"
   },
   {
    "type": "para",
@@ -202,9 +202,9 @@
   },
   {
    "type": "heading",
-   "text": "### Track B — route-gated breadth replication",
+   "text": "### Track B — gated replication and breadth",
    "id": "066c5e34",
-   "hash": "b724e9fa490f"
+   "hash": "3426183095c4"
   },
   {
    "type": "para",
