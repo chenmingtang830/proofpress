@@ -24,6 +24,9 @@ export async function prepareRealPacket({ manifestPath, harveyCheckout, output, 
   const task = await readJson(path.join(taskRoot, "task.json"));
   const copied = [];
   for (const stage of schedule) {
+    // Empty receiver stages are valid: the frozen task contract can itself
+    // request the final deliverable without adding another source document.
+    await fs.mkdir(path.join(output, "source", stage.stage_id), { recursive: true });
     for (const name of stage.release) {
       const source = path.join(taskRoot, "documents", name);
       const destination = path.join(output, "source", stage.stage_id, name);

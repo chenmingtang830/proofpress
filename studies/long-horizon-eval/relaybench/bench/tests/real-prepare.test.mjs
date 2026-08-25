@@ -23,6 +23,8 @@ test("real packet freezes paired conditions and a blind post-run audit without m
   assert.equal(result.packet.harvey.knowledge_scope,
     "legal:lab:contracts/commercial-vendor-customer/master-services-agreement-playbook-escalation/scenario-01");
   assert.match(result.packet.parity_contract, /neither receiver can reopen pre-boundary sources/);
+  for (const stage of result.packet.stages)
+    await fs.access(path.join(output, "source", stage.stage_id));
   const audit = JSON.parse(await fs.readFile(path.join(output, "BLIND_POST_RUN_AUDIT.template.json")));
   assert.equal(audit.role, "blind_post_run_error_analysis_only");
   assert.equal(audit.signed_at, null);
