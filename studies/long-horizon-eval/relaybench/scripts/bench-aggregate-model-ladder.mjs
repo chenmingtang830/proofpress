@@ -71,7 +71,7 @@ const summary = {
   claim_boundary: "Only complete_frozen_panel tracks support panel treatment estimates. Incomplete valid cells are descriptive route signals. User-terminated and route-unavailable tracks do not imply zero effect.",
   complete_panel_count: tracks.filter((track) => track.evidence_tier === "complete_frozen_panel").length,
   tracks,
-  optional_track_decision: "GPT-5.6 Luna and Grok 4.6 were not run because the primary Sol route produced no valid smoke pair, so the predeclared scaling/robustness condition was not met."
+  optional_track_decision: "GPT-5.6 Luna and Grok 4.6 were not run; the completed Sol panel closes the predeclared frontier-confirmation scope without adding an outcome-selected scaling track."
 };
 await fs.writeFile(output, `${JSON.stringify(summary, null, 2)}\n`);
 process.stdout.write(`${JSON.stringify(summary, null, 2)}\n`);

@@ -40,8 +40,10 @@ if (errors.length) {
 
 async function walk(root) {
   const output = [];
+  const ignoredDirectories = new Set([".git", "node_modules"]);
   async function visit(directory) {
     for (const entry of await fs.readdir(directory, { withFileTypes: true })) {
+      if (entry.isDirectory() && ignoredDirectories.has(entry.name)) continue;
       const absolute = path.join(directory, entry.name);
       if (entry.isDirectory()) await visit(absolute);
       else if (entry.isFile()) output.push(absolute);

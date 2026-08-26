@@ -290,7 +290,7 @@
     },
     {
       "path": "CLAIM_BOUNDARIES.md",
-      "sha256": "33e8a0757edaf525d1b26127726e12c5046d7b8ce4399867dd95751247e6e54d"
+      "sha256": "4c1871fa99dc3aa7273fba4877c0999bf18a3e7aa9ba1d535235a677d3e887a4"
     },
     {
       "path": "PHASE_ZERO_FREEZE_PACKET.md",
@@ -502,7 +502,7 @@
     },
     {
       "path": "scripts/bench-lint.mjs",
-      "sha256": "804caa3b208a614e430705a0fbd0174dde30819ab98e829c9baea3712b5c80e6"
+      "sha256": "ecd3f63bb013efd23bd875daf94043cb8bafc4713c9f105aa8ec0e6059cc3b46"
     },
     {
       "path": "scripts/bench-readiness.mjs",

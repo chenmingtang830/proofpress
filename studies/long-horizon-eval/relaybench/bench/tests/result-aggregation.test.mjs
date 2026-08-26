@@ -16,13 +16,14 @@ test("cross-model aggregation preserves complete, incomplete, and user-terminate
     stdio: "ignore",
   });
   const summary = JSON.parse(fs.readFileSync(output, "utf8"));
-  assert.equal(summary.complete_panel_count, 5);
+  assert.equal(summary.complete_panel_count, 7);
   assert.equal(summary.tracks.find(({ id }) => id === "deepseek_anchor").evidence_tier, "complete_frozen_panel");
   assert.equal(summary.tracks.find(({ id }) => id === "opus48_gateway").evidence_tier, "complete_frozen_panel");
   assert.equal(summary.tracks.find(({ id }) => id === "glm52").evidence_tier, "complete_frozen_panel");
   assert.equal(summary.tracks.find(({ id }) => id === "kimi_k3").evidence_tier, "user_terminated_unavailable");
   assert.equal(summary.tracks.find(({ id }) => id === "kimi_k3").completion.disposition, "UNAVAILABLE_USER_TERMINATED");
-  assert.equal(summary.tracks.find(({ id }) => id === "gpt56_sol").evidence_tier, "route_unavailable");
+  assert.equal(summary.tracks.find(({ id }) => id === "qwen38_27b").evidence_tier, "complete_frozen_panel");
+  assert.equal(summary.tracks.find(({ id }) => id === "gpt56_sol").evidence_tier, "complete_frozen_panel");
   assert.equal(summary.tracks.find(({ id }) => id === "deepseek_anchor").protection.raw_unsafe, 4);
 });
 
@@ -80,10 +81,11 @@ test("replication aggregation counts reused governance once across cells", () =>
   assert.equal(result.proof_price.shared_governance.resources.total_tokens, 120);
   assert.equal(result.proof_price.full_panel.incremental.total_tokens, 3);
   assert.equal(result.proof_price.full_panel.all_in.total_tokens, 123);
+  assert.equal(result.proof_price.full_panel.estimate_available, true);
 });
 
 function telemetry(requestId, inputTokens, outputTokens) {
   return { request_id: requestId, model_calls: 1, input_tokens: inputTokens,
-    output_tokens: outputTokens, reasoning_tokens: 0, provider_cost_usd: 0,
+    output_tokens: outputTokens, reasoning_tokens: 0, provider_cost_usd: 0.01,
     wall_clock_latency_ms: 1 };
 }

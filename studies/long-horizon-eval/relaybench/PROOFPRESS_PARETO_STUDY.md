@@ -148,26 +148,27 @@ product treatment, but every generated token and every model call is charged to 
 ### Track A — complete frozen panels
 
 [//]: # (ob:92d5764d)
-DeepSeek Flash and Claude Opus 4.8 completed the same frozen three-task 2×2 panel.
-Both run through provider-pinned Vercel AI Gateway routes with fallback and hidden
-retry disabled. DeepSeek is the low-cost task-expansion anchor; Opus is the complete
-frontier-quality replication. Neither result is an official Harvey hold-out score.
+DeepSeek Flash, Claude Opus 4.8, GLM 5.2, Muse Spark 1.1, Qwen 3.8 27B, Inkling,
+and GPT-5.6 Sol completed the same frozen three-task 2×2 panel. Every route pins one
+provider and disables fallback and hidden retry. DeepSeek remains the low-cost
+task-expansion anchor; Opus and GPT are frontier-quality replications. None is an
+official Harvey hold-out score.
 
 [//]: # (ob:066c5e34)
 ### Track B — gated replication and breadth
 
 [//]: # (ob:478bda41)
-Kimi K3, GLM 5.2, Muse Spark 1.1, Qwen 3.8 27B, and Inkling were offered the same
-frozen three-task protocol. Every route pins one provider and disables fallback and
-automatic retry. GLM, Muse, and Kimi produced only incomplete descriptive cells;
-Qwen and Inkling produced no valid panel pair. These failures are preserved as
-deployment evidence and are not pooled with complete panels.
+Kimi K3 was offered the same protocol but explicitly terminated after repeated
+costly route failures. Its valid calibration cells and invalid attempts remain
+deployment evidence and are excluded from panel treatment estimates. Later adapter
+portability corrections allowed GLM, Muse, Qwen, Inkling, and GPT to finish without
+changing tasks, stress fixtures, rubric, selection logic, or claim boundary.
 
 [//]: # (ob:8c71b340)
-GLM did not meet the frozen 90% validity gate and therefore did not become a
-14-task expansion anchor. DeepSeek attempted all 14 scenarios; 12 yielded valid
-pairs. GPT-5.6 Sol was attempted last as frontier confirmation but produced no valid
-smoke pair. Optional Luna and Grok tracks were not triggered.
+Only DeepSeek entered the pre-frozen 14-task expansion; 12 scenarios yielded valid
+pairs. Cross-model panels remain three-task replications. Optional Luna and Grok
+tracks were not run. GPT completed 18/18 quality and safety pairs, but one successful
+Raw response omitted usage fields, making its full token/cost proof-price partial.
 
 [//]: # (ob:7c94c14e)
 ### Credits and normalized cost
@@ -239,12 +240,14 @@ Report at minimum:
 [//]: # (ob:f15c27f0)
 1. Freeze upstream Harvey revision, three public task IDs, Proofpress revision,
    model routes, judge, tool surface, evaluator, caps, and invalidation rules.
-2. Complete the DeepSeek anchor and Opus replication on 18 pairs each.
-3. Route-gate Kimi, GLM, Muse, Qwen, and Inkling without hiding provider failures.
+2. Complete the DeepSeek anchor and provider-pinned cross-model replications on 18
+   pairs each where the route is operational.
+3. Preserve every invalid attempt; terminate Kimi by explicit user decision rather
+   than treating route failure as a zero effect.
 4. Freeze all 14 LAB Contracts scenarios before DeepSeek breadth outcomes.
 5. Attempt every frozen scenario once and report missing tasks as invalid, not zero.
-6. Attempt GPT-5.6 Sol frontier confirmation; run optional scaling tracks only if
-   the primary frontier result creates an interpretable scaling question.
+6. Complete GPT-5.6 Sol frontier confirmation and mark any missing provider usage
+   telemetry as partial proof-price rather than inventing zero cost.
 7. Aggregate complete panels, incomplete diagnostics, breadth, proof-price, and
    claim boundaries as separate evidence tiers.
 

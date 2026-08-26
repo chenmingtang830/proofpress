@@ -5,16 +5,15 @@
 ## Result in one paragraph
 
 [//]: # (ob:0ecc6e72)
-Two models completed the frozen three-task, three-repeat 2×2 panel. DeepSeek scored
-+3.64 weighted percentage points on clean handoffs and +2.70 on the separately
-labelled stress arm; ordinary handoff propagated the frozen unsafe conclusion in
-4/9 stress pairs and Proofpress in 0/9. Opus 4.8 scored +8.57 points clean and +7.75
-points under stress, while neither condition propagated the fixture (0/9 versus
-0/9). A frozen DeepSeek breadth expansion attempted all 14 public LAB Contracts
-scenarios and produced 12 valid pairs: +10.59 weighted points overall, but +3.89
-after excluding three raw-floor tasks. These are descriptive public-task results
-with substantial proof-price and route attrition, not general causal estimates or
-official Harvey benchmark claims.
+Seven models completed the frozen three-task, three-repeat 2×2 panel. Six had
+positive weighted deltas on both clean and stress arms; Inkling was +1.53pp clean
+and −0.47pp stress. Effects remain model- and task-dependent: GPT-5.6 Sol was
++12.67pp clean on MSA but −2.35pp on License. Unsafe propagation fell from 4/9 to
+0/9 for DeepSeek, 3/9 to 0/9 for GLM, and 1/9 to 0/9 for Qwen; other models were
+0/9 in both conditions. A frozen DeepSeek breadth expansion produced 12 valid of
+14 attempted pairs: +10.59pp overall, but +3.89pp after excluding three raw-floor
+tasks. These are descriptive public-task results with substantial proof-price and
+route attrition, not general causal estimates or official Harvey benchmark claims.
 
 [//]: # (ob:4764a52f)
 ## Frozen design
@@ -135,30 +134,30 @@ task-completeness check for uncovered approval conditions.
 ## Cross-model replication
 
 [//]: # (ob:4ca70d46)
-Only DeepSeek and Opus completed all 18 frozen pairs and support panel-level
-estimates. Valid cells from incomplete tracks are retained as descriptive route
-signals; zero-valid routes are unavailable evidence, not zero treatment effects.
+DeepSeek, Opus, GLM, Muse, Qwen, Inkling, and GPT-5.6 Sol each completed all 18
+frozen pairs and support separate panel-level estimates. Kimi was explicitly
+terminated after repeated costly route failures; its retained calibration cells
+and invalid attempts do not support a treatment estimate.
 
 [//]: # (ob:658b678e)
 | Worker model | Valid / planned pairs | Evidence tier | Clean weighted delta | Stress weighted delta | Unsafe propagation |
 |---|---:|---|---:|---:|---:|
 | DeepSeek Flash | 18/18 | Complete frozen panel | +3.64pp | +2.70pp | 4/9 → 0/9 |
 | Claude Opus 4.8 | 18/18 | Complete frozen panel | +8.57pp | +7.75pp | 0/9 → 0/9 |
-| Kimi K3 | 1/18 | Incomplete; descriptive only | +3.03pp on one cell | — | — |
-| GLM 5.2 | 2/18 | Incomplete; descriptive only | +8.54pp across two cells | — | — |
-| Muse Spark 1.1 | 1/18 | Incomplete; descriptive only | +2.02pp on one cell | — | — |
-| Qwen 3.8 27B | 0/18 | No valid smoke pair | — | — | — |
-| Inkling | 0/18 | No valid formal pair | — | — | — |
-| GPT-5.6 Sol | 0/1 smoke | Frontier route unavailable | — | — | — |
+| GLM 5.2 | 18/18 | Complete frozen panel | +3.99pp | +4.23pp | 3/9 → 0/9 |
+| Muse Spark 1.1 | 18/18 | Complete frozen panel | +2.82pp | +4.81pp | 0/9 → 0/9 |
+| Qwen 3.8 27B | 18/18 | Complete frozen panel | +5.05pp | +4.58pp | 1/9 → 0/9 |
+| Inkling | 18/18 | Complete frozen panel | +1.53pp | −0.47pp | 0/9 → 0/9 |
+| GPT-5.6 Sol | 18/18 | Complete frozen panel | +4.46pp | +3.52pp | 0/9 → 0/9 |
+| Kimi K3 | 0/18 pooled | User-terminated; unavailable | — | — | — |
 
 [//]: # (ob:113b815d)
-The Opus clean paired mean is +8.22pp with a repeated-run 95% t interval of
-[+3.85, +12.59]; stress is +7.43pp [+2.19, +12.67]. Its stress fixture produced
-no discordant safety pairs, so it contributes quality replication but no protection
-endpoint signal. Nineteen invalid Opus attempt directories remain preserved despite
-the eventual complete panel. GLM, Muse, and Inkling failed the frozen 90% route
-validity gate; Kimi remained 1/18 valid. Their observed cells must not be pooled
-with complete panels.
+Across complete panels, weighted clean deltas range from +1.53pp to +8.57pp and
+stress deltas from −0.47pp to +7.75pp. Repeated-run intervals exclude zero for both
+arms on DeepSeek, Opus, GLM, Muse, and Qwen; GPT excludes zero only on stress, and
+Inkling on neither arm. This is replication with visible heterogeneity, not evidence
+of a universal effect. All prior invalid attempts remain preserved. Kimi's earlier
+cells must not be pooled into a complete panel.
 
 [//]: # (ob:84e36947)
 ## DeepSeek 14-task breadth expansion
@@ -195,11 +194,13 @@ so valid breadth outputs were not cap-bound.
 ## Frontier and optional tracks
 
 [//]: # (ob:e5a8d0fd)
-GPT-5.6 Sol produced no valid smoke pair: one receiver read timed out and a second
-attempt failed closed on selector IDs. No frontier treatment estimate is available.
-GPT-5.6 Luna and Grok 4.6 were not run because the predeclared condition—an
-interpretable primary frontier result that could motivate a scaling or robustness
-question—was not met.
+GPT-5.6 Sol completed 18/18 pairs. Clean weighted delta was +4.46pp (paired mean
++4.11pp, 95% repeated-run interval [−1.42, +9.64]); stress was +3.52pp (+3.40pp,
+[+0.79, +6.00]). MSA drove the largest gain; clean License regressed −2.35pp.
+All nine stress pairs were safe in both conditions. One successful Raw response
+omitted input/output/cost usage, so GPT quality and safety estimates are complete
+but its full-panel token/cost proof-price is explicitly partial and unavailable as
+a complete estimate. Optional Luna and Grok tracks remain unrun.
 
 [//]: # (ob:a77329f7)
 ## Claim boundary and receipts
@@ -207,14 +208,16 @@ question—was not met.
 [//]: # (ob:a02c5c15)
 - These are public-task rubric scores from a frozen LM evaluator, not Harvey's
   private leaderboard or an official Harvey benchmark result.
-- Only the complete DeepSeek and Opus panels support panel estimates. Incomplete
-  cross-model cells are descriptive diagnostics and unavailable routes are not
-  evidence of zero effect.
+- Seven complete panels support separate model-level estimates. They must not be
+  silently pooled into a universal treatment effect; Kimi remains unavailable,
+  not a zero-effect model.
 - The DeepSeek breadth expansion attempted 14 tasks but yielded 12 valid pairs; its
   large overall delta is floor-sensitive and must be accompanied by the nine-task
   non-floor sensitivity.
-- The stress arm is benchmark-derived and supports an observed protection signal,
-  only for DeepSeek on this fixture; Opus was 0/9 unsafe in both conditions.
+- The stress arm is benchmark-derived. Protection signals appeared for DeepSeek,
+  GLM, and Qwen; the other four complete panels were 0/9 unsafe in both conditions.
+- GPT quality and safety receipts are complete, but one provider response omitted
+  usage telemetry; its all-in token/cost proof-price is a partial lower bound only.
 - Six invalid v9 attempts remain listed in the run index. A separate pre-v9 attempt
   ledger preserves eight valid negative/zero/positive observations and nine invalid
   attempts from v3–v8; none is silently converted into a valid v9 observation.
@@ -231,6 +234,9 @@ Authoritative artifacts:
 - `results/pre-v9-attempt-ledger-2026-08-24.json`
 - `results/opus48-gateway-v9-replication-2026-08-25.json`
 - `results/cross-model-ladder-summary-2026-08-25.json`
+- `results/cross-model-ladder-summary-2026-08-26.json`
+- `results/qwen38-27b-gateway-v10-replication-2026-08-26.json`
+- `results/gpt56-sol-gateway-v10-replication-2026-08-26.json`
 - `results/deepseek-v9-14-task-expansion-2026-08-25.json`
 - `scripts/bench-aggregate-2x2.mjs`
 - `scripts/bench-aggregate-model-ladder.mjs`

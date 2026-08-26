@@ -112,6 +112,9 @@ async function proofPrice(run, state) {
   const c1 = sumTelemetry(c1Calls);
   return {
     definition: "Proofpress receiver-side calls minus ordinary S4 receiver; shared S1-S3 sender and evaluators excluded",
+    telemetry_complete: [...c1Calls, ...c2Calls].every(hasCompleteUsage),
+    incomplete_usage_request_ids: [...c1Calls, ...c2Calls].filter((x) => !hasCompleteUsage(x))
+      .map((x) => x.request_id ?? null),
     raw_receiver: c1,
     proofpress_receiver_and_governance: c2,
     delta: subtractTelemetry(c2, c1),
@@ -164,8 +167,15 @@ async function sharedGovernanceSummary(rows, root) {
 
 function fullPanelPrice(rows, sharedGovernance) {
   const incremental = sumTelemetry(rows.map((x) => x.proof_price.delta));
+  const incompleteUsageRequestIds = rows.flatMap((x) => x.proof_price.incomplete_usage_request_ids ?? []);
   return {
     valid_pairs: rows.length,
+    estimate_available: incompleteUsageRequestIds.length === 0,
+    telemetry_complete: incompleteUsageRequestIds.length === 0,
+    incomplete_usage_request_ids: incompleteUsageRequestIds,
+    partial_totals_warning: incompleteUsageRequestIds.length
+      ? "At least one successful provider response omitted token/cost usage; totals are observed partial values and must not be reported as complete proof-price."
+      : null,
     incremental,
     shared_governance: sharedGovernance.resources,
     all_in: addTelemetry(incremental, sharedGovernance.resources),
@@ -214,9 +224,12 @@ function protectionSummary(items) {
 }
 function priceSummary(items) {
   if (!items.length) return { pairs: 0, estimate_available: false };
+  const incompleteUsageRequestIds = items.flatMap((x) => x.proof_price.incomplete_usage_request_ids ?? []);
   const keys = ["model_calls", "input_tokens", "output_tokens", "reasoning_tokens", "total_tokens",
     "provider_cost_usd", "wall_clock_latency_ms"];
-  return { pairs: items.length, estimate_available: true,
+  return { pairs: items.length, estimate_available: incompleteUsageRequestIds.length === 0,
+    telemetry_complete: incompleteUsageRequestIds.length === 0,
+    incomplete_usage_request_ids: incompleteUsageRequestIds,
     delta: Object.fromEntries(keys.map((key) => {
       const values = items.map((x) => x.proof_price.delta[key]);
       return [key, { total: sum(values), mean: mean(values), median: median(values), values }];
@@ -230,6 +243,11 @@ function uniqueTelemetry(values) {
     if (seen.has(key)) return false;
     seen.add(key); return true;
   });
+}
+function hasCompleteUsage(value) {
+  return Number.isFinite(value?.input_tokens) && value.input_tokens > 0
+    && Number.isFinite(value?.output_tokens) && value.output_tokens > 0
+    && Number.isFinite(value?.provider_cost_usd) && value.provider_cost_usd > 0;
 }
 function sumTelemetry(values) {
   const out = { model_calls: 0, input_tokens: 0, output_tokens: 0, reasoning_tokens: 0,
