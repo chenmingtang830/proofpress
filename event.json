@@ -1,35 +1,149 @@
 {
  "event": "version_created",
- "artifact": "studies/long-horizon-eval/relaybench/PUBLIC_RESULTS.md",
- "artifact_id": "pp_a59d351c883c87dde5396eba",
- "version": "36945b70",
- "parent": "2e94b881",
+ "artifact": "studies/long-horizon-eval/relaybench/PUBLICATION_COPY.md",
+ "artifact_id": "pp_c29a2419ccc3738736ebf62c",
+ "version": "34654dc2",
+ "parent": null,
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-26T12:10:19+00:00",
+ "ts": "2026-08-26T12:15:49+00:00",
  "stats": {
-  "modified": 2
+  "added": 18
  },
  "changes": [
   {
-   "kind": "modified",
-   "block": "e18743e6",
+   "kind": "added",
+   "block": "a746b4e4",
    "type": "heading",
-   "context": "Verified handoffs improved performance o"
+   "context": "Proofpress result publication copy",
+   "preview": "# Proofpress result publication copy"
   },
   {
-   "kind": "modified",
-   "block": "a75a49ef",
+   "kind": "added",
+   "block": "67daf02e",
+   "type": "heading",
+   "context": "Technical report",
+   "preview": "## Technical report"
+  },
+  {
+   "kind": "added",
+   "block": "b7d9a862",
    "type": "para",
-   "context": "Verified handoffs improved performance o"
+   "context": "Technical report",
+   "preview": "**Governed Knowledge Ledgers for Verified Agent Handoffs: A "
+  },
+  {
+   "kind": "added",
+   "block": "121e14eb",
+   "type": "para",
+   "context": "Technical report",
+   "preview": "Use for the formal report, repository, PDF, and citations. I"
+  },
+  {
+   "kind": "added",
+   "block": "185b0a4d",
+   "type": "heading",
+   "context": "Blog",
+   "preview": "## Blog"
+  },
+  {
+   "kind": "added",
+   "block": "b9f95b4d",
+   "type": "para",
+   "context": "Blog",
+   "preview": "**What Should the Next Agent Trust?**"
+  },
+  {
+   "kind": "added",
+   "block": "ffd8a0e3",
+   "type": "para",
+   "context": "Blog",
+   "preview": "*How a governed knowledge ledger turned prior agent work int"
+  },
+  {
+   "kind": "added",
+   "block": "2fe836f6",
+   "type": "para",
+   "context": "Blog",
+   "preview": "Use the title to lead with the user problem and the subtitle"
+  },
+  {
+   "kind": "added",
+   "block": "bcd28ce8",
+   "type": "heading",
+   "context": "Results poster",
+   "preview": "## Results poster"
+  },
+  {
+   "kind": "added",
+   "block": "c65749d6",
+   "type": "para",
+   "context": "Results poster",
+   "preview": "**Verified handoffs improved performance on Harvey LAB-deriv"
+  },
+  {
+   "kind": "added",
+   "block": "927ebf05",
+   "type": "para",
+   "context": "Results poster",
+   "preview": "*Proofpress’s governed knowledge ledger converted prior agen"
+  },
+  {
+   "kind": "added",
+   "block": "9e60dfcd",
+   "type": "heading",
+   "context": "Distribution headlines",
+   "preview": "## Distribution headlines"
+  },
+  {
+   "kind": "added",
+   "block": "2f92efc9",
+   "type": "list",
+   "context": "Distribution headlines",
+   "preview": "1. **Seven models. Three multi-step legal tasks. Every model"
+  },
+  {
+   "kind": "added",
+   "block": "85aab92e",
+   "type": "para",
+   "context": "Distribution headlines",
+   "preview": "Use the first headline for launch, the next two for data-led"
+  },
+  {
+   "kind": "added",
+   "block": "41d928c6",
+   "type": "heading",
+   "context": "Launch copy",
+   "preview": "## Launch copy"
+  },
+  {
+   "kind": "added",
+   "block": "437324c4",
+   "type": "para",
+   "context": "Launch copy",
+   "preview": "When one agent hands work to the next, a summary is not enou"
+  },
+  {
+   "kind": "added",
+   "block": "fb196f03",
+   "type": "heading",
+   "context": "Claim boundary",
+   "preview": "## Claim boundary"
+  },
+  {
+   "kind": "added",
+   "block": "e485af91",
+   "type": "para",
+   "context": "Claim boundary",
+   "preview": "Describe the evidence as a frozen study of **Harvey LAB-deri"
   }
  ],
- "policy": "portable",
- "soft_fingerprint": "ppsb1:07018e597683a9dd708589ecb1aa5abe9a9e567bff071cf4a8467123cfba0210",
+ "policy": "local",
+ "soft_fingerprint": "ppsb1:9fb08f038d587705264efa7a46a91b55352fa2a927199768e5f34fc7d24e9da3",
  "actors": {
   "requested_by": [
    "human:richardtang"
@@ -47,18 +161,98 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "e18743e6",
-   "kind": "modified",
-   "note": "Aligns the public result headline with the verified-handoff product mechanism and bounded Harvey LAB-derived scope."
+   "block": "a746b4e4",
+   "kind": "added",
+   "note": "Creates a bounded publication-copy kit for the frozen result."
   },
   {
-   "block": "a75a49ef",
-   "kind": "modified",
-   "note": "Connects the governed knowledge ledger to verified handoffs and the two frozen observed outcomes."
+   "block": "67daf02e",
+   "kind": "added",
+   "note": "Introduces the technical-report title section."
+  },
+  {
+   "block": "b7d9a862",
+   "kind": "added",
+   "note": "Names the governed ledger, verified handoff, seven-model scope, and LAB-derived tasks."
+  },
+  {
+   "block": "121e14eb",
+   "kind": "added",
+   "note": "Explains the intended formal-report use and source boundary."
+  },
+  {
+   "block": "185b0a4d",
+   "kind": "added",
+   "note": "Introduces the blog-title section."
+  },
+  {
+   "block": "b9f95b4d",
+   "kind": "added",
+   "note": "Leads public narrative with the receiving-agent trust question."
+  },
+  {
+   "block": "ffd8a0e3",
+   "kind": "added",
+   "note": "Supplies a mechanism- and scope-specific blog subtitle."
+  },
+  {
+   "block": "2fe836f6",
+   "kind": "added",
+   "note": "Explains the title and subtitle hierarchy."
+  },
+  {
+   "block": "bcd28ce8",
+   "kind": "added",
+   "note": "Introduces the results-poster copy section."
+  },
+  {
+   "block": "c65749d6",
+   "kind": "added",
+   "note": "Records the frozen poster headline."
+  },
+  {
+   "block": "927ebf05",
+   "kind": "added",
+   "note": "Records the governed-ledger mechanism and observed outcomes."
+  },
+  {
+   "block": "9e60dfcd",
+   "kind": "added",
+   "note": "Introduces distribution-ready headlines."
+  },
+  {
+   "block": "2f92efc9",
+   "kind": "added",
+   "note": "Provides launch, data-led, and product-positioning headline variants."
+  },
+  {
+   "block": "85aab92e",
+   "kind": "added",
+   "note": "Maps headline variants to distribution uses."
+  },
+  {
+   "block": "41d928c6",
+   "kind": "added",
+   "note": "Introduces the launch-copy section."
+  },
+  {
+   "block": "437324c4",
+   "kind": "added",
+   "note": "Summarizes mechanism, results, and limits in launch-ready prose."
+  },
+  {
+   "block": "fb196f03",
+   "kind": "added",
+   "note": "Introduces the public claim boundary."
+  },
+  {
+   "block": "e485af91",
+   "kind": "added",
+   "note": "Prevents official-Harvey, general long-horizon, causal, or intelligence overclaims."
   }
  ],
  "context": {
-  "why": "Keep the public result summary consistent with the results poster and the bounded Harvey LAB-derived study claim."
+  "why": "Create a reusable publication-copy hierarchy that keeps technical, blog, poster, and social titles aligned with the governed-ledger product narrative and the frozen evidence boundary."
  },
- "event_id": "ppe_0a64710dfa8b6a2ee656a86e"
+ "event_id": "ppe_6d642c7a8b9db5d807cdda69"
 }

@@ -1,84 +1,114 @@
 {
- "artifact": "studies/long-horizon-eval/relaybench/PUBLIC_RESULTS.md",
- "artifact_id": "pp_a59d351c883c87dde5396eba",
+ "artifact": "studies/long-horizon-eval/relaybench/PUBLICATION_COPY.md",
+ "artifact_id": "pp_c29a2419ccc3738736ebf62c",
  "blocks": [
   {
    "type": "heading",
-   "text": "# Verified handoffs improved performance on Harvey LAB-derived tasks across all seven models",
-   "id": "e18743e6",
-   "hash": "deb0bdf76552"
-  },
-  {
-   "type": "para",
-   "text": "Proofpress’s governed knowledge ledger converted prior agent work into evidence-bound knowledge for the next agent. Across the frozen panel, verified handoffs increased rubric completion for every model and stopped every observed unsafe propagation event.",
-   "id": "a75a49ef",
-   "hash": "e8305207fd4b"
-  },
-  {
-   "type": "para",
-   "text": "**Result frozen:** August 26, 2026.",
-   "id": "98206673",
-   "hash": "f2450a335b1c"
+   "text": "# Proofpress result publication copy",
+   "id": "a746b4e4",
+   "hash": "3e8efa96ed67"
   },
   {
    "type": "heading",
-   "text": "## Results",
-   "id": "b6fedb3a",
-   "hash": "6890eaf76885"
-  },
-  {
-   "type": "table",
-   "text": "| Outcome | Ordinary handoff | Proofpress | Observed difference |\n| --- | ---: | ---: | ---: |\n| Rubric criteria passed | 10,654 / 11,928 (89.3%) | 11,141 / 11,928 (93.4%) | **+487 criteria / +4.1pp** |\n| Unsafe propagation in stress pairs | 8 / 63 | 0 / 63 | **8 observed events prevented** |",
-   "id": "2ea84b72",
-   "hash": "cd7329e064b0"
+   "text": "## Technical report",
+   "id": "67daf02e",
+   "hash": "438a812933ce"
   },
   {
    "type": "para",
-   "text": "The frozen panel contains **7 models, 3 legal task families, and 126 valid paired runs**. The quality aggregate uses matched rubric denominators from all clean and stress pairs. The safety count uses the 63 controlled stress pairs only.",
-   "id": "459c9ee5",
-   "hash": "985e988d49ee"
+   "text": "**Governed Knowledge Ledgers for Verified Agent Handoffs: A Seven-Model Study on Harvey LAB-Derived Multi-Step Legal Tasks**",
+   "id": "b7d9a862",
+   "hash": "c8a4ff34f7e2"
   },
   {
    "type": "para",
-   "text": "The three frozen task episodes are **Credit Lending Playbook Escalation (scenario 02)**, **Master Services Agreement Playbook Escalation (scenario 04)**, and **License Agreement Playbook Escalation (scenario 03)**. The communication chart orders models by observed percentage-point improvement, not by final model score.",
-   "id": "bfee053c",
-   "hash": "a0853f91b8b4"
+   "text": "Use for the formal report, repository, PDF, and citations. It names the product mechanism, experimental unit, model breadth, and bounded task source without implying an official Harvey result.",
+   "id": "121e14eb",
+   "hash": "22b4319721be"
   },
   {
    "type": "heading",
-   "text": "## What this establishes",
-   "id": "4a94f863",
-   "hash": "5f9b001bc6e0"
+   "text": "## Blog",
+   "id": "185b0a4d",
+   "hash": "3f82d1635e2f"
   },
   {
    "type": "para",
-   "text": "The result is a strong product-mechanism signal: evidence-bound, policy-governed handoff can improve completion in this bounded panel while preventing the observed propagation of injected stale, superseded, unsupported, or out-of-scope state.",
-   "id": "a4478ea1",
-   "hash": "f1af49c87fef"
+   "text": "**What Should the Next Agent Trust?**",
+   "id": "b9f95b4d",
+   "hash": "3dd4394ab2fb"
   },
   {
    "type": "para",
-   "text": "It does not establish an official Harvey leaderboard score, population-level causality, statistical significance, or improved legal intelligence. The tasks are Proofpress-composed handoff episodes derived from version-pinned public Harvey LAB Contracts materials. Cross-model and task effects remain heterogeneous.",
-   "id": "f67607e0",
-   "hash": "2ba7c2a94736"
+   "text": "*How a governed knowledge ledger turned prior agent work into verified handoffs across seven models and three Harvey LAB-derived legal tasks.*",
+   "id": "ffd8a0e3",
+   "hash": "ef4cf8ab49a5"
+  },
+  {
+   "type": "para",
+   "text": "Use the title to lead with the user problem and the subtitle to establish the product mechanism and evidence scope.",
+   "id": "2fe836f6",
+   "hash": "b6abc96a3510"
   },
   {
    "type": "heading",
-   "text": "## Receipts",
-   "id": "d0eeaf78",
-   "hash": "67ab1400b4d0"
+   "text": "## Results poster",
+   "id": "bcd28ce8",
+   "hash": "75677ba52acc"
+  },
+  {
+   "type": "para",
+   "text": "**Verified handoffs improved performance on Harvey LAB-derived tasks across all seven models.**",
+   "id": "c65749d6",
+   "hash": "845728f452aa"
+  },
+  {
+   "type": "para",
+   "text": "*Proofpress’s governed knowledge ledger converted prior agent work into evidence-bound knowledge for the next agent—raising rubric completion and stopping every observed unsafe propagation event.*",
+   "id": "927ebf05",
+   "hash": "9f885e6409ca"
+  },
+  {
+   "type": "heading",
+   "text": "## Distribution headlines",
+   "id": "9e60dfcd",
+   "hash": "0a9b93d62432"
   },
   {
    "type": "list",
-   "text": "- [Communication chart](visuals/proofpress-results.html)\n- [Claim boundaries](CLAIM_BOUNDARIES.md)\n- [Content-addressed final receipt manifest](../ara/evidence/FINAL_RESULTS_RECEIPTS.json)\n- [Per-model and task result files](results/)\n- [Retained invalid-attempt ledger](results/pre-v9-attempt-ledger-2026-08-24.json)",
-   "id": "284c93dd",
-   "hash": "d4c32959adb7"
+   "text": "1. **Seven models. Three multi-step legal tasks. Every model improved with a verified handoff.**\n2. **Ordinary handoffs passed 89.3% of rubric criteria. Proofpress verified handoffs passed 93.4%.**\n3. **Unsafe propagation fell from 8 observed events to 0 with Proofpress’s governed knowledge ledger.**\n4. **Agent memory preserves information. A governed knowledge ledger determines what the next agent can safely rely on.**\n5. **The next agent should inherit verified knowledge—not an unsupported summary.**",
+   "id": "2f92efc9",
+   "hash": "9012e8f894c1"
   },
   {
    "type": "para",
-   "text": "The study is now frozen. Additional models or scenarios require a new preregistered study rather than modifying this result after outcomes are known.",
-   "id": "d12e322e",
-   "hash": "31618ca94b08"
+   "text": "Use the first headline for launch, the next two for data-led follow-ups, and the final two for product-positioning posts.",
+   "id": "85aab92e",
+   "hash": "58edf892ffd7"
+  },
+  {
+   "type": "heading",
+   "text": "## Launch copy",
+   "id": "41d928c6",
+   "hash": "884cd9ab1f26"
+  },
+  {
+   "type": "para",
+   "text": "When one agent hands work to the next, a summary is not enough. The receiving agent needs to know what is current, what evidence supports it, and whether it is safe to reuse. We tested Proofpress’s governed knowledge ledger across seven models and three Harvey LAB-derived multi-step legal handoff tasks. Verified handoffs increased aggregate rubric completion from 89.3% to 93.4%, while observed unsafe propagation in controlled stress pairs fell from 8 events to 0. These are bounded, descriptive results—not an official Harvey benchmark score—but they provide a strong product signal: governed knowledge can make multi-step agent work both more effective and more trustworthy.",
+   "id": "437324c4",
+   "hash": "1b637aedbeaa"
+  },
+  {
+   "type": "heading",
+   "text": "## Claim boundary",
+   "id": "fb196f03",
+   "hash": "327e3f245e18"
+  },
+  {
+   "type": "para",
+   "text": "Describe the evidence as a frozen study of **Harvey LAB-derived multi-step legal agent handoff tasks**. Do not describe it as an official Harvey benchmark result, a general long-horizon-agent improvement, population-level causality, or improved legal intelligence.",
+   "id": "e485af91",
+   "hash": "39c4867ab57c"
   }
  ]
 }
