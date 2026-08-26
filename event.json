@@ -1,79 +1,79 @@
 {
  "event": "version_created",
- "artifact": "studies/long-horizon-eval/ara/logic/experiments.md",
- "artifact_id": "pp_e0f5613435d8a6c21278eed2",
- "version": "c696b83e",
- "parent": "8c1d1479",
+ "artifact": "studies/long-horizon-eval/ara/logic/related_work.md",
+ "artifact_id": "pp_880f0947f548573192575a60",
+ "version": "d8046630",
+ "parent": "5d33d027",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-26T13:04:51+00:00",
+ "ts": "2026-08-26T13:04:57+00:00",
  "stats": {
   "added": 8
  },
  "changes": [
   {
    "kind": "added",
-   "block": "080c3518",
+   "block": "89f76aca",
    "type": "heading",
-   "context": "E01: Phase Zero mechanics validation",
-   "preview": "## E01: Phase Zero mechanics validation"
+   "context": "RW01: Harvey Legal Agent Benchmark and L",
+   "preview": "## RW01: Harvey Legal Agent Benchmark and LAB Contracts"
   },
   {
    "kind": "added",
-   "block": "58f6e3f8",
+   "block": "e9c432a5",
    "type": "list",
-   "context": "E01: Phase Zero mechanics validation",
-   "preview": "- **Verifies**: C01.\n- **Status**: completed; engineering ev"
+   "context": "RW01: Harvey Legal Agent Benchmark and L",
+   "preview": "- **Type**: benchmark dependency.\n- **Relationship**: Provid"
   },
   {
    "kind": "added",
-   "block": "3607dd4f",
+   "block": "fe1a14ba",
    "type": "heading",
-   "context": "E02: Frozen seven-model paired quality p",
-   "preview": "## E02: Frozen seven-model paired quality panel"
+   "context": "RW02: Agent-Native Research Artifact",
+   "preview": "## RW02: Agent-Native Research Artifact"
   },
   {
    "kind": "added",
-   "block": "692ad304",
+   "block": "09f91dd8",
    "type": "list",
-   "context": "E02: Frozen seven-model paired quality p",
-   "preview": "- **Verifies**: C02 and C04.\n- **Status**: completed and fro"
+   "context": "RW02: Agent-Native Research Artifact",
+   "preview": "- **Type**: publication and research-lifecycle format.\n- **R"
   },
   {
    "kind": "added",
-   "block": "35734341",
+   "block": "679ee4af",
    "type": "heading",
-   "context": "E03: Controlled handoff trust-stress pan",
-   "preview": "## E03: Controlled handoff trust-stress panel"
+   "context": "RW03: Proofpress artifact-provenance han",
+   "preview": "## RW03: Proofpress artifact-provenance handoff study"
   },
   {
    "kind": "added",
-   "block": "34fc74b2",
+   "block": "cf2b5e9c",
    "type": "list",
-   "context": "E03: Controlled handoff trust-stress pan",
-   "preview": "- **Verifies**: C03 and C04.\n- **Status**: completed and fro"
+   "context": "RW03: Proofpress artifact-provenance han",
+   "preview": "- **Type**: prior mechanism evidence.\n- **Relationship**: Ea"
   },
   {
    "kind": "added",
-   "block": "40941016",
+   "block": "2343a4f4",
    "type": "heading",
-   "context": "E04: DeepSeek fourteen-scenario breadth ",
-   "preview": "## E04: DeepSeek fourteen-scenario breadth check"
+   "context": "RW04: Memory and observability systems",
+   "preview": "## RW04: Memory and observability systems"
   },
   {
    "kind": "added",
-   "block": "ce6846cc",
+   "block": "df6b5957",
    "type": "list",
-   "context": "E04: DeepSeek fourteen-scenario breadth ",
-   "preview": "- **Verifies**: C04 only; secondary sensitivity evidence.\n- "
+   "context": "RW04: Memory and observability systems",
+   "preview": "- **Type**: adjacent infrastructure category.\n- **Relationsh"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:6964dedf6b06fe67390c65220fea3ddc260150598801df3759f0d825882fcead",
+ "soft_fingerprint": "ppsb1:04760a3b2d7648c6fc3ef7f8351397a44d002b0dce94ee44e66c8112d194c059",
  "actors": {
   "requested_by": [
    "human:richardtang"
@@ -91,48 +91,48 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "080c3518",
+   "block": "89f76aca",
    "kind": "added",
-   "note": "Adds publication-grade ARA content: ## E01: Phase Zero mechanics validation"
+   "note": "Adds publication-grade ARA content: ## RW01: Harvey Legal Agent Benchmark and LAB Contracts"
   },
   {
-   "block": "58f6e3f8",
+   "block": "e9c432a5",
    "kind": "added",
-   "note": "Adds publication-grade ARA content: - **Verifies**: C01."
+   "note": "Adds publication-grade ARA content: - **Type**: benchmark dependency."
   },
   {
-   "block": "3607dd4f",
+   "block": "fe1a14ba",
    "kind": "added",
-   "note": "Adds publication-grade ARA content: ## E02: Frozen seven-model paired quality panel"
+   "note": "Adds publication-grade ARA content: ## RW02: Agent-Native Research Artifact"
   },
   {
-   "block": "692ad304",
+   "block": "09f91dd8",
    "kind": "added",
-   "note": "Adds publication-grade ARA content: - **Verifies**: C02 and C04."
+   "note": "Adds publication-grade ARA content: - **Type**: publication and research-lifecycle format."
   },
   {
-   "block": "35734341",
+   "block": "679ee4af",
    "kind": "added",
-   "note": "Adds publication-grade ARA content: ## E03: Controlled handoff trust-stress panel"
+   "note": "Adds publication-grade ARA content: ## RW03: Proofpress artifact-provenance handoff study"
   },
   {
-   "block": "34fc74b2",
+   "block": "cf2b5e9c",
    "kind": "added",
-   "note": "Adds publication-grade ARA content: - **Verifies**: C03 and C04."
+   "note": "Adds publication-grade ARA content: - **Type**: prior mechanism evidence."
   },
   {
-   "block": "40941016",
+   "block": "2343a4f4",
    "kind": "added",
-   "note": "Adds publication-grade ARA content: ## E04: DeepSeek fourteen-scenario breadth check"
+   "note": "Adds publication-grade ARA content: ## RW04: Memory and observability systems"
   },
   {
-   "block": "ce6846cc",
+   "block": "df6b5957",
    "kind": "added",
-   "note": "Adds publication-grade ARA content: - **Verifies**: C04 only; secondary sensitivity evidence."
+   "note": "Adds publication-grade ARA content: - **Type**: adjacent infrastructure category."
   }
  ],
  "context": {
   "why": "Compile the frozen PR #35 study into a publication-grade ARA 2.6 artifact without changing results or inventing historical research traces."
  },
- "event_id": "ppe_1a62ab1e742f293ee983bca3"
+ "event_id": "ppe_bbf6e69cbd28d77c7605ea40"
 }

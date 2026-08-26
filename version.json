@@ -1,60 +1,60 @@
 {
- "artifact": "studies/long-horizon-eval/ara/logic/experiments.md",
- "artifact_id": "pp_e0f5613435d8a6c21278eed2",
+ "artifact": "studies/long-horizon-eval/ara/logic/related_work.md",
+ "artifact_id": "pp_880f0947f548573192575a60",
  "blocks": [
   {
    "type": "heading",
-   "text": "# Experiments",
-   "id": "8219c192",
-   "hash": "58b2a1c3f41e"
+   "text": "# Related work",
+   "id": "d819ad5e",
+   "hash": "69c3e7c269a8"
   },
   {
    "type": "heading",
-   "text": "## E01: Phase Zero mechanics validation",
-   "id": "080c3518",
-   "hash": "fe2841ed4ac3"
+   "text": "## RW01: Harvey Legal Agent Benchmark and LAB Contracts",
+   "id": "89f76aca",
+   "hash": "8640ca1fbdbc"
   },
   {
    "type": "list",
-   "text": "- **Verifies**: C01.\n- **Status**: completed; engineering evidence only.\n- **Provenance**: ai-executed.\n- **Setup**: Deterministic H4 test-double releases, declared cold boundary, C1 ordinary and C2 Proofpress condition manifests, file-level parity checks, state scoring, and TEST-ONLY exclusion markers.\n- **Procedure**: Run fixture verification, parity, stage-controller, scoring, reporting, and readiness tests; verify that TEST-ONLY output cannot enter benchmark aggregation.\n- **Metrics**: Boundary enforcement, parity result, deterministic state score, schema validity, and exclusion eligibility.\n- **Expected outcome**: The harness enforces the declared boundary, verifies parity, produces deterministic records, and excludes TEST-ONLY data.\n- **Baselines**: No-treatment deterministic condition and intentionally invalid fixture cases.\n- **Result**: Mechanics readiness passed; this result does not measure language-model behavior.\n- **Evidence**: [`../../relaybench/BENCHMARK_READINESS_REPORT.md`](../../relaybench/BENCHMARK_READINESS_REPORT.md) and the adjacent test suite.",
-   "id": "58f6e3f8",
-   "hash": "21740e9815b7"
+   "text": "- **Type**: benchmark dependency.\n- **Relationship**: Provides public professional legal task families, source materials, and rubric structure adapted into the frozen handoff study.\n- **Delta**: This study introduces a cold multi-worker boundary and controlled trust perturbations. Its outputs are LAB-derived product research, not official Harvey leaderboard results.\n- **Source**: [`../../relaybench/CLAIM_BOUNDARIES.md`](../../relaybench/CLAIM_BOUNDARIES.md) and version-pinned source manifests.",
+   "id": "e9c432a5",
+   "hash": "7b211deca446"
   },
   {
    "type": "heading",
-   "text": "## E02: Frozen seven-model paired quality panel",
-   "id": "3607dd4f",
-   "hash": "1f256f8dbd0d"
+   "text": "## RW02: Agent-Native Research Artifact",
+   "id": "fe1a14ba",
+   "hash": "fec90c2fe780"
   },
   {
    "type": "list",
-   "text": "- **Verifies**: C02 and C04.\n- **Status**: completed and frozen.\n- **Provenance**: ai-executed.\n- **Setup**: Credit, MSA, and License task families; seven complete model panels; clean/stress 2×2 cells; three receiver repeats per cell; one frozen S1-S3 sender state per model/task; identical worker caps and S4 rubrics between conditions.\n- **Procedure**: Generate and freeze sender state, branch fresh S4 receivers into ordinary and Proofpress conditions, evaluate matched deliverables against the same task rubric, reject invalid pairs, and aggregate only content-addressed admitted panel files.\n- **Metrics**: Passed rubric criteria and matched criterion denominator, reported by model, task, arm, and condition; tokens and latency where telemetry is complete.\n- **Expected outcome**: Proofpress should preserve clean continuation within a practically acceptable bound; any descriptive improvement must remain scoped to the frozen panel.\n- **Baselines**: Strong ordinary portable handoff using the same source state, task, model, tools, caps, and evaluator.\n- **Result**: Ordinary 10,654/11,928 (89.3%); Proofpress 11,141/11,928 (93.4%); descriptive delta +4.1 percentage points across 126 admitted pairs.\n- **Evidence**: [`../evidence/tables/final-panel.md`](../evidence/tables/final-panel.md), [`../evidence/FINAL_RESULTS_RECEIPTS.json`](../evidence/FINAL_RESULTS_RECEIPTS.json), and the seven panel receipts it names.",
-   "id": "692ad304",
-   "hash": "60f5460045c5"
+   "text": "- **Type**: publication and research-lifecycle format.\n- **Relationship**: Defines the layered `logic/src/trace/evidence` artifact anatomy, provenance vocabulary, exploration DAG, and Seal review process used for this package.\n- **Delta**: This ARA was compiled retrospectively from frozen records rather than maintained contemporaneously by the ARA Live PM; that distinction is disclosed throughout.\n- **Source**: [ARA-Labs/Agent-Native-Research-Artifact](https://github.com/ARA-Labs/Agent-Native-Research-Artifact).",
+   "id": "09f91dd8",
+   "hash": "f20e196ed06a"
   },
   {
    "type": "heading",
-   "text": "## E03: Controlled handoff trust-stress panel",
-   "id": "35734341",
-   "hash": "35603bf5d420"
+   "text": "## RW03: Proofpress artifact-provenance handoff study",
+   "id": "679ee4af",
+   "hash": "51c63d6a235b"
   },
   {
    "type": "list",
-   "text": "- **Verifies**: C03 and C04.\n- **Status**: completed and frozen.\n- **Provenance**: ai-executed.\n- **Setup**: The same E02 tasks and paired receiver design, with preregistered stale-authority, unsupported-approval, or revoked-approval fixtures injected at the S3-to-S4 cold boundary. Artifact content is byte-matched; only Proofpress has external current-state metadata and deterministic blocking.\n- **Procedure**: Apply each fixture to both conditions, run three S4 repeats, score the final deliverable with fixture-specific deterministic unsafe-propagation checks, and keep quality scoring separate.\n- **Metrics**: Unsafe propagation events per admitted stress pair, plus matched work-product rubric quality.\n- **Expected outcome**: Proofpress should block injected non-current or unsupported state without requiring a claim of substantive legal correctness.\n- **Baselines**: Ordinary portable handoff with the identical perturbed artifact and no ledger current-state gate.\n- **Result**: Across 63 admitted stress pairs, ordinary handoff propagated eight injected unsafe states and Proofpress propagated none.\n- **Evidence**: [`../evidence/tables/final-panel.md`](../evidence/tables/final-panel.md), the final receipt manifest, and fixture files under [`../../relaybench/bench/experiments/stress-fixtures/`](../../relaybench/bench/experiments/stress-fixtures/).",
-   "id": "34fc74b2",
-   "hash": "a0f281d88a1e"
+   "text": "- **Type**: prior mechanism evidence.\n- **Relationship**: Earlier controlled evidence showed artifact version binding can prevent stale reuse in a narrow handoff task.\n- **Delta**: The present study embeds governed handoff in larger multi-step legal work products, adds a strong ordinary-summary baseline, separates clean and stress arms, and measures rubric quality plus unsafe propagation.\n- **Source**: [`../../../agent-handoff-artifact-provenance/`](../../../agent-handoff-artifact-provenance/).",
+   "id": "cf2b5e9c",
+   "hash": "8f303aba57bf"
   },
   {
    "type": "heading",
-   "text": "## E04: DeepSeek fourteen-scenario breadth check",
-   "id": "40941016",
-   "hash": "9f0d4f8b6ee6"
+   "text": "## RW04: Memory and observability systems",
+   "id": "2343a4f4",
+   "hash": "8a59bb96da20"
   },
   {
    "type": "list",
-   "text": "- **Verifies**: C04 only; secondary sensitivity evidence.\n- **Status**: completed and excluded from the seven-model aggregate.\n- **Provenance**: ai-executed.\n- **Setup**: Fourteen LAB-derived scenarios under the frozen DeepSeek route.\n- **Procedure**: Apply the task-expansion protocol and retain task-level outcomes without pooling them into the primary cross-model estimate.\n- **Metrics**: Task-level paired quality and floor/ceiling sensitivity.\n- **Expected outcome**: Detect whether the three primary task families conceal scenario heterogeneity.\n- **Baselines**: Matched ordinary handoff per scenario.\n- **Result**: Retained as secondary breadth evidence; it does not support a seven-model breadth claim.\n- **Evidence**: [`../../relaybench/results/deepseek-v9-14-task-expansion-2026-08-25.json`](../../relaybench/results/deepseek-v9-14-task-expansion-2026-08-25.json).",
-   "id": "ce6846cc",
-   "hash": "a92459f4a107"
+   "text": "- **Type**: adjacent infrastructure category.\n- **Relationship**: Memory retrieves prior state and observability records what happened.\n- **Delta**: Proofpress tests a narrower reliance boundary: which conclusions are current, evidence-bound, policy-evaluated, admitted, superseded, and safe to hand to a fresh worker.\n- **Source**: [`protocol.md`](protocol.md) and [`concepts.md`](concepts.md).",
+   "id": "df6b5957",
+   "hash": "cb1ebb15d1d7"
   }
  ]
 }
