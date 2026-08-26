@@ -1,41 +1,41 @@
 {
  "event": "version_created",
- "artifact": "studies/long-horizon-eval/ara/README.md",
- "artifact_id": "pp_aed9b741599a3086e78c8505",
- "version": "64985781",
- "parent": "b1eaa573",
+ "artifact": "studies/long-horizon-eval/ara/decisions/REGISTER.md",
+ "artifact_id": "pp_9637401fcace9fdad8845a4b",
+ "version": "487827b9",
+ "parent": "647451de",
  "author": {
   "name": "OpenAI Codex",
   "kind": "agent",
   "session": null
  },
  "note": null,
- "ts": "2026-08-26T11:33:34+00:00",
+ "ts": "2026-08-26T11:33:39+00:00",
  "stats": {
   "modified": 3
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "71ee4330",
+   "block": "98dbebdc",
    "type": "para",
-   "context": "Role"
+   "context": "Status convention"
   },
   {
    "kind": "modified",
-   "block": "4c8f145b",
-   "type": "para",
-   "context": "Current state"
+   "block": "b1e150ec",
+   "type": "table",
+   "context": "Active decisions"
   },
   {
    "kind": "modified",
-   "block": "937a3a32",
+   "block": "36acccab",
    "type": "para",
-   "context": "Navigation"
+   "context": "Decision evidence rule"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:837bff0de29216f2aa5d306161101aaa893b9a76062b4415e0fb999b6998db68",
+ "soft_fingerprint": "ppsb1:6067b946d75dae8d738c066439e8f6289d31df52a41fad07715d3ca5b42b1a2c",
  "actors": {
   "requested_by": [
    "human:richard-tang"
@@ -53,23 +53,23 @@
  "attribution_basis": "environment_attested",
  "claims": [
   {
-   "block": "71ee4330",
+   "block": "98dbebdc",
    "kind": "modified",
-   "note": "Update ARA role from proposed to completed evaluation lifecycle record."
+   "note": "Define Frozen and Closed states for the executed study."
   },
   {
-   "block": "4c8f145b",
+   "block": "b1e150ec",
    "kind": "modified",
-   "note": "Record frozen-complete study state and exclude Phase Zero fixtures."
+   "note": "Replace approval-blocked Phase Zero rows with executed frozen decisions and study closure."
   },
   {
-   "block": "937a3a32",
+   "block": "36acccab",
    "kind": "modified",
-   "note": "Point readers to final public results, harness, and receipts."
+   "note": "Bind decisions to receipts and retained invalid attempts."
   }
  ],
  "context": {
-  "why": "Advance the ARA from historical Phase Zero to the frozen completed study state."
+  "why": "Freeze executed protocol decisions and close the current study against post-outcome extension."
  },
- "event_id": "ppe_c3c218ad83715feffe67b3cf"
+ "event_id": "ppe_998aa86e47543c13dcbb216a"
 }
