@@ -1,128 +1,86 @@
 {
  "event": "version_created",
- "artifact": "studies/long-horizon-eval/ara/logic/solution/architecture.md",
- "artifact_id": "pp_fec3a2052e654813942b31a8",
- "version": "252e0ea3",
- "parent": "e0da53e3",
+ "artifact": "studies/long-horizon-eval/ara/logic/solution/algorithm.md",
+ "artifact_id": "pp_681b5b75b63883f754a3ae81",
+ "version": "46a38d74",
+ "parent": "20d14177",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-26T13:05:04+00:00",
+ "ts": "2026-08-26T13:05:11+00:00",
  "stats": {
-  "added": 15
+  "added": 9
  },
  "changes": [
   {
    "kind": "added",
-   "block": "2857a9c7",
+   "block": "4feb48f6",
    "type": "heading",
-   "context": "Protocol controller",
-   "preview": "## Protocol controller"
+   "context": "Inputs",
+   "preview": "## Inputs"
   },
   {
    "kind": "added",
-   "block": "33b4f909",
-   "type": "para",
-   "context": "Protocol controller",
-   "preview": "The adjacent RelayBench stage controller freezes one S1-S3 s"
+   "block": "8ada3d1d",
+   "type": "list",
+   "context": "Inputs",
+   "preview": "- Frozen task definition, source revisions, rubric, model ro"
   },
   {
    "kind": "added",
-   "block": "7e2812de",
-   "type": "para",
-   "context": "Protocol controller",
-   "preview": "Implementation pointer: [`../../../relaybench/bench/controll"
-  },
-  {
-   "kind": "added",
-   "block": "a026653c",
+   "block": "3169d81e",
    "type": "heading",
-   "context": "Governed handoff builder",
-   "preview": "## Governed handoff builder"
+   "context": "Paired execution",
+   "preview": "## Paired execution"
   },
   {
    "kind": "added",
-   "block": "598eb52d",
-   "type": "para",
-   "context": "Governed handoff builder",
-   "preview": "The Proofpress branch imports evidence, proposes version-bou"
+   "block": "0dccccdd",
+   "type": "list",
+   "context": "Paired execution",
+   "preview": "1. Verify task sources and experiment manifest before any re"
   },
   {
    "kind": "added",
-   "block": "bebc3271",
-   "type": "para",
-   "context": "Governed handoff builder",
-   "preview": "Implementation pointers: [`../../../relaybench/bench/real/re"
-  },
-  {
-   "kind": "added",
-   "block": "45d55089",
+   "block": "4a9455d5",
    "type": "heading",
-   "context": "Paired evaluator",
-   "preview": "## Paired evaluator"
+   "context": "Fail-closed admission",
+   "preview": "## Fail-closed admission"
   },
   {
    "kind": "added",
-   "block": "86ad0b4d",
+   "block": "38b0578f",
+   "type": "code",
+   "context": "Fail-closed admission",
+   "preview": "```text\nproposed conclusion\n  -> deterministic integrity/cur"
+  },
+  {
+   "kind": "added",
+   "block": "6c54a20c",
    "type": "para",
-   "context": "Paired evaluator",
-   "preview": "The evaluator scores both final deliverables against the sam"
+   "context": "Fail-closed admission",
+   "preview": "An LM recommendation never grants admission by itself. Missi"
   },
   {
    "kind": "added",
-   "block": "cfb12a94",
-   "type": "para",
-   "context": "Paired evaluator",
-   "preview": "Implementation pointers: [`../../../relaybench/bench/evaluat"
-  },
-  {
-   "kind": "added",
-   "block": "7950c9ba",
+   "block": "682198db",
    "type": "heading",
-   "context": "Receipt verifier",
-   "preview": "## Receipt verifier"
+   "context": "Published estimands",
+   "preview": "## Published estimands"
   },
   {
    "kind": "added",
-   "block": "2d3ae0a9",
-   "type": "para",
-   "context": "Receipt verifier",
-   "preview": "The ARA receipt verifier resolves every admitted and seconda"
-  },
-  {
-   "kind": "added",
-   "block": "707cfdb2",
-   "type": "para",
-   "context": "Receipt verifier",
-   "preview": "Implementation: [`../../src/execution/verify_receipts.py`](."
-  },
-  {
-   "kind": "added",
-   "block": "c0d3a025",
-   "type": "heading",
-   "context": "Publication compiler",
-   "preview": "## Publication compiler"
-  },
-  {
-   "kind": "added",
-   "block": "6cbbcb3b",
-   "type": "para",
-   "context": "Publication compiler",
-   "preview": "The frozen aggregate, claim register, public result, and vis"
-  },
-  {
-   "kind": "added",
-   "block": "8f10c814",
-   "type": "para",
-   "context": "Publication compiler",
-   "preview": "Implementation pointers: [`../../../relaybench/scripts/bench"
+   "block": "ebce6d57",
+   "type": "list",
+   "context": "Published estimands",
+   "preview": "- **Quality**: passed matched rubric criteria per condition "
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:7928733b576d637269f1abca30da5f33cbb06f5500d4df5fd43dc542961e0734",
+ "soft_fingerprint": "ppsb1:f2ebecd3ce3ce8de9ba52e57aefa3352546ae29f8d4a4276a8472891fbf13344",
  "actors": {
   "requested_by": [
    "human:richardtang"
@@ -140,83 +98,53 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "2857a9c7",
+   "block": "4feb48f6",
    "kind": "added",
-   "note": "Adds publication-grade ARA content: ## Protocol controller"
+   "note": "Adds publication-grade ARA content: ## Inputs"
   },
   {
-   "block": "33b4f909",
+   "block": "8ada3d1d",
    "kind": "added",
-   "note": "Adds publication-grade ARA content: The adjacent RelayBench stage controller freezes one S1-S3 sender state per model/task, verifies the declared S3-to-S4 cold boundary, and fo"
+   "note": "Adds publication-grade ARA content: - Frozen task definition, source revisions, rubric, model route, provider allowlist, and output caps."
   },
   {
-   "block": "7e2812de",
+   "block": "3169d81e",
    "kind": "added",
-   "note": "Adds publication-grade ARA content: Implementation pointer: [`../../../relaybench/bench/controller/stage-controller.mjs`](../../../relaybench/bench/controller/stage-controller."
+   "note": "Adds publication-grade ARA content: ## Paired execution"
   },
   {
-   "block": "a026653c",
+   "block": "0dccccdd",
    "kind": "added",
-   "note": "Adds publication-grade ARA content: ## Governed handoff builder"
+   "note": "Adds publication-grade ARA content: 1. Verify task sources and experiment manifest before any receiver call."
   },
   {
-   "block": "598eb52d",
+   "block": "4a9455d5",
    "kind": "added",
-   "note": "Adds publication-grade ARA content: The Proofpress branch imports evidence, proposes version-bound conclusions, applies deterministic integrity and current-state checks, obtain"
+   "note": "Adds publication-grade ARA content: ## Fail-closed admission"
   },
   {
-   "block": "bebc3271",
+   "block": "38b0578f",
    "kind": "added",
-   "note": "Adds publication-grade ARA content: Implementation pointers: [`../../../relaybench/bench/real/research-propose-evaluate.py`](../../../relaybench/bench/real/research-propose-eva"
+   "note": "Adds publication-grade ARA content: ```text"
   },
   {
-   "block": "45d55089",
+   "block": "6c54a20c",
    "kind": "added",
-   "note": "Adds publication-grade ARA content: ## Paired evaluator"
+   "note": "Adds publication-grade ARA content: An LM recommendation never grants admission by itself. Missing evidence, stale policy, superseded state, or an invalid receipt blocks reuse."
   },
   {
-   "block": "86ad0b4d",
+   "block": "682198db",
    "kind": "added",
-   "note": "Adds publication-grade ARA content: The evaluator scores both final deliverables against the same task rubric. A separate deterministic trust-stress scorer checks whether a fix"
+   "note": "Adds publication-grade ARA content: ## Published estimands"
   },
   {
-   "block": "cfb12a94",
+   "block": "ebce6d57",
    "kind": "added",
-   "note": "Adds publication-grade ARA content: Implementation pointers: [`../../../relaybench/bench/evaluation/public-rubric.mjs`](../../../relaybench/bench/evaluation/public-rubric.mjs)"
-  },
-  {
-   "block": "7950c9ba",
-   "kind": "added",
-   "note": "Adds publication-grade ARA content: ## Receipt verifier"
-  },
-  {
-   "block": "2d3ae0a9",
-   "kind": "added",
-   "note": "Adds publication-grade ARA content: The ARA receipt verifier resolves every admitted and secondary result path relative to the manifest, recomputes SHA-256 digests, and fails c"
-  },
-  {
-   "block": "707cfdb2",
-   "kind": "added",
-   "note": "Adds publication-grade ARA content: Implementation: [`../../src/execution/verify_receipts.py`](../../src/execution/verify_receipts.py)."
-  },
-  {
-   "block": "c0d3a025",
-   "kind": "added",
-   "note": "Adds publication-grade ARA content: ## Publication compiler"
-  },
-  {
-   "block": "6cbbcb3b",
-   "kind": "added",
-   "note": "Adds publication-grade ARA content: The frozen aggregate, claim register, public result, and visualization are derived only from the admitted receipt set. Invalid attempts and"
-  },
-  {
-   "block": "8f10c814",
-   "kind": "added",
-   "note": "Adds publication-grade ARA content: Implementation pointers: [`../../../relaybench/scripts/bench-aggregate-model-ladder.mjs`](../../../relaybench/scripts/bench-aggregate-model-"
+   "note": "Adds publication-grade ARA content: - **Quality**: passed matched rubric criteria per condition for the frozen panel."
   }
  ],
  "context": {
   "why": "Compile the frozen PR #35 study into a publication-grade ARA 2.6 artifact without changing results or inventing historical research traces."
  },
- "event_id": "ppe_a75b009c093ffb81c90cf5d3"
+ "event_id": "ppe_2180ed1f98472858daf7f1df"
 }
