@@ -1,35 +1,41 @@
 {
  "event": "version_created",
- "artifact": "studies/long-horizon-eval/ara/src/artifacts.md",
- "artifact_id": "pp_8daa10214932fdfd6435f2cc",
- "version": "e5850ae0",
- "parent": "4db24dc3",
+ "artifact": "studies/long-horizon-eval/ara/logic/protocol.md",
+ "artifact_id": "pp_fe30fc8593ff15186d94212d",
+ "version": "d853a83e",
+ "parent": "173700b9",
  "author": {
   "name": "OpenAI Codex",
   "kind": "agent",
   "session": null
  },
  "note": null,
- "ts": "2026-08-26T11:33:57+00:00",
+ "ts": "2026-08-26T11:34:04+00:00",
  "stats": {
-  "modified": 2
+  "modified": 3
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "e367e3b0",
-   "type": "table",
-   "context": "Artifact index"
+   "block": "db500b47",
+   "type": "heading",
+   "context": "Cold-boundary execution"
   },
   {
    "kind": "modified",
-   "block": "dff6d43f",
+   "block": "0ef3542b",
    "type": "para",
-   "context": "Artifact index"
+   "context": "Cold-boundary execution"
+  },
+  {
+   "kind": "modified",
+   "block": "2cacfac7",
+   "type": "para",
+   "context": "Tracks and outcome families"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:c35aecc5e4df232122144535e49f51fb5e83326470d92935d0cc24c775122a2c",
+ "soft_fingerprint": "ppsb1:a0b795abea0b1da5dd9638d43dabbfdfe825d8a7ce8e9d675b9771a9f14d4b0c",
  "actors": {
   "requested_by": [
    "human:richard-tang"
@@ -47,18 +53,23 @@
  "attribution_basis": "environment_attested",
  "claims": [
   {
-   "block": "e367e3b0",
+   "block": "db500b47",
    "kind": "modified",
-   "note": "Index final public, visual, receipt, result, boundary, and decision artifacts."
+   "note": "Rename calibration boundary to executed cold-boundary protocol."
   },
   {
-   "block": "dff6d43f",
+   "block": "0ef3542b",
    "kind": "modified",
-   "note": "Separate retained historical provenance from admitted final evidence."
+   "note": "Document frozen sender state and matched paired receiver branches."
+  },
+  {
+   "block": "2cacfac7",
+   "kind": "modified",
+   "note": "Record final outcome families and allowed bounded aggregation."
   }
  ],
  "context": {
-  "why": "Replace stale proposed-artifact pointers with the final frozen evidence set."
+  "why": "Record the executed cold-boundary paired protocol and final outcome semantics."
  },
- "event_id": "ppe_26ab739e366943cd8393828b"
+ "event_id": "ppe_dc6e12d502ced535c420a39e"
 }

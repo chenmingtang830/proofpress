@@ -1,24 +1,72 @@
 {
- "artifact": "studies/long-horizon-eval/ara/src/artifacts.md",
- "artifact_id": "pp_8daa10214932fdfd6435f2cc",
+ "artifact": "studies/long-horizon-eval/ara/logic/protocol.md",
+ "artifact_id": "pp_fe30fc8593ff15186d94212d",
  "blocks": [
   {
    "type": "heading",
-   "text": "# Artifact index",
-   "id": "abb736b5",
-   "hash": "87fb5e30d55f"
+   "text": "# Protocol semantics",
+   "id": "a5e07a33",
+   "hash": "56bcf2ec54d1"
   },
   {
-   "type": "table",
-   "text": "| Artifact | Role | Current status |\n| --- | --- | --- |\n| [`../../relaybench/PUBLIC_RESULTS.md`](../../relaybench/PUBLIC_RESULTS.md) | Public one-page result | Frozen synthesis |\n| [`../../relaybench/visuals/proofpress-results.html`](../../relaybench/visuals/proofpress-results.html) | Communication chart | Frozen synthesis |\n| [`../evidence/FINAL_RESULTS_RECEIPTS.json`](../evidence/FINAL_RESULTS_RECEIPTS.json) | Content-addressed receipt manifest | Frozen evidence |\n| [`../../relaybench/results/`](../../relaybench/results/) | Per-model results and retained attempts | Frozen evidence set |\n| [`../../relaybench/CLAIM_BOUNDARIES.md`](../../relaybench/CLAIM_BOUNDARIES.md) | Public and research claim boundary | Active |\n| [`../decisions/REGISTER.md`](../decisions/REGISTER.md) | Decision lifecycle and study closure | Closed |",
-   "id": "e367e3b0",
-   "hash": "6615159e4768"
+   "type": "heading",
+   "text": "## Research object",
+   "id": "afeec1e6",
+   "hash": "c5489ebedf17"
   },
   {
    "type": "para",
-   "text": "The ARA references version-pinned artifacts rather than copying their contents. Historical plans and Phase Zero readiness files remain in place as provenance, while the receipt manifest identifies the evidence admitted to the final result.",
-   "id": "dff6d43f",
-   "hash": "511929a6c878"
+   "text": "The research object is a version-bound, admitted negotiation state crossing a genuine cold agent/session boundary. It is not generic agent memory, a document-management interface, or a claim that provenance establishes legal correctness.",
+   "id": "c85350e3",
+   "hash": "cbaf796bd1f4"
+  },
+  {
+   "type": "heading",
+   "text": "## Intervention and control",
+   "id": "e801ed15",
+   "hash": "0d1bcec4cd09"
+  },
+  {
+   "type": "para",
+   "text": "C1 and C2 receive the same substantive contract matter, instructions, permitted tools, budgets, and scoring rubric. C2 additionally receives a Proofpress representation and verification affordance that binds the operative artifact to admitted decisions, supporting materials, actors, and version.",
+   "id": "cd4ee0d2",
+   "hash": "80a29656127c"
+  },
+  {
+   "type": "para",
+   "text": "The comparison therefore asks whether a receiver can safely continue from the authorized state, not whether more context or better legal knowledge improves performance.",
+   "id": "ab7f706b",
+   "hash": "1b42ac439d5c"
+  },
+  {
+   "type": "heading",
+   "text": "## Cold-boundary execution",
+   "id": "db500b47",
+   "hash": "753c0618ca35"
+  },
+  {
+   "type": "para",
+   "text": "Each episode has four stages and one cold boundary before S3. S1/S2 use one worker; the sender state is frozen; S3/S4 branch into ordinary and Proofpress receivers using fresh workers. Within a model/task pair, the source state, task, rubric, and worker caps are matched.",
+   "id": "0ef3542b",
+   "hash": "77c3e68a6be8"
+  },
+  {
+   "type": "heading",
+   "text": "## Tracks and outcome families",
+   "id": "6039fa04",
+   "hash": "0f15af5620f3"
+  },
+  {
+   "type": "para",
+   "text": "Clean continuity, evolving negotiation state, and integrity faults are separate tracks. The proposed H4 calibration concerns evolving negotiation state; a corrupted carrier is a distinct robustness test and cannot alone support a long-horizon effectiveness claim.",
+   "id": "103ae58c",
+   "hash": "dfb33d53fb0b"
+  },
+  {
+   "type": "para",
+   "text": "Admitted results report final work-product rubric quality, unsafe state propagation, verification overhead where telemetry is complete, and invalid/inconclusive attempts separately. Clean and stress cells remain distinguishable even when matched rubric denominators are aggregated for the bounded public quality summary.",
+   "id": "2cacfac7",
+   "hash": "b2843b47ef04"
   }
  ]
 }
