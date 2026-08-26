@@ -1,0 +1,23 @@
+{
+  "schema_version": "relaybench/operational-amendment/v1",
+  "amendment_id": "ledger-batch-proposal-v1",
+  "frozen_at": "2026-08-26T08:40:00Z",
+  "status": "FROZEN_PRE_OUTCOME",
+  "scope": "research-only conclusion proposal and deterministic evaluation writer",
+  "observed_problem": {
+    "kind": "local_ledger_replay_per_proposal_and_evaluation",
+    "description": "Each conclusion launched separate CLI processes for proposal and deterministic evaluation; every process replayed the complete refs/proofpress/knowledge history.",
+    "effect": "O(n^2) local runtime before the single transaction judge call; no provider inference or research condition is changed."
+  },
+  "correction": {
+    "description": "Send all evidence-bound conclusions to one research-only process, replay the ledger once, and append the same independent proposal and policy-evaluation events in declaration order.",
+    "semantic_invariants": [
+      "conclusion IDs and digests use the production Proofpress functions",
+      "evidence integrity, expiry, supersession, and scope checks remain conclusion-specific",
+      "unbound conclusions remain excluded before proposal",
+      "task, worker, treatment, policy judge, rubric evaluator, prompts, caps, and provider routes are unchanged"
+    ]
+  },
+  "historical_attempts": "preserved; in-flight GPT MSA attempt-2 continues with the prior proposal writer",
+  "outcome_blinding": "frozen before GPT MSA or GPT License produced paired receiver quality results"
+}

@@ -122,6 +122,7 @@ export async function runPrepare({ packetDir, output, manifest, trackId, authori
       }
       const pending = [];
       const rejectedUnbound = [];
+      const bound = [];
       for (const conclusion of conclusions) {
         conclusion.evidence_files = normalizeEvidenceFileNames(conclusion.evidence_files, [...evidence.keys()]);
         const refs = conclusion.evidence_files.map((name) => evidence.get(name)).filter(Boolean);
@@ -132,12 +133,15 @@ export async function runPrepare({ packetDir, output, manifest, trackId, authori
             reason: "no_bound_evidence" });
           continue;
         }
-        const proposeArgs = ["propose", "--statement", conclusion.statement,
-          ...refs.flatMap((ref) => ["--evidence", ref]), "--scope", packet.harvey.knowledge_scope,
-          "--proposer", "agent:sender", "--allow-actor", "agent:receiver"];
-        if (conclusion.expires_at) proposeArgs.push("--expires-at", conclusion.expires_at);
-        const proposed = await proofpress(root, ledger, proposeArgs);
-        const evaluation = await proofpress(root, ledger, ["evaluate", proposed.conclusion.id]);
+        bound.push({ conclusion, refs });
+      }
+      const proposedBatch = await researchProposeEvaluateBatch(root, ledger, bound.map(({ conclusion, refs }) => ({
+        statement: conclusion.statement, evidence_refs: refs, scope: packet.harvey.knowledge_scope,
+        proposer: "agent:sender", allowed_actors: ["agent:receiver"],
+        expires_at: conclusion.expires_at ?? null,
+      })));
+      for (const [index, { conclusion, refs }] of bound.entries()) {
+        const { proposed, evaluation } = proposedBatch[index];
         const evidencePacket = await extractEvidence(root,
           conclusion.evidence_files.map((name) => evidencePathForName(packetDir, packet, name)));
         pending.push({ conclusion, proposed, evaluation, evidencePacket, refs });
@@ -531,6 +535,12 @@ function receiverSourceStart(packet) {
 }
 async function researchPolicyAdmitBatch(root, cwd, packets) {
   const { stdout } = await execFileAsync("python3", [path.join(root, "studies/long-horizon-eval/relaybench/bench/real/research-policy-admit.py"),
+    JSON.stringify(packets)], { cwd, maxBuffer: 16 * 1024 * 1024 });
+  return JSON.parse(stdout);
+}
+async function researchProposeEvaluateBatch(root, cwd, packets) {
+  const { stdout } = await execFileAsync("python3", [path.join(root,
+    "studies/long-horizon-eval/relaybench/bench/real/research-propose-evaluate.py"),
     JSON.stringify(packets)], { cwd, maxBuffer: 16 * 1024 * 1024 });
   return JSON.parse(stdout);
 }
