@@ -152,6 +152,7 @@ export async function runPrepare({ packetDir, output, manifest, trackId, authori
         assertForAdapter(judgedBatch, judge, 64000, "transaction batch judge");
         const batchVerdicts = parseBatchJudgeOutput(judgedBatch.raw_output, pending.map((x) => x.proposed.conclusion.id));
         const batchReceipt = `batch:${judgedBatch.telemetry.request_id ?? "unreported"}`;
+        const judgedItems = [];
         for (const item of pending) {
         const batchVerdict = batchVerdicts.get(item.proposed.conclusion.id);
         let verdict = { recommendation: batchVerdict.recommendation, rationale: batchVerdict.rationale };
@@ -168,8 +169,16 @@ export async function runPrepare({ packetDir, output, manifest, trackId, authori
           individualReview = { trigger: batchVerdict.risk_level === "high" ? "high_risk" : "escalated",
             verdict, telemetry: reviewed.telemetry };
         }
-        const gate = await researchPolicyAdmit(root, ledger, { conclusion_id: item.proposed.conclusion.id, verdict,
-          executor: manifest.policy_gate.executor, judge: { route: manifest.policy_gate.judge.endpoint, model: manifest.policy_gate.judge.resolved_model } });
+        judgedItems.push({ item, batchVerdict, verdict, individualReview });
+        }
+        const gates = await researchPolicyAdmitBatch(root, ledger, judgedItems.map(({ item, verdict }) => ({
+          conclusion_id: item.proposed.conclusion.id, verdict,
+          executor: manifest.policy_gate.executor,
+          judge: { route: manifest.policy_gate.judge.endpoint,
+            model: manifest.policy_gate.judge.resolved_model },
+        })));
+        for (const [index, { item, batchVerdict, verdict, individualReview }] of judgedItems.entries()) {
+        const gate = gates[index];
         proposals.push({ id: item.proposed.conclusion.id, statement: item.conclusion.statement,
           evidence_refs: item.refs, evidence_files: item.conclusion.evidence_files,
           stress_fixture_id: item.conclusion.stress_fixture_id ?? null,
@@ -520,9 +529,9 @@ function receiverSourceStart(packet) {
     throw new Error("packet must contain exactly one cold boundary");
   return index;
 }
-async function researchPolicyAdmit(root, cwd, packet) {
+async function researchPolicyAdmitBatch(root, cwd, packets) {
   const { stdout } = await execFileAsync("python3", [path.join(root, "studies/long-horizon-eval/relaybench/bench/real/research-policy-admit.py"),
-    JSON.stringify(packet)], { cwd, maxBuffer: 16 * 1024 * 1024 });
+    JSON.stringify(packets)], { cwd, maxBuffer: 16 * 1024 * 1024 });
   return JSON.parse(stdout);
 }
 async function pathExists(target) {
