@@ -1,96 +1,60 @@
 {
- "artifact": "studies/long-horizon-eval/ara/logic/concepts.md",
- "artifact_id": "pp_a03504ae1b937ae1ccd62dbd",
+ "artifact": "studies/long-horizon-eval/ara/logic/experiments.md",
+ "artifact_id": "pp_e0f5613435d8a6c21278eed2",
  "blocks": [
   {
    "type": "heading",
-   "text": "# Concepts",
-   "id": "8dc2492f",
-   "hash": "187fcbf455d1"
+   "text": "# Experiments",
+   "id": "8219c192",
+   "hash": "58b2a1c3f41e"
   },
   {
    "type": "heading",
-   "text": "## Ordinary handoff",
-   "id": "fdb16762",
-   "hash": "1fec7c2c208a"
+   "text": "## E01: Phase Zero mechanics validation",
+   "id": "080c3518",
+   "hash": "fe2841ed4ac3"
   },
   {
    "type": "list",
-   "text": "- **Definition**: A portable summary or artifact passed to the S4 receiver without Proofpress ledger state or deterministic current-state blocking.\n- **Not equivalent to**: An unstructured raw transcript; the baseline is intentionally strong and portable.",
-   "id": "5e5b2b11",
-   "hash": "76e27b673ae1"
+   "text": "- **Verifies**: C01.\n- **Status**: completed; engineering evidence only.\n- **Provenance**: ai-executed.\n- **Setup**: Deterministic H4 test-double releases, declared cold boundary, C1 ordinary and C2 Proofpress condition manifests, file-level parity checks, state scoring, and TEST-ONLY exclusion markers.\n- **Procedure**: Run fixture verification, parity, stage-controller, scoring, reporting, and readiness tests; verify that TEST-ONLY output cannot enter benchmark aggregation.\n- **Metrics**: Boundary enforcement, parity result, deterministic state score, schema validity, and exclusion eligibility.\n- **Expected outcome**: The harness enforces the declared boundary, verifies parity, produces deterministic records, and excludes TEST-ONLY data.\n- **Baselines**: No-treatment deterministic condition and intentionally invalid fixture cases.\n- **Result**: Mechanics readiness passed; this result does not measure language-model behavior.\n- **Evidence**: [`../../relaybench/BENCHMARK_READINESS_REPORT.md`](../../relaybench/BENCHMARK_READINESS_REPORT.md) and the adjacent test suite.",
+   "id": "58f6e3f8",
+   "hash": "21740e9815b7"
   },
   {
    "type": "heading",
-   "text": "## Governed knowledge ledger",
-   "id": "676ce865",
-   "hash": "32f6fc1210b4"
+   "text": "## E02: Frozen seven-model paired quality panel",
+   "id": "3607dd4f",
+   "hash": "1f256f8dbd0d"
   },
   {
    "type": "list",
-   "text": "- **Definition**: An append-only representation binding proposed conclusions to evidence, artifact versions, scope, policy evaluation, admission state, supersession, and receipts.\n- **Not equivalent to**: A claim that the admitted conclusion is legally correct.",
-   "id": "dfaf11f1",
-   "hash": "19537b4c0cae"
+   "text": "- **Verifies**: C02 and C04.\n- **Status**: completed and frozen.\n- **Provenance**: ai-executed.\n- **Setup**: Credit, MSA, and License task families; seven complete model panels; clean/stress 2×2 cells; three receiver repeats per cell; one frozen S1-S3 sender state per model/task; identical worker caps and S4 rubrics between conditions.\n- **Procedure**: Generate and freeze sender state, branch fresh S4 receivers into ordinary and Proofpress conditions, evaluate matched deliverables against the same task rubric, reject invalid pairs, and aggregate only content-addressed admitted panel files.\n- **Metrics**: Passed rubric criteria and matched criterion denominator, reported by model, task, arm, and condition; tokens and latency where telemetry is complete.\n- **Expected outcome**: Proofpress should preserve clean continuation within a practically acceptable bound; any descriptive improvement must remain scoped to the frozen panel.\n- **Baselines**: Strong ordinary portable handoff using the same source state, task, model, tools, caps, and evaluator.\n- **Result**: Ordinary 10,654/11,928 (89.3%); Proofpress 11,141/11,928 (93.4%); descriptive delta +4.1 percentage points across 126 admitted pairs.\n- **Evidence**: [`../evidence/tables/final-panel.md`](../evidence/tables/final-panel.md), [`../evidence/FINAL_RESULTS_RECEIPTS.json`](../evidence/FINAL_RESULTS_RECEIPTS.json), and the seven panel receipts it names.",
+   "id": "692ad304",
+   "hash": "60f5460045c5"
   },
   {
    "type": "heading",
-   "text": "## Verified handoff",
-   "id": "730c76ec",
-   "hash": "5d132e9dd2a1"
+   "text": "## E03: Controlled handoff trust-stress panel",
+   "id": "35734341",
+   "hash": "35603bf5d420"
   },
   {
    "type": "list",
-   "text": "- **Definition**: A receiver handoff assembled from current admitted ledger state whose evidence and receipt digests verify against the frozen protocol.\n- **Not equivalent to**: A cryptographic identity proof or independent legal review.",
-   "id": "655ede9b",
-   "hash": "321360e5b141"
+   "text": "- **Verifies**: C03 and C04.\n- **Status**: completed and frozen.\n- **Provenance**: ai-executed.\n- **Setup**: The same E02 tasks and paired receiver design, with preregistered stale-authority, unsupported-approval, or revoked-approval fixtures injected at the S3-to-S4 cold boundary. Artifact content is byte-matched; only Proofpress has external current-state metadata and deterministic blocking.\n- **Procedure**: Apply each fixture to both conditions, run three S4 repeats, score the final deliverable with fixture-specific deterministic unsafe-propagation checks, and keep quality scoring separate.\n- **Metrics**: Unsafe propagation events per admitted stress pair, plus matched work-product rubric quality.\n- **Expected outcome**: Proofpress should block injected non-current or unsupported state without requiring a claim of substantive legal correctness.\n- **Baselines**: Ordinary portable handoff with the identical perturbed artifact and no ledger current-state gate.\n- **Result**: Across 63 admitted stress pairs, ordinary handoff propagated eight injected unsafe states and Proofpress propagated none.\n- **Evidence**: [`../evidence/tables/final-panel.md`](../evidence/tables/final-panel.md), the final receipt manifest, and fixture files under [`../../relaybench/bench/experiments/stress-fixtures/`](../../relaybench/bench/experiments/stress-fixtures/).",
+   "id": "34fc74b2",
+   "hash": "a0f281d88a1e"
   },
   {
    "type": "heading",
-   "text": "## Cold boundary",
-   "id": "3377dfb4",
-   "hash": "f065d14fde34"
+   "text": "## E04: DeepSeek fourteen-scenario breadth check",
+   "id": "40941016",
+   "hash": "9f0d4f8b6ee6"
   },
   {
    "type": "list",
-   "text": "- **Definition**: The S3-to-S4 transition where a fresh worker receives only the condition-specific handoff and permitted post-boundary materials; sender state is frozen before branching.",
-   "id": "84d24d9d",
-   "hash": "0bbb0597801b"
-  },
-  {
-   "type": "heading",
-   "text": "## Trust stress fixture",
-   "id": "0d8b2a28",
-   "hash": "3e35b0cb12cf"
-  },
-  {
-   "type": "list",
-   "text": "- **Definition**: A preregistered, byte-matched perturbation that introduces stale, unsupported, or revoked state at the cold boundary while preserving task, source, and artifact parity between conditions.",
-   "id": "e1bb26e8",
-   "hash": "9e595d3af1ca"
-  },
-  {
-   "type": "heading",
-   "text": "## Unsafe propagation",
-   "id": "61467ea3",
-   "hash": "d841ae6899b3"
-  },
-  {
-   "type": "list",
-   "text": "- **Definition**: The S4 deliverable relies on the injected state in the prohibited manner defined by the fixture-specific deterministic endpoint.",
-   "id": "24e3944d",
-   "hash": "c9368c4bca7d"
-  },
-  {
-   "type": "heading",
-   "text": "## Admitted paired run",
-   "id": "3d254710",
-   "hash": "af9feb85b2c1"
-  },
-  {
-   "type": "list",
-   "text": "- **Definition**: A Raw/Proofpress condition pair that satisfies model/provider identity, cap parity, parser validity, transport completion, evaluator completion, and frozen-protocol checks.",
-   "id": "76055810",
-   "hash": "f275ab7e38c2"
+   "text": "- **Verifies**: C04 only; secondary sensitivity evidence.\n- **Status**: completed and excluded from the seven-model aggregate.\n- **Provenance**: ai-executed.\n- **Setup**: Fourteen LAB-derived scenarios under the frozen DeepSeek route.\n- **Procedure**: Apply the task-expansion protocol and retain task-level outcomes without pooling them into the primary cross-model estimate.\n- **Metrics**: Task-level paired quality and floor/ceiling sensitivity.\n- **Expected outcome**: Detect whether the three primary task families conceal scenario heterogeneity.\n- **Baselines**: Matched ordinary handoff per scenario.\n- **Result**: Retained as secondary breadth evidence; it does not support a seven-model breadth claim.\n- **Evidence**: [`../../relaybench/results/deepseek-v9-14-task-expansion-2026-08-25.json`](../../relaybench/results/deepseek-v9-14-task-expansion-2026-08-25.json).",
+   "id": "ce6846cc",
+   "hash": "a92459f4a107"
   }
  ]
 }

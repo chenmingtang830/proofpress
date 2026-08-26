@@ -1,121 +1,79 @@
 {
  "event": "version_created",
- "artifact": "studies/long-horizon-eval/ara/logic/concepts.md",
- "artifact_id": "pp_a03504ae1b937ae1ccd62dbd",
- "version": "e29e121d",
- "parent": "ece5acb2",
+ "artifact": "studies/long-horizon-eval/ara/logic/experiments.md",
+ "artifact_id": "pp_e0f5613435d8a6c21278eed2",
+ "version": "c696b83e",
+ "parent": "8c1d1479",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-26T13:04:44+00:00",
+ "ts": "2026-08-26T13:04:51+00:00",
  "stats": {
-  "added": 14
+  "added": 8
  },
  "changes": [
   {
    "kind": "added",
-   "block": "fdb16762",
+   "block": "080c3518",
    "type": "heading",
-   "context": "Ordinary handoff",
-   "preview": "## Ordinary handoff"
+   "context": "E01: Phase Zero mechanics validation",
+   "preview": "## E01: Phase Zero mechanics validation"
   },
   {
    "kind": "added",
-   "block": "5e5b2b11",
+   "block": "58f6e3f8",
    "type": "list",
-   "context": "Ordinary handoff",
-   "preview": "- **Definition**: A portable summary or artifact passed to t"
+   "context": "E01: Phase Zero mechanics validation",
+   "preview": "- **Verifies**: C01.\n- **Status**: completed; engineering ev"
   },
   {
    "kind": "added",
-   "block": "676ce865",
+   "block": "3607dd4f",
    "type": "heading",
-   "context": "Governed knowledge ledger",
-   "preview": "## Governed knowledge ledger"
+   "context": "E02: Frozen seven-model paired quality p",
+   "preview": "## E02: Frozen seven-model paired quality panel"
   },
   {
    "kind": "added",
-   "block": "dfaf11f1",
+   "block": "692ad304",
    "type": "list",
-   "context": "Governed knowledge ledger",
-   "preview": "- **Definition**: An append-only representation binding prop"
+   "context": "E02: Frozen seven-model paired quality p",
+   "preview": "- **Verifies**: C02 and C04.\n- **Status**: completed and fro"
   },
   {
    "kind": "added",
-   "block": "730c76ec",
+   "block": "35734341",
    "type": "heading",
-   "context": "Verified handoff",
-   "preview": "## Verified handoff"
+   "context": "E03: Controlled handoff trust-stress pan",
+   "preview": "## E03: Controlled handoff trust-stress panel"
   },
   {
    "kind": "added",
-   "block": "655ede9b",
+   "block": "34fc74b2",
    "type": "list",
-   "context": "Verified handoff",
-   "preview": "- **Definition**: A receiver handoff assembled from current "
+   "context": "E03: Controlled handoff trust-stress pan",
+   "preview": "- **Verifies**: C03 and C04.\n- **Status**: completed and fro"
   },
   {
    "kind": "added",
-   "block": "3377dfb4",
+   "block": "40941016",
    "type": "heading",
-   "context": "Cold boundary",
-   "preview": "## Cold boundary"
+   "context": "E04: DeepSeek fourteen-scenario breadth ",
+   "preview": "## E04: DeepSeek fourteen-scenario breadth check"
   },
   {
    "kind": "added",
-   "block": "84d24d9d",
+   "block": "ce6846cc",
    "type": "list",
-   "context": "Cold boundary",
-   "preview": "- **Definition**: The S3-to-S4 transition where a fresh work"
-  },
-  {
-   "kind": "added",
-   "block": "0d8b2a28",
-   "type": "heading",
-   "context": "Trust stress fixture",
-   "preview": "## Trust stress fixture"
-  },
-  {
-   "kind": "added",
-   "block": "e1bb26e8",
-   "type": "list",
-   "context": "Trust stress fixture",
-   "preview": "- **Definition**: A preregistered, byte-matched perturbation"
-  },
-  {
-   "kind": "added",
-   "block": "61467ea3",
-   "type": "heading",
-   "context": "Unsafe propagation",
-   "preview": "## Unsafe propagation"
-  },
-  {
-   "kind": "added",
-   "block": "24e3944d",
-   "type": "list",
-   "context": "Unsafe propagation",
-   "preview": "- **Definition**: The S4 deliverable relies on the injected "
-  },
-  {
-   "kind": "added",
-   "block": "3d254710",
-   "type": "heading",
-   "context": "Admitted paired run",
-   "preview": "## Admitted paired run"
-  },
-  {
-   "kind": "added",
-   "block": "76055810",
-   "type": "list",
-   "context": "Admitted paired run",
-   "preview": "- **Definition**: A Raw/Proofpress condition pair that satis"
+   "context": "E04: DeepSeek fourteen-scenario breadth ",
+   "preview": "- **Verifies**: C04 only; secondary sensitivity evidence.\n- "
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:92f7b9395afd8292666790d04ac90c3f9d82d892cf8a575989314e2bca128c73",
+ "soft_fingerprint": "ppsb1:6964dedf6b06fe67390c65220fea3ddc260150598801df3759f0d825882fcead",
  "actors": {
   "requested_by": [
    "human:richardtang"
@@ -133,78 +91,48 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "fdb16762",
+   "block": "080c3518",
    "kind": "added",
-   "note": "Adds publication-grade ARA content: ## Ordinary handoff"
+   "note": "Adds publication-grade ARA content: ## E01: Phase Zero mechanics validation"
   },
   {
-   "block": "5e5b2b11",
+   "block": "58f6e3f8",
    "kind": "added",
-   "note": "Adds publication-grade ARA content: - **Definition**: A portable summary or artifact passed to the S4 receiver without Proofpress ledger state or deterministic current-state bl"
+   "note": "Adds publication-grade ARA content: - **Verifies**: C01."
   },
   {
-   "block": "676ce865",
+   "block": "3607dd4f",
    "kind": "added",
-   "note": "Adds publication-grade ARA content: ## Governed knowledge ledger"
+   "note": "Adds publication-grade ARA content: ## E02: Frozen seven-model paired quality panel"
   },
   {
-   "block": "dfaf11f1",
+   "block": "692ad304",
    "kind": "added",
-   "note": "Adds publication-grade ARA content: - **Definition**: An append-only representation binding proposed conclusions to evidence, artifact versions, scope, policy evaluation, admis"
+   "note": "Adds publication-grade ARA content: - **Verifies**: C02 and C04."
   },
   {
-   "block": "730c76ec",
+   "block": "35734341",
    "kind": "added",
-   "note": "Adds publication-grade ARA content: ## Verified handoff"
+   "note": "Adds publication-grade ARA content: ## E03: Controlled handoff trust-stress panel"
   },
   {
-   "block": "655ede9b",
+   "block": "34fc74b2",
    "kind": "added",
-   "note": "Adds publication-grade ARA content: - **Definition**: A receiver handoff assembled from current admitted ledger state whose evidence and receipt digests verify against the froz"
+   "note": "Adds publication-grade ARA content: - **Verifies**: C03 and C04."
   },
   {
-   "block": "3377dfb4",
+   "block": "40941016",
    "kind": "added",
-   "note": "Adds publication-grade ARA content: ## Cold boundary"
+   "note": "Adds publication-grade ARA content: ## E04: DeepSeek fourteen-scenario breadth check"
   },
   {
-   "block": "84d24d9d",
+   "block": "ce6846cc",
    "kind": "added",
-   "note": "Adds publication-grade ARA content: - **Definition**: The S3-to-S4 transition where a fresh worker receives only the condition-specific handoff and permitted post-boundary mate"
-  },
-  {
-   "block": "0d8b2a28",
-   "kind": "added",
-   "note": "Adds publication-grade ARA content: ## Trust stress fixture"
-  },
-  {
-   "block": "e1bb26e8",
-   "kind": "added",
-   "note": "Adds publication-grade ARA content: - **Definition**: A preregistered, byte-matched perturbation that introduces stale, unsupported, or revoked state at the cold boundary while"
-  },
-  {
-   "block": "61467ea3",
-   "kind": "added",
-   "note": "Adds publication-grade ARA content: ## Unsafe propagation"
-  },
-  {
-   "block": "24e3944d",
-   "kind": "added",
-   "note": "Adds publication-grade ARA content: - **Definition**: The S4 deliverable relies on the injected state in the prohibited manner defined by the fixture-specific deterministic end"
-  },
-  {
-   "block": "3d254710",
-   "kind": "added",
-   "note": "Adds publication-grade ARA content: ## Admitted paired run"
-  },
-  {
-   "block": "76055810",
-   "kind": "added",
-   "note": "Adds publication-grade ARA content: - **Definition**: A Raw/Proofpress condition pair that satisfies model/provider identity, cap parity, parser validity, transport completion,"
+   "note": "Adds publication-grade ARA content: - **Verifies**: C04 only; secondary sensitivity evidence."
   }
  ],
  "context": {
   "why": "Compile the frozen PR #35 study into a publication-grade ARA 2.6 artifact without changing results or inventing historical research traces."
  },
- "event_id": "ppe_74814669ce03a5a840eb71c3"
+ "event_id": "ppe_1a62ab1e742f293ee983bca3"
 }
