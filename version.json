@@ -1,54 +1,84 @@
 {
- "artifact": "studies/long-horizon-eval/relaybench/visuals/proofpress-results.html",
- "artifact_id": "pp_cf50332f934a667c7ce1e36b",
+ "artifact": "studies/long-horizon-eval/relaybench/PUBLIC_RESULTS.md",
+ "artifact_id": "pp_a59d351c883c87dde5396eba",
  "blocks": [
   {
    "type": "heading",
-   "text": "<h1><em>Verified handoffs</em> improved performance on Harvey LAB-derived tasks across all seven models.</h1>",
-   "id": "1d393510",
-   "hash": "976bea21d780"
+   "text": "# Verified handoffs improved performance on Harvey LAB-derived tasks across all seven models",
+   "id": "e18743e6",
+   "hash": "deb0bdf76552"
   },
   {
    "type": "para",
-   "text": "<p class=\"poster-intro\">Proofpress’s governed knowledge ledger converted prior agent work into evidence-bound knowledge for the next agent—raising rubric completion and stopping every observed unsafe propagation event.</p>",
-   "id": "370cbed7",
-   "hash": "d305bd8c5ad2"
+   "text": "Proofpress’s governed knowledge ledger converted prior agent work into evidence-bound knowledge for the next agent. Across the frozen panel, verified handoffs increased rubric completion for every model and stopped every observed unsafe propagation event.",
+   "id": "a75a49ef",
+   "hash": "e8305207fd4b"
   },
   {
    "type": "para",
-   "text": "<p class=\"result-copy\">Rubric completion · +4.1 percentage points · +487 criteria</p>",
-   "id": "caf1f074",
-   "hash": "b6dca362e95b"
-  },
-  {
-   "type": "para",
-   "text": "<p class=\"result-copy\">Observed unsafe propagation events</p>",
-   "id": "0d512010",
-   "hash": "f02a813c1854"
+   "text": "**Result frozen:** August 26, 2026.",
+   "id": "98206673",
+   "hash": "f2450a335b1c"
   },
   {
    "type": "heading",
-   "text": "<h2 id=\"quality-title\">Rubric completion by model</h2>",
-   "id": "dc01e281",
-   "hash": "9ed53dc8c5b7"
+   "text": "## Results",
+   "id": "b6fedb3a",
+   "hash": "6890eaf76885"
+  },
+  {
+   "type": "table",
+   "text": "| Outcome | Ordinary handoff | Proofpress | Observed difference |\n| --- | ---: | ---: | ---: |\n| Rubric criteria passed | 10,654 / 11,928 (89.3%) | 11,141 / 11,928 (93.4%) | **+487 criteria / +4.1pp** |\n| Unsafe propagation in stress pairs | 8 / 63 | 0 / 63 | **8 observed events prevented** |",
+   "id": "2ea84b72",
+   "hash": "cd7329e064b0"
   },
   {
    "type": "para",
-   "text": "<p>Ordered by observed improvement · zoomed scale: 80–100%</p>",
-   "id": "f42686c9",
-   "hash": "13dc89020936"
+   "text": "The frozen panel contains **7 models, 3 legal task families, and 126 valid paired runs**. The quality aggregate uses matched rubric denominators from all clean and stress pairs. The safety count uses the 63 controlled stress pairs only.",
+   "id": "459c9ee5",
+   "hash": "985e988d49ee"
   },
   {
    "type": "para",
-   "text": "<p class=\"task-scope\"><span><strong>Credit lending playbook escalation</strong> · scenario 02</span><span><strong>Master services agreement playbook escalation</strong> · scenario 04</span><span><strong>License agreement playbook escalation</strong> · scenario 03</span></p>",
-   "id": "bbc47db7",
-   "hash": "e21f7695db45"
+   "text": "The three frozen task episodes are **Credit Lending Playbook Escalation (scenario 02)**, **Master Services Agreement Playbook Escalation (scenario 04)**, and **License Agreement Playbook Escalation (scenario 03)**. The communication chart orders models by observed percentage-point improvement, not by final model score.",
+   "id": "bfee053c",
+   "hash": "a0853f91b8b4"
+  },
+  {
+   "type": "heading",
+   "text": "## What this establishes",
+   "id": "4a94f863",
+   "hash": "5f9b001bc6e0"
   },
   {
    "type": "para",
-   "text": "<p class=\"freeze-date\">Result frozen · August 26, 2026</p>",
-   "id": "990cbfaa",
-   "hash": "61c0dc44e559"
+   "text": "The result is a strong product-mechanism signal: evidence-bound, policy-governed handoff can improve completion in this bounded panel while preventing the observed propagation of injected stale, superseded, unsupported, or out-of-scope state.",
+   "id": "a4478ea1",
+   "hash": "f1af49c87fef"
+  },
+  {
+   "type": "para",
+   "text": "It does not establish an official Harvey leaderboard score, population-level causality, statistical significance, or improved legal intelligence. The tasks are Proofpress-composed handoff episodes derived from version-pinned public Harvey LAB Contracts materials. Cross-model and task effects remain heterogeneous.",
+   "id": "f67607e0",
+   "hash": "2ba7c2a94736"
+  },
+  {
+   "type": "heading",
+   "text": "## Receipts",
+   "id": "d0eeaf78",
+   "hash": "67ab1400b4d0"
+  },
+  {
+   "type": "list",
+   "text": "- [Communication chart](visuals/proofpress-results.html)\n- [Claim boundaries](CLAIM_BOUNDARIES.md)\n- [Content-addressed final receipt manifest](../ara/evidence/FINAL_RESULTS_RECEIPTS.json)\n- [Per-model and task result files](results/)\n- [Retained invalid-attempt ledger](results/pre-v9-attempt-ledger-2026-08-24.json)",
+   "id": "284c93dd",
+   "hash": "d4c32959adb7"
+  },
+  {
+   "type": "para",
+   "text": "The study is now frozen. Additional models or scenarios require a new preregistered study rather than modifying this result after outcomes are known.",
+   "id": "d12e322e",
+   "hash": "31618ca94b08"
   }
  ]
 }
