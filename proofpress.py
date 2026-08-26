@@ -27,7 +27,7 @@ from datetime import datetime, timezone
 import proofpress_evidence
 import proofpress_knowledge
 
-__version__ = "0.5.0-alpha.1"
+__version__ = "0.5.0-alpha.2"
 LEDGER_REF = "refs/proofpress/ledger"
 
 # ---------- terminal rendering ----------
