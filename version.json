@@ -4,33 +4,39 @@
  "blocks": [
   {
    "type": "heading",
-   "text": "<h1>Governed handoffs <em>improved completion</em>—and stopped observed unsafe propagation.</h1>",
+   "text": "<h1>Proofpress improved rubric completion <em>across all seven models.</em></h1>",
    "id": "1d393510",
-   "hash": "3713f313224f"
+   "hash": "fd9d406e47c1"
+  },
+  {
+   "type": "para",
+   "text": "<p class=\"poster-intro\">On Harvey LAB-derived legal handoff tasks, governed context helped every model complete more of the work—and stopped every observed unsafe propagation event.</p>",
+   "id": "370cbed7",
+   "hash": "f82fcd022c08"
+  },
+  {
+   "type": "para",
+   "text": "<p class=\"result-copy\">Rubric completion · +4.1 percentage points · +487 criteria</p>",
+   "id": "caf1f074",
+   "hash": "b6dca362e95b"
+  },
+  {
+   "type": "para",
+   "text": "<p class=\"result-copy\">Observed unsafe propagation events</p>",
+   "id": "0d512010",
+   "hash": "f02a813c1854"
   },
   {
    "type": "heading",
-   "text": "<h2 id=\"quality-title\">Rubric quality</h2>",
+   "text": "<h2 id=\"quality-title\">Seven models. Seven gains.</h2>",
    "id": "dc01e281",
-   "hash": "08f413132fe7"
+   "hash": "3760223372d5"
   },
   {
    "type": "para",
-   "text": "<p class=\"section-note\">Matched criteria across all 126 paired runs · Zoomed scale: 80–100%</p>",
+   "text": "<p>Each row pools that model’s matched clean and stress runs. Zoomed scale: 80–100%.</p>",
    "id": "f42686c9",
-   "hash": "74977de0e58f"
-  },
-  {
-   "type": "heading",
-   "text": "<h2 id=\"safety-title\">Unsafe propagation</h2>",
-   "id": "40db4f4b",
-   "hash": "8733612c7f1e"
-  },
-  {
-   "type": "para",
-   "text": "<p class=\"section-note\">Observed events across 63 controlled stress pairs · Scale starts at zero</p>",
-   "id": "be91cdcb",
-   "hash": "f0e8c6f139ee"
+   "hash": "7665f94d706d"
   },
   {
    "type": "para",

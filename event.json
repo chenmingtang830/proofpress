@@ -2,29 +2,77 @@
  "event": "version_created",
  "artifact": "studies/long-horizon-eval/relaybench/visuals/proofpress-results.html",
  "artifact_id": "pp_cf50332f934a667c7ce1e36b",
- "version": "909d88cd",
- "parent": "fb21532b",
+ "version": "66fc9e73",
+ "parent": "909d88cd",
  "author": {
   "name": "OpenAI Codex",
   "kind": "agent",
   "session": null
  },
  "note": null,
- "ts": "2026-08-26T11:35:51+00:00",
+ "ts": "2026-08-26T11:46:16+00:00",
  "stats": {
-  "added": 1
+  "modified": 3,
+  "added": 3,
+  "removed": 2
  },
  "changes": [
   {
+   "kind": "modified",
+   "block": "1d393510",
+   "type": "heading",
+   "context": "<h1>Proofpress improved rubric completio"
+  },
+  {
    "kind": "added",
-   "block": "990cbfaa",
+   "block": "370cbed7",
    "type": "para",
-   "context": "<h2 id=\"safety-title\">Unsafe propagation",
-   "preview": "<p class=\"freeze-date\">Result frozen · August 26, 2026</p>"
+   "context": "<h1>Proofpress improved rubric completio",
+   "preview": "<p class=\"poster-intro\">On Harvey LAB-derived legal handoff "
+  },
+  {
+   "kind": "added",
+   "block": "caf1f074",
+   "type": "para",
+   "context": "<h1>Proofpress improved rubric completio",
+   "preview": "<p class=\"result-copy\">Rubric completion · +4.1 percentage p"
+  },
+  {
+   "kind": "added",
+   "block": "0d512010",
+   "type": "para",
+   "context": "<h1>Proofpress improved rubric completio",
+   "preview": "<p class=\"result-copy\">Observed unsafe propagation events</p"
+  },
+  {
+   "kind": "modified",
+   "block": "dc01e281",
+   "type": "heading",
+   "context": "<h2 id=\"quality-title\">Seven models. Sev"
+  },
+  {
+   "kind": "modified",
+   "block": "f42686c9",
+   "type": "para",
+   "context": "<h2 id=\"quality-title\">Seven models. Sev"
+  },
+  {
+   "kind": "removed",
+   "block": "40db4f4b",
+   "type": "heading",
+   "context": "",
+   "preview": "<h2 id=\"safety-title\">Unsafe propagation</h2>"
+  },
+  {
+   "kind": "removed",
+   "block": "be91cdcb",
+   "type": "para",
+   "context": "",
+   "preview": "<p class=\"section-note\">Observed events across 63 controlled"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:830e7a02bb37448a868138aaa7c63c248f3fa3887ddb50b4eb08fe40739b55fb",
+ "soft_fingerprint": "ppsb1:d3d4c6a704f18e2cec96bdd795b0de6590c67bff1088b58711011afb8877aea0",
  "actors": {
   "requested_by": [
    "human:richard-tang"
@@ -42,13 +90,48 @@
  "attribution_basis": "environment_attested",
  "claims": [
   {
-   "block": "990cbfaa",
+   "block": "1d393510",
+   "kind": "modified",
+   "note": "Lead with the product result that all seven pooled model panels improved."
+  },
+  {
+   "block": "370cbed7",
    "kind": "added",
-   "note": "Display the final result freeze date in the communication chart."
+   "note": "Explain the Harvey LAB-derived handoff scope and observed safety result."
+  },
+  {
+   "block": "caf1f074",
+   "kind": "added",
+   "note": "Display the aggregate rubric-completion improvement and criteria delta."
+  },
+  {
+   "block": "0d512010",
+   "kind": "added",
+   "note": "Label the observed unsafe-propagation outcome."
+  },
+  {
+   "block": "dc01e281",
+   "kind": "modified",
+   "note": "Introduce the seven-model comparison as the main evidence visual."
+  },
+  {
+   "block": "f42686c9",
+   "kind": "modified",
+   "note": "Disclose per-model pooling and the zoomed 80–100 percent scale."
+  },
+  {
+   "block": "40db4f4b",
+   "kind": "removed",
+   "note": "Remove the separate academic-style safety chart heading in favor of a direct 8-to-0 product result."
+  },
+  {
+   "block": "be91cdcb",
+   "kind": "removed",
+   "note": "Remove the separate safety-chart annotation after its denominator moved into the supporting result context."
   }
  ],
  "context": {
-  "why": "Record the final study freeze date on the portable communication chart."
+  "why": "Replace the academic-style aggregate chart with an eye-catching product-results poster and a transparent seven-model bar comparison."
  },
- "event_id": "ppe_c0898d58397748a3530827ee"
+ "event_id": "ppe_72d4815360ba5610b2349894"
 }
