@@ -1,71 +1,35 @@
 {
- "artifact": "studies/long-horizon-eval/relaybench/PUBLIC_RESULTS.md",
- "artifact_id": "pp_a59d351c883c87dde5396eba",
+ "artifact": "studies/long-horizon-eval/relaybench/visuals/proofpress-results.html",
+ "artifact_id": "pp_cf50332f934a667c7ce1e36b",
  "blocks": [
   {
-   "hash": "d026cf4d7dcf",
-   "id": "e18743e6",
-   "text": "# Governed handoffs improved completion—and stopped observed unsafe propagation",
+   "hash": "3713f313224f",
+   "id": "1d393510",
+   "text": "<h1>Governed handoffs <em>improved completion</em>—and stopped observed unsafe propagation.</h1>",
    "type": "heading"
   },
   {
-   "hash": "9be529ceb246",
-   "id": "a75a49ef",
-   "text": "This frozen Harvey LAB-derived handoff study tests one product question: when professional work crosses a cold agent boundary, does a verified and governed handoff help the next agent continue safely and completely?",
-   "type": "para"
-  },
-  {
-   "hash": "6890eaf76885",
-   "id": "b6fedb3a",
-   "text": "## Results",
+   "hash": "08f413132fe7",
+   "id": "dc01e281",
+   "text": "<h2 id=\"quality-title\">Rubric quality</h2>",
    "type": "heading"
   },
   {
-   "hash": "cd7329e064b0",
-   "id": "2ea84b72",
-   "text": "| Outcome | Ordinary handoff | Proofpress | Observed difference |\n| --- | ---: | ---: | ---: |\n| Rubric criteria passed | 10,654 / 11,928 (89.3%) | 11,141 / 11,928 (93.4%) | **+487 criteria / +4.1pp** |\n| Unsafe propagation in stress pairs | 8 / 63 | 0 / 63 | **8 observed events prevented** |",
-   "type": "table"
-  },
-  {
-   "hash": "985e988d49ee",
-   "id": "459c9ee5",
-   "text": "The frozen panel contains **7 models, 3 legal task families, and 126 valid paired runs**. The quality aggregate uses matched rubric denominators from all clean and stress pairs. The safety count uses the 63 controlled stress pairs only.",
+   "hash": "74977de0e58f",
+   "id": "f42686c9",
+   "text": "<p class=\"section-note\">Matched criteria across all 126 paired runs · Zoomed scale: 80–100%</p>",
    "type": "para"
   },
   {
-   "hash": "5f9b001bc6e0",
-   "id": "4a94f863",
-   "text": "## What this establishes",
+   "hash": "8733612c7f1e",
+   "id": "40db4f4b",
+   "text": "<h2 id=\"safety-title\">Unsafe propagation</h2>",
    "type": "heading"
   },
   {
-   "hash": "f1af49c87fef",
-   "id": "a4478ea1",
-   "text": "The result is a strong product-mechanism signal: evidence-bound, policy-governed handoff can improve completion in this bounded panel while preventing the observed propagation of injected stale, superseded, unsupported, or out-of-scope state.",
-   "type": "para"
-  },
-  {
-   "hash": "2ba7c2a94736",
-   "id": "f67607e0",
-   "text": "It does not establish an official Harvey leaderboard score, population-level causality, statistical significance, or improved legal intelligence. The tasks are Proofpress-composed handoff episodes derived from version-pinned public Harvey LAB Contracts materials. Cross-model and task effects remain heterogeneous.",
-   "type": "para"
-  },
-  {
-   "hash": "67ab1400b4d0",
-   "id": "d0eeaf78",
-   "text": "## Receipts",
-   "type": "heading"
-  },
-  {
-   "hash": "d4c32959adb7",
-   "id": "284c93dd",
-   "text": "- [Communication chart](visuals/proofpress-results.html)\n- [Claim boundaries](CLAIM_BOUNDARIES.md)\n- [Content-addressed final receipt manifest](../ara/evidence/FINAL_RESULTS_RECEIPTS.json)\n- [Per-model and task result files](results/)\n- [Retained invalid-attempt ledger](results/pre-v9-attempt-ledger-2026-08-24.json)",
-   "type": "list"
-  },
-  {
-   "hash": "31618ca94b08",
-   "id": "d12e322e",
-   "text": "The study is now frozen. Additional models or scenarios require a new preregistered study rather than modifying this result after outcomes are known.",
+   "hash": "f0e8c6f139ee",
+   "id": "be91cdcb",
+   "text": "<p class=\"section-note\">Observed events across 63 controlled stress pairs · Scale starts at zero</p>",
    "type": "para"
   }
  ]

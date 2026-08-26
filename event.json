@@ -4,8 +4,8 @@
    "unknown"
   ]
  },
- "artifact": "studies/long-horizon-eval/relaybench/PUBLIC_RESULTS.md",
- "artifact_id": "pp_a59d351c883c87dde5396eba",
+ "artifact": "studies/long-horizon-eval/relaybench/visuals/proofpress-results.html",
+ "artifact_id": "pp_cf50332f934a667c7ce1e36b",
  "attribution_basis": "self_asserted",
  "author": {
   "kind": "system",
@@ -14,96 +14,54 @@
  },
  "changes": [
   {
-   "block": "e18743e6",
-   "context": "Governed handoffs improved completion—an",
+   "block": "1d393510",
+   "context": "<h1>Governed handoffs <em>improved compl",
    "kind": "added",
-   "preview": "# Governed handoffs improved completion—and stopped observed",
+   "preview": "<h1>Governed handoffs <em>improved completion</em>—and stopp",
    "type": "heading"
   },
   {
-   "block": "a75a49ef",
-   "context": "Governed handoffs improved completion—an",
+   "block": "dc01e281",
+   "context": "<h2 id=\"quality-title\">Rubric quality</h",
    "kind": "added",
-   "preview": "This frozen Harvey LAB-derived handoff study tests one produ",
-   "type": "para"
-  },
-  {
-   "block": "b6fedb3a",
-   "context": "Results",
-   "kind": "added",
-   "preview": "## Results",
+   "preview": "<h2 id=\"quality-title\">Rubric quality</h2>",
    "type": "heading"
   },
   {
-   "block": "2ea84b72",
-   "context": "Results",
+   "block": "f42686c9",
+   "context": "<h2 id=\"quality-title\">Rubric quality</h",
    "kind": "added",
-   "preview": "| Outcome | Ordinary handoff | Proofpress | Observed differe",
-   "type": "table"
-  },
-  {
-   "block": "459c9ee5",
-   "context": "Results",
-   "kind": "added",
-   "preview": "The frozen panel contains **7 models, 3 legal task families,",
+   "preview": "<p class=\"section-note\">Matched criteria across all 126 pair",
    "type": "para"
   },
   {
-   "block": "4a94f863",
-   "context": "What this establishes",
+   "block": "40db4f4b",
+   "context": "<h2 id=\"safety-title\">Unsafe propagation",
    "kind": "added",
-   "preview": "## What this establishes",
+   "preview": "<h2 id=\"safety-title\">Unsafe propagation</h2>",
    "type": "heading"
   },
   {
-   "block": "a4478ea1",
-   "context": "What this establishes",
+   "block": "be91cdcb",
+   "context": "<h2 id=\"safety-title\">Unsafe propagation",
    "kind": "added",
-   "preview": "The result is a strong product-mechanism signal: evidence-bo",
-   "type": "para"
-  },
-  {
-   "block": "f67607e0",
-   "context": "What this establishes",
-   "kind": "added",
-   "preview": "It does not establish an official Harvey leaderboard score, ",
-   "type": "para"
-  },
-  {
-   "block": "d0eeaf78",
-   "context": "Receipts",
-   "kind": "added",
-   "preview": "## Receipts",
-   "type": "heading"
-  },
-  {
-   "block": "284c93dd",
-   "context": "Receipts",
-   "kind": "added",
-   "preview": "- [Communication chart](visuals/proofpress-results.html)\n- [",
-   "type": "list"
-  },
-  {
-   "block": "d12e322e",
-   "context": "Receipts",
-   "kind": "added",
-   "preview": "The study is now frozen. Additional models or scenarios requ",
+   "preview": "<p class=\"section-note\">Observed events across 63 controlled",
    "type": "para"
   }
  ],
  "event": "version_created",
- "event_id": "ppe_81bfd1440987a591b4245efd",
+ "event_id": "ppe_6339de5ed67f5e5f1e246af8",
  "note": "portable lineage checkpoint",
  "parent": null,
  "parents": [],
  "policy": "portable",
  "portable_checkpoint": true,
- "portable_lineage_id": "ppl_b8c7d6216874029a5882f4b0",
- "soft_fingerprint": "ppsb1:12ac9751fe4e097d8e08e1632ba2f5f91d60e80275e2f49d0eae124ee371d3da",
+ "portable_lineage_id": "ppl_afce1027ed9fc9ee26b9b7cc",
+ "soft_fingerprint": "ppsb1:f302e0bc0b27c676dd7c1e8af6a2bffacd1efb73d9d67f6401635b2cd07bd218",
  "stats": {
-  "added": 11
+  "added": 5
  },
- "ts": "2026-08-26T11:31:07+00:00",
- "version": "9c4688fc",
+ "ts": "2026-08-26T11:31:20+00:00",
+ "version": "fb21532b",
  "imported_from_capsule": true
 }
