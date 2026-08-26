@@ -568,10 +568,15 @@ def evaluate_relation_v2(rid, projection=None, events=None, policy=None):
 
 def judge_relation_v2(rid):
     events = v2_events(); projection = v2_projection(events); policy = load_v2_policy()
-    evaluation = evaluate_relation_v2(rid, projection=projection, events=events, policy=policy)
+    row = projection["relations"].get(rid)
+    if not row: raise ValueError("relation not found: " + rid)
+    current = projection["relation_evaluations"].get(rid)
+    evaluation = (current if current and
+                  current.get("relation_digest") == row["digest"] and
+                  current.get("policy_digest") == policy["digest"] else
+                  evaluate_relation_v2(rid, projection=projection, events=events, policy=policy))
     command = policy["judge"]["command"]
     if not command: raise ValueError("no judge.command configured in .proofpress/policy.json")
-    row = projection["relations"].get(rid)
     packet = {"schema_version": "proofpress/relation-judge-request/v1",
               "relation": row,
               "from_claim": projection["conclusions"][row["from"]],
@@ -711,8 +716,13 @@ def judge_batch_v2(scope):
                     "batch_receipt": receipts[0] if len(receipts) == 1 else None,
                     "batch_receipts": receipts, "verdicts": existing, "idempotent": True}
         raise ValueError("no proposed conclusions require review in scope: " + scope)
-    evaluations = {row["id"]: evaluate_v2(row["id"], projection=projection,
-                                            events=events, policy=policy) for row in rows}
+    evaluations = {}
+    for row in rows:
+        current = projection["evaluations"].get(row["id"])
+        evaluations[row["id"]] = (current if current and
+            current.get("conclusion_digest") == row["digest"] and
+            current.get("policy_digest") == policy["digest"] else
+            evaluate_v2(row["id"], projection=projection, events=events, policy=policy))
     command = policy["judge"]["command"]
     if not command: raise ValueError("no judge.command configured in .proofpress/policy.json")
     evidence_ids = sorted({ref for row in rows for ref in row["evidence_refs"]})

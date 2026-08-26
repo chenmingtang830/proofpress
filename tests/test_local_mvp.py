@@ -303,6 +303,8 @@ class LocalMVPTests(unittest.TestCase):
         (policy_dir / "policy.json").write_text(json.dumps({
             "judge": {"command": [sys.executable, "-c", judge_code], "timeout_seconds": 5},
         }))
+        self.data("evaluate", first)
+        self.data("evaluate", second)
         sys.path.insert(0, str(ROOT))
         import proofpress_knowledge as knowledge
         original_run = subprocess.run
@@ -314,6 +316,8 @@ class LocalMVPTests(unittest.TestCase):
 
         previous = Path.cwd(); os.chdir(self.repo)
         try:
+            evaluations_before = len([row for row in knowledge.v2_events()
+                                      if row.get("type") == "policy_evaluated"])
             with patch.object(knowledge.subprocess, "run", side_effect=counted_run):
                 result = knowledge.judge_batch_v2("msa-negotiation")
             traversals = [command for command in git_commands
@@ -322,6 +326,9 @@ class LocalMVPTests(unittest.TestCase):
             self.assertEqual(traversals.count(("cat-file", "--batch")), 1)
             self.assertFalse(any(command[0] == "show" for command in traversals))
             self.assertEqual({row["subject_ref"] for row in result["verdicts"]}, {first, second})
+            evaluations_after = len([row for row in knowledge.v2_events()
+                                     if row.get("type") == "policy_evaluated"])
+            self.assertEqual(evaluations_after, evaluations_before)
 
             third = knowledge.propose_v2("第三项有界结论 — Unicode survives event loading", [evidence],
                                          "msa-negotiation", "agent:runner")["conclusion"]["id"]
