@@ -1,29 +1,29 @@
 {
  "event": "version_created",
- "artifact": "studies/long-horizon-eval/relaybench/visuals/proofpress-results.html",
- "artifact_id": "pp_cf50332f934a667c7ce1e36b",
- "version": "31fa7e91",
- "parent": "f6a85e62",
+ "artifact": "studies/long-horizon-eval/relaybench/PUBLIC_RESULTS.md",
+ "artifact_id": "pp_a59d351c883c87dde5396eba",
+ "version": "30ece820",
+ "parent": "36945b70",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-26T12:26:22+00:00",
+ "ts": "2026-08-26T12:26:33+00:00",
  "stats": {
   "modified": 1
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "1d393510",
+   "block": "e18743e6",
    "type": "heading",
-   "context": "<h1>Proofpress <em>improved performance<"
+   "context": "Proofpress improved performance on Harve"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:26dc48d006f91f616ae841b4de52e0e1b6fa2a50c135fd5023f837212f4a0aa4",
+ "soft_fingerprint": "ppsb1:7cab3112061d66f522bd51d333799aaa8775645fc3d7c413225847b90dbf8fec",
  "actors": {
   "requested_by": [
    "human:richardtang"
@@ -41,13 +41,13 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "1d393510",
+   "block": "e18743e6",
    "kind": "modified",
-   "note": "Makes Proofpress the direct subject of the frozen performance result while retaining the bounded Harvey LAB-derived and seven-model scope."
+   "note": "Synchronizes the public result heading with the final Proofpress-led poster headline."
   }
  ],
  "context": {
-  "why": "Lead the result poster with Proofpress as the product responsible for the observed improvement; keep governed knowledge ledger and verified handoffs as mechanism and outcome language."
+  "why": "Synchronize the public result heading with the final Proofpress-led poster headline."
  },
- "event_id": "ppe_aa5548dc04d81ae95992e7a7"
+ "event_id": "ppe_6e0ee6011e993ac33650b965"
 }
