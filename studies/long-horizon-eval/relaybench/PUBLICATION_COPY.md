@@ -26,7 +26,7 @@ Use the title to lead with the user problem and the subtitle to establish the pr
 ## Results poster
 
 [//]: # (ob:c65749d6)
-**Verified handoffs improved performance on Harvey LAB-derived tasks across all seven models.**
+**Proofpress improved performance on Harvey LAB-derived tasks across all seven models.**
 
 [//]: # (ob:927ebf05)
 *Proofpress’s governed knowledge ledger converted prior agent work into evidence-bound knowledge for the next agent—raising rubric completion and stopping every observed unsafe propagation event.*
