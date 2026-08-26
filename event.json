@@ -1,59 +1,41 @@
 {
  "event": "version_created",
- "artifact": "studies/long-horizon-eval/relaybench/README.md",
- "artifact_id": "pp_f0589cff7d78ef17093f7a5d",
- "version": "bae2a558",
- "parent": "8706c072",
+ "artifact": "studies/long-horizon-eval/relaybench/CLAIM_BOUNDARIES.md",
+ "artifact_id": "pp_35745b3850cee6e14c678792",
+ "version": "e57cc73e",
+ "parent": "0ecd8dde",
  "author": {
   "name": "OpenAI Codex",
   "kind": "agent",
   "session": null
  },
  "note": null,
- "ts": "2026-08-26T11:33:12+00:00",
+ "ts": "2026-08-26T11:33:18+00:00",
  "stats": {
-  "modified": 6
+  "modified": 3
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "7b8f6fa6",
-   "type": "heading",
-   "context": "RelayBench — frozen long-horizon handoff"
+   "block": "7a627143",
+   "type": "para",
+   "context": "RelayBench claim boundaries"
   },
   {
    "kind": "modified",
-   "block": "f912c31c",
+   "block": "d500afd6",
    "type": "para",
-   "context": "RelayBench — frozen long-horizon handoff"
+   "context": "RelayBench claim boundaries"
   },
   {
    "kind": "modified",
-   "block": "ff436f24",
+   "block": "2c932519",
    "type": "para",
-   "context": "RelayBench — frozen long-horizon handoff"
-  },
-  {
-   "kind": "modified",
-   "block": "979c2fd0",
-   "type": "para",
-   "context": "RelayBench — frozen long-horizon handoff"
-  },
-  {
-   "kind": "modified",
-   "block": "4cb1cca8",
-   "type": "para",
-   "context": "Review and validation"
-  },
-  {
-   "kind": "modified",
-   "block": "80648521",
-   "type": "para",
-   "context": "Review and validation"
+   "context": "RelayBench claim boundaries"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:e418ded3ab66ca6de866b64e1a5f08714562385d235a8b7a99975f176bc482f2",
+ "soft_fingerprint": "ppsb1:5592f2b77679a6a5070f6d7e615fd6feadaf1027bb3d4369177ca9ee7250a1cb",
  "actors": {
   "requested_by": [
    "human:richard-tang"
@@ -71,38 +53,23 @@
  "attribution_basis": "environment_attested",
  "claims": [
   {
-   "block": "7b8f6fa6",
+   "block": "7a627143",
    "kind": "modified",
-   "note": "Update the entry point from historical Phase Zero to the frozen completed study."
+   "note": "Admit the exact frozen-panel aggregate with denominators and scope."
   },
   {
-   "block": "f912c31c",
+   "block": "d500afd6",
    "kind": "modified",
-   "note": "Describe RelayBench as the completed study execution layer."
+   "note": "Define valid pooling and prevent causal or official leaderboard overclaiming."
   },
   {
-   "block": "ff436f24",
+   "block": "2c932519",
    "kind": "modified",
-   "note": "Record exact bounded aggregate quality and safety results."
-  },
-  {
-   "block": "979c2fd0",
-   "kind": "modified",
-   "note": "State Harvey LAB-derived and non-leaderboard claim boundary."
-  },
-  {
-   "block": "4cb1cca8",
-   "kind": "modified",
-   "note": "Separate historical TEST-ONLY calibration from final denominators."
-  },
-  {
-   "block": "80648521",
-   "kind": "modified",
-   "note": "Close the study and require preregistration for expansion."
+   "note": "Replace public proof-price wording with verification overhead and preserve exclusions."
   }
  ],
  "context": {
-  "why": "Close the completed study and replace the stale Phase Zero entry point with the frozen result scope."
+  "why": "Admit exact bounded aggregates while preventing official-score, causal, significance, and legal-intelligence overclaims."
  },
- "event_id": "ppe_ccd683b886c2a3ad69b1cf20"
+ "event_id": "ppe_8eb8e3fac8e109dff00c99a1"
 }

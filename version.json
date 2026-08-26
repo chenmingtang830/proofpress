@@ -1,72 +1,54 @@
 {
- "artifact": "studies/long-horizon-eval/relaybench/README.md",
- "artifact_id": "pp_f0589cff7d78ef17093f7a5d",
+ "artifact": "studies/long-horizon-eval/relaybench/CLAIM_BOUNDARIES.md",
+ "artifact_id": "pp_35745b3850cee6e14c678792",
  "blocks": [
   {
    "type": "heading",
-   "text": "# RelayBench — frozen long-horizon handoff study",
-   "id": "7b8f6fa6",
-   "hash": "11b4c8273888"
+   "text": "# RelayBench claim boundaries",
+   "id": "8372ed9d",
+   "hash": "5b769eb3e335"
   },
   {
    "type": "para",
-   "text": "RelayBench is the execution, cold-boundary, governance, aggregation, and reporting layer for the Proofpress long-horizon handoff study.",
-   "id": "f912c31c",
-   "hash": "fd07b108d2b8"
+   "text": "RelayBench is the implementation infrastructure for Richard Tang's long-horizon\nProofpress study. The repository now contains composed public-task results, including\nseven complete frozen three-task panels and a 12-valid-task DeepSeek breadth expansion.\nThey are Proofpress experiments over version-pinned LAB materials, not official\nHarvey leaderboard results.",
+   "id": "6a714dce",
+   "hash": "3bff13681a0d"
   },
   {
    "type": "para",
-   "text": "The final frozen panel contains seven models, three legal task families, and 126 valid paired runs. Across this bounded panel, ordinary handoff scored 10,654/11,928 rubric criteria (89.3%) and Proofpress scored 11,141/11,928 (93.4%), a descriptive difference of +4.1 percentage points. In 63 controlled stress pairs, observed unsafe propagation fell from 8 events to 0.",
-   "id": "ff436f24",
-   "hash": "01123bba525f"
+   "text": "The study may report the bounded aggregate: ordinary handoff passed 10,654/11,928\nrubric criteria (89.3%) and Proofpress passed 11,141/11,928 (93.4%), a descriptive\ndifference of +4.1 percentage points across 126 valid paired runs. It may also report\nthat observed unsafe propagation fell from 8 events to 0 across 63 controlled stress\npairs. The scope—seven models, three legal task families, and the frozen paired\ndesign—must travel with both numbers.",
+   "id": "7a627143",
+   "hash": "a25c64a195cd"
   },
   {
    "type": "para",
-   "text": "These are Proofpress-composed, Harvey LAB-derived handoff tasks built from version-pinned public materials. They are not official Harvey leaderboard results or a population-level causal estimate. Start with [`PUBLIC_RESULTS.md`](PUBLIC_RESULTS.md), then inspect [`CLAIM_BOUNDARIES.md`](CLAIM_BOUNDARIES.md), the [ARA evidence index](../ara/evidence/README.md), and the immutable files under [`results/`](results/).",
-   "id": "979c2fd0",
-   "hash": "aae59b16cc11"
-  },
-  {
-   "type": "heading",
-   "text": "## Review and validation",
-   "id": "83b60139",
-   "hash": "a7e19333adc3"
+   "text": "It may not claim that Proofpress improves legal reasoning, legal knowledge, drafting skill, retrieval quality, model intelligence, factual truth, authorship, identity, or external authorization. Proofpress binds and verifies declared artifact, decision, evidence, actor, and version relationships under the selected policy; the receiving agent still performs legal reasoning.",
+   "id": "190fc2af",
+   "hash": "911221b98bca"
   },
   {
    "type": "para",
-   "text": "Requires Node.js 22 or newer. The project has no runtime package dependency.",
-   "id": "3c4f2a78",
-   "hash": "7e4bd644b486"
-  },
-  {
-   "type": "code",
-   "text": "```sh\nnpm install\nnpm run check\n```",
-   "id": "f79e70a9",
-   "hash": "f04586ab5ef4"
+   "text": "Clean continuity, controlled trust stress, model replication, and task breadth remain\nseparate evidence tiers in analysis. The public quality aggregate pools only matched\nrubric denominators from the seven complete frozen panels; the safety count uses only\nthe corresponding stress pairs. Neither number is an official Harvey score, a\npopulation estimate, or proof of statistical significance.",
+   "id": "d500afd6",
+   "hash": "c01f25602861"
   },
   {
    "type": "para",
-   "text": "Run the synthetic mechanics calibration in a disposable output directory:",
-   "id": "bf8dbb39",
-   "hash": "a382e30f5416"
-  },
-  {
-   "type": "code",
-   "text": "```sh\nnode scripts/bench-run.mjs --adapter deterministic-test --test-only --paired-replicates 1 --output /tmp/relaybench-h4/test-only\nnode scripts/bench-score.mjs --input /tmp/relaybench-h4/test-only --output /tmp/relaybench-h4/test-only/score.json\nnode scripts/bench-report.mjs --input /tmp/relaybench-h4/test-only --output /tmp/relaybench-h4/test-only/report.md\n```",
-   "id": "bbd0a989",
-   "hash": "e1e22d64bfb1"
+   "text": "Cross-model effects remain heterogeneous and are retained by model and task in the\nreceipts.\nKimi is user-terminated route evidence, not a zero-effect result. Missing provider\nusage telemetry does not invalidate a completed quality/safety pair, but it makes\nthe affected token/cost verification-overhead estimate partial or unavailable.",
+   "id": "2c932519",
+   "hash": "d4ac49475551"
   },
   {
    "type": "para",
-   "text": "The scorer and reporter exclude TEST-ONLY episodes. Historical Phase Zero documents remain in this directory as calibration records; they do not describe the final study state and never enter result denominators.",
-   "id": "4cb1cca8",
-   "hash": "e45f854f5f43"
+   "text": "The local H4 calibration uses only deterministic mocks and synthetic TEST-ONLY\nfixtures. Its outputs validate mechanics only. They must not enter benchmark\ndenominators, model comparisons, product claims, charts, or publishable summaries.\nComposed episodes must be described as a Proofpress long-horizon extension using\nversion-pinned Harvey LAB materials, never as official Harvey LAB scores. The\nDeepSeek 14-task result must report both all-valid and non-floor sensitivity because\nthree large gains occur where ordinary handoff scored below 25%.",
+   "id": "4b32ef87",
+   "hash": "2ef0885e93ed"
   },
   {
    "type": "para",
-   "text": "The study is frozen. Additional models or scenarios require a new preregistered study rather than extending this result after outcomes are known.",
-   "id": "80648521",
-   "hash": "9511a8e14a52"
+   "text": "Source-integrity boundary: the synthetic releases are not Harvey material; the candidate Harvey files are identified only through the pinned acquisition manifest and are not vendored here.",
+   "id": "9f8d1abd",
+   "hash": "8244547b5ac9"
   }
  ]
 }
