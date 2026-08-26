@@ -1,84 +1,66 @@
 {
- "artifact": "studies/long-horizon-eval/ara/src/environment.md",
- "artifact_id": "pp_092797e1922454d2f5d5897f",
+ "artifact": "studies/long-horizon-eval/ara/trace/README.md",
+ "artifact_id": "pp_8da59160a895012420c36245",
  "blocks": [
   {
    "type": "heading",
-   "text": "# Environment",
-   "id": "8c65fe99",
-   "hash": "4d65b7458bc8"
+   "text": "# Run-record and trace policy",
+   "id": "b21f1062",
+   "hash": "8be3abe96520"
   },
   {
    "type": "heading",
-   "text": "## Runtime",
-   "id": "40559188",
-   "hash": "556e02b1ecbd"
+   "text": "## Reconstruction boundary",
+   "id": "83bfc4ab",
+   "hash": "7e2d4d17249e"
   },
   {
-   "type": "list",
-   "text": "- Node.js 22 or later.\n- Python 3 for Proofpress proposal/admission helpers and receipt verification.\n- RelayBench dependencies pinned by [`../../relaybench/package-lock.json`](../../relaybench/package-lock.json).\n- Network access required only for real provider execution; verification of frozen receipts is local.",
-   "id": "ddbca772",
-   "hash": "5e9071a227fd"
+   "type": "para",
+   "text": "This publication-grade ARA was compiled after the study closed. [`exploration_tree.yaml`](exploration_tree.yaml) reconstructs milestone-level questions, decisions, experiments, pivots, and dead ends only when a committed protocol, amendment, result, or decision record supports them. Every reconstructed node carries `compiled_retrospectively: true` and a source pointer.",
+   "id": "9d38ef82",
+   "hash": "f8beeee77baf"
+  },
+  {
+   "type": "para",
+   "text": "The artifact does not claim that the DAG is a complete contemporaneous cognitive history. No historical session, staging observation, prompt, transcript, or hidden reasoning was invented. [`sessions/2026-08-26_001.yaml`](sessions/2026-08-26_001.yaml) records only the actual retrospective compilation.",
+   "id": "480ac2a4",
+   "hash": "3f2466171530"
   },
   {
    "type": "heading",
-   "text": "## Reproduction",
-   "id": "b6e47420",
-   "hash": "bdc7a0c34089"
+   "text": "## Retain",
+   "id": "c5275df2",
+   "hash": "fee95d4bc353"
   },
   {
    "type": "para",
-   "text": "From `studies/long-horizon-eval/relaybench`:",
-   "id": "a13ea393",
-   "hash": "49954c2b7387"
-  },
-  {
-   "type": "code",
-   "text": "```bash\nnpm ci\nnpm run check\n```",
-   "id": "78d42e5e",
-   "hash": "e525ce7043f9"
-  },
-  {
-   "type": "para",
-   "text": "From `studies/long-horizon-eval/ara`:",
-   "id": "0cc4cb75",
-   "hash": "b636a4e1abfa"
-  },
-  {
-   "type": "code",
-   "text": "```bash\npython3 src/execution/verify_receipts.py\n```",
-   "id": "b92fac5c",
-   "hash": "6a2080cd9c0d"
-  },
-  {
-   "type": "para",
-   "text": "The first command checks harness lint, fixtures, tests, and readiness. The second verifies that every admitted and secondary result file matches the content-addressed final manifest.",
-   "id": "8b2d8673",
-   "hash": "a72056121593"
+   "text": "For each real attempt, retain a structured run record with condition, manifest/source hashes, stage and boundary evidence, parity result, verifier result, resolved model/provider identity, telemetry, evaluator/scoring status, and invalidation reason. Retain failed, timed-out, partial, and abstained attempts alongside successful attempts.",
+   "id": "65f2d8b6",
+   "hash": "b97066215a5e"
   },
   {
    "type": "heading",
-   "text": "## Secret boundary",
-   "id": "246916a5",
-   "hash": "fb2d56eb5607"
+   "text": "## Exclude",
+   "id": "6c415d8e",
+   "hash": "818f9f47233f"
   },
   {
    "type": "para",
-   "text": "Provider credentials are supplied only through local environment variables or an ignored `.env` file. Credentials, raw prompts, private transcripts, hidden chain-of-thought, and undisclosed source documents are not part of this ARA and must not be committed.",
-   "id": "cc9dac7c",
-   "hash": "fa575207510c"
+   "text": "Do not treat raw prompts, private transcripts, hidden chain-of-thought, credentials, or unlicensed source documents as default ARA evidence. When a permitted evaluator output is necessary, record a bounded reference or hash and its access conditions.",
+   "id": "9cc6b663",
+   "hash": "5a9e42ce2724"
   },
   {
    "type": "heading",
-   "text": "## Platform qualification",
-   "id": "a2b34564",
-   "hash": "857dac32607a"
+   "text": "## Admission",
+   "id": "c4096bc3",
+   "hash": "167b5702f9e8"
   },
   {
    "type": "para",
-   "text": "The final study was orchestrated on macOS with Gateway-hosted model calls. Result eligibility depends on recorded model/provider identity and frozen protocol checks, not the orchestrator operating system. Exact provider telemetry remains in the retained run records.",
-   "id": "e21fd314",
-   "hash": "af6b999775ce"
+   "text": "A run may contribute to a claim only after the record verifies against the frozen protocol and has no unresolved invalidation. TEST-ONLY records remain retained as engineering evidence but are ineligible for benchmark aggregation.",
+   "id": "0897cb6f",
+   "hash": "a18ac9b5d1fe"
   }
  ]
 }

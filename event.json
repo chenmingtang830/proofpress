@@ -1,107 +1,44 @@
 {
  "event": "version_created",
- "artifact": "studies/long-horizon-eval/ara/src/environment.md",
- "artifact_id": "pp_092797e1922454d2f5d5897f",
- "version": "8ae3fd9e",
- "parent": "0aeb4531",
+ "artifact": "studies/long-horizon-eval/ara/trace/README.md",
+ "artifact_id": "pp_8da59160a895012420c36245",
+ "version": "7a7b172d",
+ "parent": "2d10f4a0",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-26T13:05:50+00:00",
+ "ts": "2026-08-26T13:05:56+00:00",
  "stats": {
-  "added": 12
+  "added": 3
  },
  "changes": [
   {
    "kind": "added",
-   "block": "40559188",
+   "block": "83bfc4ab",
    "type": "heading",
-   "context": "Runtime",
-   "preview": "## Runtime"
+   "context": "Reconstruction boundary",
+   "preview": "## Reconstruction boundary"
   },
   {
    "kind": "added",
-   "block": "ddbca772",
-   "type": "list",
-   "context": "Runtime",
-   "preview": "- Node.js 22 or later.\n- Python 3 for Proofpress proposal/ad"
-  },
-  {
-   "kind": "added",
-   "block": "b6e47420",
-   "type": "heading",
-   "context": "Reproduction",
-   "preview": "## Reproduction"
-  },
-  {
-   "kind": "added",
-   "block": "a13ea393",
+   "block": "9d38ef82",
    "type": "para",
-   "context": "Reproduction",
-   "preview": "From `studies/long-horizon-eval/relaybench`:"
+   "context": "Reconstruction boundary",
+   "preview": "This publication-grade ARA was compiled after the study clos"
   },
   {
    "kind": "added",
-   "block": "78d42e5e",
-   "type": "code",
-   "context": "Reproduction",
-   "preview": "```bash\nnpm ci\nnpm run check\n```"
-  },
-  {
-   "kind": "added",
-   "block": "0cc4cb75",
+   "block": "480ac2a4",
    "type": "para",
-   "context": "Reproduction",
-   "preview": "From `studies/long-horizon-eval/ara`:"
-  },
-  {
-   "kind": "added",
-   "block": "b92fac5c",
-   "type": "code",
-   "context": "Reproduction",
-   "preview": "```bash\npython3 src/execution/verify_receipts.py\n```"
-  },
-  {
-   "kind": "added",
-   "block": "8b2d8673",
-   "type": "para",
-   "context": "Reproduction",
-   "preview": "The first command checks harness lint, fixtures, tests, and "
-  },
-  {
-   "kind": "added",
-   "block": "246916a5",
-   "type": "heading",
-   "context": "Secret boundary",
-   "preview": "## Secret boundary"
-  },
-  {
-   "kind": "added",
-   "block": "cc9dac7c",
-   "type": "para",
-   "context": "Secret boundary",
-   "preview": "Provider credentials are supplied only through local environ"
-  },
-  {
-   "kind": "added",
-   "block": "a2b34564",
-   "type": "heading",
-   "context": "Platform qualification",
-   "preview": "## Platform qualification"
-  },
-  {
-   "kind": "added",
-   "block": "e21fd314",
-   "type": "para",
-   "context": "Platform qualification",
-   "preview": "The final study was orchestrated on macOS with Gateway-hoste"
+   "context": "Reconstruction boundary",
+   "preview": "The artifact does not claim that the DAG is a complete conte"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:75b9736498fb9b3eee3a911bb9a18b598d6fd40b93cf97245be4725b605a1a05",
+ "soft_fingerprint": "ppsb1:c39937b7bd7c19e1cd01933e2ad9a7b0c3b5c443e95af1931852b464a40b3772",
  "actors": {
   "requested_by": [
    "human:richardtang"
@@ -119,68 +56,23 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "40559188",
+   "block": "83bfc4ab",
    "kind": "added",
-   "note": "Adds publication-grade ARA content: ## Runtime"
+   "note": "Adds the retrospective reconstruction boundary."
   },
   {
-   "block": "ddbca772",
+   "block": "9d38ef82",
    "kind": "added",
-   "note": "Adds publication-grade ARA content: - Node.js 22 or later."
+   "note": "Requires every reconstructed trace node to be source-bound and marked."
   },
   {
-   "block": "b6e47420",
+   "block": "480ac2a4",
    "kind": "added",
-   "note": "Adds publication-grade ARA content: ## Reproduction"
-  },
-  {
-   "block": "a13ea393",
-   "kind": "added",
-   "note": "Adds publication-grade ARA content: From `studies/long-horizon-eval/relaybench`:"
-  },
-  {
-   "block": "78d42e5e",
-   "kind": "added",
-   "note": "Adds publication-grade ARA content: ```bash"
-  },
-  {
-   "block": "0cc4cb75",
-   "kind": "added",
-   "note": "Adds publication-grade ARA content: From `studies/long-horizon-eval/ara`:"
-  },
-  {
-   "block": "b92fac5c",
-   "kind": "added",
-   "note": "Adds publication-grade ARA content: ```bash"
-  },
-  {
-   "block": "8b2d8673",
-   "kind": "added",
-   "note": "Adds publication-grade ARA content: The first command checks harness lint, fixtures, tests, and readiness. The second verifies that every admitted and secondary result file mat"
-  },
-  {
-   "block": "246916a5",
-   "kind": "added",
-   "note": "Adds publication-grade ARA content: ## Secret boundary"
-  },
-  {
-   "block": "cc9dac7c",
-   "kind": "added",
-   "note": "Adds publication-grade ARA content: Provider credentials are supplied only through local environment variables or an ignored `.env` file. Credentials, raw prompts, private tran"
-  },
-  {
-   "block": "a2b34564",
-   "kind": "added",
-   "note": "Adds publication-grade ARA content: ## Platform qualification"
-  },
-  {
-   "block": "e21fd314",
-   "kind": "added",
-   "note": "Adds publication-grade ARA content: The final study was orchestrated on macOS with Gateway-hosted model calls. Result eligibility depends on recorded model/provider identity an"
+   "note": "Disclaims invented historical sessions, observations, prompts, and reasoning."
   }
  ],
  "context": {
   "why": "Compile the frozen PR #35 study into a publication-grade ARA 2.6 artifact without changing results or inventing historical research traces."
  },
- "event_id": "ppe_5613ba4cda550e68a4edf5eb"
+ "event_id": "ppe_6bf46805845d9c50802c5211"
 }
