@@ -236,10 +236,13 @@ export async function runResume({ output, manifest, authorizeRealCalls, root, en
         result = JSON.parse(await fs.readFile(responsePath, "utf8"));
       } catch (error) {
         if (error.code !== "ENOENT") throw error;
-        result = await adapter.invoke({
-          prompt: stagePrompt({ promptContract, packet, stageId, condition, prior, sourcePacket }),
-          ...(stageId === "S4" ? { max_output_tokens: adapter.metadata().final_stage_max_output_tokens } : {}),
-        }, { workspace: receiver, env });
+        const prompt = stagePrompt({ promptContract, packet, stageId, condition, prior, sourcePacket });
+        result = stageId === "S4" && adapter.metadata().s4_segment_count > 1
+          ? await invokeSegmentedS4({ adapter, prompt, receiver, env })
+          : await adapter.invoke({
+              prompt,
+              ...(stageId === "S4" ? { max_output_tokens: adapter.metadata().final_stage_max_output_tokens } : {}),
+            }, { workspace: receiver, env });
         await fs.writeFile(responsePath, `${JSON.stringify(result, null, 2)}\n`, { flag: "wx" });
       }
       const workerCap = stageId === "S4"
@@ -266,6 +269,82 @@ export async function runResume({ output, manifest, authorizeRealCalls, root, en
     decisions: state.episodes.C2_PROOFPRESS.proposals.map(({ id, verdict, admitted }) => ({ conclusion: id, verdict, admitted })) };
   await fs.writeFile(statePath, `${JSON.stringify(state, null, 2)}\n`);
   return state;
+}
+
+async function invokeSegmentedS4({ adapter, prompt, receiver, env }) {
+  const metadata = adapter.metadata();
+  const count = metadata.s4_segment_count;
+  const totalCap = metadata.final_stage_max_output_tokens;
+  if (!Number.isInteger(count) || count < 2) throw new Error("segmented S4 requires at least two planned segments");
+  if (!Number.isInteger(totalCap) || totalCap < count) throw new Error("segmented S4 requires a finite aggregate output cap");
+  const baseCap = Math.floor(totalCap / count);
+  const results = [];
+  const completed = [];
+  for (let index = 0; index < count; index += 1) {
+    const segmentCap = index === count - 1 ? totalCap - baseCap * index : baseCap;
+    const responsePath = path.join(receiver, `MODEL_RESPONSE_S4_SEGMENT_${index + 1}.json`);
+    let result;
+    try {
+      result = JSON.parse(await fs.readFile(responsePath, "utf8"));
+    } catch (error) {
+      if (error.code !== "ENOENT") throw error;
+      result = await adapter.invoke({
+        prompt: segmentedS4Prompt({ prompt, index, count, completed,
+          strategy: metadata.s4_segment_strategy }),
+        max_output_tokens: segmentCap,
+      }, { workspace: receiver, env });
+      await fs.writeFile(responsePath, `${JSON.stringify(result, null, 2)}\n`, { flag: "wx" });
+    }
+    assertForAdapter(result, adapter, segmentCap, `S4 planned segment ${index + 1}/${count}`);
+    if (!result.raw_output.trim()) throw new Error(`S4 planned segment ${index + 1}/${count} returned empty Markdown`);
+    results.push(result);
+    completed.push(result.raw_output.trim());
+  }
+  return {
+    raw_output: `${completed.join("\n\n")}\n`,
+    telemetry: aggregateSegmentTelemetry(results, totalCap, metadata.s4_segment_strategy),
+  };
+}
+
+function segmentedS4Prompt({ prompt, index, count, completed, strategy }) {
+  const responsibilities = [
+    "Write the opening, identifying metadata, executive summary, material facts, and transaction or agreement overview.",
+    "Write the complete issue-by-issue, deviation, evidence, conflict, authority, and risk analysis.",
+    "Write recommendations, mitigants, conditions, escalation and approval requests, signature or decision blocks, appendices, and every remaining required item.",
+  ];
+  const responsibility = count === 3 ? responsibilities[index]
+    : `Write planned section ${index + 1} of ${count}, covering the corresponding consecutive portion of the required memo.`;
+  const earlier = completed.length
+    ? `\n\nEarlier completed sections are quoted below only for continuity. Do not repeat or revise them:\n<completed-sections>\n${completed.join("\n\n")}\n</completed-sections>`
+    : "";
+  return `${prompt}\n\nPLANNED S4 TRANSPORT (${strategy ?? "segmented-markdown"}): This is section ${index + 1} of ${count} of one final memo. ${responsibility} Return only this consecutive Markdown fragment, without a JSON envelope, code fence, commentary, or placeholder. Preserve source citations and do not omit required content assigned to this section.${earlier}`;
+}
+
+export function aggregateSegmentTelemetry(results, totalCap, strategy = null) {
+  const rows = results.map((result) => result.telemetry ?? {});
+  const sum = (key) => rows.reduce((total, row) => total + (Number.isFinite(row[key]) ? row[key] : 0), 0);
+  const requestIds = rows.map((row) => row.request_id).filter(Boolean);
+  return {
+    ...rows[0],
+    request_id: `segments:${requestIds.join("|")}`,
+    segment_request_ids: requestIds,
+    s4_segment_count: results.length,
+    s4_segment_strategy: strategy,
+    wall_clock_latency_ms: sum("wall_clock_latency_ms"),
+    input_tokens: sum("input_tokens"),
+    cached_input_tokens: sum("cached_input_tokens"),
+    output_tokens: sum("output_tokens"),
+    output_cap_tokens: totalCap,
+    output_cap_utilization: sum("output_tokens") / totalCap,
+    output_cap_hit: rows.some((row) => row.output_cap_hit === true) || sum("output_tokens") >= totalCap,
+    finish_reason: rows.every((row) => row.finish_reason === "stop") ? "stop" : "segmented",
+    reasoning_tokens: sum("reasoning_tokens"),
+    provider_cost_usd: sum("provider_cost_usd"),
+    actual_incremental_cash_usd: rows.some((row) => Number.isFinite(row.actual_incremental_cash_usd))
+      ? sum("actual_incremental_cash_usd") : null,
+    model_calls: sum("model_calls"),
+    retries: sum("retries"),
+  };
 }
 
 function adapterFor(manifest, id) {

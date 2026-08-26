@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "id": "proofpress-kimi-k3-segmented-s4-amendment-v11",
+  "frozen_at": "2026-08-26T07:12:51Z",
+  "classification": "PRE_REPAIR_OUTCOME_MODEL_ADAPTER_CORRECTION",
+  "track_id": "B_OPEN_WEIGHT_COST",
+  "model": "moonshotai/kimi-k3",
+  "provider_only": "moonshotai",
+  "diagnosis": {
+    "cell": "credit stress repeat-2",
+    "preserved_failed_attempts": 11,
+    "provider_pattern": "The Moonshot route repeatedly returned finish_reason=error near 785 seconds during a single long S4 response. Two attempts completed Raw S4 but failed Proofpress S4 at the same boundary; the remaining attempts failed Raw S4.",
+    "not_a_cap_hit": "Successful Raw responses used 20,236-24,138 output tokens under the unchanged aggregate 64,000-token S4 guardrail. Failed responses reported provider error rather than finish_reason=length or an exact cap hit.",
+    "interrupted_attempt": "Explicit attempt 12 was stopped and preserved before S4 output so this correction could be frozen before any repaired quality result."
+  },
+  "correction": {
+    "strategy": "memo-thirds-v1",
+    "planned_calls_per_condition": 3,
+    "segments": [
+      "Opening, metadata, executive summary, material facts, and transaction or agreement overview",
+      "Issue-by-issue, deviation, evidence, conflict, authority, and risk analysis",
+      "Recommendations, mitigants, conditions, escalation or approval requests, decision blocks, appendices, and remaining required content"
+    ],
+    "aggregate_s4_output_cap": 64000,
+    "segment_output_caps": [21333, 21333, 21334],
+    "receipt_rule": "Every planned segment is a distinct pinned-provider call with its own request ID and eligibility check. Any failed, truncated, mismatched, or cap-hitting segment invalidates the entire paired attempt.",
+    "resume_rule": "Within one explicit attempt, an already completed eligible segment may be read from its immutable receipt after a local process interruption. Provider failures are never resumed or converted; the entire attempt remains invalid.",
+    "panel_rule": "Generate a new 18-cell Kimi panel under this single protocol. The three earlier monolithic valid cells remain route calibration and are excluded from the v11 replication estimate."
+  },
+  "research_invariants": {
+    "tasks": ["credit-scenario-02", "msa-scenario-04", "license-scenario-03"],
+    "arms": ["clean", "stress"],
+    "receiver_repeats": 3,
+    "same_s1_s3_sender_state_per_model_task": true,
+    "raw_and_proofpress_segment_plan_identical": true,
+    "raw_and_proofpress_aggregate_s4_caps_identical": true,
+    "model_and_provider_pin_unchanged": true,
+    "fallback_disabled": true,
+    "hidden_retry_disabled": true,
+    "task_sources_unchanged": true,
+    "rubric_unchanged": true,
+    "stress_fixtures_unchanged": true,
+    "treatment_unchanged": true,
+    "policy_judge_unchanged": true,
+    "blind_evaluator_unchanged": true
+  },
+  "claim_boundary": "The segmentation is an adapter-compatibility correction, not a quality optimization selected from repaired outcomes. Kimi v11 results may be compared within their paired cells but must not silently pool prior monolithic cells into the v11 estimate."
+}

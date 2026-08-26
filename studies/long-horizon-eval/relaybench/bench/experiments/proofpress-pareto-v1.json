@@ -50,6 +50,8 @@
         "temperature": 0,
         "max_output_tokens": 32000,
         "final_stage_max_output_tokens": 64000,
+        "s4_segment_count": 3,
+        "s4_segment_strategy": "memo-thirds-v1",
         "timeout_ms": 1800000,
         "fallback": false,
         "retries": 0

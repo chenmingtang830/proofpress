@@ -5,7 +5,8 @@ import path from "node:path";
 import test from "node:test";
 import { fileURLToPath } from "node:url";
 import { prepareRealPacket } from "../real/prepare.mjs";
-import { deterministicTraceSelection, normalizeEvidenceFileNames, runPrepare, runResume } from "../real/run.mjs";
+import { aggregateSegmentTelemetry, deterministicTraceSelection, normalizeEvidenceFileNames,
+  runPrepare, runResume } from "../real/run.mjs";
 
 test("real runner cannot make a call without the explicit payable-call flag", async () => {
   await assert.rejects(runPrepare({
@@ -43,6 +44,25 @@ test("deterministic graph selection emits only real current ledger ids", () => {
   });
 });
 
+test("planned S4 segment telemetry preserves every request and the aggregate cap", () => {
+  const telemetry = aggregateSegmentTelemetry([
+    { telemetry: { request_id: "r1", finish_reason: "stop", input_tokens: 10, output_tokens: 4,
+      output_cap_hit: false, wall_clock_latency_ms: 100, reasoning_tokens: 2,
+      provider_cost_usd: 0.01, actual_incremental_cash_usd: null, model_calls: 1, retries: 0 } },
+    { telemetry: { request_id: "r2", finish_reason: "stop", input_tokens: 12, output_tokens: 5,
+      output_cap_hit: false, wall_clock_latency_ms: 120, reasoning_tokens: 3,
+      provider_cost_usd: 0.02, actual_incremental_cash_usd: null, model_calls: 1, retries: 0 } },
+  ], 20, "memo-halves-v1");
+  assert.deepEqual(telemetry.segment_request_ids, ["r1", "r2"]);
+  assert.equal(telemetry.request_id, "segments:r1|r2");
+  assert.equal(telemetry.input_tokens, 22);
+  assert.equal(telemetry.output_tokens, 9);
+  assert.equal(telemetry.output_cap_tokens, 20);
+  assert.equal(telemetry.output_cap_hit, false);
+  assert.equal(telemetry.model_calls, 2);
+  assert.equal(telemetry.provider_cost_usd, 0.03);
+});
+
 test("mocked payable path uses automated policy admission then reaches LAB evaluation", async () => {
   const root = await fs.mkdtemp(path.join(os.tmpdir(), "relaybench-real-run-"));
   const checkout = path.join(root, "harvey");
@@ -63,7 +83,9 @@ test("mocked payable path uses automated policy admission then reaches LAB evalu
   const packet = path.join(root, "packet"); await prepareRealPacket({ manifestPath, harveyCheckout: checkout,
     output: packet, stressFixturePath });
   const prompts = [];
-  const adapter = { metadata: () => ({ id: "mock" }), invoke: async ({ prompt }) => {
+  const adapter = { metadata: () => ({ id: "mock", max_output_tokens: 300,
+    final_stage_max_output_tokens: 600, s4_segment_count: 3,
+    s4_segment_strategy: "memo-thirds-v1" }), invoke: async ({ prompt, max_output_tokens }) => {
     prompts.push(prompt);
     if (prompt.includes("Select only the knowledge receipts")) {
       const id = prompt.match(/knw_[a-f0-9]+/)[0];
@@ -85,6 +107,11 @@ test("mocked payable path uses automated policy admission then reaches LAB evalu
         telemetry: { model_calls: 1 } };
     }
     const stage = prompt.match(/Current stage: (S\d)/)[1];
+    if (stage === "S4") return { raw_output: `## Planned fragment ${prompts.length}`,
+      telemetry: { request_id: `segment-${prompts.length}`, finish_reason: "stop",
+        input_tokens: 10, output_tokens: 5, output_cap_tokens: max_output_tokens,
+        output_cap_hit: false, wall_clock_latency_ms: 1, reasoning_tokens: 0,
+        provider_cost_usd: 0, actual_incremental_cash_usd: null, model_calls: 1, retries: 0 } };
     return { raw_output: JSON.stringify({ stage_id: stage, summary: `summary-${stage}`,
       conclusions: stage === "S1" ? [
         { statement: "Bound conclusion", evidence_files: ["deal-economics-summary.xlsx"] },
@@ -136,8 +163,13 @@ test("mocked payable path uses automated policy admission then reaches LAB evalu
   assert.ok(prompts.filter((x) => x.includes("Current stage: S4"))
     .every((x) => x.includes("S3:akintola-business-case-email.eml")
       && x.includes("S4:tsao-escalation-request-email.eml")));
-  for (const condition of ["C1_ORDINARY_PORTABLE", "C2_PROOFPRESS"])
+  assert.equal(prompts.filter((x) => x.includes("Current stage: S4")).length, 6);
+  for (const condition of ["C1_ORDINARY_PORTABLE", "C2_PROOFPRESS"]) {
     await fs.access(resumed.episodes[condition].deliverable);
+    assert.equal(resumed.episodes[condition].stages.find((x) => x.stage_id === "S4").telemetry.model_calls, 3);
+    for (const segment of [1, 2, 3])
+      await fs.access(path.join(output, `receiver/${condition}/MODEL_RESPONSE_S4_SEGMENT_${segment}.json`));
+  }
   const reusedOutput = path.join(root, "run-reused-sender");
   const senderPromptCount = prompts.filter((x) => /Current stage: S[12]/.test(x)).length;
   const reused = await runPrepare({ packetDir: packet, output: reusedOutput, manifest,

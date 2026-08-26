@@ -27,6 +27,8 @@ export function createVercelGatewayAdapter(config, deps = {}) {
       stream: config.stream === true,
       max_output_tokens: config.max_output_tokens,
       final_stage_max_output_tokens: config.final_stage_max_output_tokens ?? config.max_output_tokens,
+      s4_segment_count: config.s4_segment_count ?? 1,
+      s4_segment_strategy: config.s4_segment_strategy ?? null,
     }),
     async invoke(request, context = {}) {
       const keyName = config.api_key_env ?? "AI_GATEWAY_API_KEY";

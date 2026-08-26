@@ -48,6 +48,22 @@
         "rubric, stress fixtures, and claim boundary"
       ],
       "result_use": "The reasoning-only cap failure remains invalid route evidence. All valid v10 GLM cells use the corrected frozen adapter and are not pooled with pre-correction attempts."
+    },
+    {
+      "track_id": "B_OPEN_WEIGHT_COST",
+      "frozen_at": "2026-08-26T07:12:51Z",
+      "timing": "After preserving eleven repeated provider-boundary failures and interrupting attempt 12 before S4 output; before any segmented-S4 quality result.",
+      "observed_failure": "Single-response Kimi S4 calls repeatedly returned finish_reason=error near the Moonshot route's 785-second boundary despite SSE streaming and non-binding output usage.",
+      "classification": "PRE_REPAIR_OUTCOME_MODEL_ADAPTER_CORRECTION",
+      "correction": "Generate each Raw and Proofpress S4 memo as the same three pre-planned consecutive Markdown sections. Enforce the unchanged 64,000-token aggregate cap as 21,333 + 21,333 + 21,334; record and validate every segment receipt; invalidate the whole paired attempt if any segment fails.",
+      "unchanged": [
+        "Kimi K3 model and MoonshotAI-only provider pin",
+        "fallback and hidden retry disabled",
+        "aggregate S4 cap and all non-S4 caps",
+        "task sources, frozen sender state, Raw and Proofpress information conditions",
+        "policy judge, evaluator, rubric, stress fixtures, and claim boundary"
+      ],
+      "result_use": "Run a new full 18-cell Kimi v11 panel under one segmented protocol. Preserve prior monolithic valid cells as route calibration only and exclude them from the v11 estimate."
     }
   ],
   "concurrency_amendment": {
