@@ -1,36 +1,50 @@
 {
-  "created_at": "2026-08-26T20:49:18.992252Z",
-  "event_id": "ppe_49cd67cdb49582c3",
-  "evidence": {
-    "digest": "sha256:33ca93adfe47d054d27556ac72a2302356af936d2d02743ecf70b1baf782edf5",
-    "id": "evd_70d10fbd1702c1e2",
-    "kind": "evidence",
-    "observation": {
-      "attributes": {
-        "actor": {
+  "created_at": "2026-08-26T20:49:19.045390Z",
+  "event_id": "ppe_efaf6d30c6ff3b31",
+  "record": {
+    "attributes": {
+      "actor": {
+        "id": "agent:experiment-runner",
+        "type": "ai"
+      },
+      "event": {
+        "description": "Propose a larger candidate-b validation run.",
+        "disposition": "accepted",
+        "proposed_by": {
           "id": "agent:experiment-runner",
           "type": "ai"
         },
-        "event": {
-          "duration_ms": 820,
-          "name": "evaluate_variant",
-          "output_hash": "sha256:demo-output",
-          "server": "experiment-runner",
-          "status": "success"
+        "rationale": "The observed conversion result merits confirmation.",
+        "resolved_by": {
+          "id": "human:demo",
+          "type": "human"
         },
-        "event_type": "tool_call",
-        "project": "coframe-long-horizon-demo",
-        "project_key": "coframe-long-horizon-demo"
+        "revises": null,
+        "revision_note": null,
+        "suggestion_type": "proactive",
+        "tags": [
+          "candidate-b",
+          "validation"
+        ],
+        "warnings": []
       },
-      "name": "trace.tool_call",
-      "status": "success",
-      "timestamp": "2026-08-23T00:01:00Z"
+      "event_type": "decision",
+      "project": "coframe-long-horizon-demo",
+      "project_key": "coframe-long-horizon-demo"
     },
-    "source_digest": "sha256:8efb5349e2938aa2cdc602b494f44882f057e99527166efefe3d949f77b9bd47",
-    "source_ref": "src_0ccfb595638fe81d"
+    "id": "src_76cf544e2249bca5",
+    "kind": "source_event",
+    "name": "trace.decision",
+    "record_hash": "sha256:b644577583ed61110a7fbecd9e590e9373d136494646f9e19f11675b99b438f8",
+    "source_protocol": "TRACE",
+    "source_ref": "trace:trace_demo_001#evt_002",
+    "source_schema": "0.5.0",
+    "span_id": "evt_002",
+    "status": null,
+    "timestamp": "2026-08-23T00:02:00Z",
+    "trace_id": "trace_demo_001"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_0ccfb595638fe81d",
-  "subject_ref": "evd_70d10fbd1702c1e2",
-  "type": "evidence_bound"
+  "subject_ref": "src_76cf544e2249bca5",
+  "type": "source_recorded"
 }
