@@ -85,5 +85,19 @@
     "resume_rule": "Resume Kimi K3 and GPT-5.6 Sol only after one of the two active lanes completes, keeping at most two simultaneous lanes.",
     "research_effect": "All triggering and interrupted attempts are ineligible operational evidence. No task, model, provider pin, prompt, cap, treatment, judge, evaluator, or rubric changes."
   },
+  "governance_state_reuse_correction": {
+    "frozen_at": "2026-08-26T00:40:00Z",
+    "classification": "PRE_CELL_OPERATIONAL_MECHANISM_CORRECTION",
+    "diagnosis": "The harness reused frozen S1-S3 model outputs but redundantly re-imported identical evidence, re-proposed identical conclusions, re-invoked the batch judge, and rebuilt identical admissions in every cell. This violated the frozen one-sender-state-per-model-task design and multiplied local and judge proof-price.",
+    "correction": "Clone the frozen sender ledger, proposals, and policy receipts for every clean cell. For a stress cell, clone the same base governance state and process only the newly injected stress artifact and conclusion. Preserve append-only per-item events and all source receipts.",
+    "cost_accounting": "Charge sender generation and base transaction-level judge once per model/task. Charge each cell only for incremental stress review, context assembly, receiver work, and evaluation. Aggregation must de-duplicate reused request IDs.",
+    "unchanged": [
+      "S1-S3 model outputs and source evidence",
+      "deterministic checks and per-conclusion ledger events",
+      "judge model, policy, prompts, verdict schema, and human-review boundary",
+      "tasks, clean/stress fixtures, treatment, receiver caps, rubric, evaluator, and claim boundary"
+    ],
+    "outcome_boundary": "Frozen from runtime and receipt inspection before any Qwen, Kimi, or GPT-5.6 valid cell quality result. Prior model cells remain valid for quality and safety; their redundant harness overhead is reported separately and is not pooled into corrected incremental latency."
+  },
   "claim_boundary": "Post-amendment panels estimate the governed-handoff treatment with deterministic context assembly. They must not be pooled silently with pre-amendment panels, and all prior invalid attempts remain route-reliability evidence."
 }

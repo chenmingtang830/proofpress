@@ -144,6 +144,12 @@ test("mocked payable path uses automated policy admission then reaches LAB evalu
     trackId: "A_HARVEY_COMPARABLE", authorizeRealCalls: true, root: repoRoot,
     adapterOverride: adapter, judgeOverride: judge, sharedSenderFrom: output });
   assert.equal(reused.sender_reuse.source_run, output);
+  assert.equal(reused.episodes.C2_PROOFPRESS.governance_reuse.source_run, output);
+  assert.equal(reused.episodes.C2_PROOFPRESS.governance_reuse.source_judge_receipt,
+    prepared.episodes.C2_PROOFPRESS.judge_transaction.receipt);
+  assert.deepEqual(reused.episodes.C2_PROOFPRESS.proposals, prepared.episodes.C2_PROOFPRESS.proposals);
+  assert.equal(reused.episodes.C2_PROOFPRESS.judge_transaction, undefined);
+  assert.equal(judgePrompts.length, 1);
   assert.deepEqual(reused.episodes.C1_ORDINARY_PORTABLE.stages,
     resumed.episodes.C1_ORDINARY_PORTABLE.stages.filter((x) => ["S1", "S2"].includes(x.stage_id)));
   assert.equal(prompts.filter((x) => /Current stage: S[12]/.test(x)).length, senderPromptCount);

@@ -28,6 +28,8 @@ export async function runPrepare({ packetDir, output, manifest, trackId, authori
   const sharedStages = [];
   let prior = "No prior stage output.";
   let senderReuse = null;
+  let reusedSourceState = null;
+  let reusedSourcePacket = null;
   if (sharedSenderFrom) {
     const sourceRoot = path.resolve(sharedSenderFrom);
     let sourceState = null;
@@ -36,6 +38,8 @@ export async function runPrepare({ packetDir, output, manifest, trackId, authori
     const sourcePacket = sourceState
       ? JSON.parse(await fs.readFile(path.join(sourceState.packet_dir, "RUN_PACKET.json")))
       : packet;
+    reusedSourceState = sourceState;
+    reusedSourcePacket = sourcePacket;
     if (sourceState && sourceState.track_id !== trackId) throw new Error("reused sender track does not match requested track");
     if (sourcePacket.harvey.task_id !== packet.harvey.task_id) throw new Error("reused sender task does not match packet task");
     const senderSet = new Set(senderStageIds);
@@ -80,19 +84,43 @@ export async function runPrepare({ packetDir, output, manifest, trackId, authori
   for (const condition of packet.conditions) {
     if (condition === "C2_PROOFPRESS") {
       const ledger = path.join(output, "ledger-c2");
-      await initLedger(ledger);
-      const evidence = await importSources(root, ledger, path.join(packetDir, "source"), senderStageIds);
-      if (packet.stress) {
+      const reusableC2 = reusedSourceState?.episodes?.C2_PROOFPRESS;
+      const reusableLedger = reusableC2?.ledger;
+      const sourceStressId = reusedSourcePacket?.stress?.id ?? null;
+      const targetStressId = packet.stress?.id ?? null;
+      if (sourceStressId && sourceStressId !== targetStressId)
+        throw new Error("cannot reuse a sender ledger carrying a different stress fixture");
+      const reuseGovernance = reusableLedger && await pathExists(reusableLedger);
+      let evidence;
+      let conclusions;
+      let baseProposals = [];
+      if (reuseGovernance) {
+        await fs.cp(reusableLedger, ledger, { recursive: true, errorOnExist: true });
+        baseProposals = structuredClone(reusableC2.proposals ?? []);
+        evidence = new Map(baseProposals.flatMap((proposal) => proposal.evidence_files.map((name, index) =>
+          [name, proposal.evidence_refs[index]])).filter(([, ref]) => ref));
+        conclusions = [];
+        episodes[condition].governance_reuse = {
+          source_run: path.resolve(sharedSenderFrom),
+          source_ledger: reusableLedger,
+          source_judge_receipt: reusableC2.judge_transaction?.receipt ?? null,
+          source_conclusion_count: baseProposals.length,
+        };
+      } else {
+        await initLedger(ledger);
+        evidence = await importSources(root, ledger, path.join(packetDir, "source"), senderStageIds);
+        conclusions = consolidateConclusions(sharedStages.flatMap((s) => s.output.conclusions));
+      }
+      if (packet.stress && sourceStressId !== targetStressId) {
         const stressPath = path.join(packetDir, packet.stress.artifact_path);
         evidence.set(packet.stress.artifact_filename,
           await importOneSource(root, ledger, stressPath, new Set(evidence.values())));
+        conclusions.push({ statement: packet.stress.statement,
+          evidence_files: [packet.stress.artifact_filename],
+          expires_at: packet.stress.ledger_control?.expires_at ?? packet.stress.expires_at,
+          stress_fixture_id: packet.stress.id });
       }
       const pending = [];
-      const conclusions = consolidateConclusions(sharedStages.flatMap((s) => s.output.conclusions));
-      if (packet.stress) conclusions.push({ statement: packet.stress.statement,
-        evidence_files: [packet.stress.artifact_filename],
-        expires_at: packet.stress.ledger_control?.expires_at ?? packet.stress.expires_at,
-        stress_fixture_id: packet.stress.id });
       for (const conclusion of conclusions) {
         conclusion.evidence_files = normalizeEvidenceFileNames(conclusion.evidence_files, [...evidence.keys()]);
         const refs = conclusion.evidence_files.map((name) => evidence.get(name)).filter(Boolean);
@@ -107,16 +135,17 @@ export async function runPrepare({ packetDir, output, manifest, trackId, authori
           conclusion.evidence_files.map((name) => evidencePathForName(packetDir, packet, name)));
         pending.push({ conclusion, proposed, evaluation, evidencePacket, refs });
       }
-      const judgedBatch = await judge.invoke({ prompt: batchJudgePrompt({ manifest, pending }),
-        reasoning_effort: "none", max_output_tokens: 64000,
-        response_format: { type: "json_object" } }, { workspace, env });
-      await fs.writeFile(path.join(workspace, "JUDGE_BATCH_RESPONSE.json"),
-        `${JSON.stringify(judgedBatch, null, 2)}\n`, { flag: "wx" });
-      assertForAdapter(judgedBatch, judge, 64000, "transaction batch judge");
-      const batchVerdicts = parseBatchJudgeOutput(judgedBatch.raw_output, pending.map((x) => x.proposed.conclusion.id));
-      const batchReceipt = `batch:${judgedBatch.telemetry.request_id ?? "unreported"}`;
-      const proposals = [];
-      for (const item of pending) {
+      const proposals = [...baseProposals];
+      if (pending.length) {
+        const judgedBatch = await judge.invoke({ prompt: batchJudgePrompt({ manifest, pending }),
+          reasoning_effort: "none", max_output_tokens: 64000,
+          response_format: { type: "json_object" } }, { workspace, env });
+        await fs.writeFile(path.join(workspace, "JUDGE_BATCH_RESPONSE.json"),
+          `${JSON.stringify(judgedBatch, null, 2)}\n`, { flag: "wx" });
+        assertForAdapter(judgedBatch, judge, 64000, "transaction batch judge");
+        const batchVerdicts = parseBatchJudgeOutput(judgedBatch.raw_output, pending.map((x) => x.proposed.conclusion.id));
+        const batchReceipt = `batch:${judgedBatch.telemetry.request_id ?? "unreported"}`;
+        for (const item of pending) {
         const batchVerdict = batchVerdicts.get(item.proposed.conclusion.id);
         let verdict = { recommendation: batchVerdict.recommendation, rationale: batchVerdict.rationale };
         let individualReview = null;
@@ -139,11 +168,12 @@ export async function runPrepare({ packetDir, output, manifest, trackId, authori
           stress_fixture_id: item.conclusion.stress_fixture_id ?? null,
           evaluation: item.evaluation, batch_verdict: batchVerdict, batch_receipt: batchReceipt,
           individual_review: individualReview, verdict, admitted: gate.admitted });
+        }
+        episodes[condition].judge_transaction = { receipt: batchReceipt, conclusion_count: pending.length,
+          telemetry: judgedBatch.telemetry };
       }
       episodes[condition].ledger = ledger;
       episodes[condition].proposals = proposals;
-      episodes[condition].judge_transaction = { receipt: batchReceipt, conclusion_count: pending.length,
-        telemetry: judgedBatch.telemetry };
     }
   }
   const state = { schema_version: 2, status: "POLICY_GATE_COMPLETE", experiment_id: manifest.id,
@@ -407,6 +437,9 @@ async function researchPolicyAdmit(root, cwd, packet) {
   const { stdout } = await execFileAsync("python3", [path.join(root, "studies/long-horizon-eval/relaybench/bench/real/research-policy-admit.py"),
     JSON.stringify(packet)], { cwd, maxBuffer: 16 * 1024 * 1024 });
   return JSON.parse(stdout);
+}
+async function pathExists(target) {
+  try { await fs.access(target); return true; } catch { return false; }
 }
 async function initLedger(cwd) {
   await fs.mkdir(cwd, { recursive: true });
