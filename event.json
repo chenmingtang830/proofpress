@@ -1,65 +1,47 @@
 {
  "event": "version_created",
- "artifact": "RESULTS_V9_2X2.md",
- "artifact_id": "pp_8d68d72f1b393b67df0c731b",
- "version": "0f4981c1",
- "parent": "c9fbd16a",
+ "artifact": "PROOFPRESS_PARETO_STUDY.md",
+ "artifact_id": "pp_ffddb1d2cc98a01371a598e2",
+ "version": "7350f2f9",
+ "parent": "12af15d9",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-26T10:56:14+00:00",
+ "ts": "2026-08-26T10:56:26+00:00",
  "stats": {
-  "modified": 7
+  "modified": 4
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "0ecc6e72",
+   "block": "92d5764d",
    "type": "para",
-   "context": "Result in one paragraph"
+   "context": "Track A — complete frozen panels"
   },
   {
    "kind": "modified",
-   "block": "4ca70d46",
+   "block": "478bda41",
    "type": "para",
-   "context": "Cross-model replication"
+   "context": "Track B — gated replication and breadth"
   },
   {
    "kind": "modified",
-   "block": "658b678e",
-   "type": "table",
-   "context": "Cross-model replication"
-  },
-  {
-   "kind": "modified",
-   "block": "113b815d",
+   "block": "8c71b340",
    "type": "para",
-   "context": "Cross-model replication"
+   "context": "Track B — gated replication and breadth"
   },
   {
    "kind": "modified",
-   "block": "e5a8d0fd",
-   "type": "para",
-   "context": "Frontier and optional tracks"
-  },
-  {
-   "kind": "modified",
-   "block": "a02c5c15",
+   "block": "f15c27f0",
    "type": "list",
-   "context": "Claim boundary and receipts"
-  },
-  {
-   "kind": "modified",
-   "block": "68a38c2a",
-   "type": "list",
-   "context": "Claim boundary and receipts"
+   "context": "Run sequence"
   }
  ],
  "policy": "local",
- "soft_fingerprint": "ppsb1:cee0eb8d1ed928890a8d8e884d70c72baef68e2775aa736464b42a6b2d5df3ae",
+ "soft_fingerprint": "ppsb1:1cce0d62116083de740199949740f4b3e28fe107381f3ec1428629f27c57b893",
  "actors": {
   "requested_by": [
    "human:richard"
@@ -77,43 +59,28 @@
  "attribution_basis": "environment_attested",
  "claims": [
   {
-   "block": "0ecc6e72",
+   "block": "92d5764d",
    "kind": "modified",
-   "note": "Summarizes seven complete frozen panels, model and task heterogeneity, protection endpoints, and the DeepSeek breadth sensitivity."
+   "note": "Records seven provider-pinned complete panels and distinguishes the DeepSeek expansion and frontier replications."
   },
   {
-   "block": "4ca70d46",
+   "block": "478bda41",
    "kind": "modified",
-   "note": "Updates the replication evidence tier to seven complete panels and one user-terminated unavailable route."
+   "note": "Records explicit Kimi termination and the portability corrections that enabled the other model panels without outcome-driven protocol changes."
   },
   {
-   "block": "658b678e",
+   "block": "8c71b340",
    "kind": "modified",
-   "note": "Reports exact 18-of-18 completion, clean and stress deltas, and unsafe propagation for every completed model."
+   "note": "Records the frozen expansion boundary, complete GPT quality and safety panel, and partial GPT usage telemetry."
   },
   {
-   "block": "113b815d",
+   "block": "f15c27f0",
    "kind": "modified",
-   "note": "Reports the observed cross-model range and repeated-run interval boundaries without asserting a universal effect."
-  },
-  {
-   "block": "e5a8d0fd",
-   "kind": "modified",
-   "note": "Reports the complete GPT-5.6 Sol panel, task heterogeneity, safety endpoint, and partial usage telemetry boundary."
-  },
-  {
-   "block": "a02c5c15",
-   "kind": "modified",
-   "note": "Updates claim boundaries for seven complete panels, Kimi termination, model-specific protection, and incomplete GPT proof-price telemetry."
-  },
-  {
-   "block": "68a38c2a",
-   "kind": "modified",
-   "note": "Adds the 2026-08-26 cross-model, Qwen, and GPT machine-readable result artifacts."
+   "note": "Updates the executed sequence to complete operational routes, preserve invalid attempts, and fail closed on missing proof-price telemetry."
   }
  ],
  "context": {
-  "why": "Record the completed seven-model frozen replication ladder, task-level heterogeneity, model-specific protection endpoints, and incomplete GPT usage telemetry without pooling models or overstating Harvey affiliation."
+  "why": "Bring the executed research plan into alignment with seven completed operational model routes, explicit Kimi termination, the frozen breadth boundary, and fail-closed proof-price reporting."
  },
- "event_id": "ppe_67baabb151a85d2d26b225bd"
+ "event_id": "ppe_a9f4ed586cd4a18435697572"
 }
