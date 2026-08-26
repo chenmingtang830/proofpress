@@ -1,51 +1,51 @@
 {
  "event": "version_created",
- "artifact": "studies/long-horizon-eval/ara/src/configs/training.md",
- "artifact_id": "pp_d651748566b09a6d61d40419",
- "version": "ff5bfd92",
- "parent": "98fb4461",
+ "artifact": "studies/long-horizon-eval/ara/src/configs/model.md",
+ "artifact_id": "pp_07c1048123ea90455c8ade46",
+ "version": "7ef1b15b",
+ "parent": "a752a9fb",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-26T13:05:36+00:00",
+ "ts": "2026-08-26T13:05:43+00:00",
  "stats": {
   "added": 4
  },
  "changes": [
   {
    "kind": "added",
-   "block": "ec1521ae",
+   "block": "42263bb3",
    "type": "para",
-   "context": "Study configuration",
-   "preview": "This is an evaluation rather than a training run. The filena"
+   "context": "Model configuration",
+   "preview": "Seven complete panels enter the frozen aggregate. Requested/"
   },
   {
    "kind": "added",
-   "block": "8ade7156",
+   "block": "02ec523d",
    "type": "table",
-   "context": "Study configuration",
-   "preview": "| Parameter | Frozen value |\n| --- | --- |\n| Task families |"
+   "context": "Model configuration",
+   "preview": "| Panel label | Frozen result receipt | Route note |\n| --- |"
   },
   {
    "kind": "added",
-   "block": "7ba64149",
+   "block": "f3c4fe5b",
    "type": "para",
-   "context": "Study configuration",
-   "preview": "Canonical machine-readable sources:"
+   "context": "Model configuration",
+   "preview": "Gemini 3.7 Flash performs transaction-level policy judging a"
   },
   {
    "kind": "added",
-   "block": "4f9a1c53",
-   "type": "list",
-   "context": "Study configuration",
-   "preview": "- [`../../../relaybench/bench/experiments/treatment-effect-p"
+   "block": "005e2183",
+   "type": "para",
+   "context": "Model configuration",
+   "preview": "The exact admitted result paths and SHA-256 digests are auth"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:f9dc8c8f1c3e934894710e626dc52a9b8194b61b1fd2e38f16fe1b32c997a966",
+ "soft_fingerprint": "ppsb1:5738b89b9e57a1b0477dc5ace334828c3a825c7542222b1e586f3674e51cfe38",
  "actors": {
   "requested_by": [
    "human:richardtang"
@@ -63,28 +63,28 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "ec1521ae",
+   "block": "42263bb3",
    "kind": "added",
-   "note": "Adds publication-grade ARA content: This is an evaluation rather than a training run. The filename is retained for ARA Seal compatibility; it records the frozen execution contr"
+   "note": "Adds publication-grade ARA content: Seven complete panels enter the frozen aggregate. Requested/reported model and provider identity are checked per attempt; fallback is disabl"
   },
   {
-   "block": "8ade7156",
+   "block": "02ec523d",
    "kind": "added",
-   "note": "Adds publication-grade ARA content: | Parameter | Frozen value |"
+   "note": "Adds publication-grade ARA content: | Panel label | Frozen result receipt | Route note |"
   },
   {
-   "block": "7ba64149",
+   "block": "f3c4fe5b",
    "kind": "added",
-   "note": "Adds publication-grade ARA content: Canonical machine-readable sources:"
+   "note": "Adds publication-grade ARA content: Gemini 3.7 Flash performs transaction-level policy judging and blind rubric evaluation under the frozen protocol. Where the same model famil"
   },
   {
-   "block": "4f9a1c53",
+   "block": "005e2183",
    "kind": "added",
-   "note": "Adds publication-grade ARA content: - [`../../../relaybench/bench/experiments/treatment-effect-protocol-v9.json`](../../../relaybench/bench/experiments/treatment-effect-protoco"
+   "note": "Adds publication-grade ARA content: The exact admitted result paths and SHA-256 digests are authoritative in [`../../evidence/FINAL_RESULTS_RECEIPTS.json`](../../evidence/FINAL"
   }
  ],
  "context": {
   "why": "Compile the frozen PR #35 study into a publication-grade ARA 2.6 artifact without changing results or inventing historical research traces."
  },
- "event_id": "ppe_3008c00692e2d38c6f3b33bb"
+ "event_id": "ppe_7e41da2c3531e1717215f54c"
 }

@@ -1,36 +1,36 @@
 {
- "artifact": "studies/long-horizon-eval/ara/src/configs/training.md",
- "artifact_id": "pp_d651748566b09a6d61d40419",
+ "artifact": "studies/long-horizon-eval/ara/src/configs/model.md",
+ "artifact_id": "pp_07c1048123ea90455c8ade46",
  "blocks": [
   {
    "type": "heading",
-   "text": "# Study configuration",
-   "id": "2a96ef32",
-   "hash": "06ce430d7d08"
+   "text": "# Model configuration",
+   "id": "b8a26265",
+   "hash": "855d0907260c"
   },
   {
    "type": "para",
-   "text": "This is an evaluation rather than a training run. The filename is retained for ARA Seal compatibility; it records the frozen execution controls.",
-   "id": "ec1521ae",
-   "hash": "e33c838b125e"
+   "text": "Seven complete panels enter the frozen aggregate. Requested/reported model and provider identity are checked per attempt; fallback is disabled.",
+   "id": "42263bb3",
+   "hash": "e0c4ec1691fa"
   },
   {
    "type": "table",
-   "text": "| Parameter | Frozen value |\n| --- | --- |\n| Task families | Credit lending, master services agreement, software license agreement |\n| Design | Clean/stress 2×2 × ordinary/Proofpress |\n| Receiver repeats | 3 per cell |\n| Sender reuse | One S1-S3 state per model/task |\n| Cold boundary | Immediately before S4 |\n| S1-S3 output cap | 32,000 tokens |\n| S4 output cap | 64,000 tokens |\n| Trace/graph selection cap | 8,000 tokens |\n| Working-set compiler cap | 24,000 tokens |\n| Completeness supplement cap | 12,000 tokens |\n| Transaction-level batch judge cap | 64,000 tokens |\n| Pair invalidation | Cap hit, invalid/truncated JSON, provider timeout/socket failure, identity mismatch, or condition cap mismatch |",
-   "id": "8ade7156",
-   "hash": "87fe3c4c6171"
+   "text": "| Panel label | Frozen result receipt | Route note |\n| --- | --- | --- |\n| DeepSeek | `deepseek-v9-s4-2x2-results-2026-08-24.json` | Initial complete anchor panel |\n| Claude Opus 4.8 | `opus48-gateway-v9-replication-2026-08-25.json` | Vercel AI Gateway, Anthropic provider |\n| GLM 5.2 | `glm52-gateway-v10-replication-2026-08-26.json` | Vercel AI Gateway, Z.ai provider |\n| Muse Spark 1.1 | `muse-spark11-gateway-v10-replication-2026-08-26.json` | Vercel AI Gateway, Meta provider |\n| Qwen 3.8 27B | `qwen38-27b-gateway-v10-replication-2026-08-26.json` | Vercel AI Gateway, Alibaba provider |\n| Inkling | `inkling-gateway-v10-replication-2026-08-26.json` | Vercel AI Gateway, Thinking Machines provider |\n| GPT-5.6 Sol | `gpt56-sol-gateway-v10-replication-2026-08-26.json` | Vercel AI Gateway, OpenAI provider |",
+   "id": "02ec523d",
+   "hash": "e177913f1aa5"
   },
   {
    "type": "para",
-   "text": "Canonical machine-readable sources:",
-   "id": "7ba64149",
-   "hash": "bbce7ef51283"
+   "text": "Gemini 3.7 Flash performs transaction-level policy judging and blind rubric evaluation under the frozen protocol. Where the same model family is used as worker and evaluator, the dependence must be disclosed rather than treated as independent evaluation.",
+   "id": "f3c4fe5b",
+   "hash": "984b730498a2"
   },
   {
-   "type": "list",
-   "text": "- [`../../../relaybench/bench/experiments/treatment-effect-protocol-v9.json`](../../../relaybench/bench/experiments/treatment-effect-protocol-v9.json)\n- [`../../../relaybench/bench/experiments/cross-model-replication-v1.json`](../../../relaybench/bench/experiments/cross-model-replication-v1.json)\n- [`../../../relaybench/bench/experiments/portability-amendment-v10.json`](../../../relaybench/bench/experiments/portability-amendment-v10.json)",
-   "id": "4f9a1c53",
-   "hash": "ff2dbfaf0264"
+   "type": "para",
+   "text": "The exact admitted result paths and SHA-256 digests are authoritative in [`../../evidence/FINAL_RESULTS_RECEIPTS.json`](../../evidence/FINAL_RESULTS_RECEIPTS.json).",
+   "id": "005e2183",
+   "hash": "72ab0de5afec"
   }
  ]
 }
