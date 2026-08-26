@@ -1,0 +1,6 @@
+sessions:
+  - id: "2026-08-26_001"
+    date: "2026-08-26"
+    kind: "retrospective_compilation"
+    file: "2026-08-26_001.yaml"
+    summary: "Compiled frozen PR #35 records into publication-grade ARA structure without inventing historical sessions."

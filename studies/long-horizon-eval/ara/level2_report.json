@@ -1,0 +1,167 @@
+{
+  "artifact": "proofpress-governed-handoff-study",
+  "artifact_dir": "studies/long-horizon-eval/ara",
+  "review_version": "3.1.0",
+  "reviewed_on": "2026-08-26",
+  "prerequisite": "Official ARA Level 1 structural validator passed 100/100 checks",
+  "overall": {
+    "tier": "Sound",
+    "mean_score": 4.17,
+    "one_line_summary": "A strongly scoped and receipt-grounded product-mechanism study whose main limitation is that its exploration layer was reconstructed after study closure.",
+    "strengths_summary": [
+      "Every quantitative claim flows through a typed experiment to a content-addressed frozen receipt set.",
+      "Quality, unsafe propagation, operational invalidity, and legal-correctness boundaries remain distinct.",
+      "The paired design uses a strong ordinary-handoff baseline and preserves null, failed, and incomplete routes."
+    ],
+    "weaknesses_summary": [
+      "The exploration DAG is an honest retrospective reconstruction rather than a contemporaneous research trace.",
+      "The frozen public aggregate is descriptive and does not provide an uncertainty estimate or population sampling frame.",
+      "Some worker/evaluator configurations share model-family dependence, which limits independent confirmation."
+    ]
+  },
+  "dimensions": {
+    "D1_evidence_relevance": {
+      "score": 5,
+      "strengths": [
+        "C01 is supported by a mechanics experiment, C02 by the paired quality panel, and C03 by fixture-specific trust endpoints.",
+        "The content-addressed manifest names exact admitted and secondary files and preserves exclusions."
+      ],
+      "weaknesses": [],
+      "suggestions": [
+        "Keep future studies on the same explicit claim-to-experiment-to-receipt chain."
+      ]
+    },
+    "D2_falsifiability": {
+      "score": 4,
+      "strengths": [
+        "C01-C03 specify executable recomputation or failure conditions with exact denominators and endpoints.",
+        "C04 states concrete evidence classes required to supersede the current boundary."
+      ],
+      "weaknesses": [
+        "C04 is primarily a scope constraint, so its criterion is a supersession rule rather than a conventional within-study falsification test."
+      ],
+      "suggestions": [
+        "In a new preregistered study, separate the current boundary into independently testable uncertainty, official-benchmark, and legal-correctness claims."
+      ]
+    },
+    "D3_scope_calibration": {
+      "score": 5,
+      "strengths": [
+        "The artifact repeatedly limits results to LAB-derived tasks, the frozen panel, and controlled fixtures.",
+        "It explicitly rejects official Harvey, statistical-significance, population-causal, and improved-legal-intelligence interpretations."
+      ],
+      "weaknesses": [],
+      "suggestions": [
+        "Preserve the same claim boundary verbatim in every derivative blog, social card, and product page."
+      ]
+    },
+    "D4_argument_coherence": {
+      "score": 5,
+      "strengths": [
+        "The problem moves from unsafe inherited state and governance overhead to a paired verified-handoff intervention.",
+        "The architecture, experiments, claims, and evidence describe the same clean/stress separation and fail-closed admission boundary."
+      ],
+      "weaknesses": [],
+      "suggestions": [
+        "Keep the one-page result linked to PAPER.md so communication and research layers stay synchronized."
+      ]
+    },
+    "D5_exploration_integrity": {
+      "score": 3,
+      "strengths": [
+        "The DAG retains the early-boundary zero result, Kimi route failure, alternatives, pivots, and closure decision.",
+        "Each reconstructed node identifies a committed source and the artifact refuses to invent private sessions or reasoning."
+      ],
+      "weaknesses": [
+        "The milestone DAG cannot demonstrate the completeness or timing fidelity of a Live-PM trace because it was reconstructed after outcomes were known."
+      ],
+      "suggestions": [
+        "Run the ARA research-manager contemporaneously for the next preregistered replication while keeping this reconstruction frozen."
+      ]
+    },
+    "D6_methodological_rigor": {
+      "score": 3,
+      "strengths": [
+        "The study matches sender state, task, model route, caps, tools, and evaluator within pairs and uses three receiver repeats per cell.",
+        "Invalidity rules were frozen, retries/fallback were not used to hide failures, and incomplete routes were excluded rather than scored as zero effect."
+      ],
+      "weaknesses": [
+        "The primary headline is a descriptive aggregate without a confidence interval, hierarchical model, or population sampling frame.",
+        "The same Gemini family can participate in policy judging and evaluation for a Gemini worker configuration, limiting evaluator independence.",
+        "The ARA table reports the final aggregate but does not itself expose per-task repeat dispersion."
+      ],
+      "suggestions": [
+        "A new preregistered study should report task-level paired distributions and uncertainty without retrofitting significance claims onto this frozen panel.",
+        "Use an independent evaluator family for any future same-family worker replication."
+      ]
+    }
+  },
+  "findings": [
+    {
+      "finding_id": "F01",
+      "dimension": "D5_exploration_integrity",
+      "severity": "major",
+      "target_file": "PAPER.md",
+      "target_entity": "Provenance boundary",
+      "evidence_span": "This ARA was not maintained by the ARA Live PM during the original experiment.",
+      "observation": "The exploration record is a milestone-level reconstruction made after study closure.",
+      "reasoning": "Even with honest source binding, retrospective reconstruction cannot establish that all dead ends, alternatives, or decision timing were captured contemporaneously.",
+      "suggestion": "Treat D5 as bounded for this artifact and maintain a born-agent ARA during the next preregistered study."
+    },
+    {
+      "finding_id": "F02",
+      "dimension": "D6_methodological_rigor",
+      "severity": "minor",
+      "target_file": "logic/claims.md",
+      "target_entity": "C02",
+      "evidence_span": "a descriptive difference of +4.1 percentage points",
+      "observation": "The headline reports a matched descriptive aggregate without uncertainty.",
+      "reasoning": "The effect is valid as an observed frozen-panel result but cannot quantify sampling uncertainty or population generalization.",
+      "suggestion": "Keep this wording frozen and preregister task-level uncertainty analysis for a new study."
+    },
+    {
+      "finding_id": "F03",
+      "dimension": "D2_falsifiability",
+      "severity": "minor",
+      "target_file": "logic/claims.md",
+      "target_entity": "C04",
+      "evidence_span": "This boundary may be superseded only by separately preregistered evidence",
+      "observation": "C04 uses a supersession condition rather than a same-study falsification endpoint.",
+      "reasoning": "This is appropriate for a claim boundary but weaker as a conventional empirical claim.",
+      "suggestion": "Split future stronger claims into separately falsifiable official-score, causal, and legal-correctness hypotheses."
+    },
+    {
+      "finding_id": "F04",
+      "dimension": "D6_methodological_rigor",
+      "severity": "suggestion",
+      "target_file": "src/configs/model.md",
+      "target_entity": "Evaluator configuration",
+      "evidence_span": "Where the same model family is used as worker and evaluator, the dependence must be disclosed rather than treated as independent evaluation.",
+      "observation": "The artifact discloses a potential same-family worker/evaluator dependence.",
+      "reasoning": "Independent evaluator replication would strengthen robustness without changing the frozen result.",
+      "suggestion": "Use a separately frozen evaluator family in the next replication."
+    }
+  ],
+  "questions_for_authors": [
+    "What clean-handoff non-inferiority margin should be preregistered before the next replication?",
+    "Which task-level uncertainty summary best matches the reuse of one frozen sender state and three receiver repeats?",
+    "Can the next study maintain a contemporaneous ARA trace without exposing private prompts or privileged legal sources?"
+  ],
+  "read_order": [
+    "PAPER.md",
+    "logic/claims.md",
+    "logic/experiments.md",
+    "logic/problem.md",
+    "logic/concepts.md",
+    "logic/solution/architecture.md",
+    "logic/solution/algorithm.md",
+    "logic/solution/constraints.md",
+    "logic/solution/heuristics.md",
+    "logic/related_work.md",
+    "trace/exploration_tree.yaml",
+    "evidence/README.md",
+    "evidence/tables/final-panel.md",
+    "evidence/figures/public-result.md",
+    "evidence/FINAL_RESULTS_RECEIPTS.json"
+  ]
+}

@@ -1,0 +1,5 @@
+compilation_note: >
+  Empty by design. The ARA was compiled after study closure; historical
+  unclassified observations were not recoverable from bounded committed
+  records and were not invented. Future observations require a new study.
+observations: []

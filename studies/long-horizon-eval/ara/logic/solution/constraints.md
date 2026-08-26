@@ -1,0 +1,44 @@
+[//]: # (ob:43fa877f)
+# Constraints
+
+[//]: # (ob:8c6ac932)
+## Claim constraints
+
+[//]: # (ob:bd2c05d3)
+- Results are Harvey LAB-derived, not official Harvey leaderboard scores.
+- The aggregate is descriptive for a frozen panel; no statistical-significance or population causal claim is made.
+- Rubric quality is not a legal-correctness or deployment-safety endpoint.
+- Controlled trust failures measure protection under frozen fixtures, not real-world prevalence.
+- The DeepSeek fourteen-scenario expansion is secondary and cannot support a seven-model breadth claim.
+
+[//]: # (ob:2acec127)
+## Experimental constraints
+
+[//]: # (ob:f13e7338)
+- Raw and Proofpress conditions must share task sources, sender state, model/provider route, tools, S4 rubric, and worker caps.
+- One sender state is reused across clean/stress cells and receiver repeats within a model/task.
+- Each cell has three receiver repeats.
+- Exact cap hit, truncated/invalid JSON, transport failure, identity mismatch, or cap mismatch invalidates the paired run.
+- Invalid attempts, calibration runs, and incomplete panels remain retained but excluded.
+
+[//]: # (ob:b88d121a)
+## Governance constraints
+
+[//]: # (ob:c3f7fb0c)
+- Deterministic evidence and version checks precede LM policy review.
+- Policy review is transaction-level but returns independent per-conclusion verdicts and receipts.
+- LM recommendations are `accept`, `reject`, or `escalate`; they do not directly admit knowledge.
+- Superseded, expired, out-of-scope, or unauthorized conclusions cannot enter trusted context.
+
+[//]: # (ob:194b241e)
+## Artifact constraints
+
+[//]: # (ob:1665f3b6)
+- The ARA is a retrospective compilation from committed study records.
+- No historical session logs, staging observations, raw prompts, hidden reasoning, credentials, or unlicensed documents may be fabricated or copied into the artifact.
+- Reconstructed trace nodes must carry a source pointer and `compiled_retrospectively: true`.
+- Future evidence requires a new preregistered study and may not mutate this frozen result.
+
+[//]: # (proofpress:meta:eyJhcnRpZmFjdF9pZCI6InBwXzdlMTdiOWIwYzNjYjNlZGRjNGRhZjlkMSIsInBvbGljeSI6InBvcnRhYmxlIiwicG9ydGFibGVfaGVhZCI6IjQ0OTNjZWNmIiwicG9ydGFibGVfaGVhZF9ldmVudCI6InBwZV9hNGE1Y2E3NDU1MTNmNjIyNjhhY2QxOTciLCJwb3J0YWJsZV9saW5lYWdlX2lkIjoicHBsXzIxYmFlNWM3YTNhNDVhZDk2NTlmNThkYSIsInByb29mcHJlc3MiOjF9)
+[//]: # (proofpress:discovery:Verifiable revision history by Proofpress | https://github.com/chenmingtang830/proofpress)
+[//]: # (proofpress:capsule:eNrtWW1v20YS_isL9eNJNl9FUv2Uu_be0GuLpLgvvUBe7g4lnimS3V06Vg3_93tmSdlyYrmJHVxxhwABIlO7szPPPPPMLHUzk8bVlVRuXevZatb364zCrCzKQMWqjElrlWhZFTqczWdlp_drXW_IOqy1Wxmly5UMlI7iYhkWJaUJ5VGYZUGaRlWwDMug0AHFQbFMEhXFgdapjnW-LJaBCtIgy4N4Cbu6tqq7IrOfrW74D7d2coMTGun4qDk-lNTgwT_J1FUty4aEoava1l0rtljfmb0o9-JH03VVb8ha7OmlupQb4qAePDbdvwnhDoYNbp3r7er8fFO77VCeqW53rrbU7up242S7yePg_MFuQ78MNT6vB0tmrbrWUgssnBnodj7bkmQQk6SIFalqNj5Z05VfBHBpLROZKpklaRrG1TKKlrlUOiwy9qwzjkNbN3VL8PyQkWYdhaWkVGUylkkqdbFMiyrNtRzDmbxbK9nboUHAEfupOqPtbPXzzWw6_maGLHfG8qfxa9LrEpD_PBvay7Z7187eIoYDHzjBbtA12fOmazeLbWfqX7t2QVeyOZdG4ummVue2awaHNJwzFs7IunX2bKdn808ilnTO1KU3tC6lrS2fTk21lhY4O_L2Bgcf2PvLumWTdm8d7fBNK3ec5kMUc2y1TI3Zqh2aBjGpLXJJIxpl06lLTlJcyTzLOElw3dE1R_yn-yDwfDpHau0d6Jly9A5PvhIPF7p9zw5wskGc2e3b-QH0GVjNrqyVITnG4b85gEJrVcTxMosypeOsWhbIsQqlkuxX2zlP34kXYuKFAEPVZd_hcE9z40_iUA9_caRvmVBNrfZHFo5JdmTE0_eZ_LNd5dYVoibTm3qiuS3DVVSmRVgESqWlBueLLM7jOEzzvKBlEck0D6IyLDVVMo0zlRdpnqRRBiSKKE3zpWLbTjpP1zEDqxCp5AezKIiWiyBfRMufwmiV5qso_EMQrIIAmybAsUrlUZCEYTq7PXp68_sQ3LNuJOBW2i3WxxRQUIUKgsA4ehtHnJwI-ZtMu72dP1rhpGt3V99IZutWqtN0PXvrNUMP6tS372nDB9_-MkCT777eDjvZrkyNEjOaJfN_TES8_8_VkFwtJeo3eqghjax3Qn2kkiDBj6x_P83z-zNLHaF16vj5Zy7Ea0KjcFZALMRfpbmivfju1R8XGt31ivRcQHhEV1W1qmVzWNDAFzL3vjVouw8ciyR6XhhlDxz79rqH0R0oBEsfj8kT256ApgpjyuI4f7EHQEi-E7LVRxMF70VNgRJW7AbrBMYfwOekvRS2G4wiOxeYBp5AqMxzHUahfODfX3jwaWWr6BPwObnpCXRUXGUVCueFpy_EN-TIYEJCeLUSeK6J9zNck8yOHcoK7ILMkPjuH8L3oiewCYukjJKQHnj3aqr-T0DmxJYncAmXy7SKy-WLTl6In7YkXr1-JWqUFYZTZzrbY85EQcHGrq8xyzIylem4UHe72kGRBKvj-6hAZRXX80mtec-LaUx4pTUQH0rg7I9abAwq1vvk44KKi0fl5oS6PP-UlwhM2aGPCFwHUHNnp_TlRQCcFIQTUvIiHJ4tI4BC8PxDc7FD7234GsKVZoTpBn7quq7B0jeJMEOJ_jv3B73rzCXW8FXg7JT2vAi9E4JxQmhegt3zZWYvxro8O6UwL0LgUWk4ISgvif_5gsLx--vf2SgmB1W7mb3b7v0th7eDdDgB23-lVvz4WnwVp9NuRNThzMc9jM6W4jCViXe4NoOOwg9HEFYcPBZ-Z2CFp1J-ON7QYarh70katRUATo0V_vFXpSfuziOyx3eg4wvA8b3o5ssk92WS-zLJfZnk_juT3Me_7Xn_bUd--_jLjN96sfNZ3t7IqMrTKMzSHIjmRRCGcRIsUy21KvIyDpIkVDrIKEtkQuFSRmFSlkpFQagU0lCciOeDtzfxKkhXYfbI25u7l6j_x29v5kf2kjAKlIqDKDnYO-pJB3sf3WMmsxD6MEDXlGWqD2aP2s5k9rPN6_9qx-qRm42hDZo415Amq0zd-_qpMBfIw8zRy5aar2HbD7peg2SzsPWmrXGSVzIs77t-mCpOycGy9HsIYHkHB_yZr_0ELH4ZZFO7PX_FDku4uIFF-Ab1ci1LPwxq6ptuz21kYWVFWI9p278I9baQMVR806CkneHuUMm6GRCd2JG0-AAtxLChvEeDn9OneKr62vHCES4MMc0C43ijWTzBSpbWO4S-IerfEF0CkcE4onZhFbXS1J2gawDjtRdxWOJmJc3eizJAYdN26LnaEaBleVn4C4IocaJ22xGes0cEeuKEykMZ5hDpPKkOnDjq-PdU-7TWfSCyLONKhXGWRHSwftTN7xn3e96MOAs_tPTAGqNtaLDIu1SQfPgDhrfniNo7R01jvSHuhOAyjqMeg6r1Q3DdIhujO-ywP-FbiTmX9wlgg2HbEH2weVx47fuT7DEpuznTrlU8AZ9jhAajtfj7mx--5-fghU_8RMm54IbtmPK72u6kU9s5M5wtHR6IyQb_kuYH_l7WBjHiDH_236YjJJrYrnfADUVYl2asOKyyI3x1y72vwcAw1i2DtQMduEHiP1gscQ-ga9UMUPsn6JeEAcVRVOlKRneSdD9O3dPvUyajyXaqqhL9LYnKsjzYPhqW7sj3Ga6WjN2Px0-YPz5D0kvDokFpNh4UIDQYkBoTB5LecsoEKgu61AItfxpO1bVyRwTrJ27gYL7M7VCGWo7FwVVxIZWi3l3MxYUh_j3zwmf-Alor-VfTi6852XuhOy9GumYFbKAiGuOK4HfcELjNqEdvBngD3rPQQ3yYHjA2uEVXQZW6nrzpoR3fnde_Itf3rtuDKCEq0NpL5riA0X6CBwFGkbRMozxaBodcHY2O9zz4-DlwslxFWVlRkgUhpXeW70fDOxZ8jgs24_d9d3zDnX43EJg_WK-c9PfirrRkrsYEzoWB-EG1xnrb1piPuI6k7VqsRQUiA1zXkmXMQw-eUcvSpDs1sCJz89uLEh1VssSxWvjK7_qa9HiB52I_DDljl6QRwUE539yg-SCHpklulTTcZiatFb4jIqPMyIsRD9LrBzA1-xUnnC68-T8P3P3uq-nwUzlMtsTxEmYC4ETmDkW2zXEwf3aDV2FIqT001PFlwgccenuLf_8BKl4ThQ)

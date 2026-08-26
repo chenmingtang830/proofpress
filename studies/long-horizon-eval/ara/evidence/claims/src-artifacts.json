@@ -1,0 +1,12 @@
+[
+  {
+    "block": "e367e3b0",
+    "kind": "modified",
+    "note": "Indexes environment, configs, executable verifier, and reconstructed DAG."
+  },
+  {
+    "block": "a05b7bf2",
+    "kind": "added",
+    "note": "Explains why the ARA points to rather than duplicates the adjacent RelayBench harness."
+  }
+]

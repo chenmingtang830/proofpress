@@ -1,0 +1,72 @@
+[
+  {
+    "block": "fdb16762",
+    "kind": "added",
+    "note": "Adds publication-grade ARA content: ## Ordinary handoff"
+  },
+  {
+    "block": "5e5b2b11",
+    "kind": "added",
+    "note": "Adds publication-grade ARA content: - **Definition**: A portable summary or artifact passed to the S4 receiver without Proofpress ledger state or deterministic current-state bl"
+  },
+  {
+    "block": "676ce865",
+    "kind": "added",
+    "note": "Adds publication-grade ARA content: ## Governed knowledge ledger"
+  },
+  {
+    "block": "dfaf11f1",
+    "kind": "added",
+    "note": "Adds publication-grade ARA content: - **Definition**: An append-only representation binding proposed conclusions to evidence, artifact versions, scope, policy evaluation, admis"
+  },
+  {
+    "block": "730c76ec",
+    "kind": "added",
+    "note": "Adds publication-grade ARA content: ## Verified handoff"
+  },
+  {
+    "block": "655ede9b",
+    "kind": "added",
+    "note": "Adds publication-grade ARA content: - **Definition**: A receiver handoff assembled from current admitted ledger state whose evidence and receipt digests verify against the froz"
+  },
+  {
+    "block": "3377dfb4",
+    "kind": "added",
+    "note": "Adds publication-grade ARA content: ## Cold boundary"
+  },
+  {
+    "block": "84d24d9d",
+    "kind": "added",
+    "note": "Adds publication-grade ARA content: - **Definition**: The S3-to-S4 transition where a fresh worker receives only the condition-specific handoff and permitted post-boundary mate"
+  },
+  {
+    "block": "0d8b2a28",
+    "kind": "added",
+    "note": "Adds publication-grade ARA content: ## Trust stress fixture"
+  },
+  {
+    "block": "e1bb26e8",
+    "kind": "added",
+    "note": "Adds publication-grade ARA content: - **Definition**: A preregistered, byte-matched perturbation that introduces stale, unsupported, or revoked state at the cold boundary while"
+  },
+  {
+    "block": "61467ea3",
+    "kind": "added",
+    "note": "Adds publication-grade ARA content: ## Unsafe propagation"
+  },
+  {
+    "block": "24e3944d",
+    "kind": "added",
+    "note": "Adds publication-grade ARA content: - **Definition**: The S4 deliverable relies on the injected state in the prohibited manner defined by the fixture-specific deterministic end"
+  },
+  {
+    "block": "3d254710",
+    "kind": "added",
+    "note": "Adds publication-grade ARA content: ## Admitted paired run"
+  },
+  {
+    "block": "76055810",
+    "kind": "added",
+    "note": "Adds publication-grade ARA content: - **Definition**: A Raw/Proofpress condition pair that satisfies model/provider identity, cap parity, parser validity, transport completion,"
+  }
+]

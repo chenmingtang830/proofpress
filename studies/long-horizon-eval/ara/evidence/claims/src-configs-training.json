@@ -1,0 +1,22 @@
+[
+  {
+    "block": "ec1521ae",
+    "kind": "added",
+    "note": "Adds publication-grade ARA content: This is an evaluation rather than a training run. The filename is retained for ARA Seal compatibility; it records the frozen execution contr"
+  },
+  {
+    "block": "8ade7156",
+    "kind": "added",
+    "note": "Adds publication-grade ARA content: | Parameter | Frozen value |"
+  },
+  {
+    "block": "7ba64149",
+    "kind": "added",
+    "note": "Adds publication-grade ARA content: Canonical machine-readable sources:"
+  },
+  {
+    "block": "4f9a1c53",
+    "kind": "added",
+    "note": "Adds publication-grade ARA content: - [`../../../relaybench/bench/experiments/treatment-effect-protocol-v9.json`](../../../relaybench/bench/experiments/treatment-effect-protoco"
+  }
+]
