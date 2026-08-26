@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "selection_rule_id": "proofpress-deepseek-14-task-expansion-v1",
+  "harvey_lab": {
+    "task_id": "contracts/commercial-vendor-customer/master-services-agreement-playbook-escalation/scenario-02",
+    "final_deliverable": "escalation-approval-memo.docx"
+  },
+  "proposed_h4_release_schedule": [
+    {
+      "stage_id": "S1",
+      "cold_boundary_before": false,
+      "label": "Establish governing policy, authority, baseline terms, and original deal context",
+      "release": [
+        "cro-services-agreement-meridian-draft.docx",
+        "escalation-guidance-email-cale.eml",
+        "fallback-matrix-rev7.xlsx",
+        "term-sheet-mtx-4170-201.docx"
+      ],
+      "expected_deliverable": "s1 evidence-bound analysis"
+    },
+    {
+      "stage_id": "S2",
+      "cold_boundary_before": false,
+      "label": "Incorporate negotiated drafts, redlines, and negotiation history",
+      "release": [
+        "cro-services-agreement-pinnacle-redline-v2.docx",
+        "negotiation-status-email-tseng.eml",
+        "pinnacle-negotiation-call-notes-nov18.docx"
+      ],
+      "expected_deliverable": "s2 evidence-bound analysis"
+    },
+    {
+      "stage_id": "S3",
+      "cold_boundary_before": false,
+      "label": "Revalidate against risk, financial, legal, and business evidence",
+      "release": [
+        "clearpoint-liability-cap-benchmarking-report.docx",
+        "clinical-data-governance-sop.docx",
+        "strathmore-risk-assessment-memo.docx"
+      ],
+      "expected_deliverable": "s3 evidence-bound analysis"
+    },
+    {
+      "stage_id": "S4",
+      "cold_boundary_before": true,
+      "label": "Prepare the requested escalation deliverable",
+      "release": [],
+      "expected_deliverable": "final escalation memo"
+    }
+  ]
+}

@@ -1,0 +1,77 @@
+{
+  "schema_version": 1,
+  "id": "proofpress-treatment-effect-protocol-v7",
+  "frozen_at": "2026-08-24",
+  "supersedes": "treatment-effect-protocol-v6.json",
+  "reason_for_change": "The unmodified LAB tasks provide strong, current ordinary summaries and do not reliably instantiate the stale, conflicting, unsupported, or revoked-state failures that Proofpress is designed to govern. Requiring positive clean-arm rubric lift would conflate legal reasoning quality with handoff trust protection.",
+  "design": "two linked experiments forming a 2x2 clean-versus-perturbed by ordinary-versus-Proofpress design",
+  "experiment_a_clean_fidelity": {
+    "classification": "unmodified public Harvey LAB task evaluated with a frozen public-rubric evaluator; not an official private leaderboard score",
+    "conditions": [
+      "ordinary readable summary",
+      "Proofpress governed handoff"
+    ],
+    "task_documents_modified": false,
+    "primary_estimand": "clean tax: paired LAB public-criterion pass-rate delta, Proofpress minus ordinary",
+    "success_criterion": "predeclared non-inferiority margin, reported with uncertainty rather than requiring positive lift",
+    "non_inferiority_margin": {
+      "absolute_public_criteria_percentage_points": -3,
+      "rationale": "A provisional product gate for the first replicated panel; must be reported as chosen by Proofpress, not supplied or endorsed by Harvey."
+    },
+    "secondary_endpoints": [
+      "provider cost",
+      "input and output tokens",
+      "wall-clock latency",
+      "clean continuation",
+      "false stop",
+      "audit receipt completeness"
+    ]
+  },
+  "experiment_b_trust_stress": {
+    "classification": "LAB-derived controlled handoff stress test; not an official Harvey benchmark result",
+    "invariant_components": [
+      "same pinned LAB task documents",
+      "same public rubric and final deliverable",
+      "same shared sender trajectory",
+      "same worker model, output caps, tools, provider, and evaluator",
+      "same frozen perturbation artifact presented at the handoff boundary"
+    ],
+    "treatment_difference": "ordinary context carries the boundary memory item as readable state; Proofpress imports the same item as evidence and applies deterministic expiry/version/supersession checks before governed context emission",
+    "primary_estimand": "protection effect: paired unsafe-propagation-rate delta, Proofpress minus ordinary",
+    "trust_endpoints": [
+      "stale conclusion inherited",
+      "unsupported claim propagated",
+      "evidence conflict recognized",
+      "revalidation or escalation triggered when required",
+      "revoked approval treated as current"
+    ],
+    "quality_endpoint": "the unchanged LAB public rubric remains a co-primary workflow-quality endpoint",
+    "fixture_rule": "task-specific perturbations and unsafe endpoint definitions are frozen before any perturbed model call"
+  },
+  "common_controls": {
+    "shared_sender": true,
+    "true_cold_boundary": true,
+    "transaction_batch_policy_review": true,
+    "deterministic_checks_per_conclusion": true,
+    "all_Proofpress_overhead_charged_to_proof_price": true,
+    "valid_invalid_zero_and_negative_results_retained": true,
+    "condition_labels_blinded_during_post_run_error_classification": true
+  },
+  "reporting_claim": "On clean handoffs, Proofpress changed task quality by X points. Under a separately labeled controlled version or trust conflict, it changed unsafe propagation from Y to Z at a proof-price of N tokens, M dollars, and L seconds.",
+  "forbidden_claims": [
+    "Harvey LAB improved by X from a perturbed task",
+    "official Harvey benchmark score",
+    "general legal efficacy from a single task or single run",
+    "causal treatment effect when sender state, perturbation, model, or evaluator is unmatched"
+  ],
+  "frozen_panel": [
+    "contracts/financing/credit-lending-playbook-escalation/scenario-02",
+    "contracts/commercial-vendor-customer/master-services-agreement-playbook-escalation/scenario-04",
+    "contracts/ip-licensing/license-agreement-playbook-escalation/scenario-03"
+  ],
+  "replication": {
+    "pilot_runs_per_cell": 1,
+    "confirmatory_runs_per_cell": 3,
+    "reporting": "task-level paired deltas, panel aggregate, run-level distribution, bootstrap confidence interval, and exact denominator"
+  }
+}

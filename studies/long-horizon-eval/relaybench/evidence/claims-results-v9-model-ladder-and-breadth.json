@@ -1,0 +1,17 @@
+[
+  {"block":"b2d936d4","kind":"modified","note":"Broadens the report title from the initial 2x2 panel to the full v9 evidence package."},
+  {"block":"0ecc6e72","kind":"modified","note":"Summarizes the two complete panels, DeepSeek task breadth, route attrition, and honest claim boundary."},
+  {"block":"4f4144dd","kind":"added","note":"Introduces cross-model replication as a distinct evidence tier."},
+  {"block":"4ca70d46","kind":"added","note":"Defines complete, incomplete, and route-unavailable evidence tiers."},
+  {"block":"658b678e","kind":"added","note":"Reports exact model-level denominators and observed deltas without pooling incomplete tracks."},
+  {"block":"113b815d","kind":"added","note":"Reports Opus uncertainty, safety endpoint limits, and route invalidity for incomplete tracks."},
+  {"block":"84e36947","kind":"added","note":"Introduces the pre-outcome DeepSeek task-breadth expansion."},
+  {"block":"708dffef","kind":"added","note":"Reports 12 valid of 14 attempted tasks and two excluded provider failures."},
+  {"block":"b84e75c6","kind":"added","note":"Reports exact family, overall, and non-floor task-breadth outcomes."},
+  {"block":"bc410870","kind":"added","note":"Discloses floor sensitivity and limits task-level uncertainty interpretation."},
+  {"block":"d812ed43","kind":"added","note":"Reports task-breadth proof-price and observed cap utilization."},
+  {"block":"6b452c0f","kind":"added","note":"Introduces the frontier and optional-track disposition."},
+  {"block":"e5a8d0fd","kind":"added","note":"Records GPT-5.6 Sol route unavailability and the preregistered reason optional tracks were not run."},
+  {"block":"a02c5c15","kind":"modified","note":"Updates claim boundaries for complete panels, incomplete tracks, floor sensitivity, and model-specific safety evidence."},
+  {"block":"68a38c2a","kind":"modified","note":"Adds authoritative cross-model and task-breadth aggregates and reproducers."}
+]

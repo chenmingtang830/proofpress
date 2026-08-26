@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "selection_rule_id": "proofpress-deepseek-14-task-expansion-v1",
+  "harvey_lab": {
+    "task_id": "contracts/commercial-vendor-customer/master-services-agreement-playbook-escalation/scenario-06",
+    "final_deliverable": "escalation-approval-memo.docx"
+  },
+  "proposed_h4_release_schedule": [
+    {
+      "stage_id": "S1",
+      "cold_boundary_before": false,
+      "label": "Establish governing policy, authority, baseline terms, and original deal context",
+      "release": [
+        "approved-vendor-list.xlsx",
+        "contracting-authority-matrix.docx",
+        "diamondback-gpa-excerpt.docx",
+        "msa-standard-form.docx",
+        "redtail-hse-summary.docx"
+      ],
+      "expected_deliverable": "s1 evidence-bound analysis"
+    },
+    {
+      "stage_id": "S2",
+      "cold_boundary_before": false,
+      "label": "Incorporate negotiated drafts, redlines, and negotiation history",
+      "release": [
+        "negotiation-tracker.xlsx",
+        "oilfield-msa-redline-v4.docx",
+        "redtail-redline-transmittal.eml"
+      ],
+      "expected_deliverable": "s2 evidence-bound analysis"
+    },
+    {
+      "stage_id": "S3",
+      "cold_boundary_before": false,
+      "label": "Revalidate against risk, financial, legal, and business evidence",
+      "release": [
+        "campaign-spend-estimate.xlsx",
+        "outside-counsel-input.eml",
+        "redtail-certificate-of-insurance.docx",
+        "risk-management-insurance-memo.docx",
+        "tascosa-availability.eml"
+      ],
+      "expected_deliverable": "s3 evidence-bound analysis"
+    },
+    {
+      "stage_id": "S4",
+      "cold_boundary_before": true,
+      "label": "Prepare the requested escalation deliverable",
+      "release": [],
+      "expected_deliverable": "final escalation memo"
+    }
+  ]
+}

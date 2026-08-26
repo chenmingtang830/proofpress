@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-08-25T13:00:00Z",
+  "model": "alibaba/qwen3.8-27b",
+  "provider_only": "alibaba",
+  "track": "R_QWEN_3_8_27B",
+  "frozen_protocol": "bench/experiments/cross-model-replication-v1.json",
+  "claim_boundary": {
+    "benchmark": "No benchmark or treatment estimate is available from this track.",
+    "invalid": "Both excluded route-smoke attempts failed before a complete paired output."
+  },
+  "completion": {
+    "planned_pairs": 18,
+    "valid_pairs": 0,
+    "invalid_smoke_attempts": 2,
+    "formal_panel_started": false,
+    "panel_estimate_available": false,
+    "disposition": "route_parser_incompatible"
+  },
+  "attempts": [
+    {"attempt": 1, "failure_phase": "sender_s1", "reason": "output cap hit: 32746/32000"},
+    {"attempt": 2, "failure_phase": "trace_graph_selection", "reason": "selector requested unknown or too many knowledge receipts"}
+  ]
+}

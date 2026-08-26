@@ -1,0 +1,25 @@
+{
+  "schema_version": "relaybench/operational-amendment/v1",
+  "amendment_id": "ledger-batch-append-v1",
+  "frozen_at": "2026-08-26T08:12:00Z",
+  "status": "FROZEN_PRE_OUTCOME",
+  "scope": "research-only transaction policy receipt writer",
+  "observed_problem": {
+    "kind": "local_ledger_replay_per_receipt",
+    "description": "Each conclusion receipt launched a new process and replayed the complete refs/proofpress/knowledge history before appending recommendation, policy-gate, and admission events.",
+    "effect": "O(n^2) local runtime for large transaction batches; no model call, task, treatment, rubric, verdict, or evaluator change."
+  },
+  "correction": {
+    "description": "Send all transaction verdicts to one research-policy-admit process, replay the ledger once, and append the same independent per-conclusion events in the same order.",
+    "semantic_invariants": [
+      "deterministic evaluation remains conclusion-specific",
+      "judge recommendation remains conclusion-specific",
+      "policy gate remains conclusion-specific",
+      "admission remains conclusion-specific and append-only",
+      "reject and escalate verdicts are not admitted",
+      "provider routes, model identities, prompts, caps, tasks, stress fixtures, and evaluators are unchanged"
+    ]
+  },
+  "historical_attempts": "preserved; in-flight Qwen License and GPT Credit preparations continue with the prior writer",
+  "outcome_blinding": "frozen before either in-flight task produced paired receiver quality results"
+}

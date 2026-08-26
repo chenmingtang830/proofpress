@@ -1,0 +1,12 @@
+[
+  {
+    "block": "1a802c43",
+    "kind": "modified",
+    "note": "Expands aggregate quality outcomes into exact Credit, MSA, and License task-level results for both arms."
+  },
+  {
+    "block": "fdab9520",
+    "kind": "added",
+    "note": "Preserves paired uncertainty and states that the confirmatory v9 panel used one worker model only."
+  }
+]

@@ -112,6 +112,26 @@ class LocalMVPTests(unittest.TestCase):
         self.data("review", cid, "--admit", "--reviewer", "human:alice")
         self.assertEqual(len(self.data("context", "--scope", "msa-negotiation")["knowledge"]), 1)
 
+    def test_transaction_level_batch_judge_records_individual_receipts(self):
+        evidence, first = self.seed()
+        second = self.data("propose", "--statement", "The indemnity requires escalation",
+                           "--evidence", evidence, "--scope", "msa-negotiation",
+                           "--proposer", "agent:runner")["conclusion"]["id"]
+        policy_dir = self.repo / ".proofpress"; policy_dir.mkdir()
+        judge_code = (
+            "import json,sys; p=json.load(sys.stdin); "
+            "vs=[{'conclusion_id':x['conclusion']['id'],'recommendation':'accept','risk_level':'low','rationale':'supported'} for x in p['conclusions']]; "
+            "print(json.dumps({'verdicts':vs,'adapter':'fixture-batch'}))"
+        )
+        (policy_dir / "policy.json").write_text(json.dumps({
+            "judge": {"command": [sys.executable, "-c", judge_code], "timeout_seconds": 5},
+        }))
+        result = self.data("judge", "--batch", "--scope", "msa-negotiation")
+        self.assertEqual(len(result["verdicts"]), 2)
+        self.assertEqual(result["individual_reviews"], [])
+        self.assertTrue(all(row["batch_receipt"] == result["batch_receipt"] for row in result["verdicts"]))
+        self.assertEqual({row["subject_ref"] for row in result["verdicts"]}, {first, second})
+
     def test_v1_migration_is_one_way_and_idempotent(self):
         legacy = self.repo / "legacy.json"
         self.cli("knowledge", "ingest", str(FIXTURE), "-o", str(legacy),

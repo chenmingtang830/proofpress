@@ -290,7 +290,7 @@
     },
     {
       "path": "CLAIM_BOUNDARIES.md",
-      "sha256": "3ea2bf7d8d134387286fb167bd9bdca08bd09a07ecd4c3594efc9d736ee6af3b"
+      "sha256": "bdea87b7d67a21a68c0ea85d7ab0ceaf9289e4fca151796be7cab2954053cb94"
     },
     {
       "path": "PHASE_ZERO_FREEZE_PACKET.md",
@@ -302,7 +302,7 @@
     },
     {
       "path": "README.md",
-      "sha256": "055c6483a909fafe81bdad90f14467d010f008cec10ef77129e16378b2c662c7"
+      "sha256": "a6d117c2a46695f0eec15fcfa9ed52f9985782ac5b6a78ed19d35a8c0f6f89dc"
     },
     {
       "path": "RICHARD_PLAN_ALIGNMENT.md",
@@ -490,11 +490,11 @@
     },
     {
       "path": "package-lock.json",
-      "sha256": "31db3d0b332d25eb53ba9bd21c25ee98223f5c74f0efc70ec2454f4c15516a2d"
+      "sha256": "9ce431c9edb99b381a80bc9ecc01e17024b9f03c93aeb34ebae9f8c5807c91e8"
     },
     {
       "path": "package.json",
-      "sha256": "e1b4f2032cab4061e9dc1a820a7654e80b9a62d258627f5e71fc1399e517790c"
+      "sha256": "664d90cd18301f86f43693f78d32a6c8dcd9bf3614fb720d97796472c6d68e71"
     },
     {
       "path": "scripts/bench-generate-proofpress-claims.mjs",
@@ -502,7 +502,7 @@
     },
     {
       "path": "scripts/bench-lint.mjs",
-      "sha256": "804caa3b208a614e430705a0fbd0174dde30819ab98e829c9baea3712b5c80e6"
+      "sha256": "ecd3f63bb013efd23bd875daf94043cb8bafc4713c9f105aa8ec0e6059cc3b46"
     },
     {
       "path": "scripts/bench-readiness.mjs",

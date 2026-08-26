@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "selection_rule_id": "proofpress-deepseek-14-task-expansion-v1",
+  "harvey_lab": {
+    "task_id": "contracts/commercial-vendor-customer/master-services-agreement-playbook-escalation/scenario-03",
+    "final_deliverable": "escalation-approval-memo.docx"
+  },
+  "proposed_h4_release_schedule": [
+    {
+      "stage_id": "S1",
+      "cold_boundary_before": false,
+      "label": "Establish governing policy, authority, baseline terms, and original deal context",
+      "release": [
+        "acreage-dedication-exhibit-a.xlsx",
+        "cimarron-final-term-sheet.docx",
+        "ggpa-draft-3-clean.docx",
+        "lc-demand-letter-cimarron.docx",
+        "redstone-contract-authority-matrix-v4-2.xlsx"
+      ],
+      "expected_deliverable": "s1 evidence-bound analysis"
+    },
+    {
+      "stage_id": "S2",
+      "cold_boundary_before": false,
+      "label": "Incorporate negotiated drafts, redlines, and negotiation history",
+      "release": [
+        "ggpa-draft-4-redline.docx",
+        "wellford-negotiation-summary-email.eml"
+      ],
+      "expected_deliverable": "s2 evidence-bound analysis"
+    },
+    {
+      "stage_id": "S3",
+      "cold_boundary_before": false,
+      "label": "Revalidate against risk, financial, legal, and business evidence",
+      "release": [
+        "redstone-ipo-timeline-memo.docx",
+        "redstone-reserves-summary-ye2024.xlsx"
+      ],
+      "expected_deliverable": "s3 evidence-bound analysis"
+    },
+    {
+      "stage_id": "S4",
+      "cold_boundary_before": true,
+      "label": "Prepare the requested escalation deliverable",
+      "release": [
+        "escalation-request-email.eml",
+        "redstone-escalation-memo-template.docx"
+      ],
+      "expected_deliverable": "final escalation memo"
+    }
+  ]
+}

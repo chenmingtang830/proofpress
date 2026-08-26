@@ -1,0 +1,239 @@
+{
+  "schema_version": 1,
+  "id": "proofpress-v9-cross-model-replication-v1",
+  "active_operational_amendment": "bench/experiments/portability-amendment-v10.json",
+  "panel_completion_rule": "The frozen 90% attempt-validity gate controls 14-task expansion only. Every declared three-task 2x2 panel continues with explicit attempts until all 18 paired cells are valid.",
+  "frozen_at": "2026-08-24T13:10:00-07:00",
+  "parent_protocol": "treatment-effect-protocol-v9.json",
+  "status": "FROZEN_WITH_PRE_OUTCOME_GUARDRAIL_AMENDMENT",
+  "route_amendment": {
+    "at": "2026-08-24T13:20:00-07:00",
+    "requested_change": "Run Opus 4.8 through Vercel AI Gateway rather than local Claude CLI.",
+    "valid_outcomes_before_change": "One local-CLI clean Credit pair is retained as route calibration only and excluded from this replication. No valid Kimi pair and no valid Opus stress pair existed.",
+    "invalid_attempts": [
+      "Local Claude CLI session quota interrupted MSA clean, License clean, and Credit stress receiver attempts.",
+      "Kimi JSON response mode produced malformed worker JSON on initial Credit/MSA attempts; the provider does not list response_format as a model capability."
+    ],
+    "operational_fix": "Both worker tracks now use the same Gateway adapter shape. Opus is Anthropic-only. Kimi is MoonshotAI-only. Kimi response_format is omitted; strict JSON remains a prompt and parser requirement."
+    ,
+    "compiler_cap_amendment": "Before any valid Gateway Opus pair, its first License working-set compilation hit the exact v9 6000-token cap and produced truncated JSON. The model-independent compiler cap is 12000 for the replication; all added tokens are charged to Proofpress."
+  },
+  "guardrail_amendment": {
+    "at": "2026-08-24T13:45:00-07:00",
+    "timing": "Frozen before any Kimi quality result and before scoring any Gateway Opus pair. The one Gateway Opus pair generated under 12k/32k is retained as pre-amendment route calibration and excluded.",
+    "reason": "Kimi Credit reached the prior 12000-token worker cap and Opus working-set compilation reached the prior 6000-token compiler cap. Caps must be non-binding runaway guardrails rather than experimental budgets.",
+    "caps": {
+      "worker_s1_s3": 32000,
+      "worker_s4": 64000,
+      "trace_graph_selection": 8000,
+      "working_set_compiler": 24000,
+      "completeness_supplement": 12000,
+      "gemini_transaction_batch_judge": 64000,
+      "rubric_evaluator": "unchanged"
+    },
+    "invalidation": [
+      "output_tokens greater than or equal to the exact call cap",
+      "truncated or invalid JSON",
+      "provider socket or timeout failure",
+      "requested versus reported model or provider identity mismatch",
+      "worker or S4 cap mismatch between paired conditions"
+    ],
+    "preference": "Valid outputs should remain below 80 percent cap utilization. This is monitored, not an exclusion threshold.",
+    "finality": "No later cap adjustment may depend on quality outcomes."
+  },
+  "worker_tracks": [
+    {
+      "id": "A_HARVEY_COMPARABLE",
+      "model": "anthropic/claude-opus-4.8",
+      "route": "Vercel AI Gateway",
+      "provider_only": "anthropic",
+      "fallback": false,
+      "reasoning_effort": "high",
+      "stage_max_output_tokens": 32000,
+      "final_stage_max_output_tokens": 64000
+    },
+    {
+      "id": "B_OPEN_WEIGHT_COST",
+      "model": "moonshotai/kimi-k3",
+      "route": "Vercel AI Gateway",
+      "provider_only": "moonshotai",
+      "fallback": false,
+      "stage_max_output_tokens": 32000,
+      "final_stage_max_output_tokens": 64000,
+      "response_format": null
+    }
+  ],
+  "replacement_amendment": {
+    "at": "2026-08-25T02:15:00-07:00",
+    "timing": "Recorded before any GLM 5.2 result or payable GLM call.",
+    "reason": "The frozen Kimi K3 route produced one valid Credit clean pair but 17 preserved invalid attempts across the panel, including repeated provider finish_reason=error, socket/timeout failures, malformed JSON, and fail-closed selector failures. It cannot support a cross-model replication estimate.",
+    "k3_disposition": "Retain the one valid pair as an isolated route-calibration signal and all invalid attempts as route-availability evidence; exclude K3 from the cross-model replication estimate.",
+    "replacement_track": {
+      "id": "B2_GLM_5_2_GATEWAY_REPLACEMENT",
+      "model": "zai/glm-5.2",
+      "provider_only": "zai",
+      "fallback": false,
+      "reasoning_effort": "none",
+      "stage_max_output_tokens": 32000,
+      "final_stage_max_output_tokens": 64000
+    },
+    "promotion_rule": "Run one Credit clean route smoke excluded from estimates. Promote GLM 5.2 to the frozen 3-task 2x2 replication only if the full paired run, parser, cap, identity, and rubric evaluator checks pass without fallback or retry.",
+    "candidate_choice_boundary": "GLM 5.2 was selected for route independence from the Gemini evaluator, an existing Z.ai-only adapter definition, and lower expected cost than Opus. No model was selected using quality outcomes."
+  },
+  "expanded_model_matrix_amendment": {
+    "at": "2026-08-25T02:20:00-07:00",
+    "timing": "Recorded before payable calls for every newly added model. The GLM 5.2 excluded route smoke was already in progress under its earlier pre-outcome amendment.",
+    "models": [
+      {"track": "B2_GLM_5_2_GATEWAY_REPLACEMENT", "model": "zai/glm-5.2", "provider_only": "zai"},
+      {"track": "R_MUSE_SPARK_1_1", "model": "meta/muse-spark-1.1", "provider_only": "meta"},
+      {"track": "R_GEMINI_3_7_FLASH", "model": "google/gemini-3.7-flash", "provider_only": "google"},
+      {"track": "R_QWEN_3_8_27B", "model": "alibaba/qwen3.8-27b", "provider_only": "alibaba"},
+      {"track": "R_INKLING", "model": "thinkingmachines/inkling", "provider_only": "thinkingmachines"},
+      {"track": "R_GPT_5_6_SOL", "model": "openai/gpt-5.6-sol", "provider_only": "openai"},
+      {"track": "R_GPT_5_6_LUNA", "model": "openai/gpt-5.6-luna", "provider_only": "openai"},
+      {"track": "R_GROK_4_6", "model": "spacexai/grok-4.6", "provider_only": "spacexai"}
+    ],
+    "shared_protocol": "Unchanged v9 three-task 2x2 design, three receiver repeats per cell, one S1-S3 sender per model/task, identical Raw/Proofpress worker caps, Gemini 3.7 Flash batch policy judge and blind evaluator.",
+    "caps": {"worker_s1_s3": 32000, "worker_s4": 64000, "selection": 8000, "compiler": 24000, "supplement": 12000, "batch_judge": 64000},
+    "transport": "Vercel AI Gateway; exact provider allowlist; fallback disabled; retries disabled; 30-minute absolute call timeout.",
+    "concurrency": "At most two long Gateway calls concurrently. Sender calls are never duplicated within a model/task; shared code writes are serialized.",
+    "same_model_limitation": "For the Gemini worker track, Gemini 3.7 Flash also serves as policy judge and blind evaluator. This dependence is disclosed and reported separately rather than treated as independent evaluation."
+  },
+  "streaming_transport_amendment": {
+    "at": "2026-08-25T02:50:00-07:00",
+    "timing": "Recorded before any valid GLM 5.2 pair and before any payable Muse, Qwen, Inkling, GPT-5.6, or Grok replication call.",
+    "evidence": "Two GLM 5.2 Raw S4 attempts completed no response bytes and failed with fetch/UND_ERR_SOCKET after valid S1-S3. The same Gateway adapter's SSE reconstruction had already produced a valid long Kimi pair.",
+    "fix": "Make SSE streaming a manifest-controlled transport property and enable it for every new replication track. Preserve exact model/provider/caps/prompts/parser and absolute timeout; no retry or fallback is added.",
+    "research_effect": "Operational route correction only. Both Raw and Proofpress conditions use the same streaming transport, and all pre-fix attempts remain invalid."
+  },
+  "glm_5_2_promotion_decision": {
+    "at": "2026-08-25T03:15:00-07:00",
+    "smoke_root": "/Users/richardtang/proofpress-glm52-route-smoke-20260825/credit/run",
+    "estimate_inclusion": false,
+    "eligibility": {
+      "full_pair_complete": true,
+      "model_identity_match": true,
+      "provider_pin": "zai",
+      "fallback_or_retry": false,
+      "cap_hit": false,
+      "maximum_observed_cap_utilization": 0.75771875,
+      "parser_and_evaluator_valid": true
+    },
+    "route_calibration_score": {"raw": "85/99", "proofpress": "88/99", "delta_criteria": 3},
+    "decision": "Promote GLM 5.2 to a fresh formal three-task v9 panel. The smoke sender and receiver outputs are excluded; formal task senders are regenerated once and then frozen before their repeated receiver forks."
+  },
+  "glm_5_2_expansion_gate_decision": {
+    "at": "2026-08-25T05:20:00-07:00",
+    "timing": "Recorded after the fifth preserved invalid formal attempt made the predeclared 90% attempt-validity threshold mathematically unreachable, before any Muse, Qwen, or Inkling payable call.",
+    "formal_root": "/Users/richardtang/proofpress-glm52-v9-replication-20260825",
+    "observed": {
+      "valid_pairs": 2,
+      "invalid_attempts": 5,
+      "valid_clean_scores": [
+        {"task": "credit", "raw": "86/99", "proofpress": "96/99", "delta_criteria": 10},
+        {"task": "msa", "raw": "89/100", "proofpress": "96/100", "delta_criteria": 7}
+      ],
+      "invalid_boundaries": [
+        "license clean Raw S4 finish_reason=length (attempts 1 and 3)",
+        "license clean Raw S4 finish_reason=error (attempt 2)",
+        "credit stress selector emitted one unknown knowledge id (attempt 1)",
+        "credit stress Raw S4 finish_reason=length (attempt 2)"
+      ]
+    },
+    "validity_math": "With 5 invalid attempts already retained, even 18 eventual valid pairs would yield 18/23 = 78.3% attempt validity, below the frozen >=90% expansion threshold.",
+    "decision": "Stop GLM 5.2 early as a route-invalid replication. Retain the two positive clean cells as incomplete descriptive signals only; do not compute a panel treatment estimate and do not expand GLM to 14 scenarios.",
+    "next_step": "Proceed to the predeclared Muse Spark 1.1, Qwen 3.8 27B, and Inkling three-task route/panel ladder without selecting among them using GLM quality outcomes."
+  },
+  "muse_spark_1_1_promotion_decision": {
+    "at": "2026-08-25T05:35:00-07:00",
+    "timing": "Recorded after the excluded Credit route smoke and before any formal Muse panel sender call.",
+    "smoke_root": "/Users/richardtang/proofpress-muse-spark11-route-smoke-20260825/credit",
+    "estimate_inclusion": false,
+    "attempts": {
+      "invalid": [{"attempt": 1, "boundary": "working-set compiler invalid JSON"}],
+      "valid": [{"attempt": 2, "raw": "88/99", "proofpress": "90/99", "delta_criteria": 2}]
+    },
+    "decision": "Promote Muse Spark 1.1 to a fresh formal three-task v9 panel because one complete fixed-route pair passed identity, cap, parser, and evaluator checks. Retain the invalid smoke attempt as route-validity evidence; do not include either smoke attempt in estimates."
+  },
+  "inkling_promotion_decision": {
+    "at": "2026-08-25T06:10:00-07:00",
+    "timing": "Recorded after the excluded Credit route smoke and before any formal Inkling panel sender call.",
+    "smoke_root": "/Users/richardtang/proofpress-inkling-route-smoke-20260825/credit",
+    "estimate_inclusion": false,
+    "attempts": {
+      "invalid": [{"attempt": 1, "boundary": "Gemini transaction batch judge invalid JSON after valid Inkling sender responses"}],
+      "valid": [{"attempt": 2, "raw": "91/99", "proofpress": "90/99", "delta_criteria": -1}]
+    },
+    "decision": "Promote Inkling to a fresh formal three-task v9 panel because the recovered fixed-sender pair passed identity, cap, parser, and evaluator checks. The negative smoke delta is retained but is not used for model selection; smoke remains excluded from estimates."
+  },
+  "qwen_3_8_27b_route_decision": {
+    "at": "2026-08-25T06:25:00-07:00",
+    "timing": "Recorded after two excluded Credit smoke attempts and before any formal Qwen panel call.",
+    "smoke_root": "/Users/richardtang/proofpress-qwen38-27b-route-smoke-20260825/credit",
+    "attempts": [
+      {"attempt": 1, "boundary": "sender S1 output cap hit: 32746/32000"},
+      {"attempt": 2, "boundary": "trace selector requested unknown or too many knowledge receipts"}
+    ],
+    "decision": "Stop Qwen 3.8 27B before the formal panel as route/parser incompatible under the frozen protocol. No valid smoke pair and no treatment estimate are available; do not modify caps or selection logic and do not substitute repeated attempts for route validity."
+  },
+  "muse_spark_1_1_expansion_gate_decision": {
+    "at": "2026-08-25T06:45:00-07:00",
+    "formal_root": "/Users/richardtang/proofpress-muse-spark11-v9-replication-20260825",
+    "observed": {
+      "valid_pairs": 1,
+      "invalid_attempts": 4,
+      "valid_clean_score": {"task": "credit", "raw": "89/99", "proofpress": "91/99", "delta_criteria": 2},
+      "invalid_boundaries": [
+        "credit clean S4 invalid JSON",
+        "MSA sender S3 invalid JSON",
+        "MSA working-set compiler invalid JSON on two receiver attempts"
+      ]
+    },
+    "validity_math": "Even 18 eventual valid pairs would yield 18/22 = 81.8% attempt validity after four preserved invalid attempts, below the frozen >=90% threshold.",
+    "decision": "Stop Muse Spark 1.1 early as route/parser incompatible. Retain the positive Credit cell as an incomplete descriptive signal only; do not compute a panel estimate or expand tasks."
+  },
+  "inkling_expansion_gate_decision": {
+    "at": "2026-08-25T06:55:00-07:00",
+    "formal_root": "/Users/richardtang/proofpress-inkling-v9-replication-20260825",
+    "observed": {
+      "valid_pairs": 0,
+      "invalid_attempts": 3,
+      "invalid_boundaries": [
+        "credit clean trace selector reached the frozen 8000-token cap on three independently numbered receiver attempts"
+      ]
+    },
+    "validity_math": "Even 18 eventual valid pairs would yield 18/21 = 85.7% attempt validity after three preserved invalid attempts, below the frozen >=90% threshold.",
+    "decision": "Stop Inkling early as route/parser incompatible under the frozen selector contract. The excluded smoke pair remains route calibration only; no formal panel estimate is available and no task expansion is permitted."
+  },
+  "gpt_5_6_sol_frontier_confirmation_decision": {
+    "at": "2026-08-25T17:30:00Z",
+    "timing": "Recorded after two excluded Credit clean route-smoke attempts and before any formal GPT-5.6 Sol panel sender call.",
+    "smoke_root": "/Users/richardtang/proofpress-gpt56-sol-route-smoke-20260825/credit",
+    "estimate_inclusion": false,
+    "attempts": [
+      {"attempt": 1, "boundary": "receiver transport read ETIMEDOUT after a valid frozen sender and policy gate"},
+      {"attempt": 2, "boundary": "trace selector requested unknown or too many governed knowledge receipts; same sender responses reused"}
+    ],
+    "decision": "Stop GPT-5.6 Sol before the formal panel because no complete fixed-route smoke pair passed the transport and fail-closed selector contract. Preserve both invalid attempts; do not change provider, parser, caps, selection logic, fallback, or retry policy. Frontier treatment effect remains unavailable, not zero.",
+    "optional_tracks": "Do not run GPT-5.6 Luna or Grok 4.6: the predeclared condition for an additional scaling/robustness question is not met while the primary Sol frontier route has no valid pair."
+  },
+  "judge_and_evaluator": {
+    "model": "google/gemini-3.7-flash",
+    "provider_only": "google",
+    "fallback": false,
+    "roles": ["transaction-level policy review", "blind public-rubric evaluation", "blind trust-endpoint evaluation"]
+  },
+  "panel": {
+    "tasks": ["credit", "msa", "license"],
+    "arms": ["clean", "stress"],
+    "repeats_per_cell": 3,
+    "sender_rule": "One task-specific S1-S3 sender trajectory per worker model is frozen and reused for every C1/C2 arm and repeat.",
+    "receiver_rule": "S4 is regenerated independently for every condition and repeat."
+  },
+  "stopping_rule": "Complete all 36 paired runs (2 models x 3 tasks x 2 arms x 3 repeats) unless an external route remains unavailable after the documented retry window. Preserve every setup, quota, parser, timeout, and provider failure as an invalid attempt.",
+  "analysis": {
+    "primary": ["task-level public-rubric delta", "unsafe propagation", "proof-price"],
+    "uncertainty": "Descriptive paired t intervals over the fixed nine task-repeat pairs per arm and model; exact McNemar for discordant trust pairs.",
+    "claim_boundary": "Cross-model replication on a fixed three-task public LAB panel; not an official Harvey leaderboard result and not a population-level model-family estimate."
+  }
+}

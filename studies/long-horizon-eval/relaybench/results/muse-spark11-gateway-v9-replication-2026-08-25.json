@@ -1,0 +1,306 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-08-25T13:13:58.092Z",
+  "model": "meta/muse-spark-1.1",
+  "track": "R_MUSE_SPARK_1_1",
+  "result_root_label": "proofpress-muse-spark11-v9-replication-20260825",
+  "frozen_protocol": "bench/experiments/cross-model-replication-v1.json",
+  "claim_boundary": {
+    "benchmark": "Public LAB Contracts tasks and public criteria; not an official Harvey private leaderboard result.",
+    "stress": "LAB-derived controlled handoff stress test; not an official Harvey benchmark result.",
+    "uncertainty": "Descriptive paired repeated-run uncertainty on a fixed task panel; not a population estimate.",
+    "invalid": "Invalid attempts are retained but excluded from treatment estimates."
+  },
+  "completion": {
+    "planned_pairs": 18,
+    "valid_pairs": 1,
+    "invalid_attempt_directories": 4,
+    "complete": false,
+    "panel_estimate_available": false,
+    "disposition": "early_stopped_route_invalid",
+    "reason": "Four preserved formal invalid attempts make the frozen >=90% attempt-validity threshold unreachable: even 18 eventual valid pairs would yield 18/22 = 81.8%.",
+    "expansion_eligible": false
+  },
+  "quality": {
+    "clean": {
+      "pairs": 1,
+      "estimate_available": true,
+      "raw": {
+        "passed": 89,
+        "total": 99,
+        "rate": 0.898989898989899
+      },
+      "proofpress": {
+        "passed": 91,
+        "total": 99,
+        "rate": 0.9191919191919192
+      },
+      "weighted_delta_criteria": 2,
+      "weighted_delta_percentage_points": 2.0202020202020203,
+      "paired_delta_percentage_points": {
+        "values": [
+          2.0202020202020203
+        ],
+        "mean": 2.0202020202020203,
+        "interval_available": false,
+        "reason": "at least two valid pairs are required"
+      },
+      "by_task": {
+        "credit": {
+          "pairs": 1,
+          "estimate_available": true,
+          "raw": {
+            "passed": 89,
+            "total": 99,
+            "rate": 0.898989898989899
+          },
+          "proofpress": {
+            "passed": 91,
+            "total": 99,
+            "rate": 0.9191919191919192
+          },
+          "weighted_delta_criteria": 2,
+          "weighted_delta_percentage_points": 2.0202020202020203,
+          "paired_delta_percentage_points": {
+            "values": [
+              2.0202020202020203
+            ],
+            "mean": 2.0202020202020203,
+            "interval_available": false,
+            "reason": "at least two valid pairs are required"
+          }
+        },
+        "msa": {
+          "pairs": 0,
+          "estimate_available": false
+        },
+        "license": {
+          "pairs": 0,
+          "estimate_available": false
+        }
+      }
+    },
+    "stress": {
+      "pairs": 0,
+      "estimate_available": false,
+      "by_task": {
+        "credit": {
+          "pairs": 0,
+          "estimate_available": false
+        },
+        "msa": {
+          "pairs": 0,
+          "estimate_available": false
+        },
+        "license": {
+          "pairs": 0,
+          "estimate_available": false
+        }
+      }
+    }
+  },
+  "protection": {
+    "pairs": 0,
+    "estimate_available": false
+  },
+  "proof_price": {
+    "clean": {
+      "pairs": 1,
+      "estimate_available": true,
+      "delta": {
+        "model_calls": {
+          "total": 3,
+          "mean": 3,
+          "median": 3,
+          "values": [
+            3
+          ]
+        },
+        "input_tokens": {
+          "total": 118703,
+          "mean": 118703,
+          "median": 118703,
+          "values": [
+            118703
+          ]
+        },
+        "output_tokens": {
+          "total": 16078,
+          "mean": 16078,
+          "median": 16078,
+          "values": [
+            16078
+          ]
+        },
+        "reasoning_tokens": {
+          "total": 6310,
+          "mean": 6310,
+          "median": 6310,
+          "values": [
+            6310
+          ]
+        },
+        "total_tokens": {
+          "total": 134781,
+          "mean": 134781,
+          "median": 134781,
+          "values": [
+            134781
+          ]
+        },
+        "provider_cost_usd": {
+          "total": 0.19442725000000002,
+          "mean": 0.19442725000000002,
+          "median": 0.19442725000000002,
+          "values": [
+            0.19442725000000002
+          ]
+        },
+        "wall_clock_latency_ms": {
+          "total": 35171,
+          "mean": 35171,
+          "median": 35171,
+          "values": [
+            35171
+          ]
+        }
+      }
+    },
+    "stress": {
+      "pairs": 0,
+      "estimate_available": false
+    }
+  },
+  "valid_runs": [
+    {
+      "repeat": 1,
+      "arm": "clean",
+      "task": "credit",
+      "run": "repeat-1/clean/credit/run",
+      "status": "READY_FOR_LAB_EVALUATION",
+      "quality": {
+        "raw": {
+          "passed": 89,
+          "total": 99,
+          "rate": 0.898989898989899
+        },
+        "proofpress": {
+          "passed": 91,
+          "total": 99,
+          "rate": 0.9191919191919192
+        },
+        "delta_criteria": 2,
+        "delta_percentage_points": 2.0202020202020203
+      },
+      "proof_price": {
+        "definition": "Proofpress receiver-side calls minus ordinary S4 receiver; shared S1-S3 sender and evaluators excluded",
+        "raw_receiver": {
+          "model_calls": 1,
+          "input_tokens": 5174,
+          "output_tokens": 12801,
+          "reasoning_tokens": 5757,
+          "total_tokens": 17975,
+          "provider_cost_usd": 0.05520125,
+          "wall_clock_latency_ms": 46355
+        },
+        "proofpress_receiver_and_governance": {
+          "model_calls": 4,
+          "input_tokens": 123877,
+          "output_tokens": 28879,
+          "reasoning_tokens": 12067,
+          "total_tokens": 152756,
+          "provider_cost_usd": 0.24962850000000003,
+          "wall_clock_latency_ms": 81526
+        },
+        "delta": {
+          "model_calls": 3,
+          "input_tokens": 118703,
+          "output_tokens": 16078,
+          "reasoning_tokens": 6310,
+          "total_tokens": 134781,
+          "provider_cost_usd": 0.19442725000000002,
+          "wall_clock_latency_ms": 35171
+        },
+        "request_ids": {
+          "raw": [
+            "sfo1::cle1::mpq78-1787662728031-5660303c646b"
+          ],
+          "proofpress": [
+            "sfo1::cle1::84dzb-1787662795762-47c71082e8bc",
+            "sfo1::cle1::jzzk8-1787662566775-b11c7816471b",
+            "sfo1::cle1::qxcbs-1787662774414-056f3c173e81",
+            "sfo1::cle1::x222v-1787662785366-15db93c780b3"
+          ]
+        }
+      },
+      "receipts": {
+        "run_state_sha256": "sha256:a2f772a2c446e3c698a7d25fe397b1a95278c9fbe275bcd396533852c8b78203",
+        "public_rubric_sha256": "sha256:687b4c3d2d18c59d67dfc3fe056c307a63e56306785b83673111ac2f149497d5",
+        "public_rubric_evaluator": {
+          "raw": {
+            "route": "https://ai-gateway.vercel.sh/v1/chat/completions",
+            "model": "google/gemini-3.7-flash",
+            "model_requested": "google/gemini-3.7-flash",
+            "model_reported": "google/gemini-3.7-flash",
+            "serving_provider_requested": "google",
+            "serving_provider_reported": null,
+            "request_id": "sfo1::cle1::k5lxm-1787662887085-28da0f6d605e",
+            "wall_clock_latency_ms": 54191,
+            "input_tokens": 14222,
+            "cached_input_tokens": 0,
+            "output_tokens": 25061,
+            "output_cap_tokens": 32000,
+            "output_cap_utilization": 0.78315625,
+            "output_cap_hit": false,
+            "finish_reason": "stop",
+            "reasoning_tokens": 19639,
+            "provider_cost_usd": 0.10464525,
+            "actual_incremental_cash_usd": null,
+            "model_calls": 1,
+            "retries": 0
+          },
+          "proofpress": {
+            "route": "https://ai-gateway.vercel.sh/v1/chat/completions",
+            "model": "google/gemini-3.7-flash",
+            "model_requested": "google/gemini-3.7-flash",
+            "model_reported": "google/gemini-3.7-flash",
+            "serving_provider_requested": "google",
+            "serving_provider_reported": null,
+            "request_id": "sfo1::cle1::fm6d8-1787662941648-ca8d7665e515",
+            "wall_clock_latency_ms": 51498,
+            "input_tokens": 15226,
+            "cached_input_tokens": 0,
+            "output_tokens": 18863,
+            "output_cap_tokens": 32000,
+            "output_cap_utilization": 0.58946875,
+            "output_cap_hit": false,
+            "finish_reason": "stop",
+            "reasoning_tokens": 13266,
+            "provider_cost_usd": 0.08215575,
+            "actual_incremental_cash_usd": null,
+            "model_calls": 1,
+            "retries": 0
+          }
+        }
+      }
+    }
+  ],
+  "invalid_attempts": [
+    {
+      "path": "repeat-1/clean/credit/run-invalid-s4-json-attempt-1",
+      "reason_slug": "s4-json-attempt-1"
+    },
+    {
+      "path": "repeat-1/clean/msa/run-invalid-compiler-json-receiver-attempt-1",
+      "reason_slug": "compiler-json-receiver-attempt-1"
+    },
+    {
+      "path": "repeat-1/clean/msa/run-invalid-compiler-json-receiver-attempt-2",
+      "reason_slug": "compiler-json-receiver-attempt-2"
+    },
+    {
+      "path": "repeat-1/clean/msa/run-invalid-s3-json-attempt-1",
+      "reason_slug": "s3-json-attempt-1"
+    }
+  ]
+}

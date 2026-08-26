@@ -1,0 +1,1850 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-08-25T15:59:56.859Z",
+  "model": "deepseek/deepseek-v4-flash",
+  "provider_only": "deepinfra",
+  "frozen_protocol": "bench/experiments/deepseek-14-task-expansion-v1.json",
+  "claim_boundary": {
+    "benchmark": "Public LAB Contracts tasks and public criteria; not an official Harvey private leaderboard result.",
+    "design": "One clean paired run per frozen scenario. This is a task-breadth estimate, not receiver-repeat uncertainty.",
+    "floor": "Raw pass rates below 25% are flagged descriptively and retained; the threshold was not a preregistered exclusion rule.",
+    "invalid": "Provider/model invalid task attempts are excluded from quality estimates; harness/setup attempts remain visible separately."
+  },
+  "completion": {
+    "planned_tasks": 14,
+    "valid_tasks": 12,
+    "invalid_task_count": 2,
+    "valid_task_rate": 0.8571428571428571,
+    "all_tasks_observed": false
+  },
+  "quality": {
+    "overall": {
+      "tasks": 12,
+      "estimate_available": true,
+      "raw": {
+        "passed": 605,
+        "total": 784,
+        "rate": 0.7716836734693877
+      },
+      "proofpress": {
+        "passed": 688,
+        "total": 784,
+        "rate": 0.8775510204081632
+      },
+      "weighted_delta_criteria": 83,
+      "weighted_delta_percentage_points": 10.58673469387755,
+      "macro_paired_delta_percentage_points": {
+        "values": [
+          7.6923076923076925,
+          2.0202020202020203,
+          2.6315789473684212,
+          13.88888888888889,
+          45.65217391304348,
+          1.4285714285714286,
+          -2,
+          46.875,
+          8.695652173913043,
+          2,
+          0,
+          56.75675675675676
+        ],
+        "mean": 15.470094318420976,
+        "interval_available": true,
+        "confidence": 0.95,
+        "lower": 1.9515862287766144,
+        "upper": 28.98860240806534,
+        "method": "descriptive paired t interval over frozen tasks"
+      },
+      "direction": {
+        "positive": 10,
+        "tie": 1,
+        "negative": 1
+      },
+      "raw_floor_tasks_below_25_percent": [
+        "msa-scenario-02",
+        "msa-scenario-06",
+        "license-scenario-05"
+      ]
+    },
+    "non_floor_sensitivity": {
+      "tasks": 9,
+      "estimate_available": true,
+      "raw": {
+        "passed": 582,
+        "total": 669,
+        "rate": 0.8699551569506726
+      },
+      "proofpress": {
+        "passed": 608,
+        "total": 669,
+        "rate": 0.9088191330343797
+      },
+      "weighted_delta_criteria": 26,
+      "weighted_delta_percentage_points": 3.8863976083707024,
+      "macro_paired_delta_percentage_points": {
+        "values": [
+          7.6923076923076925,
+          2.0202020202020203,
+          2.6315789473684212,
+          13.88888888888889,
+          1.4285714285714286,
+          -2,
+          8.695652173913043,
+          2,
+          0
+        ],
+        "mean": 4.039689016805721,
+        "interval_available": true,
+        "confidence": 0.95,
+        "lower": 0.17850016908469346,
+        "upper": 7.900877864526749,
+        "method": "descriptive paired t interval over frozen tasks"
+      },
+      "direction": {
+        "positive": 7,
+        "tie": 1,
+        "negative": 1
+      },
+      "raw_floor_tasks_below_25_percent": []
+    },
+    "by_family": {
+      "credit": {
+        "tasks": 3,
+        "estimate_available": true,
+        "raw": {
+          "passed": 217,
+          "total": 253,
+          "rate": 0.857707509881423
+        },
+        "proofpress": {
+          "passed": 227,
+          "total": 253,
+          "rate": 0.8972332015810277
+        },
+        "weighted_delta_criteria": 10,
+        "weighted_delta_percentage_points": 3.952569169960474,
+        "macro_paired_delta_percentage_points": {
+          "values": [
+            7.6923076923076925,
+            2.0202020202020203,
+            2.6315789473684212
+          ],
+          "mean": 4.114696219959378,
+          "interval_available": true,
+          "confidence": 0.95,
+          "lower": -3.6199082061078265,
+          "upper": 11.849300646026583,
+          "method": "descriptive paired t interval over frozen tasks"
+        },
+        "direction": {
+          "positive": 3,
+          "tie": 0,
+          "negative": 0
+        },
+        "raw_floor_tasks_below_25_percent": []
+      },
+      "msa": {
+        "tasks": 5,
+        "estimate_available": true,
+        "raw": {
+          "passed": 228,
+          "total": 320,
+          "rate": 0.7125
+        },
+        "proofpress": {
+          "passed": 273,
+          "total": 320,
+          "rate": 0.853125
+        },
+        "weighted_delta_criteria": 45,
+        "weighted_delta_percentage_points": 14.0625,
+        "macro_paired_delta_percentage_points": {
+          "values": [
+            13.88888888888889,
+            45.65217391304348,
+            1.4285714285714286,
+            -2,
+            46.875
+          ],
+          "mean": 21.16892684610076,
+          "interval_available": true,
+          "confidence": 0.95,
+          "lower": -8.207602708733141,
+          "upper": 50.54545640093466,
+          "method": "descriptive paired t interval over frozen tasks"
+        },
+        "direction": {
+          "positive": 4,
+          "tie": 0,
+          "negative": 1
+        },
+        "raw_floor_tasks_below_25_percent": [
+          "msa-scenario-02",
+          "msa-scenario-06"
+        ]
+      },
+      "license": {
+        "tasks": 4,
+        "estimate_available": true,
+        "raw": {
+          "passed": 160,
+          "total": 211,
+          "rate": 0.7582938388625592
+        },
+        "proofpress": {
+          "passed": 188,
+          "total": 211,
+          "rate": 0.8909952606635071
+        },
+        "weighted_delta_criteria": 28,
+        "weighted_delta_percentage_points": 13.270142180094787,
+        "macro_paired_delta_percentage_points": {
+          "values": [
+            8.695652173913043,
+            2,
+            0,
+            56.75675675675676
+          ],
+          "mean": 16.86310223266745,
+          "interval_available": true,
+          "confidence": 0.95,
+          "lower": -25.862352227405715,
+          "upper": 59.58855669274062,
+          "method": "descriptive paired t interval over frozen tasks"
+        },
+        "direction": {
+          "positive": 3,
+          "tie": 1,
+          "negative": 0
+        },
+        "raw_floor_tasks_below_25_percent": [
+          "license-scenario-05"
+        ]
+      }
+    }
+  },
+  "proof_price": {
+    "tasks": 12,
+    "delta": {
+      "model_calls": {
+        "total": 60,
+        "mean": 5,
+        "median": 4,
+        "values": [
+          4,
+          3,
+          8,
+          3,
+          5,
+          8,
+          5,
+          4,
+          3,
+          3,
+          11,
+          3
+        ]
+      },
+      "input_tokens": {
+        "total": 1297721,
+        "mean": 108143.41666666667,
+        "median": 102264,
+        "values": [
+          103075,
+          96275,
+          107397,
+          86496,
+          101453,
+          135725,
+          100720,
+          98688,
+          125251,
+          115760,
+          130312,
+          96569
+        ]
+      },
+      "output_tokens": {
+        "total": 296320,
+        "mean": 24693.333333333332,
+        "median": 22507.5,
+        "values": [
+          19196,
+          15993,
+          28673,
+          17209,
+          29413,
+          40486,
+          28993,
+          16732,
+          15071,
+          20410,
+          39539,
+          24605
+        ]
+      },
+      "reasoning_tokens": {
+        "total": 194516,
+        "mean": 16209.666666666666,
+        "median": 13671,
+        "values": [
+          11833,
+          7420,
+          21178,
+          9899,
+          19847,
+          31493,
+          20153,
+          9996,
+          8277,
+          9951,
+          28960,
+          15509
+        ]
+      },
+      "total_tokens": {
+        "total": 1594041,
+        "mean": 132836.75,
+        "median": 130289.5,
+        "values": [
+          122271,
+          112268,
+          136070,
+          103705,
+          130866,
+          176211,
+          129713,
+          115420,
+          140322,
+          136170,
+          169851,
+          121174
+        ]
+      },
+      "provider_cost_usd": {
+        "total": 1.35260238,
+        "mean": 0.112716865,
+        "median": 0.096010875,
+        "values": [
+          0.09027081,
+          0.06887178,
+          0.13407147,
+          0.07417023,
+          0.12392337,
+          0.19034928,
+          0.12310331999999999,
+          0.08227671,
+          0.08457498,
+          0.08767002,
+          0.19156947000000002,
+          0.10175094
+        ]
+      },
+      "wall_clock_latency_ms": {
+        "total": 1748651,
+        "mean": 145720.91666666666,
+        "median": 152183,
+        "values": [
+          111528,
+          71968,
+          159278,
+          164422,
+          148794,
+          213771,
+          156008,
+          150283,
+          27994,
+          154083,
+          274031,
+          116491
+        ]
+      }
+    }
+  },
+  "valid_runs": [
+    {
+      "family": "credit",
+      "scenario": "scenario-01",
+      "task_id": "contracts/financing/credit-lending-playbook-escalation/scenario-01",
+      "title": "Escalate Credit Agreement Out Of Policy Terms",
+      "criteria": 78,
+      "run": "credit-scenario-01/run",
+      "quality": {
+        "raw": {
+          "passed": 62,
+          "total": 78,
+          "rate": 0.7948717948717948
+        },
+        "proofpress": {
+          "passed": 68,
+          "total": 78,
+          "rate": 0.8717948717948718
+        },
+        "delta_criteria": 6,
+        "delta_percentage_points": 7.6923076923076925,
+        "raw_floor_below_25_percent": false
+      },
+      "proof_price": {
+        "definition": "Proofpress receiver/governance calls minus ordinary S4; shared sender and evaluators excluded",
+        "raw_receiver": {
+          "model_calls": 1,
+          "input_tokens": 6901,
+          "output_tokens": 5869,
+          "reasoning_tokens": 0,
+          "total_tokens": 12770,
+          "provider_cost_usd": 0.00167751,
+          "wall_clock_latency_ms": 81516
+        },
+        "proofpress_receiver_and_governance": {
+          "model_calls": 5,
+          "input_tokens": 109976,
+          "output_tokens": 25065,
+          "reasoning_tokens": 11833,
+          "total_tokens": 135041,
+          "provider_cost_usd": 0.09194832,
+          "wall_clock_latency_ms": 193044
+        },
+        "delta": {
+          "model_calls": 4,
+          "input_tokens": 103075,
+          "output_tokens": 19196,
+          "reasoning_tokens": 11833,
+          "total_tokens": 122271,
+          "provider_cost_usd": 0.09027081,
+          "wall_clock_latency_ms": 111528
+        },
+        "request_ids": {
+          "raw": [
+            "sfo1::cle1::2jp7z-1787665013862-a1dfa0bc934a"
+          ],
+          "proofpress": [
+            "sfo1::cle1::4njtg-1787665147759-d2669c5b6d7d",
+            "sfo1::cle1::f4qjd-1787664801347-8494ff685c50",
+            "sfo1::cle1::sv7qc-1787665095749-b999dc8d9ad1",
+            "sfo1::cle1::sv7qc-1787665113539-2140b5bb6791",
+            "sfo1::cle1::xd9vf-1787664912140-c2d55e837ce3"
+          ]
+        }
+      },
+      "cap_utilization": {
+        "maximum": 0.406
+      },
+      "receipts": {
+        "run_state_sha256": "sha256:a4b391dc3a729fa23391d2a905c1114f3f69bbea949812eece05087b44459bfa",
+        "public_rubric_sha256": "sha256:0546824702784c8d2a96d5d4c15febe006c02c7810315c657a29cfc88acc5a81",
+        "evaluator": {
+          "raw": {
+            "route": "https://ai-gateway.vercel.sh/v1/chat/completions",
+            "model": "google/gemini-3.7-flash",
+            "model_requested": "google/gemini-3.7-flash",
+            "model_reported": "google/gemini-3.7-flash",
+            "serving_provider_requested": "google",
+            "serving_provider_reported": null,
+            "request_id": "sfo1::cle1::vg76d-1787665290158-624fb42c6df6",
+            "wall_clock_latency_ms": 44176,
+            "input_tokens": 12000,
+            "cached_input_tokens": 0,
+            "output_tokens": 20964,
+            "output_cap_tokens": 32000,
+            "output_cap_utilization": 0.655125,
+            "output_cap_hit": false,
+            "finish_reason": "stop",
+            "reasoning_tokens": 16636,
+            "provider_cost_usd": 0.087615,
+            "actual_incremental_cash_usd": null,
+            "model_calls": 1,
+            "retries": 0
+          },
+          "proofpress": {
+            "route": "https://ai-gateway.vercel.sh/v1/chat/completions",
+            "model": "google/gemini-3.7-flash",
+            "model_requested": "google/gemini-3.7-flash",
+            "model_reported": "google/gemini-3.7-flash",
+            "serving_provider_requested": "google",
+            "serving_provider_reported": null,
+            "request_id": "sfo1::cle1::pcfk7-1787665334241-631c79ee6fd1",
+            "wall_clock_latency_ms": 44779,
+            "input_tokens": 12500,
+            "cached_input_tokens": 0,
+            "output_tokens": 16274,
+            "output_cap_tokens": 32000,
+            "output_cap_utilization": 0.5085625,
+            "output_cap_hit": false,
+            "finish_reason": "stop",
+            "reasoning_tokens": 12898,
+            "provider_cost_usd": 0.0704025,
+            "actual_incremental_cash_usd": null,
+            "model_calls": 1,
+            "retries": 0
+          }
+        }
+      }
+    },
+    {
+      "family": "credit",
+      "scenario": "scenario-02",
+      "task_id": "contracts/financing/credit-lending-playbook-escalation/scenario-02",
+      "title": "Escalate Loan Agreement Out Of Policy Terms",
+      "criteria": 99,
+      "run": "credit-scenario-02/run",
+      "quality": {
+        "raw": {
+          "passed": 86,
+          "total": 99,
+          "rate": 0.8686868686868687
+        },
+        "proofpress": {
+          "passed": 88,
+          "total": 99,
+          "rate": 0.8888888888888888
+        },
+        "delta_criteria": 2,
+        "delta_percentage_points": 2.0202020202020203,
+        "raw_floor_below_25_percent": false
+      },
+      "proof_price": {
+        "definition": "Proofpress receiver/governance calls minus ordinary S4; shared sender and evaluators excluded",
+        "raw_receiver": {
+          "model_calls": 1,
+          "input_tokens": 5249,
+          "output_tokens": 5342,
+          "reasoning_tokens": 0,
+          "total_tokens": 10591,
+          "provider_cost_usd": 0.00143397,
+          "wall_clock_latency_ms": 97476
+        },
+        "proofpress_receiver_and_governance": {
+          "model_calls": 4,
+          "input_tokens": 101524,
+          "output_tokens": 21335,
+          "reasoning_tokens": 7420,
+          "total_tokens": 122859,
+          "provider_cost_usd": 0.07030575,
+          "wall_clock_latency_ms": 169444
+        },
+        "delta": {
+          "model_calls": 3,
+          "input_tokens": 96275,
+          "output_tokens": 15993,
+          "reasoning_tokens": 7420,
+          "total_tokens": 112268,
+          "provider_cost_usd": 0.06887178,
+          "wall_clock_latency_ms": 71968
+        },
+        "request_ids": {
+          "raw": [
+            "sfo1::cle1::gxfn7-1787665595638-276afec02b5d"
+          ],
+          "proofpress": [
+            "sfo1::cle1::8fq8t-1787665757388-fa846fba10e2",
+            "sfo1::cle1::8z5sg-1787665493217-3d9840d2a6d8",
+            "sfo1::cle1::hptlg-1787665693452-5813a43571ee",
+            "sfo1::cle1::jfswg-1787665717515-34afc217c405"
+          ]
+        }
+      },
+      "cap_utilization": {
+        "maximum": 0.22875
+      },
+      "receipts": {
+        "run_state_sha256": "sha256:8378dd0809f80c15d768ead13143490ec74080188344bbc7dc1ddd89ebeb9013",
+        "public_rubric_sha256": "sha256:7d1d4d5fc40f95b2f5da176d13f0c0c7a32b661e225a3f68c56c38cc109c2896",
+        "evaluator": {
+          "raw": {
+            "route": "https://ai-gateway.vercel.sh/v1/chat/completions",
+            "model": "google/gemini-3.7-flash",
+            "model_requested": "google/gemini-3.7-flash",
+            "model_reported": "google/gemini-3.7-flash",
+            "serving_provider_requested": "google",
+            "serving_provider_reported": null,
+            "request_id": "sfo1::cle1::zmllk-1787665843817-9782d6ae0944",
+            "wall_clock_latency_ms": 36954,
+            "input_tokens": 12382,
+            "cached_input_tokens": 0,
+            "output_tokens": 18001,
+            "output_cap_tokens": 32000,
+            "output_cap_utilization": 0.56253125,
+            "output_cap_hit": false,
+            "finish_reason": "stop",
+            "reasoning_tokens": 12404,
+            "provider_cost_usd": 0.07679025,
+            "actual_incremental_cash_usd": null,
+            "model_calls": 1,
+            "retries": 0
+          },
+          "proofpress": {
+            "route": "https://ai-gateway.vercel.sh/v1/chat/completions",
+            "model": "google/gemini-3.7-flash",
+            "model_requested": "google/gemini-3.7-flash",
+            "model_reported": "google/gemini-3.7-flash",
+            "serving_provider_requested": "google",
+            "serving_provider_reported": null,
+            "request_id": "sfo1::cle1::mjqtb-1787665880683-ee75e5abb7b8",
+            "wall_clock_latency_ms": 44398,
+            "input_tokens": 12185,
+            "cached_input_tokens": 0,
+            "output_tokens": 23801,
+            "output_cap_tokens": 32000,
+            "output_cap_utilization": 0.74378125,
+            "output_cap_hit": false,
+            "finish_reason": "stop",
+            "reasoning_tokens": 17925,
+            "provider_cost_usd": 0.0983925,
+            "actual_incremental_cash_usd": null,
+            "model_calls": 1,
+            "retries": 0
+          }
+        }
+      }
+    },
+    {
+      "family": "credit",
+      "scenario": "scenario-03",
+      "task_id": "contracts/financing/credit-lending-playbook-escalation/scenario-03",
+      "title": "Escalate Revolving Credit Facility Agreement Out Of Policy Terms",
+      "criteria": 76,
+      "run": "credit-scenario-03/run",
+      "quality": {
+        "raw": {
+          "passed": 69,
+          "total": 76,
+          "rate": 0.9078947368421053
+        },
+        "proofpress": {
+          "passed": 71,
+          "total": 76,
+          "rate": 0.9342105263157895
+        },
+        "delta_criteria": 2,
+        "delta_percentage_points": 2.6315789473684212,
+        "raw_floor_below_25_percent": false
+      },
+      "proof_price": {
+        "definition": "Proofpress receiver/governance calls minus ordinary S4; shared sender and evaluators excluded",
+        "raw_receiver": {
+          "model_calls": 1,
+          "input_tokens": 6583,
+          "output_tokens": 5843,
+          "reasoning_tokens": 0,
+          "total_tokens": 12426,
+          "provider_cost_usd": 0.00164421,
+          "wall_clock_latency_ms": 91925
+        },
+        "proofpress_receiver_and_governance": {
+          "model_calls": 9,
+          "input_tokens": 113980,
+          "output_tokens": 34516,
+          "reasoning_tokens": 21178,
+          "total_tokens": 148496,
+          "provider_cost_usd": 0.13571568,
+          "wall_clock_latency_ms": 251203
+        },
+        "delta": {
+          "model_calls": 8,
+          "input_tokens": 107397,
+          "output_tokens": 28673,
+          "reasoning_tokens": 21178,
+          "total_tokens": 136070,
+          "provider_cost_usd": 0.13407147,
+          "wall_clock_latency_ms": 159278
+        },
+        "request_ids": {
+          "raw": [
+            "sfo1::cle1::prmc7-1787666146362-08215c89bb81"
+          ],
+          "proofpress": [
+            "sfo1::cle1::l4tt7-1787666280763-e14134a0096b",
+            "sfo1::cle1::mrzq8-1787666001621-e85350b38880",
+            "sfo1::cle1::fd84c-1787666238697-91fe7b6a0907",
+            "sfo1::cle1::tbbbp-1787666256161-d672376c7e93",
+            "sfo1::cle1::g65ds-1787666061029-01dddcf7d1bb",
+            "sfo1::cle1::4k2sh-1787666075567-c6238a03374f",
+            "sfo1::cle1::f8frx-1787666087120-6f390507043c",
+            "sfo1::cle1::5g6vs-1787666120304-92dd57f99ff5",
+            "sfo1::cle1::f7rc4-1787666134838-32a132f320d2"
+          ]
+        }
+      },
+      "cap_utilization": {
+        "maximum": 0.7215
+      },
+      "receipts": {
+        "run_state_sha256": "sha256:68df0a7535c700986cb6260de5544ef20026b1f4afa88d8cda1c9730e732f416",
+        "public_rubric_sha256": "sha256:4062f2959caa278ae0191be7cdebe2cb228ae1bc38e093be926eda7f42e77053",
+        "evaluator": {
+          "raw": {
+            "route": "https://ai-gateway.vercel.sh/v1/chat/completions",
+            "model": "google/gemini-3.7-flash",
+            "model_requested": "google/gemini-3.7-flash",
+            "model_reported": "google/gemini-3.7-flash",
+            "serving_provider_requested": "google",
+            "serving_provider_reported": null,
+            "request_id": "sfo1::cle1::hptlg-1787666391652-cbd050150a20",
+            "wall_clock_latency_ms": 43014,
+            "input_tokens": 11952,
+            "cached_input_tokens": 0,
+            "output_tokens": 21121,
+            "output_cap_tokens": 32000,
+            "output_cap_utilization": 0.66003125,
+            "output_cap_hit": false,
+            "finish_reason": "stop",
+            "reasoning_tokens": 16393,
+            "provider_cost_usd": 0.08816775,
+            "actual_incremental_cash_usd": null,
+            "model_calls": 1,
+            "retries": 0
+          },
+          "proofpress": {
+            "route": "https://ai-gateway.vercel.sh/v1/chat/completions",
+            "model": "google/gemini-3.7-flash",
+            "model_requested": "google/gemini-3.7-flash",
+            "model_reported": "google/gemini-3.7-flash",
+            "serving_provider_requested": "google",
+            "serving_provider_reported": null,
+            "request_id": "sfo1::cle1::tc2w5-1787666434696-76caf5cc3b66",
+            "wall_clock_latency_ms": 49114,
+            "input_tokens": 13820,
+            "cached_input_tokens": 0,
+            "output_tokens": 21863,
+            "output_cap_tokens": 32000,
+            "output_cap_utilization": 0.68321875,
+            "output_cap_hit": false,
+            "finish_reason": "stop",
+            "reasoning_tokens": 16851,
+            "provider_cost_usd": 0.09235125,
+            "actual_incremental_cash_usd": null,
+            "model_calls": 1,
+            "retries": 0
+          }
+        }
+      }
+    },
+    {
+      "family": "msa",
+      "scenario": "scenario-01",
+      "task_id": "contracts/commercial-vendor-customer/master-services-agreement-playbook-escalation/scenario-01",
+      "title": "Escalate Advertising Agency Master Services Agreement Out Of Policy Terms",
+      "criteria": 72,
+      "run": "msa-scenario-01/run",
+      "quality": {
+        "raw": {
+          "passed": 55,
+          "total": 72,
+          "rate": 0.7638888888888888
+        },
+        "proofpress": {
+          "passed": 65,
+          "total": 72,
+          "rate": 0.9027777777777778
+        },
+        "delta_criteria": 10,
+        "delta_percentage_points": 13.88888888888889,
+        "raw_floor_below_25_percent": false
+      },
+      "proof_price": {
+        "definition": "Proofpress receiver/governance calls minus ordinary S4; shared sender and evaluators excluded",
+        "raw_receiver": {
+          "model_calls": 1,
+          "input_tokens": 3811,
+          "output_tokens": 2759,
+          "reasoning_tokens": 0,
+          "total_tokens": 6570,
+          "provider_cost_usd": 0.00083961,
+          "wall_clock_latency_ms": 56886
+        },
+        "proofpress_receiver_and_governance": {
+          "model_calls": 4,
+          "input_tokens": 90307,
+          "output_tokens": 19968,
+          "reasoning_tokens": 9899,
+          "total_tokens": 110275,
+          "provider_cost_usd": 0.07500984000000001,
+          "wall_clock_latency_ms": 221308
+        },
+        "delta": {
+          "model_calls": 3,
+          "input_tokens": 86496,
+          "output_tokens": 17209,
+          "reasoning_tokens": 9899,
+          "total_tokens": 103705,
+          "provider_cost_usd": 0.07417023,
+          "wall_clock_latency_ms": 164422
+        },
+        "request_ids": {
+          "raw": [
+            "sfo1::cle1::rg5xv-1787666730493-db08a2760081"
+          ],
+          "proofpress": [
+            "sfo1::cle1::xk554-1787666887668-8d6dd54fa59e",
+            "sfo1::cle1::4c9h9-1787666587238-952df2196a02",
+            "sfo1::cle1::9ks6r-1787666787367-2e9b0f38150b",
+            "sfo1::cle1::94mhp-1787666832325-fccbc792cb22"
+          ]
+        }
+      },
+      "cap_utilization": {
+        "maximum": 0.195
+      },
+      "receipts": {
+        "run_state_sha256": "sha256:dbfd9ea3d5648dca459d2b3aff20be5f2b8337463428d6f5ca785d2a87becf8b",
+        "public_rubric_sha256": "sha256:8c210ea3613e307b00f1410f24656529b6d9349b330ee428d5d78fec8a83f7c0",
+        "evaluator": {
+          "raw": {
+            "route": "https://ai-gateway.vercel.sh/v1/chat/completions",
+            "model": "google/gemini-3.7-flash",
+            "model_requested": "google/gemini-3.7-flash",
+            "model_reported": "google/gemini-3.7-flash",
+            "serving_provider_requested": "google",
+            "serving_provider_reported": null,
+            "request_id": "sfo1::cle1::bv28x-1787666979629-51f78a7d8572",
+            "wall_clock_latency_ms": 34489,
+            "input_tokens": 8586,
+            "cached_input_tokens": 0,
+            "output_tokens": 17272,
+            "output_cap_tokens": 32000,
+            "output_cap_utilization": 0.53975,
+            "output_cap_hit": false,
+            "finish_reason": "stop",
+            "reasoning_tokens": 13264,
+            "provider_cost_usd": 0.0712095,
+            "actual_incremental_cash_usd": null,
+            "model_calls": 1,
+            "retries": 0
+          },
+          "proofpress": {
+            "route": "https://ai-gateway.vercel.sh/v1/chat/completions",
+            "model": "google/gemini-3.7-flash",
+            "model_requested": "google/gemini-3.7-flash",
+            "model_reported": "google/gemini-3.7-flash",
+            "serving_provider_requested": "google",
+            "serving_provider_reported": null,
+            "request_id": "sfo1::cle1::dcp8r-1787667014147-41615ef67357",
+            "wall_clock_latency_ms": 33122,
+            "input_tokens": 9903,
+            "cached_input_tokens": 0,
+            "output_tokens": 16659,
+            "output_cap_tokens": 32000,
+            "output_cap_utilization": 0.52059375,
+            "output_cap_hit": false,
+            "finish_reason": "stop",
+            "reasoning_tokens": 13956,
+            "provider_cost_usd": 0.0698985,
+            "actual_incremental_cash_usd": null,
+            "model_calls": 1,
+            "retries": 0
+          }
+        }
+      }
+    },
+    {
+      "family": "msa",
+      "scenario": "scenario-02",
+      "task_id": "contracts/commercial-vendor-customer/master-services-agreement-playbook-escalation/scenario-02",
+      "title": "Escalate Cro Services Agreement Out Of Policy Terms",
+      "criteria": 46,
+      "run": "msa-scenario-02/run",
+      "quality": {
+        "raw": {
+          "passed": 10,
+          "total": 46,
+          "rate": 0.21739130434782608
+        },
+        "proofpress": {
+          "passed": 31,
+          "total": 46,
+          "rate": 0.6739130434782609
+        },
+        "delta_criteria": 21,
+        "delta_percentage_points": 45.65217391304348,
+        "raw_floor_below_25_percent": true
+      },
+      "proof_price": {
+        "definition": "Proofpress receiver/governance calls minus ordinary S4; shared sender and evaluators excluded",
+        "raw_receiver": {
+          "model_calls": 1,
+          "input_tokens": 584,
+          "output_tokens": 3350,
+          "reasoning_tokens": 0,
+          "total_tokens": 3934,
+          "provider_cost_usd": 0.00065556,
+          "wall_clock_latency_ms": 80968
+        },
+        "proofpress_receiver_and_governance": {
+          "model_calls": 6,
+          "input_tokens": 102037,
+          "output_tokens": 32763,
+          "reasoning_tokens": 19847,
+          "total_tokens": 134800,
+          "provider_cost_usd": 0.12457893,
+          "wall_clock_latency_ms": 229762
+        },
+        "delta": {
+          "model_calls": 5,
+          "input_tokens": 101453,
+          "output_tokens": 29413,
+          "reasoning_tokens": 19847,
+          "total_tokens": 130866,
+          "provider_cost_usd": 0.12392337,
+          "wall_clock_latency_ms": 148794
+        },
+        "request_ids": {
+          "raw": [
+            "sfo1::cle1::pf6h4-1787668009888-acff8df2baa6"
+          ],
+          "proofpress": [
+            "sfo1::cle1::zc498-1787668148062-c7c5fd16d9da",
+            "sfo1::cle1::q8pm9-1787667669599-506ec682c5f1",
+            "sfo1::cle1::zfffz-1787668091016-a22baa4218ad",
+            "sfo1::cle1::bv28x-1787668111317-79f28ee8ef4e",
+            "sfo1::cle1::f5v8w-1787667724545-e8183410ebcb",
+            "sfo1::cle1::gfvxc-1787667788958-2d41399648cb"
+          ]
+        }
+      },
+      "cap_utilization": {
+        "maximum": 0.27653125
+      },
+      "receipts": {
+        "run_state_sha256": "sha256:4fe68ec835a4e3acdcd4773269e38f0c7bbb9340b2fdfddec355dea948c4ecca",
+        "public_rubric_sha256": "sha256:f3cd23d5b59ac494799f997efbac185372b0cedf479c584bac0c548368d404ab",
+        "evaluator": {
+          "raw": {
+            "route": "https://ai-gateway.vercel.sh/v1/chat/completions",
+            "model": "google/gemini-3.7-flash",
+            "model_requested": "google/gemini-3.7-flash",
+            "model_reported": "google/gemini-3.7-flash",
+            "serving_provider_requested": "google",
+            "serving_provider_reported": null,
+            "request_id": "sfo1::cle1::ls6xm-1787668274741-e8118c3801eb",
+            "wall_clock_latency_ms": 28579,
+            "input_tokens": 7703,
+            "cached_input_tokens": 0,
+            "output_tokens": 11828,
+            "output_cap_tokens": 32000,
+            "output_cap_utilization": 0.369625,
+            "output_cap_hit": false,
+            "finish_reason": "stop",
+            "reasoning_tokens": 8967,
+            "provider_cost_usd": 0.05013225,
+            "actual_incremental_cash_usd": null,
+            "model_calls": 1,
+            "retries": 0
+          },
+          "proofpress": {
+            "route": "https://ai-gateway.vercel.sh/v1/chat/completions",
+            "model": "google/gemini-3.7-flash",
+            "model_requested": "google/gemini-3.7-flash",
+            "model_reported": "google/gemini-3.7-flash",
+            "serving_provider_requested": "google",
+            "serving_provider_reported": null,
+            "request_id": "sfo1::cle1::d8rhr-1787668303400-5640fe6781a1",
+            "wall_clock_latency_ms": 31910,
+            "input_tokens": 9077,
+            "cached_input_tokens": 0,
+            "output_tokens": 15506,
+            "output_cap_tokens": 32000,
+            "output_cap_utilization": 0.4845625,
+            "output_cap_hit": false,
+            "finish_reason": "stop",
+            "reasoning_tokens": 12499,
+            "provider_cost_usd": 0.06495525,
+            "actual_incremental_cash_usd": null,
+            "model_calls": 1,
+            "retries": 0
+          }
+        }
+      }
+    },
+    {
+      "family": "msa",
+      "scenario": "scenario-03",
+      "task_id": "contracts/commercial-vendor-customer/master-services-agreement-playbook-escalation/scenario-03",
+      "title": "Escalate Gas Gathering Processing Agreement Out Of Policy Terms",
+      "criteria": 70,
+      "run": "msa-scenario-03/run",
+      "quality": {
+        "raw": {
+          "passed": 63,
+          "total": 70,
+          "rate": 0.9
+        },
+        "proofpress": {
+          "passed": 64,
+          "total": 70,
+          "rate": 0.9142857142857143
+        },
+        "delta_criteria": 1,
+        "delta_percentage_points": 1.4285714285714286,
+        "raw_floor_below_25_percent": false
+      },
+      "proof_price": {
+        "definition": "Proofpress receiver/governance calls minus ordinary S4; shared sender and evaluators excluded",
+        "raw_receiver": {
+          "model_calls": 1,
+          "input_tokens": 6099,
+          "output_tokens": 6114,
+          "reasoning_tokens": 0,
+          "total_tokens": 12213,
+          "provider_cost_usd": 0.00164943,
+          "wall_clock_latency_ms": 106507
+        },
+        "proofpress_receiver_and_governance": {
+          "model_calls": 9,
+          "input_tokens": 141824,
+          "output_tokens": 46600,
+          "reasoning_tokens": 31493,
+          "total_tokens": 188424,
+          "provider_cost_usd": 0.19199871000000002,
+          "wall_clock_latency_ms": 320278
+        },
+        "delta": {
+          "model_calls": 8,
+          "input_tokens": 135725,
+          "output_tokens": 40486,
+          "reasoning_tokens": 31493,
+          "total_tokens": 176211,
+          "provider_cost_usd": 0.19034928,
+          "wall_clock_latency_ms": 213771
+        },
+        "request_ids": {
+          "raw": [
+            "sfo1::cle1::qd772-1787668748717-544b909987b6"
+          ],
+          "proofpress": [
+            "sfo1::cle1::pjkwz-1787668948758-7d612672793c",
+            "sfo1::cle1::56sb7-1787668544011-33299ba1c309",
+            "sfo1::cle1::rhlnf-1787668855640-6837ab983135",
+            "sfo1::cle1::qmkzx-1787668879378-965a3df30967",
+            "sfo1::cle1::bw8xq-1787668602564-159fe11296e2",
+            "sfo1::cle1::dlwwn-1787668618323-9c859950e6f8",
+            "sfo1::cle1::66pz7-1787668665062-feccd54b2851",
+            "sfo1::cle1::k2sdm-1787668687351-5f34abdcf6c2",
+            "sfo1::cle1::8lr7f-1787668732131-af3d69d81534"
+          ]
+        }
+      },
+      "cap_utilization": {
+        "maximum": 0.539875
+      },
+      "receipts": {
+        "run_state_sha256": "sha256:7011fce21d6ec3369f6a8f52268511474d07efc3658d2969c316ff3a4ce0fbc4",
+        "public_rubric_sha256": "sha256:bdffd901f6a8ec30049571f30c018bb28a484b7fd3d01129f265bd9cca67147a",
+        "evaluator": {
+          "raw": {
+            "route": "https://ai-gateway.vercel.sh/v1/chat/completions",
+            "model": "google/gemini-3.7-flash",
+            "model_requested": "google/gemini-3.7-flash",
+            "model_reported": "google/gemini-3.7-flash",
+            "serving_provider_requested": "google",
+            "serving_provider_reported": null,
+            "request_id": "sfo1::cle1::ldrmc-1787669074766-53729197b769",
+            "wall_clock_latency_ms": 42049,
+            "input_tokens": 12077,
+            "cached_input_tokens": 0,
+            "output_tokens": 19233,
+            "output_cap_tokens": 32000,
+            "output_cap_utilization": 0.60103125,
+            "output_cap_hit": false,
+            "finish_reason": "stop",
+            "reasoning_tokens": 14956,
+            "provider_cost_usd": 0.0811815,
+            "actual_incremental_cash_usd": null,
+            "model_calls": 1,
+            "retries": 0
+          },
+          "proofpress": {
+            "route": "https://ai-gateway.vercel.sh/v1/chat/completions",
+            "model": "google/gemini-3.7-flash",
+            "model_requested": "google/gemini-3.7-flash",
+            "model_reported": "google/gemini-3.7-flash",
+            "serving_provider_requested": "google",
+            "serving_provider_reported": null,
+            "request_id": "sfo1::cle1::9drsj-1787669116918-ee05d57a8dfd",
+            "wall_clock_latency_ms": 46394,
+            "input_tokens": 12469,
+            "cached_input_tokens": 0,
+            "output_tokens": 21450,
+            "output_cap_tokens": 32000,
+            "output_cap_utilization": 0.6703125,
+            "output_cap_hit": false,
+            "finish_reason": "stop",
+            "reasoning_tokens": 18435,
+            "provider_cost_usd": 0.08978925,
+            "actual_incremental_cash_usd": null,
+            "model_calls": 1,
+            "retries": 0
+          }
+        }
+      }
+    },
+    {
+      "family": "msa",
+      "scenario": "scenario-04",
+      "task_id": "contracts/commercial-vendor-customer/master-services-agreement-playbook-escalation/scenario-04",
+      "title": "Escalate Master Services Agreement Out Of Policy Terms",
+      "criteria": 100,
+      "run": "msa-scenario-04/run",
+      "quality": {
+        "raw": {
+          "passed": 94,
+          "total": 100,
+          "rate": 0.94
+        },
+        "proofpress": {
+          "passed": 92,
+          "total": 100,
+          "rate": 0.92
+        },
+        "delta_criteria": -2,
+        "delta_percentage_points": -2,
+        "raw_floor_below_25_percent": false
+      },
+      "proof_price": {
+        "definition": "Proofpress receiver/governance calls minus ordinary S4; shared sender and evaluators excluded",
+        "raw_receiver": {
+          "model_calls": 1,
+          "input_tokens": 7649,
+          "output_tokens": 5531,
+          "reasoning_tokens": 0,
+          "total_tokens": 13180,
+          "provider_cost_usd": 0.00168399,
+          "wall_clock_latency_ms": 72509
+        },
+        "proofpress_receiver_and_governance": {
+          "model_calls": 6,
+          "input_tokens": 108369,
+          "output_tokens": 34524,
+          "reasoning_tokens": 20153,
+          "total_tokens": 142893,
+          "provider_cost_usd": 0.12478730999999998,
+          "wall_clock_latency_ms": 228517
+        },
+        "delta": {
+          "model_calls": 5,
+          "input_tokens": 100720,
+          "output_tokens": 28993,
+          "reasoning_tokens": 20153,
+          "total_tokens": 129713,
+          "provider_cost_usd": 0.12310331999999999,
+          "wall_clock_latency_ms": 156008
+        },
+        "request_ids": {
+          "raw": [
+            "sfo1::cle1::6cwcf-1787669502816-2f3ad26d873f"
+          ],
+          "proofpress": [
+            "sfo1::cle1::bh6cz-1787669677929-d2b870d47795",
+            "sfo1::cle1::xqtc8-1787669285812-471ed341a6cc",
+            "sfo1::cle1::9dv2h-1787669575640-9edd17f6a727",
+            "sfo1::cle1::hrxxh-1787669636566-d7574db0de78",
+            "sfo1::cle1::ktkbm-1787669332753-70229468f577",
+            "sfo1::cle1::t48hg-1787669339178-f4ce0dbddfc5"
+          ]
+        }
+      },
+      "cap_utilization": {
+        "maximum": 0.32475
+      },
+      "receipts": {
+        "run_state_sha256": "sha256:18b8ef662b3eb3cb36f6327b31b60c187cc931c4972606716baeb83826da1b69",
+        "public_rubric_sha256": "sha256:3da4c5cc26418f041cf8606c392fbed502d7825bf6b744066d308bf13496f0de",
+        "evaluator": {
+          "raw": {
+            "route": "https://ai-gateway.vercel.sh/v1/chat/completions",
+            "model": "google/gemini-3.7-flash",
+            "model_requested": "google/gemini-3.7-flash",
+            "model_reported": "google/gemini-3.7-flash",
+            "serving_provider_requested": "google",
+            "serving_provider_reported": null,
+            "request_id": "sfo1::cle1::fwpmn-1787669749002-64f4b25daeb4",
+            "wall_clock_latency_ms": 45401,
+            "input_tokens": 12305,
+            "cached_input_tokens": 0,
+            "output_tokens": 18271,
+            "output_cap_tokens": 32000,
+            "output_cap_utilization": 0.57096875,
+            "output_cap_hit": false,
+            "finish_reason": "stop",
+            "reasoning_tokens": 12959,
+            "provider_cost_usd": 0.077745,
+            "actual_incremental_cash_usd": null,
+            "model_calls": 1,
+            "retries": 0
+          },
+          "proofpress": {
+            "route": "https://ai-gateway.vercel.sh/v1/chat/completions",
+            "model": "google/gemini-3.7-flash",
+            "model_requested": "google/gemini-3.7-flash",
+            "model_reported": "google/gemini-3.7-flash",
+            "serving_provider_requested": "google",
+            "serving_provider_reported": null,
+            "request_id": "sfo1::cle1::267l2-1787669794835-8de5c4082e09",
+            "wall_clock_latency_ms": 40156,
+            "input_tokens": 11323,
+            "cached_input_tokens": 0,
+            "output_tokens": 19148,
+            "output_cap_tokens": 32000,
+            "output_cap_utilization": 0.598375,
+            "output_cap_hit": false,
+            "finish_reason": "stop",
+            "reasoning_tokens": 13534,
+            "provider_cost_usd": 0.08029725,
+            "actual_incremental_cash_usd": null,
+            "model_calls": 1,
+            "retries": 0
+          }
+        }
+      }
+    },
+    {
+      "family": "msa",
+      "scenario": "scenario-06",
+      "task_id": "contracts/commercial-vendor-customer/master-services-agreement-playbook-escalation/scenario-06",
+      "title": "Escalate Oilfield Master Service Agreement Out Of Policy Terms",
+      "criteria": 32,
+      "run": "msa-scenario-06/run",
+      "quality": {
+        "raw": {
+          "passed": 6,
+          "total": 32,
+          "rate": 0.1875
+        },
+        "proofpress": {
+          "passed": 21,
+          "total": 32,
+          "rate": 0.65625
+        },
+        "delta_criteria": 15,
+        "delta_percentage_points": 46.875,
+        "raw_floor_below_25_percent": true
+      },
+      "proof_price": {
+        "definition": "Proofpress receiver/governance calls minus ordinary S4; shared sender and evaluators excluded",
+        "raw_receiver": {
+          "model_calls": 1,
+          "input_tokens": 632,
+          "output_tokens": 5062,
+          "reasoning_tokens": 0,
+          "total_tokens": 5694,
+          "provider_cost_usd": 0.00096804,
+          "wall_clock_latency_ms": 103705
+        },
+        "proofpress_receiver_and_governance": {
+          "model_calls": 5,
+          "input_tokens": 99320,
+          "output_tokens": 21794,
+          "reasoning_tokens": 9996,
+          "total_tokens": 121114,
+          "provider_cost_usd": 0.08324475,
+          "wall_clock_latency_ms": 253988
+        },
+        "delta": {
+          "model_calls": 4,
+          "input_tokens": 98688,
+          "output_tokens": 16732,
+          "reasoning_tokens": 9996,
+          "total_tokens": 115420,
+          "provider_cost_usd": 0.08227671,
+          "wall_clock_latency_ms": 150283
+        },
+        "request_ids": {
+          "raw": [
+            "sfo1::cle1::hptlg-1787670325605-2009c91f047c"
+          ],
+          "proofpress": [
+            "sfo1::cle1::jz8b4-1787670506315-eed741afd8a2",
+            "sfo1::cle1::qk7lv-1787670187364-e4c48dd828e3",
+            "sfo1::cle1::xqtc8-1787670429189-220fb69d9305",
+            "sfo1::cle1::d8nsc-1787670452887-99276742d576",
+            "sfo1::cle1::hknn8-1787670268649-333436546727"
+          ]
+        }
+      },
+      "cap_utilization": {
+        "maximum": 0.169875
+      },
+      "receipts": {
+        "run_state_sha256": "sha256:5ee555ed92e81a7912c6c269bb678e429f55a2c8e8739fca1d1624ab79c0ca47",
+        "public_rubric_sha256": "sha256:33269dfd993d63a647cffe0df4b7e106fbd0f63966ac3ee7d719e48a7be2f4fe",
+        "evaluator": {
+          "raw": {
+            "route": "https://ai-gateway.vercel.sh/v1/chat/completions",
+            "model": "google/gemini-3.7-flash",
+            "model_requested": "google/gemini-3.7-flash",
+            "model_reported": "google/gemini-3.7-flash",
+            "serving_provider_requested": "google",
+            "serving_provider_reported": null,
+            "request_id": "sfo1::cle1::q62l6-1787670651557-a0ac4de55fa6",
+            "wall_clock_latency_ms": 23026,
+            "input_tokens": 8164,
+            "cached_input_tokens": 0,
+            "output_tokens": 8422,
+            "output_cap_tokens": 32000,
+            "output_cap_utilization": 0.2631875,
+            "output_cap_hit": false,
+            "finish_reason": "stop",
+            "reasoning_tokens": 6569,
+            "provider_cost_usd": 0.0377055,
+            "actual_incremental_cash_usd": null,
+            "model_calls": 1,
+            "retries": 0
+          },
+          "proofpress": {
+            "route": "https://ai-gateway.vercel.sh/v1/chat/completions",
+            "model": "google/gemini-3.7-flash",
+            "model_requested": "google/gemini-3.7-flash",
+            "model_reported": "google/gemini-3.7-flash",
+            "serving_provider_requested": "google",
+            "serving_provider_reported": null,
+            "request_id": "sfo1::cle1::zktl2-1787670674593-8ded46e14b4e",
+            "wall_clock_latency_ms": 36036,
+            "input_tokens": 8112,
+            "cached_input_tokens": 0,
+            "output_tokens": 11563,
+            "output_cap_tokens": 32000,
+            "output_cap_utilization": 0.36134375,
+            "output_cap_hit": false,
+            "finish_reason": "stop",
+            "reasoning_tokens": 9406,
+            "provider_cost_usd": 0.04944525,
+            "actual_incremental_cash_usd": null,
+            "model_calls": 1,
+            "retries": 0
+          }
+        }
+      }
+    },
+    {
+      "family": "license",
+      "scenario": "scenario-01",
+      "task_id": "contracts/ip-licensing/license-agreement-playbook-escalation/scenario-01",
+      "title": "Escalate License Agreement Out Of Policy Terms",
+      "criteria": 69,
+      "run": "license-scenario-01/run",
+      "quality": {
+        "raw": {
+          "passed": 59,
+          "total": 69,
+          "rate": 0.855072463768116
+        },
+        "proofpress": {
+          "passed": 65,
+          "total": 69,
+          "rate": 0.9420289855072463
+        },
+        "delta_criteria": 6,
+        "delta_percentage_points": 8.695652173913043,
+        "raw_floor_below_25_percent": false
+      },
+      "proof_price": {
+        "definition": "Proofpress receiver/governance calls minus ordinary S4; shared sender and evaluators excluded",
+        "raw_receiver": {
+          "model_calls": 1,
+          "input_tokens": 6502,
+          "output_tokens": 4128,
+          "reasoning_tokens": 0,
+          "total_tokens": 10630,
+          "provider_cost_usd": 0.00132822,
+          "wall_clock_latency_ms": 97239
+        },
+        "proofpress_receiver_and_governance": {
+          "model_calls": 4,
+          "input_tokens": 131753,
+          "output_tokens": 19199,
+          "reasoning_tokens": 8277,
+          "total_tokens": 150952,
+          "provider_cost_usd": 0.0859032,
+          "wall_clock_latency_ms": 125233
+        },
+        "delta": {
+          "model_calls": 3,
+          "input_tokens": 125251,
+          "output_tokens": 15071,
+          "reasoning_tokens": 8277,
+          "total_tokens": 140322,
+          "provider_cost_usd": 0.08457498,
+          "wall_clock_latency_ms": 27994
+        },
+        "request_ids": {
+          "raw": [
+            "sfo1::cle1::s8svg-1787670962506-dbc8a009dcda"
+          ],
+          "proofpress": [
+            "sfo1::cle1::svx4c-1787671117182-1e66c7e0df24",
+            "sfo1::cle1::g2szh-1787670830578-9f09fdbec4fd",
+            "sfo1::cle1::6ln9s-1787671059735-664cfcf1a56c",
+            "sfo1::cle1::nrnhx-1787671076259-94b63b03cf19"
+          ]
+        }
+      },
+      "cap_utilization": {
+        "maximum": 0.213625
+      },
+      "receipts": {
+        "run_state_sha256": "sha256:96497c8d035cc7cf65b85e5f9c12361e77a19e51739200173a42145fc220d1b2",
+        "public_rubric_sha256": "sha256:3df3cae6a3083a05c200f4994c1cca5af0a7f43e92b004943ade1365a2d9c1c9",
+        "evaluator": {
+          "raw": {
+            "route": "https://ai-gateway.vercel.sh/v1/chat/completions",
+            "model": "google/gemini-3.7-flash",
+            "model_requested": "google/gemini-3.7-flash",
+            "model_reported": "google/gemini-3.7-flash",
+            "serving_provider_requested": "google",
+            "serving_provider_reported": null,
+            "request_id": "sfo1::cle1::4zfrc-1787671163830-9eb62475fc49",
+            "wall_clock_latency_ms": 40046,
+            "input_tokens": 9408,
+            "cached_input_tokens": 0,
+            "output_tokens": 16548,
+            "output_cap_tokens": 32000,
+            "output_cap_utilization": 0.517125,
+            "output_cap_hit": false,
+            "finish_reason": "stop",
+            "reasoning_tokens": 13444,
+            "provider_cost_usd": 0.069111,
+            "actual_incremental_cash_usd": null,
+            "model_calls": 1,
+            "retries": 0
+          },
+          "proofpress": {
+            "route": "https://ai-gateway.vercel.sh/v1/chat/completions",
+            "model": "google/gemini-3.7-flash",
+            "model_requested": "google/gemini-3.7-flash",
+            "model_reported": "google/gemini-3.7-flash",
+            "serving_provider_requested": "google",
+            "serving_provider_reported": null,
+            "request_id": "sfo1::cle1::7w8sm-1787671203834-738c21a955ad",
+            "wall_clock_latency_ms": 32580,
+            "input_tokens": 8862,
+            "cached_input_tokens": 0,
+            "output_tokens": 14194,
+            "output_cap_tokens": 32000,
+            "output_cap_utilization": 0.4435625,
+            "output_cap_hit": false,
+            "finish_reason": "stop",
+            "reasoning_tokens": 10165,
+            "provider_cost_usd": 0.059874,
+            "actual_incremental_cash_usd": null,
+            "model_calls": 1,
+            "retries": 0
+          }
+        }
+      }
+    },
+    {
+      "family": "license",
+      "scenario": "scenario-02",
+      "task_id": "contracts/ip-licensing/license-agreement-playbook-escalation/scenario-02",
+      "title": "Escalate License Collaboration Agreement Out Of Policy Terms",
+      "criteria": 50,
+      "run": "license-scenario-02/run",
+      "quality": {
+        "raw": {
+          "passed": 46,
+          "total": 50,
+          "rate": 0.92
+        },
+        "proofpress": {
+          "passed": 47,
+          "total": 50,
+          "rate": 0.94
+        },
+        "delta_criteria": 1,
+        "delta_percentage_points": 2,
+        "raw_floor_below_25_percent": false
+      },
+      "proof_price": {
+        "definition": "Proofpress receiver/governance calls minus ordinary S4; shared sender and evaluators excluded",
+        "raw_receiver": {
+          "model_calls": 1,
+          "input_tokens": 4206,
+          "output_tokens": 6033,
+          "reasoning_tokens": 0,
+          "total_tokens": 10239,
+          "provider_cost_usd": 0.00146448,
+          "wall_clock_latency_ms": 127564
+        },
+        "proofpress_receiver_and_governance": {
+          "model_calls": 4,
+          "input_tokens": 119966,
+          "output_tokens": 26443,
+          "reasoning_tokens": 9951,
+          "total_tokens": 146409,
+          "provider_cost_usd": 0.0891345,
+          "wall_clock_latency_ms": 281647
+        },
+        "delta": {
+          "model_calls": 3,
+          "input_tokens": 115760,
+          "output_tokens": 20410,
+          "reasoning_tokens": 9951,
+          "total_tokens": 136170,
+          "provider_cost_usd": 0.08767002,
+          "wall_clock_latency_ms": 154083
+        },
+        "request_ids": {
+          "raw": [
+            "sfo1::cle1::694sz-1787671381097-4636909dd22e"
+          ],
+          "proofpress": [
+            "sfo1::cle1::jkvsz-1787671639371-79b8cef2ae6b",
+            "sfo1::cle1::kqwnm-1787671296463-e39722635b8e",
+            "sfo1::cle1::q62l6-1787671508706-a6cb8612d660",
+            "sfo1::cle1::q62l6-1787671557824-036dd43c79a4"
+          ]
+        }
+      },
+      "cap_utilization": {
+        "maximum": 0.368125
+      },
+      "receipts": {
+        "run_state_sha256": "sha256:ec63003b65c4c2d6383c0ad8e9b8271a5deda1e2653908222b0c02c3d35525fc",
+        "public_rubric_sha256": "sha256:db19b562c9994cccbc0f7a330c9d605e58b8efffa8fccb629516136d6189163c",
+        "evaluator": {
+          "raw": {
+            "route": "https://ai-gateway.vercel.sh/v1/chat/completions",
+            "model": "google/gemini-3.7-flash",
+            "model_requested": "google/gemini-3.7-flash",
+            "model_reported": "google/gemini-3.7-flash",
+            "serving_provider_requested": "google",
+            "serving_provider_reported": null,
+            "request_id": "sfo1::cle1::jxpqh-1787671763487-dcfbcb0aaf11",
+            "wall_clock_latency_ms": 35531,
+            "input_tokens": 10583,
+            "cached_input_tokens": 0,
+            "output_tokens": 16619,
+            "output_cap_tokens": 32000,
+            "output_cap_utilization": 0.51934375,
+            "output_cap_hit": false,
+            "finish_reason": "stop",
+            "reasoning_tokens": 13612,
+            "provider_cost_usd": 0.0702585,
+            "actual_incremental_cash_usd": null,
+            "model_calls": 1,
+            "retries": 0
+          },
+          "proofpress": {
+            "route": "https://ai-gateway.vercel.sh/v1/chat/completions",
+            "model": "google/gemini-3.7-flash",
+            "model_requested": "google/gemini-3.7-flash",
+            "model_reported": "google/gemini-3.7-flash",
+            "serving_provider_requested": "google",
+            "serving_provider_reported": null,
+            "request_id": "sfo1::cle1::zrn7p-1787671798992-a0b8d41c8136",
+            "wall_clock_latency_ms": 30999,
+            "input_tokens": 10562,
+            "cached_input_tokens": 0,
+            "output_tokens": 15130,
+            "output_cap_tokens": 32000,
+            "output_cap_utilization": 0.4728125,
+            "output_cap_hit": false,
+            "finish_reason": "stop",
+            "reasoning_tokens": 12003,
+            "provider_cost_usd": 0.064659,
+            "actual_incremental_cash_usd": null,
+            "model_calls": 1,
+            "retries": 0
+          }
+        }
+      }
+    },
+    {
+      "family": "license",
+      "scenario": "scenario-04",
+      "task_id": "contracts/ip-licensing/license-agreement-playbook-escalation/scenario-04",
+      "title": "Escalate Trademark License Agreement Out Of Policy Terms",
+      "criteria": 55,
+      "run": "license-scenario-04/run",
+      "quality": {
+        "raw": {
+          "passed": 48,
+          "total": 55,
+          "rate": 0.8727272727272727
+        },
+        "proofpress": {
+          "passed": 48,
+          "total": 55,
+          "rate": 0.8727272727272727
+        },
+        "delta_criteria": 0,
+        "delta_percentage_points": 0,
+        "raw_floor_below_25_percent": false
+      },
+      "proof_price": {
+        "definition": "Proofpress receiver/governance calls minus ordinary S4; shared sender and evaluators excluded",
+        "raw_receiver": {
+          "model_calls": 1,
+          "input_tokens": 3722,
+          "output_tokens": 3665,
+          "reasoning_tokens": 0,
+          "total_tokens": 7387,
+          "provider_cost_usd": 0.00099468,
+          "wall_clock_latency_ms": 56826
+        },
+        "proofpress_receiver_and_governance": {
+          "model_calls": 12,
+          "input_tokens": 134034,
+          "output_tokens": 43204,
+          "reasoning_tokens": 28960,
+          "total_tokens": 177238,
+          "provider_cost_usd": 0.19256415000000002,
+          "wall_clock_latency_ms": 330857
+        },
+        "delta": {
+          "model_calls": 11,
+          "input_tokens": 130312,
+          "output_tokens": 39539,
+          "reasoning_tokens": 28960,
+          "total_tokens": 169851,
+          "provider_cost_usd": 0.19156947000000002,
+          "wall_clock_latency_ms": 274031
+        },
+        "request_ids": {
+          "raw": [
+            "sfo1::cle1::mzcs8-1787672519583-0140b7e8602a"
+          ],
+          "proofpress": [
+            "sfo1::cle1::bj59k-1787672672229-684bdcbbc5f0",
+            "sfo1::cle1::rwtb8-1787672298323-9741062704c5",
+            "sfo1::cle1::l8rb8-1787672576840-e40c87279a92",
+            "sfo1::cle1::kjpts-1787672591000-bf2a3491cce4",
+            "sfo1::cle1::zrn7p-1787672366626-991cdeae0567",
+            "sfo1::cle1::g2szh-1787672383234-8d8e4c9fd041",
+            "sfo1::cle1::lf9wk-1787672397474-1015ace85df6",
+            "sfo1::cle1::lf9wk-1787672408245-7dd80c5b5616",
+            "sfo1::cle1::9dv2h-1787672429698-f88fac73af49",
+            "sfo1::cle1::dvn65-1787672439035-7eaab57f170c",
+            "sfo1::cle1::pz9jr-1787672480802-22f971206029",
+            "sfo1::cle1::4svc2-1787672497483-ccc6535ad13f"
+          ]
+        }
+      },
+      "cap_utilization": {
+        "maximum": 0.35475
+      },
+      "receipts": {
+        "run_state_sha256": "sha256:afc7532e33c8ff51a5096bccf48316eac0969a14c97a884986a37568a2377707",
+        "public_rubric_sha256": "sha256:935951e2e4266831d847ddded09a569a527a74c9cb90fc095208bd5524fb6680",
+        "evaluator": {
+          "raw": {
+            "route": "https://ai-gateway.vercel.sh/v1/chat/completions",
+            "model": "google/gemini-3.7-flash",
+            "model_requested": "google/gemini-3.7-flash",
+            "model_reported": "google/gemini-3.7-flash",
+            "serving_provider_requested": "google",
+            "serving_provider_reported": null,
+            "request_id": "sfo1::cle1::sc6ln-1787672779332-4aada6b50d79",
+            "wall_clock_latency_ms": 40436,
+            "input_tokens": 7766,
+            "cached_input_tokens": 0,
+            "output_tokens": 19112,
+            "output_cap_tokens": 32000,
+            "output_cap_utilization": 0.59725,
+            "output_cap_hit": false,
+            "finish_reason": "stop",
+            "reasoning_tokens": 15696,
+            "provider_cost_usd": 0.0774945,
+            "actual_incremental_cash_usd": null,
+            "model_calls": 1,
+            "retries": 0
+          },
+          "proofpress": {
+            "route": "https://ai-gateway.vercel.sh/v1/chat/completions",
+            "model": "google/gemini-3.7-flash",
+            "model_requested": "google/gemini-3.7-flash",
+            "model_reported": "google/gemini-3.7-flash",
+            "serving_provider_requested": "google",
+            "serving_provider_reported": null,
+            "request_id": "sfo1::cle1::4vmnq-1787672819718-6a8b42abda9c",
+            "wall_clock_latency_ms": 46782,
+            "input_tokens": 9704,
+            "cached_input_tokens": 0,
+            "output_tokens": 18603,
+            "output_cap_tokens": 32000,
+            "output_cap_utilization": 0.58134375,
+            "output_cap_hit": false,
+            "finish_reason": "stop",
+            "reasoning_tokens": 15155,
+            "provider_cost_usd": 0.07703925,
+            "actual_incremental_cash_usd": null,
+            "model_calls": 1,
+            "retries": 0
+          }
+        }
+      }
+    },
+    {
+      "family": "license",
+      "scenario": "scenario-05",
+      "task_id": "contracts/ip-licensing/license-agreement-playbook-escalation/scenario-05",
+      "title": "Escalate Content Licensing Agreement Out Of Policy Terms",
+      "criteria": 37,
+      "run": "license-scenario-05/run",
+      "quality": {
+        "raw": {
+          "passed": 7,
+          "total": 37,
+          "rate": 0.1891891891891892
+        },
+        "proofpress": {
+          "passed": 28,
+          "total": 37,
+          "rate": 0.7567567567567568
+        },
+        "delta_criteria": 21,
+        "delta_percentage_points": 56.75675675675676,
+        "raw_floor_below_25_percent": true
+      },
+      "proof_price": {
+        "definition": "Proofpress receiver/governance calls minus ordinary S4; shared sender and evaluators excluded",
+        "raw_receiver": {
+          "model_calls": 1,
+          "input_tokens": 698,
+          "output_tokens": 4032,
+          "reasoning_tokens": 0,
+          "total_tokens": 4730,
+          "provider_cost_usd": 0.00078858,
+          "wall_clock_latency_ms": 76204
+        },
+        "proofpress_receiver_and_governance": {
+          "model_calls": 4,
+          "input_tokens": 97267,
+          "output_tokens": 28637,
+          "reasoning_tokens": 15509,
+          "total_tokens": 125904,
+          "provider_cost_usd": 0.10253952,
+          "wall_clock_latency_ms": 192695
+        },
+        "delta": {
+          "model_calls": 3,
+          "input_tokens": 96569,
+          "output_tokens": 24605,
+          "reasoning_tokens": 15509,
+          "total_tokens": 121174,
+          "provider_cost_usd": 0.10175094,
+          "wall_clock_latency_ms": 116491
+        },
+        "request_ids": {
+          "raw": [
+            "sfo1::cle1::66pz7-1787673224937-44b247111445"
+          ],
+          "proofpress": [
+            "sfo1::cle1::zcnlv-1787673398086-102af38bf164",
+            "sfo1::cle1::zktl2-1787673001432-d3e53efabecc",
+            "sfo1::cle1::4vmnq-1787673300845-c9bcb57decd2",
+            "sfo1::cle1::zcnlv-1787673323502-6b0c612b21bb"
+          ]
+        }
+      },
+      "cap_utilization": {
+        "maximum": 0.275921875
+      },
+      "receipts": {
+        "run_state_sha256": "sha256:56e1885c77dc8a041eea09006b06404ff7ac66254143e48059aa450c18a59a66",
+        "public_rubric_sha256": "sha256:c43c2b1a9b10ae58b0aed400d2f25b483dd0b8a5835c997fac5a32644aa1accb",
+        "evaluator": {
+          "raw": {
+            "route": "https://ai-gateway.vercel.sh/v1/chat/completions",
+            "model": "google/gemini-3.7-flash",
+            "model_requested": "google/gemini-3.7-flash",
+            "model_reported": "google/gemini-3.7-flash",
+            "serving_provider_requested": "google",
+            "serving_provider_reported": null,
+            "request_id": "sfo1::cle1::zv2sq-1787673455152-526ada650ca7",
+            "wall_clock_latency_ms": 24633,
+            "input_tokens": 7053,
+            "cached_input_tokens": 0,
+            "output_tokens": 9156,
+            "output_cap_tokens": 32000,
+            "output_cap_utilization": 0.286125,
+            "output_cap_hit": false,
+            "finish_reason": "stop",
+            "reasoning_tokens": 7143,
+            "provider_cost_usd": 0.03962475,
+            "actual_incremental_cash_usd": null,
+            "model_calls": 1,
+            "retries": 0
+          },
+          "proofpress": {
+            "route": "https://ai-gateway.vercel.sh/v1/chat/completions",
+            "model": "google/gemini-3.7-flash",
+            "model_requested": "google/gemini-3.7-flash",
+            "model_reported": "google/gemini-3.7-flash",
+            "serving_provider_requested": "google",
+            "serving_provider_reported": null,
+            "request_id": "sfo1::cle1::4m7m4-1787673479791-c82de715d36f",
+            "wall_clock_latency_ms": 24708,
+            "input_tokens": 7490,
+            "cached_input_tokens": 0,
+            "output_tokens": 8404,
+            "output_cap_tokens": 32000,
+            "output_cap_utilization": 0.262625,
+            "output_cap_hit": false,
+            "finish_reason": "stop",
+            "reasoning_tokens": 6378,
+            "provider_cost_usd": 0.0371325,
+            "actual_incremental_cash_usd": null,
+            "model_calls": 1,
+            "retries": 0
+          }
+        }
+      }
+    }
+  ],
+  "invalid_attempts": [
+    {
+      "family": "credit",
+      "scenario": "scenario-01",
+      "path": "credit-scenario-01/run-invalid-model-identity-attempt-1",
+      "details": [
+        {
+          "marker": "INVALID_ATTEMPT_prepare_1787664395529.json",
+          "phase": "prepare",
+          "error": "sender S1: model identity mismatch (deepseek/deepseek-v4-flash-0731 requested; deepseek/deepseek-v4-flash reported)"
+        }
+      ]
+    },
+    {
+      "family": "msa",
+      "scenario": "scenario-02",
+      "path": "msa-scenario-02/run-invalid-prepare-attempt-1",
+      "details": [
+        {
+          "marker": "INVALID_ATTEMPT_prepare_1787667288855.json",
+          "phase": "prepare",
+          "error": "individual policy review knw_cf6d1eff7d6d4ffb: provider reported truncated output (length)"
+        }
+      ]
+    },
+    {
+      "family": "msa",
+      "scenario": "scenario-03",
+      "path": "msa-scenario-03/run-invalid-operator-interrupt-attempt-1",
+      "details": []
+    },
+    {
+      "family": "msa",
+      "scenario": "scenario-05",
+      "path": "msa-scenario-05/run-invalid-prepare-attempt-1",
+      "details": [
+        {
+          "marker": "INVALID_ATTEMPT_prepare_1787670073396.json",
+          "phase": "prepare",
+          "error": "Vercel AI Gateway 503: {\"error\":{\"message\":\"Service temporarily unavailable. Please try again shortly.\",\"type\":\"service_unavailable_error\",\"param\":{\"error\":\"Service temporarily unavailable. Please try again shortly.\",\"type\":\"service_unavailable_error\",\"statusCode\":503}},\"providerMetadata\":{\"gateway\":{\"routing\":{\"originalModelId\":\"google/gemini-3.7-flash\",\"resolvedProvider\":\"google\",\"fallbacksAvailable\":[],\"canonicalSlug\":\"google/gemini-3.7-flash\",\"modelAttemptCount\":1,\"modelAttempts\":[{\"canonicalSlug\":\"google/gemini-3.7-flash\",\"success\":false,\"providerAttemptCount\":1,\"providerAttempts\":[{\"provider\":\"google\",\"credentialType\":\"system\",\"success\":false,\"error\":\"Service temporarily unavailable\",\"startTime\":1787670073227,\"endTime\":1787670073317,\"statusCode\":503}]}],\"totalProviderAttemptCount\":1},\"generationId\":\"gen_01M0WQ13T7JKHKR0733WNF52E0\"}}}"
+        }
+      ]
+    },
+    {
+      "family": "license",
+      "scenario": "scenario-03",
+      "path": "license-scenario-03/run-invalid-resume-attempt-1",
+      "details": [
+        {
+          "marker": "INVALID_ATTEMPT_resume_1787672212582.json",
+          "phase": "resume",
+          "error": "Vercel AI Gateway 500: {\"error\":{\"message\":\"Cannot connect to API: Connect Timeout Error (attempted addresses: 38.101.151.22:443, 38.101.151.25:443, 38.101.151.21:443, 38.101.151.14:443, 38.101.151.18:443, 38.101.151.15:443, 38.101.151.20:443, 38.101.151.16:443, 38.101.151.30:443, 38.101.151.29:443, 38.101.151.24:443, 38.101.151.23:443, 38.101.151.19:443, 38.101.151.13:443, timeout: 5000ms)\",\"type\":\"AI_APICallError\",\"param\":{\"error\":\"Cannot connect to API: Connect Timeout Error (attempted addresses: 38.101.151.22:443, 38.101.151.25:443, 38.101.151.21:443, 38.101.151.14:443, 38.101.151.18:443, 38.101.151.15:443, 38.101.151.20:443, 38.101.151.16:443, 38.101.151.30:443, 38.101.151.29:443, 38.101.151.24:443, 38.101.151.23:443, 38.101.151.19:443, 38.101.151.13:443, timeout: 5000ms)\",\"statusCode\":500,\"name\":\"AI_APICallError\",\"message\":\"Cannot connect to API: Connect Timeout Error (attempted addresses: 38.101.151.22:443, 38.101.151.25:443, 38.101.151.21:443, 38.101.151.14:443, 38.101.151.18:443, 38.101.151.15:443, 38.101.151.20:443, 38.101.151.16:443, 38.101.151.30:443, 38.101.151.29:443, 38.101.151.24:443, 38.101.151.23:443, 38.101.151.19:443, 38.101.151.13:443, timeout: 5000ms)\",\"isRetryable\":true,\"type\":\"AI_APICallError\"}},\"providerMetadata\":{\"gateway\":{\"routing\":{\"originalModelId\":\"deepseek/deepseek-v4-flash\",\"resolvedProvider\":\"deepinfra\",\"fallbacksAvailable\":[],\"canonicalSlug\":\"deepseek/deepseek-v4-flash\",\"modelAttemptCount\":1,\"modelAttempts\":[{\"canonicalSlug\":\"deepseek/deepseek-v4-flash\",\"success\":false,\"providerAttemptCount\":1,\"providerAttempts\":[{\"provider\":\"deepinfra\",\"credentialType\":\"system\",\"success\":false,\"error\":\"Cannot connect to API: Connect Timeout Error (attempted addresses: 38.101.151.22:443, 38.101.151.25:443, 38.101.151.21:443, 38.101.151.14:443, 38.101.151.18:443, 38.101.151.15:443, 38.101.151.20:443, 38.101.151.16:443, 38.101.151.30:443, 38.101.151.29:443, 38.101.151.24:443, 38.101.151.23:443, 38.101.151.19:443, 38.101.151.13:443, timeout: 5000ms)\",\"startTime\":1787672206976,\"endTime\":1787672212544}]}],\"totalProviderAttemptCount\":1},\"generationId\":\"gen_01M0WS27JG8W67B49TBSHFT0D8\"}}}"
+        }
+      ]
+    }
+  ]
+}
