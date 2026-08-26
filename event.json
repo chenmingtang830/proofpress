@@ -1,41 +1,47 @@
 {
  "event": "version_created",
- "artifact": "studies/long-horizon-eval/ara/decisions/REGISTER.md",
- "artifact_id": "pp_9637401fcace9fdad8845a4b",
- "version": "487827b9",
- "parent": "647451de",
+ "artifact": "studies/long-horizon-eval/ara/evidence/README.md",
+ "artifact_id": "pp_41859228ea2275bf0b43df62",
+ "version": "fbcf5cb3",
+ "parent": "618c8307",
  "author": {
   "name": "OpenAI Codex",
   "kind": "agent",
   "session": null
  },
  "note": null,
- "ts": "2026-08-26T11:33:39+00:00",
+ "ts": "2026-08-26T11:33:45+00:00",
  "stats": {
-  "modified": 3
+  "modified": 4
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "98dbebdc",
-   "type": "para",
-   "context": "Status convention"
+   "block": "fd5c49bd",
+   "type": "heading",
+   "context": "Admitted final evidence"
   },
   {
    "kind": "modified",
-   "block": "b1e150ec",
+   "block": "b70b34f3",
    "type": "table",
-   "context": "Active decisions"
+   "context": "Admitted final evidence"
   },
   {
    "kind": "modified",
-   "block": "36acccab",
+   "block": "64da3f86",
+   "type": "heading",
+   "context": "Admission and exclusion"
+  },
+  {
+   "kind": "modified",
+   "block": "ae8292bd",
    "type": "para",
-   "context": "Decision evidence rule"
+   "context": "Admission and exclusion"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:6067b946d75dae8d738c066439e8f6289d31df52a41fad07715d3ca5b42b1a2c",
+ "soft_fingerprint": "ppsb1:3a5d1977941eb912e8e3b5221eb49a199b09799f386e60f432f8319ffa996dfe",
  "actors": {
   "requested_by": [
    "human:richard-tang"
@@ -53,23 +59,28 @@
  "attribution_basis": "environment_attested",
  "claims": [
   {
-   "block": "98dbebdc",
+   "block": "fd5c49bd",
    "kind": "modified",
-   "note": "Define Frozen and Closed states for the executed study."
+   "note": "Rename the index to admitted final evidence."
   },
   {
-   "block": "b1e150ec",
+   "block": "b70b34f3",
    "kind": "modified",
-   "note": "Replace approval-blocked Phase Zero rows with executed frozen decisions and study closure."
+   "note": "Index final receipts, panels, invalid attempts, and breadth evidence."
   },
   {
-   "block": "36acccab",
+   "block": "64da3f86",
    "kind": "modified",
-   "note": "Bind decisions to receipts and retained invalid attempts."
+   "note": "Rename future admission to current admission and exclusion."
+  },
+  {
+   "block": "ae8292bd",
+   "kind": "modified",
+   "note": "Freeze included panels and require new preregistration for expansion."
   }
  ],
  "context": {
-  "why": "Freeze executed protocol decisions and close the current study against post-outcome extension."
+  "why": "Index admitted final receipts and preserve explicit exclusions."
  },
- "event_id": "ppe_998aa86e47543c13dcbb216a"
+ "event_id": "ppe_39cfd785d42f993c9200adf5"
 }

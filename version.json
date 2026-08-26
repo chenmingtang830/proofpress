@@ -1,48 +1,42 @@
 {
- "artifact": "studies/long-horizon-eval/ara/decisions/REGISTER.md",
- "artifact_id": "pp_9637401fcace9fdad8845a4b",
+ "artifact": "studies/long-horizon-eval/ara/evidence/README.md",
+ "artifact_id": "pp_41859228ea2275bf0b43df62",
  "blocks": [
   {
    "type": "heading",
-   "text": "# Decision register",
-   "id": "8ff49bdc",
-   "hash": "7628bf968335"
+   "text": "# Evidence index",
+   "id": "db9f5a16",
+   "hash": "1287755cd4bb"
   },
   {
    "type": "heading",
-   "text": "## Status convention",
-   "id": "b5aaf542",
-   "hash": "ba24500bb600"
-  },
-  {
-   "type": "para",
-   "text": "`Proposed` records a candidate design choice. `Frozen` binds an executed choice to its recorded protocol and receipts. `Superseded` preserves a consequential replaced decision. `Closed` ends a study without erasing its invalid, null, or negative observations.",
-   "id": "98dbebdc",
-   "hash": "fce3f8110820"
-  },
-  {
-   "type": "heading",
-   "text": "## Active decisions",
-   "id": "3d185bb5",
-   "hash": "6f4f289f95b8"
+   "text": "## Admitted final evidence",
+   "id": "fd5c49bd",
+   "hash": "3d8d5c1d884b"
   },
   {
    "type": "table",
-   "text": "| ID | Decision | Current status | Admission rule |\n| --- | --- | --- | --- |\n| LH-D01 | Use a genuine cold boundary and compare ordinary versus governed handoff | Frozen | Preserve the same sender state, task, rubric, and worker caps within each pair. |\n| LH-D02 | Use version-pinned public LAB Contracts materials as task sources | Frozen | Describe results as Harvey LAB-derived, never as official Harvey leaderboard scores. |\n| LH-D03 | Use clean/stress 2×2 cells and three receiver repeats | Frozen | Keep clean quality and controlled trust stress analytically distinct. |\n| LH-D04 | Admit only valid paired runs and retain invalid attempts | Frozen | Apply recorded invalidation rules without outcome-dependent exceptions. |\n| LH-D05 | Use deterministic checks plus transaction-level policy judging | Frozen | Preserve per-conclusion ledger receipts; no judge recommendation directly grants admission. |\n| LH-D06 | Freeze seven complete model panels and exclude terminated Kimi routing | Frozen | Kimi remains route evidence and contributes no zero-effect cell. |\n| LH-D07 | Close the current study after 126 valid pairs | Closed | Do not append post-outcome models or scenarios; open a new preregistered study for expansion. |",
-   "id": "b1e150ec",
-   "hash": "e4382b3b3531"
+   "text": "| Evidence | Location | What it supports | What it does not support |\n| --- | --- | --- | --- |\n| Final receipt manifest | [`FINAL_RESULTS_RECEIPTS.json`](FINAL_RESULTS_RECEIPTS.json) | Exact paths, SHA-256 digests, roles, denominators, and exclusions for the frozen result set | External identity or legal correctness |\n| One-page result | [`../../relaybench/PUBLIC_RESULTS.md`](../../relaybench/PUBLIC_RESULTS.md) | Human-readable bounded synthesis | Official Harvey leaderboard status or population causality |\n| Seven complete panel files | [`../../relaybench/results/`](../../relaybench/results/) | Per-model, per-task paired quality, safety, and operational records | Generalization beyond the frozen panel |\n| Invalid-attempt ledger | [`../../relaybench/results/pre-v9-attempt-ledger-2026-08-24.json`](../../relaybench/results/pre-v9-attempt-ledger-2026-08-24.json) | Failed, partial, malformed, and invalid routes retained before final panels | Treatment estimates |\n| DeepSeek breadth expansion | [`../../relaybench/results/deepseek-v9-14-task-expansion-2026-08-25.json`](../../relaybench/results/deepseek-v9-14-task-expansion-2026-08-25.json) | Secondary task-breadth and floor-sensitivity evidence | A seven-model breadth result |",
+   "id": "b70b34f3",
+   "hash": "6f4d53fce20c"
   },
   {
    "type": "heading",
-   "text": "## Decision evidence rule",
-   "id": "f60692b6",
-   "hash": "b5d208aa787b"
+   "text": "## Admission and exclusion",
+   "id": "64da3f86",
+   "hash": "ddf79afab1f8"
   },
   {
    "type": "para",
-   "text": "Each frozen decision must remain linked to the evidence index, immutable result files, source/configuration identity, and retained invalid attempts. A chat transcript alone is not decision evidence.",
-   "id": "36acccab",
-   "hash": "aa2fd4bedaa3"
+   "text": "Only the seven complete panels named in the receipt manifest enter the 126-pair aggregate. Kimi, Phase Zero test doubles, route calibrations, and invalid attempts remain retained but excluded. Further runs belong to a new preregistered study and cannot silently update this frozen result.",
+   "id": "ae8292bd",
+   "hash": "61e65a6ac7f2"
+  },
+  {
+   "type": "para",
+   "text": "Do not include raw private prompts, transcripts, credentials, or undisclosed Harvey materials in this public artifact. Store only the minimum permitted evidence needed to reproduce the stated claim boundary.",
+   "id": "daf78085",
+   "hash": "3ea716bb5dc5"
   }
  ]
 }
