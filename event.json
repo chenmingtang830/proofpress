@@ -1,80 +1,43 @@
 {
  "event": "version_created",
- "artifact": "studies/long-horizon-eval/ara/PAPER.md",
- "artifact_id": "pp_ff6328ac32727381a44fe4ee",
- "version": "e7d9c76a",
- "parent": "8e33d9ef",
+ "artifact": "studies/long-horizon-eval/ara/README.md",
+ "artifact_id": "pp_aed9b741599a3086e78c8505",
+ "version": "53bbd0ce",
+ "parent": "64985781",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-26T13:04:04+00:00",
+ "ts": "2026-08-26T13:04:10+00:00",
  "stats": {
-  "added": 7,
-  "removed": 1
+  "modified": 2,
+  "added": 1
  },
  "changes": [
   {
-   "kind": "added",
-   "block": "edc86a59",
+   "kind": "modified",
+   "block": "71ee4330",
    "type": "para",
-   "context": "(文首)",
-   "preview": "---\ntitle: \"Verified Handoffs Through a Governed Knowledge L"
+   "context": "Role"
   },
   {
    "kind": "added",
-   "block": "348414db",
-   "type": "heading",
-   "context": "Layer semantics",
-   "preview": "# Layer semantics"
+   "block": "34e7f52e",
+   "type": "para",
+   "context": "Role",
+   "preview": "The ARA was compiled retrospectively from frozen study recor"
   },
   {
-   "kind": "added",
-   "block": "207e52ff",
-   "type": "table",
-   "context": "Layer semantics",
-   "preview": "| Layer | Role | Mutability in this frozen artifact |\n| --- "
-  },
-  {
-   "kind": "added",
-   "block": "5dd94796",
-   "type": "heading",
-   "context": "Layer index",
-   "preview": "# Layer index"
-  },
-  {
-   "kind": "added",
-   "block": "9ee0d58e",
+   "kind": "modified",
+   "block": "68c0d800",
    "type": "list",
-   "context": "Layer index",
-   "preview": "- **Logic**\n  - [`problem.md`](logic/problem.md) — observed "
-  },
-  {
-   "kind": "added",
-   "block": "db7eb561",
-   "type": "heading",
-   "context": "Provenance boundary",
-   "preview": "# Provenance boundary"
-  },
-  {
-   "kind": "added",
-   "block": "3ad5ae15",
-   "type": "para",
-   "context": "Provenance boundary",
-   "preview": "This ARA was not maintained by the ARA Live PM during the or"
-  },
-  {
-   "kind": "removed",
-   "block": "a97ec87d",
-   "type": "heading",
-   "context": "",
-   "preview": "# Proofpress Governed Handoff Study"
+   "context": "Navigation"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:423caed062a9dde9ae60ac30b4f3077fc3aae4b704f2a278c3dee8f7babdc64c",
+ "soft_fingerprint": "ppsb1:4a9c7565ade9082429fa0555cad67924e25f1781a93505b27aeae0fd2680a729",
  "actors": {
   "requested_by": [
    "human:richardtang"
@@ -92,43 +55,23 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "348414db",
-   "kind": "added",
-   "note": "Adds publication-grade ARA content: # Layer semantics"
+   "block": "71ee4330",
+   "kind": "modified",
+   "note": "Defines the completed package as a publication-grade Agent-Native Research Artifact."
   },
   {
-   "block": "207e52ff",
+   "block": "34e7f52e",
    "kind": "added",
-   "note": "Adds publication-grade ARA content: | Layer | Role | Mutability in this frozen artifact |"
+   "note": "Discloses retrospective compilation and the prohibition on invented historical traces."
   },
   {
-   "block": "5dd94796",
-   "kind": "added",
-   "note": "Adds publication-grade ARA content: # Layer index"
-  },
-  {
-   "block": "9ee0d58e",
-   "kind": "added",
-   "note": "Adds publication-grade ARA content: - **Logic**"
-  },
-  {
-   "block": "db7eb561",
-   "kind": "added",
-   "note": "Adds publication-grade ARA content: # Provenance boundary"
-  },
-  {
-   "block": "3ad5ae15",
-   "kind": "added",
-   "note": "Adds publication-grade ARA content: This ARA was not maintained by the ARA Live PM during the original experiment. Its logic and exploration layers were compiled after study cl"
-  },
-  {
-   "block": "a97ec87d",
-   "kind": "removed",
-   "note": "Removes the temporary skeleton title superseded by the YAML manifest and layer index."
+   "block": "68c0d800",
+   "kind": "modified",
+   "note": "Expands navigation to the full logic, solution, trace, and evidence layers."
   }
  ],
  "context": {
   "why": "Compile the frozen PR #35 study into a publication-grade ARA 2.6 artifact without changing results or inventing historical research traces."
  },
- "event_id": "ppe_7f4934e5cc3a0098639e5d1f"
+ "event_id": "ppe_9273f07531d802a77c4722b7"
 }

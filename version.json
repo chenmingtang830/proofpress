@@ -1,48 +1,72 @@
 {
- "artifact": "studies/long-horizon-eval/ara/PAPER.md",
- "artifact_id": "pp_ff6328ac32727381a44fe4ee",
+ "artifact": "studies/long-horizon-eval/ara/README.md",
+ "artifact_id": "pp_aed9b741599a3086e78c8505",
  "blocks": [
   {
+   "type": "heading",
+   "text": "# Long Horizon Eval ARA",
+   "id": "f605cdea",
+   "hash": "29b05a70773b"
+  },
+  {
+   "type": "heading",
+   "text": "## Role",
+   "id": "a71389fb",
+   "hash": "b9464399eb49"
+  },
+  {
    "type": "para",
-   "text": "---\ntitle: \"Verified Handoffs Through a Governed Knowledge Ledger\"\nauthors: [\"Proofpress contributors\"]\nyear: 2026\nstatus: frozen-complete\ndate_created: \"2026-08-22\"\nlast_updated: \"2026-08-26\"\ncompiled_retrospectively: true\nsource_commit: \"c96fd86b59e6844ad45201d7db4e0caaa91f5b4c\"\nabstract: >\n  This artifact documents a frozen, LAB Contracts-derived evaluation of\n  ordinary versus Proofpress-governed handoffs across three legal task\n  families and seven model panels. Across 126 admitted paired runs, ordinary\n  handoff passed 89.3% of matched rubric criteria and Proofpress passed 93.4%,\n  a descriptive difference of 4.1 percentage points. In 63 controlled stress\n  pairs, ordinary handoff propagated eight injected unsafe states and\n  Proofpress propagated none. These are bounded product-mechanism results, not\n  official Harvey scores, statistical-significance claims, population causal\n  estimates, or evidence of improved legal intelligence. The ARA was compiled\n  retrospectively from frozen protocols, immutable results, invalid-attempt\n  records, Git history, and content-addressed receipts; it does not fabricate\n  contemporaneous research sessions.\nlayers:\n  logic: logic/\n  src: src/\n  trace: trace/\n  evidence: evidence/\n  staging: staging/\n---",
-   "hash": "0a950fd25a76",
-   "id": "edc86a59"
+   "text": "This publication-grade Agent-Native Research Artifact is the canonical lifecycle record for the completed Proofpress governed-handoff evaluation. It organizes research semantics, protocol choices, admitted evidence, receipts, and claim boundaries; it is not itself a substitute for the underlying run records or Proofpress verification.",
+   "id": "71ee4330",
+   "hash": "474c72b384b4"
+  },
+  {
+   "type": "para",
+   "text": "The ARA was compiled retrospectively from frozen study records after experiment completion. Reconstructed research events are explicitly marked and source-bound; no contemporaneous sessions, observations, prompts, or reasoning traces were invented.",
+   "id": "34e7f52e",
+   "hash": "8a72ca0cd0de"
   },
   {
    "type": "heading",
-   "text": "# Layer semantics",
-   "id": "348414db",
-   "hash": "4e69865dd70a"
+   "text": "## Current state",
+   "id": "21168fbc",
+   "hash": "5ae697c46c4b"
   },
   {
-   "type": "table",
-   "text": "| Layer | Role | Mutability in this frozen artifact |\n| --- | --- | --- |\n| `logic/` | Current claims, problem, concepts, experiments, and solution specification | Frozen; revisions require a new study version |\n| `src/` | Reproduction environment, configuration, executable receipt verifier, and pointers to the harness | Frozen |\n| `trace/` | Reconstructed decision and experiment DAG plus the compilation session | Append-only; reconstructed nodes are explicitly marked |\n| `evidence/` | Content-addressed receipts, result tables, exclusions, and figure pointers | Append-only |\n| `staging/` | Unpromoted observations from this compilation | Empty by design; no historical observations were invented |",
-   "id": "207e52ff",
-   "hash": "2bfaa15f4912"
+   "type": "para",
+   "text": "The study is frozen complete. Seven model panels contribute 126 valid paired runs across Credit, MSA, and License task families. Historical Phase Zero fixtures remain retained as mechanics evidence but are excluded from every reported result.",
+   "id": "4c8f145b",
+   "hash": "13f5054d673b"
   },
   {
    "type": "heading",
-   "text": "# Layer index",
-   "id": "5dd94796",
-   "hash": "197268fdb5c3"
+   "text": "## Lifecycle",
+   "id": "a35a7d6e",
+   "hash": "50900532265f"
   },
   {
    "type": "list",
-   "text": "- **Logic**\n  - [`problem.md`](logic/problem.md) — observed handoff failures, gaps, assumptions, and key insight\n  - [`claims.md`](logic/claims.md) — four bounded, falsifiable claims\n  - [`experiments.md`](logic/experiments.md) — mechanics, quality, and trust-stress experiments\n  - [`concepts.md`](logic/concepts.md) — controlled vocabulary\n  - [`solution/`](logic/solution/) — architecture, algorithm, constraints, and heuristics\n  - [`related_work.md`](logic/related_work.md) — typed dependencies and deltas\n- **Physical**\n  - [`environment.md`](src/environment.md) — reproducibility environment and secret boundary\n  - [`configs/`](src/configs/) — frozen task/model configuration\n  - [`execution/verify_receipts.py`](src/execution/verify_receipts.py) — content-addressed evidence verifier\n  - [`artifacts.md`](src/artifacts.md) — pointers to the complete adjacent RelayBench harness\n- **Exploration**\n  - [`exploration_tree.yaml`](trace/exploration_tree.yaml) — reconstructed DAG grounded in committed records\n  - [`sessions/session_index.yaml`](trace/sessions/session_index.yaml) — compilation session only\n  - [`pm_reasoning_log.yaml`](trace/pm_reasoning_log.yaml) — disclosure of retrospective reconstruction decisions\n- **Evidence**\n  - [`FINAL_RESULTS_RECEIPTS.json`](evidence/FINAL_RESULTS_RECEIPTS.json) — admitted content-addressed result set\n  - [`tables/final-panel.md`](evidence/tables/final-panel.md) — bounded aggregate table\n  - [`figures/public-result.md`](evidence/figures/public-result.md) — publication visual pointer and caveat",
-   "id": "9ee0d58e",
-   "hash": "91210df997bf"
+   "text": "1. **Design** — define the claim boundary, H4 episode, C1/C2 conditions, and measurement families.\n2. **Freeze** — approve source revisions, candidate matter, stage composition, rubrics, semantic parity, and execution settings before a real call.\n3. **Execute** — retain complete run records, invalid/partial attempts, and environment/provider telemetry.\n4. **Admit** — check that each result is bound to the frozen protocol, approved sources, and recorded execution evidence before it contributes to a claim.\n5. **Synthesize** — derive only the claims supported by admitted records, keeping mechanism, effectiveness, integrity, and legal-quality claims distinct.",
+   "id": "7130299a",
+   "hash": "79f49f85a9b3"
   },
   {
    "type": "heading",
-   "text": "# Provenance boundary",
-   "id": "db7eb561",
-   "hash": "fbe5bc9c2f4a"
+   "text": "## Navigation",
+   "id": "ccdd7f9a",
+   "hash": "7d5456c0842f"
+  },
+  {
+   "type": "list",
+   "text": "- [ARA manifest](PAPER.md)\n- [Problem and key insight](logic/problem.md)\n- [Concepts](logic/concepts.md)\n- [Research protocol](logic/protocol.md)\n- [Claim register](logic/claims.md)\n- [Experiment register](logic/experiments.md)\n- [Solution specification](logic/solution/architecture.md)\n- [Related work](logic/related_work.md)\n- [Decision register](decisions/REGISTER.md)\n- [Evidence index](evidence/README.md)\n- [Artifact index](src/artifacts.md)\n- [Reconstructed exploration DAG](trace/exploration_tree.yaml)\n- [Run-record and reconstruction policy](trace/README.md)",
+   "id": "68c0d800",
+   "hash": "0cd88da43922"
   },
   {
    "type": "para",
-   "text": "This ARA was not maintained by the ARA Live PM during the original experiment. Its logic and exploration layers were compiled after study closure from committed records. Every reconstructed node names its source; only the 2026-08-26 compilation session is contemporaneous. Raw prompts, private transcripts, hidden chain-of-thought, credentials, and unlicensed source documents are intentionally excluded.",
-   "id": "3ad5ae15",
-   "hash": "818fdc08b28d"
+   "text": "The public entry point is the [one-page result](../relaybench/PUBLIC_RESULTS.md). [RelayBench](../relaybench/README.md) contains the execution harness and result files; the [evidence index](evidence/README.md) binds the admitted panel to immutable receipts.",
+   "id": "937a3a32",
+   "hash": "f3b03217cbca"
   }
  ]
 }
