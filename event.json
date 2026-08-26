@@ -1,43 +1,44 @@
 {
  "event": "version_created",
- "artifact": "studies/long-horizon-eval/ara/README.md",
- "artifact_id": "pp_aed9b741599a3086e78c8505",
- "version": "53bbd0ce",
- "parent": "64985781",
+ "artifact": "studies/long-horizon-eval/ara/evidence/README.md",
+ "artifact_id": "pp_41859228ea2275bf0b43df62",
+ "version": "f9659dad",
+ "parent": "fbcf5cb3",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-26T13:04:10+00:00",
+ "ts": "2026-08-26T13:04:15+00:00",
  "stats": {
-  "modified": 2,
-  "added": 1
+  "modified": 1,
+  "added": 2
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "71ee4330",
-   "type": "para",
-   "context": "Role"
+   "block": "b70b34f3",
+   "type": "table",
+   "context": "Admitted final evidence"
   },
   {
    "kind": "added",
-   "block": "34e7f52e",
-   "type": "para",
-   "context": "Role",
-   "preview": "The ARA was compiled retrospectively from frozen study recor"
+   "block": "bbb0ada2",
+   "type": "heading",
+   "context": "Verification",
+   "preview": "## Verification"
   },
   {
-   "kind": "modified",
-   "block": "68c0d800",
-   "type": "list",
-   "context": "Navigation"
+   "kind": "added",
+   "block": "556c9a03",
+   "type": "para",
+   "context": "Verification",
+   "preview": "Run `python3 ../src/execution/verify_receipts.py` from this "
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:4a9c7565ade9082429fa0555cad67924e25f1781a93505b27aeae0fd2680a729",
+ "soft_fingerprint": "ppsb1:36ad84a0d0be9475856e624096058dc444b282af1fca10bb772d91bae78241d9",
  "actors": {
   "requested_by": [
    "human:richardtang"
@@ -55,23 +56,23 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "71ee4330",
+   "block": "b70b34f3",
    "kind": "modified",
-   "note": "Defines the completed package as a publication-grade Agent-Native Research Artifact."
+   "note": "Indexes the frozen aggregate table and publication-figure pointer alongside admitted receipts."
   },
   {
-   "block": "34e7f52e",
+   "block": "bbb0ada2",
    "kind": "added",
-   "note": "Discloses retrospective compilation and the prohibition on invented historical traces."
+   "note": "Adds the local receipt-verification section."
   },
   {
-   "block": "68c0d800",
-   "kind": "modified",
-   "note": "Expands navigation to the full logic, solution, trace, and evidence layers."
+   "block": "556c9a03",
+   "kind": "added",
+   "note": "Documents the fail-closed SHA-256 verification command and behavior."
   }
  ],
  "context": {
   "why": "Compile the frozen PR #35 study into a publication-grade ARA 2.6 artifact without changing results or inventing historical research traces."
  },
- "event_id": "ppe_9273f07531d802a77c4722b7"
+ "event_id": "ppe_6f937136583a44100d4772ac"
 }
