@@ -1,50 +1,43 @@
 {
-  "created_at": "2026-08-26T20:49:19.101094Z",
-  "event_id": "ppe_cec976bfca850c2e",
-  "evidence": {
-    "digest": "sha256:58f0ca67e2ed7965b795132c9f2f6c29927026a930e6ce459f61381949e55731",
-    "id": "evd_defcbbb88ce4b8f8",
-    "kind": "evidence",
-    "observation": {
-      "attributes": {
-        "actor": {
-          "id": "agent:experiment-runner",
-          "type": "ai"
-        },
-        "event": {
-          "description": "Propose a larger candidate-b validation run.",
-          "disposition": "accepted",
-          "proposed_by": {
-            "id": "agent:experiment-runner",
-            "type": "ai"
-          },
-          "rationale": "The observed conversion result merits confirmation.",
-          "resolved_by": {
-            "id": "human:demo",
-            "type": "human"
-          },
-          "revises": null,
-          "revision_note": null,
-          "suggestion_type": "proactive",
-          "tags": [
-            "candidate-b",
-            "validation"
-          ],
-          "warnings": []
-        },
-        "event_type": "decision",
-        "project": "coframe-long-horizon-demo",
-        "project_key": "coframe-long-horizon-demo"
+  "created_at": "2026-08-26T20:49:19.154760Z",
+  "event_id": "ppe_1485a74134e974d9",
+  "record": {
+    "attributes": {
+      "actor": {
+        "id": "human:demo",
+        "type": "human"
       },
-      "name": "trace.decision",
-      "status": null,
-      "timestamp": "2026-08-23T00:02:00Z"
+      "event": {
+        "category": "correction",
+        "content": "The failed candidate-c run is not evidence of a negative product effect.",
+        "corrects": [
+          "trace:trace_demo_001#evt_001"
+        ],
+        "related": [
+          "trace:trace_demo_001#evt_002"
+        ],
+        "tags": [
+          "failed-run",
+          "interpretation"
+        ]
+      },
+      "event_type": "annotation",
+      "project": "coframe-long-horizon-demo",
+      "project_key": "coframe-long-horizon-demo"
     },
-    "source_digest": "sha256:b644577583ed61110a7fbecd9e590e9373d136494646f9e19f11675b99b438f8",
-    "source_ref": "src_76cf544e2249bca5"
+    "id": "src_7e2faf7a2bdbeb80",
+    "kind": "source_event",
+    "name": "trace.annotation",
+    "record_hash": "sha256:dbe5d6e347acedfbd460b7098a0e9651b0c3cf1a1c9be4f7f3019bb1d5480b0f",
+    "source_protocol": "TRACE",
+    "source_ref": "trace:trace_demo_001#evt_003",
+    "source_schema": "0.5.0",
+    "span_id": "evt_003",
+    "status": null,
+    "timestamp": "2026-08-23T00:03:00Z",
+    "trace_id": "trace_demo_001"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_76cf544e2249bca5",
-  "subject_ref": "evd_defcbbb88ce4b8f8",
-  "type": "evidence_bound"
+  "subject_ref": "src_7e2faf7a2bdbeb80",
+  "type": "source_recorded"
 }
