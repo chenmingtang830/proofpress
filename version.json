@@ -1,36 +1,84 @@
 {
- "artifact": "studies/long-horizon-eval/ara/src/configs/model.md",
- "artifact_id": "pp_07c1048123ea90455c8ade46",
+ "artifact": "studies/long-horizon-eval/ara/src/environment.md",
+ "artifact_id": "pp_092797e1922454d2f5d5897f",
  "blocks": [
   {
    "type": "heading",
-   "text": "# Model configuration",
-   "id": "b8a26265",
-   "hash": "855d0907260c"
+   "text": "# Environment",
+   "id": "8c65fe99",
+   "hash": "4d65b7458bc8"
+  },
+  {
+   "type": "heading",
+   "text": "## Runtime",
+   "id": "40559188",
+   "hash": "556e02b1ecbd"
+  },
+  {
+   "type": "list",
+   "text": "- Node.js 22 or later.\n- Python 3 for Proofpress proposal/admission helpers and receipt verification.\n- RelayBench dependencies pinned by [`../../relaybench/package-lock.json`](../../relaybench/package-lock.json).\n- Network access required only for real provider execution; verification of frozen receipts is local.",
+   "id": "ddbca772",
+   "hash": "5e9071a227fd"
+  },
+  {
+   "type": "heading",
+   "text": "## Reproduction",
+   "id": "b6e47420",
+   "hash": "bdc7a0c34089"
   },
   {
    "type": "para",
-   "text": "Seven complete panels enter the frozen aggregate. Requested/reported model and provider identity are checked per attempt; fallback is disabled.",
-   "id": "42263bb3",
-   "hash": "e0c4ec1691fa"
+   "text": "From `studies/long-horizon-eval/relaybench`:",
+   "id": "a13ea393",
+   "hash": "49954c2b7387"
   },
   {
-   "type": "table",
-   "text": "| Panel label | Frozen result receipt | Route note |\n| --- | --- | --- |\n| DeepSeek | `deepseek-v9-s4-2x2-results-2026-08-24.json` | Initial complete anchor panel |\n| Claude Opus 4.8 | `opus48-gateway-v9-replication-2026-08-25.json` | Vercel AI Gateway, Anthropic provider |\n| GLM 5.2 | `glm52-gateway-v10-replication-2026-08-26.json` | Vercel AI Gateway, Z.ai provider |\n| Muse Spark 1.1 | `muse-spark11-gateway-v10-replication-2026-08-26.json` | Vercel AI Gateway, Meta provider |\n| Qwen 3.8 27B | `qwen38-27b-gateway-v10-replication-2026-08-26.json` | Vercel AI Gateway, Alibaba provider |\n| Inkling | `inkling-gateway-v10-replication-2026-08-26.json` | Vercel AI Gateway, Thinking Machines provider |\n| GPT-5.6 Sol | `gpt56-sol-gateway-v10-replication-2026-08-26.json` | Vercel AI Gateway, OpenAI provider |",
-   "id": "02ec523d",
-   "hash": "e177913f1aa5"
-  },
-  {
-   "type": "para",
-   "text": "Gemini 3.7 Flash performs transaction-level policy judging and blind rubric evaluation under the frozen protocol. Where the same model family is used as worker and evaluator, the dependence must be disclosed rather than treated as independent evaluation.",
-   "id": "f3c4fe5b",
-   "hash": "984b730498a2"
+   "type": "code",
+   "text": "```bash\nnpm ci\nnpm run check\n```",
+   "id": "78d42e5e",
+   "hash": "e525ce7043f9"
   },
   {
    "type": "para",
-   "text": "The exact admitted result paths and SHA-256 digests are authoritative in [`../../evidence/FINAL_RESULTS_RECEIPTS.json`](../../evidence/FINAL_RESULTS_RECEIPTS.json).",
-   "id": "005e2183",
-   "hash": "72ab0de5afec"
+   "text": "From `studies/long-horizon-eval/ara`:",
+   "id": "0cc4cb75",
+   "hash": "b636a4e1abfa"
+  },
+  {
+   "type": "code",
+   "text": "```bash\npython3 src/execution/verify_receipts.py\n```",
+   "id": "b92fac5c",
+   "hash": "6a2080cd9c0d"
+  },
+  {
+   "type": "para",
+   "text": "The first command checks harness lint, fixtures, tests, and readiness. The second verifies that every admitted and secondary result file matches the content-addressed final manifest.",
+   "id": "8b2d8673",
+   "hash": "a72056121593"
+  },
+  {
+   "type": "heading",
+   "text": "## Secret boundary",
+   "id": "246916a5",
+   "hash": "fb2d56eb5607"
+  },
+  {
+   "type": "para",
+   "text": "Provider credentials are supplied only through local environment variables or an ignored `.env` file. Credentials, raw prompts, private transcripts, hidden chain-of-thought, and undisclosed source documents are not part of this ARA and must not be committed.",
+   "id": "cc9dac7c",
+   "hash": "fa575207510c"
+  },
+  {
+   "type": "heading",
+   "text": "## Platform qualification",
+   "id": "a2b34564",
+   "hash": "857dac32607a"
+  },
+  {
+   "type": "para",
+   "text": "The final study was orchestrated on macOS with Gateway-hosted model calls. Result eligibility depends on recorded model/provider identity and frozen protocol checks, not the orchestrator operating system. Exact provider telemetry remains in the retained run records.",
+   "id": "e21fd314",
+   "hash": "af6b999775ce"
   }
  ]
 }

@@ -1,51 +1,107 @@
 {
  "event": "version_created",
- "artifact": "studies/long-horizon-eval/ara/src/configs/model.md",
- "artifact_id": "pp_07c1048123ea90455c8ade46",
- "version": "7ef1b15b",
- "parent": "a752a9fb",
+ "artifact": "studies/long-horizon-eval/ara/src/environment.md",
+ "artifact_id": "pp_092797e1922454d2f5d5897f",
+ "version": "8ae3fd9e",
+ "parent": "0aeb4531",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-26T13:05:43+00:00",
+ "ts": "2026-08-26T13:05:50+00:00",
  "stats": {
-  "added": 4
+  "added": 12
  },
  "changes": [
   {
    "kind": "added",
-   "block": "42263bb3",
-   "type": "para",
-   "context": "Model configuration",
-   "preview": "Seven complete panels enter the frozen aggregate. Requested/"
+   "block": "40559188",
+   "type": "heading",
+   "context": "Runtime",
+   "preview": "## Runtime"
   },
   {
    "kind": "added",
-   "block": "02ec523d",
-   "type": "table",
-   "context": "Model configuration",
-   "preview": "| Panel label | Frozen result receipt | Route note |\n| --- |"
+   "block": "ddbca772",
+   "type": "list",
+   "context": "Runtime",
+   "preview": "- Node.js 22 or later.\n- Python 3 for Proofpress proposal/ad"
   },
   {
    "kind": "added",
-   "block": "f3c4fe5b",
-   "type": "para",
-   "context": "Model configuration",
-   "preview": "Gemini 3.7 Flash performs transaction-level policy judging a"
+   "block": "b6e47420",
+   "type": "heading",
+   "context": "Reproduction",
+   "preview": "## Reproduction"
   },
   {
    "kind": "added",
-   "block": "005e2183",
+   "block": "a13ea393",
    "type": "para",
-   "context": "Model configuration",
-   "preview": "The exact admitted result paths and SHA-256 digests are auth"
+   "context": "Reproduction",
+   "preview": "From `studies/long-horizon-eval/relaybench`:"
+  },
+  {
+   "kind": "added",
+   "block": "78d42e5e",
+   "type": "code",
+   "context": "Reproduction",
+   "preview": "```bash\nnpm ci\nnpm run check\n```"
+  },
+  {
+   "kind": "added",
+   "block": "0cc4cb75",
+   "type": "para",
+   "context": "Reproduction",
+   "preview": "From `studies/long-horizon-eval/ara`:"
+  },
+  {
+   "kind": "added",
+   "block": "b92fac5c",
+   "type": "code",
+   "context": "Reproduction",
+   "preview": "```bash\npython3 src/execution/verify_receipts.py\n```"
+  },
+  {
+   "kind": "added",
+   "block": "8b2d8673",
+   "type": "para",
+   "context": "Reproduction",
+   "preview": "The first command checks harness lint, fixtures, tests, and "
+  },
+  {
+   "kind": "added",
+   "block": "246916a5",
+   "type": "heading",
+   "context": "Secret boundary",
+   "preview": "## Secret boundary"
+  },
+  {
+   "kind": "added",
+   "block": "cc9dac7c",
+   "type": "para",
+   "context": "Secret boundary",
+   "preview": "Provider credentials are supplied only through local environ"
+  },
+  {
+   "kind": "added",
+   "block": "a2b34564",
+   "type": "heading",
+   "context": "Platform qualification",
+   "preview": "## Platform qualification"
+  },
+  {
+   "kind": "added",
+   "block": "e21fd314",
+   "type": "para",
+   "context": "Platform qualification",
+   "preview": "The final study was orchestrated on macOS with Gateway-hoste"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:5738b89b9e57a1b0477dc5ace334828c3a825c7542222b1e586f3674e51cfe38",
+ "soft_fingerprint": "ppsb1:75b9736498fb9b3eee3a911bb9a18b598d6fd40b93cf97245be4725b605a1a05",
  "actors": {
   "requested_by": [
    "human:richardtang"
@@ -63,28 +119,68 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "42263bb3",
+   "block": "40559188",
    "kind": "added",
-   "note": "Adds publication-grade ARA content: Seven complete panels enter the frozen aggregate. Requested/reported model and provider identity are checked per attempt; fallback is disabl"
+   "note": "Adds publication-grade ARA content: ## Runtime"
   },
   {
-   "block": "02ec523d",
+   "block": "ddbca772",
    "kind": "added",
-   "note": "Adds publication-grade ARA content: | Panel label | Frozen result receipt | Route note |"
+   "note": "Adds publication-grade ARA content: - Node.js 22 or later."
   },
   {
-   "block": "f3c4fe5b",
+   "block": "b6e47420",
    "kind": "added",
-   "note": "Adds publication-grade ARA content: Gemini 3.7 Flash performs transaction-level policy judging and blind rubric evaluation under the frozen protocol. Where the same model famil"
+   "note": "Adds publication-grade ARA content: ## Reproduction"
   },
   {
-   "block": "005e2183",
+   "block": "a13ea393",
    "kind": "added",
-   "note": "Adds publication-grade ARA content: The exact admitted result paths and SHA-256 digests are authoritative in [`../../evidence/FINAL_RESULTS_RECEIPTS.json`](../../evidence/FINAL"
+   "note": "Adds publication-grade ARA content: From `studies/long-horizon-eval/relaybench`:"
+  },
+  {
+   "block": "78d42e5e",
+   "kind": "added",
+   "note": "Adds publication-grade ARA content: ```bash"
+  },
+  {
+   "block": "0cc4cb75",
+   "kind": "added",
+   "note": "Adds publication-grade ARA content: From `studies/long-horizon-eval/ara`:"
+  },
+  {
+   "block": "b92fac5c",
+   "kind": "added",
+   "note": "Adds publication-grade ARA content: ```bash"
+  },
+  {
+   "block": "8b2d8673",
+   "kind": "added",
+   "note": "Adds publication-grade ARA content: The first command checks harness lint, fixtures, tests, and readiness. The second verifies that every admitted and secondary result file mat"
+  },
+  {
+   "block": "246916a5",
+   "kind": "added",
+   "note": "Adds publication-grade ARA content: ## Secret boundary"
+  },
+  {
+   "block": "cc9dac7c",
+   "kind": "added",
+   "note": "Adds publication-grade ARA content: Provider credentials are supplied only through local environment variables or an ignored `.env` file. Credentials, raw prompts, private tran"
+  },
+  {
+   "block": "a2b34564",
+   "kind": "added",
+   "note": "Adds publication-grade ARA content: ## Platform qualification"
+  },
+  {
+   "block": "e21fd314",
+   "kind": "added",
+   "note": "Adds publication-grade ARA content: The final study was orchestrated on macOS with Gateway-hosted model calls. Result eligibility depends on recorded model/provider identity an"
   }
  ],
  "context": {
   "why": "Compile the frozen PR #35 study into a publication-grade ARA 2.6 artifact without changing results or inventing historical research traces."
  },
- "event_id": "ppe_7e41da2c3531e1717215f54c"
+ "event_id": "ppe_5613ba4cda550e68a4edf5eb"
 }
