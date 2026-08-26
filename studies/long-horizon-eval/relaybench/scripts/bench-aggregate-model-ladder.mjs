@@ -2,19 +2,25 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 
-const output = path.resolve(process.argv[2] ?? "results/cross-model-ladder-summary-2026-08-25.json");
+const output = path.resolve(process.argv[2] ?? "results/cross-model-ladder-summary-2026-08-26.json");
 const inputs = [
-  ["deepseek_anchor", "results/deepseek-v9-s4-2x2-results-2026-08-24.json"],
-  ["opus48_gateway", "results/opus48-gateway-v9-replication-2026-08-25.json"],
-  ["kimi_k3", "results/kimi-k3-gateway-v9-replication-2026-08-25.json"],
-  ["glm52", "results/glm52-gateway-v9-replication-2026-08-25.json"],
-  ["muse_spark11", "results/muse-spark11-gateway-v9-replication-2026-08-25.json"],
-  ["qwen38_27b", "results/qwen38-27b-gateway-v9-replication-2026-08-25.json"],
-  ["inkling", "results/inkling-gateway-v9-replication-2026-08-25.json"],
-  ["gpt56_sol", "results/gpt56-sol-gateway-v9-frontier-confirmation-2026-08-25.json"],
+  { id: "deepseek_anchor", files: ["results/deepseek-v9-s4-2x2-results-2026-08-24.json"] },
+  { id: "opus48_gateway", files: ["results/opus48-gateway-v9-replication-2026-08-25.json"] },
+  { id: "glm52", files: ["results/glm52-gateway-v10-replication-2026-08-26.json"] },
+  { id: "muse_spark11", files: ["results/muse-spark11-gateway-v10-replication-2026-08-26.json"] },
+  { id: "qwen38_27b", files: [
+    "results/qwen38-27b-gateway-v10-replication-2026-08-26.json",
+    "results/qwen38-27b-gateway-v9-replication-2026-08-25.json",
+  ] },
+  { id: "inkling", files: ["results/inkling-gateway-v10-replication-2026-08-26.json"] },
+  { id: "gpt56_sol", files: [
+    "results/gpt56-sol-gateway-v10-replication-2026-08-26.json",
+    "results/gpt56-sol-gateway-v9-frontier-confirmation-2026-08-25.json",
+  ] },
 ];
 const tracks = [];
-for (const [id, file] of inputs) {
+for (const { id, files } of inputs) {
+  const file = await firstExisting(files);
   const result = JSON.parse(await fs.readFile(file, "utf8"));
   const completion = result.completion ?? {};
   // The original DeepSeek anchor predates the replication-result envelope.
@@ -40,10 +46,29 @@ for (const [id, file] of inputs) {
         ?? result.protection.observed_protection_effect_percentage_points } : null,
     source: file });
 }
+const kimiTerminationFile = "bench/experiments/kimi-termination-v1.json";
+const kimiTermination = JSON.parse(await fs.readFile(kimiTerminationFile, "utf8"));
+tracks.splice(2, 0, {
+  id: "kimi_k3",
+  model: kimiTermination.model,
+  evidence_tier: "user_terminated_unavailable",
+  completion: {
+    planned_pairs: 18,
+    valid_pairs: 0,
+    invalid_attempt_directories: kimiTermination.preserved_evidence.v10_invalid_attempts
+      + kimiTermination.preserved_evidence.v11_invalid_attempts,
+    complete: false,
+    disposition: kimiTermination.result_disposition.three_task_replication_estimate,
+  },
+  clean: null,
+  stress: null,
+  protection: null,
+  source: kimiTerminationFile,
+});
 const summary = {
   schema_version: 1,
   generated_at: new Date().toISOString(),
-  claim_boundary: "Only complete_frozen_panel tracks support panel treatment estimates. Incomplete valid cells are descriptive route signals; route-unavailable tracks do not imply zero effect.",
+  claim_boundary: "Only complete_frozen_panel tracks support panel treatment estimates. Incomplete valid cells are descriptive route signals. User-terminated and route-unavailable tracks do not imply zero effect.",
   complete_panel_count: tracks.filter((track) => track.evidence_tier === "complete_frozen_panel").length,
   tracks,
   optional_track_decision: "GPT-5.6 Luna and Grok 4.6 were not run because the primary Sol route produced no valid smoke pair, so the predeclared scaling/robustness condition was not met."
@@ -55,3 +80,15 @@ function quality(value) { return { pairs: value.pairs, raw: value.raw ?? null,
   proofpress: value.proofpress ?? null, weighted_delta_criteria: value.weighted_delta_criteria ?? null,
   weighted_delta_percentage_points: value.weighted_delta_percentage_points ?? null,
   paired_delta_percentage_points: value.paired_delta_percentage_points ?? null }; }
+
+async function firstExisting(files) {
+  for (const file of files) {
+    try {
+      await fs.access(file);
+      return file;
+    } catch (error) {
+      if (error?.code !== "ENOENT") throw error;
+    }
+  }
+  throw new Error(`No result artifact exists for candidates: ${files.join(", ")}`);
+}

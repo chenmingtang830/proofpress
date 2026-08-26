@@ -8,7 +8,7 @@ import { fileURLToPath } from "node:url";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
 
-test("cross-model aggregation preserves complete, incomplete, and unavailable evidence tiers", () => {
+test("cross-model aggregation preserves complete, incomplete, and user-terminated evidence tiers", () => {
   const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "relaybench-model-summary-"));
   const output = path.join(tmp, "summary.json");
   execFileSync(process.execPath, ["scripts/bench-aggregate-model-ladder.mjs", output], {
@@ -16,10 +16,12 @@ test("cross-model aggregation preserves complete, incomplete, and unavailable ev
     stdio: "ignore",
   });
   const summary = JSON.parse(fs.readFileSync(output, "utf8"));
-  assert.equal(summary.complete_panel_count, 2);
+  assert.equal(summary.complete_panel_count, 5);
   assert.equal(summary.tracks.find(({ id }) => id === "deepseek_anchor").evidence_tier, "complete_frozen_panel");
   assert.equal(summary.tracks.find(({ id }) => id === "opus48_gateway").evidence_tier, "complete_frozen_panel");
-  assert.equal(summary.tracks.find(({ id }) => id === "glm52").evidence_tier, "incomplete_descriptive_only");
+  assert.equal(summary.tracks.find(({ id }) => id === "glm52").evidence_tier, "complete_frozen_panel");
+  assert.equal(summary.tracks.find(({ id }) => id === "kimi_k3").evidence_tier, "user_terminated_unavailable");
+  assert.equal(summary.tracks.find(({ id }) => id === "kimi_k3").completion.disposition, "UNAVAILABLE_USER_TERMINATED");
   assert.equal(summary.tracks.find(({ id }) => id === "gpt56_sol").evidence_tier, "route_unavailable");
   assert.equal(summary.tracks.find(({ id }) => id === "deepseek_anchor").protection.raw_unsafe, 4);
 });
