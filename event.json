@@ -1,75 +1,109 @@
 {
- "event": "version_created",
- "artifact": "studies/long-horizon-eval/ara/logic/protocol.md",
- "artifact_id": "pp_fe30fc8593ff15186d94212d",
- "version": "d853a83e",
- "parent": "173700b9",
- "author": {
-  "name": "OpenAI Codex",
-  "kind": "agent",
-  "session": null
+ "actors": {
+  "recorded_by": [
+   "unknown"
+  ]
  },
- "note": null,
- "ts": "2026-08-26T11:34:04+00:00",
- "stats": {
-  "modified": 3
+ "artifact": "studies/long-horizon-eval/relaybench/PUBLIC_RESULTS.md",
+ "artifact_id": "pp_a59d351c883c87dde5396eba",
+ "attribution_basis": "self_asserted",
+ "author": {
+  "kind": "system",
+  "name": "unknown",
+  "session": null
  },
  "changes": [
   {
-   "kind": "modified",
-   "block": "db500b47",
-   "type": "heading",
-   "context": "Cold-boundary execution"
+   "block": "e18743e6",
+   "context": "Governed handoffs improved completion—an",
+   "kind": "added",
+   "preview": "# Governed handoffs improved completion—and stopped observed",
+   "type": "heading"
   },
   {
-   "kind": "modified",
-   "block": "0ef3542b",
-   "type": "para",
-   "context": "Cold-boundary execution"
+   "block": "a75a49ef",
+   "context": "Governed handoffs improved completion—an",
+   "kind": "added",
+   "preview": "This frozen Harvey LAB-derived handoff study tests one produ",
+   "type": "para"
   },
   {
-   "kind": "modified",
-   "block": "2cacfac7",
-   "type": "para",
-   "context": "Tracks and outcome families"
+   "block": "b6fedb3a",
+   "context": "Results",
+   "kind": "added",
+   "preview": "## Results",
+   "type": "heading"
+  },
+  {
+   "block": "2ea84b72",
+   "context": "Results",
+   "kind": "added",
+   "preview": "| Outcome | Ordinary handoff | Proofpress | Observed differe",
+   "type": "table"
+  },
+  {
+   "block": "459c9ee5",
+   "context": "Results",
+   "kind": "added",
+   "preview": "The frozen panel contains **7 models, 3 legal task families,",
+   "type": "para"
+  },
+  {
+   "block": "4a94f863",
+   "context": "What this establishes",
+   "kind": "added",
+   "preview": "## What this establishes",
+   "type": "heading"
+  },
+  {
+   "block": "a4478ea1",
+   "context": "What this establishes",
+   "kind": "added",
+   "preview": "The result is a strong product-mechanism signal: evidence-bo",
+   "type": "para"
+  },
+  {
+   "block": "f67607e0",
+   "context": "What this establishes",
+   "kind": "added",
+   "preview": "It does not establish an official Harvey leaderboard score, ",
+   "type": "para"
+  },
+  {
+   "block": "d0eeaf78",
+   "context": "Receipts",
+   "kind": "added",
+   "preview": "## Receipts",
+   "type": "heading"
+  },
+  {
+   "block": "284c93dd",
+   "context": "Receipts",
+   "kind": "added",
+   "preview": "- [Communication chart](visuals/proofpress-results.html)\n- [",
+   "type": "list"
+  },
+  {
+   "block": "d12e322e",
+   "context": "Receipts",
+   "kind": "added",
+   "preview": "The study is now frozen. Additional models or scenarios requ",
+   "type": "para"
   }
  ],
+ "event": "version_created",
+ "event_id": "ppe_81bfd1440987a591b4245efd",
+ "note": "portable lineage checkpoint",
+ "parent": null,
+ "parents": [],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:a0b795abea0b1da5dd9638d43dabbfdfe825d8a7ce8e9d675b9771a9f14d4b0c",
- "actors": {
-  "requested_by": [
-   "human:richard-tang"
-  ],
-  "produced_by": [
-   "agent:openai-codex"
-  ],
-  "edited_by": [
-   "agent:openai-codex"
-  ],
-  "recorded_by": [
-   "agent:openai-codex"
-  ]
+ "portable_checkpoint": true,
+ "portable_lineage_id": "ppl_b8c7d6216874029a5882f4b0",
+ "soft_fingerprint": "ppsb1:12ac9751fe4e097d8e08e1632ba2f5f91d60e80275e2f49d0eae124ee371d3da",
+ "stats": {
+  "added": 11
  },
- "attribution_basis": "environment_attested",
- "claims": [
-  {
-   "block": "db500b47",
-   "kind": "modified",
-   "note": "Rename calibration boundary to executed cold-boundary protocol."
-  },
-  {
-   "block": "0ef3542b",
-   "kind": "modified",
-   "note": "Document frozen sender state and matched paired receiver branches."
-  },
-  {
-   "block": "2cacfac7",
-   "kind": "modified",
-   "note": "Record final outcome families and allowed bounded aggregation."
-  }
- ],
- "context": {
-  "why": "Record the executed cold-boundary paired protocol and final outcome semantics."
- },
- "event_id": "ppe_dc6e12d502ced535c420a39e"
+ "ts": "2026-08-26T11:31:07+00:00",
+ "version": "9c4688fc",
+ "imported_from_capsule": true
 }
