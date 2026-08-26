@@ -1,62 +1,35 @@
 {
  "event": "version_created",
- "artifact": "studies/long-horizon-eval/ara/logic/claims.md",
- "artifact_id": "pp_926644738c4a198198cd2bf7",
- "version": "634130f1",
- "parent": "c7988605",
+ "artifact": "studies/long-horizon-eval/ara/src/artifacts.md",
+ "artifact_id": "pp_8daa10214932fdfd6435f2cc",
+ "version": "e5850ae0",
+ "parent": "4db24dc3",
  "author": {
   "name": "OpenAI Codex",
   "kind": "agent",
   "session": null
  },
  "note": null,
- "ts": "2026-08-26T11:33:51+00:00",
+ "ts": "2026-08-26T11:33:57+00:00",
  "stats": {
-  "modified": 4,
-  "added": 2
+  "modified": 2
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "c528753a",
-   "type": "heading",
-   "context": "C-LH-02: Bounded quality result"
+   "block": "e367e3b0",
+   "type": "table",
+   "context": "Artifact index"
   },
   {
    "kind": "modified",
-   "block": "2a0398fe",
+   "block": "dff6d43f",
    "type": "para",
-   "context": "C-LH-02: Bounded quality result"
-  },
-  {
-   "kind": "modified",
-   "block": "8276420f",
-   "type": "heading",
-   "context": "C-LH-03: Bounded safety result"
-  },
-  {
-   "kind": "modified",
-   "block": "8a13c1ec",
-   "type": "para",
-   "context": "C-LH-03: Bounded safety result"
-  },
-  {
-   "kind": "added",
-   "block": "94129fbd",
-   "type": "heading",
-   "context": "C-LH-04: Claim boundary",
-   "preview": "## C-LH-04: Claim boundary"
-  },
-  {
-   "kind": "added",
-   "block": "fcb3d07b",
-   "type": "para",
-   "context": "C-LH-04: Claim boundary",
-   "preview": "The admitted results support a product-mechanism signal for "
+   "context": "Artifact index"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:593c70f9c8b711f22e224ba028fcc65242b985589e00bfe2f910b3613d6998ce",
+ "soft_fingerprint": "ppsb1:c35aecc5e4df232122144535e49f51fb5e83326470d92935d0cc24c775122a2c",
  "actors": {
   "requested_by": [
    "human:richard-tang"
@@ -74,38 +47,18 @@
  "attribution_basis": "environment_attested",
  "claims": [
   {
-   "block": "c528753a",
+   "block": "e367e3b0",
    "kind": "modified",
-   "note": "Replace future conditional heading with bounded quality claim."
+   "note": "Index final public, visual, receipt, result, boundary, and decision artifacts."
   },
   {
-   "block": "2a0398fe",
+   "block": "dff6d43f",
    "kind": "modified",
-   "note": "Admit exact frozen-panel quality result."
-  },
-  {
-   "block": "8276420f",
-   "kind": "modified",
-   "note": "Replace null-result heading with bounded safety claim."
-  },
-  {
-   "block": "8a13c1ec",
-   "kind": "modified",
-   "note": "Admit exact observed unsafe-propagation count."
-  },
-  {
-   "block": "94129fbd",
-   "kind": "added",
-   "note": "Add explicit claim-boundary heading."
-  },
-  {
-   "block": "fcb3d07b",
-   "kind": "added",
-   "note": "Prevent official-score, causal, significance, and legal-intelligence overclaims."
+   "note": "Separate retained historical provenance from admitted final evidence."
   }
  ],
  "context": {
-  "why": "Admit the bounded quality and safety claims with an explicit interpretation boundary."
+  "why": "Replace stale proposed-artifact pointers with the final frozen evidence set."
  },
- "event_id": "ppe_ed3fc86e4019dc74ae82a63b"
+ "event_id": "ppe_26ab739e366943cd8393828b"
 }

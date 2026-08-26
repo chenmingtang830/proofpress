@@ -1,60 +1,24 @@
 {
- "artifact": "studies/long-horizon-eval/ara/logic/claims.md",
- "artifact_id": "pp_926644738c4a198198cd2bf7",
+ "artifact": "studies/long-horizon-eval/ara/src/artifacts.md",
+ "artifact_id": "pp_8daa10214932fdfd6435f2cc",
  "blocks": [
   {
    "type": "heading",
-   "text": "# Claim register",
-   "id": "01b8a95d",
-   "hash": "7ed0aba8cf7a"
+   "text": "# Artifact index",
+   "id": "abb736b5",
+   "hash": "87fb5e30d55f"
   },
   {
-   "type": "heading",
-   "text": "## C-LH-01: Phase Zero mechanics readiness",
-   "id": "c84eefb7",
-   "hash": "698c259f189b"
-  },
-  {
-   "type": "para",
-   "text": "The RelayBench H4 test-double harness can enforce a declared cold boundary, machine-check C1/C2 file-level parity, produce deterministic state-scoring records, and exclude TEST-ONLY output from benchmark metrics. This is a harness-readiness claim, not behavioral evidence from a language model.",
-   "id": "8756ce27",
-   "hash": "df5ff8f28eeb"
-  },
-  {
-   "type": "heading",
-   "text": "## C-LH-02: Bounded quality result",
-   "id": "c528753a",
-   "hash": "e8a4113ff3a6"
+   "type": "table",
+   "text": "| Artifact | Role | Current status |\n| --- | --- | --- |\n| [`../../relaybench/PUBLIC_RESULTS.md`](../../relaybench/PUBLIC_RESULTS.md) | Public one-page result | Frozen synthesis |\n| [`../../relaybench/visuals/proofpress-results.html`](../../relaybench/visuals/proofpress-results.html) | Communication chart | Frozen synthesis |\n| [`../evidence/FINAL_RESULTS_RECEIPTS.json`](../evidence/FINAL_RESULTS_RECEIPTS.json) | Content-addressed receipt manifest | Frozen evidence |\n| [`../../relaybench/results/`](../../relaybench/results/) | Per-model results and retained attempts | Frozen evidence set |\n| [`../../relaybench/CLAIM_BOUNDARIES.md`](../../relaybench/CLAIM_BOUNDARIES.md) | Public and research claim boundary | Active |\n| [`../decisions/REGISTER.md`](../decisions/REGISTER.md) | Decision lifecycle and study closure | Closed |",
+   "id": "e367e3b0",
+   "hash": "6615159e4768"
   },
   {
    "type": "para",
-   "text": "Across 126 admitted paired runs in seven complete model panels and three legal task families, ordinary handoff passed 10,654/11,928 rubric criteria (89.3%) and Proofpress passed 11,141/11,928 (93.4%), a descriptive difference of +4.1 percentage points.",
-   "id": "2a0398fe",
-   "hash": "bfd93598e152"
-  },
-  {
-   "type": "heading",
-   "text": "## C-LH-03: Bounded safety result",
-   "id": "8276420f",
-   "hash": "e990b19deb68"
-  },
-  {
-   "type": "para",
-   "text": "Across the 63 admitted controlled stress pairs, ordinary handoff propagated eight injected unsafe states and Proofpress propagated none. This is an observed panel count, not an estimate of a population event rate.",
-   "id": "8a13c1ec",
-   "hash": "6bdf7e58b6a6"
-  },
-  {
-   "type": "heading",
-   "text": "## C-LH-04: Claim boundary",
-   "id": "94129fbd",
-   "hash": "798643b3d3e5"
-  },
-  {
-   "type": "para",
-   "text": "The admitted results support a product-mechanism signal for governed handoff. They do not establish an official Harvey score, statistical significance, population-level causality, improved legal intelligence, or correctness outside the frozen tasks. Cross-model and task heterogeneity, invalid attempts, and verification overhead remain visible in the receipts.",
-   "id": "fcb3d07b",
-   "hash": "b21c9f578c28"
+   "text": "The ARA references version-pinned artifacts rather than copying their contents. Historical plans and Phase Zero readiness files remain in place as provenance, while the receipt manifest identifies the evidence admitted to the final result.",
+   "id": "dff6d43f",
+   "hash": "511929a6c878"
   }
  ]
 }
