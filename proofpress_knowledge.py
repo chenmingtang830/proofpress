@@ -472,6 +472,12 @@ def propose_v2(statement, evidence_refs, scope, proposer, expires_at=None,
         "allowed_actors": allowed_actors or ["*"],
         "qualifiers": qualifiers or {}, "created_at": now(),
     }
+    prior = projection["conclusions"].get(row["id"])
+    if prior:
+        stable = set(row) - {"created_at", "digest"}
+        if any(prior.get(key) != row.get(key) for key in stable):
+            raise ValueError("immutable conclusion conflict for " + row["id"])
+        row = prior
     row["digest"] = _conclusion_digest(row)
     event = append_v2({"type": "conclusion_proposed", "subject_ref": row["id"],
                        "conclusion": row})
@@ -525,6 +531,12 @@ def propose_relation_v2(source, target, relation_type, proposer,
            "kind": "claim_relation", "from": left, "to": right,
            "type": relation_type, "proposer": proposer, "confidence": confidence,
            "qualifiers": qualifiers or {}, "created_at": now()}
+    prior = projection["relations"].get(row["id"])
+    if prior:
+        stable = set(row) - {"created_at", "digest"}
+        if any(prior.get(key) != row.get(key) for key in stable):
+            raise ValueError("immutable relation conflict for " + row["id"])
+        row = prior
     row["digest"] = _relation_digest(row)
     event = append_v2({"type": "relation_proposed", "subject_ref": row["id"],
                        "relation": row})

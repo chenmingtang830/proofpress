@@ -66,6 +66,20 @@ class LocalMVPTests(unittest.TestCase):
         self.assertEqual(first["evidence"], second["evidence"])
         self.assertEqual(self.count_events(), count)
 
+    def test_claim_and_relation_proposals_are_resumable(self):
+        evidence, first = self.seed()
+        second = self.data("propose", "--statement", "The exception narrows the cap",
+                           "--evidence", evidence, "--scope", "msa-negotiation",
+                           "--proposer", "agent:runner")["conclusion"]["id"]
+        relation_args = ("relation", "propose", second, "--to", first,
+                         "--type", "qualifies", "--proposer", "agent:runner")
+        relation = self.data(*relation_args)["relation"]["id"]
+        count = self.count_events()
+        repeated_first = self.seed()[1]
+        repeated_relation = self.data(*relation_args)["relation"]["id"]
+        self.assertEqual((repeated_first, repeated_relation), (first, relation))
+        self.assertEqual(self.count_events(), count)
+
     def test_admission_and_context_gate(self):
         _, cid = self.seed()
         evaluation = self.data("evaluate", cid)
