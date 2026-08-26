@@ -13,6 +13,7 @@ from typing import Any
 SCHEMA = "proofpress/knowledge-ledger/v1"
 ALLOWED = {"service.name","experiment.id","experiment_id","experimentId","experiment.variant","variant","metric.conversion_rate","conversion_rate","metric.value","experiment.outcome","outcome","sample.size","sample_size"}
 DEFAULT_POLICY = {"id":"mvp-evidence-and-completeness","version":1,"min_sample_size":1,"require_guardrail_pass":False,"attribute_allowlist_version":"v1"}
+TRACE_EVENT_TYPES = {"tool_call", "decision", "annotation", "state_change", "contribution"}
 
 def now(): return datetime.now(timezone.utc).isoformat().replace("+00:00","Z")
 def canon(v): return json.dumps(v,ensure_ascii=False,sort_keys=True,separators=(",",":")).encode()
@@ -46,6 +47,38 @@ def spans(payload):
     return out
 def source(span):
     record={"id":ident({"trace":span.get("traceId"),"span":span.get("spanId"),"name":span.get("name"),"start":span.get("startTimeUnixNano")},"src_"),"kind":"source_event","trace_id":span.get("traceId"),"span_id":span.get("spanId"),"name":span.get("name","unnamed"),"timestamp":span.get("startTimeUnixNano"),"status":span.get("status",{}).get("code",span.get("status")),"attributes":attrs(span.get("attributes"))}
+    record["record_hash"]=digest(record); return record
+def trace_actor(actor):
+    """Keep stable actor handles without importing arbitrary TRACE payloads."""
+    actor = actor or {}
+    return {key: actor.get(key) for key in ("type", "id", "role") if actor.get(key) is not None}
+def trace_relation(session_id,event_id): return f"trace:{session_id}#{event_id}"
+def trace_payload(event):
+    """Project reviewable TRACE decision provenance, excluding raw tool I/O."""
+    kind=event["type"]
+    if kind=="tool_call":
+        row=event.get("tool_call") or {}
+        meta={key:row.get(key) for key in ("server","name","status","duration_ms","host","output_hash","output_truncated") if row.get(key) is not None}
+        return meta | {key:trace_relation(event["session_id"],row[key]) for key in ("retries_event_id","parent_event_id") if row.get(key)}
+    if kind=="decision":
+        row=event.get("decision") or {}
+        return {"description":row.get("description"),"rationale":row.get("rationale"),"disposition":row.get("disposition"),"suggestion_type":row.get("suggestion_type"),"proposed_by":trace_actor(row.get("proposed_by")),"resolved_by":trace_actor(row.get("resolved_by")),"revision_note":row.get("revision_note"),"revises":trace_relation(event["session_id"],row["revises_event_id"]) if row.get("revises_event_id") else None,"tags":row.get("tags") or [],"warnings":row.get("warnings") or []}
+    if kind=="annotation":
+        row=event.get("annotation") or {}
+        return {"category":row.get("category"),"content":row.get("content"),"corrects":[trace_relation(event["session_id"],x) if ":" not in x else x for x in row.get("corrects_event_ids") or []],"related":[trace_relation(event["session_id"],x) for x in row.get("related_event_ids") or []],"tags":row.get("tags") or []}
+    if kind=="contribution":
+        row=event.get("contribution") or {}
+        meta={key:row.get(key) for key in ("description","artifact","direction","execution") if row.get(key) is not None}
+        return meta | {"related_decisions":[trace_relation(event["session_id"],x) for x in row.get("related_decision_ids") or []],"tags":row.get("tags") or []}
+    row=event.get("state_change") or {}
+    return {key:row.get(key) for key in ("description","field") if row.get(key) is not None}
+def trace_source(session,event):
+    if event.get("session_id") != session.get("id"): raise ValueError("TRACE event session_id does not match session id")
+    if event.get("type") not in TRACE_EVENT_TYPES: raise ValueError("unsupported TRACE event type: "+str(event.get("type")))
+    session_id=str(session["id"]); event_id=str(event.get("id") or "")
+    if not event_id: raise ValueError("TRACE event has no id")
+    metadata=session.get("metadata") or {}
+    record={"id":ident({"protocol":"TRACE","session":session_id,"event":event_id},"src_"),"kind":"source_event","source_protocol":"TRACE","source_schema":session.get("trace_version"),"source_ref":trace_relation(session_id,event_id),"trace_id":session_id,"span_id":event_id,"name":"trace."+event["type"],"timestamp":event.get("timestamp"),"status":((event.get("tool_call") or {}).get("status") if event["type"]=="tool_call" else None),"attributes":{"project":metadata.get("project"),"project_key":metadata.get("project_key"),"event_type":event["type"],"actor":trace_actor(event.get("actor")),"event":trace_payload(event)}}
     record["record_hash"]=digest(record); return record
 def evidence(src):
     item={"id":ident({"source":src["id"],"hash":src["record_hash"]},"evd_"),"kind":"evidence","source_ref":src["id"],"source_digest":src["record_hash"],"observation":{"name":src["name"],"timestamp":src["timestamp"],"status":src["status"],"attributes":src["attributes"]}}
@@ -535,6 +568,32 @@ def _import_retrieval_evidence_v2(payload):
     return created
 
 
+def _trace_session(payload):
+    if not isinstance(payload, dict):
+        return None
+    if "trace_version" not in payload and "trace-protocol.org" not in str(payload.get("context", "")):
+        return None
+    if not payload.get("id") or not isinstance(payload.get("events"), list):
+        raise ValueError("not a TRACE session document")
+    version = str(payload.get("trace_version") or "")
+    if not any(version == supported or version.startswith(supported + ".")
+               for supported in ("0.3", "0.4", "0.5")):
+        raise ValueError("unsupported TRACE trace_version: " + version)
+    return payload
+
+
+def _import_trace_evidence_v2(session):
+    """Bind TRACE provenance as evidence only; it never creates a claim or admission."""
+    created = []
+    for raw in session["events"]:
+        src = trace_source(session, raw)
+        ev = evidence(src)
+        created.append(append_v2({"type": "source_recorded", "subject_ref": src["id"], "record": src}))
+        created.append(append_v2({"type": "evidence_bound", "subject_ref": ev["id"],
+                                  "source_ref": src["id"], "evidence": ev}))
+    return created
+
+
 def import_evidence_v2(path):
     target = Path(path)
     if not target.exists(): raise ValueError(f"evidence input not found: {path}")
@@ -542,11 +601,15 @@ def import_evidence_v2(path):
     payload = None
     if target.suffix.lower() == ".json":
         payload = json.loads(target.read_text(encoding="utf-8"))
-        span_rows = [] if payload.get("schema_version") == RETRIEVAL_EVIDENCE_SCHEMA else spans(payload)
+        trace = _trace_session(payload)
+        span_rows = [] if trace or payload.get("schema_version") == RETRIEVAL_EVIDENCE_SCHEMA else spans(payload)
     else:
+        trace = None
         span_rows = []
     if isinstance(payload, dict) and payload.get("schema_version") == RETRIEVAL_EVIDENCE_SCHEMA:
         created.extend(_import_retrieval_evidence_v2(payload))
+    elif trace:
+        created.extend(_import_trace_evidence_v2(trace))
     elif span_rows:
         for raw in span_rows:
             src = source(raw)
@@ -1332,7 +1395,7 @@ def serve_ui(port=7331, scope=None, open_browser=True):
 def add_flat_cli(sub):
     evidence_parser = sub.add_parser("evidence", help="bind local evidence to the trust ledger")
     evidence_sub = evidence_parser.add_subparsers(dest="evidence_cmd", required=True)
-    evidence_import = evidence_sub.add_parser("import", help="import an artifact, OTLP JSON, or retrieval evidence receipt")
+    evidence_import = evidence_sub.add_parser("import", help="import an artifact, OTLP JSON, retrieval receipt, or TRACE session")
     evidence_import.add_argument("input"); evidence_import.set_defaults(f=cmd_flat)
     propose_parser = sub.add_parser("propose", help="propose an evidence-bound reusable conclusion")
     propose_parser.add_argument("--statement", required=True); propose_parser.add_argument("--evidence", action="append", required=True)

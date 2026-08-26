@@ -14,6 +14,7 @@ from urllib.error import HTTPError
 ROOT = Path(__file__).resolve().parents[1]
 CLI = ROOT / "proofpress.py"
 FIXTURE = ROOT / "examples" / "verified-knowledge-ledger" / "demo.otlp.json"
+TRACE_FIXTURE = ROOT / "examples" / "verified-knowledge-ledger" / "demo.trace.json"
 
 
 class LocalMVPTests(unittest.TestCase):
@@ -81,6 +82,39 @@ class LocalMVPTests(unittest.TestCase):
         self.assertEqual(self.count_events(), count)
         self.assertTrue(subprocess.run(["git", "show-ref", "--verify", "refs/proofpress/knowledge"],
                                        cwd=self.repo, capture_output=True).returncode == 0)
+
+    def test_trace_session_binds_safe_v2_evidence_without_admission(self):
+        first = self.data("evidence", "import", str(TRACE_FIXTURE))
+        self.assertEqual(len(first["evidence"]), 3)
+        count = self.count_events()
+        second = self.data("evidence", "import", str(TRACE_FIXTURE))
+        self.assertEqual(first["evidence"], second["evidence"])
+        self.assertEqual(self.count_events(), count)
+        sys.path.insert(0, str(ROOT))
+        import proofpress_knowledge as knowledge
+        previous = Path.cwd()
+        try:
+            os.chdir(self.repo)
+            projection = knowledge.v2_projection()
+        finally:
+            os.chdir(previous)
+        decision = next(row for row in projection["sources"].values()
+                        if row["name"] == "trace.decision")
+        self.assertEqual(decision["source_protocol"], "TRACE")
+        self.assertEqual(decision["attributes"]["event"]["disposition"], "accepted")
+        self.assertNotIn("secret", json.dumps(projection["sources"]))
+        self.assertNotIn("conversion_rate", json.dumps(projection["sources"]))
+        self.assertEqual(self.data("context")["knowledge"], [])
+
+    def test_trace_source_conflict_fails_closed(self):
+        self.data("evidence", "import", str(TRACE_FIXTURE))
+        changed = json.loads(TRACE_FIXTURE.read_text())
+        changed["events"][1]["decision"]["disposition"] = "rejected"
+        path = self.repo / "changed.trace.json"
+        path.write_text(json.dumps(changed))
+        result = self.cli("evidence", "import", str(path), check=False)
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn("immutable source_recorded conflict", result.stderr)
 
     def test_artifact_evidence_import_is_idempotent(self):
         artifact = self.repo / "task-evidence.json"
