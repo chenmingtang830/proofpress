@@ -1,67 +1,54 @@
 {
- "actors": {
-  "recorded_by": [
-   "unknown"
-  ]
- },
- "artifact": "studies/long-horizon-eval/relaybench/visuals/proofpress-results.html",
- "artifact_id": "pp_cf50332f934a667c7ce1e36b",
- "attribution_basis": "self_asserted",
+ "event": "version_created",
+ "artifact": "studies/long-horizon-eval/relaybench/PUBLIC_RESULTS.md",
+ "artifact_id": "pp_a59d351c883c87dde5396eba",
+ "version": "e9e8680f",
+ "parent": "9c4688fc",
  "author": {
-  "kind": "system",
-  "name": "unknown",
+  "name": "OpenAI Codex",
+  "kind": "agent",
   "session": null
+ },
+ "note": null,
+ "ts": "2026-08-26T11:35:45+00:00",
+ "stats": {
+  "added": 1
  },
  "changes": [
   {
-   "block": "1d393510",
-   "context": "<h1>Governed handoffs <em>improved compl",
    "kind": "added",
-   "preview": "<h1>Governed handoffs <em>improved completion</em>—and stopp",
-   "type": "heading"
-  },
-  {
-   "block": "dc01e281",
-   "context": "<h2 id=\"quality-title\">Rubric quality</h",
-   "kind": "added",
-   "preview": "<h2 id=\"quality-title\">Rubric quality</h2>",
-   "type": "heading"
-  },
-  {
-   "block": "f42686c9",
-   "context": "<h2 id=\"quality-title\">Rubric quality</h",
-   "kind": "added",
-   "preview": "<p class=\"section-note\">Matched criteria across all 126 pair",
-   "type": "para"
-  },
-  {
-   "block": "40db4f4b",
-   "context": "<h2 id=\"safety-title\">Unsafe propagation",
-   "kind": "added",
-   "preview": "<h2 id=\"safety-title\">Unsafe propagation</h2>",
-   "type": "heading"
-  },
-  {
-   "block": "be91cdcb",
-   "context": "<h2 id=\"safety-title\">Unsafe propagation",
-   "kind": "added",
-   "preview": "<p class=\"section-note\">Observed events across 63 controlled",
-   "type": "para"
+   "block": "98206673",
+   "type": "para",
+   "context": "Governed handoffs improved completion—an",
+   "preview": "**Result frozen:** August 26, 2026."
   }
  ],
- "event": "version_created",
- "event_id": "ppe_6339de5ed67f5e5f1e246af8",
- "note": "portable lineage checkpoint",
- "parent": null,
- "parents": [],
  "policy": "portable",
- "portable_checkpoint": true,
- "portable_lineage_id": "ppl_afce1027ed9fc9ee26b9b7cc",
- "soft_fingerprint": "ppsb1:f302e0bc0b27c676dd7c1e8af6a2bffacd1efb73d9d67f6401635b2cd07bd218",
- "stats": {
-  "added": 5
+ "soft_fingerprint": "ppsb1:6d916ad5368d24b0c01c0efe52f67bd8d9cde9d02fa20bc4b2e04e83bf377e53",
+ "actors": {
+  "requested_by": [
+   "human:richard-tang"
+  ],
+  "produced_by": [
+   "agent:openai-codex"
+  ],
+  "edited_by": [
+   "agent:openai-codex"
+  ],
+  "recorded_by": [
+   "agent:openai-codex"
+  ]
  },
- "ts": "2026-08-26T11:31:20+00:00",
- "version": "fb21532b",
- "imported_from_capsule": true
+ "attribution_basis": "environment_attested",
+ "claims": [
+  {
+   "block": "98206673",
+   "kind": "added",
+   "note": "Record the date on which the public result was frozen."
+  }
+ ],
+ "context": {
+  "why": "Record the final study freeze date after importing the portable public result artifact."
+ },
+ "event_id": "ppe_ad9427c5067189341f3959ec"
 }
