@@ -230,11 +230,33 @@ def v2_events():
         commits = _git("rev-list", "--reverse", KNOWLEDGE_REF).split()
     except ValueError:
         return []
+    if not commits:
+        return []
+    specs = "".join(f"{commit}:event.json\n" for commit in commits).encode()
+    result = subprocess.run(["git", "cat-file", "--batch"], input=specs,
+                            capture_output=True)
+    if result.returncode:
+        raise ValueError("git cat-file --batch: " +
+                         result.stderr.decode(errors="replace").strip())
     rows = []
+    offset = 0
     for commit in commits:
-        row = json.loads(_git("show", f"{commit}:event.json"))
+        header_end = result.stdout.find(b"\n", offset)
+        if header_end < 0:
+            raise ValueError("git cat-file --batch returned a truncated header")
+        header = result.stdout[offset:header_end].split()
+        if len(header) != 3 or header[1] != b"blob":
+            detail = result.stdout[offset:header_end].decode(errors="replace")
+            raise ValueError(f"git cat-file --batch: {detail}")
+        size = int(header[2])
+        body_start = header_end + 1
+        body_end = body_start + size
+        if body_end >= len(result.stdout):
+            raise ValueError("git cat-file --batch returned a truncated object")
+        row = json.loads(result.stdout[body_start:body_end])
         row["commit"] = commit
         rows.append(row)
+        offset = body_end + 1
     return rows
 
 
