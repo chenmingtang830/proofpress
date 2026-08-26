@@ -1,0 +1,87 @@
+[
+  {
+    "block": "449de915",
+    "kind": "added",
+    "note": "Added the block beginning \"Concepts\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "e71fde2b",
+    "kind": "added",
+    "note": "Added the block beginning \"Governed working set\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "613d4748",
+    "kind": "added",
+    "note": "Added the block beginning \"Notation**: \\(W_g\\)\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "71c15a91",
+    "kind": "added",
+    "note": "Added the block beginning \"Staging\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "954c5d5e",
+    "kind": "added",
+    "note": "Added the block beginning \"Notation**: \\(S(c)\\)\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "6574d766",
+    "kind": "added",
+    "note": "Added the block beginning \"Admission\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "5e815eb7",
+    "kind": "added",
+    "note": "Added the block beginning \"Notation**: \\(A(c)\\)\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "0cf8a740",
+    "kind": "added",
+    "note": "Added the block beginning \"Claim coverage\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "01fc921c",
+    "kind": "added",
+    "note": "Added the block beginning \"Notation**: \\(K(R,W_g)\\)\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "aec53707",
+    "kind": "added",
+    "note": "Added the block beginning \"Grader replicate\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "3483c647",
+    "kind": "added",
+    "note": "Added the block beginning \"Notation**: \\(G_i(y)\\)\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "2d156a46",
+    "kind": "added",
+    "note": "Added the block beginning \"Executor-only efficiency\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "5bf0978a",
+    "kind": "added",
+    "note": "Added the block beginning \"Notation**: \\(E_x\\)\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "696e68e0",
+    "kind": "added",
+    "note": "Added the block beginning \"Fail-closed gate\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "e1e1b928",
+    "kind": "added",
+    "note": "Added the block beginning \"Notation**: \\(B(x,p)\\)\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "e47094e2",
+    "kind": "added",
+    "note": "Added the block beginning \"Native-verifier hybrid evaluation\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "ae1774fb",
+    "kind": "added",
+    "note": "Added the block beginning \"Notation**: —\" to the sanitized APEX agent evaluation ARA."
+  }
+]

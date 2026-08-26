@@ -1,0 +1,7 @@
+[
+  {
+    "block": "9cc8608c",
+    "kind": "modified",
+    "note": "Combined the source, caption, and screenshot metadata into one line while preserving the table meaning."
+  }
+]

@@ -1,0 +1,93 @@
+{
+  "compiler": "ARA Universal Compiler",
+  "compiler_version": "1.2.1",
+  "artifact_dir": ".",
+  "inputs": [
+    {
+      "kind": "frozen_manifest",
+      "path": "evidence/raw/task1-three-model-finalized-v9.json",
+      "sha256": "ac4561291fcb88f00909c28bf2c5b9513f33eae7ed17fe26fb6a7eb6bf17c8b0"
+    },
+    {
+      "kind": "frozen_manifest",
+      "path": "evidence/raw/task2-jcf03-three-model-manifest.json",
+      "sha256": "6ed67099c3322711d521c32fe132020a8a8bd1665916073980445c6c64fa4a75"
+    },
+    {
+      "kind": "prior_structured_report",
+      "path": "compiler-input:pre-ARA-experiment-report",
+      "sha256": "04a5b47d8bdeddfbfe93da96191968d5656350258c24bcf9387bb3d3776ac2d0"
+    },
+    {
+      "kind": "comparison_results",
+      "path": "proofpress-pr35@c96fd86:studies/long-horizon-eval/relaybench/PUBLIC_RESULTS.md",
+      "sha256": "69525b3a5f55260075b7d7b3932388f47fc46e063fdcece5167fc8fbc2a87795"
+    },
+    {
+      "kind": "comparison_visual",
+      "path": "proofpress-pr35@c96fd86:studies/long-horizon-eval/relaybench/visuals/proofpress-results.html",
+      "sha256": "7531947ee484b8e81807e05fee08ec799f4b6989967c871fbb5bc46570a89d1a"
+    },
+    {
+      "kind": "temporary_evaluation_harness",
+      "git_commit": "1ff29dde8d395df085905e3e3b04b01f982160d6",
+      "public_required": false,
+      "product_source": false
+    },
+    {
+      "kind": "temporary_task2_harness_extension",
+      "git_commit": "0b7ddf43c44e143f6bba386dff4521802e5f8e79",
+      "public_required": false,
+      "product_source": false
+    },
+    {
+      "kind": "proofpress_product_source",
+      "git_commit": "9f6e3f1",
+      "commit_range": "516fa3c..9f6e3f1",
+      "paths": [
+        "proofpress_knowledge.py",
+        "proofpress.py",
+        "tests/test_local_mvp.py",
+        "tests/test_knowledge_ledger.py",
+        "tests/test_claim_graph_apex.py",
+        "examples/verified-knowledge-ledger/legal/"
+      ]
+    }
+  ],
+  "coverage_loop": [
+    {
+      "round": 1,
+      "checks": "Task manifests, PR35 public numbers, source figure, implementation pointers, mandatory layers",
+      "fixes": 1,
+      "detail": "Added explicit 8 / 63 and 0 / 63 PR35 safety denominators to the filed source-figure description and comparison evidence."
+    },
+    {
+      "round": 2,
+      "checks": "Re-ran numeric presence, evidence pairing, JSON/YAML parsing, bindings, and pointer resolution",
+      "fixes": 0,
+      "detail": "Coverage converged; loop exited early."
+    }
+  ],
+  "counts": {
+    "claims": 6,
+    "experiments": 5,
+    "concepts": 8,
+    "related_work_blocks": 5,
+    "trace_nodes": 11,
+    "tables": 3,
+    "figures": 1,
+    "files_before_reports": 32
+  },
+  "validation": {
+    "level1": "PASS, 201/201 checks",
+    "level1_tooling_boundary": "The current ara CLI was not installed. The repository's legacy example seal.py hard-codes obsolete model-training files as mandatory, so Level 1 was executed with a deterministic implementation of the Compiler v1.2.1 validation checklist instead of misreporting those schema mismatches as artifact failures.",
+    "code_pointer_resolution": "PASS for the indexed PR36 product files; temporary harness commits remain non-public provenance labels rather than product dependencies",
+    "level2": "Sound, mean 4.00/5; methodological rigor 2/5",
+    "json_yaml_parse": "PASS"
+  },
+  "inference_boundary": "C06 and trace node N11 are explicitly inferred. No inferred historical event is labeled explicit.",
+  "unresolved_human_judgment": [
+    "Confirm exact linkage between recorded Task 1 upstream telemetry and the final three-model snapshot.",
+    "Decide whether to export per-claim reuse event hashes before archival."
+  ]
+}

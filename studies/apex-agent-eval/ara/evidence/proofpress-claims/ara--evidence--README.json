@@ -1,0 +1,77 @@
+[
+  {
+    "block": "0f200c8b",
+    "kind": "added",
+    "note": "Added the block beginning \"Evidence Index\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "5750b272",
+    "kind": "added",
+    "note": "Added the block beginning \"Tables\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "bde1a536",
+    "kind": "added",
+    "note": "Added the block beginning \"| File | Source | Claims | Description |\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "9a4d4547",
+    "kind": "added",
+    "note": "Added the block beginning \"All three tables have sibling PNG renders. They are ARA-authored derived tables, not numbered object\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "44a0471a",
+    "kind": "added",
+    "note": "Added the block beginning \"Figures\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "ead8b339",
+    "kind": "added",
+    "note": "Added the block beginning \"| File | Source | Claims | Description |\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "cb508b63",
+    "kind": "added",
+    "note": "Added the block beginning \"Figure 1 has a sibling full-page PNG. It is a source visual, not a new APEX result.\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "70b41d41",
+    "kind": "added",
+    "note": "Added the block beginning \"Run results\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "4b810b96",
+    "kind": "added",
+    "note": "Added the block beginning \"| File | Experiment | Claims | Description |\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "1e4bf816",
+    "kind": "added",
+    "note": "Added the block beginning \"Logs and pointers\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "7427842a",
+    "kind": "added",
+    "note": "Added the block beginning \"| File | Scope | Description |\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "982c4b0b",
+    "kind": "added",
+    "note": "Added the block beginning \"Audited raw manifests\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "35cba9d9",
+    "kind": "added",
+    "note": "Added the block beginning \"| File | Scope | Description |\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "9cbbbf4e",
+    "kind": "added",
+    "note": "Added the block beginning \"Evidence completeness boundary\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "7efe5008",
+    "kind": "added",
+    "note": "Added the block beginning \"The direct sources contain one numbered communication chart—the PR35 public results poster—filed her\" to the sanitized APEX agent evaluation ARA."
+  }
+]

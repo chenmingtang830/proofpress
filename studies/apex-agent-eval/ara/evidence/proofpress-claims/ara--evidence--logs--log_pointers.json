@@ -1,0 +1,62 @@
+[
+  {
+    "block": "003c4144",
+    "kind": "added",
+    "note": "Added the block beginning \"Public-safe provenance pointers\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "f654648b",
+    "kind": "added",
+    "note": "Added the block beginning \"The detailed run directories, proposal snapshots, prompts, raw model outputs, private corpus files, \" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "eeedd3b1",
+    "kind": "added",
+    "note": "Added the block beginning \"N03 — Task 1 normal cells (C01, C02)\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "cb45fce5",
+    "kind": "added",
+    "note": "Added the block beginning \"Frozen manifest: [`../raw/task1-three-model-finalized-v9.json`](../raw/task1-three-model-finalized-v\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "6c82759f",
+    "kind": "added",
+    "note": "Added the block beginning \"N05 — Task 1 stress gate (C03)\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "1bf4eda5",
+    "kind": "added",
+    "note": "Added the block beginning \"Stress receipt: retained in the Task 1 frozen manifest.\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "f6791561",
+    "kind": "added",
+    "note": "Added the block beginning \"N06 — Task 2 normal cells (C01, C02, C04)\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "7f77fd75",
+    "kind": "added",
+    "note": "Added the block beginning \"Frozen manifest: [`../raw/task2-jcf03-three-model-manifest.json`](../raw/task2-jcf03-three-model-man\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "1adead8a",
+    "kind": "added",
+    "note": "Added the block beginning \"N04/N08 — Upstream construction and reuse (C04, C05)\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "13e0cbbc",
+    "kind": "added",
+    "note": "Added the block beginning \"Task 1 preparation summary: preserved in [upfront_and_reuse.md](../results/upfront_and_reuse.md), so\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "82d28ff1",
+    "kind": "added",
+    "note": "Added the block beginning \"N09 — PR35 source study (C06)\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "e216065f",
+    "kind": "added",
+    "note": "Added the block beginning \"Public results: `proofpress-pr35@c96fd86:studies/long-horizon-eval/relaybench/PUBLIC_RESULTS.md`\" to the sanitized APEX agent evaluation ARA."
+  }
+]

@@ -1,0 +1,17 @@
+[
+  {
+    "block": "1d4d4503",
+    "kind": "added",
+    "note": "Added the block beginning \"Table 2 — Task 2 paired executor results\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "d993efbc",
+    "kind": "added",
+    "note": "Added the block beginning \"Source**: Table 2 authored from frozen Task 2 manifest `jcf03-three-model-manifest.json`\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "944511c5",
+    "kind": "added",
+    "note": "Added the block beginning \"| Executor | Baseline scores | Proofpress scores | Majority baseline → treatment | Mean baseline → t\" to the sanitized APEX agent evaluation ARA."
+  }
+]

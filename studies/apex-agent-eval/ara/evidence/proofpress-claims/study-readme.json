@@ -1,0 +1,27 @@
+[
+  {
+    "block": "3389d5f0",
+    "kind": "added",
+    "note": "Added the block beginning \"APEX Agent Evaluation\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "2dfe709c",
+    "kind": "added",
+    "note": "Added the block beginning \"This independent pilot evaluates a Proofpress governed working-set treatment on two legal tasks from\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "e552dfdb",
+    "kind": "added",
+    "note": "Added the block beginning \"Start with [the ARA paper](ara/PAPER.md). Exact frozen study inputs are retained as audited manifest\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "e2a35669",
+    "kind": "added",
+    "note": "Added the block beginning \"The reported quality summaries are co-primary descriptive views: majority passed rubric cells and me\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "020bad83",
+    "kind": "added",
+    "note": "Added the block beginning \"The old local application was a temporary evaluation harness, not the Proofpress product source. Pro\" to the sanitized APEX agent evaluation ARA."
+  }
+]

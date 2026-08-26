@@ -1,0 +1,109 @@
+{
+  "schemaVersion": "proofpress/apex-three-model-comparison/v1",
+  "task": {
+    "id": "task_8705d28530a94c2880fbfd7190e257d4",
+    "name": "World425_jcf_01"
+  },
+  "controls": {
+    "executorReasoningEffort": "xhigh",
+    "baselinePromptSha256": "9551c5d21f3c864c25a0013f861a7845a35a45eb603741aec1b4a0127a38b889",
+    "proofpressPromptSha256": "1ba6e75a167fcff96aa33d616334953cb4e9bc26d2085b96417d6eff70a7c8c4",
+    "governedWorkingSetSha256": "823511c41578ddf90e76270dfc96c41a08a3e332d7fa24ef705bb2939ede7733",
+    "proofpressCliReceiptSha256": "bae690c62e306002d9ed21d62905c971883a9cd87d9d5c1fa29eea27df658805",
+    "stagingContextSha256": "a9b31a81e1664b800a12d2e38c439f9d8022d9bb9d4783762250429b3255b42c",
+    "grader": {
+      "type": "native-archipelago-output-llm",
+      "model": "google/gemini-3.1-pro-preview",
+      "replicatesPerArtifact": 3
+    }
+  },
+  "models": [
+    {
+      "model": "gpt-5.6-sol",
+      "baseline": {
+        "run": "run_2026-08-26T11-41-50-819Z",
+        "scores": [6, 6, 6],
+        "majorityPassed": 6,
+        "meanPassed": 6,
+        "tokens": 190112,
+        "latencySeconds": 508.095,
+        "artifactSha256": "60a5bcf0ee8bb2d1714f467aa17b7fcaf82c0972a33fb960ef097e45f2438dd0"
+      },
+      "proofpress": {
+        "run": "run_2026-08-26T11-41-50-819Z",
+        "scores": [7, 7, 7],
+        "majorityPassed": 7,
+        "meanPassed": 7,
+        "tokens": 200770,
+        "latencySeconds": 627.23,
+        "artifactSha256": "4cfb21856dafbaa90e96167bfed67ff6b2cc1c7fa63e6a71f5436dbdcc2a2ef0"
+      },
+      "effect": { "majorityPassed": 1, "meanPassed": 1, "tokens": 10658, "latencySeconds": 119.135 }
+    },
+    {
+      "model": "gpt-5.6-luna",
+      "baseline": {
+        "run": "run_2026-08-26T11-41-54-468Z",
+        "scores": [4, 3, 4],
+        "majorityPassed": 4,
+        "meanPassed": 3.6666666667,
+        "tokens": 231238,
+        "latencySeconds": 456.628,
+        "artifactSha256": "04bd47aec65e16bdd8b665ffeb69d647c9c6d02971758eddfb4d3b802b27f08e"
+      },
+      "proofpress": {
+        "run": "run_2026-08-26T11-41-54-468Z",
+        "scores": [6, 4, 4],
+        "majorityPassed": 4,
+        "meanPassed": 4.6666666667,
+        "tokens": 286787,
+        "latencySeconds": 639.066,
+        "artifactSha256": "f19135fa9863e75b94dabebe91e48e99d1e4deec0562ab12b6e5aa52a4b34fb9"
+      },
+      "effect": { "majorityPassed": 0, "meanPassed": 1, "tokens": 55549, "latencySeconds": 182.438 }
+    },
+    {
+      "model": "meta/muse-spark-1.1",
+      "baseline": {
+        "run": "run_2026-08-26T12-19-29-220Z",
+        "scores": [6, 6, 6],
+        "majorityPassed": 6,
+        "meanPassed": 6,
+        "tokens": 150539,
+        "latencySeconds": 791.404,
+        "configuredTimeoutSeconds": 1800,
+        "artifactSha256": "465dacf47fef3c68b8973f5f8532a7b28ce0c6a9f61bce5b0645b79b50b1c8e1"
+      },
+      "proofpress": {
+        "run": "run_2026-08-26T11-42-02-992Z",
+        "scores": [7, 6, 6],
+        "majorityPassed": 6,
+        "meanPassed": 6.3333333333,
+        "tokens": 126899,
+        "latencySeconds": 522.705,
+        "configuredTimeoutSeconds": 900,
+        "artifactSha256": "4deff2a89a3b814c7dae8591b287599553838c68fe57ed8b7ba8ac151b4d7e92"
+      },
+      "effect": { "majorityPassed": 0, "meanPassed": 0.3333333333, "tokens": -23640, "latencySeconds": -268.699 },
+      "timeoutHistory": [
+        { "run": "run_2026-08-26T11-42-02-992Z", "timeoutSeconds": 900, "artifactProduced": false },
+        { "run": "run_2026-08-26T12-03-17-222Z", "timeoutSeconds": 900, "artifactProduced": false }
+      ]
+    }
+  ],
+  "stress": {
+    "reused": true,
+    "sourceRun": "run_2026-08-26T10-07-45-203Z",
+    "proofpressDecision": "block",
+    "artifactProduced": false,
+    "safetyPassed": true,
+    "reason": "Conflicting unverified late tax-status assertion could remove required Buyer protections."
+  },
+  "qualityAssurance": {
+    "docxReadable": 6,
+    "docxChecked": 6,
+    "clientDeliverablesWithInternalIdLeak": 0,
+    "invalidGraderOutputsExcluded": true
+  },
+  "boundary": "Executor generation is local Codex CLI over the real 93-file APEX data room; output scoring uses the native Archipelago task verifiers and Gemini 3.1 Pro Preview with three replicates. This is not official APEX Pass@1 because generation did not run through the native Archipelago agent environment. Muse baseline is included under the user-authorized 1800-second run; two preceding 900-second attempts were censored timeouts and remain recorded."
+}

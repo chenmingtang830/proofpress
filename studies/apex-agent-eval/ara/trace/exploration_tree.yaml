@@ -1,0 +1,111 @@
+# Exploration Tree — apex-proofpress-pilot
+# Source-bounded reconstruction from frozen manifests, implementation history, and retained study notes.
+tree:
+  - id: N01
+    type: question
+    support_level: explicit
+    source_refs:
+      - "EXPERIMENT_REPORT.md: Research question"
+      - "git show 1ff29dd:docs/APEX_CORPUS_TO_PROPOSAL.md"
+    title: "Can a governed working set improve legal-agent execution over a real data room?"
+    description: "Test task quality, executor efficiency, reusable state, and corrupted-state blocking on APEX legal work."
+    children:
+      - id: N02
+        type: decision
+        support_level: explicit
+        source_refs:
+          - "git show 1ff29dd:docs/APEX_CORPUS_TO_PROPOSAL.md"
+        title: "Evaluate retrieval inside an end-to-end treatment"
+        choice: "Score final legal artifacts and safety behavior rather than a standalone retrieval benchmark."
+        alternatives:
+          - "Run an isolated retrieval recall benchmark"
+          - "Compare PageIndex against chunk retrieval"
+        evidence: "The implementation plan explicitly defers standalone retrieval evaluation."
+        children:
+          - id: N03
+            type: experiment
+            support_level: explicit
+            source_refs:
+              - "Task 1 frozen manifest"
+              - "Table 1"
+            title: "Run Task 1 across three executors"
+            result: "Treatment preserved or improved majority quality, while efficiency varied across executors."
+            evidence: [C01, C02]
+            children:
+              - id: N04
+                type: dead_end
+                support_level: explicit
+                source_refs:
+                  - "git show 1ff29dd:docs/EVALUATION.md"
+                title: "Treat one-pass staged coverage as execution-ready"
+                hypothesis: "A bounded initial claim set would give a strong executor sufficient task coverage."
+                failure_mode: "Repeated artifacts omitted task-specific drafting requirements; diagnostic proposer revisions still produced a negative development-set result."
+                lesson: "Coverage criticism and gap classification must occur before staging, and hidden grader wording must not be fed back into proposal repair."
+          - id: N05
+            type: experiment
+            support_level: explicit
+            source_refs:
+              - "Task 1 frozen manifest: stress"
+            title: "Inject a material late tax-status conflict"
+            result: "The Proofpress gate blocked before executor generation and produced no artifact."
+            evidence: [C03]
+          - id: N06
+            type: pivot
+            support_level: explicit
+            source_refs:
+              - "git show 1ff29dd:docs/APEX_CORPUS_TO_PROPOSAL.md"
+              - "Task 2 frozen manifest: workingSet"
+            title: "Move the checklist into proposal and reuse"
+            from: "Fixed or one-pass staged claims"
+            to: "Task decomposition, targeted retrieval, iterative gap resolution, and later-task claim reuse"
+            trigger: "Strong executors could be starved by incomplete working sets even when graph traversal and governance behaved correctly."
+            children:
+              - id: N07
+                type: experiment
+                support_level: explicit
+                source_refs:
+                  - "Task 2 frozen manifest"
+                  - "Table 2"
+                title: "Run a different task over the same data room"
+                result: "Task 2 reused prior claims, preserved majority quality, reduced Muse and Luna execution work, and exposed lower mean treatment scores."
+                evidence: [C01, C02, C04]
+                children:
+                  - id: N08
+                    type: dead_end
+                    support_level: explicit
+                    source_refs:
+                      - "Task 2 commit 0b7ddf4: fix isolate JCF03 evaluation claims"
+                    title: "Allow prior-task drafting claims into the new task scope"
+                    hypothesis: "All same-world staged claims could safely feed the second legal deliverable."
+                    failure_mode: "Task 1 contract-allocation claims contaminated the Task 2 memo working set."
+                    lesson: "Cross-task reuse requires explicit claim scope; factual state may transfer while task-specific drafting claims must be isolated."
+              - id: N09
+                type: experiment
+                support_level: explicit
+                source_refs:
+                  - "Task 2 frozen manifest: sharedStressGate"
+                title: "Replay the fail-closed gate on Task 2"
+                result: "The treatment blocked and emitted no DOCX."
+                evidence: [C03]
+      - id: N10
+        type: experiment
+        support_level: explicit
+        source_refs:
+          - "PR35 PUBLIC_RESULTS.md"
+          - "Figure 1"
+          - "evidence/results/pr35_comparison.md"
+        title: "Contrast the APEX pilot with a parity-controlled handoff study"
+        result: "The comparison exposes different treatment placement, information parity, replication depth, and aggregation, motivating rather than proving an explanation for the effect-size difference."
+        evidence: [C06]
+        also_depends_on: [N03, N07]
+        children:
+          - id: N11
+            type: decision
+            support_level: inferred
+            title: "Report mechanism-specific claims instead of one universal efficacy claim"
+            choice: "Separate majority quality, mean grader behavior, executor-only efficiency, safety gating, reuse, and amortization."
+            alternatives:
+              - "Claim uniform quality improvement"
+              - "Claim end-to-end cost reduction from executor telemetry"
+              - "Treat stress blocks as zero-quality artifacts"
+            evidence: "Tables 1–3 and the authority/cost boundaries support different conclusions with different denominators."

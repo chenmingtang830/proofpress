@@ -1,0 +1,32 @@
+[
+  {
+    "block": "1a124f7a",
+    "kind": "added",
+    "note": "Added the block beginning \"E02/E03 — Task 2 frozen run record\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "ad4491d9",
+    "kind": "added",
+    "note": "Added the block beginning \"Trace node**: N06, N07\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "034a6503",
+    "kind": "added",
+    "note": "Added the block beginning \"| executor | condition | grader scores | majority | mean | tokens | latency_seconds | artifact_sha25\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "e5072652",
+    "kind": "added",
+    "note": "Added the block beginning \"Working set: 21 eligible claims, including 6 reused and 15 new task-specific claims, across 10 requi\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "7e882061",
+    "kind": "added",
+    "note": "Added the block beginning \"Stress receipt: Proofpress decision `block`; artifact produced `false`; safety passed `true`.\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "769d678a",
+    "kind": "added",
+    "note": "Added the block beginning \"Boundary: generation used local Codex CLI. The grader is native, but this is not official APEX Pass@\" to the sanitized APEX agent evaluation ARA."
+  }
+]

@@ -1,0 +1,102 @@
+[
+  {
+    "block": "52578f04",
+    "kind": "added",
+    "note": "Added the block beginning \"Artifact Pointer Index\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "73340d29",
+    "kind": "added",
+    "note": "Added the block beginning \"Product-source boundary\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "892b69cd",
+    "kind": "added",
+    "note": "Added the block beginning \"The Proofpress product contribution evaluated here is the claim-centric ledger and governed graph me\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "6c7abba6",
+    "kind": "added",
+    "note": "Added the block beginning \"Proofpress claim-centric ledger engine\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "f4508c92",
+    "kind": "added",
+    "note": "Added the block beginning \"[`proofpress_knowledge.py`](../../../../proofpress_knowledge.py) implements evidence-bound claim rec\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "7e0c4b84",
+    "kind": "added",
+    "note": "Added the block beginning \"These files support mechanism claims C03, C04, and C05. They do not establish the APEX outcome numbe\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "cefc9e27",
+    "kind": "added",
+    "note": "Added the block beginning \"Product tests\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "1f82865b",
+    "kind": "added",
+    "note": "Added the block beginning \"[`tests/test_local_mvp.py`](../../../../tests/test_local_mvp.py)\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "7bc48b53",
+    "kind": "added",
+    "note": "Added the block beginning \"The focused product checks can be run with:\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "5b5ae8c1",
+    "kind": "added",
+    "note": "Added the block beginning \"```sh\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "968e35f1",
+    "kind": "added",
+    "note": "Added the block beginning \"The tests cover deterministic evidence binding, staging and admission boundaries, typed relations, s\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "c0b11f2e",
+    "kind": "added",
+    "note": "Added the block beginning \"Legal graph example\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "5cc3673c",
+    "kind": "added",
+    "note": "Added the block beginning \"The legal worked example under [`examples/verified-knowledge-ledger/legal/`](../../../../examples/ve\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "648a8f5b",
+    "kind": "added",
+    "note": "Added the block beginning \"Frozen experiment manifests\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "b2029503",
+    "kind": "added",
+    "note": "Added the block beginning \"[Task 1 frozen manifest](../evidence/raw/task1-three-model-finalized-v9.json)\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "c7388741",
+    "kind": "added",
+    "note": "Added the block beginning \"These audited aggregate receipts are the numeric source for C01-C05. The study package intentionally\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "108b251b",
+    "kind": "added",
+    "note": "Added the block beginning \"Temporary evaluation-harness provenance\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "70ff16cc",
+    "kind": "added",
+    "note": "Added the block beginning \"`temporary-evaluation-harness@1ff29dd` and `temporary-task2-harness@0b7ddf4` are retained only as no\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "bb95f054",
+    "kind": "added",
+    "note": "Added the block beginning \"PR35 comparison source\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "6add2532",
+    "kind": "added",
+    "note": "Added the block beginning \"The historical contrast uses `proofpress-pr35@c96fd86:studies/long-horizon-eval/relaybench/PUBLIC_RE\" to the sanitized APEX agent evaluation ARA."
+  }
+]

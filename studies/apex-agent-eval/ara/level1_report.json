@@ -1,0 +1,1016 @@
+{
+  "artifact_id": "proofpress-apex-agent-eval",
+  "validator": "ARA Compiler v1.2.1 checklist implementation",
+  "level": "1_structural_integrity",
+  "passed": true,
+  "checks_passed": 201,
+  "checks_total": 201,
+  "failures": [],
+  "checks": [
+    {
+      "check": "dir:logic",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "dir:logic/solution",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "dir:src",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "dir:trace",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "dir:evidence",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "file:PAPER.md",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "file:logic/problem.md",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "file:logic/claims.md",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "file:logic/concepts.md",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "file:logic/experiments.md",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "file:logic/related_work.md",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "file:logic/solution/constraints.md",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "file:logic/solution/study_design.md",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "file:logic/solution/architecture.md",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "file:src/environment.md",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "file:src/artifacts.md",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "file:trace/exploration_tree.yaml",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "file:evidence/README.md",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "paper:frontmatter",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "paper:title",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "paper:authors",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "paper:year",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "paper:layer-index",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "claim:C01:Statement",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "claim:C01:Conditions",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "claim:C01:Sources",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "claim:C01:Status",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "claim:C01:Falsification criteria",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "claim:C01:Proof",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "claim:C01:Evidence basis",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "claim:C01:statement-no-run-numbers",
+      "passed": true,
+      "detail": "A governed working set can preserve task-deliverable quality when its staged claims cover the requirements that the executor must express."
+    },
+    {
+      "check": "claim:C01:conditions-nontrivial",
+      "passed": true,
+      "detail": "Supported only in the observed same-world legal-task pilot under majority rubric scoring; independent tasks, executor repetitions, and incomplete-coverage regimes remain untested."
+    },
+    {
+      "check": "claim:C02:Statement",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "claim:C02:Conditions",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "claim:C02:Sources",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "claim:C02:Status",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "claim:C02:Falsification criteria",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "claim:C02:Proof",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "claim:C02:Evidence basis",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "claim:C02:statement-no-run-numbers",
+      "passed": true,
+      "detail": "Bounding an executor's working context reduces generation effort only when avoided corpus search exceeds the overhead imposed by the governed representation."
+    },
+    {
+      "check": "claim:C02:conditions-nontrivial",
+      "passed": true,
+      "detail": "Supported descriptively for the evaluated executor-task pairs; the design does not isolate search effort from prompt-format or reasoning-policy effects."
+    },
+    {
+      "check": "claim:C03:Statement",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "claim:C03:Conditions",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "claim:C03:Sources",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "claim:C03:Status",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "claim:C03:Falsification criteria",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "claim:C03:Proof",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "claim:C03:Evidence basis",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "claim:C03:statement-no-run-numbers",
+      "passed": true,
+      "detail": "Separating state validation from artifact generation can prevent downstream work when an unverified conflict would materially alter the permitted reliance context."
+    },
+    {
+      "check": "claim:C03:conditions-nontrivial",
+      "passed": true,
+      "detail": "Supported only for the tested tax-status conflict patterns and configured policies; corruption recall, false-stop rate, and adversarial robustness remain unmeasured."
+    },
+    {
+      "check": "claim:C04:Statement",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "claim:C04:Conditions",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "claim:C04:Sources",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "claim:C04:Status",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "claim:C04:Falsification criteria",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "claim:C04:Proof",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "claim:C04:Evidence basis",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "claim:C04:statement-no-run-numbers",
+      "passed": true,
+      "detail": "Evidence-bound claims can carry factual state across related tasks while leaving task-specific analysis to newly scoped claims."
+    },
+    {
+      "check": "claim:C04:conditions-nontrivial",
+      "passed": true,
+      "detail": "Supported as an implementation behavior in the observed shared-data-room sequence; causal quality value and economic savings from reuse are untested."
+    },
+    {
+      "check": "claim:C05:Statement",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "claim:C05:Conditions",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "claim:C05:Sources",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "claim:C05:Status",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "claim:C05:Falsification criteria",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "claim:C05:Proof",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "claim:C05:Evidence basis",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "claim:C05:statement-no-run-numbers",
+      "passed": true,
+      "detail": "A governed knowledge layer moves work from downstream execution into upstream construction, so executor savings alone cannot establish lower end-to-end cost."
+    },
+    {
+      "check": "claim:C05:conditions-nontrivial",
+      "passed": true,
+      "detail": "Supported as a measurement-boundary conclusion; the reuse horizon required for amortization is not yet observed."
+    },
+    {
+      "check": "claim:C06:Statement",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "claim:C06:Conditions",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "claim:C06:Sources",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "claim:C06:Status",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "claim:C06:Falsification criteria",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "claim:C06:Proof",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "claim:C06:Evidence basis",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "claim:C06:statement-no-run-numbers",
+      "passed": true,
+      "detail": "Governance effects are easier to identify when substantive task information is held constant and the treatment changes only reliance metadata; a treatment that also narrows information can confound protection with information starvation."
+    },
+    {
+      "check": "claim:C06:conditions-nontrivial",
+      "passed": true,
+      "detail": "This is an inferred cross-study hypothesis from PR35 RelayBench and the APEX pilot, not a causal result from a shared protocol."
+    },
+    {
+      "check": "experiment:E01:Verifies",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "experiment:E01:Evidence",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "experiment:E01:Run",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "experiment:E01:Setup",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "experiment:E01:Procedure",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "experiment:E01:Expected outcome",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "experiment:E02:Verifies",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "experiment:E02:Evidence",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "experiment:E02:Run",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "experiment:E02:Setup",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "experiment:E02:Procedure",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "experiment:E02:Expected outcome",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "experiment:E03:Verifies",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "experiment:E03:Evidence",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "experiment:E03:Run",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "experiment:E03:Setup",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "experiment:E03:Procedure",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "experiment:E03:Expected outcome",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "experiment:E04:Verifies",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "experiment:E04:Evidence",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "experiment:E04:Run",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "experiment:E04:Setup",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "experiment:E04:Procedure",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "experiment:E04:Expected outcome",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "experiment:E05:Verifies",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "experiment:E05:Evidence",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "experiment:E05:Run",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "experiment:E05:Setup",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "experiment:E05:Procedure",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "experiment:E05:Expected outcome",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "experiments:count",
+      "passed": true,
+      "detail": "5"
+    },
+    {
+      "check": "concepts:count",
+      "passed": true,
+      "detail": "8"
+    },
+    {
+      "check": "concepts:definitions",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "related-work:blocks",
+      "passed": true,
+      "detail": "5"
+    },
+    {
+      "check": "problem:observations",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "problem:gaps",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "problem:key-insight",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "evidence:table1_task1_three_model.md:png",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "evidence:table1_task1_three_model.md:source",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "evidence:table1_task1_three_model.md:table",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "evidence:table2_task2_three_model.md:png",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "evidence:table2_task2_three_model.md:source",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "evidence:table2_task2_three_model.md:table",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "evidence:table3_cross_task_summary.md:png",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "evidence:table3_cross_task_summary.md:source",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "evidence:table3_cross_task_summary.md:table",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "evidence:figure1_pr35_results_poster.md:png",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "evidence:figure1_pr35_results_poster.md:Source",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "evidence:figure1_pr35_results_poster.md:Screenshot",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "evidence:figure1_pr35_results_poster.md:Figure type",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "evidence:figure1_pr35_results_poster.md:Extraction method",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "evidence:figure1_pr35_results_poster.md:Reading confidence",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "tree:node-count",
+      "passed": true,
+      "detail": "11"
+    },
+    {
+      "check": "tree:N01:type",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "tree:N01:support",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "tree:N01:description",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "tree:N02:type",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "tree:N02:support",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "tree:N02:choice",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "tree:N02:alternatives",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "tree:N03:type",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "tree:N03:support",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "tree:N03:result",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "tree:N03:claim:C01",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "tree:N03:claim:C02",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "tree:N04:type",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "tree:N04:support",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "tree:N04:hypothesis",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "tree:N04:failure_mode",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "tree:N04:lesson",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "tree:N05:type",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "tree:N05:support",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "tree:N05:result",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "tree:N05:claim:C03",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "tree:N06:type",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "tree:N06:support",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "tree:N06:from",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "tree:N06:to",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "tree:N06:trigger",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "tree:N07:type",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "tree:N07:support",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "tree:N07:result",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "tree:N07:claim:C01",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "tree:N07:claim:C02",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "tree:N07:claim:C04",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "tree:N08:type",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "tree:N08:support",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "tree:N08:hypothesis",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "tree:N08:failure_mode",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "tree:N08:lesson",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "tree:N09:type",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "tree:N09:support",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "tree:N09:result",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "tree:N09:claim:C03",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "tree:N10:type",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "tree:N10:support",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "tree:N10:result",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "tree:N10:dep:N03",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "tree:N10:dep:N07",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "tree:N10:claim:C06",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "tree:N11:type",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "tree:N11:support",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "tree:N11:choice",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "tree:N11:alternatives",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "binding:C01->E01",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "binding:C01->E02",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "binding:C02->E01",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "binding:C02->E02",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "binding:C03->E03",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "binding:C04->E04",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "binding:C05->E04",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "binding:C06->E05",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "binding:E01->C01",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "binding:E01->C02",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "binding:E02->C01",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "binding:E02->C02",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "binding:E03->C03",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "binding:E04->C04",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "binding:E04->C05",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "binding:E05->C06",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "derived:muse-token-baseline",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "derived:muse-token-treatment",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "derived:muse-latency-baseline",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "derived:muse-latency-treatment",
+      "passed": true,
+      "detail": ""
+    }
+  ]
+}
