@@ -1,72 +1,30 @@
 {
- "artifact": "studies/long-horizon-eval/ara/logic/solution/heuristics.md",
- "artifact_id": "pp_1efdedde7c41c74408b9f4c6",
+ "artifact": "studies/long-horizon-eval/ara/src/artifacts.md",
+ "artifact_id": "pp_8daa10214932fdfd6435f2cc",
  "blocks": [
   {
    "type": "heading",
-   "text": "# Heuristics",
-   "id": "b06181ef",
-   "hash": "a5e73b637cc9"
+   "text": "# Artifact index",
+   "id": "abb736b5",
+   "hash": "87fb5e30d55f"
   },
   {
-   "type": "heading",
-   "text": "## H01: Freeze once, fork many",
-   "id": "c7ffb944",
-   "hash": "fa5db80f3b2d"
+   "type": "table",
+   "text": "| Artifact | Role | Current status |\n| --- | --- | --- |\n| [`../../relaybench/PUBLIC_RESULTS.md`](../../relaybench/PUBLIC_RESULTS.md) | Public one-page result | Frozen synthesis |\n| [`../../relaybench/visuals/proofpress-results.html`](../../relaybench/visuals/proofpress-results.html) | Communication chart | Frozen synthesis |\n| [`../evidence/FINAL_RESULTS_RECEIPTS.json`](../evidence/FINAL_RESULTS_RECEIPTS.json) | Content-addressed receipt manifest | Frozen evidence |\n| [`../../relaybench/results/`](../../relaybench/results/) | Per-model results and retained attempts | Frozen evidence set |\n| [`../../relaybench/CLAIM_BOUNDARIES.md`](../../relaybench/CLAIM_BOUNDARIES.md) | Public and research claim boundary | Active |\n| [`../decisions/REGISTER.md`](../decisions/REGISTER.md) | Decision lifecycle and study closure | Closed |\n| [`environment.md`](environment.md) | Reproduction runtime and secret boundary | Frozen specification |\n| [`configs/training.md`](configs/training.md) | Frozen execution controls | Frozen specification |\n| [`configs/model.md`](configs/model.md) | Admitted model-panel routes | Frozen specification |\n| [`execution/verify_receipts.py`](execution/verify_receipts.py) | Local SHA-256 receipt verifier | Executable kernel |\n| [`../trace/exploration_tree.yaml`](../trace/exploration_tree.yaml) | Source-bound retrospective research DAG | Append-only reconstruction |",
+   "id": "e367e3b0",
+   "hash": "dbf17f29cc43"
   },
   {
-   "type": "list",
-   "text": "- **Rationale**: Reusing one sender state for both conditions and all receiver repeats removes sender sampling as a condition-specific source of variation.\n- **Sensitivity**: Regenerating sender work per condition would mix handoff treatment with sender variance.\n- **Bounds**: Applies within each frozen model/task; it does not remove receiver or evaluator variance.\n- **Code ref**: [src/execution/verify_receipts.py].",
-   "id": "a87a94e9",
-   "hash": "fd8f9b8a3394"
+   "type": "para",
+   "text": "The ARA references version-pinned artifacts rather than copying their contents. Historical plans and Phase Zero readiness files remain in place as provenance, while the receipt manifest identifies the evidence admitted to the final result.",
+   "id": "dff6d43f",
+   "hash": "511929a6c878"
   },
   {
-   "type": "heading",
-   "text": "## H02: Keep clean tax and protection benefit separate",
-   "id": "9998f564",
-   "hash": "ec4bc18f2e31"
-  },
-  {
-   "type": "list",
-   "text": "- **Rationale**: Clean cells measure whether governance harms ordinary continuation; stress cells measure whether it blocks a defined trust failure.\n- **Sensitivity**: Aggregating the arms can hide a clean-handoff regression or overstate protection.\n- **Bounds**: The two arms may share rubric denominators only in explicitly bounded descriptive summaries.\n- **Code ref**: [src/execution/verify_receipts.py].",
-   "id": "4478761a",
-   "hash": "674b67c65555"
-  },
-  {
-   "type": "heading",
-   "text": "## H03: Fail closed and retain every invalid attempt",
-   "id": "f5ee07e9",
-   "hash": "9148186980e5"
-  },
-  {
-   "type": "list",
-   "text": "- **Rationale**: Transport, parser, cap, or identity failures are properties of the evaluated route and must not disappear through fallback or selective retry.\n- **Sensitivity**: Silent retries or provider fallback would make route validity and operational cost uninterpretable.\n- **Bounds**: Invalid attempts do not enter quality or unsafe-propagation denominators.\n- **Code ref**: [src/execution/verify_receipts.py].",
-   "id": "42d9a21c",
-   "hash": "88e0e5e810de"
-  },
-  {
-   "type": "heading",
-   "text": "## H04: Batch policy review, preserve item-level governance",
-   "id": "56d0070d",
-   "hash": "b535cba406c8"
-  },
-  {
-   "type": "list",
-   "text": "- **Rationale**: One transaction-level judge call reduces inference overhead while independent verdicts and receipts preserve conclusion-level auditability.\n- **Sensitivity**: A single transaction-level verdict would erase which conclusion was rejected or escalated.\n- **Bounds**: Deterministic checks remain per item and higher-risk escalations may receive separate review.\n- **Code ref**: [src/execution/verify_receipts.py].",
-   "id": "dee706c1",
-   "hash": "7f3b7a7d7956"
-  },
-  {
-   "type": "heading",
-   "text": "## H05: Publish from content-addressed receipts",
-   "id": "02932426",
-   "hash": "148efc256447"
-  },
-  {
-   "type": "list",
-   "text": "- **Rationale**: The result set should be reproducible from explicit paths and digests rather than whichever files happen to exist in a results directory.\n- **Sensitivity**: Directory-wide aggregation could silently absorb later or invalid panels.\n- **Bounds**: Digest validity proves file identity, not correctness of the underlying evaluation.\n- **Code ref**: [src/execution/verify_receipts.py].",
-   "id": "946b4dcd",
-   "hash": "a71bd86f2722"
+   "type": "para",
+   "text": "The adjacent RelayBench directory remains the executable source of truth for stage control, condition assembly, model adapters, scoring, aggregation, and tests. The ARA curates configuration, an evidence verifier, and immutable pointers instead of duplicating the harness.",
+   "id": "a05b7bf2",
+   "hash": "2024e99e341f"
   }
  ]
 }
