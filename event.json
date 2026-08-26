@@ -1,37 +1,30 @@
 {
  "event": "version_created",
- "artifact": "studies/long-horizon-eval/relaybench/visuals/proofpress-results.html",
- "artifact_id": "pp_cf50332f934a667c7ce1e36b",
- "version": "7b6e61c3",
- "parent": "efac0c97",
+ "artifact": "studies/long-horizon-eval/relaybench/PUBLIC_RESULTS.md",
+ "artifact_id": "pp_a59d351c883c87dde5396eba",
+ "version": "2e94b881",
+ "parent": "390eeb58",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-26T12:02:10+00:00",
+ "ts": "2026-08-26T12:02:26+00:00",
  "stats": {
-  "modified": 1,
   "added": 1
  },
  "changes": [
   {
-   "kind": "modified",
-   "block": "f42686c9",
-   "type": "para",
-   "context": "<h2 id=\"quality-title\">Rubric completion"
-  },
-  {
    "kind": "added",
-   "block": "bbc47db7",
+   "block": "bfee053c",
    "type": "para",
-   "context": "<h2 id=\"quality-title\">Rubric completion",
-   "preview": "<p class=\"task-scope\"><span><strong>Credit lending playbook "
+   "context": "Results",
+   "preview": "The three frozen task episodes are **Credit Lending Playbook"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:80d7558d91ea275a65a7b46ee619ea1df60b93348a118bc2949f1f698e208827",
+ "soft_fingerprint": "ppsb1:47b54abf16279a8358eff0bc75b75ab70c35ff53ef8ac7165d07685b58e961c9",
  "actors": {
   "requested_by": [
    "human:richardtang"
@@ -49,18 +42,13 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "f42686c9",
-   "kind": "modified",
-   "note": "States that the model comparison is ordered by observed percentage-point improvement while preserving the disclosed 80–100% zoomed scale."
-  },
-  {
-   "block": "bbc47db7",
+   "block": "bfee053c",
    "kind": "added",
-   "note": "Names the three frozen Harvey LAB-derived task episodes and their scenario numbers directly on the communication chart."
+   "note": "Names the three frozen task episodes and explains that the communication chart is ordered by observed lift rather than final model score."
   }
  ],
  "context": {
-  "why": "Make the chart answer the product question directly: name the exact frozen legal task episodes and order models by observed Proofpress lift rather than implying an unofficial model leaderboard."
+  "why": "Carry the exact frozen task episodes and presentation-order rationale into the public result record."
  },
- "event_id": "ppe_86b912658698e8a18ba71ffa"
+ "event_id": "ppe_f922ab451c2e93a38f6a5aa0"
 }
