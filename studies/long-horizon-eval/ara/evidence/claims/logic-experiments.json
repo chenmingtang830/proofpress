@@ -1,0 +1,42 @@
+[
+  {
+    "block": "080c3518",
+    "kind": "added",
+    "note": "Adds publication-grade ARA content: ## E01: Phase Zero mechanics validation"
+  },
+  {
+    "block": "58f6e3f8",
+    "kind": "added",
+    "note": "Adds publication-grade ARA content: - **Verifies**: C01."
+  },
+  {
+    "block": "3607dd4f",
+    "kind": "added",
+    "note": "Adds publication-grade ARA content: ## E02: Frozen seven-model paired quality panel"
+  },
+  {
+    "block": "692ad304",
+    "kind": "added",
+    "note": "Adds publication-grade ARA content: - **Verifies**: C02 and C04."
+  },
+  {
+    "block": "35734341",
+    "kind": "added",
+    "note": "Adds publication-grade ARA content: ## E03: Controlled handoff trust-stress panel"
+  },
+  {
+    "block": "34fc74b2",
+    "kind": "added",
+    "note": "Adds publication-grade ARA content: - **Verifies**: C03 and C04."
+  },
+  {
+    "block": "40941016",
+    "kind": "added",
+    "note": "Adds publication-grade ARA content: ## E04: DeepSeek fourteen-scenario breadth check"
+  },
+  {
+    "block": "ce6846cc",
+    "kind": "added",
+    "note": "Adds publication-grade ARA content: - **Verifies**: C04 only; secondary sensitivity evidence."
+  }
+]

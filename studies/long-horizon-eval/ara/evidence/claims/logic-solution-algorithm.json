@@ -1,0 +1,47 @@
+[
+  {
+    "block": "4feb48f6",
+    "kind": "added",
+    "note": "Adds publication-grade ARA content: ## Inputs"
+  },
+  {
+    "block": "8ada3d1d",
+    "kind": "added",
+    "note": "Adds publication-grade ARA content: - Frozen task definition, source revisions, rubric, model route, provider allowlist, and output caps."
+  },
+  {
+    "block": "3169d81e",
+    "kind": "added",
+    "note": "Adds publication-grade ARA content: ## Paired execution"
+  },
+  {
+    "block": "0dccccdd",
+    "kind": "added",
+    "note": "Adds publication-grade ARA content: 1. Verify task sources and experiment manifest before any receiver call."
+  },
+  {
+    "block": "4a9455d5",
+    "kind": "added",
+    "note": "Adds publication-grade ARA content: ## Fail-closed admission"
+  },
+  {
+    "block": "38b0578f",
+    "kind": "added",
+    "note": "Adds publication-grade ARA content: ```text"
+  },
+  {
+    "block": "6c54a20c",
+    "kind": "added",
+    "note": "Adds publication-grade ARA content: An LM recommendation never grants admission by itself. Missing evidence, stale policy, superseded state, or an invalid receipt blocks reuse."
+  },
+  {
+    "block": "682198db",
+    "kind": "added",
+    "note": "Adds publication-grade ARA content: ## Published estimands"
+  },
+  {
+    "block": "ebce6d57",
+    "kind": "added",
+    "note": "Adds publication-grade ARA content: - **Quality**: passed matched rubric criteria per condition for the frozen panel."
+  }
+]

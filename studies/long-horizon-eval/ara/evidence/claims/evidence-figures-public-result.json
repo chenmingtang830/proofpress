@@ -1,0 +1,17 @@
+[
+  {
+    "block": "7ca8d9c8",
+    "kind": "added",
+    "note": "Adds publication-grade ARA content: **Source**: [`../../../relaybench/visuals/proofpress-results.html`](../../../relaybench/visuals/proofpress-results.html), frozen communicati"
+  },
+  {
+    "block": "1dc6a6a0",
+    "kind": "added",
+    "note": "Adds publication-grade ARA content: | Figure | Role | Claim boundary |"
+  },
+  {
+    "block": "a7f254a6",
+    "kind": "added",
+    "note": "Adds publication-grade ARA content: The HTML figure is not duplicated inside `evidence/figures/` because the content-addressed artifact index preserves a single source of truth"
+  }
+]

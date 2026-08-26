@@ -1,0 +1,17 @@
+[
+  {
+    "block": "b70b34f3",
+    "kind": "modified",
+    "note": "Indexes the frozen aggregate table and publication-figure pointer alongside admitted receipts."
+  },
+  {
+    "block": "bbb0ada2",
+    "kind": "added",
+    "note": "Adds the local receipt-verification section."
+  },
+  {
+    "block": "556c9a03",
+    "kind": "added",
+    "note": "Documents the fail-closed SHA-256 verification command and behavior."
+  }
+]

@@ -1,0 +1,52 @@
+[
+  {
+    "block": "c7ffb944",
+    "kind": "added",
+    "note": "Adds publication-grade ARA content: ## H01: Freeze once, fork many"
+  },
+  {
+    "block": "a87a94e9",
+    "kind": "added",
+    "note": "Adds publication-grade ARA content: - **Rationale**: Reusing one sender state for both conditions and all receiver repeats removes sender sampling as a condition-specific sourc"
+  },
+  {
+    "block": "9998f564",
+    "kind": "added",
+    "note": "Adds publication-grade ARA content: ## H02: Keep clean tax and protection benefit separate"
+  },
+  {
+    "block": "4478761a",
+    "kind": "added",
+    "note": "Adds publication-grade ARA content: - **Rationale**: Clean cells measure whether governance harms ordinary continuation; stress cells measure whether it blocks a defined trust"
+  },
+  {
+    "block": "f5ee07e9",
+    "kind": "added",
+    "note": "Adds publication-grade ARA content: ## H03: Fail closed and retain every invalid attempt"
+  },
+  {
+    "block": "42d9a21c",
+    "kind": "added",
+    "note": "Adds publication-grade ARA content: - **Rationale**: Transport, parser, cap, or identity failures are properties of the evaluated route and must not disappear through fallback"
+  },
+  {
+    "block": "56d0070d",
+    "kind": "added",
+    "note": "Adds publication-grade ARA content: ## H04: Batch policy review, preserve item-level governance"
+  },
+  {
+    "block": "dee706c1",
+    "kind": "added",
+    "note": "Adds publication-grade ARA content: - **Rationale**: One transaction-level judge call reduces inference overhead while independent verdicts and receipts preserve conclusion-lev"
+  },
+  {
+    "block": "02932426",
+    "kind": "added",
+    "note": "Adds publication-grade ARA content: ## H05: Publish from content-addressed receipts"
+  },
+  {
+    "block": "946b4dcd",
+    "kind": "added",
+    "note": "Adds publication-grade ARA content: - **Rationale**: The result set should be reproducible from explicit paths and digests rather than whichever files happen to exist in a resu"
+  }
+]

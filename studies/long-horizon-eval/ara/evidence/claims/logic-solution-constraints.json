@@ -1,0 +1,42 @@
+[
+  {
+    "block": "8c6ac932",
+    "kind": "added",
+    "note": "Adds publication-grade ARA content: ## Claim constraints"
+  },
+  {
+    "block": "bd2c05d3",
+    "kind": "added",
+    "note": "Adds publication-grade ARA content: - Results are Harvey LAB-derived, not official Harvey leaderboard scores."
+  },
+  {
+    "block": "2acec127",
+    "kind": "added",
+    "note": "Adds publication-grade ARA content: ## Experimental constraints"
+  },
+  {
+    "block": "f13e7338",
+    "kind": "added",
+    "note": "Adds publication-grade ARA content: - Raw and Proofpress conditions must share task sources, sender state, model/provider route, tools, S4 rubric, and worker caps."
+  },
+  {
+    "block": "b88d121a",
+    "kind": "added",
+    "note": "Adds publication-grade ARA content: ## Governance constraints"
+  },
+  {
+    "block": "c3f7fb0c",
+    "kind": "added",
+    "note": "Adds publication-grade ARA content: - Deterministic evidence and version checks precede LM policy review."
+  },
+  {
+    "block": "194b241e",
+    "kind": "added",
+    "note": "Adds publication-grade ARA content: ## Artifact constraints"
+  },
+  {
+    "block": "1665f3b6",
+    "kind": "added",
+    "note": "Adds publication-grade ARA content: - The ARA is a retrospective compilation from committed study records."
+  }
+]

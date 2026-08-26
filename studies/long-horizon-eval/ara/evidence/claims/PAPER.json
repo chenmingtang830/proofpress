@@ -1,0 +1,37 @@
+[
+  {
+    "block": "348414db",
+    "kind": "added",
+    "note": "Adds publication-grade ARA content: # Layer semantics"
+  },
+  {
+    "block": "207e52ff",
+    "kind": "added",
+    "note": "Adds publication-grade ARA content: | Layer | Role | Mutability in this frozen artifact |"
+  },
+  {
+    "block": "5dd94796",
+    "kind": "added",
+    "note": "Adds publication-grade ARA content: # Layer index"
+  },
+  {
+    "block": "9ee0d58e",
+    "kind": "added",
+    "note": "Adds publication-grade ARA content: - **Logic**"
+  },
+  {
+    "block": "db7eb561",
+    "kind": "added",
+    "note": "Adds publication-grade ARA content: # Provenance boundary"
+  },
+  {
+    "block": "3ad5ae15",
+    "kind": "added",
+    "note": "Adds publication-grade ARA content: This ARA was not maintained by the ARA Live PM during the original experiment. Its logic and exploration layers were compiled after study cl"
+  },
+  {
+    "block": "a97ec87d",
+    "kind": "removed",
+    "note": "Removes the temporary skeleton title superseded by the YAML manifest and layer index."
+  }
+]

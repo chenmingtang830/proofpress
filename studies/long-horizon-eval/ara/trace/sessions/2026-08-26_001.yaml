@@ -1,0 +1,25 @@
+id: "2026-08-26_001"
+date: "2026-08-26"
+kind: "retrospective_compilation"
+provenance: ai-executed
+requested_by: "human:richardtang"
+summary: >
+  Added the ARA root manifest, structured problem/concepts/experiments/solution
+  layers, environment/configuration, evidence tables, receipt verifier, and a
+  source-bound exploration DAG. Existing frozen results and claim boundaries
+  were not changed.
+limitations:
+  - "This is not a reconstruction of private prompts or hidden reasoning."
+  - "No historical session or staging observation was fabricated."
+  - "Milestone nodes are retrospective summaries grounded in committed records."
+sources:
+  - "git:c96fd86b59e6844ad45201d7db4e0caaa91f5b4c"
+  - "ara/evidence/FINAL_RESULTS_RECEIPTS.json"
+  - "ara/decisions/REGISTER.md"
+  - "relaybench/bench/experiments/treatment-effect-protocol-v9.json"
+  - "relaybench/bench/experiments/cross-model-replication-v1.json"
+logic_revisions:
+  - target: "logic/claims.md"
+    before: "Legacy C-LH identifiers with prose-only claims"
+    after: "ARA C01-C04 schema with status, provenance, falsification, proof, dependencies, and tags"
+    reason: "ARA Seal structural and semantic review compatibility"
