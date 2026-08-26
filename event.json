@@ -1,78 +1,35 @@
 {
  "event": "version_created",
- "artifact": "studies/long-horizon-eval/relaybench/visuals/proofpress-results.html",
- "artifact_id": "pp_cf50332f934a667c7ce1e36b",
- "version": "66fc9e73",
- "parent": "909d88cd",
+ "artifact": "studies/long-horizon-eval/relaybench/PUBLIC_RESULTS.md",
+ "artifact_id": "pp_a59d351c883c87dde5396eba",
+ "version": "3dc549ac",
+ "parent": "e9e8680f",
  "author": {
   "name": "OpenAI Codex",
   "kind": "agent",
   "session": null
  },
  "note": null,
- "ts": "2026-08-26T11:46:16+00:00",
+ "ts": "2026-08-26T11:47:07+00:00",
  "stats": {
-  "modified": 3,
-  "added": 3,
-  "removed": 2
+  "modified": 2
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "1d393510",
+   "block": "e18743e6",
    "type": "heading",
-   "context": "<h1>Proofpress improved rubric completio"
-  },
-  {
-   "kind": "added",
-   "block": "370cbed7",
-   "type": "para",
-   "context": "<h1>Proofpress improved rubric completio",
-   "preview": "<p class=\"poster-intro\">On Harvey LAB-derived legal handoff "
-  },
-  {
-   "kind": "added",
-   "block": "caf1f074",
-   "type": "para",
-   "context": "<h1>Proofpress improved rubric completio",
-   "preview": "<p class=\"result-copy\">Rubric completion · +4.1 percentage p"
-  },
-  {
-   "kind": "added",
-   "block": "0d512010",
-   "type": "para",
-   "context": "<h1>Proofpress improved rubric completio",
-   "preview": "<p class=\"result-copy\">Observed unsafe propagation events</p"
+   "context": "Proofpress improved rubric completion ac"
   },
   {
    "kind": "modified",
-   "block": "dc01e281",
-   "type": "heading",
-   "context": "<h2 id=\"quality-title\">Seven models. Sev"
-  },
-  {
-   "kind": "modified",
-   "block": "f42686c9",
+   "block": "a75a49ef",
    "type": "para",
-   "context": "<h2 id=\"quality-title\">Seven models. Sev"
-  },
-  {
-   "kind": "removed",
-   "block": "40db4f4b",
-   "type": "heading",
-   "context": "",
-   "preview": "<h2 id=\"safety-title\">Unsafe propagation</h2>"
-  },
-  {
-   "kind": "removed",
-   "block": "be91cdcb",
-   "type": "para",
-   "context": "",
-   "preview": "<p class=\"section-note\">Observed events across 63 controlled"
+   "context": "Proofpress improved rubric completion ac"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:d3d4c6a704f18e2cec96bdd795b0de6590c67bff1088b58711011afb8877aea0",
+ "soft_fingerprint": "ppsb1:6815bc246b4c1666fadca5cec792a3d8d4ea85909a5ebe23337d0a26bd268895",
  "actors": {
   "requested_by": [
    "human:richard-tang"
@@ -90,48 +47,18 @@
  "attribution_basis": "environment_attested",
  "claims": [
   {
-   "block": "1d393510",
+   "block": "e18743e6",
    "kind": "modified",
-   "note": "Lead with the product result that all seven pooled model panels improved."
+   "note": "Lead with the cross-model product result rather than an academic study framing."
   },
   {
-   "block": "370cbed7",
-   "kind": "added",
-   "note": "Explain the Harvey LAB-derived handoff scope and observed safety result."
-  },
-  {
-   "block": "caf1f074",
-   "kind": "added",
-   "note": "Display the aggregate rubric-completion improvement and criteria delta."
-  },
-  {
-   "block": "0d512010",
-   "kind": "added",
-   "note": "Label the observed unsafe-propagation outcome."
-  },
-  {
-   "block": "dc01e281",
+   "block": "a75a49ef",
    "kind": "modified",
-   "note": "Introduce the seven-model comparison as the main evidence visual."
-  },
-  {
-   "block": "f42686c9",
-   "kind": "modified",
-   "note": "Disclose per-model pooling and the zoomed 80–100 percent scale."
-  },
-  {
-   "block": "40db4f4b",
-   "kind": "removed",
-   "note": "Remove the separate academic-style safety chart heading in favor of a direct 8-to-0 product result."
-  },
-  {
-   "block": "be91cdcb",
-   "kind": "removed",
-   "note": "Remove the separate safety-chart annotation after its denominator moved into the supporting result context."
+   "note": "State the Harvey LAB-derived scope, seven-model completion result, and observed safety outcome directly."
   }
  ],
  "context": {
-  "why": "Replace the academic-style aggregate chart with an eye-catching product-results poster and a transparent seven-model bar comparison."
+  "why": "Reframe the public one-page result as a product announcement while preserving the exact study boundary and receipts."
  },
- "event_id": "ppe_72d4815360ba5610b2349894"
+ "event_id": "ppe_c7bba5ee1617f106096ba57d"
 }
