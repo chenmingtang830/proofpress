@@ -1,38 +1,68 @@
 {
  "event": "version_created",
- "artifact": "studies/long-horizon-eval/relaybench/PROOFPRESS_PARETO_STUDY.md",
- "artifact_id": "pp_ffddb1d2cc98a01371a598e2",
- "version": "12af15d9",
- "parent": "7e1d07f8",
+ "artifact": "RESULTS_V9_2X2.md",
+ "artifact_id": "pp_8d68d72f1b393b67df0c731b",
+ "version": "0f4981c1",
+ "parent": "c9fbd16a",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-25T17:57:53+00:00",
+ "ts": "2026-08-26T10:56:14+00:00",
  "stats": {
-  "modified": 2
+  "modified": 7
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "704d982d",
-   "type": "heading",
-   "context": "Track A — complete frozen panels"
+   "block": "0ecc6e72",
+   "type": "para",
+   "context": "Result in one paragraph"
   },
   {
    "kind": "modified",
-   "block": "066c5e34",
-   "type": "heading",
-   "context": "Track B — gated replication and breadth"
+   "block": "4ca70d46",
+   "type": "para",
+   "context": "Cross-model replication"
+  },
+  {
+   "kind": "modified",
+   "block": "658b678e",
+   "type": "table",
+   "context": "Cross-model replication"
+  },
+  {
+   "kind": "modified",
+   "block": "113b815d",
+   "type": "para",
+   "context": "Cross-model replication"
+  },
+  {
+   "kind": "modified",
+   "block": "e5a8d0fd",
+   "type": "para",
+   "context": "Frontier and optional tracks"
+  },
+  {
+   "kind": "modified",
+   "block": "a02c5c15",
+   "type": "list",
+   "context": "Claim boundary and receipts"
+  },
+  {
+   "kind": "modified",
+   "block": "68a38c2a",
+   "type": "list",
+   "context": "Claim boundary and receipts"
   }
  ],
  "policy": "local",
- "soft_fingerprint": "ppsb1:14a4e1d9557f0d215a16763ef79ba00378f8ee219482671a6418ccf28b43673d",
+ "soft_fingerprint": "ppsb1:cee0eb8d1ed928890a8d8e884d70c72baef68e2775aa736464b42a6b2d5df3ae",
  "actors": {
   "requested_by": [
-   "human:richard-tang"
+   "human:richard"
   ],
   "produced_by": [
    "agent:codex"
@@ -44,21 +74,46 @@
    "agent:codex"
   ]
  },
- "attribution_basis": "self_asserted",
+ "attribution_basis": "environment_attested",
  "claims": [
   {
-   "block": "704d982d",
+   "block": "0ecc6e72",
    "kind": "modified",
-   "note": "Names Track A by its complete frozen-panel evidence tier."
+   "note": "Summarizes seven complete frozen panels, model and task heterogeneity, protection endpoints, and the DeepSeek breadth sensitivity."
   },
   {
-   "block": "066c5e34",
+   "block": "4ca70d46",
    "kind": "modified",
-   "note": "Names Track B by its gated replication and task-breadth role."
+   "note": "Updates the replication evidence tier to seven complete panels and one user-terminated unavailable route."
+  },
+  {
+   "block": "658b678e",
+   "kind": "modified",
+   "note": "Reports exact 18-of-18 completion, clean and stress deltas, and unsafe propagation for every completed model."
+  },
+  {
+   "block": "113b815d",
+   "kind": "modified",
+   "note": "Reports the observed cross-model range and repeated-run interval boundaries without asserting a universal effect."
+  },
+  {
+   "block": "e5a8d0fd",
+   "kind": "modified",
+   "note": "Reports the complete GPT-5.6 Sol panel, task heterogeneity, safety endpoint, and partial usage telemetry boundary."
+  },
+  {
+   "block": "a02c5c15",
+   "kind": "modified",
+   "note": "Updates claim boundaries for seven complete panels, Kimi termination, model-specific protection, and incomplete GPT proof-price telemetry."
+  },
+  {
+   "block": "68a38c2a",
+   "kind": "modified",
+   "note": "Adds the 2026-08-26 cross-model, Qwen, and GPT machine-readable result artifacts."
   }
  ],
  "context": {
-  "why": "Refine model-track headings so the study plan names the actual complete-panel and gated-replication evidence tiers."
+  "why": "Record the completed seven-model frozen replication ladder, task-level heterogeneity, model-specific protection endpoints, and incomplete GPT usage telemetry without pooling models or overstating Harvey affiliation."
  },
- "event_id": "ppe_c7b68d1ac5701e797fe90dc6"
+ "event_id": "ppe_67baabb151a85d2d26b225bd"
 }
