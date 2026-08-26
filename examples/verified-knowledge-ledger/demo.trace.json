@@ -1,0 +1,42 @@
+{
+  "context": "https://trace-protocol.org/v0.3",
+  "trace_version": "0.5.0",
+  "id": "trace_demo_001",
+  "created": "2026-08-23T00:00:00Z",
+  "ended": "2026-08-23T00:05:00Z",
+  "status": "completed",
+  "metadata": {
+    "project": "coframe-long-horizon-demo",
+    "project_key": "coframe-long-horizon-demo",
+    "participants": [
+      {"type": "human", "id": "human:demo", "role": "reviewer"},
+      {"type": "ai", "id": "agent:experiment-runner", "role": "assistant"}
+    ]
+  },
+  "events": [
+    {
+      "id": "evt_001",
+      "timestamp": "2026-08-23T00:01:00Z",
+      "session_id": "trace_demo_001",
+      "type": "tool_call",
+      "actor": {"type": "ai", "id": "agent:experiment-runner"},
+      "tool_call": {"server": "experiment-runner", "name": "evaluate_variant", "input": {"secret": "not-imported"}, "output": {"conversion_rate": 0.18}, "output_hash": "sha256:demo-output", "status": "success", "duration_ms": 820}
+    },
+    {
+      "id": "evt_002",
+      "timestamp": "2026-08-23T00:02:00Z",
+      "session_id": "trace_demo_001",
+      "type": "decision",
+      "actor": {"type": "ai", "id": "agent:experiment-runner"},
+      "decision": {"description": "Propose a larger candidate-b validation run.", "rationale": "The observed conversion result merits confirmation.", "proposed_by": {"type": "ai", "id": "agent:experiment-runner"}, "disposition": "accepted", "resolved_by": {"type": "human", "id": "human:demo"}, "suggestion_type": "proactive", "tags": ["candidate-b", "validation"]}
+    },
+    {
+      "id": "evt_003",
+      "timestamp": "2026-08-23T00:03:00Z",
+      "session_id": "trace_demo_001",
+      "type": "annotation",
+      "actor": {"type": "human", "id": "human:demo"},
+      "annotation": {"category": "correction", "content": "The failed candidate-c run is not evidence of a negative product effect.", "corrects_event_ids": ["evt_001"], "related_event_ids": ["evt_002"], "tags": ["failed-run", "interpretation"]}
+    }
+  ]
+}
