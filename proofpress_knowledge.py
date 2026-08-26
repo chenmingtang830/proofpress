@@ -2,7 +2,7 @@
 """File-backed admission ledger: telemetry is input; admitted claims are context."""
 from __future__ import annotations
 
-import argparse, hashlib, io, json, os, secrets, subprocess, tempfile, threading, webbrowser
+import argparse, hashlib, io, json, os, re, secrets, subprocess, tempfile, threading, webbrowser
 from http import HTTPStatus
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from urllib.parse import parse_qs, urlparse
@@ -199,6 +199,7 @@ KNOWLEDGE_REF = "refs/proofpress/knowledge"
 EVENT_SCHEMA = "proofpress/knowledge-event/v2"
 CONTEXT_SCHEMA = "proofpress/agent-context/v2"
 TRAVERSAL_SCHEMA = "proofpress/graph-traversal/v1"
+RETRIEVAL_EVIDENCE_SCHEMA = "proofpress/retrieval-evidence/v1"
 POLICY_PATH = ".proofpress/policy.json"
 DEFAULT_POLICY_V2 = {
     "id": "proofpress-local-default",
@@ -408,16 +409,145 @@ def v2_state(projection, conclusion, policy=None):
     return "admitted"
 
 
+_SHA256 = re.compile(r"^sha256:[0-9a-f]{64}$")
+
+
+def _required_string(value, field):
+    if not isinstance(value, str) or not value.strip():
+        raise ValueError(f"retrieval evidence {field} must be a non-empty string")
+    return value
+
+
+def _required_digest(value, field):
+    value = _required_string(value, field)
+    if not _SHA256.fullmatch(value):
+        raise ValueError(f"retrieval evidence {field} must be a sha256 digest")
+    return value
+
+
+def _required_positive_int(value, field, minimum=1):
+    if isinstance(value, bool) or not isinstance(value, int) or value < minimum:
+        raise ValueError(f"retrieval evidence {field} must be an integer >= {minimum}")
+    return value
+
+
+def _normalize_locator(raw, quote):
+    if not isinstance(raw, dict):
+        raise ValueError("retrieval evidence locator must be an object")
+    kind = raw.get("kind")
+    if kind == "text_span":
+        start = _required_positive_int(raw.get("start"), "locator.start", 0)
+        end = _required_positive_int(raw.get("end"), "locator.end", 0)
+        if end <= start:
+            raise ValueError("retrieval evidence locator.end must be greater than locator.start")
+        if end - start != len(quote):
+            raise ValueError("retrieval evidence text_span length must equal the quote length")
+        return {"kind": kind, "start": start, "end": end,
+                "text_digest": _required_digest(raw.get("text_digest"), "locator.text_digest")}
+    if kind == "page_span":
+        page_start = _required_positive_int(raw.get("page_start"), "locator.page_start")
+        page_end = _required_positive_int(raw.get("page_end"), "locator.page_end")
+        if page_end < page_start:
+            raise ValueError("retrieval evidence locator.page_end must be >= locator.page_start")
+        return {"kind": kind, "page_start": page_start, "page_end": page_end,
+                "page_digest": _required_digest(raw.get("page_digest"), "locator.page_digest")}
+    if kind == "section_span":
+        page_start = _required_positive_int(raw.get("page_start"), "locator.page_start")
+        page_end = _required_positive_int(raw.get("page_end"), "locator.page_end")
+        if page_end < page_start:
+            raise ValueError("retrieval evidence locator.page_end must be >= locator.page_start")
+        return {"kind": kind,
+                "section_id": _required_string(raw.get("section_id"), "locator.section_id"),
+                "section_digest": _required_digest(raw.get("section_digest"), "locator.section_digest"),
+                "page_start": page_start, "page_end": page_end}
+    raise ValueError("retrieval evidence locator.kind must be text_span, page_span, or section_span")
+
+
+def _retrieval_receipt(payload):
+    """Validate the portable retrieval contract and return its canonical receipt.
+
+    The receipt deliberately binds a locator to the source and the retrieval
+    decision, but does not claim to rerun an external extractor, embedder, or
+    PageIndex adapter. Those adapters can later provide the digests recorded
+    here and be independently evaluated without changing admission semantics.
+    """
+    if not isinstance(payload, dict) or payload.get("schema_version") != RETRIEVAL_EVIDENCE_SCHEMA:
+        raise ValueError(f"retrieval evidence schema_version must be {RETRIEVAL_EVIDENCE_SCHEMA}")
+    source_row, evidence_row, retrieval_row = payload.get("source"), payload.get("evidence"), payload.get("retrieval")
+    if not all(isinstance(row, dict) for row in (source_row, evidence_row, retrieval_row)):
+        raise ValueError("retrieval evidence source, evidence, and retrieval must be objects")
+    quote = _required_string(evidence_row.get("quote"), "evidence.quote")
+    source = {"uri": _required_string(source_row.get("uri"), "source.uri"),
+              "content_digest": _required_digest(source_row.get("content_digest"), "source.content_digest")}
+    if "media_type" in source_row:
+        source["media_type"] = _required_string(source_row["media_type"], "source.media_type")
+    retrieval = {"adapter": _required_string(retrieval_row.get("adapter"), "retrieval.adapter"),
+                 "version": _required_string(retrieval_row.get("version"), "retrieval.version"),
+                 "query": _required_string(retrieval_row.get("query"), "retrieval.query"),
+                 "config_digest": _required_digest(retrieval_row.get("config_digest"), "retrieval.config_digest")}
+    if "selection_reason" in retrieval_row:
+        retrieval["selection_reason"] = _required_string(retrieval_row["selection_reason"], "retrieval.selection_reason")
+    return {"schema_version": RETRIEVAL_EVIDENCE_SCHEMA, "source": source,
+            "quote": quote, "quote_digest": "sha256:" + hashlib.sha256(quote.encode("utf-8")).hexdigest(),
+            "locator": _normalize_locator(evidence_row.get("locator"), quote),
+            "retrieval": retrieval}
+
+
+def _retrieval_receipt_valid(evidence_row):
+    if evidence_row.get("kind") != "retrieval_evidence":
+        return True
+    receipt = evidence_row.get("retrieval_receipt")
+    try:
+        normalized = _retrieval_receipt({
+            "schema_version": RETRIEVAL_EVIDENCE_SCHEMA,
+            "source": receipt["source"],
+            "evidence": {"quote": receipt["quote"], "locator": receipt["locator"]},
+            "retrieval": receipt["retrieval"],
+        })
+    except (KeyError, TypeError, ValueError):
+        return False
+    return (receipt == normalized and
+            evidence_row.get("source_content_digest") == normalized["source"]["content_digest"] and
+            evidence_row.get("quote_digest") == normalized["quote_digest"] and
+            evidence_row.get("retrieval_receipt_digest") == digest(normalized))
+
+
+def _import_retrieval_evidence_v2(payload):
+    receipt = _retrieval_receipt(payload)
+    source = receipt["source"]
+    src = {"id": ident({"uri": source["uri"], "digest": source["content_digest"]}, "src_"),
+           "kind": "retrieval_source", "uri": source["uri"],
+           "content_digest": source["content_digest"]}
+    if "media_type" in source:
+        src["media_type"] = source["media_type"]
+    src["record_hash"] = digest(src)
+    evidence = {"id": ident({"source": src["id"], "receipt": digest(receipt)}, "evd_"),
+                "kind": "retrieval_evidence", "source_ref": src["id"],
+                "source_digest": src["record_hash"],
+                "source_content_digest": source["content_digest"],
+                "quote_digest": receipt["quote_digest"],
+                "retrieval_receipt": receipt,
+                "retrieval_receipt_digest": digest(receipt)}
+    evidence["digest"] = digest(evidence)
+    created = [append_v2({"type": "source_recorded", "subject_ref": src["id"], "record": src}),
+               append_v2({"type": "evidence_bound", "subject_ref": evidence["id"],
+                          "source_ref": src["id"], "evidence": evidence})]
+    return created
+
+
 def import_evidence_v2(path):
     target = Path(path)
     if not target.exists(): raise ValueError(f"evidence input not found: {path}")
     created = []
+    payload = None
     if target.suffix.lower() == ".json":
         payload = json.loads(target.read_text(encoding="utf-8"))
-        span_rows = spans(payload)
+        span_rows = [] if payload.get("schema_version") == RETRIEVAL_EVIDENCE_SCHEMA else spans(payload)
     else:
         span_rows = []
-    if span_rows:
+    if isinstance(payload, dict) and payload.get("schema_version") == RETRIEVAL_EVIDENCE_SCHEMA:
+        created.extend(_import_retrieval_evidence_v2(payload))
+    elif span_rows:
         for raw in span_rows:
             src = source(raw)
             created.append(append_v2({"type": "source_recorded", "subject_ref": src["id"], "record": src}))
@@ -654,6 +784,8 @@ def evaluate_v2(cid, projection=None, events=None, policy=None):
         "evidence_integrity": all(projection["evidence"][ref].get("digest") ==
                                   digest({k: v for k, v in projection["evidence"][ref].items() if k != "digest"})
                                   for ref in evidence_ok),
+        "retrieval_receipts": all(_retrieval_receipt_valid(projection["evidence"][ref])
+                                 for ref in evidence_ok),
         "not_expired": not row.get("expires_at") or row["expires_at"] > now(),
         "not_superseded": cid not in projection["supersessions"],
         "scope_present": bool(row.get("scope")),
@@ -1200,7 +1332,7 @@ def serve_ui(port=7331, scope=None, open_browser=True):
 def add_flat_cli(sub):
     evidence_parser = sub.add_parser("evidence", help="bind local evidence to the trust ledger")
     evidence_sub = evidence_parser.add_subparsers(dest="evidence_cmd", required=True)
-    evidence_import = evidence_sub.add_parser("import", help="import an artifact or OTLP JSON as evidence")
+    evidence_import = evidence_sub.add_parser("import", help="import an artifact, OTLP JSON, or retrieval evidence receipt")
     evidence_import.add_argument("input"); evidence_import.set_defaults(f=cmd_flat)
     propose_parser = sub.add_parser("propose", help="propose an evidence-bound reusable conclusion")
     propose_parser.add_argument("--statement", required=True); propose_parser.add_argument("--evidence", action="append", required=True)

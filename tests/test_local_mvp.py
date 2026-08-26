@@ -49,6 +49,30 @@ class LocalMVPTests(unittest.TestCase):
         return int(subprocess.run(["git", "rev-list", "--count", "refs/proofpress/knowledge"],
                                   cwd=self.repo, text=True, capture_output=True, check=True).stdout)
 
+    def retrieval_envelope(self, locator):
+        quote = "liability cap is 1x annual fees"
+        return {
+            "schema_version": "proofpress/retrieval-evidence/v1",
+            "source": {
+                "uri": "dataroom/msa.pdf",
+                "content_digest": "sha256:" + "a" * 64,
+                "media_type": "application/pdf",
+            },
+            "evidence": {"quote": quote, "locator": locator},
+            "retrieval": {
+                "adapter": "proofpress.lexical-chunk",
+                "version": "1",
+                "query": "What is the liability cap?",
+                "config_digest": "sha256:" + "b" * 64,
+                "selection_reason": "highest lexical overlap",
+            },
+        }
+
+    def import_retrieval_envelope(self, locator):
+        path = self.repo / "retrieval-evidence.json"
+        path.write_text(json.dumps(self.retrieval_envelope(locator)))
+        return self.data("evidence", "import", str(path))
+
     def test_import_is_idempotent_and_events_are_git_backed(self):
         first = self.data("evidence", "import", str(FIXTURE))
         count = self.count_events()
@@ -80,6 +104,50 @@ class LocalMVPTests(unittest.TestCase):
         repeated_relation = self.data(*relation_args)["relation"]["id"]
         self.assertEqual((repeated_first, repeated_relation), (first, relation))
         self.assertEqual(self.count_events(), count)
+
+    def test_retrieval_receipt_binds_locator_and_provenance(self):
+        quote = "liability cap is 1x annual fees"
+        imported = self.import_retrieval_envelope({
+            "kind": "text_span", "start": 120, "end": 120 + len(quote),
+            "text_digest": "sha256:" + "c" * 64,
+        })
+        evidence_id = imported["evidence"][0]
+        sys.path.insert(0, str(ROOT))
+        import proofpress_knowledge as knowledge
+        previous = Path.cwd()
+        try:
+            os.chdir(self.repo)
+            evidence = knowledge.v2_projection()["evidence"][evidence_id]
+        finally:
+            os.chdir(previous)
+        self.assertEqual(evidence["kind"], "retrieval_evidence")
+        self.assertEqual(evidence["retrieval_receipt"]["locator"]["kind"], "text_span")
+        self.assertEqual(evidence["retrieval_receipt"]["retrieval"]["adapter"], "proofpress.lexical-chunk")
+        self.assertTrue(knowledge._retrieval_receipt_valid(evidence))
+        cid = self.data("propose", "--statement", "The liability cap is 1x annual fees",
+                        "--evidence", evidence_id, "--scope", "msa-negotiation",
+                        "--proposer", "agent:runner")["conclusion"]["id"]
+        self.assertTrue(self.data("evaluate", cid)["checks"]["retrieval_receipts"])
+
+    def test_page_and_section_locators_are_accepted_but_malformed_locators_fail(self):
+        page = self.import_retrieval_envelope({
+            "kind": "page_span", "page_start": 4, "page_end": 4,
+            "page_digest": "sha256:" + "d" * 64,
+        })
+        self.assertEqual(len(page["evidence"]), 1)
+        section = self.import_retrieval_envelope({
+            "kind": "section_span", "section_id": "sec-liability",
+            "section_digest": "sha256:" + "e" * 64,
+            "page_start": 4, "page_end": 5,
+        })
+        self.assertEqual(len(section["evidence"]), 2)
+        bad = self.retrieval_envelope({"kind": "page_span", "page_start": 4,
+                                       "page_end": 4})
+        path = self.repo / "bad-retrieval-evidence.json"
+        path.write_text(json.dumps(bad))
+        result = self.cli("evidence", "import", str(path), check=False)
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn("locator.page_digest", result.stderr)
 
     def test_admission_and_context_gate(self):
         _, cid = self.seed()
