@@ -1,30 +1,60 @@
 {
- "artifact": "studies/long-horizon-eval/ara/evidence/figures/public-result.md",
- "artifact_id": "pp_8bb0ecdb2e9fc09c9f8ece88",
+ "artifact": "studies/long-horizon-eval/ara/logic/claims.md",
+ "artifact_id": "pp_926644738c4a198198cd2bf7",
  "blocks": [
   {
    "type": "heading",
-   "text": "# Public result figure",
-   "id": "bd544723",
-   "hash": "e5dca6f170fc"
+   "text": "# Claims",
+   "id": "01b8a95d",
+   "hash": "32475190a135"
   },
   {
-   "type": "para",
-   "text": "**Source**: [`../../../relaybench/visuals/proofpress-results.html`](../../../relaybench/visuals/proofpress-results.html), frozen communication artifact indexed by [`../FINAL_RESULTS_RECEIPTS.json`](../FINAL_RESULTS_RECEIPTS.json) through the public synthesis.",
-   "id": "7ca8d9c8",
-   "hash": "205f5e675c65"
+   "type": "heading",
+   "text": "## C01: Phase Zero mechanics readiness",
+   "id": "c84eefb7",
+   "hash": "12a707abd88b"
   },
   {
-   "type": "table",
-   "text": "| Figure | Role | Claim boundary |\n| --- | --- | --- |\n| `proofpress-results.html` | Interactive publication visual showing model-level matched quality and aggregate unsafe propagation | Harvey LAB-derived multi-step handoff tasks; descriptive frozen-panel result only |",
-   "id": "1dc6a6a0",
-   "hash": "67818bfeb3b7"
+   "type": "list",
+   "text": "- **Statement**: The RelayBench H4 test-double harness can enforce a declared cold boundary, machine-check C1/C2 file-level parity, produce deterministic state-scoring records, and exclude TEST-ONLY output from benchmark metrics.\n- **Status**: supported.\n- **Provenance**: ai-executed; legacy id `C-LH-01`.\n- **Falsification criteria**: Any released test that crosses the declared boundary, admits a parity mismatch, produces nondeterministic state scoring for the same fixture, or allows TEST-ONLY output into benchmark aggregation falsifies this mechanics claim.\n- **Proof**: [E01].\n- **Dependencies**: [].\n- **Tags**: mechanics, harness-readiness, non-behavioral.",
+   "id": "8756ce27",
+   "hash": "a5698710f747"
   },
   {
-   "type": "para",
-   "text": "The HTML figure is not duplicated inside `evidence/figures/` because the content-addressed artifact index preserves a single source of truth. Any exported PNG or social card must be generated from the frozen HTML without changing values, denominators, exclusions, or claim language.",
-   "id": "a7f254a6",
-   "hash": "6043f6f9ce4c"
+   "type": "heading",
+   "text": "## C02: Bounded quality result",
+   "id": "c528753a",
+   "hash": "5ba265a322b8"
+  },
+  {
+   "type": "list",
+   "text": "- **Statement**: Across 126 admitted paired runs in seven complete model panels and three legal task families, ordinary handoff passed 10,654/11,928 rubric criteria (89.3%) and Proofpress passed 11,141/11,928 (93.4%), a descriptive difference of +4.1 percentage points.\n- **Status**: supported for the frozen panel.\n- **Provenance**: ai-executed; legacy id `C-LH-02`.\n- **Falsification criteria**: Recompute all admitted panel receipts under the frozen aggregation rules; any mismatch in pair count, denominators, passed criteria, or derived percentages falsifies the reported result.\n- **Proof**: [E02].\n- **Dependencies**: [C01].\n- **Tags**: quality, descriptive, frozen-panel.",
+   "id": "2a0398fe",
+   "hash": "c884c7a5fe12"
+  },
+  {
+   "type": "heading",
+   "text": "## C03: Bounded safety result",
+   "id": "8276420f",
+   "hash": "8dc3913864dc"
+  },
+  {
+   "type": "list",
+   "text": "- **Statement**: Across the 63 admitted controlled stress pairs, ordinary handoff propagated eight injected unsafe states and Proofpress propagated none; this is an observed panel count, not an estimate of a population event rate.\n- **Status**: supported for the frozen fixtures.\n- **Provenance**: ai-executed; legacy id `C-LH-03`.\n- **Falsification criteria**: Re-run the deterministic fixture-specific endpoint over every admitted stress record; any event total other than ordinary 8 and Proofpress 0, or any ineligible record entering the denominator, falsifies the reported count.\n- **Proof**: [E03].\n- **Dependencies**: [C01].\n- **Tags**: trust-stress, unsafe-propagation, descriptive.",
+   "id": "8a13c1ec",
+   "hash": "78c4a9c40cb3"
+  },
+  {
+   "type": "heading",
+   "text": "## C04: Claim boundary",
+   "id": "94129fbd",
+   "hash": "c76949674a1d"
+  },
+  {
+   "type": "list",
+   "text": "- **Statement**: The admitted results support a bounded product-mechanism signal for governed handoff; they do not establish an official Harvey score, statistical significance, population-level causality, improved legal intelligence, or correctness outside the frozen tasks.\n- **Status**: supported as a scope constraint.\n- **Provenance**: user-revised; legacy id `C-LH-04`.\n- **Falsification criteria**: This boundary may be superseded only by separately preregistered evidence that directly supplies the missing official submission, representative sampling, uncertainty analysis, or substantive legal-correctness endpoint; the current panel cannot support those stronger claims.\n- **Proof**: [E01, E02, E03, E04].\n- **Dependencies**: [C01, C02, C03].\n- **Tags**: scope, limitations, claim-boundary.",
+   "id": "fcb3d07b",
+   "hash": "c00a6b044542"
   }
  ]
 }
