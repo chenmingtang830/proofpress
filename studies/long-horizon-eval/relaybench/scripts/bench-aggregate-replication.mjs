@@ -55,6 +55,9 @@ for (let repeat = 1; repeat <= 3; repeat += 1) for (const arm of arms) for (cons
 }
 
 const invalidAttempts = await findInvalid(args.root);
+const sharedGovernance = await sharedGovernanceSummary(rows, args.root);
+const incrementalProofPrice = Object.fromEntries(arms.map((arm) =>
+  [arm, priceSummary(rows.filter((x) => x.arm === arm))]));
 const result = {
   schema_version: 1,
   generated_at: new Date().toISOString(),
@@ -76,7 +79,13 @@ const result = {
   },
   quality: Object.fromEntries(arms.map((arm) => [arm, qualitySummary(rows.filter((x) => x.arm === arm))])),
   protection: protectionSummary(rows.filter((x) => x.arm === "stress")),
-  proof_price: Object.fromEntries(arms.map((arm) => [arm, priceSummary(rows.filter((x) => x.arm === arm))])),
+  proof_price: {
+    definition: "Per-cell receiver/governance deltas plus each frozen shared governance transaction exactly once.",
+    ...incrementalProofPrice,
+    incremental_by_arm: incrementalProofPrice,
+    shared_governance: sharedGovernance,
+    full_panel: fullPanelPrice(rows, sharedGovernance),
+  },
   valid_runs: rows,
   invalid_attempts: invalidAttempts,
 };
@@ -108,6 +117,58 @@ async function proofPrice(run, state) {
     delta: subtractTelemetry(c2, c1),
     request_ids: { raw: c1Calls.map((x) => x.request_id),
       proofpress: c2Calls.map((x) => x.request_id) },
+  };
+}
+
+async function sharedGovernanceSummary(rows, root) {
+  const sources = new Map();
+  for (const row of rows) {
+    const statePath = path.join(root, row.run, "RUN_STATE.json");
+    const state = JSON.parse(await fs.readFile(statePath, "utf8"));
+    const sourceRun = state.episodes.C2_PROOFPRESS.governance_reuse?.source_run;
+    if (!sourceRun) continue;
+    const resolved = path.resolve(sourceRun);
+    if (!sources.has(resolved)) sources.set(resolved, { tasks: new Set(), cells: 0 });
+    sources.get(resolved).tasks.add(row.task);
+    sources.get(resolved).cells += 1;
+  }
+  const details = [];
+  for (const [sourceRun, usage] of sources) {
+    const statePath = path.join(sourceRun, "RUN_STATE.json");
+    if (!await exists(statePath)) throw new Error(`missing shared governance state ${statePath}`);
+    const state = JSON.parse(await fs.readFile(statePath, "utf8"));
+    const telemetry = [state.episodes.C2_PROOFPRESS.judge_transaction?.telemetry];
+    const sender = path.join(sourceRun, "sender", "SHARED_SENDER");
+    if (await exists(sender)) for (const name of await fs.readdir(sender)) {
+      if (!/^JUDGE_REVIEW_.*\.json$/.test(name)) continue;
+      const value = JSON.parse(await fs.readFile(path.join(sender, name), "utf8"));
+      telemetry.push(value.telemetry);
+    }
+    const calls = uniqueTelemetry(telemetry);
+    details.push({
+      source_run: path.relative(root, sourceRun),
+      tasks: [...usage.tasks].sort(),
+      reused_by_valid_cells: usage.cells,
+      resources: sumTelemetry(calls),
+      request_ids: calls.map((x) => x.request_id),
+      run_state_sha256: await digest(statePath),
+    });
+  }
+  const resources = sumTelemetry(details.map((x) => x.resources));
+  return {
+    source_transactions: details.length,
+    resources,
+    details: details.sort((a, b) => a.source_run.localeCompare(b.source_run)),
+  };
+}
+
+function fullPanelPrice(rows, sharedGovernance) {
+  const incremental = sumTelemetry(rows.map((x) => x.proof_price.delta));
+  return {
+    valid_pairs: rows.length,
+    incremental,
+    shared_governance: sharedGovernance.resources,
+    all_in: addTelemetry(incremental, sharedGovernance.resources),
   };
 }
 
@@ -186,6 +247,9 @@ function sumTelemetry(values) {
 }
 function subtractTelemetry(a, b) {
   return Object.fromEntries(Object.keys(a).map((key) => [key, a[key] - b[key]]));
+}
+function addTelemetry(a, b) {
+  return Object.fromEntries(Object.keys(a).map((key) => [key, a[key] + (b[key] ?? 0)]));
 }
 function meanTInterval(values) {
   if (values.length < 2) return { mean: mean(values), interval_available: false,
