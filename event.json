@@ -1,135 +1,121 @@
 {
  "event": "version_created",
- "artifact": "studies/long-horizon-eval/ara/logic/problem.md",
- "artifact_id": "pp_736509ad8e41717a0a2354e9",
- "version": "12178fbd",
- "parent": "864d455d",
+ "artifact": "studies/long-horizon-eval/ara/logic/concepts.md",
+ "artifact_id": "pp_a03504ae1b937ae1ccd62dbd",
+ "version": "e29e121d",
+ "parent": "ece5acb2",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-26T13:04:38+00:00",
+ "ts": "2026-08-26T13:04:44+00:00",
  "stats": {
-  "added": 16
+  "added": 14
  },
  "changes": [
   {
    "kind": "added",
-   "block": "8fdbb3ce",
+   "block": "fdb16762",
    "type": "heading",
-   "context": "Observations",
-   "preview": "## Observations"
+   "context": "Ordinary handoff",
+   "preview": "## Ordinary handoff"
   },
   {
    "kind": "added",
-   "block": "c4c9425a",
-   "type": "heading",
-   "context": "O1: Cold handoffs can silently inherit s",
-   "preview": "### O1: Cold handoffs can silently inherit stale or unsuppor"
-  },
-  {
-   "kind": "added",
-   "block": "40d78ed1",
+   "block": "5e5b2b11",
    "type": "list",
-   "context": "O1: Cold handoffs can silently inherit s",
-   "preview": "- **Statement**: A fresh worker assembling a professional de"
+   "context": "Ordinary handoff",
+   "preview": "- **Definition**: A portable summary or artifact passed to t"
   },
   {
    "kind": "added",
-   "block": "72e59d68",
+   "block": "676ce865",
    "type": "heading",
-   "context": "O2: Integrity and substantive correctnes",
-   "preview": "### O2: Integrity and substantive correctness are different "
+   "context": "Governed knowledge ledger",
+   "preview": "## Governed knowledge ledger"
   },
   {
    "kind": "added",
-   "block": "703aa18b",
+   "block": "dfaf11f1",
    "type": "list",
-   "context": "O2: Integrity and substantive correctnes",
-   "preview": "- **Statement**: Version binding and provenance can establis"
+   "context": "Governed knowledge ledger",
+   "preview": "- **Definition**: An append-only representation binding prop"
   },
   {
    "kind": "added",
-   "block": "4255e111",
+   "block": "730c76ec",
    "type": "heading",
-   "context": "O3: Governance can create an information",
-   "preview": "### O3: Governance can create an information and operational"
+   "context": "Verified handoff",
+   "preview": "## Verified handoff"
   },
   {
    "kind": "added",
-   "block": "8e55081a",
+   "block": "655ede9b",
    "type": "list",
-   "context": "O3: Governance can create an information",
-   "preview": "- **Statement**: Distillation, policy judging, graph selecti"
+   "context": "Verified handoff",
+   "preview": "- **Definition**: A receiver handoff assembled from current "
   },
   {
    "kind": "added",
-   "block": "7f6acab6",
+   "block": "3377dfb4",
    "type": "heading",
-   "context": "Gaps",
-   "preview": "## Gaps"
+   "context": "Cold boundary",
+   "preview": "## Cold boundary"
   },
   {
    "kind": "added",
-   "block": "5d5ccd33",
-   "type": "heading",
-   "context": "G1: Ordinary handoff has no explicit adm",
-   "preview": "### G1: Ordinary handoff has no explicit admission boundary"
-  },
-  {
-   "kind": "added",
-   "block": "fdbff750",
+   "block": "84d24d9d",
    "type": "list",
-   "context": "G1: Ordinary handoff has no explicit adm",
-   "preview": "- **Statement**: A summary can mix observations, proposals, "
+   "context": "Cold boundary",
+   "preview": "- **Definition**: The S3-to-S4 transition where a fresh work"
   },
   {
    "kind": "added",
-   "block": "ed0d6b5e",
+   "block": "0d8b2a28",
    "type": "heading",
-   "context": "G2: Safety benefit and clean-handoff tax",
-   "preview": "### G2: Safety benefit and clean-handoff tax are usually con"
+   "context": "Trust stress fixture",
+   "preview": "## Trust stress fixture"
   },
   {
    "kind": "added",
-   "block": "b5f49a95",
+   "block": "e1bb26e8",
    "type": "list",
-   "context": "G2: Safety benefit and clean-handoff tax",
-   "preview": "- **Statement**: A single aggregate task score cannot distin"
+   "context": "Trust stress fixture",
+   "preview": "- **Definition**: A preregistered, byte-matched perturbation"
   },
   {
    "kind": "added",
-   "block": "eb885b7d",
+   "block": "61467ea3",
    "type": "heading",
-   "context": "Key Insight",
-   "preview": "## Key Insight"
+   "context": "Unsafe propagation",
+   "preview": "## Unsafe propagation"
   },
   {
    "kind": "added",
-   "block": "00f5ffa4",
+   "block": "24e3944d",
    "type": "list",
-   "context": "Key Insight",
-   "preview": "- **Insight**: Keep the worker's legal task fixed while chan"
+   "context": "Unsafe propagation",
+   "preview": "- **Definition**: The S4 deliverable relies on the injected "
   },
   {
    "kind": "added",
-   "block": "5a9d5738",
+   "block": "3d254710",
    "type": "heading",
-   "context": "Assumptions",
-   "preview": "## Assumptions"
+   "context": "Admitted paired run",
+   "preview": "## Admitted paired run"
   },
   {
    "kind": "added",
-   "block": "e2ed49ea",
+   "block": "76055810",
    "type": "list",
-   "context": "Assumptions",
-   "preview": "- A1: The three selected LAB Contracts-derived task families"
+   "context": "Admitted paired run",
+   "preview": "- **Definition**: A Raw/Proofpress condition pair that satis"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:b0527770c64c3639af476de18ec08997b226e2bb6d24c0d27b8acc95aa8afa64",
+ "soft_fingerprint": "ppsb1:92f7b9395afd8292666790d04ac90c3f9d82d892cf8a575989314e2bca128c73",
  "actors": {
   "requested_by": [
    "human:richardtang"
@@ -147,88 +133,78 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "8fdbb3ce",
+   "block": "fdb16762",
    "kind": "added",
-   "note": "Adds publication-grade ARA content: ## Observations"
+   "note": "Adds publication-grade ARA content: ## Ordinary handoff"
   },
   {
-   "block": "c4c9425a",
+   "block": "5e5b2b11",
    "kind": "added",
-   "note": "Adds publication-grade ARA content: ### O1: Cold handoffs can silently inherit stale or unsupported state"
+   "note": "Adds publication-grade ARA content: - **Definition**: A portable summary or artifact passed to the S4 receiver without Proofpress ledger state or deterministic current-state bl"
   },
   {
-   "block": "40d78ed1",
+   "block": "676ce865",
    "kind": "added",
-   "note": "Adds publication-grade ARA content: - **Statement**: A fresh worker assembling a professional deliverable can rely on a prior worker's summary without knowing whether its concl"
+   "note": "Adds publication-grade ARA content: ## Governed knowledge ledger"
   },
   {
-   "block": "72e59d68",
+   "block": "dfaf11f1",
    "kind": "added",
-   "note": "Adds publication-grade ARA content: ### O2: Integrity and substantive correctness are different properties"
+   "note": "Adds publication-grade ARA content: - **Definition**: An append-only representation binding proposed conclusions to evidence, artifact versions, scope, policy evaluation, admis"
   },
   {
-   "block": "703aa18b",
+   "block": "730c76ec",
    "kind": "added",
-   "note": "Adds publication-grade ARA content: - **Statement**: Version binding and provenance can establish which state was authorized and why, but cannot establish that a legal conclusi"
+   "note": "Adds publication-grade ARA content: ## Verified handoff"
   },
   {
-   "block": "4255e111",
+   "block": "655ede9b",
    "kind": "added",
-   "note": "Adds publication-grade ARA content: ### O3: Governance can create an information and operational tax"
+   "note": "Adds publication-grade ARA content: - **Definition**: A receiver handoff assembled from current admitted ledger state whose evidence and receipt digests verify against the froz"
   },
   {
-   "block": "8e55081a",
+   "block": "3377dfb4",
    "kind": "added",
-   "note": "Adds publication-grade ARA content: - **Statement**: Distillation, policy judging, graph selection, evidence expansion, and compilation add tokens and latency and can omit task"
+   "note": "Adds publication-grade ARA content: ## Cold boundary"
   },
   {
-   "block": "7f6acab6",
+   "block": "84d24d9d",
    "kind": "added",
-   "note": "Adds publication-grade ARA content: ## Gaps"
+   "note": "Adds publication-grade ARA content: - **Definition**: The S3-to-S4 transition where a fresh worker receives only the condition-specific handoff and permitted post-boundary mate"
   },
   {
-   "block": "5d5ccd33",
+   "block": "0d8b2a28",
    "kind": "added",
-   "note": "Adds publication-grade ARA content: ### G1: Ordinary handoff has no explicit admission boundary"
+   "note": "Adds publication-grade ARA content: ## Trust stress fixture"
   },
   {
-   "block": "fdbff750",
+   "block": "e1bb26e8",
    "kind": "added",
-   "note": "Adds publication-grade ARA content: - **Statement**: A summary can mix observations, proposals, superseded versions, and approvals without a machine-checkable rule for what the"
+   "note": "Adds publication-grade ARA content: - **Definition**: A preregistered, byte-matched perturbation that introduces stale, unsupported, or revoked state at the cold boundary while"
   },
   {
-   "block": "ed0d6b5e",
+   "block": "61467ea3",
    "kind": "added",
-   "note": "Adds publication-grade ARA content: ### G2: Safety benefit and clean-handoff tax are usually conflated"
+   "note": "Adds publication-grade ARA content: ## Unsafe propagation"
   },
   {
-   "block": "b5f49a95",
+   "block": "24e3944d",
    "kind": "added",
-   "note": "Adds publication-grade ARA content: - **Statement**: A single aggregate task score cannot distinguish clean continuation quality, protection under a trust failure, and the comp"
+   "note": "Adds publication-grade ARA content: - **Definition**: The S4 deliverable relies on the injected state in the prohibited manner defined by the fixture-specific deterministic end"
   },
   {
-   "block": "eb885b7d",
+   "block": "3d254710",
    "kind": "added",
-   "note": "Adds publication-grade ARA content: ## Key Insight"
+   "note": "Adds publication-grade ARA content: ## Admitted paired run"
   },
   {
-   "block": "00f5ffa4",
+   "block": "76055810",
    "kind": "added",
-   "note": "Adds publication-grade ARA content: - **Insight**: Keep the worker's legal task fixed while changing the handoff representation: ordinary portable summary versus a version-boun"
-  },
-  {
-   "block": "5a9d5738",
-   "kind": "added",
-   "note": "Adds publication-grade ARA content: ## Assumptions"
-  },
-  {
-   "block": "e2ed49ea",
-   "kind": "added",
-   "note": "Adds publication-grade ARA content: - A1: The three selected LAB Contracts-derived task families are useful professional-workflow fixtures but do not represent all legal work."
+   "note": "Adds publication-grade ARA content: - **Definition**: A Raw/Proofpress condition pair that satisfies model/provider identity, cap parity, parser validity, transport completion,"
   }
  ],
  "context": {
   "why": "Compile the frozen PR #35 study into a publication-grade ARA 2.6 artifact without changing results or inventing historical research traces."
  },
- "event_id": "ppe_13c2f49f1f8c674da497f9ac"
+ "event_id": "ppe_74814669ce03a5a840eb71c3"
 }
