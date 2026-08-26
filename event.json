@@ -1,36 +1,36 @@
 {
-  "created_at": "2026-08-26T20:49:18.938711Z",
-  "event_id": "ppe_0e2ceba34bf0de8c",
-  "record": {
-    "attributes": {
-      "actor": {
-        "id": "agent:experiment-runner",
-        "type": "ai"
+  "created_at": "2026-08-26T20:49:18.992252Z",
+  "event_id": "ppe_49cd67cdb49582c3",
+  "evidence": {
+    "digest": "sha256:33ca93adfe47d054d27556ac72a2302356af936d2d02743ecf70b1baf782edf5",
+    "id": "evd_70d10fbd1702c1e2",
+    "kind": "evidence",
+    "observation": {
+      "attributes": {
+        "actor": {
+          "id": "agent:experiment-runner",
+          "type": "ai"
+        },
+        "event": {
+          "duration_ms": 820,
+          "name": "evaluate_variant",
+          "output_hash": "sha256:demo-output",
+          "server": "experiment-runner",
+          "status": "success"
+        },
+        "event_type": "tool_call",
+        "project": "coframe-long-horizon-demo",
+        "project_key": "coframe-long-horizon-demo"
       },
-      "event": {
-        "duration_ms": 820,
-        "name": "evaluate_variant",
-        "output_hash": "sha256:demo-output",
-        "server": "experiment-runner",
-        "status": "success"
-      },
-      "event_type": "tool_call",
-      "project": "coframe-long-horizon-demo",
-      "project_key": "coframe-long-horizon-demo"
+      "name": "trace.tool_call",
+      "status": "success",
+      "timestamp": "2026-08-23T00:01:00Z"
     },
-    "id": "src_0ccfb595638fe81d",
-    "kind": "source_event",
-    "name": "trace.tool_call",
-    "record_hash": "sha256:8efb5349e2938aa2cdc602b494f44882f057e99527166efefe3d949f77b9bd47",
-    "source_protocol": "TRACE",
-    "source_ref": "trace:trace_demo_001#evt_001",
-    "source_schema": "0.5.0",
-    "span_id": "evt_001",
-    "status": "success",
-    "timestamp": "2026-08-23T00:01:00Z",
-    "trace_id": "trace_demo_001"
+    "source_digest": "sha256:8efb5349e2938aa2cdc602b494f44882f057e99527166efefe3d949f77b9bd47",
+    "source_ref": "src_0ccfb595638fe81d"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "subject_ref": "src_0ccfb595638fe81d",
-  "type": "source_recorded"
+  "source_ref": "src_0ccfb595638fe81d",
+  "subject_ref": "evd_70d10fbd1702c1e2",
+  "type": "evidence_bound"
 }
