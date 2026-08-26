@@ -1,64 +1,86 @@
 {
  "event": "version_created",
- "artifact": "studies/long-horizon-eval/relaybench/PUBLIC_RESULTS.md",
- "artifact_id": "pp_a59d351c883c87dde5396eba",
- "version": "3dc549ac",
- "parent": "e9e8680f",
+ "artifact": "studies/long-horizon-eval/relaybench/visuals/proofpress-results.html",
+ "artifact_id": "pp_cf50332f934a667c7ce1e36b",
+ "version": "efac0c97",
+ "parent": "66fc9e73",
  "author": {
-  "name": "OpenAI Codex",
-  "kind": "agent",
+  "name": "unknown",
+  "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-26T11:47:07+00:00",
+ "ts": "2026-08-26T11:55:37+00:00",
  "stats": {
-  "modified": 2
+  "modified": 4
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "e18743e6",
+   "block": "1d393510",
    "type": "heading",
-   "context": "Proofpress improved rubric completion ac"
+   "context": "<h1>Proofpress improved <em>Harvey LAB-d"
   },
   {
    "kind": "modified",
-   "block": "a75a49ef",
+   "block": "370cbed7",
    "type": "para",
-   "context": "Proofpress improved rubric completion ac"
+   "context": "<h1>Proofpress improved <em>Harvey LAB-d"
+  },
+  {
+   "kind": "modified",
+   "block": "dc01e281",
+   "type": "heading",
+   "context": "<h2 id=\"quality-title\">Rubric completion"
+  },
+  {
+   "kind": "modified",
+   "block": "f42686c9",
+   "type": "para",
+   "context": "<h2 id=\"quality-title\">Rubric completion"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:6815bc246b4c1666fadca5cec792a3d8d4ea85909a5ebe23337d0a26bd268895",
+ "soft_fingerprint": "ppsb1:a8673275204747c87399b6dc13f7366d71dd53c798ca564bbc9fbe27180af6c1",
  "actors": {
   "requested_by": [
-   "human:richard-tang"
+   "human:richardtang"
   ],
   "produced_by": [
-   "agent:openai-codex"
+   "agent:codex"
   ],
   "edited_by": [
-   "agent:openai-codex"
+   "agent:codex"
   ],
   "recorded_by": [
-   "agent:openai-codex"
+   "agent:codex"
   ]
  },
- "attribution_basis": "environment_attested",
+ "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "e18743e6",
+   "block": "1d393510",
    "kind": "modified",
-   "note": "Lead with the cross-model product result rather than an academic study framing."
+   "note": "Makes the product headline explicitly name the Harvey LAB-derived task basis and the positive direction across all seven frozen model panels."
   },
   {
-   "block": "a75a49ef",
+   "block": "370cbed7",
    "kind": "modified",
-   "note": "State the Harvey LAB-derived scope, seven-model completion result, and observed safety outcome directly."
+   "note": "Tightens the summary to the two measured product outcomes: rubric completion and observed unsafe propagation."
+  },
+  {
+   "block": "dc01e281",
+   "kind": "modified",
+   "note": "Retitles the comparison as rubric completion by model."
+  },
+  {
+   "block": "f42686c9",
+   "kind": "modified",
+   "note": "Keeps the matched-run pooling and zoomed 80–100% scale visible next to the model bars."
   }
  ],
  "context": {
-  "why": "Reframe the public one-page result as a product announcement while preserving the exact study boundary and receipts."
+  "why": "Make the frozen product result legible as a benchmark-style announcement by naming the Harvey LAB-derived basis, using exact model identities, and placing percentages and percentage-point gains beside each bar."
  },
- "event_id": "ppe_c7bba5ee1617f106096ba57d"
+ "event_id": "ppe_380e2b761b576f6c9b86b54e"
 }
