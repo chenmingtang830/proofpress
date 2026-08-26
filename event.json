@@ -1,44 +1,58 @@
 {
  "event": "version_created",
- "artifact": "studies/long-horizon-eval/ara/evidence/README.md",
- "artifact_id": "pp_41859228ea2275bf0b43df62",
- "version": "f9659dad",
- "parent": "fbcf5cb3",
+ "artifact": "studies/long-horizon-eval/ara/evidence/tables/final-panel.md",
+ "artifact_id": "pp_7c2f1060771725bb9245c05b",
+ "version": "13b737a5",
+ "parent": "305cb4b5",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-26T13:04:15+00:00",
+ "ts": "2026-08-26T13:04:22+00:00",
  "stats": {
   "modified": 1,
-  "added": 2
+  "added": 4
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "b70b34f3",
-   "type": "table",
-   "context": "Admitted final evidence"
-  },
-  {
-   "kind": "added",
-   "block": "bbb0ada2",
+   "block": "d956bad1",
    "type": "heading",
-   "context": "Verification",
-   "preview": "## Verification"
+   "context": "Frozen final panel"
   },
   {
    "kind": "added",
-   "block": "556c9a03",
+   "block": "8a218798",
    "type": "para",
-   "context": "Verification",
-   "preview": "Run `python3 ../src/execution/verify_receipts.py` from this "
+   "context": "Frozen final panel",
+   "preview": "**Source**: [`../FINAL_RESULTS_RECEIPTS.json`](../FINAL_RESU"
+  },
+  {
+   "kind": "added",
+   "block": "93573be5",
+   "type": "table",
+   "context": "Frozen final panel",
+   "preview": "| Endpoint | Ordinary handoff | Proofpress governed handoff "
+  },
+  {
+   "kind": "added",
+   "block": "1c1aefa8",
+   "type": "table",
+   "context": "Frozen final panel",
+   "preview": "| Panel scope | Frozen value |\n| --- | ---: |\n| Valid paired"
+  },
+  {
+   "kind": "added",
+   "block": "a51d1518",
+   "type": "para",
+   "context": "Frozen final panel",
+   "preview": "These are bounded observed counts for the frozen panel. They"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:36ad84a0d0be9475856e624096058dc444b282af1fca10bb772d91bae78241d9",
+ "soft_fingerprint": "ppsb1:314c7c1cf921f844165f45b78786c618588a32a072ed2ab3d2881eae45400442",
  "actors": {
   "requested_by": [
    "human:richardtang"
@@ -56,23 +70,28 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "b70b34f3",
-   "kind": "modified",
-   "note": "Indexes the frozen aggregate table and publication-figure pointer alongside admitted receipts."
+   "block": "8a218798",
+   "kind": "added",
+   "note": "Adds publication-grade ARA content: **Source**: [`../FINAL_RESULTS_RECEIPTS.json`](../FINAL_RESULTS_RECEIPTS.json), frozen 2026-08-26. Values below are transcribed from its `ag"
   },
   {
-   "block": "bbb0ada2",
+   "block": "93573be5",
    "kind": "added",
-   "note": "Adds the local receipt-verification section."
+   "note": "Adds publication-grade ARA content: | Endpoint | Ordinary handoff | Proofpress governed handoff | Descriptive difference |"
   },
   {
-   "block": "556c9a03",
+   "block": "1c1aefa8",
    "kind": "added",
-   "note": "Documents the fail-closed SHA-256 verification command and behavior."
+   "note": "Adds publication-grade ARA content: | Panel scope | Frozen value |"
+  },
+  {
+   "block": "a51d1518",
+   "kind": "added",
+   "note": "Adds publication-grade ARA content: These are bounded observed counts for the frozen panel. They are not official Harvey scores, statistical-significance claims, population eve"
   }
  ],
  "context": {
   "why": "Compile the frozen PR #35 study into a publication-grade ARA 2.6 artifact without changing results or inventing historical research traces."
  },
- "event_id": "ppe_6f937136583a44100d4772ac"
+ "event_id": "ppe_4b3f82d72d37cd6d58024f97"
 }

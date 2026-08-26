@@ -1,54 +1,36 @@
 {
- "artifact": "studies/long-horizon-eval/ara/evidence/README.md",
- "artifact_id": "pp_41859228ea2275bf0b43df62",
+ "artifact": "studies/long-horizon-eval/ara/evidence/tables/final-panel.md",
+ "artifact_id": "pp_7c2f1060771725bb9245c05b",
  "blocks": [
   {
    "type": "heading",
-   "text": "# Evidence index",
-   "id": "db9f5a16",
-   "hash": "1287755cd4bb"
+   "text": "# Frozen final panel",
+   "id": "d956bad1",
+   "hash": "d26ec582d40b"
   },
   {
-   "type": "heading",
-   "text": "## Admitted final evidence",
-   "id": "fd5c49bd",
-   "hash": "3d8d5c1d884b"
+   "type": "para",
+   "text": "**Source**: [`../FINAL_RESULTS_RECEIPTS.json`](../FINAL_RESULTS_RECEIPTS.json), frozen 2026-08-26. Values below are transcribed from its `aggregate` object; the manifest binds all seven admitted panel files by SHA-256.",
+   "id": "8a218798",
+   "hash": "3c0a1da3fe15"
   },
   {
    "type": "table",
-   "text": "| Evidence | Location | What it supports | What it does not support |\n| --- | --- | --- | --- |\n| Final receipt manifest | [`FINAL_RESULTS_RECEIPTS.json`](FINAL_RESULTS_RECEIPTS.json) | Exact paths, SHA-256 digests, roles, denominators, and exclusions for the frozen result set | External identity or legal correctness |\n| One-page result | [`../../relaybench/PUBLIC_RESULTS.md`](../../relaybench/PUBLIC_RESULTS.md) | Human-readable bounded synthesis | Official Harvey leaderboard status or population causality |\n| Seven complete panel files | [`../../relaybench/results/`](../../relaybench/results/) | Per-model, per-task paired quality, safety, and operational records | Generalization beyond the frozen panel |\n| Invalid-attempt ledger | [`../../relaybench/results/pre-v9-attempt-ledger-2026-08-24.json`](../../relaybench/results/pre-v9-attempt-ledger-2026-08-24.json) | Failed, partial, malformed, and invalid routes retained before final panels | Treatment estimates |\n| DeepSeek breadth expansion | [`../../relaybench/results/deepseek-v9-14-task-expansion-2026-08-25.json`](../../relaybench/results/deepseek-v9-14-task-expansion-2026-08-25.json) | Secondary task-breadth and floor-sensitivity evidence | A seven-model breadth result |\n| Frozen aggregate table | [`tables/final-panel.md`](tables/final-panel.md) | ARA-readable transcription of primary quality, safety, and scope totals | New evidence beyond the receipt manifest |\n| Publication figure pointer | [`figures/public-result.md`](figures/public-result.md) | Binds the communication visual to its source and claim boundary | Independent empirical evidence |",
-   "id": "b70b34f3",
-   "hash": "040b47352fa1"
+   "text": "| Endpoint | Ordinary handoff | Proofpress governed handoff | Descriptive difference |\n| --- | ---: | ---: | ---: |\n| Matched rubric criteria passed | 10,654 / 11,928 | 11,141 / 11,928 | +487 criteria |\n| Rubric quality | 89.319% | 93.402% | +4.083 percentage points |\n| Unsafe propagation in stress pairs | 8 / 63 | 0 / 63 | −8 observed events |",
+   "id": "93573be5",
+   "hash": "f3e799839cd2"
   },
   {
-   "type": "heading",
-   "text": "## Admission and exclusion",
-   "id": "64da3f86",
-   "hash": "ddf79afab1f8"
-  },
-  {
-   "type": "para",
-   "text": "Only the seven complete panels named in the receipt manifest enter the 126-pair aggregate. Kimi, Phase Zero test doubles, route calibrations, and invalid attempts remain retained but excluded. Further runs belong to a new preregistered study and cannot silently update this frozen result.",
-   "id": "ae8292bd",
-   "hash": "61e65a6ac7f2"
+   "type": "table",
+   "text": "| Panel scope | Frozen value |\n| --- | ---: |\n| Valid paired runs | 126 |\n| Complete model panels | 7 |\n| Task families | 3 |\n| Admitted stress pairs | 63 |",
+   "id": "1c1aefa8",
+   "hash": "1c17cd4fa22a"
   },
   {
    "type": "para",
-   "text": "Do not include raw private prompts, transcripts, credentials, or undisclosed Harvey materials in this public artifact. Store only the minimum permitted evidence needed to reproduce the stated claim boundary.",
-   "id": "daf78085",
-   "hash": "3ea716bb5dc5"
-  },
-  {
-   "type": "heading",
-   "text": "## Verification",
-   "id": "bbb0ada2",
-   "hash": "af80ba328900"
-  },
-  {
-   "type": "para",
-   "text": "Run `python3 ../src/execution/verify_receipts.py` from this directory, or `python3 src/execution/verify_receipts.py` from the ARA root. The verifier resolves every admitted and secondary result path relative to `FINAL_RESULTS_RECEIPTS.json`, recomputes SHA-256, and fails closed on missing or mismatched files.",
-   "id": "556c9a03",
-   "hash": "8ba863bb9511"
+   "text": "These are bounded observed counts for the frozen panel. They are not official Harvey scores, statistical-significance claims, population event-rate estimates, or evidence of improved legal intelligence.",
+   "id": "a51d1518",
+   "hash": "8f9f8468fd54"
   }
  ]
 }
