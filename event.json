@@ -1,47 +1,35 @@
 {
  "event": "version_created",
- "artifact": "studies/long-horizon-eval/relaybench/visuals/proofpress-results.html",
- "artifact_id": "pp_cf50332f934a667c7ce1e36b",
- "version": "efac0c97",
- "parent": "66fc9e73",
+ "artifact": "studies/long-horizon-eval/relaybench/PUBLIC_RESULTS.md",
+ "artifact_id": "pp_a59d351c883c87dde5396eba",
+ "version": "390eeb58",
+ "parent": "3dc549ac",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-26T11:55:37+00:00",
+ "ts": "2026-08-26T11:55:49+00:00",
  "stats": {
-  "modified": 4
+  "modified": 2
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "1d393510",
+   "block": "e18743e6",
    "type": "heading",
-   "context": "<h1>Proofpress improved <em>Harvey LAB-d"
+   "context": "Proofpress improved Harvey LAB-derived t"
   },
   {
    "kind": "modified",
-   "block": "370cbed7",
+   "block": "a75a49ef",
    "type": "para",
-   "context": "<h1>Proofpress improved <em>Harvey LAB-d"
-  },
-  {
-   "kind": "modified",
-   "block": "dc01e281",
-   "type": "heading",
-   "context": "<h2 id=\"quality-title\">Rubric completion"
-  },
-  {
-   "kind": "modified",
-   "block": "f42686c9",
-   "type": "para",
-   "context": "<h2 id=\"quality-title\">Rubric completion"
+   "context": "Proofpress improved Harvey LAB-derived t"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:a8673275204747c87399b6dc13f7366d71dd53c798ca564bbc9fbe27180af6c1",
+ "soft_fingerprint": "ppsb1:882ab15ef120c12fb8b7efb72795422d73d04fa0b30752acb8bb90c341bbe3b4",
  "actors": {
   "requested_by": [
    "human:richardtang"
@@ -59,28 +47,18 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "1d393510",
+   "block": "e18743e6",
    "kind": "modified",
-   "note": "Makes the product headline explicitly name the Harvey LAB-derived task basis and the positive direction across all seven frozen model panels."
+   "note": "Updates the public result headline to explicitly identify the Harvey LAB-derived task basis and seven-model scope."
   },
   {
-   "block": "370cbed7",
+   "block": "a75a49ef",
    "kind": "modified",
-   "note": "Tightens the summary to the two measured product outcomes: rubric completion and observed unsafe propagation."
-  },
-  {
-   "block": "dc01e281",
-   "kind": "modified",
-   "note": "Retitles the comparison as rubric completion by model."
-  },
-  {
-   "block": "f42686c9",
-   "kind": "modified",
-   "note": "Keeps the matched-run pooling and zoomed 80–100% scale visible next to the model bars."
+   "note": "Tightens the product announcement summary without changing the measured outcomes or claim boundary."
   }
  ],
  "context": {
-  "why": "Make the frozen product result legible as a benchmark-style announcement by naming the Harvey LAB-derived basis, using exact model identities, and placing percentages and percentage-point gains beside each bar."
+  "why": "Align the public one-page result headline with the benchmark-style product announcement while preserving the frozen result and explicit non-official claim boundary."
  },
- "event_id": "ppe_380e2b761b576f6c9b86b54e"
+ "event_id": "ppe_ae02f53206a7c40f5a83a952"
 }
