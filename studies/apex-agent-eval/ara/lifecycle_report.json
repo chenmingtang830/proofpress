@@ -1,0 +1,88 @@
+{
+  "schema": "proofpress-ara-lifecycle-v1",
+  "status": "complete_with_disclosed_abandoned_attempts",
+  "final_artifacts": {
+    "markdown_files": 22,
+    "unpinned_default_verify_exit_zero": 22,
+    "claim_receipt_files": 26,
+    "recorded_block_claims": 256,
+    "policy": "portable",
+    "actors": {
+      "requested_by": "Chenming Tang",
+      "produced_by": "OpenAI Codex",
+      "edited_by": "OpenAI Codex",
+      "recorded_by": "OpenAI Codex",
+      "attribution_basis": "self_asserted"
+    }
+  },
+  "verified_files": [
+    "../README.md",
+    "PAPER.md",
+    "evidence/README.md",
+    "evidence/figures/figure1_pr35_results_poster.md",
+    "evidence/logs/log_pointers.md",
+    "evidence/results/pr35_comparison.md",
+    "evidence/results/task1_results.md",
+    "evidence/results/task2_results.md",
+    "evidence/results/upfront_and_reuse.md",
+    "evidence/tables/table1_task1_three_model.md",
+    "evidence/tables/table2_task2_three_model.md",
+    "evidence/tables/table3_cross_task_summary.md",
+    "logic/claims.md",
+    "logic/concepts.md",
+    "logic/experiments.md",
+    "logic/problem.md",
+    "logic/related_work.md",
+    "logic/solution/architecture.md",
+    "logic/solution/constraints.md",
+    "logic/solution/study_design.md",
+    "src/artifacts.md",
+    "src/environment.md"
+  ],
+  "bug_1_policy_checkpoint_preempted_claimed_snapshot": {
+    "status": "disclosed_and_avoided_by_fresh_artifact_sequence",
+    "cause": "Applying policy portable to an already-authored new Markdown file created a checkpoint containing the full body. The following claimed snapshot was a no-op because the body matched the checkpoint.",
+    "exact_snapshot_output": "no change: studies/apex-agent-eval/README.md matches the latest ledger version",
+    "exact_initial_verify_output": "artifact not in ledger",
+    "exact_post_import_verify_output": "verify studies/apex-agent-eval/README.md @ 8d86d37c (v1)\n  no claims recorded for this version (snapshot ran without --claims) — nothing to verify",
+    "resolution": "The failed identities were not rewritten or represented as verified. Each final Markdown artifact was rebuilt from a distinct empty portable checkpoint, populated, anchored, snapshotted once with per-block added claims, verified, and then moved to its final path."
+  },
+  "bug_2_partial_import_selected_wrong_default_head": {
+    "status": "fixed_in_worktree_and_regression_tested",
+    "cause": "After a verified portable artifact moved to its final path and was partially imported, default verify selected the empty checkpoint rather than the portable capsule head.",
+    "exact_pre_fix_output": "verify studies/apex-agent-eval/README.md @ a936c4fa (v2)\n  no claims recorded for this version (snapshot ran without --claims) — nothing to verify",
+    "fix_files": [
+      "../../../proofpress.py",
+      "../../../tests/test_portable.py"
+    ],
+    "fix_commit_status": "committed as 43cf0a4 (fix: resolve portable capsule heads after partial import)",
+    "regression_test": "python3 -m unittest tests.test_portable.PortableArtifactTests.test_partial_import_keeps_portable_capsule_head_current",
+    "regression_test_result": "PASS; Ran 1 test in 1.088s",
+    "post_fix_requirement": "All 22 final paths passed unpinned proofpress verify with exit code 0."
+  },
+  "additional_abandoned_attempt": {
+    "artifact": "PAPER.md temporary staging identity",
+    "reason": "The first generated claim receipt omitted frontmatter block 9846ed96, so verify reported 17 verified and 1 undisclosed change.",
+    "exact_verify_summary": "17 verified, 0 mismatch, 1 undisclosed",
+    "resolution": "The attempt was abandoned. The claim receipt was corrected and a distinct fresh portable artifact verified all 18 blocks before replacement of the final path."
+  },
+  "post_lifecycle_format_cleanup": {
+    "status": "four final heads verified",
+    "reason": "Git diff validation identified Markdown hard-break trailing spaces in one figure description and three table descriptions.",
+    "verified_modified_blocks": 4,
+    "receipt_files": [
+      "evidence/proofpress-claims/figure1-metadata-format.json",
+      "evidence/proofpress-claims/table1-metadata-format.json",
+      "evidence/proofpress-claims/table2-metadata-format.json",
+      "evidence/proofpress-claims/table3-metadata-format.json"
+    ],
+    "disclosed_intermediate_event": "The first Table 1 whitespace-only cleanup created version 11181151 with zero claims and one undisclosed modified block. It remains in lineage and is not counted as verified. The following substantive metadata normalization created verified head 030a789d with one explicit modified-block claim.",
+    "final_heads": {
+      "figure1": "427cd1e3",
+      "table1": "030a789d",
+      "table2": "a120db06",
+      "table3": "4c051956"
+    }
+  },
+  "integrity_boundary": "No failed or no-op lifecycle attempt is counted among the 22 verified final artifacts."
+}

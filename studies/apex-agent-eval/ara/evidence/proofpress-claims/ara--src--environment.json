@@ -1,0 +1,67 @@
+[
+  {
+    "block": "005d7659",
+    "kind": "added",
+    "note": "Added the block beginning \"Environment and Provenance\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "ccd38b8b",
+    "kind": "added",
+    "note": "Added the block beginning \"Product implementation\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "224c20e3",
+    "kind": "added",
+    "note": "Added the block beginning \"Repository: Proofpress PR36 worktree.\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "2cfb2a74",
+    "kind": "added",
+    "note": "Added the block beginning \"The product revision identifies the claim-centric ledger, verification, staging, typed-relation, sel\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "ce8cec2d",
+    "kind": "added",
+    "note": "Added the block beginning \"Evaluation runtime\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "1b888e51",
+    "kind": "added",
+    "note": "Added the block beginning \"The experiment used a local, temporary Next.js-based harness to ingest the same 93-file APEX data ro\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "867d8bb0",
+    "kind": "added",
+    "note": "Added the block beginning \"The public benchmark cases were `World425_cc6b53e5c08603a4b86024546b21cdac` and `World425_jcf-03`. T\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "1b11d295",
+    "kind": "added",
+    "note": "Added the block beginning \"Models and grader\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "0babb1a0",
+    "kind": "added",
+    "note": "Added the block beginning \"The executor comparison used GPT-5.6 Sol, GPT-5.6 Luna, and Muse Spark 1.1 xHigh. Native APEX gradin\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "9bab53aa",
+    "kind": "added",
+    "note": "Added the block beginning \"Comparison source\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "05dd72e8",
+    "kind": "added",
+    "note": "Added the block beginning \"The PR35 contrast is frozen at `proofpress-pr35@c96fd86`. It is an independent RelayBench/Harvey-sty\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "ff6f3c03",
+    "kind": "added",
+    "note": "Added the block beginning \"Reproducibility limitations\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "34bf4f45",
+    "kind": "added",
+    "note": "Added the block beginning \"No formal preregistration established a single primary summary statistic; majority and mean are ther\" to the sanitized APEX agent evaluation ARA."
+  }
+]

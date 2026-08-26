@@ -1,0 +1,67 @@
+[
+  {
+    "block": "3d29c178",
+    "kind": "added",
+    "note": "Added the block beginning \"Constraints, Assumptions, and Limitations\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "18f8786a",
+    "kind": "added",
+    "note": "Added the block beginning \"Authority constraints\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "288f9ae4",
+    "kind": "added",
+    "note": "Added the block beginning \"Candidate claims are agent proposals and never self-validating.\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "eb0004a4",
+    "kind": "added",
+    "note": "Added the block beginning \"Evaluation constraints\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "4cb418de",
+    "kind": "added",
+    "note": "Added the block beginning \"The pilot covers two tasks from one APEX world.\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "d0d2da72",
+    "kind": "added",
+    "note": "Added the block beginning \"Measurement constraints\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "77ee4efb",
+    "kind": "added",
+    "note": "Added the block beginning \"Tokens and latency in the headline tables are executor-only.\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "74e77a15",
+    "kind": "added",
+    "note": "Added the block beginning \"Safety constraints\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "609bc148",
+    "kind": "added",
+    "note": "Added the block beginning \"The stress evidence covers tested material tax-status conflicts only.\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "457ab3ac",
+    "kind": "added",
+    "note": "Added the block beginning \"Development-set constraints\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "f747fd73",
+    "kind": "added",
+    "note": "Added the block beginning \"The pipeline and prompts were developed on the same task family.\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "59dc0e4b",
+    "kind": "added",
+    "note": "Added the block beginning \"Implementation provenance\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "8c6bcef3",
+    "kind": "added",
+    "note": "Added the block beginning \"Proofpress PR36 product mechanism: claim-centric CLI and ledger implementation through `9f6e3f1`, pr\" to the sanitized APEX agent evaluation ARA."
+  }
+]

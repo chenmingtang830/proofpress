@@ -1,0 +1,137 @@
+[
+  {
+    "block": "daadea32",
+    "kind": "added",
+    "note": "Added the block beginning \"Problem Specification\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "367ebadf",
+    "kind": "added",
+    "note": "Added the block beginning \"Observations\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "37a848c8",
+    "kind": "added",
+    "note": "Added the block beginning \"O1: Majority quality did not decline in the observed normal cells\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "89bc4c4b",
+    "kind": "added",
+    "note": "Added the block beginning \"Statement**: Across six model-task cells, treatment majority rubric score tied baseline in five cell\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "d7e540ed",
+    "kind": "added",
+    "note": "Added the block beginning \"O2: Mean grader outcomes expose task-specific weakness\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "4392a1c8",
+    "kind": "added",
+    "note": "Added the block beginning \"Statement**: Mean score improved for every Task 1 treatment artifact and declined for every Task 2 t\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "a58ff02c",
+    "kind": "added",
+    "note": "Added the block beginning \"O3: Executor efficiency is heterogeneous\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "ebfa361b",
+    "kind": "added",
+    "note": "Added the block beginning \"Statement**: Muse used fewer executor tokens and less executor time on both tasks; Sol did so on nei\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "b1cca5d1",
+    "kind": "added",
+    "note": "Added the block beginning \"O4: Tested corrupted states failed closed\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "1300d4f3",
+    "kind": "added",
+    "note": "Added the block beginning \"Statement**: Both Proofpress stress treatment cells returned a blocking decision and produced no DOC\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "880693c4",
+    "kind": "added",
+    "note": "Added the block beginning \"O5: Preparation cost is material and incompletely observed\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "6086ed3b",
+    "kind": "added",
+    "note": "Added the block beginning \"Statement**: The recorded Task 1 decomposition, proposal, and critic loop consumed 316,456 tokens ov\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "eb4ac89d",
+    "kind": "added",
+    "note": "Added the block beginning \"O6: The comparison study used a different causal design\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "7ec0e728",
+    "kind": "added",
+    "note": "Added the block beginning \"Statement**: PR35 RelayBench reports 10,654/11,928 ordinary criteria and 11,141/11,928 Proofpress cr\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "e2763084",
+    "kind": "added",
+    "note": "Added the block beginning \"Gaps\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "ef488147",
+    "kind": "added",
+    "note": "Added the block beginning \"G1: No executor-run replication\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "94572f6a",
+    "kind": "added",
+    "note": "Added the block beginning \"Statement**: Each normal cell contains one generated artifact.\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "b02a44f2",
+    "kind": "added",
+    "note": "Added the block beginning \"G2: No complete end-to-end accounting\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "c2d27c4a",
+    "kind": "added",
+    "note": "Added the block beginning \"Statement**: The study lacks complete upstream tokens, time, and dollar cost for both tasks.\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "5e1f9206",
+    "kind": "added",
+    "note": "Added the block beginning \"G3: Composite treatment obscures the active mechanism\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "f2a13c9d",
+    "kind": "added",
+    "note": "Added the block beginning \"Statement**: Retrieval, proposal, verification, staging, graph selection, and executor prompting cha\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "42b77ef1",
+    "kind": "added",
+    "note": "Added the block beginning \"G4: Safety breadth is unknown\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "44d703d1",
+    "kind": "added",
+    "note": "Added the block beginning \"Statement**: Successful blocking on the tested conflicts does not estimate false negatives or false \" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "2bf18a16",
+    "kind": "added",
+    "note": "Added the block beginning \"Key Insight\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "8de3a2fa",
+    "kind": "added",
+    "note": "Added the block beginning \"Insight**: A governed working set should be evaluated as a cost-shifting and authority-control mecha\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "5e4e0803",
+    "kind": "added",
+    "note": "Added the block beginning \"Assumptions\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "7e219520",
+    "kind": "added",
+    "note": "Added the block beginning \"A1: The frozen manifests faithfully report artifact hashes, grader replicates, tokens, latency, and \" to the sanitized APEX agent evaluation ARA."
+  }
+]

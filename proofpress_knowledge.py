@@ -2,7 +2,7 @@
 """File-backed admission ledger: telemetry is input; admitted claims are context."""
 from __future__ import annotations
 
-import argparse, hashlib, json, os, secrets, subprocess, tempfile, threading, webbrowser
+import argparse, hashlib, io, json, os, secrets, subprocess, tempfile, threading, webbrowser
 from http import HTTPStatus
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from urllib.parse import parse_qs, urlparse
@@ -198,6 +198,7 @@ def cmd(a):
 KNOWLEDGE_REF = "refs/proofpress/knowledge"
 EVENT_SCHEMA = "proofpress/knowledge-event/v2"
 CONTEXT_SCHEMA = "proofpress/agent-context/v2"
+TRAVERSAL_SCHEMA = "proofpress/graph-traversal/v1"
 POLICY_PATH = ".proofpress/policy.json"
 DEFAULT_POLICY_V2 = {
     "id": "proofpress-local-default",
@@ -207,6 +208,10 @@ DEFAULT_POLICY_V2 = {
     "allowed_actors": ["*"],
     "judge": {"command": [], "timeout_seconds": 30},
 }
+RELATION_TYPES = {"supports", "qualifies", "contradicts", "supersedes",
+                  "depends_on", "same_as"}
+SYMMETRIC_RELATIONS = {"contradicts", "same_as"}
+LEGAL_PROFILE_SCHEMA = "proofpress/profile/legal/v1"
 
 
 def _git(*args, input=None):
@@ -232,39 +237,34 @@ def v2_events():
         return []
     if not commits:
         return []
-    specs = "".join(f"{commit}:event.json\n" for commit in commits).encode()
-    result = subprocess.run(["git", "cat-file", "--batch"], input=specs,
+    specs = [f"{commit}:event.json" for commit in commits]
+    result = subprocess.run(["git", "cat-file", "--batch"],
+                            input=("\n".join(specs) + "\n").encode(),
                             capture_output=True)
     if result.returncode:
-        raise ValueError("git cat-file --batch: " +
-                         result.stderr.decode(errors="replace").strip())
-    rows = []
-    offset = 0
-    for commit in commits:
-        header_end = result.stdout.find(b"\n", offset)
-        if header_end < 0:
+        raise ValueError("git cat-file --batch: " + result.stderr.decode(errors="replace").strip())
+    rows, output = [], io.BytesIO(result.stdout)
+    for commit, spec in zip(commits, specs):
+        header_line = output.readline()
+        if not header_line:
             raise ValueError("git cat-file --batch returned a truncated header")
-        header = result.stdout[offset:header_end].split()
-        if len(header) != 3 or header[1] != b"blob":
-            detail = result.stdout[offset:header_end].decode(errors="replace")
-            raise ValueError(f"git cat-file --batch: {detail}")
-        size = int(header[2])
-        body_start = header_end + 1
-        body_end = body_start + size
-        if body_end >= len(result.stdout):
-            raise ValueError("git cat-file --batch returned a truncated object")
-        row = json.loads(result.stdout[body_start:body_end])
+        header = header_line.decode().split()
+        if len(header) != 3 or header[1] != "blob":
+            raise ValueError("git cat-file --batch: missing event blob for " + spec)
+        size = int(header[2]); blob = output.read(size)
+        if len(blob) != size or output.read(1) != b"\n":
+            raise ValueError("git cat-file --batch returned a truncated event blob")
+        row = json.loads(blob.decode("utf-8"))
         row["commit"] = commit
         rows.append(row)
-        offset = body_end + 1
     return rows
 
 
-def append_v2(event):
+def append_v2(event, existing_rows=None):
     event = {"schema_version": EVENT_SCHEMA, **event}
-    existing_rows = v2_events()
+    existing_rows = v2_events() if existing_rows is None else existing_rows
     immutable = {"source_recorded": "record", "evidence_bound": "evidence",
-                 "conclusion_proposed": "conclusion"}
+                 "conclusion_proposed": "conclusion", "relation_proposed": "relation"}
     if event.get("type") in immutable:
         prior = next((row for row in existing_rows
                       if row.get("type") == event["type"] and
@@ -284,14 +284,43 @@ def append_v2(event):
                                  indent=2) + "\n").strip()
     tree = _git("mktree", input=f"100644 blob {blob}\tevent.json\n").strip()
     parent = []
+    parent_commit = None
     try:
-        parent = ["-p", _git("rev-parse", KNOWLEDGE_REF).strip()]
+        parent_commit = _git("rev-parse", KNOWLEDGE_REF).strip()
+        parent = ["-p", parent_commit]
     except ValueError:
         pass
     commit = _git("commit-tree", tree, *parent, "-m",
                   f"{event['type']}: {event.get('subject_ref', event['event_id'])}").strip()
-    _git("update-ref", KNOWLEDGE_REF, commit)
-    return {**event, "commit": commit}
+    _git("update-ref", KNOWLEDGE_REF, commit, parent_commit or "0" * 40)
+    appended = {**event, "commit": commit}
+    existing_rows.append(appended)
+    return appended
+
+
+def v2_head():
+    try: return _git("rev-parse", KNOWLEDGE_REF).strip()
+    except ValueError: return None
+
+
+def _idempotent_review(projection, subject, request_id, review_key, final_keys):
+    if not request_id: return None
+    matches = [event for event in projection["events"]
+               if event.get("type") == review_key and event.get("request_id") == request_id]
+    if not matches: return None
+    review = matches[-1]
+    if review.get("subject_ref") != subject:
+        raise ValueError("IDEMPOTENCY_KEY_CONFLICT")
+    final = next((event for event in reversed(projection["events"])
+                  if event.get("type") in final_keys and
+                  event.get("review_ref") == review.get("event_id")), None)
+    if not final: raise ValueError("IDEMPOTENT_REVIEW_INCOMPLETE")
+    return {"ok": True, "review": review, "result": final, "idempotent": True}
+
+
+def _require_expected_head(expected_head):
+    if expected_head is not None and expected_head != v2_head():
+        raise ValueError("STALE_LEDGER_HEAD")
 
 
 def load_v2_policy():
@@ -313,7 +342,10 @@ def v2_projection(events=None):
     result = {
         "sources": {}, "evidence": {}, "conclusions": {}, "evaluations": {},
         "recommendations": {}, "reviews": {}, "admissions": {},
-        "rejections": {}, "supersessions": {}, "events": events,
+        "rejections": {}, "revision_requests": {}, "supersessions": {}, "relations": {},
+        "relation_evaluations": {}, "relation_reviews": {},
+        "relation_recommendations": {}, "relation_admissions": {},
+        "relation_rejections": {}, "relation_revision_requests": {}, "events": events,
     }
     for event in events:
         kind = event.get("type")
@@ -326,12 +358,40 @@ def v2_projection(events=None):
         elif kind == "human_reviewed": result["reviews"][subject] = event
         elif kind == "conclusion_admitted": result["admissions"][subject] = event
         elif kind == "conclusion_rejected": result["rejections"][subject] = event
+        elif kind == "conclusion_revision_requested": result["revision_requests"][subject] = event
         elif kind == "conclusion_superseded": result["supersessions"][subject] = event
+        elif kind == "relation_proposed": result["relations"][subject] = event["relation"]
+        elif kind == "relation_evaluated": result["relation_evaluations"][subject] = event
+        elif kind == "relation_judge_recommended": result["relation_recommendations"][subject] = event
+        elif kind == "relation_reviewed": result["relation_reviews"][subject] = event
+        elif kind == "relation_admitted": result["relation_admissions"][subject] = event
+        elif kind == "relation_rejected": result["relation_rejections"][subject] = event
+        elif kind == "relation_revision_requested": result["relation_revision_requests"][subject] = event
     return result
 
 
 def _conclusion_digest(row):
     return digest({k: v for k, v in row.items() if k != "digest"})
+
+
+def validate_profile(profile, qualifiers):
+    qualifiers = qualifiers or {}
+    if not profile: return qualifiers
+    if profile != "legal": raise ValueError("unknown claim profile: " + profile)
+    legal = qualifiers.get("legal")
+    if not isinstance(legal, dict):
+        raise ValueError("legal profile requires qualifiers.legal")
+    required = {"jurisdiction", "authority", "citation_locator"}
+    missing = sorted(key for key in required if not isinstance(legal.get(key), str)
+                     or not legal[key].strip())
+    if missing: raise ValueError("legal profile missing: " + ", ".join(missing))
+    allowed = required | {"effective_from", "effective_to", "document_type", "legal_status"}
+    unknown = sorted(set(legal) - allowed)
+    if unknown: raise ValueError("unknown legal profile fields: " + ", ".join(unknown))
+    start, end = legal.get("effective_from"), legal.get("effective_to")
+    if start and end and start > end:
+        raise ValueError("legal effective_from must not be after effective_to")
+    return {**qualifiers, "profile": LEGAL_PROFILE_SCHEMA}
 
 
 def v2_state(projection, conclusion, policy=None):
@@ -340,6 +400,7 @@ def v2_state(projection, conclusion, policy=None):
     if cid in projection["supersessions"]: return "superseded"
     if conclusion.get("expires_at") and conclusion["expires_at"] <= now(): return "expired"
     if cid in projection["rejections"]: return "rejected"
+    if cid in projection["revision_requests"]: return "needs_revision"
     admitted = projection["admissions"].get(cid)
     if not admitted: return "needs_review"
     if admitted.get("policy_digest") != policy["digest"]: return "unresolved"
@@ -371,6 +432,13 @@ def import_evidence_v2(path):
             "size": len(body), "recorded_at": now(),
         }
         src["record_hash"] = digest(src)
+        projection = v2_projection()
+        prior = projection["sources"].get(src["id"])
+        if prior:
+            stable = ("kind", "path", "content_digest", "size")
+            if any(prior.get(key) != src.get(key) for key in stable):
+                raise ValueError("immutable artifact source conflict for " + src["id"])
+            src = prior
         ev = {
             "id": ident({"source": src["id"], "digest": sha}, "evd_"),
             "kind": "artifact_evidence", "source_ref": src["id"],
@@ -386,10 +454,11 @@ def import_evidence_v2(path):
 
 
 def propose_v2(statement, evidence_refs, scope, proposer, expires_at=None,
-               artifact_refs=None, allowed_actors=None, qualifiers=None):
+               artifact_refs=None, allowed_actors=None, qualifiers=None, profile=None):
     projection = v2_projection()
     missing = [ref for ref in evidence_refs if ref not in projection["evidence"]]
     if missing: raise ValueError("unknown evidence: " + ", ".join(missing))
+    qualifiers = validate_profile(profile, qualifiers)
     row = {
         "id": ident({"statement": statement, "evidence": sorted(evidence_refs),
                     "scope": scope}, "knw_"),
@@ -400,17 +469,185 @@ def propose_v2(statement, evidence_refs, scope, proposer, expires_at=None,
         "allowed_actors": allowed_actors or ["*"],
         "qualifiers": qualifiers or {}, "created_at": now(),
     }
+    prior = projection["conclusions"].get(row["id"])
+    if prior:
+        stable = set(row) - {"created_at", "digest"}
+        if any(prior.get(key) != row.get(key) for key in stable):
+            raise ValueError("immutable conclusion conflict for " + row["id"])
+        row = prior
     row["digest"] = _conclusion_digest(row)
     event = append_v2({"type": "conclusion_proposed", "subject_ref": row["id"],
                        "conclusion": row})
     return {"ok": True, "conclusion": row, "event_id": event["event_id"]}
 
 
-def evaluate_v2(cid):
+def _relation_digest(row):
+    return digest({k: v for k, v in row.items() if k != "digest"})
+
+
+def relation_state(projection, row):
+    rid = row["id"]
+    if rid in projection["relation_rejections"]: return "rejected"
+    if rid in projection["relation_revision_requests"]: return "needs_revision"
+    admitted = projection["relation_admissions"].get(rid)
+    if not admitted: return "needs_review"
+    if admitted.get("policy_digest") != load_v2_policy()["digest"]: return "unresolved"
+    if admitted.get("relation_digest") != row["digest"]: return "unresolved"
+    return "admitted"
+
+
+def _relation_cycle(projection, source, target, relation_type):
+    if relation_type not in {"depends_on", "supersedes"}: return False
+    graph = {}
+    for row in projection["relations"].values():
+        if row["type"] == relation_type and relation_state(projection, row) != "rejected":
+            graph.setdefault(row["from"], set()).add(row["to"])
+    graph.setdefault(source, set()).add(target)
+    stack, seen = [target], set()
+    while stack:
+        current = stack.pop()
+        if current == source: return True
+        if current in seen: continue
+        seen.add(current); stack.extend(graph.get(current, ()))
+    return False
+
+
+def propose_relation_v2(source, target, relation_type, proposer,
+                        confidence=None, qualifiers=None):
+    if relation_type not in RELATION_TYPES:
+        raise ValueError("relation type must be one of: " + ", ".join(sorted(RELATION_TYPES)))
     projection = v2_projection()
+    if source not in projection["conclusions"] or target not in projection["conclusions"]:
+        raise ValueError("relation endpoints must reference existing conclusions")
+    if source == target: raise ValueError("relation endpoints must be distinct")
+    if confidence is not None and not 0 <= confidence <= 1:
+        raise ValueError("relation confidence must be between 0 and 1")
+    left, right = (sorted((source, target)) if relation_type in SYMMETRIC_RELATIONS
+                   else (source, target))
+    row = {"id": ident({"from": left, "to": right, "type": relation_type}, "rel_"),
+           "kind": "claim_relation", "from": left, "to": right,
+           "type": relation_type, "proposer": proposer, "confidence": confidence,
+           "qualifiers": qualifiers or {}, "created_at": now()}
+    prior = projection["relations"].get(row["id"])
+    if prior:
+        stable = set(row) - {"created_at", "digest"}
+        if any(prior.get(key) != row.get(key) for key in stable):
+            raise ValueError("immutable relation conflict for " + row["id"])
+        row = prior
+    row["digest"] = _relation_digest(row)
+    event = append_v2({"type": "relation_proposed", "subject_ref": row["id"],
+                       "relation": row})
+    return {"ok": True, "relation": row, "event_id": event["event_id"]}
+
+
+def evaluate_relation_v2(rid, projection=None, events=None, policy=None):
+    events = v2_events() if events is None else events
+    projection = v2_projection(events) if projection is None else projection
+    row = projection["relations"].get(rid); policy = policy or load_v2_policy()
+    if not row: raise ValueError("relation not found: " + rid)
+    left, right = projection["conclusions"].get(row["from"]), projection["conclusions"].get(row["to"])
+    duplicate = [candidate for candidate in projection["relations"].values()
+                 if candidate["id"] != rid and candidate["from"] == row["from"]
+                 and candidate["to"] == row["to"] and candidate["type"] == row["type"]]
+    checks = {
+        "endpoints_present": left is not None and right is not None,
+        "distinct_endpoints": row["from"] != row["to"],
+        "known_relation_type": row["type"] in RELATION_TYPES,
+        "same_scope": bool(left and right and left["scope"] == right["scope"]),
+        "no_duplicate": not duplicate,
+        "acyclic_when_directed": not _relation_cycle(projection, row["from"], row["to"], row["type"]),
+    }
+    event = append_v2({"type": "relation_evaluated", "subject_ref": rid,
+                       "relation_digest": row["digest"], "checks": checks,
+                       "policy_digest": policy["digest"],
+                       "eligible": all(checks.values()),
+                       "semantic_boundary": "structural checks do not establish semantic correctness"},
+                      existing_rows=events)
+    return event
+
+
+def judge_relation_v2(rid):
+    events = v2_events(); projection = v2_projection(events); policy = load_v2_policy()
+    row = projection["relations"].get(rid)
+    if not row: raise ValueError("relation not found: " + rid)
+    current = projection["relation_evaluations"].get(rid)
+    evaluation = (current if current and
+                  current.get("relation_digest") == row["digest"] and
+                  current.get("policy_digest") == policy["digest"] else
+                  evaluate_relation_v2(rid, projection=projection, events=events, policy=policy))
+    command = policy["judge"]["command"]
+    if not command: raise ValueError("no judge.command configured in .proofpress/policy.json")
+    packet = {"schema_version": "proofpress/relation-judge-request/v1",
+              "relation": row,
+              "from_claim": projection["conclusions"][row["from"]],
+              "to_claim": projection["conclusions"][row["to"]],
+              "evaluation": {k: v for k, v in evaluation.items() if k != "commit"},
+              "policy": policy,
+              "instruction": "Assess semantic relation correctness; deterministic checks establish structure only."}
+    try:
+        result = subprocess.run(command, input=json.dumps(packet), text=True,
+                                capture_output=True, timeout=float(policy["judge"]["timeout_seconds"]))
+    except subprocess.TimeoutExpired as exc:
+        raise ValueError("relation judge command timed out") from exc
+    if result.returncode: raise ValueError("relation judge command failed: " + result.stderr.strip())
+    try: verdict = json.loads(result.stdout)
+    except json.JSONDecodeError as exc: raise ValueError("relation judge returned invalid JSON") from exc
+    if verdict.get("recommendation") not in {"accept", "reject", "escalate"}:
+        raise ValueError("relation judge recommendation must be accept, reject, or escalate")
+    if not isinstance(verdict.get("rationale"), str) or not verdict["rationale"].strip():
+        raise ValueError("relation judge rationale is required")
+    return append_v2({"type": "relation_judge_recommended", "subject_ref": rid,
+                      "relation_digest": row["digest"],
+                      "policy_digest": policy["digest"],
+                      "recommendation": verdict["recommendation"],
+                      "rationale": verdict["rationale"],
+                      "adapter": verdict.get("adapter", command[0]),
+                      "model": verdict.get("model")}, existing_rows=events)
+
+
+def review_relation_v2(rid, decision, reviewer, note=None, request_id=None,
+                       expected_head=None):
+    if decision not in {"admit", "reject", "request_changes"}:
+        raise ValueError("relation review decision must be admit, reject, or request_changes")
+    projection = v2_projection()
+    duplicate = _idempotent_review(
+        projection, rid, request_id, "relation_reviewed",
+        {"relation_admitted", "relation_rejected", "relation_revision_requested"})
+    if duplicate: return duplicate
+    _require_expected_head(expected_head)
+    row = projection["relations"].get(rid)
+    if not row: raise ValueError("relation not found: " + rid)
+    if decision == "admit" and reviewer == row["proposer"]:
+        raise ValueError("proposer may not self-approve a relation")
+    evaluation = evaluate_relation_v2(rid)
+    if decision == "admit" and not evaluation["eligible"]:
+        raise ValueError("relation is blocked by deterministic policy")
+    projection = v2_projection(); recommendation = projection["relation_recommendations"].get(rid)
+    policy = load_v2_policy()
+    if decision == "admit" and policy["require_judge"]:
+        if not recommendation or recommendation.get("relation_digest") != row["digest"] or recommendation.get("policy_digest") != policy["digest"] or recommendation.get("recommendation") != "accept":
+            raise ValueError("current policy requires an accepting relation judge recommendation")
+    review = append_v2({"type": "relation_reviewed", "subject_ref": rid,
+                        "decision": decision, "reviewer": reviewer,
+                        "identity_basis": "self_asserted", "note": note,
+                        "request_id": request_id,
+                        "relation_digest": row["digest"], "policy_digest": policy["digest"]})
+    final_type = ("relation_admitted" if decision == "admit" else
+                  "relation_revision_requested" if decision == "request_changes" else
+                  "relation_rejected")
+    final = append_v2({"type": final_type,
+                       "subject_ref": rid, "review_ref": review["event_id"],
+                       "reviewer": reviewer, "relation_digest": row["digest"],
+                       "policy_digest": policy["digest"]})
+    return {"ok": True, "review": review, "result": final}
+
+
+def evaluate_v2(cid, projection=None, events=None, policy=None):
+    events = v2_events() if events is None else events
+    projection = v2_projection(events) if projection is None else projection
     row = projection["conclusions"].get(cid)
     if not row: raise ValueError("conclusion not found: " + cid)
-    policy = load_v2_policy()
+    policy = policy or load_v2_policy()
     evidence_ok = [ref for ref in row["evidence_refs"] if ref in projection["evidence"]]
     checks = {
         "evidence_present": len(evidence_ok) >= int(policy["min_evidence"]),
@@ -424,7 +661,7 @@ def evaluate_v2(cid):
     event = append_v2({"type": "policy_evaluated", "subject_ref": cid,
                        "conclusion_digest": row["digest"],
                        "policy_digest": policy["digest"], "checks": checks,
-                       "eligible": all(checks.values())})
+                       "eligible": all(checks.values())}, existing_rows=events)
     return event
 
 
@@ -464,12 +701,29 @@ def judge_v2(cid):
 
 def judge_batch_v2(scope):
     if not scope: raise ValueError("batch judge requires --scope")
-    projection = v2_projection()
-    rows = [row for row in projection["conclusions"].values()
-            if row.get("scope") == scope and v2_state(projection, row) in {"needs_review", "unresolved"}]
-    if not rows: raise ValueError("no proposed conclusions require review in scope: " + scope)
-    evaluations = {row["id"]: evaluate_v2(row["id"]) for row in rows}
-    projection = v2_projection(); policy = load_v2_policy(); command = policy["judge"]["command"]
+    events = v2_events(); projection = v2_projection(events); policy = load_v2_policy()
+    candidates = [row for row in projection["conclusions"].values()
+                  if row.get("scope") == scope and
+                  v2_state(projection, row, policy) in {"needs_review", "unresolved"}]
+    rows = [row for row in candidates if not _current_judge_recommendation(projection, row, policy)]
+    if not rows:
+        existing = [projection["recommendations"][row["id"]] for row in candidates
+                    if _current_judge_recommendation(projection, row, policy)]
+        if existing:
+            receipts = sorted({row.get("batch_receipt") for row in existing
+                               if row.get("batch_receipt")})
+            return {"schema_version": "proofpress/judge-batch-result/v1", "scope": scope,
+                    "batch_receipt": receipts[0] if len(receipts) == 1 else None,
+                    "batch_receipts": receipts, "verdicts": existing, "idempotent": True}
+        raise ValueError("no proposed conclusions require review in scope: " + scope)
+    evaluations = {}
+    for row in rows:
+        current = projection["evaluations"].get(row["id"])
+        evaluations[row["id"]] = (current if current and
+            current.get("conclusion_digest") == row["digest"] and
+            current.get("policy_digest") == policy["digest"] else
+            evaluate_v2(row["id"], projection=projection, events=events, policy=policy))
+    command = policy["judge"]["command"]
     if not command: raise ValueError("no judge.command configured in .proofpress/policy.json")
     evidence_ids = sorted({ref for row in rows for ref in row["evidence_refs"]})
     packet = {
@@ -504,11 +758,13 @@ def judge_batch_v2(scope):
             raise ValueError("batch judge rationale is required")
         seen[cid] = verdict
     if set(seen) != expected: raise ValueError("batch judge omitted one or more conclusions")
-    transaction = append_v2({"type": "judge_batch_completed", "subject_ref": ident({"scope": scope,
-                            "conclusions": sorted(expected), "policy": policy["digest"], "at": now()}, "jbt_"),
-                            "scope": scope, "conclusion_ids": sorted(expected),
-                            "policy_digest": policy["digest"], "verdict_count": len(seen),
-                            "adapter": response.get("adapter", command[0]), "model": response.get("model")})
+    transaction = append_v2({"type": "judge_batch_completed",
+                             "subject_ref": ident({"scope": scope, "conclusions": sorted(expected),
+                                                  "policy": policy["digest"], "at": now()}, "jbt_"),
+                             "scope": scope, "conclusion_ids": sorted(expected),
+                             "policy_digest": policy["digest"], "verdict_count": len(seen),
+                             "adapter": response.get("adapter", command[0]), "model": response.get("model")},
+                            existing_rows=events)
     recorded, individual = [], []
     for row in rows:
         verdict = seen[row["id"]]
@@ -516,7 +772,8 @@ def judge_batch_v2(scope):
                            "conclusion_digest": row["digest"], "policy_digest": policy["digest"],
                            "recommendation": verdict["recommendation"], "rationale": verdict["rationale"],
                            "risk_level": verdict["risk_level"], "batch_receipt": transaction["event_id"],
-                           "adapter": response.get("adapter", command[0]), "model": response.get("model")})
+                           "adapter": response.get("adapter", command[0]), "model": response.get("model")},
+                          existing_rows=events)
         recorded.append(event)
         if verdict["risk_level"] == "high" or verdict["recommendation"] == "escalate":
             individual.append({"conclusion_id": row["id"], "trigger": "high_risk" if verdict["risk_level"] == "high" else "escalated",
@@ -526,8 +783,23 @@ def judge_batch_v2(scope):
             "individual_reviews": individual}
 
 
-def review_v2(cid, decision, reviewer, note=None):
+def _current_judge_recommendation(projection, row, policy):
+    recommendation = projection["recommendations"].get(row["id"])
+    return bool(recommendation and
+                recommendation.get("conclusion_digest") == row["digest"] and
+                recommendation.get("policy_digest") == policy["digest"])
+
+
+def review_v2(cid, decision, reviewer, note=None, request_id=None,
+              expected_head=None):
+    if decision not in {"admit", "reject", "request_changes"}:
+        raise ValueError("review decision must be admit, reject, or request_changes")
     projection = v2_projection()
+    duplicate = _idempotent_review(
+        projection, cid, request_id, "human_reviewed",
+        {"conclusion_admitted", "conclusion_rejected", "conclusion_revision_requested"})
+    if duplicate: return duplicate
+    _require_expected_head(expected_head)
     row = projection["conclusions"].get(cid)
     if not row: raise ValueError("conclusion not found: " + cid)
     if decision == "admit" and reviewer == row["proposer"]:
@@ -544,9 +816,12 @@ def review_v2(cid, decision, reviewer, note=None):
     review_event = append_v2({"type": "human_reviewed", "subject_ref": cid,
                               "decision": decision, "reviewer": reviewer,
                               "identity_basis": "self_asserted", "note": note,
+                              "request_id": request_id,
                               "conclusion_digest": row["digest"],
                               "policy_digest": policy["digest"]})
-    final_type = "conclusion_admitted" if decision == "admit" else "conclusion_rejected"
+    final_type = ("conclusion_admitted" if decision == "admit" else
+                  "conclusion_revision_requested" if decision == "request_changes" else
+                  "conclusion_rejected")
     final = append_v2({"type": final_type, "subject_ref": cid,
                        "review_ref": review_event["event_id"],
                        "reviewer": reviewer, "conclusion_digest": row["digest"],
@@ -581,15 +856,21 @@ def context_v2(scope=None, actor=None, task=None, include_blocked_statements=Fal
         else:
             reason = current if current != "admitted" else "actor_not_allowed"
             item = {"id": cid, "reason": reason,
-                    "required_action": "reverify" if reason in {"expired", "unresolved", "superseded"} else "human_review"}
+                    "required_action": ("propose_revision" if reason == "needs_revision" else
+                                        "reverify" if reason in {"expired", "unresolved", "superseded"} else
+                                        "human_review")}
             if include_blocked_statements: item["statement"] = row["statement"]
             blocked.append(item)
     head = None
     try: head = _git("rev-parse", KNOWLEDGE_REF).strip()
     except ValueError: pass
+    admitted_ids = {row["id"] for row in knowledge}
+    relations = [row for row in projection["relations"].values()
+                 if relation_state(projection, row) == "admitted"
+                 and row["from"] in admitted_ids and row["to"] in admitted_ids]
     return {"schema_version": CONTEXT_SCHEMA, "ledger_head": head, "scope": scope,
             "actor": actor, "task": task, "policy_digest": policy["digest"],
-            "knowledge": knowledge, "blocked": blocked,
+            "knowledge": knowledge, "relations": relations, "blocked": blocked,
             "next_action": "continue from admitted knowledge; reverify or review blocked conclusions"}
 
 
@@ -618,7 +899,120 @@ def graph_v2(scope=None):
             edges.append({"from": review["event_id"] if review else cid, "to": aid, "type": "admitted_by"})
         if cid in projection["supersessions"]:
             edges.append({"from": cid, "to": projection["supersessions"][cid]["superseded_by"], "type": "superseded_by"})
+    for row in projection["relations"].values():
+        if row["from"] in wanted and row["to"] in wanted:
+            edges.append({"id": row["id"], "from": row["from"], "to": row["to"],
+                          "type": row["type"], "state": relation_state(projection, row)})
     return {"nodes": nodes, "edges": edges}
+
+
+def traverse_graph_v2(seeds, scope=None, actor=None, task=None,
+                      max_depth=2, max_claims=48, state="admitted"):
+    """Expand admitted claim relations without disclosing ineligible claims."""
+    if not seeds: raise ValueError("graph traversal requires at least one seed")
+    if max_depth < 0: raise ValueError("max_depth must be non-negative")
+    if max_claims < 1: raise ValueError("max_claims must be positive")
+    if state not in {"admitted", "staged"}:
+        raise ValueError("state must be admitted or staged")
+    projection, policy = v2_projection(), load_v2_policy()
+
+    def staged_conclusion(cid, row):
+        evaluation = projection["evaluations"].get(cid)
+        recommendation = projection["recommendations"].get(cid)
+        return bool(evaluation and evaluation.get("eligible")
+                    and evaluation.get("conclusion_digest") == row["digest"]
+                    and evaluation.get("policy_digest") == policy["digest"]
+                    and recommendation and recommendation.get("recommendation") in {"accept", "escalate"}
+                    and recommendation.get("conclusion_digest") == row["digest"]
+                    and recommendation.get("policy_digest") == policy["digest"])
+
+    def staged_relation(row):
+        evaluation = projection["relation_evaluations"].get(row["id"])
+        recommendation = projection["relation_recommendations"].get(row["id"])
+        return bool(evaluation and evaluation.get("eligible")
+                    and evaluation.get("relation_digest") == row["digest"]
+                    and evaluation.get("policy_digest") == policy["digest"]
+                    and recommendation and recommendation.get("recommendation") in {"accept", "escalate"}
+                    and recommendation.get("relation_digest") == row["digest"]
+                    and recommendation.get("policy_digest") == policy["digest"])
+
+    def eligibility(cid):
+        row = projection["conclusions"].get(cid)
+        if not row: return "not_found"
+        if scope and row["scope"] != scope: return "scope_mismatch"
+        current = v2_state(projection, row, policy)
+        if current in {"rejected", "expired", "superseded"}: return current
+        if state == "admitted" and current != "admitted": return current
+        if state == "staged" and current != "admitted" and not staged_conclusion(cid, row):
+            return "not_staged"
+        actor_ok = (not actor or "*" in row.get("allowed_actors", ["*"])
+                    or actor in row.get("allowed_actors", []))
+        policy_actor_ok = (not actor or "*" in policy["allowed_actors"]
+                           or actor in policy["allowed_actors"])
+        return "eligible" if actor_ok and policy_actor_ok else "actor_not_allowed"
+
+    ordered_seeds = list(dict.fromkeys(seeds))
+    blocked = []
+    eligible_seeds = []
+    for cid in ordered_seeds:
+        reason = eligibility(cid)
+        if reason == "eligible": eligible_seeds.append(cid)
+        else: blocked.append({"conclusion_id": cid, "reason": reason,
+                              "required_action": "human_review"})
+    if not eligible_seeds:
+        raise ValueError("graph traversal has no eligible seeds")
+
+    eligible_relations = sorted(
+        (row for row in projection["relations"].values()
+         if (relation_state(projection, row) == "admitted"
+             or state == "staged" and staged_relation(row))),
+        key=lambda row: row["id"])
+    adjacency = {}
+    for row in eligible_relations:
+        adjacency.setdefault(row["from"], []).append((row["to"], row))
+        adjacency.setdefault(row["to"], []).append((row["from"], row))
+
+    selected, selected_set = [], set()
+    frontier = []
+    for cid in eligible_seeds:
+        if len(selected) >= max_claims: break
+        selected.append(cid); selected_set.add(cid); frontier.append((cid, 0))
+    included_relations, seen_relations, seen_blocked = [], set(), set()
+    cursor = 0
+    while cursor < len(frontier):
+        current, depth = frontier[cursor]; cursor += 1
+        if depth >= max_depth: continue
+        for neighbor, relation in adjacency.get(current, []):
+            reason = eligibility(neighbor)
+            if reason != "eligible":
+                key = (neighbor, relation["id"], reason)
+                if key not in seen_blocked:
+                    blocked.append({"conclusion_id": neighbor,
+                                    "relation_id": relation["id"],
+                                    "relation_type": relation["type"],
+                                    "reason": reason,
+                                    "required_action": "human_review"})
+                    seen_blocked.add(key)
+                continue
+            if relation["id"] not in seen_relations:
+                included_relations.append({"id": relation["id"],
+                                           "from": relation["from"],
+                                           "to": relation["to"],
+                                           "type": relation["type"]})
+                seen_relations.add(relation["id"])
+            if neighbor not in selected_set and len(selected) < max_claims:
+                selected.append(neighbor); selected_set.add(neighbor)
+                frontier.append((neighbor, depth + 1))
+
+    head = None
+    try: head = _git("rev-parse", KNOWLEDGE_REF).strip()
+    except ValueError: pass
+    return {"schema_version": TRAVERSAL_SCHEMA, "ledger_head": head,
+            "scope": scope, "actor": actor, "task": task, "state": state,
+            "seed_conclusion_ids": ordered_seeds,
+            "conclusion_ids": selected, "relations": included_relations,
+            "blocked_neighbors": blocked,
+            "limits": {"max_depth": max_depth, "max_claims": max_claims}}
 
 
 def summary_v2(scope=None):
@@ -642,6 +1036,20 @@ def receipt_v2(cid):
             "history": [{"event_id": e["event_id"], "type": e["type"],
                          "created_at": e["created_at"], "commit": e.get("commit")}
                         for e in projection["events"] if e.get("subject_ref") == cid]}
+
+
+def relation_receipt_v2(rid):
+    projection = v2_projection(); row = projection["relations"].get(rid)
+    if not row: raise ValueError("relation not found: " + rid)
+    return {"relation": row, "state": relation_state(projection, row),
+            "evaluation": projection["relation_evaluations"].get(rid),
+            "recommendation": projection["relation_recommendations"].get(rid),
+            "review": projection["relation_reviews"].get(rid),
+            "admission": projection["relation_admissions"].get(rid),
+            "rejection": projection["relation_rejections"].get(rid),
+            "history": [{"event_id": e["event_id"], "type": e["type"],
+                         "created_at": e["created_at"], "commit": e.get("commit")}
+                        for e in projection["events"] if e.get("subject_ref") == rid]}
 
 
 def import_v1(path):
@@ -798,7 +1206,9 @@ def add_flat_cli(sub):
     propose_parser.add_argument("--statement", required=True); propose_parser.add_argument("--evidence", action="append", required=True)
     propose_parser.add_argument("--artifact", action="append", default=[]); propose_parser.add_argument("--scope", required=True)
     propose_parser.add_argument("--proposer", default="agent:proposer"); propose_parser.add_argument("--expires-at")
-    propose_parser.add_argument("--allow-actor", action="append", default=[]); propose_parser.set_defaults(f=cmd_flat, flat_cmd="propose")
+    propose_parser.add_argument("--allow-actor", action="append", default=[])
+    propose_parser.add_argument("--profile", choices=["legal"]); propose_parser.add_argument("--qualifiers")
+    propose_parser.set_defaults(f=cmd_flat, flat_cmd="propose")
     evaluate_parser = sub.add_parser("evaluate"); evaluate_parser.add_argument("conclusion")
     evaluate_parser.set_defaults(f=cmd_flat, flat_cmd="evaluate")
     judge_parser = sub.add_parser("judge", help="run an advisory policy judge for one conclusion or one scope batch")
@@ -807,13 +1217,41 @@ def add_flat_cli(sub):
     review_parser = sub.add_parser("review", help="record the human admission decision")
     review_parser.add_argument("conclusion"); decision = review_parser.add_mutually_exclusive_group(required=True)
     decision.add_argument("--admit", action="store_true"); decision.add_argument("--reject", action="store_true")
+    decision.add_argument("--request-changes", action="store_true")
     review_parser.add_argument("--reviewer", required=True); review_parser.add_argument("--note"); review_parser.set_defaults(f=cmd_flat, flat_cmd="review")
+    review_parser.add_argument("--request-id"); review_parser.add_argument("--expected-head")
     supersede_parser = sub.add_parser("supersede"); supersede_parser.add_argument("conclusion"); supersede_parser.add_argument("--by", required=True)
     supersede_parser.add_argument("--reviewer", required=True); supersede_parser.add_argument("--note"); supersede_parser.set_defaults(f=cmd_flat, flat_cmd="supersede")
+    relation_parser = sub.add_parser("relation", help="propose, evaluate, or review a typed claim relation")
+    relation_sub = relation_parser.add_subparsers(dest="relation_cmd", required=True)
+    relation_propose = relation_sub.add_parser("propose")
+    relation_propose.add_argument("source"); relation_propose.add_argument("--to", required=True)
+    relation_propose.add_argument("--type", required=True, choices=sorted(RELATION_TYPES))
+    relation_propose.add_argument("--proposer", default="agent:proposer")
+    relation_propose.add_argument("--confidence", type=float); relation_propose.add_argument("--qualifiers")
+    relation_propose.set_defaults(f=cmd_flat, flat_cmd="relation-propose")
+    relation_evaluate = relation_sub.add_parser("evaluate"); relation_evaluate.add_argument("relation")
+    relation_evaluate.set_defaults(f=cmd_flat, flat_cmd="relation-evaluate")
+    relation_judge = relation_sub.add_parser("judge"); relation_judge.add_argument("relation")
+    relation_judge.set_defaults(f=cmd_flat, flat_cmd="relation-judge")
+    relation_review = relation_sub.add_parser("review"); relation_review.add_argument("relation")
+    relation_decision = relation_review.add_mutually_exclusive_group(required=True)
+    relation_decision.add_argument("--admit", action="store_true"); relation_decision.add_argument("--reject", action="store_true")
+    relation_decision.add_argument("--request-changes", action="store_true")
+    relation_review.add_argument("--reviewer", required=True); relation_review.add_argument("--note")
+    relation_review.add_argument("--request-id"); relation_review.add_argument("--expected-head")
+    relation_review.set_defaults(f=cmd_flat, flat_cmd="relation-review")
     context_parser = sub.add_parser("context", help="materialize only knowledge eligible for the next agent")
     context_parser.add_argument("--scope"); context_parser.add_argument("--actor"); context_parser.add_argument("--task")
     context_parser.add_argument("--format", choices=["json", "markdown"], default="json")
     context_parser.add_argument("--include-blocked-statements", action="store_true"); context_parser.set_defaults(f=cmd_flat, flat_cmd="context")
+    graph_parser = sub.add_parser("graph", help="project or traverse the governed claim graph")
+    graph_parser.add_argument("--scope"); graph_parser.add_argument("--seed", action="append")
+    graph_parser.add_argument("--actor"); graph_parser.add_argument("--task")
+    graph_parser.add_argument("--max-depth", type=int, default=2)
+    graph_parser.add_argument("--max-claims", type=int, default=48)
+    graph_parser.add_argument("--state", choices=["admitted", "staged"], default="admitted")
+    graph_parser.set_defaults(f=cmd_flat, flat_cmd="graph")
     ui_parser = sub.add_parser("ui", help="open the local review and context UI")
     ui_parser.add_argument("--scope"); ui_parser.add_argument("--port", type=int, default=7331); ui_parser.add_argument("--no-open", action="store_true")
     ui_parser.set_defaults(f=cmd_flat, flat_cmd="ui")
@@ -824,14 +1262,33 @@ def add_flat_cli(sub):
 def cmd_flat(a):
     command = getattr(a, "flat_cmd", None) or ("evidence-import" if getattr(a, "evidence_cmd", None) == "import" else None)
     if command == "evidence-import": out = import_evidence_v2(a.input)
-    elif command == "propose": out = propose_v2(a.statement, a.evidence, a.scope, a.proposer, a.expires_at, a.artifact, a.allow_actor or None)
+    elif command == "propose":
+        qualifiers = json.loads(Path(a.qualifiers).read_text(encoding="utf-8")) if a.qualifiers else None
+        out = propose_v2(a.statement, a.evidence, a.scope, a.proposer, a.expires_at,
+                         a.artifact, a.allow_actor or None, qualifiers, a.profile)
     elif command == "evaluate": out = evaluate_v2(a.conclusion)
     elif command == "judge":
         if a.batch or a.scope: out = judge_batch_v2(a.scope)
         elif a.conclusion: out = judge_v2(a.conclusion)
         else: raise ValueError("judge requires a conclusion or --batch --scope")
-    elif command == "review": out = review_v2(a.conclusion, "admit" if a.admit else "reject", a.reviewer, a.note)
+    elif command == "review":
+        decision = "admit" if a.admit else "request_changes" if a.request_changes else "reject"
+        out = review_v2(a.conclusion, decision, a.reviewer, a.note,
+                        a.request_id, a.expected_head)
     elif command == "supersede": out = supersede_v2(a.conclusion, a.by, a.reviewer, a.note)
+    elif command == "relation-propose":
+        qualifiers = json.loads(Path(a.qualifiers).read_text(encoding="utf-8")) if a.qualifiers else None
+        out = propose_relation_v2(a.source, a.to, a.type, a.proposer, a.confidence, qualifiers)
+    elif command == "relation-evaluate": out = evaluate_relation_v2(a.relation)
+    elif command == "relation-judge": out = judge_relation_v2(a.relation)
+    elif command == "relation-review":
+        decision = "admit" if a.admit else "request_changes" if a.request_changes else "reject"
+        out = review_relation_v2(a.relation, decision, a.reviewer, a.note,
+                                 a.request_id, a.expected_head)
+    elif command == "graph":
+        out = (traverse_graph_v2(a.seed, a.scope, a.actor, a.task,
+                                 a.max_depth, a.max_claims, a.state)
+               if a.seed else graph_v2(a.scope))
     elif command == "context":
         out = context_v2(a.scope, a.actor, a.task, a.include_blocked_statements)
         if a.format == "markdown": print(_markdown_context(out)); return

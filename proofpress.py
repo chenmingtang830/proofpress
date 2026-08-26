@@ -847,6 +847,16 @@ def read_artifact_for_update(path):
 
 def latest_for(path):
     vs = versions_of(path)
+    if os.path.isfile(path):
+        try:
+            _, meta, capsule, _ = read_artifact(path)
+            if (meta and meta.get("policy") == "portable" and capsule):
+                head_event = capsule_v2(capsule).get("head_event")
+                for event in vs:
+                    if event.get("event_id") == head_event:
+                        return event
+        except OSError:
+            pass
     return vs[0] if vs else None
 
 
@@ -2418,7 +2428,7 @@ def cmd_blocks(a):
     evs = versions_of(a.file)
     if not evs:
         print("artifact not in ledger"); return
-    ev = _find(evs, a.version) if a.version else evs[0]
+    ev = _find(evs, a.version) if a.version else latest_for(a.file)
     v = read_version(ev["_commit"])
     print(f"{a.file} @ {ev['version']}  ({len(v['blocks'])} blocks)")
     for b in v["blocks"]:
@@ -2515,10 +2525,15 @@ def cmd_verify(a):
     evs = versions_of(a.file)
     if not evs:
         raise SystemExit("artifact not in ledger")
-    ev = _find(evs, a.version) if a.version else evs[0]
-    n = len(evs) - next(
-        i for i, e in enumerate(evs)
-        if e.get("event_id") == ev.get("event_id"))
+    ev = _find(evs, a.version) if a.version else latest_for(a.file)
+    if (not a.version and os.path.isfile(a.file) and
+            inspection.get("policy") == "portable" and
+            inspection.get("head") == ev.get("version")):
+        n = inspection.get("versions", len(evs))
+    else:
+        n = len(evs) - next(
+            i for i, e in enumerate(evs)
+            if e.get("event_id") == ev.get("event_id"))
     # ``verify file`` means the current worktree as well as the recorded
     # claims. ``verify file <version>`` remains an historical claim check.
     if (os.path.isfile(a.file) and not a.version and

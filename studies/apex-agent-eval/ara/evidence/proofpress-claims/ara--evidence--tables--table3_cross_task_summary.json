@@ -1,0 +1,22 @@
+[
+  {
+    "block": "5c7e4aae",
+    "kind": "added",
+    "note": "Added the block beginning \"Table 3 — Cross-task directional summary\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "1b89efe2",
+    "kind": "added",
+    "note": "Added the block beginning \"Source**: Table 3 derived from ARA Tables 1 and 2\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "27c316b4",
+    "kind": "added",
+    "note": "Added the block beginning \"| Executor | Majority quality across tasks | Mean quality across tasks | Token efficiency | Latency \" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "c7861fb8",
+    "kind": "added",
+    "note": "Added the block beginning \"For Muse across the two tasks, executor tokens total 354,941 under baseline and 219,068 under treatm\" to the sanitized APEX agent evaluation ARA."
+  }
+]

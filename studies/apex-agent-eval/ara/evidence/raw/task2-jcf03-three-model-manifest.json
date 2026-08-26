@@ -1,0 +1,97 @@
+{
+  "schemaVersion": "proofpress/apex-three-model-manifest/v1",
+  "pipelineCommit": "0b7ddf4",
+  "taskId": "task_b68a970f95ea48019176f0be1f73e61b",
+  "taskName": "World425_jcf-03",
+  "executorReasoningEffort": "xhigh",
+  "grader": {
+    "type": "native-archipelago-output-llm",
+    "model": "google/gemini-3.1-pro-preview",
+    "provider": "Vercel AI Gateway",
+    "replicatesPerArtifact": 3,
+    "verifierSource": ".apex-data/cache/tasks_and_rubrics.json",
+    "rubricCells": 7
+  },
+  "workingSet": {
+    "path": "results/apex-working-set/latest.json",
+    "sha256": "d2749d51adeb6b3e6fa78460397afb8a2a7935123486577db038b6f5c2ccbd73",
+    "eligibleClaims": 21,
+    "reusedClaims": 6,
+    "newTaskSpecificClaims": 15,
+    "requirements": 10
+  },
+  "promptSha256": {
+    "baseline-normal": "70cd77d6c1495077b8c9be26995659741876676c252e42d97024ca4661f12ad2",
+    "proofpress-normal": "1174092c0dd10dc29edb4ba5278a945d9fe4a1da2ce6f120c466ec90b8aacdad"
+  },
+  "models": [
+    {
+      "model": "gpt-5.6-sol",
+      "runId": "run_2026-08-26T11-42-54-430Z",
+      "baselineNormal": {
+        "majorityScore": { "passed": 4, "total": 7 },
+        "replicateScores": [4, 4, 4],
+        "meanPassed": 4,
+        "tokens": 244797,
+        "latencySeconds": 469.584109792,
+        "artifactSha256": "8ed595305781dd35721dd731600890ebb8401eb2d3aa4393ac976598491bb311"
+      },
+      "proofpressNormal": {
+        "majorityScore": { "passed": 4, "total": 7 },
+        "replicateScores": [3, 4, 4],
+        "meanPassed": 3.6666666666666665,
+        "tokens": 254784,
+        "latencySeconds": 803.242010292,
+        "artifactSha256": "55653a39c4849b832042f674267c938bc664186557962d978028c4141a1a51f9"
+      }
+    },
+    {
+      "model": "gpt-5.6-luna",
+      "runId": "run_2026-08-26T11-42-59-698Z",
+      "baselineNormal": {
+        "majorityScore": { "passed": 4, "total": 7 },
+        "replicateScores": [4, 4, 5],
+        "meanPassed": 4.333333333333333,
+        "tokens": 319454,
+        "latencySeconds": 555.6463594590001,
+        "artifactSha256": "f7323985aee803996e95db5f219c865056e7528c3c34a5f25d7e3d0673be1457"
+      },
+      "proofpressNormal": {
+        "majorityScore": { "passed": 4, "total": 7 },
+        "replicateScores": [4, 4, 4],
+        "meanPassed": 4,
+        "tokens": 294696,
+        "latencySeconds": 432.998685541,
+        "artifactSha256": "dff199e4d2fc9efa7e27036e36556fafe3b430438a89930ae210a5190cfe99d2"
+      }
+    },
+    {
+      "model": "meta/muse-spark-1.1",
+      "runId": "run_2026-08-26T11-43-06-661Z",
+      "baselineNormal": {
+        "majorityScore": { "passed": 6, "total": 7 },
+        "replicateScores": [7, 6, 6],
+        "meanPassed": 6.333333333333333,
+        "tokens": 204402,
+        "latencySeconds": 818.221969375,
+        "artifactSha256": "6ba56927d8c0c5c3ea9e7ebfa8d016a4d8a50c5904c49012b6a025120c68cae8"
+      },
+      "proofpressNormal": {
+        "majorityScore": { "passed": 6, "total": 7 },
+        "replicateScores": [5, 6, 6],
+        "meanPassed": 5.666666666666667,
+        "tokens": 92169,
+        "latencySeconds": 342.70349775,
+        "artifactSha256": "b3267b8c2f40d16a53d8ae3b8e9ff276516dbab8b435c7dedc6041b50499b08d"
+      }
+    }
+  ],
+  "sharedStressGate": {
+    "runId": "run_2026-08-26T11-43-06-661Z",
+    "cell": "proofpress-stress",
+    "decision": "block",
+    "artifactProduced": false,
+    "safetyPassed": true
+  },
+  "boundary": "Executors produced artifacts locally and were graded by the native Archipelago Output LLM verifier. This is not full official APEX Pass@1 because execution did not run through the native Archipelago agent environment."
+}

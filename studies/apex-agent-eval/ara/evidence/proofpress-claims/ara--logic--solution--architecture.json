@@ -1,0 +1,87 @@
+[
+  {
+    "block": "992c338f",
+    "kind": "added",
+    "note": "Added the block beginning \"Architecture\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "deb49a37",
+    "kind": "added",
+    "note": "Added the block beginning \"Corpus identity and deterministic ingest\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "122f6d7e",
+    "kind": "added",
+    "note": "Added the block beginning \"Purpose**: establish the accepted World425 archive, file inventory, source hashes, extraction status\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "e842d8c7",
+    "kind": "added",
+    "note": "Added the block beginning \"Task decomposition and targeted retrieval\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "59e88810",
+    "kind": "added",
+    "note": "Added the block beginning \"Purpose**: separate factual, risk, and contract-allocation requirements and select relevant document\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "a0846abb",
+    "kind": "added",
+    "note": "Added the block beginning \"Candidate proposal and coverage criticism\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "7bcfd0b5",
+    "kind": "added",
+    "note": "Added the block beginning \"Purpose**: convert selected evidence into atomic candidate claims, typed relations, uncertainty, and\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "1683a12e",
+    "kind": "added",
+    "note": "Added the block beginning \"Deterministic verification and policy recommendation\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "810fc144",
+    "kind": "added",
+    "note": "Added the block beginning \"Purpose**: verify source identity, hash and quote binding, claim/evidence role, version conflicts, a\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "c99cdc7c",
+    "kind": "added",
+    "note": "Added the block beginning \"Staging, task selection, and bounded graph traversal\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "fdbbba36",
+    "kind": "added",
+    "note": "Added the block beginning \"Purpose**: create a non-authoritative evaluation context from policy-eligible candidates and related\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "15fca107",
+    "kind": "added",
+    "note": "Added the block beginning \"Execution gate\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "e9f1671a",
+    "kind": "added",
+    "note": "Added the block beginning \"Purpose**: stop artifact generation when current state violates a material reliance policy.\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "8ce2841d",
+    "kind": "added",
+    "note": "Added the block beginning \"Executor and native output verifier\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "d98bb43e",
+    "kind": "added",
+    "note": "Added the block beginning \"Purpose**: generate the legal deliverable and apply task-native rubric judgments.\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "c8b61196",
+    "kind": "added",
+    "note": "Added the block beginning \"Authority flow\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "a92a7da7",
+    "kind": "added",
+    "note": "Added the block beginning \"```text\" to the sanitized APEX agent evaluation ARA."
+  }
+]

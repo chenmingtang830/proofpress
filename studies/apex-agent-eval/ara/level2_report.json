@@ -1,0 +1,186 @@
+{
+  "artifact": "Governed Working Sets for Legal Agents: A Two-Task APEX Pilot",
+  "artifact_dir": ".",
+  "review_version": "3.1.0",
+  "prerequisite": "Level 1 passed: 201/201 checks",
+  "overall": {
+    "tier": "Sound",
+    "mean_score": 4.0,
+    "one_line_summary": "The artifact is unusually careful about scope, authority, and negative results, but the pilot design cannot estimate executor variance, component causality, or end-to-end economics.",
+    "strengths_summary": [
+      "Every main claim is tied to a named analysis and exact frozen evidence.",
+      "Majority and mean quality, executor and upstream cost, staging and admission, and native and official benchmark status remain explicitly separated.",
+      "The exploration tree preserves two concrete failed approaches and labels the cross-study explanation as inferred."
+    ],
+    "weaknesses_summary": [
+      "Each normal cell has one generated artifact, so grader repeats do not estimate executor reliability.",
+      "The composite treatment has no component ablations.",
+      "Complete upstream telemetry and an amortization control are missing."
+    ]
+  },
+  "dimensions": {
+    "D1_evidence_relevance": {
+      "score": 4,
+      "strengths": [
+        "Task-quality claims point directly to exact manifest-derived tables.",
+        "The safety claim is behavioral and matches the recorded block/no-artifact endpoint.",
+        "The PR35 comparison is used only to motivate a hypothesis."
+      ],
+      "weaknesses": [
+        "The reuse claim relies on manifest counts without a filed per-claim lineage replay."
+      ],
+      "suggestions": [
+        "Add a machine-generated appendix listing the reused claim IDs, source event IDs, and later-task selection receipts."
+      ]
+    },
+    "D2_falsifiability": {
+      "score": 4,
+      "strengths": [
+        "All claims contain concrete disconfirming observations.",
+        "The cross-study explanation is explicitly a hypothesis with an ablation-based falsifier."
+      ],
+      "weaknesses": [
+        "Some criteria require a future preregistered panel without specifying the minimum task or artifact count."
+      ],
+      "suggestions": [
+        "Freeze replication counts, corruption classes, and decision thresholds in the next protocol."
+      ]
+    },
+    "D3_scope_calibration": {
+      "score": 5,
+      "strengths": [
+        "Claims are bounded to the observed pilot and avoid official benchmark language.",
+        "Staged candidates are never represented as lawyer-admitted knowledge.",
+        "Executor-only savings are not promoted into an end-to-end cost claim.",
+        "The stress claim is limited to tested conflict patterns."
+      ],
+      "weaknesses": [],
+      "suggestions": [
+        "Retain these boundary statements verbatim if the artifact is condensed for publication."
+      ]
+    },
+    "D4_argument_coherence": {
+      "score": 4,
+      "strengths": [
+        "The observations lead directly to four methodological gaps and one unifying cost-and-authority insight.",
+        "Claims, experiments, evidence tables, and trace nodes use consistent identifiers.",
+      "The mixed Task 2 mean result remains visible in both the abstract and overview rather than being hidden behind majority scores."
+      ],
+      "weaknesses": [],
+      "suggestions": [
+        "Keep the co-primary majority and mean framing in any future condensed summary."
+      ]
+    },
+    "D5_exploration_integrity": {
+      "score": 4,
+      "strengths": [
+        "The tree records the incomplete-coverage and cross-task-contamination dead ends with specific failure modes and lessons.",
+        "Explicit and inferred nodes are distinguished.",
+        "The pivot from fixed claims to gap resolution and scoped reuse is source-backed."
+      ],
+      "weaknesses": [
+        "The final reporting decision is reconstructed rather than backed by an immutable contemporaneous trace event."
+      ],
+      "suggestions": [
+        "If adopted, record the reporting decision in an append-only research trace when the ARA is archived."
+      ]
+    },
+    "D6_methodological_rigor": {
+      "score": 2,
+      "strengths": [
+        "The study uses paired conditions, frozen hashes, exact artifact digests, native verifier configuration, and repeated blinded output judgments.",
+        "Invalid and censored Muse attempts remain disclosed.",
+        "The design correctly separates safety behavior from artifact-quality scoring."
+      ],
+      "weaknesses": [
+        "One generated artifact per cell prevents estimation of executor variance or Pass@1.",
+        "No ablation identifies which treatment component causes quality, cost, or latency changes.",
+        "Only two tasks from one world are evaluated.",
+        "Complete upstream cost telemetry and a no-reuse control are absent."
+      ],
+      "suggestions": [
+        "Run independent executor repetitions over multiple worlds.",
+        "Add retrieval-only, staged-claims-without-traversal, and full-treatment ablations.",
+        "Meter every upstream call and preregister cold-start and warm-ledger amortization endpoints."
+      ]
+    }
+  },
+  "findings": [
+    {
+      "finding_id": "F01",
+      "dimension": "D6_methodological_rigor",
+      "severity": "major",
+      "target_file": "logic/solution/study_design.md",
+      "target_entity": "Unit of comparison",
+      "evidence_span": "The normal-condition unit is one generated legal artifact for one task, executor, and context condition. Three verifier calls are applied to that artifact. They are grader replicates, not independent executor samples.",
+      "observation": "The evaluation repeats grading but not generation.",
+      "reasoning": "Quality differences may depend on a single stochastic executor artifact, so the study cannot estimate executor reliability or task-level Pass@1.",
+      "suggestion": "Generate multiple independent artifacts per executor-condition cell before estimating quality effects."
+    },
+    {
+      "finding_id": "F02",
+      "dimension": "D6_methodological_rigor",
+      "severity": "major",
+      "target_file": "logic/solution/study_design.md",
+      "target_entity": "Paired conditions",
+      "evidence_span": "The treatment is intentionally systems-level. It does not isolate retrieval, claim proposal, verification, graph traversal, or prompt constraint.",
+      "observation": "Multiple intervention components change simultaneously.",
+      "reasoning": "The design supports a whole-system descriptive comparison but cannot explain why one model saves tokens while another incurs overhead or why Task 2 means decline.",
+      "suggestion": "Add component ablations under the same prompts, artifacts, and budgets."
+    },
+    {
+      "finding_id": "F03",
+      "dimension": "D6_methodological_rigor",
+      "severity": "major",
+      "target_file": "logic/solution/constraints.md",
+      "target_entity": "Measurement constraints",
+      "evidence_span": "Task 1 upstream telemetry is partial but material; Task 2 upstream telemetry is incomplete.",
+      "observation": "The study cannot compute total treatment tokens, latency, or cost for both tasks.",
+      "reasoning": "Executor savings may or may not amortize the preparation layer, which is a central product-economics question.",
+      "suggestion": "Instrument every model and deterministic stage and compare cold-start, warm-ledger, and no-reuse sequences."
+    },
+    {
+      "finding_id": "F04",
+      "dimension": "D1_evidence_relevance",
+      "severity": "minor",
+      "target_file": "evidence/results/task2_results.md",
+      "target_entity": "Working set",
+      "evidence_span": "Working set: 21 eligible claims, including 6 reused and 15 new task-specific claims, across 10 requirements.",
+      "observation": "Reuse is evidenced by aggregate counts rather than an in-artifact claim-ID lineage table.",
+      "reasoning": "Aggregate counts support the implementation fact but make independent verification of semantic reuse harder.",
+      "suggestion": "File a claim-by-claim reuse receipt with event hashes and source bindings."
+    },
+    {
+      "finding_id": "F06",
+      "dimension": "D5_exploration_integrity",
+      "severity": "suggestion",
+      "target_file": "trace/exploration_tree.yaml",
+      "target_entity": "N11",
+      "evidence_span": "support_level: inferred",
+      "observation": "The final decision to separate mechanism claims is an explicit reconstruction, not a contemporaneous event.",
+      "reasoning": "The label is honest, but an adopted reporting policy would be stronger with an append-only decision receipt.",
+      "suggestion": "Record the decision if the pilot ARA is accepted into the project archive."
+    }
+  ],
+  "questions_for_authors": [
+    "Can the exact Task 2 reused claim IDs and event hashes be exported into the ARA before archival?",
+    "Does the recorded Task 1 upstream telemetry correspond exactly to the final three-model working-set snapshot, or to the immediately preceding gap-resolution lineage?",
+    "Which corruption classes should be expected-pass rather than expected-block in the next safety suite?"
+  ],
+  "read_order": [
+    "PAPER.md",
+    "logic/claims.md",
+    "logic/experiments.md",
+    "logic/problem.md",
+    "logic/concepts.md",
+    "logic/solution/architecture.md",
+    "logic/solution/study_design.md",
+    "logic/solution/constraints.md",
+    "logic/related_work.md",
+    "trace/exploration_tree.yaml",
+    "evidence/README.md",
+    "evidence/tables/table1_task1_three_model.md",
+    "evidence/tables/table2_task2_three_model.md",
+    "evidence/figures/figure1_pr35_results_poster.md"
+  ]
+}

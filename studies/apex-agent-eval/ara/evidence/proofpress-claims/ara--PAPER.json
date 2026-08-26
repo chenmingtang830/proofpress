@@ -1,0 +1,92 @@
+[
+  {
+    "block": "f92973e3",
+    "kind": "added",
+    "note": "Added the block beginning \"anchored Markdown block\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "9846ed96",
+    "kind": "added",
+    "note": "Added the frontmatter claims_summary list to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "56043bb3",
+    "kind": "added",
+    "note": "Added the block beginning \"abstract: 'This pilot compares ordinary full-data-room execution with a composite Proofpress treatme\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "ce26da1f",
+    "kind": "added",
+    "note": "Added the block beginning \"Governed Working Sets for Legal Agents\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "a24fb021",
+    "kind": "added",
+    "note": "Added the block beginning \"Overview\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "f468bae9",
+    "kind": "added",
+    "note": "Added the block beginning \"The study asks whether a claim-centric governed working set can preserve legal-task output quality, \" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "49dac34a",
+    "kind": "added",
+    "note": "Added the block beginning \"The strongest observed pattern is conditional: the treatment preserved the majority rubric score in \" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "a151d404",
+    "kind": "added",
+    "note": "Added the block beginning \"Layer Index\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "b979b1e6",
+    "kind": "added",
+    "note": "Added the block beginning \"Cognitive Layer (`logic/`)\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "f8861e63",
+    "kind": "added",
+    "note": "Added the block beginning \"| File | Description |\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "e60a7d41",
+    "kind": "added",
+    "note": "Added the block beginning \"Physical Layer (`src/`)\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "c665e5a8",
+    "kind": "added",
+    "note": "Added the block beginning \"| File | Description |\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "ca8eab5a",
+    "kind": "added",
+    "note": "Added the block beginning \"Exploration Graph (`trace/`)\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "dbb4f7c9",
+    "kind": "added",
+    "note": "Added the block beginning \"| File | Description |\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "04ddd7bf",
+    "kind": "added",
+    "note": "Added the block beginning \"Evidence (`evidence/`)\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "2fbf79bb",
+    "kind": "added",
+    "note": "Added the block beginning \"| File | Description |\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "1a7e264e",
+    "kind": "added",
+    "note": "Added the block beginning \"Research boundary\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "1f3021e7",
+    "kind": "added",
+    "note": "Added the block beginning \"The Proofpress product mechanism is the PR36 claim-centric CLI implementation in this repository thr\" to the sanitized APEX agent evaluation ARA."
+  }
+]

@@ -1,0 +1,57 @@
+[
+  {
+    "block": "1fd447c4",
+    "kind": "added",
+    "note": "Added the block beginning \"Experiments and analyses\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "5cdd44a8",
+    "kind": "added",
+    "note": "Added the block beginning \"E01: Task 1 paired three-executor comparison\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "b6dd7a0d",
+    "kind": "added",
+    "note": "Added the block beginning \"Verifies**: C01, C02\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "f97f44e5",
+    "kind": "added",
+    "note": "Added the block beginning \"E02: Task 2 paired three-executor comparison\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "39982a57",
+    "kind": "added",
+    "note": "Added the block beginning \"Verifies**: C01, C02\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "c45f558a",
+    "kind": "added",
+    "note": "Added the block beginning \"E03: Material-conflict stress gates\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "e3606694",
+    "kind": "added",
+    "note": "Added the block beginning \"Verifies**: C03\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "a42239fb",
+    "kind": "added",
+    "note": "Added the block beginning \"E04: Upfront-cost and reuse audit\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "a3003e68",
+    "kind": "added",
+    "note": "Added the block beginning \"Verifies**: C04, C05\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "8215fdc1",
+    "kind": "added",
+    "note": "Added the block beginning \"E05: Cross-study causal-design comparison\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "a6927b15",
+    "kind": "added",
+    "note": "Added the block beginning \"Verifies**: C06\" to the sanitized APEX agent evaluation ARA."
+  }
+]

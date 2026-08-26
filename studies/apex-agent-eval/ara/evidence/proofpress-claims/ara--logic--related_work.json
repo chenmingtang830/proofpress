@@ -1,0 +1,67 @@
+[
+  {
+    "block": "a1c6f757",
+    "kind": "added",
+    "note": "Added the block beginning \"Related Work and Source Dependencies\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "58b703ff",
+    "kind": "added",
+    "note": "Added the block beginning \"RW01: Mercor APEX Agents benchmark\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "137f0b3b",
+    "kind": "added",
+    "note": "Added the block beginning \"DOI**: not assigned\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "3cf6ca64",
+    "kind": "added",
+    "note": "Added the block beginning \"RW02: Archipelago native task harness\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "6824d26d",
+    "kind": "added",
+    "note": "Added the block beginning \"DOI**: not assigned\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "00bda579",
+    "kind": "added",
+    "note": "Added the block beginning \"RW03: PR35 RelayBench long-horizon handoff study\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "fb6980b0",
+    "kind": "added",
+    "note": "Added the block beginning \"DOI**: not assigned\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "2db7e99a",
+    "kind": "added",
+    "note": "Added the block beginning \"RW04: Proofpress claim-centric ledger architecture\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "1cdb24e8",
+    "kind": "added",
+    "note": "Added the block beginning \"DOI**: not assigned\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "2fc9a31c",
+    "kind": "added",
+    "note": "Added the block beginning \"RW05: Agent-Native Research Artifact methodology\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "c83df30a",
+    "kind": "added",
+    "note": "Added the block beginning \"DOI**: not assigned\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "dbec14e1",
+    "kind": "added",
+    "note": "Added the block beginning \"Citation footprint\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "3e3c466d",
+    "kind": "added",
+    "note": "Added the block beginning \"Mercor APEX Agents public dataset and task metadata.\" to the sanitized APEX agent evaluation ARA."
+  }
+]

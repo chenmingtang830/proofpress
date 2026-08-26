@@ -1,0 +1,22 @@
+[
+  {
+    "block": "fbe9e24f",
+    "kind": "added",
+    "note": "Added the block beginning \"Table 1 — Task 1 paired executor results\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "9cc8608c",
+    "kind": "added",
+    "note": "Added the block beginning \"Source**: Table 1 authored from frozen Task 1 manifest `task1-three-model-finalized-v9.json`\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "a05096de",
+    "kind": "added",
+    "note": "Added the block beginning \"| Executor | Baseline scores | Proofpress scores | Majority baseline → treatment | Mean baseline → t\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "f69f7681",
+    "kind": "added",
+    "note": "Added the block beginning \"The two preceding Muse baseline attempts that timed out at 900 seconds are retained in the source ma\" to the sanitized APEX agent evaluation ARA."
+  }
+]

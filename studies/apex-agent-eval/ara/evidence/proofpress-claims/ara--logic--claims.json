@@ -1,0 +1,67 @@
+[
+  {
+    "block": "c2c7ab67",
+    "kind": "added",
+    "note": "Added the block beginning \"Claims\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "3d71e849",
+    "kind": "added",
+    "note": "Added the block beginning \"C01: Coverage mediates quality preservation under bounded context\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "24fe646f",
+    "kind": "added",
+    "note": "Added the block beginning \"Statement**: A governed working set can preserve task-deliverable quality when its staged claims cov\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "8ddb3a45",
+    "kind": "added",
+    "note": "Added the block beginning \"C02: Context bounding produces executor-dependent efficiency\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "f891712d",
+    "kind": "added",
+    "note": "Added the block beginning \"Statement**: Bounding an executor's working context reduces generation effort only when avoided corp\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "ac36174d",
+    "kind": "added",
+    "note": "Added the block beginning \"C03: Pre-execution state validation can enforce a fail-closed boundary\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "4efd8336",
+    "kind": "added",
+    "note": "Added the block beginning \"Statement**: Separating state validation from artifact generation can prevent downstream work when a\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "14a86352",
+    "kind": "added",
+    "note": "Added the block beginning \"C04: Reusable claims separate knowledge carryover from task-specific drafting\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "e808a1c3",
+    "kind": "added",
+    "note": "Added the block beginning \"Statement**: Evidence-bound claims can carry factual state across related tasks while leaving task-s\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "def2f9c8",
+    "kind": "added",
+    "note": "Added the block beginning \"C05: Preparation shifts rather than eliminates system cost\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "c804c12c",
+    "kind": "added",
+    "note": "Added the block beginning \"Statement**: A governed knowledge layer moves work from downstream execution into upstream construct\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "21cf656e",
+    "kind": "added",
+    "note": "Added the block beginning \"C06: Information parity changes the visibility of governance effects\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "863a8f96",
+    "kind": "added",
+    "note": "Added the block beginning \"Statement**: Governance effects are easier to identify when substantive task information is held con\" to the sanitized APEX agent evaluation ARA."
+  }
+]

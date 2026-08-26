@@ -1,0 +1,42 @@
+[
+  {
+    "block": "1428a478",
+    "kind": "added",
+    "note": "Added the block beginning \"E04 — Upfront construction and reuse audit\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "b6dfd203",
+    "kind": "added",
+    "note": "Added the block beginning \"Trace node**: N04, N08\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "a4416d4f",
+    "kind": "added",
+    "note": "Added the block beginning \"Recorded Task 1 preparation\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "28d686ab",
+    "kind": "added",
+    "note": "Added the block beginning \"| Stage or object | Recorded value | Scope note |\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "e9e7d079",
+    "kind": "added",
+    "note": "Added the block beginning \"Recorded Task 2 reuse\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "f99aa268",
+    "kind": "added",
+    "note": "Added the block beginning \"| Working-set object | Count |\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "e6e4750e",
+    "kind": "added",
+    "note": "Added the block beginning \"Task 2's complete proposal, critic, relation-judge, and staging telemetry is not present in the fina\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "fff9e5a6",
+    "kind": "added",
+    "note": "Added the block beginning \"The Task 1 upstream total may belong to the immediately preceding gap-resolution lineage rather than\" to the sanitized APEX agent evaluation ARA."
+  }
+]

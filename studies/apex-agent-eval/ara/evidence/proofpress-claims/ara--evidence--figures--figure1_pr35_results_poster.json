@@ -1,0 +1,37 @@
+[
+  {
+    "block": "ccd4c814",
+    "kind": "added",
+    "note": "Added the block beginning \"Figure 1 — PR35 RelayBench public results poster\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "a6f100ec",
+    "kind": "added",
+    "note": "Added the block beginning \"Source**: Figure 1 is the complete rendered source visual `proofpress-results.html` from the PR35 Re\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "9475a921",
+    "kind": "added",
+    "note": "Added the block beginning \"Visual description\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "ec0f0e28",
+    "kind": "added",
+    "note": "Added the block beginning \"Shows**: the frozen PR35 product-study headline, aggregate rubric-completion change, unsafe-propagat\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "b622b771",
+    "kind": "added",
+    "note": "Added the block beginning \"Exact headline values shown\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "9f1f402d",
+    "kind": "added",
+    "note": "Added the block beginning \"| Outcome | Ordinary | Proofpress | Difference |\" to the sanitized APEX agent evaluation ARA."
+  },
+  {
+    "block": "4cf6f354",
+    "kind": "added",
+    "note": "Added the block beginning \"The source reports seven models, three legal task families, 126 valid paired runs, and 63 controlled\" to the sanitized APEX agent evaluation ARA."
+  }
+]

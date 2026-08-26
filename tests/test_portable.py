@@ -327,6 +327,61 @@ class PortableArtifactTests(unittest.TestCase):
         finally:
             receiver.close()
 
+    def test_partial_import_keeps_portable_capsule_head_current(self):
+        target = self.repo.write("a.md", "")
+        self.repo.cli("policy", "a.md", "portable")
+        self.repo.append_body("a.md", "# Study")
+        self.repo.cli("anchor", "a.md")
+        block_id = re.search(r"\(ob:([0-9a-f]{8})\)", target.read_text()).group(1)
+        claims = self.repo.write(
+            "claims.json",
+            json.dumps([{"block": block_id, "kind": "added"}]),
+        )
+        self.repo.cli(
+            "snapshot", "a.md", "--author", "codex", "--claims", str(claims)
+        )
+        source_inspection = json.loads(
+            self.repo.cli("inspect", "a.md", "--json").stdout
+        )
+
+        raw = target.read_text()
+        payload = re.search(
+            r"proofpress:capsule:([A-Za-z0-9_-]+)", raw
+        ).group(1)
+        decoded = base64.urlsafe_b64decode(payload + "=" * (-len(payload) % 4))
+        capsule = json.loads(zlib.decompress(decoded))
+        head = capsule["records"][-1]
+
+        receiver = Repo()
+        try:
+            shutil.copy2(target, receiver.path / "received.md")
+            seed = (
+                "import json, os, sys; "
+                f"sys.path.insert(0, {str(ROOT)!r}); "
+                f"os.chdir({str(receiver.path)!r}); "
+                "import proofpress; "
+                f"record=json.loads({json.dumps(head)!r}); "
+                "event=dict(record['event']); version=dict(record['version']); "
+                "event['artifact']='received.md'; version['artifact']='received.md'; "
+                "proofpress.write_event(event, version)"
+            )
+            subprocess.run(["python3", "-c", seed], check=True)
+            receiver.cli("import", "received.md")
+
+            shown = json.loads(
+                receiver.cli("show", "received.md", "--json").stdout
+            )
+            self.assertEqual(shown["version"], source_inspection["head"])
+            verified = json.loads(
+                receiver.cli("verify", "received.md", "--json").stdout
+            )
+            self.assertEqual(verified["version"], source_inspection["head"])
+            self.assertEqual(verified["v"], 2)
+            self.assertEqual(verified["status"], "verified")
+            self.assertIn("(1 blocks)", receiver.cli("blocks", "received.md").stdout)
+        finally:
+            receiver.close()
+
     def test_consequential_rejection_and_reason_survive_handoff(self):
         self.repo.write("a.md", "# Launch plan\n\nShip the narrow scope.\n")
         self.repo.cli("policy", "a.md", "portable")
