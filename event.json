@@ -1,58 +1,44 @@
 {
  "event": "version_created",
- "artifact": "studies/long-horizon-eval/ara/evidence/tables/final-panel.md",
- "artifact_id": "pp_7c2f1060771725bb9245c05b",
- "version": "13b737a5",
- "parent": "305cb4b5",
+ "artifact": "studies/long-horizon-eval/ara/evidence/figures/public-result.md",
+ "artifact_id": "pp_8bb0ecdb2e9fc09c9f8ece88",
+ "version": "59b6c631",
+ "parent": "acb938b1",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-26T13:04:22+00:00",
+ "ts": "2026-08-26T13:04:27+00:00",
  "stats": {
-  "modified": 1,
-  "added": 4
+  "added": 3
  },
  "changes": [
   {
-   "kind": "modified",
-   "block": "d956bad1",
-   "type": "heading",
-   "context": "Frozen final panel"
-  },
-  {
    "kind": "added",
-   "block": "8a218798",
+   "block": "7ca8d9c8",
    "type": "para",
-   "context": "Frozen final panel",
-   "preview": "**Source**: [`../FINAL_RESULTS_RECEIPTS.json`](../FINAL_RESU"
+   "context": "Public result figure",
+   "preview": "**Source**: [`../../../relaybench/visuals/proofpress-results"
   },
   {
    "kind": "added",
-   "block": "93573be5",
+   "block": "1dc6a6a0",
    "type": "table",
-   "context": "Frozen final panel",
-   "preview": "| Endpoint | Ordinary handoff | Proofpress governed handoff "
+   "context": "Public result figure",
+   "preview": "| Figure | Role | Claim boundary |\n| --- | --- | --- |\n| `pr"
   },
   {
    "kind": "added",
-   "block": "1c1aefa8",
-   "type": "table",
-   "context": "Frozen final panel",
-   "preview": "| Panel scope | Frozen value |\n| --- | ---: |\n| Valid paired"
-  },
-  {
-   "kind": "added",
-   "block": "a51d1518",
+   "block": "a7f254a6",
    "type": "para",
-   "context": "Frozen final panel",
-   "preview": "These are bounded observed counts for the frozen panel. They"
+   "context": "Public result figure",
+   "preview": "The HTML figure is not duplicated inside `evidence/figures/`"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:314c7c1cf921f844165f45b78786c618588a32a072ed2ab3d2881eae45400442",
+ "soft_fingerprint": "ppsb1:3b96ca6b81e75662b8f88a2cfed48ed21201f2b6c31fdace0f473140f9d411cc",
  "actors": {
   "requested_by": [
    "human:richardtang"
@@ -70,28 +56,23 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "8a218798",
+   "block": "7ca8d9c8",
    "kind": "added",
-   "note": "Adds publication-grade ARA content: **Source**: [`../FINAL_RESULTS_RECEIPTS.json`](../FINAL_RESULTS_RECEIPTS.json), frozen 2026-08-26. Values below are transcribed from its `ag"
+   "note": "Adds publication-grade ARA content: **Source**: [`../../../relaybench/visuals/proofpress-results.html`](../../../relaybench/visuals/proofpress-results.html), frozen communicati"
   },
   {
-   "block": "93573be5",
+   "block": "1dc6a6a0",
    "kind": "added",
-   "note": "Adds publication-grade ARA content: | Endpoint | Ordinary handoff | Proofpress governed handoff | Descriptive difference |"
+   "note": "Adds publication-grade ARA content: | Figure | Role | Claim boundary |"
   },
   {
-   "block": "1c1aefa8",
+   "block": "a7f254a6",
    "kind": "added",
-   "note": "Adds publication-grade ARA content: | Panel scope | Frozen value |"
-  },
-  {
-   "block": "a51d1518",
-   "kind": "added",
-   "note": "Adds publication-grade ARA content: These are bounded observed counts for the frozen panel. They are not official Harvey scores, statistical-significance claims, population eve"
+   "note": "Adds publication-grade ARA content: The HTML figure is not duplicated inside `evidence/figures/` because the content-addressed artifact index preserves a single source of truth"
   }
  ],
  "context": {
   "why": "Compile the frozen PR #35 study into a publication-grade ARA 2.6 artifact without changing results or inventing historical research traces."
  },
- "event_id": "ppe_4b3f82d72d37cd6d58024f97"
+ "event_id": "ppe_477ca73cd4107d9f2830a887"
 }

@@ -1,36 +1,30 @@
 {
- "artifact": "studies/long-horizon-eval/ara/evidence/tables/final-panel.md",
- "artifact_id": "pp_7c2f1060771725bb9245c05b",
+ "artifact": "studies/long-horizon-eval/ara/evidence/figures/public-result.md",
+ "artifact_id": "pp_8bb0ecdb2e9fc09c9f8ece88",
  "blocks": [
   {
    "type": "heading",
-   "text": "# Frozen final panel",
-   "id": "d956bad1",
-   "hash": "d26ec582d40b"
+   "text": "# Public result figure",
+   "id": "bd544723",
+   "hash": "e5dca6f170fc"
   },
   {
    "type": "para",
-   "text": "**Source**: [`../FINAL_RESULTS_RECEIPTS.json`](../FINAL_RESULTS_RECEIPTS.json), frozen 2026-08-26. Values below are transcribed from its `aggregate` object; the manifest binds all seven admitted panel files by SHA-256.",
-   "id": "8a218798",
-   "hash": "3c0a1da3fe15"
+   "text": "**Source**: [`../../../relaybench/visuals/proofpress-results.html`](../../../relaybench/visuals/proofpress-results.html), frozen communication artifact indexed by [`../FINAL_RESULTS_RECEIPTS.json`](../FINAL_RESULTS_RECEIPTS.json) through the public synthesis.",
+   "id": "7ca8d9c8",
+   "hash": "205f5e675c65"
   },
   {
    "type": "table",
-   "text": "| Endpoint | Ordinary handoff | Proofpress governed handoff | Descriptive difference |\n| --- | ---: | ---: | ---: |\n| Matched rubric criteria passed | 10,654 / 11,928 | 11,141 / 11,928 | +487 criteria |\n| Rubric quality | 89.319% | 93.402% | +4.083 percentage points |\n| Unsafe propagation in stress pairs | 8 / 63 | 0 / 63 | −8 observed events |",
-   "id": "93573be5",
-   "hash": "f3e799839cd2"
-  },
-  {
-   "type": "table",
-   "text": "| Panel scope | Frozen value |\n| --- | ---: |\n| Valid paired runs | 126 |\n| Complete model panels | 7 |\n| Task families | 3 |\n| Admitted stress pairs | 63 |",
-   "id": "1c1aefa8",
-   "hash": "1c17cd4fa22a"
+   "text": "| Figure | Role | Claim boundary |\n| --- | --- | --- |\n| `proofpress-results.html` | Interactive publication visual showing model-level matched quality and aggregate unsafe propagation | Harvey LAB-derived multi-step handoff tasks; descriptive frozen-panel result only |",
+   "id": "1dc6a6a0",
+   "hash": "67818bfeb3b7"
   },
   {
    "type": "para",
-   "text": "These are bounded observed counts for the frozen panel. They are not official Harvey scores, statistical-significance claims, population event-rate estimates, or evidence of improved legal intelligence.",
-   "id": "a51d1518",
-   "hash": "8f9f8468fd54"
+   "text": "The HTML figure is not duplicated inside `evidence/figures/` because the content-addressed artifact index preserves a single source of truth. Any exported PNG or social card must be generated from the frozen HTML without changing values, denominators, exclusions, or claim language.",
+   "id": "a7f254a6",
+   "hash": "6043f6f9ce4c"
   }
  ]
 }
