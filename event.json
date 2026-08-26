@@ -1,30 +1,30 @@
 {
  "event": "version_created",
- "artifact": "studies/long-horizon-eval/relaybench/PUBLIC_RESULTS.md",
- "artifact_id": "pp_a59d351c883c87dde5396eba",
- "version": "e9e8680f",
- "parent": "9c4688fc",
+ "artifact": "studies/long-horizon-eval/relaybench/visuals/proofpress-results.html",
+ "artifact_id": "pp_cf50332f934a667c7ce1e36b",
+ "version": "909d88cd",
+ "parent": "fb21532b",
  "author": {
   "name": "OpenAI Codex",
   "kind": "agent",
   "session": null
  },
  "note": null,
- "ts": "2026-08-26T11:35:45+00:00",
+ "ts": "2026-08-26T11:35:51+00:00",
  "stats": {
   "added": 1
  },
  "changes": [
   {
    "kind": "added",
-   "block": "98206673",
+   "block": "990cbfaa",
    "type": "para",
-   "context": "Governed handoffs improved completion—an",
-   "preview": "**Result frozen:** August 26, 2026."
+   "context": "<h2 id=\"safety-title\">Unsafe propagation",
+   "preview": "<p class=\"freeze-date\">Result frozen · August 26, 2026</p>"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:6d916ad5368d24b0c01c0efe52f67bd8d9cde9d02fa20bc4b2e04e83bf377e53",
+ "soft_fingerprint": "ppsb1:830e7a02bb37448a868138aaa7c63c248f3fa3887ddb50b4eb08fe40739b55fb",
  "actors": {
   "requested_by": [
    "human:richard-tang"
@@ -42,13 +42,13 @@
  "attribution_basis": "environment_attested",
  "claims": [
   {
-   "block": "98206673",
+   "block": "990cbfaa",
    "kind": "added",
-   "note": "Record the date on which the public result was frozen."
+   "note": "Display the final result freeze date in the communication chart."
   }
  ],
  "context": {
-  "why": "Record the final study freeze date after importing the portable public result artifact."
+  "why": "Record the final study freeze date on the portable communication chart."
  },
- "event_id": "ppe_ad9427c5067189341f3959ec"
+ "event_id": "ppe_c0898d58397748a3530827ee"
 }
