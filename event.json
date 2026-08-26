@@ -1,29 +1,29 @@
 {
  "event": "version_created",
- "artifact": "studies/long-horizon-eval/relaybench/PUBLIC_RESULTS.md",
- "artifact_id": "pp_a59d351c883c87dde5396eba",
- "version": "30ece820",
- "parent": "36945b70",
+ "artifact": "studies/long-horizon-eval/relaybench/PUBLICATION_COPY.md",
+ "artifact_id": "pp_c29a2419ccc3738736ebf62c",
+ "version": "cebceca5",
+ "parent": "34654dc2",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-26T12:26:33+00:00",
+ "ts": "2026-08-26T12:26:45+00:00",
  "stats": {
   "modified": 1
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "e18743e6",
-   "type": "heading",
-   "context": "Proofpress improved performance on Harve"
+   "block": "c65749d6",
+   "type": "para",
+   "context": "Results poster"
   }
  ],
- "policy": "portable",
- "soft_fingerprint": "ppsb1:7cab3112061d66f522bd51d333799aaa8775645fc3d7c413225847b90dbf8fec",
+ "policy": "local",
+ "soft_fingerprint": "ppsb1:4a8ca871869541b619339eea6b85b15917d21ee8783dc3f2a510d0be07b198ea",
  "actors": {
   "requested_by": [
    "human:richardtang"
@@ -41,13 +41,13 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "e18743e6",
+   "block": "c65749d6",
    "kind": "modified",
-   "note": "Synchronizes the public result heading with the final Proofpress-led poster headline."
+   "note": "Updates the reusable poster headline to lead with Proofpress while keeping the verified-handoff mechanism in supporting copy."
   }
  ],
  "context": {
-  "why": "Synchronize the public result heading with the final Proofpress-led poster headline."
+  "why": "Keep the reusable poster headline consistent with the final product-led communication hierarchy."
  },
- "event_id": "ppe_6e0ee6011e993ac33650b965"
+ "event_id": "ppe_02aa668ce0c77232ceca1b82"
 }
