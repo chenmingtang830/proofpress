@@ -1,47 +1,62 @@
 {
  "event": "version_created",
- "artifact": "studies/long-horizon-eval/ara/evidence/README.md",
- "artifact_id": "pp_41859228ea2275bf0b43df62",
- "version": "fbcf5cb3",
- "parent": "618c8307",
+ "artifact": "studies/long-horizon-eval/ara/logic/claims.md",
+ "artifact_id": "pp_926644738c4a198198cd2bf7",
+ "version": "634130f1",
+ "parent": "c7988605",
  "author": {
   "name": "OpenAI Codex",
   "kind": "agent",
   "session": null
  },
  "note": null,
- "ts": "2026-08-26T11:33:45+00:00",
+ "ts": "2026-08-26T11:33:51+00:00",
  "stats": {
-  "modified": 4
+  "modified": 4,
+  "added": 2
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "fd5c49bd",
+   "block": "c528753a",
    "type": "heading",
-   "context": "Admitted final evidence"
+   "context": "C-LH-02: Bounded quality result"
   },
   {
    "kind": "modified",
-   "block": "b70b34f3",
-   "type": "table",
-   "context": "Admitted final evidence"
-  },
-  {
-   "kind": "modified",
-   "block": "64da3f86",
-   "type": "heading",
-   "context": "Admission and exclusion"
-  },
-  {
-   "kind": "modified",
-   "block": "ae8292bd",
+   "block": "2a0398fe",
    "type": "para",
-   "context": "Admission and exclusion"
+   "context": "C-LH-02: Bounded quality result"
+  },
+  {
+   "kind": "modified",
+   "block": "8276420f",
+   "type": "heading",
+   "context": "C-LH-03: Bounded safety result"
+  },
+  {
+   "kind": "modified",
+   "block": "8a13c1ec",
+   "type": "para",
+   "context": "C-LH-03: Bounded safety result"
+  },
+  {
+   "kind": "added",
+   "block": "94129fbd",
+   "type": "heading",
+   "context": "C-LH-04: Claim boundary",
+   "preview": "## C-LH-04: Claim boundary"
+  },
+  {
+   "kind": "added",
+   "block": "fcb3d07b",
+   "type": "para",
+   "context": "C-LH-04: Claim boundary",
+   "preview": "The admitted results support a product-mechanism signal for "
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:3a5d1977941eb912e8e3b5221eb49a199b09799f386e60f432f8319ffa996dfe",
+ "soft_fingerprint": "ppsb1:593c70f9c8b711f22e224ba028fcc65242b985589e00bfe2f910b3613d6998ce",
  "actors": {
   "requested_by": [
    "human:richard-tang"
@@ -59,28 +74,38 @@
  "attribution_basis": "environment_attested",
  "claims": [
   {
-   "block": "fd5c49bd",
+   "block": "c528753a",
    "kind": "modified",
-   "note": "Rename the index to admitted final evidence."
+   "note": "Replace future conditional heading with bounded quality claim."
   },
   {
-   "block": "b70b34f3",
+   "block": "2a0398fe",
    "kind": "modified",
-   "note": "Index final receipts, panels, invalid attempts, and breadth evidence."
+   "note": "Admit exact frozen-panel quality result."
   },
   {
-   "block": "64da3f86",
+   "block": "8276420f",
    "kind": "modified",
-   "note": "Rename future admission to current admission and exclusion."
+   "note": "Replace null-result heading with bounded safety claim."
   },
   {
-   "block": "ae8292bd",
+   "block": "8a13c1ec",
    "kind": "modified",
-   "note": "Freeze included panels and require new preregistration for expansion."
+   "note": "Admit exact observed unsafe-propagation count."
+  },
+  {
+   "block": "94129fbd",
+   "kind": "added",
+   "note": "Add explicit claim-boundary heading."
+  },
+  {
+   "block": "fcb3d07b",
+   "kind": "added",
+   "note": "Prevent official-score, causal, significance, and legal-intelligence overclaims."
   }
  ],
  "context": {
-  "why": "Index admitted final receipts and preserve explicit exclusions."
+  "why": "Admit the bounded quality and safety claims with an explicit interpretation boundary."
  },
- "event_id": "ppe_39cfd785d42f993c9200adf5"
+ "event_id": "ppe_ed3fc86e4019dc74ae82a63b"
 }

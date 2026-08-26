@@ -1,42 +1,60 @@
 {
- "artifact": "studies/long-horizon-eval/ara/evidence/README.md",
- "artifact_id": "pp_41859228ea2275bf0b43df62",
+ "artifact": "studies/long-horizon-eval/ara/logic/claims.md",
+ "artifact_id": "pp_926644738c4a198198cd2bf7",
  "blocks": [
   {
    "type": "heading",
-   "text": "# Evidence index",
-   "id": "db9f5a16",
-   "hash": "1287755cd4bb"
+   "text": "# Claim register",
+   "id": "01b8a95d",
+   "hash": "7ed0aba8cf7a"
   },
   {
    "type": "heading",
-   "text": "## Admitted final evidence",
-   "id": "fd5c49bd",
-   "hash": "3d8d5c1d884b"
+   "text": "## C-LH-01: Phase Zero mechanics readiness",
+   "id": "c84eefb7",
+   "hash": "698c259f189b"
   },
   {
-   "type": "table",
-   "text": "| Evidence | Location | What it supports | What it does not support |\n| --- | --- | --- | --- |\n| Final receipt manifest | [`FINAL_RESULTS_RECEIPTS.json`](FINAL_RESULTS_RECEIPTS.json) | Exact paths, SHA-256 digests, roles, denominators, and exclusions for the frozen result set | External identity or legal correctness |\n| One-page result | [`../../relaybench/PUBLIC_RESULTS.md`](../../relaybench/PUBLIC_RESULTS.md) | Human-readable bounded synthesis | Official Harvey leaderboard status or population causality |\n| Seven complete panel files | [`../../relaybench/results/`](../../relaybench/results/) | Per-model, per-task paired quality, safety, and operational records | Generalization beyond the frozen panel |\n| Invalid-attempt ledger | [`../../relaybench/results/pre-v9-attempt-ledger-2026-08-24.json`](../../relaybench/results/pre-v9-attempt-ledger-2026-08-24.json) | Failed, partial, malformed, and invalid routes retained before final panels | Treatment estimates |\n| DeepSeek breadth expansion | [`../../relaybench/results/deepseek-v9-14-task-expansion-2026-08-25.json`](../../relaybench/results/deepseek-v9-14-task-expansion-2026-08-25.json) | Secondary task-breadth and floor-sensitivity evidence | A seven-model breadth result |",
-   "id": "b70b34f3",
-   "hash": "6f4d53fce20c"
+   "type": "para",
+   "text": "The RelayBench H4 test-double harness can enforce a declared cold boundary, machine-check C1/C2 file-level parity, produce deterministic state-scoring records, and exclude TEST-ONLY output from benchmark metrics. This is a harness-readiness claim, not behavioral evidence from a language model.",
+   "id": "8756ce27",
+   "hash": "df5ff8f28eeb"
   },
   {
    "type": "heading",
-   "text": "## Admission and exclusion",
-   "id": "64da3f86",
-   "hash": "ddf79afab1f8"
+   "text": "## C-LH-02: Bounded quality result",
+   "id": "c528753a",
+   "hash": "e8a4113ff3a6"
   },
   {
    "type": "para",
-   "text": "Only the seven complete panels named in the receipt manifest enter the 126-pair aggregate. Kimi, Phase Zero test doubles, route calibrations, and invalid attempts remain retained but excluded. Further runs belong to a new preregistered study and cannot silently update this frozen result.",
-   "id": "ae8292bd",
-   "hash": "61e65a6ac7f2"
+   "text": "Across 126 admitted paired runs in seven complete model panels and three legal task families, ordinary handoff passed 10,654/11,928 rubric criteria (89.3%) and Proofpress passed 11,141/11,928 (93.4%), a descriptive difference of +4.1 percentage points.",
+   "id": "2a0398fe",
+   "hash": "bfd93598e152"
+  },
+  {
+   "type": "heading",
+   "text": "## C-LH-03: Bounded safety result",
+   "id": "8276420f",
+   "hash": "e990b19deb68"
   },
   {
    "type": "para",
-   "text": "Do not include raw private prompts, transcripts, credentials, or undisclosed Harvey materials in this public artifact. Store only the minimum permitted evidence needed to reproduce the stated claim boundary.",
-   "id": "daf78085",
-   "hash": "3ea716bb5dc5"
+   "text": "Across the 63 admitted controlled stress pairs, ordinary handoff propagated eight injected unsafe states and Proofpress propagated none. This is an observed panel count, not an estimate of a population event rate.",
+   "id": "8a13c1ec",
+   "hash": "6bdf7e58b6a6"
+  },
+  {
+   "type": "heading",
+   "text": "## C-LH-04: Claim boundary",
+   "id": "94129fbd",
+   "hash": "798643b3d3e5"
+  },
+  {
+   "type": "para",
+   "text": "The admitted results support a product-mechanism signal for governed handoff. They do not establish an official Harvey score, statistical significance, population-level causality, improved legal intelligence, or correctness outside the frozen tasks. Cross-model and task heterogeneity, invalid attempts, and verification overhead remain visible in the receipts.",
+   "id": "fcb3d07b",
+   "hash": "b21c9f578c28"
   }
  ]
 }
