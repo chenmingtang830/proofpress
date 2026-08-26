@@ -1,0 +1,47 @@
+[
+  {
+    "block": "01b8a95d",
+    "kind": "modified",
+    "note": "Renames the register to the ARA Claims layer."
+  },
+  {
+    "block": "c84eefb7",
+    "kind": "modified",
+    "note": "Normalizes the mechanics claim identifier to C01."
+  },
+  {
+    "block": "8756ce27",
+    "kind": "modified",
+    "note": "Adds statement, status, provenance, falsification, proof, dependencies, and tags for C01."
+  },
+  {
+    "block": "c528753a",
+    "kind": "modified",
+    "note": "Normalizes the bounded quality claim identifier to C02."
+  },
+  {
+    "block": "2a0398fe",
+    "kind": "modified",
+    "note": "Adds the complete ARA claim schema and exact frozen-panel result for C02."
+  },
+  {
+    "block": "8276420f",
+    "kind": "modified",
+    "note": "Normalizes the bounded safety claim identifier to C03."
+  },
+  {
+    "block": "8a13c1ec",
+    "kind": "modified",
+    "note": "Adds the complete ARA claim schema and exact stress-panel count for C03."
+  },
+  {
+    "block": "94129fbd",
+    "kind": "modified",
+    "note": "Normalizes the claim-boundary identifier to C04."
+  },
+  {
+    "block": "fcb3d07b",
+    "kind": "modified",
+    "note": "Adds the complete ARA scope-constraint schema and supersession rule for C04."
+  }
+]

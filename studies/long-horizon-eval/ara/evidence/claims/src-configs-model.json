@@ -1,0 +1,22 @@
+[
+  {
+    "block": "42263bb3",
+    "kind": "added",
+    "note": "Adds publication-grade ARA content: Seven complete panels enter the frozen aggregate. Requested/reported model and provider identity are checked per attempt; fallback is disabl"
+  },
+  {
+    "block": "02ec523d",
+    "kind": "added",
+    "note": "Adds publication-grade ARA content: | Panel label | Frozen result receipt | Route note |"
+  },
+  {
+    "block": "f3c4fe5b",
+    "kind": "added",
+    "note": "Adds publication-grade ARA content: Gemini 3.7 Flash performs transaction-level policy judging and blind rubric evaluation under the frozen protocol. Where the same model famil"
+  },
+  {
+    "block": "005e2183",
+    "kind": "added",
+    "note": "Adds publication-grade ARA content: The exact admitted result paths and SHA-256 digests are authoritative in [`../../evidence/FINAL_RESULTS_RECEIPTS.json`](../../evidence/FINAL"
+  }
+]

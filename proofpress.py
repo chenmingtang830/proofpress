@@ -27,7 +27,7 @@ from datetime import datetime, timezone
 import proofpress_evidence
 import proofpress_knowledge
 
-__version__ = "0.4.0"
+__version__ = "0.5.0-alpha.1"
 LEDGER_REF = "refs/proofpress/ledger"
 
 # ---------- terminal rendering ----------
@@ -2796,11 +2796,12 @@ def main():
     pv.add_argument("--evidence", required=True)
     pv.add_argument("--json", action="store_true")
     pv.set_defaults(f=cmd_provenance_verify)
-    proofpress_knowledge.add_cli(sub)
+    proofpress_knowledge.add_flat_cli(sub)
+    proofpress_knowledge.add_cli(sub)  # 0.4 compatibility; deprecated in docs
     a = p.parse_args()
     try:
         a.f(a)
-    except proofpress_evidence.EvidenceError as exc:
+    except (proofpress_evidence.EvidenceError, ValueError) as exc:
         p.error(str(exc))
 
 

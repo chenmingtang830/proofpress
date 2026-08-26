@@ -1,0 +1,17 @@
+[//]: # (ob:bd544723)
+# Public result figure
+
+[//]: # (ob:7ca8d9c8)
+**Source**: [`../../../relaybench/visuals/proofpress-results.html`](../../../relaybench/visuals/proofpress-results.html), frozen communication artifact indexed by [`../FINAL_RESULTS_RECEIPTS.json`](../FINAL_RESULTS_RECEIPTS.json) through the public synthesis.
+
+[//]: # (ob:1dc6a6a0)
+| Figure | Role | Claim boundary |
+| --- | --- | --- |
+| `proofpress-results.html` | Interactive publication visual showing model-level matched quality and aggregate unsafe propagation | Harvey LAB-derived multi-step handoff tasks; descriptive frozen-panel result only |
+
+[//]: # (ob:a7f254a6)
+The HTML figure is not duplicated inside `evidence/figures/` because the content-addressed artifact index preserves a single source of truth. Any exported PNG or social card must be generated from the frozen HTML without changing values, denominators, exclusions, or claim language.
+
+[//]: # (proofpress:meta:eyJhcnRpZmFjdF9pZCI6InBwXzhiYjBlY2RiMmU5ZmMwOWM5ZjhlY2U4OCIsInBvbGljeSI6InBvcnRhYmxlIiwicG9ydGFibGVfaGVhZCI6IjU5YjZjNjMxIiwicG9ydGFibGVfaGVhZF9ldmVudCI6InBwZV80NzdjYTczY2Q0MTA3ZDlmMjgzMGE4ODciLCJwb3J0YWJsZV9saW5lYWdlX2lkIjoicHBsX2QwYmZhZDNmMzRkN2FlODg5ZmM5ZGE2MiIsInByb29mcHJlc3MiOjF9)
+[//]: # (proofpress:discovery:Verifiable revision history by Proofpress | https://github.com/chenmingtang830/proofpress)
+[//]: # (proofpress:capsule:eNrtV1lv3DYQ_iuE8tKme-g-tk9u0LQB0sBI3L6khsxjtFKtJRWSsrOx_d87lLTOxkeb2gV6AoZXIodzfvpmeOFRbZuKcls2wlt5XVfmjPnABQuhqLhf8KLKgUOeezOPKbEtRbMGY1HW1DRM0lWe-RzCKgY_j1Ia-yByGgepyFgRJyKqeOT7MeRhGBVQhAHLE0GLnKZVVuFDIlCvaAxXZ6C33urCvdjS0jVaaKl1pmb4wKDFhZ9AN1VDWQtEw1ljGiVJjfJKbwnbkkOtVNVpMAbPdJSf0jW4oD5Z1uoXwHB77RTW1nZmtVyuG1v3bMHVZslrkJtGri2V6zzyl5-c1vCub_C57A3okitpQGIurO7haubVQF0Sk4KlPI0Cb1wp4WwQwuRCGWcZp1nERRz4mSiqEE3QPM-cZ0pbF1rZNhLQ811F2lL4rKKYyigWGcVSYGEKQdNwDGfyruS0M32LAYfOT660MN7q7YU3mb_wsMpKG_c0boMoGab8rdfLU6nOpXeMMezw4Apse9GAWbZKrue10s0HJedwRtsl1XSJ-RcgOSyrZt2jA8uuZ23D5_jYt3axcYX9I-Ci1uqG9RZrWjJqGuM8gLYqqcFcWxj09Rb9cBGcNtKpNFtjYYM7km5cqXeRzPCocfDwVrJvW4yL11hPGDPCWsVPUZqJJI6zMEJxLKWF9y7qwyEMMoZBxuBQYDJIhRg86Rz-4BxXnpB7Ttht51xyEEA4eVfHs10pPMS6c67kGugY2bCzSxOURcJZSKsEscFZElMeF34W-bGLVNkB1BNayIQWgrjlp51qpB3ArwdLLvjdm4v92MEMnd3uadiH3p6SAdQPRKVRlS0rjBp0p5sJ_IYFq4SGAS-ymNEg9KMojEWQRFkGhYjiIC5yH18YFYGoKNA4QQZJkiAUCZJMDlnhMmUstQOIx1KsAiyuW_BCP0znfj4P06MgXCXFKsy-8v2V7-OhKeGugJwVUc4C72pv9eKvg_2AxRGWNTU1ykMiONJjkPkVR4FBxx5SJ5h-PuyurmZ3kgCIxl5TAFZW2hVXAt57xwOtiJ7ft3uDPm7tvuuRtq-3635D5Uo3-AVq4Vj1H8gzQwwPpRlk_FwUPH8UzTx9-kb1msPTpyvy9mSxWI5_Glq6ZZifeon9sKet2WtYU47MR1QgE1DP4WHnWyB4SlPqP8q3S_J8kCGX5LVq3c-zljYbwlQvBcXefPmzvCTz-Zx88t8tnnT6o3cjHe27R7MqRPpLH-XeUQ3k-6MfXk6ipDEESZSIvkM1jn9JIw2CjJzcwtrJzdQhvrmL7d4K3_BiYusDIQwZgUsd8uZrTdHgwesDMsSF3w95TIUXtd20J8dfPODUlzNSafUBJHqy2fRy8PA-jDw8ut_HyH2Ff7jNxxSeMOAUpzxiUcmkcY4-uPzhwR3joAakPeLSCvoMDKHEIO1igGYoJlEVwUZq6xE6OwxfeOe168HP1KZr2tHIVIXD1-RJlBBHilvUbhWqvDvOcJF-9OMcJ1jVWzIQEHowfR6GKI1aHPu7xXFYRlWt2weqeY3uUQ5m4RriZ88nvzHGjvXZHzz2u-7-MHLxP1v--9ny8wfbm4NddHX33PZ7M-yfMqhGrEhxCmN5AFmSpiHLqzynIa9AxDmIEMfXoArxnhcFeI3l4FdxFgWxXxX4SQSc3xPPrUE1Wvnx3YPq9S3yvzKozq4Vh35SJZBmCU-TneI9WpgU_536pZI3OgJ-Jmw7uvX8xauDl-Xrb9_8-PLoDf4--_bF4dGbxS9GydGD3xD4EjuDVv26HjrEWEFithLfcHJd3EFVUwrTLA9yVgGLWLZL4R57TSl8HBXdnVQUeoHcg03FNmew37rImFlianXumtEGbwztvEWGaMmGWrx7CvIOBRq7JVRij12vNayRckgvDa1Ql1YdXY-6Lsn3FBvulrw8-GYuQKMtQTboRjPHu0dHsLMIVWHzpebUfE0EGK6bbnBpLN-8oxLaHSqVbN0Icge57hLqx1GVVgWH-Brse3w7JfTvNHEsyIHcEnjviBHPH776zs0CRvEGa8DxLobpMhatEry_Yb2cEKZmsz-MDLHcGi2QYvCGN8OkSrVpJHU3yhla4m3vaAqf0dAwJpMWj_TIxregitfS46tfAVCZ4UA)

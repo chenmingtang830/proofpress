@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "id": "proofpress-unsupported-conclusion-gate-amendment-v1",
+  "frozen_at": "2026-08-26T07:30:26Z",
+  "classification": "PRE_OUTCOME_DETERMINISTIC_GATE_CORRECTION",
+  "trigger": {
+    "track_id": "R_GPT_5_6_SOL",
+    "task": "credit-scenario-02",
+    "sender_attempt": 1,
+    "observed_failure": "The sender emitted a negative observation that no separate template had yet been released and supplied no evidence filename. The harness crashed before governance instead of excluding the unsupported conclusion.",
+    "quality_results_seen": 0
+  },
+  "correction": {
+    "rule": "A conclusion with zero resolvable evidence references is deterministically excluded before proposal, evaluation, policy judging, admission, context assembly, or graph selection.",
+    "receipt": "Record statement, supplied evidence filenames, disposition=excluded_before_proposal, and reason=no_bound_evidence in RUN_STATE.json.",
+    "fail_closed_boundary": "Unknown or ambiguous non-empty evidence filenames still fail the attempt. This correction applies only to an explicitly empty evidence set.",
+    "raw_condition": "The ordinary readable handoff remains unchanged; only unsupported claims are prevented from entering the governed ledger projection."
+  },
+  "unchanged": [
+    "tasks, sources, stage schedule, and frozen sender-output contract",
+    "Raw and Proofpress worker caps",
+    "model and provider identity pins, fallback disabled, and hidden retry disabled",
+    "policy judge, evaluator, rubric, stress fixtures, and claim boundary"
+  ],
+  "attempt_disposition": {
+    "gpt_sender_attempt_1": "invalid and preserved",
+    "gpt_sender_attempt_2": "operator-interrupted before a response and preserved",
+    "next_attempt": "start from a new explicit sender attempt under this frozen rule"
+  },
+  "claim_boundary": "This correction makes the existing evidence-required ledger invariant fail closed instead of crashing. It was frozen before any GPT-5.6 Sol paired quality result and was not selected from treatment outcomes."
+}

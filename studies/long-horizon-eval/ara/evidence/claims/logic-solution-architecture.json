@@ -1,0 +1,77 @@
+[
+  {
+    "block": "2857a9c7",
+    "kind": "added",
+    "note": "Adds publication-grade ARA content: ## Protocol controller"
+  },
+  {
+    "block": "33b4f909",
+    "kind": "added",
+    "note": "Adds publication-grade ARA content: The adjacent RelayBench stage controller freezes one S1-S3 sender state per model/task, verifies the declared S3-to-S4 cold boundary, and fo"
+  },
+  {
+    "block": "7e2812de",
+    "kind": "added",
+    "note": "Adds publication-grade ARA content: Implementation pointer: [`../../../relaybench/bench/controller/stage-controller.mjs`](../../../relaybench/bench/controller/stage-controller."
+  },
+  {
+    "block": "a026653c",
+    "kind": "added",
+    "note": "Adds publication-grade ARA content: ## Governed handoff builder"
+  },
+  {
+    "block": "598eb52d",
+    "kind": "added",
+    "note": "Adds publication-grade ARA content: The Proofpress branch imports evidence, proposes version-bound conclusions, applies deterministic integrity and current-state checks, obtain"
+  },
+  {
+    "block": "bebc3271",
+    "kind": "added",
+    "note": "Adds publication-grade ARA content: Implementation pointers: [`../../../relaybench/bench/real/research-propose-evaluate.py`](../../../relaybench/bench/real/research-propose-eva"
+  },
+  {
+    "block": "45d55089",
+    "kind": "added",
+    "note": "Adds publication-grade ARA content: ## Paired evaluator"
+  },
+  {
+    "block": "86ad0b4d",
+    "kind": "added",
+    "note": "Adds publication-grade ARA content: The evaluator scores both final deliverables against the same task rubric. A separate deterministic trust-stress scorer checks whether a fix"
+  },
+  {
+    "block": "cfb12a94",
+    "kind": "added",
+    "note": "Adds publication-grade ARA content: Implementation pointers: [`../../../relaybench/bench/evaluation/public-rubric.mjs`](../../../relaybench/bench/evaluation/public-rubric.mjs)"
+  },
+  {
+    "block": "7950c9ba",
+    "kind": "added",
+    "note": "Adds publication-grade ARA content: ## Receipt verifier"
+  },
+  {
+    "block": "2d3ae0a9",
+    "kind": "added",
+    "note": "Adds publication-grade ARA content: The ARA receipt verifier resolves every admitted and secondary result path relative to the manifest, recomputes SHA-256 digests, and fails c"
+  },
+  {
+    "block": "707cfdb2",
+    "kind": "added",
+    "note": "Adds publication-grade ARA content: Implementation: [`../../src/execution/verify_receipts.py`](../../src/execution/verify_receipts.py)."
+  },
+  {
+    "block": "c0d3a025",
+    "kind": "added",
+    "note": "Adds publication-grade ARA content: ## Publication compiler"
+  },
+  {
+    "block": "6cbbcb3b",
+    "kind": "added",
+    "note": "Adds publication-grade ARA content: The frozen aggregate, claim register, public result, and visualization are derived only from the admitted receipt set. Invalid attempts and"
+  },
+  {
+    "block": "8f10c814",
+    "kind": "added",
+    "note": "Adds publication-grade ARA content: Implementation pointers: [`../../../relaybench/scripts/bench-aggregate-model-ladder.mjs`](../../../relaybench/scripts/bench-aggregate-model-"
+  }
+]

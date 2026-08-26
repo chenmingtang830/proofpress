@@ -1,0 +1,22 @@
+[
+  {
+    "block": "8a218798",
+    "kind": "added",
+    "note": "Adds publication-grade ARA content: **Source**: [`../FINAL_RESULTS_RECEIPTS.json`](../FINAL_RESULTS_RECEIPTS.json), frozen 2026-08-26. Values below are transcribed from its `ag"
+  },
+  {
+    "block": "93573be5",
+    "kind": "added",
+    "note": "Adds publication-grade ARA content: | Endpoint | Ordinary handoff | Proofpress governed handoff | Descriptive difference |"
+  },
+  {
+    "block": "1c1aefa8",
+    "kind": "added",
+    "note": "Adds publication-grade ARA content: | Panel scope | Frozen value |"
+  },
+  {
+    "block": "a51d1518",
+    "kind": "added",
+    "note": "Adds publication-grade ARA content: These are bounded observed counts for the frozen panel. They are not official Harvey scores, statistical-significance claims, population eve"
+  }
+]

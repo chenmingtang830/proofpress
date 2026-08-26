@@ -1,0 +1,17 @@
+[
+  {
+    "block": "83bfc4ab",
+    "kind": "added",
+    "note": "Adds the retrospective reconstruction boundary."
+  },
+  {
+    "block": "9d38ef82",
+    "kind": "added",
+    "note": "Requires every reconstructed trace node to be source-bound and marked."
+  },
+  {
+    "block": "480ac2a4",
+    "kind": "added",
+    "note": "Disclaims invented historical sessions, observations, prompts, and reasoning."
+  }
+]

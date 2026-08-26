@@ -1,0 +1,23 @@
+{
+  "schema_version": "relaybench/operational-amendment/v1",
+  "amendment_id": "ledger-batch-replay-v1",
+  "frozen_at": "2026-08-26T08:49:00Z",
+  "status": "FROZEN_PRE_OUTCOME",
+  "scope": "Proofpress v2 Git-backed event replay implementation",
+  "observed_problem": {
+    "kind": "one_git_show_process_per_event_per_replay",
+    "description": "v2_events launched one git show subprocess for every event object. Repeated CLI operations therefore incurred process-launch overhead proportional to the full ledger on every call.",
+    "effect": "local runtime only; event bytes, order, IDs, commits, projections, model calls, and experiment semantics are unchanged."
+  },
+  "correction": {
+    "description": "Resolve all commit:event.json objects through one git cat-file --batch process, then decode them in the original rev-list order.",
+    "semantic_invariants": [
+      "refs/proofpress/knowledge remains append-only",
+      "rev-list --reverse defines replay order",
+      "event JSON and commit association are unchanged",
+      "task, treatment, models, prompts, caps, policy verdicts, and evaluators are unchanged"
+    ]
+  },
+  "historical_attempts": "preserved; no task or model generation was restarted to apply this implementation optimization",
+  "outcome_blinding": "frozen before GPT MSA or GPT License produced paired receiver quality results"
+}

@@ -1,0 +1,17 @@
+entries:
+  - timestamp: "2026-08-26T09:00:00-07:00"
+    provenance: ai-executed
+    action: "Retrospectively compile the frozen PR #35 study into ARA 2.6 structure"
+    reason: >
+      The original package had strong claims, decisions, protocols, and
+      content-addressed evidence but no PAPER manifest, structured experiment
+      layer, or exploration DAG.
+    rejected:
+      - "Fabricate per-turn sessions or hidden reasoning from the experiment period"
+      - "Treat Git commit order as a complete cognitive transcript"
+      - "Change frozen results or public claims during packaging"
+    sources:
+      - "git:c96fd86b59e6844ad45201d7db4e0caaa91f5b4c"
+      - "ara/decisions/REGISTER.md"
+      - "ara/evidence/FINAL_RESULTS_RECEIPTS.json"
+      - "relaybench/bench/experiments/cross-model-replication-v1.json"

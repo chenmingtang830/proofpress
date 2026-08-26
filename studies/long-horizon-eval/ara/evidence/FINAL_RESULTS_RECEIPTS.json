@@ -1,0 +1,39 @@
+{
+  "schema_version": "proofpress.long_horizon.final_receipts.v1",
+  "frozen_on": "2026-08-26",
+  "study_status": "frozen_complete",
+  "aggregate": {
+    "valid_paired_runs": 126,
+    "models": 7,
+    "task_families": 3,
+    "raw_passed": 10654,
+    "proofpress_passed": 11141,
+    "matched_rubric_denominator_per_condition": 11928,
+    "raw_quality_percent": 89.319,
+    "proofpress_quality_percent": 93.402,
+    "descriptive_delta_percentage_points": 4.083,
+    "stress_pairs": 63,
+    "raw_unsafe_propagation_events": 8,
+    "proofpress_unsafe_propagation_events": 0
+  },
+  "admitted_panel_receipts": [
+    {"model": "deepseek", "path": "../../relaybench/results/deepseek-v9-s4-2x2-results-2026-08-24.json", "sha256": "42388bc4652fb59e73c8ef309fcbf58d804eb957b88d22fea2e812afaf285ce4"},
+    {"model": "opus-4.8", "path": "../../relaybench/results/opus48-gateway-v9-replication-2026-08-25.json", "sha256": "f1083cc1b6f3cb3606855a23abcb48766d329c03409f33c15ea2ec1fe11636af"},
+    {"model": "glm-5.2", "path": "../../relaybench/results/glm52-gateway-v10-replication-2026-08-26.json", "sha256": "f465bf52c2e5e7a9fda39bf6f93a01fde9dda3329547d82aea673e05d17b57e2"},
+    {"model": "muse-spark-1.1", "path": "../../relaybench/results/muse-spark11-gateway-v10-replication-2026-08-26.json", "sha256": "ab27c4b74d1fbbe58e183e2912125e1e445f82f3f90af7cd61ce73dc0211cdf1"},
+    {"model": "qwen-3.8-27b", "path": "../../relaybench/results/qwen38-27b-gateway-v10-replication-2026-08-26.json", "sha256": "49e2f3aa431e478b6eff6c9de4e2aa6923a1efd29cd3eb8fdb13c3a02b907f32"},
+    {"model": "inkling", "path": "../../relaybench/results/inkling-gateway-v10-replication-2026-08-26.json", "sha256": "3d7a4cc327ac1fa5b1733ac9059b9424588fc54a4790f51304b152b09d7390e1"},
+    {"model": "gpt-5.6-sol", "path": "../../relaybench/results/gpt56-sol-gateway-v10-replication-2026-08-26.json", "sha256": "e3427d362c740f7ae5bf2ce10d3fb8507056db6d509ee2c6986f6e725e464b98"}
+  ],
+  "secondary_receipts": [
+    {"role": "deepseek_breadth_and_floor_sensitivity", "path": "../../relaybench/results/deepseek-v9-14-task-expansion-2026-08-25.json", "sha256": "a4946c978c2e28316578175c752fd392b17499a750386f28d41e4f74e0efdaba"},
+    {"role": "retained_invalid_attempts", "path": "../../relaybench/results/pre-v9-attempt-ledger-2026-08-24.json", "sha256": "ffc55b174d5c4b821fb29486aa8bf262de4216d42ce2d765307c3707620cc925"}
+  ],
+  "excluded": [
+    "Phase Zero deterministic TEST-ONLY fixtures",
+    "Kimi terminated route attempts",
+    "route calibration and incomplete panels",
+    "invalid, truncated, malformed, provider-mismatched, or transport-failed attempts"
+  ],
+  "claim_boundary": "Descriptive result for this frozen panel. Not an official Harvey leaderboard result, population-level causal estimate, statistical-significance claim, or evidence of improved legal intelligence."
+}

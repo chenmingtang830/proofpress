@@ -1,0 +1,9 @@
+[
+  {"block":"c70ab3d2","kind":"added","note":"Adds the bounded execution-readiness section."},
+  {"block":"d209203f","kind":"added","note":"Records the pinned Harvey calibration matter, verified source count, and public rubric count."},
+  {"block":"239ce906","kind":"added","note":"Introduces the no-call preparation commands."},
+  {"block":"c7b93919","kind":"added","note":"Documents the preflight and immutable run-packet commands."},
+  {"block":"daa79044","kind":"added","note":"Documents the two-phase runner and mandatory authorized-human review checkpoint."},
+  {"block":"96c723ca","kind":"added","note":"Documents the explicitly authorized prepare and resume commands."},
+  {"block":"8a9e8051","kind":"added","note":"Records the current non-payable preflight result and remaining Track B credential blocker."}
+]

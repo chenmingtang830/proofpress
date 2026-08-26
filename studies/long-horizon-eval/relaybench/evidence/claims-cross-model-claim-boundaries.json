@@ -1,0 +1,6 @@
+[
+  {"block":"6a714dce","kind":"modified","note":"Replaces the obsolete no-results statement with the exact current composed-result boundary."},
+  {"block":"7a627143","kind":"modified","note":"Requires denominators, invalid attempts, missing cells, heterogeneity, and proof-price with reported aggregates."},
+  {"block":"d500afd6","kind":"modified","note":"Separates clean, stress, replication, and breadth evidence tiers and forbids treating unavailable routes as zero effects."},
+  {"block":"4b32ef87","kind":"modified","note":"Adds the required all-valid and non-floor sensitivity reporting boundary."}
+]

@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "id": "proofpress-treatment-effect-protocol-v3",
+  "frozen_at": "2026-08-24",
+  "supersedes": "treatment-effect-selection-v2.json",
+  "reason_for_version": [
+    "v2 independently generated sender trajectories for each condition, confounding handoff treatment with sender sampling variance",
+    "v2 exposed compact governed conclusions and receipt IDs but gave the receiver no mechanism to dereference the evidence graph",
+    "the complete v2 Muse panel is retained as a diagnostic and is not promoted to a causal estimate"
+  ],
+  "observed_before_freeze": {
+    "model": "meta/muse-spark-1.1",
+    "panel_results": [
+      {"task": "credit-lending scenario-02", "raw": "95/99", "proofpress": "95/99"},
+      {"task": "MSA scenario-04", "raw": "94/100", "proofpress": "89/100"},
+      {"task": "software-license scenario-03", "raw": "84/85", "proofpress": "83/85"}
+    ],
+    "interpretation": "observed paired deltas under v2, not a clean causal estimate"
+  },
+  "frozen_causal_contrast": {
+    "common_sender": "generate S1 and S2 exactly once, freeze the parsed sender state, and fork both conditions from that same state",
+    "raw_handoff": "the frozen sender S2 summary only; receiver cannot reopen S1 or S2 source files",
+    "proofpress_handoff": "current admitted governed conclusions plus addressable lineage; receiver selects at most 8 knowledge receipts and Proofpress resolves only their bound evidence",
+    "receiver_boundary": "both cold receivers receive the same S3 and S4 source releases and cannot directly reopen S1 or S2 sources",
+    "cost_accounting": "shared sender cost is reported once; policy-judge, trace-selection, evidence-expansion tokens, receiver, evaluator, and latency are attributed explicitly"
+  },
+  "product_hypothesis": "compact by default, lossless by reference: governed knowledge should reduce unsafe propagation while selective graph traversal restores task-relevant detail without unconstrained memory search",
+  "frozen_panel": [
+    "contracts/financing/credit-lending-playbook-escalation/scenario-02",
+    "contracts/commercial-vendor-customer/master-services-agreement-playbook-escalation/scenario-04",
+    "contracts/ip-licensing/license-agreement-playbook-escalation/scenario-03"
+  ],
+  "next_model": {
+    "track": "D_GLM_5_2_RLM_DISTILLATION",
+    "model": "zai/glm-5.2",
+    "provider_only": "zai",
+    "reason": "same frozen tasks need more headroom than the completed Muse panel; model and provider are frozen before v3 outcome access"
+  },
+  "estimands": {
+    "primary": "paired public-rubric criterion-pass delta under the common-sender fork",
+    "secondary": [
+      "task all-pass delta",
+      "unsafe or stale propagation delta",
+      "context coverage and evidence retrieval count",
+      "provider cost, total tokens, and wall-clock latency delta"
+    ]
+  },
+  "replication_rule": {
+    "pilot_replicates_per_task_condition": 1,
+    "confirmatory_replicates_per_task_condition": 3,
+    "promote_to_confirmatory_when": "at least two raw tasks score strictly between 0.40 and 0.95, or at least two tasks show an absolute paired delta of 0.03 or greater",
+    "report_all_tasks_and_invalid_attempts": true
+  },
+  "stopping_rule": {
+    "success": "non-floor, non-ceiling common-sender estimate with confirmatory repeats, uncertainty, safety, and proof-price accounting",
+    "mechanism_change": "requires another versioned protocol and retention of all v3 outcomes",
+    "no_cherry_picking": true
+  }
+}

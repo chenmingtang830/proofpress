@@ -1,0 +1,132 @@
+{
+  "schema_version": 1,
+  "id": "proofpress-v9-cross-model-portability-amendment-v10",
+  "frozen_at": "2026-08-25T20:00:00Z",
+  "timing": "Frozen after the dfe56d8 route-diagnostic checkpoint and before any post-amendment quality outcome was generated or inspected.",
+  "classification": "PRE_OUTCOME_OPERATIONAL_CORRECTION",
+  "research_invariants": {
+    "tasks": ["credit-scenario-02", "msa-scenario-04", "license-scenario-03"],
+    "arms": ["clean", "stress"],
+    "receiver_repeats": 3,
+    "raw_and_proofpress_worker_caps_identical": true,
+    "provider_allowlist_fixed": true,
+    "provider_fallback": false,
+    "hidden_retry": false,
+    "task_sources_unchanged": true,
+    "rubric_unchanged": true,
+    "stress_fixtures_unchanged": true,
+    "policy_judge_unchanged": true,
+    "blind_evaluator_unchanged": true
+  },
+  "diagnosis": [
+    "Long S4 Markdown embedded in a JSON string caused malformed or truncated worker envelopes despite usable memo text.",
+    "Free-form graph selection required each worker model to reproduce opaque ledger IDs and caused unknown-ID, over-selection, and selector-cap failures.",
+    "Long JSON working-set compilation measured provider schema compliance rather than governed-handoff task quality."
+  ],
+  "corrections": {
+    "s4_transport": "Return the complete final memo as Markdown directly; S4 conclusions are not used after the receiver boundary.",
+    "graph_selection": "Deterministically select current admitted ledger receipts from the trusted-context projection, using only actual IDs and a fixed maximum of 48.",
+    "working_set": "Render each selected conclusion, evidence filename, and bounded extracted evidence locally; do not ask the worker model to regenerate IDs or a JSON graph envelope.",
+    "sender_structure": "Keep S1-S3 JSON but add fixed concision limits; legacy frozen sender responses remain parse-compatible and may be reused.",
+    "attempts": "Every provider or worker failure creates a new explicitly numbered attempt; no automatic retry or fallback is introduced."
+  },
+  "model_specific_operational_amendments": [
+    {
+      "track_id": "B2_GLM_5_2_GATEWAY_REPLACEMENT",
+      "frozen_at": "2026-08-25T21:10:00Z",
+      "timing": "After one preserved post-v10 invalid Credit clean attempt and before any valid post-v10 GLM quality result.",
+      "observed_failure": "Raw S4 returned finish_reason=length with output_tokens=64001, reasoning_tokens=64000, no answer text, and exact utilization of the unchanged 64000-token non-binding guardrail.",
+      "classification": "PRE_OUTCOME_MODEL_ADAPTER_CORRECTION",
+      "correction": "Set GLM 5.2 reasoning.effort to none for sender and receiver worker calls. Vercel AI Gateway documents none as a supported provider-agnostic reasoning level and maps it to the target model native thinking control.",
+      "unchanged": [
+        "model and Z.ai-only provider pin",
+        "fallback and retry disabled",
+        "worker and final output caps",
+        "task sources and frozen sender rule",
+        "Raw and Proofpress prompts and conditions",
+        "policy judge and evaluator",
+        "rubric, stress fixtures, and claim boundary"
+      ],
+      "result_use": "The reasoning-only cap failure remains invalid route evidence. All valid v10 GLM cells use the corrected frozen adapter and are not pooled with pre-correction attempts."
+    },
+    {
+      "track_id": "B_OPEN_WEIGHT_COST",
+      "frozen_at": "2026-08-26T07:12:51Z",
+      "timing": "After preserving eleven repeated provider-boundary failures and interrupting attempt 12 before S4 output; before any segmented-S4 quality result.",
+      "observed_failure": "Single-response Kimi S4 calls repeatedly returned finish_reason=error near the Moonshot route's 785-second boundary despite SSE streaming and non-binding output usage.",
+      "classification": "PRE_REPAIR_OUTCOME_MODEL_ADAPTER_CORRECTION",
+      "correction": "Generate each Raw and Proofpress S4 memo as the same three pre-planned consecutive Markdown sections. Enforce the unchanged 64,000-token aggregate cap as 21,333 + 21,333 + 21,334; record and validate every segment receipt; invalidate the whole paired attempt if any segment fails.",
+      "unchanged": [
+        "Kimi K3 model and MoonshotAI-only provider pin",
+        "fallback and hidden retry disabled",
+        "aggregate S4 cap and all non-S4 caps",
+        "task sources, frozen sender state, Raw and Proofpress information conditions",
+        "policy judge, evaluator, rubric, stress fixtures, and claim boundary"
+      ],
+      "result_use": "Run a new full 18-cell Kimi v11 panel under one segmented protocol. Preserve prior monolithic valid cells as route calibration only and exclude them from the v11 estimate."
+    }
+  ],
+  "concurrency_amendment": {
+    "frozen_at": "2026-08-25T22:15:00Z",
+    "authorization": "The user explicitly authorized expanding from two to four simultaneous model lanes after stable post-v10 operation was observed.",
+    "classification": "THROUGHPUT_ONLY_OPERATIONAL_AMENDMENT",
+    "maximum_simultaneous_long_calls": 4,
+    "lanes": ["R_INKLING", "R_MUSE_SPARK_1_1", "B2_GLM_5_2_GATEWAY_REPLACEMENT", "R_QWEN_3_8_27B"],
+    "unchanged": [
+      "model and provider identity pins",
+      "provider fallback and hidden retry disabled",
+      "explicit attempt numbering and invalidation",
+      "task, treatment, caps, prompts, rubric, stress fixtures, policy judge, and evaluator"
+    ],
+    "rollback_rule": "If added concurrency produces socket-close or timeout failures, preserve them as concurrency-phase route evidence and return to at most two lanes before new attempts."
+  },
+  "local_storage_incident": {
+    "recorded_at": "2026-08-25T23:31:49Z",
+    "classification": "INVALID_LOCAL_OPERATION",
+    "affected_attempts": [
+      "B2_GLM_5_2_GATEWAY_REPLACEMENT credit stress repeat-2 explicit-attempt-1",
+      "R_QWEN_3_8_27B credit sender explicit-attempt-1"
+    ],
+    "cause": "The local data volume reached ENOSPC while receipts were being persisted.",
+    "resolution": "Delete only an unrelated, reproducible legacy evaluation cache; preserve the affected run directories with explicit ineligible receipts; resume with monotonically increasing explicit attempt numbers.",
+    "research_effect": "No model output from either affected attempt is eligible. The correction changes storage and receipt numbering only; all experimental invariants remain frozen."
+  },
+  "concurrency_rollback_execution": {
+    "recorded_at": "2026-08-26T00:22:00Z",
+    "triggering_invalids": [
+      "B_OPEN_WEIGHT_COST credit clean repeat-1 explicit-attempt-2: receiver read ETIMEDOUT",
+      "B2_GLM_5_2_GATEWAY_REPLACEMENT msa stress repeat-1 explicit-attempt-1: Gateway DNS ENOTFOUND"
+    ],
+    "action": "Reduce from four simultaneous model lanes to two before any further attempts; keep the user-prioritized GLM 5.2 and Qwen 3.8 lanes active; explicitly interrupt and preserve the Kimi K3 and GPT-5.6 Sol attempts.",
+    "resume_rule": "Resume Kimi K3 and GPT-5.6 Sol only after one of the two active lanes completes, keeping at most two simultaneous lanes.",
+    "research_effect": "All triggering and interrupted attempts are ineligible operational evidence. No task, model, provider pin, prompt, cap, treatment, judge, evaluator, or rubric changes."
+  },
+  "governance_state_reuse_correction": {
+    "frozen_at": "2026-08-26T00:40:00Z",
+    "classification": "PRE_CELL_OPERATIONAL_MECHANISM_CORRECTION",
+    "diagnosis": "The harness reused frozen S1-S3 model outputs but redundantly re-imported identical evidence, re-proposed identical conclusions, re-invoked the batch judge, and rebuilt identical admissions in every cell. This violated the frozen one-sender-state-per-model-task design and multiplied local and judge proof-price.",
+    "correction": "Clone the frozen sender ledger, proposals, and policy receipts for every clean cell. For a stress cell, clone the same base governance state and process only the newly injected stress artifact and conclusion. Preserve append-only per-item events and all source receipts.",
+    "cost_accounting": "Charge sender generation and base transaction-level judge once per model/task. Charge each cell only for incremental stress review, context assembly, receiver work, and evaluation. Aggregation must de-duplicate reused request IDs.",
+    "unchanged": [
+      "S1-S3 model outputs and source evidence",
+      "deterministic checks and per-conclusion ledger events",
+      "judge model, policy, prompts, verdict schema, and human-review boundary",
+      "tasks, clean/stress fixtures, treatment, receiver caps, rubric, evaluator, and claim boundary"
+    ],
+    "outcome_boundary": "Frozen from runtime and receipt inspection before any Qwen, Kimi, or GPT-5.6 valid cell quality result. Prior model cells remain valid for quality and safety; their redundant harness overhead is reported separately and is not pooled into corrected incremental latency."
+  },
+  "unsupported_conclusion_gate_correction": {
+    "frozen_at": "2026-08-26T07:30:26Z",
+    "classification": "PRE_OUTCOME_DETERMINISTIC_GATE_CORRECTION",
+    "trigger": "GPT-5.6 Sol Credit sender attempt 1 emitted one negative observation with an empty evidence set; the harness crashed before any GPT paired quality result.",
+    "correction": "Deterministically exclude zero-evidence conclusions before proposal or judging and record them in RUN_STATE as excluded_before_proposal/no_bound_evidence. Unknown or ambiguous non-empty filenames remain fail-closed errors.",
+    "unchanged": [
+      "ordinary readable handoff",
+      "evidence-required ledger admission semantics",
+      "tasks, sources, caps, model/provider pins, fallback and retry policy",
+      "policy judge, evaluator, rubric, stress fixtures, and claim boundary"
+    ],
+    "outcome_boundary": "Frozen before any GPT-5.6 Sol valid paired result. Attempts 1 and 2 remain invalid operational evidence."
+  },
+  "claim_boundary": "Post-amendment panels estimate the governed-handoff treatment with deterministic context assembly. They must not be pooled silently with pre-amendment panels, and all prior invalid attempts remain route-reliability evidence."
+}

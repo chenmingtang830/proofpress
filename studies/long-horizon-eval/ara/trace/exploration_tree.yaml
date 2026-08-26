@@ -1,0 +1,165 @@
+compilation:
+  compiled_retrospectively: true
+  compiled_on: "2026-08-26"
+  source_commit: "c96fd86b59e6844ad45201d7db4e0caaa91f5b4c"
+  boundary: >
+    This DAG reconstructs milestone-level research events from committed
+    protocols, amendments, result files, and the decision register. It is not
+    a contemporaneous transcript and does not infer hidden reasoning.
+tree:
+  - id: N01
+    type: question
+    title: "Can governed state survive a genuine cold handoff?"
+    provenance: user
+    timestamp: "2026-08-22T00:00:00-07:00"
+    compiled_retrospectively: true
+    description: >
+      Test whether a fresh worker can continue from evidence-bound current
+      state rather than an ordinary portable summary, without conflating
+      provenance with substantive legal correctness.
+    source: "ara/logic/protocol.md"
+    children:
+      - id: N02
+        type: decision
+        title: "Build a deterministic Phase Zero harness first"
+        provenance: user-revised
+        timestamp: "2026-08-22T00:15:00-07:00"
+        compiled_retrospectively: true
+        choice: >
+          Prove cold-boundary, parity, scoring, schema, and TEST-ONLY exclusion
+          mechanics before making behavioral claims.
+        alternatives:
+          - "Start directly with paid model runs"
+          - "Use an unpaired demo without parity checks"
+        evidence: [C01]
+        source: "relaybench/PHASE_ZERO_FREEZE_PACKET.md"
+        children:
+          - id: N03
+            type: experiment
+            title: "Phase Zero mechanics validation"
+            provenance: ai-executed
+            timestamp: "2026-08-22T01:00:00-07:00"
+            compiled_retrospectively: true
+            result: >
+              The deterministic harness enforced the boundary, checked C1/C2
+              parity, produced state scores, and excluded TEST-ONLY records.
+            evidence: [C01]
+            source: "relaybench/BENCHMARK_READINESS_REPORT.md"
+      - id: N04
+        type: decision
+        title: "Separate clean quality from controlled protection"
+        provenance: user-revised
+        timestamp: "2026-08-23T00:00:00-07:00"
+        compiled_retrospectively: true
+        choice: >
+          Use a clean/stress 2×2 design with ordinary and Proofpress conditions,
+          three receiver repeats, and one frozen sender per model/task.
+        alternatives:
+          - "Report a single aggregate score"
+          - "Run only perturbed handoffs"
+          - "Regenerate sender state for every condition"
+        evidence: [C02, C03, C04]
+        source: "relaybench/bench/experiments/treatment-effect-protocol-v9.json"
+        children:
+          - id: N05
+            type: dead_end
+            title: "Early trust boundary produced a zero protection signal"
+            provenance: ai-executed
+            timestamp: "2026-08-24T00:00:00-07:00"
+            compiled_retrospectively: true
+            hypothesis: >
+              Injecting trust state before S3 would expose ordinary handoff to
+              unsafe propagation.
+            failure_mode: >
+              S3 released authoritative corrective evidence after the
+              perturbation, allowing the ordinary receiver to revalidate; both
+              conditions produced zero unsafe events and equal rubric quality.
+            lesson: >
+              A handoff stress test must place the true cold boundary after all
+              substantive evidence and before final assembly.
+            evidence: [C04]
+            source: "relaybench/bench/experiments/treatment-effect-protocol-v9.json:observed_before_freeze"
+          - id: N06
+            type: pivot
+            title: "Move the true cold boundary to S3-to-S4"
+            provenance: user-revised
+            timestamp: "2026-08-24T00:30:00-07:00"
+            compiled_retrospectively: true
+            from: "Trust artifact introduced before S3"
+            to: "All evidence frozen before a fresh S4 receiver"
+            trigger: "N05 showed post-perturbation corrective evidence erased the failure mode"
+            evidence: [C03, C04]
+            source: "relaybench/bench/experiments/treatment-effect-protocol-v9.json"
+            children:
+              - id: N07
+                type: experiment
+                title: "DeepSeek frozen three-task 2×2 panel"
+                provenance: ai-executed
+                timestamp: "2026-08-24T12:00:00-07:00"
+                compiled_retrospectively: true
+                result: >
+                  Produced the first complete anchor panel and a positive
+                  product-mechanism signal under the S4 cold-boundary design.
+                evidence: [C02, C03]
+                source: "relaybench/results/deepseek-v9-s4-2x2-results-2026-08-24.json"
+              - id: N08
+                type: dead_end
+                title: "Kimi K3 route could not support a panel estimate"
+                provenance: ai-executed
+                timestamp: "2026-08-25T02:15:00-07:00"
+                compiled_retrospectively: true
+                hypothesis: >
+                  Kimi K3 could provide a lower-cost open-weight replication
+                  under the same frozen protocol.
+                failure_mode: >
+                  One valid Credit clean pair and seventeen retained invalid
+                  attempts, including provider errors, socket/timeouts,
+                  malformed JSON, and fail-closed selector failures.
+                lesson: >
+                  Route and parser validity are part of product evidence;
+                  incomplete panels cannot be converted into zero-effect cells.
+                evidence: [C04]
+                source: "relaybench/bench/experiments/kimi-termination-v1.json"
+              - id: N09
+                type: decision
+                title: "Expand a predeclared cross-model route ladder"
+                provenance: user-revised
+                timestamp: "2026-08-25T02:20:00-07:00"
+                compiled_retrospectively: true
+                choice: >
+                  Preserve failed routes, disable fallback, pin providers, and
+                  complete independent panels without selecting models by
+                  quality outcomes.
+                alternatives:
+                  - "Tune Kimi until it passes"
+                  - "Publish DeepSeek alone"
+                  - "Use provider fallback and silent retries"
+                evidence: [C02, C04]
+                source: "relaybench/bench/experiments/cross-model-replication-v1.json"
+                children:
+                  - id: N10
+                    type: experiment
+                    title: "Seven complete model panels"
+                    provenance: ai-executed
+                    timestamp: "2026-08-26T00:30:00-07:00"
+                    compiled_retrospectively: true
+                    result: >
+                      Seven model panels produced 126 admitted paired runs:
+                      ordinary quality 89.3%, Proofpress 93.4%; ordinary unsafe
+                      propagation 8/63 stress pairs, Proofpress 0/63.
+                    evidence: [C02, C03, C04]
+                    source: "ara/evidence/FINAL_RESULTS_RECEIPTS.json"
+                  - id: N11
+                    type: decision
+                    title: "Freeze the study and prohibit post-outcome mutation"
+                    provenance: user-revised
+                    timestamp: "2026-08-26T01:00:00-07:00"
+                    compiled_retrospectively: true
+                    choice: >
+                      Close after 126 valid pairs; retain exclusions and require
+                      a new preregistered study for future models or scenarios.
+                    alternatives:
+                      - "Continue adding models to improve the headline"
+                      - "Replace invalid routes with favorable cells"
+                    evidence: [C02, C03, C04]
+                    source: "ara/decisions/REGISTER.md:LH-D07"

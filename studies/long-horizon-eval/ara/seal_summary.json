@@ -1,0 +1,28 @@
+{
+  "schema_version": "proofpress.ara.seal_summary.v1",
+  "artifact": "studies/long-horizon-eval/ara",
+  "checked_on": "2026-08-26",
+  "ara_reference": {
+    "repository": "https://github.com/ARA-Labs/Agent-Native-Research-Artifact",
+    "commit": "e52a925e9d03b4ada3008653e72f99b04116fca2"
+  },
+  "level_1": {
+    "validator": "examples/the-ara-of-ara/src/seal/seal.py",
+    "passed": true,
+    "checks_passed": 100,
+    "checks_total": 100
+  },
+  "level_2": {
+    "reviewer_version": "3.1.0",
+    "report": "level2_report.json",
+    "tier": "Sound",
+    "mean_score": 4.17,
+    "findings": 4
+  },
+  "receipt_verification": {
+    "verifier": "src/execution/verify_receipts.py",
+    "passed": true,
+    "receipts_verified": 9,
+    "receipts_total": 9
+  }
+}

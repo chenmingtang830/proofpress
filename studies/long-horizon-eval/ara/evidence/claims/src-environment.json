@@ -1,0 +1,62 @@
+[
+  {
+    "block": "40559188",
+    "kind": "added",
+    "note": "Adds publication-grade ARA content: ## Runtime"
+  },
+  {
+    "block": "ddbca772",
+    "kind": "added",
+    "note": "Adds publication-grade ARA content: - Node.js 22 or later."
+  },
+  {
+    "block": "b6e47420",
+    "kind": "added",
+    "note": "Adds publication-grade ARA content: ## Reproduction"
+  },
+  {
+    "block": "a13ea393",
+    "kind": "added",
+    "note": "Adds publication-grade ARA content: From `studies/long-horizon-eval/relaybench`:"
+  },
+  {
+    "block": "78d42e5e",
+    "kind": "added",
+    "note": "Adds publication-grade ARA content: ```bash"
+  },
+  {
+    "block": "0cc4cb75",
+    "kind": "added",
+    "note": "Adds publication-grade ARA content: From `studies/long-horizon-eval/ara`:"
+  },
+  {
+    "block": "b92fac5c",
+    "kind": "added",
+    "note": "Adds publication-grade ARA content: ```bash"
+  },
+  {
+    "block": "8b2d8673",
+    "kind": "added",
+    "note": "Adds publication-grade ARA content: The first command checks harness lint, fixtures, tests, and readiness. The second verifies that every admitted and secondary result file mat"
+  },
+  {
+    "block": "246916a5",
+    "kind": "added",
+    "note": "Adds publication-grade ARA content: ## Secret boundary"
+  },
+  {
+    "block": "cc9dac7c",
+    "kind": "added",
+    "note": "Adds publication-grade ARA content: Provider credentials are supplied only through local environment variables or an ignored `.env` file. Credentials, raw prompts, private tran"
+  },
+  {
+    "block": "a2b34564",
+    "kind": "added",
+    "note": "Adds publication-grade ARA content: ## Platform qualification"
+  },
+  {
+    "block": "e21fd314",
+    "kind": "added",
+    "note": "Adds publication-grade ARA content: The final study was orchestrated on macOS with Gateway-hosted model calls. Result eligibility depends on recorded model/provider identity an"
+  }
+]

@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "purpose": "Preserve valid, invalid, zero, and negative pre-v9 attempts; these observations were used diagnostically and are excluded from the frozen v9 confirmatory estimate.",
+  "valid_observations": [
+    {"protocol":"v4","model":"zai/glm-5.2","task":"credit","raw":{"passed":92,"total":99},"proofpress":{"passed":82,"total":99},"delta_criteria":-10,"rubric_sha256":"0d27eb87c55a93fbdd5188f7849cc9df145522325563f39792b235dd2508a3ff","run":"/Users/richardtang/proofpress-glm-v4-20260824/credit/run"},
+    {"protocol":"v6","model":"deepseek/deepseek-v4-flash-0731","task":"credit","raw":{"passed":90,"total":99},"proofpress":{"passed":86,"total":99},"delta_criteria":-4,"rubric_sha256":"cc623862923aa607e40f501b91a18b40588015734a0fb189fec6cda17e41a786","run":"/Users/richardtang/proofpress-deepseek-v6-20260824/credit/run"},
+    {"protocol":"v6","model":"deepseek/deepseek-v4-flash-0731","task":"msa","raw":{"passed":90,"total":100},"proofpress":{"passed":87,"total":100},"delta_criteria":-3,"rubric_sha256":"b56b5ec5487ad23a226e940a224097b4f9298c10cd8326d3dcc1d1bb4ff6d13c","run":"/Users/richardtang/proofpress-deepseek-v6-20260824/msa/run"},
+    {"protocol":"v6","model":"deepseek/deepseek-v4-flash-0731","task":"license","raw":{"passed":82,"total":85},"proofpress":{"passed":83,"total":85},"delta_criteria":1,"rubric_sha256":"9d61881d2661e78f7cc079a316cf31a608a56283ffedf3d192e254951d7c8abe","run":"/Users/richardtang/proofpress-deepseek-v6-20260824/license/run"},
+    {"protocol":"v7","classification":"LAB-derived controlled handoff stress test","model":"deepseek/deepseek-v4-flash-0731","task":"license","raw":{"passed":84,"total":85,"unsafe":false},"proofpress":{"passed":82,"total":85,"unsafe":false},"delta_criteria":-2,"protection_effect":0,"rubric_sha256":"c8738bf51f5c17735c8ab8aa21467de269fb71b4f99926ad25a2be37051e715f","trust_sha256":"d6a3e1efa48a4e6aed9a306f934630a890b2596fc39a71781e285c8edd7857df","run":"/Users/richardtang/proofpress-deepseek-v7-stress-20260824/license/run"},
+    {"protocol":"v8","classification":"LAB-derived controlled handoff stress test","model":"deepseek/deepseek-v4-flash-0731","task":"credit","raw":{"passed":84,"total":99,"unsafe":false},"proofpress":{"passed":86,"total":99,"unsafe":false},"delta_criteria":2,"protection_effect":0,"rubric_sha256":"1b2cf9432a26030c801087522fab90bb7e173449e0a83ce6013bff0deac5d3bc","trust_sha256":"e68adab2f39632a82fd8bcbe57807726acb5afdf44ffdbb81b0e98b147c5ea2a","run":"/Users/richardtang/proofpress-deepseek-v8-stress-20260824/credit/run"},
+    {"protocol":"v8","classification":"LAB-derived controlled handoff stress test","model":"deepseek/deepseek-v4-flash-0731","task":"msa","raw":{"passed":90,"total":100,"unsafe":false},"proofpress":{"passed":88,"total":100,"unsafe":false},"delta_criteria":-2,"protection_effect":0,"rubric_sha256":"33949032463612eac15b0e4498bc828cb07cad97d5e6af089dea1e2419300d86","trust_sha256":"f3826abb5863ce96e66aa5c4a7338413ed5bbd915c2d7c06a1432f60828d5562","run":"/Users/richardtang/proofpress-deepseek-v8-stress-20260824/msa/run"},
+    {"protocol":"v8","classification":"LAB-derived controlled handoff stress test","model":"deepseek/deepseek-v4-flash-0731","task":"license","raw":{"passed":83,"total":85,"unsafe":false},"proofpress":{"passed":83,"total":85,"unsafe":false},"delta_criteria":0,"protection_effect":0,"rubric_sha256":"1f4575526650b2892863c9dc40075d223948ede9aa47c5778fbc3e3c81e45563","trust_sha256":"0590f15e2d7090b66f80fe02aba70123e040a7e2bbded736d464bb3265a85fb1","run":"/Users/richardtang/proofpress-deepseek-v8-stress-20260824/license/run"}
+  ],
+  "invalid_attempts": [
+    {"protocol":"v3","reason":"trace selector failure","path":"/Users/richardtang/proofpress-glm-v3-20260824/credit/run-invalid-trace-selector-attempt-1"},
+    {"protocol":"v4","reason":"gateway headers timeout","path":"/Users/richardtang/proofpress-glm-v4-20260824/msa/run-invalid-gateway-headers-timeout-attempt-1"},
+    {"protocol":"v4","reason":"truncated batch response","path":"/Users/richardtang/proofpress-glm-v4-20260824/license/run-invalid-truncated-batch-attempt-1"},
+    {"protocol":"v4","reason":"truncated S2 worker response","path":"/Users/richardtang/proofpress-glm-v4-20260824/license/run-invalid-worker-s2-truncated-attempt-2"},
+    {"protocol":"v5","reason":"selection over cap","path":"/Users/richardtang/proofpress-deepseek-v5-20260824/credit/run-invalid-selection-over-cap"},
+    {"protocol":"v5","reason":"selection over cap","path":"/Users/richardtang/proofpress-deepseek-v5-20260824/msa/run-invalid-selection-over-cap"},
+    {"protocol":"v5","reason":"completeness selection over cap","path":"/Users/richardtang/proofpress-deepseek-v5-20260824/license/run-invalid-completeness-over-cap"},
+    {"protocol":"v6","reason":"supplemental lineage failure","path":"/Users/richardtang/proofpress-deepseek-v6-20260824/license/run-invalid-supplement-lineage-attempt-1"},
+    {"protocol":"v7","reason":"compiler selected unapproved lineage","path":"/Users/richardtang/proofpress-deepseek-v7-stress-20260824/license/run-invalid-compiler-unselected-lineage-attempt-1"}
+  ],
+  "separate_existing_result": "muse-spark-1.1-h4-calibration-2026-08-24.json"
+}

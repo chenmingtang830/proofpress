@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "id": "proofpress-treatment-effect-protocol-v6",
+  "frozen_at": "2026-08-24",
+  "supersedes": "treatment-effect-protocol-v5.json",
+  "observed_before_freeze": {
+    "v5_status": "all three runs invalid before paired scoring",
+    "credit_selected_receipts": 23,
+    "msa_selected_receipts": 19,
+    "license_failure_stage": "completeness selection",
+    "diagnosis": "a hard receipt-count cap conflicts with evidence completeness; raising the cap without compilation would recreate context overload"
+  },
+  "frozen_treatment": {
+    "planner": "task-conditioned semantic selection over admitted knowledge; up to 32 initial and 16 additional receipts",
+    "lineage_expansion": "deterministically resolve only selected knowledge to bound evidence and source artifacts",
+    "context_compiler": "merge selected subgraph by checklist requirement into concise synthesis with validated knowledge_ids and evidence_files; raw expanded evidence is not injected into receiver prompt",
+    "s3_working_set": "bounded compiled requirements, open gaps, policy digest, scope, and ledger head",
+    "s4_completeness": "select additional receipts for remaining gaps and compile only the supplement",
+    "structured_output": true,
+    "shared_sender": true,
+    "transaction_batch_policy_review": true
+  },
+  "semantic_boundary": "The compiler is an LM distillation step, not a deterministic proof. It may introduce omission risk; lineage references are validated and its tokens, cost, and latency are charged to Proofpress.",
+  "model": "deepseek/deepseek-v4-flash-0731 via DeepInfra only",
+  "frozen_panel": [
+    "contracts/financing/credit-lending-playbook-escalation/scenario-02",
+    "contracts/commercial-vendor-customer/master-services-agreement-playbook-escalation/scenario-04",
+    "contracts/ip-licensing/license-agreement-playbook-escalation/scenario-03"
+  ],
+  "stopping_and_reporting": "Retain every prior result and invalid attempt; run all three v6 pilots before mechanism changes; promote to three repeats if at least two tasks are non-ceiling with absolute delta >=3pp."
+}

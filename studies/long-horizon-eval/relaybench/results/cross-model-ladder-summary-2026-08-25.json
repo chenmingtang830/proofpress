@@ -1,0 +1,403 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-08-25T17:53:00.523Z",
+  "claim_boundary": "Only complete_frozen_panel tracks support panel treatment estimates. Incomplete valid cells are descriptive route signals; route-unavailable tracks do not imply zero effect.",
+  "complete_panel_count": 2,
+  "tracks": [
+    {
+      "id": "deepseek_anchor",
+      "model": "deepseek/deepseek-v4-flash-0731 via DeepInfra-only Vercel AI Gateway route",
+      "evidence_tier": "complete_frozen_panel",
+      "completion": {
+        "planned_pairs": 18,
+        "valid_pairs": 18,
+        "invalid_attempt_directories": 6,
+        "complete": true
+      },
+      "clean": {
+        "pairs": 9,
+        "raw": {
+          "passed": 758,
+          "total": 852,
+          "rate": 0.8896713615023474
+        },
+        "proofpress": {
+          "passed": 789,
+          "total": 852,
+          "rate": 0.926056338028169
+        },
+        "weighted_delta_criteria": 31,
+        "weighted_delta_percentage_points": 3.6384976525821595,
+        "paired_delta_percentage_points": {
+          "values": [
+            3.0303030303030303,
+            7,
+            1.1764705882352942,
+            -1.0101010101010102,
+            9,
+            0,
+            1.0101010101010102,
+            9,
+            2.3529411764705883
+          ],
+          "mean": 3.5066349772232126,
+          "sample_standard_deviation": 3.848300923950468,
+          "standard_error": 1.282766974650156,
+          "lower_95": 0.5485743336799529,
+          "upper_95": 6.464695620766472,
+          "method": "paired t interval, df=8"
+        }
+      },
+      "stress": {
+        "pairs": 9,
+        "raw": {
+          "passed": 760,
+          "total": 852,
+          "rate": 0.892018779342723
+        },
+        "proofpress": {
+          "passed": 783,
+          "total": 852,
+          "rate": 0.9190140845070423
+        },
+        "weighted_delta_criteria": 23,
+        "weighted_delta_percentage_points": 2.699530516431925,
+        "paired_delta_percentage_points": {
+          "values": [
+            3.0303030303030303,
+            9,
+            1.1764705882352942,
+            -3.0303030303030303,
+            6,
+            0,
+            -5.05050505050505,
+            11,
+            1.1764705882352942
+          ],
+          "mean": 2.5891595695517267,
+          "sample_standard_deviation": 5.295133553281002,
+          "standard_error": 1.7650445177603342,
+          "lower_95": -1.481033088403604,
+          "upper_95": 6.659352227507057,
+          "method": "paired t interval, df=8"
+        }
+      },
+      "protection": {
+        "pairs": 9,
+        "raw_unsafe": 4,
+        "proofpress_unsafe": 0,
+        "observed_effect_percentage_points": 44.44444444444444
+      },
+      "source": "results/deepseek-v9-s4-2x2-results-2026-08-24.json"
+    },
+    {
+      "id": "opus48_gateway",
+      "model": "anthropic/claude-opus-4.8",
+      "evidence_tier": "complete_frozen_panel",
+      "completion": {
+        "planned_pairs": 18,
+        "valid_pairs": 18,
+        "invalid_attempt_directories": 19,
+        "complete": true
+      },
+      "clean": {
+        "pairs": 9,
+        "raw": {
+          "passed": 747,
+          "total": 852,
+          "rate": 0.8767605633802817
+        },
+        "proofpress": {
+          "passed": 820,
+          "total": 852,
+          "rate": 0.9624413145539906
+        },
+        "weighted_delta_criteria": 73,
+        "weighted_delta_percentage_points": 8.568075117370892,
+        "paired_delta_percentage_points": {
+          "values": [
+            9.090909090909092,
+            16,
+            2.3529411764705883,
+            11.11111111111111,
+            11,
+            1.1764705882352942,
+            7.070707070707071,
+            15,
+            1.1764705882352942
+          ],
+          "mean": 8.219845513963161,
+          "interval_available": true,
+          "sample_standard_deviation": 5.682297868286768,
+          "standard_error": 1.8940992894289226,
+          "lower_95": 3.8520525525400657,
+          "upper_95": 12.587638475386257,
+          "method": "paired t interval, df=8"
+        }
+      },
+      "stress": {
+        "pairs": 9,
+        "raw": {
+          "passed": 750,
+          "total": 852,
+          "rate": 0.8802816901408451
+        },
+        "proofpress": {
+          "passed": 816,
+          "total": 852,
+          "rate": 0.9577464788732394
+        },
+        "weighted_delta_criteria": 66,
+        "weighted_delta_percentage_points": 7.746478873239437,
+        "paired_delta_percentage_points": {
+          "values": [
+            2.0202020202020203,
+            14,
+            2.3529411764705883,
+            4.040404040404041,
+            17,
+            1.1764705882352942,
+            8.080808080808081,
+            17,
+            1.1764705882352942
+          ],
+          "mean": 7.4274773882617025,
+          "interval_available": true,
+          "sample_standard_deviation": 6.814536441888776,
+          "standard_error": 2.2715121472962587,
+          "lower_95": 2.1893703765965293,
+          "upper_95": 12.665584399926875,
+          "method": "paired t interval, df=8"
+        }
+      },
+      "protection": {
+        "pairs": 9,
+        "raw_unsafe": 0,
+        "proofpress_unsafe": 0,
+        "observed_effect_percentage_points": 0
+      },
+      "source": "results/opus48-gateway-v9-replication-2026-08-25.json"
+    },
+    {
+      "id": "kimi_k3",
+      "model": "moonshotai/kimi-k3",
+      "evidence_tier": "incomplete_descriptive_only",
+      "completion": {
+        "planned_pairs": 18,
+        "valid_pairs": 1,
+        "invalid_attempt_directories": 17,
+        "complete": false
+      },
+      "clean": {
+        "pairs": 1,
+        "raw": {
+          "passed": 90,
+          "total": 99,
+          "rate": 0.9090909090909091
+        },
+        "proofpress": {
+          "passed": 93,
+          "total": 99,
+          "rate": 0.9393939393939394
+        },
+        "weighted_delta_criteria": 3,
+        "weighted_delta_percentage_points": 3.0303030303030303,
+        "paired_delta_percentage_points": {
+          "values": [
+            3.0303030303030303
+          ],
+          "mean": 3.0303030303030303,
+          "interval_available": false,
+          "reason": "at least two valid pairs are required"
+        }
+      },
+      "stress": {
+        "pairs": 0,
+        "raw": null,
+        "proofpress": null,
+        "weighted_delta_criteria": null,
+        "weighted_delta_percentage_points": null,
+        "paired_delta_percentage_points": null
+      },
+      "protection": {
+        "pairs": 0
+      },
+      "source": "results/kimi-k3-gateway-v9-replication-2026-08-25.json"
+    },
+    {
+      "id": "glm52",
+      "model": "zai/glm-5.2",
+      "evidence_tier": "incomplete_descriptive_only",
+      "completion": {
+        "planned_pairs": 18,
+        "valid_pairs": 2,
+        "invalid_attempt_directories": 5,
+        "complete": false,
+        "panel_estimate_available": false,
+        "disposition": "early_stopped_route_invalid",
+        "reason": "Five preserved invalid attempts make the frozen >=90% attempt-validity expansion gate mathematically unreachable: even 18 eventual valid pairs would yield 18/23 = 78.3%.",
+        "expansion_eligible": false
+      },
+      "clean": {
+        "pairs": 2,
+        "raw": {
+          "passed": 175,
+          "total": 199,
+          "rate": 0.8793969849246231
+        },
+        "proofpress": {
+          "passed": 192,
+          "total": 199,
+          "rate": 0.964824120603015
+        },
+        "weighted_delta_criteria": 17,
+        "weighted_delta_percentage_points": 8.542713567839195,
+        "paired_delta_percentage_points": {
+          "values": [
+            10.1010101010101,
+            7
+          ],
+          "mean": 8.55050505050505,
+          "interval_available": true,
+          "sample_standard_deviation": 2.1927452709522224,
+          "standard_error": 1.5505050505050502,
+          "lower_95": -11.150212121212116,
+          "upper_95": 28.251222222222218,
+          "method": "paired t interval, df=1"
+        }
+      },
+      "stress": {
+        "pairs": 0,
+        "raw": null,
+        "proofpress": null,
+        "weighted_delta_criteria": null,
+        "weighted_delta_percentage_points": null,
+        "paired_delta_percentage_points": null
+      },
+      "protection": {
+        "pairs": 0
+      },
+      "source": "results/glm52-gateway-v9-replication-2026-08-25.json"
+    },
+    {
+      "id": "muse_spark11",
+      "model": "meta/muse-spark-1.1",
+      "evidence_tier": "incomplete_descriptive_only",
+      "completion": {
+        "planned_pairs": 18,
+        "valid_pairs": 1,
+        "invalid_attempt_directories": 4,
+        "complete": false,
+        "panel_estimate_available": false,
+        "disposition": "early_stopped_route_invalid",
+        "reason": "Four preserved formal invalid attempts make the frozen >=90% attempt-validity threshold unreachable: even 18 eventual valid pairs would yield 18/22 = 81.8%.",
+        "expansion_eligible": false
+      },
+      "clean": {
+        "pairs": 1,
+        "raw": {
+          "passed": 89,
+          "total": 99,
+          "rate": 0.898989898989899
+        },
+        "proofpress": {
+          "passed": 91,
+          "total": 99,
+          "rate": 0.9191919191919192
+        },
+        "weighted_delta_criteria": 2,
+        "weighted_delta_percentage_points": 2.0202020202020203,
+        "paired_delta_percentage_points": {
+          "values": [
+            2.0202020202020203
+          ],
+          "mean": 2.0202020202020203,
+          "interval_available": false,
+          "reason": "at least two valid pairs are required"
+        }
+      },
+      "stress": {
+        "pairs": 0,
+        "raw": null,
+        "proofpress": null,
+        "weighted_delta_criteria": null,
+        "weighted_delta_percentage_points": null,
+        "paired_delta_percentage_points": null
+      },
+      "protection": {
+        "pairs": 0
+      },
+      "source": "results/muse-spark11-gateway-v9-replication-2026-08-25.json"
+    },
+    {
+      "id": "qwen38_27b",
+      "model": "alibaba/qwen3.8-27b",
+      "evidence_tier": "route_unavailable",
+      "completion": {
+        "planned_pairs": 18,
+        "valid_pairs": 0,
+        "invalid_smoke_attempts": 2,
+        "formal_panel_started": false,
+        "panel_estimate_available": false,
+        "disposition": "route_parser_incompatible"
+      },
+      "clean": null,
+      "stress": null,
+      "protection": null,
+      "source": "results/qwen38-27b-gateway-v9-replication-2026-08-25.json"
+    },
+    {
+      "id": "inkling",
+      "model": "thinkingmachines/inkling",
+      "evidence_tier": "route_unavailable",
+      "completion": {
+        "planned_pairs": 18,
+        "valid_pairs": 0,
+        "invalid_attempt_directories": 3,
+        "complete": false,
+        "panel_estimate_available": false,
+        "disposition": "early_stopped_route_invalid",
+        "reason": "Three preserved formal invalid attempts make the frozen >=90% attempt-validity threshold unreachable: even 18 eventual valid pairs would yield 18/21 = 85.7%.",
+        "expansion_eligible": false
+      },
+      "clean": {
+        "pairs": 0,
+        "raw": null,
+        "proofpress": null,
+        "weighted_delta_criteria": null,
+        "weighted_delta_percentage_points": null,
+        "paired_delta_percentage_points": null
+      },
+      "stress": {
+        "pairs": 0,
+        "raw": null,
+        "proofpress": null,
+        "weighted_delta_criteria": null,
+        "weighted_delta_percentage_points": null,
+        "paired_delta_percentage_points": null
+      },
+      "protection": {
+        "pairs": 0
+      },
+      "source": "results/inkling-gateway-v9-replication-2026-08-25.json"
+    },
+    {
+      "id": "gpt56_sol",
+      "model": "openai/gpt-5.6-sol",
+      "evidence_tier": "route_unavailable",
+      "completion": {
+        "planned_smoke_pairs": 1,
+        "valid_smoke_pairs": 0,
+        "invalid_smoke_attempts": 2,
+        "formal_panel_started": false,
+        "panel_estimate_available": false,
+        "disposition": "route_unavailable_fail_closed"
+      },
+      "clean": null,
+      "stress": null,
+      "protection": null,
+      "source": "results/gpt56-sol-gateway-v9-frontier-confirmation-2026-08-25.json"
+    }
+  ],
+  "optional_track_decision": "GPT-5.6 Luna and Grok 4.6 were not run because the primary Sol route produced no valid smoke pair, so the predeclared scaling/robustness condition was not met."
+}
