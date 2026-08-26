@@ -289,14 +289,41 @@ def append_v2(event):
                                  indent=2) + "\n").strip()
     tree = _git("mktree", input=f"100644 blob {blob}\tevent.json\n").strip()
     parent = []
+    parent_commit = None
     try:
-        parent = ["-p", _git("rev-parse", KNOWLEDGE_REF).strip()]
+        parent_commit = _git("rev-parse", KNOWLEDGE_REF).strip()
+        parent = ["-p", parent_commit]
     except ValueError:
         pass
     commit = _git("commit-tree", tree, *parent, "-m",
                   f"{event['type']}: {event.get('subject_ref', event['event_id'])}").strip()
-    _git("update-ref", KNOWLEDGE_REF, commit)
+    _git("update-ref", KNOWLEDGE_REF, commit, parent_commit or "0" * 40)
     return {**event, "commit": commit}
+
+
+def v2_head():
+    try: return _git("rev-parse", KNOWLEDGE_REF).strip()
+    except ValueError: return None
+
+
+def _idempotent_review(projection, subject, request_id, review_key, final_keys):
+    if not request_id: return None
+    matches = [event for event in projection["events"]
+               if event.get("type") == review_key and event.get("request_id") == request_id]
+    if not matches: return None
+    review = matches[-1]
+    if review.get("subject_ref") != subject:
+        raise ValueError("IDEMPOTENCY_KEY_CONFLICT")
+    final = next((event for event in reversed(projection["events"])
+                  if event.get("type") in final_keys and
+                  event.get("review_ref") == review.get("event_id")), None)
+    if not final: raise ValueError("IDEMPOTENT_REVIEW_INCOMPLETE")
+    return {"ok": True, "review": review, "result": final, "idempotent": True}
+
+
+def _require_expected_head(expected_head):
+    if expected_head is not None and expected_head != v2_head():
+        raise ValueError("STALE_LEDGER_HEAD")
 
 
 def load_v2_policy():
@@ -318,10 +345,10 @@ def v2_projection(events=None):
     result = {
         "sources": {}, "evidence": {}, "conclusions": {}, "evaluations": {},
         "recommendations": {}, "reviews": {}, "admissions": {},
-        "rejections": {}, "supersessions": {}, "relations": {},
+        "rejections": {}, "revision_requests": {}, "supersessions": {}, "relations": {},
         "relation_evaluations": {}, "relation_reviews": {},
         "relation_recommendations": {}, "relation_admissions": {},
-        "relation_rejections": {}, "events": events,
+        "relation_rejections": {}, "relation_revision_requests": {}, "events": events,
     }
     for event in events:
         kind = event.get("type")
@@ -334,6 +361,7 @@ def v2_projection(events=None):
         elif kind == "human_reviewed": result["reviews"][subject] = event
         elif kind == "conclusion_admitted": result["admissions"][subject] = event
         elif kind == "conclusion_rejected": result["rejections"][subject] = event
+        elif kind == "conclusion_revision_requested": result["revision_requests"][subject] = event
         elif kind == "conclusion_superseded": result["supersessions"][subject] = event
         elif kind == "relation_proposed": result["relations"][subject] = event["relation"]
         elif kind == "relation_evaluated": result["relation_evaluations"][subject] = event
@@ -341,6 +369,7 @@ def v2_projection(events=None):
         elif kind == "relation_reviewed": result["relation_reviews"][subject] = event
         elif kind == "relation_admitted": result["relation_admissions"][subject] = event
         elif kind == "relation_rejected": result["relation_rejections"][subject] = event
+        elif kind == "relation_revision_requested": result["relation_revision_requests"][subject] = event
     return result
 
 
@@ -374,6 +403,7 @@ def v2_state(projection, conclusion, policy=None):
     if cid in projection["supersessions"]: return "superseded"
     if conclusion.get("expires_at") and conclusion["expires_at"] <= now(): return "expired"
     if cid in projection["rejections"]: return "rejected"
+    if cid in projection["revision_requests"]: return "needs_revision"
     admitted = projection["admissions"].get(cid)
     if not admitted: return "needs_review"
     if admitted.get("policy_digest") != policy["digest"]: return "unresolved"
@@ -405,6 +435,13 @@ def import_evidence_v2(path):
             "size": len(body), "recorded_at": now(),
         }
         src["record_hash"] = digest(src)
+        projection = v2_projection()
+        prior = projection["sources"].get(src["id"])
+        if prior:
+            stable = ("kind", "path", "content_digest", "size")
+            if any(prior.get(key) != src.get(key) for key in stable):
+                raise ValueError("immutable artifact source conflict for " + src["id"])
+            src = prior
         ev = {
             "id": ident({"source": src["id"], "digest": sha}, "evd_"),
             "kind": "artifact_evidence", "source_ref": src["id"],
@@ -448,6 +485,7 @@ def _relation_digest(row):
 def relation_state(projection, row):
     rid = row["id"]
     if rid in projection["relation_rejections"]: return "rejected"
+    if rid in projection["relation_revision_requests"]: return "needs_revision"
     admitted = projection["relation_admissions"].get(rid)
     if not admitted: return "needs_review"
     if admitted.get("policy_digest") != load_v2_policy()["digest"]: return "unresolved"
@@ -549,8 +587,17 @@ def judge_relation_v2(rid):
                       "model": verdict.get("model")})
 
 
-def review_relation_v2(rid, decision, reviewer, note=None):
-    projection = v2_projection(); row = projection["relations"].get(rid)
+def review_relation_v2(rid, decision, reviewer, note=None, request_id=None,
+                       expected_head=None):
+    if decision not in {"admit", "reject", "request_changes"}:
+        raise ValueError("relation review decision must be admit, reject, or request_changes")
+    projection = v2_projection()
+    duplicate = _idempotent_review(
+        projection, rid, request_id, "relation_reviewed",
+        {"relation_admitted", "relation_rejected", "relation_revision_requested"})
+    if duplicate: return duplicate
+    _require_expected_head(expected_head)
+    row = projection["relations"].get(rid)
     if not row: raise ValueError("relation not found: " + rid)
     if decision == "admit" and reviewer == row["proposer"]:
         raise ValueError("proposer may not self-approve a relation")
@@ -565,8 +612,12 @@ def review_relation_v2(rid, decision, reviewer, note=None):
     review = append_v2({"type": "relation_reviewed", "subject_ref": rid,
                         "decision": decision, "reviewer": reviewer,
                         "identity_basis": "self_asserted", "note": note,
+                        "request_id": request_id,
                         "relation_digest": row["digest"], "policy_digest": policy["digest"]})
-    final = append_v2({"type": "relation_admitted" if decision == "admit" else "relation_rejected",
+    final_type = ("relation_admitted" if decision == "admit" else
+                  "relation_revision_requested" if decision == "request_changes" else
+                  "relation_rejected")
+    final = append_v2({"type": final_type,
                        "subject_ref": rid, "review_ref": review["event_id"],
                        "reviewer": reviewer, "relation_digest": row["digest"],
                        "policy_digest": policy["digest"]})
@@ -693,8 +744,16 @@ def judge_batch_v2(scope):
             "individual_reviews": individual}
 
 
-def review_v2(cid, decision, reviewer, note=None):
+def review_v2(cid, decision, reviewer, note=None, request_id=None,
+              expected_head=None):
+    if decision not in {"admit", "reject", "request_changes"}:
+        raise ValueError("review decision must be admit, reject, or request_changes")
     projection = v2_projection()
+    duplicate = _idempotent_review(
+        projection, cid, request_id, "human_reviewed",
+        {"conclusion_admitted", "conclusion_rejected", "conclusion_revision_requested"})
+    if duplicate: return duplicate
+    _require_expected_head(expected_head)
     row = projection["conclusions"].get(cid)
     if not row: raise ValueError("conclusion not found: " + cid)
     if decision == "admit" and reviewer == row["proposer"]:
@@ -711,9 +770,12 @@ def review_v2(cid, decision, reviewer, note=None):
     review_event = append_v2({"type": "human_reviewed", "subject_ref": cid,
                               "decision": decision, "reviewer": reviewer,
                               "identity_basis": "self_asserted", "note": note,
+                              "request_id": request_id,
                               "conclusion_digest": row["digest"],
                               "policy_digest": policy["digest"]})
-    final_type = "conclusion_admitted" if decision == "admit" else "conclusion_rejected"
+    final_type = ("conclusion_admitted" if decision == "admit" else
+                  "conclusion_revision_requested" if decision == "request_changes" else
+                  "conclusion_rejected")
     final = append_v2({"type": final_type, "subject_ref": cid,
                        "review_ref": review_event["event_id"],
                        "reviewer": reviewer, "conclusion_digest": row["digest"],
@@ -748,7 +810,9 @@ def context_v2(scope=None, actor=None, task=None, include_blocked_statements=Fal
         else:
             reason = current if current != "admitted" else "actor_not_allowed"
             item = {"id": cid, "reason": reason,
-                    "required_action": "reverify" if reason in {"expired", "unresolved", "superseded"} else "human_review"}
+                    "required_action": ("propose_revision" if reason == "needs_revision" else
+                                        "reverify" if reason in {"expired", "unresolved", "superseded"} else
+                                        "human_review")}
             if include_blocked_statements: item["statement"] = row["statement"]
             blocked.append(item)
     head = None
@@ -1107,7 +1171,9 @@ def add_flat_cli(sub):
     review_parser = sub.add_parser("review", help="record the human admission decision")
     review_parser.add_argument("conclusion"); decision = review_parser.add_mutually_exclusive_group(required=True)
     decision.add_argument("--admit", action="store_true"); decision.add_argument("--reject", action="store_true")
+    decision.add_argument("--request-changes", action="store_true")
     review_parser.add_argument("--reviewer", required=True); review_parser.add_argument("--note"); review_parser.set_defaults(f=cmd_flat, flat_cmd="review")
+    review_parser.add_argument("--request-id"); review_parser.add_argument("--expected-head")
     supersede_parser = sub.add_parser("supersede"); supersede_parser.add_argument("conclusion"); supersede_parser.add_argument("--by", required=True)
     supersede_parser.add_argument("--reviewer", required=True); supersede_parser.add_argument("--note"); supersede_parser.set_defaults(f=cmd_flat, flat_cmd="supersede")
     relation_parser = sub.add_parser("relation", help="propose, evaluate, or review a typed claim relation")
@@ -1125,7 +1191,9 @@ def add_flat_cli(sub):
     relation_review = relation_sub.add_parser("review"); relation_review.add_argument("relation")
     relation_decision = relation_review.add_mutually_exclusive_group(required=True)
     relation_decision.add_argument("--admit", action="store_true"); relation_decision.add_argument("--reject", action="store_true")
+    relation_decision.add_argument("--request-changes", action="store_true")
     relation_review.add_argument("--reviewer", required=True); relation_review.add_argument("--note")
+    relation_review.add_argument("--request-id"); relation_review.add_argument("--expected-head")
     relation_review.set_defaults(f=cmd_flat, flat_cmd="relation-review")
     context_parser = sub.add_parser("context", help="materialize only knowledge eligible for the next agent")
     context_parser.add_argument("--scope"); context_parser.add_argument("--actor"); context_parser.add_argument("--task")
@@ -1157,14 +1225,20 @@ def cmd_flat(a):
         if a.batch or a.scope: out = judge_batch_v2(a.scope)
         elif a.conclusion: out = judge_v2(a.conclusion)
         else: raise ValueError("judge requires a conclusion or --batch --scope")
-    elif command == "review": out = review_v2(a.conclusion, "admit" if a.admit else "reject", a.reviewer, a.note)
+    elif command == "review":
+        decision = "admit" if a.admit else "request_changes" if a.request_changes else "reject"
+        out = review_v2(a.conclusion, decision, a.reviewer, a.note,
+                        a.request_id, a.expected_head)
     elif command == "supersede": out = supersede_v2(a.conclusion, a.by, a.reviewer, a.note)
     elif command == "relation-propose":
         qualifiers = json.loads(Path(a.qualifiers).read_text(encoding="utf-8")) if a.qualifiers else None
         out = propose_relation_v2(a.source, a.to, a.type, a.proposer, a.confidence, qualifiers)
     elif command == "relation-evaluate": out = evaluate_relation_v2(a.relation)
     elif command == "relation-judge": out = judge_relation_v2(a.relation)
-    elif command == "relation-review": out = review_relation_v2(a.relation, "admit" if a.admit else "reject", a.reviewer, a.note)
+    elif command == "relation-review":
+        decision = "admit" if a.admit else "request_changes" if a.request_changes else "reject"
+        out = review_relation_v2(a.relation, decision, a.reviewer, a.note,
+                                 a.request_id, a.expected_head)
     elif command == "graph":
         out = (traverse_graph_v2(a.seed, a.scope, a.actor, a.task,
                                  a.max_depth, a.max_claims, a.state)

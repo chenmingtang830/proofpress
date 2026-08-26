@@ -57,6 +57,15 @@ class LocalMVPTests(unittest.TestCase):
         self.assertTrue(subprocess.run(["git", "show-ref", "--verify", "refs/proofpress/knowledge"],
                                        cwd=self.repo, capture_output=True).returncode == 0)
 
+    def test_artifact_evidence_import_is_idempotent(self):
+        artifact = self.repo / "task-evidence.json"
+        artifact.write_text('{"task":"protect the buyer"}\n')
+        first = self.data("evidence", "import", str(artifact))
+        count = self.count_events()
+        second = self.data("evidence", "import", str(artifact))
+        self.assertEqual(first["evidence"], second["evidence"])
+        self.assertEqual(self.count_events(), count)
+
     def test_admission_and_context_gate(self):
         _, cid = self.seed()
         evaluation = self.data("evaluate", cid)
@@ -95,6 +104,56 @@ class LocalMVPTests(unittest.TestCase):
         reasons = {row["id"]: row["reason"] for row in packet["blocked"]}
         self.assertEqual(reasons[new], "rejected")
         self.assertTrue(all("statement" not in row for row in packet["blocked"]))
+
+    def test_request_changes_is_append_only_and_excluded_from_context(self):
+        evidence, cid = self.seed()
+        head = subprocess.run(["git", "rev-parse", "refs/proofpress/knowledge"], cwd=self.repo,
+                              text=True, capture_output=True, check=True).stdout.strip()
+        request_id = "review-request-001"
+        result = self.data("review", cid, "--request-changes", "--reviewer", "human:alice",
+                           "--note", "Bind the conclusion to the operative schedule.",
+                           "--request-id", request_id, "--expected-head", head)
+        count_after_review = self.count_events()
+        self.assertEqual(result["review"]["decision"], "request_changes")
+        self.assertEqual(result["result"]["type"], "conclusion_revision_requested")
+        packet = self.data("context", "--scope", "msa-negotiation")
+        blocked = next(row for row in packet["blocked"] if row["id"] == cid)
+        self.assertEqual((blocked["reason"], blocked["required_action"]),
+                         ("needs_revision", "propose_revision"))
+        graph = self.data("graph", "--scope", "msa-negotiation")
+        conclusion = next(row for row in graph["nodes"] if row["id"] == cid)
+        self.assertEqual(conclusion["state"], "needs_revision")
+        self.assertEqual(self.count_events(), count_after_review)
+        repeated = self.data("review", cid, "--request-changes", "--reviewer", "human:alice",
+                             "--note", "Bind the conclusion to the operative schedule.",
+                             "--request-id", request_id, "--expected-head", head)
+        self.assertTrue(repeated["idempotent"])
+        self.assertEqual(self.count_events(), count_after_review)
+        stale = self.cli("review", cid, "--reject", "--reviewer", "human:alice",
+                         "--request-id", "review-request-002", "--expected-head", head,
+                         check=False)
+        self.assertNotEqual(stale.returncode, 0)
+        self.assertIn("STALE_LEDGER_HEAD", stale.stderr)
+        revised = self.data("propose", "--statement", "The operative schedule sets a 1x cap",
+                            "--evidence", evidence, "--scope", "msa-negotiation",
+                            "--proposer", "agent:runner")["conclusion"]["id"]
+        self.assertNotEqual(revised, cid)
+        self.assertEqual(next(row for row in self.data("graph", "--scope", "msa-negotiation")["nodes"]
+                              if row["id"] == revised)["state"], "needs_review")
+
+    def test_relation_request_changes_uses_the_same_general_review_state(self):
+        evidence, first = self.seed()
+        second = self.data("propose", "--statement", "The exception narrows the cap",
+                           "--evidence", evidence, "--scope", "msa-negotiation",
+                           "--proposer", "agent:runner")["conclusion"]["id"]
+        relation = self.data("relation", "propose", second, "--to", first,
+                             "--type", "qualifies")["relation"]["id"]
+        result = self.data("relation", "review", relation, "--request-changes",
+                           "--reviewer", "human:alice", "--note", "Clarify directionality.")
+        self.assertEqual(result["result"]["type"], "relation_revision_requested")
+        graph = self.data("graph", "--scope", "msa-negotiation")
+        edge = next(row for row in graph["edges"] if row.get("id") == relation)
+        self.assertEqual(edge["state"], "needs_revision")
 
     def test_general_claim_relations_require_structural_checks_and_human_admission(self):
         evidence, first = self.seed()
