@@ -346,6 +346,20 @@
       text-align: right;
     }
 
+    .task-scope {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 22px;
+      margin: -2px 0 22px;
+      padding-bottom: 18px;
+      border-bottom: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    .task-scope strong { color: var(--ink); font-weight: 750; }
+
     .chart-legend {
       display: flex;
       gap: 20px;
@@ -465,6 +479,7 @@
       .result-block + .result-block { padding-left: 0; border-left: 0; border-top: 1px solid var(--line); }
       .chart-heading { display: block; }
       .chart-heading p { margin-top: 8px; text-align: left; }
+      .task-scope { display: grid; gap: 6px; margin-top: 18px; }
       .chart-legend { margin-left: 0; }
       .model-row { grid-template-columns: 136px minmax(150px, 1fr); gap: 10px; padding: 8px 0; }
       .model-name { font-size: 13px; }
@@ -503,7 +518,11 @@
 
 
 
-<meta name="proofpress:meta" content="eyJhcnRpZmFjdF9pZCI6InBwX2NmNTAzMzJmOTM0YTY2N2M3Y2UxZTM2YiIsInBvbGljeSI6InBvcnRhYmxlIiwicG9ydGFibGVfaGVhZCI6ImVmYWMwYzk3IiwicG9ydGFibGVfaGVhZF9ldmVudCI6InBwZV8zODBlMmI3NjFiNTc2ZjZjOWI4NmI1NGUiLCJwb3J0YWJsZV9saW5lYWdlX2lkIjoicHBsX2FmY2UxMDI3ZWQ5ZmM5ZWUyNmI5YjdjYyIsInByb29mcHJlc3MiOjF9">
+
+
+
+
+<meta name="proofpress:meta" content="eyJhcnRpZmFjdF9pZCI6InBwX2NmNTAzMzJmOTM0YTY2N2M3Y2UxZTM2YiIsInBvbGljeSI6InBvcnRhYmxlIiwicG9ydGFibGVfaGVhZCI6IjdiNmU2MWMzIiwicG9ydGFibGVfaGVhZF9ldmVudCI6InBwZV84NmI5MTI2NTg2OThlOGExOGJhNzFmZmEiLCJwb3J0YWJsZV9saW5lYWdlX2lkIjoicHBsX2FmY2UxMDI3ZWQ5ZmM5ZWUyNmI5YjdjYyIsInByb29mcHJlc3MiOjF9">
 <meta name="proofpress:discovery" content="Verifiable revision history by Proofpress | https://github.com/chenmingtang830/proofpress">
 </head>
 <body>
@@ -531,29 +550,15 @@
     <section class="model-chart" aria-labelledby="quality-title">
       <div class="chart-heading">
         <h2 id="quality-title" data-proofpress-id="dc01e281">Rubric completion by model</h2>
-        <p data-proofpress-id="f42686c9">Matched clean and stress runs · zoomed scale: 80–100%</p>
+        <p data-proofpress-id="f42686c9">Ordered by observed improvement · zoomed scale: 80–100%</p>
       </div>
+      <p class="task-scope" data-proofpress-id="bbc47db7"><span><strong>Credit lending playbook escalation</strong> · scenario 02</span><span><strong>Master services agreement playbook escalation</strong> · scenario 04</span><span><strong>License agreement playbook escalation</strong> · scenario 03</span></p>
       <div class="chart-legend" aria-label="Legend"><span class="legend-key">Ordinary</span><span class="legend-key proof">Proofpress</span></div>
 
-      <div class="model-row">
-        <div><div class="model-name">DeepSeek V4 Flash 0731</div><div class="model-provider">DeepSeek · DeepInfra</div></div>
-        <div class="paired-bars" style="--raw:45.4%; --pp:61.3%"><div class="mini-bar raw"></div><div class="mini-bar pp"></div></div>
-        <div class="model-score"><span class="ordinary-score">89.1%</span><strong>+3.2pp</strong><span class="proof-score">92.3%</span></div>
-      </div>
       <div class="model-row">
         <div><div class="model-name">Claude Opus 4.8</div><div class="model-provider">Anthropic</div></div>
         <div class="paired-bars" style="--raw:39.3%; --pp:80.0%"><div class="mini-bar raw"></div><div class="mini-bar pp"></div></div>
         <div class="model-score"><span class="ordinary-score">87.9%</span><strong>+8.2pp</strong><span class="proof-score">96.0%</span></div>
-      </div>
-      <div class="model-row">
-        <div><div class="model-name">GLM 5.2</div><div class="model-provider">Z.ai</div></div>
-        <div class="paired-bars" style="--raw:42.2%; --pp:62.7%"><div class="mini-bar raw"></div><div class="mini-bar pp"></div></div>
-        <div class="model-score"><span class="ordinary-score">88.4%</span><strong>+4.1pp</strong><span class="proof-score">92.5%</span></div>
-      </div>
-      <div class="model-row">
-        <div><div class="model-name">Muse Spark 1.1</div><div class="model-provider">Meta</div></div>
-        <div class="paired-bars" style="--raw:59.5%; --pp:78.6%"><div class="mini-bar raw"></div><div class="mini-bar pp"></div></div>
-        <div class="model-score"><span class="ordinary-score">91.9%</span><strong>+3.8pp</strong><span class="proof-score">95.7%</span></div>
       </div>
       <div class="model-row">
         <div><div class="model-name">Qwen 3.8 27B</div><div class="model-provider">Alibaba</div></div>
@@ -561,20 +566,35 @@
         <div class="model-score"><span class="ordinary-score">89.0%</span><strong>+4.8pp</strong><span class="proof-score">93.8%</span></div>
       </div>
       <div class="model-row">
-        <div><div class="model-name">Inkling</div><div class="model-provider">Thinking Machines</div></div>
-        <div class="paired-bars" style="--raw:48.4%; --pp:51.0%"><div class="mini-bar raw"></div><div class="mini-bar pp"></div></div>
-        <div class="model-score"><span class="ordinary-score">89.7%</span><strong>+0.5pp</strong><span class="proof-score">90.2%</span></div>
+        <div><div class="model-name">GLM 5.2</div><div class="model-provider">Z.ai</div></div>
+        <div class="paired-bars" style="--raw:42.2%; --pp:62.7%"><div class="mini-bar raw"></div><div class="mini-bar pp"></div></div>
+        <div class="model-score"><span class="ordinary-score">88.4%</span><strong>+4.1pp</strong><span class="proof-score">92.5%</span></div>
       </div>
       <div class="model-row">
         <div><div class="model-name">GPT-5.6 Sol</div><div class="model-provider">OpenAI</div></div>
         <div class="paired-bars" style="--raw:46.3%; --pp:66.3%"><div class="mini-bar raw"></div><div class="mini-bar pp"></div></div>
         <div class="model-score"><span class="ordinary-score">89.3%</span><strong>+4.0pp</strong><span class="proof-score">93.3%</span></div>
       </div>
+      <div class="model-row">
+        <div><div class="model-name">Muse Spark 1.1</div><div class="model-provider">Meta</div></div>
+        <div class="paired-bars" style="--raw:59.5%; --pp:78.6%"><div class="mini-bar raw"></div><div class="mini-bar pp"></div></div>
+        <div class="model-score"><span class="ordinary-score">91.9%</span><strong>+3.8pp</strong><span class="proof-score">95.7%</span></div>
+      </div>
+      <div class="model-row">
+        <div><div class="model-name">DeepSeek V4 Flash 0731</div><div class="model-provider">DeepSeek · DeepInfra</div></div>
+        <div class="paired-bars" style="--raw:45.4%; --pp:61.3%"><div class="mini-bar raw"></div><div class="mini-bar pp"></div></div>
+        <div class="model-score"><span class="ordinary-score">89.1%</span><strong>+3.2pp</strong><span class="proof-score">92.3%</span></div>
+      </div>
+      <div class="model-row">
+        <div><div class="model-name">Inkling</div><div class="model-provider">Thinking Machines</div></div>
+        <div class="paired-bars" style="--raw:48.4%; --pp:51.0%"><div class="mini-bar raw"></div><div class="mini-bar pp"></div></div>
+        <div class="model-score"><span class="ordinary-score">89.7%</span><strong>+0.5pp</strong><span class="proof-score">90.2%</span></div>
+      </div>
       <div class="model-axis" aria-hidden="true"><span></span><div><span>80%</span><span>90%</span><span>100%</span></div><span></span></div>
     </section>
 
     <footer class="poster-footer">
-      <div class="poster-scope">7 models · 3 legal task families · 126 paired runs</div>
+      <div class="poster-scope">7 models · 3 frozen task episodes · 126 paired runs</div>
       <div class="poster-boundary">Proofpress-composed handoff tasks derived from version-pinned public Harvey LAB Contracts materials. Descriptive frozen-panel results; not official Harvey leaderboard scores or a population causal estimate.<p class="freeze-date" data-proofpress-id="990cbfaa">Result frozen · August 26, 2026</p></div>
     </footer>
   </main>
@@ -590,6 +610,8 @@
 
 
 
-<script type="application/vnd.proofpress+json" data-proofpress="capsule">eNrtW92O28YVfpWBgFxlpZ3h8FdwDaRtkBZNkMJJe9HEEOZXYpciGQ65a3mxQN6hvemT9L6PkifpmSEpcbWUtLK9jgPsjbEkhzPn9zvnfKJvJ6yqU81EvUjlZD4py4XQAabU0wn1WRhGIhKKKBryycWEF3KzkOlSmRrWmhXzgnAeMc18z1NJSEPl8YDFoecFQex5koYej2RM4kAkXMrI8yn3Y-3HPg18QTkmsY9hX5kaUVyrajOZ39qLelGzJZyQsdoedQF_cJXBjb-rKtUp45lClbpOTVrkaAXri2qD-Ab9tSoKXVbKGHinZOKKLZVV6t7tqvinAnWbym64quvSzC8vl2m9avhMFOtLsVL5Os2XNcuXMcWX996u1E9NCn8vGqOqhShyo3KwRV016u5islLMGlGBPbFIokl7Z6Gu3SIwrlrQGIORopDwIAp1CHaJQx74ykpWVLVVbZGluQLJe49kC6bBB9iLlEy0SJTyQp7wSIhWnU66hWClaTJQ2LNyiqKSZjL_4XbSHX87AS8XlbF_tY-VXHAw-Q-TJr_Ki5t88hp06OPBOrhuZKrMZVbky-mqqNK3RT5V1yy7rFTGNlzlYnUJXmhYZgZmmsI_TVab2apeZ5OLsyKM1XWV8qYGxy44M6mxYqhML5gBg9dK2jVNDcJYNa7S3G5pNqZWa3iSs7X1d6_OBbxqbIxM5nmTZaCcWIFTVWsWnhXiClYTSRMaEBuH4M9avbGqv1iRl1_ZkMyVRPCSLLQ26IVav0zXoOk13IVYKa16nRBMSiddaQNT3Zyxh7LavriE-7_8_G9YhiCeyxK2qjelVcfGEMTj5O5iJ7QUmCgvJntCeyiVv_tx8hN4JK030zqtM_Xj5OWrhlepQN3tF5er42I_dhfv5XEhte-FMYT4UwhZIpFBTMA-BrIZDDjNi9pu8w2rIYPBtFVaA1owxERVGINYliHihahkabUTu2QVuyezjyX3tc_HZTZMq4HIf8vtDQTOLNmSWSkeZdiTuzzCtlwlREjxJHIetO23HJLQxq2DFNObNqTIylAVWea2umfb1xc9AE0gFWw2LkSlWJvK7kmPC2oRUppIFSgZRjpQgYYQ90OmY5vaIIFd1WEk6jASga_FVVmkee0gv3In2Wzvr2yyv7bgmqViM9hhCLiDTRyUvyMWm0LXCw2eUlVZpR3kG07mmmJPYS4w9yIRRiGUQkFUzHTIPK4BGyVRmkdUJlbz0MckpAH3hMQRlx6x-pua1Q66W3_NA0Aze2PiYS-c4njqhd8TMqdk7uHPMZ5ji2edwW0qco8E1OMQQ7u7t78y2LtYbsF4xcwK1tOIUE0J9TxfwwK3xwCfzwTncWCFp0Ufx82DxJhB7pEDudcJiaGDIVZIraJeyAEen41z3vHjIj-JIqmwCuKtTQbI2h_3XoAIjyuwBfrff9E_imINl0awTM1RjH_5-V8E489eXJYvR2CzkzGOKA2JJyJI2V7GAZKeDU-nraKxikWoCYUU7E8cYOJJqzwGyiBebIg7CznbfGeNAnchyOGNGr1VVTFmmNd3VtKRvktJ8EHfdQGs5PW8KFXO0qkopHozee0aOtmIE4v2-rdDi35qoH3erlo1a5bPIfZWrJJT295-og2fyq_TqsjXtjbAc6fDWN_n1N61fd-C_l_8Gf3B6f-43i9JsOCasaetorpS6q2aSuYi75UzFtJV8VblNqq-aJaNqZEXXiAL5qMBBfJlLF0flH5PjK5a_jE1JfgN1SuFoC6xDFX94VYiZCVCae6eA2KumzwVTjFkY6SetQf3hrmd3KxsBX3lgm-wqQ2bzb09i3bPbbUe3_yMzkDgOIllEFPAQj9mNKA4hhqstroOS_6w3g3bgNvfegw8vl3abxfI3Xg3cKoz-iDtD0zRKmLY45xGPngvDmNCY8YYNENUeH6sqWY0jiMpeYC5rziUWOXjiCY8CDQ_oM9Y-xPMAzLS_iQ4kXEs5HP789z-PLc_T93-7MQMicBS-L4KgqQXc4C3D8X8ADD53Hv9Nnqvg7zbjsVFW0CrWtTY4tqu6q4Lmep0yDuM0SU0gqBTMnrPw46W-LIAY1XT1OaPTbEc_YlBjm3Q11_8fioBe-zemVpCx9ShNjpCRAmmicaR_5QSt7EDUVtudsi8qx024z73ZwSVqhLgbsu3lEdExjIgHn5vj54h8reHK1mHbAARRyQ-j0b9zm6JIOBUZmYIrs6NwvMI0bOOexyRuduhUmvrho9MUJ44_0MTjyMz0wB1HtqyG5u-BnXQTVqv2iHGFYW6H53qFVQ-2zwY556yKGypdF6CSpmDr7YxPjsEQePT2pdvYFjrprER5Ogxw0DsK2T7uW0f1_qrk3B2CEZOz4hsuawAn2CAa7NzOsCCTilbGNzh234KFK_Z7BAQjB_6tf09zx2514tOhxlcNDUIoGaHUvagA_9sY8JWcneEc9S09ZBViFWpgd2ZcU_X1uQQgRIKrEJtgZ0dytqDJ4IVRVYYZaGyO8pGBiSFM5Y96G3bWfYtZQ-qbas5O5S7D9KlO_CVu9HpZwMenMYEk2oNbjP1xjZqbVS4aRt1KWqnfc2uiwoVGoHvoPeF0I6ndTHFe5E-O5TO54jUIUkrA8thZetapiF4UAqpDHYv1mnOoE1DbkMQsS7aXZrSDqJW7C75OiQ5SExAJHdO37PFLrJbUVx2M3D8Rk2FnRDsIZ3-fUuF2oLuHMhQXbHctFzCvYjirBpE1XmsRuRJP4ZJPMScBSHB3KN-Eif-IVZjO8aeZjWeu6vn7uq5u3rurp76Z91HUbT77B292NnYXvTizr27cdbuo9CUkkpfhCzCviax8oQSSWi_WkoCjqUKgwSLMOJaExzHPIgjQjAhTPM4jiKmGD5X0RH-0g_nJBzhL8PQahHRT5y_1DKRPg6VHwlynL98DGbljtMc0HVmmLKO2DzNVurY00Jiz4Pw7EUalKuHDNQ71JmamStzgZY9J9tlJPRcWdlmVbVBu_4TlIO2s6iU7cFsr3JTVFd7FG37TnEKgGfH6TceSsFo6CkI4V75QeV7qPy7lCz72YRpn8TRdiw4LpjGHosJFSQO_F6wQX07JdijCtOR42kUQkRQCv1X8A4U9oPSAVdLGCNsUJ6ks8Mw0IkvIxzKY3T2yy-ZWKGquHFzhGnHTnfkLz__x8DU0rHamYIuto0cl02Wx54dYrFnv2m29jhNe5yffRwx-wnzsic_gnSKfPBvIMdw2qLyEBOfdFo457D3bEAfwN3TNqBnHfe-lNY37EqZe3SWVcC2TUi9KaGzAqE2yMbOIfrJFjnkonHLaECpTGt42NEIbq7fr9YdGgz5sVO02EPpv0-Xq1rlpmMF1msGxbEjCeqbAq0VM439Fa9XrmOOzHykqbjHnI38Ano22_RKOZea_jOKAcH08HTedQLnU0x_UarsKSsH_lPA-nss0x7D9FmL_5bTSu1HGLntSTqrbbkLc4BLsQHTfuLROnCPBYUGyO0JOjLkMBB8ctWTLXleNLlouULuwsqKeCCwXExdoMbYNeoNYGQnnaXkwLIAvhdOPUvuOJpm23y0obi7nrpmpK3FIJWBHZCydRQUPY-ZOfKZ_igzs23QPzAz84y1vyLWPp6t2859u2nPvxsf4D7KKMviMKJeFHjYj2AYiyOaJHYYIFRHNAxlRKQMqIiSWIAqPuci0Vx5EYkxg2gnh1UaGVqDYE6jkaF1-99gPu2hNZQKQpf7CUnw-UPrfs4MqqVxIyo6PMCeml2JkLHHYFIhmr7L7PrV_kCa5hbwzOisrYtqOKk-z6MfcR5NFGSjFLEI-Ht8UjXSZZyeRz0mPaVDTCKBj86j3xybOK25377Ll1O_zsj5-u7_CB371w</script>
+
+
+<script type="application/vnd.proofpress+json" data-proofpress="capsule">eNrtW92O28YVfpWBgFxlpZ3hPwXXQJoGaVC7KZy0F00MYX7OSOxSpMKhvJYNA3mH9qZP0vs-Sp6kZ4akxN2l_tZex0H3xrAoauacOed85_sOuW9HvKozzWU9y9RoOlqtZlKH1Pc9nfoBj6JYxhIY-JEYXYxEqTYzlc3B1HivWXAvjKYAUqcSAkjShKVJoGPt6ZiJMJEcklgzvBiGKVcKYqW44n7oS7wug8TzRUJxXZUZWb6CajOavrUf6lnN57hDzmu71QX-R0COF_4GVaYzLnIgFbzKTFYWZIH3l9WGiA35S1WWelWBMfibFZdXfA7WqRuXq_IfgO6uK7vgoq5XZnp5Oc_qxVpMZLm8lAsollkxr3kxT3x6eePXFfy0zvD_s7WBaibLwkCBZ1FXa3h3MVoAt4cYiwgiJv1Rc2UGr9xNeLgwSyKRMi8KkyhNIOEsETxmWnNrWVnV1rVZnhWAlncRyWdcYwyoF4NKtUwBPFxExFI27rTWzSRfmXWODnvWTllWyoymP7wdtdu_HWGUy8rY_zVfg5oJPPIfRuviqiivi9FL9KHLBxvgeq0yMJd5WczHi7LK3pTFGF7x_LKCnG8EFHJxiVFY89z0jmmM_6zz2kwW9TIfXZyVYbyuq0ysawzsTHCTGWsG5HrGDR54Dcres67RGOvGVVbYJc3G1LDEbwq-tPHu3LnAnxqbI6Npsc5zdE4uMKjQHIvIS3mFdzPlp37IbB5iPGt4bV1_smBPv7YpWYAi-CNVam3IE1g-zZbo6Su8irmysu61Rtj8Vi4gmJhwfcYaYL19conXf_n5X3gbwXxerXCperOy7tgcwnwcvbvYGa0kZeAl7JbRHsnU734c_YQRyerNuM7qHH4cPX2xFlUmSXv5yeXisNmnruI9PWykDrwoiWT6EEauiMwxJ3Adg9WMBzguytou85zXWMF4tFVWI1pwwmVVGkN4nhMsPLLiWbUze8UrfsPmgCoR6EAM22y4hp7Jfy3sBYLBXPE5t1acdLBHVznhbAWkTCr5IHbuPdtvBRahzVsHKaY72sgn1oaqzHO31I2zfXnRAdAIS8FW40xWwJtSdt90uACzyPdTBSGoKNYhhBpTPIi4TmxpowX2rhYjSYuRBGMtr1ZlVtQO8iu3k6327pMt9pcWXPNMbnor9AG3t4iD8ntisSl1PdMYKahWVdZCvhFsqn3qARWSCi-WURwpFUuG6K8j7gkEf6kYaBH7KrWeRwFlkR8KTyoaC-Ux67-pee2gu4nXNEQ0sxdGHvWiMU3GXvQ9Y1OfTT36OaVTavGsPXBbisJjoe8JzKHd1be_Mti7XG7AeMHNAu_3Y-Zrn_meF2i8wa3Rw-czwXkYWPHbssvj9Z3CmGDtsT211xpJEx0wa6SGuDOyh8dn45x3eLs4SONYAYUw2Z5JD1m77d4LEPHrCs-C_Pc_5O9lucSPRvIcpiShv_z8T0bpZ08uV08HYLO1MYl9P2KeRLYHnY09JD0bno6fiqaQyEgzH0uw27GHiUdP5RQow3yxKe5OyJ3Nd_ZQ8ComOf6iJm-gKocO5uU7a-kA7wKFMehYF8JKUU_LFRQ8G8tSwevRS0fo1FoeuekWf9t3009rpM_buxbrJS-mmHsLXqmxpbefKOGD4lVWlcXS9gb83vkwxPuc2zva9y36_8U35Evn_2ncL02pFJrzh-2iugJ4A2PFXea9cIdFdFW-gcJm1Rfr-drUxIsuiAXzwYRC-3KeLfdaf8uMtlv-ITMrjBupF0CwL_GcVN3m1iJiLSJZ4b5HxFyui0w6x4jNkXrSbNwdzNvR9cJ20Bcu-XqL2rTZ3FizbNbcduvhxc9gBpKiulRh4iMWBomVkDTBHgxbX_stv9_v-jTg7W89B06nS7fpAns3zAaOMaMPQn9QRUPMqSeEHwcYvSRKmJ9wzpEM-dILEu1r7idJrJQIqQhAYIuFgMZ-KsJQiz3-DNGfcBqyAfqT0lQliVSP9OeR_jzSn4emPzszIyapkkEAYZh2Zvbw9q6ZHwAmH7nXb4N77Z277aa4ZAtoVYMaW1zbdd1lqTKd9ecOQ-MSP8akAxW_52YHW_yqxMOqxpmtH1tiBfkjxxrbkGdf_H6sEHvs2jnMkTG1qE0ODKIk10zTOHhIi5vcwaxdbXbIvOsdtuI-DyaMrKCSGG47b1kdMJmqkHn0vSN6hsnf7u9kLbIhRByw-Lwx6nd2SYIJB7mZEPx0bhaeNxA9a7vTBpm7FSpY2jB85AHlkf0_9OBxQDP1UOfuWbay6Rm6Q66zetGIGNcU6k461QvsfJY8GBeeVVnaVumihJ2ywFhtc3yyD4KG1dpXr1GstWpsADk6zDCY-0Asn9vyuCZerYWTfTByXCPy-bxCfEIB11TnuIcFrVO2MbjNt3wKHa_5ZB8QDG_6zD7Pc1ve4qLjfgWX6xoNgMm-kt0bwG9sTthO7rZwgRo3EbIO8SozuDo37tulPXLMQIUNFkjTYCf7qnbvjniKMi8NWKhst7KZgUXhDstu9KZhlh2l7EC1oZqTfbV7p1zaDV-4C61_NuExaFxyBUsMm6k3lqg1WeHUNmlL1Kp9zV-VFSk1wdgh98XUTsZ1Oaa3Mn2yr5zPMalFksYGXuCdTWi5xuQhGZYynnu5zAqONI24BdHEumxWWa-sELVmt8XXIsnewQRmchv0W2exy-zGFFfdHAO_gbG0CsFu0vrfUSrSNHQXQE7qihemmSXcyCjBq15WnTfViD0VJKjEIyp4GDEqPD9IkzTYN9XYytjjU41HdvXIrh7Z1SO7eujHuieNaG9P7_yL3RnbD525U-_d8NTuo4wpla8CGfGYBpol4EmQaSSUitNQUAVRmFIZxUJrRpNEhEnMGGWMa5EkccyB03MdHZhfBtGURQPzyyiyXsT-Jz6_1CpVAY0giCU7PL88BbMKN9PsjetMv2TdYPP4tFInnpaKeh6mZ2dSr13dnUDdo8_U3FyZCzLvZrJtRSLnyldNVVUbsuOf6BzSzrICy8EsV7kuq6tbI9rmN-UxAJ4cHr-JSEnuRx5gCnfO9zrfXefv07LsaxOm-SaJt7LgsGGaejxhvmRJGHSG9frbMcNOakwHtvfjCDPC95F_hfcYYd9pHfhpjjLCJuXRcXYUhToNVEwjdWic_fQrLhekKq-djjCN7HRb_vLzvw2qlnaqnQOy2CZzXDXZOfZk3xR78pue1h4e0x6ez542mP2E57JHX4J0jnzwdyCHcNqich8TH1QtnLPZexLQO3D3sAT0rO3ed6T1nF-BuTHOsg5Y2kTg9QqZFRq1ITZ39o2fbJMjLhu3Ew1slVmNX7ZjBKfrb3frFg3687FjY7G71n-fzRc1FKadCiyXHJtjOySor0uyBG7W9ile51w7OTLTAVJxY3I28AT07GnTC3AhNd1rFL0B093dRcsEzh8x_Qlg1Y2sHPiPEetvTJluTZg-a_DfzrQy-xJGYTlJe2rb2YXZM0uxCdO84tEE8NYUFAmQWxN95MRhIMbkqhu2FEW5LmQzKxQurayJexLL5dQFWRt7D7xGjGytsyM5PFkE3wvnnh3uuDHNlnw0qbj7PHZkpOnFaJXBFQjYPoqOnjeZ8RMKnogjJsI40hgZkUQiDPa-b7Il6B94MvOItb8i1p4-rdvqvp3aC94NC7iPImV5EsW-F4ceDWIUY0nsp6kVA8zXsR9FKmZKhb6M00SiK4EQMtUCvJgllGO2s_0uDYjWMJz68YBoBeQ7VKbxJy5aIwWYuiJIWUrPF623a6bXLY2TqGS_gD2mXZlUicdRqTDt30e7fn1bkGaFBTwzqLV1WfWV6qMe_Yh6NAWsRiUTGYr3eKVqgGUc16MeVx7oiLJY0oN69PkhxWmP-8193px6lJz_r5LzwRt4f1ouZBArEb_3XgcfnljMH7un87jIE4NiB_9FJC7mT7-sbHIhay7cQ1j7wF2U5RU5TeCdog6-q-3fyjZjoh3B76kR1G02R61KEj0kv0Oe-8_5rxdZbtEM7M0dhVfto-6-0OjX_mTf0Q-_CvBnTJ5G1tQLrO2ulvcpUFihNwq2IjSrcFco0MmSFOulQJ7RylHUs-W5r7ZvVU_3wNpcQ3VDNrtStst0m0x3qrkRL60DzYj4rs0uCC0HuBGJHrvIM41Ki-OadnPuXr7IN43Mwx5Tao2CHVdvgoyAjEuKEtHkPJFz4G-RB0XOltAdFzmP1T1c3afLzDtvvPcfJd18nX9HtD_O6_xUxWGYqJQBR43Bo5DHIogAIpYCZwrZhEh9P8CMwpSSXhqkSPFsjnk0Sbz4FOfuyAxvSr0pG_rTxu1f2z_KjEeZ8SgzPk2Zwey-KfVo6kcHZca3AxylT0nuKzQAszuO0lCJYPvIr9c47h79PfAerEntGxztrdbeLT-hHl5vFuov95y718wcx5KWJcyRBzlnT185GFz5Ga5XGLjXin634ieo316--x_oeqA2</script>
 </body>
 </html>
