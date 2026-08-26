@@ -1,0 +1,75 @@
+{
+  "schema_version": "1.0",
+  "study_id": "apex-agent-eval",
+  "canonical_repository": "https://github.com/chenmingtang830/proofpress",
+  "companion_repository": {
+    "url": "https://github.com/chenmingtang830/athena-apex-proofpress",
+    "visibility": "private",
+    "commit": "38bd855daf5e0da3b505f5579fc9e0a52b5cbdb2",
+    "default_branch": "main"
+  },
+  "canonical_evidence": [
+    {
+      "path": "ara/PAPER.md",
+      "sha256": "cbb44fa45e6ae50672e4015fc6e7ca4a744d51ccb7699430dde8bdf3bea3d593"
+    },
+    {
+      "path": "ara/evidence/raw/task1-three-model-finalized-v9.json",
+      "sha256": "ac4561291fcb88f00909c28bf2c5b9513f33eae7ed17fe26fb6a7eb6bf17c8b0"
+    },
+    {
+      "path": "ara/evidence/raw/task2-jcf03-three-model-manifest.json",
+      "sha256": "6ed67099c3322711d521c32fe132020a8a8bd1665916073980445c6c64fa4a75"
+    },
+    {
+      "path": "ara/level1_report.json",
+      "sha256": "05a880056dc8d407097893dfd02e7dd6bb7bb4b3a9c7c81da93bd387ac7cf6bc"
+    },
+    {
+      "path": "ara/level2_report.json",
+      "sha256": "e0eef51e73dd85ef6ec90b27735b97972cce53d4ff61f954954058fa628a19a9"
+    },
+    {
+      "path": "ara/lifecycle_report.json",
+      "sha256": "a2707c6873ce651e4dafc564c87cc0a55762969a468240907d64c7e0028f05fb"
+    }
+  ],
+  "companion_documentation": [
+    {
+      "path": "README.md",
+      "sha256": "7ba8287de41cf1982cd9b45ac6b58be5e07ac186b21a2a1df34c65c814718640"
+    },
+    {
+      "path": "DELIVERY_MANIFEST.md",
+      "sha256": "7db5b5baf73e7db29163aa8f177c634d17c1d2e46cf86dc59a1f51bba0993196"
+    },
+    {
+      "path": "docs/TECHNICAL_ARCHITECTURE.md",
+      "sha256": "0fadd68cf7a4c7ac2ae4a35edd3b0dcff5f0793a59204ed4058f51063420542d"
+    },
+    {
+      "path": "docs/PIPELINE_REFERENCE.md",
+      "sha256": "fdb298a86a4e441c6a53a9942f8fd448547117b39acfb862ea1345688168fa22"
+    },
+    {
+      "path": "docs/LOCAL_RUNBOOK.md",
+      "sha256": "4e9567e0e834746c13b67c250817e7f2d601339fffaea050b7225824ae3f400d"
+    },
+    {
+      "path": "docs/EVALUATION.md",
+      "sha256": "0e1c23e6f04291c9f46cbaeac1a51f8bb92bc4d1963ae074ed39c4c59bc18933"
+    },
+    {
+      "path": "docs/FUTURE_SYSTEM_DESIGN.md",
+      "sha256": "b01102cfd2d65d90c7e56a2a459e5d460c9053dc751c742ea11464f151f405f5"
+    }
+  ],
+  "deliberately_excluded": [
+    "licensed APEX World425 corpus files",
+    "credentials and provider configuration",
+    "raw model transcripts, prompts, and scratchpads",
+    "transient runtime projections and caches",
+    "full generated DOCX and render-output trees",
+    "the Athena-shaped application source already retained in the companion repository"
+  ]
+}
