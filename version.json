@@ -1,54 +1,66 @@
 {
- "artifact": "studies/long-horizon-eval/relaybench/CLAIM_BOUNDARIES.md",
- "artifact_id": "pp_35745b3850cee6e14c678792",
+ "artifact": "studies/long-horizon-eval/ara/README.md",
+ "artifact_id": "pp_aed9b741599a3086e78c8505",
  "blocks": [
   {
    "type": "heading",
-   "text": "# RelayBench claim boundaries",
-   "id": "8372ed9d",
-   "hash": "5b769eb3e335"
+   "text": "# Long Horizon Eval ARA",
+   "id": "f605cdea",
+   "hash": "29b05a70773b"
+  },
+  {
+   "type": "heading",
+   "text": "## Role",
+   "id": "a71389fb",
+   "hash": "b9464399eb49"
   },
   {
    "type": "para",
-   "text": "RelayBench is the implementation infrastructure for Richard Tang's long-horizon\nProofpress study. The repository now contains composed public-task results, including\nseven complete frozen three-task panels and a 12-valid-task DeepSeek breadth expansion.\nThey are Proofpress experiments over version-pinned LAB materials, not official\nHarvey leaderboard results.",
-   "id": "6a714dce",
-   "hash": "3bff13681a0d"
+   "text": "This Agent Research Artifact (ARA) is the canonical lifecycle record for the completed Proofpress long-horizon contract-negotiation evaluation. It organizes research semantics, protocol choices, admitted evidence, receipts, and claim boundaries; it is not itself a substitute for the underlying run records or Proofpress verification.",
+   "id": "71ee4330",
+   "hash": "aa19882c2f5b"
+  },
+  {
+   "type": "heading",
+   "text": "## Current state",
+   "id": "21168fbc",
+   "hash": "5ae697c46c4b"
   },
   {
    "type": "para",
-   "text": "The study may report the bounded aggregate: ordinary handoff passed 10,654/11,928\nrubric criteria (89.3%) and Proofpress passed 11,141/11,928 (93.4%), a descriptive\ndifference of +4.1 percentage points across 126 valid paired runs. It may also report\nthat observed unsafe propagation fell from 8 events to 0 across 63 controlled stress\npairs. The scope—seven models, three legal task families, and the frozen paired\ndesign—must travel with both numbers.",
-   "id": "7a627143",
-   "hash": "a25c64a195cd"
+   "text": "The study is frozen complete. Seven model panels contribute 126 valid paired runs across Credit, MSA, and License task families. Historical Phase Zero fixtures remain retained as mechanics evidence but are excluded from every reported result.",
+   "id": "4c8f145b",
+   "hash": "13f5054d673b"
+  },
+  {
+   "type": "heading",
+   "text": "## Lifecycle",
+   "id": "a35a7d6e",
+   "hash": "50900532265f"
+  },
+  {
+   "type": "list",
+   "text": "1. **Design** — define the claim boundary, H4 episode, C1/C2 conditions, and measurement families.\n2. **Freeze** — approve source revisions, candidate matter, stage composition, rubrics, semantic parity, and execution settings before a real call.\n3. **Execute** — retain complete run records, invalid/partial attempts, and environment/provider telemetry.\n4. **Admit** — check that each result is bound to the frozen protocol, approved sources, and recorded execution evidence before it contributes to a claim.\n5. **Synthesize** — derive only the claims supported by admitted records, keeping mechanism, effectiveness, integrity, and legal-quality claims distinct.",
+   "id": "7130299a",
+   "hash": "79f49f85a9b3"
+  },
+  {
+   "type": "heading",
+   "text": "## Navigation",
+   "id": "ccdd7f9a",
+   "hash": "7d5456c0842f"
+  },
+  {
+   "type": "list",
+   "text": "- [Research protocol](logic/protocol.md)\n- [Claim register](logic/claims.md)\n- [Decision register](decisions/REGISTER.md)\n- [Evidence index](evidence/README.md)\n- [Artifact index](src/artifacts.md)\n- [Run-record policy](trace/README.md)",
+   "id": "68c0d800",
+   "hash": "984c73e03263"
   },
   {
    "type": "para",
-   "text": "It may not claim that Proofpress improves legal reasoning, legal knowledge, drafting skill, retrieval quality, model intelligence, factual truth, authorship, identity, or external authorization. Proofpress binds and verifies declared artifact, decision, evidence, actor, and version relationships under the selected policy; the receiving agent still performs legal reasoning.",
-   "id": "190fc2af",
-   "hash": "911221b98bca"
-  },
-  {
-   "type": "para",
-   "text": "Clean continuity, controlled trust stress, model replication, and task breadth remain\nseparate evidence tiers in analysis. The public quality aggregate pools only matched\nrubric denominators from the seven complete frozen panels; the safety count uses only\nthe corresponding stress pairs. Neither number is an official Harvey score, a\npopulation estimate, or proof of statistical significance.",
-   "id": "d500afd6",
-   "hash": "c01f25602861"
-  },
-  {
-   "type": "para",
-   "text": "Cross-model effects remain heterogeneous and are retained by model and task in the\nreceipts.\nKimi is user-terminated route evidence, not a zero-effect result. Missing provider\nusage telemetry does not invalidate a completed quality/safety pair, but it makes\nthe affected token/cost verification-overhead estimate partial or unavailable.",
-   "id": "2c932519",
-   "hash": "d4ac49475551"
-  },
-  {
-   "type": "para",
-   "text": "The local H4 calibration uses only deterministic mocks and synthetic TEST-ONLY\nfixtures. Its outputs validate mechanics only. They must not enter benchmark\ndenominators, model comparisons, product claims, charts, or publishable summaries.\nComposed episodes must be described as a Proofpress long-horizon extension using\nversion-pinned Harvey LAB materials, never as official Harvey LAB scores. The\nDeepSeek 14-task result must report both all-valid and non-floor sensitivity because\nthree large gains occur where ordinary handoff scored below 25%.",
-   "id": "4b32ef87",
-   "hash": "2ef0885e93ed"
-  },
-  {
-   "type": "para",
-   "text": "Source-integrity boundary: the synthetic releases are not Harvey material; the candidate Harvey files are identified only through the pinned acquisition manifest and are not vendored here.",
-   "id": "9f8d1abd",
-   "hash": "8244547b5ac9"
+   "text": "The public entry point is the [one-page result](../relaybench/PUBLIC_RESULTS.md). [RelayBench](../relaybench/README.md) contains the execution harness and result files; the [evidence index](evidence/README.md) binds the admitted panel to immutable receipts.",
+   "id": "937a3a32",
+   "hash": "f3b03217cbca"
   }
  ]
 }
