@@ -1,60 +1,108 @@
 {
- "artifact": "studies/long-horizon-eval/ara/logic/claims.md",
- "artifact_id": "pp_926644738c4a198198cd2bf7",
+ "artifact": "studies/long-horizon-eval/ara/logic/problem.md",
+ "artifact_id": "pp_736509ad8e41717a0a2354e9",
  "blocks": [
   {
    "type": "heading",
-   "text": "# Claims",
-   "id": "01b8a95d",
-   "hash": "32475190a135"
+   "text": "# Problem",
+   "id": "874e3c2a",
+   "hash": "d95279f6caf4"
   },
   {
    "type": "heading",
-   "text": "## C01: Phase Zero mechanics readiness",
-   "id": "c84eefb7",
-   "hash": "12a707abd88b"
-  },
-  {
-   "type": "list",
-   "text": "- **Statement**: The RelayBench H4 test-double harness can enforce a declared cold boundary, machine-check C1/C2 file-level parity, produce deterministic state-scoring records, and exclude TEST-ONLY output from benchmark metrics.\n- **Status**: supported.\n- **Provenance**: ai-executed; legacy id `C-LH-01`.\n- **Falsification criteria**: Any released test that crosses the declared boundary, admits a parity mismatch, produces nondeterministic state scoring for the same fixture, or allows TEST-ONLY output into benchmark aggregation falsifies this mechanics claim.\n- **Proof**: [E01].\n- **Dependencies**: [].\n- **Tags**: mechanics, harness-readiness, non-behavioral.",
-   "id": "8756ce27",
-   "hash": "a5698710f747"
+   "text": "## Observations",
+   "id": "8fdbb3ce",
+   "hash": "428ff1011c81"
   },
   {
    "type": "heading",
-   "text": "## C02: Bounded quality result",
-   "id": "c528753a",
-   "hash": "5ba265a322b8"
+   "text": "### O1: Cold handoffs can silently inherit stale or unsupported state",
+   "id": "c4c9425a",
+   "hash": "8cecb551c2fd"
   },
   {
    "type": "list",
-   "text": "- **Statement**: Across 126 admitted paired runs in seven complete model panels and three legal task families, ordinary handoff passed 10,654/11,928 rubric criteria (89.3%) and Proofpress passed 11,141/11,928 (93.4%), a descriptive difference of +4.1 percentage points.\n- **Status**: supported for the frozen panel.\n- **Provenance**: ai-executed; legacy id `C-LH-02`.\n- **Falsification criteria**: Recompute all admitted panel receipts under the frozen aggregation rules; any mismatch in pair count, denominators, passed criteria, or derived percentages falsifies the reported result.\n- **Proof**: [E02].\n- **Dependencies**: [C01].\n- **Tags**: quality, descriptive, frozen-panel.",
-   "id": "2a0398fe",
-   "hash": "c884c7a5fe12"
+   "text": "- **Statement**: A fresh worker assembling a professional deliverable can rely on a prior worker's summary without knowing whether its conclusions remain current, supported, authorized, or in scope.\n- **Evidence**: The controlled trust fixtures in the frozen panel inject stale authority, unsupported approval, and revoked approval at the S3-to-S4 boundary.\n- **Implication**: Continuation quality alone cannot reveal whether unsafe state propagated.\n- **Provenance**: user-revised; retrospectively compiled from the frozen study protocol.",
+   "id": "40d78ed1",
+   "hash": "afd4626f0aa7"
   },
   {
    "type": "heading",
-   "text": "## C03: Bounded safety result",
-   "id": "8276420f",
-   "hash": "8dc3913864dc"
+   "text": "### O2: Integrity and substantive correctness are different properties",
+   "id": "72e59d68",
+   "hash": "8ea490212a6c"
   },
   {
    "type": "list",
-   "text": "- **Statement**: Across the 63 admitted controlled stress pairs, ordinary handoff propagated eight injected unsafe states and Proofpress propagated none; this is an observed panel count, not an estimate of a population event rate.\n- **Status**: supported for the frozen fixtures.\n- **Provenance**: ai-executed; legacy id `C-LH-03`.\n- **Falsification criteria**: Re-run the deterministic fixture-specific endpoint over every admitted stress record; any event total other than ordinary 8 and Proofpress 0, or any ineligible record entering the denominator, falsifies the reported count.\n- **Proof**: [E03].\n- **Dependencies**: [C01].\n- **Tags**: trust-stress, unsafe-propagation, descriptive.",
-   "id": "8a13c1ec",
-   "hash": "78c4a9c40cb3"
+   "text": "- **Statement**: Version binding and provenance can establish which state was authorized and why, but cannot establish that a legal conclusion is substantively correct.\n- **Evidence**: [`protocol.md`](protocol.md) and [`../relaybench/CLAIM_BOUNDARIES.md`](../../relaybench/CLAIM_BOUNDARIES.md).\n- **Implication**: The intervention must be evaluated on state continuity and bounded work-product quality, not marketed as improved legal intelligence.\n- **Provenance**: user-revised; preserved from the preregistered claim boundary.",
+   "id": "703aa18b",
+   "hash": "e4c1382a42f5"
   },
   {
    "type": "heading",
-   "text": "## C04: Claim boundary",
-   "id": "94129fbd",
-   "hash": "c76949674a1d"
+   "text": "### O3: Governance can create an information and operational tax",
+   "id": "4255e111",
+   "hash": "2b4a5a53b6f2"
   },
   {
    "type": "list",
-   "text": "- **Statement**: The admitted results support a bounded product-mechanism signal for governed handoff; they do not establish an official Harvey score, statistical significance, population-level causality, improved legal intelligence, or correctness outside the frozen tasks.\n- **Status**: supported as a scope constraint.\n- **Provenance**: user-revised; legacy id `C-LH-04`.\n- **Falsification criteria**: This boundary may be superseded only by separately preregistered evidence that directly supplies the missing official submission, representative sampling, uncertainty analysis, or substantive legal-correctness endpoint; the current panel cannot support those stronger claims.\n- **Proof**: [E01, E02, E03, E04].\n- **Dependencies**: [C01, C02, C03].\n- **Tags**: scope, limitations, claim-boundary.",
-   "id": "fcb3d07b",
-   "hash": "c00a6b044542"
+   "text": "- **Statement**: Distillation, policy judging, graph selection, evidence expansion, and compilation add tokens and latency and can omit task-relevant detail.\n- **Evidence**: Invalid attempts, cap amendments, route telemetry, and per-panel operational records retained under [`../relaybench/results/`](../../relaybench/results/).\n- **Implication**: A governed handoff must report quality and overhead rather than safety alone.\n- **Provenance**: ai-executed; derived from retained attempts and telemetry.",
+   "id": "8e55081a",
+   "hash": "c3c05fc14b7d"
+  },
+  {
+   "type": "heading",
+   "text": "## Gaps",
+   "id": "7f6acab6",
+   "hash": "de790f5a9cfd"
+  },
+  {
+   "type": "heading",
+   "text": "### G1: Ordinary handoff has no explicit admission boundary",
+   "id": "5d5ccd33",
+   "hash": "9424c69a1d01"
+  },
+  {
+   "type": "list",
+   "text": "- **Statement**: A summary can mix observations, proposals, superseded versions, and approvals without a machine-checkable rule for what the receiver may rely on.\n- **Caused by**: O1 and O2.\n- **Why it matters**: Unsupported state can become a downstream premise without an auditable transition.",
+   "id": "fdbff750",
+   "hash": "c212dbe01367"
+  },
+  {
+   "type": "heading",
+   "text": "### G2: Safety benefit and clean-handoff tax are usually conflated",
+   "id": "ed0d6b5e",
+   "hash": "f0bf3997ccb0"
+  },
+  {
+   "type": "list",
+   "text": "- **Statement**: A single aggregate task score cannot distinguish clean continuation quality, protection under a trust failure, and the compute cost of verification.\n- **Caused by**: O2 and O3.\n- **Why it matters**: Product evaluation needs matched clean and stress cells, explicit unsafe-propagation endpoints, and retained invalid attempts.",
+   "id": "b5f49a95",
+   "hash": "1dabd6b08537"
+  },
+  {
+   "type": "heading",
+   "text": "## Key Insight",
+   "id": "eb885b7d",
+   "hash": "4069846227c2"
+  },
+  {
+   "type": "list",
+   "text": "- **Insight**: Keep the worker's legal task fixed while changing the handoff representation: ordinary portable summary versus a version-bound governed knowledge ledger with deterministic blocking and verified handoff receipts.\n- **Derived from**: O1, O2, O3, G1, and G2.\n- **Enables**: A paired 2×2 design that separately measures clean continuation, controlled protection benefit, and operational overhead.",
+   "id": "00f5ffa4",
+   "hash": "091981ae78cb"
+  },
+  {
+   "type": "heading",
+   "text": "## Assumptions",
+   "id": "5a9d5738",
+   "hash": "a548acdf944c"
+  },
+  {
+   "type": "list",
+   "text": "- A1: The three selected LAB Contracts-derived task families are useful professional-workflow fixtures but do not represent all legal work.\n- A2: The frozen rubric measures work-product coverage, not legal correctness in deployment.\n- A3: Controlled perturbations model plausible handoff failures but are not estimates of their population prevalence.\n- A4: Within each model/task pair, matched sender state, worker caps, task sources, tools, and evaluator make the observed paired difference interpretable for this panel.",
+   "id": "e2ed49ea",
+   "hash": "90a0985d18ee"
   }
  ]
 }

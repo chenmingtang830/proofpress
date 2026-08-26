@@ -1,77 +1,135 @@
 {
  "event": "version_created",
- "artifact": "studies/long-horizon-eval/ara/logic/claims.md",
- "artifact_id": "pp_926644738c4a198198cd2bf7",
- "version": "50c16221",
- "parent": "634130f1",
+ "artifact": "studies/long-horizon-eval/ara/logic/problem.md",
+ "artifact_id": "pp_736509ad8e41717a0a2354e9",
+ "version": "12178fbd",
+ "parent": "864d455d",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-26T13:04:33+00:00",
+ "ts": "2026-08-26T13:04:38+00:00",
  "stats": {
-  "modified": 9
+  "added": 16
  },
  "changes": [
   {
-   "kind": "modified",
-   "block": "01b8a95d",
+   "kind": "added",
+   "block": "8fdbb3ce",
    "type": "heading",
-   "context": "Claims"
+   "context": "Observations",
+   "preview": "## Observations"
   },
   {
-   "kind": "modified",
-   "block": "c84eefb7",
+   "kind": "added",
+   "block": "c4c9425a",
    "type": "heading",
-   "context": "C01: Phase Zero mechanics readiness"
+   "context": "O1: Cold handoffs can silently inherit s",
+   "preview": "### O1: Cold handoffs can silently inherit stale or unsuppor"
   },
   {
-   "kind": "modified",
-   "block": "8756ce27",
+   "kind": "added",
+   "block": "40d78ed1",
    "type": "list",
-   "context": "C01: Phase Zero mechanics readiness"
+   "context": "O1: Cold handoffs can silently inherit s",
+   "preview": "- **Statement**: A fresh worker assembling a professional de"
   },
   {
-   "kind": "modified",
-   "block": "c528753a",
+   "kind": "added",
+   "block": "72e59d68",
    "type": "heading",
-   "context": "C02: Bounded quality result"
+   "context": "O2: Integrity and substantive correctnes",
+   "preview": "### O2: Integrity and substantive correctness are different "
   },
   {
-   "kind": "modified",
-   "block": "2a0398fe",
+   "kind": "added",
+   "block": "703aa18b",
    "type": "list",
-   "context": "C02: Bounded quality result"
+   "context": "O2: Integrity and substantive correctnes",
+   "preview": "- **Statement**: Version binding and provenance can establis"
   },
   {
-   "kind": "modified",
-   "block": "8276420f",
+   "kind": "added",
+   "block": "4255e111",
    "type": "heading",
-   "context": "C03: Bounded safety result"
+   "context": "O3: Governance can create an information",
+   "preview": "### O3: Governance can create an information and operational"
   },
   {
-   "kind": "modified",
-   "block": "8a13c1ec",
+   "kind": "added",
+   "block": "8e55081a",
    "type": "list",
-   "context": "C03: Bounded safety result"
+   "context": "O3: Governance can create an information",
+   "preview": "- **Statement**: Distillation, policy judging, graph selecti"
   },
   {
-   "kind": "modified",
-   "block": "94129fbd",
+   "kind": "added",
+   "block": "7f6acab6",
    "type": "heading",
-   "context": "C04: Claim boundary"
+   "context": "Gaps",
+   "preview": "## Gaps"
   },
   {
-   "kind": "modified",
-   "block": "fcb3d07b",
+   "kind": "added",
+   "block": "5d5ccd33",
+   "type": "heading",
+   "context": "G1: Ordinary handoff has no explicit adm",
+   "preview": "### G1: Ordinary handoff has no explicit admission boundary"
+  },
+  {
+   "kind": "added",
+   "block": "fdbff750",
    "type": "list",
-   "context": "C04: Claim boundary"
+   "context": "G1: Ordinary handoff has no explicit adm",
+   "preview": "- **Statement**: A summary can mix observations, proposals, "
+  },
+  {
+   "kind": "added",
+   "block": "ed0d6b5e",
+   "type": "heading",
+   "context": "G2: Safety benefit and clean-handoff tax",
+   "preview": "### G2: Safety benefit and clean-handoff tax are usually con"
+  },
+  {
+   "kind": "added",
+   "block": "b5f49a95",
+   "type": "list",
+   "context": "G2: Safety benefit and clean-handoff tax",
+   "preview": "- **Statement**: A single aggregate task score cannot distin"
+  },
+  {
+   "kind": "added",
+   "block": "eb885b7d",
+   "type": "heading",
+   "context": "Key Insight",
+   "preview": "## Key Insight"
+  },
+  {
+   "kind": "added",
+   "block": "00f5ffa4",
+   "type": "list",
+   "context": "Key Insight",
+   "preview": "- **Insight**: Keep the worker's legal task fixed while chan"
+  },
+  {
+   "kind": "added",
+   "block": "5a9d5738",
+   "type": "heading",
+   "context": "Assumptions",
+   "preview": "## Assumptions"
+  },
+  {
+   "kind": "added",
+   "block": "e2ed49ea",
+   "type": "list",
+   "context": "Assumptions",
+   "preview": "- A1: The three selected LAB Contracts-derived task families"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:b8b16ba5ab0f059bb6415d183578b038a44742721aef978a974c1d340f218b5e",
+ "soft_fingerprint": "ppsb1:b0527770c64c3639af476de18ec08997b226e2bb6d24c0d27b8acc95aa8afa64",
  "actors": {
   "requested_by": [
    "human:richardtang"
@@ -89,53 +147,88 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "01b8a95d",
-   "kind": "modified",
-   "note": "Renames the register to the ARA Claims layer."
+   "block": "8fdbb3ce",
+   "kind": "added",
+   "note": "Adds publication-grade ARA content: ## Observations"
   },
   {
-   "block": "c84eefb7",
-   "kind": "modified",
-   "note": "Normalizes the mechanics claim identifier to C01."
+   "block": "c4c9425a",
+   "kind": "added",
+   "note": "Adds publication-grade ARA content: ### O1: Cold handoffs can silently inherit stale or unsupported state"
   },
   {
-   "block": "8756ce27",
-   "kind": "modified",
-   "note": "Adds statement, status, provenance, falsification, proof, dependencies, and tags for C01."
+   "block": "40d78ed1",
+   "kind": "added",
+   "note": "Adds publication-grade ARA content: - **Statement**: A fresh worker assembling a professional deliverable can rely on a prior worker's summary without knowing whether its concl"
   },
   {
-   "block": "c528753a",
-   "kind": "modified",
-   "note": "Normalizes the bounded quality claim identifier to C02."
+   "block": "72e59d68",
+   "kind": "added",
+   "note": "Adds publication-grade ARA content: ### O2: Integrity and substantive correctness are different properties"
   },
   {
-   "block": "2a0398fe",
-   "kind": "modified",
-   "note": "Adds the complete ARA claim schema and exact frozen-panel result for C02."
+   "block": "703aa18b",
+   "kind": "added",
+   "note": "Adds publication-grade ARA content: - **Statement**: Version binding and provenance can establish which state was authorized and why, but cannot establish that a legal conclusi"
   },
   {
-   "block": "8276420f",
-   "kind": "modified",
-   "note": "Normalizes the bounded safety claim identifier to C03."
+   "block": "4255e111",
+   "kind": "added",
+   "note": "Adds publication-grade ARA content: ### O3: Governance can create an information and operational tax"
   },
   {
-   "block": "8a13c1ec",
-   "kind": "modified",
-   "note": "Adds the complete ARA claim schema and exact stress-panel count for C03."
+   "block": "8e55081a",
+   "kind": "added",
+   "note": "Adds publication-grade ARA content: - **Statement**: Distillation, policy judging, graph selection, evidence expansion, and compilation add tokens and latency and can omit task"
   },
   {
-   "block": "94129fbd",
-   "kind": "modified",
-   "note": "Normalizes the claim-boundary identifier to C04."
+   "block": "7f6acab6",
+   "kind": "added",
+   "note": "Adds publication-grade ARA content: ## Gaps"
   },
   {
-   "block": "fcb3d07b",
-   "kind": "modified",
-   "note": "Adds the complete ARA scope-constraint schema and supersession rule for C04."
+   "block": "5d5ccd33",
+   "kind": "added",
+   "note": "Adds publication-grade ARA content: ### G1: Ordinary handoff has no explicit admission boundary"
+  },
+  {
+   "block": "fdbff750",
+   "kind": "added",
+   "note": "Adds publication-grade ARA content: - **Statement**: A summary can mix observations, proposals, superseded versions, and approvals without a machine-checkable rule for what the"
+  },
+  {
+   "block": "ed0d6b5e",
+   "kind": "added",
+   "note": "Adds publication-grade ARA content: ### G2: Safety benefit and clean-handoff tax are usually conflated"
+  },
+  {
+   "block": "b5f49a95",
+   "kind": "added",
+   "note": "Adds publication-grade ARA content: - **Statement**: A single aggregate task score cannot distinguish clean continuation quality, protection under a trust failure, and the comp"
+  },
+  {
+   "block": "eb885b7d",
+   "kind": "added",
+   "note": "Adds publication-grade ARA content: ## Key Insight"
+  },
+  {
+   "block": "00f5ffa4",
+   "kind": "added",
+   "note": "Adds publication-grade ARA content: - **Insight**: Keep the worker's legal task fixed while changing the handoff representation: ordinary portable summary versus a version-boun"
+  },
+  {
+   "block": "5a9d5738",
+   "kind": "added",
+   "note": "Adds publication-grade ARA content: ## Assumptions"
+  },
+  {
+   "block": "e2ed49ea",
+   "kind": "added",
+   "note": "Adds publication-grade ARA content: - A1: The three selected LAB Contracts-derived task families are useful professional-workflow fixtures but do not represent all legal work."
   }
  ],
  "context": {
   "why": "Compile the frozen PR #35 study into a publication-grade ARA 2.6 artifact without changing results or inventing historical research traces."
  },
- "event_id": "ppe_df2afa7a1eb9a3938405b176"
+ "event_id": "ppe_13c2f49f1f8c674da497f9ac"
 }
