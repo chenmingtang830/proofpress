@@ -1,66 +1,522 @@
 {
  "event": "version_created",
- "artifact": "CLAIM_BOUNDARIES.md",
- "artifact_id": "pp_35745b3850cee6e14c678792",
- "version": "0ecd8dde",
- "parent": "434565a2",
+ "artifact": "docs/DESIGN.md",
+ "artifact_id": "pp_d0d37230a5f87d707a339766",
+ "version": "8c99edda",
+ "parent": "6f2a3e17",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-26T10:56:32+00:00",
+ "ts": "2026-08-26T11:30:43+00:00",
  "stats": {
-  "modified": 1,
-  "added": 1
+  "modified": 13,
+  "added": 28
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "6a714dce",
+   "block": "ae580676",
+   "type": "heading",
+   "context": "Proofpress Design System — Verified Know"
+  },
+  {
+   "kind": "modified",
+   "block": "4565936e",
    "type": "para",
-   "context": "RelayBench claim boundaries"
+   "context": "Proofpress Design System — Verified Know"
+  },
+  {
+   "kind": "modified",
+   "block": "9787677e",
+   "type": "heading",
+   "context": "Overview"
   },
   {
    "kind": "added",
-   "block": "2c932519",
+   "block": "e21f2b5d",
    "type": "para",
-   "context": "RelayBench claim boundaries",
-   "preview": "Cross-model effects remain heterogeneous and must be reporte"
+   "context": "Overview",
+   "preview": "In one phrase: **a paper-and-ink ledger**. A paper-colored s"
+  },
+  {
+   "kind": "added",
+   "block": "6ba0b871",
+   "type": "para",
+   "context": "Overview",
+   "preview": "Proofpress interfaces make one boundary legible: evidence an"
+  },
+  {
+   "kind": "added",
+   "block": "ca5dbbae",
+   "type": "para",
+   "context": "Overview",
+   "preview": "The design system is workflow-neutral. A legal product may o"
+  },
+  {
+   "kind": "added",
+   "block": "ab42e61c",
+   "type": "para",
+   "context": "Overview",
+   "preview": "**The Trust Boundary Rule.** A surface must never imply that"
+  },
+  {
+   "kind": "modified",
+   "block": "7056876e",
+   "type": "heading",
+   "context": "Colors"
+  },
+  {
+   "kind": "modified",
+   "block": "451376f2",
+   "type": "table",
+   "context": "Colors"
+  },
+  {
+   "kind": "modified",
+   "block": "a8d606fe",
+   "type": "para",
+   "context": "Colors"
+  },
+  {
+   "kind": "added",
+   "block": "b5b71caf",
+   "type": "para",
+   "context": "Colors",
+   "preview": "**The State, Not Brand Rule.** Green, red, and orange commun"
+  },
+  {
+   "kind": "modified",
+   "block": "53b8c3a4",
+   "type": "list",
+   "context": "Typography"
+  },
+  {
+   "kind": "added",
+   "block": "877970b3",
+   "type": "para",
+   "context": "Typography",
+   "preview": "**The Document, Then Interface Rule.** Serif gives source ma"
+  },
+  {
+   "kind": "modified",
+   "block": "8aa0ba5a",
+   "type": "list",
+   "context": "Layout"
+  },
+  {
+   "kind": "added",
+   "block": "0855c398",
+   "type": "para",
+   "context": "Layout",
+   "preview": "**The Reading Order Rule.** Orientation → proposition → supp"
+  },
+  {
+   "kind": "added",
+   "block": "d364c4d7",
+   "type": "heading",
+   "context": "Elevation & Depth",
+   "preview": "## Elevation & Depth"
+  },
+  {
+   "kind": "added",
+   "block": "6a736e61",
+   "type": "para",
+   "context": "Elevation & Depth",
+   "preview": "Proofpress is flat by default. Hairline rules, paper/card co"
+  },
+  {
+   "kind": "added",
+   "block": "bf7362b0",
+   "type": "para",
+   "context": "Elevation & Depth",
+   "preview": "Node selection may use a two-ring cyan focus halo without ch"
+  },
+  {
+   "kind": "added",
+   "block": "196e567f",
+   "type": "para",
+   "context": "Elevation & Depth",
+   "preview": "**The Ledger, Not Dashboard Rule.** Structure comes from ind"
+  },
+  {
+   "kind": "added",
+   "block": "8b46fd18",
+   "type": "heading",
+   "context": "Shapes",
+   "preview": "## Shapes"
+  },
+  {
+   "kind": "added",
+   "block": "5eb7133d",
+   "type": "para",
+   "context": "Shapes",
+   "preview": "Records, tables, evidence rows, and source material remain r"
+  },
+  {
+   "kind": "added",
+   "block": "6bb05de6",
+   "type": "para",
+   "context": "Shapes",
+   "preview": "Connectors are two-pixel paths with no arrowheads unless dir"
+  },
+  {
+   "kind": "added",
+   "block": "54961ec9",
+   "type": "para",
+   "context": "Shapes",
+   "preview": "**The Visible Boundary Rule.** The connector, destination no"
+  },
+  {
+   "kind": "modified",
+   "block": "0287d639",
+   "type": "list",
+   "context": "Components"
+  },
+  {
+   "kind": "added",
+   "block": "c8ecfb15",
+   "type": "heading",
+   "context": "Local Lineage Workspace",
+   "preview": "### Local Lineage Workspace"
+  },
+  {
+   "kind": "added",
+   "block": "4495ce20",
+   "type": "para",
+   "context": "Local Lineage Workspace",
+   "preview": "A lineage view is an inspectable trust path, not a free-form"
+  },
+  {
+   "kind": "added",
+   "block": "a9b6733b",
+   "type": "para",
+   "context": "Local Lineage Workspace",
+   "preview": "Clicking or keyboard-activating a node first updates a persi"
+  },
+  {
+   "kind": "added",
+   "block": "f4762698",
+   "type": "para",
+   "context": "Local Lineage Workspace",
+   "preview": "**The Local Lineage Rule.** Render the smallest graph that a"
+  },
+  {
+   "kind": "added",
+   "block": "0bd4799e",
+   "type": "heading",
+   "context": "Review State Machine",
+   "preview": "### Review State Machine"
+  },
+  {
+   "kind": "modified",
+   "block": "7578205b",
+   "type": "para",
+   "context": "Review State Machine"
+  },
+  {
+   "kind": "modified",
+   "block": "aae4f716",
+   "type": "para",
+   "context": "Review State Machine"
+  },
+  {
+   "kind": "added",
+   "block": "bcd36484",
+   "type": "heading",
+   "context": "Review and Diff Patterns",
+   "preview": "### Review and Diff Patterns"
+  },
+  {
+   "kind": "added",
+   "block": "03c0628e",
+   "type": "list",
+   "context": "Review and Diff Patterns",
+   "preview": "- **Change block:** use a three-pixel semantic edge and a li"
+  },
+  {
+   "kind": "added",
+   "block": "e693f5e3",
+   "type": "heading",
+   "context": "Voice and Language",
+   "preview": "### Voice and Language"
+  },
+  {
+   "kind": "modified",
+   "block": "300ee19f",
+   "type": "para",
+   "context": "Voice and Language"
+  },
+  {
+   "kind": "modified",
+   "block": "cab7f711",
+   "type": "para",
+   "context": "Voice and Language"
+  },
+  {
+   "kind": "added",
+   "block": "b01d87ba",
+   "type": "heading",
+   "context": "Do's and Don'ts",
+   "preview": "## Do's and Don'ts"
+  },
+  {
+   "kind": "added",
+   "block": "df1fade1",
+   "type": "heading",
+   "context": "Do",
+   "preview": "### Do"
+  },
+  {
+   "kind": "added",
+   "block": "3ba94c8c",
+   "type": "list",
+   "context": "Do",
+   "preview": "- **Do** preserve progressive disclosure from conclusion to "
+  },
+  {
+   "kind": "added",
+   "block": "70e00445",
+   "type": "heading",
+   "context": "Don't",
+   "preview": "### Don't"
+  },
+  {
+   "kind": "added",
+   "block": "755d7400",
+   "type": "list",
+   "context": "Don't",
+   "preview": "- **Don't** treat evidence as synonymous with a raw source f"
   }
  ],
- "policy": "portable",
- "soft_fingerprint": "ppsb1:93676f77d48f873417aba13e0159c9dadb86930b3378ffd13ec990ae3aa5f705",
+ "policy": "local",
+ "soft_fingerprint": "ppsb1:d46aa922965c023b0e2e95e91e4052fccdbc29221103e551f1d8959dd9416da4",
  "actors": {
   "requested_by": [
-   "human:richard"
+   "Richard Tang"
   ],
   "produced_by": [
-   "agent:codex"
+   "Codex"
   ],
   "edited_by": [
-   "agent:codex"
+   "Codex"
   ],
   "recorded_by": [
-   "agent:codex"
+   "Codex"
   ]
  },
- "attribution_basis": "environment_attested",
+ "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "6a714dce",
+   "block": "ae580676",
    "kind": "modified",
-   "note": "Updates the repository evidence inventory from two to seven complete frozen model panels."
+   "note": "Promote the archived review blueprint to the current verified-knowledge-ledger design system."
   },
   {
-   "block": "2c932519",
+   "block": "4565936e",
+   "kind": "modified",
+   "note": "Define the design system as current cross-interface guidance with host-product boundaries."
+  },
+  {
+   "block": "9787677e",
+   "kind": "modified",
+   "note": "Create the canonical Overview section."
+  },
+  {
+   "block": "7056876e",
+   "kind": "modified",
+   "note": "Align the color section with the portable DESIGN.md structure."
+  },
+  {
+   "block": "451376f2",
+   "kind": "modified",
+   "note": "Extend existing tokens to lineage, admission, and governed-context semantics."
+  },
+  {
+   "block": "a8d606fe",
+   "kind": "modified",
+   "note": "Clarify dark-theme semantic color meanings for review and admission."
+  },
+  {
+   "block": "53b8c3a4",
+   "kind": "modified",
+   "note": "Expand the established serif, system sans, and monospace hierarchy."
+  },
+  {
+   "block": "8aa0ba5a",
+   "kind": "modified",
+   "note": "Add review, lineage, inspector, and responsive layout rules."
+  },
+  {
+   "block": "0287d639",
+   "kind": "modified",
+   "note": "Replace the archived component inventory with reusable ledger primitives."
+  },
+  {
+   "block": "7578205b",
+   "kind": "modified",
+   "note": "Define canonical conclusion review states and governed-context eligibility."
+  },
+  {
+   "block": "aae4f716",
+   "kind": "modified",
+   "note": "Require mutation feedback and consistent state projection across surfaces."
+  },
+  {
+   "block": "300ee19f",
+   "kind": "modified",
+   "note": "Replace archived section copy with stable trust vocabulary guidance."
+  },
+  {
+   "block": "cab7f711",
+   "kind": "modified",
+   "note": "Preserve English-primary guidance while defining stable cross-locale terminology."
+  },
+  {
+   "block": "e21f2b5d",
    "kind": "added",
-   "note": "Requires model and task heterogeneity, Kimi termination, and partial usage telemetry to travel with cross-model claims."
+   "note": "Restate the paper-and-ink ledger as the active visual north star."
+  },
+  {
+   "block": "6ba0b871",
+   "kind": "added",
+   "note": "Define the visible boundary between support and governed knowledge."
+  },
+  {
+   "block": "ca5dbbae",
+   "kind": "added",
+   "note": "Separate Proofpress trust primitives from host workflow concepts."
+  },
+  {
+   "block": "ab42e61c",
+   "kind": "added",
+   "note": "Add the Trust Boundary Rule."
+  },
+  {
+   "block": "b5b71caf",
+   "kind": "added",
+   "note": "Add the State, Not Brand Rule."
+  },
+  {
+   "block": "877970b3",
+   "kind": "added",
+   "note": "Add the Document, Then Interface typography rule."
+  },
+  {
+   "block": "0855c398",
+   "kind": "added",
+   "note": "Add the canonical reading-order rule."
+  },
+  {
+   "block": "d364c4d7",
+   "kind": "added",
+   "note": "Add the Elevation and Depth section."
+  },
+  {
+   "block": "6a736e61",
+   "kind": "added",
+   "note": "Define flat-by-default surface hierarchy."
+  },
+  {
+   "block": "bf7362b0",
+   "kind": "added",
+   "note": "Define restrained lineage selection and motion."
+  },
+  {
+   "block": "196e567f",
+   "kind": "added",
+   "note": "Add the Ledger, Not Dashboard Rule."
+  },
+  {
+   "block": "8b46fd18",
+   "kind": "added",
+   "note": "Add the Shapes section."
+  },
+  {
+   "block": "5eb7133d",
+   "kind": "added",
+   "note": "Define radii and rectilinear record shapes."
+  },
+  {
+   "block": "6bb05de6",
+   "kind": "added",
+   "note": "Define connectors as admission-state encodings."
+  },
+  {
+   "block": "54961ec9",
+   "kind": "added",
+   "note": "Add the Visible Boundary Rule."
+  },
+  {
+   "block": "c8ecfb15",
+   "kind": "added",
+   "note": "Add the Local Lineage Workspace component section."
+  },
+  {
+   "block": "4495ce20",
+   "kind": "added",
+   "note": "Define lineage as a local trust path."
+  },
+  {
+   "block": "a9b6733b",
+   "kind": "added",
+   "note": "Define selected-node inspector behavior and progressive disclosure."
+  },
+  {
+   "block": "f4762698",
+   "kind": "added",
+   "note": "Add the Local Lineage Rule."
+  },
+  {
+   "block": "0bd4799e",
+   "kind": "added",
+   "note": "Add the Review State Machine component section."
+  },
+  {
+   "block": "bcd36484",
+   "kind": "added",
+   "note": "Add retained review and diff patterns."
+  },
+  {
+   "block": "03c0628e",
+   "kind": "added",
+   "note": "Preserve proven change, comment, hover, and decision patterns."
+  },
+  {
+   "block": "e693f5e3",
+   "kind": "added",
+   "note": "Add the Voice and Language component section."
+  },
+  {
+   "block": "b01d87ba",
+   "kind": "added",
+   "note": "Add canonical design guardrails."
+  },
+  {
+   "block": "df1fade1",
+   "kind": "added",
+   "note": "Add the affirmative guardrail list."
+  },
+  {
+   "block": "3ba94c8c",
+   "kind": "added",
+   "note": "Require progressive disclosure, state separation, accessibility, and fail-closed UI."
+  },
+  {
+   "block": "70e00445",
+   "kind": "added",
+   "note": "Add the prohibited-pattern list."
+  },
+  {
+   "block": "755d7400",
+   "kind": "added",
+   "note": "Prohibit evidence/source collapse, unbounded graphs, false admission, legal coupling, and unlabeled mocks."
   }
  ],
  "context": {
-  "why": "Require cross-model and task heterogeneity, explicit user-terminated routes, and missing usage telemetry to accompany any replication claim."
+  "why": "Upgrade the archived review blueprint into a workflow-neutral Proofpress MVP design system after validating local lineage, progressive disclosure, human admission, and governed-context state projection in the Athena prototype."
  },
- "event_id": "ppe_214da5e86a7cec0d702cfadb"
+ "event_id": "ppe_896ff4bf45a9a8925537a7bd"
 }
