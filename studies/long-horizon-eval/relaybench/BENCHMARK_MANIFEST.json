@@ -290,7 +290,7 @@
     },
     {
       "path": "CLAIM_BOUNDARIES.md",
-      "sha256": "4c1871fa99dc3aa7273fba4877c0999bf18a3e7aa9ba1d535235a677d3e887a4"
+      "sha256": "bdea87b7d67a21a68c0ea85d7ab0ceaf9289e4fca151796be7cab2954053cb94"
     },
     {
       "path": "PHASE_ZERO_FREEZE_PACKET.md",
@@ -302,7 +302,7 @@
     },
     {
       "path": "README.md",
-      "sha256": "055c6483a909fafe81bdad90f14467d010f008cec10ef77129e16378b2c662c7"
+      "sha256": "a6d117c2a46695f0eec15fcfa9ed52f9985782ac5b6a78ed19d35a8c0f6f89dc"
     },
     {
       "path": "RICHARD_PLAN_ALIGNMENT.md",

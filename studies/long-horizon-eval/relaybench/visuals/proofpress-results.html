@@ -1,0 +1,337 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Proofpress — Frozen Handoff Study</title>
+  <style>
+    :root {
+      --paper: #faf9f5;
+      --ink: #20222b;
+      --muted: #696b72;
+      --line: #dedbd1;
+      --cyan: #0e5e6f;
+      --cyan-soft: #dcecef;
+      --red: #b4453a;
+      --red-soft: #f3dfda;
+      --green: #277a4b;
+      --green-soft: #dcecdf;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    main {
+      width: min(1180px, calc(100% - 40px));
+      margin: 0 auto;
+      padding: 56px 0 36px;
+    }
+
+    header {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 24px;
+      align-items: start;
+      padding-bottom: 30px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    header > * { min-width: 0; }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 32px;
+      color: #555966;
+      font: 700 13px/1.2 ui-monospace, SFMono-Regular, Menlo, monospace;
+      letter-spacing: .13em;
+      text-transform: uppercase;
+    }
+
+    .mark {
+      position: relative;
+      width: 25px;
+      height: 29px;
+      border: 2px solid var(--ink);
+    }
+
+    .mark::after {
+      content: "";
+      position: absolute;
+      right: -7px;
+      bottom: -5px;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #3c9bb0;
+    }
+
+    h1 {
+      max-width: 900px;
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(44px, 6vw, 76px);
+      font-weight: 500;
+      line-height: .98;
+      letter-spacing: -.045em;
+    }
+
+    h1 em { color: var(--cyan); font-style: normal; }
+
+    .study-label {
+      max-width: 240px;
+      padding-top: 57px;
+      color: var(--muted);
+      font: 700 12px/1.55 ui-monospace, SFMono-Regular, Menlo, monospace;
+      letter-spacing: .08em;
+      text-align: right;
+      text-transform: uppercase;
+    }
+
+    .charts {
+      display: grid;
+      grid-template-columns: 1.35fr .85fr;
+      gap: 22px;
+      margin-top: 26px;
+    }
+
+    section {
+      min-width: 0;
+      padding: 28px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.42);
+    }
+
+    h2 {
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 28px;
+      font-weight: 500;
+      letter-spacing: -.02em;
+    }
+
+    .section-note {
+      margin: 8px 0 26px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .scale {
+      display: grid;
+      grid-template-columns: 116px 1fr 56px;
+      gap: 12px;
+      align-items: center;
+      margin: 17px 0;
+    }
+
+    .label { font-weight: 700; }
+
+    .track {
+      position: relative;
+      height: 58px;
+      border-left: 1px solid #aaa69c;
+      border-right: 1px solid #aaa69c;
+      background:
+        linear-gradient(to right, transparent 49.8%, var(--line) 50%, transparent 50.2%),
+        #f0eee7;
+    }
+
+    .bar { height: 100%; }
+    .bar.ordinary { width: 46.5%; background: #aeb5b8; }
+    .bar.proofpress { width: 67%; background: var(--cyan); }
+
+    .value {
+      font: 700 18px/1 ui-monospace, SFMono-Regular, Menlo, monospace;
+      text-align: right;
+    }
+
+    .axis {
+      display: grid;
+      grid-template-columns: 116px 1fr 56px;
+      gap: 12px;
+      margin-top: -7px;
+      color: var(--muted);
+      font: 600 11px/1.2 ui-monospace, SFMono-Regular, Menlo, monospace;
+    }
+
+    .ticks { display: flex; justify-content: space-between; }
+
+    .delta {
+      margin: 27px 0 0 128px;
+      padding: 18px 20px;
+      border-top: 3px solid var(--cyan);
+      background: var(--cyan-soft);
+      color: var(--cyan);
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 28px;
+      line-height: 1.05;
+    }
+
+    .safety-bars {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      align-items: end;
+      height: 242px;
+      padding: 12px 24px 0;
+      border-bottom: 1px solid #aaa69c;
+      background: repeating-linear-gradient(to top, transparent 0 59px, var(--line) 60px);
+    }
+
+    .safety-column {
+      display: grid;
+      grid-template-rows: 28px 1fr 38px;
+      gap: 8px;
+      height: 100%;
+      text-align: center;
+    }
+
+    .safety-value {
+      font: 700 22px/1 ui-monospace, SFMono-Regular, Menlo, monospace;
+    }
+
+    .safety-fill { align-self: end; width: 100%; }
+    .safety-fill.unsafe { height: 154px; background: var(--red); }
+    .safety-fill.safe { height: 6px; background: var(--green); }
+    .safety-label { font-size: 13px; font-weight: 700; }
+
+    .safety-callout {
+      margin-top: 20px;
+      padding: 17px;
+      background: var(--green-soft);
+      color: var(--green);
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 23px;
+      text-align: center;
+    }
+
+    footer {
+      display: grid;
+      grid-template-columns: 1fr minmax(280px, 480px);
+      gap: 30px;
+      align-items: start;
+      margin-top: 24px;
+      padding-top: 22px;
+      border-top: 1px solid var(--line);
+    }
+
+    .scope {
+      color: var(--ink);
+      font: 700 clamp(15px, 2vw, 20px)/1.4 ui-monospace, SFMono-Regular, Menlo, monospace;
+    }
+
+    .boundary {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.55;
+      text-align: right;
+    }
+
+    .freeze-date {
+      margin: 7px 0 0;
+      color: var(--muted);
+      font: 700 11px/1.4 ui-monospace, SFMono-Regular, Menlo, monospace;
+      letter-spacing: .05em;
+      text-transform: uppercase;
+    }
+
+    @media (max-width: 800px) {
+      main { width: calc(100% - 24px); max-width: 640px; padding-top: 28px; overflow: hidden; }
+      header, .charts, footer { grid-template-columns: 1fr; }
+      .charts, section { width: 100%; max-width: 100%; }
+      .study-label { padding-top: 0; text-align: left; }
+      h1 { max-width: 100%; font-size: 38px; }
+      section { padding: 22px 18px; }
+      .scale, .axis { grid-template-columns: 84px minmax(0, 1fr) 48px; gap: 7px; }
+      .delta { margin-left: 0; }
+      .boundary { text-align: left; }
+    }
+  </style>
+
+
+
+
+
+
+
+
+
+
+
+
+<meta name="proofpress:meta" content="eyJhcnRpZmFjdF9pZCI6InBwX2NmNTAzMzJmOTM0YTY2N2M3Y2UxZTM2YiIsInBvbGljeSI6InBvcnRhYmxlIiwicG9ydGFibGVfaGVhZCI6IjkwOWQ4OGNkIiwicG9ydGFibGVfaGVhZF9ldmVudCI6InBwZV9jMDg5OGQ1ODM5Nzc0OGEzNTMwODI3ZWUiLCJwb3J0YWJsZV9saW5lYWdlX2lkIjoicHBsX2FmY2UxMDI3ZWQ5ZmM5ZWUyNmI5YjdjYyIsInByb29mcHJlc3MiOjF9">
+<meta name="proofpress:discovery" content="Verifiable revision history by Proofpress | https://github.com/chenmingtang830/proofpress">
+</head>
+<body>
+  <main>
+    <header>
+      <div>
+        <div class="brand"><span class="mark" aria-hidden="true"></span> Proofpress / verified handoff</div>
+        <h1 data-proofpress-id="1d393510">Governed handoffs <em>improved completion</em>—and stopped observed unsafe propagation.</h1>
+      </div>
+      <div class="study-label">Frozen Harvey LAB-derived handoff study</div>
+    </header>
+
+    <div class="charts">
+      <section aria-labelledby="quality-title">
+        <h2 id="quality-title" data-proofpress-id="dc01e281">Rubric quality</h2>
+        <p class="section-note" data-proofpress-id="f42686c9">Matched criteria across all 126 paired runs · Zoomed scale: 80–100%</p>
+
+        <div class="scale">
+          <div class="label">Ordinary</div>
+          <div class="track"><div class="bar ordinary"></div></div>
+          <div class="value">89.3%</div>
+        </div>
+        <div class="scale">
+          <div class="label">Proofpress</div>
+          <div class="track"><div class="bar proofpress"></div></div>
+          <div class="value">93.4%</div>
+        </div>
+        <div class="axis" aria-hidden="true">
+          <span></span><div class="ticks"><span>80</span><span>90</span><span>100%</span></div><span></span>
+        </div>
+
+        <div class="delta">+4.1 percentage points<br><small>+487 rubric criteria passed</small></div>
+      </section>
+
+      <section aria-labelledby="safety-title">
+        <h2 id="safety-title" data-proofpress-id="40db4f4b">Unsafe propagation</h2>
+        <p class="section-note" data-proofpress-id="be91cdcb">Observed events across 63 controlled stress pairs · Scale starts at zero</p>
+        <div class="safety-bars">
+          <div class="safety-column">
+            <div class="safety-value">8</div>
+            <div class="safety-fill unsafe"></div>
+            <div class="safety-label">Ordinary</div>
+          </div>
+          <div class="safety-column">
+            <div class="safety-value">0</div>
+            <div class="safety-fill safe"></div>
+            <div class="safety-label">Proofpress</div>
+          </div>
+        </div>
+        <div class="safety-callout">8 observed events → 0</div>
+      </section>
+    </div>
+
+    <footer>
+      <div class="scope">7 models · 3 legal task families · 126 paired runs</div>
+      <div class="boundary">Proofpress-composed handoff tasks derived from version-pinned public Harvey LAB Contracts materials. Descriptive frozen-panel results; not official Harvey leaderboard scores, a population causal estimate, or a claim of improved legal intelligence.<p class="freeze-date" data-proofpress-id="990cbfaa">Result frozen · August 26, 2026</p></div>
+    </footer>
+  </main>
+
+
+
+
+
+
+<script type="application/vnd.proofpress+json" data-proofpress="capsule">eNrtV9tu5MYR_RWCgJ-i2ekLrwNFgGEDRh4CG-skD7EFoi_Vw444JLe7qfWsIMD_kPxL3vMp_pJUc2ak0Xq0kmIv7AALCMKwu1h96nb68CYVLlgjVGisTlfpODbK5IRzZmqeiaIoVamAAi9kepbKQW8bbdfgA9r6VrC8WBUMeJVxogxVGmSRM8ozWvKCVaUikHOQ3HC0YZKWkBOtGEgqJa2pKjOl0a-2Xg3X4Lbp6iY-hCaINZ7QiRCPOsMfEjpc-Bs4a6yQHSQOrq23Q5-0aD-4bSK3yTduGMzowHt8ZxTqSqwhBvVg2Q3_AAx3ctFhG8LoV8vl2oZ2kq_UsFmqFvqN7ddB9OuKk-WDtx28mSz-biYPrlFD76HHXAQ3we1Z2oKISaxJratqjiyuNHA9G2FyoVGkqiudV7wuy6wSPOekYiVARDa4EENrOtsDIj9UpGuEwRoQNNO1UTUAK2QtS6V24ezRNUqMfuowYBZxqsFpn66-u0n3x9-kWOXB-fhrtw26kZjy79Kpv-qHt316iTEc-iEWOEzagl92Q79etIOz74Z-AdeiWzroxFZCr9olVmESnT9K0wL_TV3wr9qw6dKzF3WYCMFZOQUsbCOFtz7CgM40wmPCA8SciikgmBjGle2jS7_1ATa404tNrPchnDN81cceSVf91HUYnGqxqLBLi-wGdYXWVPOa55SgOdYzwA8x9POWXnwVW7IHneBLejDGJ-ewubAbjPQaV7FXxhjeHoTQekY3xsaEty_wATHa8yWu__Tjv9AswX4eR3QVtmMMJ_YQ9mN6e3YPWitCgVX0PdAssfqP36dvsCI2bBfBhg6-Ty9eT9JZleyXz5fth2E_1wu7-DBIk7GiKlT9MUCOieqwJ9CPx2nGBC76IUQ3fxYBJxhT62xAthCJUG7wPhFdl1BWJKOw7h72KJx4gDkjWmYmk6cxe2HgCPJf-7iQYDFHsRYRxbMS-6SXZ-RWAtKnVh8F56O5_VriEMa-nSnFH1Jb8CRicEPXza4e5Pby7EBAKY5CnMZGORC7UZ53DrwATcF5rSEHXZQmh9xgi2eFMFUcbUQQrfYcmew5MsFaq6txsH2YKd_NJ8VpPzzFYb-M5NpZtT3ycEy4R05mKv8fudgPJjQGKwVudHZP-V7SleGEAZGKSFaqoiy0LhWFSphCMGmQGzUFI0uu6xh5kRFa8FwypUkpNaMxfh9EmKl7V69VjmwWF1JGWLEg1YIVf6F0xemKkT8QsiKRz_YJj6MoGc05k9hD96s3vzHZz728I-NW-BbteUlRK1DOWGbQYPZxxM8vJOfTxIq7w6GPp58NxiucPfrI7O1BkspkNII0UB5AHvHxi3mOffi4MkOpoAGVVHWXkyNmPRz3iwgRtx3mIvnPv5O_D8MGH70SHaySivz04z8pIZ-dL8eLE7S5x1iVnBeUqRJH9oDxiElfTE9PZ8UQqFRhKK_h7sQjTnwyK8-hMuyX2OJzhubcfBuTgqvY5PhGSN6BG04l5vI2Ij2hu0BjDQ6qC2mlD6thhF7YhRo0_JBezoJOT-oJo_f022NGbyaUz3dW7bQR_Qp7rxVOL6K8_Z0KPuivrRv6TbwbcH-O4ZTum8O-l31fY_yf_yn5Yo7_edqvromSRoiPe4saB_AOFlrMnfd6TlZi3PAO-thVn0_ryYeEFWdJJPOTDYX4OmE3j6J_D8b-tvzS-hHrloQWEryXRJe4w-ERURIRJbaf95ExN1Nv1RxYEnskvNodfEjMTfq2jTfo67n5jpzGttk-8DnsfN7d1qedv0AZfOCzaRfr8ZV_fN8dy4Cb__ceeL5cel8u0NvTauApZfSryB_8ioZSECYlLzOsXlVUlFdCCBRDXLGsMtwIXlWl1jInMgOJVyxkpOS1zHMjH4nnlPzJVzk9IX_uvsg_yZ9P8ueT_PnI8uceZkEV0SrLIM_rA8wjvv05zF-BJm_x7787genY</script>
+</body>
+</html>
