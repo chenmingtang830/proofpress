@@ -115,5 +115,18 @@
     ],
     "outcome_boundary": "Frozen from runtime and receipt inspection before any Qwen, Kimi, or GPT-5.6 valid cell quality result. Prior model cells remain valid for quality and safety; their redundant harness overhead is reported separately and is not pooled into corrected incremental latency."
   },
+  "unsupported_conclusion_gate_correction": {
+    "frozen_at": "2026-08-26T07:30:26Z",
+    "classification": "PRE_OUTCOME_DETERMINISTIC_GATE_CORRECTION",
+    "trigger": "GPT-5.6 Sol Credit sender attempt 1 emitted one negative observation with an empty evidence set; the harness crashed before any GPT paired quality result.",
+    "correction": "Deterministically exclude zero-evidence conclusions before proposal or judging and record them in RUN_STATE as excluded_before_proposal/no_bound_evidence. Unknown or ambiguous non-empty filenames remain fail-closed errors.",
+    "unchanged": [
+      "ordinary readable handoff",
+      "evidence-required ledger admission semantics",
+      "tasks, sources, caps, model/provider pins, fallback and retry policy",
+      "policy judge, evaluator, rubric, stress fixtures, and claim boundary"
+    ],
+    "outcome_boundary": "Frozen before any GPT-5.6 Sol valid paired result. Attempts 1 and 2 remain invalid operational evidence."
+  },
   "claim_boundary": "Post-amendment panels estimate the governed-handoff treatment with deterministic context assembly. They must not be pooled silently with pre-amendment panels, and all prior invalid attempts remain route-reliability evidence."
 }

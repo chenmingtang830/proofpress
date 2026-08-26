@@ -116,6 +116,7 @@ test("mocked payable path uses automated policy admission then reaches LAB evalu
       conclusions: stage === "S1" ? [
         { statement: "Bound conclusion", evidence_files: ["deal-economics-summary.xlsx"] },
         { statement: "Unsupported conclusion", evidence_files: ["deal-economics-summary.xlsx"] },
+        { statement: "Unbound observation", evidence_files: [] },
       ] : [],
       final_markdown: stage === "S4" ? "# Escalation memo\n\nApproved content." : "" }), telemetry: { model_calls: 1 } };
   }};
@@ -138,6 +139,10 @@ test("mocked payable path uses automated policy admission then reaches LAB evalu
   assert.equal(prompts.filter((x) => x.includes("Current stage: S1")).length, 1);
   assert.equal(prompts.filter((x) => x.includes("Current stage: S2")).length, 1);
   assert.deepEqual(prepared.episodes.C2_PROOFPRESS.proposals.map((x) => x.admitted), [true, false, false]);
+  assert.deepEqual(prepared.episodes.C2_PROOFPRESS.rejected_unbound_conclusions, [{
+    statement: "Unbound observation", evidence_files: [],
+    disposition: "excluded_before_proposal", reason: "no_bound_evidence",
+  }]);
   assert.match(prepared.episodes.C1_ORDINARY_PORTABLE.raw_handoff, /Expired memory claim/);
   const stressProposal = prepared.episodes.C2_PROOFPRESS.proposals.find((x) => x.stress_fixture_id === "stress-test");
   assert.equal(stressProposal.evaluation.checks.not_expired, false);

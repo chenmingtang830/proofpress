@@ -121,10 +121,17 @@ export async function runPrepare({ packetDir, output, manifest, trackId, authori
           stress_fixture_id: packet.stress.id });
       }
       const pending = [];
+      const rejectedUnbound = [];
       for (const conclusion of conclusions) {
         conclusion.evidence_files = normalizeEvidenceFileNames(conclusion.evidence_files, [...evidence.keys()]);
         const refs = conclusion.evidence_files.map((name) => evidence.get(name)).filter(Boolean);
-        if (!refs.length) throw new Error(`C2 conclusion has no bound evidence: ${conclusion.statement}`);
+        if (!refs.length) {
+          rejectedUnbound.push({ statement: conclusion.statement,
+            evidence_files: conclusion.evidence_files,
+            disposition: "excluded_before_proposal",
+            reason: "no_bound_evidence" });
+          continue;
+        }
         const proposeArgs = ["propose", "--statement", conclusion.statement,
           ...refs.flatMap((ref) => ["--evidence", ref]), "--scope", packet.harvey.knowledge_scope,
           "--proposer", "agent:sender", "--allow-actor", "agent:receiver"];
@@ -174,6 +181,7 @@ export async function runPrepare({ packetDir, output, manifest, trackId, authori
       }
       episodes[condition].ledger = ledger;
       episodes[condition].proposals = proposals;
+      episodes[condition].rejected_unbound_conclusions = rejectedUnbound;
     }
   }
   const state = { schema_version: 2, status: "POLICY_GATE_COMPLETE", experiment_id: manifest.id,
