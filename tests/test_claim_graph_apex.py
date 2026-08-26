@@ -123,7 +123,7 @@ class ApexClaimGraphAcceptanceTests(unittest.TestCase):
             finally:
                 os.chdir(previous)
 
-    def test_staged_traversal_uses_accepted_recommendations_without_admission(self):
+    def test_staged_traversal_uses_non_rejected_recommendations_without_admission(self):
         with tempfile.TemporaryDirectory() as directory:
             repo = self._repo(directory); previous = Path.cwd()
             try:
@@ -131,14 +131,15 @@ class ApexClaimGraphAcceptanceTests(unittest.TestCase):
                 source = repo / "source.txt"; source.write_text("Bound evidence\n")
                 evidence = knowledge.import_evidence_v2(str(source))["evidence"][0]
                 claims = []
-                for statement in ("Staged seed", "Staged neighbor"):
+                for index, statement in enumerate(("Staged seed", "Staged neighbor")):
                     cid = knowledge.propose_v2(
                         statement, [evidence], "matter-1", "agent:proposer")["conclusion"]["id"]
                     evaluation = knowledge.evaluate_v2(cid)
                     row = knowledge.v2_projection()["conclusions"][cid]
                     knowledge.append_v2({"type": "judge_recommended", "subject_ref": cid,
                         "conclusion_digest": row["digest"], "policy_digest": evaluation["policy_digest"],
-                        "recommendation": "accept", "rationale": "Accepted for test staging."})
+                        "recommendation": "accept" if index == 0 else "escalate",
+                        "rationale": "Non-rejected recommendation for test staging."})
                     claims.append(cid)
                 rid = knowledge.propose_relation_v2(
                     claims[0], claims[1], "supports", "agent:proposer")["relation"]["id"]
@@ -146,7 +147,7 @@ class ApexClaimGraphAcceptanceTests(unittest.TestCase):
                 row = knowledge.v2_projection()["relations"][rid]
                 knowledge.append_v2({"type": "relation_judge_recommended", "subject_ref": rid,
                     "relation_digest": row["digest"], "policy_digest": evaluation["policy_digest"],
-                    "recommendation": "accept", "rationale": "Accepted for test staging."})
+                    "recommendation": "escalate", "rationale": "Escalated relation for test staging."})
 
                 with self.assertRaisesRegex(ValueError, "no eligible seeds"):
                     knowledge.traverse_graph_v2([claims[0]], "matter-1")

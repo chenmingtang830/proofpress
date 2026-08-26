@@ -888,7 +888,7 @@ def traverse_graph_v2(seeds, scope=None, actor=None, task=None,
         return bool(evaluation and evaluation.get("eligible")
                     and evaluation.get("conclusion_digest") == row["digest"]
                     and evaluation.get("policy_digest") == policy["digest"]
-                    and recommendation and recommendation.get("recommendation") == "accept"
+                    and recommendation and recommendation.get("recommendation") in {"accept", "escalate"}
                     and recommendation.get("conclusion_digest") == row["digest"]
                     and recommendation.get("policy_digest") == policy["digest"])
 
@@ -898,7 +898,7 @@ def traverse_graph_v2(seeds, scope=None, actor=None, task=None,
         return bool(evaluation and evaluation.get("eligible")
                     and evaluation.get("relation_digest") == row["digest"]
                     and evaluation.get("policy_digest") == policy["digest"]
-                    and recommendation and recommendation.get("recommendation") == "accept"
+                    and recommendation and recommendation.get("recommendation") in {"accept", "escalate"}
                     and recommendation.get("relation_digest") == row["digest"]
                     and recommendation.get("policy_digest") == policy["digest"])
 
