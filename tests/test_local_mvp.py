@@ -6,6 +6,7 @@ import sys
 import tempfile
 import time
 import unittest
+from unittest.mock import patch
 from urllib.request import Request, urlopen
 from urllib.error import HTTPError
 
@@ -287,6 +288,57 @@ class LocalMVPTests(unittest.TestCase):
         self.assertEqual(result["individual_reviews"], [])
         self.assertTrue(all(row["batch_receipt"] == result["batch_receipt"] for row in result["verdicts"]))
         self.assertEqual({row["subject_ref"] for row in result["verdicts"]}, {first, second})
+
+    def test_batch_judge_loads_history_once_and_resumes_without_duplicates(self):
+        evidence, first = self.seed()
+        second = self.data("propose", "--statement", "The indemnity requires escalation",
+                           "--evidence", evidence, "--scope", "msa-negotiation",
+                           "--proposer", "agent:runner")["conclusion"]["id"]
+        policy_dir = self.repo / ".proofpress"; policy_dir.mkdir()
+        judge_code = (
+            "import json,sys; p=json.load(sys.stdin); "
+            "vs=[{'conclusion_id':x['conclusion']['id'],'recommendation':'accept','risk_level':'low','rationale':'supported'} for x in p['conclusions']]; "
+            "print(json.dumps({'verdicts':vs,'adapter':'fixture-batch'}))"
+        )
+        (policy_dir / "policy.json").write_text(json.dumps({
+            "judge": {"command": [sys.executable, "-c", judge_code], "timeout_seconds": 5},
+        }))
+        sys.path.insert(0, str(ROOT))
+        import proofpress_knowledge as knowledge
+        original_run = subprocess.run
+        git_commands = []
+
+        def counted_run(args, *positional, **kwargs):
+            if args and args[0] == "git": git_commands.append(tuple(args[1:3]))
+            return original_run(args, *positional, **kwargs)
+
+        previous = Path.cwd(); os.chdir(self.repo)
+        try:
+            with patch.object(knowledge.subprocess, "run", side_effect=counted_run):
+                result = knowledge.judge_batch_v2("msa-negotiation")
+            traversals = [command for command in git_commands
+                          if command[0] in {"rev-list", "cat-file", "show"}]
+            self.assertEqual(traversals.count(("rev-list", "--reverse")), 1)
+            self.assertEqual(traversals.count(("cat-file", "--batch")), 1)
+            self.assertFalse(any(command[0] == "show" for command in traversals))
+            self.assertEqual({row["subject_ref"] for row in result["verdicts"]}, {first, second})
+
+            third = knowledge.propose_v2("第三项有界结论 — Unicode survives event loading", [evidence],
+                                         "msa-negotiation", "agent:runner")["conclusion"]["id"]
+            resumed = knowledge.judge_batch_v2("msa-negotiation")
+            self.assertEqual([row["subject_ref"] for row in resumed["verdicts"]], [third])
+            idempotent = knowledge.judge_batch_v2("msa-negotiation")
+            self.assertTrue(idempotent["idempotent"])
+            self.assertIsNone(idempotent["batch_receipt"])
+            self.assertEqual(len(idempotent["batch_receipts"]), 2)
+            self.assertIn("第三项有界结论", knowledge.v2_projection()["conclusions"][third]["statement"])
+            recommendations = [row for row in knowledge.v2_events()
+                               if row.get("type") == "judge_recommended"]
+            self.assertEqual({row["subject_ref"] for row in recommendations}, {first, second, third})
+            self.assertEqual(len(recommendations), 3)
+        finally:
+            os.chdir(previous)
+            sys.path.remove(str(ROOT))
 
     def test_v1_migration_is_one_way_and_idempotent(self):
         legacy = self.repo / "legacy.json"

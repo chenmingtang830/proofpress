@@ -2,7 +2,7 @@
 """File-backed admission ledger: telemetry is input; admitted claims are context."""
 from __future__ import annotations
 
-import argparse, hashlib, json, os, secrets, subprocess, tempfile, threading, webbrowser
+import argparse, hashlib, io, json, os, secrets, subprocess, tempfile, threading, webbrowser
 from http import HTTPStatus
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from urllib.parse import parse_qs, urlparse
@@ -237,37 +237,32 @@ def v2_events():
         return []
     if not commits:
         return []
-    specs = "".join(f"{commit}:event.json\n" for commit in commits).encode()
-    result = subprocess.run(["git", "cat-file", "--batch"], input=specs,
+    specs = [f"{commit}:event.json" for commit in commits]
+    result = subprocess.run(["git", "cat-file", "--batch"],
+                            input=("\n".join(specs) + "\n").encode(),
                             capture_output=True)
     if result.returncode:
-        raise ValueError("git cat-file --batch: " +
-                         result.stderr.decode(errors="replace").strip())
-    rows = []
-    offset = 0
-    for commit in commits:
-        header_end = result.stdout.find(b"\n", offset)
-        if header_end < 0:
+        raise ValueError("git cat-file --batch: " + result.stderr.decode(errors="replace").strip())
+    rows, output = [], io.BytesIO(result.stdout)
+    for commit, spec in zip(commits, specs):
+        header_line = output.readline()
+        if not header_line:
             raise ValueError("git cat-file --batch returned a truncated header")
-        header = result.stdout[offset:header_end].split()
-        if len(header) != 3 or header[1] != b"blob":
-            detail = result.stdout[offset:header_end].decode(errors="replace")
-            raise ValueError(f"git cat-file --batch: {detail}")
-        size = int(header[2])
-        body_start = header_end + 1
-        body_end = body_start + size
-        if body_end >= len(result.stdout):
-            raise ValueError("git cat-file --batch returned a truncated object")
-        row = json.loads(result.stdout[body_start:body_end])
+        header = header_line.decode().split()
+        if len(header) != 3 or header[1] != "blob":
+            raise ValueError("git cat-file --batch: missing event blob for " + spec)
+        size = int(header[2]); blob = output.read(size)
+        if len(blob) != size or output.read(1) != b"\n":
+            raise ValueError("git cat-file --batch returned a truncated event blob")
+        row = json.loads(blob.decode("utf-8"))
         row["commit"] = commit
         rows.append(row)
-        offset = body_end + 1
     return rows
 
 
-def append_v2(event):
+def append_v2(event, existing_rows=None):
     event = {"schema_version": EVENT_SCHEMA, **event}
-    existing_rows = v2_events()
+    existing_rows = v2_events() if existing_rows is None else existing_rows
     immutable = {"source_recorded": "record", "evidence_bound": "evidence",
                  "conclusion_proposed": "conclusion", "relation_proposed": "relation"}
     if event.get("type") in immutable:
@@ -298,7 +293,9 @@ def append_v2(event):
     commit = _git("commit-tree", tree, *parent, "-m",
                   f"{event['type']}: {event.get('subject_ref', event['event_id'])}").strip()
     _git("update-ref", KNOWLEDGE_REF, commit, parent_commit or "0" * 40)
-    return {**event, "commit": commit}
+    appended = {**event, "commit": commit}
+    existing_rows.append(appended)
+    return appended
 
 
 def v2_head():
@@ -543,8 +540,10 @@ def propose_relation_v2(source, target, relation_type, proposer,
     return {"ok": True, "relation": row, "event_id": event["event_id"]}
 
 
-def evaluate_relation_v2(rid):
-    projection = v2_projection(); row = projection["relations"].get(rid); policy = load_v2_policy()
+def evaluate_relation_v2(rid, projection=None, events=None, policy=None):
+    events = v2_events() if events is None else events
+    projection = v2_projection(events) if projection is None else projection
+    row = projection["relations"].get(rid); policy = policy or load_v2_policy()
     if not row: raise ValueError("relation not found: " + rid)
     left, right = projection["conclusions"].get(row["from"]), projection["conclusions"].get(row["to"])
     duplicate = [candidate for candidate in projection["relations"].values()
@@ -562,15 +561,17 @@ def evaluate_relation_v2(rid):
                        "relation_digest": row["digest"], "checks": checks,
                        "policy_digest": policy["digest"],
                        "eligible": all(checks.values()),
-                       "semantic_boundary": "structural checks do not establish semantic correctness"})
+                       "semantic_boundary": "structural checks do not establish semantic correctness"},
+                      existing_rows=events)
     return event
 
 
 def judge_relation_v2(rid):
-    evaluation = evaluate_relation_v2(rid)
-    policy = load_v2_policy(); command = policy["judge"]["command"]
+    events = v2_events(); projection = v2_projection(events); policy = load_v2_policy()
+    evaluation = evaluate_relation_v2(rid, projection=projection, events=events, policy=policy)
+    command = policy["judge"]["command"]
     if not command: raise ValueError("no judge.command configured in .proofpress/policy.json")
-    projection = v2_projection(); row = projection["relations"].get(rid)
+    row = projection["relations"].get(rid)
     packet = {"schema_version": "proofpress/relation-judge-request/v1",
               "relation": row,
               "from_claim": projection["conclusions"][row["from"]],
@@ -596,7 +597,7 @@ def judge_relation_v2(rid):
                       "recommendation": verdict["recommendation"],
                       "rationale": verdict["rationale"],
                       "adapter": verdict.get("adapter", command[0]),
-                      "model": verdict.get("model")})
+                      "model": verdict.get("model")}, existing_rows=events)
 
 
 def review_relation_v2(rid, decision, reviewer, note=None, request_id=None,
@@ -636,11 +637,12 @@ def review_relation_v2(rid, decision, reviewer, note=None, request_id=None,
     return {"ok": True, "review": review, "result": final}
 
 
-def evaluate_v2(cid):
-    projection = v2_projection()
+def evaluate_v2(cid, projection=None, events=None, policy=None):
+    events = v2_events() if events is None else events
+    projection = v2_projection(events) if projection is None else projection
     row = projection["conclusions"].get(cid)
     if not row: raise ValueError("conclusion not found: " + cid)
-    policy = load_v2_policy()
+    policy = policy or load_v2_policy()
     evidence_ok = [ref for ref in row["evidence_refs"] if ref in projection["evidence"]]
     checks = {
         "evidence_present": len(evidence_ok) >= int(policy["min_evidence"]),
@@ -654,7 +656,7 @@ def evaluate_v2(cid):
     event = append_v2({"type": "policy_evaluated", "subject_ref": cid,
                        "conclusion_digest": row["digest"],
                        "policy_digest": policy["digest"], "checks": checks,
-                       "eligible": all(checks.values())})
+                       "eligible": all(checks.values())}, existing_rows=events)
     return event
 
 
@@ -694,12 +696,24 @@ def judge_v2(cid):
 
 def judge_batch_v2(scope):
     if not scope: raise ValueError("batch judge requires --scope")
-    projection = v2_projection()
-    rows = [row for row in projection["conclusions"].values()
-            if row.get("scope") == scope and v2_state(projection, row) in {"needs_review", "unresolved"}]
-    if not rows: raise ValueError("no proposed conclusions require review in scope: " + scope)
-    evaluations = {row["id"]: evaluate_v2(row["id"]) for row in rows}
-    projection = v2_projection(); policy = load_v2_policy(); command = policy["judge"]["command"]
+    events = v2_events(); projection = v2_projection(events); policy = load_v2_policy()
+    candidates = [row for row in projection["conclusions"].values()
+                  if row.get("scope") == scope and
+                  v2_state(projection, row, policy) in {"needs_review", "unresolved"}]
+    rows = [row for row in candidates if not _current_judge_recommendation(projection, row, policy)]
+    if not rows:
+        existing = [projection["recommendations"][row["id"]] for row in candidates
+                    if _current_judge_recommendation(projection, row, policy)]
+        if existing:
+            receipts = sorted({row.get("batch_receipt") for row in existing
+                               if row.get("batch_receipt")})
+            return {"schema_version": "proofpress/judge-batch-result/v1", "scope": scope,
+                    "batch_receipt": receipts[0] if len(receipts) == 1 else None,
+                    "batch_receipts": receipts, "verdicts": existing, "idempotent": True}
+        raise ValueError("no proposed conclusions require review in scope: " + scope)
+    evaluations = {row["id"]: evaluate_v2(row["id"], projection=projection,
+                                            events=events, policy=policy) for row in rows}
+    command = policy["judge"]["command"]
     if not command: raise ValueError("no judge.command configured in .proofpress/policy.json")
     evidence_ids = sorted({ref for row in rows for ref in row["evidence_refs"]})
     packet = {
@@ -734,11 +748,13 @@ def judge_batch_v2(scope):
             raise ValueError("batch judge rationale is required")
         seen[cid] = verdict
     if set(seen) != expected: raise ValueError("batch judge omitted one or more conclusions")
-    transaction = append_v2({"type": "judge_batch_completed", "subject_ref": ident({"scope": scope,
-                            "conclusions": sorted(expected), "policy": policy["digest"], "at": now()}, "jbt_"),
-                            "scope": scope, "conclusion_ids": sorted(expected),
-                            "policy_digest": policy["digest"], "verdict_count": len(seen),
-                            "adapter": response.get("adapter", command[0]), "model": response.get("model")})
+    transaction = append_v2({"type": "judge_batch_completed",
+                             "subject_ref": ident({"scope": scope, "conclusions": sorted(expected),
+                                                  "policy": policy["digest"], "at": now()}, "jbt_"),
+                             "scope": scope, "conclusion_ids": sorted(expected),
+                             "policy_digest": policy["digest"], "verdict_count": len(seen),
+                             "adapter": response.get("adapter", command[0]), "model": response.get("model")},
+                            existing_rows=events)
     recorded, individual = [], []
     for row in rows:
         verdict = seen[row["id"]]
@@ -746,7 +762,8 @@ def judge_batch_v2(scope):
                            "conclusion_digest": row["digest"], "policy_digest": policy["digest"],
                            "recommendation": verdict["recommendation"], "rationale": verdict["rationale"],
                            "risk_level": verdict["risk_level"], "batch_receipt": transaction["event_id"],
-                           "adapter": response.get("adapter", command[0]), "model": response.get("model")})
+                           "adapter": response.get("adapter", command[0]), "model": response.get("model")},
+                          existing_rows=events)
         recorded.append(event)
         if verdict["risk_level"] == "high" or verdict["recommendation"] == "escalate":
             individual.append({"conclusion_id": row["id"], "trigger": "high_risk" if verdict["risk_level"] == "high" else "escalated",
@@ -754,6 +771,13 @@ def judge_batch_v2(scope):
     return {"schema_version": "proofpress/judge-batch-result/v1", "scope": scope,
             "batch_receipt": transaction["event_id"], "verdicts": recorded,
             "individual_reviews": individual}
+
+
+def _current_judge_recommendation(projection, row, policy):
+    recommendation = projection["recommendations"].get(row["id"])
+    return bool(recommendation and
+                recommendation.get("conclusion_digest") == row["digest"] and
+                recommendation.get("policy_digest") == policy["digest"])
 
 
 def review_v2(cid, decision, reviewer, note=None, request_id=None,
