@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Proofpress — Frozen Handoff Study</title>
+  <title>Proofpress improved Harvey LAB-derived tasks across all seven models</title>
   <style>
     :root {
       --paper: #faf9f5;
@@ -265,9 +265,9 @@
     }
 
     .poster-header h1 {
-      max-width: 960px;
-      font-size: clamp(54px, 6.6vw, 88px);
-      line-height: .94;
+      max-width: 980px;
+      font-size: clamp(52px, 6.1vw, 80px);
+      line-height: .96;
       letter-spacing: -.04em;
     }
 
@@ -349,7 +349,7 @@
     .chart-legend {
       display: flex;
       gap: 20px;
-      margin: 0 0 14px 158px;
+      margin: 0 0 14px 238px;
       color: var(--muted);
       font-size: 12px;
       font-weight: 700;
@@ -369,16 +369,24 @@
 
     .model-row {
       display: grid;
-      grid-template-columns: 140px minmax(300px, 1fr) 150px;
+      grid-template-columns: 220px minmax(300px, 1fr) 172px;
       gap: 18px;
       align-items: center;
-      min-height: 54px;
+      min-height: 66px;
       border-top: 1px solid #ece9e1;
     }
 
     .model-name {
-      font-size: 15px;
+      font-size: 16px;
       font-weight: 750;
+    }
+
+    .model-provider {
+      margin-top: 4px;
+      color: var(--muted);
+      font: 700 10px/1.2 ui-monospace, SFMono-Regular, Menlo, monospace;
+      letter-spacing: .06em;
+      text-transform: uppercase;
     }
 
     .paired-bars {
@@ -396,19 +404,29 @@
     .mini-bar.pp { width: var(--pp); background: var(--cyan); }
 
     .model-score {
-      display: flex;
-      align-items: baseline;
-      justify-content: space-between;
-      gap: 10px;
-      font: 700 13px/1 ui-monospace, SFMono-Regular, Menlo, monospace;
+      display: grid;
+      grid-template-columns: 54px 1fr;
+      gap: 6px 12px;
+      align-items: center;
+      font: 700 12px/1 ui-monospace, SFMono-Regular, Menlo, monospace;
       font-variant-numeric: tabular-nums;
     }
 
-    .model-score strong { color: var(--cyan); font-size: 15px; }
+    .model-score .ordinary-score { color: #777d80; }
+    .model-score .proof-score { color: var(--cyan); font-size: 14px; }
+    .model-score strong {
+      grid-column: 2;
+      grid-row: 1 / span 2;
+      color: var(--cyan);
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 24px;
+      font-weight: 600;
+      letter-spacing: -.025em;
+    }
 
     .model-axis {
       display: grid;
-      grid-template-columns: 140px minmax(300px, 1fr) 150px;
+      grid-template-columns: 220px minmax(300px, 1fr) 172px;
       gap: 18px;
       color: var(--muted);
       font: 700 10px/1 ui-monospace, SFMono-Regular, Menlo, monospace;
@@ -448,9 +466,10 @@
       .chart-heading { display: block; }
       .chart-heading p { margin-top: 8px; text-align: left; }
       .chart-legend { margin-left: 0; }
-      .model-row { grid-template-columns: 88px minmax(150px, 1fr); gap: 10px; padding: 7px 0; }
+      .model-row { grid-template-columns: 136px minmax(150px, 1fr); gap: 10px; padding: 8px 0; }
+      .model-name { font-size: 13px; }
       .model-score { grid-column: 2; }
-      .model-axis { grid-template-columns: 88px minmax(150px, 1fr); gap: 10px; }
+      .model-axis { grid-template-columns: 136px minmax(150px, 1fr); gap: 10px; }
       .model-axis div { grid-column: 2; }
       .poster-boundary { text-align: left; }
     }
@@ -480,7 +499,11 @@
 
 
 
-<meta name="proofpress:meta" content="eyJhcnRpZmFjdF9pZCI6InBwX2NmNTAzMzJmOTM0YTY2N2M3Y2UxZTM2YiIsInBvbGljeSI6InBvcnRhYmxlIiwicG9ydGFibGVfaGVhZCI6IjY2ZmM5ZTczIiwicG9ydGFibGVfaGVhZF9ldmVudCI6InBwZV83MmQ0ODE1MzYwYmE1NjEwYjIzNDk4OTQiLCJwb3J0YWJsZV9saW5lYWdlX2lkIjoicHBsX2FmY2UxMDI3ZWQ5ZmM5ZWUyNmI5YjdjYyIsInByb29mcHJlc3MiOjF9">
+
+
+
+
+<meta name="proofpress:meta" content="eyJhcnRpZmFjdF9pZCI6InBwX2NmNTAzMzJmOTM0YTY2N2M3Y2UxZTM2YiIsInBvbGljeSI6InBvcnRhYmxlIiwicG9ydGFibGVfaGVhZCI6ImVmYWMwYzk3IiwicG9ydGFibGVfaGVhZF9ldmVudCI6InBwZV8zODBlMmI3NjFiNTc2ZjZjOWI4NmI1NGUiLCJwb3J0YWJsZV9saW5lYWdlX2lkIjoicHBsX2FmY2UxMDI3ZWQ5ZmM5ZWUyNmI5YjdjYyIsInByb29mcHJlc3MiOjF9">
 <meta name="proofpress:discovery" content="Verifiable revision history by Proofpress | https://github.com/chenmingtang830/proofpress">
 </head>
 <body>
@@ -488,8 +511,8 @@
     <header class="poster-header">
       <div>
         <div class="brand"><span class="mark" aria-hidden="true"></span> Proofpress / verified handoff</div>
-        <h1 data-proofpress-id="1d393510">Proofpress improved rubric completion <em>across all seven models.</em></h1>
-        <p class="poster-intro" data-proofpress-id="370cbed7">On Harvey LAB-derived legal handoff tasks, governed context helped every model complete more of the work—and stopped every observed unsafe propagation event.</p>
+        <h1 data-proofpress-id="1d393510">Proofpress improved <em>Harvey LAB-derived tasks</em> across all seven models.</h1>
+        <p class="poster-intro" data-proofpress-id="370cbed7">Governed context increased rubric completion for every model—and stopped every observed unsafe propagation event.</p>
       </div>
       <div class="study-label">Frozen product study<br>August 26, 2026</div>
     </header>
@@ -507,45 +530,45 @@
 
     <section class="model-chart" aria-labelledby="quality-title">
       <div class="chart-heading">
-        <h2 id="quality-title" data-proofpress-id="dc01e281">Seven models. Seven gains.</h2>
-        <p data-proofpress-id="f42686c9">Each row pools that model’s matched clean and stress runs. Zoomed scale: 80–100%.</p>
+        <h2 id="quality-title" data-proofpress-id="dc01e281">Rubric completion by model</h2>
+        <p data-proofpress-id="f42686c9">Matched clean and stress runs · zoomed scale: 80–100%</p>
       </div>
       <div class="chart-legend" aria-label="Legend"><span class="legend-key">Ordinary</span><span class="legend-key proof">Proofpress</span></div>
 
       <div class="model-row">
-        <div class="model-name">DeepSeek</div>
+        <div><div class="model-name">DeepSeek V4 Flash 0731</div><div class="model-provider">DeepSeek · DeepInfra</div></div>
         <div class="paired-bars" style="--raw:45.4%; --pp:61.3%"><div class="mini-bar raw"></div><div class="mini-bar pp"></div></div>
-        <div class="model-score"><span>89.1 → 92.3</span><strong>+3.2pp</strong></div>
+        <div class="model-score"><span class="ordinary-score">89.1%</span><strong>+3.2pp</strong><span class="proof-score">92.3%</span></div>
       </div>
       <div class="model-row">
-        <div class="model-name">Opus 4.8</div>
+        <div><div class="model-name">Claude Opus 4.8</div><div class="model-provider">Anthropic</div></div>
         <div class="paired-bars" style="--raw:39.3%; --pp:80.0%"><div class="mini-bar raw"></div><div class="mini-bar pp"></div></div>
-        <div class="model-score"><span>87.9 → 96.0</span><strong>+8.2pp</strong></div>
+        <div class="model-score"><span class="ordinary-score">87.9%</span><strong>+8.2pp</strong><span class="proof-score">96.0%</span></div>
       </div>
       <div class="model-row">
-        <div class="model-name">GLM 5.2</div>
+        <div><div class="model-name">GLM 5.2</div><div class="model-provider">Z.ai</div></div>
         <div class="paired-bars" style="--raw:42.2%; --pp:62.7%"><div class="mini-bar raw"></div><div class="mini-bar pp"></div></div>
-        <div class="model-score"><span>88.4 → 92.5</span><strong>+4.1pp</strong></div>
+        <div class="model-score"><span class="ordinary-score">88.4%</span><strong>+4.1pp</strong><span class="proof-score">92.5%</span></div>
       </div>
       <div class="model-row">
-        <div class="model-name">Muse Spark</div>
+        <div><div class="model-name">Muse Spark 1.1</div><div class="model-provider">Meta</div></div>
         <div class="paired-bars" style="--raw:59.5%; --pp:78.6%"><div class="mini-bar raw"></div><div class="mini-bar pp"></div></div>
-        <div class="model-score"><span>91.9 → 95.7</span><strong>+3.8pp</strong></div>
+        <div class="model-score"><span class="ordinary-score">91.9%</span><strong>+3.8pp</strong><span class="proof-score">95.7%</span></div>
       </div>
       <div class="model-row">
-        <div class="model-name">Qwen 3.8</div>
+        <div><div class="model-name">Qwen 3.8 27B</div><div class="model-provider">Alibaba</div></div>
         <div class="paired-bars" style="--raw:45.1%; --pp:69.2%"><div class="mini-bar raw"></div><div class="mini-bar pp"></div></div>
-        <div class="model-score"><span>89.0 → 93.8</span><strong>+4.8pp</strong></div>
+        <div class="model-score"><span class="ordinary-score">89.0%</span><strong>+4.8pp</strong><span class="proof-score">93.8%</span></div>
       </div>
       <div class="model-row">
-        <div class="model-name">Inkling</div>
+        <div><div class="model-name">Inkling</div><div class="model-provider">Thinking Machines</div></div>
         <div class="paired-bars" style="--raw:48.4%; --pp:51.0%"><div class="mini-bar raw"></div><div class="mini-bar pp"></div></div>
-        <div class="model-score"><span>89.7 → 90.2</span><strong>+0.5pp</strong></div>
+        <div class="model-score"><span class="ordinary-score">89.7%</span><strong>+0.5pp</strong><span class="proof-score">90.2%</span></div>
       </div>
       <div class="model-row">
-        <div class="model-name">GPT-5.6 Sol</div>
+        <div><div class="model-name">GPT-5.6 Sol</div><div class="model-provider">OpenAI</div></div>
         <div class="paired-bars" style="--raw:46.3%; --pp:66.3%"><div class="mini-bar raw"></div><div class="mini-bar pp"></div></div>
-        <div class="model-score"><span>89.3 → 93.3</span><strong>+4.0pp</strong></div>
+        <div class="model-score"><span class="ordinary-score">89.3%</span><strong>+4.0pp</strong><span class="proof-score">93.3%</span></div>
       </div>
       <div class="model-axis" aria-hidden="true"><span></span><div><span>80%</span><span>90%</span><span>100%</span></div><span></span></div>
     </section>
@@ -565,6 +588,8 @@
 
 
 
-<script type="application/vnd.proofpress+json" data-proofpress="capsule">eNrtWttuI7kR_RVCQJ7Wksm-tzAxMEkWyQK7mGA2yUN2DYFXqeNWs4ek7NEYBuYfkpd8Sd7zKfMlKfZFatu6WHPZzAJ-MaxuijxVdepUsezbETWuUJS7WSFG01Fdz7iKcRgGKg8jmiQpT7kkMkzY6GzEtFjPRDGX1sFau6BBnExTJkkeZUGeqzxLGMlDnHEhM8ySiCgWBIylkmaEYEG4yBUVIsyzLGdUYCmCAPYVheX6Wpr1aHrrP7iZo3M4oaTOH3UGvzBZwoO_SVOogrJSIiOvC1voCi1gvTZrxNboz0ZrVRtpLXynpvyKzqU36t5jo_8hwdyV8RsunKvt9Px8XrjFik24Xp7zhayWRTV3tJpnIT6_920j36wK-H22stLMuK6srMAXzqzk3dloIal3YpIonss0HLVPZvK6WQTOlbM0EFFG4jDBjMYJwSwIozzLI49MG-dNm5VFJQF5H5FyRhXEAAepBPfBzjJIWM5SzltzOnQzTmu7KsHgwOPk2gg7mv50O-qOvx1BlLWx_rf2tRQzBi7_abSqrip9U40uwYaeDz7AbiUKac9LXc3HC22Kd7oay2tanhtZ0jWTFV-cQxRWtLQDN43hx6p0drJwy3J0dhLDqHOmYCsHgZ0xagvrYchSzagFhzsp_JqVAzDejKui8lvatXVyCW8quvTx7s05g69az5HRtFqVJRjHFxBU2bqFlZpfwWoCdAxjgmE5xNPJt970Fwty8UdPyUoKBF8SWimLXsjlRbEES6_hKXCl9uZ1IIDWDbraE1PenLCH9Na-OIfnH97_C5Yh4HNdw1ZuXXtzPIeAj6O7sy1owTGRQUYegA5QIX778-gNRKRw67ErXCl_Hl28XjFTcNQ9fnG-OAz7qbsEF4dBqihIsoTnXwJkjXgJnIB9LGQzOHBcaee3-YE6yGBwrSkcqAVFlBttLaJliUiQoJoWZgu7pobewxxhwSIVsd2YLVVyAPmvlX-AIJg1nVOP4kmOPbrLE3zLZA5qyr8Izr2-fcUgCT1vG0mxvWuTEHkMRpdls9U9316e9QI0glTw2TjjRtI2lZs3vS7IWRKGuZCxFEmqYhkroHiUUJX51AYEflWnkajTSASx5le1LirXSL5pTvLZ3n_yyX7pxbUs-Hqww1BwB5s0Uv6RWmy1cjMFkZKmNkUn-ZaRqQpxIDHjoPYpT9JEiJQTmVGV0IAp0EZBpGJpKHJveRJhkoQxC7jAKRMB8fZbR10j3W28pjGomX8wCnCQjHE2DpK_EDINyTTA32A8xV7POof7VGQBFJ2AAYe2T2__z2LfcLkV4wW1C1gfpiRUIQmDIFKwoNljoM8nivNuYYW3uufx6lFiTCD3yJ7c60DiTEXEg1Qy7UEO9PhknQsOH5dGeZoKiWWcbXwyUNb-uE8SRHhtwBfov_9Bf9d6CR8tp6Wcogx_eP9PgvFvXpzXFztks8OYpWGYkICnkLI9xoGSnixPx72isMx4okgIKdifONDEo155ipQBXzzFGw81vvnROwWeAsnhGw69k0bvcszlnUe6o--SAmLQd10gK5Wb6lpWtBhzLeTb0WXT0IkVP7LoQf-2b9GbFbTPm1WL1ZJWU-Deghox9u3tV9rwyeq6MLpa-toA7xsbdvV9jdnbtu8V2P_yO_T7xv6n9X55jjlTlH7ZKqqMlO_kWNCGea8bZyFl9DtZeVa9XM1X1qEgOUNezHcSCvCVtFjuRf8ARlct_1DYGuKG3EIiqEu0RKY_3CNCHhEqquY9KOZyVRW8MQx5jrhJe3DvmNvRzcJX0NcN-Qabetqs7-2p2z031Xr35id0BhxneSbiLAQtjDIaxnDJhBosN7YOS_6w3g3bgNtfOwee3i49bBfI3e5u4Fhn9FnaH7hFy5TigLEwjSB6WZKRMKOUQjMU8iDKVKhomGWpECzGLJIMSqyMcBrmLI4V22PPrvYnnsZkR_uT41xkGRfP7c9z-_Pc_nzp9mcLMyEcCx5FMo7zHuZAbx_D_Awy-dx7_Tp6r71zt-0UF20EzbSqsdG1bdVdalGoYjh32DUuCVMgnRTpJx52sMTXGpxlxoXPH59iFfoThRxbo-9f_m4sQHv83qWcQ8fUqTY6MIjiVBGF0-hLIm65A6yt11tl3tYOn3HfRBOCamk4hNvPW-oDkLGISYA_OaInQH61v5J1ygYScQDxaWPUH_2WCAgnSztB8OlUFp42ED3puKcNMrc7GLn0YfiFB5RHzv_cg8cdd6aB6jz2ZXdt-h7MQTeFW7SXmKYouP7q5BZQ-XzzYJvw1Fr7UtlECSplBbHacHyyT4J239a-fQuXte42tkM5es2wwH2JfD-36ePaeHUIJ_tk5Pgdkc7nBvQJLnBtdo4HWtAZ5QtDc_imnwLDHZ3sE4Ldh37v_57XHPmgFx0PM1ivHACQk30puzeA33lO-EreHNEEatxGyBtETWFhd2qbt0vvcmCggAIrUVtgJ_uydu-J4EVeaiu9VHZHeWZAUjTO8ge9azvLvqXsRbVtNSf7cvdRunQHvm4edPZ5wkPQKKdCLiFs1q19o9ayorltoy5F_W1f0WttkFYIYge9L1A7Gzs9xg-YPtmXzqdA6pSkxUArWNmGliogDyoglcHvellUFNo01GwIEJ1ud1nV_iLqYXfJ1ynJ3sEEMLkL-gNfbJndQmmym0Lg13LM_Q3BH9LZ37dUqC3oTQApcoZWtp0l3GMUo2bAqtOmGgf-GLxzqrG5xh6fajx3V8_d1XN39dxdfek_6z5pRPtweheebX3sP_Rwp8Hd7qndLzKmFKGIeEJTHCmSyYBLnidMiDSPGRYyiXPMk5QpRXCWsThLCcGEUMWyLE2ppPhUQ3fML6NkSpId88vNfxR93fNLJXIR4URGKSeH55dP0ayqmWkOxnV2mLLNYPP4tFJlgeICBwHQs4c0KFePJ1AfUWcctVf2DM37mWyXkdBzlXWbVWaNtv0nGAdtpzbS92C-V7nR5urBiLb9jj4mwJPD4zeWCE7DJJBA4d74QeV7bPzHlCz_bxO2fZOlm2vBYWAKBzQjISdZHPXABvXtGLAnFaYDx4dpAowIQ-i_4o8YYT8qHfBpDtcIT8qj4-wkiVUeiRQn4tA4--JbyhfI6JvmHmHba2dz5If3_7Zwa-mm2qWELrZlTpNNfo492TfFnnyN09rLu_8BuRsrrw</script>
+
+
+<script type="application/vnd.proofpress+json" data-proofpress="capsule">eNrtW92O28YVfpWBgFxlpZ3h8FdwDaRtkBZNkMJJe9HEEOZXYpciGQ65a3mxQN6hvemT9L6PkifpmSEpcbWUtLK9jgPsjbEkhzPn9zvnfKJvJ6yqU81EvUjlZD4py4XQAabU0wn1WRhGIhKKKBryycWEF3KzkOlSmRrWmhXzgnAeMc18z1NJSEPl8YDFoecFQex5koYej2RM4kAkXMrI8yn3Y-3HPg18QTkmsY9hX5kaUVyrajOZ39qLelGzJZyQsdoedQF_cJXBjb-rKtUp45lClbpOTVrkaAXri2qD-Ab9tSoKXVbKGHinZOKKLZVV6t7tqvinAnWbym64quvSzC8vl2m9avhMFOtLsVL5Os2XNcuXMcWX996u1E9NCn8vGqOqhShyo3KwRV016u5islLMGlGBPbFIokl7Z6Gu3SIwrlrQGIORopDwIAp1CHaJQx74ykpWVLVVbZGluQLJe49kC6bBB9iLlEy0SJTyQp7wSIhWnU66hWClaTJQ2LNyiqKSZjL_4XbSHX87AS8XlbF_tY-VXHAw-Q-TJr_Ki5t88hp06OPBOrhuZKrMZVbky-mqqNK3RT5V1yy7rFTGNlzlYnUJXmhYZgZmmsI_TVab2apeZ5OLsyKM1XWV8qYGxy44M6mxYqhML5gBg9dK2jVNDcJYNa7S3G5pNqZWa3iSs7X1d6_OBbxqbIxM5nmTZaCcWIFTVWsWnhXiClYTSRMaEBuH4M9avbGqv1iRl1_ZkMyVRPCSLLQ26IVav0zXoOk13IVYKa16nRBMSiddaQNT3Zyxh7LavriE-7_8_G9YhiCeyxK2qjelVcfGEMTj5O5iJ7QUmCgvJntCeyiVv_tx8hN4JK030zqtM_Xj5OWrhlepQN3tF5er42I_dhfv5XEhte-FMYT4UwhZIpFBTMA-BrIZDDjNi9pu8w2rIYPBtFVaA1owxERVGINYliHihahkabUTu2QVuyezjyX3tc_HZTZMq4HIf8vtDQTOLNmSWSkeZdiTuzzCtlwlREjxJHIetO23HJLQxq2DFNObNqTIylAVWea2umfb1xc9AE0gFWw2LkSlWJvK7kmPC2oRUppIFSgZRjpQgYYQ90OmY5vaIIFd1WEk6jASga_FVVmkee0gv3In2Wzvr2yyv7bgmqViM9hhCLiDTRyUvyMWm0LXCw2eUlVZpR3kG07mmmJPYS4w9yIRRiGUQkFUzHTIPK4BGyVRmkdUJlbz0MckpAH3hMQRlx6x-pua1Q66W3_NA0Aze2PiYS-c4njqhd8TMqdk7uHPMZ5ji2edwW0qco8E1OMQQ7u7t78y2LtYbsF4xcwK1tOIUE0J9TxfwwK3xwCfzwTncWCFp0Ufx82DxJhB7pEDudcJiaGDIVZIraJeyAEen41z3vHjIj-JIqmwCuKtTQbI2h_3XoAIjyuwBfrff9E_imINl0awTM1RjH_5-V8E489eXJYvR2CzkzGOKA2JJyJI2V7GAZKeDU-nraKxikWoCYUU7E8cYOJJqzwGyiBebIg7CznbfGeNAnchyOGNGr1VVTFmmNd3VtKRvktJ8EHfdQGs5PW8KFXO0qkopHozee0aOtmIE4v2-rdDi35qoH3erlo1a5bPIfZWrJJT295-og2fyq_TqsjXtjbAc6fDWN_n1N61fd-C_l_8Gf3B6f-43i9JsOCasaetorpS6q2aSuYi75UzFtJV8VblNqq-aJaNqZEXXiAL5qMBBfJlLF0flH5PjK5a_jE1JfgN1SuFoC6xDFX94VYiZCVCae6eA2KumzwVTjFkY6SetQf3hrmd3KxsBX3lgm-wqQ2bzb09i3bPbbUe3_yMzkDgOIllEFPAQj9mNKA4hhqstroOS_6w3g3bgNvfegw8vl3abxfI3Xg3cKoz-iDtD0zRKmLY45xGPngvDmNCY8YYNENUeH6sqWY0jiMpeYC5rziUWOXjiCY8CDQ_oM9Y-xPMAzLS_iQ4kXEs5HP789z-PLc_T93-7MQMicBS-L4KgqQXc4C3D8X8ADD53Hv9Nnqvg7zbjsVFW0CrWtTY4tqu6q4Lmep0yDuM0SU0gqBTMnrPw46W-LIAY1XT1OaPTbEc_YlBjm3Q11_8fioBe-zemVpCx9ShNjpCRAmmicaR_5QSt7EDUVtudsi8qx024z73ZwSVqhLgbsu3lEdExjIgHn5vj54h8reHK1mHbAARRyQ-j0b9zm6JIOBUZmYIrs6NwvMI0bOOexyRuduhUmvrho9MUJ44_0MTjyMz0wB1HtqyG5u-BnXQTVqv2iHGFYW6H53qFVQ-2zwY556yKGypdF6CSpmDr7YxPjsEQePT2pdvYFjrprER5Ogxw0DsK2T7uW0f1_qrk3B2CEZOz4hsuawAn2CAa7NzOsCCTilbGNzh234KFK_Z7BAQjB_6tf09zx2514tOhxlcNDUIoGaHUvagA_9sY8JWcneEc9S09ZBViFWpgd2ZcU_X1uQQgRIKrEJtgZ0dytqDJ4IVRVYYZaGyO8pGBiSFM5Y96G3bWfYtZQ-qbas5O5S7D9KlO_CVu9HpZwMenMYEk2oNbjP1xjZqbVS4aRt1KWqnfc2uiwoVGoHvoPeF0I6ndTHFe5E-O5TO54jUIUkrA8thZetapiF4UAqpDHYv1mnOoE1DbkMQsS7aXZrSDqJW7C75OiQ5SExAJHdO37PFLrJbUVx2M3D8Rk2FnRDsIZ3-fUuF2oLuHMhQXbHctFzCvYjirBpE1XmsRuRJP4ZJPMScBSHB3KN-Eif-IVZjO8aeZjWeu6vn7uq5u3rurp76Z91HUbT77B292NnYXvTizr27cdbuo9CUkkpfhCzCviax8oQSSWi_WkoCjqUKgwSLMOJaExzHPIgjQjAhTPM4jiKmGD5X0RH-0g_nJBzhL8PQahHRT5y_1DKRPg6VHwlynL98DGbljtMc0HVmmLKO2DzNVurY00Jiz4Pw7EUalKuHDNQ71JmamStzgZY9J9tlJPRcWdlmVbVBu_4TlIO2s6iU7cFsr3JTVFd7FG37TnEKgGfH6TceSsFo6CkI4V75QeV7qPy7lCz72YRpn8TRdiw4LpjGHosJFSQO_F6wQX07JdijCtOR42kUQkRQCv1X8A4U9oPSAVdLGCNsUJ6ks8Mw0IkvIxzKY3T2yy-ZWKGquHFzhGnHTnfkLz__x8DU0rHamYIuto0cl02Wx54dYrFnv2m29jhNe5yffRwx-wnzsic_gnSKfPBvIMdw2qLyEBOfdFo457D3bEAfwN3TNqBnHfe-lNY37EqZe3SWVcC2TUi9KaGzAqE2yMbOIfrJFjnkonHLaECpTGt42NEIbq7fr9YdGgz5sVO02EPpv0-Xq1rlpmMF1msGxbEjCeqbAq0VM439Fa9XrmOOzHykqbjHnI38Ano22_RKOZea_jOKAcH08HTedQLnU0x_UarsKSsH_lPA-nss0x7D9FmL_5bTSu1HGLntSTqrbbkLc4BLsQHTfuLROnCPBYUGyO0JOjLkMBB8ctWTLXleNLlouULuwsqKeCCwXExdoMbYNeoNYGQnnaXkwLIAvhdOPUvuOJpm23y0obi7nrpmpK3FIJWBHZCydRQUPY-ZOfKZ_igzs23QPzAz84y1vyLWPp6t2859u2nPvxsf4D7KKMviMKJeFHjYj2AYiyOaJHYYIFRHNAxlRKQMqIiSWIAqPuci0Vx5EYkxg2gnh1UaGVqDYE6jkaF1-99gPu2hNZQKQpf7CUnw-UPrfs4MqqVxIyo6PMCeml2JkLHHYFIhmr7L7PrV_kCa5hbwzOisrYtqOKk-z6MfcR5NFGSjFLEI-Ht8UjXSZZyeRz0mPaVDTCKBj86j3xybOK25377Ll1O_zsj5-u7_CB371w</script>
 </body>
 </html>
