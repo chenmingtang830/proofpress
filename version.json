@@ -1,66 +1,60 @@
 {
- "artifact": "studies/long-horizon-eval/ara/logic/solution/algorithm.md",
- "artifact_id": "pp_681b5b75b63883f754a3ae81",
+ "artifact": "studies/long-horizon-eval/ara/logic/solution/constraints.md",
+ "artifact_id": "pp_7e17b9b0c3cb3eddc4daf9d1",
  "blocks": [
   {
    "type": "heading",
-   "text": "# Algorithm",
-   "id": "9d1e99a5",
-   "hash": "0813c15cbfb9"
+   "text": "# Constraints",
+   "id": "43fa877f",
+   "hash": "3e0e0f1ca4aa"
   },
   {
    "type": "heading",
-   "text": "## Inputs",
-   "id": "4feb48f6",
-   "hash": "f679398c02c4"
+   "text": "## Claim constraints",
+   "id": "8c6ac932",
+   "hash": "3e4120cc3024"
   },
   {
    "type": "list",
-   "text": "- Frozen task definition, source revisions, rubric, model route, provider allowlist, and output caps.\n- One S1-S3 sender state per model/task.\n- Condition manifest: ordinary portable handoff or Proofpress governed ledger.\n- Optional preregistered trust-stress fixture.",
-   "id": "8ada3d1d",
-   "hash": "b9c0118b081f"
+   "text": "- Results are Harvey LAB-derived, not official Harvey leaderboard scores.\n- The aggregate is descriptive for a frozen panel; no statistical-significance or population causal claim is made.\n- Rubric quality is not a legal-correctness or deployment-safety endpoint.\n- Controlled trust failures measure protection under frozen fixtures, not real-world prevalence.\n- The DeepSeek fourteen-scenario expansion is secondary and cannot support a seven-model breadth claim.",
+   "id": "bd2c05d3",
+   "hash": "ade104a5ab5d"
   },
   {
    "type": "heading",
-   "text": "## Paired execution",
-   "id": "3169d81e",
-   "hash": "da4c51b63780"
+   "text": "## Experimental constraints",
+   "id": "2acec127",
+   "hash": "c81a1894b84f"
   },
   {
    "type": "list",
-   "text": "1. Verify task sources and experiment manifest before any receiver call.\n2. Generate S1-S3 once; freeze its artifacts and telemetry.\n3. For each clean/stress cell, construct byte-matched condition inputs.\n4. Ordinary: expose the portable handoff without ledger current-state metadata.\n5. Proofpress: import evidence, propose conclusions, run deterministic checks, batch policy review, record verdict receipts, admit eligible conclusions, and assemble a scoped working set.\n6. Start fresh S4 workers with identical model route, tools, caps, and rubric.\n7. Reject the entire pair on cap hit, invalid JSON, transport failure, model/provider mismatch, or cap mismatch.\n8. Score valid deliverables for rubric quality and, for stress cells, unsafe propagation.\n9. Repeat each receiver cell three times from the same frozen sender state.\n10. Aggregate only result files named and hashed by the final receipt manifest.",
-   "id": "0dccccdd",
-   "hash": "273d7d15db6c"
+   "text": "- Raw and Proofpress conditions must share task sources, sender state, model/provider route, tools, S4 rubric, and worker caps.\n- One sender state is reused across clean/stress cells and receiver repeats within a model/task.\n- Each cell has three receiver repeats.\n- Exact cap hit, truncated/invalid JSON, transport failure, identity mismatch, or cap mismatch invalidates the paired run.\n- Invalid attempts, calibration runs, and incomplete panels remain retained but excluded.",
+   "id": "f13e7338",
+   "hash": "3ab3fc13742e"
   },
   {
    "type": "heading",
-   "text": "## Fail-closed admission",
-   "id": "4a9455d5",
-   "hash": "4e2c66954539"
-  },
-  {
-   "type": "code",
-   "text": "```text\nproposed conclusion\n  -> deterministic integrity/current-state checks\n  -> transaction-level policy recommendation\n  -> per-conclusion verdict receipt\n  -> authorized admission or rejection/escalation\n  -> current scoped working set\n```",
-   "id": "38b0578f",
-   "hash": "d25cbbb37b4d"
-  },
-  {
-   "type": "para",
-   "text": "An LM recommendation never grants admission by itself. Missing evidence, stale policy, superseded state, or an invalid receipt blocks reuse.",
-   "id": "6c54a20c",
-   "hash": "52e43acfa61e"
-  },
-  {
-   "type": "heading",
-   "text": "## Published estimands",
-   "id": "682198db",
-   "hash": "b250404a06cc"
+   "text": "## Governance constraints",
+   "id": "b88d121a",
+   "hash": "410e322fdfa2"
   },
   {
    "type": "list",
-   "text": "- **Quality**: passed matched rubric criteria per condition for the frozen panel.\n- **Unsafe propagation**: count of fixture-defined unsafe state propagation among admitted stress pairs.\n- **Operational overhead**: additional tokens and latency attributable to selection, judging, compilation, and evidence expansion where telemetry is complete.\n- **Invalidity**: preserved attempt-level reasons, excluded from treatment summaries but retained as route and implementation evidence.",
-   "id": "ebce6d57",
-   "hash": "4aeb00ad1ef6"
+   "text": "- Deterministic evidence and version checks precede LM policy review.\n- Policy review is transaction-level but returns independent per-conclusion verdicts and receipts.\n- LM recommendations are `accept`, `reject`, or `escalate`; they do not directly admit knowledge.\n- Superseded, expired, out-of-scope, or unauthorized conclusions cannot enter trusted context.",
+   "id": "c3f7fb0c",
+   "hash": "5cfbd9642bbb"
+  },
+  {
+   "type": "heading",
+   "text": "## Artifact constraints",
+   "id": "194b241e",
+   "hash": "05ad5b528260"
+  },
+  {
+   "type": "list",
+   "text": "- The ARA is a retrospective compilation from committed study records.\n- No historical session logs, staging observations, raw prompts, hidden reasoning, credentials, or unlicensed documents may be fabricated or copied into the artifact.\n- Reconstructed trace nodes must carry a source pointer and `compiled_retrospectively: true`.\n- Future evidence requires a new preregistered study and may not mutate this frozen result.",
+   "id": "1665f3b6",
+   "hash": "f27bfe4701e5"
   }
  ]
 }

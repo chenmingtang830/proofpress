@@ -1,86 +1,79 @@
 {
  "event": "version_created",
- "artifact": "studies/long-horizon-eval/ara/logic/solution/algorithm.md",
- "artifact_id": "pp_681b5b75b63883f754a3ae81",
- "version": "46a38d74",
- "parent": "20d14177",
+ "artifact": "studies/long-horizon-eval/ara/logic/solution/constraints.md",
+ "artifact_id": "pp_7e17b9b0c3cb3eddc4daf9d1",
+ "version": "4493cecf",
+ "parent": "c8204115",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-26T13:05:11+00:00",
+ "ts": "2026-08-26T13:05:17+00:00",
  "stats": {
-  "added": 9
+  "added": 8
  },
  "changes": [
   {
    "kind": "added",
-   "block": "4feb48f6",
+   "block": "8c6ac932",
    "type": "heading",
-   "context": "Inputs",
-   "preview": "## Inputs"
+   "context": "Claim constraints",
+   "preview": "## Claim constraints"
   },
   {
    "kind": "added",
-   "block": "8ada3d1d",
+   "block": "bd2c05d3",
    "type": "list",
-   "context": "Inputs",
-   "preview": "- Frozen task definition, source revisions, rubric, model ro"
+   "context": "Claim constraints",
+   "preview": "- Results are Harvey LAB-derived, not official Harvey leader"
   },
   {
    "kind": "added",
-   "block": "3169d81e",
+   "block": "2acec127",
    "type": "heading",
-   "context": "Paired execution",
-   "preview": "## Paired execution"
+   "context": "Experimental constraints",
+   "preview": "## Experimental constraints"
   },
   {
    "kind": "added",
-   "block": "0dccccdd",
+   "block": "f13e7338",
    "type": "list",
-   "context": "Paired execution",
-   "preview": "1. Verify task sources and experiment manifest before any re"
+   "context": "Experimental constraints",
+   "preview": "- Raw and Proofpress conditions must share task sources, sen"
   },
   {
    "kind": "added",
-   "block": "4a9455d5",
+   "block": "b88d121a",
    "type": "heading",
-   "context": "Fail-closed admission",
-   "preview": "## Fail-closed admission"
+   "context": "Governance constraints",
+   "preview": "## Governance constraints"
   },
   {
    "kind": "added",
-   "block": "38b0578f",
-   "type": "code",
-   "context": "Fail-closed admission",
-   "preview": "```text\nproposed conclusion\n  -> deterministic integrity/cur"
-  },
-  {
-   "kind": "added",
-   "block": "6c54a20c",
-   "type": "para",
-   "context": "Fail-closed admission",
-   "preview": "An LM recommendation never grants admission by itself. Missi"
-  },
-  {
-   "kind": "added",
-   "block": "682198db",
-   "type": "heading",
-   "context": "Published estimands",
-   "preview": "## Published estimands"
-  },
-  {
-   "kind": "added",
-   "block": "ebce6d57",
+   "block": "c3f7fb0c",
    "type": "list",
-   "context": "Published estimands",
-   "preview": "- **Quality**: passed matched rubric criteria per condition "
+   "context": "Governance constraints",
+   "preview": "- Deterministic evidence and version checks precede LM polic"
+  },
+  {
+   "kind": "added",
+   "block": "194b241e",
+   "type": "heading",
+   "context": "Artifact constraints",
+   "preview": "## Artifact constraints"
+  },
+  {
+   "kind": "added",
+   "block": "1665f3b6",
+   "type": "list",
+   "context": "Artifact constraints",
+   "preview": "- The ARA is a retrospective compilation from committed stud"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:f2ebecd3ce3ce8de9ba52e57aefa3352546ae29f8d4a4276a8472891fbf13344",
+ "soft_fingerprint": "ppsb1:a2f85217585f38901134065dadc98b30441cd07e74a4e16a214bbcc201cc1669",
  "actors": {
   "requested_by": [
    "human:richardtang"
@@ -98,53 +91,48 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "4feb48f6",
+   "block": "8c6ac932",
    "kind": "added",
-   "note": "Adds publication-grade ARA content: ## Inputs"
+   "note": "Adds publication-grade ARA content: ## Claim constraints"
   },
   {
-   "block": "8ada3d1d",
+   "block": "bd2c05d3",
    "kind": "added",
-   "note": "Adds publication-grade ARA content: - Frozen task definition, source revisions, rubric, model route, provider allowlist, and output caps."
+   "note": "Adds publication-grade ARA content: - Results are Harvey LAB-derived, not official Harvey leaderboard scores."
   },
   {
-   "block": "3169d81e",
+   "block": "2acec127",
    "kind": "added",
-   "note": "Adds publication-grade ARA content: ## Paired execution"
+   "note": "Adds publication-grade ARA content: ## Experimental constraints"
   },
   {
-   "block": "0dccccdd",
+   "block": "f13e7338",
    "kind": "added",
-   "note": "Adds publication-grade ARA content: 1. Verify task sources and experiment manifest before any receiver call."
+   "note": "Adds publication-grade ARA content: - Raw and Proofpress conditions must share task sources, sender state, model/provider route, tools, S4 rubric, and worker caps."
   },
   {
-   "block": "4a9455d5",
+   "block": "b88d121a",
    "kind": "added",
-   "note": "Adds publication-grade ARA content: ## Fail-closed admission"
+   "note": "Adds publication-grade ARA content: ## Governance constraints"
   },
   {
-   "block": "38b0578f",
+   "block": "c3f7fb0c",
    "kind": "added",
-   "note": "Adds publication-grade ARA content: ```text"
+   "note": "Adds publication-grade ARA content: - Deterministic evidence and version checks precede LM policy review."
   },
   {
-   "block": "6c54a20c",
+   "block": "194b241e",
    "kind": "added",
-   "note": "Adds publication-grade ARA content: An LM recommendation never grants admission by itself. Missing evidence, stale policy, superseded state, or an invalid receipt blocks reuse."
+   "note": "Adds publication-grade ARA content: ## Artifact constraints"
   },
   {
-   "block": "682198db",
+   "block": "1665f3b6",
    "kind": "added",
-   "note": "Adds publication-grade ARA content: ## Published estimands"
-  },
-  {
-   "block": "ebce6d57",
-   "kind": "added",
-   "note": "Adds publication-grade ARA content: - **Quality**: passed matched rubric criteria per condition for the frozen panel."
+   "note": "Adds publication-grade ARA content: - The ARA is a retrospective compilation from committed study records."
   }
  ],
  "context": {
   "why": "Compile the frozen PR #35 study into a publication-grade ARA 2.6 artifact without changing results or inventing historical research traces."
  },
- "event_id": "ppe_2180ed1f98472858daf7f1df"
+ "event_id": "ppe_a4a5ca745513f62268acd197"
 }
