@@ -1,37 +1,51 @@
 {
  "event": "version_created",
- "artifact": "studies/long-horizon-eval/ara/src/artifacts.md",
- "artifact_id": "pp_8daa10214932fdfd6435f2cc",
- "version": "cf33db22",
- "parent": "e5850ae0",
+ "artifact": "studies/long-horizon-eval/ara/src/configs/training.md",
+ "artifact_id": "pp_d651748566b09a6d61d40419",
+ "version": "ff5bfd92",
+ "parent": "98fb4461",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-26T13:05:30+00:00",
+ "ts": "2026-08-26T13:05:36+00:00",
  "stats": {
-  "modified": 1,
-  "added": 1
+  "added": 4
  },
  "changes": [
   {
-   "kind": "modified",
-   "block": "e367e3b0",
-   "type": "table",
-   "context": "Artifact index"
+   "kind": "added",
+   "block": "ec1521ae",
+   "type": "para",
+   "context": "Study configuration",
+   "preview": "This is an evaluation rather than a training run. The filena"
   },
   {
    "kind": "added",
-   "block": "a05b7bf2",
+   "block": "8ade7156",
+   "type": "table",
+   "context": "Study configuration",
+   "preview": "| Parameter | Frozen value |\n| --- | --- |\n| Task families |"
+  },
+  {
+   "kind": "added",
+   "block": "7ba64149",
    "type": "para",
-   "context": "Artifact index",
-   "preview": "The adjacent RelayBench directory remains the executable sou"
+   "context": "Study configuration",
+   "preview": "Canonical machine-readable sources:"
+  },
+  {
+   "kind": "added",
+   "block": "4f9a1c53",
+   "type": "list",
+   "context": "Study configuration",
+   "preview": "- [`../../../relaybench/bench/experiments/treatment-effect-p"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:58f0e239114b1639ee3ddd6a28516fd0b5bcda7265b2c3afbe0692a55ff873e8",
+ "soft_fingerprint": "ppsb1:f9dc8c8f1c3e934894710e626dc52a9b8194b61b1fd2e38f16fe1b32c997a966",
  "actors": {
   "requested_by": [
    "human:richardtang"
@@ -49,18 +63,28 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "e367e3b0",
-   "kind": "modified",
-   "note": "Indexes environment, configs, executable verifier, and reconstructed DAG."
+   "block": "ec1521ae",
+   "kind": "added",
+   "note": "Adds publication-grade ARA content: This is an evaluation rather than a training run. The filename is retained for ARA Seal compatibility; it records the frozen execution contr"
   },
   {
-   "block": "a05b7bf2",
+   "block": "8ade7156",
    "kind": "added",
-   "note": "Explains why the ARA points to rather than duplicates the adjacent RelayBench harness."
+   "note": "Adds publication-grade ARA content: | Parameter | Frozen value |"
+  },
+  {
+   "block": "7ba64149",
+   "kind": "added",
+   "note": "Adds publication-grade ARA content: Canonical machine-readable sources:"
+  },
+  {
+   "block": "4f9a1c53",
+   "kind": "added",
+   "note": "Adds publication-grade ARA content: - [`../../../relaybench/bench/experiments/treatment-effect-protocol-v9.json`](../../../relaybench/bench/experiments/treatment-effect-protoco"
   }
  ],
  "context": {
   "why": "Compile the frozen PR #35 study into a publication-grade ARA 2.6 artifact without changing results or inventing historical research traces."
  },
- "event_id": "ppe_deb63af9fc7c93a2099b0ec5"
+ "event_id": "ppe_3008c00692e2d38c6f3b33bb"
 }

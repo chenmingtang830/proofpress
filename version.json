@@ -1,30 +1,36 @@
 {
- "artifact": "studies/long-horizon-eval/ara/src/artifacts.md",
- "artifact_id": "pp_8daa10214932fdfd6435f2cc",
+ "artifact": "studies/long-horizon-eval/ara/src/configs/training.md",
+ "artifact_id": "pp_d651748566b09a6d61d40419",
  "blocks": [
   {
    "type": "heading",
-   "text": "# Artifact index",
-   "id": "abb736b5",
-   "hash": "87fb5e30d55f"
+   "text": "# Study configuration",
+   "id": "2a96ef32",
+   "hash": "06ce430d7d08"
+  },
+  {
+   "type": "para",
+   "text": "This is an evaluation rather than a training run. The filename is retained for ARA Seal compatibility; it records the frozen execution controls.",
+   "id": "ec1521ae",
+   "hash": "e33c838b125e"
   },
   {
    "type": "table",
-   "text": "| Artifact | Role | Current status |\n| --- | --- | --- |\n| [`../../relaybench/PUBLIC_RESULTS.md`](../../relaybench/PUBLIC_RESULTS.md) | Public one-page result | Frozen synthesis |\n| [`../../relaybench/visuals/proofpress-results.html`](../../relaybench/visuals/proofpress-results.html) | Communication chart | Frozen synthesis |\n| [`../evidence/FINAL_RESULTS_RECEIPTS.json`](../evidence/FINAL_RESULTS_RECEIPTS.json) | Content-addressed receipt manifest | Frozen evidence |\n| [`../../relaybench/results/`](../../relaybench/results/) | Per-model results and retained attempts | Frozen evidence set |\n| [`../../relaybench/CLAIM_BOUNDARIES.md`](../../relaybench/CLAIM_BOUNDARIES.md) | Public and research claim boundary | Active |\n| [`../decisions/REGISTER.md`](../decisions/REGISTER.md) | Decision lifecycle and study closure | Closed |\n| [`environment.md`](environment.md) | Reproduction runtime and secret boundary | Frozen specification |\n| [`configs/training.md`](configs/training.md) | Frozen execution controls | Frozen specification |\n| [`configs/model.md`](configs/model.md) | Admitted model-panel routes | Frozen specification |\n| [`execution/verify_receipts.py`](execution/verify_receipts.py) | Local SHA-256 receipt verifier | Executable kernel |\n| [`../trace/exploration_tree.yaml`](../trace/exploration_tree.yaml) | Source-bound retrospective research DAG | Append-only reconstruction |",
-   "id": "e367e3b0",
-   "hash": "dbf17f29cc43"
+   "text": "| Parameter | Frozen value |\n| --- | --- |\n| Task families | Credit lending, master services agreement, software license agreement |\n| Design | Clean/stress 2×2 × ordinary/Proofpress |\n| Receiver repeats | 3 per cell |\n| Sender reuse | One S1-S3 state per model/task |\n| Cold boundary | Immediately before S4 |\n| S1-S3 output cap | 32,000 tokens |\n| S4 output cap | 64,000 tokens |\n| Trace/graph selection cap | 8,000 tokens |\n| Working-set compiler cap | 24,000 tokens |\n| Completeness supplement cap | 12,000 tokens |\n| Transaction-level batch judge cap | 64,000 tokens |\n| Pair invalidation | Cap hit, invalid/truncated JSON, provider timeout/socket failure, identity mismatch, or condition cap mismatch |",
+   "id": "8ade7156",
+   "hash": "87fe3c4c6171"
   },
   {
    "type": "para",
-   "text": "The ARA references version-pinned artifacts rather than copying their contents. Historical plans and Phase Zero readiness files remain in place as provenance, while the receipt manifest identifies the evidence admitted to the final result.",
-   "id": "dff6d43f",
-   "hash": "511929a6c878"
+   "text": "Canonical machine-readable sources:",
+   "id": "7ba64149",
+   "hash": "bbce7ef51283"
   },
   {
-   "type": "para",
-   "text": "The adjacent RelayBench directory remains the executable source of truth for stage control, condition assembly, model adapters, scoring, aggregation, and tests. The ARA curates configuration, an evidence verifier, and immutable pointers instead of duplicating the harness.",
-   "id": "a05b7bf2",
-   "hash": "2024e99e341f"
+   "type": "list",
+   "text": "- [`../../../relaybench/bench/experiments/treatment-effect-protocol-v9.json`](../../../relaybench/bench/experiments/treatment-effect-protocol-v9.json)\n- [`../../../relaybench/bench/experiments/cross-model-replication-v1.json`](../../../relaybench/bench/experiments/cross-model-replication-v1.json)\n- [`../../../relaybench/bench/experiments/portability-amendment-v10.json`](../../../relaybench/bench/experiments/portability-amendment-v10.json)",
+   "id": "4f9a1c53",
+   "hash": "ff2dbfaf0264"
   }
  ]
 }
