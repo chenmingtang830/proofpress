@@ -1,60 +1,72 @@
 {
- "artifact": "studies/long-horizon-eval/ara/logic/solution/constraints.md",
- "artifact_id": "pp_7e17b9b0c3cb3eddc4daf9d1",
+ "artifact": "studies/long-horizon-eval/ara/logic/solution/heuristics.md",
+ "artifact_id": "pp_1efdedde7c41c74408b9f4c6",
  "blocks": [
   {
    "type": "heading",
-   "text": "# Constraints",
-   "id": "43fa877f",
-   "hash": "3e0e0f1ca4aa"
+   "text": "# Heuristics",
+   "id": "b06181ef",
+   "hash": "a5e73b637cc9"
   },
   {
    "type": "heading",
-   "text": "## Claim constraints",
-   "id": "8c6ac932",
-   "hash": "3e4120cc3024"
+   "text": "## H01: Freeze once, fork many",
+   "id": "c7ffb944",
+   "hash": "fa5db80f3b2d"
   },
   {
    "type": "list",
-   "text": "- Results are Harvey LAB-derived, not official Harvey leaderboard scores.\n- The aggregate is descriptive for a frozen panel; no statistical-significance or population causal claim is made.\n- Rubric quality is not a legal-correctness or deployment-safety endpoint.\n- Controlled trust failures measure protection under frozen fixtures, not real-world prevalence.\n- The DeepSeek fourteen-scenario expansion is secondary and cannot support a seven-model breadth claim.",
-   "id": "bd2c05d3",
-   "hash": "ade104a5ab5d"
+   "text": "- **Rationale**: Reusing one sender state for both conditions and all receiver repeats removes sender sampling as a condition-specific source of variation.\n- **Sensitivity**: Regenerating sender work per condition would mix handoff treatment with sender variance.\n- **Bounds**: Applies within each frozen model/task; it does not remove receiver or evaluator variance.\n- **Code ref**: [src/execution/verify_receipts.py].",
+   "id": "a87a94e9",
+   "hash": "fd8f9b8a3394"
   },
   {
    "type": "heading",
-   "text": "## Experimental constraints",
-   "id": "2acec127",
-   "hash": "c81a1894b84f"
+   "text": "## H02: Keep clean tax and protection benefit separate",
+   "id": "9998f564",
+   "hash": "ec4bc18f2e31"
   },
   {
    "type": "list",
-   "text": "- Raw and Proofpress conditions must share task sources, sender state, model/provider route, tools, S4 rubric, and worker caps.\n- One sender state is reused across clean/stress cells and receiver repeats within a model/task.\n- Each cell has three receiver repeats.\n- Exact cap hit, truncated/invalid JSON, transport failure, identity mismatch, or cap mismatch invalidates the paired run.\n- Invalid attempts, calibration runs, and incomplete panels remain retained but excluded.",
-   "id": "f13e7338",
-   "hash": "3ab3fc13742e"
+   "text": "- **Rationale**: Clean cells measure whether governance harms ordinary continuation; stress cells measure whether it blocks a defined trust failure.\n- **Sensitivity**: Aggregating the arms can hide a clean-handoff regression or overstate protection.\n- **Bounds**: The two arms may share rubric denominators only in explicitly bounded descriptive summaries.\n- **Code ref**: [src/execution/verify_receipts.py].",
+   "id": "4478761a",
+   "hash": "674b67c65555"
   },
   {
    "type": "heading",
-   "text": "## Governance constraints",
-   "id": "b88d121a",
-   "hash": "410e322fdfa2"
+   "text": "## H03: Fail closed and retain every invalid attempt",
+   "id": "f5ee07e9",
+   "hash": "9148186980e5"
   },
   {
    "type": "list",
-   "text": "- Deterministic evidence and version checks precede LM policy review.\n- Policy review is transaction-level but returns independent per-conclusion verdicts and receipts.\n- LM recommendations are `accept`, `reject`, or `escalate`; they do not directly admit knowledge.\n- Superseded, expired, out-of-scope, or unauthorized conclusions cannot enter trusted context.",
-   "id": "c3f7fb0c",
-   "hash": "5cfbd9642bbb"
+   "text": "- **Rationale**: Transport, parser, cap, or identity failures are properties of the evaluated route and must not disappear through fallback or selective retry.\n- **Sensitivity**: Silent retries or provider fallback would make route validity and operational cost uninterpretable.\n- **Bounds**: Invalid attempts do not enter quality or unsafe-propagation denominators.\n- **Code ref**: [src/execution/verify_receipts.py].",
+   "id": "42d9a21c",
+   "hash": "88e0e5e810de"
   },
   {
    "type": "heading",
-   "text": "## Artifact constraints",
-   "id": "194b241e",
-   "hash": "05ad5b528260"
+   "text": "## H04: Batch policy review, preserve item-level governance",
+   "id": "56d0070d",
+   "hash": "b535cba406c8"
   },
   {
    "type": "list",
-   "text": "- The ARA is a retrospective compilation from committed study records.\n- No historical session logs, staging observations, raw prompts, hidden reasoning, credentials, or unlicensed documents may be fabricated or copied into the artifact.\n- Reconstructed trace nodes must carry a source pointer and `compiled_retrospectively: true`.\n- Future evidence requires a new preregistered study and may not mutate this frozen result.",
-   "id": "1665f3b6",
-   "hash": "f27bfe4701e5"
+   "text": "- **Rationale**: One transaction-level judge call reduces inference overhead while independent verdicts and receipts preserve conclusion-level auditability.\n- **Sensitivity**: A single transaction-level verdict would erase which conclusion was rejected or escalated.\n- **Bounds**: Deterministic checks remain per item and higher-risk escalations may receive separate review.\n- **Code ref**: [src/execution/verify_receipts.py].",
+   "id": "dee706c1",
+   "hash": "7f3b7a7d7956"
+  },
+  {
+   "type": "heading",
+   "text": "## H05: Publish from content-addressed receipts",
+   "id": "02932426",
+   "hash": "148efc256447"
+  },
+  {
+   "type": "list",
+   "text": "- **Rationale**: The result set should be reproducible from explicit paths and digests rather than whichever files happen to exist in a results directory.\n- **Sensitivity**: Directory-wide aggregation could silently absorb later or invalid panels.\n- **Bounds**: Digest validity proves file identity, not correctness of the underlying evaluation.\n- **Code ref**: [src/execution/verify_receipts.py].",
+   "id": "946b4dcd",
+   "hash": "a71bd86f2722"
   }
  ]
 }

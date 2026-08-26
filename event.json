@@ -1,79 +1,93 @@
 {
  "event": "version_created",
- "artifact": "studies/long-horizon-eval/ara/logic/solution/constraints.md",
- "artifact_id": "pp_7e17b9b0c3cb3eddc4daf9d1",
- "version": "4493cecf",
- "parent": "c8204115",
+ "artifact": "studies/long-horizon-eval/ara/logic/solution/heuristics.md",
+ "artifact_id": "pp_1efdedde7c41c74408b9f4c6",
+ "version": "298a21bb",
+ "parent": "4267456c",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-26T13:05:17+00:00",
+ "ts": "2026-08-26T13:05:23+00:00",
  "stats": {
-  "added": 8
+  "added": 10
  },
  "changes": [
   {
    "kind": "added",
-   "block": "8c6ac932",
+   "block": "c7ffb944",
    "type": "heading",
-   "context": "Claim constraints",
-   "preview": "## Claim constraints"
+   "context": "H01: Freeze once, fork many",
+   "preview": "## H01: Freeze once, fork many"
   },
   {
    "kind": "added",
-   "block": "bd2c05d3",
+   "block": "a87a94e9",
    "type": "list",
-   "context": "Claim constraints",
-   "preview": "- Results are Harvey LAB-derived, not official Harvey leader"
+   "context": "H01: Freeze once, fork many",
+   "preview": "- **Rationale**: Reusing one sender state for both condition"
   },
   {
    "kind": "added",
-   "block": "2acec127",
+   "block": "9998f564",
    "type": "heading",
-   "context": "Experimental constraints",
-   "preview": "## Experimental constraints"
+   "context": "H02: Keep clean tax and protection benef",
+   "preview": "## H02: Keep clean tax and protection benefit separate"
   },
   {
    "kind": "added",
-   "block": "f13e7338",
+   "block": "4478761a",
    "type": "list",
-   "context": "Experimental constraints",
-   "preview": "- Raw and Proofpress conditions must share task sources, sen"
+   "context": "H02: Keep clean tax and protection benef",
+   "preview": "- **Rationale**: Clean cells measure whether governance harm"
   },
   {
    "kind": "added",
-   "block": "b88d121a",
+   "block": "f5ee07e9",
    "type": "heading",
-   "context": "Governance constraints",
-   "preview": "## Governance constraints"
+   "context": "H03: Fail closed and retain every invali",
+   "preview": "## H03: Fail closed and retain every invalid attempt"
   },
   {
    "kind": "added",
-   "block": "c3f7fb0c",
+   "block": "42d9a21c",
    "type": "list",
-   "context": "Governance constraints",
-   "preview": "- Deterministic evidence and version checks precede LM polic"
+   "context": "H03: Fail closed and retain every invali",
+   "preview": "- **Rationale**: Transport, parser, cap, or identity failure"
   },
   {
    "kind": "added",
-   "block": "194b241e",
+   "block": "56d0070d",
    "type": "heading",
-   "context": "Artifact constraints",
-   "preview": "## Artifact constraints"
+   "context": "H04: Batch policy review, preserve item-",
+   "preview": "## H04: Batch policy review, preserve item-level governance"
   },
   {
    "kind": "added",
-   "block": "1665f3b6",
+   "block": "dee706c1",
    "type": "list",
-   "context": "Artifact constraints",
-   "preview": "- The ARA is a retrospective compilation from committed stud"
+   "context": "H04: Batch policy review, preserve item-",
+   "preview": "- **Rationale**: One transaction-level judge call reduces in"
+  },
+  {
+   "kind": "added",
+   "block": "02932426",
+   "type": "heading",
+   "context": "H05: Publish from content-addressed rece",
+   "preview": "## H05: Publish from content-addressed receipts"
+  },
+  {
+   "kind": "added",
+   "block": "946b4dcd",
+   "type": "list",
+   "context": "H05: Publish from content-addressed rece",
+   "preview": "- **Rationale**: The result set should be reproducible from "
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:a2f85217585f38901134065dadc98b30441cd07e74a4e16a214bbcc201cc1669",
+ "soft_fingerprint": "ppsb1:ac906bb62be0930312aeb8eb76da1ec4319d7eb57a00a9dd7288220add0b6a9b",
  "actors": {
   "requested_by": [
    "human:richardtang"
@@ -91,48 +105,58 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "8c6ac932",
+   "block": "c7ffb944",
    "kind": "added",
-   "note": "Adds publication-grade ARA content: ## Claim constraints"
+   "note": "Adds publication-grade ARA content: ## H01: Freeze once, fork many"
   },
   {
-   "block": "bd2c05d3",
+   "block": "a87a94e9",
    "kind": "added",
-   "note": "Adds publication-grade ARA content: - Results are Harvey LAB-derived, not official Harvey leaderboard scores."
+   "note": "Adds publication-grade ARA content: - **Rationale**: Reusing one sender state for both conditions and all receiver repeats removes sender sampling as a condition-specific sourc"
   },
   {
-   "block": "2acec127",
+   "block": "9998f564",
    "kind": "added",
-   "note": "Adds publication-grade ARA content: ## Experimental constraints"
+   "note": "Adds publication-grade ARA content: ## H02: Keep clean tax and protection benefit separate"
   },
   {
-   "block": "f13e7338",
+   "block": "4478761a",
    "kind": "added",
-   "note": "Adds publication-grade ARA content: - Raw and Proofpress conditions must share task sources, sender state, model/provider route, tools, S4 rubric, and worker caps."
+   "note": "Adds publication-grade ARA content: - **Rationale**: Clean cells measure whether governance harms ordinary continuation; stress cells measure whether it blocks a defined trust"
   },
   {
-   "block": "b88d121a",
+   "block": "f5ee07e9",
    "kind": "added",
-   "note": "Adds publication-grade ARA content: ## Governance constraints"
+   "note": "Adds publication-grade ARA content: ## H03: Fail closed and retain every invalid attempt"
   },
   {
-   "block": "c3f7fb0c",
+   "block": "42d9a21c",
    "kind": "added",
-   "note": "Adds publication-grade ARA content: - Deterministic evidence and version checks precede LM policy review."
+   "note": "Adds publication-grade ARA content: - **Rationale**: Transport, parser, cap, or identity failures are properties of the evaluated route and must not disappear through fallback"
   },
   {
-   "block": "194b241e",
+   "block": "56d0070d",
    "kind": "added",
-   "note": "Adds publication-grade ARA content: ## Artifact constraints"
+   "note": "Adds publication-grade ARA content: ## H04: Batch policy review, preserve item-level governance"
   },
   {
-   "block": "1665f3b6",
+   "block": "dee706c1",
    "kind": "added",
-   "note": "Adds publication-grade ARA content: - The ARA is a retrospective compilation from committed study records."
+   "note": "Adds publication-grade ARA content: - **Rationale**: One transaction-level judge call reduces inference overhead while independent verdicts and receipts preserve conclusion-lev"
+  },
+  {
+   "block": "02932426",
+   "kind": "added",
+   "note": "Adds publication-grade ARA content: ## H05: Publish from content-addressed receipts"
+  },
+  {
+   "block": "946b4dcd",
+   "kind": "added",
+   "note": "Adds publication-grade ARA content: - **Rationale**: The result set should be reproducible from explicit paths and digests rather than whichever files happen to exist in a resu"
   }
  ],
  "context": {
   "why": "Compile the frozen PR #35 study into a publication-grade ARA 2.6 artifact without changing results or inventing historical research traces."
  },
- "event_id": "ppe_a4a5ca745513f62268acd197"
+ "event_id": "ppe_9e37e0c3c7862320dd6f81f1"
 }
