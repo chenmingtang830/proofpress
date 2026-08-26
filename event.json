@@ -1,79 +1,128 @@
 {
  "event": "version_created",
- "artifact": "studies/long-horizon-eval/ara/logic/related_work.md",
- "artifact_id": "pp_880f0947f548573192575a60",
- "version": "d8046630",
- "parent": "5d33d027",
+ "artifact": "studies/long-horizon-eval/ara/logic/solution/architecture.md",
+ "artifact_id": "pp_fec3a2052e654813942b31a8",
+ "version": "252e0ea3",
+ "parent": "e0da53e3",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-26T13:04:57+00:00",
+ "ts": "2026-08-26T13:05:04+00:00",
  "stats": {
-  "added": 8
+  "added": 15
  },
  "changes": [
   {
    "kind": "added",
-   "block": "89f76aca",
+   "block": "2857a9c7",
    "type": "heading",
-   "context": "RW01: Harvey Legal Agent Benchmark and L",
-   "preview": "## RW01: Harvey Legal Agent Benchmark and LAB Contracts"
+   "context": "Protocol controller",
+   "preview": "## Protocol controller"
   },
   {
    "kind": "added",
-   "block": "e9c432a5",
-   "type": "list",
-   "context": "RW01: Harvey Legal Agent Benchmark and L",
-   "preview": "- **Type**: benchmark dependency.\n- **Relationship**: Provid"
+   "block": "33b4f909",
+   "type": "para",
+   "context": "Protocol controller",
+   "preview": "The adjacent RelayBench stage controller freezes one S1-S3 s"
   },
   {
    "kind": "added",
-   "block": "fe1a14ba",
+   "block": "7e2812de",
+   "type": "para",
+   "context": "Protocol controller",
+   "preview": "Implementation pointer: [`../../../relaybench/bench/controll"
+  },
+  {
+   "kind": "added",
+   "block": "a026653c",
    "type": "heading",
-   "context": "RW02: Agent-Native Research Artifact",
-   "preview": "## RW02: Agent-Native Research Artifact"
+   "context": "Governed handoff builder",
+   "preview": "## Governed handoff builder"
   },
   {
    "kind": "added",
-   "block": "09f91dd8",
-   "type": "list",
-   "context": "RW02: Agent-Native Research Artifact",
-   "preview": "- **Type**: publication and research-lifecycle format.\n- **R"
+   "block": "598eb52d",
+   "type": "para",
+   "context": "Governed handoff builder",
+   "preview": "The Proofpress branch imports evidence, proposes version-bou"
   },
   {
    "kind": "added",
-   "block": "679ee4af",
+   "block": "bebc3271",
+   "type": "para",
+   "context": "Governed handoff builder",
+   "preview": "Implementation pointers: [`../../../relaybench/bench/real/re"
+  },
+  {
+   "kind": "added",
+   "block": "45d55089",
    "type": "heading",
-   "context": "RW03: Proofpress artifact-provenance han",
-   "preview": "## RW03: Proofpress artifact-provenance handoff study"
+   "context": "Paired evaluator",
+   "preview": "## Paired evaluator"
   },
   {
    "kind": "added",
-   "block": "cf2b5e9c",
-   "type": "list",
-   "context": "RW03: Proofpress artifact-provenance han",
-   "preview": "- **Type**: prior mechanism evidence.\n- **Relationship**: Ea"
+   "block": "86ad0b4d",
+   "type": "para",
+   "context": "Paired evaluator",
+   "preview": "The evaluator scores both final deliverables against the sam"
   },
   {
    "kind": "added",
-   "block": "2343a4f4",
+   "block": "cfb12a94",
+   "type": "para",
+   "context": "Paired evaluator",
+   "preview": "Implementation pointers: [`../../../relaybench/bench/evaluat"
+  },
+  {
+   "kind": "added",
+   "block": "7950c9ba",
    "type": "heading",
-   "context": "RW04: Memory and observability systems",
-   "preview": "## RW04: Memory and observability systems"
+   "context": "Receipt verifier",
+   "preview": "## Receipt verifier"
   },
   {
    "kind": "added",
-   "block": "df6b5957",
-   "type": "list",
-   "context": "RW04: Memory and observability systems",
-   "preview": "- **Type**: adjacent infrastructure category.\n- **Relationsh"
+   "block": "2d3ae0a9",
+   "type": "para",
+   "context": "Receipt verifier",
+   "preview": "The ARA receipt verifier resolves every admitted and seconda"
+  },
+  {
+   "kind": "added",
+   "block": "707cfdb2",
+   "type": "para",
+   "context": "Receipt verifier",
+   "preview": "Implementation: [`../../src/execution/verify_receipts.py`](."
+  },
+  {
+   "kind": "added",
+   "block": "c0d3a025",
+   "type": "heading",
+   "context": "Publication compiler",
+   "preview": "## Publication compiler"
+  },
+  {
+   "kind": "added",
+   "block": "6cbbcb3b",
+   "type": "para",
+   "context": "Publication compiler",
+   "preview": "The frozen aggregate, claim register, public result, and vis"
+  },
+  {
+   "kind": "added",
+   "block": "8f10c814",
+   "type": "para",
+   "context": "Publication compiler",
+   "preview": "Implementation pointers: [`../../../relaybench/scripts/bench"
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:04760a3b2d7648c6fc3ef7f8351397a44d002b0dce94ee44e66c8112d194c059",
+ "soft_fingerprint": "ppsb1:7928733b576d637269f1abca30da5f33cbb06f5500d4df5fd43dc542961e0734",
  "actors": {
   "requested_by": [
    "human:richardtang"
@@ -91,48 +140,83 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "89f76aca",
+   "block": "2857a9c7",
    "kind": "added",
-   "note": "Adds publication-grade ARA content: ## RW01: Harvey Legal Agent Benchmark and LAB Contracts"
+   "note": "Adds publication-grade ARA content: ## Protocol controller"
   },
   {
-   "block": "e9c432a5",
+   "block": "33b4f909",
    "kind": "added",
-   "note": "Adds publication-grade ARA content: - **Type**: benchmark dependency."
+   "note": "Adds publication-grade ARA content: The adjacent RelayBench stage controller freezes one S1-S3 sender state per model/task, verifies the declared S3-to-S4 cold boundary, and fo"
   },
   {
-   "block": "fe1a14ba",
+   "block": "7e2812de",
    "kind": "added",
-   "note": "Adds publication-grade ARA content: ## RW02: Agent-Native Research Artifact"
+   "note": "Adds publication-grade ARA content: Implementation pointer: [`../../../relaybench/bench/controller/stage-controller.mjs`](../../../relaybench/bench/controller/stage-controller."
   },
   {
-   "block": "09f91dd8",
+   "block": "a026653c",
    "kind": "added",
-   "note": "Adds publication-grade ARA content: - **Type**: publication and research-lifecycle format."
+   "note": "Adds publication-grade ARA content: ## Governed handoff builder"
   },
   {
-   "block": "679ee4af",
+   "block": "598eb52d",
    "kind": "added",
-   "note": "Adds publication-grade ARA content: ## RW03: Proofpress artifact-provenance handoff study"
+   "note": "Adds publication-grade ARA content: The Proofpress branch imports evidence, proposes version-bound conclusions, applies deterministic integrity and current-state checks, obtain"
   },
   {
-   "block": "cf2b5e9c",
+   "block": "bebc3271",
    "kind": "added",
-   "note": "Adds publication-grade ARA content: - **Type**: prior mechanism evidence."
+   "note": "Adds publication-grade ARA content: Implementation pointers: [`../../../relaybench/bench/real/research-propose-evaluate.py`](../../../relaybench/bench/real/research-propose-eva"
   },
   {
-   "block": "2343a4f4",
+   "block": "45d55089",
    "kind": "added",
-   "note": "Adds publication-grade ARA content: ## RW04: Memory and observability systems"
+   "note": "Adds publication-grade ARA content: ## Paired evaluator"
   },
   {
-   "block": "df6b5957",
+   "block": "86ad0b4d",
    "kind": "added",
-   "note": "Adds publication-grade ARA content: - **Type**: adjacent infrastructure category."
+   "note": "Adds publication-grade ARA content: The evaluator scores both final deliverables against the same task rubric. A separate deterministic trust-stress scorer checks whether a fix"
+  },
+  {
+   "block": "cfb12a94",
+   "kind": "added",
+   "note": "Adds publication-grade ARA content: Implementation pointers: [`../../../relaybench/bench/evaluation/public-rubric.mjs`](../../../relaybench/bench/evaluation/public-rubric.mjs)"
+  },
+  {
+   "block": "7950c9ba",
+   "kind": "added",
+   "note": "Adds publication-grade ARA content: ## Receipt verifier"
+  },
+  {
+   "block": "2d3ae0a9",
+   "kind": "added",
+   "note": "Adds publication-grade ARA content: The ARA receipt verifier resolves every admitted and secondary result path relative to the manifest, recomputes SHA-256 digests, and fails c"
+  },
+  {
+   "block": "707cfdb2",
+   "kind": "added",
+   "note": "Adds publication-grade ARA content: Implementation: [`../../src/execution/verify_receipts.py`](../../src/execution/verify_receipts.py)."
+  },
+  {
+   "block": "c0d3a025",
+   "kind": "added",
+   "note": "Adds publication-grade ARA content: ## Publication compiler"
+  },
+  {
+   "block": "6cbbcb3b",
+   "kind": "added",
+   "note": "Adds publication-grade ARA content: The frozen aggregate, claim register, public result, and visualization are derived only from the admitted receipt set. Invalid attempts and"
+  },
+  {
+   "block": "8f10c814",
+   "kind": "added",
+   "note": "Adds publication-grade ARA content: Implementation pointers: [`../../../relaybench/scripts/bench-aggregate-model-ladder.mjs`](../../../relaybench/scripts/bench-aggregate-model-"
   }
  ],
  "context": {
   "why": "Compile the frozen PR #35 study into a publication-grade ARA 2.6 artifact without changing results or inventing historical research traces."
  },
- "event_id": "ppe_bbf6e69cbd28d77c7605ea40"
+ "event_id": "ppe_a75b009c093ffb81c90cf5d3"
 }

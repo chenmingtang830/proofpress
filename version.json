@@ -1,60 +1,102 @@
 {
- "artifact": "studies/long-horizon-eval/ara/logic/related_work.md",
- "artifact_id": "pp_880f0947f548573192575a60",
+ "artifact": "studies/long-horizon-eval/ara/logic/solution/architecture.md",
+ "artifact_id": "pp_fec3a2052e654813942b31a8",
  "blocks": [
   {
    "type": "heading",
-   "text": "# Related work",
-   "id": "d819ad5e",
-   "hash": "69c3e7c269a8"
+   "text": "# Architecture",
+   "id": "e7f7759c",
+   "hash": "63c233be5778"
   },
   {
    "type": "heading",
-   "text": "## RW01: Harvey Legal Agent Benchmark and LAB Contracts",
-   "id": "89f76aca",
-   "hash": "8640ca1fbdbc"
+   "text": "## Protocol controller",
+   "id": "2857a9c7",
+   "hash": "c3cfe85af409"
   },
   {
-   "type": "list",
-   "text": "- **Type**: benchmark dependency.\n- **Relationship**: Provides public professional legal task families, source materials, and rubric structure adapted into the frozen handoff study.\n- **Delta**: This study introduces a cold multi-worker boundary and controlled trust perturbations. Its outputs are LAB-derived product research, not official Harvey leaderboard results.\n- **Source**: [`../../relaybench/CLAIM_BOUNDARIES.md`](../../relaybench/CLAIM_BOUNDARIES.md) and version-pinned source manifests.",
-   "id": "e9c432a5",
-   "hash": "7b211deca446"
+   "type": "para",
+   "text": "The adjacent RelayBench stage controller freezes one S1-S3 sender state per model/task, verifies the declared S3-to-S4 cold boundary, and forks matched ordinary and Proofpress receivers. Task sources, tools, worker caps, and evaluator configuration remain matched within each pair.",
+   "id": "33b4f909",
+   "hash": "56bcc8985df9"
   },
   {
-   "type": "heading",
-   "text": "## RW02: Agent-Native Research Artifact",
-   "id": "fe1a14ba",
-   "hash": "fec90c2fe780"
-  },
-  {
-   "type": "list",
-   "text": "- **Type**: publication and research-lifecycle format.\n- **Relationship**: Defines the layered `logic/src/trace/evidence` artifact anatomy, provenance vocabulary, exploration DAG, and Seal review process used for this package.\n- **Delta**: This ARA was compiled retrospectively from frozen records rather than maintained contemporaneously by the ARA Live PM; that distinction is disclosed throughout.\n- **Source**: [ARA-Labs/Agent-Native-Research-Artifact](https://github.com/ARA-Labs/Agent-Native-Research-Artifact).",
-   "id": "09f91dd8",
-   "hash": "f20e196ed06a"
+   "type": "para",
+   "text": "Implementation pointer: [`../../../relaybench/bench/controller/stage-controller.mjs`](../../../relaybench/bench/controller/stage-controller.mjs).",
+   "id": "7e2812de",
+   "hash": "a97f3c18e247"
   },
   {
    "type": "heading",
-   "text": "## RW03: Proofpress artifact-provenance handoff study",
-   "id": "679ee4af",
-   "hash": "51c63d6a235b"
+   "text": "## Governed handoff builder",
+   "id": "a026653c",
+   "hash": "7edbf6e91ca8"
   },
   {
-   "type": "list",
-   "text": "- **Type**: prior mechanism evidence.\n- **Relationship**: Earlier controlled evidence showed artifact version binding can prevent stale reuse in a narrow handoff task.\n- **Delta**: The present study embeds governed handoff in larger multi-step legal work products, adds a strong ordinary-summary baseline, separates clean and stress arms, and measures rubric quality plus unsafe propagation.\n- **Source**: [`../../../agent-handoff-artifact-provenance/`](../../../agent-handoff-artifact-provenance/).",
-   "id": "cf2b5e9c",
-   "hash": "8f303aba57bf"
+   "type": "para",
+   "text": "The Proofpress branch imports evidence, proposes version-bound conclusions, applies deterministic integrity and current-state checks, obtains transaction-level policy recommendations, records per-conclusion receipts, and compiles a task-relevant working set. The ordinary branch receives a strong portable handoff without ledger current-state metadata.",
+   "id": "598eb52d",
+   "hash": "4622c9c3afb9"
+  },
+  {
+   "type": "para",
+   "text": "Implementation pointers: [`../../../relaybench/bench/real/research-propose-evaluate.py`](../../../relaybench/bench/real/research-propose-evaluate.py) and [`../../../relaybench/bench/real/research-policy-admit.py`](../../../relaybench/bench/real/research-policy-admit.py).",
+   "id": "bebc3271",
+   "hash": "7609459833b1"
   },
   {
    "type": "heading",
-   "text": "## RW04: Memory and observability systems",
-   "id": "2343a4f4",
-   "hash": "8a59bb96da20"
+   "text": "## Paired evaluator",
+   "id": "45d55089",
+   "hash": "7e0fa7d600b7"
   },
   {
-   "type": "list",
-   "text": "- **Type**: adjacent infrastructure category.\n- **Relationship**: Memory retrieves prior state and observability records what happened.\n- **Delta**: Proofpress tests a narrower reliance boundary: which conclusions are current, evidence-bound, policy-evaluated, admitted, superseded, and safe to hand to a fresh worker.\n- **Source**: [`protocol.md`](protocol.md) and [`concepts.md`](concepts.md).",
-   "id": "df6b5957",
-   "hash": "cb1ebb15d1d7"
+   "type": "para",
+   "text": "The evaluator scores both final deliverables against the same task rubric. A separate deterministic trust-stress scorer checks whether a fixture-specific unsafe state propagated. Quality and safety remain distinct endpoints.",
+   "id": "86ad0b4d",
+   "hash": "63ad066bd312"
+  },
+  {
+   "type": "para",
+   "text": "Implementation pointers: [`../../../relaybench/bench/evaluation/public-rubric.mjs`](../../../relaybench/bench/evaluation/public-rubric.mjs) and [`../../../relaybench/bench/evaluation/trust-stress.mjs`](../../../relaybench/bench/evaluation/trust-stress.mjs).",
+   "id": "cfb12a94",
+   "hash": "6c9b5ccb4a1f"
+  },
+  {
+   "type": "heading",
+   "text": "## Receipt verifier",
+   "id": "7950c9ba",
+   "hash": "c2f612d95573"
+  },
+  {
+   "type": "para",
+   "text": "The ARA receipt verifier resolves every admitted and secondary result path relative to the manifest, recomputes SHA-256 digests, and fails closed on missing or mismatched evidence.",
+   "id": "2d3ae0a9",
+   "hash": "5390d03c36dd"
+  },
+  {
+   "type": "para",
+   "text": "Implementation: [`../../src/execution/verify_receipts.py`](../../src/execution/verify_receipts.py).",
+   "id": "707cfdb2",
+   "hash": "510603048233"
+  },
+  {
+   "type": "heading",
+   "text": "## Publication compiler",
+   "id": "c0d3a025",
+   "hash": "836508b23bb8"
+  },
+  {
+   "type": "para",
+   "text": "The frozen aggregate, claim register, public result, and visualization are derived only from the admitted receipt set. Invalid attempts and excluded panels remain visible but cannot silently enter the published denominator.",
+   "id": "6cbbcb3b",
+   "hash": "a9a2e568afda"
+  },
+  {
+   "type": "para",
+   "text": "Implementation pointers: [`../../../relaybench/scripts/bench-aggregate-model-ladder.mjs`](../../../relaybench/scripts/bench-aggregate-model-ladder.mjs) and [`../../evidence/FINAL_RESULTS_RECEIPTS.json`](../../evidence/FINAL_RESULTS_RECEIPTS.json).",
+   "id": "8f10c814",
+   "hash": "6c916986b4f2"
   }
  ]
 }
