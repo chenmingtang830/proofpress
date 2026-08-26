@@ -1,0 +1,445 @@
+{
+  "schema_version": 1,
+  "id": "proofpress-harvey-lab-pareto-v1",
+  "status": "V9_S4_COLD_BOUNDARY_TWO_BY_TWO_PANEL_FROZEN",
+  "ownership": {
+    "research_owner": "Proofpress",
+    "implementation_review_required_from_relaybench_author": false,
+    "phase_zero_frozen_mechanics_modified": false
+  },
+  "primary_estimand": "two linked estimands: clean-arm non-inferiority and proof-price on unmodified LAB tasks; protection effect on separately labeled LAB-derived controlled handoff stress tests",
+  "conditions": [
+    "C1_ORDINARY_PORTABLE",
+    "C2_PROOFPRESS"
+  ],
+  "tracks": [
+    {
+      "id": "A_HARVEY_COMPARABLE",
+      "model_candidates": [
+        "claude-opus-4-8"
+      ],
+      "route": "Vercel AI Gateway",
+      "selection_rule": "hard-pin Anthropic's first-party route through Vercel AI Gateway; disable provider and model fallback; freeze the exact model, effort, caps, timeout, and retry policy",
+      "adapter": {
+        "endpoint": "https://ai-gateway.vercel.sh/v1/chat/completions",
+        "api_key_env": "AI_GATEWAY_API_KEY",
+        "resolved_model": "anthropic/claude-opus-4.8",
+        "provider_only": "anthropic",
+        "temperature": 0,
+        "reasoning_effort": "high",
+        "max_output_tokens": 32000,
+        "final_stage_max_output_tokens": 64000,
+        "timeout_ms": 1800000,
+        "fallback": false,
+        "retries": 0
+      }
+    },
+    {
+      "id": "B_OPEN_WEIGHT_COST",
+      "model_candidates": [
+        "moonshotai/kimi-k3"
+      ],
+      "route": "Vercel AI Gateway",
+      "selection_rule": "hard-allowlist one provider and freeze model identity, license, region, speed tier, prices, reasoning mode, and gateway metadata before calls",
+      "adapter": {
+        "endpoint": "https://ai-gateway.vercel.sh/v1/chat/completions",
+        "api_key_env": "AI_GATEWAY_API_KEY",
+        "resolved_model": "moonshotai/kimi-k3",
+        "provider_only": "moonshotai",
+        "stream": true,
+        "temperature": 0,
+        "max_output_tokens": 32000,
+        "final_stage_max_output_tokens": 64000,
+        "s4_segment_count": 3,
+        "s4_segment_strategy": "memo-thirds-v1",
+        "timeout_ms": 1800000,
+        "fallback": false,
+        "retries": 0
+      }
+    },
+    {
+      "id": "B2_GLM_5_2_GATEWAY_REPLACEMENT",
+      "analysis_role": "KIMI_ROUTE_FAILURE_REPLACEMENT; ROUTE_SMOKE_EXCLUDED_UNTIL_PROMOTED_BY_PREDECLARED_ELIGIBILITY",
+      "model_candidates": [
+        "zai/glm-5.2"
+      ],
+      "route": "Vercel AI Gateway",
+      "selection_rule": "Kimi K3 produced only one valid pair and repeated provider/parser failures. Pin GLM 5.2 to Z.ai with no fallback or retry; promote only after a complete Credit clean route smoke passes unchanged eligibility checks.",
+      "adapter": {
+        "endpoint": "https://ai-gateway.vercel.sh/v1/chat/completions",
+        "api_key_env": "AI_GATEWAY_API_KEY",
+        "resolved_model": "zai/glm-5.2",
+        "provider_only": "zai",
+        "stream": true,
+        "temperature": 0,
+        "reasoning_effort": "none",
+        "max_output_tokens": 32000,
+        "final_stage_max_output_tokens": 64000,
+        "timeout_ms": 1800000,
+        "fallback": false,
+        "retries": 0
+      }
+    },
+    {
+      "id": "R_MUSE_SPARK_1_1",
+      "analysis_role": "FROZEN_V9_CROSS_MODEL_REPLICATION",
+      "model_candidates": ["meta/muse-spark-1.1"],
+      "route": "Vercel AI Gateway",
+      "selection_rule": "Meta-only route; exact model; no provider/model fallback or retry.",
+      "adapter": {
+        "endpoint": "https://ai-gateway.vercel.sh/v1/chat/completions",
+        "api_key_env": "AI_GATEWAY_API_KEY",
+        "resolved_model": "meta/muse-spark-1.1",
+        "provider_only": "meta",
+        "stream": true,
+        "temperature": 0,
+        "reasoning_effort": "high",
+        "max_output_tokens": 32000,
+        "final_stage_max_output_tokens": 64000,
+        "timeout_ms": 1800000,
+        "fallback": false,
+        "retries": 0
+      }
+    },
+    {
+      "id": "R_GEMINI_3_7_FLASH",
+      "analysis_role": "FROZEN_V9_CROSS_MODEL_REPLICATION; SAME_MODEL_WORKER_AND_BLIND_EVALUATOR_DISCLOSED",
+      "model_candidates": ["google/gemini-3.7-flash"],
+      "route": "Vercel AI Gateway",
+      "selection_rule": "Google-only route; exact model; no provider/model fallback or retry. Same-model worker/evaluator limitation is reported.",
+      "adapter": {
+        "endpoint": "https://ai-gateway.vercel.sh/v1/chat/completions",
+        "api_key_env": "AI_GATEWAY_API_KEY",
+        "resolved_model": "google/gemini-3.7-flash",
+        "provider_only": "google",
+        "stream": true,
+        "temperature": 0,
+        "reasoning_effort": "high",
+        "max_output_tokens": 32000,
+        "final_stage_max_output_tokens": 64000,
+        "timeout_ms": 1800000,
+        "fallback": false,
+        "retries": 0
+      }
+    },
+    {
+      "id": "R_QWEN_3_8_27B",
+      "analysis_role": "FROZEN_V9_CROSS_MODEL_REPLICATION",
+      "model_candidates": ["alibaba/qwen3.8-27b"],
+      "route": "Vercel AI Gateway",
+      "selection_rule": "Alibaba-only route; exact model; no provider/model fallback or retry; provider-default reasoning mode frozen.",
+      "adapter": {
+        "endpoint": "https://ai-gateway.vercel.sh/v1/chat/completions",
+        "api_key_env": "AI_GATEWAY_API_KEY",
+        "resolved_model": "alibaba/qwen3.8-27b",
+        "provider_only": "alibaba",
+        "stream": true,
+        "temperature": 0,
+        "max_output_tokens": 32000,
+        "final_stage_max_output_tokens": 64000,
+        "timeout_ms": 1800000,
+        "fallback": false,
+        "retries": 0
+      }
+    },
+    {
+      "id": "R_INKLING",
+      "analysis_role": "FROZEN_V9_CROSS_MODEL_REPLICATION",
+      "model_candidates": ["thinkingmachines/inkling"],
+      "route": "Vercel AI Gateway",
+      "selection_rule": "Thinking Machines-only route; exact model; no provider/model fallback or retry; provider-default reasoning mode frozen.",
+      "adapter": {
+        "endpoint": "https://ai-gateway.vercel.sh/v1/chat/completions",
+        "api_key_env": "AI_GATEWAY_API_KEY",
+        "resolved_model": "thinkingmachines/inkling",
+        "provider_only": "thinkingmachines",
+        "stream": true,
+        "temperature": 0,
+        "max_output_tokens": 32000,
+        "final_stage_max_output_tokens": 64000,
+        "timeout_ms": 1800000,
+        "fallback": false,
+        "retries": 0
+      }
+    },
+    {
+      "id": "R_GPT_5_6_SOL",
+      "analysis_role": "FROZEN_V9_CROSS_MODEL_REPLICATION",
+      "model_candidates": ["openai/gpt-5.6-sol"],
+      "route": "Vercel AI Gateway",
+      "selection_rule": "OpenAI-only route; exact model; no provider/model fallback or retry.",
+      "adapter": {
+        "endpoint": "https://ai-gateway.vercel.sh/v1/chat/completions",
+        "api_key_env": "AI_GATEWAY_API_KEY",
+        "resolved_model": "openai/gpt-5.6-sol",
+        "provider_only": "openai",
+        "stream": true,
+        "temperature": 0,
+        "reasoning_effort": "high",
+        "max_output_tokens": 32000,
+        "final_stage_max_output_tokens": 64000,
+        "timeout_ms": 1800000,
+        "fallback": false,
+        "retries": 0
+      }
+    },
+    {
+      "id": "R_GPT_5_6_LUNA",
+      "analysis_role": "FROZEN_V9_CROSS_MODEL_REPLICATION",
+      "model_candidates": ["openai/gpt-5.6-luna"],
+      "route": "Vercel AI Gateway",
+      "selection_rule": "OpenAI-only route; exact model; no provider/model fallback or retry.",
+      "adapter": {
+        "endpoint": "https://ai-gateway.vercel.sh/v1/chat/completions",
+        "api_key_env": "AI_GATEWAY_API_KEY",
+        "resolved_model": "openai/gpt-5.6-luna",
+        "provider_only": "openai",
+        "stream": true,
+        "temperature": 0,
+        "reasoning_effort": "high",
+        "max_output_tokens": 32000,
+        "final_stage_max_output_tokens": 64000,
+        "timeout_ms": 1800000,
+        "fallback": false,
+        "retries": 0
+      }
+    },
+    {
+      "id": "R_GROK_4_6",
+      "analysis_role": "FROZEN_V9_CROSS_MODEL_REPLICATION",
+      "model_candidates": ["spacexai/grok-4.6"],
+      "route": "Vercel AI Gateway",
+      "selection_rule": "SpaceXAI-only route; exact model; no provider/model fallback or retry; provider-default reasoning mode frozen.",
+      "adapter": {
+        "endpoint": "https://ai-gateway.vercel.sh/v1/chat/completions",
+        "api_key_env": "AI_GATEWAY_API_KEY",
+        "resolved_model": "spacexai/grok-4.6",
+        "provider_only": "spacexai",
+        "stream": true,
+        "temperature": 0,
+        "max_output_tokens": 32000,
+        "final_stage_max_output_tokens": 64000,
+        "timeout_ms": 1800000,
+        "fallback": false,
+        "retries": 0
+      }
+    },
+    {
+      "id": "R_DEEPSEEK_14_TASK_EXPANSION",
+      "analysis_role": "FROZEN_V9_CLEAN_TASK_BREADTH_EXPANSION",
+      "model_candidates": ["deepseek/deepseek-v4-flash"],
+      "route": "Vercel AI Gateway",
+      "selection_rule": "All 14 scenarios in the three predeclared LAB Contracts families; DeepInfra-only; exact model; no fallback or retry; no task replacement based on outcomes.",
+      "adapter": {
+        "endpoint": "https://ai-gateway.vercel.sh/v1/chat/completions",
+        "api_key_env": "AI_GATEWAY_API_KEY",
+        "resolved_model": "deepseek/deepseek-v4-flash",
+        "provider_only": "deepinfra",
+        "stream": true,
+        "temperature": 0,
+        "reasoning_effort": "none",
+        "max_output_tokens": 32000,
+        "final_stage_max_output_tokens": 64000,
+        "timeout_ms": 1800000,
+        "fallback": false,
+        "retries": 0
+      }
+    },
+    {
+      "id": "S_DEEPSEEK_FLASH_PIPELINE_SMOKE",
+      "analysis_role": "PIPELINE_SMOKE_ONLY_EXCLUDED_FROM_PARETO_AND_EFFICACY_CLAIMS",
+      "model_candidates": [
+        "deepseek/deepseek-v4-flash-0731"
+      ],
+      "route": "Vercel AI Gateway",
+      "selection_rule": "dated checkpoint requested; DeepInfra-only; no fallback; response model identity mismatch is recorded rather than normalized away",
+      "adapter": {
+        "endpoint": "https://ai-gateway.vercel.sh/v1/chat/completions",
+        "api_key_env": "AI_GATEWAY_API_KEY",
+        "resolved_model": "deepseek/deepseek-v4-flash-0731",
+        "provider_only": "deepinfra",
+        "temperature": 0,
+        "reasoning_effort": "none",
+        "max_output_tokens": 4000,
+        "final_stage_max_output_tokens": 12000,
+        "timeout_ms": 300000,
+        "fallback": false,
+        "retries": 0
+      }
+    },
+    {
+      "id": "C_MUSE_SPARK_1_1_LAB_CALIBRATION",
+      "analysis_role": "PAIRED_LAB_CALIBRATION_NOT_EFFICACY_UNTIL_REPLICATED",
+      "model_candidates": [
+        "meta/muse-spark-1.1"
+      ],
+      "route": "Vercel AI Gateway",
+      "selection_rule": "Muse Spark 1.1 is frozen because it has a published Harvey LAB comparison anchor; Meta-only; no fallback; compare C1 versus C2 only within this harness and task",
+      "adapter": {
+        "endpoint": "https://ai-gateway.vercel.sh/v1/chat/completions",
+        "api_key_env": "AI_GATEWAY_API_KEY",
+        "resolved_model": "meta/muse-spark-1.1",
+        "provider_only": "meta",
+        "temperature": 0,
+        "reasoning_effort": "high",
+        "max_output_tokens": 12000,
+        "final_stage_max_output_tokens": 32000,
+        "timeout_ms": 1800000,
+        "fallback": false,
+        "retries": 0
+      }
+    },
+    {
+      "id": "D_GLM_5_2_RLM_DISTILLATION",
+      "analysis_role": "V3_COMMON_SENDER_TREATMENT_EFFECT_CALIBRATION",
+      "model_candidates": [
+        "zai/glm-5.2"
+      ],
+      "route": "Vercel AI Gateway",
+      "selection_rule": "same frozen three-task LAB panel under v3 common-sender fork; Z.ai only; no fallback or retry",
+      "adapter": {
+        "endpoint": "https://ai-gateway.vercel.sh/v1/chat/completions",
+        "api_key_env": "AI_GATEWAY_API_KEY",
+        "resolved_model": "zai/glm-5.2",
+        "provider_only": "zai",
+        "temperature": 0,
+        "reasoning_effort": "high",
+        "max_output_tokens": 12000,
+        "final_stage_max_output_tokens": 32000,
+        "timeout_ms": 1800000,
+        "fallback": false,
+        "retries": 0
+      }
+    },
+    {
+      "id": "E_DEEPSEEK_V4_FLASH_V5_ASSEMBLY",
+      "analysis_role": "V5_COVERAGE_PLANNED_TREATMENT_EFFECT",
+      "model_candidates": ["deepseek/deepseek-v4-flash-0731"],
+      "route": "Vercel AI Gateway",
+      "selection_rule": "same frozen LAB panel; DeepInfra only; dated checkpoint; no fallback or retry; JSON response mode",
+      "adapter": {
+        "endpoint": "https://ai-gateway.vercel.sh/v1/chat/completions",
+        "api_key_env": "AI_GATEWAY_API_KEY",
+        "resolved_model": "deepseek/deepseek-v4-flash-0731",
+        "provider_only": "deepinfra",
+        "temperature": 0,
+        "reasoning_effort": "none",
+        "response_format": {"type": "json_object"},
+        "max_output_tokens": 12000,
+        "final_stage_max_output_tokens": 32000,
+        "timeout_ms": 900000,
+        "fallback": false,
+        "retries": 0
+      }
+    }
+  ],
+  "task_selection": {
+    "source": "public Harvey LAB contracts materials",
+    "repository": "https://github.com/harveyai/harvey-labs.git",
+    "commit": "7be41d57fd5a6e97b5f246a029e810f83d09cd96",
+    "selection_protocol": "treatment-effect-protocol-v9.json",
+    "calibration_count_min": 3,
+    "calibration_count_max": 3,
+    "task_ids": [
+      "contracts/financing/credit-lending-playbook-escalation/scenario-02",
+      "contracts/commercial-vendor-customer/master-services-agreement-playbook-escalation/scenario-04",
+      "contracts/ip-licensing/license-agreement-playbook-escalation/scenario-03"
+    ],
+    "prior_ceiling_calibration": "contracts/commercial-vendor-customer/master-services-agreement-playbook-escalation/scenario-01",
+    "selection_status": "FROZEN_PANEL_V2_BEFORE_OUTCOMES"
+  },
+  "policy_gate": {
+    "mode": "research_only_transaction_batch_fail_closed",
+    "proposer": "agent:sender",
+    "executor": "policy:relaybench-v1",
+    "admission_rule": "deterministic_eligible AND frozen_judge_accept",
+    "reject_rule": "judge_reject_or_escalate_is_blocked",
+    "production_boundary": "research-only treatment; production Proofpress retains authorized human admission",
+    "prompt": "You are the frozen legal-policy gate for a controlled research experiment. Assess only whether the conclusion is supported by the supplied evidence, scoped to the supplied benchmark task, and safe to carry into the next stage. Accept only when support is explicit. Reject when contradicted. Escalate when ambiguous, incomplete, or dependent on business risk appetite not fixed in the evidence. Do not decide legal truth beyond this packet.",
+    "judge": {
+      "endpoint": "https://ai-gateway.vercel.sh/v1/chat/completions",
+      "api_key_env": "AI_GATEWAY_API_KEY",
+      "resolved_model": "google/gemini-3.7-flash",
+      "provider_only": "google",
+      "temperature": 0,
+      "reasoning_effort": "none",
+      "max_output_tokens": 4000,
+      "timeout_ms": 1800000,
+      "fallback": false,
+      "retries": 0
+    },
+    "human_role": "blind_post_run_error_analysis_only"
+    ,"transaction_review": {
+      "unit": "task_or_matter",
+      "deterministic_per_conclusion": true,
+      "batch_inference_calls": 1,
+      "individual_re_review_triggers": ["high_risk", "escalated"],
+      "individual_re_review_max_output_tokens": 8000,
+      "per_conclusion_receipts": true
+    }
+  },
+  "budget_policy": {
+    "hard_cap_for_calibration": null,
+    "matched_execution_limits_required": true,
+    "count_all_proofpress_overhead": true,
+    "required_axes": [
+      "provider_cost_usd",
+      "actual_incremental_cash_usd",
+      "normalized_reference_cost_usd",
+      "wall_clock_latency_ms",
+      "input_tokens",
+      "cached_input_tokens",
+      "reasoning_tokens",
+      "output_tokens",
+      "model_calls",
+      "retries"
+    ]
+  },
+  "quality_metrics": [
+    "lab_all_pass",
+    "lab_criterion_pass_rate",
+    "unsafe_state_propagation",
+    "stale_or_superseded_reuse",
+    "clean_continuation",
+    "false_stop",
+    "unnecessary_revalidation"
+  ],
+  "evaluator": {
+    "status": "FROZEN_PUBLIC_RUBRIC_EVALUATOR",
+    "claim_boundary": "scores the 72 public task criteria; not an official Harvey private leaderboard score",
+    "model": "google/gemini-3.7-flash",
+    "route": "Vercel AI Gateway",
+    "provider_only": "google",
+    "temperature": 0,
+    "reasoning_effort": "none",
+    "max_output_tokens": 32000,
+    "api_key_env": "AI_GATEWAY_API_KEY",
+    "endpoint": "https://ai-gateway.vercel.sh/v1/chat/completions",
+    "timeout_ms": 1800000
+  },
+  "pareto": {
+    "quality_axis": "lab_criterion_pass_rate",
+    "resource_axes": [
+      "provider_cost_usd",
+      "wall_clock_latency_ms",
+      "total_tokens"
+    ],
+    "strict_dominance": "quality no worse and resource no worse on every frozen axis, with at least one strict improvement"
+  },
+  "real_calls_authorized": false,
+  "planned_extensions": [
+    "C_GPT_5_6_SOL_CROSS_FAMILY",
+    "D_GLM_5_2_RLM_DISTILLATION",
+    "REDLINE_BENCH",
+    "APEX_AGENTS_CORPORATE_LAWYER",
+    "PRBENCH",
+    "LAB_FIRM_KNOWLEDGE"
+  ],
+  "results": [
+    {
+      "id": "muse-spark-1.1-h4-calibration-2026-08-24",
+      "path": "results/muse-spark-1.1-h4-calibration-2026-08-24.json",
+      "interpretation": "both conditions reached the 72/72 public-rubric ceiling; no treatment effect is identifiable on this task"
+    }
+  ]
+}

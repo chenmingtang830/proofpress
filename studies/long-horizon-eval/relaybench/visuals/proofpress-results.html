@@ -1,0 +1,629 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Proofpress improved performance on Harvey LAB-derived tasks across all seven models</title>
+  <style>
+    :root {
+      --paper: #faf9f5;
+      --ink: #20222b;
+      --muted: #696b72;
+      --line: #dedbd1;
+      --cyan: #0e5e6f;
+      --cyan-soft: #dcecef;
+      --red: #b4453a;
+      --red-soft: #f3dfda;
+      --green: #277a4b;
+      --green-soft: #dcecdf;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    main {
+      width: min(1180px, calc(100% - 40px));
+      margin: 0 auto;
+      padding: 56px 0 36px;
+    }
+
+    header {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 24px;
+      align-items: start;
+      padding-bottom: 30px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    header > * { min-width: 0; }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 32px;
+      color: #555966;
+      font: 700 13px/1.2 ui-monospace, SFMono-Regular, Menlo, monospace;
+      letter-spacing: .13em;
+      text-transform: uppercase;
+    }
+
+    .mark {
+      position: relative;
+      width: 25px;
+      height: 29px;
+      border: 2px solid var(--ink);
+    }
+
+    .mark::after {
+      content: "";
+      position: absolute;
+      right: -7px;
+      bottom: -5px;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #3c9bb0;
+    }
+
+    h1 {
+      max-width: 900px;
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(44px, 6vw, 76px);
+      font-weight: 500;
+      line-height: .98;
+      letter-spacing: -.045em;
+    }
+
+    h1 em { color: var(--cyan); font-style: normal; }
+
+    .study-label {
+      max-width: 240px;
+      padding-top: 57px;
+      color: var(--muted);
+      font: 700 12px/1.55 ui-monospace, SFMono-Regular, Menlo, monospace;
+      letter-spacing: .08em;
+      text-align: right;
+      text-transform: uppercase;
+    }
+
+    .charts {
+      display: grid;
+      grid-template-columns: 1.35fr .85fr;
+      gap: 22px;
+      margin-top: 26px;
+    }
+
+    section {
+      min-width: 0;
+      padding: 28px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.42);
+    }
+
+    h2 {
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 28px;
+      font-weight: 500;
+      letter-spacing: -.02em;
+    }
+
+    .section-note {
+      margin: 8px 0 26px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .scale {
+      display: grid;
+      grid-template-columns: 116px 1fr 56px;
+      gap: 12px;
+      align-items: center;
+      margin: 17px 0;
+    }
+
+    .label { font-weight: 700; }
+
+    .track {
+      position: relative;
+      height: 58px;
+      border-left: 1px solid #aaa69c;
+      border-right: 1px solid #aaa69c;
+      background:
+        linear-gradient(to right, transparent 49.8%, var(--line) 50%, transparent 50.2%),
+        #f0eee7;
+    }
+
+    .bar { height: 100%; }
+    .bar.ordinary { width: 46.5%; background: #aeb5b8; }
+    .bar.proofpress { width: 67%; background: var(--cyan); }
+
+    .value {
+      font: 700 18px/1 ui-monospace, SFMono-Regular, Menlo, monospace;
+      text-align: right;
+    }
+
+    .axis {
+      display: grid;
+      grid-template-columns: 116px 1fr 56px;
+      gap: 12px;
+      margin-top: -7px;
+      color: var(--muted);
+      font: 600 11px/1.2 ui-monospace, SFMono-Regular, Menlo, monospace;
+    }
+
+    .ticks { display: flex; justify-content: space-between; }
+
+    .delta {
+      margin: 27px 0 0 128px;
+      padding: 18px 20px;
+      border-top: 3px solid var(--cyan);
+      background: var(--cyan-soft);
+      color: var(--cyan);
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 28px;
+      line-height: 1.05;
+    }
+
+    .safety-bars {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      align-items: end;
+      height: 242px;
+      padding: 12px 24px 0;
+      border-bottom: 1px solid #aaa69c;
+      background: repeating-linear-gradient(to top, transparent 0 59px, var(--line) 60px);
+    }
+
+    .safety-column {
+      display: grid;
+      grid-template-rows: 28px 1fr 38px;
+      gap: 8px;
+      height: 100%;
+      text-align: center;
+    }
+
+    .safety-value {
+      font: 700 22px/1 ui-monospace, SFMono-Regular, Menlo, monospace;
+    }
+
+    .safety-fill { align-self: end; width: 100%; }
+    .safety-fill.unsafe { height: 154px; background: var(--red); }
+    .safety-fill.safe { height: 6px; background: var(--green); }
+    .safety-label { font-size: 13px; font-weight: 700; }
+
+    .safety-callout {
+      margin-top: 20px;
+      padding: 17px;
+      background: var(--green-soft);
+      color: var(--green);
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 23px;
+      text-align: center;
+    }
+
+    footer {
+      display: grid;
+      grid-template-columns: 1fr minmax(280px, 480px);
+      gap: 30px;
+      align-items: start;
+      margin-top: 24px;
+      padding-top: 22px;
+      border-top: 1px solid var(--line);
+    }
+
+    .scope {
+      color: var(--ink);
+      font: 700 clamp(15px, 2vw, 20px)/1.4 ui-monospace, SFMono-Regular, Menlo, monospace;
+    }
+
+    .boundary {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.55;
+      text-align: right;
+    }
+
+    .freeze-date {
+      margin: 7px 0 0;
+      color: var(--muted);
+      font: 700 11px/1.4 ui-monospace, SFMono-Regular, Menlo, monospace;
+      letter-spacing: .05em;
+      text-transform: uppercase;
+    }
+
+    @media (max-width: 800px) {
+      main { width: calc(100% - 24px); max-width: 640px; padding-top: 28px; overflow: hidden; }
+      header, .charts, footer { grid-template-columns: 1fr; }
+      .charts, section { width: 100%; max-width: 100%; }
+      .study-label { padding-top: 0; text-align: left; }
+      h1 { max-width: 100%; font-size: 38px; }
+      section { padding: 22px 18px; }
+      .scale, .axis { grid-template-columns: 84px minmax(0, 1fr) 48px; gap: 7px; }
+      .delta { margin-left: 0; }
+      .boundary { text-align: left; }
+    }
+
+    /* Product-results poster */
+    .poster-header {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 230px;
+      gap: 36px;
+      padding-bottom: 30px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .poster-header h1 {
+      max-width: 980px;
+      font-size: clamp(52px, 6.1vw, 80px);
+      line-height: .96;
+      letter-spacing: -.04em;
+    }
+
+    .poster-header h1 em { color: var(--cyan); }
+
+    .poster-intro {
+      max-width: 900px;
+      margin: 26px 0 0;
+      color: var(--muted);
+      font-size: 20px;
+      line-height: 1.45;
+    }
+
+    .result-band {
+      display: grid;
+      grid-template-columns: 1.35fr .65fr;
+      margin: 28px 0 0;
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .result-block {
+      padding: 24px 30px 25px 0;
+    }
+
+    .result-block + .result-block {
+      padding-left: 30px;
+      border-left: 1px solid var(--line);
+    }
+
+    .result-number {
+      display: flex;
+      align-items: baseline;
+      gap: 16px;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(46px, 5.4vw, 74px);
+      line-height: 1;
+      letter-spacing: -.035em;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .result-number .from { color: #8b9093; }
+    .result-number .to { color: var(--cyan); }
+    .result-number .unsafe { color: var(--red); }
+    .result-number .safe { color: var(--green); }
+    .result-arrow { color: var(--line); }
+
+    .result-copy {
+      margin: 9px 0 0;
+      color: var(--muted);
+      font: 700 12px/1.4 ui-monospace, SFMono-Regular, Menlo, monospace;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+    }
+
+    .model-chart {
+      padding: 30px 0 24px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .chart-heading {
+      display: flex;
+      justify-content: space-between;
+      gap: 24px;
+      align-items: end;
+      margin-bottom: 20px;
+    }
+
+    .chart-heading h2 { font-size: 34px; }
+
+    .chart-heading p {
+      max-width: 480px;
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+      text-align: right;
+    }
+
+    .task-scope {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 22px;
+      margin: -2px 0 22px;
+      padding-bottom: 18px;
+      border-bottom: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    .task-scope strong { color: var(--ink); font-weight: 750; }
+
+    .chart-legend {
+      display: flex;
+      gap: 20px;
+      margin: 0 0 14px 238px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .legend-key::before {
+      content: "";
+      display: inline-block;
+      width: 18px;
+      height: 5px;
+      margin-right: 7px;
+      vertical-align: middle;
+      background: #aeb5b8;
+    }
+
+    .legend-key.proof::before { background: var(--cyan); }
+
+    .model-row {
+      display: grid;
+      grid-template-columns: 220px minmax(300px, 1fr) 172px;
+      gap: 18px;
+      align-items: center;
+      min-height: 66px;
+      border-top: 1px solid #ece9e1;
+    }
+
+    .model-name {
+      font-size: 16px;
+      font-weight: 750;
+    }
+
+    .model-provider {
+      margin-top: 4px;
+      color: var(--muted);
+      font: 700 10px/1.2 ui-monospace, SFMono-Regular, Menlo, monospace;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+    }
+
+    .paired-bars {
+      display: grid;
+      gap: 5px;
+      padding: 8px 0;
+      background:
+        linear-gradient(to right, transparent 49.8%, var(--line) 50%, transparent 50.2%);
+      border-left: 1px solid #aaa69c;
+      border-right: 1px solid #aaa69c;
+    }
+
+    .mini-bar { height: 7px; }
+    .mini-bar.raw { width: var(--raw); background: #aeb5b8; }
+    .mini-bar.pp { width: var(--pp); background: var(--cyan); }
+
+    .model-score {
+      display: grid;
+      grid-template-columns: 54px 1fr;
+      gap: 6px 12px;
+      align-items: center;
+      font: 700 12px/1 ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .model-score .ordinary-score { color: #777d80; }
+    .model-score .proof-score { color: var(--cyan); font-size: 14px; }
+    .model-score strong {
+      grid-column: 2;
+      grid-row: 1 / span 2;
+      color: var(--cyan);
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 24px;
+      font-weight: 600;
+      letter-spacing: -.025em;
+    }
+
+    .model-axis {
+      display: grid;
+      grid-template-columns: 220px minmax(300px, 1fr) 172px;
+      gap: 18px;
+      color: var(--muted);
+      font: 700 10px/1 ui-monospace, SFMono-Regular, Menlo, monospace;
+    }
+
+    .model-axis div {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .poster-footer {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      padding-top: 20px;
+    }
+
+    .poster-scope {
+      font: 700 18px/1.4 ui-monospace, SFMono-Regular, Menlo, monospace;
+    }
+
+    .poster-boundary {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.55;
+      text-align: right;
+    }
+
+    ::selection { background: var(--cyan-soft); color: var(--ink); }
+
+    @media (max-width: 800px) {
+      .poster-header, .result-band, .poster-footer { grid-template-columns: 1fr; }
+      .poster-header h1 { font-size: 46px; }
+      .poster-intro { font-size: 17px; }
+      .study-label { max-width: none; }
+      .result-block + .result-block { padding-left: 0; border-left: 0; border-top: 1px solid var(--line); }
+      .chart-heading { display: block; }
+      .chart-heading p { margin-top: 8px; text-align: left; }
+      .task-scope { display: grid; gap: 6px; margin-top: 18px; }
+      .chart-legend { margin-left: 0; }
+      .model-row { grid-template-columns: 136px minmax(150px, 1fr); gap: 10px; padding: 8px 0; }
+      .model-name { font-size: 13px; }
+      .model-score { grid-column: 2; }
+      .model-axis { grid-template-columns: 136px minmax(150px, 1fr); gap: 10px; }
+      .model-axis div { grid-column: 2; }
+      .poster-boundary { text-align: left; }
+    }
+
+    @media (max-width: 500px) {
+      main { max-width: 366px; margin-left: 12px; margin-right: 0; }
+      .poster-header h1 { font-size: 42px; }
+    }
+  </style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<meta name="proofpress:meta" content="eyJhcnRpZmFjdF9pZCI6InBwX2NmNTAzMzJmOTM0YTY2N2M3Y2UxZTM2YiIsInBvbGljeSI6InBvcnRhYmxlIiwicG9ydGFibGVfaGVhZCI6IjMxZmE3ZTkxIiwicG9ydGFibGVfaGVhZF9ldmVudCI6InBwZV9hYTU1NDhkYzA0ZDgxYWU5NTk5MmU3YTciLCJwb3J0YWJsZV9saW5lYWdlX2lkIjoicHBsX2FmY2UxMDI3ZWQ5ZmM5ZWUyNmI5YjdjYyIsInByb29mcHJlc3MiOjF9">
+<meta name="proofpress:discovery" content="Verifiable revision history by Proofpress | https://github.com/chenmingtang830/proofpress">
+</head>
+<body>
+  <main>
+    <header class="poster-header">
+      <div>
+        <div class="brand"><span class="mark" aria-hidden="true"></span> Proofpress / governed knowledge ledger</div>
+        <h1 data-proofpress-id="1d393510">Proofpress <em>improved performance</em> on Harvey LAB-derived tasks across all seven models.</h1>
+        <p class="poster-intro" data-proofpress-id="370cbed7">Proofpress’s governed knowledge ledger converted prior agent work into evidence-bound knowledge for the next agent—raising rubric completion and stopping every observed unsafe propagation event.</p>
+      </div>
+      <div class="study-label">Frozen product study<br>August 26, 2026</div>
+    </header>
+
+    <div class="result-band" aria-label="Overall study results">
+      <div class="result-block">
+        <div class="result-number"><span class="from">89.3%</span><span class="result-arrow">→</span><span class="to">93.4%</span></div>
+        <p class="result-copy" data-proofpress-id="caf1f074">Rubric completion · +4.1 percentage points · +487 criteria</p>
+      </div>
+      <div class="result-block">
+        <div class="result-number"><span class="unsafe">8</span><span class="result-arrow">→</span><span class="safe">0</span></div>
+        <p class="result-copy" data-proofpress-id="0d512010">Observed unsafe propagation events</p>
+      </div>
+    </div>
+
+    <section class="model-chart" aria-labelledby="quality-title">
+      <div class="chart-heading">
+        <h2 id="quality-title" data-proofpress-id="dc01e281">Rubric completion by model</h2>
+        <p data-proofpress-id="f42686c9">Ordered by observed improvement · zoomed scale: 80–100%</p>
+      </div>
+      <p class="task-scope" data-proofpress-id="bbc47db7"><span><strong>Credit lending playbook escalation</strong> · scenario 02</span><span><strong>Master services agreement playbook escalation</strong> · scenario 04</span><span><strong>License agreement playbook escalation</strong> · scenario 03</span></p>
+      <div class="chart-legend" aria-label="Legend"><span class="legend-key">Ordinary</span><span class="legend-key proof">Proofpress</span></div>
+
+      <div class="model-row">
+        <div><div class="model-name">Claude Opus 4.8</div><div class="model-provider">Anthropic</div></div>
+        <div class="paired-bars" style="--raw:39.3%; --pp:80.0%"><div class="mini-bar raw"></div><div class="mini-bar pp"></div></div>
+        <div class="model-score"><span class="ordinary-score">87.9%</span><strong>+8.2pp</strong><span class="proof-score">96.0%</span></div>
+      </div>
+      <div class="model-row">
+        <div><div class="model-name">Qwen 3.8 27B</div><div class="model-provider">Alibaba</div></div>
+        <div class="paired-bars" style="--raw:45.1%; --pp:69.2%"><div class="mini-bar raw"></div><div class="mini-bar pp"></div></div>
+        <div class="model-score"><span class="ordinary-score">89.0%</span><strong>+4.8pp</strong><span class="proof-score">93.8%</span></div>
+      </div>
+      <div class="model-row">
+        <div><div class="model-name">GLM 5.2</div><div class="model-provider">Z.ai</div></div>
+        <div class="paired-bars" style="--raw:42.2%; --pp:62.7%"><div class="mini-bar raw"></div><div class="mini-bar pp"></div></div>
+        <div class="model-score"><span class="ordinary-score">88.4%</span><strong>+4.1pp</strong><span class="proof-score">92.5%</span></div>
+      </div>
+      <div class="model-row">
+        <div><div class="model-name">GPT-5.6 Sol</div><div class="model-provider">OpenAI</div></div>
+        <div class="paired-bars" style="--raw:46.3%; --pp:66.3%"><div class="mini-bar raw"></div><div class="mini-bar pp"></div></div>
+        <div class="model-score"><span class="ordinary-score">89.3%</span><strong>+4.0pp</strong><span class="proof-score">93.3%</span></div>
+      </div>
+      <div class="model-row">
+        <div><div class="model-name">Muse Spark 1.1</div><div class="model-provider">Meta</div></div>
+        <div class="paired-bars" style="--raw:59.5%; --pp:78.6%"><div class="mini-bar raw"></div><div class="mini-bar pp"></div></div>
+        <div class="model-score"><span class="ordinary-score">91.9%</span><strong>+3.8pp</strong><span class="proof-score">95.7%</span></div>
+      </div>
+      <div class="model-row">
+        <div><div class="model-name">DeepSeek V4 Flash 0731</div><div class="model-provider">DeepSeek · DeepInfra</div></div>
+        <div class="paired-bars" style="--raw:45.4%; --pp:61.3%"><div class="mini-bar raw"></div><div class="mini-bar pp"></div></div>
+        <div class="model-score"><span class="ordinary-score">89.1%</span><strong>+3.2pp</strong><span class="proof-score">92.3%</span></div>
+      </div>
+      <div class="model-row">
+        <div><div class="model-name">Inkling</div><div class="model-provider">Thinking Machines</div></div>
+        <div class="paired-bars" style="--raw:48.4%; --pp:51.0%"><div class="mini-bar raw"></div><div class="mini-bar pp"></div></div>
+        <div class="model-score"><span class="ordinary-score">89.7%</span><strong>+0.5pp</strong><span class="proof-score">90.2%</span></div>
+      </div>
+      <div class="model-axis" aria-hidden="true"><span></span><div><span>80%</span><span>90%</span><span>100%</span></div><span></span></div>
+    </section>
+
+    <footer class="poster-footer">
+      <div class="poster-scope">7 models · 3 frozen task episodes · 126 paired runs</div>
+      <div class="poster-boundary">Proofpress-composed handoff tasks derived from version-pinned public Harvey LAB Contracts materials. Descriptive frozen-panel results; not official Harvey leaderboard scores or a population causal estimate.<p class="freeze-date" data-proofpress-id="990cbfaa">Result frozen · August 26, 2026</p></div>
+    </footer>
+  </main>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script type="application/vnd.proofpress+json" data-proofpress="capsule">eNrtXN2S28h1fhUUq3zl4Ux3A2gAjKKqje1yXN7NprROLmKrpvrnNIkMCHABUCNKpap9B_smT5L7PMo-SU43ABLDAfgzo5G1CW9GIgB2n9Pn7_tON_FxIso6NULVt6mezCar1a0yIfF9ZhI_EJxHKlJAwedycjWRhd7c6nQOVY3PVgvBQj7jnHE_0swQIQTETKuYUBprEfLQp0A5DVkgfT8xoTG-7ytqdBBHTIYcGADDcXVaqeIdlJvJ7KP9UN_WYo4zZKK2U13hfyRkeOHfoUxNKmQGXgnv0iotcm-BzxflxpMb71_LojCrEqoKv7MS6k7MwSr14HJZ_CeguuvSDrio61U1u7mZp_ViLa9VsbxRC8iXaT6vRT6PfXLz4Nsl_LhO8f-36wrKW1XkFeS4FnW5hk9XkwUIu4g-NSKChE6aK7fwzj2Eiwu3QoRhEGtFAh1TAUmYJAwiEVnJirK2qt1maQ4oeWeR7FYYtAFhEejEqATXjMtERko16rTS3SqxqtYZKsysnKoodTWZ_fnjpJ3-4wStXJSV_V9zG_StxCX_82Sd3-XFfT55izp0_mANXK91CtVNVuTz6aIo0w9FPoV3IrspIRMbCbla3KAV1iKress0xT_rrK6uF_Uym1yd5WGirstUrms07K0UVVpZMSAzt6LCBa9B22fWNQpj1bhLcztktalqWOKdXCytvTt1rvCrlfWRySxfZxkqpxZoVGiWRWaFusOnqfYTP6QEH0d71vDeqv5qQV__3rpkDtrDL-nCmMp7BcvX6RI1fYdX0VdWVr1WCKG1k25lHRPuzxgDrLavbvD6zz_9DR_z0J9XKxyq3qysOtaH0B8nn652QqMDUWAx3ROaean-x79MfkSLpPVmWqd1Bn-ZvH6zlmWqvPbyq5vFYbFPHYW9PiykCRiPuUpeQsiVpzL0CRynwmjGBZzmRW2H-U7UGMG4tGVaY7YQnlBlUVWeyDKPMu6tRFruxF6JUjyQOSBaBiaQwzJXwkBP5H_L7QUPjbkSc2GlOGlhj45ywtpKzC9KqxeRc3Rtv5cYhNZvXUqpuqXlvmdlKIssc0M9WNu3V10CmmAo2Gi8VSWIJpTdnS4vwC3HKqEhBM0jE0Jo0MUDLkxsQxslsE-1OdJrc6SHtlZ3qyLNa5fySzeTjfbukw32tza5Zqna9EboJ9zeIC6VPzEXV4Wpbw1aCspVmbYpv5J0ZnzCgEhFJIsUj7jWkaIQC8MFkwZzo6ZgZOTrxGrOA0K5H0qmNImkZtTqX9Widqm7sdcsxGxmL0wYYXxK4injf6J05tMZI78mZEZsPmsX3IaiZDT0mUQf2l39-HdO9s6Xm2S8ENXCVs6I-sanPmOBwQfcGL38fGZyHk6seLfo_Hj9KDCuMfboSOy1QpLYBNQKaSDqhOzl47PzHDs8XRQkUaSBQBhv16SXWbvpnpUQ8XaJa-H9z397_1EUS_xYKZHBzIvJzz_9lRLyq1c3q9cDabOVMY58n1OmIgzZTsZeJj07PR1fFUMgVtxQH0Owm7GXE4-uyimpDP3FurhbIbc2P9hFwavo5PiN2vsAZTG0MG8_WUkHcBdotEGHujCt5PWsWEEu0qkqNLyfvHWATq_VkYf28NvYQz-uET5vn1qslyKfoe8tRKmnFt5-pYAP8ndpWeRLWxvwvtNhCPc5tXew73vU_5s_eL9x-p-G_ZKEKGmEeNkqakqADzDVwnneG7dYnimLD5Bbr_pmPV9Xtcf4lWeT-aBDoXyZSJej0u-J0VbL36bVCu3m1QvwsC6JzCu7ya1EnpXIS3N3HzPmcp2nyinmWR-pr5uJu4X5OLlf2Ar6xjlfb1DrNpsHYxbNmNtqPTz4GchAkTiJdRj7mAuDWPihT2KswbDVtV_y-_WuDwM-_tJ94HS4tA8X6KdhNHAMGX0W-IMsGikuYVL6UYDWi3lM_VgIgWDIVyyIjW-EH8eR1jIkMgCJJRYCEvmJDEMjR_QZgj_hLKQD8CchiY5jpS_w5wJ_LvDnpeHPTkxOFdEqCCAMk07MXr59LOZnSJMX7PXLwF6jfbddF9fbJrSyyRrbvLarustCpybt9x2G2iV-hE4HOnrmZAdL_KrAxSqnqY0fG2K5988CY2zjffvNP0015h47dgZzRExt1vYONKKUMNSQKHhJiRvfQa9dbXaZeVc7bMT9Orim3gpKhea2_ZbVAZGJDikjz7boGSJ_P17J2syGKeKAxOe1UX-wQ3rocJBV1x5-OtcLz2uInjXdaY3M3QglLK0ZvnCD8sj8n7vxOMCZelnn8Vq2tOlbVMe7T-tFQ2JcUag76lQvsPJZ8FA586yKwpZKZyWslDnaauvj12MpaJit_e49krWWjQ1kji5nVOj74Fk8t8Vxjb1aCa_H0shxjijm8xLzExK4JjqnvVzQKmULg5t8i6dQ8VpcjyWC4Um_tft5bso9LDrtR3CxrlEAuB4L2VED_sH6hK3kbgpnqGljIauQKNMKRxeVu7u0S44eqLHAgtcU2OuxqB2dEVdRZUUFNlW2U1nPwKBwi2Un-tAgyw5Sdkm1gZrXY7H7KFzaCd-4C61-1uHRaEIJDUs0W1VvLFBrvMKxba8NUcv2jXhXlF5hPLQdYl907XhaF1Oy5-nXY-F8jkhtJmlkEDk-2ZhWGHQeL8VQxnUvlmkuEKZ5bkAUsS6aUdYrS0St2G3wtZlktDGBntwafW8tdp7diOKiW6DhNzBVliHYSVr9O0jlNQXdGVB4dSnyquklPPAoKcqeV53X1YiYDmJk4pxIEXJKJPODJE6Csa7GlsYe72pc0NUFXV3Q1QVdvfS27kkt2v3unX-1W2P7oRN3xj4Nd-2-SJtS-zpQXEQkMDQGpkAlXGodJaEkGniYEMUjaQwlcSzDOKKUUCqMjOMoEiDIuYoO9C8DPqN8oH_JudUi8r_y_qXRiQ4IhyBS9HD_8pSclbueZq9dV_VD1jU2j3crTcyM0oQxdM9OpF65etyBekKdqUV1V115864n20YkYq5s1URVufF2-BOVQ9hZlGAxmMUq90V5t9eibb5THEvA14fbb5JrJXzOAF24U75X-R4r_5SSZY9NVM2dONrSgsOCGcJETH1F4zDoBOvVt2OCnVSYDkzvRxw9wvcRf4VPaGE_Kh34aY40wjrl0XY256FJAh0Rrg-1s1__TqiFVxb3jkdUDe10U_78039VyFrarnYGiGIbz3HRZPvY12Nd7OtfdLf2cJv2cH_2tMbsV9yXPXoI0iny2c9ADuVpm5X7OfFF2cI5kz0TgD5Kdy8LQM-a7rktre_EHVQP2llWAQubPHi_QmSFQm086ztj7Sdb5DznjduOBpbKtMabbRvB8fr9at1mg35_7Fhb7LH0f0rnixryqu0KLJcCi2PbJKjvC28JolrbXbxOubZzVM0GQMWDztnADujZ3aY34Exadccoeg2mx7PLFgmc32L6I8Cqa1m55D_FXP-gy7TXYfpVk_9tTyu1hzByi0naVdv2LqqRXop1mOaIR2PAvS4oAiA3JuooPJcD0SZ3XbMlz4t1rppeoXRuZUUccSznU1feurLPwHvMka10tiWHK4vJ98qpZ5s7rk2zBR-NK-4-Tx0YaWoxSlXhCB7YOoqKnteZ8WMCTEacyjDiBi0jYy7DYPS8yRagf-bOzCXX_h1z7endui3v27G94NMwgfsiVFbEPPJZFDISREjG4shPEksGqG8in3MdUa1DX0VJrFCVQEqVGAksojER6O10XKUB0hqGMz8aIK2AeIeoJPrKSSvXgK4rg4Qm5HzSuh8zvWpZOYrqjRPYY9yVKh0zgUyFGv8p3PX3-4Q0zW3Cqwa5tinKPlO98NEvyEcTwGjUKlahfMaRqgGUcZyPMqEZGE5opMhBPvrdIcZpl_vDU05OXSjn_1fK-eIFvN8tlyqItIyePdfBzROb86dudx4HeVUh2cG_mInz-evflNa5EDXnbhPWbrjLorjzTiN4p7CDH2r7W9mmTbQD-D02grzN-qhlSbKXyR-B5_4-__0izWw2A_twB-F1u9XdJxr92L8eW_rhowD_gs7T0Jp6gbHdxfIYA4UVaqNhS0LTEmeFHJUsvHy9lIgzWjqKfLY492j7lvV0G9bVPZQPaLMLZTtMN8lsx5ob8tIq0LSIH8vsjNBigAeW6KGLLDXItASOaScX7vBFtmloHtaYwhgk7Dh6Y2RMyDikLDCbnEdykNIklPEw5kkMsaCxFBE1RoyRnC2gO05yLtE9HN2n08xHJ977W0kPj_PvgPaXOc5PdBSGsU4oCOQYgocikgEH4DQBQTWiCZn4foAehS6lWBIkCPGsjzESxyw6RblHNIPNCJvRoZ82RpLjzMq_0IwLzbjQjK-UZlA7b0IYSXx-kGZ8P4BR-pDkqUQD0LsjnoRaBtstv17heLz0T8j3YEVqT3C0j1p5t_iEMLzeDNQf7jvhjpk5jKUsSpgjDnLKnj5yMDjytzheXsGTRvS7ES_87cLfzmlj21LVvKen9_O0pkZty9lna2M_d7Ln7qu9AVNuCUy7NyLKYo017d2-WC2dKqEWaX5gQ8RxBlcVe8dMXSY6f-fst4AIDsXrYQq3ZbM9q2JNnoHGiub-lg2DxEXG-_YILOaC0nMB4Y6pNIdzu-PSU-k03Y1hq7vVym01uW-NEK1vsnSe9_eX9s7cPjp9j1kJCRGuz6yvS9os_Lg2YtAQSF7c9-xLnKbd9ljvtPnpFAqYhsAnhOgg1IpSif9y5X53PEihtmD1GftEv8wAO517Duw8PDwXuEP8X4Tv-MhmJGJKTjhniF8irfE7XAkaKBXSEAJkNlr4CgIASbk0yI2Y9CNGAiUTOq7SAMuhZEb9oRe4cBGHwNlXznKSiEtkhVRH8RGWc4pjId7GjIJFSrlXCowRoGdwH-2TUGpExEKzp3CfXS5yx7LGE1GbUd0ZhWemVORMpUjddvnw6QbHptxu-oVOXejUhU5d6NSFTv1fOIH54BUfvdr46iS099zDgz1Bmm0g99PBai3t61S7o-zdabFe4W5Z0RD5cbUOdRko7GP8Z4hMuN_r9ghYn0M8JD57v-ddFXmD_bsiO5Qj_8G7A1idzzEqbwnW0mm1bDZ-Gn7hZWj8NcbEeUTjwHtjh1-A1OHFz3Mg7dmudzpvGsDKe28v2kLhLwL_GcIfXHlCuEmo4ZQLiAMqAw0hAwJUciOYCImifmh0SJhvYsT-lJlAECGCcZUG4D_jM8YG4P_2lcJfN_zHshVyoSWJdlDx6CbHqG85MnDB_Rfcf8H9F9x_wf2fHfe__fS_HJQomA</script>
+</body>
+</html>

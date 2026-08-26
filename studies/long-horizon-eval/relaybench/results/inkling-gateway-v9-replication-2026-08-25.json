@@ -1,0 +1,91 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-08-25T13:19:12.310Z",
+  "model": "thinkingmachines/inkling",
+  "track": "R_INKLING",
+  "result_root_label": "proofpress-inkling-v9-replication-20260825",
+  "frozen_protocol": "bench/experiments/cross-model-replication-v1.json",
+  "claim_boundary": {
+    "benchmark": "Public LAB Contracts tasks and public criteria; not an official Harvey private leaderboard result.",
+    "stress": "LAB-derived controlled handoff stress test; not an official Harvey benchmark result.",
+    "uncertainty": "Descriptive paired repeated-run uncertainty on a fixed task panel; not a population estimate.",
+    "invalid": "Invalid attempts are retained but excluded from treatment estimates."
+  },
+  "completion": {
+    "planned_pairs": 18,
+    "valid_pairs": 0,
+    "invalid_attempt_directories": 3,
+    "complete": false,
+    "panel_estimate_available": false,
+    "disposition": "early_stopped_route_invalid",
+    "reason": "Three preserved formal invalid attempts make the frozen >=90% attempt-validity threshold unreachable: even 18 eventual valid pairs would yield 18/21 = 85.7%.",
+    "expansion_eligible": false
+  },
+  "quality": {
+    "clean": {
+      "pairs": 0,
+      "estimate_available": false,
+      "by_task": {
+        "credit": {
+          "pairs": 0,
+          "estimate_available": false
+        },
+        "msa": {
+          "pairs": 0,
+          "estimate_available": false
+        },
+        "license": {
+          "pairs": 0,
+          "estimate_available": false
+        }
+      }
+    },
+    "stress": {
+      "pairs": 0,
+      "estimate_available": false,
+      "by_task": {
+        "credit": {
+          "pairs": 0,
+          "estimate_available": false
+        },
+        "msa": {
+          "pairs": 0,
+          "estimate_available": false
+        },
+        "license": {
+          "pairs": 0,
+          "estimate_available": false
+        }
+      }
+    }
+  },
+  "protection": {
+    "pairs": 0,
+    "estimate_available": false
+  },
+  "proof_price": {
+    "clean": {
+      "pairs": 0,
+      "estimate_available": false
+    },
+    "stress": {
+      "pairs": 0,
+      "estimate_available": false
+    }
+  },
+  "valid_runs": [],
+  "invalid_attempts": [
+    {
+      "path": "repeat-1/clean/credit/run-invalid-selector-length-attempt-1",
+      "reason_slug": "selector-length-attempt-1"
+    },
+    {
+      "path": "repeat-1/clean/credit/run-invalid-selector-length-attempt-2",
+      "reason_slug": "selector-length-attempt-2"
+    },
+    {
+      "path": "repeat-1/clean/credit/run-invalid-selector-length-attempt-3",
+      "reason_slug": "selector-length-attempt-3"
+    }
+  ]
+}

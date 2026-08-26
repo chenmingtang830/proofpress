@@ -1,0 +1,454 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-08-25T11:57:10.531Z",
+  "model": "zai/glm-5.2",
+  "track": "B2_GLM_5_2_GATEWAY_REPLACEMENT",
+  "result_root_label": "proofpress-glm52-v9-replication-20260825",
+  "frozen_protocol": "bench/experiments/cross-model-replication-v1.json",
+  "claim_boundary": {
+    "benchmark": "Public LAB Contracts tasks and public criteria; not an official Harvey private leaderboard result.",
+    "stress": "LAB-derived controlled handoff stress test; not an official Harvey benchmark result.",
+    "uncertainty": "Descriptive paired repeated-run uncertainty on a fixed task panel; not a population estimate.",
+    "invalid": "Invalid attempts are retained but excluded from treatment estimates."
+  },
+  "completion": {
+    "planned_pairs": 18,
+    "valid_pairs": 2,
+    "invalid_attempt_directories": 5,
+    "complete": false,
+    "panel_estimate_available": false,
+    "disposition": "early_stopped_route_invalid",
+    "reason": "Five preserved invalid attempts make the frozen >=90% attempt-validity expansion gate mathematically unreachable: even 18 eventual valid pairs would yield 18/23 = 78.3%.",
+    "expansion_eligible": false
+  },
+  "quality": {
+    "clean": {
+      "pairs": 2,
+      "estimate_available": true,
+      "raw": {
+        "passed": 175,
+        "total": 199,
+        "rate": 0.8793969849246231
+      },
+      "proofpress": {
+        "passed": 192,
+        "total": 199,
+        "rate": 0.964824120603015
+      },
+      "weighted_delta_criteria": 17,
+      "weighted_delta_percentage_points": 8.542713567839195,
+      "paired_delta_percentage_points": {
+        "values": [
+          10.1010101010101,
+          7
+        ],
+        "mean": 8.55050505050505,
+        "interval_available": true,
+        "sample_standard_deviation": 2.1927452709522224,
+        "standard_error": 1.5505050505050502,
+        "lower_95": -11.150212121212116,
+        "upper_95": 28.251222222222218,
+        "method": "paired t interval, df=1"
+      },
+      "by_task": {
+        "credit": {
+          "pairs": 1,
+          "estimate_available": true,
+          "raw": {
+            "passed": 86,
+            "total": 99,
+            "rate": 0.8686868686868687
+          },
+          "proofpress": {
+            "passed": 96,
+            "total": 99,
+            "rate": 0.9696969696969697
+          },
+          "weighted_delta_criteria": 10,
+          "weighted_delta_percentage_points": 10.1010101010101,
+          "paired_delta_percentage_points": {
+            "values": [
+              10.1010101010101
+            ],
+            "mean": 10.1010101010101,
+            "interval_available": false,
+            "reason": "at least two valid pairs are required"
+          }
+        },
+        "msa": {
+          "pairs": 1,
+          "estimate_available": true,
+          "raw": {
+            "passed": 89,
+            "total": 100,
+            "rate": 0.89
+          },
+          "proofpress": {
+            "passed": 96,
+            "total": 100,
+            "rate": 0.96
+          },
+          "weighted_delta_criteria": 7,
+          "weighted_delta_percentage_points": 7,
+          "paired_delta_percentage_points": {
+            "values": [
+              7
+            ],
+            "mean": 7,
+            "interval_available": false,
+            "reason": "at least two valid pairs are required"
+          }
+        },
+        "license": {
+          "pairs": 0,
+          "estimate_available": false
+        }
+      }
+    },
+    "stress": {
+      "pairs": 0,
+      "estimate_available": false,
+      "by_task": {
+        "credit": {
+          "pairs": 0,
+          "estimate_available": false
+        },
+        "msa": {
+          "pairs": 0,
+          "estimate_available": false
+        },
+        "license": {
+          "pairs": 0,
+          "estimate_available": false
+        }
+      }
+    }
+  },
+  "protection": {
+    "pairs": 0,
+    "estimate_available": false
+  },
+  "proof_price": {
+    "clean": {
+      "pairs": 2,
+      "estimate_available": true,
+      "delta": {
+        "model_calls": {
+          "total": 6,
+          "mean": 3,
+          "median": 3,
+          "values": [
+            3,
+            3
+          ]
+        },
+        "input_tokens": {
+          "total": 276474,
+          "mean": 138237,
+          "median": 138237,
+          "values": [
+            140303,
+            136171
+          ]
+        },
+        "output_tokens": {
+          "total": 60645,
+          "mean": 30322.5,
+          "median": 30322.5,
+          "values": [
+            31133,
+            29512
+          ]
+        },
+        "reasoning_tokens": {
+          "total": 36848,
+          "mean": 18424,
+          "median": 18424,
+          "values": [
+            19881,
+            16967
+          ]
+        },
+        "total_tokens": {
+          "total": 337119,
+          "mean": 168559.5,
+          "median": 168559.5,
+          "values": [
+            171436,
+            165683
+          ]
+        },
+        "provider_cost_usd": {
+          "total": 0.5589476499999999,
+          "mean": 0.27947382499999995,
+          "median": 0.27947382499999995,
+          "values": [
+            0.28464575,
+            0.27430189999999993
+          ]
+        },
+        "wall_clock_latency_ms": {
+          "total": 331990,
+          "mean": 165995,
+          "median": 165995,
+          "values": [
+            157473,
+            174517
+          ]
+        }
+      }
+    },
+    "stress": {
+      "pairs": 0,
+      "estimate_available": false
+    }
+  },
+  "valid_runs": [
+    {
+      "repeat": 1,
+      "arm": "clean",
+      "task": "credit",
+      "run": "repeat-1/clean/credit/run",
+      "status": "READY_FOR_LAB_EVALUATION",
+      "quality": {
+        "raw": {
+          "passed": 86,
+          "total": 99,
+          "rate": 0.8686868686868687
+        },
+        "proofpress": {
+          "passed": 96,
+          "total": 99,
+          "rate": 0.9696969696969697
+        },
+        "delta_criteria": 10,
+        "delta_percentage_points": 10.1010101010101
+      },
+      "proof_price": {
+        "definition": "Proofpress receiver-side calls minus ordinary S4 receiver; shared S1-S3 sender and evaluators excluded",
+        "raw_receiver": {
+          "model_calls": 1,
+          "input_tokens": 5464,
+          "output_tokens": 17197,
+          "reasoning_tokens": 9898,
+          "total_tokens": 22661,
+          "provider_cost_usd": 0.0833164,
+          "wall_clock_latency_ms": 223449
+        },
+        "proofpress_receiver_and_governance": {
+          "model_calls": 4,
+          "input_tokens": 145767,
+          "output_tokens": 48330,
+          "reasoning_tokens": 29779,
+          "total_tokens": 194097,
+          "provider_cost_usd": 0.36796215,
+          "wall_clock_latency_ms": 380922
+        },
+        "delta": {
+          "model_calls": 3,
+          "input_tokens": 140303,
+          "output_tokens": 31133,
+          "reasoning_tokens": 19881,
+          "total_tokens": 171436,
+          "provider_cost_usd": 0.28464575,
+          "wall_clock_latency_ms": 157473
+        },
+        "request_ids": {
+          "raw": [
+            "sfo1::cle1::rzn8z-1787655138631-9cf499ecdda6"
+          ],
+          "proofpress": [
+            "sfo1::cle1::54zsg-1787655461475-bf33f56862d4",
+            "sfo1::cle1::cczwn-1787654712706-4d4ae721d881",
+            "sfo1::cle1::ksdzr-1787655362377-3e3951f812fc",
+            "sfo1::cle1::fmfjp-1787655389565-188a8e913f97"
+          ]
+        }
+      },
+      "receipts": {
+        "run_state_sha256": "sha256:4cfc285f7ce2e24437fce0b8d9dc1992893cfc8390443ff33b8ad5a5902fd6ae",
+        "public_rubric_sha256": "sha256:c6c73c6d2c6691ae7fc56efbd0196813cb467fd2bcc067556908e167c94a38db",
+        "public_rubric_evaluator": {
+          "raw": {
+            "route": "https://ai-gateway.vercel.sh/v1/chat/completions",
+            "model": "google/gemini-3.7-flash",
+            "model_requested": "google/gemini-3.7-flash",
+            "model_reported": "google/gemini-3.7-flash",
+            "serving_provider_requested": "google",
+            "serving_provider_reported": null,
+            "request_id": "sfo1::cle1::cb64d-1787655842753-2076005a5a42",
+            "wall_clock_latency_ms": 53124,
+            "input_tokens": 14405,
+            "cached_input_tokens": 0,
+            "output_tokens": 27244,
+            "output_cap_tokens": 32000,
+            "output_cap_utilization": 0.851375,
+            "output_cap_hit": false,
+            "finish_reason": "stop",
+            "reasoning_tokens": 21727,
+            "provider_cost_usd": 0.11296875,
+            "actual_incremental_cash_usd": null,
+            "model_calls": 1,
+            "retries": 0
+          },
+          "proofpress": {
+            "route": "https://ai-gateway.vercel.sh/v1/chat/completions",
+            "model": "google/gemini-3.7-flash",
+            "model_requested": "google/gemini-3.7-flash",
+            "model_reported": "google/gemini-3.7-flash",
+            "serving_provider_requested": "google",
+            "serving_provider_reported": null,
+            "request_id": "sfo1::cle1::fs76x-1787655896287-9af3b3947030",
+            "wall_clock_latency_ms": 41330,
+            "input_tokens": 15376,
+            "cached_input_tokens": 0,
+            "output_tokens": 19973,
+            "output_cap_tokens": 32000,
+            "output_cap_utilization": 0.62415625,
+            "output_cap_hit": false,
+            "finish_reason": "stop",
+            "reasoning_tokens": 16101,
+            "provider_cost_usd": 0.08643075,
+            "actual_incremental_cash_usd": null,
+            "model_calls": 1,
+            "retries": 0
+          }
+        }
+      }
+    },
+    {
+      "repeat": 1,
+      "arm": "clean",
+      "task": "msa",
+      "run": "repeat-1/clean/msa/run",
+      "status": "READY_FOR_LAB_EVALUATION",
+      "quality": {
+        "raw": {
+          "passed": 89,
+          "total": 100,
+          "rate": 0.89
+        },
+        "proofpress": {
+          "passed": 96,
+          "total": 100,
+          "rate": 0.96
+        },
+        "delta_criteria": 7,
+        "delta_percentage_points": 7
+      },
+      "proof_price": {
+        "definition": "Proofpress receiver-side calls minus ordinary S4 receiver; shared S1-S3 sender and evaluators excluded",
+        "raw_receiver": {
+          "model_calls": 1,
+          "input_tokens": 4317,
+          "output_tokens": 38365,
+          "reasoning_tokens": 26124,
+          "total_tokens": 42682,
+          "provider_cost_usd": 0.1748498,
+          "wall_clock_latency_ms": 509340
+        },
+        "proofpress_receiver_and_governance": {
+          "model_calls": 4,
+          "input_tokens": 140488,
+          "output_tokens": 67877,
+          "reasoning_tokens": 43091,
+          "total_tokens": 208365,
+          "provider_cost_usd": 0.44915169999999993,
+          "wall_clock_latency_ms": 683857
+        },
+        "delta": {
+          "model_calls": 3,
+          "input_tokens": 136171,
+          "output_tokens": 29512,
+          "reasoning_tokens": 16967,
+          "total_tokens": 165683,
+          "provider_cost_usd": 0.27430189999999993,
+          "wall_clock_latency_ms": 174517
+        },
+        "request_ids": {
+          "raw": [
+            "sfo1::cle1::kc9bj-1787655495531-45e623493e03"
+          ],
+          "proofpress": [
+            "sfo1::cle1::rqwf8-1787656133191-28d545f9e9c6",
+            "sfo1::cle1::gl92r-1787654561894-90331f5fdf02",
+            "sfo1::cle1::6jwcj-1787656005198-41f465f3ef6d",
+            "sfo1::cle1::ncpgc-1787656039725-d7a390e8b7ec"
+          ]
+        }
+      },
+      "receipts": {
+        "run_state_sha256": "sha256:c379a8a289ca739d3ac4acce9007763648cb43529c4b9b887cef2d342e6693b9",
+        "public_rubric_sha256": "sha256:2ac4eea8df16fec42d60330e1208ce921101e305b789e4037715913f651602e6",
+        "public_rubric_evaluator": {
+          "raw": {
+            "route": "https://ai-gateway.vercel.sh/v1/chat/completions",
+            "model": "google/gemini-3.7-flash",
+            "model_requested": "google/gemini-3.7-flash",
+            "model_reported": "google/gemini-3.7-flash",
+            "serving_provider_requested": "google",
+            "serving_provider_reported": null,
+            "request_id": "sfo1::cle1::9t9mq-1787656794303-54b4a72466f0",
+            "wall_clock_latency_ms": 38639,
+            "input_tokens": 19154,
+            "cached_input_tokens": 0,
+            "output_tokens": 18276,
+            "output_cap_tokens": 32000,
+            "output_cap_utilization": 0.571125,
+            "output_cap_hit": false,
+            "finish_reason": "stop",
+            "reasoning_tokens": 12713,
+            "provider_cost_usd": 0.0829005,
+            "actual_incremental_cash_usd": null,
+            "model_calls": 1,
+            "retries": 0
+          },
+          "proofpress": {
+            "route": "https://ai-gateway.vercel.sh/v1/chat/completions",
+            "model": "google/gemini-3.7-flash",
+            "model_requested": "google/gemini-3.7-flash",
+            "model_reported": "google/gemini-3.7-flash",
+            "serving_provider_requested": "google",
+            "serving_provider_reported": null,
+            "request_id": "sfo1::cle1::bfcwf-1787656833172-6a5b590c5702",
+            "wall_clock_latency_ms": 38096,
+            "input_tokens": 20483,
+            "cached_input_tokens": 0,
+            "output_tokens": 18870,
+            "output_cap_tokens": 32000,
+            "output_cap_utilization": 0.5896875,
+            "output_cap_hit": false,
+            "finish_reason": "stop",
+            "reasoning_tokens": 12909,
+            "provider_cost_usd": 0.08612475,
+            "actual_incremental_cash_usd": null,
+            "model_calls": 1,
+            "retries": 0
+          }
+        }
+      }
+    }
+  ],
+  "invalid_attempts": [
+    {
+      "path": "repeat-1/clean/license/run-invalid-s4-length-attempt-1",
+      "reason_slug": "s4-length-attempt-1"
+    },
+    {
+      "path": "repeat-1/clean/license/run-invalid-s4-length-attempt-3",
+      "reason_slug": "s4-length-attempt-3"
+    },
+    {
+      "path": "repeat-1/clean/license/run-invalid-s4-provider-error-attempt-2",
+      "reason_slug": "s4-provider-error-attempt-2"
+    },
+    {
+      "path": "repeat-1/stress/credit/run-invalid-s4-length-attempt-2",
+      "reason_slug": "s4-length-attempt-2"
+    },
+    {
+      "path": "repeat-1/stress/credit/run-invalid-selector-unknown-id-attempt-1",
+      "reason_slug": "selector-unknown-id-attempt-1"
+    }
+  ]
+}

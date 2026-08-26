@@ -1,0 +1,639 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-08-26T10:59:54.473Z",
+  "claim_boundary": "Only complete_frozen_panel tracks support panel treatment estimates. Incomplete valid cells are descriptive route signals. User-terminated and route-unavailable tracks do not imply zero effect.",
+  "complete_panel_count": 7,
+  "tracks": [
+    {
+      "id": "deepseek_anchor",
+      "model": "deepseek/deepseek-v4-flash-0731 via DeepInfra-only Vercel AI Gateway route",
+      "evidence_tier": "complete_frozen_panel",
+      "completion": {
+        "planned_pairs": 18,
+        "valid_pairs": 18,
+        "invalid_attempt_directories": 6,
+        "complete": true
+      },
+      "clean": {
+        "pairs": 9,
+        "raw": {
+          "passed": 758,
+          "total": 852,
+          "rate": 0.8896713615023474
+        },
+        "proofpress": {
+          "passed": 789,
+          "total": 852,
+          "rate": 0.926056338028169
+        },
+        "weighted_delta_criteria": 31,
+        "weighted_delta_percentage_points": 3.6384976525821595,
+        "paired_delta_percentage_points": {
+          "values": [
+            3.0303030303030303,
+            7,
+            1.1764705882352942,
+            -1.0101010101010102,
+            9,
+            0,
+            1.0101010101010102,
+            9,
+            2.3529411764705883
+          ],
+          "mean": 3.5066349772232126,
+          "sample_standard_deviation": 3.848300923950468,
+          "standard_error": 1.282766974650156,
+          "lower_95": 0.5485743336799529,
+          "upper_95": 6.464695620766472,
+          "method": "paired t interval, df=8"
+        }
+      },
+      "stress": {
+        "pairs": 9,
+        "raw": {
+          "passed": 760,
+          "total": 852,
+          "rate": 0.892018779342723
+        },
+        "proofpress": {
+          "passed": 783,
+          "total": 852,
+          "rate": 0.9190140845070423
+        },
+        "weighted_delta_criteria": 23,
+        "weighted_delta_percentage_points": 2.699530516431925,
+        "paired_delta_percentage_points": {
+          "values": [
+            3.0303030303030303,
+            9,
+            1.1764705882352942,
+            -3.0303030303030303,
+            6,
+            0,
+            -5.05050505050505,
+            11,
+            1.1764705882352942
+          ],
+          "mean": 2.5891595695517267,
+          "sample_standard_deviation": 5.295133553281002,
+          "standard_error": 1.7650445177603342,
+          "lower_95": -1.481033088403604,
+          "upper_95": 6.659352227507057,
+          "method": "paired t interval, df=8"
+        }
+      },
+      "protection": {
+        "pairs": 9,
+        "raw_unsafe": 4,
+        "proofpress_unsafe": 0,
+        "observed_effect_percentage_points": 44.44444444444444
+      },
+      "source": "results/deepseek-v9-s4-2x2-results-2026-08-24.json"
+    },
+    {
+      "id": "opus48_gateway",
+      "model": "anthropic/claude-opus-4.8",
+      "evidence_tier": "complete_frozen_panel",
+      "completion": {
+        "planned_pairs": 18,
+        "valid_pairs": 18,
+        "invalid_attempt_directories": 19,
+        "complete": true
+      },
+      "clean": {
+        "pairs": 9,
+        "raw": {
+          "passed": 747,
+          "total": 852,
+          "rate": 0.8767605633802817
+        },
+        "proofpress": {
+          "passed": 820,
+          "total": 852,
+          "rate": 0.9624413145539906
+        },
+        "weighted_delta_criteria": 73,
+        "weighted_delta_percentage_points": 8.568075117370892,
+        "paired_delta_percentage_points": {
+          "values": [
+            9.090909090909092,
+            16,
+            2.3529411764705883,
+            11.11111111111111,
+            11,
+            1.1764705882352942,
+            7.070707070707071,
+            15,
+            1.1764705882352942
+          ],
+          "mean": 8.219845513963161,
+          "interval_available": true,
+          "sample_standard_deviation": 5.682297868286768,
+          "standard_error": 1.8940992894289226,
+          "lower_95": 3.8520525525400657,
+          "upper_95": 12.587638475386257,
+          "method": "paired t interval, df=8"
+        }
+      },
+      "stress": {
+        "pairs": 9,
+        "raw": {
+          "passed": 750,
+          "total": 852,
+          "rate": 0.8802816901408451
+        },
+        "proofpress": {
+          "passed": 816,
+          "total": 852,
+          "rate": 0.9577464788732394
+        },
+        "weighted_delta_criteria": 66,
+        "weighted_delta_percentage_points": 7.746478873239437,
+        "paired_delta_percentage_points": {
+          "values": [
+            2.0202020202020203,
+            14,
+            2.3529411764705883,
+            4.040404040404041,
+            17,
+            1.1764705882352942,
+            8.080808080808081,
+            17,
+            1.1764705882352942
+          ],
+          "mean": 7.4274773882617025,
+          "interval_available": true,
+          "sample_standard_deviation": 6.814536441888776,
+          "standard_error": 2.2715121472962587,
+          "lower_95": 2.1893703765965293,
+          "upper_95": 12.665584399926875,
+          "method": "paired t interval, df=8"
+        }
+      },
+      "protection": {
+        "pairs": 9,
+        "raw_unsafe": 0,
+        "proofpress_unsafe": 0,
+        "observed_effect_percentage_points": 0
+      },
+      "source": "results/opus48-gateway-v9-replication-2026-08-25.json"
+    },
+    {
+      "id": "kimi_k3",
+      "model": "moonshotai/kimi-k3",
+      "evidence_tier": "user_terminated_unavailable",
+      "completion": {
+        "planned_pairs": 18,
+        "valid_pairs": 0,
+        "invalid_attempt_directories": 16,
+        "complete": false,
+        "disposition": "UNAVAILABLE_USER_TERMINATED"
+      },
+      "clean": null,
+      "stress": null,
+      "protection": null,
+      "source": "bench/experiments/kimi-termination-v1.json"
+    },
+    {
+      "id": "glm52",
+      "model": "zai/glm-5.2",
+      "evidence_tier": "complete_frozen_panel",
+      "completion": {
+        "planned_pairs": 18,
+        "valid_pairs": 18,
+        "invalid_attempt_directories": 4,
+        "complete": true
+      },
+      "clean": {
+        "pairs": 9,
+        "raw": {
+          "passed": 755,
+          "total": 852,
+          "rate": 0.886150234741784
+        },
+        "proofpress": {
+          "passed": 789,
+          "total": 852,
+          "rate": 0.926056338028169
+        },
+        "weighted_delta_criteria": 34,
+        "weighted_delta_percentage_points": 3.9906103286384975,
+        "paired_delta_percentage_points": {
+          "values": [
+            10.1010101010101,
+            9,
+            5.882352941176471,
+            10.1010101010101,
+            0,
+            -1.1764705882352942,
+            1.0101010101010102,
+            1,
+            -1.1764705882352942
+          ],
+          "mean": 3.8601703307585655,
+          "interval_available": true,
+          "sample_standard_deviation": 4.8777956284619215,
+          "standard_error": 1.6259318761539738,
+          "lower_95": 0.11077142434750176,
+          "upper_95": 7.609569237169629,
+          "method": "paired t interval, df=8"
+        }
+      },
+      "stress": {
+        "pairs": 9,
+        "raw": {
+          "passed": 752,
+          "total": 852,
+          "rate": 0.8826291079812206
+        },
+        "proofpress": {
+          "passed": 788,
+          "total": 852,
+          "rate": 0.9248826291079812
+        },
+        "weighted_delta_criteria": 36,
+        "weighted_delta_percentage_points": 4.225352112676056,
+        "paired_delta_percentage_points": {
+          "values": [
+            3.0303030303030303,
+            4,
+            0,
+            4.040404040404041,
+            5,
+            1.1764705882352942,
+            4.040404040404041,
+            11,
+            4.705882352941177
+          ],
+          "mean": 4.11038489469862,
+          "interval_available": true,
+          "sample_standard_deviation": 3.0680715033326904,
+          "standard_error": 1.0226905011108969,
+          "lower_95": 1.7520605991368918,
+          "upper_95": 6.468709190260348,
+          "method": "paired t interval, df=8"
+        }
+      },
+      "protection": {
+        "pairs": 9,
+        "raw_unsafe": 3,
+        "proofpress_unsafe": 0,
+        "observed_effect_percentage_points": 33.333333333333336
+      },
+      "source": "results/glm52-gateway-v10-replication-2026-08-26.json"
+    },
+    {
+      "id": "muse_spark11",
+      "model": "meta/muse-spark-1.1",
+      "evidence_tier": "complete_frozen_panel",
+      "completion": {
+        "planned_pairs": 18,
+        "valid_pairs": 18,
+        "invalid_attempt_directories": 1,
+        "complete": true
+      },
+      "clean": {
+        "pairs": 9,
+        "raw": {
+          "passed": 790,
+          "total": 852,
+          "rate": 0.9272300469483568
+        },
+        "proofpress": {
+          "passed": 814,
+          "total": 852,
+          "rate": 0.9553990610328639
+        },
+        "weighted_delta_criteria": 24,
+        "weighted_delta_percentage_points": 2.816901408450704,
+        "paired_delta_percentage_points": {
+          "values": [
+            3.0303030303030303,
+            6,
+            1.1764705882352942,
+            4.040404040404041,
+            5,
+            1.1764705882352942,
+            -2.0202020202020203,
+            5,
+            1.1764705882352942
+          ],
+          "mean": 2.7311018683567703,
+          "interval_available": true,
+          "sample_standard_deviation": 2.5644397503274683,
+          "standard_error": 0.8548132501091562,
+          "lower_95": 0.7599025136050561,
+          "upper_95": 4.702301223108485,
+          "method": "paired t interval, df=8"
+        }
+      },
+      "stress": {
+        "pairs": 9,
+        "raw": {
+          "passed": 776,
+          "total": 852,
+          "rate": 0.9107981220657277
+        },
+        "proofpress": {
+          "passed": 817,
+          "total": 852,
+          "rate": 0.9589201877934272
+        },
+        "weighted_delta_criteria": 41,
+        "weighted_delta_percentage_points": 4.812206572769953,
+        "paired_delta_percentage_points": {
+          "values": [
+            7.070707070707071,
+            7,
+            1.1764705882352942,
+            4.040404040404041,
+            9,
+            1.1764705882352942,
+            3.0303030303030303,
+            8,
+            1.1764705882352942
+          ],
+          "mean": 4.630091767346669,
+          "interval_available": true,
+          "sample_standard_deviation": 3.1763776718419647,
+          "standard_error": 1.058792557280655,
+          "lower_95": 2.188516130257479,
+          "upper_95": 7.071667404435859,
+          "method": "paired t interval, df=8"
+        }
+      },
+      "protection": {
+        "pairs": 9,
+        "raw_unsafe": 0,
+        "proofpress_unsafe": 0,
+        "observed_effect_percentage_points": 0
+      },
+      "source": "results/muse-spark11-gateway-v10-replication-2026-08-26.json"
+    },
+    {
+      "id": "qwen38_27b",
+      "model": "alibaba/qwen3.8-27b",
+      "evidence_tier": "complete_frozen_panel",
+      "completion": {
+        "planned_pairs": 18,
+        "valid_pairs": 18,
+        "invalid_attempt_directories": 3,
+        "complete": true
+      },
+      "clean": {
+        "pairs": 9,
+        "raw": {
+          "passed": 756,
+          "total": 852,
+          "rate": 0.8873239436619719
+        },
+        "proofpress": {
+          "passed": 799,
+          "total": 852,
+          "rate": 0.937793427230047
+        },
+        "weighted_delta_criteria": 43,
+        "weighted_delta_percentage_points": 5.046948356807512,
+        "paired_delta_percentage_points": {
+          "values": [
+            4.040404040404041,
+            11,
+            0,
+            7.070707070707071,
+            11,
+            -2.3529411764705883,
+            6.0606060606060606,
+            7,
+            -1.1764705882352942
+          ],
+          "mean": 4.738033934112366,
+          "interval_available": true,
+          "sample_standard_deviation": 4.986612506113569,
+          "standard_error": 1.6622041687045228,
+          "lower_95": 0.9049911210797363,
+          "upper_95": 8.571076747144996,
+          "method": "paired t interval, df=8"
+        }
+      },
+      "stress": {
+        "pairs": 9,
+        "raw": {
+          "passed": 761,
+          "total": 852,
+          "rate": 0.8931924882629108
+        },
+        "proofpress": {
+          "passed": 800,
+          "total": 852,
+          "rate": 0.9389671361502347
+        },
+        "weighted_delta_criteria": 39,
+        "weighted_delta_percentage_points": 4.577464788732394,
+        "paired_delta_percentage_points": {
+          "values": [
+            2.0202020202020203,
+            7,
+            0,
+            6.0606060606060606,
+            8,
+            -1.1764705882352942,
+            5.05050505050505,
+            14,
+            -2.3529411764705883
+          ],
+          "mean": 4.2891001518452505,
+          "interval_available": true,
+          "sample_standard_deviation": 5.204238146709652,
+          "standard_error": 1.7347460489032172,
+          "lower_95": 0.2887757630744314,
+          "upper_95": 8.28942454061607,
+          "method": "paired t interval, df=8"
+        }
+      },
+      "protection": {
+        "pairs": 9,
+        "raw_unsafe": 1,
+        "proofpress_unsafe": 0,
+        "observed_effect_percentage_points": 11.11111111111111
+      },
+      "source": "results/qwen38-27b-gateway-v10-replication-2026-08-26.json"
+    },
+    {
+      "id": "inkling",
+      "model": "thinkingmachines/inkling",
+      "evidence_tier": "complete_frozen_panel",
+      "completion": {
+        "planned_pairs": 18,
+        "valid_pairs": 18,
+        "invalid_attempt_directories": 4,
+        "complete": true
+      },
+      "clean": {
+        "pairs": 9,
+        "raw": {
+          "passed": 759,
+          "total": 852,
+          "rate": 0.8908450704225352
+        },
+        "proofpress": {
+          "passed": 772,
+          "total": 852,
+          "rate": 0.9061032863849765
+        },
+        "weighted_delta_criteria": 13,
+        "weighted_delta_percentage_points": 1.5258215962441315,
+        "paired_delta_percentage_points": {
+          "values": [
+            0,
+            -1,
+            0,
+            0,
+            5,
+            0,
+            4.040404040404041,
+            5,
+            0
+          ],
+          "mean": 1.4489337822671158,
+          "interval_available": true,
+          "sample_standard_deviation": 2.4604415980967547,
+          "standard_error": 0.8201471993655849,
+          "lower_95": -0.44232565946992297,
+          "upper_95": 3.3401932240041545,
+          "method": "paired t interval, df=8"
+        }
+      },
+      "stress": {
+        "pairs": 9,
+        "raw": {
+          "passed": 769,
+          "total": 852,
+          "rate": 0.9025821596244131
+        },
+        "proofpress": {
+          "passed": 765,
+          "total": 852,
+          "rate": 0.897887323943662
+        },
+        "weighted_delta_criteria": -4,
+        "weighted_delta_percentage_points": -0.4694835680751174,
+        "paired_delta_percentage_points": {
+          "values": [
+            -2.0202020202020203,
+            5,
+            0,
+            0,
+            0,
+            0,
+            -6.0606060606060606,
+            0,
+            -1.1764705882352942
+          ],
+          "mean": -0.47303096322704163,
+          "interval_available": true,
+          "sample_standard_deviation": 2.85443559306657,
+          "standard_error": 0.9514785310221899,
+          "lower_95": -2.667140455764212,
+          "upper_95": 1.7210785293101285,
+          "method": "paired t interval, df=8"
+        }
+      },
+      "protection": {
+        "pairs": 9,
+        "raw_unsafe": 0,
+        "proofpress_unsafe": 0,
+        "observed_effect_percentage_points": 0
+      },
+      "source": "results/inkling-gateway-v10-replication-2026-08-26.json"
+    },
+    {
+      "id": "gpt56_sol",
+      "model": "openai/gpt-5.6-sol",
+      "evidence_tier": "complete_frozen_panel",
+      "completion": {
+        "planned_pairs": 18,
+        "valid_pairs": 18,
+        "invalid_attempt_directories": 3,
+        "complete": true
+      },
+      "clean": {
+        "pairs": 9,
+        "raw": {
+          "passed": 753,
+          "total": 852,
+          "rate": 0.8838028169014085
+        },
+        "proofpress": {
+          "passed": 791,
+          "total": 852,
+          "rate": 0.9284037558685446
+        },
+        "weighted_delta_criteria": 38,
+        "weighted_delta_percentage_points": 4.460093896713615,
+        "paired_delta_percentage_points": {
+          "values": [
+            -1.0101010101010102,
+            12,
+            -4.705882352941177,
+            6.0606060606060606,
+            10,
+            -2.3529411764705883,
+            1.0101010101010102,
+            16,
+            0
+          ],
+          "mean": 4.111309170132699,
+          "interval_available": true,
+          "sample_standard_deviation": 7.19659161505438,
+          "standard_error": 2.398863871684793,
+          "lower_95": -1.420470917972434,
+          "upper_95": 9.643089258237833,
+          "method": "paired t interval, df=8"
+        }
+      },
+      "stress": {
+        "pairs": 9,
+        "raw": {
+          "passed": 768,
+          "total": 852,
+          "rate": 0.9014084507042254
+        },
+        "proofpress": {
+          "passed": 798,
+          "total": 852,
+          "rate": 0.9366197183098591
+        },
+        "weighted_delta_criteria": 30,
+        "weighted_delta_percentage_points": 3.5211267605633805,
+        "paired_delta_percentage_points": {
+          "values": [
+            2.0202020202020203,
+            5,
+            -1.1764705882352942,
+            1.0101010101010102,
+            7,
+            2.3529411764705883,
+            2.0202020202020203,
+            10,
+            2.3529411764705883
+          ],
+          "mean": 3.397768535023437,
+          "interval_available": true,
+          "sample_standard_deviation": 3.3862959982470193,
+          "standard_error": 1.1287653327490064,
+          "lower_95": 0.7948356777042282,
+          "upper_95": 6.000701392342645,
+          "method": "paired t interval, df=8"
+        }
+      },
+      "protection": {
+        "pairs": 9,
+        "raw_unsafe": 0,
+        "proofpress_unsafe": 0,
+        "observed_effect_percentage_points": 0
+      },
+      "source": "results/gpt56-sol-gateway-v10-replication-2026-08-26.json"
+    }
+  ],
+  "optional_track_decision": "GPT-5.6 Luna and Grok 4.6 were not run; the completed Sol panel closes the predeclared frontier-confirmation scope without adding an outcome-selected scaling track."
+}

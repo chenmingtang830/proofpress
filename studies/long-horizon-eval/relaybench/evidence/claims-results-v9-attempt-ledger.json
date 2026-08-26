@@ -1,0 +1,4 @@
+[
+  {"block":"a02c5c15","kind":"modified","note":"Adds the exact pre-v9 valid, zero, negative, and invalid-attempt preservation boundary."},
+  {"block":"68a38c2a","kind":"modified","note":"Adds the machine-readable pre-v9 attempt ledger to authoritative artifacts."}
+]

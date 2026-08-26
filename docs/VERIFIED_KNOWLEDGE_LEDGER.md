@@ -2,8 +2,8 @@
 # Verified Knowledge Ledger
 
 [//]: # (ob:b71e5de6)
-> Status: implemented developer wedge in `proofpress@0.4.0`. This overview
-> describes the current CLI and fixture. It is not yet a frozen interchange
+> Status: local MVP in `proofpress@0.5.0-alpha.1`. This overview describes the
+> append-only ledger, context gate, and local review UI. It is not yet a frozen interchange
 > specification or a claim of general long-horizon agent efficacy.
 
 [//]: # (ob:24505103)
@@ -36,9 +36,9 @@ reuse it.
 [//]: # (ob:c3d2a28d)
 ```text
 bounded OTLP-style telemetry or artifact
-  → immutable source events and selected evidence
-  → candidate claims
-  → deterministic checks + policy recommendation + human review
+  → append-only source and evidence events
+  → evidence-bound conclusions
+  → deterministic checks + LM recommendation + human review
   → governed current context for a fresh human or agent
 ```
 
@@ -48,20 +48,20 @@ The reference fixture is
 
 [//]: # (ob:5c8c136b)
 ```sh
-proofpress knowledge ingest demo.otlp.json -o ledger.json \
-  --scope demo --proposer agent:experiment-runner
-proofpress knowledge policy-review ledger.json --claim CLAIM_ID
-proofpress knowledge review ledger.json --claim CLAIM_ID \
-  --decision accept --reviewer human:reviewer
-proofpress knowledge context ledger.json --scope demo
-proofpress knowledge verify ledger.json
+proofpress evidence import demo.otlp.json
+proofpress propose --statement "The current conclusion" \
+  --evidence EVIDENCE_ID --scope demo --proposer agent:runner
+proofpress evaluate CONCLUSION_ID
+proofpress review CONCLUSION_ID --admit --reviewer human:reviewer
+proofpress context --scope demo --actor agent:successor
+proofpress ui --scope demo
 ```
 
 [//]: # (ob:58bffc74)
-`context` returns only admitted, current, in-scope knowledge. Rejected,
-unresolved, expired, and superseded candidates remain in the audit history but
-are excluded by default. `view` emits a stable graph read model; `materialize`
-writes a Markdown projection.
+`context` returns only admitted, current, in-scope and actor-eligible knowledge.
+Rejected, unresolved, expired, and superseded conclusions remain in the
+append-only audit history but are excluded by default. `ui` renders review,
+receipt, context-preview, and lineage views from the same Git event projection.
 
 [//]: # (ob:5d269544)
 ## Relationship to artifact provenance

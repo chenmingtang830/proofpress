@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "selection_rule_id": "proofpress-treatment-effect-selection-v2",
+  "harvey_lab": {
+    "task_id": "contracts/ip-licensing/license-agreement-playbook-escalation/scenario-03",
+    "final_deliverable": "escalation-approval-memo.docx"
+  },
+  "proposed_h4_release_schedule": [
+    {
+      "stage_id": "S1",
+      "cold_boundary_before": false,
+      "label": "Establish approved playbook, templates, clean SLA, and counterparty economics",
+      "release": [
+        "thornfield-approved-contracting-playbook-v4-2.docx",
+        "thornfield-msa-template-excerpt.docx",
+        "parallax-spectraview-sla-v1-clean.docx",
+        "parallax-fy2024-financial-summary.xlsx"
+      ],
+      "expected_deliverable": "approved-position and baseline register"
+    },
+    {
+      "stage_id": "S2",
+      "cold_boundary_before": false,
+      "label": "Incorporate redline and technical security classification",
+      "release": [
+        "parallax-spectraview-sla-v2-redline.docx",
+        "ciso-security-assessment.eml",
+        "it-asset-classification-memo.docx"
+      ],
+      "expected_deliverable": "current deviation register"
+    },
+    {
+      "stage_id": "S3",
+      "cold_boundary_before": true,
+      "label": "Revalidate against outside counsel risk analysis",
+      "release": [
+        "outside-counsel-risk-analysis.docx"
+      ],
+      "expected_deliverable": "legal risk and approval analysis"
+    },
+    {
+      "stage_id": "S4",
+      "cold_boundary_before": false,
+      "label": "Prepare term-by-term approval memo",
+      "release": [
+        "escalation-request-email.eml",
+        "escalation-approval-memo-template.docx"
+      ],
+      "expected_deliverable": "escalation-approval-memo.docx"
+    }
+  ]
+}

@@ -1,0 +1,123 @@
+{
+  "schema_version": 1,
+  "result_id": "muse-spark-1.1-h4-calibration-2026-08-24",
+  "recorded_at": "2026-08-24",
+  "experiment_id": "proofpress-harvey-lab-pareto-v1",
+  "track_id": "C_MUSE_SPARK_1_1_LAB_CALIBRATION",
+  "task_id": "contracts/commercial-vendor-customer/master-services-agreement-playbook-escalation/scenario-01",
+  "task_commit": "7be41d57fd5a6e97b5f246a029e810f83d09cd96",
+  "analysis_role": "PAIRED_LAB_CALIBRATION_NOT_EFFICACY_UNTIL_REPLICATED",
+  "worker": {
+    "model_requested": "meta/muse-spark-1.1",
+    "model_reported": "meta/muse-spark-1.1",
+    "serving_provider_requested": "meta",
+    "serving_provider_reported": null,
+    "reasoning_effort_requested": "high",
+    "fallback": false,
+    "retries": 0
+  },
+  "judge_and_evaluator": {
+    "model_requested": "google/gemini-3.7-flash",
+    "model_reported": "google/gemini-3.7-flash",
+    "serving_provider_requested": "google",
+    "serving_provider_reported": null,
+    "fallback": false
+  },
+  "public_rubric": {
+    "claim_boundary": "scores the 72 public task criteria; not an official Harvey private leaderboard score",
+    "C1_ORDINARY_PORTABLE": {
+      "criteria_passed": 72,
+      "criteria_total": 72,
+      "criterion_pass_rate": 1.0,
+      "all_pass": true
+    },
+    "C2_PROOFPRESS": {
+      "criteria_passed": 72,
+      "criteria_total": 72,
+      "criterion_pass_rate": 1.0,
+      "all_pass": true
+    },
+    "paired_delta_criteria": 0,
+    "paired_delta_rate": 0.0
+  },
+  "policy_gate": {
+    "proposals": 24,
+    "admitted": 19,
+    "blocked": 5,
+    "recommendations": {
+      "accept": 19,
+      "reject": 0,
+      "escalate": 5
+    }
+  },
+  "resource_use": {
+    "worker": {
+      "calls": 8,
+      "provider_cost_usd": 0.37964615,
+      "input_tokens": 144898,
+      "cached_input_tokens": 7401,
+      "output_tokens": 48627,
+      "reasoning_tokens": 22116,
+      "wall_clock_latency_ms_sum": 148847
+    },
+    "policy_judge": {
+      "calls": 24,
+      "provider_cost_usd": 0.1562925,
+      "input_tokens": 85140,
+      "cached_input_tokens": 0,
+      "output_tokens": 24650,
+      "reasoning_tokens": 21894,
+      "wall_clock_latency_ms_sum": 147807
+    },
+    "public_rubric_evaluator": {
+      "calls": 2,
+      "provider_cost_usd": 0.10095,
+      "input_tokens": 25340,
+      "cached_input_tokens": 0,
+      "output_tokens": 21852,
+      "reasoning_tokens": 13387,
+      "wall_clock_latency_ms_sum": 46336
+    },
+    "completed_run_provider_cost_usd": 0.63688865
+  },
+  "worker_by_condition": {
+    "C1_ORDINARY_PORTABLE": {
+      "calls": 4,
+      "provider_cost_usd": 0.17737995,
+      "input_tokens": 68659,
+      "cached_input_tokens": 7238,
+      "output_tokens": 23416,
+      "reasoning_tokens": 10269,
+      "wall_clock_latency_ms_sum": 74802
+    },
+    "C2_PROOFPRESS": {
+      "calls": 4,
+      "provider_cost_usd": 0.2022662,
+      "input_tokens": 76239,
+      "cached_input_tokens": 163,
+      "output_tokens": 25211,
+      "reasoning_tokens": 11847,
+      "wall_clock_latency_ms_sum": 74045
+    }
+  },
+  "receipts": {
+    "RUN_STATE.json": "sha256:7eb4228ff7631d81b64a8343e021278fb66364308dc91c3a32195659151f30f3",
+    "PUBLIC_RUBRIC_SCORES.json": "sha256:fc6bc22b7801a5c85591ca912ebea16b9638b588aeff30ce5689436cdccc1dfc",
+    "C1_deliverable.docx": "sha256:441cca66ed6ee910e45257fb23e1a49a7ee59b6eb7c5dc420395d27a860e90e4",
+    "C2_deliverable.docx": "sha256:f03163c693f47199283e0aa05e8dd74af97e6a77af26bf9e329015a10db40d01"
+  },
+  "excluded_attempts": [
+    {
+      "attempt": "calibration1",
+      "status": "INVALID_INCOMPLETE",
+      "reason": "S1 exhausted the original 4000-token completion budget in reasoning and returned empty content",
+      "provider_cost_usd_observed_before_failure": 0.0259385
+    }
+  ],
+  "interpretation": {
+    "result": "NO_IDENTIFIABLE_TREATMENT_EFFECT_DUE_TO_TASK_EVALUATOR_CEILING",
+    "supported": "Muse Spark 1.1 produced complete work under both conditions; Proofpress blocked five escalated conclusions from trusted context.",
+    "not_supported": "This run does not show a quality improvement, an efficacy effect, or an official Harvey LAB score.",
+    "next_action": "Select harder calibration tasks with non-ceiling raw baselines before any replicated Pareto comparison."
+  }
+}

@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "selection_rule_id": "proofpress-treatment-effect-selection-v2",
+  "harvey_lab": {
+    "task_id": "contracts/commercial-vendor-customer/master-services-agreement-playbook-escalation/scenario-04",
+    "final_deliverable": "escalation-approval-memo.docx"
+  },
+  "proposed_h4_release_schedule": [
+    {
+      "stage_id": "S1",
+      "cold_boundary_before": false,
+      "label": "Establish standard form, initial draft, economics, and drafting instructions",
+      "release": [
+        "verdantis-msa-template-v7-1.docx",
+        "helix-msa-verdantis-initial-draft.docx",
+        "deal-financial-model-helix.xlsx",
+        "oleander-instructions-to-mehta.eml"
+      ],
+      "expected_deliverable": "baseline contract and deal register"
+    },
+    {
+      "stage_id": "S2",
+      "cold_boundary_before": false,
+      "label": "Incorporate negotiated redline and deal-team comparison",
+      "release": [
+        "helix-msa-redline-april-14.docx",
+        "redline-comparison-matrix.xlsx",
+        "cro-deal-support-email.eml"
+      ],
+      "expected_deliverable": "current deviation register"
+    },
+    {
+      "stage_id": "S3",
+      "cold_boundary_before": true,
+      "label": "Revalidate against security, insurance, and approval authority",
+      "release": [
+        "infosec-risk-assessment-memo.docx",
+        "cyber-liability-insurance-summary.docx",
+        "deal-desk-authority-matrix-v4-2.xlsx"
+      ],
+      "expected_deliverable": "risk-adjusted approval analysis"
+    },
+    {
+      "stage_id": "S4",
+      "cold_boundary_before": false,
+      "label": "Prepare privileged escalation package",
+      "release": [
+        "escalation-request-email.eml"
+      ],
+      "expected_deliverable": "escalation-approval-memo.docx"
+    }
+  ]
+}

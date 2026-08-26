@@ -1,0 +1,8 @@
+[
+  {"block":"e439b2a3","kind":"modified","note":"Reframes the study around clean tax and protection effect and links the v9 report."},
+  {"block":"6a191609","kind":"modified","note":"Changes the primary question from mandatory lift to non-inferiority plus proof-price."},
+  {"block":"21cc85e2","kind":"modified","note":"Labels protection as a separate LAB-derived controlled stress test."},
+  {"block":"27d61266","kind":"modified","note":"Defines the v9 matched-pair 2x2 experimental unit."},
+  {"block":"cc9a861e","kind":"modified","note":"Records shared sender reuse, clean/stress parity, and blinded endpoints."},
+  {"block":"dd7734b6","kind":"modified","note":"Strengthens the non-official Harvey and perturbed-arm claim boundary."}
+]

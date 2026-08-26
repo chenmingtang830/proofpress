@@ -1,0 +1,72 @@
+{
+  "schema_version": 1,
+  "id": "proofpress-treatment-effect-selection-v2",
+  "frozen_at": "2026-08-24",
+  "primary_estimand": "paired public-rubric criterion-pass delta for Proofpress versus raw handoff under a true cold source boundary",
+  "secondary_estimands": [
+    "task all-pass delta",
+    "unsafe or stale conclusion propagation delta",
+    "provider cost delta",
+    "wall-clock latency delta"
+  ],
+  "selection_without_outcome_access": {
+    "source_commit": "7be41d57fd5a6e97b5f246a029e810f83d09cd96",
+    "required_task_family": "LAB Contracts",
+    "required_output_count": 1,
+    "required_output_format": "docx",
+    "required_public_criteria_min": 80,
+    "required_source_documents_min": 10,
+    "required_structural_features": [
+      "base or policy document",
+      "counterparty redline or changed negotiated position",
+      "later legal, risk, authority, or business evidence",
+      "final escalation instruction"
+    ],
+    "excluded": [
+      "tasks selected after observing paired condition outcomes",
+      "tasks whose receiver must reproduce an earlier binary document unavailable after the boundary",
+      "tasks with multiple required final deliverables until the runner supports them"
+    ]
+  },
+  "panel": [
+    {
+      "task_id": "contracts/financing/credit-lending-playbook-escalation/scenario-02",
+      "candidate": "candidates/credit-lending-escalation-scenario-02.json",
+      "public_criteria": 99
+    },
+    {
+      "task_id": "contracts/commercial-vendor-customer/master-services-agreement-playbook-escalation/scenario-04",
+      "candidate": "candidates/msa-escalation-scenario-04.json",
+      "public_criteria": 100
+    },
+    {
+      "task_id": "contracts/ip-licensing/license-agreement-playbook-escalation/scenario-03",
+      "candidate": "candidates/software-license-escalation-scenario-03.json",
+      "public_criteria": 85
+    }
+  ],
+  "model_sequence": [
+    {
+      "model": "meta/muse-spark-1.1",
+      "role": "primary strong-agent calibration",
+      "advance_rule": "run the entire frozen panel; do not drop a task after observing an outcome"
+    },
+    {
+      "model": "zai/glm-5.2",
+      "role": "secondary open-weight calibration",
+      "advance_rule": "use only if the full Muse panel is at ceiling, floor, or null with insufficient variance"
+    }
+  ],
+  "replication_rule": {
+    "pilot_replicates_per_task_condition": 1,
+    "confirmatory_replicates_per_task_condition": 3,
+    "promote_to_confirmatory_when": "at least two panel tasks have raw criterion pass rates strictly between 0.40 and 0.95",
+    "report_all_panel_tasks": true
+  },
+  "stopping_rule": {
+    "success": "a non-floor, non-ceiling paired estimate with all frozen tasks reported, three confirmatory replicates, uncertainty, safety metrics, and complete receipts",
+    "model_change": "allowed only after completing and reporting the full frozen panel for the current model",
+    "task_change": "requires a new versioned selection protocol before viewing outcomes on replacement tasks"
+  },
+  "claim_boundary": "Calibration chooses a measurable regime. Positive, null, and negative valid effects are all reportable; configuration changes may not be conditioned on hiding an observed result."
+}

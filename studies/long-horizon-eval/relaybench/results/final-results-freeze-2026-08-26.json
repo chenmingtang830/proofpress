@@ -1,0 +1,14 @@
+{
+  "schema_version": "relaybench.final_results_freeze.v1",
+  "frozen_on": "2026-08-26",
+  "status": "closed",
+  "decision_id": "LH-D07",
+  "reason": "The seven-model, three-task-family panel provides a bounded product-mechanism result. Post-outcome model or scenario additions would belong to a new preregistered study.",
+  "public_summary": {
+    "quality": "89.3% ordinary versus 93.4% Proofpress (+4.1 percentage points)",
+    "safety": "8 observed unsafe propagation events versus 0",
+    "scope": "7 models, 3 legal task families, 126 valid paired runs"
+  },
+  "receipt_manifest": "../../ara/evidence/FINAL_RESULTS_RECEIPTS.json",
+  "additional_runs_policy": "new_preregistered_study_only"
+}

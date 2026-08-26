@@ -1,7 +1,7 @@
 {
   "name": "proofpress",
-  "version": "0.4.0",
-  "description": "Verified knowledge infrastructure for agent-native workflows",
+  "version": "0.5.0-alpha.1",
+  "description": "Verified knowledge infrastructure for autonomous AI agents",
   "license": "Apache-2.0",
   "bin": {
     "proofpress": "bin/proofpress.js"
@@ -15,6 +15,10 @@
     "proofpress_knowledge.py",
     "proofpress_evidence.py",
     "examples/verified-knowledge-ledger/demo.otlp.json",
+    "examples/verified-knowledge-ledger/legal/README.md",
+    "examples/verified-knowledge-ledger/legal/initial-msa.md",
+    "examples/verified-knowledge-ledger/legal/counterparty-redline.md",
+    "examples/verified-knowledge-ledger/legal/setup_fixture.py",
     "README.md"
   ],
   "scripts": {

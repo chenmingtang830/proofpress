@@ -1,0 +1,9 @@
+[
+  {"block":"0ecc6e72","kind":"modified","note":"Summarizes seven complete frozen panels, model and task heterogeneity, protection endpoints, and the DeepSeek breadth sensitivity."},
+  {"block":"4ca70d46","kind":"modified","note":"Updates the replication evidence tier to seven complete panels and one user-terminated unavailable route."},
+  {"block":"658b678e","kind":"modified","note":"Reports exact 18-of-18 completion, clean and stress deltas, and unsafe propagation for every completed model."},
+  {"block":"113b815d","kind":"modified","note":"Reports the observed cross-model range and repeated-run interval boundaries without asserting a universal effect."},
+  {"block":"e5a8d0fd","kind":"modified","note":"Reports the complete GPT-5.6 Sol panel, task heterogeneity, safety endpoint, and partial usage telemetry boundary."},
+  {"block":"a02c5c15","kind":"modified","note":"Updates claim boundaries for seven complete panels, Kimi termination, model-specific protection, and incomplete GPT proof-price telemetry."},
+  {"block":"68a38c2a","kind":"modified","note":"Adds the 2026-08-26 cross-model, Qwen, and GPT machine-readable result artifacts."}
+]

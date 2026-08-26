@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "id": "proofpress-treatment-effect-protocol-v4",
+  "frozen_at": "2026-08-24",
+  "supersedes": "treatment-effect-protocol-v3.json",
+  "reason_for_version": "Replace per-conclusion LM policy calls with one task-level batch review before any valid GLM v3/v4 score was observed.",
+  "retained_attempts": [
+    "credit/run-invalid-trace-selector-attempt-1: invalid because selector exhausted reasoning budget and returned no JSON",
+    "credit/run-obsolete-per-item-judge-attempt-2: stopped before receiver/scoring when batch-review mechanism was adopted"
+  ],
+  "inherits": {
+    "frozen_panel": "treatment-effect-protocol-v3.json#frozen_panel",
+    "common_sender_causal_contrast": "treatment-effect-protocol-v3.json#frozen_causal_contrast",
+    "estimands_and_stopping": "treatment-effect-protocol-v3.json#estimands"
+  },
+  "policy_transaction": {
+    "unit": "one task or matter handoff",
+    "deterministic_checks": "run locally and record independently for every proposed conclusion",
+    "batch_judge": "one Gemini call receives every conclusion, its evidence bindings, and deterministic result, then returns one independent verdict, rationale, risk level, and shared batch receipt",
+    "individual_re_review": "only conclusions marked high risk or escalated receive a separate judge call",
+    "ledger_semantics": "each conclusion retains its own judge_recommended and admission or rejection events linked to the batch receipt",
+    "failure_mode": "missing, duplicate, unknown, or malformed verdicts fail the entire transaction closed"
+  },
+  "proof_price_accounting": "Count one batch inference plus any high-risk/escalated re-reviews, graph selection, evidence expansion, receiver work, evaluator work, tokens, latency, and provider cost."
+}

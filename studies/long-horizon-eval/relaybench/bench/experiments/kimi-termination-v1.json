@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "id": "proofpress-kimi-k3-replication-termination-v1",
+  "recorded_at": "2026-08-26T07:22:11Z",
+  "classification": "USER_TERMINATED_MODEL_PANEL",
+  "track_id": "B_OPEN_WEIGHT_COST",
+  "model": "moonshotai/kimi-k3",
+  "provider_only": "moonshotai",
+  "user_decision": "Stop Kimi K3 because repeated route failures and inference cost make completion uneconomic.",
+  "preserved_evidence": {
+    "v9_valid_calibration_cells": 1,
+    "v10_valid_calibration_cells": 3,
+    "v10_invalid_attempts": 15,
+    "v11_valid_paired_cells": 0,
+    "v11_invalid_attempts": 1,
+    "v11_completed_segment_receipts": 1,
+    "v11_first_segment": {
+      "finish_reason": "stop",
+      "latency_ms": 323337,
+      "input_tokens": 5695,
+      "output_tokens": 10750,
+      "reasoning_tokens": 7686,
+      "provider_cost_usd": 0.1762614
+    }
+  },
+  "result_disposition": {
+    "three_task_replication_estimate": "UNAVAILABLE_USER_TERMINATED",
+    "quality_pooling": "Do not pool v9 or v10 calibration cells into a complete Kimi estimate.",
+    "route_reliability": "Retain every invalid attempt and completed segment receipt as descriptive route and adapter evidence.",
+    "future_execution": "Do not restart the Kimi panel unless the user explicitly reverses this termination decision."
+  },
+  "claim_boundary": "Kimi observations describe an incomplete, costly, route-unreliable attempt series. They do not establish task quality, treatment effect, or a complete cross-model replication result."
+}

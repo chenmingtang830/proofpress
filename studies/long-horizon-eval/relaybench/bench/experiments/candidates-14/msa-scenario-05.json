@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "selection_rule_id": "proofpress-deepseek-14-task-expansion-v1",
+  "harvey_lab": {
+    "task_id": "contracts/commercial-vendor-customer/master-services-agreement-playbook-escalation/scenario-05",
+    "final_deliverable": "escalation-approval-memo.docx"
+  },
+  "proposed_h4_release_schedule": [
+    {
+      "stage_id": "S1",
+      "cold_boundary_before": false,
+      "label": "Establish governing policy, authority, baseline terms, and original deal context",
+      "release": [
+        "bid-comparison-summary.xlsx",
+        "castellan-proposal.docx",
+        "oig-standard-form-subcontract.docx",
+        "prime-contract-excerpts.docx",
+        "subcontract-fallback-authority-matrix.xlsx"
+      ],
+      "expected_deliverable": "s1 evidence-bound analysis"
+    },
+    {
+      "stage_id": "S2",
+      "cold_boundary_before": false,
+      "label": "Incorporate negotiated drafts, redlines, and negotiation history",
+      "release": [
+        "negotiated-subcontract-agreement.docx",
+        "negotiation-log.xlsx"
+      ],
+      "expected_deliverable": "s2 evidence-bound analysis"
+    },
+    {
+      "stage_id": "S3",
+      "cold_boundary_before": false,
+      "label": "Revalidate against risk, financial, legal, and business evidence",
+      "release": [
+        "insurance-coverage-confirmation.eml",
+        "outside-counsel-review-memo.eml",
+        "schedule-risk-analysis-excerpt.docx"
+      ],
+      "expected_deliverable": "s3 evidence-bound analysis"
+    },
+    {
+      "stage_id": "S4",
+      "cold_boundary_before": true,
+      "label": "Prepare the requested escalation deliverable",
+      "release": [
+        "escalation-request-email.eml"
+      ],
+      "expected_deliverable": "final escalation memo"
+    }
+  ]
+}

@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "selection_rule_id": "proofpress-deepseek-14-task-expansion-v1",
+  "harvey_lab": {
+    "task_id": "contracts/financing/credit-lending-playbook-escalation/scenario-01",
+    "final_deliverable": "escalation-approval-memo.docx"
+  },
+  "proposed_h4_release_schedule": [
+    {
+      "stage_id": "S1",
+      "cold_boundary_before": false,
+      "label": "Establish governing policy, authority, baseline terms, and original deal context",
+      "release": [
+        "deal-team-deviation-identification-email.eml",
+        "dua-matrix-v2025-01.xlsx",
+        "greystone-credit-policy-v2024-03.docx",
+        "term-sheet-executed.docx"
+      ],
+      "expected_deliverable": "s1 evidence-bound analysis"
+    },
+    {
+      "stage_id": "S2",
+      "cold_boundary_before": false,
+      "label": "Incorporate negotiated drafts, redlines, and negotiation history",
+      "release": [
+        "outside-counsel-negotiation-summary.eml",
+        "revised-draft-credit-agreement.docx"
+      ],
+      "expected_deliverable": "s2 evidence-bound analysis"
+    },
+    {
+      "stage_id": "S3",
+      "cold_boundary_before": false,
+      "label": "Revalidate against risk, financial, legal, and business evidence",
+      "release": [
+        "borrower-financials-summary.xlsx",
+        "collateral-appraisal-summary.docx",
+        "fentriss-credit-risk-analysis.xlsx"
+      ],
+      "expected_deliverable": "s3 evidence-bound analysis"
+    },
+    {
+      "stage_id": "S4",
+      "cold_boundary_before": true,
+      "label": "Prepare the requested escalation deliverable",
+      "release": [
+        "escalation-memo-template.docx",
+        "escalation-request-email.eml"
+      ],
+      "expected_deliverable": "final escalation memo"
+    }
+  ]
+}

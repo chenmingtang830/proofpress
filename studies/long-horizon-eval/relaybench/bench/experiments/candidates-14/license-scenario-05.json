@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "selection_rule_id": "proofpress-deepseek-14-task-expansion-v1",
+  "harvey_lab": {
+    "task_id": "contracts/ip-licensing/license-agreement-playbook-escalation/scenario-05",
+    "final_deliverable": "escalation-approval-memo.docx"
+  },
+  "proposed_h4_release_schedule": [
+    {
+      "stage_id": "S1",
+      "cold_boundary_before": false,
+      "label": "Establish governing policy, authority, baseline terms, and original deal context",
+      "release": [
+        "deal-term-comparison-tracker.xlsx",
+        "kestrel-meridian-legal-review-memo.docx",
+        "plp-draft-v3-content-licensing-agreement.docx",
+        "prior-package-license-summary.docx",
+        "streamnova-content-licensing-policy-v4-2.docx",
+        "territory-subscriber-projections.xlsx"
+      ],
+      "expected_deliverable": "s1 evidence-bound analysis"
+    },
+    {
+      "stage_id": "S2",
+      "cold_boundary_before": false,
+      "label": "Incorporate negotiated drafts, redlines, and negotiation history",
+      "release": [
+        "counterparty-red-lines-email.eml",
+        "negotiation-mandate-memo.docx"
+      ],
+      "expected_deliverable": "s2 evidence-bound analysis"
+    },
+    {
+      "stage_id": "S3",
+      "cold_boundary_before": false,
+      "label": "Revalidate against risk, financial, legal, and business evidence",
+      "release": [
+        "ashford-peak-valuation-report.docx"
+      ],
+      "expected_deliverable": "s3 evidence-bound analysis"
+    },
+    {
+      "stage_id": "S4",
+      "cold_boundary_before": true,
+      "label": "Prepare the requested escalation deliverable",
+      "release": [],
+      "expected_deliverable": "final escalation memo"
+    }
+  ]
+}

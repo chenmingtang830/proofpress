@@ -1,0 +1,5 @@
+[
+  {"block":"cc9a861e","kind":"modified","note":"Corrects the evaluator contract to one frozen grader over the public LAB criteria."},
+  {"block":"dd7734b6","kind":"added","note":"States that the public-task score is not an official Harvey private-leaderboard result."},
+  {"block":"223580ee","kind":"modified","note":"Renames the quality metrics to public-task and public-criterion outcomes."}
+]
