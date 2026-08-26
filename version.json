@@ -1,114 +1,54 @@
 {
- "artifact": "studies/long-horizon-eval/relaybench/PUBLICATION_COPY.md",
- "artifact_id": "pp_c29a2419ccc3738736ebf62c",
+ "artifact": "studies/long-horizon-eval/relaybench/visuals/proofpress-results.html",
+ "artifact_id": "pp_cf50332f934a667c7ce1e36b",
  "blocks": [
   {
    "type": "heading",
-   "text": "# Proofpress result publication copy",
-   "id": "a746b4e4",
-   "hash": "3e8efa96ed67"
+   "text": "<h1>Proofpress <em>improved performance</em> on Harvey LAB-derived tasks across all seven models.</h1>",
+   "id": "1d393510",
+   "hash": "55956adb075b"
+  },
+  {
+   "type": "para",
+   "text": "<p class=\"poster-intro\">Proofpress’s governed knowledge ledger converted prior agent work into evidence-bound knowledge for the next agent—raising rubric completion and stopping every observed unsafe propagation event.</p>",
+   "id": "370cbed7",
+   "hash": "d305bd8c5ad2"
+  },
+  {
+   "type": "para",
+   "text": "<p class=\"result-copy\">Rubric completion · +4.1 percentage points · +487 criteria</p>",
+   "id": "caf1f074",
+   "hash": "b6dca362e95b"
+  },
+  {
+   "type": "para",
+   "text": "<p class=\"result-copy\">Observed unsafe propagation events</p>",
+   "id": "0d512010",
+   "hash": "f02a813c1854"
   },
   {
    "type": "heading",
-   "text": "## Technical report",
-   "id": "67daf02e",
-   "hash": "438a812933ce"
+   "text": "<h2 id=\"quality-title\">Rubric completion by model</h2>",
+   "id": "dc01e281",
+   "hash": "9ed53dc8c5b7"
   },
   {
    "type": "para",
-   "text": "**Governed Knowledge Ledgers for Verified Agent Handoffs: A Seven-Model Study on Harvey LAB-Derived Multi-Step Legal Tasks**",
-   "id": "b7d9a862",
-   "hash": "c8a4ff34f7e2"
+   "text": "<p>Ordered by observed improvement · zoomed scale: 80–100%</p>",
+   "id": "f42686c9",
+   "hash": "13dc89020936"
   },
   {
    "type": "para",
-   "text": "Use for the formal report, repository, PDF, and citations. It names the product mechanism, experimental unit, model breadth, and bounded task source without implying an official Harvey result.",
-   "id": "121e14eb",
-   "hash": "22b4319721be"
-  },
-  {
-   "type": "heading",
-   "text": "## Blog",
-   "id": "185b0a4d",
-   "hash": "3f82d1635e2f"
+   "text": "<p class=\"task-scope\"><span><strong>Credit lending playbook escalation</strong> · scenario 02</span><span><strong>Master services agreement playbook escalation</strong> · scenario 04</span><span><strong>License agreement playbook escalation</strong> · scenario 03</span></p>",
+   "id": "bbc47db7",
+   "hash": "e21f7695db45"
   },
   {
    "type": "para",
-   "text": "**What Should the Next Agent Trust?**",
-   "id": "b9f95b4d",
-   "hash": "3dd4394ab2fb"
-  },
-  {
-   "type": "para",
-   "text": "*How a governed knowledge ledger turned prior agent work into verified handoffs across seven models and three Harvey LAB-derived legal tasks.*",
-   "id": "ffd8a0e3",
-   "hash": "ef4cf8ab49a5"
-  },
-  {
-   "type": "para",
-   "text": "Use the title to lead with the user problem and the subtitle to establish the product mechanism and evidence scope.",
-   "id": "2fe836f6",
-   "hash": "b6abc96a3510"
-  },
-  {
-   "type": "heading",
-   "text": "## Results poster",
-   "id": "bcd28ce8",
-   "hash": "75677ba52acc"
-  },
-  {
-   "type": "para",
-   "text": "**Verified handoffs improved performance on Harvey LAB-derived tasks across all seven models.**",
-   "id": "c65749d6",
-   "hash": "845728f452aa"
-  },
-  {
-   "type": "para",
-   "text": "*Proofpress’s governed knowledge ledger converted prior agent work into evidence-bound knowledge for the next agent—raising rubric completion and stopping every observed unsafe propagation event.*",
-   "id": "927ebf05",
-   "hash": "9f885e6409ca"
-  },
-  {
-   "type": "heading",
-   "text": "## Distribution headlines",
-   "id": "9e60dfcd",
-   "hash": "0a9b93d62432"
-  },
-  {
-   "type": "list",
-   "text": "1. **Seven models. Three multi-step legal tasks. Every model improved with a verified handoff.**\n2. **Ordinary handoffs passed 89.3% of rubric criteria. Proofpress verified handoffs passed 93.4%.**\n3. **Unsafe propagation fell from 8 observed events to 0 with Proofpress’s governed knowledge ledger.**\n4. **Agent memory preserves information. A governed knowledge ledger determines what the next agent can safely rely on.**\n5. **The next agent should inherit verified knowledge—not an unsupported summary.**",
-   "id": "2f92efc9",
-   "hash": "9012e8f894c1"
-  },
-  {
-   "type": "para",
-   "text": "Use the first headline for launch, the next two for data-led follow-ups, and the final two for product-positioning posts.",
-   "id": "85aab92e",
-   "hash": "58edf892ffd7"
-  },
-  {
-   "type": "heading",
-   "text": "## Launch copy",
-   "id": "41d928c6",
-   "hash": "884cd9ab1f26"
-  },
-  {
-   "type": "para",
-   "text": "When one agent hands work to the next, a summary is not enough. The receiving agent needs to know what is current, what evidence supports it, and whether it is safe to reuse. We tested Proofpress’s governed knowledge ledger across seven models and three Harvey LAB-derived multi-step legal handoff tasks. Verified handoffs increased aggregate rubric completion from 89.3% to 93.4%, while observed unsafe propagation in controlled stress pairs fell from 8 events to 0. These are bounded, descriptive results—not an official Harvey benchmark score—but they provide a strong product signal: governed knowledge can make multi-step agent work both more effective and more trustworthy.",
-   "id": "437324c4",
-   "hash": "1b637aedbeaa"
-  },
-  {
-   "type": "heading",
-   "text": "## Claim boundary",
-   "id": "fb196f03",
-   "hash": "327e3f245e18"
-  },
-  {
-   "type": "para",
-   "text": "Describe the evidence as a frozen study of **Harvey LAB-derived multi-step legal agent handoff tasks**. Do not describe it as an official Harvey benchmark result, a general long-horizon-agent improvement, population-level causality, or improved legal intelligence.",
-   "id": "e485af91",
-   "hash": "39c4867ab57c"
+   "text": "<p class=\"freeze-date\">Result frozen · August 26, 2026</p>",
+   "id": "990cbfaa",
+   "hash": "61c0dc44e559"
   }
  ]
 }
