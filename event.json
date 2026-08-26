@@ -1,30 +1,35 @@
 {
  "event": "version_created",
- "artifact": "studies/long-horizon-eval/relaybench/PUBLIC_RESULTS.md",
- "artifact_id": "pp_a59d351c883c87dde5396eba",
- "version": "2e94b881",
- "parent": "390eeb58",
+ "artifact": "studies/long-horizon-eval/relaybench/visuals/proofpress-results.html",
+ "artifact_id": "pp_cf50332f934a667c7ce1e36b",
+ "version": "f6a85e62",
+ "parent": "7b6e61c3",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-26T12:02:26+00:00",
+ "ts": "2026-08-26T12:10:13+00:00",
  "stats": {
-  "added": 1
+  "modified": 2
  },
  "changes": [
   {
-   "kind": "added",
-   "block": "bfee053c",
+   "kind": "modified",
+   "block": "1d393510",
+   "type": "heading",
+   "context": "<h1><em>Verified handoffs</em> improved "
+  },
+  {
+   "kind": "modified",
+   "block": "370cbed7",
    "type": "para",
-   "context": "Results",
-   "preview": "The three frozen task episodes are **Credit Lending Playbook"
+   "context": "<h1><em>Verified handoffs</em> improved "
   }
  ],
  "policy": "portable",
- "soft_fingerprint": "ppsb1:47b54abf16279a8358eff0bc75b75ab70c35ff53ef8ac7165d07685b58e961c9",
+ "soft_fingerprint": "ppsb1:3b93bb6d606629367dd9b76ca14cc515e48e2da3ce4eeb16bf8d92b37204cb91",
  "actors": {
   "requested_by": [
    "human:richardtang"
@@ -42,13 +47,18 @@
  "attribution_basis": "self_asserted",
  "claims": [
   {
-   "block": "bfee053c",
-   "kind": "added",
-   "note": "Names the three frozen task episodes and explains that the communication chart is ordered by observed lift rather than final model score."
+   "block": "1d393510",
+   "kind": "modified",
+   "note": "Reframes the result around verified handoffs while retaining the Harvey LAB-derived task and seven-model scope."
+  },
+  {
+   "block": "370cbed7",
+   "kind": "modified",
+   "note": "Defines Proofpress as a governed knowledge ledger that converts prior agent work into evidence-bound knowledge for the next agent."
   }
  ],
  "context": {
-  "why": "Carry the exact frozen task episodes and presentation-order rationale into the public result record."
+  "why": "Align the frozen results poster with the product narrative: Proofpress is the governed knowledge ledger and verified handoffs are the user-visible outcome."
  },
- "event_id": "ppe_f922ab451c2e93a38f6a5aa0"
+ "event_id": "ppe_e2de43000d45dc11bd456c2b"
 }
