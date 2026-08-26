@@ -1,114 +1,48 @@
 {
- "artifact": "studies/long-horizon-eval/relaybench/PUBLICATION_COPY.md",
- "artifact_id": "pp_c29a2419ccc3738736ebf62c",
+ "artifact": "studies/long-horizon-eval/ara/PAPER.md",
+ "artifact_id": "pp_ff6328ac32727381a44fe4ee",
  "blocks": [
   {
-   "type": "heading",
-   "text": "# Proofpress result publication copy",
-   "id": "a746b4e4",
-   "hash": "3e8efa96ed67"
-  },
-  {
-   "type": "heading",
-   "text": "## Technical report",
-   "id": "67daf02e",
-   "hash": "438a812933ce"
-  },
-  {
    "type": "para",
-   "text": "**Governed Knowledge Ledgers for Verified Agent Handoffs: A Seven-Model Study on Harvey LAB-Derived Multi-Step Legal Tasks**",
-   "id": "b7d9a862",
-   "hash": "c8a4ff34f7e2"
-  },
-  {
-   "type": "para",
-   "text": "Use for the formal report, repository, PDF, and citations. It names the product mechanism, experimental unit, model breadth, and bounded task source without implying an official Harvey result.",
-   "id": "121e14eb",
-   "hash": "22b4319721be"
+   "text": "---\ntitle: \"Verified Handoffs Through a Governed Knowledge Ledger\"\nauthors: [\"Proofpress contributors\"]\nyear: 2026\nstatus: frozen-complete\ndate_created: \"2026-08-22\"\nlast_updated: \"2026-08-26\"\ncompiled_retrospectively: true\nsource_commit: \"c96fd86b59e6844ad45201d7db4e0caaa91f5b4c\"\nabstract: >\n  This artifact documents a frozen, LAB Contracts-derived evaluation of\n  ordinary versus Proofpress-governed handoffs across three legal task\n  families and seven model panels. Across 126 admitted paired runs, ordinary\n  handoff passed 89.3% of matched rubric criteria and Proofpress passed 93.4%,\n  a descriptive difference of 4.1 percentage points. In 63 controlled stress\n  pairs, ordinary handoff propagated eight injected unsafe states and\n  Proofpress propagated none. These are bounded product-mechanism results, not\n  official Harvey scores, statistical-significance claims, population causal\n  estimates, or evidence of improved legal intelligence. The ARA was compiled\n  retrospectively from frozen protocols, immutable results, invalid-attempt\n  records, Git history, and content-addressed receipts; it does not fabricate\n  contemporaneous research sessions.\nlayers:\n  logic: logic/\n  src: src/\n  trace: trace/\n  evidence: evidence/\n  staging: staging/\n---",
+   "hash": "0a950fd25a76",
+   "id": "edc86a59"
   },
   {
    "type": "heading",
-   "text": "## Blog",
-   "id": "185b0a4d",
-   "hash": "3f82d1635e2f"
+   "text": "# Layer semantics",
+   "id": "348414db",
+   "hash": "4e69865dd70a"
   },
   {
-   "type": "para",
-   "text": "**What Should the Next Agent Trust?**",
-   "id": "b9f95b4d",
-   "hash": "3dd4394ab2fb"
-  },
-  {
-   "type": "para",
-   "text": "*How a governed knowledge ledger turned prior agent work into verified handoffs across seven models and three Harvey LAB-derived legal tasks.*",
-   "id": "ffd8a0e3",
-   "hash": "ef4cf8ab49a5"
-  },
-  {
-   "type": "para",
-   "text": "Use the title to lead with the user problem and the subtitle to establish the product mechanism and evidence scope.",
-   "id": "2fe836f6",
-   "hash": "b6abc96a3510"
+   "type": "table",
+   "text": "| Layer | Role | Mutability in this frozen artifact |\n| --- | --- | --- |\n| `logic/` | Current claims, problem, concepts, experiments, and solution specification | Frozen; revisions require a new study version |\n| `src/` | Reproduction environment, configuration, executable receipt verifier, and pointers to the harness | Frozen |\n| `trace/` | Reconstructed decision and experiment DAG plus the compilation session | Append-only; reconstructed nodes are explicitly marked |\n| `evidence/` | Content-addressed receipts, result tables, exclusions, and figure pointers | Append-only |\n| `staging/` | Unpromoted observations from this compilation | Empty by design; no historical observations were invented |",
+   "id": "207e52ff",
+   "hash": "2bfaa15f4912"
   },
   {
    "type": "heading",
-   "text": "## Results poster",
-   "id": "bcd28ce8",
-   "hash": "75677ba52acc"
-  },
-  {
-   "type": "para",
-   "text": "**Proofpress improved performance on Harvey LAB-derived tasks across all seven models.**",
-   "id": "c65749d6",
-   "hash": "5a712bd59273"
-  },
-  {
-   "type": "para",
-   "text": "*Proofpress’s governed knowledge ledger converted prior agent work into evidence-bound knowledge for the next agent—raising rubric completion and stopping every observed unsafe propagation event.*",
-   "id": "927ebf05",
-   "hash": "9f885e6409ca"
-  },
-  {
-   "type": "heading",
-   "text": "## Distribution headlines",
-   "id": "9e60dfcd",
-   "hash": "0a9b93d62432"
+   "text": "# Layer index",
+   "id": "5dd94796",
+   "hash": "197268fdb5c3"
   },
   {
    "type": "list",
-   "text": "1. **Seven models. Three multi-step legal tasks. Every model improved with a verified handoff.**\n2. **Ordinary handoffs passed 89.3% of rubric criteria. Proofpress verified handoffs passed 93.4%.**\n3. **Unsafe propagation fell from 8 observed events to 0 with Proofpress’s governed knowledge ledger.**\n4. **Agent memory preserves information. A governed knowledge ledger determines what the next agent can safely rely on.**\n5. **The next agent should inherit verified knowledge—not an unsupported summary.**",
-   "id": "2f92efc9",
-   "hash": "9012e8f894c1"
-  },
-  {
-   "type": "para",
-   "text": "Use the first headline for launch, the next two for data-led follow-ups, and the final two for product-positioning posts.",
-   "id": "85aab92e",
-   "hash": "58edf892ffd7"
+   "text": "- **Logic**\n  - [`problem.md`](logic/problem.md) — observed handoff failures, gaps, assumptions, and key insight\n  - [`claims.md`](logic/claims.md) — four bounded, falsifiable claims\n  - [`experiments.md`](logic/experiments.md) — mechanics, quality, and trust-stress experiments\n  - [`concepts.md`](logic/concepts.md) — controlled vocabulary\n  - [`solution/`](logic/solution/) — architecture, algorithm, constraints, and heuristics\n  - [`related_work.md`](logic/related_work.md) — typed dependencies and deltas\n- **Physical**\n  - [`environment.md`](src/environment.md) — reproducibility environment and secret boundary\n  - [`configs/`](src/configs/) — frozen task/model configuration\n  - [`execution/verify_receipts.py`](src/execution/verify_receipts.py) — content-addressed evidence verifier\n  - [`artifacts.md`](src/artifacts.md) — pointers to the complete adjacent RelayBench harness\n- **Exploration**\n  - [`exploration_tree.yaml`](trace/exploration_tree.yaml) — reconstructed DAG grounded in committed records\n  - [`sessions/session_index.yaml`](trace/sessions/session_index.yaml) — compilation session only\n  - [`pm_reasoning_log.yaml`](trace/pm_reasoning_log.yaml) — disclosure of retrospective reconstruction decisions\n- **Evidence**\n  - [`FINAL_RESULTS_RECEIPTS.json`](evidence/FINAL_RESULTS_RECEIPTS.json) — admitted content-addressed result set\n  - [`tables/final-panel.md`](evidence/tables/final-panel.md) — bounded aggregate table\n  - [`figures/public-result.md`](evidence/figures/public-result.md) — publication visual pointer and caveat",
+   "id": "9ee0d58e",
+   "hash": "91210df997bf"
   },
   {
    "type": "heading",
-   "text": "## Launch copy",
-   "id": "41d928c6",
-   "hash": "884cd9ab1f26"
+   "text": "# Provenance boundary",
+   "id": "db7eb561",
+   "hash": "fbe5bc9c2f4a"
   },
   {
    "type": "para",
-   "text": "When one agent hands work to the next, a summary is not enough. The receiving agent needs to know what is current, what evidence supports it, and whether it is safe to reuse. We tested Proofpress’s governed knowledge ledger across seven models and three Harvey LAB-derived multi-step legal handoff tasks. Verified handoffs increased aggregate rubric completion from 89.3% to 93.4%, while observed unsafe propagation in controlled stress pairs fell from 8 events to 0. These are bounded, descriptive results—not an official Harvey benchmark score—but they provide a strong product signal: governed knowledge can make multi-step agent work both more effective and more trustworthy.",
-   "id": "437324c4",
-   "hash": "1b637aedbeaa"
-  },
-  {
-   "type": "heading",
-   "text": "## Claim boundary",
-   "id": "fb196f03",
-   "hash": "327e3f245e18"
-  },
-  {
-   "type": "para",
-   "text": "Describe the evidence as a frozen study of **Harvey LAB-derived multi-step legal agent handoff tasks**. Do not describe it as an official Harvey benchmark result, a general long-horizon-agent improvement, population-level causality, or improved legal intelligence.",
-   "id": "e485af91",
-   "hash": "39c4867ab57c"
+   "text": "This ARA was not maintained by the ARA Live PM during the original experiment. Its logic and exploration layers were compiled after study closure from committed records. Every reconstructed node names its source; only the 2026-08-26 compilation session is contemporaneous. Raw prompts, private transcripts, hidden chain-of-thought, credentials, and unlicensed source documents are intentionally excluded.",
+   "id": "3ad5ae15",
+   "hash": "818fdc08b28d"
   }
  ]
 }
