@@ -1,47 +1,37 @@
 {
  "event": "version_created",
- "artifact": "PROOFPRESS_PARETO_STUDY.md",
- "artifact_id": "pp_ffddb1d2cc98a01371a598e2",
- "version": "7350f2f9",
- "parent": "12af15d9",
+ "artifact": "CLAIM_BOUNDARIES.md",
+ "artifact_id": "pp_35745b3850cee6e14c678792",
+ "version": "0ecd8dde",
+ "parent": "434565a2",
  "author": {
   "name": "unknown",
   "kind": "human",
   "session": null
  },
  "note": null,
- "ts": "2026-08-26T10:56:26+00:00",
+ "ts": "2026-08-26T10:56:32+00:00",
  "stats": {
-  "modified": 4
+  "modified": 1,
+  "added": 1
  },
  "changes": [
   {
    "kind": "modified",
-   "block": "92d5764d",
+   "block": "6a714dce",
    "type": "para",
-   "context": "Track A — complete frozen panels"
+   "context": "RelayBench claim boundaries"
   },
   {
-   "kind": "modified",
-   "block": "478bda41",
+   "kind": "added",
+   "block": "2c932519",
    "type": "para",
-   "context": "Track B — gated replication and breadth"
-  },
-  {
-   "kind": "modified",
-   "block": "8c71b340",
-   "type": "para",
-   "context": "Track B — gated replication and breadth"
-  },
-  {
-   "kind": "modified",
-   "block": "f15c27f0",
-   "type": "list",
-   "context": "Run sequence"
+   "context": "RelayBench claim boundaries",
+   "preview": "Cross-model effects remain heterogeneous and must be reporte"
   }
  ],
- "policy": "local",
- "soft_fingerprint": "ppsb1:1cce0d62116083de740199949740f4b3e28fe107381f3ec1428629f27c57b893",
+ "policy": "portable",
+ "soft_fingerprint": "ppsb1:93676f77d48f873417aba13e0159c9dadb86930b3378ffd13ec990ae3aa5f705",
  "actors": {
   "requested_by": [
    "human:richard"
@@ -59,28 +49,18 @@
  "attribution_basis": "environment_attested",
  "claims": [
   {
-   "block": "92d5764d",
+   "block": "6a714dce",
    "kind": "modified",
-   "note": "Records seven provider-pinned complete panels and distinguishes the DeepSeek expansion and frontier replications."
+   "note": "Updates the repository evidence inventory from two to seven complete frozen model panels."
   },
   {
-   "block": "478bda41",
-   "kind": "modified",
-   "note": "Records explicit Kimi termination and the portability corrections that enabled the other model panels without outcome-driven protocol changes."
-  },
-  {
-   "block": "8c71b340",
-   "kind": "modified",
-   "note": "Records the frozen expansion boundary, complete GPT quality and safety panel, and partial GPT usage telemetry."
-  },
-  {
-   "block": "f15c27f0",
-   "kind": "modified",
-   "note": "Updates the executed sequence to complete operational routes, preserve invalid attempts, and fail closed on missing proof-price telemetry."
+   "block": "2c932519",
+   "kind": "added",
+   "note": "Requires model and task heterogeneity, Kimi termination, and partial usage telemetry to travel with cross-model claims."
   }
  ],
  "context": {
-  "why": "Bring the executed research plan into alignment with seven completed operational model routes, explicit Kimi termination, the frozen breadth boundary, and fail-closed proof-price reporting."
+  "why": "Require cross-model and task heterogeneity, explicit user-terminated routes, and missing usage telemetry to accompany any replication claim."
  },
- "event_id": "ppe_a9f4ed586cd4a18435697572"
+ "event_id": "ppe_214da5e86a7cec0d702cfadb"
 }
