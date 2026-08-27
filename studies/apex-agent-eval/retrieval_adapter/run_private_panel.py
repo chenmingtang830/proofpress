@@ -72,7 +72,10 @@ def hybrid_rrf(lexical_rows, pageindex_rows, limit, k0=60):
     return [item["row"] for item in ordered[:limit]]
 def bridge(script,receipt_file):
     env=os.environ.copy(); env.update({"PROOFPRESS_PAGEINDEX_MODEL":MODEL,"PROOFPRESS_PAGEINDEX_PROVIDER":PROVIDER,"PROOFPRESS_PAGEINDEX_PORT":"0","PROOFPRESS_PAGEINDEX_RECEIPTS":str(receipt_file)})
-    process=subprocess.Popen(["node",script],stdout=subprocess.PIPE,stderr=subprocess.PIPE,text=True,env=env); line=process.stdout.readline().strip()
+    # The bridge emits compatibility warnings on stderr for each Gateway call.
+    # Never leave a piped stderr unread: after enough PageIndex requests its
+    # OS pipe can fill and falsely stall the otherwise healthy server.
+    process=subprocess.Popen(["node",script],stdout=subprocess.PIPE,stderr=subprocess.DEVNULL,text=True,env=env); line=process.stdout.readline().strip()
     try: port=int(json.loads(line)["port"])
     except Exception: process.kill(); raise RuntimeError("Gateway bridge did not become ready")
     return process,"http://127.0.0.1:%s/v1"%port
