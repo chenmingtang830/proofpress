@@ -1483,8 +1483,8 @@ def disclose_v1(query, actor, scope=None, seeds=None, corpus_manifest=None,
     gap_id = ident({"query": query, "scope": scope, "terms": gap_terms}, "gap_") if gap_terms else None
     if unmet and corpus_manifest and max_discovered:
         config = {"adapter": "proofpress.pageindex", "version": "1",
-                  "requested_model": "deepseek/deepseek-v4-flash-0731",
-                  "provider": "fireworks", "fallback": "forbidden",
+                  "requested_model": "deepseek/deepseek-v4-flash",
+                  "provider": "proofpress-dev-ai-gateway", "fallback": "forbidden",
                   "max_sections": max_discovered, "max_pages": max_discovered,
                   "toc_check_pages": 1, "max_pages_per_node": 1,
                   "max_tokens_per_node": 2500, "node_summary": False,
