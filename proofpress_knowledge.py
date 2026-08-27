@@ -1480,8 +1480,12 @@ def disclose_v1(query, actor, scope=None, seeds=None, corpus_manifest=None,
     discovered, discovery_meta = [], None
     if unmet and corpus_manifest and max_discovered:
         config = {"adapter": "proofpress.pageindex", "version": "1",
-                  "requested_model": "openai/gpt-5.6-luna", "fallback": "forbidden",
-                  "max_sections": max_discovered, "max_pages": max_discovered}
+                  "requested_model": "deepseek/deepseek-v4-flash-0731",
+                  "provider": "fireworks", "fallback": "forbidden",
+                  "max_sections": max_discovered, "max_pages": max_discovered,
+                  "toc_check_pages": 1, "max_pages_per_node": 1,
+                  "max_tokens_per_node": 2500, "node_summary": False,
+                  "document_description": False}
         config["config_digest"] = digest(config)
         discovered, discovery_meta = _pageindex_discover(query, corpus_manifest,
                                                           max_discovered, sidecar, config)

@@ -71,20 +71,26 @@ const server = http.createServer(async (req, res) => {
     const apiKey = process.env.AI_GATEWAY_API_KEY;
     if (!apiKey) return reply(res, 503, { error: { type: 'missing_gateway_key' } });
     const system = input.messages.filter(row => row.role === 'system').map(row => String(row.content || '')).join('\n');
-    const result = await generateText({
-      model: createGateway({ apiKey })(model), system: `${system}\nReturn only syntactically valid JSON of the exact top-level type requested.`, messages: messages(input.messages),
-      // PageIndex's complete-tree pass can enumerate a long hierarchy. Its
-      // legacy client omits max_tokens, so give the local bridge a bounded but
-      // sufficient default instead of treating a truncated tree as valid.
-      maxOutputTokens: input.max_tokens || 16384, reasoning: 'medium', maxRetries: 0,
-      providerOptions: { gateway: { only: [provider], order: [provider] } },
-    });
+    let result, content, parseError;
+    // PageIndex's client does not declare structured output. Retry only an
+    // incomplete/invalid JSON completion on the same frozen route; never
+    // substitute another provider or treat partial JSON as a tree.
+    for (let attempt = 0; attempt < 3; attempt += 1) {
+      result = await generateText({
+        model: createGateway({ apiKey })(model), system: `${system}\nReturn only syntactically valid JSON of the exact top-level type requested.`, messages: messages(input.messages),
+        maxOutputTokens: input.max_tokens || 16384, reasoning: 'medium', maxRetries: 0,
+        providerOptions: { gateway: { only: [provider], order: [provider] } },
+      });
+      content = normalizedPageIndexJson(result.text || '');
+      try { JSON.parse(content); parseError = null; break; } catch (error) { parseError = error; }
+    }
+    if (parseError) throw new Error('invalid-pageindex-json-after-fixed-route-retries');
     const usage = result.usage || {}, meta = result.providerMetadata?.gateway || {};
     appendReceipt({ model, provider, fallback_used: false, request_sha256: sha(JSON.stringify({ model: input.model, messages: input.messages })),
       input_tokens: usage.inputTokens ?? null, output_tokens: usage.outputTokens ?? null,
-      cost_usd: typeof meta.cost === 'number' ? meta.cost : null });
+      cost_usd: Number.isFinite(Number(meta.cost)) ? Number(meta.cost) : null });
     return reply(res, 200, { id: result.response?.id || null, object: 'chat.completion', model,
-      choices: [{ message: { role: 'assistant', content: normalizedPageIndexJson(result.text || '') }, finish_reason: result.finishReason || null }],
+      choices: [{ message: { role: 'assistant', content }, finish_reason: result.finishReason || null }],
       usage: { prompt_tokens: usage.inputTokens ?? null, completion_tokens: usage.outputTokens ?? null, total_tokens: (usage.inputTokens || 0) + (usage.outputTokens || 0) } });
   } catch (error) {
     return reply(res, 502, { error: { type: 'gateway_bridge_failed', message_sha256: sha(String(error?.message || '')) } });

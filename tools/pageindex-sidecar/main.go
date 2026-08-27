@@ -97,7 +97,9 @@ func loadOrBuild(req Request, source Source) (*pageindex.Document, error) {
 	}
 	doc, err := pageindex.BuildFromPDF(source.Path,
 		pageindex.WithModel(runtimeModel(req.Config)), pageindex.WithAddNodeID(true),
-		pageindex.WithAddNodeText(true), pageindex.WithAddNodeSummary(true))
+		pageindex.WithAddNodeText(true), pageindex.WithAddNodeSummary(false),
+		pageindex.WithAddDocDescription(false), pageindex.WithTOCCheckPages(1),
+		pageindex.WithMaxPagesPerNode(1), pageindex.WithMaxTokensPerNode(2500))
 	if err != nil {
 		return nil, err
 	}
