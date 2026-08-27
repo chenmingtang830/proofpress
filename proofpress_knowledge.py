@@ -813,6 +813,8 @@ def review_relation_v2(rid, decision, reviewer, note=None, request_id=None,
     _require_expected_head(expected_head)
     row = projection["relations"].get(rid)
     if not row: raise ValueError("relation not found: " + rid)
+    if row["type"] == "contradicts" and relation_state(projection, row) == "admitted":
+        raise ValueError("admitted contradiction may only transition through relation resolve")
     if decision == "admit" and reviewer == row["proposer"]:
         raise ValueError("proposer may not self-approve a relation")
     evaluation = evaluate_relation_v2(rid)
@@ -836,6 +838,21 @@ def review_relation_v2(rid, decision, reviewer, note=None, request_id=None,
                        "reviewer": reviewer, "relation_digest": row["digest"],
                        "policy_digest": policy["digest"]})
     return {"ok": True, "review": review, "result": final}
+
+
+def _matching_conflict_supersession(projection, relation, resolution):
+    """Return the linked supersession only when a conflict resolution is complete."""
+    if not resolution or resolution.get("disposition") != "supersede": return None
+    if resolution.get("relation_digest") != relation.get("digest"): return None
+    winner = resolution.get("winner")
+    endpoints = {relation["from"], relation["to"]}
+    if winner not in endpoints: return None
+    loser = next(iter(endpoints - {winner}))
+    supersession = projection["supersessions"].get(loser)
+    if not supersession: return None
+    if supersession.get("superseded_by") != winner: return None
+    if supersession.get("resolution_ref") != resolution.get("event_id"): return None
+    return supersession
 
 
 def resolve_contradiction_v2(rid, disposition, reviewer, winner=None, note=None,
@@ -872,7 +889,17 @@ def resolve_contradiction_v2(rid, disposition, reviewer, winner=None, note=None,
         prior_stable = {key: prior.get(key) for key in stable}
         if prior_stable != stable:
             raise ValueError("contradiction already has an immutable resolution")
-        return {"ok": True, "resolution": prior, "idempotent": True}
+        result = {"ok": True, "resolution": prior, "idempotent": True}
+        if disposition == "supersede":
+            supersession = _matching_conflict_supersession(projection, relation, prior)
+            if not supersession:
+                loser = next(iter(endpoints - {winner}))
+                supersession = append_v2({"type": "conclusion_superseded", "subject_ref": loser,
+                                          "superseded_by": winner, "reviewer": reviewer,
+                                          "identity_basis": "self_asserted", "note": note,
+                                          "resolution_ref": prior["event_id"]})
+            result["supersession"] = supersession
+        return result
     resolution = append_v2({"type": "contradiction_resolved", "subject_ref": rid,
                             "relation_digest": relation["digest"], "disposition": disposition,
                             "winner": winner, "reviewer": reviewer,
@@ -886,6 +913,50 @@ def resolve_contradiction_v2(rid, disposition, reviewer, winner=None, note=None,
                                   "resolution_ref": resolution["event_id"]})
         result["supersession"] = supersession
     return result
+
+
+def _active_contradictions(projection, policy, scope=None):
+    """Map claims to admitted conflicts before actor visibility is considered."""
+    current = {cid for cid, row in projection["conclusions"].items()
+               if (not scope or row["scope"] == scope)
+               and v2_state(projection, row, policy) == "admitted"}
+    conflicts = {}
+    for relation in projection["relations"].values():
+        if (relation["type"] != "contradicts"
+                or relation_state(projection, relation) != "admitted"
+                or relation["from"] not in current or relation["to"] not in current):
+            continue
+        resolution = projection["conflict_resolutions"].get(relation["id"])
+        if _matching_conflict_supersession(projection, relation, resolution):
+            continue
+        reason = ("contradiction_withheld"
+                  if resolution and resolution.get("disposition") == "withhold"
+                  else "contradiction_resolution_incomplete"
+                  if resolution else "contradiction_unresolved")
+        for cid, peer in ((relation["from"], relation["to"]),
+                          (relation["to"], relation["from"])):
+            conflicts.setdefault(cid, []).append({"relation_id": relation["id"],
+                                                   "peer_id": peer, "reason": reason})
+    return conflicts
+
+
+def _conflict_resolution_receipts(projection, cid):
+    """Project completed conflict decisions onto the surviving claim receipt."""
+    receipts = []
+    for rid, resolution in projection["conflict_resolutions"].items():
+        relation = projection["relations"].get(rid)
+        if not relation or resolution.get("winner") != cid: continue
+        supersession = _matching_conflict_supersession(projection, relation, resolution)
+        if not supersession: continue
+        loser = next(iter({relation["from"], relation["to"]} - {cid}))
+        receipts.append({"relation_id": rid, "relation_digest": relation["digest"],
+                         "resolution_event": resolution["event_id"],
+                         "supersession_event": supersession["event_id"],
+                         "disposition": resolution["disposition"], "winner": cid,
+                         "loser": loser, "reviewer": resolution["reviewer"],
+                         "identity_basis": resolution["identity_basis"],
+                         "policy_digest": resolution["policy_digest"]})
+    return sorted(receipts, key=lambda row: row["relation_id"])
 
 
 def evaluate_v2(cid, projection=None, events=None, policy=None):
@@ -1050,6 +1121,11 @@ def review_v2(cid, decision, reviewer, note=None, request_id=None,
     _require_expected_head(expected_head)
     row = projection["conclusions"].get(cid)
     if not row: raise ValueError("conclusion not found: " + cid)
+    if decision != "admit":
+        policy = load_v2_policy()
+        conflicts = _active_contradictions(projection, policy, row["scope"])
+        if cid in conflicts:
+            raise ValueError("active contradiction endpoint may only transition through relation resolve")
     if decision == "admit" and reviewer == row["proposer"]:
         raise ValueError("proposer may not self-approve a conclusion")
     evaluation = evaluate_v2(cid)
@@ -1083,6 +1159,10 @@ def supersede_v2(cid, replacement, reviewer, note=None):
     old, new = projection["conclusions"].get(cid), projection["conclusions"].get(replacement)
     if not old or not new: raise ValueError("both conclusions must exist")
     if old["scope"] != new["scope"]: raise ValueError("conclusions from different scopes cannot supersede each other")
+    policy = load_v2_policy()
+    conflicts = _active_contradictions(projection, policy, old["scope"])
+    if cid in conflicts:
+        raise ValueError("active contradiction must be superseded through relation resolve")
     return append_v2({"type": "conclusion_superseded", "subject_ref": cid,
                       "superseded_by": replacement, "reviewer": reviewer,
                       "identity_basis": "self_asserted", "note": note})
@@ -1091,44 +1171,34 @@ def supersede_v2(cid, replacement, reviewer, note=None):
 def context_v2(scope=None, actor=None, task=None, include_blocked_statements=False):
     projection, policy = v2_projection(), load_v2_policy()
     knowledge, blocked, eligible = [], [], {}
+    conflicts = _active_contradictions(projection, policy, scope)
     for cid, row in projection["conclusions"].items():
         if scope and row["scope"] != scope: continue
         current = v2_state(projection, row, policy)
         actor_ok = not actor or "*" in row.get("allowed_actors", ["*"]) or actor in row.get("allowed_actors", [])
         policy_actor_ok = not actor or "*" in policy["allowed_actors"] or actor in policy["allowed_actors"]
-        if current == "admitted" and actor_ok and policy_actor_ok:
+        if current == "admitted" and actor_ok and policy_actor_ok and cid not in conflicts:
             eligible[cid] = row
         else:
-            reason = current if current != "admitted" else "actor_not_allowed"
+            conflict_rows = conflicts.get(cid, [])
+            reason = (conflict_rows[0]["reason"] if conflict_rows else
+                      current if current != "admitted" else "actor_not_allowed")
             item = {"id": cid, "reason": reason,
-                    "required_action": ("propose_revision" if reason == "needs_revision" else
+                    "required_action": ("human_conflict_review" if conflict_rows else
+                                        "propose_revision" if reason == "needs_revision" else
                                         "reverify" if reason in {"expired", "unresolved", "superseded"} else
                                         "human_review")}
+            if conflict_rows:
+                item["relation_ids"] = sorted({row["relation_id"] for row in conflict_rows})
+                item["peer_ids"] = sorted({row["peer_id"] for row in conflict_rows})
             if include_blocked_statements: item["statement"] = row["statement"]
             blocked.append(item)
-    quarantined = {}
-    for relation in projection["relations"].values():
-        if (relation["type"] != "contradicts" or relation_state(projection, relation) != "admitted"
-                or relation["from"] not in eligible or relation["to"] not in eligible):
-            continue
-        resolution = projection["conflict_resolutions"].get(relation["id"])
-        if resolution and resolution.get("disposition") == "supersede":
-            continue
-        reason = "contradiction_withheld" if resolution else "contradiction_unresolved"
-        for cid in (relation["from"], relation["to"]):
-            quarantined.setdefault(cid, []).append(relation["id"])
-        for cid in (relation["from"], relation["to"]):
-            if any(item["id"] == cid for item in blocked): continue
-            item = {"id": cid, "reason": reason, "relation_ids": quarantined[cid],
-                    "required_action": "human_conflict_review"}
-            if include_blocked_statements: item["statement"] = eligible[cid]["statement"]
-            blocked.append(item)
     for cid, row in eligible.items():
-        if cid in quarantined: continue
         admitted = projection["admissions"][cid]
         knowledge.append({**row, "receipt": {"admission_event": admitted["event_id"],
                           "policy_digest": admitted["policy_digest"],
-                          "evidence_digests": admitted["evidence_digests"]}})
+                          "evidence_digests": admitted["evidence_digests"],
+                          "conflict_resolutions": _conflict_resolution_receipts(projection, cid)}})
     head = None
     try: head = _git("rev-parse", KNOWLEDGE_REF).strip()
     except ValueError: pass
@@ -1183,6 +1253,7 @@ def traverse_graph_v2(seeds, scope=None, actor=None, task=None,
     if state not in {"admitted", "staged"}:
         raise ValueError("state must be admitted or staged")
     projection, policy = v2_projection(), load_v2_policy()
+    conflicts = _active_contradictions(projection, policy, scope)
 
     def staged_conclusion(cid, row):
         evaluation = projection["evaluations"].get(cid)
@@ -1213,6 +1284,7 @@ def traverse_graph_v2(seeds, scope=None, actor=None, task=None,
         if state == "admitted" and current != "admitted": return current
         if state == "staged" and current != "admitted" and not staged_conclusion(cid, row):
             return "not_staged"
+        if cid in conflicts: return conflicts[cid][0]["reason"]
         actor_ok = (not actor or "*" in row.get("allowed_actors", ["*"])
                     or actor in row.get("allowed_actors", []))
         policy_actor_ok = (not actor or "*" in policy["allowed_actors"]
@@ -1226,7 +1298,9 @@ def traverse_graph_v2(seeds, scope=None, actor=None, task=None,
         reason = eligibility(cid)
         if reason == "eligible": eligible_seeds.append(cid)
         else: blocked.append({"conclusion_id": cid, "reason": reason,
-                              "required_action": "human_review"})
+                              "required_action": ("human_conflict_review"
+                                                  if reason.startswith("contradiction_")
+                                                  else "human_review")})
     if not eligible_seeds:
         raise ValueError("graph traversal has no eligible seeds")
 
@@ -1259,7 +1333,9 @@ def traverse_graph_v2(seeds, scope=None, actor=None, task=None,
                                     "relation_id": relation["id"],
                                     "relation_type": relation["type"],
                                     "reason": reason,
-                                    "required_action": "human_review"})
+                                    "required_action": ("human_conflict_review"
+                                                        if reason.startswith("contradiction_")
+                                                        else "human_review")})
                     seen_blocked.add(key)
                 continue
             if relation["id"] not in seen_relations:
@@ -1315,6 +1391,7 @@ def relation_receipt_v2(rid):
             "review": projection["relation_reviews"].get(rid),
             "admission": projection["relation_admissions"].get(rid),
             "rejection": projection["relation_rejections"].get(rid),
+            "resolution": projection["conflict_resolutions"].get(rid),
             "history": [{"event_id": e["event_id"], "type": e["type"],
                          "created_at": e["created_at"], "commit": e.get("commit")}
                         for e in projection["events"] if e.get("subject_ref") == rid]}
