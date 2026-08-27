@@ -30,6 +30,8 @@ def main():
     parser.add_argument("--smallest-first", action="store_true")
     parser.add_argument("--all-sources", action="store_true",
                         help="include every readable corpus file for the full evidence substrate (PageIndex still requires PDF sources)")
+    parser.add_argument("--include-hidden", action="store_true",
+                        help="include hidden app-data files under a world root; .apex-data metadata is always excluded")
     args = parser.parse_args()
     rows = json.loads(Path(args.tasks_json).read_text(encoding="utf-8"))
     rows = rows.get("tasks", rows) if isinstance(rows, dict) else rows
@@ -45,7 +47,9 @@ def main():
     workspace = Path(args.workspace); text_dir = workspace / "extracted-text"; text_dir.mkdir(parents=True, exist_ok=True)
     corpus_root = Path(args.corpus).resolve()
     files = sorted(path for path in corpus_root.rglob("*")
-                   if path.is_file() and not any(part.startswith(".") for part in path.relative_to(corpus_root).parts)
+                   if path.is_file()
+                   and ".apex-data" not in path.relative_to(corpus_root).parts
+                   and (args.include_hidden or not any(part.startswith(".") for part in path.relative_to(corpus_root).parts))
                    and (args.all_sources or path.suffix.lower() == ".pdf"))
     if args.smallest_first: files.sort(key=lambda path: (path.stat().st_size, str(path)))
     if args.max_sources: files = files[:args.max_sources]
