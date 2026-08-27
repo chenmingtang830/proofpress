@@ -14,6 +14,7 @@
     "proofpress.py",
     "proofpress_knowledge.py",
     "proofpress_evidence.py",
+    "proofpress_witness.py",
     "examples/verified-knowledge-ledger/demo.otlp.json",
     "examples/verified-knowledge-ledger/legal/README.md",
     "examples/verified-knowledge-ledger/legal/initial-msa.md",

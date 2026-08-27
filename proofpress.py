@@ -26,6 +26,7 @@ import argparse, base64, difflib, hashlib, html, json, os, re, secrets, subproce
 from datetime import datetime, timezone
 import proofpress_evidence
 import proofpress_knowledge
+import proofpress_witness
 
 __version__ = "0.5.0-alpha.2"
 LEDGER_REF = "refs/proofpress/ledger"
@@ -2664,6 +2665,24 @@ def cmd_provenance_verify(a):
     sys.exit(0 if result.ok else 1)
 
 
+def cmd_witness_verify(a):
+    with open(a.receipt, encoding="utf-8") as stream:
+        receipt = json.load(stream)
+    with open(a.trust, encoding="utf-8") as stream:
+        trust_store = json.load(stream)
+    result = proofpress_witness.verify_receipt(a.file, receipt, trust_store)
+    if a.json:
+        print(json.dumps(result, ensure_ascii=False, indent=2))
+    else:
+        verdict = "authenticated" if result["origin_authenticated"] else "not authenticated"
+        color = "add" if result["origin_authenticated"] else "del"
+        print(f"witness {C(color, verdict, bold=True)}: {B(a.file)}")
+        for check in result["checks"]:
+            check_color = "add" if check["status"] == "passed" else "del"
+            print(f"  {C(check_color, check['status'])}: {C('dim', check['type'])}")
+    sys.exit(0 if result["origin_authenticated"] else 1)
+
+
 def main():
     p = argparse.ArgumentParser(prog="proofpress")
     p.add_argument("--version", action="version",
@@ -2811,6 +2830,15 @@ def main():
     pv.add_argument("--evidence", required=True)
     pv.add_argument("--json", action="store_true")
     pv.set_defaults(f=cmd_provenance_verify)
+    wi = sub.add_parser("witness", help="verify an optional detached Cloud Witness receipt")
+    wis = wi.add_subparsers(dest="witness_cmd", required=True)
+    wv = wis.add_parser("verify", help="verify receipt bindings against an external trust store")
+    wv.add_argument("file")
+    wv.add_argument("--receipt", required=True)
+    wv.add_argument("--trust", required=True,
+                    help="external trust store; never read trust keys from the receipt")
+    wv.add_argument("--json", action="store_true")
+    wv.set_defaults(f=cmd_witness_verify)
     proofpress_knowledge.add_flat_cli(sub)
     proofpress_knowledge.add_cli(sub)  # 0.4 compatibility; deprecated in docs
     a = p.parse_args()
