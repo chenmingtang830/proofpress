@@ -377,9 +377,16 @@ def _normalize_candidate_output(value: Any, requirements: list[dict[str, Any]],
     for claim in raw_claims:
         requirement_id = str(claim.get("requirement_id"))
         if requirement_id not in requirement_ids:
-            if not claim.get("evidence_ids"):
-                continue
-            raise ValueError("candidate claim referenced an unknown requirement")
+            continue
+        valid_evidence_ids = list(dict.fromkeys(
+            evidence_id for evidence_id in claim.get("evidence_ids", [])
+            if evidence_id in evidence_by_id))
+        # Claims are evidence-bound by contract.  A hallucinated or entirely
+        # missing reference invalidates this candidate only; the frozen
+        # requirement remains an explicit partial/gap for later review.
+        if not valid_evidence_ids or not str(claim.get("statement", "")).strip():
+            continue
+        claim["evidence_ids"] = valid_evidence_ids
         claims.append(claim)
     claim_handles: dict[str, str] = {}
     requirement_handles: dict[str, str] = {}
@@ -403,16 +410,13 @@ def _normalize_candidate_output(value: Any, requirements: list[dict[str, Any]],
             else:
                 label = "observed_fact"
         claim["claim_type"] = label
-        claim.setdefault("status", "unresolved")
+        claim["status"] = "unresolved"
         claim.setdefault("scope", "matter")
         claim.setdefault("category", requirement_types[requirement_id])
         claim.setdefault("effective_date", None)
         claim.setdefault("evidence_ids", [])
-        if claim["status"] != "unresolved":
-            raise ValueError("candidate claim status must remain unresolved")
-        if any(evidence_id not in evidence_by_id for evidence_id in claim["evidence_ids"]):
-            raise ValueError("candidate claim referenced unknown evidence")
     normalized_relations = []
+    seen_relations = set()
     stable_claim_ids = {claim["id"] for claim in claims}
     for relation in relations:
         relation["from"] = claim_handles.get(
@@ -425,8 +429,11 @@ def _normalize_candidate_output(value: Any, requirements: list[dict[str, Any]],
             "addresses": "supports", "related": "same_as",
             "curable_via": "depends_on", "gap_flagged_by": "supports",
         }.get(relation_type, relation_type)
+        relation_key = (relation.get("from"), relation.get("to"), relation.get("type"))
         if (relation["type"] in ALLOWED_RELATION_TYPES
-                and relation["from"] in stable_claim_ids and relation["to"] in stable_claim_ids):
+                and relation["from"] in stable_claim_ids and relation["to"] in stable_claim_ids
+                and relation_key not in seen_relations):
+            seen_relations.add(relation_key)
             normalized_relations.append(relation)
     evidence_ids_by_requirement = {
         row["requirement_id"]: set(row["evidence_ids"])
@@ -527,9 +534,38 @@ def _candidate_batches(task: dict[str, Any], model_requirements: list[dict[str, 
         retained = [dict(claim) for claim in (current_claims or [])
                     if claim.get("requirement_id") in failed_requirement_ids]
         claims.extend(retained)
+    if critic is not None:
+        selected_requirement_ids = {row["requirement_id"] for row in model_requirements}
+        claims.extend(dict(claim) for claim in (current_claims or [])
+                      if claim.get("requirement_id") not in selected_requirement_ids)
+        relations.extend(dict(relation) for relation in (current_relations or []))
     return {"ok": True, "value": {"claims": claims[:64], "relations": relations[:80]}, "raw": raw,
             "failed_requirement_ids": sorted(failed_requirement_ids),
             "batch_failures": [row["result"]["record"] for row in failures]}
+
+
+def _critic_target_requirement_ids(critic: dict[str, Any], requirements: list[dict[str, Any]],
+                                   claims: list[dict[str, Any]]) -> set[str]:
+    """Resolve compact critic findings to their affected frozen requirements."""
+    known = {row["requirement_id"] for row in requirements}
+    claim_to_requirement = {row["id"]: row["requirement_id"] for row in claims}
+    findings = {key: critic.get(key, []) for key in ("repair_instructions", "supplemental_queries", "requirement_updates")}
+    serialized = json.dumps(findings, ensure_ascii=False, sort_keys=True)
+    targets = {requirement_id for requirement_id in known if requirement_id in serialized}
+    targets.update(requirement_id for claim_id, requirement_id in claim_to_requirement.items() if claim_id in serialized)
+    for collection in findings.values():
+        if not isinstance(collection, list):
+            continue
+        for row in collection:
+            if not isinstance(row, dict):
+                continue
+            direct = row.get("requirement_id")
+            if direct in known:
+                targets.add(direct)
+            for requirement_id in row.get("requirement_ids", []) if isinstance(row.get("requirement_ids"), list) else []:
+                if requirement_id in known:
+                    targets.add(requirement_id)
+    return targets
 
 
 def _decompose(task: dict[str, Any], index: SectionIndex, glm: Gateway) -> tuple[dict[str, Any], dict[str, Any]]:
@@ -633,11 +669,38 @@ def _construct(task: dict[str, Any], decomposition: dict[str, Any], index: Secti
                                                      "repair_history": repair_history}
         critic_value = critic["value"] if isinstance(critic["value"], dict) else {}
         critic_history.append(critic_value)
+        added_requirement_ids = set()
+        raw_updates = critic_value.get("requirement_updates", [])
+        if isinstance(raw_updates, list) and raw_updates:
+            try:
+                updates = _safe_requirements({"requirements": raw_updates})[:8]
+            except Exception:
+                updates = []
+            existing_requirement_ids = {row["requirement_id"] for row in requirements}
+            for update in updates:
+                if len(requirements) >= 40 or update["requirement_id"] in existing_requirement_ids:
+                    continue
+                update.setdefault("type", "factual_input")
+                queries = update.get("evidence_search_queries") or [update.get("requirement", "")]
+                query = " ".join(str(value) for value in queries[:4])
+                hits = index.search(query)
+                selected = [_evidence(update["requirement_id"], hit, query) for hit in hits]
+                for evidence in selected:
+                    evidence_by_id.setdefault(evidence["evidence_id"], evidence)
+                audit.append({"requirement_id": update["requirement_id"], "query_digest": sha_text(query),
+                              "considered_documents": sorted({doc for hit in hits for doc in hit["considered_documents"]}),
+                              "ranked_section_count": len(hits), "evidence_ids": [row["evidence_id"] for row in selected],
+                              "critic_added": True})
+                requirement = dict(update); requirement["status"] = "partial" if selected else "gap"; requirement["critic_added"] = True
+                requirements.append(requirement)
+                model_requirements.append({key: requirement.get(key) for key in (
+                    "requirement_id", "requirement", "type", "lifecycle_category", "applicability")})
+                existing_requirement_ids.add(update["requirement_id"]); added_requirement_ids.add(update["requirement_id"])
         decision = str(critic_value.get("decision", "")).lower().replace(" ", "_")
         repair_instructions = critic_value.get("repair_instructions", [])
         supplemental_queries = critic_value.get("supplemental_queries", [])
         needs_repair = decision not in {"pass", "accept", "accepted", "approved", "sufficient", "no_repair"}
-        needs_repair = needs_repair or bool(repair_instructions) or bool(supplemental_queries)
+        needs_repair = needs_repair or bool(repair_instructions) or bool(supplemental_queries) or bool(added_requirement_ids)
         if not needs_repair:
             return {"status": "ok", "requirements": requirements, "claims": claims, "relations": relations,
                     "evidence": list(evidence_by_id.values()), "retrieval_audit": audit,
@@ -652,7 +715,9 @@ def _construct(task: dict[str, Any], decomposition: dict[str, Any], index: Secti
             query = query_row.get("query") if isinstance(query_row, dict) else query_row
             if not isinstance(query, str) or not query.strip():
                 continue
-            audit_id = f"critic_round_{repair_round + 1}_query_{query_index}"
+            bound_requirement = query_row.get("requirement_id") if isinstance(query_row, dict) else None
+            audit_id = (bound_requirement if bound_requirement in {row["requirement_id"] for row in requirements}
+                        else f"critic_round_{repair_round + 1}_query_{query_index}")
             hits = index.search(query)
             selected = [_evidence(audit_id, hit, query) for hit in hits]
             for evidence in selected:
@@ -661,7 +726,13 @@ def _construct(task: dict[str, Any], decomposition: dict[str, Any], index: Secti
                           "considered_documents": sorted({d for hit in hits for d in hit["considered_documents"]}),
                           "ranked_section_count": len(hits), "evidence_ids": [x["evidence_id"] for x in selected],
                           "supplemental": True})
-        repair = _candidate_batches(task, model_requirements, evidence_by_id, audit, glm, system,
+        target_ids = _critic_target_requirement_ids(critic_value, requirements, claims) | added_requirement_ids
+        if not target_ids:
+            # An unbound global critic finding is still actionable; fail
+            # conservatively to the full set instead of silently dropping it.
+            target_ids = {row["requirement_id"] for row in model_requirements}
+        repair_requirements = [row for row in model_requirements if row["requirement_id"] in target_ids]
+        repair = _candidate_batches(task, repair_requirements, evidence_by_id, audit, glm, system,
                                     critic=critic_value, current_claims=claims,
                                     current_relations=relations)
         batch_failures.extend(repair.get("batch_failures", []))
@@ -735,12 +806,14 @@ def main() -> None:
             overall_status = "ok" if construction_status == "ok" and critic_status == "ok" else "inconclusive"
             result = {"task_id": row["task_id"], "task_name": row.get("task_name"), "status": overall_status,
                       "construction_status": construction_status,
-                      "requirement_count": len(decomposition["requirements"]),
+                      "decomposition_requirement_count": len(decomposition["requirements"]),
+                      "requirement_count": len(construction.get("requirements", [])),
+                      "critic_added_requirement_count": sum(bool(row.get("critic_added")) for row in construction.get("requirements", [])),
                       "claim_count": len(construction.get("claims", [])), "relation_count": len(construction.get("relations", [])),
                       "evidence_count": len(construction.get("evidence", [])), "critic_status": critic_status,
                       "repair_rounds": construction.get("repair_rounds"),
                       "batch_failure_count": construction.get("batch_failure_count", 0),
-                      "requirement_digest": digest(decomposition["requirements"]),
+                      "requirement_digest": digest(construction.get("requirements", [])),
                       "claim_digest": digest(construction.get("claims", [])),
                       "retrieval_audit_digest": digest(construction.get("retrieval_audit", []))}
             _write_private(private / (row["task_id"] + ".json"), {"task": row, "decomposition": decomposition, "construction": construction,

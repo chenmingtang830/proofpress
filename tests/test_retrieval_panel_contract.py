@@ -104,6 +104,29 @@ class RetrievalPanelContractTests(unittest.TestCase):
         self.assertEqual(claims[0]["claim_type"], "observed_fact")
         self.assertEqual(relations, [])
 
+    def test_claim_runner_drops_hallucinated_evidence_without_losing_the_task(self):
+        requirements = [{"requirement_id": "R1", "status": "covered", "type": "factual_input"},
+                        {"requirement_id": "R2", "status": "covered", "type": "risk_signal"}]
+        evidence = {"E1": {"evidence_id": "E1"}}
+        claims, _ = claim_runner._normalize_candidate_output({"claims": [
+            {"requirement_id": "R1", "statement": "Bound fact", "evidence_ids": ["E1"]},
+            {"requirement_id": "R2", "statement": "Hallucinated", "evidence_ids": ["E404"]},
+        ]}, requirements, evidence, [
+            {"requirement_id": "R1", "evidence_ids": ["E1"]},
+            {"requirement_id": "R2", "evidence_ids": ["E1"]},
+        ])
+        self.assertEqual([row["statement"] for row in claims], ["Bound fact"])
+        self.assertEqual(next(row for row in requirements if row["requirement_id"] == "R2")["status"], "partial")
+
+    def test_critic_repairs_only_bound_requirements(self):
+        requirements = [{"requirement_id": "R1"}, {"requirement_id": "R2"}, {"requirement_id": "R3"}]
+        claims = [{"id": "C1", "requirement_id": "R1"}, {"id": "C2", "requirement_id": "R2"}]
+        targets = claim_runner._critic_target_requirement_ids({
+            "repair_instructions": [{"claim_id": "C1", "instruction": "split"}],
+            "supplemental_queries": [{"requirement_id": "R3", "query": "missing evidence"}],
+        }, requirements, claims)
+        self.assertEqual(targets, {"R1", "R3"})
+
     def test_gap_rrf_collapses_overlapping_page_spans(self):
         def receipt(uri, start, end):
             return {"source": {"uri": uri, "content_digest": "sha256:" + "a" * 64},

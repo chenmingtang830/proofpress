@@ -66,8 +66,26 @@ def _base(path: Path):
     manifest_path = path / "corpus.json"; novel = path / "novel.pdf"; novel.write_bytes(b"private novel bytes")
     sha = "sha256:" + hashlib.sha256(novel.read_bytes()).hexdigest()
     manifest_path.write_text(json.dumps({"sources":[{"path":str(novel),"uri":"private/novel.pdf","content_digest":sha,"media_type":"application/pdf"}]}), encoding="utf-8")
+    prior_receipt = knowledge._retrieval_receipt({
+        "schema_version": knowledge.RETRIEVAL_EVIDENCE_SCHEMA,
+        "source": {"uri": "private/novel.pdf", "content_digest": sha, "media_type": "application/pdf"},
+        "evidence": {"quote": "legacy payment evidence", "locator": {"kind": "section_span",
+            "section_id": "sec-prior", "section_digest": "sha256:" + "b" * 64, "page_start": 2, "page_end": 2}},
+        "retrieval": {"adapter": "preexisting-conformance", "version": "1", "query": "legacy payment",
+                      "config_digest": "sha256:" + "c" * 64},
+    })
+    knowledge._import_retrieval_evidence_v2({
+        "schema_version": knowledge.RETRIEVAL_EVIDENCE_SCHEMA, "source": prior_receipt["source"],
+        "evidence": {"quote": prior_receipt["quote"], "locator": prior_receipt["locator"]},
+        "retrieval": prior_receipt["retrieval"]})
+    projection = knowledge.v2_projection()
+    prior_evidence = next(row["id"] for row in projection["evidence"].values()
+                          if row.get("retrieval_receipt_digest") == knowledge.digest(prior_receipt))
+    prior_claim = knowledge.propose_v2("Legacy source condition", [prior_evidence], "matter-1",
+                                       "agent:proposer")["conclusion"]["id"]
+    knowledge.review_v2(prior_claim, "admit", "human:reviewer")
     return {"visible": visible, "sibling": sibling, "secret": secret, "expired": expired,
-            "manifest": str(manifest_path), "sidecar": _fixture_sidecar(path)}
+            "prior_claim": prior_claim, "manifest": str(manifest_path), "sidecar": _fixture_sidecar(path)}
 
 
 def _run_case(category: str, index: int) -> dict:
@@ -120,7 +138,9 @@ def _run_case(category: str, index: int) -> dict:
                 if category == "conflict-expired-superseded": action = "recommend_conflict_proposal"
                 elif category == "ephemeral-duplicate-stale": action = "ephemeral_only"
                 else: action = "recommend_evidence_import"
-                recommender = lambda request: {"action": action, "proposed_use": "candidate only", "reasons": ["fixture gate"], "required_next_action": "propose/evaluate/judge/lawyer-review"}
+                recommender = lambda request: {"action": action,
+                    **({"candidate_statement": "New unresolved conflict candidate"} if action == "recommend_conflict_proposal" else {}),
+                    "proposed_use": "candidate only", "reasons": ["fixture gate"], "required_next_action": "propose/evaluate/judge/lawyer-review"}
                 dry = knowledge.assimilate_v1(packet, "agent:executor", "matter-1", corpus_manifest=ids["manifest"], recommender=recommender)
                 no_dry_mutation = dry["ledger_head"] == knowledge.v2_head()
                 if category in {"partial-gap", "novel", "reusable-discovered", "conflict-expired-superseded"}:
@@ -146,6 +166,13 @@ def _run_case(category: str, index: int) -> dict:
             automatic_admission = any(row.get("type") == "conclusion_admitted"
                                       and not str(row.get("reviewer", "")).startswith("human:")
                                       for row in events)
+            submit_state_valid = True
+            if submit and submit.get("recommendation", {}).get("action") == "recommend_conflict_proposal":
+                submit_state_valid = (submit.get("candidate", {}).get("status") == "unresolved"
+                                      and bool(submit.get("relations"))
+                                      and all(row.get("status") == "unresolved" for row in submit.get("relations", [])))
+            elif submit:
+                submit_state_valid = not submit.get("candidate") and not submit.get("relations")
             return {"case_id": f"{category}-{index}", "category": category, "status":"ok", "pageindex_called":pageindex_called,
                     "discovered_count":len(packet.get("discovered_evidence", [])), "coverage":packet.get("coverage"),
                     "selection_counts":{"tp":selection_tp,"fp":selection_fp,"fn":selection_fn},
@@ -157,6 +184,9 @@ def _run_case(category: str, index: int) -> dict:
                     "submit_events":submit.get("events_added", 0) if submit else 0,
                     "idempotent_replay":bool(replay and replay.get("idempotent")), "stale_head_rejected":stale_rejected,
                     "duplicate_submit_rejected":duplicate_submit_rejected,
+                    "submitted_candidate_status":submit.get("candidate",{}).get("status") if submit else None,
+                    "submitted_relation_statuses":[row.get("status") for row in submit.get("relations",[])] if submit else [],
+                    "submit_state_valid":submit_state_valid,
                     "packet_digest":_digest(packet), "ledger_head":knowledge.v2_head()}
         except Exception as exc:
             return {"case_id":f"{category}-{index}","category":category,"status":"inconclusive","error_type":type(exc).__name__,"error_digest":_digest(str(exc))}
@@ -190,6 +220,7 @@ def main() -> None:
                          "recommendation_accuracy":sum(r["recommendation_action"]==expected[r["case_id"]]["expected_recommendation"] for r in assimilation)/len(assimilation) if assimilation else None,
                          "pageindex_invocation_accuracy":sum(bool(r.get("pageindex_called"))==bool(expected[r["case_id"]]["pageindex_should_call"]) for r in ok)/len(ok) if ok else None,
                          "dry_run_no_mutation_rate":sum(bool(r.get("dry_run_no_mutation")) for r in assimilation)/len(assimilation) if assimilation else None,
+                         "submit_state_valid_rate":sum(bool(r.get("submit_state_valid")) for r in ok if r.get("submit_events"))/sum(bool(r.get("submit_events")) for r in ok) if any(r.get("submit_events") for r in ok) else None,
                          "stale_head_rejection_rate":sum(bool(r.get("stale_head_rejected")) for r in ok if r["category"]=="ephemeral-duplicate-stale" and r["case_id"].endswith("-3")),
                          "duplicate_submit_rejection_rate":sum(bool(r.get("duplicate_submit_rejected")) for r in ok if r["category"]=="ephemeral-duplicate-stale" and r["case_id"].endswith("-2"))},
               "scoring_boundary":"Deterministic fake sidecar and ephemeral ledgers; no APEX quality claim.",

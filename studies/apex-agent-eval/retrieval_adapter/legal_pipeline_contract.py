@@ -19,7 +19,7 @@ MODEL_ROLES = {
     "pageindex": "deepseek/deepseek-v4-flash",
     "primary_executor": "deepseek/deepseek-v4-flash",
     "sensitivity_executor": "zai/glm-5.3-flash",
-    "native_grader": "gemini/gemini-3.1-pro",
+    "native_grader": "google/gemini-3.1-pro-preview",
 }
 LIFECYCLE_CHECKLIST = (
     "parties_capacity_authority", "economics_calculations",
@@ -85,4 +85,3 @@ def validate_candidate_claims(requirements: list[dict[str, Any]], claims: list[d
         status = req.get("status")
         if status == "covered" and req.get("requirement_id") not in covered:
             raise ValueError("covered requirement must bind a candidate claim")
-
