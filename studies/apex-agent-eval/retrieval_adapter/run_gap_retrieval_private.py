@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import copy
 import hashlib
 import json
 import os
@@ -92,7 +93,9 @@ def hybrid_rrf(left: list[dict[str, Any]], right: list[dict[str, Any]], limit: i
 
 def freeze_gaps(run_report: dict[str, Any], silver_report: dict[str, Any], catalog: dict[str, Any]) -> dict[str, Any]:
     raw_run, raw_silver = Path(run_report["raw_private_dir"]), Path(silver_report["raw_private_dir"])
-    tasks = []
+    eligible_uris = {row.get("source", {}).get("uri") for row in catalog.get("representations", [])
+                     if row.get("source", {}).get("media_type") == "application/pdf"}
+    tasks, exclusions = [], []
     for summary in run_report.get("tasks", []):
         task_id = summary["task_id"]
         run_path, silver_path = raw_run / f"{task_id}.json", raw_silver / f"{task_id}.json"
@@ -108,12 +111,19 @@ def freeze_gaps(run_report: dict[str, Any], silver_report: dict[str, Any], catal
             parts.append(str(row.get("requirement", "")))
             parts.extend(str(q) for q in row.get("evidence_search_queries", [])[:2])
         query = "\n".join(dict.fromkeys(part for part in parts if part))[:12000]
+        all_gold = silver.get("locators", [])
+        gold = [row for row in all_gold if row.get("source_uri") in eligible_uris]
+        if not gold:
+            exclusions.append({"task_id": task_id, "reason": "no adapter-eligible PDF silver locator",
+                               "frozen_gold_locator_count": len(all_gold)})
+            continue
         tasks.append({"task_id": task_id, "gap_ids": [row["requirement_id"] for row in gaps],
-                      "query": query, "gold": silver.get("locators", []),
+                      "query": query, "gold": gold, "excluded_ineligible_gold_count": len(all_gold) - len(gold),
                       "silver_digest": silver.get("silver_digest")})
     manifest = {"schema_version": "proofpress/private-frozen-gap-panel/v1",
                 "claim_run_digest": digest(run_report), "silver_report_digest": digest(silver_report),
-                "catalog_digest": catalog.get("catalog_digest"), "tasks": tasks}
+                "catalog_digest": catalog.get("catalog_digest"), "tasks": tasks,
+                "excluded_tasks": exclusions}
     manifest["manifest_digest"] = digest(manifest)
     return manifest
 
@@ -136,6 +146,92 @@ def paired_bootstrap_ci(values: list[float], draws: int = 10000) -> list[float] 
     rng = random.Random(425)
     means = sorted(sum(rng.choice(values) for _ in values) / len(values) for _ in range(draws))
     return [means[int(.025 * (draws - 1))], means[int(.975 * (draws - 1))]]
+
+
+def enforce_inconclusive_build_semantics(report: dict[str, Any]) -> dict[str, Any]:
+    """Do not turn an unavailable PageIndex treatment into a zero score."""
+    corrected = copy.deepcopy(report)
+    corrected["supersedes_report_digest"] = digest(report)
+    null_metrics = {"evidence_set_coverage": None,
+                    "complete_evidence_set_success": None,
+                    "citation_precision": None, "receipt_pass_rate": None}
+    for task in corrected.get("tasks", []):
+        builds = task.get("pageindex_builds", [])
+        primary_ok = bool(builds and builds[0].get("status") == "ok")
+        if not primary_ok:
+            for system in ("pageindex-tree/v1", "hybrid-rrf/v1"):
+                task["systems"][system] = {f"k={k}": dict(null_metrics) for k in K_VALUES}
+        stability = []
+        for other in builds[1:]:
+            stability.append(None if not primary_ok or other.get("status") != "ok" else
+                             task.get("primary_to_rebuild_locator_jaccard", [None, None])[len(stability)])
+        task["primary_to_rebuild_locator_jaccard"] = stability
+    systems_report: dict[str, Any] = {}
+    for name in ("bm25-page/v1", "pageindex-tree/v1", "hybrid-rrf/v1"):
+        systems_report[name] = {}
+        for k in K_VALUES:
+            rows = [task["systems"][name][f"k={k}"] for task in corrected.get("tasks", [])]
+            systems_report[name][f"k={k}"] = {metric: mean(rows, metric) for metric in null_metrics}
+    corrected["systems"] = systems_report
+    paired = []
+    for task in corrected.get("tasks", []):
+        bm25 = task["systems"]["bm25-page/v1"]["k=5"]["evidence_set_coverage"]
+        pageindex = task["systems"]["pageindex-tree/v1"]["k=5"]["evidence_set_coverage"]
+        if bm25 is not None and pageindex is not None:
+            paired.append(float(pageindex) - float(bm25))
+    corrected["paired_pageindex_minus_bm25_at_5"] = {
+        "denominator": len(paired), "mean": statistics.mean(paired) if paired else None,
+        "bootstrap_95_ci": paired_bootstrap_ci(paired)}
+    tasks = corrected.get("tasks", [])
+    denominators = corrected.setdefault("denominators", {})
+    denominators.setdefault("bm25_scored_tasks", sum(
+        task.get("gold_locator_count", 0) > 0 for task in tasks))
+    denominators.setdefault("pageindex_scored_tasks", sum(
+        bool(task.get("pageindex_builds")) and task["pageindex_builds"][0].get("status") == "ok"
+        and task.get("gold_locator_count", 0) > 0 for task in tasks))
+    corrected["denominators"]["successful_pageindex_builds"] = sum(
+        build.get("status") == "ok" for task in tasks for build in task.get("pageindex_builds", []))
+    stability_values = [value for task in tasks
+                        for value in task.get("primary_to_rebuild_locator_jaccard", [])
+                        if isinstance(value, (int, float))]
+    corrected.setdefault("pageindex", {})["mean_rebuild_locator_jaccard"] = (
+        statistics.mean(stability_values) if stability_values else None)
+    return corrected
+
+
+def enforce_adapter_eligible_gold(report: dict[str, Any], manifest: dict[str, Any],
+                                  catalog: dict[str, Any]) -> dict[str, Any]:
+    """Exclude gold locators that the adapter custody subset cannot access."""
+    corrected = copy.deepcopy(report)
+    eligible_uris = {row.get("source", {}).get("uri") for row in catalog.get("representations", [])
+                     if row.get("source", {}).get("media_type") == "application/pdf"}
+    gold_by_task = {task["task_id"]: task.get("gold", []) for task in manifest.get("tasks", [])}
+    null_metrics = {"evidence_set_coverage": None,
+                    "complete_evidence_set_success": None,
+                    "citation_precision": None, "receipt_pass_rate": None}
+    eligible_tasks = 0
+    for task in corrected.get("tasks", []):
+        eligible_count = sum(row.get("source_uri") in eligible_uris
+                             for row in gold_by_task.get(task.get("task_id"), []))
+        task["adapter_eligible_gold_locator_count"] = eligible_count
+        if eligible_count:
+            eligible_tasks += 1
+            continue
+        for system in ("bm25-page/v1", "pageindex-tree/v1", "hybrid-rrf/v1"):
+            task["systems"][system] = {f"k={k}": dict(null_metrics) for k in K_VALUES}
+    for name in ("bm25-page/v1", "pageindex-tree/v1", "hybrid-rrf/v1"):
+        for k in K_VALUES:
+            rows = [task["systems"][name][f"k={k}"] for task in corrected.get("tasks", [])]
+            corrected["systems"][name][f"k={k}"] = {metric: mean(rows, metric) for metric in null_metrics}
+    corrected.setdefault("denominators", {})["tasks_with_adapter_eligible_gold"] = eligible_tasks
+    corrected["denominators"]["excluded_ineligible_gold_tasks"] = len(corrected.get("tasks", [])) - eligible_tasks
+    corrected["denominators"]["scored_tasks"] = eligible_tasks
+    corrected["denominators"]["bm25_scored_tasks"] = eligible_tasks
+    corrected["denominators"]["pageindex_scored_tasks"] = sum(
+        task.get("adapter_eligible_gold_locator_count", 0) > 0
+        and bool(task.get("pageindex_builds")) and task["pageindex_builds"][0].get("status") == "ok"
+        for task in corrected.get("tasks", []))
+    return enforce_inconclusive_build_semantics(corrected)
 
 
 def main() -> None:
@@ -218,13 +314,20 @@ def main() -> None:
             primary = builds[0]
             hybrid = hybrid_rrf(bm25, primary)
             systems = {"bm25-page/v1": bm25, "pageindex-tree/v1": primary, "hybrid-rrf/v1": hybrid}
-            metrics = {name: {f"k={k}": score(rows[:k], task["gold"]) for k in K_VALUES}
+            primary_ok = build_meta[0]["status"] == "ok"
+            metrics = {name: {f"k={k}": (
+                score(rows[:k], task["gold"]) if name == "bm25-page/v1" or primary_ok else
+                {"evidence_set_coverage": None, "complete_evidence_set_success": None,
+                 "citation_precision": None, "receipt_pass_rate": None}) for k in K_VALUES}
                        for name, rows in systems.items()}
             locator_sets = [{(source_uri(row), span(row)) for row in rows} for rows in builds]
             stability = []
-            for other in locator_sets[1:]:
+            for other_index, other in enumerate(locator_sets[1:], 1):
                 union = locator_sets[0] | other
-                stability.append(len(locator_sets[0] & other) / len(union) if union else 1.0)
+                if not primary_ok or build_meta[other_index]["status"] != "ok":
+                    stability.append(None)
+                else:
+                    stability.append(len(locator_sets[0] & other) / len(union) if union else 1.0)
             task_rows.append({"task_id": task["task_id"], "gap_count": len(task["gap_ids"]),
                               "gold_locator_count": len(task["gold"]), "systems": metrics,
                               "pageindex_builds": build_meta,
@@ -268,12 +371,15 @@ def main() -> None:
                             "mean_warm_query_cost_usd": statistics.mean(warm_costs) if warm_costs else None,
                             "mean_rebuild_locator_jaccard": statistics.mean(
                                 value for row in task_rows for value in row["primary_to_rebuild_locator_jaccard"]
-                            ) if task_rows else None},
+                                if isinstance(value, (int, float))
+                            ) if any(isinstance(value, (int, float)) for row in task_rows
+                                     for value in row["primary_to_rebuild_locator_jaccard"]) else None},
               "paired_pageindex_minus_bm25_at_5": {"denominator": len(paired),
                                                     "mean": statistics.mean(paired) if paired else None,
                                                     "bootstrap_95_ci": paired_bootstrap_ci(paired)},
               "tasks": task_rows,
               "decision_boundary": "Private task-level frozen-gap panel; model-adjudicated silver is not human gold and cannot change admission policy."}
+    report = enforce_inconclusive_build_semantics(report)
     (out / "raw-private-receipts.json").write_text(json.dumps(raw, indent=2) + "\n")
     (out / "sanitized-report.json").write_text(json.dumps(report, indent=2, sort_keys=True) + "\n")
     print(json.dumps({"ok": True, "tasks": len(task_rows), "report": str(out / "sanitized-report.json")}))

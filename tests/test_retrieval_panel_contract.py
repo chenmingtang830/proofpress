@@ -136,6 +136,45 @@ class RetrievalPanelContractTests(unittest.TestCase):
         self.assertEqual(len(result), 1)
         self.assertEqual(result[0]["retrieval"]["systems"], ["bm25", "pageindex"])
 
+    def test_gap_inconclusive_primary_is_not_scored_as_zero(self):
+        metrics = {f"k={k}": {"evidence_set_coverage": 0.0,
+                               "complete_evidence_set_success": False,
+                               "citation_precision": 0.0, "receipt_pass_rate": 0.0}
+                   for k in gap_runner.K_VALUES}
+        report = {"denominators": {}, "pageindex": {"mean_rebuild_locator_jaccard": 1.0},
+                  "tasks": [{"gold_locator_count": 1,
+                             "pageindex_builds": [{"status": "inconclusive"},
+                                                   {"status": "inconclusive"},
+                                                   {"status": "inconclusive"}],
+                             "primary_to_rebuild_locator_jaccard": [1.0, 1.0],
+                             "systems": {"bm25-page/v1": metrics,
+                                         "pageindex-tree/v1": metrics,
+                                         "hybrid-rrf/v1": metrics}}]}
+        corrected = gap_runner.enforce_inconclusive_build_semantics(report)
+        self.assertIsNone(corrected["systems"]["pageindex-tree/v1"]["k=5"]["evidence_set_coverage"])
+        self.assertEqual(corrected["paired_pageindex_minus_bm25_at_5"]["denominator"], 0)
+        self.assertIsNone(corrected["pageindex"]["mean_rebuild_locator_jaccard"])
+
+    def test_gap_gold_outside_pdf_custody_is_not_scored(self):
+        metrics = {f"k={k}": {"evidence_set_coverage": 0.0,
+                               "complete_evidence_set_success": False,
+                               "citation_precision": 0.0, "receipt_pass_rate": 1.0}
+                   for k in gap_runner.K_VALUES}
+        report = {"denominators": {}, "pageindex": {},
+                  "systems": {name: dict(metrics) for name in
+                              ("bm25-page/v1", "pageindex-tree/v1", "hybrid-rrf/v1")},
+                  "tasks": [{"task_id": "T1", "gold_locator_count": 1,
+                             "pageindex_builds": [{"status": "inconclusive"}] * 3,
+                             "primary_to_rebuild_locator_jaccard": [None, None],
+                             "systems": {name: dict(metrics) for name in
+                                         ("bm25-page/v1", "pageindex-tree/v1", "hybrid-rrf/v1")}}]}
+        manifest = {"tasks": [{"task_id": "T1", "gold": [{"source_uri": "private://text"}]}]}
+        catalog = {"representations": [{"source": {"uri": "private://pdf",
+                                                      "media_type": "application/pdf"}}]}
+        corrected = gap_runner.enforce_adapter_eligible_gold(report, manifest, catalog)
+        self.assertEqual(corrected["denominators"]["tasks_with_adapter_eligible_gold"], 0)
+        self.assertIsNone(corrected["systems"]["bm25-page/v1"]["k=5"]["evidence_set_coverage"])
+
     def test_claim_scorer_counts_each_silver_locator_once(self):
         evidence = {"source": {"uri": "private://a"},
                     "locator": {"page_start": 1, "page_end": 2}}
@@ -152,6 +191,42 @@ class RetrievalPanelContractTests(unittest.TestCase):
         self.assertEqual(grade["rubric_fraction"], 0.75)
         with self.assertRaisesRegex(ValueError, "rubric_fraction"):
             workflow_runner.normalize_grade({"rubric_fraction": 2})
+        self.assertEqual(
+            workflow_runner.normalize_grade({"rubric_fraction": 0.5,
+                                             "unsupported_claims": ["one", "two"],
+                                             "citation_errors": [],
+                                             "authority_errors": [{"finding": "staged"}]}),
+            {"rubric_fraction": 0.5, "unsupported_claims": 2,
+             "citation_errors": 0, "authority_errors": 1},
+        )
+        with self.assertRaisesRegex(ValueError, "unsupported_claims"):
+            workflow_runner.normalize_grade({"rubric_fraction": 0.5,
+                                             "unsupported_claims": "one"})
+
+    def test_workflow_runtime_paths_survive_workspace_chdir(self):
+        original = Path.cwd()
+        relative = Path("tools/pageindex-sidecar/gateway_openai_server.mjs")
+        resolved = Path(workflow_runner.resolve_runtime_path(str(relative)))
+        self.assertTrue(resolved.is_absolute())
+        self.assertTrue(resolved.is_file())
+        self.assertEqual(resolved, original / relative)
+
+    def test_workflow_grade_normalization_is_safe_for_resume(self):
+        prior = [{"rubric_fraction": 0.8, "unsupported_claims": ["x"],
+                  "citation_errors": 0, "authority_errors": 0}]
+        resumed = [workflow_runner.normalize_grade(row) for row in prior]
+        self.assertEqual(resumed[0]["unsupported_claims"], 1)
+
+    def test_workflow_compacts_large_disclosure_without_emptying_context(self):
+        packet = {"schema_version": "proofpress/governed-disclosure/v1", "coverage": "covered",
+                  "governed_context": [{"id": "c1", "statement": "x" * 100000,
+                                         "scope": "s", "digest": "sha256:" + "a" * 64}],
+                  "lineage": [{"conclusion": {"id": "c1"}, "state": "admitted",
+                               "evidence": []}], "gaps": [], "blocked": [],
+                  "discovered_evidence": []}
+        compact = workflow_runner.compact_disclosure_packet(packet, 10000)
+        self.assertTrue(compact["governed_context"])
+        self.assertLess(len(compact["governed_context"][0]["statement"]), 5000)
 
 
 if __name__ == "__main__":
