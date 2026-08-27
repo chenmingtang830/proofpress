@@ -95,6 +95,55 @@ print(json.dumps(out))
             knowledge.disclose_v1("indemnity carveout", "agent:executor", "matter-1",
                                   corpus_manifest=str(manifest), sidecar=self._sidecar())
 
+    def test_assimilation_is_dry_run_then_explicit_non_admitting_submit(self):
+        manifest, _ = self._manifest()
+        packet = knowledge.disclose_v1(
+            "What indemnity carveout applies?", "agent:executor", "matter-1",
+            corpus_manifest=str(manifest), sidecar=self._sidecar())
+        head = knowledge.v2_head()
+        recommender = lambda request: {
+            "action": "recommend_evidence_import",
+            "proposed_use": "candidate evidence only",
+            "reasons": ["receipt is bound to an unmet gap"],
+            "required_next_action": "propose/evaluate/judge/lawyer-review",
+        }
+        dry = knowledge.assimilate_v1(packet, "agent:executor", "matter-1",
+                                      corpus_manifest=str(manifest), recommender=recommender)
+        self.assertEqual(dry["schema_version"], knowledge.ASSIMILATION_SCHEMA)
+        self.assertFalse(dry["submitted"])
+        self.assertEqual(knowledge.v2_head(), head)
+        key = knowledge.digest({"packet_digest": dry["packet_digest"],
+                                "ledger_head": dry["ledger_head"], "actor": "agent:executor",
+                                "scope": "matter-1", "receipts": dry["receipt_digests"],
+                                "config_digest": dry["config_digest"]})
+        submitted = knowledge.assimilate_v1(packet, "agent:executor", "matter-1",
+                                             receipt_digests=dry["receipt_digests"],
+                                             gap_ids=dry["gap_ids"], expected_head=head,
+                                             submit=True, idempotency_key=key,
+                                             corpus_manifest=str(manifest), recommender=recommender)
+        self.assertTrue(submitted["submitted"])
+        self.assertTrue(any(e["type"] == "assimilation_submitted" for e in knowledge.v2_events()))
+        self.assertFalse(any(e["type"] == "conclusion_admitted" and
+                             e.get("subject_ref") not in {self.visible, self.secret}
+                             for e in knowledge.v2_events()))
+        replay = knowledge.assimilate_v1(packet, "agent:executor", "matter-1",
+                                          submit=True, idempotency_key=key,
+                                          corpus_manifest=str(manifest), recommender=recommender)
+        self.assertTrue(replay["idempotent"])
+        self.assertEqual(replay["events_added"], 0)
+
+    def test_assimilation_requires_fresh_custody_and_gap_binding(self):
+        manifest, _ = self._manifest()
+        packet = knowledge.disclose_v1(
+            "What indemnity carveout applies?", "agent:executor", "matter-1",
+            corpus_manifest=str(manifest), sidecar=self._sidecar())
+        recommender = lambda request: {"action": "ephemeral_only"}
+        with self.assertRaisesRegex(ValueError, "corpus manifest"):
+            knowledge.assimilate_v1(packet, "agent:executor", "matter-1", recommender=recommender)
+        with self.assertRaisesRegex(ValueError, "gap id"):
+            knowledge.assimilate_v1(packet, "agent:executor", "matter-1", gap_ids=["gap_missing"],
+                                    corpus_manifest=str(manifest), recommender=recommender)
+
 
 if __name__ == "__main__":
     unittest.main()

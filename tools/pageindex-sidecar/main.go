@@ -20,11 +20,14 @@ import (
 const schema = "proofpress/pageindex-sidecar/v1"
 
 type Source struct {
-	SourceID      string `json:"source_id"`
-	Path          string `json:"path"`
-	URI           string `json:"uri"`
-	ContentDigest string `json:"content_digest"`
-	MediaType     string `json:"media_type"`
+	SourceID             string `json:"source_id"`
+	Path                 string `json:"path"`
+	URI                  string `json:"uri"`
+	ContentDigest        string `json:"content_digest"`
+	MediaType            string `json:"media_type"`
+	RepresentationDigest string `json:"representation_digest,omitempty"`
+	TransformDigest      string `json:"transform_digest,omitempty"`
+	PageCount            int    `json:"page_count,omitempty"`
 }
 type Request struct {
 	SchemaVersion string         `json:"schema_version"`
@@ -37,9 +40,11 @@ type Request struct {
 type Envelope struct {
 	SchemaVersion string `json:"schema_version"`
 	Source        struct {
-		URI           string `json:"uri"`
-		ContentDigest string `json:"content_digest"`
-		MediaType     string `json:"media_type"`
+		URI                  string `json:"uri"`
+		ContentDigest        string `json:"content_digest"`
+		MediaType            string `json:"media_type"`
+		RepresentationDigest string `json:"representation_digest,omitempty"`
+		TransformDigest      string `json:"transform_digest,omitempty"`
 	} `json:"source"`
 	Evidence struct {
 		Quote   string         `json:"quote"`
@@ -83,17 +88,17 @@ func cachePath(req Request, source Source) string {
 	key := sha256Text(source.ContentDigest + "\n" + config)
 	return filepath.Join(dir, strings.TrimPrefix(key, "sha256:")+".json")
 }
-func loadOrBuild(req Request, source Source) (*pageindex.Document, error) {
+func loadOrBuild(req Request, source Source) (*pageindex.Document, bool, error) {
 	path := cachePath(req, source)
 	if raw, err := os.ReadFile(path); err == nil {
 		var doc pageindex.Document
 		if err := json.Unmarshal(raw, &doc); err == nil {
-			return &doc, nil
+			return &doc, true, nil
 		}
-		return nil, fmt.Errorf("invalid cached tree for %s", source.URI)
+		return nil, false, fmt.Errorf("invalid cached tree for %s", source.URI)
 	}
 	if source.MediaType != "application/pdf" {
-		return nil, fmt.Errorf("PageIndex sidecar v1 supports application/pdf only: %s", source.URI)
+		return nil, false, fmt.Errorf("PageIndex sidecar v1 supports application/pdf only: %s", source.URI)
 	}
 	doc, err := pageindex.BuildFromPDF(source.Path,
 		pageindex.WithModel(runtimeModel(req.Config)), pageindex.WithAddNodeID(true),
@@ -101,19 +106,19 @@ func loadOrBuild(req Request, source Source) (*pageindex.Document, error) {
 		pageindex.WithAddDocDescription(false), pageindex.WithTOCCheckPages(1),
 		pageindex.WithMaxPagesPerNode(1), pageindex.WithMaxTokensPerNode(2500))
 	if err != nil {
-		return nil, err
+		return nil, false, err
 	}
 	raw, err := json.Marshal(doc)
 	if err != nil {
-		return nil, err
+		return nil, false, err
 	}
 	if err := os.MkdirAll(filepath.Dir(path), 0700); err != nil {
-		return nil, err
+		return nil, false, err
 	}
 	if err := os.WriteFile(path, raw, 0600); err != nil {
-		return nil, err
+		return nil, false, err
 	}
-	return doc, nil
+	return doc, false, nil
 }
 func receipt(source Source, node *pageindex.Node, req Request) (Envelope, error) {
 	quote := strings.TrimSpace(node.Text)
@@ -123,6 +128,7 @@ func receipt(source Source, node *pageindex.Node, req Request) (Envelope, error)
 	var out Envelope
 	out.SchemaVersion = "proofpress/retrieval-evidence/v1"
 	out.Source.URI, out.Source.ContentDigest, out.Source.MediaType = source.URI, source.ContentDigest, source.MediaType
+	out.Source.RepresentationDigest, out.Source.TransformDigest = source.RepresentationDigest, source.TransformDigest
 	out.Evidence.Quote = quote
 	out.Evidence.Locator = map[string]any{"kind": "section_span", "section_id": node.NodeID,
 		"section_digest": sha256Text(node.Title + "\n" + node.Text), "page_start": node.StartIndex, "page_end": node.EndIndex}
@@ -147,6 +153,7 @@ func main() {
 	}
 	var receipts []Envelope
 	var bytes int64
+	cacheHits := 0
 	for _, source := range req.Sources {
 		actual, err := sha256File(source.Path)
 		if err != nil || actual != source.ContentDigest {
@@ -157,10 +164,13 @@ func main() {
 		if info != nil {
 			bytes += info.Size()
 		}
-		doc, err := loadOrBuild(req, source)
+		doc, cacheHit, err := loadOrBuild(req, source)
 		if err != nil {
 			fmt.Fprintln(os.Stderr, err)
 			os.Exit(4)
+		}
+		if cacheHit {
+			cacheHits++
 		}
 		nodes, err := pageindex.TreeSearch(doc, req.Query, pageindex.WithSearchModel(runtimeModel(req.Config)), pageindex.WithMaxNodes(req.MaxResults-len(receipts)))
 		if err != nil {
@@ -184,5 +194,7 @@ func main() {
 	}
 	json.NewEncoder(os.Stdout).Encode(map[string]any{"schema_version": schema, "fallback_used": false,
 		"sidecar": map[string]any{"adapter": "proofpress.pageindex", "version": "1"}, "receipts": receipts,
-		"telemetry": map[string]any{"latency_ms": time.Since(started).Milliseconds(), "source_bytes": bytes, "cost_usd": nil}})
+		"telemetry": map[string]any{"latency_ms": time.Since(started).Milliseconds(), "source_bytes": bytes, "cost_usd": nil,
+			"index_cache_hits": cacheHits, "index_cache_misses": len(req.Sources) - cacheHits,
+			"fallback_used": false}})
 }
