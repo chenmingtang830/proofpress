@@ -76,10 +76,10 @@ def bridge(script,receipt_file):
     try: port=int(json.loads(line)["port"])
     except Exception: process.kill(); raise RuntimeError("Gateway bridge did not become ready")
     return process,"http://127.0.0.1:%s/v1"%port
-def tree(query,sources,sidecar,config,limit,base_url,cache_dir):
+def tree(query,sources,sidecar,config,limit,base_url,cache_dir,timeout_seconds):
     request={"schema_version":"proofpress/pageindex-sidecar/v1","query":query,"sources":[{k:v for k,v in s.items() if k in {"source_id","path","uri","content_digest","media_type","representation_digest","transform_digest","page_count"}} for s in sources],"config":config,"max_results":limit,"cache_dir":str(cache_dir)}
     env=os.environ.copy(); env.update({"OPENAI_BASE_URL":base_url,"OPENAI_API_KEY":"local-gateway-bridge"})
-    result=subprocess.run([sidecar],input=json.dumps(request),text=True,capture_output=True,timeout=300,env=env)
+    result=subprocess.run([sidecar],input=json.dumps(request),text=True,capture_output=True,timeout=timeout_seconds,env=env)
     if result.returncode: raise RuntimeError("sidecar failed closed")
     out=json.loads(result.stdout)
     if out.get("schema_version")!="proofpress/pageindex-sidecar/v1" or out.get("fallback_used") is not False: raise RuntimeError("sidecar no-fallback protocol failed")
@@ -92,10 +92,11 @@ def costs(receipt_file,offset):
 def quantile(values,q):
     rows=sorted(values); return rows[min(len(rows)-1,round((len(rows)-1)*q))] if rows else None
 def main():
-    ap=argparse.ArgumentParser(); ap.add_argument("--manifest",required=True); ap.add_argument("--out",required=True); ap.add_argument("--sidecar",required=True); ap.add_argument("--gateway-server",required=True); ap.add_argument("--limit",type=int,default=6); a=ap.parse_args()
+    ap=argparse.ArgumentParser(); ap.add_argument("--manifest",required=True); ap.add_argument("--out",required=True); ap.add_argument("--sidecar",required=True); ap.add_argument("--gateway-server",required=True); ap.add_argument("--limit",type=int,default=6); ap.add_argument("--pageindex-timeout-seconds",type=int,default=int(os.environ.get("PROOFPRESS_PAGEINDEX_TIMEOUT_SECONDS","1800"))); a=ap.parse_args()
     if not os.environ.get("AI_GATEWAY_API_KEY"): raise SystemExit("scored panel fails closed: AI_GATEWAY_API_KEY unavailable")
     data=validate(a.manifest); out=Path(a.out); out.mkdir(parents=True,exist_ok=True); private_gateway=out/"gateway-private-receipts.jsonl"
-    config={"adapter":"proofpress.pageindex","version":"1","requested_model":MODEL,"provider":PROVIDER,"fallback":"forbidden","max_sections":20,"max_pages":20,"toc_check_pages":1,"max_pages_per_node":1,"max_tokens_per_node":2500,"node_summary":False,"document_description":False}; config["config_digest"]=sha(json.dumps(config,sort_keys=True))
+    if a.pageindex_timeout_seconds < 1: raise SystemExit("PageIndex timeout must be positive")
+    config={"adapter":"proofpress.pageindex","version":"1","requested_model":MODEL,"provider":PROVIDER,"fallback":"forbidden","max_sections":20,"max_pages":20,"toc_check_pages":1,"max_pages_per_node":1,"max_tokens_per_node":2500,"node_summary":False,"document_description":False,"timeout_seconds":a.pageindex_timeout_seconds}; config["config_digest"]=sha(json.dumps(config,sort_keys=True))
     runs={n:{"completed":0,"inconclusive":0,"receipt_count":0,"latencies":[],"costs":[],"metric_rows":[]} for n in SYSTEMS}; raw=[]; gateway,base=bridge(a.gateway_server,private_gateway)
     try:
       for task in data["tasks"]:
@@ -103,7 +104,7 @@ def main():
         raw.append({"task_id":task["task_id"],"system":SYSTEMS[0],"receipts":lex}); r=runs[SYSTEMS[0]]; r["completed"]+=1; r["receipt_count"]+=len(lex); r["latencies"].append(latency); r["costs"].append(0); r["metric_rows"].append(score(lex,task["gold"]))
         offset=len(private_gateway.read_text().splitlines()) if private_gateway.exists() else 0
         try:
-          indexed,telemetry=tree(task["query"],data["sources"],a.sidecar,config,20,base,out/"pageindex-cache"); cost=costs(private_gateway,offset); hybrid=hybrid_rrf(lex,indexed,a.limit)
+          indexed,telemetry=tree(task["query"],data["sources"],a.sidecar,config,20,base,out/"pageindex-cache",a.pageindex_timeout_seconds); cost=costs(private_gateway,offset); hybrid=hybrid_rrf(lex,indexed,a.limit)
           for name,receipts in ((SYSTEMS[1],indexed),(SYSTEMS[2],hybrid)):
             raw.append({"task_id":task["task_id"],"system":name,"receipts":receipts}); r=runs[name]; r["completed"]+=1; r["receipt_count"]+=len(receipts); r["latencies"].append(telemetry["latency_ms"]); r["costs"].append(cost); r["metric_rows"].append(score(receipts,task["gold"]))
         except RuntimeError as exc:
