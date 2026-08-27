@@ -301,6 +301,34 @@ class LocalMVPTests(unittest.TestCase):
         edge = next(row for row in graph["edges"] if row.get("id") == relation["id"])
         self.assertEqual(edge["state"], "unresolved")
 
+    def test_admitted_contradiction_quarantines_context_until_human_resolution(self):
+        evidence, first = self.seed()
+        second = self.data("propose", "--statement", "The liability cap is uncapped",
+                           "--evidence", evidence, "--scope", "msa-negotiation",
+                           "--proposer", "agent:runner") ["conclusion"]["id"]
+        self.data("review", first, "--admit", "--reviewer", "human:alice")
+        self.data("review", second, "--admit", "--reviewer", "human:alice")
+        relation = self.data("relation", "propose", first, "--to", second,
+                             "--type", "contradicts", "--proposer", "agent:resolver")["relation"]["id"]
+        self.data("relation", "review", relation, "--admit", "--reviewer", "human:alice")
+        quarantined = self.data("context", "--scope", "msa-negotiation",
+                                "--include-blocked-statements")
+        self.assertEqual(quarantined["knowledge"], [])
+        self.assertEqual({row["id"] for row in quarantined["blocked"]}, {first, second})
+        self.assertTrue(all(row["reason"] == "contradiction_unresolved"
+                            for row in quarantined["blocked"]))
+        self.assertTrue(all(row["required_action"] == "human_conflict_review"
+                            for row in quarantined["blocked"]))
+
+        resolved = self.data("relation", "resolve", relation, "--disposition", "supersede",
+                             "--winner", first, "--reviewer", "human:bob",
+                             "--note", "The capped reading is the admitted current interpretation.")
+        self.assertEqual(resolved["resolution"]["identity_basis"], "self_asserted")
+        context = self.data("context", "--scope", "msa-negotiation")
+        self.assertEqual([row["id"] for row in context["knowledge"]], [first])
+        self.assertEqual(next(row for row in context["blocked"] if row["id"] == second)["reason"],
+                         "superseded")
+
     def test_relation_semantic_judge_is_advisory_and_policy_enforced(self):
         evidence, first = self.seed()
         second = self.data("propose", "--statement", "The exception narrows the cap",

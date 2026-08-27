@@ -240,6 +240,7 @@ DEFAULT_POLICY_V2 = {
     "min_evidence": 1,
     "require_judge": False,
     "allowed_actors": ["*"],
+    "conflict_resolvers": ["*"],
     "judge": {"command": [], "timeout_seconds": 30},
 }
 RELATION_TYPES = {"supports", "qualifies", "contradicts", "supersedes",
@@ -379,7 +380,8 @@ def v2_projection(events=None):
         "rejections": {}, "revision_requests": {}, "supersessions": {}, "relations": {},
         "relation_evaluations": {}, "relation_reviews": {},
         "relation_recommendations": {}, "relation_admissions": {},
-        "relation_rejections": {}, "relation_revision_requests": {}, "events": events,
+        "relation_rejections": {}, "relation_revision_requests": {},
+        "conflict_resolutions": {}, "events": events,
     }
     for event in events:
         kind = event.get("type")
@@ -401,6 +403,7 @@ def v2_projection(events=None):
         elif kind == "relation_admitted": result["relation_admissions"][subject] = event
         elif kind == "relation_rejected": result["relation_rejections"][subject] = event
         elif kind == "relation_revision_requested": result["relation_revision_requests"][subject] = event
+        elif kind == "contradiction_resolved": result["conflict_resolutions"][subject] = event
     return result
 
 
@@ -835,6 +838,56 @@ def review_relation_v2(rid, decision, reviewer, note=None, request_id=None,
     return {"ok": True, "review": review, "result": final}
 
 
+def resolve_contradiction_v2(rid, disposition, reviewer, winner=None, note=None,
+                             expected_head=None):
+    """Resolve an admitted contradiction without inferring a winner automatically.
+
+    Reviewer identity remains self-asserted in this local MVP. A policy allowlist
+    restricts the declared resolver identity; it is not authentication.
+    """
+    if disposition not in {"supersede", "withhold"}:
+        raise ValueError("contradiction resolution must be supersede or withhold")
+    projection, policy = v2_projection(), load_v2_policy()
+    _require_expected_head(expected_head)
+    relation = projection["relations"].get(rid)
+    if not relation or relation["type"] != "contradicts":
+        raise ValueError("resolution requires an admitted contradicts relation")
+    if relation_state(projection, relation) != "admitted":
+        raise ValueError("contradiction relation is not admitted")
+    if reviewer == relation["proposer"]:
+        raise ValueError("proposer may not self-resolve a relation")
+    allowed = policy.get("conflict_resolvers", ["*"])
+    if "*" not in allowed and reviewer not in allowed:
+        raise ValueError("reviewer is not allowed to resolve contradictions by policy")
+    endpoints = {relation["from"], relation["to"]}
+    if disposition == "supersede":
+        if winner not in endpoints:
+            raise ValueError("supersede resolution requires --winner to be a relation endpoint")
+        loser = next(iter(endpoints - {winner}))
+    elif winner:
+        raise ValueError("withhold resolution must not name a winner")
+    prior = projection["conflict_resolutions"].get(rid)
+    if prior:
+        stable = {"disposition": disposition, "winner": winner, "reviewer": reviewer, "note": note}
+        prior_stable = {key: prior.get(key) for key in stable}
+        if prior_stable != stable:
+            raise ValueError("contradiction already has an immutable resolution")
+        return {"ok": True, "resolution": prior, "idempotent": True}
+    resolution = append_v2({"type": "contradiction_resolved", "subject_ref": rid,
+                            "relation_digest": relation["digest"], "disposition": disposition,
+                            "winner": winner, "reviewer": reviewer,
+                            "identity_basis": "self_asserted", "note": note,
+                            "policy_digest": policy["digest"]})
+    result = {"ok": True, "resolution": resolution}
+    if disposition == "supersede":
+        supersession = append_v2({"type": "conclusion_superseded", "subject_ref": loser,
+                                  "superseded_by": winner, "reviewer": reviewer,
+                                  "identity_basis": "self_asserted", "note": note,
+                                  "resolution_ref": resolution["event_id"]})
+        result["supersession"] = supersession
+    return result
+
+
 def evaluate_v2(cid, projection=None, events=None, policy=None):
     events = v2_events() if events is None else events
     projection = v2_projection(events) if projection is None else projection
@@ -1037,17 +1090,14 @@ def supersede_v2(cid, replacement, reviewer, note=None):
 
 def context_v2(scope=None, actor=None, task=None, include_blocked_statements=False):
     projection, policy = v2_projection(), load_v2_policy()
-    knowledge, blocked = [], []
+    knowledge, blocked, eligible = [], [], {}
     for cid, row in projection["conclusions"].items():
         if scope and row["scope"] != scope: continue
         current = v2_state(projection, row, policy)
         actor_ok = not actor or "*" in row.get("allowed_actors", ["*"]) or actor in row.get("allowed_actors", [])
         policy_actor_ok = not actor or "*" in policy["allowed_actors"] or actor in policy["allowed_actors"]
         if current == "admitted" and actor_ok and policy_actor_ok:
-            admitted = projection["admissions"][cid]
-            knowledge.append({**row, "receipt": {"admission_event": admitted["event_id"],
-                              "policy_digest": admitted["policy_digest"],
-                              "evidence_digests": admitted["evidence_digests"]}})
+            eligible[cid] = row
         else:
             reason = current if current != "admitted" else "actor_not_allowed"
             item = {"id": cid, "reason": reason,
@@ -1056,6 +1106,29 @@ def context_v2(scope=None, actor=None, task=None, include_blocked_statements=Fal
                                         "human_review")}
             if include_blocked_statements: item["statement"] = row["statement"]
             blocked.append(item)
+    quarantined = {}
+    for relation in projection["relations"].values():
+        if (relation["type"] != "contradicts" or relation_state(projection, relation) != "admitted"
+                or relation["from"] not in eligible or relation["to"] not in eligible):
+            continue
+        resolution = projection["conflict_resolutions"].get(relation["id"])
+        if resolution and resolution.get("disposition") == "supersede":
+            continue
+        reason = "contradiction_withheld" if resolution else "contradiction_unresolved"
+        for cid in (relation["from"], relation["to"]):
+            quarantined.setdefault(cid, []).append(relation["id"])
+        for cid in (relation["from"], relation["to"]):
+            if any(item["id"] == cid for item in blocked): continue
+            item = {"id": cid, "reason": reason, "relation_ids": quarantined[cid],
+                    "required_action": "human_conflict_review"}
+            if include_blocked_statements: item["statement"] = eligible[cid]["statement"]
+            blocked.append(item)
+    for cid, row in eligible.items():
+        if cid in quarantined: continue
+        admitted = projection["admissions"][cid]
+        knowledge.append({**row, "receipt": {"admission_event": admitted["event_id"],
+                          "policy_digest": admitted["policy_digest"],
+                          "evidence_digests": admitted["evidence_digests"]}})
     head = None
     try: head = _git("rev-parse", KNOWLEDGE_REF).strip()
     except ValueError: pass
@@ -1436,6 +1509,13 @@ def add_flat_cli(sub):
     relation_review.add_argument("--reviewer", required=True); relation_review.add_argument("--note")
     relation_review.add_argument("--request-id"); relation_review.add_argument("--expected-head")
     relation_review.set_defaults(f=cmd_flat, flat_cmd="relation-review")
+    relation_resolve = relation_sub.add_parser("resolve", help="human-resolve an admitted contradiction")
+    relation_resolve.add_argument("relation")
+    relation_resolve.add_argument("--disposition", choices=["supersede", "withhold"], required=True)
+    relation_resolve.add_argument("--winner")
+    relation_resolve.add_argument("--reviewer", required=True); relation_resolve.add_argument("--note")
+    relation_resolve.add_argument("--expected-head")
+    relation_resolve.set_defaults(f=cmd_flat, flat_cmd="relation-resolve")
     context_parser = sub.add_parser("context", help="materialize only knowledge eligible for the next agent")
     context_parser.add_argument("--scope"); context_parser.add_argument("--actor"); context_parser.add_argument("--task")
     context_parser.add_argument("--format", choices=["json", "markdown"], default="json")
@@ -1480,6 +1560,9 @@ def cmd_flat(a):
         decision = "admit" if a.admit else "request_changes" if a.request_changes else "reject"
         out = review_relation_v2(a.relation, decision, a.reviewer, a.note,
                                  a.request_id, a.expected_head)
+    elif command == "relation-resolve":
+        out = resolve_contradiction_v2(a.relation, a.disposition, a.reviewer,
+                                       a.winner, a.note, a.expected_head)
     elif command == "graph":
         out = (traverse_graph_v2(a.seed, a.scope, a.actor, a.task,
                                  a.max_depth, a.max_claims, a.state)
