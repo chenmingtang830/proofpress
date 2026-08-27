@@ -43,8 +43,9 @@ def main():
     if not tasks or (requested and {row["task_id"] for row in tasks} != requested):
         raise SystemExit("requested HF task selection is incomplete or unusable")
     workspace = Path(args.workspace); text_dir = workspace / "extracted-text"; text_dir.mkdir(parents=True, exist_ok=True)
-    files = sorted(path for path in Path(args.corpus).rglob("*")
-                   if path.is_file() and not any(part.startswith(".") for part in path.parts)
+    corpus_root = Path(args.corpus).resolve()
+    files = sorted(path for path in corpus_root.rglob("*")
+                   if path.is_file() and not any(part.startswith(".") for part in path.relative_to(corpus_root).parts)
                    and (args.all_sources or path.suffix.lower() == ".pdf"))
     if args.smallest_first: files.sort(key=lambda path: (path.stat().st_size, str(path)))
     if args.max_sources: files = files[:args.max_sources]
