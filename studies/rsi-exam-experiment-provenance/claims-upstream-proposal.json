@@ -1,0 +1,20 @@
+[
+  {"block":"427abbfb","kind":"added","note":"Adds the upstream proposal title."},
+  {"block":"10537f85","kind":"added","note":"Defines the evaluation/pipeline contribution type."},
+  {"block":"c5a3d90c","kind":"added","note":"States the experiment-record problem."},
+  {"block":"0fe6b43e","kind":"added","note":"Explains final-artifact and trajectory integrity."},
+  {"block":"d91a65a5","kind":"added","note":"Introduces the proposed contribution."},
+  {"block":"f7334657","kind":"added","note":"Defines the optional TRACE-compatible export."},
+  {"block":"a1d97761","kind":"added","note":"Lists rollout, version, and receipt bindings."},
+  {"block":"5d64164a","kind":"added","note":"Includes disposition and hidden-result bindings."},
+  {"block":"bb27ea16","kind":"added","note":"States non-disclosure and non-intervention constraints."},
+  {"block":"428100ce","kind":"added","note":"Introduces Proofpress deliverables."},
+  {"block":"19858c72","kind":"added","note":"Lists profile, verifier, fixtures, import mapping, and audit deliverables."},
+  {"block":"c48a8af9","kind":"added","note":"Introduces verifier capabilities and limits."},
+  {"block":"c8d3ba8c","kind":"added","note":"Defines internally verifiable statements."},
+  {"block":"1c026da3","kind":"added","note":"Defines claims the verifier cannot make."},
+  {"block":"1c72e1ee","kind":"added","note":"Introduces the requested review questions."},
+  {"block":"bc10a58c","kind":"added","note":"Asks about stable export fields and manifest coverage."},
+  {"block":"e74fc0fc","kind":"added","note":"Introduces proposal status."},
+  {"block":"68203d9e","kind":"added","note":"Records that this is internal-review material without results."}
+]

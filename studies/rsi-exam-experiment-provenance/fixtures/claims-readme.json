@@ -1,0 +1,6 @@
+[
+  {"block":"b4625f8f","kind":"added","note":"Adds the fixture directory title and purpose."},
+  {"block":"680b4114","kind":"added","note":"Documents the valid fixture contents."},
+  {"block":"986de365","kind":"added","note":"Documents the fault-injection cases covered by tests."},
+  {"block":"aa20be84","kind":"added","note":"States that fixture success is not an RSI-Exam result."}
+]

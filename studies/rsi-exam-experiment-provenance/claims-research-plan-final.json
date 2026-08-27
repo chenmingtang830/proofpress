@@ -1,0 +1,3 @@
+[
+  {"block":"85368066","kind":"added","note":"Freezes the protocol-only implementation boundary and leaves the release-specific adapter unimplemented."}
+]

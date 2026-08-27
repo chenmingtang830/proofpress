@@ -1,0 +1,189 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://proofpress.local/schemas/rsi-exam-trajectory-v1.json",
+  "title": "Proofpress RSI-Exam trajectory provenance capsule",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "capsule_id",
+    "benchmark",
+    "rollout",
+    "freeze",
+    "source",
+    "versions",
+    "final_submission",
+    "hidden_evaluation"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "proofpress/rsi-exam-trajectory/v1"
+    },
+    "capsule_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "benchmark": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "release", "task_id"],
+      "properties": {
+        "name": {"const": "RSI-Exam"},
+        "release": {"type": "string", "minLength": 1},
+        "task_id": {"type": "string", "minLength": 1}
+      }
+    },
+    "rollout": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "trace_session_id", "model", "harness", "config_digest", "budget_hours"],
+      "properties": {
+        "id": {"type": "string", "minLength": 1},
+        "trace_session_id": {"type": "string", "minLength": 1},
+        "model": {"type": "string", "minLength": 1},
+        "harness": {"type": "string", "minLength": 1},
+        "config_digest": {"$ref": "#/$defs/digest"},
+        "budget_hours": {"type": "number", "exclusiveMinimum": 0}
+      }
+    },
+    "freeze": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["protocol_digest", "verifier_digest", "calibration_digest", "evaluator_digest"],
+      "properties": {
+        "protocol_digest": {"$ref": "#/$defs/digest"},
+        "verifier_digest": {"$ref": "#/$defs/digest"},
+        "calibration_digest": {"$ref": "#/$defs/digest"},
+        "evaluator_digest": {"$ref": "#/$defs/digest"}
+      }
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["trace_digest"],
+      "properties": {
+        "trace_digest": {"$ref": "#/$defs/digest"},
+        "manifest": {
+          "type": ["object", "null"],
+          "additionalProperties": false,
+          "required": ["locator", "sha256"],
+          "properties": {
+            "locator": {"type": "string", "minLength": 1},
+            "sha256": {"$ref": "#/$defs/digest"}
+          }
+        }
+      }
+    },
+    "resources": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "wall_time_seconds": {"type": "number", "minimum": 0},
+        "input_tokens": {"type": "integer", "minimum": 0},
+        "output_tokens": {"type": "integer", "minimum": 0},
+        "model_calls": {"type": "integer", "minimum": 0},
+        "estimated_cost_usd": {"type": "number", "minimum": 0}
+      }
+    },
+    "versions": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/version"}
+    },
+    "final_submission": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["version_id", "artifact_sha256", "trace_event_ids"],
+      "properties": {
+        "version_id": {"type": "string", "minLength": 1},
+        "artifact_sha256": {"$ref": "#/$defs/digest"},
+        "trace_event_ids": {"$ref": "#/$defs/event_ids"}
+      }
+    },
+    "hidden_evaluation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "version_id",
+        "artifact_sha256",
+        "receipt_locator",
+        "receipt_sha256",
+        "verifier_digest",
+        "calibration_digest",
+        "score",
+        "trace_event_ids"
+      ],
+      "properties": {
+        "version_id": {"type": "string", "minLength": 1},
+        "artifact_sha256": {"$ref": "#/$defs/digest"},
+        "receipt_locator": {"type": "string", "minLength": 1},
+        "receipt_sha256": {"$ref": "#/$defs/digest"},
+        "verifier_digest": {"$ref": "#/$defs/digest"},
+        "calibration_digest": {"$ref": "#/$defs/digest"},
+        "score": {"type": "number"},
+        "trace_event_ids": {"$ref": "#/$defs/event_ids"}
+      }
+    }
+  },
+  "$defs": {
+    "digest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "event_ids": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "version": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "version_id",
+        "parent_ids",
+        "ordinal",
+        "stage",
+        "status",
+        "artifact_locator",
+        "artifact_sha256",
+        "trace_event_ids",
+        "visible_evaluation"
+      ],
+      "properties": {
+        "version_id": {"type": "string", "minLength": 1},
+        "parent_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "ordinal": {"type": "integer", "minimum": 0},
+        "stage": {"type": "string", "minLength": 1},
+        "status": {
+          "enum": ["baseline", "retained", "discarded", "invalid", "submitted"]
+        },
+        "artifact_locator": {"type": "string", "minLength": 1},
+        "artifact_sha256": {"$ref": "#/$defs/digest"},
+        "trace_event_ids": {"$ref": "#/$defs/event_ids"},
+        "visible_evaluation": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "receipt_locator",
+            "receipt_sha256",
+            "evaluator_digest",
+            "calibration_digest",
+            "score"
+          ],
+          "properties": {
+            "receipt_locator": {"type": "string", "minLength": 1},
+            "receipt_sha256": {"$ref": "#/$defs/digest"},
+            "evaluator_digest": {"$ref": "#/$defs/digest"},
+            "calibration_digest": {"$ref": "#/$defs/digest"},
+            "score": {"type": "number"}
+          }
+        }
+      }
+    }
+  }
+}

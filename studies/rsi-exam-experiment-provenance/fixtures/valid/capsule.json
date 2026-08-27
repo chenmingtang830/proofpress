@@ -1,0 +1,98 @@
+{
+  "schema_version": "proofpress/rsi-exam-trajectory/v1",
+  "capsule_id": "capsule-001",
+  "benchmark": {
+    "name": "RSI-Exam",
+    "release": "0.1-fixture",
+    "task_id": "fixture-task"
+  },
+  "rollout": {
+    "id": "rollout-001",
+    "trace_session_id": "trace-session-001",
+    "model": "fixture-model",
+    "harness": "fixture-harness",
+    "config_digest": "1111111111111111111111111111111111111111111111111111111111111111",
+    "budget_hours": 12
+  },
+  "freeze": {
+    "protocol_digest": "2222222222222222222222222222222222222222222222222222222222222222",
+    "verifier_digest": "3333333333333333333333333333333333333333333333333333333333333333",
+    "calibration_digest": "4444444444444444444444444444444444444444444444444444444444444444",
+    "evaluator_digest": "6666666666666666666666666666666666666666666666666666666666666666"
+  },
+  "source": {
+    "trace_digest": "5555555555555555555555555555555555555555555555555555555555555555",
+    "manifest": {
+      "locator": "source/manifest.json",
+      "sha256": "8d2591b729c8d59ad5439aefda3f0cdeab5fcbd4f804818d2ddd385c6fd30b13"
+    }
+  },
+  "versions": [
+    {
+      "version_id": "v0",
+      "parent_ids": [],
+      "ordinal": 0,
+      "stage": "starter",
+      "status": "baseline",
+      "artifact_locator": "artifacts/v0.py",
+      "artifact_sha256": "1fb8ce75db1e5968851fdcb7683b03cbd190244751cf0fc2d42d479b689b735f",
+      "trace_event_ids": ["contribution-v0", "visible-v0"],
+      "visible_evaluation": {
+        "receipt_locator": "receipts/v0-visible.json",
+        "receipt_sha256": "a5b34b71c29273cc16049f16a69d8d8fc034525dd5cc0f88e881b8a4e6abb263",
+        "evaluator_digest": "6666666666666666666666666666666666666666666666666666666666666666",
+        "calibration_digest": "4444444444444444444444444444444444444444444444444444444444444444",
+        "score": 0.2
+      }
+    },
+    {
+      "version_id": "v1",
+      "parent_ids": ["v0"],
+      "ordinal": 1,
+      "stage": "search",
+      "status": "retained",
+      "artifact_locator": "artifacts/v1.py",
+      "artifact_sha256": "b5d45074154ee17e0f325777e2b3f72f2aeda06c823d7c0e41a1116596caf8ef",
+      "trace_event_ids": ["contribution-v1", "visible-v1", "decision-v1-discarded"],
+      "visible_evaluation": {
+        "receipt_locator": "receipts/v1-visible.json",
+        "receipt_sha256": "e920efd4c2567e4899ec5333d3e1111498c1fefeabdd24219cbca7829db5c012",
+        "evaluator_digest": "6666666666666666666666666666666666666666666666666666666666666666",
+        "calibration_digest": "4444444444444444444444444444444444444444444444444444444444444444",
+        "score": 0.4
+      }
+    },
+    {
+      "version_id": "v2",
+      "parent_ids": ["v1"],
+      "ordinal": 2,
+      "stage": "submission",
+      "status": "submitted",
+      "artifact_locator": "artifacts/v2.py",
+      "artifact_sha256": "7c1b4a6688434e1f2e97e5ec12c442bf8c0e3884e834ed49cb48f1cf6cf1c5dc",
+      "trace_event_ids": ["contribution-v2", "visible-v2", "submission-v2", "hidden-v2"],
+      "visible_evaluation": {
+        "receipt_locator": "receipts/v2-visible.json",
+        "receipt_sha256": "9a61edf7bfe6028fee606ccccf757b436d2ab1e3ceee2c696459263997a90377",
+        "evaluator_digest": "6666666666666666666666666666666666666666666666666666666666666666",
+        "calibration_digest": "4444444444444444444444444444444444444444444444444444444444444444",
+        "score": 0.6
+      }
+    }
+  ],
+  "final_submission": {
+    "version_id": "v2",
+    "artifact_sha256": "7c1b4a6688434e1f2e97e5ec12c442bf8c0e3884e834ed49cb48f1cf6cf1c5dc",
+    "trace_event_ids": ["submission-v2"]
+  },
+  "hidden_evaluation": {
+    "version_id": "v2",
+    "artifact_sha256": "7c1b4a6688434e1f2e97e5ec12c442bf8c0e3884e834ed49cb48f1cf6cf1c5dc",
+    "receipt_locator": "receipts/v2-hidden.json",
+    "receipt_sha256": "b5bcb86c7ee8d5941e627d6da7d9c774bbbd9b9a116164771fafc9978bac4ba6",
+    "verifier_digest": "3333333333333333333333333333333333333333333333333333333333333333",
+    "calibration_digest": "4444444444444444444444444444444444444444444444444444444444444444",
+    "score": 0.55,
+    "trace_event_ids": ["hidden-v2"]
+  }
+}

@@ -1,0 +1,18 @@
+[
+  {"block":"11fd7444","kind":"added","note":"Adds the repository-level studies index title."},
+  {"block":"b85e1163","kind":"added","note":"Defines the result-versus-mechanism boundary for the index."},
+  {"block":"9f40eb3c","kind":"added","note":"Defines the shared status and evidence vocabularies."},
+  {"block":"b748a645","kind":"added","note":"Registers active and proposed research."},
+  {"block":"1243581b","kind":"added","note":"Indexes RSI-Exam and North-Star research with status, PR, artifact, and claim boundary."},
+  {"block":"83307a40","kind":"added","note":"Introduces the frozen and published study section."},
+  {"block":"383f78f5","kind":"added","note":"Indexes the frozen Governed Handoff result and published studies."},
+  {"block":"2bfbdae4","kind":"added","note":"Introduces the mechanism and conformance section."},
+  {"block":"1681c0f4","kind":"added","note":"Indexes TRACE, retrieval locators, and OpenWiki evidence by PR."},
+  {"block":"099a65fd","kind":"added","note":"Introduces archived and superseded records."},
+  {"block":"2bd2c5d4","kind":"added","note":"Preserves the archived Artifact-Native Experiment boundary."},
+  {"block":"13153b0a","kind":"added","note":"Registers the archived historical record without rewriting it."},
+  {"block":"353c87ec","kind":"added","note":"Introduces guidance for reading the index."},
+  {"block":"7582f3d0","kind":"added","note":"States the study, mechanism, and planned-work claim boundaries."},
+  {"block":"0f653d72","kind":"added","note":"Adds bounded result notes for PR #35, PR #36, and PR #45."},
+  {"block":"ff6712cd","kind":"added","note":"States the published-result section boundary."}
+]

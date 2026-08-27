@@ -1,0 +1,34 @@
+[//]: # (ob:b4625f8f)
+# Conformance fixtures
+
+[//]: # (ob:680b4114)
+The valid capsule is a small local rollout with a baseline, a retained
+checkpoint, a discarded decision, and a final submission. The test suite copies
+it into a temporary directory and injects one fault at a time. The current
+suite covers eleven verifier cases:
+
+[//]: # (ob:986de365)
+- artifact or receipt digest changes;
+- final/hidden version misbinding;
+- missing or cyclic parentage;
+- manifest omission;
+- score, evaluator, configuration, calibration, and verifier drift; and
+- forbidden raw trajectory payloads.
+
+[//]: # (ob:8d324cae)
+These checks keep integrity failure distinct from a coverage downgrade.
+
+[//]: # (ob:1510fc5e)
+The JSON schema remains portable so an external runner can validate shape
+without importing the Proofpress application.
+
+[//]: # (ob:aa20be84)
+The fixture is synthetic protocol evidence. It is not an RSI-Exam result.
+
+[//]: # (ob:ef2fe914)
+Only the valid fixture with a trusted event manifest may report complete
+coverage; omitted or unverifiable manifests must remain visibly downgraded.
+
+[//]: # (proofpress:meta:eyJhcnRpZmFjdF9pZCI6InBwXzQ1YWMzYmI5MmMwYTQ1ZGU5MTA2MjQ4MCIsInBvbGljeSI6InBvcnRhYmxlIiwicG9ydGFibGVfaGVhZCI6IjMxYjA0YzY5IiwicG9ydGFibGVfaGVhZF9ldmVudCI6InBwZV81MjYwZjFlMzljZWEwNjkyY2VhYjlkM2UiLCJwb3J0YWJsZV9saW5lYWdlX2lkIjoicHBsX2Q5MjcxMDVjYTcwOGQ3MDI4MDgyMjYzYiIsInByb29mcHJlc3MiOjF9)
+[//]: # (proofpress:discovery:Verifiable revision history by Proofpress | https://github.com/chenmingtang830/proofpress)
+[//]: # (proofpress:capsule:eNrtWF1v47YS_SuE7mOdRN8f3qei3Ye2aHuxu-hLExhDcmSzkSmVopI1gvz3zshS7GSTbbsuWhTdF1umqOHMnJkzR74LwHlTg_Iro4Nl0HWrNAOVSFnFKoQ001hFYR6nZRgsAtnq3UqbNfae9vYbiLN8mWCeqDpHiVmm0zqLYqlBVhJSWUi6AWWcKVQyjqI4K1NV6zquVFlXsY5DVGxXm161N-h2wfKOf_iVhzWd0IDnoxZ0IbGhhZ_QmdqAbFA4vDG9aa3Y0P7W7YTcif-7tq07h31Pz3SgrmGNHNSjZdf-ghTu4NjgxvuuX15crI3fDPJctdsLtUG7NXbtwa7LJLx49LTDXwdD16uhR7dSre3RUi68G_B-EWwQOIlJJMNU5VWwX1nhzbiJkourLM7DOsKkUghhTklGypVOkD1rnefQVo2xSJ7PiDQrXcVFFGYKirDURRiXYRnHeSL34UzerRR0_dBQwDH7qVqn-2D5810wHX8XEMqt6_lqfxv1SlLKfw4Ge23bWxtcUQxzPTDAftAG-wvXmzN8D1v66AiALZk7o3PJLFiFF7V57wfy4OLN6y-__v71-VYHiz9VVuC9M3LwhOZKQm96PhubegU9ZdnjaG_wm9ax79fGssl-13vc0h0LWwZ5jmFBj_ZcGMHSDk1DEakNIYn7XMimVde0W6Z5nNVlTdsJRI_vOd6vWlu3bstBiTko2jAdCFqPnnRceXhLK_8TLzzhdx27xOBTIQX3i8PBeRnKNIrSkw5-t0FxA43RYsJcmF6A6LfQNIIOgka4tmnawYtbKmy6RWlFLquFOLjXgYNHvlVlrjHJs5N8OxMz9KJ11KUKTefFnjTEBMWrS3tGxiw0FxtDFqyg5h8xe3Cuoa5-5FypkzhVgKcmrkfyAtV1L64RO2HI1NoZvxM1mIaeF8w_xpL7tWu3lLqRmZhIXk4cQBxKLE8HddrHcPY76zfojRLUar5VbSNoJ-VK4bn4xvMW23oBVrx5-81HfMM6rqnZTvPtR9vshH-outnNqbiI_agXtRiJRpBVUzPYW9gR_t1T364WMyMFE-or5RD2bT7emTkDV1pBjFIVdZQnRVxXKo_KIqp5JwU_2pxIU0ykuQe3awnXcQa48SRmgvkXE8EVs21j1O7IwjEDHxkZuf0Tyblva7-iOl-j65yZZkAvo2WWQRSXVVqmRapTXRY0aPKEhicBVUOUVFAQQ0UARULXYVVCmMRhUme1KlQRKrbtwY9cvkdrmRPT8UIQh3F-FpZncfEuzJdxtAyTL8JwGTLTzm22DFLAlOwVVCuH1bt_gv3HQt2z8wb6DZOzpojjKlNJVdKG0cYRYU81_GfYdzKsSqyUqtIURh4ZDR8R8mT4FHYFqngPdKkv7aGIeJ01DvDMFRrVqFxo1Wq6MxKh6Ae5NePgOhfsASsfWjSeSrrtCIhLazzTVcsdh1sqSCDVo0mNqFH_sDFjWdv0orWUERga4gfP2wm1vVU1OO6BSztbZuwFNtx3TMKkrtBR3DRDl8-QypRHiKIio2JPi0rPeTwaHlMeT5oEgpIhiY4IwXHPmBu7ZktqpxqmxbGbqRX392fWaacsjqskKx2hggTnAJSlBUVsa7MeHPgRAQLTyPkHZ_AhB5q-_SteG11sndz75-CWCA9-mbLewa5pQffnz4yuKVtalZlMdRJVUTRn62iaHaruk0eT0KR81g40nr8MWhUVcZhz60E9u3E0uI6K_1On0NlrogkCmnrGf8QRorgQ87gigstmR46m1OTIKSOHuJpys-0a9Eh9OGXpFdeG56eoiAZ7c3iXmJ_vxZbMkoUttbDg9wtJTjwkV38Q1NU9x_WMwEZN7TXL669aje-Dq1Gs60F9uP5Ejh-t_zpgfzD0xlDbOC3eUe_8q8Q6ZX-cxy9r9eDjfgcv6Pgoi8JaZSerQvHt2x9_ILrYEPQT_r140BZ9yxVOxtExVbvB2pElqUaeUTeqAbN90c0nXkwy5q3nV12qd-JrLvrD0XuX-Cw59QJLJSIHjR3Sh_XN-O77oYPne2_mtNwFtxvWO98xt_gnIT-cR4k72KE3_O7hUCZl7j6ee4bHj2c-ZkNAMsioccc5A_WH5d1HXob3eTnWbcei5VjL3f1rCuOPi9un4i66f167_Z6O_UvEqorzXOZJHZVxDSVJUJnKJA2jKKxSthWRjk20zhBlqSBLE4QsqooEVVqUmVYvxPO8WI2qZ8Tqwx8qn8XqZ7H6Waz-B8RqlBYZZHmo6zSc3Tii9KPi_1R-nibpfsZd2ucn2-EP5cdD7rPI_ntF9tX9bx8sSYM)

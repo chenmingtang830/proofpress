@@ -1,0 +1,1 @@
+{"session_id":"trace-session-001","rollout_id":"rollout-001","config_digest":"1111111111111111111111111111111111111111111111111111111111111111","event_ids":["contribution-v0","visible-v0","contribution-v1","visible-v1","decision-v1-discarded","contribution-v2","visible-v2","submission-v2","hidden-v2"]}

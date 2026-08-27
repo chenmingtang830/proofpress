@@ -1,0 +1,21 @@
+[
+  {"block":"1bd66d7d","kind":"added","note":"Adds the RSI-Exam profile title and identifier."},
+  {"block":"5185cfc6","kind":"added","note":"Positions the profile above the generic TRACE adapter."},
+  {"block":"ffea2487","kind":"added","note":"Defines the event mapping table."},
+  {"block":"17820b72","kind":"added","note":"Maps rollout identity to the external TRACE session."},
+  {"block":"2e46260c","kind":"added","note":"Maps saved methods to artifact checkpoints."},
+  {"block":"21476434","kind":"added","note":"Maps results to evidence receipts."},
+  {"block":"fa16ba9a","kind":"added","note":"Maps workflow dispositions without making them Proofpress judgments."},
+  {"block":"22df4c46","kind":"added","note":"Maps final and hidden evaluation bindings."},
+  {"block":"ff079f3d","kind":"added","note":"States raw-payload minimization."},
+  {"block":"764247f4","kind":"added","note":"Introduces required bindings."},
+  {"block":"cf38ce0b","kind":"added","note":"Requires checkpoint identity, parentage, and artifact digest."},
+  {"block":"4c04d5ac","kind":"added","note":"Requires evaluator, calibration, and receipt bindings."},
+  {"block":"2833eb81","kind":"added","note":"Requires hidden-result binding to the final version."},
+  {"block":"36b5e27a","kind":"added","note":"Introduces the governance boundary."},
+  {"block":"45c13414","kind":"added","note":"Separates imported source evidence from claim admission."},
+  {"block":"db189dfd","kind":"added","note":"Introduces coverage and limitations."},
+  {"block":"6d290856","kind":"added","note":"Defines complete, partial, and unverifiable coverage."},
+  {"block":"71be0bd0","kind":"added","note":"States the verifier's non-semantic guarantees."},
+  {"block":"922cda10","kind":"added","note":"Documents the study-local conformance CLI."}
+]
