@@ -19,7 +19,7 @@ def validate(path):
     for row in data["tasks"]:
         # gold_response is the frozen Hugging Face ground truth; gold locators
         # are separately adjudicated before any system output is inspected.
-        if not row.get("task_id") or not row.get("query") or not isinstance(row.get("gold"),list) or not isinstance(row.get("gold_response"),str): raise ValueError("task needs query, HF gold response, and pre-output locators")
+        if not row.get("task_id") or not row.get("query") or not isinstance(row.get("gold"),list) or not isinstance(row.get("gold_response"),str): raise ValueError("task needs query, HF gold response, and a locator array")
     return data
 def lexical(query,sources,limit):
     terms={x.lower() for x in query.split() if len(x)>2}; rows=[]
@@ -38,6 +38,10 @@ def hit(receipt,gold):
         if loc.get("kind")=="text_span" and target.get("kind")=="text_span" and loc.get("start",-1)<target.get("end",-1) and loc.get("end",-1)>target.get("start",-1): return True
     return False
 def score(receipts,gold):
+    if not gold:
+        # A golden answer alone is not a source-location judgment.  Preserve
+        # the completed retrieval run, but do not invent a recall denominator.
+        return {"document_locator_recall_at_k":None,"quote_binding_rate":None,"citation_precision":None,"receipt_pass_rate":None}
     bound=[r for r in receipts if r.get("source",{}).get("content_digest") and r.get("evidence",{}).get("locator")]; hits=sum(hit(r,gold) for r in receipts)
     return {"document_locator_recall_at_k":bool(hits),"quote_binding_rate":len(bound)/len(receipts) if receipts else 0,"citation_precision":hits/len(receipts) if receipts else 0,"receipt_pass_rate":len(bound)/len(receipts) if receipts else 0}
 def bridge(script,receipt_file):
@@ -81,8 +85,11 @@ def main():
           raw.append({"task_id":task["task_id"],"system":"pageindex-and-hybrid","status":"inconclusive","reason":str(exc)})
     finally: gateway.terminate(); gateway.wait(timeout=5)
     for r in runs.values():
-      metrics=r.pop("metric_rows"); latencies=r.pop("latencies"); costs_=r.pop("costs"); r["latency_ms"]={"p50":quantile(latencies,.5),"p95":quantile(latencies,.95)}; r["cost_usd"]=sum(costs_) if costs_ else None; r["metrics"]={k:sum(float(x[k]) for x in metrics)/len(metrics) if metrics else None for k in ("document_locator_recall_at_k","quote_binding_rate","citation_precision","receipt_pass_rate")}
+      metrics=r.pop("metric_rows"); latencies=r.pop("latencies"); costs_=r.pop("costs"); r["latency_ms"]={"p50":quantile(latencies,.5),"p95":quantile(latencies,.95)}; r["cost_usd"]=sum(costs_) if costs_ else None
+      scored=[x for x in metrics if x["document_locator_recall_at_k"] is not None]
+      r["metric_denominator"]={"locator_scored_tasks":len(scored),"answer_only_tasks":len(metrics)-len(scored)}
+      r["metrics"]={k:sum(float(x[k]) for x in scored)/len(scored) if scored else None for k in ("document_locator_recall_at_k","quote_binding_rate","citation_precision","receipt_pass_rate")}
     tasks=[{"task_id":t["task_id"],"query_digest":sha(t["query"]),"gold_response_digest":sha(t["gold_response"]),"gold_locator_digest":sha(json.dumps(t["gold"],sort_keys=True))} for t in data["tasks"]]
-    report={"schema_version":"proofpress/retrieval-panel-sanitized/v2","manifest_digest":sha(json.dumps({"sources":[{"uri":s["uri"],"content_digest":s["content_digest"],"media_type":s["media_type"]} for s in data["sources"]],"tasks":tasks},sort_keys=True)),"model":{"requested":MODEL,"provider":PROVIDER,"fallback":"forbidden"},"tasks":tasks,"systems":runs}
+    report={"schema_version":"proofpress/retrieval-panel-sanitized/v2","manifest_digest":sha(json.dumps({"sources":[{"uri":s["uri"],"content_digest":s["content_digest"],"media_type":s["media_type"]} for s in data["sources"]],"tasks":tasks},sort_keys=True)),"model":{"requested":MODEL,"provider":PROVIDER,"fallback":"forbidden"},"tasks":tasks,"systems":runs,"scoring_boundary":"answer-only tasks have no locator metric denominator and are reported as unscored"}
     (out/"raw-private-receipts.json").write_text(json.dumps(raw,indent=2),encoding="utf-8"); (out/"sanitized-report.json").write_text(json.dumps(report,indent=2)+"\n",encoding="utf-8"); print(json.dumps({"sanitized_report":str(out/"sanitized-report.json"),"systems":runs},indent=2))
 if __name__=="__main__": main()
