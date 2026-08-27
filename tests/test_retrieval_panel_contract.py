@@ -1,9 +1,12 @@
 import importlib.util
+import sys
 import unittest
 from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
+ADAPTER = ROOT / "studies/apex-agent-eval/retrieval_adapter"
+sys.path.insert(0, str(ADAPTER))
 
 
 def load(name, path):
@@ -16,6 +19,11 @@ def load(name, path):
 panel = load("private_panel", ROOT / "studies/apex-agent-eval/retrieval_adapter/run_private_panel.py")
 contract = load("legal_contract", ROOT / "studies/apex-agent-eval/retrieval_adapter/legal_pipeline_contract.py")
 panel_manifest = load("panel_manifest", ROOT / "studies/apex-agent-eval/retrieval_adapter/panel_manifest.py")
+claim_runner = load("claim_runner", ROOT / "studies/apex-agent-eval/retrieval_adapter/run_claim_construction_private.py")
+gap_runner = load("gap_runner", ROOT / "studies/apex-agent-eval/retrieval_adapter/run_gap_retrieval_private.py")
+claim_scorer = load("claim_scorer", ROOT / "studies/apex-agent-eval/retrieval_adapter/score_claim_construction_private.py")
+ask_freezer = load("ask_freezer", ROOT / "studies/apex-agent-eval/retrieval_adapter/freeze_workflow_asks_private.py")
+workflow_runner = load("workflow_runner", ROOT / "studies/apex-agent-eval/retrieval_adapter/run_workflow_utility_private.py")
 
 
 class RetrievalPanelContractTests(unittest.TestCase):
@@ -46,6 +54,81 @@ class RetrievalPanelContractTests(unittest.TestCase):
         self.assertEqual(len(manifest["cases"]), 24)
         self.assertEqual(sum(case["pageindex_should_call"] for case in manifest["cases"]), 12)
         self.assertTrue(all(case["expected_automatic_admission"] is False for case in manifest["cases"]))
+
+    def test_claim_runner_accepts_only_bounded_json_and_compacts_inventory(self):
+        self.assertEqual(claim_runner._parse_json_completion("```json\n{\"ok\":true}\n```"), {"ok": True})
+        with self.assertRaisesRegex(ValueError, "bounded JSON"):
+            claim_runner._parse_json_completion("no structured completion")
+        with self.assertRaisesRegex(ValueError, "bounded JSON"):
+            claim_runner._parse_json_completion("```json\n{\"truncated\":")
+        index = claim_runner.SectionIndex({"representations": [{
+            "source": {"uri": "private://same", "media_type": "text/plain", "content_digest": "sha256:" + "a" * 64},
+            "representation_digest": "sha256:" + "b" * 64,
+            "sections": [{"id": "sec-1", "heading": "TITLE", "text": "one", "text_digest": "sha256:" + "c" * 64, "page_start": 1, "page_end": 1}],
+        }, {
+            "source": {"uri": "private://other", "media_type": "application/pdf", "content_digest": "sha256:" + "d" * 64},
+            "representation_digest": "sha256:" + "e" * 64,
+            "sections": [{"id": "sec-2", "heading": "TERM", "text": "two", "text_digest": "sha256:" + "f" * 64, "page_start": 1, "page_end": 1}],
+        }]})
+        inventory = index.inventory()
+        self.assertEqual(len(inventory), 2)
+        self.assertLess(len(str(inventory)), 500)
+        self.assertNotIn("content_digest", str(inventory))
+
+    def test_claim_runner_accepts_nested_gateway_requirement_envelope(self):
+        rows = claim_runner._safe_requirements({"output": {"requirements": [{
+            "id": "R1", "requirement": "Identify the parties",
+            "applicability": "always", "rationale": "required",
+        }]}})
+        self.assertEqual(rows[0]["requirement_id"], "R1")
+        self.assertEqual(rows[0]["applicability"], "applicable")
+        direct = claim_runner._safe_requirements([{
+            "requirement_id": "R2", "requirement": "Identify economics",
+            "applicability": "uncertain", "rationale": "source dependent",
+        }])
+        self.assertEqual(direct[0]["requirement_id"], "R2")
+
+    def test_claim_runner_drops_unbound_placeholder_but_keeps_governed_candidate(self):
+        requirements = [{"requirement_id": "R1", "status": "covered", "type": "factual_input"}]
+        evidence = {"E1": {"evidence_id": "E1"}}
+        claims, relations = claim_runner._normalize_candidate_output({
+            "claims": [
+                {"requirement_id": "R1", "claim_type": "extraction", "statement": "Fact",
+                 "evidence_ids": ["E1"], "status": "unresolved"},
+                {"requirement_id": "DUMMY", "claim_type": "analysis", "statement": "Placeholder",
+                 "evidence_ids": [], "status": "unresolved"},
+            ],
+            "relations": [],
+        }, requirements, evidence, [{"requirement_id": "R1", "evidence_ids": ["E1"]}])
+        self.assertEqual(len(claims), 1)
+        self.assertEqual(claims[0]["claim_type"], "observed_fact")
+        self.assertEqual(relations, [])
+
+    def test_gap_rrf_collapses_overlapping_page_spans(self):
+        def receipt(uri, start, end):
+            return {"source": {"uri": uri, "content_digest": "sha256:" + "a" * 64},
+                    "evidence": {"locator": {"kind": "section_span", "page_start": start, "page_end": end}}}
+        result = gap_runner.hybrid_rrf([receipt("private://a", 1, 2)],
+                                       [receipt("private://a", 2, 3)])
+        self.assertEqual(len(result), 1)
+        self.assertEqual(result[0]["retrieval"]["systems"], ["bm25", "pageindex"])
+
+    def test_claim_scorer_counts_each_silver_locator_once(self):
+        evidence = {"source": {"uri": "private://a"},
+                    "locator": {"page_start": 1, "page_end": 2}}
+        silver = {"source_uri": "private://a", "locator": {"page_start": 2, "page_end": 3}}
+        self.assertTrue(claim_scorer.locator_hit(evidence, silver))
+        self.assertFalse(claim_scorer.locator_hit(evidence,
+                                                  {"source_uri": "private://b", "locator": silver["locator"]}))
+
+    def test_workflow_freeze_interleaves_tasks_and_grades_fail_closed(self):
+        rows = [("task-a", 1), ("task-a", 2), ("task-b", 3)]
+        self.assertEqual(ask_freezer.interleave_by_task(rows, ["task-a", "task-b"], 3),
+                         [("task-a", 1), ("task-b", 3), ("task-a", 2)])
+        grade = workflow_runner.normalize_grade({"rubric_fraction": 0.75, "unsupported_claims": 1})
+        self.assertEqual(grade["rubric_fraction"], 0.75)
+        with self.assertRaisesRegex(ValueError, "rubric_fraction"):
+            workflow_runner.normalize_grade({"rubric_fraction": 2})
 
 
 if __name__ == "__main__":

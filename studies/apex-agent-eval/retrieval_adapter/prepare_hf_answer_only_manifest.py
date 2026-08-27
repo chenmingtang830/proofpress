@@ -56,7 +56,12 @@ def main():
     if not files: raise SystemExit("no PDF sources found in authorized corpus")
     sources = []
     for path in files:
-        payload = path.read_bytes(); digest = sha_bytes(payload); source_id = digest.removeprefix("sha256:")[:24]
+        payload = path.read_bytes(); digest = sha_bytes(payload)
+        # Content-identical files are still distinct custody sources.  Include
+        # a stable path hash in the private URI so two files with the same
+        # bytes cannot collapse into one PageIndex/source-navigation entry.
+        path_hash = hashlib.sha256(str(path.relative_to(corpus_root)).encode()).hexdigest()[:8]
+        source_id = digest.removeprefix("sha256:")[:16] + "-" + path_hash
         text_path = text_dir / (source_id + ".txt")
         if not text_path.exists():
             if path.suffix.lower() == ".pdf":
