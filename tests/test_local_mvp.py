@@ -46,6 +46,28 @@ class LocalMVPTests(unittest.TestCase):
                              "--proposer", proposer)
         return evidence, proposed["conclusion"]["id"]
 
+    def admitted_conflict(self, first_actors=None, second_actors=None):
+        imported = self.data("evidence", "import", str(FIXTURE))
+        evidence = imported["evidence"][0]
+
+        def propose(statement, actors):
+            args = ["propose", "--statement", statement, "--evidence", evidence,
+                    "--scope", "msa-negotiation", "--proposer", "agent:runner"]
+            for actor in actors or []:
+                args += ["--allow-actor", actor]
+            return self.data(*args)["conclusion"]["id"]
+
+        first = propose("The liability cap is 1x annual fees", first_actors)
+        second = propose("The liability cap is uncapped", second_actors)
+        self.data("review", first, "--admit", "--reviewer", "human:alice")
+        self.data("review", second, "--admit", "--reviewer", "human:alice")
+        relation = self.data("relation", "propose", first, "--to", second,
+                             "--type", "contradicts",
+                             "--proposer", "agent:resolver")["relation"]["id"]
+        self.data("relation", "review", relation, "--admit",
+                  "--reviewer", "human:alice")
+        return evidence, first, second, relation
+
     def count_events(self):
         return int(subprocess.run(["git", "rev-list", "--count", "refs/proofpress/knowledge"],
                                   cwd=self.repo, text=True, capture_output=True, check=True).stdout)
@@ -300,6 +322,118 @@ class LocalMVPTests(unittest.TestCase):
         graph = self.data("graph", "--scope", "msa-negotiation")
         edge = next(row for row in graph["edges"] if row.get("id") == relation["id"])
         self.assertEqual(edge["state"], "unresolved")
+
+    def test_admitted_contradiction_quarantines_context_until_human_resolution(self):
+        _, first, second, relation = self.admitted_conflict()
+        quarantined = self.data("context", "--scope", "msa-negotiation",
+                                "--include-blocked-statements")
+        self.assertEqual(quarantined["knowledge"], [])
+        self.assertEqual({row["id"] for row in quarantined["blocked"]}, {first, second})
+        self.assertTrue(all(row["reason"] == "contradiction_unresolved"
+                            for row in quarantined["blocked"]))
+        self.assertTrue(all(row["required_action"] == "human_conflict_review"
+                            for row in quarantined["blocked"]))
+
+        rereview = self.cli("relation", "review", relation, "--reject",
+                            "--reviewer", "human:mallory", check=False)
+        self.assertNotEqual(rereview.returncode, 0)
+        self.assertIn("may only transition through relation resolve", rereview.stderr)
+        bypass = self.cli("supersede", second, "--by", first,
+                          "--reviewer", "human:mallory", check=False)
+        self.assertNotEqual(bypass.returncode, 0)
+        self.assertIn("through relation resolve", bypass.stderr)
+        for decision in ("--reject", "--request-changes"):
+            lifecycle_bypass = self.cli("review", second, decision,
+                                        "--reviewer", "human:mallory", check=False)
+            self.assertNotEqual(lifecycle_bypass.returncode, 0)
+            self.assertIn("through relation resolve", lifecycle_bypass.stderr)
+
+        resolved = self.data("relation", "resolve", relation, "--disposition", "supersede",
+                             "--winner", first, "--reviewer", "human:bob",
+                             "--note", "The capped reading is the admitted current interpretation.")
+        self.assertEqual(resolved["resolution"]["identity_basis"], "self_asserted")
+        context = self.data("context", "--scope", "msa-negotiation")
+        self.assertEqual([row["id"] for row in context["knowledge"]], [first])
+        self.assertEqual(next(row for row in context["blocked"] if row["id"] == second)["reason"],
+                         "superseded")
+        receipt = context["knowledge"][0]["receipt"]["conflict_resolutions"][0]
+        self.assertEqual((receipt["relation_id"], receipt["winner"], receipt["loser"]),
+                         (relation, first, second))
+        self.assertEqual(receipt["identity_basis"], "self_asserted")
+        self.assertEqual(receipt["resolution_event"], resolved["resolution"]["event_id"])
+        self.assertEqual(receipt["supersession_event"], resolved["supersession"]["event_id"])
+        raw = self.cli("context", "--scope", "msa-negotiation").stdout
+        self.assertNotIn("The liability cap is uncapped", raw)
+
+    def test_contradiction_quarantine_precedes_actor_filtering_and_graph_traversal(self):
+        _, first, second, relation = self.admitted_conflict(
+            first_actors=["agent:successor"], second_actors=["agent:other"])
+        context = self.data("context", "--scope", "msa-negotiation",
+                            "--actor", "agent:successor")
+        self.assertEqual(context["knowledge"], [])
+        blocked = {row["id"]: row for row in context["blocked"]}
+        self.assertEqual(blocked[first]["reason"], "contradiction_unresolved")
+        self.assertEqual(blocked[second]["reason"], "contradiction_unresolved")
+        self.assertEqual(blocked[first]["peer_ids"], [second])
+        traversal = self.cli("graph", "--scope", "msa-negotiation",
+                             "--seed", first, "--actor", "agent:successor", check=False)
+        self.assertNotEqual(traversal.returncode, 0)
+        self.assertIn("no eligible seeds", traversal.stderr)
+        self.assertIn(relation, blocked[first]["relation_ids"])
+
+    def test_conflict_resolver_allowlist_and_withhold_are_fail_closed(self):
+        policy_dir = self.repo / ".proofpress"; policy_dir.mkdir()
+        (policy_dir / "policy.json").write_text(json.dumps({
+            "conflict_resolvers": ["human:bob"],
+        }))
+        _, first, second, relation = self.admitted_conflict()
+        denied = self.cli("relation", "resolve", relation, "--disposition", "supersede",
+                          "--winner", first, "--reviewer", "human:mallory", check=False)
+        self.assertNotEqual(denied.returncode, 0)
+        self.assertIn("not allowed", denied.stderr)
+        bypass = self.cli("supersede", second, "--by", first,
+                          "--reviewer", "human:mallory", check=False)
+        self.assertNotEqual(bypass.returncode, 0)
+        self.data("relation", "resolve", relation, "--disposition", "withhold",
+                  "--reviewer", "human:bob", "--note", "No safe winner yet.")
+        context = self.data("context", "--scope", "msa-negotiation")
+        self.assertEqual(context["knowledge"], [])
+        self.assertTrue(all(row["reason"] == "contradiction_withheld"
+                            for row in context["blocked"]))
+
+    def test_partial_supersede_resolution_stays_quarantined_and_repairs_on_retry(self):
+        _, first, second, relation = self.admitted_conflict()
+        sys.path.insert(0, str(ROOT))
+        import proofpress_knowledge as knowledge
+        original_append = knowledge.append_v2
+
+        def fail_supersession(event, existing_rows=None):
+            if event.get("type") == "conclusion_superseded":
+                raise RuntimeError("simulated interruption")
+            return original_append(event, existing_rows)
+
+        previous = Path.cwd()
+        try:
+            os.chdir(self.repo)
+            with patch.object(knowledge, "append_v2", side_effect=fail_supersession):
+                with self.assertRaisesRegex(RuntimeError, "simulated interruption"):
+                    knowledge.resolve_contradiction_v2(
+                        relation, "supersede", "human:bob", first, "Choose the capped reading.")
+        finally:
+            os.chdir(previous)
+
+        interrupted = self.data("context", "--scope", "msa-negotiation")
+        self.assertEqual(interrupted["knowledge"], [])
+        self.assertTrue(all(row["reason"] == "contradiction_resolution_incomplete"
+                            for row in interrupted["blocked"]))
+        repaired = self.data("relation", "resolve", relation, "--disposition", "supersede",
+                             "--winner", first, "--reviewer", "human:bob",
+                             "--note", "Choose the capped reading.")
+        self.assertTrue(repaired["idempotent"])
+        final = self.data("context", "--scope", "msa-negotiation")
+        self.assertEqual([row["id"] for row in final["knowledge"]], [first])
+        self.assertEqual(next(row for row in final["blocked"] if row["id"] == second)["reason"],
+                         "superseded")
 
     def test_relation_semantic_judge_is_advisory_and_policy_enforced(self):
         evidence, first = self.seed()
