@@ -222,7 +222,7 @@ func main() {
 		fmt.Fprintln(os.Stderr, "invalid PageIndex sidecar request")
 		os.Exit(2)
 	}
-	var receipts []Envelope
+	receipts := make([]Envelope, 0)
 	var bytes int64
 	cacheHits := 0
 	workers := configuredParallelism(req.Config, len(req.Sources))
