@@ -233,6 +233,8 @@ EVENT_SCHEMA = "proofpress/knowledge-event/v2"
 CONTEXT_SCHEMA = "proofpress/agent-context/v2"
 TRAVERSAL_SCHEMA = "proofpress/graph-traversal/v1"
 RETRIEVAL_EVIDENCE_SCHEMA = "proofpress/retrieval-evidence/v1"
+DISCLOSURE_SCHEMA = "proofpress/governed-disclosure/v1"
+PAGEINDEX_SIDECAR_SCHEMA = "proofpress/pageindex-sidecar/v1"
 POLICY_PATH = ".proofpress/policy.json"
 DEFAULT_POLICY_V2 = {
     "id": "proofpress-local-default",
@@ -1359,6 +1361,148 @@ def traverse_graph_v2(seeds, scope=None, actor=None, task=None,
             "limits": {"max_depth": max_depth, "max_claims": max_claims}}
 
 
+def _query_terms(value):
+    """Return stable, low-risk terms for deterministic claim selection."""
+    return {term for term in re.findall(r"[a-z0-9][a-z0-9_-]{2,}", value.lower())
+            if term not in {"about", "after", "before", "claim", "context", "evidence",
+                            "from", "have", "into", "that", "the", "this", "what", "with"}}
+
+
+def _read_corpus_manifest(path):
+    """Read the caller-supplied custody boundary; never glob a data room."""
+    raw = json.loads(Path(path).read_text(encoding="utf-8"))
+    rows = raw.get("sources") if isinstance(raw, dict) else raw
+    if not isinstance(rows, list) or not rows:
+        raise ValueError("corpus manifest must contain a non-empty sources array")
+    out = []
+    for index, row in enumerate(rows):
+        if not isinstance(row, dict):
+            raise ValueError(f"corpus manifest source {index} must be an object")
+        source_path = _required_string(row.get("path"), f"corpus.sources[{index}].path")
+        uri = _required_string(row.get("uri"), f"corpus.sources[{index}].uri")
+        content_digest = _required_digest(row.get("content_digest"), f"corpus.sources[{index}].content_digest")
+        media_type = _required_string(row.get("media_type"), f"corpus.sources[{index}].media_type")
+        target = Path(source_path)
+        if not target.is_file():
+            raise ValueError(f"corpus manifest source does not exist: {source_path}")
+        actual = "sha256:" + hashlib.sha256(target.read_bytes()).hexdigest()
+        if actual != content_digest:
+            raise ValueError(f"corpus manifest source digest mismatch: {uri}")
+        out.append({"source_id": row.get("source_id") or ident({"uri": uri, "digest": content_digest}, "src_"),
+                    "path": str(target.resolve()), "uri": uri,
+                    "content_digest": content_digest, "media_type": media_type})
+    return out
+
+
+def _pageindex_discover(query, corpus_manifest, max_discovered, sidecar, config):
+    """Call an explicit local sidecar and validate every returned receipt.
+
+    The sidecar receives only the manifest-selected sources.  This function is
+    intentionally read-only: a valid retrieval receipt is discovery material,
+    not an evidence import or a conclusion proposal.
+    """
+    sources = _read_corpus_manifest(corpus_manifest)
+    command = sidecar or os.environ.get("PROOFPRESS_PAGEINDEX_SIDECAR", "pageindex-sidecar")
+    request = {"schema_version": PAGEINDEX_SIDECAR_SCHEMA, "query": query,
+               "sources": sources, "config": config, "max_results": max_discovered}
+    result = subprocess.run([command], input=json.dumps(request), text=True,
+                            capture_output=True, timeout=60)
+    if result.returncode:
+        detail = result.stderr.strip() or "sidecar returned a non-zero exit status"
+        raise ValueError("PageIndex sidecar failed closed: " + detail)
+    try:
+        response = json.loads(result.stdout)
+    except json.JSONDecodeError as exc:
+        raise ValueError("PageIndex sidecar returned invalid JSON") from exc
+    if response.get("schema_version") != PAGEINDEX_SIDECAR_SCHEMA:
+        raise ValueError("PageIndex sidecar returned an unsupported schema")
+    if response.get("fallback_used") is not False:
+        raise ValueError("PageIndex sidecar must declare fallback_used=false")
+    receipts = response.get("receipts")
+    if not isinstance(receipts, list) or len(receipts) > max_discovered:
+        raise ValueError("PageIndex sidecar returned an invalid receipt count")
+    allowed = {(row["uri"], row["content_digest"]) for row in sources}
+    discovered = []
+    for raw in receipts:
+        receipt = _retrieval_receipt(raw)
+        if (receipt["source"]["uri"], receipt["source"]["content_digest"]) not in allowed:
+            raise ValueError("PageIndex sidecar disclosed a source outside the corpus manifest")
+        discovered.append({"status": "not_governed", "receipt": receipt,
+                           "receipt_digest": digest(receipt),
+                           "source_navigation": {"uri": receipt["source"]["uri"],
+                                                 "locator": receipt["locator"]},
+                           "required_action": "import_evidence_then_propose_evaluate_judge_review"})
+    return discovered, {"sidecar": response.get("sidecar"),
+                        "telemetry": response.get("telemetry", {}),
+                        "corpus_manifest_digest": digest([{k: v for k, v in row.items() if k != "path"}
+                                                          for row in sources])}
+
+
+def disclose_v1(query, actor, scope=None, seeds=None, corpus_manifest=None,
+                max_depth=2, max_claims=24, max_discovered=6, sidecar=None):
+    """Return a bounded packet of governed claims and, only when needed, discovery.
+
+    It is deliberately a read-only API for any caller profile.  Retrieval
+    output is segregated from governed context and cannot mutate the ledger.
+    """
+    if not isinstance(query, str) or not query.strip():
+        raise ValueError("disclosure query must be a non-empty string")
+    if not isinstance(actor, str) or not actor.strip():
+        raise ValueError("disclosure actor must be a non-empty string")
+    if max_discovered < 0 or max_claims < 1 or max_depth < 0:
+        raise ValueError("disclosure limits must be non-negative and max_claims positive")
+    policy = load_v2_policy()
+    context = context_v2(scope, actor, query)
+    terms = _query_terms(query)
+    scored = []
+    for row in context["knowledge"]:
+        row_terms = _query_terms(row["statement"] + " " + row.get("scope", ""))
+        overlap = len(terms & row_terms)
+        if overlap:
+            scored.append((-(overlap / max(1, len(terms))), row["id"]))
+    selected_seeds = list(dict.fromkeys(seeds or []))
+    if not selected_seeds:
+        selected_seeds = [cid for _, cid in sorted(scored)[:max_claims]]
+    traversal = None
+    if selected_seeds:
+        traversal = traverse_graph_v2(selected_seeds, scope, actor, query,
+                                      max_depth, max_claims, "admitted")
+        selected_ids = traversal["conclusion_ids"]
+    else:
+        selected_ids = []
+    visible = {row["id"]: row for row in context["knowledge"]}
+    governed = [visible[cid] for cid in selected_ids if cid in visible]
+    # Existing context is sufficient only when every meaningful query term is
+    # represented in its selected statements.  This keeps PageIndex out of a
+    # normal executor path while enabling progressive disclosure for novelty.
+    covered = set().union(*(_query_terms(row["statement"]) for row in governed)) if governed else set()
+    unmet = bool(terms - covered)
+    discovered, discovery_meta = [], None
+    if unmet and corpus_manifest and max_discovered:
+        config = {"adapter": "proofpress.pageindex", "version": "1",
+                  "requested_model": "openai/gpt-5.6-luna", "fallback": "forbidden",
+                  "max_sections": max_discovered, "max_pages": max_discovered}
+        config["config_digest"] = digest(config)
+        discovered, discovery_meta = _pageindex_discover(query, corpus_manifest,
+                                                          max_discovered, sidecar, config)
+    lineage = [receipt_v2(cid) for cid in selected_ids]
+    gaps = ([] if governed and not unmet else [{"kind": "unmet_question",
+             "query_terms": sorted(terms - covered),
+             "required_action": "inspect_discovered_evidence_or_propose_new_conclusion"}])
+    blocked = list(context["blocked"])
+    if traversal: blocked.extend(traversal["blocked_neighbors"])
+    return {"schema_version": DISCLOSURE_SCHEMA, "query": query, "actor": actor,
+            "scope": scope, "governed_context": governed,
+            "lineage": lineage, "discovered_evidence": discovered, "gaps": gaps,
+            "blocked": blocked, "actions": ["use_governed_context_for_reliance",
+                "treat_discovered_evidence_as_not_governed",
+                "use_existing_propose_evaluate_judge_review_path_for_new_claims"],
+            "ledger_head": context["ledger_head"], "policy_digest": policy["digest"],
+            "config_digest": digest({"max_depth": max_depth, "max_claims": max_claims,
+                                      "max_discovered": max_discovered}),
+            "traversal": traversal, "discovery": discovery_meta}
+
+
 def summary_v2(scope=None):
     projection = v2_projection(); rows = [r for r in projection["conclusions"].values() if not scope or r["scope"] == scope]
     counts = {key: 0 for key in ("needs_review", "admitted", "rejected", "superseded", "expired", "unresolved")}
@@ -1604,6 +1748,15 @@ def add_flat_cli(sub):
     graph_parser.add_argument("--max-claims", type=int, default=48)
     graph_parser.add_argument("--state", choices=["admitted", "staged"], default="admitted")
     graph_parser.set_defaults(f=cmd_flat, flat_cmd="graph")
+    disclose_parser = sub.add_parser("disclose", help="return bounded governed context and segregated novel evidence")
+    disclose_parser.add_argument("--query", required=True); disclose_parser.add_argument("--actor", required=True)
+    disclose_parser.add_argument("--scope"); disclose_parser.add_argument("--seed", action="append")
+    disclose_parser.add_argument("--corpus-manifest")
+    disclose_parser.add_argument("--sidecar", help="local PageIndex sidecar executable; no hosted fallback")
+    disclose_parser.add_argument("--max-depth", type=int, default=2)
+    disclose_parser.add_argument("--max-claims", type=int, default=24)
+    disclose_parser.add_argument("--max-discovered", type=int, default=6)
+    disclose_parser.set_defaults(f=cmd_flat, flat_cmd="disclose")
     ui_parser = sub.add_parser("ui", help="open the local review and context UI")
     ui_parser.add_argument("--scope"); ui_parser.add_argument("--port", type=int, default=7331); ui_parser.add_argument("--no-open", action="store_true")
     ui_parser.set_defaults(f=cmd_flat, flat_cmd="ui")
@@ -1647,6 +1800,9 @@ def cmd_flat(a):
     elif command == "context":
         out = context_v2(a.scope, a.actor, a.task, a.include_blocked_statements)
         if a.format == "markdown": print(_markdown_context(out)); return
+    elif command == "disclose":
+        out = disclose_v1(a.query, a.actor, a.scope, a.seed, a.corpus_manifest,
+                          a.max_depth, a.max_claims, a.max_discovered, a.sidecar)
     elif command == "ui": serve_ui(a.port, a.scope, not a.no_open); return
     elif command == "import-v1": out = import_v1(a.ledger)
     else: raise ValueError("unknown local MVP command")
