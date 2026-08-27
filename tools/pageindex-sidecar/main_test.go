@@ -12,3 +12,15 @@ func TestRuntimeModelAndCacheAreProviderSafe(t *testing.T) {
 		t.Fatal("cache key must be deterministic")
 	}
 }
+
+func TestConfiguredParallelismIsBoundedAndDefaultsToSerial(t *testing.T) {
+	if got := configuredParallelism(nil, 4); got != 1 {
+		t.Fatalf("default workers = %d, want 1", got)
+	}
+	if got := configuredParallelism(map[string]any{"parallelism": float64(4)}, 2); got != 2 {
+		t.Fatalf("clamped workers = %d, want 2", got)
+	}
+	if got := configuredParallelism(map[string]any{"parallelism": float64(0)}, 4); got != 1 {
+		t.Fatalf("invalid workers = %d, want 1", got)
+	}
+}
