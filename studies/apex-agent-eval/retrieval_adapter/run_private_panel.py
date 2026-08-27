@@ -95,11 +95,12 @@ def costs(receipt_file,offset):
 def quantile(values,q):
     rows=sorted(values); return rows[min(len(rows)-1,round((len(rows)-1)*q))] if rows else None
 def main():
-    ap=argparse.ArgumentParser(); ap.add_argument("--manifest",required=True); ap.add_argument("--out",required=True); ap.add_argument("--sidecar",required=True); ap.add_argument("--gateway-server",required=True); ap.add_argument("--limit",type=int,default=6); ap.add_argument("--pageindex-timeout-seconds",type=int,default=int(os.environ.get("PROOFPRESS_PAGEINDEX_TIMEOUT_SECONDS","1800"))); a=ap.parse_args()
+    ap=argparse.ArgumentParser(); ap.add_argument("--manifest",required=True); ap.add_argument("--out",required=True); ap.add_argument("--sidecar",required=True); ap.add_argument("--gateway-server",required=True); ap.add_argument("--limit",type=int,default=6); ap.add_argument("--pageindex-timeout-seconds",type=int,default=int(os.environ.get("PROOFPRESS_PAGEINDEX_TIMEOUT_SECONDS","1800"))); ap.add_argument("--pageindex-parallelism",type=int,default=int(os.environ.get("PROOFPRESS_PAGEINDEX_PARALLELISM","4"))); a=ap.parse_args()
     if not os.environ.get("AI_GATEWAY_API_KEY"): raise SystemExit("scored panel fails closed: AI_GATEWAY_API_KEY unavailable")
     data=validate(a.manifest); out=Path(a.out); out.mkdir(parents=True,exist_ok=True); private_gateway=out/"gateway-private-receipts.jsonl"
     if a.pageindex_timeout_seconds < 1: raise SystemExit("PageIndex timeout must be positive")
-    config={"adapter":"proofpress.pageindex","version":"1","requested_model":MODEL,"provider":PROVIDER,"fallback":"forbidden","max_sections":20,"max_pages":20,"toc_check_pages":1,"max_pages_per_node":1,"max_tokens_per_node":2500,"node_summary":False,"document_description":False,"timeout_seconds":a.pageindex_timeout_seconds}; config["config_digest"]=sha(json.dumps(config,sort_keys=True))
+    if a.pageindex_parallelism < 1: raise SystemExit("PageIndex parallelism must be positive")
+    config={"adapter":"proofpress.pageindex","version":"1","requested_model":MODEL,"provider":PROVIDER,"fallback":"forbidden","max_sections":20,"max_pages":20,"toc_check_pages":1,"max_pages_per_node":1,"max_tokens_per_node":2500,"node_summary":False,"document_description":False,"timeout_seconds":a.pageindex_timeout_seconds,"parallelism":a.pageindex_parallelism}; config["config_digest"]=sha(json.dumps(config,sort_keys=True))
     runs={n:{"completed":0,"inconclusive":0,"receipt_count":0,"latencies":[],"costs":[],"metric_rows":[]} for n in SYSTEMS}; raw=[]; gateway,base=bridge(a.gateway_server,private_gateway)
     try:
       for task in data["tasks"]:
