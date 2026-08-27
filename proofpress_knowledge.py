@@ -1554,9 +1554,10 @@ def assimilate_v1(packet, actor, scope=None, gap_ids=None, receipt_digests=None,
     """Gate discovered receipts for explicit, non-admitting assimilation.
 
     The function is fail-closed and performs all validation before invoking a
-    recommender.  Dry-run is the default; submit only imports selected receipts
-    and records an idempotent transaction.  It never proposes or admits a
-    conclusion automatically.
+    recommender.  Dry-run is the default.  Submit may import selected receipts
+    or, when the recommendation supplies a candidate statement, create an
+    unresolved conclusion and unresolved contradiction relations.  It never
+    admits a conclusion or relation automatically.
     """
     if not isinstance(packet, dict) or packet.get("schema_version") != DISCLOSURE_SCHEMA:
         raise ValueError("assimilation packet must be a governed disclosure packet")
@@ -1643,6 +1644,14 @@ def assimilate_v1(packet, actor, scope=None, gap_ids=None, receipt_digests=None,
                        "recommend_claim_proposal", "recommend_conflict_proposal", "escalate"}
     if recommendation.get("action") not in allowed_actions:
         raise ValueError("assimilation recommendation action is invalid")
+    candidate_statement = None
+    if recommendation.get("action") in {"recommend_claim_proposal", "recommend_conflict_proposal"}:
+        candidate_statement = _required_string(recommendation.get("candidate_statement"),
+                                               "recommendation.candidate_statement")
+        if not candidates:
+            raise ValueError("candidate proposal requires non-duplicate discovered evidence")
+    if recommendation.get("action") == "recommend_conflict_proposal" and not conflicts:
+        raise ValueError("conflict proposal requires a deterministic conflict match")
     result = {"schema_version": ASSIMILATION_SCHEMA,
               "packet_digest": packet_digest, "ledger_head": v2_head(),
               "actor": actor, "scope": scope or packet.get("scope"),
@@ -1672,8 +1681,10 @@ def assimilate_v1(packet, actor, scope=None, gap_ids=None, receipt_digests=None,
                 raise ValueError("IDEMPOTENCY_KEY_CONFLICT")
             result["submitted"] = True; result["idempotent"] = True
             result["events_added"] = 0; return result
-    if recommendation.get("action") not in {"recommend_evidence_import", "recommend_conflict_proposal"}:
-        raise ValueError("recommendation does not authorize an evidence import")
+    submit_actions = {"recommend_evidence_import", "recommend_claim_proposal",
+                      "recommend_conflict_proposal"}
+    if recommendation.get("action") not in submit_actions:
+        raise ValueError("recommendation does not authorize assimilation submit")
     _require_expected_head(result["ledger_head"])
     added = []
     for key in candidates:
@@ -1683,6 +1694,19 @@ def assimilate_v1(packet, actor, scope=None, gap_ids=None, receipt_digests=None,
             "source": receipt["source"],
             "evidence": {"quote": receipt["quote"], "locator": receipt["locator"]},
             "retrieval": receipt["retrieval"]}))
+    proposal = None; proposed_relations = []
+    if candidate_statement:
+        projection = v2_projection()
+        evidence_refs = sorted(row["id"] for row in projection["evidence"].values()
+                               if row.get("retrieval_receipt_digest") in candidates)
+        if not evidence_refs:
+            raise ValueError("candidate proposal could not bind imported evidence")
+        proposal = propose_v2(candidate_statement, evidence_refs, result["scope"], actor)
+        if recommendation.get("action") == "recommend_conflict_proposal":
+            for conclusion_id in sorted({row["conclusion_id"] for row in conflicts}):
+                relation = propose_relation_v2(proposal["conclusion"]["id"], conclusion_id,
+                                               "contradicts", actor)
+                proposed_relations.append(relation["relation"])
     transaction = append_v2({"type": "assimilation_submitted",
                              "subject_ref": ident({"packet": result["packet_digest"], "key": idempotency_key}, "asm_"),
                              "packet_digest": result["packet_digest"],
@@ -1691,8 +1715,14 @@ def assimilate_v1(packet, actor, scope=None, gap_ids=None, receipt_digests=None,
                              "scope": result["scope"], "receipt_digests": sorted(selected_receipts),
                              "action": recommendation.get("action"), "policy_digest": policy["digest"],
                              "config_digest": config_digest})
-    result["submitted"] = True; result["events_added"] = len(added) + 1
+    result["submitted"] = True
+    result["events_added"] = len(added) + 1 + (1 if proposal else 0) + len(proposed_relations)
     result["transaction_event"] = transaction["event_id"]
+    if proposal:
+        result["candidate"] = {"id": proposal["conclusion"]["id"], "status": "unresolved"}
+    if proposed_relations:
+        result["relations"] = [{"id": row["id"], "type": row["type"], "status": "unresolved"}
+                               for row in proposed_relations]
     return result
 
 

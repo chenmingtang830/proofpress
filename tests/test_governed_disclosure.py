@@ -64,6 +64,12 @@ print(json.dumps(out))
         path.chmod(0o755)
         return str(path)
 
+    def _submit_key(self, dry):
+        return knowledge.digest({"packet_digest": dry["packet_digest"],
+                                 "ledger_head": dry["ledger_head"], "actor": "agent:executor",
+                                 "scope": "matter-1", "receipts": dry["receipt_digests"],
+                                 "config_digest": dry["config_digest"]})
+
     def test_governed_context_is_bounded_and_blocked_neighbor_has_no_statement(self):
         packet = knowledge.disclose_v1("What is the liability cap?", "agent:executor", "matter-1")
         self.assertEqual([row["id"] for row in packet["governed_context"]], [self.visible])
@@ -131,6 +137,70 @@ print(json.dumps(out))
                                           corpus_manifest=str(manifest), recommender=recommender)
         self.assertTrue(replay["idempotent"])
         self.assertEqual(replay["events_added"], 0)
+
+    def test_assimilation_submit_can_create_only_an_unresolved_candidate(self):
+        manifest, _ = self._manifest()
+        packet = knowledge.disclose_v1(
+            "What indemnity carveout applies?", "agent:executor", "matter-1",
+            corpus_manifest=str(manifest), sidecar=self._sidecar())
+        recommender = lambda request: {
+            "action": "recommend_claim_proposal",
+            "candidate_statement": "Indemnity carveout may apply",
+            "proposed_use": "unresolved candidate only",
+            "required_next_action": "evaluate/judge/lawyer-review",
+        }
+        dry = knowledge.assimilate_v1(packet, "agent:executor", "matter-1",
+                                      corpus_manifest=str(manifest), recommender=recommender)
+        submitted = knowledge.assimilate_v1(
+            packet, "agent:executor", "matter-1", expected_head=dry["ledger_head"], submit=True,
+            idempotency_key=self._submit_key(dry), corpus_manifest=str(manifest), recommender=recommender)
+        candidate_id = submitted["candidate"]["id"]
+        projection = knowledge.v2_projection()
+        self.assertEqual(submitted["candidate"]["status"], "unresolved")
+        self.assertEqual(knowledge.v2_state(projection, projection["conclusions"][candidate_id]), "needs_review")
+        self.assertNotIn(candidate_id, projection["admissions"])
+
+    def test_conflict_submit_adds_unresolved_candidate_and_relation_without_overwrite(self):
+        manifest, source_digest = self._manifest()
+        prior_payload = {
+            "schema_version": knowledge.RETRIEVAL_EVIDENCE_SCHEMA,
+            "source": {"uri": "private/novel.pdf", "content_digest": source_digest,
+                       "media_type": "application/pdf"},
+            "evidence": {"quote": "legacy payment term", "locator": {
+                "kind": "section_span", "section_id": "sec-prior",
+                "section_digest": "sha256:" + "b" * 64, "page_start": 2, "page_end": 2}},
+            "retrieval": {"adapter": "fixture", "version": "1", "query": "legacy payment",
+                          "config_digest": "sha256:" + "c" * 64},
+        }
+        prior_path = self.repo / "prior-retrieval.json"; prior_path.write_text(json.dumps(prior_payload))
+        knowledge.import_evidence_v2(str(prior_path))
+        projection = knowledge.v2_projection()
+        prior_evidence = next(row["id"] for row in projection["evidence"].values()
+                              if row.get("kind") == "retrieval_evidence")
+        prior_claim = knowledge.propose_v2("Legacy payment term", [prior_evidence], "matter-1",
+                                           "agent:proposer")["conclusion"]["id"]
+        knowledge.review_v2(prior_claim, "admit", "human:reviewer")
+        packet = knowledge.disclose_v1(
+            "What indemnity carveout applies?", "agent:executor", "matter-1",
+            corpus_manifest=str(manifest), sidecar=self._sidecar())
+        recommender = lambda request: {
+            "action": "recommend_conflict_proposal",
+            "candidate_statement": "Indemnity carveout may apply",
+            "proposed_use": "unresolved conflict candidate",
+            "required_next_action": "evaluate/judge/lawyer-review",
+        }
+        dry = knowledge.assimilate_v1(packet, "agent:executor", "matter-1",
+                                      corpus_manifest=str(manifest), recommender=recommender)
+        self.assertTrue(dry["conflicts"])
+        submitted = knowledge.assimilate_v1(
+            packet, "agent:executor", "matter-1", expected_head=dry["ledger_head"], submit=True,
+            idempotency_key=self._submit_key(dry), corpus_manifest=str(manifest), recommender=recommender)
+        projection = knowledge.v2_projection(); candidate_id = submitted["candidate"]["id"]
+        self.assertEqual(knowledge.v2_state(projection, projection["conclusions"][candidate_id]), "needs_review")
+        self.assertEqual(projection["conclusions"][prior_claim]["statement"], "Legacy payment term")
+        relation = projection["relations"][submitted["relations"][0]["id"]]
+        self.assertEqual(relation["type"], "contradicts")
+        self.assertEqual(knowledge.relation_state(projection, relation), "needs_review")
 
     def test_assimilation_requires_fresh_custody_and_gap_binding(self):
         manifest, _ = self._manifest()
