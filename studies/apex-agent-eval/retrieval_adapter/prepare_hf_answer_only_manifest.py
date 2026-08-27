@@ -28,6 +28,8 @@ def main():
     parser.add_argument("--out", required=True, help="private manifest path")
     parser.add_argument("--max-sources", type=int, default=0)
     parser.add_argument("--smallest-first", action="store_true")
+    parser.add_argument("--all-sources", action="store_true",
+                        help="include every readable corpus file for the full evidence substrate (PageIndex still requires PDF sources)")
     args = parser.parse_args()
     rows = json.loads(Path(args.tasks_json).read_text(encoding="utf-8"))
     rows = rows.get("tasks", rows) if isinstance(rows, dict) else rows
@@ -41,7 +43,9 @@ def main():
     if not tasks or (requested and {row["task_id"] for row in tasks} != requested):
         raise SystemExit("requested HF task selection is incomplete or unusable")
     workspace = Path(args.workspace); text_dir = workspace / "extracted-text"; text_dir.mkdir(parents=True, exist_ok=True)
-    files = sorted(Path(args.corpus).rglob("*.pdf"))
+    files = sorted(path for path in Path(args.corpus).rglob("*")
+                   if path.is_file() and not any(part.startswith(".") for part in path.parts)
+                   and (args.all_sources or path.suffix.lower() == ".pdf"))
     if args.smallest_first: files.sort(key=lambda path: (path.stat().st_size, str(path)))
     if args.max_sources: files = files[:args.max_sources]
     if not files: raise SystemExit("no PDF sources found in authorized corpus")
@@ -50,11 +54,15 @@ def main():
         payload = path.read_bytes(); digest = sha_bytes(payload); source_id = digest.removeprefix("sha256:")[:24]
         text_path = text_dir / (source_id + ".txt")
         if not text_path.exists():
-            run = subprocess.run(["pdftotext", str(path), str(text_path)], capture_output=True, text=True)
-            if run.returncode: raise SystemExit("PDF extraction failed for a custody-verified source")
+            if path.suffix.lower() == ".pdf":
+                run = subprocess.run(["pdftotext", str(path), str(text_path)], capture_output=True, text=True)
+                if run.returncode: raise SystemExit("PDF extraction failed for a custody-verified source")
+            else:
+                text_path.write_text(path.read_text(encoding="utf-8", errors="replace"), encoding="utf-8")
+        media_type = "application/pdf" if path.suffix.lower() == ".pdf" else "text/plain"
         sources.append({"source_id": source_id, "uri": "private://apex/" + source_id,
                         "path": str(path), "content_digest": digest,
-                        "media_type": "application/pdf", "extracted_text_path": str(text_path)})
+                        "media_type": media_type, "extracted_text_path": str(text_path)})
     task_rows = [{"task_id": task["task_id"], "query": task["prompt"],
                   "gold_response": task["gold_response"], "gold": []}
                  for task in tasks]

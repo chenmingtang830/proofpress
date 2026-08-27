@@ -5,8 +5,11 @@ import argparse, hashlib, json, os, subprocess, time
 from pathlib import Path
 
 SCHEMA="proofpress/private-retrieval-panel/v2"
-MODEL="deepseek/deepseek-v4-flash-0731"
-PROVIDER="fireworks"
+MODEL=os.environ.get("PROOFPRESS_EXECUTOR_MODEL", "deepseek/deepseek-v4-flash")
+PROVIDER=os.environ.get("PROOFPRESS_AI_GATEWAY_PROVIDER", "proofpress-dev-ai-gateway")
+DECOMPOSITION_MODEL=os.environ.get("PROOFPRESS_DECOMPOSITION_MODEL", "zai/glm-5.3-flash")
+PROPOSER_MODEL=os.environ.get("PROOFPRESS_PROPOSER_MODEL", "zai/glm-5.3-flash")
+CRITIC_MODEL=os.environ.get("PROOFPRESS_CRITIC_MODEL", "gpt-5.6-sol")
 SYSTEMS=("lexical-chunk/v1","pageindex-tree/v1","hybrid/v1")
 def sha(v): return "sha256:"+hashlib.sha256(v.encode() if isinstance(v,str) else v).hexdigest()
 def load(path): return json.loads(Path(path).read_text(encoding="utf-8"))
@@ -41,9 +44,32 @@ def score(receipts,gold):
     if not gold:
         # A golden answer alone is not a source-location judgment.  Preserve
         # the completed retrieval run, but do not invent a recall denominator.
-        return {"document_locator_recall_at_k":None,"quote_binding_rate":None,"citation_precision":None,"receipt_pass_rate":None}
+        return {"document_locator_recall_at_k":None,"evidence_set_coverage":None,"complete_evidence_set_success":None,"quote_binding_rate":None,"citation_precision":None,"receipt_pass_rate":None}
     bound=[r for r in receipts if r.get("source",{}).get("content_digest") and r.get("evidence",{}).get("locator")]; hits=sum(hit(r,gold) for r in receipts)
-    return {"document_locator_recall_at_k":bool(hits),"quote_binding_rate":len(bound)/len(receipts) if receipts else 0,"citation_precision":hits/len(receipts) if receipts else 0,"receipt_pass_rate":len(bound)/len(receipts) if receipts else 0}
+    coverage=hits/len(gold) if gold else None
+    return {"document_locator_recall_at_k":coverage,"evidence_set_coverage":coverage,
+            "complete_evidence_set_success":coverage == 1 if coverage is not None else None,
+            "quote_binding_rate":len(bound)/len(receipts) if receipts else 0,
+            "citation_precision":hits/len(receipts) if receipts else 0,
+            "receipt_pass_rate":len(bound)/len(receipts) if receipts else 0}
+
+def hybrid_rrf(lexical_rows, pageindex_rows, limit, k0=60):
+    """Fixed reciprocal-rank fusion over a single top-20 union.
+
+    Source/overlapping locator duplicates are collapsed before scoring; ties
+    are stable on source URI and locator digest, so repeated runs are replayable.
+    """
+    def key(row):
+        source=row.get("source", {})
+        locator=row.get("evidence", {}).get("locator", {})
+        return (source.get("uri"), source.get("content_digest"), json.dumps(locator, sort_keys=True))
+    fused={}
+    for rank, row in enumerate(lexical_rows, 1):
+        fused.setdefault(key(row), {"row": row, "score": 0.0})["score"] += 1/(k0+rank)
+    for rank, row in enumerate(pageindex_rows, 1):
+        fused.setdefault(key(row), {"row": row, "score": 0.0})["score"] += 1/(k0+rank)
+    ordered=sorted(fused.values(), key=lambda item: (-item["score"], key(item["row"])))
+    return [item["row"] for item in ordered[:limit]]
 def bridge(script,receipt_file):
     env=os.environ.copy(); env.update({"PROOFPRESS_PAGEINDEX_MODEL":MODEL,"PROOFPRESS_PAGEINDEX_PROVIDER":PROVIDER,"PROOFPRESS_PAGEINDEX_PORT":"0","PROOFPRESS_PAGEINDEX_RECEIPTS":str(receipt_file)})
     process=subprocess.Popen(["node",script],stdout=subprocess.PIPE,stderr=subprocess.PIPE,text=True,env=env); line=process.stdout.readline().strip()
@@ -51,7 +77,7 @@ def bridge(script,receipt_file):
     except Exception: process.kill(); raise RuntimeError("Gateway bridge did not become ready")
     return process,"http://127.0.0.1:%s/v1"%port
 def tree(query,sources,sidecar,config,limit,base_url,cache_dir):
-    request={"schema_version":"proofpress/pageindex-sidecar/v1","query":query,"sources":[{k:v for k,v in s.items() if k in {"source_id","path","uri","content_digest","media_type"}} for s in sources],"config":config,"max_results":limit,"cache_dir":str(cache_dir)}
+    request={"schema_version":"proofpress/pageindex-sidecar/v1","query":query,"sources":[{k:v for k,v in s.items() if k in {"source_id","path","uri","content_digest","media_type","representation_digest","transform_digest","page_count"}} for s in sources],"config":config,"max_results":limit,"cache_dir":str(cache_dir)}
     env=os.environ.copy(); env.update({"OPENAI_BASE_URL":base_url,"OPENAI_API_KEY":"local-gateway-bridge"})
     result=subprocess.run([sidecar],input=json.dumps(request),text=True,capture_output=True,timeout=300,env=env)
     if result.returncode: raise RuntimeError("sidecar failed closed")
@@ -69,7 +95,7 @@ def main():
     ap=argparse.ArgumentParser(); ap.add_argument("--manifest",required=True); ap.add_argument("--out",required=True); ap.add_argument("--sidecar",required=True); ap.add_argument("--gateway-server",required=True); ap.add_argument("--limit",type=int,default=6); a=ap.parse_args()
     if not os.environ.get("AI_GATEWAY_API_KEY"): raise SystemExit("scored panel fails closed: AI_GATEWAY_API_KEY unavailable")
     data=validate(a.manifest); out=Path(a.out); out.mkdir(parents=True,exist_ok=True); private_gateway=out/"gateway-private-receipts.jsonl"
-    config={"adapter":"proofpress.pageindex","version":"1","requested_model":MODEL,"provider":PROVIDER,"fallback":"forbidden","max_sections":a.limit,"max_pages":a.limit,"toc_check_pages":1,"max_pages_per_node":1,"max_tokens_per_node":2500,"node_summary":False,"document_description":False}; config["config_digest"]=sha(json.dumps(config,sort_keys=True))
+    config={"adapter":"proofpress.pageindex","version":"1","requested_model":MODEL,"provider":PROVIDER,"fallback":"forbidden","max_sections":20,"max_pages":20,"toc_check_pages":1,"max_pages_per_node":1,"max_tokens_per_node":2500,"node_summary":False,"document_description":False}; config["config_digest"]=sha(json.dumps(config,sort_keys=True))
     runs={n:{"completed":0,"inconclusive":0,"receipt_count":0,"latencies":[],"costs":[],"metric_rows":[]} for n in SYSTEMS}; raw=[]; gateway,base=bridge(a.gateway_server,private_gateway)
     try:
       for task in data["tasks"]:
@@ -77,7 +103,7 @@ def main():
         raw.append({"task_id":task["task_id"],"system":SYSTEMS[0],"receipts":lex}); r=runs[SYSTEMS[0]]; r["completed"]+=1; r["receipt_count"]+=len(lex); r["latencies"].append(latency); r["costs"].append(0); r["metric_rows"].append(score(lex,task["gold"]))
         offset=len(private_gateway.read_text().splitlines()) if private_gateway.exists() else 0
         try:
-          indexed,telemetry=tree(task["query"],data["sources"],a.sidecar,config,a.limit,base,out/"pageindex-cache"); cost=costs(private_gateway,offset); hybrid=(lex+indexed)[:a.limit]
+          indexed,telemetry=tree(task["query"],data["sources"],a.sidecar,config,20,base,out/"pageindex-cache"); cost=costs(private_gateway,offset); hybrid=hybrid_rrf(lex,indexed,a.limit)
           for name,receipts in ((SYSTEMS[1],indexed),(SYSTEMS[2],hybrid)):
             raw.append({"task_id":task["task_id"],"system":name,"receipts":receipts}); r=runs[name]; r["completed"]+=1; r["receipt_count"]+=len(receipts); r["latencies"].append(telemetry["latency_ms"]); r["costs"].append(cost); r["metric_rows"].append(score(receipts,task["gold"]))
         except RuntimeError as exc:
@@ -88,8 +114,8 @@ def main():
       metrics=r.pop("metric_rows"); latencies=r.pop("latencies"); costs_=r.pop("costs"); r["latency_ms"]={"p50":quantile(latencies,.5),"p95":quantile(latencies,.95)}; r["cost_usd"]=sum(costs_) if costs_ else None
       scored=[x for x in metrics if x["document_locator_recall_at_k"] is not None]
       r["metric_denominator"]={"locator_scored_tasks":len(scored),"answer_only_tasks":len(metrics)-len(scored)}
-      r["metrics"]={k:sum(float(x[k]) for x in scored)/len(scored) if scored else None for k in ("document_locator_recall_at_k","quote_binding_rate","citation_precision","receipt_pass_rate")}
+      r["metrics"]={k:sum(float(x[k]) for x in scored)/len(scored) if scored else None for k in ("document_locator_recall_at_k","evidence_set_coverage","complete_evidence_set_success","quote_binding_rate","citation_precision","receipt_pass_rate")}
     tasks=[{"task_id":t["task_id"],"query_digest":sha(t["query"]),"gold_response_digest":sha(t["gold_response"]),"gold_locator_digest":sha(json.dumps(t["gold"],sort_keys=True))} for t in data["tasks"]]
-    report={"schema_version":"proofpress/retrieval-panel-sanitized/v2","manifest_digest":sha(json.dumps({"sources":[{"uri":s["uri"],"content_digest":s["content_digest"],"media_type":s["media_type"]} for s in data["sources"]],"tasks":tasks},sort_keys=True)),"model":{"requested":MODEL,"provider":PROVIDER,"fallback":"forbidden"},"tasks":tasks,"systems":runs,"scoring_boundary":"answer-only tasks have no locator metric denominator and are reported as unscored"}
+    report={"schema_version":"proofpress/retrieval-panel-sanitized/v3","manifest_digest":sha(json.dumps({"sources":[{"uri":s["uri"],"content_digest":s["content_digest"],"media_type":s["media_type"]} for s in data["sources"]],"tasks":tasks},sort_keys=True)),"models":{"decomposition":DECOMPOSITION_MODEL,"proposer":PROPOSER_MODEL,"critic":CRITIC_MODEL,"executor":MODEL},"provider":PROVIDER,"fallback":"forbidden","tasks":tasks,"systems":runs,"scoring_boundary":"answer-only tasks have no locator metric denominator and are reported as unscored","decision_boundary":"private operating decision; not evidence that PageIndex is generally supported"}
     (out/"raw-private-receipts.json").write_text(json.dumps(raw,indent=2),encoding="utf-8"); (out/"sanitized-report.json").write_text(json.dumps(report,indent=2)+"\n",encoding="utf-8"); print(json.dumps({"sanitized_report":str(out/"sanitized-report.json"),"systems":runs},indent=2))
 if __name__=="__main__": main()
