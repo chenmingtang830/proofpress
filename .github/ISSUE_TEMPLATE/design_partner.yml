@@ -1,0 +1,48 @@
+name: Integration or design-partner workflow
+description: Bring a real handoff or fresh-session decision to evaluate with Proofpress
+labels: [design-partner]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Start with the workflow, not a product pitch. Do not include confidential,
+        privileged, personal, or customer data. A small synthetic example is enough.
+  - type: textarea
+    id: workflow
+    attributes:
+      label: Workflow
+      description: What does one agent or person hand to the next, and where does that happen today?
+      placeholder: A research agent updates a matter conclusion that another agent uses in a fresh session.
+    validations:
+      required: true
+  - type: textarea
+    id: decision
+    attributes:
+      label: Downstream decision
+      description: What must the receiver decide, and what goes wrong when context is stale, unsupported, or unauthorized?
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Available evidence and review
+      description: What evidence, version signal, reviewer, or approval already exists?
+    validations:
+      required: true
+  - type: dropdown
+    id: stage
+    attributes:
+      label: What would be useful next?
+      options:
+        - A 20-minute workflow discovery conversation
+        - A private-data-free fixture or replay
+        - An integration-boundary review
+    validations:
+      required: true
+  - type: checkboxes
+    id: disclosure
+    attributes:
+      label: Disclosure check
+      options:
+        - label: I have not included confidential, privileged, personal, or customer data
+          required: true

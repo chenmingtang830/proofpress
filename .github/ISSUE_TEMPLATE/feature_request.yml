@@ -21,7 +21,7 @@ body:
     attributes:
       label: Scope check
       options:
-        - label: This is about Markdown/static-HTML knowledge artifacts, not source code versioning
+        - label: This is about governed knowledge or artifact provenance, not source code versioning
           required: true
         - label: This does not require claiming tamper-proof (Proofpress is tamper-evident by design)
           required: true
