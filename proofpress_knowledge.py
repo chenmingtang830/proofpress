@@ -1564,6 +1564,9 @@ def assimilate_v1(packet, actor, scope=None, gap_ids=None, receipt_digests=None,
         raise ValueError("assimilation actor must be a non-empty string")
     if scope is not None and packet.get("scope") not in {None, scope}:
         raise ValueError("assimilation scope does not match disclosure packet")
+    policy = load_v2_policy()
+    if actor not in policy["allowed_actors"] and "*" not in policy["allowed_actors"]:
+        raise ValueError("assimilation actor is not allowed by policy")
     packet_digest = digest(packet)
     if submit and idempotency_key:
         prior = next((event for event in v2_events()
@@ -1581,9 +1584,6 @@ def assimilate_v1(packet, actor, scope=None, gap_ids=None, receipt_digests=None,
         raise ValueError("STALE_DISCLOSURE_LEDGER_HEAD")
     if packet.get("ledger_head") != v2_head():
         raise ValueError("STALE_LEDGER_HEAD")
-    policy = load_v2_policy()
-    if actor not in policy["allowed_actors"] and "*" not in policy["allowed_actors"]:
-        raise ValueError("assimilation actor is not allowed by policy")
     selected_gaps = set(gap_ids or [row.get("id") for row in packet.get("gaps", []) if row.get("id")])
     selected_receipts = set(receipt_digests or [row.get("receipt_digest") for row in packet.get("discovered_evidence", [])])
     if not selected_receipts:
