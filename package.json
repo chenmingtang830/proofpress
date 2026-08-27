@@ -26,6 +26,9 @@
     "pack:check": "npm pack --dry-run",
     "prepublishOnly": "npm test && npm run pack:check"
   },
+  "dependencies": {
+    "ai": "^6.0.0"
+  },
   "engines": {
     "node": ">=22"
   },
