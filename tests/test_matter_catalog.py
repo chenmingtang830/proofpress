@@ -41,6 +41,23 @@ class MatterCatalogTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "digest mismatch"):
                 build_catalog(manifest)
 
+    def test_identical_bytes_keep_distinct_source_custody_when_cached(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            left = root / "left.txt"; left.write_text("same bytes")
+            right = root / "right.txt"; right.write_text("same bytes")
+            manifest = root / "manifest.json"
+            manifest.write_text(json.dumps({"sources": [
+                {"path": str(left), "uri": "matter/left.txt", "media_type": "text/plain"},
+                {"path": str(right), "uri": "matter/right.txt", "media_type": "text/plain"},
+            ]}))
+            catalog = build_catalog(manifest, cache_dir=root / "cache")
+            self.assertEqual(
+                [row["source"]["uri"] for row in catalog["representations"]],
+                ["matter/left.txt", "matter/right.txt"],
+            )
+            self.assertEqual(len({row["source"]["source_digest"] for row in catalog["representations"]}), 2)
+
 
 if __name__ == "__main__":
     unittest.main()

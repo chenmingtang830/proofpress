@@ -168,7 +168,12 @@ def build_catalog(manifest: str | os.PathLike[str] | dict[str, Any], *, cache_di
             try:
                 candidate = json.loads(cached.read_text(encoding="utf-8"))
                 if candidate.get("source", {}).get("content_digest") == source_sha and candidate.get("transform_digest") == transform_digest:
+                    # Representation bytes/sections are content-addressed, but
+                    # custody identity is per manifest URI.  Rebind the cached
+                    # representation to the current source so identical files
+                    # at distinct paths never inherit one another's URI.
                     item = candidate
+                    item["source"] = source
             except (OSError, json.JSONDecodeError):
                 item = None
         if item is None:
