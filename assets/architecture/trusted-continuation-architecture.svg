@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="800" viewBox="0 0 1440 800" role="img" aria-labelledby="title desc">
+  <title id="title">Proofpress trusted-continuation architecture</title>
+  <desc id="desc">A three-column architecture. The host workflow sends a bounded evidence projection to the Proofpress trust boundary. After review and admission, Proofpress projects governed context, receipts, and lineage to a later human or agent, which applies local policy.</desc>
+  <defs>
+    <style>
+      .h{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;fill:#20222B}.s{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;fill:#5A5D6B}.m{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;fill:#5A5D6B;letter-spacing:.8px}.rule{stroke:#E3E1D9;stroke-width:2}.flow{fill:none;stroke:#5A5D6B;stroke-width:2.5}.cyan{fill:#0E5E6F}.green{fill:#2E7D4F}.orange{fill:#8A6210}.red{fill:#B4453A}
+    </style>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#5A5D6B"/></marker>
+    <marker id="green-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#2E7D4F"/></marker>
+  </defs>
+  <rect width="1440" height="800" fill="#FAF9F5"/>
+  <text class="h" x="72" y="78" font-size="38" font-weight="750" letter-spacing="-.8">Trusted continuation, not another workflow stack</text>
+  <text class="s" x="72" y="112" font-size="18">Proofpress sits at the narrow boundary between raw agent work and knowledge a later actor may rely on.</text>
+
+  <text class="m" x="72" y="176" font-size="12" font-weight="700">HOST WORKFLOW</text>
+  <rect x="72" y="196" width="330" height="408" rx="12" fill="#FFFFFF" stroke="#E3E1D9" stroke-width="2"/>
+  <text class="h" x="98" y="242" font-size="24" font-weight="700">Execution stays with the host</text>
+  <text class="s" x="98" y="271" font-size="16">Its UX and operating state remain local.</text>
+  <line class="rule" x1="98" y1="300" x2="376" y2="300"/>
+  <text class="m" x="98" y="335" font-size="12" font-weight="700">SURFACES</text>
+  <text class="h" x="98" y="365" font-size="18" font-weight="650">Slack · Teams · Notion</text>
+  <text class="m" x="98" y="415" font-size="12" font-weight="700">MATERIAL</text>
+  <text class="h" x="98" y="445" font-size="18" font-weight="650">Files · traces · tools</text>
+  <text class="m" x="98" y="495" font-size="12" font-weight="700">CONTROL</text>
+  <text class="h" x="98" y="525" font-size="18" font-weight="650">Models · permissions · state</text>
+  <text class="s" x="98" y="567" font-size="15">Owns the work, decisions, and UX.</text>
+
+  <text class="m cyan" x="500" y="176" font-size="12" font-weight="700">PROOFPRESS TRUST BOUNDARY</text>
+  <rect x="500" y="196" width="440" height="408" rx="12" fill="#E3EEF0" stroke="#0E5E6F" stroke-width="2.5"/>
+  <text class="h" x="528" y="242" font-size="24" font-weight="700">Make reuse inspectable</text>
+  <text class="s" x="528" y="271" font-size="16">The ledger records why a conclusion may travel.</text>
+  <line x1="528" y1="300" x2="912" y2="300" stroke="#B7D0D5" stroke-width="2"/>
+  <circle cx="551" cy="342" r="14" fill="#0E5E6F"/><text x="551" y="347" text-anchor="middle" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="12" font-weight="700" fill="#FFFFFF">1</text>
+  <text class="h" x="580" y="348" font-size="17" font-weight="650">Bind source identity, version, and evidence</text>
+  <circle cx="551" cy="401" r="14" fill="#0E5E6F"/><text x="551" y="406" text-anchor="middle" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="12" font-weight="700" fill="#FFFFFF">2</text>
+  <text class="h" x="580" y="407" font-size="17" font-weight="650">Propose a scoped conclusion</text>
+  <circle cx="551" cy="460" r="14" fill="#8A6210"/><text x="551" y="465" text-anchor="middle" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="12" font-weight="700" fill="#FFFFFF">3</text>
+  <text class="h" x="580" y="466" font-size="17" font-weight="650">Evaluate, review, and record a receipt</text>
+  <rect x="528" y="509" width="384" height="58" rx="8" fill="#E7F2EA" stroke="#2E7D4F" stroke-width="1.5"/>
+  <text class="m green" x="548" y="535" font-size="11" font-weight="700">ONLY AFTER ADMISSION</text>
+  <text class="h" x="548" y="555" font-size="15" font-weight="700">admitted · current · in scope</text>
+
+  <text class="m green" x="1038" y="176" font-size="12" font-weight="700">TRUSTED CONTINUATION</text>
+  <rect x="1038" y="196" width="330" height="408" rx="12" fill="#FFFFFF" stroke="#E3E1D9" stroke-width="2"/>
+  <text class="h" x="1064" y="242" font-size="24" font-weight="700">A later actor receives</text>
+  <text class="s" x="1064" y="271" font-size="16">The receiver still applies local policy.</text>
+  <line class="rule" x1="1064" y1="300" x2="1342" y2="300"/>
+  <text class="m" x="1064" y="335" font-size="12" font-weight="700">GOVERNED CONTEXT</text>
+  <text class="h" x="1064" y="365" font-size="18" font-weight="650">Current, scoped conclusions</text>
+  <text class="m" x="1064" y="420" font-size="12" font-weight="700">INSPECTION</text>
+  <text class="h" x="1064" y="450" font-size="18" font-weight="650">Receipts and lineage</text>
+  <text class="m" x="1064" y="505" font-size="12" font-weight="700">RECEIVER</text>
+  <text class="h" x="1064" y="535" font-size="18" font-weight="650">Next human or agent</text>
+  <text class="s" x="1064" y="567" font-size="15">Inspects or declines locally.</text>
+
+  <path class="flow" d="M402 400H476" marker-end="url(#arrow)"/>
+  <text class="m" x="439" y="370" text-anchor="middle" font-size="9.5" font-weight="700">BOUNDED EVIDENCE</text>
+  <path d="M940 400H1014" fill="none" stroke="#2E7D4F" stroke-width="2.5" marker-end="url(#green-arrow)"/>
+  <text class="m green" x="977" y="370" text-anchor="middle" font-size="9.5" font-weight="700">GOVERNED CONTEXT</text>
+
+  <rect x="72" y="664" width="1296" height="74" rx="10" fill="#FFFFFF" stroke="#E3E1D9" stroke-width="1.5"/>
+  <text class="h" x="98" y="697" font-size="20" font-weight="720">The host keeps the workflow. Proofpress keeps the reason a conclusion may be reused.</text>
+  <text class="s" x="98" y="723" font-size="15">Not an orchestrator, trace backend, generic memory store, company wiki, or truth oracle.</text>
+  <text class="m" x="1368" y="775" text-anchor="end" font-size="10">PROOFPRESS · VERIFIED KNOWLEDGE LEDGER</text>
+</svg>
