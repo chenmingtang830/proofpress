@@ -1,4 +1,7 @@
 import unittest
+from pathlib import Path
+import tempfile
+import zipfile
 
 from pp_eval.finance_e2e_v2 import (
     ATOM_SCHEMA,
@@ -9,6 +12,7 @@ from pp_eval.finance_e2e_v2 import (
     requirement_completeness,
     validate_finance_atom,
 )
+from run_finance_e2e_v2 import normalized_cell
 
 
 def atom():
@@ -106,7 +110,30 @@ class FinanceGateTests(unittest.TestCase):
         cells[0]["terminal_telemetry_complete"] = False
         self.assertEqual(executor_qualification(cells)["decision"], "block")
 
+    def test_normalized_qualification_cell_requires_final_artifact(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            run_dir = Path(temporary)
+            output = run_dir / "output"
+            output.mkdir()
+            with zipfile.ZipFile(output / "neutral_final.zip", "w") as archive:
+                archive.writestr(
+                    "filesystem/04_Models/Merger-Acquisition Analysis/"
+                    "Merger Model - Barings BDC vF.xlsx", b"xlsx")
+            result = {
+                "run_id": "run_1", "run_dir": str(run_dir),
+                "task_id": "task_9ba58a6197114140877a1df1754d2993",
+                "agent_model": "inclusionai/ling-3.0-flash-fin",
+                "status": "completed", "watchdog_timeout": False,
+                "elapsed_seconds": 1,
+                "telemetry": {"status": "complete", "calls": 1,
+                              "total_tokens": 2, "known_cost_usd": 0,
+                              "providers": ["novita"],
+                              "no_fallback_observed": True},
+            }
+            cell = normalized_cell(result)
+            self.assertTrue(cell["workbook_finalized"])
+            self.assertTrue(cell["required_outputs_valid"])
+
 
 if __name__ == "__main__":
     unittest.main()
-
