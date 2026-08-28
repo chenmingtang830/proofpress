@@ -105,6 +105,7 @@ def producer_predicate(manifest_sha256: str, *, statement_id="producer-origin-00
 
 
 def governance_bindings(
+    manifest_sha256: str,
     *,
     resolution_action="supersede_left",
     policy_epoch=7,
@@ -129,6 +130,10 @@ def governance_bindings(
         "ledger": ledger,
     }
     return {
+        "handoff_manifest": {
+            "algorithm": "sha256",
+            "digest": manifest_sha256,
+        },
         "decision": {
             "algorithm": "sha256",
             "digest": sha256_json(decision_material),
@@ -137,7 +142,7 @@ def governance_bindings(
     }
 
 
-def decision_predicate(*, statement_id="decision-authority-001") -> dict:
+def decision_predicate(manifest_sha256: str, *, statement_id="decision-authority-001") -> dict:
     return {
         "issuer": ISSUER,
         "tenant": TENANT,
@@ -148,7 +153,7 @@ def decision_predicate(*, statement_id="decision-authority-001") -> dict:
         "critical": [],
         "issued_at": "2026-08-27T00:00:00Z",
         "expires_at": "2026-08-28T00:00:00Z",
-        "bindings": governance_bindings(),
+        "bindings": governance_bindings(manifest_sha256),
     }
 
 
@@ -262,7 +267,7 @@ def execute_demo(root: Path) -> dict:
         profile=witness.GOVERNANCE_DECISION_PROFILE,
         subject_name=MANIFEST_RELATIVE,
         subject_sha256=fresh_digest,
-        predicate=decision_predicate(),
+        predicate=decision_predicate(fresh_digest),
     )
     decision_envelope = sign_statement(
         decision_statement, decision_private, key_id=DECISION_KEY_ID
@@ -272,11 +277,12 @@ def execute_demo(root: Path) -> dict:
         decision_envelope,
         trust,
         profile=witness.GOVERNANCE_DECISION_PROFILE,
-        bindings=governance_bindings(),
+        bindings=governance_bindings(fresh_digest),
         principal=DECISION_PRINCIPAL,
     )
     fresh_axes = compose_trust_axes(
         fresh_inspection,
+        handoff_manifest_digest=fresh_digest,
         producer_origin=producer_result,
         decision_authority=decision_result,
     )
@@ -294,7 +300,8 @@ def execute_demo(root: Path) -> dict:
         decision_envelope,
         trust,
         profile=witness.GOVERNANCE_DECISION_PROFILE,
-        bindings=governance_bindings(resolution_action="supersede_right"),
+        bindings=governance_bindings(
+            fresh_digest, resolution_action="supersede_right"),
         principal=DECISION_PRINCIPAL,
     )
 
@@ -363,7 +370,9 @@ def execute_demo(root: Path) -> dict:
         bindings=producer_bindings(stale_digest),
         principal=PRODUCER_PRINCIPAL,
     )
-    stale_axes = compose_trust_axes(stale_inspection, producer_origin=stale_origin)
+    stale_axes = compose_trust_axes(
+        stale_inspection, handoff_manifest_digest=stale_digest,
+        producer_origin=stale_origin)
 
     assertions = {
         "fresh_local_inspection_passes": fresh_axes["inspection_passed"],

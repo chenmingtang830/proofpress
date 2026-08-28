@@ -82,12 +82,18 @@ def sign_statement(
 def compose_trust_axes(
     inspection: dict[str, Any],
     *,
+    handoff_manifest_digest: str,
     producer_origin: dict[str, Any] | None = None,
     decision_authority: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
-    """Compose reports without allowing attestations to rewrite local facts."""
+    """Compose facts only when all trusted axes name one recomputed manifest."""
     producer_origin = producer_origin or {}
     decision_authority = decision_authority or {}
+    if (not isinstance(handoff_manifest_digest, str)
+            or len(handoff_manifest_digest) != 64
+            or any(char not in "0123456789abcdef"
+                   for char in handoff_manifest_digest)):
+        raise BoundaryError("handoff_manifest_digest must be lowercase sha256 hex")
     claims = [
         claim
         for page in inspection.get("pages", [])
@@ -99,6 +105,12 @@ def compose_trust_axes(
         raise BoundaryError("offline producer authority currentness was overclaimed")
     if decision_authority.get("authority_current") not in {None, "unknown"}:
         raise BoundaryError("offline decision authority currentness was overclaimed")
+    producer_manifest_joined = (
+        producer_origin.get("handoff_manifest_digest") == handoff_manifest_digest
+    )
+    decision_manifest_joined = (
+        decision_authority.get("handoff_manifest_digest") == handoff_manifest_digest
+    )
     return {
         "inspection_passed": bool(inspection.get("inspection_passed")),
         "format_valid": bool(inspection.get("summary", {}).get("format_valid")),
@@ -106,12 +118,15 @@ def compose_trust_axes(
         "evidence_current": bool(
             inspection.get("summary", {}).get("evidence_current")
         ),
+        "handoff_manifest_digest": handoff_manifest_digest,
+        "producer_manifest_joined": producer_manifest_joined,
+        "decision_manifest_joined": decision_manifest_joined,
         "producer_origin_authenticated": bool(
             producer_origin.get("producer_origin_authenticated")
-        ),
+        ) and producer_manifest_joined,
         "decision_authority_authenticated": bool(
             decision_authority.get("decision_authority_authenticated")
-        ),
+        ) and decision_manifest_joined,
         "authority_current": "unknown",
         "proofpress_admission": "not_performed",
         "proofpress_review_required": True,

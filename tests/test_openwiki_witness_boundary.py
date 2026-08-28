@@ -70,7 +70,7 @@ class OpenWikiWitnessBoundaryTests(unittest.TestCase):
             envelope,
             self.trust,
             profile=witness.GOVERNANCE_DECISION_PROFILE,
-            bindings=bindings or run_demo.governance_bindings(),
+            bindings=bindings or run_demo.governance_bindings(self.digest),
             principal=run_demo.DECISION_PRINCIPAL,
         )
 
@@ -90,7 +90,9 @@ class OpenWikiWitnessBoundaryTests(unittest.TestCase):
             run_demo.PRODUCER_KEY_ID,
         )
         result = self.verify_producer(envelope)
-        axes = boundary.compose_trust_axes(self.inspection, producer_origin=result)
+        axes = boundary.compose_trust_axes(
+            self.inspection, handoff_manifest_digest=self.digest,
+            producer_origin=result)
         self.assertTrue(result["producer_origin_authenticated"])
         self.assertFalse(result["decision_authority_authenticated"])
         self.assertEqual(result["authority_current"], "unknown")
@@ -99,7 +101,7 @@ class OpenWikiWitnessBoundaryTests(unittest.TestCase):
     def test_decision_profile_cannot_authenticate_openwiki_origin(self):
         envelope = self.issue(
             witness.GOVERNANCE_DECISION_PROFILE,
-            run_demo.decision_predicate(),
+            run_demo.decision_predicate(self.digest),
             self.decision_private,
             run_demo.DECISION_KEY_ID,
         )
@@ -120,14 +122,16 @@ class OpenWikiWitnessBoundaryTests(unittest.TestCase):
     def test_decision_must_match_winner_policy_and_ledger_transition(self):
         envelope = self.issue(
             witness.GOVERNANCE_DECISION_PROFILE,
-            run_demo.decision_predicate(),
+            run_demo.decision_predicate(self.digest),
             self.decision_private,
             run_demo.DECISION_KEY_ID,
         )
         mutations = (
-            run_demo.governance_bindings(resolution_action="supersede_right"),
-            run_demo.governance_bindings(policy_epoch=6),
-            run_demo.governance_bindings(resulting_head="ppe_conflicting_head"),
+            run_demo.governance_bindings(
+                self.digest, resolution_action="supersede_right"),
+            run_demo.governance_bindings(self.digest, policy_epoch=6),
+            run_demo.governance_bindings(
+                self.digest, resulting_head="ppe_conflicting_head"),
         )
         for expected in mutations:
             with self.subTest(expected=expected):
@@ -135,6 +139,43 @@ class OpenWikiWitnessBoundaryTests(unittest.TestCase):
                 self.assertTrue(result["signature_valid"])
                 self.assertFalse(result["bindings_bound"])
                 self.assertFalse(result["decision_authority_authenticated"])
+
+    def test_independently_valid_axes_cannot_join_different_manifests(self):
+        producer = self.issue(
+            witness.OPENWIKI_PRODUCER_ORIGIN_PROFILE,
+            run_demo.producer_predicate(self.digest),
+            self.producer_private,
+            run_demo.PRODUCER_KEY_ID,
+        )
+        decision = self.issue(
+            witness.GOVERNANCE_DECISION_PROFILE,
+            run_demo.decision_predicate(self.digest),
+            self.decision_private,
+            run_demo.DECISION_KEY_ID,
+        )
+        producer_result = self.verify_producer(producer)
+        decision_result = self.verify_decision(decision)
+        snapshot_b = self.root / "snapshot-b"
+        shutil.copytree(self.snapshot, snapshot_b)
+        (snapshot_b / ".openwikiignore").write_text(
+            "# distinct but valid handoff manifest\n", encoding="utf-8")
+        inspection_b, digest_b, _, _ = run_demo.manifest_subject(snapshot_b)
+
+        axes = boundary.compose_trust_axes(
+            inspection_b,
+            handoff_manifest_digest=digest_b,
+            producer_origin=producer_result,
+            decision_authority=decision_result,
+        )
+
+        self.assertTrue(inspection_b["inspection_passed"])
+        self.assertNotEqual(digest_b, self.digest)
+        self.assertTrue(producer_result["producer_origin_authenticated"])
+        self.assertTrue(decision_result["decision_authority_authenticated"])
+        self.assertFalse(axes["producer_manifest_joined"])
+        self.assertFalse(axes["decision_manifest_joined"])
+        self.assertFalse(axes["producer_origin_authenticated"])
+        self.assertFalse(axes["decision_authority_authenticated"])
 
     def test_statement_identity_is_idempotent_and_equivocation_fails(self):
         envelope = self.issue(
@@ -202,7 +243,9 @@ class OpenWikiWitnessBoundaryTests(unittest.TestCase):
             bindings=run_demo.producer_bindings(stale_digest),
             principal=run_demo.PRODUCER_PRINCIPAL,
         )
-        axes = boundary.compose_trust_axes(inspection, producer_origin=origin)
+        axes = boundary.compose_trust_axes(
+            inspection, handoff_manifest_digest=stale_digest,
+            producer_origin=origin)
         self.assertTrue(axes["producer_origin_authenticated"])
         self.assertFalse(axes["evidence_current"])
         self.assertFalse(axes["inspection_passed"])
