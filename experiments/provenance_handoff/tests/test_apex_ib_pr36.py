@@ -30,6 +30,7 @@ from pp_eval.apex_ib_pr36 import (
     randomized_formal_schedule,
     run_stress_cells,
     validate_working_set,
+    trajectory_telemetry,
 )
 
 
@@ -82,6 +83,30 @@ def _working_set(overlay: Path, task_id: str, artifact: str = MERGER_MODEL) -> d
 
 
 class ApexIbPr36Tests(unittest.TestCase):
+    def test_trajectory_telemetry_requires_matching_terminal_cost_receipts(self) -> None:
+        trajectory = {
+            "usage": {"prompt_tokens": 10, "completion_tokens": 2, "total_tokens": 12,
+                      "call_log": [{"total_tokens": 12}]},
+            "messages": [{"provider_specific_fields": {"provider_metadata": {"gateway": {
+                "cost": "0.01", "routing": {"originalModelId": "model/a",
+                "finalProvider": "provider-a", "modelAttemptCount": 1}
+            }}}}],
+        }
+        telemetry = trajectory_telemetry(trajectory, "model/a")
+        self.assertEqual(telemetry["status"], "complete")
+        self.assertEqual(telemetry["known_cost_usd"], 0.01)
+
+    def test_trajectory_telemetry_fails_on_missing_cost_or_fallback(self) -> None:
+        trajectory = {"usage": {"call_log": [{}]}, "messages": [
+            {"provider_specific_fields": {"provider_metadata": {"gateway": {
+                "routing": {"originalModelId": "model/a", "finalProvider": "provider-b",
+                            "modelAttemptCount": 2}
+            }}}}
+        ]}
+        telemetry = trajectory_telemetry(trajectory, "model/a")
+        self.assertEqual(telemetry["status"], "incomplete")
+        self.assertFalse(telemetry["no_fallback_observed"])
+
     def test_public_task_loader_drops_gold_and_rubric(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             path = Path(directory) / "tasks.json"

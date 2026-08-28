@@ -97,6 +97,51 @@ def _sha(value: bytes) -> str:
     return hashlib.sha256(value).hexdigest()
 
 
+def trajectory_telemetry(trajectory: dict[str, Any], expected_model: str) -> dict[str, Any]:
+    """Summarize terminal Gateway receipts and fail closed on missing routing/cost data."""
+    usage = trajectory.get("usage") if isinstance(trajectory.get("usage"), dict) else {}
+    call_log = usage.get("call_log") if isinstance(usage.get("call_log"), list) else []
+    receipts: list[dict[str, Any]] = []
+    for message in trajectory.get("messages", []):
+        if not isinstance(message, dict):
+            continue
+        fields = message.get("provider_specific_fields")
+        metadata = fields.get("provider_metadata") if isinstance(fields, dict) else None
+        gateway = metadata.get("gateway") if isinstance(metadata, dict) else None
+        if isinstance(gateway, dict):
+            receipts.append(gateway)
+    models = sorted({str(row.get("routing", {}).get("originalModelId")) for row in receipts})
+    providers = sorted({str(row.get("routing", {}).get("finalProvider")) for row in receipts})
+    costs: list[float] = []
+    missing_cost = 0
+    no_fallback = True
+    for row in receipts:
+        routing = row.get("routing") if isinstance(row.get("routing"), dict) else {}
+        try:
+            costs.append(float(row["cost"]))
+        except (KeyError, TypeError, ValueError):
+            missing_cost += 1
+        no_fallback = no_fallback and routing.get("modelAttemptCount") == 1
+    complete = bool(call_log) and len(receipts) == len(call_log) and not missing_cost
+    complete = complete and models == [expected_model] and bool(providers) and no_fallback
+    return {
+        "status": "complete" if complete else "incomplete",
+        "model": expected_model,
+        "providers": providers,
+        "calls": len(call_log),
+        "terminal_receipts": len(receipts),
+        "prompt_tokens": usage.get("prompt_tokens"),
+        "completion_tokens": usage.get("completion_tokens"),
+        "total_tokens": usage.get("total_tokens"),
+        "reasoning_tokens": usage.get("reasoning_tokens"),
+        "cached_tokens": usage.get("cached_tokens"),
+        "known_cost_usd": round(sum(costs), 12),
+        "missing_cost_calls": missing_cost + max(0, len(call_log) - len(receipts)),
+        "fallback": "forbidden",
+        "no_fallback_observed": no_fallback,
+    }
+
+
 def load_public_task(tasks_path: Path, task_id: str) -> dict[str, Any]:
     """Return only executor-public task fields; hidden fields are discarded."""
     if task_id not in TASK_SPECS:
@@ -753,7 +798,9 @@ def run_apex_stage(
     grades_path = captured / "grades.json"
     trajectory = json.loads(trajectory_path.read_text()) if trajectory_path.exists() else {}
     grades = json.loads(grades_path.read_text()) if grades_path.exists() else {}
+    telemetry = trajectory_telemetry(trajectory, agent_model)
     completed = not timed_out and returncode == 0 and trajectory.get("status") == "completed"
+    completed = completed and telemetry["status"] == "complete"
     if not skip_grading:
         completed = completed and grades.get("grading_run_status") == "completed"
     record = {
@@ -769,6 +816,7 @@ def run_apex_stage(
         "status": "completed" if completed else "infrastructure_abort_or_incomplete",
         "archipelago_commit": _git_commit(checkout), "docker_image_id": _image_id(env),
         "runtime_hashes": runtime_hashes,
+        "telemetry": telemetry,
     }
     write_json(run_dir / "manifest.json", record)
     subprocess.run(["docker", "compose", "down", "-v"], cwd=checkout / "environment", env=env, capture_output=True)
