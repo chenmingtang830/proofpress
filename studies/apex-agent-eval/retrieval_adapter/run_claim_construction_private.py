@@ -972,7 +972,15 @@ def _extract_evidence_atoms(requirements: list[dict[str, Any]],
 
 
 def _construct_v9(task: dict[str, Any], decomposition: dict[str, Any], index: SectionIndex,
-                  proposer: Gateway, sol: Gateway) -> tuple[dict[str, Any], dict[str, Any]]:
+                  proposer: Gateway, sol: Gateway, *, atom_gateway: Gateway | None = None,
+                  claimability_mode: str = "strict_atom_preproposal",
+                  frozen_atom_bundle: tuple[list[dict[str, Any]], set[str],
+                                            list[dict[str, Any]]] | None = None,
+                  ) -> tuple[dict[str, Any], dict[str, Any]]:
+    if claimability_mode not in {
+        "strict_atom_preproposal", "receipt_preproposal", "postproposal_binding",
+    }:
+        raise ValueError("unsupported claimability mode")
     requirements: list[dict[str, Any]] = []
     evidence_by_id: dict[str, dict[str, Any]] = {}
     audit: list[dict[str, Any]] = []
@@ -988,16 +996,31 @@ def _construct_v9(task: dict[str, Any], decomposition: dict[str, Any], index: Se
                       "ranked_section_count": len(hits), "evidence_ids": [row["evidence_id"] for row in selected]})
         requirements.append({**req, "status": "partial" if selected else "gap"})
 
-    atoms, conflicts, atom_diagnostics = _extract_evidence_atoms(
-        requirements, evidence_by_id, audit, proposer)
+    atoms, conflicts, atom_diagnostics = (frozen_atom_bundle if frozen_atom_bundle is not None
+                                          else _extract_evidence_atoms(
+                                              requirements, evidence_by_id, audit,
+                                              atom_gateway or proposer))
     gates = [claimability_gate(requirement, atoms,
                                conflict=requirement["requirement_id"] in conflicts)
              for requirement in requirements]
     gate_by_requirement = {row["requirement_id"]: row for row in gates}
+    evidence_requirement_ids = {
+        row["requirement_id"] for row in audit if row.get("evidence_ids")
+    }
+    if claimability_mode == "strict_atom_preproposal":
+        eligible_requirement_ids = {
+            row["requirement_id"] for row in gates if row["state"] == "claimable"
+        }
+    else:
+        # The relaxed pre-proposal and post-proposal conditions intentionally
+        # isolate placement of the deterministic gate. Both admit only
+        # requirements with valid retrieval receipts; post-proposal relies on
+        # normalisation to reject every unbound generated claim.
+        eligible_requirement_ids = evidence_requirement_ids - conflicts
     claimable = [{key: row.get(key) for key in
                   ("requirement_id", "requirement", "type", "lifecycle_category", "applicability")}
                  for row in requirements
-                 if gate_by_requirement[row["requirement_id"]]["state"] == "claimable"]
+                 if row["requirement_id"] in eligible_requirement_ids]
     system = ("You are an evidence-first candidate claim proposer. Use only validated atoms and bound receipts. "
               "Return unresolved candidate records, never an answer or admitted fact.")
     proposal = _candidate_batches(task, claimable, evidence_by_id, audit, proposer, system,
@@ -1034,6 +1057,7 @@ def _construct_v9(task: dict[str, Any], decomposition: dict[str, Any], index: Se
     supported_ids = {row["id"] for row in supported}
     relations = [row for row in relations if row.get("from") in supported_ids and row.get("to") in supported_ids]
     supported_requirements = {row["requirement_id"] for row in supported}
+    proposed_requirements = {row["requirement_id"] for row in claims}
     verdict_by_requirement: dict[str, set[str]] = defaultdict(set)
     for claim in claims:
         verdict_by_requirement[claim["requirement_id"]].add(
@@ -1052,6 +1076,19 @@ def _construct_v9(task: dict[str, Any], decomposition: dict[str, Any], index: Se
     validate_candidate_claims(requirements, supported, relations)
     verdict_counts = Counter(verdict_by_claim.get(claim["id"], {}).get("verdict", "missing")
                              for claim in claims)
+    atom_requirement_ids = {row["requirement_id"] for row in atoms}
+    explicit_atom_requirement_ids = {
+        row["requirement_id"] for row in atoms if row.get("support_mode") == "explicit"
+    }
+    stage_counts = {
+        "frozen_requirements": len(requirements),
+        "requirements_with_receipts": len(evidence_requirement_ids),
+        "requirements_with_valid_atoms": len(atom_requirement_ids),
+        "requirements_with_explicit_atoms": len(explicit_atom_requirement_ids),
+        "preproposal_eligible_requirements": len(eligible_requirement_ids),
+        "requirements_with_normalized_claims": len(proposed_requirements),
+        "critic_supported_requirements": len(supported_requirements),
+    }
     return {"status": "ok", "requirements": requirements, "claims": supported,
             "relations": relations, "evidence": list(evidence_by_id.values()),
             "evidence_atoms": atoms, "claimability_gates": gates,
@@ -1059,7 +1096,8 @@ def _construct_v9(task: dict[str, Any], decomposition: dict[str, Any], index: Se
             "critic_diagnostics": [{"round": 1, "decision": "per_claim_verdicts",
                                      "verdict_counts": dict(sorted(verdict_counts.items()))}],
             "repair_rounds": 0, "batch_failure_count": len(proposal.get("batch_failures", [])),
-            "rejected_claim_count": len(claims) - len(supported)}, {
+            "rejected_claim_count": len(claims) - len(supported),
+            "claimability_mode": claimability_mode, "stage_counts": stage_counts}, {
                 "retrieval": audit, "atoms": atom_diagnostics, "proposal": value,
                 "critic": critic["value"], "atom_index_digest": digest(atom_by_id)}
 

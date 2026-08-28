@@ -31,6 +31,7 @@ workflow_runner = load("workflow_runner", ROOT / "studies/apex-agent-eval/retrie
 budget_runner = load("budget_runner", ROOT / "studies/apex-agent-eval/retrieval_adapter/build_private_budget_ledger.py")
 pipeline_summary = load("pipeline_summary", ROOT / "studies/apex-agent-eval/retrieval_adapter/summarize_private_legal_pipeline.py")
 v9_selector = load("v9_selector", ADAPTER / "select_v9_proposer_private.py")
+v9_diagnostic = load("v9_diagnostic", ADAPTER / "run_v9_gate_diagnostic_private.py")
 
 
 class RetrievalPanelContractTests(unittest.TestCase):
@@ -106,6 +107,28 @@ class RetrievalPanelContractTests(unittest.TestCase):
                 "supported_claim_coverage": 0.7,
                 "mean_requirement_count": 20.0,
             })[1])
+
+    def test_v9_gate_diagnostic_freezes_models_and_three_gate_placements(self):
+        self.assertEqual(set(v9_diagnostic.EXTRACTORS), {"ling", "deepseek", "sol"})
+        self.assertEqual(v9_diagnostic.MODES, (
+            "strict_atom_preproposal", "receipt_preproposal", "postproposal_binding"))
+        self.assertEqual(v9_diagnostic.EXTRACTORS["sol"],
+                         ("gpt-5.6-sol", "openai", "low"))
+        with self.assertRaisesRegex(ValueError, "unsupported claimability mode"):
+            claim_runner._construct_v9({}, {}, None, None, None,
+                                       claimability_mode="invented")
+
+        class FakeGateway:
+            calls = [{"status": "ok"}, {"status": "inconclusive"}]
+
+            @staticmethod
+            def receipt_rows():
+                return [{"usage": {"cost_usd": 0.1}},
+                        {"usage": {"cost_usd": 0.2}}]
+
+        cost, missing = v9_diagnostic._cost([FakeGateway()])
+        self.assertAlmostEqual(cost, 0.3)
+        self.assertEqual(missing, 0)
 
     def test_conformance_manifest_has_the_24_frozen_cases(self):
         manifest = panel_manifest.manifest()
