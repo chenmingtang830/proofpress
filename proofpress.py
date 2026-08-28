@@ -27,6 +27,7 @@ from datetime import datetime, timezone
 import proofpress_evidence
 import proofpress_knowledge
 import proofpress_witness
+import proofpress_openwiki
 
 __version__ = "0.5.0-alpha.2"
 LEDGER_REF = "refs/proofpress/ledger"
@@ -2866,6 +2867,7 @@ def main():
     wv.set_defaults(f=cmd_witness_verify)
     proofpress_knowledge.add_flat_cli(sub)
     proofpress_knowledge.add_cli(sub)  # 0.4 compatibility; deprecated in docs
+    proofpress_openwiki.add_cli(sub)
     a = p.parse_args()
     try:
         a.f(a)

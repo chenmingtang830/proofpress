@@ -12,6 +12,7 @@
     "lib/",
     "skills/",
     "proofpress.py",
+    "proofpress_openwiki.py",
     "proofpress_knowledge.py",
     "proofpress_evidence.py",
     "proofpress_witness.py",
