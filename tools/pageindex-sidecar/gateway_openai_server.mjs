@@ -65,11 +65,24 @@ function appendReceipt(row) {
 const server = http.createServer(async (req, res) => {
   if (req.method === 'GET' && req.url === '/health') return reply(res, 200, { ok: true, model, provider });
   if (req.method !== 'POST' || req.url !== '/v1/chat/completions') return reply(res, 404, { error: { type: 'not_found' } });
+  let input, requestSha;
+  const startedAt = Date.now();
   try {
-    const input = await requestBody(req);
-    if (input.model !== model || !Array.isArray(input.messages)) return reply(res, 400, { error: { type: 'frozen_model_required' } });
+    input = await requestBody(req);
+    requestSha = sha(JSON.stringify({ model: input.model, messages: input.messages }));
+    if (input.model !== model || !Array.isArray(input.messages)) {
+      appendReceipt({ model, provider, fallback_used: false, request_sha256: requestSha,
+        status: 'inconclusive', terminal: true, input_tokens: null, output_tokens: null,
+        cost_usd: null, latency_ms: Date.now() - startedAt, error_type: 'FrozenRouteMismatch' });
+      return reply(res, 400, { error: { type: 'frozen_model_required' } });
+    }
     const apiKey = process.env.AI_GATEWAY_API_KEY;
-    if (!apiKey) return reply(res, 503, { error: { type: 'missing_gateway_key' } });
+    if (!apiKey) {
+      appendReceipt({ model, provider, fallback_used: false, request_sha256: requestSha,
+        status: 'inconclusive', terminal: true, input_tokens: null, output_tokens: null,
+        cost_usd: null, latency_ms: Date.now() - startedAt, error_type: 'MissingGatewayKey' });
+      return reply(res, 503, { error: { type: 'missing_gateway_key' } });
+    }
     const system = input.messages.filter(row => row.role === 'system').map(row => String(row.content || '')).join('\n');
     let result, content, parseError;
     // PageIndex's client does not declare structured output. Retry only an
@@ -86,13 +99,19 @@ const server = http.createServer(async (req, res) => {
     }
     if (parseError) throw new Error('invalid-pageindex-json-after-fixed-route-retries');
     const usage = result.usage || {}, meta = result.providerMetadata?.gateway || {};
-    appendReceipt({ model, provider, fallback_used: false, request_sha256: sha(JSON.stringify({ model: input.model, messages: input.messages })),
+    const cost = Number.isFinite(Number(meta.cost)) ? Number(meta.cost) : null;
+    appendReceipt({ model, provider, fallback_used: false, request_sha256: requestSha, status: 'ok', terminal: true,
       input_tokens: usage.inputTokens ?? null, output_tokens: usage.outputTokens ?? null,
-      cost_usd: Number.isFinite(Number(meta.cost)) ? Number(meta.cost) : null });
+      cost_usd: cost, latency_ms: Date.now() - startedAt });
     return reply(res, 200, { id: result.response?.id || null, object: 'chat.completion', model,
       choices: [{ message: { role: 'assistant', content }, finish_reason: result.finishReason || null }],
-      usage: { prompt_tokens: usage.inputTokens ?? null, completion_tokens: usage.outputTokens ?? null, total_tokens: (usage.inputTokens || 0) + (usage.outputTokens || 0) } });
+      usage: { prompt_tokens: usage.inputTokens ?? null, completion_tokens: usage.outputTokens ?? null,
+        total_tokens: (usage.inputTokens || 0) + (usage.outputTokens || 0), cost_usd: cost } });
   } catch (error) {
+    appendReceipt({ model, provider, fallback_used: false, request_sha256: requestSha || null,
+      status: 'inconclusive', terminal: true, input_tokens: null, output_tokens: null,
+      cost_usd: null, latency_ms: Date.now() - startedAt,
+      error_type: error?.constructor?.name || 'Error', message_sha256: sha(String(error?.message || '')) });
     return reply(res, 502, { error: { type: 'gateway_bridge_failed', message_sha256: sha(String(error?.message || '')) } });
   }
 });

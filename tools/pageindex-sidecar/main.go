@@ -22,14 +22,24 @@ import (
 const schema = "proofpress/pageindex-sidecar/v1"
 
 type Source struct {
-	SourceID             string `json:"source_id"`
-	Path                 string `json:"path"`
-	URI                  string `json:"uri"`
-	ContentDigest        string `json:"content_digest"`
-	MediaType            string `json:"media_type"`
-	RepresentationDigest string `json:"representation_digest,omitempty"`
-	TransformDigest      string `json:"transform_digest,omitempty"`
-	PageCount            int    `json:"page_count,omitempty"`
+	SourceID             string            `json:"source_id"`
+	Path                 string            `json:"path"`
+	URI                  string            `json:"uri"`
+	ContentDigest        string            `json:"content_digest"`
+	MediaType            string            `json:"media_type"`
+	RepresentationDigest string            `json:"representation_digest,omitempty"`
+	TransformDigest      string            `json:"transform_digest,omitempty"`
+	PageCount            int               `json:"page_count,omitempty"`
+	PathDigest           string            `json:"path_digest,omitempty"`
+	RepresentationKind   string            `json:"representation_kind,omitempty"`
+	LocatorMap           []LocatorMapEntry `json:"locator_map,omitempty"`
+}
+type LocatorMapEntry struct {
+	Line          int    `json:"line"`
+	SectionID     string `json:"section_id"`
+	SectionDigest string `json:"section_digest"`
+	PageStart     int    `json:"page_start"`
+	PageEnd       int    `json:"page_end"`
 }
 type Request struct {
 	SchemaVersion string         `json:"schema_version"`
@@ -87,44 +97,75 @@ func cachePath(req Request, source Source) string {
 		dir = ".proofpress/pageindex-cache"
 	}
 	config, _ := req.Config["config_digest"].(string)
-	key := sha256Text(source.ContentDigest + "\n" + config)
+	identity := source.RepresentationDigest
+	if identity == "" {
+		identity = source.ContentDigest
+	}
+	key := sha256Text(identity + "\n" + config)
 	return filepath.Join(dir, strings.TrimPrefix(key, "sha256:")+".json")
 }
-func loadOrBuild(req Request, source Source) (*pageindex.Document, bool, error) {
+func retryOperation[T any](maxRetries int, operation func() (T, error)) (T, int, error) {
+	var zero T
+	var last error
+	for attempt := 0; attempt <= maxRetries; attempt++ {
+		value, err := operation()
+		if err == nil {
+			return value, attempt, nil
+		}
+		last = err
+		if attempt < maxRetries {
+			time.Sleep(time.Duration(attempt+1) * 250 * time.Millisecond)
+		}
+	}
+	return zero, maxRetries, last
+}
+
+func loadOrBuild(req Request, source Source) (*pageindex.Document, bool, int, error) {
 	path := cachePath(req, source)
 	if raw, err := os.ReadFile(path); err == nil {
 		var doc pageindex.Document
 		if err := json.Unmarshal(raw, &doc); err == nil {
-			return &doc, true, nil
+			return &doc, true, 0, nil
 		}
-		return nil, false, fmt.Errorf("invalid cached tree for %s", source.URI)
+		return nil, false, 0, fmt.Errorf("invalid cached tree for %s", source.URI)
 	}
-	if source.MediaType != "application/pdf" {
-		return nil, false, fmt.Errorf("PageIndex sidecar v1 supports application/pdf only: %s", source.URI)
-	}
-	doc, err := pageindex.BuildFromPDF(source.Path,
-		pageindex.WithModel(runtimeModel(req.Config)), pageindex.WithAddNodeID(true),
+	var doc *pageindex.Document
+	var err error
+	options := []pageindex.Option{pageindex.WithModel(runtimeModel(req.Config)), pageindex.WithAddNodeID(true),
 		pageindex.WithAddNodeText(true), pageindex.WithAddNodeSummary(false),
-		pageindex.WithAddDocDescription(false), pageindex.WithTOCCheckPages(1),
-		pageindex.WithMaxPagesPerNode(1), pageindex.WithMaxTokensPerNode(2500))
+		pageindex.WithAddDocDescription(false)}
+	build := func() (*pageindex.Document, error) {
+		if source.RepresentationKind == "canonical_markdown" {
+			if source.RepresentationDigest == "" || len(source.LocatorMap) == 0 {
+				return nil, fmt.Errorf("canonical representation requires digest and locator map: %s", source.URI)
+			}
+			return pageindex.BuildFromMarkdown(source.Path, options...)
+		} else if source.MediaType == "application/pdf" {
+			return pageindex.BuildFromPDF(source.Path, append(options,
+				pageindex.WithTOCCheckPages(1), pageindex.WithMaxPagesPerNode(1),
+				pageindex.WithMaxTokensPerNode(2500))...)
+		}
+		return nil, fmt.Errorf("unsupported retrieval representation for %s", source.URI)
+	}
+	doc, retries, err := retryOperation(2, build)
 	if err != nil {
-		return nil, false, err
+		return nil, false, retries, err
 	}
 	raw, err := json.Marshal(doc)
 	if err != nil {
-		return nil, false, err
+		return nil, false, retries, err
 	}
 	if err := os.MkdirAll(filepath.Dir(path), 0700); err != nil {
-		return nil, false, err
+		return nil, false, retries, err
 	}
 	if err := os.WriteFile(path, raw, 0600); err != nil {
-		return nil, false, err
+		return nil, false, retries, err
 	}
-	return doc, false, nil
+	return doc, false, retries, nil
 }
 func receipt(source Source, node *pageindex.Node, req Request) (Envelope, error) {
 	quote := strings.TrimSpace(node.Text)
-	if quote == "" || node.NodeID == "" || node.StartIndex < 1 || node.EndIndex < node.StartIndex {
+	if quote == "" || node.NodeID == "" {
 		return Envelope{}, fmt.Errorf("selected node cannot produce a bound section/page locator")
 	}
 	var out Envelope
@@ -132,8 +173,25 @@ func receipt(source Source, node *pageindex.Node, req Request) (Envelope, error)
 	out.Source.URI, out.Source.ContentDigest, out.Source.MediaType = source.URI, source.ContentDigest, source.MediaType
 	out.Source.RepresentationDigest, out.Source.TransformDigest = source.RepresentationDigest, source.TransformDigest
 	out.Evidence.Quote = quote
-	out.Evidence.Locator = map[string]any{"kind": "section_span", "section_id": node.NodeID,
-		"section_digest": sha256Text(node.Title + "\n" + node.Text), "page_start": node.StartIndex, "page_end": node.EndIndex}
+	if source.RepresentationKind == "canonical_markdown" {
+		var mapped *LocatorMapEntry
+		for index := range source.LocatorMap {
+			if source.LocatorMap[index].Line <= node.LineNum && (mapped == nil || source.LocatorMap[index].Line > mapped.Line) {
+				mapped = &source.LocatorMap[index]
+			}
+		}
+		if mapped == nil || mapped.SectionID == "" || mapped.PageStart < 1 || mapped.PageEnd < mapped.PageStart {
+			return Envelope{}, fmt.Errorf("selected canonical node cannot map to source locator")
+		}
+		out.Evidence.Locator = map[string]any{"kind": "section_span", "section_id": mapped.SectionID,
+			"section_digest": mapped.SectionDigest, "page_start": mapped.PageStart, "page_end": mapped.PageEnd}
+	} else {
+		if node.StartIndex < 1 || node.EndIndex < node.StartIndex {
+			return Envelope{}, fmt.Errorf("selected PDF node cannot produce a page locator")
+		}
+		out.Evidence.Locator = map[string]any{"kind": "section_span", "section_id": node.NodeID,
+			"section_digest": sha256Text(node.Title + "\n" + node.Text), "page_start": node.StartIndex, "page_end": node.EndIndex}
+	}
 	out.Retrieval.Adapter, out.Retrieval.Version, out.Retrieval.Query = "proofpress.pageindex", "1", req.Query
 	out.Retrieval.ConfigDigest, _ = req.Config["config_digest"].(string)
 	out.Retrieval.SelectionReason = "PageIndex tree search selected section " + node.NodeID
@@ -157,32 +215,49 @@ func configuredParallelism(config map[string]any, sourceCount int) int {
 	return workers
 }
 
+func configuredMaxNodesPerSource(config map[string]any, remaining int) int {
+	limit := remaining
+	if value, ok := config["max_nodes_per_source"].(float64); ok && value >= 1 && int(value) < limit {
+		limit = int(value)
+	}
+	if limit < 1 {
+		return 1
+	}
+	return limit
+}
+
 type sourceResult struct {
-	index    int
-	source   Source
-	doc      *pageindex.Document
-	receipts []Envelope
-	bytes    int64
-	cacheHit bool
-	err      error
+	index        int
+	source       Source
+	doc          *pageindex.Document
+	receipts     []Envelope
+	bytes        int64
+	cacheHit     bool
+	buildRetries int
+	err          error
 }
 
 func loadSource(req Request, index int, source Source) sourceResult {
 	result := sourceResult{index: index, source: source}
 	actual, err := sha256File(source.Path)
-	if err != nil || actual != source.ContentDigest {
+	expected := source.ContentDigest
+	if source.PathDigest != "" {
+		expected = source.PathDigest
+	}
+	if err != nil || actual != expected {
 		result.err = fmt.Errorf("source custody check failed: %s", source.URI)
 		return result
 	}
 	if info, statErr := os.Stat(source.Path); statErr == nil {
 		result.bytes = info.Size()
 	}
-	doc, cacheHit, err := loadOrBuild(req, source)
+	doc, cacheHit, buildRetries, err := loadOrBuild(req, source)
 	if err != nil {
 		result.err = err
 		return result
 	}
 	result.cacheHit = cacheHit
+	result.buildRetries = buildRetries
 	result.doc = doc
 	return result
 }
@@ -211,6 +286,23 @@ func processSource(req Request, index int, source Source, maxNodes int) sourceRe
 	return searchSource(req, loadSource(req, index, source), maxNodes)
 }
 
+func accountLoadedResults(results []sourceResult) (int64, int, int, error) {
+	var bytes int64
+	cacheHits := 0
+	buildRetries := 0
+	for _, result := range results {
+		if result.err != nil {
+			return 0, 0, 0, result.err
+		}
+		bytes += result.bytes
+		if result.cacheHit {
+			cacheHits++
+		}
+		buildRetries += result.buildRetries
+	}
+	return bytes, cacheHits, buildRetries, nil
+}
+
 func main() {
 	started := time.Now()
 	var req Request
@@ -225,11 +317,12 @@ func main() {
 	receipts := make([]Envelope, 0)
 	var bytes int64
 	cacheHits := 0
+	buildRetries := 0
 	workers := configuredParallelism(req.Config, len(req.Sources))
 	if workers == 1 {
 		// Preserve the original lazy, manifest-ordered behavior by default.
 		for index, source := range req.Sources {
-			result := processSource(req, index, source, req.MaxResults-len(receipts))
+			result := processSource(req, index, source, configuredMaxNodesPerSource(req.Config, req.MaxResults-len(receipts)))
 			if result.err != nil {
 				fmt.Fprintln(os.Stderr, result.err)
 				os.Exit(4)
@@ -238,6 +331,7 @@ func main() {
 			if result.cacheHit {
 				cacheHits++
 			}
+			buildRetries += result.buildRetries
 			for _, item := range result.receipts {
 				receipts = append(receipts, item)
 				if len(receipts) == req.MaxResults {
@@ -273,16 +367,19 @@ func main() {
 		close(jobs)
 		wg.Wait()
 		sort.Slice(results, func(i, j int) bool { return results[i].index < results[j].index })
+		// All requested sources have already crossed custody and load/build above.
+		// Account for every result before search applies max_results; otherwise a
+		// receipt-saturated early break misreports trailing cache hits as misses.
+		loadedBytes, loadedCacheHits, loadedBuildRetries, loadErr := accountLoadedResults(results)
+		if loadErr != nil {
+			fmt.Fprintln(os.Stderr, loadErr)
+			os.Exit(4)
+		}
+		bytes += loadedBytes
+		cacheHits += loadedCacheHits
+		buildRetries += loadedBuildRetries
 		for _, result := range results {
-			if result.err != nil {
-				fmt.Fprintln(os.Stderr, result.err)
-				os.Exit(4)
-			}
-			bytes += result.bytes
-			if result.cacheHit {
-				cacheHits++
-			}
-			searched := searchSource(req, result, req.MaxResults-len(receipts))
+			searched := searchSource(req, result, configuredMaxNodesPerSource(req.Config, req.MaxResults-len(receipts)))
 			if searched.err != nil {
 				fmt.Fprintln(os.Stderr, searched.err)
 				os.Exit(5)
@@ -302,5 +399,6 @@ func main() {
 		"sidecar": map[string]any{"adapter": "proofpress.pageindex", "version": "1"}, "receipts": receipts,
 		"telemetry": map[string]any{"latency_ms": time.Since(started).Milliseconds(), "source_bytes": bytes, "cost_usd": nil,
 			"index_cache_hits": cacheHits, "index_cache_misses": len(req.Sources) - cacheHits,
-			"fallback_used": false}})
+			"source_build_retries": buildRetries,
+			"fallback_used":        false}})
 }
