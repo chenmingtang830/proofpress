@@ -225,7 +225,10 @@ def qualify_pair_reports(v7: dict[str, Any], v8: dict[str, Any]) -> dict[str, An
         "v7_system_labeled": v7.get("system") == "pr36-v7",
         "v7_protocol_frozen": all(v7.get("protocol", {}).get(key) == value
                                   for key, value in PR36_V7_PROTOCOL.items()),
-        "candidate_system_labeled": v8.get("system") in {"v8", "evidence-first-v9"},
+        "candidate_system_labeled": (
+            v8.get("system") in {"v8", "evidence-first-v9"}
+            or str(v8.get("system", "")).startswith("evidence-first-routed-")
+        ),
         "independent_raw_directories": bool(v7.get("raw_private_dir")) and
             Path(v7.get("raw_private_dir", "")).resolve() != Path(v8.get("raw_private_dir", "")).resolve(),
     }

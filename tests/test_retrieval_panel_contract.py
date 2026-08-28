@@ -314,6 +314,8 @@ class RetrievalPanelContractTests(unittest.TestCase):
         self.assertEqual(claim_scorer.qualify_pair_reports(unlabeled, v8)["status"], "fail")
         v7 = dict(unlabeled, system="pr36-v7", protocol=claim_scorer.PR36_V7_PROTOCOL)
         self.assertEqual(claim_scorer.qualify_pair_reports(v7, v8)["status"], "pass")
+        routed = dict(v8, system="evidence-first-routed-deepseek")
+        self.assertEqual(claim_scorer.qualify_pair_reports(v7, routed)["status"], "pass")
 
         v7_superset = dict(v7, tasks=[{"task_id": "A"}, {"task_id": "B"}])
         self.assertEqual(claim_scorer.qualify_pair_reports(v7_superset, v8)["status"], "fail")
