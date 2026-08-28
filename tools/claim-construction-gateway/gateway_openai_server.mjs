@@ -3,8 +3,15 @@
 import { createHash } from 'node:crypto';
 import { appendFileSync } from 'node:fs';
 import http from 'node:http';
-import { createGateway, generateText, jsonSchema, tool } from 'ai';
-import { safeParseJSON } from '@ai-sdk/provider-utils';
+
+let gatewaySdkPromise;
+function loadGatewaySdk() {
+  // Route/custody failures must remain testable without installing inference
+  // dependencies. Load the SDK only after the request passes those gates.
+  gatewaySdkPromise ||= Promise.all([import('ai'), import('@ai-sdk/provider-utils')])
+    .then(([ai, providerUtils]) => ({ ...ai, safeParseJSON: providerUtils.safeParseJSON }));
+  return gatewaySdkPromise;
+}
 
 const model = process.env.PROOFPRESS_CLAIM_MODEL;
 const provider = process.env.PROOFPRESS_CLAIM_PROVIDER;
@@ -31,7 +38,7 @@ function requestBody(req) {
     req.on('error', reject);
   });
 }
-async function recoverStructuredText(text, schema) {
+async function recoverStructuredText(text, schema, safeParseJSON) {
   const raw = String(text || '').trim();
   const candidates = [raw];
   const unfenced = raw.replace(/^```(?:json)?\s*/i, '').replace(/\s*```$/, '');
@@ -78,6 +85,7 @@ const server = http.createServer(async (req, res) => {
                  input_tokens: null, output_tokens: null, cost_usd: null });
       return reply(res, 503, { error: { type: 'missing_gateway_key' } });
     }
+    const { createGateway, generateText, jsonSchema, tool, safeParseJSON } = await loadGatewaySdk();
     upstreamSignal = AbortSignal.timeout(Number.isFinite(timeoutMs) && timeoutMs > 0 ? timeoutMs : 115000);
     const common = {
       model: createGateway({ apiKey })(model),
@@ -118,7 +126,7 @@ const server = http.createServer(async (req, res) => {
         ...(Array.isArray(result.content) ? result.content
           .filter(part => part?.type === 'text' || part?.type === 'reasoning')
           .map(part => part.text) : [])].filter(Boolean).join('\n');
-      structuredObject = await recoverStructuredText(recoveryText, structuredSchema);
+      structuredObject = await recoverStructuredText(recoveryText, structuredSchema, safeParseJSON);
       structuredMode = structuredObject ? 'deterministic_text_recovery' : 'missing';
     }
     if (structured && (!structuredObject || typeof structuredObject !== 'object')) {
