@@ -1,0 +1,1385 @@
+{
+  "executor_attempts_per_arm": 3,
+  "executor_model": "inclusionai/ling-3.0-flash-fin",
+  "formal_artifact_denominator": 12,
+  "grader_repetitions_per_artifact": 3,
+  "judge_model": "google/gemini-3.1-pro-preview",
+  "official_score_claim": false,
+  "protocol_sha256": "3b5894aa735d91bd52c493801c3fe5f3270327c1765b25f331b8d67066078ee9",
+  "runtime": {
+    "agent_max_steps": 60,
+    "agent_timeout_seconds": 2400,
+    "model_response_timeout_seconds": 360,
+    "serial_executor_cells": true,
+    "watchdog_seconds": 2700
+  },
+  "schedule": [
+    {
+      "arm_order": [
+        "normal",
+        "proofpress"
+      ],
+      "attempt": 1,
+      "task_id": "task_9909f2ec2bbb4899ba7a956a475dfc01"
+    },
+    {
+      "arm_order": [
+        "normal",
+        "proofpress"
+      ],
+      "attempt": 2,
+      "task_id": "task_9909f2ec2bbb4899ba7a956a475dfc01"
+    },
+    {
+      "arm_order": [
+        "proofpress",
+        "normal"
+      ],
+      "attempt": 3,
+      "task_id": "task_9909f2ec2bbb4899ba7a956a475dfc01"
+    },
+    {
+      "arm_order": [
+        "normal",
+        "proofpress"
+      ],
+      "attempt": 1,
+      "task_id": "task_4f291b8b066e413f8cd0a99c593b89e8"
+    },
+    {
+      "arm_order": [
+        "normal",
+        "proofpress"
+      ],
+      "attempt": 2,
+      "task_id": "task_4f291b8b066e413f8cd0a99c593b89e8"
+    },
+    {
+      "arm_order": [
+        "proofpress",
+        "normal"
+      ],
+      "attempt": 3,
+      "task_id": "task_4f291b8b066e413f8cd0a99c593b89e8"
+    }
+  ],
+  "schema_version": "proofpress/apex-ib-pr36/v1/frozen-protocol",
+  "seed": 20260828,
+  "source_manifest": {
+    "file_count": 256,
+    "files": [
+      {
+        "crc32": "92207015",
+        "path": ".apps_data/calendar/Calendar/world221.investmentbanking@c-mercor.com.ics",
+        "size": 203
+      },
+      {
+        "crc32": "8df65bcd",
+        "path": ".apps_data/chat/Google Chat/Groups/DM 01vPeiAAAAE/messages.json",
+        "size": 939
+      },
+      {
+        "crc32": "897da183",
+        "path": ".apps_data/chat/Google Chat/Groups/DM i3TI-iAAAAE/messages.json",
+        "size": 381
+      },
+      {
+        "crc32": "f1031eaa",
+        "path": ".apps_data/chat/Google Chat/Groups/Space AAQAh8Jvto0/File-image.png",
+        "size": 142445
+      },
+      {
+        "crc32": "883b3da5",
+        "path": ".apps_data/chat/Google Chat/Groups/Space AAQAh8Jvto0/messages.json",
+        "size": 52419
+      },
+      {
+        "crc32": "8afbcb2d",
+        "path": ".apps_data/chat/Google Chat/Users/User 107661520606000817480/user_info.json",
+        "size": 481
+      },
+      {
+        "crc32": "7da3f4c0",
+        "path": ".apps_data/mail/Mail/All mail Including Spam and Trash.mbox",
+        "size": 8217507
+      },
+      {
+        "crc32": "b6725173",
+        "path": "filesystem/01_BBDC_Historical Data/01a_SEC filings/BBDC_10K_12.31.2021.pdf",
+        "size": 2576453
+      },
+      {
+        "crc32": "622dab5a",
+        "path": "filesystem/01_BBDC_Historical Data/01a_SEC filings/BBDC_10K_12.31.2022.pdf",
+        "size": 1869531
+      },
+      {
+        "crc32": "2986865c",
+        "path": "filesystem/01_BBDC_Historical Data/01a_SEC filings/BBDC_10K_12.31.2023.pdf",
+        "size": 1994245
+      },
+      {
+        "crc32": "ba96133e",
+        "path": "filesystem/01_BBDC_Historical Data/01a_SEC filings/BBDC_10K_12.31.2024.pdf",
+        "size": 2816431
+      },
+      {
+        "crc32": "bd411e13",
+        "path": "filesystem/01_BBDC_Historical Data/01a_SEC filings/BBDC_10Q_03.31.2025.pdf",
+        "size": 16032516
+      },
+      {
+        "crc32": "cb6a3d85",
+        "path": "filesystem/01_BBDC_Historical Data/01a_SEC filings/BBDC_10Q_06.30.2025.pdf",
+        "size": 17436125
+      },
+      {
+        "crc32": "73168636",
+        "path": "filesystem/01_BBDC_Historical Data/01a_SEC filings/BBDC_10Q_09.30.2025.pdf",
+        "size": 17642998
+      },
+      {
+        "crc32": "811aa7a6",
+        "path": "filesystem/01_BBDC_Historical Data/02b_Investor_Relations/2025-09-08_Barings_BDC_Inc_Prices_Public_Offering_of_300_466.pdf",
+        "size": 48810
+      },
+      {
+        "crc32": "69ded5de",
+        "path": "filesystem/01_BBDC_Historical Data/02b_Investor_Relations/BBDC 1Q25 Earnings Presentation_vFF.pdf",
+        "size": 1174797
+      },
+      {
+        "crc32": "2d995826",
+        "path": "filesystem/01_BBDC_Historical Data/02b_Investor_Relations/BBDC 2Q25 Earnings Presentation.pdf",
+        "size": 712295
+      },
+      {
+        "crc32": "49db359d",
+        "path": "filesystem/01_BBDC_Historical Data/02b_Investor_Relations/BBDC 3Q24 Earnings Presentation_vFF.pdf",
+        "size": 1315935
+      },
+      {
+        "crc32": "902c7d69",
+        "path": "filesystem/01_BBDC_Historical Data/02b_Investor_Relations/BBDC 3Q25 Earnings Presentation_vF.pdf",
+        "size": 1209600
+      },
+      {
+        "crc32": "689a9ebd",
+        "path": "filesystem/01_BBDC_Historical Data/02b_Investor_Relations/BBDC 4Q24 Earnings Presentation_vF.pdf",
+        "size": 1299900
+      },
+      {
+        "crc32": "7e239252",
+        "path": "filesystem/01_BBDC_Historical Data/02b_Investor_Relations/BBDC_1Q22_Earnings_Presentation_vFINAL.pdf",
+        "size": 2068006
+      },
+      {
+        "crc32": "be540b95",
+        "path": "filesystem/01_BBDC_Historical Data/02b_Investor_Relations/BBDC_1Q23_Earnings_Presentation_vF.pdf",
+        "size": 1336756
+      },
+      {
+        "crc32": "30b18808",
+        "path": "filesystem/01_BBDC_Historical Data/02b_Investor_Relations/BBDC_1Q24_Earnings_Presentation_vFF.pdf",
+        "size": 1287114
+      },
+      {
+        "crc32": "76d25cf0",
+        "path": "filesystem/01_BBDC_Historical Data/02b_Investor_Relations/BBDC_2Q22_Earnings_Presentation_vFinal_(002).pdf",
+        "size": 1727533
+      },
+      {
+        "crc32": "a133bd95",
+        "path": "filesystem/01_BBDC_Historical Data/02b_Investor_Relations/BBDC_2Q23_Earnings_Presentation_vFinal.pdf",
+        "size": 1261394
+      },
+      {
+        "crc32": "7bc1dc95",
+        "path": "filesystem/01_BBDC_Historical Data/02b_Investor_Relations/BBDC_2Q24_Earnings_Presentation_vF.pdf",
+        "size": 1301421
+      },
+      {
+        "crc32": "4da1fee9",
+        "path": "filesystem/01_BBDC_Historical Data/02b_Investor_Relations/BBDC_3Q21_Earnings_Presentation_vF.pdf",
+        "size": 2207897
+      },
+      {
+        "crc32": "3dc8a944",
+        "path": "filesystem/01_BBDC_Historical Data/02b_Investor_Relations/BBDC_3Q22_Earnings_Presentation_vFinal.pdf",
+        "size": 2023477
+      },
+      {
+        "crc32": "11b8ad5d",
+        "path": "filesystem/01_BBDC_Historical Data/02b_Investor_Relations/BBDC_3Q23_Earnings_Presentation.pdf",
+        "size": 1221876
+      },
+      {
+        "crc32": "8f633fbc",
+        "path": "filesystem/01_BBDC_Historical Data/02b_Investor_Relations/BBDC_4Q21_Earnings_Presentation_vF.pdf",
+        "size": 1430177
+      },
+      {
+        "crc32": "651ae927",
+        "path": "filesystem/01_BBDC_Historical Data/02b_Investor_Relations/BBDC_4Q22_Earnings_Presentation.pdf",
+        "size": 1003229
+      },
+      {
+        "crc32": "2026e0e2",
+        "path": "filesystem/01_BBDC_Historical Data/02b_Investor_Relations/BBDC_4Q23_Earnings_Presentation_vFF.pdf",
+        "size": 909482
+      },
+      {
+        "crc32": "9090c1a6",
+        "path": "filesystem/01_BBDC_Historical Data/02b_Investor_Relations/BBDC_Investor_Presentation_-_Strategic_Acquisition_of_SIC_vFINAL.pdf",
+        "size": 1488520
+      },
+      {
+        "crc32": "2a52e005",
+        "path": "filesystem/01_BBDC_Historical Data/02b_Investor_Relations/Barings_BDC_Investor_Day_vFINAL_BBDC_WEBSITE_(1).pdf",
+        "size": 1860738
+      },
+      {
+        "crc32": "46da5675",
+        "path": "filesystem/02_Trading Comps Analysis/Archive/Comps Analysis v1.xlsx",
+        "size": 89079
+      },
+      {
+        "crc32": "feb4c997",
+        "path": "filesystem/02_Trading Comps Analysis/Archive/Comps Analysis v2.xlsx",
+        "size": 89094
+      },
+      {
+        "crc32": "a4e120c2",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Analysis vF.xlsx",
+        "size": 89103
+      },
+      {
+        "crc32": "3f192086",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/BCSF/01a_SEC_Filings/BCSF_10K_12.31.2021.pdf",
+        "size": 25256413
+      },
+      {
+        "crc32": "28b9447e",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/BCSF/01a_SEC_Filings/BCSF_10K_12.31.2022.pdf",
+        "size": 15876330
+      },
+      {
+        "crc32": "7316bf72",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/BCSF/01a_SEC_Filings/BCSF_10K_12.31.2023.pdf",
+        "size": 35191329
+      },
+      {
+        "crc32": "c6513483",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/BCSF/01a_SEC_Filings/BCSF_10K_12.31.2024.pdf",
+        "size": 38647661
+      },
+      {
+        "crc32": "ee372b85",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/BCSF/01a_SEC_Filings/BCSF_10Q_03.31.2024.pdf",
+        "size": 30487270
+      },
+      {
+        "crc32": "9a553b8e",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/BCSF/01a_SEC_Filings/BCSF_10Q_03.31.2025.pdf",
+        "size": 35716150
+      },
+      {
+        "crc32": "6cb1d9b6",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/BCSF/01a_SEC_Filings/BCSF_10Q_06.30.2024.pdf",
+        "size": 31885116
+      },
+      {
+        "crc32": "5ca9d1c2",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/BCSF/01a_SEC_Filings/BCSF_10Q_06.30.2025.pdf",
+        "size": 37393413
+      },
+      {
+        "crc32": "b20ef4e3",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/BCSF/01a_SEC_Filings/BCSF_10Q_09.30.2024.pdf",
+        "size": 32983489
+      },
+      {
+        "crc32": "522eced2",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/BCSF/01a_SEC_Filings/BCSF_10Q_09.30.2025.pdf",
+        "size": 38620055
+      },
+      {
+        "crc32": "9a96602a",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/BCSF/01b.Investor_Relations/BCSF Earnings Presentation_09.30.2024_vFa.pdf",
+        "size": 332036
+      },
+      {
+        "crc32": "d70e8f60",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/BCSF/01b.Investor_Relations/BCSF Earnings Presentation_12.31.2024_vF.pdf",
+        "size": 343455
+      },
+      {
+        "crc32": "3906a007",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/BCSF/01b.Investor_Relations/BCSF Earnings Presentation_3.31.2024_vF.pdf",
+        "size": 361276
+      },
+      {
+        "crc32": "d9724f60",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/BCSF/01b.Investor_Relations/BCSF Earnings Presentation_6.30.2024 vF.pdf",
+        "size": 362329
+      },
+      {
+        "crc32": "c1217a00",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/BCSF/01b.Investor_Relations/BCSF-Earnings-Presentation_03.31.2025_vF.pdf",
+        "size": 374555
+      },
+      {
+        "crc32": "0ae42a03",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/BCSF/01b.Investor_Relations/BCSF-Earnings-Presentation_06-30-2025-vFa.pdf",
+        "size": 400967
+      },
+      {
+        "crc32": "8e22ee4e",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/BCSF/01b.Investor_Relations/BCSF-Earnings-Presentation_09-30-2025_vF.pdf",
+        "size": 378830
+      },
+      {
+        "crc32": "147bcdfa",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/CCAP/01a_SEC_Filings/CCAP_10K_12.31.2021.pdf",
+        "size": 16856235
+      },
+      {
+        "crc32": "e6e6a3ae",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/CCAP/01a_SEC_Filings/CCAP_10K_12.31.2022.pdf",
+        "size": 21003200
+      },
+      {
+        "crc32": "0b0c43a2",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/CCAP/01a_SEC_Filings/CCAP_10K_12.31.2023.pdf",
+        "size": 21276407
+      },
+      {
+        "crc32": "6a63d2f2",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/CCAP/01a_SEC_Filings/CCAP_10K_12.31.2024.pdf",
+        "size": 23985764
+      },
+      {
+        "crc32": "b470ed26",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/CCAP/01a_SEC_Filings/CCAP_10Q_03.31.2024.pdf",
+        "size": 20429737
+      },
+      {
+        "crc32": "8a292320",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/CCAP/01a_SEC_Filings/CCAP_10Q_03.31.2025.pdf",
+        "size": 21173873
+      },
+      {
+        "crc32": "478b8645",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/CCAP/01a_SEC_Filings/CCAP_10Q_06.30.2024.pdf",
+        "size": 21453329
+      },
+      {
+        "crc32": "fc02a473",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/CCAP/01a_SEC_Filings/CCAP_10Q_06.30.2025.pdf",
+        "size": 22341867
+      },
+      {
+        "crc32": "ab0daa4a",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/CCAP/01a_SEC_Filings/CCAP_10Q_09.30.2024.pdf",
+        "size": 21679039
+      },
+      {
+        "crc32": "a8de6a40",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/CCAP/01a_SEC_Filings/CCAP_10Q_09.30.2025.pdf",
+        "size": 22559228
+      },
+      {
+        "crc32": "3f0c9c42",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/CCAP/02b.Investor_Relations/CCAP_Earnings_Presentation_03.31.2025.pdf",
+        "size": 336013
+      },
+      {
+        "crc32": "981e1b47",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/CCAP/02b.Investor_Relations/CCAP_Earnings_Presentation_06.30.2025.pdf",
+        "size": 336687
+      },
+      {
+        "crc32": "a6a05d97",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/CCAP/02b.Investor_Relations/CCAP_Earnings_Presentation_09.30.2025.pdf",
+        "size": 352283
+      },
+      {
+        "crc32": "e38ed00a",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/CCAP/02b.Investor_Relations/CCAP_Earnings_Presentation_12.31.2024.pdf",
+        "size": 407918
+      },
+      {
+        "crc32": "d0404145",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/CCAP/02b.Investor_Relations/CCAP_Investor_Day_06.11.2024.pdf",
+        "size": 1426479
+      },
+      {
+        "crc32": "d96a319f",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/CGBD/01a_SEC_Filings/CGBD_10K_12.31.2021.pdf",
+        "size": 1587548
+      },
+      {
+        "crc32": "df4a6740",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/CGBD/01a_SEC_Filings/CGBD_10K_12.31.2022.pdf",
+        "size": 2858188
+      },
+      {
+        "crc32": "8ab6f5a1",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/CGBD/01a_SEC_Filings/CGBD_10K_12.31.2023.pdf",
+        "size": 1831465
+      },
+      {
+        "crc32": "09b9e90a",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/CGBD/01a_SEC_Filings/CGBD_10K_12.31.2024.pdf",
+        "size": 1899185
+      },
+      {
+        "crc32": "4dcd4381",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/CGBD/01a_SEC_Filings/CGBD_10Q_03.31.2024.pdf",
+        "size": 701370
+      },
+      {
+        "crc32": "3392ecd3",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/CGBD/01a_SEC_Filings/CGBD_10Q_03.31.2025.pdf",
+        "size": 1308352
+      },
+      {
+        "crc32": "d0bd2289",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/CGBD/01a_SEC_Filings/CGBD_10Q_06.30.2024.pdf",
+        "size": 3048769
+      },
+      {
+        "crc32": "5d9c05f7",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/CGBD/01a_SEC_Filings/CGBD_10Q_06.31.2025.pdf",
+        "size": 1434972
+      },
+      {
+        "crc32": "dcfe1606",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/CGBD/01a_SEC_Filings/CGBD_10Q_09.30.2024.pdf",
+        "size": 1862225
+      },
+      {
+        "crc32": "a3b5255c",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/CGBD/01a_SEC_Filings/CGBD_10Q_09.30.2025.pdf",
+        "size": 1386672
+      },
+      {
+        "crc32": "1a96bd7e",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/CGBD/02b.Investor_Relations/CGBD_Earnings_Presentation_03.31.2024.pdf",
+        "size": 365139
+      },
+      {
+        "crc32": "780c5881",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/CGBD/02b.Investor_Relations/CGBD_Earnings_Presentation_03.31.2025.pdf",
+        "size": 689720
+      },
+      {
+        "crc32": "c1859ddf",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/CGBD/02b.Investor_Relations/CGBD_Earnings_Presentation_06.30.2024.pdf",
+        "size": 745811
+      },
+      {
+        "crc32": "a2f4220b",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/CGBD/02b.Investor_Relations/CGBD_Earnings_Presentation_06.30.2025.pdf",
+        "size": 642278
+      },
+      {
+        "crc32": "5d6c64ae",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/CGBD/02b.Investor_Relations/CGBD_Earnings_Presentation_09.30.2024.pdf",
+        "size": 791037
+      },
+      {
+        "crc32": "2384095b",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/CGBD/02b.Investor_Relations/CGBD_Earnings_Presentation_09.30.2025.pdf",
+        "size": 654488
+      },
+      {
+        "crc32": "050fb8c5",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/CGBD/02b.Investor_Relations/CGBD_Earnings_Presentation_12.31.2024.pdf",
+        "size": 740503
+      },
+      {
+        "crc32": "6b2365dc",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/CION/01a_SEC_Filings/CION_10K_12.31.2023.pdf",
+        "size": 2574125
+      },
+      {
+        "crc32": "e47c11e4",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/CION/01a_SEC_Filings/CION_10K_12.31.2024.pdf",
+        "size": 2812204
+      },
+      {
+        "crc32": "a5aeb9e6",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/CION/01a_SEC_Filings/CION_10Q_03.31.2024.pdf",
+        "size": 1426086
+      },
+      {
+        "crc32": "58a19477",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/CION/01a_SEC_Filings/CION_10Q_03.31.2025.pdf",
+        "size": 1533605
+      },
+      {
+        "crc32": "7c527673",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/CION/01a_SEC_Filings/CION_10Q_06.30.2024.pdf",
+        "size": 1532179
+      },
+      {
+        "crc32": "358444e3",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/CION/01a_SEC_Filings/CION_10Q_06.30.2025.pdf",
+        "size": 1607130
+      },
+      {
+        "crc32": "e30c2b7d",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/CION/01a_SEC_Filings/CION_10Q_09.30.2024.pdf",
+        "size": 1576486
+      },
+      {
+        "crc32": "6be1c22e",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/CION/01a_SEC_Filings/CION_10Q_09.30.2025.pdf",
+        "size": 1625933
+      },
+      {
+        "crc32": "b5c5e4f3",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/CION/02b.Investor_Relations/CION-19a-Notice-Q3-2025-Distributions.pdf",
+        "size": 120393
+      },
+      {
+        "crc32": "75a95d7b",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/CION/02b.Investor_Relations/CION-Investor-Day-Presentation-FINAL.pdf",
+        "size": 4824425
+      },
+      {
+        "crc32": "0decc37d",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/CION/02b.Investor_Relations/CION-Q3-25-Earnings-Deck.pdf",
+        "size": 1244956
+      },
+      {
+        "crc32": "c2c25589",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/CION/02b.Investor_Relations/CION_Investor-Presentation-Q1-2024-vFf.docx",
+        "size": 1255583
+      },
+      {
+        "crc32": "c1c2c6ca",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/CION/02b.Investor_Relations/CION_Investor-Presentation-Q1-2024-vFf.pdf",
+        "size": 1452706
+      },
+      {
+        "crc32": "adacaef4",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/CION/02b.Investor_Relations/CION_Investor-Presentation-Q1-2025.pdf",
+        "size": 1364420
+      },
+      {
+        "crc32": "c7c8e889",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/CION/02b.Investor_Relations/CION_Investor-Presentation-Q2-2024-vF.pdf",
+        "size": 1549664
+      },
+      {
+        "crc32": "f0752dee",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/CION/02b.Investor_Relations/CION_Investor-Presentation-Q3-2024-vFF.pdf",
+        "size": 1565602
+      },
+      {
+        "crc32": "91b42b0f",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/FDUS/01a_SEC_Filings/FDUS_10K_12.31.2021.pdf",
+        "size": 14836324
+      },
+      {
+        "crc32": "ba7b3b49",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/FDUS/01a_SEC_Filings/FDUS_10K_12.31.2022.pdf",
+        "size": 16680966
+      },
+      {
+        "crc32": "3335e487",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/FDUS/01a_SEC_Filings/FDUS_10K_12.31.2023.pdf",
+        "size": 16752074
+      },
+      {
+        "crc32": "c4676878",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/FDUS/01a_SEC_Filings/FDUS_10K_12.31.2024.pdf",
+        "size": 17599858
+      },
+      {
+        "crc32": "574c7c3f",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/FDUS/01a_SEC_Filings/FDUS_10Q_03.31.2024.pdf",
+        "size": 12281694
+      },
+      {
+        "crc32": "b021cd55",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/FDUS/01a_SEC_Filings/FDUS_10Q_03.31.2025.pdf",
+        "size": 13133081
+      },
+      {
+        "crc32": "cf4da27a",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/FDUS/01a_SEC_Filings/FDUS_10Q_06.30.2024.pdf",
+        "size": 12862544
+      },
+      {
+        "crc32": "ecd441fe",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/FDUS/01a_SEC_Filings/FDUS_10Q_06.30.2025.pdf",
+        "size": 13900318
+      },
+      {
+        "crc32": "5008446b",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/FDUS/01a_SEC_Filings/FDUS_10Q_09.30.2024.pdf",
+        "size": 13079698
+      },
+      {
+        "crc32": "425c2fd7",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/FDUS/01a_SEC_Filings/FDUS_10Q_09.30.2025.pdf",
+        "size": 14333833
+      },
+      {
+        "crc32": "c441cd6a",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/FDUS/02b.Investor_Relations/FDUS_Earnings_Presentations_09.30.2025.pdf",
+        "size": 1207276
+      },
+      {
+        "crc32": "3f186d7d",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/GBDC/01a_SEC_Filings/GBDC_10K_09.30.2021.pdf",
+        "size": 23254921
+      },
+      {
+        "crc32": "4f4612aa",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/GBDC/01a_SEC_Filings/GBDC_10K_09.30.2022.pdf",
+        "size": 33069334
+      },
+      {
+        "crc32": "f97e1dee",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/GBDC/01a_SEC_Filings/GBDC_10K_09.30.2023.pdf",
+        "size": 33371898
+      },
+      {
+        "crc32": "cabd35e3",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/GBDC/01a_SEC_Filings/GBDC_10K_09.30.2024.pdf",
+        "size": 34934637
+      },
+      {
+        "crc32": "bab9612b",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/GBDC/01a_SEC_Filings/GBDC_10K_09.30.2025.pdf",
+        "size": 38096162
+      },
+      {
+        "crc32": "4def4132",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/GBDC/01a_SEC_Filings/GBDC_10Q_03.31.2024.pdf",
+        "size": 31216930
+      },
+      {
+        "crc32": "16b110e3",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/GBDC/01a_SEC_Filings/GBDC_10Q_03.31.2025.pdf",
+        "size": 34675438
+      },
+      {
+        "crc32": "3e09a881",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/GBDC/01a_SEC_Filings/GBDC_10Q_06.30.2024.pdf",
+        "size": 32046148
+      },
+      {
+        "crc32": "23f86bf2",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/GBDC/01a_SEC_Filings/GBDC_10Q_06.30.2025.pdf",
+        "size": 35352924
+      },
+      {
+        "crc32": "df4861a4",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/GBDC/01a_SEC_Filings/GBDC_10Q_12.31.2023.pdf",
+        "size": 30287066
+      },
+      {
+        "crc32": "3dfdfb2e",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/GBDC/01a_SEC_Filings/GBDC_10Q_12.31.2024.pdf",
+        "size": 33653419
+      },
+      {
+        "crc32": "91250f18",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/GBDC/02b.Investor_Relations/GBDC_Earnings_Presentation_06.30.2025.pdf",
+        "size": 317793
+      },
+      {
+        "crc32": "c65d9c8e",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/GBDC/02b.Investor_Relations/GBDC_Earnings_Presentation_09.30.2024.pdf",
+        "size": 682937
+      },
+      {
+        "crc32": "7b2a7fdd",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/GBDC/02b.Investor_Relations/GBDC_Earnings_Presentation_09.30.2025.pdf",
+        "size": 312389
+      },
+      {
+        "crc32": "abb0c4e2",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/GBDC/02b.Investor_Relations/GBDC_Investor_Presentation_03.31.2024.pdf",
+        "size": 591182
+      },
+      {
+        "crc32": "33ba10cd",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/GBDC/02b.Investor_Relations/GBDC_Investor_Presentation_03.31.2025.pdf",
+        "size": 625109
+      },
+      {
+        "crc32": "e7f6a483",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/GBDC/02b.Investor_Relations/GBDC_Investor_Presentation_06.30.2025.pdf",
+        "size": 721111
+      },
+      {
+        "crc32": "820343b2",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/GBDC/02b.Investor_Relations/GBDC_Investor_Presentation_09.30.2024.pdf",
+        "size": 748280
+      },
+      {
+        "crc32": "d36b3b4d",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/GBDC/02b.Investor_Relations/GBDC_Investor_Presentation_12.31.2024.pdf",
+        "size": 914071
+      },
+      {
+        "crc32": "3e67eda0",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/MSIF/01a_SEC_Filings/MSIF_10K_12.31.2021.pdf",
+        "size": 1046260
+      },
+      {
+        "crc32": "dc979593",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/MSIF/01a_SEC_Filings/MSIF_10K_12.31.2022.pdf",
+        "size": 1219499
+      },
+      {
+        "crc32": "f997b832",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/MSIF/01a_SEC_Filings/MSIF_10K_12.31.2023.pdf",
+        "size": 1260193
+      },
+      {
+        "crc32": "4b2ce6f0",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/MSIF/01a_SEC_Filings/MSIF_10K_12.31.2024.pdf",
+        "size": 1682206
+      },
+      {
+        "crc32": "d690b264",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/MSIF/01a_SEC_Filings/MSIF_10Q_03.31.2024.pdf",
+        "size": 881233
+      },
+      {
+        "crc32": "927a692f",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/MSIF/01a_SEC_Filings/MSIF_10Q_03.31.2025.pdf",
+        "size": 2035822
+      },
+      {
+        "crc32": "9437b4a6",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/MSIF/01a_SEC_Filings/MSIF_10Q_06.30.2024.pdf",
+        "size": 919999
+      },
+      {
+        "crc32": "c4cf0024",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/MSIF/01a_SEC_Filings/MSIF_10Q_06.30.2025.pdf",
+        "size": 17010568
+      },
+      {
+        "crc32": "1e14630a",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/MSIF/01a_SEC_Filings/MSIF_10Q_09.30.2024.pdf",
+        "size": 938446
+      },
+      {
+        "crc32": "21c3b4f1",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/MSIF/01a_SEC_Filings/MSIF_10Q_09.30.2025.pdf",
+        "size": 18049326
+      },
+      {
+        "crc32": "650d6713",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/MSIF/02b.Investor_Relations/MSIF Board of Directors approves asset coverage ratio of 150_, effective January 29, 2026.pdf",
+        "size": 37482
+      },
+      {
+        "crc32": "d5294f2e",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/MSIF/02b.Investor_Relations/Q3 2025 MSIF Executive Summary Fact Sheet v.Final.pdf",
+        "size": 438387
+      },
+      {
+        "crc32": "582d1db4",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/MSIF/02b.Investor_Relations/Q3 2025 MSIF Investor Presentation v.Final.pdf",
+        "size": 3994941
+      },
+      {
+        "crc32": "0136bafe",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/MSIF/02b.Investor_Relations/Q3 2025 MSIF Lender Presentation v.Final.pdf",
+        "size": 3931095
+      },
+      {
+        "crc32": "aa90491f",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/NMFC/01a_SEC_Filings/NMFC_10K_12.31.2021.pdf",
+        "size": 14909954
+      },
+      {
+        "crc32": "dc964f0e",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/NMFC/01a_SEC_Filings/NMFC_10K_12.31.2022.pdf",
+        "size": 18463632
+      },
+      {
+        "crc32": "1a51ba95",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/NMFC/01a_SEC_Filings/NMFC_10K_12.31.2023.pdf",
+        "size": 19462733
+      },
+      {
+        "crc32": "c30c68fb",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/NMFC/01a_SEC_Filings/NMFC_10K_12.31.2024.pdf",
+        "size": 19919627
+      },
+      {
+        "crc32": "4504e3ba",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/NMFC/01a_SEC_Filings/NMFC_10Q_03.31.2024.pdf",
+        "size": 16645044
+      },
+      {
+        "crc32": "39a90d7b",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/NMFC/01a_SEC_Filings/NMFC_10Q_03.31.2025.pdf",
+        "size": 17380553
+      },
+      {
+        "crc32": "25405eeb",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/NMFC/01a_SEC_Filings/NMFC_10Q_06.30.2024.pdf",
+        "size": 17956425
+      },
+      {
+        "crc32": "6a86b3bd",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/NMFC/01a_SEC_Filings/NMFC_10Q_06.30.2025.pdf",
+        "size": 18498633
+      },
+      {
+        "crc32": "f723f91a",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/NMFC/01a_SEC_Filings/NMFC_10Q_09.30.2024.pdf",
+        "size": 18206994
+      },
+      {
+        "crc32": "54a6b185",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/NMFC/01a_SEC_Filings/NMFC_10Q_09.30.2025.pdf",
+        "size": 19091022
+      },
+      {
+        "crc32": "0fc4af55",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/NMFC/02b.Investor_Relations/NMFC_Earnings_Presentation_03.31.2024.pdf",
+        "size": 105402
+      },
+      {
+        "crc32": "8216d405",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/NMFC/02b.Investor_Relations/NMFC_Earnings_Presentation_03.31.2025.pdf",
+        "size": 104087
+      },
+      {
+        "crc32": "b19d3201",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/NMFC/02b.Investor_Relations/NMFC_Earnings_Presentation_06.30.2025.pdf",
+        "size": 109034
+      },
+      {
+        "crc32": "db0f4377",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/NMFC/02b.Investor_Relations/NMFC_Earnings_Presentation_09.30.2024.pdf",
+        "size": 110634
+      },
+      {
+        "crc32": "79cc7be7",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/NMFC/02b.Investor_Relations/NMFC_Earnings_Presentation_09.30.2025.pdf",
+        "size": 110680
+      },
+      {
+        "crc32": "92d06ac3",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/NMFC/02b.Investor_Relations/NMFC_Earnings_Presentation_12.31.2024.pdf",
+        "size": 107042
+      },
+      {
+        "crc32": "2543d705",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/TPVG/01a_SEC_Filings/TPVG_10K_12.31.2021.pdf",
+        "size": 7231244
+      },
+      {
+        "crc32": "1ea96a97",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/TPVG/01a_SEC_Filings/TPVG_10K_12.31.2022.pdf",
+        "size": 10053357
+      },
+      {
+        "crc32": "9c95c4ac",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/TPVG/01a_SEC_Filings/TPVG_10K_12.31.2023.pdf",
+        "size": 10198918
+      },
+      {
+        "crc32": "4293f878",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/TPVG/01a_SEC_Filings/TPVG_10K_12.31.2024.pdf",
+        "size": 9653337
+      },
+      {
+        "crc32": "9ac68e8b",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/TPVG/01a_SEC_Filings/TPVG_10Q_03.31.2024.pdf",
+        "size": 7443477
+      },
+      {
+        "crc32": "6891e49a",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/TPVG/01a_SEC_Filings/TPVG_10Q_03.31.2025.pdf",
+        "size": 7061583
+      },
+      {
+        "crc32": "b3d595ce",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/TPVG/01a_SEC_Filings/TPVG_10Q_06.30.2024.pdf",
+        "size": 7690156
+      },
+      {
+        "crc32": "4644a192",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/TPVG/01a_SEC_Filings/TPVG_10Q_06.30.2025.pdf",
+        "size": 7419684
+      },
+      {
+        "crc32": "db67d447",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/TPVG/01a_SEC_Filings/TPVG_10Q_09.30.2024.pdf",
+        "size": 7754338
+      },
+      {
+        "crc32": "06334889",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/TPVG/01a_SEC_Filings/TPVG_10Q_09.30.2025.pdf",
+        "size": 7595385
+      },
+      {
+        "crc32": "a09b42dd",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/TPVG/02b.Investor_Relations/TPVG_Investor_Presentation_03.31.2024.pdf",
+        "size": 3007195
+      },
+      {
+        "crc32": "f20bdb08",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/TPVG/02b.Investor_Relations/TPVG_Investor_Presentation_03.31.2025.pdf",
+        "size": 2884334
+      },
+      {
+        "crc32": "7377a546",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/TPVG/02b.Investor_Relations/TPVG_Investor_Presentation_06.30.2024.pdf",
+        "size": 2925427
+      },
+      {
+        "crc32": "320fce7f",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/TPVG/02b.Investor_Relations/TPVG_Investor_Presentation_06.30.2025.pdf",
+        "size": 3223766
+      },
+      {
+        "crc32": "b2af4fba",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/TPVG/02b.Investor_Relations/TPVG_Investor_Presentation_09.30.2024.pdf",
+        "size": 3034478
+      },
+      {
+        "crc32": "c17cab46",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/TPVG/02b.Investor_Relations/TPVG_Investor_Presentation_09.30.2025.pdf",
+        "size": 2713646
+      },
+      {
+        "crc32": "f1a5a1fb",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/TPVG/02b.Investor_Relations/TPVG_Investor_Presentation_12.31.2024.pdf",
+        "size": 2935679
+      },
+      {
+        "crc32": "f38b0648",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/TRIN/01a_SEC_Filings/TRIN_10K_12.31.2021.pdf",
+        "size": 12537306
+      },
+      {
+        "crc32": "b5c8bbe7",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/TRIN/01a_SEC_Filings/TRIN_10K_12.31.2022.pdf",
+        "size": 24970473
+      },
+      {
+        "crc32": "9f60a1c5",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/TRIN/01a_SEC_Filings/TRIN_10K_12.31.2023.pdf",
+        "size": 26383890
+      },
+      {
+        "crc32": "43d1fb88",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/TRIN/01a_SEC_Filings/TRIN_10K_12.31.2024.pdf",
+        "size": 31317189
+      },
+      {
+        "crc32": "438c64b1",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/TRIN/01a_SEC_Filings/TRIN_10K_A_12.31.2024.pdf",
+        "size": 1147838
+      },
+      {
+        "crc32": "80d06cfa",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/TRIN/01a_SEC_Filings/TRIN_10Q_03.31.2024.pdf",
+        "size": 24542670
+      },
+      {
+        "crc32": "4661ea66",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/TRIN/01a_SEC_Filings/TRIN_10Q_03.31.2025.pdf",
+        "size": 29379375
+      },
+      {
+        "crc32": "1c44da7e",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/TRIN/01a_SEC_Filings/TRIN_10Q_06.30.2024.pdf",
+        "size": 27205639
+      },
+      {
+        "crc32": "f2424154",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/TRIN/01a_SEC_Filings/TRIN_10Q_06.30.2025.pdf",
+        "size": 30740592
+      },
+      {
+        "crc32": "5a9f78e5",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/TRIN/01a_SEC_Filings/TRIN_10Q_09.30.2024.pdf",
+        "size": 27963916
+      },
+      {
+        "crc32": "fab7b8c4",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/TRIN/01a_SEC_Filings/TRIN_10Q_09.30.2025.pdf",
+        "size": 31735691
+      },
+      {
+        "crc32": "ce0a794c",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/TRIN/02b_Investor Relations/TRIN_Earnings_Presentation_03.31.2024.pdf",
+        "size": 2258227
+      },
+      {
+        "crc32": "d6c8331a",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/TRIN/02b_Investor Relations/TRIN_Earnings_Presentation_03.31.2025.pdf",
+        "size": 5917743
+      },
+      {
+        "crc32": "7ec4e303",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/TRIN/02b_Investor Relations/TRIN_Earnings_Presentation_06.30.2024.pdf",
+        "size": 5597527
+      },
+      {
+        "crc32": "8a56a74a",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/TRIN/02b_Investor Relations/TRIN_Earnings_Presentation_06.30.2025.pdf",
+        "size": 1926756
+      },
+      {
+        "crc32": "e67e9011",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/TRIN/02b_Investor Relations/TRIN_Earnings_Presentation_09.30.2024.pdf",
+        "size": 1957807
+      },
+      {
+        "crc32": "dc0ec85f",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/TRIN/02b_Investor Relations/TRIN_Earnings_Presentation_09.30.2025.pdf",
+        "size": 1936144
+      },
+      {
+        "crc32": "99554612",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/TRIN/02b_Investor Relations/TRIN_Earnings_Presentation_12.31.2024.pdf",
+        "size": 1920356
+      },
+      {
+        "crc32": "6e57be03",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/TSLX/01a_SEC_Filings/TSLX_10K_12.31.2021.pdf",
+        "size": 13477013
+      },
+      {
+        "crc32": "a3360f74",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/TSLX/01a_SEC_Filings/TSLX_10K_12.31.2022.pdf",
+        "size": 13845778
+      },
+      {
+        "crc32": "97cf4e73",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/TSLX/01a_SEC_Filings/TSLX_10K_12.31.2023.pdf",
+        "size": 14600712
+      },
+      {
+        "crc32": "8f52bc12",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/TSLX/01a_SEC_Filings/TSLX_10K_12.31.2024.pdf",
+        "size": 14969259
+      },
+      {
+        "crc32": "2fdfeb4f",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/TSLX/01a_SEC_Filings/TSLX_10Q_03.31.2024.pdf",
+        "size": 10374330
+      },
+      {
+        "crc32": "89579562",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/TSLX/01a_SEC_Filings/TSLX_10Q_03.31.2025.pdf",
+        "size": 10272888
+      },
+      {
+        "crc32": "c57fe573",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/TSLX/01a_SEC_Filings/TSLX_10Q_06.30.2024.pdf",
+        "size": 10314687
+      },
+      {
+        "crc32": "79a2280d",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/TSLX/01a_SEC_Filings/TSLX_10Q_06.30.2025.pdf",
+        "size": 11892307
+      },
+      {
+        "crc32": "c4d026d5",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/TSLX/01a_SEC_Filings/TSLX_10Q_09.30.2024.pdf",
+        "size": 10738424
+      },
+      {
+        "crc32": "c5d293f0",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/TSLX/01a_SEC_Filings/TSLX_10Q_09.30.2025.pdf",
+        "size": 12679809
+      },
+      {
+        "crc32": "55e3d40b",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/TSLX/02b.Investor_Relations/Expanding Tools for Value Creation and Financial Flexibility vF.pdf",
+        "size": 454944
+      },
+      {
+        "crc32": "a91e23c9",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/TSLX/02b.Investor_Relations/TSLX_Debt_Investors_Presentation_08.31.2024.pdf",
+        "size": 2346845
+      },
+      {
+        "crc32": "a186a946",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/TSLX/02b.Investor_Relations/TSLX_Debt_Investors_Presentation_08.31.2025.pdf",
+        "size": 1973318
+      },
+      {
+        "crc32": "e27e0d12",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/TSLX/02b.Investor_Relations/TSLX_Debt_Investors_Presentation_11.31.2024.pdf",
+        "size": 2282950
+      },
+      {
+        "crc32": "f5731bd6",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/TSLX/02b.Investor_Relations/TSLX_Earnings_Presentation_03.31.2024.pdf",
+        "size": 610593
+      },
+      {
+        "crc32": "3c101ac4",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/TSLX/02b.Investor_Relations/TSLX_Earnings_Presentation_03.31.2025.pdf",
+        "size": 522950
+      },
+      {
+        "crc32": "e9d8cb1f",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/TSLX/02b.Investor_Relations/TSLX_Earnings_Presentation_06.30.2024.pdf",
+        "size": 610173
+      },
+      {
+        "crc32": "783c651f",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/TSLX/02b.Investor_Relations/TSLX_Earnings_Presentation_06.30.2025.pdf",
+        "size": 523728
+      },
+      {
+        "crc32": "72153d5f",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/TSLX/02b.Investor_Relations/TSLX_Earnings_Presentation_09.30.2024.pdf",
+        "size": 608908
+      },
+      {
+        "crc32": "599dcd10",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/TSLX/02b.Investor_Relations/TSLX_Earnings_Presentation_09.30.2025.pdf",
+        "size": 533947
+      },
+      {
+        "crc32": "560959dd",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/TSLX/02b.Investor_Relations/TSLX_Earnings_Presentation_12.31.2024.pdf",
+        "size": 651828
+      },
+      {
+        "crc32": "0ee887f1",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/TSLX/02b.Investor_Relations/TSLX_Equity_Investors_Presentation_08.31.2025.pdf",
+        "size": 2103152
+      },
+      {
+        "crc32": "6154b972",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/WHF/01a_SEC_Filings/WHF_10K_12.31.2021.pdf",
+        "size": 10492810
+      },
+      {
+        "crc32": "f6d89bda",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/WHF/01a_SEC_Filings/WHF_10K_12.31.2022.pdf",
+        "size": 11266832
+      },
+      {
+        "crc32": "960be935",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/WHF/01a_SEC_Filings/WHF_10K_12.31.2023.pdf",
+        "size": 11891083
+      },
+      {
+        "crc32": "9980d24e",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/WHF/01a_SEC_Filings/WHF_10K_12.31.2024.pdf",
+        "size": 12624304
+      },
+      {
+        "crc32": "35e9c9ec",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/WHF/01a_SEC_Filings/WHF_10K_A_12.31.2024.pdf",
+        "size": 9925292
+      },
+      {
+        "crc32": "333f1253",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/WHF/01a_SEC_Filings/WHF_10Q_03.31.2024.pdf",
+        "size": 9361905
+      },
+      {
+        "crc32": "7d0722ea",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/WHF/01a_SEC_Filings/WHF_10Q_03.31.2025.pdf",
+        "size": 10264158
+      },
+      {
+        "crc32": "b4912ddc",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/WHF/01a_SEC_Filings/WHF_10Q_06.30.2024.pdf",
+        "size": 10076908
+      },
+      {
+        "crc32": "a588c327",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/WHF/01a_SEC_Filings/WHF_10Q_06.30.2025.pdf",
+        "size": 11070063
+      },
+      {
+        "crc32": "e1ddf32e",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/WHF/01a_SEC_Filings/WHF_10Q_09.30.2024.pdf",
+        "size": 10311370
+      },
+      {
+        "crc32": "812507e0",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/WHF/01a_SEC_Filings/WHF_10Q_09.30.2025.pdf",
+        "size": 11044356
+      },
+      {
+        "crc32": "b8e183ae",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/WHF/02b.Investor_Relations/WHF_Earnings_Presentation_03.31.2024.pdf",
+        "size": 2221350
+      },
+      {
+        "crc32": "9ffc30ce",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/WHF/02b.Investor_Relations/WHF_Earnings_Presentation_03.31.2025.pdf",
+        "size": 1040489
+      },
+      {
+        "crc32": "12acee28",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/WHF/02b.Investor_Relations/WHF_Earnings_Presentation_06.30.2024.pdf",
+        "size": 1730341
+      },
+      {
+        "crc32": "e28886a1",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/WHF/02b.Investor_Relations/WHF_Earnings_Presentation_06.30.2025.pdf",
+        "size": 2509033
+      },
+      {
+        "crc32": "51b8e9a8",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/WHF/02b.Investor_Relations/WHF_Earnings_Presentation_09.30.2024.pdf",
+        "size": 1029020
+      },
+      {
+        "crc32": "4fca1612",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/WHF/02b.Investor_Relations/WHF_Earnings_Presentation_09.30.2025.pdf",
+        "size": 1528586
+      },
+      {
+        "crc32": "a7a2e069",
+        "path": "filesystem/02_Trading Comps Analysis/Comps Data/WHF/02b.Investor_Relations/WHF_Earnings_Presentation_12.31.2024.pdf",
+        "size": 1784437
+      },
+      {
+        "crc32": "d7c04b0e",
+        "path": "filesystem/03_Research & Industry Reports/Bloomberg_Intelligence_Private_Credit_Outlook_2025.pdf",
+        "size": 4797275
+      },
+      {
+        "crc32": "bdc04bae",
+        "path": "filesystem/03_Research & Industry Reports/Guggenheim_UIT-WP-BDCS.pdf",
+        "size": 189740
+      },
+      {
+        "crc32": "6f14f51d",
+        "path": "filesystem/03_Research & Industry Reports/Mayer Brown_BDC - FactsStats_.pdf",
+        "size": 1104260
+      },
+      {
+        "crc32": "260586f3",
+        "path": "filesystem/03_Research & Industry Reports/Muzinich & Co_A public path to private credit_ The case for BDC equities.pdf",
+        "size": 1302599
+      },
+      {
+        "crc32": "46cf7243",
+        "path": "filesystem/03_Research & Industry Reports/Raymond James_quarterly-bdc-market-update.pdf",
+        "size": 960141
+      },
+      {
+        "crc32": "7423e132",
+        "path": "filesystem/03_Research & Industry Reports/Valuing-Asset-Managers-Mercer-Capital.pdf",
+        "size": 7827356
+      },
+      {
+        "crc32": "bd957846",
+        "path": "filesystem/03_Research & Industry Reports/apollo-global-the-abcs-of-bdcs-article.pdf",
+        "size": 707898
+      },
+      {
+        "crc32": "3b0d12e8",
+        "path": "filesystem/03_Research & Industry Reports/hl-bdc-monitor-spring-2025.pdf",
+        "size": 1110607
+      },
+      {
+        "crc32": "b92d9af1",
+        "path": "filesystem/04_Models/BBDC Valuation Model/Archive/BBDC Valuation Model v1.xlsx",
+        "size": 11814
+      },
+      {
+        "crc32": "b92d9af1",
+        "path": "filesystem/04_Models/BBDC Valuation Model/Archive/BBDC Valuation Model v2.xlsx",
+        "size": 11814
+      },
+      {
+        "crc32": "2fba89e8",
+        "path": "filesystem/04_Models/BBDC Valuation Model/Archive/BBDC Valuation Model.xlsx",
+        "size": 16907
+      },
+      {
+        "crc32": "965e55f0",
+        "path": "filesystem/04_Models/BBDC Valuation Model/BBDC Valuation Model vF.xlsx",
+        "size": 20155
+      },
+      {
+        "crc32": "6da6f962",
+        "path": "filesystem/04_Models/Merger-Acquisition Analysis/Archive/Merger Model - Barings BDC v1.xlsx",
+        "size": 32743
+      },
+      {
+        "crc32": "217d1beb",
+        "path": "filesystem/04_Models/Merger-Acquisition Analysis/Archive/Merger Model - Barings BDC v2.xlsx",
+        "size": 32743
+      },
+      {
+        "crc32": "de3d930f",
+        "path": "filesystem/04_Models/Merger-Acquisition Analysis/Merger Model - Barings BDC vF.xlsx",
+        "size": 32751
+      },
+      {
+        "crc32": "37d59a3e",
+        "path": "filesystem/05_Presentation/Archive/Barings_11.19.2025 v1.pptx",
+        "size": 1835242
+      },
+      {
+        "crc32": "c663cce1",
+        "path": "filesystem/05_Presentation/Archive/Barings_11.20.2025 v2.pptx",
+        "size": 1819458
+      },
+      {
+        "crc32": "fc8c2e00",
+        "path": "filesystem/05_Presentation/Archive/Barings_11.20.2025 v3.pptx",
+        "size": 1819666
+      },
+      {
+        "crc32": "2325609c",
+        "path": "filesystem/05_Presentation/Barings_11.20.2025 vF.pptx",
+        "size": 1826640
+      }
+    ],
+    "manifest_sha256": "7acde914d38ade4979afcc3a861cc2d58f0e95ece893c4da9e1489e3d924b520",
+    "schema_version": "proofpress/apex-ib-pr36/v1/source-manifest",
+    "world_id": "world_f83f49b3776b4b5e870c36091f7e2b0b",
+    "world_zip_sha256": "d8689b85aaecc02f5c12af1a55bb52627699cbb71d7309ee7ab01ffe2e886931"
+  },
+  "tasks": [
+    {
+      "domain": "Investment Banking",
+      "expected_output": "edit_existing_sheet",
+      "prompt": "Calculate the accretion / dilution of both BBDC and TVPG shareholders, sensitized for different Cash consideration and Bid Premium.\n\nEdit the existing merger model and add two sensitivity analyses: one showing BBDC accretion/dilution and one showing TVPG accretion/dilution, each sensitized to bid premium (10% and 20%) and cash consideration (10% and 15%).\n\nAssume an increase of EBIT Synergies by 480bps and a 210bps decrease in post-deal bidder share price downside. All output values should be in %, rounded to 2 decimal places.",
+      "task_id": "task_9ba58a6197114140877a1df1754d2993",
+      "task_name": "World221_TR_01",
+      "world_id": "world_f83f49b3776b4b5e870c36091f7e2b0b"
+    },
+    {
+      "domain": "Investment Banking",
+      "expected_output": "edit_existing_sheet",
+      "prompt": "Evaluate acquisition of WhiteHorse Finance (WHF) by editing the \u2018Target-TPVG\u2019 tab in merger model using WHF\u2019s 2024 financials. Use a share price of $7.20 (as of 11/26/2025).\n\nOutput two sensitivity analyses on the Post-Deal Pro Forma tab in the merger model file, showing: NAV per share (2 decimal places), NII per share accretion (%, 2 decimal places) for the WHF transaction.\n\nIn each case, show analyses for:\n- Bid Premiums: 30% and 35%.\n- Cash Consideration Mix: 30% and 40%.",
+      "task_id": "task_9909f2ec2bbb4899ba7a956a475dfc01",
+      "task_name": "World221_HY_02",
+      "world_id": "world_f83f49b3776b4b5e870c36091f7e2b0b"
+    },
+    {
+      "domain": "Investment Banking",
+      "expected_output": "message_in_console",
+      "prompt": "To evaluate where economic value is created in the BBDC & TPVG merger, use the comps and merger models to build a four step value creation bridge. Write your reply to me here.\n\nSet the merger model to the 9M TTM 2025 account. Return the incremental change in value (%) between each scenario, the Pro Forma Implied EV after dilution, and total value creation vs standalone % (all to 2 decimal places). Here are the Scenarios:\n\n- 1. BBDC Standalone Implied Equity Value based on LTM NAV, LTM NII, and LTM Sales from the valuation model and median P/NAV, P/E, and P/S multiples on all comps from the comps file; \n- 2. Standalone + Synergies Implied Equity Value using run-rate synergies from the merger model; \n- 3. Add TPVG NAV Contribution (Pre-Dilution) using TPVG\u2019s standalone NAV from the merger model;\n- 4. Pro Forma Implied Equity Value (After Dilution) using PF NAV, PF NII, PF Sales, and PF shares from the merger model. ",
+      "task_id": "task_4f291b8b066e413f8cd0a99c593b89e8",
+      "task_name": "World 221_HY_05",
+      "world_id": "world_f83f49b3776b4b5e870c36091f7e2b0b"
+    }
+  ],
+  "treatment_proposer_model": "deepseek/deepseek-v4-flash",
+  "world_id": "world_f83f49b3776b4b5e870c36091f7e2b0b"
+}
