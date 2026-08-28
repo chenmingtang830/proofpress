@@ -2666,21 +2666,35 @@ def cmd_provenance_verify(a):
 
 
 def cmd_witness_verify(a):
-    with open(a.receipt, encoding="utf-8") as stream:
-        receipt = json.load(stream)
-    with open(a.trust, encoding="utf-8") as stream:
-        trust_store = json.load(stream)
-    result = proofpress_witness.verify_receipt(a.file, receipt, trust_store)
+    attestation = proofpress_witness.load_json_file(a.attestation)
+    trust_store = proofpress_witness.load_json_file(a.trust)
+    expected_bindings = proofpress_witness.load_json_file(a.expected_bindings)
+    result = proofpress_witness.verify_attestation(
+        a.file,
+        attestation,
+        trust_store,
+        expected_profile=a.profile,
+        expected_bindings=expected_bindings,
+        expected_tenant=a.tenant,
+        expected_audience=a.audience,
+        expected_principal=a.principal,
+        expected_statement_id=a.expected_statement_id,
+        expected_statement_digest=a.expected_statement_digest,
+    )
+    authenticated = (
+        result["producer_origin_authenticated"]
+        or result["decision_authority_authenticated"]
+    )
     if a.json:
         print(json.dumps(result, ensure_ascii=False, indent=2))
     else:
-        verdict = "authenticated" if result["origin_authenticated"] else "not authenticated"
-        color = "add" if result["origin_authenticated"] else "del"
+        verdict = "authenticated" if authenticated else "not authenticated"
+        color = "add" if authenticated else "del"
         print(f"witness {C(color, verdict, bold=True)}: {B(a.file)}")
         for check in result["checks"]:
             check_color = "add" if check["status"] == "passed" else "del"
             print(f"  {C(check_color, check['status'])}: {C('dim', check['type'])}")
-    sys.exit(0 if result["origin_authenticated"] else 1)
+    sys.exit(0 if authenticated else 1)
 
 
 def main():
@@ -2830,13 +2844,24 @@ def main():
     pv.add_argument("--evidence", required=True)
     pv.add_argument("--json", action="store_true")
     pv.set_defaults(f=cmd_provenance_verify)
-    wi = sub.add_parser("witness", help="verify an optional detached Cloud Witness receipt")
+    wi = sub.add_parser(
+        "witness", help="verify an optional purpose-scoped Cloud Witness attestation")
     wis = wi.add_subparsers(dest="witness_cmd", required=True)
-    wv = wis.add_parser("verify", help="verify receipt bindings against an external trust store")
+    wv = wis.add_parser(
+        "verify", help="verify exact attestation bindings against external expectations")
     wv.add_argument("file")
-    wv.add_argument("--receipt", required=True)
+    wv.add_argument("--attestation", required=True)
     wv.add_argument("--trust", required=True,
-                    help="external trust store; never read trust keys from the receipt")
+                    help="external trust store; never read trust keys from the statement")
+    wv.add_argument("--profile", required=True,
+                    choices=sorted(proofpress_witness.SUPPORTED_PROFILES))
+    wv.add_argument("--expected-bindings", required=True,
+                    help="independently supplied JSON bindings to compare")
+    wv.add_argument("--tenant", required=True)
+    wv.add_argument("--audience", required=True)
+    wv.add_argument("--principal", required=True)
+    wv.add_argument("--expected-statement-id")
+    wv.add_argument("--expected-statement-digest")
     wv.add_argument("--json", action="store_true")
     wv.set_defaults(f=cmd_witness_verify)
     proofpress_knowledge.add_flat_cli(sub)
