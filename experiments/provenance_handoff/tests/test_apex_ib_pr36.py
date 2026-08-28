@@ -19,6 +19,7 @@ from pp_eval.apex_ib_pr36 import (
     extract_xlsx_index,
     write_xlsx_evidence_index,
     deterministic_gate,
+    derived_grading_llm_source,
     compact_apex_output,
     derived_launcher_source,
     filter_snapshot,
@@ -31,6 +32,7 @@ from pp_eval.apex_ib_pr36 import (
     run_stress_cells,
     validate_working_set,
     trajectory_telemetry,
+    grader_telemetry,
 )
 
 
@@ -83,6 +85,36 @@ def _working_set(overlay: Path, task_id: str, artifact: str = MERGER_MODEL) -> d
 
 
 class ApexIbPr36Tests(unittest.TestCase):
+    def test_grader_telemetry_requires_model_provider_tokens_cost_and_no_fallback(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "receipts.jsonl"
+            path.write_text(json.dumps({
+                "usage": {"prompt_tokens": 10, "completion_tokens": 2, "total_tokens": 12},
+                "gateway": {"cost": "0.02", "routing": {
+                    "originalModelId": "judge/a", "finalProvider": "provider-a", "modelAttemptCount": 1,
+                }},
+            }) + "\n")
+            telemetry = grader_telemetry(path, "judge/a")
+            self.assertEqual(telemetry["status"], "complete")
+            self.assertEqual(telemetry["total_tokens"], 12)
+            self.assertEqual(telemetry["known_cost_usd"], 0.02)
+
+    def test_grader_telemetry_fails_closed_on_missing_receipts(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            telemetry = grader_telemetry(Path(directory) / "missing.jsonl", "judge/a")
+            self.assertEqual(telemetry["status"], "incomplete")
+
+    def test_derived_grading_llm_source_instruments_terminal_response(self) -> None:
+        source_path = Path("/private/tmp/proofpress-ling-fin-apex-ckOStP/archipelago/grading/runner/utils/llm.py")
+        if not source_path.exists():
+            self.skipTest("pinned local Archipelago checkout is not present")
+        source = source_path.read_text()
+        if "APEX_IB_GRADER_RECEIPTS" in source:
+            self.skipTest("pinned local checkout is already instrumented")
+        rendered = derived_grading_llm_source(source)
+        self.assertIn("APEX_IB_GRADER_RECEIPTS", rendered)
+        compile(rendered, "derived_grading_llm.py", "exec")
+
     def test_trajectory_telemetry_requires_matching_terminal_cost_receipts(self) -> None:
         trajectory = {
             "usage": {"prompt_tokens": 10, "completion_tokens": 2, "total_tokens": 12,

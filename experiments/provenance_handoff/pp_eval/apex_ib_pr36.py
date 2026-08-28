@@ -142,6 +142,79 @@ def trajectory_telemetry(trajectory: dict[str, Any], expected_model: str) -> dic
     }
 
 
+def grader_telemetry(receipt_path: Path, expected_model: str) -> dict[str, Any]:
+    """Summarize grading Gateway receipts and fail closed on incomplete calls."""
+    rows: list[dict[str, Any]] = []
+    if receipt_path.is_file():
+        for line in receipt_path.read_text().splitlines():
+            if line.strip():
+                value = json.loads(line)
+                if not isinstance(value, dict):
+                    raise ValueError("grader receipt must be a JSON object")
+                rows.append(value)
+    providers: set[str] = set()
+    costs: list[float] = []
+    prompt_tokens = completion_tokens = total_tokens = 0
+    complete = bool(rows)
+    no_fallback = True
+    for row in rows:
+        gateway = row.get("gateway") if isinstance(row.get("gateway"), dict) else {}
+        routing = gateway.get("routing") if isinstance(gateway.get("routing"), dict) else {}
+        usage = row.get("usage") if isinstance(row.get("usage"), dict) else {}
+        provider = routing.get("finalProvider")
+        if provider:
+            providers.add(str(provider))
+        try:
+            costs.append(float(gateway["cost"]))
+        except (KeyError, TypeError, ValueError):
+            complete = False
+        model_ok = routing.get("originalModelId") == expected_model
+        provider_ok = bool(provider)
+        token_values = (usage.get("prompt_tokens"), usage.get("completion_tokens"), usage.get("total_tokens"))
+        tokens_ok = all(isinstance(value, int) and value >= 0 for value in token_values)
+        no_fallback = no_fallback and routing.get("modelAttemptCount") == 1
+        complete = complete and model_ok and provider_ok and tokens_ok
+        if tokens_ok:
+            prompt_tokens += token_values[0]
+            completion_tokens += token_values[1]
+            total_tokens += token_values[2]
+    complete = complete and no_fallback
+    return {
+        "status": "complete" if complete else "incomplete", "model": expected_model,
+        "providers": sorted(providers), "calls": len(rows), "prompt_tokens": prompt_tokens,
+        "completion_tokens": completion_tokens, "total_tokens": total_tokens,
+        "known_cost_usd": round(sum(costs), 12), "costed_calls": len(costs),
+        "no_fallback_observed": no_fallback, "receipt_path": str(receipt_path),
+    }
+
+
+def derived_grading_llm_source(source: str) -> str:
+    """Instrument the pinned grader's central LLM wrapper with terminal receipts."""
+    import_anchor = "import time\n"
+    return_anchor = """        response_obj = validated
+        ok = True
+        return validated
+"""
+    if source.count(import_anchor) != 1 or source.count(return_anchor) != 1:
+        raise ValueError("pinned grading LLM wrapper changed; receipt hook cannot be applied")
+    imports = "import json\nimport os\nfrom pathlib import Path\n" + import_anchor
+    receipt = """        response_obj = validated
+        receipt_path = os.environ.get("APEX_IB_GRADER_RECEIPTS")
+        if receipt_path:
+            response_dump = validated.model_dump(mode="json")
+            choices = response_dump.get("choices") or []
+            message = choices[0].get("message", {}) if choices else {}
+            fields = message.get("provider_specific_fields") or {}
+            metadata = fields.get("provider_metadata") or {}
+            record = {"model": model, "usage": response_dump.get("usage") or {}, "gateway": metadata.get("gateway") or {}}
+            with Path(receipt_path).open("a", encoding="utf-8") as handle:
+                handle.write(json.dumps(record, sort_keys=True) + "\\n")
+        ok = True
+        return validated
+"""
+    return source.replace(import_anchor, imports, 1).replace(return_anchor, receipt, 1)
+
+
 def load_public_task(tasks_path: Path, task_id: str) -> dict[str, Any]:
     """Return only executor-public task fields; hidden fields are discarded."""
     if task_id not in TASK_SPECS:
@@ -585,6 +658,7 @@ def configure_runtime(checkout: Path, *, agent_model: str = EXECUTOR_MODEL) -> d
     grading_path = example / "grading_settings.json"
     agent_path = example / "agent_config.json"
     compose_path = checkout / "environment" / "docker-compose.yml"
+    grading_llm_path = checkout / "grading" / "runner" / "utils" / "llm.py"
     orchestrator = json.loads(orchestrator_path.read_text())
     grading = json.loads(grading_path.read_text())
     agent = json.loads(agent_path.read_text())
@@ -606,9 +680,12 @@ def configure_runtime(checkout: Path, *, agent_model: str = EXECUTOR_MODEL) -> d
             raise ValueError("pinned Docker compose anchor changed")
         compose = compose.replace(anchor, anchor + image_line, 1)
         compose_path.write_text(compose)
+    grading_source = grading_llm_path.read_text()
+    if "APEX_IB_GRADER_RECEIPTS" not in grading_source:
+        grading_llm_path.write_text(derived_grading_llm_source(grading_source))
     return {
         path.relative_to(checkout).as_posix(): sha256_file(path)
-        for path in (orchestrator_path, grading_path, agent_path, compose_path)
+        for path in (orchestrator_path, grading_path, agent_path, compose_path, grading_llm_path)
     }
 
 
@@ -771,6 +848,7 @@ def run_apex_stage(
         "GRADING_DIR": str(checkout / "grading"), "ENV_URL": "http://localhost:8080",
         "APEX_IB_INSTRUCTION_FILE": str(instruction_path),
         "APEX_IB_NEUTRAL_GRADING_MEMBERS": str(neutral_path),
+        "APEX_IB_GRADER_RECEIPTS": str(run_dir / "grader_receipts.jsonl"),
     }
     if overlay is not None:
         process_env["APEX_IB_OVERLAY_DIR"] = str(overlay)
@@ -799,10 +877,12 @@ def run_apex_stage(
     trajectory = json.loads(trajectory_path.read_text()) if trajectory_path.exists() else {}
     grades = json.loads(grades_path.read_text()) if grades_path.exists() else {}
     telemetry = trajectory_telemetry(trajectory, agent_model)
+    grading_telemetry = grader_telemetry(run_dir / "grader_receipts.jsonl", JUDGE_MODEL) if not skip_grading else None
     completed = not timed_out and returncode == 0 and trajectory.get("status") == "completed"
     completed = completed and telemetry["status"] == "complete"
     if not skip_grading:
         completed = completed and grades.get("grading_run_status") == "completed"
+        completed = completed and grading_telemetry is not None and grading_telemetry["status"] == "complete"
     record = {
         "schema_version": f"{SCHEMA}/stage-run", "run_id": run_id, "stage": stage,
         "task_id": task_id, "world_id": WORLD_ID, "agent_model": agent_model,
@@ -817,6 +897,7 @@ def run_apex_stage(
         "archipelago_commit": _git_commit(checkout), "docker_image_id": _image_id(env),
         "runtime_hashes": runtime_hashes,
         "telemetry": telemetry,
+        "grading_telemetry": grading_telemetry,
     }
     write_json(run_dir / "manifest.json", record)
     subprocess.run(["docker", "compose", "down", "-v"], cwd=checkout / "environment", env=env, capture_output=True)
@@ -1022,9 +1103,12 @@ def repeat_native_grading(
     grading_dir = run_dir / "grading_repetitions"
     grading_dir.mkdir(exist_ok=False)
     shutil.copy2(output / "grades.json", grading_dir / "repetition-01.json")
-    records = [{"repetition": 1, "status": "completed", "path": "repetition-01.json"}]
+    first_telemetry = grader_telemetry(run_dir / "grader_receipts.jsonl", JUDGE_MODEL)
+    records = [{"repetition": 1, "status": "completed" if first_telemetry["status"] == "complete" else "failed",
+                "path": "repetition-01.json", "telemetry": first_telemetry}]
     for repetition in range(2, repetitions + 1):
         destination = grading_dir / f"repetition-{repetition:02d}.json"
+        receipt_path = grading_dir / f"repetition-{repetition:02d}-receipts.jsonl"
         command = [
             "uv", "run", "python", "-m", "runner.main",
             "--grading-run-id", f"gr_{uuid.uuid4().hex[:8]}",
@@ -1038,15 +1122,20 @@ def repeat_native_grading(
             "--scoring-config", str(checkout / "examples" / "hugging_face_task" / "scoring_config.json"),
             "--output", str(destination),
         ]
-        result = subprocess.run(command, cwd=checkout / "grading", env=env, capture_output=True, text=True, check=False)
+        result = subprocess.run(command, cwd=checkout / "grading", env=env | {
+            "APEX_IB_GRADER_RECEIPTS": str(receipt_path),
+        }, capture_output=True, text=True, check=False)
         completed = result.returncode == 0 and destination.is_file()
         if completed:
             value = json.loads(destination.read_text())
             completed = value.get("grading_run_status") == "completed"
+        telemetry = grader_telemetry(receipt_path, JUDGE_MODEL)
+        completed = completed and telemetry["status"] == "complete"
         records.append({
             "repetition": repetition, "status": "completed" if completed else "failed",
             "path": destination.name, "returncode": result.returncode,
             "stderr_tail": result.stderr[-1000:] if not completed else "",
+            "telemetry": telemetry,
         })
         if not completed:
             break
