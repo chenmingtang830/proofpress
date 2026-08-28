@@ -358,6 +358,18 @@ class ApexIbPr36Tests(unittest.TestCase):
             self.assertTrue((output / "trajectory.json").exists())
             self.assertFalse((output / "final_snapshot.zip").exists())
 
+    def test_output_compaction_can_retain_failed_cell_partial_artifact(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            output = Path(directory)
+            (output / f"{WORLD_ID}.zip").write_bytes(b"world")
+            (output / "final_snapshot.zip").write_bytes(b"converted")
+            (output / "final_snapshot.tar.gz").write_bytes(b"partial")
+            manifest = compact_apex_output(output, preserve_final_tar=True)
+            self.assertTrue(manifest["retained_final_snapshot_tar"])
+            self.assertTrue((output / "final_snapshot.tar.gz").is_file())
+            self.assertFalse((output / f"{WORLD_ID}.zip").exists())
+            self.assertFalse((output / "final_snapshot.zip").exists())
+
     def test_majority_native_result_uses_three_independent_judgments(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             run_dir = Path(directory)

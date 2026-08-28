@@ -1216,7 +1216,14 @@ def run_formal_matrix(
                 cell["grading_repetitions"] = grading
                 if grading["status"] == "completed":
                     cell["majority_result"] = majority_native_result(Path(result["run_dir"]))
-                cell["compaction"] = compact_apex_output(Path(result["run_dir"]) / "output", preserve_final_tar=False)
+            # Every cell is compacted, including bounded failures.  Preserve the
+            # failed cell's partial final tar for audit while removing its copied
+            # world and reconstructible zip/tar intermediates.  Without this,
+            # repeated 60-step outcomes can exhaust the host before later cells.
+            cell["compaction"] = compact_apex_output(
+                Path(result["run_dir"]) / "output",
+                preserve_final_tar=result["status"] != "completed",
+            )
             cells.append(cell)
             write_json(results_root / "cells.json", cells)
     valid = [cell for cell in cells if cell.get("majority_result")]
