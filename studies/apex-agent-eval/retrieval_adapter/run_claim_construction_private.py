@@ -40,10 +40,105 @@ from legal_pipeline_contract import (
 )
 
 SCHEMA = "proofpress/private-claim-construction/v1"
+PR36_V7_PROTOCOL = {
+    "source_revision": "proofpress-pr36@9f6e3f1",
+    "implementation": "frozen-reimplementation-v1",
+    "decomposition_model": "gpt-5.6-luna",
+    "retrieval": "bounded-lexical",
+    "retrieval_config": {"max_documents_per_requirement": 10, "max_sections_per_requirement": 6},
+    "proposer_model": "deepseek/deepseek-v4-flash",
+    "critic_model": "gpt-5.6-sol",
+}
 TOKEN_RE = re.compile(r"[a-z0-9][a-z0-9_'-]*", re.I)
 ALLOWED_CLAIM_TYPES = {"observed_fact", "risk_signal", "legal_conclusion", "contract_allocation"}
 ALLOWED_RELATION_TYPES = {"supports", "depends_on", "qualifies", "contradicts", "supersedes", "same_as"}
+REQUIREMENT_ITEM_SCHEMA = {
+    "type": "object",
+    "required": ["requirement_id", "requirement", "rationale", "evidence_search_queries", "applicability"],
+    "properties": {
+        "requirement_id": {"type": "string", "maxLength": 96},
+        "requirement": {"type": "string", "maxLength": 500},
+        "type": {"type": "string", "maxLength": 64},
+        "lifecycle_category": {"type": "string", "maxLength": 96},
+        "rationale": {"type": "string", "maxLength": 500},
+        "evidence_search_queries": {"type": "array", "items": {"type": "string", "maxLength": 300}, "maxItems": 4},
+        "applicability": {"type": "string", "enum": ["applicable", "not_applicable", "uncertain"]},
+    },
+    "additionalProperties": False,
+}
+DECOMPOSITION_SCHEMA = {
+    "type": "object", "required": ["requirements"],
+    "properties": {"requirements": {"type": "array", "items": REQUIREMENT_ITEM_SCHEMA, "maxItems": 32}},
+    "additionalProperties": False,
+}
+COVERAGE_SCHEMA = {
+    "type": "object", "required": ["additions"],
+    "properties": {"additions": {"type": "array", "items": REQUIREMENT_ITEM_SCHEMA, "maxItems": 8}},
+    "additionalProperties": False,
+}
+CLAIM_SCHEMA = {
+    "type": "object",
+    "required": ["requirement_id", "claim_type", "statement", "evidence_ids"],
+    "properties": {
+        "id": {"type": ["string", "null"], "maxLength": 96},
+        "claim_id": {"type": ["string", "null"], "maxLength": 96},
+        "requirement_id": {"type": "string", "maxLength": 96},
+        "claim_type": {"type": "string", "enum": sorted(ALLOWED_CLAIM_TYPES)},
+        "statement": {"type": "string", "maxLength": 800},
+        "evidence_ids": {"type": "array", "items": {"type": "string", "maxLength": 96}, "maxItems": 6},
+        "scope": {"type": ["string", "null"], "maxLength": 160},
+        "category": {"type": ["string", "null"], "maxLength": 96},
+        "effective_date": {"type": ["string", "null"], "maxLength": 96},
+        "status": {"type": ["string", "null"], "maxLength": 32},
+    },
+    "additionalProperties": False,
+}
+RELATION_SCHEMA = {
+    "type": "object", "required": ["from", "to", "type"],
+    "properties": {"from": {"type": "string", "maxLength": 96},
+                   "to": {"type": "string", "maxLength": 96},
+                   "type": {"type": "string", "enum": sorted(ALLOWED_RELATION_TYPES)}},
+    "additionalProperties": False,
+}
+CANDIDATE_SCHEMA = {
+    "type": "object", "required": ["claims", "relations"],
+    "properties": {"claims": {"type": "array", "items": CLAIM_SCHEMA, "maxItems": 8},
+                   "relations": {"type": "array", "items": RELATION_SCHEMA, "maxItems": 10}},
+    "additionalProperties": False,
+}
+CRITIC_SCHEMA = {
+    "type": "object", "required": ["decision", "requirement_updates", "repair_instructions", "supplemental_queries"],
+    "properties": {
+        "decision": {"type": "string", "maxLength": 96},
+        "requirement_updates": {"type": "array", "items": REQUIREMENT_ITEM_SCHEMA, "maxItems": 8},
+        "repair_instructions": {"type": "array", "maxItems": 8, "items": {
+            "type": "object", "required": ["category", "instruction"],
+            "properties": {
+                "category": {"type": "string", "enum": ["claim_atomicity", "conflict_or_version",
+                    "evidence_fidelity", "honest_gap", "other", "relation_correctness",
+                    "requirement_completeness", "unsupported_assertion"]},
+                "requirement_id": {"type": ["string", "null"], "maxLength": 96},
+                "claim_id": {"type": ["string", "null"], "maxLength": 96},
+                "instruction": {"type": "string", "maxLength": 500},
+            }, "additionalProperties": False,
+        }},
+        "supplemental_queries": {"type": "array", "maxItems": 8, "items": {
+            "anyOf": [
+                {"type": "string", "maxLength": 300},
+                {"type": "object", "required": ["query"], "properties": {
+                    "requirement_id": {"type": ["string", "null"], "maxLength": 96},
+                    "query": {"type": "string", "maxLength": 300},
+                }, "additionalProperties": False},
+            ],
+        }},
+    },
+    "additionalProperties": False,
+}
 ALLOWED_STATUS = {"covered", "partial", "gap"}
+CRITIC_FINDING_KEYS = ("requirement_updates", "repair_instructions", "supplemental_queries")
+CRITIC_CATEGORIES = {"requirement_completeness", "claim_atomicity", "evidence_fidelity",
+                     "unsupported_assertion", "relation_correctness", "conflict_or_version",
+                     "honest_gap", "other"}
 
 
 def digest(value: Any) -> str:
@@ -53,6 +148,60 @@ def digest(value: Any) -> str:
 
 def sha_text(value: str) -> str:
     return "sha256:" + hashlib.sha256(value.encode()).hexdigest()
+
+
+def _critic_diagnostic(critic: dict[str, Any], requirements: list[dict[str, Any]],
+                       claims: list[dict[str, Any]], round_index: int) -> dict[str, Any]:
+    """Produce a quote-free, stable account of why a critic round did not pass."""
+    decision = str(critic.get("decision", "missing")).strip().lower().replace(" ", "_")
+    targets = _critic_target_requirement_ids(critic, requirements, claims)
+    counts = {key: len(critic.get(key, [])) if isinstance(critic.get(key), list) else 0
+              for key in CRITIC_FINDING_KEYS}
+    claim_ids = {str(row.get("id")) for row in claims if row.get("id")}
+    requirement_ids = {str(row.get("requirement_id")) for row in requirements
+                       if row.get("requirement_id")}
+    unbound = 0
+    category_counts = Counter()
+    repairs = critic.get("repair_instructions", [])
+    for row in repairs if isinstance(repairs, list) else []:
+        if isinstance(row, dict):
+            category = str(row.get("category", "other"))
+            category_counts[category if category in CRITIC_CATEGORIES else "other"] += 1
+        if isinstance(row, dict) and not ({str(row.get("requirement_id"))} & requirement_ids
+                                         or {str(row.get("claim_id"))} & claim_ids):
+            unbound += 1
+    supplemental = critic.get("supplemental_queries", [])
+    for row in supplemental if isinstance(supplemental, list) else []:
+        if not isinstance(row, dict) or str(row.get("requirement_id")) not in requirement_ids:
+            unbound += 1
+    return {"round": round_index, "decision": decision, "finding_counts": counts,
+            "category_counts": dict(sorted(category_counts.items())),
+            "target_requirement_ids": sorted(targets), "unbound_finding_count": unbound,
+            "critic_digest": digest(critic)}
+
+
+def _preserve_open_critic_gaps(requirements: list[dict[str, Any]], claims: list[dict[str, Any]],
+                               critic: dict[str, Any]) -> list[str]:
+    """Turn unresolved critic scope into honest partial/gap state.
+
+    The critic is a coverage gate, not an admission authority. After the two
+    permitted repair rounds it must not erase the whole construction artifact;
+    the contract requires unresolved content to remain visible as a gap.
+    """
+    targets = _critic_target_requirement_ids(critic, requirements, claims)
+    claim_requirements = {
+        str(claim.get("requirement_id")) for claim in claims if claim.get("requirement_id")
+    }
+    changed = []
+    for requirement in requirements:
+        requirement_id = str(requirement.get("requirement_id", ""))
+        if requirement_id not in targets:
+            continue
+        requirement["status"] = "partial" if requirement_id in claim_requirements else "gap"
+        requirement["critic_open"] = True
+        requirement["critic_finding_digest"] = digest(critic)
+        changed.append(requirement_id)
+    return sorted(changed)
 
 
 def _write_private(path: Path, value: Any) -> None:
@@ -101,10 +250,14 @@ class Gateway:
     """A fixed local OpenAI-compatible gateway route with aggregate telemetry."""
 
     def __init__(self, server: str, model: str, provider: str, private_dir: Path, timeout: float,
-                 reasoning: str) -> None:
+                 reasoning: str, structured_output: bool = False,
+                 min_output_tokens: int = 0) -> None:
         self.model = model
         self.provider = provider
+        self.reasoning = reasoning
         self.timeout = timeout
+        self.structured_output = structured_output
+        self.min_output_tokens = max(0, min_output_tokens)
         self._lock = threading.Lock()
         self.calls: list[dict[str, Any]] = []
         self._tmp = tempfile.mkdtemp(prefix="proofpress-claim-gateway-")
@@ -120,6 +273,9 @@ class Gateway:
             "PROOFPRESS_CLAIM_PORT": "0",
             "PROOFPRESS_CLAIM_RECEIPTS": str(Path(self._tmp) / "receipts.jsonl"),
             "PROOFPRESS_CLAIM_ERROR_LOG": str(Path(self._tmp) / "errors.jsonl"),
+            # Abort the upstream request before urllib reaches its own deadline,
+            # so every attempt produces one terminal gateway receipt.
+            "PROOFPRESS_CLAIM_TIMEOUT_MS": str(max(1_000, int(timeout * 1_000) - 5_000)),
             "PROOFPRESS_REASONING": reasoning,
             "PROOFPRESS_CLAIM_REASONING": reasoning,
         })
@@ -134,19 +290,24 @@ class Gateway:
         try:
             ready = json.loads(line)
             self.port = int(ready["port"])
-            if ready.get("model") != model or ready.get("provider") != provider:
+            if (ready.get("model") != model or ready.get("provider") != provider
+                    or ready.get("reasoning") != reasoning):
                 raise ValueError("gateway readiness route mismatch")
         except Exception as exc:
             self.stop()
             raise RuntimeError(f"fixed gateway did not become ready for {model}/{provider}") from exc
         self.private_dir = private_dir
 
-    def call(self, system: str, prompt: str, max_tokens: int) -> dict[str, Any]:
+    def call(self, system: str, prompt: str, max_tokens: int,
+             schema: dict[str, Any] | None = None, schema_name: str | None = None) -> dict[str, Any]:
         started = time.monotonic()
         body = {"model": self.model, "messages": [
             {"role": "system", "content": system},
             {"role": "user", "content": prompt},
-        ], "max_tokens": max_tokens}
+        ], "max_tokens": max(max_tokens, self.min_output_tokens)}
+        if self.structured_output and schema is not None:
+            body["response_schema"] = schema
+            body["response_schema_name"] = schema_name or "proofpress_output"
         request = urllib.request.Request(
             f"http://127.0.0.1:{self.port}/v1/chat/completions",
             data=json.dumps(body, ensure_ascii=False).encode(),
@@ -154,6 +315,8 @@ class Gateway:
         )
         record: dict[str, Any] = {
             "model": self.model, "provider": self.provider,
+            "reasoning": self.reasoning,
+            "requested_max_output_tokens": body["max_tokens"],
             "fallback_used": False, "request_digest": digest(body),
         }
         content: str | None = None
@@ -170,6 +333,7 @@ class Gateway:
             record.update({"status": "ok", "output_digest": digest(parsed),
                            "output_bytes": len(content.encode()),
                            "response_model": envelope.get("model"),
+                           "structured_output_mode": (envelope.get("proofpress") or {}).get("structured_output_mode"),
                            "finish_reason": finish_reason,
                            "cost_usd": cost if isinstance(cost, (int, float)) else None})
             return {"ok": True, "value": parsed, "record": record}
@@ -294,11 +458,12 @@ class SectionIndex:
                  "considered_documents": docs} for rank, i in enumerate(chosen)]
 
 
-def _model_call(gateway: Gateway, system: str, prompt: str, max_tokens: int) -> dict[str, Any]:
+def _model_call(gateway: Gateway, system: str, prompt: str, max_tokens: int,
+                schema: dict[str, Any] | None = None, schema_name: str | None = None) -> dict[str, Any]:
     """Retry at most twice on the same fixed model/provider route."""
     last: dict[str, Any] | None = None
     for attempt in range(1, 4):
-        last = gateway.call(system, prompt, max_tokens)
+        last = gateway.call(system, prompt, max_tokens, schema, schema_name)
         last["record"]["attempt"] = attempt
         if last["ok"]:
             return last
@@ -337,12 +502,27 @@ def _safe_requirements(value: Any) -> list[dict[str, Any]]:
     return rows
 
 
-def _safe_additions(value: Any) -> list[dict[str, Any]]:
+def _safe_additions(value: Any, existing_ids: set[str] | None = None) -> list[dict[str, Any]]:
     if not isinstance(value, dict): return []
     if isinstance(value.get("output"), dict):
         value = value["output"]
     raw = value.get("additions", value.get("requirements", []))
-    return _safe_requirements({"requirements": raw})[:8] if isinstance(raw, list) else []
+    rows = _safe_requirements({"requirements": raw})[:8] if isinstance(raw, list) else []
+    # A per-call JSON Schema cannot enforce uniqueness against IDs emitted by
+    # the preceding decomposition call. IDs are syntactic handles, so repair
+    # collisions deterministically without changing requirement semantics.
+    used = set(existing_ids or set())
+    for index, row in enumerate(rows, 1):
+        candidate = str(row.get("requirement_id") or "")
+        if not candidate or candidate in used:
+            suffix = index
+            candidate = f"coverage_req_{suffix:02d}"
+            while candidate in used:
+                suffix += 1
+                candidate = f"coverage_req_{suffix:02d}"
+            row["requirement_id"] = candidate
+        used.add(candidate)
+    return rows
 
 
 def _evidence(requirement_id: str, hit: dict[str, Any], query: str) -> dict[str, Any]:
@@ -462,15 +642,15 @@ def _candidate_batches(task: dict[str, Any], model_requirements: list[dict[str, 
     """Run bounded proposer/repair batches after requirements and retrieval freeze."""
     batches = [model_requirements[i:i + 4] for i in range(0, len(model_requirements), 4)]
     audit_by_requirement = {row.get("requirement_id"): row for row in audit}
-    supplemental_ids = [evidence_id for row in audit if row.get("supplemental")
-                        for evidence_id in row.get("evidence_ids", [])]
 
     def run(batch_index: int, batch: list[dict[str, Any]]) -> dict[str, Any]:
         requirement_ids = {row["requirement_id"] for row in batch}
         evidence_ids = [evidence_id for requirement_id in requirement_ids
                         for evidence_id in audit_by_requirement.get(requirement_id, {}).get("evidence_ids", [])[:2]]
         if critic is not None:
-            evidence_ids.extend(supplemental_ids[:16])
+            evidence_ids.extend(evidence_id for row in audit
+                                if row.get("supplemental") and row.get("requirement_id") in requirement_ids
+                                for evidence_id in row.get("evidence_ids", [])[:4])
         seen = set()
         compact = []
         for evidence_id in evidence_ids:
@@ -490,14 +670,24 @@ def _candidate_batches(task: dict[str, Any], model_requirements: list[dict[str, 
         }
         if critic is not None:
             batch_claims = [row for row in (current_claims or []) if row.get("requirement_id") in requirement_ids]
-            payload.update({"current_claims": batch_claims, "current_relations": current_relations or [],
-                            "critic": critic,
+            batch_claim_ids = {str(row.get("id")) for row in batch_claims if row.get("id")}
+            batch_relations = [row for row in (current_relations or [])
+                               if str(row.get("from")) in batch_claim_ids or str(row.get("to")) in batch_claim_ids]
+            critic_refs = requirement_ids | batch_claim_ids
+            compact_critic: dict[str, Any] = {"decision": critic.get("decision")}
+            for key in ("requirement_updates", "repair_instructions", "supplemental_queries"):
+                rows = critic.get(key, []) if isinstance(critic.get(key), list) else []
+                compact_critic[key] = [row for row in rows
+                                       if any(ref in json.dumps(row, ensure_ascii=False) for ref in critic_refs)][:8]
+            payload.update({"current_claims": batch_claims, "current_relations": batch_relations,
+                            "critic": compact_critic,
                             "output_schema": {
                                 "claims": "complete replacement array for this batch <=8 and <=2 per requirement; split only where the critic requires atomicity repair; fields requirement_id, claim_type, statement, evidence_ids, scope, category, effective_date, status=unresolved",
                                 "relations": "array <=10; allowed types supports|depends_on|qualifies|contradicts|supersedes|same_as",
                             },
                             "instruction": "Repair only the critic findings for this requirement batch. Return complete replacement claims for the batch and any valid relations. Preserve honest gaps and conflicts; all claims remain unresolved."})
-        result = _model_call(glm, system, json.dumps(payload, ensure_ascii=False), 8000)
+        result = _model_call(glm, system, json.dumps(payload, ensure_ascii=False), 8000,
+                             CANDIDATE_SCHEMA, "proofpress_candidate_claims")
         return {"batch_index": batch_index, "requirement_ids": sorted(requirement_ids), "result": result}
 
     outputs = []
@@ -585,7 +775,7 @@ def _decompose(task: dict[str, Any], index: SectionIndex, glm: Gateway) -> tuple
                          "output": {"requirements": "array <=32; each item must be compact (<=40 words) with fields requirement_id, requirement, type, lifecycle_category, rationale, evidence_search_queries (<=2), applicability"}},
                         ensure_ascii=False)
     system = "You are a legal task decomposer. Return only JSON. Do not answer the task. Do not use any rubric, gold response, or source quotes."
-    first = _model_call(glm, system, prompt, 16000)
+    first = _model_call(glm, system, prompt, 16000, DECOMPOSITION_SCHEMA, "proofpress_task_decomposition")
     if not first["ok"]: return {"status": "inconclusive", "reason": first["record"]}, {"raw": first.get("raw_content")}
     try:
         requirements = _safe_requirements(first["value"])
@@ -595,14 +785,14 @@ def _decompose(task: dict[str, Any], index: SectionIndex, glm: Gateway) -> tuple
     coverage_prompt = json.dumps({"task": task["prompt"], "source_inventory": inventory,
                                   "checklist": list(LIFECYCLE_CHECKLIST), "requirements": requirements,
                                   "instruction": "Add only omitted atomic requirements; <=8 additions; do not use rubric/gold/quotes."}, ensure_ascii=False)
-    coverage = _model_call(glm, system, coverage_prompt, 8000)
+    coverage = _model_call(glm, system, coverage_prompt, 8000, COVERAGE_SCHEMA, "proofpress_coverage_additions")
     if not coverage["ok"]:
         return {"status": "inconclusive", "stage": "coverage", "reason": coverage["record"]}, {
             "raw": {"decomposition": first["value"], "coverage": coverage.get("raw_content")}
         }
     additions: list[dict[str, Any]] = []
     try:
-        additions = _safe_additions(coverage["value"])
+        additions = _safe_additions(coverage["value"], {row["requirement_id"] for row in requirements})
     except Exception as exc:
         return {"status": "inconclusive", "stage": "coverage", "reason": {
             "type": type(exc).__name__, "digest": sha_text(str(exc))
@@ -616,6 +806,27 @@ def _decompose(task: dict[str, Any], index: SectionIndex, glm: Gateway) -> tuple
     return {"status": "ok", "requirements": merged, "frozen": frozen,
             "coverage_status": "ok", "decomposition_digest": digest(requirements),
             "coverage_digest": digest(additions)}, {"raw": {"decomposition": first["value"], "coverage": coverage.get("value")}}
+
+
+def _decompose_v7(task: dict[str, Any], index: SectionIndex, luna: Gateway) -> tuple[dict[str, Any], dict[str, Any]]:
+    """Frozen PR36-v7 comparator: Luna, inventory-only decomposition, no v8 lifecycle coverage pass."""
+    inventory = index.inventory()
+    prompt = json.dumps({"task": task["prompt"], "source_inventory": inventory,
+                         "output": {"requirements": "array <=32 with requirement_id, requirement, rationale, evidence_search_queries, applicability"}},
+                        ensure_ascii=False)
+    first = _model_call(luna, "Decompose the task into bounded retrieval requirements. Return JSON only; do not answer the task and do not use rubric, gold, or source quotes.", prompt, 12000)
+    if not first["ok"]:
+        return {"status": "inconclusive", "reason": first["record"]}, {"raw": first.get("raw_content")}
+    try:
+        requirements = _safe_requirements(first["value"])
+        validate_decomposition(task["prompt"], inventory, requirements)
+        frozen = freeze_requirements(coverage_pass(requirements, []))
+    except Exception as exc:
+        return {"status": "inconclusive", "reason": {"type": type(exc).__name__,
+                "digest": sha_text(str(exc))}}, {"raw": first.get("value")}
+    return {"status": "ok", "requirements": requirements, "frozen": frozen,
+            "coverage_status": "not_applicable_v7", "decomposition_digest": digest(requirements)}, {
+                "raw": {"decomposition": first.get("value")}}
 
 
 def _construct(task: dict[str, Any], decomposition: dict[str, Any], index: SectionIndex, glm: Gateway, sol: Gateway) -> tuple[dict[str, Any], dict[str, Any]]:
@@ -649,6 +860,7 @@ def _construct(task: dict[str, Any], decomposition: dict[str, Any], index: Secti
 
     critic_history: list[dict[str, Any]] = []
     repair_history: list[dict[str, Any]] = []
+    critic_diagnostics: list[dict[str, Any]] = []
     for repair_round in range(3):
         current_compact_evidence = [{"evidence_id": e["evidence_id"], "source_uri": e["source"]["uri"],
                                      "locator": e["locator"], "quote": e["quote"][:300]}
@@ -658,8 +870,9 @@ def _construct(task: dict[str, Any], decomposition: dict[str, Any], index: Secti
                                     "evidence_receipts": current_compact_evidence,
                                     "output_limits": {"requirement_updates": 8, "repair_instructions": 8,
                                                       "supplemental_queries": 8},
-                                    "instruction": "Independently audit completeness, atomicity, fidelity, unsupported assertions, relation correctness, conflicts, and honest gaps. Return compact JSON with decision, requirement_updates, repair_instructions, supplemental_queries."}, ensure_ascii=False)
-        critic = _model_call(sol, "You are an independent coverage critic. Do not use rubric or gold response. Return compact JSON only.", critic_prompt, 8000)
+                                    "instruction": "Independently audit completeness, atomicity, fidelity, unsupported assertions, relation correctness, conflicts, and honest gaps. Return compact JSON with decision, requirement_updates, repair_instructions, supplemental_queries. Every repair instruction must include one category: requirement_completeness, claim_atomicity, evidence_fidelity, unsupported_assertion, relation_correctness, conflict_or_version, honest_gap, or other; bind it to requirement_id and/or claim_id."}, ensure_ascii=False)
+        critic = _model_call(sol, "You are an independent coverage critic. Do not use rubric or gold response. Return compact JSON only.", critic_prompt, 8000,
+                             CRITIC_SCHEMA, "proofpress_coverage_critic")
         if not critic["ok"]:
             return {"status": "ok", "requirements": requirements, "claims": claims, "relations": relations,
                     "evidence": list(evidence_by_id.values()), "retrieval_audit": audit,
@@ -669,6 +882,8 @@ def _construct(task: dict[str, Any], decomposition: dict[str, Any], index: Secti
                                                      "repair_history": repair_history}
         critic_value = critic["value"] if isinstance(critic["value"], dict) else {}
         critic_history.append(critic_value)
+        diagnostic = _critic_diagnostic(critic_value, requirements, claims, repair_round + 1)
+        critic_diagnostics.append(diagnostic)
         added_requirement_ids = set()
         raw_updates = critic_value.get("requirement_updates", [])
         if isinstance(raw_updates, list) and raw_updates:
@@ -705,6 +920,7 @@ def _construct(task: dict[str, Any], decomposition: dict[str, Any], index: Secti
             return {"status": "ok", "requirements": requirements, "claims": claims, "relations": relations,
                     "evidence": list(evidence_by_id.values()), "retrieval_audit": audit,
                     "critic_status": "ok", "critic": critic_value,
+                    "critic_diagnostics": critic_diagnostics,
                     "repair_rounds": repair_round, "batch_failure_count": len(batch_failures)}, {"retrieval": audit, "proposal": value,
                                                      "critic_history": critic_history,
                                                      "repair_history": repair_history}
@@ -732,6 +948,9 @@ def _construct(task: dict[str, Any], decomposition: dict[str, Any], index: Secti
             # conservatively to the full set instead of silently dropping it.
             target_ids = {row["requirement_id"] for row in model_requirements}
         repair_requirements = [row for row in model_requirements if row["requirement_id"] in target_ids]
+        diagnostic["repair_scope_requirement_ids"] = sorted(target_ids)
+        diagnostic["pre_repair_claim_count"] = len(claims)
+        diagnostic["pre_repair_claim_digest"] = digest(claims)
         repair = _candidate_batches(task, repair_requirements, evidence_by_id, audit, glm, system,
                                     critic=critic_value, current_claims=claims,
                                     current_relations=relations)
@@ -754,9 +973,15 @@ def _construct(task: dict[str, Any], decomposition: dict[str, Any], index: Secti
                                                      "critic_history": critic_history,
                                                      "repair_history": repair_history}
         repair_history.append(repair["value"])
+        diagnostic["post_repair_claim_count"] = len(claims)
+        diagnostic["post_repair_claim_digest"] = digest(claims)
+    open_gap_requirement_ids = _preserve_open_critic_gaps(
+        requirements, claims, critic_history[-1])
     return {"status": "ok", "requirements": requirements, "claims": claims, "relations": relations,
             "evidence": list(evidence_by_id.values()), "retrieval_audit": audit,
-            "critic_status": "insufficient_after_repairs", "critic": critic_history[-1],
+            "critic_status": "open_gaps_after_repairs", "critic": critic_history[-1],
+            "critic_diagnostics": critic_diagnostics,
+            "open_gap_requirement_ids": open_gap_requirement_ids,
             "repair_rounds": 2, "batch_failure_count": len(batch_failures)}, {"retrieval": audit, "proposal": value,
                                   "critic_history": critic_history, "repair_history": repair_history}
 
@@ -769,14 +994,23 @@ def main() -> None:
     parser.add_argument("--out", required=True)
     parser.add_argument("--gateway-server", required=True)
     parser.add_argument("--gateway-provider", default="zai")
+    parser.add_argument("--v8-construction-model", default=MODEL_ROLES["decomposition"],
+                        help="Frozen v8 decomposition and candidate proposer/repair model.")
+    parser.add_argument("--system-version", choices=("v8", "pr36-v7"), default="v8")
+    parser.add_argument("--v7-decomposition-provider", default="openai")
+    parser.add_argument("--v7-proposer-provider", default="deepseek")
     parser.add_argument("--critic-provider", default="openai")
     parser.add_argument("--workers", type=int, default=4)
     parser.add_argument("--timeout", type=float, default=120)
     parser.add_argument("--glm-reasoning", default="none")
+    parser.add_argument("--construction-min-output-tokens", type=int, default=0,
+                        help="Minimum output-token cap for v8 decomposition/proposal/repair calls.")
     parser.add_argument("--critic-reasoning", default="low")
     parser.add_argument("--max-tasks", type=int, default=0)
     parser.add_argument("--exclude-task-id", action="append", default=[])
     parser.add_argument("--budget-usd", type=float, default=100.0)
+    parser.add_argument("--qualification", action="store_true",
+                        help="Run a pre-scoring qualification block; requires one or two tasks and reports fail-closed readiness.")
     args = parser.parse_args()
     out = Path(args.out); out.mkdir(parents=True, exist_ok=True); out.chmod(0o700)
     catalog = json.loads(Path(args.catalog).read_text(encoding="utf-8"))
@@ -788,22 +1022,42 @@ def main() -> None:
     tasks.sort(key=lambda row: row["task_id"])
     if args.max_tasks:
         tasks = tasks[:args.max_tasks]
+    if args.qualification and not 1 <= len(tasks) <= 2:
+        parser.error("--qualification requires a one- or two-task block (use --max-tasks 2)")
     index = SectionIndex(catalog)
     private = out / "raw"
-    glm = sol = None
+    glm = proposer = sol = None
     try:
-        glm = Gateway(args.gateway_server, MODEL_ROLES["decomposition"], args.gateway_provider, out, args.timeout, args.glm_reasoning)
-        sol = Gateway(args.gateway_server, MODEL_ROLES["coverage_critic"], args.critic_provider, out, args.timeout, args.critic_reasoning)
+        decomposition_model = (PR36_V7_PROTOCOL["decomposition_model"] if args.system_version == "pr36-v7"
+                               else args.v8_construction_model)
+        proposer_model = (PR36_V7_PROTOCOL["proposer_model"] if args.system_version == "pr36-v7"
+                          else args.v8_construction_model)
+        decomposition_provider = (args.v7_decomposition_provider if args.system_version == "pr36-v7"
+                                  else args.gateway_provider)
+        proposer_provider = (args.v7_proposer_provider if args.system_version == "pr36-v7"
+                             else args.gateway_provider)
+        structured_output = args.system_version != "pr36-v7"
+        glm = Gateway(args.gateway_server, decomposition_model, decomposition_provider, out, args.timeout, args.glm_reasoning,
+                      structured_output=structured_output,
+                      min_output_tokens=args.construction_min_output_tokens if structured_output else 0)
+        proposer = (glm if proposer_model == decomposition_model and proposer_provider == decomposition_provider else
+                    Gateway(args.gateway_server, proposer_model, proposer_provider, out, args.timeout, args.glm_reasoning,
+                            structured_output=structured_output,
+                            min_output_tokens=args.construction_min_output_tokens if structured_output else 0))
+        sol = Gateway(args.gateway_server, MODEL_ROLES["coverage_critic"], args.critic_provider, out, args.timeout, args.critic_reasoning,
+                      structured_output=structured_output)
         def run(row: dict[str, Any]) -> tuple[str, dict[str, Any]]:
-            decomposition, decomp_raw = _decompose(row, index, glm)
+            decomposition, decomp_raw = ((_decompose_v7(row, index, glm)) if args.system_version == "pr36-v7"
+                                         else _decompose(row, index, glm))
             if decomposition["status"] != "ok":
                 result = {"task_id": row["task_id"], "task_name": row.get("task_name"), "status": "inconclusive", "decomposition": decomposition}
                 _write_private(private / (row["task_id"] + ".json"), {"task": row, "decomposition": decomposition, "raw": decomp_raw})
                 return row["task_id"], result
-            construction, construct_raw = _construct(row, decomposition, index, glm, sol)
+            construction, construct_raw = _construct(row, decomposition, index, proposer, sol)
             construction_status = construction.get("status")
             critic_status = construction.get("critic_status")
-            overall_status = "ok" if construction_status == "ok" and critic_status == "ok" else "inconclusive"
+            overall_status = ("ok" if construction_status == "ok" and
+                              critic_status in {"ok", "open_gaps_after_repairs"} else "inconclusive")
             result = {"task_id": row["task_id"], "task_name": row.get("task_name"), "status": overall_status,
                       "construction_status": construction_status,
                       "decomposition_requirement_count": len(decomposition["requirements"]),
@@ -812,6 +1066,8 @@ def main() -> None:
                       "claim_count": len(construction.get("claims", [])), "relation_count": len(construction.get("relations", [])),
                       "evidence_count": len(construction.get("evidence", [])), "critic_status": critic_status,
                       "repair_rounds": construction.get("repair_rounds"),
+                      "critic_diagnostic_digest": digest(construction.get("critic_diagnostics", [])),
+                      "critic_diagnostics": construction.get("critic_diagnostics", []),
                       "batch_failure_count": construction.get("batch_failure_count", 0),
                       "requirement_digest": digest(construction.get("requirements", [])),
                       "claim_digest": digest(construction.get("claims", [])),
@@ -836,9 +1092,13 @@ def main() -> None:
                 results[task_id] = result
     finally:
         if glm: glm.stop()
+        if proposer and proposer is not glm: proposer.stop()
         if sol: sol.stop()
-    all_calls = (glm.calls if glm else []) + (sol.calls if sol else [])
-    gateway_receipts = (glm.receipt_rows() if glm else []) + (sol.receipt_rows() if sol else [])
+    all_calls = ((glm.calls if glm else []) + (proposer.calls if proposer and proposer is not glm else []) +
+                 (sol.calls if sol else []))
+    gateway_receipts = ((glm.receipt_rows() if glm else []) +
+                        (proposer.receipt_rows() if proposer and proposer is not glm else []) +
+                        (sol.receipt_rows() if sol else []))
     numeric_costs = [float(r["cost_usd"]) for r in gateway_receipts if isinstance(r.get("cost_usd"), (int, float))]
     missing_receipt_costs = sum(not isinstance(r.get("cost_usd"), (int, float)) for r in gateway_receipts)
     latencies = sorted(float(r["latency_ms"]) for r in all_calls if isinstance(r.get("latency_ms"), (int, float)))
@@ -847,18 +1107,85 @@ def main() -> None:
             return None
         index = min(len(values) - 1, max(0, math.ceil(p * len(values)) - 1))
         return round(values[index], 3)
-    report = {"schema_version": SCHEMA, "catalog_digest": catalog.get("catalog_digest"),
+    completed = sum(r.get("status") == "ok" for r in results.values())
+    telemetry_complete = (not missing_receipt_costs and len(gateway_receipts) == len(all_calls))
+    qualification_checks = {
+        "all_tasks_completed": completed == len(tasks),
+        "all_critics_terminal": all(r.get("critic_status") in {"ok", "open_gaps_after_repairs"}
+                                     for r in results.values()),
+        "all_calls_have_terminal_cost_receipts": telemetry_complete,
+        "all_structured_logical_outputs_valid": (
+            all(int(row.get("batch_failure_count", 0)) == 0 for row in results.values())
+            if structured_output else True),
+        "no_fallback": all(not row.get("fallback_used") for row in all_calls),
+    }
+    structured_modes = Counter(
+        str(row.get("structured_mode") or "missing") for row in gateway_receipts
+        if structured_output
+    )
+    terminal_failure_types = Counter(
+        str(row.get("error_type") or "unknown") for row in gateway_receipts
+        if row.get("status") != "ok"
+    )
+    schema_failure_types = {"StructuredToolCallMissingError", "AI_NoObjectGeneratedError"}
+    critic_failure_counts = Counter()
+    critic_category_counts = Counter()
+    critic_decisions = Counter()
+    unbound_critic_findings = 0
+    for result in results.values():
+        for row in result.get("critic_diagnostics", []):
+            critic_decisions[str(row.get("decision", "missing"))] += 1
+            unbound_critic_findings += int(row.get("unbound_finding_count", 0))
+            for key, count in row.get("finding_counts", {}).items():
+                critic_failure_counts[key] += int(count)
+            for key, count in row.get("category_counts", {}).items():
+                critic_category_counts[key] += int(count)
+    configuration = {
+        "decomposition": {"model": decomposition_model, "provider": decomposition_provider,
+                          "reasoning": args.glm_reasoning},
+        "candidate_proposer_repair": {"model": proposer_model, "provider": proposer_provider,
+                                      "reasoning": args.glm_reasoning},
+        "coverage_critic": {"model": MODEL_ROLES["coverage_critic"],
+                            "provider": args.critic_provider, "reasoning": args.critic_reasoning},
+        "fallback": "forbidden",
+        "output_protocol": "provider-structured-json-schema/v1" if structured_output else "prompt-only-json/v1",
+        "construction_min_output_tokens": args.construction_min_output_tokens,
+    }
+    configuration["config_digest"] = digest(configuration)
+    report = {"schema_version": SCHEMA, "system": args.system_version,
+              "protocol": (PR36_V7_PROTOCOL if args.system_version == "pr36-v7" else {
+                  "implementation": "legal-claim-construction-v8",
+                  "decomposition_model": decomposition_model,
+                  "candidate_proposer_repair_model": proposer_model,
+                  "coverage_critic_model": MODEL_ROLES["coverage_critic"],
+                  "construction_model_override": decomposition_model != MODEL_ROLES["decomposition"],
+                  "construction_min_output_tokens": args.construction_min_output_tokens,
+              }),
+              "catalog_digest": catalog.get("catalog_digest"),
               "task_set_digest": digest([row["task_id"] for row in tasks]),
               "excluded_development_task_ids": sorted(excluded_task_ids),
               "source_count": len(catalog.get("sources", [])), "unique_source_uri_count": len(index.doc_meta),
               "section_count": len(index.sections),
-              "models": MODEL_ROLES, "providers": {"glm": args.gateway_provider, "critic": args.critic_provider},
+              "models": {"decomposition": decomposition_model, "candidate_proposer_repair": proposer_model,
+                         "coverage_critic": MODEL_ROLES["coverage_critic"]},
+              "providers": {"decomposition": decomposition_provider, "proposer": proposer_provider,
+                            "critic": args.critic_provider},
+              "configuration": configuration,
+              "output_protocol": "provider-structured-json-schema/v1" if structured_output else "prompt-only-json/v1",
               "fallback": "forbidden", "tasks": [results[k] for k in sorted(results)],
-              "denominators": {"tasks": len(tasks), "completed_construction": sum(r.get("status") == "ok" for r in results.values()),
+              "denominators": {"tasks": len(tasks), "completed_construction": completed,
                                "inconclusive_tasks": sum(r.get("status") != "ok" for r in results.values()),
                                "quality_metrics_with_frozen_silver_locators": 0},
               "telemetry": {"calls": len(all_calls), "ok_calls": sum(r.get("status") == "ok" for r in all_calls),
                             "inconclusive_calls": sum(r.get("status") != "ok" for r in all_calls),
+                            "structured_output_modes": dict(sorted(structured_modes.items())),
+                            "terminal_failure_types": dict(sorted(terminal_failure_types.items())),
+                            "parse_or_schema_failure_count": sum(
+                                count for kind, count in terminal_failure_types.items()
+                                if kind in schema_failure_types),
+                            "transport_or_timeout_failure_count": sum(
+                                count for kind, count in terminal_failure_types.items()
+                                if kind not in schema_failure_types),
                             "gateway_receipts": len(gateway_receipts),
                             "known_cost_usd": round(sum(numeric_costs), 8),
                             "cost_usd": round(sum(numeric_costs), 8) if not missing_receipt_costs and len(gateway_receipts) == len(all_calls) else None,
@@ -866,6 +1193,14 @@ def main() -> None:
                             "cost_status": "ok" if not missing_receipt_costs and len(gateway_receipts) == len(all_calls) else "inconclusive_missing_call_cost",
                             "budget_usd": args.budget_usd,
                             "budget_status": "within" if not missing_receipt_costs and len(gateway_receipts) == len(all_calls) and sum(numeric_costs) <= args.budget_usd else "inconclusive"},
+              "qualification": {"requested": args.qualification,
+                                "status": ("pass" if all(qualification_checks.values()) else "fail") if args.qualification else "not_run",
+                                "checks": qualification_checks if args.qualification else {}},
+              "critic_diagnostics": {"rounds": sum(len(r.get("critic_diagnostics", [])) for r in results.values()),
+                                     "decisions": dict(sorted(critic_decisions.items())),
+                                     "finding_counts": dict(sorted(critic_failure_counts.items())),
+                                     "category_counts": dict(sorted(critic_category_counts.items())),
+                                     "unbound_finding_count": unbound_critic_findings},
               "scoring_boundary": "Construction never receives rubric, gold response, or frozen silver locators. A separate post-output scorer binds this run to pre-frozen model-adjudicated silver.",
               "raw_private_dir": str(private)}
     _write_private(out / "sanitized-report.json", report)

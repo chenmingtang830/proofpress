@@ -79,8 +79,19 @@ def bridge(script,receipt_file):
     try: port=int(json.loads(line)["port"])
     except Exception: process.kill(); raise RuntimeError("Gateway bridge did not become ready")
     return process,"http://127.0.0.1:%s/v1"%port
+def tree_request(query,sources,config,limit,cache_dir):
+    # The source digest binds original custody/navigation while path_digest
+    # binds the canonical bytes PageIndex actually reads.  Keep locator_map and
+    # representation_kind so the sidecar can map canonical line hits back to
+    # stable source section/page locators.  Dropping these fields silently
+    # collapses the two custody domains and makes every converted Office/text
+    # source fail closed.
+    allowed={"source_id","path","uri","content_digest","media_type",
+             "representation_digest","transform_digest","page_count",
+             "path_digest","representation_kind","locator_map"}
+    return {"schema_version":"proofpress/pageindex-sidecar/v1","query":query,"sources":[{k:v for k,v in s.items() if k in allowed} for s in sources],"config":config,"max_results":limit,"cache_dir":str(cache_dir)}
 def tree(query,sources,sidecar,config,limit,base_url,cache_dir,timeout_seconds):
-    request={"schema_version":"proofpress/pageindex-sidecar/v1","query":query,"sources":[{k:v for k,v in s.items() if k in {"source_id","path","uri","content_digest","media_type","representation_digest","transform_digest","page_count"}} for s in sources],"config":config,"max_results":limit,"cache_dir":str(cache_dir)}
+    request=tree_request(query,sources,config,limit,cache_dir)
     env=os.environ.copy(); env.update({"OPENAI_BASE_URL":base_url,"OPENAI_API_KEY":"local-gateway-bridge"})
     result=subprocess.run([sidecar],input=json.dumps(request),text=True,capture_output=True,timeout=timeout_seconds,env=env)
     if result.returncode: raise RuntimeError("sidecar failed closed")

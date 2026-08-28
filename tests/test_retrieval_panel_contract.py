@@ -1,5 +1,7 @@
 import importlib.util
+import json
 import sys
+import tempfile
 import unittest
 from pathlib import Path
 
@@ -21,9 +23,13 @@ contract = load("legal_contract", ROOT / "studies/apex-agent-eval/retrieval_adap
 panel_manifest = load("panel_manifest", ROOT / "studies/apex-agent-eval/retrieval_adapter/panel_manifest.py")
 claim_runner = load("claim_runner", ROOT / "studies/apex-agent-eval/retrieval_adapter/run_claim_construction_private.py")
 gap_runner = load("gap_runner", ROOT / "studies/apex-agent-eval/retrieval_adapter/run_gap_retrieval_private.py")
+warm_runner = load("warm_runner", ROOT / "studies/apex-agent-eval/retrieval_adapter/run_gap_warm_replay_private.py")
 claim_scorer = load("claim_scorer", ROOT / "studies/apex-agent-eval/retrieval_adapter/score_claim_construction_private.py")
+semantic_runner = load("semantic_runner", ROOT / "studies/apex-agent-eval/retrieval_adapter/run_claim_semantic_adjudication_private.py")
 ask_freezer = load("ask_freezer", ROOT / "studies/apex-agent-eval/retrieval_adapter/freeze_workflow_asks_private.py")
 workflow_runner = load("workflow_runner", ROOT / "studies/apex-agent-eval/retrieval_adapter/run_workflow_utility_private.py")
+budget_runner = load("budget_runner", ROOT / "studies/apex-agent-eval/retrieval_adapter/build_private_budget_ledger.py")
+pipeline_summary = load("pipeline_summary", ROOT / "studies/apex-agent-eval/retrieval_adapter/summarize_private_legal_pipeline.py")
 
 
 class RetrievalPanelContractTests(unittest.TestCase):
@@ -75,6 +81,41 @@ class RetrievalPanelContractTests(unittest.TestCase):
         self.assertLess(len(str(inventory)), 500)
         self.assertNotIn("content_digest", str(inventory))
 
+    def test_v8_model_call_passes_stage_schema_and_fails_after_three_same_route_attempts(self):
+        class FakeGateway:
+            def __init__(self):
+                self.calls = []
+
+            def call(self, system, prompt, max_tokens, schema, schema_name):
+                self.calls.append((schema, schema_name))
+                return {"ok": False, "record": {"status": "inconclusive"}}
+
+        gateway = FakeGateway()
+        result = claim_runner._model_call(
+            gateway, "system", "prompt", 100,
+            claim_runner.CANDIDATE_SCHEMA, "proofpress_candidate_claims")
+        self.assertFalse(result["ok"])
+        self.assertEqual(len(gateway.calls), 3)
+        self.assertTrue(all(schema is claim_runner.CANDIDATE_SCHEMA for schema, _ in gateway.calls))
+        self.assertTrue(all(name == "proofpress_candidate_claims" for _, name in gateway.calls))
+        self.assertEqual(result["record"]["attempt"], 3)
+        self.assertEqual(claim_runner.DECOMPOSITION_SCHEMA["additionalProperties"], False)
+        self.assertEqual(claim_runner.COVERAGE_SCHEMA["properties"]["additions"]["maxItems"], 8)
+
+    def test_coverage_additions_rekey_cross_call_id_collisions(self):
+        value = {"additions": [
+            {"requirement_id": "req1", "requirement": "Check authority",
+             "rationale": "Needed", "evidence_search_queries": ["authority"],
+             "applicability": "applicable"},
+            {"requirement_id": "new", "requirement": "Check tax",
+             "rationale": "Needed", "evidence_search_queries": ["tax"],
+             "applicability": "uncertain"},
+        ]}
+        additions = claim_runner._safe_additions(value, {"req1", "req2"})
+        self.assertEqual(additions[0]["requirement_id"], "coverage_req_01")
+        self.assertEqual(additions[1]["requirement_id"], "new")
+        self.assertEqual(additions[0]["requirement"], "Check authority")
+
     def test_claim_runner_accepts_nested_gateway_requirement_envelope(self):
         rows = claim_runner._safe_requirements({"output": {"requirements": [{
             "id": "R1", "requirement": "Identify the parties",
@@ -118,6 +159,38 @@ class RetrievalPanelContractTests(unittest.TestCase):
         self.assertEqual([row["statement"] for row in claims], ["Bound fact"])
         self.assertEqual(next(row for row in requirements if row["requirement_id"] == "R2")["status"], "partial")
 
+    def test_unresolved_critic_scope_becomes_partial_or_gap_not_task_failure(self):
+        requirements = [
+            {"requirement_id": "R1", "status": "covered"},
+            {"requirement_id": "R2", "status": "covered"},
+        ]
+        claims = [{"id": "C1", "requirement_id": "R1"}]
+        critic = {"repair_instructions": [
+            {"requirement_id": "R1", "category": "evidence_fidelity"},
+            {"requirement_id": "R2", "category": "honest_gap"},
+        ]}
+        changed = claim_runner._preserve_open_critic_gaps(requirements, claims, critic)
+        self.assertEqual(changed, ["R1", "R2"])
+        self.assertEqual(requirements[0]["status"], "partial")
+        self.assertEqual(requirements[1]["status"], "gap")
+        self.assertTrue(all(row["critic_open"] for row in requirements))
+
+    def test_gap_cost_telemetry_does_not_erase_valid_retrieval_quality(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            receipts = Path(tmp) / "receipts.jsonl"
+            rows = [
+                {"model": "m", "provider": "p", "fallback_used": False, "terminal": True,
+                 "status": "ok", "cost_usd": 0.01},
+                {"model": "m", "provider": "p", "fallback_used": False, "terminal": True,
+                 "status": "inconclusive", "cost_usd": None},
+            ]
+            receipts.write_text("\n".join(json.dumps(row) for row in rows) + "\n")
+            summary = gap_runner.gateway_cost_summary(receipts, 0, "m", "p")
+        self.assertEqual(summary["known_cost_usd"], 0.01)
+        self.assertIsNone(summary["cost_usd"])
+        self.assertEqual(summary["cost_status"], "inconclusive_missing_cost")
+        self.assertEqual(summary["missing_cost_call_count"], 1)
+
     def test_critic_repairs_only_bound_requirements(self):
         requirements = [{"requirement_id": "R1"}, {"requirement_id": "R2"}, {"requirement_id": "R3"}]
         claims = [{"id": "C1", "requirement_id": "R1"}, {"id": "C2", "requirement_id": "R2"}]
@@ -126,6 +199,98 @@ class RetrievalPanelContractTests(unittest.TestCase):
             "supplemental_queries": [{"requirement_id": "R3", "query": "missing evidence"}],
         }, requirements, claims)
         self.assertEqual(targets, {"R1", "R3"})
+
+    def test_critic_diagnostic_exposes_round_scope_without_finding_text(self):
+        diagnostic = claim_runner._critic_diagnostic({
+            "decision": "needs repair",
+            "repair_instructions": [{"claim_id": "C1", "instruction": "sensitive prose"},
+                                    {"claim_id": "missing", "instruction": "other prose"}],
+            "supplemental_queries": [{"requirement_id": "R2", "query": "private query"}],
+        }, [{"requirement_id": "R1"}, {"requirement_id": "R2"}],
+           [{"id": "C1", "requirement_id": "R1"}], 1)
+        self.assertEqual(diagnostic["decision"], "needs_repair")
+        self.assertEqual(diagnostic["target_requirement_ids"], ["R1", "R2"])
+        self.assertEqual(diagnostic["unbound_finding_count"], 1)
+        self.assertNotIn("sensitive prose", str(diagnostic))
+
+    def test_claim_scorer_pairs_only_real_common_scored_artifacts(self):
+        v7 = [{"task_id": "A", "status": "scored", "evidence_set_coverage": .4,
+               "evidence_binding_pass_rate": 1.0},
+              {"task_id": "B", "status": "inconclusive", "evidence_set_coverage": .2,
+               "evidence_binding_pass_rate": .5}]
+        v8 = [{"task_id": "A", "status": "scored", "evidence_set_coverage": .7,
+               "evidence_binding_pass_rate": 1.0},
+              {"task_id": "C", "status": "scored", "evidence_set_coverage": .9,
+               "evidence_binding_pass_rate": 1.0}]
+        paired = claim_scorer.paired_metrics(v7, v8)
+        self.assertEqual(paired["paired_task_ids"], ["A"])
+        self.assertAlmostEqual(paired["evidence_set_coverage_mean_delta_v8_minus_v7"], .3)
+        self.assertEqual(paired["evidence_set_coverage_delta_bootstrap_95_ci"],
+                         [paired["evidence_set_coverage_mean_delta_v8_minus_v7"]] * 2)
+        self.assertIsNone(paired["requirement_recall_mean_delta_v8_minus_v7"])
+        self.assertIn("requirement_to_rubric_mapping", paired["missing_semantic_adjudication"])
+
+    def test_claim_pair_qualification_rejects_mismatched_or_unlabeled_v7(self):
+        v8 = {"system": "v8", "catalog_digest": "sha256:cat", "raw_private_dir": "/private/v8",
+              "tasks": [{"task_id": "A"}]}
+        unlabeled = {"catalog_digest": "sha256:cat", "raw_private_dir": "/private/v7",
+                     "tasks": [{"task_id": "A"}]}
+        self.assertEqual(claim_scorer.qualify_pair_reports(unlabeled, v8)["status"], "fail")
+        v7 = dict(unlabeled, system="pr36-v7", protocol=claim_scorer.PR36_V7_PROTOCOL)
+        self.assertEqual(claim_scorer.qualify_pair_reports(v7, v8)["status"], "pass")
+
+        v7_superset = dict(v7, tasks=[{"task_id": "A"}, {"task_id": "B"}])
+        self.assertEqual(claim_scorer.qualify_pair_reports(v7_superset, v8)["status"], "fail")
+        qualification = dict(v8, qualification={"requested": True})
+        qualified = claim_scorer.qualify_pair_reports(v7_superset, qualification)
+        self.assertEqual(qualified["status"], "pass")
+        self.assertEqual(qualified["task_set_mode"], "qualification_v8_subset_of_v7")
+
+    def test_claim_score_denominators_separate_panel_from_run(self):
+        run = {"tasks": [{"task_id": "A"}, {"task_id": "B"}]}
+        silver = {"tasks": [{"task_id": "A"}, {"task_id": "B"}, {"task_id": "C"}]}
+        rows = [{"task_id": "A", "status": "scored", "silver_locator_count": 1},
+                {"task_id": "B", "status": "inconclusive", "silver_locator_count": 1}]
+        denominators, absent = claim_scorer.score_denominators(run, silver, rows, [])
+        self.assertEqual(denominators["panel_expected_tasks"], 3)
+        self.assertEqual(denominators["run_expected_tasks"], 2)
+        self.assertEqual(denominators["inconclusive_tasks"], 1)
+        self.assertEqual(denominators["panel_tasks_absent_from_run"], 1)
+        self.assertEqual(absent, ["C"])
+
+    def test_semantic_adjudication_rejects_unknown_ids(self):
+        systems = {"v7": {"requirements": [{"requirement_id": "R7"}], "claims": [{"id": "C7"}]},
+                   "v8": {"requirements": [{"requirement_id": "R8"}], "claims": [{"id": "C8"}]}}
+        value = {"systems": {
+            "system_a": {"requirement_to_rubric": [{"rubric_id": "rubric-1", "requirement_ids": ["R7"]}],
+                         "factual_claim_ids": ["C7"], "unsupported_factual_claim_ids": [],
+                         "expected_open_gap_requirement_ids": [], "honest_open_gap_requirement_ids": [],
+                         "gap_to_silver_candidates": []},
+            "system_b": {"requirement_to_rubric": [], "factual_claim_ids": ["unknown"],
+                         "unsupported_factual_claim_ids": [], "expected_open_gap_requirement_ids": [],
+                         "honest_open_gap_requirement_ids": [], "gap_to_silver_candidates": []}}}
+        with self.assertRaisesRegex(ValueError, "factual claim"):
+            semantic_runner._normalize_labels(value, {"system_a": "v7", "system_b": "v8"},
+                                              systems, {"rubric-1"}, {"silver-1"})
+
+    def test_claim_scorer_uses_post_output_semantic_labels_when_present(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            raw = Path(tmp)
+            labels = {"rubric_atom_ids": ["r1", "r2"], "labels": {"systems": {
+                "v7": {"requirement_to_rubric": [{"rubric_id": "r1", "requirement_ids": ["R1"]}],
+                       "factual_claim_ids": ["C1", "C2"], "unsupported_factual_claim_ids": ["C2"],
+                       "expected_open_gap_requirement_ids": ["R2"], "honest_open_gap_requirement_ids": []},
+                "v8": {"requirement_to_rubric": [{"rubric_id": "r1", "requirement_ids": ["R1"]},
+                                                   {"rubric_id": "r2", "requirement_ids": ["R2"]}],
+                       "factual_claim_ids": ["C1", "C2"], "unsupported_factual_claim_ids": [],
+                       "expected_open_gap_requirement_ids": ["R3"], "honest_open_gap_requirement_ids": ["R3"]},
+            }}}
+            (raw / "A.json").write_text(json.dumps(labels))
+            metrics = claim_scorer.semantic_paired_metrics({"raw_private_dir": str(raw)}, ["A"])
+        self.assertEqual(metrics["requirement_recall_mean_delta_v8_minus_v7"], .5)
+        self.assertEqual(metrics["unsupported_factual_claim_rate_mean_delta_v8_minus_v7"], -.5)
+        self.assertEqual(metrics["v8_honest_gap_recall"], 1.0)
+        self.assertEqual(metrics["requirement_recall_delta_bootstrap_95_ci"], [.5, .5])
 
     def test_gap_rrf_collapses_overlapping_page_spans(self):
         def receipt(uri, start, end):
@@ -155,7 +320,7 @@ class RetrievalPanelContractTests(unittest.TestCase):
         self.assertEqual(corrected["paired_pageindex_minus_bm25_at_5"]["denominator"], 0)
         self.assertIsNone(corrected["pageindex"]["mean_rebuild_locator_jaccard"])
 
-    def test_gap_gold_outside_pdf_custody_is_not_scored(self):
+    def test_gap_gold_outside_catalog_custody_is_not_scored(self):
         metrics = {f"k={k}": {"evidence_set_coverage": 0.0,
                                "complete_evidence_set_success": False,
                                "citation_precision": 0.0, "receipt_pass_rate": 1.0}
@@ -175,6 +340,82 @@ class RetrievalPanelContractTests(unittest.TestCase):
         self.assertEqual(corrected["denominators"]["tasks_with_adapter_eligible_gold"], 0)
         self.assertIsNone(corrected["systems"]["bm25-page/v1"]["k=5"]["evidence_set_coverage"])
 
+    def test_gap_qualification_rejects_any_frozen_task_without_adapter_gold(self):
+        with self.assertRaisesRegex(ValueError, "T2"):
+            gap_runner.qualify_gap_manifest({
+                "tasks": [{"task_id": "T1", "query": "q", "gold": [{"source_uri": "private://a"}]}],
+                "excluded_tasks": [{"task_id": "T2", "reason": "no adapter gold"}],
+            })
+        with self.assertRaisesRegex(ValueError, "no frozen-gap tasks"):
+            gap_runner.qualify_gap_manifest({"tasks": [], "excluded_tasks": []})
+
+    def test_gap_qualification_reports_but_does_not_score_non_retrieval_gaps(self):
+        manifest = {
+            "tasks": [{"task_id": "T1", "query": "q",
+                       "gold": [{"source_uri": "private://a"}]}],
+            "excluded_tasks": [{"task_id": "T2",
+                                "reason": "open gaps have no frozen retrievable silver target",
+                                "qualification_blocking": False}],
+        }
+        gap_runner.qualify_gap_manifest(manifest)
+
+    def test_gap_freeze_accepts_non_pdf_canonical_gold(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            raw_run, raw_silver = root / "run", root / "silver"
+            raw_run.mkdir(); raw_silver.mkdir()
+            (raw_run / "T1.json").write_text(json.dumps({"construction": {"requirements": [{
+                "requirement_id": "R1", "requirement": "Find email", "status": "gap",
+                "evidence_search_queries": ["email evidence"]}]}}))
+            (raw_silver / "T1.json").write_text(json.dumps({"locators": [{
+                "source_uri": "private://mail", "locator": {"page_start": 1, "page_end": 1}}],
+                "silver_digest": "sha256:" + "a" * 64}))
+            manifest = gap_runner.freeze_gaps(
+                {"raw_private_dir": str(raw_run), "tasks": [{"task_id": "T1"}]},
+                {"raw_private_dir": str(raw_silver)},
+                {"representations": [{"source": {"uri": "private://mail", "media_type": "application/mbox"},
+                                      "sections": [{"id": "s1"}]}], "catalog_digest": "x"})
+            self.assertEqual(len(manifest["tasks"]), 1)
+            self.assertEqual(manifest["excluded_tasks"], [])
+            gap_runner.qualify_gap_manifest(manifest)
+
+    def test_materializes_non_pdf_catalog_sections_with_locator_map(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            payload = {"representations": [{
+                "source": {"uri": "private://mail", "media_type": "application/mbox",
+                           "content_digest": "sha256:" + "a" * 64},
+                "representation_digest": "sha256:" + "b" * 64,
+                "transform_digest": "sha256:" + "c" * 64, "page_count": 2,
+                "sections": [{"id": "s1", "heading": "Message", "text": "Body",
+                              "text_digest": "sha256:" + "d" * 64,
+                              "page_start": 2, "page_end": 2}]}]}
+            sources = gap_runner.materialize_pageindex_sources(payload, Path(tmp))
+            self.assertEqual(len(sources), 1)
+            self.assertEqual(sources[0]["representation_kind"], "canonical_markdown")
+            self.assertEqual(sources[0]["locator_map"][0]["section_id"], "s1")
+            self.assertEqual(sources[0]["locator_map"][0]["page_start"], 2)
+            self.assertTrue(Path(sources[0]["path"]).is_file())
+
+    def test_pageindex_request_preserves_dual_custody_and_locator_mapping(self):
+        source = {"source_id": "s1", "path": "/private/canonical.md",
+                  "uri": "private://original.docx",
+                  "content_digest": "sha256:" + "a" * 64,
+                  "path_digest": "sha256:" + "b" * 64,
+                  "representation_digest": "sha256:" + "c" * 64,
+                  "transform_digest": "sha256:" + "d" * 64,
+                  "media_type": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                  "representation_kind": "canonical_markdown",
+                  "locator_map": [{"line": 1, "section_id": "sec-1",
+                                   "section_digest": "sha256:" + "e" * 64,
+                                   "page_start": 2, "page_end": 2}]}
+        request = panel.tree_request("authority", [source], {"config_digest": "sha256:x"},
+                                     5, Path("/private/cache"))
+        emitted = request["sources"][0]
+        self.assertEqual(emitted["content_digest"], source["content_digest"])
+        self.assertEqual(emitted["path_digest"], source["path_digest"])
+        self.assertEqual(emitted["representation_kind"], "canonical_markdown")
+        self.assertEqual(emitted["locator_map"], source["locator_map"])
+
     def test_claim_scorer_counts_each_silver_locator_once(self):
         evidence = {"source": {"uri": "private://a"},
                     "locator": {"page_start": 1, "page_end": 2}}
@@ -182,6 +423,77 @@ class RetrievalPanelContractTests(unittest.TestCase):
         self.assertTrue(claim_scorer.locator_hit(evidence, silver))
         self.assertFalse(claim_scorer.locator_hit(evidence,
                                                   {"source_uri": "private://b", "locator": silver["locator"]}))
+
+    def test_pageindex_document_router_is_query_ranked_and_digest_bound(self):
+        def representation(uri, text, digest_char):
+            return {"source": {"uri": uri, "media_type": "text/plain",
+                                "content_digest": "sha256:" + digest_char * 64},
+                    "representation_digest": "sha256:" + digest_char.upper() * 64,
+                    "sections": [{"id": uri[-1], "heading": uri, "text": text,
+                                  "text_digest": "sha256:" + digest_char * 64,
+                                  "page_start": 1, "page_end": 1}]}
+        catalog = {"representations": [
+            representation("private://a", "employment tax", "a"),
+            representation("private://b", "closing indemnity indemnity", "b"),
+        ]}
+        index = claim_runner.SectionIndex(catalog)
+        sources = [{"uri": "private://a"}, {"uri": "private://b"}]
+        routed, audit = gap_runner.route_pageindex_sources(index, "indemnity", sources, 1)
+        self.assertEqual([row["uri"] for row in routed], ["private://b"])
+        self.assertEqual(audit["adapter"], "bm25-document-router/v1")
+        self.assertTrue(audit["route_digest"].startswith("sha256:"))
+        full, full_audit = gap_runner.route_pageindex_sources(index, "indemnity", sources, len(sources))
+        self.assertEqual([row["uri"] for row in full], ["private://b", "private://a"])
+        self.assertEqual(full_audit["adapter"], "bm25-full-corpus-order/v1")
+
+    def test_gap_route_preflight_reports_locator_ceiling(self):
+        def representation(uri, text):
+            return {"source": {"uri": uri, "media_type": "text/plain",
+                                "content_digest": "sha256:" + "a" * 64},
+                    "representation_digest": "sha256:" + "b" * 64,
+                    "sections": [{"id": uri[-1], "heading": uri, "text": text,
+                                  "text_digest": "sha256:" + "c" * 64,
+                                  "page_start": 1, "page_end": 1}]}
+        catalog = {"representations": [representation("private://a", "indemnity"),
+                                        representation("private://b", "unrelated")]}
+        index = claim_runner.SectionIndex(catalog)
+        sources = [{"uri": "private://a"}, {"uri": "private://b"}]
+        manifest = {"tasks": [{"task_id": "T1", "query": "indemnity", "gold": [
+            {"source_uri": "private://a"}, {"source_uri": "private://a"},
+            {"source_uri": "private://missing"}]}]}
+        rows, ceiling = gap_runner.route_reachability_preflight(manifest, index, sources)
+        self.assertEqual(rows[0]["gold_locators_routed"], 2)
+        self.assertEqual(rows[0]["gold_locator_count"], 3)
+        self.assertAlmostEqual(ceiling, 2 / 3)
+
+    def test_scored_gap_run_requires_never_existing_cache_dirs(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            out = Path(tmp)
+            paths = gap_runner.require_fresh_cache_dirs(out)
+            self.assertEqual(len(paths), 3)
+            paths[1].mkdir()
+            with self.assertRaisesRegex(ValueError, "pageindex-cache-build-2"):
+                gap_runner.require_fresh_cache_dirs(out)
+
+    def test_bounded_route_scores_unreachable_gold_as_misses_or_stays_diagnostic(self):
+        self.assertEqual(gap_runner.qualify_route_ceiling(0.75, False), (True, False))
+        self.assertEqual(gap_runner.qualify_route_ceiling(0.75, True), (True, True))
+        self.assertEqual(gap_runner.qualify_route_ceiling(1.0, False), (False, False))
+        with self.assertRaisesRegex(ValueError, "invalid locator"):
+            gap_runner.qualify_route_ceiling(1.1, False)
+
+    def test_warm_replay_requires_every_routed_source_to_hit_cache(self):
+        self.assertEqual(
+            warm_runner.validate_warm_telemetry(
+                {"index_cache_hits": 20, "index_cache_misses": 0}, 20),
+            (20, 0),
+        )
+        with self.assertRaisesRegex(RuntimeError, "non-warm cache state"):
+            warm_runner.validate_warm_telemetry(
+                {"index_cache_hits": 19, "index_cache_misses": 1}, 20)
+        with self.assertRaisesRegex(RuntimeError, "non-warm cache state"):
+            warm_runner.validate_warm_telemetry(
+                {"index_cache_hits": 19, "index_cache_misses": 0}, 20)
 
     def test_workflow_freeze_interleaves_tasks_and_grades_fail_closed(self):
         rows = [("task-a", 1), ("task-a", 2), ("task-b", 3)]
@@ -202,6 +514,14 @@ class RetrievalPanelContractTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "unsupported_claims"):
             workflow_runner.normalize_grade({"rubric_fraction": 0.5,
                                              "unsupported_claims": "one"})
+        self.assertFalse(workflow_runner.EXECUTOR_SCHEMA["additionalProperties"])
+        self.assertEqual(
+            set(workflow_runner.EXECUTOR_SCHEMA["required"]),
+            {"answer", "ask_answers", "citations", "gaps"},
+        )
+        self.assertFalse(workflow_runner.GRADER_SCHEMA["additionalProperties"])
+        self.assertEqual(workflow_runner.GRADER_SCHEMA["properties"]["unsupported_claims"]["type"],
+                         "integer")
 
     def test_workflow_runtime_paths_survive_workspace_chdir(self):
         original = Path.cwd()
@@ -210,12 +530,86 @@ class RetrievalPanelContractTests(unittest.TestCase):
         self.assertTrue(resolved.is_absolute())
         self.assertTrue(resolved.is_file())
         self.assertEqual(resolved, original / relative)
+        self.assertEqual(workflow_runner.gateway_bridge_values("shared", None, None),
+                         ("shared", "shared"))
+        self.assertEqual(workflow_runner.gateway_bridge_values(None, "pageindex", "claim"),
+                         ("pageindex", "claim"))
+        with self.assertRaisesRegex(ValueError, "both PageIndex and claim"):
+            workflow_runner.gateway_bridge_values(None, "pageindex", None)
 
     def test_workflow_grade_normalization_is_safe_for_resume(self):
         prior = [{"rubric_fraction": 0.8, "unsupported_claims": ["x"],
                   "citation_errors": 0, "authority_errors": 0}]
         resumed = [workflow_runner.normalize_grade(row) for row in prior]
         self.assertEqual(resumed[0]["unsupported_claims"], 1)
+
+    def test_workflow_staging_rejects_self_relations_without_crashing(self):
+        graph = {
+            "task": {"task_id": "task-a"},
+            "construction": {
+                "evidence": [{
+                    "evidence_id": "e1",
+                    "source": {"uri": "private://a", "content_digest": "sha256:" + "a" * 64},
+                    "quote": "Authority is documented.",
+                    "locator": {"kind": "page_span", "page_start": 1, "page_end": 1},
+                    "retrieval": {"query": "authority"},
+                }],
+                "claims": [{"id": "c1", "statement": "Authority is documented.",
+                            "evidence_ids": ["e1"]}],
+                "relations": [{"from": "c1", "to": "c1", "type": "supports"}],
+            },
+        }
+        knowledge = workflow_runner.knowledge
+        originals = (knowledge._import_retrieval_evidence_v2, knowledge.propose_v2, knowledge.review_v2)
+        knowledge._import_retrieval_evidence_v2 = lambda payload: [{"evidence": {"id": "imported-e1"}}]
+        knowledge.propose_v2 = lambda *args: {"conclusion": {"id": "staged-c1"}}
+        knowledge.review_v2 = lambda *args: None
+        try:
+            mapping, diagnostics = workflow_runner.stage_graph(
+                graph, {"private://a": "/private/a.pdf"})
+        finally:
+            (knowledge._import_retrieval_evidence_v2, knowledge.propose_v2,
+             knowledge.review_v2) = originals
+        self.assertEqual(mapping, {"c1": "staged-c1"})
+        self.assertEqual(diagnostics["candidate_count"], 1)
+        self.assertEqual(diagnostics["admitted_count"], 0)
+        self.assertEqual(diagnostics["rejected_counts"], {"self_relation": 1})
+        self.assertTrue(diagnostics["rejected_relation_digest"].startswith("sha256:"))
+
+    def test_workflow_staging_keeps_policy_blocked_relation_out_of_graph(self):
+        graph = {
+            "task": {"task_id": "task-a"},
+            "construction": {
+                "evidence": [{"evidence_id": "e1", "source": {"uri": "private://a"},
+                              "quote": "q", "locator": {}, "retrieval": {}}],
+                "claims": [{"id": "c1", "statement": "one", "evidence_ids": ["e1"]},
+                           {"id": "c2", "statement": "two", "evidence_ids": ["e1"]}],
+                "relations": [{"from": "c1", "to": "c2", "type": "supports"}],
+            },
+        }
+        knowledge = workflow_runner.knowledge
+        names = ("_import_retrieval_evidence_v2", "propose_v2", "review_v2",
+                 "propose_relation_v2", "review_relation_v2")
+        originals = [getattr(knowledge, name) for name in names]
+        knowledge._import_retrieval_evidence_v2 = lambda payload: [{"evidence": {"id": "e"}}]
+        ids = iter(("staged-c1", "staged-c2"))
+        knowledge.propose_v2 = lambda *args: {"conclusion": {"id": next(ids)}}
+        knowledge.review_v2 = lambda *args: None
+        knowledge.propose_relation_v2 = lambda *args: {"relation": {"id": "r1"}}
+        reviews = []
+        def review_relation(relation_id, decision, actor):
+            reviews.append(decision)
+            if decision == "admit":
+                raise ValueError("relation is blocked by deterministic policy")
+        knowledge.review_relation_v2 = review_relation
+        try:
+            _, diagnostics = workflow_runner.stage_graph(graph, {"private://a": "/private/a"})
+        finally:
+            for name, value in zip(names, originals):
+                setattr(knowledge, name, value)
+        self.assertEqual(reviews, ["admit", "reject"])
+        self.assertEqual(diagnostics["admitted_count"], 0)
+        self.assertEqual(diagnostics["rejected_counts"], {"policy_admission_rejected": 1})
 
     def test_workflow_compacts_large_disclosure_without_emptying_context(self):
         packet = {"schema_version": "proofpress/governed-disclosure/v1", "coverage": "covered",
@@ -227,6 +621,115 @@ class RetrievalPanelContractTests(unittest.TestCase):
         compact = workflow_runner.compact_disclosure_packet(packet, 10000)
         self.assertTrue(compact["governed_context"])
         self.assertLess(len(compact["governed_context"][0]["statement"]), 5000)
+
+    def test_workflow_qualification_fails_closed_on_missing_comparator(self):
+        result = workflow_runner.qualification_preflight(
+            {"full-catalog-bm25-prefetch": '[{"text":"x"}]',
+             "pr36-v7-prefetched-context": None}, ["task-a"], None)
+        self.assertEqual(result["status"], "fail")
+        self.assertEqual(result["failures"][0]["condition"], "pr36-v7-prefetched-context")
+
+    def test_workflow_oracle_controls_are_explicitly_leaky_and_nonempty(self):
+        graph = {"task": {"rubric": ["must not enter oracle claims"]},
+                 "construction": {"claims": [{"id": "C1", "statement": "Closing is scheduled"}],
+                                  "relations": [], "requirements": [{"requirement_id": "R1",
+                                                                      "status": "gap"}]}}
+        silver = {"locators": [{"source_uri": "private://a",
+                                  "candidate_id": "S1",
+                                  "locator": {"page_start": 2, "page_end": 2}}],
+                  "judgments": {"a": {"minimum_evidence_sets": [{"candidate_ids": ["S1"]}]}}}
+        catalog = {"representations": [{"source": {"uri": "private://a"},
+                                         "sections": [{"section_id": "s2", "page_start": 2,
+                                                       "page_end": 2, "text": "Closing is June 1."}]}]}
+        controls = workflow_runner.oracle_diagnostic_contexts(graph, silver, catalog, [{"coverage": "partial"}])
+        oracle = controls["oracle-claim-graph"]
+        direct = controls["v8-claim-graph-plus-direct-gap-evidence"]
+        self.assertTrue(oracle["diagnostic_only"])
+        self.assertFalse(oracle["rubric_leakage"])
+        self.assertEqual(oracle["claims"][0]["statement"], "Closing is scheduled")
+        self.assertNotIn("rubric_atom", oracle["claims"][0])
+        self.assertEqual(oracle["evidence"][0]["section_id"], "s2")
+        self.assertEqual(oracle["gap_bindings"][0]["gap_id"], "R1")
+        self.assertEqual(direct["direct_gap_evidence"][0]["gap_ids"], ["R1"])
+        self.assertTrue(direct["direct_gap_evidence"])
+
+    def test_workflow_custody_manifest_binds_original_source_not_canonical_path(self):
+        catalog = {"source_navigation": [{"uri": "private://source", "path": "/private/original.docx"}],
+                   "representations": [{"source": {
+                       "uri": "private://source", "content_digest": "sha256:" + "a" * 64,
+                       "media_type": "application/vnd.openxmlformats-officedocument.wordprocessingml.document"},
+                       "representation_digest": "sha256:" + "b" * 64}]}
+        rows = workflow_runner.custody_manifest_sources(catalog)
+        self.assertEqual(rows, [{"uri": "private://source", "path": "/private/original.docx",
+                                 "content_digest": "sha256:" + "a" * 64,
+                                 "media_type": "application/vnd.openxmlformats-officedocument.wordprocessingml.document"}])
+
+    def test_workflow_context_compaction_is_valid_json_and_conservatively_bounded(self):
+        text, upper_bound = workflow_runner.bounded_json(
+            {"claims": [{"statement": "é" * 50000}]}, max_tokens=2000)
+        decoded = json.loads(text)
+        self.assertIsInstance(decoded, dict)
+        self.assertEqual(len(decoded["claims"]), 1)
+        self.assertTrue(decoded["claims"][0]["statement"])
+        self.assertLessEqual(len(text.encode()), 2000)
+        self.assertEqual(upper_bound, len(text.encode()))
+
+    def test_workflow_context_compaction_preserves_single_disclosure_packet(self):
+        packet = [{"schema_version": "proofpress/governed-disclosure/v1",
+                   "coverage": "partial",
+                   "governed_context": [{"id": "claim-1", "statement": "x" * 50000}],
+                   "gaps": [{"gap_id": "gap-1", "query": "y" * 50000}]}]
+        text, upper_bound = workflow_runner.bounded_json(packet, max_tokens=2000)
+        decoded = json.loads(text)
+        self.assertEqual(len(decoded), 1)
+        self.assertEqual(decoded[0]["schema_version"], "proofpress/governed-disclosure/v1")
+        self.assertEqual(decoded[0]["coverage"], "partial")
+        self.assertTrue(decoded[0]["governed_context"])
+        self.assertTrue(decoded[0]["gaps"])
+        self.assertLessEqual(upper_bound, 2000)
+
+    def test_workflow_enforces_three_disclosure_calls_per_task(self):
+        self.assertEqual(len(workflow_runner.disclosure_bundles([{"query": "q"}] * 12)), 3)
+        with self.assertRaisesRegex(ValueError, "disclosure limit exceeded"):
+            workflow_runner.disclosure_bundles([{"query": "q"}] * 13)
+
+    def test_workflow_uses_full_canonical_custody_and_normalizes_v7_raw_artifact(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            catalog = {"source_navigation": [], "representations": [{
+                "source": {"uri": "private://mail", "media_type": "application/mbox",
+                           "content_digest": "sha256:" + "a" * 64},
+                "representation_digest": "sha256:" + "b" * 64,
+                "transform_digest": "sha256:" + "c" * 64, "page_count": 1,
+                "sections": [{"id": "mail-s1", "heading": "Message", "text": "Closing email",
+                              "text_digest": "sha256:" + "d" * 64,
+                              "page_start": 1, "page_end": 1}]}]}
+            sources = workflow_runner.materialize_pageindex_sources(catalog, Path(tmp))
+            self.assertEqual(sources[0]["representation_kind"], "canonical_markdown")
+            self.assertEqual(sources[0]["locator_map"][0]["section_id"], "mail-s1")
+        context = workflow_runner.prefetched_context_from_construction_artifact({
+            "construction": {"claims": [{"id": "c1"}], "relations": [], "evidence": [{"id": "e1"}]},
+            "raw": {"private": True}})
+        self.assertEqual(context, {"claims": [{"id": "c1"}], "relations": [],
+                                   "evidence": [{"id": "e1"}]})
+
+    def test_budget_report_argument_and_nested_cost_are_explicit(self):
+        label, path, field = budget_runner.parse_report(
+            "formal=/private/report.json::telemetry.known_cost_usd")
+        self.assertEqual(label, "formal")
+        self.assertEqual(path, Path("/private/report.json"))
+        self.assertEqual(field, "telemetry.known_cost_usd")
+        self.assertEqual(budget_runner.nested(
+            {"telemetry": {"known_cost_usd": 1.25}}, field), 1.25)
+
+    def test_incomplete_workflow_report_is_not_promotable(self):
+        complete = {"qualification": {"status": "pass"},
+                    "denominators": {"planned_cells": 28, "scored_cells": 28,
+                                     "inconclusive_cells": 0}}
+        incomplete = {"qualification": {"status": "fail"},
+                      "denominators": {"planned_cells": 28, "scored_cells": 27,
+                                       "inconclusive_cells": 1}}
+        self.assertTrue(pipeline_summary.workflow_report_complete(complete))
+        self.assertFalse(pipeline_summary.workflow_report_complete(incomplete))
 
 
 if __name__ == "__main__":
