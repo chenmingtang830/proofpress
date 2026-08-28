@@ -43,6 +43,9 @@ class WitnessAttestationTests(unittest.TestCase):
 
     def decision_bindings(self):
         return {
+            "handoff_manifest": {
+                "algorithm": "sha256", "digest": "c" * 64,
+            },
             "decision": {"algorithm": "sha256", "digest": "a" * 64},
             "contradiction": {
                 "type": "contradicts",
@@ -96,7 +99,8 @@ class WitnessAttestationTests(unittest.TestCase):
             },
         }
 
-    def sign_payload(self, payload):
+    def sign_payload(self, payload, *, private_key=None):
+        private_key = private_key or self.private_key
         payload_path = self.root / "payload.bin"
         pae_path = self.root / "pae.bin"
         signature_path = self.root / "signature.bin"
@@ -104,7 +108,7 @@ class WitnessAttestationTests(unittest.TestCase):
         pae_path.write_bytes(witness.dsse_pae(witness.DSSE_PAYLOAD_TYPE, payload))
         subprocess.run(
             ["openssl", "pkeyutl", "-sign", "-rawin", "-inkey",
-             str(self.private_key), "-in", str(pae_path),
+            str(private_key), "-in", str(pae_path),
              "-out", str(signature_path)], check=True)
         return {
             "payloadType": witness.DSSE_PAYLOAD_TYPE,
@@ -202,6 +206,8 @@ class WitnessAttestationTests(unittest.TestCase):
 
     def test_policy_or_ledger_substitution_fails(self):
         mutations = (
+            ("handoff manifest", lambda value: value["handoff_manifest"].update(
+                {"digest": "d" * 64})),
             ("policy", lambda value: value["policy"].update({"epoch": 6})),
             ("ledger", lambda value: value["ledger"].update(
                 {"previous_head": "ppe_older"})),
@@ -248,6 +254,28 @@ class WitnessAttestationTests(unittest.TestCase):
         self.assertFalse(result["key_id_bound"])
         self.assertFalse(result["trust_scope_authorized"])
         self.assertFalse(result["decision_authority_authenticated"])
+
+    def test_non_ed25519_pem_cannot_masquerade_as_an_ed25519_key(self):
+        rsa_private = self.root / "rsa-private.pem"
+        rsa_public = self.root / "rsa-public.pem"
+        subprocess.run(
+            ["openssl", "genpkey", "-algorithm", "RSA",
+             "-pkeyopt", "rsa_keygen_bits:2048", "-out", str(rsa_private)],
+            check=True, capture_output=True)
+        subprocess.run(
+            ["openssl", "pkey", "-in", str(rsa_private), "-pubout",
+             "-out", str(rsa_public)], check=True)
+        statement = self.statement()
+        payload = json.dumps(statement, ensure_ascii=False, separators=(",", ":")).encode("utf-8")
+        attestation = self.sign_payload(payload, private_key=rsa_private)
+        trust = self.trust_store()
+        trust["issuers"][self.issuer]["keys"][self.key_id]["public_key_pem"] = (
+            rsa_public.read_text())
+        result = self.verify(attestation, trust)
+        self.assertFalse(result["attestation_format_valid"])
+        self.assertFalse(result["signature_valid"])
+        self.assertFalse(result["decision_authority_authenticated"])
+        self.assertIn("not Ed25519", result["checks"][0]["detail"])
 
     def test_revoked_key_cannot_authenticate(self):
         trust = self.trust_store()

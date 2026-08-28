@@ -34,6 +34,11 @@ SUPPORTED_PROFILES = {
 # No predicate extensions have critical semantics in v1. A later implementation
 # must add an extension here only after it implements and tests that extension.
 SUPPORTED_CRITICAL_EXTENSIONS: frozenset[str] = frozenset()
+# DER SubjectPublicKeyInfo encoding prefix for the Ed25519 OID (1.3.101.112).
+# The remaining 32 bytes are the raw public key. Checking this output from the
+# crypto provider prevents a PEM for another key type from masquerading behind
+# the unsigned ``algorithm: ed25519`` trust-store label.
+ED25519_SPKI_PREFIX = bytes.fromhex("302a300506032b6570032100")
 
 
 class WitnessError(ValueError):
@@ -152,6 +157,8 @@ def _validate_profile_bindings(profile: str, bindings: Any, field: str) -> None:
             producer.get("run_id"), f"{field}.producer.run_id")
         return
     if profile == GOVERNANCE_DECISION_PROFILE:
+        _require_sha256_binding(
+            bindings.get("handoff_manifest"), f"{field}.handoff_manifest")
         _require_sha256_binding(bindings.get("decision"), f"{field}.decision")
         contradiction = bindings.get("contradiction")
         if not isinstance(contradiction, dict):
@@ -286,6 +293,8 @@ def validate_trust_store(trust_store: dict[str, Any]) -> None:
             pem = key.get("public_key_pem")
             if not isinstance(pem, str) or "BEGIN PUBLIC KEY" not in pem:
                 raise WitnessError("trust store keys require public_key_pem")
+            if not _public_key_is_ed25519(pem):
+                raise WitnessError("trust store public key is not Ed25519")
             if key.get("status") not in {"active", "revoked", "suspended"}:
                 raise WitnessError("trust store key status is unsupported")
             not_before = _parse_timestamp(
@@ -300,6 +309,23 @@ def validate_trust_store(trust_store: dict[str, Any]) -> None:
             _require_string_list(key.get("tenants"), "key.tenants")
             _require_string_list(key.get("audiences"), "key.audiences")
             _require_string_list(key.get("principals"), "key.principals")
+
+
+def _public_key_is_ed25519(public_key_pem: str) -> bool:
+    """Cryptographically identify an Ed25519 SPKI, not just its metadata."""
+    with tempfile.TemporaryDirectory(prefix="proofpress-witness-key-") as directory:
+        key_path = Path(directory) / "witness-public.pem"
+        key_path.write_text(public_key_pem, encoding="utf-8")
+        completed = subprocess.run(
+            ["openssl", "pkey", "-pubin", "-in", str(key_path),
+             "-pubout", "-outform", "DER"],
+            capture_output=True,
+        )
+    return (
+        completed.returncode == 0
+        and len(completed.stdout) == len(ED25519_SPKI_PREFIX) + 32
+        and completed.stdout.startswith(ED25519_SPKI_PREFIX)
+    )
 
 
 def _verify_ed25519(payload: bytes, signature: bytes, public_key_pem: str) -> bool:
