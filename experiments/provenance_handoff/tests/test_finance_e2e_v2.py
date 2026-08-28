@@ -10,7 +10,10 @@ from pp_eval.finance_e2e_v2 import (
     execution_gate,
     executor_qualification,
     requirement_completeness,
+    validate_derived_calculation,
     validate_finance_atom,
+    validate_requirements,
+    workbook_index_to_receipts,
 )
 from run_finance_e2e_v2 import normalized_cell
 
@@ -46,6 +49,39 @@ def receipts():
 
 
 class FinanceAtomTests(unittest.TestCase):
+    def test_workbook_index_becomes_deterministic_receipts(self):
+        rows = workbook_index_to_receipts(
+            artifact="filesystem/model.xlsx", source_sha256="sha256:abc",
+            sheets=[{"sheet": "Model", "cells": [
+                {"cell": "B2", "value": 100},
+                {"cell": "B3", "value": 110, "formula": "B2*1.1"},
+            ]}],
+        )
+        self.assertEqual(len(rows), 2)
+        self.assertEqual(rows[1]["value_semantics"], "cached_formula_result")
+        self.assertEqual(rows[1]["formula"], "B2*1.1")
+        self.assertTrue(rows[1]["receipt_digest"].startswith("sha256:"))
+
+    def test_requirements_forbid_hidden_material(self):
+        frozen = validate_requirements([{
+            "requirement_id": "req_1", "kind": "calculation",
+            "requirement": "Calculate sensitivity",
+        }])
+        self.assertEqual(frozen["count"], 1)
+        with self.assertRaisesRegex(ValueError, "hidden"):
+            validate_requirements([{
+                "requirement_id": "req_1", "kind": "output",
+                "requirement": "Return result", "gold": "42",
+            }])
+
+    def test_derived_calculation_requires_formula_dependencies_and_units(self):
+        row = {"record_type": "derived_calculation", "formula": "a/b",
+               "dependency_ids": ["a", "b"], "unit": "%"}
+        self.assertIs(validate_derived_calculation(row, {"a", "b"}), row)
+        row["dependency_ids"] = ["missing"]
+        with self.assertRaisesRegex(ValueError, "unknown"):
+            validate_derived_calculation(row, {"a", "b"})
+
     def test_atom_requires_exact_receipt_binding(self):
         self.assertEqual(validate_finance_atom(atom(), receipts())["atom_id"], "atom_001")
         bad = atom()

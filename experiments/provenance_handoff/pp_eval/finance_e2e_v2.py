@@ -40,6 +40,86 @@ MATERIAL_GAP_KINDS = {
 }
 
 
+def workbook_index_to_receipts(*, artifact: str, source_sha256: str,
+                               sheets: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    """Convert deterministic XLSX cell extraction into source receipts.
+
+    Cached values and formulas are retained separately.  The function never
+    recalculates a workbook and therefore cannot silently promote a stale cache
+    into a derived fact.
+    """
+    if not artifact or not source_sha256.startswith("sha256:"):
+        raise ValueError("workbook artifact and sha256 digest are required")
+    receipts = []
+    seen: set[str] = set()
+    for sheet in sheets:
+        sheet_name = sheet.get("sheet")
+        if not isinstance(sheet_name, str) or not sheet_name:
+            raise ValueError("workbook sheet name is required")
+        for cell in sheet.get("cells", []):
+            address = cell.get("cell")
+            if not isinstance(address, str) or not address:
+                raise ValueError("workbook cell address is required")
+            locator = f"{artifact}#{sheet_name}!{address}"
+            if locator in seen:
+                raise ValueError("duplicate workbook locator")
+            seen.add(locator)
+            receipt = {
+                "schema_version": "proofpress/finance-source-receipt/v2",
+                "evidence_id": "finance_ev_" + hashlib.sha256(
+                    locator.encode()).hexdigest()[:16],
+                "artifact": artifact,
+                "source_sha256": source_sha256,
+                "locator": locator,
+                "source_value": cell.get("value"),
+                "formula": cell.get("formula"),
+                "value_semantics": ("cached_formula_result"
+                                    if cell.get("formula") else "literal_cell_value"),
+            }
+            receipt["receipt_digest"] = digest(receipt)
+            receipts.append(receipt)
+    return receipts
+
+
+def validate_requirements(requirements: list[dict[str, Any]]) -> dict[str, Any]:
+    """Freeze task decomposition without hidden evaluation material."""
+    if not isinstance(requirements, list) or not 1 <= len(requirements) <= 40:
+        raise ValueError("Finance decomposition must contain 1 to 40 requirements")
+    allowed = {"deliverable", "calculation", "input", "output", "validation"}
+    seen = set()
+    for row in requirements:
+        requirement_id = row.get("requirement_id")
+        if (not isinstance(requirement_id, str) or not requirement_id
+                or requirement_id in seen):
+            raise ValueError("requirements need unique non-empty IDs")
+        seen.add(requirement_id)
+        if row.get("kind") not in allowed or not str(row.get("requirement", "")).strip():
+            raise ValueError("requirement kind and text are required")
+        if any(key in row for key in ("rubric", "gold", "reference_answer")):
+            raise ValueError("hidden evaluation material is forbidden")
+    frozen = {"requirements": requirements, "count": len(requirements)}
+    frozen["requirement_digest"] = digest(frozen)
+    return frozen
+
+
+def validate_derived_calculation(record: dict[str, Any],
+                                 known_record_ids: set[str]) -> dict[str, Any]:
+    """Require auditable dependencies for non-observed numeric records."""
+    if record.get("record_type") != "derived_calculation":
+        raise ValueError("record is not a derived calculation")
+    formula = record.get("formula")
+    dependencies = record.get("dependency_ids")
+    if not isinstance(formula, str) or not formula.strip():
+        raise ValueError("derived calculation formula is required")
+    if not isinstance(dependencies, list) or not dependencies:
+        raise ValueError("derived calculation dependencies are required")
+    if any(item not in known_record_ids for item in dependencies):
+        raise ValueError("derived calculation references an unknown dependency")
+    if record.get("unit") is None and record.get("currency") is None:
+        raise ValueError("derived calculation unit or currency is required")
+    return record
+
+
 def digest(value: Any) -> str:
     body = json.dumps(value, ensure_ascii=False, sort_keys=True,
                       separators=(",", ":")).encode()
@@ -301,4 +381,3 @@ def execution_gate(*, records: list[dict[str, Any]],
     }
     result["gate_digest"] = digest(result)
     return result
-
