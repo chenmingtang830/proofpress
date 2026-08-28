@@ -31,12 +31,15 @@ if str(SCRIPT_DIR) not in sys.path:
     sys.path.insert(0, str(SCRIPT_DIR))
 
 from legal_pipeline_contract import (
+    EVIDENCE_ATOM_SCHEMA,
     LIFECYCLE_CHECKLIST,
     MODEL_ROLES,
+    claimability_gate,
     coverage_pass,
     freeze_requirements,
     validate_candidate_claims,
     validate_decomposition,
+    validate_evidence_atom,
 )
 
 SCHEMA = "proofpress/private-claim-construction/v1"
@@ -133,6 +136,47 @@ CRITIC_SCHEMA = {
         }},
     },
     "additionalProperties": False,
+}
+ATOM_ITEM_SCHEMA = {
+    "type": "object", "additionalProperties": False,
+    "required": ["requirement_id", "evidence_id", "exact_excerpt", "subject", "predicate",
+                 "value", "effective_date", "qualification", "document_version", "support_mode"],
+    "properties": {
+        "requirement_id": {"type": "string", "maxLength": 96},
+        "evidence_id": {"type": "string", "maxLength": 96},
+        "exact_excerpt": {"type": "string", "maxLength": 1200},
+        "subject": {"type": "string", "maxLength": 300},
+        "predicate": {"type": "string", "maxLength": 200},
+        "value": {"type": "string", "maxLength": 500},
+        "effective_date": {"type": ["string", "null"], "maxLength": 96},
+        "qualification": {"type": ["string", "null"], "maxLength": 500},
+        "document_version": {"type": ["string", "null"], "maxLength": 160},
+        "support_mode": {"type": "string", "enum": ["explicit", "inferred"]},
+    },
+}
+EVIDENCE_ATOMS_OUTPUT_SCHEMA = {
+    "type": "object", "additionalProperties": False, "required": ["atoms", "conflicts"],
+    "properties": {
+        "atoms": {"type": "array", "items": ATOM_ITEM_SCHEMA, "maxItems": 16},
+        "conflicts": {"type": "array", "maxItems": 8, "items": {
+            "type": "object", "additionalProperties": False,
+            "required": ["requirement_id", "evidence_ids"],
+            "properties": {"requirement_id": {"type": "string", "maxLength": 96},
+                           "evidence_ids": {"type": "array", "items": {"type": "string"}, "maxItems": 6}},
+        }},
+    },
+}
+V9_CRITIC_SCHEMA = {
+    "type": "object", "additionalProperties": False, "required": ["verdicts"],
+    "properties": {"verdicts": {"type": "array", "maxItems": 64, "items": {
+        "type": "object", "additionalProperties": False,
+        "required": ["claim_id", "verdict", "reason_category"],
+        "properties": {
+            "claim_id": {"type": "string", "maxLength": 96},
+            "verdict": {"type": "string", "enum": ["supported", "partially_supported", "unsupported", "conflicted", "misclassified"]},
+            "reason_category": {"type": "string", "enum": ["atomicity", "classification", "conflict", "evidence_fidelity", "unsupported_assertion"]},
+        },
+    }}},
 }
 ALLOWED_STATUS = {"covered", "partial", "gap"}
 CRITIC_FINDING_KEYS = ("requirement_updates", "repair_instructions", "supplemental_queries")
@@ -417,7 +461,9 @@ class SectionIndex:
                  "media_type": row["media_type"]}
                 for row in sorted(self.doc_meta.values(), key=lambda r: r["uri"])]
 
-    def search(self, query: str, max_documents: int = 10, max_sections: int = 6) -> list[dict[str, Any]]:
+    def search(self, query: str, max_documents: int = 10, max_sections: int = 6,
+               allowed_uris: set[str] | None = None,
+               allowed_spans: dict[str, list[tuple[int, int]]] | None = None) -> list[dict[str, Any]]:
         terms = _tokens(query)
         if not terms:
             return []
@@ -430,6 +476,13 @@ class SectionIndex:
             candidate_ids.update(self.postings.get(term, []))
         for index in candidate_ids:
             row = self.sections[index]; length = len(row["_tokens"])
+            if allowed_uris is not None and row["uri"] not in allowed_uris:
+                continue
+            if allowed_spans is not None:
+                spans = allowed_spans.get(row["uri"], [])
+                if not any(row.get("page_start", 0) <= end and row.get("page_end", 0) >= start
+                           for start, end in spans):
+                    continue
             score = 0.0
             for term, qtf in unique.items():
                 tf = row["_tf"].get(term, 0)
@@ -459,10 +512,13 @@ class SectionIndex:
 
 
 def _model_call(gateway: Gateway, system: str, prompt: str, max_tokens: int,
-                schema: dict[str, Any] | None = None, schema_name: str | None = None) -> dict[str, Any]:
+                schema: dict[str, Any] | None = None, schema_name: str | None = None,
+                max_attempts: int = 3) -> dict[str, Any]:
     """Retry at most twice on the same fixed model/provider route."""
+    if max_attempts < 1 or max_attempts > 3:
+        raise ValueError("max_attempts must be between one and three")
     last: dict[str, Any] | None = None
-    for attempt in range(1, 4):
+    for attempt in range(1, max_attempts + 1):
         last = gateway.call(system, prompt, max_tokens, schema, schema_name)
         last["record"]["attempt"] = attempt
         if last["ok"]:
@@ -638,7 +694,9 @@ def _candidate_batches(task: dict[str, Any], model_requirements: list[dict[str, 
                        evidence_by_id: dict[str, dict[str, Any]], audit: list[dict[str, Any]],
                        glm: Gateway, system: str, *, critic: dict[str, Any] | None = None,
                        current_claims: list[dict[str, Any]] | None = None,
-                       current_relations: list[dict[str, Any]] | None = None) -> dict[str, Any]:
+                       current_relations: list[dict[str, Any]] | None = None,
+                       evidence_atoms: list[dict[str, Any]] | None = None,
+                       max_attempts: int = 3) -> dict[str, Any]:
     """Run bounded proposer/repair batches after requirements and retrieval freeze."""
     batches = [model_requirements[i:i + 4] for i in range(0, len(model_requirements), 4)]
     audit_by_requirement = {row.get("requirement_id"): row for row in audit}
@@ -659,14 +717,20 @@ def _candidate_batches(task: dict[str, Any], model_requirements: list[dict[str, 
             seen.add(evidence_id); evidence = evidence_by_id[evidence_id]
             compact.append({"evidence_id": evidence_id, "source_uri": evidence["source"]["uri"],
                             "locator": evidence["locator"], "quote": evidence["quote"][:300]})
+        batch_atoms = [row for row in (evidence_atoms or [])
+                       if row.get("requirement_id") in requirement_ids]
         payload: dict[str, Any] = {
-            "task": task["prompt"], "frozen_requirements": batch,
+            "task": (task["prompt"] if evidence_atoms is None else None),
+            "task_digest": sha_text(task["prompt"]), "frozen_requirements": batch,
             "evidence_receipts": compact,
+            "evidence_atoms": batch_atoms,
             "output_schema": {
                 "claims": "complete array for this batch <=4; exactly one atomic claim per covered requirement; fields requirement_id, claim_type, statement, evidence_ids, scope, category, effective_date, status=unresolved",
                 "relations": "array <=10; allowed types supports|depends_on|qualifies|contradicts|supersedes|same_as",
             },
-            "instruction": "Return compact JSON only. Every covered requirement needs at least one atomic evidence-bound claim. Preserve honest gaps and conflicts; all claims remain unresolved.",
+            "instruction": ("Return compact JSON only. Every covered requirement needs at least one atomic evidence-bound claim. Preserve honest gaps and conflicts; all claims remain unresolved."
+                            if evidence_atoms is None else
+                            "Return compact JSON only. Use only the validated evidence atoms and their bound receipts. The task digest is not evidence. Do not invent a claim for a missing, partial, conflicting, or analysis-only requirement; all returned claims remain unresolved."),
         }
         if critic is not None:
             batch_claims = [row for row in (current_claims or []) if row.get("requirement_id") in requirement_ids]
@@ -687,7 +751,7 @@ def _candidate_batches(task: dict[str, Any], model_requirements: list[dict[str, 
                             },
                             "instruction": "Repair only the critic findings for this requirement batch. Return complete replacement claims for the batch and any valid relations. Preserve honest gaps and conflicts; all claims remain unresolved."})
         result = _model_call(glm, system, json.dumps(payload, ensure_ascii=False), 8000,
-                             CANDIDATE_SCHEMA, "proofpress_candidate_claims")
+                             CANDIDATE_SCHEMA, "proofpress_candidate_claims", max_attempts)
         return {"batch_index": batch_index, "requirement_ids": sorted(requirement_ids), "result": result}
 
     outputs = []
@@ -827,6 +891,177 @@ def _decompose_v7(task: dict[str, Any], index: SectionIndex, luna: Gateway) -> t
     return {"status": "ok", "requirements": requirements, "frozen": frozen,
             "coverage_status": "not_applicable_v7", "decomposition_digest": digest(requirements)}, {
                 "raw": {"decomposition": first.get("value")}}
+
+
+def _extract_evidence_atoms(requirements: list[dict[str, Any]],
+                            evidence_by_id: dict[str, dict[str, Any]],
+                            audit: list[dict[str, Any]], gateway: Gateway
+                            ) -> tuple[list[dict[str, Any]], set[str], list[dict[str, Any]]]:
+    """Extract source-bound atoms without exposing the task prompt as evidence."""
+    audit_by_requirement = {row["requirement_id"]: row for row in audit}
+    batches = [requirements[index:index + 4] for index in range(0, len(requirements), 4)]
+
+    def run(batch_index: int, batch: list[dict[str, Any]]) -> dict[str, Any]:
+        allowed: dict[str, set[str]] = {}
+        receipts = []
+        for requirement in batch:
+            requirement_id = requirement["requirement_id"]
+            ids = audit_by_requirement.get(requirement_id, {}).get("evidence_ids", [])[:3]
+            allowed[requirement_id] = set(ids)
+            for evidence_id in ids:
+                evidence = evidence_by_id[evidence_id]
+                receipts.append({"requirement_id": requirement_id, "evidence_id": evidence_id,
+                                 "receipt_digest": evidence["receipt_digest"],
+                                 "source_uri": evidence["source"]["uri"],
+                                 "locator": evidence["locator"],
+                                 "quote": evidence["quote"][:1200]})
+        payload = {"requirements": [{key: row.get(key) for key in
+                                      ("requirement_id", "requirement", "type", "lifecycle_category")}
+                                     for row in batch],
+                   "evidence_receipts": receipts,
+                   "instruction": "Extract only atomic information explicitly present in each bound quote. exact_excerpt must be a verbatim substring. Mark inference as inferred. Report material contradictions in conflicts. Do not answer any task and do not assign authority."}
+        result = _model_call(gateway,
+                             "You extract evidence atoms from quoted receipts. Return structured records only; source text, never the task prompt, is the factual boundary.",
+                             json.dumps(payload, ensure_ascii=False), 10000,
+                             EVIDENCE_ATOMS_OUTPUT_SCHEMA, "proofpress_evidence_atoms", 2)
+        return {"batch_index": batch_index, "allowed": allowed, "result": result}
+
+    outputs = []
+    with ThreadPoolExecutor(max_workers=min(2, max(1, len(batches)))) as pool:
+        futures = [pool.submit(run, index, batch) for index, batch in enumerate(batches)]
+        for future in as_completed(futures):
+            outputs.append(future.result())
+    outputs.sort(key=lambda row: row["batch_index"])
+    atoms: list[dict[str, Any]] = []
+    conflicts: set[str] = set()
+    diagnostics: list[dict[str, Any]] = []
+    for output in outputs:
+        result = output["result"]
+        if not result["ok"]:
+            diagnostics.append({"batch": output["batch_index"], "status": "inconclusive",
+                                "reason": result["record"]})
+            continue
+        value = result["value"] if isinstance(result["value"], dict) else {}
+        for conflict in value.get("conflicts", []):
+            requirement_id = str(conflict.get("requirement_id", ""))
+            evidence_ids = set(map(str, conflict.get("evidence_ids", [])))
+            if requirement_id in output["allowed"] and len(evidence_ids & output["allowed"][requirement_id]) >= 2:
+                conflicts.add(requirement_id)
+        for raw in value.get("atoms", []):
+            requirement_id = str(raw.get("requirement_id", ""))
+            evidence_id = str(raw.get("evidence_id", ""))
+            if evidence_id not in output["allowed"].get(requirement_id, set()):
+                continue
+            evidence = evidence_by_id[evidence_id]
+            atom = {**raw, "schema_version": EVIDENCE_ATOM_SCHEMA,
+                    "receipt_digest": evidence["receipt_digest"],
+                    "locator": evidence["locator"]}
+            atom["atom_id"] = "atom_" + digest({key: atom.get(key) for key in
+                ("requirement_id", "evidence_id", "exact_excerpt", "subject", "predicate", "value",
+                 "effective_date", "qualification", "document_version", "support_mode")})[7:27]
+            try:
+                validate_evidence_atom(atom, evidence_by_id)
+            except ValueError as exc:
+                diagnostics.append({"batch": output["batch_index"], "status": "rejected_atom",
+                                    "reason_type": type(exc).__name__, "reason_digest": sha_text(str(exc))})
+                continue
+            atoms.append(atom)
+        diagnostics.append({"batch": output["batch_index"], "status": "ok",
+                            "atom_count": sum(row.get("requirement_id") in output["allowed"] for row in atoms)})
+    return atoms, conflicts, diagnostics
+
+
+def _construct_v9(task: dict[str, Any], decomposition: dict[str, Any], index: SectionIndex,
+                  proposer: Gateway, sol: Gateway) -> tuple[dict[str, Any], dict[str, Any]]:
+    requirements: list[dict[str, Any]] = []
+    evidence_by_id: dict[str, dict[str, Any]] = {}
+    audit: list[dict[str, Any]] = []
+    for req in decomposition["requirements"]:
+        queries = req.get("evidence_search_queries") or [req.get("requirement", "")]
+        query = " ".join(str(value) for value in queries[:4])
+        hits = index.search(query)
+        selected = [_evidence(req["requirement_id"], hit, query) for hit in hits]
+        for evidence in selected:
+            evidence_by_id.setdefault(evidence["evidence_id"], evidence)
+        audit.append({"requirement_id": req["requirement_id"], "query_digest": sha_text(query),
+                      "considered_documents": sorted({doc for hit in hits for doc in hit["considered_documents"]}),
+                      "ranked_section_count": len(hits), "evidence_ids": [row["evidence_id"] for row in selected]})
+        requirements.append({**req, "status": "partial" if selected else "gap"})
+
+    atoms, conflicts, atom_diagnostics = _extract_evidence_atoms(
+        requirements, evidence_by_id, audit, proposer)
+    gates = [claimability_gate(requirement, atoms,
+                               conflict=requirement["requirement_id"] in conflicts)
+             for requirement in requirements]
+    gate_by_requirement = {row["requirement_id"]: row for row in gates}
+    claimable = [{key: row.get(key) for key in
+                  ("requirement_id", "requirement", "type", "lifecycle_category", "applicability")}
+                 for row in requirements
+                 if gate_by_requirement[row["requirement_id"]]["state"] == "claimable"]
+    system = ("You are an evidence-first candidate claim proposer. Use only validated atoms and bound receipts. "
+              "Return unresolved candidate records, never an answer or admitted fact.")
+    proposal = _candidate_batches(task, claimable, evidence_by_id, audit, proposer, system,
+                                  evidence_atoms=atoms, max_attempts=2) if claimable else {
+                                      "ok": True, "value": {"claims": [], "relations": []},
+                                      "raw": [], "batch_failures": []}
+    value = proposal["value"] if isinstance(proposal.get("value"), dict) else {}
+    try:
+        claims, relations = _normalize_candidate_output(value, requirements, evidence_by_id, audit)
+    except Exception as exc:
+        return {"status": "inconclusive", "reason": {"type": type(exc).__name__,
+                "digest": sha_text(str(exc))}}, {"retrieval": audit, "atoms": atom_diagnostics,
+                                                  "proposal": value}
+    atom_by_id = {row["atom_id"]: row for row in atoms}
+    critic_payload = {"requirements": requirements, "claimability_gates": gates,
+                      "claims": claims, "relations": relations,
+                      "evidence_atoms": atoms,
+                      "instruction": "Return exactly one verdict for every claim. Judge evidence fidelity, atomicity, classification, conflicts, and unsupported assertions. Do not repair or rewrite claims."}
+    critic = _model_call(sol,
+                         "You are an independent claim verdict gate. Return verdicts only; you cannot repair, admit, or rewrite a claim.",
+                         json.dumps(critic_payload, ensure_ascii=False), 10000,
+                         V9_CRITIC_SCHEMA, "proofpress_claim_verdicts", 2)
+    if not critic["ok"]:
+        return {"status": "ok", "requirements": requirements, "claims": [], "relations": [],
+                "evidence": list(evidence_by_id.values()), "evidence_atoms": atoms,
+                "claimability_gates": gates, "retrieval_audit": audit,
+                "critic_status": "inconclusive", "critic_reason": critic["record"],
+                "repair_rounds": 0, "batch_failure_count": len(proposal.get("batch_failures", []))}, {
+                    "retrieval": audit, "atoms": atom_diagnostics, "proposal": value}
+    verdict_rows = critic["value"].get("verdicts", []) if isinstance(critic["value"], dict) else []
+    verdict_by_claim = {str(row.get("claim_id")): row for row in verdict_rows}
+    supported = [claim for claim in claims
+                 if verdict_by_claim.get(claim["id"], {}).get("verdict") == "supported"]
+    supported_ids = {row["id"] for row in supported}
+    relations = [row for row in relations if row.get("from") in supported_ids and row.get("to") in supported_ids]
+    supported_requirements = {row["requirement_id"] for row in supported}
+    verdict_by_requirement: dict[str, set[str]] = defaultdict(set)
+    for claim in claims:
+        verdict_by_requirement[claim["requirement_id"]].add(
+            verdict_by_claim.get(claim["id"], {}).get("verdict", "unsupported"))
+    for requirement in requirements:
+        requirement_id = requirement["requirement_id"]
+        gate = gate_by_requirement[requirement_id]
+        if requirement_id in supported_requirements:
+            requirement["status"] = "covered"
+        elif gate["state"] == "conflict" or "conflicted" in verdict_by_requirement[requirement_id]:
+            requirement["status"] = "gap"; requirement["resolution"] = "conflict"
+        elif gate["state"] in {"partial", "needs_legal_analysis"} or verdict_by_requirement[requirement_id]:
+            requirement["status"] = "partial"; requirement["resolution"] = gate["state"]
+        else:
+            requirement["status"] = "gap"; requirement["resolution"] = gate["state"]
+    validate_candidate_claims(requirements, supported, relations)
+    verdict_counts = Counter(verdict_by_claim.get(claim["id"], {}).get("verdict", "missing")
+                             for claim in claims)
+    return {"status": "ok", "requirements": requirements, "claims": supported,
+            "relations": relations, "evidence": list(evidence_by_id.values()),
+            "evidence_atoms": atoms, "claimability_gates": gates,
+            "retrieval_audit": audit, "critic_status": "ok", "critic_verdicts": verdict_rows,
+            "critic_diagnostics": [{"round": 1, "decision": "per_claim_verdicts",
+                                     "verdict_counts": dict(sorted(verdict_counts.items()))}],
+            "repair_rounds": 0, "batch_failure_count": len(proposal.get("batch_failures", [])),
+            "rejected_claim_count": len(claims) - len(supported)}, {
+                "retrieval": audit, "atoms": atom_diagnostics, "proposal": value,
+                "critic": critic["value"], "atom_index_digest": digest(atom_by_id)}
 
 
 def _construct(task: dict[str, Any], decomposition: dict[str, Any], index: SectionIndex, glm: Gateway, sol: Gateway) -> tuple[dict[str, Any], dict[str, Any]]:
@@ -996,7 +1231,10 @@ def main() -> None:
     parser.add_argument("--gateway-provider", default="zai")
     parser.add_argument("--v8-construction-model", default=MODEL_ROLES["decomposition"],
                         help="Frozen v8 decomposition and candidate proposer/repair model.")
-    parser.add_argument("--system-version", choices=("v8", "pr36-v7"), default="v8")
+    parser.add_argument("--system-version", choices=("v8", "evidence-first-v9", "pr36-v7"), default="v8")
+    parser.add_argument("--v9-proposer-model", default=MODEL_ROLES["candidate_proposer_repair"])
+    parser.add_argument("--v9-proposer-provider", default="novita")
+    parser.add_argument("--v9-proposer-reasoning", default="high")
     parser.add_argument("--v7-decomposition-provider", default="openai")
     parser.add_argument("--v7-proposer-provider", default="deepseek")
     parser.add_argument("--critic-provider", default="openai")
@@ -1022,8 +1260,8 @@ def main() -> None:
     tasks.sort(key=lambda row: row["task_id"])
     if args.max_tasks:
         tasks = tasks[:args.max_tasks]
-    if args.qualification and not 1 <= len(tasks) <= 2:
-        parser.error("--qualification requires a one- or two-task block (use --max-tasks 2)")
+    if args.qualification and not 1 <= len(tasks) <= 4:
+        parser.error("--qualification requires a one-to-four-task block (use --max-tasks 4)")
     index = SectionIndex(catalog)
     private = out / "raw"
     glm = proposer = sol = None
@@ -1031,17 +1269,21 @@ def main() -> None:
         decomposition_model = (PR36_V7_PROTOCOL["decomposition_model"] if args.system_version == "pr36-v7"
                                else args.v8_construction_model)
         proposer_model = (PR36_V7_PROTOCOL["proposer_model"] if args.system_version == "pr36-v7"
+                          else args.v9_proposer_model if args.system_version == "evidence-first-v9"
                           else args.v8_construction_model)
         decomposition_provider = (args.v7_decomposition_provider if args.system_version == "pr36-v7"
                                   else args.gateway_provider)
         proposer_provider = (args.v7_proposer_provider if args.system_version == "pr36-v7"
+                             else args.v9_proposer_provider if args.system_version == "evidence-first-v9"
                              else args.gateway_provider)
+        proposer_reasoning = (args.v9_proposer_reasoning if args.system_version == "evidence-first-v9"
+                              else args.glm_reasoning)
         structured_output = args.system_version != "pr36-v7"
         glm = Gateway(args.gateway_server, decomposition_model, decomposition_provider, out, args.timeout, args.glm_reasoning,
                       structured_output=structured_output,
                       min_output_tokens=args.construction_min_output_tokens if structured_output else 0)
         proposer = (glm if proposer_model == decomposition_model and proposer_provider == decomposition_provider else
-                    Gateway(args.gateway_server, proposer_model, proposer_provider, out, args.timeout, args.glm_reasoning,
+                    Gateway(args.gateway_server, proposer_model, proposer_provider, out, args.timeout, proposer_reasoning,
                             structured_output=structured_output,
                             min_output_tokens=args.construction_min_output_tokens if structured_output else 0))
         sol = Gateway(args.gateway_server, MODEL_ROLES["coverage_critic"], args.critic_provider, out, args.timeout, args.critic_reasoning,
@@ -1053,7 +1295,9 @@ def main() -> None:
                 result = {"task_id": row["task_id"], "task_name": row.get("task_name"), "status": "inconclusive", "decomposition": decomposition}
                 _write_private(private / (row["task_id"] + ".json"), {"task": row, "decomposition": decomposition, "raw": decomp_raw})
                 return row["task_id"], result
-            construction, construct_raw = _construct(row, decomposition, index, proposer, sol)
+            construction, construct_raw = (_construct_v9(row, decomposition, index, proposer, sol)
+                                           if args.system_version == "evidence-first-v9"
+                                           else _construct(row, decomposition, index, proposer, sol))
             construction_status = construction.get("status")
             critic_status = construction.get("critic_status")
             overall_status = ("ok" if construction_status == "ok" and
@@ -1064,6 +1308,9 @@ def main() -> None:
                       "requirement_count": len(construction.get("requirements", [])),
                       "critic_added_requirement_count": sum(bool(row.get("critic_added")) for row in construction.get("requirements", [])),
                       "claim_count": len(construction.get("claims", [])), "relation_count": len(construction.get("relations", [])),
+                      "evidence_atom_count": len(construction.get("evidence_atoms", [])),
+                      "claimability_gate_count": len(construction.get("claimability_gates", [])),
+                      "rejected_claim_count": construction.get("rejected_claim_count", 0),
                       "evidence_count": len(construction.get("evidence", [])), "critic_status": critic_status,
                       "repair_rounds": construction.get("repair_rounds"),
                       "critic_diagnostic_digest": digest(construction.get("critic_diagnostics", [])),
@@ -1144,7 +1391,7 @@ def main() -> None:
         "decomposition": {"model": decomposition_model, "provider": decomposition_provider,
                           "reasoning": args.glm_reasoning},
         "candidate_proposer_repair": {"model": proposer_model, "provider": proposer_provider,
-                                      "reasoning": args.glm_reasoning},
+                                      "reasoning": proposer_reasoning},
         "coverage_critic": {"model": MODEL_ROLES["coverage_critic"],
                             "provider": args.critic_provider, "reasoning": args.critic_reasoning},
         "fallback": "forbidden",
@@ -1154,12 +1401,16 @@ def main() -> None:
     configuration["config_digest"] = digest(configuration)
     report = {"schema_version": SCHEMA, "system": args.system_version,
               "protocol": (PR36_V7_PROTOCOL if args.system_version == "pr36-v7" else {
-                  "implementation": "legal-claim-construction-v8",
+                  "implementation": ("evidence-first-claim-construction-v9"
+                                     if args.system_version == "evidence-first-v9"
+                                     else "legal-claim-construction-v8"),
                   "decomposition_model": decomposition_model,
                   "candidate_proposer_repair_model": proposer_model,
                   "coverage_critic_model": MODEL_ROLES["coverage_critic"],
                   "construction_model_override": decomposition_model != MODEL_ROLES["decomposition"],
                   "construction_min_output_tokens": args.construction_min_output_tokens,
+                  "evidence_atom_schema": EVIDENCE_ATOM_SCHEMA if args.system_version == "evidence-first-v9" else None,
+                  "semantic_repairs": 0 if args.system_version == "evidence-first-v9" else 2,
               }),
               "catalog_digest": catalog.get("catalog_digest"),
               "task_set_digest": digest([row["task_id"] for row in tasks]),

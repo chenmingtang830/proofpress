@@ -63,8 +63,9 @@ def _tasks(value: Any) -> list[dict[str, Any]]:
     return [row for row in rows if isinstance(row, dict) and row.get("task_id")]
 
 
-def _blind_order(task_id: str) -> tuple[str, str]:
-    return ("v7", "v8") if int(digest(task_id)[-1], 16) % 2 == 0 else ("v8", "v7")
+def _blind_order(task_id: str, candidate_label: str = "v8") -> tuple[str, str]:
+    return (("v7", candidate_label) if int(digest(task_id)[-1], 16) % 2 == 0
+            else (candidate_label, "v7"))
 
 
 def _compact_system(raw: dict[str, Any]) -> dict[str, Any]:
@@ -141,7 +142,9 @@ def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--tasks-json", required=True)
     ap.add_argument("--v7-report", required=True)
-    ap.add_argument("--v8-report", required=True)
+    ap.add_argument("--v8-report", help="Legacy candidate report flag")
+    ap.add_argument("--candidate-report", help="Candidate report compared with frozen v7")
+    ap.add_argument("--candidate-label", default="v8")
     ap.add_argument("--silver-report", required=True)
     ap.add_argument("--gateway-server", required=True)
     ap.add_argument("--provider", default="openai")
@@ -149,21 +152,33 @@ def main() -> None:
     ap.add_argument("--timeout", type=float, default=180)
     ap.add_argument("--out", required=True)
     args = ap.parse_args()
+    candidate_path = args.candidate_report or args.v8_report
+    if not candidate_path:
+        ap.error("--candidate-report is required")
+    if args.candidate_label == "v7" or not args.candidate_label:
+        ap.error("--candidate-label must identify the non-v7 system")
     out = Path(args.out); out.mkdir(parents=True, exist_ok=True); out.chmod(0o700)
     task_rows = _tasks(json.loads(Path(args.tasks_json).read_text()))
     task_by_id = {row["task_id"]: row for row in task_rows}
-    reports = {name: json.loads(Path(path).read_text()) for name, path in
-               (("v7", args.v7_report), ("v8", args.v8_report))}
+    candidate_label = args.candidate_label
+    reports = {"v7": json.loads(Path(args.v7_report).read_text()),
+               candidate_label: json.loads(Path(candidate_path).read_text())}
     silver = json.loads(Path(args.silver_report).read_text())
     silver_ids = {row.get("task_id") for row in silver.get("tasks", [])}
-    report_ids = [{row.get("task_id") for row in reports[name].get("tasks", [])} for name in ("v7", "v8")]
-    if report_ids[0] != report_ids[1]:
-        raise SystemExit("v7/v8 semantic adjudication requires an exact paired task set")
-    missing_tasks = sorted(report_ids[0] - set(task_by_id))
-    missing_silver = sorted(report_ids[0] - silver_ids)
+    report_ids = [{row.get("task_id") for row in reports[name].get("tasks", [])}
+                  for name in ("v7", candidate_label)]
+    candidate_ids = report_ids[1]
+    candidate_is_qualification = bool(reports[candidate_label].get("qualification", {}).get("requested"))
+    if candidate_is_qualification:
+        if not candidate_ids.issubset(report_ids[0]):
+            raise SystemExit("qualification candidate tasks must be a subset of the frozen v7 task set")
+    elif report_ids[0] != candidate_ids:
+        raise SystemExit("formal semantic adjudication requires an exact paired task set")
+    missing_tasks = sorted(candidate_ids - set(task_by_id))
+    missing_silver = sorted(candidate_ids - silver_ids)
     if missing_tasks or missing_silver:
         raise SystemExit(f"paired tasks missing from frozen inputs: tasks={missing_tasks}, silver={missing_silver}")
-    task_ids = sorted(report_ids[0])
+    task_ids = sorted(candidate_ids)
     if not task_ids or len(task_ids) > 40:
         raise SystemExit("semantic adjudication requires 1..40 paired tasks")
     gateway = Gateway(args.gateway_server, MODEL, args.provider, out, args.timeout, args.reasoning,
@@ -172,14 +187,14 @@ def main() -> None:
     try:
         for task_id in task_ids:
             systems = {}
-            for name in ("v7", "v8"):
+            for name in ("v7", candidate_label):
                 raw = Path(reports[name]["raw_private_dir"]) / f"{task_id}.json"
                 if not raw.is_file():
                     systems = {}; break
                 systems[name] = _compact_system(json.loads(raw.read_text()))
             if len(systems) != 2:
                 summaries.append({"task_id": task_id, "status": "inconclusive_missing_raw"}); continue
-            first, second = _blind_order(task_id)
+            first, second = _blind_order(task_id, candidate_label)
             aliases = {"system_a": first, "system_b": second}
             task = task_by_id[task_id]
             rubric = [{"rubric_id": row.get("verifier_id"), "criteria": row.get("criteria")}
@@ -246,7 +261,7 @@ def main() -> None:
                               "semantic_correction_retries": len(semantic_validation_failures),
                               "rubric_atom_count": len(rubric),
                               "v7_requirement_mapping_count": len(labels["systems"]["v7"]["requirement_to_rubric"]),
-                              "v8_requirement_mapping_count": len(labels["systems"]["v8"]["requirement_to_rubric"])})
+                              "candidate_requirement_mapping_count": len(labels["systems"][candidate_label]["requirement_to_rubric"])})
     finally:
         gateway.stop()
     calls, receipts = gateway.calls, gateway.receipt_rows()
@@ -256,7 +271,10 @@ def main() -> None:
                  "boundary": "Post-output Sol model-adjudicated semantic labels; not pre-output silver, human gold, or admission.",
                  "model": MODEL, "provider": args.provider, "fallback": "forbidden",
                  "task_set_digest": digest(task_ids), "v7_report_digest": digest(reports["v7"]),
-                 "v8_report_digest": digest(reports["v8"]), "silver_report_digest": digest(silver),
+                 "candidate_label": candidate_label,
+                 "candidate_report_digest": digest(reports[candidate_label]),
+                 "v8_report_digest": digest(reports[candidate_label]) if candidate_label == "v8" else None,
+                 "silver_report_digest": digest(silver),
                  "denominators": {"eligible_tasks": len(task_ids),
                                   "completed_tasks": sum(row["status"] == "ok" for row in summaries),
                                   "inconclusive_tasks": sum(row["status"] != "ok" for row in summaries)},

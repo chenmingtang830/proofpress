@@ -13,13 +13,17 @@ from typing import Any
 
 SCHEMA = "proofpress/legal-pipeline-contract/v1"
 MODEL_ROLES = {
-    "decomposition": "zai/glm-5.3-flash",
-    "candidate_proposer_repair": "zai/glm-5.3-flash",
+    "decomposition": "inclusionai/ling-3.0-flash-fin",
+    "candidate_proposer_repair": "inclusionai/ling-3.0-flash-fin",
     "coverage_critic": "gpt-5.6-sol",
     "pageindex": "deepseek/deepseek-v4-flash",
     "primary_executor": "deepseek/deepseek-v4-flash",
-    "sensitivity_executor": "zai/glm-5.3-flash",
+    "sensitivity_executor": "inclusionai/ling-3.0-flash-fin",
     "native_grader": "google/gemini-3.1-pro-preview",
+}
+EVIDENCE_ATOM_SCHEMA = "proofpress/evidence-atom/v1"
+CLAIMABILITY_STATES = {
+    "claimable", "partial", "gap", "conflict", "needs_legal_analysis",
 }
 LIFECYCLE_CHECKLIST = (
     "parties_capacity_authority", "economics_calculations",
@@ -85,3 +89,51 @@ def validate_candidate_claims(requirements: list[dict[str, Any]], claims: list[d
         status = req.get("status")
         if status == "covered" and req.get("requirement_id") not in covered:
             raise ValueError("covered requirement must bind a candidate claim")
+
+
+def validate_evidence_atom(atom: dict[str, Any], receipts: dict[str, dict[str, Any]]) -> dict[str, Any]:
+    """Validate a source-bound atom without granting it authority or admission."""
+    if not isinstance(atom, dict) or atom.get("schema_version") != EVIDENCE_ATOM_SCHEMA:
+        raise ValueError("evidence atom schema is required")
+    required = ("atom_id", "requirement_id", "receipt_digest", "evidence_id",
+                "subject", "predicate", "value", "support_mode")
+    if any(not isinstance(atom.get(key), str) or not atom[key].strip() for key in required):
+        raise ValueError("evidence atom required fields are missing")
+    if atom["support_mode"] not in {"explicit", "inferred"}:
+        raise ValueError("evidence atom support_mode is invalid")
+    evidence = receipts.get(atom["evidence_id"])
+    if not evidence or evidence.get("receipt_digest") != atom["receipt_digest"]:
+        raise ValueError("evidence atom receipt binding is invalid")
+    if atom.get("authority") is not None or atom.get("admission") is not None:
+        raise ValueError("evidence atoms cannot carry authority or admission")
+    atom_locator = atom.get("locator")
+    if atom_locator != evidence.get("locator"):
+        raise ValueError("evidence atom locator does not match its receipt")
+    excerpt = atom.get("exact_excerpt")
+    quote = evidence.get("quote")
+    if not isinstance(excerpt, str) or not excerpt.strip() or not isinstance(quote, str) or excerpt not in quote:
+        raise ValueError("evidence atom excerpt must be an exact receipt substring")
+    return atom
+
+
+def claimability_gate(requirement: dict[str, Any], atoms: list[dict[str, Any]], *,
+                      conflict: bool = False) -> dict[str, Any]:
+    """Return the only deterministic states allowed before proposal."""
+    requirement_id = str(requirement.get("requirement_id", ""))
+    bound = [row for row in atoms if row.get("requirement_id") == requirement_id]
+    explicit = [row for row in bound if row.get("support_mode") == "explicit"]
+    if conflict:
+        state, reason = "conflict", "material_conflict_preserved"
+    elif not bound:
+        state, reason = "gap", "no_valid_evidence_atom"
+    elif not explicit:
+        state, reason = "needs_legal_analysis", "inference_without_explicit_factual_support"
+    elif any(not all(str(row.get(key, "")).strip() for key in ("subject", "predicate", "value"))
+             for row in explicit):
+        state, reason = "partial", "incomplete_atomic_binding"
+    else:
+        state, reason = "claimable", "explicit_atomic_binding"
+    return {"requirement_id": requirement_id, "state": state, "reason": reason,
+            "atom_ids": [row["atom_id"] for row in bound],
+            "gate_digest": _digest({"requirement_id": requirement_id, "state": state,
+                                     "reason": reason, "atom_ids": [row["atom_id"] for row in bound]})}

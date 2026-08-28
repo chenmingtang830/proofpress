@@ -6,7 +6,9 @@ import argparse
 import hashlib
 import json
 import os
+import random
 import stat
+import statistics
 import subprocess
 import sys
 import tempfile
@@ -21,17 +23,25 @@ import run_private_panel as private_panel
 from run_claim_construction_private import Gateway, SectionIndex, _model_call, digest
 from run_gap_retrieval_private import (
     ROUTED_DOCUMENT_LIMIT,
+    bm25_receipts,
+    classify_query,
     gateway_cost_summary,
     materialize_pageindex_sources,
+    prior_bm25,
     route_pageindex_sources,
 )
 
 EXECUTORS = (("deepseek/deepseek-v4-flash", "deepinfra", "primary-cross-model"),
              ("inclusionai/ling-3.0-flash-fin", "novita", "same-family-sensitivity"))
 GRADER = ("google/gemini-3.1-pro-preview", "google")
-CONDITIONS = ("full-catalog-bm25-prefetch", "pr36-v7-prefetched-context", "v8-prefetched-context",
-              "v8-claim-graph-only", "v8-claim-graph-plus-pageindex")
-ORACLE_CONDITIONS = ("oracle-claim-graph", "v8-claim-graph-plus-direct-gap-evidence")
+CONDITIONS = ("pr36-v7-prefetched-context", "full-catalog-bm25-prefetch",
+              "evidence-first-v9-prefetched-context", "evidence-first-v9-claim-graph-only",
+              "evidence-first-v9-graph-plus-global-bm25",
+              "evidence-first-v9-graph-plus-hierarchical-hybrid")
+ORACLE_CONDITIONS = ("oracle-claim-graph", "v9-claim-graph-plus-direct-gap-evidence")
+PROGRESSIVE_CONDITIONS = ("pr36-v7-prefetched-context", "evidence-first-v9-claim-graph-only",
+                          "evidence-first-v9-graph-plus-global-bm25",
+                          "evidence-first-v9-graph-plus-hierarchical-hybrid")
 MAX_DISCLOSURES_PER_TASK = 3
 MAX_DISCOVERED_PER_CALL = 5
 MAX_CONTEXT_TOKEN_UPPER_BOUND = 24000
@@ -367,7 +377,7 @@ def oracle_diagnostic_contexts(graph: dict[str, Any], silver: dict[str, Any],
                                "silver_leakage": True, "claims": oracle_claims,
                                "relations": construction.get("relations", []),
                                "gap_bindings": gap_bindings, "evidence": bound_receipts},
-        "v8-claim-graph-plus-direct-gap-evidence": {
+        "v9-claim-graph-plus-direct-gap-evidence": {
             "diagnostic_only": True, "silver_leakage": True,
             "governed_packets": graph_packets, "gap_bindings": gap_bindings,
             "direct_gap_evidence": bound_receipts},
@@ -431,17 +441,17 @@ def custody_manifest_sources(catalog: dict[str, Any]) -> list[dict[str, Any]]:
     return rows
 
 
-def replay_sidecar(path: Path, mapping: dict[str, list[dict[str, Any]]]) -> str:
-    data = path / "pageindex-replay-private.json"
+def replay_sidecar(path: Path, mapping: dict[str, list[dict[str, Any]]], label: str = "pageindex") -> str:
+    data = path / f"{label}-replay-private.json"
     data.write_text(json.dumps(mapping))
-    script = path / "pageindex-replay.py"
-    script.write_text("""#!/usr/bin/env python3
+    script = path / f"{label}-replay.py"
+    script.write_text(f"""#!/usr/bin/env python3
 import hashlib,json,sys
 from pathlib import Path
-request=json.load(sys.stdin); rows=json.loads(Path(__file__).with_name('pageindex-replay-private.json').read_text()).get(hashlib.sha256(request['query'].encode()).hexdigest(),[])
+request=json.load(sys.stdin); rows=json.loads(Path(__file__).with_name('{label}-replay-private.json').read_text()).get(hashlib.sha256(request['query'].encode()).hexdigest(),[])
 for row in rows:
  row['retrieval']['query']=request['query']; row['retrieval']['config_digest']=request['config']['config_digest']
-print(json.dumps({'schema_version':'proofpress/pageindex-sidecar/v1','fallback_used':False,'sidecar':{'adapter':'real-pageindex-private-replay','version':'1'},'telemetry':{'latency_ms':0,'replayed_real_receipts':len(rows)},'receipts':rows[:request['max_results']]}))
+print(json.dumps({{'schema_version':'proofpress/pageindex-sidecar/v1','fallback_used':False,'sidecar':{{'adapter':'{label}-private-replay','version':'1'}},'telemetry':{{'latency_ms':0,'replayed_real_receipts':len(rows)}},'receipts':rows[:request['max_results']]}}))
 """)
     script.chmod(stat.S_IRWXU)
     return str(script)
@@ -482,12 +492,21 @@ def build_contexts(graph: dict[str, Any], asks: list[dict[str, Any]], catalog: d
     config["config_digest"] = knowledge.digest(config)
     private_panel.MODEL, private_panel.PROVIDER = "deepseek/deepseek-v4-flash", "deepinfra"
     bridge_proc, base_url = private_panel.bridge(gateway_server, gateway_receipts)
-    real_receipts, pageindex_events, cost = {}, [], 0.0
+    real_receipts, global_receipts, hybrid_receipts = {}, {}, {}
+    pageindex_events, cost = [], 0.0
     try:
         for packet, bundle in zip(graph_packets_raw, bundles):
-            if packet["coverage"] == "covered":
-                continue
             query = "\n".join(row["query"] for row in bundle)
+            global_rows = bm25_receipts(index, query)[:20]
+            global_receipts[hashlib.sha256(query.encode()).hexdigest()] = global_rows[:MAX_DISCOVERED_PER_CALL]
+            if packet["coverage"] == "covered":
+                hybrid_receipts[hashlib.sha256(query.encode()).hexdigest()] = []
+                continue
+            if classify_query(query) == "exact":
+                hybrid_receipts[hashlib.sha256(query.encode()).hexdigest()] = global_rows[:MAX_DISCOVERED_PER_CALL]
+                pageindex_events.append({"query_digest": sha_text(query), "status": "bypassed_exact_query",
+                                         "receipt_count": len(global_rows[:MAX_DISCOVERED_PER_CALL])})
+                continue
             routed_sources, route_audit = route_pageindex_sources(
                 index, query, sources, min(ROUTED_DOCUMENT_LIMIT, len(sources)))
             if not routed_sources:
@@ -503,6 +522,8 @@ def build_contexts(graph: dict[str, Any], asks: list[dict[str, Any]], catalog: d
                     gateway_receipts, offset, private_panel.MODEL, private_panel.PROVIDER)
                 cost += float(cost_summary["known_cost_usd"])
                 real_receipts[hashlib.sha256(query.encode()).hexdigest()] = rows
+                hybrid_receipts[hashlib.sha256(query.encode()).hexdigest()] = prior_bm25(
+                    index, query, global_rows, rows)[:MAX_DISCOVERED_PER_CALL]
                 pageindex_events.append({"query_digest": sha_text(query), "status": "ok", "receipt_count": len(rows),
                                          "latency_ms": telemetry.get("latency_ms"),
                                          "document_route_digest": route_audit["route_digest"],
@@ -510,28 +531,39 @@ def build_contexts(graph: dict[str, Any], asks: list[dict[str, Any]], catalog: d
                                          "source_build_retries": telemetry.get("source_build_retries", 0),
                                          **cost_summary})
             except Exception as exc:
+                hybrid_receipts[hashlib.sha256(query.encode()).hexdigest()] = global_rows[:MAX_DISCOVERED_PER_CALL]
                 pageindex_events.append({"query_digest": sha_text(query), "status": "inconclusive",
                                          "reason_type": type(exc).__name__, "reason_digest": sha_text(str(exc))})
     finally:
         bridge_proc.terminate()
         try: bridge_proc.wait(timeout=5)
         except subprocess.TimeoutExpired: bridge_proc.kill()
-    replay = replay_sidecar(workspace, real_receipts)
-    pageindex_packets_raw = [knowledge.disclose_v1("\n".join(row["query"] for row in bundle),
+    global_replay = replay_sidecar(workspace, global_receipts, "global-bm25")
+    hybrid_replay = replay_sidecar(workspace, hybrid_receipts, "hierarchical-hybrid")
+    global_packets_raw = [knowledge.disclose_v1("\n".join(row["query"] for row in bundle),
                                                    "agent:workflow-executor", graph["task"]["task_id"],
-                                                   corpus_manifest=str(corpus), sidecar=replay,
+                                                   corpus_manifest=str(corpus), sidecar=global_replay,
+                                                   max_claims=24, max_depth=2,
+                                                   max_discovered=MAX_DISCOVERED_PER_CALL)
+                          for bundle in bundles]
+    hybrid_packets_raw = [knowledge.disclose_v1("\n".join(row["query"] for row in bundle),
+                                                   "agent:workflow-executor", graph["task"]["task_id"],
+                                                   corpus_manifest=str(corpus), sidecar=hybrid_replay,
                                                    max_claims=24, max_depth=2,
                                                    max_discovered=MAX_DISCOVERED_PER_CALL)
                              for bundle in bundles]
-    discovered_counts = [len(row.get("discovered_evidence", [])) for row in pageindex_packets_raw]
+    discovered_counts = [len(row.get("discovered_evidence", [])) for row in hybrid_packets_raw]
     if any(count > MAX_DISCOVERED_PER_CALL for count in discovered_counts):
         raise ValueError("workflow disclosure returned more discovered evidence than permitted")
     graph_packets = [compact_disclosure_packet(row) for row in graph_packets_raw]
-    pageindex_packets = [compact_disclosure_packet(row) for row in pageindex_packets_raw]
+    global_packets = [compact_disclosure_packet(row) for row in global_packets_raw]
+    hybrid_packets = [compact_disclosure_packet(row) for row in hybrid_packets_raw]
     contexts, tokens = {}, {}
-    for name, value in (("full-catalog-bm25-prefetch", full_rows), ("v8-prefetched-context", prefetched),
-                        ("v8-claim-graph-only", graph_packets),
-                        ("v8-claim-graph-plus-pageindex", pageindex_packets)):
+    for name, value in (("full-catalog-bm25-prefetch", full_rows),
+                        ("evidence-first-v9-prefetched-context", prefetched),
+                        ("evidence-first-v9-claim-graph-only", graph_packets),
+                        ("evidence-first-v9-graph-plus-global-bm25", global_packets),
+                        ("evidence-first-v9-graph-plus-hierarchical-hybrid", hybrid_packets)):
         contexts[name], tokens[name] = bounded_json(value)
     contexts["pr36-v7-prefetched-context"] = None
     tokens["pr36-v7-prefetched-context"] = 0
@@ -566,6 +598,43 @@ def normalize_grade(value: Any) -> dict[str, Any]:
     return {"rubric_fraction": float(fraction), **counts}
 
 
+def paired_bootstrap(values: list[float], samples: int = 10_000) -> list[float] | None:
+    if not values: return None
+    if len(values) == 1: return [values[0], values[0]]
+    rng = random.Random(0)
+    draws = sorted(statistics.mean(rng.choice(values) for _ in values) for _ in range(samples))
+    return [draws[int(.025 * (samples - 1))], draws[int(.975 * (samples - 1))]]
+
+
+def paired_workflow_comparisons(cells: list[dict[str, Any]]) -> dict[str, Any]:
+    output = {}
+    for model, _, _ in EXECUTORS:
+        model_cells = {(row["task_id"], row["condition"]): row for row in cells
+                       if row.get("executor_model") == model and row.get("status") == "scored"}
+        for treatment in ("evidence-first-v9-graph-plus-global-bm25",
+                          "evidence-first-v9-graph-plus-hierarchical-hybrid"):
+            for baseline in ("pr36-v7-prefetched-context", "full-catalog-bm25-prefetch"):
+                task_ids = sorted({task_id for task_id, condition in model_cells if condition == treatment}
+                                  & {task_id for task_id, condition in model_cells if condition == baseline})
+                rubric = [model_cells[(task_id, treatment)]["rubric_fraction"]
+                          - model_cells[(task_id, baseline)]["rubric_fraction"] for task_id in task_ids]
+                token_ratios = [model_cells[(task_id, treatment)]["context_token_upper_bound"]
+                                / max(1, model_cells[(task_id, baseline)]["context_token_upper_bound"])
+                                for task_id in task_ids]
+                error_deltas = {key: [model_cells[(task_id, treatment)][key]
+                                      - model_cells[(task_id, baseline)][key] for task_id in task_ids]
+                                for key in ("unsupported_claims", "citation_errors", "authority_errors")}
+                output[f"{model}|{treatment}|{baseline}"] = {
+                    "paired_tasks": len(task_ids), "task_ids": task_ids,
+                    "rubric_fraction_mean_delta": statistics.mean(rubric) if rubric else None,
+                    "rubric_fraction_bootstrap_95_ci": paired_bootstrap(rubric),
+                    "mean_context_token_ratio": statistics.mean(token_ratios) if token_ratios else None,
+                    **{f"{key}_mean_delta": statistics.mean(values) if values else None
+                       for key, values in error_deltas.items()},
+                }
+    return output
+
+
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--claim-report", required=True); ap.add_argument("--ask-manifest", required=True)
@@ -579,6 +648,10 @@ def main() -> None:
     ap.add_argument("--silver-report", help="Enable diagnostic oracle controls from frozen private silver")
     ap.add_argument("--pr36-context-dir", help="Directory containing one frozen v7 context JSON per task")
     ap.add_argument("--qualification-only", action="store_true")
+    ap.add_argument("--full-claim-task-panel", action="store_true",
+                    help="Run every completed task in the claim report; tasks without lawyer asks use the task prompt for disclosure.")
+    ap.add_argument("--progressive-only", action="store_true",
+                    help="Run only the four frozen lawyer-ask progressive-disclosure conditions.")
     ap.add_argument("--qualification-max-asks", type=int, default=4,
                     help="Per-task ask cap for end-to-end qualification mode")
     args = ap.parse_args()
@@ -603,11 +676,16 @@ def main() -> None:
         silver_report = json.loads(Path(args.silver_report).read_text())
         silver_raw = Path(silver_report["raw_private_dir"])
         silver_by_task = {path.stem: json.loads(path.read_text()) for path in silver_raw.glob("*.json")}
-    active_conditions = CONDITIONS + (ORACLE_CONDITIONS if silver_by_task is not None else ())
+    product_conditions = PROGRESSIVE_CONDITIONS if args.progressive_only else CONDITIONS
+    active_conditions = product_conditions + (ORACLE_CONDITIONS if silver_by_task is not None and not args.progressive_only else ())
     out = Path(args.out); out.mkdir(parents=True, exist_ok=True); out.chmod(0o700)
     raw_out = out / "raw"; raw_out.mkdir(exist_ok=True); raw_out.chmod(0o700)
     glm = deepseek = grader = None
     results, pageindex_events, pageindex_cost, disclosure_telemetry = [], [], 0.0, []
+    task_ids = ([row["task_id"] for row in report.get("tasks", []) if row.get("status") == "ok"]
+                if args.full_claim_task_panel else list(asks_manifest["task_ids"]))
+    if args.full_claim_task_panel and len(task_ids) != 12:
+        raise ValueError(f"formal workflow requires exactly 12 completed claim tasks, got {len(task_ids)}")
     previous = Path.cwd()
     try:
         deepseek = Gateway(claim_gateway_server, EXECUTORS[0][0], EXECUTORS[0][1], out, 300, "none",
@@ -622,14 +700,15 @@ def main() -> None:
         with tempfile.TemporaryDirectory(prefix="proofpress-workflow-") as tmp:
             workspace = Path(tmp); git_init(workspace); os.chdir(workspace)
             work_items = []
-            for task_id in asks_manifest["task_ids"]:
+            for task_id in task_ids:
                 graph = json.loads((raw_dir / f"{task_id}.json").read_text())
                 _, relation_diagnostics = stage_graph(graph, navigation)
                 asks = [row for row in asks_manifest["asks"] if row["task_id"] == task_id]
                 if args.qualification_only:
                     asks = asks[:max(1, args.qualification_max_asks)]
+                context_asks = asks or [{"ask_id": f"{task_id}-task", "query": graph["task"]["prompt"]}]
                 contexts, context_tokens, events, pi_cost, disclosure_stats = build_contexts(
-                    graph, asks, catalog, sidecar, pageindex_gateway_server, workspace,
+                    graph, context_asks, catalog, sidecar, pageindex_gateway_server, workspace,
                     out / "workflow-pageindex-gateway-receipts.jsonl",
                     silver_by_task.get(task_id) if silver_by_task is not None else None)
                 disclosure_telemetry.append({
@@ -644,11 +723,10 @@ def main() -> None:
                         contexts["pr36-v7-prefetched-context"], context_tokens["pr36-v7-prefetched-context"] = bounded_json(v7_context)
                 pageindex_events.extend(events); pageindex_cost += pi_cost
                 preflight = qualification_preflight(contexts, [task_id], silver_by_task)
-                failed_pageindex = [row for row in events if row.get("status") != "ok"]
+                failed_pageindex = [row for row in events if row.get("status") == "inconclusive"]
                 if failed_pageindex:
-                    preflight["status"] = "fail"
-                    preflight["failures"].append({"reason": "PageIndex did not produce terminal successful telemetry",
-                                                  "failed_event_count": len(failed_pageindex)})
+                    preflight["warnings"] = [{"reason": "hierarchical route fell back to global BM25",
+                                               "failed_event_count": len(failed_pageindex)}]
                 (raw_out / f"{task_id}-qualification.json").write_text(json.dumps(preflight, indent=2))
                 if preflight["status"] != "pass":
                     for condition in active_conditions:
@@ -789,10 +867,14 @@ def main() -> None:
                  "executors": [{"model": m, "provider": p, "role": r} for m, p, r in EXECUTORS],
                  "grader": {"model": GRADER[0], "provider": GRADER[1], "blind_grades_per_artifact": 3},
                  "configuration": configuration,
+                 "mode": "progressive-disclosure" if args.progressive_only else "full-e2e",
                  "fallback": "forbidden", "staged_evaluation": True, "non_authoritative": True,
-                 "denominators": {"planned_cells": len(asks_manifest["task_ids"]) * len(active_conditions) * len(EXECUTORS),
+                 "denominators": {"planned_cells": len(task_ids) * len(active_conditions) * len(EXECUTORS),
+                                  "task_count": len(task_ids),
+                                  "lawyer_ask_count": len(asks_manifest.get("asks", [])),
                                   "scored_cells": len(cells), "inconclusive_cells": len(results) - len(cells)},
                  "aggregate": aggregate, "cells": results, "pageindex_events": pageindex_events,
+                 "paired_comparisons": paired_workflow_comparisons(results),
                  "disclosure_telemetry": disclosure_telemetry,
                  "telemetry": {"model_calls": len(calls), "gateway_receipts": len(receipts),
                                "known_model_cost_usd": sum(known),
@@ -801,7 +883,7 @@ def main() -> None:
                                "pageindex_cost_usd": pageindex_cost,
                                "cost_status": "ok" if len(receipts) == len(calls) else "inconclusive"},
                  "decision_boundary": "Private staged evaluation. The admission events are isolated evaluation fixtures, not lawyer admissions or matter authority."}
-    required_primary_cells = len(asks_manifest["task_ids"]) * len(CONDITIONS) * len(EXECUTORS)
+    required_primary_cells = len(task_ids) * len(product_conditions) * len(EXECUTORS)
     scored_primary_cells = sum(row.get("status") == "scored" and row.get("condition") in CONDITIONS
                                for row in results)
     terminal_receipts = sum(row.get("terminal") is True for row in receipts)

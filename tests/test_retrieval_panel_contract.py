@@ -30,6 +30,7 @@ ask_freezer = load("ask_freezer", ROOT / "studies/apex-agent-eval/retrieval_adap
 workflow_runner = load("workflow_runner", ROOT / "studies/apex-agent-eval/retrieval_adapter/run_workflow_utility_private.py")
 budget_runner = load("budget_runner", ROOT / "studies/apex-agent-eval/retrieval_adapter/build_private_budget_ledger.py")
 pipeline_summary = load("pipeline_summary", ROOT / "studies/apex-agent-eval/retrieval_adapter/summarize_private_legal_pipeline.py")
+v9_selector = load("v9_selector", ADAPTER / "select_v9_proposer_private.py")
 
 
 class RetrievalPanelContractTests(unittest.TestCase):
@@ -53,6 +54,58 @@ class RetrievalPanelContractTests(unittest.TestCase):
         self.assertTrue(frozen["frozen"])
         with self.assertRaisesRegex(ValueError, "rubric"):
             contract.validate_decomposition("review authority", inventory, requirements, rubric={})
+
+    def test_evidence_atom_and_claimability_gate_fail_closed(self):
+        receipt = {"evidence_id": "E1", "receipt_digest": "sha256:" + "a" * 64,
+                   "quote": "Buyer must deliver the certificate at Closing.",
+                   "locator": {"kind": "section_span", "section_id": "S1",
+                               "page_start": 2, "page_end": 2}}
+        atom = {"schema_version": contract.EVIDENCE_ATOM_SCHEMA, "atom_id": "A1",
+                "requirement_id": "R1", "evidence_id": "E1",
+                "receipt_digest": receipt["receipt_digest"], "locator": receipt["locator"],
+                "exact_excerpt": "Buyer must deliver the certificate",
+                "subject": "Buyer", "predicate": "must deliver", "value": "certificate",
+                "effective_date": None, "qualification": "at Closing",
+                "document_version": None, "support_mode": "explicit"}
+        self.assertEqual(contract.validate_evidence_atom(atom, {"E1": receipt}), atom)
+        gate = contract.claimability_gate({"requirement_id": "R1"}, [atom])
+        self.assertEqual(gate["state"], "claimable")
+        self.assertEqual(contract.claimability_gate({"requirement_id": "R2"}, [atom])["state"], "gap")
+        inferred = {**atom, "support_mode": "inferred"}
+        self.assertEqual(contract.claimability_gate({"requirement_id": "R1"}, [inferred])["state"],
+                         "needs_legal_analysis")
+        with self.assertRaisesRegex(ValueError, "exact receipt substring"):
+            contract.validate_evidence_atom({**atom, "exact_excerpt": "invented"}, {"E1": receipt})
+
+    def test_v9_selector_reads_candidate_system_summary_and_fails_closed(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "score.json"
+            path.write_text(json.dumps({
+                "candidate_label": "evidence-first-v9",
+                "paired": {"status": "scored", "paired_task_count": 4,
+                           "candidate_unsupported_factual_claim_rate": 0.1,
+                           "candidate_honest_gap_recall": 0.95},
+                "systems": {"pr36-v7": {}, "evidence-first-v9": {
+                    "supported_claim_coverage": 0.8,
+                    "evidence_binding_pass_rate": 1.0,
+                    "receipt_pass_rate": 1.0,
+                    "mean_requirement_count": 20.0,
+                }},
+            }))
+            row = v9_selector.candidate(str(path))
+            self.assertEqual(row["supported_claim_coverage"], 0.8)
+            passed, failures = v9_selector.eligible(row, {
+                "unsupported_factual_claim_rate": 0.2,
+                "supported_claim_coverage": 0.7,
+                "mean_requirement_count": 20.0,
+            })
+            self.assertTrue(passed, failures)
+            row["receipt_pass_rate"] = None
+            self.assertIn("receipt_validity_not_one", v9_selector.eligible(row, {
+                "unsupported_factual_claim_rate": 0.2,
+                "supported_claim_coverage": 0.7,
+                "mean_requirement_count": 20.0,
+            })[1])
 
     def test_conformance_manifest_has_the_24_frozen_cases(self):
         manifest = panel_manifest.manifest()
@@ -446,6 +499,29 @@ class RetrievalPanelContractTests(unittest.TestCase):
         self.assertEqual([row["uri"] for row in full], ["private://b", "private://a"])
         self.assertEqual(full_audit["adapter"], "bm25-full-corpus-order/v1")
 
+    def test_hierarchical_hybrid_keeps_global_safety_lane(self):
+        def representation(uri, text, page):
+            char = str(page)
+            return {"source": {"uri": uri, "media_type": "text/plain",
+                                "content_digest": "sha256:" + char * 64},
+                    "representation_digest": "sha256:" + char * 64,
+                    "sections": [{"id": f"s{page}", "heading": "Closing Conditions",
+                                  "text": text, "text_digest": "sha256:" + char * 64,
+                                  "page_start": page, "page_end": page}]}
+        catalog = {"representations": [
+            representation("private://a", "closing certificate delivery", 1),
+            representation("private://b", "closing condition consent", 2),
+            representation("private://c", "closing schedule date", 3),
+        ]}
+        index = claim_runner.SectionIndex(catalog)
+        global_rows = gap_runner.bm25_receipts(index, "closing risk")
+        pageindex_rows = [global_rows[-1]]
+        result = gap_runner.prior_bm25(index, "closing risk", global_rows, pageindex_rows, 5)
+        self.assertGreaterEqual(sum(row["retrieval"]["global_safety_lane"] for row in result[:5]), 2)
+        self.assertTrue(all(row["retrieval"]["adapter"] == "pageindex-prior-bm25/v1" for row in result))
+        exact = gap_runner.prior_bm25(index, "Section 4.2", global_rows, pageindex_rows, 5)
+        self.assertTrue(all(row["retrieval"].get("route_bypassed") == "exact_query" for row in exact))
+
     def test_gap_route_preflight_reports_locator_ceiling(self):
         def representation(uri, text):
             return {"source": {"uri": uri, "media_type": "text/plain",
@@ -643,7 +719,7 @@ class RetrievalPanelContractTests(unittest.TestCase):
                                                        "page_end": 2, "text": "Closing is June 1."}]}]}
         controls = workflow_runner.oracle_diagnostic_contexts(graph, silver, catalog, [{"coverage": "partial"}])
         oracle = controls["oracle-claim-graph"]
-        direct = controls["v8-claim-graph-plus-direct-gap-evidence"]
+        direct = controls["v9-claim-graph-plus-direct-gap-evidence"]
         self.assertTrue(oracle["diagnostic_only"])
         self.assertFalse(oracle["rubric_leakage"])
         self.assertEqual(oracle["claims"][0]["statement"], "Closing is scheduled")

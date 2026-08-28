@@ -8,6 +8,7 @@ import hashlib
 import json
 import os
 import random
+import re
 import statistics
 import subprocess
 from concurrent.futures import ThreadPoolExecutor, as_completed
@@ -55,6 +56,10 @@ def score(rows: list[dict[str, Any]], gold: list[dict[str, Any]]) -> dict[str, A
             "receipt_pass_rate": valid / len(rows) if rows else 0.0}
 
 
+def gold_hit_vector(rows: list[dict[str, Any]], gold: list[dict[str, Any]]) -> list[bool]:
+    return [any(overlaps(row, target) for row in rows) for target in gold]
+
+
 def bm25_receipts(index: SectionIndex, query: str) -> list[dict[str, Any]]:
     rows = []
     for hit in index.search(query, max_documents=20, max_sections=20):
@@ -66,7 +71,8 @@ def bm25_receipts(index: SectionIndex, query: str) -> list[dict[str, Any]]:
                          "section_digest": section["text_digest"], "page_start": section["page_start"],
                          "page_end": section["page_end"]}},
                      "retrieval": {"adapter": "bm25-page/v1", "rank": hit["rank"],
-                                   "score": round(hit["score"], 8), "query_digest": sha_text(query)}})
+                                   "score": round(hit["score"], 8), "query_digest": sha_text(query),
+                                   "section_heading": section.get("heading")}})
     return rows
 
 
@@ -115,6 +121,129 @@ def hybrid_rrf(left: list[dict[str, Any]], right: list[dict[str, Any]], limit: i
         row = dict(item["row"])
         row["retrieval"] = {"adapter": "hybrid-rrf/v1", "rank": rank,
                             "rrf_score": round(item["score"], 12), "systems": sorted(set(item["systems"]))}
+        output.append(row)
+    return output
+
+
+def classify_query(query: str) -> str:
+    """Route exact lookup queries without spending a PageIndex call."""
+    exact = re.compile(r"(?:\b(?:section|clause|article)\s+[\w.()-]+|§|\$[\d,]+|\b\d{1,2}/\d{1,2}/\d{2,4}\b|\b\d{4}-\d{2}-\d{2}\b|\"[^\"]+\")", re.I)
+    return "exact" if exact.search(query) else "thematic"
+
+
+def pageindex_route_spans(rows: list[dict[str, Any]], min_confidence: float = 0.05
+                          ) -> tuple[dict[str, list[tuple[int, int]]], list[dict[str, Any]]]:
+    spans: dict[str, list[tuple[int, int]]] = {}
+    routes = []
+    for rank, row in enumerate(rows, 1):
+        uri, locator = source_uri(row), span(row)
+        confidence = 1.0 / rank
+        if not uri or not locator or confidence < min_confidence:
+            continue
+        spans.setdefault(uri, []).append(locator)
+        routes.append({"route_id": sha_text(f"{uri}:{locator[0]}:{locator[1]}")[7:27],
+                       "source_uri_digest": sha_text(uri), "page_start": locator[0],
+                       "page_end": locator[1], "confidence": round(confidence, 8),
+                       "config_digest": row.get("retrieval", {}).get("config_digest")})
+    return spans, routes
+
+
+def scoped_bm25_receipts(index: SectionIndex, query: str,
+                         route_rows: list[dict[str, Any]]) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
+    spans, routes = pageindex_route_spans(route_rows)
+    if not spans:
+        return [], routes
+    rows = []
+    for hit in index.search(query, max_documents=20, max_sections=20,
+                            allowed_uris=set(spans), allowed_spans=spans):
+        section, source = hit["section"], hit["section"]["source"]
+        rows.append({"source": {"uri": source["uri"], "content_digest": source["content_digest"],
+                                 "media_type": source["media_type"]},
+                     "evidence": {"quote": section.get("text", ""), "locator": {
+                         "kind": "section_span", "section_id": section["id"],
+                         "section_digest": section["text_digest"], "page_start": section["page_start"],
+                         "page_end": section["page_end"]}},
+                     "retrieval": {"adapter": "pageindex-scoped-bm25/v1", "rank": hit["rank"],
+                                   "score": round(hit["score"], 8), "query_digest": sha_text(query),
+                                   "section_heading": section.get("heading")}})
+    return rows, routes
+
+
+def hard_route_bm25(index: SectionIndex, query: str, global_rows: list[dict[str, Any]],
+                    pageindex_rows: list[dict[str, Any]], limit: int = 20) -> list[dict[str, Any]]:
+    if classify_query(query) == "exact":
+        output = copy.deepcopy(global_rows[:limit])
+        for rank, row in enumerate(output, 1):
+            row["retrieval"] = {**row.get("retrieval", {}), "adapter": "pageindex-hard-route-bm25/v1",
+                                "rank": rank, "route_bypassed": "exact_query"}
+        return output
+    scoped, routes = scoped_bm25_receipts(index, query, pageindex_rows)
+    output = copy.deepcopy((scoped or global_rows)[:limit])
+    for rank, row in enumerate(output, 1):
+        row["retrieval"] = {**row.get("retrieval", {}), "adapter": "pageindex-hard-route-bm25/v1",
+                            "rank": rank, "route_count": len(routes),
+                            "fallback_to_global": not bool(scoped)}
+    return output
+
+
+def prior_bm25(index: SectionIndex, query: str, global_rows: list[dict[str, Any]],
+               pageindex_rows: list[dict[str, Any]], limit: int = 20,
+               safety_slots_at_5: int = 2) -> list[dict[str, Any]]:
+    """Use PageIndex as a soft hierarchy prior; global BM25 can never be removed."""
+    if classify_query(query) == "exact" or not pageindex_rows:
+        output = copy.deepcopy(global_rows[:limit])
+        for rank, row in enumerate(output, 1):
+            row["retrieval"] = {**row.get("retrieval", {}), "adapter": "pageindex-prior-bm25/v1",
+                                "rank": rank, "route_bypassed": "exact_query" if classify_query(query) == "exact" else "empty_route",
+                                "global_safety_lane": True}
+        return output
+    scoped, routes = scoped_bm25_receipts(index, query, pageindex_rows)
+    route_spans, _ = pageindex_route_spans(pageindex_rows)
+    candidates: list[dict[str, Any]] = []
+    for origin, rows in (("global", global_rows), ("scoped", scoped)):
+        for row in rows[:20]:
+            existing = next((item for item in candidates if overlaps(item["row"], row)), None)
+            if existing is None:
+                existing = {"row": copy.deepcopy(row), "origins": set(), "global_rank": None,
+                            "scoped_rank": None}
+                candidates.append(existing)
+            existing["origins"].add(origin)
+            existing[f"{origin}_rank"] = row.get("retrieval", {}).get("rank")
+    query_terms = set(re.findall(r"[a-z0-9]+", query.lower()))
+    max_score = max((float(item["row"].get("retrieval", {}).get("score", 0)) for item in candidates), default=1.0) or 1.0
+    for item in candidates:
+        row = item["row"]; uri = source_uri(row); locator = span(row)
+        bm25 = float(row.get("retrieval", {}).get("score", 0)) / max_score
+        routed = bool(uri and locator and any(locator[0] <= end and locator[1] >= start
+                                              for start, end in route_spans.get(uri, [])))
+        heading_terms = set(re.findall(r"[a-z0-9]+", str(row.get("retrieval", {}).get("section_heading", "")).lower()))
+        heading_bonus = 0.05 if query_terms & heading_terms else 0.0
+        item["score"] = bm25 + (0.15 if routed else 0.0) + heading_bonus
+        item["routed"] = routed; item["heading_bonus"] = heading_bonus
+    ordered = sorted(candidates, key=lambda item: (-item["score"], source_uri(item["row"]) or "",
+                                                   span(item["row"]) or (0, 0)))
+    top = ordered[:limit]
+    first_five = top[:5]
+    global_count = sum("global" in item["origins"] for item in first_five)
+    if global_count < safety_slots_at_5:
+        replacements = [item for item in ordered[5:] if "global" in item["origins"]]
+        for replacement in replacements[:safety_slots_at_5 - global_count]:
+            replace_index = next((index for index in range(min(5, len(top)) - 1, -1, -1)
+                                  if "global" not in top[index]["origins"]), None)
+            if replace_index is not None:
+                top[replace_index] = replacement
+    output = []
+    seen_sources: set[str] = set()
+    for rank, item in enumerate(top, 1):
+        row = item["row"]; uri = source_uri(row)
+        diversity_bonus = 0.02 if uri not in seen_sources else 0.0
+        if uri: seen_sources.add(uri)
+        row["retrieval"] = {**row.get("retrieval", {}), "adapter": "pageindex-prior-bm25/v1",
+                            "rank": rank, "normalized_score": round(item["score"] + diversity_bonus, 8),
+                            "route_bonus": 0.15 if item["routed"] else 0.0,
+                            "heading_bonus": item["heading_bonus"], "source_diversity_bonus": diversity_bonus,
+                            "global_safety_lane": "global" in item["origins"],
+                            "route_count": len(routes)}
         output.append(row)
     return output
 
@@ -354,7 +483,10 @@ def enforce_inconclusive_build_semantics(report: dict[str, Any]) -> dict[str, An
                              task.get("primary_to_rebuild_locator_jaccard", [None, None])[len(stability)])
         task["primary_to_rebuild_locator_jaccard"] = stability
     systems_report: dict[str, Any] = {}
-    for name in ("bm25-page/v1", "pageindex-tree/v1", "hybrid-rrf/v1"):
+    for name in ("bm25-page/v1", "pageindex-tree/v1", "hybrid-rrf/v1",
+                 "pageindex-hard-route-bm25/v1", "pageindex-prior-bm25/v1"):
+        if not all(name in task.get("systems", {}) for task in corrected.get("tasks", [])):
+            continue
         systems_report[name] = {}
         for k in K_VALUES:
             rows = [task["systems"][name][f"k={k}"] for task in corrected.get("tasks", [])]
@@ -404,9 +536,15 @@ def enforce_adapter_eligible_gold(report: dict[str, Any], manifest: dict[str, An
         if eligible_count:
             eligible_tasks += 1
             continue
-        for system in ("bm25-page/v1", "pageindex-tree/v1", "hybrid-rrf/v1"):
+        for system in ("bm25-page/v1", "pageindex-tree/v1", "hybrid-rrf/v1",
+                       "pageindex-hard-route-bm25/v1", "pageindex-prior-bm25/v1"):
+            if system not in task.get("systems", {}):
+                continue
             task["systems"][system] = {f"k={k}": dict(null_metrics) for k in K_VALUES}
-    for name in ("bm25-page/v1", "pageindex-tree/v1", "hybrid-rrf/v1"):
+    for name in ("bm25-page/v1", "pageindex-tree/v1", "hybrid-rrf/v1",
+                 "pageindex-hard-route-bm25/v1", "pageindex-prior-bm25/v1"):
+        if name not in corrected.get("systems", {}):
+            continue
         for k in K_VALUES:
             rows = [task["systems"][name][f"k={k}"] for task in corrected.get("tasks", [])]
             corrected["systems"][name][f"k={k}"] = {metric: mean(rows, metric) for metric in null_metrics}
@@ -550,10 +688,15 @@ def main() -> None:
                     latencies.append(float(meta["latency_ms"])); call_costs.append(float(meta["known_cost_usd"]))
             primary = builds[0]
             hybrid = hybrid_rrf(bm25, primary)
-            systems = {"bm25-page/v1": bm25, "pageindex-tree/v1": primary, "hybrid-rrf/v1": hybrid}
+            hard_route = hard_route_bm25(index, task["query"], bm25, primary)
+            prior = prior_bm25(index, task["query"], bm25, primary)
+            systems = {"bm25-page/v1": bm25, "pageindex-tree/v1": primary,
+                       "hybrid-rrf/v1": hybrid,
+                       "pageindex-hard-route-bm25/v1": hard_route,
+                       "pageindex-prior-bm25/v1": prior}
             primary_ok = build_meta[0]["status"] == "ok"
             metrics = {name: {f"k={k}": (
-                score(rows[:k], task["gold"]) if name == "bm25-page/v1" or primary_ok else
+                score(rows[:k], task["gold"]) if name in {"bm25-page/v1", "pageindex-hard-route-bm25/v1", "pageindex-prior-bm25/v1"} or primary_ok else
                 {"evidence_set_coverage": None, "complete_evidence_set_success": None,
                  "citation_precision": None, "receipt_pass_rate": None}) for k in K_VALUES}
                        for name, rows in systems.items()}
@@ -567,6 +710,15 @@ def main() -> None:
                     stability.append(len(locator_sets[0] & other) / len(union) if union else 1.0)
             task_rows.append({"task_id": task["task_id"], "gap_count": len(task["gap_ids"]),
                               "gold_locator_count": len(task["gold"]), "systems": metrics,
+                              "global_gold_miss_count_at_5": sum(not hit for hit in gold_hit_vector(bm25[:5], task["gold"])),
+                              "global_gold_misses_recovered_by_prior_at_5": sum(
+                                  not global_hit and prior_hit for global_hit, prior_hit in
+                                  zip(gold_hit_vector(bm25[:5], task["gold"]),
+                                      gold_hit_vector(prior[:5], task["gold"]))),
+                              "pageindex_unique_gold_hits_at_5": sum(
+                                  pageindex_hit and not global_hit for global_hit, pageindex_hit in
+                                  zip(gold_hit_vector(bm25[:5], task["gold"]),
+                                      gold_hit_vector(primary[:5], task["gold"]))),
                               "document_route": route_audit,
                               "pageindex_builds": build_meta,
                               "primary_to_rebuild_locator_jaccard": stability})
@@ -577,24 +729,32 @@ def main() -> None:
             try: gateway.wait(timeout=5)
             except subprocess.TimeoutExpired: gateway.kill()
     systems_report = {}
-    for name in ("bm25-page/v1", "pageindex-tree/v1", "hybrid-rrf/v1"):
+    for name in ("bm25-page/v1", "pageindex-tree/v1", "hybrid-rrf/v1",
+                 "pageindex-hard-route-bm25/v1", "pageindex-prior-bm25/v1"):
         systems_report[name] = {}
         for k in K_VALUES:
             rows = [task["systems"][name][f"k={k}"] for task in task_rows]
             systems_report[name][f"k={k}"] = {metric: mean(rows, metric) for metric in (
                 "evidence_set_coverage", "complete_evidence_set_success", "citation_precision", "receipt_pass_rate")}
     paired = []
+    paired_prior = []
     for row in task_rows:
         bm25 = row["systems"]["bm25-page/v1"]["k=5"]["evidence_set_coverage"]
         pageindex = row["systems"]["pageindex-tree/v1"]["k=5"]["evidence_set_coverage"]
         if bm25 is not None and pageindex is not None:
             paired.append(float(pageindex) - float(bm25))
+        prior = row["systems"]["pageindex-prior-bm25/v1"]["k=5"]["evidence_set_coverage"]
+        if bm25 is not None and prior is not None:
+            paired_prior.append(float(prior) - float(bm25))
     all_builds = [meta for row in task_rows for meta in row["pageindex_builds"] if meta["status"] == "ok"]
     cold = [float(meta["latency_ms"]) for meta in all_builds if (meta.get("cache_misses") or 0) > 0]
     warm = [float(meta["latency_ms"]) for meta in all_builds if meta.get("cache_misses") == 0]
     warm_costs = [float(meta["cost_usd"]) for meta in all_builds
                   if meta.get("cache_misses") == 0 and isinstance(meta.get("cost_usd"), (int, float))]
     missing_cost_calls = sum(int(meta.get("missing_cost_call_count", 0)) for meta in all_builds)
+    global_misses = sum(row["global_gold_miss_count_at_5"] for row in task_rows)
+    recovered_misses = sum(row["global_gold_misses_recovered_by_prior_at_5"] for row in task_rows)
+    unique_pageindex_hits = sum(row["pageindex_unique_gold_hits_at_5"] for row in task_rows)
     report = {"schema_version": "proofpress/private-gap-retrieval-report/v1",
               "manifest_digest": manifest["manifest_digest"], "catalog_digest": catalog.get("catalog_digest"),
               "model": MODEL, "provider": PROVIDER, "fallback": "forbidden",
@@ -624,6 +784,19 @@ def main() -> None:
               "paired_pageindex_minus_bm25_at_5": {"denominator": len(paired),
                                                     "mean": statistics.mean(paired) if paired else None,
                                                     "bootstrap_95_ci": paired_bootstrap_ci(paired)},
+              "paired_prior_minus_bm25_at_5": {"denominator": len(paired_prior),
+                                                "mean": statistics.mean(paired_prior) if paired_prior else None,
+                                                "bootstrap_95_ci": paired_bootstrap_ci(paired_prior)},
+              "hierarchical_diagnostics": {
+                  "global_gold_misses_at_5": global_misses,
+                  "global_gold_misses_recovered_by_prior_at_5": recovered_misses,
+                  "global_gold_miss_recovery_rate_at_5": (recovered_misses / global_misses
+                                                           if global_misses else 1.0),
+                  "pageindex_unique_gold_hits_at_5": unique_pageindex_hits,
+                  "query_classes": {label: sum(classify_query(task["query"]) == label
+                                                for task in manifest["tasks"])
+                                    for label in ("exact", "thematic")},
+              },
               "tasks": task_rows,
               "decision_boundary": "Private task-level frozen-gap panel; model-adjudicated silver is not human gold and cannot change admission policy."}
     report = enforce_inconclusive_build_semantics(report)

@@ -68,6 +68,8 @@ def score_task(run: dict[str, Any], silver: dict[str, Any]) -> dict[str, Any]:
     )
     statuses = {r.get("requirement_id"): r.get("status") for r in construction.get("requirements", [])}
     gap_count = sum(status in {"partial", "gap"} for status in statuses.values())
+    supported_requirement_ids = {claim.get("requirement_id") for claim in covered_claims
+                                 if claim.get("requirement_id")}
     return {
         "task_id": run.get("task", {}).get("task_id"),
         "status": "scored" if construction.get("status") == "ok" else "inconclusive",
@@ -80,6 +82,8 @@ def score_task(run: dict[str, Any], silver: dict[str, Any]) -> dict[str, Any]:
         "receipt_pass_rate": (sum(valid_evidence(row) for row in evidence) / len(evidence)) if evidence else None,
         "claim_count": len(claims),
         "supported_claim_count": len(covered_claims),
+        "supported_claim_coverage": (len(supported_requirement_ids) / len(statuses)) if statuses else None,
+        "requirement_count": len(statuses),
         "evidence_binding_pass_count": binding_passes,
         "evidence_binding_pass_rate": (binding_passes / len(claims)) if claims else None,
         "explicit_partial_or_gap_count": gap_count,
@@ -166,9 +170,9 @@ def paired_metrics(v7_rows: list[dict[str, Any]], v8_rows: list[dict[str, Any]])
     }
 
 
-def semantic_paired_metrics(report: dict[str, Any], task_ids: list[str]) -> dict[str, Any]:
+def semantic_paired_metrics(report: dict[str, Any], task_ids: list[str], candidate_label: str = "v8") -> dict[str, Any]:
     raw_dir = Path(report["raw_private_dir"])
-    per_system: dict[str, dict[str, dict[str, float | None]]] = {"v7": {}, "v8": {}}
+    per_system: dict[str, dict[str, dict[str, float | None]]] = {"v7": {}, candidate_label: {}}
     missing = []
     for task_id in task_ids:
         path = raw_dir / f"{task_id}.json"
@@ -176,7 +180,7 @@ def semantic_paired_metrics(report: dict[str, Any], task_ids: list[str]) -> dict
             missing.append(task_id); continue
         row = json.loads(path.read_text())
         rubric_ids = set(row.get("rubric_atom_ids", []))
-        for system in ("v7", "v8"):
+        for system in ("v7", candidate_label):
             labels = row.get("labels", {}).get("systems", {}).get(system, {})
             mapped = {mapping.get("rubric_id") for mapping in labels.get("requirement_to_rubric", [])
                       if mapping.get("requirement_ids")}
@@ -186,19 +190,24 @@ def semantic_paired_metrics(report: dict[str, Any], task_ids: list[str]) -> dict
             honest = set(labels.get("honest_open_gap_requirement_ids", []))
             per_system[system][task_id] = {
                 "requirement_recall": len(mapped & rubric_ids) / len(rubric_ids) if rubric_ids else None,
-                "unsupported_factual_claim_rate": len(unsupported) / len(factual) if factual else None,
+                # A system that emits no factual claims has zero unsupported
+                # factual claims.  Supported-claim coverage is scored
+                # separately, so this cannot manufacture a qualification pass
+                # by suppressing claims.
+                "unsupported_factual_claim_rate": len(unsupported) / len(factual) if factual else 0.0,
                 "honest_gap_recall": len(honest & expected) / len(expected) if expected else None,
             }
     output: dict[str, Any] = {"semantic_adjudication_status": "scored" if not missing else "partial",
                               "semantic_missing_task_ids": missing}
     for metric in ("requirement_recall", "unsupported_factual_claim_rate", "honest_gap_recall"):
         pairs = [(per_system["v7"].get(task_id, {}).get(metric),
-                  per_system["v8"].get(task_id, {}).get(metric)) for task_id in task_ids]
+                  per_system[candidate_label].get(task_id, {}).get(metric)) for task_id in task_ids]
         pairs = [(left, right) for left, right in pairs if left is not None and right is not None]
         deltas = [float(right) - float(left) for left, right in pairs]
         output[f"{metric}_pair_count"] = len(deltas)
         output[f"v7_{metric}"] = mean([left for left, _ in pairs])
         output[f"v8_{metric}"] = mean([right for _, right in pairs])
+        output[f"candidate_{metric}"] = mean([right for _, right in pairs])
         output[f"{metric}_mean_delta_v8_minus_v7"] = mean(deltas)
         output[f"{metric}_delta_bootstrap_95_ci"] = bootstrap_95_ci(deltas)
     return output
@@ -216,7 +225,7 @@ def qualify_pair_reports(v7: dict[str, Any], v8: dict[str, Any]) -> dict[str, An
         "v7_system_labeled": v7.get("system") == "pr36-v7",
         "v7_protocol_frozen": all(v7.get("protocol", {}).get(key) == value
                                   for key, value in PR36_V7_PROTOCOL.items()),
-        "v8_system_labeled": v8.get("system", "v8") == "v8",
+        "candidate_system_labeled": v8.get("system") in {"v8", "evidence-first-v9"},
         "independent_raw_directories": bool(v7.get("raw_private_dir")) and
             Path(v7.get("raw_private_dir", "")).resolve() != Path(v8.get("raw_private_dir", "")).resolve(),
     }
@@ -269,6 +278,8 @@ def main() -> None:
             "complete_evidence_set_success_rate": mean([r["complete_evidence_set_success"] for r in scored]),
             "receipt_pass_rate": mean([r["receipt_pass_rate"] for r in scored]),
             "evidence_binding_pass_rate": mean([r["evidence_binding_pass_rate"] for r in scored]),
+            "supported_claim_coverage": mean([r["supported_claim_coverage"] for r in scored]),
+            "mean_requirement_count": mean([r["requirement_count"] for r in scored]),
         },
         "tasks": rows,
         "missing_task_ids": missing,
@@ -283,8 +294,17 @@ def main() -> None:
         v7_report = json.loads(Path(args.v7_run_report).read_text())
         v7_rows, v7_missing = load_scored_tasks(v7_report, silver_report)
         report["v7_run_report_digest"] = digest(v7_report)
-        report["systems"] = {"pr36-v7": {"tasks": v7_rows, "missing_task_ids": v7_missing},
-                             "v8": {"tasks": rows, "missing_task_ids": missing}}
+        candidate_label = run_report.get("system", "v8")
+        report["candidate_label"] = candidate_label
+        def system_summary(system_rows: list[dict[str, Any]], system_missing: list[str]) -> dict[str, Any]:
+            scored_rows = [row for row in system_rows if row.get("status") == "scored"]
+            return {"tasks": system_rows, "missing_task_ids": system_missing,
+                    "supported_claim_coverage": mean([row.get("supported_claim_coverage") for row in scored_rows]),
+                    "mean_requirement_count": mean([row.get("requirement_count") for row in scored_rows]),
+                    "receipt_pass_rate": mean([row.get("receipt_pass_rate") for row in scored_rows]),
+                    "evidence_binding_pass_rate": mean([row.get("evidence_binding_pass_rate") for row in scored_rows])}
+        report["systems"] = {"pr36-v7": system_summary(v7_rows, v7_missing),
+                             candidate_label: system_summary(rows, missing)}
         qualification = qualify_pair_reports(v7_report, run_report)
         report["pair_qualification"] = qualification
         report["paired"] = (paired_metrics(v7_rows, rows) if qualification["status"] == "pass"
@@ -295,13 +315,16 @@ def main() -> None:
             semantic_checks = {
                 "schema": semantic_report.get("schema_version") == "proofpress/private-claim-semantic-adjudication/v1",
                 "v7_report_digest": semantic_report.get("v7_report_digest") == digest(v7_report),
-                "v8_report_digest": semantic_report.get("v8_report_digest") == digest(run_report),
+                "candidate_report_digest": (
+                    semantic_report.get("candidate_report_digest", semantic_report.get("v8_report_digest"))
+                    == digest(run_report)),
                 "post_output_boundary": "Post-output" in str(semantic_report.get("boundary", "")),
             }
             report["semantic_qualification"] = {"status": "pass" if all(semantic_checks.values()) else "fail",
                                                 "checks": semantic_checks}
             if all(semantic_checks.values()):
-                semantic = semantic_paired_metrics(semantic_report, report["paired"]["paired_task_ids"])
+                semantic = semantic_paired_metrics(semantic_report, report["paired"]["paired_task_ids"],
+                                                   semantic_report.get("candidate_label", candidate_label))
                 complete = (semantic.get("semantic_adjudication_status") == "scored" and
                             semantic.get("requirement_recall_pair_count") == report["paired"]["paired_task_count"] and
                             semantic.get("unsupported_factual_claim_rate_pair_count") == report["paired"]["paired_task_count"])
