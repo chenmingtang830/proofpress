@@ -379,6 +379,7 @@ def _base_result() -> dict[str, Any]:
         "statement_identity_bound": False,
         "statement_identity_conflict": False,
         "statement_identity_status": "unverified",
+        "handoff_manifest_digest": None,
         "trust_scope_authorized": False,
         "key_status_allowed": False,
         "key_valid_at_issuance": False,
@@ -471,6 +472,8 @@ def verify_attestation_digest(
     result["profile"] = profile
     result["statement_id"] = predicate["statement_id"]
     result["statement_digest"] = hashlib.sha256(payload).hexdigest()
+    result["handoff_manifest_digest"] = predicate["bindings"][
+        "handoff_manifest"]["digest"]
     if expected_statement_id is None:
         result["statement_identity_bound"] = True
         result["statement_identity_status"] = "unconstrained"
