@@ -1,0 +1,37 @@
+[
+  {
+    "block": "ced89d2f",
+    "kind": "added",
+    "note": "Adds the dated formal-task freeze and blocked-calibration outcome section."
+  },
+  {
+    "block": "87ade9bd",
+    "kind": "added",
+    "note": "Records the frozen formal tasks, schedule denominator, digest, and zero observed formal denominator."
+  },
+  {
+    "block": "5b61945c",
+    "kind": "added",
+    "note": "Records both diagnostic calibration artifacts, majority scores, telemetry, costs, and exclusion from the formal denominator."
+  },
+  {
+    "block": "3e2fa022",
+    "kind": "added",
+    "note": "Records the provider-level fallback root cause, authoritative independent block audit, and formal stop rule."
+  },
+  {
+    "block": "1e06e593",
+    "kind": "added",
+    "note": "Adds the dated provider-pinned executor requalification amendment."
+  },
+  {
+    "block": "8545eb96",
+    "kind": "added",
+    "note": "Freezes the fail-closed OpenAI-only Gateway constraint and provider-attempt telemetry rule."
+  },
+  {
+    "block": "862acbc3",
+    "kind": "added",
+    "note": "Pre-registers the new canary, six-cell qualification, independent audit, and non-pooling release sequence."
+  }
+]

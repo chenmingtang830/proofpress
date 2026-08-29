@@ -23,6 +23,7 @@ from pp_eval.apex_ib_pr36 import (
     JUDGE_MODEL,
     TASK_SPECS,
     compact_apex_output,
+    configure_runtime,
     host_preflight,
     load_public_task,
     majority_native_result,
@@ -254,10 +255,13 @@ def run_calibration_pair_v2(checkout: Path, results_root: Path, env_file: Path,
                          "sidecars into the client deliverable.") if arm == "proofpress" else "",
             bounded_world=arm == "proofpress", env_file=env_file,
             agent_model=executor_model,
+            agent_provider=executor_provider,
         )
         cell_record = {"arm": arm, "result": cell}
         if cell.get("status") == "completed":
-            grades = repeat_native_grading(checkout, Path(cell["run_dir"]), env_file=env_file)
+            grades = repeat_native_grading(
+                checkout, Path(cell["run_dir"]), env_file=env_file,
+                agent_model=executor_model, agent_provider=executor_provider)
             cell_record["grading_repetitions"] = grades
             cell_record["initial_target_sha256"] = _zip_member_digest(
                 Path(cell["run_dir"]) / "output" / "neutral_initial.zip", MERGER_MODEL)
@@ -296,6 +300,78 @@ def run_calibration_pair_v2(checkout: Path, results_root: Path, env_file: Path,
     report["release_audit"] = release
     report["status"] = "completed" if release["decision"] == "allow" else "incomplete"
     write_json(results_root / "report.json", report)
+    return report
+
+
+def run_runtime_provider_canary(checkout: Path, output: Path, env_file: Path,
+                                executor_model: str, executor_provider: str) -> dict:
+    """Exercise the actual Archipelago agent LLM adapter with a provider pin."""
+    runtime_hashes = configure_runtime(
+        checkout, agent_model=executor_model, agent_provider=executor_provider)
+    env = os.environ.copy()
+    env["LITELLM_PROXY_API_BASE"] = "https://ai-gateway.vercel.sh/v1"
+    env["LITELLM_PROXY_API_KEY"] = _read_env_value(env_file, "AI_GATEWAY_API_KEY")
+    source = """
+import asyncio, json
+from runner.utils.llm import generate_response
+async def main():
+    response = await generate_response(
+        model=MODEL,
+        messages=[{"role": "user", "content": "Reply with exactly: provider-pin-ok"}],
+        tools=[], llm_response_timeout=120,
+        extra_args={"custom_llm_provider": "openai", "providerOptions": {"gateway": {"only": [PROVIDER]}}},
+        trajectory_id="finance-v2-provider-pin-canary")
+    print(json.dumps(response.model_dump(mode="json"), sort_keys=True))
+asyncio.run(main())
+""".replace("MODEL", repr(executor_model)).replace("PROVIDER", repr(executor_provider))
+    result = subprocess.run(
+        ["uv", "run", "python", "-c", source], cwd=checkout / "agents", env=env,
+        capture_output=True, text=True, timeout=180, check=False)
+    response = None
+    if result.returncode == 0:
+        for line in reversed(result.stdout.splitlines()):
+            try:
+                candidate = json.loads(line)
+            except json.JSONDecodeError:
+                continue
+            if isinstance(candidate, dict):
+                response = candidate
+                break
+    choices = response.get("choices") if isinstance(response, dict) else None
+    message = choices[0].get("message") if isinstance(choices, list) and choices and isinstance(choices[0], dict) else None
+    fields = message.get("provider_specific_fields") if isinstance(message, dict) else None
+    metadata = fields.get("provider_metadata") if isinstance(fields, dict) else None
+    gateway = metadata.get("gateway") if isinstance(metadata, dict) else None
+    routing = gateway.get("routing") if isinstance(gateway, dict) else None
+    provider_attempts = routing.get("totalProviderAttemptCount") if isinstance(routing, dict) else None
+    if not isinstance(provider_attempts, int) and isinstance(routing, dict):
+        provider_attempts = routing.get("providerAttemptCount")
+    exact = (
+        result.returncode == 0
+        and isinstance(routing, dict)
+        and routing.get("originalModelId") == executor_model
+        and routing.get("finalProvider") == executor_provider
+        and routing.get("modelAttemptCount") == 1
+        and provider_attempts == 1
+        and (gateway.get("cost") is not None or
+             isinstance(response.get("usage"), dict) and response["usage"].get("gateway_cost") is not None)
+    )
+    report = {
+        "schema_version": "proofpress/finance-e2e-v2/runtime-provider-canary/v1",
+        "decision": "allow" if exact else "block",
+        "executor_model": executor_model, "executor_provider": executor_provider,
+        "runtime_hashes": runtime_hashes, "returncode": result.returncode,
+        "routing": routing, "provider_attempt_count": provider_attempts,
+        "cost_usd": (
+            gateway.get("cost") if isinstance(gateway, dict) and gateway.get("cost") is not None
+            else response.get("usage", {}).get("gateway_cost") if isinstance(response, dict) else None),
+        "usage": response.get("usage") if isinstance(response, dict) else None,
+        "stderr_tail": result.stderr[-2000:] if result.returncode else "",
+        "qualification_denominator": 0, "calibration_denominator": 0,
+        "formal_denominator": 0,
+    }
+    output.parent.mkdir(parents=True, exist_ok=True)
+    write_json(output, report)
     return report
 
 
@@ -380,11 +456,14 @@ def run_formal_matrix_v2(checkout: Path, results_root: Path, env_file: Path,
                              "sidecars into the client deliverable.") if arm == "proofpress" else "",
                 bounded_world=arm == "proofpress", env_file=env_file,
                 agent_model=executor_model,
+                agent_provider=executor_provider,
             )
             cell = {"task_id": block["task_id"], "attempt": block["attempt"],
                     "arm": arm, "result": result}
             if result.get("status") == "completed":
-                grading = repeat_native_grading(checkout, Path(result["run_dir"]), env_file=env_file)
+                grading = repeat_native_grading(
+                    checkout, Path(result["run_dir"]), env_file=env_file,
+                    agent_model=executor_model, agent_provider=executor_provider)
                 cell["grading_repetitions"] = grading
                 if grading.get("status") == "completed":
                     cell["majority_result"] = majority_native_result(Path(result["run_dir"]))
@@ -492,6 +571,7 @@ def run_executor_qualification(checkout: Path, results_root: Path,
                 f"executor-qualification-a{attempt}",
                 bounded_world=False, skip_grading=True, env_file=env_file,
                 agent_model=executor_model,
+                agent_provider=executor_provider,
             )
             cell = normalized_cell(result)
             output = Path(result["run_dir"]) / "output"
@@ -587,6 +667,12 @@ def main() -> int:
     executor_canary.add_argument("--env-file", required=True, type=Path)
     executor_canary.add_argument("--executor-model", required=True)
     executor_canary.add_argument("--executor-provider", required=True)
+    runtime_canary = sub.add_parser("runtime-provider-canary")
+    runtime_canary.add_argument("--checkout", required=True, type=Path)
+    runtime_canary.add_argument("--output", required=True, type=Path)
+    runtime_canary.add_argument("--env-file", required=True, type=Path)
+    runtime_canary.add_argument("--executor-model", required=True)
+    runtime_canary.add_argument("--executor-provider", required=True)
     legacy = sub.add_parser("legacy-gap-diagnostic")
     legacy.add_argument("--working-set", action="append", required=True, type=Path)
     legacy.add_argument("--output", required=True, type=Path)
@@ -651,6 +737,12 @@ def main() -> int:
     if args.command == "executor-canary":
         report = run_executor_canary(
             args.repo, args.output, args.env_file,
+            args.executor_model, args.executor_provider)
+        print(json.dumps(report, indent=2, sort_keys=True))
+        return 0 if report["decision"] == "allow" else 2
+    if args.command == "runtime-provider-canary":
+        report = run_runtime_provider_canary(
+            args.checkout, args.output, args.env_file,
             args.executor_model, args.executor_provider)
         print(json.dumps(report, indent=2, sort_keys=True))
         return 0 if report["decision"] == "allow" else 2

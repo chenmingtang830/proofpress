@@ -23,6 +23,7 @@ from pp_eval.finance_e2e_v2 import (
     workbook_index_to_receipts,
 )
 from pp_eval.finance_gateway import audit_receipts
+from pp_eval.apex_ib_pr36 import derived_agent_llm_source, trajectory_telemetry
 from pp_eval.finance_workflow_private import (
     ATOM_OUTPUT_SCHEMA,
     materialize_compiler_data_room,
@@ -64,6 +65,31 @@ def receipts():
 
 
 class FinanceAtomTests(unittest.TestCase):
+    def test_agent_runtime_preserves_gateway_provider_constraint(self):
+        source = '_EXTRA_BODY_PASSTHROUGH_KEYS = frozenset(\n    {"chat_template_kwargs", "include_server_side_tool_invocations"}\n)\n'
+        derived = derived_agent_llm_source(source)
+        self.assertIn('"providerOptions"', derived)
+
+    def test_trajectory_telemetry_rejects_provider_level_fallback(self):
+        trajectory = {
+            "usage": {"call_log": [{}], "total_tokens": 3},
+            "messages": [{"provider_specific_fields": {"provider_metadata": {
+                "gateway": {
+                    "cost": "0.01",
+                    "routing": {
+                        "originalModelId": "openai/gpt-5.6-luna",
+                        "finalProvider": "bedrock",
+                        "modelAttemptCount": 1,
+                        "totalProviderAttemptCount": 2,
+                    },
+                }
+            }}}],
+        }
+        result = trajectory_telemetry(trajectory, "openai/gpt-5.6-luna")
+        self.assertEqual(result["status"], "incomplete")
+        self.assertFalse(result["no_fallback_observed"])
+        self.assertTrue(result["provider_fallback_observed"])
+
     def test_atom_output_schema_can_emit_validator_required_version(self):
         self.assertEqual(ATOM_OUTPUT_SCHEMA["required"], ["evidence_ids"])
         self.assertNotIn("atoms", ATOM_OUTPUT_SCHEMA["properties"])

@@ -125,13 +125,24 @@ def trajectory_telemetry(trajectory: dict[str, Any], expected_model: str) -> dic
     costs: list[float] = []
     missing_cost = 0
     no_fallback = True
+    provider_attempt_counts: list[int] = []
     for row in receipts:
         routing = row.get("routing") if isinstance(row.get("routing"), dict) else {}
         try:
             costs.append(float(row["cost"]))
         except (KeyError, TypeError, ValueError):
             missing_cost += 1
-        no_fallback = no_fallback and routing.get("modelAttemptCount") == 1
+        provider_attempt_count = routing.get("totalProviderAttemptCount")
+        if not isinstance(provider_attempt_count, int):
+            provider_attempt_count = routing.get("providerAttemptCount")
+        if not isinstance(provider_attempt_count, int):
+            provider_attempt_count = 0
+        provider_attempt_counts.append(provider_attempt_count)
+        no_fallback = (
+            no_fallback
+            and routing.get("modelAttemptCount") == 1
+            and provider_attempt_count == 1
+        )
     complete = bool(call_log) and len(receipts) == len(call_log) and not missing_cost
     complete = complete and models == [expected_model] and bool(providers) and no_fallback
     return {
@@ -149,6 +160,8 @@ def trajectory_telemetry(trajectory: dict[str, Any], expected_model: str) -> dic
         "missing_cost_calls": missing_cost + max(0, len(call_log) - len(receipts)),
         "fallback": "forbidden",
         "no_fallback_observed": no_fallback,
+        "provider_attempt_counts": provider_attempt_counts,
+        "provider_fallback_observed": any(count > 1 for count in provider_attempt_counts),
     }
 
 
@@ -661,18 +674,36 @@ def frozen_protocol(tasks_path: Path, world_zip: Path, seed: int = DEFAULT_SEED)
     return protocol
 
 
-def configure_runtime(checkout: Path, *, agent_model: str = EXECUTOR_MODEL) -> dict[str, str]:
+def derived_agent_llm_source(source: str) -> str:
+    """Preserve Gateway provider constraints through LiteLLM proxy transport."""
+    old = '{"chat_template_kwargs", "include_server_side_tool_invocations"}'
+    new = '{"chat_template_kwargs", "include_server_side_tool_invocations", "providerOptions"}'
+    if source.count(old) != 1:
+        raise ValueError("agent LLM extra-body passthrough anchor changed")
+    return source.replace(old, new, 1)
+
+
+def configure_runtime(
+    checkout: Path,
+    *,
+    agent_model: str = EXECUTOR_MODEL,
+    agent_provider: str | None = None,
+) -> dict[str, str]:
     """Pin executor, judge, resource bounds, and cached Docker image."""
     example = checkout / "examples" / "hugging_face_task"
     orchestrator_path = example / "orchestrator_config.json"
     grading_path = example / "grading_settings.json"
     agent_path = example / "agent_config.json"
     compose_path = checkout / "environment" / "docker-compose.yml"
+    agent_llm_path = checkout / "agents" / "runner" / "utils" / "llm.py"
     grading_llm_path = checkout / "grading" / "runner" / "utils" / "llm.py"
     orchestrator = json.loads(orchestrator_path.read_text())
     grading = json.loads(grading_path.read_text())
     agent = json.loads(agent_path.read_text())
-    orchestrator.update({"model": agent_model, "extra_args": {"custom_llm_provider": "openai"}})
+    executor_extra_args: dict[str, Any] = {"custom_llm_provider": "openai"}
+    if agent_provider is not None:
+        executor_extra_args["providerOptions"] = {"gateway": {"only": [agent_provider]}}
+    orchestrator.update({"model": agent_model, "extra_args": executor_extra_args})
     grading.update({"llm_judge_model": JUDGE_MODEL, "llm_judge_extra_args": {"custom_llm_provider": "openai"}})
     agent.setdefault("agent_config_values", {}).update({
         "llm_response_timeout": MODEL_RESPONSE_TIMEOUT_SECONDS,
@@ -693,9 +724,15 @@ def configure_runtime(checkout: Path, *, agent_model: str = EXECUTOR_MODEL) -> d
     grading_source = grading_llm_path.read_text()
     if "APEX_IB_GRADER_RECEIPTS" not in grading_source:
         grading_llm_path.write_text(derived_grading_llm_source(grading_source))
+    agent_llm_source = agent_llm_path.read_text()
+    if '"providerOptions"' not in agent_llm_source:
+        agent_llm_path.write_text(derived_agent_llm_source(agent_llm_source))
     return {
         path.relative_to(checkout).as_posix(): sha256_file(path)
-        for path in (orchestrator_path, grading_path, agent_path, compose_path, grading_llm_path)
+        for path in (
+            orchestrator_path, grading_path, agent_path, compose_path,
+            agent_llm_path, grading_llm_path,
+        )
     }
 
 
@@ -832,11 +869,13 @@ def run_apex_stage(
     env_file: Path | None = None,
     watchdog_seconds: int = WATCHDOG_SECONDS,
     agent_model: str = EXECUTOR_MODEL,
+    agent_provider: str | None = None,
 ) -> dict[str, Any]:
     """Run one immutable builder or executor stage through Archipelago."""
     if task_id not in TASK_SPECS or watchdog_seconds < AGENT_TIMEOUT_SECONDS:
         raise ValueError("unfrozen task or insufficient watchdog")
-    runtime_hashes = configure_runtime(checkout, agent_model=agent_model)
+    runtime_hashes = configure_runtime(
+        checkout, agent_model=agent_model, agent_provider=agent_provider)
     launcher = materialize_launcher(checkout)
     runtime_hashes[launcher.relative_to(checkout).as_posix()] = sha256_file(launcher)
     env = _runtime_environment(env_file)
@@ -897,6 +936,7 @@ def run_apex_stage(
         "schema_version": f"{SCHEMA}/stage-run", "run_id": run_id, "stage": stage,
         "task_id": task_id, "world_id": WORLD_ID, "agent_model": agent_model,
         "executor_model": agent_model,
+        "executor_provider_requested": agent_provider,
         "judge_model": JUDGE_MODEL, "official_score_claim": False,
         "bounded_world": bounded_world, "skip_grading": skip_grading,
         "elapsed_seconds": round(time.monotonic() - started, 3), "watchdog_timeout": timed_out,
@@ -1099,6 +1139,8 @@ def repeat_native_grading(
     *,
     env_file: Path | None = None,
     repetitions: int = GRADER_REPETITIONS,
+    agent_model: str = EXECUTOR_MODEL,
+    agent_provider: str | None = None,
 ) -> dict[str, Any]:
     """Complete independent native judge repetitions on neutral packages."""
     if repetitions < 1:
@@ -1109,7 +1151,8 @@ def repeat_native_grading(
     if missing:
         raise ValueError(f"native grading inputs missing: {missing}")
     env = _runtime_environment(env_file)
-    configure_runtime(checkout)
+    configure_runtime(
+        checkout, agent_model=agent_model, agent_provider=agent_provider)
     grading_dir = run_dir / "grading_repetitions"
     grading_dir.mkdir(exist_ok=False)
     shutil.copy2(output / "grades.json", grading_dir / "repetition-01.json")
