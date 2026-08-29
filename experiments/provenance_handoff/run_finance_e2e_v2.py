@@ -351,8 +351,8 @@ def run_formal_matrix_v2(checkout: Path, results_root: Path, env_file: Path,
         and calibration.get("status") == "completed"
         and preflight.get("status") == "passed"
         and set(overlays) == set(expected)
-        and all(row.get("gate", {}).get("decision") == "allow"
-                and row.get("package", {}).get("task_id") == task_id
+        and all((row.get("gate") or {}).get("decision") == "allow"
+                and (row.get("package") or {}).get("task_id") == task_id
                 for task_id, row in overlay_receipts.items())
     )
     report = {
@@ -367,6 +367,10 @@ def run_formal_matrix_v2(checkout: Path, results_root: Path, env_file: Path,
         return report
     for block in schedule:
         for arm in block["arm_order"]:
+            report["active_cell"] = {
+                "task_id": block["task_id"], "attempt": block["attempt"],
+                "arm": arm, "state": "executor_running"}
+            write_json(results_root / "report.json", report)
             result = run_apex_stage(
                 checkout, results_root, block["task_id"],
                 f"v2-formal-a{block['attempt']}-{arm}",
@@ -388,6 +392,7 @@ def run_formal_matrix_v2(checkout: Path, results_root: Path, env_file: Path,
                 Path(result["run_dir"]) / "output",
                 preserve_final_tar=result.get("status") != "completed")
             report["cells"].append(cell)
+            report.pop("active_cell", None)
             report["summary"] = summarize_formal_cells(report["cells"], 12)
             write_json(results_root / "report.json", report)
     report["status"] = "schedule_completed"
