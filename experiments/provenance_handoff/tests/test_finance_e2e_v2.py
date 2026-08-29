@@ -29,7 +29,7 @@ from pp_eval.finance_workflow_private import (
     select_data_room_members,
     _requirement_obligation,
 )
-from run_finance_e2e_v2 import audit_executor_qualification, normalized_cell
+from run_finance_e2e_v2 import audit_executor_qualification, normalized_cell, _zip_member_digest
 
 
 def atom():
@@ -242,6 +242,15 @@ class FinanceGateTests(unittest.TestCase):
         self.assertNotIn("rubric", json.dumps(result))
         with self.assertRaises(ValueError):
             freeze_formal_tasks(freshness=freshness, task_ids=["task_console"])
+
+    def test_zip_member_digest_is_content_bound(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            archive = Path(temporary) / "sample.zip"
+            with zipfile.ZipFile(archive, "w") as output:
+                output.writestr("book.xlsx", b"pristine")
+            import hashlib
+            self.assertEqual(_zip_member_digest(archive, "book.xlsx"),
+                             hashlib.sha256(b"pristine").hexdigest())
 
     def test_execution_gate_fails_closed(self):
         fact = atom_to_observed_fact(atom(), 1)

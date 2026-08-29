@@ -8,6 +8,7 @@ import json
 import os
 from pathlib import Path
 import re
+import random
 import shutil
 import subprocess
 import zipfile
@@ -18,9 +19,12 @@ from pp_eval.apex_ib_pr36 import (
     EXECUTOR_MODEL,
     FINANCE_E2E_V2_FORMAL_TASK_IDS,
     QUALIFICATION_TASK_ID,
+    MERGER_MODEL,
     TASK_SPECS,
     compact_apex_output,
+    host_preflight,
     load_public_task,
+    repeat_native_grading,
     run_apex_stage,
     write_json,
 )
@@ -204,6 +208,90 @@ def host_gate(checkout: Path) -> dict:
     }
 
 
+def _zip_member_digest(path: Path, member: str) -> str:
+    with zipfile.ZipFile(path) as archive:
+        return hashlib.sha256(archive.read(member)).hexdigest()
+
+
+def run_calibration_pair_v2(checkout: Path, results_root: Path, env_file: Path,
+                            world_zip: Path, overlay: Path, *, seed: int = 20260829,
+                            executor_model: str = "openai/gpt-5.6-luna",
+                            executor_provider: str = "openai") -> dict:
+    """Run and independently release-audit one v2 Normal/Proofpress pair."""
+    results_root.mkdir(parents=True, exist_ok=False)
+    preflight = host_preflight(checkout, world_zip, formal=False)
+    report = {
+        "schema_version": "proofpress/finance-e2e-v2/calibration/v1",
+        "task_id": QUALIFICATION_TASK_ID, "executor_model": executor_model,
+        "executor_provider": executor_provider, "formal_denominator": 0,
+        "calibration_scheduled_artifacts": 2, "calibration_valid_artifacts": 0,
+        "preflight": preflight, "cells": [], "status": "preflight_blocked",
+    }
+    write_json(results_root / "report.json", report)
+    gate_path = overlay / "filesystem" / "Governed" / "execution_receipt.json"
+    if preflight.get("status") != "passed" or not gate_path.is_file():
+        return report
+    governed_gate = json.loads(gate_path.read_text())
+    if governed_gate.get("decision") != "allow":
+        report["status"] = "governed_overlay_blocked"
+        write_json(results_root / "report.json", report)
+        return report
+    order = ["normal", "proofpress"]
+    random.Random(seed).shuffle(order)
+    for arm in order:
+        cell = run_apex_stage(
+            checkout, results_root, QUALIFICATION_TASK_ID, f"v2-calibration-{arm}",
+            overlay=overlay if arm == "proofpress" else None,
+            instruction=("Complete the public task using only the mounted governed working set and "
+                         "permitted extracts. Verify source-bound inputs; do not copy governance "
+                         "sidecars into the client deliverable.") if arm == "proofpress" else "",
+            bounded_world=arm == "proofpress", env_file=env_file,
+            agent_model=executor_model,
+        )
+        cell_record = {"arm": arm, "result": cell}
+        if cell.get("status") == "completed":
+            grades = repeat_native_grading(checkout, Path(cell["run_dir"]), env_file=env_file)
+            cell_record["grading_repetitions"] = grades
+            cell_record["initial_target_sha256"] = _zip_member_digest(
+                Path(cell["run_dir"]) / "output" / "neutral_initial.zip", MERGER_MODEL)
+            cell_record["compaction"] = compact_apex_output(
+                Path(cell["run_dir"]) / "output", preserve_final_tar=False)
+        report["cells"].append(cell_record)
+        write_json(results_root / "report.json", report)
+    valid = [row for row in report["cells"] if row["result"].get("status") == "completed"]
+    report["calibration_valid_artifacts"] = len(valid)
+    target_digests = {row.get("initial_target_sha256") for row in valid}
+    executor_routes_ok = all(
+        row["result"].get("agent_model") == executor_model
+        and row["result"].get("executor_model") == executor_model
+        and row["result"].get("telemetry", {}).get("providers") == [executor_provider]
+        and row["result"].get("telemetry", {}).get("no_fallback_observed") is True
+        for row in valid)
+    grading_ok = all(
+        row.get("grading_repetitions", {}).get("status") == "completed"
+        and len(row.get("grading_repetitions", {}).get("records", [])) == 3
+        and all(rep.get("telemetry", {}).get("no_fallback_observed") is True
+                for rep in row["grading_repetitions"]["records"])
+        for row in valid)
+    isolation_ok = ({row["arm"]: row["result"].get("bounded_world") for row in valid}
+                    == {"normal": False, "proofpress": True})
+    release = {
+        "two_valid_artifacts": len(valid) == 2,
+        "byte_identical_pristine_target": len(target_digests) == 1 and len(valid) == 2,
+        "executor_route_exact": executor_routes_ok and len(valid) == 2,
+        "three_complete_blinded_grades_per_artifact": grading_ok and len(valid) == 2,
+        "arm_access_isolation": isolation_ok,
+    }
+    release["decision"] = "allow" if all(release.values()) else "block"
+    release["audit_digest"] = "sha256:" + hashlib.sha256(
+        json.dumps(release, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
+    report["release_audit"] = release
+    report["arm_order"] = order
+    report["status"] = "completed" if release["decision"] == "allow" else "incomplete"
+    write_json(results_root / "report.json", report)
+    return report
+
+
 def run_executor_qualification(checkout: Path, results_root: Path,
                                env_file: Path, attempts: int = 6,
                                executor_model: str = EXECUTOR_MODEL,
@@ -366,6 +454,14 @@ def main() -> int:
     freeze = sub.add_parser("freeze-formal-tasks")
     freeze.add_argument("--freshness-report", required=True, type=Path)
     freeze.add_argument("--output", required=True, type=Path)
+    calibration = sub.add_parser("calibration")
+    calibration.add_argument("--checkout", required=True, type=Path)
+    calibration.add_argument("--results-root", required=True, type=Path)
+    calibration.add_argument("--env-file", required=True, type=Path)
+    calibration.add_argument("--world-zip", required=True, type=Path)
+    calibration.add_argument("--overlay", required=True, type=Path)
+    calibration.add_argument("--executor-model", default="openai/gpt-5.6-luna")
+    calibration.add_argument("--executor-provider", default="openai")
     args = parser.parse_args()
     if args.command == "executor-qualification":
         report = run_executor_qualification(
@@ -443,6 +539,12 @@ def main() -> int:
         write_json(args.output / "formal-task-freeze.json", report)
         print(json.dumps(report, indent=2, sort_keys=True))
         return 0
+    if args.command == "calibration":
+        report = run_calibration_pair_v2(
+            args.checkout, args.results_root, args.env_file, args.world_zip, args.overlay,
+            executor_model=args.executor_model, executor_provider=args.executor_provider)
+        print(json.dumps(report, indent=2, sort_keys=True))
+        return 0 if report.get("status") == "completed" else 2
     return 2
 
 

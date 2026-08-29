@@ -640,7 +640,7 @@ def frozen_protocol(tasks_path: Path, world_zip: Path, seed: int = DEFAULT_SEED)
         "world_id": WORLD_ID,
         "source_manifest": source_manifest(world_zip),
         "tasks": tasks,
-        "executor_model": agent_model,
+        "executor_model": EXECUTOR_MODEL,
         "treatment_proposer_model": TREATMENT_PROPOSER_MODEL,
         "judge_model": JUDGE_MODEL,
         "runtime": {
@@ -896,7 +896,7 @@ def run_apex_stage(
     record = {
         "schema_version": f"{SCHEMA}/stage-run", "run_id": run_id, "stage": stage,
         "task_id": task_id, "world_id": WORLD_ID, "agent_model": agent_model,
-        "executor_model": EXECUTOR_MODEL,
+        "executor_model": agent_model,
         "judge_model": JUDGE_MODEL, "official_score_claim": False,
         "bounded_world": bounded_world, "skip_grading": skip_grading,
         "elapsed_seconds": round(time.monotonic() - started, 3), "watchdog_timeout": timed_out,
