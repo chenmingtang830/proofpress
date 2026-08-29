@@ -1,33 +1,73 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="760" viewBox="0 0 1440 760" role="img" aria-labelledby="title desc">
-  <title id="title">Knowledge admission lifecycle</title>
-  <desc id="desc">Bound evidence becomes a proposed conclusion, then is evaluated and reviewed. Only the admission gate authorizes a green projection into governed context. Rejected, unresolved, expired, superseded, and actor-mismatched conclusions remain auditable but excluded.</desc>
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 760" role="img" aria-labelledby="knowledge-gates-title knowledge-gates-desc">
+  <title id="knowledge-gates-title">Three gates before reuse</title>
+  <desc id="knowledge-gates-desc">An evidence-bound candidate conclusion passes Deterministic Checks, an advisory LM Judge, and authorized Human Approval before becoming governed knowledge. Only Human Approval authorizes downstream reuse.</desc>
   <defs>
-    <style>.h{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;fill:#20222B}.s{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;fill:#5A5D6B}.m{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;fill:#5A5D6B;letter-spacing:.7px}</style>
-    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#5A5D6B"/></marker><marker id="green" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#2E7D4F"/></marker>
+    <style>
+      .sans { font-family: "Geist", -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif; }
+      .mono { font-family: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, monospace; }
+    </style>
+    <marker id="knowledge-gates-arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#5a5d6b"/>
+    </marker>
+    <marker id="knowledge-gates-arrow-green" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#2e7d4f"/>
+    </marker>
+    <marker id="knowledge-gates-arrow-link" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#2e5aa8"/>
+    </marker>
   </defs>
-  <rect width="1440" height="760" fill="#FAF9F5"/>
-  <text class="h" x="72" y="78" font-size="38" font-weight="750" letter-spacing="-.8">A conclusion crosses only one gate</text>
-  <text class="s" x="72" y="112" font-size="18">Evaluation can recommend. The configured admission gate alone authorizes reuse.</text>
-  <line x1="72" y1="164" x2="1368" y2="164" stroke="#E3E1D9" stroke-width="2"/>
 
-  <g>
-    <rect x="72" y="236" width="216" height="160" rx="10" fill="#E3EEF0" stroke="#0E5E6F" stroke-width="1.8"/><text class="m" x="94" y="270" font-size="11" font-weight="700" fill="#0E5E6F">01 · EVIDENCE</text><text class="h" x="94" y="315" font-size="21" font-weight="700">Bound evidence</text><text class="s" x="94" y="345" font-size="15">source · version · digest</text><text class="s" x="94" y="369" font-size="15">locator · scope</text>
-    <rect x="332" y="236" width="216" height="160" rx="10" fill="#E3EEF0" stroke="#0E5E6F" stroke-width="1.8"/><text class="m" x="354" y="270" font-size="11" font-weight="700" fill="#0E5E6F">02 · CANDIDATE</text><text class="h" x="354" y="315" font-size="21" font-weight="700">Propose</text><text class="s" x="354" y="345" font-size="15">scoped conclusion</text><text class="s" x="354" y="369" font-size="15">linked evidence</text>
-    <rect x="592" y="236" width="216" height="160" rx="10" fill="#F5EEDC" stroke="#8A6210" stroke-width="1.8"/><text class="m" x="614" y="270" font-size="11" font-weight="700" fill="#8A6210">03 · ADVISORY</text><text class="h" x="614" y="315" font-size="21" font-weight="700">Evaluate</text><text class="s" x="614" y="345" font-size="15">integrity · support</text><text class="s" x="614" y="369" font-size="15">policy recommendation</text>
-    <rect x="852" y="236" width="216" height="160" rx="10" fill="#F5EEDC" stroke="#8A6210" stroke-width="1.8"/><text class="m" x="874" y="270" font-size="11" font-weight="700" fill="#8A6210">04 · AUTHORITY</text><text class="h" x="874" y="315" font-size="21" font-weight="700">Review / admit</text><text class="s" x="874" y="345" font-size="15">authorized decision</text><text class="s" x="874" y="369" font-size="15">receipt recorded</text>
-    <rect x="1112" y="236" width="256" height="160" rx="10" fill="#E7F2EA" stroke="#2E7D4F" stroke-width="1.8"/><text class="m" x="1134" y="270" font-size="11" font-weight="700" fill="#2E7D4F">05 · GOVERNED</text><text class="h" x="1134" y="315" font-size="21" font-weight="700">Project context</text><text class="s" x="1134" y="345" font-size="15">admitted · current</text><text class="s" x="1134" y="369" font-size="15">in scope · actor eligible</text>
-  </g>
-  <path d="M288 316H316" fill="none" stroke="#5A5D6B" stroke-width="2.5" marker-end="url(#arrow)"/><path d="M548 316H576" fill="none" stroke="#5A5D6B" stroke-width="2.5" marker-end="url(#arrow)"/><path d="M808 316H836" fill="none" stroke="#5A5D6B" stroke-width="2.5" marker-end="url(#arrow)"/>
-  <path d="M1068 316H1096" fill="none" stroke="#2E7D4F" stroke-width="2.8" marker-end="url(#green)"/>
-  <rect x="840" y="185" width="240" height="30" rx="6" fill="#FFFFFF" stroke="#8A6210"/><text class="m" x="960" y="205" text-anchor="middle" font-size="11" font-weight="700" fill="#8A6210">ADMISSION BOUNDARY</text>
-  <path d="M960 215V232" fill="none" stroke="#8A6210" stroke-width="2"/>
+  <rect width="1440" height="760" fill="#faf9f5"/>
+  <text class="sans" x="72" y="64" fill="#20222b" font-size="32" font-weight="600">Three gates before reuse</text>
+  <text class="sans" x="72" y="100" fill="#5a5d6b" font-size="16">Candidate conclusion → Deterministic Checks → LM Judge → Human Approval → Governed knowledge</text>
+  <line x1="72" y1="144" x2="1368" y2="144" stroke="#e3e1d9" stroke-width="1"/>
 
-  <path d="M960 396V476" fill="none" stroke="#B4453A" stroke-width="2" stroke-dasharray="7 7" marker-end="url(#arrow)"/>
-  <rect x="318" y="476" width="848" height="126" rx="10" fill="#F7E9E7" stroke="#B4453A" stroke-width="1.5"/>
-  <text class="m" x="346" y="512" font-size="11" font-weight="700" fill="#B4453A">AUDIT HISTORY · EXCLUDED FROM DEFAULT CONTEXT</text>
-  <text class="h" x="346" y="551" font-size="20" font-weight="700">rejected · unresolved · expired · superseded · actor-mismatched</text>
-  <text class="s" x="346" y="579" font-size="15">These states remain inspectable with their evidence and receipts. They do not become governed context.</text>
-  <rect x="72" y="656" width="1296" height="56" rx="9" fill="#FFFFFF" stroke="#E3E1D9"/>
-  <text class="h" x="96" y="690" font-size="18" font-weight="700">Evaluation can recommend. Only the configured admission gate authorizes reuse.</text>
-  <text class="m" x="1368" y="738" text-anchor="end" font-size="10">PROOFPRESS · VERIFIED KNOWLEDGE LEDGER</text>
+  <!-- Connectors are drawn before nodes. -->
+  <line x1="280" y1="312" x2="296" y2="312" stroke="#5a5d6b" stroke-width="2" marker-end="url(#knowledge-gates-arrow)"/>
+  <line x1="544" y1="312" x2="560" y2="312" stroke="#5a5d6b" stroke-width="2" marker-end="url(#knowledge-gates-arrow)"/>
+  <line x1="808" y1="312" x2="824" y2="312" stroke="#5a5d6b" stroke-width="2" marker-end="url(#knowledge-gates-arrow)"/>
+  <line x1="1072" y1="312" x2="1088" y2="312" stroke="#2e7d4f" stroke-width="2" marker-end="url(#knowledge-gates-arrow-green)"/>
+  <path d="M424 400 V472" fill="none" stroke="#8a8d98" stroke-width="1" stroke-dasharray="4 4"/>
+  <path d="M688 400 V472" fill="none" stroke="#8a8d98" stroke-width="1" stroke-dasharray="4 4"/>
+  <path d="M952 400 V472" fill="none" stroke="#8a8d98" stroke-width="1" stroke-dasharray="4 4"/>
+
+  <rect x="72" y="220" width="208" height="180" rx="8" fill="#e3eef0" stroke="#0e5e6f" stroke-width="1"/>
+  <text class="mono" x="92" y="252" fill="#0e5e6f" font-size="8" font-weight="600" letter-spacing="1">CANDIDATE</text>
+  <text class="sans" x="92" y="296" fill="#20222b" font-size="16" font-weight="600">Conclusion + evidence</text>
+  <text class="mono" x="92" y="336" fill="#5a5d6b" font-size="12">claim · source · scope</text>
+  <text class="mono" x="92" y="364" fill="#5a5d6b" font-size="12">version · digest · locator</text>
+
+  <rect x="304" y="220" width="240" height="180" rx="8" fill="#ffffff" stroke="#0e5e6f" stroke-width="1"/>
+  <text class="mono" x="324" y="252" fill="#0e5e6f" font-size="8" font-weight="600" letter-spacing="1">GATE 1</text>
+  <text class="sans" x="324" y="296" fill="#20222b" font-size="16" font-weight="600">Deterministic Checks</text>
+  <text class="mono" x="324" y="336" fill="#5a5d6b" font-size="12">rules · required inputs</text>
+  <text class="mono" x="324" y="364" fill="#5a5d6b" font-size="12">PASS / FAIL</text>
+
+  <rect x="568" y="220" width="240" height="180" rx="8" fill="#ffffff" stroke="#8a6210" stroke-width="1"/>
+  <text class="mono" x="588" y="252" fill="#8a6210" font-size="8" font-weight="600" letter-spacing="1">GATE 2</text>
+  <text class="sans" x="588" y="296" fill="#20222b" font-size="16" font-weight="600">LM Judge</text>
+  <text class="mono" x="588" y="336" fill="#5a5d6b" font-size="12">semantic evaluation</text>
+  <text class="mono" x="588" y="364" fill="#5a5d6b" font-size="12">RECOMMEND / ESCALATE</text>
+
+  <rect x="832" y="220" width="240" height="180" rx="8" fill="#f5eedc" stroke="#8a6210" stroke-width="1"/>
+  <text class="mono" x="852" y="252" fill="#8a6210" font-size="8" font-weight="600" letter-spacing="1">GATE 3 · AUTHORITY</text>
+  <text class="sans" x="852" y="296" fill="#20222b" font-size="16" font-weight="600">Human Approval</text>
+  <text class="mono" x="852" y="336" fill="#5a5d6b" font-size="12">authorized decision</text>
+  <text class="mono" x="852" y="364" fill="#5a5d6b" font-size="12">ADMIT / REJECT</text>
+
+  <rect x="1096" y="220" width="272" height="180" rx="8" fill="#e7f2ea" stroke="#2e7d4f" stroke-width="1"/>
+  <text class="mono" x="1116" y="252" fill="#2e7d4f" font-size="8" font-weight="600" letter-spacing="1">GOVERNED</text>
+  <text class="sans" x="1116" y="296" fill="#20222b" font-size="16" font-weight="600">Reusable knowledge</text>
+  <text class="mono" x="1116" y="336" fill="#5a5d6b" font-size="12">admitted · current · scoped</text>
+  <text class="mono" x="1116" y="364" fill="#5a5d6b" font-size="12">eligible for downstream use</text>
+
+  <rect x="304" y="472" width="768" height="112" rx="8" fill="#f3f1ec" stroke="#b9b6ad" stroke-width="1"/>
+  <text class="mono" x="328" y="508" fill="#5a5d6b" font-size="8" font-weight="600" letter-spacing="1">AUDITABLE · NOT ADMITTED</text>
+  <text class="sans" x="328" y="544" fill="#20222b" font-size="16" font-weight="600">failed · blocked · escalated · rejected</text>
+  <text class="sans" x="328" y="568" fill="#5a5d6b" font-size="12">Evidence and receipts remain inspectable, but the conclusion is excluded from reusable context.</text>
+
+  <rect x="72" y="628" width="1296" height="64" rx="8" fill="#ffffff" stroke="#e3e1d9" stroke-width="1"/>
+  <text class="sans" x="96" y="668" fill="#20222b" font-size="16" font-weight="600">Deterministic Checks and LM Judge can check or recommend. Only Human Approval authorizes reuse.</text>
+  <text class="mono" x="1368" y="732" text-anchor="end" fill="#5a5d6b" font-size="8" letter-spacing="1">PROOFPRESS · GOVERNANCE FOR AGENT-PRODUCED KNOWLEDGE</text>
 </svg>
