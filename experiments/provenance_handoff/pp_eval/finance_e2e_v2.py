@@ -360,10 +360,14 @@ def detect_material_conflicts(records: list[dict[str, Any]]) -> list[dict[str, A
 
 def requirement_completeness(requirements: list[dict[str, Any]],
                              records: list[dict[str, Any]],
-                             gaps: list[dict[str, Any]]) -> dict[str, Any]:
+                             gaps: list[dict[str, Any]], *,
+                             covered_requirement_ids: set[str] | None = None) -> dict[str, Any]:
     known = {row["requirement_id"] for row in requirements}
-    covered = {row.get("requirement_id") for row in records
-               if row.get("status") == "supported"}
+    covered = (set(covered_requirement_ids) if covered_requirement_ids is not None else
+               {row.get("requirement_id") for row in records
+                if row.get("status") == "supported"})
+    if not covered <= known:
+        raise ValueError("covered requirement references an unknown requirement")
     gap_by_requirement: dict[str, list[dict[str, Any]]] = defaultdict(list)
     for gap in gaps:
         requirement_id = gap.get("requirement_id")

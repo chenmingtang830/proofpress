@@ -18,6 +18,7 @@ from pp_eval.finance_e2e_v2 import (
     workbook_index_to_receipts,
 )
 from pp_eval.finance_gateway import audit_receipts
+from pp_eval.finance_workflow_private import materialize_governed_overlay
 from run_finance_e2e_v2 import normalized_cell
 
 
@@ -150,6 +151,13 @@ class FinanceGateTests(unittest.TestCase):
         self.assertFalse(result["complete"])
         self.assertEqual(result["requirements"][0]["state"], "material_gap")
 
+    def test_output_requirement_may_be_covered_by_dependency_audit(self):
+        requirements = [{"requirement_id": "output_1", "kind": "output",
+                         "requirement": "Calculate the requested output"}]
+        result = requirement_completeness(
+            requirements, [], [], covered_requirement_ids={"output_1"})
+        self.assertTrue(result["complete"])
+
     def test_execution_gate_fails_closed(self):
         fact = atom_to_observed_fact(atom(), 1)
         result = execution_gate(
@@ -243,6 +251,33 @@ class FinanceGateTests(unittest.TestCase):
         self.assertEqual(audit_receipts([row], route, 1)["decision"], "allow")
         row["resolved_provider"] = "provider-b"
         self.assertEqual(audit_receipts([row], route, 1)["decision"], "block")
+
+    def test_governed_overlay_excludes_full_data_room(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            evidence = root / "evidence"
+            target_path = "filesystem/04_Models/target.xlsx"
+            (evidence / target_path).parent.mkdir(parents=True)
+            (evidence / target_path).write_bytes(b"pristine")
+            (evidence / "filesystem/source-secret.xlsx").parent.mkdir(parents=True, exist_ok=True)
+            (evidence / "filesystem/source-secret.xlsx").write_bytes(b"do-not-copy")
+            receipt = {"evidence_id": "ev1", "receipt_digest": "sha256:r",
+                       "locator": "source#S!A1", "source_value": 1}
+            record = {"id": "r1", "requirement_id": "req1",
+                      "record_type": "observed_fact", "statement": "Revenue equals 1",
+                      "evidence_ids": ["ev1"], "status": "supported"}
+            destination = root / "overlay"
+            manifest = materialize_governed_overlay(
+                evidence_root=evidence, destination=destination,
+                task={"task_id": "task1", "prompt": "do work"},
+                requirements=[{"requirement_id": "req1", "kind": "input",
+                               "requirement": "use revenue"}],
+                records=[record], receipts={"ev1": receipt},
+                execution_receipt={"decision": "allow"},
+                target_artifacts=[target_path])
+            self.assertFalse(manifest["full_data_room_present"])
+            self.assertTrue((destination / target_path).is_file())
+            self.assertFalse((destination / "filesystem/source-secret.xlsx").exists())
 
 
 if __name__ == "__main__":

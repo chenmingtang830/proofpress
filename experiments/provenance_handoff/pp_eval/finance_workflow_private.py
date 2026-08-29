@@ -9,6 +9,7 @@ from __future__ import annotations
 import json
 from collections import Counter
 from pathlib import Path
+import shutil
 from typing import Any
 
 from pp_eval.finance_e2e_v2 import (
@@ -26,6 +27,7 @@ from pp_eval.finance_e2e_v2 import (
     workbook_index_to_receipts,
 )
 from pp_eval.finance_gateway import FinanceGateway, ROUTES, audit_receipts
+from pp_eval.storage import sha256_file
 
 
 DECOMPOSITION_SCHEMA = {
@@ -137,8 +139,67 @@ def _formula_records(atoms: list[dict[str, Any]], receipts: dict[str, dict[str, 
     return records
 
 
+def materialize_governed_overlay(*, evidence_root: Path, destination: Path,
+                                 task: dict[str, Any], requirements: list[dict[str, Any]],
+                                 records: list[dict[str, Any]], receipts: dict[str, dict[str, Any]],
+                                 execution_receipt: dict[str, Any],
+                                 target_artifacts: list[str]) -> dict[str, Any]:
+    """Materialize only pristine targets, allowed records, and source extracts."""
+    if execution_receipt.get("decision") != "allow":
+        raise ValueError("blocked working set cannot be materialized")
+    destination.mkdir(parents=True, exist_ok=False)
+    copied = []
+    for artifact in target_artifacts:
+        source = evidence_root / artifact
+        if not source.is_file():
+            raise ValueError("pristine target artifact is missing")
+        target = destination / artifact
+        target.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(source, target)
+        copied.append({"path": artifact, "sha256": sha256_file(target),
+                       "bytes": target.stat().st_size})
+    governed = destination / "filesystem" / "Governed"
+    governed.mkdir(parents=True, exist_ok=True)
+    evidence_ids = {evidence_id for record in records
+                    for evidence_id in record.get("evidence_ids", [])}
+    extracts = [_receipt_packet([receipts[evidence_id]])[0]
+                for evidence_id in sorted(evidence_ids)]
+    working_set = {
+        "schema_version": "proofpress/finance-governed-working-set/v2",
+        "task_id": task["task_id"], "requirements": requirements,
+        "records": records, "production_reliance": "prohibited",
+        "admission": None,
+    }
+    working_set["working_set_digest"] = digest(working_set)
+    files = {
+        "public_task.json": task,
+        "working_set.json": working_set,
+        "permitted_source_extracts.json": {
+            "schema_version": "proofpress/finance-source-extracts/v2",
+            "extracts": extracts, "extract_digest": digest(extracts),
+        },
+        "execution_receipt.json": execution_receipt,
+    }
+    for name, value in files.items():
+        (governed / name).write_text(json.dumps(value, ensure_ascii=False,
+                                                indent=2, sort_keys=True) + "\n")
+    manifest = {
+        "schema_version": "proofpress/finance-governed-overlay/v2",
+        "task_id": task["task_id"], "target_artifacts": copied,
+        "working_set_digest": working_set["working_set_digest"],
+        "permitted_extract_count": len(extracts),
+        "full_data_room_present": False,
+        "execution_gate": "allow",
+    }
+    manifest["overlay_digest"] = digest(manifest)
+    (destination / "package_manifest.json").write_text(
+        json.dumps(manifest, indent=2, sort_keys=True) + "\n")
+    return manifest
+
+
 def run_task_quality(*, repo: Path, evidence_root: Path, output: Path,
-                     api_key: str, task_id: str) -> dict[str, Any]:
+                     api_key: str, task_id: str,
+                     target_artifacts: list[str]) -> dict[str, Any]:
     output.mkdir(parents=True, exist_ok=False)
     raw = output / "raw_private"
     raw.mkdir(mode=0o700)
@@ -170,6 +231,11 @@ def run_task_quality(*, repo: Path, evidence_root: Path, output: Path,
         extraction_failures = []
         for requirement in requirements:
             requirement_id = requirement["requirement_id"]
+            # The governed set must equip the executor, never reveal a cached or
+            # precomputed requested output. Output completeness is assessed from
+            # its dependencies after extraction, not by extracting output cells.
+            if requirement["kind"] == "output":
+                continue
             packet = _receipt_packet(retrieved[requirement_id])
             if not packet:
                 extraction_failures.append({"requirement_id": requirement_id, "reason": "no_lexical_receipts"})
@@ -226,14 +292,19 @@ def run_task_quality(*, repo: Path, evidence_root: Path, output: Path,
         resolution_by_id = {row.get("requirement_id"): row for row in resolutions.get("resolutions", [])
                             if row.get("requirement_id") in known_requirements}
         gaps = []
+        covered_requirement_ids = set()
         for requirement in requirements:
             requirement_id = requirement["requirement_id"]
             row = resolution_by_id.get(requirement_id)
-            if not row or row.get("status") != "covered":
+            if row and row.get("status") == "covered":
+                covered_requirement_ids.add(requirement_id)
+            else:
                 gaps.append({"gap_id": f"gap_{len(gaps)+1:03d}", "requirement_id": requirement_id,
                              "kind": (row or {}).get("gap_kind") or "missing_input",
                              "material": True, "reason": (row or {}).get("reason") or "missing_completeness_resolution"})
-        completeness = requirement_completeness(requirements, supported, gaps)
+        completeness = requirement_completeness(
+            requirements, supported, gaps,
+            covered_requirement_ids=covered_requirement_ids)
         conflicts = detect_material_conflicts(supported)
         route_audits = {role: audit_receipts(item.rows(), ROUTES[role], call_counts[role])
                         for role, item in gateways.items()}
@@ -243,7 +314,11 @@ def run_task_quality(*, repo: Path, evidence_root: Path, output: Path,
             critic_verdicts={key: value for key, value in critic_verdicts.items() if key in {r["id"] for r in supported}},
             completeness=completeness, conflicts=conflicts,
             source_bindings_complete=not extraction_failures,
-            telemetry_complete=telemetry_complete, requested_output_leakage=False)
+            telemetry_complete=telemetry_complete,
+            requested_output_leakage=any(
+                record.get("requirement_id") in {row["requirement_id"] for row in requirements
+                                                  if row["kind"] == "output"}
+                for record in supported))
         private = {"task": public_task, "requirements": requirements, "receipts": receipts,
                    "retrieved_receipt_ids": {key: [row["evidence_id"] for row in value]
                                               for key, value in retrieved.items()},
@@ -267,6 +342,13 @@ def run_task_quality(*, repo: Path, evidence_root: Path, output: Path,
             "formal_denominator": 0, "calibration_denominator": 0,
             "private_artifact_digest": digest(private),
         }
+        if gate["decision"] == "allow":
+            overlay_manifest = materialize_governed_overlay(
+                evidence_root=evidence_root, destination=output / "governed_overlay",
+                task=public_task, requirements=requirements, records=supported,
+                receipts=receipt_map, execution_receipt=gate,
+                target_artifacts=target_artifacts)
+            report["governed_overlay"] = overlay_manifest
         (output / "report.json").write_text(json.dumps(report, indent=2, sort_keys=True) + "\n")
         return report
     finally:

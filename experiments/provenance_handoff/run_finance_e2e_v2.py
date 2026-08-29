@@ -270,7 +270,8 @@ def main() -> int:
         report = run_task_quality(
             repo=args.repo, evidence_root=args.evidence_root, output=args.output,
             api_key=_read_env_value(args.env_file, "AI_GATEWAY_API_KEY"),
-            task_id=args.task_id)
+            task_id=args.task_id,
+            target_artifacts=list(TASK_SPECS[args.task_id].final_artifact_allowlist))
         print(json.dumps(report, indent=2, sort_keys=True))
         return 0 if report["decision"] == "allow" else 2
     return 2
