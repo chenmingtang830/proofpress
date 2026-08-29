@@ -20,7 +20,7 @@ from pp_eval.finance_e2e_v2 import (
     workbook_index_to_receipts,
 )
 from pp_eval.finance_gateway import audit_receipts
-from pp_eval.finance_workflow_private import materialize_governed_overlay
+from pp_eval.finance_workflow_private import materialize_governed_overlay, select_data_room_members
 from run_finance_e2e_v2 import audit_executor_qualification, normalized_cell
 
 
@@ -309,6 +309,15 @@ class FinanceGateTests(unittest.TestCase):
             self.assertFalse(manifest["full_data_room_present"])
             self.assertTrue((destination / target_path).is_file())
             self.assertFalse((destination / "filesystem/source-secret.xlsx").exists())
+
+    def test_data_room_selection_is_global_deterministic_and_task_scoped(self):
+        members = ["filesystem/model.xlsx", "filesystem/FDUS/FDUS_10Q_09.30.2025.pdf",
+                   "filesystem/WHF/WHF_10K_12.31.2024.pdf"]
+        selected = select_data_room_members(
+            members, "Use FDUS filings for the September 2025 account")
+        self.assertIn("filesystem/model.xlsx", selected)
+        self.assertIn("filesystem/FDUS/FDUS_10Q_09.30.2025.pdf", selected)
+        self.assertNotIn("filesystem/WHF/WHF_10K_12.31.2024.pdf", selected)
 
 
 if __name__ == "__main__":

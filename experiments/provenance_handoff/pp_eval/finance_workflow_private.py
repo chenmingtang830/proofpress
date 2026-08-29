@@ -10,6 +10,10 @@ import json
 from collections import Counter
 from pathlib import Path
 import shutil
+import hashlib
+from pathlib import PurePosixPath
+import re
+import zipfile
 from typing import Any
 
 from pp_eval.finance_e2e_v2 import (
@@ -29,6 +33,11 @@ from pp_eval.finance_e2e_v2 import (
 )
 from pp_eval.finance_gateway import FinanceGateway, ROUTES, audit_receipts
 from pp_eval.storage import sha256_file
+from pp_eval.apex_ib_pr36 import write_xlsx_evidence_index
+
+_PATH_TOKEN = re.compile(r"[A-Za-z0-9]+")
+_PATH_STOP = {"the", "and", "use", "using", "with", "from", "file", "files", "model",
+              "analysis", "calculate", "assume", "task", "what", "would", "based"}
 
 
 DECOMPOSITION_SCHEMA = {
@@ -96,6 +105,70 @@ COMPLETENESS_SCHEMA = {
                 "reason": {"type": "string", "maxLength": 300},
             }}}},
 }
+
+
+def select_data_room_members(members: list[str], task_prompt: str,
+                             *, pdf_limit: int = 32) -> list[str]:
+    """Globally rank supported data-room sources without reading hidden task fields."""
+    query = {token.casefold() for token in _PATH_TOKEN.findall(task_prompt)
+             if len(token) >= 3 and token.casefold() not in _PATH_STOP}
+    workbooks = sorted(path for path in members if path.startswith("filesystem/")
+                       and path.lower().endswith(".xlsx"))
+    scored = []
+    for path in members:
+        if not path.startswith("filesystem/") or not path.lower().endswith(".pdf"):
+            continue
+        tokens = {token.casefold() for token in _PATH_TOKEN.findall(path)
+                  if len(token) >= 3}
+        overlap = len(query & tokens)
+        if overlap:
+            scored.append((overlap, path))
+    scored.sort(key=lambda row: (-row[0], row[1]))
+    return workbooks + [path for _, path in scored[:pdf_limit]]
+
+
+def materialize_compiler_data_room(*, world_zip: Path, destination: Path,
+                                   public_task: dict[str, Any]) -> dict[str, Any]:
+    """Inventory the full frozen world, then extract only deterministic sources."""
+    destination.mkdir(parents=True, exist_ok=False)
+    with zipfile.ZipFile(world_zip) as archive:
+        members = sorted(name for name in archive.namelist()
+                         if not name.endswith("/") and name.startswith("filesystem/"))
+        selected = select_data_room_members(members, public_task["prompt"])
+        inventory = []
+        selected_records = []
+        for member in members:
+            path = PurePosixPath(member)
+            if path.is_absolute() or ".." in path.parts:
+                raise ValueError("unsafe frozen world member")
+            payload = archive.read(member)
+            row = {"path": member, "bytes": len(payload),
+                   "sha256": hashlib.sha256(payload).hexdigest(),
+                   "selected": member in selected}
+            inventory.append(row)
+            if member in selected:
+                target = destination / member
+                target.parent.mkdir(parents=True, exist_ok=True)
+                target.write_bytes(payload)
+                selected_records.append({key: row[key] for key in ("path", "bytes", "sha256")})
+    governed = destination / "filesystem" / "Governed"
+    governed.mkdir(parents=True, exist_ok=True)
+    (governed / "public_task.json").write_text(
+        json.dumps(public_task, ensure_ascii=False, indent=2, sort_keys=True) + "\n")
+    manifest = {
+        "schema_version": "proofpress/finance-compiler-data-room/v2",
+        "task_id": public_task["task_id"], "world_id": public_task["world_id"],
+        "inventory_count": len(inventory), "selected_source_count": len(selected_records),
+        "files": selected_records, "inventory_digest": digest(inventory),
+        "selection_rule": "all_xlsx_plus_top32_prompt_path_overlap_pdfs",
+    }
+    manifest["manifest_digest"] = digest(manifest)
+    (governed / "source_manifest.json").write_text(
+        json.dumps(manifest, indent=2, sort_keys=True) + "\n")
+    (destination / "package_manifest.json").write_text(
+        json.dumps(manifest, indent=2, sort_keys=True) + "\n")
+    write_xlsx_evidence_index(destination, selected_records)
+    return manifest
 
 
 def load_receipts(evidence_root: Path) -> list[dict[str, Any]]:
