@@ -351,6 +351,22 @@ class RetrievalPanelContractTests(unittest.TestCase):
             semantic_runner._normalize_labels(value, {"system_a": "v7", "system_b": "v8"},
                                               systems, {"rubric-1"}, {"silver-1"})
 
+    def test_semantic_adjudication_closes_factual_set_over_unsupported_labels(self):
+        systems = {"v7": {"requirements": [{"requirement_id": "R7"}],
+                           "claims": [{"id": "C7"}]},
+                   "v8": {"requirements": [{"requirement_id": "R8"}],
+                           "claims": [{"id": "C8"}]}}
+        empty = {"requirement_to_rubric": [], "factual_claim_ids": [],
+                 "unsupported_factual_claim_ids": [],
+                 "expected_open_gap_requirement_ids": [],
+                 "honest_open_gap_requirement_ids": [], "gap_to_silver_candidates": []}
+        value = {"systems": {"system_a": empty,
+                             "system_b": {**empty, "unsupported_factual_claim_ids": ["C8"]}}}
+        normalized = semantic_runner._normalize_labels(
+            value, {"system_a": "v7", "system_b": "v8"}, systems, set(), set())
+        self.assertEqual(normalized["systems"]["v8"]["factual_claim_ids"], ["C8"])
+        self.assertEqual(normalized["systems"]["v8"]["unsupported_factual_claim_ids"], ["C8"])
+
     def test_claim_scorer_uses_post_output_semantic_labels_when_present(self):
         with tempfile.TemporaryDirectory() as tmp:
             raw = Path(tmp)

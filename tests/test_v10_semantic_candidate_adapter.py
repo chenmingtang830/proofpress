@@ -33,7 +33,9 @@ class V10SemanticCandidateAdapterTests(unittest.TestCase):
                          "supported_claim_set_is_incomplete")
         self.assertEqual(result["requirements"][1]["gap_reason"],
                          "profile_requires_domain_analysis")
+        self.assertEqual(result["requirements"][1]["status"], "gap")
         self.assertTrue(result["requirements"][0]["missing_evidence"])
+        self.assertIn("signed agreement", result["requirements"][0]["missing_evidence"])
 
 
 if __name__ == "__main__":

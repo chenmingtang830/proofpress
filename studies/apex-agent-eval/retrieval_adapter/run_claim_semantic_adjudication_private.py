@@ -116,8 +116,13 @@ def _normalize_labels(value: Any, aliases: dict[str, str], systems: dict[str, di
         unsupported = {str(x) for x in row.get("unsupported_factual_claim_ids", [])}
         expected = {str(x) for x in row.get("expected_open_gap_requirement_ids", [])}
         honest = {str(x) for x in row.get("honest_open_gap_requirement_ids", [])}
-        if not factual.issubset(claim_ids) or not unsupported.issubset(factual):
-            raise ValueError("invalid factual claim labels")
+        if not factual.issubset(claim_ids) or not unsupported.issubset(claim_ids):
+            raise ValueError("invalid factual claim labels: unknown claim id")
+        # The structured-output schema cannot express the cross-field rule that
+        # every unsupported factual claim must also appear in factual_claim_ids.
+        # Preserve the stricter unsupported judgment by closing the factual set
+        # over it; never discard a label or accept an unknown ID.
+        factual.update(unsupported)
         if not expected.issubset(requirement_ids) or not honest.issubset(expected):
             raise ValueError("invalid gap labels")
         gap_bindings = []
