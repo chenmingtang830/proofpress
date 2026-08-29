@@ -22,10 +22,66 @@ from pp_eval.apex_ib_pr36 import (
     write_json,
 )
 from pp_eval.finance_e2e_v2 import executor_qualification, legacy_working_set_preflight
+from pp_eval.finance_gateway import FinanceGateway, ROUTES, audit_receipts
 
 
 SCHEMA = "proofpress/finance-e2e-v2/executor-qualification/v1"
 MIN_FREE_BYTES = 20 * 1024**3
+CANARY_SCHEMA = {
+    "type": "object", "additionalProperties": False,
+    "required": ["role", "safe_to_continue"],
+    "properties": {"role": {"type": "string"},
+                   "safe_to_continue": {"type": "boolean"}},
+}
+
+
+def _read_env_value(path: Path, key: str) -> str:
+    for line in path.read_text().splitlines():
+        if line.startswith(key + "="):
+            return line.split("=", 1)[1].strip().strip("'\"")
+    raise RuntimeError(f"{key} is missing from the selected env file")
+
+
+def run_upstream_canary(repo: Path, output: Path, env_file: Path,
+                        roles: list[str]) -> dict:
+    output.mkdir(parents=True, exist_ok=False)
+    api_key = _read_env_value(env_file, "AI_GATEWAY_API_KEY")
+    cells = []
+    for role in roles:
+        if role not in ROUTES:
+            raise ValueError(f"unknown upstream role: {role}")
+        route = ROUTES[role]
+        gateway = FinanceGateway(repo=repo, route=route, output=output / role,
+                                 api_key=api_key)
+        semantic_ok = False
+        error_type = None
+        try:
+            value = gateway.call(
+                system="Return only the schema-bound transport canary. No task data.",
+                prompt=f"Set role exactly to {role} and safe_to_continue to true.",
+                schema=CANARY_SCHEMA, schema_name="finance_route_canary", max_tokens=256)
+            semantic_ok = value == {"role": role, "safe_to_continue": True}
+        except Exception as error:
+            error_type = type(error).__name__
+        finally:
+            gateway.stop()
+        receipt_audit = audit_receipts(gateway.rows(), route, 1)
+        cells.append({
+            "role": role, "route": route,
+            "semantic_status": "pass" if semantic_ok else "inconclusive",
+            "error_type": error_type, "receipt_audit": receipt_audit,
+            "decision": "allow" if semantic_ok and receipt_audit["decision"] == "allow" else "block",
+        })
+    report = {
+        "schema_version": "proofpress/finance-upstream-route-canary/v1",
+        "boundary": "Transport and schema qualification only; zero treatment, calibration, grader, or formal artifacts.",
+        "formal_denominator": 0, "calibration_denominator": 0,
+        "cells": cells,
+        "decision": "allow" if cells and all(row["decision"] == "allow" for row in cells) else "block",
+        "known_cost_usd": sum(row["receipt_audit"]["known_cost_usd"] for row in cells),
+    }
+    write_json(output / "report.json", report)
+    return report
 
 
 def _valid_required_outputs(run_dir: Path, task_id: str) -> bool:
@@ -168,6 +224,11 @@ def main() -> int:
     legacy = sub.add_parser("legacy-gap-diagnostic")
     legacy.add_argument("--working-set", action="append", required=True, type=Path)
     legacy.add_argument("--output", required=True, type=Path)
+    canary = sub.add_parser("upstream-canary")
+    canary.add_argument("--repo", required=True, type=Path)
+    canary.add_argument("--output", required=True, type=Path)
+    canary.add_argument("--env-file", required=True, type=Path)
+    canary.add_argument("--roles", default=",".join(ROUTES))
     args = parser.parse_args()
     if args.command == "executor-qualification":
         report = run_executor_qualification(
@@ -192,6 +253,12 @@ def main() -> int:
         write_json(args.output, report)
         print(json.dumps(report, indent=2, sort_keys=True))
         return 0
+    if args.command == "upstream-canary":
+        report = run_upstream_canary(
+            args.repo, args.output, args.env_file,
+            [value.strip() for value in args.roles.split(",") if value.strip()])
+        print(json.dumps(report, indent=2, sort_keys=True))
+        return 0 if report["decision"] == "allow" else 2
     return 2
 
 

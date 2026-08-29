@@ -16,6 +16,7 @@ from pp_eval.finance_e2e_v2 import (
     validate_requirements,
     workbook_index_to_receipts,
 )
+from pp_eval.finance_gateway import audit_receipts
 from run_finance_e2e_v2 import normalized_cell
 
 
@@ -212,6 +213,19 @@ class FinanceGateTests(unittest.TestCase):
             cell = normalized_cell(result)
             self.assertEqual(cell["failure_kind"], "host_suspend_or_clock_gap")
             self.assertTrue(cell["infrastructure_invalid"])
+
+    def test_gateway_receipt_audit_requires_exact_route_and_cost(self):
+        route = {"model": "model/a", "provider": "provider-a", "reasoning": "low"}
+        row = {
+            "terminal": True, "status": "ok", "requested_model": "model/a",
+            "resolved_model": "model/a", "requested_provider": "provider-a",
+            "resolved_provider": "provider-a", "fallback_used": False,
+            "model_attempt_count": 1, "provider_attempt_count": 1,
+            "input_tokens": 10, "output_tokens": 2, "cost_usd": 0.01,
+        }
+        self.assertEqual(audit_receipts([row], route, 1)["decision"], "allow")
+        row["resolved_provider"] = "provider-b"
+        self.assertEqual(audit_receipts([row], route, 1)["decision"], "block")
 
 
 if __name__ == "__main__":
