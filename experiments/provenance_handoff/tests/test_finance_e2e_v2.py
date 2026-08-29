@@ -15,6 +15,7 @@ from pp_eval.finance_e2e_v2 import (
     retrieve_receipts,
     pdf_pages_to_receipts,
     fresh_task_audit,
+    freeze_formal_tasks,
     validate_derived_calculation,
     validate_finance_atom,
     validate_requirements,
@@ -217,6 +218,30 @@ class FinanceGateTests(unittest.TestCase):
             self.assertEqual(result["excluded_count"], 1)
             self.assertFalse(result["hidden_material_retained"])
             self.assertNotIn("rubric", json.dumps(result))
+
+    def test_freeze_formal_tasks_selects_only_fresh_workbook_edits(self):
+        freshness = {
+            "world_id": "world1", "executor_model": "executor/a",
+            "hidden_material_retained": False, "formal_tasks_frozen": False,
+            "formal_denominator": 0, "audit_digest": "sha256:audit",
+            "candidates": [
+                {"task_id": "task_sheet", "task_name": "Sheet",
+                 "expected_output": "edit_existing_sheet",
+                 "public_contract_digest": "sha256:sheet"},
+                {"task_id": "task_console", "task_name": "Console",
+                 "expected_output": "message_in_console",
+                 "public_contract_digest": "sha256:console"},
+            ],
+        }
+        result = freeze_formal_tasks(
+            freshness=freshness, task_ids=["task_sheet"],
+            prior_executor_caveats={"task_sheet": "Seen by another executor."})
+        self.assertTrue(result["formal_tasks_frozen"])
+        self.assertEqual(result["scheduled_executor_cells"], 6)
+        self.assertEqual(result["formal_executor_cells_started"], 0)
+        self.assertNotIn("rubric", json.dumps(result))
+        with self.assertRaises(ValueError):
+            freeze_formal_tasks(freshness=freshness, task_ids=["task_console"])
 
     def test_execution_gate_fails_closed(self):
         fact = atom_to_observed_fact(atom(), 1)

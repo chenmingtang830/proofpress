@@ -250,6 +250,49 @@ def fresh_task_audit(*, task_rows: list[dict[str, Any]], world_id: str,
     return result
 
 
+def freeze_formal_tasks(*, freshness: dict[str, Any], task_ids: list[str],
+                        attempts: int = 3, arms: tuple[str, ...] = ("normal", "proofpress"),
+                        prior_executor_caveats: dict[str, str] | None = None) -> dict[str, Any]:
+    """Freeze public-only workbook-edit tasks without hidden evaluation material."""
+    if freshness.get("hidden_material_retained") is not False:
+        raise ValueError("freshness audit must exclude hidden evaluation material")
+    if freshness.get("formal_tasks_frozen") is not False or freshness.get("formal_denominator") != 0:
+        raise ValueError("task freeze requires a pre-formal freshness audit")
+    candidates = {row.get("task_id"): row for row in freshness.get("candidates", [])}
+    if len(task_ids) != len(set(task_ids)) or not task_ids:
+        raise ValueError("frozen task IDs must be unique and non-empty")
+    selected = []
+    for task_id in task_ids:
+        row = candidates.get(task_id)
+        if row is None or row.get("expected_output") != "edit_existing_sheet":
+            raise ValueError(f"task is not a fresh workbook-edit candidate: {task_id}")
+        selected.append({key: row[key] for key in (
+            "task_id", "task_name", "expected_output", "public_contract_digest")})
+    if attempts < 1 or not arms or len(set(arms)) != len(arms):
+        raise ValueError("attempts and arms must define a non-empty frozen matrix")
+    caveats = prior_executor_caveats or {}
+    result = {
+        "schema_version": "proofpress/finance-formal-task-freeze/v1",
+        "world_id": freshness.get("world_id"),
+        "executor_model": freshness.get("executor_model"),
+        "selection_rule": "all fresh same-world Investment Banking candidates whose public expected_output is edit_existing_sheet",
+        "selected_tasks": selected,
+        "selected_task_count": len(selected),
+        "arms": list(arms),
+        "attempts_per_arm": attempts,
+        "scheduled_executor_cells": len(selected) * len(arms) * attempts,
+        "hidden_material_retained": False,
+        "prior_other_executor_caveats": {task_id: caveats[task_id]
+                                            for task_id in task_ids if task_id in caveats},
+        "formal_tasks_frozen": True,
+        "formal_executor_cells_started": 0,
+        "formal_grader_repetitions_started": 0,
+        "source_freshness_audit_digest": freshness.get("audit_digest"),
+    }
+    result["freeze_digest"] = digest(result)
+    return result
+
+
 def validate_requirements(requirements: list[dict[str, Any]]) -> dict[str, Any]:
     """Freeze task decomposition without hidden evaluation material."""
     if not isinstance(requirements, list) or not 1 <= len(requirements) <= 40:

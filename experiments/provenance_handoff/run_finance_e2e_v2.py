@@ -16,6 +16,7 @@ import hashlib
 from pp_eval.apex_ib_pr36 import (
     ENVIRONMENT_IMAGE,
     EXECUTOR_MODEL,
+    FINANCE_E2E_V2_FORMAL_TASK_IDS,
     QUALIFICATION_TASK_ID,
     TASK_SPECS,
     compact_apex_output,
@@ -23,7 +24,7 @@ from pp_eval.apex_ib_pr36 import (
     run_apex_stage,
     write_json,
 )
-from pp_eval.finance_e2e_v2 import executor_qualification, fresh_task_audit, legacy_working_set_preflight
+from pp_eval.finance_e2e_v2 import executor_qualification, freeze_formal_tasks, fresh_task_audit, legacy_working_set_preflight
 from pp_eval.finance_gateway import FinanceGateway, ROUTES, audit_receipts
 from pp_eval.finance_workflow_private import materialize_compiler_data_room, run_task_quality
 
@@ -362,6 +363,9 @@ def main() -> int:
     freshness.add_argument("--manifest-root", action="append", required=True, type=Path)
     freshness.add_argument("--executor-model", default=EXECUTOR_MODEL)
     freshness.add_argument("--output", required=True, type=Path)
+    freeze = sub.add_parser("freeze-formal-tasks")
+    freeze.add_argument("--freshness-report", required=True, type=Path)
+    freeze.add_argument("--output", required=True, type=Path)
     args = parser.parse_args()
     if args.command == "executor-qualification":
         report = run_executor_qualification(
@@ -424,6 +428,19 @@ def main() -> int:
             manifest_roots=args.manifest_root, executor_model=args.executor_model)
         args.output.parent.mkdir(parents=True, exist_ok=True)
         write_json(args.output, report)
+        print(json.dumps(report, indent=2, sort_keys=True))
+        return 0
+    if args.command == "freeze-formal-tasks":
+        report = freeze_formal_tasks(
+            freshness=json.loads(args.freshness_report.read_text()),
+            task_ids=list(FINANCE_E2E_V2_FORMAL_TASK_IDS),
+            prior_executor_caveats={
+                FINANCE_E2E_V2_FORMAL_TASK_IDS[0]:
+                    "Observed in PR #54 only under inclusionai/ling-3.0-flash-fin; not consumed by the selected Luna executor and not used to tune the v2 governed route."
+            },
+        )
+        args.output.mkdir(parents=True, exist_ok=False)
+        write_json(args.output / "formal-task-freeze.json", report)
         print(json.dumps(report, indent=2, sort_keys=True))
         return 0
     return 2

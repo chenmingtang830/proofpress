@@ -38,6 +38,10 @@ FORMAL_TASK_IDS = (
     "task_9909f2ec2bbb4899ba7a956a475dfc01",
     "task_4f291b8b066e413f8cd0a99c593b89e8",
 )
+FINANCE_E2E_V2_FORMAL_TASK_IDS = (
+    "task_9909f2ec2bbb4899ba7a956a475dfc01",
+    "task_b2d58a02b48b4b5abd886aafac8b1c7e",
+)
 ALL_TASK_IDS = (QUALIFICATION_TASK_ID,) + FORMAL_TASK_IDS
 EXECUTOR_ATTEMPTS = 3
 GRADER_REPETITIONS = 3
@@ -84,6 +88,12 @@ TASK_SPECS: dict[str, TaskSpec] = {
         task_id=FORMAL_TASK_IDS[1],
         role="formal",
         evidence_allowlist=(MERGER_MODEL, VALUATION_MODEL, COMPS_MODEL),
+        final_artifact_allowlist=(MERGER_MODEL,),
+    ),
+    FINANCE_E2E_V2_FORMAL_TASK_IDS[1]: TaskSpec(
+        task_id=FINANCE_E2E_V2_FORMAL_TASK_IDS[1],
+        role="formal-v2",
+        evidence_allowlist=(MERGER_MODEL,),
         final_artifact_allowlist=(MERGER_MODEL,),
     ),
 }
@@ -630,7 +640,7 @@ def frozen_protocol(tasks_path: Path, world_zip: Path, seed: int = DEFAULT_SEED)
         "world_id": WORLD_ID,
         "source_manifest": source_manifest(world_zip),
         "tasks": tasks,
-        "executor_model": EXECUTOR_MODEL,
+        "executor_model": agent_model,
         "treatment_proposer_model": TREATMENT_PROPOSER_MODEL,
         "judge_model": JUDGE_MODEL,
         "runtime": {
