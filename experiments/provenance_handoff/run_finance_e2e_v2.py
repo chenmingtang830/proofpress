@@ -22,7 +22,7 @@ from pp_eval.apex_ib_pr36 import (
     run_apex_stage,
     write_json,
 )
-from pp_eval.finance_e2e_v2 import executor_qualification, legacy_working_set_preflight
+from pp_eval.finance_e2e_v2 import executor_qualification, fresh_task_audit, legacy_working_set_preflight
 from pp_eval.finance_gateway import FinanceGateway, ROUTES, audit_receipts
 from pp_eval.finance_workflow_private import run_task_quality
 
@@ -277,6 +277,12 @@ def main() -> int:
     audit = sub.add_parser("audit-executor-qualification")
     audit.add_argument("--results-root", required=True, type=Path)
     audit.add_argument("--output", required=True, type=Path)
+    freshness = sub.add_parser("fresh-task-audit")
+    freshness.add_argument("--tasks-json", required=True, type=Path)
+    freshness.add_argument("--world-id", required=True)
+    freshness.add_argument("--manifest-root", action="append", required=True, type=Path)
+    freshness.add_argument("--executor-model", default=EXECUTOR_MODEL)
+    freshness.add_argument("--output", required=True, type=Path)
     args = parser.parse_args()
     if args.command == "executor-qualification":
         report = run_executor_qualification(
@@ -317,6 +323,14 @@ def main() -> int:
         return 0 if report["decision"] == "allow" else 2
     if args.command == "audit-executor-qualification":
         report = audit_executor_qualification(args.results_root, args.output)
+        print(json.dumps(report, indent=2, sort_keys=True))
+        return 0
+    if args.command == "fresh-task-audit":
+        report = fresh_task_audit(
+            task_rows=json.loads(args.tasks_json.read_text()), world_id=args.world_id,
+            manifest_roots=args.manifest_root, executor_model=args.executor_model)
+        args.output.parent.mkdir(parents=True, exist_ok=True)
+        write_json(args.output, report)
         print(json.dumps(report, indent=2, sort_keys=True))
         return 0
     return 2

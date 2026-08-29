@@ -13,6 +13,8 @@ import json
 import math
 import re
 import subprocess
+from pathlib import Path
+import os
 from typing import Any
 
 
@@ -190,6 +192,62 @@ def extract_pdf_receipts(*, path: str, artifact: str,
         pages.pop()
     return pdf_pages_to_receipts(
         artifact=artifact, source_sha256=source_sha256, pages=pages)
+
+
+def fresh_task_audit(*, task_rows: list[dict[str, Any]], world_id: str,
+                     manifest_roots: list[Path], executor_model: str) -> dict[str, Any]:
+    """Audit task freshness without retaining rubric, gold, or prior answers."""
+    consumed: dict[str, list[str]] = defaultdict(list)
+    for search_root in manifest_roots:
+        if not search_root.exists():
+            continue
+        for root, directories, files in os.walk(search_root):
+            directories[:] = [name for name in directories
+                               if name not in {".git", "node_modules", ".venv", "venv", "__pycache__"}]
+            if "manifest.json" not in files:
+                continue
+            path = Path(root) / "manifest.json"
+            try:
+                value = json.loads(path.read_text())
+            except (OSError, json.JSONDecodeError):
+                continue
+            if (value.get("world_id") == world_id
+                    and executor_model in {value.get("agent_model"), value.get("executor_model")}
+                    and isinstance(value.get("task_id"), str)):
+                consumed[value["task_id"]].append(digest({
+                    "manifest": str(path), "status": value.get("status"),
+                    "stage": value.get("stage"),
+                }))
+    candidates = []
+    excluded = []
+    for task in task_rows:
+        if task.get("world_id") != world_id or task.get("domain") != "Investment Banking":
+            continue
+        public = {key: task.get(key) for key in
+                  ("task_id", "task_name", "world_id", "domain", "expected_output", "prompt")}
+        row = {
+            "task_id": task.get("task_id"), "task_name": task.get("task_name"),
+            "expected_output": task.get("expected_output"),
+            "public_contract_digest": digest(public),
+        }
+        if task.get("task_id") in consumed:
+            row["reason"] = "executor_previously_consumed_task"
+            row["manifest_receipt_digests"] = sorted(consumed[task["task_id"]])
+            excluded.append(row)
+        else:
+            candidates.append(row)
+    result = {
+        "schema_version": "proofpress/finance-formal-task-freshness/v1",
+        "world_id": world_id, "executor_model": executor_model,
+        "candidate_count": len(candidates), "excluded_count": len(excluded),
+        "candidates": sorted(candidates, key=lambda row: row["task_id"]),
+        "excluded": sorted(excluded, key=lambda row: row["task_id"]),
+        "hidden_material_retained": False,
+        "formal_tasks_frozen": False,
+        "formal_denominator": 0,
+    }
+    result["audit_digest"] = digest(result)
+    return result
 
 
 def validate_requirements(requirements: list[dict[str, Any]]) -> dict[str, Any]:

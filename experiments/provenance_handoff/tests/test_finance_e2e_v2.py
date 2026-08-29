@@ -14,6 +14,7 @@ from pp_eval.finance_e2e_v2 import (
     requirement_completeness,
     retrieve_receipts,
     pdf_pages_to_receipts,
+    fresh_task_audit,
     validate_derived_calculation,
     validate_finance_atom,
     validate_requirements,
@@ -168,6 +169,30 @@ class FinanceGateTests(unittest.TestCase):
         result = requirement_completeness(
             requirements, [], [], covered_requirement_ids={"output_1"})
         self.assertTrue(result["complete"])
+
+    def test_fresh_task_audit_excludes_consumed_without_hidden_material(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            used = root / "used"
+            used.mkdir()
+            (used / "manifest.json").write_text(json.dumps({
+                "world_id": "world1", "task_id": "task_used",
+                "agent_model": "executor/a", "status": "completed"}))
+            tasks = [
+                {"world_id": "world1", "task_id": "task_used", "task_name": "Used",
+                 "domain": "Investment Banking", "expected_output": "message_in_console",
+                 "prompt": "public", "rubric": "hidden", "gold_response": "hidden"},
+                {"world_id": "world1", "task_id": "task_fresh", "task_name": "Fresh",
+                 "domain": "Investment Banking", "expected_output": "edit_existing_sheet",
+                 "prompt": "public", "rubric": "hidden", "gold_response": "hidden"},
+            ]
+            result = fresh_task_audit(
+                task_rows=tasks, world_id="world1", manifest_roots=[root],
+                executor_model="executor/a")
+            self.assertEqual(result["candidate_count"], 1)
+            self.assertEqual(result["excluded_count"], 1)
+            self.assertFalse(result["hidden_material_retained"])
+            self.assertNotIn("rubric", json.dumps(result))
 
     def test_execution_gate_fails_closed(self):
         fact = atom_to_observed_fact(atom(), 1)
