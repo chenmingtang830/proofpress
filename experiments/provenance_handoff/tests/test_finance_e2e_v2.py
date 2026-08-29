@@ -11,6 +11,7 @@ from pp_eval.finance_e2e_v2 import (
     executor_qualification,
     legacy_working_set_preflight,
     requirement_completeness,
+    retrieve_receipts,
     validate_derived_calculation,
     validate_finance_atom,
     validate_requirements,
@@ -63,6 +64,22 @@ class FinanceAtomTests(unittest.TestCase):
         self.assertEqual(rows[1]["value_semantics"], "cached_formula_result")
         self.assertEqual(rows[1]["formula"], "B2*1.1")
         self.assertTrue(rows[1]["receipt_digest"].startswith("sha256:"))
+
+    def test_deterministic_receipt_retrieval_uses_local_labels(self):
+        rows = workbook_index_to_receipts(
+            artifact="filesystem/model.xlsx", source_sha256="sha256:abc",
+            sheets=[{"sheet": "Model", "cells": [
+                {"cell": "A2", "value": "Revenue"},
+                {"cell": "B2", "value": 100},
+                {"cell": "A9", "value": "Debt"},
+                {"cell": "B9", "value": 40},
+            ]}],
+        )
+        result = retrieve_receipts(
+            [{"requirement_id": "req_revenue", "requirement": "Use reported revenue"}], rows,
+            limit_per_requirement=2)
+        self.assertTrue(result["req_revenue"])
+        self.assertIn("!B2", {row["locator"][-3:] for row in result["req_revenue"]})
 
     def test_requirements_forbid_hidden_material(self):
         frozen = validate_requirements([{

@@ -10,6 +10,8 @@ from __future__ import annotations
 from collections import Counter, defaultdict
 import hashlib
 import json
+import math
+import re
 from typing import Any
 
 
@@ -38,6 +40,18 @@ MATERIAL_GAP_KINDS = {
     "circular_dependency",
     "source_version_conflict",
 }
+_CELL = re.compile(r"^([A-Z]+)([1-9][0-9]*)$")
+_TOKEN = re.compile(r"[A-Za-z][A-Za-z0-9_./%-]{1,}|[0-9]+(?:\.[0-9]+)?")
+
+
+def _cell_position(address: str) -> tuple[int, int] | None:
+    match = _CELL.fullmatch(address.upper())
+    if not match:
+        return None
+    column = 0
+    for character in match.group(1):
+        column = column * 26 + ord(character) - 64
+    return column, int(match.group(2))
 
 
 def workbook_index_to_receipts(*, artifact: str, source_sha256: str,
@@ -56,7 +70,9 @@ def workbook_index_to_receipts(*, artifact: str, source_sha256: str,
         sheet_name = sheet.get("sheet")
         if not isinstance(sheet_name, str) or not sheet_name:
             raise ValueError("workbook sheet name is required")
-        for cell in sheet.get("cells", []):
+        cells = sheet.get("cells", [])
+        positioned = [(cell, _cell_position(str(cell.get("cell", "")))) for cell in cells]
+        for cell, position in positioned:
             address = cell.get("cell")
             if not isinstance(address, str) or not address:
                 raise ValueError("workbook cell address is required")
@@ -76,9 +92,58 @@ def workbook_index_to_receipts(*, artifact: str, source_sha256: str,
                 "value_semantics": ("cached_formula_result"
                                     if cell.get("formula") else "literal_cell_value"),
             }
+            if position:
+                column, row = position
+                receipt["local_context"] = [
+                    {"cell": neighbor["cell"], "value": neighbor.get("value"),
+                     "formula": neighbor.get("formula")}
+                    for neighbor, neighbor_position in positioned
+                    if neighbor_position
+                    and abs(neighbor_position[0] - column) <= 2
+                    and abs(neighbor_position[1] - row) <= 1
+                ][:15]
             receipt["receipt_digest"] = digest(receipt)
             receipts.append(receipt)
     return receipts
+
+
+def retrieve_receipts(requirements: list[dict[str, Any]],
+                      receipts: list[dict[str, Any]],
+                      *, limit_per_requirement: int = 40) -> dict[str, list[dict[str, Any]]]:
+    """Deterministic lexical retrieval over receipt-bound cell neighborhoods."""
+    if limit_per_requirement < 1:
+        raise ValueError("receipt retrieval limit must be positive")
+    documents: list[tuple[dict[str, Any], list[str]]] = []
+    frequencies: Counter[str] = Counter()
+    for receipt in receipts:
+        searchable = json.dumps({
+            "artifact": receipt.get("artifact"), "locator": receipt.get("locator"),
+            "value": receipt.get("source_value"), "formula": receipt.get("formula"),
+            "context": receipt.get("local_context", []),
+        }, ensure_ascii=False)
+        tokens = [value.casefold() for value in _TOKEN.findall(searchable)]
+        unique = set(tokens)
+        frequencies.update(unique)
+        documents.append((receipt, tokens))
+    total = max(1, len(documents))
+    result: dict[str, list[dict[str, Any]]] = {}
+    for requirement in requirements:
+        requirement_id = str(requirement["requirement_id"])
+        query = [value.casefold() for value in _TOKEN.findall(
+            str(requirement.get("requirement", "")))]
+        scored = []
+        for receipt, tokens in documents:
+            counts = Counter(tokens)
+            score = 0.0
+            for token in set(query):
+                if counts[token]:
+                    inverse = math.log(1 + total / (1 + frequencies[token]))
+                    score += inverse * (1 + math.log(counts[token]))
+            if score > 0:
+                scored.append((score, str(receipt["locator"]), receipt))
+        scored.sort(key=lambda row: (-row[0], row[1]))
+        result[requirement_id] = [row[2] for row in scored[:limit_per_requirement]]
+    return result
 
 
 def validate_requirements(requirements: list[dict[str, Any]]) -> dict[str, Any]:

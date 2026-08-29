@@ -23,6 +23,7 @@ from pp_eval.apex_ib_pr36 import (
 )
 from pp_eval.finance_e2e_v2 import executor_qualification, legacy_working_set_preflight
 from pp_eval.finance_gateway import FinanceGateway, ROUTES, audit_receipts
+from pp_eval.finance_workflow_private import run_task_quality
 
 
 SCHEMA = "proofpress/finance-e2e-v2/executor-qualification/v1"
@@ -229,6 +230,12 @@ def main() -> int:
     canary.add_argument("--output", required=True, type=Path)
     canary.add_argument("--env-file", required=True, type=Path)
     canary.add_argument("--roles", default=",".join(ROUTES))
+    task_quality = sub.add_parser("upstream-task-quality")
+    task_quality.add_argument("--repo", required=True, type=Path)
+    task_quality.add_argument("--evidence-root", required=True, type=Path)
+    task_quality.add_argument("--output", required=True, type=Path)
+    task_quality.add_argument("--env-file", required=True, type=Path)
+    task_quality.add_argument("--task-id", required=True)
     args = parser.parse_args()
     if args.command == "executor-qualification":
         report = run_executor_qualification(
@@ -257,6 +264,13 @@ def main() -> int:
         report = run_upstream_canary(
             args.repo, args.output, args.env_file,
             [value.strip() for value in args.roles.split(",") if value.strip()])
+        print(json.dumps(report, indent=2, sort_keys=True))
+        return 0 if report["decision"] == "allow" else 2
+    if args.command == "upstream-task-quality":
+        report = run_task_quality(
+            repo=args.repo, evidence_root=args.evidence_root, output=args.output,
+            api_key=_read_env_value(args.env_file, "AI_GATEWAY_API_KEY"),
+            task_id=args.task_id)
         print(json.dumps(report, indent=2, sort_keys=True))
         return 0 if report["decision"] == "allow" else 2
     return 2
