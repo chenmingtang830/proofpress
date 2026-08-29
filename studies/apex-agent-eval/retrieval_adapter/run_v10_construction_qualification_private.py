@@ -202,6 +202,7 @@ def main() -> None:
     parser.add_argument("--budget-usd", type=float, default=8.0)
     parser.add_argument("--timeout", type=float, default=300)
     parser.add_argument("--decomposer", choices=("qwen", "v7"), default=DECOMPOSER)
+    parser.add_argument("--typed-requirements-raw")
     parser.add_argument("--retrieval-mode", choices=("joined", "multiquery_rrf", "requirement_plus_task"), default="joined")
     parser.add_argument("--max-sections", type=int, default=6)
     args = parser.parse_args()
@@ -230,6 +231,16 @@ def main() -> None:
             source = json.loads(source_path.read_text())
             decomposition = json.loads((Path(args.decomposition_raw) / source_path.name).read_text())
             requirements = decomposition["variants"][args.decomposer]["requirements"]
+            if args.typed_requirements_raw:
+                if args.decomposer != "v7":
+                    raise SystemExit("typed requirement adapter is only valid for frozen v7 decomposition")
+                typed_path = Path(args.typed_requirements_raw) / source_path.name
+                if not typed_path.is_file():
+                    raise SystemExit(f"typed requirements missing: {source_path.name}")
+                typed = json.loads(typed_path.read_text())
+                if [row["requirement_id"] for row in typed["requirements"]] != [row["requirement_id"] for row in requirements]:
+                    raise SystemExit("typed requirements do not preserve frozen v7 IDs and order")
+                requirements = typed["requirements"]
             frozen = None
             if frozen_retrieval is not None:
                 frozen = json.loads((frozen_retrieval / source_path.name).read_text())
@@ -312,6 +323,7 @@ def main() -> None:
                         "extractor_batch_size": EXTRACTOR_BATCH_SIZE,
                         "retrieval": "frozen-replay" if frozen_retrieval is not None else args.retrieval_mode,
                         "max_sections": args.max_sections,
+                        "requirement_type_adapter": "qwen-type-only" if args.typed_requirements_raw else None,
                         **routes},
               "tasks": tasks, "metrics": metrics,
               "denominators": {"tasks": len(tasks), "completed_tasks": len(completed),

@@ -457,6 +457,20 @@ print(json.dumps({{'schema_version':'proofpress/pageindex-sidecar/v1','fallback_
     return str(script)
 
 
+def disclosure_receipt(row: dict[str, Any], query: str, config_digest: str) -> dict[str, Any]:
+    """Normalize retrieval-panel rows to the agent-facing portable receipt."""
+    evidence = row.get("evidence")
+    if not isinstance(evidence, dict):
+        evidence = {"quote": row.get("quote"), "locator": row.get("locator")}
+    retrieval = row.get("retrieval") if isinstance(row.get("retrieval"), dict) else {}
+    return {"schema_version": knowledge.RETRIEVAL_EVIDENCE_SCHEMA,
+            "source": row.get("source"),
+            "evidence": evidence,
+            "retrieval": {"adapter": str(retrieval.get("adapter") or "unknown-retrieval"),
+                          "version": str(retrieval.get("version") or "1"),
+                          "query": query, "config_digest": config_digest}}
+
+
 def build_contexts(graph: dict[str, Any], asks: list[dict[str, Any]], catalog: dict[str, Any],
                    sidecar: str, gateway_server: str, workspace: Path,
                    gateway_receipts: Path, silver: dict[str, Any] | None = None
@@ -498,12 +512,15 @@ def build_contexts(graph: dict[str, Any], asks: list[dict[str, Any]], catalog: d
         for packet, bundle in zip(graph_packets_raw, bundles):
             query = "\n".join(row["query"] for row in bundle)
             global_rows = bm25_receipts(index, query)[:20]
-            global_receipts[hashlib.sha256(query.encode()).hexdigest()] = global_rows[:MAX_DISCOVERED_PER_CALL]
+            query_key = hashlib.sha256(query.encode()).hexdigest()
+            global_receipts[query_key] = [disclosure_receipt(row, query, config["config_digest"])
+                                          for row in global_rows[:MAX_DISCOVERED_PER_CALL]]
             if packet["coverage"] == "covered":
-                hybrid_receipts[hashlib.sha256(query.encode()).hexdigest()] = []
+                hybrid_receipts[query_key] = []
                 continue
             if classify_query(query) == "exact":
-                hybrid_receipts[hashlib.sha256(query.encode()).hexdigest()] = global_rows[:MAX_DISCOVERED_PER_CALL]
+                hybrid_receipts[query_key] = [disclosure_receipt(row, query, config["config_digest"])
+                                              for row in global_rows[:MAX_DISCOVERED_PER_CALL]]
                 pageindex_events.append({"query_digest": sha_text(query), "status": "bypassed_exact_query",
                                          "receipt_count": len(global_rows[:MAX_DISCOVERED_PER_CALL])})
                 continue
@@ -521,9 +538,11 @@ def build_contexts(graph: dict[str, Any], asks: list[dict[str, Any]], catalog: d
                 cost_summary = gateway_cost_summary(
                     gateway_receipts, offset, private_panel.MODEL, private_panel.PROVIDER)
                 cost += float(cost_summary["known_cost_usd"])
-                real_receipts[hashlib.sha256(query.encode()).hexdigest()] = rows
-                hybrid_receipts[hashlib.sha256(query.encode()).hexdigest()] = prior_bm25(
-                    index, query, global_rows, rows)[:MAX_DISCOVERED_PER_CALL]
+                real_receipts[query_key] = [disclosure_receipt(row, query, config["config_digest"])
+                                            for row in rows]
+                hybrid_receipts[query_key] = [disclosure_receipt(row, query, config["config_digest"])
+                                              for row in prior_bm25(
+                                                  index, query, global_rows, rows)[:MAX_DISCOVERED_PER_CALL]]
                 pageindex_events.append({"query_digest": sha_text(query), "status": "ok", "receipt_count": len(rows),
                                          "latency_ms": telemetry.get("latency_ms"),
                                          "document_route_digest": route_audit["route_digest"],
@@ -531,7 +550,8 @@ def build_contexts(graph: dict[str, Any], asks: list[dict[str, Any]], catalog: d
                                          "source_build_retries": telemetry.get("source_build_retries", 0),
                                          **cost_summary})
             except Exception as exc:
-                hybrid_receipts[hashlib.sha256(query.encode()).hexdigest()] = global_rows[:MAX_DISCOVERED_PER_CALL]
+                hybrid_receipts[query_key] = [disclosure_receipt(row, query, config["config_digest"])
+                                              for row in global_rows[:MAX_DISCOVERED_PER_CALL]]
                 pageindex_events.append({"query_digest": sha_text(query), "status": "inconclusive",
                                          "reason_type": type(exc).__name__, "reason_digest": sha_text(str(exc))})
     finally:

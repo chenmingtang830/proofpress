@@ -654,6 +654,19 @@ class RetrievalPanelContractTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "both PageIndex and claim"):
             workflow_runner.gateway_bridge_values(None, "pageindex", None)
 
+    def test_workflow_disclosure_receipt_normalizes_panel_rows(self):
+        row = {"source": {"uri": "private://a", "content_digest": "sha256:" + "a" * 64,
+                          "media_type": "text/plain"},
+               "evidence": {"quote": "x", "locator": {"kind": "section_span",
+                   "section_id": "S", "section_digest": "sha256:" + "b" * 64,
+                   "page_start": 1, "page_end": 1}},
+               "retrieval": {"adapter": "bm25-page/v1", "rank": 1}}
+        receipt = workflow_runner.disclosure_receipt(row, "query", "sha256:" + "c" * 64)
+        self.assertEqual(receipt["schema_version"], "proofpress/retrieval-evidence/v1")
+        self.assertEqual(receipt["retrieval"]["query"], "query")
+        self.assertEqual(receipt["retrieval"]["version"], "1")
+        self.assertEqual(receipt["evidence"]["locator"]["section_id"], "S")
+
     def test_workflow_grade_normalization_is_safe_for_resume(self):
         prior = [{"rubric_fraction": 0.8, "unsupported_claims": ["x"],
                   "citation_errors": 0, "authority_errors": 0}]
