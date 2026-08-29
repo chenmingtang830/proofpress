@@ -403,6 +403,57 @@ def run_formal_matrix_v2(checkout: Path, results_root: Path, env_file: Path,
     return report
 
 
+def audit_calibration_v2(source_report: Path, output: Path,
+                         *, executor_model: str = "openai/gpt-5.6-luna",
+                         executor_provider: str = "openai") -> dict:
+    """Independently recompute calibration release from terminal persisted receipts."""
+    source = json.loads(source_report.read_text())
+    cells = source.get("cells", [])
+    valid = [row for row in cells if row.get("result", {}).get("status") == "completed"]
+    target_digests = {row.get("initial_target_sha256") for row in valid}
+    exact_executor = len(valid) == 2 and all(
+        row["result"].get("agent_model") == executor_model
+        and row["result"].get("executor_model") == executor_model
+        and row["result"].get("telemetry", {}).get("model") == executor_model
+        and row["result"].get("telemetry", {}).get("providers") == [executor_provider]
+        and row["result"].get("telemetry", {}).get("status") == "complete"
+        and row["result"].get("telemetry", {}).get("no_fallback_observed") is True
+        for row in valid)
+    grades_complete = len(valid) == 2 and all(
+        row.get("grading_repetitions", {}).get("status") == "completed"
+        and len(row.get("grading_repetitions", {}).get("records", [])) == 3
+        and all(rep.get("status") == "completed"
+                and rep.get("telemetry", {}).get("status") == "complete"
+                and rep.get("telemetry", {}).get("model") == JUDGE_MODEL
+                and rep.get("telemetry", {}).get("no_fallback_observed") is True
+                for rep in row["grading_repetitions"]["records"])
+        for row in valid)
+    arm_access = ({row["arm"]: row["result"].get("bounded_world") for row in valid}
+                  == {"normal": False, "proofpress": True})
+    checks = {
+        "terminal_source_report": source.get("status") == "completed",
+        "two_valid_artifacts": len(valid) == 2,
+        "byte_identical_pristine_target": len(target_digests) == 1 and len(valid) == 2,
+        "executor_route_exact": exact_executor,
+        "three_complete_blinded_grades_per_artifact": grades_complete,
+        "arm_access_isolation": arm_access,
+        "inline_release_matches": source.get("release_audit", {}).get("decision") == "allow",
+    }
+    audit = {
+        "schema_version": "proofpress/finance-e2e-v2/calibration-independent-audit/v1",
+        "source_report": str(source_report),
+        "source_report_sha256": "sha256:" + hashlib.sha256(source_report.read_bytes()).hexdigest(),
+        "checks": checks,
+        "decision": "allow" if all(checks.values()) else "block",
+        "formal_denominator": 0,
+    }
+    audit["audit_digest"] = "sha256:" + hashlib.sha256(
+        json.dumps(audit, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
+    output.mkdir(parents=True, exist_ok=False)
+    write_json(output / "calibration-independent-audit.json", audit)
+    return audit
+
+
 def run_executor_qualification(checkout: Path, results_root: Path,
                                env_file: Path, attempts: int = 6,
                                executor_model: str = EXECUTOR_MODEL,
@@ -583,6 +634,11 @@ def main() -> int:
     formal.add_argument("--overlay", action="append", required=True)
     formal.add_argument("--executor-model", default="openai/gpt-5.6-luna")
     formal.add_argument("--executor-provider", default="openai")
+    calibration_audit = sub.add_parser("audit-calibration")
+    calibration_audit.add_argument("--source-report", required=True, type=Path)
+    calibration_audit.add_argument("--output", required=True, type=Path)
+    calibration_audit.add_argument("--executor-model", default="openai/gpt-5.6-luna")
+    calibration_audit.add_argument("--executor-provider", default="openai")
     args = parser.parse_args()
     if args.command == "executor-qualification":
         report = run_executor_qualification(
@@ -679,6 +735,12 @@ def main() -> int:
             executor_model=args.executor_model, executor_provider=args.executor_provider)
         print(json.dumps(report, indent=2, sort_keys=True))
         return 0 if report.get("status") == "schedule_completed" else 2
+    if args.command == "audit-calibration":
+        report = audit_calibration_v2(
+            args.source_report, args.output,
+            executor_model=args.executor_model, executor_provider=args.executor_provider)
+        print(json.dumps(report, indent=2, sort_keys=True))
+        return 0 if report.get("decision") == "allow" else 2
     return 2
 
 

@@ -30,7 +30,7 @@ from pp_eval.finance_workflow_private import (
     select_data_room_members,
     _requirement_obligation,
 )
-from run_finance_e2e_v2 import audit_executor_qualification, normalized_cell, _zip_member_digest
+from run_finance_e2e_v2 import audit_calibration_v2, audit_executor_qualification, normalized_cell, _zip_member_digest
 
 
 def atom():
@@ -271,6 +271,30 @@ class FinanceGateTests(unittest.TestCase):
         self.assertEqual(result["jointly_gradeable_pairs"], 1)
         self.assertEqual(result["proofpress_gain_pairs"], 1)
         self.assertAlmostEqual(result["known_model_cost_usd"], 0.14)
+
+    def test_independent_calibration_audit_recomputes_allow(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            telemetry = {"model": "openai/gpt-5.6-luna", "providers": ["openai"],
+                         "status": "complete", "no_fallback_observed": True}
+            grade = {"status": "completed", "telemetry": {
+                "model": "google/gemini-3.1-pro-preview", "status": "complete",
+                "no_fallback_observed": True}}
+            cells = []
+            for arm, bounded in (("normal", False), ("proofpress", True)):
+                cells.append({"arm": arm, "initial_target_sha256": "same",
+                              "result": {"status": "completed", "bounded_world": bounded,
+                                         "agent_model": "openai/gpt-5.6-luna",
+                                         "executor_model": "openai/gpt-5.6-luna",
+                                         "telemetry": telemetry},
+                              "grading_repetitions": {"status": "completed",
+                                                       "records": [grade, grade, grade]}})
+            source = root / "report.json"
+            source.write_text(json.dumps({"status": "completed", "cells": cells,
+                                          "release_audit": {"decision": "allow"}}))
+            audit = audit_calibration_v2(source, root / "audit")
+            self.assertEqual(audit["decision"], "allow")
+            self.assertEqual(audit["formal_denominator"], 0)
 
     def test_execution_gate_fails_closed(self):
         fact = atom_to_observed_fact(atom(), 1)
