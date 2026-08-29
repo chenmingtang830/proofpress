@@ -18,7 +18,7 @@ from pp_eval.apex_ib_pr36 import (
     run_apex_stage,
     write_json,
 )
-from pp_eval.finance_e2e_v2 import executor_qualification
+from pp_eval.finance_e2e_v2 import executor_qualification, legacy_working_set_preflight
 
 
 SCHEMA = "proofpress/finance-e2e-v2/executor-qualification/v1"
@@ -145,15 +145,35 @@ def main() -> int:
     qualify.add_argument("--results-root", required=True, type=Path)
     qualify.add_argument("--env-file", required=True, type=Path)
     qualify.add_argument("--attempts", type=int, default=6)
+    legacy = sub.add_parser("legacy-gap-diagnostic")
+    legacy.add_argument("--working-set", action="append", required=True, type=Path)
+    legacy.add_argument("--output", required=True, type=Path)
     args = parser.parse_args()
     if args.command == "executor-qualification":
         report = run_executor_qualification(
             args.checkout, args.results_root, args.env_file, args.attempts)
         print(json.dumps(report, indent=2, sort_keys=True))
         return 0 if report.get("status") != "blocked" else 2
+    if args.command == "legacy-gap-diagnostic":
+        rows = []
+        for path in args.working_set:
+            value = json.loads(path.read_text())
+            rows.append(legacy_working_set_preflight(value))
+        report = {
+            "schema_version": "proofpress/finance-e2e-v2/legacy-gap-diagnostic/v1",
+            "boundary": "Development-only diagnostic; no v2 executor, grader, calibration, or formal artifact.",
+            "working_set_count": len(rows),
+            "formal_denominator": 0,
+            "calibration_denominator": 0,
+            "results": rows,
+            "decision": "block" if any(row["decision"] == "block" for row in rows) else "allow",
+        }
+        args.output.parent.mkdir(parents=True, exist_ok=True)
+        write_json(args.output, report)
+        print(json.dumps(report, indent=2, sort_keys=True))
+        return 0
     return 2
 
 
 if __name__ == "__main__":
     raise SystemExit(main())
-

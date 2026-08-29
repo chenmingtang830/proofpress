@@ -325,6 +325,55 @@ def requirement_completeness(requirements: list[dict[str, Any]],
             "digest": digest(rows)}
 
 
+def legacy_working_set_preflight(value: dict[str, Any]) -> dict[str, Any]:
+    """Diagnose v1 residual gaps under the stricter v2 release boundary.
+
+    Legacy packages did not bind every gap to a requirement or declare frozen
+    materiality.  V2 cannot infer that missing governance state is harmless,
+    so each such gap is preserved as an unresolved blocker.  The returned
+    value contains no descriptions or source content.
+    """
+    gaps = value.get("residual_gaps")
+    if not isinstance(gaps, list):
+        gaps = []
+    blockers = []
+    immaterial = 0
+    for ordinal, gap in enumerate(gaps, start=1):
+        if not isinstance(gap, dict):
+            blockers.append({"ordinal": ordinal, "reason": "invalid_gap_shape"})
+            continue
+        kind = gap.get("kind")
+        material = gap.get("material")
+        requirement_id = gap.get("requirement_id")
+        if kind == "immaterial_residual" and material is False and requirement_id:
+            immaterial += 1
+            continue
+        reasons = []
+        if kind not in MATERIAL_GAP_KINDS | {"immaterial_residual"}:
+            reasons.append("unfrozen_gap_kind")
+        if not isinstance(material, bool):
+            reasons.append("undeclared_materiality")
+        elif material:
+            reasons.append("material_gap")
+        if not requirement_id:
+            reasons.append("unbound_requirement")
+        if kind == "immaterial_residual" and material is not False:
+            reasons.append("invalid_immaterial_declaration")
+        if reasons:
+            blockers.append({"ordinal": ordinal, "reasons": sorted(set(reasons)),
+                             "gap_digest": digest(gap)})
+    result = {
+        "task_id": value.get("task_id"),
+        "gap_count": len(gaps),
+        "explicit_immaterial_gap_count": immaterial,
+        "blocker_count": len(blockers),
+        "blockers": blockers,
+        "decision": "block" if blockers else "allow",
+    }
+    result["diagnostic_digest"] = digest(result)
+    return result
+
+
 def executor_qualification(cells: list[dict[str, Any]],
                            *, required: int = 6, minimum_completed: int = 5,
                            maximum_transport_failures: int = 1) -> dict[str, Any]:

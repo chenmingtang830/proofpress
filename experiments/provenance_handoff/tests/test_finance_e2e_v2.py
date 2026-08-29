@@ -9,6 +9,7 @@ from pp_eval.finance_e2e_v2 import (
     atom_to_observed_fact,
     execution_gate,
     executor_qualification,
+    legacy_working_set_preflight,
     requirement_completeness,
     validate_derived_calculation,
     validate_finance_atom,
@@ -105,6 +106,23 @@ class FinanceAtomTests(unittest.TestCase):
 
 
 class FinanceGateTests(unittest.TestCase):
+    def test_legacy_untyped_gap_fails_closed(self):
+        result = legacy_working_set_preflight({
+            "task_id": "task_1",
+            "residual_gaps": [{"gap_id": "gap_1", "description": "method unclear"}],
+        })
+        self.assertEqual(result["decision"], "block")
+        self.assertEqual(result["blocker_count"], 1)
+        self.assertNotIn("description", result["blockers"][0])
+
+    def test_explicit_immaterial_bound_gap_may_pass(self):
+        result = legacy_working_set_preflight({
+            "task_id": "task_1",
+            "residual_gaps": [{"gap_id": "gap_1", "kind": "immaterial_residual",
+                               "material": False, "requirement_id": "req_1"}],
+        })
+        self.assertEqual(result["decision"], "allow")
+
     def test_material_gap_blocks_completeness(self):
         result = requirement_completeness(
             [{"requirement_id": "req_1"}], [],
