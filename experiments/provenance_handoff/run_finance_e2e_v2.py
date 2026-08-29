@@ -240,7 +240,12 @@ def run_calibration_pair_v2(checkout: Path, results_root: Path, env_file: Path,
         return report
     order = ["normal", "proofpress"]
     random.Random(seed).shuffle(order)
+    report["status"] = "running"
+    report["arm_order"] = order
+    write_json(results_root / "report.json", report)
     for arm in order:
+        report["active_cell"] = {"arm": arm, "state": "executor_running"}
+        write_json(results_root / "report.json", report)
         cell = run_apex_stage(
             checkout, results_root, QUALIFICATION_TASK_ID, f"v2-calibration-{arm}",
             overlay=overlay if arm == "proofpress" else None,
@@ -259,6 +264,7 @@ def run_calibration_pair_v2(checkout: Path, results_root: Path, env_file: Path,
             cell_record["compaction"] = compact_apex_output(
                 Path(cell["run_dir"]) / "output", preserve_final_tar=False)
         report["cells"].append(cell_record)
+        report.pop("active_cell", None)
         write_json(results_root / "report.json", report)
     valid = [row for row in report["cells"] if row["result"].get("status") == "completed"]
     report["calibration_valid_artifacts"] = len(valid)
@@ -288,7 +294,6 @@ def run_calibration_pair_v2(checkout: Path, results_root: Path, env_file: Path,
     release["audit_digest"] = "sha256:" + hashlib.sha256(
         json.dumps(release, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
     report["release_audit"] = release
-    report["arm_order"] = order
     report["status"] = "completed" if release["decision"] == "allow" else "incomplete"
     write_json(results_root / "report.json", report)
     return report
