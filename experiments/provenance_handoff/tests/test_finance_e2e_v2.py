@@ -296,6 +296,17 @@ class FinanceGateTests(unittest.TestCase):
             self.assertEqual(audit["decision"], "allow")
             self.assertEqual(audit["formal_denominator"], 0)
 
+    def test_independent_calibration_audit_confirms_matching_block(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            source = root / "report.json"
+            source.write_text(json.dumps({"status": "incomplete", "cells": [],
+                                          "release_audit": {"decision": "block"}}))
+            audit = audit_calibration_v2(source, root / "audit")
+            self.assertEqual(audit["decision"], "block")
+            self.assertTrue(audit["checks"]["terminal_source_report"])
+            self.assertTrue(audit["checks"]["inline_release_matches"])
+
     def test_execution_gate_fails_closed(self):
         fact = atom_to_observed_fact(atom(), 1)
         result = execution_gate(

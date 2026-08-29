@@ -431,20 +431,22 @@ def audit_calibration_v2(source_report: Path, output: Path,
     arm_access = ({row["arm"]: row["result"].get("bounded_world") for row in valid}
                   == {"normal": False, "proofpress": True})
     checks = {
-        "terminal_source_report": source.get("status") == "completed",
+        "terminal_source_report": source.get("status") in {"completed", "incomplete"},
         "two_valid_artifacts": len(valid) == 2,
         "byte_identical_pristine_target": len(target_digests) == 1 and len(valid) == 2,
         "executor_route_exact": exact_executor,
         "three_complete_blinded_grades_per_artifact": grades_complete,
         "arm_access_isolation": arm_access,
-        "inline_release_matches": source.get("release_audit", {}).get("decision") == "allow",
     }
+    recomputed_decision = "allow" if all(checks.values()) else "block"
+    checks["inline_release_matches"] = (
+        source.get("release_audit", {}).get("decision") == recomputed_decision)
     audit = {
         "schema_version": "proofpress/finance-e2e-v2/calibration-independent-audit/v1",
         "source_report": str(source_report),
         "source_report_sha256": "sha256:" + hashlib.sha256(source_report.read_bytes()).hexdigest(),
         "checks": checks,
-        "decision": "allow" if all(checks.values()) else "block",
+        "decision": recomputed_decision if checks["inline_release_matches"] else "block",
         "formal_denominator": 0,
     }
     audit["audit_digest"] = "sha256:" + hashlib.sha256(
