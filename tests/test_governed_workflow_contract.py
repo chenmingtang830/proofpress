@@ -39,6 +39,18 @@ class GovernedWorkflowContractTests(unittest.TestCase):
         self.assertNotIn("parties_capacity_authority", workflow.CLAIM_TYPES)
         self.assertFalse(hasattr(workflow, "LIFECYCLE_CHECKLIST"))
 
+    def test_profile_construction_eligibility_is_explicit_and_fail_closed(self):
+        profile = json.loads((ADAPTER / "LEGAL_DOMAIN_PROFILE_V1.json").read_text())
+        allowed = workflow.profile_construction_eligibility(
+            profile, {"type": "factual_input"})
+        blocked = workflow.profile_construction_eligibility(
+            profile, {"type": "risk_signal"})
+        unknown = workflow.profile_construction_eligibility(
+            profile, {"type": "future_domain_type"})
+        self.assertTrue(allowed["eligible"])
+        self.assertEqual(blocked["state"], "needs_domain_analysis")
+        self.assertFalse(unknown["eligible"])
+
     def test_claimability_requires_field_binding_and_custody(self):
         receipt = self.receipt()
         gate = workflow.claimability_decision(

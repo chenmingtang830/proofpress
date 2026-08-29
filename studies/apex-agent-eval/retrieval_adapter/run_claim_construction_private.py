@@ -14,6 +14,7 @@ import json
 import math
 import os
 import re
+import select
 import subprocess
 import sys
 import tempfile
@@ -290,6 +291,14 @@ def _tokens(value: str) -> list[str]:
     return TOKEN_RE.findall(value.lower())
 
 
+def _read_ready_line(stream: Any, timeout: float) -> str:
+    """Read one sidecar readiness line without permitting an infinite startup hang."""
+    ready, _, _ = select.select([stream], [], [], max(0.001, timeout))
+    if not ready:
+        raise TimeoutError("gateway readiness timed out")
+    return stream.readline()
+
+
 class Gateway:
     """A fixed local OpenAI-compatible gateway route with aggregate telemetry."""
 
@@ -330,7 +339,11 @@ class Gateway:
             ["node", server], env=env, stdout=subprocess.PIPE,
             stderr=subprocess.DEVNULL, text=True,
         )
-        line = self.proc.stdout.readline() if self.proc.stdout else ""
+        try:
+            line = _read_ready_line(self.proc.stdout, min(15.0, max(1.0, timeout))) if self.proc.stdout else ""
+        except TimeoutError as exc:
+            self.stop()
+            raise RuntimeError(f"fixed gateway did not become ready for {model}/{provider}") from exc
         try:
             ready = json.loads(line)
             self.port = int(ready["port"])

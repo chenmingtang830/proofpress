@@ -61,6 +61,22 @@ def validate_profile(profile: dict[str, Any]) -> dict[str, Any]:
     return normalized
 
 
+def profile_construction_eligibility(profile: dict[str, Any],
+                                     requirement: dict[str, Any]) -> dict[str, Any]:
+    """Fail closed unless a domain profile explicitly authorizes automatic construction."""
+    checked = validate_profile(profile)
+    policy = checked.get("automatic_claim_construction")
+    requirement_type = requirement.get("type")
+    if not isinstance(policy, dict):
+        return {"eligible": False, "state": "needs_domain_analysis",
+                "reason": "profile_does_not_authorize_automatic_construction"}
+    eligible = policy.get("eligible_requirement_types")
+    if not isinstance(eligible, list) or requirement_type not in eligible:
+        return {"eligible": False, "state": "needs_domain_analysis",
+                "reason": "requirement_type_not_profile_eligible"}
+    return {"eligible": True, "state": "claimable", "reason": "profile_explicitly_authorized"}
+
+
 def _receipt_valid(receipt: dict[str, Any]) -> bool:
     if not isinstance(receipt, dict):
         return False
@@ -245,4 +261,3 @@ def apply_layered_verdicts(requirements: list[dict[str, Any]], claims: list[dict
                          "reasons": reasons})
     return {"supported_claims": supported, "requirement_statuses": statuses,
             "verdict_digest": digest(checked)}
-

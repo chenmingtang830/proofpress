@@ -22,6 +22,21 @@
     "domain_conclusion",
     "allocation"
   ],
+  "automatic_claim_construction": {
+    "eligible_requirement_types": [
+      "condition",
+      "contract_allocation",
+      "exception",
+      "factual_input",
+      "obligation",
+      "quantitative_term"
+    ],
+    "needs_domain_analysis_requirement_types": [
+      "domain_analysis",
+      "risk_signal"
+    ],
+    "unknown_requirement_type_policy": "fail_closed"
+  },
   "conflict_rules": {
     "preserve_document_versions": true,
     "never_merge_conflicting_values": true,
