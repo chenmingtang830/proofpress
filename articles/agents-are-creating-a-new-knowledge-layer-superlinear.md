@@ -1,0 +1,66 @@
+[//]: # (ob:13a62cf8)
+# Superlinear launch replacement draft
+
+[//]: # (ob:1005af94)
+## Title
+
+[//]: # (ob:58832e9b)
+Agent 不只消费企业知识，也在创造一个新的知识层
+
+[//]: # (ob:47d1e5af)
+## Body
+
+[//]: # (ob:f0735035)
+很多 Agent 基础设施都在解决同一个问题：怎么让 Agent 更好地读取企业已经拥有的知识——文档、数据库、policy、ontology、memory。
+
+[//]: # (ob:df316c4b)
+但当 Agent 开始 research、reasoning 和 work，它们也会产生新的 conclusions、claims、analyses 和 decisions。下一位 Agent 或 human 会继续使用这些结果。此时，Agent output 已经变成了组织知识的一部分。
+
+[//]: # (ob:a878dcce)
+所以我们现在更关心的问题是：
+
+[//]: # (ob:ea01c937)
+**下一位 Agent 或 human 可以依赖哪些 conclusions？为什么？又是在谁的 authority 之下？**
+
+[//]: # (ob:7fc8bca8)
+这也是我们对 Proofpress 的新定位：
+
+[//]: # (ob:4ccdf0b8)
+**Proofpress — The Governance Layer for Agent-Produced Knowledge.**
+
+[//]: # (ob:86c5be59)
+Existing knowledge infrastructure organizes what agents reason from. Proofpress governs what their reasoning produces.
+
+[//]: # (ob:ff9a158b)
+Proofpress 不是另一个 enterprise knowledge graph、ontology 或 memory system。它治理的是 Agent 工作新产生的知识：把 conclusion、claim、evidence、provenance、verification、authority、scope、dependencies 和 supersession 组织成一个 Governed Claim Graph。
+
+[//]: # (ob:147bd89b)
+一条 conclusion 进入下游 context 之前，会经过三层不同的 gate：
+
+[//]: # (ob:79230b0e)
+1. Integrity：确定 evidence 和 artifact 存在、绑定正确、内部一致；
+2. Policy：recommend、block 或 escalate；
+3. Authority：由配置的 actor 决定 admit 或 reject，以及适用 scope。
+
+[//]: # (ob:99b5f240)
+Evaluation 可以提出建议，但不能自己授权 reuse。Admission 也不是宣布 universal truth，而是回答：在这个 scope 下，这个结论现在是否可以被特定的 Agent 或 human 依赖。
+
+[//]: # (ob:2186e610)
+为什么现在需要这一层？企业原有知识通常相对稳定增长，但随着 Agent adoption、autonomy、branching research 和 agent-to-agent handoff 增加，累积的 agent-produced conclusions/work 可能增长得快得多。这不是严格的数学 exponential claim，而是一个 operational shift：当人无法逐条 informal review 时，verification、authority 和 lifecycle 会从 nice-to-have 变成 infrastructure。
+
+[//]: # (ob:f0fab97c)
+我们也用一个 frozen panel 验证了其中一套机制：7 个模型、3 类 Harvey LAB-derived legal tasks、126 组有效 paired runs。在这个限定范围内，governed handoff 的 rubric completion 从 89.3% 提升到 93.4%，63 组 stress pairs 里观察到的 unsafe propagation 从 8 降到 0。
+
+[//]: # (ob:0ebbb188)
+这是 bounded mechanism evidence，不是官方 Harvey leaderboard、population-level causal claim，也不是 Proofpress 的产品定义。产品定义仍然是：治理 Agent 工作产生、并将被下游继续依赖的知识。
+
+[//]: # (ob:caa0776b)
+完整 thesis、技术 README 和 retained evidence：
+https://github.com/chenmingtang830/proofpress
+
+[//]: # (ob:8d6b41ee)
+如果你的 Agent 已经在生产会被其他 Agent 或人继续使用的 research、decision 或 analysis，我很想知道：你们现在的 handoff 最容易在哪里失去 evidence、scope 或 authority？
+
+[//]: # (proofpress:meta:eyJhcnRpZmFjdF9pZCI6InBwX2VkNjQ4ZDMxMjcyZjVhYjBhNjkxMjJkMCIsInBvbGljeSI6InBvcnRhYmxlIiwicG9ydGFibGVfaGVhZCI6ImEzN2EyZGRlIiwicG9ydGFibGVfaGVhZF9ldmVudCI6InBwZV9jMzdjZDUzYTE1ZGUxOGVjMDk4OWNjMDciLCJwb3J0YWJsZV9saW5lYWdlX2lkIjoicHBsXzNkZTkxZDAxMTRjYzQwYzliNGYyZjhjZSIsInByb29mcHJlc3MiOjF9)
+[//]: # (proofpress:discovery:Verifiable revision history by Proofpress | https://github.com/chenmingtang830/proofpress)
+[//]: # (proofpress:capsule:eNrtWm1z01YW_it33OkXlgS92ZLyje52uzvbnensdvZLy2Surq5iLbbkSnIgZZgxpIQAgdANbw20QCHA0iWBwrJOnMB_2Vqy_al_Yc_Riy0ocXELtDuTmQzI8tW55-0-5zzHOlSgXmBblAWTtlmYKNRqk9wsKZopi5IqWUVqCLSki5JkCoXdBcM1ZyZNe4r7Aaz1y1QqliaKikSLslCSxKJcNBVRNxkVJU2mKrNKzOK6qEmKoIuKymSmFWUqyhY1TV0zQSisAbmm7TN3mnszhYlD-CGYDOgU7FChAW61Gy4MXoEbf-OebdnUqHDi8Wnbt12HlGG9680QY4Z84LmuVfO478MzNcr20ymORj1z23P_zsHcuocCy0FQ8yf27Jmyg3LdGGdudQ8rc6dqO1MBdaY0WdjzzNMe_6Ruw_Vk3efeJHMdnzvgi8Cr88O7C2VO0YlUVqlkmryQ3Jnk0_EicC6fZLLKTHRC0eSixpmgazpjgoqauV6Apk1WbIeD5llEKpOyCV40BVFUGFMEphuKJVka44k5qXaTjNb8egUMllBP5nqmX5j46FAh3f5QAaLsej5eJV9zc9IAl39UqDv7HfeAU9gHNmT5gHbAJatwfw8o4wT-GPX4GPM4DcA7Y3TM4QfG8LkKN6f4WIXOcG_Mr9e4F-vvjVfNwu6R0osGgWcb9QCiOmlQ3_YxyXjFmqQ-eDvgsbx6UHY9tGG_7aBIf8YPeBW-cWgVg53Zshse9TFBChNOvVIBy1gZIsoTnxgVl-2H1aJMSxKzNFgOwQz4QbT7rwMjIM1qFcp4FRxATI9amI3pzpDEsUo1TEV-AO68RX7s0WCmhkpiWoATC4d351QRhCK1dOUZVT60gwofuuVbJFszRHZR02SJ68Zosvdi2Em7eTpcvBs9nu8-Wm9vHmk3lztXV7prc99vLrTXr4ZX7oTzl3uNa-1mo928G12431n-LFkQPjg60KpGPfqMSopqihwMfkaldwBgfsTadMkQYy1BlYuCXBxJcvhkPry5TBKTw6sbneuN7uqT6MJWb3YLbOzevhHOPQzPLiRm9i6u9r6-9P3mctQ4016f767-M30yuvwoXIEH7nfXWuHihcRf4X--7bQWo1Mr0ZUTfe_8t3EO_qILx6PrN75rHInO349Or4YbS3Bdcyv2EM-ZliyWmGKMZF97ay7cWsrs22yEt09BgvqQp6wMW8Kp9l0HPEnCfyyQA663H8Ibrs62W_-CILc3l9sbtzvnribhJbAtq9TxcPnwLBuiK9VUzWQxUr28rtGJRru1Es1_Drt3ztwH96Nbjz0Mn87C7onvo0tr4P4hO3MqiEyX1ZF23rWr3TyFId46nQV0_gIp16vUIeHiGmjVfvJl998XwqW77Y3LeT98v3m13dxotxqQDnAdLs6Dhpg494-gxxLYsoMZ0l4_NURr1WKawag2ktbdp19AkGC_xGXh2nquEhLYHsIWri6DUcNdBtXFtARDG9Flub0go8mHZU7ew2ruUIdx8j7WBWK5XuLQMVht1hk3yZ-wdAzRRiuxosGL-kjavHsQugFM435hIrZjedSHCs2CuseJ601Rx_6U--RAmQYkKW0E83-ILpalQ8XWRjtyOb8AhmI6LN5K4IPAntyrebbPc4pOebSGZxE2cCvu1Eyce1VehXK3vWbQVhmmpo8IBs1G9OX1XPqS7tPL4bEVSP6o2SSpIEzV8MRpxPnNZQCw7tPj7eYJQHWsCGcXMK2noEEbnlOqLsmCIYwGAOI4-SOsncIDA-I711chfQl8a3JMKYSorK8g4b1LcMzAbZ3W57AquncDlsPHcO5Yb_YOWNo9_uj7zcsfO9I4-QCAlc08o3AF8uUZhXXdKFrQsI6WdtO0UqfYuKQwES2eDY9vhK2N7uoqOnBrDpzWnd3qHr8b_udBdGY--nIWkg66yO8aR_eaVTtuVQhibZIqqzfC5iypOzYcJJ9WSDAsCSRRK_GSKIyYBClcJRDbu9Lo3jqCUNJsQIwRz5LideYqlq24ZvUay2Gz2bncBIjp3HkI7g6__qp3_mliYW95sfNlI8VNaro19AdEArDPddzqDFwaHmBCedhBEyxq6CobrV7EsAe-65y7kx4wy3M_5Q6pUYdXSO_uQnftSHtjLjz2uN28hwauXIyubITzjyEXVIJ9y53r4VenQEOZdB60yB-oN81nyPt73xkzgXJMA1wNgyqBG4YhaiOjNgSaGG7dga_goGN_avvVfp6jV9NkuBRdWM-UqkDLwz3DpZ4Z9wq1eoUO0Y1RKqhqaTSACFcXovOPSFDm0IVjd3KyEV1ZI395d-_v_vxufP48HlBoc82ctssfOy-gU8MQ3iwZishHw4bw1tHoqyvtrWuIP2k7E_dXkMPQoUCfAmjV_fobjHXrwqCKtzc2Oq3bnda99tZTyBN8Otf_mJwlbBIxlzq0MvO83vt2Z0SqgEcSOUrMhWL14m8yisMnZVUqUb1oGoJIVV2hMjMoYwzzw3GDWGbK9UjK9QiwTra_5tpOEFNXL94JiUv2CXnLPiSJCGE5CXnimBMSU9KfyCl91womLaiicY1KqatviBMS2sTgqaLMFbFolAyVK4qqCqZV1BSTapoiS6ou6FRRLFUxgNYB3S1qJVFjqlJE-_2ABjEFTSI7IQnAzPBOQRKk0pigjUn6h6I6IUkTYuk3gjAhIKqlHsfSYGjckkQREmlw99AvyVrjbE5YZZn6ZWRbJU1SFJlZpoBsLpaRI5ppov8kspjuwE1eknUIoCIa_R0G_DHbYSg3TEWJImiFbafCS5moHF1MRb0WKphqoKumSXWxqJeYmGmQY4cDY7anfpnjZVXnlqAXBU3KJOXYYCrp10b12Eyu6YPLuOWDiyEuU3SqcUkAimP2XZajhamhr5PzVahdxYsYK33oplFGhqLwxdHtiVTcTQ6QGFuOjcud1hLAOjwX3bsZXYS6vJA85taDWr0P8YuXovmzUMg7rc86reOJd0E52Ah6vXB-bqjTOFVKQEZlQ6Ny5rQcP02d9rPIZ3amTABVWWAcMCTbKcdH053eDNmEPWDJrl3ba2soEtQnXVdFzcq0zfHQVNufSzKzI6pwVdFKkiartH_YB7yz75qfQyoR2ceHWlxSLMOQDSrwPkDn6GaqxM_hktBJQAtaHc_7aCrWP10LrZXtkcERrCUW-OPbay2rompySReKUj9_c8Q01frVsc4ZksxW4VABKkTftjpn8bBh05r1XSvtrSsQ9wQo-niHYHnyZC5hM8CA_7N2EbHPA4fE8YQP0_Fkn9EBZ0hSGK595tZ43KPVuIMP2yncxGU7nfKSBBIQHhJjk2yBlPgt7kzeS8wcAg8lS4SuRhKhg-kXwhy7zjD19VPnLEklrSRQuShZceOYHMsBm071ee1UGX8qqEJbgmQjbnXiBOE-o5XYAlguj5O9WbxQh3MPesdOd7ZWYyzC3xwIFlRQiwLRTVDO4_gjDPqntRIunuw1jkIlIGmkj76AnqdOMU0ZMl7TRZ314SPH2LOT-wboOBgMkrqNBfz68lede-fAdMRgZNB3E1NIDL4LyS2ocN3VjbSkwDNnbyW6AVfpnFgH9wwITa5WxhVgeN6aChepQgG_-71gbiDQz9tfiu0jumVdR5KPMWQH7lh8QYD1mq5lERAenrwGwjuP1jq31-LkiVfWMnDPVcA92K5gcCGIiVbhk4vh02_w35vL4K_YNAxdu7kSXdtE3Dp_P7x3i_CDNdcBsTZEMQalfhRT4IC4eXHuwAK_bFsBxnVrCfhjdPFa9PB8r3EWEQBKgetVYU3CTEnStGwHY7HhFdvibAa4CbZA7dYZ4tiMoyPKdBqOatzcPFdihkZeEjjQCq4aMlcH7W5_gJI1NG9kOsKn8FRQfz82haJUQjyGTIrOz8M2tgdLvHrcF_aPSO-Ls5BS3YXZEPqruWPgvKkMsrOUiEl63fBsBrGv1io8PtLoOU0fl98meKxPHw_n7xNdHlfeBhElGTcm4D8sgLizT3rHF7q3j4ZrV2EhSgQ9qMWx4tboFB2IJL0vTqMsYajTVQ7dimTIqjJAoNz8Z9AtvbLhDmo4VuHTECtG634ub_v49FwrBvU4XDqC3dj6CWzFcx_brdOdzx4nDWxS0p8p5kklx5qw_ji8PwfYlBS2tGGP0ahf54cnp2wyC6idpNJ-j5WbRWVc7NUNmob-br-NkpooG7qmIAUu9hvBwVQqU_INjZzABRBUOK_AUKPZh-Dk3pElMBd27pMRFJIdj-hKI1xdjy4tIfNeugt5Ht58EJ5pkVyTldSheItBib76g-HWYXTKC14U4KYd9F8TYK7JDxb2xS8dxIj8_P3nXivI3f-kzv2BIHx54v_yZYO4KL-2dw0qtA71ctgrB1XXhPIS6_b8FATcnJDy7fb8oYh0FgkNshffgmMYMxPbJ_AHZ5K8jHbjyd6ZRYcKB8o4n_y9DSkN3Oil5ZD4JZ9xHOy99KB1yNs0iXH5CWp-epifqh76ZaL18jPj_sy0L3BCPPzioeiPTYhfyRgYB8CSKDFdtYDLM1lUVWbJkiFSAzBfYCUmF1VNMUwcC5tFyywy2VQB-2WkUwbd3qQXDYKLE_KLBsH9l6x-xYNgsNaSS7LEDUV-2UHwkLTamQfvzIN35sE78-CdefDOPHhnHrwzD96ZB-_Mg3fmwTvz4J158M48eGcevDMPfqXz4H2H_weXF2PQ)
