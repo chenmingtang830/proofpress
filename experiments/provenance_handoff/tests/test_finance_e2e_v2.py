@@ -16,6 +16,7 @@ from pp_eval.finance_e2e_v2 import (
     pdf_pages_to_receipts,
     fresh_task_audit,
     freeze_formal_tasks,
+    summarize_formal_cells,
     validate_derived_calculation,
     validate_finance_atom,
     validate_requirements,
@@ -251,6 +252,25 @@ class FinanceGateTests(unittest.TestCase):
             import hashlib
             self.assertEqual(_zip_member_digest(archive, "book.xlsx"),
                              hashlib.sha256(b"pristine").hexdigest())
+
+    def test_formal_summary_separates_artifact_grader_and_pair_denominators(self):
+        def cell(arm, fraction):
+            return {
+                "task_id": "task1", "attempt": 1, "arm": arm,
+                "result": {"status": "completed", "telemetry": {
+                    "calls": 2, "total_tokens": 100, "known_cost_usd": 0.01}},
+                "majority_result": {"fraction": fraction},
+                "grading_repetitions": {"records": [
+                    {"telemetry": {"calls": 1, "total_tokens": 50,
+                                   "known_cost_usd": 0.02}} for _ in range(3)]},
+            }
+        result = summarize_formal_cells([cell("normal", 0.5), cell("proofpress", 0.75)], 12)
+        self.assertEqual(result["observed_executor_cells"], 2)
+        self.assertEqual(result["valid_artifacts"], 2)
+        self.assertEqual(result["grader_repetitions"], 6)
+        self.assertEqual(result["jointly_gradeable_pairs"], 1)
+        self.assertEqual(result["proofpress_gain_pairs"], 1)
+        self.assertAlmostEqual(result["known_model_cost_usd"], 0.14)
 
     def test_execution_gate_fails_closed(self):
         fact = atom_to_observed_fact(atom(), 1)

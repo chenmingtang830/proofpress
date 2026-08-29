@@ -293,6 +293,64 @@ def freeze_formal_tasks(*, freshness: dict[str, Any], task_ids: list[str],
     return result
 
 
+def summarize_formal_cells(cells: list[dict[str, Any]], scheduled: int) -> dict[str, Any]:
+    """Compute exact artifact, grading, pairing, route, token, and cost denominators."""
+    valid = [row for row in cells if row.get("result", {}).get("status") == "completed"]
+    graded = [row for row in cells if row.get("majority_result") is not None]
+    repetitions = sum(len(row.get("grading_repetitions", {}).get("records", [])) for row in cells)
+    pairs: dict[tuple[str, int], dict[str, dict[str, Any]]] = defaultdict(dict)
+    for row in cells:
+        pairs[(row["task_id"], int(row["attempt"]))][row["arm"]] = row
+    jointly_gradeable = gains = ties = losses = 0
+    for arms in pairs.values():
+        if not all(arms.get(arm, {}).get("majority_result") is not None
+                   for arm in ("normal", "proofpress")):
+            continue
+        jointly_gradeable += 1
+        normal = arms["normal"]["majority_result"]["fraction"]
+        proofpress = arms["proofpress"]["majority_result"]["fraction"]
+        if proofpress > normal:
+            gains += 1
+        elif proofpress < normal:
+            losses += 1
+        else:
+            ties += 1
+    executor_calls = sum(int(row.get("result", {}).get("telemetry", {}).get("calls") or 0)
+                         for row in cells)
+    executor_tokens = sum(int(row.get("result", {}).get("telemetry", {}).get("total_tokens") or 0)
+                          for row in cells)
+    executor_cost = sum(float(row.get("result", {}).get("telemetry", {}).get("known_cost_usd") or 0)
+                        for row in cells)
+    grader_calls = grader_tokens = 0
+    grader_cost = 0.0
+    for row in cells:
+        for repetition in row.get("grading_repetitions", {}).get("records", []):
+            telemetry = repetition.get("telemetry", {})
+            grader_calls += int(telemetry.get("calls") or 0)
+            grader_tokens += int(telemetry.get("total_tokens") or 0)
+            grader_cost += float(telemetry.get("known_cost_usd") or 0)
+    result = {
+        "scheduled_executor_cells": scheduled,
+        "observed_executor_cells": len(cells),
+        "valid_artifacts": len(valid),
+        "majority_graded_artifacts": len(graded),
+        "grader_repetitions": repetitions,
+        "scheduled_pairs": scheduled // 2,
+        "jointly_gradeable_pairs": jointly_gradeable,
+        "proofpress_gain_pairs": gains,
+        "tie_pairs": ties,
+        "proofpress_loss_pairs": losses,
+        "executor_calls": executor_calls,
+        "executor_tokens": executor_tokens,
+        "executor_known_cost_usd": round(executor_cost, 12),
+        "grader_calls": grader_calls,
+        "grader_tokens": grader_tokens,
+        "grader_known_cost_usd": round(grader_cost, 12),
+    }
+    result["known_model_cost_usd"] = round(executor_cost + grader_cost, 12)
+    return result
+
+
 def validate_requirements(requirements: list[dict[str, Any]]) -> dict[str, Any]:
     """Freeze task decomposition without hidden evaluation material."""
     if not isinstance(requirements, list) or not 1 <= len(requirements) <= 40:

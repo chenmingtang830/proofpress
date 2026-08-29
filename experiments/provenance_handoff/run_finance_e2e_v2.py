@@ -20,15 +20,17 @@ from pp_eval.apex_ib_pr36 import (
     FINANCE_E2E_V2_FORMAL_TASK_IDS,
     QUALIFICATION_TASK_ID,
     MERGER_MODEL,
+    JUDGE_MODEL,
     TASK_SPECS,
     compact_apex_output,
     host_preflight,
     load_public_task,
+    majority_native_result,
     repeat_native_grading,
     run_apex_stage,
     write_json,
 )
-from pp_eval.finance_e2e_v2 import executor_qualification, freeze_formal_tasks, fresh_task_audit, legacy_working_set_preflight
+from pp_eval.finance_e2e_v2 import executor_qualification, freeze_formal_tasks, fresh_task_audit, legacy_working_set_preflight, summarize_formal_cells
 from pp_eval.finance_gateway import FinanceGateway, ROUTES, audit_receipts
 from pp_eval.finance_workflow_private import materialize_compiler_data_room, run_task_quality
 
@@ -292,6 +294,105 @@ def run_calibration_pair_v2(checkout: Path, results_root: Path, env_file: Path,
     return report
 
 
+def run_formal_matrix_v2(checkout: Path, results_root: Path, env_file: Path,
+                         world_zip: Path, task_freeze: Path, calibration_report: Path,
+                         overlays: dict[str, Path], *, seed: int = 20260829,
+                         executor_model: str = "openai/gpt-5.6-luna",
+                         executor_provider: str = "openai") -> dict:
+    """Execute the frozen Finance v2 2-task × 2-arm × 3-attempt matrix serially."""
+    results_root.mkdir(parents=True, exist_ok=False)
+    freeze = json.loads(task_freeze.read_text())
+    calibration = json.loads(calibration_report.read_text())
+    preflight = host_preflight(checkout, world_zip, formal=True)
+    selected = [row["task_id"] for row in freeze.get("selected_tasks", [])]
+    expected = list(FINANCE_E2E_V2_FORMAL_TASK_IDS)
+    schedule = []
+    randomizer = random.Random(seed)
+    for task_id in expected:
+        for attempt in range(1, 4):
+            order = ["normal", "proofpress"]
+            randomizer.shuffle(order)
+            schedule.append({"task_id": task_id, "attempt": attempt, "arm_order": order})
+    overlay_receipts = {}
+    for task_id, path in overlays.items():
+        gate_path = path / "filesystem" / "Governed" / "execution_receipt.json"
+        package_path = path / "package_manifest.json"
+        overlay_receipts[task_id] = {
+            "path": str(path),
+            "gate": json.loads(gate_path.read_text()) if gate_path.is_file() else None,
+            "package": json.loads(package_path.read_text()) if package_path.is_file() else None,
+        }
+    protocol = {
+        "schema_version": "proofpress/finance-e2e-v2/formal-protocol/v1",
+        "world_id": freeze.get("world_id"),
+        "world_sha256": preflight.get("world_zip_sha256"),
+        "task_freeze_digest": freeze.get("freeze_digest"),
+        "calibration_release_audit_digest": calibration.get("release_audit", {}).get("audit_digest"),
+        "executor_model": executor_model, "executor_provider": executor_provider,
+        "judge_model": JUDGE_MODEL, "fallback": "forbidden",
+        "tasks": freeze.get("selected_tasks"), "schedule": schedule,
+        "scheduled_executor_cells": 12, "grader_repetitions_per_valid_artifact": 3,
+        "seed": seed, "serial": True, "official_apex_score_claim": False,
+    }
+    protocol["protocol_digest"] = "sha256:" + hashlib.sha256(
+        json.dumps(protocol, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
+    write_json(results_root / "frozen_protocol.json", protocol)
+    release_inputs_ok = (
+        freeze.get("formal_tasks_frozen") is True
+        and selected == expected
+        and freeze.get("scheduled_executor_cells") == 12
+        and freeze.get("executor_model") == executor_model
+        and calibration.get("release_audit", {}).get("decision") == "allow"
+        and calibration.get("status") == "completed"
+        and preflight.get("status") == "passed"
+        and set(overlays) == set(expected)
+        and all(row.get("gate", {}).get("decision") == "allow"
+                and row.get("package", {}).get("task_id") == task_id
+                for task_id, row in overlay_receipts.items())
+    )
+    report = {
+        "schema_version": "proofpress/finance-e2e-v2/formal-report/v1",
+        "status": "running" if release_inputs_ok else "release_blocked",
+        "protocol_digest": protocol["protocol_digest"], "preflight": preflight,
+        "overlay_receipts": overlay_receipts, "cells": [],
+        "summary": summarize_formal_cells([], 12),
+    }
+    write_json(results_root / "report.json", report)
+    if not release_inputs_ok:
+        return report
+    for block in schedule:
+        for arm in block["arm_order"]:
+            result = run_apex_stage(
+                checkout, results_root, block["task_id"],
+                f"v2-formal-a{block['attempt']}-{arm}",
+                overlay=overlays[block["task_id"]] if arm == "proofpress" else None,
+                instruction=("Complete the public task using only the mounted governed working set and "
+                             "permitted extracts. Verify source-bound inputs; do not copy governance "
+                             "sidecars into the client deliverable.") if arm == "proofpress" else "",
+                bounded_world=arm == "proofpress", env_file=env_file,
+                agent_model=executor_model,
+            )
+            cell = {"task_id": block["task_id"], "attempt": block["attempt"],
+                    "arm": arm, "result": result}
+            if result.get("status") == "completed":
+                grading = repeat_native_grading(checkout, Path(result["run_dir"]), env_file=env_file)
+                cell["grading_repetitions"] = grading
+                if grading.get("status") == "completed":
+                    cell["majority_result"] = majority_native_result(Path(result["run_dir"]))
+            cell["compaction"] = compact_apex_output(
+                Path(result["run_dir"]) / "output",
+                preserve_final_tar=result.get("status") != "completed")
+            report["cells"].append(cell)
+            report["summary"] = summarize_formal_cells(report["cells"], 12)
+            write_json(results_root / "report.json", report)
+    report["status"] = "schedule_completed"
+    report["outcome_class"] = (
+        "complete_matrix" if report["summary"]["majority_graded_artifacts"] == 12
+        else "bounded_incomplete")
+    write_json(results_root / "report.json", report)
+    return report
+
+
 def run_executor_qualification(checkout: Path, results_root: Path,
                                env_file: Path, attempts: int = 6,
                                executor_model: str = EXECUTOR_MODEL,
@@ -462,6 +563,16 @@ def main() -> int:
     calibration.add_argument("--overlay", required=True, type=Path)
     calibration.add_argument("--executor-model", default="openai/gpt-5.6-luna")
     calibration.add_argument("--executor-provider", default="openai")
+    formal = sub.add_parser("formal")
+    formal.add_argument("--checkout", required=True, type=Path)
+    formal.add_argument("--results-root", required=True, type=Path)
+    formal.add_argument("--env-file", required=True, type=Path)
+    formal.add_argument("--world-zip", required=True, type=Path)
+    formal.add_argument("--task-freeze", required=True, type=Path)
+    formal.add_argument("--calibration-report", required=True, type=Path)
+    formal.add_argument("--overlay", action="append", required=True)
+    formal.add_argument("--executor-model", default="openai/gpt-5.6-luna")
+    formal.add_argument("--executor-provider", default="openai")
     args = parser.parse_args()
     if args.command == "executor-qualification":
         report = run_executor_qualification(
@@ -545,6 +656,19 @@ def main() -> int:
             executor_model=args.executor_model, executor_provider=args.executor_provider)
         print(json.dumps(report, indent=2, sort_keys=True))
         return 0 if report.get("status") == "completed" else 2
+    if args.command == "formal":
+        overlays = {}
+        for value in args.overlay:
+            task_id, separator, path = value.partition("=")
+            if not separator or not task_id or not path or task_id in overlays:
+                raise ValueError("--overlay must be unique task_id=/absolute/path")
+            overlays[task_id] = Path(path)
+        report = run_formal_matrix_v2(
+            args.checkout, args.results_root, args.env_file, args.world_zip,
+            args.task_freeze, args.calibration_report, overlays,
+            executor_model=args.executor_model, executor_provider=args.executor_provider)
+        print(json.dumps(report, indent=2, sort_keys=True))
+        return 0 if report.get("status") == "schedule_completed" else 2
     return 2
 
 
