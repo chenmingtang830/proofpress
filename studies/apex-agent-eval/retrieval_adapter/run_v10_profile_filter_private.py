@@ -43,6 +43,7 @@ def main() -> None:
     if len(paths) != 4:
         raise SystemExit("profile filter qualification requires four frozen tasks")
     out = Path(args.out); out.mkdir(parents=True, exist_ok=True); out.chmod(0o700)
+    raw_out = out / "raw"; raw_out.mkdir(exist_ok=True); raw_out.chmod(0o700)
     routes = {label: MODELS[label] for label in COVERAGE_MODELS}
     gateways = {label: Gateway(args.gateway_server, route["model"], route["provider"], out,
                                args.timeout, route["reasoning"], structured_output=True)
@@ -66,6 +67,11 @@ def main() -> None:
             factual = [row for row in claims if row["claim_type"] == "observed_fact"]
             unsupported = [row for row in claims if verdicts.get(row["id"], {}).get("verdict") != "supported"]
             unsupported_factual = [row for row in factual if verdicts.get(row["id"], {}).get("verdict") != "supported"]
+            private = {"task_id": source["task_id"], "claim_ids": [row["id"] for row in claims],
+                       "supported_claim_ids": [row["id"] for row in supported],
+                       "requirement_resolutions": resolutions, "reference_digest": digest(reference)}
+            target = raw_out / path.name
+            target.write_text(json.dumps(private, indent=2, sort_keys=True) + "\n"); target.chmod(0o600)
             tasks.append({"task_id": source["task_id"],
                           "status": "ok" if all(row["status"] == "ok" for row in statuses.values()) else "inconclusive",
                           "claim_count": len(claims), "unsupported_claim_count": len(unsupported),
@@ -102,7 +108,8 @@ def main() -> None:
               "auto_construction_requirement_types": sorted(AUTO_CONSTRUCTION_REQUIREMENT_TYPES),
               "tasks": tasks, "metrics": metrics, "telemetry": {**telemetry, "budget_usd": args.budget_usd},
               "denominators": {"tasks": len(tasks), "completed_tasks": len(completed),
-                               "claims": claims, "factual_claims": factual, "expected_gaps": expected_gaps}}
+                               "claims": claims, "factual_claims": factual, "expected_gaps": expected_gaps},
+              "raw_private_dir": str(raw_out)}
     if telemetry["known_cost_usd"] > args.budget_usd:
         raise RuntimeError("profile filter qualification exceeded hard budget")
     (out / "sanitized-report.json").write_text(json.dumps(report, indent=2, sort_keys=True) + "\n")

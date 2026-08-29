@@ -19,7 +19,7 @@ if str(SCRIPT_DIR) not in sys.path:
 from run_claim_construction_private import Gateway, _model_call, _write_private, digest
 
 SCHEMA = "proofpress/private-claim-semantic-adjudication/v1"
-MODEL = "gpt-5.6-sol"
+MODEL = "openai/gpt-5.6-sol"
 SYSTEM_LABEL_SCHEMA = {
     "type": "object", "required": ["requirement_to_rubric", "factual_claim_ids",
         "unsupported_factual_claim_ids", "expected_open_gap_requirement_ids",
@@ -76,7 +76,9 @@ def _compact_system(raw: dict[str, Any]) -> dict[str, Any]:
                 for row in construction.get("evidence", []) if row.get("evidence_id")}
     return {
         "requirements": [{key: row.get(key) for key in
-                          ("requirement_id", "requirement", "applicability", "status")}
+                          ("requirement_id", "requirement", "applicability", "status",
+                           "gap_reason", "required_evidence_type", "missing_evidence",
+                           "gap_queries")}
                          for row in construction.get("requirements", [])],
         "claims": [{key: row.get(key) for key in
                     ("id", "requirement_id", "claim_type", "statement", "evidence_ids")}
