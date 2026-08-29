@@ -553,6 +553,140 @@ def run_formal_matrix_v2(checkout: Path, results_root: Path, env_file: Path,
     return report
 
 
+def audit_formal_matrix_v2(results_root: Path, output: Path) -> dict:
+    """Independently recompute the frozen matrix integrity and telemetry gates."""
+    report = json.loads((results_root / "report.json").read_text())
+    protocol = json.loads((results_root / "frozen_protocol.json").read_text())
+    digest_input = {key: value for key, value in protocol.items()
+                    if key != "protocol_digest"}
+    recomputed_protocol_digest = "sha256:" + hashlib.sha256(
+        json.dumps(digest_input, sort_keys=True, separators=(",", ":")).encode()
+    ).hexdigest()
+    expected_keys = [
+        (block["task_id"], int(block["attempt"]), arm)
+        for block in protocol.get("schedule", []) for arm in block.get("arm_order", [])
+    ]
+    cells = report.get("cells", [])
+    observed_keys = [
+        (row.get("task_id"), int(row.get("attempt", 0)), row.get("arm"))
+        for row in cells
+    ]
+    completed = [row for row in cells
+                 if row.get("result", {}).get("status") == "completed"]
+    excluded = [row for row in cells if row.get("exclusion") is not None]
+
+    executor_route_ok = all(
+        row["result"].get("agent_model") == protocol.get("executor_model")
+        and row["result"].get("executor_model") == protocol.get("executor_model")
+        and row["result"].get("executor_provider_requested") == protocol.get("executor_provider")
+        and row["result"].get("telemetry", {}).get("model") == protocol.get("executor_model")
+        and row["result"].get("telemetry", {}).get("providers") == [protocol.get("executor_provider")]
+        and row["result"].get("telemetry", {}).get("status") == "complete"
+        and row["result"].get("telemetry", {}).get("no_fallback_observed") is True
+        and row["result"].get("telemetry", {}).get("provider_fallback_observed") is False
+        and row["result"].get("telemetry", {}).get("terminal_receipts")
+            == row["result"].get("telemetry", {}).get("calls")
+        and row["result"].get("telemetry", {}).get("missing_cost_calls") == 0
+        for row in completed
+    )
+    grading_ok = all(
+        len(row.get("grading_repetitions", {}).get("records", []))
+            == protocol.get("grader_repetitions_per_valid_artifact")
+        and row.get("majority_result") is not None
+        and all(
+            repetition.get("status") == "completed"
+            and repetition.get("telemetry", {}).get("model") == protocol.get("judge_model")
+            and repetition.get("telemetry", {}).get("status") == "complete"
+            and repetition.get("telemetry", {}).get("no_fallback_observed") is True
+            and repetition.get("telemetry", {}).get("calls", 0) > 0
+            and repetition.get("telemetry", {}).get("costed_calls")
+                == repetition.get("telemetry", {}).get("calls")
+            for repetition in row.get("grading_repetitions", {}).get("records", [])
+        ) for row in completed
+    )
+    artifacts_ok = all(
+        (Path(row["result"]["run_dir"]) / "output" / "neutral_final.zip").is_file()
+        and (Path(row["result"]["run_dir"]) / "output" / "trajectory.json").is_file()
+        and row.get("compaction", {}).get("schema_version")
+            == "proofpress/apex-ib-pr36/v1/output-compaction"
+        for row in completed
+    )
+    arm_isolation_ok = all(
+        row.get("result", {}).get("bounded_world") is (row.get("arm") == "proofpress")
+        for row in completed
+    ) and all(
+        receipt.get("gate", {}).get("decision") == "allow"
+        and receipt.get("package", {}).get("full_data_room_present") is False
+        for receipt in report.get("overlay_receipts", {}).values()
+    )
+
+    pair_start_digests = []
+    by_pair = {(row.get("task_id"), int(row.get("attempt", 0)), row.get("arm")): row
+               for row in cells}
+    for task_id in sorted({key[0] for key in expected_keys}):
+        for attempt in range(1, 4):
+            arms = {arm: by_pair.get((task_id, attempt, arm))
+                    for arm in ("normal", "proofpress")}
+            members = list(TASK_SPECS[task_id].final_artifact_allowlist)
+            digests = {}
+            for arm, row in arms.items():
+                run_dir = Path(row.get("result", {}).get("run_dir") or "") if row else None
+                archive = run_dir / "output" / "neutral_initial.zip" if run_dir else None
+                digests[arm] = {
+                    member: _zip_member_digest(archive, member)
+                    for member in members
+                } if archive and archive.is_file() else None
+            pair_start_digests.append({
+                "task_id": task_id, "attempt": attempt, "digests": digests,
+                "match": digests["normal"] is not None
+                    and digests["normal"] == digests["proofpress"],
+            })
+    start_state_ok = all(row["match"] for row in pair_start_digests)
+    exclusions_ok = all(
+        row.get("result", {}).get("official_score_claim") is False
+        and row.get("exclusion", {}).get("rerun_forbidden") is True
+        and bool(row.get("exclusion", {}).get("reason"))
+        for row in excluded
+    )
+    recomputed_summary = summarize_formal_cells(cells, len(expected_keys))
+    checks = {
+        "schedule_terminal": report.get("status") == "schedule_completed"
+            and "active_cell" not in report,
+        "protocol_digest": recomputed_protocol_digest == protocol.get("protocol_digest")
+            == report.get("protocol_digest"),
+        "schedule_unique_and_complete": observed_keys == expected_keys
+            and len(observed_keys) == len(set(observed_keys)),
+        "usable_artifact_denominator": bool(completed)
+            and len(completed) + len(excluded) == len(expected_keys),
+        "summary_recomputed": recomputed_summary == report.get("summary"),
+        "executor_route_and_cost_receipts": executor_route_ok,
+        "three_blinded_grades_per_valid_artifact": grading_ok,
+        "retained_auditable_artifacts": artifacts_ok,
+        "arm_isolation": arm_isolation_ok,
+        "identical_pair_start_state": start_state_ok,
+        "exclusions_fail_closed": exclusions_ok,
+    }
+    audit = {
+        "schema_version": "proofpress/finance-e2e-v2/formal-audit/v1",
+        "source_report": str(results_root / "report.json"),
+        "protocol_digest": protocol.get("protocol_digest"),
+        "recomputed_protocol_digest": recomputed_protocol_digest,
+        "checks": checks,
+        "decision": "allow" if checks and all(checks.values()) else "block",
+        "outcome_class": report.get("outcome_class"),
+        "denominators": recomputed_summary,
+        "excluded_cells": len(excluded),
+        "exclusions": [{key: row.get(key) for key in ("task_id", "attempt", "arm", "exclusion")}
+                       for row in excluded],
+        "pair_start_digests": pair_start_digests,
+    }
+    audit["audit_digest"] = "sha256:" + hashlib.sha256(
+        json.dumps(audit, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
+    output.parent.mkdir(parents=True, exist_ok=True)
+    write_json(output, audit)
+    return audit
+
+
 def audit_calibration_v2(source_report: Path, output: Path,
                          *, executor_model: str = "openai/gpt-5.6-luna",
                          executor_provider: str = "openai") -> dict:
@@ -801,6 +935,9 @@ def main() -> int:
     calibration_audit.add_argument("--output", required=True, type=Path)
     calibration_audit.add_argument("--executor-model", default="openai/gpt-5.6-luna")
     calibration_audit.add_argument("--executor-provider", default="openai")
+    formal_audit = sub.add_parser("audit-formal")
+    formal_audit.add_argument("--results-root", required=True, type=Path)
+    formal_audit.add_argument("--output", required=True, type=Path)
     args = parser.parse_args()
     if args.command == "executor-qualification":
         report = run_executor_qualification(
@@ -908,6 +1045,10 @@ def main() -> int:
         report = audit_calibration_v2(
             args.source_report, args.output,
             executor_model=args.executor_model, executor_provider=args.executor_provider)
+        print(json.dumps(report, indent=2, sort_keys=True))
+        return 0 if report.get("decision") == "allow" else 2
+    if args.command == "audit-formal":
+        report = audit_formal_matrix_v2(args.results_root, args.output)
         print(json.dumps(report, indent=2, sort_keys=True))
         return 0 if report.get("decision") == "allow" else 2
     return 2

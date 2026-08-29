@@ -35,11 +35,12 @@ from pp_eval.finance_workflow_private import (
 from run_finance_e2e_v2 import (
     audit_calibration_v2,
     audit_executor_qualification,
+    audit_formal_matrix_v2,
     normalized_cell,
     run_formal_matrix_v2,
     _zip_member_digest,
 )
-from pp_eval.apex_ib_pr36 import FINANCE_E2E_V2_FORMAL_TASK_IDS
+from pp_eval.apex_ib_pr36 import FINANCE_E2E_V2_FORMAL_TASK_IDS, TASK_SPECS
 
 
 def atom():
@@ -305,6 +306,91 @@ class FinanceGateTests(unittest.TestCase):
         self.assertEqual(result["jointly_gradeable_pairs"], 1)
         self.assertEqual(result["proofpress_gain_pairs"], 1)
         self.assertAlmostEqual(result["known_model_cost_usd"], 0.14)
+
+    def test_formal_audit_allows_complete_schedule_with_fail_closed_exclusion(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            schedule = []
+            cells = []
+            for task_id in FINANCE_E2E_V2_FORMAL_TASK_IDS:
+                for attempt in range(1, 4):
+                    schedule.append({"task_id": task_id, "attempt": attempt,
+                                     "arm_order": ["normal", "proofpress"]})
+                    for arm in ("normal", "proofpress"):
+                        run_dir = root / f"{task_id}-{attempt}-{arm}"
+                        output_dir = run_dir / "output"
+                        output_dir.mkdir(parents=True)
+                        for name in ("neutral_initial.zip", "neutral_final.zip"):
+                            with zipfile.ZipFile(output_dir / name, "w") as archive:
+                                for member in TASK_SPECS[task_id].final_artifact_allowlist:
+                                    archive.writestr(member, b"same-pristine-start")
+                        (output_dir / "trajectory.json").write_text("{}")
+                        result = {
+                            "status": "completed", "task_id": task_id,
+                            "run_dir": str(run_dir), "agent_model": "openai/gpt-5.6-luna",
+                            "executor_model": "openai/gpt-5.6-luna",
+                            "executor_provider_requested": "openai",
+                            "bounded_world": arm == "proofpress",
+                            "telemetry": {
+                                "model": "openai/gpt-5.6-luna", "providers": ["openai"],
+                                "status": "complete", "no_fallback_observed": True,
+                                "provider_fallback_observed": False, "calls": 2,
+                                "terminal_receipts": 2, "missing_cost_calls": 0,
+                                "total_tokens": 100, "known_cost_usd": 0.01,
+                            },
+                        }
+                        cells.append({
+                            "task_id": task_id, "attempt": attempt, "arm": arm,
+                            "result": result,
+                            "grading_repetitions": {"records": [{
+                                "status": "completed", "telemetry": {
+                                    "model": "google/gemini-3.1-pro-preview",
+                                    "status": "complete", "no_fallback_observed": True,
+                                    "calls": 1, "costed_calls": 1,
+                                    "total_tokens": 50, "known_cost_usd": 0.02,
+                                }} for _ in range(3)]},
+                            "majority_result": {"fraction": 0.5},
+                            "compaction": {"schema_version":
+                                "proofpress/apex-ib-pr36/v1/output-compaction"},
+                        })
+            interrupted = cells[7]
+            interrupted["result"] = {
+                "status": "interrupted", "task_id": interrupted["task_id"],
+                "run_dir": interrupted["result"]["run_dir"],
+                "official_score_claim": False,
+            }
+            interrupted.pop("grading_repetitions")
+            interrupted.pop("majority_result")
+            interrupted.pop("compaction")
+            interrupted["exclusion"] = {
+                "reason": "orchestrator_interrupted_before_persisted_terminal_receipt",
+                "rerun_forbidden": True,
+            }
+            protocol = {
+                "schema_version": "proofpress/finance-e2e-v2/formal-protocol/v1",
+                "executor_model": "openai/gpt-5.6-luna", "executor_provider": "openai",
+                "judge_model": "google/gemini-3.1-pro-preview", "fallback": "forbidden",
+                "grader_repetitions_per_valid_artifact": 3,
+                "schedule": schedule, "scheduled_executor_cells": 12,
+            }
+            protocol["protocol_digest"] = "sha256:" + __import__("hashlib").sha256(
+                json.dumps(protocol, sort_keys=True, separators=(",", ":")).encode()
+            ).hexdigest()
+            (root / "frozen_protocol.json").write_text(json.dumps(protocol))
+            summary = summarize_formal_cells(cells, 12)
+            report = {
+                "status": "schedule_completed", "outcome_class": "bounded_incomplete",
+                "protocol_digest": protocol["protocol_digest"], "cells": cells,
+                "summary": summary, "overlay_receipts": {
+                    task_id: {"gate": {"decision": "allow"},
+                              "package": {"full_data_room_present": False}}
+                    for task_id in FINANCE_E2E_V2_FORMAL_TASK_IDS},
+            }
+            (root / "report.json").write_text(json.dumps(report))
+            audit = audit_formal_matrix_v2(root, root / "formal-audit.json")
+            self.assertEqual(audit["decision"], "allow")
+            self.assertEqual(audit["excluded_cells"], 1)
+            self.assertTrue(all(audit["checks"].values()))
 
     @mock.patch("run_finance_e2e_v2.compact_apex_output", return_value={})
     @mock.patch("run_finance_e2e_v2.run_apex_stage")
