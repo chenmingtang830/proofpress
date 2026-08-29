@@ -81,12 +81,68 @@ def score_requirement_opportunities(
     }
 
 
-def retrieve(requirements: list[dict[str, Any]], index: SectionIndex) -> tuple[dict[str, dict[str, Any]], list[dict[str, Any]]]:
+def _multiquery_hits(requirement: dict[str, Any], index: SectionIndex,
+                     max_sections: int) -> tuple[list[dict[str, Any]], str]:
+    queries = [str(row) for row in requirement.get("evidence_search_queries", [])[:4] if str(row).strip()]
+    requirement_text = str(requirement.get("requirement", "")).strip()
+    if requirement_text:
+        queries.append(requirement_text)
+    queries = list(dict.fromkeys(queries)) or [requirement_text]
+    merged: dict[tuple[str, str], dict[str, Any]] = {}
+    for query in queries:
+        for hit in index.search(query, max_documents=10, max_sections=max_sections):
+            section = hit["section"]
+            key = (section["uri"], section["id"])
+            row = merged.setdefault(key, {**hit, "rrf_score": 0.0, "query_hits": 0})
+            row["rrf_score"] += 1.0 / (60 + hit["rank"])
+            row["query_hits"] += 1
+            row["considered_documents"] = sorted(set(row["considered_documents"])
+                                                   | set(hit["considered_documents"]))
+    ranked = sorted(merged.values(), key=lambda row: (-row["rrf_score"], -row["query_hits"],
+                                                       row["section"]["uri"], row["section"]["id"]))
+    chosen: list[dict[str, Any]] = []; seen_sources: set[str] = set()
+    for row in ranked:
+        if row["section"]["uri"] not in seen_sources:
+            chosen.append(row); seen_sources.add(row["section"]["uri"])
+        if len(chosen) >= max_sections:
+            break
+    for row in ranked:
+        if len(chosen) >= max_sections:
+            break
+        if row not in chosen:
+            chosen.append(row)
+    for rank, row in enumerate(chosen, 1):
+        row["rank"] = rank
+        row["score"] = row["rrf_score"]
+    return chosen, " || ".join(queries)
+
+
+def retrieve(requirements: list[dict[str, Any]], index: SectionIndex,
+             max_sections: int = 6, mode: str = "joined",
+             task_query: str = "") -> tuple[dict[str, dict[str, Any]], list[dict[str, Any]]]:
+    if mode not in {"joined", "multiquery_rrf", "requirement_plus_task"}:
+        raise ValueError("unknown retrieval mode")
+    if mode == "requirement_plus_task" and not task_query.strip():
+        raise ValueError("requirement_plus_task requires task query")
+    task_hits = index.search(task_query, max_sections=max_sections) if mode == "requirement_plus_task" else []
     receipts = {}; audit = []
     for requirement in requirements:
         queries = requirement.get("evidence_search_queries") or [requirement.get("requirement", "")]
         query = " ".join(str(row) for row in queries[:4])
-        hits = index.search(query)
+        if mode == "multiquery_rrf":
+            hits, query = _multiquery_hits(requirement, index, max_sections)
+        else:
+            hits = index.search(query, max_sections=max_sections)
+        if mode == "requirement_plus_task":
+            safety = task_hits[:min(2, max_sections)]
+            keys = {(row["section"]["uri"], row["section"]["id"]) for row in safety}
+            hits = [*safety, *(row for row in hits
+                               if (row["section"]["uri"], row["section"]["id"]) not in keys)]
+            hits = hits[:max_sections]
+            for rank, hit in enumerate(hits, 1):
+                hit = dict(hit); hit["rank"] = rank
+                hits[rank - 1] = hit
+            query = f"task-safety:{task_query} || requirement:{query}"
         selected = [_evidence(requirement["requirement_id"], hit, query) for hit in hits]
         for row in selected:
             source = row.get("source") or {}
@@ -145,6 +201,9 @@ def main() -> None:
     parser.add_argument("--out", required=True)
     parser.add_argument("--budget-usd", type=float, default=8.0)
     parser.add_argument("--timeout", type=float, default=300)
+    parser.add_argument("--decomposer", choices=("qwen", "v7"), default=DECOMPOSER)
+    parser.add_argument("--retrieval-mode", choices=("joined", "multiquery_rrf", "requirement_plus_task"), default="joined")
+    parser.add_argument("--max-sections", type=int, default=6)
     args = parser.parse_args()
     diagnostic = Path(args.diagnostic).resolve()
     source_paths = sorted((diagnostic.parent / "raw" / "sol" / "receipt_preproposal").glob("*.json"))
@@ -170,13 +229,14 @@ def main() -> None:
         for source_path in source_paths:
             source = json.loads(source_path.read_text())
             decomposition = json.loads((Path(args.decomposition_raw) / source_path.name).read_text())
-            requirements = decomposition["variants"][DECOMPOSER]["requirements"]
+            requirements = decomposition["variants"][args.decomposer]["requirements"]
             frozen = None
             if frozen_retrieval is not None:
                 frozen = json.loads((frozen_retrieval / source_path.name).read_text())
                 receipts, audit = frozen["receipts"], frozen["retrieval_audit"]
             else:
-                receipts, audit = retrieve(requirements, index)
+                receipts, audit = retrieve(requirements, index, args.max_sections, args.retrieval_mode,
+                                           source["task"]["prompt"])
             atoms, extractor_status = call_extractor(
                 gateways["extractor"], requirements, receipts, audit,
                 batch_size=EXTRACTOR_BATCH_SIZE,
@@ -247,9 +307,11 @@ def main() -> None:
                    for label in COVERAGE_MODELS}}
     report = {"schema_version": SCHEMA,
               "boundary": "Four-task development qualification; Sol gap reference is model-adjudicated, not human gold or admission. Coverage recall is conditioned on independently adjudicated evidence sufficiency; honest gaps use a separate denominator.",
-              "route": {"decomposition": MODELS[DECOMPOSER],
+              "route": {"decomposition": (MODELS[args.decomposer] if args.decomposer in MODELS
+                                             else {"model": "pr36-v7-frozen", "provider": "frozen", "reasoning": "n/a"}),
                         "extractor_batch_size": EXTRACTOR_BATCH_SIZE,
-                        "retrieval": "frozen-replay" if frozen_retrieval is not None else "global-bm25",
+                        "retrieval": "frozen-replay" if frozen_retrieval is not None else args.retrieval_mode,
+                        "max_sections": args.max_sections,
                         **routes},
               "tasks": tasks, "metrics": metrics,
               "denominators": {"tasks": len(tasks), "completed_tasks": len(completed),

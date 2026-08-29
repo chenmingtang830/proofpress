@@ -171,7 +171,7 @@ def call_proposer(gateway: Gateway, requirements: list[dict[str, Any]],
     selected = [row for row in atoms if row["requirement_id"] in eligible]
     atom_by_id = {row["atom_id"]: row for row in selected}
     eligible_requirements = [row for row in requirements if row["requirement_id"] in eligible]
-    claims = []; rejected = Counter(); failures = []
+    claims = []; rejected = Counter(); failures = []; truncated = 0
     for start in range(0, len(eligible_requirements), 8):
         batch = eligible_requirements[start:start + 8]
         requirement_ids = {row["requirement_id"] for row in batch}
@@ -184,6 +184,9 @@ def call_proposer(gateway: Gateway, requirements: list[dict[str, Any]],
         if not result["ok"]:
             failures.append(result["record"]); continue
         for raw in result["value"].get("claims", []):
+            if len(claims) >= 64:
+                truncated += 1
+                continue
             requirement_id = raw.get("requirement_id")
             claim = {**raw, "id": f"claim_{len(claims) + 1:03d}_{digest(raw)[7:15]}"}
             try:
@@ -194,7 +197,7 @@ def call_proposer(gateway: Gateway, requirements: list[dict[str, Any]],
             claims.append(claim)
     return claims, {"status": "ok" if not failures else "inconclusive",
                     "claim_count": len(claims), "failed_batch_count": len(failures),
-                    "rejected_count": sum(rejected.values())}
+                    "rejected_count": sum(rejected.values()), "truncated_count": truncated}
 
 
 def call_critic(gateway: Gateway, requirements: list[dict[str, Any]],

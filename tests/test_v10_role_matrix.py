@@ -2,6 +2,8 @@ import importlib.util
 from pathlib import Path
 import sys
 import unittest
+from unittest.mock import patch
+import json
 
 ROOT = Path(__file__).resolve().parents[1]
 PATH = ROOT / "studies/apex-agent-eval/retrieval_adapter/run_v10_role_matrix_private.py"
@@ -51,6 +53,27 @@ class V10RoleMatrixTests(unittest.TestCase):
     def test_critic_aggregate_is_deterministic_not_model_authority(self):
         self.assertIn("verdict", matrix.VERDICT_OUTPUT["properties"]["verdicts"]["items"]["required"])
         self.assertEqual(len(matrix.CRITIC_FIELDS), 7)
+
+    def test_proposer_enforces_global_sixty_four_claim_cap_across_batches(self):
+        requirements = [{"requirement_id": f"R{i}"} for i in range(17)]
+        atoms = [{"atom_id": f"A{i}", "requirement_id": f"R{i}"} for i in range(17)]
+        gates = {f"R{i}": {"requirement_id": f"R{i}", "state": "claimable",
+                            "proposer_allowed": True, "atom_ids": [f"A{i}"]}
+                 for i in range(17)}
+
+        def fake_call(_gateway, _system, prompt, *_args):
+            payload = json.loads(prompt); requirement_id = payload["requirements"][0]["requirement_id"]
+            atom_id = next(row["atom_id"] for row in payload["evidence_atoms"]
+                           if row["requirement_id"] == requirement_id)
+            claim = {"requirement_id": requirement_id, "claim_type": "observed_fact",
+                     "statement": "x", "atom_ids": [atom_id], "qualification": None,
+                     "status": "unresolved"}
+            return {"ok": True, "value": {"claims": [claim] * 32}}
+
+        with patch.object(matrix, "_model_call", side_effect=fake_call):
+            claims, status = matrix.call_proposer(None, requirements, atoms, gates)
+        self.assertEqual(len(claims), 64)
+        self.assertEqual(status["truncated_count"], 32)
 
 
 if __name__ == "__main__":

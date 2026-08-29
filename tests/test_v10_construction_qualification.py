@@ -54,6 +54,43 @@ class V10ConstructionQualificationTests(unittest.TestCase):
     def test_frozen_retrieval_mode_is_explicit(self):
         self.assertEqual(runner.SCHEMA, "proofpress/v10-construction-qualification/v2")
 
+    def test_multiquery_rrf_merges_queries_and_preserves_source_diversity(self):
+        class Index:
+            def search(self, query, max_documents=10, max_sections=6):
+                uri = "private://a" if query == "alpha" else "private://b"
+                return [{"section": {"uri": uri, "id": query}, "rank": 1, "score": 1.0,
+                         "considered_documents": [uri]}]
+        hits, query = runner._multiquery_hits(
+            {"requirement": "beta", "evidence_search_queries": ["alpha"]}, Index(), 2)
+        self.assertEqual([row["section"]["uri"] for row in hits], ["private://a", "private://b"])
+        self.assertEqual(query, "alpha || beta")
+
+    def test_retrieval_rejects_unknown_mode(self):
+        with self.assertRaisesRegex(ValueError, "unknown retrieval mode"):
+            runner.retrieve([], object(), mode="unknown")
+
+    def test_requirement_plus_task_reserves_two_safety_hits(self):
+        class Index:
+            def search(self, query, max_documents=10, max_sections=6):
+                prefix = "task" if query == "whole task" else "req"
+                return [{"section": {"uri": f"private://{prefix}-{i}", "id": str(i),
+                                     "text": prefix, "heading": prefix,
+                                     "representation_digest": "sha256:" + ("a" if prefix == "task" else "e") * 64,
+                                     "source": {"uri": f"private://{prefix}-{i}",
+                                                "content_digest": "sha256:" + "b" * 64,
+                                                "media_type": "text/plain"},
+                                     "text_digest": "sha256:" + ("c" if prefix == "task" else "d") * 63 + str(i),
+                                     "page_start": i + 1, "page_end": i + 1},
+                         "rank": i + 1, "score": 1.0,
+                         "considered_documents": [f"private://{prefix}-{i}"]}
+                        for i in range(max_sections)]
+        receipts, audit = runner.retrieve(
+            [{"requirement_id": "R", "evidence_search_queries": ["specific"]}],
+            Index(), max_sections=4, mode="requirement_plus_task", task_query="whole task")
+        uris = [receipts[eid]["source"]["uri"] for eid in audit[0]["evidence_ids"]]
+        self.assertEqual(uris[:2], ["private://task-0", "private://task-1"])
+        self.assertEqual(len(uris), 4)
+
 
 if __name__ == "__main__":
     unittest.main()
