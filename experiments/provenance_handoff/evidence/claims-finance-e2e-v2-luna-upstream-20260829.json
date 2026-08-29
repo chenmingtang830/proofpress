@@ -1,0 +1,42 @@
+[
+  {
+    "block": "43415aa8",
+    "kind": "added",
+    "note": "Adds the dated Luna executor qualification outcome section."
+  },
+  {
+    "block": "65a4b4f7",
+    "kind": "added",
+    "note": "Records the final Luna six-cell qualification denominator, telemetry, cost, compaction, and promotion boundary."
+  },
+  {
+    "block": "9a78e8dc",
+    "kind": "added",
+    "note": "Records the independent Luna audit decision and explicitly limits what executor qualification authorizes."
+  },
+  {
+    "block": "e21ed400",
+    "kind": "added",
+    "note": "Adds the dated governed-route qualification outcome section."
+  },
+  {
+    "block": "126a6042",
+    "kind": "added",
+    "note": "Preserves all four failed governed-route development roots with exact failure modes and costs."
+  },
+  {
+    "block": "de706476",
+    "kind": "added",
+    "note": "Records the passing governed-route denominator, cost, digests, and calibration-only promotion."
+  },
+  {
+    "block": "5839d45a",
+    "kind": "added",
+    "note": "Adds the dated fresh-task freeze state section."
+  },
+  {
+    "block": "6f2c2aa5",
+    "kind": "added",
+    "note": "Records the public-only fresh-task candidate denominator, exclusions, caveat, and still-zero formal denominator."
+  }
+]
