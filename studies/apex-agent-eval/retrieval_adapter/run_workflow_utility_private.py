@@ -39,13 +39,15 @@ EXECUTOR_ROUTES = {
 }
 GRADER = ("google/gemini-3.1-pro-preview", "google")
 CONDITIONS = ("pr36-v7-prefetched-context", "full-catalog-bm25-prefetch",
-              "evidence-first-v9-prefetched-context", "evidence-first-v9-claim-graph-only",
-              "evidence-first-v9-graph-plus-global-bm25",
-              "evidence-first-v9-graph-plus-hierarchical-hybrid")
+              "evidence-first-v9-prefetched-context", "v11-preserved-claim-graph-only",
+              "v11-preserved-graph-plus-global-bm25",
+              "v11-preserved-graph-plus-hierarchical-hybrid",
+              "v11-full-claim-graph-control")
 ORACLE_CONDITIONS = ("oracle-claim-graph", "v9-claim-graph-plus-direct-gap-evidence")
-PROGRESSIVE_CONDITIONS = ("pr36-v7-prefetched-context", "evidence-first-v9-claim-graph-only",
-                          "evidence-first-v9-graph-plus-global-bm25",
-                          "evidence-first-v9-graph-plus-hierarchical-hybrid")
+PROGRESSIVE_CONDITIONS = ("pr36-v7-prefetched-context", "v11-preserved-claim-graph-only",
+                          "v11-preserved-graph-plus-global-bm25",
+                          "v11-preserved-graph-plus-hierarchical-hybrid",
+                          "v11-full-claim-graph-control")
 MAX_DISCLOSURES_PER_TASK = 3
 MAX_DISCOVERED_PER_CALL = 5
 MAX_CONTEXT_TOKEN_UPPER_BOUND = 24000
@@ -69,6 +71,20 @@ EXECUTOR_SCHEMA = {
                 },
             },
         },
+        "citations": {"type": "array", "items": {"type": "string"}},
+        "gaps": {"type": "array", "items": {"type": "string"}},
+    },
+}
+
+NATIVE_DOCUMENT_SCHEMA = {
+    "type": "object", "additionalProperties": False,
+    "required": ["title", "sections", "citations", "gaps"],
+    "properties": {
+        "title": {"type": "string"},
+        "sections": {"type": "array", "minItems": 1, "items": {
+            "type": "object", "additionalProperties": False,
+            "required": ["heading", "body"],
+            "properties": {"heading": {"type": "string"}, "body": {"type": "string"}}}},
         "citations": {"type": "array", "items": {"type": "string"}},
         "gaps": {"type": "array", "items": {"type": "string"}},
     },
@@ -153,6 +169,34 @@ def bounded_json(value: Any, max_tokens: int = MAX_CONTEXT_TOKEN_UPPER_BOUND) ->
     # Any tokenizer token consumes at least one UTF-8 byte. Byte length is a
     # deliberately conservative upper bound, not a vendor-token estimate.
     return text, len(text.encode())
+
+
+def graph_cardinality(value: Any) -> dict[str, int]:
+    """Count graph material in a full graph or a list of disclosure packets."""
+    rows = value if isinstance(value, list) else [value]
+    claims: set[str] = set(); relations: set[str] = set(); evidence: set[str] = set()
+    for row in rows:
+        if not isinstance(row, dict):
+            continue
+        for claim in row.get("claims", row.get("governed_context", [])):
+            if isinstance(claim, dict):
+                claims.add(str(claim.get("id") or digest(claim)))
+                evidence.update(map(str, claim.get("evidence_ids", [])))
+        for relation in row.get("relations", row.get("traversal", {}).get("relations", []) if isinstance(row.get("traversal"), dict) else []):
+            if isinstance(relation, dict): relations.add(str(relation.get("id") or digest(relation)))
+        for item in row.get("evidence", row.get("lineage", [])):
+            if isinstance(item, dict): evidence.add(str(item.get("evidence_id") or item.get("id") or digest(item)))
+    return {"claims": len(claims), "relations": len(relations), "evidence_bindings": len(evidence)}
+
+
+def bounded_graph_json(value: Any) -> tuple[str, int, dict[str, Any]]:
+    before = graph_cardinality(value)
+    original = json.dumps(value, ensure_ascii=False, sort_keys=True, separators=(",", ":"))
+    text_value, upper = bounded_json(value)
+    after = graph_cardinality(json.loads(text_value))
+    return text_value, upper, {"before": before, "after": after,
+        "lost": {key: before[key] - after[key] for key in before},
+        "truncated_by_context_cap": original != text_value, "context_token_upper_bound": upper}
 
 
 def git_init(path: Path) -> None:
@@ -423,6 +467,67 @@ def disclosure_bundles(asks: list[dict[str, Any]]) -> list[list[dict[str, Any]]]
     return bundles
 
 
+def disclosure_fidelity(graph: dict[str, Any], asks: list[dict[str, Any]],
+                        mapping: dict[str, str], telemetry: dict[str, Any]) -> list[dict[str, Any]]:
+    """Measure frozen ask mappings against what each disclosure packet actually exposed."""
+    construction = graph["construction"]
+    claims = {row["id"]: row for row in construction.get("claims", [])}
+    inverse = {staged: original for original, staged in mapping.items()}
+    original_relations = {str(row.get("id") or digest(row)): row for row in construction.get("relations", [])}
+    total_evidence = {str(eid) for row in claims.values() for eid in row.get("evidence_ids", [])}
+    bundles = disclosure_bundles(asks)
+    packets_by_condition = telemetry.get("packets_by_condition") or {
+        "v11-preserved-claim-graph-only": telemetry.get("packets", [])}
+    rows: list[dict[str, Any]] = []
+    for condition, packets in packets_by_condition.items():
+        for packet, bundle in zip(packets, bundles):
+            selected_claims = {inverse.get(row.get("id"), row.get("id"))
+                               for row in packet.get("governed_context", []) if isinstance(row, dict)}
+            traversal_relations = packet.get("traversal", {}).get("relations", []) if isinstance(packet.get("traversal"), dict) else []
+            selected_relations = set()
+            for relation_id, relation in original_relations.items():
+                left, right = mapping.get(relation.get("from")), mapping.get(relation.get("to"))
+                if any(row.get("from") == left and row.get("to") == right and row.get("type") == relation.get("type")
+                       for row in traversal_relations): selected_relations.add(relation_id)
+            selected_evidence = {str(eid) for cid in selected_claims for eid in claims.get(cid, {}).get("evidence_ids", [])}
+            for ask in bundle:
+                expected = set(map(str, ask.get("expected_claim_ids", [])))
+                full_supported = len(expected & set(claims)) / len(expected) if expected else None
+                disclosed_supported = len(expected & selected_claims) / len(expected) if expected else None
+                rows.append({"ask_id": ask["ask_id"], "task_id": ask.get("task_id", graph["task"]["task_id"]),
+                    "category": ask.get("category", "apex-task-prompt"),
+                    "condition": condition, "mapped_rubric_atom_count": len(expected),
+                    "full_graph_supported_factual_coverage": full_supported,
+                    "post_disclosure_supported_factual_coverage": disclosed_supported,
+                    "disclosure_coverage_loss": (full_supported - disclosed_supported
+                                                   if full_supported is not None else None),
+                    "selected_claims": len(selected_claims), "total_eligible_claims": len(claims),
+                    "selected_relations": len(selected_relations), "total_relations": len(original_relations),
+                    "selected_evidence_bindings": len(selected_evidence),
+                    "total_evidence_bindings": len(total_evidence), "packet_coverage_state": packet.get("coverage"),
+                    "max_claims_truncated": len(selected_claims) >= 24 and len(claims) > 24,
+                    "depth_limit": packet.get("traversal", {}).get("limits", {}).get("max_depth") if isinstance(packet.get("traversal"), dict) else None,
+                    "expected_relation_recall": (len(set(map(str, ask.get("expected_relation_ids", []))) & selected_relations)
+                        / len(ask.get("expected_relation_ids", [])) if ask.get("expected_relation_ids") else None),
+                    "expected_gap_count": len(ask.get("expected_gap_ids", []))})
+    cap = telemetry.get("context_cap", {}).get("v11-full-claim-graph-control", {})
+    for ask in asks:
+        expected = set(map(str, ask.get("expected_claim_ids", [])))
+        full_supported = len(expected & set(claims)) / len(expected) if expected else None
+        rows.append({"ask_id": ask["ask_id"], "task_id": ask.get("task_id", graph["task"]["task_id"]),
+            "category": ask.get("category", "apex-task-prompt"),
+            "condition": "v11-full-claim-graph-control", "mapped_rubric_atom_count": len(expected),
+            "full_graph_supported_factual_coverage": full_supported,
+            "post_disclosure_supported_factual_coverage": full_supported, "disclosure_coverage_loss": 0 if expected else None,
+            "selected_claims": cap.get("after", {}).get("claims", len(claims)), "total_eligible_claims": len(claims),
+            "selected_relations": cap.get("after", {}).get("relations", len(original_relations)), "total_relations": len(original_relations),
+            "selected_evidence_bindings": cap.get("after", {}).get("evidence_bindings", len(total_evidence)),
+            "total_evidence_bindings": len(total_evidence), "packet_coverage_state": "covered" if expected else "gap",
+            "max_claims_truncated": False, "depth_limit": None, "context_cap_truncated": cap.get("truncated_by_context_cap", False),
+            "context_cap_loss": cap.get("lost", {}), "context_token_upper_bound": cap.get("context_token_upper_bound")})
+    return rows
+
+
 def custody_manifest_sources(catalog: dict[str, Any]) -> list[dict[str, Any]]:
     """Use original source bytes for disclose custody verification.
 
@@ -496,21 +601,28 @@ def build_contexts(graph: dict[str, Any], asks: list[dict[str, Any]], catalog: d
                          for bundle in bundles]
     requested = requested_conditions or set(CONDITIONS)
     contexts, tokens = {}, {}
+    context_cap_telemetry: dict[str, Any] = {}
     for name, value in (("full-catalog-bm25-prefetch", full_rows),
                         ("evidence-first-v9-prefetched-context", prefetched),
-                        ("evidence-first-v9-claim-graph-only",
+                        ("v11-preserved-claim-graph-only",
                          [compact_disclosure_packet(row) for row in graph_packets_raw])):
         if name in requested:
-            contexts[name], tokens[name] = bounded_json(value)
+            contexts[name], tokens[name], context_cap_telemetry[name] = bounded_graph_json(value)
+    if "v11-full-claim-graph-control" in requested:
+        full_control = {"claims": construction.get("claims", []),
+                        "relations": construction.get("relations", []),
+                        "evidence": construction.get("evidence", [])}
+        contexts["v11-full-claim-graph-control"], tokens["v11-full-claim-graph-control"], context_cap_telemetry["v11-full-claim-graph-control"] = bounded_graph_json(full_control)
     contexts["pr36-v7-prefetched-context"] = None
     tokens["pr36-v7-prefetched-context"] = 0
-    retrieval_conditions = {"evidence-first-v9-graph-plus-global-bm25",
-                            "evidence-first-v9-graph-plus-hierarchical-hybrid"}
+    retrieval_conditions = {"v11-preserved-graph-plus-global-bm25",
+                            "v11-preserved-graph-plus-hierarchical-hybrid"}
     if not (requested & retrieval_conditions):
         disclosure_telemetry = {"calls": len(bundles), "max_calls": MAX_DISCLOSURES_PER_TASK,
                                 "discovered_per_call": [0 for _ in bundles],
                                 "max_discovered_per_call": MAX_DISCOVERED_PER_CALL,
-                                "total_discovered": 0}
+                                "total_discovered": 0, "context_cap": context_cap_telemetry,
+                                "packets": graph_packets_raw}
         return contexts, tokens, [], 0.0, disclosure_telemetry
     sources = materialize_pageindex_sources(catalog, workspace / "canonical-pageindex-inputs")
     if not sources:
@@ -601,10 +713,10 @@ def build_contexts(graph: dict[str, Any], asks: list[dict[str, Any]], catalog: d
     graph_packets = [compact_disclosure_packet(row) for row in graph_packets_raw]
     global_packets = [compact_disclosure_packet(row) for row in global_packets_raw]
     hybrid_packets = [compact_disclosure_packet(row) for row in hybrid_packets_raw]
-    for name, value in (("evidence-first-v9-graph-plus-global-bm25", global_packets),
-                        ("evidence-first-v9-graph-plus-hierarchical-hybrid", hybrid_packets)):
+    for name, value in (("v11-preserved-graph-plus-global-bm25", global_packets),
+                        ("v11-preserved-graph-plus-hierarchical-hybrid", hybrid_packets)):
         if name in requested:
-            contexts[name], tokens[name] = bounded_json(value)
+            contexts[name], tokens[name], context_cap_telemetry[name] = bounded_graph_json(value)
     if silver is not None:
         oracle = oracle_diagnostic_contexts(graph, silver, catalog, graph_packets)
         for name, value in oracle.items():
@@ -612,7 +724,10 @@ def build_contexts(graph: dict[str, Any], asks: list[dict[str, Any]], catalog: d
     disclosure_telemetry = {"calls": len(bundles), "max_calls": MAX_DISCLOSURES_PER_TASK,
                             "discovered_per_call": discovered_counts,
                             "max_discovered_per_call": MAX_DISCOVERED_PER_CALL,
-                            "total_discovered": sum(discovered_counts)}
+                            "total_discovered": sum(discovered_counts), "context_cap": context_cap_telemetry,
+                            "packets_by_condition": {"v11-preserved-claim-graph-only": graph_packets_raw,
+                                "v11-preserved-graph-plus-global-bm25": global_packets_raw,
+                                "v11-preserved-graph-plus-hierarchical-hybrid": hybrid_packets_raw}}
     return contexts, tokens, pageindex_events, cost, disclosure_telemetry
 
 
@@ -651,8 +766,10 @@ def paired_workflow_comparisons(cells: list[dict[str, Any]],
     for model, _, _, _, _ in executors:
         model_cells = {(row["task_id"], row["condition"]): row for row in cells
                        if row.get("executor_model") == model and row.get("status") == "scored"}
-        for treatment in ("evidence-first-v9-graph-plus-global-bm25",
-                          "evidence-first-v9-graph-plus-hierarchical-hybrid"):
+        for treatment in ("v11-preserved-claim-graph-only",
+                          "v11-preserved-graph-plus-global-bm25",
+                          "v11-preserved-graph-plus-hierarchical-hybrid",
+                          "v11-full-claim-graph-control"):
             for baseline in ("pr36-v7-prefetched-context", "full-catalog-bm25-prefetch"):
                 task_ids = sorted({task_id for task_id, condition in model_cells if condition == treatment}
                                   & {task_id for task_id, condition in model_cells if condition == baseline})
@@ -691,14 +808,22 @@ def main() -> None:
     ap.add_argument("--full-claim-task-panel", action="store_true",
                     help="Run every completed task in the claim report; tasks without lawyer asks use the task prompt for disclosure.")
     ap.add_argument("--progressive-only", action="store_true",
-                    help="Run only the four frozen lawyer-ask progressive-disclosure conditions.")
+                    help="Run only the five frozen lawyer-ask progressive-disclosure conditions.")
+    ap.add_argument("--native-e2e", action="store_true",
+                    help="Materialize and grade native artifacts by expected_output; requires --full-claim-task-panel.")
+    ap.add_argument("--native-edit-source",
+                    help="Protected DOCX source for the single frozen edit_existing_doc task.")
     ap.add_argument("--qualification-max-asks", type=int, default=4,
                     help="Per-task ask cap for end-to-end qualification mode")
+    ap.add_argument("--qualification-output-types", action="store_true",
+                    help="In native qualification, select one frozen task for each expected_output type.")
     ap.add_argument("--executors", default=",".join(EXECUTOR_ROUTES),
                     help="Comma-separated frozen executor labels: " + ",".join(EXECUTOR_ROUTES))
     ap.add_argument("--conditions",
                     help="Comma-separated scored product conditions; defaults to the selected panel mode")
     args = ap.parse_args()
+    if args.native_e2e and not args.full_claim_task_panel:
+        raise SystemExit("--native-e2e requires --full-claim-task-panel")
     if not os.environ.get("AI_GATEWAY_API_KEY"):
         raise SystemExit("AI_GATEWAY_API_KEY unavailable")
     # The runner changes into a temporary git workspace before PageIndex is
@@ -734,11 +859,20 @@ def main() -> None:
     out = Path(args.out); out.mkdir(parents=True, exist_ok=True); out.chmod(0o700)
     raw_out = out / "raw"; raw_out.mkdir(exist_ok=True); raw_out.chmod(0o700)
     executor_gateways: dict[str, Gateway] = {}; grader = None
-    results, pageindex_events, pageindex_cost, disclosure_telemetry = [], [], 0.0, []
+    results, pageindex_events, pageindex_cost, disclosure_telemetry, fidelity_rows = [], [], 0.0, [], []
     task_ids = ([row["task_id"] for row in report.get("tasks", []) if row.get("status") == "ok"]
                 if args.full_claim_task_panel else list(asks_manifest["task_ids"]))
     if args.full_claim_task_panel and len(task_ids) != 12:
         raise ValueError(f"formal workflow requires exactly 12 completed claim tasks, got {len(task_ids)}")
+    if args.qualification_output_types:
+        selected: dict[str, str] = {}
+        for task_id in task_ids:
+            graph = json.loads((raw_dir / f"{task_id}.json").read_text())
+            selected.setdefault(str(graph["task"].get("expected_output")), task_id)
+        required_types = {"message_in_console", "make_new_doc", "edit_existing_doc"}
+        if set(selected) & required_types != required_types:
+            raise ValueError("native qualification lacks one task for every expected_output type")
+        task_ids = [selected[key] for key in sorted(required_types)]
     previous = Path.cwd()
     try:
         executor_gateways = {
@@ -755,7 +889,7 @@ def main() -> None:
             work_items = []
             for task_id in task_ids:
                 graph = json.loads((raw_dir / f"{task_id}.json").read_text())
-                _, relation_diagnostics = stage_graph(graph, navigation)
+                mapping, relation_diagnostics = stage_graph(graph, navigation)
                 asks = [row for row in asks_manifest["asks"] if row["task_id"] == task_id]
                 if args.qualification_only:
                     asks = asks[:max(1, args.qualification_max_asks)]
@@ -768,8 +902,10 @@ def main() -> None:
                 disclosure_telemetry.append({
                     "task_id": task_id,
                     "staged_relation_diagnostics": relation_diagnostics,
-                    **disclosure_stats,
+                    **{key: value for key, value in disclosure_stats.items()
+                       if key not in {"packets", "packets_by_condition"}},
                 })
+                fidelity_rows.extend(disclosure_fidelity(graph, context_asks, mapping, disclosure_stats))
                 if args.pr36_context_dir:
                     v7_path = Path(args.pr36_context_dir) / f"{task_id}.json"
                     if v7_path.is_file():
@@ -808,10 +944,14 @@ def main() -> None:
                         "executor_provider": provider, "executor_role": role,
                         "context_token_upper_bound": tokens,
                         "context_limit_tokens": MAX_CONTEXT_TOKEN_UPPER_BOUND}
-                prompt = {"task": graph["task"]["prompt"], "expected_output": graph["task"].get("expected_output"),
+                expected_output = graph["task"].get("expected_output")
+                prompt = {"task": graph["task"]["prompt"], "expected_output": expected_output,
                           "lawyer_asks": [{"ask_id": row["ask_id"], "query": row["query"]} for row in asks],
                           "context": context,
-                          "instruction": "Produce the requested legal work product and answer the lawyer asks. Use only supplied context, distinguish governed from not_governed material, preserve gaps, and cite source/evidence IDs. Return JSON with answer, ask_answers, citations."}
+                          "instruction": ("Produce the complete legal work product. Use only supplied context, distinguish governed from not_governed material, preserve gaps, and cite source/evidence IDs. "
+                              + ("Return document title and substantive sections for materialization into the actual DOCX."
+                                 if args.native_e2e and expected_output in {"make_new_doc", "edit_existing_doc"}
+                                 else "Return the complete console legal analysis, calculations, conclusions, citations, and gaps."))}
                 artifact_name = f"{task_id}-{condition}-{model.replace('/', '_')}.json"
                 resume_path = Path(args.resume_artifacts) / artifact_name if args.resume_artifacts else None
                 artifact = None
@@ -827,21 +967,41 @@ def main() -> None:
                             except ValueError:
                                 pass
                 if artifact is None:
+                    native_doc = args.native_e2e and expected_output in {"make_new_doc", "edit_existing_doc"}
                     generated = _model_call(
                         executor_gateways[model], "You are a legal workflow executor. Use the required output tool.",
                         json.dumps(prompt, ensure_ascii=False), max_output_tokens,
-                        EXECUTOR_SCHEMA, "proofpress_legal_workflow_artifact")
+                        NATIVE_DOCUMENT_SCHEMA if native_doc else EXECUTOR_SCHEMA,
+                        "proofpress_native_legal_document" if native_doc else "proofpress_legal_workflow_artifact")
                     if not generated["ok"]:
                         cell.update({"status": "inconclusive", "reason": "executor call failed closed"})
                         return cell
                     artifact = generated["value"]
                     cell["executor_reused"] = False
+                artifact_checks = None
+                grader_candidate: Any = artifact
+                if args.native_e2e and expected_output in {"make_new_doc", "edit_existing_doc"}:
+                    from native_legal_artifact import docx_text, materialize_docx
+                    docx_name = artifact_name.removesuffix(".json") + ".docx"
+                    docx_path = raw_out / docx_name
+                    source = Path(args.native_edit_source).resolve() if expected_output == "edit_existing_doc" and args.native_edit_source else None
+                    if expected_output == "edit_existing_doc" and (source is None or not source.is_file()):
+                        cell.update({"status": "inconclusive", "reason": "protected edit source unavailable"})
+                        return cell
+                    artifact_checks = materialize_docx(artifact, docx_path, source=source)
+                    cell["artifact_checks"] = artifact_checks
+                    if not artifact_checks["artifact_valid"]:
+                        cell.update({"status": "inconclusive", "reason": "deterministic native artifact checks failed"})
+                        return cell
+                    grader_candidate = {"artifact_text": docx_text(docx_path),
+                                        "artifact_digest": artifact_checks["artifact_digest"],
+                                        "expected_output": expected_output}
                 grades = resumed_grades[:3]
                 cell["grades_reused"] = len(grades)
                 grade_failure_types: dict[str, int] = {}
                 invalid_grade_count = 0
                 grade_prompt = {"task": graph["task"]["prompt"], "gold_response": graph["task"].get("gold_response"),
-                                "rubric": graph["task"].get("rubric"), "candidate": artifact,
+                                "rubric": graph["task"].get("rubric"), "candidate": grader_candidate,
                                 "instruction": "Blindly grade the candidate. Return JSON with rubric_fraction in [0,1]. unsupported_claims, citation_errors, and authority_errors must each be either a nonnegative integer count or an array containing exactly the individual findings counted. Do not infer authority for staged or not_governed evidence."}
                 for _ in range(3 - len(grades)):
                     graded = _model_call(
@@ -868,7 +1028,7 @@ def main() -> None:
                                  "authority_errors": sum(g["authority_errors"] for g in grades) / 3})
                 artifact_path = raw_out / artifact_name
                 artifact_path.write_text(json.dumps({"artifact": artifact, "grades": grades}, indent=2))
-                cell["artifact_digest"] = digest(artifact)
+                cell["artifact_digest"] = (artifact_checks["artifact_digest"] if artifact_checks else digest(artifact))
                 return cell
 
             with ThreadPoolExecutor(max_workers=max(1, min(args.workers, len(work_items)))) as pool:
@@ -932,6 +1092,7 @@ def main() -> None:
                                   "scored_cells": len(cells), "inconclusive_cells": len(results) - len(cells)},
                  "aggregate": aggregate, "cells": results, "pageindex_events": pageindex_events,
                  "paired_comparisons": paired_workflow_comparisons(results, executors),
+                 "disclosure_fidelity": fidelity_rows,
                  "disclosure_telemetry": disclosure_telemetry,
                  "telemetry": {"model_calls": len(calls), "gateway_receipts": len(receipts),
                                "known_model_cost_usd": sum(known),

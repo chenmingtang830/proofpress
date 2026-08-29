@@ -28,6 +28,8 @@ claim_scorer = load("claim_scorer", ROOT / "studies/apex-agent-eval/retrieval_ad
 semantic_runner = load("semantic_runner", ROOT / "studies/apex-agent-eval/retrieval_adapter/run_claim_semantic_adjudication_private.py")
 ask_freezer = load("ask_freezer", ROOT / "studies/apex-agent-eval/retrieval_adapter/freeze_workflow_asks_private.py")
 workflow_runner = load("workflow_runner", ROOT / "studies/apex-agent-eval/retrieval_adapter/run_workflow_utility_private.py")
+native_artifact = (load("native_artifact", ADAPTER / "native_legal_artifact.py")
+                   if importlib.util.find_spec("docx") else None)
 v7_preserver = load("v7_preserver", ADAPTER / "run_v7_claim_preservation_private.py")
 budget_runner = load("budget_runner", ROOT / "studies/apex-agent-eval/retrieval_adapter/build_private_budget_ledger.py")
 pipeline_summary = load("pipeline_summary", ROOT / "studies/apex-agent-eval/retrieval_adapter/summarize_private_legal_pipeline.py")
@@ -839,6 +841,31 @@ class RetrievalPanelContractTests(unittest.TestCase):
         self.assertEqual(len(workflow_runner.disclosure_bundles([{"query": "q"}] * 12)), 3)
         with self.assertRaisesRegex(ValueError, "disclosure limit exceeded"):
             workflow_runner.disclosure_bundles([{"query": "q"}] * 13)
+
+    def test_native_docx_creation_and_edit_preserve_output_contract(self):
+        if native_artifact is None:
+            self.skipTest("native DOCX fixture requires the bundled document runtime")
+        content = {"title": "Tax Memo", "sections": [{"heading": "Conclusion", "body": "A bounded conclusion."}]}
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp); created = root / "created.docx"
+            create_checks = native_artifact.materialize_docx(content, created)
+            self.assertTrue(create_checks["artifact_valid"])
+            edited = root / "edited.docx"
+            edit_checks = native_artifact.materialize_docx(
+                {"title": "Amendment", "sections": [{"heading": "Covenant", "body": "Sellers shall cooperate."}]},
+                edited, source=created)
+            self.assertTrue(edit_checks["artifact_valid"])
+            self.assertTrue(edit_checks["actually_modified"])
+            self.assertTrue(edit_checks["basic_structure_preserved"])
+
+    def test_full_graph_cap_telemetry_reports_text_truncation(self):
+        graph = {"claims": [{"id": "c1", "statement": "x" * 30000, "evidence_ids": ["e1"]}],
+                 "relations": [], "evidence": [{"evidence_id": "e1", "quote": "y" * 30000}]}
+        text, upper, telemetry = workflow_runner.bounded_graph_json(graph)
+        self.assertLessEqual(upper, workflow_runner.MAX_CONTEXT_TOKEN_UPPER_BOUND)
+        self.assertTrue(telemetry["truncated_by_context_cap"])
+        self.assertEqual(telemetry["before"]["claims"], telemetry["after"]["claims"])
+        self.assertTrue(json.loads(text)["claims"])
 
     def test_workflow_uses_full_canonical_custody_and_normalizes_v7_raw_artifact(self):
         with tempfile.TemporaryDirectory() as tmp:
