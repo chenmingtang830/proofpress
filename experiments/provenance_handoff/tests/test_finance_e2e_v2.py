@@ -62,10 +62,8 @@ def receipts():
 
 class FinanceAtomTests(unittest.TestCase):
     def test_atom_output_schema_can_emit_validator_required_version(self):
-        item = ATOM_OUTPUT_SCHEMA["properties"]["atoms"]["items"]
-        self.assertIn("schema_version", item["required"])
-        self.assertEqual(item["properties"]["schema_version"],
-                         {"type": "string", "const": ATOM_SCHEMA})
+        self.assertEqual(ATOM_OUTPUT_SCHEMA["required"], ["evidence_ids"])
+        self.assertNotIn("atoms", ATOM_OUTPUT_SCHEMA["properties"])
 
     def test_workbook_index_becomes_deterministic_receipts(self):
         rows = workbook_index_to_receipts(
@@ -387,6 +385,13 @@ class FinanceGateTests(unittest.TestCase):
         self.assertIn("filesystem/model.xlsx", selected)
         self.assertIn("filesystem/FDUS/FDUS_10Q_09.30.2025.pdf", selected)
         self.assertNotIn("filesystem/WHF/WHF_10K_12.31.2024.pdf", selected)
+
+    def test_data_room_selection_excludes_archive_workbooks(self):
+        selected = select_data_room_members([
+            "filesystem/Model/Archive/model-v1.xlsx",
+            "filesystem/Model/model-vF.xlsx",
+        ], "edit the model")
+        self.assertEqual(selected, ["filesystem/Model/model-vF.xlsx"])
 
     def test_compiler_data_room_binds_frozen_world_archive(self):
         with tempfile.TemporaryDirectory() as temporary:

@@ -53,33 +53,10 @@ DECOMPOSITION_SCHEMA = {
 }
 
 ATOM_OUTPUT_SCHEMA = {
-    "type": "object", "additionalProperties": False, "required": ["atoms"],
-    "properties": {"atoms": {"type": "array", "maxItems": 12,
-        "items": {"type": "object", "additionalProperties": False,
-            "required": ["schema_version", "atom_id", "requirement_id", "evidence_id", "receipt_digest",
-                         "subject", "predicate", "value", "support_mode", "locator",
-                         "exact_source_value", "unit", "currency", "period", "as_of_date",
-                         "source_version", "qualification"],
-            "properties": {
-                "schema_version": {"type": "string", "const": ATOM_SCHEMA},
-                "atom_id": {"type": "string", "maxLength": 80},
-                "requirement_id": {"type": "string", "maxLength": 64},
-                "evidence_id": {"type": "string", "maxLength": 80},
-                "receipt_digest": {"type": "string", "maxLength": 80},
-                "subject": {"type": "string", "maxLength": 240},
-                "predicate": {"type": "string", "maxLength": 120},
-                "value": {"type": "string", "maxLength": 300},
-                "support_mode": {"type": "string", "enum": ["explicit", "inferred"]},
-                "locator": {"type": "string", "maxLength": 500},
-                "exact_source_value": {"anyOf": [{"type": "string"}, {"type": "number"},
-                                                     {"type": "boolean"}, {"type": "null"}]},
-                "unit": {"anyOf": [{"type": "string"}, {"type": "null"}]},
-                "currency": {"anyOf": [{"type": "string"}, {"type": "null"}]},
-                "period": {"anyOf": [{"type": "string"}, {"type": "null"}]},
-                "as_of_date": {"anyOf": [{"type": "string"}, {"type": "null"}]},
-                "source_version": {"anyOf": [{"type": "string"}, {"type": "null"}]},
-                "qualification": {"anyOf": [{"type": "string"}, {"type": "null"}]},
-            }}}},
+    "type": "object", "additionalProperties": False,
+    "required": ["evidence_ids"],
+    "properties": {"evidence_ids": {"type": "array", "maxItems": 12,
+                                      "items": {"type": "string", "maxLength": 80}}},
 }
 
 CRITIC_SCHEMA = {
@@ -114,7 +91,8 @@ def select_data_room_members(members: list[str], task_prompt: str,
     query = {token.casefold() for token in _PATH_TOKEN.findall(task_prompt)
              if len(token) >= 3 and token.casefold() not in _PATH_STOP}
     workbooks = sorted(path for path in members if path.startswith("filesystem/")
-                       and path.lower().endswith(".xlsx"))
+                       and path.lower().endswith(".xlsx")
+                       and "/archive/" not in path.casefold())
     scored = []
     for path in members:
         if not path.startswith("filesystem/") or not path.lower().endswith(".pdf"):
@@ -200,6 +178,37 @@ def _receipt_packet(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
     fields = ("evidence_id", "receipt_digest", "locator", "source_value", "formula",
               "value_semantics", "local_context")
     return [{field: row.get(field) for field in fields} for row in rows]
+
+
+def _atom_from_receipt(requirement_id: str, receipt: dict[str, Any]) -> dict[str, Any]:
+    """Construct exact atom fields after a model selects an evidence ID."""
+    exact = receipt.get("source_value")
+    predicate = "has explicit source value"
+    if exact is None:
+        exact = receipt.get("quote")
+        predicate = "contains exact source excerpt"
+    atom = {
+        "schema_version": ATOM_SCHEMA,
+        "atom_id": "finance_atom_" + hashlib.sha256(
+            f"{requirement_id}:{receipt['evidence_id']}".encode()).hexdigest()[:20],
+        "requirement_id": requirement_id,
+        "evidence_id": receipt["evidence_id"],
+        "receipt_digest": receipt["receipt_digest"],
+        "subject": receipt["locator"],
+        "predicate": predicate,
+        "value": str(exact),
+        "support_mode": "explicit",
+        "locator": receipt["locator"],
+        "exact_source_value": exact,
+        "unit": receipt.get("unit"),
+        "currency": receipt.get("currency"),
+        "period": receipt.get("period"),
+        "as_of_date": receipt.get("as_of_date"),
+        "source_version": receipt.get("source_version"),
+        "qualification": (f"source formula: {receipt['formula']}"
+                          if receipt.get("formula") else None),
+    }
+    return atom
 
 
 def _formula_records(atoms: list[dict[str, Any]], receipts: dict[str, dict[str, Any]]) -> list[dict[str, Any]]:
@@ -326,18 +335,20 @@ def run_task_quality(*, repo: Path, evidence_root: Path, output: Path,
                 continue
             call_counts["atom_extraction"] += 1
             value = gateway("atom_extraction").call(
-                system="Extract narrow evidence atoms only. Copy IDs, locator, digest, and exact_source_value exactly from supplied receipts. Do not calculate requested outputs or grant authority.",
+                system="Select only supplied evidence IDs that directly equip this requirement. Do not copy values, calculate outputs, or grant authority; deterministic code constructs atoms from selected receipts.",
                 prompt=json.dumps({"requirement": requirement, "receipts": packet}, ensure_ascii=False),
-                schema=ATOM_OUTPUT_SCHEMA, schema_name="finance_evidence_atoms", max_tokens=6000)
-            for atom in value.get("atoms", []):
+                schema=ATOM_OUTPUT_SCHEMA, schema_name="finance_evidence_selection", max_tokens=2000)
+            packet_ids = {row["evidence_id"] for row in packet}
+            for evidence_id in dict.fromkeys(value.get("evidence_ids", [])):
                 try:
-                    if atom.get("requirement_id") != requirement_id:
-                        raise ValueError("atom requirement mismatch")
+                    if evidence_id not in packet_ids:
+                        raise ValueError("selected evidence ID is outside the supplied packet")
+                    atom = _atom_from_receipt(requirement_id, receipt_map[evidence_id])
                     atoms.append(validate_finance_atom(atom, receipt_map))
                 except ValueError as error:
                     extraction_failures.append({"requirement_id": requirement_id,
-                                                "reason": type(error).__name__,
-                                                "atom_digest": digest(atom)})
+                                                "reason": str(error),
+                                                "selection_digest": digest(evidence_id)})
         records = construct_observed_facts(atoms) + _formula_records(atoms, receipt_map)
         by_requirement: dict[str, list[dict[str, Any]]] = {}
         for record in records:
