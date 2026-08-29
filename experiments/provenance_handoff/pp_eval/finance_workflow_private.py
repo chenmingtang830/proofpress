@@ -158,6 +158,7 @@ def materialize_compiler_data_room(*, world_zip: Path, destination: Path,
     manifest = {
         "schema_version": "proofpress/finance-compiler-data-room/v2",
         "task_id": public_task["task_id"], "world_id": public_task["world_id"],
+        "world_zip_sha256": sha256_file(world_zip),
         "inventory_count": len(inventory), "selected_source_count": len(selected_records),
         "files": selected_records, "inventory_digest": digest(inventory),
         "selection_rule": "all_xlsx_plus_top32_prompt_path_overlap_pdfs",

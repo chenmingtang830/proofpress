@@ -21,7 +21,11 @@ from pp_eval.finance_e2e_v2 import (
     workbook_index_to_receipts,
 )
 from pp_eval.finance_gateway import audit_receipts
-from pp_eval.finance_workflow_private import materialize_governed_overlay, select_data_room_members
+from pp_eval.finance_workflow_private import (
+    materialize_compiler_data_room,
+    materialize_governed_overlay,
+    select_data_room_members,
+)
 from run_finance_e2e_v2 import audit_executor_qualification, normalized_cell
 
 
@@ -376,6 +380,22 @@ class FinanceGateTests(unittest.TestCase):
         self.assertIn("filesystem/model.xlsx", selected)
         self.assertIn("filesystem/FDUS/FDUS_10Q_09.30.2025.pdf", selected)
         self.assertNotIn("filesystem/WHF/WHF_10K_12.31.2024.pdf", selected)
+
+    def test_compiler_data_room_binds_frozen_world_archive(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            world = root / "world.zip"
+            with zipfile.ZipFile(world, "w") as archive:
+                archive.writestr("filesystem/source.txt", b"source")
+            output = root / "evidence"
+            report = materialize_compiler_data_room(
+                world_zip=world, destination=output,
+                public_task={"task_id": "task1", "world_id": "world1",
+                             "prompt": "inspect source", "expected_output": "x"})
+            self.assertEqual(report["world_zip_sha256"],
+                             __import__("hashlib").sha256(world.read_bytes()).hexdigest())
+            self.assertNotIn("rubric", json.loads(
+                (output / "filesystem/Governed/public_task.json").read_text()))
 
 
 if __name__ == "__main__":

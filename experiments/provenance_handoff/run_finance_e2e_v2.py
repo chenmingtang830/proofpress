@@ -19,12 +19,13 @@ from pp_eval.apex_ib_pr36 import (
     QUALIFICATION_TASK_ID,
     TASK_SPECS,
     compact_apex_output,
+    load_public_task,
     run_apex_stage,
     write_json,
 )
 from pp_eval.finance_e2e_v2 import executor_qualification, fresh_task_audit, legacy_working_set_preflight
 from pp_eval.finance_gateway import FinanceGateway, ROUTES, audit_receipts
-from pp_eval.finance_workflow_private import run_task_quality
+from pp_eval.finance_workflow_private import materialize_compiler_data_room, run_task_quality
 
 
 SCHEMA = "proofpress/finance-e2e-v2/executor-qualification/v1"
@@ -347,6 +348,11 @@ def main() -> int:
     task_quality.add_argument("--output", required=True, type=Path)
     task_quality.add_argument("--env-file", required=True, type=Path)
     task_quality.add_argument("--task-id", required=True)
+    compiler = sub.add_parser("compiler-data-room")
+    compiler.add_argument("--tasks-json", required=True, type=Path)
+    compiler.add_argument("--world-zip", required=True, type=Path)
+    compiler.add_argument("--output", required=True, type=Path)
+    compiler.add_argument("--task-id", required=True)
     audit = sub.add_parser("audit-executor-qualification")
     audit.add_argument("--results-root", required=True, type=Path)
     audit.add_argument("--output", required=True, type=Path)
@@ -401,6 +407,13 @@ def main() -> int:
             target_artifacts=list(TASK_SPECS[args.task_id].final_artifact_allowlist))
         print(json.dumps(report, indent=2, sort_keys=True))
         return 0 if report["decision"] == "allow" else 2
+    if args.command == "compiler-data-room":
+        public_task = load_public_task(args.tasks_json, args.task_id)
+        report = materialize_compiler_data_room(
+            world_zip=args.world_zip, destination=args.output,
+            public_task=public_task)
+        print(json.dumps(report, indent=2, sort_keys=True))
+        return 0
     if args.command == "audit-executor-qualification":
         report = audit_executor_qualification(args.results_root, args.output)
         print(json.dumps(report, indent=2, sort_keys=True))
