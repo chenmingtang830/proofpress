@@ -14,7 +14,7 @@ from run_claim_construction_private import Gateway
 SCHEMA = "proofpress/gateway-role-canary/v1"
 ROLES = ("decomposition", "atom_extraction", "claim_proposal", "claim_critic")
 MODELS = {
-    "deepseek": ("deepseek/deepseek-v4-flash", "alibaba", "none"),
+    "deepseek": ("deepseek/deepseek-v4-flash", "alibaba", "high"),
     "ling": ("inclusionai/ling-3.0-flash-fin", "novita", "high"),
     "qwen": ("alibaba/qwen3.8-27b", "alibaba", "high"),
     "muse": ("meta/muse-spark-1.2", "meta", "medium"),

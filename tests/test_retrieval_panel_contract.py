@@ -28,6 +28,7 @@ claim_scorer = load("claim_scorer", ROOT / "studies/apex-agent-eval/retrieval_ad
 semantic_runner = load("semantic_runner", ROOT / "studies/apex-agent-eval/retrieval_adapter/run_claim_semantic_adjudication_private.py")
 ask_freezer = load("ask_freezer", ROOT / "studies/apex-agent-eval/retrieval_adapter/freeze_workflow_asks_private.py")
 workflow_runner = load("workflow_runner", ROOT / "studies/apex-agent-eval/retrieval_adapter/run_workflow_utility_private.py")
+v7_preserver = load("v7_preserver", ADAPTER / "run_v7_claim_preservation_private.py")
 budget_runner = load("budget_runner", ROOT / "studies/apex-agent-eval/retrieval_adapter/build_private_budget_ledger.py")
 pipeline_summary = load("pipeline_summary", ROOT / "studies/apex-agent-eval/retrieval_adapter/summarize_private_legal_pipeline.py")
 v9_selector = load("v9_selector", ADAPTER / "select_v9_proposer_private.py")
@@ -35,6 +36,22 @@ v9_diagnostic = load("v9_diagnostic", ADAPTER / "run_v9_gate_diagnostic_private.
 
 
 class RetrievalPanelContractTests(unittest.TestCase):
+    def test_formal_executor_matrix_uses_reasoning_routes(self):
+        routes = workflow_runner.EXECUTOR_ROUTES
+        self.assertEqual(set(routes), {"deepseek", "muse", "glm", "qwen"})
+        self.assertEqual(routes["deepseek"][3], "high")
+        self.assertNotIn("none", {route[3] for route in routes.values()})
+        self.assertEqual(routes["muse"][:2], ("meta/muse-spark-1.2", "meta"))
+        self.assertEqual(routes["glm"][:2], ("zai/glm-5.3-flash", "baseten"))
+        self.assertEqual(routes["qwen"][:2], ("alibaba/qwen3.8-27b", "alibaba"))
+
+    def test_v7_preserver_routes_are_frozen_and_never_generate_new_claims(self):
+        self.assertEqual(v7_preserver.ROUTES["sol"]["model"], "openai/gpt-5.6-sol")
+        decisions = v7_preserver.OUTPUT_SCHEMA["properties"]["decisions"]["items"]
+        self.assertEqual(set(decisions["properties"]["verdict"]["enum"]),
+                         {"keep", "repair", "reject"})
+        self.assertNotIn("new_claim", decisions["properties"])
+
     def test_rrf_is_deterministic_and_deduplicates(self):
         left = {"source": {"uri": "a", "content_digest": "sha256:" + "a" * 64},
                 "evidence": {"locator": {"kind": "page_span", "page_start": 1, "page_end": 1}}}

@@ -30,12 +30,17 @@ def summarize(construction: dict[str, Any], coverage: dict[str, Any], retrieval:
     candidate_unsupported = semantic["candidate_unsupported_factual_claim_rate"]
     relative_reduction = ((v7_unsupported - candidate_unsupported) / v7_unsupported
                           if v7_unsupported else None)
-    construction_decision = decision({
+    construction_checks = {
         "unsupported_relative_reduction_at_least_25pct": relative_reduction is not None and relative_reduction >= .25,
         "honest_gap_not_below_v7": semantic["candidate_honest_gap_recall"] >= semantic["v7_honest_gap_recall"],
         "requirement_recall_not_below_v7": semantic["candidate_requirement_recall"] >= semantic["v7_requirement_recall"],
         "supported_claim_coverage_not_materially_lower": supported["paired_bootstrap_95_ci"][0] >= -.05,
-    }, stopped_reason="formal Legal E2E stopped by the preregistered construction qualification gate")
+    }
+    construction_decision = decision(
+        construction_checks,
+        stopped_reason=("formal Legal E2E stopped by the preregistered construction qualification gate"
+                        if not all(construction_checks.values()) else None),
+    )
 
     bm25 = retrieval["systems"]["bm25-page/v1"]["k=5"]
     prior = retrieval["systems"]["pageindex-prior-bm25/v1"]["k=5"]
