@@ -1542,7 +1542,68 @@ def serve_ui(port=7331, scope=None, open_browser=True):
     finally: server.server_close()
 
 
+def seed_demo_v2():
+    """Seed a new ledger with synthetic examples for the Local UI."""
+    try:
+        _git("show-ref", "--verify", "--quiet", KNOWLEDGE_REF)
+    except ValueError:
+        pass
+    else:
+        raise ValueError(
+            f"{KNOWLEDGE_REF} already exists; run demo only in a new repository"
+        )
+
+    fixture = (Path(__file__).resolve().parent / "examples" /
+               "verified-knowledge-ledger" / "demo.otlp.json")
+    if not fixture.exists():
+        raise ValueError("packaged synthetic demo fixture is missing")
+    imported = import_evidence_v2(str(fixture))
+    baseline, candidate_b, timed_out = imported["evidence"]
+
+    admitted = propose_v2(
+        "Candidate B increased synthetic conversion from 12% to 18% "
+        "in the recorded experiment.",
+        [baseline, candidate_b], "demo", "agent:analyst",
+    )["conclusion"]["id"]
+    rejected = propose_v2(
+        "Candidate C is ready for rollout despite the recorded timeout.",
+        [timed_out], "demo", "agent:analyst",
+    )["conclusion"]["id"]
+    needs_review = propose_v2(
+        "The observed Candidate B lift should be revalidated before a "
+        "production rollout.",
+        [candidate_b], "demo", "agent:analyst",
+    )["conclusion"]["id"]
+
+    for conclusion in (admitted, rejected, needs_review):
+        evaluate_v2(conclusion)
+    review_v2(
+        admitted, "admit", "human:product-owner",
+        "Synthetic demo admission: reuse only within the demo scope.",
+    )
+    review_v2(
+        rejected, "reject", "human:product-owner",
+        "Synthetic demo rejection: the source run timed out.",
+    )
+    context = context_v2("demo", "agent:successor", None, True)
+    return {
+        "synthetic": True,
+        "scope": "demo",
+        "states": {
+            "admitted": admitted,
+            "needs_review": needs_review,
+            "rejected": rejected,
+        },
+        "eligible_context": [row["id"] for row in context["knowledge"]],
+        "blocked": context["blocked"],
+        "next": "proofpress ui --scope demo",
+    }
+
+
 def add_flat_cli(sub):
+    demo_parser = sub.add_parser(
+        "demo", help="seed a new ledger with clearly labeled synthetic UI data")
+    demo_parser.set_defaults(f=cmd_flat, flat_cmd="demo")
     evidence_parser = sub.add_parser("evidence", help="bind local evidence to the trust ledger")
     evidence_sub = evidence_parser.add_subparsers(dest="evidence_cmd", required=True)
     evidence_import = evidence_sub.add_parser("import", help="import an artifact, OTLP JSON, retrieval receipt, or TRACE session")
@@ -1613,7 +1674,8 @@ def add_flat_cli(sub):
 
 def cmd_flat(a):
     command = getattr(a, "flat_cmd", None) or ("evidence-import" if getattr(a, "evidence_cmd", None) == "import" else None)
-    if command == "evidence-import": out = import_evidence_v2(a.input)
+    if command == "demo": out = seed_demo_v2()
+    elif command == "evidence-import": out = import_evidence_v2(a.input)
     elif command == "propose":
         qualifiers = json.loads(Path(a.qualifiers).read_text(encoding="utf-8")) if a.qualifiers else None
         out = propose_v2(a.statement, a.evidence, a.scope, a.proposer, a.expires_at,
