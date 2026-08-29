@@ -2,6 +2,7 @@ import unittest
 import json
 from pathlib import Path
 import tempfile
+from unittest import mock
 import zipfile
 
 from pp_eval.finance_e2e_v2 import (
@@ -31,7 +32,14 @@ from pp_eval.finance_workflow_private import (
     select_data_room_members,
     _requirement_obligation,
 )
-from run_finance_e2e_v2 import audit_calibration_v2, audit_executor_qualification, normalized_cell, _zip_member_digest
+from run_finance_e2e_v2 import (
+    audit_calibration_v2,
+    audit_executor_qualification,
+    normalized_cell,
+    run_formal_matrix_v2,
+    _zip_member_digest,
+)
+from pp_eval.apex_ib_pr36 import FINANCE_E2E_V2_FORMAL_TASK_IDS
 
 
 def atom():
@@ -297,6 +305,86 @@ class FinanceGateTests(unittest.TestCase):
         self.assertEqual(result["jointly_gradeable_pairs"], 1)
         self.assertEqual(result["proofpress_gain_pairs"], 1)
         self.assertAlmostEqual(result["known_model_cost_usd"], 0.14)
+
+    @mock.patch("run_finance_e2e_v2.compact_apex_output", return_value={})
+    @mock.patch("run_finance_e2e_v2.run_apex_stage")
+    @mock.patch("run_finance_e2e_v2.host_preflight")
+    def test_formal_resume_records_active_cell_once_and_skips_observed_keys(
+            self, preflight, run_stage, _compact):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            results = root / "formal"
+            checkout = root / "checkout"
+            checkout.mkdir()
+            world = root / "world.zip"
+            world.write_bytes(b"world")
+            env = root / ".env"
+            env.write_text("AI_GATEWAY_API_KEY=test\n")
+            freeze = root / "freeze.json"
+            freeze.write_text(json.dumps({
+                "world_id": "world",
+                "freeze_digest": "sha256:freeze",
+                "formal_tasks_frozen": True,
+                "scheduled_executor_cells": 12,
+                "executor_model": "openai/gpt-5.6-luna",
+                "selected_tasks": [
+                    {"task_id": task_id} for task_id in FINANCE_E2E_V2_FORMAL_TASK_IDS],
+            }))
+            calibration = root / "calibration.json"
+            calibration.write_text(json.dumps({
+                "status": "completed",
+                "release_audit": {"decision": "allow", "audit_digest": "sha256:cal"},
+            }))
+            overlays = {}
+            for task_id in FINANCE_E2E_V2_FORMAL_TASK_IDS:
+                overlay = root / task_id
+                governed = overlay / "filesystem" / "Governed"
+                governed.mkdir(parents=True)
+                (governed / "execution_receipt.json").write_text(
+                    json.dumps({"decision": "allow"}))
+                (overlay / "package_manifest.json").write_text(
+                    json.dumps({"task_id": task_id}))
+                overlays[task_id] = overlay
+            preflight.return_value = {
+                "status": "passed", "world_zip_sha256": "sha256:world",
+                "free_bytes": 30 * 1024**3, "docker_healthy": True,
+                "environment_image_present": True, "world_zip_present": True,
+            }
+            fake_run = root / "fake-run"
+            (fake_run / "output").mkdir(parents=True)
+            run_stage.return_value = {
+                "status": "failed", "run_dir": str(fake_run), "task_id": "unused"}
+
+            run_formal_matrix_v2(
+                checkout, results, env, world, freeze, calibration, overlays)
+            source = json.loads((results / "report.json").read_text())
+            protocol = json.loads((results / "frozen_protocol.json").read_text())
+            source["cells"] = source["cells"][:6]
+            seventh = [
+                (block["task_id"], block["attempt"], arm)
+                for block in protocol["schedule"] for arm in block["arm_order"]][6]
+            interrupted_dir = results / f"v2-formal-a{seventh[1]}-{seventh[2]}-{seventh[0]}-deadbeef"
+            (interrupted_dir / "output").mkdir(parents=True)
+            (interrupted_dir / "output" / "recovered.json").write_text("{}")
+            source["status"] = "running"
+            source["active_cell"] = {
+                "task_id": seventh[0], "attempt": seventh[1],
+                "arm": seventh[2], "state": "executor_running"}
+            (results / "report.json").write_text(json.dumps(source))
+            run_stage.reset_mock()
+
+            resumed = run_formal_matrix_v2(
+                checkout, results, env, world, freeze, calibration, overlays,
+                resume=True)
+            self.assertEqual(run_stage.call_count, 5)
+            self.assertEqual(len(resumed["cells"]), 12)
+            keys = [(row["task_id"], row["attempt"], row["arm"])
+                    for row in resumed["cells"]]
+            self.assertEqual(len(keys), len(set(keys)))
+            interrupted = [row for row in resumed["cells"]
+                           if row.get("result", {}).get("status") == "interrupted"]
+            self.assertEqual(len(interrupted), 1)
+            self.assertTrue(interrupted[0]["exclusion"]["rerun_forbidden"])
 
     def test_independent_calibration_audit_recomputes_allow(self):
         with tempfile.TemporaryDirectory() as temporary:

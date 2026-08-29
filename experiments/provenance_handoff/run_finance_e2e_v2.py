@@ -379,12 +379,26 @@ def run_formal_matrix_v2(checkout: Path, results_root: Path, env_file: Path,
                          world_zip: Path, task_freeze: Path, calibration_report: Path,
                          overlays: dict[str, Path], *, seed: int = 20260829,
                          executor_model: str = "openai/gpt-5.6-luna",
-                         executor_provider: str = "openai") -> dict:
+                         executor_provider: str = "openai",
+                         resume: bool = False) -> dict:
     """Execute the frozen Finance v2 2-task × 2-arm × 3-attempt matrix serially."""
-    results_root.mkdir(parents=True, exist_ok=False)
+    if resume:
+        if not results_root.is_dir():
+            raise ValueError("--resume requires an existing formal results root")
+    else:
+        results_root.mkdir(parents=True, exist_ok=False)
     freeze = json.loads(task_freeze.read_text())
     calibration = json.loads(calibration_report.read_text())
-    preflight = host_preflight(checkout, world_zip, formal=True)
+    preflight = host_preflight(checkout, world_zip, formal=not resume)
+    if resume:
+        preflight["mode"] = "resume"
+        preflight["required_free_bytes"] = MIN_FREE_BYTES
+        preflight["status"] = "passed" if (
+            preflight.get("free_bytes", 0) >= MIN_FREE_BYTES
+            and preflight.get("docker_healthy") is True
+            and preflight.get("environment_image_present") is True
+            and preflight.get("world_zip_present") is True
+        ) else "failed"
     selected = [row["task_id"] for row in freeze.get("selected_tasks", [])]
     expected = list(FINANCE_E2E_V2_FORMAL_TASK_IDS)
     schedule = []
@@ -417,7 +431,13 @@ def run_formal_matrix_v2(checkout: Path, results_root: Path, env_file: Path,
     }
     protocol["protocol_digest"] = "sha256:" + hashlib.sha256(
         json.dumps(protocol, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
-    write_json(results_root / "frozen_protocol.json", protocol)
+    protocol_path = results_root / "frozen_protocol.json"
+    if resume:
+        frozen_protocol = json.loads(protocol_path.read_text())
+        if frozen_protocol.get("protocol_digest") != protocol["protocol_digest"]:
+            raise ValueError("resume protocol digest does not match frozen protocol")
+    else:
+        write_json(protocol_path, protocol)
     release_inputs_ok = (
         freeze.get("formal_tasks_frozen") is True
         and selected == expected
@@ -431,18 +451,68 @@ def run_formal_matrix_v2(checkout: Path, results_root: Path, env_file: Path,
                 and (row.get("package") or {}).get("task_id") == task_id
                 for task_id, row in overlay_receipts.items())
     )
-    report = {
-        "schema_version": "proofpress/finance-e2e-v2/formal-report/v1",
-        "status": "running" if release_inputs_ok else "release_blocked",
-        "protocol_digest": protocol["protocol_digest"], "preflight": preflight,
-        "overlay_receipts": overlay_receipts, "cells": [],
-        "summary": summarize_formal_cells([], 12),
-    }
-    write_json(results_root / "report.json", report)
+    report_path = results_root / "report.json"
+    if resume:
+        report = json.loads(report_path.read_text())
+        if report.get("protocol_digest") != protocol["protocol_digest"]:
+            raise ValueError("resume report digest does not match frozen protocol")
+        if report.get("status") == "schedule_completed":
+            return report
+        active = report.get("active_cell")
+        if active:
+            active_key = (active.get("task_id"), active.get("attempt"), active.get("arm"))
+            persisted_keys = {
+                (row.get("task_id"), row.get("attempt"), row.get("arm"))
+                for row in report.get("cells", [])
+            }
+            if active_key not in persisted_keys:
+                candidates = sorted(results_root.glob(
+                    f"v2-formal-a{active['attempt']}-{active['arm']}-{active['task_id']}-*"))
+                run_dir = candidates[-1] if candidates else None
+                output_dir = run_dir / "output" if run_dir else None
+                artifact_observed = bool(
+                    output_dir and output_dir.is_dir() and any(output_dir.iterdir()))
+                report.setdefault("cells", []).append({
+                    "task_id": active["task_id"],
+                    "attempt": active["attempt"],
+                    "arm": active["arm"],
+                    "result": {
+                        "status": "interrupted",
+                        "task_id": active["task_id"],
+                        "run_dir": str(run_dir) if run_dir else None,
+                        "failure_kind": "orchestrator_interrupted_after_executor_start",
+                        "artifact_observed": artifact_observed,
+                        "official_score_claim": False,
+                    },
+                    "exclusion": {
+                        "reason": "orchestrator_interrupted_before_persisted_terminal_receipt",
+                        "rerun_forbidden": True,
+                    },
+                })
+        report.pop("active_cell", None)
+        report["status"] = "running" if release_inputs_ok else "release_blocked"
+        report["resume_preflight"] = preflight
+        report["summary"] = summarize_formal_cells(report.get("cells", []), 12)
+    else:
+        report = {
+            "schema_version": "proofpress/finance-e2e-v2/formal-report/v1",
+            "status": "running" if release_inputs_ok else "release_blocked",
+            "protocol_digest": protocol["protocol_digest"], "preflight": preflight,
+            "overlay_receipts": overlay_receipts, "cells": [],
+            "summary": summarize_formal_cells([], 12),
+        }
+    write_json(report_path, report)
     if not release_inputs_ok:
         return report
+    observed_keys = {
+        (row.get("task_id"), row.get("attempt"), row.get("arm"))
+        for row in report.get("cells", [])
+    }
     for block in schedule:
         for arm in block["arm_order"]:
+            cell_key = (block["task_id"], block["attempt"], arm)
+            if cell_key in observed_keys:
+                continue
             report["active_cell"] = {
                 "task_id": block["task_id"], "attempt": block["attempt"],
                 "arm": arm, "state": "executor_running"}
@@ -471,6 +541,7 @@ def run_formal_matrix_v2(checkout: Path, results_root: Path, env_file: Path,
                 Path(result["run_dir"]) / "output",
                 preserve_final_tar=result.get("status") != "completed")
             report["cells"].append(cell)
+            observed_keys.add(cell_key)
             report.pop("active_cell", None)
             report["summary"] = summarize_formal_cells(report["cells"], 12)
             write_json(results_root / "report.json", report)
@@ -722,6 +793,9 @@ def main() -> int:
     formal.add_argument("--overlay", action="append", required=True)
     formal.add_argument("--executor-model", default="openai/gpt-5.6-luna")
     formal.add_argument("--executor-provider", default="openai")
+    formal.add_argument(
+        "--resume", action="store_true",
+        help="Continue an existing frozen matrix without rerunning persisted or active cells")
     calibration_audit = sub.add_parser("audit-calibration")
     calibration_audit.add_argument("--source-report", required=True, type=Path)
     calibration_audit.add_argument("--output", required=True, type=Path)
@@ -826,7 +900,8 @@ def main() -> int:
         report = run_formal_matrix_v2(
             args.checkout, args.results_root, args.env_file, args.world_zip,
             args.task_freeze, args.calibration_report, overlays,
-            executor_model=args.executor_model, executor_provider=args.executor_provider)
+            executor_model=args.executor_model, executor_provider=args.executor_provider,
+            resume=args.resume)
         print(json.dumps(report, indent=2, sort_keys=True))
         return 0 if report.get("status") == "schedule_completed" else 2
     if args.command == "audit-calibration":
