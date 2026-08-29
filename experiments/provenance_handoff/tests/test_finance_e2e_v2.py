@@ -295,6 +295,39 @@ class FinanceGateTests(unittest.TestCase):
             self.assertEqual(result["qualification_decision"], "invalid_root")
             self.assertEqual(result["infrastructure_invalid_cells"], 1)
 
+    def test_executor_audit_recomputes_allow_for_frozen_model_and_provider(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            cells = []
+            for ordinal in range(1, 7):
+                run = root / f"cell-{ordinal}"
+                output = run / "output"
+                output.mkdir(parents=True)
+                with zipfile.ZipFile(output / "neutral_final.zip", "w") as archive:
+                    archive.writestr(
+                        "filesystem/04_Models/Merger-Acquisition Analysis/"
+                        "Merger Model - Barings BDC vF.xlsx", b"xlsx")
+                (run / "launcher.log").write_text("")
+                manifest = {
+                    "run_id": f"cell-{ordinal}",
+                    "task_id": "task_9ba58a6197114140877a1df1754d2993",
+                    "agent_model": "openai/gpt-5.6-luna",
+                    "status": "completed", "watchdog_timeout": False,
+                    "telemetry": {"status": "complete", "calls": 1,
+                                  "total_tokens": 2, "known_cost_usd": 0.01,
+                                  "providers": ["openai"],
+                                  "no_fallback_observed": True},
+                }
+                (run / "manifest.json").write_text(json.dumps(manifest))
+                cells.append({"manifest": str(run / "manifest.json")})
+            source = {"status": "completed", "scheduled_cells": 6,
+                      "executor_model": "openai/gpt-5.6-luna",
+                      "executor_provider": "openai", "cells": cells}
+            (root / "report.json").write_text(json.dumps(source))
+            result = audit_executor_qualification(root, root / "audit.json")
+            self.assertEqual(result["qualification_decision"], "allow")
+            self.assertEqual(result["qualification"]["completed"], 6)
+
     def test_gateway_receipt_audit_requires_exact_route_and_cost(self):
         route = {"model": "model/a", "provider": "provider-a", "reasoning": "low"}
         row = {

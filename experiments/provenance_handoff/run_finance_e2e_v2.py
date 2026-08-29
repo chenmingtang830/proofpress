@@ -35,6 +35,12 @@ CANARY_SCHEMA = {
     "properties": {"role": {"type": "string"},
                    "safe_to_continue": {"type": "boolean"}},
 }
+EXECUTOR_CANARY_SCHEMA = {
+    "type": "object", "additionalProperties": False,
+    "required": ["adapter", "safe_to_continue"],
+    "properties": {"adapter": {"type": "string"},
+                   "safe_to_continue": {"type": "boolean"}},
+}
 
 
 def _read_env_value(path: Path, key: str) -> str:
@@ -81,6 +87,44 @@ def run_upstream_canary(repo: Path, output: Path, env_file: Path,
         "cells": cells,
         "decision": "allow" if cells and all(row["decision"] == "allow" for row in cells) else "block",
         "known_cost_usd": sum(row["receipt_audit"]["known_cost_usd"] for row in cells),
+    }
+    write_json(output / "report.json", report)
+    return report
+
+
+def run_executor_canary(repo: Path, output: Path, env_file: Path,
+                        model: str, provider: str) -> dict:
+    """Task-free fixed-route canary before an expensive executor qualification."""
+    output.mkdir(parents=True, exist_ok=False)
+    route = {"model": model, "provider": provider, "reasoning": "none"}
+    gateway = FinanceGateway(
+        repo=repo, route=route, output=output,
+        api_key=_read_env_value(env_file, "AI_GATEWAY_API_KEY"))
+    semantic_ok = False
+    error_type = None
+    try:
+        value = gateway.call(
+            system="Return only the schema-bound adapter canary. No task data.",
+            prompt="Set adapter exactly to apex_ib and safe_to_continue to true.",
+            schema=EXECUTOR_CANARY_SCHEMA,
+            schema_name="finance_executor_adapter_canary", max_tokens=256)
+        semantic_ok = value == {"adapter": "apex_ib", "safe_to_continue": True}
+    except Exception as error:
+        error_type = type(error).__name__
+    finally:
+        gateway.stop()
+    receipt_audit = audit_receipts(gateway.rows(), route, 1)
+    report = {
+        "schema_version": "proofpress/finance-executor-adapter-canary/v1",
+        "boundary": "Task-free route qualification; zero executor, grader, calibration, or formal artifacts.",
+        "route": route,
+        "semantic_status": "pass" if semantic_ok else "inconclusive",
+        "error_type": error_type,
+        "receipt_audit": receipt_audit,
+        "decision": "allow" if semantic_ok and receipt_audit["decision"] == "allow" else "block",
+        "executor_qualification_denominator": 0,
+        "calibration_denominator": 0,
+        "formal_denominator": 0,
     }
     write_json(output / "report.json", report)
     return report
@@ -159,7 +203,9 @@ def host_gate(checkout: Path) -> dict:
 
 
 def run_executor_qualification(checkout: Path, results_root: Path,
-                               env_file: Path, attempts: int = 6) -> dict:
+                               env_file: Path, attempts: int = 6,
+                               executor_model: str = EXECUTOR_MODEL,
+                               executor_provider: str | None = None) -> dict:
     results_root.mkdir(parents=True, exist_ok=False)
     gate = host_gate(checkout)
     report = {
@@ -169,7 +215,8 @@ def run_executor_qualification(checkout: Path, results_root: Path,
         "formal_denominator": 0,
         "calibration_denominator": 0,
         "task_id": QUALIFICATION_TASK_ID,
-        "executor_model": EXECUTOR_MODEL,
+        "executor_model": executor_model,
+        "executor_provider": executor_provider,
         "scheduled_cells": attempts,
         "host_gate": gate,
         "cells": [],
@@ -190,6 +237,7 @@ def run_executor_qualification(checkout: Path, results_root: Path,
                 checkout, results_root, QUALIFICATION_TASK_ID,
                 f"executor-qualification-a{attempt}",
                 bounded_world=False, skip_grading=True, env_file=env_file,
+                agent_model=executor_model,
             )
             cell = normalized_cell(result)
             output = Path(result["run_dir"]) / "output"
@@ -214,6 +262,8 @@ def run_executor_qualification(checkout: Path, results_root: Path,
         report["cells"], required=attempts,
         minimum_completed=5 if attempts == 6 else attempts,
         maximum_transport_failures=1 if attempts == 6 else 0,
+        expected_model=executor_model,
+        expected_provider=executor_provider,
     )
     report["status"] = "completed"
     report["updated_at"] = datetime.now(timezone.utc).isoformat()
@@ -234,6 +284,16 @@ def audit_executor_qualification(results_root: Path, output: Path) -> dict:
         result["agent_model"] = manifest.get("agent_model")
         audited.append(normalized_cell(result))
     infrastructure_invalid = sum(row.get("infrastructure_invalid") is True for row in audited)
+    required = source.get("scheduled_cells", 6)
+    qualification = None
+    if len(audited) == required and not infrastructure_invalid:
+        qualification = executor_qualification(
+            audited, required=required,
+            minimum_completed=5 if required == 6 else required,
+            maximum_transport_failures=1 if required == 6 else 0,
+            expected_model=source.get("executor_model"),
+            expected_provider=source.get("executor_provider"),
+        )
     report = {
         "schema_version": "proofpress/finance-executor-qualification-audit/v1",
         "source_report_sha256": "sha256:" + hashlib.sha256(original_bytes).hexdigest(),
@@ -242,7 +302,12 @@ def audit_executor_qualification(results_root: Path, output: Path) -> dict:
         "persisted_cells": len(audited),
         "cells": audited,
         "infrastructure_invalid_cells": infrastructure_invalid,
-        "qualification_decision": "invalid_root" if infrastructure_invalid else "not_yet_qualified",
+        "qualification": qualification,
+        "qualification_decision": (
+            "invalid_root" if infrastructure_invalid else
+            qualification["decision"] if qualification is not None else
+            "not_yet_qualified"
+        ),
         "formal_denominator": 0, "calibration_denominator": 0,
     }
     report["audit_digest"] = "sha256:" + hashlib.sha256(
@@ -260,6 +325,14 @@ def main() -> int:
     qualify.add_argument("--results-root", required=True, type=Path)
     qualify.add_argument("--env-file", required=True, type=Path)
     qualify.add_argument("--attempts", type=int, default=6)
+    qualify.add_argument("--executor-model", default=EXECUTOR_MODEL)
+    qualify.add_argument("--executor-provider")
+    executor_canary = sub.add_parser("executor-canary")
+    executor_canary.add_argument("--repo", required=True, type=Path)
+    executor_canary.add_argument("--output", required=True, type=Path)
+    executor_canary.add_argument("--env-file", required=True, type=Path)
+    executor_canary.add_argument("--executor-model", required=True)
+    executor_canary.add_argument("--executor-provider", required=True)
     legacy = sub.add_parser("legacy-gap-diagnostic")
     legacy.add_argument("--working-set", action="append", required=True, type=Path)
     legacy.add_argument("--output", required=True, type=Path)
@@ -286,9 +359,16 @@ def main() -> int:
     args = parser.parse_args()
     if args.command == "executor-qualification":
         report = run_executor_qualification(
-            args.checkout, args.results_root, args.env_file, args.attempts)
+            args.checkout, args.results_root, args.env_file, args.attempts,
+            args.executor_model, args.executor_provider)
         print(json.dumps(report, indent=2, sort_keys=True))
         return 0 if report.get("status") != "blocked" else 2
+    if args.command == "executor-canary":
+        report = run_executor_canary(
+            args.repo, args.output, args.env_file,
+            args.executor_model, args.executor_provider)
+        print(json.dumps(report, indent=2, sort_keys=True))
+        return 0 if report["decision"] == "allow" else 2
     if args.command == "legacy-gap-diagnostic":
         rows = []
         for path in args.working_set:

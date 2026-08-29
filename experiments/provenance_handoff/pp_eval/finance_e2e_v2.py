@@ -549,7 +549,9 @@ def legacy_working_set_preflight(value: dict[str, Any]) -> dict[str, Any]:
 
 def executor_qualification(cells: list[dict[str, Any]],
                            *, required: int = 6, minimum_completed: int = 5,
-                           maximum_transport_failures: int = 1) -> dict[str, Any]:
+                           maximum_transport_failures: int = 1,
+                           expected_model: str | None = None,
+                           expected_provider: str | None = None) -> dict[str, Any]:
     if len(cells) != required:
         raise ValueError(f"executor qualification requires exactly {required} cells")
     infrastructure_invalid = sum(cell.get("infrastructure_invalid") is True
@@ -560,6 +562,13 @@ def executor_qualification(cells: list[dict[str, Any]],
                 "scheduled": required}
     if any(not cell.get("terminal_telemetry_complete") for cell in cells):
         return {"decision": "block", "reason": "incomplete_terminal_telemetry"}
+    if expected_model and any(cell.get("model") != expected_model for cell in cells):
+        return {"decision": "block", "reason": "executor_model_mismatch",
+                "expected_model": expected_model}
+    if expected_provider and any(cell.get("provider") != [expected_provider]
+                                 for cell in cells):
+        return {"decision": "block", "reason": "executor_provider_mismatch",
+                "expected_provider": expected_provider}
     completed = sum(cell.get("workbook_finalized") is True
                     and cell.get("required_outputs_valid") is True for cell in cells)
     transport_failures = sum(cell.get("failure_kind") == "transport" for cell in cells)
@@ -574,6 +583,8 @@ def executor_qualification(cells: list[dict[str, Any]],
         "transport_failures": transport_failures,
         "infrastructure_invalid_cells": infrastructure_invalid,
         "unauthorized_source_access": unauthorized,
+        "expected_model": expected_model,
+        "expected_provider": expected_provider,
         "criteria": {"minimum_completed": minimum_completed,
                      "maximum_transport_failures": maximum_transport_failures},
     }
