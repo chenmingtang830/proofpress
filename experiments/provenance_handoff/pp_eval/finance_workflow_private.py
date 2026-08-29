@@ -56,11 +56,12 @@ ATOM_OUTPUT_SCHEMA = {
     "type": "object", "additionalProperties": False, "required": ["atoms"],
     "properties": {"atoms": {"type": "array", "maxItems": 12,
         "items": {"type": "object", "additionalProperties": False,
-            "required": ["atom_id", "requirement_id", "evidence_id", "receipt_digest",
+            "required": ["schema_version", "atom_id", "requirement_id", "evidence_id", "receipt_digest",
                          "subject", "predicate", "value", "support_mode", "locator",
                          "exact_source_value", "unit", "currency", "period", "as_of_date",
                          "source_version", "qualification"],
             "properties": {
+                "schema_version": {"type": "string", "const": ATOM_SCHEMA},
                 "atom_id": {"type": "string", "maxLength": 80},
                 "requirement_id": {"type": "string", "maxLength": 64},
                 "evidence_id": {"type": "string", "maxLength": 80},

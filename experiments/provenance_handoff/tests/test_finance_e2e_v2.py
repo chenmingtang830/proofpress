@@ -22,6 +22,7 @@ from pp_eval.finance_e2e_v2 import (
 )
 from pp_eval.finance_gateway import audit_receipts
 from pp_eval.finance_workflow_private import (
+    ATOM_OUTPUT_SCHEMA,
     materialize_compiler_data_room,
     materialize_governed_overlay,
     select_data_room_members,
@@ -60,6 +61,12 @@ def receipts():
 
 
 class FinanceAtomTests(unittest.TestCase):
+    def test_atom_output_schema_can_emit_validator_required_version(self):
+        item = ATOM_OUTPUT_SCHEMA["properties"]["atoms"]["items"]
+        self.assertIn("schema_version", item["required"])
+        self.assertEqual(item["properties"]["schema_version"],
+                         {"type": "string", "const": ATOM_SCHEMA})
+
     def test_workbook_index_becomes_deterministic_receipts(self):
         rows = workbook_index_to_receipts(
             artifact="filesystem/model.xlsx", source_sha256="sha256:abc",
