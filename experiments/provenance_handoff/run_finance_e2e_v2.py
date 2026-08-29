@@ -11,6 +11,7 @@ import re
 import shutil
 import subprocess
 import zipfile
+import hashlib
 
 from pp_eval.apex_ib_pr36 import (
     ENVIRONMENT_IMAGE,
@@ -199,6 +200,12 @@ def run_executor_qualification(checkout: Path, results_root: Path,
             report["completed_cells"] = len(report["cells"])
             report["updated_at"] = datetime.now(timezone.utc).isoformat()
             write_json(results_root / "report.json", report)
+            if (results_root / "STOP_AFTER_CURRENT_CELL").is_file():
+                report["status"] = "stopped_after_current_cell"
+                report["stop_reason"] = "operator_stop_sentinel"
+                report["updated_at"] = datetime.now(timezone.utc).isoformat()
+                write_json(results_root / "report.json", report)
+                return report
     finally:
         if keep_awake.poll() is None:
             keep_awake.terminate()
@@ -211,6 +218,37 @@ def run_executor_qualification(checkout: Path, results_root: Path,
     report["status"] = "completed"
     report["updated_at"] = datetime.now(timezone.utc).isoformat()
     write_json(results_root / "report.json", report)
+    return report
+
+
+def audit_executor_qualification(results_root: Path, output: Path) -> dict:
+    original = results_root / "report.json"
+    original_bytes = original.read_bytes()
+    source = json.loads(original_bytes)
+    audited = []
+    for cell in source.get("cells", []):
+        manifest_path = Path(cell["manifest"])
+        manifest = json.loads(manifest_path.read_text())
+        result = dict(manifest)
+        result["run_dir"] = str(manifest_path.parent)
+        result["agent_model"] = manifest.get("agent_model")
+        audited.append(normalized_cell(result))
+    infrastructure_invalid = sum(row.get("infrastructure_invalid") is True for row in audited)
+    report = {
+        "schema_version": "proofpress/finance-executor-qualification-audit/v1",
+        "source_report_sha256": "sha256:" + hashlib.sha256(original_bytes).hexdigest(),
+        "source_status": source.get("status"),
+        "scheduled_cells": source.get("scheduled_cells"),
+        "persisted_cells": len(audited),
+        "cells": audited,
+        "infrastructure_invalid_cells": infrastructure_invalid,
+        "qualification_decision": "invalid_root" if infrastructure_invalid else "not_yet_qualified",
+        "formal_denominator": 0, "calibration_denominator": 0,
+    }
+    report["audit_digest"] = "sha256:" + hashlib.sha256(
+        json.dumps(report, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
+    output.parent.mkdir(parents=True, exist_ok=True)
+    write_json(output, report)
     return report
 
 
@@ -236,6 +274,9 @@ def main() -> int:
     task_quality.add_argument("--output", required=True, type=Path)
     task_quality.add_argument("--env-file", required=True, type=Path)
     task_quality.add_argument("--task-id", required=True)
+    audit = sub.add_parser("audit-executor-qualification")
+    audit.add_argument("--results-root", required=True, type=Path)
+    audit.add_argument("--output", required=True, type=Path)
     args = parser.parse_args()
     if args.command == "executor-qualification":
         report = run_executor_qualification(
@@ -274,6 +315,10 @@ def main() -> int:
             target_artifacts=list(TASK_SPECS[args.task_id].final_artifact_allowlist))
         print(json.dumps(report, indent=2, sort_keys=True))
         return 0 if report["decision"] == "allow" else 2
+    if args.command == "audit-executor-qualification":
+        report = audit_executor_qualification(args.results_root, args.output)
+        print(json.dumps(report, indent=2, sort_keys=True))
+        return 0
     return 2
 
 

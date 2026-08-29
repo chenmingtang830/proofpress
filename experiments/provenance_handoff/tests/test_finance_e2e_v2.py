@@ -1,4 +1,5 @@
 import unittest
+import json
 from pathlib import Path
 import tempfile
 import zipfile
@@ -19,7 +20,7 @@ from pp_eval.finance_e2e_v2 import (
 )
 from pp_eval.finance_gateway import audit_receipts
 from pp_eval.finance_workflow_private import materialize_governed_overlay
-from run_finance_e2e_v2 import normalized_cell
+from run_finance_e2e_v2 import audit_executor_qualification, normalized_cell
 
 
 def atom():
@@ -238,6 +239,26 @@ class FinanceGateTests(unittest.TestCase):
             cell = normalized_cell(result)
             self.assertEqual(cell["failure_kind"], "host_suspend_or_clock_gap")
             self.assertTrue(cell["infrastructure_invalid"])
+
+    def test_executor_audit_preserves_source_and_invalidates_suspend_root(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            run = root / "cell-1"
+            run.mkdir()
+            (run / "launcher.log").write_text("time taken=38590.25 seconds\n")
+            manifest = {
+                "run_id": "cell-1", "task_id": "task_9ba58a6197114140877a1df1754d2993",
+                "agent_model": "inclusionai/ling-3.0-flash-fin",
+                "status": "infrastructure_abort_or_incomplete", "watchdog_timeout": False,
+                "telemetry": {"status": "complete", "calls": 1},
+            }
+            (run / "manifest.json").write_text(json.dumps(manifest))
+            source = {"status": "running", "scheduled_cells": 6,
+                      "cells": [{"manifest": str(run / "manifest.json")}]}
+            (root / "report.json").write_text(json.dumps(source))
+            result = audit_executor_qualification(root, root / "audit.json")
+            self.assertEqual(result["qualification_decision"], "invalid_root")
+            self.assertEqual(result["infrastructure_invalid_cells"], 1)
 
     def test_gateway_receipt_audit_requires_exact_route_and_cost(self):
         route = {"model": "model/a", "provider": "provider-a", "reasoning": "low"}
