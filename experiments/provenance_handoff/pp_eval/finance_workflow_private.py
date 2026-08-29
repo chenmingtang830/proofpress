@@ -217,7 +217,8 @@ def _requirement_obligation(requirement: dict[str, Any]) -> str:
     text = str(requirement["requirement"]).casefold()
     if kind in {"deliverable", "calculation", "output", "validation"}:
         return "executor_obligation"
-    directive_terms = ("assume", "increase", "decrease", "sensitize", "basis point")
+    directive_terms = ("assume", "increase", "decrease", "sensitize",
+                       "sensitivity", "sensitivities", "basis point")
     if kind == "input" and any(term in text for term in directive_terms):
         return "public_task_directive"
     return "evidence_obligation"

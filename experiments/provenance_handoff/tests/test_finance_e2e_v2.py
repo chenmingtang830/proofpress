@@ -155,6 +155,9 @@ class FinanceGateTests(unittest.TestCase):
             "kind": "input", "requirement": "Decrease downside by 210 basis points"}),
             "public_task_directive")
         self.assertEqual(_requirement_obligation({
+            "kind": "input", "requirement": "Use cash consideration sensitivities of 10% and 15%"}),
+            "public_task_directive")
+        self.assertEqual(_requirement_obligation({
             "kind": "input", "requirement": "Use revenue from the latest filing"}),
             "evidence_obligation")
 
