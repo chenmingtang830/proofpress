@@ -379,6 +379,12 @@ def executor_qualification(cells: list[dict[str, Any]],
                            maximum_transport_failures: int = 1) -> dict[str, Any]:
     if len(cells) != required:
         raise ValueError(f"executor qualification requires exactly {required} cells")
+    infrastructure_invalid = sum(cell.get("infrastructure_invalid") is True
+                                 for cell in cells)
+    if infrastructure_invalid:
+        return {"decision": "block", "reason": "infrastructure_invalid_cells",
+                "infrastructure_invalid_cells": infrastructure_invalid,
+                "scheduled": required}
     if any(not cell.get("terminal_telemetry_complete") for cell in cells):
         return {"decision": "block", "reason": "incomplete_terminal_telemetry"}
     completed = sum(cell.get("workbook_finalized") is True
@@ -393,6 +399,7 @@ def executor_qualification(cells: list[dict[str, Any]],
         "completed": completed,
         "scheduled": required,
         "transport_failures": transport_failures,
+        "infrastructure_invalid_cells": infrastructure_invalid,
         "unauthorized_source_access": unauthorized,
         "criteria": {"minimum_completed": minimum_completed,
                      "maximum_transport_failures": maximum_transport_failures},

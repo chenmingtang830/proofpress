@@ -5,8 +5,11 @@ from __future__ import annotations
 import argparse
 from datetime import datetime, timezone
 import json
+import os
 from pathlib import Path
+import re
 import shutil
+import subprocess
 import zipfile
 
 from pp_eval.apex_ib_pr36 import (
@@ -37,15 +40,27 @@ def _valid_required_outputs(run_dir: Path, task_id: str) -> bool:
 def normalized_cell(result: dict) -> dict:
     telemetry = result.get("telemetry") or {}
     completed = result.get("status") == "completed"
-    if result.get("watchdog_timeout"):
+    run_dir = Path(result["run_dir"])
+    log_path = run_dir / "launcher.log"
+    log = log_path.read_text(errors="replace") if log_path.is_file() else ""
+    upstream_durations = [float(value) for value in
+                          re.findall(r"time taken=([0-9]+(?:\.[0-9]+)?) seconds", log)]
+    host_suspend = any(value > 720 for value in upstream_durations)
+    if host_suspend:
+        failure_kind = "host_suspend_or_clock_gap"
+    elif result.get("watchdog_timeout"):
         failure_kind = "watchdog"
+    elif not completed and "after 2 attempts" in log and "Connection error" in log:
+        failure_kind = "transport"
+    elif not completed and ("maximum number of steps" in log.casefold()
+                            or "60/60" in log):
+        failure_kind = "step_cap"
     elif not completed and telemetry.get("calls", 0) > 0:
-        failure_kind = "model_or_transport"
+        failure_kind = "model_error"
     elif not completed:
         failure_kind = "infrastructure"
     else:
         failure_kind = None
-    run_dir = Path(result["run_dir"])
     return {
         "run_id": result["run_id"],
         "model": result.get("agent_model"),
@@ -55,6 +70,7 @@ def normalized_cell(result: dict) -> dict:
         "required_outputs_valid": completed and _valid_required_outputs(
             run_dir, result["task_id"]),
         "failure_kind": failure_kind,
+        "infrastructure_invalid": host_suspend,
         "unauthorized_source_access": False,
         "elapsed_seconds": result.get("elapsed_seconds"),
         "calls": telemetry.get("calls"),
@@ -104,30 +120,34 @@ def run_executor_qualification(checkout: Path, results_root: Path,
     if gate["decision"] != "allow":
         return report
 
-    for attempt in range(1, attempts + 1):
-        result = run_apex_stage(
-            checkout, results_root, QUALIFICATION_TASK_ID,
-            f"executor-qualification-a{attempt}",
-            bounded_world=False, skip_grading=True, env_file=env_file,
-        )
-        cell = normalized_cell(result)
-        output = Path(result["run_dir"]) / "output"
-        if output.is_dir():
-            cell["compaction"] = compact_apex_output(
-                output, preserve_final_tar=False)
-        report["cells"].append(cell)
-        report["completed_cells"] = len(report["cells"])
-        report["updated_at"] = datetime.now(timezone.utc).isoformat()
-        write_json(results_root / "report.json", report)
+    keep_awake = subprocess.Popen(
+        ["/usr/bin/caffeinate", "-dimsu", "-w", str(os.getpid())],
+        stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
+    )
+    report["caffeinate_pid"] = keep_awake.pid
+    write_json(results_root / "report.json", report)
+    try:
+        for attempt in range(1, attempts + 1):
+            result = run_apex_stage(
+                checkout, results_root, QUALIFICATION_TASK_ID,
+                f"executor-qualification-a{attempt}",
+                bounded_world=False, skip_grading=True, env_file=env_file,
+            )
+            cell = normalized_cell(result)
+            output = Path(result["run_dir"]) / "output"
+            if output.is_dir():
+                cell["compaction"] = compact_apex_output(
+                    output, preserve_final_tar=False)
+            report["cells"].append(cell)
+            report["completed_cells"] = len(report["cells"])
+            report["updated_at"] = datetime.now(timezone.utc).isoformat()
+            write_json(results_root / "report.json", report)
+    finally:
+        if keep_awake.poll() is None:
+            keep_awake.terminate()
 
-    decision_input = []
-    for cell in report["cells"]:
-        value = dict(cell)
-        if value.get("failure_kind") == "model_or_transport":
-            value["failure_kind"] = "transport"
-        decision_input.append(value)
     report["qualification"] = executor_qualification(
-        decision_input, required=attempts,
+        report["cells"], required=attempts,
         minimum_completed=5 if attempts == 6 else attempts,
         maximum_transport_failures=1 if attempts == 6 else 0,
     )

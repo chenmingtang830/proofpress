@@ -164,6 +164,15 @@ class FinanceGateTests(unittest.TestCase):
         cells[0]["terminal_telemetry_complete"] = False
         self.assertEqual(executor_qualification(cells)["decision"], "block")
 
+    def test_executor_qualification_blocks_infrastructure_invalid_cell(self):
+        cells = [{"terminal_telemetry_complete": True,
+                  "workbook_finalized": True, "required_outputs_valid": True,
+                  "unauthorized_source_access": False} for _ in range(6)]
+        cells[0]["infrastructure_invalid"] = True
+        result = executor_qualification(cells)
+        self.assertEqual(result["decision"], "block")
+        self.assertEqual(result["reason"], "infrastructure_invalid_cells")
+
     def test_normalized_qualification_cell_requires_final_artifact(self):
         with tempfile.TemporaryDirectory() as temporary:
             run_dir = Path(temporary)
@@ -187,6 +196,22 @@ class FinanceGateTests(unittest.TestCase):
             cell = normalized_cell(result)
             self.assertTrue(cell["workbook_finalized"])
             self.assertTrue(cell["required_outputs_valid"])
+
+    def test_normalized_cell_detects_host_suspend_gap(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            run_dir = Path(temporary)
+            (run_dir / "launcher.log").write_text(
+                "Request timed out. time taken=38590.25 seconds\n"
+                "Connection error., after 2 attempts\n")
+            result = {"run_id": "run_1", "run_dir": str(run_dir),
+                      "task_id": "task_9ba58a6197114140877a1df1754d2993",
+                      "agent_model": "inclusionai/ling-3.0-flash-fin",
+                      "status": "infrastructure_abort_or_incomplete",
+                      "watchdog_timeout": False, "elapsed_seconds": 1,
+                      "telemetry": {"status": "complete", "calls": 2}}
+            cell = normalized_cell(result)
+            self.assertEqual(cell["failure_kind"], "host_suspend_or_clock_gap")
+            self.assertTrue(cell["infrastructure_invalid"])
 
 
 if __name__ == "__main__":
