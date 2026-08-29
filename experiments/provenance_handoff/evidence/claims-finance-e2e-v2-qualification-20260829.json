@@ -1,0 +1,17 @@
+[
+  {
+    "block": "8ff6f75c",
+    "kind": "added",
+    "note": "Adds a dated qualification status boundary to the active Finance E2E v2 plan."
+  },
+  {
+    "block": "77728443",
+    "kind": "added",
+    "note": "Records the invalid first qualification root, its two persisted cells, the pre-model interruption, and zero-denominator treatment."
+  },
+  {
+    "block": "d21d3360",
+    "kind": "added",
+    "note": "Records the fresh replacement root, upstream route canary, task freshness audit, storage action boundary, and still-zero calibration and formal denominators."
+  }
+]
