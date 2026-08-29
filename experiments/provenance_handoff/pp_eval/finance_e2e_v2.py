@@ -12,6 +12,7 @@ import hashlib
 import json
 import math
 import re
+import subprocess
 from typing import Any
 
 
@@ -144,6 +145,51 @@ def retrieve_receipts(requirements: list[dict[str, Any]],
         scored.sort(key=lambda row: (-row[0], row[1]))
         result[requirement_id] = [row[2] for row in scored[:limit_per_requirement]]
     return result
+
+
+def pdf_pages_to_receipts(*, artifact: str, source_sha256: str,
+                          pages: list[str], max_block_chars: int = 1600) -> list[dict[str, Any]]:
+    """Create page-addressable exact-excerpt receipts from extracted PDF text."""
+    if not artifact.lower().endswith(".pdf") or not source_sha256.startswith("sha256:"):
+        raise ValueError("PDF artifact and sha256 digest are required")
+    receipts = []
+    for page_number, page in enumerate(pages, start=1):
+        paragraphs = [re.sub(r"\s+", " ", value).strip()
+                      for value in re.split(r"\n\s*\n", page) if value.strip()]
+        blocks: list[str] = []
+        for paragraph in paragraphs:
+            if len(paragraph) <= max_block_chars:
+                blocks.append(paragraph)
+            else:
+                blocks.extend(paragraph[index:index + max_block_chars]
+                              for index in range(0, len(paragraph), max_block_chars))
+        for block_number, quote in enumerate(blocks, start=1):
+            locator = f"{artifact}#page={page_number}&block={block_number}"
+            receipt = {
+                "schema_version": "proofpress/finance-source-receipt/v2",
+                "evidence_id": "finance_ev_" + hashlib.sha256(locator.encode()).hexdigest()[:16],
+                "artifact": artifact, "source_sha256": source_sha256,
+                "locator": locator, "quote": quote,
+                "value_semantics": "exact_pdf_text_excerpt",
+            }
+            receipt["receipt_digest"] = digest(receipt)
+            receipts.append(receipt)
+    return receipts
+
+
+def extract_pdf_receipts(*, path: str, artifact: str,
+                         source_sha256: str) -> list[dict[str, Any]]:
+    """Read a PDF with Poppler without altering or re-exporting the source."""
+    result = subprocess.run(
+        ["pdftotext", "-layout", "-enc", "UTF-8", path, "-"],
+        capture_output=True, text=True, check=False)
+    if result.returncode != 0:
+        raise RuntimeError("Poppler PDF extraction failed")
+    pages = result.stdout.split("\f")
+    if pages and not pages[-1].strip():
+        pages.pop()
+    return pdf_pages_to_receipts(
+        artifact=artifact, source_sha256=source_sha256, pages=pages)
 
 
 def validate_requirements(requirements: list[dict[str, Any]]) -> dict[str, Any]:

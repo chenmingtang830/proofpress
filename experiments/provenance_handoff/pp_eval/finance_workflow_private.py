@@ -19,6 +19,7 @@ from pp_eval.finance_e2e_v2 import (
     detect_material_conflicts,
     digest,
     execution_gate,
+    extract_pdf_receipts,
     requirement_completeness,
     retrieve_receipts,
     validate_critic_verdicts,
@@ -107,6 +108,14 @@ def load_receipts(evidence_root: Path) -> list[dict[str, Any]]:
             artifact=sheet["artifact"], source_sha256="sha256:" + sheet["source_sha256"],
             sheets=[{"sheet": sheet["sheet"], "cells": sheet["cells"]}],
         ))
+    manifest = json.loads((governed / "source_manifest.json").read_text())
+    for row in manifest.get("files", []):
+        artifact = row.get("path")
+        if not isinstance(artifact, str) or not artifact.lower().endswith(".pdf"):
+            continue
+        receipts.extend(extract_pdf_receipts(
+            path=str(evidence_root / artifact), artifact=artifact,
+            source_sha256="sha256:" + row["sha256"]))
     if not receipts:
         raise ValueError("Finance evidence package has no workbook receipts")
     return receipts

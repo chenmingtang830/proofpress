@@ -13,6 +13,7 @@ from pp_eval.finance_e2e_v2 import (
     legacy_working_set_preflight,
     requirement_completeness,
     retrieve_receipts,
+    pdf_pages_to_receipts,
     validate_derived_calculation,
     validate_finance_atom,
     validate_requirements,
@@ -82,6 +83,15 @@ class FinanceAtomTests(unittest.TestCase):
             limit_per_requirement=2)
         self.assertTrue(result["req_revenue"])
         self.assertIn("!B2", {row["locator"][-3:] for row in result["req_revenue"]})
+
+    def test_pdf_pages_become_exact_page_receipts(self):
+        rows = pdf_pages_to_receipts(
+            artifact="filesystem/report.pdf", source_sha256="sha256:abc",
+            pages=["Revenue was $100 million.\n\nDebt was $40 million."],
+        )
+        self.assertEqual(len(rows), 2)
+        self.assertEqual(rows[0]["locator"], "filesystem/report.pdf#page=1&block=1")
+        self.assertEqual(rows[0]["quote"], "Revenue was $100 million.")
 
     def test_requirements_forbid_hidden_material(self):
         frozen = validate_requirements([{
