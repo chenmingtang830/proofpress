@@ -26,6 +26,7 @@ from pp_eval.finance_workflow_private import (
     materialize_compiler_data_room,
     materialize_governed_overlay,
     select_data_room_members,
+    _requirement_obligation,
 )
 from run_finance_e2e_v2 import audit_executor_qualification, normalized_cell
 
@@ -146,6 +147,17 @@ class FinanceAtomTests(unittest.TestCase):
 
 
 class FinanceGateTests(unittest.TestCase):
+    def test_requirement_obligations_separate_future_work_from_evidence(self):
+        self.assertEqual(_requirement_obligation({
+            "kind": "calculation", "requirement": "Calculate the sensitivity"}),
+            "executor_obligation")
+        self.assertEqual(_requirement_obligation({
+            "kind": "input", "requirement": "Decrease downside by 210 basis points"}),
+            "public_task_directive")
+        self.assertEqual(_requirement_obligation({
+            "kind": "input", "requirement": "Use revenue from the latest filing"}),
+            "evidence_obligation")
+
     def test_legacy_untyped_gap_fails_closed(self):
         result = legacy_working_set_preflight({
             "task_id": "task_1",

@@ -211,6 +211,47 @@ def _atom_from_receipt(requirement_id: str, receipt: dict[str, Any]) -> dict[str
     return atom
 
 
+def _requirement_obligation(requirement: dict[str, Any]) -> str:
+    """Separate pre-execution evidence needs from the executor's future work."""
+    kind = requirement["kind"]
+    text = str(requirement["requirement"]).casefold()
+    if kind in {"deliverable", "calculation", "output", "validation"}:
+        return "executor_obligation"
+    directive_terms = ("assume", "increase", "decrease", "sensitize", "basis point")
+    if kind == "input" and any(term in text for term in directive_terms):
+        return "public_task_directive"
+    return "evidence_obligation"
+
+
+def _task_contract(public_task: dict[str, Any], requirements: list[dict[str, Any]],
+                   evidence_root: Path, target_artifacts: list[str]) -> dict[str, Any]:
+    targets = []
+    for artifact in target_artifacts:
+        path = evidence_root / artifact
+        if not path.is_file():
+            raise ValueError("task contract target artifact is missing")
+        targets.append({"path": artifact, "sha256": sha256_file(path),
+                        "bytes": path.stat().st_size})
+    contract = {
+        "schema_version": "proofpress/finance-task-contract/v1",
+        "public_task_digest": digest(public_task),
+        "requirements": [
+            {"requirement_id": row["requirement_id"],
+             "obligation": _requirement_obligation(row)}
+            for row in requirements
+        ],
+        "target_artifacts": targets,
+        "basis_point_direction_policy": (
+            "increase/decrease applies the signed basis-point delta to the named "
+            "displayed percentage magnitude; for example, decreasing 10.00% by "
+            "210 basis points yields 7.90%"
+        ),
+        "requested_outputs_precomputed": False,
+    }
+    contract["contract_digest"] = digest(contract)
+    return contract
+
+
 def _formula_records(atoms: list[dict[str, Any]], receipts: dict[str, dict[str, Any]]) -> list[dict[str, Any]]:
     records = []
     for atom in atoms:
@@ -236,7 +277,8 @@ def materialize_governed_overlay(*, evidence_root: Path, destination: Path,
                                  task: dict[str, Any], requirements: list[dict[str, Any]],
                                  records: list[dict[str, Any]], receipts: dict[str, dict[str, Any]],
                                  execution_receipt: dict[str, Any],
-                                 target_artifacts: list[str]) -> dict[str, Any]:
+                                 target_artifacts: list[str],
+                                 task_contract: dict[str, Any] | None = None) -> dict[str, Any]:
     """Materialize only pristine targets, allowed records, and source extracts."""
     if execution_receipt.get("decision") != "allow":
         raise ValueError("blocked working set cannot be materialized")
@@ -261,7 +303,7 @@ def materialize_governed_overlay(*, evidence_root: Path, destination: Path,
         "schema_version": "proofpress/finance-governed-working-set/v2",
         "task_id": task["task_id"], "requirements": requirements,
         "records": records, "production_reliance": "prohibited",
-        "admission": None,
+        "task_contract": task_contract, "admission": None,
     }
     working_set["working_set_digest"] = digest(working_set)
     files = {
@@ -317,6 +359,10 @@ def run_task_quality(*, repo: Path, evidence_root: Path, output: Path,
             schema_name="finance_requirements", max_tokens=4000)
         frozen_requirements = validate_requirements(decomposition["requirements"])
         requirements = frozen_requirements["requirements"]
+        task_contract = _task_contract(
+            public_task, requirements, evidence_root, target_artifacts)
+        obligations = {row["requirement_id"]: row["obligation"]
+                       for row in task_contract["requirements"]}
         receipts = load_receipts(evidence_root)
         receipt_map = {row["evidence_id"]: row for row in receipts}
         retrieved = retrieve_receipts(requirements, receipts, limit_per_requirement=40)
@@ -376,8 +422,8 @@ def run_task_quality(*, repo: Path, evidence_root: Path, output: Path,
                 supported.append(updated)
         call_counts["completeness"] += 1
         resolutions = gateway("completeness").call(
-            system="Audit requirement completeness, not record truth. Declare a material gap whenever the supported records do not fully equip a downstream executor. Never invent missing evidence.",
-            prompt=json.dumps({"requirements": requirements,
+            system="Audit only pre-execution evidence completeness. The task contract separately binds public instructions, future executor obligations, and pristine target artifacts. Do not demand precomputed requested outputs, future workbook edits, scenario results, or future validation outcomes. Declare a material gap only for an evidence_obligation that lacks supported source evidence.",
+            prompt=json.dumps({"requirements": requirements, "task_contract": task_contract,
                                "supported_records": [{key: row.get(key) for key in
                                    ("id", "requirement_id", "record_type", "statement")}
                                   for row in supported]}, ensure_ascii=False),
@@ -391,7 +437,9 @@ def run_task_quality(*, repo: Path, evidence_root: Path, output: Path,
         for requirement in requirements:
             requirement_id = requirement["requirement_id"]
             row = resolution_by_id.get(requirement_id)
-            if row and row.get("status") == "covered":
+            if obligations[requirement_id] != "evidence_obligation":
+                covered_requirement_ids.add(requirement_id)
+            elif row and row.get("status") == "covered":
                 covered_requirement_ids.add(requirement_id)
             else:
                 gaps.append({"gap_id": f"gap_{len(gaps)+1:03d}", "requirement_id": requirement_id,
@@ -414,7 +462,8 @@ def run_task_quality(*, repo: Path, evidence_root: Path, output: Path,
                 record.get("requirement_id") in {row["requirement_id"] for row in requirements
                                                   if row["kind"] == "output"}
                 for record in supported))
-        private = {"task": public_task, "requirements": requirements, "receipts": receipts,
+        private = {"task": public_task, "requirements": requirements,
+                   "task_contract": task_contract, "receipts": receipts,
                    "retrieved_receipt_ids": {key: [row["evidence_id"] for row in value]
                                               for key, value in retrieved.items()},
                    "atoms": atoms, "records": records, "critic_verdicts": critic_verdicts,
@@ -442,7 +491,7 @@ def run_task_quality(*, repo: Path, evidence_root: Path, output: Path,
                 evidence_root=evidence_root, destination=output / "governed_overlay",
                 task=public_task, requirements=requirements, records=supported,
                 receipts=receipt_map, execution_receipt=gate,
-                target_artifacts=target_artifacts)
+                target_artifacts=target_artifacts, task_contract=task_contract)
             report["governed_overlay"] = overlay_manifest
         (output / "report.json").write_text(json.dumps(report, indent=2, sort_keys=True) + "\n")
         return report
