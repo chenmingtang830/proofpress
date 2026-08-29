@@ -28,6 +28,7 @@ claim_scorer = load("claim_scorer", ROOT / "studies/apex-agent-eval/retrieval_ad
 semantic_runner = load("semantic_runner", ROOT / "studies/apex-agent-eval/retrieval_adapter/run_claim_semantic_adjudication_private.py")
 ask_freezer = load("ask_freezer", ROOT / "studies/apex-agent-eval/retrieval_adapter/freeze_workflow_asks_private.py")
 workflow_runner = load("workflow_runner", ROOT / "studies/apex-agent-eval/retrieval_adapter/run_workflow_utility_private.py")
+agentic_disclosure = load("agentic_disclosure", ADAPTER / "agentic_disclosure_private.py")
 native_artifact = (load("native_artifact", ADAPTER / "native_legal_artifact.py")
                    if importlib.util.find_spec("docx") else None)
 v7_preserver = load("v7_preserver", ADAPTER / "run_v7_claim_preservation_private.py")
@@ -40,12 +41,62 @@ v9_diagnostic = load("v9_diagnostic", ADAPTER / "run_v9_gate_diagnostic_private.
 class RetrievalPanelContractTests(unittest.TestCase):
     def test_formal_executor_matrix_uses_reasoning_routes(self):
         routes = workflow_runner.EXECUTOR_ROUTES
-        self.assertEqual(set(routes), {"deepseek", "muse", "glm", "qwen"})
+        self.assertEqual(set(routes), {"deepseek", "muse", "glm", "ling"})
         self.assertEqual(routes["deepseek"][3], "high")
         self.assertNotIn("none", {route[3] for route in routes.values()})
         self.assertEqual(routes["muse"][:2], ("meta/muse-spark-1.2", "meta"))
         self.assertEqual(routes["glm"][:2], ("zai/glm-5.3-flash", "baseten"))
-        self.assertEqual(routes["qwen"][:2], ("alibaba/qwen3.8-27b", "alibaba"))
+        self.assertEqual(routes["ling"][:2], ("inclusionai/ling-3.0-flash-fin", "novita"))
+
+    def test_agentic_disclosure_matrix_and_tool_schema_are_frozen(self):
+        self.assertEqual(workflow_runner.AGENTIC_CONDITIONS, (
+            "v12-full-claim-graph-control", "v12-static-disclosure-baseline",
+            "v12-agentic-disclosure"))
+        actions = agentic_disclosure.TOOL_DECISION_SCHEMA["properties"]["action"]["enum"]
+        self.assertEqual(actions, ["traverse_graph", "search_gap", "answer"])
+        self.assertEqual(agentic_disclosure.MAX_AGENT_TOOL_CALLS, 3)
+        self.assertEqual(agentic_disclosure.MAX_AGENT_RESULTS_PER_CALL, 5)
+
+    def test_agentic_disclosure_host_executes_bounded_model_choices(self):
+        original_initial = agentic_disclosure.initial_context
+        original_traverse = agentic_disclosure.traverse_graph
+        original_search = agentic_disclosure.search_gap
+        agentic_disclosure.initial_context = lambda query, scope: {
+            "governed_context": [{"id": "claim-1"}], "coverage": "partial"}
+        agentic_disclosure.traverse_graph = lambda query, scope, seeds, relations: {
+            "governed_context": [{"id": "claim-2"}], "coverage": "covered"}
+        agentic_disclosure.search_gap = lambda index, query: {
+            "candidate_evidence": [{"status": "not_governed"}], "admission_authority": False}
+        decisions = iter([
+            {"action": "traverse_graph", "query": "related covenant",
+             "seed_claim_ids": ["claim-1"], "relation_types": ["depends_on"], "reason": "expand"},
+            {"action": "search_gap", "query": "missing schedule",
+             "seed_claim_ids": [], "relation_types": [], "reason": "find evidence"},
+            {"action": "answer", "query": "", "seed_claim_ids": [],
+             "relation_types": [], "reason": "enough"},
+        ])
+        try:
+            result = agentic_disclosure.run_agentic_disclosure(
+                query="review", scope="task-1", index=object(), decide=lambda state: next(decisions))
+        finally:
+            agentic_disclosure.initial_context = original_initial
+            agentic_disclosure.traverse_graph = original_traverse
+            agentic_disclosure.search_gap = original_search
+        self.assertEqual(result["tool_call_count"], 2)
+        self.assertTrue(result["used_traverse_graph"])
+        self.assertTrue(result["used_search_gap"])
+        self.assertEqual(result["stop_reason"], "executor_ready")
+        self.assertFalse(result["state"]["tool_results"][1]["result"]["admission_authority"])
+
+    def test_agentic_resume_requires_decision_trace(self):
+        legacy = {"artifact": {"answer": "x"}, "grades": []}
+        traced = {**legacy, "agentic_trace": [{"action": "answer", "status": "accepted"}]}
+        self.assertTrue(workflow_runner.resume_artifact_eligible(
+            legacy, "v12-static-disclosure-baseline"))
+        self.assertFalse(workflow_runner.resume_artifact_eligible(
+            legacy, "v12-agentic-disclosure"))
+        self.assertTrue(workflow_runner.resume_artifact_eligible(
+            traced, "v12-agentic-disclosure"))
 
     def test_v7_preserver_routes_are_frozen_and_never_generate_new_claims(self):
         self.assertEqual(v7_preserver.ROUTES["sol"]["model"], "openai/gpt-5.6-sol")

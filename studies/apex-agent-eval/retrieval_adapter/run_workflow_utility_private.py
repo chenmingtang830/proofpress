@@ -30,12 +30,16 @@ from run_gap_retrieval_private import (
     prior_bm25,
     route_pageindex_sources,
 )
+from agentic_disclosure_private import (
+    TOOL_DECISION_SCHEMA,
+    run_agentic_disclosure,
+)
 
 EXECUTOR_ROUTES = {
-    "deepseek": ("deepseek/deepseek-v4-flash", "alibaba", "primary-reasoning", "high", 16000),
-    "muse": ("meta/muse-spark-1.2", "meta", "cross-model-sensitivity", "medium", 16000),
-    "glm": ("zai/glm-5.3-flash", "baseten", "cross-model-sensitivity", "high", 16000),
-    "qwen": ("alibaba/qwen3.8-27b", "alibaba", "cross-model-sensitivity", "high", 16000),
+    "deepseek": ("deepseek/deepseek-v4-flash", "alibaba", "primary-reasoning", "high", 8000),
+    "muse": ("meta/muse-spark-1.2", "meta", "cross-model-sensitivity", "medium", 8000),
+    "glm": ("zai/glm-5.3-flash", "baseten", "cross-model-sensitivity", "high", 8000),
+    "ling": ("inclusionai/ling-3.0-flash-fin", "novita", "cross-model-sensitivity", "high", 8000),
 }
 GRADER = ("google/gemini-3.1-pro-preview", "google")
 CONDITIONS = ("pr36-v7-prefetched-context", "full-catalog-bm25-prefetch",
@@ -48,6 +52,8 @@ PROGRESSIVE_CONDITIONS = ("pr36-v7-prefetched-context", "v11-preserved-claim-gra
                           "v11-preserved-graph-plus-global-bm25",
                           "v11-preserved-graph-plus-hierarchical-hybrid",
                           "v11-full-claim-graph-control")
+AGENTIC_CONDITIONS = ("v12-full-claim-graph-control", "v12-static-disclosure-baseline",
+                      "v12-agentic-disclosure")
 MAX_DISCLOSURES_PER_TASK = 3
 MAX_DISCOVERED_PER_CALL = 5
 MAX_CONTEXT_TOKEN_UPPER_BOUND = 24000
@@ -751,6 +757,13 @@ def normalize_grade(value: Any) -> dict[str, Any]:
     return {"rubric_fraction": float(fraction), **counts}
 
 
+def resume_artifact_eligible(value: Any, condition: str) -> bool:
+    """Agentic cells are reusable only when their decision trace travels with the artifact."""
+    return (isinstance(value, dict) and isinstance(value.get("artifact"), (dict, list))
+            and (condition != "v12-agentic-disclosure"
+                 or isinstance(value.get("agentic_trace"), list)))
+
+
 def paired_bootstrap(values: list[float], samples: int = 10_000) -> list[float] | None:
     if not values: return None
     if len(values) == 1: return [values[0], values[0]]
@@ -764,31 +777,39 @@ def paired_workflow_comparisons(cells: list[dict[str, Any]],
                                 ) -> dict[str, Any]:
     output = {}
     for model, _, _, _, _ in executors:
-        model_cells = {(row["task_id"], row["condition"]): row for row in cells
+        model_cells = {((row.get("ask_id") or row["task_id"]), row["condition"]): row for row in cells
                        if row.get("executor_model") == model and row.get("status") == "scored"}
-        for treatment in ("v11-preserved-claim-graph-only",
-                          "v11-preserved-graph-plus-global-bm25",
-                          "v11-preserved-graph-plus-hierarchical-hybrid",
-                          "v11-full-claim-graph-control"):
-            for baseline in ("pr36-v7-prefetched-context", "full-catalog-bm25-prefetch"):
-                task_ids = sorted({task_id for task_id, condition in model_cells if condition == treatment}
-                                  & {task_id for task_id, condition in model_cells if condition == baseline})
-                rubric = [model_cells[(task_id, treatment)]["rubric_fraction"]
-                          - model_cells[(task_id, baseline)]["rubric_fraction"] for task_id in task_ids]
-                token_ratios = [model_cells[(task_id, treatment)]["context_token_upper_bound"]
-                                / max(1, model_cells[(task_id, baseline)]["context_token_upper_bound"])
-                                for task_id in task_ids]
-                error_deltas = {key: [model_cells[(task_id, treatment)][key]
-                                      - model_cells[(task_id, baseline)][key] for task_id in task_ids]
-                                for key in ("unsupported_claims", "citation_errors", "authority_errors")}
-                output[f"{model}|{treatment}|{baseline}"] = {
-                    "paired_tasks": len(task_ids), "task_ids": task_ids,
-                    "rubric_fraction_mean_delta": statistics.mean(rubric) if rubric else None,
-                    "rubric_fraction_bootstrap_95_ci": paired_bootstrap(rubric),
-                    "mean_context_token_ratio": statistics.mean(token_ratios) if token_ratios else None,
-                    **{f"{key}_mean_delta": statistics.mean(values) if values else None
-                       for key, values in error_deltas.items()},
-                }
+        comparison_pairs = [
+            (treatment, baseline)
+            for treatment in ("v11-preserved-claim-graph-only",
+                              "v11-preserved-graph-plus-global-bm25",
+                              "v11-preserved-graph-plus-hierarchical-hybrid",
+                              "v11-full-claim-graph-control")
+            for baseline in ("pr36-v7-prefetched-context", "full-catalog-bm25-prefetch")
+        ] + [
+            ("v12-static-disclosure-baseline", "v12-full-claim-graph-control"),
+            ("v12-agentic-disclosure", "v12-full-claim-graph-control"),
+            ("v12-agentic-disclosure", "v12-static-disclosure-baseline"),
+        ]
+        for treatment, baseline in comparison_pairs:
+            unit_ids = sorted({unit_id for unit_id, condition in model_cells if condition == treatment}
+                              & {unit_id for unit_id, condition in model_cells if condition == baseline})
+            rubric = [model_cells[(unit_id, treatment)]["rubric_fraction"]
+                      - model_cells[(unit_id, baseline)]["rubric_fraction"] for unit_id in unit_ids]
+            token_ratios = [model_cells[(unit_id, treatment)]["context_token_upper_bound"]
+                            / max(1, model_cells[(unit_id, baseline)]["context_token_upper_bound"])
+                            for unit_id in unit_ids]
+            error_deltas = {key: [model_cells[(unit_id, treatment)][key]
+                                  - model_cells[(unit_id, baseline)][key] for unit_id in unit_ids]
+                            for key in ("unsupported_claims", "citation_errors", "authority_errors")}
+            output[f"{model}|{treatment}|{baseline}"] = {
+                "paired_units": len(unit_ids), "unit_ids": unit_ids,
+                "rubric_fraction_mean_delta": statistics.mean(rubric) if rubric else None,
+                "rubric_fraction_bootstrap_95_ci": paired_bootstrap(rubric),
+                "mean_context_token_ratio": statistics.mean(token_ratios) if token_ratios else None,
+                **{f"{key}_mean_delta": statistics.mean(values) if values else None
+                   for key, values in error_deltas.items()},
+            }
     return output
 
 
@@ -805,10 +826,16 @@ def main() -> None:
     ap.add_argument("--silver-report", help="Enable diagnostic oracle controls from frozen private silver")
     ap.add_argument("--pr36-context-dir", help="Directory containing one frozen v7 context JSON per task")
     ap.add_argument("--qualification-only", action="store_true")
+    ap.add_argument("--route-canary-report",
+                    help="Sanitized exact-route canary required by agentic evaluation.")
+    ap.add_argument("--workflow-qualification-reports",
+                    help="Comma-separated passing per-executor reports required by the formal agentic panel.")
     ap.add_argument("--full-claim-task-panel", action="store_true",
                     help="Run every completed task in the claim report; tasks without lawyer asks use the task prompt for disclosure.")
     ap.add_argument("--progressive-only", action="store_true",
                     help="Run only the five frozen lawyer-ask progressive-disclosure conditions.")
+    ap.add_argument("--agentic-only", action="store_true",
+                    help="Compare full graph, static disclosure, and executor-driven agentic disclosure.")
     ap.add_argument("--native-e2e", action="store_true",
                     help="Materialize and grade native artifacts by expected_output; requires --full-claim-task-panel.")
     ap.add_argument("--native-edit-source",
@@ -824,6 +851,12 @@ def main() -> None:
     args = ap.parse_args()
     if args.native_e2e and not args.full_claim_task_panel:
         raise SystemExit("--native-e2e requires --full-claim-task-panel")
+    if args.agentic_only and args.progressive_only:
+        raise SystemExit("--agentic-only and --progressive-only are mutually exclusive")
+    if args.agentic_only and not args.route_canary_report:
+        raise SystemExit("--agentic-only requires --route-canary-report")
+    if args.agentic_only and not args.qualification_only and not args.workflow_qualification_reports:
+        raise SystemExit("formal --agentic-only requires --workflow-qualification-reports")
     if not os.environ.get("AI_GATEWAY_API_KEY"):
         raise SystemExit("AI_GATEWAY_API_KEY unavailable")
     # The runner changes into a temporary git workspace before PageIndex is
@@ -844,13 +877,43 @@ def main() -> None:
     if unknown_executors or not executor_labels:
         raise SystemExit("unknown or empty frozen executor selection: " + ",".join(unknown_executors))
     executors = tuple(EXECUTOR_ROUTES[label] for label in executor_labels)
+    route_canary = None
+    workflow_qualifications: list[dict[str, Any]] = []
+    if args.agentic_only:
+        route_canary = json.loads(Path(args.route_canary_report).read_text())
+        canary_by_label = {row.get("label"): row for row in route_canary.get("models", [])}
+        route_failures = []
+        for label in executor_labels:
+            expected = EXECUTOR_ROUTES[label]
+            row = canary_by_label.get(label, {})
+            if (row.get("status") != "pass" or row.get("terminal_telemetry_complete") is not True
+                    or (row.get("model"), row.get("provider"), row.get("reasoning"))
+                    != (expected[0], expected[1], expected[3])):
+                route_failures.append(label)
+        if route_failures:
+            raise SystemExit("agentic exact-route qualification failed: " + ",".join(route_failures))
+        if not args.qualification_only:
+            for value in args.workflow_qualification_reports.split(","):
+                workflow_qualifications.append(json.loads(Path(value.strip()).read_text()))
+            qualified_models = set()
+            for report_row in workflow_qualifications:
+                if report_row.get("qualification", {}).get("status") != "pass":
+                    continue
+                for row in report_row.get("executors", []):
+                    qualified_models.add((row.get("model"), row.get("provider"), row.get("reasoning")))
+            unqualified = [label for label in executor_labels
+                           if (EXECUTOR_ROUTES[label][0], EXECUTOR_ROUTES[label][1], EXECUTOR_ROUTES[label][3])
+                           not in qualified_models]
+            if unqualified:
+                raise SystemExit("formal agentic workflow qualification failed: " + ",".join(unqualified))
     catalog = json.loads(Path(args.catalog).read_text()); raw_dir = Path(report["raw_private_dir"])
     silver_by_task = None
     if args.silver_report:
         silver_report = json.loads(Path(args.silver_report).read_text())
         silver_raw = Path(silver_report["raw_private_dir"])
         silver_by_task = {path.stem: json.loads(path.read_text()) for path in silver_raw.glob("*.json")}
-    default_conditions = PROGRESSIVE_CONDITIONS if args.progressive_only else CONDITIONS
+    default_conditions = (AGENTIC_CONDITIONS if args.agentic_only else
+                          PROGRESSIVE_CONDITIONS if args.progressive_only else CONDITIONS)
     product_conditions = tuple(value.strip() for value in args.conditions.split(",") if value.strip()) if args.conditions else default_conditions
     unknown_conditions = sorted(set(product_conditions) - set(default_conditions))
     if unknown_conditions or not product_conditions:
@@ -873,6 +936,20 @@ def main() -> None:
         if set(selected) & required_types != required_types:
             raise ValueError("native qualification lacks one task for every expected_output type")
         task_ids = [selected[key] for key in sorted(required_types)]
+    qualification_ask_ids: set[str] | None = None
+    if args.agentic_only and args.qualification_only:
+        selected_by_category: dict[str, str] = {}
+        for row in asks_manifest.get("asks", []):
+            if row.get("task_id") in task_ids:
+                selected_by_category.setdefault(str(row.get("category")), str(row.get("ask_id")))
+        required_categories = {"graph-fully-covered", "relation-dependent", "partial-gap", "novel"}
+        if set(selected_by_category) & required_categories != required_categories:
+            raise ValueError("agentic qualification lacks one ask for every frozen behavior category")
+        qualification_ask_ids = {selected_by_category[key] for key in sorted(required_categories)}
+    evaluation_unit_count = len(task_ids)
+    if args.agentic_only:
+        evaluation_unit_count = (len(qualification_ask_ids) if qualification_ask_ids is not None else
+                                 sum(row.get("task_id") in task_ids for row in asks_manifest.get("asks", [])))
     previous = Path.cwd()
     try:
         executor_gateways = {
@@ -891,56 +968,71 @@ def main() -> None:
                 graph = json.loads((raw_dir / f"{task_id}.json").read_text())
                 mapping, relation_diagnostics = stage_graph(graph, navigation)
                 asks = [row for row in asks_manifest["asks"] if row["task_id"] == task_id]
-                if args.qualification_only:
+                if qualification_ask_ids is not None:
+                    asks = [row for row in asks if row.get("ask_id") in qualification_ask_ids]
+                elif args.qualification_only:
                     asks = asks[:max(1, args.qualification_max_asks)]
-                context_asks = asks or [{"ask_id": f"{task_id}-task", "query": graph["task"]["prompt"]}]
-                contexts, context_tokens, events, pi_cost, disclosure_stats = build_contexts(
-                    graph, context_asks, catalog, sidecar, pageindex_gateway_server, workspace,
-                    out / "workflow-pageindex-gateway-receipts.jsonl",
-                    silver_by_task.get(task_id) if silver_by_task is not None else None,
-                    set(active_conditions))
-                disclosure_telemetry.append({
-                    "task_id": task_id,
-                    "staged_relation_diagnostics": relation_diagnostics,
-                    **{key: value for key, value in disclosure_stats.items()
-                       if key not in {"packets", "packets_by_condition"}},
-                })
-                fidelity_rows.extend(disclosure_fidelity(graph, context_asks, mapping, disclosure_stats))
-                if args.pr36_context_dir:
-                    v7_path = Path(args.pr36_context_dir) / f"{task_id}.json"
-                    if v7_path.is_file():
-                        v7_context = prefetched_context_from_construction_artifact(json.loads(v7_path.read_text()))
-                        contexts["pr36-v7-prefetched-context"], context_tokens["pr36-v7-prefetched-context"] = bounded_json(v7_context)
-                pageindex_events.extend(events); pageindex_cost += pi_cost
-                preflight = qualification_preflight(contexts, [task_id], silver_by_task)
-                failed_pageindex = [row for row in events if row.get("status") == "inconclusive"]
-                if failed_pageindex:
-                    preflight["warnings"] = [{"reason": "hierarchical route fell back to global BM25",
-                                               "failed_event_count": len(failed_pageindex)}]
-                (raw_out / f"{task_id}-qualification.json").write_text(json.dumps(preflight, indent=2))
-                if preflight["status"] != "pass":
-                    for condition in active_conditions:
-                        for model, provider, role, _, _ in executors:
-                            results.append({"task_id": task_id, "condition": condition,
-                                            "executor_model": model, "executor_provider": provider,
-                                            "executor_role": role, "status": "inconclusive",
-                                            "reason": "qualification preflight failed"})
-                    continue
-                for condition in active_conditions:
-                    if contexts[condition] is None:
-                        for model, provider, role, _, _ in executors:
-                            results.append({"task_id": task_id, "condition": condition, "executor_model": model,
-                                            "executor_provider": provider, "executor_role": role, "status": "inconclusive",
-                                            "reason": "no equivalent frozen PR36-v7 context artifact"})
+                fallback_ask = {"ask_id": f"{task_id}-task", "query": graph["task"]["prompt"]}
+                units = [([ask], ask["ask_id"]) for ask in asks] if args.agentic_only else [(asks or [fallback_ask], task_id)]
+                for unit_asks, unit_id in units:
+                    contexts, context_tokens, events, pi_cost, disclosure_stats = build_contexts(
+                        graph, unit_asks, catalog, sidecar, pageindex_gateway_server, workspace,
+                        out / "workflow-pageindex-gateway-receipts.jsonl",
+                        silver_by_task.get(task_id) if silver_by_task is not None else None,
+                        ({"v11-full-claim-graph-control", "v11-preserved-claim-graph-only"}
+                         if args.agentic_only else set(active_conditions)))
+                    if args.agentic_only:
+                        contexts["v12-full-claim-graph-control"] = contexts["v11-full-claim-graph-control"]
+                        context_tokens["v12-full-claim-graph-control"] = context_tokens["v11-full-claim-graph-control"]
+                        contexts["v12-static-disclosure-baseline"] = contexts["v11-preserved-claim-graph-only"]
+                        context_tokens["v12-static-disclosure-baseline"] = context_tokens["v11-preserved-claim-graph-only"]
+                        contexts["v12-agentic-disclosure"] = "agentic-host-tools/v1"
+                        context_tokens["v12-agentic-disclosure"] = 0
+                    disclosure_telemetry.append({
+                        "task_id": task_id, "evaluation_unit_id": unit_id,
+                        "staged_relation_diagnostics": relation_diagnostics,
+                        **{key: value for key, value in disclosure_stats.items()
+                           if key not in {"packets", "packets_by_condition"}},
+                    })
+                    fidelity_rows.extend(disclosure_fidelity(graph, unit_asks, mapping, disclosure_stats))
+                    if args.pr36_context_dir:
+                        v7_path = Path(args.pr36_context_dir) / f"{task_id}.json"
+                        if v7_path.is_file():
+                            v7_context = prefetched_context_from_construction_artifact(json.loads(v7_path.read_text()))
+                            contexts["pr36-v7-prefetched-context"], context_tokens["pr36-v7-prefetched-context"] = bounded_json(v7_context)
+                    pageindex_events.extend(events); pageindex_cost += pi_cost
+                    preflight = qualification_preflight(
+                        {condition: contexts.get(condition) for condition in active_conditions},
+                        [task_id], silver_by_task)
+                    failed_pageindex = [row for row in events if row.get("status") == "inconclusive"]
+                    if failed_pageindex:
+                        preflight["warnings"] = [{"reason": "hierarchical route fell back to global BM25",
+                                                   "failed_event_count": len(failed_pageindex)}]
+                    (raw_out / f"{unit_id}-qualification.json").write_text(json.dumps(preflight, indent=2))
+                    if preflight["status"] != "pass":
+                        for condition in active_conditions:
+                            for model, provider, role, _, _ in executors:
+                                results.append({"task_id": task_id, "ask_id": unit_id, "condition": condition,
+                                                "executor_model": model, "executor_provider": provider,
+                                                "executor_role": role, "status": "inconclusive",
+                                                "reason": "qualification preflight failed"})
                         continue
-                    for model, provider, role, reasoning, max_output_tokens in executors:
-                        work_items.append((task_id, graph, asks, condition, contexts[condition],
-                                           context_tokens[condition], model, provider, role,
-                                           reasoning, max_output_tokens))
+                    for condition in active_conditions:
+                        if contexts[condition] is None:
+                            for model, provider, role, _, _ in executors:
+                                results.append({"task_id": task_id, "ask_id": unit_id, "condition": condition,
+                                                "executor_model": model, "executor_provider": provider,
+                                                "executor_role": role, "status": "inconclusive",
+                                                "reason": "no equivalent frozen PR36-v7 context artifact"})
+                            continue
+                        for model, provider, role, reasoning, max_output_tokens in executors:
+                            work_items.append((task_id, graph, unit_asks, condition, contexts[condition],
+                                               context_tokens[condition], model, provider, role,
+                                               reasoning, max_output_tokens, unit_id))
 
             def run_cell(item: tuple[Any, ...]) -> dict[str, Any]:
-                task_id, graph, asks, condition, context, tokens, model, provider, role, reasoning, max_output_tokens = item
-                cell = {"task_id": task_id, "condition": condition, "executor_model": model,
+                task_id, graph, asks, condition, context, tokens, model, provider, role, reasoning, max_output_tokens, unit_id = item
+                cell = {"task_id": task_id, "ask_id": unit_id, "condition": condition, "executor_model": model,
                         "executor_provider": provider, "executor_role": role,
                         "context_token_upper_bound": tokens,
                         "context_limit_tokens": MAX_CONTEXT_TOKEN_UPPER_BOUND}
@@ -952,21 +1044,74 @@ def main() -> None:
                               + ("Return document title and substantive sections for materialization into the actual DOCX."
                                  if args.native_e2e and expected_output in {"make_new_doc", "edit_existing_doc"}
                                  else "Return the complete console legal analysis, calculations, conclusions, citations, and gaps."))}
-                artifact_name = f"{task_id}-{condition}-{model.replace('/', '_')}.json"
+                artifact_name = f"{unit_id}-{condition}-{model.replace('/', '_')}.json"
                 resume_path = Path(args.resume_artifacts) / artifact_name if args.resume_artifacts else None
                 artifact = None
                 resumed_grades: list[dict[str, Any]] = []
                 if resume_path and resume_path.is_file():
                     resumed = json.loads(resume_path.read_text())
-                    if isinstance(resumed, dict) and isinstance(resumed.get("artifact"), (dict, list)):
+                    if resume_artifact_eligible(resumed, condition):
                         artifact = resumed["artifact"]
                         cell["executor_reused"] = True
+                        if condition == "v12-agentic-disclosure":
+                            for key in ("agentic_trace", "agentic_tool_call_count", "agentic_stop_reason",
+                                        "used_traverse_graph", "used_search_gap",
+                                        "agentic_context_truncated"):
+                                cell[key] = resumed.get(key)
+                            cell["context_token_upper_bound"] = resumed.get(
+                                "agentic_context_token_upper_bound", cell["context_token_upper_bound"])
                         for prior_grade in resumed.get("grades", []):
                             try:
                                 resumed_grades.append(normalize_grade(prior_grade))
                             except ValueError:
                                 pass
                 if artifact is None:
+                    if condition == "v12-agentic-disclosure":
+                        agent_query = "\n".join([graph["task"]["prompt"]] + [
+                            str(row.get("query", "")) for row in asks])
+
+                        def decide(agent_state: dict[str, Any]) -> dict[str, Any]:
+                            category = str(asks[0].get("category")) if len(asks) == 1 else "mixed"
+                            exercised = {row.get("action") for row in agent_state.get("tool_results", [])
+                                         if row.get("status") == "ok"}
+                            qualification_instruction = ""
+                            if args.qualification_only and category == "relation-dependent" and "traverse_graph" not in exercised:
+                                qualification_instruction = " Qualification canary: call traverse_graph at least once before answering."
+                            elif (args.qualification_only and category in {"partial-gap", "novel"}
+                                  and "search_gap" not in exercised):
+                                qualification_instruction = " Qualification canary: call search_gap at least once before answering."
+                            decision_prompt = {
+                                "task": graph["task"]["prompt"],
+                                "lawyer_asks": [{"ask_id": row["ask_id"], "query": row["query"]}
+                                                for row in asks],
+                                "agent_state": agent_state,
+                                "instruction": ("Choose exactly one action. Use traverse_graph when admitted claims may be reachable from visible claim IDs. "
+                                                "Use search_gap only for unresolved factual evidence; its results are not governed. "
+                                                "Choose answer once the evidence is sufficient or the remaining gap should be stated honestly."
+                                                + qualification_instruction),
+                            }
+                            selected = _model_call(
+                                executor_gateways[model],
+                                "You control a bounded governed-disclosure workflow. Return only the required decision.",
+                                json.dumps(decision_prompt, ensure_ascii=False), 2048,
+                                TOOL_DECISION_SCHEMA, "proofpress_agentic_disclosure_decision")
+                            if not selected["ok"]:
+                                raise RuntimeError("agentic tool decision failed closed")
+                            return selected["value"]
+
+                        agentic = run_agentic_disclosure(
+                            query=agent_query, scope=task_id, index=SectionIndex(catalog), decide=decide)
+                        cell["agentic_trace"] = agentic["trace"]
+                        cell["agentic_tool_call_count"] = agentic["tool_call_count"]
+                        cell["agentic_stop_reason"] = agentic["stop_reason"]
+                        cell["used_traverse_graph"] = agentic["used_traverse_graph"]
+                        cell["used_search_gap"] = agentic["used_search_gap"]
+                        bounded_state, agentic_tokens = bounded_json(agentic["state"])
+                        prompt["context"] = json.loads(bounded_state)
+                        cell["context_token_upper_bound"] = agentic_tokens
+                        cell["agentic_context_truncated"] = prompt["context"] != agentic["state"]
+                        prompt["instruction"] += (" The context contains executor-selected tool results. "
+                                                  "Treat search_gap candidate evidence as not_governed and preserve that authority boundary.")
                     native_doc = args.native_e2e and expected_output in {"make_new_doc", "edit_existing_doc"}
                     generated = _model_call(
                         executor_gateways[model], "You are a legal workflow executor. Use the required output tool.",
@@ -1027,7 +1172,13 @@ def main() -> None:
                                  "citation_errors": sum(g["citation_errors"] for g in grades) / 3,
                                  "authority_errors": sum(g["authority_errors"] for g in grades) / 3})
                 artifact_path = raw_out / artifact_name
-                artifact_path.write_text(json.dumps({"artifact": artifact, "grades": grades}, indent=2))
+                persisted = {"artifact": artifact, "grades": grades}
+                if condition == "v12-agentic-disclosure":
+                    for key in ("agentic_trace", "agentic_tool_call_count", "agentic_stop_reason",
+                                "used_traverse_graph", "used_search_gap", "agentic_context_truncated"):
+                        persisted[key] = cell.get(key)
+                    persisted["agentic_context_token_upper_bound"] = cell["context_token_upper_bound"]
+                artifact_path.write_text(json.dumps(persisted, indent=2))
                 cell["artifact_digest"] = (artifact_checks["artifact_digest"] if artifact_checks else digest(artifact))
                 return cell
 
@@ -1038,7 +1189,7 @@ def main() -> None:
                     try:
                         results.append(future.result())
                     except Exception as exc:
-                        results.append({"task_id": item[0], "condition": item[3],
+                        results.append({"task_id": item[0], "ask_id": item[11], "condition": item[3],
                                         "executor_model": item[6], "executor_provider": item[7],
                                         "executor_role": item[8], "context_token_upper_bound": item[5],
                                         "status": "inconclusive", "reason": "cell runner failed closed",
@@ -1075,6 +1226,8 @@ def main() -> None:
         "output_protocol": "provider-structured-json-schema/v1",
         "max_disclosure_calls": 3,
         "max_context_token_upper_bound": MAX_CONTEXT_TOKEN_UPPER_BOUND,
+        "route_canary_report_digest": digest(route_canary) if route_canary is not None else None,
+        "workflow_qualification_report_digests": [digest(row) for row in workflow_qualifications],
     }
     configuration["config_digest"] = digest(configuration)
     sanitized = {"schema_version": "proofpress/private-legal-workflow-utility/v1",
@@ -1084,10 +1237,12 @@ def main() -> None:
                                for m, p, r, reasoning, max_tokens in executors],
                  "grader": {"model": GRADER[0], "provider": GRADER[1], "blind_grades_per_artifact": 3},
                  "configuration": configuration,
-                 "mode": "progressive-disclosure" if args.progressive_only else "full-e2e",
+                 "mode": ("agentic-progressive-disclosure" if args.agentic_only else
+                          "progressive-disclosure" if args.progressive_only else "full-e2e"),
                  "fallback": "forbidden", "staged_evaluation": True, "non_authoritative": True,
-                 "denominators": {"planned_cells": len(task_ids) * len(active_conditions) * len(executors),
+                 "denominators": {"planned_cells": evaluation_unit_count * len(active_conditions) * len(executors),
                                   "task_count": len(task_ids),
+                                  "evaluation_unit_count": evaluation_unit_count,
                                   "lawyer_ask_count": len(asks_manifest.get("asks", [])),
                                   "scored_cells": len(cells), "inconclusive_cells": len(results) - len(cells)},
                  "aggregate": aggregate, "cells": results, "pageindex_events": pageindex_events,
@@ -1101,7 +1256,7 @@ def main() -> None:
                                "pageindex_cost_usd": pageindex_cost,
                                "cost_status": "ok" if len(receipts) == len(calls) else "inconclusive"},
                  "decision_boundary": "Private staged evaluation. The admission events are isolated evaluation fixtures, not lawyer admissions or matter authority."}
-    required_primary_cells = len(task_ids) * len(product_conditions) * len(executors)
+    required_primary_cells = evaluation_unit_count * len(product_conditions) * len(executors)
     scored_primary_cells = sum(row.get("status") == "scored" and row.get("condition") in product_conditions
                                for row in results)
     terminal_receipts = sum(row.get("terminal") is True for row in receipts)
@@ -1113,6 +1268,19 @@ def main() -> None:
         qualification_failures.append({"reason": "not every model call has exactly one terminal receipt",
                                        "calls": len(calls), "receipts": len(receipts),
                                        "terminal_receipts": terminal_receipts})
+    if args.agentic_only:
+        agentic_cells = [row for row in results if row.get("condition") == "v12-agentic-disclosure"]
+        for model, _, _, _, _ in executors:
+            model_cells = [row for row in agentic_cells if row.get("executor_model") == model]
+            if not model_cells or any(row.get("agentic_stop_reason") != "executor_ready" for row in model_cells):
+                qualification_failures.append({"reason": "agentic executor did not reach a bounded answer state",
+                                               "model": model})
+            if not any(row.get("used_traverse_graph") is True for row in model_cells):
+                qualification_failures.append({"reason": "agentic executor never exercised traverse_graph",
+                                               "model": model})
+            if not any(row.get("used_search_gap") is True for row in model_cells):
+                qualification_failures.append({"reason": "agentic executor never exercised search_gap",
+                                               "model": model})
     sanitized["qualification"] = {"status": "pass" if not qualification_failures else "fail",
                                   "failures": qualification_failures,
                                   "required_before_scored_panel": True,
