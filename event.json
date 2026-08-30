@@ -1,21 +1,21 @@
 {
-  "created_at": "2026-08-30T19:16:02.750891Z",
-  "event_id": "ppe_c3298a7c19d71f9c",
+  "created_at": "2026-08-30T19:16:02.844368Z",
+  "event_id": "ppe_bee2fc12f72deb33",
   "evidence": {
-    "digest": "sha256:89fb338e2f5b6ee4e6141ca088cc13af4aff82405b3a6a56007e33ae2dd15e89",
-    "id": "evd_76dfd3bd977b2024",
+    "digest": "sha256:e911d6788c1a71669bdd7e7e4cb70358954e4d48b714a66503f83df7e05bfeb9",
+    "id": "evd_72390233f7835999",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:66abd85736fc48ed4e7f294d1586102b70700a0500ca9e9bfb69bfeccb0d7401",
+    "quote_digest": "sha256:ac8371f90e59463db1a4d1c4bf3056c6c4eb7da6eabb49ef2c8247657ffe762d",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:66abd85736fc48ed4e7f294d1586102b70700a0500ca9e9bfb69bfeccb0d7401",
-        "section_id": "sec_404cea6299288f39"
+        "section_digest": "sha256:ac8371f90e59463db1a4d1c4bf3056c6c4eb7da6eabb49ef2c8247657ffe762d",
+        "section_id": "sec_5872d3b09b7f0cc7"
       },
-      "quote": "CERTIFICATE OF INCORPORATION\n\t[Exhibit C -\tDISCLOSURE SCHEDULE]\n\tExhibit D -\tFORM OF INDEMNIFICATION AGREEMENT\n\tExhibit E -\tFORM OF INVESTORS’ RIGHTS AGREEMENT\n\tExhibit F -\tFORM OF MANAGEMENT RIGHTS LETTER\n\tExhibit G -\tForm of Right of First Refusal and Co-Sale Agreement\n\tExhibit H -\tFORM OF VOTING AGREEMENT\n\tExhibit I -\tFORM OF LEGAL OPINION OF [COMPANY COUNSEL]\n\t[Exhibit J -\tMILESTONE EVENTS]\n\n\n\n\n\n\n\n\n\n",
-      "quote_digest": "sha256:66abd85736fc48ed4e7f294d1586102b70700a0500ca9e9bfb69bfeccb0d7401",
+      "quote": "        12.11 REMEDIES CUMULATIVE\nThe rights and remedies of the parties are cumulative and not alternative.\n",
+      "quote_digest": "sha256:ac8371f90e59463db1a4d1c4bf3056c6c4eb7da6eabb49ef2c8247657ffe762d",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
@@ -24,18 +24,18 @@
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
       "source": {
-        "content_digest": "sha256:de3c85ce68cc9a64aadabec8843aff116664ead676844e5ce1f589169c52b2da",
+        "content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
         "media_type": "text/plain",
-        "uri": "private://apex/de3c85ce68cc9a64-4c7c3329"
+        "uri": "private://apex/7beb28a6e0069669-d885dee3"
       }
     },
-    "retrieval_receipt_digest": "sha256:9df2ee8cbb401b5e4f787832713de503124e2b0c13def2cd8c9f09cf5bd05a7d",
-    "source_content_digest": "sha256:de3c85ce68cc9a64aadabec8843aff116664ead676844e5ce1f589169c52b2da",
-    "source_digest": "sha256:afd14261a12776692529819ab8b113e55ef68150920111e982cd00f66a8af8ea",
-    "source_ref": "src_a149d3b6c6d2425c"
+    "retrieval_receipt_digest": "sha256:3555051032e4b94cda1f178508df13725f5a9a178c8a5082e619d43b6c468c6d",
+    "source_content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
+    "source_digest": "sha256:9b5e55c106d3b2c9d270455bb5af81e282a4e92f3ba0722f868b952faf8ff0b5",
+    "source_ref": "src_1cb20c6823882030"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_a149d3b6c6d2425c",
-  "subject_ref": "evd_76dfd3bd977b2024",
+  "source_ref": "src_1cb20c6823882030",
+  "subject_ref": "evd_72390233f7835999",
   "type": "evidence_bound"
 }
