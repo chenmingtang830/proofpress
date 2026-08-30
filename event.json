@@ -1,41 +1,15 @@
 {
-  "created_at": "2026-08-30T19:15:59.421372Z",
-  "event_id": "ppe_27dec9b2976635b2",
-  "evidence": {
-    "digest": "sha256:6eb539a705fbaafe09f59434b8f17c8bf24de881c502fe4432e5244f12190946",
-    "id": "evd_bd23804fafbd19e0",
-    "kind": "retrieval_evidence",
-    "quote_digest": "sha256:7a29831de3eea212c1770c520c9cae7474c0aeb66a38d50d64361e0c1c384147",
-    "retrieval_receipt": {
-      "locator": {
-        "kind": "section_span",
-        "page_end": 1,
-        "page_start": 1,
-        "section_digest": "sha256:7a29831de3eea212c1770c520c9cae7474c0aeb66a38d50d64361e0c1c384147",
-        "section_id": "sec_af4cbadc33daccc3"
-      },
-      "quote": "IV. CONCLUSION\nSummit’s S‑Corporation eligibility issues are severe, multi‑year, and likely to be viewed by the IRS as significant compliance failures. Corrective action is possible only through coordinated remediation and a §1362(f) relief request. Without corrective actions, Summit may be treated as a C‑Corporation for all periods beginning June 1, 2022, or earlier if disproportionate distributions are deemed to create a second class of stock.\nThis memorandum reflects a partner‑level diligence summary and may be circulated to tax counsel, buy‑side advisors, and internal decision-makers as part of a broader transaction risk analysis.\n\n",
-      "quote_digest": "sha256:7a29831de3eea212c1770c520c9cae7474c0aeb66a38d50d64361e0c1c384147",
-      "retrieval": {
-        "adapter": "bm25-page",
-        "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
-        "query": "installment sale property June 2022 1031 exchange building sale nonrecognition treatment real estate sale deferred gain property transaction",
-        "version": "1"
-      },
-      "schema_version": "proofpress/retrieval-evidence/v1",
-      "source": {
-        "content_digest": "sha256:e7eb786dc671298aa9426792d523f0ec997bee3a570763a8b10f13a1644fc105",
-        "media_type": "text/plain",
-        "uri": "private://apex/e7eb786dc671298a-1d2051f2"
-      }
-    },
-    "retrieval_receipt_digest": "sha256:9a6bf6233a245b8a35af8431ccb3ac9bbebf80cce8100e899c2b4db142a38c05",
-    "source_content_digest": "sha256:e7eb786dc671298aa9426792d523f0ec997bee3a570763a8b10f13a1644fc105",
-    "source_digest": "sha256:bbebf48c1f9dee4d30677c0c93c00e3eb349758e8e8a6eac5acafa2f8650d491",
-    "source_ref": "src_e9b083e75ca5f18f"
+  "created_at": "2026-08-30T19:15:59.487547Z",
+  "event_id": "ppe_7c6b4a3db9228183",
+  "record": {
+    "content_digest": "sha256:4629062ed7c4d4e68373655853477ea19fce90abbef5cad87c3ac843f18a1172",
+    "id": "src_a95a3b7b5c5d195d",
+    "kind": "retrieval_source",
+    "media_type": "text/plain",
+    "record_hash": "sha256:d9de0be82e97ad010128e6eb5729c693a5a9e40731440ae1194f294a7a78295c",
+    "uri": "private://apex/4629062ed7c4d4e6-8f5da7a2"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_e9b083e75ca5f18f",
-  "subject_ref": "evd_bd23804fafbd19e0",
-  "type": "evidence_bound"
+  "subject_ref": "src_a95a3b7b5c5d195d",
+  "type": "source_recorded"
 }
