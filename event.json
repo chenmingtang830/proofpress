@@ -1,41 +1,41 @@
 {
-  "created_at": "2026-08-30T19:16:43.719733Z",
-  "event_id": "ppe_3ec87ee88ca89d35",
+  "created_at": "2026-08-30T19:16:43.877154Z",
+  "event_id": "ppe_f22675f930daf789",
   "evidence": {
-    "digest": "sha256:e077045f5d4f93ebd3c4de4a51e29debd035217761dda48f23a372369493249d",
-    "id": "evd_7fc03947d82f2944",
+    "digest": "sha256:0e49532f7aa08ccfcff7cf8fc52f71ef4d4feabea6844df8556cb93b2a05bebd",
+    "id": "evd_417324fc1fe5905a",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:dccb76de3315482999d88e5b184e59e2f11e099ac82993cd3ab8203dd8edbdb2",
+    "quote_digest": "sha256:7a29831de3eea212c1770c520c9cae7474c0aeb66a38d50d64361e0c1c384147",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:dccb76de3315482999d88e5b184e59e2f11e099ac82993cd3ab8203dd8edbdb2",
-        "section_id": "sec_e934812bd9f73cef"
+        "section_digest": "sha256:7a29831de3eea212c1770c520c9cae7474c0aeb66a38d50d64361e0c1c384147",
+        "section_id": "sec_af4cbadc33daccc3"
       },
-      "quote": "ADDRESS: \n\t\t\t\t\n\t\t\t\t\n\n\nRE: Letter of Intent for the Proposed Purchase of Stock\n\nThis stock purchase letter of intent (“Letter of Intent”) represents the basic terms for an agreement that shall be considered non-binding. After this Letter of Intent has been made, another formal agreement may be constructed to the benefit of the Parties involved.\n\nI. The Buyer: NAME & ADDRESS \n\nII. The Seller: NAME & ADDRESS\n\nThe Buyer and Seller, when mentioned together, shall be referred to as the “Parties”.\n\nIII. Company: The Parties agree that the shares of capital stock mentioned in this Agreement are of TARGET COMPANY NAME (the “Company”) located with a principal office address in the State of ______________________.\n\nIV. Shares. In accordance with the terms set forth in this Agreement, the Seller agrees to sell NUMBER (__________) shares of ___________-class stock of the Company (“Stock”).\n\nV. Purchase Price: The total purchase price shall be PRICE ($___________________) for the Stock. The Buyer shall be obligated to complete the purchase with a closing date no later than DATE (“Closing Date”).\n\nVI. Deposit: With the signing of this Letter of Intent, the Parties agree that:\n\nDeposit is NOT Required: The Buyer shall not be required to make payment at the time of signing this Letter of Intent.\n\nVII. Formal Agreement: After the signing of this Letter of Intent:\n\nFormal Agreement Required: A formal agreement shall be constructed by DATE based off the terms in this Letter of Intent (“Formal Agreement”). If there is no Formal Agreement created, or the Parties could not agree to the details by the Closing Date, this Letter of Intent shall be considered null and void.\n\nVIII. Confidentiality: All negotiations regarding the Business between the Buyer and Seller shall be confidential and shall not to be disclosed with anyone other than respective advisors and internal staff of the Parties and necessary third (3rd) parties. No press or other public releases will be issued to the general public concerning the Business without the mutual consent of the Parties or as required by law, and then only upon prior written notice to the other party unless otherwise not allowed.\n\nIX. Good Faith Negotiations: The Buyer agrees to act in an honest and diligent manner to enter into “good faith” negotiations in order to execute a formal agreement and/or close the transaction.\n\nX. Exclusive Opportunity: Following the execution of this Letter of Intent, the Parties agree not to negotiate or enter into discussions with any other party unless there are any existing agreements in place (e.g. option to purchase, first right of refusal, etc.).\n\nXI. No Public Announcement: The Parties agree not to make any public announcement with regard to the transaction contemplated by this Letter without the prior written consent of the other. Additionally, each of the Parties shall bear their own costs and expenses related to the transaction contemplated by this Letter, including, but not limited to, fees and expenses of legal counsel and accountants.\n\nXII. Currency: All mentions of currency or the usage of the “$” icon shall be known as referring to the US Dollar.\n\nXIII. Governing Law: This Letter of Intent shall be governed under the laws by the State of STATE.\n\nXIV. Counterparts and Electronic Means: This Letter of Intent may be executed in several counterparts, each of which will be deemed to be an original and all of which will together constitute one and the same instrument. Delivery to us of an executed copy of this Letter of Intent by electronic facsimile transmission or other means of electronic communication capable of producing a printed copy will be deemed to be execution and delivery to us of this Letter of Intent as of the date of successful transmission to us.\n\nXV. Severability. In case any provision or wording in this Letter of Intent shall be held invalid, illegal, or unenforceable, the validity, legality, and enforceability of the remaining provisions shall not in any way be affected or impaired thereby.\n\nXVI. Acceptance: If the Parties are agreeable to the aforementioned terms, this Letter of Intent must be authorized by no later than DATE.\n\nIN WITNESS WHEREOF, the Parties have executed this Letter of Intent on the day and year written below.\n\n",
-      "quote_digest": "sha256:dccb76de3315482999d88e5b184e59e2f11e099ac82993cd3ab8203dd8edbdb2",
+      "quote": "IV. CONCLUSION\nSummit’s S‑Corporation eligibility issues are severe, multi‑year, and likely to be viewed by the IRS as significant compliance failures. Corrective action is possible only through coordinated remediation and a §1362(f) relief request. Without corrective actions, Summit may be treated as a C‑Corporation for all periods beginning June 1, 2022, or earlier if disproportionate distributions are deemed to create a second class of stock.\nThis memorandum reflects a partner‑level diligence summary and may be circulated to tax counsel, buy‑side advisors, and internal decision-makers as part of a broader transaction risk analysis.\n\n",
+      "quote_digest": "sha256:7a29831de3eea212c1770c520c9cae7474c0aeb66a38d50d64361e0c1c384147",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
-        "query": "Retrieve IRC §1362(g) and related guidance concerning the five-year re-election bar, computation of the fifth taxable year, and IRS consent.",
+        "query": "Retrieve the IRS relief request and denial notice, including denial date, tax periods, factual findings, and stated consequences.",
         "version": "1"
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
       "source": {
-        "content_digest": "sha256:dfb4a6fb5185685768f588160e39690b944d8cbfad8e0b36a92b49be895f80d9",
+        "content_digest": "sha256:e7eb786dc671298aa9426792d523f0ec997bee3a570763a8b10f13a1644fc105",
         "media_type": "text/plain",
-        "uri": "private://apex/dfb4a6fb51856857-3ebb9312"
+        "uri": "private://apex/e7eb786dc671298a-1d2051f2"
       }
     },
-    "retrieval_receipt_digest": "sha256:b941a2b56a103769cfa1db8edd91a3cfb7e316fd5bbb67a241f40c09f0238b3c",
-    "source_content_digest": "sha256:dfb4a6fb5185685768f588160e39690b944d8cbfad8e0b36a92b49be895f80d9",
-    "source_digest": "sha256:af353dc2ff025f1b5856614e044526af70dd8dd57771cc7162880a69ff71fe65",
-    "source_ref": "src_fe48f3c72ed75d5f"
+    "retrieval_receipt_digest": "sha256:1143dbae4c67cea8ef411410ff25b757ef54e1187b344df718c329d835476e91",
+    "source_content_digest": "sha256:e7eb786dc671298aa9426792d523f0ec997bee3a570763a8b10f13a1644fc105",
+    "source_digest": "sha256:bbebf48c1f9dee4d30677c0c93c00e3eb349758e8e8a6eac5acafa2f8650d491",
+    "source_ref": "src_e9b083e75ca5f18f"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_fe48f3c72ed75d5f",
-  "subject_ref": "evd_7fc03947d82f2944",
+  "source_ref": "src_e9b083e75ca5f18f",
+  "subject_ref": "evd_417324fc1fe5905a",
   "type": "evidence_bound"
 }
