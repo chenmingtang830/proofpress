@@ -1,14 +1,11 @@
 {
-  "created_at": "2026-08-30T19:17:34.351722Z",
-  "decision": "admit",
-  "event_id": "ppe_e68eb8636b138f95",
-  "identity_basis": "self_asserted",
-  "note": null,
+  "created_at": "2026-08-30T19:17:34.476355Z",
+  "event_id": "ppe_da2e91131ec3b647",
   "policy_digest": "sha256:cde050fdc0b2869fecf8ee9d24dee964fc3bbc18e6b489da2e08e7c3df266501",
   "relation_digest": "sha256:72f5e300e21f08cd5b54216bfa2e62ffc557d2e4fcf9ab94692b9dc3ade66cba",
-  "request_id": null,
+  "review_ref": "ppe_e68eb8636b138f95",
   "reviewer": "human:staged-evaluation-reviewer",
   "schema_version": "proofpress/knowledge-event/v2",
   "subject_ref": "rel_ace129b947c0f318",
-  "type": "relation_reviewed"
+  "type": "relation_admitted"
 }
