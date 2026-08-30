@@ -1,21 +1,21 @@
 {
-  "created_at": "2026-08-30T19:16:15.948922Z",
-  "event_id": "ppe_43ea6fd186f53c3e",
+  "created_at": "2026-08-30T19:16:16.066633Z",
+  "event_id": "ppe_1cc9cc56eded435e",
   "evidence": {
-    "digest": "sha256:eda4849c68bd5eeb852d7d4d24c66b69d4072573841f4082fea82681e30dbf20",
-    "id": "evd_767e974115c30bd6",
+    "digest": "sha256:c7e6473b600eee10fb70b53e385295b0a04e9b849d0e660999e4ac69730a22df",
+    "id": "evd_36af54e0c9c9ecc0",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:cbe8dbf391040e4cef9571d3348b4b151336ccf0972b214db72729ae0eaa05ba",
+    "quote_digest": "sha256:dee13605a4e7cb11022f8505cdf10bc9c4e8787b0787e8906490e52e9134dafe",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:cbe8dbf391040e4cef9571d3348b4b151336ccf0972b214db72729ae0eaa05ba",
-        "section_id": "sec_e216c875b11705da"
+        "section_digest": "sha256:dee13605a4e7cb11022f8505cdf10bc9c4e8787b0787e8906490e52e9134dafe",
+        "section_id": "sec_ebfaeb5acc000c25"
       },
-      "quote": "﻿Form 1120-S \nDepartment of the Treasury  Internal Revenue Service  \nU.S. Income Tax Return for an S Corporation  \nDo not file this form unless the corporation has filed or  \nis attaching Form 2553 to elect to be an S corporation.  \nGo to www.irs.gov/Form1120S for instructions and the latest information. \nOMB No. 1545-0123  2024 \nFor calendar year 2024 or tax year beginning , 2024, ending , 20  \nA S election effective date  \nB Business activity code  number (see instructions)  \nC Check if Sch. M-3 attached \n",
-      "quote_digest": "sha256:cbe8dbf391040e4cef9571d3348b4b151336ccf0972b214db72729ae0eaa05ba",
+      "quote": "TABLE OF CONTENTS\nPage\n1.\tPurchase and Sale of Preferred Stock.\t1\n1.1\tSale and Issuance of Preferred Stock.\t1\n1.2\tClosing; Delivery.\t1\n1.3\tSale of Additional Shares of Preferred Stock.\t2\n1.4\t[Use of Proceeds\t3\n1.5\tDefined Terms Used in this Agreement\t4\n2.\tRepresentations and Warranties of the Company\t6\n2.1\tOrganization, Good Standing, Corporate Power and Qualification\t6\n2.2\tCapitalization\t6\n2.3\tSubsidiaries\t8\n2.4\tAuthorization\t8\n2.5\tValid Issuance of Shares\t9\n2.6\tGovernmental Consents and Filings\t9\n2.7\tLitigation\t9\n2.8\tIntellectual Property\t10\n2.9\tCompliance with Other Instruments\t12\n2.10\tAgreements; Actions\t12\n2.11\tCertain Transactions\t13\n2.12\tRights of Registration and Voting Rights\t13\n2.13\tProperty\t13\n2.14\tFinancial Statements\t14\n2.15\tChanges\t14\n2.16\tEmployee Matters\t15\n2.17\tTax Returns and Payments\t17\n2.18\tInsurance\t17\n2.19\tEmployee Agreements\t17\n2.20\tPermits\t18\n2.21\tCorporate Documents\t18\n2.22\t[83(b) Elections\t18\n2.23\t[Real Property Holding Corporation\t18\n2.24\tEnvironmental and Safety Laws\t18\n2.25\t[Qualified Small Business Stock\t19\n2.26\tDisclosure\t19\n2.27\t[Small Business Concern\t20\n2.28\t[Foreign Corrupt Practices Act\t20\n2.29\t[Data Privacy\t20\n2.30\t[Export Control Laws\t21\n2.31\t[Preclinical Development and Clinical Trials\t21\n2.32\t[FDA Approvals\t21\n2.33\t[FDA Regulation\t22\n3.\tRepresentations and Warranties of the Purchasers\t22\n3.1\tAuthorization\t22\n3.2\tPurchase Entirely for Own Account\t22\n3.3\tDisclosure of Information\t23\n3.4\tRestricted Securities\t23\n3.5\tNo Public Market\t23\n3.6\tLegends\t23\n3.7\tAccredited Investor\t24\n3.8\tForeign Investors\t24\n3.9\tNo General Solicitation\t24\n3.10\tExculpation Among Purchasers\t24\n3.11\tResidence\t24\n3.12\t[Consent to Promissory Note Conversion and Termination\t25\n4.\tConditions to the Purchasers’ Obligations at Closing\t25\n4.1\tRepresentations and Warranties\t25\n4.2\tPerformance\t25\n4.3\tCompliance Certificate\t25\n4.4\tQualifications\t26\n4.5\tOpinion of Company Counsel\t26\n4.6\tBoard of Directors\t26\n4.7\tIndemnification Agreement\t26\n4.8\tInvestors’ Rights Agreement\t26\n4.9\tRight of First Refusal and Co‑Sale Agreement\t26\n4.10\tVoting Agreement\t26\n4.11\tRestated Certificate\t26\n4.12\tSecretary’s Certificate\t26\n4.13\tProceedings and Documents\t26\n4.14\tMinimum Number of Shares at Initial Closing\t26\n4.15\tManagement Rights\t27\n4.16\t[SBA Matters\t27\n4.17\t[Preemptive Rights\t27\n5.\tConditions of the Company’s Obligations at Closing\t27\n5.1\tRepresentations and Warranties\t27\n5.2\tPerformance\t27\n5.3\tQualifications\t27\n5.4\tInvestors’ Rights Agreement\t27\n5.5\tRight of First Refusal and Co‑Sale Agreement\t27\n5.6\tVoting Agreement\t27\n5.7\t[Minimum Number of Shares at Initial Closing\t27\n6.\tMiscellaneous\t27\n6.1\tSurvival of Warranties\t27\n6.2\tSuccessors and Assigns\t28\n6.3\tGoverning Law\t28\n6.4\tCounterparts\t28\n6.5\tTitles and Subtitles\t28\n6.6\tNotices\t28\n6.7\tNo Finder’s Fees\t29\n6.8\tFees and Expenses\t29\n6.9\t[Attorneys’ Fees\t29\n6.10\tAmendments and Waivers\t29\n6.11\tSeverability\t29\n6.12\tDelays or Omissions\t30\n6.13\tEntire Agreement\t30\n6.14\t[Corporate Securities Law\t30\n6.15\tTermination of Closing Obligations\t30\n6.16\tDispute Resolution\t31\n6.17\t[No Commitment for Additional Financing\t35\n6.18\t[Waiver of Conflicts\t36\n\tExhibit A -\tSCHEDULE OF PURCHASERS\n\tExhibit B -\tFORM OF AMENDED AND RESTATED\n",
+      "quote_digest": "sha256:dee13605a4e7cb11022f8505cdf10bc9c4e8787b0787e8906490e52e9134dafe",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
@@ -24,18 +24,18 @@
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
       "source": {
-        "content_digest": "sha256:c93c2b228433659eb56b66bfaee1dc3de9ed754d39aa736b60372b74813f3481",
+        "content_digest": "sha256:de3c85ce68cc9a64aadabec8843aff116664ead676844e5ce1f589169c52b2da",
         "media_type": "text/plain",
-        "uri": "private://apex/c93c2b228433659e-f96ee06e"
+        "uri": "private://apex/de3c85ce68cc9a64-4c7c3329"
       }
     },
-    "retrieval_receipt_digest": "sha256:0952439bdee9619315960f2d871078c4d8cefa31a5200e04585d213a5aac5e49",
-    "source_content_digest": "sha256:c93c2b228433659eb56b66bfaee1dc3de9ed754d39aa736b60372b74813f3481",
-    "source_digest": "sha256:0a36a5ff5eb33d41016d52986e5f40fb7355d329af2f4a939222e040274ce016",
-    "source_ref": "src_1769935b4d6bb417"
+    "retrieval_receipt_digest": "sha256:ce19dfffb876a749ed8ec5c28f0b5605edbdfd4a74cd8d61ef6ccaf40ac9d0a9",
+    "source_content_digest": "sha256:de3c85ce68cc9a64aadabec8843aff116664ead676844e5ce1f589169c52b2da",
+    "source_digest": "sha256:afd14261a12776692529819ab8b113e55ef68150920111e982cd00f66a8af8ea",
+    "source_ref": "src_a149d3b6c6d2425c"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_1769935b4d6bb417",
-  "subject_ref": "evd_767e974115c30bd6",
+  "source_ref": "src_a149d3b6c6d2425c",
+  "subject_ref": "evd_36af54e0c9c9ecc0",
   "type": "evidence_bound"
 }
