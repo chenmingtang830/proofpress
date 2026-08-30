@@ -1,25 +1,25 @@
 {
-  "created_at": "2026-08-30T19:16:22.731614Z",
-  "event_id": "ppe_1fb8f6ecea5212dd",
+  "created_at": "2026-08-30T19:16:22.869315Z",
+  "event_id": "ppe_69c7900294bb688f",
   "evidence": {
-    "digest": "sha256:2497a6a74fdb7ea484bb95047564ea15493c1c1022f096cee3920352a71e304f",
-    "id": "evd_244411edfe189369",
+    "digest": "sha256:37935e727abfc50dae15d0fba3bafdc8a9edf203de40cfb9a7350de6882bad7f",
+    "id": "evd_dd2de2730c698d0e",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:50f8abc33ad95fb04e455350745cfd87bea436f4674a19b650eb506cc9c3ee9e",
+    "quote_digest": "sha256:ceaf9f77291b2f2fff42310eedacff9da00287edac6e50644f2dbc8d50b856cb",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:50f8abc33ad95fb04e455350745cfd87bea436f4674a19b650eb506cc9c3ee9e",
-        "section_id": "sec_690b880ccf6c4d52"
+        "section_digest": "sha256:ceaf9f77291b2f2fff42310eedacff9da00287edac6e50644f2dbc8d50b856cb",
+        "section_id": "sec_d0bfc6fa1f9b4fee"
       },
-      "quote": "        11.10 STRICT LIABILITY OR INDEMNITEE NEGLIGENCE\nTHE PROVISIONS IN THIS ARTICLE 11 SHALL BE ENFORCEABLE REGARDLESS OF WHETHER THE LIABILITY IS BASED UPON PAST, PRESENT, OR FUTURE ACTS, CLAIMS, OR LEGAL REQUIREMENTS (INCLUDING ANY PAST, PRESENT, OR FUTURE ENVIRONMENTAL\nLAW, OCCUPATIONAL SAFETY AND HEALTH LAW, OR PRODUCTS LIABILITY, SECURITIES, OR OTHER LEGAL REQUIREMENT) AND REGARDLESS OF WHETHER ANY PERSON (INCLUDING THE PERSON FROM WHOM RELIEF IS SOUGHT) ALLEGES OR PROVES THE SOLE, CONCURRENT, CONTRIBUTORY, OR COMPARATIVE NEGLIGENCE OF THE PERSON SEEKING RELIEF, OR THE SOLE OR CONCURRENT STRICT LIABILITY IMPOSED UPON THE PERSON SEEKING RELIEF.\n\n\n\n\n    12. Miscellaneous\n\n\n\n\n\n\n\n",
-      "quote_digest": "sha256:50f8abc33ad95fb04e455350745cfd87bea436f4674a19b650eb506cc9c3ee9e",
+      "quote": "        12.19 SEVERABILITY\nIf any provision of this Agreement is held invalid or unenforceable by any court of competent jurisdiction, the other provisions of this Agreement will remain in full force and effect. Any provision of this Agreement held invalid or unenforceable only in part or degree will remain in full force and effect to the extent not held invalid or unenforceable.\n",
+      "quote_digest": "sha256:ceaf9f77291b2f2fff42310eedacff9da00287edac6e50644f2dbc8d50b856cb",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
-        "query": "Authoritative procedures for missing or defective shareholder consents, inadvertent invalid elections under §1362(f), late-election relief, and private-letter-ruling relief",
+        "query": "Official 26 CFR §1.1362-6 text and amendment/effective-date history in force on February 19, 2019; authorities interpreting subsection (b), including late or defective shareholder consents.",
         "version": "1"
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
@@ -29,13 +29,13 @@
         "uri": "private://apex/7beb28a6e0069669-d885dee3"
       }
     },
-    "retrieval_receipt_digest": "sha256:833cd43eb7eefa324601e89a8a11ad095f6eeed29daa0a5cf7ce4cef433ddd12",
+    "retrieval_receipt_digest": "sha256:afeffc58ba8a71759585473a1490dc9548f185925ef3c1e45c7c9ea2d47e22f6",
     "source_content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
     "source_digest": "sha256:9b5e55c106d3b2c9d270455bb5af81e282a4e92f3ba0722f868b952faf8ff0b5",
     "source_ref": "src_1cb20c6823882030"
   },
   "schema_version": "proofpress/knowledge-event/v2",
   "source_ref": "src_1cb20c6823882030",
-  "subject_ref": "evd_244411edfe189369",
+  "subject_ref": "evd_dd2de2730c698d0e",
   "type": "evidence_bound"
 }
