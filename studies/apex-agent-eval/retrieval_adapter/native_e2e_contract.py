@@ -55,6 +55,24 @@ def validate_task_panel(task_rows: list[dict[str, Any]], *, qualification: bool)
             "task_count": len(task_rows), "output_type_counts": counts}
 
 
+def validate_frozen_subset(task_rows: list[dict[str, Any]], expected_task_ids: Iterable[str],
+                           *, label: str) -> dict[str, Any]:
+    """Fail closed on an exact diagnostic subset without pretending it is the 3-type gate."""
+    expected = {str(value) for value in expected_task_ids}
+    actual = {str(row.get("task_id") or "") for row in task_rows}
+    failures: list[dict[str, Any]] = []
+    if not expected or actual != expected or len(task_rows) != len(expected):
+        failures.append({"reason": "diagnostic subset does not match its frozen task IDs",
+                         "label": label, "expected_count": len(expected), "actual_count": len(task_rows)})
+    unknown = sorted({str(row.get("expected_output")) for row in task_rows} - set(EXPECTED_OUTPUTS))
+    if unknown:
+        failures.append({"reason": "unknown native expected_output", "values": unknown})
+    counts = output_type_counts(task_rows)
+    return {"status": "pass" if not failures else "fail", "failures": failures,
+            "task_count": len(task_rows), "output_type_counts": counts,
+            "panel_kind": "diagnostic-subset", "label": label}
+
+
 def native_denominators(task_rows: list[dict[str, Any]], conditions: Iterable[str],
                         executor_count: int, cells: list[dict[str, Any]]) -> dict[str, Any]:
     """Expose task/output denominators without reusing lawyer-ask terminology."""

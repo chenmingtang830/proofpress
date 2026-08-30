@@ -2,7 +2,8 @@
 import unittest
 
 from native_e2e_contract import (EXPECTED_OUTPUTS, inconclusive_cell, native_completion_failures,
-                                 native_denominators, native_output_breakdown, validate_task_panel)
+                                 native_denominators, native_output_breakdown,
+                                 validate_frozen_subset, validate_task_panel)
 
 
 class NativeE2EContractTests(unittest.TestCase):
@@ -50,6 +51,15 @@ class NativeE2EContractTests(unittest.TestCase):
         self.assertEqual([row["scored_tasks"] for row in rows], [1, 1])
         self.assertEqual({row["expected_output"] for row in rows},
                          {"message_in_console", "make_new_doc"})
+
+    def test_frozen_diagnostic_subset_requires_exact_ids_without_three_type_claim(self):
+        rows = [{"task_id": "zero-1", "expected_output": "message_in_console"},
+                {"task_id": "zero-2", "expected_output": "make_new_doc"}]
+        gate = validate_frozen_subset(rows, ["zero-1", "zero-2"], label="zero-heavy")
+        self.assertEqual(gate["status"], "pass")
+        self.assertEqual(gate["panel_kind"], "diagnostic-subset")
+        self.assertEqual(validate_frozen_subset(rows[:1], ["zero-1", "zero-2"],
+                                                label="zero-heavy")["status"], "fail")
 
 
 if __name__ == "__main__":

@@ -9,6 +9,11 @@ from typing import Any, Callable
 import proofpress_knowledge as knowledge
 from run_claim_construction_private import SectionIndex, digest
 from run_gap_retrieval_private import bm25_receipts
+from open_discovery_private import (DEFAULT_RESULT_PAGE_SIZE,
+                                    OPEN_DISCOVERY_STATE_TOKEN_UPPER_BOUND,
+                                    OPEN_DISCOVERY_WALL_SECONDS, bind_authority_node,
+                                    bind_evidence_atom, calculate_derivation, paged_bm25,
+                                    select_objects, task_knowledge_objects)
 
 MAX_AGENT_TOOL_CALLS = 3
 MAX_AGENT_RESULTS_PER_CALL = 5
@@ -182,6 +187,20 @@ def visible_governed_claim_ids(value: Any) -> set[str]:
     return visible
 
 
+def visible_candidate_receipts(value: Any) -> dict[str, dict[str, Any]]:
+    """Collect only retrieval receipts actually present in executor-visible state."""
+    output: dict[str, dict[str, Any]] = {}
+    if isinstance(value, dict):
+        if value.get("receipt_digest") and isinstance(value.get("evidence"), dict):
+            output[str(value["receipt_digest"])] = value
+        for child in value.values():
+            output.update(visible_candidate_receipts(child))
+    elif isinstance(value, list):
+        for child in value:
+            output.update(visible_candidate_receipts(child))
+    return output
+
+
 def run_open_loop_agentic_disclosure(
     *, query: str, scope: str, index: SectionIndex,
     decide: Callable[[dict[str, Any]], dict[str, Any]],
@@ -260,3 +279,139 @@ def run_open_loop_agentic_disclosure(
             "stop_reason": stop_reason,
             "used_traverse_graph": any(row.get("action") == "traverse_graph" and row.get("status") == "ok" for row in trace),
             "used_search_gap": any(row.get("action") == "search_gap" and row.get("status") == "ok" for row in trace)}
+
+
+def run_quality_open_discovery(
+    *, query: str, scope: str, index: SectionIndex,
+    decide: Callable[[dict[str, Any]], dict[str, Any]], graph: dict[str, Any],
+    raw_corpus_control: bool = False,
+    state_token_limit: int = OPEN_DISCOVERY_STATE_TOKEN_UPPER_BOUND,
+    wall_seconds: int = OPEN_DISCOVERY_WALL_SECONDS,
+) -> dict[str, Any]:
+    """Find a quality ceiling without fixed calls, result pages, or lifetime evidence caps."""
+    objects = task_knowledge_objects(graph)
+    if raw_corpus_control:
+        seed: Any = {"mode": "raw-corpus-open-discovery-control",
+                     "source_inventory": index.inventory(),
+                     "governed_context": [], "admission_authority": False}
+    else:
+        seed = compact_tool_result(open_loop_initial_context(query, scope))
+        seed["typed_object_availability"] = objects["availability"]
+    state: dict[str, Any] = {
+        "ask": query, "initial_context": seed, "tool_results": [],
+        "limits": {"max_tool_calls": None, "max_lifetime_results": None,
+                   "fixed_bm25_top_k": None, "state_token_upper_bound": state_token_limit,
+                   "wall_seconds": wall_seconds},
+        "governance_boundary": {"read_only": True, "retrieval_status": "not_governed",
+                                "automatic_admission": False},
+    }
+    trace: list[dict[str, Any]] = []
+    seen_decisions: set[str] = set()
+    started = time.monotonic()
+    stop_reason = "executor_ready"
+    decision_index = 0
+
+    def context_fitted_page_size(requested: int) -> int:
+        """Fit one response to the remaining model context, never to a lifetime quota."""
+        if requested < 1:
+            raise ValueError("page_size must be positive")
+        remaining = max(0, state_token_limit - state_token_upper_bound(state))
+        # A receipt/claim can be long. Reserve the final quarter of the window for
+        # the executor answer and use a conservative per-item projection. The model
+        # can request the next page indefinitely until the context guard is reached.
+        context_capacity = max(1, (remaining * 3 // 4) // 1_200)
+        return min(requested, context_capacity)
+
+    while True:
+        if time.monotonic() - started >= wall_seconds:
+            stop_reason = "executor_ready_wall_guard_finalization"
+            break
+        if state_token_upper_bound(state) >= state_token_limit:
+            stop_reason = "executor_ready_context_guard_finalization"
+            break
+        decision = decide(state)
+        action = str(decision.get("action") or "")
+        signature = digest({key: decision.get(key) for key in (
+            "action", "query", "seed_claim_ids", "relation_types", "object_ids",
+            "offset", "page_size", "expression", "variables", "output_unit", "round_places")})
+        trace_row = {"decision_index": decision_index, "action": action,
+                     "query_digest": digest(str(decision.get("query", ""))),
+                     "offset": int(decision.get("offset") or 0),
+                     "page_size": int(decision.get("page_size") or DEFAULT_RESULT_PAGE_SIZE),
+                     "reason_digest": digest(str(decision.get("reason", "")))}
+        decision_index += 1
+        if action == "answer":
+            trace.append({**trace_row, "status": "accepted"})
+            break
+        if signature in seen_decisions:
+            trace.append({**trace_row, "status": "blocked", "reason": "repeated_identical_decision",
+                          "next_action": "reformulate_or_finalize"})
+            stop_reason = "executor_ready_cycle_guard_finalization"
+            break
+        seen_decisions.add(signature)
+        try:
+            if action == "traverse_graph":
+                if raw_corpus_control:
+                    raise ValueError("raw corpus control cannot traverse the governed graph")
+                visible_ids = visible_governed_claim_ids(state)
+                requested_seeds = list(decision.get("seed_claim_ids") or [])
+                if not requested_seeds or any(seed_id not in visible_ids for seed_id in requested_seeds):
+                    raise ValueError("traverse_graph seed was not disclosed to the executor")
+                page_size = context_fitted_page_size(
+                    int(decision.get("page_size") or DEFAULT_RESULT_PAGE_SIZE))
+                result = knowledge.disclose_v1(
+                    str(decision.get("query") or ""), "agent:workflow-executor", scope,
+                    seeds=list(dict.fromkeys(requested_seeds)), max_claims=page_size,
+                    max_depth=2, max_discovered=0)
+                result = compact_tool_result(result)
+            elif action in {"search_gap", "search_authority"}:
+                result = paged_bm25(
+                    index, str(decision.get("query") or ""),
+                    offset=int(decision.get("offset") or 0),
+                    page_size=context_fitted_page_size(
+                        int(decision.get("page_size") or DEFAULT_RESULT_PAGE_SIZE)),
+                    authority_candidate=action == "search_authority")
+            elif action == "get_evidence_atoms":
+                result = select_objects(objects, "evidence_atoms", list(decision.get("object_ids") or []),
+                                        str(decision.get("query") or ""))
+            elif action == "get_authority_nodes":
+                result = select_objects(objects, "authority_nodes", list(decision.get("object_ids") or []),
+                                        str(decision.get("query") or ""))
+            elif action == "get_derivation_nodes":
+                result = select_objects(objects, "derivation_nodes", list(decision.get("object_ids") or []),
+                                        str(decision.get("query") or ""))
+            elif action == "create_evidence_atom":
+                result = bind_evidence_atom(decision, visible_candidate_receipts(state))
+                objects["evidence_atoms"].append(result)
+                objects["availability"]["evidence_atom_count"] = len(objects["evidence_atoms"])
+            elif action == "create_authority_node":
+                result = bind_authority_node(decision, visible_candidate_receipts(state))
+                objects["authority_nodes"].append(result)
+                objects["availability"]["authority_node_count"] = len(objects["authority_nodes"])
+            elif action == "calculate":
+                result = calculate_derivation(
+                    str(decision.get("expression") or ""), dict(decision.get("variables") or {}),
+                    output_unit=str(decision.get("output_unit") or ""),
+                    round_places=int(decision.get("round_places") if decision.get("round_places") is not None else 2),
+                    basis_object_ids=list(decision.get("basis_object_ids") or []))
+                objects["derivation_nodes"].append(result)
+                objects["availability"]["derivation_node_count"] = len(objects["derivation_nodes"])
+            else:
+                raise ValueError("unknown open-discovery action")
+        except (TypeError, ValueError, SyntaxError) as exc:
+            trace.append({**trace_row, "status": "blocked", "reason": type(exc).__name__})
+            state["tool_results"].append({"action": action, "status": "blocked",
+                                          "reason": type(exc).__name__})
+            continue
+        state["tool_results"].append({"action": action, "status": "ok", "result": result})
+        trace.append({**trace_row, "status": "ok", "result_digest": digest(result),
+                      "result_count": int(result.get("returned_count", result.get("object_count", 1)))})
+    used_actions = sorted({row["action"] for row in trace if row.get("status") == "ok"})
+    return {"state": state, "trace": trace,
+            "tool_call_count": sum(row.get("status") == "ok" for row in trace),
+            "stop_reason": stop_reason, "used_actions": used_actions,
+            "used_traverse_graph": "traverse_graph" in used_actions,
+            "used_search_gap": "search_gap" in used_actions,
+            "used_search_authority": "search_authority" in used_actions,
+            "used_calculate": "calculate" in used_actions,
+            "typed_object_availability": objects["availability"]}
