@@ -1,41 +1,15 @@
 {
-  "created_at": "2026-08-30T19:16:16.594902Z",
-  "event_id": "ppe_d8fb690768addcdc",
-  "evidence": {
-    "digest": "sha256:129796247da65b11ad817b7c196451d1495ac36c3c6380aa059aa2b21f52172c",
-    "id": "evd_4c3f4c4abfbc971a",
-    "kind": "retrieval_evidence",
-    "quote_digest": "sha256:319923b2ac64cf6f46cf381745581e2a568ac4d06a72b0db7f4475e9d79b89c2",
-    "retrieval_receipt": {
-      "locator": {
-        "kind": "section_span",
-        "page_end": 1,
-        "page_start": 1,
-        "section_digest": "sha256:319923b2ac64cf6f46cf381745581e2a568ac4d06a72b0db7f4475e9d79b89c2",
-        "section_id": "sec_c280ccd1829313d5"
-      },
-      "quote": "﻿Rev. Proc. 2013-30\n",
-      "quote_digest": "sha256:319923b2ac64cf6f46cf381745581e2a568ac4d06a72b0db7f4475e9d79b89c2",
-      "retrieval": {
-        "adapter": "bm25-page",
-        "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
-        "query": "\"Form 2553\" \"Rev. B\" \"Form 2553 (Rev. B)\" 2019 \"Form 2553\" instructions 2019 \"Form 2553\" revision B IRS",
-        "version": "1"
-      },
-      "schema_version": "proofpress/retrieval-evidence/v1",
-      "source": {
-        "content_digest": "sha256:489de4a5c467eb0382ef4f29920dc6433adc3a3336da5057aec7f37cd0208560",
-        "media_type": "text/plain",
-        "uri": "private://apex/489de4a5c467eb03-1184b3a1"
-      }
-    },
-    "retrieval_receipt_digest": "sha256:5597697b02556b356c0f258f31838b0c75b762a4f28e947e73d93d7e2ebeb7c8",
-    "source_content_digest": "sha256:489de4a5c467eb0382ef4f29920dc6433adc3a3336da5057aec7f37cd0208560",
-    "source_digest": "sha256:0e30a41e1d31405a037edcc4e56b65c5107236c02092ff6fca6351e692a30a27",
-    "source_ref": "src_449cd1a48a2b6b92"
+  "created_at": "2026-08-30T19:16:16.667809Z",
+  "event_id": "ppe_25ad391e4260a2f5",
+  "record": {
+    "content_digest": "sha256:0bcab106f67fb94795c86625d7e9ec0f2f64bafe0efeff5936ceda4e752c7fc3",
+    "id": "src_82a446b123ea37b6",
+    "kind": "retrieval_source",
+    "media_type": "application/pdf",
+    "record_hash": "sha256:e90824c3c60a1f7a79f23240e175623ce2644ffcc3226fc3f137f7f825d0d18e",
+    "uri": "private://apex/0bcab106f67fb947-f6b0823a"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_449cd1a48a2b6b92",
-  "subject_ref": "evd_4c3f4c4abfbc971a",
-  "type": "evidence_bound"
+  "subject_ref": "src_82a446b123ea37b6",
+  "type": "source_recorded"
 }
