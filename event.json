@@ -1,21 +1,21 @@
 {
-  "created_at": "2026-08-30T19:17:37.332642Z",
-  "event_id": "ppe_a5e6e0f872d153f7",
+  "created_at": "2026-08-30T19:17:37.558513Z",
+  "event_id": "ppe_6d81a9307e3a47dd",
   "evidence": {
-    "digest": "sha256:dc709b328e8ecd8c9e65bed5966b8adeefd87c0157fe631ec0bb1c8fda53846c",
-    "id": "evd_ae152911641ef9ef",
+    "digest": "sha256:d6e0e6025382951d41a130aabe73602bb586c7438faff08534495f09d78790a2",
+    "id": "evd_1d476a2440020fd9",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:be534874861d2dfce6180f21ed62a5533e699af8c146c5f0a50fc599e64e2348",
+    "quote_digest": "sha256:fc7658c924a654c6538faef1bc4a3c8a523d770d4623f8df987fc4376871c78a",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:be534874861d2dfce6180f21ed62a5533e699af8c146c5f0a50fc599e64e2348",
-        "section_id": "sec_d76dd1f9b1c325e6"
+        "section_digest": "sha256:fc7658c924a654c6538faef1bc4a3c8a523d770d4623f8df987fc4376871c78a",
+        "section_id": "sec_2b4d0cb001e8f47f"
       },
-      "quote": "﻿Summit Filing Solutions, Inc.\nS‑Corporation Tax Due Diligence Memorandum\n\n",
-      "quote_digest": "sha256:be534874861d2dfce6180f21ed62a5533e699af8c146c5f0a50fc599e64e2348",
+      "quote": "﻿BYLAWS\nof\n Summit Filing Solutions, Inc.\n (A Delaware Corporation)\n Adopted January 10, 2018\n\n",
+      "quote_digest": "sha256:fc7658c924a654c6538faef1bc4a3c8a523d770d4623f8df987fc4376871c78a",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
@@ -24,18 +24,18 @@
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
       "source": {
-        "content_digest": "sha256:e7eb786dc671298aa9426792d523f0ec997bee3a570763a8b10f13a1644fc105",
+        "content_digest": "sha256:1cb8fe86d8075d2b126f99858b67aa3a45ced38879cf7b3859b78e577483572b",
         "media_type": "text/plain",
-        "uri": "private://apex/e7eb786dc671298a-1d2051f2"
+        "uri": "private://apex/1cb8fe86d8075d2b-0c1ae063"
       }
     },
-    "retrieval_receipt_digest": "sha256:b9cd78d462081a0ae5688a51fbef40c910cc2145e8e3653ccdc53ebb86d75c9e",
-    "source_content_digest": "sha256:e7eb786dc671298aa9426792d523f0ec997bee3a570763a8b10f13a1644fc105",
-    "source_digest": "sha256:bbebf48c1f9dee4d30677c0c93c00e3eb349758e8e8a6eac5acafa2f8650d491",
-    "source_ref": "src_e9b083e75ca5f18f"
+    "retrieval_receipt_digest": "sha256:b272f7702ada3a7cd0a778d7948bed01cdec6b8e4e43182faa92b20b62c3c62b",
+    "source_content_digest": "sha256:1cb8fe86d8075d2b126f99858b67aa3a45ced38879cf7b3859b78e577483572b",
+    "source_digest": "sha256:dce34be7d3faee591fc3639cc0fc742ebc66a097c301c07eb716b0649e3998a1",
+    "source_ref": "src_3376baa521507aa6"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_e9b083e75ca5f18f",
-  "subject_ref": "evd_ae152911641ef9ef",
+  "source_ref": "src_3376baa521507aa6",
+  "subject_ref": "evd_1d476a2440020fd9",
   "type": "evidence_bound"
 }
