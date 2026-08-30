@@ -1,25 +1,25 @@
 {
-  "created_at": "2026-08-30T19:16:42.165235Z",
-  "event_id": "ppe_d66b82c9069a1eb8",
+  "created_at": "2026-08-30T19:16:42.322568Z",
+  "event_id": "ppe_4168594122e0c6aa",
   "evidence": {
-    "digest": "sha256:f2df493f82f01f4fb5b8f438cd697724bbe20b06e6d65e9e34bbb8fa80f60551",
-    "id": "evd_20e3af5f1c16b0c5",
+    "digest": "sha256:f776f1119f5ba18a7fa75984b4eb87eb6725871a1a486a756a053b750e1a581f",
+    "id": "evd_6cf73b71632d3d5c",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:b5dd0e0c409e3b62682a5897f8dc96975c2237c15abd2475bdb020ef3ce8ba20",
+    "quote_digest": "sha256:a6c435c4590f392a1f39928d2776c7d57062d95b898e8144ad601b532db70742",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:b5dd0e0c409e3b62682a5897f8dc96975c2237c15abd2475bdb020ef3ce8ba20",
-        "section_id": "sec_c2c52b89e75c0722"
+        "section_digest": "sha256:a6c435c4590f392a1f39928d2776c7d57062d95b898e8144ad601b532db70742",
+        "section_id": "sec_f3f50bc87563e1be"
       },
-      "quote": "        3.11 TAXES\n    (a) Filed Returns and Tax Payments\n        (i) Each Acquired Company has filed or caused to be filed on a timely basis all Tax Returns that were required to be filed by or with respect to it, either separately or as a member of a group of corporations, pursuant to applicable Legal Requirements.\n        (ii) No Acquired Company has requested any extension of time within which to file any Tax Return, except as to a Tax Return that has since been timely filed.\n        (iii) All Tax Returns filed by (or that include on a consolidated basis) any Acquired Company are complete and correct and comply with applicable Legal Requirements.\n        (iv) Each Acquired Company has paid, or made provision for the payment of, all Taxes that have or could have become due for all periods covered by any Tax Return or otherwise, including pursuant to any assessment received by Sellers or any Acquired Company, except such Taxes, if any, that are listed in Part 3.11(a) and that are being contested in good faith by appropriate Proceedings and for which adequate reserves have been provided in the Interim Balance Sheet.\n        (v) Each Acquired Company has withheld or collected and paid to the proper Governmental Body or other Person all Taxes required to be withheld, collected, or paid by it.\n        (vi) Part 3.11(a) lists each Tax Return filed by any Acquired Company since \t, and Sellers have delivered to Buyer copies of all such Tax Returns.\n        (vii) No claim has ever been made by any Governmental Body in a jurisdiction where any Acquired Company does not file Tax Returns that it is or could be subject to taxation by that jurisdiction, nor is there any reasonable basis for such a claim.\n    (b) Audited or Closed Tax Years\n        (i) Except as set forth in Part 3.11(b), all Tax Returns of each Acquired Company have been audited by the IRS or other Governmental Body or are closed by the applicable statute of limitations for all taxable years through 2024.\n        (ii) Part 3.11(b) lists all audits of all Tax Returns, including a description of the nature and, if completed, the outcome of each audit since [date]. Sellers have delivered copies of any reports, statements of deficiencies, or similar items with respect to such audits. Part 3.11(b) describes all adjustments to any Tax Return filed by or with respect to any Acquired Company for all taxable years since 2020, and the resulting deficiencies proposed by the IRS or other Governmental Body. Part 3.11(b) lists all deficiencies proposed as a result of such audits, all of which have been paid or, as set forth in Part 3.11(b), have been settled or are being contested in good faith by appropriate Proceedings. Except as set forth in Part 3.11(b), to the Knowledge of Sellers, no Governmental Body will assess any additional taxes for any period for which Tax Returns have been filed.\n        (iii) Except as set forth in Part 3.11(b), no Tax Return of any Acquired Company is under audit by the IRS or other Governmental Body, and no notice of such an audit has been received by any Acquired Company. To the Knowledge of Sellers, there are no threatened Proceedings for or relating to Taxes, and there are no matters under discussion with the IRS or other Governmental Body with respect to Taxes. Except as set forth in Part 3.11(b), no issues relating to Taxes have been raised in writing by the IRS or other Governmental Body during any pending audit, and no issues relating to Taxes have been raised in writing by the IRS or other Governmental Body in any audit that could recur in a later taxable period. Except as set forth in Part 3.11(b), there is no proposed Tax assessment against any Acquired Company.\n        (iv) Except as set forth in Part 3.11(b), no Proceedings are pending before the IRS or other Governmental Body with respect to the Taxes of any Acquired Company.\n        (v) Except as set forth in Part 3.11(b), no Seller or Acquired Company has given or been requested to give waivers or extensions (or is or would be subject to a waiver or extension given by any other Person) of any statute of limitations relating to the payment of Taxes of any Acquired Company or for which any Acquired Company could be liable.\n        (vi) Except as set forth in Part 3.11(b), no Encumbrance for Taxes exists with respect to any assets of any Acquired Company, except statutory liens for Taxes not yet due.\n    (c) Accruals and Reserves\nThe charges, accruals, and reserves with respect to Taxes on the accounting Records of each Acquired Company are adequate and are at least equal to that Acquired Company’s liability for Taxes and to the Acquired Companies’ liability for Taxes on a consolidated basis, respectively.\n    (d) Status of Acquired Companies\n        (i) DELETED\n        (ii) No Acquired Company has been a member of any affiliated group of corporations (other than a group of which the Company is the common parent) which has filed a combined, consolidated, or unitary income Tax Return with any Governmental Body. No Acquired Company is liable for the Taxes of any Person (other than another Acquired Company) under Treasury Regulation Section 1.1502-6 or any similar provision of any applicable Legal Requirement, as a transferee or successor, by contract, or otherwise.\n    (e) Miscellaneous\n        (i) There is no tax sharing agreement, tax allocation agreement, tax indemnity obligation, or similar agreement, arrangement, understanding, or practice, oral or written, with respect to Taxes that will require any payment by any Acquired Company.\n        (ii) No Acquired Company is a party to any Contract that could result separately or in the aggregate in any payment (A) of an “excess parachute payment” within the meaning of Section 280G of the Code, or (B) that would not be deductible as a result of the application of Section 404 of the Code.\n        (iii) No Acquired Company is required to include in income any adjustment pursuant to Section 481 of the Code by reason of a voluntary change in accounting method initiated by any Acquired Company, and the IRS has not proposed any such change in accounting method.\n        (iv) No Seller is a foreign person within the meaning of Section 1445(f)(3) of the Code. No Acquired Company has been a United States real property holding corporation within the meaning of Section 897(c)(2) of the Code during the applicable period specified in Section 897(c)(1)(A)(ii).\n        (v) Except as set forth in Part 3.11(e), no Acquired Company has received, been the subject of, or requested a written ruling of a Governmental Body relating to Taxes, and no Acquired Company has entered into a Contract with a Governmental Body relating to Taxes that would have a continuing effect after the Closing Date.\n        (vi) Each Acquired Company has disclosed on its federal income Tax Returns all positions taken by it that could give rise to substantial understatement of federal income Tax within the meaning of Section 6662 of the Code.\n        (vii) No Acquired Company has ever distributed stock of another Person or had its stock distributed by another Person, in a transaction that purported or was intended to be governed in whole or in part by Code Section 355 or Code Section 361.\n        (viii) No Acquired Company has participated in any “reportable transaction” as defined in Treasury Regulation Section 1.6011-4(b).\n",
-      "quote_digest": "sha256:b5dd0e0c409e3b62682a5897f8dc96975c2237c15abd2475bdb020ef3ce8ba20",
+      "quote": "﻿\n\n\n\n\n\nStock Purchase Agreement\nby\n\nHarbor Bridge Private Equity, Inc.\n \n\nand\n\nSummit Filing Solutions, Inc.\n\n\n\nDated [TBD]\n\n\n\nTable of Contents\n\n\n\n\n\n\n\n",
+      "quote_digest": "sha256:a6c435c4590f392a1f39928d2776c7d57062d95b898e8144ad601b532db70742",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
-        "query": "Summit federal tax California tax by taxable year Summit tax calculation affected years",
+        "query": "Summit tax calculation rounding two decimals",
         "version": "1"
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
@@ -29,13 +29,13 @@
         "uri": "private://apex/7beb28a6e0069669-d885dee3"
       }
     },
-    "retrieval_receipt_digest": "sha256:313637f3d5311d6b5c846f29d33cecdb3c090ef03f48477fc0af43e96375d624",
+    "retrieval_receipt_digest": "sha256:8922c975d71ffa7b472860f681abcd29c57d37f2c23a1ac874df766897ea00d4",
     "source_content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
     "source_digest": "sha256:9b5e55c106d3b2c9d270455bb5af81e282a4e92f3ba0722f868b952faf8ff0b5",
     "source_ref": "src_1cb20c6823882030"
   },
   "schema_version": "proofpress/knowledge-event/v2",
   "source_ref": "src_1cb20c6823882030",
-  "subject_ref": "evd_20e3af5f1c16b0c5",
+  "subject_ref": "evd_6cf73b71632d3d5c",
   "type": "evidence_bound"
 }
