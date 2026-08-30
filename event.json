@@ -1,21 +1,21 @@
 {
-  "created_at": "2026-08-30T19:17:42.166287Z",
-  "event_id": "ppe_76dd2d6140b83496",
+  "created_at": "2026-08-30T19:17:42.400750Z",
+  "event_id": "ppe_87402077f55320f2",
   "evidence": {
-    "digest": "sha256:0db377dd194b840bfd9c669b78e525439eb328ae5ca29bdb3c9788c92e9adb89",
-    "id": "evd_8fd504454b9a8081",
+    "digest": "sha256:91b5bd242bd55e9a3e1ccfe3b1fc51a04f43f05f82658ee18ba0757678e48a1d",
+    "id": "evd_06df252f9d36a35f",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:39515123e832b2f0133f9f982c6fd709e46c7cfc6bd55fa67cb1ef4f46fa51dc",
+    "quote_digest": "sha256:fe73e5e22e7ed4165e0d2ec6d63652391c86abcd68b21ee7b9d793f98b0fe3a7",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:39515123e832b2f0133f9f982c6fd709e46c7cfc6bd55fa67cb1ef4f46fa51dc",
-        "section_id": "sec_ab64dc3f668b8716"
+        "section_digest": "sha256:fe73e5e22e7ed4165e0d2ec6d63652391c86abcd68b21ee7b9d793f98b0fe3a7",
+        "section_id": "sec_304185536f551314"
       },
-      "quote": "﻿SERIES A PREFERRED STOCK PURCHASE AGREEMENT\n",
-      "quote_digest": "sha256:39515123e832b2f0133f9f982c6fd709e46c7cfc6bd55fa67cb1ef4f46fa51dc",
+      "quote": "LETTER OF INTENT TO PURCHASE STOCK\nDate: [DATE]\n[SENDER (e.g., BUYER) NAME] \n",
+      "quote_digest": "sha256:fe73e5e22e7ed4165e0d2ec6d63652391c86abcd68b21ee7b9d793f98b0fe3a7",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
@@ -24,18 +24,18 @@
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
       "source": {
-        "content_digest": "sha256:de3c85ce68cc9a64aadabec8843aff116664ead676844e5ce1f589169c52b2da",
+        "content_digest": "sha256:1fa432744307c6e3d7cd1a691e8bd26402a340a0de51cead624710e85b4e3943",
         "media_type": "text/plain",
-        "uri": "private://apex/de3c85ce68cc9a64-4c7c3329"
+        "uri": "private://apex/1fa432744307c6e3-ff90ef47"
       }
     },
-    "retrieval_receipt_digest": "sha256:76820211758b4785fc9660863de1c8f98b6d08dc528142b859f36cbd5fb803b2",
-    "source_content_digest": "sha256:de3c85ce68cc9a64aadabec8843aff116664ead676844e5ce1f589169c52b2da",
-    "source_digest": "sha256:afd14261a12776692529819ab8b113e55ef68150920111e982cd00f66a8af8ea",
-    "source_ref": "src_a149d3b6c6d2425c"
+    "retrieval_receipt_digest": "sha256:cc4bbfd5abf0760110c4c395596b4cd959872c7e57d4f850e23728afd1b5a80e",
+    "source_content_digest": "sha256:1fa432744307c6e3d7cd1a691e8bd26402a340a0de51cead624710e85b4e3943",
+    "source_digest": "sha256:41daae633da435245284fba5ee846720c69c51f9f4eec17a5f3473e38eea79fe",
+    "source_ref": "src_15f480947ea56e19"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_a149d3b6c6d2425c",
-  "subject_ref": "evd_8fd504454b9a8081",
+  "source_ref": "src_15f480947ea56e19",
+  "subject_ref": "evd_06df252f9d36a35f",
   "type": "evidence_bound"
 }
