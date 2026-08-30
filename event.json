@@ -1,15 +1,41 @@
 {
-  "created_at": "2026-08-30T19:15:56.738836Z",
-  "event_id": "ppe_6f9fe56c2fe7235b",
-  "record": {
-    "content_digest": "sha256:3f486cf8e6bbed10d60c9bfc4f2e6c07f0ca9edcf87a5e4276c4a579a65b9adb",
-    "id": "src_537f9d53ad5949d4",
-    "kind": "retrieval_source",
-    "media_type": "text/plain",
-    "record_hash": "sha256:7abda599126a78a2bb0aad45f395b099506536db14866e78c4bcbf1cbddde379",
-    "uri": "private://apex/3f486cf8e6bbed10-f0c25a2a"
+  "created_at": "2026-08-30T19:15:56.795489Z",
+  "event_id": "ppe_45d36817f7e45b90",
+  "evidence": {
+    "digest": "sha256:d9dee3b1df831435d6af7d3700553f2070c1a10621105c3e5f632b4477a6cc96",
+    "id": "evd_ce2752a167d7f7f8",
+    "kind": "retrieval_evidence",
+    "quote_digest": "sha256:aa8a341d3a7a16aedb1bea687ca0fa5408fa22960086ba7d44c2082495cbd136",
+    "retrieval_receipt": {
+      "locator": {
+        "kind": "section_span",
+        "page_end": 1,
+        "page_start": 1,
+        "section_digest": "sha256:aa8a341d3a7a16aedb1bea687ca0fa5408fa22960086ba7d44c2082495cbd136",
+        "section_id": "sec_557b55852d2bca4e"
+      },
+      "quote": "﻿Summit Filing Solutions, Inc.\nHistorical Shareholder Schedule\nJanuary 10, 2018 – November 1, 2025\n\nThis Historical Shareholder Schedule has been prepared for Summit Filing Solutions, Inc., a Delaware corporation (the “Corporation”), to summarize material changes in the ownership of the Corporation’s issued and outstanding shares of Common Stock from the date of incorporation through November 1, 2025. This schedule is intended for internal corporate and legal recordkeeping purposes.\nI. Formation and Initial Capitalization – January 10, 2018\nOn January 10, 2018 (the “Incorporation Date”), the Corporation was duly incorporated under the laws of the State of Delaware. On or about the Incorporation Date, the Corporation issued an aggregate of 500,000 shares of its Common Stock, par value $1.00 per share, to the initial shareholders in exchange for an aggregate cash contribution of $500,000. The initial issuances were as follows:\n    • Laura Kensington – 130,000 shares; Address: 912 Redwood Crest Ln, Bend, OR 97701\n    • Michael T. Hartwell – 110,000 shares; Address: 3285 Sycamore Ridge Rd, Franklin, TN 37064\n    • Danielle R. Soto – 100,000 shares; Address: 1448 Harbor Point Dr, Richmond, VA 23233\n    • Gregory A. Beaumont – 100,000 shares; Address: 502 Lake Orchard Way, Madison, WI 53711\n    • Tanya L. Merriweather – 60,000 shares; Address: 722 Brookview Park Cir, Marietta, GA 30060\nII. S-Corporation Election – Effective January 1, 2019\nEffective January 1, 2019, the Corporation elected to be taxed as an S-Corporation for U.S. federal income tax purposes by filing Form 2553 with the Internal Revenue Service. As of the effective date of the election, the Corporation had a single class of Common Stock outstanding, held by the shareholders listed in Section I above.\nIII. 2021 Change of Address – Laura Kensington\nEffective March 15, 2021, shareholder Laura Kensington notified the Corporation of a change to her address of record. The Corporation’s stock ledger was updated to reflect the following address for Ms. Kensington:\nLaura Kensington\n4428 Willow Bend Ct.\nOlympia, Washington 98502\nIV. 2023 Internal Transfer of Shares – Michael T. Hartwell to Danielle R. Soto\nOn July 12, 2023, shareholder Michael T. Hartwell sold 10,000 shares of his Common Stock of the Corporation to shareholder Danielle R. Soto in a private, shareholder-to-shareholder transaction. Immediately prior to this transaction, Mr. Hartwell held 110,000 shares and Ms. Soto held 100,000 shares. Immediately following the transaction, Mr. Hartwell held 100,000 shares and Ms. Soto held 110,000 shares. No new shares were issued or cancelled, and the total number of issued and outstanding shares of Common Stock remained 500,000 shares.\nVI. Present Ownership Summary – As of November 1, 2025\nAs of November 1, 2025, based on the transactions described in this Historical Shareholder Schedule and the Corporation’s stock ledger, the issued and outstanding shares of Common Stock of the Corporation remain 500,000 shares, held of record by the following shareholders:\n    • Laura Kensington – 130,000 shares; Address: 4428 Willow Bend Ct., Olympia, WA 98502.\n    • Michael T. Hartwell – 100,000 shares; Address: 3285 Sycamore Ridge Rd, Franklin, TN 37064.\n    • Danielle R. Soto – 110,000 shares; Address: 1448 Harbor Point Dr, Richmond, VA 23233.\n    • Tanya L. Merriweather – 60,000 shares; Address: 722 Brookview Park Cir, Marietta, GA 30060.\n    • Gregory A. Beaumont – 100,000 shares; Address: 502 Lake Orchard Way, Madison, WI 53711.\nThis Historical Shareholder Schedule should be read together with the Corporation’s formal stock ledger, stock certificates, and any related transfer documentation maintained in the Corporation’s minute book.\n",
+      "quote_digest": "sha256:aa8a341d3a7a16aedb1bea687ca0fa5408fa22960086ba7d44c2082495cbd136",
+      "retrieval": {
+        "adapter": "bm25-page",
+        "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
+        "query": "Laura Kensington cap table ownership percentage Laura Kensington equity interest Summit Filing Solutions capitalization table",
+        "version": "1"
+      },
+      "schema_version": "proofpress/retrieval-evidence/v1",
+      "source": {
+        "content_digest": "sha256:3f486cf8e6bbed10d60c9bfc4f2e6c07f0ca9edcf87a5e4276c4a579a65b9adb",
+        "media_type": "text/plain",
+        "uri": "private://apex/3f486cf8e6bbed10-f0c25a2a"
+      }
+    },
+    "retrieval_receipt_digest": "sha256:b4cb790ada61b90040f8f8e8b1f9f5ca7b0fea108ba4e27d36b7b57034ba966a",
+    "source_content_digest": "sha256:3f486cf8e6bbed10d60c9bfc4f2e6c07f0ca9edcf87a5e4276c4a579a65b9adb",
+    "source_digest": "sha256:7abda599126a78a2bb0aad45f395b099506536db14866e78c4bcbf1cbddde379",
+    "source_ref": "src_537f9d53ad5949d4"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "subject_ref": "src_537f9d53ad5949d4",
-  "type": "source_recorded"
+  "source_ref": "src_537f9d53ad5949d4",
+  "subject_ref": "evd_ce2752a167d7f7f8",
+  "type": "evidence_bound"
 }
