@@ -1,41 +1,41 @@
 {
-  "created_at": "2026-08-30T19:16:02.467105Z",
-  "event_id": "ppe_243ac8b4780ace3a",
+  "created_at": "2026-08-30T19:16:02.558183Z",
+  "event_id": "ppe_b2937990d89c6a65",
   "evidence": {
-    "digest": "sha256:8d5c361b0cb3504c726262a92eb494eba2c85a33533766e278ca25d1758473a3",
-    "id": "evd_61cfa0b6ad6e6b88",
+    "digest": "sha256:a41e145f3d4817c9ac95073825c9a08a9a6f1c6320d9ae19c1500f7c7fb3377c",
+    "id": "evd_ae94faa75ba71419",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:301ccb40112ba5da48443990868d16ef2f5bf370171974f7cbba588066901f36",
+    "quote_digest": "sha256:e465edfd9eb89ef10e78962d76fff030bd753b776df9c6083bb367a356b09f39",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:301ccb40112ba5da48443990868d16ef2f5bf370171974f7cbba588066901f36",
-        "section_id": "sec_b634f46759f9c3c6"
+        "section_digest": "sha256:e465edfd9eb89ef10e78962d76fff030bd753b776df9c6083bb367a356b09f39",
+        "section_id": "sec_2f344c7d645f05fd"
       },
-      "quote": "        2.3 CLOSING\nSubject to Article 10, the purchase and sale (the “Closing”) provided for in this Agreement will take place at the offices of [Insert name of Buyer’s attorneys] at [Insert address] commencing at 10:00 a.m. (local time) on \t or at such other date and time as Buyer and Sellers’ Representative may otherwise agree, provided that on or prior to that date all conditions set forth in Articles 8 and 9 have been satisfied or waived. If all conditions set forth in Articles 8 and 9 are not satisfied or waived by \t, subject to Article 10, the Closing will take place upon the earlier of (a) five (5) Business Days following notice given by Buyer stating that all conditions set forth in Articles 8 and 9 have been satisfied or waived (other than conditions to be satisfied on the Closing Date), and (b) the End Date. The Closing will be deemed to be effective as of the close of business on the Closing Date [the Business Day prior to the Closing Date] for tax and accounting purposes.\n",
-      "quote_digest": "sha256:301ccb40112ba5da48443990868d16ef2f5bf370171974f7cbba588066901f36",
+      "quote": "STOCK AND TRANSFER RESTRICTIONS\nSection 5.1 Certificates.\nShares of stock may be certificated or uncertificated at the discretion of the Board.\nSection 5.2 Stock Ledger.\nThe Corporation shall maintain a stock ledger containing the name and contact information of each stockholder.\nSection 5.3 Transfer Restrictions to Preserve S-Corporation Status.\n(a) No transfer of shares may be made to an ineligible S-Corporation shareholder.\n (b) No transfer may create a second class of stock.\n (c) All transfers are subject to a right of first refusal in favor of the Corporation, then the stockholders, on the same terms offered by the proposed transferee.\n (d) Any transfer in violation of this Article is void.\nSection 5.4 Lost Certificates.\nThe Corporation may issue a new certificate upon receipt of an affidavit stating that the original was lost, stolen, or destroyed, subject to indemnification requirements.\n\n",
+      "quote_digest": "sha256:e465edfd9eb89ef10e78962d76fff030bd753b776df9c6083bb367a356b09f39",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
-        "query": "Retrieve the complete diligence-memo discussion of the June 1, 2022 ineligible-shareholder transfer, effective S-termination date, and consequence absent §1362(f) relief.",
+        "query": "Retrieve all historical shareholder schedule rows effective on June 20, 2022, including Laura's shares, percentage, transfers, and stock class.",
         "version": "1"
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
       "source": {
-        "content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
+        "content_digest": "sha256:1cb8fe86d8075d2b126f99858b67aa3a45ced38879cf7b3859b78e577483572b",
         "media_type": "text/plain",
-        "uri": "private://apex/7beb28a6e0069669-d885dee3"
+        "uri": "private://apex/1cb8fe86d8075d2b-0c1ae063"
       }
     },
-    "retrieval_receipt_digest": "sha256:adb87ed10401f25384331bc9c41841fb6478c22ecd0eae5d36d6d1a6e30e94bc",
-    "source_content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
-    "source_digest": "sha256:9b5e55c106d3b2c9d270455bb5af81e282a4e92f3ba0722f868b952faf8ff0b5",
-    "source_ref": "src_1cb20c6823882030"
+    "retrieval_receipt_digest": "sha256:c9c10afbf91aac6c95e6f4594ad9d632b101f6a5c210547207fb5b7e7fad8c27",
+    "source_content_digest": "sha256:1cb8fe86d8075d2b126f99858b67aa3a45ced38879cf7b3859b78e577483572b",
+    "source_digest": "sha256:dce34be7d3faee591fc3639cc0fc742ebc66a097c301c07eb716b0649e3998a1",
+    "source_ref": "src_3376baa521507aa6"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_1cb20c6823882030",
-  "subject_ref": "evd_61cfa0b6ad6e6b88",
+  "source_ref": "src_3376baa521507aa6",
+  "subject_ref": "evd_ae94faa75ba71419",
   "type": "evidence_bound"
 }
