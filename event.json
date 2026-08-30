@@ -1,19 +1,19 @@
 {
-  "created_at": "2026-08-30T19:16:12.830184Z",
-  "event_id": "ppe_361db84a3dfab7bb",
-  "relation": {
-    "confidence": null,
-    "created_at": "2026-08-30T19:16:12.785048Z",
-    "digest": "sha256:58d854c9aca17f540bfe4f6762b101498666adb08062caf288fd9737f1f895e2",
-    "from": "knw_79a6343828d08e6c",
-    "id": "rel_cce90077301aa272",
-    "kind": "claim_relation",
-    "proposer": "agent:v8-constructor",
-    "qualifiers": {},
-    "to": "knw_10f3eb621e0d4ac9",
-    "type": "depends_on"
+  "checks": {
+    "acyclic_when_directed": true,
+    "distinct_endpoints": true,
+    "endpoints_present": true,
+    "known_relation_type": true,
+    "no_duplicate": true,
+    "same_scope": true
   },
+  "created_at": "2026-08-30T19:16:12.970367Z",
+  "eligible": true,
+  "event_id": "ppe_5bec44e8893f7b81",
+  "policy_digest": "sha256:cde050fdc0b2869fecf8ee9d24dee964fc3bbc18e6b489da2e08e7c3df266501",
+  "relation_digest": "sha256:58d854c9aca17f540bfe4f6762b101498666adb08062caf288fd9737f1f895e2",
   "schema_version": "proofpress/knowledge-event/v2",
+  "semantic_boundary": "structural checks do not establish semantic correctness",
   "subject_ref": "rel_cce90077301aa272",
-  "type": "relation_proposed"
+  "type": "relation_evaluated"
 }
