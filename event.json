@@ -1,41 +1,15 @@
 {
-  "created_at": "2026-08-30T19:15:58.439516Z",
-  "event_id": "ppe_6b82676e0617ddb2",
-  "evidence": {
-    "digest": "sha256:56e200ce08df072f7119e6a1c15f50914fc62d9c60ffa4850aedb51534ad4b75",
-    "id": "evd_982a6b95007488c7",
-    "kind": "retrieval_evidence",
-    "quote_digest": "sha256:6bf90c9d84f9b085a9ee9ab34fff82c27c7a02e16a0b76f8b2d5d334da437aa6",
-    "retrieval_receipt": {
-      "locator": {
-        "kind": "section_span",
-        "page_end": 1,
-        "page_start": 1,
-        "section_digest": "sha256:6bf90c9d84f9b085a9ee9ab34fff82c27c7a02e16a0b76f8b2d5d334da437aa6",
-        "section_id": "sec_d6d6d31b8c91e643"
-      },
-      "quote": "    2. SALE AND TRANSFER OF SHARES; CLOSING\t18\n        2.1 Shares\t18\n        2.2 Purchase Price\t18\n        2.3 Closing\t18\n        2.4 Closing Obligations\t19\n        2.5 Adjustment Amount and Payment\t19\n        2.6 Adjustment Procedure\t20\n",
-      "quote_digest": "sha256:6bf90c9d84f9b085a9ee9ab34fff82c27c7a02e16a0b76f8b2d5d334da437aa6",
-      "retrieval": {
-        "adapter": "bm25-page",
-        "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
-        "query": "property sale June 20 2022 $1,200,000 settlement statement sale proceeds broker commission closing costs real estate sale debt payoff",
-        "version": "1"
-      },
-      "schema_version": "proofpress/retrieval-evidence/v1",
-      "source": {
-        "content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
-        "media_type": "text/plain",
-        "uri": "private://apex/7beb28a6e0069669-d885dee3"
-      }
-    },
-    "retrieval_receipt_digest": "sha256:8372ca2f89a216832099fc17669c37d90a297fc5079b8cebfef96e1d6940a701",
-    "source_content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
-    "source_digest": "sha256:9b5e55c106d3b2c9d270455bb5af81e282a4e92f3ba0722f868b952faf8ff0b5",
-    "source_ref": "src_1cb20c6823882030"
+  "created_at": "2026-08-30T19:15:58.504627Z",
+  "event_id": "ppe_8392f5233836afb4",
+  "record": {
+    "content_digest": "sha256:f5fed5b2ace0ca6f082ce3912d15a3bcfd985200e07fed936330bda7e73bc9a7",
+    "id": "src_045cfccaedd6c322",
+    "kind": "retrieval_source",
+    "media_type": "text/plain",
+    "record_hash": "sha256:210294df7c823c4f24d370b7c2b0239427c4a576ed020dfba8133e74d6ff6ff4",
+    "uri": "private://apex/f5fed5b2ace0ca6f-2fa5d47f"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_1cb20c6823882030",
-  "subject_ref": "evd_982a6b95007488c7",
-  "type": "evidence_bound"
+  "subject_ref": "src_045cfccaedd6c322",
+  "type": "source_recorded"
 }
