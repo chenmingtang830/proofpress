@@ -1,26 +1,18 @@
 {
-  "conclusion": {
-    "allowed_actors": [
-      "*"
-    ],
-    "artifact_refs": [],
-    "created_at": "2026-08-30T19:16:29.965445Z",
-    "digest": "sha256:d713bad249093c4b8796b625c3d8ad878c0edd3afb2ce8909ddad7f2126bca9a",
-    "evidence_refs": [
-      "evd_435d3d036b7e6929",
-      "evd_e3e1f39f5ba63e32"
-    ],
-    "expires_at": null,
-    "id": "knw_8bb8e18c4a4146b8",
-    "kind": "conclusion",
-    "proposer": "agent:v8-constructor",
-    "qualifiers": {},
-    "scope": "task_8d501efe0f924f69aeee070f2e08b576",
-    "statement": "The evidence reports that Gregory A. Beaumont transferred 100,000 shares to Carrie Canuck, identified as a Canadian resident, on June 1, 2022. The cited evidence does not show her Form 2553 consent or establish whether any shareholder on the relevant effective or filing dates was a disregarded entity, partnership, corporation, trust, estate, nominee, or community-property owner."
+  "checks": {
+    "evidence_integrity": true,
+    "evidence_present": true,
+    "not_expired": true,
+    "not_superseded": true,
+    "retrieval_receipts": true,
+    "scope_present": true
   },
-  "created_at": "2026-08-30T19:16:30.019107Z",
-  "event_id": "ppe_f304409e662e4db3",
+  "conclusion_digest": "sha256:d713bad249093c4b8796b625c3d8ad878c0edd3afb2ce8909ddad7f2126bca9a",
+  "created_at": "2026-08-30T19:16:30.154055Z",
+  "eligible": true,
+  "event_id": "ppe_18a5226a278866b0",
+  "policy_digest": "sha256:cde050fdc0b2869fecf8ee9d24dee964fc3bbc18e6b489da2e08e7c3df266501",
   "schema_version": "proofpress/knowledge-event/v2",
   "subject_ref": "knw_8bb8e18c4a4146b8",
-  "type": "conclusion_proposed"
+  "type": "policy_evaluated"
 }
