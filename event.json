@@ -1,41 +1,41 @@
 {
-  "created_at": "2026-08-30T19:17:02.585594Z",
-  "event_id": "ppe_bdf6bb12b7fb17f4",
+  "created_at": "2026-08-30T19:17:02.769607Z",
+  "event_id": "ppe_d6f7331814e6dfa6",
   "evidence": {
-    "digest": "sha256:59e49f6c32a6740e6674915b939b0b3c899de830e924043513e312ceb74ac49b",
-    "id": "evd_4e92d47a5bc178af",
+    "digest": "sha256:72bd2c2c14f8a7c18cb53eae79326725f688f3a89e7f6907e9171e3b31563e33",
+    "id": "evd_2d9c54d93379ff42",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:4ad0fa54461fb7ad909b6fe274711dba41cd3e58b5088ecb0cbca7587a65e44c",
+    "quote_digest": "sha256:dff6bb136ba6dedd8902c81ac9ab93928b2dcc19d4bc91c52d04adcc317f97dc",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:4ad0fa54461fb7ad909b6fe274711dba41cd3e58b5088ecb0cbca7587a65e44c",
-        "section_id": "sec_aba134bf1f61b48b"
+        "section_digest": "sha256:dff6bb136ba6dedd8902c81ac9ab93928b2dcc19d4bc91c52d04adcc317f97dc",
+        "section_id": "sec_985b100fd0a48120"
       },
-      "quote": "﻿SCHEDULE K-1 (Form 1120-S)                                                                              2021\nDepartment of the Treasury • Internal Revenue Service                          OMB No. 1545-0123\n\nShareholder’s Share of Income, Deductions, Credits, etc.                       For calendar year 2021\n\n────────────────────────────────────────────────────────────────────────────────────\nPart I ─ Information About the Corporation\n────────────────────────────────────────────────────────────────────────────────────\nA  Corporation’s employer identification number                       12-3456789\nB  Corporation’s name, address, city, state, and ZIP code\n       Summit Filing Solutions, Inc.\n       8280 Willow Oaks Corporate Dr\n       Los Angeles, CA  90001\nC  IRS center where corporation filed return                               Ogden, UT\n\n────────────────────────────────────────────────────────────────────────────────────\nPart II ─ Information About the Shareholder\n────────────────────────────────────────────────────────────────────────────────────\nD  Shareholder’s identifying number                                    444-44-4444\nE  Shareholder’s name, address, city, state, and ZIP code\n       Sarah Chen\n       1188 Mission St., Apt 1805\n       San Francisco, CA  94103\nF  Shareholder’s percentage of stock ownership\n       Beginning of tax year   12%                 End of tax year   12%\n\n────────────────────────────────────────────────────────────────────────────────────\nPart III ─ Shareholder’s Share of Current Year Income, Deductions, Credits, etc.\n────────────────────────────────────────────────────────────────────────────────────\n1  Ordinary business income (loss)                                   $20,690\n2  Net rental real estate income (loss)                                    0\n3  Other net rental income (loss)                                          0\n4  Interest income                                                      $52\n5a Ordinary dividends                                                      0\n5b Qualified dividends                                                     0\n6  Royalties                                                               0\n7  Net short-term capital gain (loss)                                      0\n8a Net long-term capital gain (loss)                                   $276\n8b Collectibles (28%) gain (loss)                                          0\n8c Unrecaptured section 1250 gain                                          0\n9  Net section 1231 gain (loss)                                            0\n10 Other income (loss)                                                     0\n\n11 Section 179 deduction                                                   0\n12 Other deductions                                                        0\n13 Credits                                                                 0\n14 Foreign transactions                                                    0\n15 Charitable contributions                                               0\n16 Items affecting shareholder basis\n   a  Tax-exempt interest income                                           0\n   b  Other tax-exempt income                                              0\n   c  Nondeductible expenses                                               0\n   d  Distributions – cash and marketable securities                       0\n   e  Repayment of loans from shareholders                                0\n17 Other information                                                       0\n\n────────────────────────────────────────────────────────────────────────────────────\nStock and Debt Basis Limitations (for shareholder records)\n────────────────────────────────────────────────────────────────────────────────────\n   + Increase for income items (Lines 1 + 4 + 8a)                    $21,018\n   – Distributions and other reductions                                  0\n   = Net increase to stock basis this year                           $21,018\n\n   Type of income: Active Business Income\n   Foreign country or U.S. possession: N/A\n\n────────────────────────────────────────────────────────────────────────────────────\nPrepared by: Corporate Officer, Summit Filing Solutions, Inc.\nDate prepared: March 10, 2022\n\nThis is an exact substitute Schedule K-1 that matches the official K-1 filed with IRS Form 1120-S on March 15, 2022.\nRetain this copy with your permanent tax records.\n",
-      "quote_digest": "sha256:4ad0fa54461fb7ad909b6fe274711dba41cd3e58b5088ecb0cbca7587a65e44c",
+      "quote": "#��26\u000bHz)��\u0011��8�v�k��d��足��m\u000bڅ$�B\u0019����.M�kýr\u0006Z�p(W]WE��2V��\\\u0005L��P��?N��\u0017˭at�(�B��A��~z>\t�d�\u0006��<�r�9#\u000f\u0019W��;o^�Z���\\C���6㡹��T}s�����N�llj'�4�pjg1�� �n%��\u001bq�KC�V@u�B5'V�\t�&\bu�[JGP�C�\bdw��v��\u00162F����M�������/>;����\u0002\u0014h�ˮ� �=F!�Z�צ�L\u0013�5V\f\rZ��o����W3j�'��\u0003�A\u0002\u000f�!_�p�ڥ��~\u000b",
+      "quote_digest": "sha256:dff6bb136ba6dedd8902c81ac9ab93928b2dcc19d4bc91c52d04adcc317f97dc",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
-        "query": "distribution dividend return of capital stock basis distribution capital gain distribution shareholder distribution ordering",
+        "query": "26 U.S.C. 301 26 U.S.C. 302 26 U.S.C. 316 26 U.S.C. 312",
         "version": "1"
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
       "source": {
-        "content_digest": "sha256:6708bd1c825e178dc15adb571d1c4ebd8e6284e862c9c5fd2b47de7886b1b3d8",
-        "media_type": "text/plain",
-        "uri": "private://apex/6708bd1c825e178d-7d967946"
+        "content_digest": "sha256:2e39db8b0fa0d4fc03d636cb54af727f48e65e0148a8fb12171d091714a28f3e",
+        "media_type": "application/pdf",
+        "uri": "private://apex/2e39db8b0fa0d4fc-9b30e170"
       }
     },
-    "retrieval_receipt_digest": "sha256:24d2fbf2870fe5b4b3f77128762f532ccc1f67f130d2be6989c54588a647a907",
-    "source_content_digest": "sha256:6708bd1c825e178dc15adb571d1c4ebd8e6284e862c9c5fd2b47de7886b1b3d8",
-    "source_digest": "sha256:8849a1f0d0d42381c1460e9d0f65287b6c0db113e2faeeb89779c452875bbf51",
-    "source_ref": "src_451cbf95bfddc12d"
+    "retrieval_receipt_digest": "sha256:1f4b7d07d6d353451146f173684113deaf7a038c73a0cc88e102767cc0effbe3",
+    "source_content_digest": "sha256:2e39db8b0fa0d4fc03d636cb54af727f48e65e0148a8fb12171d091714a28f3e",
+    "source_digest": "sha256:491a3c9237407033c1e4f4965671c18d280a02cadacbece6116ea0dd7b0ebf55",
+    "source_ref": "src_69773369ecf43fc2"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_451cbf95bfddc12d",
-  "subject_ref": "evd_4e92d47a5bc178af",
+  "source_ref": "src_69773369ecf43fc2",
+  "subject_ref": "evd_2d9c54d93379ff42",
   "type": "evidence_bound"
 }
