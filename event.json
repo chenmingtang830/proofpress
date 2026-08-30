@@ -1,14 +1,27 @@
 {
-  "conclusion_digest": "sha256:3574a08f8459ea872cc964c00e15f9010868dd1b9b7439327f57738c9ec950c0",
-  "created_at": "2026-08-30T19:16:27.804257Z",
-  "event_id": "ppe_607431372b54b011",
-  "evidence_digests": {
-    "evd_3532b789be132f52": "sha256:6cc931b2ef3b43c82cfec2d98c16b913c695a8eb22ea72c0be10379de896922b"
+  "conclusion": {
+    "allowed_actors": [
+      "*"
+    ],
+    "artifact_refs": [],
+    "created_at": "2026-08-30T19:16:27.893608Z",
+    "digest": "sha256:ccd73a00965c443bb47f14c22d002d8b1897d2436b7acc89e801e64887a83be9",
+    "evidence_refs": [
+      "evd_3532b789be132f52",
+      "evd_edc753cad3cd4c7a",
+      "evd_f3e50f7e4ca20936"
+    ],
+    "expires_at": null,
+    "id": "knw_b025fec44989f218",
+    "kind": "conclusion",
+    "proposer": "agent:v8-constructor",
+    "qualifiers": {},
+    "scope": "task_8d501efe0f924f69aeee070f2e08b576",
+    "statement": "The executive summary states that Form 2553 was filed on March 22, 2022 for an election effective January 1, 2019. The late-election procedure excerpt requires a completed Form 2553 signed by an authorized officer and all persons who were shareholders during the specified period, together with shareholder statements of consistent reporting. The 2020 Form 1120-S material in the record is presented as a generated form based on fictional data, not as proof of filing."
   },
-  "policy_digest": "sha256:cde050fdc0b2869fecf8ee9d24dee964fc3bbc18e6b489da2e08e7c3df266501",
-  "review_ref": "ppe_74a88402f0ea389c",
-  "reviewer": "human:staged-evaluation-reviewer",
+  "created_at": "2026-08-30T19:16:27.945878Z",
+  "event_id": "ppe_52002c79074f9134",
   "schema_version": "proofpress/knowledge-event/v2",
-  "subject_ref": "knw_e9377689af2a13e9",
-  "type": "conclusion_admitted"
+  "subject_ref": "knw_b025fec44989f218",
+  "type": "conclusion_proposed"
 }
