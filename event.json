@@ -1,25 +1,25 @@
 {
-  "created_at": "2026-08-30T19:16:40.478699Z",
-  "event_id": "ppe_abd94f86022f2203",
+  "created_at": "2026-08-30T19:16:40.629389Z",
+  "event_id": "ppe_26d2c5d7f971b095",
   "evidence": {
-    "digest": "sha256:898bbcdfc2955a568e21de7c9af49b1006f3b1c2ddb019ce6a65a17d7cf9759e",
-    "id": "evd_3ceb617e27a742a3",
+    "digest": "sha256:84baaa529391d6464adcb5cc8ab29457e9803b96c0b5cbc50da58cf320ae6fe4",
+    "id": "evd_a7d0228ca810f299",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:6bf90c9d84f9b085a9ee9ab34fff82c27c7a02e16a0b76f8b2d5d334da437aa6",
+    "quote_digest": "sha256:d4ec1c64f95c8fdc69597fb1697f1be50131ee34b20a02af3fc9d7e06ecd9d88",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:6bf90c9d84f9b085a9ee9ab34fff82c27c7a02e16a0b76f8b2d5d334da437aa6",
-        "section_id": "sec_d6d6d31b8c91e643"
+        "section_digest": "sha256:d4ec1c64f95c8fdc69597fb1697f1be50131ee34b20a02af3fc9d7e06ecd9d88",
+        "section_id": "sec_1b3e4e2639ed32c4"
       },
-      "quote": "    2. SALE AND TRANSFER OF SHARES; CLOSING\t18\n        2.1 Shares\t18\n        2.2 Purchase Price\t18\n        2.3 Closing\t18\n        2.4 Closing Obligations\t19\n        2.5 Adjustment Amount and Payment\t19\n        2.6 Adjustment Procedure\t20\n",
-      "quote_digest": "sha256:6bf90c9d84f9b085a9ee9ab34fff82c27c7a02e16a0b76f8b2d5d334da437aa6",
+      "quote": "        10.2 EFFECT OF TERMINATION\nEach party’s right of termination under Section 10.1 is in addition to any other right it may have under this Agreement (including under Section 12.16) or otherwise, and the exercise of a party’s right of termination will not constitute an election of remedies. If this Agreement is terminated pursuant to Section 10.1, this Agreement will be of no further force or effect; provided, however, that (i) this Section 10.2 and Article 12 will survive the termination of this Agreement and will remain in full force and effect, and (ii) the termination of this Agreement will not relieve any party from any liability for any Breach of this Agreement occurring prior to termination.\n\n\n\n\n    11. Indemnification; Payment; Reimbursement;\nRemedies\n\n\n\n\n\n\n\n",
+      "quote_digest": "sha256:d4ec1c64f95c8fdc69597fb1697f1be50131ee34b20a02af3fc9d7e06ecd9d88",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
-        "query": "Carrie Canuck sale or transfer of Summit shares Carrie Canuck ownership termination date Summit shareholder correction ineligible shareholder shares transferred from Carrie Canuck",
+        "query": "S corporation election after termination waiting period re-elect S corporation after invalid shareholder election IRC five year re-election rule S corporation termination IRS relief or waiver reelect S corporation",
         "version": "1"
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
@@ -29,13 +29,13 @@
         "uri": "private://apex/7beb28a6e0069669-d885dee3"
       }
     },
-    "retrieval_receipt_digest": "sha256:1f5f98b511bbe208a2193e5f397afb68c2ef5f786656247f6a8e053c927ee9c3",
+    "retrieval_receipt_digest": "sha256:00ca16216f2f467cbab8c01f4bdb16544df59ac24124ac566464c41795b677b9",
     "source_content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
     "source_digest": "sha256:9b5e55c106d3b2c9d270455bb5af81e282a4e92f3ba0722f868b952faf8ff0b5",
     "source_ref": "src_1cb20c6823882030"
   },
   "schema_version": "proofpress/knowledge-event/v2",
   "source_ref": "src_1cb20c6823882030",
-  "subject_ref": "evd_3ceb617e27a742a3",
+  "subject_ref": "evd_a7d0228ca810f299",
   "type": "evidence_bound"
 }
