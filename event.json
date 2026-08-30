@@ -1,14 +1,27 @@
 {
-  "conclusion_digest": "sha256:53c8861718d23525b9e915dc854a8d115b814e7f0bb81e6be99301bc6ce788fb",
-  "created_at": "2026-08-30T19:16:03.477260Z",
-  "event_id": "ppe_3e6e6b4ea9522daf",
-  "evidence_digests": {
-    "evd_65663ee8f1000a17": "sha256:c01747d22ce5014f8df30b82ce09f8712f9ff702349f568e0062ff453737ea01"
+  "conclusion": {
+    "allowed_actors": [
+      "*"
+    ],
+    "artifact_refs": [],
+    "created_at": "2026-08-30T19:16:03.543149Z",
+    "digest": "sha256:f8271d0c0e678a1cb74781aa1e41007858978e4f87720b9df75fe0a9fa2fe105",
+    "evidence_refs": [
+      "evd_2474924b3b6354eb",
+      "evd_4b429ad1060e41d1",
+      "evd_bd23804fafbd19e0"
+    ],
+    "expires_at": null,
+    "id": "knw_498b0cf10e2efcc9",
+    "kind": "conclusion",
+    "proposer": "agent:v8-constructor",
+    "qualifiers": {},
+    "scope": "task_b78c4510be784e6a8b8f0394aafd785d",
+    "statement": "Laura Kensington’s exact 2022 federal income tax attributable to the June 20, 2022 building sale cannot be supported from the cited records because Summit’s federal tax classification at the time of sale is uncertain. The diligence memo states that an ineligible-shareholder transfer on June 1, 2022 caused an automatic termination of S-corporation status and concludes that, without corrective action, Summit may be treated as a C corporation for periods beginning June 1, 2022; the transaction document likewise acknowledges uncertainty concerning the validity of the S election."
   },
-  "policy_digest": "sha256:cde050fdc0b2869fecf8ee9d24dee964fc3bbc18e6b489da2e08e7c3df266501",
-  "review_ref": "ppe_1ca6711cc97d5d3d",
-  "reviewer": "human:staged-evaluation-reviewer",
+  "created_at": "2026-08-30T19:16:03.571586Z",
+  "event_id": "ppe_793d202fe285c1e4",
   "schema_version": "proofpress/knowledge-event/v2",
-  "subject_ref": "knw_85a42dd916ff2ac9",
-  "type": "conclusion_admitted"
+  "subject_ref": "knw_498b0cf10e2efcc9",
+  "type": "conclusion_proposed"
 }
