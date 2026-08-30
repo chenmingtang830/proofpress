@@ -1,15 +1,41 @@
 {
-  "created_at": "2026-08-30T19:17:03.064556Z",
-  "event_id": "ppe_a777c2975de17e7b",
-  "record": {
-    "content_digest": "sha256:5bd00b2e35a4b570b1f5db8e7c40796dbcbe81b42f717585f84232b11f15968e",
-    "id": "src_98307850e79660c7",
-    "kind": "retrieval_source",
-    "media_type": "application/pdf",
-    "record_hash": "sha256:3d8025eca8686547c14519b6addc5dc333bed470c318b325681ca5c6bf4320dc",
-    "uri": "private://apex/5bd00b2e35a4b570-c56d7ae1"
+  "created_at": "2026-08-30T19:17:03.184827Z",
+  "event_id": "ppe_0ee1e003c3877b01",
+  "evidence": {
+    "digest": "sha256:31a12d3706c1faeefbb3b43f6f79c9de0996f411ddfdb2b2994b0bc6828b1fbc",
+    "id": "evd_369fbec8128bb6a1",
+    "kind": "retrieval_evidence",
+    "quote_digest": "sha256:463de5d767a12eebae0e138ccd7157ec1354600fa4fdb0b96fa58c6dab6c9b3c",
+    "retrieval_receipt": {
+      "locator": {
+        "kind": "section_span",
+        "page_end": 1,
+        "page_start": 1,
+        "section_digest": "sha256:463de5d767a12eebae0e138ccd7157ec1354600fa4fdb0b96fa58c6dab6c9b3c",
+        "section_id": "sec_3cb3bb6b4eff3126"
+      },
+      "quote": "/K 26>>\nendobj\n119 0 obj\n<</Type /StructElem\n/S /Link\n",
+      "quote_digest": "sha256:463de5d767a12eebae0e138ccd7157ec1354600fa4fdb0b96fa58c6dab6c9b3c",
+      "retrieval": {
+        "adapter": "bm25-page",
+        "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
+        "query": "26 U.S.C. 301 26 U.S.C. 302 26 U.S.C. 316 26 U.S.C. 312",
+        "version": "1"
+      },
+      "schema_version": "proofpress/retrieval-evidence/v1",
+      "source": {
+        "content_digest": "sha256:5bd00b2e35a4b570b1f5db8e7c40796dbcbe81b42f717585f84232b11f15968e",
+        "media_type": "application/pdf",
+        "uri": "private://apex/5bd00b2e35a4b570-c56d7ae1"
+      }
+    },
+    "retrieval_receipt_digest": "sha256:c39c995216a4406d1dabe6df4ebc6bca70f923d668f8fff5b0b377ae84865252",
+    "source_content_digest": "sha256:5bd00b2e35a4b570b1f5db8e7c40796dbcbe81b42f717585f84232b11f15968e",
+    "source_digest": "sha256:3d8025eca8686547c14519b6addc5dc333bed470c318b325681ca5c6bf4320dc",
+    "source_ref": "src_98307850e79660c7"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "subject_ref": "src_98307850e79660c7",
-  "type": "source_recorded"
+  "source_ref": "src_98307850e79660c7",
+  "subject_ref": "evd_369fbec8128bb6a1",
+  "type": "evidence_bound"
 }
