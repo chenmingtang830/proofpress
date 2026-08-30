@@ -1,21 +1,21 @@
 {
-  "created_at": "2026-08-30T19:17:12.125074Z",
-  "event_id": "ppe_e462f09944c4a31f",
+  "created_at": "2026-08-30T19:17:12.320683Z",
+  "event_id": "ppe_c3550d1912d5e8ee",
   "evidence": {
-    "digest": "sha256:a07ed8e463d1529bf59c71125f153ac9b5d4c5989e508b9ddc359b6beb394d1c",
-    "id": "evd_4d31017e9d0b539d",
+    "digest": "sha256:cf436e2ef38f5b5016db34a99a0cd482b38b1e341bcc588915b9644b1fa1dba3",
+    "id": "evd_139028154fe9e015",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:a84613059b714bc3b638df4d165e3ecb0f79026a2faa6656c89fabb585387e68",
+    "quote_digest": "sha256:4ecda55f6b6cbe4b0f23cda9c4b32b36854691ab816cf740ee1eec8df1e298c3",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:a84613059b714bc3b638df4d165e3ecb0f79026a2faa6656c89fabb585387e68",
-        "section_id": "sec_ed8346e217c82de2"
+        "section_digest": "sha256:4ecda55f6b6cbe4b0f23cda9c4b32b36854691ab816cf740ee1eec8df1e298c3",
+        "section_id": "sec_070a856c5839bed8"
       },
-      "quote": "        8.6 ADDITIONAL DOCUMENTS\nEach of the items to be delivered pursuant to Section 2.4(a) and each of the following documents will have been delivered (or tendered subject only to Closing) to Buyer:\n    (a) an opinion of \t, dated the Closing Date, in the form of Exhibit 8.6(a);\n    (b) estoppel certificates executed on behalf of \tand dated as of a date not more than five days prior to the Closing Date, each in the form of Exhibit 8.6(b);\n    (c) an executed copy of each of the agreements listed on Exhibit 8.6(c); and\n    (d) such other documents as Buyer may reasonably request, each in form and substance satisfactory to Buyer, and, if necessary, executed by each Seller or the relevant Acquired Company, for the purpose of:\n        (i) evidencing the accuracy of any of Sellers’ representations and warranties;\n        (ii) evidencing the performance by each Seller of, or the compliance by each Seller with, any covenant or obligation required to be performed or complied with by such Seller;\n        (iii) evidencing the satisfaction of any condition referred to in this Article 8; or\n        (iv) otherwise facilitating the consummation or performance of any Contemplated Transaction.\n",
-      "quote_digest": "sha256:a84613059b714bc3b638df4d165e3ecb0f79026a2faa6656c89fabb585387e68",
+      "quote": "FISCAL YEAR\nSection 8.1 Fiscal Year.\nThe fiscal year of the Corporation shall end on December 31 of each year or such other date as determined by the Board and consistent with Subchapter S eligibility.\n\n",
+      "quote_digest": "sha256:4ecda55f6b6cbe4b0f23cda9c4b32b36854691ab816cf740ee1eec8df1e298c3",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
@@ -24,18 +24,18 @@
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
       "source": {
-        "content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
+        "content_digest": "sha256:1cb8fe86d8075d2b126f99858b67aa3a45ced38879cf7b3859b78e577483572b",
         "media_type": "text/plain",
-        "uri": "private://apex/7beb28a6e0069669-d885dee3"
+        "uri": "private://apex/1cb8fe86d8075d2b-0c1ae063"
       }
     },
-    "retrieval_receipt_digest": "sha256:45b972429219beb39e2015038003aa546f045525348b642081c41d4756b9e9ff",
-    "source_content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
-    "source_digest": "sha256:9b5e55c106d3b2c9d270455bb5af81e282a4e92f3ba0722f868b952faf8ff0b5",
-    "source_ref": "src_1cb20c6823882030"
+    "retrieval_receipt_digest": "sha256:2fdf285e6f6d1364330baf53186190eeb0d7454723bb78af168760855234c557",
+    "source_content_digest": "sha256:1cb8fe86d8075d2b126f99858b67aa3a45ced38879cf7b3859b78e577483572b",
+    "source_digest": "sha256:dce34be7d3faee591fc3639cc0fc742ebc66a097c301c07eb716b0649e3998a1",
+    "source_ref": "src_3376baa521507aa6"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_1cb20c6823882030",
-  "subject_ref": "evd_4d31017e9d0b539d",
+  "source_ref": "src_3376baa521507aa6",
+  "subject_ref": "evd_139028154fe9e015",
   "type": "evidence_bound"
 }
