@@ -1,41 +1,41 @@
 {
-  "created_at": "2026-08-30T19:16:22.179789Z",
-  "event_id": "ppe_904813ad0b287405",
+  "created_at": "2026-08-30T19:16:22.319467Z",
+  "event_id": "ppe_9d50dc5bbbd3640a",
   "evidence": {
-    "digest": "sha256:c44e18e9766cf1ac092d1189e8a3fbdedf27c69791661ab01791760780e47a3b",
-    "id": "evd_6a648b5b92cb9676",
+    "digest": "sha256:ceb464bc181651ed150c361eaeaff7fbff5fceb17f4eedc77c620d99131a3cd4",
+    "id": "evd_9da92eb8efdf155d",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:ef3565fb1a4bf3152a083f6c46387940f2fa27d4d9fb4c82a7d6b49b28971099",
+    "quote_digest": "sha256:e87f07d516078ad70e9003a3d025f305dc6067580144d44f4757531f6f6142a5",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:ef3565fb1a4bf3152a083f6c46387940f2fa27d4d9fb4c82a7d6b49b28971099",
-        "section_id": "sec_9f108c27d880e944"
+        "section_digest": "sha256:e87f07d516078ad70e9003a3d025f305dc6067580144d44f4757531f6f6142a5",
+        "section_id": "sec_3bdaeabcf89061b6"
       },
-      "quote": "MISCELLANEOUS\nSection 10.1 Seal.\nThe Board may adopt a corporate seal.\nSection 10.2 Books and Records.\nThe Corporation shall keep correct and complete books and records as required by the DGCL.\nSection 10.3 Electronic Transmission.\nAny action or signature required by these Bylaws may be completed by electronic transmission to the fullest extent permitted by law.\n\n",
-      "quote_digest": "sha256:ef3565fb1a4bf3152a083f6c46387940f2fa27d4d9fb4c82a7d6b49b28971099",
+      "quote": "        3.4 FINANCIAL STATEMENTS\nSellers have delivered to Buyer: (a) audited consolidated balance sheets of the Company and its Subsidiaries as at \t (the “Balance Sheet Date”) and as at \t, and the related audited consolidated statements of income, changes in shareholders’ equity, and cash flows for each of the     fiscal years ended on such dates, including the notes thereto, together with the report thereon of the Company’s independent public accountants, (collectively, the “Audited Financial Statements”), and (b) an unaudited consolidated balance sheet (the “Interim Balance Sheet”) of the Company and its Subsidiaries as at\n\t (the “Interim Balance Sheet Date”), and the related unaudited consolidated statements of income, changes in shareholders’ equity, and cash flows for the \t months then ended, certified by the chief financial officer of the Company (collectively, the “Unaudited Financial Statements”, and together with the Audited Financial Statements, the “Financial Statements”). The Financial Statements (i) fairly present the consolidated financial condition and the results of operations, changes in shareholders’ equity, and cash flows of the Company and its Subsidiaries as at the respective dates of, and for the periods referred to in, the Financial Statements, and (ii) were prepared in accordance with GAAP, subject, in the case of the Unaudited Financial Statements, to normal recurring year-end adjustments (the effect of which will not, individually or in the aggregate, be material) and the absence of notes (that, if presented, would not differ materially from those included in the Audited Financial Statements). The Financial Statements reflect the consistent application of GAAP throughout the periods involved, except as disclosed in the notes to the Audited Financial Statements. No financial statements of any Person other than the Acquired Companies are required by GAAP to be included or reflected in the Financial Statements. The Financial Statements were prepared from, and are consistent with, the accounting Records of each Acquired Company. Sellers have also delivered to Buyer copies of all letters from the Company’s auditors to the Company’s board of directors or audit committee thereof during the 36 months prior to the date of this Agreement, together with copies of all responses thereto.\n",
+      "quote_digest": "sha256:e87f07d516078ad70e9003a3d025f305dc6067580144d44f4757531f6f6142a5",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
-        "query": "Summit’s complete filed Form 2553, attachments, envelope, certified-mail receipt, fax confirmation, IRS account transcript, and complete CP261 notice",
+        "query": "Rev. Proc. 2013-30 requirements and deadline calculation for an election effective 2019-01-01 but filed 2022-03-22, including reasonable-cause and consistent-reporting statements",
         "version": "1"
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
       "source": {
-        "content_digest": "sha256:1cb8fe86d8075d2b126f99858b67aa3a45ced38879cf7b3859b78e577483572b",
+        "content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
         "media_type": "text/plain",
-        "uri": "private://apex/1cb8fe86d8075d2b-0c1ae063"
+        "uri": "private://apex/7beb28a6e0069669-d885dee3"
       }
     },
-    "retrieval_receipt_digest": "sha256:77097a652af329f7340bb8add91c18e8a380a3c568cd27a43717cad728ad9a79",
-    "source_content_digest": "sha256:1cb8fe86d8075d2b126f99858b67aa3a45ced38879cf7b3859b78e577483572b",
-    "source_digest": "sha256:dce34be7d3faee591fc3639cc0fc742ebc66a097c301c07eb716b0649e3998a1",
-    "source_ref": "src_3376baa521507aa6"
+    "retrieval_receipt_digest": "sha256:b55ad151286ec92e148b9efbf4d49a60df473da319c868d469b6593ec161c358",
+    "source_content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
+    "source_digest": "sha256:9b5e55c106d3b2c9d270455bb5af81e282a4e92f3ba0722f868b952faf8ff0b5",
+    "source_ref": "src_1cb20c6823882030"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_3376baa521507aa6",
-  "subject_ref": "evd_6a648b5b92cb9676",
+  "source_ref": "src_1cb20c6823882030",
+  "subject_ref": "evd_9da92eb8efdf155d",
   "type": "evidence_bound"
 }
