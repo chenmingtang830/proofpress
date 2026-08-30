@@ -1,21 +1,21 @@
 {
-  "created_at": "2026-08-30T19:16:43.567728Z",
-  "event_id": "ppe_729c101784d66347",
+  "created_at": "2026-08-30T19:16:43.719733Z",
+  "event_id": "ppe_3ec87ee88ca89d35",
   "evidence": {
-    "digest": "sha256:385c6abe11be00a58079b1b759c302b3b29202d71175ef95d2b14889696f4873",
-    "id": "evd_002c369eaaaf1f34",
+    "digest": "sha256:e077045f5d4f93ebd3c4de4a51e29debd035217761dda48f23a372369493249d",
+    "id": "evd_7fc03947d82f2944",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:2a0ffa11d788659e43e2ba3716f5114baf5168510dd759cc965158e78400b2d2",
+    "quote_digest": "sha256:dccb76de3315482999d88e5b184e59e2f11e099ac82993cd3ab8203dd8edbdb2",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:2a0ffa11d788659e43e2ba3716f5114baf5168510dd759cc965158e78400b2d2",
-        "section_id": "sec_c541d8a890227b4c"
+        "section_digest": "sha256:dccb76de3315482999d88e5b184e59e2f11e099ac82993cd3ab8203dd8edbdb2",
+        "section_id": "sec_e934812bd9f73cef"
       },
-      "quote": "        5.3 FILINGS AND NOTIFICATIONS; COOPERATION\nAs promptly as practicable after the date of this Agreement, and in any event within the applicable time period prescribed by Legal Requirements, each Seller shall, and shall cause each Acquired Company and each of their Related Persons to, make all filings and notifications required by Legal Requirements to be made by them in connection with the Contemplated Transactions (including all filings under the HSR Act). Each Seller shall, and shall cause each Acquired Company and each of their Related Persons to, cooperate with Buyer, its Related Persons, and their respective Representatives (a) with respect to all filings and notifications that Buyer or its Related Persons elect to make or shall be required by Legal Requirements to make in connection with the Contemplated Transactions, (b) in identifying and obtaining the Governmental Authorizations required by Buyer to own and operate each Acquired Company from and after the Closing Date, and (c) in obtaining all Consents identified in Exhibit 9.4 (including taking all actions requested by Buyer to cause early termination of any applicable waiting period under the HSR Act).\n",
-      "quote_digest": "sha256:2a0ffa11d788659e43e2ba3716f5114baf5168510dd759cc965158e78400b2d2",
+      "quote": "ADDRESS: \n\t\t\t\t\n\t\t\t\t\n\n\nRE: Letter of Intent for the Proposed Purchase of Stock\n\nThis stock purchase letter of intent (“Letter of Intent”) represents the basic terms for an agreement that shall be considered non-binding. After this Letter of Intent has been made, another formal agreement may be constructed to the benefit of the Parties involved.\n\nI. The Buyer: NAME & ADDRESS \n\nII. The Seller: NAME & ADDRESS\n\nThe Buyer and Seller, when mentioned together, shall be referred to as the “Parties”.\n\nIII. Company: The Parties agree that the shares of capital stock mentioned in this Agreement are of TARGET COMPANY NAME (the “Company”) located with a principal office address in the State of ______________________.\n\nIV. Shares. In accordance with the terms set forth in this Agreement, the Seller agrees to sell NUMBER (__________) shares of ___________-class stock of the Company (“Stock”).\n\nV. Purchase Price: The total purchase price shall be PRICE ($___________________) for the Stock. The Buyer shall be obligated to complete the purchase with a closing date no later than DATE (“Closing Date”).\n\nVI. Deposit: With the signing of this Letter of Intent, the Parties agree that:\n\nDeposit is NOT Required: The Buyer shall not be required to make payment at the time of signing this Letter of Intent.\n\nVII. Formal Agreement: After the signing of this Letter of Intent:\n\nFormal Agreement Required: A formal agreement shall be constructed by DATE based off the terms in this Letter of Intent (“Formal Agreement”). If there is no Formal Agreement created, or the Parties could not agree to the details by the Closing Date, this Letter of Intent shall be considered null and void.\n\nVIII. Confidentiality: All negotiations regarding the Business between the Buyer and Seller shall be confidential and shall not to be disclosed with anyone other than respective advisors and internal staff of the Parties and necessary third (3rd) parties. No press or other public releases will be issued to the general public concerning the Business without the mutual consent of the Parties or as required by law, and then only upon prior written notice to the other party unless otherwise not allowed.\n\nIX. Good Faith Negotiations: The Buyer agrees to act in an honest and diligent manner to enter into “good faith” negotiations in order to execute a formal agreement and/or close the transaction.\n\nX. Exclusive Opportunity: Following the execution of this Letter of Intent, the Parties agree not to negotiate or enter into discussions with any other party unless there are any existing agreements in place (e.g. option to purchase, first right of refusal, etc.).\n\nXI. No Public Announcement: The Parties agree not to make any public announcement with regard to the transaction contemplated by this Letter without the prior written consent of the other. Additionally, each of the Parties shall bear their own costs and expenses related to the transaction contemplated by this Letter, including, but not limited to, fees and expenses of legal counsel and accountants.\n\nXII. Currency: All mentions of currency or the usage of the “$” icon shall be known as referring to the US Dollar.\n\nXIII. Governing Law: This Letter of Intent shall be governed under the laws by the State of STATE.\n\nXIV. Counterparts and Electronic Means: This Letter of Intent may be executed in several counterparts, each of which will be deemed to be an original and all of which will together constitute one and the same instrument. Delivery to us of an executed copy of this Letter of Intent by electronic facsimile transmission or other means of electronic communication capable of producing a printed copy will be deemed to be execution and delivery to us of this Letter of Intent as of the date of successful transmission to us.\n\nXV. Severability. In case any provision or wording in this Letter of Intent shall be held invalid, illegal, or unenforceable, the validity, legality, and enforceability of the remaining provisions shall not in any way be affected or impaired thereby.\n\nXVI. Acceptance: If the Parties are agreeable to the aforementioned terms, this Letter of Intent must be authorized by no later than DATE.\n\nIN WITNESS WHEREOF, the Parties have executed this Letter of Intent on the day and year written below.\n\n",
+      "quote_digest": "sha256:dccb76de3315482999d88e5b184e59e2f11e099ac82993cd3ab8203dd8edbdb2",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
@@ -24,18 +24,18 @@
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
       "source": {
-        "content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
+        "content_digest": "sha256:dfb4a6fb5185685768f588160e39690b944d8cbfad8e0b36a92b49be895f80d9",
         "media_type": "text/plain",
-        "uri": "private://apex/7beb28a6e0069669-d885dee3"
+        "uri": "private://apex/dfb4a6fb51856857-3ebb9312"
       }
     },
-    "retrieval_receipt_digest": "sha256:94029ba64f31819cb1ab9da55ffa01c3e98ea9dad8e80b9440dc4581eeb1236b",
-    "source_content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
-    "source_digest": "sha256:9b5e55c106d3b2c9d270455bb5af81e282a4e92f3ba0722f868b952faf8ff0b5",
-    "source_ref": "src_1cb20c6823882030"
+    "retrieval_receipt_digest": "sha256:b941a2b56a103769cfa1db8edd91a3cfb7e316fd5bbb67a241f40c09f0238b3c",
+    "source_content_digest": "sha256:dfb4a6fb5185685768f588160e39690b944d8cbfad8e0b36a92b49be895f80d9",
+    "source_digest": "sha256:af353dc2ff025f1b5856614e044526af70dd8dd57771cc7162880a69ff71fe65",
+    "source_ref": "src_fe48f3c72ed75d5f"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_1cb20c6823882030",
-  "subject_ref": "evd_002c369eaaaf1f34",
+  "source_ref": "src_fe48f3c72ed75d5f",
+  "subject_ref": "evd_7fc03947d82f2944",
   "type": "evidence_bound"
 }
