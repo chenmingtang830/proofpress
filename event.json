@@ -1,15 +1,25 @@
 {
-  "conclusion_digest": "sha256:4445337dd17b9d7f8ddd9b086f670079a335e6ee97f06e18da117b54870c9517",
-  "created_at": "2026-08-30T19:16:06.165214Z",
-  "event_id": "ppe_252456391bd9ea00",
-  "evidence_digests": {
-    "evd_4b429ad1060e41d1": "sha256:31058f0bf212b620649f82ddeb0306874a5105da3e3869a4e206e3b3ee9fbe07",
-    "evd_65663ee8f1000a17": "sha256:c01747d22ce5014f8df30b82ce09f8712f9ff702349f568e0062ff453737ea01"
+  "conclusion": {
+    "allowed_actors": [
+      "*"
+    ],
+    "artifact_refs": [],
+    "created_at": "2026-08-30T19:16:06.237199Z",
+    "digest": "sha256:0c87d9927ec8514660063ef71df4bcb963ebabcc89a6964d66924ccd20a87f9f",
+    "evidence_refs": [
+      "evd_65663ee8f1000a17"
+    ],
+    "expires_at": null,
+    "id": "knw_5d94e332bd6270c3",
+    "kind": "conclusion",
+    "proposer": "agent:v8-constructor",
+    "qualifiers": {},
+    "scope": "task_b78c4510be784e6a8b8f0394aafd785d",
+    "statement": "The applicable 2022 long-term capital-gain rate and thresholds for Laura Kensington cannot be determined from the cited record because no authoritative 2022 rate schedule is cited."
   },
-  "policy_digest": "sha256:cde050fdc0b2869fecf8ee9d24dee964fc3bbc18e6b489da2e08e7c3df266501",
-  "review_ref": "ppe_ba61baf9512e8a92",
-  "reviewer": "human:staged-evaluation-reviewer",
+  "created_at": "2026-08-30T19:16:06.269339Z",
+  "event_id": "ppe_b28b4b76114ece6d",
   "schema_version": "proofpress/knowledge-event/v2",
-  "subject_ref": "knw_cdf7f3c0937c52d3",
-  "type": "conclusion_admitted"
+  "subject_ref": "knw_5d94e332bd6270c3",
+  "type": "conclusion_proposed"
 }
