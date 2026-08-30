@@ -1,16 +1,27 @@
 {
-  "conclusion_digest": "sha256:bcf9542882e9302146dd560df9a390cbd09e32365cdb770b0d036ffb920eb4be",
-  "created_at": "2026-08-30T19:18:10.127223Z",
-  "event_id": "ppe_25e18bad43a8134d",
-  "evidence_digests": {
-    "evd_1dad59d016961359": "sha256:c857b41ce2b625bb0941a644466b12fb94cd16c389d647603feb9a6d6c5d9cca",
-    "evd_337cd9e43285d239": "sha256:58ba9abb8efc11c7a16ccc83e0002b9cca470a8537bdf4f7cdd544ddc918a621",
-    "evd_dde583c1185bfd33": "sha256:9d16026e8923d600396c6550259b34e3873c592f031c9d1fc0ae22329a3f8780"
+  "conclusion": {
+    "allowed_actors": [
+      "*"
+    ],
+    "artifact_refs": [],
+    "created_at": "2026-08-30T19:18:10.272727Z",
+    "digest": "sha256:27e738a13b28733770c1346748164bcc7c74b35a44a5d7220d8108e5b7c06119",
+    "evidence_refs": [
+      "evd_1dad59d016961359",
+      "evd_337cd9e43285d239",
+      "evd_dde583c1185bfd33"
+    ],
+    "expires_at": null,
+    "id": "knw_98719abcf313c8ff",
+    "kind": "conclusion",
+    "proposer": "agent:v8-constructor",
+    "qualifiers": {},
+    "scope": "task_f8f47a9c94874854a24936d81a89fdfb",
+    "statement": "The K-1 headers for 2020, 2023, and 2024 identify the documents as Schedule K-1 (Form 1120-S) for Summit Filing Solutions, Inc."
   },
-  "policy_digest": "sha256:cde050fdc0b2869fecf8ee9d24dee964fc3bbc18e6b489da2e08e7c3df266501",
-  "review_ref": "ppe_ebf88a2934a0ce3a",
-  "reviewer": "human:staged-evaluation-reviewer",
+  "created_at": "2026-08-30T19:18:10.387926Z",
+  "event_id": "ppe_980df42bc5f2472f",
   "schema_version": "proofpress/knowledge-event/v2",
-  "subject_ref": "knw_76872f4d734d597c",
-  "type": "conclusion_admitted"
+  "subject_ref": "knw_98719abcf313c8ff",
+  "type": "conclusion_proposed"
 }
