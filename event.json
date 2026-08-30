@@ -1,15 +1,41 @@
 {
-  "created_at": "2026-08-30T19:16:15.492939Z",
-  "event_id": "ppe_840ad8030dad1dce",
-  "record": {
-    "content_digest": "sha256:4c29e37184221016659776d6207639a9d00708dd52deb14e35f7e19067f8ed31",
-    "id": "src_6c67c54c92e72e4b",
-    "kind": "retrieval_source",
-    "media_type": "application/pdf",
-    "record_hash": "sha256:b7361746cd765bc3c2322b8263313f9a27bf72e7277610db49df9525cc153371",
-    "uri": "private://apex/4c29e37184221016-c19ef5ec"
+  "created_at": "2026-08-30T19:16:15.570360Z",
+  "event_id": "ppe_53884848cfc4d890",
+  "evidence": {
+    "digest": "sha256:f6413f7281ea331bdda80d33dcd57ea9846c4175e3101c37d4931e489fbfb19b",
+    "id": "evd_a6b98cd6920d8e88",
+    "kind": "retrieval_evidence",
+    "quote_digest": "sha256:7a0c04fb05ffa51d7dd7c74913a9d5e7ee519ae242bd113ab433ccd56a495ca0",
+    "retrieval_receipt": {
+      "locator": {
+        "kind": "section_span",
+        "page_end": 1,
+        "page_start": 1,
+        "section_digest": "sha256:7a0c04fb05ffa51d7dd7c74913a9d5e7ee519ae242bd113ab433ccd56a495ca0",
+        "section_id": "sec_23352542908c26aa"
+      },
+      "quote": "/S /URI\n/URI (https://www.taxnotes.com/research/federal/cfr26/1.1362-6)>>\n/StructParent 100015>>\nendobj\n33 0 obj\n<</Type /Annot\n/Subtype /Link\n",
+      "quote_digest": "sha256:7a0c04fb05ffa51d7dd7c74913a9d5e7ee519ae242bd113ab433ccd56a495ca0",
+      "retrieval": {
+        "adapter": "bm25-page",
+        "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
+        "query": "\"Treasury Regulation\" \"1.1362-6(b)\" \"26 CFR 1.1362-6(b)\" \"1362-6(b)\" election",
+        "version": "1"
+      },
+      "schema_version": "proofpress/retrieval-evidence/v1",
+      "source": {
+        "content_digest": "sha256:4c29e37184221016659776d6207639a9d00708dd52deb14e35f7e19067f8ed31",
+        "media_type": "application/pdf",
+        "uri": "private://apex/4c29e37184221016-c19ef5ec"
+      }
+    },
+    "retrieval_receipt_digest": "sha256:65154cf66c2242a4d5053f5ea0a558060130a5478ba36efbb81d37416ffbb1a8",
+    "source_content_digest": "sha256:4c29e37184221016659776d6207639a9d00708dd52deb14e35f7e19067f8ed31",
+    "source_digest": "sha256:b7361746cd765bc3c2322b8263313f9a27bf72e7277610db49df9525cc153371",
+    "source_ref": "src_6c67c54c92e72e4b"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "subject_ref": "src_6c67c54c92e72e4b",
-  "type": "source_recorded"
+  "source_ref": "src_6c67c54c92e72e4b",
+  "subject_ref": "evd_a6b98cd6920d8e88",
+  "type": "evidence_bound"
 }
