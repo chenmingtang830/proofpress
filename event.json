@@ -1,18 +1,26 @@
 {
-  "conclusion_digest": "sha256:9945824341234a68d700c3db6705065581f4942ec3fe30c4eed8c11364aa7e0c",
-  "created_at": "2026-08-30T19:16:09.272816Z",
-  "event_id": "ppe_4229e0dddd9e8ba1",
-  "evidence_digests": {
-    "evd_4f8764561459d5f0": "sha256:b92e5b041d258f09b6183a7e0bb3f0c5616b6eda55e4d302f607e6cd0ccdade1",
-    "evd_65663ee8f1000a17": "sha256:c01747d22ce5014f8df30b82ce09f8712f9ff702349f568e0062ff453737ea01",
-    "evd_af680990a0ac386c": "sha256:8717d05478d190fb7003c8907ee0598753d5a5618de475397ecc5c29c47000c8",
-    "evd_b60c0b9c90202b24": "sha256:b02e38cd3c58974fc3c797df0ab44b1688c1b3e64ea9d7571787978c1288b04c",
-    "evd_dc8b141455bb8e9c": "sha256:b78d3271e91e44589c17303c64579bc0650d202d22045aad17306477b45e91f1"
+  "conclusion": {
+    "allowed_actors": [
+      "*"
+    ],
+    "artifact_refs": [],
+    "created_at": "2026-08-30T19:16:09.346541Z",
+    "digest": "sha256:27b5f8565cb836f0131c5e378746f2fa3f167f447d7cde294b37aaca8ea1ad2b",
+    "evidence_refs": [
+      "evd_65663ee8f1000a17",
+      "evd_841ccc9a66410346"
+    ],
+    "expires_at": null,
+    "id": "knw_360c960ef6bc9bdb",
+    "kind": "conclusion",
+    "proposer": "agent:v8-constructor",
+    "qualifiers": {},
+    "scope": "task_b78c4510be784e6a8b8f0394aafd785d",
+    "statement": "The applicability of the 3.8% net investment income tax to Laura Kensington's allocated gain is unresolved because the record lacks her 2022 MAGI, net investment income, and the K-1 amount/character of her gain share."
   },
-  "policy_digest": "sha256:cde050fdc0b2869fecf8ee9d24dee964fc3bbc18e6b489da2e08e7c3df266501",
-  "review_ref": "ppe_3b85b80e408daf76",
-  "reviewer": "human:staged-evaluation-reviewer",
+  "created_at": "2026-08-30T19:16:09.381330Z",
+  "event_id": "ppe_06265872a8547d22",
   "schema_version": "proofpress/knowledge-event/v2",
-  "subject_ref": "knw_79a6343828d08e6c",
-  "type": "conclusion_admitted"
+  "subject_ref": "knw_360c960ef6bc9bdb",
+  "type": "conclusion_proposed"
 }
