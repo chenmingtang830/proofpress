@@ -1,21 +1,21 @@
 {
-  "created_at": "2026-08-30T19:16:58.535867Z",
-  "event_id": "ppe_1ad765e47db7098a",
+  "created_at": "2026-08-30T19:16:58.714669Z",
+  "event_id": "ppe_7fcfe9e6d096ca88",
   "evidence": {
-    "digest": "sha256:eb635140e565d0a94b1db65050ecbc6245fb8302aa8e8a229aee6355372c4f1a",
-    "id": "evd_9717e45c637fc498",
+    "digest": "sha256:beb9d1cea5177f14d0bf0094e5184fadb0aeb18fd912fb055275b724f8cb60fb",
+    "id": "evd_4345a92b81650e62",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:8a5ca3f5314b06f49a27e53683fca4eaa197ae0736c038b57741f09342be5913",
+    "quote_digest": "sha256:62837b7412c08ff335bb17d4619218976fb270e2f4a78ee4d63450d30ecc11fb",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:8a5ca3f5314b06f49a27e53683fca4eaa197ae0736c038b57741f09342be5913",
-        "section_id": "sec_f297602dfa29a44b"
+        "section_digest": "sha256:62837b7412c08ff335bb17d4619218976fb270e2f4a78ee4d63450d30ecc11fb",
+        "section_id": "sec_447aed60fb58a823"
       },
-      "quote": "﻿Schedule of Historic Distributions\nSummit Filing Solutions, Inc.\nHistoric Distribution Schedule (From S-Corporation Election Effective January 1, 2019)\n\nDistribution Event – March 15, 2019\nTotal Amount Distributed: $11,000\nShareholder\tAmount Distributed\nLaura Kensington\t$2,860\nMichael T. Hartwell\t$2,420\nDanielle R. Soto\t$2,200\nGregory A. Beaumont\t$2,200\nTanya L. Merriweather\t$1,320\n\nDistribution Event – August 3, 2020\nTotal Amount Distributed: $2,300\nShareholder\tAmount Distributed\nLaura Kensington\t$598\nMichael T. Hartwell\t$506\nDanielle R. Soto\t$460\nGregory A. Beaumont\t$460\nTanya L. Merriweather\t$276\n\nDistribution Event – May 22, 2022\nTotal Amount Distributed: $5,200\nShareholder\tAmount Distributed\nLaura Kensington\t$1,092\nMichael T. Hartwell\t$1,924\nDanielle R. Soto\t$840\nGregory A. Beaumont\t$840\nTanya L. Merriweather\t$504\n\nDistribution Event – February 9, 2024\nTotal Amount Distributed: $1,800\nShareholder\tAmount Distributed\nLaura Kensington\t$468\nMichael T. Hartwell\t$396\nDanielle R. Soto\t$360\nGregory A. Beaumont\t$360\nTanya L. Merriweather\t$216\n\nCumulative Distributions Since S-Election\nShareholder\tTotal Received\nLaura Kensington\t$5,018\nMichael T. Hartwell\t$5,246\nDanielle R. Soto\t$3,860\nGregory A. Beaumont\t$3,860\nTanya L. Merriweather\t$2,316\n\nTotal Distributed to All Shareholders: $20,300\n",
-      "quote_digest": "sha256:8a5ca3f5314b06f49a27e53683fca4eaa197ae0736c038b57741f09342be5913",
+      "quote": "II. OVERALL RISK SUMMARY\nCategory                                          Assessment\n--------------------------------------------------------------\nNonresident Alien Shareholder                     HIGH\nPro Rata Distribution Compliance                  HIGH\nDebt–Equity Characterization (Missing Docs)       HIGH\nK‑1 Accuracy                                      Moderate\nGovernance                                        Moderate\n1120‑S Consistency                                Low\nE&P / BIG Exposure                                Low\n\n",
+      "quote_digest": "sha256:62837b7412c08ff335bb17d4619218976fb270e2f4a78ee4d63450d30ecc11fb",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
@@ -24,18 +24,18 @@
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
       "source": {
-        "content_digest": "sha256:935fc7a0beb6b568bccbc00f0ea1209959050ad0c96242c27f9e40054cec8009",
+        "content_digest": "sha256:e7eb786dc671298aa9426792d523f0ec997bee3a570763a8b10f13a1644fc105",
         "media_type": "text/plain",
-        "uri": "private://apex/935fc7a0beb6b568-ba9f6e25"
+        "uri": "private://apex/e7eb786dc671298a-1d2051f2"
       }
     },
-    "retrieval_receipt_digest": "sha256:44d9b75c4ab5cf11a597c1a1082e5aabfabaa81d0743799766506c2d74d1bc9d",
-    "source_content_digest": "sha256:935fc7a0beb6b568bccbc00f0ea1209959050ad0c96242c27f9e40054cec8009",
-    "source_digest": "sha256:5ca2ef258db6ac6d7ac5046f627f2dd1618ac381e2afce1fec17e99b812e97c1",
-    "source_ref": "src_eb14d7f1e4caeaf8"
+    "retrieval_receipt_digest": "sha256:a46dba5246a85a5fbad769fd14c1cf738157c38cd5a4ed3b22b67caa3f500c9d",
+    "source_content_digest": "sha256:e7eb786dc671298aa9426792d523f0ec997bee3a570763a8b10f13a1644fc105",
+    "source_digest": "sha256:bbebf48c1f9dee4d30677c0c93c00e3eb349758e8e8a6eac5acafa2f8650d491",
+    "source_ref": "src_e9b083e75ca5f18f"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_eb14d7f1e4caeaf8",
-  "subject_ref": "evd_9717e45c637fc498",
+  "source_ref": "src_e9b083e75ca5f18f",
+  "subject_ref": "evd_4345a92b81650e62",
   "type": "evidence_bound"
 }
