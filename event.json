@@ -1,15 +1,27 @@
 {
-  "conclusion_digest": "sha256:376f9dc5388b736ee74e1878c4fb9a2571bb88b528244261459761d9607ffbd2",
-  "created_at": "2026-08-30T19:16:07.661186Z",
-  "event_id": "ppe_8d865904d62007b7",
-  "evidence_digests": {
-    "evd_907241347845e1f2": "sha256:4a60a81facb9eef525b81cddbb66a566142cd318fa562b8db8f1037523dd2c66",
-    "evd_982a6b95007488c7": "sha256:56e200ce08df072f7119e6a1c15f50914fc62d9c60ffa4850aedb51534ad4b75"
+  "conclusion": {
+    "allowed_actors": [
+      "*"
+    ],
+    "artifact_refs": [],
+    "created_at": "2026-08-30T19:16:07.733598Z",
+    "digest": "sha256:4fdccc3eb2b8dec13c087ef7730756df46ecfe41a556bd9d865ec175e821fa42",
+    "evidence_refs": [
+      "evd_3c8617013733d430",
+      "evd_65663ee8f1000a17",
+      "evd_907241347845e1f2"
+    ],
+    "expires_at": null,
+    "id": "knw_30d068ec9e125009",
+    "kind": "conclusion",
+    "proposer": "agent:v8-constructor",
+    "qualifiers": {},
+    "scope": "task_b78c4510be784e6a8b8f0394aafd785d",
+    "statement": "The cited K-1 and purchase-agreement excerpts do not provide verified sale proceeds, selling expenses, original basis, capitalized buildout costs, or accumulated depreciation needed to determine gross or net realized gain."
   },
-  "policy_digest": "sha256:cde050fdc0b2869fecf8ee9d24dee964fc3bbc18e6b489da2e08e7c3df266501",
-  "review_ref": "ppe_1af769d2cf6e2e0f",
-  "reviewer": "human:staged-evaluation-reviewer",
+  "created_at": "2026-08-30T19:16:07.767797Z",
+  "event_id": "ppe_4d354ee477f7819a",
   "schema_version": "proofpress/knowledge-event/v2",
-  "subject_ref": "knw_72867abd56601291",
-  "type": "conclusion_admitted"
+  "subject_ref": "knw_30d068ec9e125009",
+  "type": "conclusion_proposed"
 }
