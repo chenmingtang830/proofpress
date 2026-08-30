@@ -1,21 +1,21 @@
 {
-  "created_at": "2026-08-30T19:17:41.677863Z",
-  "event_id": "ppe_4f563658a3fda749",
+  "created_at": "2026-08-30T19:17:41.922416Z",
+  "event_id": "ppe_1198d5ceefb2835e",
   "evidence": {
-    "digest": "sha256:6df53c5e4cdfd60b0f5a5605bae0384cea958f035ed7497dcf817c0db55d82a1",
-    "id": "evd_8a722237c654025c",
+    "digest": "sha256:128ecc477d22425a386bfee3d6efa74b60ceefdbe079b03814a1326a60c678e2",
+    "id": "evd_4d3f626e23c15541",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:dcee62d908eacdba944b52fc6c65971aeba60d7d38e44a9814921eebf6947f7e",
+    "quote_digest": "sha256:1949b445e03bdb4343970706a96786a23b9e98331a692394eb482b6341ee1587",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:dcee62d908eacdba944b52fc6c65971aeba60d7d38e44a9814921eebf6947f7e",
-        "section_id": "sec_35b9b41d080df935"
+        "section_digest": "sha256:1949b445e03bdb4343970706a96786a23b9e98331a692394eb482b6341ee1587",
+        "section_id": "sec_745f2f7128432eea"
       },
-      "quote": "        8.9 NO CLAIM REGARDING STOCK OWNERSHIP OR SALE PROCEEDS\nThere will not have been made or threatened by any Third Party any claim asserting that such Third Party (a) is the holder or the beneficial owner of any Equity Security of any Acquired Company or (b) is entitled to all or any portion of the Purchase Price.\n",
-      "quote_digest": "sha256:dcee62d908eacdba944b52fc6c65971aeba60d7d38e44a9814921eebf6947f7e",
+      "quote": "STOCK PURCHASE LETTER OF INTENT\n",
+      "quote_digest": "sha256:1949b445e03bdb4343970706a96786a23b9e98331a692394eb482b6341ee1587",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
@@ -24,18 +24,18 @@
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
       "source": {
-        "content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
+        "content_digest": "sha256:dfb4a6fb5185685768f588160e39690b944d8cbfad8e0b36a92b49be895f80d9",
         "media_type": "text/plain",
-        "uri": "private://apex/7beb28a6e0069669-d885dee3"
+        "uri": "private://apex/dfb4a6fb51856857-3ebb9312"
       }
     },
-    "retrieval_receipt_digest": "sha256:7553fbb6af41ea177d4897668ab9e1de44607c96bca4523a3ba2ebec54f844ba",
-    "source_content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
-    "source_digest": "sha256:9b5e55c106d3b2c9d270455bb5af81e282a4e92f3ba0722f868b952faf8ff0b5",
-    "source_ref": "src_1cb20c6823882030"
+    "retrieval_receipt_digest": "sha256:a39164806e3160ff11f7a5338213a6f92acec8c3c0fc556a7ef7f4c5cfdde527",
+    "source_content_digest": "sha256:dfb4a6fb5185685768f588160e39690b944d8cbfad8e0b36a92b49be895f80d9",
+    "source_digest": "sha256:af353dc2ff025f1b5856614e044526af70dd8dd57771cc7162880a69ff71fe65",
+    "source_ref": "src_fe48f3c72ed75d5f"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_1cb20c6823882030",
-  "subject_ref": "evd_8a722237c654025c",
+  "source_ref": "src_fe48f3c72ed75d5f",
+  "subject_ref": "evd_4d3f626e23c15541",
   "type": "evidence_bound"
 }
