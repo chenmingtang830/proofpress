@@ -1,21 +1,21 @@
 {
-  "created_at": "2026-08-30T19:16:00.623606Z",
-  "event_id": "ppe_133875f19624d9a0",
+  "created_at": "2026-08-30T19:16:00.711239Z",
+  "event_id": "ppe_9d712af8bde0b950",
   "evidence": {
-    "digest": "sha256:e2be41f581f8da716f78a90c2e1ae257f5cca7991f2363bada215a70aad2eff0",
-    "id": "evd_da6a5f82e72607d0",
+    "digest": "sha256:76e3ebd41c6c083ea84800001124005b1b824e27d2fa40b663896d528f48d343",
+    "id": "evd_2a01598110cb316b",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:ef3565fb1a4bf3152a083f6c46387940f2fa27d4d9fb4c82a7d6b49b28971099",
+    "quote_digest": "sha256:c9754494e822e74a5e86f2440d8c49968e4fec5bacfb916e73a9a287f317c53e",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:ef3565fb1a4bf3152a083f6c46387940f2fa27d4d9fb4c82a7d6b49b28971099",
-        "section_id": "sec_9f108c27d880e944"
+        "section_digest": "sha256:c9754494e822e74a5e86f2440d8c49968e4fec5bacfb916e73a9a287f317c53e",
+        "section_id": "sec_4cadc8f75a9aefdc"
       },
-      "quote": "MISCELLANEOUS\nSection 10.1 Seal.\nThe Board may adopt a corporate seal.\nSection 10.2 Books and Records.\nThe Corporation shall keep correct and complete books and records as required by the DGCL.\nSection 10.3 Electronic Transmission.\nAny action or signature required by these Bylaws may be completed by electronic transmission to the fullest extent permitted by law.\n\n",
-      "quote_digest": "sha256:ef3565fb1a4bf3152a083f6c46387940f2fa27d4d9fb4c82a7d6b49b28971099",
+      "quote": "        7.1 COOPERATION AND PROCEEDINGS; ACCESS TO RECORDS\n    (a) After the Closing, each Seller shall cooperate with Buyer and its counsel and make itself and its Representatives available to Buyer and the Acquired Companies in connection with the institution or defense of any Proceeding, whether existing, threatened, or anticipated, involving or relating to the Contemplated Transactions, Buyer, any Seller, or any Acquired Company, including providing testimony, Records, and other information.\n    (b) Each Seller and Buyer will make available to the other any Records in the nonrequesting party’s custody or control for the purpose of preparing any financial statement or Tax Return or preparing for or defending any tax-related examination of the requesting party or any Acquired Company by any Governmental Body. The party requesting such Records will reimburse the nonrequesting party for the reasonable out-of-pocket costs and expenses incurred by the nonrequesting party. The nonrequesting party will afford access to such Records during normal business hours, upon reasonable advance notice given by the requesting party, and subject to such reasonable limitations as the nonrequesting party may impose to delete competitively sensitive or privileged information.\n",
+      "quote_digest": "sha256:c9754494e822e74a5e86f2440d8c49968e4fec5bacfb916e73a9a287f317c53e",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
@@ -24,18 +24,18 @@
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
       "source": {
-        "content_digest": "sha256:1cb8fe86d8075d2b126f99858b67aa3a45ced38879cf7b3859b78e577483572b",
+        "content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
         "media_type": "text/plain",
-        "uri": "private://apex/1cb8fe86d8075d2b-0c1ae063"
+        "uri": "private://apex/7beb28a6e0069669-d885dee3"
       }
     },
-    "retrieval_receipt_digest": "sha256:3e8732c0167ae1becd14df79190d61c0065c065d28885b71d91d837fa0ed99b7",
-    "source_content_digest": "sha256:1cb8fe86d8075d2b126f99858b67aa3a45ced38879cf7b3859b78e577483572b",
-    "source_digest": "sha256:dce34be7d3faee591fc3639cc0fc742ebc66a097c301c07eb716b0649e3998a1",
-    "source_ref": "src_3376baa521507aa6"
+    "retrieval_receipt_digest": "sha256:74e4c61198fd2aacce59f930b88bdb41d44d126b04a87084c5a2fef391a4bc3d",
+    "source_content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
+    "source_digest": "sha256:9b5e55c106d3b2c9d270455bb5af81e282a4e92f3ba0722f868b952faf8ff0b5",
+    "source_ref": "src_1cb20c6823882030"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_3376baa521507aa6",
-  "subject_ref": "evd_da6a5f82e72607d0",
+  "source_ref": "src_1cb20c6823882030",
+  "subject_ref": "evd_2a01598110cb316b",
   "type": "evidence_bound"
 }
