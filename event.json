@@ -1,15 +1,30 @@
 {
-  "conclusion_digest": "sha256:813c43000dfb6056c28b0eccdde099775ba6982fcdc6b228c38fc2bac1b13bc4",
-  "created_at": "2026-08-30T19:17:28.963488Z",
-  "event_id": "ppe_6b294f84120aa618",
-  "evidence_digests": {
-    "evd_05274510c61fbced": "sha256:3632cbb51c5ef24dd2cb06c4c9b79d779cff94032a9ed78992494b8d7bcd4e45",
-    "evd_9717e45c637fc498": "sha256:eb635140e565d0a94b1db65050ecbc6245fb8302aa8e8a229aee6355372c4f1a"
+  "conclusion": {
+    "allowed_actors": [
+      "*"
+    ],
+    "artifact_refs": [],
+    "created_at": "2026-08-30T19:17:29.085846Z",
+    "digest": "sha256:6c4d18042e77f4f9d0cf7ca2a4e00d431a563a61f779e3bb330c5071daaaaca6",
+    "evidence_refs": [
+      "evd_05274510c61fbced",
+      "evd_82e740295e98431d",
+      "evd_89ff0ad8c5ecf4dc",
+      "evd_9717e45c637fc498",
+      "evd_97dcd1f765886963",
+      "evd_c0fb8183856c0ff6"
+    ],
+    "expires_at": null,
+    "id": "knw_c21d6a6831102150",
+    "kind": "conclusion",
+    "proposer": "agent:v8-constructor",
+    "qualifiers": {},
+    "scope": "task_11893dcabbe34b0aa991516dfe7edcba",
+    "statement": "The cited record contains conflicting Historic Distribution Schedules: one reports the May 22, 2022 distribution as $5,200, Michael T. Hartwell’s share as $1,924, and cumulative distributions as $20,300, while the other reports $4,200, $924, and $19,300, respectively. The other cited materials are excerpts from two K-1s, bylaws, and an incomplete Form 1120-S page; they do not permit a complete reconciliation among books, tax returns, shareholder reporting, corporate resolutions, and bank records."
   },
-  "policy_digest": "sha256:cde050fdc0b2869fecf8ee9d24dee964fc3bbc18e6b489da2e08e7c3df266501",
-  "review_ref": "ppe_3c05749697565e0d",
-  "reviewer": "human:staged-evaluation-reviewer",
+  "created_at": "2026-08-30T19:17:29.180478Z",
+  "event_id": "ppe_2670e65024757dbf",
   "schema_version": "proofpress/knowledge-event/v2",
-  "subject_ref": "knw_092155c9e4d7e4ea",
-  "type": "conclusion_admitted"
+  "subject_ref": "knw_c21d6a6831102150",
+  "type": "conclusion_proposed"
 }
