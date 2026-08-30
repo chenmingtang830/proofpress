@@ -1,25 +1,25 @@
 {
-  "created_at": "2026-08-30T19:17:11.336387Z",
-  "event_id": "ppe_01c08f120c7b779b",
+  "created_at": "2026-08-30T19:17:11.535153Z",
+  "event_id": "ppe_246ef59898615ce6",
   "evidence": {
-    "digest": "sha256:64c9d45a2641628f8783c18a1758aa28793c35af48ac03c20bb8597ef81ff6bd",
-    "id": "evd_3e8ae913cee712a4",
+    "digest": "sha256:a2911de8a16faf97d59c14cbfb650db6cfe2f725f125619bbe8058334ff84d9c",
+    "id": "evd_f12d40d3d515fd8b",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:879e0df54e0af077c63184a3d4faea1345a8dfa0f8eaecf98a6169f3bb314940",
+    "quote_digest": "sha256:119a29655aabe3b4524a322aa58b6ab8c20cbfb63e283437f96acca8bebe77d1",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:879e0df54e0af077c63184a3d4faea1345a8dfa0f8eaecf98a6169f3bb314940",
-        "section_id": "sec_f264599c855150c8"
+        "section_digest": "sha256:119a29655aabe3b4524a322aa58b6ab8c20cbfb63e283437f96acca8bebe77d1",
+        "section_id": "sec_f7272cbb7aded261"
       },
-      "quote": "1.2\tUSAGE\n    (a) In this Agreement, unless expressly stated otherwise:\n        (i) the singular includes the plural and vice versa;\n        (ii) reference to any Person includes such Person’s successors and assigns, if applicable, but only if such successors and assigns are permitted by this Agreement, and reference to a Person in a particular capacity excludes such Person in any other capacity;\n        (iii) reference to a gender includes the other gender;\n        (iv) reference to any agreement, document, or instrument means such agreement, document, or instrument as amended or modified and in effect from time to time in accordance with its terms;\n        (v) reference to any Legal Requirement means that Legal Requirement as from time to time in effect, including any amendment, modification, codification, replacement, or reenactment of such Legal Requirement;\n        (vi) reference to any section or other provision of any Legal Requirement means that provision of such Legal Requirement as from time to time in effect, including any amendment, modification, codification, replacement, or reenactment of such section or other provision;\n        (vii) “hereunder,” “hereof,” “hereto,” and words of similar import refer to this Agreement as a whole and not to any particular Article, Section, or other provision of this Agreement;\n        (viii) “including” (and with correlative meaning “include”) means including without limiting the generality of any description preceding such term;\n        (ix) “or” is used in the inclusive sense of “and/or”;\n        (x) “any” means “any and all”;\n        (xi) with respect to the determination of any period of time, “from” means “from and including” and “to” means “to but excluding”;\n        (xii) a reference to a document, instrument, or agreement also refers to all addenda, exhibits, or schedules thereto;\n        (xiii) a reference to a “copy” or “copies” of any document, instrument, or agreement means a copy or copies that are complete and correct; and\n        (xiv) a reference to a list, or any like compilation (whether in the Disclosure Letter or elsewhere), means that the item referred to is complete and correct.\n    (b) Unless otherwise specified in this Agreement, all accounting terms used in this Agreement will be interpreted, and all accounting determinations under this Agreement will be made, in accordance with GAAP.\n    (c) This Agreement was negotiated by the parties with the benefit of legal representation, and any rule of construction or interpretation otherwise requiring this Agreement to be construed or interpreted\nagainst any party as having been drafted by it will not apply to any construction or interpretation of this Agreement.\n    (d) The headings contained in this Agreement are for convenience of reference only, shall not be deemed to be part of this Agreement, and shall not be referred to in connection with the construction or interpretation of this Agreement.\n\n\n\n\n    2. Sale and Transfer of Shares; Closing\n\n\n\n\n\n\n\n",
-      "quote_digest": "sha256:879e0df54e0af077c63184a3d4faea1345a8dfa0f8eaecf98a6169f3bb314940",
+      "quote": "        3.3 CAPITALIZATION OF COMPANY AND SUBSIDIARIES\n    (a) The authorized Equity Securities of the Company consist of ONE MILLION (1,000,000) \tshares of common stock, par value $0.001  per share, of which 1,000,000  shares, constituting the Shares, are issued and outstanding. Sellers are the owners (of record and beneficially) of all of the Shares, free and clear of all Encumbrances, including any restriction on the right of any Seller to transfer the Shares to Buyer pursuant to this Agreement. The assignments, endorsements, stock powers, or other instruments of transfer to be delivered by each Seller to Buyer at the Closing will be sufficient to transfer such Seller’s entire interest in the Shares (of record and beneficially) owned by such Seller. Upon transfer to Buyer of the certificates representing the Shares, Buyer will receive good title to the Shares, free and clear of all Encumbrances. Part 3.3(a) lists Sellers and the number of Shares held by each Seller.\n    (b) Part 3.3(b) lists for each Subsidiary its authorized Equity Securities, the number and type of Equity Securities issued and outstanding, and the identity of each owner (of record and beneficially) of such Equity Securities and number of shares held by each holder. All outstanding Equity Securities of each Subsidiary are owned of record and beneficially by one or more of the Acquired Companies, free and clear of all Encumbrances. All the outstanding Equity Securities of each Acquired Company have been duly authorized and validly issued, and are fully paid and nonassessable.\nExcept as set forth in Part 3.3(b), there are no shareholder or other Contracts relating to any Equity Security of any Acquired Company, including the sale, voting, or transfer thereof. No outstanding Equity Security or other security of any Acquired Company was issued in violation of the Securities Act or any other Legal Requirement. No Acquired Company has any outstanding subscription, option, warrant, call or exchange right, convertible security, or other Contract or other obligations in effect giving any Person (other than another Acquired Company) the right to acquire (whether by preemptive rights or otherwise) any Equity Security of any Acquired Company.\n    (c) No Acquired Company owns, or is a party to or bound by any Contract to acquire, any Equity Security or other security of any Person or any direct or indirect equity or ownership interest in any other business. No Acquired Company is obligated to provide funds to or make any investment (whether in the form of a loan, capital contribution, or otherwise) in any other Person.\n",
+      "quote_digest": "sha256:119a29655aabe3b4524a322aa58b6ab8c20cbfb63e283437f96acca8bebe77d1",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
-        "query": "Retrieve annual AAA, OAA, previously taxed income, and current/accumulated E&P schedules, including E&P carried from the 2018 C-corporation year and any post-termination C period.",
+        "query": "Retrieve the complete stock ledger, capitalization tables, certificates, transfer instruments, shareholder agreements, amendments, and ownership percentages immediately before every distribution.",
         "version": "1"
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
@@ -29,13 +29,13 @@
         "uri": "private://apex/7beb28a6e0069669-d885dee3"
       }
     },
-    "retrieval_receipt_digest": "sha256:2bccafd778ab14509d98db1434da01a86cead87ded3ae977c3a21111e88cb652",
+    "retrieval_receipt_digest": "sha256:2e959bf1f20f338a6c47dc39a5b9a23f680282a0e79c9c186f4e37c4d9540845",
     "source_content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
     "source_digest": "sha256:9b5e55c106d3b2c9d270455bb5af81e282a4e92f3ba0722f868b952faf8ff0b5",
     "source_ref": "src_1cb20c6823882030"
   },
   "schema_version": "proofpress/knowledge-event/v2",
   "source_ref": "src_1cb20c6823882030",
-  "subject_ref": "evd_3e8ae913cee712a4",
+  "subject_ref": "evd_f12d40d3d515fd8b",
   "type": "evidence_bound"
 }
