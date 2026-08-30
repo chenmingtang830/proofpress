@@ -33,6 +33,7 @@ from run_gap_retrieval_private import (
 from agentic_disclosure_private import (
     TOOL_DECISION_SCHEMA,
     run_agentic_disclosure,
+    run_open_loop_agentic_disclosure,
 )
 
 EXECUTOR_ROUTES = {
@@ -54,9 +55,12 @@ PROGRESSIVE_CONDITIONS = ("pr36-v7-prefetched-context", "v11-preserved-claim-gra
                           "v11-preserved-graph-plus-hierarchical-hybrid",
                           "v11-full-claim-graph-control")
 AGENTIC_CONDITIONS = ("v12-full-claim-graph-control", "v12-static-disclosure-baseline",
-                      "v12.1-agentic-disclosure-finalize")
-AGENTIC_CONDITION = "v12.1-agentic-disclosure-finalize"
-AGENTIC_READY_STOPS = {"executor_ready", "executor_ready_forced_finalization"}
+                      "v14-agentic-open-loop")
+LEGACY_AGENTIC_CONDITION = "v12.1-agentic-disclosure-finalize"
+AGENTIC_CONDITION = "v14-agentic-open-loop"
+AGENTIC_READY_STOPS = {"executor_ready", "executor_ready_cycle_guard_finalization",
+                       "executor_ready_context_guard_finalization",
+                       "executor_ready_wall_guard_finalization"}
 MAX_DISCLOSURES_PER_TASK = 3
 MAX_DISCOVERED_PER_CALL = 5
 MAX_CONTEXT_TOKEN_UPPER_BOUND = 24000
@@ -1004,7 +1008,7 @@ def main() -> None:
                         context_tokens["v12-full-claim-graph-control"] = context_tokens["v11-full-claim-graph-control"]
                         contexts["v12-static-disclosure-baseline"] = contexts["v11-preserved-claim-graph-only"]
                         context_tokens["v12-static-disclosure-baseline"] = context_tokens["v11-preserved-claim-graph-only"]
-                        contexts[AGENTIC_CONDITION] = "agentic-host-tools/v1.1-finalize"
+                        contexts[AGENTIC_CONDITION] = "agentic-host-tools/v2-open-loop"
                         context_tokens[AGENTIC_CONDITION] = 0
                     disclosure_telemetry.append({
                         "task_id": task_id, "evaluation_unit_id": unit_id,
@@ -1118,7 +1122,7 @@ def main() -> None:
                                 raise RuntimeError("agentic tool decision failed closed")
                             return selected["value"]
 
-                        agentic = run_agentic_disclosure(
+                        agentic = run_open_loop_agentic_disclosure(
                             query=agent_query, scope=task_id, index=SectionIndex(catalog), decide=decide)
                         cell["agentic_trace"] = agentic["trace"]
                         cell["agentic_tool_call_count"] = agentic["tool_call_count"]

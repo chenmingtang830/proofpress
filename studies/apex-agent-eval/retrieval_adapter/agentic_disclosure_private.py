@@ -2,6 +2,8 @@
 """Bounded executor-driven disclosure tools for the private legal evaluation."""
 from __future__ import annotations
 
+import json
+import time
 from typing import Any, Callable
 
 import proofpress_knowledge as knowledge
@@ -10,6 +12,10 @@ from run_gap_retrieval_private import bm25_receipts
 
 MAX_AGENT_TOOL_CALLS = 3
 MAX_AGENT_RESULTS_PER_CALL = 5
+OPEN_LOOP_INITIAL_CLAIMS = 5
+OPEN_LOOP_INITIAL_DEPTH = 1
+OPEN_LOOP_STATE_TOKEN_UPPER_BOUND = 24_000
+OPEN_LOOP_WALL_SECONDS = 600
 
 TOOL_DECISION_SCHEMA = {
     "type": "object", "additionalProperties": False,
@@ -55,6 +61,13 @@ def initial_context(query: str, scope: str) -> dict[str, Any]:
     """Return a small governed seed without invoking discovery."""
     return knowledge.disclose_v1(query, "agent:workflow-executor", scope,
                                  max_claims=1, max_depth=0, max_discovered=0)
+
+
+def open_loop_initial_context(query: str, scope: str) -> dict[str, Any]:
+    """Return a useful governed working set before executor-driven expansion."""
+    return knowledge.disclose_v1(query, "agent:workflow-executor", scope,
+                                 max_claims=OPEN_LOOP_INITIAL_CLAIMS,
+                                 max_depth=OPEN_LOOP_INITIAL_DEPTH, max_discovered=0)
 
 
 def traverse_graph(query: str, scope: str, seed_claim_ids: list[str],
@@ -143,6 +156,88 @@ def run_agentic_disclosure(
         trace.append({**trace_row, "status": "ok", "result_digest": digest(result)})
     return {"state": state, "trace": trace, "tool_call_count": sum(
                 row.get("status") == "ok" and row.get("action") != "answer" for row in trace),
+            "stop_reason": stop_reason,
+            "used_traverse_graph": any(row.get("action") == "traverse_graph" and row.get("status") == "ok" for row in trace),
+            "used_search_gap": any(row.get("action") == "search_gap" and row.get("status") == "ok" for row in trace)}
+
+
+def state_token_upper_bound(value: dict[str, Any]) -> int:
+    return max(1, len(json.dumps(value, ensure_ascii=False, sort_keys=True)) // 4)
+
+
+def run_open_loop_agentic_disclosure(
+    *, query: str, scope: str, index: SectionIndex,
+    decide: Callable[[dict[str, Any]], dict[str, Any]],
+) -> dict[str, Any]:
+    """Run executor-directed tools without a fixed tool-call-count limit.
+
+    Termination is answer-driven. The host still fails closed on a repeated
+    identical decision, the shared 24k context boundary, or elapsed wall time.
+    None of those guards is a tool-call-count budget.
+    """
+    seed = compact_tool_result(open_loop_initial_context(query, scope))
+    state: dict[str, Any] = {"ask": query, "initial_context": seed, "tool_results": [],
+                             "limits": {"max_tool_calls": None,
+                                        "max_results_per_call": MAX_AGENT_RESULTS_PER_CALL,
+                                        "state_token_upper_bound": OPEN_LOOP_STATE_TOKEN_UPPER_BOUND,
+                                        "wall_seconds": OPEN_LOOP_WALL_SECONDS}}
+    trace: list[dict[str, Any]] = []
+    seen_decisions: set[str] = set()
+    started = time.monotonic()
+    stop_reason = "executor_ready"
+    decision_index = 0
+    while True:
+        if time.monotonic() - started >= OPEN_LOOP_WALL_SECONDS:
+            stop_reason = "executor_ready_wall_guard_finalization"
+            break
+        if state_token_upper_bound(state) >= OPEN_LOOP_STATE_TOKEN_UPPER_BOUND:
+            stop_reason = "executor_ready_context_guard_finalization"
+            break
+        decision = decide(state)
+        action = decision.get("action")
+        signature = digest({key: decision.get(key) for key in
+                            ("action", "query", "seed_claim_ids", "relation_types")})
+        trace_row = {"decision_index": decision_index, "action": action,
+                     "query_digest": digest(str(decision.get("query", ""))),
+                     "seed_claim_count": len(decision.get("seed_claim_ids", [])),
+                     "relation_type_count": len(decision.get("relation_types", [])),
+                     "reason_digest": digest(str(decision.get("reason", "")))}
+        decision_index += 1
+        if action == "answer":
+            trace.append({**trace_row, "status": "accepted"})
+            stop_reason = "executor_ready"
+            break
+        if signature in seen_decisions:
+            trace.append({**trace_row, "status": "blocked", "reason": "repeated_identical_decision",
+                          "next_action": "finalize_without_more_tools"})
+            stop_reason = "executor_ready_cycle_guard_finalization"
+            break
+        seen_decisions.add(signature)
+        try:
+            if action == "traverse_graph":
+                visible_ids = {str(row.get("id")) for row in state["initial_context"].get("governed_context", [])}
+                for prior in state["tool_results"]:
+                    visible_ids.update(str(row.get("id")) for row in
+                                       prior.get("result", {}).get("governed_context", []))
+                requested_seeds = list(decision.get("seed_claim_ids", []))
+                if not requested_seeds or any(seed_id not in visible_ids for seed_id in requested_seeds):
+                    raise ValueError("traverse_graph seed was not disclosed to the executor")
+                result = traverse_graph(str(decision.get("query", "")), scope,
+                                        requested_seeds, list(decision.get("relation_types", [])))
+            elif action == "search_gap":
+                result = search_gap(index, str(decision.get("query", "")))
+            else:
+                raise ValueError("unknown agentic disclosure action")
+        except (TypeError, ValueError) as exc:
+            trace.append({**trace_row, "status": "blocked", "reason": type(exc).__name__})
+            state["tool_results"].append({"action": action, "status": "blocked",
+                                          "reason": type(exc).__name__})
+            continue
+        state["tool_results"].append({"action": action, "status": "ok",
+                                      "result": compact_tool_result(result)})
+        trace.append({**trace_row, "status": "ok", "result_digest": digest(result)})
+    return {"state": state, "trace": trace,
+            "tool_call_count": sum(row.get("status") == "ok" and row.get("action") != "answer" for row in trace),
             "stop_reason": stop_reason,
             "used_traverse_graph": any(row.get("action") == "traverse_graph" and row.get("status") == "ok" for row in trace),
             "used_search_gap": any(row.get("action") == "search_gap" and row.get("status") == "ok" for row in trace)}

@@ -53,11 +53,13 @@ class RetrievalPanelContractTests(unittest.TestCase):
     def test_agentic_disclosure_matrix_and_tool_schema_are_frozen(self):
         self.assertEqual(workflow_runner.AGENTIC_CONDITIONS, (
             "v12-full-claim-graph-control", "v12-static-disclosure-baseline",
-            "v12.1-agentic-disclosure-finalize"))
+            "v14-agentic-open-loop"))
         actions = agentic_disclosure.TOOL_DECISION_SCHEMA["properties"]["action"]["enum"]
         self.assertEqual(actions, ["traverse_graph", "search_gap", "answer"])
         self.assertEqual(agentic_disclosure.MAX_AGENT_TOOL_CALLS, 3)
         self.assertEqual(agentic_disclosure.MAX_AGENT_RESULTS_PER_CALL, 5)
+        self.assertEqual(agentic_disclosure.OPEN_LOOP_INITIAL_CLAIMS, 5)
+        self.assertEqual(agentic_disclosure.OPEN_LOOP_INITIAL_DEPTH, 1)
 
     def test_agentic_disclosure_host_executes_bounded_model_choices(self):
         original_initial = agentic_disclosure.initial_context
@@ -118,6 +120,46 @@ class RetrievalPanelContractTests(unittest.TestCase):
         self.assertEqual(result["tool_call_count"], 3)
         self.assertEqual(result["stop_reason"], "executor_ready_forced_finalization")
         self.assertEqual(result["trace"][-1]["next_action"], "finalize_without_more_tools")
+
+    def test_open_loop_agentic_has_no_call_count_limit_and_breaks_exact_cycles(self):
+        original_initial = agentic_disclosure.open_loop_initial_context
+        original_search = agentic_disclosure.search_gap
+        agentic_disclosure.open_loop_initial_context = lambda query, scope: {
+            "governed_context": [{"id": "claim-1"}], "coverage": "partial"}
+        agentic_disclosure.search_gap = lambda index, query: {
+            "candidate_evidence": [], "admission_authority": False}
+        decisions = iter([
+            {"action": "search_gap", "query": f"missing-{index}",
+             "seed_claim_ids": [], "relation_types": [], "reason": "continue"}
+            for index in range(5)
+        ] + [{"action": "answer", "query": "", "seed_claim_ids": [],
+              "relation_types": [], "reason": "enough"}])
+        try:
+            result = agentic_disclosure.run_open_loop_agentic_disclosure(
+                query="review", scope="task-1", index=object(), decide=lambda state: next(decisions))
+        finally:
+            agentic_disclosure.open_loop_initial_context = original_initial
+            agentic_disclosure.search_gap = original_search
+        self.assertEqual(result["tool_call_count"], 5)
+        self.assertEqual(result["stop_reason"], "executor_ready")
+        self.assertIsNone(result["state"]["limits"]["max_tool_calls"])
+
+        repeated = {"action": "search_gap", "query": "same",
+                    "seed_claim_ids": [], "relation_types": [], "reason": "again"}
+        original_initial = agentic_disclosure.open_loop_initial_context
+        original_search = agentic_disclosure.search_gap
+        agentic_disclosure.open_loop_initial_context = lambda query, scope: {
+            "governed_context": [{"id": "claim-1"}], "coverage": "partial"}
+        agentic_disclosure.search_gap = lambda index, query: {
+            "candidate_evidence": [], "admission_authority": False}
+        try:
+            cycled = agentic_disclosure.run_open_loop_agentic_disclosure(
+                query="review", scope="task-1", index=object(), decide=lambda state: repeated)
+        finally:
+            agentic_disclosure.open_loop_initial_context = original_initial
+            agentic_disclosure.search_gap = original_search
+        self.assertEqual(cycled["tool_call_count"], 1)
+        self.assertEqual(cycled["stop_reason"], "executor_ready_cycle_guard_finalization")
 
     def test_v7_preserver_routes_are_frozen_and_never_generate_new_claims(self):
         self.assertEqual(v7_preserver.ROUTES["sol"]["model"], "openai/gpt-5.6-sol")
