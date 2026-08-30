@@ -1,15 +1,41 @@
 {
-  "created_at": "2026-08-30T19:15:56.852595Z",
-  "event_id": "ppe_c97b4fde3879b86b",
-  "record": {
-    "content_digest": "sha256:75c45d7772bb4fe998be3d734990155c4ddaefca7fc8f7ad0e8b99f68c792c1a",
-    "id": "src_42c0e7833b974b0d",
-    "kind": "retrieval_source",
-    "media_type": "text/plain",
-    "record_hash": "sha256:e1c1eb57d190a2c2fc637ec4e0b49d7667fa8da4d08852ab6169f68bc240e10c",
-    "uri": "private://apex/75c45d7772bb4fe9-cd9c8ff4"
+  "created_at": "2026-08-30T19:15:56.907586Z",
+  "event_id": "ppe_0c9e23e8bfffa1e8",
+  "evidence": {
+    "digest": "sha256:01650918f215525da4562b09fa6080d6d9486ee1ae385a7aabcf3b9a9569ad75",
+    "id": "evd_12a5332cfbc26950",
+    "kind": "retrieval_evidence",
+    "quote_digest": "sha256:7ef04113e809a1e4b81f7325cad4e30aba1e895ba31733aa5efae513c5eab716",
+    "retrieval_receipt": {
+      "locator": {
+        "kind": "section_span",
+        "page_end": 1,
+        "page_start": 1,
+        "section_digest": "sha256:7ef04113e809a1e4b81f7325cad4e30aba1e895ba31733aa5efae513c5eab716",
+        "section_id": "sec_18da7959a1c3f073"
+      },
+      "quote": "NAME\tADDRESS\tCITY\tSTATE \tZIP\tTP ID\tALLOCATION PERCENTAGE\tSHARE QTY\nLaura Kensington\t1912 Redwood Crest Ln, \tBend\tOR\t97701\t111-11-1111\t\t\nMichael T. Hartwell\t3285 Sycamore Ridge Rd\tFranklin\tTN\t37064\t222-22-2222\t\t\nDanielle R. Soto\t1448 Harbor Point Dr.\tRichmomd\tVA\t23222\t333-33-3333\t\t\nGregory A. Beaumont\t502 Lake Orchard Way\tMadison\tMA\t53711\t444-44-4444\t\t\nTanya L. Merriweather\t722 Brookview Park Cir\tMarietta\tGA\t30060\t555-55-55554\t\t\n\n2023\n",
+      "quote_digest": "sha256:7ef04113e809a1e4b81f7325cad4e30aba1e895ba31733aa5efae513c5eab716",
+      "retrieval": {
+        "adapter": "bm25-page",
+        "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
+        "query": "Laura Kensington cap table ownership percentage Laura Kensington equity interest Summit Filing Solutions capitalization table",
+        "version": "1"
+      },
+      "schema_version": "proofpress/retrieval-evidence/v1",
+      "source": {
+        "content_digest": "sha256:75c45d7772bb4fe998be3d734990155c4ddaefca7fc8f7ad0e8b99f68c792c1a",
+        "media_type": "text/plain",
+        "uri": "private://apex/75c45d7772bb4fe9-cd9c8ff4"
+      }
+    },
+    "retrieval_receipt_digest": "sha256:fc128a166873d8f5bbe924433f7adb4cec6d0c27379c741e12ba24e1ccc425a6",
+    "source_content_digest": "sha256:75c45d7772bb4fe998be3d734990155c4ddaefca7fc8f7ad0e8b99f68c792c1a",
+    "source_digest": "sha256:e1c1eb57d190a2c2fc637ec4e0b49d7667fa8da4d08852ab6169f68bc240e10c",
+    "source_ref": "src_42c0e7833b974b0d"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "subject_ref": "src_42c0e7833b974b0d",
-  "type": "source_recorded"
+  "source_ref": "src_42c0e7833b974b0d",
+  "subject_ref": "evd_12a5332cfbc26950",
+  "type": "evidence_bound"
 }
