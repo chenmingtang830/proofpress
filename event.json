@@ -1,41 +1,41 @@
 {
-  "created_at": "2026-08-30T19:16:03.035499Z",
-  "event_id": "ppe_a4eb2ebcc2ef6d05",
+  "created_at": "2026-08-30T19:16:03.127328Z",
+  "event_id": "ppe_2e84c98c28274bd7",
   "evidence": {
-    "digest": "sha256:eb0f575975c51ccd8882dd8ba9012e7d81a572a0a10650ed677659f9541f23f2",
-    "id": "evd_122d9bb648fcc03e",
+    "digest": "sha256:7c76c171035514696ba512e1b3ec569e0a1f88a05c4ccb60255e6070a1dee744",
+    "id": "evd_2ea584f4483dfedd",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:f79f082c782b00f3d33f58dab11f4aeb7917538ea8b291f5348a54c9325fffe9",
+    "quote_digest": "sha256:cbe8dbf391040e4cef9571d3348b4b151336ccf0972b214db72729ae0eaa05ba",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:f79f082c782b00f3d33f58dab11f4aeb7917538ea8b291f5348a54c9325fffe9",
-        "section_id": "sec_9270fd6e9024286c"
+        "section_digest": "sha256:cbe8dbf391040e4cef9571d3348b4b151336ccf0972b214db72729ae0eaa05ba",
+        "section_id": "sec_e216c875b11705da"
       },
-      "quote": "SECTION 10. PAPERWORK REDUCTION ACT\nThe collection of information contained in this revenue procedure has been reviewed and approved by the Office of Management and Budget (OMB) in accordance with the Paperwork Reduction Act of 1995 (44 U.S.C. 3507(d)) under control number 1545-1548.\nThe collection of information in this revenue procedure is in Section 4.03 and Sections 5 through 7. The information will help the IRS to determine whether a taxpayer has met the requirements of Sections 4 through 7 of this revenue procedure and whether a taxpayer has reasonable cause for failing to make a timely election. The collection of information is required to make a late election pursuant to this revenue procedure. This information will be used to determine whether the eligibility requirements for obtaining relief have been met. The collection of information is required to obtain a benefit. The likely respondents are business or other for-profit institutions.\nThe estimated total annual reporting burden is 50,000 hours.\nThe estimated annual burden per respondent varies from .5 hours to 1 hour, depending on individual circumstances, with an estimated average burden of 1 hour to complete the statement. The estimated number of respondents is 50,000.\nThe estimated annual frequency of responses is on occasion.\nBooks or records relating to a collection of information must be retained as long as their contents may become material in the administration of any internal revenue law. Generally tax returns and tax return information are confidential, as required by section 6103.\n",
-      "quote_digest": "sha256:f79f082c782b00f3d33f58dab11f4aeb7917538ea8b291f5348a54c9325fffe9",
+      "quote": "﻿Form 1120-S \nDepartment of the Treasury  Internal Revenue Service  \nU.S. Income Tax Return for an S Corporation  \nDo not file this form unless the corporation has filed or  \nis attaching Form 2553 to elect to be an S corporation.  \nGo to www.irs.gov/Form1120S for instructions and the latest information. \nOMB No. 1545-0123  2024 \nFor calendar year 2024 or tax year beginning , 2024, ending , 20  \nA S election effective date  \nB Business activity code  number (see instructions)  \nC Check if Sch. M-3 attached \n",
+      "quote_digest": "sha256:cbe8dbf391040e4cef9571d3348b4b151336ccf0972b214db72729ae0eaa05ba",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
-        "query": "Retrieve board minutes, bank records, and tax records showing whether sale proceeds were distributed, loaned, redeemed, or paid to Laura.",
+        "query": "Retrieve authoritative rules for an S-termination year and allocation between S and C short years, including IRC §§1362(d), 1362(e), and 1377.",
         "version": "1"
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
       "source": {
-        "content_digest": "sha256:489de4a5c467eb0382ef4f29920dc6433adc3a3336da5057aec7f37cd0208560",
+        "content_digest": "sha256:c93c2b228433659eb56b66bfaee1dc3de9ed754d39aa736b60372b74813f3481",
         "media_type": "text/plain",
-        "uri": "private://apex/489de4a5c467eb03-1184b3a1"
+        "uri": "private://apex/c93c2b228433659e-f96ee06e"
       }
     },
-    "retrieval_receipt_digest": "sha256:203e98e7b63a12f36cfd8733bc4fae5305fc07a795455781e089f51aec4da209",
-    "source_content_digest": "sha256:489de4a5c467eb0382ef4f29920dc6433adc3a3336da5057aec7f37cd0208560",
-    "source_digest": "sha256:0e30a41e1d31405a037edcc4e56b65c5107236c02092ff6fca6351e692a30a27",
-    "source_ref": "src_449cd1a48a2b6b92"
+    "retrieval_receipt_digest": "sha256:f59ce119fac804bdf3053dbb405a9c13a4d0d3ec12da6c5230e206c1839c51ce",
+    "source_content_digest": "sha256:c93c2b228433659eb56b66bfaee1dc3de9ed754d39aa736b60372b74813f3481",
+    "source_digest": "sha256:0a36a5ff5eb33d41016d52986e5f40fb7355d329af2f4a939222e040274ce016",
+    "source_ref": "src_1769935b4d6bb417"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_449cd1a48a2b6b92",
-  "subject_ref": "evd_122d9bb648fcc03e",
+  "source_ref": "src_1769935b4d6bb417",
+  "subject_ref": "evd_2ea584f4483dfedd",
   "type": "evidence_bound"
 }
