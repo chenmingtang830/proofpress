@@ -1,41 +1,41 @@
 {
-  "created_at": "2026-08-30T19:16:18.095895Z",
-  "event_id": "ppe_01591eabf60b3d40",
+  "created_at": "2026-08-30T19:16:18.228592Z",
+  "event_id": "ppe_d2be47ac14cef1ee",
   "evidence": {
-    "digest": "sha256:a128b0e0d7c241775763ee474036aebb071b196f499771b1c717bcd00c9b8584",
-    "id": "evd_7c0188bac4a0f78e",
+    "digest": "sha256:e612f3ed4f8434e9a961fcd4b2080b524b52fcd888e3da93ddc141faaafe052f",
+    "id": "evd_1e4ae45c81b5bd47",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:15947fdf8b837329140812ed94248dca7fbd510b393e36535ca86b0dd29e320a",
+    "quote_digest": "sha256:aa8a341d3a7a16aedb1bea687ca0fa5408fa22960086ba7d44c2082495cbd136",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:15947fdf8b837329140812ed94248dca7fbd510b393e36535ca86b0dd29e320a",
-        "section_id": "sec_6caaea877be7ac93"
+        "section_digest": "sha256:aa8a341d3a7a16aedb1bea687ca0fa5408fa22960086ba7d44c2082495cbd136",
+        "section_id": "sec_557b55852d2bca4e"
       },
-      "quote": "﻿SCHEDULE K-1 (Form 1120-S)                                                                             2020\nDepartment of the Treasury • Internal Revenue Service                          OMB No. 1545-0123\n\nShareholder’s Share of Income, Deductions, Credits, etc.                       For calendar year 2020\n\n────────────────────────────────────────────────────────────────────────────────────\nPart I ─ Information About the Corporation\n────────────────────────────────────────────────────────────────────────────────────\nA  Corporation’s employer identification number                       12-3456789\nB  Corporation’s name, address, city, state, and ZIP code\n       Summit Filing Solutions, Inc.\n       8280 Willow Oaks Corporate Dr\n       Los Angeles, CA  90001\nC  IRS center where corporation filed return                               Ogden, UT\n\n────────────────────────────────────────────────────────────────────────────────────\nPart II ─ Information About the Shareholder\n────────────────────────────────────────────────────────────────────────────────────\nD  Shareholder’s identifying number                                    111-11-1111\nE  Shareholder’s name, address, city, state, and ZIP code\n       Laura Kensington\n       4428 Willow Bend Ct.\n       Olympia, WA  98502\nF  Shareholder’s percentage of stock ownership\n       Beginning of tax year   26%                 End of tax year   26%\n\n────────────────────────────────────────────────────────────────────────────────────\nPart III ─ Shareholder’s Share of Current Year Income, Deductions, Credits, etc.\n────────────────────────────────────────────────────────────────────────────────────\n1  Ordinary business income (loss)                                   $38,762\n2  Net rental real estate income (loss)                                    0\n3  Other net rental income (loss)                                          0\n4  Interest income                                                      $98\n5a Ordinary dividends                                                      0\n5b Qualified dividends                                                     0\n6  Royalties                                                               0\n7  Net short-term capital gain (loss)                                      0\n8a Net long-term capital gain (loss)                                   $312\n8b Collectibles (28%) gain (loss)                                          0\n8c Unrecaptured section 1250 gain                                          0\n9  Net section 1231 gain (loss)                                            0\n10 Other income (loss)                                                     0\n\n11 Section 179 deduction                                                   0\n12 Other deductions                                                        0\n13 Credits                                                                 0\n14 Foreign transactions                                                    0\n15 Charitable contributions                                               0\n16 Items affecting shareholder basis\n   a  Tax-exempt interest income                                           0\n   b  Other tax-exempt income                                              0\n   c  Nondeductible expenses                                               0\n   d  Distributions – cash and marketable securities                       0\n   e  Repayment of loans from shareholders                                0\n17 Other information                                                       0\n\n────────────────────────────────────────────────────────────────────────────────────\nStock and Debt Basis Limitations (for shareholder records)\n────────────────────────────────────────────────────────────────────────────────────\n   + Increase for income items (Lines 1 + 4 + 8a)                    $39,172\n   – Distributions and other reductions                                  0\n   = Net increase to stock basis this year                           $39,172\n\n   Type of income: Active Business Income\n   Foreign country or U.S. possession: N/A\n\n────────────────────────────────────────────────────────────────────────────────────\nPrepared by: Corporate Officer, Summit Filing Solutions, Inc.\nDate prepared: March 9, 2021\n\nThis is an exact substitute Schedule K-1 that matches the official K-1 filed with IRS Form 1120-S on March 15, 2021.\nRetain this copy with your permanent tax records.\n",
-      "quote_digest": "sha256:15947fdf8b837329140812ed94248dca7fbd510b393e36535ca86b0dd29e320a",
+      "quote": "﻿Summit Filing Solutions, Inc.\nHistorical Shareholder Schedule\nJanuary 10, 2018 – November 1, 2025\n\nThis Historical Shareholder Schedule has been prepared for Summit Filing Solutions, Inc., a Delaware corporation (the “Corporation”), to summarize material changes in the ownership of the Corporation’s issued and outstanding shares of Common Stock from the date of incorporation through November 1, 2025. This schedule is intended for internal corporate and legal recordkeeping purposes.\nI. Formation and Initial Capitalization – January 10, 2018\nOn January 10, 2018 (the “Incorporation Date”), the Corporation was duly incorporated under the laws of the State of Delaware. On or about the Incorporation Date, the Corporation issued an aggregate of 500,000 shares of its Common Stock, par value $1.00 per share, to the initial shareholders in exchange for an aggregate cash contribution of $500,000. The initial issuances were as follows:\n    • Laura Kensington – 130,000 shares; Address: 912 Redwood Crest Ln, Bend, OR 97701\n    • Michael T. Hartwell – 110,000 shares; Address: 3285 Sycamore Ridge Rd, Franklin, TN 37064\n    • Danielle R. Soto – 100,000 shares; Address: 1448 Harbor Point Dr, Richmond, VA 23233\n    • Gregory A. Beaumont – 100,000 shares; Address: 502 Lake Orchard Way, Madison, WI 53711\n    • Tanya L. Merriweather – 60,000 shares; Address: 722 Brookview Park Cir, Marietta, GA 30060\nII. S-Corporation Election – Effective January 1, 2019\nEffective January 1, 2019, the Corporation elected to be taxed as an S-Corporation for U.S. federal income tax purposes by filing Form 2553 with the Internal Revenue Service. As of the effective date of the election, the Corporation had a single class of Common Stock outstanding, held by the shareholders listed in Section I above.\nIII. 2021 Change of Address – Laura Kensington\nEffective March 15, 2021, shareholder Laura Kensington notified the Corporation of a change to her address of record. The Corporation’s stock ledger was updated to reflect the following address for Ms. Kensington:\nLaura Kensington\n4428 Willow Bend Ct.\nOlympia, Washington 98502\nIV. 2023 Internal Transfer of Shares – Michael T. Hartwell to Danielle R. Soto\nOn July 12, 2023, shareholder Michael T. Hartwell sold 10,000 shares of his Common Stock of the Corporation to shareholder Danielle R. Soto in a private, shareholder-to-shareholder transaction. Immediately prior to this transaction, Mr. Hartwell held 110,000 shares and Ms. Soto held 100,000 shares. Immediately following the transaction, Mr. Hartwell held 100,000 shares and Ms. Soto held 110,000 shares. No new shares were issued or cancelled, and the total number of issued and outstanding shares of Common Stock remained 500,000 shares.\nVI. Present Ownership Summary – As of November 1, 2025\nAs of November 1, 2025, based on the transactions described in this Historical Shareholder Schedule and the Corporation’s stock ledger, the issued and outstanding shares of Common Stock of the Corporation remain 500,000 shares, held of record by the following shareholders:\n    • Laura Kensington – 130,000 shares; Address: 4428 Willow Bend Ct., Olympia, WA 98502.\n    • Michael T. Hartwell – 100,000 shares; Address: 3285 Sycamore Ridge Rd, Franklin, TN 37064.\n    • Danielle R. Soto – 110,000 shares; Address: 1448 Harbor Point Dr, Richmond, VA 23233.\n    • Tanya L. Merriweather – 60,000 shares; Address: 722 Brookview Park Cir, Marietta, GA 30060.\n    • Gregory A. Beaumont – 100,000 shares; Address: 502 Lake Orchard Way, Madison, WI 53711.\nThis Historical Shareholder Schedule should be read together with the Corporation’s formal stock ledger, stock certificates, and any related transfer documentation maintained in the Corporation’s minute book.\n",
+      "quote_digest": "sha256:aa8a341d3a7a16aedb1bea687ca0fa5408fa22960086ba7d44c2082495cbd136",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
-        "query": "\"Form 2553\" shareholder consent Summit \"Form 2553\" \"Consent of Shareholders\" \"1.1362-6(b)\" shareholder consent \"Summit\" shareholder signatures",
+        "query": "\"Summit\" shareholder list 2018 2019 \"Summit\" stock ownership \"Form 2553\" omitted shareholder \"Form 2553\" trust shareholder consent",
         "version": "1"
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
       "source": {
-        "content_digest": "sha256:82fd37626961b0e5e1bda3ab5a5f58699b8ec07d80f939d51fc8152f20c47a12",
+        "content_digest": "sha256:3f486cf8e6bbed10d60c9bfc4f2e6c07f0ca9edcf87a5e4276c4a579a65b9adb",
         "media_type": "text/plain",
-        "uri": "private://apex/82fd37626961b0e5-f0eedc25"
+        "uri": "private://apex/3f486cf8e6bbed10-f0c25a2a"
       }
     },
-    "retrieval_receipt_digest": "sha256:9672fcc796fb5dc41d2cd2acadf8828334f384984364e872967e2e028b4a026d",
-    "source_content_digest": "sha256:82fd37626961b0e5e1bda3ab5a5f58699b8ec07d80f939d51fc8152f20c47a12",
-    "source_digest": "sha256:11b077560333bf28314c41fad72aa90bf4a2070afbb95d9b6c6376c8719aea6c",
-    "source_ref": "src_32da2db4c5453e68"
+    "retrieval_receipt_digest": "sha256:70624eb68dad8703ddc0dba37b5f4447cfac47c54decac56bafba2f22acf9822",
+    "source_content_digest": "sha256:3f486cf8e6bbed10d60c9bfc4f2e6c07f0ca9edcf87a5e4276c4a579a65b9adb",
+    "source_digest": "sha256:7abda599126a78a2bb0aad45f395b099506536db14866e78c4bcbf1cbddde379",
+    "source_ref": "src_537f9d53ad5949d4"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_32da2db4c5453e68",
-  "subject_ref": "evd_7c0188bac4a0f78e",
+  "source_ref": "src_537f9d53ad5949d4",
+  "subject_ref": "evd_1e4ae45c81b5bd47",
   "type": "evidence_bound"
 }
