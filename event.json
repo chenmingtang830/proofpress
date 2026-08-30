@@ -1,41 +1,41 @@
 {
-  "created_at": "2026-08-30T19:17:03.990832Z",
-  "event_id": "ppe_4238816577cb5bc4",
+  "created_at": "2026-08-30T19:17:04.178203Z",
+  "event_id": "ppe_cc69f483621ead9d",
   "evidence": {
-    "digest": "sha256:2c9356d654db041bf71bec8600a7af784464f4d1ddd82bec02cca46bfbbd2dc8",
-    "id": "evd_58bf661bee3ab335",
+    "digest": "sha256:08f548321a204f2dfa131d41904189632e71306c828e9d3c6b9bf89f028ba0e9",
+    "id": "evd_98627b7234da5ab8",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:7b8fab8865fbf4873d7954ac68dd0824ac6cb014b8b105f7e6d774572daf0a6b",
+    "quote_digest": "sha256:4e24949cb4ae6782c32cba8ea36703f50e95535f04cf5d3863df7945e2dab169",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:7b8fab8865fbf4873d7954ac68dd0824ac6cb014b8b105f7e6d774572daf0a6b",
-        "section_id": "sec_365e75ec4b9ec236"
+        "section_digest": "sha256:4e24949cb4ae6782c32cba8ea36703f50e95535f04cf5d3863df7945e2dab169",
+        "section_id": "sec_1acac9ca42f8e6b4"
       },
-      "quote": "SECTION 7. RELIEF FOR LATE QSUB ELECTIONS.\n.01 Form 8869. An S corporation seeking relief for a late QSub election for a subsidiary must file a completed Form 8869.\n.02 Supplemental materials. The completed Election Form must include a statement signed by an officer of the S corporation, which complies with the requirement in Section 4.03(3) of this revenue procedure, that the subsidiary corporation satisfies the QSub requirements of § 1361(b)(3)(B), and that all assets, liabilities, and items of income, deduction, and credit of the QSub have been treated as assets, liabilities, and items of income, deduction, and credit of the S corporation on all affected returns consistent with the QSub election for the year the election was intended to be effective and for all subsequent years.\n",
-      "quote_digest": "sha256:7b8fab8865fbf4873d7954ac68dd0824ac6cb014b8b105f7e6d774572daf0a6b",
+      "quote": "/K [1363 0 R 1364 0 R 1365 0 R 1366 0 R]>>\nendobj\n1368 0 obj\n<</Type /StructElem\n/S /NonStruct\n",
+      "quote_digest": "sha256:4e24949cb4ae6782c32cba8ea36703f50e95535f04cf5d3863df7945e2dab169",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
-        "query": "S corporation accumulated earnings and profits accumulated adjustments account AAA distribution ordering AE&P",
+        "query": "26 U.S.C. 1368 26 U.S.C. 1367 26 U.S.C. 1366 IRC section 1368 distribution",
         "version": "1"
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
       "source": {
-        "content_digest": "sha256:489de4a5c467eb0382ef4f29920dc6433adc3a3336da5057aec7f37cd0208560",
-        "media_type": "text/plain",
-        "uri": "private://apex/489de4a5c467eb03-1184b3a1"
+        "content_digest": "sha256:2e39db8b0fa0d4fc03d636cb54af727f48e65e0148a8fb12171d091714a28f3e",
+        "media_type": "application/pdf",
+        "uri": "private://apex/2e39db8b0fa0d4fc-9b30e170"
       }
     },
-    "retrieval_receipt_digest": "sha256:6105ee428ceb79afdeda71d36cf43fa9bb6dce493da7612dcb5228ee3cbf5adc",
-    "source_content_digest": "sha256:489de4a5c467eb0382ef4f29920dc6433adc3a3336da5057aec7f37cd0208560",
-    "source_digest": "sha256:0e30a41e1d31405a037edcc4e56b65c5107236c02092ff6fca6351e692a30a27",
-    "source_ref": "src_449cd1a48a2b6b92"
+    "retrieval_receipt_digest": "sha256:a5616c24a3203f23ee58a095cb855415616654925a22831743b04934633b40ee",
+    "source_content_digest": "sha256:2e39db8b0fa0d4fc03d636cb54af727f48e65e0148a8fb12171d091714a28f3e",
+    "source_digest": "sha256:491a3c9237407033c1e4f4965671c18d280a02cadacbece6116ea0dd7b0ebf55",
+    "source_ref": "src_69773369ecf43fc2"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_449cd1a48a2b6b92",
-  "subject_ref": "evd_58bf661bee3ab335",
+  "source_ref": "src_69773369ecf43fc2",
+  "subject_ref": "evd_98627b7234da5ab8",
   "type": "evidence_bound"
 }
