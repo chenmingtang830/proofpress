@@ -1,26 +1,18 @@
 {
-  "conclusion": {
-    "allowed_actors": [
-      "*"
-    ],
-    "artifact_refs": [],
-    "created_at": "2026-08-30T19:17:28.310646Z",
-    "digest": "sha256:813c43000dfb6056c28b0eccdde099775ba6982fcdc6b228c38fc2bac1b13bc4",
-    "evidence_refs": [
-      "evd_05274510c61fbced",
-      "evd_9717e45c637fc498"
-    ],
-    "expires_at": null,
-    "id": "knw_092155c9e4d7e4ea",
-    "kind": "conclusion",
-    "proposer": "agent:v8-constructor",
-    "qualifiers": {},
-    "scope": "task_11893dcabbe34b0aa991516dfe7edcba",
-    "statement": "The historic distribution schedules do not identify any debt, covenant, solvency, or regulatory restriction affecting Summit’s distributions."
+  "checks": {
+    "evidence_integrity": true,
+    "evidence_present": true,
+    "not_expired": true,
+    "not_superseded": true,
+    "retrieval_receipts": true,
+    "scope_present": true
   },
-  "created_at": "2026-08-30T19:17:28.403256Z",
-  "event_id": "ppe_b0a07857809384a1",
+  "conclusion_digest": "sha256:813c43000dfb6056c28b0eccdde099775ba6982fcdc6b228c38fc2bac1b13bc4",
+  "created_at": "2026-08-30T19:17:28.618429Z",
+  "eligible": true,
+  "event_id": "ppe_7c8c1babafac81fc",
+  "policy_digest": "sha256:cde050fdc0b2869fecf8ee9d24dee964fc3bbc18e6b489da2e08e7c3df266501",
   "schema_version": "proofpress/knowledge-event/v2",
   "subject_ref": "knw_092155c9e4d7e4ea",
-  "type": "conclusion_proposed"
+  "type": "policy_evaluated"
 }
