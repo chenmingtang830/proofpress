@@ -1,41 +1,41 @@
 {
-  "created_at": "2026-08-30T19:16:00.530708Z",
-  "event_id": "ppe_171f842848ae92ad",
+  "created_at": "2026-08-30T19:16:00.623606Z",
+  "event_id": "ppe_133875f19624d9a0",
   "evidence": {
-    "digest": "sha256:8d38eb2cbb99ffca5e27d1028c5e6d45b8f71abd1eaba9afb074598cad290f87",
-    "id": "evd_90d8a91b5ebf61ae",
+    "digest": "sha256:e2be41f581f8da716f78a90c2e1ae257f5cca7991f2363bada215a70aad2eff0",
+    "id": "evd_da6a5f82e72607d0",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:187f0913e1e07a78be2f281041d93822daf7a20abf3ae9a77aeda88ecf61e089",
+    "quote_digest": "sha256:ef3565fb1a4bf3152a083f6c46387940f2fa27d4d9fb4c82a7d6b49b28971099",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:187f0913e1e07a78be2f281041d93822daf7a20abf3ae9a77aeda88ecf61e089",
-        "section_id": "sec_2458f9b7d563937c"
+        "section_digest": "sha256:ef3565fb1a4bf3152a083f6c46387940f2fa27d4d9fb4c82a7d6b49b28971099",
+        "section_id": "sec_9f108c27d880e944"
       },
-      "quote": "﻿\nThis guide presents a comprehensive outline for a tax diligence memorandum focused on S-election risks and exposure. This structure is designed to guide a detailed analysis, ensuring all critical aspects of S-corporation status, qualification, and potential pitfalls are addressed.\n\nTax Diligence Memorandum Outline: S-Election Risks and Exposure\nI. Introduction\n    • Purpose of Memorandum \n        ◦ Scope of review (e.g., acquisition, investment, internal compliance)\n        ◦ Summary of target entity and transaction context\n    • Executive Summary \n        ◦ Key findings and recommendations\nII. Overview of S-Corporation Status\n    • Definition and Benefits of S-Corporation Election\n    • Summary of S-Election Requirements (IRC §1361, §1362) \n        ◦ Eligible entities\n        ◦ Shareholder requirements\n        ◦ Stock requirements\n        ◦ Election process and timing\nIII. S-Election Qualification Review\n    • Entity Eligibility \n        ◦ Domestic corporation status\n        ◦ Ineligible entity types (e.g., certain financial institutions, insurance companies)\n    • Shareholder Eligibility \n        ◦ Permitted shareholders (individuals, certain trusts, estates)\n        ◦ Prohibited shareholders (nonresident aliens, partnerships, corporations)\n        ◦ Number of shareholders (100-shareholder limit)\n    • Stock Structure \n        ◦ Single class of stock requirement\n        ◦ Review of equity instruments (convertibles, options, warrants, debt instruments)\n    • Election Process \n        ◦ Timeliness and validity of Form 2553 filing\n        ◦ Unanimous shareholder consent\nIV. Historical Compliance and Maintenance of S-Status\n    • Review of Corporate Records \n        ◦ Articles of incorporation, bylaws, shareholder agreements\n        ◦ Stock ledgers and transfer records\n    • Prior and Ongoing Compliance \n        ◦ Changes in ownership or structure\n        ◦ Issuance of new equity or debt\n        ◦ Distributions and redemptions\n    • Potential Inadvertent Terminations \n        ◦ Violations of eligibility requirements\n        ◦ Issuance of a second class of stock\n        ◦ Nonresident alien shareholders\n        ◦ Late or defective elections\nV. Tax Exposure and Risk Assessment\n    • Consequences of S-Status Termination \n        ◦ Reversion to C-corporation status\n        ◦ Built-in gains tax exposure\n        ◦ Loss of pass-through treatment\n    • Potential IRS Challenges \n        ◦ Audit risk factors\n        ◦ Prior IRS correspondence or examinations\n    • State and Local Tax Considerations \n        ◦ Conformity with federal S-election\n        ◦ Separate state-level S-election requirements\nVI. Remediation and Corrective Actions\n    • IRS Relief for Inadvertent Terminations (IRC §1362(f)) \n        ◦ Eligibility for relief\n        ◦ Required corrective actions and filings\n    • Prospective Risk Mitigation \n        ◦ Recommendations for ongoing compliance\n        ◦ Shareholder and entity agreement amendments\nVII. Transaction-Specific Considerations\n    • Impact on Proposed Transaction \n        ◦ Change of control implications\n        ◦ Section 338(h)(10) or Section 336(e) elections\n        ◦ Buyer and seller indemnities\n    • Representations and Warranties \n        ◦ Drafting considerations for purchase agreements\nVIII. Conclusion and Recommendations\n    • Summary of Key Risks\n    • Recommended Next Steps\n    • Open Issues for Further Diligence\nIX. Exhibits and Supporting Documentation\n    • Checklist of S-Election Requirements\n    • Sample Forms and Filings\n    • Summary Table of Identified Risks\n\n",
-      "quote_digest": "sha256:187f0913e1e07a78be2f281041d93822daf7a20abf3ae9a77aeda88ecf61e089",
+      "quote": "MISCELLANEOUS\nSection 10.1 Seal.\nThe Board may adopt a corporate seal.\nSection 10.2 Books and Records.\nThe Corporation shall keep correct and complete books and records as required by the DGCL.\nSection 10.3 Electronic Transmission.\nAny action or signature required by these Bylaws may be completed by electronic transmission to the fullest extent permitted by law.\n\n",
+      "quote_digest": "sha256:ef3565fb1a4bf3152a083f6c46387940f2fa27d4d9fb4c82a7d6b49b28971099",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
-        "query": "final tax amount message exact dollar amount transaction tax calculation summary assumptions",
+        "query": "Retrieve the full diligence memo, Forms 2553 and acceptance notices, 2019-2022 Forms 1120-S, shareholder eligibility records, and any Section 1362(f) relief materials to determine actual 2022 classification.",
         "version": "1"
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
       "source": {
-        "content_digest": "sha256:971095c9beaecfbca22e492ead1964eebed8e323a4acc6860e342a14675d71f9",
+        "content_digest": "sha256:1cb8fe86d8075d2b126f99858b67aa3a45ced38879cf7b3859b78e577483572b",
         "media_type": "text/plain",
-        "uri": "private://apex/971095c9beaecfbc-e5e13b9a"
+        "uri": "private://apex/1cb8fe86d8075d2b-0c1ae063"
       }
     },
-    "retrieval_receipt_digest": "sha256:0696af4d07daddaea8b8931c571003130e39d6da693e071daaeedee999baf32a",
-    "source_content_digest": "sha256:971095c9beaecfbca22e492ead1964eebed8e323a4acc6860e342a14675d71f9",
-    "source_digest": "sha256:c395d125198aa3806cf5683421fda35b5901198756b648bfc91d2149b16c40e2",
-    "source_ref": "src_2dc5a381a5b5c028"
+    "retrieval_receipt_digest": "sha256:3e8732c0167ae1becd14df79190d61c0065c065d28885b71d91d837fa0ed99b7",
+    "source_content_digest": "sha256:1cb8fe86d8075d2b126f99858b67aa3a45ced38879cf7b3859b78e577483572b",
+    "source_digest": "sha256:dce34be7d3faee591fc3639cc0fc742ebc66a097c301c07eb716b0649e3998a1",
+    "source_ref": "src_3376baa521507aa6"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_2dc5a381a5b5c028",
-  "subject_ref": "evd_90d8a91b5ebf61ae",
+  "source_ref": "src_3376baa521507aa6",
+  "subject_ref": "evd_da6a5f82e72607d0",
   "type": "evidence_bound"
 }
