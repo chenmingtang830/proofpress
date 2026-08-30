@@ -1,21 +1,21 @@
 {
-  "created_at": "2026-08-30T19:17:54.882753Z",
-  "event_id": "ppe_6ac71c176a1a431a",
+  "created_at": "2026-08-30T19:17:55.129503Z",
+  "event_id": "ppe_40b80927e50ef017",
   "evidence": {
-    "digest": "sha256:0cd8f8970223d2416db5fb2fcf1a8f2b1ac851ad50d18117ec9c7be1a1daa9a1",
-    "id": "evd_7189d5a40194ffec",
+    "digest": "sha256:70c105654e7548016f661efb29f5f8a7111c0435442b07637297e152f6756943",
+    "id": "evd_698a6bd1c9b3038c",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:a1870b41bd37ed30e6d2931025754b4f6028ef17d051d695481e620767492674",
+    "quote_digest": "sha256:c5c5320236cba9ea0691d5ccfcdc989935667268a9efbdb86e976d09b0d0cb1d",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:a1870b41bd37ed30e6d2931025754b4f6028ef17d051d695481e620767492674",
-        "section_id": "sec_015c1d74d3488f8d"
+        "section_digest": "sha256:c5c5320236cba9ea0691d5ccfcdc989935667268a9efbdb86e976d09b0d0cb1d",
+        "section_id": "sec_bed36d4c8cdb4216"
       },
-      "quote": "        3.18 INSURANCE\n    (a) Sellers have delivered to Buyer:\n        (i) copies of all policies of insurance (and correspondence relating to coverage thereunder) to which any Acquired Company is a party, an insured, or a beneficiary, or under which any\nAcquired Company, or any director, officer, or manager of any Acquired Company in his or her capacity as such, is or has been covered at any time since \t, a list of which is included in Part 3.18(a);\n        (ii) copies of all pending applications for policies of insurance; and\n        (iii) any written statement by the auditor of any Acquired Company or any consultant or risk management advisor provided to or in the possession of an Acquired Company with regard to the adequacy of its coverage or its reserves for actual or potential claims.\n    (b) Part 3.18(b) sets forth:\n        (i) any self-insurance or retention arrangement by or affecting any Acquired Company, including any reserves established thereunder;\n        (ii) any Contract, other than a policy of insurance, for the transfer or sharing of any risk by any Acquired Company; and\n        (iii) all obligations of any Acquired Company to third parties with respect to insurance coverage (including such obligations under leases and service agreements) and identifying the policy under which such coverage is provided.\n    (c) Part 3.18(c) sets forth for each Acquired Company for the current policy year and each of the preceding \tpolicy years by year:\n        (i) a summary of the loss experience under each policy of insurance;\n        (ii) a statement describing each claim under a policy of insurance for an amount in excess of\n$\t, which sets forth:\n            (A) the name of the claimant;\n\n            (B) a description of the policy by insurer, type of insurance, and period of coverage; and\n\n            (C) the amount and a brief description of the claim; and\n\n        (iii) a statement describing the loss experience for all claims that were self-insured, including the number and aggregate cost of such claims.\n    (d) Except as set forth in Part 3.18(d):\n        (i) all policies of insurance to which any Acquired Company is a party, an insured, or a beneficiary or that provide coverage to any Seller in such Seller’s capacity as a shareholder of the Company, any Acquired Company, or any director, officer, or manager of an Acquired Company in such capacity:\n            (A) are valid, outstanding, and enforceable;\n\n            (B) are issued by an insurer that is financially sound and reputable;\n\n            (C) taken together, provide adequate insurance coverage for the assets and the operations of each Acquired Company [for all risks normally insured against by a Person carrying on the same business or businesses as such Acquired Company] [for all risks to which such Acquired Company is normally exposed];\n\n            (D) are sufficient for compliance with applicable Legal Requirements and all Applicable Contracts to which any Acquired Company is a party or by which it is bound;\n            (E) will continue in full force and effect following the consummation and performance of the Contemplated Transactions; and\n\n            (F) do not provide for any retrospective premium adjustment or other experience-based liability on the part of any Acquired Company;\n\n        (ii) since \t, no Seller or Acquired Company has received:\n            (A) any refusal of insurance coverage or any notice that a defense will be afforded with reservation of rights; or\n\n            (B) any notice of cancellation or any other indication that any policy of insurance is no longer in full force or effect or will not be renewed or that the issuer of any policy of insurance is not willing or able to perform its obligations thereunder;\n\n        (iii) each Acquired Company has paid all premiums due, and has otherwise performed its obligations, under each policy of insurance to which it is a party or that provides coverage to it or to any of its directors, officers, or managers, in their capacity as such;\n        (iv) each Acquired Company has given notice to the insurer of all insured claims; and\n        (v) no Acquired Company and no Seller has received any notice of any, and to the Knowledge of Sellers there are no, planned or proposed increases in the premiums or any other adverse change in the terms of any policy of insurance covering any Acquired Company, any Seller in such Seller’s capacity as a shareholder of the Company, or any officer, director, or manager of an Acquired Company in his or her capacity as such.\n    (e) No Acquired Company has provided any information to any insurer in connection with any application for insurance that could result in (i) cancellation of any insurance policy or bond for the benefit of such Acquired Company or (ii) denial of coverage for a risk otherwise covered by any such insurance policy or bond.\n    (f) Part 3.18(f) describes the manner in which the Company insures or self-insures with respect to workers’ compensation liability. Part 3.18(f) lists each incident or claim that creates or could create a workers’ compensation liability of any Acquired Company since \t, and the related disposition and accrual with respect to such incident or claim. No Acquired Company has received any notice that, and no Acquired Company has any reason to believe, based on its incident or claim experience that, its workers’ compensation insurance premiums or expenses will increase in the next 12 months, or, if self-insured, that it will not be permitted to continue to self-insure without increase in any related bonds, letters of credit, or other form of financial security.\n",
-      "quote_digest": "sha256:a1870b41bd37ed30e6d2931025754b4f6028ef17d051d695481e620767492674",
+      "quote": "SECTION 1. PURPOSE\nThis revenue procedure facilitates the grant of relief to taxpayers that request relief previously provided in numerous other revenue procedures by consolidating the provisions of those revenue procedures into one revenue procedure and extending relief in certain circumstances. This revenue procedure modifies and supersedes Rev. Proc. 2003-43, 2003-1 C.B. 998; Rev. Proc. 2004-48, 2004-2 C.B. 172; and Rev. Proc. 2007-62, 2007-2 C.B. 786 for taxpayers to make late S corporation elections, Electing Small Business Trust (ESBT) elections, Qualified Subchapter S Trust (QSST) elections, Qualified Subchapter S Subsidiary (QSub) elections, and late corporate classification elections which the taxpayer intended to take effect on the same date that the taxpayer intended that an S corporation election for the entity should take effect. This revenue procedure also incorporates certain relief provisions included in Rev. Proc. 97-48, 1997-2 C.B. 521, and supersedes the relief provided in Situation 1 of Rev. Proc. 97-48. This revenue procedure obsoletes the relief provided in Situation 2 of Rev. Proc. 97-48 because such relief is no longer available. Furthermore, this revenue procedure incorporates certain relief provisions included in Rev. Proc. 2004-49, 2004-2 C.B. 210, and modifies and supersedes the relief provided in sections 4.01 and 4.02 of Rev. Proc. 2004-49. This revenue procedure obsoletes the relief provided in section 4.03 of Rev. Proc. 2004-49 because the time period for its narrow scope of relief has expired.\nThis revenue procedure provides the exclusive simplified methods for taxpayers to request relief for late S corporation elections, ESBT elections, QSST elections, QSub elections, and late corporate classification elections which the taxpayer intended to take effect on the same date that the taxpayer intended that an S corporation election for the entity should take effect. This revenue procedure provides relief if the taxpayer satisfies the general requirements of Section 4 and the specific requirements applicable to that taxpayer under Sections 5 through 7 of this revenue procedure. Accompanying this document is a flowchart designed to aid taxpayers in applying this revenue procedure.\n",
+      "quote_digest": "sha256:c5c5320236cba9ea0691d5ccfcdc989935667268a9efbdb86e976d09b0d0cb1d",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
@@ -24,18 +24,18 @@
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
       "source": {
-        "content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
+        "content_digest": "sha256:489de4a5c467eb0382ef4f29920dc6433adc3a3336da5057aec7f37cd0208560",
         "media_type": "text/plain",
-        "uri": "private://apex/7beb28a6e0069669-d885dee3"
+        "uri": "private://apex/489de4a5c467eb03-1184b3a1"
       }
     },
-    "retrieval_receipt_digest": "sha256:2515dcba20f633e39f47a6c18414bf990888b1fd2d4b3b92fc6cd331c0d18ced",
-    "source_content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
-    "source_digest": "sha256:9b5e55c106d3b2c9d270455bb5af81e282a4e92f3ba0722f868b952faf8ff0b5",
-    "source_ref": "src_1cb20c6823882030"
+    "retrieval_receipt_digest": "sha256:7f2f290d0aa26a8dccdf570c0c830bda66d6c6e3ed5054df970bf70aa2b951c8",
+    "source_content_digest": "sha256:489de4a5c467eb0382ef4f29920dc6433adc3a3336da5057aec7f37cd0208560",
+    "source_digest": "sha256:0e30a41e1d31405a037edcc4e56b65c5107236c02092ff6fca6351e692a30a27",
+    "source_ref": "src_449cd1a48a2b6b92"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_1cb20c6823882030",
-  "subject_ref": "evd_7189d5a40194ffec",
+  "source_ref": "src_449cd1a48a2b6b92",
+  "subject_ref": "evd_698a6bd1c9b3038c",
   "type": "evidence_bound"
 }
