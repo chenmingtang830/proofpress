@@ -1,16 +1,26 @@
 {
-  "conclusion_digest": "sha256:7a9120c91ea81eecf450200d718c66c26002e0a7528e6778ac369e59cf88a420",
-  "created_at": "2026-08-30T19:17:58.164938Z",
-  "event_id": "ppe_345fe1a7bc458084",
-  "evidence_digests": {
-    "evd_2cf79d83f6997532": "sha256:28c9dfe3469f7ad865f453eba44ab6b9ef70a495368c962fdc306bed15295485",
-    "evd_7146977f35f2ff62": "sha256:b784ad949e683ff885e3c3c6c7850f6723e6dd1faf1f3d3f0a914f57149e571c",
-    "evd_e1ee21e995b0ddca": "sha256:755bfcef50b143e8f7792166a395e77ef5abbb6ec56bf03d5fe1a64796387d31"
+  "conclusion": {
+    "allowed_actors": [
+      "*"
+    ],
+    "artifact_refs": [],
+    "created_at": "2026-08-30T19:17:58.309547Z",
+    "digest": "sha256:133953bf79ad7bc8a1aaecc332b26ab48a2e6dc8873af5f1bb212015bbbe9b0f",
+    "evidence_refs": [
+      "evd_3bc7fe89b860ef4e",
+      "evd_7c3efd55e3d1dbb5"
+    ],
+    "expires_at": null,
+    "id": "knw_e5a8c969f53e4895",
+    "kind": "conclusion",
+    "proposer": "agent:v8-constructor",
+    "qualifiers": {},
+    "scope": "task_f8f47a9c94874854a24936d81a89fdfb",
+    "statement": "The supplied Shareholder Agreement excerpts do not disclose provisions concerning stock classes, liquidation rights, allocations, stock transfers, options, warrants, or redemption."
   },
-  "policy_digest": "sha256:cde050fdc0b2869fecf8ee9d24dee964fc3bbc18e6b489da2e08e7c3df266501",
-  "review_ref": "ppe_a39ae76610732dde",
-  "reviewer": "human:staged-evaluation-reviewer",
+  "created_at": "2026-08-30T19:17:58.417108Z",
+  "event_id": "ppe_25edcbf692b755d2",
   "schema_version": "proofpress/knowledge-event/v2",
-  "subject_ref": "knw_df588ad797d3336f",
-  "type": "conclusion_admitted"
+  "subject_ref": "knw_e5a8c969f53e4895",
+  "type": "conclusion_proposed"
 }
