@@ -1,21 +1,21 @@
 {
-  "created_at": "2026-08-30T19:17:45.691244Z",
-  "event_id": "ppe_4184251a61c253df",
+  "created_at": "2026-08-30T19:17:45.933827Z",
+  "event_id": "ppe_017669adf152560b",
   "evidence": {
-    "digest": "sha256:da1b19f52757e9ba5c877363c08bdb96e0ed2b3117ca47f7aa0a290aac6f0d4e",
-    "id": "evd_81606ee1e5eda0f9",
+    "digest": "sha256:5088edef40841b9f9e1c8dcd78c4e66c01557c5dc4686d1d7aefe2c1435d0c71",
+    "id": "evd_fcf1db7e1e4ccd39",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:dee13605a4e7cb11022f8505cdf10bc9c4e8787b0787e8906490e52e9134dafe",
+    "quote_digest": "sha256:1fc71ee00df4a978284a4c10ca63b0c6bb9d53edc62437dd1cbb595ad36662a0",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:dee13605a4e7cb11022f8505cdf10bc9c4e8787b0787e8906490e52e9134dafe",
-        "section_id": "sec_ebfaeb5acc000c25"
+        "section_digest": "sha256:1fc71ee00df4a978284a4c10ca63b0c6bb9d53edc62437dd1cbb595ad36662a0",
+        "section_id": "sec_ab3b6d5ffb1d13ff"
       },
-      "quote": "TABLE OF CONTENTS\nPage\n1.\tPurchase and Sale of Preferred Stock.\t1\n1.1\tSale and Issuance of Preferred Stock.\t1\n1.2\tClosing; Delivery.\t1\n1.3\tSale of Additional Shares of Preferred Stock.\t2\n1.4\t[Use of Proceeds\t3\n1.5\tDefined Terms Used in this Agreement\t4\n2.\tRepresentations and Warranties of the Company\t6\n2.1\tOrganization, Good Standing, Corporate Power and Qualification\t6\n2.2\tCapitalization\t6\n2.3\tSubsidiaries\t8\n2.4\tAuthorization\t8\n2.5\tValid Issuance of Shares\t9\n2.6\tGovernmental Consents and Filings\t9\n2.7\tLitigation\t9\n2.8\tIntellectual Property\t10\n2.9\tCompliance with Other Instruments\t12\n2.10\tAgreements; Actions\t12\n2.11\tCertain Transactions\t13\n2.12\tRights of Registration and Voting Rights\t13\n2.13\tProperty\t13\n2.14\tFinancial Statements\t14\n2.15\tChanges\t14\n2.16\tEmployee Matters\t15\n2.17\tTax Returns and Payments\t17\n2.18\tInsurance\t17\n2.19\tEmployee Agreements\t17\n2.20\tPermits\t18\n2.21\tCorporate Documents\t18\n2.22\t[83(b) Elections\t18\n2.23\t[Real Property Holding Corporation\t18\n2.24\tEnvironmental and Safety Laws\t18\n2.25\t[Qualified Small Business Stock\t19\n2.26\tDisclosure\t19\n2.27\t[Small Business Concern\t20\n2.28\t[Foreign Corrupt Practices Act\t20\n2.29\t[Data Privacy\t20\n2.30\t[Export Control Laws\t21\n2.31\t[Preclinical Development and Clinical Trials\t21\n2.32\t[FDA Approvals\t21\n2.33\t[FDA Regulation\t22\n3.\tRepresentations and Warranties of the Purchasers\t22\n3.1\tAuthorization\t22\n3.2\tPurchase Entirely for Own Account\t22\n3.3\tDisclosure of Information\t23\n3.4\tRestricted Securities\t23\n3.5\tNo Public Market\t23\n3.6\tLegends\t23\n3.7\tAccredited Investor\t24\n3.8\tForeign Investors\t24\n3.9\tNo General Solicitation\t24\n3.10\tExculpation Among Purchasers\t24\n3.11\tResidence\t24\n3.12\t[Consent to Promissory Note Conversion and Termination\t25\n4.\tConditions to the Purchasers’ Obligations at Closing\t25\n4.1\tRepresentations and Warranties\t25\n4.2\tPerformance\t25\n4.3\tCompliance Certificate\t25\n4.4\tQualifications\t26\n4.5\tOpinion of Company Counsel\t26\n4.6\tBoard of Directors\t26\n4.7\tIndemnification Agreement\t26\n4.8\tInvestors’ Rights Agreement\t26\n4.9\tRight of First Refusal and Co‑Sale Agreement\t26\n4.10\tVoting Agreement\t26\n4.11\tRestated Certificate\t26\n4.12\tSecretary’s Certificate\t26\n4.13\tProceedings and Documents\t26\n4.14\tMinimum Number of Shares at Initial Closing\t26\n4.15\tManagement Rights\t27\n4.16\t[SBA Matters\t27\n4.17\t[Preemptive Rights\t27\n5.\tConditions of the Company’s Obligations at Closing\t27\n5.1\tRepresentations and Warranties\t27\n5.2\tPerformance\t27\n5.3\tQualifications\t27\n5.4\tInvestors’ Rights Agreement\t27\n5.5\tRight of First Refusal and Co‑Sale Agreement\t27\n5.6\tVoting Agreement\t27\n5.7\t[Minimum Number of Shares at Initial Closing\t27\n6.\tMiscellaneous\t27\n6.1\tSurvival of Warranties\t27\n6.2\tSuccessors and Assigns\t28\n6.3\tGoverning Law\t28\n6.4\tCounterparts\t28\n6.5\tTitles and Subtitles\t28\n6.6\tNotices\t28\n6.7\tNo Finder’s Fees\t29\n6.8\tFees and Expenses\t29\n6.9\t[Attorneys’ Fees\t29\n6.10\tAmendments and Waivers\t29\n6.11\tSeverability\t29\n6.12\tDelays or Omissions\t30\n6.13\tEntire Agreement\t30\n6.14\t[Corporate Securities Law\t30\n6.15\tTermination of Closing Obligations\t30\n6.16\tDispute Resolution\t31\n6.17\t[No Commitment for Additional Financing\t35\n6.18\t[Waiver of Conflicts\t36\n\tExhibit A -\tSCHEDULE OF PURCHASERS\n\tExhibit B -\tFORM OF AMENDED AND RESTATED\n",
-      "quote_digest": "sha256:dee13605a4e7cb11022f8505cdf10bc9c4e8787b0787e8906490e52e9134dafe",
+      "quote": "SECTION 6. RELIEF FOR LATE ESBT AND QSST ELECTIONS.\n.01 ESBT or QSST Election. The trustee of an ESBT or the current income beneficiary of a QSST must sign and file the appropriate Election Form. The completed Election Form must include the following statements (each of which must comply with the requirement in Section 4.03(3) of this revenue procedure):\n(1) A statement from the trustee of the ESBT or the current income beneficiary of the QSST that includes the information required by § 1.1361-1(m)(2)(ii) (in the case of ESBT elections) or § 1.1361-1(j)(6)(ii) (in the case of QSST elections);\n(2) In the case of a QSST, a statement from the trustee that the trust satisfies the QSST requirements of § 1361(d)(3) and that the income distribution requirements have been and will continue to be met;\n(3) In the case of an ESBT, a statement from the trustee that all potential current beneficiaries meet the shareholder requirements of § 1361(b)(1) and that the trust satisfies the requirements of an ESBT under § 1361(e)(1) other than the requirement to make an ESBT election; and\n(4) Statements from all shareholders during the period between the date the S corporation election was to have become effective or was terminated and the date the completed Election Form is filed that they have reported their income on all affected returns consistent with the S corporation election for the year the election should have been made and for all subsequent years.\n",
+      "quote_digest": "sha256:1fc71ee00df4a978284a4c10ca63b0c6bb9d53edc62437dd1cbb595ad36662a0",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
@@ -24,18 +24,18 @@
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
       "source": {
-        "content_digest": "sha256:de3c85ce68cc9a64aadabec8843aff116664ead676844e5ce1f589169c52b2da",
+        "content_digest": "sha256:489de4a5c467eb0382ef4f29920dc6433adc3a3336da5057aec7f37cd0208560",
         "media_type": "text/plain",
-        "uri": "private://apex/de3c85ce68cc9a64-4c7c3329"
+        "uri": "private://apex/489de4a5c467eb03-1184b3a1"
       }
     },
-    "retrieval_receipt_digest": "sha256:01fd09d361b79cb8645bd665b1efe7a5fcace0dbcb7aaf0f90ef0dd033548850",
-    "source_content_digest": "sha256:de3c85ce68cc9a64aadabec8843aff116664ead676844e5ce1f589169c52b2da",
-    "source_digest": "sha256:afd14261a12776692529819ab8b113e55ef68150920111e982cd00f66a8af8ea",
-    "source_ref": "src_a149d3b6c6d2425c"
+    "retrieval_receipt_digest": "sha256:7c4a70d1eecb2164f1f22ceccd12901c786030fb51f585e608cad967f76e7429",
+    "source_content_digest": "sha256:489de4a5c467eb0382ef4f29920dc6433adc3a3336da5057aec7f37cd0208560",
+    "source_digest": "sha256:0e30a41e1d31405a037edcc4e56b65c5107236c02092ff6fca6351e692a30a27",
+    "source_ref": "src_449cd1a48a2b6b92"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_a149d3b6c6d2425c",
-  "subject_ref": "evd_81606ee1e5eda0f9",
+  "source_ref": "src_449cd1a48a2b6b92",
+  "subject_ref": "evd_fcf1db7e1e4ccd39",
   "type": "evidence_bound"
 }
