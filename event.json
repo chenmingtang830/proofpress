@@ -1,25 +1,25 @@
 {
-  "created_at": "2026-08-30T19:17:09.375033Z",
-  "event_id": "ppe_506347968a5cd886",
+  "created_at": "2026-08-30T19:17:09.567513Z",
+  "event_id": "ppe_927da94ea4b921d0",
   "evidence": {
-    "digest": "sha256:42bc4a1dabc71b3b607c74f73b5d7e497d8f7376ab88a38adc36885f572f2b2e",
-    "id": "evd_8a08f2060f01b983",
+    "digest": "sha256:b1ca6e5aee83fa7986e83e9910c7c36e845f8b88ff927140941ef20475cfb9f7",
+    "id": "evd_9a676776cb063276",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:35c760c2626e3b6ac510249e7dc773393fd9f40885c9ad0b5eb744fb34a6e185",
+    "quote_digest": "sha256:bd10d27b284a86985e7cda0a1d96f75c4a349c349b6bc40dae7b9344f9f9a14b",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:35c760c2626e3b6ac510249e7dc773393fd9f40885c9ad0b5eb744fb34a6e185",
-        "section_id": "sec_5d0e630e42ee365e"
+        "section_digest": "sha256:bd10d27b284a86985e7cda0a1d96f75c4a349c349b6bc40dae7b9344f9f9a14b",
+        "section_id": "sec_a51affa7307907a9"
       },
-      "quote": "        12.16 ENFORCEMENT OF AGREEMENT\nSellers acknowledge and agree that Buyer would be irreparably harmed if any of the provisions of this Agreement are not performed in accordance with their specific terms and that any Breach of this Agreement by Sellers could not be adequately compensated in all cases by monetary damages alone. Accordingly, Sellers agree that, in addition to any other right or remedy to which Buyer may be entitled at law or in equity, Buyer shall be entitled to enforce any provision of this Agreement by a decree of specific performance and to obtain temporary, preliminary, and permanent injunctive relief to prevent Breaches or threatened Breaches, without posting any bond or giving any other undertaking.\n",
-      "quote_digest": "sha256:35c760c2626e3b6ac510249e7dc773393fd9f40885c9ad0b5eb744fb34a6e185",
+      "quote": "        2.1 SHARES\nSubject to the terms and conditions of this Agreement, and in reliance upon the representations, warranties, and covenants contained in this Agreement, at the Closing, Buyer shall purchase the Shares from Sellers, and Sellers shall sell and transfer the Shares to Buyer, free and clear of any Encumbrance.\n",
+      "quote_digest": "sha256:bd10d27b284a86985e7cda0a1d96f75c4a349c349b6bc40dae7b9344f9f9a14b",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
-        "query": "Obtain Summit's filed Form 2553, IRS CP261, all election correspondence, revocations, termination notices, and any §1362(f) relief request or determination.",
+        "query": "Retrieve the complete historical shareholder ledger and capitalization table from January 10, 2018 through November 1, 2025, including citizenship/residency documentation and the June 1, 2022 transfer instruments.",
         "version": "1"
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
@@ -29,13 +29,13 @@
         "uri": "private://apex/7beb28a6e0069669-d885dee3"
       }
     },
-    "retrieval_receipt_digest": "sha256:a8796911ce3969007927e51725e709381afc0572bf8ed4ec52b54667b9cfcd4e",
+    "retrieval_receipt_digest": "sha256:dc33d9a4112f75dbd6c3c1bd2942fe308dab668d1e949d4bbce9fea50132d4a0",
     "source_content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
     "source_digest": "sha256:9b5e55c106d3b2c9d270455bb5af81e282a4e92f3ba0722f868b952faf8ff0b5",
     "source_ref": "src_1cb20c6823882030"
   },
   "schema_version": "proofpress/knowledge-event/v2",
   "source_ref": "src_1cb20c6823882030",
-  "subject_ref": "evd_8a08f2060f01b983",
+  "subject_ref": "evd_9a676776cb063276",
   "type": "evidence_bound"
 }
