@@ -1,41 +1,41 @@
 {
-  "created_at": "2026-08-30T19:17:12.320683Z",
-  "event_id": "ppe_c3550d1912d5e8ee",
+  "created_at": "2026-08-30T19:17:12.520588Z",
+  "event_id": "ppe_32d21de8b1e05776",
   "evidence": {
-    "digest": "sha256:cf436e2ef38f5b5016db34a99a0cd482b38b1e341bcc588915b9644b1fa1dba3",
-    "id": "evd_139028154fe9e015",
+    "digest": "sha256:984741eca6f0da80e5753ac1a150976dbc4dacf47d8fd275274e36695f33ea31",
+    "id": "evd_0df20e4c1ac9ee08",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:4ecda55f6b6cbe4b0f23cda9c4b32b36854691ab816cf740ee1eec8df1e298c3",
+    "quote_digest": "sha256:c9754494e822e74a5e86f2440d8c49968e4fec5bacfb916e73a9a287f317c53e",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:4ecda55f6b6cbe4b0f23cda9c4b32b36854691ab816cf740ee1eec8df1e298c3",
-        "section_id": "sec_070a856c5839bed8"
+        "section_digest": "sha256:c9754494e822e74a5e86f2440d8c49968e4fec5bacfb916e73a9a287f317c53e",
+        "section_id": "sec_4cadc8f75a9aefdc"
       },
-      "quote": "FISCAL YEAR\nSection 8.1 Fiscal Year.\nThe fiscal year of the Corporation shall end on December 31 of each year or such other date as determined by the Board and consistent with Subchapter S eligibility.\n\n",
-      "quote_digest": "sha256:4ecda55f6b6cbe4b0f23cda9c4b32b36854691ab816cf740ee1eec8df1e298c3",
+      "quote": "        7.1 COOPERATION AND PROCEEDINGS; ACCESS TO RECORDS\n    (a) After the Closing, each Seller shall cooperate with Buyer and its counsel and make itself and its Representatives available to Buyer and the Acquired Companies in connection with the institution or defense of any Proceeding, whether existing, threatened, or anticipated, involving or relating to the Contemplated Transactions, Buyer, any Seller, or any Acquired Company, including providing testimony, Records, and other information.\n    (b) Each Seller and Buyer will make available to the other any Records in the nonrequesting party’s custody or control for the purpose of preparing any financial statement or Tax Return or preparing for or defending any tax-related examination of the requesting party or any Acquired Company by any Governmental Body. The party requesting such Records will reimburse the nonrequesting party for the reasonable out-of-pocket costs and expenses incurred by the nonrequesting party. The nonrequesting party will afford access to such Records during normal business hours, upon reasonable advance notice given by the requesting party, and subject to such reasonable limitations as the nonrequesting party may impose to delete competitively sensitive or privileged information.\n",
+      "quote_digest": "sha256:c9754494e822e74a5e86f2440d8c49968e4fec5bacfb916e73a9a287f317c53e",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
-        "query": "Retrieve board and shareholder resolutions, Delaware-law surplus and solvency analyses, loan agreements, covenant certificates, and regulatory approvals associated with each distribution.",
+        "query": "Retrieve Forms 1099-DIV, 1099-INT, 1099-NEC/MISC, W-2, 941, 940, backup-withholding records, shareholder returns or confirmations, and corrected information returns for all relevant years.",
         "version": "1"
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
       "source": {
-        "content_digest": "sha256:1cb8fe86d8075d2b126f99858b67aa3a45ced38879cf7b3859b78e577483572b",
+        "content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
         "media_type": "text/plain",
-        "uri": "private://apex/1cb8fe86d8075d2b-0c1ae063"
+        "uri": "private://apex/7beb28a6e0069669-d885dee3"
       }
     },
-    "retrieval_receipt_digest": "sha256:2fdf285e6f6d1364330baf53186190eeb0d7454723bb78af168760855234c557",
-    "source_content_digest": "sha256:1cb8fe86d8075d2b126f99858b67aa3a45ced38879cf7b3859b78e577483572b",
-    "source_digest": "sha256:dce34be7d3faee591fc3639cc0fc742ebc66a097c301c07eb716b0649e3998a1",
-    "source_ref": "src_3376baa521507aa6"
+    "retrieval_receipt_digest": "sha256:a3d7e290a56d9479725f994cb12d39d333db53a5caa7d5c1989a98dd156bc7c7",
+    "source_content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
+    "source_digest": "sha256:9b5e55c106d3b2c9d270455bb5af81e282a4e92f3ba0722f868b952faf8ff0b5",
+    "source_ref": "src_1cb20c6823882030"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_3376baa521507aa6",
-  "subject_ref": "evd_139028154fe9e015",
+  "source_ref": "src_1cb20c6823882030",
+  "subject_ref": "evd_0df20e4c1ac9ee08",
   "type": "evidence_bound"
 }
