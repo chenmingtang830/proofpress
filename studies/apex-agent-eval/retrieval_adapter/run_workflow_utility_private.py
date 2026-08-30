@@ -939,6 +939,16 @@ def main() -> None:
         if set(selected) & required_types != required_types:
             raise ValueError("native qualification lacks one task for every expected_output type")
         task_ids = [selected[key] for key in sorted(required_types)]
+    native_task_rows: list[dict[str, Any]] = []
+    if args.native_e2e:
+        from native_e2e_contract import validate_task_panel
+        for task_id in task_ids:
+            native_graph = json.loads((raw_dir / f"{task_id}.json").read_text())
+            native_task_rows.append({"task_id": task_id,
+                                     "expected_output": native_graph["task"].get("expected_output")})
+        native_panel_gate = validate_task_panel(native_task_rows, qualification=args.qualification_only)
+        if native_panel_gate["status"] != "pass":
+            raise ValueError("native task panel gate failed: " + json.dumps(native_panel_gate["failures"], sort_keys=True))
     qualification_ask_ids: set[str] | None = None
     if args.agentic_only and args.qualification_only:
         selected_by_category: dict[str, str] = {}
@@ -971,6 +981,11 @@ def main() -> None:
                 graph = json.loads((raw_dir / f"{task_id}.json").read_text())
                 mapping, relation_diagnostics = stage_graph(graph, navigation)
                 asks = [row for row in asks_manifest["asks"] if row["task_id"] == task_id]
+                # Native E2E is scored on the original APEX task and task rubric.
+                # Frozen lawyer follow-up asks belong to a separate component panel
+                # and must not influence either the executor prompt or denominator.
+                if args.native_e2e:
+                    asks = []
                 if qualification_ask_ids is not None:
                     asks = [row for row in asks if row.get("ask_id") in qualification_ask_ids]
                 elif args.qualification_only:
@@ -1041,12 +1056,13 @@ def main() -> None:
                         "context_limit_tokens": MAX_CONTEXT_TOKEN_UPPER_BOUND}
                 expected_output = graph["task"].get("expected_output")
                 prompt = {"task": graph["task"]["prompt"], "expected_output": expected_output,
-                          "lawyer_asks": [{"ask_id": row["ask_id"], "query": row["query"]} for row in asks],
                           "context": context,
                           "instruction": ("Produce the complete legal work product. Use only supplied context, distinguish governed from not_governed material, preserve gaps, and cite source/evidence IDs. "
                               + ("Return document title and substantive sections for materialization into the actual DOCX."
                                  if args.native_e2e and expected_output in {"make_new_doc", "edit_existing_doc"}
                                  else "Return the complete console legal analysis, calculations, conclusions, citations, and gaps."))}
+                if not args.native_e2e:
+                    prompt["lawyer_asks"] = [{"ask_id": row["ask_id"], "query": row["query"]} for row in asks]
                 artifact_name = f"{unit_id}-{condition}-{model.replace('/', '_')}.json"
                 resume_path = Path(args.resume_artifacts) / artifact_name if args.resume_artifacts else None
                 artifact = None
@@ -1259,11 +1275,26 @@ def main() -> None:
                                "pageindex_cost_usd": pageindex_cost,
                                "cost_status": "ok" if len(receipts) == len(calls) else "inconclusive"},
                  "decision_boundary": "Private staged evaluation. The admission events are isolated evaluation fixtures, not lawyer admissions or matter authority."}
+    if args.native_e2e:
+        from native_e2e_contract import (SCHEMA_VERSION, native_completion_failures,
+                                         native_denominators)
+        sanitized["schema_version"] = SCHEMA_VERSION
+        sanitized["mode"] = "task-native-apex-legal-e2e"
+        sanitized["evaluation_unit"] = "original_apex_task"
+        sanitized["rubric_unit"] = "original_apex_task_rubric"
+        sanitized["lawyer_followup_asks_used"] = False
+        sanitized["denominators"] = native_denominators(
+            native_task_rows, active_conditions, len(executors), results)
     required_primary_cells = evaluation_unit_count * len(product_conditions) * len(executors)
     scored_primary_cells = sum(row.get("status") == "scored" and row.get("condition") in product_conditions
                                for row in results)
     terminal_receipts = sum(row.get("terminal") is True for row in receipts)
     qualification_failures = []
+    if args.native_e2e:
+        from native_e2e_contract import native_completion_failures
+        qualification_failures.extend(native_completion_failures(
+            native_task_rows, product_conditions, len(executors),
+            [row for row in results if row.get("condition") in product_conditions]))
     if scored_primary_cells != required_primary_cells:
         qualification_failures.append({"reason": "not every primary cell produced three valid grades",
                                        "expected": required_primary_cells, "actual": scored_primary_cells})
