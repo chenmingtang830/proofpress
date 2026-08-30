@@ -1,21 +1,21 @@
 {
-  "created_at": "2026-08-30T19:16:41.563021Z",
-  "event_id": "ppe_b0809585a1c5ecc0",
+  "created_at": "2026-08-30T19:16:41.713029Z",
+  "event_id": "ppe_7d3ac8fcda53121b",
   "evidence": {
-    "digest": "sha256:8bba2577ce55d59acf049d36af43b5e0b05dff32cf7a5d8318840115c73744ab",
-    "id": "evd_3a0869ac09b21c8d",
+    "digest": "sha256:06ed8ee0251c7b2f51b31a18a5d4df42225859f41430a140c99f7b86ef180cac",
+    "id": "evd_4e0c88dd2ff3c48e",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:423775fa5cd1b289a8f8eda8e7d77c37ddce88520bbf1e5dad116e7329ca3c06",
+    "quote_digest": "sha256:7f93c91fd0fb15b2c9c7a5cb45478d11fb8e70a3ff3afa2bd6eb32397e3711d9",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:423775fa5cd1b289a8f8eda8e7d77c37ddce88520bbf1e5dad116e7329ca3c06",
-        "section_id": "sec_dcf92ab89b831487"
+        "section_digest": "sha256:7f93c91fd0fb15b2c9c7a5cb45478d11fb8e70a3ff3afa2bd6eb32397e3711d9",
+        "section_id": "sec_256198189dd11187"
       },
-      "quote": "DISTRIBUTIONS AND TAX MATTERS\nSection 6.1 Pro Rata Distributions.\nAll distributions shall be strictly pro rata based on share ownership.\nSection 6.2 Tax Distributions.\nThe Corporation shall make quarterly tax distributions sufficient to cover the highest blended marginal federal and state tax rate applicable to stockholders.\nSection 6.3 Preservation of S-Corporation Status.\nThe Corporation and all stockholders shall take all actions necessary to preserve S-Corporation status, including maintaining permitted shareholders and avoiding disproportionate distributions.\n\n",
-      "quote_digest": "sha256:423775fa5cd1b289a8f8eda8e7d77c37ddce88520bbf1e5dad116e7329ca3c06",
+      "quote": "/S /URI\n/URI (https://www.taxnotes.com/research/federal/usc26/1362#cp63-0000009)>>\n/StructParent 100054>>\nendobj\n84 0 obj\n<</Type /Annot\n/Subtype /Link\n",
+      "quote_digest": "sha256:7f93c91fd0fb15b2c9c7a5cb45478d11fb8e70a3ff3afa2bd6eb32397e3711d9",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
@@ -24,18 +24,18 @@
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
       "source": {
-        "content_digest": "sha256:1cb8fe86d8075d2b126f99858b67aa3a45ced38879cf7b3859b78e577483572b",
-        "media_type": "text/plain",
-        "uri": "private://apex/1cb8fe86d8075d2b-0c1ae063"
+        "content_digest": "sha256:4c29e37184221016659776d6207639a9d00708dd52deb14e35f7e19067f8ed31",
+        "media_type": "application/pdf",
+        "uri": "private://apex/4c29e37184221016-c19ef5ec"
       }
     },
-    "retrieval_receipt_digest": "sha256:75244f47ce1adee41c3d33e4ad5dbac6c2ecbf4cec85ff394dab610ebd96df27",
-    "source_content_digest": "sha256:1cb8fe86d8075d2b126f99858b67aa3a45ced38879cf7b3859b78e577483572b",
-    "source_digest": "sha256:dce34be7d3faee591fc3639cc0fc742ebc66a097c301c07eb716b0649e3998a1",
-    "source_ref": "src_3376baa521507aa6"
+    "retrieval_receipt_digest": "sha256:13d65a519bbbc83036c43d0d59069e53373d7c5a866574be35b00b679439863b",
+    "source_content_digest": "sha256:4c29e37184221016659776d6207639a9d00708dd52deb14e35f7e19067f8ed31",
+    "source_digest": "sha256:b7361746cd765bc3c2322b8263313f9a27bf72e7277610db49df9525cc153371",
+    "source_ref": "src_6c67c54c92e72e4b"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_3376baa521507aa6",
-  "subject_ref": "evd_3a0869ac09b21c8d",
+  "source_ref": "src_6c67c54c92e72e4b",
+  "subject_ref": "evd_4e0c88dd2ff3c48e",
   "type": "evidence_bound"
 }
