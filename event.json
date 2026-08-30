@@ -1,41 +1,41 @@
 {
-  "created_at": "2026-08-30T19:16:21.008017Z",
-  "event_id": "ppe_cbbe452722a9dea8",
+  "created_at": "2026-08-30T19:16:21.132650Z",
+  "event_id": "ppe_de3d3a4a8ebd34f1",
   "evidence": {
-    "digest": "sha256:dd71a663f64916cca793530a16b3a23943339aee878c6a0d37f80732ced8e9a4",
-    "id": "evd_7583f9b5f630d31d",
+    "digest": "sha256:e197e05a24ca7ffbe831ea9174a1667ab55513aeea9f1bba40ea8e7bcac1453c",
+    "id": "evd_c167aff68ba61e38",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:7ddcbb497e7a005240ec3c6fd5e9d6dbb4b39e4c94905049e1849723d91a489e",
+    "quote_digest": "sha256:0d00fa50efb1d5355af2e574c23f098814f4a47d71e489c760ef22c36d2200cc",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:7ddcbb497e7a005240ec3c6fd5e9d6dbb4b39e4c94905049e1849723d91a489e",
-        "section_id": "sec_7cf65dc23c729fe8"
+        "section_digest": "sha256:0d00fa50efb1d5355af2e574c23f098814f4a47d71e489c760ef22c36d2200cc",
+        "section_id": "sec_8a08a8cd23860507"
       },
-      "quote": "BOARD OF DIRECTORS\nSection 3.1 General Powers.\nThe business and affairs of the Corporation shall be managed by or under the direction of the Board.\nSection 3.2 Number and Qualifications.\nThe number of directors shall be three (3) unless changed by amendment to these Bylaws or by resolution of the stockholders. Directors must be natural persons but need not be Delaware residents or stockholders.\nSection 3.3 Election and Term.\nDirectors shall be elected at each annual meeting of stockholders and shall hold office until the next annual meeting or until their successors are elected.\nSection 3.4 Vacancies.\nAny vacancy may be filled by a majority of the remaining directors, even if less than a quorum.\nSection 3.5 Regular Meetings.\nThe Board shall hold regular meetings at least quarterly.\nSection 3.6 Special Meetings.\nSpecial meetings may be called by the Chair, the President, or any director upon at least two business days’ notice.\nSection 3.7 Quorum; Voting.\nA majority of the directors then in office constitutes a quorum. The act of a majority of directors present at a meeting shall be the act of the Board.\nSection 3.8 Action Without Meeting.\nAny action may be taken without a meeting if all directors consent in writing or by electronic transmission.\nSection 3.9 Committees.\nThe Board may create committees and delegate authority to them as permitted by the DGCL.\nSection 3.10 Minutes.\nThe Secretary shall maintain minutes of all Board and committee meetings.\n\n",
-      "quote_digest": "sha256:7ddcbb497e7a005240ec3c6fd5e9d6dbb4b39e4c94905049e1849723d91a489e",
+      "quote": "FORM OF AMENDED AND RESTATED\n",
+      "quote_digest": "sha256:0d00fa50efb1d5355af2e574c23f098814f4a47d71e489c760ef22c36d2200cc",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
-        "query": "\"Summit\" S election resolution \"Summit\" board consent Form 2553 \"Summit\" shareholder resolution February 2019 \"Summit\" organizational resolutions",
+        "query": "\"Summit\" amended Form 2553 \"Summit\" corrected Form 2553 \"Summit\" refiled S election \"Summit\" Form 2553 after February 19 2019",
         "version": "1"
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
       "source": {
-        "content_digest": "sha256:1cb8fe86d8075d2b126f99858b67aa3a45ced38879cf7b3859b78e577483572b",
+        "content_digest": "sha256:de3c85ce68cc9a64aadabec8843aff116664ead676844e5ce1f589169c52b2da",
         "media_type": "text/plain",
-        "uri": "private://apex/1cb8fe86d8075d2b-0c1ae063"
+        "uri": "private://apex/de3c85ce68cc9a64-4c7c3329"
       }
     },
-    "retrieval_receipt_digest": "sha256:4ae0954d1f0918364747472d741de04de07311218b3348bb190b98063a5db36f",
-    "source_content_digest": "sha256:1cb8fe86d8075d2b126f99858b67aa3a45ced38879cf7b3859b78e577483572b",
-    "source_digest": "sha256:dce34be7d3faee591fc3639cc0fc742ebc66a097c301c07eb716b0649e3998a1",
-    "source_ref": "src_3376baa521507aa6"
+    "retrieval_receipt_digest": "sha256:98ac4f06fc10aa9ec106e950be98d51b70c294b4e09fd01af201a9b59d05da93",
+    "source_content_digest": "sha256:de3c85ce68cc9a64aadabec8843aff116664ead676844e5ce1f589169c52b2da",
+    "source_digest": "sha256:afd14261a12776692529819ab8b113e55ef68150920111e982cd00f66a8af8ea",
+    "source_ref": "src_a149d3b6c6d2425c"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_3376baa521507aa6",
-  "subject_ref": "evd_7583f9b5f630d31d",
+  "source_ref": "src_a149d3b6c6d2425c",
+  "subject_ref": "evd_c167aff68ba61e38",
   "type": "evidence_bound"
 }
