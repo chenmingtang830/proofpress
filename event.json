@@ -1,41 +1,41 @@
 {
-  "created_at": "2026-08-30T19:17:55.129503Z",
-  "event_id": "ppe_40b80927e50ef017",
+  "created_at": "2026-08-30T19:17:55.376537Z",
+  "event_id": "ppe_22f3af3f75446ce1",
   "evidence": {
-    "digest": "sha256:70c105654e7548016f661efb29f5f8a7111c0435442b07637297e152f6756943",
-    "id": "evd_698a6bd1c9b3038c",
+    "digest": "sha256:48afe5627a0c910397fb0dee062a10120c1046f0ee865968ebfd3deaa6db7b3a",
+    "id": "evd_45e9737ee712a7cc",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:c5c5320236cba9ea0691d5ccfcdc989935667268a9efbdb86e976d09b0d0cb1d",
+    "quote_digest": "sha256:b50e2d8a6b011d043599b68c2e2b21448f677b18dbc67db3f0800d60562eb3c0",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:c5c5320236cba9ea0691d5ccfcdc989935667268a9efbdb86e976d09b0d0cb1d",
-        "section_id": "sec_bed36d4c8cdb4216"
+        "section_digest": "sha256:b50e2d8a6b011d043599b68c2e2b21448f677b18dbc67db3f0800d60562eb3c0",
+        "section_id": "sec_7f80c1b153802173"
       },
-      "quote": "SECTION 1. PURPOSE\nThis revenue procedure facilitates the grant of relief to taxpayers that request relief previously provided in numerous other revenue procedures by consolidating the provisions of those revenue procedures into one revenue procedure and extending relief in certain circumstances. This revenue procedure modifies and supersedes Rev. Proc. 2003-43, 2003-1 C.B. 998; Rev. Proc. 2004-48, 2004-2 C.B. 172; and Rev. Proc. 2007-62, 2007-2 C.B. 786 for taxpayers to make late S corporation elections, Electing Small Business Trust (ESBT) elections, Qualified Subchapter S Trust (QSST) elections, Qualified Subchapter S Subsidiary (QSub) elections, and late corporate classification elections which the taxpayer intended to take effect on the same date that the taxpayer intended that an S corporation election for the entity should take effect. This revenue procedure also incorporates certain relief provisions included in Rev. Proc. 97-48, 1997-2 C.B. 521, and supersedes the relief provided in Situation 1 of Rev. Proc. 97-48. This revenue procedure obsoletes the relief provided in Situation 2 of Rev. Proc. 97-48 because such relief is no longer available. Furthermore, this revenue procedure incorporates certain relief provisions included in Rev. Proc. 2004-49, 2004-2 C.B. 210, and modifies and supersedes the relief provided in sections 4.01 and 4.02 of Rev. Proc. 2004-49. This revenue procedure obsoletes the relief provided in section 4.03 of Rev. Proc. 2004-49 because the time period for its narrow scope of relief has expired.\nThis revenue procedure provides the exclusive simplified methods for taxpayers to request relief for late S corporation elections, ESBT elections, QSST elections, QSub elections, and late corporate classification elections which the taxpayer intended to take effect on the same date that the taxpayer intended that an S corporation election for the entity should take effect. This revenue procedure provides relief if the taxpayer satisfies the general requirements of Section 4 and the specific requirements applicable to that taxpayer under Sections 5 through 7 of this revenue procedure. Accompanying this document is a flowchart designed to aid taxpayers in applying this revenue procedure.\n",
-      "quote_digest": "sha256:c5c5320236cba9ea0691d5ccfcdc989935667268a9efbdb86e976d09b0d0cb1d",
+      "quote": "    3. REPRESENTATIONS AND WARRANTIES OF SELLERS\t22\n        3.1 Organization and Good Standing\t22\n        3.2 Enforceability and Authority; No Conflict\t22\n        3.3 Capitalization of Company and Subsidiaries\t23\n        3.4 Financial Statements\t24\n        3.5 Books and Records\t24\n        3.6 Real and Personal Property\t25\n        3.7 Condition and Sufficiency of Assets\t26\n        3.8 Accounts Receivable\t26\n        3.9 Inventories\t26\n        3.10 No Undisclosed Liabilities\t26\n        3.11 Taxes\t26\n        3.12 No Material Adverse Change\t28\n        3.13 Employee Benefits\t29\n        3.14 Compliance with Legal Requirements; Governmental Authorizations\t31\n        3.15 Legal Proceedings; Orders\t32\n        3.16 Absence of Certain Changes and Events\t33\n        3.17 Contracts\t33\n        3.18 Insurance\t35\n        3.19 Environmental Matters\t37\n        3.20 Employees and Consultants\t38\n        3.21 Labor Disputes; Compliance\t39\n        3.22 Intellectual Property Assets\t39\n        3.23 Compliance with the Foreign Corrupt Practices Act and Export Control and\nAntiboycott Laws\t43\n        3.24 Relationships with Related Persons\t43\n        3.25 Securities Law Matters\t43\n        3.26 Customers and Suppliers\t43\n        3.27 Product Liabilities and Warranties\t43\n        3.28 Brokers or Finders\t44\n        3.29 Disclosure\t44\n",
+      "quote_digest": "sha256:b50e2d8a6b011d043599b68c2e2b21448f677b18dbc67db3f0800d60562eb3c0",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
-        "query": "Retrieve the actual Form 2553, all shareholder consents, proof of filing, CP261 notice, IRS correspondence, and any Rev. Proc. 2013-30 late-election submission.",
+        "query": "Retrieve and verify 26 U.S.C. §§1362(d)(3), 1362(f), 1375 and Treas. Reg. §§1.1362-2(c), 1.1362-3, 1.1362-4, and 1.1375-1, with relevant effective dates and paragraph pinpoints.",
         "version": "1"
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
       "source": {
-        "content_digest": "sha256:489de4a5c467eb0382ef4f29920dc6433adc3a3336da5057aec7f37cd0208560",
+        "content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
         "media_type": "text/plain",
-        "uri": "private://apex/489de4a5c467eb03-1184b3a1"
+        "uri": "private://apex/7beb28a6e0069669-d885dee3"
       }
     },
-    "retrieval_receipt_digest": "sha256:7f2f290d0aa26a8dccdf570c0c830bda66d6c6e3ed5054df970bf70aa2b951c8",
-    "source_content_digest": "sha256:489de4a5c467eb0382ef4f29920dc6433adc3a3336da5057aec7f37cd0208560",
-    "source_digest": "sha256:0e30a41e1d31405a037edcc4e56b65c5107236c02092ff6fca6351e692a30a27",
-    "source_ref": "src_449cd1a48a2b6b92"
+    "retrieval_receipt_digest": "sha256:93f72deb237a1798a57bcbd70851928775805bb64ce910c706920585182a0186",
+    "source_content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
+    "source_digest": "sha256:9b5e55c106d3b2c9d270455bb5af81e282a4e92f3ba0722f868b952faf8ff0b5",
+    "source_ref": "src_1cb20c6823882030"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_449cd1a48a2b6b92",
-  "subject_ref": "evd_698a6bd1c9b3038c",
+  "source_ref": "src_1cb20c6823882030",
+  "subject_ref": "evd_45e9737ee712a7cc",
   "type": "evidence_bound"
 }
