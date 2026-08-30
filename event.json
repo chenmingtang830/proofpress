@@ -1,21 +1,21 @@
 {
-  "created_at": "2026-08-30T19:17:08.231601Z",
-  "event_id": "ppe_b5613491d062f5ea",
+  "created_at": "2026-08-30T19:17:08.421216Z",
+  "event_id": "ppe_9ecc640178aaa0ce",
   "evidence": {
-    "digest": "sha256:0ce191bebecc72243a07bd86f63da85fca854e77291466e4e40e30cc8170f56e",
-    "id": "evd_97dcd1f765886963",
+    "digest": "sha256:c965e3b921d9c16d399421c6dc49872548226a406f9f1253c3c2adfdcc918858",
+    "id": "evd_c0fb8183856c0ff6",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:7ddcbb497e7a005240ec3c6fd5e9d6dbb4b39e4c94905049e1849723d91a489e",
+    "quote_digest": "sha256:7ea221c0df922146c43169a4ff66fbd8913674b65b678165f03bbe5c96144cf2",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:7ddcbb497e7a005240ec3c6fd5e9d6dbb4b39e4c94905049e1849723d91a489e",
-        "section_id": "sec_7cf65dc23c729fe8"
+        "section_digest": "sha256:7ea221c0df922146c43169a4ff66fbd8913674b65b678165f03bbe5c96144cf2",
+        "section_id": "sec_27289a4e873931a2"
       },
-      "quote": "BOARD OF DIRECTORS\nSection 3.1 General Powers.\nThe business and affairs of the Corporation shall be managed by or under the direction of the Board.\nSection 3.2 Number and Qualifications.\nThe number of directors shall be three (3) unless changed by amendment to these Bylaws or by resolution of the stockholders. Directors must be natural persons but need not be Delaware residents or stockholders.\nSection 3.3 Election and Term.\nDirectors shall be elected at each annual meeting of stockholders and shall hold office until the next annual meeting or until their successors are elected.\nSection 3.4 Vacancies.\nAny vacancy may be filled by a majority of the remaining directors, even if less than a quorum.\nSection 3.5 Regular Meetings.\nThe Board shall hold regular meetings at least quarterly.\nSection 3.6 Special Meetings.\nSpecial meetings may be called by the Chair, the President, or any director upon at least two business days’ notice.\nSection 3.7 Quorum; Voting.\nA majority of the directors then in office constitutes a quorum. The act of a majority of directors present at a meeting shall be the act of the Board.\nSection 3.8 Action Without Meeting.\nAny action may be taken without a meeting if all directors consent in writing or by electronic transmission.\nSection 3.9 Committees.\nThe Board may create committees and delegate authority to them as permitted by the DGCL.\nSection 3.10 Minutes.\nThe Secretary shall maintain minutes of all Board and committee meetings.\n\n",
-      "quote_digest": "sha256:7ddcbb497e7a005240ec3c6fd5e9d6dbb4b39e4c94905049e1849723d91a489e",
+      "quote": "PRINT \nName  \nNumber, street, and room or suite no. If a P.O. box, see instructions.  City or town, state or province, country, and ZIP or foreign postal code  \nD Employer identification number  E Date incorporated \nF Total assets (see instructions)  $  \nG Is the corporation electing to be an S corporation beginning with this tax year? See instructions. Yes No H Check if: (1) Final return (2) Name change (3) Address change (4) Amended return (5) S election termination  I Enter the number of shareholders who were shareholders during any part of the tax year . . . . . . . . J Check if corporation: (1) Aggregated activities for section 465 at-risk purposes (2) Grouped activities for section 469 passive activity purposes Caution: Include only trade or business income and expenses on lines 1a through 22. See the instructions for more information. \n1a Gross receipts or sales b Less returns and allowances \t\tc Balance \t1c \n2 Cost of goods sold (attach Form 1125-A) . . . . . . . . . . . . \t. \t. . . . . . \t2 \n3 Gross profit. Subtract line 2 from line 1c . . . . . . . . . . . . \t. \t. . . . . . \t3 \n4 Net gain (loss) from Form 4797, Part II, line 17 (attach Form 4797) . . . . \t. \t. . . . . . \t4 \n5 Other income (loss) (see instructions—attach statement) . . . . . . . \t. \t. . . . . . \t5 \n6 Total income (loss). Add lines 3 through 5 . . . . . . . . . . . \t. \t. . . . . . \t6 \n7 Compensation of officers (see instructions—attach Form 1125-E) . . . . . . . . . . . 8 Salaries and wages (less employment credits) . . . . . . . . . . . . . . . . . 9 Repairs and maintenance . . . . . . . . . . . . . . . . . . . . . . . . \n10 Bad debts . . . . . . . . . . . . . . . . . . . . . . . . . . . . 11 Rents . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 12 Taxes and licenses . . . . . . . . . . . . . . . . . . . . . . . . . . 13 Interest (see instructions) . . . . . . . . . . . . . . . . . . . . . . . . 14 Depreciation from Form 4562 not claimed on Form 1125-A or elsewhere on return (attach Form 4562) \n15 Depletion (do not deduct oil and gas depletion) . . . . . . . . . . . . . . . . 16 Advertising . . . . . . . . . . . . . . . . . . . . . . . . . . . . 17 Pension, profit-sharing, etc., plans . . . . . . . . . . . . . . . . . . . . . 18 Employee benefit programs . . . . . . . . . . . . . . . . . . . . . . . 19 Energy efficient commercial buildings deduction (attach Form 7205) . . . . . . . . . . 20 Other deductions (attach statement) . . . . . . . . . . . . . . . . . . . . 21 Total deductions. Add lines 7 through 20 . . . . . . . . . . . . . . . . . . 22 Ordinary business income (loss). Subtract line 21 from line 6 . . . . . . . . . . . . \t7 \n\t8 \n\t9 \n\t10 \n\t11 \n\t12 \n\t13 \n\t14 \n\t15 \n\t16 \n\t17 \n\t18 \n\t19\n\t20\n\t21 \n\t22\n23 a Excess net passive income or LIFO recapture tax (see instructions) . . . \t23a \t\t23c \nb Tax from Schedule D (Form 1120-S) . . . . . . . . . . . . \t23b \t\t\nc Add lines 23a and 23b (see instructions for additional taxes) . . . . . . \t. \t. . . . . . \t\n24 a Current year’s estimated tax payments and preceding year’s overpayment  credited to the current year . . . . . . . . . . . . . . . b Tax deposited with Form 7004 . . . . . . . . . . . . . . c Credit for federal tax paid on fuels (attach Form 4136) . . . . . . . d Elective payment election amount from Form 3800 . . . . . . . . z Add lines 24a through 24d . . . . . . . . . . . . . . . . \t24a  24b  24c  24d  . \t. . . . . . \t24z\n25 Estimated tax penalty (see instructions). Check if Form 2220 is attached . . \t. \t. . . . . \t25 \n26 Amount owed. If line 24z is smaller than the total of lines 23c and 25, enter amount owed \t\t. . . \t26 \n27 Overpayment. If line 24z is larger than the total of lines 23c and 25, enter amount overpaid \t\t. . . \t27 \n28 Enter amount from line 27: Credited to 2025 estimated tax \t\tRefunded . \t28 \n\n\nIncome  \nDeductions (see instructions for limitations) \nTax and Payments  \nUnder penalties of perjury, I declare that I have examined this return, including accompanying schedules and statements, and to the best of my knowledge and  \nSign  Here \nbelief, it is true, correct, and complete. Declaration of preparer (other than taxpayer) is based on all information of which preparer has any knowledge.  May the IRS discuss this return  \nSignature of officer Date Title \nwith the preparer shown below?  See instructions. Yes No \nPaid  \nPreparer  Use Only \n",
+      "quote_digest": "sha256:7ea221c0df922146c43169a4ff66fbd8913674b65b678165f03bbe5c96144cf2",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
@@ -24,18 +24,18 @@
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
       "source": {
-        "content_digest": "sha256:1cb8fe86d8075d2b126f99858b67aa3a45ced38879cf7b3859b78e577483572b",
+        "content_digest": "sha256:c93c2b228433659eb56b66bfaee1dc3de9ed754d39aa736b60372b74813f3481",
         "media_type": "text/plain",
-        "uri": "private://apex/1cb8fe86d8075d2b-0c1ae063"
+        "uri": "private://apex/c93c2b228433659e-f96ee06e"
       }
     },
-    "retrieval_receipt_digest": "sha256:24e3e5119653cfff350e26db1d9761598c26821ad5cc4b5161f87af78620b22d",
-    "source_content_digest": "sha256:1cb8fe86d8075d2b126f99858b67aa3a45ced38879cf7b3859b78e577483572b",
-    "source_digest": "sha256:dce34be7d3faee591fc3639cc0fc742ebc66a097c301c07eb716b0649e3998a1",
-    "source_ref": "src_3376baa521507aa6"
+    "retrieval_receipt_digest": "sha256:4a8e73df48c4a03d40366e7eab4584996ff38a49d3bac9e09a35de8e305d6400",
+    "source_content_digest": "sha256:c93c2b228433659eb56b66bfaee1dc3de9ed754d39aa736b60372b74813f3481",
+    "source_digest": "sha256:0a36a5ff5eb33d41016d52986e5f40fb7355d329af2f4a939222e040274ce016",
+    "source_ref": "src_1769935b4d6bb417"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_3376baa521507aa6",
-  "subject_ref": "evd_97dcd1f765886963",
+  "source_ref": "src_1769935b4d6bb417",
+  "subject_ref": "evd_c0fb8183856c0ff6",
   "type": "evidence_bound"
 }
