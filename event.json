@@ -1,43 +1,15 @@
 {
-  "created_at": "2026-08-26T20:49:19.207214Z",
-  "event_id": "ppe_629f6f7c16d457c6",
-  "evidence": {
-    "digest": "sha256:c2f2c3bc73d316fc0f129f273345e5eadd6374f7a8b2f861937c55df7ebb3a06",
-    "id": "evd_8f8662c51bd3fdb9",
-    "kind": "evidence",
-    "observation": {
-      "attributes": {
-        "actor": {
-          "id": "human:demo",
-          "type": "human"
-        },
-        "event": {
-          "category": "correction",
-          "content": "The failed candidate-c run is not evidence of a negative product effect.",
-          "corrects": [
-            "trace:trace_demo_001#evt_001"
-          ],
-          "related": [
-            "trace:trace_demo_001#evt_002"
-          ],
-          "tags": [
-            "failed-run",
-            "interpretation"
-          ]
-        },
-        "event_type": "annotation",
-        "project": "coframe-long-horizon-demo",
-        "project_key": "coframe-long-horizon-demo"
-      },
-      "name": "trace.annotation",
-      "status": null,
-      "timestamp": "2026-08-23T00:03:00Z"
-    },
-    "source_digest": "sha256:dbe5d6e347acedfbd460b7098a0e9651b0c3cf1a1c9be4f7f3019bb1d5480b0f",
-    "source_ref": "src_7e2faf7a2bdbeb80"
+  "created_at": "2026-08-30T19:15:55.831465Z",
+  "event_id": "ppe_bb5bdd6d57b32ffb",
+  "record": {
+    "content_digest": "sha256:e7eb786dc671298aa9426792d523f0ec997bee3a570763a8b10f13a1644fc105",
+    "id": "src_e9b083e75ca5f18f",
+    "kind": "retrieval_source",
+    "media_type": "text/plain",
+    "record_hash": "sha256:bbebf48c1f9dee4d30677c0c93c00e3eb349758e8e8a6eac5acafa2f8650d491",
+    "uri": "private://apex/e7eb786dc671298a-1d2051f2"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_7e2faf7a2bdbeb80",
-  "subject_ref": "evd_8f8662c51bd3fdb9",
-  "type": "evidence_bound"
+  "subject_ref": "src_e9b083e75ca5f18f",
+  "type": "source_recorded"
 }
