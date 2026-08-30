@@ -925,6 +925,49 @@ def paired_bootstrap(values: list[float], samples: int = 10_000) -> list[float] 
     return [draws[int(.025 * (samples - 1))], draws[int(.975 * (samples - 1))]]
 
 
+def model_telemetry_summary(calls: list[dict[str, Any]],
+                            receipts: list[dict[str, Any]]) -> dict[str, Any]:
+    """Aggregate complete route usage without exposing prompts or completions."""
+    def percentile(values: list[float], fraction: float) -> float | None:
+        if not values:
+            return None
+        ordered = sorted(values)
+        return ordered[min(len(ordered) - 1, int(fraction * (len(ordered) - 1)))]
+
+    routes: dict[tuple[str, str], dict[str, Any]] = {}
+    for call in calls:
+        key = (str(call.get("model")), str(call.get("provider")))
+        row = routes.setdefault(key, {"model": key[0], "provider": key[1], "calls": 0,
+                                      "successful_calls": 0, "latencies_ms": []})
+        row["calls"] += 1
+        row["successful_calls"] += call.get("status") == "ok"
+        latency = call.get("latency_ms")
+        if isinstance(latency, (int, float)):
+            row["latencies_ms"].append(float(latency))
+    for receipt in receipts:
+        key = (str(receipt.get("model")), str(receipt.get("provider")))
+        row = routes.setdefault(key, {"model": key[0], "provider": key[1], "calls": 0,
+                                      "successful_calls": 0, "latencies_ms": []})
+        for field in ("input_tokens", "output_tokens", "cost_usd"):
+            value = receipt.get(field)
+            if isinstance(value, (int, float)):
+                row[field] = row.get(field, 0) + value
+                row[field + "_receipted_calls"] = row.get(field + "_receipted_calls", 0) + 1
+    output = []
+    for row in routes.values():
+        latencies = row.pop("latencies_ms")
+        row["latency_ms"] = {
+            "receipted_calls": len(latencies), "total": sum(latencies),
+            "mean": statistics.mean(latencies) if latencies else None,
+            "p50": percentile(latencies, .50), "p95": percentile(latencies, .95),
+            "max": max(latencies) if latencies else None,
+        }
+        output.append(row)
+    return {"routes": sorted(output, key=lambda row: (row["model"], row["provider"])),
+            "latency_basis": "client wall time per fixed-route attempt",
+            "token_basis": "gateway terminal receipts"}
+
+
 def paired_workflow_comparisons(cells: list[dict[str, Any]],
                                 executors: tuple[tuple[str, str, str, str, int], ...]
                                 ) -> dict[str, Any]:
@@ -1590,7 +1633,8 @@ def main() -> None:
                                "unreceipted_model_calls": max(0, len(calls) - len(receipts)),
                                "model_cost_usd": sum(known) if len(receipts) == len(calls) else None,
                                "pageindex_cost_usd": pageindex_cost,
-                               "cost_status": "ok" if len(receipts) == len(calls) else "inconclusive"},
+                               "cost_status": "ok" if len(receipts) == len(calls) else "inconclusive",
+                               "model_routes": model_telemetry_summary(calls, receipts)},
                  "decision_boundary": "Private staged evaluation. The admission events are isolated evaluation fixtures, not lawyer admissions or matter authority."}
     if args.native_e2e:
         from native_e2e_contract import (SCHEMA_VERSION, native_completion_failures,

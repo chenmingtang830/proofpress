@@ -7,6 +7,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[3]))
 
 from run_workflow_utility_private import (aggregate_criterion_grades,
                                           diagnostic_projection_inventory,
+                                          model_telemetry_summary,
                                           normalize_criterion_grade)
 
 
@@ -56,6 +57,20 @@ class CriterionDiagnosticTests(unittest.TestCase):
         self.assertEqual(inventory["objects"][0]["receipt_digest"], "sha256:abc")
         self.assertNotIn("very long private text", str(inventory))
         self.assertFalse(inventory["source_text_included"])
+
+    def test_model_telemetry_aggregates_route_tokens_cost_and_latency(self):
+        summary = model_telemetry_summary(
+            [{"model": "m", "provider": "p", "status": "ok", "latency_ms": 10},
+             {"model": "m", "provider": "p", "status": "inconclusive", "latency_ms": 30}],
+            [{"model": "m", "provider": "p", "input_tokens": 100,
+              "output_tokens": 20, "cost_usd": .1},
+             {"model": "m", "provider": "p", "input_tokens": 50,
+              "output_tokens": 10, "cost_usd": .05}])
+        route = summary["routes"][0]
+        self.assertEqual(route["calls"], 2)
+        self.assertEqual(route["successful_calls"], 1)
+        self.assertEqual(route["input_tokens"], 150)
+        self.assertEqual(route["latency_ms"]["mean"], 20)
 
 
 if __name__ == "__main__":
