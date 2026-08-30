@@ -1,21 +1,21 @@
 {
-  "created_at": "2026-08-30T19:17:38.015400Z",
-  "event_id": "ppe_404330a311df36d1",
+  "created_at": "2026-08-30T19:17:38.243328Z",
+  "event_id": "ppe_fc6128431785cf42",
   "evidence": {
-    "digest": "sha256:365f13fa02e8b216450c2eb1c52603c604a8fae4a5a1d5836ae7c2e94ed61aee",
-    "id": "evd_9515b7e6a7bbc093",
+    "digest": "sha256:58ba9abb8efc11c7a16ccc83e0002b9cca470a8537bdf4f7cdd544ddc918a621",
+    "id": "evd_337cd9e43285d239",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:8a5ca3f5314b06f49a27e53683fca4eaa197ae0736c038b57741f09342be5913",
+    "quote_digest": "sha256:d1f533ebff349d370ac35bbf52b9e20640638e17585ce138503cb19ce403433e",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:8a5ca3f5314b06f49a27e53683fca4eaa197ae0736c038b57741f09342be5913",
-        "section_id": "sec_f297602dfa29a44b"
+        "section_digest": "sha256:d1f533ebff349d370ac35bbf52b9e20640638e17585ce138503cb19ce403433e",
+        "section_id": "sec_e638353d0b6848ef"
       },
-      "quote": "﻿Schedule of Historic Distributions\nSummit Filing Solutions, Inc.\nHistoric Distribution Schedule (From S-Corporation Election Effective January 1, 2019)\n\nDistribution Event – March 15, 2019\nTotal Amount Distributed: $11,000\nShareholder\tAmount Distributed\nLaura Kensington\t$2,860\nMichael T. Hartwell\t$2,420\nDanielle R. Soto\t$2,200\nGregory A. Beaumont\t$2,200\nTanya L. Merriweather\t$1,320\n\nDistribution Event – August 3, 2020\nTotal Amount Distributed: $2,300\nShareholder\tAmount Distributed\nLaura Kensington\t$598\nMichael T. Hartwell\t$506\nDanielle R. Soto\t$460\nGregory A. Beaumont\t$460\nTanya L. Merriweather\t$276\n\nDistribution Event – May 22, 2022\nTotal Amount Distributed: $5,200\nShareholder\tAmount Distributed\nLaura Kensington\t$1,092\nMichael T. Hartwell\t$1,924\nDanielle R. Soto\t$840\nGregory A. Beaumont\t$840\nTanya L. Merriweather\t$504\n\nDistribution Event – February 9, 2024\nTotal Amount Distributed: $1,800\nShareholder\tAmount Distributed\nLaura Kensington\t$468\nMichael T. Hartwell\t$396\nDanielle R. Soto\t$360\nGregory A. Beaumont\t$360\nTanya L. Merriweather\t$216\n\nCumulative Distributions Since S-Election\nShareholder\tTotal Received\nLaura Kensington\t$5,018\nMichael T. Hartwell\t$5,246\nDanielle R. Soto\t$3,860\nGregory A. Beaumont\t$3,860\nTanya L. Merriweather\t$2,316\n\nTotal Distributed to All Shareholders: $20,300\n",
-      "quote_digest": "sha256:8a5ca3f5314b06f49a27e53683fca4eaa197ae0736c038b57741f09342be5913",
+      "quote": "﻿SCHEDULE K-1 (Form 1120-S)                                                     2024\nDepartment of the Treasury • Internal Revenue Service                          OMB No. 1545-0123\n\nShareholder’s Share of Income, Deductions, Credits, etc.                       For calendar year 2024\n\n────────────────────────────────────────────────────────────────────────────────────\nPart I ─ Information About the Corporation\n────────────────────────────────────────────────────────────────────────────────────\nA  Corporation’s employer identification number                       12-3456789\nB  Corporation’s name, address, city, state, and ZIP code\n       Summit Filing Solutions, Inc.\n       8280 Willow Oaks Corporate Dr\n       Los Angeles, CA  90001\nC  IRS center where corporation filed return                               Ogden, UT\n\n────────────────────────────────────────────────────────────────────────────────────\nPart II ─ Information About the Shareholder\n────────────────────────────────────────────────────────────────────────────────────\nD  Shareholder’s identifying number                                    111-11-1111\nE  Shareholder’s name, address, city, state, and ZIP code\n       Laura Kensington\n       4428 Willow Bend Ct.\n       Olympia, WA  98502\nF  Shareholder’s percentage of stock ownership\n       Beginning of tax year   26%                 End of tax year   26%\n\n────────────────────────────────────────────────────────────────────────────────────\nPart III ─ Shareholder’s Share of Current Year Income, Deductions, Credits, etc.\n────────────────────────────────────────────────────────────────────────────────────\n1  Ordinary business income (loss)                                   $86,892\n2  Net rental real estate income (loss)                                    0\n3  Other net rental income (loss)                                          0\n4  Interest income                                                     $234\n5a Ordinary dividends                                                      0\n5b Qualified dividends                                                     0\n6  Royalties                                                               0\n7  Net short-term capital gain (loss)                                      0\n8a Net long-term capital gain (loss)                                  ($130)\n8b Collectibles (28%) gain (loss)                                          0\n8c Unrecaptured section 1250 gain                                          0\n9  Net section 1231 gain (loss)                                            0\n10 Other income (loss)                                                     0\n\n11 Section 179 deduction                                                   0\n12 Other deductions                                                        0\n13 Credits                                                                 0\n14 Foreign transactions                                                    0\n15 Charitable contributions                                               0\n16 Items affecting shareholder basis\n   a  Tax-exempt interest income                                           0\n   b  Other tax-exempt income                                              0\n   c  Nondeductible expenses                                               0\n   d  Distributions – cash and marketable securities                       0\n   e  Repayment of loans from shareholders                                0\n17 Other information                                                       0\n\n────────────────────────────────────────────────────────────────────────────────────\nStock and Debt Basis Limitations (for shareholder records)\n────────────────────────────────────────────────────────────────────────────────────\n   Beginning stock basis (per shareholder records)                [to be calculated]\n   + Increase for income items (Lines 1 + 4)                         $87,126\n   – Decrease for loss items (Line 8a)                                  ($130)\n   – Distributions and other reductions                                  0\n   = Net increase to stock basis this year                           $86,996\n\n   Type of income: Active Business Income\n   Foreign country or U.S. possession: N/A\n\n────────────────────────────────────────────────────────────────────────────────────\nPrepared by: Corporate Officer, Summit Filing Solutions, Inc.\nDate prepared: March 10, 2025\n\nThis is an exact substitute Schedule K-1 that matches the official K-1 filed with IRS Form 1120-S on March 15, 2025.\nRetain this copy with your permanent tax records.\n",
+      "quote_digest": "sha256:d1f533ebff349d370ac35bbf52b9e20640638e17585ce138503cb19ce403433e",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
@@ -24,18 +24,18 @@
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
       "source": {
-        "content_digest": "sha256:935fc7a0beb6b568bccbc00f0ea1209959050ad0c96242c27f9e40054cec8009",
+        "content_digest": "sha256:e39cda443bfd47413b263dcc477cb2fd74c8ae8628a7f4734ca9ab6e27e5d2db",
         "media_type": "text/plain",
-        "uri": "private://apex/935fc7a0beb6b568-ba9f6e25"
+        "uri": "private://apex/e39cda443bfd4741-2a741f55"
       }
     },
-    "retrieval_receipt_digest": "sha256:d0c8d09fd297023986b8e554ffe9dbe0d212552ce49e02a1e05889c3abb75427",
-    "source_content_digest": "sha256:935fc7a0beb6b568bccbc00f0ea1209959050ad0c96242c27f9e40054cec8009",
-    "source_digest": "sha256:5ca2ef258db6ac6d7ac5046f627f2dd1618ac381e2afce1fec17e99b812e97c1",
-    "source_ref": "src_eb14d7f1e4caeaf8"
+    "retrieval_receipt_digest": "sha256:ee0eaeb303839d3fa1fa26461ffa15f0a706fee88d7fadd4b12977384c0e5efe",
+    "source_content_digest": "sha256:e39cda443bfd47413b263dcc477cb2fd74c8ae8628a7f4734ca9ab6e27e5d2db",
+    "source_digest": "sha256:d04034d8b7596bc03df5d77e3a95fe1c4db690725591010b9d28d8912f06a30b",
+    "source_ref": "src_217447f65edc93c2"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_eb14d7f1e4caeaf8",
-  "subject_ref": "evd_9515b7e6a7bbc093",
+  "source_ref": "src_217447f65edc93c2",
+  "subject_ref": "evd_337cd9e43285d239",
   "type": "evidence_bound"
 }
