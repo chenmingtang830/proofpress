@@ -1,41 +1,41 @@
 {
-  "created_at": "2026-08-30T19:16:41.411342Z",
-  "event_id": "ppe_ba1a780ddfb12420",
+  "created_at": "2026-08-30T19:16:41.563021Z",
+  "event_id": "ppe_b0809585a1c5ecc0",
   "evidence": {
-    "digest": "sha256:e99d0c7f2594c714d0f37c53b791dbb02fd3e8033767d4f9320251a6b88a093c",
-    "id": "evd_4198a2f9f6dea3ed",
+    "digest": "sha256:8bba2577ce55d59acf049d36af43b5e0b05dff32cf7a5d8318840115c73744ab",
+    "id": "evd_3a0869ac09b21c8d",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:be534874861d2dfce6180f21ed62a5533e699af8c146c5f0a50fc599e64e2348",
+    "quote_digest": "sha256:423775fa5cd1b289a8f8eda8e7d77c37ddce88520bbf1e5dad116e7329ca3c06",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:be534874861d2dfce6180f21ed62a5533e699af8c146c5f0a50fc599e64e2348",
-        "section_id": "sec_d76dd1f9b1c325e6"
+        "section_digest": "sha256:423775fa5cd1b289a8f8eda8e7d77c37ddce88520bbf1e5dad116e7329ca3c06",
+        "section_id": "sec_dcf92ab89b831487"
       },
-      "quote": "﻿Summit Filing Solutions, Inc.\nS‑Corporation Tax Due Diligence Memorandum\n\n",
-      "quote_digest": "sha256:be534874861d2dfce6180f21ed62a5533e699af8c146c5f0a50fc599e64e2348",
+      "quote": "DISTRIBUTIONS AND TAX MATTERS\nSection 6.1 Pro Rata Distributions.\nAll distributions shall be strictly pro rata based on share ownership.\nSection 6.2 Tax Distributions.\nThe Corporation shall make quarterly tax distributions sufficient to cover the highest blended marginal federal and state tax rate applicable to stockholders.\nSection 6.3 Preservation of S-Corporation Status.\nThe Corporation and all stockholders shall take all actions necessary to preserve S-Corporation status, including maintaining permitted shareholders and avoiding disproportionate distributions.\n\n",
+      "quote_digest": "sha256:423775fa5cd1b289a8f8eda8e7d77c37ddce88520bbf1e5dad116e7329ca3c06",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
-        "query": "Summit California corporation Summit California tax filing Summit principal place of business California California corporate income tax Summit",
+        "query": "task specified federal rate 21 California rate 8.84 Summit federal state tax rate calculation",
         "version": "1"
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
       "source": {
-        "content_digest": "sha256:e7eb786dc671298aa9426792d523f0ec997bee3a570763a8b10f13a1644fc105",
+        "content_digest": "sha256:1cb8fe86d8075d2b126f99858b67aa3a45ced38879cf7b3859b78e577483572b",
         "media_type": "text/plain",
-        "uri": "private://apex/e7eb786dc671298a-1d2051f2"
+        "uri": "private://apex/1cb8fe86d8075d2b-0c1ae063"
       }
     },
-    "retrieval_receipt_digest": "sha256:e480c357d94987ad769907427304df6865d64591c87c957f98a79d242dd97f41",
-    "source_content_digest": "sha256:e7eb786dc671298aa9426792d523f0ec997bee3a570763a8b10f13a1644fc105",
-    "source_digest": "sha256:bbebf48c1f9dee4d30677c0c93c00e3eb349758e8e8a6eac5acafa2f8650d491",
-    "source_ref": "src_e9b083e75ca5f18f"
+    "retrieval_receipt_digest": "sha256:75244f47ce1adee41c3d33e4ad5dbac6c2ecbf4cec85ff394dab610ebd96df27",
+    "source_content_digest": "sha256:1cb8fe86d8075d2b126f99858b67aa3a45ced38879cf7b3859b78e577483572b",
+    "source_digest": "sha256:dce34be7d3faee591fc3639cc0fc742ebc66a097c301c07eb716b0649e3998a1",
+    "source_ref": "src_3376baa521507aa6"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_e9b083e75ca5f18f",
-  "subject_ref": "evd_4198a2f9f6dea3ed",
+  "source_ref": "src_3376baa521507aa6",
+  "subject_ref": "evd_3a0869ac09b21c8d",
   "type": "evidence_bound"
 }
