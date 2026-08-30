@@ -1,41 +1,15 @@
 {
-  "created_at": "2026-08-30T19:15:59.641917Z",
-  "event_id": "ppe_f63190d375b3ace5",
-  "evidence": {
-    "digest": "sha256:008e9b420d49a341cc112769905fa85f32fd15a2b5e3a260d30a733d1567442a",
-    "id": "evd_841ccc9a66410346",
-    "kind": "retrieval_evidence",
-    "quote_digest": "sha256:423775fa5cd1b289a8f8eda8e7d77c37ddce88520bbf1e5dad116e7329ca3c06",
-    "retrieval_receipt": {
-      "locator": {
-        "kind": "section_span",
-        "page_end": 1,
-        "page_start": 1,
-        "section_digest": "sha256:423775fa5cd1b289a8f8eda8e7d77c37ddce88520bbf1e5dad116e7329ca3c06",
-        "section_id": "sec_dcf92ab89b831487"
-      },
-      "quote": "DISTRIBUTIONS AND TAX MATTERS\nSection 6.1 Pro Rata Distributions.\nAll distributions shall be strictly pro rata based on share ownership.\nSection 6.2 Tax Distributions.\nThe Corporation shall make quarterly tax distributions sufficient to cover the highest blended marginal federal and state tax rate applicable to stockholders.\nSection 6.3 Preservation of S-Corporation Status.\nThe Corporation and all stockholders shall take all actions necessary to preserve S-Corporation status, including maintaining permitted shareholders and avoiding disproportionate distributions.\n\n",
-      "quote_digest": "sha256:423775fa5cd1b289a8f8eda8e7d77c37ddce88520bbf1e5dad116e7329ca3c06",
-      "retrieval": {
-        "adapter": "bm25-page",
-        "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
-        "query": "2022 federal income tax brackets IRS 2022 tax rates filing status 2022 marginal tax rate $220,000",
-        "version": "1"
-      },
-      "schema_version": "proofpress/retrieval-evidence/v1",
-      "source": {
-        "content_digest": "sha256:1cb8fe86d8075d2b126f99858b67aa3a45ced38879cf7b3859b78e577483572b",
-        "media_type": "text/plain",
-        "uri": "private://apex/1cb8fe86d8075d2b-0c1ae063"
-      }
-    },
-    "retrieval_receipt_digest": "sha256:1c66eafa27ef181abd898870dc2c4288e26383d3cdeb1811afa1cf2f1ba2613b",
-    "source_content_digest": "sha256:1cb8fe86d8075d2b126f99858b67aa3a45ced38879cf7b3859b78e577483572b",
-    "source_digest": "sha256:dce34be7d3faee591fc3639cc0fc742ebc66a097c301c07eb716b0649e3998a1",
-    "source_ref": "src_3376baa521507aa6"
+  "created_at": "2026-08-30T19:15:59.708774Z",
+  "event_id": "ppe_8cca8bfc8baf4633",
+  "record": {
+    "content_digest": "sha256:7a85cbe35b796a125e3e40cded35b1ca5727bd2a53aa97c0ff18aeb87acb1ff1",
+    "id": "src_70d0fc406a157a6b",
+    "kind": "retrieval_source",
+    "media_type": "text/plain",
+    "record_hash": "sha256:a3bdf246e3c49f1d774495e28c477d65f8ba3228e81f5e3c7a1fbf4546ec5f6c",
+    "uri": "private://apex/7a85cbe35b796a12-e2ff4b61"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_3376baa521507aa6",
-  "subject_ref": "evd_841ccc9a66410346",
-  "type": "evidence_bound"
+  "subject_ref": "src_70d0fc406a157a6b",
+  "type": "source_recorded"
 }
