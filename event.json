@@ -1,21 +1,21 @@
 {
-  "created_at": "2026-08-30T19:17:37.558513Z",
-  "event_id": "ppe_6d81a9307e3a47dd",
+  "created_at": "2026-08-30T19:17:37.789380Z",
+  "event_id": "ppe_a6352ddbef5812b2",
   "evidence": {
-    "digest": "sha256:d6e0e6025382951d41a130aabe73602bb586c7438faff08534495f09d78790a2",
-    "id": "evd_1d476a2440020fd9",
+    "digest": "sha256:e4a609e8d00c9316e750ab2650de944ad949c0ae2634c6c95ce487a166c09535",
+    "id": "evd_bf7df0f0c05dd881",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:fc7658c924a654c6538faef1bc4a3c8a523d770d4623f8df987fc4376871c78a",
+    "quote_digest": "sha256:2fec289d0bcf337d51a60200c32c27362761ef899134714801a98e99f0d7bd46",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:fc7658c924a654c6538faef1bc4a3c8a523d770d4623f8df987fc4376871c78a",
-        "section_id": "sec_2b4d0cb001e8f47f"
+        "section_digest": "sha256:2fec289d0bcf337d51a60200c32c27362761ef899134714801a98e99f0d7bd46",
+        "section_id": "sec_25d7ab74268a286d"
       },
-      "quote": "﻿BYLAWS\nof\n Summit Filing Solutions, Inc.\n (A Delaware Corporation)\n Adopted January 10, 2018\n\n",
-      "quote_digest": "sha256:fc7658c924a654c6538faef1bc4a3c8a523d770d4623f8df987fc4376871c78a",
+      "quote": "﻿Schedule of Historic Distributions\nSummit Filing Solutions, Inc.\nHistoric Distribution Schedule (From S-Corporation Election Effective January 1, 2019)\n\nDistribution Event – March 15, 2019\nTotal Amount Distributed: $11,000\nShareholder\tAmount Distributed\nLaura Kensington\t$2,860\nMichael T. Hartwell\t$2,420\nDanielle R. Soto\t$2,200\nGregory A. Beaumont\t$2,200\nTanya L. Merriweather\t$1,320\n\nDistribution Event – August 3, 2020\nTotal Amount Distributed: $2,300\nShareholder\tAmount Distributed\nLaura Kensington\t$598\nMichael T. Hartwell\t$506\nDanielle R. Soto\t$460\nGregory A. Beaumont\t$460\nTanya L. Merriweather\t$276\n\nDistribution Event – May 22, 2022\nTotal Amount Distributed: $4,200\nShareholder\tAmount Distributed\nLaura Kensington\t$1,092\nMichael T. Hartwell\t$924\nDanielle R. Soto\t$840\nGregory A. Beaumont\t$840\nTanya L. Merriweather\t$504\n\nDistribution Event – February 9, 2024\nTotal Amount Distributed: $1,800\nShareholder\tAmount Distributed\nLaura Kensington\t$468\nMichael T. Hartwell\t$396\nDanielle R. Soto\t$360\nGregory A. Beaumont\t$360\nTanya L. Merriweather\t$216\n\nCumulative Distributions Since S-Election\nShareholder\tTotal Received\nLaura Kensington\t$5,018\nMichael T. Hartwell\t$4,246\nDanielle R. Soto\t$3,860\nGregory A. Beaumont\t$3,860\nTanya L. Merriweather\t$2,316\n\nTotal Distributed to All Shareholders: $19,300\n",
+      "quote_digest": "sha256:2fec289d0bcf337d51a60200c32c27362761ef899134714801a98e99f0d7bd46",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
@@ -24,18 +24,18 @@
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
       "source": {
-        "content_digest": "sha256:1cb8fe86d8075d2b126f99858b67aa3a45ced38879cf7b3859b78e577483572b",
+        "content_digest": "sha256:6d71182ebfd566c92aef74ed1c0b1dcd3e55e81919c6694dc0090593e4e2c6e2",
         "media_type": "text/plain",
-        "uri": "private://apex/1cb8fe86d8075d2b-0c1ae063"
+        "uri": "private://apex/6d71182ebfd566c9-cda5e409"
       }
     },
-    "retrieval_receipt_digest": "sha256:b272f7702ada3a7cd0a778d7948bed01cdec6b8e4e43182faa92b20b62c3c62b",
-    "source_content_digest": "sha256:1cb8fe86d8075d2b126f99858b67aa3a45ced38879cf7b3859b78e577483572b",
-    "source_digest": "sha256:dce34be7d3faee591fc3639cc0fc742ebc66a097c301c07eb716b0649e3998a1",
-    "source_ref": "src_3376baa521507aa6"
+    "retrieval_receipt_digest": "sha256:8a1a442cf3791bd4127b6a12a8a828c8e651be4e6ca7f8c7c6a460405eff86ef",
+    "source_content_digest": "sha256:6d71182ebfd566c92aef74ed1c0b1dcd3e55e81919c6694dc0090593e4e2c6e2",
+    "source_digest": "sha256:989960c13ee061b091fe1729fea3a5d2c18922bd774cea0e9aefc530595c208e",
+    "source_ref": "src_338c31876af4f6fd"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_3376baa521507aa6",
-  "subject_ref": "evd_1d476a2440020fd9",
+  "source_ref": "src_338c31876af4f6fd",
+  "subject_ref": "evd_bf7df0f0c05dd881",
   "type": "evidence_bound"
 }
