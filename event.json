@@ -1,25 +1,18 @@
 {
-  "conclusion": {
-    "allowed_actors": [
-      "*"
-    ],
-    "artifact_refs": [],
-    "created_at": "2026-08-30T19:16:03.191854Z",
-    "digest": "sha256:53c8861718d23525b9e915dc854a8d115b814e7f0bb81e6be99301bc6ce788fb",
-    "evidence_refs": [
-      "evd_65663ee8f1000a17"
-    ],
-    "expires_at": null,
-    "id": "knw_85a42dd916ff2ac9",
-    "kind": "conclusion",
-    "proposer": "agent:v8-constructor",
-    "qualifiers": {},
-    "scope": "task_b78c4510be784e6a8b8f0394aafd785d",
-    "statement": "The cited 2022 Schedule K-1 does not supply Laura Kensington’s federal filing status or define the stated $220,000 taxable-income figure."
+  "checks": {
+    "evidence_integrity": true,
+    "evidence_present": true,
+    "not_expired": true,
+    "not_superseded": true,
+    "retrieval_receipts": true,
+    "scope_present": true
   },
-  "created_at": "2026-08-30T19:16:03.219823Z",
-  "event_id": "ppe_7498f64c45b77c3c",
+  "conclusion_digest": "sha256:53c8861718d23525b9e915dc854a8d115b814e7f0bb81e6be99301bc6ce788fb",
+  "created_at": "2026-08-30T19:16:03.313971Z",
+  "eligible": true,
+  "event_id": "ppe_57ef2771e566cb0c",
+  "policy_digest": "sha256:cde050fdc0b2869fecf8ee9d24dee964fc3bbc18e6b489da2e08e7c3df266501",
   "schema_version": "proofpress/knowledge-event/v2",
   "subject_ref": "knw_85a42dd916ff2ac9",
-  "type": "conclusion_proposed"
+  "type": "policy_evaluated"
 }
