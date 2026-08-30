@@ -1,15 +1,41 @@
 {
-  "created_at": "2026-08-30T19:16:02.312162Z",
-  "event_id": "ppe_eda4cf67a4ff280a",
-  "record": {
-    "content_digest": "sha256:e7984814ff482a60f2c23176b237308275ee40224374392e7f95830f1c627384",
-    "id": "src_66b51e515ef0b0d1",
-    "kind": "retrieval_source",
-    "media_type": "text/plain",
-    "record_hash": "sha256:13c62e9233b999e3a583f3c65d031c5325c67e569bb36e4bf21a069ef7c777bb",
-    "uri": "private://apex/e7984814ff482a60-45d4566f"
+  "created_at": "2026-08-30T19:16:02.375597Z",
+  "event_id": "ppe_3fdffbc330b7b153",
+  "evidence": {
+    "digest": "sha256:6fdf47cf1a5fc9ef4498e49d7bc424305b4dd9369ef19f6132786b22c63f6a7b",
+    "id": "evd_16737368c19731f8",
+    "kind": "retrieval_evidence",
+    "quote_digest": "sha256:81e3b6f95e5eeff57588507ad7d3dbd3f62204c9934a2e48e0e091a551813144",
+    "retrieval_receipt": {
+      "locator": {
+        "kind": "section_span",
+        "page_end": 1,
+        "page_start": 1,
+        "section_digest": "sha256:81e3b6f95e5eeff57588507ad7d3dbd3f62204c9934a2e48e0e091a551813144",
+        "section_id": "sec_ca66b8d04a05e81b"
+      },
+      "quote": "﻿\nLetter of Intent Template – Explained\nIntroduction\nThe introduction always references the relevant parties, as well as a discussion of why the potential buyer wants to do a transaction. The buyer may also discuss what it does in more detail and how it believes the proposed transaction is valuable. Below is an example of the introductory remarks in a letter of intent.\nDate\n",
+      "quote_digest": "sha256:81e3b6f95e5eeff57588507ad7d3dbd3f62204c9934a2e48e0e091a551813144",
+      "retrieval": {
+        "adapter": "bm25-page",
+        "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
+        "query": "Retrieve the complete diligence-memo discussion of the June 1, 2022 ineligible-shareholder transfer, effective S-termination date, and consequence absent §1362(f) relief.",
+        "version": "1"
+      },
+      "schema_version": "proofpress/retrieval-evidence/v1",
+      "source": {
+        "content_digest": "sha256:e7984814ff482a60f2c23176b237308275ee40224374392e7f95830f1c627384",
+        "media_type": "text/plain",
+        "uri": "private://apex/e7984814ff482a60-45d4566f"
+      }
+    },
+    "retrieval_receipt_digest": "sha256:e6986ae85ba3667d237f3f3575db5c10e7791581e98d35ea2b98689a2edf8902",
+    "source_content_digest": "sha256:e7984814ff482a60f2c23176b237308275ee40224374392e7f95830f1c627384",
+    "source_digest": "sha256:13c62e9233b999e3a583f3c65d031c5325c67e569bb36e4bf21a069ef7c777bb",
+    "source_ref": "src_66b51e515ef0b0d1"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "subject_ref": "src_66b51e515ef0b0d1",
-  "type": "source_recorded"
+  "source_ref": "src_66b51e515ef0b0d1",
+  "subject_ref": "evd_16737368c19731f8",
+  "type": "evidence_bound"
 }
