@@ -1,21 +1,21 @@
 {
-  "created_at": "2026-08-30T19:17:49.725112Z",
-  "event_id": "ppe_4644970ec3599257",
+  "created_at": "2026-08-30T19:17:49.966547Z",
+  "event_id": "ppe_9a5ac1908465a33e",
   "evidence": {
-    "digest": "sha256:9e2f8d9a8b75e9b5b8bae176294a8eeb849b2ff5752b16300ede8915bfe07724",
-    "id": "evd_eebc5c0c4cfce27a",
+    "digest": "sha256:a8834e8d454933732355dceabcf11327cd0c2171abf1e4fdeeac851a66b2f59a",
+    "id": "evd_af59bd005b2b1d0b",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:bfd7ef25d36351dbe949505b50ca759cacdcfd5dca964ca4babcc04db0f28272",
+    "quote_digest": "sha256:aeb4ed0459927a02d74dc0bb0c8fb5a74472e04f5b8afd0911fc846833794f86",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:bfd7ef25d36351dbe949505b50ca759cacdcfd5dca964ca4babcc04db0f28272",
-        "section_id": "sec_115d3f00ec149e06"
+        "section_digest": "sha256:aeb4ed0459927a02d74dc0bb0c8fb5a74472e04f5b8afd0911fc846833794f86",
+        "section_id": "sec_751f0848d5938b10"
       },
-      "quote": "/A 78 0 R\n/Next 74 0 R\n/Parent 50 0 R\n/Title (MEMORANDUM FINDINGS OF FACT AND OPINION)\n>>\nendobj\n\n52 0 obj\n<<\n",
-      "quote_digest": "sha256:bfd7ef25d36351dbe949505b50ca759cacdcfd5dca964ca4babcc04db0f28272",
+      "quote": "        9.6 NO LEGAL PROHIBITION\nThere will not be in effect any Legal Requirement or Order that prohibits the sale of the Shares by Sellers to Buyer or the consummation of any of the other Contemplated Transactions.\n\n\n\n\n    10. Termination\n\n\n\n\n\n\n\n",
+      "quote_digest": "sha256:aeb4ed0459927a02d74dc0bb0c8fb5a74472e04f5b8afd0911fc846833794f86",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
@@ -24,18 +24,18 @@
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
       "source": {
-        "content_digest": "sha256:f3b1b042a301da0a6bb7952eae285cd59b1a818a9559044a6e9f6d3859adbaf3",
-        "media_type": "application/pdf",
-        "uri": "private://apex/f3b1b042a301da0a-c0113bd4"
+        "content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
+        "media_type": "text/plain",
+        "uri": "private://apex/7beb28a6e0069669-d885dee3"
       }
     },
-    "retrieval_receipt_digest": "sha256:c1fb2584f88eba767a8bfba74240eb9c50b50e1a6da5ca4f48dff4f1bfef0d9d",
-    "source_content_digest": "sha256:f3b1b042a301da0a6bb7952eae285cd59b1a818a9559044a6e9f6d3859adbaf3",
-    "source_digest": "sha256:175e0124af6d3b4aab797ecdb8f61eac6ef4fb1e80362ef05e6135e3702f950b",
-    "source_ref": "src_e73ff682b6190163"
+    "retrieval_receipt_digest": "sha256:e2c92b6fbbf7582e25902ea318fc915eaab12f1898b57b1b5ea0d062a5ede003",
+    "source_content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
+    "source_digest": "sha256:9b5e55c106d3b2c9d270455bb5af81e282a4e92f3ba0722f868b952faf8ff0b5",
+    "source_ref": "src_1cb20c6823882030"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_e73ff682b6190163",
-  "subject_ref": "evd_eebc5c0c4cfce27a",
+  "source_ref": "src_1cb20c6823882030",
+  "subject_ref": "evd_af59bd005b2b1d0b",
   "type": "evidence_bound"
 }
