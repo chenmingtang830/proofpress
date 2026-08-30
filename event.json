@@ -1,41 +1,41 @@
 {
-  "created_at": "2026-08-30T19:16:20.885026Z",
-  "event_id": "ppe_920da7d4f67a363c",
+  "created_at": "2026-08-30T19:16:21.008017Z",
+  "event_id": "ppe_cbbe452722a9dea8",
   "evidence": {
-    "digest": "sha256:a8ba1c67b0ee5c7f51f875e8292664773e6e488b135a5b97a581cf5509c3f106",
-    "id": "evd_d6704636e4a3e55c",
+    "digest": "sha256:dd71a663f64916cca793530a16b3a23943339aee878c6a0d37f80732ced8e9a4",
+    "id": "evd_7583f9b5f630d31d",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:8a5ca3f5314b06f49a27e53683fca4eaa197ae0736c038b57741f09342be5913",
+    "quote_digest": "sha256:7ddcbb497e7a005240ec3c6fd5e9d6dbb4b39e4c94905049e1849723d91a489e",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:8a5ca3f5314b06f49a27e53683fca4eaa197ae0736c038b57741f09342be5913",
-        "section_id": "sec_f297602dfa29a44b"
+        "section_digest": "sha256:7ddcbb497e7a005240ec3c6fd5e9d6dbb4b39e4c94905049e1849723d91a489e",
+        "section_id": "sec_7cf65dc23c729fe8"
       },
-      "quote": "﻿Schedule of Historic Distributions\nSummit Filing Solutions, Inc.\nHistoric Distribution Schedule (From S-Corporation Election Effective January 1, 2019)\n\nDistribution Event – March 15, 2019\nTotal Amount Distributed: $11,000\nShareholder\tAmount Distributed\nLaura Kensington\t$2,860\nMichael T. Hartwell\t$2,420\nDanielle R. Soto\t$2,200\nGregory A. Beaumont\t$2,200\nTanya L. Merriweather\t$1,320\n\nDistribution Event – August 3, 2020\nTotal Amount Distributed: $2,300\nShareholder\tAmount Distributed\nLaura Kensington\t$598\nMichael T. Hartwell\t$506\nDanielle R. Soto\t$460\nGregory A. Beaumont\t$460\nTanya L. Merriweather\t$276\n\nDistribution Event – May 22, 2022\nTotal Amount Distributed: $5,200\nShareholder\tAmount Distributed\nLaura Kensington\t$1,092\nMichael T. Hartwell\t$1,924\nDanielle R. Soto\t$840\nGregory A. Beaumont\t$840\nTanya L. Merriweather\t$504\n\nDistribution Event – February 9, 2024\nTotal Amount Distributed: $1,800\nShareholder\tAmount Distributed\nLaura Kensington\t$468\nMichael T. Hartwell\t$396\nDanielle R. Soto\t$360\nGregory A. Beaumont\t$360\nTanya L. Merriweather\t$216\n\nCumulative Distributions Since S-Election\nShareholder\tTotal Received\nLaura Kensington\t$5,018\nMichael T. Hartwell\t$5,246\nDanielle R. Soto\t$3,860\nGregory A. Beaumont\t$3,860\nTanya L. Merriweather\t$2,316\n\nTotal Distributed to All Shareholders: $20,300\n",
-      "quote_digest": "sha256:8a5ca3f5314b06f49a27e53683fca4eaa197ae0736c038b57741f09342be5913",
+      "quote": "BOARD OF DIRECTORS\nSection 3.1 General Powers.\nThe business and affairs of the Corporation shall be managed by or under the direction of the Board.\nSection 3.2 Number and Qualifications.\nThe number of directors shall be three (3) unless changed by amendment to these Bylaws or by resolution of the stockholders. Directors must be natural persons but need not be Delaware residents or stockholders.\nSection 3.3 Election and Term.\nDirectors shall be elected at each annual meeting of stockholders and shall hold office until the next annual meeting or until their successors are elected.\nSection 3.4 Vacancies.\nAny vacancy may be filled by a majority of the remaining directors, even if less than a quorum.\nSection 3.5 Regular Meetings.\nThe Board shall hold regular meetings at least quarterly.\nSection 3.6 Special Meetings.\nSpecial meetings may be called by the Chair, the President, or any director upon at least two business days’ notice.\nSection 3.7 Quorum; Voting.\nA majority of the directors then in office constitutes a quorum. The act of a majority of directors present at a meeting shall be the act of the Board.\nSection 3.8 Action Without Meeting.\nAny action may be taken without a meeting if all directors consent in writing or by electronic transmission.\nSection 3.9 Committees.\nThe Board may create committees and delegate authority to them as permitted by the DGCL.\nSection 3.10 Minutes.\nThe Secretary shall maintain minutes of all Board and committee meetings.\n\n",
+      "quote_digest": "sha256:7ddcbb497e7a005240ec3c6fd5e9d6dbb4b39e4c94905049e1849723d91a489e",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
-        "query": "\"Summit\" stock transfer 2018 2019 \"Summit\" shareholder death transfer \"Summit\" ownership change February 2019 \"Form 2553\" shareholder changes before filing",
+        "query": "\"Summit\" S election resolution \"Summit\" board consent Form 2553 \"Summit\" shareholder resolution February 2019 \"Summit\" organizational resolutions",
         "version": "1"
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
       "source": {
-        "content_digest": "sha256:935fc7a0beb6b568bccbc00f0ea1209959050ad0c96242c27f9e40054cec8009",
+        "content_digest": "sha256:1cb8fe86d8075d2b126f99858b67aa3a45ced38879cf7b3859b78e577483572b",
         "media_type": "text/plain",
-        "uri": "private://apex/935fc7a0beb6b568-ba9f6e25"
+        "uri": "private://apex/1cb8fe86d8075d2b-0c1ae063"
       }
     },
-    "retrieval_receipt_digest": "sha256:442cb3a0accc2f034dd56fcf81c7b042ac01e40d26e6995e43eb6e64424c50b2",
-    "source_content_digest": "sha256:935fc7a0beb6b568bccbc00f0ea1209959050ad0c96242c27f9e40054cec8009",
-    "source_digest": "sha256:5ca2ef258db6ac6d7ac5046f627f2dd1618ac381e2afce1fec17e99b812e97c1",
-    "source_ref": "src_eb14d7f1e4caeaf8"
+    "retrieval_receipt_digest": "sha256:4ae0954d1f0918364747472d741de04de07311218b3348bb190b98063a5db36f",
+    "source_content_digest": "sha256:1cb8fe86d8075d2b126f99858b67aa3a45ced38879cf7b3859b78e577483572b",
+    "source_digest": "sha256:dce34be7d3faee591fc3639cc0fc742ebc66a097c301c07eb716b0649e3998a1",
+    "source_ref": "src_3376baa521507aa6"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_eb14d7f1e4caeaf8",
-  "subject_ref": "evd_d6704636e4a3e55c",
+  "source_ref": "src_3376baa521507aa6",
+  "subject_ref": "evd_7583f9b5f630d31d",
   "type": "evidence_bound"
 }
