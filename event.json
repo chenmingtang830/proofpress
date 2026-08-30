@@ -1,41 +1,41 @@
 {
-  "created_at": "2026-08-30T19:16:41.256269Z",
-  "event_id": "ppe_05efd1484753e87f",
+  "created_at": "2026-08-30T19:16:41.411342Z",
+  "event_id": "ppe_ba1a780ddfb12420",
   "evidence": {
-    "digest": "sha256:773c16dea54cc7baded2e9bb691d86678f0d2da47b0fc227172413bc3972fdb7",
-    "id": "evd_c0c1738d0aea56a1",
+    "digest": "sha256:e99d0c7f2594c714d0f37c53b791dbb02fd3e8033767d4f9320251a6b88a093c",
+    "id": "evd_4198a2f9f6dea3ed",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:c8c12e4f0fafec38c2537292aa148848574f6559c565a734995ce7dea7116de2",
+    "quote_digest": "sha256:be534874861d2dfce6180f21ed62a5533e699af8c146c5f0a50fc599e64e2348",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:c8c12e4f0fafec38c2537292aa148848574f6559c565a734995ce7dea7116de2",
-        "section_id": "sec_2131c518b6623228"
+        "section_digest": "sha256:be534874861d2dfce6180f21ed62a5533e699af8c146c5f0a50fc599e64e2348",
+        "section_id": "sec_d76dd1f9b1c325e6"
       },
-      "quote": "        5.8 FINANCIAL INFORMATION\nSellers shall deliver to Buyer within \t days after the end of each month a copy of each Acquired Company’s [describe the nature of the financial information required] for such month prepared in a manner and containing information consistent with such Acquired Company’s current practices.\n",
-      "quote_digest": "sha256:c8c12e4f0fafec38c2537292aa148848574f6559c565a734995ce7dea7116de2",
+      "quote": "﻿Summit Filing Solutions, Inc.\nS‑Corporation Tax Due Diligence Memorandum\n\n",
+      "quote_digest": "sha256:be534874861d2dfce6180f21ed62a5533e699af8c146c5f0a50fc599e64e2348",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
-        "query": "Summit transfer date month Carrie Canuck S election termination month Summit effective date loss of S status Summit Summit fiscal year end and affected months",
+        "query": "Summit California corporation Summit California tax filing Summit principal place of business California California corporate income tax Summit",
         "version": "1"
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
       "source": {
-        "content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
+        "content_digest": "sha256:e7eb786dc671298aa9426792d523f0ec997bee3a570763a8b10f13a1644fc105",
         "media_type": "text/plain",
-        "uri": "private://apex/7beb28a6e0069669-d885dee3"
+        "uri": "private://apex/e7eb786dc671298a-1d2051f2"
       }
     },
-    "retrieval_receipt_digest": "sha256:7d844e0e625a3658df91b8180f080741e36158fcf5979ff330319009cf5c31a6",
-    "source_content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
-    "source_digest": "sha256:9b5e55c106d3b2c9d270455bb5af81e282a4e92f3ba0722f868b952faf8ff0b5",
-    "source_ref": "src_1cb20c6823882030"
+    "retrieval_receipt_digest": "sha256:e480c357d94987ad769907427304df6865d64591c87c957f98a79d242dd97f41",
+    "source_content_digest": "sha256:e7eb786dc671298aa9426792d523f0ec997bee3a570763a8b10f13a1644fc105",
+    "source_digest": "sha256:bbebf48c1f9dee4d30677c0c93c00e3eb349758e8e8a6eac5acafa2f8650d491",
+    "source_ref": "src_e9b083e75ca5f18f"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_1cb20c6823882030",
-  "subject_ref": "evd_c0c1738d0aea56a1",
+  "source_ref": "src_e9b083e75ca5f18f",
+  "subject_ref": "evd_4198a2f9f6dea3ed",
   "type": "evidence_bound"
 }
