@@ -1,14 +1,30 @@
 {
-  "conclusion_digest": "sha256:bdcf4b44c55c6ceabed571af7c9ed63aa817f9427a4af1a50b62fd6d71e2e32a",
-  "created_at": "2026-08-30T19:16:46.675484Z",
-  "event_id": "ppe_804a8c8a654de960",
-  "evidence_digests": {
-    "evd_896e0c8ab15a1daa": "sha256:46a006ca1cd5ef2e37bc9f69ff609ff133df7e165beaaa4f0b0534d1eae780b0"
+  "conclusion": {
+    "allowed_actors": [
+      "*"
+    ],
+    "artifact_refs": [],
+    "created_at": "2026-08-30T19:16:46.771681Z",
+    "digest": "sha256:88a7493459eb6756437c3c686e586a6e91cc5ba5eea9e496efb3692321b6f112",
+    "evidence_refs": [
+      "evd_0b7f5cb17b151da5",
+      "evd_4c15864779a1a0f4",
+      "evd_9d6b7dc2448f7dde",
+      "evd_c4a4827f012d387e",
+      "evd_c5555d2a5bb8a6a6",
+      "evd_c7ad83960a511aa6"
+    ],
+    "expires_at": null,
+    "id": "knw_6fb1f9d3a972635b",
+    "kind": "conclusion",
+    "proposer": "agent:v8-constructor",
+    "qualifiers": {},
+    "scope": "task_8ab8c8d7662747d696d52706a8b3de55",
+    "statement": "The quoted 2020 Form 1120-S discloses ordinary business income of $63,300, while the quoted 2020–2022 Schedule K-1 excerpts do not disclose income amounts."
   },
-  "policy_digest": "sha256:cde050fdc0b2869fecf8ee9d24dee964fc3bbc18e6b489da2e08e7c3df266501",
-  "review_ref": "ppe_b2a4edf15a20844a",
-  "reviewer": "human:staged-evaluation-reviewer",
+  "created_at": "2026-08-30T19:16:46.838194Z",
+  "event_id": "ppe_ac66bc87035c1461",
   "schema_version": "proofpress/knowledge-event/v2",
-  "subject_ref": "knw_bf4e606b726169cc",
-  "type": "conclusion_admitted"
+  "subject_ref": "knw_6fb1f9d3a972635b",
+  "type": "conclusion_proposed"
 }
