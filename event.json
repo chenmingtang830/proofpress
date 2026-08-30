@@ -1,41 +1,41 @@
 {
-  "created_at": "2026-08-30T19:17:08.040831Z",
-  "event_id": "ppe_585e736182809dbf",
+  "created_at": "2026-08-30T19:17:08.231601Z",
+  "event_id": "ppe_b5613491d062f5ea",
   "evidence": {
-    "digest": "sha256:c6ac755aba41c3b669ca64442d063d84ed04a70d854edfacf93b64485e52001e",
-    "id": "evd_6ab496356d2c6b34",
+    "digest": "sha256:0ce191bebecc72243a07bd86f63da85fca854e77291466e4e40e30cc8170f56e",
+    "id": "evd_97dcd1f765886963",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:6759c114ffe2223f55609e013bf33a512b13df0819079fa8c80c22bf441ab5f9",
+    "quote_digest": "sha256:7ddcbb497e7a005240ec3c6fd5e9d6dbb4b39e4c94905049e1849723d91a489e",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:6759c114ffe2223f55609e013bf33a512b13df0819079fa8c80c22bf441ab5f9",
-        "section_id": "sec_d406401680282242"
+        "section_digest": "sha256:7ddcbb497e7a005240ec3c6fd5e9d6dbb4b39e4c94905049e1849723d91a489e",
+        "section_id": "sec_7cf65dc23c729fe8"
       },
-      "quote": "        11.1 SURVIVAL; REMEDIES\n    (a) All representations, warranties, covenants, and obligations in this Agreement, the Disclosure Letter, the supplements to the Disclosure Letter, and any certificate, document, or other writing delivered pursuant to this Agreement will survive the Closing and the consummation and performance of the Contemplated Transactions.\n    (b) The right to indemnification, payment, reimbursement, or other remedy based upon any such representation, warranty, covenant, or obligation will not be affected by any investigation (including any environmental investigation or assessment) conducted or any Knowledge acquired at any time, whether before or after the execution and delivery of this Agreement or the Closing Date, with respect to the accuracy or inaccuracy of, or compliance with, such representation, warranty, covenant, or obligation.\n    (c) The waiver of any condition relating to any representation, warranty, covenant, or obligation will not affect the right to indemnification, payment, reimbursement, or other remedy based upon such representation, warranty, covenant, or obligation.\n",
-      "quote_digest": "sha256:6759c114ffe2223f55609e013bf33a512b13df0819079fa8c80c22bf441ab5f9",
+      "quote": "BOARD OF DIRECTORS\nSection 3.1 General Powers.\nThe business and affairs of the Corporation shall be managed by or under the direction of the Board.\nSection 3.2 Number and Qualifications.\nThe number of directors shall be three (3) unless changed by amendment to these Bylaws or by resolution of the stockholders. Directors must be natural persons but need not be Delaware residents or stockholders.\nSection 3.3 Election and Term.\nDirectors shall be elected at each annual meeting of stockholders and shall hold office until the next annual meeting or until their successors are elected.\nSection 3.4 Vacancies.\nAny vacancy may be filled by a majority of the remaining directors, even if less than a quorum.\nSection 3.5 Regular Meetings.\nThe Board shall hold regular meetings at least quarterly.\nSection 3.6 Special Meetings.\nSpecial meetings may be called by the Chair, the President, or any director upon at least two business days’ notice.\nSection 3.7 Quorum; Voting.\nA majority of the directors then in office constitutes a quorum. The act of a majority of directors present at a meeting shall be the act of the Board.\nSection 3.8 Action Without Meeting.\nAny action may be taken without a meeting if all directors consent in writing or by electronic transmission.\nSection 3.9 Committees.\nThe Board may create committees and delegate authority to them as permitted by the DGCL.\nSection 3.10 Minutes.\nThe Secretary shall maintain minutes of all Board and committee meetings.\n\n",
+      "quote_digest": "sha256:7ddcbb497e7a005240ec3c6fd5e9d6dbb4b39e4c94905049e1849723d91a489e",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
-        "query": "loan covenant distribution restricted distributions solvency test credit agreement",
+        "query": "bank statement distribution board minutes tax return discrepancy general ledger mismatch",
         "version": "1"
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
       "source": {
-        "content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
+        "content_digest": "sha256:1cb8fe86d8075d2b126f99858b67aa3a45ced38879cf7b3859b78e577483572b",
         "media_type": "text/plain",
-        "uri": "private://apex/7beb28a6e0069669-d885dee3"
+        "uri": "private://apex/1cb8fe86d8075d2b-0c1ae063"
       }
     },
-    "retrieval_receipt_digest": "sha256:268a18cb719cb096de47c5f538044fab99c534bbae5122d0881fd264f76de083",
-    "source_content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
-    "source_digest": "sha256:9b5e55c106d3b2c9d270455bb5af81e282a4e92f3ba0722f868b952faf8ff0b5",
-    "source_ref": "src_1cb20c6823882030"
+    "retrieval_receipt_digest": "sha256:24e3e5119653cfff350e26db1d9761598c26821ad5cc4b5161f87af78620b22d",
+    "source_content_digest": "sha256:1cb8fe86d8075d2b126f99858b67aa3a45ced38879cf7b3859b78e577483572b",
+    "source_digest": "sha256:dce34be7d3faee591fc3639cc0fc742ebc66a097c301c07eb716b0649e3998a1",
+    "source_ref": "src_3376baa521507aa6"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_1cb20c6823882030",
-  "subject_ref": "evd_6ab496356d2c6b34",
+  "source_ref": "src_3376baa521507aa6",
+  "subject_ref": "evd_97dcd1f765886963",
   "type": "evidence_bound"
 }
