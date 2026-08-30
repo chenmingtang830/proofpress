@@ -1,21 +1,21 @@
 {
-  "created_at": "2026-08-30T19:16:02.844368Z",
-  "event_id": "ppe_bee2fc12f72deb33",
+  "created_at": "2026-08-30T19:16:02.942759Z",
+  "event_id": "ppe_c5fff02293d303d3",
   "evidence": {
-    "digest": "sha256:e911d6788c1a71669bdd7e7e4cb70358954e4d48b714a66503f83df7e05bfeb9",
-    "id": "evd_72390233f7835999",
+    "digest": "sha256:0f4d0dbe26231df79a740a78c47377680acf43ffc82c9d7f6c7982b30fa9b031",
+    "id": "evd_3b29d26e89685d53",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:ac8371f90e59463db1a4d1c4bf3056c6c4eb7da6eabb49ef2c8247657ffe762d",
+    "quote_digest": "sha256:0f9e7239537a10da6de8437582458d6b576521bb85b94469143f7c94f3dbeae7",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:ac8371f90e59463db1a4d1c4bf3056c6c4eb7da6eabb49ef2c8247657ffe762d",
-        "section_id": "sec_5872d3b09b7f0cc7"
+        "section_digest": "sha256:0f9e7239537a10da6de8437582458d6b576521bb85b94469143f7c94f3dbeae7",
+        "section_id": "sec_58fc0eedc226cd36"
       },
-      "quote": "        12.11 REMEDIES CUMULATIVE\nThe rights and remedies of the parties are cumulative and not alternative.\n",
-      "quote_digest": "sha256:ac8371f90e59463db1a4d1c4bf3056c6c4eb7da6eabb49ef2c8247657ffe762d",
+      "quote": "INDEMNIFICATION AND ADVANCEMENT\nSection 7.1 Indemnification.\nThe Corporation shall indemnify directors and officers to the fullest extent permitted by the DGCL.\nSection 7.2 Advancement of Expenses.\nThe Corporation shall advance expenses to directors and officers upon receipt of an undertaking to repay if required by law.\nSection 7.3 Non-Exclusivity.\nThe indemnification rights provided herein are not exclusive of any other rights.\n\n",
+      "quote_digest": "sha256:0f9e7239537a10da6de8437582458d6b576521bb85b94469143f7c94f3dbeae7",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
@@ -24,18 +24,18 @@
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
       "source": {
-        "content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
+        "content_digest": "sha256:1cb8fe86d8075d2b126f99858b67aa3a45ced38879cf7b3859b78e577483572b",
         "media_type": "text/plain",
-        "uri": "private://apex/7beb28a6e0069669-d885dee3"
+        "uri": "private://apex/1cb8fe86d8075d2b-0c1ae063"
       }
     },
-    "retrieval_receipt_digest": "sha256:3555051032e4b94cda1f178508df13725f5a9a178c8a5082e619d43b6c468c6d",
-    "source_content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
-    "source_digest": "sha256:9b5e55c106d3b2c9d270455bb5af81e282a4e92f3ba0722f868b952faf8ff0b5",
-    "source_ref": "src_1cb20c6823882030"
+    "retrieval_receipt_digest": "sha256:f3212cf754b39b5730a68c6a53ed45a1ae6bc90a4fa491d03ce03885224c2e1b",
+    "source_content_digest": "sha256:1cb8fe86d8075d2b126f99858b67aa3a45ced38879cf7b3859b78e577483572b",
+    "source_digest": "sha256:dce34be7d3faee591fc3639cc0fc742ebc66a097c301c07eb716b0649e3998a1",
+    "source_ref": "src_3376baa521507aa6"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_1cb20c6823882030",
-  "subject_ref": "evd_72390233f7835999",
+  "source_ref": "src_3376baa521507aa6",
+  "subject_ref": "evd_3b29d26e89685d53",
   "type": "evidence_bound"
 }
