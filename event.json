@@ -1,41 +1,41 @@
 {
-  "created_at": "2026-08-30T19:17:51.214406Z",
-  "event_id": "ppe_b0c7aa9e22273208",
+  "created_at": "2026-08-30T19:17:51.455582Z",
+  "event_id": "ppe_6e82b5dc7e2d0176",
   "evidence": {
-    "digest": "sha256:da7d51dd8775fa8b8bd8b18d8b28731b830fc847830aa395bcb17c59c2438501",
-    "id": "evd_cb8e9d69554b7ff6",
+    "digest": "sha256:6256bbe8423e45fce0c86f1545e16585999ec9a3b75b0998a01f97de472f6ff1",
+    "id": "evd_cdcd52a1dbcad4bd",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:e1d0fedbb0c90abf76298832501132ee0462b1a3f1357af3ec36209e06dba9cc",
+    "quote_digest": "sha256:7ea221c0df922146c43169a4ff66fbd8913674b65b678165f03bbe5c96144cf2",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:e1d0fedbb0c90abf76298832501132ee0462b1a3f1357af3ec36209e06dba9cc",
-        "section_id": "sec_eef56700c993e851"
+        "section_digest": "sha256:7ea221c0df922146c43169a4ff66fbd8913674b65b678165f03bbe5c96144cf2",
+        "section_id": "sec_27289a4e873931a2"
       },
-      "quote": "[RECIPIENT CITY, STATE, ZIP]\nRE: Stock Purchase\nThis Letter of Intent to Purchase Stock (the “Letter”) sets forth the proposed terms and conditions of the Purchase described hereunder and shall govern the relationship between the Buyer and the Seller (the “Parties”) until replaced by a definitive, formal agreement addressing the same purchase and subject matter (the “Definitive Agreement”). The Purchase considered in this Letter and in the Definitive Agreement is subject in all respects to the following:\n1. THE BUYER. [BUYER NAME] (the “Buyer”) with a mailing address of [ADDRESS].\n2. THE SELLER. [SELLER NAME] (the “Seller”) with a mailing address of [ADDRESS].\n3. THE TRANSACTION. Unless otherwise agreed to by the Parties, the Buyer agrees to pay the Seller the amount of $[PURCHASE PRICE] (the “Purchase Price”) in exchange for [NUMBER OF STOCKS AND STOCK CLASS] (the “Transaction”).\n4. ACCESS TO INFORMATION. After the execution of this Letter, the Buyer and their advisors shall be granted full access to any and all information about the Transaction.\n5. CONFIDENTIALITY. The Seller and Buyer shall maintain the negotiations and pertinent information confidential and limited only to the Parties’ advisors, internal staff, or other necessary third (3rd) parties. Press or public releases are prohibited without prior mutual written authorization from the parties or as required by law.\n6. GOOD FAITH NEGOTIATIONS. The Buyer and Seller are expected to negotiate the terms of the Transaction herein in good faith.\n7. INTENTION OF THE PARTIES. This Letter sets forth the intentions of the Parties to use reasonable efforts to negotiate, in good faith, a Definitive Agreement with respect to all matters herein. Notwithstanding paragraphs 4 through 6, which shall be legally binding, any legal obligations with respect to all other matters shall only arise if and when the Parties execute and deliver a Definitive Agreement.\n8. GOVERNING LAW. This Letter shall be governed under the laws of the State of [STATE NAME].\n",
-      "quote_digest": "sha256:e1d0fedbb0c90abf76298832501132ee0462b1a3f1357af3ec36209e06dba9cc",
+      "quote": "PRINT \nName  \nNumber, street, and room or suite no. If a P.O. box, see instructions.  City or town, state or province, country, and ZIP or foreign postal code  \nD Employer identification number  E Date incorporated \nF Total assets (see instructions)  $  \nG Is the corporation electing to be an S corporation beginning with this tax year? See instructions. Yes No H Check if: (1) Final return (2) Name change (3) Address change (4) Amended return (5) S election termination  I Enter the number of shareholders who were shareholders during any part of the tax year . . . . . . . . J Check if corporation: (1) Aggregated activities for section 465 at-risk purposes (2) Grouped activities for section 469 passive activity purposes Caution: Include only trade or business income and expenses on lines 1a through 22. See the instructions for more information. \n1a Gross receipts or sales b Less returns and allowances \t\tc Balance \t1c \n2 Cost of goods sold (attach Form 1125-A) . . . . . . . . . . . . \t. \t. . . . . . \t2 \n3 Gross profit. Subtract line 2 from line 1c . . . . . . . . . . . . \t. \t. . . . . . \t3 \n4 Net gain (loss) from Form 4797, Part II, line 17 (attach Form 4797) . . . . \t. \t. . . . . . \t4 \n5 Other income (loss) (see instructions—attach statement) . . . . . . . \t. \t. . . . . . \t5 \n6 Total income (loss). Add lines 3 through 5 . . . . . . . . . . . \t. \t. . . . . . \t6 \n7 Compensation of officers (see instructions—attach Form 1125-E) . . . . . . . . . . . 8 Salaries and wages (less employment credits) . . . . . . . . . . . . . . . . . 9 Repairs and maintenance . . . . . . . . . . . . . . . . . . . . . . . . \n10 Bad debts . . . . . . . . . . . . . . . . . . . . . . . . . . . . 11 Rents . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 12 Taxes and licenses . . . . . . . . . . . . . . . . . . . . . . . . . . 13 Interest (see instructions) . . . . . . . . . . . . . . . . . . . . . . . . 14 Depreciation from Form 4562 not claimed on Form 1125-A or elsewhere on return (attach Form 4562) \n15 Depletion (do not deduct oil and gas depletion) . . . . . . . . . . . . . . . . 16 Advertising . . . . . . . . . . . . . . . . . . . . . . . . . . . . 17 Pension, profit-sharing, etc., plans . . . . . . . . . . . . . . . . . . . . . 18 Employee benefit programs . . . . . . . . . . . . . . . . . . . . . . . 19 Energy efficient commercial buildings deduction (attach Form 7205) . . . . . . . . . . 20 Other deductions (attach statement) . . . . . . . . . . . . . . . . . . . . 21 Total deductions. Add lines 7 through 20 . . . . . . . . . . . . . . . . . . 22 Ordinary business income (loss). Subtract line 21 from line 6 . . . . . . . . . . . . \t7 \n\t8 \n\t9 \n\t10 \n\t11 \n\t12 \n\t13 \n\t14 \n\t15 \n\t16 \n\t17 \n\t18 \n\t19\n\t20\n\t21 \n\t22\n23 a Excess net passive income or LIFO recapture tax (see instructions) . . . \t23a \t\t23c \nb Tax from Schedule D (Form 1120-S) . . . . . . . . . . . . \t23b \t\t\nc Add lines 23a and 23b (see instructions for additional taxes) . . . . . . \t. \t. . . . . . \t\n24 a Current year’s estimated tax payments and preceding year’s overpayment  credited to the current year . . . . . . . . . . . . . . . b Tax deposited with Form 7004 . . . . . . . . . . . . . . c Credit for federal tax paid on fuels (attach Form 4136) . . . . . . . d Elective payment election amount from Form 3800 . . . . . . . . z Add lines 24a through 24d . . . . . . . . . . . . . . . . \t24a  24b  24c  24d  . \t. . . . . . \t24z\n25 Estimated tax penalty (see instructions). Check if Form 2220 is attached . . \t. \t. . . . . \t25 \n26 Amount owed. If line 24z is smaller than the total of lines 23c and 25, enter amount owed \t\t. . . \t26 \n27 Overpayment. If line 24z is larger than the total of lines 23c and 25, enter amount overpaid \t\t. . . \t27 \n28 Enter amount from line 27: Credited to 2025 estimated tax \t\tRefunded . \t28 \n\n\nIncome  \nDeductions (see instructions for limitations) \nTax and Payments  \nUnder penalties of perjury, I declare that I have examined this return, including accompanying schedules and statements, and to the best of my knowledge and  \nSign  Here \nbelief, it is true, correct, and complete. Declaration of preparer (other than taxpayer) is based on all information of which preparer has any knowledge.  May the IRS discuss this return  \nSignature of officer Date Title \nwith the preparer shown below?  See instructions. Yes No \nPaid  \nPreparer  Use Only \n",
+      "quote_digest": "sha256:7ea221c0df922146c43169a4ff66fbd8913674b65b678165f03bbe5c96144cf2",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
-        "query": "Retrieve the executed Office Lease Agreement between Summit Filing Solutions, Inc. and Anderson Instruments, including amendments, addenda, renewal documents, rent schedules, concessions, deposits, purchase options, and signatures.",
+        "query": "Retrieve Summit’s complete income schedules, Forms 1120-S, Schedules K and K-1, general ledgers, rent ledgers, and attached statements for 2019 through the relevant termination period, excluding generated or fictional documents.",
         "version": "1"
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
       "source": {
-        "content_digest": "sha256:1fa432744307c6e3d7cd1a691e8bd26402a340a0de51cead624710e85b4e3943",
+        "content_digest": "sha256:c93c2b228433659eb56b66bfaee1dc3de9ed754d39aa736b60372b74813f3481",
         "media_type": "text/plain",
-        "uri": "private://apex/1fa432744307c6e3-ff90ef47"
+        "uri": "private://apex/c93c2b228433659e-f96ee06e"
       }
     },
-    "retrieval_receipt_digest": "sha256:433602bec151884256146078aab1934796d1315069e7bdb53731436674a42860",
-    "source_content_digest": "sha256:1fa432744307c6e3d7cd1a691e8bd26402a340a0de51cead624710e85b4e3943",
-    "source_digest": "sha256:41daae633da435245284fba5ee846720c69c51f9f4eec17a5f3473e38eea79fe",
-    "source_ref": "src_15f480947ea56e19"
+    "retrieval_receipt_digest": "sha256:755c99a06da87b1f6a6d39cecd27c1366eaffbde78c6fe987f6c796647696a21",
+    "source_content_digest": "sha256:c93c2b228433659eb56b66bfaee1dc3de9ed754d39aa736b60372b74813f3481",
+    "source_digest": "sha256:0a36a5ff5eb33d41016d52986e5f40fb7355d329af2f4a939222e040274ce016",
+    "source_ref": "src_1769935b4d6bb417"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_15f480947ea56e19",
-  "subject_ref": "evd_cb8e9d69554b7ff6",
+  "source_ref": "src_1769935b4d6bb417",
+  "subject_ref": "evd_cdcd52a1dbcad4bd",
   "type": "evidence_bound"
 }
