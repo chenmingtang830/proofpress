@@ -99,6 +99,20 @@ class OpenDiscoveryTests(unittest.TestCase):
         self.assertEqual(value["state"]["limits"]["max_lifetime_results"], None)
         self.assertFalse(value["state"]["governance_boundary"]["automatic_admission"])
 
+    def test_decision_provider_exhaustion_finalizes_with_current_state(self):
+        class FakeIndex:
+            doc_meta = {}
+            def inventory(self): return []
+        value = run_quality_open_discovery(
+            query="analyze", scope="task-1", index=FakeIndex(),
+            decide=lambda _: (_ for _ in ()).throw(RuntimeError("fixed route exhausted")),
+            graph={"task": {"task_id": "task-1"}, "construction": {}},
+            raw_corpus_control=True)
+        self.assertEqual(value["stop_reason"],
+                         "executor_ready_decision_provider_guard_finalization")
+        self.assertEqual(value["trace"][0]["reason"], "fixed_route_attempts_exhausted")
+        self.assertFalse(value["state"]["governance_boundary"]["automatic_admission"])
+
 
 if __name__ == "__main__":
     unittest.main()

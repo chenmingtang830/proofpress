@@ -88,6 +88,7 @@ AGENTIC_TOOL_CONDITIONS = {"v14-agentic-open-loop", V15_STATIC_AGENTIC_CONDITION
                            V17_RAW_CORPUS_CONDITION}
 AGENTIC_READY_STOPS = {"executor_ready", "executor_ready_cycle_guard_finalization",
                        "executor_ready_context_guard_finalization",
+                       "executor_ready_decision_provider_guard_finalization",
                        "executor_ready_wall_guard_finalization"}
 MAX_DISCLOSURES_PER_TASK = 3
 MAX_DISCOVERED_PER_CALL = 5

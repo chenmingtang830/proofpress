@@ -120,7 +120,13 @@ def run_agentic_disclosure(
     trace = []
     stop_reason = "tool_budget_exhausted"
     for call_index in range(MAX_AGENT_TOOL_CALLS + 1):
-        decision = decide(state)
+        try:
+            decision = decide(state)
+        except RuntimeError:
+            trace.append({"decision_index": call_index, "action": "decision_provider",
+                          "status": "blocked", "reason": "fixed_route_attempts_exhausted"})
+            stop_reason = "executor_ready_decision_provider_guard_finalization"
+            break
         action = decision.get("action")
         trace_row = {"decision_index": call_index, "action": action,
                      "query_digest": digest(str(decision.get("query", ""))),
@@ -232,7 +238,13 @@ def run_open_loop_agentic_disclosure(
         if state_token_upper_bound(state) >= state_token_limit:
             stop_reason = "executor_ready_context_guard_finalization"
             break
-        decision = decide(state)
+        try:
+            decision = decide(state)
+        except RuntimeError:
+            trace.append({"decision_index": decision_index, "action": "decision_provider",
+                          "status": "blocked", "reason": "fixed_route_attempts_exhausted"})
+            stop_reason = "executor_ready_decision_provider_guard_finalization"
+            break
         action = decision.get("action")
         signature = digest({key: decision.get(key) for key in
                             ("action", "query", "seed_claim_ids", "relation_types")})
@@ -329,7 +341,13 @@ def run_quality_open_discovery(
         if state_token_upper_bound(state) >= state_token_limit:
             stop_reason = "executor_ready_context_guard_finalization"
             break
-        decision = decide(state)
+        try:
+            decision = decide(state)
+        except RuntimeError:
+            trace.append({"decision_index": decision_index, "action": "decision_provider",
+                          "status": "blocked", "reason": "fixed_route_attempts_exhausted"})
+            stop_reason = "executor_ready_decision_provider_guard_finalization"
+            break
         action = str(decision.get("action") or "")
         signature = digest({key: decision.get(key) for key in (
             "action", "query", "seed_claim_ids", "relation_types", "object_ids",
