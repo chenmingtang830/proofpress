@@ -1,41 +1,15 @@
 {
-  "created_at": "2026-08-30T19:16:00.711239Z",
-  "event_id": "ppe_9d712af8bde0b950",
-  "evidence": {
-    "digest": "sha256:76e3ebd41c6c083ea84800001124005b1b824e27d2fa40b663896d528f48d343",
-    "id": "evd_2a01598110cb316b",
-    "kind": "retrieval_evidence",
-    "quote_digest": "sha256:c9754494e822e74a5e86f2440d8c49968e4fec5bacfb916e73a9a287f317c53e",
-    "retrieval_receipt": {
-      "locator": {
-        "kind": "section_span",
-        "page_end": 1,
-        "page_start": 1,
-        "section_digest": "sha256:c9754494e822e74a5e86f2440d8c49968e4fec5bacfb916e73a9a287f317c53e",
-        "section_id": "sec_4cadc8f75a9aefdc"
-      },
-      "quote": "        7.1 COOPERATION AND PROCEEDINGS; ACCESS TO RECORDS\n    (a) After the Closing, each Seller shall cooperate with Buyer and its counsel and make itself and its Representatives available to Buyer and the Acquired Companies in connection with the institution or defense of any Proceeding, whether existing, threatened, or anticipated, involving or relating to the Contemplated Transactions, Buyer, any Seller, or any Acquired Company, including providing testimony, Records, and other information.\n    (b) Each Seller and Buyer will make available to the other any Records in the nonrequesting party’s custody or control for the purpose of preparing any financial statement or Tax Return or preparing for or defending any tax-related examination of the requesting party or any Acquired Company by any Governmental Body. The party requesting such Records will reimburse the nonrequesting party for the reasonable out-of-pocket costs and expenses incurred by the nonrequesting party. The nonrequesting party will afford access to such Records during normal business hours, upon reasonable advance notice given by the requesting party, and subject to such reasonable limitations as the nonrequesting party may impose to delete competitively sensitive or privileged information.\n",
-      "quote_digest": "sha256:c9754494e822e74a5e86f2440d8c49968e4fec5bacfb916e73a9a287f317c53e",
-      "retrieval": {
-        "adapter": "bm25-page",
-        "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
-        "query": "Retrieve the full diligence memo, Forms 2553 and acceptance notices, 2019-2022 Forms 1120-S, shareholder eligibility records, and any Section 1362(f) relief materials to determine actual 2022 classification.",
-        "version": "1"
-      },
-      "schema_version": "proofpress/retrieval-evidence/v1",
-      "source": {
-        "content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
-        "media_type": "text/plain",
-        "uri": "private://apex/7beb28a6e0069669-d885dee3"
-      }
-    },
-    "retrieval_receipt_digest": "sha256:74e4c61198fd2aacce59f930b88bdb41d44d126b04a87084c5a2fef391a4bc3d",
-    "source_content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
-    "source_digest": "sha256:9b5e55c106d3b2c9d270455bb5af81e282a4e92f3ba0722f868b952faf8ff0b5",
-    "source_ref": "src_1cb20c6823882030"
+  "created_at": "2026-08-30T19:16:00.776079Z",
+  "event_id": "ppe_f2cac706a4e8bd6f",
+  "record": {
+    "content_digest": "sha256:6faf99551d2cdebd37bf51a7aeb9aeaac551ff3c4b7687ac566f99eabe96a03e",
+    "id": "src_44650437570330df",
+    "kind": "retrieval_source",
+    "media_type": "text/plain",
+    "record_hash": "sha256:a2a3f36b3a7d530c32495c11b252e2abcc2b26af9a3822db7f5ce37be4ca8e11",
+    "uri": "private://apex/6faf99551d2cdebd-a6ca2094"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_1cb20c6823882030",
-  "subject_ref": "evd_2a01598110cb316b",
-  "type": "evidence_bound"
+  "subject_ref": "src_44650437570330df",
+  "type": "source_recorded"
 }
