@@ -1,41 +1,41 @@
 {
-  "created_at": "2026-08-30T19:16:23.008912Z",
-  "event_id": "ppe_2aa04018140db305",
+  "created_at": "2026-08-30T19:16:23.154892Z",
+  "event_id": "ppe_f8602a2fb26b4894",
   "evidence": {
-    "digest": "sha256:12a4158bede2cd91a1c0836fc73f25f4c70686469fe93dce4af8d5156fe1f0e9",
-    "id": "evd_c30c62499b841afa",
+    "digest": "sha256:86f265f3f4e50264965ab0705b6ddc5abad79dc85f4cd1a5b497f5029317aef8",
+    "id": "evd_fb2e4fef4d7442a0",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:481e70e0eb0998e55a59c364f5eb0f621c9877ec77113a6c03cadebdca04666d",
+    "quote_digest": "sha256:c5c5320236cba9ea0691d5ccfcdc989935667268a9efbdb86e976d09b0d0cb1d",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:481e70e0eb0998e55a59c364f5eb0f621c9877ec77113a6c03cadebdca04666d",
-        "section_id": "sec_6e0279669a3c5be8"
+        "section_digest": "sha256:c5c5320236cba9ea0691d5ccfcdc989935667268a9efbdb86e976d09b0d0cb1d",
+        "section_id": "sec_bed36d4c8cdb4216"
       },
-      "quote": "        3.5 BOOKS AND RECORDS\n    (a) The books of account and other Records of each Acquired Company, all of which have been made available to Buyer, are complete and correct, represent actual, bona fide transactions, and have been maintained in accordance with sound business practices and the requirements of Section 13(b)(2) of the Exchange Act (whether or not any Acquired Company is subject to that Section). The Acquired Companies have implemented and maintain a system of internal control over financial reporting (as defined in Rules 13a-15(f) and 15d-15(f) under the Exchange Act) sufficient to provide reasonable assurance regarding the reliability of financial reporting and the preparation of financial statements for external purposes in accordance with GAAP, including that (i) transactions are executed in accordance with management’s general or specific authorizations, (ii) transactions are recorded as necessary to permit preparation of financial statements in conformity with GAAP and to maintain asset accountability, (iii) access to assets is permitted only in accordance with management’s general or specific authorization, and (iv) the recorded accountability for assets is compared with the existing assets at reasonable intervals and appropriate action is taken with respect to any differences.\n    (b) The minute books of each Acquired Company contain complete and correct Records of all meetings held of, and actions taken by written consent of, the holders of voting securities, the board of\ndirectors or Persons exercising similar authority, and committees of the board of directors or such Persons of such Acquired Company, and no meeting of any such holders, board of directors, Persons, or committee has been held, and no other action has been taken, for which minutes or other evidence of action have not been prepared and are not contained in such minute books. Each Acquired Company has at all times maintained complete and correct Records of all issuances and transfers of its Equity Securities. At the Closing, all such minute books and Records will be in the possession of the Company and located at [specify location(s)].\n",
-      "quote_digest": "sha256:481e70e0eb0998e55a59c364f5eb0f621c9877ec77113a6c03cadebdca04666d",
+      "quote": "SECTION 1. PURPOSE\nThis revenue procedure facilitates the grant of relief to taxpayers that request relief previously provided in numerous other revenue procedures by consolidating the provisions of those revenue procedures into one revenue procedure and extending relief in certain circumstances. This revenue procedure modifies and supersedes Rev. Proc. 2003-43, 2003-1 C.B. 998; Rev. Proc. 2004-48, 2004-2 C.B. 172; and Rev. Proc. 2007-62, 2007-2 C.B. 786 for taxpayers to make late S corporation elections, Electing Small Business Trust (ESBT) elections, Qualified Subchapter S Trust (QSST) elections, Qualified Subchapter S Subsidiary (QSub) elections, and late corporate classification elections which the taxpayer intended to take effect on the same date that the taxpayer intended that an S corporation election for the entity should take effect. This revenue procedure also incorporates certain relief provisions included in Rev. Proc. 97-48, 1997-2 C.B. 521, and supersedes the relief provided in Situation 1 of Rev. Proc. 97-48. This revenue procedure obsoletes the relief provided in Situation 2 of Rev. Proc. 97-48 because such relief is no longer available. Furthermore, this revenue procedure incorporates certain relief provisions included in Rev. Proc. 2004-49, 2004-2 C.B. 210, and modifies and supersedes the relief provided in sections 4.01 and 4.02 of Rev. Proc. 2004-49. This revenue procedure obsoletes the relief provided in section 4.03 of Rev. Proc. 2004-49 because the time period for its narrow scope of relief has expired.\nThis revenue procedure provides the exclusive simplified methods for taxpayers to request relief for late S corporation elections, ESBT elections, QSST elections, QSub elections, and late corporate classification elections which the taxpayer intended to take effect on the same date that the taxpayer intended that an S corporation election for the entity should take effect. This revenue procedure provides relief if the taxpayer satisfies the general requirements of Section 4 and the specific requirements applicable to that taxpayer under Sections 5 through 7 of this revenue procedure. Accompanying this document is a flowchart designed to aid taxpayers in applying this revenue procedure.\n",
+      "quote_digest": "sha256:c5c5320236cba9ea0691d5ccfcdc989935667268a9efbdb86e976d09b0d0cb1d",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
-        "query": "Executed Summit Form 2553, all pages and attachments; certified-mail/fax evidence; IRS account transcript; complete CP261 and other correspondence; any corrected or refiled election.",
+        "query": "IRC §1362(b), applicable §1.1362-6 election-timing provisions, Rev. Proc. 2013-30 sections governing late S elections, and §1362(f) relief authorities distinguishing invalid election from later termination.",
         "version": "1"
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
       "source": {
-        "content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
+        "content_digest": "sha256:489de4a5c467eb0382ef4f29920dc6433adc3a3336da5057aec7f37cd0208560",
         "media_type": "text/plain",
-        "uri": "private://apex/7beb28a6e0069669-d885dee3"
+        "uri": "private://apex/489de4a5c467eb03-1184b3a1"
       }
     },
-    "retrieval_receipt_digest": "sha256:b7e0dd4e50fc8788d3b402a78b0c08f6ba48545d1d5d8c693e0611f337d20801",
-    "source_content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
-    "source_digest": "sha256:9b5e55c106d3b2c9d270455bb5af81e282a4e92f3ba0722f868b952faf8ff0b5",
-    "source_ref": "src_1cb20c6823882030"
+    "retrieval_receipt_digest": "sha256:82e20b25b5cf2d6434cffa3f5346d2aedd01bcb21e3c3d5fd53e2caed21c0da3",
+    "source_content_digest": "sha256:489de4a5c467eb0382ef4f29920dc6433adc3a3336da5057aec7f37cd0208560",
+    "source_digest": "sha256:0e30a41e1d31405a037edcc4e56b65c5107236c02092ff6fca6351e692a30a27",
+    "source_ref": "src_449cd1a48a2b6b92"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_1cb20c6823882030",
-  "subject_ref": "evd_c30c62499b841afa",
+  "source_ref": "src_449cd1a48a2b6b92",
+  "subject_ref": "evd_fb2e4fef4d7442a0",
   "type": "evidence_bound"
 }
