@@ -1,41 +1,41 @@
 {
-  "created_at": "2026-08-30T19:16:02.054274Z",
-  "event_id": "ppe_f5e6bfec9c6c3abc",
+  "created_at": "2026-08-30T19:16:02.151063Z",
+  "event_id": "ppe_bb6e176d743d2388",
   "evidence": {
-    "digest": "sha256:1b7214c35e208905898d36f44672a93df8545b6f9cbe99b6ca8c1cbaf0e8c039",
-    "id": "evd_1fdc77dcbc4a3390",
+    "digest": "sha256:36a21b15cfb77f3a8dff0a673f1600a97b5cb24f0e41d93c160d5258d9cf2103",
+    "id": "evd_23caa390049e4491",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:c6db9ceaa6bb988d526519c2736b35d552a811f412b3a8797f156d87ff20bbfc",
+    "quote_digest": "sha256:e7416ad423af0eaa85587ee8f42fc5e3721129d5aff5f80ed88f54e930c21a56",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:c6db9ceaa6bb988d526519c2736b35d552a811f412b3a8797f156d87ff20bbfc",
-        "section_id": "sec_e60d879be65f8a0f"
+        "section_digest": "sha256:e7416ad423af0eaa85587ee8f42fc5e3721129d5aff5f80ed88f54e930c21a56",
+        "section_id": "sec_7636ed9e4c840be0"
       },
-      "quote": "OFFICERS\nSection 4.1 Officers.\nThe officers of the Corporation shall consist of a President, a Secretary, and a Treasurer, and may include a Chair of the Board and any assistant officers as appointed by the Board.\nSection 4.2 Appointment.\nOfficers shall be appointed by the Board annually and shall serve at the pleasure of the Board.\nSection 4.3 Duties.\n(a) President. Chief executive officer of the Corporation, responsible for oversight of operations.\n (b) Secretary. Maintains corporate records and minutes.\n (c) Treasurer. Responsible for financial management and reporting.\nSection 4.4 Removal.\nAny officer may be removed by the Board at any time.\nSection 4.5 Vacancies.\nA vacancy in any office shall be filled by the Board.\n\n",
-      "quote_digest": "sha256:c6db9ceaa6bb988d526519c2736b35d552a811f412b3a8797f156d87ff20bbfc",
+      "quote": "        2.6 ADJUSTMENT PROCEDURE\n    (a) Buyer shall prepare a consolidated balance sheet of the Acquired Companies as of the close of business on the Closing Date [the Business Day prior to the Closing Date] (the “Closing Balance Sheet”). The Closing Balance Sheet shall be prepared using the accounting principles, policies, and practices set forth on Exhibit 2.6(a). Buyer shall deliver the Closing Balance Sheet and the determination of the Adjustment Amount to Sellers’ Representative within ninety (90) days following the Closing Date.\n    (b) Upon execution of such access letters as may be reasonably required by Buyer, Sellers’ Representative and its Representatives shall, during reasonable business hours, be given reasonable access to (and copies of) all Buyer’s and its Representatives’ books, records, and other documents, including work papers, worksheets, notes, and schedules, used in preparation of the Closing Balance Sheet and the determination of the Adjustment Amount, for the purpose of reviewing the Closing Balance Sheet and determination of the Adjustment Amount, in each case, other than certain work papers that Buyer considers proprietary, such as internal control documentation, engagement planning, time control and audit sign off, and quality control work papers.\n    (c) If within 30 days following delivery of the Closing Balance Sheet and the determination of the Adjustment Amount to Sellers’ Representative, Sellers’ Representative has not given Buyer notice of an objection as to any amounts set forth on the Closing Balance Sheet or the determination of the Adjustment Amount (which notice shall state in reasonable detail the basis of Sellers’ Representative’s objections and Sellers’ proposed adjustments (the “Objection Notice”)), the Closing Balance Sheet and the determination of the Adjustment Amount as prepared by Buyer will be final, binding, and conclusive on the parties.\n    (d) If Sellers’ Representative timely gives Buyer an Objection Notice and if Sellers’ Representative and Buyer fail to resolve the issues raised in the Objection Notice within 30 days after giving the Objection Notice, Sellers’ Representative and Buyer shall submit the issues remaining in dispute for resolution to [name of individual] in the [location] office of [name of accounting firm] (or, if [name of individual or name of accounting firm] is providing services to Buyer or a Seller or is otherwise unable or unwilling to serve in such capacity, a recognized national or regional independent accounting firm mutually acceptable to Buyer and Sellers’ Representative) (the “Independent Accountants”).\n    (e) The parties shall negotiate in good faith in order to seek agreement on the procedures to be followed by the Independent Accountants, including procedures with regard to the presentation of evidence. If the parties are unable to agree upon procedures within 10 days of the submission to the Independent Accountants, the Independent Accountants shall establish such procedures giving due regard to the intention of the parties to resolve disputes as promptly, efficiently, and inexpensively as\npossible, which procedures may, but need not, be those proposed by either Buyer or Sellers’ Representative. The Independent Accountants shall be directed to resolve only those issues in dispute and render a written report on their resolution of disputed issues with respect to the Closing Balance Sheet and the resulting Adjustment Amount as promptly as practicable, but no later than 60 days after the date on which the Independent Accountants are engaged. The determination by the Independent Accountants will be based solely on written submissions of Buyer, on the one hand, and Sellers’ Representative, on the other hand, and will not involve independent review. Any determination of the Closing Balance Sheet or the Adjustment Amount by the Independent Accountants will not be outside the range established by the amounts in (i) the Closing Balance Sheet and the determination of the Adjustment Amount proposed by Buyer, and (ii) Sellers’ Representative’s proposed adjustments thereto. Such determination will be final, binding, and conclusive on the parties as of the date of the determination notice sent by the Independent Accountants.\n    (f) If issues are submitted to the Independent Accountants for resolution:\n        (i) Sellers’ Representative and Buyer shall execute any agreement required by the Independent Accountants to accept their engagement pursuant to Section 2.6(d);\n        (ii) Sellers’ Representative and Buyer shall promptly furnish or cause to be furnished to the Independent Accountants such work papers and other documents and information relating to the disputed issues as the Independent Accountants may request and are available to that party or its accountants or other Representatives, and shall be afforded the opportunity to present to the Independent Accountants, with a copy to the other party, any other written material relating to the disputed issues;\n        (iii) The determination by the Independent Accountants, as set forth in a report to be delivered by the Independent Accountants to both Sellers’ Representative and Buyer, will include the revised Closing Balance Sheet and Adjustment Amount, reflecting the changes required as a result of the determination made by the Independent Accountants; and\n        (iv) Sellers and Buyer shall each bear one-half of the fees and costs of the Independent Accountants; provided, however, that the engagement agreement referred to in Section 2.6(f)(i) above may require the parties to be bound jointly and severally to the Independent Accountants for those fees and costs, and in the event Sellers or Buyer pay to the Independent Accountants any amount in excess of one-half of the fees and costs of its engagement, the other party(ies) agree(s) to reimburse Sellers or Buyer, as applicable, upon demand, to the extent required to equalize the payments made by Sellers and Buyer with respect to the fees and costs of the Independent Accountants.\n\n\n\n\n    3. Representations and Warranties of Sellers\n\n\n\n\n\n\n\nSellers, jointly and severally, represent and warrant to Buyer as follows:\n",
+      "quote_digest": "sha256:e7416ad423af0eaa85587ee8f42fc5e3721129d5aff5f80ed88f54e930c21a56",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
-        "query": "Use authoritative 2022 IRS and statutory sources for ordinary brackets, capital-gain thresholds, unrecaptured Section 1250 treatment, and NIIT thresholds instead of treating their absence from the private record as dispositive.",
+        "query": "After resolving the inputs, prepare a reconciliation from gross proceeds through adjusted basis, gain character, Laura's allocation, regular incremental tax, NIIT, and final exact amount.",
         "version": "1"
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
       "source": {
-        "content_digest": "sha256:1cb8fe86d8075d2b126f99858b67aa3a45ced38879cf7b3859b78e577483572b",
+        "content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
         "media_type": "text/plain",
-        "uri": "private://apex/1cb8fe86d8075d2b-0c1ae063"
+        "uri": "private://apex/7beb28a6e0069669-d885dee3"
       }
     },
-    "retrieval_receipt_digest": "sha256:5170d3e22e31a62693912919e5bfccd7f04ff179151041cb993bc2e220b3c91d",
-    "source_content_digest": "sha256:1cb8fe86d8075d2b126f99858b67aa3a45ced38879cf7b3859b78e577483572b",
-    "source_digest": "sha256:dce34be7d3faee591fc3639cc0fc742ebc66a097c301c07eb716b0649e3998a1",
-    "source_ref": "src_3376baa521507aa6"
+    "retrieval_receipt_digest": "sha256:82ee245c1fec5438d702abeb52c3e165efff3b2ce666798a51be44289b39ad84",
+    "source_content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
+    "source_digest": "sha256:9b5e55c106d3b2c9d270455bb5af81e282a4e92f3ba0722f868b952faf8ff0b5",
+    "source_ref": "src_1cb20c6823882030"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_3376baa521507aa6",
-  "subject_ref": "evd_1fdc77dcbc4a3390",
+  "source_ref": "src_1cb20c6823882030",
+  "subject_ref": "evd_23caa390049e4491",
   "type": "evidence_bound"
 }
