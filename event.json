@@ -1,16 +1,26 @@
 {
-  "conclusion_digest": "sha256:ccd73a00965c443bb47f14c22d002d8b1897d2436b7acc89e801e64887a83be9",
-  "created_at": "2026-08-30T19:16:28.320723Z",
-  "event_id": "ppe_26af6084dc1b6db8",
-  "evidence_digests": {
-    "evd_3532b789be132f52": "sha256:6cc931b2ef3b43c82cfec2d98c16b913c695a8eb22ea72c0be10379de896922b",
-    "evd_edc753cad3cd4c7a": "sha256:1d15a9964adb0ebb072ec3fa8e2a0a317475b8018aa0a88bd31f9f36394273ae",
-    "evd_f3e50f7e4ca20936": "sha256:45b70106e127f778ca1c870f6215cf789a0efa5cba26f79e3674a09952ac0a09"
+  "conclusion": {
+    "allowed_actors": [
+      "*"
+    ],
+    "artifact_refs": [],
+    "created_at": "2026-08-30T19:16:28.413196Z",
+    "digest": "sha256:8d632223eb8ce2af3bcdcfc6d4ac15c67876744a9dde597630bce6246f278e31",
+    "evidence_refs": [
+      "evd_3532b789be132f52",
+      "evd_dafdc184dc466c09"
+    ],
+    "expires_at": null,
+    "id": "knw_f841085dc28d4e41",
+    "kind": "conclusion",
+    "proposer": "agent:v8-constructor",
+    "qualifiers": {},
+    "scope": "task_8d501efe0f924f69aeee070f2e08b576",
+    "statement": "The provided record does not contain any Form 2553 shareholder consent statements, so it is unverified that all required shareholders consented and that the consent information was complete."
   },
-  "policy_digest": "sha256:cde050fdc0b2869fecf8ee9d24dee964fc3bbc18e6b489da2e08e7c3df266501",
-  "review_ref": "ppe_2f49bdc5f1e955ff",
-  "reviewer": "human:staged-evaluation-reviewer",
+  "created_at": "2026-08-30T19:16:28.466749Z",
+  "event_id": "ppe_5ebc906bf4f6b70e",
   "schema_version": "proofpress/knowledge-event/v2",
-  "subject_ref": "knw_b025fec44989f218",
-  "type": "conclusion_admitted"
+  "subject_ref": "knw_f841085dc28d4e41",
+  "type": "conclusion_proposed"
 }
