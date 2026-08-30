@@ -1,41 +1,15 @@
 {
-  "created_at": "2026-08-30T19:17:06.467287Z",
-  "event_id": "ppe_c9a6bb35515724da",
-  "evidence": {
-    "digest": "sha256:3d9c8727e97442b79f248249f5d62f318bcf781aa4f12489bc415e169757e6aa",
-    "id": "evd_e2a945bf60ca221c",
-    "kind": "retrieval_evidence",
-    "quote_digest": "sha256:9cc455b13b5a3fc0fb4a6b61a3143e3639d17f2138517013005d5029df2766f5",
-    "retrieval_receipt": {
-      "locator": {
-        "kind": "section_span",
-        "page_end": 1,
-        "page_start": 1,
-        "section_digest": "sha256:9cc455b13b5a3fc0fb4a6b61a3143e3639d17f2138517013005d5029df2766f5",
-        "section_id": "sec_e3c9aa0fc31b32b8"
-      },
-      "quote": "FORM OF INVESTORS’ RIGHTS AGREEMENT\n\n\n\n\n\n\n\n\n\n",
-      "quote_digest": "sha256:9cc455b13b5a3fc0fb4a6b61a3143e3639d17f2138517013005d5029df2766f5",
-      "retrieval": {
-        "adapter": "bm25-page",
-        "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
-        "query": "second class of stock S corporation distribution rights governing documents shareholder agreement",
-        "version": "1"
-      },
-      "schema_version": "proofpress/retrieval-evidence/v1",
-      "source": {
-        "content_digest": "sha256:de3c85ce68cc9a64aadabec8843aff116664ead676844e5ce1f589169c52b2da",
-        "media_type": "text/plain",
-        "uri": "private://apex/de3c85ce68cc9a64-4c7c3329"
-      }
-    },
-    "retrieval_receipt_digest": "sha256:25651a1828bd5d438161cc92cbe586eebeb92b3219800e22355ba337dc000443",
-    "source_content_digest": "sha256:de3c85ce68cc9a64aadabec8843aff116664ead676844e5ce1f589169c52b2da",
-    "source_digest": "sha256:afd14261a12776692529819ab8b113e55ef68150920111e982cd00f66a8af8ea",
-    "source_ref": "src_a149d3b6c6d2425c"
+  "created_at": "2026-08-30T19:17:06.577084Z",
+  "event_id": "ppe_8c491ffd51a6408d",
+  "record": {
+    "content_digest": "sha256:67c0146b0b9fce90f3619ef83de3641ab25a2927222a6000bc17b4400e1afe0e",
+    "id": "src_d638bbb18a01f3d8",
+    "kind": "retrieval_source",
+    "media_type": "text/plain",
+    "record_hash": "sha256:3043f6e73ea65ebae9d4659b679870dacf8b2b54879a43732461206822b12e19",
+    "uri": "private://apex/67c0146b0b9fce90-38c67136"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_a149d3b6c6d2425c",
-  "subject_ref": "evd_e2a945bf60ca221c",
-  "type": "evidence_bound"
+  "subject_ref": "src_d638bbb18a01f3d8",
+  "type": "source_recorded"
 }
