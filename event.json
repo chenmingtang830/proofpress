@@ -1,21 +1,21 @@
 {
-  "created_at": "2026-08-30T19:16:57.817123Z",
-  "event_id": "ppe_db843270874b0c7f",
+  "created_at": "2026-08-30T19:16:57.997058Z",
+  "event_id": "ppe_13a3420fb77cd15c",
   "evidence": {
-    "digest": "sha256:83c5f8334575d9d38a5a29510aae1b980a03f183628c21bb9f0de6a6fe03d51c",
-    "id": "evd_a4a53e10d2a43b4a",
+    "digest": "sha256:e814f9acfed4c08d0f9eb158409476ddac9cb5d18f4b99c4bebcb011dd32b251",
+    "id": "evd_ee36c036995dc819",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:93edabedc9c0de8d01d0764777339ddb849005facffaaa2dfed49dbf2dd203e8",
+    "quote_digest": "sha256:346be412e2073b2f4877ceaa9df0374b415edfceef39e5651aee00e2bd2315df",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:93edabedc9c0de8d01d0764777339ddb849005facffaaa2dfed49dbf2dd203e8",
-        "section_id": "sec_6f41f55922ea1dbf"
+        "section_digest": "sha256:346be412e2073b2f4877ceaa9df0374b415edfceef39e5651aee00e2bd2315df",
+        "section_id": "sec_dbafdde478daa245"
       },
-      "quote": "RECITALS\nSellers desire to sell, and Buyer desires to purchase, all issued and outstanding shares (the “Shares”) of capital stock of Summit Filing Solutions, Inc., a Delaware corporation (the “Company”), for the consideration and on the terms set forth in this Agreement.\nThe parties, intending to be legally bound, agree as follows:\n\n\n\n\n    1. Definitions and Usage\n\n\n\n\n\n\n\n",
-      "quote_digest": "sha256:93edabedc9c0de8d01d0764777339ddb849005facffaaa2dfed49dbf2dd203e8",
+      "quote": "﻿ORIGINAL CERTIFICATE OF INCORPORATION\nof\n Summit Filing Solutions, Inc.\n (A Delaware Corporation)\n Dated: January 10, 2018\n    1. Name.\n The name of the corporation is Summit Filing Solutions, Inc. (the “Corporation”).\n\n    2. Registered Office and Registered Agent.\n The address of the Corporation’s registered office in the State of Delaware is:\n 1209 Orange Street, Wilmington, Delaware 19801.\n The name of its registered agent at such address is National Registered Agents Inc.\n\n    3. Purpose.\n The Corporation is organized to conduct any lawful business and engage in any lawful act or activity for which corporations may be incorporated under the Delaware General Corporation Law (“DGCL”).\n\n    4. Authorized Capital Stock.\n (a) Authorized Shares. The Corporation is authorized to issue 500,000 shares of Common Stock, par value $0.001 per share.\n (b) Rights and Privileges. All shares of Common Stock are identical and have the same rights, powers, and privileges.\n (c) Single Class Restriction. The Corporation shall not issue any class or series of equity that differs in distribution, liquidation, or redemption rights. No agreement or instrument may create a second class of stock within the meaning of Subchapter S of the Internal Revenue Code.\n (d) Transfer Restrictions to Preserve S-Corporation Eligibility. Shares may not be transferred to any person or entity that is an ineligible S-Corporation shareholder, including nonresident aliens, corporations, partnerships, or trusts other than QSSTs or ESBTs.\n\n    5. Board of Directors.\n The number of directors constituting the initial Board of Directors is three (3). The names and addresses of the persons who shall serve as the initial directors until the first annual meeting of stockholders or until their successors are elected and qualified are:\n\n• Laura Kensington, 912 Redwood Crest Ln, Bend, OR 97701\n • Michael T. Hartwell, 3285 Sycamore Ridge Rd, Franklin, TN 37064\n • Danielle R. Soto, 1448 Harbor Point Dr, Richmond, VA 23233\n    6. Limitation of Liability.\n To the fullest extent permitted by Section 102(b)(7) of the DGCL, a director of the Corporation shall not be personally liable to the Corporation or its stockholders for monetary damages for breach of fiduciary duty.\n\n    7. Indemnification.\n The Corporation shall indemnify its directors and officers to the fullest extent permitted by the DGCL. These rights shall not be exclusive of any other rights to which any director or officer may be entitled under the bylaws or any agreement.\n\n    8. Subchapter S Election Compliance.\n The Corporation and its stockholders shall act to preserve the Corporation’s eligibility to elect Subchapter S status, including:\n (a) maintaining a permitted shareholder structure,\n (b) prohibiting disproportionate distributions,\n (c) preventing creation of a second class of stock, and\n (d) restricting transfers to preserve eligibility.\n\n    9. Stockholder Approval of Fundamental Acts.\n Notwithstanding any lesser standard permitted by the DGCL, the following actions require approval of stockholders holding at least 75 percent of the outstanding shares:\n (a) any merger or sale of substantially all assets,\n (b) any amendment to this Certificate affecting authorized shares or economic rights,\n (c) any action that could impair or terminate S-Corporation status.\n\n    10. Incorporator.\n The name and mailing address of the incorporator is:\n Helen M. Carrington\n 218 Lakeview Terrace\n Montpelier, VT 05602\n\nIN WITNESS WHEREOF, the undersigned incorporator has executed this Certificate of Incorporation as of January 10, 2018.\n\nHelen M. Carrington\n Incorporator\n\n",
+      "quote_digest": "sha256:346be412e2073b2f4877ceaa9df0374b415edfceef39e5651aee00e2bd2315df",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
@@ -24,18 +24,18 @@
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
       "source": {
-        "content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
+        "content_digest": "sha256:2699ee5d9881c8c78aae9578056c9ca4d56b38c2185ad1f9717e0bd90a086378",
         "media_type": "text/plain",
-        "uri": "private://apex/7beb28a6e0069669-d885dee3"
+        "uri": "private://apex/2699ee5d9881c8c7-68eb4933"
       }
     },
-    "retrieval_receipt_digest": "sha256:49305343aa80e6f451d2cb51e9597df6dcb2965cc0633fe6c4f2f5993e21816f",
-    "source_content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
-    "source_digest": "sha256:9b5e55c106d3b2c9d270455bb5af81e282a4e92f3ba0722f868b952faf8ff0b5",
-    "source_ref": "src_1cb20c6823882030"
+    "retrieval_receipt_digest": "sha256:533ea4462b924d5ad4efb9a80d1a168380737d4441ddf784c38b0887f77ba87e",
+    "source_content_digest": "sha256:2699ee5d9881c8c78aae9578056c9ca4d56b38c2185ad1f9717e0bd90a086378",
+    "source_digest": "sha256:c69f144edbe2b6208bca637d40d48ce88d45f13a074b82eb3d6db5d952bc93cf",
+    "source_ref": "src_8fecb1c19743ac41"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_1cb20c6823882030",
-  "subject_ref": "evd_a4a53e10d2a43b4a",
+  "source_ref": "src_8fecb1c19743ac41",
+  "subject_ref": "evd_ee36c036995dc819",
   "type": "evidence_bound"
 }
