@@ -1,25 +1,25 @@
 {
-  "created_at": "2026-08-30T19:16:23.298355Z",
-  "event_id": "ppe_bf4cc590973524d1",
+  "created_at": "2026-08-30T19:16:23.430746Z",
+  "event_id": "ppe_6a7cb6eb0b7da68c",
   "evidence": {
-    "digest": "sha256:8b00836ce1489bc886903d11e4efd6aee7dc4ba25873fd6e666f25b93d748c53",
-    "id": "evd_1348930e0fd88f2c",
+    "digest": "sha256:b1e6139fea919a1c6c12ca1d3cca968d6e92b2808560da3a058d4cd1249b9d28",
+    "id": "evd_67fe29d7a689ec5a",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:d4ec1c64f95c8fdc69597fb1697f1be50131ee34b20a02af3fc9d7e06ecd9d88",
+    "quote_digest": "sha256:9ef42e2d2e123db8349d45b66b3624b684ba7d3ecbf0f6e182a6c576be9dea44",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:d4ec1c64f95c8fdc69597fb1697f1be50131ee34b20a02af3fc9d7e06ecd9d88",
-        "section_id": "sec_1b3e4e2639ed32c4"
+        "section_digest": "sha256:9ef42e2d2e123db8349d45b66b3624b684ba7d3ecbf0f6e182a6c576be9dea44",
+        "section_id": "sec_1688392d7b1f1a4a"
       },
-      "quote": "        10.2 EFFECT OF TERMINATION\nEach party’s right of termination under Section 10.1 is in addition to any other right it may have under this Agreement (including under Section 12.16) or otherwise, and the exercise of a party’s right of termination will not constitute an election of remedies. If this Agreement is terminated pursuant to Section 10.1, this Agreement will be of no further force or effect; provided, however, that (i) this Section 10.2 and Article 12 will survive the termination of this Agreement and will remain in full force and effect, and (ii) the termination of this Agreement will not relieve any party from any liability for any Breach of this Agreement occurring prior to termination.\n\n\n\n\n    11. Indemnification; Payment; Reimbursement;\nRemedies\n\n\n\n\n\n\n\n",
-      "quote_digest": "sha256:d4ec1c64f95c8fdc69597fb1697f1be50131ee34b20a02af3fc9d7e06ecd9d88",
+      "quote": "        2.4 CLOSING OBLIGATIONS\nAt the Closing:\n    (a) Sellers shall deliver to Buyer:\n        (i) certificates representing the Shares, endorsed in blank (or accompanied by stock powers executed in blank) and otherwise in proper form for transfer;\n        (ii) the Organizational Documents of each Acquired Company filed with any Governmental Body in connection with its organization, duly certified as of a recent date by the Secretary of State or other appropriate authority of the jurisdiction of its incorporation or organization, together with a certificate dated as of the Closing Date from the Secretary of each Acquired Company to the effect that no amendments to such Organizational Documents have been filed since the date referred to above;\n        (iii) the Organizational Documents of each Acquired Company not filed with a Governmental Body in connection with its organization, certified as of the Closing Date by the Secretary of each Acquired Company;\n        (iv) certificates dated as of a date not more than five (5) days prior to the Closing Date as to the good standing of each Acquired Company [and payment of applicable state Taxes], issued by the appropriate Governmental Body of the jurisdiction of the Acquired Company’s organization and each jurisdiction in which the Acquired Company is licensed or qualified to do business as a foreign entity as specified in Part 3.1 of the Disclosure Letter;\n        (v) releases in the form of Exhibit 2.4(a)(v) executed by Sellers;\n        (vi) an employment agreement in the form of Exhibit 2.4(a)(vi), executed by \tand the Company;\n        (vii) an escrow agreement in the form of Exhibit 2.4(a)(vii), executed by Sellers (the “Escrow Agreement”); and\n        (viii) the certificate referred to in Section 8.3.\n    (b) Buyer shall deliver to Sellers’ Representative (or in the case of the Escrow Funds, to the Escrow Agent):\n        (i) the Closing Payment;\n        (ii) the Promissory Notes;\n        (iii) the Escrow Funds;\n        (iv) the Escrow Agreement, executed by Buyer and the Escrow Agent; and\n        (v) the certificate referred to in Section 9.3.\n",
+      "quote_digest": "sha256:9ef42e2d2e123db8349d45b66b3624b684ba7d3ecbf0f6e182a6c576be9dea44",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
-        "query": "IRC §1362(b), applicable §1.1362-6 election-timing provisions, Rev. Proc. 2013-30 sections governing late S elections, and §1362(f) relief authorities distinguishing invalid election from later termination.",
+        "query": "Certificate and amendments, bylaws, shareholder agreements, preferred-stock documents, debt instruments, distribution rights, subsidiaries, business activities, and shareholder citizenship/status as of the intended effective date.",
         "version": "1"
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
@@ -29,13 +29,13 @@
         "uri": "private://apex/7beb28a6e0069669-d885dee3"
       }
     },
-    "retrieval_receipt_digest": "sha256:1933f5912d2c48562c69dd7f3ba1dd3216f995669dbb06c94f4f0986f2a6e6ca",
+    "retrieval_receipt_digest": "sha256:885cbde6e54a60c30b63fc39088942edcac97169e75bb985046ead18a9d0b1d6",
     "source_content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
     "source_digest": "sha256:9b5e55c106d3b2c9d270455bb5af81e282a4e92f3ba0722f868b952faf8ff0b5",
     "source_ref": "src_1cb20c6823882030"
   },
   "schema_version": "proofpress/knowledge-event/v2",
   "source_ref": "src_1cb20c6823882030",
-  "subject_ref": "evd_1348930e0fd88f2c",
+  "subject_ref": "evd_67fe29d7a689ec5a",
   "type": "evidence_bound"
 }
