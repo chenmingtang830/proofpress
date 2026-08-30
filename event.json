@@ -1,41 +1,15 @@
 {
-  "created_at": "2026-08-30T19:15:58.028156Z",
-  "event_id": "ppe_765af639cde290c4",
-  "evidence": {
-    "digest": "sha256:cb478d0e63b1e6a9a06e1df3c1cdd22579f0472f36b5dac93453805602f9b902",
-    "id": "evd_cb22ad75793b2b6f",
-    "kind": "retrieval_evidence",
-    "quote_digest": "sha256:48dedba77857210507bdbe9bc663d3f53fbf9be0cea2a0aaccc1e676d8039920",
-    "retrieval_receipt": {
-      "locator": {
-        "kind": "section_span",
-        "page_end": 1,
-        "page_start": 1,
-        "section_digest": "sha256:48dedba77857210507bdbe9bc663d3f53fbf9be0cea2a0aaccc1e676d8039920",
-        "section_id": "sec_be59d91e0cdea243"
-      },
-      "quote": "NAME\tADDRESS\tCITY\tSTATE \tZIP\tTP ID\tALLOCATION PERCENTAGE\tSHARE QTY\nAmelia Vance\t1000 Shady Lane\tSeattle\tWA\t15642\txxx-xx-xxxx\t\t\nElias Thorne\t1111 River Road\tAustin\tTX\t56778\txxx-xx-xxxx\t\t\nSofia Martinez\t5500 HausenSt.\tDenver\tCO\t56783\txxx-xx-xxxx\t\t\nWyatt Sterling\t738 Hillside Dr.\tBoston\tMA\t54927\txxx-xx-xxxx\t\t\nChloe Kim\t9399 Brooks Rd\tAtlanta\tGA\t57691\txxx-xx-xxxx\t\t\n\n\n\n\n\n\n",
-      "quote_digest": "sha256:48dedba77857210507bdbe9bc663d3f53fbf9be0cea2a0aaccc1e676d8039920",
-      "retrieval": {
-        "adapter": "bm25-page",
-        "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
-        "query": "land allocation building purchase property appraisal land building allocation nondepreciable land basis",
-        "version": "1"
-      },
-      "schema_version": "proofpress/retrieval-evidence/v1",
-      "source": {
-        "content_digest": "sha256:75c45d7772bb4fe998be3d734990155c4ddaefca7fc8f7ad0e8b99f68c792c1a",
-        "media_type": "text/plain",
-        "uri": "private://apex/75c45d7772bb4fe9-cd9c8ff4"
-      }
-    },
-    "retrieval_receipt_digest": "sha256:d78979f9cee20e96b5a7d878301df4a475c06616ad9e86a0fc48097c136a917c",
-    "source_content_digest": "sha256:75c45d7772bb4fe998be3d734990155c4ddaefca7fc8f7ad0e8b99f68c792c1a",
-    "source_digest": "sha256:e1c1eb57d190a2c2fc637ec4e0b49d7667fa8da4d08852ab6169f68bc240e10c",
-    "source_ref": "src_42c0e7833b974b0d"
+  "created_at": "2026-08-30T19:15:58.087705Z",
+  "event_id": "ppe_23ff6cf34c4d7ade",
+  "record": {
+    "content_digest": "sha256:dfb4a6fb5185685768f588160e39690b944d8cbfad8e0b36a92b49be895f80d9",
+    "id": "src_fe48f3c72ed75d5f",
+    "kind": "retrieval_source",
+    "media_type": "text/plain",
+    "record_hash": "sha256:af353dc2ff025f1b5856614e044526af70dd8dd57771cc7162880a69ff71fe65",
+    "uri": "private://apex/dfb4a6fb51856857-3ebb9312"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_42c0e7833b974b0d",
-  "subject_ref": "evd_cb22ad75793b2b6f",
-  "type": "evidence_bound"
+  "subject_ref": "src_fe48f3c72ed75d5f",
+  "type": "source_recorded"
 }
