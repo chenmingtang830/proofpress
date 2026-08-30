@@ -1,41 +1,41 @@
 {
-  "created_at": "2026-08-30T19:16:20.760012Z",
-  "event_id": "ppe_a6dc48192bd8183a",
+  "created_at": "2026-08-30T19:16:20.885026Z",
+  "event_id": "ppe_920da7d4f67a363c",
   "evidence": {
-    "digest": "sha256:9ca2ce317e4098cf6acdf969fdba1fee558042e178ebb25211ff92ba6328095b",
-    "id": "evd_e3e1f39f5ba63e32",
+    "digest": "sha256:a8ba1c67b0ee5c7f51f875e8292664773e6e488b135a5b97a581cf5509c3f106",
+    "id": "evd_d6704636e4a3e55c",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:f0f83ecba3f09d05d67ceb1568ff638c213ec0d7910ef171026c4b311434b5d7",
+    "quote_digest": "sha256:8a5ca3f5314b06f49a27e53683fca4eaa197ae0736c038b57741f09342be5913",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:f0f83ecba3f09d05d67ceb1568ff638c213ec0d7910ef171026c4b311434b5d7",
-        "section_id": "sec_8f23e2895b774fec"
+        "section_digest": "sha256:8a5ca3f5314b06f49a27e53683fca4eaa197ae0736c038b57741f09342be5913",
+        "section_id": "sec_f297602dfa29a44b"
       },
-      "quote": "I. KEY FINDINGS\n1. Nonresident Alien Shareholder — HIGH RISK\nThe Historical Shareholder Schedule reflects that on June 1, 2022, shareholder Gregory A. Beaumont transferred 100,000 shares to Carrie Canuck, a Canadian resident. A nonresident alien is an ineligible S‑Corporation shareholder. This event caused an automatic termination of S‑Corporation status as of the transfer date.\n2. Pro Rata Distribution Compliance — HIGH RISK\nHistoric distributions do not conform to required ownership percentages, producing recurring disproportionate distributions. The IRS may treat repeated deviations as evidence of a prohibited second class of stock.\n3. Debt‑Equity Characterization and Shareholder Loans — HIGH RISK (Documentation Missing)\nNo shareholder loan agreements, repayment schedules, general ledger entries, or basis tracking schedules were provided. Given the instruction to treat missing documents as high risk, this category is classified accordingly. The absence of documentation significantly increases the likelihood of IRS recharacterization of advances as equity, which may create a second class of stock.\n\n4. K‑1 Accuracy and Records — MODERATE RISK\nSeveral K‑1s lack ownership percentages, and 2024 K‑1s list individuals who do not appear in the stock ledger. These inconsistencies suggest governance gaps that increase audit exposure.\n5. Governance and Corporate Formalities — MODERATE RISK\nMultiple versions of the historical shareholder schedule (Rev A/B/C) reflect inconsistent treatment of 2022–2023 transfers. Inconsistent ledgers weaken Summit’s ability to substantiate S‑status compliance.\n6. Tax Return Consistency (1120‑S) — LOW RISK\nForms 1120‑S appear internally consistent with the operating history. No accumulated earnings and profits or built‑in gains issues were identified.\n\n",
-      "quote_digest": "sha256:f0f83ecba3f09d05d67ceb1568ff638c213ec0d7910ef171026c4b311434b5d7",
+      "quote": "﻿Schedule of Historic Distributions\nSummit Filing Solutions, Inc.\nHistoric Distribution Schedule (From S-Corporation Election Effective January 1, 2019)\n\nDistribution Event – March 15, 2019\nTotal Amount Distributed: $11,000\nShareholder\tAmount Distributed\nLaura Kensington\t$2,860\nMichael T. Hartwell\t$2,420\nDanielle R. Soto\t$2,200\nGregory A. Beaumont\t$2,200\nTanya L. Merriweather\t$1,320\n\nDistribution Event – August 3, 2020\nTotal Amount Distributed: $2,300\nShareholder\tAmount Distributed\nLaura Kensington\t$598\nMichael T. Hartwell\t$506\nDanielle R. Soto\t$460\nGregory A. Beaumont\t$460\nTanya L. Merriweather\t$276\n\nDistribution Event – May 22, 2022\nTotal Amount Distributed: $5,200\nShareholder\tAmount Distributed\nLaura Kensington\t$1,092\nMichael T. Hartwell\t$1,924\nDanielle R. Soto\t$840\nGregory A. Beaumont\t$840\nTanya L. Merriweather\t$504\n\nDistribution Event – February 9, 2024\nTotal Amount Distributed: $1,800\nShareholder\tAmount Distributed\nLaura Kensington\t$468\nMichael T. Hartwell\t$396\nDanielle R. Soto\t$360\nGregory A. Beaumont\t$360\nTanya L. Merriweather\t$216\n\nCumulative Distributions Since S-Election\nShareholder\tTotal Received\nLaura Kensington\t$5,018\nMichael T. Hartwell\t$5,246\nDanielle R. Soto\t$3,860\nGregory A. Beaumont\t$3,860\nTanya L. Merriweather\t$2,316\n\nTotal Distributed to All Shareholders: $20,300\n",
+      "quote_digest": "sha256:8a5ca3f5314b06f49a27e53683fca4eaa197ae0736c038b57741f09342be5913",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
-        "query": "\"Summit\" articles bylaws stock ledger \"Summit\" shareholder agreement tax return \"Summit\" IRS correspondence \"Summit\" capitalization records",
+        "query": "\"Summit\" stock transfer 2018 2019 \"Summit\" shareholder death transfer \"Summit\" ownership change February 2019 \"Form 2553\" shareholder changes before filing",
         "version": "1"
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
       "source": {
-        "content_digest": "sha256:e7eb786dc671298aa9426792d523f0ec997bee3a570763a8b10f13a1644fc105",
+        "content_digest": "sha256:935fc7a0beb6b568bccbc00f0ea1209959050ad0c96242c27f9e40054cec8009",
         "media_type": "text/plain",
-        "uri": "private://apex/e7eb786dc671298a-1d2051f2"
+        "uri": "private://apex/935fc7a0beb6b568-ba9f6e25"
       }
     },
-    "retrieval_receipt_digest": "sha256:ef4ca49a9d4923fa1ade16b6de4ceea960b8fdf0baa9282aca0102c1d502cf44",
-    "source_content_digest": "sha256:e7eb786dc671298aa9426792d523f0ec997bee3a570763a8b10f13a1644fc105",
-    "source_digest": "sha256:bbebf48c1f9dee4d30677c0c93c00e3eb349758e8e8a6eac5acafa2f8650d491",
-    "source_ref": "src_e9b083e75ca5f18f"
+    "retrieval_receipt_digest": "sha256:442cb3a0accc2f034dd56fcf81c7b042ac01e40d26e6995e43eb6e64424c50b2",
+    "source_content_digest": "sha256:935fc7a0beb6b568bccbc00f0ea1209959050ad0c96242c27f9e40054cec8009",
+    "source_digest": "sha256:5ca2ef258db6ac6d7ac5046f627f2dd1618ac381e2afce1fec17e99b812e97c1",
+    "source_ref": "src_eb14d7f1e4caeaf8"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_e9b083e75ca5f18f",
-  "subject_ref": "evd_e3e1f39f5ba63e32",
+  "source_ref": "src_eb14d7f1e4caeaf8",
+  "subject_ref": "evd_d6704636e4a3e55c",
   "type": "evidence_bound"
 }
