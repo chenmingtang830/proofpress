@@ -1,15 +1,27 @@
 {
-  "conclusion_digest": "sha256:f5f52452645f4f77ffbbc4df4f6aa9b3ae6d42eeb758143805b1bc30cb6d7fdd",
-  "created_at": "2026-08-30T19:16:52.104542Z",
-  "event_id": "ppe_4575944beffb524f",
-  "evidence_digests": {
-    "evd_8b32f290178442ca": "sha256:5349449d63390aee156b3bca5f422a1168529d73552587b7a3f3434b7d5f3143",
-    "evd_debc244a49170ffd": "sha256:f594ac27bd93c72b719923dc391f0522b445340bca1237cb4a810e01f6839b2a"
+  "conclusion": {
+    "allowed_actors": [
+      "*"
+    ],
+    "artifact_refs": [],
+    "created_at": "2026-08-30T19:16:52.204640Z",
+    "digest": "sha256:1789ed4995f619b5bd87b07c7f88e7a4aecc883de6a0a0ee32985172cd960f14",
+    "evidence_refs": [
+      "evd_8b32f290178442ca",
+      "evd_a1ad2ba7019b1f7b",
+      "evd_debc244a49170ffd"
+    ],
+    "expires_at": null,
+    "id": "knw_e587e28d6ff9640b",
+    "kind": "conclusion",
+    "proposer": "agent:v8-constructor",
+    "qualifiers": {},
+    "scope": "task_8ab8c8d7662747d696d52706a8b3de55",
+    "statement": "The legal consequence of the denied relief is unconfirmed on this record; the quoted evidence does not establish whether Summit's S election terminates, is invalidated, or is otherwise treated as a C corporation from a specified date following the denial."
   },
-  "policy_digest": "sha256:cde050fdc0b2869fecf8ee9d24dee964fc3bbc18e6b489da2e08e7c3df266501",
-  "review_ref": "ppe_7280c7b4bc0976e0",
-  "reviewer": "human:staged-evaluation-reviewer",
+  "created_at": "2026-08-30T19:16:52.273494Z",
+  "event_id": "ppe_f907b1fb11be002b",
   "schema_version": "proofpress/knowledge-event/v2",
-  "subject_ref": "knw_3236a0f3743b9f18",
-  "type": "conclusion_admitted"
+  "subject_ref": "knw_e587e28d6ff9640b",
+  "type": "conclusion_proposed"
 }
