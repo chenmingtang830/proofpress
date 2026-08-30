@@ -1,41 +1,41 @@
 {
-  "created_at": "2026-08-30T19:16:21.914843Z",
-  "event_id": "ppe_d88dec7ffe27da52",
+  "created_at": "2026-08-30T19:16:22.045601Z",
+  "event_id": "ppe_ced31f86d87663a6",
   "evidence": {
-    "digest": "sha256:152459d492a769435a9abd2c4a2a8f09f7e59b1974025d4dab64c7f82dadd925",
-    "id": "evd_5cf3b60108c417cc",
+    "digest": "sha256:e4a0e860d6487db393ca25675a4306d365ee8a62e7a3017a3c9d05bd3acd669a",
+    "id": "evd_ea369d251fe77c02",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:6c3c766b3f18409850beeab0f8d19cefdf06de8b56e5c6fe27790d9df72460fc",
+    "quote_digest": "sha256:a103ca4f13bf0c346fe444774725a164a3cec41225c7d4d2e434028637435150",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:6c3c766b3f18409850beeab0f8d19cefdf06de8b56e5c6fe27790d9df72460fc",
-        "section_id": "sec_ebed930786cb7f4f"
+        "section_digest": "sha256:a103ca4f13bf0c346fe444774725a164a3cec41225c7d4d2e434028637435150",
+        "section_id": "sec_4dac52f5b4fe5848"
       },
-      "quote": "SECTION 9. EFFECT ON OTHER DOCUMENTS\nThis revenue procedure modifies and supersedes Rev. Procs. 2003-43, 2004-48, and 2007-62. This revenue procedure supersedes Situation 1 and obsoletes Situation 2 of Rev. Proc. 97-48. This revenue procedure modifies and supersedes sections 4.01 and 4.02 and obsoletes section 4.03 of Rev. Proc. 2004-49.\n",
-      "quote_digest": "sha256:6c3c766b3f18409850beeab0f8d19cefdf06de8b56e5c6fe27790d9df72460fc",
+      "quote": "        12.18 NOTICES\nAll notices and other communications required or permitted by this Agreement shall be in writing and will be effective, and any applicable time period shall commence, when (a) delivered to the following address by hand or by a nationally recognized overnight courier service (costs prepaid) addressed to the following address or (b) transmitted electronically to the following facsimile numbers or e-mail addresses, in each case marked to the attention of the Person (by name or title) designated below (or to such other address, facsimile number, e-mail address, or Person as a party may designate by notice to the other parties):\nSellers:\n\n[Name of Sellers’ Representative] [Street]\n[City, state, and zip code] Fax no.:\nE-mail address:\nwith a copy to:\n\nAttention: [Street]\n[City, state, and zip code] Fax no.:\nE-mail address: Buyer:\n\nAttention: [Street]\n[City, state, and zip code] Fax no.:\nE-mail address: with a copy to:\n\nAttention:\n[Street]\n[City, state, and zip code] Fax no.:\nE-mail address:\n",
+      "quote_digest": "sha256:a103ca4f13bf0c346fe444774725a164a3cec41225c7d4d2e434028637435150",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
-        "query": "IRS Form 2553 Rev. December 2017 and contemporaneous instructions; official IRS revision history showing whether any Form 2553 “Rev B” existed",
+        "query": "Summit’s complete filed Form 2553, attachments, envelope, certified-mail receipt, fax confirmation, IRS account transcript, and complete CP261 notice",
         "version": "1"
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
       "source": {
-        "content_digest": "sha256:489de4a5c467eb0382ef4f29920dc6433adc3a3336da5057aec7f37cd0208560",
+        "content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
         "media_type": "text/plain",
-        "uri": "private://apex/489de4a5c467eb03-1184b3a1"
+        "uri": "private://apex/7beb28a6e0069669-d885dee3"
       }
     },
-    "retrieval_receipt_digest": "sha256:51ecb595fe9dfcd0a89efc6592473f82d9f2a2ff76c49ae72fca032addd9ff4d",
-    "source_content_digest": "sha256:489de4a5c467eb0382ef4f29920dc6433adc3a3336da5057aec7f37cd0208560",
-    "source_digest": "sha256:0e30a41e1d31405a037edcc4e56b65c5107236c02092ff6fca6351e692a30a27",
-    "source_ref": "src_449cd1a48a2b6b92"
+    "retrieval_receipt_digest": "sha256:9545a7018bf1087c0820aa089edd0c870286f8bd49f836a777e473552769f876",
+    "source_content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
+    "source_digest": "sha256:9b5e55c106d3b2c9d270455bb5af81e282a4e92f3ba0722f868b952faf8ff0b5",
+    "source_ref": "src_1cb20c6823882030"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_449cd1a48a2b6b92",
-  "subject_ref": "evd_5cf3b60108c417cc",
+  "source_ref": "src_1cb20c6823882030",
+  "subject_ref": "evd_ea369d251fe77c02",
   "type": "evidence_bound"
 }
