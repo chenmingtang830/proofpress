@@ -1,15 +1,27 @@
 {
-  "conclusion_digest": "sha256:764081d48aaff31c6129a1981ce245730ffe7b6afd60a0f0d5db70d2daef02a3",
-  "created_at": "2026-08-30T19:18:02.716259Z",
-  "event_id": "ppe_480621ebf306ce07",
-  "evidence_digests": {
-    "evd_ae152911641ef9ef": "sha256:dc709b328e8ecd8c9e65bed5966b8adeefd87c0157fe631ec0bb1c8fda53846c",
-    "evd_eebc5c0c4cfce27a": "sha256:9e2f8d9a8b75e9b5b8bae176294a8eeb849b2ff5752b16300ede8915bfe07724"
+  "conclusion": {
+    "allowed_actors": [
+      "*"
+    ],
+    "artifact_refs": [],
+    "created_at": "2026-08-30T19:18:02.858613Z",
+    "digest": "sha256:1900b183ee3d01201ac040d2cc1083693e54ef81ea43d911c3e0a0ebff74df49",
+    "evidence_refs": [
+      "evd_ae152911641ef9ef",
+      "evd_bcbac617e5e7d3b8",
+      "evd_e24925f58d92656a"
+    ],
+    "expires_at": null,
+    "id": "knw_fe868eb630afd233",
+    "kind": "conclusion",
+    "proposer": "agent:v8-constructor",
+    "qualifiers": {},
+    "scope": "task_f8f47a9c94874854a24936d81a89fdfb",
+    "statement": "The S-Corporation Tax Due Diligence Memorandum states that Summit elected S-corporation status effective January 1, 2019, that Form 2553 was filed on March 22, 2022, and that the IRS issued a CP261 notice confirming approval; however, the actual Form 2553, shareholder consent statements, acceptance or acknowledgment, and the CP261 correspondence are not contained in the evidence receipts."
   },
-  "policy_digest": "sha256:cde050fdc0b2869fecf8ee9d24dee964fc3bbc18e6b489da2e08e7c3df266501",
-  "review_ref": "ppe_2bbbf45ac2a8e585",
-  "reviewer": "human:staged-evaluation-reviewer",
+  "created_at": "2026-08-30T19:18:02.968405Z",
+  "event_id": "ppe_d3c02cff58697418",
   "schema_version": "proofpress/knowledge-event/v2",
-  "subject_ref": "knw_e547bee1a7a07ccd",
-  "type": "conclusion_admitted"
+  "subject_ref": "knw_fe868eb630afd233",
+  "type": "conclusion_proposed"
 }
