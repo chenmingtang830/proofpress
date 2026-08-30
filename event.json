@@ -1,15 +1,41 @@
 {
-  "created_at": "2026-08-30T19:15:57.652164Z",
-  "event_id": "ppe_35b218e47cc9579a",
-  "record": {
-    "content_digest": "sha256:2a877ff54da2baed8259859aea1290b9ebe4c8997e7861331792267fb036b8b2",
-    "id": "src_68ed276df0470674",
-    "kind": "retrieval_source",
-    "media_type": "text/plain",
-    "record_hash": "sha256:b1d9df7a4a7a5bec83799409a15663fd39d88031a7584d4ac3a04466f2135971",
-    "uri": "private://apex/2a877ff54da2baed-87274474"
+  "created_at": "2026-08-30T19:15:57.709652Z",
+  "event_id": "ppe_75753dd14b4f4c52",
+  "evidence": {
+    "digest": "sha256:f27afb9e8bc5ed3c35f1f502268f67b8f609fdfb2dea6bcf033f418d203008b8",
+    "id": "evd_662bda462f7899e4",
+    "kind": "retrieval_evidence",
+    "quote_digest": "sha256:d91d681a44ebd3fd51e6425babc7ab288dcd31212f630a233dd9106aa0540b9e",
+    "retrieval_receipt": {
+      "locator": {
+        "kind": "section_span",
+        "page_end": 1,
+        "page_start": 1,
+        "section_digest": "sha256:d91d681a44ebd3fd51e6425babc7ab288dcd31212f630a233dd9106aa0540b9e",
+        "section_id": "sec_d80e77e606855821"
+      },
+      "quote": "﻿\nTerm Sheet Template – Example\n\nIssuer:  [Name] (the “Corporation”)\nNature of the Offering: [Brokered or non-brokered] [private placement] (the “Offering”) of [Common Shares].\nType of Security: [Common Shares]\nOffering Size: [Up to $50 million]\nIssue Price: $[10.00] per [Share] (the “Issue Price”).\nCommission: [6.0]%\nCapitalization: Approximately $[60,000,000].  Set forth as “Exhibit [A]”.\nDividends: [Describe the dividend policy.]\nPreferential Liquidation Rights: [Describe any liquidation preferences.]\nDefinition of Liquidation Event: [Include definition from legal counsel.]\nConversion Rights: [Describe, if applicable.]\nAnti-Dilution: [For example: The Shares shall have certain customary anti-dilution protection for any share issuances at prices less than the Issue Price based on a weighted average formula, and subject to standard exceptions.]\nVoting Rights: [Describe the voting rights.]\nUse of Proceeds: [The proceeds from the Offering shall be primarily used for general corporate and working capital purposes.]\nClosing Conditions: [Closing of the Offering shall be conditional upon the completion of satisfactory due diligence, the execution of requisite definitive agreements for completion of the Offering, receipt of all requisite corporate approvals and third party consents for the Offering. Etc.]\nAgent: [Generic Capital Corp.]\nClosing Date: [Date]\n\n",
+      "quote_digest": "sha256:d91d681a44ebd3fd51e6425babc7ab288dcd31212f630a233dd9106aa0540b9e",
+      "retrieval": {
+        "adapter": "bm25-page",
+        "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
+        "query": "building buildout $250,000 capital improvements property basis qualified improvement property buildout construction and renovation costs",
+        "version": "1"
+      },
+      "schema_version": "proofpress/retrieval-evidence/v1",
+      "source": {
+        "content_digest": "sha256:2a877ff54da2baed8259859aea1290b9ebe4c8997e7861331792267fb036b8b2",
+        "media_type": "text/plain",
+        "uri": "private://apex/2a877ff54da2baed-87274474"
+      }
+    },
+    "retrieval_receipt_digest": "sha256:b00f0f66a41678d3fb5d0638dc27f780a27e38f660903eea6b790d759b1c4bbc",
+    "source_content_digest": "sha256:2a877ff54da2baed8259859aea1290b9ebe4c8997e7861331792267fb036b8b2",
+    "source_digest": "sha256:b1d9df7a4a7a5bec83799409a15663fd39d88031a7584d4ac3a04466f2135971",
+    "source_ref": "src_68ed276df0470674"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "subject_ref": "src_68ed276df0470674",
-  "type": "source_recorded"
+  "source_ref": "src_68ed276df0470674",
+  "subject_ref": "evd_662bda462f7899e4",
+  "type": "evidence_bound"
 }
