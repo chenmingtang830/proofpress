@@ -1,21 +1,21 @@
 {
-  "created_at": "2026-08-30T19:16:43.877154Z",
-  "event_id": "ppe_f22675f930daf789",
+  "created_at": "2026-08-30T19:16:44.032308Z",
+  "event_id": "ppe_d49d43cc0ae74b5a",
   "evidence": {
-    "digest": "sha256:0e49532f7aa08ccfcff7cf8fc52f71ef4d4feabea6844df8556cb93b2a05bebd",
-    "id": "evd_417324fc1fe5905a",
+    "digest": "sha256:4908f8d9a4387304eac4977b2ae4c695f3240f0ebb7a0faed1d4dbe586075d07",
+    "id": "evd_ab983446199ed97f",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:7a29831de3eea212c1770c520c9cae7474c0aeb66a38d50d64361e0c1c384147",
+    "quote_digest": "sha256:b64356a66c0790894f82d1341528d8bb939130337ccda1160a25f3c9cf5d8704",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:7a29831de3eea212c1770c520c9cae7474c0aeb66a38d50d64361e0c1c384147",
-        "section_id": "sec_af4cbadc33daccc3"
+        "section_digest": "sha256:b64356a66c0790894f82d1341528d8bb939130337ccda1160a25f3c9cf5d8704",
+        "section_id": "sec_4a7827458150feeb"
       },
-      "quote": "IV. CONCLUSION\nSummit’s S‑Corporation eligibility issues are severe, multi‑year, and likely to be viewed by the IRS as significant compliance failures. Corrective action is possible only through coordinated remediation and a §1362(f) relief request. Without corrective actions, Summit may be treated as a C‑Corporation for all periods beginning June 1, 2022, or earlier if disproportionate distributions are deemed to create a second class of stock.\nThis memorandum reflects a partner‑level diligence summary and may be circulated to tax counsel, buy‑side advisors, and internal decision-makers as part of a broader transaction risk analysis.\n\n",
-      "quote_digest": "sha256:7a29831de3eea212c1770c520c9cae7474c0aeb66a38d50d64361e0c1c384147",
+      "quote": "SECTION 8. EFFECTIVE DATE\n.01 In general. Except as provided in Section 8.02, this revenue procedure is effective September 3, 2013, the date of publication of this revenue procedure in the Internal Revenue Bulletin. This revenue procedure applies to requests pending with the IRS Service Center pursuant to Rev. Procs. 97-48, 2003-43, 2004-48, and 2007-62 on September 3, 2013, and to requests received thereafter. It also applies to all ruling requests pending in the IRS national office on September 3, 2013, and to requests for relief received thereafter.\n.02 Transition rule for pending letter ruling requests. If an entity has filed a request for a letter ruling seeking relief for a late Election Under Subchapter S covered by this revenue procedure that is pending in the national office on September 3, 2013, the entity may rely on this revenue procedure, withdraw that letter ruling request, and receive a refund of its user fee. However, the national office will process letter ruling requests pending on September 3, 2013, unless, prior to the earlier of October 18, 2013, or the issuance of the letter ruling, the entity notifies the national office that it will rely on this revenue procedure and withdraw its letter ruling request.\n",
+      "quote_digest": "sha256:b64356a66c0790894f82d1341528d8bb939130337ccda1160a25f3c9cf5d8704",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
@@ -24,18 +24,18 @@
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
       "source": {
-        "content_digest": "sha256:e7eb786dc671298aa9426792d523f0ec997bee3a570763a8b10f13a1644fc105",
+        "content_digest": "sha256:489de4a5c467eb0382ef4f29920dc6433adc3a3336da5057aec7f37cd0208560",
         "media_type": "text/plain",
-        "uri": "private://apex/e7eb786dc671298a-1d2051f2"
+        "uri": "private://apex/489de4a5c467eb03-1184b3a1"
       }
     },
-    "retrieval_receipt_digest": "sha256:1143dbae4c67cea8ef411410ff25b757ef54e1187b344df718c329d835476e91",
-    "source_content_digest": "sha256:e7eb786dc671298aa9426792d523f0ec997bee3a570763a8b10f13a1644fc105",
-    "source_digest": "sha256:bbebf48c1f9dee4d30677c0c93c00e3eb349758e8e8a6eac5acafa2f8650d491",
-    "source_ref": "src_e9b083e75ca5f18f"
+    "retrieval_receipt_digest": "sha256:201adb77321819e2c59a26cbdd2bd018a64b118199d31376a0eec5e9e2526897",
+    "source_content_digest": "sha256:489de4a5c467eb0382ef4f29920dc6433adc3a3336da5057aec7f37cd0208560",
+    "source_digest": "sha256:0e30a41e1d31405a037edcc4e56b65c5107236c02092ff6fca6351e692a30a27",
+    "source_ref": "src_449cd1a48a2b6b92"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_e9b083e75ca5f18f",
-  "subject_ref": "evd_417324fc1fe5905a",
+  "source_ref": "src_449cd1a48a2b6b92",
+  "subject_ref": "evd_ab983446199ed97f",
   "type": "evidence_bound"
 }
