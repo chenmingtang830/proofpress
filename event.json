@@ -1,19 +1,19 @@
 {
-  "created_at": "2026-08-30T19:17:29.962712Z",
-  "event_id": "ppe_29e13f7c2fbf0508",
-  "relation": {
-    "confidence": null,
-    "created_at": "2026-08-30T19:17:29.868939Z",
-    "digest": "sha256:901ab8bcf24f8c2c556d4c94634d636e2ae7a5f4735311c7bc6e00e2cdaea0ea",
-    "from": "knw_6856f9acad03eec3",
-    "id": "rel_bc5c8b04cb5b1809",
-    "kind": "claim_relation",
-    "proposer": "agent:v8-constructor",
-    "qualifiers": {},
-    "to": "knw_a8f9965f06b00be0",
-    "type": "supports"
+  "checks": {
+    "acyclic_when_directed": true,
+    "distinct_endpoints": true,
+    "endpoints_present": true,
+    "known_relation_type": true,
+    "no_duplicate": true,
+    "same_scope": true
   },
+  "created_at": "2026-08-30T19:17:30.181509Z",
+  "eligible": true,
+  "event_id": "ppe_2243b9003d6c08a3",
+  "policy_digest": "sha256:cde050fdc0b2869fecf8ee9d24dee964fc3bbc18e6b489da2e08e7c3df266501",
+  "relation_digest": "sha256:901ab8bcf24f8c2c556d4c94634d636e2ae7a5f4735311c7bc6e00e2cdaea0ea",
   "schema_version": "proofpress/knowledge-event/v2",
+  "semantic_boundary": "structural checks do not establish semantic correctness",
   "subject_ref": "rel_bc5c8b04cb5b1809",
-  "type": "relation_proposed"
+  "type": "relation_evaluated"
 }
