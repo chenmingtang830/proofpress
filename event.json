@@ -1,27 +1,18 @@
 {
-  "conclusion": {
-    "allowed_actors": [
-      "*"
-    ],
-    "artifact_refs": [],
-    "created_at": "2026-08-30T19:18:06.545777Z",
-    "digest": "sha256:ba0b2a661ad06a258cb148baee0085cb5567dd1f3284bc0c42ac04d8ff0e986f",
-    "evidence_refs": [
-      "evd_1dad59d016961359",
-      "evd_337cd9e43285d239",
-      "evd_d7876484297464a3"
-    ],
-    "expires_at": null,
-    "id": "knw_6757f686bf931149",
-    "kind": "conclusion",
-    "proposer": "agent:v8-constructor",
-    "qualifiers": {},
-    "scope": "task_f8f47a9c94874854a24936d81a89fdfb",
-    "statement": "The cited receipts include Schedule K-1 header portions for 2020 and 2024 and a generated 2020 Form 1120-S."
+  "checks": {
+    "evidence_integrity": true,
+    "evidence_present": true,
+    "not_expired": true,
+    "not_superseded": true,
+    "retrieval_receipts": true,
+    "scope_present": true
   },
-  "created_at": "2026-08-30T19:18:06.658414Z",
-  "event_id": "ppe_bb49ca99159c36bb",
+  "conclusion_digest": "sha256:ba0b2a661ad06a258cb148baee0085cb5567dd1f3284bc0c42ac04d8ff0e986f",
+  "created_at": "2026-08-30T19:18:06.918225Z",
+  "eligible": true,
+  "event_id": "ppe_be7e0b784885ed1f",
+  "policy_digest": "sha256:cde050fdc0b2869fecf8ee9d24dee964fc3bbc18e6b489da2e08e7c3df266501",
   "schema_version": "proofpress/knowledge-event/v2",
   "subject_ref": "knw_6757f686bf931149",
-  "type": "conclusion_proposed"
+  "type": "policy_evaluated"
 }
