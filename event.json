@@ -1,41 +1,41 @@
 {
-  "created_at": "2026-08-30T19:16:40.331316Z",
-  "event_id": "ppe_37dcd94c13795771",
+  "created_at": "2026-08-30T19:16:40.478699Z",
+  "event_id": "ppe_abd94f86022f2203",
   "evidence": {
-    "digest": "sha256:69ea74939ee66b27727f1564cf701931975c32006eb0e151732aa815da653b37",
-    "id": "evd_349158b77384bae1",
+    "digest": "sha256:898bbcdfc2955a568e21de7c9af49b1006f3b1c2ddb019ce6a65a17d7cf9759e",
+    "id": "evd_3ceb617e27a742a3",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:cbe8dbf391040e4cef9571d3348b4b151336ccf0972b214db72729ae0eaa05ba",
+    "quote_digest": "sha256:6bf90c9d84f9b085a9ee9ab34fff82c27c7a02e16a0b76f8b2d5d334da437aa6",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:cbe8dbf391040e4cef9571d3348b4b151336ccf0972b214db72729ae0eaa05ba",
-        "section_id": "sec_e216c875b11705da"
+        "section_digest": "sha256:6bf90c9d84f9b085a9ee9ab34fff82c27c7a02e16a0b76f8b2d5d334da437aa6",
+        "section_id": "sec_d6d6d31b8c91e643"
       },
-      "quote": "﻿Form 1120-S \nDepartment of the Treasury  Internal Revenue Service  \nU.S. Income Tax Return for an S Corporation  \nDo not file this form unless the corporation has filed or  \nis attaching Form 2553 to elect to be an S corporation.  \nGo to www.irs.gov/Form1120S for instructions and the latest information. \nOMB No. 1545-0123  2024 \nFor calendar year 2024 or tax year beginning , 2024, ending , 20  \nA S election effective date  \nB Business activity code  number (see instructions)  \nC Check if Sch. M-3 attached \n",
-      "quote_digest": "sha256:cbe8dbf391040e4cef9571d3348b4b151336ccf0972b214db72729ae0eaa05ba",
+      "quote": "    2. SALE AND TRANSFER OF SHARES; CLOSING\t18\n        2.1 Shares\t18\n        2.2 Purchase Price\t18\n        2.3 Closing\t18\n        2.4 Closing Obligations\t19\n        2.5 Adjustment Amount and Payment\t19\n        2.6 Adjustment Procedure\t20\n",
+      "quote_digest": "sha256:6bf90c9d84f9b085a9ee9ab34fff82c27c7a02e16a0b76f8b2d5d334da437aa6",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
-        "query": "Summit earliest requalify S corporation requalification date after terminated S election new S corporation election eligibility date Summit ineligible shareholder removed S corporation reelect",
+        "query": "Carrie Canuck sale or transfer of Summit shares Carrie Canuck ownership termination date Summit shareholder correction ineligible shareholder shares transferred from Carrie Canuck",
         "version": "1"
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
       "source": {
-        "content_digest": "sha256:c93c2b228433659eb56b66bfaee1dc3de9ed754d39aa736b60372b74813f3481",
+        "content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
         "media_type": "text/plain",
-        "uri": "private://apex/c93c2b228433659e-f96ee06e"
+        "uri": "private://apex/7beb28a6e0069669-d885dee3"
       }
     },
-    "retrieval_receipt_digest": "sha256:d74eb4c5038b0476b77650fb12cfc245e5247fc9933f98e614ebed8ca3bcf403",
-    "source_content_digest": "sha256:c93c2b228433659eb56b66bfaee1dc3de9ed754d39aa736b60372b74813f3481",
-    "source_digest": "sha256:0a36a5ff5eb33d41016d52986e5f40fb7355d329af2f4a939222e040274ce016",
-    "source_ref": "src_1769935b4d6bb417"
+    "retrieval_receipt_digest": "sha256:1f5f98b511bbe208a2193e5f397afb68c2ef5f786656247f6a8e053c927ee9c3",
+    "source_content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
+    "source_digest": "sha256:9b5e55c106d3b2c9d270455bb5af81e282a4e92f3ba0722f868b952faf8ff0b5",
+    "source_ref": "src_1cb20c6823882030"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_1769935b4d6bb417",
-  "subject_ref": "evd_349158b77384bae1",
+  "source_ref": "src_1cb20c6823882030",
+  "subject_ref": "evd_3ceb617e27a742a3",
   "type": "evidence_bound"
 }
