@@ -1,21 +1,21 @@
 {
-  "created_at": "2026-08-30T19:17:08.421216Z",
-  "event_id": "ppe_9ecc640178aaa0ce",
+  "created_at": "2026-08-30T19:17:08.612328Z",
+  "event_id": "ppe_a796fd93149fd702",
   "evidence": {
-    "digest": "sha256:c965e3b921d9c16d399421c6dc49872548226a406f9f1253c3c2adfdcc918858",
-    "id": "evd_c0fb8183856c0ff6",
+    "digest": "sha256:0d841bfa3ea3a10dcfdcd70cf000d0683ee2dc1cab565561ab725acdf834ee13",
+    "id": "evd_bd1b508c6ecadde3",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:7ea221c0df922146c43169a4ff66fbd8913674b65b678165f03bbe5c96144cf2",
+    "quote_digest": "sha256:481e70e0eb0998e55a59c364f5eb0f621c9877ec77113a6c03cadebdca04666d",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:7ea221c0df922146c43169a4ff66fbd8913674b65b678165f03bbe5c96144cf2",
-        "section_id": "sec_27289a4e873931a2"
+        "section_digest": "sha256:481e70e0eb0998e55a59c364f5eb0f621c9877ec77113a6c03cadebdca04666d",
+        "section_id": "sec_6e0279669a3c5be8"
       },
-      "quote": "PRINT \nName  \nNumber, street, and room or suite no. If a P.O. box, see instructions.  City or town, state or province, country, and ZIP or foreign postal code  \nD Employer identification number  E Date incorporated \nF Total assets (see instructions)  $  \nG Is the corporation electing to be an S corporation beginning with this tax year? See instructions. Yes No H Check if: (1) Final return (2) Name change (3) Address change (4) Amended return (5) S election termination  I Enter the number of shareholders who were shareholders during any part of the tax year . . . . . . . . J Check if corporation: (1) Aggregated activities for section 465 at-risk purposes (2) Grouped activities for section 469 passive activity purposes Caution: Include only trade or business income and expenses on lines 1a through 22. See the instructions for more information. \n1a Gross receipts or sales b Less returns and allowances \t\tc Balance \t1c \n2 Cost of goods sold (attach Form 1125-A) . . . . . . . . . . . . \t. \t. . . . . . \t2 \n3 Gross profit. Subtract line 2 from line 1c . . . . . . . . . . . . \t. \t. . . . . . \t3 \n4 Net gain (loss) from Form 4797, Part II, line 17 (attach Form 4797) . . . . \t. \t. . . . . . \t4 \n5 Other income (loss) (see instructions—attach statement) . . . . . . . \t. \t. . . . . . \t5 \n6 Total income (loss). Add lines 3 through 5 . . . . . . . . . . . \t. \t. . . . . . \t6 \n7 Compensation of officers (see instructions—attach Form 1125-E) . . . . . . . . . . . 8 Salaries and wages (less employment credits) . . . . . . . . . . . . . . . . . 9 Repairs and maintenance . . . . . . . . . . . . . . . . . . . . . . . . \n10 Bad debts . . . . . . . . . . . . . . . . . . . . . . . . . . . . 11 Rents . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 12 Taxes and licenses . . . . . . . . . . . . . . . . . . . . . . . . . . 13 Interest (see instructions) . . . . . . . . . . . . . . . . . . . . . . . . 14 Depreciation from Form 4562 not claimed on Form 1125-A or elsewhere on return (attach Form 4562) \n15 Depletion (do not deduct oil and gas depletion) . . . . . . . . . . . . . . . . 16 Advertising . . . . . . . . . . . . . . . . . . . . . . . . . . . . 17 Pension, profit-sharing, etc., plans . . . . . . . . . . . . . . . . . . . . . 18 Employee benefit programs . . . . . . . . . . . . . . . . . . . . . . . 19 Energy efficient commercial buildings deduction (attach Form 7205) . . . . . . . . . . 20 Other deductions (attach statement) . . . . . . . . . . . . . . . . . . . . 21 Total deductions. Add lines 7 through 20 . . . . . . . . . . . . . . . . . . 22 Ordinary business income (loss). Subtract line 21 from line 6 . . . . . . . . . . . . \t7 \n\t8 \n\t9 \n\t10 \n\t11 \n\t12 \n\t13 \n\t14 \n\t15 \n\t16 \n\t17 \n\t18 \n\t19\n\t20\n\t21 \n\t22\n23 a Excess net passive income or LIFO recapture tax (see instructions) . . . \t23a \t\t23c \nb Tax from Schedule D (Form 1120-S) . . . . . . . . . . . . \t23b \t\t\nc Add lines 23a and 23b (see instructions for additional taxes) . . . . . . \t. \t. . . . . . \t\n24 a Current year’s estimated tax payments and preceding year’s overpayment  credited to the current year . . . . . . . . . . . . . . . b Tax deposited with Form 7004 . . . . . . . . . . . . . . c Credit for federal tax paid on fuels (attach Form 4136) . . . . . . . d Elective payment election amount from Form 3800 . . . . . . . . z Add lines 24a through 24d . . . . . . . . . . . . . . . . \t24a  24b  24c  24d  . \t. . . . . . \t24z\n25 Estimated tax penalty (see instructions). Check if Form 2220 is attached . . \t. \t. . . . . \t25 \n26 Amount owed. If line 24z is smaller than the total of lines 23c and 25, enter amount owed \t\t. . . \t26 \n27 Overpayment. If line 24z is larger than the total of lines 23c and 25, enter amount overpaid \t\t. . . \t27 \n28 Enter amount from line 27: Credited to 2025 estimated tax \t\tRefunded . \t28 \n\n\nIncome  \nDeductions (see instructions for limitations) \nTax and Payments  \nUnder penalties of perjury, I declare that I have examined this return, including accompanying schedules and statements, and to the best of my knowledge and  \nSign  Here \nbelief, it is true, correct, and complete. Declaration of preparer (other than taxpayer) is based on all information of which preparer has any knowledge.  May the IRS discuss this return  \nSignature of officer Date Title \nwith the preparer shown below?  See instructions. Yes No \nPaid  \nPreparer  Use Only \n",
-      "quote_digest": "sha256:7ea221c0df922146c43169a4ff66fbd8913674b65b678165f03bbe5c96144cf2",
+      "quote": "        3.5 BOOKS AND RECORDS\n    (a) The books of account and other Records of each Acquired Company, all of which have been made available to Buyer, are complete and correct, represent actual, bona fide transactions, and have been maintained in accordance with sound business practices and the requirements of Section 13(b)(2) of the Exchange Act (whether or not any Acquired Company is subject to that Section). The Acquired Companies have implemented and maintain a system of internal control over financial reporting (as defined in Rules 13a-15(f) and 15d-15(f) under the Exchange Act) sufficient to provide reasonable assurance regarding the reliability of financial reporting and the preparation of financial statements for external purposes in accordance with GAAP, including that (i) transactions are executed in accordance with management’s general or specific authorizations, (ii) transactions are recorded as necessary to permit preparation of financial statements in conformity with GAAP and to maintain asset accountability, (iii) access to assets is permitted only in accordance with management’s general or specific authorization, and (iv) the recorded accountability for assets is compared with the existing assets at reasonable intervals and appropriate action is taken with respect to any differences.\n    (b) The minute books of each Acquired Company contain complete and correct Records of all meetings held of, and actions taken by written consent of, the holders of voting securities, the board of\ndirectors or Persons exercising similar authority, and committees of the board of directors or such Persons of such Acquired Company, and no meeting of any such holders, board of directors, Persons, or committee has been held, and no other action has been taken, for which minutes or other evidence of action have not been prepared and are not contained in such minute books. Each Acquired Company has at all times maintained complete and correct Records of all issuances and transfers of its Equity Securities. At the Closing, all such minute books and Records will be in the possession of the Company and located at [specify location(s)].\n",
+      "quote_digest": "sha256:481e70e0eb0998e55a59c364f5eb0f621c9877ec77113a6c03cadebdca04666d",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
@@ -24,18 +24,18 @@
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
       "source": {
-        "content_digest": "sha256:c93c2b228433659eb56b66bfaee1dc3de9ed754d39aa736b60372b74813f3481",
+        "content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
         "media_type": "text/plain",
-        "uri": "private://apex/c93c2b228433659e-f96ee06e"
+        "uri": "private://apex/7beb28a6e0069669-d885dee3"
       }
     },
-    "retrieval_receipt_digest": "sha256:4a8e73df48c4a03d40366e7eab4584996ff38a49d3bac9e09a35de8e305d6400",
-    "source_content_digest": "sha256:c93c2b228433659eb56b66bfaee1dc3de9ed754d39aa736b60372b74813f3481",
-    "source_digest": "sha256:0a36a5ff5eb33d41016d52986e5f40fb7355d329af2f4a939222e040274ce016",
-    "source_ref": "src_1769935b4d6bb417"
+    "retrieval_receipt_digest": "sha256:bbdd8e6a7d810d2b69964912517fd6870c5eea6c8f3c810cfe1cf22d80f787a7",
+    "source_content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
+    "source_digest": "sha256:9b5e55c106d3b2c9d270455bb5af81e282a4e92f3ba0722f868b952faf8ff0b5",
+    "source_ref": "src_1cb20c6823882030"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_1769935b4d6bb417",
-  "subject_ref": "evd_c0fb8183856c0ff6",
+  "source_ref": "src_1cb20c6823882030",
+  "subject_ref": "evd_bd1b508c6ecadde3",
   "type": "evidence_bound"
 }
