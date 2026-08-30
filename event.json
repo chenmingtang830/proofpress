@@ -1,21 +1,21 @@
 {
-  "created_at": "2026-08-30T19:16:17.728509Z",
-  "event_id": "ppe_3e914f823437c568",
+  "created_at": "2026-08-30T19:16:17.848678Z",
+  "event_id": "ppe_a19183711857a36c",
   "evidence": {
-    "digest": "sha256:79a3c1f97157e4eb2a7609be51323aa53f04042e1a8c65f2dc57a81ce07bedb7",
-    "id": "evd_b6c9d0aa570bfe5c",
+    "digest": "sha256:e6060871cc66ffe153c5908ceb843dd86a59d4319d762d3e52094a5fc72fa55b",
+    "id": "evd_0cebe9ec8794b992",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:9bcbeea930a5623bfa5f123324c527e26f63ad172788651197f19039f47a0df3",
+    "quote_digest": "sha256:187f0913e1e07a78be2f281041d93822daf7a20abf3ae9a77aeda88ecf61e089",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:9bcbeea930a5623bfa5f123324c527e26f63ad172788651197f19039f47a0df3",
-        "section_id": "sec_2587a264848de94d"
+        "section_digest": "sha256:187f0913e1e07a78be2f281041d93822daf7a20abf3ae9a77aeda88ecf61e089",
+        "section_id": "sec_2458f9b7d563937c"
       },
-      "quote": "﻿Amended and Restated Shareholder Agreement\nEffective Date: January 1, 2019\nRecitals\nWHEREAS, Summit Filing Solutions, Inc. (the “Company”) was incorporated in the State of Delaware on January 10, 2018;\nWHEREAS, the Company elected to be treated as an S-Corporation under Subchapter S of the Internal Revenue Code, effective January 1, 2019;\nWHEREAS, the shareholders desire to amend and restate the Shareholder Agreement with additional covenants and protections;\nArticle II – Subchapter S Election Matters\n2.1 Maintenance of S‑Corporation Status. Shareholders shall take all actions necessary to maintain the Company's S‑Corporation status.\n2.2 Tax Year. The tax year of the Company shall begin on January 1 of each year.\n2.3 Pro Rata Distributions. All distributions shall be made strictly pro rata in accordance with share ownership to comply with the single‑class‑of‑stock rule, subject to such additional amounts which the shareholders may elect to distribute, by 2/3 majority vote, to Michael T. Hartwell, to compensate him for his efforts to develop the Company’s business in the Southeast United States.\n2.4 Tax Distributions. The Company shall make quarterly tax distributions reflecting the highest blended marginal rate applicable to S‑Corp shareholders.\n2.5 Mandatory Ordering. Distributions shall be applied (a) first to tax obligations, (b) second to shareholder loan repayments, (c) third to discretionary distributions.\nArticle III – Additional Covenants\n3.1 Confidentiality. Shareholders shall maintain strict confidentiality regarding all Company information.\n3.2 Non‑Competition. Except with Board consent, Shareholders shall not engage in any business that directly competes with the Company.\n3.3 Non‑Solicitation. Shareholders shall not solicit the Company’s employees, contractors, or customers for two (2) years following any transfer of shares.\nArticle IV – Transfer Restrictions; Drag‑Along and Tag‑Along Rights\n4.1 No Transfers to Ineligible Shareholders. No Shareholder may transfer shares to an individual or entity that would terminate S‑Corporation status.\n4.2 Right of First Refusal. Before transferring any shares, the transferring Shareholder must first offer them to the Company and then to other Shareholders.\n4.3 Tag‑Along Rights. If Shareholders holding at least 51% of the outstanding shares receive a bona fide offer from a third‑party purchaser, all minority Shareholders shall have the right to participate on the same terms and conditions.\n4.4 Drag‑Along Rights. If Shareholders holding at least 75% of the outstanding shares approve a sale of the Company, all remaining Shareholders must consent and sell their shares on identical terms.\nArticle V – Board Governance and Procedures\n5.1 Board Composition. The Board shall consist of three (3) directors unless amended by unanimous Shareholder consent.\n5.2 Meetings. Regular meetings shall occur quarterly. Special meetings may be called by any director upon five (5) business days’ notice.\n5.3 Voting. Board actions require a majority vote unless this Agreement specifies otherwise. Tax distributions and amendments to distribution methodology require unanimous Board approval.\n5.4 Minutes. Written minutes shall be maintained and approved at the subsequent meeting.\nArticle VI – Dispute Resolution\n6.1 Good Faith Negotiations. In the event of a dispute, the parties shall first attempt good‑faith negotiations for at least 30 days.\n6.2 Mediation. If negotiations fail, the parties shall participate in confidential mediation administered by the American Arbitration Association (“AAA”).\n6.3 Binding Arbitration. If mediation fails, disputes shall be resolved through binding arbitration under AAA Commercial Rules. Arbitration shall occur in the county of the Company’s principal place of business.\nSchedule A – Initial Shareholders\nShareholder Name\tAddress\tShares Owned\tOwnership %\nLaura Kensington\t912 Redwood Crest Ln, Bend, OR 97701\t130,000\t26%\nMichael T. Hartwell\t3285 Sycamore Ridge Rd, Franklin, TN 37064\t110,000\t22%\nDanielle R. Soto\t1448 Harbor Point Dr, Richmond, VA 23233\t100,000\t20%\nGregory A. Beaumont\t502 Lake Orchard Way, Madison, WI 53711\t100,000\t20%\nTanya L. Merriweather\t722 Brookview Park Cir, Marietta, GA 30060\t60,000\t12%\nSignatures\nLaura Kensington\n\n______________________________\nSignature\n\n\nMichael T. Hartwell\n\n______________________________\nSignature\n\n\nDanielle R. Soto\n\n______________________________\nSignature\n\n\nGregory A. Beaumont\n\n______________________________\nSignature\n\n\nTanya L. Merriweather\n\n______________________________\nSignature\n\n\n",
-      "quote_digest": "sha256:9bcbeea930a5623bfa5f123324c527e26f63ad172788651197f19039f47a0df3",
+      "quote": "﻿\nThis guide presents a comprehensive outline for a tax diligence memorandum focused on S-election risks and exposure. This structure is designed to guide a detailed analysis, ensuring all critical aspects of S-corporation status, qualification, and potential pitfalls are addressed.\n\nTax Diligence Memorandum Outline: S-Election Risks and Exposure\nI. Introduction\n    • Purpose of Memorandum \n        ◦ Scope of review (e.g., acquisition, investment, internal compliance)\n        ◦ Summary of target entity and transaction context\n    • Executive Summary \n        ◦ Key findings and recommendations\nII. Overview of S-Corporation Status\n    • Definition and Benefits of S-Corporation Election\n    • Summary of S-Election Requirements (IRC §1361, §1362) \n        ◦ Eligible entities\n        ◦ Shareholder requirements\n        ◦ Stock requirements\n        ◦ Election process and timing\nIII. S-Election Qualification Review\n    • Entity Eligibility \n        ◦ Domestic corporation status\n        ◦ Ineligible entity types (e.g., certain financial institutions, insurance companies)\n    • Shareholder Eligibility \n        ◦ Permitted shareholders (individuals, certain trusts, estates)\n        ◦ Prohibited shareholders (nonresident aliens, partnerships, corporations)\n        ◦ Number of shareholders (100-shareholder limit)\n    • Stock Structure \n        ◦ Single class of stock requirement\n        ◦ Review of equity instruments (convertibles, options, warrants, debt instruments)\n    • Election Process \n        ◦ Timeliness and validity of Form 2553 filing\n        ◦ Unanimous shareholder consent\nIV. Historical Compliance and Maintenance of S-Status\n    • Review of Corporate Records \n        ◦ Articles of incorporation, bylaws, shareholder agreements\n        ◦ Stock ledgers and transfer records\n    • Prior and Ongoing Compliance \n        ◦ Changes in ownership or structure\n        ◦ Issuance of new equity or debt\n        ◦ Distributions and redemptions\n    • Potential Inadvertent Terminations \n        ◦ Violations of eligibility requirements\n        ◦ Issuance of a second class of stock\n        ◦ Nonresident alien shareholders\n        ◦ Late or defective elections\nV. Tax Exposure and Risk Assessment\n    • Consequences of S-Status Termination \n        ◦ Reversion to C-corporation status\n        ◦ Built-in gains tax exposure\n        ◦ Loss of pass-through treatment\n    • Potential IRS Challenges \n        ◦ Audit risk factors\n        ◦ Prior IRS correspondence or examinations\n    • State and Local Tax Considerations \n        ◦ Conformity with federal S-election\n        ◦ Separate state-level S-election requirements\nVI. Remediation and Corrective Actions\n    • IRS Relief for Inadvertent Terminations (IRC §1362(f)) \n        ◦ Eligibility for relief\n        ◦ Required corrective actions and filings\n    • Prospective Risk Mitigation \n        ◦ Recommendations for ongoing compliance\n        ◦ Shareholder and entity agreement amendments\nVII. Transaction-Specific Considerations\n    • Impact on Proposed Transaction \n        ◦ Change of control implications\n        ◦ Section 338(h)(10) or Section 336(e) elections\n        ◦ Buyer and seller indemnities\n    • Representations and Warranties \n        ◦ Drafting considerations for purchase agreements\nVIII. Conclusion and Recommendations\n    • Summary of Key Risks\n    • Recommended Next Steps\n    • Open Issues for Further Diligence\nIX. Exhibits and Supporting Documentation\n    • Checklist of S-Election Requirements\n    • Sample Forms and Filings\n    • Summary Table of Identified Risks\n\n",
+      "quote_digest": "sha256:187f0913e1e07a78be2f281041d93822daf7a20abf3ae9a77aeda88ecf61e089",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
@@ -24,18 +24,18 @@
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
       "source": {
-        "content_digest": "sha256:df3594d8240459869270e64a3db44198c0546cd81bd351574589b63072bbde2e",
+        "content_digest": "sha256:971095c9beaecfbca22e492ead1964eebed8e323a4acc6860e342a14675d71f9",
         "media_type": "text/plain",
-        "uri": "private://apex/df3594d824045986-dd257bd3"
+        "uri": "private://apex/971095c9beaecfbc-e5e13b9a"
       }
     },
-    "retrieval_receipt_digest": "sha256:b9624a43d650476d14fe9b16d66ac1f1d824d6a8499d01e2da2e57c6296ea840",
-    "source_content_digest": "sha256:df3594d8240459869270e64a3db44198c0546cd81bd351574589b63072bbde2e",
-    "source_digest": "sha256:4d3875bdd77af5d4348ab436054afe762ee9f7b13af908e188022ce27d09e940",
-    "source_ref": "src_fa034096f9a8319b"
+    "retrieval_receipt_digest": "sha256:8d15ad26ca647027567996e619fe6a74e632d495207a4bc56b753500dae8fd49",
+    "source_content_digest": "sha256:971095c9beaecfbca22e492ead1964eebed8e323a4acc6860e342a14675d71f9",
+    "source_digest": "sha256:c395d125198aa3806cf5683421fda35b5901198756b648bfc91d2149b16c40e2",
+    "source_ref": "src_2dc5a381a5b5c028"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_fa034096f9a8319b",
-  "subject_ref": "evd_b6c9d0aa570bfe5c",
+  "source_ref": "src_2dc5a381a5b5c028",
+  "subject_ref": "evd_0cebe9ec8794b992",
   "type": "evidence_bound"
 }
