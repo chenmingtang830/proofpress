@@ -1,21 +1,21 @@
 {
-  "created_at": "2026-08-30T19:17:03.184827Z",
-  "event_id": "ppe_0ee1e003c3877b01",
+  "created_at": "2026-08-30T19:17:03.372336Z",
+  "event_id": "ppe_246b5aeb79a08ab7",
   "evidence": {
-    "digest": "sha256:31a12d3706c1faeefbb3b43f6f79c9de0996f411ddfdb2b2994b0bc6828b1fbc",
-    "id": "evd_369fbec8128bb6a1",
+    "digest": "sha256:4a454112c0146ac2752da077097dc9aaae901fe06051d72fa9784a65f9b9831b",
+    "id": "evd_e778ebb0a281f0df",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:463de5d767a12eebae0e138ccd7157ec1354600fa4fdb0b96fa58c6dab6c9b3c",
+    "quote_digest": "sha256:8019c65d035dbd9a19ce56dcce31f4688b67d06e7abe7107d4101071d6dac1d9",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:463de5d767a12eebae0e138ccd7157ec1354600fa4fdb0b96fa58c6dab6c9b3c",
-        "section_id": "sec_3cb3bb6b4eff3126"
+        "section_digest": "sha256:8019c65d035dbd9a19ce56dcce31f4688b67d06e7abe7107d4101071d6dac1d9",
+        "section_id": "sec_e08dd63e6701b1fd"
       },
-      "quote": "/K 26>>\nendobj\n119 0 obj\n<</Type /StructElem\n/S /Link\n",
-      "quote_digest": "sha256:463de5d767a12eebae0e138ccd7157ec1354600fa4fdb0b96fa58c6dab6c9b3c",
+      "quote": "\u0003�{�\u0003��� ��A�{\u001e\u001bU,��3Ҟ�*��vgd>UV&$��C\u001e\\�ʵ����9PS��qp��C��+ŵ�۲�_�cW�;x��~�\u0017�\u0007���\u0002HcF�����ً��tx��#s�\u0003>�[/q��\u0000Va�sP\u0018�V`\u000b\r��Gq4E�&O��\r��{���{�h@&\u0003����:�3hx\u0011b�J���}��\u0015*\u0014�\u0000 �\u0003|\u000ep\t�j(��W�\u0012�%�j(\u001cς��f�~<6�\u0018��J�9@�γ�\u0002=C�я}�@��-f(?v$�c�c\u0002o��\u0016[ՠ\u001bk�����\u000f��� �\u0001�\u0002�\u0007\u001fRF�26�Z\u000f���l��\u0003�EF�\u0018�d3�/|Ԋ��P�6\u0019���J�w������\fgd\u0002��.qI5#9\n�$w�1\u0000t����R\u001f�!/������U�\u001e",
+      "quote_digest": "sha256:8019c65d035dbd9a19ce56dcce31f4688b67d06e7abe7107d4101071d6dac1d9",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
@@ -24,18 +24,18 @@
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
       "source": {
-        "content_digest": "sha256:5bd00b2e35a4b570b1f5db8e7c40796dbcbe81b42f717585f84232b11f15968e",
+        "content_digest": "sha256:763b540a616086edcecf3a87d5edf98dff1e05704299a9736a42a918435cd4d3",
         "media_type": "application/pdf",
-        "uri": "private://apex/5bd00b2e35a4b570-c56d7ae1"
+        "uri": "private://apex/763b540a616086ed-755262e0"
       }
     },
-    "retrieval_receipt_digest": "sha256:c39c995216a4406d1dabe6df4ebc6bca70f923d668f8fff5b0b377ae84865252",
-    "source_content_digest": "sha256:5bd00b2e35a4b570b1f5db8e7c40796dbcbe81b42f717585f84232b11f15968e",
-    "source_digest": "sha256:3d8025eca8686547c14519b6addc5dc333bed470c318b325681ca5c6bf4320dc",
-    "source_ref": "src_98307850e79660c7"
+    "retrieval_receipt_digest": "sha256:b15e236d4c0b3babe0a40bb850d8f2f493d1e4d83d79678f4bfa1632262445d7",
+    "source_content_digest": "sha256:763b540a616086edcecf3a87d5edf98dff1e05704299a9736a42a918435cd4d3",
+    "source_digest": "sha256:710da86265ba6ccc9fda04ba9470388e59b91336b1511b9987d3b5828d623bdc",
+    "source_ref": "src_127dc512c8fae24b"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_98307850e79660c7",
-  "subject_ref": "evd_369fbec8128bb6a1",
+  "source_ref": "src_127dc512c8fae24b",
+  "subject_ref": "evd_e778ebb0a281f0df",
   "type": "evidence_bound"
 }
