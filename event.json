@@ -1,41 +1,41 @@
 {
-  "created_at": "2026-08-30T19:17:10.340578Z",
-  "event_id": "ppe_76315796014ebe17",
+  "created_at": "2026-08-30T19:17:10.532843Z",
+  "event_id": "ppe_27d15e267af47770",
   "evidence": {
-    "digest": "sha256:ddb2a19f0efb594c3ab71abc775ea1992a087fc012433975c6b955839833a99a",
-    "id": "evd_c5d4eed73d1bd2e0",
+    "digest": "sha256:526c09dff4b6260f8a203ff102f2205ee5b4a14b124029ec186b5c134df18a73",
+    "id": "evd_f5e8bacf5a0507eb",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:c6db9ceaa6bb988d526519c2736b35d552a811f412b3a8797f156d87ff20bbfc",
+    "quote_digest": "sha256:6d9a788be9f762d98a3e9c3b5950f42833594c01a0e65074ce0e02c6b2497080",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:c6db9ceaa6bb988d526519c2736b35d552a811f412b3a8797f156d87ff20bbfc",
-        "section_id": "sec_e60d879be65f8a0f"
+        "section_digest": "sha256:6d9a788be9f762d98a3e9c3b5950f42833594c01a0e65074ce0e02c6b2497080",
+        "section_id": "sec_881122d6993e55d2"
       },
-      "quote": "OFFICERS\nSection 4.1 Officers.\nThe officers of the Corporation shall consist of a President, a Secretary, and a Treasurer, and may include a Chair of the Board and any assistant officers as appointed by the Board.\nSection 4.2 Appointment.\nOfficers shall be appointed by the Board annually and shall serve at the pleasure of the Board.\nSection 4.3 Duties.\n(a) President. Chief executive officer of the Corporation, responsible for oversight of operations.\n (b) Secretary. Maintains corporate records and minutes.\n (c) Treasurer. Responsible for financial management and reporting.\nSection 4.4 Removal.\nAny officer may be removed by the Board at any time.\nSection 4.5 Vacancies.\nA vacancy in any office shall be filled by the Board.\n\n",
-      "quote_digest": "sha256:c6db9ceaa6bb988d526519c2736b35d552a811f412b3a8797f156d87ff20bbfc",
+      "quote": "﻿\n\nFor the Acquisition of Stock of Summit Filing Solutions, Inc.\nDate: TBD\nBuyer:Harbor Bridge Private Equity\nSeller(s): Laura Kensington; Michael T. Hartwell; Danielle R. Soto\nTarget: Summit Filing Solutions, Inc.\nTransaction: Acquisition of all the issued and outstanding shares of Target\n\n1. Transaction Structure\n    • Form of Acquisition: Purchase of all the issued and outstanding shares of Target from Seller(s).\n    • Intended Tax Treatment: The parties intend for the transaction to be treated as a purchase of stock for U.S. federal income tax purposes.\n2. S-Corporation Status\n    • Representation and Warranty: Seller(s) shall represent and warrant that Target has made a valid S-corporation election effective as of January 1, 2019, and that such election has been continuously in effect through the Closing Date, except as otherwise disclosed.\n    • Disclosure of Questionable Status: Sellers acknowledge that the validity of Target’s S-corporation election is subject to uncertainty due to issues pertaining community property ownership in Target’s shares, transfers to persons who were ineligible shareholders, potentially defective election filings, or other factors.\n    • Due Diligence: Buyer shall have the right to conduct tax due diligence regarding the S-corporation status of Target, including review of all relevant IRS filings, shareholder consents, and corporate records.\n3. Tax Indemnity and Escrow\n    • Indemnity for S-Status Issues: Sellers shall indemnify Buyer for any taxes, penalties, interest, or other losses arising from a determination that Target’s S-corporation election was invalid or terminated prior to Closing, including any resulting C-corporation level taxes.\n    • Escrow: A portion of the purchase price equal to $425,000 or 10% shall be placed in escrow for a period of two [2] years post-Closing to secure Sellers’ indemnity obligations relating to S-corporation status and related tax matters.\n4. Section 338(h)(10) Election (if applicable)\n    • Election Option: The parties may agree to make a joint election under Section 338(h)(10) of the Internal Revenue Code, if Target’s S-corporation status is confirmed and all eligibility requirements are met.\n    • Allocation of Tax Liability: The parties shall agree on the allocation of any resulting tax liability and benefits from the election, including responsibility for any corporate-level tax triggered by the deemed asset sale.\n5. Pre-Closing Tax Returns\n    • Responsibility: Sellers shall be responsible for preparing and filing all tax returns of Target for periods ending on or before the Closing Date, including any short-period returns.\n    • Review Rights: Buyer shall have the right to review and comment on any such returns prior to filing.\n6. Post-Closing Tax Matters\n    • Cooperation: The parties shall cooperate in connection with any tax audits, examinations, or proceedings relating to periods prior to Closing.\n    • Access to Records: Sellers shall provide Buyer with reasonable access to all tax records and information relating to Target for pre-Closing periods.\n7. Other Tax Representations\n    • No Built-in Gains Tax: Sellers represent that Target does not have any material built-in gains subject to Section 1374 of the Internal Revenue Code, except as disclosed.\n    • No Disqualifying Events: Sellers represent that, to their knowledge, no events have occurred that would disqualify Target’s S-corporation status, except as disclosed.\n8. Governing Law\n    • This term sheet and any definitive agreements shall be governed by the laws of the State of Delaware.\n\nThis term sheet is non-binding and for discussion purposes only. The terms herein are subject to the negotiation and execution of definitive agreements.\n\n[Signature Blocks]\n\nKey Notes:\n    • This template is for general informational purposes and should be reviewed and customized by legal and tax counsel.\n    • Special attention should be paid to the specific facts regarding the S-corporation status and any IRS guidance or case law relevant to the issues identified.\n\n\n",
+      "quote_digest": "sha256:6d9a788be9f762d98a3e9c3b5950f42833594c01a0e65074ce0e02c6b2497080",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
-        "query": "Retrieve board/shareholder resolutions, certificates of incorporation and amendments, shareholder agreements, redemption or liquidation documents, and Delaware-law authorization and solvency records for every payment.",
+        "query": "Retrieve Forms 1099-DIV, 1099-INT, 1099-NEC/MISC, W-2, 941, 940, backup-withholding records, corrected information returns, and shareholder tax-reporting reconciliations for all relevant years.",
         "version": "1"
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
       "source": {
-        "content_digest": "sha256:1cb8fe86d8075d2b126f99858b67aa3a45ced38879cf7b3859b78e577483572b",
+        "content_digest": "sha256:ba841929570abade32151d590a40176c324d5b5523140d96115df1defdc3f877",
         "media_type": "text/plain",
-        "uri": "private://apex/1cb8fe86d8075d2b-0c1ae063"
+        "uri": "private://apex/ba841929570abade-2a0df9f7"
       }
     },
-    "retrieval_receipt_digest": "sha256:1fdb798169029e644222401cbbea5466a3efa9f223f9c1d9333107e7dad87e68",
-    "source_content_digest": "sha256:1cb8fe86d8075d2b126f99858b67aa3a45ced38879cf7b3859b78e577483572b",
-    "source_digest": "sha256:dce34be7d3faee591fc3639cc0fc742ebc66a097c301c07eb716b0649e3998a1",
-    "source_ref": "src_3376baa521507aa6"
+    "retrieval_receipt_digest": "sha256:db2c524eb4f14bd339da6e9aea5d2e66d303798145af510fd7b0ef86bb3296cf",
+    "source_content_digest": "sha256:ba841929570abade32151d590a40176c324d5b5523140d96115df1defdc3f877",
+    "source_digest": "sha256:8baef335ebdac59c8fde471090e6cd2c2da14493bc75d11176290fde33713211",
+    "source_ref": "src_2078accf92703103"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_3376baa521507aa6",
-  "subject_ref": "evd_c5d4eed73d1bd2e0",
+  "source_ref": "src_2078accf92703103",
+  "subject_ref": "evd_f5e8bacf5a0507eb",
   "type": "evidence_bound"
 }
