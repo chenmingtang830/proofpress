@@ -1,30 +1,18 @@
 {
-  "conclusion": {
-    "allowed_actors": [
-      "*"
-    ],
-    "artifact_refs": [],
-    "created_at": "2026-08-30T19:17:29.085846Z",
-    "digest": "sha256:6c4d18042e77f4f9d0cf7ca2a4e00d431a563a61f779e3bb330c5071daaaaca6",
-    "evidence_refs": [
-      "evd_05274510c61fbced",
-      "evd_82e740295e98431d",
-      "evd_89ff0ad8c5ecf4dc",
-      "evd_9717e45c637fc498",
-      "evd_97dcd1f765886963",
-      "evd_c0fb8183856c0ff6"
-    ],
-    "expires_at": null,
-    "id": "knw_c21d6a6831102150",
-    "kind": "conclusion",
-    "proposer": "agent:v8-constructor",
-    "qualifiers": {},
-    "scope": "task_11893dcabbe34b0aa991516dfe7edcba",
-    "statement": "The cited record contains conflicting Historic Distribution Schedules: one reports the May 22, 2022 distribution as $5,200, Michael T. Hartwell’s share as $1,924, and cumulative distributions as $20,300, while the other reports $4,200, $924, and $19,300, respectively. The other cited materials are excerpts from two K-1s, bylaws, and an incomplete Form 1120-S page; they do not permit a complete reconciliation among books, tax returns, shareholder reporting, corporate resolutions, and bank records."
+  "checks": {
+    "evidence_integrity": true,
+    "evidence_present": true,
+    "not_expired": true,
+    "not_superseded": true,
+    "retrieval_receipts": true,
+    "scope_present": true
   },
-  "created_at": "2026-08-30T19:17:29.180478Z",
-  "event_id": "ppe_2670e65024757dbf",
+  "conclusion_digest": "sha256:6c4d18042e77f4f9d0cf7ca2a4e00d431a563a61f779e3bb330c5071daaaaca6",
+  "created_at": "2026-08-30T19:17:29.398970Z",
+  "eligible": true,
+  "event_id": "ppe_befb27736f906f30",
+  "policy_digest": "sha256:cde050fdc0b2869fecf8ee9d24dee964fc3bbc18e6b489da2e08e7c3df266501",
   "schema_version": "proofpress/knowledge-event/v2",
   "subject_ref": "knw_c21d6a6831102150",
-  "type": "conclusion_proposed"
+  "type": "policy_evaluated"
 }
