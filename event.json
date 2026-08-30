@@ -1,41 +1,15 @@
 {
-  "created_at": "2026-08-30T19:16:42.472649Z",
-  "event_id": "ppe_4e5ec8f0a28a67b6",
-  "evidence": {
-    "digest": "sha256:78e93cc241efaa3ef2b739e8bb2c0e32ae47a7e9a4facf44ad042bcdbc6f7368",
-    "id": "evd_eec6077edfdaccb8",
-    "kind": "retrieval_evidence",
-    "quote_digest": "sha256:572cb5051ea60eff86fbb15a488fe4d0f1df4803a3be14feba620349e6f0691f",
-    "retrieval_receipt": {
-      "locator": {
-        "kind": "section_span",
-        "page_end": 1,
-        "page_start": 1,
-        "section_digest": "sha256:572cb5051ea60eff86fbb15a488fe4d0f1df4803a3be14feba620349e6f0691f",
-        "section_id": "sec_871f0397370e0ccf"
-      },
-      "quote": "DISCLOSURE SCHEDULE\nThis Schedule of Exceptions is made and given pursuant to Section 2 of the Series A Preferred Stock Purchase Agreement, dated as of [date] (the “Agreement”), between [Company name] (the “Company”) and the Purchasers listed on Schedule A thereto. All capitalized terms used but not defined herein shall have the meanings as defined in the Agreement, unless otherwise provided. The section numbers below correspond to the section numbers of the representations and warranties in the Agreement; provided, however, that any information disclosed herein under any section number shall be deemed to be disclosed and incorporated into any other section number under the Agreement where such disclosure would be appropriate and such appropriateness is reasonably apparent from the face of such disclosure. Nothing in this Schedule of Exceptions is intended to broaden the scope of any representation or warranty contained in the Agreement or to create any covenant. Inclusion of any item in this Schedule of Exceptions (1) does not represent a determination that such item is material or establish a standard of materiality, (2) does not represent a determination that such item did not arise in the ordinary course of business, (3) does not represent a determination that the transactions contemplated by the Agreement require the consent of third parties, and (4) shall not constitute, or be deemed to be, an admission to any third party concerning such item. This Schedule of Exceptions includes brief descriptions or summaries of certain agreements and instruments, copies of which are available upon reasonable request. Such descriptions do not purport to be comprehensive, and are qualified in their entirety by reference to the text of the documents described, true and complete copies of which have been provided to the Purchasers or their respective counsel.\n\n\n\n\n\n\n\n\n\n\n\n",
-      "quote_digest": "sha256:572cb5051ea60eff86fbb15a488fe4d0f1df4803a3be14feba620349e6f0691f",
-      "retrieval": {
-        "adapter": "bm25-page",
-        "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
-        "query": "Retrieve the complete Historical Shareholder Schedule entries concerning Carrie Canuck, including acquisition, disposition, citizenship/residency changes, and any cure date.",
-        "version": "1"
-      },
-      "schema_version": "proofpress/retrieval-evidence/v1",
-      "source": {
-        "content_digest": "sha256:de3c85ce68cc9a64aadabec8843aff116664ead676844e5ce1f589169c52b2da",
-        "media_type": "text/plain",
-        "uri": "private://apex/de3c85ce68cc9a64-4c7c3329"
-      }
-    },
-    "retrieval_receipt_digest": "sha256:a320856fd189a8d5903d339499b238e22648e9d71f3c198a7638957597a19fd3",
-    "source_content_digest": "sha256:de3c85ce68cc9a64aadabec8843aff116664ead676844e5ce1f589169c52b2da",
-    "source_digest": "sha256:afd14261a12776692529819ab8b113e55ef68150920111e982cd00f66a8af8ea",
-    "source_ref": "src_a149d3b6c6d2425c"
+  "created_at": "2026-08-30T19:16:42.562869Z",
+  "event_id": "ppe_37f378f64e5268d6",
+  "record": {
+    "content_digest": "sha256:bceb3550c7b829b6f3d802a8ab586d5cbee1d6c3fa9a7fbc97316c41f24821fd",
+    "id": "src_62af28aae695e11c",
+    "kind": "retrieval_source",
+    "media_type": "text/plain",
+    "record_hash": "sha256:98035f7752fb63953164b378020672dc52f24fbe2fcf9eab2bf64b3b21921aaa",
+    "uri": "private://apex/bceb3550c7b829b6-37b81172"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_a149d3b6c6d2425c",
-  "subject_ref": "evd_eec6077edfdaccb8",
-  "type": "evidence_bound"
+  "subject_ref": "src_62af28aae695e11c",
+  "type": "source_recorded"
 }
