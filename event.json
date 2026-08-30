@@ -1,41 +1,41 @@
 {
-  "created_at": "2026-08-30T19:16:00.840040Z",
-  "event_id": "ppe_c2a6a386124fcfdd",
+  "created_at": "2026-08-30T19:16:00.928505Z",
+  "event_id": "ppe_59d769ad105f6185",
   "evidence": {
-    "digest": "sha256:bdccdfeea91b187a0bbd1c89c88ac09692e993dfadf55728e098051ff7da9d7a",
-    "id": "evd_393c7c0b2382fbff",
+    "digest": "sha256:57aa4f4f000eeb7d00cfb77d04e48934b17dc63dfff6d0f70802111d0f220f04",
+    "id": "evd_2474924b3b6354eb",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:a2d045e3060c2be4e58b4cfe61a5f0994bcdfcaef0094b6739d9f3e956751f54",
+    "quote_digest": "sha256:f0f83ecba3f09d05d67ceb1568ff638c213ec0d7910ef171026c4b311434b5d7",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:a2d045e3060c2be4e58b4cfe61a5f0994bcdfcaef0094b6739d9f3e956751f54",
-        "section_id": "sec_945ef542e0539859"
+        "section_digest": "sha256:f0f83ecba3f09d05d67ceb1568ff638c213ec0d7910ef171026c4b311434b5d7",
+        "section_id": "sec_8f23e2895b774fec"
       },
-      "quote": "﻿DUE DILIGENCE REQUEST (FIRST)\n\n\n1.\tBasic Corporate Documents\n\n    a. Articles of incorporation and bylaws, as amended. \n\n    b. Company’s minute book, stock book, and stock ledger.\n\n2.\tStocks and securities\n\na. For each class of securities (debt or equity), the number of shares outstanding, the names and addresses of the holders, and their cost basis in the securities. \n\nb. Any voting trusts, irrevocable proxies, preemptive rights, shareholders' agreements, redemption  agreements,  buy-sell agreements, or other agreements restricting transfer of, or otherwise affecting rights pertaining to, the company's securities.\n\nc. All permits and other qualifications issued by, or notices filed with, the State Securities Board of Texas, the Texas Securities Commissioner or other government agencies relating to the company's securities.\n\nd. Any options, option plans (and names of optionees), warrants, calls, registration rights agreements or other commitments relating to the company's securities. \n\n3.\tBusiness activities\n\na. The address of the company's principal office and all business addresses used by the company within the last five years.\n\nb. The states in which it is legally qualified to do business.\n\nc. Any assumed, fictitious, or other business names under which the company has conducted business within the past five years and related documents. \n\nd. The names of all affiliates, including subsidiaries, joint ventures and entities which the Company owns in whole or in part. \n\n\ne. Any private placement memorandum, business plan, or management/investment report on the company.\n\nf. Any toxic waste disposals made, environmental permits held, or environmental audits conducted by the company at any time.\n\n4.\tMaterial Contracts and Permits\n\na. Any agreements, instruments, or other documents that: (1) are material to the conduct of the company's business2) call for payments based on the profits or sales of the company, (3) were entered into outside the ordinary course of business, (4) are with any shareholder or officer or director of the company, (5) have a term exceeding six months, (6) restrict the company's ability to compete in any line of business, or (7) are with government agencies.\n\nb. Standard forms used recently by the company, including purchase orders, invoices, and any materials related to extensions of credit to vendors, contractor prospects (collectively, “Industry Relations”).\n\nc.\tOther Agreements: (1) the Company’s business licensees, if any; and (2) sales representative agreements, if any.\n\n5. \tAssets\n\na. The nature and location of the company's assets and property to be transferred.\n\nb. Any pledges, conditional sales, mortgages, consignments, assignments, or other security agreements relating to the assets to be transferred. \n\nc.  A list of all  (1) banks in  which  the  company  maintains accounts, credit arrangements, or safe deposit boxes; (2) persons authorized to withdraw from these accounts and  safe deposit boxes or to borrow under those credit arrangements; (3) securities held by the company; and (4) motor vehicles and the states in which they are registered, along with the numbers identifying each.\n\nd. Any agreements or writings relating to the company's interests in real property or improvements, and leases and other bailments relating to any assets to be transferred.\n\n6.\tLiabilities\n\na. The terms and amounts of the company's debts and liabilities.\n\nb. Any outstanding notes, loan agreements, bank credit agreements, guaranties, or other indebtedness, as well as a list of the lenders or holders and any recent correspondence with, or certificates to, the lenders or the holders. \n\nc. Any lawsuits, claims, actions, or demands, including government agency or administrative proceedings and tax deficiencies, pending or threatened against the company. \n\nd. All warranties, guaranties, and other obligations given or incurred by the company (or any disclaimers of them) with respect to its services within the last eighteen-months.\n\ne.  The names and addresses of any finders or brokers used in connection with the proposed assets sale, the fees payable to each, and any written contracts involved.\n\n7.\tEmployees\n\na. The names of the company's directors and officers, and approximate dates of appointment to positions held.\n\nb. A description of the company's pension, retirement, profitsharing, medical, health, and other incentive and fringe benefit plans (including copies of any agreements and insurance policies relevant to these plans).\n\n8.\tInsurance\n\nAny insurance policies held by the company or relating to its assets or business, and the name of the company's broker or agent.\n\n9.\tProprietary Rights\n\na. The company's trademarks, trade names, domain name registrations, and similar rights, and any filings made or other protective measures taken with respect to them.\n\nb. Any agreements or licenses between the company and employees or others relating to inventions, patents, patent applications, trade secrets, confidential information (including customer lists), trademarks, trade names, and noncompetition covenants.\n\n10.  Tax matters\n\na. Returns (for the last three years) for state income and sales taxes and federal income tax, including any elections.\n\nb. The last year for which the company's federal tax returns were audited by the Internal Revenue Service and the determination of liability resulting from audits.\n\nc. The names of any persons holding tax or other powers of attorney executed by the company.\n\n",
-      "quote_digest": "sha256:a2d045e3060c2be4e58b4cfe61a5f0994bcdfcaef0094b6739d9f3e956751f54",
+      "quote": "I. KEY FINDINGS\n1. Nonresident Alien Shareholder — HIGH RISK\nThe Historical Shareholder Schedule reflects that on June 1, 2022, shareholder Gregory A. Beaumont transferred 100,000 shares to Carrie Canuck, a Canadian resident. A nonresident alien is an ineligible S‑Corporation shareholder. This event caused an automatic termination of S‑Corporation status as of the transfer date.\n2. Pro Rata Distribution Compliance — HIGH RISK\nHistoric distributions do not conform to required ownership percentages, producing recurring disproportionate distributions. The IRS may treat repeated deviations as evidence of a prohibited second class of stock.\n3. Debt‑Equity Characterization and Shareholder Loans — HIGH RISK (Documentation Missing)\nNo shareholder loan agreements, repayment schedules, general ledger entries, or basis tracking schedules were provided. Given the instruction to treat missing documents as high risk, this category is classified accordingly. The absence of documentation significantly increases the likelihood of IRS recharacterization of advances as equity, which may create a second class of stock.\n\n4. K‑1 Accuracy and Records — MODERATE RISK\nSeveral K‑1s lack ownership percentages, and 2024 K‑1s list individuals who do not appear in the stock ledger. These inconsistencies suggest governance gaps that increase audit exposure.\n5. Governance and Corporate Formalities — MODERATE RISK\nMultiple versions of the historical shareholder schedule (Rev A/B/C) reflect inconsistent treatment of 2022–2023 transfers. Inconsistent ledgers weaken Summit’s ability to substantiate S‑status compliance.\n6. Tax Return Consistency (1120‑S) — LOW RISK\nForms 1120‑S appear internally consistent with the operating history. No accumulated earnings and profits or built‑in gains issues were identified.\n\n",
+      "quote_digest": "sha256:f0f83ecba3f09d05d67ceb1568ff638c213ec0d7910ef171026c4b311434b5d7",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
-        "query": "Retrieve the full diligence memo, Forms 2553 and acceptance notices, 2019-2022 Forms 1120-S, shareholder eligibility records, and any Section 1362(f) relief materials to determine actual 2022 classification.",
+        "query": "Retrieve the complete cap table and historical shareholder schedule as of June 20, 2022, including certificates, issuances/transfers, equity class, share counts, voting/economic rights, and ownership-effective dates.",
         "version": "1"
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
       "source": {
-        "content_digest": "sha256:6faf99551d2cdebd37bf51a7aeb9aeaac551ff3c4b7687ac566f99eabe96a03e",
+        "content_digest": "sha256:e7eb786dc671298aa9426792d523f0ec997bee3a570763a8b10f13a1644fc105",
         "media_type": "text/plain",
-        "uri": "private://apex/6faf99551d2cdebd-a6ca2094"
+        "uri": "private://apex/e7eb786dc671298a-1d2051f2"
       }
     },
-    "retrieval_receipt_digest": "sha256:693e133ae916c70b8e36a95a1bcf02e71d0e4e2bde283c6358fa417911e5ff78",
-    "source_content_digest": "sha256:6faf99551d2cdebd37bf51a7aeb9aeaac551ff3c4b7687ac566f99eabe96a03e",
-    "source_digest": "sha256:a2a3f36b3a7d530c32495c11b252e2abcc2b26af9a3822db7f5ce37be4ca8e11",
-    "source_ref": "src_44650437570330df"
+    "retrieval_receipt_digest": "sha256:30bbd946d1ff6aa525e4064b966747a73a5a1aac8fda40976b2b5658762e0250",
+    "source_content_digest": "sha256:e7eb786dc671298aa9426792d523f0ec997bee3a570763a8b10f13a1644fc105",
+    "source_digest": "sha256:bbebf48c1f9dee4d30677c0c93c00e3eb349758e8e8a6eac5acafa2f8650d491",
+    "source_ref": "src_e9b083e75ca5f18f"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_44650437570330df",
-  "subject_ref": "evd_393c7c0b2382fbff",
+  "source_ref": "src_e9b083e75ca5f18f",
+  "subject_ref": "evd_2474924b3b6354eb",
   "type": "evidence_bound"
 }
