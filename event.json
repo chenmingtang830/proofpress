@@ -1,41 +1,41 @@
 {
-  "created_at": "2026-08-30T19:17:42.861471Z",
-  "event_id": "ppe_acea676919186280",
+  "created_at": "2026-08-30T19:17:43.090162Z",
+  "event_id": "ppe_cabddd658ed7e769",
   "evidence": {
-    "digest": "sha256:132311c18ff57acb4315ed3e3ef1f96f08955d9fb8cdca512d7a744f5d094dcf",
-    "id": "evd_27b664241cbb3ed6",
+    "digest": "sha256:90727826c44d7d08440bfd801bc5ba7dc0f43dd0c280118d00dc3f148e78377e",
+    "id": "evd_b93f96f3e850c0ad",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:9cc4eccb50623883bf18fa0efb3f522e5ba92b98a19b5604306465d4df3dacba",
+    "quote_digest": "sha256:e465edfd9eb89ef10e78962d76fff030bd753b776df9c6083bb367a356b09f39",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:9cc4eccb50623883bf18fa0efb3f522e5ba92b98a19b5604306465d4df3dacba",
-        "section_id": "sec_ead07852b0cf02c9"
+        "section_digest": "sha256:e465edfd9eb89ef10e78962d76fff030bd753b776df9c6083bb367a356b09f39",
+        "section_id": "sec_2f344c7d645f05fd"
       },
-      "quote": "III. RECOMMENDED CORRECTIVE ACTIONS\n1. File a §1362(f) inadvertent termination relief request to address the 2022 transfer to an ineligible shareholder.\n2. Prepare and adopt a multi‑year distribution true‑up to restore pro rata compliance.\n3. Reissue corrected K‑1s for all years lacking complete ownership data.\n4. Reconstruct the stock ledger and consolidate all versions into a single authoritative record.\n5. Produce (or confirm absence of) all shareholder loan documentation. If none exist, obtain written certifications.\n6. Strengthen compliance and governance controls, including resolutions affirming S‑status compliance requirements.\n\n",
-      "quote_digest": "sha256:9cc4eccb50623883bf18fa0efb3f522e5ba92b98a19b5604306465d4df3dacba",
+      "quote": "STOCK AND TRANSFER RESTRICTIONS\nSection 5.1 Certificates.\nShares of stock may be certificated or uncertificated at the discretion of the Board.\nSection 5.2 Stock Ledger.\nThe Corporation shall maintain a stock ledger containing the name and contact information of each stockholder.\nSection 5.3 Transfer Restrictions to Preserve S-Corporation Status.\n(a) No transfer of shares may be made to an ineligible S-Corporation shareholder.\n (b) No transfer may create a second class of stock.\n (c) All transfers are subject to a right of first refusal in favor of the Corporation, then the stockholders, on the same terms offered by the proposed transferee.\n (d) Any transfer in violation of this Article is void.\nSection 5.4 Lost Certificates.\nThe Corporation may issue a new certificate upon receipt of an affidavit stating that the original was lost, stolen, or destroyed, subject to indemnification requirements.\n\n",
+      "quote_digest": "sha256:e465edfd9eb89ef10e78962d76fff030bd753b776df9c6083bb367a356b09f39",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
-        "query": "lease rent abatement concession related party lease purchase option conversion option stock lease security deposit loan collateral lease non-rent consideration ownership",
+        "query": "Summit shareholder ownership percentage 2019 Summit stock transfer shareholder admission Summit shareholder agreement ownership schedule Summit stock certificates transfer ledger",
         "version": "1"
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
       "source": {
-        "content_digest": "sha256:e7eb786dc671298aa9426792d523f0ec997bee3a570763a8b10f13a1644fc105",
+        "content_digest": "sha256:1cb8fe86d8075d2b126f99858b67aa3a45ced38879cf7b3859b78e577483572b",
         "media_type": "text/plain",
-        "uri": "private://apex/e7eb786dc671298a-1d2051f2"
+        "uri": "private://apex/1cb8fe86d8075d2b-0c1ae063"
       }
     },
-    "retrieval_receipt_digest": "sha256:4724c2e52fe12c0ebb2c35b61333524821196c09bd038ee4d1c43e3959e7ef8e",
-    "source_content_digest": "sha256:e7eb786dc671298aa9426792d523f0ec997bee3a570763a8b10f13a1644fc105",
-    "source_digest": "sha256:bbebf48c1f9dee4d30677c0c93c00e3eb349758e8e8a6eac5acafa2f8650d491",
-    "source_ref": "src_e9b083e75ca5f18f"
+    "retrieval_receipt_digest": "sha256:4c448eebee19d85fe0b33417bf822da17b5409dc6d01aab3d05cb62b3625babf",
+    "source_content_digest": "sha256:1cb8fe86d8075d2b126f99858b67aa3a45ced38879cf7b3859b78e577483572b",
+    "source_digest": "sha256:dce34be7d3faee591fc3639cc0fc742ebc66a097c301c07eb716b0649e3998a1",
+    "source_ref": "src_3376baa521507aa6"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_e9b083e75ca5f18f",
-  "subject_ref": "evd_27b664241cbb3ed6",
+  "source_ref": "src_3376baa521507aa6",
+  "subject_ref": "evd_b93f96f3e850c0ad",
   "type": "evidence_bound"
 }
