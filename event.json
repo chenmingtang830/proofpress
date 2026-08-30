@@ -1,41 +1,15 @@
 {
-  "created_at": "2026-08-30T19:17:03.588265Z",
-  "event_id": "ppe_44ed09458868ebce",
-  "evidence": {
-    "digest": "sha256:085d9982defb35c22fd3e09a591fb50de60a586ff11591b533a78420610dae12",
-    "id": "evd_6298e3f102baed22",
-    "kind": "retrieval_evidence",
-    "quote_digest": "sha256:95fe08adefb8be8613b61d6dae547f42451bd80ed1a18cb83a166b55c111b973",
-    "retrieval_receipt": {
-      "locator": {
-        "kind": "section_span",
-        "page_end": 1,
-        "page_start": 1,
-        "section_digest": "sha256:95fe08adefb8be8613b61d6dae547f42451bd80ed1a18cb83a166b55c111b973",
-        "section_id": "sec_48beeadfadc4c92f"
-      },
-      "quote": "/P 141 0 R \r>> \rendobj\r26 0 obj\r<< \r/S /Normal \r/C /Normal \r/Pg 167 0 R \r",
-      "quote_digest": "sha256:95fe08adefb8be8613b61d6dae547f42451bd80ed1a18cb83a166b55c111b973",
-      "retrieval": {
-        "adapter": "bm25-page",
-        "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
-        "query": "26 U.S.C. 301 26 U.S.C. 302 26 U.S.C. 316 26 U.S.C. 312",
-        "version": "1"
-      },
-      "schema_version": "proofpress/retrieval-evidence/v1",
-      "source": {
-        "content_digest": "sha256:bbde3a8e1e7df3ce5e31ab3355e53a57132b407a1c9772261b575801997c5062",
-        "media_type": "application/pdf",
-        "uri": "private://apex/bbde3a8e1e7df3ce-71754ff8"
-      }
-    },
-    "retrieval_receipt_digest": "sha256:ac94744a13129f791fa080c984bb9d848a42305a832127b5a6dc78495e623326",
-    "source_content_digest": "sha256:bbde3a8e1e7df3ce5e31ab3355e53a57132b407a1c9772261b575801997c5062",
-    "source_digest": "sha256:bed7d3eaa2c437efcd325a218bdb0f6d3d3e50808fa99d85b2abaff51cccdbe8",
-    "source_ref": "src_739121549e4d6c84"
+  "created_at": "2026-08-30T19:17:03.696818Z",
+  "event_id": "ppe_18dfac0d921e2020",
+  "record": {
+    "content_digest": "sha256:9de86b9c588f868cf202515f1674723667dae0db25a28590a3896eb4e343e989",
+    "id": "src_1a286ec228b5cc45",
+    "kind": "retrieval_source",
+    "media_type": "application/pdf",
+    "record_hash": "sha256:dac069f37a3df71d55de05b70270b156f4936b51bf25646cdbdeec40f54dcc1a",
+    "uri": "private://apex/9de86b9c588f868c-61ae1ca6"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_739121549e4d6c84",
-  "subject_ref": "evd_6298e3f102baed22",
-  "type": "evidence_bound"
+  "subject_ref": "src_1a286ec228b5cc45",
+  "type": "source_recorded"
 }
