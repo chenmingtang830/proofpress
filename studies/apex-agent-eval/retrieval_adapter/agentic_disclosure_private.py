@@ -113,7 +113,9 @@ def run_agentic_disclosure(
             stop_reason = "executor_ready"
             break
         if call_index >= MAX_AGENT_TOOL_CALLS:
-            trace.append({**trace_row, "status": "blocked", "reason": "tool_budget_exhausted"})
+            trace.append({**trace_row, "status": "blocked", "reason": "tool_budget_exhausted",
+                          "next_action": "finalize_without_more_tools"})
+            stop_reason = "executor_ready_forced_finalization"
             break
         try:
             if action == "traverse_graph":

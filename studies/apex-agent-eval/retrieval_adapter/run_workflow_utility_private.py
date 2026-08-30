@@ -53,7 +53,9 @@ PROGRESSIVE_CONDITIONS = ("pr36-v7-prefetched-context", "v11-preserved-claim-gra
                           "v11-preserved-graph-plus-hierarchical-hybrid",
                           "v11-full-claim-graph-control")
 AGENTIC_CONDITIONS = ("v12-full-claim-graph-control", "v12-static-disclosure-baseline",
-                      "v12-agentic-disclosure")
+                      "v12.1-agentic-disclosure-finalize")
+AGENTIC_CONDITION = "v12.1-agentic-disclosure-finalize"
+AGENTIC_READY_STOPS = {"executor_ready", "executor_ready_forced_finalization"}
 MAX_DISCLOSURES_PER_TASK = 3
 MAX_DISCOVERED_PER_CALL = 5
 MAX_CONTEXT_TOKEN_UPPER_BOUND = 24000
@@ -760,7 +762,7 @@ def normalize_grade(value: Any) -> dict[str, Any]:
 def resume_artifact_eligible(value: Any, condition: str) -> bool:
     """Agentic cells are reusable only when their decision trace travels with the artifact."""
     return (isinstance(value, dict) and isinstance(value.get("artifact"), (dict, list))
-            and (condition != "v12-agentic-disclosure"
+            and (condition != AGENTIC_CONDITION
                  or isinstance(value.get("agentic_trace"), list)))
 
 
@@ -788,8 +790,8 @@ def paired_workflow_comparisons(cells: list[dict[str, Any]],
             for baseline in ("pr36-v7-prefetched-context", "full-catalog-bm25-prefetch")
         ] + [
             ("v12-static-disclosure-baseline", "v12-full-claim-graph-control"),
-            ("v12-agentic-disclosure", "v12-full-claim-graph-control"),
-            ("v12-agentic-disclosure", "v12-static-disclosure-baseline"),
+            (AGENTIC_CONDITION, "v12-full-claim-graph-control"),
+            (AGENTIC_CONDITION, "v12-static-disclosure-baseline"),
         ]
         for treatment, baseline in comparison_pairs:
             unit_ids = sorted({unit_id for unit_id, condition in model_cells if condition == treatment}
@@ -986,8 +988,8 @@ def main() -> None:
                         context_tokens["v12-full-claim-graph-control"] = context_tokens["v11-full-claim-graph-control"]
                         contexts["v12-static-disclosure-baseline"] = contexts["v11-preserved-claim-graph-only"]
                         context_tokens["v12-static-disclosure-baseline"] = context_tokens["v11-preserved-claim-graph-only"]
-                        contexts["v12-agentic-disclosure"] = "agentic-host-tools/v1"
-                        context_tokens["v12-agentic-disclosure"] = 0
+                        contexts[AGENTIC_CONDITION] = "agentic-host-tools/v1.1-finalize"
+                        context_tokens[AGENTIC_CONDITION] = 0
                     disclosure_telemetry.append({
                         "task_id": task_id, "evaluation_unit_id": unit_id,
                         "staged_relation_diagnostics": relation_diagnostics,
@@ -1053,7 +1055,7 @@ def main() -> None:
                     if resume_artifact_eligible(resumed, condition):
                         artifact = resumed["artifact"]
                         cell["executor_reused"] = True
-                        if condition == "v12-agentic-disclosure":
+                        if condition == AGENTIC_CONDITION:
                             for key in ("agentic_trace", "agentic_tool_call_count", "agentic_stop_reason",
                                         "used_traverse_graph", "used_search_gap",
                                         "agentic_context_truncated"):
@@ -1066,7 +1068,7 @@ def main() -> None:
                             except ValueError:
                                 pass
                 if artifact is None:
-                    if condition == "v12-agentic-disclosure":
+                    if condition == AGENTIC_CONDITION:
                         agent_query = "\n".join([graph["task"]["prompt"]] + [
                             str(row.get("query", "")) for row in asks])
 
@@ -1173,7 +1175,7 @@ def main() -> None:
                                  "authority_errors": sum(g["authority_errors"] for g in grades) / 3})
                 artifact_path = raw_out / artifact_name
                 persisted = {"artifact": artifact, "grades": grades}
-                if condition == "v12-agentic-disclosure":
+                if condition == AGENTIC_CONDITION:
                     for key in ("agentic_trace", "agentic_tool_call_count", "agentic_stop_reason",
                                 "used_traverse_graph", "used_search_gap", "agentic_context_truncated"):
                         persisted[key] = cell.get(key)
@@ -1269,10 +1271,10 @@ def main() -> None:
                                        "calls": len(calls), "receipts": len(receipts),
                                        "terminal_receipts": terminal_receipts})
     if args.agentic_only:
-        agentic_cells = [row for row in results if row.get("condition") == "v12-agentic-disclosure"]
+        agentic_cells = [row for row in results if row.get("condition") == AGENTIC_CONDITION]
         for model, _, _, _, _ in executors:
             model_cells = [row for row in agentic_cells if row.get("executor_model") == model]
-            if not model_cells or any(row.get("agentic_stop_reason") != "executor_ready" for row in model_cells):
+            if not model_cells or any(row.get("agentic_stop_reason") not in AGENTIC_READY_STOPS for row in model_cells):
                 qualification_failures.append({"reason": "agentic executor did not reach a bounded answer state",
                                                "model": model})
             if not any(row.get("used_traverse_graph") is True for row in model_cells):

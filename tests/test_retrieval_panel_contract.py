@@ -51,7 +51,7 @@ class RetrievalPanelContractTests(unittest.TestCase):
     def test_agentic_disclosure_matrix_and_tool_schema_are_frozen(self):
         self.assertEqual(workflow_runner.AGENTIC_CONDITIONS, (
             "v12-full-claim-graph-control", "v12-static-disclosure-baseline",
-            "v12-agentic-disclosure"))
+            "v12.1-agentic-disclosure-finalize"))
         actions = agentic_disclosure.TOOL_DECISION_SCHEMA["properties"]["action"]["enum"]
         self.assertEqual(actions, ["traverse_graph", "search_gap", "answer"])
         self.assertEqual(agentic_disclosure.MAX_AGENT_TOOL_CALLS, 3)
@@ -94,9 +94,28 @@ class RetrievalPanelContractTests(unittest.TestCase):
         self.assertTrue(workflow_runner.resume_artifact_eligible(
             legacy, "v12-static-disclosure-baseline"))
         self.assertFalse(workflow_runner.resume_artifact_eligible(
-            legacy, "v12-agentic-disclosure"))
+            legacy, workflow_runner.AGENTIC_CONDITION))
         self.assertTrue(workflow_runner.resume_artifact_eligible(
-            traced, "v12-agentic-disclosure"))
+            traced, workflow_runner.AGENTIC_CONDITION))
+
+    def test_agentic_tool_budget_forces_answer_finalization(self):
+        original_initial = agentic_disclosure.initial_context
+        original_search = agentic_disclosure.search_gap
+        agentic_disclosure.initial_context = lambda query, scope: {
+            "governed_context": [{"id": "claim-1"}], "coverage": "partial"}
+        agentic_disclosure.search_gap = lambda index, query: {
+            "candidate_evidence": [], "admission_authority": False}
+        decision = {"action": "search_gap", "query": "still missing",
+                    "seed_claim_ids": [], "relation_types": [], "reason": "search again"}
+        try:
+            result = agentic_disclosure.run_agentic_disclosure(
+                query="review", scope="task-1", index=object(), decide=lambda state: decision)
+        finally:
+            agentic_disclosure.initial_context = original_initial
+            agentic_disclosure.search_gap = original_search
+        self.assertEqual(result["tool_call_count"], 3)
+        self.assertEqual(result["stop_reason"], "executor_ready_forced_finalization")
+        self.assertEqual(result["trace"][-1]["next_action"], "finalize_without_more_tools")
 
     def test_v7_preserver_routes_are_frozen_and_never_generate_new_claims(self):
         self.assertEqual(v7_preserver.ROUTES["sol"]["model"], "openai/gpt-5.6-sol")
