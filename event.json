@@ -1,41 +1,15 @@
 {
-  "created_at": "2026-08-30T19:17:00.349770Z",
-  "event_id": "ppe_8bd90c40df904007",
-  "evidence": {
-    "digest": "sha256:3e9166dfa07f4841cc87d5872fb07096da14becbc98bf31f4c0bdeec9c59497e",
-    "id": "evd_d83029f951f28a7c",
-    "kind": "retrieval_evidence",
-    "quote_digest": "sha256:085c8ffbf4926ffd19f083d2a83d8c7c858bf5de90592211d6b928ba489d7e7c",
-    "retrieval_receipt": {
-      "locator": {
-        "kind": "section_span",
-        "page_end": 1,
-        "page_start": 1,
-        "section_digest": "sha256:085c8ffbf4926ffd19f083d2a83d8c7c858bf5de90592211d6b928ba489d7e7c",
-        "section_id": "sec_afdb6986816ab1bb"
-      },
-      "quote": "EXHIBITS\n\n\tExhibit A -\tSCHEDULE OF PURCHASERS\n\tExhibit B -\tFORM OF AMENDED AND RESTATED\n",
-      "quote_digest": "sha256:085c8ffbf4926ffd19f083d2a83d8c7c858bf5de90592211d6b928ba489d7e7c",
-      "retrieval": {
-        "adapter": "bm25-page",
-        "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
-        "query": "Form 1120 Form 1120-S Form 1065 Schedule K-1",
-        "version": "1"
-      },
-      "schema_version": "proofpress/retrieval-evidence/v1",
-      "source": {
-        "content_digest": "sha256:de3c85ce68cc9a64aadabec8843aff116664ead676844e5ce1f589169c52b2da",
-        "media_type": "text/plain",
-        "uri": "private://apex/de3c85ce68cc9a64-4c7c3329"
-      }
-    },
-    "retrieval_receipt_digest": "sha256:0a583a6c20c76aa27ef7a696a80a2f047317adeae0c545b42fdde574b54ac230",
-    "source_content_digest": "sha256:de3c85ce68cc9a64aadabec8843aff116664ead676844e5ce1f589169c52b2da",
-    "source_digest": "sha256:afd14261a12776692529819ab8b113e55ef68150920111e982cd00f66a8af8ea",
-    "source_ref": "src_a149d3b6c6d2425c"
+  "created_at": "2026-08-30T19:17:00.456506Z",
+  "event_id": "ppe_a9f08ed6d5c53c9b",
+  "record": {
+    "content_digest": "sha256:363a3f9cbe24af1b646106f0510f075319dacfaef557e4ad61fc5860113f076d",
+    "id": "src_1eb28ee582936122",
+    "kind": "retrieval_source",
+    "media_type": "application/pdf",
+    "record_hash": "sha256:37e79e64adeeb8808bfc852b071646c3ce748f1f6a643d0a4dadf8e6f93e00ea",
+    "uri": "private://apex/363a3f9cbe24af1b-32866502"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_a149d3b6c6d2425c",
-  "subject_ref": "evd_d83029f951f28a7c",
-  "type": "evidence_bound"
+  "subject_ref": "src_1eb28ee582936122",
+  "type": "source_recorded"
 }
