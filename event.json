@@ -1,11 +1,41 @@
 {
-  "created_at": "2026-08-30T19:17:36.883761Z",
-  "event_id": "ppe_9c3f7253a6a25661",
-  "policy_digest": "sha256:cde050fdc0b2869fecf8ee9d24dee964fc3bbc18e6b489da2e08e7c3df266501",
-  "relation_digest": "sha256:5eacc424cac03043d50acce8407d301605cbea44543fb0b4f9aab3de76c21575",
-  "review_ref": "ppe_709331cc025ae26c",
-  "reviewer": "human:staged-evaluation-reviewer",
+  "created_at": "2026-08-30T19:17:37.111156Z",
+  "event_id": "ppe_4baa4bad479da2a5",
+  "evidence": {
+    "digest": "sha256:b784ad949e683ff885e3c3c6c7850f6723e6dd1faf1f3d3f0a914f57149e571c",
+    "id": "evd_7146977f35f2ff62",
+    "kind": "retrieval_evidence",
+    "quote_digest": "sha256:a6c435c4590f392a1f39928d2776c7d57062d95b898e8144ad601b532db70742",
+    "retrieval_receipt": {
+      "locator": {
+        "kind": "section_span",
+        "page_end": 1,
+        "page_start": 1,
+        "section_digest": "sha256:a6c435c4590f392a1f39928d2776c7d57062d95b898e8144ad601b532db70742",
+        "section_id": "sec_f3f50bc87563e1be"
+      },
+      "quote": "﻿\n\n\n\n\n\nStock Purchase Agreement\nby\n\nHarbor Bridge Private Equity, Inc.\n \n\nand\n\nSummit Filing Solutions, Inc.\n\n\n\nDated [TBD]\n\n\n\nTable of Contents\n\n\n\n\n\n\n\n",
+      "quote_digest": "sha256:a6c435c4590f392a1f39928d2776c7d57062d95b898e8144ad601b532db70742",
+      "retrieval": {
+        "adapter": "bm25-page",
+        "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
+        "query": "\"Summit Filing Solutions\" \"Shareholder Agreement\" \"Summit\" shareholder agreement \"Summit Filing Solutions, Inc.\" shareholders shareholder agreement stock ownership transfer restriction distribution voting",
+        "version": "1"
+      },
+      "schema_version": "proofpress/retrieval-evidence/v1",
+      "source": {
+        "content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
+        "media_type": "text/plain",
+        "uri": "private://apex/7beb28a6e0069669-d885dee3"
+      }
+    },
+    "retrieval_receipt_digest": "sha256:4d4543dca3b7905d6af1fdc5e02b166d45e23212972d27f976023f1b891412c8",
+    "source_content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
+    "source_digest": "sha256:9b5e55c106d3b2c9d270455bb5af81e282a4e92f3ba0722f868b952faf8ff0b5",
+    "source_ref": "src_1cb20c6823882030"
+  },
   "schema_version": "proofpress/knowledge-event/v2",
-  "subject_ref": "rel_11eb8653dc68c9c2",
-  "type": "relation_admitted"
+  "source_ref": "src_1cb20c6823882030",
+  "subject_ref": "evd_7146977f35f2ff62",
+  "type": "evidence_bound"
 }
