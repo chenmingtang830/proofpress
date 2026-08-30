@@ -1,21 +1,21 @@
 {
-  "created_at": "2026-08-30T19:17:38.694031Z",
-  "event_id": "ppe_1234077c780ffa18",
+  "created_at": "2026-08-30T19:17:38.921935Z",
+  "event_id": "ppe_9dc2581e04e55f78",
   "evidence": {
-    "digest": "sha256:942229acc6659194c920502e290db383cb22067b912c894f2570ae556861bbe6",
-    "id": "evd_3bc0eeffae993db9",
+    "digest": "sha256:f6f72094465527cdfca991ec76df8b05df41df6089106b53659079da42cf1e94",
+    "id": "evd_226332925b0d0e72",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:f0f83ecba3f09d05d67ceb1568ff638c213ec0d7910ef171026c4b311434b5d7",
+    "quote_digest": "sha256:346be412e2073b2f4877ceaa9df0374b415edfceef39e5651aee00e2bd2315df",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:f0f83ecba3f09d05d67ceb1568ff638c213ec0d7910ef171026c4b311434b5d7",
-        "section_id": "sec_8f23e2895b774fec"
+        "section_digest": "sha256:346be412e2073b2f4877ceaa9df0374b415edfceef39e5651aee00e2bd2315df",
+        "section_id": "sec_dbafdde478daa245"
       },
-      "quote": "I. KEY FINDINGS\n1. Nonresident Alien Shareholder — HIGH RISK\nThe Historical Shareholder Schedule reflects that on June 1, 2022, shareholder Gregory A. Beaumont transferred 100,000 shares to Carrie Canuck, a Canadian resident. A nonresident alien is an ineligible S‑Corporation shareholder. This event caused an automatic termination of S‑Corporation status as of the transfer date.\n2. Pro Rata Distribution Compliance — HIGH RISK\nHistoric distributions do not conform to required ownership percentages, producing recurring disproportionate distributions. The IRS may treat repeated deviations as evidence of a prohibited second class of stock.\n3. Debt‑Equity Characterization and Shareholder Loans — HIGH RISK (Documentation Missing)\nNo shareholder loan agreements, repayment schedules, general ledger entries, or basis tracking schedules were provided. Given the instruction to treat missing documents as high risk, this category is classified accordingly. The absence of documentation significantly increases the likelihood of IRS recharacterization of advances as equity, which may create a second class of stock.\n\n4. K‑1 Accuracy and Records — MODERATE RISK\nSeveral K‑1s lack ownership percentages, and 2024 K‑1s list individuals who do not appear in the stock ledger. These inconsistencies suggest governance gaps that increase audit exposure.\n5. Governance and Corporate Formalities — MODERATE RISK\nMultiple versions of the historical shareholder schedule (Rev A/B/C) reflect inconsistent treatment of 2022–2023 transfers. Inconsistent ledgers weaken Summit’s ability to substantiate S‑status compliance.\n6. Tax Return Consistency (1120‑S) — LOW RISK\nForms 1120‑S appear internally consistent with the operating history. No accumulated earnings and profits or built‑in gains issues were identified.\n\n",
-      "quote_digest": "sha256:f0f83ecba3f09d05d67ceb1568ff638c213ec0d7910ef171026c4b311434b5d7",
+      "quote": "﻿ORIGINAL CERTIFICATE OF INCORPORATION\nof\n Summit Filing Solutions, Inc.\n (A Delaware Corporation)\n Dated: January 10, 2018\n    1. Name.\n The name of the corporation is Summit Filing Solutions, Inc. (the “Corporation”).\n\n    2. Registered Office and Registered Agent.\n The address of the Corporation’s registered office in the State of Delaware is:\n 1209 Orange Street, Wilmington, Delaware 19801.\n The name of its registered agent at such address is National Registered Agents Inc.\n\n    3. Purpose.\n The Corporation is organized to conduct any lawful business and engage in any lawful act or activity for which corporations may be incorporated under the Delaware General Corporation Law (“DGCL”).\n\n    4. Authorized Capital Stock.\n (a) Authorized Shares. The Corporation is authorized to issue 500,000 shares of Common Stock, par value $0.001 per share.\n (b) Rights and Privileges. All shares of Common Stock are identical and have the same rights, powers, and privileges.\n (c) Single Class Restriction. The Corporation shall not issue any class or series of equity that differs in distribution, liquidation, or redemption rights. No agreement or instrument may create a second class of stock within the meaning of Subchapter S of the Internal Revenue Code.\n (d) Transfer Restrictions to Preserve S-Corporation Eligibility. Shares may not be transferred to any person or entity that is an ineligible S-Corporation shareholder, including nonresident aliens, corporations, partnerships, or trusts other than QSSTs or ESBTs.\n\n    5. Board of Directors.\n The number of directors constituting the initial Board of Directors is three (3). The names and addresses of the persons who shall serve as the initial directors until the first annual meeting of stockholders or until their successors are elected and qualified are:\n\n• Laura Kensington, 912 Redwood Crest Ln, Bend, OR 97701\n • Michael T. Hartwell, 3285 Sycamore Ridge Rd, Franklin, TN 37064\n • Danielle R. Soto, 1448 Harbor Point Dr, Richmond, VA 23233\n    6. Limitation of Liability.\n To the fullest extent permitted by Section 102(b)(7) of the DGCL, a director of the Corporation shall not be personally liable to the Corporation or its stockholders for monetary damages for breach of fiduciary duty.\n\n    7. Indemnification.\n The Corporation shall indemnify its directors and officers to the fullest extent permitted by the DGCL. These rights shall not be exclusive of any other rights to which any director or officer may be entitled under the bylaws or any agreement.\n\n    8. Subchapter S Election Compliance.\n The Corporation and its stockholders shall act to preserve the Corporation’s eligibility to elect Subchapter S status, including:\n (a) maintaining a permitted shareholder structure,\n (b) prohibiting disproportionate distributions,\n (c) preventing creation of a second class of stock, and\n (d) restricting transfers to preserve eligibility.\n\n    9. Stockholder Approval of Fundamental Acts.\n Notwithstanding any lesser standard permitted by the DGCL, the following actions require approval of stockholders holding at least 75 percent of the outstanding shares:\n (a) any merger or sale of substantially all assets,\n (b) any amendment to this Certificate affecting authorized shares or economic rights,\n (c) any action that could impair or terminate S-Corporation status.\n\n    10. Incorporator.\n The name and mailing address of the incorporator is:\n Helen M. Carrington\n 218 Lakeview Terrace\n Montpelier, VT 05602\n\nIN WITNESS WHEREOF, the undersigned incorporator has executed this Certificate of Incorporation as of January 10, 2018.\n\nHelen M. Carrington\n Incorporator\n\n",
+      "quote_digest": "sha256:346be412e2073b2f4877ceaa9df0374b415edfceef39e5651aee00e2bd2315df",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
@@ -24,18 +24,18 @@
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
       "source": {
-        "content_digest": "sha256:e7eb786dc671298aa9426792d523f0ec997bee3a570763a8b10f13a1644fc105",
+        "content_digest": "sha256:2699ee5d9881c8c78aae9578056c9ca4d56b38c2185ad1f9717e0bd90a086378",
         "media_type": "text/plain",
-        "uri": "private://apex/e7eb786dc671298a-1d2051f2"
+        "uri": "private://apex/2699ee5d9881c8c7-68eb4933"
       }
     },
-    "retrieval_receipt_digest": "sha256:3511ad42ac6760ae42b9ac7fd78e65f8dd00d4cbf692d5f7b82f7b221685f296",
-    "source_content_digest": "sha256:e7eb786dc671298aa9426792d523f0ec997bee3a570763a8b10f13a1644fc105",
-    "source_digest": "sha256:bbebf48c1f9dee4d30677c0c93c00e3eb349758e8e8a6eac5acafa2f8650d491",
-    "source_ref": "src_e9b083e75ca5f18f"
+    "retrieval_receipt_digest": "sha256:51252465453604d24f2d9d2f5b1e321996d6f4a289c9a8c519afe1976e287d65",
+    "source_content_digest": "sha256:2699ee5d9881c8c78aae9578056c9ca4d56b38c2185ad1f9717e0bd90a086378",
+    "source_digest": "sha256:c69f144edbe2b6208bca637d40d48ce88d45f13a074b82eb3d6db5d952bc93cf",
+    "source_ref": "src_8fecb1c19743ac41"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_e9b083e75ca5f18f",
-  "subject_ref": "evd_3bc0eeffae993db9",
+  "source_ref": "src_8fecb1c19743ac41",
+  "subject_ref": "evd_226332925b0d0e72",
   "type": "evidence_bound"
 }
