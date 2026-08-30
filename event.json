@@ -1,14 +1,25 @@
 {
-  "conclusion_digest": "sha256:0c87d9927ec8514660063ef71df4bcb963ebabcc89a6964d66924ccd20a87f9f",
-  "created_at": "2026-08-30T19:16:06.539317Z",
-  "event_id": "ppe_e5eeaa422f4ada51",
-  "evidence_digests": {
-    "evd_65663ee8f1000a17": "sha256:c01747d22ce5014f8df30b82ce09f8712f9ff702349f568e0062ff453737ea01"
+  "conclusion": {
+    "allowed_actors": [
+      "*"
+    ],
+    "artifact_refs": [],
+    "created_at": "2026-08-30T19:16:06.606077Z",
+    "digest": "sha256:b5d4a243c7a0ef128983f80f6cc9539e5123c8425819e22d80aaf0e5c2557fa2",
+    "evidence_refs": [
+      "evd_65663ee8f1000a17"
+    ],
+    "expires_at": null,
+    "id": "knw_4865d78ea391d970",
+    "kind": "conclusion",
+    "proposer": "agent:v8-constructor",
+    "qualifiers": {},
+    "scope": "task_b78c4510be784e6a8b8f0394aafd785d",
+    "statement": "The cited 2022 K-1 excerpt does not provide Laura Kensington's allocated unrecaptured section 1250 gain or the 2022 unrecaptured section 1250 rate."
   },
-  "policy_digest": "sha256:cde050fdc0b2869fecf8ee9d24dee964fc3bbc18e6b489da2e08e7c3df266501",
-  "review_ref": "ppe_3d177741d75855ce",
-  "reviewer": "human:staged-evaluation-reviewer",
+  "created_at": "2026-08-30T19:16:06.638257Z",
+  "event_id": "ppe_6fe0c556c0fdc609",
   "schema_version": "proofpress/knowledge-event/v2",
-  "subject_ref": "knw_5d94e332bd6270c3",
-  "type": "conclusion_admitted"
+  "subject_ref": "knw_4865d78ea391d970",
+  "type": "conclusion_proposed"
 }
