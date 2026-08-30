@@ -1,15 +1,41 @@
 {
-  "created_at": "2026-08-30T19:16:01.695712Z",
-  "event_id": "ppe_2ab06603de645d13",
-  "record": {
-    "content_digest": "sha256:eefe00aa7f596ea35c24946f8c3229b2a01105b75d104fb86bd913197b4f27e6",
-    "id": "src_5a52dda0f5545590",
-    "kind": "retrieval_source",
-    "media_type": "text/plain",
-    "record_hash": "sha256:a5102434f8b48da4532da4d9044bfa8b830da1a8e1b7fa093d6b4b224ca5253c",
-    "uri": "private://apex/eefe00aa7f596ea3-efb143da"
+  "created_at": "2026-08-30T19:16:01.761607Z",
+  "event_id": "ppe_62b29081900f61c6",
+  "evidence": {
+    "digest": "sha256:bfb8c868ac852214951ca2f5023c1e6195721a8e37fa4e1dc2aee6f6a1380f95",
+    "id": "evd_d50d23b35e02b877",
+    "kind": "retrieval_evidence",
+    "quote_digest": "sha256:5ac89afad8d83e62c84cdc1cffb6969fccd4e453d02b57b50c860613a2047cc7",
+    "retrieval_receipt": {
+      "locator": {
+        "kind": "section_span",
+        "page_end": 1,
+        "page_start": 1,
+        "section_digest": "sha256:5ac89afad8d83e62c84cdc1cffb6969fccd4e453d02b57b50c860613a2047cc7",
+        "section_id": "sec_307baf50ff6bf5d8"
+      },
+      "quote": "﻿SCHEDULE K-1 (Form 1120-S)                                                                             2021\nDepartment of the Treasury • Internal Revenue Service                          OMB No. 1545-0123\n\nShareholder’s Share of Income, Deductions, Credits, etc.                       For calendar year 2021\n\n────────────────────────────────────────────────────────────────────────────────────\nPart I ─ Information About the Corporation\n────────────────────────────────────────────────────────────────────────────────────\nA  Corporation’s employer identification number                       12-3456789\nB  Corporation’s name, address, city, state, and ZIP code\n       Summit Filing Solutions, Inc.\n       8280 Willow Oaks Corporate Dr\n       Los Angeles, CA  90001\nC  IRS center where corporation filed return                               Ogden, UT\n\n────────────────────────────────────────────────────────────────────────────────────\nPart II ─ Information About the Shareholder\n────────────────────────────────────────────────────────────────────────────────────\nD  Shareholder’s identifying number                                    222-22-2222\nE  Shareholder’s name, address, city, state, and ZIP code\n       Michael T. Hartwell\n       1919 Pacific Coast Hwy, Apt 412\n       Redondo Beach, CA  90277\nF  Shareholder’s percentage of stock ownership\n       Beginning of tax year   18%                 End of tax year   18%\n\n────────────────────────────────────────────────────────────────────────────────────\nPart III ─ Shareholder’s Share of Current Year Income, Deductions, Credits, etc.\n────────────────────────────────────────────────────────────────────────────────────\n1  Ordinary business income (loss)                                   $31,036\n2  Net rental real estate income (loss)                                    0\n3  Other net rental income (loss)                                          0\n4  Interest income                                                      $78\n5a Ordinary dividends                                                      0\n5b Qualified dividends                                                     0\n6  Royalties                                                               0\n7  Net short-term capital gain (loss)                                      0\n8a Net long-term capital gain (loss)                                   $414\n8b Collectibles (28%) gain (loss)                                          0\n8c Unrecaptured section 1250 gain                                          0\n9  Net section 1231 gain (loss)                                            0\n10 Other income (loss)                                                     0\n\n11 Section 179 deduction                                                   0\n12 Other deductions                                                        0\n13 Credits                                                                 0\n14 Foreign transactions                                                    0\n15 Charitable contributions                                               0\n16 Items affecting shareholder basis\n   a  Tax-exempt interest income                                           0\n   b  Other tax-exempt income                                              0\n   c  Nondeductible expenses                                               0\n   d  Distributions – cash and marketable securities                       0\n   e  Repayment of loans from shareholders                                0\n17 Other information                                                       0\n\n────────────────────────────────────────────────────────────────────────────────────\nStock and Debt Basis Limitations (for shareholder records)\n────────────────────────────────────────────────────────────────────────────────────\n   + Increase for income items (Lines 1 + 4 + 8a)                    $31,528\n   – Distributions and other reductions                                  0\n   = Net increase to stock basis this year                           $31,528\n\n   Type of income: Active Business Income\n   Foreign country or U.S. possession: N/A\n\n────────────────────────────────────────────────────────────────────────────────────\nPrepared by: Corporate Officer, Summit Filing Solutions, Inc.\nDate prepared: March 10, 2022\n\nThis is an exact substitute Schedule K-1 that matches the official K-1 filed with IRS Form 1120-S on March 15, 2022.\nRetain this copy with your permanent tax records.\n",
+      "quote_digest": "sha256:5ac89afad8d83e62c84cdc1cffb6969fccd4e453d02b57b50c860613a2047cc7",
+      "retrieval": {
+        "adapter": "bm25-page",
+        "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
+        "query": "Retrieve Laura's complete 2022 Schedule K-1 and supporting statements showing ownership dates, Section 1231 gain, unrecaptured Section 1250 gain, Section 1245 recapture, and any closing-of-the-books election.",
+        "version": "1"
+      },
+      "schema_version": "proofpress/retrieval-evidence/v1",
+      "source": {
+        "content_digest": "sha256:eefe00aa7f596ea35c24946f8c3229b2a01105b75d104fb86bd913197b4f27e6",
+        "media_type": "text/plain",
+        "uri": "private://apex/eefe00aa7f596ea3-efb143da"
+      }
+    },
+    "retrieval_receipt_digest": "sha256:b9c3a9b63538898d4441e4fc6008965a7cbc25eed0e1c7579e96906afb3d48ac",
+    "source_content_digest": "sha256:eefe00aa7f596ea35c24946f8c3229b2a01105b75d104fb86bd913197b4f27e6",
+    "source_digest": "sha256:a5102434f8b48da4532da4d9044bfa8b830da1a8e1b7fa093d6b4b224ca5253c",
+    "source_ref": "src_5a52dda0f5545590"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "subject_ref": "src_5a52dda0f5545590",
-  "type": "source_recorded"
+  "source_ref": "src_5a52dda0f5545590",
+  "subject_ref": "evd_d50d23b35e02b877",
+  "type": "evidence_bound"
 }
