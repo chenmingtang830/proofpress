@@ -1,21 +1,21 @@
 {
-  "created_at": "2026-08-30T19:17:44.247316Z",
-  "event_id": "ppe_2bfad57872321625",
+  "created_at": "2026-08-30T19:17:44.478169Z",
+  "event_id": "ppe_dfe484c0f53aba00",
   "evidence": {
-    "digest": "sha256:bed65acd309d0d03af86884119c34c78aae73f2a89d21138958e80f85d29c43d",
-    "id": "evd_e24925f58d92656a",
+    "digest": "sha256:38e213197a73ffaa5a4ce2bccad075064ef761e1f849ef7eb163b207020f122e",
+    "id": "evd_e0d0a78028bd77e6",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:cbe8dbf391040e4cef9571d3348b4b151336ccf0972b214db72729ae0eaa05ba",
+    "quote_digest": "sha256:3ef7911de34dcc70ae895d77e794868118079d1a3d176293f14345b0bd42e31d",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:cbe8dbf391040e4cef9571d3348b4b151336ccf0972b214db72729ae0eaa05ba",
-        "section_id": "sec_e216c875b11705da"
+        "section_digest": "sha256:3ef7911de34dcc70ae895d77e794868118079d1a3d176293f14345b0bd42e31d",
+        "section_id": "sec_655d3748fe46e020"
       },
-      "quote": "﻿Form 1120-S \nDepartment of the Treasury  Internal Revenue Service  \nU.S. Income Tax Return for an S Corporation  \nDo not file this form unless the corporation has filed or  \nis attaching Form 2553 to elect to be an S corporation.  \nGo to www.irs.gov/Form1120S for instructions and the latest information. \nOMB No. 1545-0123  2024 \nFor calendar year 2024 or tax year beginning , 2024, ending , 20  \nA S election effective date  \nB Business activity code  number (see instructions)  \nC Check if Sch. M-3 attached \n",
-      "quote_digest": "sha256:cbe8dbf391040e4cef9571d3348b4b151336ccf0972b214db72729ae0eaa05ba",
+      "quote": "SECTION 5. RELIEF FOR LATE S CORPORATION ELECTIONS.\n.01 Form 2553. A Requesting Entity seeking relief for a late S corporation election must file a completed Form 2553, signed by (1) an officer of the corporation authorized to sign, and (2) all persons who were shareholders at any time during the period that began on the first day of the taxable year for which the election is to be effective and ends on the day the completed Election Form is filed.\n.02 Supplemental materials. The completed Election Form must include statements from all shareholders during the period between the date the S corporation election was to have become effective and the date the completed Election Form is filed that they have reported their income on all affected returns consistent with the S corporation election for the year the election should have been filed and for all subsequent years. Such statements must comply with the requirement in Section 4.03(3) of this revenue procedure.\n.03 Additional materials for a late corporate classification election intended to be effective on the same date that the S corporation election was intended to be effective. In addition to the materials required under Section 5.02 of this revenue procedure, in the case of a late corporate classification election intended to be effective on the same date that the S corporation election was intended to be effective, the completed Election Form must also include the following representations, which must comply with the requirement in Section 4.03(3) of this revenue procedure:\n(1) The Requesting Entity is an eligible entity as defined in § 301.7701-3(a);\n(2) The Requesting Entity intended to be classified as a corporation as of the Effective Date of the S corporation status;\n(3) The Requesting Entity fails to qualify as a corporation solely because Form 8832 was not timely filed under § 301.7701-3(c)(1)(i), or Form 8832 was not deemed to have been filed under § 301.7701-3(c)(1)(v)(C);\n(4) The Requesting Entity fails to qualify as an S corporation on the Effective Date of the S corporation status solely because the S corporation election was not timely filed pursuant to § 1362(b); and\n(5)(i) The Requesting Entity timely filed all required federal tax returns and information returns consistent with its requested classification as an S corporation for all of the years the entity intended to be an S corporation and no inconsistent tax or information returns have been filed by or with respect to the entity during any of the taxable years, or\n(ii) The Requesting Entity has not filed a federal tax or information return for the first year in which the election was intended to be effective because the due date has not passed for that year’s federal tax or information return.\n.04 Relief where all returns filed as an S corporation. The requirement for relief imposed by Section 4.02(2) (providing that relief must be sought within three years and 75 days of the Effective Date) is not applicable in the case of corporations if the following conditions are met:\n(1) The corporation is not seeking late corporate classification election relief concurrently with a late S corporation election under this revenue procedure;\n(2) The corporation fails to qualify as an S corporation solely because the Form 2553 was not timely filed;\n(3) The corporation and all of its shareholders reported their income consistent with S corporation status for the year the S corporation election should have been made, and for every subsequent taxable year (if any);\n(4) At least 6 months have elapsed since the date on which the corporation filed its tax return for the first year the corporation intended to be an S corporation; and\n(5) Neither the corporation nor any of its shareholders was notified by the IRS of any problem regarding the S corporation status within 6 months of the date on which the Form 1120S for the first year was timely filed, and\n(6) The completed Election Form includes the statement(s) described in Section 5.02 of this revenue procedure.\n",
+      "quote_digest": "sha256:3ef7911de34dcc70ae895d77e794868118079d1a3d176293f14345b0bd42e31d",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
@@ -24,18 +24,18 @@
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
       "source": {
-        "content_digest": "sha256:c93c2b228433659eb56b66bfaee1dc3de9ed754d39aa736b60372b74813f3481",
+        "content_digest": "sha256:489de4a5c467eb0382ef4f29920dc6433adc3a3336da5057aec7f37cd0208560",
         "media_type": "text/plain",
-        "uri": "private://apex/c93c2b228433659e-f96ee06e"
+        "uri": "private://apex/489de4a5c467eb03-1184b3a1"
       }
     },
-    "retrieval_receipt_digest": "sha256:e553a003f0738e64c5a7414fbef2f2782bddd11291326157145978b25edf8752",
-    "source_content_digest": "sha256:c93c2b228433659eb56b66bfaee1dc3de9ed754d39aa736b60372b74813f3481",
-    "source_digest": "sha256:0a36a5ff5eb33d41016d52986e5f40fb7355d329af2f4a939222e040274ce016",
-    "source_ref": "src_1769935b4d6bb417"
+    "retrieval_receipt_digest": "sha256:994a35290578729ad1ff754d8ca22e81f5af60b3a1b1f923e7784084f9d6e7f1",
+    "source_content_digest": "sha256:489de4a5c467eb0382ef4f29920dc6433adc3a3336da5057aec7f37cd0208560",
+    "source_digest": "sha256:0e30a41e1d31405a037edcc4e56b65c5107236c02092ff6fca6351e692a30a27",
+    "source_ref": "src_449cd1a48a2b6b92"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_1769935b4d6bb417",
-  "subject_ref": "evd_e24925f58d92656a",
+  "source_ref": "src_449cd1a48a2b6b92",
+  "subject_ref": "evd_e0d0a78028bd77e6",
   "type": "evidence_bound"
 }
