@@ -1,15 +1,26 @@
 {
-  "conclusion_digest": "sha256:26a4c5c181ce13b5a0b449333f77c17eb6347700d20b68280420ccc645e869ad",
-  "created_at": "2026-08-30T19:18:00.890971Z",
-  "event_id": "ppe_de8f0d6e69a270ac",
-  "evidence_digests": {
-    "evd_1dad59d016961359": "sha256:c857b41ce2b625bb0941a644466b12fb94cd16c389d647603feb9a6d6c5d9cca",
-    "evd_d7876484297464a3": "sha256:27df8df954783e54f2b9ec59213800053f3baef97898560815766e3b55a1f981"
+  "conclusion": {
+    "allowed_actors": [
+      "*"
+    ],
+    "artifact_refs": [],
+    "created_at": "2026-08-30T19:18:01.032726Z",
+    "digest": "sha256:190c40d7a56a78ceaf46dc7936c020bb3f53640f834967a01137f38b769db187",
+    "evidence_refs": [
+      "evd_0584c67f693620b9",
+      "evd_7146977f35f2ff62"
+    ],
+    "expires_at": null,
+    "id": "knw_78793bdb9e3b3b59",
+    "kind": "conclusion",
+    "proposer": "agent:v8-constructor",
+    "qualifiers": {},
+    "scope": "task_f8f47a9c94874854a24936d81a89fdfb",
+    "statement": "The supplied Stock Purchase Agreement, due-diligence request, and related-party materials cannot be used to establish the existence, terms, or absence of the Summit-Anderson lease; retrieval of the executed lease and amendments is necessary before any lease-based S-corporation termination analysis can be performed."
   },
-  "policy_digest": "sha256:cde050fdc0b2869fecf8ee9d24dee964fc3bbc18e6b489da2e08e7c3df266501",
-  "review_ref": "ppe_25e32236a0f4762a",
-  "reviewer": "human:staged-evaluation-reviewer",
+  "created_at": "2026-08-30T19:18:01.144668Z",
+  "event_id": "ppe_3897dea7f9c490a3",
   "schema_version": "proofpress/knowledge-event/v2",
-  "subject_ref": "knw_70ec3fb8b80e2db6",
-  "type": "conclusion_admitted"
+  "subject_ref": "knw_78793bdb9e3b3b59",
+  "type": "conclusion_proposed"
 }
