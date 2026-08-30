@@ -1,15 +1,41 @@
 {
-  "created_at": "2026-08-30T19:17:03.696818Z",
-  "event_id": "ppe_18dfac0d921e2020",
-  "record": {
-    "content_digest": "sha256:9de86b9c588f868cf202515f1674723667dae0db25a28590a3896eb4e343e989",
-    "id": "src_1a286ec228b5cc45",
-    "kind": "retrieval_source",
-    "media_type": "application/pdf",
-    "record_hash": "sha256:dac069f37a3df71d55de05b70270b156f4936b51bf25646cdbdeec40f54dcc1a",
-    "uri": "private://apex/9de86b9c588f868c-61ae1ca6"
+  "created_at": "2026-08-30T19:17:03.805255Z",
+  "event_id": "ppe_812f01fbe54648ee",
+  "evidence": {
+    "digest": "sha256:30f13450c3ff2dc6cd97dea1d55b12ac9f1c502a41b94d38e7e5cbafef5e8fef",
+    "id": "evd_64b838a88e393bf6",
+    "kind": "retrieval_evidence",
+    "quote_digest": "sha256:78161a8e9bbe22518650485c863b360d3b726941f210ab5440540a5b1a57afde",
+    "retrieval_receipt": {
+      "locator": {
+        "kind": "section_span",
+        "page_end": 1,
+        "page_start": 1,
+        "section_digest": "sha256:78161a8e9bbe22518650485c863b360d3b726941f210ab5440540a5b1a57afde",
+        "section_id": "sec_1261481b025c6f29"
+      },
+      "quote": "J�N�\tL>\u001a��?�&�HN\n�E\bk���SiS\rwl)26�\u000b����\u0005x��\u001d�M�<�q�z3�}\b��\u001br�↚N�V����e�}��8�Z�'�\u0012@�mڤ V��ؙ\u0001^K�\n9�vj\u000b��2�_��~26���:pX*˅\b̆�� ay9)�c�(e&w�\u000f�����\f",
+      "quote_digest": "sha256:78161a8e9bbe22518650485c863b360d3b726941f210ab5440540a5b1a57afde",
+      "retrieval": {
+        "adapter": "bm25-page",
+        "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
+        "query": "26 U.S.C. 301 26 U.S.C. 302 26 U.S.C. 316 26 U.S.C. 312",
+        "version": "1"
+      },
+      "schema_version": "proofpress/retrieval-evidence/v1",
+      "source": {
+        "content_digest": "sha256:9de86b9c588f868cf202515f1674723667dae0db25a28590a3896eb4e343e989",
+        "media_type": "application/pdf",
+        "uri": "private://apex/9de86b9c588f868c-61ae1ca6"
+      }
+    },
+    "retrieval_receipt_digest": "sha256:c8497c328f8354154fc59c6790388f17fc9f9d3d0335724a8bd981586c9d4916",
+    "source_content_digest": "sha256:9de86b9c588f868cf202515f1674723667dae0db25a28590a3896eb4e343e989",
+    "source_digest": "sha256:dac069f37a3df71d55de05b70270b156f4936b51bf25646cdbdeec40f54dcc1a",
+    "source_ref": "src_1a286ec228b5cc45"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "subject_ref": "src_1a286ec228b5cc45",
-  "type": "source_recorded"
+  "source_ref": "src_1a286ec228b5cc45",
+  "subject_ref": "evd_64b838a88e393bf6",
+  "type": "evidence_bound"
 }
