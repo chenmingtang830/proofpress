@@ -1,17 +1,27 @@
 {
-  "conclusion_digest": "sha256:9d3a9cfa0bae14e7306eea0d5c5dc2c28f1cc654e514ddde0c5e7d721c066bd1",
-  "created_at": "2026-08-30T19:18:06.400140Z",
-  "event_id": "ppe_918807eec0587cc0",
-  "evidence_digests": {
-    "evd_226332925b0d0e72": "sha256:f6f72094465527cdfca991ec76df8b05df41df6089106b53659079da42cf1e94",
-    "evd_3bc0eeffae993db9": "sha256:942229acc6659194c920502e290db383cb22067b912c894f2570ae556861bbe6",
-    "evd_bcbac617e5e7d3b8": "sha256:a8961e16190347897932a1fcc6751e91762e244ee01e1432cba61a164e92eef2",
-    "evd_bf7df0f0c05dd881": "sha256:e4a609e8d00c9316e750ab2650de944ad949c0ae2634c6c95ce487a166c09535"
+  "conclusion": {
+    "allowed_actors": [
+      "*"
+    ],
+    "artifact_refs": [],
+    "created_at": "2026-08-30T19:18:06.545777Z",
+    "digest": "sha256:ba0b2a661ad06a258cb148baee0085cb5567dd1f3284bc0c42ac04d8ff0e986f",
+    "evidence_refs": [
+      "evd_1dad59d016961359",
+      "evd_337cd9e43285d239",
+      "evd_d7876484297464a3"
+    ],
+    "expires_at": null,
+    "id": "knw_6757f686bf931149",
+    "kind": "conclusion",
+    "proposer": "agent:v8-constructor",
+    "qualifiers": {},
+    "scope": "task_f8f47a9c94874854a24936d81a89fdfb",
+    "statement": "The cited receipts include Schedule K-1 header portions for 2020 and 2024 and a generated 2020 Form 1120-S."
   },
-  "policy_digest": "sha256:cde050fdc0b2869fecf8ee9d24dee964fc3bbc18e6b489da2e08e7c3df266501",
-  "review_ref": "ppe_1a79a38c9700bd40",
-  "reviewer": "human:staged-evaluation-reviewer",
+  "created_at": "2026-08-30T19:18:06.658414Z",
+  "event_id": "ppe_bb49ca99159c36bb",
   "schema_version": "proofpress/knowledge-event/v2",
-  "subject_ref": "knw_63bb613e7e5cd985",
-  "type": "conclusion_admitted"
+  "subject_ref": "knw_6757f686bf931149",
+  "type": "conclusion_proposed"
 }
