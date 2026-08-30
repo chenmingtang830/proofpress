@@ -1,41 +1,41 @@
 {
-  "created_at": "2026-08-30T19:17:07.095261Z",
-  "event_id": "ppe_6c32ec6ece8afe84",
+  "created_at": "2026-08-30T19:17:07.281670Z",
+  "event_id": "ppe_f73365130a87a917",
   "evidence": {
-    "digest": "sha256:91e24dc6884519674c618bc6d5f71e029fbd7039a8f4f188bc751643c02aca9e",
-    "id": "evd_4d84a4450f7ec442",
+    "digest": "sha256:190dd0ba989dd0231508bc926e82791fd59042101abea51ab25bec963070285a",
+    "id": "evd_b01429db708e69f9",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:94b79d728633d85c05690ec56bb22a854e053f0c2d2cf9ebf95238bd1116cbbf",
+    "quote_digest": "sha256:f79f082c782b00f3d33f58dab11f4aeb7917538ea8b291f5348a54c9325fffe9",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:94b79d728633d85c05690ec56bb22a854e053f0c2d2cf9ebf95238bd1116cbbf",
-        "section_id": "sec_5b9ed5cd97f27c3c"
+        "section_digest": "sha256:f79f082c782b00f3d33f58dab11f4aeb7917538ea8b291f5348a54c9325fffe9",
+        "section_id": "sec_9270fd6e9024286c"
       },
-      "quote": "/A 55 0 R\n/Next 52 0 R\n/Parent 50 0 R\n/Prev 56 0 R\n/Title (II. Disproportionate Distributions)\n>>\nendobj\n\n55 0 obj\n<<\n",
-      "quote_digest": "sha256:94b79d728633d85c05690ec56bb22a854e053f0c2d2cf9ebf95238bd1116cbbf",
+      "quote": "SECTION 10. PAPERWORK REDUCTION ACT\nThe collection of information contained in this revenue procedure has been reviewed and approved by the Office of Management and Budget (OMB) in accordance with the Paperwork Reduction Act of 1995 (44 U.S.C. 3507(d)) under control number 1545-1548.\nThe collection of information in this revenue procedure is in Section 4.03 and Sections 5 through 7. The information will help the IRS to determine whether a taxpayer has met the requirements of Sections 4 through 7 of this revenue procedure and whether a taxpayer has reasonable cause for failing to make a timely election. The collection of information is required to make a late election pursuant to this revenue procedure. This information will be used to determine whether the eligibility requirements for obtaining relief have been met. The collection of information is required to obtain a benefit. The likely respondents are business or other for-profit institutions.\nThe estimated total annual reporting burden is 50,000 hours.\nThe estimated annual burden per respondent varies from .5 hours to 1 hour, depending on individual circumstances, with an estimated average burden of 1 hour to complete the statement. The estimated number of respondents is 50,000.\nThe estimated annual frequency of responses is on occasion.\nBooks or records relating to a collection of information must be retained as long as their contents may become material in the administration of any internal revenue law. Generally tax returns and tax return information are confidential, as required by section 6103.\n",
+      "quote_digest": "sha256:f79f082c782b00f3d33f58dab11f4aeb7917538ea8b291f5348a54c9325fffe9",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
-        "query": "retained earnings equity rollforward general ledger distributions M-2 reconciliation",
+        "query": "Form 1099-DIV dividend reporting information returns shareholder tax reporting",
         "version": "1"
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
       "source": {
-        "content_digest": "sha256:f3b1b042a301da0a6bb7952eae285cd59b1a818a9559044a6e9f6d3859adbaf3",
-        "media_type": "application/pdf",
-        "uri": "private://apex/f3b1b042a301da0a-c0113bd4"
+        "content_digest": "sha256:489de4a5c467eb0382ef4f29920dc6433adc3a3336da5057aec7f37cd0208560",
+        "media_type": "text/plain",
+        "uri": "private://apex/489de4a5c467eb03-1184b3a1"
       }
     },
-    "retrieval_receipt_digest": "sha256:87ae2be4a9b10a2604ff44940540fe90acfcb8a52476655bf7d1a6ff9477bdbe",
-    "source_content_digest": "sha256:f3b1b042a301da0a6bb7952eae285cd59b1a818a9559044a6e9f6d3859adbaf3",
-    "source_digest": "sha256:175e0124af6d3b4aab797ecdb8f61eac6ef4fb1e80362ef05e6135e3702f950b",
-    "source_ref": "src_e73ff682b6190163"
+    "retrieval_receipt_digest": "sha256:21fb47e12ad307ad060b085889e79508b39f944c1ff258ea26b5c1b8058127e1",
+    "source_content_digest": "sha256:489de4a5c467eb0382ef4f29920dc6433adc3a3336da5057aec7f37cd0208560",
+    "source_digest": "sha256:0e30a41e1d31405a037edcc4e56b65c5107236c02092ff6fca6351e692a30a27",
+    "source_ref": "src_449cd1a48a2b6b92"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_e73ff682b6190163",
-  "subject_ref": "evd_4d84a4450f7ec442",
+  "source_ref": "src_449cd1a48a2b6b92",
+  "subject_ref": "evd_b01429db708e69f9",
   "type": "evidence_bound"
 }
