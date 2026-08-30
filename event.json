@@ -1,41 +1,41 @@
 {
-  "created_at": "2026-08-30T19:17:05.523325Z",
-  "event_id": "ppe_a6046db345fe2aa5",
+  "created_at": "2026-08-30T19:17:05.713336Z",
+  "event_id": "ppe_572eedef846b8102",
   "evidence": {
-    "digest": "sha256:dab3d67be3608c6f4c2afb05271e20e152a0549fce3528265591d81b7bb5a45b",
-    "id": "evd_8c72d0ef2d7fcebb",
+    "digest": "sha256:6d4bf537d99bf3ae91ce46de1eaea10bc56436ecb41da88cbc3af5869fd5d2a0",
+    "id": "evd_83139bd1e2f2d07d",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:027fabe50f4f6df9ceaee2cbcdd3baf88fc83abd95a489bdb18026c1e909b6b9",
+    "quote_digest": "sha256:423775fa5cd1b289a8f8eda8e7d77c37ddce88520bbf1e5dad116e7329ca3c06",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:027fabe50f4f6df9ceaee2cbcdd3baf88fc83abd95a489bdb18026c1e909b6b9",
-        "section_id": "sec_1e43fd9758087374"
+        "section_digest": "sha256:423775fa5cd1b289a8f8eda8e7d77c37ddce88520bbf1e5dad116e7329ca3c06",
+        "section_id": "sec_dcf92ab89b831487"
       },
-      "quote": "        3.24 RELATIONSHIPS WITH RELATED PERSONS\nNo Seller and no Related Person of any Seller or of any Acquired Company has, or since \t has had, any interest in any asset owned or used by any Acquired Company. No Seller and no Related Person of any Seller or of any Acquired Company is, or since \thas been, a Related Party of or the owner (of record or beneficially) of any Equity Security or any other financial or profit interest in, a Person that has\n    (a) had business dealings or a material financial interest in any transaction with any Acquired Company or\n    (b) engaged in competition with any Acquired Company, other than ownership of less than one percent of the outstanding capital stock of a Person that is listed on any national or regional securities exchange. Except as set forth in Part 3.24, no Seller or any Related Person of any Seller or of any Acquired Company is a party to any Applicable Contract with, or has any claim or right against, any Acquired Company.\n",
-      "quote_digest": "sha256:027fabe50f4f6df9ceaee2cbcdd3baf88fc83abd95a489bdb18026c1e909b6b9",
+      "quote": "DISTRIBUTIONS AND TAX MATTERS\nSection 6.1 Pro Rata Distributions.\nAll distributions shall be strictly pro rata based on share ownership.\nSection 6.2 Tax Distributions.\nThe Corporation shall make quarterly tax distributions sufficient to cover the highest blended marginal federal and state tax rate applicable to stockholders.\nSection 6.3 Preservation of S-Corporation Status.\nThe Corporation and all stockholders shall take all actions necessary to preserve S-Corporation status, including maintaining permitted shareholders and avoiding disproportionate distributions.\n\n",
+      "quote_digest": "sha256:423775fa5cd1b289a8f8eda8e7d77c37ddce88520bbf1e5dad116e7329ca3c06",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
-        "query": "shareholder loan related party below-market loan personal use",
+        "query": "ownership percentage pro rata distribution disproportionate distribution shareholder percentages",
         "version": "1"
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
       "source": {
-        "content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
+        "content_digest": "sha256:1cb8fe86d8075d2b126f99858b67aa3a45ced38879cf7b3859b78e577483572b",
         "media_type": "text/plain",
-        "uri": "private://apex/7beb28a6e0069669-d885dee3"
+        "uri": "private://apex/1cb8fe86d8075d2b-0c1ae063"
       }
     },
-    "retrieval_receipt_digest": "sha256:bc509b645a25c91f9ae86439ad841f9d76e3e55fa6b36dda8ea88adfff4b4523",
-    "source_content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
-    "source_digest": "sha256:9b5e55c106d3b2c9d270455bb5af81e282a4e92f3ba0722f868b952faf8ff0b5",
-    "source_ref": "src_1cb20c6823882030"
+    "retrieval_receipt_digest": "sha256:d7dc6d96c7458daab4e524d6b1f6eea34b560a2a9aca31e7f39d7460fe9c3846",
+    "source_content_digest": "sha256:1cb8fe86d8075d2b126f99858b67aa3a45ced38879cf7b3859b78e577483572b",
+    "source_digest": "sha256:dce34be7d3faee591fc3639cc0fc742ebc66a097c301c07eb716b0649e3998a1",
+    "source_ref": "src_3376baa521507aa6"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_1cb20c6823882030",
-  "subject_ref": "evd_8c72d0ef2d7fcebb",
+  "source_ref": "src_3376baa521507aa6",
+  "subject_ref": "evd_83139bd1e2f2d07d",
   "type": "evidence_bound"
 }
