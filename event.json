@@ -1,21 +1,21 @@
 {
-  "created_at": "2026-08-30T19:17:47.991613Z",
-  "event_id": "ppe_10aa2890858a28be",
+  "created_at": "2026-08-30T19:17:48.238651Z",
+  "event_id": "ppe_ea44ed32b8d16101",
   "evidence": {
-    "digest": "sha256:ce02c9c1b0a3b27b71e0cd802dec366dd32cb46dcb0bde04c569b8ec50e294dd",
-    "id": "evd_266dccd20d39b7c0",
+    "digest": "sha256:421b13f7247461c5e9ae071119d394780261da1939d09cc8dd7e6a5e0b717df7",
+    "id": "evd_79ec389757ca4003",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:1b3037729995cda21e251c97ccdc168a1b9da57dea8105d913a13cca7ee7157f",
+    "quote_digest": "sha256:4721ba811affed6631146f2ab50dba58549b7cd4de2a0bb3f23f047311a044b7",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:1b3037729995cda21e251c97ccdc168a1b9da57dea8105d913a13cca7ee7157f",
-        "section_id": "sec_d4c0e0c42dfb71a2"
+        "section_digest": "sha256:4721ba811affed6631146f2ab50dba58549b7cd4de2a0bb3f23f047311a044b7",
+        "section_id": "sec_e49707b754f09780"
       },
-      "quote": "﻿SCHEDULE K-1 (Form 1120-S)                                                     2022\nDepartment of the Treasury • Internal Revenue Service                          OMB No. 1545-0123\n\nShareholder’s Share of Income, Deductions, Credits, etc.                       For calendar year 2022\n\n────────────────────────────────────────────────────────────────────────────────────\nPart I ─ Information About the Corporation\n────────────────────────────────────────────────────────────────────────────────────\nA  Corporation’s employer identification number                       12-3456789\nB  Corporation’s name, address, city, state, and ZIP code\n       Summit Filing Solutions, Inc.\n       8280 Willow Oaks Corporate Dr\n       Los Angeles, CA  90001\nC  IRS center where corporation filed return                               Ogden, UT\n\n────────────────────────────────────────────────────────────────────────────────────\nPart II ─ Information About the Shareholder\n────────────────────────────────────────────────────────────────────────────────────\nD  Shareholder’s identifying number                                    444-44-4444\nE  Shareholder’s name, address, city, state, and ZIP code\n       Sarah Chen\n       1188 Mission St., Apt 1805\n       San Francisco, CA  94103\nF  Shareholder’s percentage of stock ownership\n       Beginning of tax year   12%                 End of tax year   12%\n\n────────────────────────────────────────────────────────────────────────────────────\nPart III ─ Shareholder’s Share of Current Year Income, Deductions, Credits, etc.\n────────────────────────────────────────────────────────────────────────────────────\n1  Ordinary business income (loss)                                   $26,810\n2  Net rental real estate income (loss)                                    0\n3  Other net rental income (loss)                                          0\n4  Interest income                                                      $72\n5a Ordinary dividends                                                      0\n5b Qualified dividends                                                     0\n6  Royalties                                                               0\n7  Net short-term capital gain (loss)                                      0\n8a Net long-term capital gain (loss)                                  ($144)\n8b Collectibles (28%) gain (loss)                                          0\n8c Unrecaptured section 1250 gain                                          0\n9  Net section 1231 gain (loss)                                            0\n10 Other income (loss)                                                     0\n\n11 Section 179 deduction                                                   0\n12 Other deductions                                                        0\n13 Credits                                                                 0\n14 Foreign transactions                                                    0\n15 Charitable contributions                                               0\n16 Items affecting shareholder basis\n   a  Tax-exempt interest income                                           0\n   b  Other tax-exempt income                                              0\n   c  Nondeductible expenses                                               0\n   d  Distributions – cash and marketable securities                       0\n   e  Repayment of loans from shareholders                                0\n17 Other information                                                       0\n\n────────────────────────────────────────────────────────────────────────────────────\nStock and Debt Basis Limitations (for shareholder records)\n────────────────────────────────────────────────────────────────────────────────────\n   + Increase for income items (Lines 1 + 4)                         $26,882\n   – Decrease for loss items (Line 8a)                                  ($144)\n   = Net increase to stock basis this year                           $26,738\n\n   Type of income: Active Business Income\n   Foreign country or U.S. possession: N/A\n\n────────────────────────────────────────────────────────────────────────────────────\nPrepared by: Corporate Officer, Summit Filing Solutions, Inc.\nDate prepared: March 11, 2023\n\nThis is an exact substitute Schedule K-1 that matches the official K-1 filed with IRS Form 1120-S on March 15, 2023.\nRetain this copy with your permanent tax records.\n",
-      "quote_digest": "sha256:1b3037729995cda21e251c97ccdc168a1b9da57dea8105d913a13cca7ee7157f",
+      "quote": "    10. TERMINATION\t59\n        10.1 Termination Events\t59\n        10.2 Effect of Termination\t59\n",
+      "quote_digest": "sha256:4721ba811affed6631146f2ab50dba58549b7cd4de2a0bb3f23f047311a044b7",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
@@ -24,18 +24,18 @@
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
       "source": {
-        "content_digest": "sha256:4629062ed7c4d4e68373655853477ea19fce90abbef5cad87c3ac843f18a1172",
+        "content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
         "media_type": "text/plain",
-        "uri": "private://apex/4629062ed7c4d4e6-8f5da7a2"
+        "uri": "private://apex/7beb28a6e0069669-d885dee3"
       }
     },
-    "retrieval_receipt_digest": "sha256:677873656779c51728ff4f212dda2a5673d7a2946bfbef847236990b21e474e9",
-    "source_content_digest": "sha256:4629062ed7c4d4e68373655853477ea19fce90abbef5cad87c3ac843f18a1172",
-    "source_digest": "sha256:d9de0be82e97ad010128e6eb5729c693a5a9e40731440ae1194f294a7a78295c",
-    "source_ref": "src_a95a3b7b5c5d195d"
+    "retrieval_receipt_digest": "sha256:21c6881fa36bb054245b8dd7d75c37d0943c1a8ab2e7941fe52ff186f002f26d",
+    "source_content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
+    "source_digest": "sha256:9b5e55c106d3b2c9d270455bb5af81e282a4e92f3ba0722f868b952faf8ff0b5",
+    "source_ref": "src_1cb20c6823882030"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_a95a3b7b5c5d195d",
-  "subject_ref": "evd_266dccd20d39b7c0",
+  "source_ref": "src_1cb20c6823882030",
+  "subject_ref": "evd_79ec389757ca4003",
   "type": "evidence_bound"
 }
