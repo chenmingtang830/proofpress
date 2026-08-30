@@ -1,41 +1,41 @@
 {
-  "created_at": "2026-08-30T19:16:18.751726Z",
-  "event_id": "ppe_a642ce10231b8445",
+  "created_at": "2026-08-30T19:16:18.873241Z",
+  "event_id": "ppe_268ddea1478e08e1",
   "evidence": {
-    "digest": "sha256:2592892586885d8c04a58f7dc2836b3e8c3feb65786ccbaf4c22d04746a38019",
-    "id": "evd_081974c5f5dfc2dd",
+    "digest": "sha256:4417eb02198e944cd116ae69cfef737377a42497976b041db489bc8d5c44d7f9",
+    "id": "evd_f20d2d2afc368c6f",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:e465edfd9eb89ef10e78962d76fff030bd753b776df9c6083bb367a356b09f39",
+    "quote_digest": "sha256:504dd2a3f1f8af81f6ddc0a682a69a635ac32e4010e0344c76a535f5f8282522",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:e465edfd9eb89ef10e78962d76fff030bd753b776df9c6083bb367a356b09f39",
-        "section_id": "sec_2f344c7d645f05fd"
+        "section_digest": "sha256:504dd2a3f1f8af81f6ddc0a682a69a635ac32e4010e0344c76a535f5f8282522",
+        "section_id": "sec_2b05bd87101c30b4"
       },
-      "quote": "STOCK AND TRANSFER RESTRICTIONS\nSection 5.1 Certificates.\nShares of stock may be certificated or uncertificated at the discretion of the Board.\nSection 5.2 Stock Ledger.\nThe Corporation shall maintain a stock ledger containing the name and contact information of each stockholder.\nSection 5.3 Transfer Restrictions to Preserve S-Corporation Status.\n(a) No transfer of shares may be made to an ineligible S-Corporation shareholder.\n (b) No transfer may create a second class of stock.\n (c) All transfers are subject to a right of first refusal in favor of the Corporation, then the stockholders, on the same terms offered by the proposed transferee.\n (d) Any transfer in violation of this Article is void.\nSection 5.4 Lost Certificates.\nThe Corporation may issue a new certificate upon receipt of an affidavit stating that the original was lost, stolen, or destroyed, subject to indemnification requirements.\n\n",
-      "quote_digest": "sha256:e465edfd9eb89ef10e78962d76fff030bd753b776df9c6083bb367a356b09f39",
+      "quote": "9. SIGNATURES.\nSeller Signature: ___________________ Date: [MM/DD/YYYY]\nPrint Name: [SELLER NAME]\nBuyer Signature: ___________________ Date: [MM/DD/YYYY]\nPrint Name: [BUYER NAME]\n\n",
+      "quote_digest": "sha256:504dd2a3f1f8af81f6ddc0a682a69a635ac32e4010e0344c76a535f5f8282522",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
-        "query": "\"Form 2553\" number of shares class of stock \"Form 2553\" shareholder consent tax year \"Summit\" stock ledger \"Summit\" capitalization table",
+        "query": "\"Form 2553\" signature requirements \"Form 2553\" shareholder signature date \"Summit\" Form 2553 signatures \"1.1362-6(b)\" signatures",
         "version": "1"
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
       "source": {
-        "content_digest": "sha256:1cb8fe86d8075d2b126f99858b67aa3a45ced38879cf7b3859b78e577483572b",
+        "content_digest": "sha256:1fa432744307c6e3d7cd1a691e8bd26402a340a0de51cead624710e85b4e3943",
         "media_type": "text/plain",
-        "uri": "private://apex/1cb8fe86d8075d2b-0c1ae063"
+        "uri": "private://apex/1fa432744307c6e3-ff90ef47"
       }
     },
-    "retrieval_receipt_digest": "sha256:bc92a7375aefbd7180b41a172b4062b33f71e66aa86630b1154d62cf7af50ba8",
-    "source_content_digest": "sha256:1cb8fe86d8075d2b126f99858b67aa3a45ced38879cf7b3859b78e577483572b",
-    "source_digest": "sha256:dce34be7d3faee591fc3639cc0fc742ebc66a097c301c07eb716b0649e3998a1",
-    "source_ref": "src_3376baa521507aa6"
+    "retrieval_receipt_digest": "sha256:cf70bb56e73675e40ac8c61becdd3c0e8144581e4c2b82f4665a963f58523904",
+    "source_content_digest": "sha256:1fa432744307c6e3d7cd1a691e8bd26402a340a0de51cead624710e85b4e3943",
+    "source_digest": "sha256:41daae633da435245284fba5ee846720c69c51f9f4eec17a5f3473e38eea79fe",
+    "source_ref": "src_15f480947ea56e19"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_3376baa521507aa6",
-  "subject_ref": "evd_081974c5f5dfc2dd",
+  "source_ref": "src_15f480947ea56e19",
+  "subject_ref": "evd_f20d2d2afc368c6f",
   "type": "evidence_bound"
 }
