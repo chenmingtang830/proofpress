@@ -1,15 +1,41 @@
 {
-  "created_at": "2026-08-30T19:15:58.287170Z",
-  "event_id": "ppe_dda998ee63067528",
-  "record": {
-    "content_digest": "sha256:1fa432744307c6e3d7cd1a691e8bd26402a340a0de51cead624710e85b4e3943",
-    "id": "src_15f480947ea56e19",
-    "kind": "retrieval_source",
-    "media_type": "text/plain",
-    "record_hash": "sha256:41daae633da435245284fba5ee846720c69c51f9f4eec17a5f3473e38eea79fe",
-    "uri": "private://apex/1fa432744307c6e3-ff90ef47"
+  "created_at": "2026-08-30T19:15:58.346651Z",
+  "event_id": "ppe_fc1b7b97ecf7db71",
+  "evidence": {
+    "digest": "sha256:99daff97bde83c349a3a2c1469b44a46d9307982748f639eccc79ebbaac8b314",
+    "id": "evd_313ae25198212841",
+    "kind": "retrieval_evidence",
+    "quote_digest": "sha256:fe73e5e22e7ed4165e0d2ec6d63652391c86abcd68b21ee7b9d793f98b0fe3a7",
+    "retrieval_receipt": {
+      "locator": {
+        "kind": "section_span",
+        "page_end": 1,
+        "page_start": 1,
+        "section_digest": "sha256:fe73e5e22e7ed4165e0d2ec6d63652391c86abcd68b21ee7b9d793f98b0fe3a7",
+        "section_id": "sec_304185536f551314"
+      },
+      "quote": "LETTER OF INTENT TO PURCHASE STOCK\nDate: [DATE]\n[SENDER (e.g., BUYER) NAME] \n",
+      "quote_digest": "sha256:fe73e5e22e7ed4165e0d2ec6d63652391c86abcd68b21ee7b9d793f98b0fe3a7",
+      "retrieval": {
+        "adapter": "bm25-page",
+        "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
+        "query": "land allocation building purchase property appraisal land building allocation nondepreciable land basis",
+        "version": "1"
+      },
+      "schema_version": "proofpress/retrieval-evidence/v1",
+      "source": {
+        "content_digest": "sha256:1fa432744307c6e3d7cd1a691e8bd26402a340a0de51cead624710e85b4e3943",
+        "media_type": "text/plain",
+        "uri": "private://apex/1fa432744307c6e3-ff90ef47"
+      }
+    },
+    "retrieval_receipt_digest": "sha256:52ec80d83d267de357bb0a6a48c902ec2e10853d3d2d615926d53040f4a604fb",
+    "source_content_digest": "sha256:1fa432744307c6e3d7cd1a691e8bd26402a340a0de51cead624710e85b4e3943",
+    "source_digest": "sha256:41daae633da435245284fba5ee846720c69c51f9f4eec17a5f3473e38eea79fe",
+    "source_ref": "src_15f480947ea56e19"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "subject_ref": "src_15f480947ea56e19",
-  "type": "source_recorded"
+  "source_ref": "src_15f480947ea56e19",
+  "subject_ref": "evd_313ae25198212841",
+  "type": "evidence_bound"
 }
