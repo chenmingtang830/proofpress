@@ -1,26 +1,18 @@
 {
-  "conclusion": {
-    "allowed_actors": [
-      "*"
-    ],
-    "artifact_refs": [],
-    "created_at": "2026-08-30T19:18:01.032726Z",
-    "digest": "sha256:190c40d7a56a78ceaf46dc7936c020bb3f53640f834967a01137f38b769db187",
-    "evidence_refs": [
-      "evd_0584c67f693620b9",
-      "evd_7146977f35f2ff62"
-    ],
-    "expires_at": null,
-    "id": "knw_78793bdb9e3b3b59",
-    "kind": "conclusion",
-    "proposer": "agent:v8-constructor",
-    "qualifiers": {},
-    "scope": "task_f8f47a9c94874854a24936d81a89fdfb",
-    "statement": "The supplied Stock Purchase Agreement, due-diligence request, and related-party materials cannot be used to establish the existence, terms, or absence of the Summit-Anderson lease; retrieval of the executed lease and amendments is necessary before any lease-based S-corporation termination analysis can be performed."
+  "checks": {
+    "evidence_integrity": true,
+    "evidence_present": true,
+    "not_expired": true,
+    "not_superseded": true,
+    "retrieval_receipts": true,
+    "scope_present": true
   },
-  "created_at": "2026-08-30T19:18:01.144668Z",
-  "event_id": "ppe_3897dea7f9c490a3",
+  "conclusion_digest": "sha256:190c40d7a56a78ceaf46dc7936c020bb3f53640f834967a01137f38b769db187",
+  "created_at": "2026-08-30T19:18:01.398285Z",
+  "eligible": true,
+  "event_id": "ppe_debe29492ee4a793",
+  "policy_digest": "sha256:cde050fdc0b2869fecf8ee9d24dee964fc3bbc18e6b489da2e08e7c3df266501",
   "schema_version": "proofpress/knowledge-event/v2",
   "subject_ref": "knw_78793bdb9e3b3b59",
-  "type": "conclusion_proposed"
+  "type": "policy_evaluated"
 }
