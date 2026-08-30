@@ -1,15 +1,25 @@
 {
-  "conclusion_digest": "sha256:029a07e93c4312887927f681134eeaf4c119aeb01139c9ca01581d3dc33ae9c1",
-  "created_at": "2026-08-30T19:17:24.324320Z",
-  "event_id": "ppe_45b403ab0b6ded28",
-  "evidence_digests": {
-    "evd_83139bd1e2f2d07d": "sha256:6d4bf537d99bf3ae91ce46de1eaea10bc56436ecb41da88cbc3af5869fd5d2a0",
-    "evd_eebe327971b1108d": "sha256:6e8a511f515b306383bb5eab93a1a2e790ff1863c9f67c23598db56efa62837f"
+  "conclusion": {
+    "allowed_actors": [
+      "*"
+    ],
+    "artifact_refs": [],
+    "created_at": "2026-08-30T19:17:24.445756Z",
+    "digest": "sha256:e838b33bb759d93059c1b9b73293e48127696d7ad6301b713a3033fd25fa38a8",
+    "evidence_refs": [
+      "evd_eebe327971b1108d"
+    ],
+    "expires_at": null,
+    "id": "knw_dbbcf17268e627de",
+    "kind": "conclusion",
+    "proposer": "agent:v8-constructor",
+    "qualifiers": {},
+    "scope": "task_11893dcabbe34b0aa991516dfe7edcba",
+    "statement": "The record indicates incomplete ownership data: the recommended corrective actions call for corrected K-1s for years lacking complete ownership data and reconstruction of the stock ledger. The cited evidence does not establish the E&P or liquidation facts needed to characterize Summit’s distributions as redemptions or liquidations."
   },
-  "policy_digest": "sha256:cde050fdc0b2869fecf8ee9d24dee964fc3bbc18e6b489da2e08e7c3df266501",
-  "review_ref": "ppe_a188e32ee8cf1b0d",
-  "reviewer": "human:staged-evaluation-reviewer",
+  "created_at": "2026-08-30T19:17:24.536112Z",
+  "event_id": "ppe_aabe345c8625e214",
   "schema_version": "proofpress/knowledge-event/v2",
-  "subject_ref": "knw_af13f6d03b0e59af",
-  "type": "conclusion_admitted"
+  "subject_ref": "knw_dbbcf17268e627de",
+  "type": "conclusion_proposed"
 }
