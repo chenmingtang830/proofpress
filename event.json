@@ -1,14 +1,26 @@
 {
-  "conclusion_digest": "sha256:f3e5439f805ef1bf92b2f194413f39a6e4cb7a879cf5f0979fd977a6299e27bc",
-  "created_at": "2026-08-30T19:16:47.850764Z",
-  "event_id": "ppe_065ce787f986ee70",
-  "evidence_digests": {
-    "evd_279a3de91239941c": "sha256:c5c466f91a30b5c277d6f0364f88bc50df4b6c815a506583d74e746b64b430e6"
+  "conclusion": {
+    "allowed_actors": [
+      "*"
+    ],
+    "artifact_refs": [],
+    "created_at": "2026-08-30T19:16:47.948402Z",
+    "digest": "sha256:293f9bfdce7ebb33ac0788555b7d67688cda6c626484f48bf8a57a93ca4c4967",
+    "evidence_refs": [
+      "evd_9090b4a3c6a71071",
+      "evd_92708c292365a658"
+    ],
+    "expires_at": null,
+    "id": "knw_26035e5e4edc2ad2",
+    "kind": "conclusion",
+    "proposer": "agent:v8-constructor",
+    "qualifiers": {},
+    "scope": "task_8ab8c8d7662747d696d52706a8b3de55",
+    "statement": "The quoted five-year operating history identifies years 2020 through 2024, while the quoted shareholder-schedule excerpt does not establish when Carrie Canuck ceased to be a shareholder."
   },
-  "policy_digest": "sha256:cde050fdc0b2869fecf8ee9d24dee964fc3bbc18e6b489da2e08e7c3df266501",
-  "review_ref": "ppe_b71cc8de2a702704",
-  "reviewer": "human:staged-evaluation-reviewer",
+  "created_at": "2026-08-30T19:16:48.016484Z",
+  "event_id": "ppe_bb3fd08606911718",
   "schema_version": "proofpress/knowledge-event/v2",
-  "subject_ref": "knw_4a61de0e71337765",
-  "type": "conclusion_admitted"
+  "subject_ref": "knw_26035e5e4edc2ad2",
+  "type": "conclusion_proposed"
 }
