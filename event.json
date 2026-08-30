@@ -1,14 +1,26 @@
 {
-  "conclusion_digest": "sha256:6c23a212b65cb476a6b49d21c0ee2074305f13f0db05dc083489953a4e7f259f",
-  "created_at": "2026-08-30T19:18:13.966243Z",
-  "event_id": "ppe_d3e2b8ac41161012",
-  "evidence_digests": {
-    "evd_bf7df0f0c05dd881": "sha256:e4a609e8d00c9316e750ab2650de944ad949c0ae2634c6c95ce487a166c09535"
+  "conclusion": {
+    "allowed_actors": [
+      "*"
+    ],
+    "artifact_refs": [],
+    "created_at": "2026-08-30T19:18:14.113961Z",
+    "digest": "sha256:dc591a98652293ebbdccd6e6fc1894dee46a6c47b6a18f2d5f26d53d407183b9",
+    "evidence_refs": [
+      "evd_b93f96f3e850c0ad",
+      "evd_d5f22894c58ae814"
+    ],
+    "expires_at": null,
+    "id": "knw_aa4d56048dcee889",
+    "kind": "conclusion",
+    "proposer": "agent:v8-constructor",
+    "qualifiers": {},
+    "scope": "task_f8f47a9c94874854a24936d81a89fdfb",
+    "statement": "The cited evidence consists of a document labeled “FORM OF INVESTORS’ RIGHTS AGREEMENT” and a Stock and Transfer Restrictions excerpt addressing certificates, the stock ledger, and transfer restrictions."
   },
-  "policy_digest": "sha256:cde050fdc0b2869fecf8ee9d24dee964fc3bbc18e6b489da2e08e7c3df266501",
-  "review_ref": "ppe_fa2ce6c1cd92d37e",
-  "reviewer": "human:staged-evaluation-reviewer",
+  "created_at": "2026-08-30T19:18:14.225621Z",
+  "event_id": "ppe_ea826d0cacba3894",
   "schema_version": "proofpress/knowledge-event/v2",
-  "subject_ref": "knw_211702aa78eb0dc4",
-  "type": "conclusion_admitted"
+  "subject_ref": "knw_aa4d56048dcee889",
+  "type": "conclusion_proposed"
 }
