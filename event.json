@@ -1,26 +1,18 @@
 {
-  "conclusion": {
-    "allowed_actors": [
-      "*"
-    ],
-    "artifact_refs": [],
-    "created_at": "2026-08-30T19:16:05.102130Z",
-    "digest": "sha256:5b1e1c85dc53b3ac64d16b31ed23242655534ce55716f1591811861c56c23331",
-    "evidence_refs": [
-      "evd_65663ee8f1000a17",
-      "evd_841ccc9a66410346"
-    ],
-    "expires_at": null,
-    "id": "knw_f14fe78e36b2817c",
-    "kind": "conclusion",
-    "proposer": "agent:v8-constructor",
-    "qualifiers": {},
-    "scope": "task_b78c4510be784e6a8b8f0394aafd785d",
-    "statement": "The cited Schedule K-1 shows Laura Kensington with 26% stock ownership at both the beginning and end of 2022, and the governing-document excerpt requires pro rata distributions. These excerpts do not state Laura’s filing status, the property’s adjusted basis and accumulated depreciation, or the gain’s Section 1231/1250 character, so they do not support an exact incremental regular federal income-tax amount."
+  "checks": {
+    "evidence_integrity": true,
+    "evidence_present": true,
+    "not_expired": true,
+    "not_superseded": true,
+    "retrieval_receipts": true,
+    "scope_present": true
   },
-  "created_at": "2026-08-30T19:16:05.134386Z",
-  "event_id": "ppe_dce9148039706c87",
+  "conclusion_digest": "sha256:5b1e1c85dc53b3ac64d16b31ed23242655534ce55716f1591811861c56c23331",
+  "created_at": "2026-08-30T19:16:05.236080Z",
+  "eligible": true,
+  "event_id": "ppe_7fe3779d803b7d24",
+  "policy_digest": "sha256:cde050fdc0b2869fecf8ee9d24dee964fc3bbc18e6b489da2e08e7c3df266501",
   "schema_version": "proofpress/knowledge-event/v2",
   "subject_ref": "knw_f14fe78e36b2817c",
-  "type": "conclusion_proposed"
+  "type": "policy_evaluated"
 }
