@@ -1,41 +1,41 @@
 {
-  "created_at": "2026-08-30T19:15:57.948656Z",
-  "event_id": "ppe_e5c2d804d2517424",
+  "created_at": "2026-08-30T19:15:58.028156Z",
+  "event_id": "ppe_765af639cde290c4",
   "evidence": {
-    "digest": "sha256:aef66a47d67ee56ee567caa000b5d5ca2598588018cd8f7645e36455b848a47f",
-    "id": "evd_569c3723270789ea",
+    "digest": "sha256:cb478d0e63b1e6a9a06e1df3c1cdd22579f0472f36b5dac93453805602f9b902",
+    "id": "evd_cb22ad75793b2b6f",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:c5c8c87ca8128aabce8df4f7b84f1f01d6424ed139fad3d258304eeec215a4d7",
+    "quote_digest": "sha256:48dedba77857210507bdbe9bc663d3f53fbf9be0cea2a0aaccc1e676d8039920",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:c5c8c87ca8128aabce8df4f7b84f1f01d6424ed139fad3d258304eeec215a4d7",
-        "section_id": "sec_6d2417db8f5ee844"
+        "section_digest": "sha256:48dedba77857210507bdbe9bc663d3f53fbf9be0cea2a0aaccc1e676d8039920",
+        "section_id": "sec_be59d91e0cdea243"
       },
-      "quote": "[DRAFT] TAX STRUCTURING TERM SHEET\nFor the Acquisition of Stock of [Target Corporation]\nDate: [Insert Date]\nBuyer: [Insert Buyer Name]\nSeller(s): [Insert Seller Name(s)]\nTarget: [Insert Target Corporation Name]\nTransaction: Acquisition of [all/substantially all] of the issued and outstanding shares of Target\n\n1. Transaction Structure\n    • Form of Acquisition: Purchase of [all/substantially all] of the issued and outstanding shares of Target from Seller(s).\n    • Intended Tax Treatment: The parties intend for the transaction to be treated as a purchase of stock for U.S. federal income tax purposes.\n2. S-Corporation Status\n    • Representation and Warranty: Seller(s) shall represent and warrant that Target has made a valid S-corporation election effective as of [date], and that such election has been continuously in effect through the Closing Date, except as otherwise disclosed.\n    • Disclosure of Questionable Status: Seller(s) acknowledge that the validity of Target’s S-corporation election is subject to uncertainty due to [describe issues, e.g., potential ineligible shareholders, defective election filings, or other factors].\n    • Due Diligence: Buyer shall have the right to conduct tax due diligence regarding the S-corporation status of Target, including review of all relevant IRS filings, shareholder consents, and corporate records.\n3. Tax Indemnity and Escrow\n    • Indemnity for S-Status Issues: Seller(s) shall indemnify Buyer for any taxes, penalties, interest, or other losses arising from a determination that Target’s S-corporation election was invalid or terminated prior to Closing, including any resulting C-corporation level taxes.\n    • Escrow: A portion of the purchase price equal to $[amount] or [percentage]% shall be placed in escrow for a period of [X] years post-Closing to secure Seller(s)’ indemnity obligations relating to S-corporation status and related tax matters.\n4. Section 338(h)(10) Election (if applicable)\n    • Election Option: The parties may agree to make a joint election under Section 338(h)(10) of the Internal Revenue Code, if Target’s S-corporation status is confirmed and all eligibility requirements are met.\n    • Allocation of Tax Liability: The parties shall agree on the allocation of any resulting tax liability and benefits from the election, including responsibility for any corporate-level tax triggered by the deemed asset sale.\n5. Pre-Closing Tax Returns\n    • Responsibility: Seller(s) shall be responsible for preparing and filing all tax returns of Target for periods ending on or before the Closing Date, including any short-period returns.\n    • Review Rights: Buyer shall have the right to review and comment on any such returns prior to filing.\n6. Post-Closing Tax Matters\n    • Cooperation: The parties shall cooperate in connection with any tax audits, examinations, or proceedings relating to periods prior to Closing.\n    • Access to Records: Seller(s) shall provide Buyer with reasonable access to all tax records and information relating to Target for pre-Closing periods.\n7. Other Tax Representations\n    • No Built-in Gains Tax: Seller(s) represent that Target does not have any material built-in gains subject to Section 1374 of the Internal Revenue Code, except as disclosed.\n    • No Disqualifying Events: Seller(s) represent that, to their knowledge, no events have occurred that would disqualify Target’s S-corporation status, except as disclosed.\n8. Governing Law\n    • This term sheet and any definitive agreements shall be governed by the laws of the State of [Insert State].\n\nThis term sheet is non-binding and for discussion purposes only. The terms herein are subject to the negotiation and execution of definitive agreements.\n\n[Signature Blocks]\n\nKey Notes:\n    • This template is for general informational purposes and should be reviewed and customized by legal and tax counsel.\n    • Special attention should be paid to the specific facts regarding the S-corporation status and any IRS guidance or case law relevant to the issues identified.\n\n\n",
-      "quote_digest": "sha256:c5c8c87ca8128aabce8df4f7b84f1f01d6424ed139fad3d258304eeec215a4d7",
+      "quote": "NAME\tADDRESS\tCITY\tSTATE \tZIP\tTP ID\tALLOCATION PERCENTAGE\tSHARE QTY\nAmelia Vance\t1000 Shady Lane\tSeattle\tWA\t15642\txxx-xx-xxxx\t\t\nElias Thorne\t1111 River Road\tAustin\tTX\t56778\txxx-xx-xxxx\t\t\nSofia Martinez\t5500 HausenSt.\tDenver\tCO\t56783\txxx-xx-xxxx\t\t\nWyatt Sterling\t738 Hillside Dr.\tBoston\tMA\t54927\txxx-xx-xxxx\t\t\nChloe Kim\t9399 Brooks Rd\tAtlanta\tGA\t57691\txxx-xx-xxxx\t\t\n\n\n\n\n\n\n",
+      "quote_digest": "sha256:48dedba77857210507bdbe9bc663d3f53fbf9be0cea2a0aaccc1e676d8039920",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
-        "query": "depreciation schedule building 2018 2022 fixed asset ledger building improvements section 1250 depreciation tax depreciation through sale date",
+        "query": "land allocation building purchase property appraisal land building allocation nondepreciable land basis",
         "version": "1"
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
       "source": {
-        "content_digest": "sha256:4269e21c1fa36a134a861c62e14940bcb646670bfb2d60556e2992727f204470",
+        "content_digest": "sha256:75c45d7772bb4fe998be3d734990155c4ddaefca7fc8f7ad0e8b99f68c792c1a",
         "media_type": "text/plain",
-        "uri": "private://apex/4269e21c1fa36a13-9771382d"
+        "uri": "private://apex/75c45d7772bb4fe9-cd9c8ff4"
       }
     },
-    "retrieval_receipt_digest": "sha256:cd94cc3de8a27d2346100fec645bddfa34f65a7ee1bfcdac4ab4f47b76bb1ab0",
-    "source_content_digest": "sha256:4269e21c1fa36a134a861c62e14940bcb646670bfb2d60556e2992727f204470",
-    "source_digest": "sha256:413ad38376a81b2a8c39ab2d56246edebc553521e481af3d581db7a54ff2f9e9",
-    "source_ref": "src_567daa06afa4573f"
+    "retrieval_receipt_digest": "sha256:d78979f9cee20e96b5a7d878301df4a475c06616ad9e86a0fc48097c136a917c",
+    "source_content_digest": "sha256:75c45d7772bb4fe998be3d734990155c4ddaefca7fc8f7ad0e8b99f68c792c1a",
+    "source_digest": "sha256:e1c1eb57d190a2c2fc637ec4e0b49d7667fa8da4d08852ab6169f68bc240e10c",
+    "source_ref": "src_42c0e7833b974b0d"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_567daa06afa4573f",
-  "subject_ref": "evd_569c3723270789ea",
+  "source_ref": "src_42c0e7833b974b0d",
+  "subject_ref": "evd_cb22ad75793b2b6f",
   "type": "evidence_bound"
 }
