@@ -1,14 +1,25 @@
 {
-  "conclusion_digest": "sha256:398e8fc3b25530517d22f7068419c3e27356cabc3b6098c0b804ef6c2e2aad10",
-  "created_at": "2026-08-30T19:16:24.064747Z",
-  "event_id": "ppe_6d9773b26737db08",
-  "evidence_digests": {
-    "evd_c45b20d568b9d0da": "sha256:3101bccb096b757cf4c091cf6c7ca72e65af0d22bfb80af2006fe54358c64cff"
+  "conclusion": {
+    "allowed_actors": [
+      "*"
+    ],
+    "artifact_refs": [],
+    "created_at": "2026-08-30T19:16:24.155832Z",
+    "digest": "sha256:63942c129aa8be135fe67f98e78156b8d270bc91115fe2de7c99ea0f4062d975",
+    "evidence_refs": [
+      "evd_3532b789be132f52"
+    ],
+    "expires_at": null,
+    "id": "knw_959101fa2046d94d",
+    "kind": "conclusion",
+    "proposer": "agent:v8-constructor",
+    "qualifiers": {},
+    "scope": "task_8d501efe0f924f69aeee070f2e08b576",
+    "statement": "The user premise says the Form 2553 was filed February 19, 2019, while an executive summary says Summit's Form 2553 was filed March 22, 2022."
   },
-  "policy_digest": "sha256:cde050fdc0b2869fecf8ee9d24dee964fc3bbc18e6b489da2e08e7c3df266501",
-  "review_ref": "ppe_8a3992e2967aa123",
-  "reviewer": "human:staged-evaluation-reviewer",
+  "created_at": "2026-08-30T19:16:24.208085Z",
+  "event_id": "ppe_e560236b8bf7a04c",
   "schema_version": "proofpress/knowledge-event/v2",
-  "subject_ref": "knw_edc6b22688a6277e",
-  "type": "conclusion_admitted"
+  "subject_ref": "knw_959101fa2046d94d",
+  "type": "conclusion_proposed"
 }
