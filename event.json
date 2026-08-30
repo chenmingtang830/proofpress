@@ -1,15 +1,26 @@
 {
-  "conclusion_digest": "sha256:e4400c90d1edabdafb57fe2e3e1c9a21c0bba6853338257a6ed6dcc2df327927",
-  "created_at": "2026-08-30T19:16:53.938291Z",
-  "event_id": "ppe_07c525f927c1922c",
-  "evidence_digests": {
-    "evd_349158b77384bae1": "sha256:69ea74939ee66b27727f1564cf701931975c32006eb0e151732aa815da653b37",
-    "evd_8b32f290178442ca": "sha256:5349449d63390aee156b3bca5f422a1168529d73552587b7a3f3434b7d5f3143"
+  "conclusion": {
+    "allowed_actors": [
+      "*"
+    ],
+    "artifact_refs": [],
+    "created_at": "2026-08-30T19:16:54.037492Z",
+    "digest": "sha256:cc8820f2d6ce085a9fe2c44c44e31d38b40a01cf6302f8fe7614cf39572e69dc",
+    "evidence_refs": [
+      "evd_106bc01aafa31766",
+      "evd_debc244a49170ffd"
+    ],
+    "expires_at": null,
+    "id": "knw_bd4c8b93e59fb751",
+    "kind": "conclusion",
+    "proposer": "agent:v8-constructor",
+    "qualifiers": {},
+    "scope": "task_8ab8c8d7662747d696d52706a8b3de55",
+    "statement": "The earliest effective date for a new S corporation election that Summit could file after requalification is not specified in the provided evidence; the only effective-date fact shown is that Summit's prior late election was approved effective January 1, 2019 although Form 2553 was not filed until March 22, 2022."
   },
-  "policy_digest": "sha256:cde050fdc0b2869fecf8ee9d24dee964fc3bbc18e6b489da2e08e7c3df266501",
-  "review_ref": "ppe_447f68ec98d0ac7c",
-  "reviewer": "human:staged-evaluation-reviewer",
+  "created_at": "2026-08-30T19:16:54.108041Z",
+  "event_id": "ppe_564510872cd063ab",
   "schema_version": "proofpress/knowledge-event/v2",
-  "subject_ref": "knw_d0a93ceeea029e24",
-  "type": "conclusion_admitted"
+  "subject_ref": "knw_bd4c8b93e59fb751",
+  "type": "conclusion_proposed"
 }
