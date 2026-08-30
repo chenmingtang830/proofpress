@@ -1,41 +1,15 @@
 {
-  "created_at": "2026-08-30T19:15:56.566346Z",
-  "event_id": "ppe_78a6ee264bd4d998",
-  "evidence": {
-    "digest": "sha256:b0884490103eeab4dc2095377639fa203d6ea3419488ef98f136fc4144bbdc64",
-    "id": "evd_ddaa7327e62ad7ad",
-    "kind": "retrieval_evidence",
-    "quote_digest": "sha256:2fec289d0bcf337d51a60200c32c27362761ef899134714801a98e99f0d7bd46",
-    "retrieval_receipt": {
-      "locator": {
-        "kind": "section_span",
-        "page_end": 1,
-        "page_start": 1,
-        "section_digest": "sha256:2fec289d0bcf337d51a60200c32c27362761ef899134714801a98e99f0d7bd46",
-        "section_id": "sec_25d7ab74268a286d"
-      },
-      "quote": "﻿Schedule of Historic Distributions\nSummit Filing Solutions, Inc.\nHistoric Distribution Schedule (From S-Corporation Election Effective January 1, 2019)\n\nDistribution Event – March 15, 2019\nTotal Amount Distributed: $11,000\nShareholder\tAmount Distributed\nLaura Kensington\t$2,860\nMichael T. Hartwell\t$2,420\nDanielle R. Soto\t$2,200\nGregory A. Beaumont\t$2,200\nTanya L. Merriweather\t$1,320\n\nDistribution Event – August 3, 2020\nTotal Amount Distributed: $2,300\nShareholder\tAmount Distributed\nLaura Kensington\t$598\nMichael T. Hartwell\t$506\nDanielle R. Soto\t$460\nGregory A. Beaumont\t$460\nTanya L. Merriweather\t$276\n\nDistribution Event – May 22, 2022\nTotal Amount Distributed: $4,200\nShareholder\tAmount Distributed\nLaura Kensington\t$1,092\nMichael T. Hartwell\t$924\nDanielle R. Soto\t$840\nGregory A. Beaumont\t$840\nTanya L. Merriweather\t$504\n\nDistribution Event – February 9, 2024\nTotal Amount Distributed: $1,800\nShareholder\tAmount Distributed\nLaura Kensington\t$468\nMichael T. Hartwell\t$396\nDanielle R. Soto\t$360\nGregory A. Beaumont\t$360\nTanya L. Merriweather\t$216\n\nCumulative Distributions Since S-Election\nShareholder\tTotal Received\nLaura Kensington\t$5,018\nMichael T. Hartwell\t$4,246\nDanielle R. Soto\t$3,860\nGregory A. Beaumont\t$3,860\nTanya L. Merriweather\t$2,316\n\nTotal Distributed to All Shareholders: $19,300\n",
-      "quote_digest": "sha256:2fec289d0bcf337d51a60200c32c27362761ef899134714801a98e99f0d7bd46",
-      "retrieval": {
-        "adapter": "bm25-page",
-        "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
-        "query": "Laura Kensington cap table ownership percentage Laura Kensington equity interest Summit Filing Solutions capitalization table",
-        "version": "1"
-      },
-      "schema_version": "proofpress/retrieval-evidence/v1",
-      "source": {
-        "content_digest": "sha256:6d71182ebfd566c92aef74ed1c0b1dcd3e55e81919c6694dc0090593e4e2c6e2",
-        "media_type": "text/plain",
-        "uri": "private://apex/6d71182ebfd566c9-cda5e409"
-      }
-    },
-    "retrieval_receipt_digest": "sha256:dae8e5c9b290476916f9ac2ade2baf850c885c11a1ba9f8aac4d9d9afe29296b",
-    "source_content_digest": "sha256:6d71182ebfd566c92aef74ed1c0b1dcd3e55e81919c6694dc0090593e4e2c6e2",
-    "source_digest": "sha256:989960c13ee061b091fe1729fea3a5d2c18922bd774cea0e9aefc530595c208e",
-    "source_ref": "src_338c31876af4f6fd"
+  "created_at": "2026-08-30T19:15:56.624079Z",
+  "event_id": "ppe_7c2d8986b818302e",
+  "record": {
+    "content_digest": "sha256:935fc7a0beb6b568bccbc00f0ea1209959050ad0c96242c27f9e40054cec8009",
+    "id": "src_eb14d7f1e4caeaf8",
+    "kind": "retrieval_source",
+    "media_type": "text/plain",
+    "record_hash": "sha256:5ca2ef258db6ac6d7ac5046f627f2dd1618ac381e2afce1fec17e99b812e97c1",
+    "uri": "private://apex/935fc7a0beb6b568-ba9f6e25"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_338c31876af4f6fd",
-  "subject_ref": "evd_ddaa7327e62ad7ad",
-  "type": "evidence_bound"
+  "subject_ref": "src_eb14d7f1e4caeaf8",
+  "type": "source_recorded"
 }
