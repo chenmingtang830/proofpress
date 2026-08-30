@@ -1,21 +1,21 @@
 {
-  "created_at": "2026-08-30T19:16:17.119129Z",
-  "event_id": "ppe_d7fd0cc0a29780b5",
+  "created_at": "2026-08-30T19:16:17.268316Z",
+  "event_id": "ppe_d7990c06598f7c78",
   "evidence": {
-    "digest": "sha256:d21ca801eeb30fb0bc3db2b61fcaa7f9fc9cc91b4b91e2fcecc636219a3641bf",
-    "id": "evd_2acd7c728426e372",
+    "digest": "sha256:d5b35020da01f37c00d209562b778935c8a2999d14ed02f4e662c80b3e806045",
+    "id": "evd_f818b451162ab316",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:6d9a788be9f762d98a3e9c3b5950f42833594c01a0e65074ce0e02c6b2497080",
+    "quote_digest": "sha256:71e921eb5dc9f4891da0a1a2332f521e14e987c54737e421993a9a243bd6fde3",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:6d9a788be9f762d98a3e9c3b5950f42833594c01a0e65074ce0e02c6b2497080",
-        "section_id": "sec_881122d6993e55d2"
+        "section_digest": "sha256:71e921eb5dc9f4891da0a1a2332f521e14e987c54737e421993a9a243bd6fde3",
+        "section_id": "sec_d814238504a7730d"
       },
-      "quote": "﻿\n\nFor the Acquisition of Stock of Summit Filing Solutions, Inc.\nDate: TBD\nBuyer:Harbor Bridge Private Equity\nSeller(s): Laura Kensington; Michael T. Hartwell; Danielle R. Soto\nTarget: Summit Filing Solutions, Inc.\nTransaction: Acquisition of all the issued and outstanding shares of Target\n\n1. Transaction Structure\n    • Form of Acquisition: Purchase of all the issued and outstanding shares of Target from Seller(s).\n    • Intended Tax Treatment: The parties intend for the transaction to be treated as a purchase of stock for U.S. federal income tax purposes.\n2. S-Corporation Status\n    • Representation and Warranty: Seller(s) shall represent and warrant that Target has made a valid S-corporation election effective as of January 1, 2019, and that such election has been continuously in effect through the Closing Date, except as otherwise disclosed.\n    • Disclosure of Questionable Status: Sellers acknowledge that the validity of Target’s S-corporation election is subject to uncertainty due to issues pertaining community property ownership in Target’s shares, transfers to persons who were ineligible shareholders, potentially defective election filings, or other factors.\n    • Due Diligence: Buyer shall have the right to conduct tax due diligence regarding the S-corporation status of Target, including review of all relevant IRS filings, shareholder consents, and corporate records.\n3. Tax Indemnity and Escrow\n    • Indemnity for S-Status Issues: Sellers shall indemnify Buyer for any taxes, penalties, interest, or other losses arising from a determination that Target’s S-corporation election was invalid or terminated prior to Closing, including any resulting C-corporation level taxes.\n    • Escrow: A portion of the purchase price equal to $425,000 or 10% shall be placed in escrow for a period of two [2] years post-Closing to secure Sellers’ indemnity obligations relating to S-corporation status and related tax matters.\n4. Section 338(h)(10) Election (if applicable)\n    • Election Option: The parties may agree to make a joint election under Section 338(h)(10) of the Internal Revenue Code, if Target’s S-corporation status is confirmed and all eligibility requirements are met.\n    • Allocation of Tax Liability: The parties shall agree on the allocation of any resulting tax liability and benefits from the election, including responsibility for any corporate-level tax triggered by the deemed asset sale.\n5. Pre-Closing Tax Returns\n    • Responsibility: Sellers shall be responsible for preparing and filing all tax returns of Target for periods ending on or before the Closing Date, including any short-period returns.\n    • Review Rights: Buyer shall have the right to review and comment on any such returns prior to filing.\n6. Post-Closing Tax Matters\n    • Cooperation: The parties shall cooperate in connection with any tax audits, examinations, or proceedings relating to periods prior to Closing.\n    • Access to Records: Sellers shall provide Buyer with reasonable access to all tax records and information relating to Target for pre-Closing periods.\n7. Other Tax Representations\n    • No Built-in Gains Tax: Sellers represent that Target does not have any material built-in gains subject to Section 1374 of the Internal Revenue Code, except as disclosed.\n    • No Disqualifying Events: Sellers represent that, to their knowledge, no events have occurred that would disqualify Target’s S-corporation status, except as disclosed.\n8. Governing Law\n    • This term sheet and any definitive agreements shall be governed by the laws of the State of Delaware.\n\nThis term sheet is non-binding and for discussion purposes only. The terms herein are subject to the negotiation and execution of definitive agreements.\n\n[Signature Blocks]\n\nKey Notes:\n    • This template is for general informational purposes and should be reviewed and customized by legal and tax counsel.\n    • Special attention should be paid to the specific facts regarding the S-corporation status and any IRS guidance or case law relevant to the issues identified.\n\n\n",
-      "quote_digest": "sha256:6d9a788be9f762d98a3e9c3b5950f42833594c01a0e65074ce0e02c6b2497080",
+      "quote": "ADDRESS: \n\t\t\t\t\n\t\t\t\t\n\nEffective Date: \t\t\t\t\n\n",
+      "quote_digest": "sha256:71e921eb5dc9f4891da0a1a2332f521e14e987c54737e421993a9a243bd6fde3",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
@@ -24,18 +24,18 @@
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
       "source": {
-        "content_digest": "sha256:ba841929570abade32151d590a40176c324d5b5523140d96115df1defdc3f877",
+        "content_digest": "sha256:dfb4a6fb5185685768f588160e39690b944d8cbfad8e0b36a92b49be895f80d9",
         "media_type": "text/plain",
-        "uri": "private://apex/ba841929570abade-2a0df9f7"
+        "uri": "private://apex/dfb4a6fb51856857-3ebb9312"
       }
     },
-    "retrieval_receipt_digest": "sha256:2f27b9a407aabb591ddc05545c07b8939abc8bb817f0a5c7db2d16cb80bc3259",
-    "source_content_digest": "sha256:ba841929570abade32151d590a40176c324d5b5523140d96115df1defdc3f877",
-    "source_digest": "sha256:8baef335ebdac59c8fde471090e6cd2c2da14493bc75d11176290fde33713211",
-    "source_ref": "src_2078accf92703103"
+    "retrieval_receipt_digest": "sha256:c57758fbedd9648997ccc494c155630c19016b180702067372c90f9dd95f7f1d",
+    "source_content_digest": "sha256:dfb4a6fb5185685768f588160e39690b944d8cbfad8e0b36a92b49be895f80d9",
+    "source_digest": "sha256:af353dc2ff025f1b5856614e044526af70dd8dd57771cc7162880a69ff71fe65",
+    "source_ref": "src_fe48f3c72ed75d5f"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_2078accf92703103",
-  "subject_ref": "evd_2acd7c728426e372",
+  "source_ref": "src_fe48f3c72ed75d5f",
+  "subject_ref": "evd_f818b451162ab316",
   "type": "evidence_bound"
 }
