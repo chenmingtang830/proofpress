@@ -1,26 +1,18 @@
 {
-  "conclusion": {
-    "allowed_actors": [
-      "*"
-    ],
-    "artifact_refs": [],
-    "created_at": "2026-08-30T19:16:07.339502Z",
-    "digest": "sha256:376f9dc5388b736ee74e1878c4fb9a2571bb88b528244261459761d9607ffbd2",
-    "evidence_refs": [
-      "evd_907241347845e1f2",
-      "evd_982a6b95007488c7"
-    ],
-    "expires_at": null,
-    "id": "knw_72867abd56601291",
-    "kind": "conclusion",
-    "proposer": "agent:v8-constructor",
-    "qualifiers": {},
-    "scope": "task_b78c4510be784e6a8b8f0394aafd785d",
-    "statement": "No land/building allocation appears in the cited excerpts, so the building's depreciable basis and the land portion are not established by them."
+  "checks": {
+    "evidence_integrity": true,
+    "evidence_present": true,
+    "not_expired": true,
+    "not_superseded": true,
+    "retrieval_receipts": true,
+    "scope_present": true
   },
-  "created_at": "2026-08-30T19:16:07.372297Z",
-  "event_id": "ppe_7cb4e059a21230c8",
+  "conclusion_digest": "sha256:376f9dc5388b736ee74e1878c4fb9a2571bb88b528244261459761d9607ffbd2",
+  "created_at": "2026-08-30T19:16:07.483883Z",
+  "eligible": true,
+  "event_id": "ppe_2d161eb9ffffe23e",
+  "policy_digest": "sha256:cde050fdc0b2869fecf8ee9d24dee964fc3bbc18e6b489da2e08e7c3df266501",
   "schema_version": "proofpress/knowledge-event/v2",
   "subject_ref": "knw_72867abd56601291",
-  "type": "conclusion_proposed"
+  "type": "policy_evaluated"
 }
