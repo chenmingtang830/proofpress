@@ -1,15 +1,26 @@
 {
-  "conclusion_digest": "sha256:028ce4ec7f3701054a5e6fafee5050d8e5b5102c4bebaf5b2a0fcaa188f6334f",
-  "created_at": "2026-08-30T19:16:31.861444Z",
-  "event_id": "ppe_6e5bc3b7257f5b77",
-  "evidence_digests": {
-    "evd_1c25e60e38832769": "sha256:16298c2291736c4952366af66d52c1b86c5f6c4b161884a05432c520718de096",
-    "evd_f20d2d2afc368c6f": "sha256:4417eb02198e944cd116ae69cfef737377a42497976b041db489bc8d5c44d7f9"
+  "conclusion": {
+    "allowed_actors": [
+      "*"
+    ],
+    "artifact_refs": [],
+    "created_at": "2026-08-30T19:16:31.945929Z",
+    "digest": "sha256:2d0bc51c9dd58fc305187e0f479b45a3dd5deb1f5cebfedfe5729270afc35965",
+    "evidence_refs": [
+      "evd_3532b789be132f52",
+      "evd_767e974115c30bd6"
+    ],
+    "expires_at": null,
+    "id": "knw_60dcd9e4e9004284",
+    "kind": "conclusion",
+    "proposer": "agent:v8-constructor",
+    "qualifiers": {},
+    "scope": "task_8d501efe0f924f69aeee070f2e08b576",
+    "statement": "The diligence memo states that Summit's Form 2553 was filed on March 22, 2022. The cited Form 1120-S excerpt does not reconcile that date with Summit's formation date, commencement of operations, or first Form 1120-S."
   },
-  "policy_digest": "sha256:cde050fdc0b2869fecf8ee9d24dee964fc3bbc18e6b489da2e08e7c3df266501",
-  "review_ref": "ppe_0dfc39fc1fb3d76c",
-  "reviewer": "human:staged-evaluation-reviewer",
+  "created_at": "2026-08-30T19:16:32.000623Z",
+  "event_id": "ppe_d7ed8d49cc3affa0",
   "schema_version": "proofpress/knowledge-event/v2",
-  "subject_ref": "knw_50e5b975cd77a9aa",
-  "type": "conclusion_admitted"
+  "subject_ref": "knw_60dcd9e4e9004284",
+  "type": "conclusion_proposed"
 }
