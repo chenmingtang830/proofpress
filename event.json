@@ -1,41 +1,41 @@
 {
-  "created_at": "2026-08-30T19:16:20.631512Z",
-  "event_id": "ppe_d250fff1e49f8840",
+  "created_at": "2026-08-30T19:16:20.760012Z",
+  "event_id": "ppe_a6dc48192bd8183a",
   "evidence": {
-    "digest": "sha256:c4738fbd6595375468e1272cc9282dac09898c6e2473ee27319a94dd71f9f8df",
-    "id": "evd_1eee2c7a3406f0b4",
+    "digest": "sha256:9ca2ce317e4098cf6acdf969fdba1fee558042e178ebb25211ff92ba6328095b",
+    "id": "evd_e3e1f39f5ba63e32",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:21d1fbed48e28c7a45138a01ea81d7888c327ef77e45a26d286979d713ef699e",
+    "quote_digest": "sha256:f0f83ecba3f09d05d67ceb1568ff638c213ec0d7910ef171026c4b311434b5d7",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:21d1fbed48e28c7a45138a01ea81d7888c327ef77e45a26d286979d713ef699e",
-        "section_id": "sec_78cbb0bd2b893dd4"
+        "section_digest": "sha256:f0f83ecba3f09d05d67ceb1568ff638c213ec0d7910ef171026c4b311434b5d7",
+        "section_id": "sec_8f23e2895b774fec"
       },
-      "quote": "﻿SCHEDULE K-1 (Form 1120-S)                                                                                  2021\nDepartment of the Treasury • Internal Revenue Service                          OMB No. 1545-0123\n\nShareholder’s Share of Income, Deductions, Credits, etc.                       For calendar year 2021\n\n────────────────────────────────────────────────────────────────────────────────────\nPart I ─ Information About the Corporation\n────────────────────────────────────────────────────────────────────────────────────\nA  Corporation’s employer identification number                       12-3456789\nB  Corporation’s name, address, city, state, and ZIP code\n       Summit Filing Solutions, Inc.\n       8280 Willow Oaks Corporate Dr\n       Los Angeles, CA  90001\nC  IRS center where corporation filed return                               Ogden, UT\n\n────────────────────────────────────────────────────────────────────────────────────\nPart II ─ Information About the Shareholder\n────────────────────────────────────────────────────────────────────────────────────\nD  Shareholder’s identifying number                                    111-11-1111\nE  Shareholder’s name, address, city, state, and ZIP code\n       Laura Kensington\n       4428 Willow Bend Ct.\n       Olympia, WA  98502\nF  Shareholder’s percentage of stock ownership\n       Beginning of tax year   26%                 End of tax year   26%\n\n────────────────────────────────────────────────────────────────────────────────────\nPart III ─ Shareholder’s Share of Current Year Income, Deductions, Credits, etc.\n────────────────────────────────────────────────────────────────────────────────────\n1  Ordinary business income (loss)                                   $44,876\n2  Net rental real estate income (loss)                                    0\n3  Other net rental income (loss)                                          0\n4  Interest income                                                     $112\n5a Ordinary dividends                                                      0\n5b Qualified dividends                                                     0\n6  Royalties                                                               0\n7  Net short-term capital gain (loss)                                      0\n8a Net long-term capital gain (loss)                                   $598\n8b Collectibles (28%) gain (loss)                                          0\n8c Unrecaptured section 1250 gain                                          0\n9  Net section 1231 gain (loss)                                            0\n10 Other income (loss)                                                     0\n\n11 Section 179 deduction                                                   0\n12 Other deductions                                                        0\n13 Credits                                                                 0\n14 Foreign transactions                                                    0\n15 Charitable contributions                                               0\n16 Items affecting shareholder basis\n   a  Tax-exempt interest income                                           0\n   b  Other tax-exempt income                                              0\n   c  Nondeductible expenses                                               0\n   d  Distributions – cash and marketable securities                       0\n   e  Repayment of loans from shareholders                                0\n17 Other information                                                       0\n\n────────────────────────────────────────────────────────────────────────────────────\nStock and Debt Basis Limitations (for shareholder records)\n────────────────────────────────────────────────────────────────────────────────────\n   + Increase for income items (Lines 1 + 4 + 8a)                    $45,586\n   – Distributions and other reductions                                  0\n   = Net increase to stock basis this year                           $45,586\n\n   Type of income: Active Business Income\n   Foreign country or U.S. possession: N/A\n\n────────────────────────────────────────────────────────────────────────────────────\nPrepared by: Corporate Officer, Summit Filing Solutions, Inc.\nDate prepared: March 10, 2022\n\nThis is an exact substitute Schedule K-1 that matches the official K-1 filed with IRS Form 1120-S on March 15, 2022.\nRetain this copy with your permanent tax records.\n",
-      "quote_digest": "sha256:21d1fbed48e28c7a45138a01ea81d7888c327ef77e45a26d286979d713ef699e",
+      "quote": "I. KEY FINDINGS\n1. Nonresident Alien Shareholder — HIGH RISK\nThe Historical Shareholder Schedule reflects that on June 1, 2022, shareholder Gregory A. Beaumont transferred 100,000 shares to Carrie Canuck, a Canadian resident. A nonresident alien is an ineligible S‑Corporation shareholder. This event caused an automatic termination of S‑Corporation status as of the transfer date.\n2. Pro Rata Distribution Compliance — HIGH RISK\nHistoric distributions do not conform to required ownership percentages, producing recurring disproportionate distributions. The IRS may treat repeated deviations as evidence of a prohibited second class of stock.\n3. Debt‑Equity Characterization and Shareholder Loans — HIGH RISK (Documentation Missing)\nNo shareholder loan agreements, repayment schedules, general ledger entries, or basis tracking schedules were provided. Given the instruction to treat missing documents as high risk, this category is classified accordingly. The absence of documentation significantly increases the likelihood of IRS recharacterization of advances as equity, which may create a second class of stock.\n\n4. K‑1 Accuracy and Records — MODERATE RISK\nSeveral K‑1s lack ownership percentages, and 2024 K‑1s list individuals who do not appear in the stock ledger. These inconsistencies suggest governance gaps that increase audit exposure.\n5. Governance and Corporate Formalities — MODERATE RISK\nMultiple versions of the historical shareholder schedule (Rev A/B/C) reflect inconsistent treatment of 2022–2023 transfers. Inconsistent ledgers weaken Summit’s ability to substantiate S‑status compliance.\n6. Tax Return Consistency (1120‑S) — LOW RISK\nForms 1120‑S appear internally consistent with the operating history. No accumulated earnings and profits or built‑in gains issues were identified.\n\n",
+      "quote_digest": "sha256:f0f83ecba3f09d05d67ceb1568ff638c213ec0d7910ef171026c4b311434b5d7",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
-        "query": "\"Summit\" formation date \"Summit\" first tax return \"Summit\" tax year 2019 \"Summit\" S corporation return",
+        "query": "\"Summit\" articles bylaws stock ledger \"Summit\" shareholder agreement tax return \"Summit\" IRS correspondence \"Summit\" capitalization records",
         "version": "1"
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
       "source": {
-        "content_digest": "sha256:c7922ddf7a68712604b97130f42a3cabfc6e786eca4b12e96cc3ce9d59cb82cc",
+        "content_digest": "sha256:e7eb786dc671298aa9426792d523f0ec997bee3a570763a8b10f13a1644fc105",
         "media_type": "text/plain",
-        "uri": "private://apex/c7922ddf7a687126-399ed980"
+        "uri": "private://apex/e7eb786dc671298a-1d2051f2"
       }
     },
-    "retrieval_receipt_digest": "sha256:9d17734046c2b9322b8dc2b692f6226aaa3f65e4032a3734f6c58b0522c7b81f",
-    "source_content_digest": "sha256:c7922ddf7a68712604b97130f42a3cabfc6e786eca4b12e96cc3ce9d59cb82cc",
-    "source_digest": "sha256:72fcb7c0b100ae4d9e332fcb2b244b7c4bb075d65e161d4b3e9f555244b6a151",
-    "source_ref": "src_dec93f22d1ef0f66"
+    "retrieval_receipt_digest": "sha256:ef4ca49a9d4923fa1ade16b6de4ceea960b8fdf0baa9282aca0102c1d502cf44",
+    "source_content_digest": "sha256:e7eb786dc671298aa9426792d523f0ec997bee3a570763a8b10f13a1644fc105",
+    "source_digest": "sha256:bbebf48c1f9dee4d30677c0c93c00e3eb349758e8e8a6eac5acafa2f8650d491",
+    "source_ref": "src_e9b083e75ca5f18f"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_dec93f22d1ef0f66",
-  "subject_ref": "evd_1eee2c7a3406f0b4",
+  "source_ref": "src_e9b083e75ca5f18f",
+  "subject_ref": "evd_e3e1f39f5ba63e32",
   "type": "evidence_bound"
 }
