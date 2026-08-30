@@ -40,6 +40,7 @@ EXECUTOR_ROUTES = {
     "muse": ("meta/muse-spark-1.2", "meta", "cross-model-sensitivity", "medium", 8000),
     "glm": ("zai/glm-5.3-flash", "baseten", "cross-model-sensitivity", "high", 8000),
     "ling": ("inclusionai/ling-3.0-flash-fin", "novita", "cross-model-sensitivity", "high", 8000),
+    "sol": ("openai/gpt-5.6-sol", "openai", "frontier-sensitivity", "high", 8000),
 }
 GRADER = ("google/gemini-3.1-pro-preview", "google")
 CONDITIONS = ("pr36-v7-prefetched-context", "full-catalog-bm25-prefetch",

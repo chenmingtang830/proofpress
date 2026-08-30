@@ -19,7 +19,7 @@ MODELS = {
     "qwen": ("alibaba/qwen3.8-27b", "alibaba", "high"),
     "muse": ("meta/muse-spark-1.2", "meta", "medium"),
     "glm": ("zai/glm-5.3-flash", "baseten", "high"),
-    "sol": ("openai/gpt-5.6-sol", "openai", "low"),
+    "sol": ("openai/gpt-5.6-sol", "openai", "high"),
     "gemini": ("google/gemini-3.1-pro-preview", "vertex", "low"),
 }
 OUTPUT_SCHEMA = {

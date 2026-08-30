@@ -41,12 +41,14 @@ v9_diagnostic = load("v9_diagnostic", ADAPTER / "run_v9_gate_diagnostic_private.
 class RetrievalPanelContractTests(unittest.TestCase):
     def test_formal_executor_matrix_uses_reasoning_routes(self):
         routes = workflow_runner.EXECUTOR_ROUTES
-        self.assertEqual(set(routes), {"deepseek", "muse", "glm", "ling"})
+        self.assertEqual(set(routes), {"deepseek", "muse", "glm", "ling", "sol"})
         self.assertEqual(routes["deepseek"][3], "high")
         self.assertNotIn("none", {route[3] for route in routes.values()})
         self.assertEqual(routes["muse"][:2], ("meta/muse-spark-1.2", "meta"))
         self.assertEqual(routes["glm"][:2], ("zai/glm-5.3-flash", "baseten"))
         self.assertEqual(routes["ling"][:2], ("inclusionai/ling-3.0-flash-fin", "novita"))
+        self.assertEqual(routes["sol"][:2], ("openai/gpt-5.6-sol", "openai"))
+        self.assertEqual(routes["sol"][3], "high")
 
     def test_agentic_disclosure_matrix_and_tool_schema_are_frozen(self):
         self.assertEqual(workflow_runner.AGENTIC_CONDITIONS, (
