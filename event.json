@@ -1,21 +1,21 @@
 {
-  "created_at": "2026-08-30T19:17:04.555295Z",
-  "event_id": "ppe_b43ace894af0dc78",
+  "created_at": "2026-08-30T19:17:04.753788Z",
+  "event_id": "ppe_01a2e4026ee64ec8",
   "evidence": {
-    "digest": "sha256:7d7d9799e6a7ea4975c44a397fd983f49189eaf7bf0b04d500e6e62b3f39af36",
-    "id": "evd_5166cf63fefec351",
+    "digest": "sha256:76551a6ba281d49dee6c6eebb81c55f0773bd5c79f399376dd5151049e908fa8",
+    "id": "evd_1ea0d526efef4fa3",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:d91d681a44ebd3fd51e6425babc7ab288dcd31212f630a233dd9106aa0540b9e",
+    "quote_digest": "sha256:1949b445e03bdb4343970706a96786a23b9e98331a692394eb482b6341ee1587",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:d91d681a44ebd3fd51e6425babc7ab288dcd31212f630a233dd9106aa0540b9e",
-        "section_id": "sec_d80e77e606855821"
+        "section_digest": "sha256:1949b445e03bdb4343970706a96786a23b9e98331a692394eb482b6341ee1587",
+        "section_id": "sec_745f2f7128432eea"
       },
-      "quote": "﻿\nTerm Sheet Template – Example\n\nIssuer:  [Name] (the “Corporation”)\nNature of the Offering: [Brokered or non-brokered] [private placement] (the “Offering”) of [Common Shares].\nType of Security: [Common Shares]\nOffering Size: [Up to $50 million]\nIssue Price: $[10.00] per [Share] (the “Issue Price”).\nCommission: [6.0]%\nCapitalization: Approximately $[60,000,000].  Set forth as “Exhibit [A]”.\nDividends: [Describe the dividend policy.]\nPreferential Liquidation Rights: [Describe any liquidation preferences.]\nDefinition of Liquidation Event: [Include definition from legal counsel.]\nConversion Rights: [Describe, if applicable.]\nAnti-Dilution: [For example: The Shares shall have certain customary anti-dilution protection for any share issuances at prices less than the Issue Price based on a weighted average formula, and subject to standard exceptions.]\nVoting Rights: [Describe the voting rights.]\nUse of Proceeds: [The proceeds from the Offering shall be primarily used for general corporate and working capital purposes.]\nClosing Conditions: [Closing of the Offering shall be conditional upon the completion of satisfactory due diligence, the execution of requisite definitive agreements for completion of the Offering, receipt of all requisite corporate approvals and third party consents for the Offering. Etc.]\nAgent: [Generic Capital Corp.]\nClosing Date: [Date]\n\n",
-      "quote_digest": "sha256:d91d681a44ebd3fd51e6425babc7ab288dcd31212f630a233dd9106aa0540b9e",
+      "quote": "STOCK PURCHASE LETTER OF INTENT\n",
+      "quote_digest": "sha256:1949b445e03bdb4343970706a96786a23b9e98331a692394eb482b6341ee1587",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
@@ -24,18 +24,18 @@
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
       "source": {
-        "content_digest": "sha256:2a877ff54da2baed8259859aea1290b9ebe4c8997e7861331792267fb036b8b2",
+        "content_digest": "sha256:dfb4a6fb5185685768f588160e39690b944d8cbfad8e0b36a92b49be895f80d9",
         "media_type": "text/plain",
-        "uri": "private://apex/2a877ff54da2baed-87274474"
+        "uri": "private://apex/dfb4a6fb51856857-3ebb9312"
       }
     },
-    "retrieval_receipt_digest": "sha256:dfe8d79884a1e4b234bca2f12672413e98a750d256bb2f06bca56441e9edd0e3",
-    "source_content_digest": "sha256:2a877ff54da2baed8259859aea1290b9ebe4c8997e7861331792267fb036b8b2",
-    "source_digest": "sha256:b1d9df7a4a7a5bec83799409a15663fd39d88031a7584d4ac3a04466f2135971",
-    "source_ref": "src_68ed276df0470674"
+    "retrieval_receipt_digest": "sha256:1d51fef281a0c5cc0dba40c3aced3b1d8a216c192e174ba763b3feb81745ec92",
+    "source_content_digest": "sha256:dfb4a6fb5185685768f588160e39690b944d8cbfad8e0b36a92b49be895f80d9",
+    "source_digest": "sha256:af353dc2ff025f1b5856614e044526af70dd8dd57771cc7162880a69ff71fe65",
+    "source_ref": "src_fe48f3c72ed75d5f"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_68ed276df0470674",
-  "subject_ref": "evd_5166cf63fefec351",
+  "source_ref": "src_fe48f3c72ed75d5f",
+  "subject_ref": "evd_1ea0d526efef4fa3",
   "type": "evidence_bound"
 }
