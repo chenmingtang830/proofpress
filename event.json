@@ -1,41 +1,41 @@
 {
-  "created_at": "2026-08-30T19:16:19.606486Z",
-  "event_id": "ppe_76b65c8e32df1959",
+  "created_at": "2026-08-30T19:16:19.740217Z",
+  "event_id": "ppe_825367cb0a0a8ec9",
   "evidence": {
-    "digest": "sha256:6c19a9b09fe641bb5f271fc06a70ab3081f36fd3cbd998c0fee2de38e773d151",
-    "id": "evd_145148011b042ee8",
+    "digest": "sha256:64331c56707a3c86639cb9299fe78b4b2de10f63431835c9f5d068002a08e52e",
+    "id": "evd_c801f7cb4f72267b",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:1fc71ee00df4a978284a4c10ca63b0c6bb9d53edc62437dd1cbb595ad36662a0",
+    "quote_digest": "sha256:fc7658c924a654c6538faef1bc4a3c8a523d770d4623f8df987fc4376871c78a",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:1fc71ee00df4a978284a4c10ca63b0c6bb9d53edc62437dd1cbb595ad36662a0",
-        "section_id": "sec_ab3b6d5ffb1d13ff"
+        "section_digest": "sha256:fc7658c924a654c6538faef1bc4a3c8a523d770d4623f8df987fc4376871c78a",
+        "section_id": "sec_2b4d0cb001e8f47f"
       },
-      "quote": "SECTION 6. RELIEF FOR LATE ESBT AND QSST ELECTIONS.\n.01 ESBT or QSST Election. The trustee of an ESBT or the current income beneficiary of a QSST must sign and file the appropriate Election Form. The completed Election Form must include the following statements (each of which must comply with the requirement in Section 4.03(3) of this revenue procedure):\n(1) A statement from the trustee of the ESBT or the current income beneficiary of the QSST that includes the information required by § 1.1361-1(m)(2)(ii) (in the case of ESBT elections) or § 1.1361-1(j)(6)(ii) (in the case of QSST elections);\n(2) In the case of a QSST, a statement from the trustee that the trust satisfies the QSST requirements of § 1361(d)(3) and that the income distribution requirements have been and will continue to be met;\n(3) In the case of an ESBT, a statement from the trustee that all potential current beneficiaries meet the shareholder requirements of § 1361(b)(1) and that the trust satisfies the requirements of an ESBT under § 1361(e)(1) other than the requirement to make an ESBT election; and\n(4) Statements from all shareholders during the period between the date the S corporation election was to have become effective or was terminated and the date the completed Election Form is filed that they have reported their income on all affected returns consistent with the S corporation election for the year the election should have been made and for all subsequent years.\n",
-      "quote_digest": "sha256:1fc71ee00df4a978284a4c10ca63b0c6bb9d53edc62437dd1cbb595ad36662a0",
+      "quote": "﻿BYLAWS\nof\n Summit Filing Solutions, Inc.\n (A Delaware Corporation)\n Adopted January 10, 2018\n\n",
+      "quote_digest": "sha256:fc7658c924a654c6538faef1bc4a3c8a523d770d4623f8df987fc4376871c78a",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
-        "query": "\"Form 2553\" required attachments 2019 \"Form 2553\" late election statement \"Summit\" Form 2553 attachment \"Summit\" reasonable cause statement",
+        "query": "\"Summit\" entity type corporation LLC \"S corporation\" eligible shareholders 2019 \"S corporation\" prohibited shareholders trusts nonresident aliens \"Summit\" shareholder citizenship trust estate",
         "version": "1"
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
       "source": {
-        "content_digest": "sha256:489de4a5c467eb0382ef4f29920dc6433adc3a3336da5057aec7f37cd0208560",
+        "content_digest": "sha256:1cb8fe86d8075d2b126f99858b67aa3a45ced38879cf7b3859b78e577483572b",
         "media_type": "text/plain",
-        "uri": "private://apex/489de4a5c467eb03-1184b3a1"
+        "uri": "private://apex/1cb8fe86d8075d2b-0c1ae063"
       }
     },
-    "retrieval_receipt_digest": "sha256:d79cd23f03c5c6462f254990b75daa6b301c2958f4cffecf466869786c312b0d",
-    "source_content_digest": "sha256:489de4a5c467eb0382ef4f29920dc6433adc3a3336da5057aec7f37cd0208560",
-    "source_digest": "sha256:0e30a41e1d31405a037edcc4e56b65c5107236c02092ff6fca6351e692a30a27",
-    "source_ref": "src_449cd1a48a2b6b92"
+    "retrieval_receipt_digest": "sha256:8e749620fe26372694c6f397bc12390c115fa5fe0df7e13b521cff527dd1601c",
+    "source_content_digest": "sha256:1cb8fe86d8075d2b126f99858b67aa3a45ced38879cf7b3859b78e577483572b",
+    "source_digest": "sha256:dce34be7d3faee591fc3639cc0fc742ebc66a097c301c07eb716b0649e3998a1",
+    "source_ref": "src_3376baa521507aa6"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_449cd1a48a2b6b92",
-  "subject_ref": "evd_145148011b042ee8",
+  "source_ref": "src_3376baa521507aa6",
+  "subject_ref": "evd_c801f7cb4f72267b",
   "type": "evidence_bound"
 }
