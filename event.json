@@ -1,41 +1,15 @@
 {
-  "created_at": "2026-08-30T19:16:01.625910Z",
-  "event_id": "ppe_cff8eb54ea82cb3e",
-  "evidence": {
-    "digest": "sha256:10afef31d0f9777b715cf26ac5736c7ac99e8f51344cc7033e1ee0343a323015",
-    "id": "evd_aafeb86cbae15ad9",
-    "kind": "retrieval_evidence",
-    "quote_digest": "sha256:d652f02025e5dc963eb504fc0ce8c4ed71e067ba0ab731369f12dbbd45d63997",
-    "retrieval_receipt": {
-      "locator": {
-        "kind": "section_span",
-        "page_end": 1,
-        "page_start": 1,
-        "section_digest": "sha256:d652f02025e5dc963eb504fc0ce8c4ed71e067ba0ab731369f12dbbd45d63997",
-        "section_id": "sec_06381120fa88d445"
-      },
-      "quote": "EXECUTIVE SUMMARY\nSummit Filing Solutions, Inc. (“Summit”) elected S‑Corporation status effective January 1, 2019. Form 2553, Election by a Small Business Corporation, was filed on March 22, 2022, and the IRS issued a CP261 notice confirming approval of the S-Corporation election on the identified effective date. The state of formation is Delaware and will rely on DE law and federal law, where applicable. Based on the governing documents, historical shareholder schedules, tax filings, distribution data, and capitalization tables provided, Summit faces several material risks that may compromise or retroactively invalidate its S‑Corporation election.\nUnder the instruction to classify any category with missing documentation as HIGH RISK where applicable, three categories rise to the highest level of severity: (1) Nonresident Alien Shareholder, (2) Debt–Equity Characterization, and (3) Pro Rata Distribution Compliance.\n",
-      "quote_digest": "sha256:d652f02025e5dc963eb504fc0ce8c4ed71e067ba0ab731369f12dbbd45d63997",
-      "retrieval": {
-        "adapter": "bm25-page",
-        "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
-        "query": "Retrieve the June 20, 2022 deed, settlement statement, Form 1099-S, sale agreement, selling-cost detail, debt and prorations, asset-value allocation, and any installment-sale or Section 1031 documents.",
-        "version": "1"
-      },
-      "schema_version": "proofpress/retrieval-evidence/v1",
-      "source": {
-        "content_digest": "sha256:e7eb786dc671298aa9426792d523f0ec997bee3a570763a8b10f13a1644fc105",
-        "media_type": "text/plain",
-        "uri": "private://apex/e7eb786dc671298a-1d2051f2"
-      }
-    },
-    "retrieval_receipt_digest": "sha256:b4a6e638602c303beefe8dced655a997aec6dd3e5949d573b5a36f45f4365e03",
-    "source_content_digest": "sha256:e7eb786dc671298aa9426792d523f0ec997bee3a570763a8b10f13a1644fc105",
-    "source_digest": "sha256:bbebf48c1f9dee4d30677c0c93c00e3eb349758e8e8a6eac5acafa2f8650d491",
-    "source_ref": "src_e9b083e75ca5f18f"
+  "created_at": "2026-08-30T19:16:01.695712Z",
+  "event_id": "ppe_2ab06603de645d13",
+  "record": {
+    "content_digest": "sha256:eefe00aa7f596ea35c24946f8c3229b2a01105b75d104fb86bd913197b4f27e6",
+    "id": "src_5a52dda0f5545590",
+    "kind": "retrieval_source",
+    "media_type": "text/plain",
+    "record_hash": "sha256:a5102434f8b48da4532da4d9044bfa8b830da1a8e1b7fa093d6b4b224ca5253c",
+    "uri": "private://apex/eefe00aa7f596ea3-efb143da"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_e9b083e75ca5f18f",
-  "subject_ref": "evd_aafeb86cbae15ad9",
-  "type": "evidence_bound"
+  "subject_ref": "src_5a52dda0f5545590",
+  "type": "source_recorded"
 }
