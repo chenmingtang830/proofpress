@@ -1,41 +1,25 @@
 {
-  "created_at": "2026-08-30T19:16:03.127328Z",
-  "event_id": "ppe_2e84c98c28274bd7",
-  "evidence": {
-    "digest": "sha256:7c76c171035514696ba512e1b3ec569e0a1f88a05c4ccb60255e6070a1dee744",
-    "id": "evd_2ea584f4483dfedd",
-    "kind": "retrieval_evidence",
-    "quote_digest": "sha256:cbe8dbf391040e4cef9571d3348b4b151336ccf0972b214db72729ae0eaa05ba",
-    "retrieval_receipt": {
-      "locator": {
-        "kind": "section_span",
-        "page_end": 1,
-        "page_start": 1,
-        "section_digest": "sha256:cbe8dbf391040e4cef9571d3348b4b151336ccf0972b214db72729ae0eaa05ba",
-        "section_id": "sec_e216c875b11705da"
-      },
-      "quote": "﻿Form 1120-S \nDepartment of the Treasury  Internal Revenue Service  \nU.S. Income Tax Return for an S Corporation  \nDo not file this form unless the corporation has filed or  \nis attaching Form 2553 to elect to be an S corporation.  \nGo to www.irs.gov/Form1120S for instructions and the latest information. \nOMB No. 1545-0123  2024 \nFor calendar year 2024 or tax year beginning , 2024, ending , 20  \nA S election effective date  \nB Business activity code  number (see instructions)  \nC Check if Sch. M-3 attached \n",
-      "quote_digest": "sha256:cbe8dbf391040e4cef9571d3348b4b151336ccf0972b214db72729ae0eaa05ba",
-      "retrieval": {
-        "adapter": "bm25-page",
-        "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
-        "query": "Retrieve authoritative rules for an S-termination year and allocation between S and C short years, including IRC §§1362(d), 1362(e), and 1377.",
-        "version": "1"
-      },
-      "schema_version": "proofpress/retrieval-evidence/v1",
-      "source": {
-        "content_digest": "sha256:c93c2b228433659eb56b66bfaee1dc3de9ed754d39aa736b60372b74813f3481",
-        "media_type": "text/plain",
-        "uri": "private://apex/c93c2b228433659e-f96ee06e"
-      }
-    },
-    "retrieval_receipt_digest": "sha256:f59ce119fac804bdf3053dbb405a9c13a4d0d3ec12da6c5230e206c1839c51ce",
-    "source_content_digest": "sha256:c93c2b228433659eb56b66bfaee1dc3de9ed754d39aa736b60372b74813f3481",
-    "source_digest": "sha256:0a36a5ff5eb33d41016d52986e5f40fb7355d329af2f4a939222e040274ce016",
-    "source_ref": "src_1769935b4d6bb417"
+  "conclusion": {
+    "allowed_actors": [
+      "*"
+    ],
+    "artifact_refs": [],
+    "created_at": "2026-08-30T19:16:03.191854Z",
+    "digest": "sha256:53c8861718d23525b9e915dc854a8d115b814e7f0bb81e6be99301bc6ce788fb",
+    "evidence_refs": [
+      "evd_65663ee8f1000a17"
+    ],
+    "expires_at": null,
+    "id": "knw_85a42dd916ff2ac9",
+    "kind": "conclusion",
+    "proposer": "agent:v8-constructor",
+    "qualifiers": {},
+    "scope": "task_b78c4510be784e6a8b8f0394aafd785d",
+    "statement": "The cited 2022 Schedule K-1 does not supply Laura Kensington’s federal filing status or define the stated $220,000 taxable-income figure."
   },
+  "created_at": "2026-08-30T19:16:03.219823Z",
+  "event_id": "ppe_7498f64c45b77c3c",
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_1769935b4d6bb417",
-  "subject_ref": "evd_2ea584f4483dfedd",
-  "type": "evidence_bound"
+  "subject_ref": "knw_85a42dd916ff2ac9",
+  "type": "conclusion_proposed"
 }
