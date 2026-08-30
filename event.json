@@ -1,41 +1,41 @@
 {
-  "created_at": "2026-08-30T19:16:59.258924Z",
-  "event_id": "ppe_dbee5b131057abd3",
+  "created_at": "2026-08-30T19:16:59.440086Z",
+  "event_id": "ppe_5cbca158b01dd1fc",
   "evidence": {
-    "digest": "sha256:4a29d6a99cee38138ed9b64f82517c8dda63188589b18da02f0691d27ec61c94",
-    "id": "evd_4acc01a7e91274da",
+    "digest": "sha256:6e8a511f515b306383bb5eab93a1a2e790ff1863c9f67c23598db56efa62837f",
+    "id": "evd_eebe327971b1108d",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:9bcbeea930a5623bfa5f123324c527e26f63ad172788651197f19039f47a0df3",
+    "quote_digest": "sha256:9cc4eccb50623883bf18fa0efb3f522e5ba92b98a19b5604306465d4df3dacba",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:9bcbeea930a5623bfa5f123324c527e26f63ad172788651197f19039f47a0df3",
-        "section_id": "sec_2587a264848de94d"
+        "section_digest": "sha256:9cc4eccb50623883bf18fa0efb3f522e5ba92b98a19b5604306465d4df3dacba",
+        "section_id": "sec_ead07852b0cf02c9"
       },
-      "quote": "﻿Amended and Restated Shareholder Agreement\nEffective Date: January 1, 2019\nRecitals\nWHEREAS, Summit Filing Solutions, Inc. (the “Company”) was incorporated in the State of Delaware on January 10, 2018;\nWHEREAS, the Company elected to be treated as an S-Corporation under Subchapter S of the Internal Revenue Code, effective January 1, 2019;\nWHEREAS, the shareholders desire to amend and restate the Shareholder Agreement with additional covenants and protections;\nArticle II – Subchapter S Election Matters\n2.1 Maintenance of S‑Corporation Status. Shareholders shall take all actions necessary to maintain the Company's S‑Corporation status.\n2.2 Tax Year. The tax year of the Company shall begin on January 1 of each year.\n2.3 Pro Rata Distributions. All distributions shall be made strictly pro rata in accordance with share ownership to comply with the single‑class‑of‑stock rule, subject to such additional amounts which the shareholders may elect to distribute, by 2/3 majority vote, to Michael T. Hartwell, to compensate him for his efforts to develop the Company’s business in the Southeast United States.\n2.4 Tax Distributions. The Company shall make quarterly tax distributions reflecting the highest blended marginal rate applicable to S‑Corp shareholders.\n2.5 Mandatory Ordering. Distributions shall be applied (a) first to tax obligations, (b) second to shareholder loan repayments, (c) third to discretionary distributions.\nArticle III – Additional Covenants\n3.1 Confidentiality. Shareholders shall maintain strict confidentiality regarding all Company information.\n3.2 Non‑Competition. Except with Board consent, Shareholders shall not engage in any business that directly competes with the Company.\n3.3 Non‑Solicitation. Shareholders shall not solicit the Company’s employees, contractors, or customers for two (2) years following any transfer of shares.\nArticle IV – Transfer Restrictions; Drag‑Along and Tag‑Along Rights\n4.1 No Transfers to Ineligible Shareholders. No Shareholder may transfer shares to an individual or entity that would terminate S‑Corporation status.\n4.2 Right of First Refusal. Before transferring any shares, the transferring Shareholder must first offer them to the Company and then to other Shareholders.\n4.3 Tag‑Along Rights. If Shareholders holding at least 51% of the outstanding shares receive a bona fide offer from a third‑party purchaser, all minority Shareholders shall have the right to participate on the same terms and conditions.\n4.4 Drag‑Along Rights. If Shareholders holding at least 75% of the outstanding shares approve a sale of the Company, all remaining Shareholders must consent and sell their shares on identical terms.\nArticle V – Board Governance and Procedures\n5.1 Board Composition. The Board shall consist of three (3) directors unless amended by unanimous Shareholder consent.\n5.2 Meetings. Regular meetings shall occur quarterly. Special meetings may be called by any director upon five (5) business days’ notice.\n5.3 Voting. Board actions require a majority vote unless this Agreement specifies otherwise. Tax distributions and amendments to distribution methodology require unanimous Board approval.\n5.4 Minutes. Written minutes shall be maintained and approved at the subsequent meeting.\nArticle VI – Dispute Resolution\n6.1 Good Faith Negotiations. In the event of a dispute, the parties shall first attempt good‑faith negotiations for at least 30 days.\n6.2 Mediation. If negotiations fail, the parties shall participate in confidential mediation administered by the American Arbitration Association (“AAA”).\n6.3 Binding Arbitration. If mediation fails, disputes shall be resolved through binding arbitration under AAA Commercial Rules. Arbitration shall occur in the county of the Company’s principal place of business.\nSchedule A – Initial Shareholders\nShareholder Name\tAddress\tShares Owned\tOwnership %\nLaura Kensington\t912 Redwood Crest Ln, Bend, OR 97701\t130,000\t26%\nMichael T. Hartwell\t3285 Sycamore Ridge Rd, Franklin, TN 37064\t110,000\t22%\nDanielle R. Soto\t1448 Harbor Point Dr, Richmond, VA 23233\t100,000\t20%\nGregory A. Beaumont\t502 Lake Orchard Way, Madison, WI 53711\t100,000\t20%\nTanya L. Merriweather\t722 Brookview Park Cir, Marietta, GA 30060\t60,000\t12%\nSignatures\nLaura Kensington\n\n______________________________\nSignature\n\n\nMichael T. Hartwell\n\n______________________________\nSignature\n\n\nDanielle R. Soto\n\n______________________________\nSignature\n\n\nGregory A. Beaumont\n\n______________________________\nSignature\n\n\nTanya L. Merriweather\n\n______________________________\nSignature\n\n\n",
-      "quote_digest": "sha256:9bcbeea930a5623bfa5f123324c527e26f63ad172788651197f19039f47a0df3",
+      "quote": "III. RECOMMENDED CORRECTIVE ACTIONS\n1. File a §1362(f) inadvertent termination relief request to address the 2022 transfer to an ineligible shareholder.\n2. Prepare and adopt a multi‑year distribution true‑up to restore pro rata compliance.\n3. Reissue corrected K‑1s for all years lacking complete ownership data.\n4. Reconstruct the stock ledger and consolidate all versions into a single authoritative record.\n5. Produce (or confirm absence of) all shareholder loan documentation. If none exist, obtain written certifications.\n6. Strengthen compliance and governance controls, including resolutions affirming S‑status compliance requirements.\n\n",
+      "quote_digest": "sha256:9cc4eccb50623883bf18fa0efb3f522e5ba92b98a19b5604306465d4df3dacba",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
-        "query": "distribution shareholder distribution dividend distributions paid",
+        "query": "property distribution noncash distribution personal expenses shareholder shareholder loan",
         "version": "1"
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
       "source": {
-        "content_digest": "sha256:df3594d8240459869270e64a3db44198c0546cd81bd351574589b63072bbde2e",
+        "content_digest": "sha256:e7eb786dc671298aa9426792d523f0ec997bee3a570763a8b10f13a1644fc105",
         "media_type": "text/plain",
-        "uri": "private://apex/df3594d824045986-dd257bd3"
+        "uri": "private://apex/e7eb786dc671298a-1d2051f2"
       }
     },
-    "retrieval_receipt_digest": "sha256:8964bf87fe4869e25249717ef93020eeabaff82bc910f8d8ffed45377cd440bc",
-    "source_content_digest": "sha256:df3594d8240459869270e64a3db44198c0546cd81bd351574589b63072bbde2e",
-    "source_digest": "sha256:4d3875bdd77af5d4348ab436054afe762ee9f7b13af908e188022ce27d09e940",
-    "source_ref": "src_fa034096f9a8319b"
+    "retrieval_receipt_digest": "sha256:694afd1896a351e22c556bdd46dce3e48b14915f91b602f17bce1298c481e8d5",
+    "source_content_digest": "sha256:e7eb786dc671298aa9426792d523f0ec997bee3a570763a8b10f13a1644fc105",
+    "source_digest": "sha256:bbebf48c1f9dee4d30677c0c93c00e3eb349758e8e8a6eac5acafa2f8650d491",
+    "source_ref": "src_e9b083e75ca5f18f"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_fa034096f9a8319b",
-  "subject_ref": "evd_4acc01a7e91274da",
+  "source_ref": "src_e9b083e75ca5f18f",
+  "subject_ref": "evd_eebe327971b1108d",
   "type": "evidence_bound"
 }
