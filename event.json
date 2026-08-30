@@ -1,41 +1,41 @@
 {
-  "created_at": "2026-08-30T19:16:39.283766Z",
-  "event_id": "ppe_bbbf738833918fa5",
+  "created_at": "2026-08-30T19:16:39.437639Z",
+  "event_id": "ppe_2e94d7685e37d461",
   "evidence": {
-    "digest": "sha256:cd8934f45ce511afbe79e7cf4b4ae5bde2689dd8c4b6ae3f93ec2288613018e7",
-    "id": "evd_9d5088f01e1898df",
+    "digest": "sha256:f594ac27bd93c72b719923dc391f0522b445340bca1237cb4a810e01f6839b2a",
+    "id": "evd_debc244a49170ffd",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:bd10d27b284a86985e7cda0a1d96f75c4a349c349b6bc40dae7b9344f9f9a14b",
+    "quote_digest": "sha256:d652f02025e5dc963eb504fc0ce8c4ed71e067ba0ab731369f12dbbd45d63997",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:bd10d27b284a86985e7cda0a1d96f75c4a349c349b6bc40dae7b9344f9f9a14b",
-        "section_id": "sec_a51affa7307907a9"
+        "section_digest": "sha256:d652f02025e5dc963eb504fc0ce8c4ed71e067ba0ab731369f12dbbd45d63997",
+        "section_id": "sec_06381120fa88d445"
       },
-      "quote": "        2.1 SHARES\nSubject to the terms and conditions of this Agreement, and in reliance upon the representations, warranties, and covenants contained in this Agreement, at the Closing, Buyer shall purchase the Shares from Sellers, and Sellers shall sell and transfer the Shares to Buyer, free and clear of any Encumbrance.\n",
-      "quote_digest": "sha256:bd10d27b284a86985e7cda0a1d96f75c4a349c349b6bc40dae7b9344f9f9a14b",
+      "quote": "EXECUTIVE SUMMARY\nSummit Filing Solutions, Inc. (“Summit”) elected S‑Corporation status effective January 1, 2019. Form 2553, Election by a Small Business Corporation, was filed on March 22, 2022, and the IRS issued a CP261 notice confirming approval of the S-Corporation election on the identified effective date. The state of formation is Delaware and will rely on DE law and federal law, where applicable. Based on the governing documents, historical shareholder schedules, tax filings, distribution data, and capitalization tables provided, Summit faces several material risks that may compromise or retroactively invalidate its S‑Corporation election.\nUnder the instruction to classify any category with missing documentation as HIGH RISK where applicable, three categories rise to the highest level of severity: (1) Nonresident Alien Shareholder, (2) Debt–Equity Characterization, and (3) Pro Rata Distribution Compliance.\n",
+      "quote_digest": "sha256:d652f02025e5dc963eb504fc0ce8c4ed71e067ba0ab731369f12dbbd45d63997",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
-        "query": "Carrie Canuck transfer shares date Summit shares transferred to Carrie Canuck Carrie Canuck shareholder acquisition date Summit stock transfer agreement Carrie Canuck",
+        "query": "IRS denial relief Carrie Canuck ineligible shareholder Summit IRS ruling denial S corporation relief effective date IRS denial shareholder eligibility Summit S election termination denial",
         "version": "1"
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
       "source": {
-        "content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
+        "content_digest": "sha256:e7eb786dc671298aa9426792d523f0ec997bee3a570763a8b10f13a1644fc105",
         "media_type": "text/plain",
-        "uri": "private://apex/7beb28a6e0069669-d885dee3"
+        "uri": "private://apex/e7eb786dc671298a-1d2051f2"
       }
     },
-    "retrieval_receipt_digest": "sha256:6bfb4a0cf7ed75703150219b6966ac43985f3a654a711f6035ec410a3598577a",
-    "source_content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
-    "source_digest": "sha256:9b5e55c106d3b2c9d270455bb5af81e282a4e92f3ba0722f868b952faf8ff0b5",
-    "source_ref": "src_1cb20c6823882030"
+    "retrieval_receipt_digest": "sha256:5abab8cc493f7244a1659770ab49b5118baa5c874231aa84061e287289726218",
+    "source_content_digest": "sha256:e7eb786dc671298aa9426792d523f0ec997bee3a570763a8b10f13a1644fc105",
+    "source_digest": "sha256:bbebf48c1f9dee4d30677c0c93c00e3eb349758e8e8a6eac5acafa2f8650d491",
+    "source_ref": "src_e9b083e75ca5f18f"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_1cb20c6823882030",
-  "subject_ref": "evd_9d5088f01e1898df",
+  "source_ref": "src_e9b083e75ca5f18f",
+  "subject_ref": "evd_debc244a49170ffd",
   "type": "evidence_bound"
 }
