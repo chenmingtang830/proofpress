@@ -1,41 +1,41 @@
 {
-  "created_at": "2026-08-30T19:17:08.612328Z",
-  "event_id": "ppe_a796fd93149fd702",
+  "created_at": "2026-08-30T19:17:08.802512Z",
+  "event_id": "ppe_ec7cb7245e152b37",
   "evidence": {
-    "digest": "sha256:0d841bfa3ea3a10dcfdcd70cf000d0683ee2dc1cab565561ab725acdf834ee13",
-    "id": "evd_bd1b508c6ecadde3",
+    "digest": "sha256:55120eafd879e8bc30e95a1086d1e7399f8c6a1f7d0e883491e73e4bf7b5fbcc",
+    "id": "evd_e8a1ff96d6488600",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:481e70e0eb0998e55a59c364f5eb0f621c9877ec77113a6c03cadebdca04666d",
+    "quote_digest": "sha256:1b3037729995cda21e251c97ccdc168a1b9da57dea8105d913a13cca7ee7157f",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:481e70e0eb0998e55a59c364f5eb0f621c9877ec77113a6c03cadebdca04666d",
-        "section_id": "sec_6e0279669a3c5be8"
+        "section_digest": "sha256:1b3037729995cda21e251c97ccdc168a1b9da57dea8105d913a13cca7ee7157f",
+        "section_id": "sec_d4c0e0c42dfb71a2"
       },
-      "quote": "        3.5 BOOKS AND RECORDS\n    (a) The books of account and other Records of each Acquired Company, all of which have been made available to Buyer, are complete and correct, represent actual, bona fide transactions, and have been maintained in accordance with sound business practices and the requirements of Section 13(b)(2) of the Exchange Act (whether or not any Acquired Company is subject to that Section). The Acquired Companies have implemented and maintain a system of internal control over financial reporting (as defined in Rules 13a-15(f) and 15d-15(f) under the Exchange Act) sufficient to provide reasonable assurance regarding the reliability of financial reporting and the preparation of financial statements for external purposes in accordance with GAAP, including that (i) transactions are executed in accordance with management’s general or specific authorizations, (ii) transactions are recorded as necessary to permit preparation of financial statements in conformity with GAAP and to maintain asset accountability, (iii) access to assets is permitted only in accordance with management’s general or specific authorization, and (iv) the recorded accountability for assets is compared with the existing assets at reasonable intervals and appropriate action is taken with respect to any differences.\n    (b) The minute books of each Acquired Company contain complete and correct Records of all meetings held of, and actions taken by written consent of, the holders of voting securities, the board of\ndirectors or Persons exercising similar authority, and committees of the board of directors or such Persons of such Acquired Company, and no meeting of any such holders, board of directors, Persons, or committee has been held, and no other action has been taken, for which minutes or other evidence of action have not been prepared and are not contained in such minute books. Each Acquired Company has at all times maintained complete and correct Records of all issuances and transfers of its Equity Securities. At the Closing, all such minute books and Records will be in the possession of the Company and located at [specify location(s)].\n",
-      "quote_digest": "sha256:481e70e0eb0998e55a59c364f5eb0f621c9877ec77113a6c03cadebdca04666d",
+      "quote": "﻿SCHEDULE K-1 (Form 1120-S)                                                     2022\nDepartment of the Treasury • Internal Revenue Service                          OMB No. 1545-0123\n\nShareholder’s Share of Income, Deductions, Credits, etc.                       For calendar year 2022\n\n────────────────────────────────────────────────────────────────────────────────────\nPart I ─ Information About the Corporation\n────────────────────────────────────────────────────────────────────────────────────\nA  Corporation’s employer identification number                       12-3456789\nB  Corporation’s name, address, city, state, and ZIP code\n       Summit Filing Solutions, Inc.\n       8280 Willow Oaks Corporate Dr\n       Los Angeles, CA  90001\nC  IRS center where corporation filed return                               Ogden, UT\n\n────────────────────────────────────────────────────────────────────────────────────\nPart II ─ Information About the Shareholder\n────────────────────────────────────────────────────────────────────────────────────\nD  Shareholder’s identifying number                                    444-44-4444\nE  Shareholder’s name, address, city, state, and ZIP code\n       Sarah Chen\n       1188 Mission St., Apt 1805\n       San Francisco, CA  94103\nF  Shareholder’s percentage of stock ownership\n       Beginning of tax year   12%                 End of tax year   12%\n\n────────────────────────────────────────────────────────────────────────────────────\nPart III ─ Shareholder’s Share of Current Year Income, Deductions, Credits, etc.\n────────────────────────────────────────────────────────────────────────────────────\n1  Ordinary business income (loss)                                   $26,810\n2  Net rental real estate income (loss)                                    0\n3  Other net rental income (loss)                                          0\n4  Interest income                                                      $72\n5a Ordinary dividends                                                      0\n5b Qualified dividends                                                     0\n6  Royalties                                                               0\n7  Net short-term capital gain (loss)                                      0\n8a Net long-term capital gain (loss)                                  ($144)\n8b Collectibles (28%) gain (loss)                                          0\n8c Unrecaptured section 1250 gain                                          0\n9  Net section 1231 gain (loss)                                            0\n10 Other income (loss)                                                     0\n\n11 Section 179 deduction                                                   0\n12 Other deductions                                                        0\n13 Credits                                                                 0\n14 Foreign transactions                                                    0\n15 Charitable contributions                                               0\n16 Items affecting shareholder basis\n   a  Tax-exempt interest income                                           0\n   b  Other tax-exempt income                                              0\n   c  Nondeductible expenses                                               0\n   d  Distributions – cash and marketable securities                       0\n   e  Repayment of loans from shareholders                                0\n17 Other information                                                       0\n\n────────────────────────────────────────────────────────────────────────────────────\nStock and Debt Basis Limitations (for shareholder records)\n────────────────────────────────────────────────────────────────────────────────────\n   + Increase for income items (Lines 1 + 4)                         $26,882\n   – Decrease for loss items (Line 8a)                                  ($144)\n   = Net increase to stock basis this year                           $26,738\n\n   Type of income: Active Business Income\n   Foreign country or U.S. possession: N/A\n\n────────────────────────────────────────────────────────────────────────────────────\nPrepared by: Corporate Officer, Summit Filing Solutions, Inc.\nDate prepared: March 11, 2023\n\nThis is an exact substitute Schedule K-1 that matches the official K-1 filed with IRS Form 1120-S on March 15, 2023.\nRetain this copy with your permanent tax records.\n",
+      "quote_digest": "sha256:1b3037729995cda21e251c97ccdc168a1b9da57dea8105d913a13cca7ee7157f",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
-        "query": "bank statement distribution board minutes tax return discrepancy general ledger mismatch",
+        "query": "Internal Revenue Code distribution sections exact IRC citation 26 U.S.C. shareholder distribution 26 U.S.C. S corporation distribution",
         "version": "1"
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
       "source": {
-        "content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
+        "content_digest": "sha256:4629062ed7c4d4e68373655853477ea19fce90abbef5cad87c3ac843f18a1172",
         "media_type": "text/plain",
-        "uri": "private://apex/7beb28a6e0069669-d885dee3"
+        "uri": "private://apex/4629062ed7c4d4e6-8f5da7a2"
       }
     },
-    "retrieval_receipt_digest": "sha256:bbdd8e6a7d810d2b69964912517fd6870c5eea6c8f3c810cfe1cf22d80f787a7",
-    "source_content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
-    "source_digest": "sha256:9b5e55c106d3b2c9d270455bb5af81e282a4e92f3ba0722f868b952faf8ff0b5",
-    "source_ref": "src_1cb20c6823882030"
+    "retrieval_receipt_digest": "sha256:06e508da18aa7234f923a0a149dc5215ded141455e2a255d58bd6fb75ef9c39a",
+    "source_content_digest": "sha256:4629062ed7c4d4e68373655853477ea19fce90abbef5cad87c3ac843f18a1172",
+    "source_digest": "sha256:d9de0be82e97ad010128e6eb5729c693a5a9e40731440ae1194f294a7a78295c",
+    "source_ref": "src_a95a3b7b5c5d195d"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_1cb20c6823882030",
-  "subject_ref": "evd_bd1b508c6ecadde3",
+  "source_ref": "src_a95a3b7b5c5d195d",
+  "subject_ref": "evd_e8a1ff96d6488600",
   "type": "evidence_bound"
 }
