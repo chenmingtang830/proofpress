@@ -1,25 +1,25 @@
 {
-  "created_at": "2026-08-30T19:17:53.167535Z",
-  "event_id": "ppe_9e84aa12e6c04d74",
+  "created_at": "2026-08-30T19:17:53.412573Z",
+  "event_id": "ppe_a3b7e0bbff2eb73f",
   "evidence": {
-    "digest": "sha256:0d5816c2f882235599bdf6fde85f74f01249d5e332aaa7fff3ae4d6cf6d7228c",
-    "id": "evd_b96de3d8052ede61",
+    "digest": "sha256:eb83168eb18a02616f0f458ac3349829d626a91dedf3435a8cc09fdadfff4943",
+    "id": "evd_fdff9bcac3b5b903",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:cd9f78648f14e624bfaf6b022ecc1c6e002213a41d287e2dc04b193cf3ca3e39",
+    "quote_digest": "sha256:2a0ffa11d788659e43e2ba3716f5114baf5168510dd759cc965158e78400b2d2",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:cd9f78648f14e624bfaf6b022ecc1c6e002213a41d287e2dc04b193cf3ca3e39",
-        "section_id": "sec_0e7edbefd23a8795"
+        "section_digest": "sha256:2a0ffa11d788659e43e2ba3716f5114baf5168510dd759cc965158e78400b2d2",
+        "section_id": "sec_c541d8a890227b4c"
       },
-      "quote": "    4. REPRESENTATIONS AND WARRANTIES OF BUYER\t45\n        4.1 Organization and Good Standing\t45\n        4.2 Enforceability and Authority; No Conflict\t45\n        4.3 Investment Intent\t46\n        4.4 Certain Proceedings\t46\n        4.5 Brokers or Finders\t46\n",
-      "quote_digest": "sha256:cd9f78648f14e624bfaf6b022ecc1c6e002213a41d287e2dc04b193cf3ca3e39",
+      "quote": "        5.3 FILINGS AND NOTIFICATIONS; COOPERATION\nAs promptly as practicable after the date of this Agreement, and in any event within the applicable time period prescribed by Legal Requirements, each Seller shall, and shall cause each Acquired Company and each of their Related Persons to, make all filings and notifications required by Legal Requirements to be made by them in connection with the Contemplated Transactions (including all filings under the HSR Act). Each Seller shall, and shall cause each Acquired Company and each of their Related Persons to, cooperate with Buyer, its Related Persons, and their respective Representatives (a) with respect to all filings and notifications that Buyer or its Related Persons elect to make or shall be required by Legal Requirements to make in connection with the Contemplated Transactions, (b) in identifying and obtaining the Governmental Authorizations required by Buyer to own and operate each Acquired Company from and after the Closing Date, and (c) in obtaining all Consents identified in Exhibit 9.4 (including taking all actions requested by Buyer to cause early termination of any applicable waiting period under the HSR Act).\n",
+      "quote_digest": "sha256:2a0ffa11d788659e43e2ba3716f5114baf5168510dd759cc965158e78400b2d2",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
-        "query": "Retrieve current primary authorities: 26 U.S.C. §§1362(d)(1), (d)(3), (d)(4), and (f); Treas. Reg. §§1.1362-2 and 1.1362-4; and authorities defining passive investment income and rents under §§1362(d)(3) and 1375.",
+        "query": "Clarify whether the instruction to disregard all issues under §1361(b)(1) intentionally excludes the one-class-of-stock requirement in §1361(b)(1)(D), notwithstanding requirements R11–R13; absent clarification, omit those theories from the conclusion.",
         "version": "1"
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
@@ -29,13 +29,13 @@
         "uri": "private://apex/7beb28a6e0069669-d885dee3"
       }
     },
-    "retrieval_receipt_digest": "sha256:308ceff08a96ab79281f10e22b2a91d339030a994ca5335a3e24c5e1b5c0574d",
+    "retrieval_receipt_digest": "sha256:d2c8f6ebce1a1339d03eafebd59a2224575c48fe38a462ea09f16964b3cf1cc5",
     "source_content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
     "source_digest": "sha256:9b5e55c106d3b2c9d270455bb5af81e282a4e92f3ba0722f868b952faf8ff0b5",
     "source_ref": "src_1cb20c6823882030"
   },
   "schema_version": "proofpress/knowledge-event/v2",
   "source_ref": "src_1cb20c6823882030",
-  "subject_ref": "evd_b96de3d8052ede61",
+  "subject_ref": "evd_fdff9bcac3b5b903",
   "type": "evidence_bound"
 }
