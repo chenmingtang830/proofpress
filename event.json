@@ -1,21 +1,21 @@
 {
-  "created_at": "2026-08-30T19:16:58.714669Z",
-  "event_id": "ppe_7fcfe9e6d096ca88",
+  "created_at": "2026-08-30T19:16:58.897719Z",
+  "event_id": "ppe_1909ec4bb9b109a3",
   "evidence": {
-    "digest": "sha256:beb9d1cea5177f14d0bf0094e5184fadb0aeb18fd912fb055275b724f8cb60fb",
-    "id": "evd_4345a92b81650e62",
+    "digest": "sha256:b88f6c693f2e7eaf2288e5f4858863b5ff715fc6abb0de0a886dddb7b23ec44d",
+    "id": "evd_55e636d20203f360",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:62837b7412c08ff335bb17d4619218976fb270e2f4a78ee4d63450d30ecc11fb",
+    "quote_digest": "sha256:9bdd47b7bc2ae98e0f969d5e3c79d03e9a8ccefd581b737d53bf25e8bd8de817",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:62837b7412c08ff335bb17d4619218976fb270e2f4a78ee4d63450d30ecc11fb",
-        "section_id": "sec_447aed60fb58a823"
+        "section_digest": "sha256:9bdd47b7bc2ae98e0f969d5e3c79d03e9a8ccefd581b737d53bf25e8bd8de817",
+        "section_id": "sec_ba0c4883a3f751e1"
       },
-      "quote": "II. OVERALL RISK SUMMARY\nCategory                                          Assessment\n--------------------------------------------------------------\nNonresident Alien Shareholder                     HIGH\nPro Rata Distribution Compliance                  HIGH\nDebt–Equity Characterization (Missing Docs)       HIGH\nK‑1 Accuracy                                      Moderate\nGovernance                                        Moderate\n1120‑S Consistency                                Low\nE&P / BIG Exposure                                Low\n\n",
-      "quote_digest": "sha256:62837b7412c08ff335bb17d4619218976fb270e2f4a78ee4d63450d30ecc11fb",
+      "quote": "        4.3 INVESTMENT INTENT\nBuyer is acquiring the Shares for its own account and not with a view to their distribution within the meaning of Section 2(11) of the Securities Act.\n",
+      "quote_digest": "sha256:9bdd47b7bc2ae98e0f969d5e3c79d03e9a8ccefd581b737d53bf25e8bd8de817",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
@@ -24,18 +24,18 @@
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
       "source": {
-        "content_digest": "sha256:e7eb786dc671298aa9426792d523f0ec997bee3a570763a8b10f13a1644fc105",
+        "content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
         "media_type": "text/plain",
-        "uri": "private://apex/e7eb786dc671298a-1d2051f2"
+        "uri": "private://apex/7beb28a6e0069669-d885dee3"
       }
     },
-    "retrieval_receipt_digest": "sha256:a46dba5246a85a5fbad769fd14c1cf738157c38cd5a4ed3b22b67caa3f500c9d",
-    "source_content_digest": "sha256:e7eb786dc671298aa9426792d523f0ec997bee3a570763a8b10f13a1644fc105",
-    "source_digest": "sha256:bbebf48c1f9dee4d30677c0c93c00e3eb349758e8e8a6eac5acafa2f8650d491",
-    "source_ref": "src_e9b083e75ca5f18f"
+    "retrieval_receipt_digest": "sha256:241d0ef5bcb13bbd7477e3f7323785c36b125f16384808279de4bf7d9674162e",
+    "source_content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
+    "source_digest": "sha256:9b5e55c106d3b2c9d270455bb5af81e282a4e92f3ba0722f868b952faf8ff0b5",
+    "source_ref": "src_1cb20c6823882030"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_e9b083e75ca5f18f",
-  "subject_ref": "evd_4345a92b81650e62",
+  "source_ref": "src_1cb20c6823882030",
+  "subject_ref": "evd_55e636d20203f360",
   "type": "evidence_bound"
 }
