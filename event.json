@@ -1,21 +1,21 @@
 {
-  "created_at": "2026-08-30T19:16:18.618421Z",
-  "event_id": "ppe_feb343ee4e7238d2",
+  "created_at": "2026-08-30T19:16:18.751726Z",
+  "event_id": "ppe_a642ce10231b8445",
   "evidence": {
-    "digest": "sha256:d4f2f135ae6ce7902993f2920630cba178e6c917ed4ffcd90bfe7cf18523c63c",
-    "id": "evd_5a7dca939b77a4b2",
+    "digest": "sha256:2592892586885d8c04a58f7dc2836b3e8c3feb65786ccbaf4c22d04746a38019",
+    "id": "evd_081974c5f5dfc2dd",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:a6c435c4590f392a1f39928d2776c7d57062d95b898e8144ad601b532db70742",
+    "quote_digest": "sha256:e465edfd9eb89ef10e78962d76fff030bd753b776df9c6083bb367a356b09f39",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:a6c435c4590f392a1f39928d2776c7d57062d95b898e8144ad601b532db70742",
-        "section_id": "sec_f3f50bc87563e1be"
+        "section_digest": "sha256:e465edfd9eb89ef10e78962d76fff030bd753b776df9c6083bb367a356b09f39",
+        "section_id": "sec_2f344c7d645f05fd"
       },
-      "quote": "﻿\n\n\n\n\n\nStock Purchase Agreement\nby\n\nHarbor Bridge Private Equity, Inc.\n \n\nand\n\nSummit Filing Solutions, Inc.\n\n\n\nDated [TBD]\n\n\n\nTable of Contents\n\n\n\n\n\n\n\n",
-      "quote_digest": "sha256:a6c435c4590f392a1f39928d2776c7d57062d95b898e8144ad601b532db70742",
+      "quote": "STOCK AND TRANSFER RESTRICTIONS\nSection 5.1 Certificates.\nShares of stock may be certificated or uncertificated at the discretion of the Board.\nSection 5.2 Stock Ledger.\nThe Corporation shall maintain a stock ledger containing the name and contact information of each stockholder.\nSection 5.3 Transfer Restrictions to Preserve S-Corporation Status.\n(a) No transfer of shares may be made to an ineligible S-Corporation shareholder.\n (b) No transfer may create a second class of stock.\n (c) All transfers are subject to a right of first refusal in favor of the Corporation, then the stockholders, on the same terms offered by the proposed transferee.\n (d) Any transfer in violation of this Article is void.\nSection 5.4 Lost Certificates.\nThe Corporation may issue a new certificate upon receipt of an affidavit stating that the original was lost, stolen, or destroyed, subject to indemnification requirements.\n\n",
+      "quote_digest": "sha256:e465edfd9eb89ef10e78962d76fff030bd753b776df9c6083bb367a356b09f39",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
@@ -24,18 +24,18 @@
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
       "source": {
-        "content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
+        "content_digest": "sha256:1cb8fe86d8075d2b126f99858b67aa3a45ced38879cf7b3859b78e577483572b",
         "media_type": "text/plain",
-        "uri": "private://apex/7beb28a6e0069669-d885dee3"
+        "uri": "private://apex/1cb8fe86d8075d2b-0c1ae063"
       }
     },
-    "retrieval_receipt_digest": "sha256:54f47eea2f656089b0c906df168a66a79c2f9e57e816438d0fd8452e410ded3b",
-    "source_content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
-    "source_digest": "sha256:9b5e55c106d3b2c9d270455bb5af81e282a4e92f3ba0722f868b952faf8ff0b5",
-    "source_ref": "src_1cb20c6823882030"
+    "retrieval_receipt_digest": "sha256:bc92a7375aefbd7180b41a172b4062b33f71e66aa86630b1154d62cf7af50ba8",
+    "source_content_digest": "sha256:1cb8fe86d8075d2b126f99858b67aa3a45ced38879cf7b3859b78e577483572b",
+    "source_digest": "sha256:dce34be7d3faee591fc3639cc0fc742ebc66a097c301c07eb716b0649e3998a1",
+    "source_ref": "src_3376baa521507aa6"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_1cb20c6823882030",
-  "subject_ref": "evd_5a7dca939b77a4b2",
+  "source_ref": "src_3376baa521507aa6",
+  "subject_ref": "evd_081974c5f5dfc2dd",
   "type": "evidence_bound"
 }
