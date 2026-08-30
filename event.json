@@ -1,15 +1,41 @@
 {
-  "created_at": "2026-08-30T19:15:55.949741Z",
-  "event_id": "ppe_94f34505ef361091",
-  "record": {
-    "content_digest": "sha256:1cb8fe86d8075d2b126f99858b67aa3a45ced38879cf7b3859b78e577483572b",
-    "id": "src_3376baa521507aa6",
-    "kind": "retrieval_source",
-    "media_type": "text/plain",
-    "record_hash": "sha256:dce34be7d3faee591fc3639cc0fc742ebc66a097c301c07eb716b0649e3998a1",
-    "uri": "private://apex/1cb8fe86d8075d2b-0c1ae063"
+  "created_at": "2026-08-30T19:15:56.002730Z",
+  "event_id": "ppe_c27eaa3ec669a0d6",
+  "evidence": {
+    "digest": "sha256:34c98b2ebb8c07f4879150925dbe99fb98e2c6db2ad65f68e3bc93fb05af8abc",
+    "id": "evd_cd01ecc35fac8dca",
+    "kind": "retrieval_evidence",
+    "quote_digest": "sha256:fc7658c924a654c6538faef1bc4a3c8a523d770d4623f8df987fc4376871c78a",
+    "retrieval_receipt": {
+      "locator": {
+        "kind": "section_span",
+        "page_end": 1,
+        "page_start": 1,
+        "section_digest": "sha256:fc7658c924a654c6538faef1bc4a3c8a523d770d4623f8df987fc4376871c78a",
+        "section_id": "sec_2b4d0cb001e8f47f"
+      },
+      "quote": "﻿BYLAWS\nof\n Summit Filing Solutions, Inc.\n (A Delaware Corporation)\n Adopted January 10, 2018\n\n",
+      "quote_digest": "sha256:fc7658c924a654c6538faef1bc4a3c8a523d770d4623f8df987fc4376871c78a",
+      "retrieval": {
+        "adapter": "bm25-page",
+        "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
+        "query": "Summit Filing Solutions federal tax classification Summit Filing Solutions Inc. S corporation C corporation partnership entity tax status election",
+        "version": "1"
+      },
+      "schema_version": "proofpress/retrieval-evidence/v1",
+      "source": {
+        "content_digest": "sha256:1cb8fe86d8075d2b126f99858b67aa3a45ced38879cf7b3859b78e577483572b",
+        "media_type": "text/plain",
+        "uri": "private://apex/1cb8fe86d8075d2b-0c1ae063"
+      }
+    },
+    "retrieval_receipt_digest": "sha256:13114259f6ed4618044cbbd0a15e82ab031e86c1fedb1f2a019447c73d207a4b",
+    "source_content_digest": "sha256:1cb8fe86d8075d2b126f99858b67aa3a45ced38879cf7b3859b78e577483572b",
+    "source_digest": "sha256:dce34be7d3faee591fc3639cc0fc742ebc66a097c301c07eb716b0649e3998a1",
+    "source_ref": "src_3376baa521507aa6"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "subject_ref": "src_3376baa521507aa6",
-  "type": "source_recorded"
+  "source_ref": "src_3376baa521507aa6",
+  "subject_ref": "evd_cd01ecc35fac8dca",
+  "type": "evidence_bound"
 }
