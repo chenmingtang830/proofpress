@@ -1,21 +1,21 @@
 {
-  "created_at": "2026-08-30T19:16:40.629389Z",
-  "event_id": "ppe_26d2c5d7f971b095",
+  "created_at": "2026-08-30T19:16:40.778488Z",
+  "event_id": "ppe_6b811ec05dd42f6e",
   "evidence": {
-    "digest": "sha256:84baaa529391d6464adcb5cc8ab29457e9803b96c0b5cbc50da58cf320ae6fe4",
-    "id": "evd_a7d0228ca810f299",
+    "digest": "sha256:24df009665c1565637562b00da28994e9bf52f7aaaba21f50d5b6c5367eeb9cd",
+    "id": "evd_91d27424431cf864",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:d4ec1c64f95c8fdc69597fb1697f1be50131ee34b20a02af3fc9d7e06ecd9d88",
+    "quote_digest": "sha256:4ecda55f6b6cbe4b0f23cda9c4b32b36854691ab816cf740ee1eec8df1e298c3",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:d4ec1c64f95c8fdc69597fb1697f1be50131ee34b20a02af3fc9d7e06ecd9d88",
-        "section_id": "sec_1b3e4e2639ed32c4"
+        "section_digest": "sha256:4ecda55f6b6cbe4b0f23cda9c4b32b36854691ab816cf740ee1eec8df1e298c3",
+        "section_id": "sec_070a856c5839bed8"
       },
-      "quote": "        10.2 EFFECT OF TERMINATION\nEach party’s right of termination under Section 10.1 is in addition to any other right it may have under this Agreement (including under Section 12.16) or otherwise, and the exercise of a party’s right of termination will not constitute an election of remedies. If this Agreement is terminated pursuant to Section 10.1, this Agreement will be of no further force or effect; provided, however, that (i) this Section 10.2 and Article 12 will survive the termination of this Agreement and will remain in full force and effect, and (ii) the termination of this Agreement will not relieve any party from any liability for any Breach of this Agreement occurring prior to termination.\n\n\n\n\n    11. Indemnification; Payment; Reimbursement;\nRemedies\n\n\n\n\n\n\n\n",
-      "quote_digest": "sha256:d4ec1c64f95c8fdc69597fb1697f1be50131ee34b20a02af3fc9d7e06ecd9d88",
+      "quote": "FISCAL YEAR\nSection 8.1 Fiscal Year.\nThe fiscal year of the Corporation shall end on December 31 of each year or such other date as determined by the Board and consistent with Subchapter S eligibility.\n\n",
+      "quote_digest": "sha256:4ecda55f6b6cbe4b0f23cda9c4b32b36854691ab816cf740ee1eec8df1e298c3",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
@@ -24,18 +24,18 @@
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
       "source": {
-        "content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
+        "content_digest": "sha256:1cb8fe86d8075d2b126f99858b67aa3a45ced38879cf7b3859b78e577483572b",
         "media_type": "text/plain",
-        "uri": "private://apex/7beb28a6e0069669-d885dee3"
+        "uri": "private://apex/1cb8fe86d8075d2b-0c1ae063"
       }
     },
-    "retrieval_receipt_digest": "sha256:00ca16216f2f467cbab8c01f4bdb16544df59ac24124ac566464c41795b677b9",
-    "source_content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
-    "source_digest": "sha256:9b5e55c106d3b2c9d270455bb5af81e282a4e92f3ba0722f868b952faf8ff0b5",
-    "source_ref": "src_1cb20c6823882030"
+    "retrieval_receipt_digest": "sha256:f840abd89000203b2e2588c41d493f93aa1f1b471891943c55ac11388e55655e",
+    "source_content_digest": "sha256:1cb8fe86d8075d2b126f99858b67aa3a45ced38879cf7b3859b78e577483572b",
+    "source_digest": "sha256:dce34be7d3faee591fc3639cc0fc742ebc66a097c301c07eb716b0649e3998a1",
+    "source_ref": "src_3376baa521507aa6"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_1cb20c6823882030",
-  "subject_ref": "evd_a7d0228ca810f299",
+  "source_ref": "src_3376baa521507aa6",
+  "subject_ref": "evd_91d27424431cf864",
   "type": "evidence_bound"
 }
