@@ -1,41 +1,41 @@
 {
-  "created_at": "2026-08-30T19:17:48.998824Z",
-  "event_id": "ppe_6eef923f415a068e",
+  "created_at": "2026-08-30T19:17:49.243082Z",
+  "event_id": "ppe_b8c9aec60149854e",
   "evidence": {
-    "digest": "sha256:39d7033f18636a8931cd84c2ee844d6b409fb1b572e8034539148b6093af29c9",
-    "id": "evd_0fb8a01fc8db420d",
+    "digest": "sha256:aa15129cc3209f2fb467703e87024fe2b2a56d338255393f9f85665300691a02",
+    "id": "evd_5a8179c01df62f61",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:2b57e99c7fc070ab17ad95b681c5e04d06a353c6391285ed0bc6b153d5963c06",
+    "quote_digest": "sha256:7b342d1badd2db8b49e367011e51ad6f6fb0aa92c7c67d1fea11ab6014ad88e4",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:2b57e99c7fc070ab17ad95b681c5e04d06a353c6391285ed0bc6b153d5963c06",
-        "section_id": "sec_d4cff12d121e1638"
+        "section_digest": "sha256:7b342d1badd2db8b49e367011e51ad6f6fb0aa92c7c67d1fea11ab6014ad88e4",
+        "section_id": "sec_bde7ff9de8e9c86d"
       },
-      "quote": "﻿SCHEDULE K-1 (Form 1120-S)                                                     2024\nDepartment of the Treasury • Internal Revenue Service                          OMB No. 1545-0123\n\nShareholder’s Share of Income, Deductions, Credits, etc.                       For calendar year 2024\n\n────────────────────────────────────────────────────────────────────────────────────\nPart I ─ Information About the Corporation\n────────────────────────────────────────────────────────────────────────────────────\nA  Corporation’s employer identification number                       12-3456789\nB  Corporation’s name, address, city, state, and ZIP code\n       Summit Filing Solutions, Inc.\n       8280 Willow Oaks Corporate Dr\n       Los Angeles, CA  90001\nC  IRS center where corporation filed return                               Ogden, UT\n\n────────────────────────────────────────────────────────────────────────────────────\nPart II ─ Information About the Shareholder\n────────────────────────────────────────────────────────────────────────────────────\nD  Shareholder’s identifying number                                    444-44-4444\nE  Shareholder’s name, address, city, state, and ZIP code\n       Sarah Chen\n       1188 Mission St., Apt 1805\n       San Francisco, CA  94103\nF  Shareholder’s percentage of stock ownership\n       Beginning of tax year   12%                 End of tax year   12%\n\n────────────────────────────────────────────────────────────────────────────────────\nPart III ─ Shareholder’s Share of Current Year Income, Deductions, Credits, etc.\n────────────────────────────────────────────────────────────────────────────────────\n1  Ordinary business income (loss)                                   $40,012\n2  Net rental real estate income (loss)                                    0\n3  Other net rental income (loss)                                          0\n4  Interest income                                                     $108\n5a Ordinary dividends                                                      0\n5b Qualified dividends                                                     0\n6  Royalties                                                               0\n7  Net short-term capital gain (loss)                                      0\n8a Net long-term capital gain (loss)                                   ($60)\n8b Collectibles (28%) gain (loss)                                          0\n8c Unrecaptured section 1250 gain                                          0\n9  Net section 1231 gain (loss)                                            0\n10 Other income (loss)                                                     0\n\n11 Section 179 deduction                                                   0\n12 Other deductions                                                        0\n13 Credits                                                                 0\n14 Foreign transactions                                                    0\n15 Charitable contributions                                               0\n16 Items affecting shareholder basis\n   a  Tax-exempt interest income                                           0\n   b  Other tax-exempt income                                              0\n   c  Nondeductible expenses                                               0\n   d  Distributions – cash and marketable securities                       0\n   e  Repayment of loans from shareholders                                0\n17 Other information                                                       0\n\n────────────────────────────────────────────────────────────────────────────────────\nStock and Debt Basis Limitations (for shareholder records)\n────────────────────────────────────────────────────────────────────────────────────\n   + Increase for income items (Lines 1 + 4)                         $40,120\n   – Decrease for loss items (Line 8a)                                   ($60)\n   = Net increase to stock basis this year                           $40,060\n\n   Type of income: Active Business Income\n   Foreign country or U.S. possession: N/A\n\n────────────────────────────────────────────────────────────────────────────────────\nPrepared by: Corporate Officer, Summit Filing Solutions, Inc.\nDate prepared: March 10, 2025\n\nThis is an exact substitute Schedule K-1 that matches the official K-1 filed with IRS Form 1120-S on March 15, 2025.\nRetain this copy with your permanent tax records.\n",
-      "quote_digest": "sha256:2b57e99c7fc070ab17ad95b681c5e04d06a353c6391285ed0bc6b153d5963c06",
+      "quote": "SECTION 3. SCOPE\n.01 In General. This revenue procedure expands and consolidates relief provisions included in prior revenue procedures that provide a simplified method for taxpayers to request relief for late S corporation elections, ESBT elections, QSST elections, QSub elections, and corporate classification elections intended to be effective on the same date as the S corporation election for the entity.\nThis revenue procedure provides procedures for situations within its scope that are in lieu of the letter ruling process ordinarily used to obtain relief for a late Election Under Subchapter S (as defined in Section 4.01(5)) pursuant to § 1362(b)(5), § 1362(f), or § 301.9100-1 and § 301.9100-3. Accordingly, user fees do not apply to corrective actions under this revenue procedure.\nSection 4.01 of this revenue procedure provides a glossary of certain terms used in this revenue procedure. Section 4.02 of this revenue procedure provides the general requirements for relief for all late Elections Under Subchapter S. Section 4.03 of this revenue procedure provides procedural requirements for relief for all late Elections Under Subchapter S. Section 4.04 of this revenue procedure provides additional procedural requirements for relief when one or more Requesting Entities (as defined in Section 4.01(6)) request relief for multiple late elections with respect to a single S corporation. Section 5 of this revenue procedure provides a simplified method for taxpayers to request relief for late S corporation elections (which may or may not include a Deemed Entity Classification Election (as defined in Section 4.01(1) of this revenue procedure)). Section 6 of this revenue procedure provides a simplified method for taxpayers to request relief for late ESBT and QSST elections. Section 7 of this revenue procedure provides a simplified method for taxpayers to request relief for late QSub elections.\n.02 Relief if this Revenue Procedure is not Applicable. An entity that does not meet the requirements for relief or is denied relief under this revenue procedure may seek relief by requesting a letter ruling. The procedural requirements for requesting a letter ruling are described in Rev. Proc. 2013-1, 2013-1 I.R.B. 1, or its successors.\n",
+      "quote_digest": "sha256:7b342d1badd2db8b49e367011e51ad6f6fb0aa92c7c67d1fea11ab6014ad88e4",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
-        "query": "Shareholder Agreement page section exhibit Income Schedule line item page Office Lease Agreement section schedule document page number signature amendment",
+        "query": "26 U.S.C. 1362(d) official text 26 C.F.R. 1.1362-2 official text 26 C.F.R. 1.1362-4 official text IRS revenue ruling citation S corporation",
         "version": "1"
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
       "source": {
-        "content_digest": "sha256:573e089dd0c781dae8af873347d476febe501e13f2c8799871635dbaf967f612",
+        "content_digest": "sha256:489de4a5c467eb0382ef4f29920dc6433adc3a3336da5057aec7f37cd0208560",
         "media_type": "text/plain",
-        "uri": "private://apex/573e089dd0c781da-baec816f"
+        "uri": "private://apex/489de4a5c467eb03-1184b3a1"
       }
     },
-    "retrieval_receipt_digest": "sha256:383d09642e3812796e2e1eabd92948a72a305c25c2249a7b92d329456bb5da49",
-    "source_content_digest": "sha256:573e089dd0c781dae8af873347d476febe501e13f2c8799871635dbaf967f612",
-    "source_digest": "sha256:766095dfd927cb21556730064f84f998b99e7d47011b79d51f9317d9162bea47",
-    "source_ref": "src_18516484da802f20"
+    "retrieval_receipt_digest": "sha256:29820043037336ec5cb25dfb01aaaabf0d4c3a83189e411a0d81eca108c88de8",
+    "source_content_digest": "sha256:489de4a5c467eb0382ef4f29920dc6433adc3a3336da5057aec7f37cd0208560",
+    "source_digest": "sha256:0e30a41e1d31405a037edcc4e56b65c5107236c02092ff6fca6351e692a30a27",
+    "source_ref": "src_449cd1a48a2b6b92"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_18516484da802f20",
-  "subject_ref": "evd_0fb8a01fc8db420d",
+  "source_ref": "src_449cd1a48a2b6b92",
+  "subject_ref": "evd_5a8179c01df62f61",
   "type": "evidence_bound"
 }
