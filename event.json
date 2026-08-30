@@ -1,21 +1,21 @@
 {
-  "created_at": "2026-08-30T19:17:55.376537Z",
-  "event_id": "ppe_22f3af3f75446ce1",
+  "created_at": "2026-08-30T19:17:55.629860Z",
+  "event_id": "ppe_6a9ab110223b79da",
   "evidence": {
-    "digest": "sha256:48afe5627a0c910397fb0dee062a10120c1046f0ee865968ebfd3deaa6db7b3a",
-    "id": "evd_45e9737ee712a7cc",
+    "digest": "sha256:f8d4a82180f064100ba3249e055c16b57db3861541acc2230ac07908f80402fd",
+    "id": "evd_9e10b23a949e6f2c",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:b50e2d8a6b011d043599b68c2e2b21448f677b18dbc67db3f0800d60562eb3c0",
+    "quote_digest": "sha256:7a29831de3eea212c1770c520c9cae7474c0aeb66a38d50d64361e0c1c384147",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:b50e2d8a6b011d043599b68c2e2b21448f677b18dbc67db3f0800d60562eb3c0",
-        "section_id": "sec_7f80c1b153802173"
+        "section_digest": "sha256:7a29831de3eea212c1770c520c9cae7474c0aeb66a38d50d64361e0c1c384147",
+        "section_id": "sec_af4cbadc33daccc3"
       },
-      "quote": "    3. REPRESENTATIONS AND WARRANTIES OF SELLERS\t22\n        3.1 Organization and Good Standing\t22\n        3.2 Enforceability and Authority; No Conflict\t22\n        3.3 Capitalization of Company and Subsidiaries\t23\n        3.4 Financial Statements\t24\n        3.5 Books and Records\t24\n        3.6 Real and Personal Property\t25\n        3.7 Condition and Sufficiency of Assets\t26\n        3.8 Accounts Receivable\t26\n        3.9 Inventories\t26\n        3.10 No Undisclosed Liabilities\t26\n        3.11 Taxes\t26\n        3.12 No Material Adverse Change\t28\n        3.13 Employee Benefits\t29\n        3.14 Compliance with Legal Requirements; Governmental Authorizations\t31\n        3.15 Legal Proceedings; Orders\t32\n        3.16 Absence of Certain Changes and Events\t33\n        3.17 Contracts\t33\n        3.18 Insurance\t35\n        3.19 Environmental Matters\t37\n        3.20 Employees and Consultants\t38\n        3.21 Labor Disputes; Compliance\t39\n        3.22 Intellectual Property Assets\t39\n        3.23 Compliance with the Foreign Corrupt Practices Act and Export Control and\nAntiboycott Laws\t43\n        3.24 Relationships with Related Persons\t43\n        3.25 Securities Law Matters\t43\n        3.26 Customers and Suppliers\t43\n        3.27 Product Liabilities and Warranties\t43\n        3.28 Brokers or Finders\t44\n        3.29 Disclosure\t44\n",
-      "quote_digest": "sha256:b50e2d8a6b011d043599b68c2e2b21448f677b18dbc67db3f0800d60562eb3c0",
+      "quote": "IV. CONCLUSION\nSummit’s S‑Corporation eligibility issues are severe, multi‑year, and likely to be viewed by the IRS as significant compliance failures. Corrective action is possible only through coordinated remediation and a §1362(f) relief request. Without corrective actions, Summit may be treated as a C‑Corporation for all periods beginning June 1, 2022, or earlier if disproportionate distributions are deemed to create a second class of stock.\nThis memorandum reflects a partner‑level diligence summary and may be circulated to tax counsel, buy‑side advisors, and internal decision-makers as part of a broader transaction risk analysis.\n\n",
+      "quote_digest": "sha256:7a29831de3eea212c1770c520c9cae7474c0aeb66a38d50d64361e0c1c384147",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
@@ -24,18 +24,18 @@
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
       "source": {
-        "content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
+        "content_digest": "sha256:e7eb786dc671298aa9426792d523f0ec997bee3a570763a8b10f13a1644fc105",
         "media_type": "text/plain",
-        "uri": "private://apex/7beb28a6e0069669-d885dee3"
+        "uri": "private://apex/e7eb786dc671298a-1d2051f2"
       }
     },
-    "retrieval_receipt_digest": "sha256:93f72deb237a1798a57bcbd70851928775805bb64ce910c706920585182a0186",
-    "source_content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
-    "source_digest": "sha256:9b5e55c106d3b2c9d270455bb5af81e282a4e92f3ba0722f868b952faf8ff0b5",
-    "source_ref": "src_1cb20c6823882030"
+    "retrieval_receipt_digest": "sha256:edb4d1e3b090457984d16f200739deb01782d32907f8378a81d2ea0287305c9a",
+    "source_content_digest": "sha256:e7eb786dc671298aa9426792d523f0ec997bee3a570763a8b10f13a1644fc105",
+    "source_digest": "sha256:bbebf48c1f9dee4d30677c0c93c00e3eb349758e8e8a6eac5acafa2f8650d491",
+    "source_ref": "src_e9b083e75ca5f18f"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_1cb20c6823882030",
-  "subject_ref": "evd_45e9737ee712a7cc",
+  "source_ref": "src_e9b083e75ca5f18f",
+  "subject_ref": "evd_9e10b23a949e6f2c",
   "type": "evidence_bound"
 }
