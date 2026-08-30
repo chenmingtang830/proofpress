@@ -1,41 +1,41 @@
 {
-  "created_at": "2026-08-30T19:16:19.114034Z",
-  "event_id": "ppe_56114df74f0eaa0f",
+  "created_at": "2026-08-30T19:16:19.235242Z",
+  "event_id": "ppe_2e9cbefc9e56a73f",
   "evidence": {
-    "digest": "sha256:2f3d2714b649008d94fb216dbdb16cd4902fc65676f86be647198ee2df443d6c",
-    "id": "evd_42f9fbcaa1f9accc",
+    "digest": "sha256:11f4a14f0a927d05f92f96ebdadf45149e582ea2f931b72f8c53251e2e01f2f5",
+    "id": "evd_6fdb05f2307b5c67",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:f3240097ffba689ec85e28a90e0ed763eaa5e7e6f3caea3853100e34e1b16631",
+    "quote_digest": "sha256:c6db9ceaa6bb988d526519c2736b35d552a811f412b3a8797f156d87ff20bbfc",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:f3240097ffba689ec85e28a90e0ed763eaa5e7e6f3caea3853100e34e1b16631",
-        "section_id": "sec_3ab9fe4dd19bd364"
+        "section_digest": "sha256:c6db9ceaa6bb988d526519c2736b35d552a811f412b3a8797f156d87ff20bbfc",
+        "section_id": "sec_e60d879be65f8a0f"
       },
-      "quote": "BUYER\n\nBuyer’s Signature ______________________ Date ______________________\n\nPrint Name ______________________\n\n",
-      "quote_digest": "sha256:f3240097ffba689ec85e28a90e0ed763eaa5e7e6f3caea3853100e34e1b16631",
+      "quote": "OFFICERS\nSection 4.1 Officers.\nThe officers of the Corporation shall consist of a President, a Secretary, and a Treasurer, and may include a Chair of the Board and any assistant officers as appointed by the Board.\nSection 4.2 Appointment.\nOfficers shall be appointed by the Board annually and shall serve at the pleasure of the Board.\nSection 4.3 Duties.\n(a) President. Chief executive officer of the Corporation, responsible for oversight of operations.\n (b) Secretary. Maintains corporate records and minutes.\n (c) Treasurer. Responsible for financial management and reporting.\nSection 4.4 Removal.\nAny officer may be removed by the Board at any time.\nSection 4.5 Vacancies.\nA vacancy in any office shall be filled by the Board.\n\n",
+      "quote_digest": "sha256:c6db9ceaa6bb988d526519c2736b35d552a811f412b3a8797f156d87ff20bbfc",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
-        "query": "\"Form 2553\" signature requirements \"Form 2553\" shareholder signature date \"Summit\" Form 2553 signatures \"1.1362-6(b)\" signatures",
+        "query": "\"Form 2553\" officer signature authorized representative \"Summit\" officer authorization \"Summit\" board resolution S election \"Form 2553\" authorized signer",
         "version": "1"
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
       "source": {
-        "content_digest": "sha256:dfb4a6fb5185685768f588160e39690b944d8cbfad8e0b36a92b49be895f80d9",
+        "content_digest": "sha256:1cb8fe86d8075d2b126f99858b67aa3a45ced38879cf7b3859b78e577483572b",
         "media_type": "text/plain",
-        "uri": "private://apex/dfb4a6fb51856857-3ebb9312"
+        "uri": "private://apex/1cb8fe86d8075d2b-0c1ae063"
       }
     },
-    "retrieval_receipt_digest": "sha256:31461452969550c329fa0b50e53b757afd6b42642fddec867f77f88cd2d7b05c",
-    "source_content_digest": "sha256:dfb4a6fb5185685768f588160e39690b944d8cbfad8e0b36a92b49be895f80d9",
-    "source_digest": "sha256:af353dc2ff025f1b5856614e044526af70dd8dd57771cc7162880a69ff71fe65",
-    "source_ref": "src_fe48f3c72ed75d5f"
+    "retrieval_receipt_digest": "sha256:18bc08074929cd032f26d9f6e401ac5413965f02e9d607c94e8a0df674f41cba",
+    "source_content_digest": "sha256:1cb8fe86d8075d2b126f99858b67aa3a45ced38879cf7b3859b78e577483572b",
+    "source_digest": "sha256:dce34be7d3faee591fc3639cc0fc742ebc66a097c301c07eb716b0649e3998a1",
+    "source_ref": "src_3376baa521507aa6"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_fe48f3c72ed75d5f",
-  "subject_ref": "evd_42f9fbcaa1f9accc",
+  "source_ref": "src_3376baa521507aa6",
+  "subject_ref": "evd_6fdb05f2307b5c67",
   "type": "evidence_bound"
 }
