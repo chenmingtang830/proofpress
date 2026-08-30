@@ -1,41 +1,41 @@
 {
-  "created_at": "2026-08-30T19:17:55.629860Z",
-  "event_id": "ppe_6a9ab110223b79da",
+  "created_at": "2026-08-30T19:17:55.878414Z",
+  "event_id": "ppe_97ad3130a6b8cda8",
   "evidence": {
-    "digest": "sha256:f8d4a82180f064100ba3249e055c16b57db3861541acc2230ac07908f80402fd",
-    "id": "evd_9e10b23a949e6f2c",
+    "digest": "sha256:e0789e6779177ded0d2cb38ad06027ad2165ac3faad3938abd68969c900bc920",
+    "id": "evd_d165eafa59e27412",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:7a29831de3eea212c1770c520c9cae7474c0aeb66a38d50d64361e0c1c384147",
+    "quote_digest": "sha256:93edabedc9c0de8d01d0764777339ddb849005facffaaa2dfed49dbf2dd203e8",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:7a29831de3eea212c1770c520c9cae7474c0aeb66a38d50d64361e0c1c384147",
-        "section_id": "sec_af4cbadc33daccc3"
+        "section_digest": "sha256:93edabedc9c0de8d01d0764777339ddb849005facffaaa2dfed49dbf2dd203e8",
+        "section_id": "sec_6f41f55922ea1dbf"
       },
-      "quote": "IV. CONCLUSION\nSummit’s S‑Corporation eligibility issues are severe, multi‑year, and likely to be viewed by the IRS as significant compliance failures. Corrective action is possible only through coordinated remediation and a §1362(f) relief request. Without corrective actions, Summit may be treated as a C‑Corporation for all periods beginning June 1, 2022, or earlier if disproportionate distributions are deemed to create a second class of stock.\nThis memorandum reflects a partner‑level diligence summary and may be circulated to tax counsel, buy‑side advisors, and internal decision-makers as part of a broader transaction risk analysis.\n\n",
-      "quote_digest": "sha256:7a29831de3eea212c1770c520c9cae7474c0aeb66a38d50d64361e0c1c384147",
+      "quote": "RECITALS\nSellers desire to sell, and Buyer desires to purchase, all issued and outstanding shares (the “Shares”) of capital stock of Summit Filing Solutions, Inc., a Delaware corporation (the “Company”), for the consideration and on the terms set forth in this Agreement.\nThe parties, intending to be legally bound, agree as follows:\n\n\n\n\n    1. Definitions and Usage\n\n\n\n\n\n\n\n",
+      "quote_digest": "sha256:93edabedc9c0de8d01d0764777339ddb849005facffaaa2dfed49dbf2dd203e8",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
-        "query": "Retrieve and verify 26 U.S.C. §§1362(d)(3), 1362(f), 1375 and Treas. Reg. §§1.1362-2(c), 1.1362-3, 1.1362-4, and 1.1375-1, with relevant effective dates and paragraph pinpoints.",
+        "query": "Determine Anderson Instruments' owners and relationship to Summit, and obtain evidence of rent amounts, fair-market rent, services provided, expense reimbursements, concessions, deposits, loans, options, and non-rent consideration.",
         "version": "1"
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
       "source": {
-        "content_digest": "sha256:e7eb786dc671298aa9426792d523f0ec997bee3a570763a8b10f13a1644fc105",
+        "content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
         "media_type": "text/plain",
-        "uri": "private://apex/e7eb786dc671298a-1d2051f2"
+        "uri": "private://apex/7beb28a6e0069669-d885dee3"
       }
     },
-    "retrieval_receipt_digest": "sha256:edb4d1e3b090457984d16f200739deb01782d32907f8378a81d2ea0287305c9a",
-    "source_content_digest": "sha256:e7eb786dc671298aa9426792d523f0ec997bee3a570763a8b10f13a1644fc105",
-    "source_digest": "sha256:bbebf48c1f9dee4d30677c0c93c00e3eb349758e8e8a6eac5acafa2f8650d491",
-    "source_ref": "src_e9b083e75ca5f18f"
+    "retrieval_receipt_digest": "sha256:23f1ac36e03f5e177bf7672fb7bc9986fff4874eaccfa7e208a71d4142488be0",
+    "source_content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
+    "source_digest": "sha256:9b5e55c106d3b2c9d270455bb5af81e282a4e92f3ba0722f868b952faf8ff0b5",
+    "source_ref": "src_1cb20c6823882030"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_e9b083e75ca5f18f",
-  "subject_ref": "evd_9e10b23a949e6f2c",
+  "source_ref": "src_1cb20c6823882030",
+  "subject_ref": "evd_d165eafa59e27412",
   "type": "evidence_bound"
 }
