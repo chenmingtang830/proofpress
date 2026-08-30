@@ -1,41 +1,41 @@
 {
-  "created_at": "2026-08-30T19:16:22.319467Z",
-  "event_id": "ppe_9d50dc5bbbd3640a",
+  "created_at": "2026-08-30T19:16:22.463248Z",
+  "event_id": "ppe_5a92c62fefaffcae",
   "evidence": {
-    "digest": "sha256:ceb464bc181651ed150c361eaeaff7fbff5fceb17f4eedc77c620d99131a3cd4",
-    "id": "evd_9da92eb8efdf155d",
+    "digest": "sha256:a1cdf2baa8bef3a4e43f83f49d542519bb8d7e6cea75ec30ef9b36bd94ce8600",
+    "id": "evd_d1bc9ccb22f8f256",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:e87f07d516078ad70e9003a3d025f305dc6067580144d44f4757531f6f6142a5",
+    "quote_digest": "sha256:7b342d1badd2db8b49e367011e51ad6f6fb0aa92c7c67d1fea11ab6014ad88e4",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:e87f07d516078ad70e9003a3d025f305dc6067580144d44f4757531f6f6142a5",
-        "section_id": "sec_3bdaeabcf89061b6"
+        "section_digest": "sha256:7b342d1badd2db8b49e367011e51ad6f6fb0aa92c7c67d1fea11ab6014ad88e4",
+        "section_id": "sec_bde7ff9de8e9c86d"
       },
-      "quote": "        3.4 FINANCIAL STATEMENTS\nSellers have delivered to Buyer: (a) audited consolidated balance sheets of the Company and its Subsidiaries as at \t (the “Balance Sheet Date”) and as at \t, and the related audited consolidated statements of income, changes in shareholders’ equity, and cash flows for each of the     fiscal years ended on such dates, including the notes thereto, together with the report thereon of the Company’s independent public accountants, (collectively, the “Audited Financial Statements”), and (b) an unaudited consolidated balance sheet (the “Interim Balance Sheet”) of the Company and its Subsidiaries as at\n\t (the “Interim Balance Sheet Date”), and the related unaudited consolidated statements of income, changes in shareholders’ equity, and cash flows for the \t months then ended, certified by the chief financial officer of the Company (collectively, the “Unaudited Financial Statements”, and together with the Audited Financial Statements, the “Financial Statements”). The Financial Statements (i) fairly present the consolidated financial condition and the results of operations, changes in shareholders’ equity, and cash flows of the Company and its Subsidiaries as at the respective dates of, and for the periods referred to in, the Financial Statements, and (ii) were prepared in accordance with GAAP, subject, in the case of the Unaudited Financial Statements, to normal recurring year-end adjustments (the effect of which will not, individually or in the aggregate, be material) and the absence of notes (that, if presented, would not differ materially from those included in the Audited Financial Statements). The Financial Statements reflect the consistent application of GAAP throughout the periods involved, except as disclosed in the notes to the Audited Financial Statements. No financial statements of any Person other than the Acquired Companies are required by GAAP to be included or reflected in the Financial Statements. The Financial Statements were prepared from, and are consistent with, the accounting Records of each Acquired Company. Sellers have also delivered to Buyer copies of all letters from the Company’s auditors to the Company’s board of directors or audit committee thereof during the 36 months prior to the date of this Agreement, together with copies of all responses thereto.\n",
-      "quote_digest": "sha256:e87f07d516078ad70e9003a3d025f305dc6067580144d44f4757531f6f6142a5",
+      "quote": "SECTION 3. SCOPE\n.01 In General. This revenue procedure expands and consolidates relief provisions included in prior revenue procedures that provide a simplified method for taxpayers to request relief for late S corporation elections, ESBT elections, QSST elections, QSub elections, and corporate classification elections intended to be effective on the same date as the S corporation election for the entity.\nThis revenue procedure provides procedures for situations within its scope that are in lieu of the letter ruling process ordinarily used to obtain relief for a late Election Under Subchapter S (as defined in Section 4.01(5)) pursuant to § 1362(b)(5), § 1362(f), or § 301.9100-1 and § 301.9100-3. Accordingly, user fees do not apply to corrective actions under this revenue procedure.\nSection 4.01 of this revenue procedure provides a glossary of certain terms used in this revenue procedure. Section 4.02 of this revenue procedure provides the general requirements for relief for all late Elections Under Subchapter S. Section 4.03 of this revenue procedure provides procedural requirements for relief for all late Elections Under Subchapter S. Section 4.04 of this revenue procedure provides additional procedural requirements for relief when one or more Requesting Entities (as defined in Section 4.01(6)) request relief for multiple late elections with respect to a single S corporation. Section 5 of this revenue procedure provides a simplified method for taxpayers to request relief for late S corporation elections (which may or may not include a Deemed Entity Classification Election (as defined in Section 4.01(1) of this revenue procedure)). Section 6 of this revenue procedure provides a simplified method for taxpayers to request relief for late ESBT and QSST elections. Section 7 of this revenue procedure provides a simplified method for taxpayers to request relief for late QSub elections.\n.02 Relief if this Revenue Procedure is not Applicable. An entity that does not meet the requirements for relief or is denied relief under this revenue procedure may seek relief by requesting a letter ruling. The procedural requirements for requesting a letter ruling are described in Rev. Proc. 2013-1, 2013-1 I.R.B. 1, or its successors.\n",
+      "quote_digest": "sha256:7b342d1badd2db8b49e367011e51ad6f6fb0aa92c7c67d1fea11ab6014ad88e4",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
-        "query": "Rev. Proc. 2013-30 requirements and deadline calculation for an election effective 2019-01-01 but filed 2022-03-22, including reasonable-cause and consistent-reporting statements",
+        "query": "Authoritative procedures for missing or defective shareholder consents, inadvertent invalid elections under §1362(f), late-election relief, and private-letter-ruling relief",
         "version": "1"
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
       "source": {
-        "content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
+        "content_digest": "sha256:489de4a5c467eb0382ef4f29920dc6433adc3a3336da5057aec7f37cd0208560",
         "media_type": "text/plain",
-        "uri": "private://apex/7beb28a6e0069669-d885dee3"
+        "uri": "private://apex/489de4a5c467eb03-1184b3a1"
       }
     },
-    "retrieval_receipt_digest": "sha256:b55ad151286ec92e148b9efbf4d49a60df473da319c868d469b6593ec161c358",
-    "source_content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
-    "source_digest": "sha256:9b5e55c106d3b2c9d270455bb5af81e282a4e92f3ba0722f868b952faf8ff0b5",
-    "source_ref": "src_1cb20c6823882030"
+    "retrieval_receipt_digest": "sha256:86145fce02eec65fd580902050e7a72bd304a8c5b770aaf7ed4043879b4fc1af",
+    "source_content_digest": "sha256:489de4a5c467eb0382ef4f29920dc6433adc3a3336da5057aec7f37cd0208560",
+    "source_digest": "sha256:0e30a41e1d31405a037edcc4e56b65c5107236c02092ff6fca6351e692a30a27",
+    "source_ref": "src_449cd1a48a2b6b92"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_1cb20c6823882030",
-  "subject_ref": "evd_9da92eb8efdf155d",
+  "source_ref": "src_449cd1a48a2b6b92",
+  "subject_ref": "evd_d1bc9ccb22f8f256",
   "type": "evidence_bound"
 }
