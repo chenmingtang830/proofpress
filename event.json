@@ -1,41 +1,15 @@
 {
-  "created_at": "2026-08-30T19:17:49.966547Z",
-  "event_id": "ppe_9a5ac1908465a33e",
-  "evidence": {
-    "digest": "sha256:a8834e8d454933732355dceabcf11327cd0c2171abf1e4fdeeac851a66b2f59a",
-    "id": "evd_af59bd005b2b1d0b",
-    "kind": "retrieval_evidence",
-    "quote_digest": "sha256:aeb4ed0459927a02d74dc0bb0c8fb5a74472e04f5b8afd0911fc846833794f86",
-    "retrieval_receipt": {
-      "locator": {
-        "kind": "section_span",
-        "page_end": 1,
-        "page_start": 1,
-        "section_digest": "sha256:aeb4ed0459927a02d74dc0bb0c8fb5a74472e04f5b8afd0911fc846833794f86",
-        "section_id": "sec_751f0848d5938b10"
-      },
-      "quote": "        9.6 NO LEGAL PROHIBITION\nThere will not be in effect any Legal Requirement or Order that prohibits the sale of the Shares by Sellers to Buyer or the consummation of any of the other Contemplated Transactions.\n\n\n\n\n    10. Termination\n\n\n\n\n\n\n\n",
-      "quote_digest": "sha256:aeb4ed0459927a02d74dc0bb0c8fb5a74472e04f5b8afd0911fc846833794f86",
-      "retrieval": {
-        "adapter": "bm25-page",
-        "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
-        "query": "memorandum DOCX formatting instructions legal memorandum citation style DOCX new DOCX file naming requirement concise memorandum headings",
-        "version": "1"
-      },
-      "schema_version": "proofpress/retrieval-evidence/v1",
-      "source": {
-        "content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
-        "media_type": "text/plain",
-        "uri": "private://apex/7beb28a6e0069669-d885dee3"
-      }
-    },
-    "retrieval_receipt_digest": "sha256:e2c92b6fbbf7582e25902ea318fc915eaab12f1898b57b1b5ea0d062a5ede003",
-    "source_content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
-    "source_digest": "sha256:9b5e55c106d3b2c9d270455bb5af81e282a4e92f3ba0722f868b952faf8ff0b5",
-    "source_ref": "src_1cb20c6823882030"
+  "created_at": "2026-08-30T19:17:50.104325Z",
+  "event_id": "ppe_88b51cc2843bc128",
+  "record": {
+    "content_digest": "sha256:60b7c6eef47342c28356d5c6adff2b47a97ec5865c1460c59efc435e21e26812",
+    "id": "src_93e54a83147da3ce",
+    "kind": "retrieval_source",
+    "media_type": "text/plain",
+    "record_hash": "sha256:cbcac7d902052bd94ca51c146cb638348338bc31280f97f33c68bfd0e765a1aa",
+    "uri": "private://apex/60b7c6eef47342c2-88cb881e"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_1cb20c6823882030",
-  "subject_ref": "evd_af59bd005b2b1d0b",
-  "type": "evidence_bound"
+  "subject_ref": "src_93e54a83147da3ce",
+  "type": "source_recorded"
 }
