@@ -1,14 +1,14 @@
 {
   "conclusion_digest": "sha256:336906eab7dcfe9b518c09c933b7097f8b42b3ab6f7767654eedc595aa12233d",
-  "created_at": "2026-08-30T19:16:31.276637Z",
-  "decision": "admit",
-  "event_id": "ppe_74ecf744af285413",
-  "identity_basis": "self_asserted",
-  "note": null,
+  "created_at": "2026-08-30T19:16:31.359785Z",
+  "event_id": "ppe_659614a1fa583476",
+  "evidence_digests": {
+    "evd_a6b98cd6920d8e88": "sha256:f6413f7281ea331bdda80d33dcd57ea9846c4175e3101c37d4931e489fbfb19b"
+  },
   "policy_digest": "sha256:cde050fdc0b2869fecf8ee9d24dee964fc3bbc18e6b489da2e08e7c3df266501",
-  "request_id": null,
+  "review_ref": "ppe_74ecf744af285413",
   "reviewer": "human:staged-evaluation-reviewer",
   "schema_version": "proofpress/knowledge-event/v2",
   "subject_ref": "knw_341bff1327a912d8",
-  "type": "human_reviewed"
+  "type": "conclusion_admitted"
 }
