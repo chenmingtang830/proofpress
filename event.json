@@ -1,11 +1,19 @@
 {
-  "created_at": "2026-08-30T19:17:34.476355Z",
-  "event_id": "ppe_da2e91131ec3b647",
-  "policy_digest": "sha256:cde050fdc0b2869fecf8ee9d24dee964fc3bbc18e6b489da2e08e7c3df266501",
-  "relation_digest": "sha256:72f5e300e21f08cd5b54216bfa2e62ffc557d2e4fcf9ab94692b9dc3ade66cba",
-  "review_ref": "ppe_e68eb8636b138f95",
-  "reviewer": "human:staged-evaluation-reviewer",
+  "created_at": "2026-08-30T19:17:34.698248Z",
+  "event_id": "ppe_b15033e86d2a4170",
+  "relation": {
+    "confidence": null,
+    "created_at": "2026-08-30T19:17:34.603308Z",
+    "digest": "sha256:f2e5a2d9fff8699b042d9cff79f4941167b5e1b00c19ae6f07f5ba7ed5103a7c",
+    "from": "knw_7d0854e50d5f31ff",
+    "id": "rel_9ba5346446fe1b76",
+    "kind": "claim_relation",
+    "proposer": "agent:v8-constructor",
+    "qualifiers": {},
+    "to": "knw_cc03f78dd2fe912a",
+    "type": "depends_on"
+  },
   "schema_version": "proofpress/knowledge-event/v2",
-  "subject_ref": "rel_ace129b947c0f318",
-  "type": "relation_admitted"
+  "subject_ref": "rel_9ba5346446fe1b76",
+  "type": "relation_proposed"
 }
