@@ -1,41 +1,41 @@
 {
-  "created_at": "2026-08-30T19:15:58.346651Z",
-  "event_id": "ppe_fc1b7b97ecf7db71",
+  "created_at": "2026-08-30T19:15:58.439516Z",
+  "event_id": "ppe_6b82676e0617ddb2",
   "evidence": {
-    "digest": "sha256:99daff97bde83c349a3a2c1469b44a46d9307982748f639eccc79ebbaac8b314",
-    "id": "evd_313ae25198212841",
+    "digest": "sha256:56e200ce08df072f7119e6a1c15f50914fc62d9c60ffa4850aedb51534ad4b75",
+    "id": "evd_982a6b95007488c7",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:fe73e5e22e7ed4165e0d2ec6d63652391c86abcd68b21ee7b9d793f98b0fe3a7",
+    "quote_digest": "sha256:6bf90c9d84f9b085a9ee9ab34fff82c27c7a02e16a0b76f8b2d5d334da437aa6",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:fe73e5e22e7ed4165e0d2ec6d63652391c86abcd68b21ee7b9d793f98b0fe3a7",
-        "section_id": "sec_304185536f551314"
+        "section_digest": "sha256:6bf90c9d84f9b085a9ee9ab34fff82c27c7a02e16a0b76f8b2d5d334da437aa6",
+        "section_id": "sec_d6d6d31b8c91e643"
       },
-      "quote": "LETTER OF INTENT TO PURCHASE STOCK\nDate: [DATE]\n[SENDER (e.g., BUYER) NAME] \n",
-      "quote_digest": "sha256:fe73e5e22e7ed4165e0d2ec6d63652391c86abcd68b21ee7b9d793f98b0fe3a7",
+      "quote": "    2. SALE AND TRANSFER OF SHARES; CLOSING\t18\n        2.1 Shares\t18\n        2.2 Purchase Price\t18\n        2.3 Closing\t18\n        2.4 Closing Obligations\t19\n        2.5 Adjustment Amount and Payment\t19\n        2.6 Adjustment Procedure\t20\n",
+      "quote_digest": "sha256:6bf90c9d84f9b085a9ee9ab34fff82c27c7a02e16a0b76f8b2d5d334da437aa6",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
-        "query": "land allocation building purchase property appraisal land building allocation nondepreciable land basis",
+        "query": "property sale June 20 2022 $1,200,000 settlement statement sale proceeds broker commission closing costs real estate sale debt payoff",
         "version": "1"
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
       "source": {
-        "content_digest": "sha256:1fa432744307c6e3d7cd1a691e8bd26402a340a0de51cead624710e85b4e3943",
+        "content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
         "media_type": "text/plain",
-        "uri": "private://apex/1fa432744307c6e3-ff90ef47"
+        "uri": "private://apex/7beb28a6e0069669-d885dee3"
       }
     },
-    "retrieval_receipt_digest": "sha256:52ec80d83d267de357bb0a6a48c902ec2e10853d3d2d615926d53040f4a604fb",
-    "source_content_digest": "sha256:1fa432744307c6e3d7cd1a691e8bd26402a340a0de51cead624710e85b4e3943",
-    "source_digest": "sha256:41daae633da435245284fba5ee846720c69c51f9f4eec17a5f3473e38eea79fe",
-    "source_ref": "src_15f480947ea56e19"
+    "retrieval_receipt_digest": "sha256:8372ca2f89a216832099fc17669c37d90a297fc5079b8cebfef96e1d6940a701",
+    "source_content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
+    "source_digest": "sha256:9b5e55c106d3b2c9d270455bb5af81e282a4e92f3ba0722f868b952faf8ff0b5",
+    "source_ref": "src_1cb20c6823882030"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_15f480947ea56e19",
-  "subject_ref": "evd_313ae25198212841",
+  "source_ref": "src_1cb20c6823882030",
+  "subject_ref": "evd_982a6b95007488c7",
   "type": "evidence_bound"
 }
