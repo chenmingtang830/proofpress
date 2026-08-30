@@ -1,41 +1,26 @@
 {
-  "created_at": "2026-08-30T19:17:12.520588Z",
-  "event_id": "ppe_32d21de8b1e05776",
-  "evidence": {
-    "digest": "sha256:984741eca6f0da80e5753ac1a150976dbc4dacf47d8fd275274e36695f33ea31",
-    "id": "evd_0df20e4c1ac9ee08",
-    "kind": "retrieval_evidence",
-    "quote_digest": "sha256:c9754494e822e74a5e86f2440d8c49968e4fec5bacfb916e73a9a287f317c53e",
-    "retrieval_receipt": {
-      "locator": {
-        "kind": "section_span",
-        "page_end": 1,
-        "page_start": 1,
-        "section_digest": "sha256:c9754494e822e74a5e86f2440d8c49968e4fec5bacfb916e73a9a287f317c53e",
-        "section_id": "sec_4cadc8f75a9aefdc"
-      },
-      "quote": "        7.1 COOPERATION AND PROCEEDINGS; ACCESS TO RECORDS\n    (a) After the Closing, each Seller shall cooperate with Buyer and its counsel and make itself and its Representatives available to Buyer and the Acquired Companies in connection with the institution or defense of any Proceeding, whether existing, threatened, or anticipated, involving or relating to the Contemplated Transactions, Buyer, any Seller, or any Acquired Company, including providing testimony, Records, and other information.\n    (b) Each Seller and Buyer will make available to the other any Records in the nonrequesting party’s custody or control for the purpose of preparing any financial statement or Tax Return or preparing for or defending any tax-related examination of the requesting party or any Acquired Company by any Governmental Body. The party requesting such Records will reimburse the nonrequesting party for the reasonable out-of-pocket costs and expenses incurred by the nonrequesting party. The nonrequesting party will afford access to such Records during normal business hours, upon reasonable advance notice given by the requesting party, and subject to such reasonable limitations as the nonrequesting party may impose to delete competitively sensitive or privileged information.\n",
-      "quote_digest": "sha256:c9754494e822e74a5e86f2440d8c49968e4fec5bacfb916e73a9a287f317c53e",
-      "retrieval": {
-        "adapter": "bm25-page",
-        "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
-        "query": "Retrieve Forms 1099-DIV, 1099-INT, 1099-NEC/MISC, W-2, 941, 940, backup-withholding records, shareholder returns or confirmations, and corrected information returns for all relevant years.",
-        "version": "1"
-      },
-      "schema_version": "proofpress/retrieval-evidence/v1",
-      "source": {
-        "content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
-        "media_type": "text/plain",
-        "uri": "private://apex/7beb28a6e0069669-d885dee3"
-      }
-    },
-    "retrieval_receipt_digest": "sha256:a3d7e290a56d9479725f994cb12d39d333db53a5caa7d5c1989a98dd156bc7c7",
-    "source_content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
-    "source_digest": "sha256:9b5e55c106d3b2c9d270455bb5af81e282a4e92f3ba0722f868b952faf8ff0b5",
-    "source_ref": "src_1cb20c6823882030"
+  "conclusion": {
+    "allowed_actors": [
+      "*"
+    ],
+    "artifact_refs": [],
+    "created_at": "2026-08-30T19:17:12.632702Z",
+    "digest": "sha256:f6d6d151a54040d1e91698c6d1909bbc61ff6907da8de3b20051529824239f7c",
+    "evidence_refs": [
+      "evd_05274510c61fbced",
+      "evd_9717e45c637fc498"
+    ],
+    "expires_at": null,
+    "id": "knw_9091dc4bb4a3497c",
+    "kind": "conclusion",
+    "proposer": "agent:v8-constructor",
+    "qualifiers": {},
+    "scope": "task_11893dcabbe34b0aa991516dfe7edcba",
+    "statement": "The retrieved Historic Distribution Schedule shows a March 15, 2019 distribution event totaling $11,000, with Laura Kensington receiving $2,860 and Michael T. Hartwell receiving $2,420. The schedule does not state the form of payment or stated purpose."
   },
+  "created_at": "2026-08-30T19:17:12.717127Z",
+  "event_id": "ppe_3e193d469a4b166c",
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_1cb20c6823882030",
-  "subject_ref": "evd_0df20e4c1ac9ee08",
-  "type": "evidence_bound"
+  "subject_ref": "knw_9091dc4bb4a3497c",
+  "type": "conclusion_proposed"
 }
