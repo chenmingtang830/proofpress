@@ -1,16 +1,26 @@
 {
-  "conclusion_digest": "sha256:2f3b23557a3f27d154d6b8fa762024104fbb41556a53a4d92a19c87d8fd3da29",
-  "created_at": "2026-08-30T19:17:26.612920Z",
-  "event_id": "ppe_608569ebc28fc49e",
-  "evidence_digests": {
-    "evd_4345a92b81650e62": "sha256:beb9d1cea5177f14d0bf0094e5184fadb0aeb18fd912fb055275b724f8cb60fb",
-    "evd_83139bd1e2f2d07d": "sha256:6d4bf537d99bf3ae91ce46de1eaea10bc56436ecb41da88cbc3af5869fd5d2a0",
-    "evd_eebe327971b1108d": "sha256:6e8a511f515b306383bb5eab93a1a2e790ff1863c9f67c23598db56efa62837f"
+  "conclusion": {
+    "allowed_actors": [
+      "*"
+    ],
+    "artifact_refs": [],
+    "created_at": "2026-08-30T19:17:26.739160Z",
+    "digest": "sha256:c21806fce8319376ae5f298b6844da2ba3cabae61455929680fc434392708556",
+    "evidence_refs": [
+      "evd_82e740295e98431d",
+      "evd_89ff0ad8c5ecf4dc"
+    ],
+    "expires_at": null,
+    "id": "knw_6b2630204fb0f301",
+    "kind": "conclusion",
+    "proposer": "agent:v8-constructor",
+    "qualifiers": {},
+    "scope": "task_11893dcabbe34b0aa991516dfe7edcba",
+    "statement": "The provided excerpts from Summit’s 2020 and 2024 Schedules K-1 identify Laura Kensington’s ownership percentage but do not show AAA, E&P, shareholder basis, or Schedule M-2 information."
   },
-  "policy_digest": "sha256:cde050fdc0b2869fecf8ee9d24dee964fc3bbc18e6b489da2e08e7c3df266501",
-  "review_ref": "ppe_1a5ed414a3df360b",
-  "reviewer": "human:staged-evaluation-reviewer",
+  "created_at": "2026-08-30T19:17:26.834134Z",
+  "event_id": "ppe_7ec402ae04efdec5",
   "schema_version": "proofpress/knowledge-event/v2",
-  "subject_ref": "knw_5f2c0b5a62c1bfde",
-  "type": "conclusion_admitted"
+  "subject_ref": "knw_6b2630204fb0f301",
+  "type": "conclusion_proposed"
 }
