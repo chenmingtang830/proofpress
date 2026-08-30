@@ -1,21 +1,21 @@
 {
-  "created_at": "2026-08-30T19:17:46.208210Z",
-  "event_id": "ppe_5130c5b89613ed1c",
+  "created_at": "2026-08-30T19:17:46.506736Z",
+  "event_id": "ppe_32ccca4506cd93aa",
   "evidence": {
-    "digest": "sha256:afb2a82218fc77460cac7144e6fc51463a164c914f40f2fc78d1ec590accf3eb",
-    "id": "evd_d5f22894c58ae814",
+    "digest": "sha256:164f1a0ada29c8d2a8405ff3983d858e6725c96b49382b1065ae05c6ce842c8d",
+    "id": "evd_9005b6ffb92ada51",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:9cc455b13b5a3fc0fb4a6b61a3143e3639d17f2138517013005d5029df2766f5",
+    "quote_digest": "sha256:9efdf3acdcf13a65544bb60840fcdf913d170511915382afc81b03b0a981862c",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:9cc455b13b5a3fc0fb4a6b61a3143e3639d17f2138517013005d5029df2766f5",
-        "section_id": "sec_e3c9aa0fc31b32b8"
+        "section_digest": "sha256:9efdf3acdcf13a65544bb60840fcdf913d170511915382afc81b03b0a981862c",
+        "section_id": "sec_783b81a2bbfb9ff7"
       },
-      "quote": "FORM OF INVESTORS’ RIGHTS AGREEMENT\n\n\n\n\n\n\n\n\n\n",
-      "quote_digest": "sha256:9cc455b13b5a3fc0fb4a6b61a3143e3639d17f2138517013005d5029df2766f5",
+      "quote": "        12.9 ASSIGNMENTS AND SUCCESSORS\nNo party may assign any of its rights or delegate any of its obligations under this Agreement without the prior consent of the other parties, except that Buyer may assign any of its rights and delegate any of its obligations under this Agreement to any Subsidiary of Buyer and, after the Closing, to the purchaser of all or a substantial part of the equity securities or business of the Acquired Companies and may collaterally assign its rights under this Agreement to any financial institution providing financing in connection with the Contemplated Transactions. Any purported assignment of rights or delegation of obligations in violation of this Section 12.9 will be void. Subject to the foregoing, this Agreement will apply to, be binding in all respects upon, and inure to the benefit of the heirs, executors, administrators, legal representatives, successors, and permitted assigns of the parties.\n",
+      "quote_digest": "sha256:9efdf3acdcf13a65544bb60840fcdf913d170511915382afc81b03b0a981862c",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
@@ -24,18 +24,18 @@
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
       "source": {
-        "content_digest": "sha256:de3c85ce68cc9a64aadabec8843aff116664ead676844e5ce1f589169c52b2da",
+        "content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
         "media_type": "text/plain",
-        "uri": "private://apex/de3c85ce68cc9a64-4c7c3329"
+        "uri": "private://apex/7beb28a6e0069669-d885dee3"
       }
     },
-    "retrieval_receipt_digest": "sha256:18c5f1c2cb9e4f12056e453e97905b14b7d138cee1b9cd5ebe7833a3c8dfb567",
-    "source_content_digest": "sha256:de3c85ce68cc9a64aadabec8843aff116664ead676844e5ce1f589169c52b2da",
-    "source_digest": "sha256:afd14261a12776692529819ab8b113e55ef68150920111e982cd00f66a8af8ea",
-    "source_ref": "src_a149d3b6c6d2425c"
+    "retrieval_receipt_digest": "sha256:b2f21bb0bb5eef399c93c4d7d0006c460ea15771a5a3dccc5b1bfd63a7637f38",
+    "source_content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
+    "source_digest": "sha256:9b5e55c106d3b2c9d270455bb5af81e282a4e92f3ba0722f868b952faf8ff0b5",
+    "source_ref": "src_1cb20c6823882030"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_a149d3b6c6d2425c",
-  "subject_ref": "evd_d5f22894c58ae814",
+  "source_ref": "src_1cb20c6823882030",
+  "subject_ref": "evd_9005b6ffb92ada51",
   "type": "evidence_bound"
 }
