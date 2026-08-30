@@ -1,15 +1,26 @@
 {
-  "conclusion_digest": "sha256:b60e11a0b557861aae01901b3e709dcaf3c7604c6a2ca20161b09793d29419cf",
-  "created_at": "2026-08-30T19:16:50.895097Z",
-  "event_id": "ppe_9e324d183a9f7ce2",
-  "evidence_digests": {
-    "evd_92708c292365a658": "sha256:7252bfa98da452ebc91f0c7a2db8c9995d8a9a2211d6ea52dd7a0b4cd7fe138a",
-    "evd_9d6b7dc2448f7dde": "sha256:96fd56177395d6ed193ea852a3081bd5c739e3f8629393d460b6baed0f2c5a3c"
+  "conclusion": {
+    "allowed_actors": [
+      "*"
+    ],
+    "artifact_refs": [],
+    "created_at": "2026-08-30T19:16:50.995166Z",
+    "digest": "sha256:275bf7c06b87567b013c665d14fa2ef3507834a1dc5f8869404586469943e8b9",
+    "evidence_refs": [
+      "evd_7a20d7aff684c29c",
+      "evd_896e0c8ab15a1daa"
+    ],
+    "expires_at": null,
+    "id": "knw_0ebcc136c3b274c2",
+    "kind": "conclusion",
+    "proposer": "agent:v8-constructor",
+    "qualifiers": {},
+    "scope": "task_8ab8c8d7662747d696d52706a8b3de55",
+    "statement": "The date on which Carrie Canuck acquired or received Summit shares cannot be determined from the quoted evidence; the historical shareholder schedule covers January 10, 2018 through November 1, 2025, but the quoted excerpts do not name Carrie Canuck or state a transfer date."
   },
-  "policy_digest": "sha256:cde050fdc0b2869fecf8ee9d24dee964fc3bbc18e6b489da2e08e7c3df266501",
-  "review_ref": "ppe_98309aa32a6e581c",
-  "reviewer": "human:staged-evaluation-reviewer",
+  "created_at": "2026-08-30T19:16:51.064054Z",
+  "event_id": "ppe_002f513f3cfeed81",
   "schema_version": "proofpress/knowledge-event/v2",
-  "subject_ref": "knw_bcbcd2e81d854c9e",
-  "type": "conclusion_admitted"
+  "subject_ref": "knw_0ebcc136c3b274c2",
+  "type": "conclusion_proposed"
 }
