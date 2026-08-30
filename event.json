@@ -1,41 +1,41 @@
 {
-  "created_at": "2026-08-30T19:17:47.022180Z",
-  "event_id": "ppe_a235a183e256473c",
+  "created_at": "2026-08-30T19:17:47.257305Z",
+  "event_id": "ppe_5919dc5f74b68c74",
   "evidence": {
-    "digest": "sha256:d105501ce7afa7deb40996129be19651092dd591f5dbc0e9dbdb74114c7f685b",
-    "id": "evd_e98d2697efbbdfdc",
+    "digest": "sha256:29d148219cc6a6c67bb684b3496ce6e9979f0fe954935c31aad133ecacd39ad7",
+    "id": "evd_5c98807530e7766b",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:b64356a66c0790894f82d1341528d8bb939130337ccda1160a25f3c9cf5d8704",
+    "quote_digest": "sha256:b9e2ab0b1e882c1c7e39252fc70d68a7be1efec90016b44d53a5f6fec3dd69fe",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:b64356a66c0790894f82d1341528d8bb939130337ccda1160a25f3c9cf5d8704",
-        "section_id": "sec_4a7827458150feeb"
+        "section_digest": "sha256:b9e2ab0b1e882c1c7e39252fc70d68a7be1efec90016b44d53a5f6fec3dd69fe",
+        "section_id": "sec_3ddb31515aba166d"
       },
-      "quote": "SECTION 8. EFFECTIVE DATE\n.01 In general. Except as provided in Section 8.02, this revenue procedure is effective September 3, 2013, the date of publication of this revenue procedure in the Internal Revenue Bulletin. This revenue procedure applies to requests pending with the IRS Service Center pursuant to Rev. Procs. 97-48, 2003-43, 2004-48, and 2007-62 on September 3, 2013, and to requests received thereafter. It also applies to all ruling requests pending in the IRS national office on September 3, 2013, and to requests for relief received thereafter.\n.02 Transition rule for pending letter ruling requests. If an entity has filed a request for a letter ruling seeking relief for a late Election Under Subchapter S covered by this revenue procedure that is pending in the national office on September 3, 2013, the entity may rely on this revenue procedure, withdraw that letter ruling request, and receive a refund of its user fee. However, the national office will process letter ruling requests pending on September 3, 2013, unless, prior to the earlier of October 18, 2013, or the issuance of the letter ruling, the entity notifies the national office that it will rely on this revenue procedure and withdraw its letter ruling request.\n",
-      "quote_digest": "sha256:b64356a66c0790894f82d1341528d8bb939130337ccda1160a25f3c9cf5d8704",
+      "quote": "        2.5 ADJUSTMENT AMOUNT AND PAYMENT\n    (a) The “Adjustment Amount” will be the difference, if any, between (i) the consolidated shareholders’ equity of the Company and its Subsidiaries as of the Closing Date, as shown on the Closing Balance Sheet (the “Closing Date Shareholders’ Equity”), and (ii) \t dollars ($\t) (the consolidated shareholders’ equity of the Company and its Subsidiaries as shown on the Interim Balance Sheet) (the “Interim Shareholders’ Equity”). If the Closing Date Shareholders’ Equity is less than the Interim Shareholders’ Equity, the Adjustment Amount shall be paid by Sellers to\nBuyer. If the Closing Date Shareholders’ Equity is greater than the Interim Shareholders’ Equity, subject to Section 11.7, the Adjustment Amount shall be paid by Buyer to Sellers.\n    (b) If the Adjustment Amount or, after giving effect to Section 11.7, any portion of the Adjustment Amount is to be paid by Buyer to Sellers, the Adjustment Amount or such portion thereof shall be paid by Buyer by wire transfer to Sellers’ Representative pursuant to wire transfer instructions provided to Buyer by Sellers’ Representative prior to the due date for the payment set forth in Section 2.5(c). If the Adjustment Amount is to be paid by Sellers to Buyer, the Adjustment Amount shall be paid by Sellers by wire transfer to Buyer pursuant to wire transfer instructions provided by Buyer to Sellers’ Representative prior to the due date for the payment set forth in Section 2.5(c).\n    (c) All payments under this Section 2.5 shall be made together with interest at the rate set forth in the Promissory Notes, which interest will begin accruing on the Closing Date and end on the day before the payment is made. Within three (3) Business Days after the Closing Balance Sheet and Adjustment Amount become binding on the parties pursuant to Section 2.6, Sellers or Buyer, as the case may be, shall make the payment provided for in this Section 2.5.\n",
+      "quote_digest": "sha256:b9e2ab0b1e882c1c7e39252fc70d68a7be1efec90016b44d53a5f6fec3dd69fe",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
-        "query": "IRS revenue ruling S corporation one class stock agreement IRS revenue procedure inadvertent S election termination IRS private letter ruling S corporation disproportionate distribution Form 2553 instructions termination S election",
+        "query": "Summit 2019 agreement execution date Summit lease commencement date amendment Summit distribution payment date 2019 Summit shareholder transfer date",
         "version": "1"
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
       "source": {
-        "content_digest": "sha256:489de4a5c467eb0382ef4f29920dc6433adc3a3336da5057aec7f37cd0208560",
+        "content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
         "media_type": "text/plain",
-        "uri": "private://apex/489de4a5c467eb03-1184b3a1"
+        "uri": "private://apex/7beb28a6e0069669-d885dee3"
       }
     },
-    "retrieval_receipt_digest": "sha256:ffc6b165c57861ae1ed450151900a084e443bc0b17eb8f84ad93050fbbbb703d",
-    "source_content_digest": "sha256:489de4a5c467eb0382ef4f29920dc6433adc3a3336da5057aec7f37cd0208560",
-    "source_digest": "sha256:0e30a41e1d31405a037edcc4e56b65c5107236c02092ff6fca6351e692a30a27",
-    "source_ref": "src_449cd1a48a2b6b92"
+    "retrieval_receipt_digest": "sha256:4ad6ef86d7f5984f73fa1c7eaaf67604588159f4ee88307dc407c76f42581485",
+    "source_content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
+    "source_digest": "sha256:9b5e55c106d3b2c9d270455bb5af81e282a4e92f3ba0722f868b952faf8ff0b5",
+    "source_ref": "src_1cb20c6823882030"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_449cd1a48a2b6b92",
-  "subject_ref": "evd_e98d2697efbbdfdc",
+  "source_ref": "src_1cb20c6823882030",
+  "subject_ref": "evd_5c98807530e7766b",
   "type": "evidence_bound"
 }
