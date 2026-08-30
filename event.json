@@ -1,41 +1,41 @@
 {
-  "created_at": "2026-08-30T19:17:48.238651Z",
-  "event_id": "ppe_ea44ed32b8d16101",
+  "created_at": "2026-08-30T19:17:48.482939Z",
+  "event_id": "ppe_64b9f1fdddac43fc",
   "evidence": {
-    "digest": "sha256:421b13f7247461c5e9ae071119d394780261da1939d09cc8dd7e6a5e0b717df7",
-    "id": "evd_79ec389757ca4003",
+    "digest": "sha256:8d204b04ceda6274554142edccdaa708b085566e75fa048c91a84ba3191b8737",
+    "id": "evd_6e0222f19a546555",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:4721ba811affed6631146f2ab50dba58549b7cd4de2a0bb3f23f047311a044b7",
+    "quote_digest": "sha256:572cb5051ea60eff86fbb15a488fe4d0f1df4803a3be14feba620349e6f0691f",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:4721ba811affed6631146f2ab50dba58549b7cd4de2a0bb3f23f047311a044b7",
-        "section_id": "sec_e49707b754f09780"
+        "section_digest": "sha256:572cb5051ea60eff86fbb15a488fe4d0f1df4803a3be14feba620349e6f0691f",
+        "section_id": "sec_871f0397370e0ccf"
       },
-      "quote": "    10. TERMINATION\t59\n        10.1 Termination Events\t59\n        10.2 Effect of Termination\t59\n",
-      "quote_digest": "sha256:4721ba811affed6631146f2ab50dba58549b7cd4de2a0bb3f23f047311a044b7",
+      "quote": "DISCLOSURE SCHEDULE\nThis Schedule of Exceptions is made and given pursuant to Section 2 of the Series A Preferred Stock Purchase Agreement, dated as of [date] (the “Agreement”), between [Company name] (the “Company”) and the Purchasers listed on Schedule A thereto. All capitalized terms used but not defined herein shall have the meanings as defined in the Agreement, unless otherwise provided. The section numbers below correspond to the section numbers of the representations and warranties in the Agreement; provided, however, that any information disclosed herein under any section number shall be deemed to be disclosed and incorporated into any other section number under the Agreement where such disclosure would be appropriate and such appropriateness is reasonably apparent from the face of such disclosure. Nothing in this Schedule of Exceptions is intended to broaden the scope of any representation or warranty contained in the Agreement or to create any covenant. Inclusion of any item in this Schedule of Exceptions (1) does not represent a determination that such item is material or establish a standard of materiality, (2) does not represent a determination that such item did not arise in the ordinary course of business, (3) does not represent a determination that the transactions contemplated by the Agreement require the consent of third parties, and (4) shall not constitute, or be deemed to be, an admission to any third party concerning such item. This Schedule of Exceptions includes brief descriptions or summaries of certain agreements and instruments, copies of which are available upon reasonable request. Such descriptions do not purport to be comprehensive, and are qualified in their entirety by reference to the text of the documents described, true and complete copies of which have been provided to the Purchasers or their respective counsel.\n\n\n\n\n\n\n\n\n\n\n\n",
+      "quote_digest": "sha256:572cb5051ea60eff86fbb15a488fe4d0f1df4803a3be14feba620349e6f0691f",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
-        "query": "26 U.S.C. 1361(b)(1) scope exclusion S corporation termination provisions other than prohibited shareholder 26 U.S.C. 1362(d) independent termination grounds",
+        "query": "Shareholder Agreement page section exhibit Income Schedule line item page Office Lease Agreement section schedule document page number signature amendment",
         "version": "1"
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
       "source": {
-        "content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
+        "content_digest": "sha256:de3c85ce68cc9a64aadabec8843aff116664ead676844e5ce1f589169c52b2da",
         "media_type": "text/plain",
-        "uri": "private://apex/7beb28a6e0069669-d885dee3"
+        "uri": "private://apex/de3c85ce68cc9a64-4c7c3329"
       }
     },
-    "retrieval_receipt_digest": "sha256:21c6881fa36bb054245b8dd7d75c37d0943c1a8ab2e7941fe52ff186f002f26d",
-    "source_content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
-    "source_digest": "sha256:9b5e55c106d3b2c9d270455bb5af81e282a4e92f3ba0722f868b952faf8ff0b5",
-    "source_ref": "src_1cb20c6823882030"
+    "retrieval_receipt_digest": "sha256:3e3904924d951afe1016019c248738237170cbcd3429b9eb2d5fe1c2b3908c92",
+    "source_content_digest": "sha256:de3c85ce68cc9a64aadabec8843aff116664ead676844e5ce1f589169c52b2da",
+    "source_digest": "sha256:afd14261a12776692529819ab8b113e55ef68150920111e982cd00f66a8af8ea",
+    "source_ref": "src_a149d3b6c6d2425c"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_1cb20c6823882030",
-  "subject_ref": "evd_79ec389757ca4003",
+  "source_ref": "src_a149d3b6c6d2425c",
+  "subject_ref": "evd_6e0222f19a546555",
   "type": "evidence_bound"
 }
