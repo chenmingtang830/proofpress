@@ -1,21 +1,21 @@
 {
-  "created_at": "2026-08-30T19:15:58.145607Z",
-  "event_id": "ppe_ea8bdd24f4e850d8",
+  "created_at": "2026-08-30T19:15:58.226859Z",
+  "event_id": "ppe_e65e61ced1ae525a",
   "evidence": {
-    "digest": "sha256:3c70f324c22bf6f664383f82d92cef56616cf0ce97573fdfa9978ab789a3da89",
-    "id": "evd_74cc8590f488d4ef",
+    "digest": "sha256:95df7edff6d06ee69dcfbffed71fbdff16782f9afcb31f3f03fd3014f5a71e46",
+    "id": "evd_6de1de7eb51ce334",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:1949b445e03bdb4343970706a96786a23b9e98331a692394eb482b6341ee1587",
+    "quote_digest": "sha256:39515123e832b2f0133f9f982c6fd709e46c7cfc6bd55fa67cb1ef4f46fa51dc",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:1949b445e03bdb4343970706a96786a23b9e98331a692394eb482b6341ee1587",
-        "section_id": "sec_745f2f7128432eea"
+        "section_digest": "sha256:39515123e832b2f0133f9f982c6fd709e46c7cfc6bd55fa67cb1ef4f46fa51dc",
+        "section_id": "sec_ab64dc3f668b8716"
       },
-      "quote": "STOCK PURCHASE LETTER OF INTENT\n",
-      "quote_digest": "sha256:1949b445e03bdb4343970706a96786a23b9e98331a692394eb482b6341ee1587",
+      "quote": "﻿SERIES A PREFERRED STOCK PURCHASE AGREEMENT\n",
+      "quote_digest": "sha256:39515123e832b2f0133f9f982c6fd709e46c7cfc6bd55fa67cb1ef4f46fa51dc",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
@@ -24,18 +24,18 @@
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
       "source": {
-        "content_digest": "sha256:dfb4a6fb5185685768f588160e39690b944d8cbfad8e0b36a92b49be895f80d9",
+        "content_digest": "sha256:de3c85ce68cc9a64aadabec8843aff116664ead676844e5ce1f589169c52b2da",
         "media_type": "text/plain",
-        "uri": "private://apex/dfb4a6fb51856857-3ebb9312"
+        "uri": "private://apex/de3c85ce68cc9a64-4c7c3329"
       }
     },
-    "retrieval_receipt_digest": "sha256:ba9523305dee64c24d677804743b0996c1557d28e475b2e7147bbccdc5bba1b3",
-    "source_content_digest": "sha256:dfb4a6fb5185685768f588160e39690b944d8cbfad8e0b36a92b49be895f80d9",
-    "source_digest": "sha256:af353dc2ff025f1b5856614e044526af70dd8dd57771cc7162880a69ff71fe65",
-    "source_ref": "src_fe48f3c72ed75d5f"
+    "retrieval_receipt_digest": "sha256:bf42d04fb3788cefe75bdf8303d87b3d9ad0f5c267395e475ccef00bb8840cb5",
+    "source_content_digest": "sha256:de3c85ce68cc9a64aadabec8843aff116664ead676844e5ce1f589169c52b2da",
+    "source_digest": "sha256:afd14261a12776692529819ab8b113e55ef68150920111e982cd00f66a8af8ea",
+    "source_ref": "src_a149d3b6c6d2425c"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_fe48f3c72ed75d5f",
-  "subject_ref": "evd_74cc8590f488d4ef",
+  "source_ref": "src_a149d3b6c6d2425c",
+  "subject_ref": "evd_6de1de7eb51ce334",
   "type": "evidence_bound"
 }
