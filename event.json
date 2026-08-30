@@ -1,15 +1,41 @@
 {
-  "created_at": "2026-08-30T19:17:06.984449Z",
-  "event_id": "ppe_745ae9afaa10cb13",
-  "record": {
-    "content_digest": "sha256:f3b1b042a301da0a6bb7952eae285cd59b1a818a9559044a6e9f6d3859adbaf3",
-    "id": "src_e73ff682b6190163",
-    "kind": "retrieval_source",
-    "media_type": "application/pdf",
-    "record_hash": "sha256:175e0124af6d3b4aab797ecdb8f61eac6ef4fb1e80362ef05e6135e3702f950b",
-    "uri": "private://apex/f3b1b042a301da0a-c0113bd4"
+  "created_at": "2026-08-30T19:17:07.095261Z",
+  "event_id": "ppe_6c32ec6ece8afe84",
+  "evidence": {
+    "digest": "sha256:91e24dc6884519674c618bc6d5f71e029fbd7039a8f4f188bc751643c02aca9e",
+    "id": "evd_4d84a4450f7ec442",
+    "kind": "retrieval_evidence",
+    "quote_digest": "sha256:94b79d728633d85c05690ec56bb22a854e053f0c2d2cf9ebf95238bd1116cbbf",
+    "retrieval_receipt": {
+      "locator": {
+        "kind": "section_span",
+        "page_end": 1,
+        "page_start": 1,
+        "section_digest": "sha256:94b79d728633d85c05690ec56bb22a854e053f0c2d2cf9ebf95238bd1116cbbf",
+        "section_id": "sec_5b9ed5cd97f27c3c"
+      },
+      "quote": "/A 55 0 R\n/Next 52 0 R\n/Parent 50 0 R\n/Prev 56 0 R\n/Title (II. Disproportionate Distributions)\n>>\nendobj\n\n55 0 obj\n<<\n",
+      "quote_digest": "sha256:94b79d728633d85c05690ec56bb22a854e053f0c2d2cf9ebf95238bd1116cbbf",
+      "retrieval": {
+        "adapter": "bm25-page",
+        "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
+        "query": "retained earnings equity rollforward general ledger distributions M-2 reconciliation",
+        "version": "1"
+      },
+      "schema_version": "proofpress/retrieval-evidence/v1",
+      "source": {
+        "content_digest": "sha256:f3b1b042a301da0a6bb7952eae285cd59b1a818a9559044a6e9f6d3859adbaf3",
+        "media_type": "application/pdf",
+        "uri": "private://apex/f3b1b042a301da0a-c0113bd4"
+      }
+    },
+    "retrieval_receipt_digest": "sha256:87ae2be4a9b10a2604ff44940540fe90acfcb8a52476655bf7d1a6ff9477bdbe",
+    "source_content_digest": "sha256:f3b1b042a301da0a6bb7952eae285cd59b1a818a9559044a6e9f6d3859adbaf3",
+    "source_digest": "sha256:175e0124af6d3b4aab797ecdb8f61eac6ef4fb1e80362ef05e6135e3702f950b",
+    "source_ref": "src_e73ff682b6190163"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "subject_ref": "src_e73ff682b6190163",
-  "type": "source_recorded"
+  "source_ref": "src_e73ff682b6190163",
+  "subject_ref": "evd_4d84a4450f7ec442",
+  "type": "evidence_bound"
 }
