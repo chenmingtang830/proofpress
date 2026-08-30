@@ -1,41 +1,41 @@
 {
-  "created_at": "2026-08-30T19:17:41.448261Z",
-  "event_id": "ppe_2e965b7af404d22a",
+  "created_at": "2026-08-30T19:17:41.677863Z",
+  "event_id": "ppe_4f563658a3fda749",
   "evidence": {
-    "digest": "sha256:8d385950cf2f8dd1081ba8270bdc26108e8758e5a03b8f4e29d4bf41f989f910",
-    "id": "evd_0584c67f693620b9",
+    "digest": "sha256:6df53c5e4cdfd60b0f5a5605bae0384cea958f035ed7497dcf817c0db55d82a1",
+    "id": "evd_8a722237c654025c",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:6be35d45e8c433160f3bd5d203ac2a9f3112ffed31af2db612d6d393001290c5",
+    "quote_digest": "sha256:dcee62d908eacdba944b52fc6c65971aeba60d7d38e44a9814921eebf6947f7e",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:6be35d45e8c433160f3bd5d203ac2a9f3112ffed31af2db612d6d393001290c5",
-        "section_id": "sec_19a760f2e71be0ae"
+        "section_digest": "sha256:dcee62d908eacdba944b52fc6c65971aeba60d7d38e44a9814921eebf6947f7e",
+        "section_id": "sec_35b9b41d080df935"
       },
-      "quote": "﻿\n\n\n\n\n\nxxxxxxxxxxxxxxxxxxx\n\n\nMr.\t\t\t\t\nSummit Filing Solutions, Inc\nXxxxxxxxxxxxxx\nxxxxxxxxxxxxxx\n\n\n\nRe: Due Diligence Request (First)\n\nDear _________________:\n\nAs indicated in our letter of intent dated xx/xx/xxxx, Harbor Bridge Private Equity must conduct a review of financial and other information relating to the Company. Enclosed is a list of requested items and information.  \n\nAlthough we believe the attached request is reasonably comprehensive, the Purchaser must reserve the right to request additional information and documents after reviewing your first set of responses. \n\nWith regard to information on the list that Summit has already provided, please simply indicate “previously provided,” where applicable. \n\nDon’t hesitate to contact me with any questions about the list.  Thank you very much. \n\nSincerely,\n\nXxxxxxxxxxxxxxxx\nGeneral Counsel\nHarbor Bridge Private Equity\n \n\nxxx/opc\natt\n",
-      "quote_digest": "sha256:6be35d45e8c433160f3bd5d203ac2a9f3112ffed31af2db612d6d393001290c5",
+      "quote": "        8.9 NO CLAIM REGARDING STOCK OWNERSHIP OR SALE PROCEEDS\nThere will not have been made or threatened by any Third Party any claim asserting that such Third Party (a) is the holder or the beneficial owner of any Equity Security of any Acquired Company or (b) is entitled to all or any portion of the Purchase Price.\n",
+      "quote_digest": "sha256:dcee62d908eacdba944b52fc6c65971aeba60d7d38e44a9814921eebf6947f7e",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
-        "query": "\"Summit Filing Solutions\" \"Anderson Instruments\" lease \"Summit\" \"Anderson Instruments\" \"Office Lease Agreement\" \"Anderson Instruments\" office lease Summit lease Summit Anderson rent option stock",
+        "query": "lease rent abatement concession related party lease purchase option conversion option stock lease security deposit loan collateral lease non-rent consideration ownership",
         "version": "1"
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
       "source": {
-        "content_digest": "sha256:67c0146b0b9fce90f3619ef83de3641ab25a2927222a6000bc17b4400e1afe0e",
+        "content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
         "media_type": "text/plain",
-        "uri": "private://apex/67c0146b0b9fce90-38c67136"
+        "uri": "private://apex/7beb28a6e0069669-d885dee3"
       }
     },
-    "retrieval_receipt_digest": "sha256:b434f4ccdd7309d7b9beb9c1c31bde2c27c179812a8e726d4bd9671c2cb2f8c3",
-    "source_content_digest": "sha256:67c0146b0b9fce90f3619ef83de3641ab25a2927222a6000bc17b4400e1afe0e",
-    "source_digest": "sha256:3043f6e73ea65ebae9d4659b679870dacf8b2b54879a43732461206822b12e19",
-    "source_ref": "src_d638bbb18a01f3d8"
+    "retrieval_receipt_digest": "sha256:7553fbb6af41ea177d4897668ab9e1de44607c96bca4523a3ba2ebec54f844ba",
+    "source_content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
+    "source_digest": "sha256:9b5e55c106d3b2c9d270455bb5af81e282a4e92f3ba0722f868b952faf8ff0b5",
+    "source_ref": "src_1cb20c6823882030"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_d638bbb18a01f3d8",
-  "subject_ref": "evd_0584c67f693620b9",
+  "source_ref": "src_1cb20c6823882030",
+  "subject_ref": "evd_8a722237c654025c",
   "type": "evidence_bound"
 }
