@@ -1,41 +1,41 @@
 {
-  "created_at": "2026-08-30T19:16:39.738276Z",
-  "event_id": "ppe_a60366f0c7dc877b",
+  "created_at": "2026-08-30T19:16:39.887336Z",
+  "event_id": "ppe_cf6b1b9fe6a62610",
   "evidence": {
-    "digest": "sha256:43c907564adc77b524c4cd92fedd0af30832c2bfebd1d2ff9f3ed2e1d13891c0",
-    "id": "evd_c23c3cb96bb3ead3",
+    "digest": "sha256:5349449d63390aee156b3bca5f422a1168529d73552587b7a3f3434b7d5f3143",
+    "id": "evd_8b32f290178442ca",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:187f0913e1e07a78be2f281041d93822daf7a20abf3ae9a77aeda88ecf61e089",
+    "quote_digest": "sha256:3ef7911de34dcc70ae895d77e794868118079d1a3d176293f14345b0bd42e31d",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:187f0913e1e07a78be2f281041d93822daf7a20abf3ae9a77aeda88ecf61e089",
-        "section_id": "sec_2458f9b7d563937c"
+        "section_digest": "sha256:3ef7911de34dcc70ae895d77e794868118079d1a3d176293f14345b0bd42e31d",
+        "section_id": "sec_655d3748fe46e020"
       },
-      "quote": "﻿\nThis guide presents a comprehensive outline for a tax diligence memorandum focused on S-election risks and exposure. This structure is designed to guide a detailed analysis, ensuring all critical aspects of S-corporation status, qualification, and potential pitfalls are addressed.\n\nTax Diligence Memorandum Outline: S-Election Risks and Exposure\nI. Introduction\n    • Purpose of Memorandum \n        ◦ Scope of review (e.g., acquisition, investment, internal compliance)\n        ◦ Summary of target entity and transaction context\n    • Executive Summary \n        ◦ Key findings and recommendations\nII. Overview of S-Corporation Status\n    • Definition and Benefits of S-Corporation Election\n    • Summary of S-Election Requirements (IRC §1361, §1362) \n        ◦ Eligible entities\n        ◦ Shareholder requirements\n        ◦ Stock requirements\n        ◦ Election process and timing\nIII. S-Election Qualification Review\n    • Entity Eligibility \n        ◦ Domestic corporation status\n        ◦ Ineligible entity types (e.g., certain financial institutions, insurance companies)\n    • Shareholder Eligibility \n        ◦ Permitted shareholders (individuals, certain trusts, estates)\n        ◦ Prohibited shareholders (nonresident aliens, partnerships, corporations)\n        ◦ Number of shareholders (100-shareholder limit)\n    • Stock Structure \n        ◦ Single class of stock requirement\n        ◦ Review of equity instruments (convertibles, options, warrants, debt instruments)\n    • Election Process \n        ◦ Timeliness and validity of Form 2553 filing\n        ◦ Unanimous shareholder consent\nIV. Historical Compliance and Maintenance of S-Status\n    • Review of Corporate Records \n        ◦ Articles of incorporation, bylaws, shareholder agreements\n        ◦ Stock ledgers and transfer records\n    • Prior and Ongoing Compliance \n        ◦ Changes in ownership or structure\n        ◦ Issuance of new equity or debt\n        ◦ Distributions and redemptions\n    • Potential Inadvertent Terminations \n        ◦ Violations of eligibility requirements\n        ◦ Issuance of a second class of stock\n        ◦ Nonresident alien shareholders\n        ◦ Late or defective elections\nV. Tax Exposure and Risk Assessment\n    • Consequences of S-Status Termination \n        ◦ Reversion to C-corporation status\n        ◦ Built-in gains tax exposure\n        ◦ Loss of pass-through treatment\n    • Potential IRS Challenges \n        ◦ Audit risk factors\n        ◦ Prior IRS correspondence or examinations\n    • State and Local Tax Considerations \n        ◦ Conformity with federal S-election\n        ◦ Separate state-level S-election requirements\nVI. Remediation and Corrective Actions\n    • IRS Relief for Inadvertent Terminations (IRC §1362(f)) \n        ◦ Eligibility for relief\n        ◦ Required corrective actions and filings\n    • Prospective Risk Mitigation \n        ◦ Recommendations for ongoing compliance\n        ◦ Shareholder and entity agreement amendments\nVII. Transaction-Specific Considerations\n    • Impact on Proposed Transaction \n        ◦ Change of control implications\n        ◦ Section 338(h)(10) or Section 336(e) elections\n        ◦ Buyer and seller indemnities\n    • Representations and Warranties \n        ◦ Drafting considerations for purchase agreements\nVIII. Conclusion and Recommendations\n    • Summary of Key Risks\n    • Recommended Next Steps\n    • Open Issues for Further Diligence\nIX. Exhibits and Supporting Documentation\n    • Checklist of S-Election Requirements\n    • Sample Forms and Filings\n    • Summary Table of Identified Risks\n\n",
-      "quote_digest": "sha256:187f0913e1e07a78be2f281041d93822daf7a20abf3ae9a77aeda88ecf61e089",
+      "quote": "SECTION 5. RELIEF FOR LATE S CORPORATION ELECTIONS.\n.01 Form 2553. A Requesting Entity seeking relief for a late S corporation election must file a completed Form 2553, signed by (1) an officer of the corporation authorized to sign, and (2) all persons who were shareholders at any time during the period that began on the first day of the taxable year for which the election is to be effective and ends on the day the completed Election Form is filed.\n.02 Supplemental materials. The completed Election Form must include statements from all shareholders during the period between the date the S corporation election was to have become effective and the date the completed Election Form is filed that they have reported their income on all affected returns consistent with the S corporation election for the year the election should have been filed and for all subsequent years. Such statements must comply with the requirement in Section 4.03(3) of this revenue procedure.\n.03 Additional materials for a late corporate classification election intended to be effective on the same date that the S corporation election was intended to be effective. In addition to the materials required under Section 5.02 of this revenue procedure, in the case of a late corporate classification election intended to be effective on the same date that the S corporation election was intended to be effective, the completed Election Form must also include the following representations, which must comply with the requirement in Section 4.03(3) of this revenue procedure:\n(1) The Requesting Entity is an eligible entity as defined in § 301.7701-3(a);\n(2) The Requesting Entity intended to be classified as a corporation as of the Effective Date of the S corporation status;\n(3) The Requesting Entity fails to qualify as a corporation solely because Form 8832 was not timely filed under § 301.7701-3(c)(1)(i), or Form 8832 was not deemed to have been filed under § 301.7701-3(c)(1)(v)(C);\n(4) The Requesting Entity fails to qualify as an S corporation on the Effective Date of the S corporation status solely because the S corporation election was not timely filed pursuant to § 1362(b); and\n(5)(i) The Requesting Entity timely filed all required federal tax returns and information returns consistent with its requested classification as an S corporation for all of the years the entity intended to be an S corporation and no inconsistent tax or information returns have been filed by or with respect to the entity during any of the taxable years, or\n(ii) The Requesting Entity has not filed a federal tax or information return for the first year in which the election was intended to be effective because the due date has not passed for that year’s federal tax or information return.\n.04 Relief where all returns filed as an S corporation. The requirement for relief imposed by Section 4.02(2) (providing that relief must be sought within three years and 75 days of the Effective Date) is not applicable in the case of corporations if the following conditions are met:\n(1) The corporation is not seeking late corporate classification election relief concurrently with a late S corporation election under this revenue procedure;\n(2) The corporation fails to qualify as an S corporation solely because the Form 2553 was not timely filed;\n(3) The corporation and all of its shareholders reported their income consistent with S corporation status for the year the S corporation election should have been made, and for every subsequent taxable year (if any);\n(4) At least 6 months have elapsed since the date on which the corporation filed its tax return for the first year the corporation intended to be an S corporation; and\n(5) Neither the corporation nor any of its shareholders was notified by the IRS of any problem regarding the S corporation status within 6 months of the date on which the Form 1120S for the first year was timely filed, and\n(6) The completed Election Form includes the statement(s) described in Section 5.02 of this revenue procedure.\n",
+      "quote_digest": "sha256:3ef7911de34dcc70ae895d77e794868118079d1a3d176293f14345b0bd42e31d",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
-        "query": "IRS denial relief Carrie Canuck ineligible shareholder Summit IRS ruling denial S corporation relief effective date IRS denial shareholder eligibility Summit S election termination denial",
+        "query": "S corporation ineligible shareholder election termination effective date IRS relief denied ineligible shareholder S corporation status Summit C corporation status after shareholder transfer S election invalid shareholder transfer tax consequences",
         "version": "1"
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
       "source": {
-        "content_digest": "sha256:971095c9beaecfbca22e492ead1964eebed8e323a4acc6860e342a14675d71f9",
+        "content_digest": "sha256:489de4a5c467eb0382ef4f29920dc6433adc3a3336da5057aec7f37cd0208560",
         "media_type": "text/plain",
-        "uri": "private://apex/971095c9beaecfbc-e5e13b9a"
+        "uri": "private://apex/489de4a5c467eb03-1184b3a1"
       }
     },
-    "retrieval_receipt_digest": "sha256:78c7f84aa8d8ab70ba3063defbb9d0c485aa73ae5dd1bb0520fea47473635bb8",
-    "source_content_digest": "sha256:971095c9beaecfbca22e492ead1964eebed8e323a4acc6860e342a14675d71f9",
-    "source_digest": "sha256:c395d125198aa3806cf5683421fda35b5901198756b648bfc91d2149b16c40e2",
-    "source_ref": "src_2dc5a381a5b5c028"
+    "retrieval_receipt_digest": "sha256:59a3b5853af876fb0ebb2f86406f021c2fcd1ddfaf08d8539d106f68294e57f7",
+    "source_content_digest": "sha256:489de4a5c467eb0382ef4f29920dc6433adc3a3336da5057aec7f37cd0208560",
+    "source_digest": "sha256:0e30a41e1d31405a037edcc4e56b65c5107236c02092ff6fca6351e692a30a27",
+    "source_ref": "src_449cd1a48a2b6b92"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_2dc5a381a5b5c028",
-  "subject_ref": "evd_c23c3cb96bb3ead3",
+  "source_ref": "src_449cd1a48a2b6b92",
+  "subject_ref": "evd_8b32f290178442ca",
   "type": "evidence_bound"
 }
