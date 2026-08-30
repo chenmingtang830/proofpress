@@ -1,11 +1,41 @@
 {
-  "created_at": "2026-08-30T19:16:57.086662Z",
-  "event_id": "ppe_9259f3a1a3fb0f18",
-  "policy_digest": "sha256:cde050fdc0b2869fecf8ee9d24dee964fc3bbc18e6b489da2e08e7c3df266501",
-  "relation_digest": "sha256:7d51f4c3d1ec7be6cd4ac04f11dd598055f1d23046fc3452303ecbf209812c65",
-  "review_ref": "ppe_18e6c8dddd1d590c",
-  "reviewer": "human:staged-evaluation-reviewer",
+  "created_at": "2026-08-30T19:16:57.275213Z",
+  "event_id": "ppe_4772e8e9c4a3f503",
+  "evidence": {
+    "digest": "sha256:d29c60de41a69f76026376f657a92611edc83ae8a7b982db936bc2c6ea05fdc5",
+    "id": "evd_e3f5da4b9fcfb104",
+    "kind": "retrieval_evidence",
+    "quote_digest": "sha256:be534874861d2dfce6180f21ed62a5533e699af8c146c5f0a50fc599e64e2348",
+    "retrieval_receipt": {
+      "locator": {
+        "kind": "section_span",
+        "page_end": 1,
+        "page_start": 1,
+        "section_digest": "sha256:be534874861d2dfce6180f21ed62a5533e699af8c146c5f0a50fc599e64e2348",
+        "section_id": "sec_d76dd1f9b1c325e6"
+      },
+      "quote": "﻿Summit Filing Solutions, Inc.\nS‑Corporation Tax Due Diligence Memorandum\n\n",
+      "quote_digest": "sha256:be534874861d2dfce6180f21ed62a5533e699af8c146c5f0a50fc599e64e2348",
+      "retrieval": {
+        "adapter": "bm25-page",
+        "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
+        "query": "\"Summit\" entity type \"Summit\" corporation \"Summit\" LLC \"Summit\" S corporation",
+        "version": "1"
+      },
+      "schema_version": "proofpress/retrieval-evidence/v1",
+      "source": {
+        "content_digest": "sha256:e7eb786dc671298aa9426792d523f0ec997bee3a570763a8b10f13a1644fc105",
+        "media_type": "text/plain",
+        "uri": "private://apex/e7eb786dc671298a-1d2051f2"
+      }
+    },
+    "retrieval_receipt_digest": "sha256:7f71a6afadf78e8a8c83fa2c468c42d15af1b4abb2d4a4d7b8e270e03491a40c",
+    "source_content_digest": "sha256:e7eb786dc671298aa9426792d523f0ec997bee3a570763a8b10f13a1644fc105",
+    "source_digest": "sha256:bbebf48c1f9dee4d30677c0c93c00e3eb349758e8e8a6eac5acafa2f8650d491",
+    "source_ref": "src_e9b083e75ca5f18f"
+  },
   "schema_version": "proofpress/knowledge-event/v2",
-  "subject_ref": "rel_151c83af145a3bf6",
-  "type": "relation_admitted"
+  "source_ref": "src_e9b083e75ca5f18f",
+  "subject_ref": "evd_e3f5da4b9fcfb104",
+  "type": "evidence_bound"
 }
