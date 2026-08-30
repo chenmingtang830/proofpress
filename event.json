@@ -1,26 +1,18 @@
 {
-  "conclusion": {
-    "allowed_actors": [
-      "*"
-    ],
-    "artifact_refs": [],
-    "created_at": "2026-08-30T19:16:05.474233Z",
-    "digest": "sha256:a9a070c414c0cacbec747f6a3edb9610c29a5fa7132082f41ad5c14053c70a6a",
-    "evidence_refs": [
-      "evd_65663ee8f1000a17",
-      "evd_841ccc9a66410346"
-    ],
-    "expires_at": null,
-    "id": "knw_aba593c7feac660d",
-    "kind": "conclusion",
-    "proposer": "agent:v8-constructor",
-    "qualifiers": {},
-    "scope": "task_b78c4510be784e6a8b8f0394aafd785d",
-    "statement": "No exact total federal income-tax amount attributable to the transaction is supported by the cited excerpts. They show Laura Kensington’s 26% stock ownership and a requirement for pro rata distributions, but do not provide a personal NIIT computation."
+  "checks": {
+    "evidence_integrity": true,
+    "evidence_present": true,
+    "not_expired": true,
+    "not_superseded": true,
+    "retrieval_receipts": true,
+    "scope_present": true
   },
-  "created_at": "2026-08-30T19:16:05.506203Z",
-  "event_id": "ppe_7451a263c30ad79b",
+  "conclusion_digest": "sha256:a9a070c414c0cacbec747f6a3edb9610c29a5fa7132082f41ad5c14053c70a6a",
+  "created_at": "2026-08-30T19:16:05.608075Z",
+  "eligible": true,
+  "event_id": "ppe_a76c04d7f1a1475e",
+  "policy_digest": "sha256:cde050fdc0b2869fecf8ee9d24dee964fc3bbc18e6b489da2e08e7c3df266501",
   "schema_version": "proofpress/knowledge-event/v2",
   "subject_ref": "knw_aba593c7feac660d",
-  "type": "conclusion_proposed"
+  "type": "policy_evaluated"
 }
