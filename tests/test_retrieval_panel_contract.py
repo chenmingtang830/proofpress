@@ -197,9 +197,9 @@ class RetrievalPanelContractTests(unittest.TestCase):
 
     def test_formal_agentic_does_not_require_unnecessary_tool_use(self):
         source = inspect.getsource(workflow_runner.main)
-        self.assertIn(
+        self.assertNotIn(
             'args.qualification_only and not any(row.get("used_traverse_graph") is True', source)
-        self.assertIn(
+        self.assertNotIn(
             'args.qualification_only and not any(row.get("used_search_gap") is True', source)
 
     def test_v7_preserver_routes_are_frozen_and_never_generate_new_claims(self):

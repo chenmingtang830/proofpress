@@ -979,6 +979,8 @@ def main() -> None:
                     help="Comma-separated frozen executor labels: " + ",".join(EXECUTOR_ROUTES))
     ap.add_argument("--conditions",
                     help="Comma-separated scored product conditions; defaults to the selected panel mode")
+    ap.add_argument("--preflight-only", action="store_true",
+                    help="Validate frozen inputs, routes, contracts, and graph staging without model calls.")
     args = ap.parse_args()
     if args.native_e2e and not args.full_claim_task_panel:
         raise SystemExit("--native-e2e requires --full-claim-task-panel")
@@ -990,7 +992,7 @@ def main() -> None:
         raise SystemExit("--agentic-only requires --route-canary-report")
     if args.agentic_only and not args.qualification_only and not args.workflow_qualification_reports:
         raise SystemExit("formal --agentic-only requires --workflow-qualification-reports")
-    if not os.environ.get("AI_GATEWAY_API_KEY"):
+    if not args.preflight_only and not os.environ.get("AI_GATEWAY_API_KEY"):
         raise SystemExit("AI_GATEWAY_API_KEY unavailable")
     implementation_revision = subprocess.run(
         ["git", "-C", str(ROOT), "rev-parse", "HEAD"], check=True,
@@ -1109,6 +1111,34 @@ def main() -> None:
     if args.agentic_only and not args.native_e2e:
         evaluation_unit_count = (len(qualification_ask_ids) if qualification_ask_ids is not None else
                                  sum(row.get("task_id") in task_ids for row in asks_manifest.get("asks", [])))
+    if args.preflight_only:
+        sidecar_path = Path(sidecar)
+        pageindex_gateway_path = Path(pageindex_gateway_server)
+        claim_gateway_path = Path(claim_gateway_server)
+        if not sidecar_path.is_file() or not os.access(sidecar_path, os.X_OK):
+            raise ValueError("PageIndex sidecar is absent or not executable")
+        if not pageindex_gateway_path.is_file() or not claim_gateway_path.is_file():
+            raise ValueError("one or more role-specific gateway bridges are absent")
+        _, navigation = pdf_sources(catalog)
+        navigation.update({row["uri"]: row["path"] for row in catalog.get("source_navigation", [])})
+        staged_claims = 0
+        for task_id in task_ids:
+            graph = json.loads((raw_dir / f"{task_id}.json").read_text())
+            mapping, _ = stage_graph(graph, navigation)
+            staged_claims += len(mapping)
+        print(json.dumps({
+            "ok": True,
+            "preflight_only": True,
+            "implementation_revision": implementation_revision,
+            "task_count": len(task_ids),
+            "planned_cells": evaluation_unit_count * len(active_conditions) * len(executors),
+            "staged_claim_count": staged_claims,
+            "conditions": list(active_conditions),
+            "executor_labels": executor_labels,
+            "gateway_key_required_for_run": True,
+            "gateway_key_available": bool(os.environ.get("AI_GATEWAY_API_KEY")),
+        }, sort_keys=True))
+        return
     previous = Path.cwd()
     try:
         executor_gateways = {
