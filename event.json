@@ -1,21 +1,21 @@
 {
-  "created_at": "2026-08-30T19:16:15.832491Z",
-  "event_id": "ppe_f4335a88974a0e30",
+  "created_at": "2026-08-30T19:16:15.948922Z",
+  "event_id": "ppe_43ea6fd186f53c3e",
   "evidence": {
-    "digest": "sha256:cd3c2c5b635f358e087db6b6ab8968df889f2055cb046048b12717b3c94a999b",
-    "id": "evd_2a39a53cf508c9d5",
+    "digest": "sha256:eda4849c68bd5eeb852d7d4d24c66b69d4072573841f4082fea82681e30dbf20",
+    "id": "evd_767e974115c30bd6",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:fcd92b68f4fb180c70b61abf09f76c9ae458aff83f273f24346f6fc6a663263c",
+    "quote_digest": "sha256:cbe8dbf391040e4cef9571d3348b4b151336ccf0972b214db72729ae0eaa05ba",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:fcd92b68f4fb180c70b61abf09f76c9ae458aff83f273f24346f6fc6a663263c",
-        "section_id": "sec_89b9fef0fc642dfb"
+        "section_digest": "sha256:cbe8dbf391040e4cef9571d3348b4b151336ccf0972b214db72729ae0eaa05ba",
+        "section_id": "sec_e216c875b11705da"
       },
-      "quote": "H\fW*��O?�4���ս߽_��*N}^�v�\u000b����Ըԣ�/S{R�����2\u001fC�\u0011�Z\u001fZh�9������͏��O�cfr\u0003s�\u001a��|�s.sg\u000b�\nU\u0000�u���Q�\u001a@�Z\f,�Ӯ6��/ұ.\u001a����(\u001d\u001b�o�Y�Xs\u0016��쭯���7��tK��Mw5�\u0006�\u0003��\u001eiz\u001c8��TP5=\u0012����\u0003�A7������̓��m�\u001d�����\u001e���b�_p@�\f\u0018\u001a\u001c\u0011\u001c\u0005�\u0005&\u0000C���i@\u0005P\u0019�\u000b",
-      "quote_digest": "sha256:fcd92b68f4fb180c70b61abf09f76c9ae458aff83f273f24346f6fc6a663263c",
+      "quote": "﻿Form 1120-S \nDepartment of the Treasury  Internal Revenue Service  \nU.S. Income Tax Return for an S Corporation  \nDo not file this form unless the corporation has filed or  \nis attaching Form 2553 to elect to be an S corporation.  \nGo to www.irs.gov/Form1120S for instructions and the latest information. \nOMB No. 1545-0123  2024 \nFor calendar year 2024 or tax year beginning , 2024, ending , 20  \nA S election effective date  \nB Business activity code  number (see instructions)  \nC Check if Sch. M-3 attached \n",
+      "quote_digest": "sha256:cbe8dbf391040e4cef9571d3348b4b151336ccf0972b214db72729ae0eaa05ba",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
@@ -24,18 +24,18 @@
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
       "source": {
-        "content_digest": "sha256:325b6f0d8f419132cd9760d028bc85168558b524cf783b624c781b8780a54d37",
-        "media_type": "application/pdf",
-        "uri": "private://apex/325b6f0d8f419132-3493756f"
+        "content_digest": "sha256:c93c2b228433659eb56b66bfaee1dc3de9ed754d39aa736b60372b74813f3481",
+        "media_type": "text/plain",
+        "uri": "private://apex/c93c2b228433659e-f96ee06e"
       }
     },
-    "retrieval_receipt_digest": "sha256:baf53255217481832d619ad279711e9c488467fe7e37bdf3db864a1ce095dd16",
-    "source_content_digest": "sha256:325b6f0d8f419132cd9760d028bc85168558b524cf783b624c781b8780a54d37",
-    "source_digest": "sha256:8430de432d9fe6c9688523cf41bbd8ffe552bee7df815cc79ff5defa1a8b4181",
-    "source_ref": "src_f976955a5d4d1a1e"
+    "retrieval_receipt_digest": "sha256:0952439bdee9619315960f2d871078c4d8cefa31a5200e04585d213a5aac5e49",
+    "source_content_digest": "sha256:c93c2b228433659eb56b66bfaee1dc3de9ed754d39aa736b60372b74813f3481",
+    "source_digest": "sha256:0a36a5ff5eb33d41016d52986e5f40fb7355d329af2f4a939222e040274ce016",
+    "source_ref": "src_1769935b4d6bb417"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_f976955a5d4d1a1e",
-  "subject_ref": "evd_2a39a53cf508c9d5",
+  "source_ref": "src_1769935b4d6bb417",
+  "subject_ref": "evd_767e974115c30bd6",
   "type": "evidence_bound"
 }
