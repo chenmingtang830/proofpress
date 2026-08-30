@@ -1,41 +1,41 @@
 {
-  "created_at": "2026-08-30T19:17:08.991216Z",
-  "event_id": "ppe_012aae5b668b4174",
+  "created_at": "2026-08-30T19:17:09.183429Z",
+  "event_id": "ppe_478d736357aaff6e",
   "evidence": {
-    "digest": "sha256:56c111a5a5a2d28c5b74af3574d150cb0c3923393e9309e970cd80a0a86cfc08",
-    "id": "evd_d05bbddeb6388c94",
+    "digest": "sha256:875c170a5821981a07f2d7704480772270621061c3f041c40424c737385df266",
+    "id": "evd_a604982d2fedb0e8",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:a8a9bb1509510e0c565d0ec66a3934274e40e6922804dc61a90aa8be4e26bacc",
+    "quote_digest": "sha256:187f0913e1e07a78be2f281041d93822daf7a20abf3ae9a77aeda88ecf61e089",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:a8a9bb1509510e0c565d0ec66a3934274e40e6922804dc61a90aa8be4e26bacc",
-        "section_id": "sec_6a439b16034bfc9b"
+        "section_digest": "sha256:187f0913e1e07a78be2f281041d93822daf7a20abf3ae9a77aeda88ecf61e089",
+        "section_id": "sec_2458f9b7d563937c"
       },
-      "quote": "﻿SCHEDULE K-1 (Form 1120-S)                                                                             2021\nDepartment of the Treasury • Internal Revenue Service                          OMB No. 1545-0123\n\nShareholder’s Share of Income, Deductions, Credits, etc.                       For calendar year 2021\n\n────────────────────────────────────────────────────────────────────────────────────\nPart I ─ Information About the Corporation\n────────────────────────────────────────────────────────────────────────────────────\nA  Corporation’s employer identification number                       12-3456789\nB  Corporation’s name, address, city, state, and ZIP code\n       Summit Filing Solutions, Inc.\n       8280 Willow Oaks Corporate Dr\n       Los Angeles, CA  90001\nC  IRS center where corporation filed return                               Ogden, UT\n\n────────────────────────────────────────────────────────────────────────────────────\nPart II ─ Information About the Shareholder\n────────────────────────────────────────────────────────────────────────────────────\nD  Shareholder’s identifying number                                    333-33-3333\nE  Shareholder’s name, address, city, state, and ZIP code\n       David R. Goldstein\n       725 S. Figueroa St., Suite 2900\n       Los Angeles, CA  90017\nF  Shareholder’s percentage of stock ownership\n       Beginning of tax year   15%                 End of tax year   15%\n\n────────────────────────────────────────────────────────────────────────────────────\nPart III ─ Shareholder’s Share of Current Year Income, Deductions, Credits, etc.\n────────────────────────────────────────────────────────────────────────────────────\n1  Ordinary business income (loss)                                   $25,863\n2  Net rental real estate income (loss)                                    0\n3  Other net rental income (loss)                                          0\n4  Interest income                                                      $65\n5a Ordinary dividends                                                      0\n5b Qualified dividends                                                     0\n6  Royalties                                                               0\n7  Net short-term capital gain (loss)                                      0\n8a Net long-term capital gain (loss)                                   $345\n8b Collectibles (28%) gain (loss)                                          0\n8c Unrecaptured section 1250 gain                                          0\n9  Net section 1231 gain (loss)                                            0\n10 Other income (loss)                                                     0\n\n11 Section 179 deduction                                                   0\n12 Other deductions                                                        0\n13 Credits                                                                 0\n14 Foreign transactions                                                    0\n15 Charitable contributions                                               0\n16 Items affecting shareholder basis\n   a  Tax-exempt interest income                                           0\n   b  Other tax-exempt income                                              0\n   c  Nondeductible expenses                                               0\n   d  Distributions – cash and marketable securities                       0\n   e  Repayment of loans from shareholders                                0\n17 Other information                                                       0\n\n────────────────────────────────────────────────────────────────────────────────────\nStock and Debt Basis Limitations (for shareholder records)\n────────────────────────────────────────────────────────────────────────────────────\n   + Increase for income items (Lines 1 + 4 + 8a)                    $26,273\n   – Distributions and other reductions                                  0\n   = Net increase to stock basis this year                           $26,273\n\n   Type of income: Active Business Income\n   Foreign country or U.S. possession: N/A\n\n────────────────────────────────────────────────────────────────────────────────────\nPrepared by: Corporate Officer, Summit Filing Solutions, Inc.\nDate prepared: March 10, 2022\n\nThis is an exact substitute Schedule K-1 that matches the official K-1 filed with IRS Form 1120-S on March 15, 2022.\nRetain this copy with your permanent tax records.\n",
-      "quote_digest": "sha256:a8a9bb1509510e0c565d0ec66a3934274e40e6922804dc61a90aa8be4e26bacc",
+      "quote": "﻿\nThis guide presents a comprehensive outline for a tax diligence memorandum focused on S-election risks and exposure. This structure is designed to guide a detailed analysis, ensuring all critical aspects of S-corporation status, qualification, and potential pitfalls are addressed.\n\nTax Diligence Memorandum Outline: S-Election Risks and Exposure\nI. Introduction\n    • Purpose of Memorandum \n        ◦ Scope of review (e.g., acquisition, investment, internal compliance)\n        ◦ Summary of target entity and transaction context\n    • Executive Summary \n        ◦ Key findings and recommendations\nII. Overview of S-Corporation Status\n    • Definition and Benefits of S-Corporation Election\n    • Summary of S-Election Requirements (IRC §1361, §1362) \n        ◦ Eligible entities\n        ◦ Shareholder requirements\n        ◦ Stock requirements\n        ◦ Election process and timing\nIII. S-Election Qualification Review\n    • Entity Eligibility \n        ◦ Domestic corporation status\n        ◦ Ineligible entity types (e.g., certain financial institutions, insurance companies)\n    • Shareholder Eligibility \n        ◦ Permitted shareholders (individuals, certain trusts, estates)\n        ◦ Prohibited shareholders (nonresident aliens, partnerships, corporations)\n        ◦ Number of shareholders (100-shareholder limit)\n    • Stock Structure \n        ◦ Single class of stock requirement\n        ◦ Review of equity instruments (convertibles, options, warrants, debt instruments)\n    • Election Process \n        ◦ Timeliness and validity of Form 2553 filing\n        ◦ Unanimous shareholder consent\nIV. Historical Compliance and Maintenance of S-Status\n    • Review of Corporate Records \n        ◦ Articles of incorporation, bylaws, shareholder agreements\n        ◦ Stock ledgers and transfer records\n    • Prior and Ongoing Compliance \n        ◦ Changes in ownership or structure\n        ◦ Issuance of new equity or debt\n        ◦ Distributions and redemptions\n    • Potential Inadvertent Terminations \n        ◦ Violations of eligibility requirements\n        ◦ Issuance of a second class of stock\n        ◦ Nonresident alien shareholders\n        ◦ Late or defective elections\nV. Tax Exposure and Risk Assessment\n    • Consequences of S-Status Termination \n        ◦ Reversion to C-corporation status\n        ◦ Built-in gains tax exposure\n        ◦ Loss of pass-through treatment\n    • Potential IRS Challenges \n        ◦ Audit risk factors\n        ◦ Prior IRS correspondence or examinations\n    • State and Local Tax Considerations \n        ◦ Conformity with federal S-election\n        ◦ Separate state-level S-election requirements\nVI. Remediation and Corrective Actions\n    • IRS Relief for Inadvertent Terminations (IRC §1362(f)) \n        ◦ Eligibility for relief\n        ◦ Required corrective actions and filings\n    • Prospective Risk Mitigation \n        ◦ Recommendations for ongoing compliance\n        ◦ Shareholder and entity agreement amendments\nVII. Transaction-Specific Considerations\n    • Impact on Proposed Transaction \n        ◦ Change of control implications\n        ◦ Section 338(h)(10) or Section 336(e) elections\n        ◦ Buyer and seller indemnities\n    • Representations and Warranties \n        ◦ Drafting considerations for purchase agreements\nVIII. Conclusion and Recommendations\n    • Summary of Key Risks\n    • Recommended Next Steps\n    • Open Issues for Further Diligence\nIX. Exhibits and Supporting Documentation\n    • Checklist of S-Election Requirements\n    • Sample Forms and Filings\n    • Summary Table of Identified Risks\n\n",
+      "quote_digest": "sha256:187f0913e1e07a78be2f281041d93822daf7a20abf3ae9a77aeda88ecf61e089",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
-        "query": "Internal Revenue Code distribution sections exact IRC citation 26 U.S.C. shareholder distribution 26 U.S.C. S corporation distribution",
+        "query": "Obtain Summit's filed Form 2553, IRS CP261, all election correspondence, revocations, termination notices, and any §1362(f) relief request or determination.",
         "version": "1"
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
       "source": {
-        "content_digest": "sha256:7f98c6a307e0d56fba11fa8ab23bbd19139cf1379e5031c526a3265410e0ceed",
+        "content_digest": "sha256:971095c9beaecfbca22e492ead1964eebed8e323a4acc6860e342a14675d71f9",
         "media_type": "text/plain",
-        "uri": "private://apex/7f98c6a307e0d56f-9132ded0"
+        "uri": "private://apex/971095c9beaecfbc-e5e13b9a"
       }
     },
-    "retrieval_receipt_digest": "sha256:c30c2a16e6bd8de07b145be10fe724031a52704e280aba5233d232e226b01522",
-    "source_content_digest": "sha256:7f98c6a307e0d56fba11fa8ab23bbd19139cf1379e5031c526a3265410e0ceed",
-    "source_digest": "sha256:67153a84927f5b18b6a56986073edef6d192af4fdfe5054a90ec7dd131f2e7db",
-    "source_ref": "src_3f250e5132b5a61a"
+    "retrieval_receipt_digest": "sha256:83a8ecce0f22e8b95e1688b55a56680211470bd95054ffbf06634bbf1cd128f8",
+    "source_content_digest": "sha256:971095c9beaecfbca22e492ead1964eebed8e323a4acc6860e342a14675d71f9",
+    "source_digest": "sha256:c395d125198aa3806cf5683421fda35b5901198756b648bfc91d2149b16c40e2",
+    "source_ref": "src_2dc5a381a5b5c028"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_3f250e5132b5a61a",
-  "subject_ref": "evd_d05bbddeb6388c94",
+  "source_ref": "src_2dc5a381a5b5c028",
+  "subject_ref": "evd_a604982d2fedb0e8",
   "type": "evidence_bound"
 }
