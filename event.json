@@ -1,41 +1,41 @@
 {
-  "created_at": "2026-08-30T19:17:01.474935Z",
-  "event_id": "ppe_6e104e78c2277b03",
+  "created_at": "2026-08-30T19:17:01.657932Z",
+  "event_id": "ppe_23b684538499be10",
   "evidence": {
-    "digest": "sha256:bae14707c982cab2dca3a5368c2625c50ab22d49c7a8baaf9fef2695a8dc65b4",
-    "id": "evd_e5c2f63abae1dc38",
+    "digest": "sha256:b3e4b7127dd1f43242461855acc4545e1a7b71359fde614c084e366304a3625d",
+    "id": "evd_8342c3641bd89350",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:c5c8c87ca8128aabce8df4f7b84f1f01d6424ed139fad3d258304eeec215a4d7",
+    "quote_digest": "sha256:f0f83ecba3f09d05d67ceb1568ff638c213ec0d7910ef171026c4b311434b5d7",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:c5c8c87ca8128aabce8df4f7b84f1f01d6424ed139fad3d258304eeec215a4d7",
-        "section_id": "sec_6d2417db8f5ee844"
+        "section_digest": "sha256:f0f83ecba3f09d05d67ceb1568ff638c213ec0d7910ef171026c4b311434b5d7",
+        "section_id": "sec_8f23e2895b774fec"
       },
-      "quote": "[DRAFT] TAX STRUCTURING TERM SHEET\nFor the Acquisition of Stock of [Target Corporation]\nDate: [Insert Date]\nBuyer: [Insert Buyer Name]\nSeller(s): [Insert Seller Name(s)]\nTarget: [Insert Target Corporation Name]\nTransaction: Acquisition of [all/substantially all] of the issued and outstanding shares of Target\n\n1. Transaction Structure\n    • Form of Acquisition: Purchase of [all/substantially all] of the issued and outstanding shares of Target from Seller(s).\n    • Intended Tax Treatment: The parties intend for the transaction to be treated as a purchase of stock for U.S. federal income tax purposes.\n2. S-Corporation Status\n    • Representation and Warranty: Seller(s) shall represent and warrant that Target has made a valid S-corporation election effective as of [date], and that such election has been continuously in effect through the Closing Date, except as otherwise disclosed.\n    • Disclosure of Questionable Status: Seller(s) acknowledge that the validity of Target’s S-corporation election is subject to uncertainty due to [describe issues, e.g., potential ineligible shareholders, defective election filings, or other factors].\n    • Due Diligence: Buyer shall have the right to conduct tax due diligence regarding the S-corporation status of Target, including review of all relevant IRS filings, shareholder consents, and corporate records.\n3. Tax Indemnity and Escrow\n    • Indemnity for S-Status Issues: Seller(s) shall indemnify Buyer for any taxes, penalties, interest, or other losses arising from a determination that Target’s S-corporation election was invalid or terminated prior to Closing, including any resulting C-corporation level taxes.\n    • Escrow: A portion of the purchase price equal to $[amount] or [percentage]% shall be placed in escrow for a period of [X] years post-Closing to secure Seller(s)’ indemnity obligations relating to S-corporation status and related tax matters.\n4. Section 338(h)(10) Election (if applicable)\n    • Election Option: The parties may agree to make a joint election under Section 338(h)(10) of the Internal Revenue Code, if Target’s S-corporation status is confirmed and all eligibility requirements are met.\n    • Allocation of Tax Liability: The parties shall agree on the allocation of any resulting tax liability and benefits from the election, including responsibility for any corporate-level tax triggered by the deemed asset sale.\n5. Pre-Closing Tax Returns\n    • Responsibility: Seller(s) shall be responsible for preparing and filing all tax returns of Target for periods ending on or before the Closing Date, including any short-period returns.\n    • Review Rights: Buyer shall have the right to review and comment on any such returns prior to filing.\n6. Post-Closing Tax Matters\n    • Cooperation: The parties shall cooperate in connection with any tax audits, examinations, or proceedings relating to periods prior to Closing.\n    • Access to Records: Seller(s) shall provide Buyer with reasonable access to all tax records and information relating to Target for pre-Closing periods.\n7. Other Tax Representations\n    • No Built-in Gains Tax: Seller(s) represent that Target does not have any material built-in gains subject to Section 1374 of the Internal Revenue Code, except as disclosed.\n    • No Disqualifying Events: Seller(s) represent that, to their knowledge, no events have occurred that would disqualify Target’s S-corporation status, except as disclosed.\n8. Governing Law\n    • This term sheet and any definitive agreements shall be governed by the laws of the State of [Insert State].\n\nThis term sheet is non-binding and for discussion purposes only. The terms herein are subject to the negotiation and execution of definitive agreements.\n\n[Signature Blocks]\n\nKey Notes:\n    • This template is for general informational purposes and should be reviewed and customized by legal and tax counsel.\n    • Special attention should be paid to the specific facts regarding the S-corporation status and any IRS guidance or case law relevant to the issues identified.\n\n\n",
-      "quote_digest": "sha256:c5c8c87ca8128aabce8df4f7b84f1f01d6424ed139fad3d258304eeec215a4d7",
+      "quote": "I. KEY FINDINGS\n1. Nonresident Alien Shareholder — HIGH RISK\nThe Historical Shareholder Schedule reflects that on June 1, 2022, shareholder Gregory A. Beaumont transferred 100,000 shares to Carrie Canuck, a Canadian resident. A nonresident alien is an ineligible S‑Corporation shareholder. This event caused an automatic termination of S‑Corporation status as of the transfer date.\n2. Pro Rata Distribution Compliance — HIGH RISK\nHistoric distributions do not conform to required ownership percentages, producing recurring disproportionate distributions. The IRS may treat repeated deviations as evidence of a prohibited second class of stock.\n3. Debt‑Equity Characterization and Shareholder Loans — HIGH RISK (Documentation Missing)\nNo shareholder loan agreements, repayment schedules, general ledger entries, or basis tracking schedules were provided. Given the instruction to treat missing documents as high risk, this category is classified accordingly. The absence of documentation significantly increases the likelihood of IRS recharacterization of advances as equity, which may create a second class of stock.\n\n4. K‑1 Accuracy and Records — MODERATE RISK\nSeveral K‑1s lack ownership percentages, and 2024 K‑1s list individuals who do not appear in the stock ledger. These inconsistencies suggest governance gaps that increase audit exposure.\n5. Governance and Corporate Formalities — MODERATE RISK\nMultiple versions of the historical shareholder schedule (Rev A/B/C) reflect inconsistent treatment of 2022–2023 transfers. Inconsistent ledgers weaken Summit’s ability to substantiate S‑status compliance.\n6. Tax Return Consistency (1120‑S) — LOW RISK\nForms 1120‑S appear internally consistent with the operating history. No accumulated earnings and profits or built‑in gains issues were identified.\n\n",
+      "quote_digest": "sha256:f0f83ecba3f09d05d67ceb1568ff638c213ec0d7910ef171026c4b311434b5d7",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
-        "query": "Form 2553 S election S corporation election revocation",
+        "query": "current earnings and profits accumulated earnings and profits E&P schedule dividend characterization",
         "version": "1"
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
       "source": {
-        "content_digest": "sha256:4269e21c1fa36a134a861c62e14940bcb646670bfb2d60556e2992727f204470",
+        "content_digest": "sha256:e7eb786dc671298aa9426792d523f0ec997bee3a570763a8b10f13a1644fc105",
         "media_type": "text/plain",
-        "uri": "private://apex/4269e21c1fa36a13-9771382d"
+        "uri": "private://apex/e7eb786dc671298a-1d2051f2"
       }
     },
-    "retrieval_receipt_digest": "sha256:cae473b1ee05a36c47170e8295b7152510026df754c6fe248c5abc0a0e6f0848",
-    "source_content_digest": "sha256:4269e21c1fa36a134a861c62e14940bcb646670bfb2d60556e2992727f204470",
-    "source_digest": "sha256:413ad38376a81b2a8c39ab2d56246edebc553521e481af3d581db7a54ff2f9e9",
-    "source_ref": "src_567daa06afa4573f"
+    "retrieval_receipt_digest": "sha256:a564cc2e06a65d27540f7c0ff319002920c95f9bd1b8b01a792dd1f2cc4ae20c",
+    "source_content_digest": "sha256:e7eb786dc671298aa9426792d523f0ec997bee3a570763a8b10f13a1644fc105",
+    "source_digest": "sha256:bbebf48c1f9dee4d30677c0c93c00e3eb349758e8e8a6eac5acafa2f8650d491",
+    "source_ref": "src_e9b083e75ca5f18f"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_567daa06afa4573f",
-  "subject_ref": "evd_e5c2f63abae1dc38",
+  "source_ref": "src_e9b083e75ca5f18f",
+  "subject_ref": "evd_8342c3641bd89350",
   "type": "evidence_bound"
 }
