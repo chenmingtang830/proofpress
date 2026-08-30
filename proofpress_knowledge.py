@@ -233,6 +233,9 @@ EVENT_SCHEMA = "proofpress/knowledge-event/v2"
 CONTEXT_SCHEMA = "proofpress/agent-context/v2"
 TRAVERSAL_SCHEMA = "proofpress/graph-traversal/v1"
 RETRIEVAL_EVIDENCE_SCHEMA = "proofpress/retrieval-evidence/v1"
+DISCLOSURE_SCHEMA = "proofpress/governed-disclosure/v1"
+ASSIMILATION_SCHEMA = "proofpress/assimilation-recommendation/v1"
+PAGEINDEX_SIDECAR_SCHEMA = "proofpress/pageindex-sidecar/v1"
 POLICY_PATH = ".proofpress/policy.json"
 DEFAULT_POLICY_V2 = {
     "id": "proofpress-local-default",
@@ -1359,6 +1362,370 @@ def traverse_graph_v2(seeds, scope=None, actor=None, task=None,
             "limits": {"max_depth": max_depth, "max_claims": max_claims}}
 
 
+def _query_terms(value):
+    """Return stable, low-risk terms for deterministic claim selection."""
+    return {term for term in re.findall(r"[a-z0-9][a-z0-9_-]{2,}", value.lower())
+            if term not in {"about", "after", "before", "claim", "context", "evidence",
+                            "from", "have", "into", "that", "the", "this", "what", "with"}}
+
+
+def _read_corpus_manifest(path):
+    """Read the caller-supplied custody boundary; never glob a data room."""
+    raw = json.loads(Path(path).read_text(encoding="utf-8"))
+    rows = raw.get("sources") if isinstance(raw, dict) else raw
+    if not isinstance(rows, list) or not rows:
+        raise ValueError("corpus manifest must contain a non-empty sources array")
+    out = []
+    for index, row in enumerate(rows):
+        if not isinstance(row, dict):
+            raise ValueError(f"corpus manifest source {index} must be an object")
+        source_path = _required_string(row.get("path"), f"corpus.sources[{index}].path")
+        uri = _required_string(row.get("uri"), f"corpus.sources[{index}].uri")
+        content_digest = _required_digest(row.get("content_digest"), f"corpus.sources[{index}].content_digest")
+        media_type = _required_string(row.get("media_type"), f"corpus.sources[{index}].media_type")
+        target = Path(source_path)
+        if not target.is_file():
+            raise ValueError(f"corpus manifest source does not exist: {source_path}")
+        actual = "sha256:" + hashlib.sha256(target.read_bytes()).hexdigest()
+        if actual != content_digest:
+            raise ValueError(f"corpus manifest source digest mismatch: {uri}")
+        out.append({"source_id": row.get("source_id") or ident({"uri": uri, "digest": content_digest}, "src_"),
+                    "path": str(target.resolve()), "uri": uri,
+                    "content_digest": content_digest, "media_type": media_type})
+    return out
+
+
+def _pageindex_discover(query, corpus_manifest, max_discovered, sidecar, config):
+    """Call an explicit local sidecar and validate every returned receipt.
+
+    The sidecar receives only the manifest-selected sources.  This function is
+    intentionally read-only: a valid retrieval receipt is discovery material,
+    not an evidence import or a conclusion proposal.
+    """
+    sources = _read_corpus_manifest(corpus_manifest)
+    command = sidecar or os.environ.get("PROOFPRESS_PAGEINDEX_SIDECAR", "pageindex-sidecar")
+    request = {"schema_version": PAGEINDEX_SIDECAR_SCHEMA, "query": query,
+               "sources": sources, "config": config, "max_results": max_discovered}
+    result = subprocess.run([command], input=json.dumps(request), text=True,
+                            capture_output=True, timeout=60)
+    if result.returncode:
+        detail = result.stderr.strip() or "sidecar returned a non-zero exit status"
+        raise ValueError("PageIndex sidecar failed closed: " + detail)
+    try:
+        response = json.loads(result.stdout)
+    except json.JSONDecodeError as exc:
+        raise ValueError("PageIndex sidecar returned invalid JSON") from exc
+    if response.get("schema_version") != PAGEINDEX_SIDECAR_SCHEMA:
+        raise ValueError("PageIndex sidecar returned an unsupported schema")
+    if response.get("fallback_used") is not False:
+        raise ValueError("PageIndex sidecar must declare fallback_used=false")
+    receipts = response.get("receipts")
+    if not isinstance(receipts, list) or len(receipts) > max_discovered:
+        raise ValueError("PageIndex sidecar returned an invalid receipt count")
+    allowed = {(row["uri"], row["content_digest"]) for row in sources}
+    discovered = []
+    for raw in receipts:
+        receipt = _retrieval_receipt(raw)
+        if (receipt["source"]["uri"], receipt["source"]["content_digest"]) not in allowed:
+            raise ValueError("PageIndex sidecar disclosed a source outside the corpus manifest")
+        discovered.append({"status": "not_governed", "receipt": receipt,
+                           "receipt_digest": digest(receipt),
+                           "source_navigation": {"uri": receipt["source"]["uri"],
+                                                 "locator": receipt["locator"]},
+                           "required_action": "import_evidence_then_propose_evaluate_judge_review"})
+    return discovered, {"sidecar": response.get("sidecar"),
+                        "telemetry": response.get("telemetry", {}),
+                        "corpus_manifest_digest": digest([{k: v for k, v in row.items() if k != "path"}
+                                                          for row in sources])}
+
+
+def disclose_v1(query, actor, scope=None, seeds=None, corpus_manifest=None,
+                max_depth=2, max_claims=24, max_discovered=6, sidecar=None):
+    """Return a bounded packet of governed claims and, only when needed, discovery.
+
+    It is deliberately a read-only API for any caller profile.  Retrieval
+    output is segregated from governed context and cannot mutate the ledger.
+    """
+    if not isinstance(query, str) or not query.strip():
+        raise ValueError("disclosure query must be a non-empty string")
+    if not isinstance(actor, str) or not actor.strip():
+        raise ValueError("disclosure actor must be a non-empty string")
+    if max_discovered < 0 or max_claims < 1 or max_depth < 0:
+        raise ValueError("disclosure limits must be non-negative and max_claims positive")
+    policy = load_v2_policy()
+    context = context_v2(scope, actor, query)
+    terms = _query_terms(query)
+    scored = []
+    for row in context["knowledge"]:
+        row_terms = _query_terms(row["statement"] + " " + row.get("scope", ""))
+        overlap = len(terms & row_terms)
+        if overlap:
+            scored.append((-(overlap / max(1, len(terms))), row["id"]))
+    selected_seeds = list(dict.fromkeys(seeds or []))
+    if not selected_seeds:
+        selected_seeds = [cid for _, cid in sorted(scored)[:max_claims]]
+    traversal = None
+    if selected_seeds:
+        traversal = traverse_graph_v2(selected_seeds, scope, actor, query,
+                                      max_depth, max_claims, "admitted")
+        selected_ids = traversal["conclusion_ids"]
+    else:
+        selected_ids = []
+    visible = {row["id"]: row for row in context["knowledge"]}
+    governed = [visible[cid] for cid in selected_ids if cid in visible]
+    # Existing context is sufficient only when every meaningful query term is
+    # represented in its selected statements.  This keeps PageIndex out of a
+    # normal executor path while enabling progressive disclosure for novelty.
+    covered = set().union(*(_query_terms(row["statement"]) for row in governed)) if governed else set()
+    unmet = bool(terms - covered)
+    discovered, discovery_meta = [], None
+    gap_terms = sorted(terms - covered)
+    gap_id = ident({"query": query, "scope": scope, "terms": gap_terms}, "gap_") if gap_terms else None
+    if unmet and corpus_manifest and max_discovered:
+        config = {"adapter": "proofpress.pageindex", "version": "1",
+                  "requested_model": "deepseek/deepseek-v4-flash",
+                  "provider": "proofpress-dev-ai-gateway", "fallback": "forbidden",
+                  "max_sections": max_discovered, "max_pages": max_discovered,
+                  "toc_check_pages": 1, "max_pages_per_node": 1,
+                  "max_tokens_per_node": 2500, "node_summary": False,
+                  "document_description": False}
+        config["config_digest"] = digest(config)
+        discovered, discovery_meta = _pageindex_discover(query, corpus_manifest,
+                                                          max_discovered, sidecar, config)
+        for item in discovered:
+            item["gap_refs"] = [gap_id] if gap_id else []
+    lineage = [receipt_v2(cid) for cid in selected_ids]
+    gaps = ([] if governed and not unmet else [{"id": gap_id, "kind": "unmet_question",
+             "query_terms": gap_terms,
+             "required_action": "inspect_discovered_evidence_or_propose_new_conclusion"}])
+    blocked = list(context["blocked"])
+    if traversal: blocked.extend(traversal["blocked_neighbors"])
+    coverage = "covered" if not unmet else ("partial" if governed else "gap")
+    return {"schema_version": DISCLOSURE_SCHEMA, "query": query, "actor": actor,
+            "scope": scope, "governed_context": governed,
+            "coverage": coverage, "lineage": lineage, "discovered_evidence": discovered, "gaps": gaps,
+            "blocked": blocked, "actions": ["use_governed_context_for_reliance",
+                "treat_discovered_evidence_as_not_governed",
+                "use_existing_propose_evaluate_judge_review_path_for_new_claims"],
+            "ledger_head": context["ledger_head"], "policy_digest": policy["digest"],
+            "config_digest": digest({"max_depth": max_depth, "max_claims": max_claims,
+                                      "max_discovered": max_discovered}),
+            "traversal": traversal, "discovery": discovery_meta}
+
+
+def _assimilation_recommendation(packet, candidates, duplicates, conflicts, actor, scope,
+                                 recommender=None, config=None):
+    """Return a model-shaped recommendation after deterministic gates pass.
+
+    A caller may inject a recommender for a gateway-backed GLM run.  The CLI
+    uses PROOFPRESS_ASSIMILATION_RECOMMENDER as an argv command and therefore
+    never silently falls back to a hosted or alternate provider.  The small
+    deterministic branch is intentionally available to conformance tests only.
+    """
+    if recommender is not None:
+        result = recommender({"packet": packet, "candidates": candidates,
+                              "duplicates": duplicates, "conflicts": conflicts,
+                              "actor": actor, "scope": scope, "config": config or {}})
+        if not isinstance(result, dict):
+            raise ValueError("assimilation recommender must return an object")
+        return result
+    command = os.environ.get("PROOFPRESS_ASSIMILATION_RECOMMENDER")
+    if command:
+        argv = json.loads(command) if command.lstrip().startswith("[") else [command]
+        result = subprocess.run(argv, input=json.dumps({
+            "schema_version": "proofpress/assimilation-request/v1",
+            "packet": packet, "candidates": candidates,
+            "duplicates": duplicates, "conflicts": conflicts,
+            "actor": actor, "scope": scope, "config": config or {},
+            "model": "zai/glm-5.3-flash", "provider": "proofpress-dev-ai-gateway",
+            "fallback": False}), text=True, capture_output=True, timeout=60)
+        if result.returncode:
+            raise ValueError("assimilation recommender failed closed: " + (result.stderr.strip() or "non-zero exit"))
+        try:
+            return json.loads(result.stdout)
+        except json.JSONDecodeError as exc:
+            raise ValueError("assimilation recommender returned invalid JSON") from exc
+    raise ValueError("assimilation recommender unavailable; configure PROOFPRESS_ASSIMILATION_RECOMMENDER")
+
+
+def assimilate_v1(packet, actor, scope=None, gap_ids=None, receipt_digests=None,
+                  expected_head=None, submit=False, idempotency_key=None,
+                  corpus_manifest=None, recommender=None, config=None):
+    """Gate discovered receipts for explicit, non-admitting assimilation.
+
+    The function is fail-closed and performs all validation before invoking a
+    recommender.  Dry-run is the default.  Submit may import selected receipts
+    or, when the recommendation supplies a candidate statement, create an
+    unresolved conclusion and unresolved contradiction relations.  It never
+    admits a conclusion or relation automatically.
+    """
+    if not isinstance(packet, dict) or packet.get("schema_version") != DISCLOSURE_SCHEMA:
+        raise ValueError("assimilation packet must be a governed disclosure packet")
+    if not isinstance(actor, str) or not actor.strip():
+        raise ValueError("assimilation actor must be a non-empty string")
+    if scope is not None and packet.get("scope") not in {None, scope}:
+        raise ValueError("assimilation scope does not match disclosure packet")
+    policy = load_v2_policy()
+    if actor not in policy["allowed_actors"] and "*" not in policy["allowed_actors"]:
+        raise ValueError("assimilation actor is not allowed by policy")
+    packet_digest = digest(packet)
+    if submit and idempotency_key:
+        prior = next((event for event in v2_events()
+                      if event.get("type") == "assimilation_submitted"
+                      and event.get("idempotency_key") == idempotency_key), None)
+        if prior:
+            if prior.get("packet_digest") != packet_digest:
+                raise ValueError("IDEMPOTENCY_KEY_CONFLICT")
+            return {"schema_version": ASSIMILATION_SCHEMA, "packet_digest": packet_digest,
+                    "ledger_head": v2_head(), "actor": actor,
+                    "scope": scope or packet.get("scope"), "submitted": True,
+                    "idempotent": True, "events_added": 0,
+                    "transaction_event": prior.get("event_id")}
+    if expected_head is not None and packet.get("ledger_head") != expected_head:
+        raise ValueError("STALE_DISCLOSURE_LEDGER_HEAD")
+    if packet.get("ledger_head") != v2_head():
+        raise ValueError("STALE_LEDGER_HEAD")
+    selected_gaps = set(gap_ids or [row.get("id") for row in packet.get("gaps", []) if row.get("id")])
+    selected_receipts = set(receipt_digests or [row.get("receipt_digest") for row in packet.get("discovered_evidence", [])])
+    if not selected_receipts:
+        raise ValueError("assimilation requires at least one discovered receipt")
+    packet_gaps = {row.get("id") for row in packet.get("gaps", []) if row.get("id")}
+    if not selected_gaps.issubset(packet_gaps):
+        raise ValueError("unknown assimilation gap id")
+    discovered = {row.get("receipt_digest"): row for row in packet.get("discovered_evidence", [])}
+    if any(key not in discovered for key in selected_receipts):
+        raise ValueError("unknown assimilation receipt digest")
+    if any(discovered[key].get("status") != "not_governed" for key in selected_receipts):
+        raise ValueError("only not_governed receipts may be assimilated")
+    for key in selected_receipts:
+        item = discovered[key]
+        if key != digest(item.get("receipt")):
+            raise ValueError("discovered receipt digest mismatch")
+        if not selected_gaps.intersection(item.get("gap_refs", [])):
+            raise ValueError("receipt is not bound to a selected disclosure gap")
+        receipt = item.get("receipt") or {}
+        _retrieval_receipt({"schema_version": RETRIEVAL_EVIDENCE_SCHEMA,
+                            "source": receipt.get("source"),
+                            "evidence": {"quote": receipt.get("quote"),
+                                         "locator": receipt.get("locator")},
+                            "retrieval": receipt.get("retrieval")})
+    if not corpus_manifest:
+        raise ValueError("assimilation requires corpus manifest for source custody")
+    if corpus_manifest:
+        # Re-read the caller manifest at the custody boundary.  This catches
+        # changed bytes between disclosure and assimilation.
+        allowed = {(row["uri"], row["content_digest"]) for row in _read_corpus_manifest(corpus_manifest)}
+        for key in selected_receipts:
+            receipt = discovered[key]["receipt"]
+            if (receipt["source"]["uri"], receipt["source"]["content_digest"]) not in allowed:
+                raise ValueError("receipt source is outside the corpus manifest")
+    projection = v2_projection()
+    existing_receipts = {row.get("retrieval_receipt_digest") for row in projection["evidence"].values()
+                         if row.get("kind") == "retrieval_evidence"}
+    duplicates = sorted(key for key in selected_receipts if key in existing_receipts)
+    candidates = sorted(selected_receipts - set(duplicates))
+    conflicts = []
+    for key in candidates:
+        receipt = discovered[key]["receipt"]
+        source_digest = receipt["source"]["content_digest"]
+        for claim in projection["conclusions"].values():
+            if claim.get("scope") == (scope or packet.get("scope")) and any(
+                    projection["evidence"].get(ref, {}).get("source_content_digest") == source_digest
+                    for ref in claim.get("evidence_refs", [])):
+                conflicts.append({"receipt_digest": key, "conclusion_id": claim["id"],
+                                  "reason": "existing claim uses the same source"})
+    config = config or {"version": 1, "model": "zai/glm-5.3-flash",
+                        "provider": "proofpress-dev-ai-gateway", "fallback": False}
+    config_digest = digest(config)
+    recommendation = _assimilation_recommendation(packet, candidates, duplicates, conflicts,
+                                                   actor, scope or packet.get("scope"),
+                                                   recommender, {**config, "config_digest": config_digest})
+    allowed_actions = {"ephemeral_only", "recommend_evidence_import",
+                       "recommend_claim_proposal", "recommend_conflict_proposal", "escalate"}
+    if recommendation.get("action") not in allowed_actions:
+        raise ValueError("assimilation recommendation action is invalid")
+    candidate_statement = None
+    if recommendation.get("action") in {"recommend_claim_proposal", "recommend_conflict_proposal"}:
+        candidate_statement = _required_string(recommendation.get("candidate_statement"),
+                                               "recommendation.candidate_statement")
+        if not candidates:
+            raise ValueError("candidate proposal requires non-duplicate discovered evidence")
+    if recommendation.get("action") == "recommend_conflict_proposal" and not conflicts:
+        raise ValueError("conflict proposal requires a deterministic conflict match")
+    result = {"schema_version": ASSIMILATION_SCHEMA,
+              "packet_digest": packet_digest, "ledger_head": v2_head(),
+              "actor": actor, "scope": scope or packet.get("scope"),
+              "gap_ids": sorted(selected_gaps),
+              "receipt_digests": sorted(selected_receipts),
+              "recommendation": recommendation,
+              "duplicates": duplicates, "conflicts": conflicts,
+              "gates": {"packet_valid": True, "receipt_binding": True,
+                        "source_custody": True, "ledger_head_fresh": True,
+                        "deduplication_checked": True, "conflict_checked": True},
+              "policy_digest": policy["digest"], "config_digest": config_digest,
+              "submitted": False}
+    result["recommendation_digest"] = digest(result)
+    if not submit:
+        return result
+    if not idempotency_key or not isinstance(idempotency_key, str) or not idempotency_key.strip():
+        raise ValueError("--submit requires an idempotency key")
+    expected_idempotency = digest({"packet_digest": result["packet_digest"],
+                                   "ledger_head": result["ledger_head"], "actor": actor,
+                                   "scope": result["scope"], "receipts": sorted(selected_receipts),
+                                   "config_digest": config_digest})
+    if idempotency_key != expected_idempotency:
+        raise ValueError("idempotency key does not match packet, head, actor, scope, receipts, and config")
+    for event in v2_events():
+        if event.get("type") == "assimilation_submitted" and event.get("idempotency_key") == idempotency_key:
+            if event.get("recommendation_digest") != result["recommendation_digest"]:
+                raise ValueError("IDEMPOTENCY_KEY_CONFLICT")
+            result["submitted"] = True; result["idempotent"] = True
+            result["events_added"] = 0; return result
+    submit_actions = {"recommend_evidence_import", "recommend_claim_proposal",
+                      "recommend_conflict_proposal"}
+    if recommendation.get("action") not in submit_actions:
+        raise ValueError("recommendation does not authorize assimilation submit")
+    _require_expected_head(result["ledger_head"])
+    added = []
+    for key in candidates:
+        receipt = discovered[key]["receipt"]
+        added.extend(_import_retrieval_evidence_v2({
+            "schema_version": RETRIEVAL_EVIDENCE_SCHEMA,
+            "source": receipt["source"],
+            "evidence": {"quote": receipt["quote"], "locator": receipt["locator"]},
+            "retrieval": receipt["retrieval"]}))
+    proposal = None; proposed_relations = []
+    if candidate_statement:
+        projection = v2_projection()
+        evidence_refs = sorted(row["id"] for row in projection["evidence"].values()
+                               if row.get("retrieval_receipt_digest") in candidates)
+        if not evidence_refs:
+            raise ValueError("candidate proposal could not bind imported evidence")
+        proposal = propose_v2(candidate_statement, evidence_refs, result["scope"], actor)
+        if recommendation.get("action") == "recommend_conflict_proposal":
+            for conclusion_id in sorted({row["conclusion_id"] for row in conflicts}):
+                relation = propose_relation_v2(proposal["conclusion"]["id"], conclusion_id,
+                                               "contradicts", actor)
+                proposed_relations.append(relation["relation"])
+    transaction = append_v2({"type": "assimilation_submitted",
+                             "subject_ref": ident({"packet": result["packet_digest"], "key": idempotency_key}, "asm_"),
+                             "packet_digest": result["packet_digest"],
+                             "recommendation_digest": result["recommendation_digest"],
+                             "idempotency_key": idempotency_key, "actor": actor,
+                             "scope": result["scope"], "receipt_digests": sorted(selected_receipts),
+                             "action": recommendation.get("action"), "policy_digest": policy["digest"],
+                             "config_digest": config_digest})
+    result["submitted"] = True
+    result["events_added"] = len(added) + 1 + (1 if proposal else 0) + len(proposed_relations)
+    result["transaction_event"] = transaction["event_id"]
+    if proposal:
+        result["candidate"] = {"id": proposal["conclusion"]["id"], "status": "unresolved"}
+    if proposed_relations:
+        result["relations"] = [{"id": row["id"], "type": row["type"], "status": "unresolved"}
+                               for row in proposed_relations]
+    return result
+
+
 def summary_v2(scope=None):
     projection = v2_projection(); rows = [r for r in projection["conclusions"].values() if not scope or r["scope"] == scope]
     counts = {key: 0 for key in ("needs_review", "admitted", "rejected", "superseded", "expired", "unresolved")}
@@ -1665,6 +2032,32 @@ def add_flat_cli(sub):
     graph_parser.add_argument("--max-claims", type=int, default=48)
     graph_parser.add_argument("--state", choices=["admitted", "staged"], default="admitted")
     graph_parser.set_defaults(f=cmd_flat, flat_cmd="graph")
+    disclose_parser = sub.add_parser("disclose", help="return bounded governed context and segregated novel evidence")
+    disclose_parser.add_argument("--query", required=True); disclose_parser.add_argument("--actor", required=True)
+    disclose_parser.add_argument("--scope"); disclose_parser.add_argument("--seed", action="append")
+    disclose_parser.add_argument("--corpus-manifest")
+    disclose_parser.add_argument("--sidecar", help="local PageIndex sidecar executable; no hosted fallback")
+    disclose_parser.add_argument("--max-depth", type=int, default=2)
+    disclose_parser.add_argument("--max-claims", type=int, default=24)
+    disclose_parser.add_argument("--max-discovered", type=int, default=6)
+    disclose_parser.set_defaults(f=cmd_flat, flat_cmd="disclose")
+    assimilate_parser = sub.add_parser("assimilate", help="gate discovered disclosure evidence for explicit, non-admitting import")
+    assimilate_parser.add_argument("--packet", required=True, help="JSON governed-disclosure packet")
+    assimilate_parser.add_argument("--actor", required=True)
+    assimilate_parser.add_argument("--scope")
+    assimilate_parser.add_argument("--gap", action="append", dest="gaps")
+    assimilate_parser.add_argument("--receipt", action="append", dest="receipts")
+    assimilate_parser.add_argument("--corpus-manifest")
+    assimilate_parser.add_argument("--expected-head")
+    assimilate_parser.add_argument("--idempotency-key")
+    assimilate_parser.add_argument("--submit", action="store_true")
+    assimilate_parser.add_argument("--recommender", help="local JSON recommender argv; no hosted fallback")
+    assimilate_parser.set_defaults(f=cmd_flat, flat_cmd="assimilate")
+    catalog_parser = sub.add_parser("catalog", help="build a source-custody-only matter evidence catalog")
+    catalog_parser.add_argument("manifest", help="JSON corpus manifest")
+    catalog_parser.add_argument("-o", "--output", required=True)
+    catalog_parser.add_argument("--cache-dir"); catalog_parser.add_argument("--libreoffice")
+    catalog_parser.set_defaults(f=cmd_flat, flat_cmd="catalog")
     ui_parser = sub.add_parser("ui", help="open the local review and context UI")
     ui_parser.add_argument("--scope"); ui_parser.add_argument("--port", type=int, default=7331); ui_parser.add_argument("--no-open", action="store_true")
     ui_parser.set_defaults(f=cmd_flat, flat_cmd="ui")
@@ -1709,6 +2102,29 @@ def cmd_flat(a):
     elif command == "context":
         out = context_v2(a.scope, a.actor, a.task, a.include_blocked_statements)
         if a.format == "markdown": print(_markdown_context(out)); return
+    elif command == "disclose":
+        out = disclose_v1(a.query, a.actor, a.scope, a.seed, a.corpus_manifest,
+                          a.max_depth, a.max_claims, a.max_discovered, a.sidecar)
+    elif command == "assimilate":
+        packet = json.loads(Path(a.packet).read_text(encoding="utf-8"))
+        previous = os.environ.get("PROOFPRESS_ASSIMILATION_RECOMMENDER")
+        if a.recommender:
+            os.environ["PROOFPRESS_ASSIMILATION_RECOMMENDER"] = a.recommender
+        try:
+            out = assimilate_v1(packet, a.actor, a.scope, a.gaps, a.receipts,
+                                a.expected_head, a.submit, a.idempotency_key,
+                                a.corpus_manifest)
+        finally:
+            if a.recommender is not None:
+                if previous is None: os.environ.pop("PROOFPRESS_ASSIMILATION_RECOMMENDER", None)
+                else: os.environ["PROOFPRESS_ASSIMILATION_RECOMMENDER"] = previous
+    elif command == "catalog":
+        from proofpress_matter_catalog import build_catalog
+        catalog = build_catalog(a.manifest, cache_dir=a.cache_dir, libreoffice=a.libreoffice)
+        Path(a.output).write_text(json.dumps(catalog, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+        out = {"ok": True, "schema_version": "proofpress/matter-evidence-catalog/v1",
+               "sources": len(catalog["sources"]), "representations": len(catalog["representations"]),
+               "catalog_digest": catalog["catalog_digest"], "output": a.output}
     elif command == "ui": serve_ui(a.port, a.scope, not a.no_open); return
     elif command == "import-v1": out = import_v1(a.ledger)
     else: raise ValueError("unknown local MVP command")

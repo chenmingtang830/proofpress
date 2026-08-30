@@ -1,0 +1,48 @@
+{
+  "schema_version": "proofpress/model-routing-decision/v1",
+  "boundary": "Frozen four-task development qualification; model-adjudicated metrics are not human gold, legal authority, or admission.",
+  "denominators": {"tasks": 4, "ling_requirements": 56, "luna_requirements": 75, "v7_requirements": 96},
+  "selected_development_route": {
+    "decomposition": "gpt-5.6-luna/openai/low",
+    "retrieval": "global-bm25-page-section/v1",
+    "atom_extraction": "deepseek/deepseek-v4-flash/deepinfra/none",
+    "claim_construction": "deterministic-atom-to-statement/v1",
+    "type_assignment": "gpt-5.6-luna/openai/low",
+    "claim_critic": "gpt-5.6-sol/openai/low/task-aware",
+    "coverage_gate": "gpt-5.6-luna/openai/low",
+    "analysis_segregation": "risk-and-legal-analysis/v1"
+  },
+  "component_results": {
+    "old_free_form_proposer_supported_requirement_coverage": 0.35714285714285715,
+    "deterministic_claims_sol_reference_coverage": 0.625,
+    "type_assignment_sol_reference_coverage": {"deepseek": 0.6964285714285714, "luna": 0.875, "sol": 0.9107142857142857},
+    "extractor_sol_reference_coverage": {"ling": 0.48214285714285715, "deepseek": 0.75, "sol": 0.8571428571428571},
+    "coverage_gate_open_gap_recall_against_sol_reference": {"deepseek": 0.8214285714285714, "luna": 0.9821428571428571, "sol": 1.0}
+  },
+  "final_paired_semantic_result": {
+    "requirement_recall": 1.0,
+    "honest_gap_recall": 0.8333333333333334,
+    "unsupported_factual_claim_rate": 0.2777777777777778,
+    "governed_candidate_claims": 39,
+    "analysis_only_candidates": 14,
+    "v7_requirement_recall": 1.0,
+    "v7_honest_gap_recall": 0.75,
+    "v7_unsupported_factual_claim_rate": 0.3282164833888972,
+    "paired_requirement_recall_delta_ci95": [0.0, 0.0],
+    "paired_honest_gap_delta_ci95": [0.0, 0.25],
+    "paired_unsupported_rate_delta_ci95": [-0.16701497735980494, 0.11237373737373739]
+  },
+  "telemetry": {
+    "known_cost_floor_usd": 7.24364733,
+    "exact_total_cost_status": "inconclusive_due_to_one_early_failed_attempt_without_complete_terminal_cost_aggregation",
+    "formal_budget_cap_usd": 50.0,
+    "fallback": "forbidden"
+  },
+  "decision": {
+    "development_qualification": "fail",
+    "reason": "honest_gap_recall_below_0.90_and_unsupported_rate_ci_does_not_exclude_regression",
+    "formal_12_task_e2e": "not_started_by_stop_rule",
+    "promotion": "no",
+    "retained_product_hypotheses": ["luna_for_decomposition_and_requirement_coverage", "deepseek_for_high_volume_atom_extraction", "deterministic_atom_to_claim_construction", "separate_risk_and_legal_analysis_candidates", "premium_claim_criticism_only_after_deterministic_gates"]
+  }
+}

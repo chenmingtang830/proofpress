@@ -4,7 +4,7 @@ const assert = require("node:assert/strict");
 const fs = require("node:fs");
 const os = require("node:os");
 const path = require("node:path");
-const { spawnSync } = require("node:child_process");
+const { spawn, spawnSync } = require("node:child_process");
 const test = require("node:test");
 
 const ROOT = path.resolve(__dirname, "..");
@@ -24,6 +24,46 @@ test("npm launcher exposes the same version as package.json", () => {
   const result = run(["--version"]);
   assert.equal(result.status, 0, result.stderr);
   assert.equal(result.stdout.trim(), `proofpress ${version}`);
+});
+
+test("claim gateway writes a terminal receipt when credentials are missing", async () => {
+  const cwd = fs.mkdtempSync(path.join(os.tmpdir(), "proofpress-claim-gateway-"));
+  const receipts = path.join(cwd, "receipts.jsonl");
+  const env = { ...process.env,
+    PROOFPRESS_CLAIM_MODEL: "test/model", PROOFPRESS_CLAIM_PROVIDER: "test-provider",
+    PROOFPRESS_CLAIM_PORT: "0", PROOFPRESS_CLAIM_RECEIPTS: receipts,
+  };
+  delete env.AI_GATEWAY_API_KEY;
+  const child = spawn(process.execPath,
+    [path.join(ROOT, "tools/claim-construction-gateway/gateway_openai_server.mjs")],
+    { cwd: ROOT, env, stdio: ["ignore", "pipe", "pipe"] });
+  try {
+    const ready = await new Promise((resolve, reject) => {
+      let stdout = "";
+      child.stdout.on("data", chunk => {
+        stdout += chunk;
+        const newline = stdout.indexOf("\n");
+        if (newline >= 0) resolve(JSON.parse(stdout.slice(0, newline)));
+      });
+      child.once("error", reject);
+      child.once("exit", code => reject(new Error(`gateway exited ${code}`)));
+    });
+    const response = await fetch(`http://127.0.0.1:${ready.port}/v1/chat/completions`, {
+      method: "POST", headers: { "content-type": "application/json" },
+      body: JSON.stringify({ model: "test/model", messages: [{ role: "user", content: "x" }] }),
+    });
+    assert.equal(response.status, 503);
+    assert.equal(ready.reasoning, "none");
+    const rows = fs.readFileSync(receipts, "utf8").trim().split("\n").map(JSON.parse);
+    assert.equal(rows.length, 1);
+    assert.equal(rows[0].terminal, true);
+    assert.equal(rows[0].status, "inconclusive");
+    assert.equal(rows[0].error_type, "missing_gateway_key");
+    assert.equal(rows[0].requested_reasoning, "none");
+    assert.equal(typeof rows[0].latency_ms, "number");
+  } finally {
+    child.kill();
+  }
 });
 
 test("npm launcher exposes the verified-knowledge ledger commands", () => {

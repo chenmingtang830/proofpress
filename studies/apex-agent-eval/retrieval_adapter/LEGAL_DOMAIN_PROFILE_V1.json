@@ -1,0 +1,50 @@
+{
+  "schema_version": "proofpress/domain-profile/v1",
+  "profile_id": "proofpress/legal-matter/v1",
+  "version": 1,
+  "requirement_categories": [
+    "parties_capacity_authority",
+    "economics_calculations",
+    "representations_warranties",
+    "pre_post_closing_covenants",
+    "conditions_deliveries",
+    "disclosure_schedules",
+    "termination_remedies",
+    "indemnity_liability_limits",
+    "tax_regulatory",
+    "employment_ip_privacy_compliance_litigation",
+    "document_version_conflicts",
+    "missing_evidence_negotiated_inputs"
+  ],
+  "claim_types": [
+    "observed_fact",
+    "risk_signal",
+    "domain_conclusion",
+    "allocation"
+  ],
+  "automatic_claim_construction": {
+    "eligible_requirement_types": [
+      "condition",
+      "contract_allocation",
+      "exception",
+      "factual_input",
+      "obligation",
+      "quantitative_term"
+    ],
+    "needs_domain_analysis_requirement_types": [
+      "domain_analysis",
+      "risk_signal"
+    ],
+    "unknown_requirement_type_policy": "fail_closed"
+  },
+  "conflict_rules": {
+    "preserve_document_versions": true,
+    "never_merge_conflicting_values": true,
+    "conflict_requires_separate_candidate": true
+  },
+  "admission_policy": {
+    "human_review_required": true,
+    "proposer_self_admission_forbidden": true,
+    "model_critic_has_no_admission_authority": true
+  }
+}
