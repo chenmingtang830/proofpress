@@ -1631,9 +1631,14 @@ def main() -> None:
                  "telemetry": {"model_calls": len(calls), "gateway_receipts": len(receipts),
                                "known_model_cost_usd": sum(known),
                                "unreceipted_model_calls": max(0, len(calls) - len(receipts)),
-                               "model_cost_usd": sum(known) if len(receipts) == len(calls) else None,
+                               "missing_cost_receipts": max(0, len(receipts) - len(known)),
+                               "model_cost_usd": (sum(known)
+                                                  if len(known) == len(receipts) == len(calls)
+                                                  else None),
                                "pageindex_cost_usd": pageindex_cost,
-                               "cost_status": "ok" if len(receipts) == len(calls) else "inconclusive",
+                               "cost_status": ("ok"
+                                               if len(known) == len(receipts) == len(calls)
+                                               else "inconclusive"),
                                "model_routes": model_telemetry_summary(calls, receipts)},
                  "decision_boundary": "Private staged evaluation. The admission events are isolated evaluation fixtures, not lawyer admissions or matter authority."}
     if args.native_e2e:
