@@ -1,41 +1,41 @@
 {
-  "created_at": "2026-08-30T19:15:59.335438Z",
-  "event_id": "ppe_bc71cc11498eb7af",
+  "created_at": "2026-08-30T19:15:59.421372Z",
+  "event_id": "ppe_27dec9b2976635b2",
   "evidence": {
-    "digest": "sha256:7d920683a6b057259c227b43786e263559096f821019ffc04c2af0132d6006ac",
-    "id": "evd_13bbc9747e520ba7",
+    "digest": "sha256:6eb539a705fbaafe09f59434b8f17c8bf24de881c502fe4432e5244f12190946",
+    "id": "evd_bd23804fafbd19e0",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:f1d64d9a1dece611d31aa2e615765f7f5d624e7a2f2187f67a5423b8bd939273",
+    "quote_digest": "sha256:7a29831de3eea212c1770c520c9cae7474c0aeb66a38d50d64361e0c1c384147",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:f1d64d9a1dece611d31aa2e615765f7f5d624e7a2f2187f67a5423b8bd939273",
-        "section_id": "sec_f0e7b71edbdebf2b"
+        "section_digest": "sha256:7a29831de3eea212c1770c520c9cae7474c0aeb66a38d50d64361e0c1c384147",
+        "section_id": "sec_af4cbadc33daccc3"
       },
-      "quote": "﻿SCHEDULE K-1 (Form 1120-S)                                                                                   2021\nDepartment of the Treasury • Internal Revenue Service                          OMB No. 1545-0123\n\nShareholder’s Share of Income, Deductions, Credits, etc.                       For calendar year 2021\n\n────────────────────────────────────────────────────────────────────────────────────\nPart I ─ Information About the Corporation\n────────────────────────────────────────────────────────────────────────────────────\nA  Corporation’s employer identification number                       12-3456789\nB  Corporation’s name, address, city, state, and ZIP code\n       Summit Filing Solutions, Inc.\n       8280 Willow Oaks Corporate Dr\n       Los Angeles, CA  90001\nC  IRS center where corporation filed return                               Ogden, UT\n\n────────────────────────────────────────────────────────────────────────────────────\nPart II ─ Information About the Shareholder\n────────────────────────────────────────────────────────────────────────────────────\nD  Shareholder’s identifying number                                    666-66-6666\nE  Shareholder’s name, address, city, state, and ZIP code\n       Jennifer Park\n       505 Montgomery St., Suite 1100\n       San Francisco, CA  94111\nF  Shareholder’s percentage of stock ownership\n       Beginning of tax year    9%                 End of tax year    9%\n\n────────────────────────────────────────────────────────────────────────────────────\nPart III ─ Shareholder’s Share of Current Year Income, Deductions, Credits, etc.\n────────────────────────────────────────────────────────────────────────────────────\n1  Ordinary business income (loss)                                   $15,518\n2  Net rental real estate income (loss)                                    0\n3  Other net rental income (loss)                                          0\n4  Interest income                                                      $39\n5a Ordinary dividends                                                      0\n5b Qualified dividends                                                     0\n6  Royalties                                                               0\n7  Net short-term capital gain (loss)                                      0\n8a Net long-term capital gain (loss)                                   $207\n8b Collectibles (28%) gain (loss)                                            0\n8c Unrecaptured section 1250 gain                                          0\n9  Net section 1231 gain (loss)                                            0\n10 Other income (loss)                                                     0\n\n11 Section 179 deduction                                                   0\n12 Other deductions                                                        0\n13 Credits                                                                 0\n14 Foreign transactions                                                    0\n15 Charitable contributions                                               0\n16 Items affecting shareholder basis\n   a  Tax-exempt interest income                                           0\n   b  Other tax-exempt income                                              0\n   c  Nondeductible expenses                                               0\n   d  Distributions – cash and marketable securities                       0\n   e  Repayment of loans from shareholders                                0\n17 Other information                                                       0\n\n────────────────────────────────────────────────────────────────────────────────────\nStock and Debt Basis Limitations (for shareholder records)\n────────────────────────────────────────────────────────────────────────────────────\n   + Increase for income items (Lines 1 + 4 + 8a)                    $15,764\n   – Distributions and other reductions                                  0\n   = Net increase to stock basis this year                           $15,764\n\n   Type of income: Active Business Income\n   Foreign country or U.S. possession: N/A\n\n────────────────────────────────────────────────────────────────────────────────────\nPrepared by: Corporate Officer, Summit Filing Solutions, Inc.\nDate prepared: March 10, 2022\n\nThis is an exact substitute Schedule K-1 that matches the official K-1 filed with IRS Form 1120-S on March 15, 2022.\nRetain this copy with your permanent tax records.\n",
-      "quote_digest": "sha256:f1d64d9a1dece611d31aa2e615765f7f5d624e7a2f2187f67a5423b8bd939273",
+      "quote": "IV. CONCLUSION\nSummit’s S‑Corporation eligibility issues are severe, multi‑year, and likely to be viewed by the IRS as significant compliance failures. Corrective action is possible only through coordinated remediation and a §1362(f) relief request. Without corrective actions, Summit may be treated as a C‑Corporation for all periods beginning June 1, 2022, or earlier if disproportionate distributions are deemed to create a second class of stock.\nThis memorandum reflects a partner‑level diligence summary and may be circulated to tax counsel, buy‑side advisors, and internal decision-makers as part of a broader transaction risk analysis.\n\n",
+      "quote_digest": "sha256:7a29831de3eea212c1770c520c9cae7474c0aeb66a38d50d64361e0c1c384147",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
-        "query": "section 1231 sale building gain character unrecaptured 1250 gain building section 1245 buildout recapture depreciation recapture real estate sale",
+        "query": "installment sale property June 2022 1031 exchange building sale nonrecognition treatment real estate sale deferred gain property transaction",
         "version": "1"
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
       "source": {
-        "content_digest": "sha256:6905583b8bc7c9f1603c05c9812218f05c51f1645010d840b935d64395c88269",
+        "content_digest": "sha256:e7eb786dc671298aa9426792d523f0ec997bee3a570763a8b10f13a1644fc105",
         "media_type": "text/plain",
-        "uri": "private://apex/6905583b8bc7c9f1-98258fea"
+        "uri": "private://apex/e7eb786dc671298a-1d2051f2"
       }
     },
-    "retrieval_receipt_digest": "sha256:125d347bb7c55cc7e0ce6438bee14b7705818c8404f016d6b14285583a6015c5",
-    "source_content_digest": "sha256:6905583b8bc7c9f1603c05c9812218f05c51f1645010d840b935d64395c88269",
-    "source_digest": "sha256:ab5dafd2d9a8fa23d5db752ba46fe5273c2d06fa5187b5448824c497dbefdfe7",
-    "source_ref": "src_eabcca6c3b54fc3b"
+    "retrieval_receipt_digest": "sha256:9a6bf6233a245b8a35af8431ccb3ac9bbebf80cce8100e899c2b4db142a38c05",
+    "source_content_digest": "sha256:e7eb786dc671298aa9426792d523f0ec997bee3a570763a8b10f13a1644fc105",
+    "source_digest": "sha256:bbebf48c1f9dee4d30677c0c93c00e3eb349758e8e8a6eac5acafa2f8650d491",
+    "source_ref": "src_e9b083e75ca5f18f"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_eabcca6c3b54fc3b",
-  "subject_ref": "evd_13bbc9747e520ba7",
+  "source_ref": "src_e9b083e75ca5f18f",
+  "subject_ref": "evd_bd23804fafbd19e0",
   "type": "evidence_bound"
 }
