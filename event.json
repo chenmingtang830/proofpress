@@ -1,25 +1,25 @@
 {
-  "created_at": "2026-08-30T19:17:09.567513Z",
-  "event_id": "ppe_927da94ea4b921d0",
+  "created_at": "2026-08-30T19:17:09.762707Z",
+  "event_id": "ppe_ad482fe62c68d5f4",
   "evidence": {
-    "digest": "sha256:b1ca6e5aee83fa7986e83e9910c7c36e845f8b88ff927140941ef20475cfb9f7",
-    "id": "evd_9a676776cb063276",
+    "digest": "sha256:1d2accdbc0d0cad63c9909095970c6e3d55c180b34cf5af799a5f0f3454032e5",
+    "id": "evd_fb4141230833a45b",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:bd10d27b284a86985e7cda0a1d96f75c4a349c349b6bc40dae7b9344f9f9a14b",
+    "quote_digest": "sha256:1bc0be6c25428a27a3aeb2ea633ba2ddb2a03c3facf8ffb39bc3b8273886a4b6",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:bd10d27b284a86985e7cda0a1d96f75c4a349c349b6bc40dae7b9344f9f9a14b",
-        "section_id": "sec_a51affa7307907a9"
+        "section_digest": "sha256:1bc0be6c25428a27a3aeb2ea633ba2ddb2a03c3facf8ffb39bc3b8273886a4b6",
+        "section_id": "sec_f24502dd70e97ce6"
       },
-      "quote": "        2.1 SHARES\nSubject to the terms and conditions of this Agreement, and in reliance upon the representations, warranties, and covenants contained in this Agreement, at the Closing, Buyer shall purchase the Shares from Sellers, and Sellers shall sell and transfer the Shares to Buyer, free and clear of any Encumbrance.\n",
-      "quote_digest": "sha256:bd10d27b284a86985e7cda0a1d96f75c4a349c349b6bc40dae7b9344f9f9a14b",
+      "quote": "        2.2 PURCHASE PRICE\nThe purchase price for the Shares (the “Purchase Price”) is  FOUR-MILLION TWO-HUNDRED FIFTY-THOUSAND dollars (U.S.$4,250,000.00), plus or minus the Adjustment Amount. At the Closing, Buyer shall deliver as payment on account of the Purchase Price: (a) THREE-MILLION EIGHT-HUNDRED TWENTY-FIVE THOUSAND dollars (U.S.$3,825,000) (the “Closing Payment”), which will be allocated among Sellers as set forth on Schedule 2.2, and which shall be paid by wire transfer to Sellers’ Representative pursuant to written wire transfer instructions delivered to Buyer by Sellers’ Representative at least three (3) Business Days prior to the Closing; (b) promissory notes executed by Buyer and payable to each Seller, in the principal amounts set forth on Schedule 2.2 (collectively, the “Promissory Notes”), in the form of Exhibit 2.2(b); and (c) FOUR-HUNDRED TWENTY-FIVE THOUSAND dollars (U.S.$425,000) paid by wire transfer to the Escrow Agent pursuant to the Escrow Agreement (the “Escrow Funds”). The Adjustment Amount shall be paid by Sellers or Buyer, as the case may be, in accordance with Section 2.5.\n",
+      "quote_digest": "sha256:1bc0be6c25428a27a3aeb2ea633ba2ddb2a03c3facf8ffb39bc3b8273886a4b6",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
-        "query": "Retrieve the complete historical shareholder ledger and capitalization table from January 10, 2018 through November 1, 2025, including citizenship/residency documentation and the June 1, 2022 transfer instruments.",
+        "query": "Retrieve the untruncated historic distribution schedule plus general ledger, bank statements, cancelled checks, wire records, expense reimbursements, loan ledgers, and shareholder personal-expense accounts for 2018-2025.",
         "version": "1"
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
@@ -29,13 +29,13 @@
         "uri": "private://apex/7beb28a6e0069669-d885dee3"
       }
     },
-    "retrieval_receipt_digest": "sha256:dc33d9a4112f75dbd6c3c1bd2942fe308dab668d1e949d4bbce9fea50132d4a0",
+    "retrieval_receipt_digest": "sha256:423d3bb89e157500608b0bfe9c393d0226c4e2618752a10ea34900ea051f03be",
     "source_content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
     "source_digest": "sha256:9b5e55c106d3b2c9d270455bb5af81e282a4e92f3ba0722f868b952faf8ff0b5",
     "source_ref": "src_1cb20c6823882030"
   },
   "schema_version": "proofpress/knowledge-event/v2",
   "source_ref": "src_1cb20c6823882030",
-  "subject_ref": "evd_9a676776cb063276",
+  "subject_ref": "evd_fb4141230833a45b",
   "type": "evidence_bound"
 }
