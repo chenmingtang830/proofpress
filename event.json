@@ -1,15 +1,26 @@
 {
-  "conclusion_digest": "sha256:3094aafd1bbbdb992946ecde5897eaa9b9fdc6201ab4050461089305b542ede2",
-  "created_at": "2026-08-30T19:17:14.650878Z",
-  "event_id": "ppe_019b88f4d6328853",
-  "evidence_digests": {
-    "evd_8342c3641bd89350": "sha256:b3e4b7127dd1f43242461855acc4545e1a7b71359fde614c084e366304a3625d",
-    "evd_ee36c036995dc819": "sha256:e814f9acfed4c08d0f9eb158409476ddac9cb5d18f4b99c4bebcb011dd32b251"
+  "conclusion": {
+    "allowed_actors": [
+      "*"
+    ],
+    "artifact_refs": [],
+    "created_at": "2026-08-30T19:17:14.765203Z",
+    "digest": "sha256:f1affd6b4b222d1a9b634a3a214b32ed710748ad6c78dcca4985d8d85169081c",
+    "evidence_refs": [
+      "evd_82e740295e98431d",
+      "evd_89ff0ad8c5ecf4dc"
+    ],
+    "expires_at": null,
+    "id": "knw_2ae801393bac93d4",
+    "kind": "conclusion",
+    "proposer": "agent:v8-constructor",
+    "qualifiers": {},
+    "scope": "task_11893dcabbe34b0aa991516dfe7edcba",
+    "statement": "The evidence consists of 2020 and 2024 Schedule K-1 excerpts; those excerpts do not establish whether Summit issued Forms 1099-DIV or whether distributions were reportable dividends."
   },
-  "policy_digest": "sha256:cde050fdc0b2869fecf8ee9d24dee964fc3bbc18e6b489da2e08e7c3df266501",
-  "review_ref": "ppe_a84dd51c09d321d3",
-  "reviewer": "human:staged-evaluation-reviewer",
+  "created_at": "2026-08-30T19:17:14.851690Z",
+  "event_id": "ppe_43bf69cb84234044",
   "schema_version": "proofpress/knowledge-event/v2",
-  "subject_ref": "knw_0474451f1daa5fbc",
-  "type": "conclusion_admitted"
+  "subject_ref": "knw_2ae801393bac93d4",
+  "type": "conclusion_proposed"
 }
