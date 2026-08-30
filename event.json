@@ -1,25 +1,25 @@
 {
-  "created_at": "2026-08-30T19:17:46.506736Z",
-  "event_id": "ppe_32ccca4506cd93aa",
+  "created_at": "2026-08-30T19:17:46.766069Z",
+  "event_id": "ppe_8503edf9f395296b",
   "evidence": {
-    "digest": "sha256:164f1a0ada29c8d2a8405ff3983d858e6725c96b49382b1065ae05c6ce842c8d",
-    "id": "evd_9005b6ffb92ada51",
+    "digest": "sha256:4150c0767c18d521de7e9b7151646a719b8a7dd19937efce63a2a9a03549ecef",
+    "id": "evd_e5e5f959e80c952c",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:9efdf3acdcf13a65544bb60840fcdf913d170511915382afc81b03b0a981862c",
+    "quote_digest": "sha256:027fabe50f4f6df9ceaee2cbcdd3baf88fc83abd95a489bdb18026c1e909b6b9",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:9efdf3acdcf13a65544bb60840fcdf913d170511915382afc81b03b0a981862c",
-        "section_id": "sec_783b81a2bbfb9ff7"
+        "section_digest": "sha256:027fabe50f4f6df9ceaee2cbcdd3baf88fc83abd95a489bdb18026c1e909b6b9",
+        "section_id": "sec_1e43fd9758087374"
       },
-      "quote": "        12.9 ASSIGNMENTS AND SUCCESSORS\nNo party may assign any of its rights or delegate any of its obligations under this Agreement without the prior consent of the other parties, except that Buyer may assign any of its rights and delegate any of its obligations under this Agreement to any Subsidiary of Buyer and, after the Closing, to the purchaser of all or a substantial part of the equity securities or business of the Acquired Companies and may collaterally assign its rights under this Agreement to any financial institution providing financing in connection with the Contemplated Transactions. Any purported assignment of rights or delegation of obligations in violation of this Section 12.9 will be void. Subject to the foregoing, this Agreement will apply to, be binding in all respects upon, and inure to the benefit of the heirs, executors, administrators, legal representatives, successors, and permitted assigns of the parties.\n",
-      "quote_digest": "sha256:9efdf3acdcf13a65544bb60840fcdf913d170511915382afc81b03b0a981862c",
+      "quote": "        3.24 RELATIONSHIPS WITH RELATED PERSONS\nNo Seller and no Related Person of any Seller or of any Acquired Company has, or since \t has had, any interest in any asset owned or used by any Acquired Company. No Seller and no Related Person of any Seller or of any Acquired Company is, or since \thas been, a Related Party of or the owner (of record or beneficially) of any Equity Security or any other financial or profit interest in, a Person that has\n    (a) had business dealings or a material financial interest in any transaction with any Acquired Company or\n    (b) engaged in competition with any Acquired Company, other than ownership of less than one percent of the outstanding capital stock of a Person that is listed on any national or regional securities exchange. Except as set forth in Part 3.24, no Seller or any Related Person of any Seller or of any Acquired Company is a party to any Applicable Contract with, or has any claim or right against, any Acquired Company.\n",
+      "quote_digest": "sha256:027fabe50f4f6df9ceaee2cbcdd3baf88fc83abd95a489bdb18026c1e909b6b9",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
-        "query": "S corporation binding agreement different distribution liquidation rights S corporation side agreement one class stock S corporation option agreement economic rights S corporation shareholder agreement termination election",
+        "query": "S corporation related party lease one class stock S corporation below market lease shareholder distribution lease purchase option S corporation eligibility related party rent constructive distribution S corporation",
         "version": "1"
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
@@ -29,13 +29,13 @@
         "uri": "private://apex/7beb28a6e0069669-d885dee3"
       }
     },
-    "retrieval_receipt_digest": "sha256:b2f21bb0bb5eef399c93c4d7d0006c460ea15771a5a3dccc5b1bfd63a7637f38",
+    "retrieval_receipt_digest": "sha256:f63088c06f76f015cd9d489976b42ddef835c1dcde1bc56a9489c42bbf220415",
     "source_content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
     "source_digest": "sha256:9b5e55c106d3b2c9d270455bb5af81e282a4e92f3ba0722f868b952faf8ff0b5",
     "source_ref": "src_1cb20c6823882030"
   },
   "schema_version": "proofpress/knowledge-event/v2",
   "source_ref": "src_1cb20c6823882030",
-  "subject_ref": "evd_9005b6ffb92ada51",
+  "subject_ref": "evd_e5e5f959e80c952c",
   "type": "evidence_bound"
 }
