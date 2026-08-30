@@ -1,15 +1,26 @@
 {
-  "conclusion_digest": "sha256:d3641ad11e2567257e8d3cf2124a321781920c65bc1a45e193314c17e590eda0",
-  "created_at": "2026-08-30T19:17:28.186324Z",
-  "event_id": "ppe_2a8bd64be1828376",
-  "evidence_digests": {
-    "evd_05274510c61fbced": "sha256:3632cbb51c5ef24dd2cb06c4c9b79d779cff94032a9ed78992494b8d7bcd4e45",
-    "evd_9717e45c637fc498": "sha256:eb635140e565d0a94b1db65050ecbc6245fb8302aa8e8a229aee6355372c4f1a"
+  "conclusion": {
+    "allowed_actors": [
+      "*"
+    ],
+    "artifact_refs": [],
+    "created_at": "2026-08-30T19:17:28.310646Z",
+    "digest": "sha256:813c43000dfb6056c28b0eccdde099775ba6982fcdc6b228c38fc2bac1b13bc4",
+    "evidence_refs": [
+      "evd_05274510c61fbced",
+      "evd_9717e45c637fc498"
+    ],
+    "expires_at": null,
+    "id": "knw_092155c9e4d7e4ea",
+    "kind": "conclusion",
+    "proposer": "agent:v8-constructor",
+    "qualifiers": {},
+    "scope": "task_11893dcabbe34b0aa991516dfe7edcba",
+    "statement": "The historic distribution schedules do not identify any debt, covenant, solvency, or regulatory restriction affecting Summit’s distributions."
   },
-  "policy_digest": "sha256:cde050fdc0b2869fecf8ee9d24dee964fc3bbc18e6b489da2e08e7c3df266501",
-  "review_ref": "ppe_394f4751e4c21813",
-  "reviewer": "human:staged-evaluation-reviewer",
+  "created_at": "2026-08-30T19:17:28.403256Z",
+  "event_id": "ppe_b0a07857809384a1",
   "schema_version": "proofpress/knowledge-event/v2",
-  "subject_ref": "knw_72e4f0a5afb9ff30",
-  "type": "conclusion_admitted"
+  "subject_ref": "knw_092155c9e4d7e4ea",
+  "type": "conclusion_proposed"
 }
