@@ -1,15 +1,41 @@
 {
-  "created_at": "2026-08-30T19:15:56.056278Z",
-  "event_id": "ppe_8722c02e7ffa163d",
-  "record": {
-    "content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
-    "id": "src_1cb20c6823882030",
-    "kind": "retrieval_source",
-    "media_type": "text/plain",
-    "record_hash": "sha256:9b5e55c106d3b2c9d270455bb5af81e282a4e92f3ba0722f868b952faf8ff0b5",
-    "uri": "private://apex/7beb28a6e0069669-d885dee3"
+  "created_at": "2026-08-30T19:15:56.110938Z",
+  "event_id": "ppe_85c925727b5b4f5e",
+  "evidence": {
+    "digest": "sha256:39ffa6ca4a0290e30e783362e13465ab533493487ee6672f67295e6ea93d5b37",
+    "id": "evd_0904897ad8c5ce04",
+    "kind": "retrieval_evidence",
+    "quote_digest": "sha256:a6c435c4590f392a1f39928d2776c7d57062d95b898e8144ad601b532db70742",
+    "retrieval_receipt": {
+      "locator": {
+        "kind": "section_span",
+        "page_end": 1,
+        "page_start": 1,
+        "section_digest": "sha256:a6c435c4590f392a1f39928d2776c7d57062d95b898e8144ad601b532db70742",
+        "section_id": "sec_f3f50bc87563e1be"
+      },
+      "quote": "﻿\n\n\n\n\n\nStock Purchase Agreement\nby\n\nHarbor Bridge Private Equity, Inc.\n \n\nand\n\nSummit Filing Solutions, Inc.\n\n\n\nDated [TBD]\n\n\n\nTable of Contents\n\n\n\n\n\n\n\n",
+      "quote_digest": "sha256:a6c435c4590f392a1f39928d2776c7d57062d95b898e8144ad601b532db70742",
+      "retrieval": {
+        "adapter": "bm25-page",
+        "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
+        "query": "Summit Filing Solutions federal tax classification Summit Filing Solutions Inc. S corporation C corporation partnership entity tax status election",
+        "version": "1"
+      },
+      "schema_version": "proofpress/retrieval-evidence/v1",
+      "source": {
+        "content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
+        "media_type": "text/plain",
+        "uri": "private://apex/7beb28a6e0069669-d885dee3"
+      }
+    },
+    "retrieval_receipt_digest": "sha256:445c481533361cb6de9b580623df1edef017326638952dd1b37c86d2f1da1764",
+    "source_content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
+    "source_digest": "sha256:9b5e55c106d3b2c9d270455bb5af81e282a4e92f3ba0722f868b952faf8ff0b5",
+    "source_ref": "src_1cb20c6823882030"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "subject_ref": "src_1cb20c6823882030",
-  "type": "source_recorded"
+  "source_ref": "src_1cb20c6823882030",
+  "subject_ref": "evd_0904897ad8c5ce04",
+  "type": "evidence_bound"
 }
