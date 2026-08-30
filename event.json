@@ -1,41 +1,41 @@
 {
-  "created_at": "2026-08-30T19:17:46.766069Z",
-  "event_id": "ppe_8503edf9f395296b",
+  "created_at": "2026-08-30T19:17:47.022180Z",
+  "event_id": "ppe_a235a183e256473c",
   "evidence": {
-    "digest": "sha256:4150c0767c18d521de7e9b7151646a719b8a7dd19937efce63a2a9a03549ecef",
-    "id": "evd_e5e5f959e80c952c",
+    "digest": "sha256:d105501ce7afa7deb40996129be19651092dd591f5dbc0e9dbdb74114c7f685b",
+    "id": "evd_e98d2697efbbdfdc",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:027fabe50f4f6df9ceaee2cbcdd3baf88fc83abd95a489bdb18026c1e909b6b9",
+    "quote_digest": "sha256:b64356a66c0790894f82d1341528d8bb939130337ccda1160a25f3c9cf5d8704",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:027fabe50f4f6df9ceaee2cbcdd3baf88fc83abd95a489bdb18026c1e909b6b9",
-        "section_id": "sec_1e43fd9758087374"
+        "section_digest": "sha256:b64356a66c0790894f82d1341528d8bb939130337ccda1160a25f3c9cf5d8704",
+        "section_id": "sec_4a7827458150feeb"
       },
-      "quote": "        3.24 RELATIONSHIPS WITH RELATED PERSONS\nNo Seller and no Related Person of any Seller or of any Acquired Company has, or since \t has had, any interest in any asset owned or used by any Acquired Company. No Seller and no Related Person of any Seller or of any Acquired Company is, or since \thas been, a Related Party of or the owner (of record or beneficially) of any Equity Security or any other financial or profit interest in, a Person that has\n    (a) had business dealings or a material financial interest in any transaction with any Acquired Company or\n    (b) engaged in competition with any Acquired Company, other than ownership of less than one percent of the outstanding capital stock of a Person that is listed on any national or regional securities exchange. Except as set forth in Part 3.24, no Seller or any Related Person of any Seller or of any Acquired Company is a party to any Applicable Contract with, or has any claim or right against, any Acquired Company.\n",
-      "quote_digest": "sha256:027fabe50f4f6df9ceaee2cbcdd3baf88fc83abd95a489bdb18026c1e909b6b9",
+      "quote": "SECTION 8. EFFECTIVE DATE\n.01 In general. Except as provided in Section 8.02, this revenue procedure is effective September 3, 2013, the date of publication of this revenue procedure in the Internal Revenue Bulletin. This revenue procedure applies to requests pending with the IRS Service Center pursuant to Rev. Procs. 97-48, 2003-43, 2004-48, and 2007-62 on September 3, 2013, and to requests received thereafter. It also applies to all ruling requests pending in the IRS national office on September 3, 2013, and to requests for relief received thereafter.\n.02 Transition rule for pending letter ruling requests. If an entity has filed a request for a letter ruling seeking relief for a late Election Under Subchapter S covered by this revenue procedure that is pending in the national office on September 3, 2013, the entity may rely on this revenue procedure, withdraw that letter ruling request, and receive a refund of its user fee. However, the national office will process letter ruling requests pending on September 3, 2013, unless, prior to the earlier of October 18, 2013, or the issuance of the letter ruling, the entity notifies the national office that it will rely on this revenue procedure and withdraw its letter ruling request.\n",
+      "quote_digest": "sha256:b64356a66c0790894f82d1341528d8bb939130337ccda1160a25f3c9cf5d8704",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
-        "query": "S corporation related party lease one class stock S corporation below market lease shareholder distribution lease purchase option S corporation eligibility related party rent constructive distribution S corporation",
+        "query": "IRS revenue ruling S corporation one class stock agreement IRS revenue procedure inadvertent S election termination IRS private letter ruling S corporation disproportionate distribution Form 2553 instructions termination S election",
         "version": "1"
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
       "source": {
-        "content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
+        "content_digest": "sha256:489de4a5c467eb0382ef4f29920dc6433adc3a3336da5057aec7f37cd0208560",
         "media_type": "text/plain",
-        "uri": "private://apex/7beb28a6e0069669-d885dee3"
+        "uri": "private://apex/489de4a5c467eb03-1184b3a1"
       }
     },
-    "retrieval_receipt_digest": "sha256:f63088c06f76f015cd9d489976b42ddef835c1dcde1bc56a9489c42bbf220415",
-    "source_content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
-    "source_digest": "sha256:9b5e55c106d3b2c9d270455bb5af81e282a4e92f3ba0722f868b952faf8ff0b5",
-    "source_ref": "src_1cb20c6823882030"
+    "retrieval_receipt_digest": "sha256:ffc6b165c57861ae1ed450151900a084e443bc0b17eb8f84ad93050fbbbb703d",
+    "source_content_digest": "sha256:489de4a5c467eb0382ef4f29920dc6433adc3a3336da5057aec7f37cd0208560",
+    "source_digest": "sha256:0e30a41e1d31405a037edcc4e56b65c5107236c02092ff6fca6351e692a30a27",
+    "source_ref": "src_449cd1a48a2b6b92"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_1cb20c6823882030",
-  "subject_ref": "evd_e5e5f959e80c952c",
+  "source_ref": "src_449cd1a48a2b6b92",
+  "subject_ref": "evd_e98d2697efbbdfdc",
   "type": "evidence_bound"
 }
