@@ -1,26 +1,18 @@
 {
-  "conclusion": {
-    "allowed_actors": [
-      "*"
-    ],
-    "artifact_refs": [],
-    "created_at": "2026-08-30T19:16:30.460351Z",
-    "digest": "sha256:d14bb8ff18ae84bf9a4479f17bb1e8138a6fda047967d2ab0aff759c01a74303",
-    "evidence_refs": [
-      "evd_3e1798bab4b1d47b",
-      "evd_c45b20d568b9d0da"
-    ],
-    "expires_at": null,
-    "id": "knw_93ca49b5382b7d76",
-    "kind": "conclusion",
-    "proposer": "agent:v8-constructor",
-    "qualifiers": {},
-    "scope": "task_8d501efe0f924f69aeee070f2e08b576",
-    "statement": "The cited evidence provides general S-corporation election and late-election background, but does not provide specific rules or procedures for inadvertent invalid elections, inadvertent terminations, or related corrective actions."
+  "checks": {
+    "evidence_integrity": true,
+    "evidence_present": true,
+    "not_expired": true,
+    "not_superseded": true,
+    "retrieval_receipts": true,
+    "scope_present": true
   },
-  "created_at": "2026-08-30T19:16:30.513668Z",
-  "event_id": "ppe_2e8df5a293cbfb73",
+  "conclusion_digest": "sha256:d14bb8ff18ae84bf9a4479f17bb1e8138a6fda047967d2ab0aff759c01a74303",
+  "created_at": "2026-08-30T19:16:30.650678Z",
+  "eligible": true,
+  "event_id": "ppe_95d87ed33d6793ec",
+  "policy_digest": "sha256:cde050fdc0b2869fecf8ee9d24dee964fc3bbc18e6b489da2e08e7c3df266501",
   "schema_version": "proofpress/knowledge-event/v2",
   "subject_ref": "knw_93ca49b5382b7d76",
-  "type": "conclusion_proposed"
+  "type": "policy_evaluated"
 }
