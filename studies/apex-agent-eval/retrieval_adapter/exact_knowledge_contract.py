@@ -21,6 +21,7 @@ READINESS_SCHEMA = "proofpress/exact-knowledge-readiness/v1"
 AUTHORITY_NODE_SCHEMA = "proofpress/authority-node/v1"
 DERIVATION_NODE_SCHEMA = "proofpress/derivation-node/v1"
 NUMERIC_BINDING_GATE_SCHEMA = "proofpress/numeric-binding-gate/v1"
+TASK_PARAMETER_SCHEMA = "proofpress/task-parameter/v1"
 
 SLOT_OBJECT_KINDS = {
     "exact_value": {"evidence_atom", "derivation_node"},
@@ -128,6 +129,44 @@ def validate_numeric_atom(atom: dict[str, Any],
     return checked
 
 
+def _exact_field_bindings(excerpt: str, values: dict[str, str]) -> dict[str, dict[str, int]]:
+    bindings: dict[str, dict[str, int]] = {}
+    for field, value in values.items():
+        start = excerpt.find(value)
+        if start < 0:
+            raise ValueError(f"evidence atom {field} is not present in the exact excerpt")
+        bindings[field] = {"start": start, "end": start + len(value)}
+    return bindings
+
+
+def bind_evidence_atom(payload: dict[str, Any],
+                       receipts: dict[str, dict[str, Any]]) -> dict[str, Any]:
+    """Construct a general unresolved evidence atom from one exact source span."""
+    required = ("requirement_id", "evidence_id", "subject", "predicate", "value")
+    if any(not isinstance(payload.get(key), str) or not payload[key].strip() for key in required):
+        raise ValueError("evidence atom binding payload is incomplete")
+    receipt = receipts.get(payload["evidence_id"])
+    if not isinstance(receipt, dict):
+        raise ValueError("evidence atom receipt is missing")
+    excerpt = str(payload.get("exact_excerpt") or "")
+    if not excerpt or excerpt not in str(receipt.get("quote") or ""):
+        raise ValueError("evidence atom exact excerpt is not receipt-bound")
+    values = {key: payload[key] for key in ("subject", "predicate", "value")}
+    basis = {"requirement_id": payload["requirement_id"],
+             "evidence_id": payload["evidence_id"],
+             "receipt_digest": receipt.get("receipt_digest"), **values,
+             "effective_date": payload.get("effective_date"),
+             "qualification": payload.get("qualification"),
+             "document_version": str(payload.get("document_version") or "unknown"),
+             "exact_excerpt": excerpt, "locator": receipt.get("locator"),
+             "support_mode": "explicit",
+             "field_bindings": _exact_field_bindings(excerpt, values),
+             "status": "not_governed_candidate", "admission_authority": False}
+    atom = {"schema_version": ATOM_SCHEMA,
+            "atom_id": "atom_" + digest(basis).split(":", 1)[1][:20], **basis}
+    return validate_atom(atom, receipts)
+
+
 def bind_numeric_atom(payload: dict[str, Any],
                       receipts: dict[str, dict[str, Any]]) -> dict[str, Any]:
     """Construct an unresolved numeric atom from an exact custody-valid span."""
@@ -144,19 +183,13 @@ def bind_numeric_atom(payload: dict[str, Any],
     display = payload["display"]
     values = {"subject": payload["subject"], "predicate": payload["predicate"],
               "value": display}
-    bindings: dict[str, dict[str, int]] = {}
-    for field, value in values.items():
-        start = excerpt.find(value)
-        if start < 0:
-            raise ValueError(f"numeric atom {field} is not present in the exact excerpt")
-        bindings[field] = {"start": start, "end": start + len(value)}
     basis = {"requirement_id": payload["requirement_id"], "evidence_id": payload["evidence_id"],
              "receipt_digest": receipt.get("receipt_digest"), **values,
              "effective_date": payload.get("effective_date"),
              "qualification": payload.get("qualification"),
              "document_version": str(payload.get("document_version") or "unknown"),
              "exact_excerpt": excerpt, "locator": receipt.get("locator"),
-             "support_mode": "explicit", "field_bindings": bindings,
+             "support_mode": "explicit", "field_bindings": _exact_field_bindings(excerpt, values),
              "status": "not_governed_candidate", "admission_authority": False,
              "numeric": {"display": display,
                          "decimal_value": normalize_numeric_text(display),
@@ -166,6 +199,42 @@ def bind_numeric_atom(payload: dict[str, Any],
     atom = {"schema_version": ATOM_SCHEMA,
             "atom_id": "atom_" + digest(basis).split(":", 1)[1][:20], **basis}
     return validate_numeric_atom(atom, receipts)
+
+
+def bind_task_numeric_parameter(task_prompt: str, payload: dict[str, Any]) -> dict[str, Any]:
+    """Bind an explicit numeric instruction or assumption without treating it as evidence."""
+    required = ("requirement_id", "display", "kind", "entity", "period", "precision",
+                "parameter_role")
+    if not isinstance(task_prompt, str) or not task_prompt:
+        raise ValueError("task prompt is required for a task parameter")
+    if any(not isinstance(payload.get(key), str) or not payload[key].strip() for key in required):
+        raise ValueError("task parameter binding payload is incomplete")
+    display = payload["display"]
+    start = task_prompt.find(display)
+    if start < 0:
+        raise ValueError("task parameter display is not present in the task prompt")
+    if payload["kind"] not in NUMERIC_KINDS or payload["precision"] not in PRECISION_STATES:
+        raise ValueError("task parameter numeric metadata is invalid")
+    if payload["kind"] == "currency" and not str(payload.get("currency") or "").strip():
+        raise ValueError("currency task parameters require an explicit currency")
+    basis = {
+        "requirement_id": payload["requirement_id"],
+        "task_prompt_digest": digest(task_prompt),
+        "display_span": {"start": start, "end": start + len(display)},
+        "numeric": {"display": display, "decimal_value": normalize_numeric_text(display),
+                    "kind": payload["kind"], "currency": payload.get("currency"),
+                    "unit": str(payload.get("unit") or ""), "entity": payload["entity"],
+                    "period": payload["period"], "precision": payload["precision"]},
+        "parameter_role": payload["parameter_role"],
+        "status": "task_instruction_not_governed",
+        "governed_reliance_allowed": False,
+        "automatic_admission": False,
+        "admission_authority": False,
+    }
+    node = {"schema_version": TASK_PARAMETER_SCHEMA,
+            "parameter_id": "param_" + digest(basis).split(":", 1)[1][:20], **basis}
+    node["parameter_digest"] = digest(node)
+    return node
 
 
 def validate_authority_node(node: dict[str, Any],
@@ -322,11 +391,23 @@ def assess_requirement_readiness(plan: dict[str, Any], *,
                       if row in objects and objects[row][0] not in set(slot["required_object_kinds"])]
         wrong_requirement = [row for row in object_ids if row in objects
                              and objects[row][1].get("requirement_id") != slot["slot_id"]]
+        observed_periods = {str((objects[row][1].get("numeric") or {}).get("period")
+                                or objects[row][1].get("period")
+                                or objects[row][1].get("effective_date") or "")
+                            for row in object_ids if row in objects}
+        expected_periods = (
+            set(slot.get("expected_periods", []))
+            if slot["slot_type"] == "value_by_period"
+            else set()
+        )
+        missing_periods = sorted(expected_periods - observed_periods)
         if missing or wrong_kind or wrong_requirement:
             state = "invalid_binding"
         elif slot["slot_type"] == "output_structure":
             state = "covered_governed"
         elif not object_ids:
+            state = "gap"
+        elif slot["slot_type"] == "value_by_period" and missing_periods:
             state = "gap"
         elif set(object_ids).issubset(governed):
             state = "covered_governed"
@@ -334,7 +415,8 @@ def assess_requirement_readiness(plan: dict[str, Any], *,
             state = "covered_candidate_not_governed"
         rows.append({"slot_id": slot["slot_id"], "state": state, "object_ids": object_ids,
                      "missing_object_ids": missing, "wrong_kind_object_ids": wrong_kind,
-                     "wrong_requirement_object_ids": wrong_requirement})
+                     "wrong_requirement_object_ids": wrong_requirement,
+                     "missing_periods": missing_periods})
     result = {
         "schema_version": READINESS_SCHEMA,
         "plan_digest": plan.get("plan_digest"),
@@ -352,7 +434,8 @@ def assess_requirement_readiness(plan: dict[str, Any], *,
 def build_exact_derivation(*, requirement_id: str, expression: str,
                            variables: dict[str, Any], input_bindings: dict[str, str],
                            numeric_atoms: dict[str, dict[str, Any]], output_unit: str,
-                           entity: str, period: str, round_places: int = 2) -> dict[str, Any]:
+                           entity: str, period: str, round_places: int = 2,
+                           task_parameters: dict[str, dict[str, Any]] | None = None) -> dict[str, Any]:
     """Calculate only when every variable binds the same value in a numeric atom."""
     if not requirement_id or not output_unit or not entity or not period:
         raise ValueError("derivation requirement, unit, entity, and period are required")
@@ -360,11 +443,19 @@ def build_exact_derivation(*, requirement_id: str, expression: str,
         raise ValueError("derivation rounding precision is invalid")
     if set(variables) != set(input_bindings):
         raise ValueError("every derivation variable requires exactly one atom binding")
+    parameters = task_parameters or {}
+    inputs = {**numeric_atoms, **parameters}
+    if set(numeric_atoms).intersection(parameters):
+        raise ValueError("derivation input IDs must be unique across atoms and parameters")
     for name, object_id in input_bindings.items():
-        atom = numeric_atoms.get(object_id)
-        if (not isinstance(atom, dict) or atom.get("schema_version") != ATOM_SCHEMA
-                or not isinstance(atom.get("numeric"), dict)
-                or not _embedded_digest_valid(atom, "atom_digest")
+        atom = inputs.get(object_id)
+        valid_atom = (isinstance(atom, dict) and atom.get("schema_version") == ATOM_SCHEMA
+                      and _embedded_digest_valid(atom, "atom_digest"))
+        valid_parameter = (isinstance(atom, dict)
+                           and atom.get("schema_version") == TASK_PARAMETER_SCHEMA
+                           and _embedded_digest_valid(atom, "parameter_digest")
+                           and atom.get("governed_reliance_allowed") is False)
+        if (not (valid_atom or valid_parameter) or not isinstance(atom.get("numeric"), dict)
                 or atom.get("admission_authority") not in (None, False)):
             raise ValueError("derivation input is not a numeric evidence atom")
         if atom.get("requirement_id") != requirement_id:
@@ -376,7 +467,9 @@ def build_exact_derivation(*, requirement_id: str, expression: str,
                                  basis_object_ids=list(input_bindings.values()))
     value.update({"requirement_id": requirement_id,
                   "input_bindings": dict(sorted(input_bindings.items())),
-                  "input_units": {name: str(numeric_atoms[object_id]["numeric"].get("unit") or "")
+                  "input_kinds": {name: ("task_parameter" if object_id in parameters else "evidence_atom")
+                                  for name, object_id in sorted(input_bindings.items())},
+                  "input_units": {name: str(inputs[object_id]["numeric"].get("unit") or "")
                                   for name, object_id in sorted(input_bindings.items())},
                   "entity": entity, "period": period,
                   "status": "not_governed_derived", "admission_authority": False,
@@ -387,7 +480,8 @@ def build_exact_derivation(*, requirement_id: str, expression: str,
 
 
 def validate_exact_derivation(node: dict[str, Any],
-                              numeric_atoms: dict[str, dict[str, Any]]) -> dict[str, Any]:
+                              numeric_atoms: dict[str, dict[str, Any]],
+                              task_parameters: dict[str, dict[str, Any]] | None = None) -> dict[str, Any]:
     """Recompute a derivation and reject result, input, or digest drift."""
     if not isinstance(node, dict) or node.get("schema_version") != DERIVATION_NODE_SCHEMA:
         raise ValueError("derivation node schema is required")
@@ -400,9 +494,10 @@ def validate_exact_derivation(node: dict[str, Any],
         output_unit=str(node.get("output_unit") or ""),
         entity=str(node.get("entity") or ""), period=str(node.get("period") or ""),
         round_places=node.get("round_places"),
+        task_parameters=task_parameters,
     )
     required_equal = ("derivation_id", "raw_result", "result", "basis_object_ids",
-                      "input_bindings", "input_units", "derivation_digest")
+                      "input_bindings", "input_kinds", "input_units", "derivation_digest")
     if any(node.get(key) != rebuilt.get(key) for key in required_equal):
         raise ValueError("derivation result, inputs, or digest do not recompute")
     return dict(node)

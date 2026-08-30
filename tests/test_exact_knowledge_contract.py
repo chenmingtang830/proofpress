@@ -92,6 +92,40 @@ class ExactKnowledgeContractTests(unittest.TestCase):
                  "precision": "exact", "exact_excerpt": "invented $18,486"},
                 {"E1": self.receipt()})
 
+    def test_general_evidence_atom_remains_source_bound_and_unresolved(self):
+        atom = exact.bind_evidence_atom(
+            {"requirement_id": "R_STATUS", "evidence_id": "E1", "subject": "Laura",
+             "predicate": "owned", "value": "26%", "effective_date": "2024",
+             "exact_excerpt": self.receipt()["quote"]},
+            {"E1": self.receipt()})
+        self.assertEqual(atom["value"], "26%")
+        self.assertTrue(atom["atom_digest"].startswith("sha256:"))
+        self.assertFalse(atom["admission_authority"])
+
+    def test_task_numeric_parameter_is_not_matter_evidence_but_can_feed_derivation(self):
+        prompt = "Assume the federal tax rate is 21%."
+        parameter = exact.bind_task_numeric_parameter(
+            prompt, {"requirement_id": "R_TAX", "display": "21%", "kind": "percentage",
+                     "unit": "percentage points", "entity": "federal tax rate",
+                     "period": "task assumption", "precision": "exact",
+                     "parameter_role": "explicit_assumption"})
+        self.assertFalse(parameter["governed_reliance_allowed"])
+        income = exact.validate_numeric_atom(self.atom(atom_id="A_INCOME"), {"E1": self.receipt()})
+        derivation = exact.build_exact_derivation(
+            requirement_id="R_TAX", expression="income * rate / 100",
+            variables={"income": "18486", "rate": "21"},
+            input_bindings={"income": "A_INCOME", "rate": parameter["parameter_id"]},
+            numeric_atoms={"A_INCOME": income}, task_parameters={parameter["parameter_id"]: parameter},
+            output_unit="USD", entity="Laura", period="2024")
+        self.assertEqual(derivation["input_kinds"]["rate"], "task_parameter")
+        self.assertEqual(derivation["result"], "3882.06")
+        with self.assertRaisesRegex(ValueError, "task parameter display"):
+            exact.bind_task_numeric_parameter(
+                prompt, {"requirement_id": "R_TAX", "display": "20%", "kind": "percentage",
+                         "unit": "percentage points", "entity": "federal tax rate",
+                         "period": "task assumption", "precision": "exact",
+                         "parameter_role": "explicit_assumption"})
+
     def test_authority_candidate_cannot_self_confirm_or_admit(self):
         node, receipts = self.authority()
         checked = exact.validate_authority_node(node, receipts)
@@ -136,6 +170,23 @@ class ExactKnowledgeContractTests(unittest.TestCase):
             plan, authority_nodes=[authority], derivations=[derivation],
             governed_object_ids=["D1", "U1"])
         self.assertTrue(governed["executor_ready"])
+
+    def test_value_by_period_requires_every_declared_period(self):
+        plan = exact.compile_requirement_plan(
+            "Report 2022 and 2023 values.",
+            [{"slot_id": "R_SERIES", "slot_type": "value_by_period",
+              "description": "Annual values", "required_object_kinds": ["evidence_atom"],
+              "expected_periods": ["2022", "2023"]},
+             {"slot_id": "R_OUTPUT", "slot_type": "output_structure",
+              "description": "Console", "required_object_kinds": []}],
+            output_type="message_in_console")
+        plan = exact.bind_requirement_objects(plan, {"R_SERIES": ["A_2022"]})
+        atom = {"atom_id": "A_2022", "requirement_id": "R_SERIES",
+                "numeric": {"period": "2022"}}
+        readiness = exact.assess_requirement_readiness(plan, evidence_atoms=[atom])
+        series = next(row for row in readiness["slots"] if row["slot_id"] == "R_SERIES")
+        self.assertEqual(series["state"], "gap")
+        self.assertEqual(series["missing_periods"], ["2023"])
 
     def test_derivation_requires_every_variable_to_match_a_bound_atom(self):
         income = exact.validate_numeric_atom(
