@@ -1,21 +1,21 @@
 {
-  "created_at": "2026-08-30T19:17:38.468319Z",
-  "event_id": "ppe_b67f5571a81f1fee",
+  "created_at": "2026-08-30T19:17:38.694031Z",
+  "event_id": "ppe_1234077c780ffa18",
   "evidence": {
-    "digest": "sha256:755bfcef50b143e8f7792166a395e77ef5abbb6ec56bf03d5fe1a64796387d31",
-    "id": "evd_e1ee21e995b0ddca",
+    "digest": "sha256:942229acc6659194c920502e290db383cb22067b912c894f2570ae556861bbe6",
+    "id": "evd_3bc0eeffae993db9",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:66abd85736fc48ed4e7f294d1586102b70700a0500ca9e9bfb69bfeccb0d7401",
+    "quote_digest": "sha256:f0f83ecba3f09d05d67ceb1568ff638c213ec0d7910ef171026c4b311434b5d7",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:66abd85736fc48ed4e7f294d1586102b70700a0500ca9e9bfb69bfeccb0d7401",
-        "section_id": "sec_404cea6299288f39"
+        "section_digest": "sha256:f0f83ecba3f09d05d67ceb1568ff638c213ec0d7910ef171026c4b311434b5d7",
+        "section_id": "sec_8f23e2895b774fec"
       },
-      "quote": "CERTIFICATE OF INCORPORATION\n\t[Exhibit C -\tDISCLOSURE SCHEDULE]\n\tExhibit D -\tFORM OF INDEMNIFICATION AGREEMENT\n\tExhibit E -\tFORM OF INVESTORS’ RIGHTS AGREEMENT\n\tExhibit F -\tFORM OF MANAGEMENT RIGHTS LETTER\n\tExhibit G -\tForm of Right of First Refusal and Co-Sale Agreement\n\tExhibit H -\tFORM OF VOTING AGREEMENT\n\tExhibit I -\tFORM OF LEGAL OPINION OF [COMPANY COUNSEL]\n\t[Exhibit J -\tMILESTONE EVENTS]\n\n\n\n\n\n\n\n\n\n",
-      "quote_digest": "sha256:66abd85736fc48ed4e7f294d1586102b70700a0500ca9e9bfb69bfeccb0d7401",
+      "quote": "I. KEY FINDINGS\n1. Nonresident Alien Shareholder — HIGH RISK\nThe Historical Shareholder Schedule reflects that on June 1, 2022, shareholder Gregory A. Beaumont transferred 100,000 shares to Carrie Canuck, a Canadian resident. A nonresident alien is an ineligible S‑Corporation shareholder. This event caused an automatic termination of S‑Corporation status as of the transfer date.\n2. Pro Rata Distribution Compliance — HIGH RISK\nHistoric distributions do not conform to required ownership percentages, producing recurring disproportionate distributions. The IRS may treat repeated deviations as evidence of a prohibited second class of stock.\n3. Debt‑Equity Characterization and Shareholder Loans — HIGH RISK (Documentation Missing)\nNo shareholder loan agreements, repayment schedules, general ledger entries, or basis tracking schedules were provided. Given the instruction to treat missing documents as high risk, this category is classified accordingly. The absence of documentation significantly increases the likelihood of IRS recharacterization of advances as equity, which may create a second class of stock.\n\n4. K‑1 Accuracy and Records — MODERATE RISK\nSeveral K‑1s lack ownership percentages, and 2024 K‑1s list individuals who do not appear in the stock ledger. These inconsistencies suggest governance gaps that increase audit exposure.\n5. Governance and Corporate Formalities — MODERATE RISK\nMultiple versions of the historical shareholder schedule (Rev A/B/C) reflect inconsistent treatment of 2022–2023 transfers. Inconsistent ledgers weaken Summit’s ability to substantiate S‑status compliance.\n6. Tax Return Consistency (1120‑S) — LOW RISK\nForms 1120‑S appear internally consistent with the operating history. No accumulated earnings and profits or built‑in gains issues were identified.\n\n",
+      "quote_digest": "sha256:f0f83ecba3f09d05d67ceb1568ff638c213ec0d7910ef171026c4b311434b5d7",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
@@ -24,18 +24,18 @@
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
       "source": {
-        "content_digest": "sha256:de3c85ce68cc9a64aadabec8843aff116664ead676844e5ce1f589169c52b2da",
+        "content_digest": "sha256:e7eb786dc671298aa9426792d523f0ec997bee3a570763a8b10f13a1644fc105",
         "media_type": "text/plain",
-        "uri": "private://apex/de3c85ce68cc9a64-4c7c3329"
+        "uri": "private://apex/e7eb786dc671298a-1d2051f2"
       }
     },
-    "retrieval_receipt_digest": "sha256:c712ef3a0ad6424142a1e6708e521a3695a2923c6f13abcf4ef417ae5fc41611",
-    "source_content_digest": "sha256:de3c85ce68cc9a64aadabec8843aff116664ead676844e5ce1f589169c52b2da",
-    "source_digest": "sha256:afd14261a12776692529819ab8b113e55ef68150920111e982cd00f66a8af8ea",
-    "source_ref": "src_a149d3b6c6d2425c"
+    "retrieval_receipt_digest": "sha256:3511ad42ac6760ae42b9ac7fd78e65f8dd00d4cbf692d5f7b82f7b221685f296",
+    "source_content_digest": "sha256:e7eb786dc671298aa9426792d523f0ec997bee3a570763a8b10f13a1644fc105",
+    "source_digest": "sha256:bbebf48c1f9dee4d30677c0c93c00e3eb349758e8e8a6eac5acafa2f8650d491",
+    "source_ref": "src_e9b083e75ca5f18f"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_a149d3b6c6d2425c",
-  "subject_ref": "evd_e1ee21e995b0ddca",
+  "source_ref": "src_e9b083e75ca5f18f",
+  "subject_ref": "evd_3bc0eeffae993db9",
   "type": "evidence_bound"
 }
