@@ -1,41 +1,41 @@
 {
-  "created_at": "2026-08-30T19:16:19.740217Z",
-  "event_id": "ppe_825367cb0a0a8ec9",
+  "created_at": "2026-08-30T19:16:19.864154Z",
+  "event_id": "ppe_1464e3ad1e9c0bcc",
   "evidence": {
-    "digest": "sha256:64331c56707a3c86639cb9299fe78b4b2de10f63431835c9f5d068002a08e52e",
-    "id": "evd_c801f7cb4f72267b",
+    "digest": "sha256:d02d0be71df748c9fd5328f57b6aff85ff49d0384fa29b0f2c131352fdf434e6",
+    "id": "evd_1dfe0119373b60c2",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:fc7658c924a654c6538faef1bc4a3c8a523d770d4623f8df987fc4376871c78a",
+    "quote_digest": "sha256:7a29831de3eea212c1770c520c9cae7474c0aeb66a38d50d64361e0c1c384147",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:fc7658c924a654c6538faef1bc4a3c8a523d770d4623f8df987fc4376871c78a",
-        "section_id": "sec_2b4d0cb001e8f47f"
+        "section_digest": "sha256:7a29831de3eea212c1770c520c9cae7474c0aeb66a38d50d64361e0c1c384147",
+        "section_id": "sec_af4cbadc33daccc3"
       },
-      "quote": "﻿BYLAWS\nof\n Summit Filing Solutions, Inc.\n (A Delaware Corporation)\n Adopted January 10, 2018\n\n",
-      "quote_digest": "sha256:fc7658c924a654c6538faef1bc4a3c8a523d770d4623f8df987fc4376871c78a",
+      "quote": "IV. CONCLUSION\nSummit’s S‑Corporation eligibility issues are severe, multi‑year, and likely to be viewed by the IRS as significant compliance failures. Corrective action is possible only through coordinated remediation and a §1362(f) relief request. Without corrective actions, Summit may be treated as a C‑Corporation for all periods beginning June 1, 2022, or earlier if disproportionate distributions are deemed to create a second class of stock.\nThis memorandum reflects a partner‑level diligence summary and may be circulated to tax counsel, buy‑side advisors, and internal decision-makers as part of a broader transaction risk analysis.\n\n",
+      "quote_digest": "sha256:7a29831de3eea212c1770c520c9cae7474c0aeb66a38d50d64361e0c1c384147",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
-        "query": "\"Summit\" entity type corporation LLC \"S corporation\" eligible shareholders 2019 \"S corporation\" prohibited shareholders trusts nonresident aliens \"Summit\" shareholder citizenship trust estate",
+        "query": "\"Summit\" articles of incorporation preferred stock \"Summit\" shareholder agreement distributions \"Summit\" convertible note warrant option \"S corporation\" second class of stock",
         "version": "1"
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
       "source": {
-        "content_digest": "sha256:1cb8fe86d8075d2b126f99858b67aa3a45ced38879cf7b3859b78e577483572b",
+        "content_digest": "sha256:e7eb786dc671298aa9426792d523f0ec997bee3a570763a8b10f13a1644fc105",
         "media_type": "text/plain",
-        "uri": "private://apex/1cb8fe86d8075d2b-0c1ae063"
+        "uri": "private://apex/e7eb786dc671298a-1d2051f2"
       }
     },
-    "retrieval_receipt_digest": "sha256:8e749620fe26372694c6f397bc12390c115fa5fe0df7e13b521cff527dd1601c",
-    "source_content_digest": "sha256:1cb8fe86d8075d2b126f99858b67aa3a45ced38879cf7b3859b78e577483572b",
-    "source_digest": "sha256:dce34be7d3faee591fc3639cc0fc742ebc66a097c301c07eb716b0649e3998a1",
-    "source_ref": "src_3376baa521507aa6"
+    "retrieval_receipt_digest": "sha256:b433c4f1cf5ee53b6f7f8ad3c5ef8a5677d5c2d40d4d91c938fcf29c392b4cc6",
+    "source_content_digest": "sha256:e7eb786dc671298aa9426792d523f0ec997bee3a570763a8b10f13a1644fc105",
+    "source_digest": "sha256:bbebf48c1f9dee4d30677c0c93c00e3eb349758e8e8a6eac5acafa2f8650d491",
+    "source_ref": "src_e9b083e75ca5f18f"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_3376baa521507aa6",
-  "subject_ref": "evd_c801f7cb4f72267b",
+  "source_ref": "src_e9b083e75ca5f18f",
+  "subject_ref": "evd_1dfe0119373b60c2",
   "type": "evidence_bound"
 }
