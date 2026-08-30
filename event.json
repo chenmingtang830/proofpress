@@ -1,21 +1,21 @@
 {
-  "created_at": "2026-08-30T19:16:18.873241Z",
-  "event_id": "ppe_268ddea1478e08e1",
+  "created_at": "2026-08-30T19:16:18.993886Z",
+  "event_id": "ppe_caa915cead92e6a9",
   "evidence": {
-    "digest": "sha256:4417eb02198e944cd116ae69cfef737377a42497976b041db489bc8d5c44d7f9",
-    "id": "evd_f20d2d2afc368c6f",
+    "digest": "sha256:16298c2291736c4952366af66d52c1b86c5f6c4b161884a05432c520718de096",
+    "id": "evd_1c25e60e38832769",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:504dd2a3f1f8af81f6ddc0a682a69a635ac32e4010e0344c76a535f5f8282522",
+    "quote_digest": "sha256:5c8d4e3bca0b116fb267e5e346ab147cf041b7819294839f6ddf94c4bb91a532",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:504dd2a3f1f8af81f6ddc0a682a69a635ac32e4010e0344c76a535f5f8282522",
-        "section_id": "sec_2b05bd87101c30b4"
+        "section_digest": "sha256:5c8d4e3bca0b116fb267e5e346ab147cf041b7819294839f6ddf94c4bb91a532",
+        "section_id": "sec_ba0c6381c9c36a68"
       },
-      "quote": "9. SIGNATURES.\nSeller Signature: ___________________ Date: [MM/DD/YYYY]\nPrint Name: [SELLER NAME]\nBuyer Signature: ___________________ Date: [MM/DD/YYYY]\nPrint Name: [BUYER NAME]\n\n",
-      "quote_digest": "sha256:504dd2a3f1f8af81f6ddc0a682a69a635ac32e4010e0344c76a535f5f8282522",
+      "quote": "        12.21 COUNTERPARTS AND ELECTRONIC SIGNATURES\n    (a) This Agreement and other documents to be delivered pursuant to this Agreement may be executed in one or more counterparts, each of which will be deemed to be an original copy and all of which, when taken together, will be deemed to constitute one and the same agreement or document, and will be effective when counterparts have been signed by each of the parties and delivered to the other parties.\n    (b) A manual signature on this Agreement or other documents to be delivered pursuant to this Agreement, an image of which shall have been transmitted electronically, will constitute an original signature for all purposes. The delivery of copies of this Agreement or other documents to be delivered pursuant to this Agreement, including executed signature pages where required, by electronic transmission will constitute effective delivery of this Agreement or such other document for all purposes.\nIN WITNESS WHEREOF, the parties have executed and delivered this Agreement as of the date first written above.\n",
+      "quote_digest": "sha256:5c8d4e3bca0b116fb267e5e346ab147cf041b7819294839f6ddf94c4bb91a532",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
@@ -24,18 +24,18 @@
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
       "source": {
-        "content_digest": "sha256:1fa432744307c6e3d7cd1a691e8bd26402a340a0de51cead624710e85b4e3943",
+        "content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
         "media_type": "text/plain",
-        "uri": "private://apex/1fa432744307c6e3-ff90ef47"
+        "uri": "private://apex/7beb28a6e0069669-d885dee3"
       }
     },
-    "retrieval_receipt_digest": "sha256:cf70bb56e73675e40ac8c61becdd3c0e8144581e4c2b82f4665a963f58523904",
-    "source_content_digest": "sha256:1fa432744307c6e3d7cd1a691e8bd26402a340a0de51cead624710e85b4e3943",
-    "source_digest": "sha256:41daae633da435245284fba5ee846720c69c51f9f4eec17a5f3473e38eea79fe",
-    "source_ref": "src_15f480947ea56e19"
+    "retrieval_receipt_digest": "sha256:0be5a932fbd18e5c75be9431892bfc8db301261ede28fb3593e4b61ab79db294",
+    "source_content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
+    "source_digest": "sha256:9b5e55c106d3b2c9d270455bb5af81e282a4e92f3ba0722f868b952faf8ff0b5",
+    "source_ref": "src_1cb20c6823882030"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_15f480947ea56e19",
-  "subject_ref": "evd_f20d2d2afc368c6f",
+  "source_ref": "src_1cb20c6823882030",
+  "subject_ref": "evd_1c25e60e38832769",
   "type": "evidence_bound"
 }
