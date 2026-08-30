@@ -1,15 +1,27 @@
 {
-  "conclusion_digest": "sha256:b9df7867eab8bd91b907a77d1b791ac6eb543e78239e66483a1918789394eaf5",
-  "created_at": "2026-08-30T19:18:09.195226Z",
-  "event_id": "ppe_446129f01e0bcd51",
-  "evidence_digests": {
-    "evd_e24925f58d92656a": "sha256:bed65acd309d0d03af86884119c34c78aae73f2a89d21138958e80f85d29c43d",
-    "evd_e98d2697efbbdfdc": "sha256:d105501ce7afa7deb40996129be19651092dd591f5dbc0e9dbdb74114c7f685b"
+  "conclusion": {
+    "allowed_actors": [
+      "*"
+    ],
+    "artifact_refs": [],
+    "created_at": "2026-08-30T19:18:09.341173Z",
+    "digest": "sha256:bcf9542882e9302146dd560df9a390cbd09e32365cdb770b0d036ffb920eb4be",
+    "evidence_refs": [
+      "evd_1dad59d016961359",
+      "evd_337cd9e43285d239",
+      "evd_dde583c1185bfd33"
+    ],
+    "expires_at": null,
+    "id": "knw_76872f4d734d597c",
+    "kind": "conclusion",
+    "proposer": "agent:v8-constructor",
+    "qualifiers": {},
+    "scope": "task_f8f47a9c94874854a24936d81a89fdfb",
+    "statement": "The cited receipts show header portions of Schedule K-1 (Form 1120-S) for 2020, 2023, and 2024."
   },
-  "policy_digest": "sha256:cde050fdc0b2869fecf8ee9d24dee964fc3bbc18e6b489da2e08e7c3df266501",
-  "review_ref": "ppe_7b19bc20ffe4a987",
-  "reviewer": "human:staged-evaluation-reviewer",
+  "created_at": "2026-08-30T19:18:09.456618Z",
+  "event_id": "ppe_1b1ca6e060fa7152",
   "schema_version": "proofpress/knowledge-event/v2",
-  "subject_ref": "knw_6d56b4b66d7e2892",
-  "type": "conclusion_admitted"
+  "subject_ref": "knw_76872f4d734d597c",
+  "type": "conclusion_proposed"
 }
