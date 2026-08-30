@@ -1,21 +1,21 @@
 {
-  "created_at": "2026-08-30T19:16:00.928505Z",
-  "event_id": "ppe_59d769ad105f6185",
+  "created_at": "2026-08-30T19:16:01.013882Z",
+  "event_id": "ppe_269b48f7b8341c59",
   "evidence": {
-    "digest": "sha256:57aa4f4f000eeb7d00cfb77d04e48934b17dc63dfff6d0f70802111d0f220f04",
-    "id": "evd_2474924b3b6354eb",
+    "digest": "sha256:4ef8009e6d52157c56f41b1f6ef642a5b322eee5417a2b8a46da7ed472e6ddd6",
+    "id": "evd_ad6e6c43ac0d5504",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:f0f83ecba3f09d05d67ceb1568ff638c213ec0d7910ef171026c4b311434b5d7",
+    "quote_digest": "sha256:119a29655aabe3b4524a322aa58b6ab8c20cbfb63e283437f96acca8bebe77d1",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:f0f83ecba3f09d05d67ceb1568ff638c213ec0d7910ef171026c4b311434b5d7",
-        "section_id": "sec_8f23e2895b774fec"
+        "section_digest": "sha256:119a29655aabe3b4524a322aa58b6ab8c20cbfb63e283437f96acca8bebe77d1",
+        "section_id": "sec_f7272cbb7aded261"
       },
-      "quote": "I. KEY FINDINGS\n1. Nonresident Alien Shareholder — HIGH RISK\nThe Historical Shareholder Schedule reflects that on June 1, 2022, shareholder Gregory A. Beaumont transferred 100,000 shares to Carrie Canuck, a Canadian resident. A nonresident alien is an ineligible S‑Corporation shareholder. This event caused an automatic termination of S‑Corporation status as of the transfer date.\n2. Pro Rata Distribution Compliance — HIGH RISK\nHistoric distributions do not conform to required ownership percentages, producing recurring disproportionate distributions. The IRS may treat repeated deviations as evidence of a prohibited second class of stock.\n3. Debt‑Equity Characterization and Shareholder Loans — HIGH RISK (Documentation Missing)\nNo shareholder loan agreements, repayment schedules, general ledger entries, or basis tracking schedules were provided. Given the instruction to treat missing documents as high risk, this category is classified accordingly. The absence of documentation significantly increases the likelihood of IRS recharacterization of advances as equity, which may create a second class of stock.\n\n4. K‑1 Accuracy and Records — MODERATE RISK\nSeveral K‑1s lack ownership percentages, and 2024 K‑1s list individuals who do not appear in the stock ledger. These inconsistencies suggest governance gaps that increase audit exposure.\n5. Governance and Corporate Formalities — MODERATE RISK\nMultiple versions of the historical shareholder schedule (Rev A/B/C) reflect inconsistent treatment of 2022–2023 transfers. Inconsistent ledgers weaken Summit’s ability to substantiate S‑status compliance.\n6. Tax Return Consistency (1120‑S) — LOW RISK\nForms 1120‑S appear internally consistent with the operating history. No accumulated earnings and profits or built‑in gains issues were identified.\n\n",
-      "quote_digest": "sha256:f0f83ecba3f09d05d67ceb1568ff638c213ec0d7910ef171026c4b311434b5d7",
+      "quote": "        3.3 CAPITALIZATION OF COMPANY AND SUBSIDIARIES\n    (a) The authorized Equity Securities of the Company consist of ONE MILLION (1,000,000) \tshares of common stock, par value $0.001  per share, of which 1,000,000  shares, constituting the Shares, are issued and outstanding. Sellers are the owners (of record and beneficially) of all of the Shares, free and clear of all Encumbrances, including any restriction on the right of any Seller to transfer the Shares to Buyer pursuant to this Agreement. The assignments, endorsements, stock powers, or other instruments of transfer to be delivered by each Seller to Buyer at the Closing will be sufficient to transfer such Seller’s entire interest in the Shares (of record and beneficially) owned by such Seller. Upon transfer to Buyer of the certificates representing the Shares, Buyer will receive good title to the Shares, free and clear of all Encumbrances. Part 3.3(a) lists Sellers and the number of Shares held by each Seller.\n    (b) Part 3.3(b) lists for each Subsidiary its authorized Equity Securities, the number and type of Equity Securities issued and outstanding, and the identity of each owner (of record and beneficially) of such Equity Securities and number of shares held by each holder. All outstanding Equity Securities of each Subsidiary are owned of record and beneficially by one or more of the Acquired Companies, free and clear of all Encumbrances. All the outstanding Equity Securities of each Acquired Company have been duly authorized and validly issued, and are fully paid and nonassessable.\nExcept as set forth in Part 3.3(b), there are no shareholder or other Contracts relating to any Equity Security of any Acquired Company, including the sale, voting, or transfer thereof. No outstanding Equity Security or other security of any Acquired Company was issued in violation of the Securities Act or any other Legal Requirement. No Acquired Company has any outstanding subscription, option, warrant, call or exchange right, convertible security, or other Contract or other obligations in effect giving any Person (other than another Acquired Company) the right to acquire (whether by preemptive rights or otherwise) any Equity Security of any Acquired Company.\n    (c) No Acquired Company owns, or is a party to or bound by any Contract to acquire, any Equity Security or other security of any Person or any direct or indirect equity or ownership interest in any other business. No Acquired Company is obligated to provide funds to or make any investment (whether in the form of a loan, capital contribution, or otherwise) in any other Person.\n",
+      "quote_digest": "sha256:119a29655aabe3b4524a322aa58b6ab8c20cbfb63e283437f96acca8bebe77d1",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
@@ -24,18 +24,18 @@
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
       "source": {
-        "content_digest": "sha256:e7eb786dc671298aa9426792d523f0ec997bee3a570763a8b10f13a1644fc105",
+        "content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
         "media_type": "text/plain",
-        "uri": "private://apex/e7eb786dc671298a-1d2051f2"
+        "uri": "private://apex/7beb28a6e0069669-d885dee3"
       }
     },
-    "retrieval_receipt_digest": "sha256:30bbd946d1ff6aa525e4064b966747a73a5a1aac8fda40976b2b5658762e0250",
-    "source_content_digest": "sha256:e7eb786dc671298aa9426792d523f0ec997bee3a570763a8b10f13a1644fc105",
-    "source_digest": "sha256:bbebf48c1f9dee4d30677c0c93c00e3eb349758e8e8a6eac5acafa2f8650d491",
-    "source_ref": "src_e9b083e75ca5f18f"
+    "retrieval_receipt_digest": "sha256:e553166d9dba64d985418ad4a6363c4d67b2def7064fd19d7c2e3070995f8340",
+    "source_content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
+    "source_digest": "sha256:9b5e55c106d3b2c9d270455bb5af81e282a4e92f3ba0722f868b952faf8ff0b5",
+    "source_ref": "src_1cb20c6823882030"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_e9b083e75ca5f18f",
-  "subject_ref": "evd_2474924b3b6354eb",
+  "source_ref": "src_1cb20c6823882030",
+  "subject_ref": "evd_ad6e6c43ac0d5504",
   "type": "evidence_bound"
 }
