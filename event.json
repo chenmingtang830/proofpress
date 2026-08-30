@@ -1,41 +1,41 @@
 {
-  "created_at": "2026-08-30T19:17:45.211089Z",
-  "event_id": "ppe_65566ac07a452b5c",
+  "created_at": "2026-08-30T19:17:45.447648Z",
+  "event_id": "ppe_41c71d8cb69ff241",
   "evidence": {
-    "digest": "sha256:daf90815196a3c90dd92dc5870e984075b089884588c034b9dfa63c4b34a3224",
-    "id": "evd_78f05ebf24cc3b71",
+    "digest": "sha256:628e03fef0a0710b623805e332ab7b5b70569eb5991d27f3e92e17b3f503aa97",
+    "id": "evd_880a6db76486f9bd",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:c5c8c87ca8128aabce8df4f7b84f1f01d6424ed139fad3d258304eeec215a4d7",
+    "quote_digest": "sha256:423775fa5cd1b289a8f8eda8e7d77c37ddce88520bbf1e5dad116e7329ca3c06",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:c5c8c87ca8128aabce8df4f7b84f1f01d6424ed139fad3d258304eeec215a4d7",
-        "section_id": "sec_6d2417db8f5ee844"
+        "section_digest": "sha256:423775fa5cd1b289a8f8eda8e7d77c37ddce88520bbf1e5dad116e7329ca3c06",
+        "section_id": "sec_dcf92ab89b831487"
       },
-      "quote": "[DRAFT] TAX STRUCTURING TERM SHEET\nFor the Acquisition of Stock of [Target Corporation]\nDate: [Insert Date]\nBuyer: [Insert Buyer Name]\nSeller(s): [Insert Seller Name(s)]\nTarget: [Insert Target Corporation Name]\nTransaction: Acquisition of [all/substantially all] of the issued and outstanding shares of Target\n\n1. Transaction Structure\n    • Form of Acquisition: Purchase of [all/substantially all] of the issued and outstanding shares of Target from Seller(s).\n    • Intended Tax Treatment: The parties intend for the transaction to be treated as a purchase of stock for U.S. federal income tax purposes.\n2. S-Corporation Status\n    • Representation and Warranty: Seller(s) shall represent and warrant that Target has made a valid S-corporation election effective as of [date], and that such election has been continuously in effect through the Closing Date, except as otherwise disclosed.\n    • Disclosure of Questionable Status: Seller(s) acknowledge that the validity of Target’s S-corporation election is subject to uncertainty due to [describe issues, e.g., potential ineligible shareholders, defective election filings, or other factors].\n    • Due Diligence: Buyer shall have the right to conduct tax due diligence regarding the S-corporation status of Target, including review of all relevant IRS filings, shareholder consents, and corporate records.\n3. Tax Indemnity and Escrow\n    • Indemnity for S-Status Issues: Seller(s) shall indemnify Buyer for any taxes, penalties, interest, or other losses arising from a determination that Target’s S-corporation election was invalid or terminated prior to Closing, including any resulting C-corporation level taxes.\n    • Escrow: A portion of the purchase price equal to $[amount] or [percentage]% shall be placed in escrow for a period of [X] years post-Closing to secure Seller(s)’ indemnity obligations relating to S-corporation status and related tax matters.\n4. Section 338(h)(10) Election (if applicable)\n    • Election Option: The parties may agree to make a joint election under Section 338(h)(10) of the Internal Revenue Code, if Target’s S-corporation status is confirmed and all eligibility requirements are met.\n    • Allocation of Tax Liability: The parties shall agree on the allocation of any resulting tax liability and benefits from the election, including responsibility for any corporate-level tax triggered by the deemed asset sale.\n5. Pre-Closing Tax Returns\n    • Responsibility: Seller(s) shall be responsible for preparing and filing all tax returns of Target for periods ending on or before the Closing Date, including any short-period returns.\n    • Review Rights: Buyer shall have the right to review and comment on any such returns prior to filing.\n6. Post-Closing Tax Matters\n    • Cooperation: The parties shall cooperate in connection with any tax audits, examinations, or proceedings relating to periods prior to Closing.\n    • Access to Records: Seller(s) shall provide Buyer with reasonable access to all tax records and information relating to Target for pre-Closing periods.\n7. Other Tax Representations\n    • No Built-in Gains Tax: Seller(s) represent that Target does not have any material built-in gains subject to Section 1374 of the Internal Revenue Code, except as disclosed.\n    • No Disqualifying Events: Seller(s) represent that, to their knowledge, no events have occurred that would disqualify Target’s S-corporation status, except as disclosed.\n8. Governing Law\n    • This term sheet and any definitive agreements shall be governed by the laws of the State of [Insert State].\n\nThis term sheet is non-binding and for discussion purposes only. The terms herein are subject to the negotiation and execution of definitive agreements.\n\n[Signature Blocks]\n\nKey Notes:\n    • This template is for general informational purposes and should be reviewed and customized by legal and tax counsel.\n    • Special attention should be paid to the specific facts regarding the S-corporation status and any IRS guidance or case law relevant to the issues identified.\n\n\n",
-      "quote_digest": "sha256:c5c8c87ca8128aabce8df4f7b84f1f01d6424ed139fad3d258304eeec215a4d7",
+      "quote": "DISTRIBUTIONS AND TAX MATTERS\nSection 6.1 Pro Rata Distributions.\nAll distributions shall be strictly pro rata based on share ownership.\nSection 6.2 Tax Distributions.\nThe Corporation shall make quarterly tax distributions sufficient to cover the highest blended marginal federal and state tax rate applicable to stockholders.\nSection 6.3 Preservation of S-Corporation Status.\nThe Corporation and all stockholders shall take all actions necessary to preserve S-Corporation status, including maintaining permitted shareholders and avoiding disproportionate distributions.\n\n",
+      "quote_digest": "sha256:423775fa5cd1b289a8f8eda8e7d77c37ddce88520bbf1e5dad116e7329ca3c06",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
-        "query": "26 U.S.C. 1362(d) termination S election 26 U.S.C. 1362(g) inadvertent termination 26 U.S.C. 1361 S corporation eligibility 26 U.S.C. 1362 S election termination effective date",
+        "query": "Treasury Regulation 1.1362-2 termination S election Treasury Regulation 1.1362-4 inadvertent termination Treasury Regulation S corporation termination effective date Treasury Regulation disproportionate distributions S corporation",
         "version": "1"
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
       "source": {
-        "content_digest": "sha256:4269e21c1fa36a134a861c62e14940bcb646670bfb2d60556e2992727f204470",
+        "content_digest": "sha256:1cb8fe86d8075d2b126f99858b67aa3a45ced38879cf7b3859b78e577483572b",
         "media_type": "text/plain",
-        "uri": "private://apex/4269e21c1fa36a13-9771382d"
+        "uri": "private://apex/1cb8fe86d8075d2b-0c1ae063"
       }
     },
-    "retrieval_receipt_digest": "sha256:967ce522300d42b22c9f756b1d9b442c24bc60eeea072ac7ccf50959a7399e8b",
-    "source_content_digest": "sha256:4269e21c1fa36a134a861c62e14940bcb646670bfb2d60556e2992727f204470",
-    "source_digest": "sha256:413ad38376a81b2a8c39ab2d56246edebc553521e481af3d581db7a54ff2f9e9",
-    "source_ref": "src_567daa06afa4573f"
+    "retrieval_receipt_digest": "sha256:bae8a6050a3131312045d2e68449c079ca3c81852ef1e4d238a12fc962e62b9c",
+    "source_content_digest": "sha256:1cb8fe86d8075d2b126f99858b67aa3a45ced38879cf7b3859b78e577483572b",
+    "source_digest": "sha256:dce34be7d3faee591fc3639cc0fc742ebc66a097c301c07eb716b0649e3998a1",
+    "source_ref": "src_3376baa521507aa6"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_567daa06afa4573f",
-  "subject_ref": "evd_78f05ebf24cc3b71",
+  "source_ref": "src_3376baa521507aa6",
+  "subject_ref": "evd_880a6db76486f9bd",
   "type": "evidence_bound"
 }
