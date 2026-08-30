@@ -1,21 +1,21 @@
 {
-  "created_at": "2026-08-30T19:16:22.598591Z",
-  "event_id": "ppe_e52541972e5d58ed",
+  "created_at": "2026-08-30T19:16:22.731614Z",
+  "event_id": "ppe_1fb8f6ecea5212dd",
   "evidence": {
-    "digest": "sha256:1bcd2eebfea767dc6446dcb49efd73eb956cd3ec33279c90c1e6022d0cb6dc9f",
-    "id": "evd_d84cc04eaaf95745",
+    "digest": "sha256:2497a6a74fdb7ea484bb95047564ea15493c1c1022f096cee3920352a71e304f",
+    "id": "evd_244411edfe189369",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:9cc4eccb50623883bf18fa0efb3f522e5ba92b98a19b5604306465d4df3dacba",
+    "quote_digest": "sha256:50f8abc33ad95fb04e455350745cfd87bea436f4674a19b650eb506cc9c3ee9e",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:9cc4eccb50623883bf18fa0efb3f522e5ba92b98a19b5604306465d4df3dacba",
-        "section_id": "sec_ead07852b0cf02c9"
+        "section_digest": "sha256:50f8abc33ad95fb04e455350745cfd87bea436f4674a19b650eb506cc9c3ee9e",
+        "section_id": "sec_690b880ccf6c4d52"
       },
-      "quote": "III. RECOMMENDED CORRECTIVE ACTIONS\n1. File a §1362(f) inadvertent termination relief request to address the 2022 transfer to an ineligible shareholder.\n2. Prepare and adopt a multi‑year distribution true‑up to restore pro rata compliance.\n3. Reissue corrected K‑1s for all years lacking complete ownership data.\n4. Reconstruct the stock ledger and consolidate all versions into a single authoritative record.\n5. Produce (or confirm absence of) all shareholder loan documentation. If none exist, obtain written certifications.\n6. Strengthen compliance and governance controls, including resolutions affirming S‑status compliance requirements.\n\n",
-      "quote_digest": "sha256:9cc4eccb50623883bf18fa0efb3f522e5ba92b98a19b5604306465d4df3dacba",
+      "quote": "        11.10 STRICT LIABILITY OR INDEMNITEE NEGLIGENCE\nTHE PROVISIONS IN THIS ARTICLE 11 SHALL BE ENFORCEABLE REGARDLESS OF WHETHER THE LIABILITY IS BASED UPON PAST, PRESENT, OR FUTURE ACTS, CLAIMS, OR LEGAL REQUIREMENTS (INCLUDING ANY PAST, PRESENT, OR FUTURE ENVIRONMENTAL\nLAW, OCCUPATIONAL SAFETY AND HEALTH LAW, OR PRODUCTS LIABILITY, SECURITIES, OR OTHER LEGAL REQUIREMENT) AND REGARDLESS OF WHETHER ANY PERSON (INCLUDING THE PERSON FROM WHOM RELIEF IS SOUGHT) ALLEGES OR PROVES THE SOLE, CONCURRENT, CONTRIBUTORY, OR COMPARATIVE NEGLIGENCE OF THE PERSON SEEKING RELIEF, OR THE SOLE OR CONCURRENT STRICT LIABILITY IMPOSED UPON THE PERSON SEEKING RELIEF.\n\n\n\n\n    12. Miscellaneous\n\n\n\n\n\n\n\n",
+      "quote_digest": "sha256:50f8abc33ad95fb04e455350745cfd87bea436f4674a19b650eb506cc9c3ee9e",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
@@ -24,18 +24,18 @@
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
       "source": {
-        "content_digest": "sha256:e7eb786dc671298aa9426792d523f0ec997bee3a570763a8b10f13a1644fc105",
+        "content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
         "media_type": "text/plain",
-        "uri": "private://apex/e7eb786dc671298a-1d2051f2"
+        "uri": "private://apex/7beb28a6e0069669-d885dee3"
       }
     },
-    "retrieval_receipt_digest": "sha256:07fdd57b7ac1eb26afeffaf62b472076eaff775d51ccc2b69bc50d8eba132c90",
-    "source_content_digest": "sha256:e7eb786dc671298aa9426792d523f0ec997bee3a570763a8b10f13a1644fc105",
-    "source_digest": "sha256:bbebf48c1f9dee4d30677c0c93c00e3eb349758e8e8a6eac5acafa2f8650d491",
-    "source_ref": "src_e9b083e75ca5f18f"
+    "retrieval_receipt_digest": "sha256:833cd43eb7eefa324601e89a8a11ad095f6eeed29daa0a5cf7ce4cef433ddd12",
+    "source_content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
+    "source_digest": "sha256:9b5e55c106d3b2c9d270455bb5af81e282a4e92f3ba0722f868b952faf8ff0b5",
+    "source_ref": "src_1cb20c6823882030"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_e9b083e75ca5f18f",
-  "subject_ref": "evd_d84cc04eaaf95745",
+  "source_ref": "src_1cb20c6823882030",
+  "subject_ref": "evd_244411edfe189369",
   "type": "evidence_bound"
 }
