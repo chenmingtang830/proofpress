@@ -1,18 +1,14 @@
 {
-  "checks": {
-    "evidence_integrity": true,
-    "evidence_present": true,
-    "not_expired": true,
-    "not_superseded": true,
-    "retrieval_receipts": true,
-    "scope_present": true
-  },
   "conclusion_digest": "sha256:f5f52452645f4f77ffbbc4df4f6aa9b3ae6d42eeb758143805b1bc30cb6d7fdd",
-  "created_at": "2026-08-30T19:16:51.837010Z",
-  "eligible": true,
-  "event_id": "ppe_83dd32a8aa4b5533",
+  "created_at": "2026-08-30T19:16:52.004435Z",
+  "decision": "admit",
+  "event_id": "ppe_7280c7b4bc0976e0",
+  "identity_basis": "self_asserted",
+  "note": null,
   "policy_digest": "sha256:cde050fdc0b2869fecf8ee9d24dee964fc3bbc18e6b489da2e08e7c3df266501",
+  "request_id": null,
+  "reviewer": "human:staged-evaluation-reviewer",
   "schema_version": "proofpress/knowledge-event/v2",
   "subject_ref": "knw_3236a0f3743b9f18",
-  "type": "policy_evaluated"
+  "type": "human_reviewed"
 }
