@@ -1,21 +1,21 @@
 {
-  "created_at": "2026-08-30T19:17:51.455582Z",
-  "event_id": "ppe_6e82b5dc7e2d0176",
+  "created_at": "2026-08-30T19:17:51.697845Z",
+  "event_id": "ppe_8de6be1cab5280c9",
   "evidence": {
-    "digest": "sha256:6256bbe8423e45fce0c86f1545e16585999ec9a3b75b0998a01f97de472f6ff1",
-    "id": "evd_cdcd52a1dbcad4bd",
+    "digest": "sha256:ef36ff3346345c159a4d6e29d540de8107dc78c3bd911b08e18f73bf8406bcb8",
+    "id": "evd_420b57ada3fc9a51",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:7ea221c0df922146c43169a4ff66fbd8913674b65b678165f03bbe5c96144cf2",
+    "quote_digest": "sha256:e3d8e7f052a608570e23e9496e45e1ff1ee3f79bb43992c1e5049123c5197f0d",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:7ea221c0df922146c43169a4ff66fbd8913674b65b678165f03bbe5c96144cf2",
-        "section_id": "sec_27289a4e873931a2"
+        "section_digest": "sha256:e3d8e7f052a608570e23e9496e45e1ff1ee3f79bb43992c1e5049123c5197f0d",
+        "section_id": "sec_74fd85f60268cfe9"
       },
-      "quote": "PRINT \nName  \nNumber, street, and room or suite no. If a P.O. box, see instructions.  City or town, state or province, country, and ZIP or foreign postal code  \nD Employer identification number  E Date incorporated \nF Total assets (see instructions)  $  \nG Is the corporation electing to be an S corporation beginning with this tax year? See instructions. Yes No H Check if: (1) Final return (2) Name change (3) Address change (4) Amended return (5) S election termination  I Enter the number of shareholders who were shareholders during any part of the tax year . . . . . . . . J Check if corporation: (1) Aggregated activities for section 465 at-risk purposes (2) Grouped activities for section 469 passive activity purposes Caution: Include only trade or business income and expenses on lines 1a through 22. See the instructions for more information. \n1a Gross receipts or sales b Less returns and allowances \t\tc Balance \t1c \n2 Cost of goods sold (attach Form 1125-A) . . . . . . . . . . . . \t. \t. . . . . . \t2 \n3 Gross profit. Subtract line 2 from line 1c . . . . . . . . . . . . \t. \t. . . . . . \t3 \n4 Net gain (loss) from Form 4797, Part II, line 17 (attach Form 4797) . . . . \t. \t. . . . . . \t4 \n5 Other income (loss) (see instructions—attach statement) . . . . . . . \t. \t. . . . . . \t5 \n6 Total income (loss). Add lines 3 through 5 . . . . . . . . . . . \t. \t. . . . . . \t6 \n7 Compensation of officers (see instructions—attach Form 1125-E) . . . . . . . . . . . 8 Salaries and wages (less employment credits) . . . . . . . . . . . . . . . . . 9 Repairs and maintenance . . . . . . . . . . . . . . . . . . . . . . . . \n10 Bad debts . . . . . . . . . . . . . . . . . . . . . . . . . . . . 11 Rents . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 12 Taxes and licenses . . . . . . . . . . . . . . . . . . . . . . . . . . 13 Interest (see instructions) . . . . . . . . . . . . . . . . . . . . . . . . 14 Depreciation from Form 4562 not claimed on Form 1125-A or elsewhere on return (attach Form 4562) \n15 Depletion (do not deduct oil and gas depletion) . . . . . . . . . . . . . . . . 16 Advertising . . . . . . . . . . . . . . . . . . . . . . . . . . . . 17 Pension, profit-sharing, etc., plans . . . . . . . . . . . . . . . . . . . . . 18 Employee benefit programs . . . . . . . . . . . . . . . . . . . . . . . 19 Energy efficient commercial buildings deduction (attach Form 7205) . . . . . . . . . . 20 Other deductions (attach statement) . . . . . . . . . . . . . . . . . . . . 21 Total deductions. Add lines 7 through 20 . . . . . . . . . . . . . . . . . . 22 Ordinary business income (loss). Subtract line 21 from line 6 . . . . . . . . . . . . \t7 \n\t8 \n\t9 \n\t10 \n\t11 \n\t12 \n\t13 \n\t14 \n\t15 \n\t16 \n\t17 \n\t18 \n\t19\n\t20\n\t21 \n\t22\n23 a Excess net passive income or LIFO recapture tax (see instructions) . . . \t23a \t\t23c \nb Tax from Schedule D (Form 1120-S) . . . . . . . . . . . . \t23b \t\t\nc Add lines 23a and 23b (see instructions for additional taxes) . . . . . . \t. \t. . . . . . \t\n24 a Current year’s estimated tax payments and preceding year’s overpayment  credited to the current year . . . . . . . . . . . . . . . b Tax deposited with Form 7004 . . . . . . . . . . . . . . c Credit for federal tax paid on fuels (attach Form 4136) . . . . . . . d Elective payment election amount from Form 3800 . . . . . . . . z Add lines 24a through 24d . . . . . . . . . . . . . . . . \t24a  24b  24c  24d  . \t. . . . . . \t24z\n25 Estimated tax penalty (see instructions). Check if Form 2220 is attached . . \t. \t. . . . . \t25 \n26 Amount owed. If line 24z is smaller than the total of lines 23c and 25, enter amount owed \t\t. . . \t26 \n27 Overpayment. If line 24z is larger than the total of lines 23c and 25, enter amount overpaid \t\t. . . \t27 \n28 Enter amount from line 27: Credited to 2025 estimated tax \t\tRefunded . \t28 \n\n\nIncome  \nDeductions (see instructions for limitations) \nTax and Payments  \nUnder penalties of perjury, I declare that I have examined this return, including accompanying schedules and statements, and to the best of my knowledge and  \nSign  Here \nbelief, it is true, correct, and complete. Declaration of preparer (other than taxpayer) is based on all information of which preparer has any knowledge.  May the IRS discuss this return  \nSignature of officer Date Title \nwith the preparer shown below?  See instructions. Yes No \nPaid  \nPreparer  Use Only \n",
-      "quote_digest": "sha256:7ea221c0df922146c43169a4ff66fbd8913674b65b678165f03bbe5c96144cf2",
+      "quote": "﻿\nHere is the fictional five-year operating history for \"Summit Filing Solutions, Inc.\" recreated for an S corporation with five shareholders.\nFictional Entity Details\n    • Name: Summit Filing Solutions, Inc.\n    • Employer Identification Number (EIN): [Fictional] 12-3456789\n    • Date Incorporated: January 10, 2018\n    • S Corp Election Effective Date: January 1, 2019\n    • Business Activity Code: 541511 (Custom Computer Programming Services)\n    • Accounting Method: Accrual\n    • Shareholders: Five equal shareholders (Alex, Beth, Chris, Dana, Evan), each with 20% ownership.\n    • Economic Context: The data reflects a consistent growth trajectory, with a minor market correction in 2023.\nFive-Year Operating History: Income and Deductions\nThe following table provides the key income and deduction line items required for the main section of IRS Form 1120-S (Page 1, Lines 1 through 21). All figures are in U.S. Dollars ($).\nLine Item\tForm 1120-S Line Ref\t2020\t2021\t2022\t2023\t2024\nGross receipts or sales\t1a\t500,000\t750,000\t1,100,000\t950,000\t1,300,000\nLess: Returns and allowances\t1b\t5,000\t7,500\t11,000\t9,500\t13,000\nBalance (Net Sales)\t1c\t495,000\t742,500\t1,089,000\t940,500\t1,287,000\nCost of goods sold (COGS)\t2\t200,000\t300,000\t440,000\t380,000\t520,000\nGross profit\t3\t295,000\t442,500\t649,000\t560,500\t767,000\nInterest income\t4\t500\t600\t700\t800\t900\nGross rents/royalties\t5\t0\t0\t0\t0\t0\nNet gain/loss from asset sale\t6\t0\t0\t1,000\t0\t(500)\nTotal income (loss)\t6\t295,500\t443,100\t650,700\t561,300\t767,400\nDeductions\t\t\t\t\t\t\nOfficer compensation\t7\t120,000\t160,000\t200,000\t180,000\t220,000\nSalaries and wages (other)\t8\t40,000\t60,000\t90,000\t75,000\t110,000\nRepairs and maintenance\t9\t2,000\t3,000\t4,500\t3,500\t5,000\nBad debts\t10\t1,000\t1,500\t2,000\t3,000\t1,500\nRent\t11\t18,000\t18,000\t20,000\t22,000\t24,000\nTaxes and licenses\t12\t4,000\t5,500\t7,000\t6,500\t8,000\nInterest\t13\t1,200\t1,100\t900\t800\t700\nDepreciation (Form 4562)\t14\t10,000\t12,000\t15,000\t14,000\t13,000\nAdvertising\t15\t5,000\t8,000\t12,000\t10,000\t15,000\nPension, profit-sharing\t16\t3,000\t4,500\t6,000\t5,500\t7,000\nEmployee benefit programs\t17\t8,000\t10,000\t14,000\t12,000\t16,000\nOther deductions (attach stmnt)\t18\t7,000\t9,000\t11,000\t9,000\t12,000\nTotal deductions\t19\t232,200\t297,600\t396,400\t347,300\t433,200\nOrdinary business income\t21\t63,300\t145,500\t254,300\t214,000\t334,200\nFinancial and Economic Data with Five Shareholders\n    • Balance Sheet Information (Schedule L): As noted previously, Summit Filing Solutions, Inc. must complete Schedule L for the years 2022, 2023, and 2024, as total assets exceeded the $250,000 threshold.\n    • Shareholder Data (Schedule K-1): The ordinary business income (Line 21) is passed through to the five shareholders via Schedule K-1 (Form 1120-S). Each of the five shareholders receives a pro rata share of 20% of the Line 21 amount on their personal tax returns.\nYear\tOrdinary Business Income (Line 21)\tPer Shareholder Allocation (20%)\n2020\t$63,300\t$12,660\n2021\t$145,500\t$29,100\n2022\t$254,300\t$50,860\n2023\t$214,000\t$42,800\n2024\t$334,200\t$66,840\nThe corporation tracks each shareholder's stock and debt basis annually using Form 7203, which shareholders attach to their individual Forms 1040.\n\n",
+      "quote_digest": "sha256:e3d8e7f052a608570e23e9496e45e1ff1ee3f79bb43992c1e5049123c5197f0d",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
@@ -24,18 +24,18 @@
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
       "source": {
-        "content_digest": "sha256:c93c2b228433659eb56b66bfaee1dc3de9ed754d39aa736b60372b74813f3481",
+        "content_digest": "sha256:2deffb4f8f21edc479c2a23b9c8bd05fb7787eb323e1b0e573b07f190f63d4f5",
         "media_type": "text/plain",
-        "uri": "private://apex/c93c2b228433659e-f96ee06e"
+        "uri": "private://apex/2deffb4f8f21edc4-49d7dafd"
       }
     },
-    "retrieval_receipt_digest": "sha256:755c99a06da87b1f6a6d39cecd27c1366eaffbde78c6fe987f6c796647696a21",
-    "source_content_digest": "sha256:c93c2b228433659eb56b66bfaee1dc3de9ed754d39aa736b60372b74813f3481",
-    "source_digest": "sha256:0a36a5ff5eb33d41016d52986e5f40fb7355d329af2f4a939222e040274ce016",
-    "source_ref": "src_1769935b4d6bb417"
+    "retrieval_receipt_digest": "sha256:9a1ab992d2c2c9bd9b90119f025953a4157107ef370900f4f8c038e90b51f316",
+    "source_content_digest": "sha256:2deffb4f8f21edc479c2a23b9c8bd05fb7787eb323e1b0e573b07f190f63d4f5",
+    "source_digest": "sha256:3538f66a9ae8efd363cf69dcf7d66fb56bd07aa404270535b6dfec9c843b0e78",
+    "source_ref": "src_e5ee57b4daba07c8"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_1769935b4d6bb417",
-  "subject_ref": "evd_cdcd52a1dbcad4bd",
+  "source_ref": "src_e5ee57b4daba07c8",
+  "subject_ref": "evd_420b57ada3fc9a51",
   "type": "evidence_bound"
 }
