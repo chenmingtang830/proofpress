@@ -1,21 +1,21 @@
 {
-  "created_at": "2026-08-30T19:17:50.488644Z",
-  "event_id": "ppe_89af4165203d4869",
+  "created_at": "2026-08-30T19:17:50.731774Z",
+  "event_id": "ppe_36b00aeb11bcee06",
   "evidence": {
-    "digest": "sha256:f028ca72bfbcdb9c97209fd5125fc6254e94c8a85f2a0ce8540a95d79e084cce",
-    "id": "evd_d904bf6a69520b7c",
+    "digest": "sha256:28c9dfe3469f7ad865f453eba44ab6b9ef70a495368c962fdc306bed15295485",
+    "id": "evd_2cf79d83f6997532",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:5c8d4e3bca0b116fb267e5e346ab147cf041b7819294839f6ddf94c4bb91a532",
+    "quote_digest": "sha256:085c8ffbf4926ffd19f083d2a83d8c7c858bf5de90592211d6b928ba489d7e7c",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:5c8d4e3bca0b116fb267e5e346ab147cf041b7819294839f6ddf94c4bb91a532",
-        "section_id": "sec_ba0c6381c9c36a68"
+        "section_digest": "sha256:085c8ffbf4926ffd19f083d2a83d8c7c858bf5de90592211d6b928ba489d7e7c",
+        "section_id": "sec_afdb6986816ab1bb"
       },
-      "quote": "        12.21 COUNTERPARTS AND ELECTRONIC SIGNATURES\n    (a) This Agreement and other documents to be delivered pursuant to this Agreement may be executed in one or more counterparts, each of which will be deemed to be an original copy and all of which, when taken together, will be deemed to constitute one and the same agreement or document, and will be effective when counterparts have been signed by each of the parties and delivered to the other parties.\n    (b) A manual signature on this Agreement or other documents to be delivered pursuant to this Agreement, an image of which shall have been transmitted electronically, will constitute an original signature for all purposes. The delivery of copies of this Agreement or other documents to be delivered pursuant to this Agreement, including executed signature pages where required, by electronic transmission will constitute effective delivery of this Agreement or such other document for all purposes.\nIN WITNESS WHEREOF, the parties have executed and delivered this Agreement as of the date first written above.\n",
-      "quote_digest": "sha256:5c8d4e3bca0b116fb267e5e346ab147cf041b7819294839f6ddf94c4bb91a532",
+      "quote": "EXHIBITS\n\n\tExhibit A -\tSCHEDULE OF PURCHASERS\n\tExhibit B -\tFORM OF AMENDED AND RESTATED\n",
+      "quote_digest": "sha256:085c8ffbf4926ffd19f083d2a83d8c7c858bf5de90592211d6b928ba489d7e7c",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
@@ -24,18 +24,18 @@
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
       "source": {
-        "content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
+        "content_digest": "sha256:de3c85ce68cc9a64aadabec8843aff116664ead676844e5ce1f589169c52b2da",
         "media_type": "text/plain",
-        "uri": "private://apex/7beb28a6e0069669-d885dee3"
+        "uri": "private://apex/de3c85ce68cc9a64-4c7c3329"
       }
     },
-    "retrieval_receipt_digest": "sha256:211ec80f789305fe7c4a248b05279a009b927b6c58ce1f812b3b1ba2d9461a6d",
-    "source_content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
-    "source_digest": "sha256:9b5e55c106d3b2c9d270455bb5af81e282a4e92f3ba0722f868b952faf8ff0b5",
-    "source_ref": "src_1cb20c6823882030"
+    "retrieval_receipt_digest": "sha256:a2035dbdc6a5f84bbbab44c4d0d3dd8b20025444d4b5d810c0707ec2d756cb2a",
+    "source_content_digest": "sha256:de3c85ce68cc9a64aadabec8843aff116664ead676844e5ce1f589169c52b2da",
+    "source_digest": "sha256:afd14261a12776692529819ab8b113e55ef68150920111e982cd00f66a8af8ea",
+    "source_ref": "src_a149d3b6c6d2425c"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_1cb20c6823882030",
-  "subject_ref": "evd_d904bf6a69520b7c",
+  "source_ref": "src_a149d3b6c6d2425c",
+  "subject_ref": "evd_2cf79d83f6997532",
   "type": "evidence_bound"
 }
