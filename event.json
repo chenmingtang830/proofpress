@@ -1,41 +1,25 @@
 {
-  "created_at": "2026-08-30T19:16:23.564641Z",
-  "event_id": "ppe_e4d121de8b3ac76f",
-  "evidence": {
-    "digest": "sha256:64830dd4699ce2bef67d4fe3ad2ecde712515ca7b3d243924d6ef33bfda1989a",
-    "id": "evd_da641c109c3135f7",
-    "kind": "retrieval_evidence",
-    "quote_digest": "sha256:423775fa5cd1b289a8f8eda8e7d77c37ddce88520bbf1e5dad116e7329ca3c06",
-    "retrieval_receipt": {
-      "locator": {
-        "kind": "section_span",
-        "page_end": 1,
-        "page_start": 1,
-        "section_digest": "sha256:423775fa5cd1b289a8f8eda8e7d77c37ddce88520bbf1e5dad116e7329ca3c06",
-        "section_id": "sec_dcf92ab89b831487"
-      },
-      "quote": "DISTRIBUTIONS AND TAX MATTERS\nSection 6.1 Pro Rata Distributions.\nAll distributions shall be strictly pro rata based on share ownership.\nSection 6.2 Tax Distributions.\nThe Corporation shall make quarterly tax distributions sufficient to cover the highest blended marginal federal and state tax rate applicable to stockholders.\nSection 6.3 Preservation of S-Corporation Status.\nThe Corporation and all stockholders shall take all actions necessary to preserve S-Corporation status, including maintaining permitted shareholders and avoiding disproportionate distributions.\n\n",
-      "quote_digest": "sha256:423775fa5cd1b289a8f8eda8e7d77c37ddce88520bbf1e5dad116e7329ca3c06",
-      "retrieval": {
-        "adapter": "bm25-page",
-        "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
-        "query": "Formation and operations chronology; 2018-2022 federal returns and K-1s; entity-classification filings; payroll/state returns; and records showing consistent S-corporation reporting.",
-        "version": "1"
-      },
-      "schema_version": "proofpress/retrieval-evidence/v1",
-      "source": {
-        "content_digest": "sha256:1cb8fe86d8075d2b126f99858b67aa3a45ced38879cf7b3859b78e577483572b",
-        "media_type": "text/plain",
-        "uri": "private://apex/1cb8fe86d8075d2b-0c1ae063"
-      }
-    },
-    "retrieval_receipt_digest": "sha256:5994c61ee23c54f627c3add50f6f1b503d6e8e3e9f798da4b480696ab4b5eda9",
-    "source_content_digest": "sha256:1cb8fe86d8075d2b126f99858b67aa3a45ced38879cf7b3859b78e577483572b",
-    "source_digest": "sha256:dce34be7d3faee591fc3639cc0fc742ebc66a097c301c07eb716b0649e3998a1",
-    "source_ref": "src_3376baa521507aa6"
+  "conclusion": {
+    "allowed_actors": [
+      "*"
+    ],
+    "artifact_refs": [],
+    "created_at": "2026-08-30T19:16:23.655960Z",
+    "digest": "sha256:398e8fc3b25530517d22f7068419c3e27356cabc3b6098c0b804ef6c2e2aad10",
+    "evidence_refs": [
+      "evd_c45b20d568b9d0da"
+    ],
+    "expires_at": null,
+    "id": "knw_edc6b22688a6277e",
+    "kind": "conclusion",
+    "proposer": "agent:v8-constructor",
+    "qualifiers": {},
+    "scope": "task_8d501efe0f924f69aeee070f2e08b576",
+    "statement": "The available metadata describes December 2020 IRS Instructions for Form 2553 as being for use with the December 2017 revision of Form 2553."
   },
+  "created_at": "2026-08-30T19:16:23.704267Z",
+  "event_id": "ppe_fbdc47be40e3b186",
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_3376baa521507aa6",
-  "subject_ref": "evd_da641c109c3135f7",
-  "type": "evidence_bound"
+  "subject_ref": "knw_edc6b22688a6277e",
+  "type": "conclusion_proposed"
 }
