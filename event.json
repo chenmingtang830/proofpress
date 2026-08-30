@@ -1,41 +1,41 @@
 {
-  "created_at": "2026-08-30T19:17:05.334277Z",
-  "event_id": "ppe_0fec6992c81969fb",
+  "created_at": "2026-08-30T19:17:05.523325Z",
+  "event_id": "ppe_a6046db345fe2aa5",
   "evidence": {
-    "digest": "sha256:299b3a8e244b0d62d116bcaeeb58fce1a76852106aafa32528ceb715c6cc01f7",
-    "id": "evd_524b2d71f0461efd",
+    "digest": "sha256:dab3d67be3608c6f4c2afb05271e20e152a0549fce3528265591d81b7bb5a45b",
+    "id": "evd_8c72d0ef2d7fcebb",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:c325346cd80509e94e3ccbeeef437f9757c2914db755a84e4f1fbcd6de231c0a",
+    "quote_digest": "sha256:027fabe50f4f6df9ceaee2cbcdd3baf88fc83abd95a489bdb18026c1e909b6b9",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:c325346cd80509e94e3ccbeeef437f9757c2914db755a84e4f1fbcd6de231c0a",
-        "section_id": "sec_7c8bc6a2fd7d7d78"
+        "section_digest": "sha256:027fabe50f4f6df9ceaee2cbcdd3baf88fc83abd95a489bdb18026c1e909b6b9",
+        "section_id": "sec_1e43fd9758087374"
       },
-      "quote": "/P 302 0 R\n/K [304 0 R 305 0 R 307 0 R 308 0 R 310 0 R 311 0 R 313 0 R 314 0 R 316 0 R 317 0 R 319 0 R 320 0 R 322 0 R 323 0 R 325 0 R 326 0 R 328 0 R 329 0 R 331 0 R 332 0 R 334 0 R 335 0 R 337 0 R 338 0 R 340 0 R 341 0 R 343 0 R 344 0 R 346 0 R 347 0 R 349 0 R 350 0 R 352 0 R]>>\nendobj\n302 0 obj\n<</Type /StructElem\n",
-      "quote_digest": "sha256:c325346cd80509e94e3ccbeeef437f9757c2914db755a84e4f1fbcd6de231c0a",
+      "quote": "        3.24 RELATIONSHIPS WITH RELATED PERSONS\nNo Seller and no Related Person of any Seller or of any Acquired Company has, or since \t has had, any interest in any asset owned or used by any Acquired Company. No Seller and no Related Person of any Seller or of any Acquired Company is, or since \thas been, a Related Party of or the owner (of record or beneficially) of any Equity Security or any other financial or profit interest in, a Person that has\n    (a) had business dealings or a material financial interest in any transaction with any Acquired Company or\n    (b) engaged in competition with any Acquired Company, other than ownership of less than one percent of the outstanding capital stock of a Person that is listed on any national or regional securities exchange. Except as set forth in Part 3.24, no Seller or any Related Person of any Seller or of any Acquired Company is a party to any Applicable Contract with, or has any claim or right against, any Acquired Company.\n",
+      "quote_digest": "sha256:027fabe50f4f6df9ceaee2cbcdd3baf88fc83abd95a489bdb18026c1e909b6b9",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
-        "query": "26 U.S.C. 302 26 U.S.C. 331 26 U.S.C. 332 26 U.S.C. 336",
+        "query": "shareholder loan related party below-market loan personal use",
         "version": "1"
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
       "source": {
-        "content_digest": "sha256:4c29e37184221016659776d6207639a9d00708dd52deb14e35f7e19067f8ed31",
-        "media_type": "application/pdf",
-        "uri": "private://apex/4c29e37184221016-c19ef5ec"
+        "content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
+        "media_type": "text/plain",
+        "uri": "private://apex/7beb28a6e0069669-d885dee3"
       }
     },
-    "retrieval_receipt_digest": "sha256:b03f6395872b89a83985eccb71e187703841be8f5e6d68c14f491ed57f23ec26",
-    "source_content_digest": "sha256:4c29e37184221016659776d6207639a9d00708dd52deb14e35f7e19067f8ed31",
-    "source_digest": "sha256:b7361746cd765bc3c2322b8263313f9a27bf72e7277610db49df9525cc153371",
-    "source_ref": "src_6c67c54c92e72e4b"
+    "retrieval_receipt_digest": "sha256:bc509b645a25c91f9ae86439ad841f9d76e3e55fa6b36dda8ea88adfff4b4523",
+    "source_content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
+    "source_digest": "sha256:9b5e55c106d3b2c9d270455bb5af81e282a4e92f3ba0722f868b952faf8ff0b5",
+    "source_ref": "src_1cb20c6823882030"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_6c67c54c92e72e4b",
-  "subject_ref": "evd_524b2d71f0461efd",
+  "source_ref": "src_1cb20c6823882030",
+  "subject_ref": "evd_8c72d0ef2d7fcebb",
   "type": "evidence_bound"
 }
