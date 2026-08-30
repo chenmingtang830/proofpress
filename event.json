@@ -1,41 +1,41 @@
 {
-  "created_at": "2026-08-30T19:17:50.240869Z",
-  "event_id": "ppe_9fd4eb905b1b9cb0",
+  "created_at": "2026-08-30T19:17:50.488644Z",
+  "event_id": "ppe_89af4165203d4869",
   "evidence": {
-    "digest": "sha256:ad6c8be0e918ac82fcfa9a49a4f018c609eb1a7074208479fbb0a56552cf666d",
-    "id": "evd_d15acf6c698862b4",
+    "digest": "sha256:f028ca72bfbcdb9c97209fd5125fc6254e94c8a85f2a0ce8540a95d79e084cce",
+    "id": "evd_d904bf6a69520b7c",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:8f2063c932a6b2f45b177588e3179287760bb648efbd4ab1db236d6849e2e45c",
+    "quote_digest": "sha256:5c8d4e3bca0b116fb267e5e346ab147cf041b7819294839f6ddf94c4bb91a532",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:8f2063c932a6b2f45b177588e3179287760bb648efbd4ab1db236d6849e2e45c",
-        "section_id": "sec_30cdd5e3bc56b889"
+        "section_digest": "sha256:5c8d4e3bca0b116fb267e5e346ab147cf041b7819294839f6ddf94c4bb91a532",
+        "section_id": "sec_ba0c6381c9c36a68"
       },
-      "quote": " -0800 (PST)\nDate: Wed, 19 Nov 2025 19:43:48 -0800\nMessage-ID: <CAGPM6VfrhrUAsFgkU8ukQnU4iF_7f_PjYH7912EHgtHHYzFnhw@mail.gmail.com>\nSubject: Tips for using your new inbox\nFrom: Gmail Team <mail-noreply@google.com>\nTo: World425 Law <world425.law@c-mercor.com>\nContent-Type: multipart/alternative; boundary=\"0000000000003600c00643fe8125\"\n\n--0000000000003600c00643fe8125\nContent-Type: text/plain; charset=\"UTF-8\"\nContent-Transfer-Encoding: quoted-printable\n\nTips for using your new inbox\n[image: Gmail]\n\nWelcome to your inbox\n[image: Search]\nFind emails fast\nWith the power of Google Search in your inbox, you can archive\n<https://support.google.com/mail/answer/6576?hl=3Den&utm_source=3Dgmailwelc=\nomeemail&utm_medium=3Demail&utm_campaign=3Dgmailwelcome>\nall your email and find it\n<https://support.google.com/mail/answer/6593?hl=3Den&utm_source=3Dgmailwelc=\nomeemail&utm_medium=3Demail&utm_campaign=3Dgmailwelcome>\nlater in a flash. Your inbox stays tidy, and you never need to worry about\nwhat to keep.\n[image: Personalize]\nPersonalize Mercor Mail\nCustomize inbox backgrounds, email signatures, and other options in Mercor\nMail settings\n<https://support.google.com/mail/answer/6562?hl=3Den&utm_source=3Dgmailwelc=\nomeemail&utm_medium=3Demail&utm_campaign=3Dgmailwelcome>.\nReview and adjust your privacy and security settings at My Account\n<https://myaccount.google.com/>.\n[image: Organize]\nOrganize your email\nYou can organize email with labels\n<https://support.google.com/mail/answer/118708?hl=3Den&utm_source=3Dgmailwe=\nlcomeemail&utm_medium=3Demail&utm_campaign=3Dgmailwelcome>,\nwhich are like folders, but you can add more than one label to a message.\nYou can also use filters\n<https://support.google.com/mail/answer/6579?hl=3Den&utm_source=3Dgmailwelc=\nomeemail&utm_medium=3Demail&utm_campaign=3Dgmailwelcome>\nto automatically sort and categorize messages as they come in.\n[image: Social]\nChat and meet directly from your inbox\nMessage with contacts in Google Chat\n<https://support.google.com/chat/answer/9341104?hl=3Den&utm_source=3Dgmailw=\nelcomeemail&utm_medium=3Demail&utm_campaign=3Dgmailwelcome>\nand start video meetings with up to 100 people in Google Meet\n<https://support.google.com/mail/answer/9822902?hl=3Den&utm_source=3Dgmailw=\nelcomeemail&utm_medium=3Demail&utm_campaign=3Dgmailwelcome>\nall without leaving Gmail.\n\nGet training and tips\nFind Gmail guides, tips, cheat sheets, help switching from Microsoft=C2=AE\nOutlook=C2=AE, and more at the Google Workspace Learning Center\n<https://support.google.com/a/users/answer/9259748?hl=3Den&utm_source=3Dgma=\nilwelcomeemail&utm_medium=3Demail&utm_campaign=3Dgmailwelcome>\n.\nVisit the Learning Center\n<https://support.google.com/a/users/answer/9259748?hl=3Den&utm_source=3Dgma=\nilwelcomeemail&utm_medium=3Demail&utm_campaign=3Dgmailwelcome>\n\nHappy emailing,\nThe Gmail Team\n[image: Google Cloud]\n\n=C2=A9 2025 Google LLC 1600 Amphitheatre Parkway, Mountain View, CA 94043\n\n*You=E2=80=99re receiving this mandatory email service announcement to upda=\nte you\nabout important changes to your Google Cloud product or account.*\n\n--0000000000003600c00643fe8125\nContent-Type: text/html; charset=\"UTF-8\"\nContent-Transfer-Encoding: quoted-printable\n\n<!DOCTYPE html><html><head><meta http-equiv=3D\"content-type\" content=3D\"tex=\nt/html;charset=3DUTF-8\"/><title>Tips for using your new inbox</title></head=\n><body style=3D\"direction:ltr;text-align:left;background-color:#f8f9fa; mar=\ngin:20px 0;\"><br/><div style=3D\"margin:2%;\"><div style=3D\"width:100%;margin=\n:0 auto 0 auto;\"><table style=3D\"vertical-align:middle;width:580px;margin:0=\n auto 0 auto;border:1px; border-color:black;\"><tr><td><img src=3D\"https://s=\nsl.gstatic.com/ui/v1/icons/mail/rfr/logo_gmail_lockup_default_2x_r2.png\" sr=\ncset=3D\"https://ssl.gstatic.com/ui/v1/icons/mail/rfr/logo_gmail_lockup_defa=\nult_1x_r2.png 1x, https://ssl.gstatic.com/ui/v1/icons/mail/rfr/logo_gmail_l=\nockup_default_2x_r2.png 2x\" alt=3D\"Gmail\" style=3D\"float:left;max-height:40=\npx;margin:0 20px 10px 20px;\"/></td></tr></table></div><div style=3D\"font-fa=\nmily:Roboto,'Open sans',Arial,sans-serif;color:#444; background-color:#fff;=\nmax-width:600px;margin:10px auto 0 auto;\"><table style=3D\"background:#fff;w=\nidth:100%;border-collapse:collapse;border-color:#e8eaed; border-spacing:0;b=\norder-style:solid;border-width:1px;display:table; position:relative;\"><tr><=\ntd style=3D\"padding:5px 20px 0 20px;\"><div style=3D\"width:90%;padding-left:=\n15px;\"><p><span style=3D\"font-family:'Google sans',Arial,sans-serif;font-we=\night:700;line-height:32px; font-size:24px;\">Welcome to your inbox</span></p=\n></div><div style=3D\"float:left;clear:both;padding:10px 5px 10px 10px;\"><im=\ng src=3D\"https://ssl.gstatic.com/accounts/services/mail/msa/gmail-welcome-g=\nraphic1-2x.png\" srcset=3D\"https://ssl.gstatic.com/accounts/services/mail/ms=\na/gmail-welcome-graphic1-1x.png 1x, https://ssl.gstatic.com/accounts/servic=\nes/mail/msa/gmail-welcome-graphic1-2x.png 2x\" alt=3D\"Search\" style=3D\"displ=\nay:block;width:112px;height:auto;\"/></div><div style=3D\"float:left;vertical=\n-align:middle;padding:10px;max-width:398px;\"><table style=3D\"vertical-align=\n:middle;\"><tr><td style=3D\"font-family:Roboto,'Open sans',Arial,sans-serif;=\n\"><span style=3D\"color:#3c4043;font-family:'Google Sans',Helvetica,Arial,sa=\nns-serif; font-size:16px;font-weight:700;line-height:20px;\">Find emails fas=\nt</span><br/><span style=3D\"color:#3c4043;font-family:Roboto,Helvetica,Aria=\nl,sans-serif;font-size:14px; font-weight:400;line-height:24px;\">With the po=\nwer of Google Search in your inbox, you can <a href=3D\"https://support.goog=\nle.com/mail/answer/6576?hl=3Den&utm_source=3Dgmailwelcomeemail&utm_medium=\n=3Demail&utm_campaign=3Dgmailwelcome\" style=3D\"text-decoration:none;color:#=\n15c;\">archive</a> all your email and <a href=3D\"https://support.google.com/=\nmail/answer/6593?hl=3Den&utm_source=3Dgmailwelcomeemail&utm_medium=3Demail&=\nutm_campaign=3Dgmailwelcome\" style=3D\"text-decoration:none;color:#15c;\">fin=\nd it</a> later in a flash. Your inbox stays tidy, and you never need to wor=\nry about what to keep.</span></td></tr></table></div><div style=3D\"float:le=\nft;clear:both;padding:10px 5px 10px 10px;\"><img src=3D\"https://ssl.gstatic.=\ncom/accounts/services/mail/msa/gmail-welcome-graphic2-2x.png\" srcset=3D\"htt=\nps://ssl.gstatic.com/accounts/services/mail/msa/gmail-welcome-graphic2-1x.p=\nng 1x, https://ssl.gstatic.com/accounts/services/mail/msa/gmail-welcome-gra=\nphic2-2x.png 2x\" alt=3D\"Personalize\" style=3D\"display:block;width:112px;hei=\nght:auto;\"/></div><div style=3D\"float:left;vertical-align:middle;padding:10=\npx;max-width:398px;\"><table style=3D\"vertical-align:middle;\"><tr><td style=\n=3D\"font-family:Roboto,'Open sans',Arial,sans-serif;\"><span style=3D\"color:=\n",
-      "quote_digest": "sha256:8f2063c932a6b2f45b177588e3179287760bb648efbd4ab1db236d6849e2e45c",
+      "quote": "        12.21 COUNTERPARTS AND ELECTRONIC SIGNATURES\n    (a) This Agreement and other documents to be delivered pursuant to this Agreement may be executed in one or more counterparts, each of which will be deemed to be an original copy and all of which, when taken together, will be deemed to constitute one and the same agreement or document, and will be effective when counterparts have been signed by each of the parties and delivered to the other parties.\n    (b) A manual signature on this Agreement or other documents to be delivered pursuant to this Agreement, an image of which shall have been transmitted electronically, will constitute an original signature for all purposes. The delivery of copies of this Agreement or other documents to be delivered pursuant to this Agreement, including executed signature pages where required, by electronic transmission will constitute effective delivery of this Agreement or such other document for all purposes.\nIN WITNESS WHEREOF, the parties have executed and delivered this Agreement as of the date first written above.\n",
+      "quote_digest": "sha256:5c8d4e3bca0b116fb267e5e346ab147cf041b7819294839f6ddf94c4bb91a532",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
-        "query": "memorandum DOCX formatting instructions legal memorandum citation style DOCX new DOCX file naming requirement concise memorandum headings",
+        "query": "Retrieve the complete executed Amended and Restated Shareholder Agreement effective January 1, 2019, including all pages, amendments, exhibits, schedules, joinders, and signature pages; compare ev_4f2834ac20095ba35570 with ev_edbe1daa8a7acfb5f771.",
         "version": "1"
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
       "source": {
-        "content_digest": "sha256:60b7c6eef47342c28356d5c6adff2b47a97ec5865c1460c59efc435e21e26812",
+        "content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
         "media_type": "text/plain",
-        "uri": "private://apex/60b7c6eef47342c2-88cb881e"
+        "uri": "private://apex/7beb28a6e0069669-d885dee3"
       }
     },
-    "retrieval_receipt_digest": "sha256:f43edd0e7f3b615462360401bb8fde5b33b5e2ac5b771478fd47501ae0ecee46",
-    "source_content_digest": "sha256:60b7c6eef47342c28356d5c6adff2b47a97ec5865c1460c59efc435e21e26812",
-    "source_digest": "sha256:cbcac7d902052bd94ca51c146cb638348338bc31280f97f33c68bfd0e765a1aa",
-    "source_ref": "src_93e54a83147da3ce"
+    "retrieval_receipt_digest": "sha256:211ec80f789305fe7c4a248b05279a009b927b6c58ce1f812b3b1ba2d9461a6d",
+    "source_content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
+    "source_digest": "sha256:9b5e55c106d3b2c9d270455bb5af81e282a4e92f3ba0722f868b952faf8ff0b5",
+    "source_ref": "src_1cb20c6823882030"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_93e54a83147da3ce",
-  "subject_ref": "evd_d15acf6c698862b4",
+  "source_ref": "src_1cb20c6823882030",
+  "subject_ref": "evd_d904bf6a69520b7c",
   "type": "evidence_bound"
 }
