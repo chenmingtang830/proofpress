@@ -1,16 +1,26 @@
 {
-  "conclusion_digest": "sha256:3abeaa10479494069ee536d99cb399063136de641a439260f061b0ac202d580e",
-  "created_at": "2026-08-30T19:16:04.245758Z",
-  "event_id": "ppe_a7939588d67639e2",
-  "evidence_digests": {
-    "evd_2474924b3b6354eb": "sha256:57aa4f4f000eeb7d00cfb77d04e48934b17dc63dfff6d0f70802111d0f220f04",
-    "evd_4b429ad1060e41d1": "sha256:31058f0bf212b620649f82ddeb0306874a5105da3e3869a4e206e3b3ee9fbe07",
-    "evd_bd23804fafbd19e0": "sha256:6eb539a705fbaafe09f59434b8f17c8bf24de881c502fe4432e5244f12190946"
+  "conclusion": {
+    "allowed_actors": [
+      "*"
+    ],
+    "artifact_refs": [],
+    "created_at": "2026-08-30T19:16:04.320281Z",
+    "digest": "sha256:ea1f7ca9042af8e906c1ca85ab4fef719daa7bd80020390bcc038d12a87a588e",
+    "evidence_refs": [
+      "evd_7f8621ac78372998",
+      "evd_cb22ad75793b2b6f"
+    ],
+    "expires_at": null,
+    "id": "knw_9b95e91eee29bc16",
+    "kind": "conclusion",
+    "proposer": "agent:v8-constructor",
+    "qualifiers": {},
+    "scope": "task_b78c4510be784e6a8b8f0394aafd785d",
+    "statement": "The cited 2020 Form 1120-S excerpt reports a $10,000 depreciation deduction but does not provide a depreciation schedule, fixed-asset ledger, or Laura Kensington’s stock basis. The cited cap-table excerpt lists five other individuals, leaves allocation percentages and share quantities blank, and does not list Laura Kensington."
   },
-  "policy_digest": "sha256:cde050fdc0b2869fecf8ee9d24dee964fc3bbc18e6b489da2e08e7c3df266501",
-  "review_ref": "ppe_7728e050829cd53a",
-  "reviewer": "human:staged-evaluation-reviewer",
+  "created_at": "2026-08-30T19:16:04.352903Z",
+  "event_id": "ppe_97766af8b1104620",
   "schema_version": "proofpress/knowledge-event/v2",
-  "subject_ref": "knw_df1ee496d1056baf",
-  "type": "conclusion_admitted"
+  "subject_ref": "knw_9b95e91eee29bc16",
+  "type": "conclusion_proposed"
 }
