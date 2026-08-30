@@ -1,21 +1,21 @@
 {
-  "created_at": "2026-08-30T19:17:01.108368Z",
-  "event_id": "ppe_c19868b3f6eedc0f",
+  "created_at": "2026-08-30T19:17:01.291570Z",
+  "event_id": "ppe_8c858be5b3ff8e2f",
   "evidence": {
-    "digest": "sha256:ed6150e567d8e0a87eab11e51af11f715c0f655830784cd19c93ee9b6d324d1c",
-    "id": "evd_e6e4b20819c61119",
+    "digest": "sha256:f8942810d162fbede2dc4aabc0c3fb3fac6d0941a93bd50d339b7c6aa6605ef9",
+    "id": "evd_1948aa74bc2c7073",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:d652f02025e5dc963eb504fc0ce8c4ed71e067ba0ab731369f12dbbd45d63997",
+    "quote_digest": "sha256:9fa61fcf2f55f2997ac539aa4b9523062f1ba72255256cfd7fc978e6fa918356",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:d652f02025e5dc963eb504fc0ce8c4ed71e067ba0ab731369f12dbbd45d63997",
-        "section_id": "sec_06381120fa88d445"
+        "section_digest": "sha256:9fa61fcf2f55f2997ac539aa4b9523062f1ba72255256cfd7fc978e6fa918356",
+        "section_id": "sec_fce166a20eb2dbec"
       },
-      "quote": "EXECUTIVE SUMMARY\nSummit Filing Solutions, Inc. (“Summit”) elected S‑Corporation status effective January 1, 2019. Form 2553, Election by a Small Business Corporation, was filed on March 22, 2022, and the IRS issued a CP261 notice confirming approval of the S-Corporation election on the identified effective date. The state of formation is Delaware and will rely on DE law and federal law, where applicable. Based on the governing documents, historical shareholder schedules, tax filings, distribution data, and capitalization tables provided, Summit faces several material risks that may compromise or retroactively invalidate its S‑Corporation election.\nUnder the instruction to classify any category with missing documentation as HIGH RISK where applicable, three categories rise to the highest level of severity: (1) Nonresident Alien Shareholder, (2) Debt–Equity Characterization, and (3) Pro Rata Distribution Compliance.\n",
-      "quote_digest": "sha256:d652f02025e5dc963eb504fc0ce8c4ed71e067ba0ab731369f12dbbd45d63997",
+      "quote": "�\u0012�=�U>�\u001f\u0006\u0000\u0002�\nendstream\nendobj\n742 0 obj\n<</Creator(AH XSL Formatter V6.6 MR4 for Linux64 : 6.6.6.37929 \\(2019/03/11 12:35JST\\))/ModDate(D:20201207130854-05'00')/Trapped/False/CreationDate(D:20200805150856-05'00')/Subject(Instructions for Form 2553, \\(For use with the December 2017 revision of Form 2553, Election by a Small Business Corporation\\))/Producer(Antenna House PDF Output Library 6.6.1437 \\(Linux64\\); modified using iText 2.1.7 by 1T3XT)/Author(W:CAR:MP:FP)/Title(Instructions for Form 2553 \\(Rev. December 2020\\))>>\nendobj\n631 0 obj\n<</Filter/FlateDecode/Type/ObjStm/Length 4682/First 1007/N 112>>stream\nx��[yo\u001b9��*\u0004��I�`5�c�\b�#�x'N<��\u0019��\u0018t���\u0017Y-H�d�>��\"�R봬Y,\u0016�L6�d\u001d�U���m\u0015g�Y%�qLJ�\u0004�p��\b\u0002Jͤ\u000ePZ����0�Mz���20ñ�c�:(=�\u0002��\u0018\u0007�ar'��\u0012��8�9�0�Ղ�\u00004�����Z2!���fB\t�H\u001b�\u0004l�>\u001a�Y\r�逕���p�\b&�\u0004~�\u0017�8�c`���\u0011H#��\u0016\u000f� �\u0006F\u0005\u0003L\u0018�$�ΖC%Σ�\u0014\u0002*V@��-h�\u001a[����@\u0005FX\u000br��\u0019��\u0016$�I�\u0011P\u0001\u0015H�<C�D6�\u0003\u0012\u000e;;���\bk=�^�~�\u0003e\u0018�\u0013$j\u0005n\u0005h�N��\u0015�\u000b",
+      "quote_digest": "sha256:9fa61fcf2f55f2997ac539aa4b9523062f1ba72255256cfd7fc978e6fa918356",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
@@ -24,18 +24,18 @@
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
       "source": {
-        "content_digest": "sha256:e7eb786dc671298aa9426792d523f0ec997bee3a570763a8b10f13a1644fc105",
-        "media_type": "text/plain",
-        "uri": "private://apex/e7eb786dc671298a-1d2051f2"
+        "content_digest": "sha256:763b540a616086edcecf3a87d5edf98dff1e05704299a9736a42a918435cd4d3",
+        "media_type": "application/pdf",
+        "uri": "private://apex/763b540a616086ed-755262e0"
       }
     },
-    "retrieval_receipt_digest": "sha256:87400e5c060d0d5dd2cbc26987585119e4b286eb9784b88bc8efa9c581bb190f",
-    "source_content_digest": "sha256:e7eb786dc671298aa9426792d523f0ec997bee3a570763a8b10f13a1644fc105",
-    "source_digest": "sha256:bbebf48c1f9dee4d30677c0c93c00e3eb349758e8e8a6eac5acafa2f8650d491",
-    "source_ref": "src_e9b083e75ca5f18f"
+    "retrieval_receipt_digest": "sha256:343df44a3cfa5d41bb9ee037650a4c3b6245f8b4075862edd1d57de09ec8b858",
+    "source_content_digest": "sha256:763b540a616086edcecf3a87d5edf98dff1e05704299a9736a42a918435cd4d3",
+    "source_digest": "sha256:710da86265ba6ccc9fda04ba9470388e59b91336b1511b9987d3b5828d623bdc",
+    "source_ref": "src_127dc512c8fae24b"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_e9b083e75ca5f18f",
-  "subject_ref": "evd_e6e4b20819c61119",
+  "source_ref": "src_127dc512c8fae24b",
+  "subject_ref": "evd_1948aa74bc2c7073",
   "type": "evidence_bound"
 }
