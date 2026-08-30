@@ -1,19 +1,14 @@
 {
-  "checks": {
-    "acyclic_when_directed": true,
-    "distinct_endpoints": true,
-    "endpoints_present": true,
-    "known_relation_type": true,
-    "no_duplicate": true,
-    "same_scope": true
-  },
-  "created_at": "2026-08-30T19:17:36.528651Z",
-  "eligible": true,
-  "event_id": "ppe_46d6a7d005010da3",
+  "created_at": "2026-08-30T19:17:36.755957Z",
+  "decision": "admit",
+  "event_id": "ppe_709331cc025ae26c",
+  "identity_basis": "self_asserted",
+  "note": null,
   "policy_digest": "sha256:cde050fdc0b2869fecf8ee9d24dee964fc3bbc18e6b489da2e08e7c3df266501",
   "relation_digest": "sha256:5eacc424cac03043d50acce8407d301605cbea44543fb0b4f9aab3de76c21575",
+  "request_id": null,
+  "reviewer": "human:staged-evaluation-reviewer",
   "schema_version": "proofpress/knowledge-event/v2",
-  "semantic_boundary": "structural checks do not establish semantic correctness",
   "subject_ref": "rel_11eb8653dc68c9c2",
-  "type": "relation_evaluated"
+  "type": "relation_reviewed"
 }
