@@ -1,21 +1,21 @@
 {
-  "created_at": "2026-08-30T19:16:16.859861Z",
-  "event_id": "ppe_13f4812c24e68094",
+  "created_at": "2026-08-30T19:16:16.975687Z",
+  "event_id": "ppe_bb6a3420180408df",
   "evidence": {
-    "digest": "sha256:45b70106e127f778ca1c870f6215cf789a0efa5cba26f79e3674a09952ac0a09",
-    "id": "evd_f3e50f7e4ca20936",
+    "digest": "sha256:109e3b2b614f5a8b186405889d3d759b80c7864906bdc0ea0d49adc0b01a720a",
+    "id": "evd_c091d670422c8ce7",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:3ef7911de34dcc70ae895d77e794868118079d1a3d176293f14345b0bd42e31d",
+    "quote_digest": "sha256:2fec289d0bcf337d51a60200c32c27362761ef899134714801a98e99f0d7bd46",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:3ef7911de34dcc70ae895d77e794868118079d1a3d176293f14345b0bd42e31d",
-        "section_id": "sec_655d3748fe46e020"
+        "section_digest": "sha256:2fec289d0bcf337d51a60200c32c27362761ef899134714801a98e99f0d7bd46",
+        "section_id": "sec_25d7ab74268a286d"
       },
-      "quote": "SECTION 5. RELIEF FOR LATE S CORPORATION ELECTIONS.\n.01 Form 2553. A Requesting Entity seeking relief for a late S corporation election must file a completed Form 2553, signed by (1) an officer of the corporation authorized to sign, and (2) all persons who were shareholders at any time during the period that began on the first day of the taxable year for which the election is to be effective and ends on the day the completed Election Form is filed.\n.02 Supplemental materials. The completed Election Form must include statements from all shareholders during the period between the date the S corporation election was to have become effective and the date the completed Election Form is filed that they have reported their income on all affected returns consistent with the S corporation election for the year the election should have been filed and for all subsequent years. Such statements must comply with the requirement in Section 4.03(3) of this revenue procedure.\n.03 Additional materials for a late corporate classification election intended to be effective on the same date that the S corporation election was intended to be effective. In addition to the materials required under Section 5.02 of this revenue procedure, in the case of a late corporate classification election intended to be effective on the same date that the S corporation election was intended to be effective, the completed Election Form must also include the following representations, which must comply with the requirement in Section 4.03(3) of this revenue procedure:\n(1) The Requesting Entity is an eligible entity as defined in § 301.7701-3(a);\n(2) The Requesting Entity intended to be classified as a corporation as of the Effective Date of the S corporation status;\n(3) The Requesting Entity fails to qualify as a corporation solely because Form 8832 was not timely filed under § 301.7701-3(c)(1)(i), or Form 8832 was not deemed to have been filed under § 301.7701-3(c)(1)(v)(C);\n(4) The Requesting Entity fails to qualify as an S corporation on the Effective Date of the S corporation status solely because the S corporation election was not timely filed pursuant to § 1362(b); and\n(5)(i) The Requesting Entity timely filed all required federal tax returns and information returns consistent with its requested classification as an S corporation for all of the years the entity intended to be an S corporation and no inconsistent tax or information returns have been filed by or with respect to the entity during any of the taxable years, or\n(ii) The Requesting Entity has not filed a federal tax or information return for the first year in which the election was intended to be effective because the due date has not passed for that year’s federal tax or information return.\n.04 Relief where all returns filed as an S corporation. The requirement for relief imposed by Section 4.02(2) (providing that relief must be sought within three years and 75 days of the Effective Date) is not applicable in the case of corporations if the following conditions are met:\n(1) The corporation is not seeking late corporate classification election relief concurrently with a late S corporation election under this revenue procedure;\n(2) The corporation fails to qualify as an S corporation solely because the Form 2553 was not timely filed;\n(3) The corporation and all of its shareholders reported their income consistent with S corporation status for the year the S corporation election should have been made, and for every subsequent taxable year (if any);\n(4) At least 6 months have elapsed since the date on which the corporation filed its tax return for the first year the corporation intended to be an S corporation; and\n(5) Neither the corporation nor any of its shareholders was notified by the IRS of any problem regarding the S corporation status within 6 months of the date on which the Form 1120S for the first year was timely filed, and\n(6) The completed Election Form includes the statement(s) described in Section 5.02 of this revenue procedure.\n",
-      "quote_digest": "sha256:3ef7911de34dcc70ae895d77e794868118079d1a3d176293f14345b0bd42e31d",
+      "quote": "﻿Schedule of Historic Distributions\nSummit Filing Solutions, Inc.\nHistoric Distribution Schedule (From S-Corporation Election Effective January 1, 2019)\n\nDistribution Event – March 15, 2019\nTotal Amount Distributed: $11,000\nShareholder\tAmount Distributed\nLaura Kensington\t$2,860\nMichael T. Hartwell\t$2,420\nDanielle R. Soto\t$2,200\nGregory A. Beaumont\t$2,200\nTanya L. Merriweather\t$1,320\n\nDistribution Event – August 3, 2020\nTotal Amount Distributed: $2,300\nShareholder\tAmount Distributed\nLaura Kensington\t$598\nMichael T. Hartwell\t$506\nDanielle R. Soto\t$460\nGregory A. Beaumont\t$460\nTanya L. Merriweather\t$276\n\nDistribution Event – May 22, 2022\nTotal Amount Distributed: $4,200\nShareholder\tAmount Distributed\nLaura Kensington\t$1,092\nMichael T. Hartwell\t$924\nDanielle R. Soto\t$840\nGregory A. Beaumont\t$840\nTanya L. Merriweather\t$504\n\nDistribution Event – February 9, 2024\nTotal Amount Distributed: $1,800\nShareholder\tAmount Distributed\nLaura Kensington\t$468\nMichael T. Hartwell\t$396\nDanielle R. Soto\t$360\nGregory A. Beaumont\t$360\nTanya L. Merriweather\t$216\n\nCumulative Distributions Since S-Election\nShareholder\tTotal Received\nLaura Kensington\t$5,018\nMichael T. Hartwell\t$4,246\nDanielle R. Soto\t$3,860\nGregory A. Beaumont\t$3,860\nTanya L. Merriweather\t$2,316\n\nTotal Distributed to All Shareholders: $19,300\n",
+      "quote_digest": "sha256:2fec289d0bcf337d51a60200c32c27362761ef899134714801a98e99f0d7bd46",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
@@ -24,18 +24,18 @@
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
       "source": {
-        "content_digest": "sha256:489de4a5c467eb0382ef4f29920dc6433adc3a3336da5057aec7f37cd0208560",
+        "content_digest": "sha256:6d71182ebfd566c92aef74ed1c0b1dcd3e55e81919c6694dc0090593e4e2c6e2",
         "media_type": "text/plain",
-        "uri": "private://apex/489de4a5c467eb03-1184b3a1"
+        "uri": "private://apex/6d71182ebfd566c9-cda5e409"
       }
     },
-    "retrieval_receipt_digest": "sha256:d022595b056fee3fa60ee1873630a984e64ecdb54dc3053ed9f17f6a03672498",
-    "source_content_digest": "sha256:489de4a5c467eb0382ef4f29920dc6433adc3a3336da5057aec7f37cd0208560",
-    "source_digest": "sha256:0e30a41e1d31405a037edcc4e56b65c5107236c02092ff6fca6351e692a30a27",
-    "source_ref": "src_449cd1a48a2b6b92"
+    "retrieval_receipt_digest": "sha256:a47246eca56ee461a0505c07c502aa766c906863d17cf0a3f00e9f1b2b5ff0cc",
+    "source_content_digest": "sha256:6d71182ebfd566c92aef74ed1c0b1dcd3e55e81919c6694dc0090593e4e2c6e2",
+    "source_digest": "sha256:989960c13ee061b091fe1729fea3a5d2c18922bd774cea0e9aefc530595c208e",
+    "source_ref": "src_338c31876af4f6fd"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_449cd1a48a2b6b92",
-  "subject_ref": "evd_f3e50f7e4ca20936",
+  "source_ref": "src_338c31876af4f6fd",
+  "subject_ref": "evd_c091d670422c8ce7",
   "type": "evidence_bound"
 }
