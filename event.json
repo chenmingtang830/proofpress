@@ -1,21 +1,21 @@
 {
-  "created_at": "2026-08-30T19:16:01.318431Z",
-  "event_id": "ppe_53673f4d37b96875",
+  "created_at": "2026-08-30T19:16:01.407585Z",
+  "event_id": "ppe_2425256dd4a57b07",
   "evidence": {
-    "digest": "sha256:62181fb1d08efa816528e43a703f4b07484dfa6bceeda6df7c72891345d789db",
-    "id": "evd_254cf420f9a03207",
+    "digest": "sha256:8a3c0319d036beafce2d684cf12eeb10802a1eae555c948f331538c69a4d10a6",
+    "id": "evd_a2ac8a8265d4fe5b",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:36e194b6dd674390c5ef279b439569ba8ab03cde6d4332050d22410192cd75a5",
+    "quote_digest": "sha256:572cb5051ea60eff86fbb15a488fe4d0f1df4803a3be14feba620349e6f0691f",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:36e194b6dd674390c5ef279b439569ba8ab03cde6d4332050d22410192cd75a5",
-        "section_id": "sec_9992bee43e6f3361"
+        "section_digest": "sha256:572cb5051ea60eff86fbb15a488fe4d0f1df4803a3be14feba620349e6f0691f",
+        "section_id": "sec_871f0397370e0ccf"
       },
-      "quote": "        12.7 ENTIRE AGREEMENT\nThis Agreement supersedes all prior agreements, whether written or oral, between the parties with respect to its subject matter (including any letter of intent and, upon the Closing, any confidentiality obligation to which Buyer is subject) and constitutes (along with the Disclosure Letter, the exhibits, and the other documents to be delivered pursuant to this Agreement) a complete and exclusive statement of the terms of the agreement between the parties with respect to the subject matter of this Agreement.\n",
-      "quote_digest": "sha256:36e194b6dd674390c5ef279b439569ba8ab03cde6d4332050d22410192cd75a5",
+      "quote": "DISCLOSURE SCHEDULE\nThis Schedule of Exceptions is made and given pursuant to Section 2 of the Series A Preferred Stock Purchase Agreement, dated as of [date] (the “Agreement”), between [Company name] (the “Company”) and the Purchasers listed on Schedule A thereto. All capitalized terms used but not defined herein shall have the meanings as defined in the Agreement, unless otherwise provided. The section numbers below correspond to the section numbers of the representations and warranties in the Agreement; provided, however, that any information disclosed herein under any section number shall be deemed to be disclosed and incorporated into any other section number under the Agreement where such disclosure would be appropriate and such appropriateness is reasonably apparent from the face of such disclosure. Nothing in this Schedule of Exceptions is intended to broaden the scope of any representation or warranty contained in the Agreement or to create any covenant. Inclusion of any item in this Schedule of Exceptions (1) does not represent a determination that such item is material or establish a standard of materiality, (2) does not represent a determination that such item did not arise in the ordinary course of business, (3) does not represent a determination that the transactions contemplated by the Agreement require the consent of third parties, and (4) shall not constitute, or be deemed to be, an admission to any third party concerning such item. This Schedule of Exceptions includes brief descriptions or summaries of certain agreements and instruments, copies of which are available upon reasonable request. Such descriptions do not purport to be comprehensive, and are qualified in their entirety by reference to the text of the documents described, true and complete copies of which have been provided to the Purchasers or their respective counsel.\n\n\n\n\n\n\n\n\n\n\n\n",
+      "quote_digest": "sha256:572cb5051ea60eff86fbb15a488fe4d0f1df4803a3be14feba620349e6f0691f",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
@@ -24,18 +24,18 @@
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
       "source": {
-        "content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
+        "content_digest": "sha256:de3c85ce68cc9a64aadabec8843aff116664ead676844e5ce1f589169c52b2da",
         "media_type": "text/plain",
-        "uri": "private://apex/7beb28a6e0069669-d885dee3"
+        "uri": "private://apex/de3c85ce68cc9a64-4c7c3329"
       }
     },
-    "retrieval_receipt_digest": "sha256:81d599e3f4ab720d2b71ceff5f3531c867515b2734ed028727d26c51d7a03343",
-    "source_content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
-    "source_digest": "sha256:9b5e55c106d3b2c9d270455bb5af81e282a4e92f3ba0722f868b952faf8ff0b5",
-    "source_ref": "src_1cb20c6823882030"
+    "retrieval_receipt_digest": "sha256:a8bfe42d9ba55eecbd398d8e0c9a418fac6d849164207f3626f10a76a9a4848e",
+    "source_content_digest": "sha256:de3c85ce68cc9a64aadabec8843aff116664ead676844e5ce1f589169c52b2da",
+    "source_digest": "sha256:afd14261a12776692529819ab8b113e55ef68150920111e982cd00f66a8af8ea",
+    "source_ref": "src_a149d3b6c6d2425c"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_1cb20c6823882030",
-  "subject_ref": "evd_254cf420f9a03207",
+  "source_ref": "src_a149d3b6c6d2425c",
+  "subject_ref": "evd_a2ac8a8265d4fe5b",
   "type": "evidence_bound"
 }
