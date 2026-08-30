@@ -1,21 +1,21 @@
 {
-  "created_at": "2026-08-30T19:17:51.697845Z",
-  "event_id": "ppe_8de6be1cab5280c9",
+  "created_at": "2026-08-30T19:17:51.947464Z",
+  "event_id": "ppe_6c35c5cd3a089f6b",
   "evidence": {
-    "digest": "sha256:ef36ff3346345c159a4d6e29d540de8107dc78c3bd911b08e18f73bf8406bcb8",
-    "id": "evd_420b57ada3fc9a51",
+    "digest": "sha256:d9350bb8cdd8b568957bcdc7d2a4154c73cdef55b588bb8576acc8fc01f8f017",
+    "id": "evd_60234505f26d293f",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:e3d8e7f052a608570e23e9496e45e1ff1ee3f79bb43992c1e5049123c5197f0d",
+    "quote_digest": "sha256:481e70e0eb0998e55a59c364f5eb0f621c9877ec77113a6c03cadebdca04666d",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:e3d8e7f052a608570e23e9496e45e1ff1ee3f79bb43992c1e5049123c5197f0d",
-        "section_id": "sec_74fd85f60268cfe9"
+        "section_digest": "sha256:481e70e0eb0998e55a59c364f5eb0f621c9877ec77113a6c03cadebdca04666d",
+        "section_id": "sec_6e0279669a3c5be8"
       },
-      "quote": "﻿\nHere is the fictional five-year operating history for \"Summit Filing Solutions, Inc.\" recreated for an S corporation with five shareholders.\nFictional Entity Details\n    • Name: Summit Filing Solutions, Inc.\n    • Employer Identification Number (EIN): [Fictional] 12-3456789\n    • Date Incorporated: January 10, 2018\n    • S Corp Election Effective Date: January 1, 2019\n    • Business Activity Code: 541511 (Custom Computer Programming Services)\n    • Accounting Method: Accrual\n    • Shareholders: Five equal shareholders (Alex, Beth, Chris, Dana, Evan), each with 20% ownership.\n    • Economic Context: The data reflects a consistent growth trajectory, with a minor market correction in 2023.\nFive-Year Operating History: Income and Deductions\nThe following table provides the key income and deduction line items required for the main section of IRS Form 1120-S (Page 1, Lines 1 through 21). All figures are in U.S. Dollars ($).\nLine Item\tForm 1120-S Line Ref\t2020\t2021\t2022\t2023\t2024\nGross receipts or sales\t1a\t500,000\t750,000\t1,100,000\t950,000\t1,300,000\nLess: Returns and allowances\t1b\t5,000\t7,500\t11,000\t9,500\t13,000\nBalance (Net Sales)\t1c\t495,000\t742,500\t1,089,000\t940,500\t1,287,000\nCost of goods sold (COGS)\t2\t200,000\t300,000\t440,000\t380,000\t520,000\nGross profit\t3\t295,000\t442,500\t649,000\t560,500\t767,000\nInterest income\t4\t500\t600\t700\t800\t900\nGross rents/royalties\t5\t0\t0\t0\t0\t0\nNet gain/loss from asset sale\t6\t0\t0\t1,000\t0\t(500)\nTotal income (loss)\t6\t295,500\t443,100\t650,700\t561,300\t767,400\nDeductions\t\t\t\t\t\t\nOfficer compensation\t7\t120,000\t160,000\t200,000\t180,000\t220,000\nSalaries and wages (other)\t8\t40,000\t60,000\t90,000\t75,000\t110,000\nRepairs and maintenance\t9\t2,000\t3,000\t4,500\t3,500\t5,000\nBad debts\t10\t1,000\t1,500\t2,000\t3,000\t1,500\nRent\t11\t18,000\t18,000\t20,000\t22,000\t24,000\nTaxes and licenses\t12\t4,000\t5,500\t7,000\t6,500\t8,000\nInterest\t13\t1,200\t1,100\t900\t800\t700\nDepreciation (Form 4562)\t14\t10,000\t12,000\t15,000\t14,000\t13,000\nAdvertising\t15\t5,000\t8,000\t12,000\t10,000\t15,000\nPension, profit-sharing\t16\t3,000\t4,500\t6,000\t5,500\t7,000\nEmployee benefit programs\t17\t8,000\t10,000\t14,000\t12,000\t16,000\nOther deductions (attach stmnt)\t18\t7,000\t9,000\t11,000\t9,000\t12,000\nTotal deductions\t19\t232,200\t297,600\t396,400\t347,300\t433,200\nOrdinary business income\t21\t63,300\t145,500\t254,300\t214,000\t334,200\nFinancial and Economic Data with Five Shareholders\n    • Balance Sheet Information (Schedule L): As noted previously, Summit Filing Solutions, Inc. must complete Schedule L for the years 2022, 2023, and 2024, as total assets exceeded the $250,000 threshold.\n    • Shareholder Data (Schedule K-1): The ordinary business income (Line 21) is passed through to the five shareholders via Schedule K-1 (Form 1120-S). Each of the five shareholders receives a pro rata share of 20% of the Line 21 amount on their personal tax returns.\nYear\tOrdinary Business Income (Line 21)\tPer Shareholder Allocation (20%)\n2020\t$63,300\t$12,660\n2021\t$145,500\t$29,100\n2022\t$254,300\t$50,860\n2023\t$214,000\t$42,800\n2024\t$334,200\t$66,840\nThe corporation tracks each shareholder's stock and debt basis annually using Form 7203, which shareholders attach to their individual Forms 1040.\n\n",
-      "quote_digest": "sha256:e3d8e7f052a608570e23e9496e45e1ff1ee3f79bb43992c1e5049123c5197f0d",
+      "quote": "        3.5 BOOKS AND RECORDS\n    (a) The books of account and other Records of each Acquired Company, all of which have been made available to Buyer, are complete and correct, represent actual, bona fide transactions, and have been maintained in accordance with sound business practices and the requirements of Section 13(b)(2) of the Exchange Act (whether or not any Acquired Company is subject to that Section). The Acquired Companies have implemented and maintain a system of internal control over financial reporting (as defined in Rules 13a-15(f) and 15d-15(f) under the Exchange Act) sufficient to provide reasonable assurance regarding the reliability of financial reporting and the preparation of financial statements for external purposes in accordance with GAAP, including that (i) transactions are executed in accordance with management’s general or specific authorizations, (ii) transactions are recorded as necessary to permit preparation of financial statements in conformity with GAAP and to maintain asset accountability, (iii) access to assets is permitted only in accordance with management’s general or specific authorization, and (iv) the recorded accountability for assets is compared with the existing assets at reasonable intervals and appropriate action is taken with respect to any differences.\n    (b) The minute books of each Acquired Company contain complete and correct Records of all meetings held of, and actions taken by written consent of, the holders of voting securities, the board of\ndirectors or Persons exercising similar authority, and committees of the board of directors or such Persons of such Acquired Company, and no meeting of any such holders, board of directors, Persons, or committee has been held, and no other action has been taken, for which minutes or other evidence of action have not been prepared and are not contained in such minute books. Each Acquired Company has at all times maintained complete and correct Records of all issuances and transfers of its Equity Securities. At the Closing, all such minute books and Records will be in the possession of the Company and located at [specify location(s)].\n",
+      "quote_digest": "sha256:481e70e0eb0998e55a59c364f5eb0f621c9877ec77113a6c03cadebdca04666d",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
@@ -24,18 +24,18 @@
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
       "source": {
-        "content_digest": "sha256:2deffb4f8f21edc479c2a23b9c8bd05fb7787eb323e1b0e573b07f190f63d4f5",
+        "content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
         "media_type": "text/plain",
-        "uri": "private://apex/2deffb4f8f21edc4-49d7dafd"
+        "uri": "private://apex/7beb28a6e0069669-d885dee3"
       }
     },
-    "retrieval_receipt_digest": "sha256:9a1ab992d2c2c9bd9b90119f025953a4157107ef370900f4f8c038e90b51f316",
-    "source_content_digest": "sha256:2deffb4f8f21edc479c2a23b9c8bd05fb7787eb323e1b0e573b07f190f63d4f5",
-    "source_digest": "sha256:3538f66a9ae8efd363cf69dcf7d66fb56bd07aa404270535b6dfec9c843b0e78",
-    "source_ref": "src_e5ee57b4daba07c8"
+    "retrieval_receipt_digest": "sha256:4040ce4957bbb98de72d19bdc10bd1e196240e7e6fa7192eebcff3104d8942bd",
+    "source_content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
+    "source_digest": "sha256:9b5e55c106d3b2c9d270455bb5af81e282a4e92f3ba0722f868b952faf8ff0b5",
+    "source_ref": "src_1cb20c6823882030"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_e5ee57b4daba07c8",
-  "subject_ref": "evd_420b57ada3fc9a51",
+  "source_ref": "src_1cb20c6823882030",
+  "subject_ref": "evd_60234505f26d293f",
   "type": "evidence_bound"
 }
