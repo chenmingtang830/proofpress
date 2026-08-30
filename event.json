@@ -1,21 +1,21 @@
 {
-  "created_at": "2026-08-30T19:17:44.016089Z",
-  "event_id": "ppe_148ea503f1189ecb",
+  "created_at": "2026-08-30T19:17:44.247316Z",
+  "event_id": "ppe_2bfad57872321625",
   "evidence": {
-    "digest": "sha256:a8961e16190347897932a1fcc6751e91762e244ee01e1432cba61a164e92eef2",
-    "id": "evd_bcbac617e5e7d3b8",
+    "digest": "sha256:bed65acd309d0d03af86884119c34c78aae73f2a89d21138958e80f85d29c43d",
+    "id": "evd_e24925f58d92656a",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:d652f02025e5dc963eb504fc0ce8c4ed71e067ba0ab731369f12dbbd45d63997",
+    "quote_digest": "sha256:cbe8dbf391040e4cef9571d3348b4b151336ccf0972b214db72729ae0eaa05ba",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:d652f02025e5dc963eb504fc0ce8c4ed71e067ba0ab731369f12dbbd45d63997",
-        "section_id": "sec_06381120fa88d445"
+        "section_digest": "sha256:cbe8dbf391040e4cef9571d3348b4b151336ccf0972b214db72729ae0eaa05ba",
+        "section_id": "sec_e216c875b11705da"
       },
-      "quote": "EXECUTIVE SUMMARY\nSummit Filing Solutions, Inc. (“Summit”) elected S‑Corporation status effective January 1, 2019. Form 2553, Election by a Small Business Corporation, was filed on March 22, 2022, and the IRS issued a CP261 notice confirming approval of the S-Corporation election on the identified effective date. The state of formation is Delaware and will rely on DE law and federal law, where applicable. Based on the governing documents, historical shareholder schedules, tax filings, distribution data, and capitalization tables provided, Summit faces several material risks that may compromise or retroactively invalidate its S‑Corporation election.\nUnder the instruction to classify any category with missing documentation as HIGH RISK where applicable, three categories rise to the highest level of severity: (1) Nonresident Alien Shareholder, (2) Debt–Equity Characterization, and (3) Pro Rata Distribution Compliance.\n",
-      "quote_digest": "sha256:d652f02025e5dc963eb504fc0ce8c4ed71e067ba0ab731369f12dbbd45d63997",
+      "quote": "﻿Form 1120-S \nDepartment of the Treasury  Internal Revenue Service  \nU.S. Income Tax Return for an S Corporation  \nDo not file this form unless the corporation has filed or  \nis attaching Form 2553 to elect to be an S corporation.  \nGo to www.irs.gov/Form1120S for instructions and the latest information. \nOMB No. 1545-0123  2024 \nFor calendar year 2024 or tax year beginning , 2024, ending , 20  \nA S election effective date  \nB Business activity code  number (see instructions)  \nC Check if Sch. M-3 attached \n",
+      "quote_digest": "sha256:cbe8dbf391040e4cef9571d3348b4b151336ccf0972b214db72729ae0eaa05ba",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
@@ -24,18 +24,18 @@
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
       "source": {
-        "content_digest": "sha256:e7eb786dc671298aa9426792d523f0ec997bee3a570763a8b10f13a1644fc105",
+        "content_digest": "sha256:c93c2b228433659eb56b66bfaee1dc3de9ed754d39aa736b60372b74813f3481",
         "media_type": "text/plain",
-        "uri": "private://apex/e7eb786dc671298a-1d2051f2"
+        "uri": "private://apex/c93c2b228433659e-f96ee06e"
       }
     },
-    "retrieval_receipt_digest": "sha256:9dc3c426c6740098561a8e373e0d23ef22d060bd24e33d85f5133f44be42de7e",
-    "source_content_digest": "sha256:e7eb786dc671298aa9426792d523f0ec997bee3a570763a8b10f13a1644fc105",
-    "source_digest": "sha256:bbebf48c1f9dee4d30677c0c93c00e3eb349758e8e8a6eac5acafa2f8650d491",
-    "source_ref": "src_e9b083e75ca5f18f"
+    "retrieval_receipt_digest": "sha256:e553a003f0738e64c5a7414fbef2f2782bddd11291326157145978b25edf8752",
+    "source_content_digest": "sha256:c93c2b228433659eb56b66bfaee1dc3de9ed754d39aa736b60372b74813f3481",
+    "source_digest": "sha256:0a36a5ff5eb33d41016d52986e5f40fb7355d329af2f4a939222e040274ce016",
+    "source_ref": "src_1769935b4d6bb417"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_e9b083e75ca5f18f",
-  "subject_ref": "evd_bcbac617e5e7d3b8",
+  "source_ref": "src_1769935b4d6bb417",
+  "subject_ref": "evd_e24925f58d92656a",
   "type": "evidence_bound"
 }
