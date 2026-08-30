@@ -1,41 +1,41 @@
 {
-  "created_at": "2026-08-30T19:16:45.470898Z",
-  "event_id": "ppe_641d48684eeacc4c",
+  "created_at": "2026-08-30T19:16:45.626589Z",
+  "event_id": "ppe_c121aac084c2560c",
   "evidence": {
-    "digest": "sha256:cee22a1d57b4f09bcc1571b5ab43822b4d199b9c409c0809bd51a0f2ffac80ae",
-    "id": "evd_74a003090045d0b7",
+    "digest": "sha256:479fdbedd0d8bfccd63f5309b7f96041bc6bd65f9dc490ad50cf4595cfbd066b",
+    "id": "evd_f89f8dd841709b7a",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:e7416ad423af0eaa85587ee8f42fc5e3721129d5aff5f80ed88f54e930c21a56",
+    "quote_digest": "sha256:f79f082c782b00f3d33f58dab11f4aeb7917538ea8b291f5348a54c9325fffe9",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:e7416ad423af0eaa85587ee8f42fc5e3721129d5aff5f80ed88f54e930c21a56",
-        "section_id": "sec_7636ed9e4c840be0"
+        "section_digest": "sha256:f79f082c782b00f3d33f58dab11f4aeb7917538ea8b291f5348a54c9325fffe9",
+        "section_id": "sec_9270fd6e9024286c"
       },
-      "quote": "        2.6 ADJUSTMENT PROCEDURE\n    (a) Buyer shall prepare a consolidated balance sheet of the Acquired Companies as of the close of business on the Closing Date [the Business Day prior to the Closing Date] (the “Closing Balance Sheet”). The Closing Balance Sheet shall be prepared using the accounting principles, policies, and practices set forth on Exhibit 2.6(a). Buyer shall deliver the Closing Balance Sheet and the determination of the Adjustment Amount to Sellers’ Representative within ninety (90) days following the Closing Date.\n    (b) Upon execution of such access letters as may be reasonably required by Buyer, Sellers’ Representative and its Representatives shall, during reasonable business hours, be given reasonable access to (and copies of) all Buyer’s and its Representatives’ books, records, and other documents, including work papers, worksheets, notes, and schedules, used in preparation of the Closing Balance Sheet and the determination of the Adjustment Amount, for the purpose of reviewing the Closing Balance Sheet and determination of the Adjustment Amount, in each case, other than certain work papers that Buyer considers proprietary, such as internal control documentation, engagement planning, time control and audit sign off, and quality control work papers.\n    (c) If within 30 days following delivery of the Closing Balance Sheet and the determination of the Adjustment Amount to Sellers’ Representative, Sellers’ Representative has not given Buyer notice of an objection as to any amounts set forth on the Closing Balance Sheet or the determination of the Adjustment Amount (which notice shall state in reasonable detail the basis of Sellers’ Representative’s objections and Sellers’ proposed adjustments (the “Objection Notice”)), the Closing Balance Sheet and the determination of the Adjustment Amount as prepared by Buyer will be final, binding, and conclusive on the parties.\n    (d) If Sellers’ Representative timely gives Buyer an Objection Notice and if Sellers’ Representative and Buyer fail to resolve the issues raised in the Objection Notice within 30 days after giving the Objection Notice, Sellers’ Representative and Buyer shall submit the issues remaining in dispute for resolution to [name of individual] in the [location] office of [name of accounting firm] (or, if [name of individual or name of accounting firm] is providing services to Buyer or a Seller or is otherwise unable or unwilling to serve in such capacity, a recognized national or regional independent accounting firm mutually acceptable to Buyer and Sellers’ Representative) (the “Independent Accountants”).\n    (e) The parties shall negotiate in good faith in order to seek agreement on the procedures to be followed by the Independent Accountants, including procedures with regard to the presentation of evidence. If the parties are unable to agree upon procedures within 10 days of the submission to the Independent Accountants, the Independent Accountants shall establish such procedures giving due regard to the intention of the parties to resolve disputes as promptly, efficiently, and inexpensively as\npossible, which procedures may, but need not, be those proposed by either Buyer or Sellers’ Representative. The Independent Accountants shall be directed to resolve only those issues in dispute and render a written report on their resolution of disputed issues with respect to the Closing Balance Sheet and the resulting Adjustment Amount as promptly as practicable, but no later than 60 days after the date on which the Independent Accountants are engaged. The determination by the Independent Accountants will be based solely on written submissions of Buyer, on the one hand, and Sellers’ Representative, on the other hand, and will not involve independent review. Any determination of the Closing Balance Sheet or the Adjustment Amount by the Independent Accountants will not be outside the range established by the amounts in (i) the Closing Balance Sheet and the determination of the Adjustment Amount proposed by Buyer, and (ii) Sellers’ Representative’s proposed adjustments thereto. Such determination will be final, binding, and conclusive on the parties as of the date of the determination notice sent by the Independent Accountants.\n    (f) If issues are submitted to the Independent Accountants for resolution:\n        (i) Sellers’ Representative and Buyer shall execute any agreement required by the Independent Accountants to accept their engagement pursuant to Section 2.6(d);\n        (ii) Sellers’ Representative and Buyer shall promptly furnish or cause to be furnished to the Independent Accountants such work papers and other documents and information relating to the disputed issues as the Independent Accountants may request and are available to that party or its accountants or other Representatives, and shall be afforded the opportunity to present to the Independent Accountants, with a copy to the other party, any other written material relating to the disputed issues;\n        (iii) The determination by the Independent Accountants, as set forth in a report to be delivered by the Independent Accountants to both Sellers’ Representative and Buyer, will include the revised Closing Balance Sheet and Adjustment Amount, reflecting the changes required as a result of the determination made by the Independent Accountants; and\n        (iv) Sellers and Buyer shall each bear one-half of the fees and costs of the Independent Accountants; provided, however, that the engagement agreement referred to in Section 2.6(f)(i) above may require the parties to be bound jointly and severally to the Independent Accountants for those fees and costs, and in the event Sellers or Buyer pay to the Independent Accountants any amount in excess of one-half of the fees and costs of its engagement, the other party(ies) agree(s) to reimburse Sellers or Buyer, as applicable, upon demand, to the extent required to equalize the payments made by Sellers and Buyer with respect to the fees and costs of the Independent Accountants.\n\n\n\n\n    3. Representations and Warranties of Sellers\n\n\n\n\n\n\n\nSellers, jointly and severally, represent and warrant to Buyer as follows:\n",
-      "quote_digest": "sha256:e7416ad423af0eaa85587ee8f42fc5e3721129d5aff5f80ed88f54e930c21a56",
+      "quote": "SECTION 10. PAPERWORK REDUCTION ACT\nThe collection of information contained in this revenue procedure has been reviewed and approved by the Office of Management and Budget (OMB) in accordance with the Paperwork Reduction Act of 1995 (44 U.S.C. 3507(d)) under control number 1545-1548.\nThe collection of information in this revenue procedure is in Section 4.03 and Sections 5 through 7. The information will help the IRS to determine whether a taxpayer has met the requirements of Sections 4 through 7 of this revenue procedure and whether a taxpayer has reasonable cause for failing to make a timely election. The collection of information is required to make a late election pursuant to this revenue procedure. This information will be used to determine whether the eligibility requirements for obtaining relief have been met. The collection of information is required to obtain a benefit. The likely respondents are business or other for-profit institutions.\nThe estimated total annual reporting burden is 50,000 hours.\nThe estimated annual burden per respondent varies from .5 hours to 1 hour, depending on individual circumstances, with an estimated average burden of 1 hour to complete the statement. The estimated number of respondents is 50,000.\nThe estimated annual frequency of responses is on occasion.\nBooks or records relating to a collection of information must be retained as long as their contents may become material in the administration of any internal revenue law. Generally tax returns and tax return information are confidential, as required by section 6103.\n",
+      "quote_digest": "sha256:f79f082c782b00f3d33f58dab11f4aeb7917538ea8b291f5348a54c9325fffe9",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
-        "query": "Retrieve the IRS notice or determination denying §1362(f) relief, including its date, covered years, and stated treatment of Summit.",
+        "query": "Confirm whether California corporate tax is deductible in computing federal taxable income or whether the task intends the two stated rates to be applied independently and added.",
         "version": "1"
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
       "source": {
-        "content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
+        "content_digest": "sha256:489de4a5c467eb0382ef4f29920dc6433adc3a3336da5057aec7f37cd0208560",
         "media_type": "text/plain",
-        "uri": "private://apex/7beb28a6e0069669-d885dee3"
+        "uri": "private://apex/489de4a5c467eb03-1184b3a1"
       }
     },
-    "retrieval_receipt_digest": "sha256:96aebce4bf1ad4399cae445eccfda0271a430b8d2d0dd1bfba0ff75de947af75",
-    "source_content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
-    "source_digest": "sha256:9b5e55c106d3b2c9d270455bb5af81e282a4e92f3ba0722f868b952faf8ff0b5",
-    "source_ref": "src_1cb20c6823882030"
+    "retrieval_receipt_digest": "sha256:69b5f795747ef7fcc64e7629409cb9b78381eea468cff25fdde0d08c9703fa5b",
+    "source_content_digest": "sha256:489de4a5c467eb0382ef4f29920dc6433adc3a3336da5057aec7f37cd0208560",
+    "source_digest": "sha256:0e30a41e1d31405a037edcc4e56b65c5107236c02092ff6fca6351e692a30a27",
+    "source_ref": "src_449cd1a48a2b6b92"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_1cb20c6823882030",
-  "subject_ref": "evd_74a003090045d0b7",
+  "source_ref": "src_449cd1a48a2b6b92",
+  "subject_ref": "evd_f89f8dd841709b7a",
   "type": "evidence_bound"
 }
