@@ -1,41 +1,41 @@
 {
-  "created_at": "2026-08-30T19:16:40.778488Z",
-  "event_id": "ppe_6b811ec05dd42f6e",
+  "created_at": "2026-08-30T19:16:40.928410Z",
+  "event_id": "ppe_189cafdb804ae1d1",
   "evidence": {
-    "digest": "sha256:24df009665c1565637562b00da28994e9bf52f7aaaba21f50d5b6c5367eeb9cd",
-    "id": "evd_91d27424431cf864",
+    "digest": "sha256:a653b0a09e235fde30862fbb4359ae8432db6b38eff7aef161e314adebc106bd",
+    "id": "evd_ce8c3fbcfb3416ab",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:4ecda55f6b6cbe4b0f23cda9c4b32b36854691ab816cf740ee1eec8df1e298c3",
+    "quote_digest": "sha256:71e921eb5dc9f4891da0a1a2332f521e14e987c54737e421993a9a243bd6fde3",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:4ecda55f6b6cbe4b0f23cda9c4b32b36854691ab816cf740ee1eec8df1e298c3",
-        "section_id": "sec_070a856c5839bed8"
+        "section_digest": "sha256:71e921eb5dc9f4891da0a1a2332f521e14e987c54737e421993a9a243bd6fde3",
+        "section_id": "sec_d814238504a7730d"
       },
-      "quote": "FISCAL YEAR\nSection 8.1 Fiscal Year.\nThe fiscal year of the Corporation shall end on December 31 of each year or such other date as determined by the Board and consistent with Subchapter S eligibility.\n\n",
-      "quote_digest": "sha256:4ecda55f6b6cbe4b0f23cda9c4b32b36854691ab816cf740ee1eec8df1e298c3",
+      "quote": "ADDRESS: \n\t\t\t\t\n\t\t\t\t\n\nEffective Date: \t\t\t\t\n\n",
+      "quote_digest": "sha256:71e921eb5dc9f4891da0a1a2332f521e14e987c54737e421993a9a243bd6fde3",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
-        "query": "S corporation election after termination waiting period re-elect S corporation after invalid shareholder election IRC five year re-election rule S corporation termination IRS relief or waiver reelect S corporation",
+        "query": "S election effective date after filing Summit Form 2553 filing deadline requalification new S corporation election effective date eligibility late S election relief effective date",
         "version": "1"
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
       "source": {
-        "content_digest": "sha256:1cb8fe86d8075d2b126f99858b67aa3a45ced38879cf7b3859b78e577483572b",
+        "content_digest": "sha256:dfb4a6fb5185685768f588160e39690b944d8cbfad8e0b36a92b49be895f80d9",
         "media_type": "text/plain",
-        "uri": "private://apex/1cb8fe86d8075d2b-0c1ae063"
+        "uri": "private://apex/dfb4a6fb51856857-3ebb9312"
       }
     },
-    "retrieval_receipt_digest": "sha256:f840abd89000203b2e2588c41d493f93aa1f1b471891943c55ac11388e55655e",
-    "source_content_digest": "sha256:1cb8fe86d8075d2b126f99858b67aa3a45ced38879cf7b3859b78e577483572b",
-    "source_digest": "sha256:dce34be7d3faee591fc3639cc0fc742ebc66a097c301c07eb716b0649e3998a1",
-    "source_ref": "src_3376baa521507aa6"
+    "retrieval_receipt_digest": "sha256:43029648c47008dd1fea0d942d9a4bec3c13f49191533df44a1356de59397b53",
+    "source_content_digest": "sha256:dfb4a6fb5185685768f588160e39690b944d8cbfad8e0b36a92b49be895f80d9",
+    "source_digest": "sha256:af353dc2ff025f1b5856614e044526af70dd8dd57771cc7162880a69ff71fe65",
+    "source_ref": "src_fe48f3c72ed75d5f"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_3376baa521507aa6",
-  "subject_ref": "evd_91d27424431cf864",
+  "source_ref": "src_fe48f3c72ed75d5f",
+  "subject_ref": "evd_ce8c3fbcfb3416ab",
   "type": "evidence_bound"
 }
