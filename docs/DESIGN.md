@@ -48,11 +48,12 @@ The fixed fallback mapping for GitHub PR comments is `🔵 mod`, `🟣 mov`, `�
 
 [//]: # (ob:53b8c3a4)
 - **Document headings:** Songti SC / Noto Serif SC with Georgia / Times New Roman fallbacks, 900 weight, up to 2rem. Serif establishes the artifact or proposition being examined; it is not applied to every interface heading.
-- **Body and controls:** native system sans-serif stack, 15px / 1.75 for reading and 12–14px / 1.5–1.7 for compact operating surfaces.
+- **Brand narrative and knowledge prose:** Georgia with Times New Roman and serif fallbacks, 15–18px / 1.65–1.8 for sustained reading. This is the default voice for taglines, manifestos, editorial passages, quotations, source-document prose, and brand-film language. Use regular weight and restrained tracking; the type should feel authored, mature, and archival rather than ornamental.
+- **Controls and operating surfaces:** native system sans-serif stack, 12–15px / 1.5–1.7. Keep buttons, navigation, filters, tables, inspectors, and dense review mechanics sans-serif so actions remain fast to scan.
 - **Versions, hashes, locators, lane labels, and receipts:** `ui-monospace`, SFMono-Regular, Menlo, monospace with `tabular-nums`; 10px labels may use restrained uppercase tracking.
 
 [//]: # (ob:877970b3)
-**The Document, Then Interface Rule.** Serif gives source material and important propositions legal or archival gravity. Sans-serif operates the product. Monospace indexes the proof. Do not turn metadata into body prose or render long claims in monospace.
+**The Document, Then Interface Rule.** Georgia gives brand narrative, source material, and important propositions an authored, archival gravity. Display serif establishes titles. Sans-serif operates the product. Monospace indexes the proof. Do not set controls in Georgia, turn metadata into body prose, or render long claims in monospace.
 
 [//]: # (ob:46a56fa1)
 ## Layout
