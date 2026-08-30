@@ -1,41 +1,41 @@
 {
-  "created_at": "2026-08-30T19:16:44.691198Z",
-  "event_id": "ppe_1e8c8e178e85da96",
+  "created_at": "2026-08-30T19:16:44.848083Z",
+  "event_id": "ppe_52e67826e1909102",
   "evidence": {
-    "digest": "sha256:00531062570c0cd64c213f4f339907d2790296081df6424b6e4e31fa7c367472",
-    "id": "evd_befaf3c22eab616e",
+    "digest": "sha256:26a211a4baf2c49f241d1802953fb2fd38cf4bc1c7d142c35d4808be39cee3a9",
+    "id": "evd_d8810781d0c8c2be",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:1b48ad22751ffff148d60b0b905a33d7c74fb5cc963e28b54d8b0c38157d92f6",
+    "quote_digest": "sha256:119a29655aabe3b4524a322aa58b6ab8c20cbfb63e283437f96acca8bebe77d1",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:1b48ad22751ffff148d60b0b905a33d7c74fb5cc963e28b54d8b0c38157d92f6",
-        "section_id": "sec_7a70ef164f357d6e"
+        "section_digest": "sha256:119a29655aabe3b4524a322aa58b6ab8c20cbfb63e283437f96acca8bebe77d1",
+        "section_id": "sec_f7272cbb7aded261"
       },
-      "quote": "﻿SCHEDULE K-1 (Form 1120-S)                                                     2024\nDepartment of the Treasury • Internal Revenue Service                          OMB No. 1545-0123\n\nShareholder’s Share of Income, Deductions, Credits, etc.                       For calendar year 2024\n\n────────────────────────────────────────────────────────────────────────────────────\nPart I ─ Information About the Corporation\n────────────────────────────────────────────────────────────────────────────────────\nA  Corporation’s employer identification number                       12-3456789\nB  Corporation’s name, address, city, state, and ZIP code\n       Summit Filing Solutions, Inc.\n       8280 Willow Oaks Corporate Dr\n       Los Angeles, CA  90001\nC  IRS center where corporation filed return                               Ogden, UT\n\n────────────────────────────────────────────────────────────────────────────────────\nPart II ─ Information About the Shareholder\n────────────────────────────────────────────────────────────────────────────────────\nD  Shareholder’s identifying number                                    666-66-6666\nE  Shareholder’s name, address, city, state, and ZIP code\n       Jennifer Park\n       505 Montgomery St., Suite 1100\n       San Francisco, CA  94111\nF  Shareholder’s percentage of stock ownership\n       Beginning of tax year    9%                 End of tax year    9%\n\n────────────────────────────────────────────────────────────────────────────────────\nPart III ─ Shareholder’s Share of Current Year Income, Deductions, Credits, etc.\n────────────────────────────────────────────────────────────────────────────────────\n1  Ordinary business income (loss)                                   $30,009\n2  Net rental real estate income (loss)                                    0\n3  Other net rental income (loss)                                          0\n4  Interest income                                                      $81\n5a Ordinary dividends                                                      0\n5b Qualified dividends                                                     0\n6  Royalties                                                               0\n7  Net short-term capital gain (loss)                                      0\n8a Net long-term capital gain (loss)                                   ($45)\n8b Collectibles (28%) gain (loss)                                          0\n8c Unrecaptured section 1250 gain                                          0\n9  Net section 1231 gain (loss)                                            0\n10 Other income (loss)                                                     0\n\n11 Section 179 deduction                                                   0\n12 Other deductions                                                        0\n13 Credits                                                                 0\n14 Foreign transactions                                                    0\n15 Charitable contributions                                               0\n16 Items affecting shareholder basis\n   a  Tax-exempt interest income                                           0\n   b  Other tax-exempt income                                              0\n   c  Nondeductible expenses                                               0\n   d  Distributions – cash and marketable securities                       0\n   e  Repayment of loans from shareholders                                0\n17 Other information                                                       0\n\n────────────────────────────────────────────────────────────────────────────────────\nStock and Debt Basis Limitations (for shareholder records)\n────────────────────────────────────────────────────────────────────────────────────\n   + Increase for income items (Lines 1 + 4)                         $30,090\n   – Decrease for loss items (Line 8a)                                   ($45)\n   = Net increase to stock basis this year                           $30,045\n\n   Type of income: Active Business Income\n   Foreign country or U.S. possession: N/A\n\n────────────────────────────────────────────────────────────────────────────────────\nPrepared by: Corporate Officer, Summit Filing Solutions, Inc.\nDate prepared: March 10, 2025\n\nThis is an exact substitute Schedule K-1 that matches the official K-1 filed with IRS Form 1120-S on March 15, 2025.\nRetain this copy with your permanent tax records.\n",
-      "quote_digest": "sha256:1b48ad22751ffff148d60b0b905a33d7c74fb5cc963e28b54d8b0c38157d92f6",
+      "quote": "        3.3 CAPITALIZATION OF COMPANY AND SUBSIDIARIES\n    (a) The authorized Equity Securities of the Company consist of ONE MILLION (1,000,000) \tshares of common stock, par value $0.001  per share, of which 1,000,000  shares, constituting the Shares, are issued and outstanding. Sellers are the owners (of record and beneficially) of all of the Shares, free and clear of all Encumbrances, including any restriction on the right of any Seller to transfer the Shares to Buyer pursuant to this Agreement. The assignments, endorsements, stock powers, or other instruments of transfer to be delivered by each Seller to Buyer at the Closing will be sufficient to transfer such Seller’s entire interest in the Shares (of record and beneficially) owned by such Seller. Upon transfer to Buyer of the certificates representing the Shares, Buyer will receive good title to the Shares, free and clear of all Encumbrances. Part 3.3(a) lists Sellers and the number of Shares held by each Seller.\n    (b) Part 3.3(b) lists for each Subsidiary its authorized Equity Securities, the number and type of Equity Securities issued and outstanding, and the identity of each owner (of record and beneficially) of such Equity Securities and number of shares held by each holder. All outstanding Equity Securities of each Subsidiary are owned of record and beneficially by one or more of the Acquired Companies, free and clear of all Encumbrances. All the outstanding Equity Securities of each Acquired Company have been duly authorized and validly issued, and are fully paid and nonassessable.\nExcept as set forth in Part 3.3(b), there are no shareholder or other Contracts relating to any Equity Security of any Acquired Company, including the sale, voting, or transfer thereof. No outstanding Equity Security or other security of any Acquired Company was issued in violation of the Securities Act or any other Legal Requirement. No Acquired Company has any outstanding subscription, option, warrant, call or exchange right, convertible security, or other Contract or other obligations in effect giving any Person (other than another Acquired Company) the right to acquire (whether by preemptive rights or otherwise) any Equity Security of any Acquired Company.\n    (c) No Acquired Company owns, or is a party to or bound by any Contract to acquire, any Equity Security or other security of any Person or any direct or indirect equity or ownership interest in any other business. No Acquired Company is obligated to provide funds to or make any investment (whether in the form of a loan, capital contribution, or otherwise) in any other Person.\n",
+      "quote_digest": "sha256:119a29655aabe3b4524a322aa58b6ab8c20cbfb63e283437f96acca8bebe77d1",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
-        "query": "Retrieve each complete Form 1120-S and identify Schedule K, line 1 ordinary business income or loss; reconcile it to the aggregate shareholder K-1 box 1 amounts.",
+        "query": "Retrieve the complete Historical Shareholder Schedule and identify when Carrie Canuck transferred, redeemed, or otherwise ceased owning Summit shares.",
         "version": "1"
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
       "source": {
-        "content_digest": "sha256:2c6183a67edb8a1beead309b41a15ae80147ce6eaa2fc069113f622653349ac0",
+        "content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
         "media_type": "text/plain",
-        "uri": "private://apex/2c6183a67edb8a1b-d41b2fd1"
+        "uri": "private://apex/7beb28a6e0069669-d885dee3"
       }
     },
-    "retrieval_receipt_digest": "sha256:11188e1e026bf21a095497bfadb6d49f0e8f5ff3766eb5760d91cb8352dc0f4a",
-    "source_content_digest": "sha256:2c6183a67edb8a1beead309b41a15ae80147ce6eaa2fc069113f622653349ac0",
-    "source_digest": "sha256:d272f28e1678d2431c8f9c0d9ba642fc361687ae7cfa70ef497f283320a86638",
-    "source_ref": "src_155268f2f7e310d9"
+    "retrieval_receipt_digest": "sha256:20d2abbc0983c012b1d6219fd9cadacd0b934cc9fe4bcd943f26e641fa3a7c13",
+    "source_content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
+    "source_digest": "sha256:9b5e55c106d3b2c9d270455bb5af81e282a4e92f3ba0722f868b952faf8ff0b5",
+    "source_ref": "src_1cb20c6823882030"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_155268f2f7e310d9",
-  "subject_ref": "evd_befaf3c22eab616e",
+  "source_ref": "src_1cb20c6823882030",
+  "subject_ref": "evd_d8810781d0c8c2be",
   "type": "evidence_bound"
 }
