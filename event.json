@@ -1,21 +1,21 @@
 {
-  "created_at": "2026-08-30T19:16:22.463248Z",
-  "event_id": "ppe_5a92c62fefaffcae",
+  "created_at": "2026-08-30T19:16:22.598591Z",
+  "event_id": "ppe_e52541972e5d58ed",
   "evidence": {
-    "digest": "sha256:a1cdf2baa8bef3a4e43f83f49d542519bb8d7e6cea75ec30ef9b36bd94ce8600",
-    "id": "evd_d1bc9ccb22f8f256",
+    "digest": "sha256:1bcd2eebfea767dc6446dcb49efd73eb956cd3ec33279c90c1e6022d0cb6dc9f",
+    "id": "evd_d84cc04eaaf95745",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:7b342d1badd2db8b49e367011e51ad6f6fb0aa92c7c67d1fea11ab6014ad88e4",
+    "quote_digest": "sha256:9cc4eccb50623883bf18fa0efb3f522e5ba92b98a19b5604306465d4df3dacba",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:7b342d1badd2db8b49e367011e51ad6f6fb0aa92c7c67d1fea11ab6014ad88e4",
-        "section_id": "sec_bde7ff9de8e9c86d"
+        "section_digest": "sha256:9cc4eccb50623883bf18fa0efb3f522e5ba92b98a19b5604306465d4df3dacba",
+        "section_id": "sec_ead07852b0cf02c9"
       },
-      "quote": "SECTION 3. SCOPE\n.01 In General. This revenue procedure expands and consolidates relief provisions included in prior revenue procedures that provide a simplified method for taxpayers to request relief for late S corporation elections, ESBT elections, QSST elections, QSub elections, and corporate classification elections intended to be effective on the same date as the S corporation election for the entity.\nThis revenue procedure provides procedures for situations within its scope that are in lieu of the letter ruling process ordinarily used to obtain relief for a late Election Under Subchapter S (as defined in Section 4.01(5)) pursuant to § 1362(b)(5), § 1362(f), or § 301.9100-1 and § 301.9100-3. Accordingly, user fees do not apply to corrective actions under this revenue procedure.\nSection 4.01 of this revenue procedure provides a glossary of certain terms used in this revenue procedure. Section 4.02 of this revenue procedure provides the general requirements for relief for all late Elections Under Subchapter S. Section 4.03 of this revenue procedure provides procedural requirements for relief for all late Elections Under Subchapter S. Section 4.04 of this revenue procedure provides additional procedural requirements for relief when one or more Requesting Entities (as defined in Section 4.01(6)) request relief for multiple late elections with respect to a single S corporation. Section 5 of this revenue procedure provides a simplified method for taxpayers to request relief for late S corporation elections (which may or may not include a Deemed Entity Classification Election (as defined in Section 4.01(1) of this revenue procedure)). Section 6 of this revenue procedure provides a simplified method for taxpayers to request relief for late ESBT and QSST elections. Section 7 of this revenue procedure provides a simplified method for taxpayers to request relief for late QSub elections.\n.02 Relief if this Revenue Procedure is not Applicable. An entity that does not meet the requirements for relief or is denied relief under this revenue procedure may seek relief by requesting a letter ruling. The procedural requirements for requesting a letter ruling are described in Rev. Proc. 2013-1, 2013-1 I.R.B. 1, or its successors.\n",
-      "quote_digest": "sha256:7b342d1badd2db8b49e367011e51ad6f6fb0aa92c7c67d1fea11ab6014ad88e4",
+      "quote": "III. RECOMMENDED CORRECTIVE ACTIONS\n1. File a §1362(f) inadvertent termination relief request to address the 2022 transfer to an ineligible shareholder.\n2. Prepare and adopt a multi‑year distribution true‑up to restore pro rata compliance.\n3. Reissue corrected K‑1s for all years lacking complete ownership data.\n4. Reconstruct the stock ledger and consolidate all versions into a single authoritative record.\n5. Produce (or confirm absence of) all shareholder loan documentation. If none exist, obtain written certifications.\n6. Strengthen compliance and governance controls, including resolutions affirming S‑status compliance requirements.\n\n",
+      "quote_digest": "sha256:9cc4eccb50623883bf18fa0efb3f522e5ba92b98a19b5604306465d4df3dacba",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
@@ -24,18 +24,18 @@
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
       "source": {
-        "content_digest": "sha256:489de4a5c467eb0382ef4f29920dc6433adc3a3336da5057aec7f37cd0208560",
+        "content_digest": "sha256:e7eb786dc671298aa9426792d523f0ec997bee3a570763a8b10f13a1644fc105",
         "media_type": "text/plain",
-        "uri": "private://apex/489de4a5c467eb03-1184b3a1"
+        "uri": "private://apex/e7eb786dc671298a-1d2051f2"
       }
     },
-    "retrieval_receipt_digest": "sha256:86145fce02eec65fd580902050e7a72bd304a8c5b770aaf7ed4043879b4fc1af",
-    "source_content_digest": "sha256:489de4a5c467eb0382ef4f29920dc6433adc3a3336da5057aec7f37cd0208560",
-    "source_digest": "sha256:0e30a41e1d31405a037edcc4e56b65c5107236c02092ff6fca6351e692a30a27",
-    "source_ref": "src_449cd1a48a2b6b92"
+    "retrieval_receipt_digest": "sha256:07fdd57b7ac1eb26afeffaf62b472076eaff775d51ccc2b69bc50d8eba132c90",
+    "source_content_digest": "sha256:e7eb786dc671298aa9426792d523f0ec997bee3a570763a8b10f13a1644fc105",
+    "source_digest": "sha256:bbebf48c1f9dee4d30677c0c93c00e3eb349758e8e8a6eac5acafa2f8650d491",
+    "source_ref": "src_e9b083e75ca5f18f"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_449cd1a48a2b6b92",
-  "subject_ref": "evd_d1bc9ccb22f8f256",
+  "source_ref": "src_e9b083e75ca5f18f",
+  "subject_ref": "evd_d84cc04eaaf95745",
   "type": "evidence_bound"
 }
