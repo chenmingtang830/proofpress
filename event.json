@@ -1,15 +1,27 @@
 {
-  "conclusion_digest": "sha256:f2a05510b871afa60764c357923eb61473cb1431cd5466753afcc2ae4a3b3e0c",
-  "created_at": "2026-08-30T19:17:25.838661Z",
-  "event_id": "ppe_5cf740bdc655f1af",
-  "evidence_digests": {
-    "evd_4345a92b81650e62": "sha256:beb9d1cea5177f14d0bf0094e5184fadb0aeb18fd912fb055275b724f8cb60fb",
-    "evd_8c72d0ef2d7fcebb": "sha256:dab3d67be3608c6f4c2afb05271e20e152a0549fce3528265591d81b7bb5a45b"
+  "conclusion": {
+    "allowed_actors": [
+      "*"
+    ],
+    "artifact_refs": [],
+    "created_at": "2026-08-30T19:17:25.962537Z",
+    "digest": "sha256:2f3b23557a3f27d154d6b8fa762024104fbb41556a53a4d92a19c87d8fd3da29",
+    "evidence_refs": [
+      "evd_4345a92b81650e62",
+      "evd_83139bd1e2f2d07d",
+      "evd_eebe327971b1108d"
+    ],
+    "expires_at": null,
+    "id": "knw_5f2c0b5a62c1bfde",
+    "kind": "conclusion",
+    "proposer": "agent:v8-constructor",
+    "qualifiers": {},
+    "scope": "task_11893dcabbe34b0aa991516dfe7edcba",
+    "statement": "Section 6.1 requires all distributions to be strictly pro rata. The risk summary rates pro rata distribution compliance HIGH, and the corrective actions call for a multi-year distribution true-up to restore pro rata compliance. Complete payment-by-payment ownership data is unavailable because the corrective actions also call for corrected K-1s for years lacking complete ownership data and reconstruction of the stock ledger."
   },
-  "policy_digest": "sha256:cde050fdc0b2869fecf8ee9d24dee964fc3bbc18e6b489da2e08e7c3df266501",
-  "review_ref": "ppe_18d819f3c63936d1",
-  "reviewer": "human:staged-evaluation-reviewer",
+  "created_at": "2026-08-30T19:17:26.054196Z",
+  "event_id": "ppe_5a32877f1d7ab09b",
   "schema_version": "proofpress/knowledge-event/v2",
-  "subject_ref": "knw_d06558764487608e",
-  "type": "conclusion_admitted"
+  "subject_ref": "knw_5f2c0b5a62c1bfde",
+  "type": "conclusion_proposed"
 }
