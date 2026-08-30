@@ -1,41 +1,41 @@
 {
-  "created_at": "2026-08-30T19:17:11.135593Z",
-  "event_id": "ppe_6c33d647afa90788",
+  "created_at": "2026-08-30T19:17:11.336387Z",
+  "event_id": "ppe_01c08f120c7b779b",
   "evidence": {
-    "digest": "sha256:763e1d02a71220b9fdfa7e74ad2aae514c873b53a3f1b1970994cd2508fa045d",
-    "id": "evd_d81e7d50c1edec7a",
+    "digest": "sha256:64c9d45a2641628f8783c18a1758aa28793c35af48ac03c20bb8597ef81ff6bd",
+    "id": "evd_3e8ae913cee712a4",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:f1d64d9a1dece611d31aa2e615765f7f5d624e7a2f2187f67a5423b8bd939273",
+    "quote_digest": "sha256:879e0df54e0af077c63184a3d4faea1345a8dfa0f8eaecf98a6169f3bb314940",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:f1d64d9a1dece611d31aa2e615765f7f5d624e7a2f2187f67a5423b8bd939273",
-        "section_id": "sec_f0e7b71edbdebf2b"
+        "section_digest": "sha256:879e0df54e0af077c63184a3d4faea1345a8dfa0f8eaecf98a6169f3bb314940",
+        "section_id": "sec_f264599c855150c8"
       },
-      "quote": "﻿SCHEDULE K-1 (Form 1120-S)                                                                                   2021\nDepartment of the Treasury • Internal Revenue Service                          OMB No. 1545-0123\n\nShareholder’s Share of Income, Deductions, Credits, etc.                       For calendar year 2021\n\n────────────────────────────────────────────────────────────────────────────────────\nPart I ─ Information About the Corporation\n────────────────────────────────────────────────────────────────────────────────────\nA  Corporation’s employer identification number                       12-3456789\nB  Corporation’s name, address, city, state, and ZIP code\n       Summit Filing Solutions, Inc.\n       8280 Willow Oaks Corporate Dr\n       Los Angeles, CA  90001\nC  IRS center where corporation filed return                               Ogden, UT\n\n────────────────────────────────────────────────────────────────────────────────────\nPart II ─ Information About the Shareholder\n────────────────────────────────────────────────────────────────────────────────────\nD  Shareholder’s identifying number                                    666-66-6666\nE  Shareholder’s name, address, city, state, and ZIP code\n       Jennifer Park\n       505 Montgomery St., Suite 1100\n       San Francisco, CA  94111\nF  Shareholder’s percentage of stock ownership\n       Beginning of tax year    9%                 End of tax year    9%\n\n────────────────────────────────────────────────────────────────────────────────────\nPart III ─ Shareholder’s Share of Current Year Income, Deductions, Credits, etc.\n────────────────────────────────────────────────────────────────────────────────────\n1  Ordinary business income (loss)                                   $15,518\n2  Net rental real estate income (loss)                                    0\n3  Other net rental income (loss)                                          0\n4  Interest income                                                      $39\n5a Ordinary dividends                                                      0\n5b Qualified dividends                                                     0\n6  Royalties                                                               0\n7  Net short-term capital gain (loss)                                      0\n8a Net long-term capital gain (loss)                                   $207\n8b Collectibles (28%) gain (loss)                                            0\n8c Unrecaptured section 1250 gain                                          0\n9  Net section 1231 gain (loss)                                            0\n10 Other income (loss)                                                     0\n\n11 Section 179 deduction                                                   0\n12 Other deductions                                                        0\n13 Credits                                                                 0\n14 Foreign transactions                                                    0\n15 Charitable contributions                                               0\n16 Items affecting shareholder basis\n   a  Tax-exempt interest income                                           0\n   b  Other tax-exempt income                                              0\n   c  Nondeductible expenses                                               0\n   d  Distributions – cash and marketable securities                       0\n   e  Repayment of loans from shareholders                                0\n17 Other information                                                       0\n\n────────────────────────────────────────────────────────────────────────────────────\nStock and Debt Basis Limitations (for shareholder records)\n────────────────────────────────────────────────────────────────────────────────────\n   + Increase for income items (Lines 1 + 4 + 8a)                    $15,764\n   – Distributions and other reductions                                  0\n   = Net increase to stock basis this year                           $15,764\n\n   Type of income: Active Business Income\n   Foreign country or U.S. possession: N/A\n\n────────────────────────────────────────────────────────────────────────────────────\nPrepared by: Corporate Officer, Summit Filing Solutions, Inc.\nDate prepared: March 10, 2022\n\nThis is an exact substitute Schedule K-1 that matches the official K-1 filed with IRS Form 1120-S on March 15, 2022.\nRetain this copy with your permanent tax records.\n",
-      "quote_digest": "sha256:f1d64d9a1dece611d31aa2e615765f7f5d624e7a2f2187f67a5423b8bd939273",
+      "quote": "1.2\tUSAGE\n    (a) In this Agreement, unless expressly stated otherwise:\n        (i) the singular includes the plural and vice versa;\n        (ii) reference to any Person includes such Person’s successors and assigns, if applicable, but only if such successors and assigns are permitted by this Agreement, and reference to a Person in a particular capacity excludes such Person in any other capacity;\n        (iii) reference to a gender includes the other gender;\n        (iv) reference to any agreement, document, or instrument means such agreement, document, or instrument as amended or modified and in effect from time to time in accordance with its terms;\n        (v) reference to any Legal Requirement means that Legal Requirement as from time to time in effect, including any amendment, modification, codification, replacement, or reenactment of such Legal Requirement;\n        (vi) reference to any section or other provision of any Legal Requirement means that provision of such Legal Requirement as from time to time in effect, including any amendment, modification, codification, replacement, or reenactment of such section or other provision;\n        (vii) “hereunder,” “hereof,” “hereto,” and words of similar import refer to this Agreement as a whole and not to any particular Article, Section, or other provision of this Agreement;\n        (viii) “including” (and with correlative meaning “include”) means including without limiting the generality of any description preceding such term;\n        (ix) “or” is used in the inclusive sense of “and/or”;\n        (x) “any” means “any and all”;\n        (xi) with respect to the determination of any period of time, “from” means “from and including” and “to” means “to but excluding”;\n        (xii) a reference to a document, instrument, or agreement also refers to all addenda, exhibits, or schedules thereto;\n        (xiii) a reference to a “copy” or “copies” of any document, instrument, or agreement means a copy or copies that are complete and correct; and\n        (xiv) a reference to a list, or any like compilation (whether in the Disclosure Letter or elsewhere), means that the item referred to is complete and correct.\n    (b) Unless otherwise specified in this Agreement, all accounting terms used in this Agreement will be interpreted, and all accounting determinations under this Agreement will be made, in accordance with GAAP.\n    (c) This Agreement was negotiated by the parties with the benefit of legal representation, and any rule of construction or interpretation otherwise requiring this Agreement to be construed or interpreted\nagainst any party as having been drafted by it will not apply to any construction or interpretation of this Agreement.\n    (d) The headings contained in this Agreement are for convenience of reference only, shall not be deemed to be part of this Agreement, and shall not be referred to in connection with the construction or interpretation of this Agreement.\n\n\n\n\n    2. Sale and Transfer of Shares; Closing\n\n\n\n\n\n\n\n",
+      "quote_digest": "sha256:879e0df54e0af077c63184a3d4faea1345a8dfa0f8eaecf98a6169f3bb314940",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
-        "query": "Retrieve annual stock and debt basis workpapers for every shareholder, including acquisition basis, capital contributions, income/loss adjustments, distributions, stock transfers, and bona fide shareholder debt.",
+        "query": "Retrieve annual AAA, OAA, previously taxed income, and current/accumulated E&P schedules, including E&P carried from the 2018 C-corporation year and any post-termination C period.",
         "version": "1"
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
       "source": {
-        "content_digest": "sha256:6905583b8bc7c9f1603c05c9812218f05c51f1645010d840b935d64395c88269",
+        "content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
         "media_type": "text/plain",
-        "uri": "private://apex/6905583b8bc7c9f1-98258fea"
+        "uri": "private://apex/7beb28a6e0069669-d885dee3"
       }
     },
-    "retrieval_receipt_digest": "sha256:65f5f85b3d4735387169732b44366795046ade2c0e558f537a37f7083be941a6",
-    "source_content_digest": "sha256:6905583b8bc7c9f1603c05c9812218f05c51f1645010d840b935d64395c88269",
-    "source_digest": "sha256:ab5dafd2d9a8fa23d5db752ba46fe5273c2d06fa5187b5448824c497dbefdfe7",
-    "source_ref": "src_eabcca6c3b54fc3b"
+    "retrieval_receipt_digest": "sha256:2bccafd778ab14509d98db1434da01a86cead87ded3ae977c3a21111e88cb652",
+    "source_content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
+    "source_digest": "sha256:9b5e55c106d3b2c9d270455bb5af81e282a4e92f3ba0722f868b952faf8ff0b5",
+    "source_ref": "src_1cb20c6823882030"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_eabcca6c3b54fc3b",
-  "subject_ref": "evd_d81e7d50c1edec7a",
+  "source_ref": "src_1cb20c6823882030",
+  "subject_ref": "evd_3e8ae913cee712a4",
   "type": "evidence_bound"
 }
