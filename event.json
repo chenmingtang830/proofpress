@@ -1,25 +1,25 @@
 {
-  "created_at": "2026-08-30T19:16:01.230001Z",
-  "event_id": "ppe_945453f3b2e6fb0c",
+  "created_at": "2026-08-30T19:16:01.318431Z",
+  "event_id": "ppe_53673f4d37b96875",
   "evidence": {
-    "digest": "sha256:099d7cbb477df10dec81ec2e6d23a8c7404d78e54b84a7cada5d93be66876f36",
-    "id": "evd_4e3de922b320dcd5",
+    "digest": "sha256:62181fb1d08efa816528e43a703f4b07484dfa6bceeda6df7c72891345d789db",
+    "id": "evd_254cf420f9a03207",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:1bc0be6c25428a27a3aeb2ea633ba2ddb2a03c3facf8ffb39bc3b8273886a4b6",
+    "quote_digest": "sha256:36e194b6dd674390c5ef279b439569ba8ab03cde6d4332050d22410192cd75a5",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:1bc0be6c25428a27a3aeb2ea633ba2ddb2a03c3facf8ffb39bc3b8273886a4b6",
-        "section_id": "sec_f24502dd70e97ce6"
+        "section_digest": "sha256:36e194b6dd674390c5ef279b439569ba8ab03cde6d4332050d22410192cd75a5",
+        "section_id": "sec_9992bee43e6f3361"
       },
-      "quote": "        2.2 PURCHASE PRICE\nThe purchase price for the Shares (the “Purchase Price”) is  FOUR-MILLION TWO-HUNDRED FIFTY-THOUSAND dollars (U.S.$4,250,000.00), plus or minus the Adjustment Amount. At the Closing, Buyer shall deliver as payment on account of the Purchase Price: (a) THREE-MILLION EIGHT-HUNDRED TWENTY-FIVE THOUSAND dollars (U.S.$3,825,000) (the “Closing Payment”), which will be allocated among Sellers as set forth on Schedule 2.2, and which shall be paid by wire transfer to Sellers’ Representative pursuant to written wire transfer instructions delivered to Buyer by Sellers’ Representative at least three (3) Business Days prior to the Closing; (b) promissory notes executed by Buyer and payable to each Seller, in the principal amounts set forth on Schedule 2.2 (collectively, the “Promissory Notes”), in the form of Exhibit 2.2(b); and (c) FOUR-HUNDRED TWENTY-FIVE THOUSAND dollars (U.S.$425,000) paid by wire transfer to the Escrow Agent pursuant to the Escrow Agreement (the “Escrow Funds”). The Adjustment Amount shall be paid by Sellers or Buyer, as the case may be, in accordance with Section 2.5.\n",
-      "quote_digest": "sha256:1bc0be6c25428a27a3aeb2ea633ba2ddb2a03c3facf8ffb39bc3b8273886a4b6",
+      "quote": "        12.7 ENTIRE AGREEMENT\nThis Agreement supersedes all prior agreements, whether written or oral, between the parties with respect to its subject matter (including any letter of intent and, upon the Closing, any confidentiality obligation to which Buyer is subject) and constitutes (along with the Disclosure Letter, the exhibits, and the other documents to be delivered pursuant to this Agreement) a complete and exclusive statement of the terms of the agreement between the parties with respect to the subject matter of this Agreement.\n",
+      "quote_digest": "sha256:36e194b6dd674390c5ef279b439569ba8ab03cde6d4332050d22410192cd75a5",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
-        "query": "Retrieve the 2018 deed and closing statement, purchase accounting, invoices for the $250,000 buildout, fixed-asset ledger, cost-segregation records, depreciation schedules, and land/building allocation.",
+        "query": "Retrieve the June 20, 2022 deed, settlement statement, Form 1099-S, sale agreement, selling-cost detail, debt and prorations, asset-value allocation, and any installment-sale or Section 1031 documents.",
         "version": "1"
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
@@ -29,13 +29,13 @@
         "uri": "private://apex/7beb28a6e0069669-d885dee3"
       }
     },
-    "retrieval_receipt_digest": "sha256:436f099ed60d6bfededea13a6345918c3ed8a830025bff2b1f905e96845bbbf6",
+    "retrieval_receipt_digest": "sha256:81d599e3f4ab720d2b71ceff5f3531c867515b2734ed028727d26c51d7a03343",
     "source_content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
     "source_digest": "sha256:9b5e55c106d3b2c9d270455bb5af81e282a4e92f3ba0722f868b952faf8ff0b5",
     "source_ref": "src_1cb20c6823882030"
   },
   "schema_version": "proofpress/knowledge-event/v2",
   "source_ref": "src_1cb20c6823882030",
-  "subject_ref": "evd_4e3de922b320dcd5",
+  "subject_ref": "evd_254cf420f9a03207",
   "type": "evidence_bound"
 }
