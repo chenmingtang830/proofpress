@@ -1,41 +1,15 @@
 {
-  "created_at": "2026-08-30T19:16:16.185014Z",
-  "event_id": "ppe_bcb0f4dc53997952",
-  "evidence": {
-    "digest": "sha256:6cc931b2ef3b43c82cfec2d98c16b913c695a8eb22ea72c0be10379de896922b",
-    "id": "evd_3532b789be132f52",
-    "kind": "retrieval_evidence",
-    "quote_digest": "sha256:d652f02025e5dc963eb504fc0ce8c4ed71e067ba0ab731369f12dbbd45d63997",
-    "retrieval_receipt": {
-      "locator": {
-        "kind": "section_span",
-        "page_end": 1,
-        "page_start": 1,
-        "section_digest": "sha256:d652f02025e5dc963eb504fc0ce8c4ed71e067ba0ab731369f12dbbd45d63997",
-        "section_id": "sec_06381120fa88d445"
-      },
-      "quote": "EXECUTIVE SUMMARY\nSummit Filing Solutions, Inc. (“Summit”) elected S‑Corporation status effective January 1, 2019. Form 2553, Election by a Small Business Corporation, was filed on March 22, 2022, and the IRS issued a CP261 notice confirming approval of the S-Corporation election on the identified effective date. The state of formation is Delaware and will rely on DE law and federal law, where applicable. Based on the governing documents, historical shareholder schedules, tax filings, distribution data, and capitalization tables provided, Summit faces several material risks that may compromise or retroactively invalidate its S‑Corporation election.\nUnder the instruction to classify any category with missing documentation as HIGH RISK where applicable, three categories rise to the highest level of severity: (1) Nonresident Alien Shareholder, (2) Debt–Equity Characterization, and (3) Pro Rata Distribution Compliance.\n",
-      "quote_digest": "sha256:d652f02025e5dc963eb504fc0ce8c4ed71e067ba0ab731369f12dbbd45d63997",
-      "retrieval": {
-        "adapter": "bm25-page",
-        "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
-        "query": "\"Treasury Regulation\" \"1.1362-6(b)\" \"26 CFR 1.1362-6(b)\" \"1362-6(b)\" election",
-        "version": "1"
-      },
-      "schema_version": "proofpress/retrieval-evidence/v1",
-      "source": {
-        "content_digest": "sha256:e7eb786dc671298aa9426792d523f0ec997bee3a570763a8b10f13a1644fc105",
-        "media_type": "text/plain",
-        "uri": "private://apex/e7eb786dc671298a-1d2051f2"
-      }
-    },
-    "retrieval_receipt_digest": "sha256:d0a00958520de030996d1416fd3b57b8637922f497d0469a25e7cc7512ac9672",
-    "source_content_digest": "sha256:e7eb786dc671298aa9426792d523f0ec997bee3a570763a8b10f13a1644fc105",
-    "source_digest": "sha256:bbebf48c1f9dee4d30677c0c93c00e3eb349758e8e8a6eac5acafa2f8650d491",
-    "source_ref": "src_e9b083e75ca5f18f"
+  "created_at": "2026-08-30T19:16:16.259130Z",
+  "event_id": "ppe_ce5570eb4e7f96b3",
+  "record": {
+    "content_digest": "sha256:763b540a616086edcecf3a87d5edf98dff1e05704299a9736a42a918435cd4d3",
+    "id": "src_127dc512c8fae24b",
+    "kind": "retrieval_source",
+    "media_type": "application/pdf",
+    "record_hash": "sha256:710da86265ba6ccc9fda04ba9470388e59b91336b1511b9987d3b5828d623bdc",
+    "uri": "private://apex/763b540a616086ed-755262e0"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_e9b083e75ca5f18f",
-  "subject_ref": "evd_3532b789be132f52",
-  "type": "evidence_bound"
+  "subject_ref": "src_127dc512c8fae24b",
+  "type": "source_recorded"
 }
