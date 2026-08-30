@@ -1,41 +1,41 @@
 {
-  "created_at": "2026-08-30T19:16:43.416167Z",
-  "event_id": "ppe_5451b352dcdf8713",
+  "created_at": "2026-08-30T19:16:43.567728Z",
+  "event_id": "ppe_729c101784d66347",
   "evidence": {
-    "digest": "sha256:9a7fbd2b08b97146f338bd23cb7314bacde87be5f15ea6eb87e8e63a20d477c9",
-    "id": "evd_21b15ff6937b6294",
+    "digest": "sha256:385c6abe11be00a58079b1b759c302b3b29202d71175ef95d2b14889696f4873",
+    "id": "evd_002c369eaaaf1f34",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:9cc4eccb50623883bf18fa0efb3f522e5ba92b98a19b5604306465d4df3dacba",
+    "quote_digest": "sha256:2a0ffa11d788659e43e2ba3716f5114baf5168510dd759cc965158e78400b2d2",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:9cc4eccb50623883bf18fa0efb3f522e5ba92b98a19b5604306465d4df3dacba",
-        "section_id": "sec_ead07852b0cf02c9"
+        "section_digest": "sha256:2a0ffa11d788659e43e2ba3716f5114baf5168510dd759cc965158e78400b2d2",
+        "section_id": "sec_c541d8a890227b4c"
       },
-      "quote": "III. RECOMMENDED CORRECTIVE ACTIONS\n1. File a §1362(f) inadvertent termination relief request to address the 2022 transfer to an ineligible shareholder.\n2. Prepare and adopt a multi‑year distribution true‑up to restore pro rata compliance.\n3. Reissue corrected K‑1s for all years lacking complete ownership data.\n4. Reconstruct the stock ledger and consolidate all versions into a single authoritative record.\n5. Produce (or confirm absence of) all shareholder loan documentation. If none exist, obtain written certifications.\n6. Strengthen compliance and governance controls, including resolutions affirming S‑status compliance requirements.\n\n",
-      "quote_digest": "sha256:9cc4eccb50623883bf18fa0efb3f522e5ba92b98a19b5604306465d4df3dacba",
+      "quote": "        5.3 FILINGS AND NOTIFICATIONS; COOPERATION\nAs promptly as practicable after the date of this Agreement, and in any event within the applicable time period prescribed by Legal Requirements, each Seller shall, and shall cause each Acquired Company and each of their Related Persons to, make all filings and notifications required by Legal Requirements to be made by them in connection with the Contemplated Transactions (including all filings under the HSR Act). Each Seller shall, and shall cause each Acquired Company and each of their Related Persons to, cooperate with Buyer, its Related Persons, and their respective Representatives (a) with respect to all filings and notifications that Buyer or its Related Persons elect to make or shall be required by Legal Requirements to make in connection with the Contemplated Transactions, (b) in identifying and obtaining the Governmental Authorizations required by Buyer to own and operate each Acquired Company from and after the Closing Date, and (c) in obtaining all Consents identified in Exhibit 9.4 (including taking all actions requested by Buyer to cause early termination of any applicable waiting period under the HSR Act).\n",
+      "quote_digest": "sha256:2a0ffa11d788659e43e2ba3716f5114baf5168510dd759cc965158e78400b2d2",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
-        "query": "Retrieve IRC §§1361(b)(1)(C), 1362(d)(2), and 1362(e), plus relevant regulations, addressing termination date and allocation between S and C short years.",
+        "query": "Retrieve IRC §1362(g) and related guidance concerning the five-year re-election bar, computation of the fifth taxable year, and IRS consent.",
         "version": "1"
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
       "source": {
-        "content_digest": "sha256:e7eb786dc671298aa9426792d523f0ec997bee3a570763a8b10f13a1644fc105",
+        "content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
         "media_type": "text/plain",
-        "uri": "private://apex/e7eb786dc671298a-1d2051f2"
+        "uri": "private://apex/7beb28a6e0069669-d885dee3"
       }
     },
-    "retrieval_receipt_digest": "sha256:3e0b84582e4da844ab4e3a2e0897878a303b0eb023b2afdc94f5bb10dae168c3",
-    "source_content_digest": "sha256:e7eb786dc671298aa9426792d523f0ec997bee3a570763a8b10f13a1644fc105",
-    "source_digest": "sha256:bbebf48c1f9dee4d30677c0c93c00e3eb349758e8e8a6eac5acafa2f8650d491",
-    "source_ref": "src_e9b083e75ca5f18f"
+    "retrieval_receipt_digest": "sha256:94029ba64f31819cb1ab9da55ffa01c3e98ea9dad8e80b9440dc4581eeb1236b",
+    "source_content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
+    "source_digest": "sha256:9b5e55c106d3b2c9d270455bb5af81e282a4e92f3ba0722f868b952faf8ff0b5",
+    "source_ref": "src_1cb20c6823882030"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_e9b083e75ca5f18f",
-  "subject_ref": "evd_21b15ff6937b6294",
+  "source_ref": "src_1cb20c6823882030",
+  "subject_ref": "evd_002c369eaaaf1f34",
   "type": "evidence_bound"
 }
