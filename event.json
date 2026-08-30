@@ -1,28 +1,18 @@
 {
-  "conclusion": {
-    "allowed_actors": [
-      "*"
-    ],
-    "artifact_refs": [],
-    "created_at": "2026-08-30T19:17:22.943739Z",
-    "digest": "sha256:35211fe731ecb5bcb22a24ac5424695b93daedeadc0e47a0a267b272221ce372",
-    "evidence_refs": [
-      "evd_8342c3641bd89350",
-      "evd_89ff0ad8c5ecf4dc",
-      "evd_e6e4b20819c61119",
-      "evd_ed633b7c81963ee3"
-    ],
-    "expires_at": null,
-    "id": "knw_6856f9acad03eec3",
-    "kind": "conclusion",
-    "proposer": "agent:v8-constructor",
-    "qualifiers": {},
-    "scope": "task_11893dcabbe34b0aa991516dfe7edcba",
-    "statement": "The cited evidence does not show Summit’s actual distribution amounts being tested against shareholder basis and applicable distribution-ordering rules, so compliance is not established by these materials."
+  "checks": {
+    "evidence_integrity": true,
+    "evidence_present": true,
+    "not_expired": true,
+    "not_superseded": true,
+    "retrieval_receipts": true,
+    "scope_present": true
   },
-  "created_at": "2026-08-30T19:17:23.032965Z",
-  "event_id": "ppe_341b26720670239c",
+  "conclusion_digest": "sha256:35211fe731ecb5bcb22a24ac5424695b93daedeadc0e47a0a267b272221ce372",
+  "created_at": "2026-08-30T19:17:23.242482Z",
+  "eligible": true,
+  "event_id": "ppe_218787cb01963fe8",
+  "policy_digest": "sha256:cde050fdc0b2869fecf8ee9d24dee964fc3bbc18e6b489da2e08e7c3df266501",
   "schema_version": "proofpress/knowledge-event/v2",
   "subject_ref": "knw_6856f9acad03eec3",
-  "type": "conclusion_proposed"
+  "type": "policy_evaluated"
 }
