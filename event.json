@@ -1,21 +1,21 @@
 {
-  "created_at": "2026-08-30T19:16:17.848678Z",
-  "event_id": "ppe_a19183711857a36c",
+  "created_at": "2026-08-30T19:16:17.971200Z",
+  "event_id": "ppe_afd1eb2e5b30c015",
   "evidence": {
-    "digest": "sha256:e6060871cc66ffe153c5908ceb843dd86a59d4319d762d3e52094a5fc72fa55b",
-    "id": "evd_0cebe9ec8794b992",
+    "digest": "sha256:eb33323651cb5dc34dc34b7b905af6c827619f14bb2392dd7a3c6d0dbb5fa0cd",
+    "id": "evd_689805f9cfb53e19",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:187f0913e1e07a78be2f281041d93822daf7a20abf3ae9a77aeda88ecf61e089",
+    "quote_digest": "sha256:d1f533ebff349d370ac35bbf52b9e20640638e17585ce138503cb19ce403433e",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:187f0913e1e07a78be2f281041d93822daf7a20abf3ae9a77aeda88ecf61e089",
-        "section_id": "sec_2458f9b7d563937c"
+        "section_digest": "sha256:d1f533ebff349d370ac35bbf52b9e20640638e17585ce138503cb19ce403433e",
+        "section_id": "sec_e638353d0b6848ef"
       },
-      "quote": "﻿\nThis guide presents a comprehensive outline for a tax diligence memorandum focused on S-election risks and exposure. This structure is designed to guide a detailed analysis, ensuring all critical aspects of S-corporation status, qualification, and potential pitfalls are addressed.\n\nTax Diligence Memorandum Outline: S-Election Risks and Exposure\nI. Introduction\n    • Purpose of Memorandum \n        ◦ Scope of review (e.g., acquisition, investment, internal compliance)\n        ◦ Summary of target entity and transaction context\n    • Executive Summary \n        ◦ Key findings and recommendations\nII. Overview of S-Corporation Status\n    • Definition and Benefits of S-Corporation Election\n    • Summary of S-Election Requirements (IRC §1361, §1362) \n        ◦ Eligible entities\n        ◦ Shareholder requirements\n        ◦ Stock requirements\n        ◦ Election process and timing\nIII. S-Election Qualification Review\n    • Entity Eligibility \n        ◦ Domestic corporation status\n        ◦ Ineligible entity types (e.g., certain financial institutions, insurance companies)\n    • Shareholder Eligibility \n        ◦ Permitted shareholders (individuals, certain trusts, estates)\n        ◦ Prohibited shareholders (nonresident aliens, partnerships, corporations)\n        ◦ Number of shareholders (100-shareholder limit)\n    • Stock Structure \n        ◦ Single class of stock requirement\n        ◦ Review of equity instruments (convertibles, options, warrants, debt instruments)\n    • Election Process \n        ◦ Timeliness and validity of Form 2553 filing\n        ◦ Unanimous shareholder consent\nIV. Historical Compliance and Maintenance of S-Status\n    • Review of Corporate Records \n        ◦ Articles of incorporation, bylaws, shareholder agreements\n        ◦ Stock ledgers and transfer records\n    • Prior and Ongoing Compliance \n        ◦ Changes in ownership or structure\n        ◦ Issuance of new equity or debt\n        ◦ Distributions and redemptions\n    • Potential Inadvertent Terminations \n        ◦ Violations of eligibility requirements\n        ◦ Issuance of a second class of stock\n        ◦ Nonresident alien shareholders\n        ◦ Late or defective elections\nV. Tax Exposure and Risk Assessment\n    • Consequences of S-Status Termination \n        ◦ Reversion to C-corporation status\n        ◦ Built-in gains tax exposure\n        ◦ Loss of pass-through treatment\n    • Potential IRS Challenges \n        ◦ Audit risk factors\n        ◦ Prior IRS correspondence or examinations\n    • State and Local Tax Considerations \n        ◦ Conformity with federal S-election\n        ◦ Separate state-level S-election requirements\nVI. Remediation and Corrective Actions\n    • IRS Relief for Inadvertent Terminations (IRC §1362(f)) \n        ◦ Eligibility for relief\n        ◦ Required corrective actions and filings\n    • Prospective Risk Mitigation \n        ◦ Recommendations for ongoing compliance\n        ◦ Shareholder and entity agreement amendments\nVII. Transaction-Specific Considerations\n    • Impact on Proposed Transaction \n        ◦ Change of control implications\n        ◦ Section 338(h)(10) or Section 336(e) elections\n        ◦ Buyer and seller indemnities\n    • Representations and Warranties \n        ◦ Drafting considerations for purchase agreements\nVIII. Conclusion and Recommendations\n    • Summary of Key Risks\n    • Recommended Next Steps\n    • Open Issues for Further Diligence\nIX. Exhibits and Supporting Documentation\n    • Checklist of S-Election Requirements\n    • Sample Forms and Filings\n    • Summary Table of Identified Risks\n\n",
-      "quote_digest": "sha256:187f0913e1e07a78be2f281041d93822daf7a20abf3ae9a77aeda88ecf61e089",
+      "quote": "﻿SCHEDULE K-1 (Form 1120-S)                                                     2024\nDepartment of the Treasury • Internal Revenue Service                          OMB No. 1545-0123\n\nShareholder’s Share of Income, Deductions, Credits, etc.                       For calendar year 2024\n\n────────────────────────────────────────────────────────────────────────────────────\nPart I ─ Information About the Corporation\n────────────────────────────────────────────────────────────────────────────────────\nA  Corporation’s employer identification number                       12-3456789\nB  Corporation’s name, address, city, state, and ZIP code\n       Summit Filing Solutions, Inc.\n       8280 Willow Oaks Corporate Dr\n       Los Angeles, CA  90001\nC  IRS center where corporation filed return                               Ogden, UT\n\n────────────────────────────────────────────────────────────────────────────────────\nPart II ─ Information About the Shareholder\n────────────────────────────────────────────────────────────────────────────────────\nD  Shareholder’s identifying number                                    111-11-1111\nE  Shareholder’s name, address, city, state, and ZIP code\n       Laura Kensington\n       4428 Willow Bend Ct.\n       Olympia, WA  98502\nF  Shareholder’s percentage of stock ownership\n       Beginning of tax year   26%                 End of tax year   26%\n\n────────────────────────────────────────────────────────────────────────────────────\nPart III ─ Shareholder’s Share of Current Year Income, Deductions, Credits, etc.\n────────────────────────────────────────────────────────────────────────────────────\n1  Ordinary business income (loss)                                   $86,892\n2  Net rental real estate income (loss)                                    0\n3  Other net rental income (loss)                                          0\n4  Interest income                                                     $234\n5a Ordinary dividends                                                      0\n5b Qualified dividends                                                     0\n6  Royalties                                                               0\n7  Net short-term capital gain (loss)                                      0\n8a Net long-term capital gain (loss)                                  ($130)\n8b Collectibles (28%) gain (loss)                                          0\n8c Unrecaptured section 1250 gain                                          0\n9  Net section 1231 gain (loss)                                            0\n10 Other income (loss)                                                     0\n\n11 Section 179 deduction                                                   0\n12 Other deductions                                                        0\n13 Credits                                                                 0\n14 Foreign transactions                                                    0\n15 Charitable contributions                                               0\n16 Items affecting shareholder basis\n   a  Tax-exempt interest income                                           0\n   b  Other tax-exempt income                                              0\n   c  Nondeductible expenses                                               0\n   d  Distributions – cash and marketable securities                       0\n   e  Repayment of loans from shareholders                                0\n17 Other information                                                       0\n\n────────────────────────────────────────────────────────────────────────────────────\nStock and Debt Basis Limitations (for shareholder records)\n────────────────────────────────────────────────────────────────────────────────────\n   Beginning stock basis (per shareholder records)                [to be calculated]\n   + Increase for income items (Lines 1 + 4)                         $87,126\n   – Decrease for loss items (Line 8a)                                  ($130)\n   – Distributions and other reductions                                  0\n   = Net increase to stock basis this year                           $86,996\n\n   Type of income: Active Business Income\n   Foreign country or U.S. possession: N/A\n\n────────────────────────────────────────────────────────────────────────────────────\nPrepared by: Corporate Officer, Summit Filing Solutions, Inc.\nDate prepared: March 10, 2025\n\nThis is an exact substitute Schedule K-1 that matches the official K-1 filed with IRS Form 1120-S on March 15, 2025.\nRetain this copy with your permanent tax records.\n",
+      "quote_digest": "sha256:d1f533ebff349d370ac35bbf52b9e20640638e17585ce138503cb19ce403433e",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
@@ -24,18 +24,18 @@
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
       "source": {
-        "content_digest": "sha256:971095c9beaecfbca22e492ead1964eebed8e323a4acc6860e342a14675d71f9",
+        "content_digest": "sha256:e39cda443bfd47413b263dcc477cb2fd74c8ae8628a7f4734ca9ab6e27e5d2db",
         "media_type": "text/plain",
-        "uri": "private://apex/971095c9beaecfbc-e5e13b9a"
+        "uri": "private://apex/e39cda443bfd4741-2a741f55"
       }
     },
-    "retrieval_receipt_digest": "sha256:8d15ad26ca647027567996e619fe6a74e632d495207a4bc56b753500dae8fd49",
-    "source_content_digest": "sha256:971095c9beaecfbca22e492ead1964eebed8e323a4acc6860e342a14675d71f9",
-    "source_digest": "sha256:c395d125198aa3806cf5683421fda35b5901198756b648bfc91d2149b16c40e2",
-    "source_ref": "src_2dc5a381a5b5c028"
+    "retrieval_receipt_digest": "sha256:2db7580d0ac15f2d6ff35f289bc0f17de2469641e80d6668b07a96f8cef3a01a",
+    "source_content_digest": "sha256:e39cda443bfd47413b263dcc477cb2fd74c8ae8628a7f4734ca9ab6e27e5d2db",
+    "source_digest": "sha256:d04034d8b7596bc03df5d77e3a95fe1c4db690725591010b9d28d8912f06a30b",
+    "source_ref": "src_217447f65edc93c2"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_2dc5a381a5b5c028",
-  "subject_ref": "evd_0cebe9ec8794b992",
+  "source_ref": "src_217447f65edc93c2",
+  "subject_ref": "evd_689805f9cfb53e19",
   "type": "evidence_bound"
 }
