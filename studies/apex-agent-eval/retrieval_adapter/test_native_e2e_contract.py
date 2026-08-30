@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 import unittest
 
-from native_e2e_contract import (EXPECTED_OUTPUTS, native_completion_failures,
-                                 native_denominators, validate_task_panel)
+from native_e2e_contract import (EXPECTED_OUTPUTS, inconclusive_cell, native_completion_failures,
+                                 native_denominators, native_output_breakdown, validate_task_panel)
 
 
 class NativeE2EContractTests(unittest.TestCase):
@@ -29,6 +29,27 @@ class NativeE2EContractTests(unittest.TestCase):
         cells[-1]["status"] = "inconclusive"
         failures = native_completion_failures(tasks, ("a", "b"), 1, cells)
         self.assertEqual(len(failures), 2)
+
+    def test_inconclusive_cell_records_stage_without_raw_error(self):
+        row = inconclusive_cell("native_artifact_materialization", "materialization failed",
+                                ValueError("private source path"), task_id="task-1")
+        self.assertEqual(row["status"], "inconclusive")
+        self.assertEqual(row["failure_stage"], "native_artifact_materialization")
+        self.assertEqual(row["failure_type"], "ValueError")
+        self.assertTrue(row["failure_digest"].startswith("sha256:"))
+        self.assertNotIn("private source path", str(row))
+
+    def test_output_breakdown_preserves_native_output_denominators(self):
+        tasks = [{"task_id": "a", "expected_output": "message_in_console"},
+                 {"task_id": "b", "expected_output": "make_new_doc"}]
+        cells = [{"task_id": task_id, "condition": "projection", "executor_model": "model",
+                  "status": "scored", "rubric_fraction": score, "unsupported_claims": 0,
+                  "citation_errors": 0, "authority_errors": 0, "context_token_upper_bound": 10}
+                 for task_id, score in (("a", .25), ("b", .75))]
+        rows = native_output_breakdown(tasks, cells)
+        self.assertEqual([row["scored_tasks"] for row in rows], [1, 1])
+        self.assertEqual({row["expected_output"] for row in rows},
+                         {"message_in_console", "make_new_doc"})
 
 
 if __name__ == "__main__":

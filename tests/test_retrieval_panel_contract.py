@@ -63,6 +63,15 @@ class RetrievalPanelContractTests(unittest.TestCase):
         self.assertEqual(agentic_disclosure.OPEN_LOOP_INITIAL_DEPTH, 1)
         self.assertEqual(agentic_disclosure.STATIC_OPEN_LOOP_STATE_TOKEN_UPPER_BOUND, 32_000)
 
+    def test_native_projection_matrix_freezes_only_small_seed_as_tool_agent(self):
+        self.assertEqual(workflow_runner.NATIVE_PROJECTION_CONDITIONS, (
+            "v16-governed-rag", "v16-small-seed-open-loop",
+            "v16-claim-plus-source-projection"))
+        self.assertIn("v16-small-seed-open-loop", workflow_runner.AGENTIC_TOOL_CONDITIONS)
+        self.assertNotIn("v16-governed-rag", workflow_runner.AGENTIC_TOOL_CONDITIONS)
+        self.assertNotIn("v16-claim-plus-source-projection",
+                         workflow_runner.AGENTIC_TOOL_CONDITIONS)
+
     def test_agentic_disclosure_host_executes_bounded_model_choices(self):
         original_initial = agentic_disclosure.initial_context
         original_traverse = agentic_disclosure.traverse_graph

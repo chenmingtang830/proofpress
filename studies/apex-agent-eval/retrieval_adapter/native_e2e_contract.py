@@ -3,12 +3,26 @@
 from __future__ import annotations
 
 from collections import Counter
+import hashlib
+import statistics
 from typing import Any, Iterable
 
 
 SCHEMA_VERSION = "proofpress/private-apex-legal-native-e2e/v1"
 EXPECTED_OUTPUTS = ("message_in_console", "make_new_doc", "edit_existing_doc")
 FORMAL_TASK_COUNT = 12
+
+
+def inconclusive_cell(stage: str, reason: str, exc: BaseException | None = None,
+                      **fields: Any) -> dict[str, Any]:
+    """Return a stable, non-scoring failure record without leaking raw private data."""
+    row = {**fields, "status": "inconclusive", "reason": reason,
+           "failure_stage": stage}
+    if exc is not None:
+        detail = str(exc)
+        row.update({"failure_type": type(exc).__name__,
+                    "failure_digest": "sha256:" + hashlib.sha256(detail.encode()).hexdigest()})
+    return row
 
 
 def output_type_counts(task_rows: Iterable[dict[str, Any]]) -> dict[str, int]:
@@ -51,6 +65,25 @@ def native_denominators(task_rows: list[dict[str, Any]], conditions: Iterable[st
             "output_type_task_counts": output_type_counts(task_rows),
             "condition_count": condition_count, "executor_count": executor_count,
             "scored_cells": scored, "inconclusive_cells": len(cells) - scored}
+
+
+def native_output_breakdown(task_rows: list[dict[str, Any]],
+                            cells: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    """Expose task-quality and governance metrics without hiding 6/5/1 output mix."""
+    output_by_task = {str(row["task_id"]): str(row["expected_output"]) for row in task_rows}
+    groups: dict[tuple[str, str, str], list[dict[str, Any]]] = {}
+    for cell in cells:
+        if cell.get("status") != "scored" or str(cell.get("task_id")) not in output_by_task:
+            continue
+        key = (str(cell.get("executor_model")), str(cell.get("condition")),
+               output_by_task[str(cell["task_id"])])
+        groups.setdefault(key, []).append(cell)
+    metrics = ("rubric_fraction", "unsupported_claims", "citation_errors",
+               "authority_errors", "context_token_upper_bound")
+    return [{"executor_model": model, "condition": condition,
+             "expected_output": expected_output, "scored_tasks": len(rows),
+             **{key: statistics.mean(float(row[key]) for row in rows) for key in metrics}}
+            for (model, condition, expected_output), rows in sorted(groups.items())]
 
 
 def native_completion_failures(task_rows: list[dict[str, Any]], conditions: Iterable[str],

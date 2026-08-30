@@ -57,12 +57,19 @@ PROGRESSIVE_CONDITIONS = ("pr36-v7-prefetched-context", "v11-preserved-claim-gra
                           "v11-full-claim-graph-control")
 V15_RAG_CONDITION = "v15-rag-baseline"
 V15_STATIC_AGENTIC_CONDITION = "v15-static-open-loop-agentic"
+V16_GOVERNED_RAG_CONDITION = "v16-governed-rag"
+V16_SMALL_SEED_CONDITION = "v16-small-seed-open-loop"
+V16_CLAIM_SOURCE_CONDITION = "v16-claim-plus-source-projection"
+NATIVE_PROJECTION_CONDITIONS = (V16_GOVERNED_RAG_CONDITION, V16_SMALL_SEED_CONDITION,
+                                V16_CLAIM_SOURCE_CONDITION)
 AGENTIC_CONDITIONS = (V15_RAG_CONDITION, V15_STATIC_AGENTIC_CONDITION)
 ALLOWED_AGENTIC_CONDITIONS = ("v12-full-claim-graph-control", "v12-static-disclosure-baseline",
-                              "v14-agentic-open-loop", *AGENTIC_CONDITIONS)
+                              "v14-agentic-open-loop", *AGENTIC_CONDITIONS,
+                              *NATIVE_PROJECTION_CONDITIONS)
 LEGACY_AGENTIC_CONDITION = "v12.1-agentic-disclosure-finalize"
 AGENTIC_CONDITION = V15_STATIC_AGENTIC_CONDITION
-AGENTIC_TOOL_CONDITIONS = {"v14-agentic-open-loop", V15_STATIC_AGENTIC_CONDITION}
+AGENTIC_TOOL_CONDITIONS = {"v14-agentic-open-loop", V15_STATIC_AGENTIC_CONDITION,
+                           V16_SMALL_SEED_CONDITION}
 AGENTIC_READY_STOPS = {"executor_ready", "executor_ready_cycle_guard_finalization",
                        "executor_ready_context_guard_finalization",
                        "executor_ready_wall_guard_finalization"}
@@ -801,6 +808,9 @@ def paired_workflow_comparisons(cells: list[dict[str, Any]],
         ] + [
             ("v12-static-disclosure-baseline", "v12-full-claim-graph-control"),
             (V15_STATIC_AGENTIC_CONDITION, V15_RAG_CONDITION),
+            (V16_SMALL_SEED_CONDITION, V16_GOVERNED_RAG_CONDITION),
+            (V16_CLAIM_SOURCE_CONDITION, V16_GOVERNED_RAG_CONDITION),
+            (V16_SMALL_SEED_CONDITION, V16_CLAIM_SOURCE_CONDITION),
         ]
         for treatment, baseline in comparison_pairs:
             unit_ids = sorted({unit_id for unit_id, condition in model_cells if condition == treatment}
@@ -959,7 +969,7 @@ def main() -> None:
         if native_panel_gate["status"] != "pass":
             raise ValueError("native task panel gate failed: " + json.dumps(native_panel_gate["failures"], sort_keys=True))
     qualification_ask_ids: set[str] | None = None
-    if args.agentic_only and args.qualification_only:
+    if args.agentic_only and args.qualification_only and not args.native_e2e:
         selected_by_category: dict[str, str] = {}
         for row in asks_manifest.get("asks", []):
             if row.get("task_id") in task_ids:
@@ -969,7 +979,7 @@ def main() -> None:
             raise ValueError("agentic qualification lacks one ask for every frozen behavior category")
         qualification_ask_ids = {selected_by_category[key] for key in sorted(required_categories)}
     evaluation_unit_count = len(task_ids)
-    if args.agentic_only:
+    if args.agentic_only and not args.native_e2e:
         evaluation_unit_count = (len(qualification_ask_ids) if qualification_ask_ids is not None else
                                  sum(row.get("task_id") in task_ids for row in asks_manifest.get("asks", [])))
     previous = Path.cwd()
@@ -1000,15 +1010,21 @@ def main() -> None:
                 elif args.qualification_only:
                     asks = asks[:max(1, args.qualification_max_asks)]
                 fallback_ask = {"ask_id": f"{task_id}-task", "query": graph["task"]["prompt"]}
-                units = [([ask], ask["ask_id"]) for ask in asks] if args.agentic_only else [(asks or [fallback_ask], task_id)]
+                units = ([([ask], ask["ask_id"]) for ask in asks]
+                         if args.agentic_only and not args.native_e2e
+                         else [(asks or [fallback_ask], task_id)])
                 for unit_asks, unit_id in units:
+                    requested_contexts = ({"v11-full-claim-graph-control",
+                                           "v11-preserved-claim-graph-only",
+                                           "full-catalog-bm25-prefetch"}
+                                          if args.agentic_only else set(active_conditions))
+                    if V16_CLAIM_SOURCE_CONDITION in active_conditions:
+                        requested_contexts.add("v11-preserved-graph-plus-global-bm25")
                     contexts, context_tokens, events, pi_cost, disclosure_stats = build_contexts(
                         graph, unit_asks, catalog, sidecar, pageindex_gateway_server, workspace,
                         out / "workflow-pageindex-gateway-receipts.jsonl",
                         silver_by_task.get(task_id) if silver_by_task is not None else None,
-                        ({"v11-full-claim-graph-control", "v11-preserved-claim-graph-only",
-                          "full-catalog-bm25-prefetch"}
-                         if args.agentic_only else set(active_conditions)))
+                        requested_contexts)
                     if args.agentic_only:
                         contexts["v12-full-claim-graph-control"] = contexts["v11-full-claim-graph-control"]
                         context_tokens["v12-full-claim-graph-control"] = context_tokens["v11-full-claim-graph-control"]
@@ -1020,6 +1036,13 @@ def main() -> None:
                         context_tokens[V15_RAG_CONDITION] = context_tokens["full-catalog-bm25-prefetch"]
                         contexts[V15_STATIC_AGENTIC_CONDITION] = "agentic-host-tools/v3-static-open-loop"
                         context_tokens[V15_STATIC_AGENTIC_CONDITION] = 0
+                        contexts[V16_GOVERNED_RAG_CONDITION] = contexts["v11-preserved-claim-graph-only"]
+                        context_tokens[V16_GOVERNED_RAG_CONDITION] = context_tokens["v11-preserved-claim-graph-only"]
+                        contexts[V16_SMALL_SEED_CONDITION] = "agentic-host-tools/v4-small-seed-open-loop"
+                        context_tokens[V16_SMALL_SEED_CONDITION] = 0
+                        if V16_CLAIM_SOURCE_CONDITION in active_conditions:
+                            contexts[V16_CLAIM_SOURCE_CONDITION] = contexts["v11-preserved-graph-plus-global-bm25"]
+                            context_tokens[V16_CLAIM_SOURCE_CONDITION] = context_tokens["v11-preserved-graph-plus-global-bm25"]
                     disclosure_telemetry.append({
                         "task_id": task_id, "evaluation_unit_id": unit_id,
                         "staged_relation_diagnostics": relation_diagnostics,
@@ -1063,6 +1086,7 @@ def main() -> None:
                                                reasoning, max_output_tokens, unit_id))
 
             def run_cell(item: tuple[Any, ...]) -> dict[str, Any]:
+                from native_e2e_contract import inconclusive_cell
                 task_id, graph, asks, condition, context, tokens, model, provider, role, reasoning, max_output_tokens, unit_id = item
                 cell = {"task_id": task_id, "ask_id": unit_id, "condition": condition, "executor_model": model,
                         "executor_provider": provider, "executor_role": role,
@@ -1158,7 +1182,10 @@ def main() -> None:
                         NATIVE_DOCUMENT_SCHEMA if native_doc else EXECUTOR_SCHEMA,
                         "proofpress_native_legal_document" if native_doc else "proofpress_legal_workflow_artifact")
                     if not generated["ok"]:
-                        cell.update({"status": "inconclusive", "reason": "executor call failed closed"})
+                        record = generated.get("record", {})
+                        cell.update(inconclusive_cell(
+                            "executor_structured_output", "executor call failed closed",
+                            provider_error_type=str(record.get("error_type") or "unknown")))
                         return cell
                     artifact = generated["value"]
                     cell["executor_reused"] = False
@@ -1170,16 +1197,28 @@ def main() -> None:
                     docx_path = raw_out / docx_name
                     source = Path(args.native_edit_source).resolve() if expected_output == "edit_existing_doc" and args.native_edit_source else None
                     if expected_output == "edit_existing_doc" and (source is None or not source.is_file()):
-                        cell.update({"status": "inconclusive", "reason": "protected edit source unavailable"})
+                        cell.update(inconclusive_cell(
+                            "native_source_preflight", "protected edit source unavailable"))
                         return cell
-                    artifact_checks = materialize_docx(artifact, docx_path, source=source)
+                    try:
+                        artifact_checks = materialize_docx(artifact, docx_path, source=source)
+                    except Exception as exc:
+                        cell.update(inconclusive_cell(
+                            "native_artifact_materialization", "native artifact materialization failed", exc))
+                        return cell
                     cell["artifact_checks"] = artifact_checks
                     if not artifact_checks["artifact_valid"]:
-                        cell.update({"status": "inconclusive", "reason": "deterministic native artifact checks failed"})
+                        cell.update(inconclusive_cell(
+                            "native_artifact_validation", "deterministic native artifact checks failed"))
                         return cell
-                    grader_candidate = {"artifact_text": docx_text(docx_path),
-                                        "artifact_digest": artifact_checks["artifact_digest"],
-                                        "expected_output": expected_output}
+                    try:
+                        grader_candidate = {"artifact_text": docx_text(docx_path),
+                                            "artifact_digest": artifact_checks["artifact_digest"],
+                                            "expected_output": expected_output}
+                    except Exception as exc:
+                        cell.update(inconclusive_cell(
+                            "native_artifact_extraction", "native artifact extraction failed", exc))
+                        return cell
                 grades = resumed_grades[:3]
                 cell["grades_reused"] = len(grades)
                 grade_failure_types: dict[str, int] = {}
@@ -1201,10 +1240,10 @@ def main() -> None:
                         kind = str(graded.get("record", {}).get("error_type") or "unknown")
                         grade_failure_types[kind] = grade_failure_types.get(kind, 0) + 1
                 if len(grades) != 3:
-                    cell.update({"status": "inconclusive", "reason": "fewer than three valid blind grades",
-                                 "valid_grade_count": len(grades),
-                                 "grade_failure_types": grade_failure_types,
-                                 "invalid_semantic_grade_count": invalid_grade_count})
+                    cell.update(inconclusive_cell(
+                        "blind_grading", "fewer than three valid blind grades",
+                        valid_grade_count=len(grades), grade_failure_types=grade_failure_types,
+                        invalid_semantic_grade_count=invalid_grade_count))
                 else:
                     cell.update({"status": "scored", "rubric_fraction": sum(g["rubric_fraction"] for g in grades) / 3,
                                  "unsupported_claims": sum(g["unsupported_claims"] for g in grades) / 3,
@@ -1228,11 +1267,12 @@ def main() -> None:
                     try:
                         results.append(future.result())
                     except Exception as exc:
-                        results.append({"task_id": item[0], "ask_id": item[11], "condition": item[3],
-                                        "executor_model": item[6], "executor_provider": item[7],
-                                        "executor_role": item[8], "context_token_upper_bound": item[5],
-                                        "status": "inconclusive", "reason": "cell runner failed closed",
-                                        "reason_type": type(exc).__name__, "reason_digest": sha_text(str(exc))})
+                        from native_e2e_contract import inconclusive_cell
+                        results.append(inconclusive_cell(
+                            "unhandled_cell_runner", "cell runner failed closed", exc,
+                            task_id=item[0], ask_id=item[11], condition=item[3],
+                            executor_model=item[6], executor_provider=item[7],
+                            executor_role=item[8], context_token_upper_bound=item[5]))
     finally:
         os.chdir(previous)
         for gateway in (*executor_gateways.values(), grader):
@@ -1297,7 +1337,7 @@ def main() -> None:
                  "decision_boundary": "Private staged evaluation. The admission events are isolated evaluation fixtures, not lawyer admissions or matter authority."}
     if args.native_e2e:
         from native_e2e_contract import (SCHEMA_VERSION, native_completion_failures,
-                                         native_denominators)
+                                         native_denominators, native_output_breakdown)
         sanitized["schema_version"] = SCHEMA_VERSION
         sanitized["mode"] = "task-native-apex-legal-e2e"
         sanitized["evaluation_unit"] = "original_apex_task"
@@ -1305,6 +1345,7 @@ def main() -> None:
         sanitized["lawyer_followup_asks_used"] = False
         sanitized["denominators"] = native_denominators(
             native_task_rows, active_conditions, len(executors), results)
+        sanitized["output_type_breakdown"] = native_output_breakdown(native_task_rows, results)
     required_primary_cells = evaluation_unit_count * len(product_conditions) * len(executors)
     scored_primary_cells = sum(row.get("status") == "scored" and row.get("condition") in product_conditions
                                for row in results)
@@ -1323,7 +1364,11 @@ def main() -> None:
                                        "calls": len(calls), "receipts": len(receipts),
                                        "terminal_receipts": terminal_receipts})
     if args.agentic_only:
-        agentic_cells = [row for row in results if row.get("condition") == AGENTIC_CONDITION]
+        # Only conditions that actually expose tools participate in the agent
+        # stop/coverage gate. Static/RAG projection cells intentionally have no
+        # agent trace and must not make an otherwise complete native panel fail.
+        gated_agentic_conditions = set(product_conditions) & AGENTIC_TOOL_CONDITIONS
+        agentic_cells = [row for row in results if row.get("condition") in gated_agentic_conditions]
         for model, _, _, _, _ in executors:
             model_cells = [row for row in agentic_cells if row.get("executor_model") == model]
             if not model_cells or any(row.get("agentic_stop_reason") not in AGENTIC_READY_STOPS for row in model_cells):
