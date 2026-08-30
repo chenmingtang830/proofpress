@@ -1,15 +1,41 @@
 {
-  "created_at": "2026-08-30T19:16:16.667809Z",
-  "event_id": "ppe_25ad391e4260a2f5",
-  "record": {
-    "content_digest": "sha256:0bcab106f67fb94795c86625d7e9ec0f2f64bafe0efeff5936ceda4e752c7fc3",
-    "id": "src_82a446b123ea37b6",
-    "kind": "retrieval_source",
-    "media_type": "application/pdf",
-    "record_hash": "sha256:e90824c3c60a1f7a79f23240e175623ce2644ffcc3226fc3f137f7f825d0d18e",
-    "uri": "private://apex/0bcab106f67fb947-f6b0823a"
+  "created_at": "2026-08-30T19:16:16.742535Z",
+  "event_id": "ppe_4c27fa4e6a08cec8",
+  "evidence": {
+    "digest": "sha256:302cdd49f695f39a1979b9f0488a17d9436fcb571c169bf8f1d6483ed7d82b33",
+    "id": "evd_a5be8a68e88056ea",
+    "kind": "retrieval_evidence",
+    "quote_digest": "sha256:6f63ec2fe72f07b29c35db98d1b543eedcae88dba952ad5e261346465a808113",
+    "retrieval_receipt": {
+      "locator": {
+        "kind": "section_span",
+        "page_end": 1,
+        "page_start": 1,
+        "section_digest": "sha256:6f63ec2fe72f07b29c35db98d1b543eedcae88dba952ad5e261346465a808113",
+        "section_id": "sec_1ea4d0c050f7c682"
+      },
+      "quote": "\u0014(\u0016�`�\u001fV\u0010.�\u0000\u001c\u001d\u001e�����IrA��\b��\u001b3�I��2-T>h(f1,��`\u000e\u000e-�\u001a]>\u001e�!\u0000g01��\u0010�\u0015bkAWV��\"��,\u000b\u0019\u0011���/�\u000f�p-A\u000f\f���\u0000�\u0007�#�fG��c\t(;TX�3X3H\\Ծ^Ql❆V\u0007�T\t�\u0002��@E�;C;�x{:�=���\u000e��\u0005�\u0011�w)���^�\u0014̡���%�*��D�\u0011x*��!9,LK{\u0007�>XA��\u0005��'m���\u0006�\u0006\u0007��C¼���P}\u0000�]\u001d!�6��\u001d .�R�A\u000f\bek���tHm�j?��\u0001H\u0016d\t�\u0003ӷ�|�\r\u0012\u0007��'\b�0\u000e�\u0006���`��a��\u0004����REV$�0Խ.��\u0010�H�\u0013*�\u0019��$#�\u0002�5�����ĉ\u0014�wM�fV\b�B�Z;��,�|\"̺�\u0010\u0017S\u0000\u0017I�qkW\u0007�S<�\\\u0007�\r�V�Hi�\u00107�C\u001c\u001e�|\u001d)�b\u0003F�A�����k|�a��B\u0017��\u001b�aq��۸\u0017��P\u0001�pϋ�mT���ڹ7��\u000e�\"�\u0003��\u0003}\r�\n",
+      "quote_digest": "sha256:6f63ec2fe72f07b29c35db98d1b543eedcae88dba952ad5e261346465a808113",
+      "retrieval": {
+        "adapter": "bm25-page",
+        "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
+        "query": "\"Form 2553\" \"Rev. B\" \"Form 2553 (Rev. B)\" 2019 \"Form 2553\" instructions 2019 \"Form 2553\" revision B IRS",
+        "version": "1"
+      },
+      "schema_version": "proofpress/retrieval-evidence/v1",
+      "source": {
+        "content_digest": "sha256:0bcab106f67fb94795c86625d7e9ec0f2f64bafe0efeff5936ceda4e752c7fc3",
+        "media_type": "application/pdf",
+        "uri": "private://apex/0bcab106f67fb947-f6b0823a"
+      }
+    },
+    "retrieval_receipt_digest": "sha256:0a762a1e697dff895508950d2aa050a22a19be23aa6e154378240e7267ac30fc",
+    "source_content_digest": "sha256:0bcab106f67fb94795c86625d7e9ec0f2f64bafe0efeff5936ceda4e752c7fc3",
+    "source_digest": "sha256:e90824c3c60a1f7a79f23240e175623ce2644ffcc3226fc3f137f7f825d0d18e",
+    "source_ref": "src_82a446b123ea37b6"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "subject_ref": "src_82a446b123ea37b6",
-  "type": "source_recorded"
+  "source_ref": "src_82a446b123ea37b6",
+  "subject_ref": "evd_a5be8a68e88056ea",
+  "type": "evidence_bound"
 }
