@@ -1,41 +1,15 @@
 {
-  "created_at": "2026-08-30T19:16:01.013882Z",
-  "event_id": "ppe_269b48f7b8341c59",
-  "evidence": {
-    "digest": "sha256:4ef8009e6d52157c56f41b1f6ef642a5b322eee5417a2b8a46da7ed472e6ddd6",
-    "id": "evd_ad6e6c43ac0d5504",
-    "kind": "retrieval_evidence",
-    "quote_digest": "sha256:119a29655aabe3b4524a322aa58b6ab8c20cbfb63e283437f96acca8bebe77d1",
-    "retrieval_receipt": {
-      "locator": {
-        "kind": "section_span",
-        "page_end": 1,
-        "page_start": 1,
-        "section_digest": "sha256:119a29655aabe3b4524a322aa58b6ab8c20cbfb63e283437f96acca8bebe77d1",
-        "section_id": "sec_f7272cbb7aded261"
-      },
-      "quote": "        3.3 CAPITALIZATION OF COMPANY AND SUBSIDIARIES\n    (a) The authorized Equity Securities of the Company consist of ONE MILLION (1,000,000) \tshares of common stock, par value $0.001  per share, of which 1,000,000  shares, constituting the Shares, are issued and outstanding. Sellers are the owners (of record and beneficially) of all of the Shares, free and clear of all Encumbrances, including any restriction on the right of any Seller to transfer the Shares to Buyer pursuant to this Agreement. The assignments, endorsements, stock powers, or other instruments of transfer to be delivered by each Seller to Buyer at the Closing will be sufficient to transfer such Seller’s entire interest in the Shares (of record and beneficially) owned by such Seller. Upon transfer to Buyer of the certificates representing the Shares, Buyer will receive good title to the Shares, free and clear of all Encumbrances. Part 3.3(a) lists Sellers and the number of Shares held by each Seller.\n    (b) Part 3.3(b) lists for each Subsidiary its authorized Equity Securities, the number and type of Equity Securities issued and outstanding, and the identity of each owner (of record and beneficially) of such Equity Securities and number of shares held by each holder. All outstanding Equity Securities of each Subsidiary are owned of record and beneficially by one or more of the Acquired Companies, free and clear of all Encumbrances. All the outstanding Equity Securities of each Acquired Company have been duly authorized and validly issued, and are fully paid and nonassessable.\nExcept as set forth in Part 3.3(b), there are no shareholder or other Contracts relating to any Equity Security of any Acquired Company, including the sale, voting, or transfer thereof. No outstanding Equity Security or other security of any Acquired Company was issued in violation of the Securities Act or any other Legal Requirement. No Acquired Company has any outstanding subscription, option, warrant, call or exchange right, convertible security, or other Contract or other obligations in effect giving any Person (other than another Acquired Company) the right to acquire (whether by preemptive rights or otherwise) any Equity Security of any Acquired Company.\n    (c) No Acquired Company owns, or is a party to or bound by any Contract to acquire, any Equity Security or other security of any Person or any direct or indirect equity or ownership interest in any other business. No Acquired Company is obligated to provide funds to or make any investment (whether in the form of a loan, capital contribution, or otherwise) in any other Person.\n",
-      "quote_digest": "sha256:119a29655aabe3b4524a322aa58b6ab8c20cbfb63e283437f96acca8bebe77d1",
-      "retrieval": {
-        "adapter": "bm25-page",
-        "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
-        "query": "Retrieve the complete cap table and historical shareholder schedule as of June 20, 2022, including certificates, issuances/transfers, equity class, share counts, voting/economic rights, and ownership-effective dates.",
-        "version": "1"
-      },
-      "schema_version": "proofpress/retrieval-evidence/v1",
-      "source": {
-        "content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
-        "media_type": "text/plain",
-        "uri": "private://apex/7beb28a6e0069669-d885dee3"
-      }
-    },
-    "retrieval_receipt_digest": "sha256:e553166d9dba64d985418ad4a6363c4d67b2def7064fd19d7c2e3070995f8340",
-    "source_content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
-    "source_digest": "sha256:9b5e55c106d3b2c9d270455bb5af81e282a4e92f3ba0722f868b952faf8ff0b5",
-    "source_ref": "src_1cb20c6823882030"
+  "created_at": "2026-08-30T19:16:01.078147Z",
+  "event_id": "ppe_438fccf6b9ba9144",
+  "record": {
+    "content_digest": "sha256:4db78882d031bf11323bf910cb51c5982d8aaeaf5c2e8a5b680dc0f5aaefb414",
+    "id": "src_17bc3be9a43717de",
+    "kind": "retrieval_source",
+    "media_type": "text/plain",
+    "record_hash": "sha256:a2d8888e11f51db68051ca9b0bf7df8007a6e92189fdcfd0fa2e3795dab369a4",
+    "uri": "private://apex/4db78882d031bf11-b1be95f7"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_1cb20c6823882030",
-  "subject_ref": "evd_ad6e6c43ac0d5504",
-  "type": "evidence_bound"
+  "subject_ref": "src_17bc3be9a43717de",
+  "type": "source_recorded"
 }
