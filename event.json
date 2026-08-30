@@ -1,21 +1,21 @@
 {
-  "created_at": "2026-08-30T19:16:36.252838Z",
-  "event_id": "ppe_e140e71f197ffdf4",
+  "created_at": "2026-08-30T19:16:36.398482Z",
+  "event_id": "ppe_30d4dbaedbaf509e",
   "evidence": {
-    "digest": "sha256:7252bfa98da452ebc91f0c7a2db8c9995d8a9a2211d6ea52dd7a0b4cd7fe138a",
-    "id": "evd_92708c292365a658",
+    "digest": "sha256:8a5bd15eeef8a0bbe42868bd18fe17c045f978455f8075a196c68b84d2c57fe5",
+    "id": "evd_c5555d2a5bb8a6a6",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:e3d8e7f052a608570e23e9496e45e1ff1ee3f79bb43992c1e5049123c5197f0d",
+    "quote_digest": "sha256:15947fdf8b837329140812ed94248dca7fbd510b393e36535ca86b0dd29e320a",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:e3d8e7f052a608570e23e9496e45e1ff1ee3f79bb43992c1e5049123c5197f0d",
-        "section_id": "sec_74fd85f60268cfe9"
+        "section_digest": "sha256:15947fdf8b837329140812ed94248dca7fbd510b393e36535ca86b0dd29e320a",
+        "section_id": "sec_6caaea877be7ac93"
       },
-      "quote": "﻿\nHere is the fictional five-year operating history for \"Summit Filing Solutions, Inc.\" recreated for an S corporation with five shareholders.\nFictional Entity Details\n    • Name: Summit Filing Solutions, Inc.\n    • Employer Identification Number (EIN): [Fictional] 12-3456789\n    • Date Incorporated: January 10, 2018\n    • S Corp Election Effective Date: January 1, 2019\n    • Business Activity Code: 541511 (Custom Computer Programming Services)\n    • Accounting Method: Accrual\n    • Shareholders: Five equal shareholders (Alex, Beth, Chris, Dana, Evan), each with 20% ownership.\n    • Economic Context: The data reflects a consistent growth trajectory, with a minor market correction in 2023.\nFive-Year Operating History: Income and Deductions\nThe following table provides the key income and deduction line items required for the main section of IRS Form 1120-S (Page 1, Lines 1 through 21). All figures are in U.S. Dollars ($).\nLine Item\tForm 1120-S Line Ref\t2020\t2021\t2022\t2023\t2024\nGross receipts or sales\t1a\t500,000\t750,000\t1,100,000\t950,000\t1,300,000\nLess: Returns and allowances\t1b\t5,000\t7,500\t11,000\t9,500\t13,000\nBalance (Net Sales)\t1c\t495,000\t742,500\t1,089,000\t940,500\t1,287,000\nCost of goods sold (COGS)\t2\t200,000\t300,000\t440,000\t380,000\t520,000\nGross profit\t3\t295,000\t442,500\t649,000\t560,500\t767,000\nInterest income\t4\t500\t600\t700\t800\t900\nGross rents/royalties\t5\t0\t0\t0\t0\t0\nNet gain/loss from asset sale\t6\t0\t0\t1,000\t0\t(500)\nTotal income (loss)\t6\t295,500\t443,100\t650,700\t561,300\t767,400\nDeductions\t\t\t\t\t\t\nOfficer compensation\t7\t120,000\t160,000\t200,000\t180,000\t220,000\nSalaries and wages (other)\t8\t40,000\t60,000\t90,000\t75,000\t110,000\nRepairs and maintenance\t9\t2,000\t3,000\t4,500\t3,500\t5,000\nBad debts\t10\t1,000\t1,500\t2,000\t3,000\t1,500\nRent\t11\t18,000\t18,000\t20,000\t22,000\t24,000\nTaxes and licenses\t12\t4,000\t5,500\t7,000\t6,500\t8,000\nInterest\t13\t1,200\t1,100\t900\t800\t700\nDepreciation (Form 4562)\t14\t10,000\t12,000\t15,000\t14,000\t13,000\nAdvertising\t15\t5,000\t8,000\t12,000\t10,000\t15,000\nPension, profit-sharing\t16\t3,000\t4,500\t6,000\t5,500\t7,000\nEmployee benefit programs\t17\t8,000\t10,000\t14,000\t12,000\t16,000\nOther deductions (attach stmnt)\t18\t7,000\t9,000\t11,000\t9,000\t12,000\nTotal deductions\t19\t232,200\t297,600\t396,400\t347,300\t433,200\nOrdinary business income\t21\t63,300\t145,500\t254,300\t214,000\t334,200\nFinancial and Economic Data with Five Shareholders\n    • Balance Sheet Information (Schedule L): As noted previously, Summit Filing Solutions, Inc. must complete Schedule L for the years 2022, 2023, and 2024, as total assets exceeded the $250,000 threshold.\n    • Shareholder Data (Schedule K-1): The ordinary business income (Line 21) is passed through to the five shareholders via Schedule K-1 (Form 1120-S). Each of the five shareholders receives a pro rata share of 20% of the Line 21 amount on their personal tax returns.\nYear\tOrdinary Business Income (Line 21)\tPer Shareholder Allocation (20%)\n2020\t$63,300\t$12,660\n2021\t$145,500\t$29,100\n2022\t$254,300\t$50,860\n2023\t$214,000\t$42,800\n2024\t$334,200\t$66,840\nThe corporation tracks each shareholder's stock and debt basis annually using Form 7203, which shareholders attach to their individual Forms 1040.\n\n",
-      "quote_digest": "sha256:e3d8e7f052a608570e23e9496e45e1ff1ee3f79bb43992c1e5049123c5197f0d",
+      "quote": "﻿SCHEDULE K-1 (Form 1120-S)                                                                             2020\nDepartment of the Treasury • Internal Revenue Service                          OMB No. 1545-0123\n\nShareholder’s Share of Income, Deductions, Credits, etc.                       For calendar year 2020\n\n────────────────────────────────────────────────────────────────────────────────────\nPart I ─ Information About the Corporation\n────────────────────────────────────────────────────────────────────────────────────\nA  Corporation’s employer identification number                       12-3456789\nB  Corporation’s name, address, city, state, and ZIP code\n       Summit Filing Solutions, Inc.\n       8280 Willow Oaks Corporate Dr\n       Los Angeles, CA  90001\nC  IRS center where corporation filed return                               Ogden, UT\n\n────────────────────────────────────────────────────────────────────────────────────\nPart II ─ Information About the Shareholder\n────────────────────────────────────────────────────────────────────────────────────\nD  Shareholder’s identifying number                                    111-11-1111\nE  Shareholder’s name, address, city, state, and ZIP code\n       Laura Kensington\n       4428 Willow Bend Ct.\n       Olympia, WA  98502\nF  Shareholder’s percentage of stock ownership\n       Beginning of tax year   26%                 End of tax year   26%\n\n────────────────────────────────────────────────────────────────────────────────────\nPart III ─ Shareholder’s Share of Current Year Income, Deductions, Credits, etc.\n────────────────────────────────────────────────────────────────────────────────────\n1  Ordinary business income (loss)                                   $38,762\n2  Net rental real estate income (loss)                                    0\n3  Other net rental income (loss)                                          0\n4  Interest income                                                      $98\n5a Ordinary dividends                                                      0\n5b Qualified dividends                                                     0\n6  Royalties                                                               0\n7  Net short-term capital gain (loss)                                      0\n8a Net long-term capital gain (loss)                                   $312\n8b Collectibles (28%) gain (loss)                                          0\n8c Unrecaptured section 1250 gain                                          0\n9  Net section 1231 gain (loss)                                            0\n10 Other income (loss)                                                     0\n\n11 Section 179 deduction                                                   0\n12 Other deductions                                                        0\n13 Credits                                                                 0\n14 Foreign transactions                                                    0\n15 Charitable contributions                                               0\n16 Items affecting shareholder basis\n   a  Tax-exempt interest income                                           0\n   b  Other tax-exempt income                                              0\n   c  Nondeductible expenses                                               0\n   d  Distributions – cash and marketable securities                       0\n   e  Repayment of loans from shareholders                                0\n17 Other information                                                       0\n\n────────────────────────────────────────────────────────────────────────────────────\nStock and Debt Basis Limitations (for shareholder records)\n────────────────────────────────────────────────────────────────────────────────────\n   + Increase for income items (Lines 1 + 4 + 8a)                    $39,172\n   – Distributions and other reductions                                  0\n   = Net increase to stock basis this year                           $39,172\n\n   Type of income: Active Business Income\n   Foreign country or U.S. possession: N/A\n\n────────────────────────────────────────────────────────────────────────────────────\nPrepared by: Corporate Officer, Summit Filing Solutions, Inc.\nDate prepared: March 9, 2021\n\nThis is an exact substitute Schedule K-1 that matches the official K-1 filed with IRS Form 1120-S on March 15, 2021.\nRetain this copy with your permanent tax records.\n",
+      "quote_digest": "sha256:15947fdf8b837329140812ed94248dca7fbd510b393e36535ca86b0dd29e320a",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
@@ -24,18 +24,18 @@
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
       "source": {
-        "content_digest": "sha256:2deffb4f8f21edc479c2a23b9c8bd05fb7787eb323e1b0e573b07f190f63d4f5",
+        "content_digest": "sha256:82fd37626961b0e5e1bda3ab5a5f58699b8ec07d80f939d51fc8152f20c47a12",
         "media_type": "text/plain",
-        "uri": "private://apex/2deffb4f8f21edc4-49d7dafd"
+        "uri": "private://apex/82fd37626961b0e5-f0eedc25"
       }
     },
-    "retrieval_receipt_digest": "sha256:b4ad0cab299907f8a904430499e4dabb7c1c3d00d4f2b65c8db4051c4f9c298c",
-    "source_content_digest": "sha256:2deffb4f8f21edc479c2a23b9c8bd05fb7787eb323e1b0e573b07f190f63d4f5",
-    "source_digest": "sha256:3538f66a9ae8efd363cf69dcf7d66fb56bd07aa404270535b6dfec9c843b0e78",
-    "source_ref": "src_e5ee57b4daba07c8"
+    "retrieval_receipt_digest": "sha256:ca53fa5e1033e2b2a0c30edc59c446dc39f48e7f783eca956e5792670a894800",
+    "source_content_digest": "sha256:82fd37626961b0e5e1bda3ab5a5f58699b8ec07d80f939d51fc8152f20c47a12",
+    "source_digest": "sha256:11b077560333bf28314c41fad72aa90bf4a2070afbb95d9b6c6376c8719aea6c",
+    "source_ref": "src_32da2db4c5453e68"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_e5ee57b4daba07c8",
-  "subject_ref": "evd_92708c292365a658",
+  "source_ref": "src_32da2db4c5453e68",
+  "subject_ref": "evd_c5555d2a5bb8a6a6",
   "type": "evidence_bound"
 }
