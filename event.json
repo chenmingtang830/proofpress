@@ -1,21 +1,21 @@
 {
-  "created_at": "2026-08-30T19:16:44.032308Z",
-  "event_id": "ppe_d49d43cc0ae74b5a",
+  "created_at": "2026-08-30T19:16:44.188715Z",
+  "event_id": "ppe_ef5aa802bed16a8b",
   "evidence": {
-    "digest": "sha256:4908f8d9a4387304eac4977b2ae4c695f3240f0ebb7a0faed1d4dbe586075d07",
-    "id": "evd_ab983446199ed97f",
+    "digest": "sha256:3bb8a46cdb70cd8e643bba3bbc56367029813bfa52ac2affb5cc09a252a6ca6e",
+    "id": "evd_e9bce588f06e8367",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:b64356a66c0790894f82d1341528d8bb939130337ccda1160a25f3c9cf5d8704",
+    "quote_digest": "sha256:c6d74679a133462f3a7c4777315fb76d30964c3e0ec66b20f158f59ff61061d2",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:b64356a66c0790894f82d1341528d8bb939130337ccda1160a25f3c9cf5d8704",
-        "section_id": "sec_4a7827458150feeb"
+        "section_digest": "sha256:c6d74679a133462f3a7c4777315fb76d30964c3e0ec66b20f158f59ff61061d2",
+        "section_id": "sec_f0ffd79a47a226b7"
       },
-      "quote": "SECTION 8. EFFECTIVE DATE\n.01 In general. Except as provided in Section 8.02, this revenue procedure is effective September 3, 2013, the date of publication of this revenue procedure in the Internal Revenue Bulletin. This revenue procedure applies to requests pending with the IRS Service Center pursuant to Rev. Procs. 97-48, 2003-43, 2004-48, and 2007-62 on September 3, 2013, and to requests received thereafter. It also applies to all ruling requests pending in the IRS national office on September 3, 2013, and to requests for relief received thereafter.\n.02 Transition rule for pending letter ruling requests. If an entity has filed a request for a letter ruling seeking relief for a late Election Under Subchapter S covered by this revenue procedure that is pending in the national office on September 3, 2013, the entity may rely on this revenue procedure, withdraw that letter ruling request, and receive a refund of its user fee. However, the national office will process letter ruling requests pending on September 3, 2013, unless, prior to the earlier of October 18, 2013, or the issuance of the letter ruling, the entity notifies the national office that it will rely on this revenue procedure and withdraw its letter ruling request.\n",
-      "quote_digest": "sha256:b64356a66c0790894f82d1341528d8bb939130337ccda1160a25f3c9cf5d8704",
+      "quote": "        5.1 ACCESS AND INVESTIGATION\nPrior to the Closing Date, and upon reasonable notice from Buyer, each Seller shall, and shall cause each Acquired Company to, (a) afford Buyer and its Representatives and prospective lenders and their Representatives (collectively, “Buyer Group”) full and free access, during regular business hours, to each Acquired Company’s personnel, assets, Contracts, and Records, (b) furnish Buyer Group with copies of all such Contracts and Records as Buyer may reasonably request, (c) furnish Buyer Group with such additional financial, operating, and other relevant data and information as Buyer may reasonably request, and (d) otherwise cooperate and assist, to the extent reasonably requested by Buyer, with Buyer’s investigation of the business, condition (financial or otherwise), assets, results of operations, or prospects of each Acquired Company. In addition, Buyer shall have the right to have the Real Property and the tangible personal property of each Acquired Company inspected by Buyer Group, at Buyer’s sole cost and expense, including the performance of subsurface or other intrusive testing.\n",
+      "quote_digest": "sha256:c6d74679a133462f3a7c4777315fb76d30964c3e0ec66b20f158f59ff61061d2",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
@@ -24,18 +24,18 @@
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
       "source": {
-        "content_digest": "sha256:489de4a5c467eb0382ef4f29920dc6433adc3a3336da5057aec7f37cd0208560",
+        "content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
         "media_type": "text/plain",
-        "uri": "private://apex/489de4a5c467eb03-1184b3a1"
+        "uri": "private://apex/7beb28a6e0069669-d885dee3"
       }
     },
-    "retrieval_receipt_digest": "sha256:201adb77321819e2c59a26cbdd2bd018a64b118199d31376a0eec5e9e2526897",
-    "source_content_digest": "sha256:489de4a5c467eb0382ef4f29920dc6433adc3a3336da5057aec7f37cd0208560",
-    "source_digest": "sha256:0e30a41e1d31405a037edcc4e56b65c5107236c02092ff6fca6351e692a30a27",
-    "source_ref": "src_449cd1a48a2b6b92"
+    "retrieval_receipt_digest": "sha256:4f84fb625d59d7136bd7ee5e6e0019d20d08af6eb3d241307cf2a2497fb247b3",
+    "source_content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
+    "source_digest": "sha256:9b5e55c106d3b2c9d270455bb5af81e282a4e92f3ba0722f868b952faf8ff0b5",
+    "source_ref": "src_1cb20c6823882030"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_449cd1a48a2b6b92",
-  "subject_ref": "evd_ab983446199ed97f",
+  "source_ref": "src_1cb20c6823882030",
+  "subject_ref": "evd_e9bce588f06e8367",
   "type": "evidence_bound"
 }
