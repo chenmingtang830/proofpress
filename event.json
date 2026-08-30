@@ -1,41 +1,41 @@
 {
-  "created_at": "2026-08-30T19:17:41.219615Z",
-  "event_id": "ppe_d0abfcb554d4a1f5",
+  "created_at": "2026-08-30T19:17:41.448261Z",
+  "event_id": "ppe_2e965b7af404d22a",
   "evidence": {
-    "digest": "sha256:209d8da77b78b644d9da41ab3d03591118fabd899b03ecb2c92794df72ea568b",
-    "id": "evd_fb6d0dc404efcd53",
+    "digest": "sha256:8d385950cf2f8dd1081ba8270bdc26108e8758e5a03b8f4e29d4bf41f989f910",
+    "id": "evd_0584c67f693620b9",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:b4c32c4766795ed1cedd653de51469b1d60ecf080234037419fa7f7db4b81867",
+    "quote_digest": "sha256:6be35d45e8c433160f3bd5d203ac2a9f3112ffed31af2db612d6d393001290c5",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:b4c32c4766795ed1cedd653de51469b1d60ecf080234037419fa7f7db4b81867",
-        "section_id": "sec_58b0fd5ff2e8a571"
+        "section_digest": "sha256:6be35d45e8c433160f3bd5d203ac2a9f3112ffed31af2db612d6d393001290c5",
+        "section_id": "sec_19a760f2e71be0ae"
       },
-      "quote": "﻿SCHEDULE K-1 (Form 1120-S)                                                                               2022\nDepartment of the Treasury • Internal Revenue Service                          OMB No. 1545-0123\n\nShareholder’s Share of Income, Deductions, Credits, etc.                       For calendar year 2022\n\n────────────────────────────────────────────────────────────────────────────────────\nPart I ─ Information About the Corporation\n────────────────────────────────────────────────────────────────────────────────────\nA  Corporation’s employer identification number                       12-3456789\nB  Corporation’s name, address, city, state, and ZIP code\n       Summit Filing Solutions, Inc.\n       8280 Willow Oaks Corporate Dr\n       Los Angeles, CA  90001\nC  IRS center where corporation filed return                               Ogden, UT\n\n────────────────────────────────────────────────────────────────────────────────────\nPart II ─ Information About the Shareholder\n────────────────────────────────────────────────────────────────────────────────────\nD  Shareholder’s identifying number                                    111-11-1111\nE  Shareholder’s name, address, city, state, and ZIP code\n       Laura Kensington\n       4428 Willow Bend Ct.\n       Olympia, WA  98502\nF  Shareholder’s percentage of stock ownership\n       Beginning of tax year   26%                 End of tax year   26%\n\n────────────────────────────────────────────────────────────────────────────────────\nPart III ─ Shareholder’s Share of Current Year Income, Deductions, Credits, etc.\n────────────────────────────────────────────────────────────────────────────────────\n1  Ordinary business income (loss)                                   $58,110\n2  Net rental real estate income (loss)                                    0\n3  Other net rental income (loss)                                          0\n4  Interest income                                                     $156\n5a Ordinary dividends                                                      0\n5b Qualified dividends                                                     0\n6  Royalties                                                               0\n7  Net short-term capital gain (loss)                                      0\n8a Net long-term capital gain (loss)                                  ($312)\n8b Collectibles (28%) gain (loss)                                          0\n8c Unrecaptured section 1250 gain                                          0\n9  Net section 1231 gain (loss)                                            0\n10 Other income (loss)                                                     0\n\n11 Section 179 deduction                                                   0\n12 Other deductions                                                        0\n13 Credits                                                                 0\n14 Foreign transactions                                                    0\n15 Charitable contributions                                               0\n16 Items affecting shareholder basis\n   a  Tax-exempt interest income                                           0\n   b  Other tax-exempt income                                              0\n   c  Nondeductible expenses                                               0\n   d  Distributions – cash and marketable securities                       0\n   e  Repayment of loans from shareholders                                0\n17 Other information                                                       0\n\n────────────────────────────────────────────────────────────────────────────────────\nStock and Debt Basis Limitations (for shareholder records)\n────────────────────────────────────────────────────────────────────────────────────\n   + Increase for income items (Lines 1 + 4)                         $58,266\n   – Decrease for loss items (Line 8a)                                  ($312)\n   = Net increase to stock basis this year                           $57,954\n\n   Type of income: Active Business Income\n   Foreign country or U.S. possession: N/A\n\n────────────────────────────────────────────────────────────────────────────────────\nPrepared by: Corporate Officer, Summit Filing Solutions, Inc.\nDate prepared: March 11, 2023\n\nThis is an exact substitute Schedule K-1 that matches the official K-1 filed with IRS Form 1120-S on March 15, 2023.\nRetain this copy with your permanent tax records.\n",
-      "quote_digest": "sha256:b4c32c4766795ed1cedd653de51469b1d60ecf080234037419fa7f7db4b81867",
+      "quote": "﻿\n\n\n\n\n\nxxxxxxxxxxxxxxxxxxx\n\n\nMr.\t\t\t\t\nSummit Filing Solutions, Inc\nXxxxxxxxxxxxxx\nxxxxxxxxxxxxxx\n\n\n\nRe: Due Diligence Request (First)\n\nDear _________________:\n\nAs indicated in our letter of intent dated xx/xx/xxxx, Harbor Bridge Private Equity must conduct a review of financial and other information relating to the Company. Enclosed is a list of requested items and information.  \n\nAlthough we believe the attached request is reasonably comprehensive, the Purchaser must reserve the right to request additional information and documents after reviewing your first set of responses. \n\nWith regard to information on the list that Summit has already provided, please simply indicate “previously provided,” where applicable. \n\nDon’t hesitate to contact me with any questions about the list.  Thank you very much. \n\nSincerely,\n\nXxxxxxxxxxxxxxxx\nGeneral Counsel\nHarbor Bridge Private Equity\n \n\nxxx/opc\natt\n",
+      "quote_digest": "sha256:6be35d45e8c433160f3bd5d203ac2a9f3112ffed31af2db612d6d393001290c5",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
-        "query": "Income Schedule shareholder distribution Income Schedule shareholder loan Income Schedule rent related party Income Schedule allocation shareholder ownership",
+        "query": "\"Summit Filing Solutions\" \"Anderson Instruments\" lease \"Summit\" \"Anderson Instruments\" \"Office Lease Agreement\" \"Anderson Instruments\" office lease Summit lease Summit Anderson rent option stock",
         "version": "1"
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
       "source": {
-        "content_digest": "sha256:a0b802c5936ae586cbfb45eae45787d18afa76e449a5f722348ed24f4b7e7a96",
+        "content_digest": "sha256:67c0146b0b9fce90f3619ef83de3641ab25a2927222a6000bc17b4400e1afe0e",
         "media_type": "text/plain",
-        "uri": "private://apex/a0b802c5936ae586-b1110a3a"
+        "uri": "private://apex/67c0146b0b9fce90-38c67136"
       }
     },
-    "retrieval_receipt_digest": "sha256:d0b3662cf068f4e01db191d4546c13b71b0e8e6e504859a78c8a3484b72494b1",
-    "source_content_digest": "sha256:a0b802c5936ae586cbfb45eae45787d18afa76e449a5f722348ed24f4b7e7a96",
-    "source_digest": "sha256:50772d560dd55cdc8ae8d56ffa4edc7ee440e148252be971b989ed41b72bbb59",
-    "source_ref": "src_efa46ef7b31fca12"
+    "retrieval_receipt_digest": "sha256:b434f4ccdd7309d7b9beb9c1c31bde2c27c179812a8e726d4bd9671c2cb2f8c3",
+    "source_content_digest": "sha256:67c0146b0b9fce90f3619ef83de3641ab25a2927222a6000bc17b4400e1afe0e",
+    "source_digest": "sha256:3043f6e73ea65ebae9d4659b679870dacf8b2b54879a43732461206822b12e19",
+    "source_ref": "src_d638bbb18a01f3d8"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_efa46ef7b31fca12",
-  "subject_ref": "evd_fb6d0dc404efcd53",
+  "source_ref": "src_d638bbb18a01f3d8",
+  "subject_ref": "evd_0584c67f693620b9",
   "type": "evidence_bound"
 }
