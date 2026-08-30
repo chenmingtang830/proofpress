@@ -1,25 +1,25 @@
 {
-  "created_at": "2026-08-30T19:17:07.470358Z",
-  "event_id": "ppe_4e62fe58fc19cf8a",
+  "created_at": "2026-08-30T19:17:07.659543Z",
+  "event_id": "ppe_2341ee5d6560c37d",
   "evidence": {
-    "digest": "sha256:06370d6c5f7c074ba6301265fe46e35ef109a5d40a869cd3a15cb14d851c6744",
-    "id": "evd_72caecb6080e456b",
+    "digest": "sha256:10b7956cc379ba02cbfd61c5b1443828a015a1d5a03ed58938480d1162caf60f",
+    "id": "evd_7f2e055f72f3a534",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:e2f1b220cabd490dea4d5464e33eee9b945f0d867034d785551b298529db4e41",
+    "quote_digest": "sha256:b50e2d8a6b011d043599b68c2e2b21448f677b18dbc67db3f0800d60562eb3c0",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:e2f1b220cabd490dea4d5464e33eee9b945f0d867034d785551b298529db4e41",
-        "section_id": "sec_31f0c870e026003c"
+        "section_digest": "sha256:b50e2d8a6b011d043599b68c2e2b21448f677b18dbc67db3f0800d60562eb3c0",
+        "section_id": "sec_7f80c1b153802173"
       },
-      "quote": "        3.6 REAL AND PERSONAL PROPERTY\n    (a) Part 3.6(a) lists all real estate owned by each Acquired Company (the “Owned Real Property”), including the legal description, street address, and any tax parcel identification number of each property, and the Acquired Company that owns such property. Sellers have delivered to Buyer copies of the deeds and other instruments by which any Acquired Company acquired the Owned Real Property and copies of all title insurance policies, opinions, abstracts, and surveys in the possession of Sellers or any Acquired Company relating to the Owned Real Property.\n    (b) Part 3.6(b) lists all real estate leased by any Acquired Company as a lessee, sub-lessee, or assignee (the “Leased Real Property” and, together with the Owned Real Property, the “Real Property”), including a description of the premises leased and the Acquired Company that leases the same. All Leased Real Property is leased pursuant to valid written leases listed in Part 3.17(a). Such leases contain the entire agreement between the landlord of each of the leased premises and the Acquired Company, and there is no other Contract between the landlord and any Acquired Company affecting such Leased Real Property. No Acquired Company leases Real Property as a lessor or sub-lessor.\n    (c) The Owned Real Property and the Acquired Companies’ interests in the Leased Real Property are owned by the respective Acquired Companies free and clear of all Encumbrances, variances, or limitations of any nature, other than Permitted Encumbrances and as set forth in Part 3.6(c). All buildings, plants, and structures owned by any Acquired Company lie wholly within the boundaries of the Real Property in question and do not encroach upon the property of, or otherwise conflict with the property rights of, any other Person. There are no buildings, structures, fixtures, or other improvements primarily situated on adjoining property that encroach on any part of the Real Property. Each parcel of Real Property abuts on, and has direct vehicular access to, a public road or has access to a public road via a permanent, irrevocable, appurtenant easement benefiting such Real Property and constituting a part thereof. Certificates of occupancy are in full force and effect for each location of Real Property, and the uses thereof being made by the Acquired Companies do not violate any applicable zoning, subdivision, land use, or other Legal Requirement. No Third Party has a right to acquire any interest in the Owned Real Property or in the Acquired Companies’ interests in the Leased Real Property. There is no existing or proposed plan to modify or realign any street or highway or any existing or proposed eminent domain Proceeding that would result in the taking of all or any part of any parcel of Real Property or that would prevent or hinder the continued use of any such parcel as used by the Acquired Companies. None of the Real Property is located within a flood plain for flood insurance purposes.\n    (d) The Acquired Companies own all tangible personal property reflected as owned in the Interim Balance Sheet (other than inventory sold since the Interim Balance Sheet Date in the Ordinary Course of Business), free and clear of all Encumbrances, other than Permitted Encumbrances and as set forth in Part 3.6(d). All the tangible personal property purchased or otherwise acquired by the Acquired Companies since the Interim Balance Sheet Date (other than inventory acquired and sold since the Interim Balance Sheet Date in the Ordinary Course of Business) is owned by the Acquired Companies free and clear of all Encumbrances, other than Permitted Encumbrances and as set forth in Part 3.6(d). A copy of the fixed asset register of each Acquired Company has been delivered to Buyer. Each such register contains a complete and correct list of the fixed assets of the applicable Acquired Company as of the date specified.\n",
-      "quote_digest": "sha256:e2f1b220cabd490dea4d5464e33eee9b945f0d867034d785551b298529db4e41",
+      "quote": "    3. REPRESENTATIONS AND WARRANTIES OF SELLERS\t22\n        3.1 Organization and Good Standing\t22\n        3.2 Enforceability and Authority; No Conflict\t22\n        3.3 Capitalization of Company and Subsidiaries\t23\n        3.4 Financial Statements\t24\n        3.5 Books and Records\t24\n        3.6 Real and Personal Property\t25\n        3.7 Condition and Sufficiency of Assets\t26\n        3.8 Accounts Receivable\t26\n        3.9 Inventories\t26\n        3.10 No Undisclosed Liabilities\t26\n        3.11 Taxes\t26\n        3.12 No Material Adverse Change\t28\n        3.13 Employee Benefits\t29\n        3.14 Compliance with Legal Requirements; Governmental Authorizations\t31\n        3.15 Legal Proceedings; Orders\t32\n        3.16 Absence of Certain Changes and Events\t33\n        3.17 Contracts\t33\n        3.18 Insurance\t35\n        3.19 Environmental Matters\t37\n        3.20 Employees and Consultants\t38\n        3.21 Labor Disputes; Compliance\t39\n        3.22 Intellectual Property Assets\t39\n        3.23 Compliance with the Foreign Corrupt Practices Act and Export Control and\nAntiboycott Laws\t43\n        3.24 Relationships with Related Persons\t43\n        3.25 Securities Law Matters\t43\n        3.26 Customers and Suppliers\t43\n        3.27 Product Liabilities and Warranties\t43\n        3.28 Brokers or Finders\t44\n        3.29 Disclosure\t44\n",
+      "quote_digest": "sha256:b50e2d8a6b011d043599b68c2e2b21448f677b18dbc67db3f0800d60562eb3c0",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
-        "query": "appreciated property distribution built-in gain property transferred to shareholder debt-financed distribution",
+        "query": "26 U.S.C. 311 26 U.S.C. 336 26 U.S.C. 301 property distribution 26 U.S.C. 1012 basis",
         "version": "1"
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
@@ -29,13 +29,13 @@
         "uri": "private://apex/7beb28a6e0069669-d885dee3"
       }
     },
-    "retrieval_receipt_digest": "sha256:ebeb40d62ce7d387aff43418ccb748b1d51d5c0af75379745b6938d04f2471a3",
+    "retrieval_receipt_digest": "sha256:f8374aa07cca782115e4da97fbb46ca577c164789f8414940c2b796bbc03395c",
     "source_content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
     "source_digest": "sha256:9b5e55c106d3b2c9d270455bb5af81e282a4e92f3ba0722f868b952faf8ff0b5",
     "source_ref": "src_1cb20c6823882030"
   },
   "schema_version": "proofpress/knowledge-event/v2",
   "source_ref": "src_1cb20c6823882030",
-  "subject_ref": "evd_72caecb6080e456b",
+  "subject_ref": "evd_7f2e055f72f3a534",
   "type": "evidence_bound"
 }
