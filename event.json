@@ -1,17 +1,26 @@
 {
-  "conclusion_digest": "sha256:31af6c79c0435dfb85c4c4aa8b3cc9fd70f5639795875c9731bb70d3cf74eafa",
-  "created_at": "2026-08-30T19:17:19.822938Z",
-  "event_id": "ppe_dbd995a5846f50b5",
-  "evidence_digests": {
-    "evd_05274510c61fbced": "sha256:3632cbb51c5ef24dd2cb06c4c9b79d779cff94032a9ed78992494b8d7bcd4e45",
-    "evd_82e740295e98431d": "sha256:b04b9ffc5885767f478f2dac6502c2773e2200ffd3ab25d61f793510b9121609",
-    "evd_89ff0ad8c5ecf4dc": "sha256:914b6b87fb13e1f7a189d29b24106fb6216c743a146ab5306e3ea7b1a48df947",
-    "evd_9717e45c637fc498": "sha256:eb635140e565d0a94b1db65050ecbc6245fb8302aa8e8a229aee6355372c4f1a"
+  "conclusion": {
+    "allowed_actors": [
+      "*"
+    ],
+    "artifact_refs": [],
+    "created_at": "2026-08-30T19:17:19.941989Z",
+    "digest": "sha256:8742d64081309778ca8f85ef800dd66f6d39787275703e2ad6b387f3dd6f263f",
+    "evidence_refs": [
+      "evd_05274510c61fbced",
+      "evd_9717e45c637fc498"
+    ],
+    "expires_at": null,
+    "id": "knw_363546dd2c194856",
+    "kind": "conclusion",
+    "proposer": "agent:v8-constructor",
+    "qualifiers": {},
+    "scope": "task_11893dcabbe34b0aa991516dfe7edcba",
+    "statement": "No evidence in the cited historic distribution schedules identifies any distribution as noncash property, securities, debt forgiveness, a personal-expense payment, or a constructive distribution."
   },
-  "policy_digest": "sha256:cde050fdc0b2869fecf8ee9d24dee964fc3bbc18e6b489da2e08e7c3df266501",
-  "review_ref": "ppe_f7a6aabc8cae6176",
-  "reviewer": "human:staged-evaluation-reviewer",
+  "created_at": "2026-08-30T19:17:20.031346Z",
+  "event_id": "ppe_976b29a6088cb517",
   "schema_version": "proofpress/knowledge-event/v2",
-  "subject_ref": "knw_7d0854e50d5f31ff",
-  "type": "conclusion_admitted"
+  "subject_ref": "knw_363546dd2c194856",
+  "type": "conclusion_proposed"
 }
