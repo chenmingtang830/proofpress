@@ -1,21 +1,21 @@
 {
-  "created_at": "2026-08-30T19:17:52.430515Z",
-  "event_id": "ppe_58f990eefdd25420",
+  "created_at": "2026-08-30T19:17:52.677002Z",
+  "event_id": "ppe_175e0a1dd6063092",
   "evidence": {
-    "digest": "sha256:4287acf353455aa5421600e4307f46d4b30c7b485aed2955f6d23a1429140358",
-    "id": "evd_748b0ff5a802927b",
+    "digest": "sha256:bd21a4c62f45452ab64e750ad2c623ed07c2aafb5e392eba4ae91911f43c32f2",
+    "id": "evd_0533c35e39878116",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:7b8fab8865fbf4873d7954ac68dd0824ac6cb014b8b105f7e6d774572daf0a6b",
+    "quote_digest": "sha256:9bdd47b7bc2ae98e0f969d5e3c79d03e9a8ccefd581b737d53bf25e8bd8de817",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:7b8fab8865fbf4873d7954ac68dd0824ac6cb014b8b105f7e6d774572daf0a6b",
-        "section_id": "sec_365e75ec4b9ec236"
+        "section_digest": "sha256:9bdd47b7bc2ae98e0f969d5e3c79d03e9a8ccefd581b737d53bf25e8bd8de817",
+        "section_id": "sec_ba0c4883a3f751e1"
       },
-      "quote": "SECTION 7. RELIEF FOR LATE QSUB ELECTIONS.\n.01 Form 8869. An S corporation seeking relief for a late QSub election for a subsidiary must file a completed Form 8869.\n.02 Supplemental materials. The completed Election Form must include a statement signed by an officer of the S corporation, which complies with the requirement in Section 4.03(3) of this revenue procedure, that the subsidiary corporation satisfies the QSub requirements of § 1361(b)(3)(B), and that all assets, liabilities, and items of income, deduction, and credit of the QSub have been treated as assets, liabilities, and items of income, deduction, and credit of the S corporation on all affected returns consistent with the QSub election for the year the election was intended to be effective and for all subsequent years.\n",
-      "quote_digest": "sha256:7b8fab8865fbf4873d7954ac68dd0824ac6cb014b8b105f7e6d774572daf0a6b",
+      "quote": "        4.3 INVESTMENT INTENT\nBuyer is acquiring the Shares for its own account and not with a view to their distribution within the meaning of Section 2(11) of the Securities Act.\n",
+      "quote_digest": "sha256:9bdd47b7bc2ae98e0f969d5e3c79d03e9a8ccefd581b737d53bf25e8bd8de817",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
@@ -24,18 +24,18 @@
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
       "source": {
-        "content_digest": "sha256:489de4a5c467eb0382ef4f29920dc6433adc3a3336da5057aec7f37cd0208560",
+        "content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
         "media_type": "text/plain",
-        "uri": "private://apex/489de4a5c467eb03-1184b3a1"
+        "uri": "private://apex/7beb28a6e0069669-d885dee3"
       }
     },
-    "retrieval_receipt_digest": "sha256:e7f20cc8d07b4a673418d9bb68c2b7b23720f89ecf4133928e4ea2c7456ccc66",
-    "source_content_digest": "sha256:489de4a5c467eb0382ef4f29920dc6433adc3a3336da5057aec7f37cd0208560",
-    "source_digest": "sha256:0e30a41e1d31405a037edcc4e56b65c5107236c02092ff6fca6351e692a30a27",
-    "source_ref": "src_449cd1a48a2b6b92"
+    "retrieval_receipt_digest": "sha256:5bf8c364002309f347ba7c322ad002288e6970c076798ca2634eef32943bab15",
+    "source_content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
+    "source_digest": "sha256:9b5e55c106d3b2c9d270455bb5af81e282a4e92f3ba0722f868b952faf8ff0b5",
+    "source_ref": "src_1cb20c6823882030"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_449cd1a48a2b6b92",
-  "subject_ref": "evd_748b0ff5a802927b",
+  "source_ref": "src_1cb20c6823882030",
+  "subject_ref": "evd_0533c35e39878116",
   "type": "evidence_bound"
 }
