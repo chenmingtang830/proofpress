@@ -1,21 +1,21 @@
 {
-  "created_at": "2026-08-30T19:17:54.144864Z",
-  "event_id": "ppe_7a5deb457b913f2d",
+  "created_at": "2026-08-30T19:17:54.388355Z",
+  "event_id": "ppe_f2f6f341ce992f8d",
   "evidence": {
-    "digest": "sha256:6de3704b79df09be721473eca44fd6b684af93a3fff96eda3511535c31b537ad",
-    "id": "evd_d55e8bb9923ddab6",
+    "digest": "sha256:11bf8e9af99e84b3bb6b24aac7c273b96c3a3cf5f6dc0fcddc6e1f4bdc915d34",
+    "id": "evd_bf1b911e4c0d0410",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:c6d74679a133462f3a7c4777315fb76d30964c3e0ec66b20f158f59ff61061d2",
+    "quote_digest": "sha256:c6db9ceaa6bb988d526519c2736b35d552a811f412b3a8797f156d87ff20bbfc",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:c6d74679a133462f3a7c4777315fb76d30964c3e0ec66b20f158f59ff61061d2",
-        "section_id": "sec_f0ffd79a47a226b7"
+        "section_digest": "sha256:c6db9ceaa6bb988d526519c2736b35d552a811f412b3a8797f156d87ff20bbfc",
+        "section_id": "sec_e60d879be65f8a0f"
       },
-      "quote": "        5.1 ACCESS AND INVESTIGATION\nPrior to the Closing Date, and upon reasonable notice from Buyer, each Seller shall, and shall cause each Acquired Company to, (a) afford Buyer and its Representatives and prospective lenders and their Representatives (collectively, “Buyer Group”) full and free access, during regular business hours, to each Acquired Company’s personnel, assets, Contracts, and Records, (b) furnish Buyer Group with copies of all such Contracts and Records as Buyer may reasonably request, (c) furnish Buyer Group with such additional financial, operating, and other relevant data and information as Buyer may reasonably request, and (d) otherwise cooperate and assist, to the extent reasonably requested by Buyer, with Buyer’s investigation of the business, condition (financial or otherwise), assets, results of operations, or prospects of each Acquired Company. In addition, Buyer shall have the right to have the Real Property and the tangible personal property of each Acquired Company inspected by Buyer Group, at Buyer’s sole cost and expense, including the performance of subsurface or other intrusive testing.\n",
-      "quote_digest": "sha256:c6d74679a133462f3a7c4777315fb76d30964c3e0ec66b20f158f59ff61061d2",
+      "quote": "OFFICERS\nSection 4.1 Officers.\nThe officers of the Corporation shall consist of a President, a Secretary, and a Treasurer, and may include a Chair of the Board and any assistant officers as appointed by the Board.\nSection 4.2 Appointment.\nOfficers shall be appointed by the Board annually and shall serve at the pleasure of the Board.\nSection 4.3 Duties.\n(a) President. Chief executive officer of the Corporation, responsible for oversight of operations.\n (b) Secretary. Maintains corporate records and minutes.\n (c) Treasurer. Responsible for financial management and reporting.\nSection 4.4 Removal.\nAny officer may be removed by the Board at any time.\nSection 4.5 Vacancies.\nA vacancy in any office shall be filled by the Board.\n\n",
+      "quote_digest": "sha256:c6db9ceaa6bb988d526519c2736b35d552a811f412b3a8797f156d87ff20bbfc",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
@@ -24,18 +24,18 @@
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
       "source": {
-        "content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
+        "content_digest": "sha256:1cb8fe86d8075d2b126f99858b67aa3a45ced38879cf7b3859b78e577483572b",
         "media_type": "text/plain",
-        "uri": "private://apex/7beb28a6e0069669-d885dee3"
+        "uri": "private://apex/1cb8fe86d8075d2b-0c1ae063"
       }
     },
-    "retrieval_receipt_digest": "sha256:2affc711ffc527f17288d122fea8361afcdc0ee08d13ac840f68909b8ef64346",
-    "source_content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
-    "source_digest": "sha256:9b5e55c106d3b2c9d270455bb5af81e282a4e92f3ba0722f868b952faf8ff0b5",
-    "source_ref": "src_1cb20c6823882030"
+    "retrieval_receipt_digest": "sha256:62e08ce6cf0d1e636618a8b01a767dfc95607177649649d2bd82bef2e8fd4d82",
+    "source_content_digest": "sha256:1cb8fe86d8075d2b126f99858b67aa3a45ced38879cf7b3859b78e577483572b",
+    "source_digest": "sha256:dce34be7d3faee591fc3639cc0fc742ebc66a097c301c07eb716b0649e3998a1",
+    "source_ref": "src_3376baa521507aa6"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_1cb20c6823882030",
-  "subject_ref": "evd_d55e8bb9923ddab6",
+  "source_ref": "src_3376baa521507aa6",
+  "subject_ref": "evd_bf1b911e4c0d0410",
   "type": "evidence_bound"
 }
