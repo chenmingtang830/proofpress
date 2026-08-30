@@ -1,21 +1,21 @@
 {
-  "created_at": "2026-08-30T19:16:22.045601Z",
-  "event_id": "ppe_ced31f86d87663a6",
+  "created_at": "2026-08-30T19:16:22.179789Z",
+  "event_id": "ppe_904813ad0b287405",
   "evidence": {
-    "digest": "sha256:e4a0e860d6487db393ca25675a4306d365ee8a62e7a3017a3c9d05bd3acd669a",
-    "id": "evd_ea369d251fe77c02",
+    "digest": "sha256:c44e18e9766cf1ac092d1189e8a3fbdedf27c69791661ab01791760780e47a3b",
+    "id": "evd_6a648b5b92cb9676",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:a103ca4f13bf0c346fe444774725a164a3cec41225c7d4d2e434028637435150",
+    "quote_digest": "sha256:ef3565fb1a4bf3152a083f6c46387940f2fa27d4d9fb4c82a7d6b49b28971099",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:a103ca4f13bf0c346fe444774725a164a3cec41225c7d4d2e434028637435150",
-        "section_id": "sec_4dac52f5b4fe5848"
+        "section_digest": "sha256:ef3565fb1a4bf3152a083f6c46387940f2fa27d4d9fb4c82a7d6b49b28971099",
+        "section_id": "sec_9f108c27d880e944"
       },
-      "quote": "        12.18 NOTICES\nAll notices and other communications required or permitted by this Agreement shall be in writing and will be effective, and any applicable time period shall commence, when (a) delivered to the following address by hand or by a nationally recognized overnight courier service (costs prepaid) addressed to the following address or (b) transmitted electronically to the following facsimile numbers or e-mail addresses, in each case marked to the attention of the Person (by name or title) designated below (or to such other address, facsimile number, e-mail address, or Person as a party may designate by notice to the other parties):\nSellers:\n\n[Name of Sellers’ Representative] [Street]\n[City, state, and zip code] Fax no.:\nE-mail address:\nwith a copy to:\n\nAttention: [Street]\n[City, state, and zip code] Fax no.:\nE-mail address: Buyer:\n\nAttention: [Street]\n[City, state, and zip code] Fax no.:\nE-mail address: with a copy to:\n\nAttention:\n[Street]\n[City, state, and zip code] Fax no.:\nE-mail address:\n",
-      "quote_digest": "sha256:a103ca4f13bf0c346fe444774725a164a3cec41225c7d4d2e434028637435150",
+      "quote": "MISCELLANEOUS\nSection 10.1 Seal.\nThe Board may adopt a corporate seal.\nSection 10.2 Books and Records.\nThe Corporation shall keep correct and complete books and records as required by the DGCL.\nSection 10.3 Electronic Transmission.\nAny action or signature required by these Bylaws may be completed by electronic transmission to the fullest extent permitted by law.\n\n",
+      "quote_digest": "sha256:ef3565fb1a4bf3152a083f6c46387940f2fa27d4d9fb4c82a7d6b49b28971099",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
@@ -24,18 +24,18 @@
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
       "source": {
-        "content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
+        "content_digest": "sha256:1cb8fe86d8075d2b126f99858b67aa3a45ced38879cf7b3859b78e577483572b",
         "media_type": "text/plain",
-        "uri": "private://apex/7beb28a6e0069669-d885dee3"
+        "uri": "private://apex/1cb8fe86d8075d2b-0c1ae063"
       }
     },
-    "retrieval_receipt_digest": "sha256:9545a7018bf1087c0820aa089edd0c870286f8bd49f836a777e473552769f876",
-    "source_content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
-    "source_digest": "sha256:9b5e55c106d3b2c9d270455bb5af81e282a4e92f3ba0722f868b952faf8ff0b5",
-    "source_ref": "src_1cb20c6823882030"
+    "retrieval_receipt_digest": "sha256:77097a652af329f7340bb8add91c18e8a380a3c568cd27a43717cad728ad9a79",
+    "source_content_digest": "sha256:1cb8fe86d8075d2b126f99858b67aa3a45ced38879cf7b3859b78e577483572b",
+    "source_digest": "sha256:dce34be7d3faee591fc3639cc0fc742ebc66a097c301c07eb716b0649e3998a1",
+    "source_ref": "src_3376baa521507aa6"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_1cb20c6823882030",
-  "subject_ref": "evd_ea369d251fe77c02",
+  "source_ref": "src_3376baa521507aa6",
+  "subject_ref": "evd_6a648b5b92cb9676",
   "type": "evidence_bound"
 }
