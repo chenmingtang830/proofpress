@@ -1,41 +1,41 @@
 {
-  "created_at": "2026-08-30T19:17:03.805255Z",
-  "event_id": "ppe_812f01fbe54648ee",
+  "created_at": "2026-08-30T19:17:03.990832Z",
+  "event_id": "ppe_4238816577cb5bc4",
   "evidence": {
-    "digest": "sha256:30f13450c3ff2dc6cd97dea1d55b12ac9f1c502a41b94d38e7e5cbafef5e8fef",
-    "id": "evd_64b838a88e393bf6",
+    "digest": "sha256:2c9356d654db041bf71bec8600a7af784464f4d1ddd82bec02cca46bfbbd2dc8",
+    "id": "evd_58bf661bee3ab335",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:78161a8e9bbe22518650485c863b360d3b726941f210ab5440540a5b1a57afde",
+    "quote_digest": "sha256:7b8fab8865fbf4873d7954ac68dd0824ac6cb014b8b105f7e6d774572daf0a6b",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:78161a8e9bbe22518650485c863b360d3b726941f210ab5440540a5b1a57afde",
-        "section_id": "sec_1261481b025c6f29"
+        "section_digest": "sha256:7b8fab8865fbf4873d7954ac68dd0824ac6cb014b8b105f7e6d774572daf0a6b",
+        "section_id": "sec_365e75ec4b9ec236"
       },
-      "quote": "J�N�\tL>\u001a��?�&�HN\n�E\bk���SiS\rwl)26�\u000b����\u0005x��\u001d�M�<�q�z3�}\b��\u001br�↚N�V����e�}��8�Z�'�\u0012@�mڤ V��ؙ\u0001^K�\n9�vj\u000b��2�_��~26���:pX*˅\b̆�� ay9)�c�(e&w�\u000f�����\f",
-      "quote_digest": "sha256:78161a8e9bbe22518650485c863b360d3b726941f210ab5440540a5b1a57afde",
+      "quote": "SECTION 7. RELIEF FOR LATE QSUB ELECTIONS.\n.01 Form 8869. An S corporation seeking relief for a late QSub election for a subsidiary must file a completed Form 8869.\n.02 Supplemental materials. The completed Election Form must include a statement signed by an officer of the S corporation, which complies with the requirement in Section 4.03(3) of this revenue procedure, that the subsidiary corporation satisfies the QSub requirements of § 1361(b)(3)(B), and that all assets, liabilities, and items of income, deduction, and credit of the QSub have been treated as assets, liabilities, and items of income, deduction, and credit of the S corporation on all affected returns consistent with the QSub election for the year the election was intended to be effective and for all subsequent years.\n",
+      "quote_digest": "sha256:7b8fab8865fbf4873d7954ac68dd0824ac6cb014b8b105f7e6d774572daf0a6b",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
-        "query": "26 U.S.C. 301 26 U.S.C. 302 26 U.S.C. 316 26 U.S.C. 312",
+        "query": "S corporation accumulated earnings and profits accumulated adjustments account AAA distribution ordering AE&P",
         "version": "1"
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
       "source": {
-        "content_digest": "sha256:9de86b9c588f868cf202515f1674723667dae0db25a28590a3896eb4e343e989",
-        "media_type": "application/pdf",
-        "uri": "private://apex/9de86b9c588f868c-61ae1ca6"
+        "content_digest": "sha256:489de4a5c467eb0382ef4f29920dc6433adc3a3336da5057aec7f37cd0208560",
+        "media_type": "text/plain",
+        "uri": "private://apex/489de4a5c467eb03-1184b3a1"
       }
     },
-    "retrieval_receipt_digest": "sha256:c8497c328f8354154fc59c6790388f17fc9f9d3d0335724a8bd981586c9d4916",
-    "source_content_digest": "sha256:9de86b9c588f868cf202515f1674723667dae0db25a28590a3896eb4e343e989",
-    "source_digest": "sha256:dac069f37a3df71d55de05b70270b156f4936b51bf25646cdbdeec40f54dcc1a",
-    "source_ref": "src_1a286ec228b5cc45"
+    "retrieval_receipt_digest": "sha256:6105ee428ceb79afdeda71d36cf43fa9bb6dce493da7612dcb5228ee3cbf5adc",
+    "source_content_digest": "sha256:489de4a5c467eb0382ef4f29920dc6433adc3a3336da5057aec7f37cd0208560",
+    "source_digest": "sha256:0e30a41e1d31405a037edcc4e56b65c5107236c02092ff6fca6351e692a30a27",
+    "source_ref": "src_449cd1a48a2b6b92"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_1a286ec228b5cc45",
-  "subject_ref": "evd_64b838a88e393bf6",
+  "source_ref": "src_449cd1a48a2b6b92",
+  "subject_ref": "evd_58bf661bee3ab335",
   "type": "evidence_bound"
 }
