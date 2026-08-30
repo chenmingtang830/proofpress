@@ -1,41 +1,15 @@
 {
-  "created_at": "2026-08-30T19:16:16.331868Z",
-  "event_id": "ppe_52ebb3b92ad21367",
-  "evidence": {
-    "digest": "sha256:3101bccb096b757cf4c091cf6c7ca72e65af0d22bfb80af2006fe54358c64cff",
-    "id": "evd_c45b20d568b9d0da",
-    "kind": "retrieval_evidence",
-    "quote_digest": "sha256:9fa61fcf2f55f2997ac539aa4b9523062f1ba72255256cfd7fc978e6fa918356",
-    "retrieval_receipt": {
-      "locator": {
-        "kind": "section_span",
-        "page_end": 1,
-        "page_start": 1,
-        "section_digest": "sha256:9fa61fcf2f55f2997ac539aa4b9523062f1ba72255256cfd7fc978e6fa918356",
-        "section_id": "sec_fce166a20eb2dbec"
-      },
-      "quote": "�\u0012�=�U>�\u001f\u0006\u0000\u0002�\nendstream\nendobj\n742 0 obj\n<</Creator(AH XSL Formatter V6.6 MR4 for Linux64 : 6.6.6.37929 \\(2019/03/11 12:35JST\\))/ModDate(D:20201207130854-05'00')/Trapped/False/CreationDate(D:20200805150856-05'00')/Subject(Instructions for Form 2553, \\(For use with the December 2017 revision of Form 2553, Election by a Small Business Corporation\\))/Producer(Antenna House PDF Output Library 6.6.1437 \\(Linux64\\); modified using iText 2.1.7 by 1T3XT)/Author(W:CAR:MP:FP)/Title(Instructions for Form 2553 \\(Rev. December 2020\\))>>\nendobj\n631 0 obj\n<</Filter/FlateDecode/Type/ObjStm/Length 4682/First 1007/N 112>>stream\nx��[yo\u001b9��*\u0004��I�`5�c�\b�#�x'N<��\u0019��\u0018t���\u0017Y-H�d�>��\"�R봬Y,\u0016�L6�d\u001d�U���m\u0015g�Y%�qLJ�\u0004�p��\b\u0002Jͤ\u000ePZ����0�Mz���20ñ�c�:(=�\u0002��\u0018\u0007�ar'��\u0012��8�9�0�Ղ�\u00004�����Z2!���fB\t�H\u001b�\u0004l�>\u001a�Y\r�逕���p�\b&�\u0004~�\u0017�8�c`���\u0011H#��\u0016\u000f� �\u0006F\u0005\u0003L\u0018�$�ΖC%Σ�\u0014\u0002*V@��-h�\u001a[����@\u0005FX\u000br��\u0019��\u0016$�I�\u0011P\u0001\u0015H�<C�D6�\u0003\u0012\u000e;;���\bk=�^�~�\u0003e\u0018�\u0013$j\u0005n\u0005h�N��\u0015�\u000b",
-      "quote_digest": "sha256:9fa61fcf2f55f2997ac539aa4b9523062f1ba72255256cfd7fc978e6fa918356",
-      "retrieval": {
-        "adapter": "bm25-page",
-        "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
-        "query": "\"Form 2553\" \"Rev. B\" \"Form 2553 (Rev. B)\" 2019 \"Form 2553\" instructions 2019 \"Form 2553\" revision B IRS",
-        "version": "1"
-      },
-      "schema_version": "proofpress/retrieval-evidence/v1",
-      "source": {
-        "content_digest": "sha256:763b540a616086edcecf3a87d5edf98dff1e05704299a9736a42a918435cd4d3",
-        "media_type": "application/pdf",
-        "uri": "private://apex/763b540a616086ed-755262e0"
-      }
-    },
-    "retrieval_receipt_digest": "sha256:35214199843e8da03fdfc56cb637be5567d75f6db4d1a4f03e7ac7f48e1ba95e",
-    "source_content_digest": "sha256:763b540a616086edcecf3a87d5edf98dff1e05704299a9736a42a918435cd4d3",
-    "source_digest": "sha256:710da86265ba6ccc9fda04ba9470388e59b91336b1511b9987d3b5828d623bdc",
-    "source_ref": "src_127dc512c8fae24b"
+  "created_at": "2026-08-30T19:16:16.406131Z",
+  "event_id": "ppe_c29e450ef0f96e9b",
+  "record": {
+    "content_digest": "sha256:2e39db8b0fa0d4fc03d636cb54af727f48e65e0148a8fb12171d091714a28f3e",
+    "id": "src_69773369ecf43fc2",
+    "kind": "retrieval_source",
+    "media_type": "application/pdf",
+    "record_hash": "sha256:491a3c9237407033c1e4f4965671c18d280a02cadacbece6116ea0dd7b0ebf55",
+    "uri": "private://apex/2e39db8b0fa0d4fc-9b30e170"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_127dc512c8fae24b",
-  "subject_ref": "evd_c45b20d568b9d0da",
-  "type": "evidence_bound"
+  "subject_ref": "src_69773369ecf43fc2",
+  "type": "source_recorded"
 }
