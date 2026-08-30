@@ -1,41 +1,41 @@
 {
-  "created_at": "2026-08-30T19:17:07.281670Z",
-  "event_id": "ppe_f73365130a87a917",
+  "created_at": "2026-08-30T19:17:07.470358Z",
+  "event_id": "ppe_4e62fe58fc19cf8a",
   "evidence": {
-    "digest": "sha256:190dd0ba989dd0231508bc926e82791fd59042101abea51ab25bec963070285a",
-    "id": "evd_b01429db708e69f9",
+    "digest": "sha256:06370d6c5f7c074ba6301265fe46e35ef109a5d40a869cd3a15cb14d851c6744",
+    "id": "evd_72caecb6080e456b",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:f79f082c782b00f3d33f58dab11f4aeb7917538ea8b291f5348a54c9325fffe9",
+    "quote_digest": "sha256:e2f1b220cabd490dea4d5464e33eee9b945f0d867034d785551b298529db4e41",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:f79f082c782b00f3d33f58dab11f4aeb7917538ea8b291f5348a54c9325fffe9",
-        "section_id": "sec_9270fd6e9024286c"
+        "section_digest": "sha256:e2f1b220cabd490dea4d5464e33eee9b945f0d867034d785551b298529db4e41",
+        "section_id": "sec_31f0c870e026003c"
       },
-      "quote": "SECTION 10. PAPERWORK REDUCTION ACT\nThe collection of information contained in this revenue procedure has been reviewed and approved by the Office of Management and Budget (OMB) in accordance with the Paperwork Reduction Act of 1995 (44 U.S.C. 3507(d)) under control number 1545-1548.\nThe collection of information in this revenue procedure is in Section 4.03 and Sections 5 through 7. The information will help the IRS to determine whether a taxpayer has met the requirements of Sections 4 through 7 of this revenue procedure and whether a taxpayer has reasonable cause for failing to make a timely election. The collection of information is required to make a late election pursuant to this revenue procedure. This information will be used to determine whether the eligibility requirements for obtaining relief have been met. The collection of information is required to obtain a benefit. The likely respondents are business or other for-profit institutions.\nThe estimated total annual reporting burden is 50,000 hours.\nThe estimated annual burden per respondent varies from .5 hours to 1 hour, depending on individual circumstances, with an estimated average burden of 1 hour to complete the statement. The estimated number of respondents is 50,000.\nThe estimated annual frequency of responses is on occasion.\nBooks or records relating to a collection of information must be retained as long as their contents may become material in the administration of any internal revenue law. Generally tax returns and tax return information are confidential, as required by section 6103.\n",
-      "quote_digest": "sha256:f79f082c782b00f3d33f58dab11f4aeb7917538ea8b291f5348a54c9325fffe9",
+      "quote": "        3.6 REAL AND PERSONAL PROPERTY\n    (a) Part 3.6(a) lists all real estate owned by each Acquired Company (the “Owned Real Property”), including the legal description, street address, and any tax parcel identification number of each property, and the Acquired Company that owns such property. Sellers have delivered to Buyer copies of the deeds and other instruments by which any Acquired Company acquired the Owned Real Property and copies of all title insurance policies, opinions, abstracts, and surveys in the possession of Sellers or any Acquired Company relating to the Owned Real Property.\n    (b) Part 3.6(b) lists all real estate leased by any Acquired Company as a lessee, sub-lessee, or assignee (the “Leased Real Property” and, together with the Owned Real Property, the “Real Property”), including a description of the premises leased and the Acquired Company that leases the same. All Leased Real Property is leased pursuant to valid written leases listed in Part 3.17(a). Such leases contain the entire agreement between the landlord of each of the leased premises and the Acquired Company, and there is no other Contract between the landlord and any Acquired Company affecting such Leased Real Property. No Acquired Company leases Real Property as a lessor or sub-lessor.\n    (c) The Owned Real Property and the Acquired Companies’ interests in the Leased Real Property are owned by the respective Acquired Companies free and clear of all Encumbrances, variances, or limitations of any nature, other than Permitted Encumbrances and as set forth in Part 3.6(c). All buildings, plants, and structures owned by any Acquired Company lie wholly within the boundaries of the Real Property in question and do not encroach upon the property of, or otherwise conflict with the property rights of, any other Person. There are no buildings, structures, fixtures, or other improvements primarily situated on adjoining property that encroach on any part of the Real Property. Each parcel of Real Property abuts on, and has direct vehicular access to, a public road or has access to a public road via a permanent, irrevocable, appurtenant easement benefiting such Real Property and constituting a part thereof. Certificates of occupancy are in full force and effect for each location of Real Property, and the uses thereof being made by the Acquired Companies do not violate any applicable zoning, subdivision, land use, or other Legal Requirement. No Third Party has a right to acquire any interest in the Owned Real Property or in the Acquired Companies’ interests in the Leased Real Property. There is no existing or proposed plan to modify or realign any street or highway or any existing or proposed eminent domain Proceeding that would result in the taking of all or any part of any parcel of Real Property or that would prevent or hinder the continued use of any such parcel as used by the Acquired Companies. None of the Real Property is located within a flood plain for flood insurance purposes.\n    (d) The Acquired Companies own all tangible personal property reflected as owned in the Interim Balance Sheet (other than inventory sold since the Interim Balance Sheet Date in the Ordinary Course of Business), free and clear of all Encumbrances, other than Permitted Encumbrances and as set forth in Part 3.6(d). All the tangible personal property purchased or otherwise acquired by the Acquired Companies since the Interim Balance Sheet Date (other than inventory acquired and sold since the Interim Balance Sheet Date in the Ordinary Course of Business) is owned by the Acquired Companies free and clear of all Encumbrances, other than Permitted Encumbrances and as set forth in Part 3.6(d). A copy of the fixed asset register of each Acquired Company has been delivered to Buyer. Each such register contains a complete and correct list of the fixed assets of the applicable Acquired Company as of the date specified.\n",
+      "quote_digest": "sha256:e2f1b220cabd490dea4d5464e33eee9b945f0d867034d785551b298529db4e41",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
-        "query": "Form 1099-DIV dividend reporting information returns shareholder tax reporting",
+        "query": "appreciated property distribution built-in gain property transferred to shareholder debt-financed distribution",
         "version": "1"
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
       "source": {
-        "content_digest": "sha256:489de4a5c467eb0382ef4f29920dc6433adc3a3336da5057aec7f37cd0208560",
+        "content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
         "media_type": "text/plain",
-        "uri": "private://apex/489de4a5c467eb03-1184b3a1"
+        "uri": "private://apex/7beb28a6e0069669-d885dee3"
       }
     },
-    "retrieval_receipt_digest": "sha256:21fb47e12ad307ad060b085889e79508b39f944c1ff258ea26b5c1b8058127e1",
-    "source_content_digest": "sha256:489de4a5c467eb0382ef4f29920dc6433adc3a3336da5057aec7f37cd0208560",
-    "source_digest": "sha256:0e30a41e1d31405a037edcc4e56b65c5107236c02092ff6fca6351e692a30a27",
-    "source_ref": "src_449cd1a48a2b6b92"
+    "retrieval_receipt_digest": "sha256:ebeb40d62ce7d387aff43418ccb748b1d51d5c0af75379745b6938d04f2471a3",
+    "source_content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
+    "source_digest": "sha256:9b5e55c106d3b2c9d270455bb5af81e282a4e92f3ba0722f868b952faf8ff0b5",
+    "source_ref": "src_1cb20c6823882030"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_449cd1a48a2b6b92",
-  "subject_ref": "evd_b01429db708e69f9",
+  "source_ref": "src_1cb20c6823882030",
+  "subject_ref": "evd_72caecb6080e456b",
   "type": "evidence_bound"
 }
