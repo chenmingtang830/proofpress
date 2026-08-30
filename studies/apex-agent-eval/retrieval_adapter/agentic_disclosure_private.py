@@ -15,6 +15,7 @@ MAX_AGENT_RESULTS_PER_CALL = 5
 OPEN_LOOP_INITIAL_CLAIMS = 5
 OPEN_LOOP_INITIAL_DEPTH = 1
 OPEN_LOOP_STATE_TOKEN_UPPER_BOUND = 24_000
+STATIC_OPEN_LOOP_STATE_TOKEN_UPPER_BOUND = 32_000
 OPEN_LOOP_WALL_SECONDS = 600
 
 TOOL_DECISION_SCHEMA = {
@@ -165,21 +166,40 @@ def state_token_upper_bound(value: dict[str, Any]) -> int:
     return max(1, len(json.dumps(value, ensure_ascii=False, sort_keys=True)) // 4)
 
 
+def visible_governed_claim_ids(value: Any) -> set[str]:
+    """Collect only claim IDs already present in the executor-visible state."""
+    visible: set[str] = set()
+    if isinstance(value, dict):
+        governed = value.get("governed_context", [])
+        if isinstance(governed, list):
+            visible.update(str(row.get("id")) for row in governed
+                           if isinstance(row, dict) and row.get("id") is not None)
+        for child in value.values():
+            visible.update(visible_governed_claim_ids(child))
+    elif isinstance(value, list):
+        for child in value:
+            visible.update(visible_governed_claim_ids(child))
+    return visible
+
+
 def run_open_loop_agentic_disclosure(
     *, query: str, scope: str, index: SectionIndex,
     decide: Callable[[dict[str, Any]], dict[str, Any]],
+    initial_state_context: Any | None = None,
+    state_token_limit: int = OPEN_LOOP_STATE_TOKEN_UPPER_BOUND,
 ) -> dict[str, Any]:
     """Run executor-directed tools without a fixed tool-call-count limit.
 
     Termination is answer-driven. The host still fails closed on a repeated
-    identical decision, the shared 24k context boundary, or elapsed wall time.
+    identical decision, the configured state boundary, or elapsed wall time.
     None of those guards is a tool-call-count budget.
     """
-    seed = compact_tool_result(open_loop_initial_context(query, scope))
+    seed = (compact_tool_result(open_loop_initial_context(query, scope))
+            if initial_state_context is None else initial_state_context)
     state: dict[str, Any] = {"ask": query, "initial_context": seed, "tool_results": [],
                              "limits": {"max_tool_calls": None,
                                         "max_results_per_call": MAX_AGENT_RESULTS_PER_CALL,
-                                        "state_token_upper_bound": OPEN_LOOP_STATE_TOKEN_UPPER_BOUND,
+                                        "state_token_upper_bound": state_token_limit,
                                         "wall_seconds": OPEN_LOOP_WALL_SECONDS}}
     trace: list[dict[str, Any]] = []
     seen_decisions: set[str] = set()
@@ -190,7 +210,7 @@ def run_open_loop_agentic_disclosure(
         if time.monotonic() - started >= OPEN_LOOP_WALL_SECONDS:
             stop_reason = "executor_ready_wall_guard_finalization"
             break
-        if state_token_upper_bound(state) >= OPEN_LOOP_STATE_TOKEN_UPPER_BOUND:
+        if state_token_upper_bound(state) >= state_token_limit:
             stop_reason = "executor_ready_context_guard_finalization"
             break
         decision = decide(state)
@@ -215,10 +235,9 @@ def run_open_loop_agentic_disclosure(
         seen_decisions.add(signature)
         try:
             if action == "traverse_graph":
-                visible_ids = {str(row.get("id")) for row in state["initial_context"].get("governed_context", [])}
+                visible_ids = visible_governed_claim_ids(state["initial_context"])
                 for prior in state["tool_results"]:
-                    visible_ids.update(str(row.get("id")) for row in
-                                       prior.get("result", {}).get("governed_context", []))
+                    visible_ids.update(visible_governed_claim_ids(prior.get("result", {})))
                 requested_seeds = list(decision.get("seed_claim_ids", []))
                 if not requested_seeds or any(seed_id not in visible_ids for seed_id in requested_seeds):
                     raise ValueError("traverse_graph seed was not disclosed to the executor")

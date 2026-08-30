@@ -1,4 +1,5 @@
 import importlib.util
+import inspect
 import json
 import sys
 import tempfile
@@ -52,14 +53,15 @@ class RetrievalPanelContractTests(unittest.TestCase):
 
     def test_agentic_disclosure_matrix_and_tool_schema_are_frozen(self):
         self.assertEqual(workflow_runner.AGENTIC_CONDITIONS, (
-            "v12-full-claim-graph-control", "v12-static-disclosure-baseline",
-            "v14-agentic-open-loop"))
+            "v15-rag-baseline", "v15-static-open-loop-agentic"))
+        self.assertIn("v14-agentic-open-loop", workflow_runner.ALLOWED_AGENTIC_CONDITIONS)
         actions = agentic_disclosure.TOOL_DECISION_SCHEMA["properties"]["action"]["enum"]
         self.assertEqual(actions, ["traverse_graph", "search_gap", "answer"])
         self.assertEqual(agentic_disclosure.MAX_AGENT_TOOL_CALLS, 3)
         self.assertEqual(agentic_disclosure.MAX_AGENT_RESULTS_PER_CALL, 5)
         self.assertEqual(agentic_disclosure.OPEN_LOOP_INITIAL_CLAIMS, 5)
         self.assertEqual(agentic_disclosure.OPEN_LOOP_INITIAL_DEPTH, 1)
+        self.assertEqual(agentic_disclosure.STATIC_OPEN_LOOP_STATE_TOKEN_UPPER_BOUND, 32_000)
 
     def test_agentic_disclosure_host_executes_bounded_model_choices(self):
         original_initial = agentic_disclosure.initial_context
@@ -160,6 +162,36 @@ class RetrievalPanelContractTests(unittest.TestCase):
             agentic_disclosure.search_gap = original_search
         self.assertEqual(cycled["tool_call_count"], 1)
         self.assertEqual(cycled["stop_reason"], "executor_ready_cycle_guard_finalization")
+
+    def test_static_open_loop_accepts_nested_visible_claims_and_32k_state(self):
+        original_traverse = agentic_disclosure.traverse_graph
+        agentic_disclosure.traverse_graph = lambda query, scope, seeds, relations: {
+            "governed_context": [{"id": "claim-2"}], "coverage": "covered"}
+        decisions = iter([
+            {"action": "traverse_graph", "query": "dependency",
+             "seed_claim_ids": ["claim-1"], "relation_types": ["depends_on"], "reason": "expand"},
+            {"action": "answer", "query": "", "seed_claim_ids": [],
+             "relation_types": [], "reason": "enough"},
+        ])
+        static_packet = [{"governed_context": [{"id": "claim-1", "statement": "Term"}]}]
+        try:
+            result = agentic_disclosure.run_open_loop_agentic_disclosure(
+                query="review", scope="task-1", index=object(), decide=lambda state: next(decisions),
+                initial_state_context=static_packet,
+                state_token_limit=agentic_disclosure.STATIC_OPEN_LOOP_STATE_TOKEN_UPPER_BOUND)
+        finally:
+            agentic_disclosure.traverse_graph = original_traverse
+        self.assertEqual(result["tool_call_count"], 1)
+        self.assertTrue(result["used_traverse_graph"])
+        self.assertEqual(result["state"]["initial_context"], static_packet)
+        self.assertEqual(result["state"]["limits"]["state_token_upper_bound"], 32_000)
+
+    def test_formal_agentic_does_not_require_unnecessary_tool_use(self):
+        source = inspect.getsource(workflow_runner.main)
+        self.assertIn(
+            'args.qualification_only and not any(row.get("used_traverse_graph") is True', source)
+        self.assertIn(
+            'args.qualification_only and not any(row.get("used_search_gap") is True', source)
 
     def test_v7_preserver_routes_are_frozen_and_never_generate_new_claims(self):
         self.assertEqual(v7_preserver.ROUTES["sol"]["model"], "openai/gpt-5.6-sol")

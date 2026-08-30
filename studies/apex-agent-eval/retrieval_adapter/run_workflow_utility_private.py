@@ -31,6 +31,7 @@ from run_gap_retrieval_private import (
     route_pageindex_sources,
 )
 from agentic_disclosure_private import (
+    STATIC_OPEN_LOOP_STATE_TOKEN_UPPER_BOUND,
     TOOL_DECISION_SCHEMA,
     run_agentic_disclosure,
     run_open_loop_agentic_disclosure,
@@ -54,10 +55,14 @@ PROGRESSIVE_CONDITIONS = ("pr36-v7-prefetched-context", "v11-preserved-claim-gra
                           "v11-preserved-graph-plus-global-bm25",
                           "v11-preserved-graph-plus-hierarchical-hybrid",
                           "v11-full-claim-graph-control")
-AGENTIC_CONDITIONS = ("v12-full-claim-graph-control", "v12-static-disclosure-baseline",
-                      "v14-agentic-open-loop")
+V15_RAG_CONDITION = "v15-rag-baseline"
+V15_STATIC_AGENTIC_CONDITION = "v15-static-open-loop-agentic"
+AGENTIC_CONDITIONS = (V15_RAG_CONDITION, V15_STATIC_AGENTIC_CONDITION)
+ALLOWED_AGENTIC_CONDITIONS = ("v12-full-claim-graph-control", "v12-static-disclosure-baseline",
+                              "v14-agentic-open-loop", *AGENTIC_CONDITIONS)
 LEGACY_AGENTIC_CONDITION = "v12.1-agentic-disclosure-finalize"
-AGENTIC_CONDITION = "v14-agentic-open-loop"
+AGENTIC_CONDITION = V15_STATIC_AGENTIC_CONDITION
+AGENTIC_TOOL_CONDITIONS = {"v14-agentic-open-loop", V15_STATIC_AGENTIC_CONDITION}
 AGENTIC_READY_STOPS = {"executor_ready", "executor_ready_cycle_guard_finalization",
                        "executor_ready_context_guard_finalization",
                        "executor_ready_wall_guard_finalization"}
@@ -767,7 +772,7 @@ def normalize_grade(value: Any) -> dict[str, Any]:
 def resume_artifact_eligible(value: Any, condition: str) -> bool:
     """Agentic cells are reusable only when their decision trace travels with the artifact."""
     return (isinstance(value, dict) and isinstance(value.get("artifact"), (dict, list))
-            and (condition != AGENTIC_CONDITION
+            and (condition not in AGENTIC_TOOL_CONDITIONS
                  or isinstance(value.get("agentic_trace"), list)))
 
 
@@ -795,8 +800,7 @@ def paired_workflow_comparisons(cells: list[dict[str, Any]],
             for baseline in ("pr36-v7-prefetched-context", "full-catalog-bm25-prefetch")
         ] + [
             ("v12-static-disclosure-baseline", "v12-full-claim-graph-control"),
-            (AGENTIC_CONDITION, "v12-full-claim-graph-control"),
-            (AGENTIC_CONDITION, "v12-static-disclosure-baseline"),
+            (V15_STATIC_AGENTIC_CONDITION, V15_RAG_CONDITION),
         ]
         for treatment, baseline in comparison_pairs:
             unit_ids = sorted({unit_id for unit_id, condition in model_cells if condition == treatment}
@@ -922,7 +926,8 @@ def main() -> None:
     default_conditions = (AGENTIC_CONDITIONS if args.agentic_only else
                           PROGRESSIVE_CONDITIONS if args.progressive_only else CONDITIONS)
     product_conditions = tuple(value.strip() for value in args.conditions.split(",") if value.strip()) if args.conditions else default_conditions
-    unknown_conditions = sorted(set(product_conditions) - set(default_conditions))
+    allowed_conditions = ALLOWED_AGENTIC_CONDITIONS if args.agentic_only else default_conditions
+    unknown_conditions = sorted(set(product_conditions) - set(allowed_conditions))
     if unknown_conditions or not product_conditions:
         raise SystemExit("unknown or empty product condition selection: " + ",".join(unknown_conditions))
     active_conditions = product_conditions + (ORACLE_CONDITIONS if silver_by_task is not None and not args.progressive_only else ())
@@ -1001,15 +1006,20 @@ def main() -> None:
                         graph, unit_asks, catalog, sidecar, pageindex_gateway_server, workspace,
                         out / "workflow-pageindex-gateway-receipts.jsonl",
                         silver_by_task.get(task_id) if silver_by_task is not None else None,
-                        ({"v11-full-claim-graph-control", "v11-preserved-claim-graph-only"}
+                        ({"v11-full-claim-graph-control", "v11-preserved-claim-graph-only",
+                          "full-catalog-bm25-prefetch"}
                          if args.agentic_only else set(active_conditions)))
                     if args.agentic_only:
                         contexts["v12-full-claim-graph-control"] = contexts["v11-full-claim-graph-control"]
                         context_tokens["v12-full-claim-graph-control"] = context_tokens["v11-full-claim-graph-control"]
                         contexts["v12-static-disclosure-baseline"] = contexts["v11-preserved-claim-graph-only"]
                         context_tokens["v12-static-disclosure-baseline"] = context_tokens["v11-preserved-claim-graph-only"]
-                        contexts[AGENTIC_CONDITION] = "agentic-host-tools/v2-open-loop"
-                        context_tokens[AGENTIC_CONDITION] = 0
+                        contexts["v14-agentic-open-loop"] = "agentic-host-tools/v2-open-loop"
+                        context_tokens["v14-agentic-open-loop"] = 0
+                        contexts[V15_RAG_CONDITION] = contexts["full-catalog-bm25-prefetch"]
+                        context_tokens[V15_RAG_CONDITION] = context_tokens["full-catalog-bm25-prefetch"]
+                        contexts[V15_STATIC_AGENTIC_CONDITION] = "agentic-host-tools/v3-static-open-loop"
+                        context_tokens[V15_STATIC_AGENTIC_CONDITION] = 0
                     disclosure_telemetry.append({
                         "task_id": task_id, "evaluation_unit_id": unit_id,
                         "staged_relation_diagnostics": relation_diagnostics,
@@ -1076,7 +1086,7 @@ def main() -> None:
                     if resume_artifact_eligible(resumed, condition):
                         artifact = resumed["artifact"]
                         cell["executor_reused"] = True
-                        if condition == AGENTIC_CONDITION:
+                        if condition in AGENTIC_TOOL_CONDITIONS:
                             for key in ("agentic_trace", "agentic_tool_call_count", "agentic_stop_reason",
                                         "used_traverse_graph", "used_search_gap",
                                         "agentic_context_truncated"):
@@ -1089,7 +1099,7 @@ def main() -> None:
                             except ValueError:
                                 pass
                 if artifact is None:
-                    if condition == AGENTIC_CONDITION:
+                    if condition in AGENTIC_TOOL_CONDITIONS:
                         agent_query = "\n".join([graph["task"]["prompt"]] + [
                             str(row.get("query", "")) for row in asks])
 
@@ -1122,14 +1132,20 @@ def main() -> None:
                                 raise RuntimeError("agentic tool decision failed closed")
                             return selected["value"]
 
+                        static_seed = None
+                        state_limit = MAX_CONTEXT_TOKEN_UPPER_BOUND
+                        if condition == V15_STATIC_AGENTIC_CONDITION:
+                            static_seed = json.loads(contexts["v12-static-disclosure-baseline"])
+                            state_limit = STATIC_OPEN_LOOP_STATE_TOKEN_UPPER_BOUND
                         agentic = run_open_loop_agentic_disclosure(
-                            query=agent_query, scope=task_id, index=SectionIndex(catalog), decide=decide)
+                            query=agent_query, scope=task_id, index=SectionIndex(catalog), decide=decide,
+                            initial_state_context=static_seed, state_token_limit=state_limit)
                         cell["agentic_trace"] = agentic["trace"]
                         cell["agentic_tool_call_count"] = agentic["tool_call_count"]
                         cell["agentic_stop_reason"] = agentic["stop_reason"]
                         cell["used_traverse_graph"] = agentic["used_traverse_graph"]
                         cell["used_search_gap"] = agentic["used_search_gap"]
-                        bounded_state, agentic_tokens = bounded_json(agentic["state"])
+                        bounded_state, agentic_tokens = bounded_json(agentic["state"], max_tokens=state_limit)
                         prompt["context"] = json.loads(bounded_state)
                         cell["context_token_upper_bound"] = agentic_tokens
                         cell["agentic_context_truncated"] = prompt["context"] != agentic["state"]
@@ -1196,7 +1212,7 @@ def main() -> None:
                                  "authority_errors": sum(g["authority_errors"] for g in grades) / 3})
                 artifact_path = raw_out / artifact_name
                 persisted = {"artifact": artifact, "grades": grades}
-                if condition == AGENTIC_CONDITION:
+                if condition in AGENTIC_TOOL_CONDITIONS:
                     for key in ("agentic_trace", "agentic_tool_call_count", "agentic_stop_reason",
                                 "used_traverse_graph", "used_search_gap", "agentic_context_truncated"):
                         persisted[key] = cell.get(key)
@@ -1313,10 +1329,10 @@ def main() -> None:
             if not model_cells or any(row.get("agentic_stop_reason") not in AGENTIC_READY_STOPS for row in model_cells):
                 qualification_failures.append({"reason": "agentic executor did not reach a bounded answer state",
                                                "model": model})
-            if not any(row.get("used_traverse_graph") is True for row in model_cells):
+            if args.qualification_only and not any(row.get("used_traverse_graph") is True for row in model_cells):
                 qualification_failures.append({"reason": "agentic executor never exercised traverse_graph",
                                                "model": model})
-            if not any(row.get("used_search_gap") is True for row in model_cells):
+            if args.qualification_only and not any(row.get("used_search_gap") is True for row in model_cells):
                 qualification_failures.append({"reason": "agentic executor never exercised search_gap",
                                                "model": model})
     sanitized["qualification"] = {"status": "pass" if not qualification_failures else "fail",
