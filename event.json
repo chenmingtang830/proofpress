@@ -1,16 +1,26 @@
 {
-  "conclusion_digest": "sha256:d0c43255bb64940ff357c48eed5341d9b97ff52408210f10648cdeec597dab19",
-  "created_at": "2026-08-30T19:16:29.367288Z",
-  "event_id": "ppe_4ba5133943e005b2",
-  "evidence_digests": {
-    "evd_1e4ae45c81b5bd47": "sha256:e612f3ed4f8434e9a961fcd4b2080b524b52fcd888e3da93ddc141faaafe052f",
-    "evd_3532b789be132f52": "sha256:6cc931b2ef3b43c82cfec2d98c16b913c695a8eb22ea72c0be10379de896922b",
-    "evd_de8d695e34c7abc6": "sha256:bd6652e5fbd956bb48cda1241804b73315e87aa67e7c6981411b31660c142b43"
+  "conclusion": {
+    "allowed_actors": [
+      "*"
+    ],
+    "artifact_refs": [],
+    "created_at": "2026-08-30T19:16:29.466800Z",
+    "digest": "sha256:40ac0fe492c55b4921257646348fde6ef00b91569f62ab987f0bf35dfacdd48e",
+    "evidence_refs": [
+      "evd_1e4ae45c81b5bd47",
+      "evd_dafdc184dc466c09"
+    ],
+    "expires_at": null,
+    "id": "knw_fd153d771368bb41",
+    "kind": "conclusion",
+    "proposer": "agent:v8-constructor",
+    "qualifiers": {},
+    "scope": "task_8d501efe0f924f69aeee070f2e08b576",
+    "statement": "No shareholder consent statement appears in the cited evidence, so the shareholders' consent information and its consistency with the historical shareholder schedule cannot be verified."
   },
-  "policy_digest": "sha256:cde050fdc0b2869fecf8ee9d24dee964fc3bbc18e6b489da2e08e7c3df266501",
-  "review_ref": "ppe_b9c12852631f1d62",
-  "reviewer": "human:staged-evaluation-reviewer",
+  "created_at": "2026-08-30T19:16:29.523112Z",
+  "event_id": "ppe_7111e366e8ab4ef0",
   "schema_version": "proofpress/knowledge-event/v2",
-  "subject_ref": "knw_2c5fcceb57fff9ed",
-  "type": "conclusion_admitted"
+  "subject_ref": "knw_fd153d771368bb41",
+  "type": "conclusion_proposed"
 }
