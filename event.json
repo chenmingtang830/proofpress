@@ -1,21 +1,21 @@
 {
-  "created_at": "2026-08-30T19:16:01.956414Z",
-  "event_id": "ppe_b6899a7c6050cad3",
+  "created_at": "2026-08-30T19:16:02.054274Z",
+  "event_id": "ppe_f5e6bfec9c6c3abc",
   "evidence": {
-    "digest": "sha256:8c19bd21e71841d3567fe979a2eeb99eb4fbd5b17be739d2febad8e57175a397",
-    "id": "evd_f4c7cf503007640e",
+    "digest": "sha256:1b7214c35e208905898d36f44672a93df8545b6f9cbe99b6ca8c1cbaf0e8c039",
+    "id": "evd_1fdc77dcbc4a3390",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:1fc71ee00df4a978284a4c10ca63b0c6bb9d53edc62437dd1cbb595ad36662a0",
+    "quote_digest": "sha256:c6db9ceaa6bb988d526519c2736b35d552a811f412b3a8797f156d87ff20bbfc",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:1fc71ee00df4a978284a4c10ca63b0c6bb9d53edc62437dd1cbb595ad36662a0",
-        "section_id": "sec_ab3b6d5ffb1d13ff"
+        "section_digest": "sha256:c6db9ceaa6bb988d526519c2736b35d552a811f412b3a8797f156d87ff20bbfc",
+        "section_id": "sec_e60d879be65f8a0f"
       },
-      "quote": "SECTION 6. RELIEF FOR LATE ESBT AND QSST ELECTIONS.\n.01 ESBT or QSST Election. The trustee of an ESBT or the current income beneficiary of a QSST must sign and file the appropriate Election Form. The completed Election Form must include the following statements (each of which must comply with the requirement in Section 4.03(3) of this revenue procedure):\n(1) A statement from the trustee of the ESBT or the current income beneficiary of the QSST that includes the information required by § 1.1361-1(m)(2)(ii) (in the case of ESBT elections) or § 1.1361-1(j)(6)(ii) (in the case of QSST elections);\n(2) In the case of a QSST, a statement from the trustee that the trust satisfies the QSST requirements of § 1361(d)(3) and that the income distribution requirements have been and will continue to be met;\n(3) In the case of an ESBT, a statement from the trustee that all potential current beneficiaries meet the shareholder requirements of § 1361(b)(1) and that the trust satisfies the requirements of an ESBT under § 1361(e)(1) other than the requirement to make an ESBT election; and\n(4) Statements from all shareholders during the period between the date the S corporation election was to have become effective or was terminated and the date the completed Election Form is filed that they have reported their income on all affected returns consistent with the S corporation election for the year the election should have been made and for all subsequent years.\n",
-      "quote_digest": "sha256:1fc71ee00df4a978284a4c10ca63b0c6bb9d53edc62437dd1cbb595ad36662a0",
+      "quote": "OFFICERS\nSection 4.1 Officers.\nThe officers of the Corporation shall consist of a President, a Secretary, and a Treasurer, and may include a Chair of the Board and any assistant officers as appointed by the Board.\nSection 4.2 Appointment.\nOfficers shall be appointed by the Board annually and shall serve at the pleasure of the Board.\nSection 4.3 Duties.\n(a) President. Chief executive officer of the Corporation, responsible for oversight of operations.\n (b) Secretary. Maintains corporate records and minutes.\n (c) Treasurer. Responsible for financial management and reporting.\nSection 4.4 Removal.\nAny officer may be removed by the Board at any time.\nSection 4.5 Vacancies.\nA vacancy in any office shall be filled by the Board.\n\n",
+      "quote_digest": "sha256:c6db9ceaa6bb988d526519c2736b35d552a811f412b3a8797f156d87ff20bbfc",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
@@ -24,18 +24,18 @@
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
       "source": {
-        "content_digest": "sha256:489de4a5c467eb0382ef4f29920dc6433adc3a3336da5057aec7f37cd0208560",
+        "content_digest": "sha256:1cb8fe86d8075d2b126f99858b67aa3a45ced38879cf7b3859b78e577483572b",
         "media_type": "text/plain",
-        "uri": "private://apex/489de4a5c467eb03-1184b3a1"
+        "uri": "private://apex/1cb8fe86d8075d2b-0c1ae063"
       }
     },
-    "retrieval_receipt_digest": "sha256:81ebe684007d8ea2b3b05bb81f8b39669c54cef85d87efc49db9743e2e879d52",
-    "source_content_digest": "sha256:489de4a5c467eb0382ef4f29920dc6433adc3a3336da5057aec7f37cd0208560",
-    "source_digest": "sha256:0e30a41e1d31405a037edcc4e56b65c5107236c02092ff6fca6351e692a30a27",
-    "source_ref": "src_449cd1a48a2b6b92"
+    "retrieval_receipt_digest": "sha256:5170d3e22e31a62693912919e5bfccd7f04ff179151041cb993bc2e220b3c91d",
+    "source_content_digest": "sha256:1cb8fe86d8075d2b126f99858b67aa3a45ced38879cf7b3859b78e577483572b",
+    "source_digest": "sha256:dce34be7d3faee591fc3639cc0fc742ebc66a097c301c07eb716b0649e3998a1",
+    "source_ref": "src_3376baa521507aa6"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_449cd1a48a2b6b92",
-  "subject_ref": "evd_f4c7cf503007640e",
+  "source_ref": "src_3376baa521507aa6",
+  "subject_ref": "evd_1fdc77dcbc4a3390",
   "type": "evidence_bound"
 }
