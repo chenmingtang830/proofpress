@@ -1,41 +1,41 @@
 {
-  "created_at": "2026-08-30T19:17:02.210779Z",
-  "event_id": "ppe_ae471b54bb901bb9",
+  "created_at": "2026-08-30T19:17:02.400629Z",
+  "event_id": "ppe_b7295e22230bbccd",
   "evidence": {
-    "digest": "sha256:d6f010816f0c86217d42812a56d4e2a453590a51d17f8414b2704dffe4febd94",
-    "id": "evd_caca7740c9159ee4",
+    "digest": "sha256:31256b89fc9d5d1e301347e1996dd0290124c23815de2cb0d62d2216c3d640a2",
+    "id": "evd_722a80f1ff76d3f4",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:1fc71ee00df4a978284a4c10ca63b0c6bb9d53edc62437dd1cbb595ad36662a0",
+    "quote_digest": "sha256:b4c32c4766795ed1cedd653de51469b1d60ecf080234037419fa7f7db4b81867",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:1fc71ee00df4a978284a4c10ca63b0c6bb9d53edc62437dd1cbb595ad36662a0",
-        "section_id": "sec_ab3b6d5ffb1d13ff"
+        "section_digest": "sha256:b4c32c4766795ed1cedd653de51469b1d60ecf080234037419fa7f7db4b81867",
+        "section_id": "sec_58b0fd5ff2e8a571"
       },
-      "quote": "SECTION 6. RELIEF FOR LATE ESBT AND QSST ELECTIONS.\n.01 ESBT or QSST Election. The trustee of an ESBT or the current income beneficiary of a QSST must sign and file the appropriate Election Form. The completed Election Form must include the following statements (each of which must comply with the requirement in Section 4.03(3) of this revenue procedure):\n(1) A statement from the trustee of the ESBT or the current income beneficiary of the QSST that includes the information required by § 1.1361-1(m)(2)(ii) (in the case of ESBT elections) or § 1.1361-1(j)(6)(ii) (in the case of QSST elections);\n(2) In the case of a QSST, a statement from the trustee that the trust satisfies the QSST requirements of § 1361(d)(3) and that the income distribution requirements have been and will continue to be met;\n(3) In the case of an ESBT, a statement from the trustee that all potential current beneficiaries meet the shareholder requirements of § 1361(b)(1) and that the trust satisfies the requirements of an ESBT under § 1361(e)(1) other than the requirement to make an ESBT election; and\n(4) Statements from all shareholders during the period between the date the S corporation election was to have become effective or was terminated and the date the completed Election Form is filed that they have reported their income on all affected returns consistent with the S corporation election for the year the election should have been made and for all subsequent years.\n",
-      "quote_digest": "sha256:1fc71ee00df4a978284a4c10ca63b0c6bb9d53edc62437dd1cbb595ad36662a0",
+      "quote": "﻿SCHEDULE K-1 (Form 1120-S)                                                                               2022\nDepartment of the Treasury • Internal Revenue Service                          OMB No. 1545-0123\n\nShareholder’s Share of Income, Deductions, Credits, etc.                       For calendar year 2022\n\n────────────────────────────────────────────────────────────────────────────────────\nPart I ─ Information About the Corporation\n────────────────────────────────────────────────────────────────────────────────────\nA  Corporation’s employer identification number                       12-3456789\nB  Corporation’s name, address, city, state, and ZIP code\n       Summit Filing Solutions, Inc.\n       8280 Willow Oaks Corporate Dr\n       Los Angeles, CA  90001\nC  IRS center where corporation filed return                               Ogden, UT\n\n────────────────────────────────────────────────────────────────────────────────────\nPart II ─ Information About the Shareholder\n────────────────────────────────────────────────────────────────────────────────────\nD  Shareholder’s identifying number                                    111-11-1111\nE  Shareholder’s name, address, city, state, and ZIP code\n       Laura Kensington\n       4428 Willow Bend Ct.\n       Olympia, WA  98502\nF  Shareholder’s percentage of stock ownership\n       Beginning of tax year   26%                 End of tax year   26%\n\n────────────────────────────────────────────────────────────────────────────────────\nPart III ─ Shareholder’s Share of Current Year Income, Deductions, Credits, etc.\n────────────────────────────────────────────────────────────────────────────────────\n1  Ordinary business income (loss)                                   $58,110\n2  Net rental real estate income (loss)                                    0\n3  Other net rental income (loss)                                          0\n4  Interest income                                                     $156\n5a Ordinary dividends                                                      0\n5b Qualified dividends                                                     0\n6  Royalties                                                               0\n7  Net short-term capital gain (loss)                                      0\n8a Net long-term capital gain (loss)                                  ($312)\n8b Collectibles (28%) gain (loss)                                          0\n8c Unrecaptured section 1250 gain                                          0\n9  Net section 1231 gain (loss)                                            0\n10 Other income (loss)                                                     0\n\n11 Section 179 deduction                                                   0\n12 Other deductions                                                        0\n13 Credits                                                                 0\n14 Foreign transactions                                                    0\n15 Charitable contributions                                               0\n16 Items affecting shareholder basis\n   a  Tax-exempt interest income                                           0\n   b  Other tax-exempt income                                              0\n   c  Nondeductible expenses                                               0\n   d  Distributions – cash and marketable securities                       0\n   e  Repayment of loans from shareholders                                0\n17 Other information                                                       0\n\n────────────────────────────────────────────────────────────────────────────────────\nStock and Debt Basis Limitations (for shareholder records)\n────────────────────────────────────────────────────────────────────────────────────\n   + Increase for income items (Lines 1 + 4)                         $58,266\n   – Decrease for loss items (Line 8a)                                  ($312)\n   = Net increase to stock basis this year                           $57,954\n\n   Type of income: Active Business Income\n   Foreign country or U.S. possession: N/A\n\n────────────────────────────────────────────────────────────────────────────────────\nPrepared by: Corporate Officer, Summit Filing Solutions, Inc.\nDate prepared: March 11, 2023\n\nThis is an exact substitute Schedule K-1 that matches the official K-1 filed with IRS Form 1120-S on March 15, 2023.\nRetain this copy with your permanent tax records.\n",
+      "quote_digest": "sha256:b4c32c4766795ed1cedd653de51469b1d60ecf080234037419fa7f7db4b81867",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
-        "query": "current earnings and profits accumulated earnings and profits E&P schedule dividend characterization",
+        "query": "distribution dividend return of capital stock basis distribution capital gain distribution shareholder distribution ordering",
         "version": "1"
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
       "source": {
-        "content_digest": "sha256:489de4a5c467eb0382ef4f29920dc6433adc3a3336da5057aec7f37cd0208560",
+        "content_digest": "sha256:a0b802c5936ae586cbfb45eae45787d18afa76e449a5f722348ed24f4b7e7a96",
         "media_type": "text/plain",
-        "uri": "private://apex/489de4a5c467eb03-1184b3a1"
+        "uri": "private://apex/a0b802c5936ae586-b1110a3a"
       }
     },
-    "retrieval_receipt_digest": "sha256:06c40796394f95a610f571add07552b4e0b4aa3ccb047983f39e852451c7f20b",
-    "source_content_digest": "sha256:489de4a5c467eb0382ef4f29920dc6433adc3a3336da5057aec7f37cd0208560",
-    "source_digest": "sha256:0e30a41e1d31405a037edcc4e56b65c5107236c02092ff6fca6351e692a30a27",
-    "source_ref": "src_449cd1a48a2b6b92"
+    "retrieval_receipt_digest": "sha256:a7ced3fe76a8c15aa91d7c6139d70ab51d1f1b7122b1d17d70a9fffff791428c",
+    "source_content_digest": "sha256:a0b802c5936ae586cbfb45eae45787d18afa76e449a5f722348ed24f4b7e7a96",
+    "source_digest": "sha256:50772d560dd55cdc8ae8d56ffa4edc7ee440e148252be971b989ed41b72bbb59",
+    "source_ref": "src_efa46ef7b31fca12"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_449cd1a48a2b6b92",
-  "subject_ref": "evd_caca7740c9159ee4",
+  "source_ref": "src_efa46ef7b31fca12",
+  "subject_ref": "evd_722a80f1ff76d3f4",
   "type": "evidence_bound"
 }
