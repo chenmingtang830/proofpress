@@ -1,15 +1,41 @@
 {
-  "created_at": "2026-08-30T19:15:55.831465Z",
-  "event_id": "ppe_bb5bdd6d57b32ffb",
-  "record": {
-    "content_digest": "sha256:e7eb786dc671298aa9426792d523f0ec997bee3a570763a8b10f13a1644fc105",
-    "id": "src_e9b083e75ca5f18f",
-    "kind": "retrieval_source",
-    "media_type": "text/plain",
-    "record_hash": "sha256:bbebf48c1f9dee4d30677c0c93c00e3eb349758e8e8a6eac5acafa2f8650d491",
-    "uri": "private://apex/e7eb786dc671298a-1d2051f2"
+  "created_at": "2026-08-30T19:15:55.891970Z",
+  "event_id": "ppe_2d78e3fb68e25081",
+  "evidence": {
+    "digest": "sha256:7c8a1b34cb11673615e59017f278dfd8190959f47cf0a6b97577d6893f73bd70",
+    "id": "evd_7d5647db849f73ff",
+    "kind": "retrieval_evidence",
+    "quote_digest": "sha256:be534874861d2dfce6180f21ed62a5533e699af8c146c5f0a50fc599e64e2348",
+    "retrieval_receipt": {
+      "locator": {
+        "kind": "section_span",
+        "page_end": 1,
+        "page_start": 1,
+        "section_digest": "sha256:be534874861d2dfce6180f21ed62a5533e699af8c146c5f0a50fc599e64e2348",
+        "section_id": "sec_d76dd1f9b1c325e6"
+      },
+      "quote": "﻿Summit Filing Solutions, Inc.\nS‑Corporation Tax Due Diligence Memorandum\n\n",
+      "quote_digest": "sha256:be534874861d2dfce6180f21ed62a5533e699af8c146c5f0a50fc599e64e2348",
+      "retrieval": {
+        "adapter": "bm25-page",
+        "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
+        "query": "Summit Filing Solutions federal tax classification Summit Filing Solutions Inc. S corporation C corporation partnership entity tax status election",
+        "version": "1"
+      },
+      "schema_version": "proofpress/retrieval-evidence/v1",
+      "source": {
+        "content_digest": "sha256:e7eb786dc671298aa9426792d523f0ec997bee3a570763a8b10f13a1644fc105",
+        "media_type": "text/plain",
+        "uri": "private://apex/e7eb786dc671298a-1d2051f2"
+      }
+    },
+    "retrieval_receipt_digest": "sha256:3be48dde29c3d9cf7b72ac34d03c61298aac115c17f7bbc93f838aafec65618d",
+    "source_content_digest": "sha256:e7eb786dc671298aa9426792d523f0ec997bee3a570763a8b10f13a1644fc105",
+    "source_digest": "sha256:bbebf48c1f9dee4d30677c0c93c00e3eb349758e8e8a6eac5acafa2f8650d491",
+    "source_ref": "src_e9b083e75ca5f18f"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "subject_ref": "src_e9b083e75ca5f18f",
-  "type": "source_recorded"
+  "source_ref": "src_e9b083e75ca5f18f",
+  "subject_ref": "evd_7d5647db849f73ff",
+  "type": "evidence_bound"
 }
