@@ -1,21 +1,21 @@
 {
-  "created_at": "2026-08-30T19:17:06.686237Z",
-  "event_id": "ppe_b2abfb7bdb28a3ca",
+  "created_at": "2026-08-30T19:17:06.874815Z",
+  "event_id": "ppe_bea90135d9e0738c",
   "evidence": {
-    "digest": "sha256:52bce4f6e8e744fa2f858f6f58a352b9440649b07c0331268981f3e26fc038d3",
-    "id": "evd_d82223055b338411",
+    "digest": "sha256:4870bd0debf63c2e1699d5e4c1a1d5d23e3d72241d642cd00d338aca546cf7b3",
+    "id": "evd_7dd60024e6a0c14c",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:6be35d45e8c433160f3bd5d203ac2a9f3112ffed31af2db612d6d393001290c5",
+    "quote_digest": "sha256:a6c435c4590f392a1f39928d2776c7d57062d95b898e8144ad601b532db70742",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:6be35d45e8c433160f3bd5d203ac2a9f3112ffed31af2db612d6d393001290c5",
-        "section_id": "sec_19a760f2e71be0ae"
+        "section_digest": "sha256:a6c435c4590f392a1f39928d2776c7d57062d95b898e8144ad601b532db70742",
+        "section_id": "sec_f3f50bc87563e1be"
       },
-      "quote": "﻿\n\n\n\n\n\nxxxxxxxxxxxxxxxxxxx\n\n\nMr.\t\t\t\t\nSummit Filing Solutions, Inc\nXxxxxxxxxxxxxx\nxxxxxxxxxxxxxx\n\n\n\nRe: Due Diligence Request (First)\n\nDear _________________:\n\nAs indicated in our letter of intent dated xx/xx/xxxx, Harbor Bridge Private Equity must conduct a review of financial and other information relating to the Company. Enclosed is a list of requested items and information.  \n\nAlthough we believe the attached request is reasonably comprehensive, the Purchaser must reserve the right to request additional information and documents after reviewing your first set of responses. \n\nWith regard to information on the list that Summit has already provided, please simply indicate “previously provided,” where applicable. \n\nDon’t hesitate to contact me with any questions about the list.  Thank you very much. \n\nSincerely,\n\nXxxxxxxxxxxxxxxx\nGeneral Counsel\nHarbor Bridge Private Equity\n \n\nxxx/opc\natt\n",
-      "quote_digest": "sha256:6be35d45e8c433160f3bd5d203ac2a9f3112ffed31af2db612d6d393001290c5",
+      "quote": "﻿\n\n\n\n\n\nStock Purchase Agreement\nby\n\nHarbor Bridge Private Equity, Inc.\n \n\nand\n\nSummit Filing Solutions, Inc.\n\n\n\nDated [TBD]\n\n\n\nTable of Contents\n\n\n\n\n\n\n\n",
+      "quote_digest": "sha256:a6c435c4590f392a1f39928d2776c7d57062d95b898e8144ad601b532db70742",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
@@ -24,18 +24,18 @@
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
       "source": {
-        "content_digest": "sha256:67c0146b0b9fce90f3619ef83de3641ab25a2927222a6000bc17b4400e1afe0e",
+        "content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
         "media_type": "text/plain",
-        "uri": "private://apex/67c0146b0b9fce90-38c67136"
+        "uri": "private://apex/7beb28a6e0069669-d885dee3"
       }
     },
-    "retrieval_receipt_digest": "sha256:67e4c64d1956190dd4adf72fab843b9a91ab191e94e3f98baa54647749e8b523",
-    "source_content_digest": "sha256:67c0146b0b9fce90f3619ef83de3641ab25a2927222a6000bc17b4400e1afe0e",
-    "source_digest": "sha256:3043f6e73ea65ebae9d4659b679870dacf8b2b54879a43732461206822b12e19",
-    "source_ref": "src_d638bbb18a01f3d8"
+    "retrieval_receipt_digest": "sha256:9237ecdb4aa06753a7c13e600d8d2d1f0869320341e654dc6c5582943dd812c0",
+    "source_content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
+    "source_digest": "sha256:9b5e55c106d3b2c9d270455bb5af81e282a4e92f3ba0722f868b952faf8ff0b5",
+    "source_ref": "src_1cb20c6823882030"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_d638bbb18a01f3d8",
-  "subject_ref": "evd_d82223055b338411",
+  "source_ref": "src_1cb20c6823882030",
+  "subject_ref": "evd_7dd60024e6a0c14c",
   "type": "evidence_bound"
 }
