@@ -1046,7 +1046,7 @@ def main() -> None:
     ap.add_argument("--qualification-output-types", action="store_true",
                     help="In native qualification, select one frozen task for each expected_output type.")
     ap.add_argument("--zero-heavy-qualification", action="store_true",
-                    help="Use the frozen five-task v16 zero-heavy diagnostic subset.")
+                    help="Use the frozen five-task zero-heavy diagnostic subset; formal mode still requires a passing qualification report.")
     ap.add_argument("--task-ids", help="Explicit comma-separated diagnostic task IDs from the completed claim report.")
     ap.add_argument("--executors", default=",".join(EXECUTOR_ROUTES),
                     help="Comma-separated frozen executor labels: " + ",".join(EXECUTOR_ROUTES))
@@ -1057,8 +1057,8 @@ def main() -> None:
     args = ap.parse_args()
     if args.native_e2e and not args.full_claim_task_panel:
         raise SystemExit("--native-e2e requires --full-claim-task-panel")
-    if args.zero_heavy_qualification and not (args.native_e2e and args.qualification_only):
-        raise SystemExit("--zero-heavy-qualification requires --native-e2e --qualification-only")
+    if args.zero_heavy_qualification and not args.native_e2e:
+        raise SystemExit("--zero-heavy-qualification requires --native-e2e")
     if args.agentic_only and args.progressive_only:
         raise SystemExit("--agentic-only and --progressive-only are mutually exclusive")
     if args.agentic_only and not args.route_canary_report:
