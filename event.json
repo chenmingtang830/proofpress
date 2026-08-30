@@ -1,41 +1,41 @@
 {
-  "created_at": "2026-08-30T19:17:07.659543Z",
-  "event_id": "ppe_2341ee5d6560c37d",
+  "created_at": "2026-08-30T19:17:07.847791Z",
+  "event_id": "ppe_1f45bb3160676d7b",
   "evidence": {
-    "digest": "sha256:10b7956cc379ba02cbfd61c5b1443828a015a1d5a03ed58938480d1162caf60f",
-    "id": "evd_7f2e055f72f3a534",
+    "digest": "sha256:40d799afebb967e0c55a0318efd628655d3b7a22b9039b3d5734f9b7077d26c4",
+    "id": "evd_742e7691042f5b7b",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:b50e2d8a6b011d043599b68c2e2b21448f677b18dbc67db3f0800d60562eb3c0",
+    "quote_digest": "sha256:2d6a745da060ea429b30eacddd8b24214865283a68fef37f86d035db453129aa",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:b50e2d8a6b011d043599b68c2e2b21448f677b18dbc67db3f0800d60562eb3c0",
-        "section_id": "sec_7f80c1b153802173"
+        "section_digest": "sha256:2d6a745da060ea429b30eacddd8b24214865283a68fef37f86d035db453129aa",
+        "section_id": "sec_93e68d257e5b96c2"
       },
-      "quote": "    3. REPRESENTATIONS AND WARRANTIES OF SELLERS\t22\n        3.1 Organization and Good Standing\t22\n        3.2 Enforceability and Authority; No Conflict\t22\n        3.3 Capitalization of Company and Subsidiaries\t23\n        3.4 Financial Statements\t24\n        3.5 Books and Records\t24\n        3.6 Real and Personal Property\t25\n        3.7 Condition and Sufficiency of Assets\t26\n        3.8 Accounts Receivable\t26\n        3.9 Inventories\t26\n        3.10 No Undisclosed Liabilities\t26\n        3.11 Taxes\t26\n        3.12 No Material Adverse Change\t28\n        3.13 Employee Benefits\t29\n        3.14 Compliance with Legal Requirements; Governmental Authorizations\t31\n        3.15 Legal Proceedings; Orders\t32\n        3.16 Absence of Certain Changes and Events\t33\n        3.17 Contracts\t33\n        3.18 Insurance\t35\n        3.19 Environmental Matters\t37\n        3.20 Employees and Consultants\t38\n        3.21 Labor Disputes; Compliance\t39\n        3.22 Intellectual Property Assets\t39\n        3.23 Compliance with the Foreign Corrupt Practices Act and Export Control and\nAntiboycott Laws\t43\n        3.24 Relationships with Related Persons\t43\n        3.25 Securities Law Matters\t43\n        3.26 Customers and Suppliers\t43\n        3.27 Product Liabilities and Warranties\t43\n        3.28 Brokers or Finders\t44\n        3.29 Disclosure\t44\n",
-      "quote_digest": "sha256:b50e2d8a6b011d043599b68c2e2b21448f677b18dbc67db3f0800d60562eb3c0",
+      "quote": "FORM OF VOTING AGREEMENT\n\n\n\n\n\n\n\n\n\n",
+      "quote_digest": "sha256:2d6a745da060ea429b30eacddd8b24214865283a68fef37f86d035db453129aa",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
-        "query": "26 U.S.C. 311 26 U.S.C. 336 26 U.S.C. 301 property distribution 26 U.S.C. 1012 basis",
+        "query": "board approval distribution distribution authorization operating agreement shareholder agreement",
         "version": "1"
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
       "source": {
-        "content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
+        "content_digest": "sha256:de3c85ce68cc9a64aadabec8843aff116664ead676844e5ce1f589169c52b2da",
         "media_type": "text/plain",
-        "uri": "private://apex/7beb28a6e0069669-d885dee3"
+        "uri": "private://apex/de3c85ce68cc9a64-4c7c3329"
       }
     },
-    "retrieval_receipt_digest": "sha256:f8374aa07cca782115e4da97fbb46ca577c164789f8414940c2b796bbc03395c",
-    "source_content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
-    "source_digest": "sha256:9b5e55c106d3b2c9d270455bb5af81e282a4e92f3ba0722f868b952faf8ff0b5",
-    "source_ref": "src_1cb20c6823882030"
+    "retrieval_receipt_digest": "sha256:8570509ab6c34e80eef725e8d5de5dc054418cdd471b9575e90b6696f1b3b99b",
+    "source_content_digest": "sha256:de3c85ce68cc9a64aadabec8843aff116664ead676844e5ce1f589169c52b2da",
+    "source_digest": "sha256:afd14261a12776692529819ab8b113e55ef68150920111e982cd00f66a8af8ea",
+    "source_ref": "src_a149d3b6c6d2425c"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_1cb20c6823882030",
-  "subject_ref": "evd_7f2e055f72f3a534",
+  "source_ref": "src_a149d3b6c6d2425c",
+  "subject_ref": "evd_742e7691042f5b7b",
   "type": "evidence_bound"
 }
