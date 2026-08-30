@@ -1,17 +1,27 @@
 {
-  "conclusion_digest": "sha256:e76edca23747613777e6c65ad25ebc331305c3e0f3651bf328e223dd6b33ad57",
-  "created_at": "2026-08-30T19:17:18.342501Z",
-  "event_id": "ppe_119d1cb6aebd4c5d",
-  "evidence_digests": {
-    "evd_05274510c61fbced": "sha256:3632cbb51c5ef24dd2cb06c4c9b79d779cff94032a9ed78992494b8d7bcd4e45",
-    "evd_7f77dd3c463f41e8": "sha256:7ed10df8c52b42fb98cafc8cbf9e2a45153418040105b2a83a1485cc2e5ff136",
-    "evd_d83029f951f28a7c": "sha256:3e9166dfa07f4841cc87d5872fb07096da14becbc98bf31f4c0bdeec9c59497e",
-    "evd_e3f5da4b9fcfb104": "sha256:d29c60de41a69f76026376f657a92611edc83ae8a7b982db936bc2c6ea05fdc5"
+  "conclusion": {
+    "allowed_actors": [
+      "*"
+    ],
+    "artifact_refs": [],
+    "created_at": "2026-08-30T19:17:18.462193Z",
+    "digest": "sha256:8a8fb2823b2925ae17f8c0d807d07c9a8e2875fb13452e0110ee6487bdb25bfc",
+    "evidence_refs": [
+      "evd_82e740295e98431d",
+      "evd_b01429db708e69f9",
+      "evd_c0fb8183856c0ff6"
+    ],
+    "expires_at": null,
+    "id": "knw_b2d135af025ac552",
+    "kind": "conclusion",
+    "proposer": "agent:v8-constructor",
+    "qualifiers": {},
+    "scope": "task_11893dcabbe34b0aa991516dfe7edcba",
+    "statement": "The cited record includes Form 1120-S material, a Schedule K-1, and an excerpt from a revenue procedure, but it does not include the complete Treasury Regulations, form instructions, or the cited IRS publication."
   },
-  "policy_digest": "sha256:cde050fdc0b2869fecf8ee9d24dee964fc3bbc18e6b489da2e08e7c3df266501",
-  "review_ref": "ppe_2979e7994f017de5",
-  "reviewer": "human:staged-evaluation-reviewer",
+  "created_at": "2026-08-30T19:17:18.551338Z",
+  "event_id": "ppe_baffd0a42088be48",
   "schema_version": "proofpress/knowledge-event/v2",
-  "subject_ref": "knw_c81ced2877414326",
-  "type": "conclusion_admitted"
+  "subject_ref": "knw_b2d135af025ac552",
+  "type": "conclusion_proposed"
 }
