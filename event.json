@@ -1,21 +1,21 @@
 {
-  "created_at": "2026-08-30T19:17:02.024530Z",
-  "event_id": "ppe_1fb7bb9e9e41889d",
+  "created_at": "2026-08-30T19:17:02.210779Z",
+  "event_id": "ppe_ae471b54bb901bb9",
   "evidence": {
-    "digest": "sha256:9012dfbcd802e1583de7205bc0a54c8b7550372ab2b55a9355c26ad1e1f1d56b",
-    "id": "evd_8411ca971e366b42",
+    "digest": "sha256:d6f010816f0c86217d42812a56d4e2a453590a51d17f8414b2704dffe4febd94",
+    "id": "evd_caca7740c9159ee4",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:605b77470953f515f7bb8e6afef43a06493fa627db0450b235f0056bbcede802",
+    "quote_digest": "sha256:1fc71ee00df4a978284a4c10ca63b0c6bb9d53edc62437dd1cbb595ad36662a0",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:605b77470953f515f7bb8e6afef43a06493fa627db0450b235f0056bbcede802",
-        "section_id": "sec_8771299531ad0872"
+        "section_digest": "sha256:1fc71ee00df4a978284a4c10ca63b0c6bb9d53edc62437dd1cbb595ad36662a0",
+        "section_id": "sec_ab3b6d5ffb1d13ff"
       },
-      "quote": "        7.3 CONFIDENTIALITY\n    (a) As used in this Section 7.3, the term “Confidential Information” includes any of the following information held or used by or relating to any Acquired Company:\n        (i) all information that is a Trade Secret;\n        (ii) all information concerning product specifications, data, know-how, formulae, compositions, processes, designs, sketches, photographs, graphs, drawings, samples, inventions and ideas, past, current, and planned research and development, current and planned manufacturing or distribution methods and processes, computer hardware, Software and computer software, database technologies, systems, structures and architectures; and\n        (iii) all information concerning the business and affairs of any Acquired Company, including historical and current financial statements, financial projections and budgets, tax returns and accountants’ materials, historical, current, and projected sales, capital spending budgets and plans, business plans, strategic plans, marketing and advertising plans, publications, client and customer and prospect lists and files, current and anticipated customer requirements, price lists, market studies, Contracts, the names and backgrounds of key personnel and personnel training techniques and materials, however documented.\n    (b) Each Seller acknowledges the confidential and proprietary nature of the Confidential Information and agrees that such Seller shall, except to the extent required for a Seller who is employed by an Acquired Company to fulfill his or her duties in the course of such employment, from and after the Closing: (i) keep the Confidential Information confidential and deliver promptly to Buyer, or immediately destroy at Buyer’s option, all embodiments and copies of the Confidential Information that are in such Seller’s possession; (ii) not use the Confidential Information for any reason or purpose; and (iii) without limiting the foregoing, not disclose the Confidential Information to any Person, except with Buyer’s Consent.\n    (c) Section 7.3(b) does not apply to that part of the Confidential Information that becomes generally available to the public other than as a result of a Breach of this Section 7.3 by any Seller. Confidential Information shall not be deemed “generally available to the public” merely because it is included or incorporated in more general information that is publicly available or because it combines features which individually may be publicly available.\n    (d) If any Seller becomes compelled in any Proceeding to make any disclosure that is prohibited by this Section 7.3, such Seller shall, to the extent legally permissible, provide Buyer with prompt notice of such compulsion so that Buyer may seek an appropriate protective order or other appropriate remedy or waive compliance with the provisions of this Section 7.3. In the absence of a protective order or other remedy, such Seller may disclose that portion (and only that portion) of the Confidential Information that, based upon the opinion of such Seller’s counsel, such Seller is legally compelled to disclose; provided, however, that such Seller shall use its best efforts to obtain written assurance that any Person to whom any Confidential Information is so disclosed shall accord confidential treatment to such Confidential Information.\n    (e) Nothing in this Section 7.3 will diminish the protections and benefits under applicable Legal Requirements to which any Trade Secret of any Acquired Company is entitled. If any information that an Acquired Company asserts to be a Trade Secret under applicable Legal Requirements is found by a court of competent jurisdiction not to be such a Trade Secret, such information will nonetheless be considered Confidential Information of that Acquired Company for purposes of this Section 7.3.\n",
-      "quote_digest": "sha256:605b77470953f515f7bb8e6afef43a06493fa627db0450b235f0056bbcede802",
+      "quote": "SECTION 6. RELIEF FOR LATE ESBT AND QSST ELECTIONS.\n.01 ESBT or QSST Election. The trustee of an ESBT or the current income beneficiary of a QSST must sign and file the appropriate Election Form. The completed Election Form must include the following statements (each of which must comply with the requirement in Section 4.03(3) of this revenue procedure):\n(1) A statement from the trustee of the ESBT or the current income beneficiary of the QSST that includes the information required by § 1.1361-1(m)(2)(ii) (in the case of ESBT elections) or § 1.1361-1(j)(6)(ii) (in the case of QSST elections);\n(2) In the case of a QSST, a statement from the trustee that the trust satisfies the QSST requirements of § 1361(d)(3) and that the income distribution requirements have been and will continue to be met;\n(3) In the case of an ESBT, a statement from the trustee that all potential current beneficiaries meet the shareholder requirements of § 1361(b)(1) and that the trust satisfies the requirements of an ESBT under § 1361(e)(1) other than the requirement to make an ESBT election; and\n(4) Statements from all shareholders during the period between the date the S corporation election was to have become effective or was terminated and the date the completed Election Form is filed that they have reported their income on all affected returns consistent with the S corporation election for the year the election should have been made and for all subsequent years.\n",
+      "quote_digest": "sha256:1fc71ee00df4a978284a4c10ca63b0c6bb9d53edc62437dd1cbb595ad36662a0",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
@@ -24,18 +24,18 @@
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
       "source": {
-        "content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
+        "content_digest": "sha256:489de4a5c467eb0382ef4f29920dc6433adc3a3336da5057aec7f37cd0208560",
         "media_type": "text/plain",
-        "uri": "private://apex/7beb28a6e0069669-d885dee3"
+        "uri": "private://apex/489de4a5c467eb03-1184b3a1"
       }
     },
-    "retrieval_receipt_digest": "sha256:902a8b54b997613dee5c4870cf33133f5c8ceed5589110ea6d0a6674251ef3ea",
-    "source_content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
-    "source_digest": "sha256:9b5e55c106d3b2c9d270455bb5af81e282a4e92f3ba0722f868b952faf8ff0b5",
-    "source_ref": "src_1cb20c6823882030"
+    "retrieval_receipt_digest": "sha256:06c40796394f95a610f571add07552b4e0b4aa3ccb047983f39e852451c7f20b",
+    "source_content_digest": "sha256:489de4a5c467eb0382ef4f29920dc6433adc3a3336da5057aec7f37cd0208560",
+    "source_digest": "sha256:0e30a41e1d31405a037edcc4e56b65c5107236c02092ff6fca6351e692a30a27",
+    "source_ref": "src_449cd1a48a2b6b92"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_1cb20c6823882030",
-  "subject_ref": "evd_8411ca971e366b42",
+  "source_ref": "src_449cd1a48a2b6b92",
+  "subject_ref": "evd_caca7740c9159ee4",
   "type": "evidence_bound"
 }
