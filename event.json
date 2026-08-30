@@ -1,17 +1,28 @@
 {
-  "conclusion_digest": "sha256:93e6fb7cded038f75b1b3f7814e7343d37ac311e87ec39cd50e4b651e4d42364",
-  "created_at": "2026-08-30T19:17:17.597950Z",
-  "event_id": "ppe_0a63681e7a357683",
-  "evidence_digests": {
-    "evd_82e740295e98431d": "sha256:b04b9ffc5885767f478f2dac6502c2773e2200ffd3ab25d61f793510b9121609",
-    "evd_8342c3641bd89350": "sha256:b3e4b7127dd1f43242461855acc4545e1a7b71359fde614c084e366304a3625d",
-    "evd_89ff0ad8c5ecf4dc": "sha256:914b6b87fb13e1f7a189d29b24106fb6216c743a146ab5306e3ea7b1a48df947",
-    "evd_9717e45c637fc498": "sha256:eb635140e565d0a94b1db65050ecbc6245fb8302aa8e8a229aee6355372c4f1a"
+  "conclusion": {
+    "allowed_actors": [
+      "*"
+    ],
+    "artifact_refs": [],
+    "created_at": "2026-08-30T19:17:17.716563Z",
+    "digest": "sha256:e76edca23747613777e6c65ad25ebc331305c3e0f3651bf328e223dd6b33ad57",
+    "evidence_refs": [
+      "evd_05274510c61fbced",
+      "evd_7f77dd3c463f41e8",
+      "evd_d83029f951f28a7c",
+      "evd_e3f5da4b9fcfb104"
+    ],
+    "expires_at": null,
+    "id": "knw_c81ced2877414326",
+    "kind": "conclusion",
+    "proposer": "agent:v8-constructor",
+    "qualifiers": {},
+    "scope": "task_11893dcabbe34b0aa991516dfe7edcba",
+    "statement": "Summit Filing Solutions, Inc. is identified as a Delaware corporation whose bylaws were adopted January 10, 2018. A historic-distribution schedule states that an S-corporation election was effective January 1, 2019 and identifies Laura Kensington, Michael T. Hartwell, Danielle R. Soto, Gregory A. Beaumont, and Tanya L. Merriweather as distribution recipients. A separate excerpt merely lists an exhibit titled “Schedule of Purchasers.”"
   },
-  "policy_digest": "sha256:cde050fdc0b2869fecf8ee9d24dee964fc3bbc18e6b489da2e08e7c3df266501",
-  "review_ref": "ppe_417805734d1efee0",
-  "reviewer": "human:staged-evaluation-reviewer",
+  "created_at": "2026-08-30T19:17:17.804726Z",
+  "event_id": "ppe_787db79417e70962",
   "schema_version": "proofpress/knowledge-event/v2",
-  "subject_ref": "knw_cc03f78dd2fe912a",
-  "type": "conclusion_admitted"
+  "subject_ref": "knw_c81ced2877414326",
+  "type": "conclusion_proposed"
 }
