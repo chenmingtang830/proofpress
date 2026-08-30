@@ -1,21 +1,21 @@
 {
-  "created_at": "2026-08-30T19:16:38.996628Z",
-  "event_id": "ppe_98ebdc3c2eb0ef70",
+  "created_at": "2026-08-30T19:16:39.283766Z",
+  "event_id": "ppe_bbbf738833918fa5",
   "evidence": {
-    "digest": "sha256:d7c0b4c32d19bb09c23d91658ee9b9cfa7b09231e85ba0b2dc265cbfece1aea5",
-    "id": "evd_df79f85a051694b5",
+    "digest": "sha256:cd8934f45ce511afbe79e7cf4b4ae5bde2689dd8c4b6ae3f93ec2288613018e7",
+    "id": "evd_9d5088f01e1898df",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:e465edfd9eb89ef10e78962d76fff030bd753b776df9c6083bb367a356b09f39",
+    "quote_digest": "sha256:bd10d27b284a86985e7cda0a1d96f75c4a349c349b6bc40dae7b9344f9f9a14b",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:e465edfd9eb89ef10e78962d76fff030bd753b776df9c6083bb367a356b09f39",
-        "section_id": "sec_2f344c7d645f05fd"
+        "section_digest": "sha256:bd10d27b284a86985e7cda0a1d96f75c4a349c349b6bc40dae7b9344f9f9a14b",
+        "section_id": "sec_a51affa7307907a9"
       },
-      "quote": "STOCK AND TRANSFER RESTRICTIONS\nSection 5.1 Certificates.\nShares of stock may be certificated or uncertificated at the discretion of the Board.\nSection 5.2 Stock Ledger.\nThe Corporation shall maintain a stock ledger containing the name and contact information of each stockholder.\nSection 5.3 Transfer Restrictions to Preserve S-Corporation Status.\n(a) No transfer of shares may be made to an ineligible S-Corporation shareholder.\n (b) No transfer may create a second class of stock.\n (c) All transfers are subject to a right of first refusal in favor of the Corporation, then the stockholders, on the same terms offered by the proposed transferee.\n (d) Any transfer in violation of this Article is void.\nSection 5.4 Lost Certificates.\nThe Corporation may issue a new certificate upon receipt of an affidavit stating that the original was lost, stolen, or destroyed, subject to indemnification requirements.\n\n",
-      "quote_digest": "sha256:e465edfd9eb89ef10e78962d76fff030bd753b776df9c6083bb367a356b09f39",
+      "quote": "        2.1 SHARES\nSubject to the terms and conditions of this Agreement, and in reliance upon the representations, warranties, and covenants contained in this Agreement, at the Closing, Buyer shall purchase the Shares from Sellers, and Sellers shall sell and transfer the Shares to Buyer, free and clear of any Encumbrance.\n",
+      "quote_digest": "sha256:bd10d27b284a86985e7cda0a1d96f75c4a349c349b6bc40dae7b9344f9f9a14b",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
@@ -24,18 +24,18 @@
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
       "source": {
-        "content_digest": "sha256:1cb8fe86d8075d2b126f99858b67aa3a45ced38879cf7b3859b78e577483572b",
+        "content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
         "media_type": "text/plain",
-        "uri": "private://apex/1cb8fe86d8075d2b-0c1ae063"
+        "uri": "private://apex/7beb28a6e0069669-d885dee3"
       }
     },
-    "retrieval_receipt_digest": "sha256:89adb1b9eb4cd4f28a3cd016d666188542f09304ee6fc999dcc1405e7f66ba10",
-    "source_content_digest": "sha256:1cb8fe86d8075d2b126f99858b67aa3a45ced38879cf7b3859b78e577483572b",
-    "source_digest": "sha256:dce34be7d3faee591fc3639cc0fc742ebc66a097c301c07eb716b0649e3998a1",
-    "source_ref": "src_3376baa521507aa6"
+    "retrieval_receipt_digest": "sha256:6bfb4a0cf7ed75703150219b6966ac43985f3a654a711f6035ec410a3598577a",
+    "source_content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
+    "source_digest": "sha256:9b5e55c106d3b2c9d270455bb5af81e282a4e92f3ba0722f868b952faf8ff0b5",
+    "source_ref": "src_1cb20c6823882030"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_3376baa521507aa6",
-  "subject_ref": "evd_df79f85a051694b5",
+  "source_ref": "src_1cb20c6823882030",
+  "subject_ref": "evd_9d5088f01e1898df",
   "type": "evidence_bound"
 }
