@@ -1,41 +1,41 @@
 {
-  "created_at": "2026-08-30T19:16:45.160015Z",
-  "event_id": "ppe_ddef149f2ae23eae",
+  "created_at": "2026-08-30T19:16:45.315909Z",
+  "event_id": "ppe_1a6d166eca0d18a1",
   "evidence": {
-    "digest": "sha256:7174d12821a5b9e9442fc2c2c5e02d256f0f2c24f02a1007b19d8781e375a4bd",
-    "id": "evd_13c059b0071dc23d",
+    "digest": "sha256:fe44e18b05df2f42667477f9306188a0726b2bb10f6472531cca70a1070b40ec",
+    "id": "evd_10e5af5183c535a5",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:a2d045e3060c2be4e58b4cfe61a5f0994bcdfcaef0094b6739d9f3e956751f54",
+    "quote_digest": "sha256:1fc71ee00df4a978284a4c10ca63b0c6bb9d53edc62437dd1cbb595ad36662a0",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:a2d045e3060c2be4e58b4cfe61a5f0994bcdfcaef0094b6739d9f3e956751f54",
-        "section_id": "sec_945ef542e0539859"
+        "section_digest": "sha256:1fc71ee00df4a978284a4c10ca63b0c6bb9d53edc62437dd1cbb595ad36662a0",
+        "section_id": "sec_ab3b6d5ffb1d13ff"
       },
-      "quote": "﻿DUE DILIGENCE REQUEST (FIRST)\n\n\n1.\tBasic Corporate Documents\n\n    a. Articles of incorporation and bylaws, as amended. \n\n    b. Company’s minute book, stock book, and stock ledger.\n\n2.\tStocks and securities\n\na. For each class of securities (debt or equity), the number of shares outstanding, the names and addresses of the holders, and their cost basis in the securities. \n\nb. Any voting trusts, irrevocable proxies, preemptive rights, shareholders' agreements, redemption  agreements,  buy-sell agreements, or other agreements restricting transfer of, or otherwise affecting rights pertaining to, the company's securities.\n\nc. All permits and other qualifications issued by, or notices filed with, the State Securities Board of Texas, the Texas Securities Commissioner or other government agencies relating to the company's securities.\n\nd. Any options, option plans (and names of optionees), warrants, calls, registration rights agreements or other commitments relating to the company's securities. \n\n3.\tBusiness activities\n\na. The address of the company's principal office and all business addresses used by the company within the last five years.\n\nb. The states in which it is legally qualified to do business.\n\nc. Any assumed, fictitious, or other business names under which the company has conducted business within the past five years and related documents. \n\nd. The names of all affiliates, including subsidiaries, joint ventures and entities which the Company owns in whole or in part. \n\n\ne. Any private placement memorandum, business plan, or management/investment report on the company.\n\nf. Any toxic waste disposals made, environmental permits held, or environmental audits conducted by the company at any time.\n\n4.\tMaterial Contracts and Permits\n\na. Any agreements, instruments, or other documents that: (1) are material to the conduct of the company's business2) call for payments based on the profits or sales of the company, (3) were entered into outside the ordinary course of business, (4) are with any shareholder or officer or director of the company, (5) have a term exceeding six months, (6) restrict the company's ability to compete in any line of business, or (7) are with government agencies.\n\nb. Standard forms used recently by the company, including purchase orders, invoices, and any materials related to extensions of credit to vendors, contractor prospects (collectively, “Industry Relations”).\n\nc.\tOther Agreements: (1) the Company’s business licensees, if any; and (2) sales representative agreements, if any.\n\n5. \tAssets\n\na. The nature and location of the company's assets and property to be transferred.\n\nb. Any pledges, conditional sales, mortgages, consignments, assignments, or other security agreements relating to the assets to be transferred. \n\nc.  A list of all  (1) banks in  which  the  company  maintains accounts, credit arrangements, or safe deposit boxes; (2) persons authorized to withdraw from these accounts and  safe deposit boxes or to borrow under those credit arrangements; (3) securities held by the company; and (4) motor vehicles and the states in which they are registered, along with the numbers identifying each.\n\nd. Any agreements or writings relating to the company's interests in real property or improvements, and leases and other bailments relating to any assets to be transferred.\n\n6.\tLiabilities\n\na. The terms and amounts of the company's debts and liabilities.\n\nb. Any outstanding notes, loan agreements, bank credit agreements, guaranties, or other indebtedness, as well as a list of the lenders or holders and any recent correspondence with, or certificates to, the lenders or the holders. \n\nc. Any lawsuits, claims, actions, or demands, including government agency or administrative proceedings and tax deficiencies, pending or threatened against the company. \n\nd. All warranties, guaranties, and other obligations given or incurred by the company (or any disclaimers of them) with respect to its services within the last eighteen-months.\n\ne.  The names and addresses of any finders or brokers used in connection with the proposed assets sale, the fees payable to each, and any written contracts involved.\n\n7.\tEmployees\n\na. The names of the company's directors and officers, and approximate dates of appointment to positions held.\n\nb. A description of the company's pension, retirement, profitsharing, medical, health, and other incentive and fringe benefit plans (including copies of any agreements and insurance policies relevant to these plans).\n\n8.\tInsurance\n\nAny insurance policies held by the company or relating to its assets or business, and the name of the company's broker or agent.\n\n9.\tProprietary Rights\n\na. The company's trademarks, trade names, domain name registrations, and similar rights, and any filings made or other protective measures taken with respect to them.\n\nb. Any agreements or licenses between the company and employees or others relating to inventions, patents, patent applications, trade secrets, confidential information (including customer lists), trademarks, trade names, and noncompetition covenants.\n\n10.  Tax matters\n\na. Returns (for the last three years) for state income and sales taxes and federal income tax, including any elections.\n\nb. The last year for which the company's federal tax returns were audited by the Internal Revenue Service and the determination of liability resulting from audits.\n\nc. The names of any persons holding tax or other powers of attorney executed by the company.\n\n",
-      "quote_digest": "sha256:a2d045e3060c2be4e58b4cfe61a5f0994bcdfcaef0094b6739d9f3e956751f54",
+      "quote": "SECTION 6. RELIEF FOR LATE ESBT AND QSST ELECTIONS.\n.01 ESBT or QSST Election. The trustee of an ESBT or the current income beneficiary of a QSST must sign and file the appropriate Election Form. The completed Election Form must include the following statements (each of which must comply with the requirement in Section 4.03(3) of this revenue procedure):\n(1) A statement from the trustee of the ESBT or the current income beneficiary of the QSST that includes the information required by § 1.1361-1(m)(2)(ii) (in the case of ESBT elections) or § 1.1361-1(j)(6)(ii) (in the case of QSST elections);\n(2) In the case of a QSST, a statement from the trustee that the trust satisfies the QSST requirements of § 1361(d)(3) and that the income distribution requirements have been and will continue to be met;\n(3) In the case of an ESBT, a statement from the trustee that all potential current beneficiaries meet the shareholder requirements of § 1361(b)(1) and that the trust satisfies the requirements of an ESBT under § 1361(e)(1) other than the requirement to make an ESBT election; and\n(4) Statements from all shareholders during the period between the date the S corporation election was to have become effective or was terminated and the date the completed Election Form is filed that they have reported their income on all affected returns consistent with the S corporation election for the year the election should have been made and for all subsequent years.\n",
+      "quote_digest": "sha256:1fc71ee00df4a978284a4c10ca63b0c6bb9d53edc62437dd1cbb595ad36662a0",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
-        "query": "Research IRC §1362(g) and relevant regulations or administrative guidance to determine the earliest permissible reelection year after a 2022 termination and the effect of IRS consent.",
+        "query": "Confirm whether the requested calculation should simply apply 8.84% to all affected income or incorporate California nexus, apportionment, minimum franchise tax, credits, and deductibility adjustments.",
         "version": "1"
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
       "source": {
-        "content_digest": "sha256:6faf99551d2cdebd37bf51a7aeb9aeaac551ff3c4b7687ac566f99eabe96a03e",
+        "content_digest": "sha256:489de4a5c467eb0382ef4f29920dc6433adc3a3336da5057aec7f37cd0208560",
         "media_type": "text/plain",
-        "uri": "private://apex/6faf99551d2cdebd-a6ca2094"
+        "uri": "private://apex/489de4a5c467eb03-1184b3a1"
       }
     },
-    "retrieval_receipt_digest": "sha256:162df796d875c2040644b13978430e4cafdf9b16839361d122cc3c4469ef0cbd",
-    "source_content_digest": "sha256:6faf99551d2cdebd37bf51a7aeb9aeaac551ff3c4b7687ac566f99eabe96a03e",
-    "source_digest": "sha256:a2a3f36b3a7d530c32495c11b252e2abcc2b26af9a3822db7f5ce37be4ca8e11",
-    "source_ref": "src_44650437570330df"
+    "retrieval_receipt_digest": "sha256:5ac43059e282ed4bccfa189dc6f69ee14de225a389300be9c796f7ec4261733b",
+    "source_content_digest": "sha256:489de4a5c467eb0382ef4f29920dc6433adc3a3336da5057aec7f37cd0208560",
+    "source_digest": "sha256:0e30a41e1d31405a037edcc4e56b65c5107236c02092ff6fca6351e692a30a27",
+    "source_ref": "src_449cd1a48a2b6b92"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_44650437570330df",
-  "subject_ref": "evd_13c059b0071dc23d",
+  "source_ref": "src_449cd1a48a2b6b92",
+  "subject_ref": "evd_10e5af5183c535a5",
   "type": "evidence_bound"
 }
