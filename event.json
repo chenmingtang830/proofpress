@@ -1,15 +1,41 @@
 {
-  "created_at": "2026-08-30T19:16:15.760163Z",
-  "event_id": "ppe_a0c416a3f8114a09",
-  "record": {
-    "content_digest": "sha256:325b6f0d8f419132cd9760d028bc85168558b524cf783b624c781b8780a54d37",
-    "id": "src_f976955a5d4d1a1e",
-    "kind": "retrieval_source",
-    "media_type": "application/pdf",
-    "record_hash": "sha256:8430de432d9fe6c9688523cf41bbd8ffe552bee7df815cc79ff5defa1a8b4181",
-    "uri": "private://apex/325b6f0d8f419132-3493756f"
+  "created_at": "2026-08-30T19:16:15.832491Z",
+  "event_id": "ppe_f4335a88974a0e30",
+  "evidence": {
+    "digest": "sha256:cd3c2c5b635f358e087db6b6ab8968df889f2055cb046048b12717b3c94a999b",
+    "id": "evd_2a39a53cf508c9d5",
+    "kind": "retrieval_evidence",
+    "quote_digest": "sha256:fcd92b68f4fb180c70b61abf09f76c9ae458aff83f273f24346f6fc6a663263c",
+    "retrieval_receipt": {
+      "locator": {
+        "kind": "section_span",
+        "page_end": 1,
+        "page_start": 1,
+        "section_digest": "sha256:fcd92b68f4fb180c70b61abf09f76c9ae458aff83f273f24346f6fc6a663263c",
+        "section_id": "sec_89b9fef0fc642dfb"
+      },
+      "quote": "H\fW*��O?�4���ս߽_��*N}^�v�\u000b����Ըԣ�/S{R�����2\u001fC�\u0011�Z\u001fZh�9������͏��O�cfr\u0003s�\u001a��|�s.sg\u000b�\nU\u0000�u���Q�\u001a@�Z\f,�Ӯ6��/ұ.\u001a����(\u001d\u001b�o�Y�Xs\u0016��쭯���7��tK��Mw5�\u0006�\u0003��\u001eiz\u001c8��TP5=\u0012����\u0003�A7������̓��m�\u001d�����\u001e���b�_p@�\f\u0018\u001a\u001c\u0011\u001c\u0005�\u0005&\u0000C���i@\u0005P\u0019�\u000b",
+      "quote_digest": "sha256:fcd92b68f4fb180c70b61abf09f76c9ae458aff83f273f24346f6fc6a663263c",
+      "retrieval": {
+        "adapter": "bm25-page",
+        "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
+        "query": "\"Treasury Regulation\" \"1.1362-6(b)\" \"26 CFR 1.1362-6(b)\" \"1362-6(b)\" election",
+        "version": "1"
+      },
+      "schema_version": "proofpress/retrieval-evidence/v1",
+      "source": {
+        "content_digest": "sha256:325b6f0d8f419132cd9760d028bc85168558b524cf783b624c781b8780a54d37",
+        "media_type": "application/pdf",
+        "uri": "private://apex/325b6f0d8f419132-3493756f"
+      }
+    },
+    "retrieval_receipt_digest": "sha256:baf53255217481832d619ad279711e9c488467fe7e37bdf3db864a1ce095dd16",
+    "source_content_digest": "sha256:325b6f0d8f419132cd9760d028bc85168558b524cf783b624c781b8780a54d37",
+    "source_digest": "sha256:8430de432d9fe6c9688523cf41bbd8ffe552bee7df815cc79ff5defa1a8b4181",
+    "source_ref": "src_f976955a5d4d1a1e"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "subject_ref": "src_f976955a5d4d1a1e",
-  "type": "source_recorded"
+  "source_ref": "src_f976955a5d4d1a1e",
+  "subject_ref": "evd_2a39a53cf508c9d5",
+  "type": "evidence_bound"
 }
