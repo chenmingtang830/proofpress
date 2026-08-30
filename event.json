@@ -1,41 +1,15 @@
 {
-  "created_at": "2026-08-30T19:15:58.828743Z",
-  "event_id": "ppe_4bc4b897a264d6f3",
-  "evidence": {
-    "digest": "sha256:b78d3271e91e44589c17303c64579bc0650d202d22045aad17306477b45e91f1",
-    "id": "evd_dc8b141455bb8e9c",
-    "kind": "retrieval_evidence",
-    "quote_digest": "sha256:ad71f6179930a462b3a1bb542a2230a71f0e59a1d0b3da5853f3bac8aea48b87",
-    "retrieval_receipt": {
-      "locator": {
-        "kind": "section_span",
-        "page_end": 1,
-        "page_start": 1,
-        "section_digest": "sha256:ad71f6179930a462b3a1bb542a2230a71f0e59a1d0b3da5853f3bac8aea48b87",
-        "section_id": "sec_dc2b7b7a83f2ec86"
-      },
-      "quote": "﻿SCHEDULE K-1 (Form 1120-S)                                                                            2023\nDepartment of the Treasury • Internal Revenue Service                          OMB No. 1545-0123\n\nShareholder’s Share of Income, Deductions, Credits, etc.                       For calendar year 2023\n\n────────────────────────────────────────────────────────────────────────────────────\nPart I ─ Information About the Corporation\n────────────────────────────────────────────────────────────────────────────────────\nA  Corporation’s employer identification number                       12-3456789\nB  Corporation’s name, address, city, state, and ZIP code\n       Summit Filing Solutions, Inc.\n       8280 Willow Oaks Corporate Dr\n       Los Angeles, CA  90001\nC  IRS center where corporation filed return                               Ogden, UT\n\n────────────────────────────────────────────────────────────────────────────────────\nPart II ─ Information About the Shareholder\n────────────────────────────────────────────────────────────────────────────────────\nD  Shareholder’s identifying number                                    111-11-1111\nE  Shareholder’s name, address, city, state, and ZIP code\n       Laura Kensington\n       4428 Willow Bend Ct.\n       Olympia, WA  98502\nF  Shareholder’s percentage of stock ownership\n       Beginning of tax year   26%                 End of tax year   26%\n\n────────────────────────────────────────────────────────────────────────────────────\nPart III ─ Shareholder’s Share of Current Year Income, Deductions, Credits, etc.\n────────────────────────────────────────────────────────────────────────────────────\n1  Ordinary business income (loss)                                   $72,414\n2  Net rental real estate income (loss)                                    0\n3  Other net rental income (loss)                                          0\n4  Interest income                                                     $198\n5a Ordinary dividends                                                      0\n5b Qualified dividends                                                     0\n6  Royalties                                                               0\n7  Net short-term capital gain (loss)                                      0\n8a Net long-term capital gain (loss)                                   $412\n8b Collectibles (28%) gain (loss)                                          0\n8c Unrecaptured section 1250 gain                                          0\n9  Net section 1231 gain (loss)                                            0\n10 Other income (loss)                                                     0\n\n11 Section 179 deduction                                                   0\n12 Other deductions                                                        0\n13 Credits                                                                 0\n14 Foreign transactions                                                    0\n15 Charitable contributions                                               0\n16 Items affecting shareholder basis\n   a  Tax-exempt interest income                                           0\n   b  Other tax-exempt income                                              0\n   c  Nondeductible expenses                                               0\n   d  Distributions – cash and marketable securities                       0\n   e  Repayment of loans from shareholders                                0\n17 Other information                                                       0\n\n────────────────────────────────────────────────────────────────────────────────────\nStock and Debt Basis Limitations (for shareholder records)\n────────────────────────────────────────────────────────────────────────────────────\n   + Increase for income items (Lines 1 + 4 + 8a)                    $73,024\n   – Distributions and other reductions                                  0\n   = Net increase to stock basis this year                           $73,024\n\n   Type of income: Active Business Income\n   Foreign country or U.S. possession: N/A\n\n────────────────────────────────────────────────────────────────────────────────────\nPrepared by: Corporate Officer, Summit Filing Solutions, Inc.\nDate prepared: March 12, 2024\n\nThis is an exact substitute Schedule K-1 that matches the official K-1 filed with IRS Form 1120-S on March 15, 2024.\nRetain this copy with your permanent tax records.\n",
-      "quote_digest": "sha256:ad71f6179930a462b3a1bb542a2230a71f0e59a1d0b3da5853f3bac8aea48b87",
-      "retrieval": {
-        "adapter": "bm25-page",
-        "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
-        "query": "adjusted basis sale gain calculation amount realized adjusted basis real estate gain computation",
-        "version": "1"
-      },
-      "schema_version": "proofpress/retrieval-evidence/v1",
-      "source": {
-        "content_digest": "sha256:b39b68a36c37f0faeb0e5040bec27cc7ba6aa0d70ca51c50c34d5a802d08c69d",
-        "media_type": "text/plain",
-        "uri": "private://apex/b39b68a36c37f0fa-f4ff7c1a"
-      }
-    },
-    "retrieval_receipt_digest": "sha256:4d6122c7633cfa6290dedb7eae5de2c193185fa22cd40ebdf3fa610f2f3a28b6",
-    "source_content_digest": "sha256:b39b68a36c37f0faeb0e5040bec27cc7ba6aa0d70ca51c50c34d5a802d08c69d",
-    "source_digest": "sha256:e6c13399e6d921e1bcd64a967945fa64f8a7fdafc0c8d32bad064b0881923fc8",
-    "source_ref": "src_e750f2e6ae8b48ff"
+  "created_at": "2026-08-30T19:15:58.891288Z",
+  "event_id": "ppe_d9042109b3dbe9fd",
+  "record": {
+    "content_digest": "sha256:c7922ddf7a68712604b97130f42a3cabfc6e786eca4b12e96cc3ce9d59cb82cc",
+    "id": "src_dec93f22d1ef0f66",
+    "kind": "retrieval_source",
+    "media_type": "text/plain",
+    "record_hash": "sha256:72fcb7c0b100ae4d9e332fcb2b244b7c4bb075d65e161d4b3e9f555244b6a151",
+    "uri": "private://apex/c7922ddf7a687126-399ed980"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_e750f2e6ae8b48ff",
-  "subject_ref": "evd_dc8b141455bb8e9c",
-  "type": "evidence_bound"
+  "subject_ref": "src_dec93f22d1ef0f66",
+  "type": "source_recorded"
 }
