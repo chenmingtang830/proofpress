@@ -1,41 +1,15 @@
 {
-  "created_at": "2026-08-30T19:17:06.874815Z",
-  "event_id": "ppe_bea90135d9e0738c",
-  "evidence": {
-    "digest": "sha256:4870bd0debf63c2e1699d5e4c1a1d5d23e3d72241d642cd00d338aca546cf7b3",
-    "id": "evd_7dd60024e6a0c14c",
-    "kind": "retrieval_evidence",
-    "quote_digest": "sha256:a6c435c4590f392a1f39928d2776c7d57062d95b898e8144ad601b532db70742",
-    "retrieval_receipt": {
-      "locator": {
-        "kind": "section_span",
-        "page_end": 1,
-        "page_start": 1,
-        "section_digest": "sha256:a6c435c4590f392a1f39928d2776c7d57062d95b898e8144ad601b532db70742",
-        "section_id": "sec_f3f50bc87563e1be"
-      },
-      "quote": "﻿\n\n\n\n\n\nStock Purchase Agreement\nby\n\nHarbor Bridge Private Equity, Inc.\n \n\nand\n\nSummit Filing Solutions, Inc.\n\n\n\nDated [TBD]\n\n\n\nTable of Contents\n\n\n\n\n\n\n\n",
-      "quote_digest": "sha256:a6c435c4590f392a1f39928d2776c7d57062d95b898e8144ad601b532db70742",
-      "retrieval": {
-        "adapter": "bm25-page",
-        "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
-        "query": "retained earnings equity rollforward general ledger distributions M-2 reconciliation",
-        "version": "1"
-      },
-      "schema_version": "proofpress/retrieval-evidence/v1",
-      "source": {
-        "content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
-        "media_type": "text/plain",
-        "uri": "private://apex/7beb28a6e0069669-d885dee3"
-      }
-    },
-    "retrieval_receipt_digest": "sha256:9237ecdb4aa06753a7c13e600d8d2d1f0869320341e654dc6c5582943dd812c0",
-    "source_content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
-    "source_digest": "sha256:9b5e55c106d3b2c9d270455bb5af81e282a4e92f3ba0722f868b952faf8ff0b5",
-    "source_ref": "src_1cb20c6823882030"
+  "created_at": "2026-08-30T19:17:06.984449Z",
+  "event_id": "ppe_745ae9afaa10cb13",
+  "record": {
+    "content_digest": "sha256:f3b1b042a301da0a6bb7952eae285cd59b1a818a9559044a6e9f6d3859adbaf3",
+    "id": "src_e73ff682b6190163",
+    "kind": "retrieval_source",
+    "media_type": "application/pdf",
+    "record_hash": "sha256:175e0124af6d3b4aab797ecdb8f61eac6ef4fb1e80362ef05e6135e3702f950b",
+    "uri": "private://apex/f3b1b042a301da0a-c0113bd4"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_1cb20c6823882030",
-  "subject_ref": "evd_7dd60024e6a0c14c",
-  "type": "evidence_bound"
+  "subject_ref": "src_e73ff682b6190163",
+  "type": "source_recorded"
 }
