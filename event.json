@@ -1,15 +1,41 @@
 {
-  "created_at": "2026-08-30T19:15:57.088028Z",
-  "event_id": "ppe_4bfe8832ec2ede94",
-  "record": {
-    "content_digest": "sha256:2699ee5d9881c8c78aae9578056c9ca4d56b38c2185ad1f9717e0bd90a086378",
-    "id": "src_8fecb1c19743ac41",
-    "kind": "retrieval_source",
-    "media_type": "text/plain",
-    "record_hash": "sha256:c69f144edbe2b6208bca637d40d48ce88d45f13a074b82eb3d6db5d952bc93cf",
-    "uri": "private://apex/2699ee5d9881c8c7-68eb4933"
+  "created_at": "2026-08-30T19:15:57.152589Z",
+  "event_id": "ppe_b78c635560dcdd16",
+  "evidence": {
+    "digest": "sha256:e6bbd89b15f00fd3ea46b0909d0251b0f44448b92eb4a2d9b7695f47784bd986",
+    "id": "evd_7937950270752d3a",
+    "kind": "retrieval_evidence",
+    "quote_digest": "sha256:346be412e2073b2f4877ceaa9df0374b415edfceef39e5651aee00e2bd2315df",
+    "retrieval_receipt": {
+      "locator": {
+        "kind": "section_span",
+        "page_end": 1,
+        "page_start": 1,
+        "section_digest": "sha256:346be412e2073b2f4877ceaa9df0374b415edfceef39e5651aee00e2bd2315df",
+        "section_id": "sec_dbafdde478daa245"
+      },
+      "quote": "﻿ORIGINAL CERTIFICATE OF INCORPORATION\nof\n Summit Filing Solutions, Inc.\n (A Delaware Corporation)\n Dated: January 10, 2018\n    1. Name.\n The name of the corporation is Summit Filing Solutions, Inc. (the “Corporation”).\n\n    2. Registered Office and Registered Agent.\n The address of the Corporation’s registered office in the State of Delaware is:\n 1209 Orange Street, Wilmington, Delaware 19801.\n The name of its registered agent at such address is National Registered Agents Inc.\n\n    3. Purpose.\n The Corporation is organized to conduct any lawful business and engage in any lawful act or activity for which corporations may be incorporated under the Delaware General Corporation Law (“DGCL”).\n\n    4. Authorized Capital Stock.\n (a) Authorized Shares. The Corporation is authorized to issue 500,000 shares of Common Stock, par value $0.001 per share.\n (b) Rights and Privileges. All shares of Common Stock are identical and have the same rights, powers, and privileges.\n (c) Single Class Restriction. The Corporation shall not issue any class or series of equity that differs in distribution, liquidation, or redemption rights. No agreement or instrument may create a second class of stock within the meaning of Subchapter S of the Internal Revenue Code.\n (d) Transfer Restrictions to Preserve S-Corporation Eligibility. Shares may not be transferred to any person or entity that is an ineligible S-Corporation shareholder, including nonresident aliens, corporations, partnerships, or trusts other than QSSTs or ESBTs.\n\n    5. Board of Directors.\n The number of directors constituting the initial Board of Directors is three (3). The names and addresses of the persons who shall serve as the initial directors until the first annual meeting of stockholders or until their successors are elected and qualified are:\n\n• Laura Kensington, 912 Redwood Crest Ln, Bend, OR 97701\n • Michael T. Hartwell, 3285 Sycamore Ridge Rd, Franklin, TN 37064\n • Danielle R. Soto, 1448 Harbor Point Dr, Richmond, VA 23233\n    6. Limitation of Liability.\n To the fullest extent permitted by Section 102(b)(7) of the DGCL, a director of the Corporation shall not be personally liable to the Corporation or its stockholders for monetary damages for breach of fiduciary duty.\n\n    7. Indemnification.\n The Corporation shall indemnify its directors and officers to the fullest extent permitted by the DGCL. These rights shall not be exclusive of any other rights to which any director or officer may be entitled under the bylaws or any agreement.\n\n    8. Subchapter S Election Compliance.\n The Corporation and its stockholders shall act to preserve the Corporation’s eligibility to elect Subchapter S status, including:\n (a) maintaining a permitted shareholder structure,\n (b) prohibiting disproportionate distributions,\n (c) preventing creation of a second class of stock, and\n (d) restricting transfers to preserve eligibility.\n\n    9. Stockholder Approval of Fundamental Acts.\n Notwithstanding any lesser standard permitted by the DGCL, the following actions require approval of stockholders holding at least 75 percent of the outstanding shares:\n (a) any merger or sale of substantially all assets,\n (b) any amendment to this Certificate affecting authorized shares or economic rights,\n (c) any action that could impair or terminate S-Corporation status.\n\n    10. Incorporator.\n The name and mailing address of the incorporator is:\n Helen M. Carrington\n 218 Lakeview Terrace\n Montpelier, VT 05602\n\nIN WITNESS WHEREOF, the undersigned incorporator has executed this Certificate of Incorporation as of January 10, 2018.\n\nHelen M. Carrington\n Incorporator\n\n",
+      "quote_digest": "sha256:346be412e2073b2f4877ceaa9df0374b415edfceef39e5651aee00e2bd2315df",
+      "retrieval": {
+        "adapter": "bm25-page",
+        "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
+        "query": "special allocations Summit Filing Solutions liquidation preference cap table distribution waterfall Laura Kensington preferred equity economic rights",
+        "version": "1"
+      },
+      "schema_version": "proofpress/retrieval-evidence/v1",
+      "source": {
+        "content_digest": "sha256:2699ee5d9881c8c78aae9578056c9ca4d56b38c2185ad1f9717e0bd90a086378",
+        "media_type": "text/plain",
+        "uri": "private://apex/2699ee5d9881c8c7-68eb4933"
+      }
+    },
+    "retrieval_receipt_digest": "sha256:8b25910333ba542a2cc455b3c51b2a23adff9bd4ee455c998d3cd0bdc28dcdef",
+    "source_content_digest": "sha256:2699ee5d9881c8c78aae9578056c9ca4d56b38c2185ad1f9717e0bd90a086378",
+    "source_digest": "sha256:c69f144edbe2b6208bca637d40d48ce88d45f13a074b82eb3d6db5d952bc93cf",
+    "source_ref": "src_8fecb1c19743ac41"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "subject_ref": "src_8fecb1c19743ac41",
-  "type": "source_recorded"
+  "source_ref": "src_8fecb1c19743ac41",
+  "subject_ref": "evd_7937950270752d3a",
+  "type": "evidence_bound"
 }
