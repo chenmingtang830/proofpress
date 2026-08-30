@@ -1,41 +1,41 @@
 {
-  "created_at": "2026-08-30T19:16:40.928410Z",
-  "event_id": "ppe_189cafdb804ae1d1",
+  "created_at": "2026-08-30T19:16:41.078298Z",
+  "event_id": "ppe_ef3739f01872bf94",
   "evidence": {
-    "digest": "sha256:a653b0a09e235fde30862fbb4359ae8432db6b38eff7aef161e314adebc106bd",
-    "id": "evd_ce8c3fbcfb3416ab",
+    "digest": "sha256:996ad2b349a1305e9ab9439d30cad38e18cad8f616fe59a00d104b281a0c2cbb",
+    "id": "evd_c4a4827f012d387e",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:71e921eb5dc9f4891da0a1a2332f521e14e987c54737e421993a9a243bd6fde3",
+    "quote_digest": "sha256:4ad0fa54461fb7ad909b6fe274711dba41cd3e58b5088ecb0cbca7587a65e44c",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:71e921eb5dc9f4891da0a1a2332f521e14e987c54737e421993a9a243bd6fde3",
-        "section_id": "sec_d814238504a7730d"
+        "section_digest": "sha256:4ad0fa54461fb7ad909b6fe274711dba41cd3e58b5088ecb0cbca7587a65e44c",
+        "section_id": "sec_aba134bf1f61b48b"
       },
-      "quote": "ADDRESS: \n\t\t\t\t\n\t\t\t\t\n\nEffective Date: \t\t\t\t\n\n",
-      "quote_digest": "sha256:71e921eb5dc9f4891da0a1a2332f521e14e987c54737e421993a9a243bd6fde3",
+      "quote": "﻿SCHEDULE K-1 (Form 1120-S)                                                                              2021\nDepartment of the Treasury • Internal Revenue Service                          OMB No. 1545-0123\n\nShareholder’s Share of Income, Deductions, Credits, etc.                       For calendar year 2021\n\n────────────────────────────────────────────────────────────────────────────────────\nPart I ─ Information About the Corporation\n────────────────────────────────────────────────────────────────────────────────────\nA  Corporation’s employer identification number                       12-3456789\nB  Corporation’s name, address, city, state, and ZIP code\n       Summit Filing Solutions, Inc.\n       8280 Willow Oaks Corporate Dr\n       Los Angeles, CA  90001\nC  IRS center where corporation filed return                               Ogden, UT\n\n────────────────────────────────────────────────────────────────────────────────────\nPart II ─ Information About the Shareholder\n────────────────────────────────────────────────────────────────────────────────────\nD  Shareholder’s identifying number                                    444-44-4444\nE  Shareholder’s name, address, city, state, and ZIP code\n       Sarah Chen\n       1188 Mission St., Apt 1805\n       San Francisco, CA  94103\nF  Shareholder’s percentage of stock ownership\n       Beginning of tax year   12%                 End of tax year   12%\n\n────────────────────────────────────────────────────────────────────────────────────\nPart III ─ Shareholder’s Share of Current Year Income, Deductions, Credits, etc.\n────────────────────────────────────────────────────────────────────────────────────\n1  Ordinary business income (loss)                                   $20,690\n2  Net rental real estate income (loss)                                    0\n3  Other net rental income (loss)                                          0\n4  Interest income                                                      $52\n5a Ordinary dividends                                                      0\n5b Qualified dividends                                                     0\n6  Royalties                                                               0\n7  Net short-term capital gain (loss)                                      0\n8a Net long-term capital gain (loss)                                   $276\n8b Collectibles (28%) gain (loss)                                          0\n8c Unrecaptured section 1250 gain                                          0\n9  Net section 1231 gain (loss)                                            0\n10 Other income (loss)                                                     0\n\n11 Section 179 deduction                                                   0\n12 Other deductions                                                        0\n13 Credits                                                                 0\n14 Foreign transactions                                                    0\n15 Charitable contributions                                               0\n16 Items affecting shareholder basis\n   a  Tax-exempt interest income                                           0\n   b  Other tax-exempt income                                              0\n   c  Nondeductible expenses                                               0\n   d  Distributions – cash and marketable securities                       0\n   e  Repayment of loans from shareholders                                0\n17 Other information                                                       0\n\n────────────────────────────────────────────────────────────────────────────────────\nStock and Debt Basis Limitations (for shareholder records)\n────────────────────────────────────────────────────────────────────────────────────\n   + Increase for income items (Lines 1 + 4 + 8a)                    $21,018\n   – Distributions and other reductions                                  0\n   = Net increase to stock basis this year                           $21,018\n\n   Type of income: Active Business Income\n   Foreign country or U.S. possession: N/A\n\n────────────────────────────────────────────────────────────────────────────────────\nPrepared by: Corporate Officer, Summit Filing Solutions, Inc.\nDate prepared: March 10, 2022\n\nThis is an exact substitute Schedule K-1 that matches the official K-1 filed with IRS Form 1120-S on March 15, 2022.\nRetain this copy with your permanent tax records.\n",
+      "quote_digest": "sha256:4ad0fa54461fb7ad909b6fe274711dba41cd3e58b5088ecb0cbca7587a65e44c",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
-        "query": "S election effective date after filing Summit Form 2553 filing deadline requalification new S corporation election effective date eligibility late S election relief effective date",
+        "query": "Summit ordinary business income by year Summit income statement ordinary business income Summit tax return ordinary business income Summit annual operating income",
         "version": "1"
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
       "source": {
-        "content_digest": "sha256:dfb4a6fb5185685768f588160e39690b944d8cbfad8e0b36a92b49be895f80d9",
+        "content_digest": "sha256:6708bd1c825e178dc15adb571d1c4ebd8e6284e862c9c5fd2b47de7886b1b3d8",
         "media_type": "text/plain",
-        "uri": "private://apex/dfb4a6fb51856857-3ebb9312"
+        "uri": "private://apex/6708bd1c825e178d-7d967946"
       }
     },
-    "retrieval_receipt_digest": "sha256:43029648c47008dd1fea0d942d9a4bec3c13f49191533df44a1356de59397b53",
-    "source_content_digest": "sha256:dfb4a6fb5185685768f588160e39690b944d8cbfad8e0b36a92b49be895f80d9",
-    "source_digest": "sha256:af353dc2ff025f1b5856614e044526af70dd8dd57771cc7162880a69ff71fe65",
-    "source_ref": "src_fe48f3c72ed75d5f"
+    "retrieval_receipt_digest": "sha256:6009d4d362a26130ef8a9ce9cf1ebd2591b1e65619b397015f383947c423930e",
+    "source_content_digest": "sha256:6708bd1c825e178dc15adb571d1c4ebd8e6284e862c9c5fd2b47de7886b1b3d8",
+    "source_digest": "sha256:8849a1f0d0d42381c1460e9d0f65287b6c0db113e2faeeb89779c452875bbf51",
+    "source_ref": "src_451cbf95bfddc12d"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_fe48f3c72ed75d5f",
-  "subject_ref": "evd_ce8c3fbcfb3416ab",
+  "source_ref": "src_451cbf95bfddc12d",
+  "subject_ref": "evd_c4a4827f012d387e",
   "type": "evidence_bound"
 }
