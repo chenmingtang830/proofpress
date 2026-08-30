@@ -1,41 +1,41 @@
 {
-  "created_at": "2026-08-30T19:16:43.264577Z",
-  "event_id": "ppe_3241c61e1fe121dd",
+  "created_at": "2026-08-30T19:16:43.416167Z",
+  "event_id": "ppe_5451b352dcdf8713",
   "evidence": {
-    "digest": "sha256:e72835a3a9446790a5137d18f25496eaef0564b8b92ff2be09832beda88e83e8",
-    "id": "evd_f4628bfb354f3747",
+    "digest": "sha256:9a7fbd2b08b97146f338bd23cb7314bacde87be5f15ea6eb87e8e63a20d477c9",
+    "id": "evd_21b15ff6937b6294",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:bdfa901486242f72e6d25bb32d2a4c88ba487f861b83726ee61ecfe35d054235",
+    "quote_digest": "sha256:9cc4eccb50623883bf18fa0efb3f522e5ba92b98a19b5604306465d4df3dacba",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:bdfa901486242f72e6d25bb32d2a4c88ba487f861b83726ee61ecfe35d054235",
-        "section_id": "sec_af705298dafb1380"
+        "section_digest": "sha256:9cc4eccb50623883bf18fa0efb3f522e5ba92b98a19b5604306465d4df3dacba",
+        "section_id": "sec_ead07852b0cf02c9"
       },
-      "quote": "﻿SCHEDULE K-1 (Form 1120-S)                                                                                  2022\nDepartment of the Treasury • Internal Revenue Service                          OMB No. 1545-0123\n\nShareholder’s Share of Income, Deductions, Credits, etc.                       For calendar year 2022\n\n────────────────────────────────────────────────────────────────────────────────────\nPart I ─ Information About the Corporation\n────────────────────────────────────────────────────────────────────────────────────\nA  Corporation’s employer identification number                       12-3456789\nB  Corporation’s name, address, city, state, and ZIP code\n       Summit Filing Solutions, Inc.\n       8280 Willow Oaks Corporate Dr\n       Los Angeles, CA  90001\nC  IRS center where corporation filed return                               Ogden, UT\n\n────────────────────────────────────────────────────────────────────────────────────\nPart II ─ Information About the Shareholder\n────────────────────────────────────────────────────────────────────────────────────\nD  Shareholder’s identifying number                                    333-33-3333\nE  Shareholder’s name, address, city, state, and ZIP code\n       David R. Goldstein\n       725 S. Figueroa St., Suite 2900\n       Los Angeles, CA  90017\nF  Shareholder’s percentage of stock ownership\n       Beginning of tax year   15%                 End of tax year   15%\n\n────────────────────────────────────────────────────────────────────────────────────\nPart III ─ Shareholder’s Share of Current Year Income, Deductions, Credits, etc.\n────────────────────────────────────────────────────────────────────────────────────\n1  Ordinary business income (loss)                                   $33,513\n2  Net rental real estate income (loss)                                    0\n3  Other net rental income (loss)                                          0\n4  Interest income                                                      $90\n5a Ordinary dividends                                                      0\n5b Qualified dividends                                                     0\n6  Royalties                                                               0\n7  Net short-term capital gain (loss)                                      0\n8a Net long-term capital gain (loss)                                  ($180)\n8b Collectibles (28%) gain (loss)                                          0\n8c Unrecaptured section 1250 gain                                          0\n9  Net section 1231 gain (loss)                                            0\n10 Other income (loss)                                                     0\n\n11 Section 179 deduction                                                   0\n12 Other deductions                                                        0\n13 Credits                                                                 0\n14 Foreign transactions                                                    0\n15 Charitable contributions                                               0\n16 Items affecting shareholder basis\n   a  Tax-exempt interest income                                           0\n   b  Other tax-exempt income                                              0\n   c  Nondeductible expenses                                               0\n   d  Distributions – cash and marketable securities                       0\n   e  Repayment of loans from shareholders                                0\n17 Other information                                                       0\n\n────────────────────────────────────────────────────────────────────────────────────\nStock and Debt Basis Limitations (for shareholder records)\n────────────────────────────────────────────────────────────────────────────────────\n   + Increase for income items (Lines 1 + 4)                         $33,603\n   – Decrease for loss items (Line 8a)                                  ($180)\n   = Net increase to stock basis this year                           $33,423\n\n   Type of income: Active Business Income\n   Foreign country or U.S. possession: N/A\n\n────────────────────────────────────────────────────────────────────────────────────\nPrepared by: Corporate Officer, Summit Filing Solutions, Inc.\nDate prepared: March 11, 2023\n\nThis is an exact substitute Schedule K-1 that matches the official K-1 filed with IRS Form 1120-S on March 15, 2023.\nRetain this copy with your permanent tax records.\n",
-      "quote_digest": "sha256:bdfa901486242f72e6d25bb32d2a4c88ba487f861b83726ee61ecfe35d054235",
+      "quote": "III. RECOMMENDED CORRECTIVE ACTIONS\n1. File a §1362(f) inadvertent termination relief request to address the 2022 transfer to an ineligible shareholder.\n2. Prepare and adopt a multi‑year distribution true‑up to restore pro rata compliance.\n3. Reissue corrected K‑1s for all years lacking complete ownership data.\n4. Reconstruct the stock ledger and consolidate all versions into a single authoritative record.\n5. Produce (or confirm absence of) all shareholder loan documentation. If none exist, obtain written certifications.\n6. Strengthen compliance and governance controls, including resolutions affirming S‑status compliance requirements.\n\n",
+      "quote_digest": "sha256:9cc4eccb50623883bf18fa0efb3f522e5ba92b98a19b5604306465d4df3dacba",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
-        "query": "Retrieve complete 2022 and 2023 K-1 box 1 amounts for all shareholders and reconcile them to corporate ordinary business income.",
+        "query": "Retrieve IRC §§1361(b)(1)(C), 1362(d)(2), and 1362(e), plus relevant regulations, addressing termination date and allocation between S and C short years.",
         "version": "1"
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
       "source": {
-        "content_digest": "sha256:cab1f365c807c016a16cb7915702f718875d40a07393b7e8e092d6be827ef242",
+        "content_digest": "sha256:e7eb786dc671298aa9426792d523f0ec997bee3a570763a8b10f13a1644fc105",
         "media_type": "text/plain",
-        "uri": "private://apex/cab1f365c807c016-ae3f5837"
+        "uri": "private://apex/e7eb786dc671298a-1d2051f2"
       }
     },
-    "retrieval_receipt_digest": "sha256:9b890872ad39340f57a8cb036932b6ef1bdff39cb6102bd45852b731c4a207eb",
-    "source_content_digest": "sha256:cab1f365c807c016a16cb7915702f718875d40a07393b7e8e092d6be827ef242",
-    "source_digest": "sha256:def5d5be375b9fb513f2205fe46ded08483cc6f26384b22fa96c52141db0831f",
-    "source_ref": "src_5974d03232f00034"
+    "retrieval_receipt_digest": "sha256:3e0b84582e4da844ab4e3a2e0897878a303b0eb023b2afdc94f5bb10dae168c3",
+    "source_content_digest": "sha256:e7eb786dc671298aa9426792d523f0ec997bee3a570763a8b10f13a1644fc105",
+    "source_digest": "sha256:bbebf48c1f9dee4d30677c0c93c00e3eb349758e8e8a6eac5acafa2f8650d491",
+    "source_ref": "src_e9b083e75ca5f18f"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_5974d03232f00034",
-  "subject_ref": "evd_f4628bfb354f3747",
+  "source_ref": "src_e9b083e75ca5f18f",
+  "subject_ref": "evd_21b15ff6937b6294",
   "type": "evidence_bound"
 }
