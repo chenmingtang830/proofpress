@@ -1,15 +1,41 @@
 {
-  "created_at": "2026-08-30T19:15:57.336571Z",
-  "event_id": "ppe_0e8b7652a8b13663",
-  "record": {
-    "content_digest": "sha256:2deffb4f8f21edc479c2a23b9c8bd05fb7787eb323e1b0e573b07f190f63d4f5",
-    "id": "src_e5ee57b4daba07c8",
-    "kind": "retrieval_source",
-    "media_type": "text/plain",
-    "record_hash": "sha256:3538f66a9ae8efd363cf69dcf7d66fb56bd07aa404270535b6dfec9c843b0e78",
-    "uri": "private://apex/2deffb4f8f21edc4-49d7dafd"
+  "created_at": "2026-08-30T19:15:57.399216Z",
+  "event_id": "ppe_6c54c7fb3ea3e4bc",
+  "evidence": {
+    "digest": "sha256:358ad59f5b1a9950d8bdf3eb79d3800e61317d912a39c490aebacbd468608c87",
+    "id": "evd_c07a9136f9ab3964",
+    "kind": "retrieval_evidence",
+    "quote_digest": "sha256:e3d8e7f052a608570e23e9496e45e1ff1ee3f79bb43992c1e5049123c5197f0d",
+    "retrieval_receipt": {
+      "locator": {
+        "kind": "section_span",
+        "page_end": 1,
+        "page_start": 1,
+        "section_digest": "sha256:e3d8e7f052a608570e23e9496e45e1ff1ee3f79bb43992c1e5049123c5197f0d",
+        "section_id": "sec_74fd85f60268cfe9"
+      },
+      "quote": "﻿\nHere is the fictional five-year operating history for \"Summit Filing Solutions, Inc.\" recreated for an S corporation with five shareholders.\nFictional Entity Details\n    • Name: Summit Filing Solutions, Inc.\n    • Employer Identification Number (EIN): [Fictional] 12-3456789\n    • Date Incorporated: January 10, 2018\n    • S Corp Election Effective Date: January 1, 2019\n    • Business Activity Code: 541511 (Custom Computer Programming Services)\n    • Accounting Method: Accrual\n    • Shareholders: Five equal shareholders (Alex, Beth, Chris, Dana, Evan), each with 20% ownership.\n    • Economic Context: The data reflects a consistent growth trajectory, with a minor market correction in 2023.\nFive-Year Operating History: Income and Deductions\nThe following table provides the key income and deduction line items required for the main section of IRS Form 1120-S (Page 1, Lines 1 through 21). All figures are in U.S. Dollars ($).\nLine Item\tForm 1120-S Line Ref\t2020\t2021\t2022\t2023\t2024\nGross receipts or sales\t1a\t500,000\t750,000\t1,100,000\t950,000\t1,300,000\nLess: Returns and allowances\t1b\t5,000\t7,500\t11,000\t9,500\t13,000\nBalance (Net Sales)\t1c\t495,000\t742,500\t1,089,000\t940,500\t1,287,000\nCost of goods sold (COGS)\t2\t200,000\t300,000\t440,000\t380,000\t520,000\nGross profit\t3\t295,000\t442,500\t649,000\t560,500\t767,000\nInterest income\t4\t500\t600\t700\t800\t900\nGross rents/royalties\t5\t0\t0\t0\t0\t0\nNet gain/loss from asset sale\t6\t0\t0\t1,000\t0\t(500)\nTotal income (loss)\t6\t295,500\t443,100\t650,700\t561,300\t767,400\nDeductions\t\t\t\t\t\t\nOfficer compensation\t7\t120,000\t160,000\t200,000\t180,000\t220,000\nSalaries and wages (other)\t8\t40,000\t60,000\t90,000\t75,000\t110,000\nRepairs and maintenance\t9\t2,000\t3,000\t4,500\t3,500\t5,000\nBad debts\t10\t1,000\t1,500\t2,000\t3,000\t1,500\nRent\t11\t18,000\t18,000\t20,000\t22,000\t24,000\nTaxes and licenses\t12\t4,000\t5,500\t7,000\t6,500\t8,000\nInterest\t13\t1,200\t1,100\t900\t800\t700\nDepreciation (Form 4562)\t14\t10,000\t12,000\t15,000\t14,000\t13,000\nAdvertising\t15\t5,000\t8,000\t12,000\t10,000\t15,000\nPension, profit-sharing\t16\t3,000\t4,500\t6,000\t5,500\t7,000\nEmployee benefit programs\t17\t8,000\t10,000\t14,000\t12,000\t16,000\nOther deductions (attach stmnt)\t18\t7,000\t9,000\t11,000\t9,000\t12,000\nTotal deductions\t19\t232,200\t297,600\t396,400\t347,300\t433,200\nOrdinary business income\t21\t63,300\t145,500\t254,300\t214,000\t334,200\nFinancial and Economic Data with Five Shareholders\n    • Balance Sheet Information (Schedule L): As noted previously, Summit Filing Solutions, Inc. must complete Schedule L for the years 2022, 2023, and 2024, as total assets exceeded the $250,000 threshold.\n    • Shareholder Data (Schedule K-1): The ordinary business income (Line 21) is passed through to the five shareholders via Schedule K-1 (Form 1120-S). Each of the five shareholders receives a pro rata share of 20% of the Line 21 amount on their personal tax returns.\nYear\tOrdinary Business Income (Line 21)\tPer Shareholder Allocation (20%)\n2020\t$63,300\t$12,660\n2021\t$145,500\t$29,100\n2022\t$254,300\t$50,860\n2023\t$214,000\t$42,800\n2024\t$334,200\t$66,840\nThe corporation tracks each shareholder's stock and debt basis annually using Form 7203, which shareholders attach to their individual Forms 1040.\n\n",
+      "quote_digest": "sha256:e3d8e7f052a608570e23e9496e45e1ff1ee3f79bb43992c1e5049123c5197f0d",
+      "retrieval": {
+        "adapter": "bm25-page",
+        "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
+        "query": "building acquisition 2018 $350,000 real estate purchase price land building Summit Filing Solutions property acquisition",
+        "version": "1"
+      },
+      "schema_version": "proofpress/retrieval-evidence/v1",
+      "source": {
+        "content_digest": "sha256:2deffb4f8f21edc479c2a23b9c8bd05fb7787eb323e1b0e573b07f190f63d4f5",
+        "media_type": "text/plain",
+        "uri": "private://apex/2deffb4f8f21edc4-49d7dafd"
+      }
+    },
+    "retrieval_receipt_digest": "sha256:8941ef494ea796e32e4a429c181b55d7342235a80681cc020f3cbf0aa60a6588",
+    "source_content_digest": "sha256:2deffb4f8f21edc479c2a23b9c8bd05fb7787eb323e1b0e573b07f190f63d4f5",
+    "source_digest": "sha256:3538f66a9ae8efd363cf69dcf7d66fb56bd07aa404270535b6dfec9c843b0e78",
+    "source_ref": "src_e5ee57b4daba07c8"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "subject_ref": "src_e5ee57b4daba07c8",
-  "type": "source_recorded"
+  "source_ref": "src_e5ee57b4daba07c8",
+  "subject_ref": "evd_c07a9136f9ab3964",
+  "type": "evidence_bound"
 }
