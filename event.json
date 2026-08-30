@@ -1,21 +1,21 @@
 {
-  "created_at": "2026-08-30T19:17:01.291570Z",
-  "event_id": "ppe_8c858be5b3ff8e2f",
+  "created_at": "2026-08-30T19:17:01.474935Z",
+  "event_id": "ppe_6e104e78c2277b03",
   "evidence": {
-    "digest": "sha256:f8942810d162fbede2dc4aabc0c3fb3fac6d0941a93bd50d339b7c6aa6605ef9",
-    "id": "evd_1948aa74bc2c7073",
+    "digest": "sha256:bae14707c982cab2dca3a5368c2625c50ab22d49c7a8baaf9fef2695a8dc65b4",
+    "id": "evd_e5c2f63abae1dc38",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:9fa61fcf2f55f2997ac539aa4b9523062f1ba72255256cfd7fc978e6fa918356",
+    "quote_digest": "sha256:c5c8c87ca8128aabce8df4f7b84f1f01d6424ed139fad3d258304eeec215a4d7",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:9fa61fcf2f55f2997ac539aa4b9523062f1ba72255256cfd7fc978e6fa918356",
-        "section_id": "sec_fce166a20eb2dbec"
+        "section_digest": "sha256:c5c8c87ca8128aabce8df4f7b84f1f01d6424ed139fad3d258304eeec215a4d7",
+        "section_id": "sec_6d2417db8f5ee844"
       },
-      "quote": "�\u0012�=�U>�\u001f\u0006\u0000\u0002�\nendstream\nendobj\n742 0 obj\n<</Creator(AH XSL Formatter V6.6 MR4 for Linux64 : 6.6.6.37929 \\(2019/03/11 12:35JST\\))/ModDate(D:20201207130854-05'00')/Trapped/False/CreationDate(D:20200805150856-05'00')/Subject(Instructions for Form 2553, \\(For use with the December 2017 revision of Form 2553, Election by a Small Business Corporation\\))/Producer(Antenna House PDF Output Library 6.6.1437 \\(Linux64\\); modified using iText 2.1.7 by 1T3XT)/Author(W:CAR:MP:FP)/Title(Instructions for Form 2553 \\(Rev. December 2020\\))>>\nendobj\n631 0 obj\n<</Filter/FlateDecode/Type/ObjStm/Length 4682/First 1007/N 112>>stream\nx��[yo\u001b9��*\u0004��I�`5�c�\b�#�x'N<��\u0019��\u0018t���\u0017Y-H�d�>��\"�R봬Y,\u0016�L6�d\u001d�U���m\u0015g�Y%�qLJ�\u0004�p��\b\u0002Jͤ\u000ePZ����0�Mz���20ñ�c�:(=�\u0002��\u0018\u0007�ar'��\u0012��8�9�0�Ղ�\u00004�����Z2!���fB\t�H\u001b�\u0004l�>\u001a�Y\r�逕���p�\b&�\u0004~�\u0017�8�c`���\u0011H#��\u0016\u000f� �\u0006F\u0005\u0003L\u0018�$�ΖC%Σ�\u0014\u0002*V@��-h�\u001a[����@\u0005FX\u000br��\u0019��\u0016$�I�\u0011P\u0001\u0015H�<C�D6�\u0003\u0012\u000e;;���\bk=�^�~�\u0003e\u0018�\u0013$j\u0005n\u0005h�N��\u0015�\u000b",
-      "quote_digest": "sha256:9fa61fcf2f55f2997ac539aa4b9523062f1ba72255256cfd7fc978e6fa918356",
+      "quote": "[DRAFT] TAX STRUCTURING TERM SHEET\nFor the Acquisition of Stock of [Target Corporation]\nDate: [Insert Date]\nBuyer: [Insert Buyer Name]\nSeller(s): [Insert Seller Name(s)]\nTarget: [Insert Target Corporation Name]\nTransaction: Acquisition of [all/substantially all] of the issued and outstanding shares of Target\n\n1. Transaction Structure\n    • Form of Acquisition: Purchase of [all/substantially all] of the issued and outstanding shares of Target from Seller(s).\n    • Intended Tax Treatment: The parties intend for the transaction to be treated as a purchase of stock for U.S. federal income tax purposes.\n2. S-Corporation Status\n    • Representation and Warranty: Seller(s) shall represent and warrant that Target has made a valid S-corporation election effective as of [date], and that such election has been continuously in effect through the Closing Date, except as otherwise disclosed.\n    • Disclosure of Questionable Status: Seller(s) acknowledge that the validity of Target’s S-corporation election is subject to uncertainty due to [describe issues, e.g., potential ineligible shareholders, defective election filings, or other factors].\n    • Due Diligence: Buyer shall have the right to conduct tax due diligence regarding the S-corporation status of Target, including review of all relevant IRS filings, shareholder consents, and corporate records.\n3. Tax Indemnity and Escrow\n    • Indemnity for S-Status Issues: Seller(s) shall indemnify Buyer for any taxes, penalties, interest, or other losses arising from a determination that Target’s S-corporation election was invalid or terminated prior to Closing, including any resulting C-corporation level taxes.\n    • Escrow: A portion of the purchase price equal to $[amount] or [percentage]% shall be placed in escrow for a period of [X] years post-Closing to secure Seller(s)’ indemnity obligations relating to S-corporation status and related tax matters.\n4. Section 338(h)(10) Election (if applicable)\n    • Election Option: The parties may agree to make a joint election under Section 338(h)(10) of the Internal Revenue Code, if Target’s S-corporation status is confirmed and all eligibility requirements are met.\n    • Allocation of Tax Liability: The parties shall agree on the allocation of any resulting tax liability and benefits from the election, including responsibility for any corporate-level tax triggered by the deemed asset sale.\n5. Pre-Closing Tax Returns\n    • Responsibility: Seller(s) shall be responsible for preparing and filing all tax returns of Target for periods ending on or before the Closing Date, including any short-period returns.\n    • Review Rights: Buyer shall have the right to review and comment on any such returns prior to filing.\n6. Post-Closing Tax Matters\n    • Cooperation: The parties shall cooperate in connection with any tax audits, examinations, or proceedings relating to periods prior to Closing.\n    • Access to Records: Seller(s) shall provide Buyer with reasonable access to all tax records and information relating to Target for pre-Closing periods.\n7. Other Tax Representations\n    • No Built-in Gains Tax: Seller(s) represent that Target does not have any material built-in gains subject to Section 1374 of the Internal Revenue Code, except as disclosed.\n    • No Disqualifying Events: Seller(s) represent that, to their knowledge, no events have occurred that would disqualify Target’s S-corporation status, except as disclosed.\n8. Governing Law\n    • This term sheet and any definitive agreements shall be governed by the laws of the State of [Insert State].\n\nThis term sheet is non-binding and for discussion purposes only. The terms herein are subject to the negotiation and execution of definitive agreements.\n\n[Signature Blocks]\n\nKey Notes:\n    • This template is for general informational purposes and should be reviewed and customized by legal and tax counsel.\n    • Special attention should be paid to the specific facts regarding the S-corporation status and any IRS guidance or case law relevant to the issues identified.\n\n\n",
+      "quote_digest": "sha256:c5c8c87ca8128aabce8df4f7b84f1f01d6424ed139fad3d258304eeec215a4d7",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
@@ -24,18 +24,18 @@
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
       "source": {
-        "content_digest": "sha256:763b540a616086edcecf3a87d5edf98dff1e05704299a9736a42a918435cd4d3",
-        "media_type": "application/pdf",
-        "uri": "private://apex/763b540a616086ed-755262e0"
+        "content_digest": "sha256:4269e21c1fa36a134a861c62e14940bcb646670bfb2d60556e2992727f204470",
+        "media_type": "text/plain",
+        "uri": "private://apex/4269e21c1fa36a13-9771382d"
       }
     },
-    "retrieval_receipt_digest": "sha256:343df44a3cfa5d41bb9ee037650a4c3b6245f8b4075862edd1d57de09ec8b858",
-    "source_content_digest": "sha256:763b540a616086edcecf3a87d5edf98dff1e05704299a9736a42a918435cd4d3",
-    "source_digest": "sha256:710da86265ba6ccc9fda04ba9470388e59b91336b1511b9987d3b5828d623bdc",
-    "source_ref": "src_127dc512c8fae24b"
+    "retrieval_receipt_digest": "sha256:cae473b1ee05a36c47170e8295b7152510026df754c6fe248c5abc0a0e6f0848",
+    "source_content_digest": "sha256:4269e21c1fa36a134a861c62e14940bcb646670bfb2d60556e2992727f204470",
+    "source_digest": "sha256:413ad38376a81b2a8c39ab2d56246edebc553521e481af3d581db7a54ff2f9e9",
+    "source_ref": "src_567daa06afa4573f"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_127dc512c8fae24b",
-  "subject_ref": "evd_1948aa74bc2c7073",
+  "source_ref": "src_567daa06afa4573f",
+  "subject_ref": "evd_e5c2f63abae1dc38",
   "type": "evidence_bound"
 }
