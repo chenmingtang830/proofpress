@@ -1,21 +1,21 @@
 {
-  "created_at": "2026-08-30T19:17:48.482939Z",
-  "event_id": "ppe_64b9f1fdddac43fc",
+  "created_at": "2026-08-30T19:17:48.726787Z",
+  "event_id": "ppe_594ddb0540b7a79b",
   "evidence": {
-    "digest": "sha256:8d204b04ceda6274554142edccdaa708b085566e75fa048c91a84ba3191b8737",
-    "id": "evd_6e0222f19a546555",
+    "digest": "sha256:53f417bbfae385c5537f91a35307166bc095133eaccbd352c6d0c8309d3afc2c",
+    "id": "evd_9a94264a3ef28cc2",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:572cb5051ea60eff86fbb15a488fe4d0f1df4803a3be14feba620349e6f0691f",
+    "quote_digest": "sha256:1b48ad22751ffff148d60b0b905a33d7c74fb5cc963e28b54d8b0c38157d92f6",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:572cb5051ea60eff86fbb15a488fe4d0f1df4803a3be14feba620349e6f0691f",
-        "section_id": "sec_871f0397370e0ccf"
+        "section_digest": "sha256:1b48ad22751ffff148d60b0b905a33d7c74fb5cc963e28b54d8b0c38157d92f6",
+        "section_id": "sec_7a70ef164f357d6e"
       },
-      "quote": "DISCLOSURE SCHEDULE\nThis Schedule of Exceptions is made and given pursuant to Section 2 of the Series A Preferred Stock Purchase Agreement, dated as of [date] (the “Agreement”), between [Company name] (the “Company”) and the Purchasers listed on Schedule A thereto. All capitalized terms used but not defined herein shall have the meanings as defined in the Agreement, unless otherwise provided. The section numbers below correspond to the section numbers of the representations and warranties in the Agreement; provided, however, that any information disclosed herein under any section number shall be deemed to be disclosed and incorporated into any other section number under the Agreement where such disclosure would be appropriate and such appropriateness is reasonably apparent from the face of such disclosure. Nothing in this Schedule of Exceptions is intended to broaden the scope of any representation or warranty contained in the Agreement or to create any covenant. Inclusion of any item in this Schedule of Exceptions (1) does not represent a determination that such item is material or establish a standard of materiality, (2) does not represent a determination that such item did not arise in the ordinary course of business, (3) does not represent a determination that the transactions contemplated by the Agreement require the consent of third parties, and (4) shall not constitute, or be deemed to be, an admission to any third party concerning such item. This Schedule of Exceptions includes brief descriptions or summaries of certain agreements and instruments, copies of which are available upon reasonable request. Such descriptions do not purport to be comprehensive, and are qualified in their entirety by reference to the text of the documents described, true and complete copies of which have been provided to the Purchasers or their respective counsel.\n\n\n\n\n\n\n\n\n\n\n\n",
-      "quote_digest": "sha256:572cb5051ea60eff86fbb15a488fe4d0f1df4803a3be14feba620349e6f0691f",
+      "quote": "﻿SCHEDULE K-1 (Form 1120-S)                                                     2024\nDepartment of the Treasury • Internal Revenue Service                          OMB No. 1545-0123\n\nShareholder’s Share of Income, Deductions, Credits, etc.                       For calendar year 2024\n\n────────────────────────────────────────────────────────────────────────────────────\nPart I ─ Information About the Corporation\n────────────────────────────────────────────────────────────────────────────────────\nA  Corporation’s employer identification number                       12-3456789\nB  Corporation’s name, address, city, state, and ZIP code\n       Summit Filing Solutions, Inc.\n       8280 Willow Oaks Corporate Dr\n       Los Angeles, CA  90001\nC  IRS center where corporation filed return                               Ogden, UT\n\n────────────────────────────────────────────────────────────────────────────────────\nPart II ─ Information About the Shareholder\n────────────────────────────────────────────────────────────────────────────────────\nD  Shareholder’s identifying number                                    666-66-6666\nE  Shareholder’s name, address, city, state, and ZIP code\n       Jennifer Park\n       505 Montgomery St., Suite 1100\n       San Francisco, CA  94111\nF  Shareholder’s percentage of stock ownership\n       Beginning of tax year    9%                 End of tax year    9%\n\n────────────────────────────────────────────────────────────────────────────────────\nPart III ─ Shareholder’s Share of Current Year Income, Deductions, Credits, etc.\n────────────────────────────────────────────────────────────────────────────────────\n1  Ordinary business income (loss)                                   $30,009\n2  Net rental real estate income (loss)                                    0\n3  Other net rental income (loss)                                          0\n4  Interest income                                                      $81\n5a Ordinary dividends                                                      0\n5b Qualified dividends                                                     0\n6  Royalties                                                               0\n7  Net short-term capital gain (loss)                                      0\n8a Net long-term capital gain (loss)                                   ($45)\n8b Collectibles (28%) gain (loss)                                          0\n8c Unrecaptured section 1250 gain                                          0\n9  Net section 1231 gain (loss)                                            0\n10 Other income (loss)                                                     0\n\n11 Section 179 deduction                                                   0\n12 Other deductions                                                        0\n13 Credits                                                                 0\n14 Foreign transactions                                                    0\n15 Charitable contributions                                               0\n16 Items affecting shareholder basis\n   a  Tax-exempt interest income                                           0\n   b  Other tax-exempt income                                              0\n   c  Nondeductible expenses                                               0\n   d  Distributions – cash and marketable securities                       0\n   e  Repayment of loans from shareholders                                0\n17 Other information                                                       0\n\n────────────────────────────────────────────────────────────────────────────────────\nStock and Debt Basis Limitations (for shareholder records)\n────────────────────────────────────────────────────────────────────────────────────\n   + Increase for income items (Lines 1 + 4)                         $30,090\n   – Decrease for loss items (Line 8a)                                   ($45)\n   = Net increase to stock basis this year                           $30,045\n\n   Type of income: Active Business Income\n   Foreign country or U.S. possession: N/A\n\n────────────────────────────────────────────────────────────────────────────────────\nPrepared by: Corporate Officer, Summit Filing Solutions, Inc.\nDate prepared: March 10, 2025\n\nThis is an exact substitute Schedule K-1 that matches the official K-1 filed with IRS Form 1120-S on March 15, 2025.\nRetain this copy with your permanent tax records.\n",
+      "quote_digest": "sha256:1b48ad22751ffff148d60b0b905a33d7c74fb5cc963e28b54d8b0c38157d92f6",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
@@ -24,18 +24,18 @@
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
       "source": {
-        "content_digest": "sha256:de3c85ce68cc9a64aadabec8843aff116664ead676844e5ce1f589169c52b2da",
+        "content_digest": "sha256:2c6183a67edb8a1beead309b41a15ae80147ce6eaa2fc069113f622653349ac0",
         "media_type": "text/plain",
-        "uri": "private://apex/de3c85ce68cc9a64-4c7c3329"
+        "uri": "private://apex/2c6183a67edb8a1b-d41b2fd1"
       }
     },
-    "retrieval_receipt_digest": "sha256:3e3904924d951afe1016019c248738237170cbcd3429b9eb2d5fe1c2b3908c92",
-    "source_content_digest": "sha256:de3c85ce68cc9a64aadabec8843aff116664ead676844e5ce1f589169c52b2da",
-    "source_digest": "sha256:afd14261a12776692529819ab8b113e55ef68150920111e982cd00f66a8af8ea",
-    "source_ref": "src_a149d3b6c6d2425c"
+    "retrieval_receipt_digest": "sha256:77efe99d46b4f14bcf85c93bd7c3fb49e05fc3d8edc8be7e4e59d82382dd4037",
+    "source_content_digest": "sha256:2c6183a67edb8a1beead309b41a15ae80147ce6eaa2fc069113f622653349ac0",
+    "source_digest": "sha256:d272f28e1678d2431c8f9c0d9ba642fc361687ae7cfa70ef497f283320a86638",
+    "source_ref": "src_155268f2f7e310d9"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_a149d3b6c6d2425c",
-  "subject_ref": "evd_6e0222f19a546555",
+  "source_ref": "src_155268f2f7e310d9",
+  "subject_ref": "evd_9a94264a3ef28cc2",
   "type": "evidence_bound"
 }
