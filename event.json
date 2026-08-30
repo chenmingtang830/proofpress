@@ -1,41 +1,41 @@
 {
-  "created_at": "2026-08-30T19:17:43.785359Z",
-  "event_id": "ppe_05a8ac190a3f3173",
+  "created_at": "2026-08-30T19:17:44.016089Z",
+  "event_id": "ppe_148ea503f1189ecb",
   "evidence": {
-    "digest": "sha256:62dd2d31a5e76e69fd752d74899dbb4c9bc61aed5c42ae1312e53dc5f5f42b60",
-    "id": "evd_a46543e5a5562c7e",
+    "digest": "sha256:a8961e16190347897932a1fcc6751e91762e244ee01e1432cba61a164e92eef2",
+    "id": "evd_bcbac617e5e7d3b8",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:aa8a341d3a7a16aedb1bea687ca0fa5408fa22960086ba7d44c2082495cbd136",
+    "quote_digest": "sha256:d652f02025e5dc963eb504fc0ce8c4ed71e067ba0ab731369f12dbbd45d63997",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:aa8a341d3a7a16aedb1bea687ca0fa5408fa22960086ba7d44c2082495cbd136",
-        "section_id": "sec_557b55852d2bca4e"
+        "section_digest": "sha256:d652f02025e5dc963eb504fc0ce8c4ed71e067ba0ab731369f12dbbd45d63997",
+        "section_id": "sec_06381120fa88d445"
       },
-      "quote": "﻿Summit Filing Solutions, Inc.\nHistorical Shareholder Schedule\nJanuary 10, 2018 – November 1, 2025\n\nThis Historical Shareholder Schedule has been prepared for Summit Filing Solutions, Inc., a Delaware corporation (the “Corporation”), to summarize material changes in the ownership of the Corporation’s issued and outstanding shares of Common Stock from the date of incorporation through November 1, 2025. This schedule is intended for internal corporate and legal recordkeeping purposes.\nI. Formation and Initial Capitalization – January 10, 2018\nOn January 10, 2018 (the “Incorporation Date”), the Corporation was duly incorporated under the laws of the State of Delaware. On or about the Incorporation Date, the Corporation issued an aggregate of 500,000 shares of its Common Stock, par value $1.00 per share, to the initial shareholders in exchange for an aggregate cash contribution of $500,000. The initial issuances were as follows:\n    • Laura Kensington – 130,000 shares; Address: 912 Redwood Crest Ln, Bend, OR 97701\n    • Michael T. Hartwell – 110,000 shares; Address: 3285 Sycamore Ridge Rd, Franklin, TN 37064\n    • Danielle R. Soto – 100,000 shares; Address: 1448 Harbor Point Dr, Richmond, VA 23233\n    • Gregory A. Beaumont – 100,000 shares; Address: 502 Lake Orchard Way, Madison, WI 53711\n    • Tanya L. Merriweather – 60,000 shares; Address: 722 Brookview Park Cir, Marietta, GA 30060\nII. S-Corporation Election – Effective January 1, 2019\nEffective January 1, 2019, the Corporation elected to be taxed as an S-Corporation for U.S. federal income tax purposes by filing Form 2553 with the Internal Revenue Service. As of the effective date of the election, the Corporation had a single class of Common Stock outstanding, held by the shareholders listed in Section I above.\nIII. 2021 Change of Address – Laura Kensington\nEffective March 15, 2021, shareholder Laura Kensington notified the Corporation of a change to her address of record. The Corporation’s stock ledger was updated to reflect the following address for Ms. Kensington:\nLaura Kensington\n4428 Willow Bend Ct.\nOlympia, Washington 98502\nIV. 2023 Internal Transfer of Shares – Michael T. Hartwell to Danielle R. Soto\nOn July 12, 2023, shareholder Michael T. Hartwell sold 10,000 shares of his Common Stock of the Corporation to shareholder Danielle R. Soto in a private, shareholder-to-shareholder transaction. Immediately prior to this transaction, Mr. Hartwell held 110,000 shares and Ms. Soto held 100,000 shares. Immediately following the transaction, Mr. Hartwell held 100,000 shares and Ms. Soto held 110,000 shares. No new shares were issued or cancelled, and the total number of issued and outstanding shares of Common Stock remained 500,000 shares.\nVI. Present Ownership Summary – As of November 1, 2025\nAs of November 1, 2025, based on the transactions described in this Historical Shareholder Schedule and the Corporation’s stock ledger, the issued and outstanding shares of Common Stock of the Corporation remain 500,000 shares, held of record by the following shareholders:\n    • Laura Kensington – 130,000 shares; Address: 4428 Willow Bend Ct., Olympia, WA 98502.\n    • Michael T. Hartwell – 100,000 shares; Address: 3285 Sycamore Ridge Rd, Franklin, TN 37064.\n    • Danielle R. Soto – 110,000 shares; Address: 1448 Harbor Point Dr, Richmond, VA 23233.\n    • Tanya L. Merriweather – 60,000 shares; Address: 722 Brookview Park Cir, Marietta, GA 30060.\n    • Gregory A. Beaumont – 100,000 shares; Address: 502 Lake Orchard Way, Madison, WI 53711.\nThis Historical Shareholder Schedule should be read together with the Corporation’s formal stock ledger, stock certificates, and any related transfer documentation maintained in the Corporation’s minute book.\n",
-      "quote_digest": "sha256:aa8a341d3a7a16aedb1bea687ca0fa5408fa22960086ba7d44c2082495cbd136",
+      "quote": "EXECUTIVE SUMMARY\nSummit Filing Solutions, Inc. (“Summit”) elected S‑Corporation status effective January 1, 2019. Form 2553, Election by a Small Business Corporation, was filed on March 22, 2022, and the IRS issued a CP261 notice confirming approval of the S-Corporation election on the identified effective date. The state of formation is Delaware and will rely on DE law and federal law, where applicable. Based on the governing documents, historical shareholder schedules, tax filings, distribution data, and capitalization tables provided, Summit faces several material risks that may compromise or retroactively invalidate its S‑Corporation election.\nUnder the instruction to classify any category with missing documentation as HIGH RISK where applicable, three categories rise to the highest level of severity: (1) Nonresident Alien Shareholder, (2) Debt–Equity Characterization, and (3) Pro Rata Distribution Compliance.\n",
+      "quote_digest": "sha256:d652f02025e5dc963eb504fc0ce8c4ed71e067ba0ab731369f12dbbd45d63997",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
-        "query": "Summit shareholder ownership percentage 2019 Summit stock transfer shareholder admission Summit shareholder agreement ownership schedule Summit stock certificates transfer ledger",
+        "query": "Summit Form 2553 January 1 2019 Summit S corporation election effective 1/1/19 IRS acceptance Form 2553 Summit Summit S election shareholder consent",
         "version": "1"
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
       "source": {
-        "content_digest": "sha256:3f486cf8e6bbed10d60c9bfc4f2e6c07f0ca9edcf87a5e4276c4a579a65b9adb",
+        "content_digest": "sha256:e7eb786dc671298aa9426792d523f0ec997bee3a570763a8b10f13a1644fc105",
         "media_type": "text/plain",
-        "uri": "private://apex/3f486cf8e6bbed10-f0c25a2a"
+        "uri": "private://apex/e7eb786dc671298a-1d2051f2"
       }
     },
-    "retrieval_receipt_digest": "sha256:f62e1dd36e50b3a7421effb3369acf5e6ea6d3d76a4b33df9fe3a2baed72ffb8",
-    "source_content_digest": "sha256:3f486cf8e6bbed10d60c9bfc4f2e6c07f0ca9edcf87a5e4276c4a579a65b9adb",
-    "source_digest": "sha256:7abda599126a78a2bb0aad45f395b099506536db14866e78c4bcbf1cbddde379",
-    "source_ref": "src_537f9d53ad5949d4"
+    "retrieval_receipt_digest": "sha256:9dc3c426c6740098561a8e373e0d23ef22d060bd24e33d85f5133f44be42de7e",
+    "source_content_digest": "sha256:e7eb786dc671298aa9426792d523f0ec997bee3a570763a8b10f13a1644fc105",
+    "source_digest": "sha256:bbebf48c1f9dee4d30677c0c93c00e3eb349758e8e8a6eac5acafa2f8650d491",
+    "source_ref": "src_e9b083e75ca5f18f"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_537f9d53ad5949d4",
-  "subject_ref": "evd_a46543e5a5562c7e",
+  "source_ref": "src_e9b083e75ca5f18f",
+  "subject_ref": "evd_bcbac617e5e7d3b8",
   "type": "evidence_bound"
 }
