@@ -1,41 +1,41 @@
 {
-  "created_at": "2026-08-30T19:16:23.430746Z",
-  "event_id": "ppe_6a7cb6eb0b7da68c",
+  "created_at": "2026-08-30T19:16:23.564641Z",
+  "event_id": "ppe_e4d121de8b3ac76f",
   "evidence": {
-    "digest": "sha256:b1e6139fea919a1c6c12ca1d3cca968d6e92b2808560da3a058d4cd1249b9d28",
-    "id": "evd_67fe29d7a689ec5a",
+    "digest": "sha256:64830dd4699ce2bef67d4fe3ad2ecde712515ca7b3d243924d6ef33bfda1989a",
+    "id": "evd_da641c109c3135f7",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:9ef42e2d2e123db8349d45b66b3624b684ba7d3ecbf0f6e182a6c576be9dea44",
+    "quote_digest": "sha256:423775fa5cd1b289a8f8eda8e7d77c37ddce88520bbf1e5dad116e7329ca3c06",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:9ef42e2d2e123db8349d45b66b3624b684ba7d3ecbf0f6e182a6c576be9dea44",
-        "section_id": "sec_1688392d7b1f1a4a"
+        "section_digest": "sha256:423775fa5cd1b289a8f8eda8e7d77c37ddce88520bbf1e5dad116e7329ca3c06",
+        "section_id": "sec_dcf92ab89b831487"
       },
-      "quote": "        2.4 CLOSING OBLIGATIONS\nAt the Closing:\n    (a) Sellers shall deliver to Buyer:\n        (i) certificates representing the Shares, endorsed in blank (or accompanied by stock powers executed in blank) and otherwise in proper form for transfer;\n        (ii) the Organizational Documents of each Acquired Company filed with any Governmental Body in connection with its organization, duly certified as of a recent date by the Secretary of State or other appropriate authority of the jurisdiction of its incorporation or organization, together with a certificate dated as of the Closing Date from the Secretary of each Acquired Company to the effect that no amendments to such Organizational Documents have been filed since the date referred to above;\n        (iii) the Organizational Documents of each Acquired Company not filed with a Governmental Body in connection with its organization, certified as of the Closing Date by the Secretary of each Acquired Company;\n        (iv) certificates dated as of a date not more than five (5) days prior to the Closing Date as to the good standing of each Acquired Company [and payment of applicable state Taxes], issued by the appropriate Governmental Body of the jurisdiction of the Acquired Company’s organization and each jurisdiction in which the Acquired Company is licensed or qualified to do business as a foreign entity as specified in Part 3.1 of the Disclosure Letter;\n        (v) releases in the form of Exhibit 2.4(a)(v) executed by Sellers;\n        (vi) an employment agreement in the form of Exhibit 2.4(a)(vi), executed by \tand the Company;\n        (vii) an escrow agreement in the form of Exhibit 2.4(a)(vii), executed by Sellers (the “Escrow Agreement”); and\n        (viii) the certificate referred to in Section 8.3.\n    (b) Buyer shall deliver to Sellers’ Representative (or in the case of the Escrow Funds, to the Escrow Agent):\n        (i) the Closing Payment;\n        (ii) the Promissory Notes;\n        (iii) the Escrow Funds;\n        (iv) the Escrow Agreement, executed by Buyer and the Escrow Agent; and\n        (v) the certificate referred to in Section 9.3.\n",
-      "quote_digest": "sha256:9ef42e2d2e123db8349d45b66b3624b684ba7d3ecbf0f6e182a6c576be9dea44",
+      "quote": "DISTRIBUTIONS AND TAX MATTERS\nSection 6.1 Pro Rata Distributions.\nAll distributions shall be strictly pro rata based on share ownership.\nSection 6.2 Tax Distributions.\nThe Corporation shall make quarterly tax distributions sufficient to cover the highest blended marginal federal and state tax rate applicable to stockholders.\nSection 6.3 Preservation of S-Corporation Status.\nThe Corporation and all stockholders shall take all actions necessary to preserve S-Corporation status, including maintaining permitted shareholders and avoiding disproportionate distributions.\n\n",
+      "quote_digest": "sha256:423775fa5cd1b289a8f8eda8e7d77c37ddce88520bbf1e5dad116e7329ca3c06",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
-        "query": "Certificate and amendments, bylaws, shareholder agreements, preferred-stock documents, debt instruments, distribution rights, subsidiaries, business activities, and shareholder citizenship/status as of the intended effective date.",
+        "query": "Formation and operations chronology; 2018-2022 federal returns and K-1s; entity-classification filings; payroll/state returns; and records showing consistent S-corporation reporting.",
         "version": "1"
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
       "source": {
-        "content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
+        "content_digest": "sha256:1cb8fe86d8075d2b126f99858b67aa3a45ced38879cf7b3859b78e577483572b",
         "media_type": "text/plain",
-        "uri": "private://apex/7beb28a6e0069669-d885dee3"
+        "uri": "private://apex/1cb8fe86d8075d2b-0c1ae063"
       }
     },
-    "retrieval_receipt_digest": "sha256:885cbde6e54a60c30b63fc39088942edcac97169e75bb985046ead18a9d0b1d6",
-    "source_content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
-    "source_digest": "sha256:9b5e55c106d3b2c9d270455bb5af81e282a4e92f3ba0722f868b952faf8ff0b5",
-    "source_ref": "src_1cb20c6823882030"
+    "retrieval_receipt_digest": "sha256:5994c61ee23c54f627c3add50f6f1b503d6e8e3e9f798da4b480696ab4b5eda9",
+    "source_content_digest": "sha256:1cb8fe86d8075d2b126f99858b67aa3a45ced38879cf7b3859b78e577483572b",
+    "source_digest": "sha256:dce34be7d3faee591fc3639cc0fc742ebc66a097c301c07eb716b0649e3998a1",
+    "source_ref": "src_3376baa521507aa6"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_1cb20c6823882030",
-  "subject_ref": "evd_67fe29d7a689ec5a",
+  "source_ref": "src_3376baa521507aa6",
+  "subject_ref": "evd_da641c109c3135f7",
   "type": "evidence_bound"
 }
