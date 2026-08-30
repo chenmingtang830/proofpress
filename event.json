@@ -1,27 +1,18 @@
 {
-  "conclusion": {
-    "allowed_actors": [
-      "*"
-    ],
-    "artifact_refs": [],
-    "created_at": "2026-08-30T19:16:28.915081Z",
-    "digest": "sha256:d0c43255bb64940ff357c48eed5341d9b97ff52408210f10648cdeec597dab19",
-    "evidence_refs": [
-      "evd_1e4ae45c81b5bd47",
-      "evd_3532b789be132f52",
-      "evd_de8d695e34c7abc6"
-    ],
-    "expires_at": null,
-    "id": "knw_2c5fcceb57fff9ed",
-    "kind": "conclusion",
-    "proposer": "agent:v8-constructor",
-    "qualifiers": {},
-    "scope": "task_8d501efe0f924f69aeee070f2e08b576",
-    "statement": "The record includes a historical shareholder schedule identifying the initial shareholders and stating that the S-corporation election was effective January 1, 2019. The executive summary states that Form 2553 was filed March 22, 2022. The cited evidence does not include attached shareholder consents, so an ownership-to-consent comparison cannot be made."
+  "checks": {
+    "evidence_integrity": true,
+    "evidence_present": true,
+    "not_expired": true,
+    "not_superseded": true,
+    "retrieval_receipts": true,
+    "scope_present": true
   },
-  "created_at": "2026-08-30T19:16:28.967558Z",
-  "event_id": "ppe_1b49bd5972ce166f",
+  "conclusion_digest": "sha256:d0c43255bb64940ff357c48eed5341d9b97ff52408210f10648cdeec597dab19",
+  "created_at": "2026-08-30T19:16:29.111135Z",
+  "eligible": true,
+  "event_id": "ppe_dc2e98ed4f277f65",
+  "policy_digest": "sha256:cde050fdc0b2869fecf8ee9d24dee964fc3bbc18e6b489da2e08e7c3df266501",
   "schema_version": "proofpress/knowledge-event/v2",
   "subject_ref": "knw_2c5fcceb57fff9ed",
-  "type": "conclusion_proposed"
+  "type": "policy_evaluated"
 }
