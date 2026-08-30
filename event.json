@@ -1,41 +1,41 @@
 {
-  "created_at": "2026-08-30T19:16:20.378633Z",
-  "event_id": "ppe_84b7cac828f17563",
+  "created_at": "2026-08-30T19:16:20.503551Z",
+  "event_id": "ppe_eb55a4f7bf322e8c",
   "evidence": {
-    "digest": "sha256:3d694626e6b705f5058eeabb1f5474d400a671d51489af5296e5b0c305fe8858",
-    "id": "evd_c48c3badd0e12224",
+    "digest": "sha256:d354c6635a62ca8d068250a6ee5f27c3c0fb47c60959d932d157a8ad2cf4118d",
+    "id": "evd_ec35b09402962181",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:93edabedc9c0de8d01d0764777339ddb849005facffaaa2dfed49dbf2dd203e8",
+    "quote_digest": "sha256:ad71f6179930a462b3a1bb542a2230a71f0e59a1d0b3da5853f3bac8aea48b87",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:93edabedc9c0de8d01d0764777339ddb849005facffaaa2dfed49dbf2dd203e8",
-        "section_id": "sec_6f41f55922ea1dbf"
+        "section_digest": "sha256:ad71f6179930a462b3a1bb542a2230a71f0e59a1d0b3da5853f3bac8aea48b87",
+        "section_id": "sec_dc2b7b7a83f2ec86"
       },
-      "quote": "RECITALS\nSellers desire to sell, and Buyer desires to purchase, all issued and outstanding shares (the “Shares”) of capital stock of Summit Filing Solutions, Inc., a Delaware corporation (the “Company”), for the consideration and on the terms set forth in this Agreement.\nThe parties, intending to be legally bound, agree as follows:\n\n\n\n\n    1. Definitions and Usage\n\n\n\n\n\n\n\n",
-      "quote_digest": "sha256:93edabedc9c0de8d01d0764777339ddb849005facffaaa2dfed49dbf2dd203e8",
+      "quote": "﻿SCHEDULE K-1 (Form 1120-S)                                                                            2023\nDepartment of the Treasury • Internal Revenue Service                          OMB No. 1545-0123\n\nShareholder’s Share of Income, Deductions, Credits, etc.                       For calendar year 2023\n\n────────────────────────────────────────────────────────────────────────────────────\nPart I ─ Information About the Corporation\n────────────────────────────────────────────────────────────────────────────────────\nA  Corporation’s employer identification number                       12-3456789\nB  Corporation’s name, address, city, state, and ZIP code\n       Summit Filing Solutions, Inc.\n       8280 Willow Oaks Corporate Dr\n       Los Angeles, CA  90001\nC  IRS center where corporation filed return                               Ogden, UT\n\n────────────────────────────────────────────────────────────────────────────────────\nPart II ─ Information About the Shareholder\n────────────────────────────────────────────────────────────────────────────────────\nD  Shareholder’s identifying number                                    111-11-1111\nE  Shareholder’s name, address, city, state, and ZIP code\n       Laura Kensington\n       4428 Willow Bend Ct.\n       Olympia, WA  98502\nF  Shareholder’s percentage of stock ownership\n       Beginning of tax year   26%                 End of tax year   26%\n\n────────────────────────────────────────────────────────────────────────────────────\nPart III ─ Shareholder’s Share of Current Year Income, Deductions, Credits, etc.\n────────────────────────────────────────────────────────────────────────────────────\n1  Ordinary business income (loss)                                   $72,414\n2  Net rental real estate income (loss)                                    0\n3  Other net rental income (loss)                                          0\n4  Interest income                                                     $198\n5a Ordinary dividends                                                      0\n5b Qualified dividends                                                     0\n6  Royalties                                                               0\n7  Net short-term capital gain (loss)                                      0\n8a Net long-term capital gain (loss)                                   $412\n8b Collectibles (28%) gain (loss)                                          0\n8c Unrecaptured section 1250 gain                                          0\n9  Net section 1231 gain (loss)                                            0\n10 Other income (loss)                                                     0\n\n11 Section 179 deduction                                                   0\n12 Other deductions                                                        0\n13 Credits                                                                 0\n14 Foreign transactions                                                    0\n15 Charitable contributions                                               0\n16 Items affecting shareholder basis\n   a  Tax-exempt interest income                                           0\n   b  Other tax-exempt income                                              0\n   c  Nondeductible expenses                                               0\n   d  Distributions – cash and marketable securities                       0\n   e  Repayment of loans from shareholders                                0\n17 Other information                                                       0\n\n────────────────────────────────────────────────────────────────────────────────────\nStock and Debt Basis Limitations (for shareholder records)\n────────────────────────────────────────────────────────────────────────────────────\n   + Increase for income items (Lines 1 + 4 + 8a)                    $73,024\n   – Distributions and other reductions                                  0\n   = Net increase to stock basis this year                           $73,024\n\n   Type of income: Active Business Income\n   Foreign country or U.S. possession: N/A\n\n────────────────────────────────────────────────────────────────────────────────────\nPrepared by: Corporate Officer, Summit Filing Solutions, Inc.\nDate prepared: March 12, 2024\n\nThis is an exact substitute Schedule K-1 that matches the official K-1 filed with IRS Form 1120-S on March 15, 2024.\nRetain this copy with your permanent tax records.\n",
+      "quote_digest": "sha256:ad71f6179930a462b3a1bb542a2230a71f0e59a1d0b3da5853f3bac8aea48b87",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
-        "query": "\"Summit\" subsidiary QSub \"Summit\" foreign corporation \"Summit\" insurance financial institution \"S corporation\" ineligible corporation types",
+        "query": "\"Summit\" formation date \"Summit\" first tax return \"Summit\" tax year 2019 \"Summit\" S corporation return",
         "version": "1"
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
       "source": {
-        "content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
+        "content_digest": "sha256:b39b68a36c37f0faeb0e5040bec27cc7ba6aa0d70ca51c50c34d5a802d08c69d",
         "media_type": "text/plain",
-        "uri": "private://apex/7beb28a6e0069669-d885dee3"
+        "uri": "private://apex/b39b68a36c37f0fa-f4ff7c1a"
       }
     },
-    "retrieval_receipt_digest": "sha256:d83d4001c8727ce2708c0749c26459a5483d67d6665a9d1236a70802f530ebfd",
-    "source_content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
-    "source_digest": "sha256:9b5e55c106d3b2c9d270455bb5af81e282a4e92f3ba0722f868b952faf8ff0b5",
-    "source_ref": "src_1cb20c6823882030"
+    "retrieval_receipt_digest": "sha256:36d0070b7e062d7cf213aaf17eb0952c0c10ff1e1994092e42fb8960934a8d59",
+    "source_content_digest": "sha256:b39b68a36c37f0faeb0e5040bec27cc7ba6aa0d70ca51c50c34d5a802d08c69d",
+    "source_digest": "sha256:e6c13399e6d921e1bcd64a967945fa64f8a7fdafc0c8d32bad064b0881923fc8",
+    "source_ref": "src_e750f2e6ae8b48ff"
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_1cb20c6823882030",
-  "subject_ref": "evd_c48c3badd0e12224",
+  "source_ref": "src_e750f2e6ae8b48ff",
+  "subject_ref": "evd_ec35b09402962181",
   "type": "evidence_bound"
 }
