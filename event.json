@@ -1,25 +1,25 @@
 {
-  "created_at": "2026-08-30T19:16:22.869315Z",
-  "event_id": "ppe_69c7900294bb688f",
+  "created_at": "2026-08-30T19:16:23.008912Z",
+  "event_id": "ppe_2aa04018140db305",
   "evidence": {
-    "digest": "sha256:37935e727abfc50dae15d0fba3bafdc8a9edf203de40cfb9a7350de6882bad7f",
-    "id": "evd_dd2de2730c698d0e",
+    "digest": "sha256:12a4158bede2cd91a1c0836fc73f25f4c70686469fe93dce4af8d5156fe1f0e9",
+    "id": "evd_c30c62499b841afa",
     "kind": "retrieval_evidence",
-    "quote_digest": "sha256:ceaf9f77291b2f2fff42310eedacff9da00287edac6e50644f2dbc8d50b856cb",
+    "quote_digest": "sha256:481e70e0eb0998e55a59c364f5eb0f621c9877ec77113a6c03cadebdca04666d",
     "retrieval_receipt": {
       "locator": {
         "kind": "section_span",
         "page_end": 1,
         "page_start": 1,
-        "section_digest": "sha256:ceaf9f77291b2f2fff42310eedacff9da00287edac6e50644f2dbc8d50b856cb",
-        "section_id": "sec_d0bfc6fa1f9b4fee"
+        "section_digest": "sha256:481e70e0eb0998e55a59c364f5eb0f621c9877ec77113a6c03cadebdca04666d",
+        "section_id": "sec_6e0279669a3c5be8"
       },
-      "quote": "        12.19 SEVERABILITY\nIf any provision of this Agreement is held invalid or unenforceable by any court of competent jurisdiction, the other provisions of this Agreement will remain in full force and effect. Any provision of this Agreement held invalid or unenforceable only in part or degree will remain in full force and effect to the extent not held invalid or unenforceable.\n",
-      "quote_digest": "sha256:ceaf9f77291b2f2fff42310eedacff9da00287edac6e50644f2dbc8d50b856cb",
+      "quote": "        3.5 BOOKS AND RECORDS\n    (a) The books of account and other Records of each Acquired Company, all of which have been made available to Buyer, are complete and correct, represent actual, bona fide transactions, and have been maintained in accordance with sound business practices and the requirements of Section 13(b)(2) of the Exchange Act (whether or not any Acquired Company is subject to that Section). The Acquired Companies have implemented and maintain a system of internal control over financial reporting (as defined in Rules 13a-15(f) and 15d-15(f) under the Exchange Act) sufficient to provide reasonable assurance regarding the reliability of financial reporting and the preparation of financial statements for external purposes in accordance with GAAP, including that (i) transactions are executed in accordance with management’s general or specific authorizations, (ii) transactions are recorded as necessary to permit preparation of financial statements in conformity with GAAP and to maintain asset accountability, (iii) access to assets is permitted only in accordance with management’s general or specific authorization, and (iv) the recorded accountability for assets is compared with the existing assets at reasonable intervals and appropriate action is taken with respect to any differences.\n    (b) The minute books of each Acquired Company contain complete and correct Records of all meetings held of, and actions taken by written consent of, the holders of voting securities, the board of\ndirectors or Persons exercising similar authority, and committees of the board of directors or such Persons of such Acquired Company, and no meeting of any such holders, board of directors, Persons, or committee has been held, and no other action has been taken, for which minutes or other evidence of action have not been prepared and are not contained in such minute books. Each Acquired Company has at all times maintained complete and correct Records of all issuances and transfers of its Equity Securities. At the Closing, all such minute books and Records will be in the possession of the Company and located at [specify location(s)].\n",
+      "quote_digest": "sha256:481e70e0eb0998e55a59c364f5eb0f621c9877ec77113a6c03cadebdca04666d",
       "retrieval": {
         "adapter": "bm25-page",
         "config_digest": "sha256:f85da5b208eda2aeb8e74f84eee46f1b50fd16f0249aa235fa97240f45c64f1f",
-        "query": "Official 26 CFR §1.1362-6 text and amendment/effective-date history in force on February 19, 2019; authorities interpreting subsection (b), including late or defective shareholder consents.",
+        "query": "Executed Summit Form 2553, all pages and attachments; certified-mail/fax evidence; IRS account transcript; complete CP261 and other correspondence; any corrected or refiled election.",
         "version": "1"
       },
       "schema_version": "proofpress/retrieval-evidence/v1",
@@ -29,13 +29,13 @@
         "uri": "private://apex/7beb28a6e0069669-d885dee3"
       }
     },
-    "retrieval_receipt_digest": "sha256:afeffc58ba8a71759585473a1490dc9548f185925ef3c1e45c7c9ea2d47e22f6",
+    "retrieval_receipt_digest": "sha256:b7e0dd4e50fc8788d3b402a78b0c08f6ba48545d1d5d8c693e0611f337d20801",
     "source_content_digest": "sha256:7beb28a6e00696696822595d20b8bb072e53c25e1773112b426a62389621ad81",
     "source_digest": "sha256:9b5e55c106d3b2c9d270455bb5af81e282a4e92f3ba0722f868b952faf8ff0b5",
     "source_ref": "src_1cb20c6823882030"
   },
   "schema_version": "proofpress/knowledge-event/v2",
   "source_ref": "src_1cb20c6823882030",
-  "subject_ref": "evd_dd2de2730c698d0e",
+  "subject_ref": "evd_c30c62499b841afa",
   "type": "evidence_bound"
 }
