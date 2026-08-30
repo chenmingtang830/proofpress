@@ -1,0 +1,256 @@
+import importlib.util
+from pathlib import Path
+import sys
+import unittest
+
+
+ROOT = Path(__file__).resolve().parents[1]
+ADAPTER = ROOT / "studies/apex-agent-eval/retrieval_adapter"
+sys.path.insert(0, str(ADAPTER))
+SPEC = importlib.util.spec_from_file_location(
+    "exact_knowledge_contract", ADAPTER / "exact_knowledge_contract.py")
+exact = importlib.util.module_from_spec(SPEC); SPEC.loader.exec_module(exact)
+RUNNER_SPEC = importlib.util.spec_from_file_location(
+    "run_exact_knowledge_readiness_private",
+    ADAPTER / "run_exact_knowledge_readiness_private.py")
+runner = importlib.util.module_from_spec(RUNNER_SPEC); RUNNER_SPEC.loader.exec_module(runner)
+
+
+class ExactKnowledgeContractTests(unittest.TestCase):
+    def receipt(self):
+        return {"evidence_id": "E1", "receipt_digest": "sha256:" + "a" * 64,
+                "source_digest": "sha256:" + "b" * 64, "custody_valid": True,
+                "quote": "Laura owned 26% in 2024 and the exact tax was $18,486.",
+                "locator": {"kind": "page_span", "page_start": 1, "page_end": 1}}
+
+    def atom(self, *, atom_id="A_TAX", requirement_id="R_TAX", display="$18,486",
+             decimal_value="18486", kind="currency", entity="Laura", period="2024"):
+        excerpt = self.receipt()["quote"]
+        return {"schema_version": "proofpress/evidence-atom/v2", "atom_id": atom_id,
+                "requirement_id": requirement_id, "evidence_id": "E1",
+                "receipt_digest": "sha256:" + "a" * 64,
+                "subject": "Laura", "predicate": "exact tax was", "value": display,
+                "effective_date": period, "qualification": None,
+                "document_version": "filed", "exact_excerpt": excerpt,
+                "locator": self.receipt()["locator"], "support_mode": "explicit",
+                "field_bindings": {"subject": {"start": 0, "end": 5},
+                                   "predicate": {"start": 38, "end": 51},
+                                   "value": {"start": 52, "end": 59}},
+                "status": "not_governed_candidate", "admission_authority": False,
+                "numeric": {"display": display, "decimal_value": decimal_value,
+                            "kind": kind, "currency": "USD" if kind == "currency" else None,
+                            "unit": "dollars" if kind == "currency" else "percentage points",
+                            "entity": entity, "period": period, "precision": "exact"}}
+
+    def authority(self):
+        receipt = {"evidence_id": "E2", "receipt_digest": "sha256:" + "c" * 64,
+                   "source_digest": "sha256:" + "d" * 64, "custody_valid": True,
+                   "quote": "Treas. Reg. § 1.1362-6 requires consent.",
+                   "locator": {"kind": "page_span", "page_start": 2, "page_end": 2}}
+        node = {"schema_version": exact.AUTHORITY_NODE_SCHEMA, "authority_id": "U1",
+                "requirement_id": "R_AUTH", "evidence_id": "E2",
+                "receipt_digest": receipt["receipt_digest"],
+                "citation": "Treas. Reg. § 1.1362-6", "proposition": "consent is required",
+                "jurisdiction": "federal", "effective_date": "current",
+                "authority_level": "regulation", "exact_excerpt": receipt["quote"],
+                "locator": receipt["locator"], "status": "not_governed_candidate",
+                "normative_authority_confirmed": False, "admission_authority": False}
+        return node, {"E2": receipt}
+
+    def test_numeric_inventory_preserves_display_spans_and_scale(self):
+        text = "Tax was $18,486, ownership was 26%, and the year was 2024."
+        rows = exact.extract_numeric_candidates(text)
+        self.assertEqual([row["raw_text"] for row in rows], ["$18,486", "26%", "2024"])
+        self.assertEqual([row["normalized_value"] for row in rows], ["18486", "26", "2024"])
+        self.assertEqual([text[row["start"]:row["end"]] for row in rows],
+                         ["$18,486", "26%", "2024"])
+
+    def test_numeric_atom_requires_exact_value_entity_period_and_currency(self):
+        checked = exact.validate_numeric_atom(self.atom(), {"E1": self.receipt()})
+        self.assertEqual(checked["numeric"]["decimal_value"], "18486")
+        with self.assertRaisesRegex(ValueError, "disagree"):
+            exact.validate_numeric_atom(self.atom(decimal_value="18485"), {"E1": self.receipt()})
+        with self.assertRaisesRegex(ValueError, "currency"):
+            broken = self.atom(); broken["numeric"]["currency"] = None
+            exact.validate_numeric_atom(broken, {"E1": self.receipt()})
+
+    def test_numeric_atom_can_only_be_built_from_an_exact_receipt_span(self):
+        atom = exact.bind_numeric_atom(
+            {"requirement_id": "R_TAX", "evidence_id": "E1", "subject": "Laura",
+             "predicate": "exact tax was", "display": "$18,486", "kind": "currency",
+             "currency": "USD", "unit": "dollars", "entity": "Laura", "period": "2024",
+             "precision": "exact", "exact_excerpt": self.receipt()["quote"]},
+            {"E1": self.receipt()})
+        self.assertEqual(atom["numeric"]["decimal_value"], "18486")
+        self.assertTrue(atom["atom_digest"].startswith("sha256:"))
+        self.assertFalse(atom["admission_authority"])
+        with self.assertRaisesRegex(ValueError, "receipt-bound"):
+            exact.bind_numeric_atom(
+                {"requirement_id": "R_TAX", "evidence_id": "E1", "subject": "Laura",
+                 "predicate": "exact tax was", "display": "$18,486", "kind": "currency",
+                 "currency": "USD", "unit": "dollars", "entity": "Laura", "period": "2024",
+                 "precision": "exact", "exact_excerpt": "invented $18,486"},
+                {"E1": self.receipt()})
+
+    def test_authority_candidate_cannot_self_confirm_or_admit(self):
+        node, receipts = self.authority()
+        checked = exact.validate_authority_node(node, receipts)
+        self.assertFalse(checked["normative_authority_confirmed"])
+        with self.assertRaisesRegex(ValueError, "self-confirm"):
+            exact.validate_authority_node({**node, "normative_authority_confirmed": True}, receipts)
+        with self.assertRaisesRegex(ValueError, "admission"):
+            exact.validate_authority_node({**node, "admission_authority": True}, receipts)
+
+    def plan(self):
+        return exact.compile_requirement_plan(
+            "Calculate the exact 2024 tax and cite the controlling regulation.",
+            [{"slot_id": "R_TAX", "slot_type": "exact_value",
+              "description": "Exact 2024 tax", "required_object_kinds": ["derivation_node"],
+              "expected_periods": ["2024"], "output_format": "USD"},
+             {"slot_id": "R_AUTH", "slot_type": "controlling_authority",
+              "description": "Controlling regulation", "required_object_kinds": ["authority_node"]},
+             {"slot_id": "R_OUTPUT", "slot_type": "output_structure",
+              "description": "Console response", "required_object_kinds": []}],
+            output_type="message_in_console")
+
+    def test_requirement_compiler_is_prompt_bound_and_forbids_gold(self):
+        plan = self.plan()
+        self.assertEqual(plan["source_basis"], "task_prompt_only_no_rubric_or_gold")
+        self.assertFalse(plan["admission_authority"])
+        with self.assertRaisesRegex(ValueError, "rubric"):
+            exact.compile_requirement_plan("Task", [{"slot_id": "R", "slot_type": "exact_value",
+                "description": "x", "required_object_kinds": ["evidence_atom"],
+                "rubric": "hidden"}], output_type="message_in_console")
+
+    def test_readiness_separates_candidate_coverage_from_governed_coverage(self):
+        plan = exact.bind_requirement_objects(self.plan(),
+            {"R_TAX": ["D1"], "R_AUTH": ["U1"]})
+        derivation = {"derivation_id": "D1", "requirement_id": "R_TAX"}
+        authority = {"authority_id": "U1", "requirement_id": "R_AUTH"}
+        candidate = exact.assess_requirement_readiness(
+            plan, authority_nodes=[authority], derivations=[derivation])
+        self.assertEqual(candidate["candidate_coverage"], 3)
+        self.assertEqual(candidate["governed_coverage"], 1)
+        self.assertFalse(candidate["executor_ready"])
+        governed = exact.assess_requirement_readiness(
+            plan, authority_nodes=[authority], derivations=[derivation],
+            governed_object_ids=["D1", "U1"])
+        self.assertTrue(governed["executor_ready"])
+
+    def test_derivation_requires_every_variable_to_match_a_bound_atom(self):
+        income = exact.validate_numeric_atom(
+            self.atom(atom_id="A_INCOME", display="$18,486", decimal_value="18486"),
+            {"E1": self.receipt()})
+        rate = exact.validate_numeric_atom(
+            self.atom(atom_id="A_RATE", display="26%", decimal_value="26",
+                      kind="percentage"), {"E1": self.receipt()})
+        atoms = {"A_INCOME": income, "A_RATE": rate}
+        value = exact.build_exact_derivation(
+            requirement_id="R_TAX", expression="income * rate / 100",
+            variables={"income": "18486", "rate": "26"},
+            input_bindings={"income": "A_INCOME", "rate": "A_RATE"},
+            numeric_atoms=atoms, output_unit="USD", entity="Laura", period="2024")
+        self.assertEqual(value["result"], "4806.36")
+        self.assertFalse(value["admission_authority"])
+        self.assertEqual(exact.validate_exact_derivation(value, atoms)["result"], "4806.36")
+        with self.assertRaisesRegex(ValueError, "do not recompute"):
+            exact.validate_exact_derivation({**value, "result": "4806.35"}, atoms)
+        with self.assertRaisesRegex(ValueError, "disagrees"):
+            exact.build_exact_derivation(
+                requirement_id="R_TAX", expression="income * rate / 100",
+                variables={"income": "18485", "rate": "26"},
+                input_bindings={"income": "A_INCOME", "rate": "A_RATE"},
+                numeric_atoms=atoms, output_unit="USD", entity="Laura", period="2024")
+        tampered = {**income, "numeric": {**income["numeric"], "decimal_value": "18485"}}
+        with self.assertRaisesRegex(ValueError, "not a numeric evidence atom"):
+            exact.build_exact_derivation(
+                requirement_id="R_TAX", expression="income * rate / 100",
+                variables={"income": "18485", "rate": "26"},
+                input_bindings={"income": "A_INCOME", "rate": "A_RATE"},
+                numeric_atoms={"A_INCOME": tampered, "A_RATE": rate},
+                output_unit="USD", entity="Laura", period="2024")
+
+    def test_numeric_gate_rejects_unbound_and_accepts_exact_atom_binding(self):
+        tax_atom = exact.validate_numeric_atom(self.atom(), {"E1": self.receipt()})
+        claim = {"id": "C1", "requirement_id": "R_TAX", "status": "unresolved",
+                 "statement": "The exact 2024 tax is $18,486.",
+                 "numeric_mentions": [], "authority_mentions": []}
+        failed = exact.numeric_binding_gate(
+            claim, numeric_atoms={"A_TAX": tax_atom}, derivations={}, authority_nodes={})
+        self.assertFalse(failed["proposer_allowed"])
+        self.assertIn("unbound_material_number", failed["reasons"])
+        statement = claim["statement"]
+        year_atom = exact.validate_numeric_atom(
+            self.atom(atom_id="A_YEAR", display="2024", decimal_value="2024",
+                      kind="year"), {"E1": self.receipt()})
+        mentions = []
+        for raw, object_id in (("2024", "A_YEAR"), ("$18,486", "A_TAX")):
+            start = statement.index(raw)
+            mentions.append({"start": start, "end": start + len(raw), "object_id": object_id})
+        passed = exact.numeric_binding_gate(
+            {**claim, "numeric_mentions": mentions},
+            numeric_atoms={"A_TAX": tax_atom, "A_YEAR": year_atom},
+            derivations={}, authority_nodes={})
+        self.assertTrue(passed["proposer_allowed"])
+        self.assertFalse(passed["admission_authority"])
+
+    def test_numeric_gate_allows_section_numbers_only_through_authority_binding(self):
+        node, receipts = self.authority()
+        node = exact.validate_authority_node(node, receipts)
+        statement = "Treas. Reg. § 1.1362-6 requires consent."
+        start = 0
+        claim = {"id": "C2", "requirement_id": "R_AUTH", "status": "unresolved",
+                 "statement": statement, "numeric_mentions": [],
+                 "authority_mentions": [{"start": start, "end": len(node["citation"]),
+                                          "object_id": "U1"}]}
+        gate = exact.numeric_binding_gate(
+            claim, numeric_atoms={}, derivations={}, authority_nodes={"U1": node})
+        self.assertTrue(gate["proposer_allowed"])
+
+    def test_numeric_gate_never_accepts_admission_on_candidate_claim(self):
+        claim = {"id": "C3", "requirement_id": "R_TAX", "status": "unresolved",
+                 "statement": "No number is asserted.", "numeric_mentions": [],
+                 "authority_mentions": [], "admission": "admitted"}
+        gate = exact.numeric_binding_gate(
+            claim, numeric_atoms={}, derivations={}, authority_nodes={})
+        self.assertFalse(gate["proposer_allowed"])
+        self.assertIn("candidate_claim_cannot_carry_admission", gate["reasons"])
+
+    def test_candidate_readiness_runner_sanitizes_private_content(self):
+        bundle = {
+            "task_prompt": "Report the exact 2024 tax.",
+            "output_type": "message_in_console",
+            "slots": [
+                {"slot_id": "R_TAX", "slot_type": "exact_value",
+                 "description": "Exact 2024 tax",
+                 "required_object_kinds": ["evidence_atom"],
+                 "expected_periods": ["2024"], "output_format": "USD"},
+                {"slot_id": "R_OUTPUT", "slot_type": "output_structure",
+                 "description": "Console response", "required_object_kinds": []},
+            ],
+            "receipts": [self.receipt()],
+            "numeric_atom_payloads": [
+                {"requirement_id": "R_TAX", "evidence_id": "E1", "subject": "Laura",
+                 "predicate": "exact tax was", "display": "$18,486", "kind": "currency",
+                 "currency": "USD", "unit": "dollars", "entity": "Laura",
+                 "period": "2024", "precision": "exact",
+                 "exact_excerpt": self.receipt()["quote"]},
+            ],
+            "assignments": {},
+        }
+        # Discover the content-addressed atom ID first, as a private harness would.
+        atom = exact.bind_numeric_atom(bundle["numeric_atom_payloads"][0], {"E1": self.receipt()})
+        bundle["assignments"] = {"R_TAX": [atom["atom_id"]]}
+        report = runner.build_candidate_readiness(bundle)
+        serialized = str(report)
+        self.assertEqual(report["candidate_coverage"], 2)
+        self.assertEqual(report["governed_coverage"], 1)
+        self.assertFalse(report["executor_ready"])
+        self.assertNotIn("18,486", serialized)
+        self.assertNotIn("Report the exact", serialized)
+        self.assertNotIn("Laura", serialized)
+        self.assertFalse(report["admission_authority"])
+
+
+if __name__ == "__main__":
+    unittest.main()

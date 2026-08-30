@@ -1,0 +1,513 @@
+"""Fail-closed contracts for exact numeric, authority, and derivation knowledge.
+
+The module is task-domain neutral.  It does not admit knowledge, expose a gold
+answer, or allow an executor to turn retrieved material into governed matter
+knowledge.  It makes exact task primitives machine-checkable before a claim is
+proposed or disclosed.
+"""
+from __future__ import annotations
+
+from copy import deepcopy
+from decimal import Decimal, InvalidOperation
+import re
+from typing import Any, Iterable
+
+from governed_workflow_contract import ATOM_SCHEMA, digest, validate_atom
+from open_discovery_private import calculate_derivation
+
+
+REQUIREMENT_PLAN_SCHEMA = "proofpress/exact-requirement-plan/v1"
+READINESS_SCHEMA = "proofpress/exact-knowledge-readiness/v1"
+AUTHORITY_NODE_SCHEMA = "proofpress/authority-node/v1"
+DERIVATION_NODE_SCHEMA = "proofpress/derivation-node/v1"
+NUMERIC_BINDING_GATE_SCHEMA = "proofpress/numeric-binding-gate/v1"
+
+SLOT_OBJECT_KINDS = {
+    "exact_value": {"evidence_atom", "derivation_node"},
+    "value_by_period": {"evidence_atom", "derivation_node"},
+    "ratio_or_threshold": {"evidence_atom", "derivation_node", "authority_node"},
+    "factual_status": {"evidence_atom"},
+    "controlling_authority": {"authority_node"},
+    "legal_consequence": {"evidence_atom", "authority_node", "derivation_node"},
+    "recommended_action": {"evidence_atom", "authority_node"},
+    "output_structure": set(),
+}
+OUTPUT_TYPES = {"message_in_console", "make_new_doc", "edit_existing_doc"}
+PRECISION_STATES = {"exact", "rounded", "estimated", "disputed"}
+EXACTNESS_STATES = {"exact", "bounded", "qualitative"}
+NUMERIC_KINDS = {"currency", "percentage", "year", "count", "decimal"}
+AUTHORITY_LEVELS = {"statute", "regulation", "case", "administrative", "secondary"}
+
+_NUMBER = re.compile(
+    r"(?P<currency>(?:[$€£])\s*\(?[+-]?(?:\d{1,3}(?:,\d{3})+|\d+)(?:\.\d+)?\)?)"
+    r"|(?P<percentage>\(?[+-]?(?:\d{1,3}(?:,\d{3})+|\d+)(?:\.\d+)?\s*%\)?)"
+    r"|(?P<year>\b(?:19|20)\d{2}\b)"
+    r"|(?P<number>\b[+-]?(?:\d{1,3}(?:,\d{3})+|\d+)(?:\.\d+)?\b)"
+)
+
+
+def _decimal_text(value: Any) -> str:
+    try:
+        parsed = Decimal(str(value))
+    except (InvalidOperation, ValueError) as exc:
+        raise ValueError("numeric value is not decimal-compatible") from exc
+    normalized = format(parsed, "f")
+    if "." in normalized:
+        normalized = normalized.rstrip("0").rstrip(".")
+    return normalized or "0"
+
+
+def normalize_numeric_text(raw_text: str) -> str:
+    """Normalize display text without losing its semantic scale.
+
+    Percentages remain percentage-point values (``26%`` -> ``26``), rather
+    than silently becoming fractions.  Currency symbols and grouping commas
+    are display metadata and do not alter the decimal value.
+    """
+    if not isinstance(raw_text, str) or not raw_text.strip():
+        raise ValueError("numeric display text is required")
+    value = raw_text.strip().replace(",", "")
+    negative_parentheses = value.startswith("(") and value.endswith(")")
+    if negative_parentheses:
+        value = value[1:-1].strip()
+    value = re.sub(r"^[$€£]\s*", "", value)
+    value = re.sub(r"\s*%$", "", value)
+    normalized = _decimal_text(value)
+    if negative_parentheses and not normalized.startswith("-") and normalized != "0":
+        normalized = "-" + normalized
+    return normalized
+
+
+def extract_numeric_candidates(text: str) -> list[dict[str, Any]]:
+    """Inventory every number-like source span before semantic selection.
+
+    Citation section numbers are deliberately retained.  A later semantic
+    stage must bind them as authority mentions instead of dropping them during
+    source inventory.
+    """
+    if not isinstance(text, str):
+        raise ValueError("numeric inventory input must be text")
+    rows: list[dict[str, Any]] = []
+    for match in _NUMBER.finditer(text):
+        group = match.lastgroup or "number"
+        raw = match.group(0)
+        kind = {"currency": "currency", "percentage": "percentage",
+                "year": "year", "number": "decimal"}[group]
+        basis = {"start": match.start(), "end": match.end(), "raw_text": raw,
+                 "normalized_value": normalize_numeric_text(raw), "kind_hint": kind}
+        rows.append({"candidate_id": "number_" + digest(basis).split(":", 1)[1][:20], **basis})
+    return rows
+
+
+def validate_numeric_atom(atom: dict[str, Any],
+                          receipts: dict[str, dict[str, Any]]) -> dict[str, Any]:
+    """Validate a number-specialized evidence atom against exact custody."""
+    checked = validate_atom(atom, receipts)
+    numeric = checked.get("numeric")
+    if not isinstance(numeric, dict):
+        raise ValueError("numeric evidence atom requires numeric metadata")
+    required = ("display", "decimal_value", "kind", "entity", "period", "precision")
+    if any(not isinstance(numeric.get(key), str) or not numeric[key].strip() for key in required):
+        raise ValueError("numeric evidence atom metadata is incomplete")
+    if numeric["kind"] not in NUMERIC_KINDS:
+        raise ValueError("numeric evidence atom kind is invalid")
+    if numeric["precision"] not in PRECISION_STATES:
+        raise ValueError("numeric evidence atom precision is invalid")
+    if numeric["display"] not in checked["exact_excerpt"]:
+        raise ValueError("numeric display is not bound to the exact excerpt")
+    if normalize_numeric_text(numeric["display"]) != _decimal_text(numeric["decimal_value"]):
+        raise ValueError("numeric display and decimal value disagree")
+    if checked["value"] != numeric["display"]:
+        raise ValueError("evidence atom value must preserve the numeric display")
+    if numeric["kind"] == "currency" and not str(numeric.get("currency") or "").strip():
+        raise ValueError("currency atoms require an explicit currency")
+    if checked.get("status") not in (None, "unresolved", "not_governed_candidate"):
+        raise ValueError("numeric evidence atom has an invalid candidate status")
+    if checked.get("admission_authority") not in (None, False):
+        raise ValueError("numeric evidence atom cannot carry admission authority")
+    return checked
+
+
+def bind_numeric_atom(payload: dict[str, Any],
+                      receipts: dict[str, dict[str, Any]]) -> dict[str, Any]:
+    """Construct an unresolved numeric atom from an exact custody-valid span."""
+    required = ("requirement_id", "evidence_id", "subject", "predicate", "display",
+                "kind", "entity", "period", "precision")
+    if any(not isinstance(payload.get(key), str) or not payload[key].strip() for key in required):
+        raise ValueError("numeric atom binding payload is incomplete")
+    receipt = receipts.get(payload["evidence_id"])
+    if not isinstance(receipt, dict):
+        raise ValueError("numeric atom receipt is missing")
+    excerpt = str(payload.get("exact_excerpt") or "")
+    if not excerpt or excerpt not in str(receipt.get("quote") or ""):
+        raise ValueError("numeric atom exact excerpt is not receipt-bound")
+    display = payload["display"]
+    values = {"subject": payload["subject"], "predicate": payload["predicate"],
+              "value": display}
+    bindings: dict[str, dict[str, int]] = {}
+    for field, value in values.items():
+        start = excerpt.find(value)
+        if start < 0:
+            raise ValueError(f"numeric atom {field} is not present in the exact excerpt")
+        bindings[field] = {"start": start, "end": start + len(value)}
+    basis = {"requirement_id": payload["requirement_id"], "evidence_id": payload["evidence_id"],
+             "receipt_digest": receipt.get("receipt_digest"), **values,
+             "effective_date": payload.get("effective_date"),
+             "qualification": payload.get("qualification"),
+             "document_version": str(payload.get("document_version") or "unknown"),
+             "exact_excerpt": excerpt, "locator": receipt.get("locator"),
+             "support_mode": "explicit", "field_bindings": bindings,
+             "status": "not_governed_candidate", "admission_authority": False,
+             "numeric": {"display": display,
+                         "decimal_value": normalize_numeric_text(display),
+                         "kind": payload["kind"], "currency": payload.get("currency"),
+                         "unit": str(payload.get("unit") or ""), "entity": payload["entity"],
+                         "period": payload["period"], "precision": payload["precision"]}}
+    atom = {"schema_version": ATOM_SCHEMA,
+            "atom_id": "atom_" + digest(basis).split(":", 1)[1][:20], **basis}
+    return validate_numeric_atom(atom, receipts)
+
+
+def validate_authority_node(node: dict[str, Any],
+                            receipts: dict[str, dict[str, Any]]) -> dict[str, Any]:
+    """Bind an authority candidate to custody without confirming normativity."""
+    if not isinstance(node, dict) or node.get("schema_version") != AUTHORITY_NODE_SCHEMA:
+        raise ValueError("authority node schema is required")
+    required = ("authority_id", "requirement_id", "evidence_id", "receipt_digest",
+                "citation", "proposition", "jurisdiction", "effective_date",
+                "authority_level", "exact_excerpt")
+    if any(not isinstance(node.get(key), str) or not node[key].strip() for key in required):
+        raise ValueError("authority node required fields are missing")
+    if node["authority_level"] not in AUTHORITY_LEVELS:
+        raise ValueError("authority level is invalid")
+    receipt = receipts.get(node["evidence_id"])
+    if not isinstance(receipt, dict):
+        raise ValueError("authority receipt is missing")
+    if node["receipt_digest"] != receipt.get("receipt_digest"):
+        raise ValueError("authority receipt digest mismatch")
+    if node.get("locator") != receipt.get("locator"):
+        raise ValueError("authority locator mismatch")
+    if not receipt.get("custody_valid") or node["exact_excerpt"] not in str(receipt.get("quote") or ""):
+        raise ValueError("authority text is not bound to valid custody")
+    if node["citation"] not in node["exact_excerpt"]:
+        raise ValueError("authority citation is not present in the exact excerpt")
+    if node.get("normative_authority_confirmed") is not False:
+        raise ValueError("candidate authority cannot self-confirm normativity")
+    if node.get("admission_authority") is not False:
+        raise ValueError("authority candidate cannot carry admission authority")
+    checked = dict(node)
+    supplied = checked.pop("authority_digest", None)
+    calculated = digest(checked)
+    if supplied is not None and supplied != calculated:
+        raise ValueError("authority node digest mismatch")
+    checked["authority_digest"] = calculated
+    return checked
+
+
+def compile_requirement_plan(task_prompt: str, slots: list[dict[str, Any]], *,
+                             output_type: str) -> dict[str, Any]:
+    """Bind a prompt-only atomic requirement plan without rubric or gold data."""
+    if not isinstance(task_prompt, str) or not task_prompt.strip():
+        raise ValueError("task prompt is required")
+    if output_type not in OUTPUT_TYPES:
+        raise ValueError("native output type is invalid")
+    if not isinstance(slots, list) or not slots:
+        raise ValueError("at least one atomic requirement slot is required")
+    checked: list[dict[str, Any]] = []
+    seen: set[str] = set()
+    forbidden = {"rubric", "gold", "silver_locator", "expected_answer"}
+    for raw in slots:
+        if not isinstance(raw, dict) or forbidden.intersection(raw):
+            raise ValueError("requirement slots cannot carry rubric, gold, or silver data")
+        slot_id = str(raw.get("slot_id") or "").strip()
+        slot_type = str(raw.get("slot_type") or "").strip()
+        description = str(raw.get("description") or "").strip()
+        if not slot_id or slot_id in seen or slot_type not in SLOT_OBJECT_KINDS or not description:
+            raise ValueError("requirement slot identity, type, or description is invalid")
+        seen.add(slot_id)
+        requested = raw.get("required_object_kinds")
+        if not isinstance(requested, list):
+            raise ValueError("requirement slot object kinds must be explicit")
+        requested_set = {str(row) for row in requested}
+        if requested_set - SLOT_OBJECT_KINDS[slot_type]:
+            raise ValueError("requirement slot requests an incompatible object kind")
+        if slot_type != "output_structure" and not requested_set:
+            raise ValueError("substantive requirement slots need a typed completion path")
+        expected_periods = raw.get("expected_periods", [])
+        if not isinstance(expected_periods, list) or any(not isinstance(row, str) for row in expected_periods):
+            raise ValueError("expected periods must be a string list")
+        exactness = str(raw.get("exactness") or "exact")
+        if exactness not in EXACTNESS_STATES:
+            raise ValueError("requirement slot exactness is invalid")
+        if slot_type == "value_by_period" and not expected_periods:
+            raise ValueError("value-by-period requirements need explicit periods")
+        checked.append({
+            "slot_id": slot_id,
+            "slot_type": slot_type,
+            "description": description,
+            "exactness": exactness,
+            "expected_periods": expected_periods,
+            "required_object_kinds": sorted(requested_set),
+            "output_format": str(raw.get("output_format") or ""),
+            "object_ids": [],
+            "status": "unresolved",
+        })
+    if sum(row["slot_type"] == "output_structure" for row in checked) != 1:
+        raise ValueError("requirement plans need exactly one output-structure slot")
+    plan = {
+        "schema_version": REQUIREMENT_PLAN_SCHEMA,
+        "task_prompt_digest": digest(task_prompt),
+        "source_basis": "task_prompt_only_no_rubric_or_gold",
+        "output_type": output_type,
+        "slots": checked,
+        "automatic_admission": False,
+        "admission_authority": False,
+    }
+    plan["plan_digest"] = digest(plan)
+    return plan
+
+
+def bind_requirement_objects(plan: dict[str, Any],
+                             assignments: dict[str, list[str]]) -> dict[str, Any]:
+    """Attach typed candidate IDs to known slots without changing authority."""
+    checked = deepcopy(plan)
+    supplied_digest = checked.pop("plan_digest", None)
+    if checked.get("schema_version") != REQUIREMENT_PLAN_SCHEMA or supplied_digest != digest(checked):
+        raise ValueError("requirement plan digest mismatch")
+    slots = {row["slot_id"]: row for row in checked.get("slots", [])}
+    if set(assignments) - set(slots):
+        raise ValueError("assignment references an unknown requirement slot")
+    for slot_id, object_ids in assignments.items():
+        if not isinstance(object_ids, list) or any(not isinstance(row, str) or not row for row in object_ids):
+            raise ValueError("requirement object IDs must be a non-empty string list")
+        slots[slot_id]["object_ids"] = list(dict.fromkeys(object_ids))
+        slots[slot_id]["status"] = "candidate_bound" if object_ids else "unresolved"
+    checked["plan_digest"] = digest(checked)
+    return checked
+
+
+def _object_index(evidence_atoms: Iterable[dict[str, Any]], authority_nodes: Iterable[dict[str, Any]],
+                  derivations: Iterable[dict[str, Any]]) -> dict[str, tuple[str, dict[str, Any]]]:
+    rows: dict[str, tuple[str, dict[str, Any]]] = {}
+    for kind, values, id_key in (
+        ("evidence_atom", evidence_atoms, "atom_id"),
+        ("authority_node", authority_nodes, "authority_id"),
+        ("derivation_node", derivations, "derivation_id"),
+    ):
+        for value in values:
+            object_id = str(value.get(id_key) or "")
+            if not object_id or object_id in rows:
+                raise ValueError("typed knowledge object IDs must be unique")
+            rows[object_id] = (kind, value)
+    return rows
+
+
+def assess_requirement_readiness(plan: dict[str, Any], *,
+                                 evidence_atoms: Iterable[dict[str, Any]] = (),
+                                 authority_nodes: Iterable[dict[str, Any]] = (),
+                                 derivations: Iterable[dict[str, Any]] = (),
+                                 governed_object_ids: Iterable[str] = ()) -> dict[str, Any]:
+    """Separate candidate coverage from governed executor readiness."""
+    supplied_digest = plan.get("plan_digest")
+    digest_basis = {key: value for key, value in plan.items() if key != "plan_digest"}
+    if plan.get("schema_version") != REQUIREMENT_PLAN_SCHEMA or supplied_digest != digest(digest_basis):
+        raise ValueError("requirement plan digest mismatch")
+    objects = _object_index(evidence_atoms, authority_nodes, derivations)
+    governed = set(governed_object_ids)
+    rows: list[dict[str, Any]] = []
+    for slot in plan.get("slots", []):
+        object_ids = slot.get("object_ids", [])
+        missing = [row for row in object_ids if row not in objects]
+        wrong_kind = [row for row in object_ids
+                      if row in objects and objects[row][0] not in set(slot["required_object_kinds"])]
+        wrong_requirement = [row for row in object_ids if row in objects
+                             and objects[row][1].get("requirement_id") != slot["slot_id"]]
+        if missing or wrong_kind or wrong_requirement:
+            state = "invalid_binding"
+        elif slot["slot_type"] == "output_structure":
+            state = "covered_governed"
+        elif not object_ids:
+            state = "gap"
+        elif set(object_ids).issubset(governed):
+            state = "covered_governed"
+        else:
+            state = "covered_candidate_not_governed"
+        rows.append({"slot_id": slot["slot_id"], "state": state, "object_ids": object_ids,
+                     "missing_object_ids": missing, "wrong_kind_object_ids": wrong_kind,
+                     "wrong_requirement_object_ids": wrong_requirement})
+    result = {
+        "schema_version": READINESS_SCHEMA,
+        "plan_digest": plan.get("plan_digest"),
+        "slots": rows,
+        "candidate_coverage": sum(row["state"].startswith("covered_") for row in rows),
+        "governed_coverage": sum(row["state"] == "covered_governed" for row in rows),
+        "executor_ready": bool(rows) and all(row["state"] == "covered_governed" for row in rows),
+        "automatic_admission": False,
+        "admission_authority": False,
+    }
+    result["readiness_digest"] = digest(result)
+    return result
+
+
+def build_exact_derivation(*, requirement_id: str, expression: str,
+                           variables: dict[str, Any], input_bindings: dict[str, str],
+                           numeric_atoms: dict[str, dict[str, Any]], output_unit: str,
+                           entity: str, period: str, round_places: int = 2) -> dict[str, Any]:
+    """Calculate only when every variable binds the same value in a numeric atom."""
+    if not requirement_id or not output_unit or not entity or not period:
+        raise ValueError("derivation requirement, unit, entity, and period are required")
+    if not isinstance(round_places, int) or not 0 <= round_places <= 12:
+        raise ValueError("derivation rounding precision is invalid")
+    if set(variables) != set(input_bindings):
+        raise ValueError("every derivation variable requires exactly one atom binding")
+    for name, object_id in input_bindings.items():
+        atom = numeric_atoms.get(object_id)
+        if (not isinstance(atom, dict) or atom.get("schema_version") != ATOM_SCHEMA
+                or not isinstance(atom.get("numeric"), dict)
+                or not _embedded_digest_valid(atom, "atom_digest")
+                or atom.get("admission_authority") not in (None, False)):
+            raise ValueError("derivation input is not a numeric evidence atom")
+        if atom.get("requirement_id") != requirement_id:
+            raise ValueError("derivation input belongs to a different requirement")
+        if _decimal_text(variables[name]) != _decimal_text(atom["numeric"].get("decimal_value")):
+            raise ValueError("derivation variable disagrees with its bound atom")
+    value = calculate_derivation(expression, variables, output_unit=output_unit,
+                                 round_places=round_places,
+                                 basis_object_ids=list(input_bindings.values()))
+    value.update({"requirement_id": requirement_id,
+                  "input_bindings": dict(sorted(input_bindings.items())),
+                  "input_units": {name: str(numeric_atoms[object_id]["numeric"].get("unit") or "")
+                                  for name, object_id in sorted(input_bindings.items())},
+                  "entity": entity, "period": period,
+                  "status": "not_governed_derived", "admission_authority": False,
+                  "governed_reliance_allowed": False})
+    value["derivation_digest"] = digest({key: row for key, row in value.items()
+                                         if key != "derivation_digest"})
+    return value
+
+
+def validate_exact_derivation(node: dict[str, Any],
+                              numeric_atoms: dict[str, dict[str, Any]]) -> dict[str, Any]:
+    """Recompute a derivation and reject result, input, or digest drift."""
+    if not isinstance(node, dict) or node.get("schema_version") != DERIVATION_NODE_SCHEMA:
+        raise ValueError("derivation node schema is required")
+    rebuilt = build_exact_derivation(
+        requirement_id=str(node.get("requirement_id") or ""),
+        expression=str(node.get("expression") or ""),
+        variables=dict(node.get("variables") or {}),
+        input_bindings=dict(node.get("input_bindings") or {}),
+        numeric_atoms=numeric_atoms,
+        output_unit=str(node.get("output_unit") or ""),
+        entity=str(node.get("entity") or ""), period=str(node.get("period") or ""),
+        round_places=node.get("round_places"),
+    )
+    required_equal = ("derivation_id", "raw_result", "result", "basis_object_ids",
+                      "input_bindings", "input_units", "derivation_digest")
+    if any(node.get(key) != rebuilt.get(key) for key in required_equal):
+        raise ValueError("derivation result, inputs, or digest do not recompute")
+    return dict(node)
+
+
+def _span_covers(span: dict[str, Any], start: int, end: int) -> bool:
+    return (isinstance(span.get("start"), int) and isinstance(span.get("end"), int)
+            and span["start"] <= start and span["end"] >= end)
+
+
+def _embedded_digest_valid(value: dict[str, Any], digest_key: str) -> bool:
+    supplied = value.get(digest_key)
+    basis = {key: row for key, row in value.items() if key != digest_key}
+    return isinstance(supplied, str) and supplied == digest(basis)
+
+
+def numeric_binding_gate(claim: dict[str, Any], *,
+                         numeric_atoms: dict[str, dict[str, Any]],
+                         derivations: dict[str, dict[str, Any]],
+                         authority_nodes: dict[str, dict[str, Any]]) -> dict[str, Any]:
+    """Require every number in a proposed claim to bind evidence, derivation, or authority."""
+    statement = str(claim.get("statement") or "")
+    requirement_id = str(claim.get("requirement_id") or "")
+    reasons: list[str] = []
+    if not statement or not requirement_id:
+        reasons.append("claim_identity_or_statement_missing")
+    if claim.get("status") != "unresolved":
+        reasons.append("candidate_claim_must_remain_unresolved")
+    if claim.get("admission") is not None or claim.get("admission_authority") not in (None, False):
+        reasons.append("candidate_claim_cannot_carry_admission")
+    numeric_mentions = claim.get("numeric_mentions", [])
+    authority_mentions = claim.get("authority_mentions", [])
+    if not isinstance(numeric_mentions, list) or not isinstance(authority_mentions, list):
+        reasons.append("claim_mentions_must_be_lists")
+        numeric_mentions, authority_mentions = [], []
+
+    for mention in numeric_mentions:
+        if not isinstance(mention, dict):
+            reasons.append("invalid_numeric_mention")
+            continue
+        object_id = str(mention.get("object_id") or "")
+        obj = numeric_atoms.get(object_id) or derivations.get(object_id)
+        start, end = mention.get("start"), mention.get("end")
+        valid_atom = (object_id in numeric_atoms
+                      and obj.get("schema_version") == ATOM_SCHEMA
+                      and _embedded_digest_valid(obj, "atom_digest")
+                      and obj.get("admission_authority") in (None, False))
+        try:
+            valid_derivation = (object_id in derivations
+                                and validate_exact_derivation(obj, numeric_atoms) is not None
+                                and obj.get("admission_authority") is False)
+        except ValueError:
+            valid_derivation = False
+        if (obj is None or not (valid_atom or valid_derivation)
+                or not isinstance(start, int) or not isinstance(end, int)
+                or not 0 <= start < end <= len(statement)):
+            reasons.append("invalid_numeric_mention")
+            continue
+        raw = statement[start:end]
+        expected = (obj.get("numeric", {}).get("decimal_value")
+                    if object_id in numeric_atoms else obj.get("result"))
+        if normalize_numeric_text(raw) != _decimal_text(expected):
+            reasons.append("numeric_mention_value_mismatch")
+        if obj.get("requirement_id") != requirement_id:
+            reasons.append("numeric_mention_requirement_mismatch")
+
+    for mention in authority_mentions:
+        if not isinstance(mention, dict):
+            reasons.append("invalid_authority_mention")
+            continue
+        object_id = str(mention.get("object_id") or "")
+        obj = authority_nodes.get(object_id)
+        start, end = mention.get("start"), mention.get("end")
+        valid_authority = (obj is not None and obj.get("schema_version") == AUTHORITY_NODE_SCHEMA
+                           and _embedded_digest_valid(obj, "authority_digest")
+                           and obj.get("normative_authority_confirmed") is False
+                           and obj.get("admission_authority") is False)
+        if (not valid_authority or not isinstance(start, int) or not isinstance(end, int)
+                or not 0 <= start < end <= len(statement)):
+            reasons.append("invalid_authority_mention")
+            continue
+        if obj.get("requirement_id") != requirement_id or str(obj.get("citation") or "") not in statement[start:end]:
+            reasons.append("authority_mention_binding_mismatch")
+
+    candidates = extract_numeric_candidates(statement)
+    uncovered = []
+    for candidate in candidates:
+        covered = any(_span_covers(row, candidate["start"], candidate["end"])
+                      for row in numeric_mentions + authority_mentions if isinstance(row, dict))
+        if not covered:
+            uncovered.append(candidate)
+    if uncovered:
+        reasons.append("unbound_material_number")
+    reasons = sorted(set(reasons))
+    result = {
+        "schema_version": NUMERIC_BINDING_GATE_SCHEMA,
+        "claim_id": claim.get("id"),
+        "requirement_id": requirement_id,
+        "state": "claimable" if not reasons else "partial",
+        "proposer_allowed": not reasons,
+        "reasons": reasons,
+        "numeric_candidate_count": len(candidates),
+        "unbound_candidates": uncovered,
+        "automatic_admission": False,
+        "admission_authority": False,
+    }
+    result["gate_digest"] = digest(result)
+    return result
