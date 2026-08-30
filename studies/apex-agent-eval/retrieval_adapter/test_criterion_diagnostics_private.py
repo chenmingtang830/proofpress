@@ -6,6 +6,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[3]))
 
 from run_workflow_utility_private import (aggregate_criterion_grades,
+                                          diagnostic_projection_inventory,
                                           normalize_criterion_grade)
 
 
@@ -44,6 +45,17 @@ class CriterionDiagnosticTests(unittest.TestCase):
         self.assertEqual(len(rows), 2)
         self.assertEqual(rows[0]["primary_failure_stage"], "graph_sufficiency")
         self.assertEqual(rows[0]["failure_stage_counts"], {"graph_sufficiency": 3})
+
+    def test_projection_inventory_keeps_identity_and_drops_source_text(self):
+        inventory = diagnostic_projection_inventory({"candidate_evidence": [{
+            "receipt_digest": "sha256:abc", "object_kind": "authority_candidate",
+            "status": "not_governed", "evidence": {"quote": "very long private text",
+                                                       "locator": {"page_start": 2}},
+        }]})
+        self.assertEqual(inventory["object_count"], 1)
+        self.assertEqual(inventory["objects"][0]["receipt_digest"], "sha256:abc")
+        self.assertNotIn("very long private text", str(inventory))
+        self.assertFalse(inventory["source_text_included"])
 
 
 if __name__ == "__main__":

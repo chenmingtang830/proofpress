@@ -880,6 +880,35 @@ def aggregate_criterion_grades(grades: list[dict[str, Any]]) -> list[dict[str, A
     return output
 
 
+def diagnostic_projection_inventory(value: Any, max_objects: int = 500) -> dict[str, Any]:
+    """Describe executor-visible objects without repeating discovery source text."""
+    identity_keys = {
+        "id", "claim_id", "object_id", "receipt_digest", "schema_version", "object_kind",
+        "status", "authority_type", "citation", "jurisdiction", "effective_date",
+        "normative_authority_confirmed", "admission_authority", "governed_reliance_allowed",
+        "source", "locator", "retrieval", "basis_object_ids", "expression", "result",
+        "output_unit", "required_action",
+    }
+    objects: list[dict[str, Any]] = []
+
+    def visit(node: Any) -> None:
+        if isinstance(node, dict):
+            if any(key in node for key in ("id", "claim_id", "object_id", "receipt_digest",
+                                           "schema_version", "object_kind")):
+                row = {key: node[key] for key in identity_keys if key in node}
+                if row:
+                    objects.append(row)
+            for child in node.values():
+                visit(child)
+        elif isinstance(node, list):
+            for child in node:
+                visit(child)
+
+    visit(value)
+    return {"object_count": len(objects), "objects": objects[:max_objects],
+            "truncated": len(objects) > max_objects, "source_text_included": False}
+
+
 def resume_artifact_eligible(value: Any, condition: str) -> bool:
     """Agentic cells are reusable only when their decision trace travels with the artifact."""
     return (isinstance(value, dict) and isinstance(value.get("artifact"), (dict, list))
@@ -1363,7 +1392,7 @@ def main() -> None:
                         bounded_state, agentic_tokens = bounded_json(
                             agentic["state"], max_tokens=serialization_limit)
                         prompt["context"] = json.loads(bounded_state)
-                        diagnostic_projection_context = prompt["context"]
+                        diagnostic_projection_context = diagnostic_projection_inventory(prompt["context"])
                         cell["context_token_upper_bound"] = agentic_tokens
                         cell["agentic_context_truncated"] = prompt["context"] != agentic["state"]
                         prompt["instruction"] += (" The context contains executor-selected tool results. "
