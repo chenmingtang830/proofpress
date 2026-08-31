@@ -231,6 +231,8 @@ def cmd(a):
 KNOWLEDGE_REF = "refs/proofpress/knowledge"
 EVENT_SCHEMA = "proofpress/knowledge-event/v2"
 CONTEXT_SCHEMA = "proofpress/agent-context/v2"
+LOCAL_OPERATION_SCHEMA = "proofpress/local-operation/v1alpha1"
+LOCAL_OPERATION_RESULT_SCHEMA = "proofpress/local-operation-result/v1alpha1"
 TRAVERSAL_SCHEMA = "proofpress/graph-traversal/v1"
 RETRIEVAL_EVIDENCE_SCHEMA = "proofpress/retrieval-evidence/v1"
 DISCLOSURE_SCHEMA = "proofpress/governed-disclosure/v1"
@@ -2065,23 +2067,112 @@ def add_flat_cli(sub):
     migration.add_argument("ledger"); migration.set_defaults(f=cmd_flat, flat_cmd="import-v1")
 
 
+def execute_local_operation(request):
+    """Execute one internal-alpha operation over the local governance kernel.
+
+    This is the shared seam for the CLI and future local transports. It is not
+    a public SDK or network API: callers must still run inside the selected Git
+    workspace, and all writes retain the existing append-only ledger semantics.
+    """
+    if not isinstance(request, dict):
+        raise ValueError("local operation request must be an object")
+    if request.get("schema_version") != LOCAL_OPERATION_SCHEMA:
+        raise ValueError(
+            f"local operation schema_version must be {LOCAL_OPERATION_SCHEMA}")
+    unknown = sorted(set(request) - {"schema_version", "operation", "parameters"})
+    if unknown:
+        raise ValueError("unknown local operation fields: " + ", ".join(unknown))
+    operation = request.get("operation")
+    parameters = request.get("parameters")
+    if not isinstance(operation, str) or not operation:
+        raise ValueError("local operation name is required")
+    if not isinstance(parameters, dict):
+        raise ValueError("local operation parameters must be an object")
+
+    def exact(required, optional=()):
+        allowed = set(required) | set(optional)
+        missing = sorted(key for key in required if key not in parameters)
+        extra = sorted(set(parameters) - allowed)
+        if missing:
+            raise ValueError(f"{operation} missing parameters: " + ", ".join(missing))
+        if extra:
+            raise ValueError(f"{operation} unknown parameters: " + ", ".join(extra))
+
+    if operation == "evidence.import":
+        exact({"path"})
+        result = import_evidence_v2(parameters["path"])
+    elif operation == "conclusion.propose":
+        exact({"statement", "evidence_refs", "scope", "proposer"},
+              {"expires_at", "artifact_refs", "allowed_actors", "qualifiers", "profile"})
+        result = propose_v2(
+            parameters["statement"], parameters["evidence_refs"],
+            parameters["scope"], parameters["proposer"],
+            parameters.get("expires_at"), parameters.get("artifact_refs"),
+            parameters.get("allowed_actors"), parameters.get("qualifiers"),
+            parameters.get("profile"))
+    elif operation == "conclusion.evaluate":
+        exact({"conclusion_id"})
+        result = evaluate_v2(parameters["conclusion_id"])
+    elif operation == "conclusion.review":
+        exact({"conclusion_id", "decision", "reviewer"},
+              {"note", "request_id", "expected_head"})
+        result = review_v2(
+            parameters["conclusion_id"], parameters["decision"],
+            parameters["reviewer"], parameters.get("note"),
+            parameters.get("request_id"), parameters.get("expected_head"))
+    elif operation == "context.get":
+        exact(set(), {"scope", "actor", "task", "include_blocked_statements"})
+        result = context_v2(
+            parameters.get("scope"), parameters.get("actor"),
+            parameters.get("task"),
+            bool(parameters.get("include_blocked_statements", False)))
+    else:
+        raise ValueError("unsupported local operation: " + operation)
+    return {
+        "schema_version": LOCAL_OPERATION_RESULT_SCHEMA,
+        "contract_status": "internal_alpha",
+        "operation": operation,
+        "result": result,
+    }
+
+
+def _local_request(operation, parameters):
+    return execute_local_operation({
+        "schema_version": LOCAL_OPERATION_SCHEMA,
+        "operation": operation,
+        "parameters": parameters,
+    })["result"]
+
+
 def cmd_flat(a):
     command = getattr(a, "flat_cmd", None) or ("evidence-import" if getattr(a, "evidence_cmd", None) == "import" else None)
     if command == "demo": out = seed_demo_v2()
-    elif command == "evidence-import": out = import_evidence_v2(a.input)
+    elif command == "evidence-import":
+        out = _local_request("evidence.import", {"path": a.input})
     elif command == "propose":
         qualifiers = json.loads(Path(a.qualifiers).read_text(encoding="utf-8")) if a.qualifiers else None
-        out = propose_v2(a.statement, a.evidence, a.scope, a.proposer, a.expires_at,
-                         a.artifact, a.allow_actor or None, qualifiers, a.profile)
-    elif command == "evaluate": out = evaluate_v2(a.conclusion)
+        out = _local_request("conclusion.propose", {
+            "statement": a.statement, "evidence_refs": a.evidence,
+            "scope": a.scope, "proposer": a.proposer,
+            "expires_at": a.expires_at, "artifact_refs": a.artifact,
+            "allowed_actors": a.allow_actor or None,
+            "qualifiers": qualifiers, "profile": a.profile,
+        })
+    elif command == "evaluate":
+        out = _local_request("conclusion.evaluate", {
+            "conclusion_id": a.conclusion,
+        })
     elif command == "judge":
         if a.batch or a.scope: out = judge_batch_v2(a.scope)
         elif a.conclusion: out = judge_v2(a.conclusion)
         else: raise ValueError("judge requires a conclusion or --batch --scope")
     elif command == "review":
         decision = "admit" if a.admit else "request_changes" if a.request_changes else "reject"
-        out = review_v2(a.conclusion, decision, a.reviewer, a.note,
-                        a.request_id, a.expected_head)
+        out = _local_request("conclusion.review", {
+            "conclusion_id": a.conclusion, "decision": decision,
+            "reviewer": a.reviewer, "note": a.note,
+            "request_id": a.request_id, "expected_head": a.expected_head,
+        })
     elif command == "supersede": out = supersede_v2(a.conclusion, a.by, a.reviewer, a.note)
     elif command == "relation-propose":
         qualifiers = json.loads(Path(a.qualifiers).read_text(encoding="utf-8")) if a.qualifiers else None
@@ -2100,7 +2191,10 @@ def cmd_flat(a):
                                  a.max_depth, a.max_claims, a.state)
                if a.seed else graph_v2(a.scope))
     elif command == "context":
-        out = context_v2(a.scope, a.actor, a.task, a.include_blocked_statements)
+        out = _local_request("context.get", {
+            "scope": a.scope, "actor": a.actor, "task": a.task,
+            "include_blocked_statements": a.include_blocked_statements,
+        })
         if a.format == "markdown": print(_markdown_context(out)); return
     elif command == "disclose":
         out = disclose_v1(a.query, a.actor, a.scope, a.seed, a.corpus_manifest,
