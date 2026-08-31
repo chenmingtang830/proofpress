@@ -1521,12 +1521,31 @@ def graph_v2(scope=None):
     projection = v2_projection(); nodes, edges = [], []
     wanted = {cid: row for cid, row in projection["conclusions"].items() if not scope or row["scope"] == scope}
     evidence_ids = {ref for row in wanted.values() for ref in row["evidence_refs"]}
-    source_ids = {projection["evidence"][eid]["source_ref"] for eid in evidence_ids if eid in projection["evidence"]}
+    pending = list(evidence_ids)
+    while pending:
+        eid = pending.pop()
+        evidence = projection["evidence"].get(eid, {})
+        for parent in evidence.get("source_evidence_refs", []):
+            if parent not in evidence_ids:
+                evidence_ids.add(parent)
+                pending.append(parent)
+    source_ids = {
+        projection["evidence"][eid]["source_ref"]
+        for eid in evidence_ids
+        if eid in projection["evidence"] and projection["evidence"][eid].get("source_ref")
+    }
     for sid in source_ids: nodes.append({"id": sid, "type": "raw", "label": projection["sources"][sid].get("name", Path(projection["sources"][sid].get("path", sid)).name)})
     for eid in evidence_ids:
         if eid in projection["evidence"]:
-            nodes.append({"id": eid, "type": "evidence", "label": "Evidence receipt"})
-            edges.append({"from": projection["evidence"][eid]["source_ref"], "to": eid, "type": "bound_as"})
+            evidence = projection["evidence"][eid]
+            profile = evidence.get("experiment_profile", {})
+            label = ("Experiment " + profile["kind"].replace("_", " ")
+                     if profile.get("kind") else "Evidence receipt")
+            nodes.append({"id": eid, "type": "evidence", "label": label})
+            if evidence.get("source_ref"):
+                edges.append({"from": evidence["source_ref"], "to": eid, "type": "bound_as"})
+            edges += [{"from": parent, "to": eid, "type": "derived_from"}
+                      for parent in evidence.get("source_evidence_refs", [])]
     for cid, row in wanted.items():
         nodes.append({"id": cid, "type": "conclusion", "state": v2_state(projection, row), "label": row["statement"]})
         edges += [{"from": eid, "to": cid, "type": "supports"} for eid in row["evidence_refs"]]

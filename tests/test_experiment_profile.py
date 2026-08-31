@@ -160,6 +160,21 @@ class ExperimentProfileTests(unittest.TestCase):
                           experiment.recomputation_payload(formula, inputs, output))}}
         result = self.client.submit_evidence(derivation, profile="experiment")
         self.assertEqual(len(result["imported_evidence"]), 1)
+        derivation_ref = result["imported_evidence"][0]
+        proposed = self.client.propose_conclusion(
+            "The two exact counts sum to 164.", [derivation_ref], "pioneer",
+            "agent:test", qualifiers={"experiment": {
+                "schema_version": experiment.PROFILE,
+                "conclusion_kind": "finding", "experiment": self.identity()}},
+            profile="experiment")
+        graph = knowledge.graph_v2(scope="pioneer")
+        node_ids = {node["id"] for node in graph["nodes"]}
+        self.assertTrue({metric, cell, derivation_ref,
+                         proposed["conclusion"]["id"]}.issubset(node_ids))
+        self.assertIn({"from": metric, "to": derivation_ref,
+                       "type": "derived_from"}, graph["edges"])
+        self.assertIn({"from": cell, "to": derivation_ref,
+                       "type": "derived_from"}, graph["edges"])
         bad = {**derivation, "derivation": {**derivation["derivation"],
                                              "output": {"value": "165", "unit": "count"}}}
         with self.assertRaisesRegex(Exception, "does not recompute"):
