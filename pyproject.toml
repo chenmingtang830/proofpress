@@ -13,12 +13,14 @@ authors = [{name = "Proofpress"}]
 
 [project.scripts]
 proofpress = "proofpress:main"
+proofpress-repo = "proofpress_repo:main"
 
 [tool.setuptools]
 py-modules = [
   "proofpress",
   "proofpress_evidence",
   "proofpress_knowledge",
+  "proofpress_repo",
   "proofpress_sdk",
   "proofpress_service",
 ]

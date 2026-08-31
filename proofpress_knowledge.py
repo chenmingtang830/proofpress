@@ -10,6 +10,8 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
+import proofpress_repo
+
 SCHEMA = "proofpress/knowledge-ledger/v1"
 ALLOWED = {"service.name","experiment.id","experiment_id","experimentId","experiment.variant","variant","metric.conversion_rate","conversion_rate","metric.value","experiment.outcome","outcome","sample.size","sample_size"}
 DEFAULT_POLICY = {"id":"mvp-evidence-and-completeness","version":1,"min_sample_size":1,"require_guardrail_pass":False,"attribute_allowlist_version":"v1"}
@@ -568,6 +570,24 @@ def _conclusion_digest(row):
 def validate_profile(profile, qualifiers):
     qualifiers = qualifiers or {}
     if not profile: return qualifiers
+    if profile == "repo":
+        repo = qualifiers.get("repo")
+        if not isinstance(repo, dict):
+            raise ValueError("repo profile requires qualifiers.repo")
+        required = {"schema_version", "claim_kind", "repository_id", "head_commit"}
+        missing = sorted(required - set(repo))
+        if missing: raise ValueError("repo profile missing: " + ", ".join(missing))
+        if repo["schema_version"] != proofpress_repo.REPO_PROFILE_SCHEMA:
+            raise ValueError("unsupported repo profile schema")
+        if repo["claim_kind"] not in proofpress_repo.CLAIM_KINDS:
+            raise ValueError("unknown repo claim kind")
+        if not re.fullmatch(r"repo_[0-9a-f]{16}", str(repo["repository_id"])):
+            raise ValueError("invalid repo repository_id")
+        if not re.fullmatch(r"[0-9a-f]{40}", str(repo["head_commit"])):
+            raise ValueError("invalid repo head_commit")
+        unknown = set(repo) - (required | {"pull_request"})
+        if unknown: raise ValueError("unknown repo profile fields: " + ", ".join(sorted(unknown)))
+        return {**qualifiers, "profile": proofpress_repo.REPO_PROFILE_SCHEMA}
     if profile != "legal": raise ValueError("unknown claim profile: " + profile)
     legal = qualifiers.get("legal")
     if not isinstance(legal, dict):
@@ -763,7 +783,34 @@ def import_evidence_v2(path):
     else:
         trace = None
         span_rows = []
-    if isinstance(payload, dict) and payload.get("schema_version") == RETRIEVAL_EVIDENCE_SCHEMA:
+    if isinstance(payload, dict) and payload.get("schema_version") == proofpress_repo.REPO_EVIDENCE_SCHEMA:
+        verification = proofpress_repo.verify_bundle(payload, Path.cwd())
+        if not all(verification.values()):
+            failed = sorted(key for key, value in verification.items() if not value)
+            raise ValueError("repo evidence bundle failed verification: " + ", ".join(failed))
+        repository = payload["repository"]
+        src = {"id": ident({"repository": repository["id"],
+                            "head": payload["change"]["head_commit"]}, "src_"),
+               "kind": "repository_change", "repository": repository,
+               "base_commit": payload["change"]["base_commit"],
+               "head_commit": payload["change"]["head_commit"],
+               "diff_digest": payload["change"]["diff_digest"],
+               "changed_paths": payload["change"]["changed_paths"]}
+        if payload.get("pull_request"):
+            src["pull_request"] = payload["pull_request"]
+        src["record_hash"] = digest(src)
+        ev = {"id": ident({"source": src["id"], "bundle": payload["bundle_digest"]}, "evd_"),
+              "kind": "repository_evidence", "source_ref": src["id"],
+              "source_digest": src["record_hash"], "bundle": payload,
+              "bundle_digest": payload["bundle_digest"],
+              "verification": verification}
+        ev["digest"] = digest(ev)
+        created.extend([
+            append_v2({"type": "source_recorded", "subject_ref": src["id"], "record": src}),
+            append_v2({"type": "evidence_bound", "subject_ref": ev["id"],
+                       "source_ref": src["id"], "evidence": ev}),
+        ])
+    elif isinstance(payload, dict) and payload.get("schema_version") == RETRIEVAL_EVIDENCE_SCHEMA:
         created.extend(_import_retrieval_evidence_v2(payload))
     elif trace:
         created.extend(_import_trace_evidence_v2(trace))
@@ -799,8 +846,40 @@ def import_evidence_v2(path):
         created.append(append_v2({"type": "source_recorded", "subject_ref": src["id"], "record": src}))
         created.append(append_v2({"type": "evidence_bound", "subject_ref": ev["id"], "source_ref": src["id"], "evidence": ev}))
     projection = v2_projection()
+    imported_evidence = sorted(row["subject_ref"] for row in created
+                               if row.get("type") == "evidence_bound")
     return {"ok": True, "events_added": len(created),
+            "imported_evidence": imported_evidence,
             "evidence": sorted(projection["evidence"]), "ref": KNOWLEDGE_REF}
+
+
+def _repo_profile_checks(row, evidence_rows):
+    repo = row.get("qualifiers", {}).get("repo")
+    if not repo:
+        return {}
+    matching = [item for item in evidence_rows if item.get("kind") == "repository_evidence"]
+    try:
+        reverified = [proofpress_repo.verify_bundle(item["bundle"], Path.cwd())
+                      for item in matching]
+    except (KeyError, TypeError, ValueError):
+        reverified = []
+    return {
+        "repo_evidence_present": bool(matching),
+        "repo_evidence_verified": bool(matching) and all(
+            all(item.get("verification", {}).values()) for item in matching),
+        "repo_evidence_reverified": bool(reverified) and all(
+            all(item.values()) for item in reverified),
+        "repo_identity_bound": bool(matching) and all(
+            item["bundle"]["repository"]["id"] == repo["repository_id"]
+            for item in matching),
+        "repo_commit_bound": bool(matching) and all(
+            item["bundle"]["change"]["head_commit"] == repo["head_commit"]
+            for item in matching),
+        "repo_checks_passed": bool(matching) and all(
+            all(receipt["status"] == "pass" for receipt in item["bundle"]["checks"])
+            for item in matching),
+        "repo_claim_is_current_fact": repo["claim_kind"] != "roadmap",
+    }
 
 
 def propose_v2(statement, evidence_refs, scope, proposer, expires_at=None,
@@ -1139,6 +1218,8 @@ def evaluate_v2(cid, projection=None, events=None, policy=None):
         "not_superseded": cid not in projection["supersessions"],
         "scope_present": bool(row.get("scope")),
     }
+    checks.update(_repo_profile_checks(
+        row, [projection["evidence"][ref] for ref in evidence_ok]))
     event = append_v2({"type": "policy_evaluated", "subject_ref": cid,
                        "conclusion_digest": row["digest"],
                        "policy_digest": policy["digest"], "checks": checks,
@@ -2152,7 +2233,7 @@ def add_flat_cli(sub):
     propose_parser.add_argument("--artifact", action="append", default=[]); propose_parser.add_argument("--scope", required=True)
     propose_parser.add_argument("--proposer", default="agent:proposer"); propose_parser.add_argument("--expires-at")
     propose_parser.add_argument("--allow-actor", action="append", default=[])
-    propose_parser.add_argument("--profile", choices=["legal"]); propose_parser.add_argument("--qualifiers")
+    propose_parser.add_argument("--profile", choices=["legal", "repo"]); propose_parser.add_argument("--qualifiers")
     propose_parser.set_defaults(f=cmd_flat, flat_cmd="propose")
     evaluate_parser = sub.add_parser("evaluate"); evaluate_parser.add_argument("conclusion")
     evaluate_parser.set_defaults(f=cmd_flat, flat_cmd="evaluate")
