@@ -234,6 +234,7 @@ CONTEXT_SCHEMA = "proofpress/agent-context/v2"
 LOCAL_OPERATION_SCHEMA = "proofpress/local-operation/v1alpha1"
 LOCAL_OPERATION_RESULT_SCHEMA = "proofpress/local-operation-result/v1alpha1"
 LOCAL_OPERATION_CONTRACT_STATUS = "internal_alpha"
+LOCAL_IDEMPOTENCY_PATH = ".proofpress/runtime/idempotency.json"
 LOCAL_OPERATION_SPECS = {
     "capabilities.get": {
         "required": (), "optional": (), "mutates": False,
@@ -2243,6 +2244,12 @@ def local_operation_capabilities():
         "result_schema": LOCAL_OPERATION_RESULT_SCHEMA,
         "contract_status": LOCAL_OPERATION_CONTRACT_STATUS,
         "transport": "in_process",
+        "idempotency": {
+            "field": "idempotency_key",
+            "maximum_length": 128,
+            "persistence": "workspace_local",
+            "conflicting_reuse": "idempotency_conflict",
+        },
         "operations": [
             {
                 "name": name,
@@ -2283,6 +2290,42 @@ def _local_operation_error(code, message, operation=None, request_id=None,
         False, operation=operation, request_id=request_id, error=error)
 
 
+def _local_idempotency_records():
+    path = Path(LOCAL_IDEMPOTENCY_PATH)
+    if not path.exists():
+        return {}
+    try:
+        value = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as exc:
+        raise ValueError("local idempotency store is unreadable") from exc
+    if not isinstance(value, dict):
+        raise ValueError("local idempotency store must be an object")
+    return value
+
+
+def _store_local_idempotency(key, fingerprint, operation, result):
+    path = Path(LOCAL_IDEMPOTENCY_PATH)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    records = _local_idempotency_records()
+    records[key] = {
+        "request_fingerprint": fingerprint,
+        "operation": operation,
+        "result": result,
+        "recorded_at": now(),
+    }
+    handle, temporary = tempfile.mkstemp(prefix="idempotency-", suffix=".json",
+                                         dir=path.parent)
+    try:
+        with os.fdopen(handle, "w", encoding="utf-8") as stream:
+            json.dump(records, stream, ensure_ascii=False, sort_keys=True,
+                      separators=(",", ":"))
+            stream.flush(); os.fsync(stream.fileno())
+        os.replace(temporary, path)
+    finally:
+        if os.path.exists(temporary):
+            os.unlink(temporary)
+
+
 def execute_local_operation(request):
     """Execute one internal-alpha operation over the local governance kernel.
 
@@ -2295,6 +2338,7 @@ def execute_local_operation(request):
             "invalid_request", "local operation request must be an object")
     operation = request.get("operation")
     request_id = request.get("request_id")
+    idempotency_key = request.get("idempotency_key")
     if request.get("schema_version") != LOCAL_OPERATION_SCHEMA:
         return _local_operation_error(
             "unsupported_schema_version",
@@ -2302,7 +2346,8 @@ def execute_local_operation(request):
             operation=operation, request_id=request_id,
             details={"supported": [LOCAL_OPERATION_SCHEMA]})
     unknown = sorted(set(request) - {
-        "schema_version", "operation", "parameters", "request_id"})
+        "schema_version", "operation", "parameters", "request_id",
+        "idempotency_key"})
     if unknown:
         return _local_operation_error(
             "unknown_request_fields",
@@ -2315,6 +2360,13 @@ def execute_local_operation(request):
             "invalid_request_id",
             "local operation request_id must be a non-empty string of at most 128 characters",
             operation=operation)
+    if idempotency_key is not None and (
+            not isinstance(idempotency_key, str) or not idempotency_key or
+            len(idempotency_key) > 128):
+        return _local_operation_error(
+            "invalid_idempotency_key",
+            "idempotency_key must be a non-empty string of at most 128 characters",
+            operation=operation, request_id=request_id)
     parameters = request.get("parameters")
     if not isinstance(operation, str) or not operation:
         return _local_operation_error(
@@ -2342,6 +2394,27 @@ def execute_local_operation(request):
         return _local_operation_error(
             "invalid_parameters", f"invalid parameters for {operation}",
             operation=operation, request_id=request_id, details=details)
+
+    fingerprint = digest({"operation": operation, "parameters": parameters})
+    if idempotency_key is not None:
+        try:
+            prior = _local_idempotency_records().get(idempotency_key)
+        except ValueError as exc:
+            return _local_operation_error(
+                "idempotency_store_invalid", str(exc), operation=operation,
+                request_id=request_id)
+        if prior:
+            if prior.get("request_fingerprint") != fingerprint:
+                return _local_operation_error(
+                    "idempotency_conflict",
+                    "idempotency_key was already used for a different request",
+                    operation=operation, request_id=request_id,
+                    details={"prior_operation": prior.get("operation")})
+            envelope = _local_operation_envelope(
+                True, operation=operation, request_id=request_id,
+                result=prior.get("result"))
+            envelope["idempotent_replay"] = True
+            return envelope
 
     try:
         if operation == "capabilities.get":
@@ -2420,6 +2493,14 @@ def execute_local_operation(request):
         return _local_operation_error(
             "operation_io_error", str(exc), operation=operation,
             request_id=request_id)
+    if idempotency_key is not None and spec["mutates"]:
+        try:
+            _store_local_idempotency(
+                idempotency_key, fingerprint, operation, result)
+        except (OSError, ValueError) as exc:
+            return _local_operation_error(
+                "idempotency_store_write_failed", str(exc),
+                operation=operation, request_id=request_id)
     return _local_operation_envelope(
         True, operation=operation, request_id=request_id, result=result)
 

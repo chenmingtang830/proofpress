@@ -1,0 +1,52 @@
+{
+  "schema_version": "proofpress/local-operation-conformance/v1alpha1",
+  "vectors": [
+    {
+      "name": "capability discovery",
+      "request": {
+        "schema_version": "proofpress/local-operation/v1alpha1",
+        "operation": "capabilities.get",
+        "parameters": {}
+      },
+      "expect": {"ok": true, "result_schema_version": "proofpress/local-operation/v1alpha1"}
+    },
+    {
+      "name": "unsupported schema fails closed",
+      "request": {
+        "schema_version": "proofpress/local-operation/future",
+        "operation": "capabilities.get",
+        "parameters": {}
+      },
+      "expect": {"ok": false, "error_code": "unsupported_schema_version"}
+    },
+    {
+      "name": "unknown operation fails closed",
+      "request": {
+        "schema_version": "proofpress/local-operation/v1alpha1",
+        "operation": "cloud.admit",
+        "parameters": {}
+      },
+      "expect": {"ok": false, "error_code": "unsupported_operation"}
+    },
+    {
+      "name": "unknown request field fails closed",
+      "request": {
+        "schema_version": "proofpress/local-operation/v1alpha1",
+        "operation": "capabilities.get",
+        "parameters": {},
+        "tenant": "not-supported"
+      },
+      "expect": {"ok": false, "error_code": "unknown_request_fields"}
+    },
+    {
+      "name": "invalid idempotency key fails closed",
+      "request": {
+        "schema_version": "proofpress/local-operation/v1alpha1",
+        "operation": "capabilities.get",
+        "parameters": {},
+        "idempotency_key": ""
+      },
+      "expect": {"ok": false, "error_code": "invalid_idempotency_key"}
+    }
+  ]
+}
