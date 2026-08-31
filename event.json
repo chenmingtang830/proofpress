@@ -1,14 +1,11 @@
 {
-  "conclusion_digest": "sha256:4f1146aba9704cbcee5fda2b522803d6877d7dc449f42231761d165efdea786e",
-  "created_at": "2026-08-31T08:53:38.165602Z",
-  "event_id": "ppe_4e7e3cd915751d87",
-  "evidence_digests": {
-    "evd_dd0075f12bd6fe90": "sha256:7da398881b32275dcbe3d03e1fbbb0f2fb8af588cc2c5975f938c140331a359d"
-  },
-  "policy_digest": "sha256:9db378a53f5a219c034ee2a415391f63938cf29ca3fc50a239844c4378cdf8bb",
-  "review_ref": "ppe_d9d16b0ed4b7abb1",
+  "created_at": "2026-08-31T08:53:38.277708Z",
+  "event_id": "ppe_7b9f209b5c842c9d",
+  "identity_basis": "self_asserted",
+  "note": "The final policy-backed PR #72 record replaces the earlier local fixture-policy dry run.",
   "reviewer": "human:richard-tang",
   "schema_version": "proofpress/knowledge-event/v2",
-  "subject_ref": "knw_4bf03f87704f56cc",
-  "type": "conclusion_admitted"
+  "subject_ref": "knw_0767c67d52dec61c",
+  "superseded_by": "knw_4bf03f87704f56cc",
+  "type": "conclusion_superseded"
 }
