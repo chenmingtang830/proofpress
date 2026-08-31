@@ -2,6 +2,7 @@ import importlib.util
 from pathlib import Path
 import sys
 import unittest
+from unittest.mock import patch
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -100,6 +101,124 @@ class ExactKnowledgeContractTests(unittest.TestCase):
         self.assertEqual(rows[0]["periods"], ["2022", "2024"])
         self.assertNotIn("status", rows[0])
         self.assertNotIn("admission_authority", rows[0])
+
+    def test_tabular_schedule_inventory_recovers_vertical_columns(self):
+        text = ("Year\tOrdinary income\tFederal tax\n"
+                "2020\t$10,000\t$2,100\n"
+                "2021\t$20,000\t$4,200\n")
+        rows = exact.extract_tabular_schedule_series(text)
+        self.assertEqual([row["label"] for row in rows],
+                         ["Ordinary income", "Federal tax"])
+        federal = rows[1]
+        self.assertEqual([value["period"] for value in federal["period_values"]],
+                         ["2020", "2021"])
+        self.assertEqual([value["display"] for value in federal["period_values"]],
+                         ["$2,100", "$4,200"])
+        for value in federal["period_values"]:
+            span = value["value_span"]
+            self.assertEqual(federal["exact_excerpt"][span["start"]:span["end"]],
+                             value["display"])
+
+    def test_tabular_schedule_inventory_recovers_horizontal_rows(self):
+        text = ("Line\tCode\t2020\t2021\t2022\n"
+                "Gross receipts\t1A\t100\t200\t300\n"
+                "Rent\t2\t10\t20\t30\n")
+        rows = exact.extract_tabular_schedule_series(text)
+        self.assertEqual([row["orientation"] for row in rows],
+                         ["period_columns", "period_columns"])
+        self.assertEqual(rows[0]["label"], "Gross receipts\t1A")
+        self.assertEqual([value["display"] for value in rows[1]["period_values"]],
+                         ["10", "20", "30"])
+
+    def test_table_cell_numeric_binding_uses_exact_cell_coordinates(self):
+        quote = ("Year\tFederal tax\n"
+                 "2020\t$2,100\n"
+                 "2021\t$4,200")
+        receipt = {**self.receipt(), "quote": quote}
+        series = exact.extract_tabular_schedule_series(quote)[0]
+        value = series["period_values"][1]
+        binding = {"table_candidate_id": series["table_candidate_id"],
+                   "series_candidate_id": series["series_candidate_id"],
+                   "orientation": series["orientation"],
+                   "row_index": value["row_index"],
+                   "column_index": value["column_index"],
+                   "label_span": series["label_span"],
+                   "period_span": value["period_span"],
+                   "value_span": value["value_span"]}
+        atom = exact.bind_numeric_atom(
+            {"requirement_id": "R_TAX", "evidence_id": "E1",
+             "subject": series["label"], "predicate": value["period"],
+             "display": value["display"], "kind": "currency", "currency": "USD",
+             "unit": "USD", "entity": series["label"], "period": value["period"],
+             "precision": "exact", "exact_excerpt": series["exact_excerpt"],
+             "table_cell_binding": binding}, {"E1": receipt})
+        self.assertEqual(atom["field_bindings"]["value"], value["value_span"])
+        broken = {**atom, "table_cell_binding": {**binding,
+                  "value_span": {"start": 0, "end": 4}}}
+        broken["atom_digest"] = exact.digest({key: value for key, value in broken.items()
+                                               if key != "atom_digest"})
+        with self.assertRaisesRegex(ValueError, "value span disagrees"):
+            exact.validate_numeric_atom(broken, {"E1": receipt})
+
+    def test_period_numeric_stage_selects_only_series_id_then_binds_all_cells(self):
+        quote = ("Year\tOrdinary income\tFederal tax\n"
+                 "2020\t$10,000\t$2,100\n"
+                 "2021\t$20,000\t$4,200")
+        receipt = {**self.receipt(), "quote": quote}
+        candidates = exact.extract_tabular_schedule_series(quote)
+        federal = next(row for row in candidates if row["label"] == "Federal tax")
+        captured = {}
+
+        def fake_call(_gateway, _system, user, *_args):
+            captured.update(__import__("json").loads(user))
+            return {"ok": True, "value": {"table_series_selections": [{
+                "requirement_id": "R_FED", "evidence_id": "E1",
+                "series_candidate_id": federal["series_candidate_id"]}]},
+                "record": {"terminal": True}}
+
+        slots = [{"slot_id": "R_FED", "description": "Federal tax by year"}]
+        domains = [{"requirement_id": "R_FED", "evidence_id": "E1",
+                    "periods": ["2020", "2021"], "exact_excerpt": quote}]
+        with patch.object(stage_runner, "_model_call", side_effect=fake_call):
+            rows, status = stage_runner._extract_period_numeric_atoms(
+                object(), slots, {"E1": receipt}, domains)
+        self.assertEqual([row["display"] for row in rows], ["$2,100", "$4,200"])
+        self.assertEqual(status["selected_series_count"], 1)
+        self.assertEqual(status["constructed_cell_count"], 2)
+        self.assertNotIn("display", str(captured["table_series_candidates"]))
+        self.assertTrue(all("table_cell_binding" in row for row in rows))
+
+    def test_period_derivation_stage_rejects_missing_formula_template(self):
+        slots = [{"slot_id": "R_STATE", "slot_type": "value_by_period",
+                  "required_object_kinds": ["derivation_node"],
+                  "expected_periods": ["each year"], "description": "State tax by year"}]
+        objects = {"numeric_atoms": [], "task_parameters": [],
+                   "period_domains": [{"requirement_id": "R_STATE",
+                                       "periods": ["2020", "2021"]}]}
+        result = {"ok": True, "value": {"templates": []},
+                  "record": {"terminal": True}}
+        with patch.object(stage_runner, "_model_call", return_value=result):
+            rows, status = stage_runner._plan_period_derivations(
+                object(), slots, objects)
+        self.assertEqual(rows, [])
+        self.assertIn("period_derivation:incomplete_period_set",
+                      status["invariant_failures"])
+
+    def test_period_derivation_stage_skips_source_complete_series(self):
+        slots = [{"slot_id": "R_FED", "slot_type": "value_by_period",
+                  "required_object_kinds": ["evidence_atom", "derivation_node"],
+                  "expected_periods": ["each year"], "description": "Federal tax by year"}]
+        objects = {"numeric_atoms": [
+            {"requirement_id": "R_FED", "numeric": {"period": "2020"}},
+            {"requirement_id": "R_FED", "numeric": {"period": "2021"}}],
+            "task_parameters": [], "period_domains": [{"requirement_id": "R_FED",
+                                                          "periods": ["2020", "2021"]}]}
+        with patch.object(stage_runner, "_plan_derivations") as planner:
+            rows, status = stage_runner._plan_period_derivations(
+                object(), slots, objects)
+        planner.assert_not_called()
+        self.assertEqual(rows, [])
+        self.assertEqual(status["skipped_source_complete"], 1)
 
     def test_numeric_atom_requires_exact_value_entity_period_and_currency(self):
         checked = exact.validate_numeric_atom(self.atom(), {"E1": self.receipt()})

@@ -1,0 +1,44 @@
+{
+  "schema_version": "proofpress/exact-knowledge-transfer-manifest/v1",
+  "recorded_at": "2026-08-30",
+  "development_task_ids": [
+    "task_b78c4510be784e6a8b8f0394aafd785d",
+    "task_8d501efe0f924f69aeee070f2e08b576",
+    "task_8ab8c8d7662747d696d52706a8b3de55",
+    "task_11893dcabbe34b0aa991516dfe7edcba",
+    "task_f8f47a9c94874854a24936d81a89fdfb"
+  ],
+  "held_out_task_ids": [
+    "task_2f85463493f14785beda2ef2d316309a",
+    "task_876ace32decb4f26a3f7a7c3bf50bab7",
+    "task_b68a970f95ea48019176f0be1f73e61b",
+    "task_b9b58e483f384c5990900ef2d8c9fe17",
+    "task_ce4a398d9cf64e63aa54cb88b6615c93",
+    "task_ed6f8d835b0141309442d2c373d1c5da",
+    "task_8705d28530a94c2880fbfd7190e257d4"
+  ],
+  "conditions": [
+    "ordinary-claim",
+    "claim-plus-table-cells",
+    "claim-plus-table-cells-plus-derivation"
+  ],
+  "frozen_controls": {
+    "task_source_manifest_digest": "resolve-and-freeze-before-run",
+    "graph_digest": "resolve-and-freeze-before-run",
+    "executor": "single-fixed-development-executor-to-be-qualified-before-run",
+    "grader": "single-frozen-blind-grader-panel-to-be-qualified-before-run",
+    "rubric_digest": "resolve-and-freeze-before-run",
+    "retry_policy": "fallback-forbidden; terminal-receipt-required",
+    "disclosure_budget": "equal-across-conditions; freeze-before-run",
+    "executor_budget": "equal-across-conditions; freeze-before-run",
+    "native_output_contract": "preserve-message-new-doc-edit-doc-output-types"
+  },
+  "nonlegal_families": [
+    {"family": "financial_table_reconciliation", "minimum_tasks": 3, "required_variants": ["period_rows", "period_columns", "missing_or_conflicting_input"]},
+    {"family": "operational_kpi", "minimum_tasks": 3, "required_variants": ["period_rows", "period_columns", "missing_or_conflicting_input"]},
+    {"family": "contract_payment_schedule", "minimum_tasks": 3, "required_variants": ["period_rows", "period_columns", "missing_or_conflicting_input"]}
+  ],
+  "outcome_access_before_freeze": false,
+  "human_approval_policy": "required_for_admission_and_reuse",
+  "execution_status": "blocked_until_all_resolve-and-freeze controls are content-addressed"
+}

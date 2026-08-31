@@ -28,6 +28,7 @@ from exact_knowledge_contract import (
     digest,
     extract_numeric_candidates,
     extract_period_domain_candidates,
+    extract_tabular_schedule_series,
     screen_authority_applicability,
     validate_authority_node,
 )
@@ -182,6 +183,16 @@ NUMERIC_SELECTION_OUTPUT = {
     "properties": {"numeric_selections": {"type": "array", "maxItems": 64,
                                                "items": NUMERIC_SELECTION_ITEM}},
 }
+TABLE_SERIES_SELECTION_OUTPUT = {
+    "type": "object", "additionalProperties": False,
+    "required": ["table_series_selections"],
+    "properties": {"table_series_selections": {"type": "array", "maxItems": 16,
+        "items": {"type": "object", "additionalProperties": False,
+                  "required": ["requirement_id", "evidence_id", "series_candidate_id"],
+                  "properties": {"requirement_id": {"type": "string"},
+                                 "evidence_id": {"type": "string"},
+                                 "series_candidate_id": {"type": "string"}}}}},
+}
 EXTRACTION_OUTPUT = {
     "type": "object", "additionalProperties": False,
     "required": ["evidence_atoms", "numeric_atoms", "task_parameters", "authority_nodes",
@@ -213,6 +224,24 @@ DERIVATION_OUTPUT = {"type": "object", "additionalProperties": False,
                      "required": ["derivations"],
                      "properties": {"derivations": {"type": "array", "maxItems": 24,
                                                         "items": DERIVATION_ITEM}}}
+PERIOD_DERIVATION_TEMPLATE_OUTPUT = {
+    "type": "object", "additionalProperties": False,
+    "required": ["templates"],
+    "properties": {"templates": {"type": "array", "maxItems": 1, "items": {
+        "type": "object", "additionalProperties": False,
+        "required": ["requirement_id", "expression", "variable_requirement_ids",
+                     "output_unit", "entity", "round_places"],
+        "properties": {
+            "requirement_id": {"type": "string"},
+            "expression": {"type": "string"},
+            "variable_requirement_ids": {
+                "type": "object", "additionalProperties": {"type": "string"}},
+            "output_unit": {"type": "string"},
+            "entity": {"type": "string"},
+            "round_places": {"type": "integer", "minimum": 0, "maximum": 12},
+        },
+    }}},
+}
 AUTHORITY_REVIEW_OUTPUT = {
     "type": "object", "additionalProperties": False,
     "required": ["decisions"],
@@ -736,75 +765,117 @@ def _extract_period_numeric_atoms(gateway: Gateway,
                                   receipts: dict[str, dict[str, Any]],
                                   period_domains: list[dict[str, Any]]) -> tuple[list[dict[str, Any]],
                                                                                dict[str, Any]]:
-    """Select each schedule column independently from its exact source span."""
+    """Bind one requirement-aware TSV series, then construct every cell deterministically."""
     slot_by_id = {row["slot_id"]: row for row in slots}
-    rows = []
-    failures = []
-    inventory_count = 0
+    rows: list[dict[str, Any]] = []
+    failures: list[str] = []
+    series_inventory_count = 0
+    complete_series_count = 0
+    selected_series_count = 0
+    missing_complete_table_count = 0
     call_count = 0
     for domain in period_domains:
         requirement_id = domain["requirement_id"]
         evidence_id = domain["evidence_id"]
-        excerpt = domain["exact_excerpt"]
-        inventory = [row for row in extract_numeric_candidates(excerpt)
-                     if row.get("normalized_value") is not None]
-        inventory_count += len(inventory)
-        index = {row["candidate_id"]: row for row in inventory}
+        receipt = receipts[evidence_id]
+        inventory = extract_tabular_schedule_series(str(receipt.get("quote") or ""))
+        series_inventory_count += len(inventory)
+        required_periods = sorted(domain["periods"])
+        complete = [candidate for candidate in inventory
+                    if sorted(value["period"] for value in candidate["period_values"])
+                    == required_periods]
+        complete_series_count += len(complete)
+        if not complete:
+            missing_complete_table_count += 1
+            failures.append("period_table_series:no_complete_series_candidate")
+            continue
+        index = {row["series_candidate_id"]: row for row in complete}
         payload = {
             "requirement": {"requirement_id": requirement_id,
                             "description": slot_by_id[requirement_id]["description"],
-                            "required_periods": domain["periods"]},
+                            "required_periods": required_periods},
             "evidence_id": evidence_id,
-            "source_exact_excerpt": excerpt,
-            "numeric_inventory": inventory,
+            "table_series_candidates": [
+                {"series_candidate_id": candidate["series_candidate_id"],
+                 "table_candidate_id": candidate["table_candidate_id"],
+                 "orientation": candidate["orientation"],
+                 "label": candidate["label"],
+                 "periods": [value["period"] for value in candidate["period_values"]],
+                 "value_count": len(candidate["period_values"])}
+                for candidate in complete],
             "instruction": (
-                "Select only the numeric values in this exact source schedule that directly satisfy this one "
-                "requirement. Return the material value for every explicitly supported required period. Copy "
-                "requirement_id, evidence_id, and candidate_id exactly and copy the four-digit period. Subject and "
-                "predicate must be exact source_exact_excerpt substrings. Do not select row labels, page numbers, "
-                "citation years, values for another column, or inferred/calculated values. Omit unsupported periods."),
+                "Select at most one complete table series whose exact source label directly names the values requested "
+                "by this requirement. Copy requirement_id, evidence_id, and series_candidate_id exactly. Do not select "
+                "a related column, a calculated output absent from the source table, or a series based only on similar "
+                "numbers. Omit the requirement when no label directly identifies the requested series. Cell values "
+                "are deliberately withheld here because deterministic code will bind them after column selection."),
         }
         call_count += 1
-        result = _model_call(gateway, "Map one exact schedule column to source-bound numeric atoms.",
-                             json.dumps(payload, ensure_ascii=False), 10000,
-                             NUMERIC_SELECTION_OUTPUT,
-                             "proofpress_period_numeric_column_selection", 2)
+        result = _model_call(gateway, "Select one requirement-aware source table series.",
+                             json.dumps(payload, ensure_ascii=False), 6000,
+                             TABLE_SERIES_SELECTION_OUTPUT,
+                             "proofpress_table_series_selection", 2)
         if not result["ok"]:
             return [], {"status": "inconclusive", "selection_count": 0,
-                        "inventory_candidate_count": inventory_count,
+                        "table_series_candidate_count": series_inventory_count,
+                        "complete_table_series_candidate_count": complete_series_count,
+                        "selected_series_count": selected_series_count,
+                        "constructed_cell_count": len(rows),
+                        "missing_complete_table_count": missing_complete_table_count,
                         "call_count": call_count, "invariant_failures": failures,
                         "failure": result["record"]}
-        seen: set[str] = set()
-        for selection in result["value"].get("numeric_selections", []):
-            candidate_id = str(selection.get("candidate_id") or "")
+        accepted = []
+        for selection in result["value"].get("table_series_selections", []):
+            candidate_id = str(selection.get("series_candidate_id") or "")
             candidate = index.get(candidate_id)
             if (selection.get("requirement_id") != requirement_id
                     or selection.get("evidence_id") != evidence_id
                     or candidate is None):
-                failures.append("period_numeric_selection:unknown_candidate_or_route")
+                failures.append("period_table_series:unknown_candidate_or_route")
                 continue
-            if candidate_id in seen:
-                failures.append("period_numeric_selection:duplicate_candidate")
+            if candidate_id in {row["series_candidate_id"] for row in accepted}:
+                failures.append("period_table_series:duplicate_candidate")
                 continue
-            seen.add(candidate_id)
-            fields = [str(selection.get(field) or "") for field in ("subject", "predicate")]
-            fields.append(candidate["raw_text"])
-            positions = [(excerpt.find(field), len(field)) for field in fields if field]
-            exact_excerpt = selection.get("exact_excerpt")
-            if len(positions) == 3 and all(start >= 0 for start, _ in positions):
-                start = min(value[0] for value in positions)
-                end = max(value[0] + value[1] for value in positions)
-                exact_excerpt = excerpt[start:end]
+            accepted.append(candidate)
+        if len(accepted) > 1:
+            failures.append("period_table_series:multiple_series_for_requirement")
+            continue
+        if not accepted:
+            continue
+        selected_series_count += 1
+        candidate = accepted[0]
+        excerpt = candidate["exact_excerpt"]
+        explicit_currency = any(value["kind_hint"] == "currency"
+                                for value in candidate["period_values"])
+        for value in candidate["period_values"]:
+            table_binding = {
+                "table_candidate_id": candidate["table_candidate_id"],
+                "series_candidate_id": candidate["series_candidate_id"],
+                "orientation": candidate["orientation"],
+                "row_index": value["row_index"],
+                "column_index": value["column_index"],
+                "label_span": candidate["label_span"],
+                "period_span": value["period_span"],
+                "value_span": value["value_span"],
+            }
             rows.append({
-                **{field: selection.get(field) for field in (
-                    "requirement_id", "evidence_id", "subject", "predicate", "currency", "unit",
-                    "entity", "period", "precision", "effective_date", "qualification",
-                    "document_version")},
-                "exact_excerpt": exact_excerpt,
-                "display": candidate["raw_text"], "kind": candidate["kind_hint"],
+                "requirement_id": requirement_id, "evidence_id": evidence_id,
+                "subject": candidate["label"], "predicate": value["period"],
+                "currency": "USD" if explicit_currency else None,
+                "unit": "USD" if explicit_currency else "source-table units",
+                "entity": candidate["label"], "period": value["period"],
+                "precision": "exact", "effective_date": value["period"],
+                "qualification": None, "document_version": "unknown",
+                "exact_excerpt": excerpt, "display": value["display"],
+                "kind": "currency" if explicit_currency else value["kind_hint"],
+                "table_cell_binding": table_binding,
             })
     return rows, {"status": "ok", "selection_count": len(rows),
-                  "inventory_candidate_count": inventory_count,
+                  "table_series_candidate_count": series_inventory_count,
+                  "complete_table_series_candidate_count": complete_series_count,
+                  "selected_series_count": selected_series_count,
+                  "constructed_cell_count": len(rows),
+                  "missing_complete_table_count": missing_complete_table_count,
                   "call_count": call_count, "invariant_failures": failures}
 
 
@@ -903,7 +974,9 @@ def _validated_objects(task: dict[str, Any], slots: list[dict[str, Any]], value:
     return result, failures
 
 
-def _plan_derivations(gateway: Gateway, slots: list[dict[str, Any]], objects: dict[str, list[dict[str, Any]]]) -> tuple[list[dict[str, Any]], dict[str, Any]]:
+def _plan_derivations(gateway: Gateway, slots: list[dict[str, Any]],
+                      objects: dict[str, list[dict[str, Any]]]) -> tuple[list[dict[str, Any]],
+                                                                        dict[str, Any]]:
     exact_slots = [row for row in slots if "derivation_node" in row["required_object_kinds"]]
     inputs = []
     for row in [*objects["numeric_atoms"], *objects["task_parameters"]]:
@@ -939,6 +1012,156 @@ def _plan_derivations(gateway: Gateway, slots: list[dict[str, Any]], objects: di
         except (KeyError, TypeError, ValueError) as exc:
             failures.append(f"derivation:{type(exc).__name__}:{digest(str(exc))[-12:]}")
     return derivations, {"status": "ok", "derivation_count": len(derivations),
+                         "invariant_failures": failures}
+
+
+def _plan_period_derivations(
+        gateway: Gateway, slots: list[dict[str, Any]],
+        objects: dict[str, list[dict[str, Any]]]) -> tuple[list[dict[str, Any]], dict[str, Any]]:
+    """Select one formula template, then bind every period deterministically."""
+    slot_by_id = {row["slot_id"]: row for row in slots}
+    atoms_by_requirement: dict[str, list[dict[str, Any]]] = {}
+    for atom in objects["numeric_atoms"]:
+        atoms_by_requirement.setdefault(atom["requirement_id"], []).append(atom)
+    for parameter in objects["task_parameters"]:
+        atoms_by_requirement.setdefault(parameter["requirement_id"], []).append(parameter)
+    derivations = []
+    failures = []
+    call_count = 0
+    skipped_source_complete = 0
+    attempted_requirement_ids = []
+    excluded_conflicting_input_requirement_count = 0
+    for domain in objects.get("period_domains", []):
+        requirement_id = domain["requirement_id"]
+        slot = slot_by_id[requirement_id]
+        if "derivation_node" not in slot["required_object_kinds"]:
+            continue
+        required_periods = sorted(domain["periods"])
+        direct_periods = sorted({row["numeric"]["period"]
+                                 for row in atoms_by_requirement.get(requirement_id, [])})
+        if direct_periods == required_periods:
+            skipped_source_complete += 1
+            continue
+        attempted_requirement_ids.append(requirement_id)
+        input_catalog = []
+        allowed_source_requirement_ids = set()
+        for source_requirement_id, candidates in sorted(atoms_by_requirement.items()):
+            if source_requirement_id == requirement_id:
+                continue
+            resolvable = True
+            for period in required_periods:
+                same_period = [row for row in candidates if row["numeric"]["period"] == period]
+                eligible = same_period or [row for row in candidates
+                                           if not str(row["numeric"]["period"]).isdigit()]
+                if (not eligible
+                        or len({row["numeric"]["decimal_value"] for row in eligible}) != 1):
+                    resolvable = False
+                    break
+            if not resolvable:
+                excluded_conflicting_input_requirement_count += 1
+                continue
+            allowed_source_requirement_ids.add(source_requirement_id)
+            input_catalog.append({
+                "source_requirement_id": source_requirement_id,
+                "description": slot_by_id.get(source_requirement_id, {}).get("description"),
+                "available_periods": sorted({row["numeric"]["period"] for row in candidates}),
+                "numeric_kinds": sorted({row["numeric"]["kind"] for row in candidates}),
+                "units": sorted({str(row["numeric"].get("unit") or "") for row in candidates}),
+                "input_kinds": sorted({"task_parameter" if row.get("parameter_id")
+                                       else "evidence_atom" for row in candidates}),
+            })
+        payload = {
+            "target_requirement": {"requirement_id": requirement_id,
+                                   "description": slot["description"],
+                                   "required_periods": required_periods,
+                                   "output_format": slot.get("output_format")},
+            "available_input_requirements": input_catalog,
+            "instruction": (
+                "Return at most one algebraic formula template only when the target description explicitly states "
+                "the calculation and the listed source requirements supply every needed input. Map each variable "
+                "name to one source_requirement_id exactly; never copy object IDs or numeric values. The expression "
+                "may use + - * / parentheses and numeric constants. Do not use the target requirement as its own "
+                "input, invent a legal rule, or fill a missing source requirement. The same formula must apply to "
+                "every required period. Deterministic code will bind exact same-period cells and recompute results."),
+        }
+        call_count += 1
+        result = _model_call(
+            gateway, "Select one requirement-aware annual derivation template.",
+            json.dumps(payload, ensure_ascii=False), 6000,
+            PERIOD_DERIVATION_TEMPLATE_OUTPUT,
+            "proofpress_period_derivation_template", 2)
+        if not result["ok"]:
+            return [], {"status": "inconclusive", "derivation_count": 0,
+                        "call_count": call_count,
+                        "attempted_requirement_ids": attempted_requirement_ids,
+                        "skipped_source_complete": skipped_source_complete,
+                        "excluded_conflicting_input_requirement_count":
+                            excluded_conflicting_input_requirement_count,
+                        "invariant_failures": failures,
+                        "failure": result["record"]}
+        templates = result["value"].get("templates", [])
+        if not templates:
+            failures.append("period_derivation:incomplete_period_set")
+            continue
+        template = templates[0]
+        sources = template.get("variable_requirement_ids") or {}
+        if (template.get("requirement_id") != requirement_id or not sources
+                or requirement_id in set(sources.values())
+                or any(source_id not in allowed_source_requirement_ids
+                       for source_id in sources.values())):
+            failures.append("period_derivation:invalid_template_route")
+            continue
+        planned = []
+        for period in required_periods:
+            bindings = {}
+            variables = {}
+            input_requirement_ids = {}
+            unresolved = False
+            for variable, source_requirement_id in sources.items():
+                candidates = atoms_by_requirement[source_requirement_id]
+                same_period = [row for row in candidates if row["numeric"]["period"] == period]
+                eligible = same_period or [row for row in candidates
+                                           if not str(row["numeric"]["period"]).isdigit()]
+                values = {row["numeric"]["decimal_value"] for row in eligible}
+                if not eligible or len(values) != 1:
+                    unresolved = True
+                    break
+                chosen = sorted(eligible, key=lambda row: row.get("atom_id")
+                                or row.get("parameter_id"))[0]
+                object_id = chosen.get("atom_id") or chosen.get("parameter_id")
+                bindings[variable] = object_id
+                variables[variable] = chosen["numeric"]["decimal_value"]
+                input_requirement_ids[variable] = source_requirement_id
+            if unresolved:
+                failures.append("period_derivation:missing_or_conflicting_period_input")
+                planned = []
+                break
+            try:
+                planned.append(build_exact_derivation(
+                    requirement_id=requirement_id,
+                    expression=template["expression"], variables=variables,
+                    input_bindings=bindings,
+                    input_requirement_ids=input_requirement_ids,
+                    numeric_atoms={row["atom_id"]: row for row in objects["numeric_atoms"]},
+                    task_parameters={row["parameter_id"]: row
+                                     for row in objects["task_parameters"]},
+                    output_unit=template["output_unit"], entity=template["entity"],
+                    period=period, round_places=template["round_places"]))
+            except (KeyError, TypeError, ValueError) as exc:
+                failures.append("period_derivation:template_validation_"
+                                + type(exc).__name__ + ":" + digest(str(exc))[-12:])
+                planned = []
+                break
+        if len(planned) != len(required_periods):
+            failures.append("period_derivation:incomplete_period_set")
+            continue
+        derivations.extend(planned)
+    return derivations, {"status": "ok", "derivation_count": len(derivations),
+                         "call_count": call_count,
+                         "attempted_requirement_ids": attempted_requirement_ids,
+                         "skipped_source_complete": skipped_source_complete,
+                         "excluded_conflicting_input_requirement_count":
+                             excluded_conflicting_input_requirement_count,
                          "invariant_failures": failures}
 
 
@@ -1073,7 +1296,7 @@ def _task_audit(gateways: dict[str, Gateway], task: dict[str, Any], index: Secti
         "period_column_selection": period_numeric_extraction,
         "general_selection": general_numeric_extraction,
         "priority_period_inventory_candidate_count":
-            period_numeric_extraction.get("inventory_candidate_count", 0),
+            period_numeric_extraction.get("complete_table_series_candidate_count", 0),
         "invariant_failures": [
             *period_numeric_extraction.get("invariant_failures", []),
             *general_numeric_extraction.get("invariant_failures", []),
@@ -1092,8 +1315,24 @@ def _task_audit(gateways: dict[str, Gateway], task: dict[str, Any], index: Secti
     authority_screens, authority_review_status = _review_authority_applicability(
         gateways["authority_reviewer"], slots, objects["authority_nodes"])
     failures.extend(authority_review_status.get("invariant_failures", []))
-    derivations, derivation_status = _plan_derivations(gateways["derivation"], slots, objects)
-    failures.extend(derivation_status.get("invariant_failures", []))
+    period_derivations, period_derivation_status = _plan_period_derivations(
+        gateways["derivation"], slots, objects)
+    period_requirement_ids = {row["slot_id"] for row in slots
+                              if row["slot_type"] == "value_by_period"}
+    general_derivations, general_derivation_status = _plan_derivations(
+        gateways["derivation"],
+        [row for row in slots if row["slot_id"] not in period_requirement_ids], objects)
+    derivations = [*period_derivations, *general_derivations]
+    derivation_status = {
+        "status": ("ok" if period_derivation_status["status"] == "ok"
+                   and general_derivation_status["status"] == "ok" else "inconclusive"),
+        "derivation_count": len(derivations),
+        "period": period_derivation_status,
+        "general": general_derivation_status,
+        "invariant_failures": [*period_derivation_status.get("invariant_failures", []),
+                               *general_derivation_status.get("invariant_failures", [])],
+    }
+    failures.extend(derivation_status["invariant_failures"])
     plan = bind_candidate_objects(
         plan, evidence_atoms=[*objects["evidence_atoms"], *objects["numeric_atoms"]],
         authority_nodes=objects["authority_nodes"], derivations=derivations,

@@ -188,6 +188,172 @@ def extract_period_domain_candidates(text: str) -> list[dict[str, Any]]:
     return rows
 
 
+def extract_tabular_schedule_series(text: str) -> list[dict[str, Any]]:
+    """Inventory exact TSV schedule series with deterministic cell coordinates.
+
+    The private APEX catalog preserves table cells with tab delimiters.  This
+    inventory supports periods down the first column and periods across a
+    header row.  It performs no semantic selection and grants no governance
+    status; a later stage may only select a content-addressed series candidate.
+    """
+    if not isinstance(text, str):
+        raise ValueError("tabular schedule inventory input must be text")
+    if not text:
+        return []
+
+    line_rows: list[dict[str, Any]] = []
+    offset = 0
+    for raw_line in text.splitlines(keepends=True):
+        content = raw_line.rstrip("\r\n")
+        line_rows.append({"start": offset, "end": offset + len(content),
+                          "text": content, "tabular": "\t" in content})
+        offset += len(raw_line)
+    if offset < len(text):
+        content = text[offset:]
+        line_rows.append({"start": offset, "end": len(text),
+                          "text": content, "tabular": "\t" in content})
+
+    groups: list[list[dict[str, Any]]] = []
+    current: list[dict[str, Any]] = []
+    for line in line_rows:
+        if line["tabular"]:
+            current.append(line)
+        elif current:
+            groups.append(current)
+            current = []
+    if current:
+        groups.append(current)
+
+    def cells_for(line: dict[str, Any], table_start: int) -> list[dict[str, Any]]:
+        cells = []
+        cursor = 0
+        for raw in line["text"].split("\t"):
+            leading = len(raw) - len(raw.lstrip())
+            trailing = len(raw.rstrip())
+            start = line["start"] - table_start + cursor + leading
+            end = line["start"] - table_start + cursor + trailing
+            cells.append({"text": raw.strip(), "span": {"start": start, "end": end}})
+            cursor += len(raw) + 1
+        return cells
+
+    def exact_number(cell: dict[str, Any]) -> dict[str, Any] | None:
+        value = cell["text"]
+        inventory = extract_numeric_candidates(value)
+        if len(inventory) != 1:
+            return None
+        candidate = inventory[0]
+        if ((candidate["start"], candidate["end"]) != (0, len(value))
+                or candidate.get("normalized_value") is None):
+            return None
+        return candidate
+
+    output: list[dict[str, Any]] = []
+    seen: set[str] = set()
+    for group in groups:
+        table_start = group[0]["start"]
+        table_end = group[-1]["end"]
+        table_excerpt = text[table_start:table_end]
+        parsed = [{"line_index": index, "cells": cells_for(line, table_start)}
+                  for index, line in enumerate(group)]
+        table_basis = {"exact_excerpt": table_excerpt, "line_count": len(parsed)}
+        table_id = "table_candidate_" + digest(table_basis).split(":", 1)[1][:20]
+
+        period_rows = [row for row in parsed
+                       if row["cells"] and _PERIOD.fullmatch(row["cells"][0]["text"])]
+        if len(period_rows) >= 2:
+            first_index = min(row["line_index"] for row in period_rows)
+            header = parsed[first_index - 1] if first_index else None
+            if header is not None:
+                width = min(len(header["cells"]), *(len(row["cells"]) for row in period_rows))
+                for column_index in range(1, width):
+                    label_cell = header["cells"][column_index]
+                    if not label_cell["text"]:
+                        continue
+                    values = []
+                    for row in period_rows:
+                        period_cell = row["cells"][0]
+                        value_cell = row["cells"][column_index]
+                        numeric = exact_number(value_cell)
+                        if numeric is None:
+                            values = []
+                            break
+                        values.append({"period": period_cell["text"],
+                                       "display": value_cell["text"],
+                                       "kind_hint": numeric["kind_hint"],
+                                       "normalized_value": numeric["normalized_value"],
+                                       "period_span": period_cell["span"],
+                                       "value_span": value_cell["span"],
+                                       "row_index": row["line_index"],
+                                       "column_index": column_index})
+                    if len(values) < 2:
+                        continue
+                    basis = {"table_candidate_id": table_id,
+                             "orientation": "period_rows",
+                             "label": label_cell["text"],
+                             "label_span": label_cell["span"],
+                             "period_values": values}
+                    series_id = "table_series_" + digest(basis).split(":", 1)[1][:20]
+                    if series_id not in seen:
+                        output.append({"series_candidate_id": series_id,
+                                       "table_candidate_id": table_id,
+                                       "orientation": "period_rows",
+                                       "exact_excerpt": table_excerpt,
+                                       "label": label_cell["text"],
+                                       "label_span": label_cell["span"],
+                                       "period_values": values})
+                        seen.add(series_id)
+
+        for header in parsed:
+            period_columns = [(index, cell) for index, cell in enumerate(header["cells"])
+                              if _PERIOD.fullmatch(cell["text"])]
+            if len(period_columns) < 2:
+                continue
+            first_period_column = min(index for index, _ in period_columns)
+            if first_period_column < 1:
+                continue
+            for row in parsed[header["line_index"] + 1:]:
+                if len(row["cells"]) <= max(index for index, _ in period_columns):
+                    continue
+                label_cells = [cell for cell in row["cells"][:first_period_column]
+                               if cell["text"]]
+                if not label_cells:
+                    continue
+                values = []
+                for column_index, period_cell in period_columns:
+                    value_cell = row["cells"][column_index]
+                    numeric = exact_number(value_cell)
+                    if numeric is None:
+                        values = []
+                        break
+                    values.append({"period": period_cell["text"],
+                                   "display": value_cell["text"],
+                                   "kind_hint": numeric["kind_hint"],
+                                   "normalized_value": numeric["normalized_value"],
+                                   "period_span": period_cell["span"],
+                                   "value_span": value_cell["span"],
+                                   "row_index": row["line_index"],
+                                   "column_index": column_index})
+                if len(values) < 2:
+                    continue
+                label_span = {"start": label_cells[0]["span"]["start"],
+                              "end": label_cells[-1]["span"]["end"]}
+                label = table_excerpt[label_span["start"]:label_span["end"]]
+                basis = {"table_candidate_id": table_id,
+                         "orientation": "period_columns",
+                         "label": label, "label_span": label_span,
+                         "period_values": values}
+                series_id = "table_series_" + digest(basis).split(":", 1)[1][:20]
+                if series_id not in seen:
+                    output.append({"series_candidate_id": series_id,
+                                   "table_candidate_id": table_id,
+                                   "orientation": "period_columns",
+                                   "exact_excerpt": table_excerpt,
+                                   "label": label, "label_span": label_span,
+                                   "period_values": values})
+                    seen.add(series_id)
+    return output
+
+
 def validate_numeric_atom(atom: dict[str, Any],
                           receipts: dict[str, dict[str, Any]]) -> dict[str, Any]:
     """Validate a number-specialized evidence atom against exact custody."""
@@ -214,6 +380,33 @@ def validate_numeric_atom(atom: dict[str, Any],
         raise ValueError("numeric evidence atom has an invalid candidate status")
     if checked.get("admission_authority") not in (None, False):
         raise ValueError("numeric evidence atom cannot carry admission authority")
+    table_binding = checked.get("table_cell_binding")
+    if table_binding is not None:
+        if not isinstance(table_binding, dict):
+            raise ValueError("numeric table cell binding must be an object")
+        expected = {"table_candidate_id", "series_candidate_id", "orientation",
+                    "row_index", "column_index", "label_span", "period_span", "value_span"}
+        if not expected.issubset(table_binding):
+            raise ValueError("numeric table cell binding is incomplete")
+        excerpt = checked["exact_excerpt"]
+        for label, value in (("label", table_binding["label_span"]),
+                             ("period", table_binding["period_span"]),
+                             ("value", table_binding["value_span"])):
+            if (not isinstance(value, dict) or not isinstance(value.get("start"), int)
+                    or not isinstance(value.get("end"), int)
+                    or not 0 <= value["start"] < value["end"] <= len(excerpt)):
+                raise ValueError(f"numeric table {label} span is invalid")
+        if excerpt[table_binding["label_span"]["start"]:table_binding["label_span"]["end"]] != checked["subject"]:
+            raise ValueError("numeric table label span disagrees with subject")
+        if excerpt[table_binding["period_span"]["start"]:table_binding["period_span"]["end"]] != numeric["period"]:
+            raise ValueError("numeric table period span disagrees with period")
+        if excerpt[table_binding["value_span"]["start"]:table_binding["value_span"]["end"]] != numeric["display"]:
+            raise ValueError("numeric table value span disagrees with display")
+        expected_bindings = {"subject": table_binding["label_span"],
+                             "predicate": table_binding["period_span"],
+                             "value": table_binding["value_span"]}
+        if checked.get("field_bindings") != expected_bindings:
+            raise ValueError("numeric table field bindings disagree with cell coordinates")
     return checked
 
 
@@ -271,19 +464,26 @@ def bind_numeric_atom(payload: dict[str, Any],
     display = payload["display"]
     values = {"subject": payload["subject"], "predicate": payload["predicate"],
               "value": display}
+    table_binding = payload.get("table_cell_binding")
+    field_bindings = (_exact_field_bindings(excerpt, values) if table_binding is None else
+                      {"subject": table_binding.get("label_span"),
+                       "predicate": table_binding.get("period_span"),
+                       "value": table_binding.get("value_span")})
     basis = {"requirement_id": payload["requirement_id"], "evidence_id": payload["evidence_id"],
              "receipt_digest": receipt.get("receipt_digest"), **values,
              "effective_date": payload.get("effective_date"),
              "qualification": payload.get("qualification"),
              "document_version": str(payload.get("document_version") or "unknown"),
              "exact_excerpt": excerpt, "locator": receipt.get("locator"),
-             "support_mode": "explicit", "field_bindings": _exact_field_bindings(excerpt, values),
+             "support_mode": "explicit", "field_bindings": field_bindings,
              "status": "not_governed_candidate", "admission_authority": False,
              "numeric": {"display": display,
                          "decimal_value": normalize_numeric_text(display),
                          "kind": payload["kind"], "currency": payload.get("currency"),
                          "unit": str(payload.get("unit") or ""), "entity": payload["entity"],
                          "period": payload["period"], "precision": payload["precision"]}}
+    if table_binding is not None:
+        basis["table_cell_binding"] = table_binding
     atom = {"schema_version": ATOM_SCHEMA,
             "atom_id": "atom_" + digest(basis).split(":", 1)[1][:20], **basis}
     return validate_numeric_atom(atom, receipts)
