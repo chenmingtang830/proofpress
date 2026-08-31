@@ -30,6 +30,7 @@ from exact_knowledge_contract import (
 from run_claim_construction_private import Gateway, SectionIndex, _model_call
 from run_model_routing_qualification_private import terminal_telemetry
 from run_v10_construction_qualification_private import retrieve
+from build_official_authority_catalog_private import CATALOG_SCHEMA as AUTHORITY_CATALOG_SCHEMA
 
 
 SCHEMA = "proofpress/exact-knowledge-stage-a/v1"
@@ -124,6 +125,10 @@ AUTHORITY_PAYLOAD = {
         "exact_excerpt": {"type": "string", "maxLength": 2000},
     },
 }
+AUTHORITY_OUTPUT = {"type": "object", "additionalProperties": False,
+                    "required": ["authority_nodes"],
+                    "properties": {"authority_nodes": {"type": "array", "maxItems": 48,
+                                                           "items": AUTHORITY_PAYLOAD}}}
 EXTRACTION_OUTPUT = {
     "type": "object", "additionalProperties": False,
     "required": ["evidence_atoms", "numeric_atoms", "task_parameters", "authority_nodes"],
@@ -212,6 +217,30 @@ def _source_requirements(slots: list[dict[str, Any]]) -> list[dict[str, Any]]:
             for row in slots if row["slot_type"] != "output_structure"]
 
 
+def _authority_requirements(slots: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    return [{"requirement_id": row["slot_id"], "requirement": row["description"],
+             "evidence_search_queries": row["search_queries"]}
+            for row in slots if "authority_node" in row["required_object_kinds"]]
+
+
+def _merge_retrieval(primary_receipts: dict[str, dict[str, Any]],
+                     primary_audit: list[dict[str, Any]],
+                     added_receipts: dict[str, dict[str, Any]],
+                     added_audit: list[dict[str, Any]]) -> tuple[dict[str, dict[str, Any]], list[dict[str, Any]]]:
+    receipts = {**primary_receipts, **added_receipts}
+    by_requirement = {row["requirement_id"]: dict(row) for row in primary_audit}
+    for row in added_audit:
+        existing = by_requirement.setdefault(row["requirement_id"], {
+            "requirement_id": row["requirement_id"], "evidence_ids": [],
+            "ranked_section_count": 0, "considered_document_count": 0})
+        existing["evidence_ids"] = list(dict.fromkeys(
+            [*existing.get("evidence_ids", []), *row.get("evidence_ids", [])]))
+        existing["ranked_section_count"] += row.get("ranked_section_count", 0)
+        existing["considered_document_count"] += row.get("considered_document_count", 0)
+        existing["controlled_authority_section_count"] = row.get("ranked_section_count", 0)
+    return receipts, [by_requirement[key] for key in sorted(by_requirement)]
+
+
 def _extract(gateway: Gateway, task: dict[str, Any], slots: list[dict[str, Any]],
              receipts: dict[str, dict[str, Any]], audit: list[dict[str, Any]]) -> tuple[dict[str, Any], dict[str, Any]]:
     by_slot = {row["requirement_id"]: row for row in audit}
@@ -221,7 +250,8 @@ def _extract(gateway: Gateway, task: dict[str, Any], slots: list[dict[str, Any]]
             receipt = receipts[evidence_id]
             selected.append({"requirement_id": slot["slot_id"], "evidence_id": evidence_id,
                              "quote": receipt["quote"][:1800], "locator": receipt["locator"],
-                             "receipt_digest": receipt["receipt_digest"]})
+                             "receipt_digest": receipt["receipt_digest"],
+                             "authority_metadata": (receipt.get("source") or {}).get("official_authority")})
     payload = {
         "task_prompt": task["prompt"],
         "prompt_numeric_inventory": extract_numeric_candidates(task["prompt"]),
@@ -232,7 +262,9 @@ def _extract(gateway: Gateway, task: dict[str, Any], slots: list[dict[str, Any]]
             "subject, predicate, value/display must each be exact substrings of exact_excerpt, which itself must be an "
             "exact receipt substring. Task parameters may use only numeric text explicitly present in the task prompt and "
             "must be assumptions or requested scope, never matter evidence. Authority citation must be an exact substring "
-            "of its receipt excerpt; do not confirm that it is controlling. Assign every object to its responsive slot. "
+            "of its receipt excerpt. For an official authority receipt, copy jurisdiction, effective_on, authority_level, "
+            "and one canonical_citations value exactly from authority_metadata; do not independently upgrade its level or "
+            "confirm that it controls the matter. Assign every object to its responsive slot. "
             "Do not infer missing values, calculate results, admit knowledge, or use rubric/gold/silver data."),
     }
     result = _model_call(gateway, "Extract exact typed candidate knowledge with source fidelity.",
@@ -245,12 +277,79 @@ def _extract(gateway: Gateway, task: dict[str, Any], slots: list[dict[str, Any]]
 
 def _authority(raw: dict[str, Any], receipts: dict[str, dict[str, Any]]) -> dict[str, Any]:
     receipt = receipts[raw["evidence_id"]]
+    metadata = (receipt.get("source") or {}).get("official_authority")
+    if isinstance(metadata, dict):
+        for key, source_key in (("jurisdiction", "jurisdiction"),
+                                ("effective_date", "effective_on"),
+                                ("authority_level", "authority_level")):
+            expected = metadata.get(source_key)
+            if raw.get(key) and raw[key] != expected:
+                raise ValueError("authority extraction disagrees with controlled source metadata")
+            raw[key] = expected
     basis = {**raw, "receipt_digest": receipt["receipt_digest"], "locator": receipt["locator"],
              "status": "not_governed_candidate", "normative_authority_confirmed": False,
              "admission_authority": False}
     node = {"schema_version": AUTHORITY_NODE_SCHEMA,
             "authority_id": "authority_" + digest(basis).split(":", 1)[1][:20], **basis}
     return validate_authority_node(node, receipts)
+
+
+def _extract_authorities(gateway: Gateway, slots: list[dict[str, Any]],
+                         receipts: dict[str, dict[str, Any]],
+                         audit: list[dict[str, Any]]) -> tuple[list[dict[str, Any]], dict[str, Any]]:
+    by_slot = {row["requirement_id"]: row for row in audit}
+    selected = []
+    for slot in slots:
+        if "authority_node" not in slot["required_object_kinds"]:
+            continue
+        count = 0
+        for evidence_id in by_slot.get(slot["slot_id"], {}).get("evidence_ids", []):
+            receipt = receipts[evidence_id]
+            metadata = (receipt.get("source") or {}).get("official_authority")
+            if not isinstance(metadata, dict):
+                continue
+            selected.append({"requirement_id": slot["slot_id"], "requirement": slot["description"],
+                             "evidence_id": evidence_id, "quote": receipt["quote"][:3000],
+                             "locator": receipt["locator"], "receipt_digest": receipt["receipt_digest"],
+                             "authority_metadata": metadata})
+            count += 1
+            if count >= 4:
+                break
+    if not selected:
+        return [], {"status": "ok", "authority_candidate_count": 0,
+                    "official_receipt_count": 0}
+    payload = {"official_authority_receipts": selected,
+               "instruction": (
+                   "Construct only source-bound authority candidates responsive to each requirement. Copy evidence_id, "
+                   "jurisdiction, effective_on into effective_date, authority_level, and one canonical_citations value "
+                   "exactly from that receipt's authority_metadata. The citation must also appear in exact_excerpt, and "
+                   "exact_excerpt must be copied from quote. State a narrow proposition supported by that excerpt. "
+                   "Do not claim the candidate controls the matter, do not apply it to facts, and do not admit it.")}
+    result = _model_call(gateway, "Extract narrow candidates from controlled official authority receipts.",
+                         json.dumps(payload, ensure_ascii=False), 16000,
+                         AUTHORITY_OUTPUT, "proofpress_controlled_authority_candidates", 2)
+    if not result["ok"]:
+        return [], {"status": "inconclusive", "failure": result["record"]}
+    return result["value"].get("authority_nodes", []), {
+        "status": "ok", "authority_candidate_count": len(result["value"].get("authority_nodes", [])),
+        "official_receipt_count": len(selected)}
+
+
+def _frozen_slots(task: dict[str, Any], frozen_plan_dir: Path) -> tuple[list[dict[str, Any]], dict[str, Any]]:
+    source = json.loads((frozen_plan_dir / f'{task["task_id"]}.json').read_text())
+    if source.get("task", {}).get("task_id") != task["task_id"]:
+        raise ValueError("frozen requirement plan task mismatch")
+    slots = []
+    for row in source["plan"]["slots"]:
+        slots.append({key: row[key] for key in ("slot_id", "slot_type", "description", "exactness",
+                                                 "expected_periods", "required_object_kinds", "output_format")})
+        slots[-1]["search_queries"] = [row["description"]]
+    plan_slots = [{key: row[key] for key in ("slot_id", "slot_type", "description", "exactness",
+                                              "expected_periods", "required_object_kinds", "output_format")}
+                  for row in slots]
+    compile_requirement_plan(task["prompt"], plan_slots, output_type=task["expected_output"])
+    return slots, {"status": "ok", "slot_count": len(slots), "frozen_plan": True,
+                   "source_plan_digest": source["plan"]["plan_digest"]}
 
 
 def _validated_objects(task: dict[str, Any], slots: list[dict[str, Any]], value: dict[str, Any],
@@ -264,9 +363,42 @@ def _validated_objects(task: dict[str, Any], slots: list[dict[str, Any]], value:
         ("task_parameters", lambda row: bind_task_numeric_parameter(task["prompt"], row)),
         ("authority_nodes", lambda row: _authority(row, receipts)),
     )
+
+    def repair_excerpt(label: str, raw: dict[str, Any]) -> dict[str, Any]:
+        if label not in {"evidence_atoms", "numeric_atoms"}:
+            return raw
+        receipt = receipts.get(raw.get("evidence_id"))
+        quote = str((receipt or {}).get("quote") or "")
+        excerpt = str(raw.get("exact_excerpt") or "")
+        if excerpt and excerpt in quote:
+            return raw
+        value_key = "display" if label == "numeric_atoms" else "value"
+        fields = [str(raw.get(key) or "") for key in ("subject", "predicate", value_key)]
+        positions = [(quote.find(field), len(field)) for field in fields if field]
+        if len(positions) == 3 and all(start >= 0 for start, _ in positions):
+            start = min(row[0] for row in positions)
+            end = max(row[0] + row[1] for row in positions)
+            if end - start <= 1600:
+                return {**raw, "exact_excerpt": quote[start:end]}
+        return raw
+
+    def failure_code(exc: Exception) -> str:
+        message = str(exc)
+        codes = {
+            "not present in the exact excerpt": "field_not_exact",
+            "exact excerpt is not receipt-bound": "excerpt_not_receipt_bound",
+            "numeric value is not decimal-compatible": "numeric_not_decimal_compatible",
+            "required fields are missing": "required_fields_missing",
+            "controlled source metadata": "controlled_metadata_mismatch",
+            "outside the controlled source metadata": "controlled_citation_mismatch",
+        }
+        return next((code for fragment, code in codes.items() if fragment in message),
+                    "other_validation_failure")
+
     for label, builder in builders:
         seen = set()
         for raw in value.get(label, []):
+            raw = repair_excerpt(label, raw)
             if raw.get("requirement_id") not in known:
                 failures.append(f"{label}:unknown_requirement"); continue
             try:
@@ -275,7 +407,7 @@ def _validated_objects(task: dict[str, Any], slots: list[dict[str, Any]], value:
                 if object_id not in seen:
                     result[label].append(built); seen.add(object_id)
             except (KeyError, TypeError, ValueError) as exc:
-                failures.append(f"{label}:{type(exc).__name__}:{digest(str(exc))[-12:]}")
+                failures.append(f"{label}:{failure_code(exc)}:{digest(str(exc))[-12:]}")
     return result, failures
 
 
@@ -316,9 +448,11 @@ def _plan_derivations(gateway: Gateway, slots: list[dict[str, Any]], objects: di
 
 
 def _task_audit(gateways: dict[str, Gateway], task: dict[str, Any], index: SectionIndex,
-                raw_dir: Path) -> dict[str, Any]:
+                raw_dir: Path, authority_index: SectionIndex | None = None,
+                frozen_plan_dir: Path | None = None) -> dict[str, Any]:
     started = time.monotonic()
-    slots, compiler = _compile(gateways["compiler"], task)
+    slots, compiler = (_frozen_slots(task, frozen_plan_dir) if frozen_plan_dir
+                       else _compile(gateways["compiler"], task))
     if compiler["status"] != "ok":
         return {"task_id": task["task_id"], "status": "inconclusive", "compiler": compiler}
     plan_slots = [{key: row[key] for key in ("slot_id", "slot_type", "description", "exactness",
@@ -327,10 +461,22 @@ def _task_audit(gateways: dict[str, Gateway], task: dict[str, Any], index: Secti
     plan = compile_requirement_plan(task["prompt"], plan_slots, output_type=task["expected_output"])
     receipts, audit = retrieve(_source_requirements(slots), index, max_sections=8,
                                mode="multiquery_rrf")
+    if authority_index is not None:
+        authority_receipts, authority_audit = retrieve(
+            _authority_requirements(slots), authority_index, max_sections=12,
+            mode="multiquery_rrf")
+        receipts, audit = _merge_retrieval(receipts, audit, authority_receipts, authority_audit)
     extracted, extraction = _extract(gateways["extractor"], task, slots, receipts, audit)
     if extraction["status"] != "ok":
         return {"task_id": task["task_id"], "status": "inconclusive",
                 "compiler": compiler, "extraction": extraction}
+    authority_raw, authority_extraction = _extract_authorities(
+        gateways["authority"], slots, receipts, audit) if authority_index is not None else ([], {"status": "ok"})
+    if authority_extraction["status"] != "ok":
+        return {"task_id": task["task_id"], "status": "inconclusive",
+                "compiler": compiler, "extraction": extraction,
+                "authority_extraction": authority_extraction}
+    extracted["authority_nodes"] = [*extracted.get("authority_nodes", []), *authority_raw]
     objects, failures = _validated_objects(task, slots, extracted, receipts)
     derivations, derivation_status = _plan_derivations(gateways["derivation"], slots, objects)
     failures.extend(derivation_status.get("invariant_failures", []))
@@ -353,6 +499,7 @@ def _task_audit(gateways: dict[str, Gateway], task: dict[str, Any], index: Secti
                "retrieval_audit": audit, "objects": objects, "derivations": derivations,
                "readiness": readiness, "invariant_failures": failures,
                "stage_status": {"compiler": compiler, "extraction": extraction,
+                                "authority_extraction": authority_extraction,
                                 "derivation": derivation_status}}
     target = raw_dir / f'{task["task_id"]}.json'
     target.write_text(json.dumps(private, ensure_ascii=False, indent=2, sort_keys=True) + "\n")
@@ -400,6 +547,8 @@ def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--claim-raw", required=True, type=Path)
     parser.add_argument("--catalog", required=True, type=Path)
+    parser.add_argument("--authority-catalog", type=Path)
+    parser.add_argument("--frozen-plan-dir", type=Path)
     parser.add_argument("--gateway-server", required=True)
     parser.add_argument("--out", required=True, type=Path)
     parser.add_argument("--budget-usd", type=float, default=15.0)
@@ -408,21 +557,35 @@ def main() -> None:
     tasks = _load_tasks(args.claim_raw)
     catalog = json.loads(args.catalog.read_text())
     index = SectionIndex(catalog)
+    authority_catalog = None
+    authority_index = None
+    if args.authority_catalog:
+        authority_catalog = json.loads(args.authority_catalog.read_text())
+        if authority_catalog.get("schema_version") != AUTHORITY_CATALOG_SCHEMA:
+            raise ValueError("official authority catalog schema is required")
+        authority_index = SectionIndex(authority_catalog)
     args.out.mkdir(parents=True, exist_ok=True); args.out.chmod(0o700)
     raw_dir = args.out / "raw"; raw_dir.mkdir(exist_ok=True); raw_dir.chmod(0o700)
     gateways = {role: Gateway(args.gateway_server, ROUTE["model"], ROUTE["provider"],
                               args.out, args.timeout, ROUTE["reasoning"], structured_output=True)
-                for role in ("compiler", "extractor", "derivation")}
+                for role in ("compiler", "extractor", "authority", "derivation")}
     summaries = []
     try:
         for task in tasks:
-            summaries.append(_task_audit(gateways, task, index, raw_dir))
+            summaries.append(_task_audit(gateways, task, index, raw_dir, authority_index,
+                                         args.frozen_plan_dir))
             if terminal_telemetry(gateways)["known_cost_usd"] > args.budget_usd:
                 raise RuntimeError("Stage A exceeded the hard model budget")
     finally:
         for gateway in gateways.values():
             gateway.stop()
     telemetry = terminal_telemetry(gateways)
+    frozen_plan_digest = None
+    if args.frozen_plan_dir:
+        frozen_plan_digest = digest([
+            json.loads((args.frozen_plan_dir / f"{task_id}.json").read_text())["plan"]["plan_digest"]
+            for task_id in TASK_IDS
+        ])
     serialized = json.dumps(summaries, ensure_ascii=False, sort_keys=True)
     leaked = []
     for task in tasks:
@@ -439,12 +602,15 @@ def main() -> None:
     output_slots_valid = all(sum(slot["slot_type"] == "output_structure" for slot in row["slots"]) == 1
                              for row in completed)
     qualification = ("pass" if len(completed) == len(TASK_IDS) and not invalid and not leaked
-                     and output_slots_valid and not telemetry["missing_cost_calls"] else "inconclusive")
+                     and output_slots_valid and not telemetry["missing_cost_calls"]
+                     and not telemetry["missing_token_calls"] else "inconclusive")
     report = {"schema_version": SCHEMA,
               "boundary": ("Five-task prompt-only exact-knowledge substrate audit without an answer executor. "
                            "All objects remain not_governed candidates; Human Approval is the only admission path."),
               "task_ids": list(TASK_IDS), "task_input_digest": digest(tasks),
               "catalog_digest": digest(catalog), "route": ROUTE, "tasks": summaries,
+              "authority_catalog_digest": (authority_catalog or {}).get("catalog_digest"),
+              "frozen_plan_dir_digest": frozen_plan_digest,
               "denominators": {"tasks": len(summaries), "completed_tasks": len(completed),
                                "slots": sum(row.get("slot_count", 0) for row in completed),
                                "candidate_covered_slots": sum(row.get("candidate_coverage", 0) for row in completed),
@@ -464,6 +630,7 @@ def main() -> None:
                                 "invalid_binding_gate": invalid == 0,
                                 "privacy_gate": not leaked,
                                 "cost_completeness_gate": not telemetry["missing_cost_calls"],
+                                "token_completeness_gate": not telemetry["missing_token_calls"],
                                 "gaps_allowed_and_explicit": True},
               "raw_private_dir": str(raw_dir)}
     (args.out / "sanitized-report.json").write_text(

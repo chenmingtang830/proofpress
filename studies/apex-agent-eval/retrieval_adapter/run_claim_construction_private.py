@@ -599,8 +599,10 @@ def _evidence(requirement_id: str, hit: dict[str, Any], query: str) -> dict[str,
     evidence_id = "ev_" + hashlib.sha256(
         (section["representation_digest"] + "\n" + section["id"]).encode()
     ).hexdigest()[:20]
-    receipt = {"evidence_id": evidence_id, "source": {
-        "uri": source["uri"], "content_digest": source["content_digest"], "media_type": source["media_type"]},
+    source_record = {key: source[key] for key in
+                     ("uri", "content_digest", "media_type", "official_authority")
+                     if key in source}
+    receipt = {"evidence_id": evidence_id, "source": source_record,
         "representation_digest": section["representation_digest"],
         "quote": section.get("text", ""),
         "locator": {"kind": "section_span", "section_id": section["id"],

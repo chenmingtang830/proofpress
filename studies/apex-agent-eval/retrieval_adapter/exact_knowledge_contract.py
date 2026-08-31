@@ -11,6 +11,7 @@ from copy import deepcopy
 from decimal import Decimal, InvalidOperation
 import re
 from typing import Any, Iterable
+from urllib.parse import urlparse
 
 from governed_workflow_contract import ATOM_SCHEMA, digest, validate_atom
 from open_discovery_private import calculate_derivation
@@ -38,12 +39,16 @@ PRECISION_STATES = {"exact", "rounded", "estimated", "disputed"}
 EXACTNESS_STATES = {"exact", "bounded", "qualitative"}
 NUMERIC_KINDS = {"currency", "percentage", "year", "count", "decimal"}
 AUTHORITY_LEVELS = {"statute", "regulation", "case", "administrative", "secondary"}
+OFFICIAL_AUTHORITY_HOSTS = {
+    "ecfr.gov", "www.ecfr.gov", "govinfo.gov", "www.govinfo.gov",
+    "irs.gov", "www.irs.gov", "uscode.house.gov",
+}
 
 _NUMBER = re.compile(
-    r"(?P<currency>(?:[$€£])\s*\(?[+-]?(?:\d{1,3}(?:,\d{3})+|\d+)(?:\.\d+)?\)?)"
+    r"(?P<currency>(?:[$€£])\s*\(?[+-]?(?:\d{1,3}(?:,\d{3})+|\d+)(?:\.\d+)?(?:[kKmMbB])?\)?)"
     r"|(?P<percentage>\(?[+-]?(?:\d{1,3}(?:,\d{3})+|\d+)(?:\.\d+)?\s*%\)?)"
     r"|(?P<year>\b(?:19|20)\d{2}\b)"
-    r"|(?P<number>\b[+-]?(?:\d{1,3}(?:,\d{3})+|\d+)(?:\.\d+)?\b)"
+    r"|(?P<number>\b[+-]?(?:\d{1,3}(?:,\d{3})+|\d+)(?:\.\d+)?(?:[kKmMbB])?\b)"
 )
 
 
@@ -73,7 +78,12 @@ def normalize_numeric_text(raw_text: str) -> str:
         value = value[1:-1].strip()
     value = re.sub(r"^[$€£]\s*", "", value)
     value = re.sub(r"\s*%$", "", value)
-    normalized = _decimal_text(value)
+    multiplier = Decimal(1)
+    if value and value[-1:] in "kKmMbB":
+        multiplier = {"k": Decimal(1_000), "m": Decimal(1_000_000),
+                      "b": Decimal(1_000_000_000)}[value[-1].lower()]
+        value = value[:-1]
+    normalized = _decimal_text(Decimal(_decimal_text(value)) * multiplier)
     if negative_parentheses and not normalized.startswith("-") and normalized != "0":
         normalized = "-" + normalized
     return normalized
@@ -260,6 +270,23 @@ def validate_authority_node(node: dict[str, Any],
         raise ValueError("authority text is not bound to valid custody")
     if node["citation"] not in node["exact_excerpt"]:
         raise ValueError("authority citation is not present in the exact excerpt")
+    metadata = (receipt.get("source") or {}).get("official_authority")
+    if metadata is not None:
+        if not isinstance(metadata, dict) or metadata.get("official") is not True:
+            raise ValueError("controlled authority metadata is invalid")
+        host = urlparse(str((receipt.get("source") or {}).get("uri") or "")).hostname
+        if host not in OFFICIAL_AUTHORITY_HOSTS:
+            raise ValueError("controlled authority source host is not allowed")
+        expected = {
+            "jurisdiction": metadata.get("jurisdiction"),
+            "effective_date": metadata.get("effective_on"),
+            "authority_level": metadata.get("authority_level"),
+        }
+        if any(node.get(key) != value for key, value in expected.items()):
+            raise ValueError("authority node disagrees with controlled source metadata")
+        citations = metadata.get("canonical_citations")
+        if not isinstance(citations, list) or node["citation"] not in citations:
+            raise ValueError("authority citation is outside the controlled source metadata")
     if node.get("normative_authority_confirmed") is not False:
         raise ValueError("candidate authority cannot self-confirm normativity")
     if node.get("admission_authority") is not False:

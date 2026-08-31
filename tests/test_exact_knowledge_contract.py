@@ -65,6 +65,12 @@ class ExactKnowledgeContractTests(unittest.TestCase):
         self.assertEqual([text[row["start"]:row["end"]] for row in rows],
                          ["$18,486", "26%", "2024"])
 
+    def test_numeric_inventory_and_normalization_preserve_shorthand_scale(self):
+        text = "Purchase was $350k and sale was $1.2M."
+        rows = exact.extract_numeric_candidates(text)
+        self.assertEqual([row["raw_text"] for row in rows], ["$350k", "$1.2M"])
+        self.assertEqual([row["normalized_value"] for row in rows], ["350000", "1200000"])
+
     def test_numeric_atom_requires_exact_value_entity_period_and_currency(self):
         checked = exact.validate_numeric_atom(self.atom(), {"E1": self.receipt()})
         self.assertEqual(checked["numeric"]["decimal_value"], "18486")
@@ -134,6 +140,23 @@ class ExactKnowledgeContractTests(unittest.TestCase):
             exact.validate_authority_node({**node, "normative_authority_confirmed": True}, receipts)
         with self.assertRaisesRegex(ValueError, "admission"):
             exact.validate_authority_node({**node, "admission_authority": True}, receipts)
+
+    def test_controlled_authority_must_match_official_source_metadata(self):
+        node, receipts = self.authority()
+        receipts["E2"]["source"] = {
+            "uri": "https://www.ecfr.gov/api/versioner/v1/full/2019-02-19/title-26.xml",
+            "official_authority": {"official": True, "jurisdiction": "federal",
+                                   "effective_on": "2019-02-19",
+                                   "authority_level": "regulation",
+                                   "canonical_citations": ["Treas. Reg. § 1.1362-6"]}}
+        node["effective_date"] = "2019-02-19"
+        self.assertEqual(exact.validate_authority_node(node, receipts)["authority_level"],
+                         "regulation")
+        with self.assertRaisesRegex(ValueError, "controlled source metadata"):
+            exact.validate_authority_node({**node, "authority_level": "statute"}, receipts)
+        receipts["E2"]["source"]["official_authority"]["canonical_citations"] = ["26 CFR 1.1362-6"]
+        with self.assertRaisesRegex(ValueError, "outside the controlled"):
+            exact.validate_authority_node(node, receipts)
 
     def plan(self):
         return exact.compile_requirement_plan(

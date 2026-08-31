@@ -117,6 +117,8 @@ const server = http.createServer(async (req, res) => {
         })
       : await generateText(common);
     const usage = result.usage || {};
+    const inputDetails = usage.inputTokenDetails || {};
+    const outputDetails = usage.outputTokenDetails || {};
     const metadata = result.providerMetadata?.gateway || {};
     const cost = Number.isFinite(Number(metadata.cost)) ? Number(metadata.cost) : null;
     let structuredObject = structured ? result.toolCalls?.find(call => call.toolName === toolName)?.input : null;
@@ -144,7 +146,13 @@ const server = http.createServer(async (req, res) => {
     terminal({
       status: 'ok', error_type: null,
       structured_mode: structuredMode,
-      input_tokens: usage.inputTokens ?? null, output_tokens: usage.outputTokens ?? null,
+      input_tokens: usage.inputTokens ?? null,
+      uncached_input_tokens: inputDetails.noCacheTokens ?? null,
+      cache_read_input_tokens: inputDetails.cacheReadTokens ?? usage.cachedInputTokens ?? null,
+      cache_write_input_tokens: inputDetails.cacheWriteTokens ?? null,
+      output_tokens: usage.outputTokens ?? null,
+      text_output_tokens: outputDetails.textTokens ?? null,
+      reasoning_output_tokens: outputDetails.reasoningTokens ?? usage.reasoningTokens ?? null,
       cost_usd: cost,
     });
     return reply(res, 200, {
@@ -153,7 +161,12 @@ const server = http.createServer(async (req, res) => {
                   finish_reason: result.finishReason || null }],
       proofpress: { structured_output_mode: structuredMode },
       usage: { prompt_tokens: usage.inputTokens ?? null,
+               uncached_prompt_tokens: inputDetails.noCacheTokens ?? null,
+               cached_prompt_tokens: inputDetails.cacheReadTokens ?? usage.cachedInputTokens ?? null,
+               cache_write_prompt_tokens: inputDetails.cacheWriteTokens ?? null,
                completion_tokens: usage.outputTokens ?? null,
+               text_completion_tokens: outputDetails.textTokens ?? null,
+               reasoning_tokens: outputDetails.reasoningTokens ?? usage.reasoningTokens ?? null,
                total_tokens: (usage.inputTokens || 0) + (usage.outputTokens || 0),
                cost_usd: cost },
     });
