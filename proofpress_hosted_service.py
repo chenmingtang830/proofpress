@@ -15,7 +15,7 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from urllib.parse import parse_qs, urlencode, urlparse
 
 import proofpress_knowledge as knowledge
-from proofpress_hosted import HostedControlPlane
+from proofpress_hosted import HostedAuthError, HostedControlPlane
 
 
 MAX_REQUEST_BYTES = 1024 * 1024
@@ -62,6 +62,30 @@ class HostedOperationHandler(BaseHTTPRequestHandler):
     def _token(self):
         header = self.headers.get("Authorization", "")
         return header[7:] if header.startswith("Bearer ") else ""
+
+    def _request_json(self):
+        if self.headers.get("Content-Type", "").split(";", 1)[0] != "application/json":
+            raise HostedAuthError("unsupported_media_type",
+                                  "content type must be application/json")
+        try:
+            length = int(self.headers.get("Content-Length", ""))
+        except ValueError as exc:
+            raise HostedAuthError("invalid_request", "content length required") from exc
+        if length < 0 or length > self.server.proofpress_max_request_bytes:
+            raise HostedAuthError("invalid_request", "invalid request length")
+        try:
+            value = json.loads(self.rfile.read(length))
+        except (UnicodeDecodeError, json.JSONDecodeError) as exc:
+            raise HostedAuthError("invalid_request", "invalid JSON") from exc
+        if not isinstance(value, dict):
+            raise HostedAuthError("invalid_request", "JSON body must be an object")
+        return value
+
+    def _owner_error(self, exc):
+        status = HTTPStatus.UNAUTHORIZED if exc.code in {
+            "invalid_credential", "owner_required"} else HTTPStatus.BAD_REQUEST
+        return self._json(status, {"ok": False, "error": {
+            "code": exc.code, "message": str(exc)}})
 
     def _html(self, status, value, *, cookie=None):
         body = value.encode("utf-8")
@@ -179,6 +203,14 @@ class HostedOperationHandler(BaseHTTPRequestHandler):
                 "operation": "capabilities.get", "parameters": {},
             })
             return self._json(_status_for(envelope), envelope)
+        if path == "/v1/owner/credentials":
+            try:
+                credentials = self.server.proofpress_control.list_credentials(
+                    self._token())
+            except HostedAuthError as exc:
+                return self._owner_error(exc)
+            return self._json(HTTPStatus.OK, {
+                "ok": True, "credentials": credentials})
         if path in {"/", "/review"}:
             session = self._owner_session()
             if not session:
@@ -189,6 +221,32 @@ class HostedOperationHandler(BaseHTTPRequestHandler):
 
     def do_POST(self):
         path = urlparse(self.path).path
+        if path == "/v1/owner/credentials":
+            try:
+                request = self._request_json()
+                action = request.get("action")
+                control = self.server.proofpress_control
+                if action == "issue":
+                    result = control.issue_agent_credential(
+                        self._token(), request.get("principal_id", ""),
+                        request.get("label", ""), request.get("display_name"))
+                elif action == "rotate":
+                    result = control.rotate_agent_credential(
+                        self._token(), request.get("credential_id", ""),
+                        request.get("label"))
+                elif action == "revoke":
+                    control.revoke_credential(
+                        self._token(), request.get("credential_id", ""))
+                    result = {"revoked": request.get("credential_id")}
+                else:
+                    raise HostedAuthError(
+                        "invalid_request", "action must be issue, rotate, or revoke")
+            except HostedAuthError as exc:
+                return self._owner_error(exc)
+            except ValueError as exc:
+                return self._json(HTTPStatus.BAD_REQUEST, {"ok": False,
+                    "error": {"code": "operation_rejected", "message": str(exc)}})
+            return self._json(HTTPStatus.OK, {"ok": True, "result": result})
         if path == "/owner/login":
             try:
                 form = self._form()

@@ -67,6 +67,21 @@ class HostedServiceTests(unittest.TestCase):
             finally:
                 exc.close()
 
+    def owner_admin(self, token, body):
+        request = Request(
+            self.base_url + "/v1/owner/credentials",
+            data=json.dumps(body).encode(), method="POST",
+            headers={"Content-Type": "application/json",
+                     "Authorization": "Bearer " + token})
+        try:
+            with urlopen(request) as response:
+                return response.status, json.loads(response.read())
+        except HTTPError as exc:
+            try:
+                return exc.code, json.loads(exc.read())
+            finally:
+                exc.close()
+
     def form(self, path, values, cookie=None):
         headers = {"Content-Type": "application/x-www-form-urlencoded"}
         if cookie:
@@ -195,6 +210,44 @@ class HostedServiceTests(unittest.TestCase):
         }, cookie)
         self.assertEqual(status, 403)
         self.assertIn("csrf_failed", body)
+
+    def test_owner_https_credential_lifecycle_is_separate_from_mcp(self):
+        status, issued = self.owner_admin(self.owner["token"], {
+            "action": "issue", "principal_id": "agent:claude-code",
+            "label": "Claude Code laptop"})
+        self.assertEqual(status, 200)
+        token = issued["result"]["token"]
+        credential_id = issued["result"]["credential_id"]
+        self.assertNotEqual(token, self.agent["token"])
+        status, listing = self.get(
+            "/v1/owner/credentials", self.owner["token"])
+        self.assertEqual(status, 200)
+        row = next(item for item in listing["credentials"]
+                   if item["credential_id"] == credential_id)
+        self.assertEqual(row["principal_id"], "agent:claude-code")
+        self.assertNotIn("token", row)
+        self.assertNotIn("secret_hash", row)
+
+        status, rotated = self.owner_admin(self.owner["token"], {
+            "action": "rotate", "credential_id": credential_id})
+        self.assertEqual(status, 200)
+        self.assertEqual(self.get("/v1/capabilities", token)[0], 401)
+        replacement = rotated["result"]
+        self.assertEqual(self.get(
+            "/v1/capabilities", replacement["token"])[0], 200)
+        status, revoked = self.owner_admin(self.owner["token"], {
+            "action": "revoke", "credential_id": replacement["credential_id"]})
+        self.assertEqual(status, 200)
+        self.assertEqual(revoked["result"]["revoked"],
+                         replacement["credential_id"])
+        self.assertEqual(self.get(
+            "/v1/capabilities", replacement["token"])[0], 401)
+
+        status, denied = self.owner_admin(self.agent["token"], {
+            "action": "issue", "principal_id": "agent:forbidden",
+            "label": "Forbidden"})
+        self.assertEqual(status, 401)
+        self.assertEqual(denied["error"]["code"], "owner_required")
 
     def test_origin_refuses_public_bind_and_limits_request_bodies(self):
         with self.assertRaisesRegex(ValueError, "loopback"):
