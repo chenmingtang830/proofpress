@@ -257,10 +257,46 @@ LOCAL_OPERATION_SPECS = {
         "required": ("conclusion_id",), "optional": (), "mutates": True,
         "replay_semantics": "kernel_deduplicated",
     },
+    "conclusion.judge": {
+        "required": ("conclusion_id",), "optional": (), "mutates": True,
+        "replay_semantics": "kernel_deduplicated",
+    },
+    "conclusion.judge_batch": {
+        "required": ("scope",), "optional": (), "mutates": True,
+        "replay_semantics": "kernel_deduplicated",
+    },
     "conclusion.review": {
         "required": ("conclusion_id", "decision", "reviewer"),
         "optional": ("note", "request_id", "expected_head"),
         "mutates": True, "replay_semantics": "parameter_request_id",
+    },
+    "conclusion.supersede": {
+        "required": ("conclusion_id", "replacement_id", "reviewer"),
+        "optional": ("note",), "mutates": True,
+        "replay_semantics": "kernel_deduplicated",
+    },
+    "relation.propose": {
+        "required": ("source_id", "target_id", "relation_type", "proposer"),
+        "optional": ("confidence", "qualifiers"), "mutates": True,
+        "replay_semantics": "kernel_deduplicated",
+    },
+    "relation.evaluate": {
+        "required": ("relation_id",), "optional": (), "mutates": True,
+        "replay_semantics": "kernel_deduplicated",
+    },
+    "relation.judge": {
+        "required": ("relation_id",), "optional": (), "mutates": True,
+        "replay_semantics": "kernel_deduplicated",
+    },
+    "relation.review": {
+        "required": ("relation_id", "decision", "reviewer"),
+        "optional": ("note", "request_id", "expected_head"),
+        "mutates": True, "replay_semantics": "parameter_request_id",
+    },
+    "relation.resolve": {
+        "required": ("relation_id", "disposition", "reviewer"),
+        "optional": ("winner", "note", "expected_head"),
+        "mutates": True, "replay_semantics": "kernel_deduplicated",
     },
     "context.get": {
         "required": (),
@@ -2313,11 +2349,38 @@ def execute_local_operation(request):
                 parameters.get("profile"))
         elif operation == "conclusion.evaluate":
             result = evaluate_v2(parameters["conclusion_id"])
+        elif operation == "conclusion.judge":
+            result = judge_v2(parameters["conclusion_id"])
+        elif operation == "conclusion.judge_batch":
+            result = judge_batch_v2(parameters["scope"])
         elif operation == "conclusion.review":
             result = review_v2(
                 parameters["conclusion_id"], parameters["decision"],
                 parameters["reviewer"], parameters.get("note"),
                 parameters.get("request_id"), parameters.get("expected_head"))
+        elif operation == "conclusion.supersede":
+            result = supersede_v2(
+                parameters["conclusion_id"], parameters["replacement_id"],
+                parameters["reviewer"], parameters.get("note"))
+        elif operation == "relation.propose":
+            result = propose_relation_v2(
+                parameters["source_id"], parameters["target_id"],
+                parameters["relation_type"], parameters["proposer"],
+                parameters.get("confidence"), parameters.get("qualifiers"))
+        elif operation == "relation.evaluate":
+            result = evaluate_relation_v2(parameters["relation_id"])
+        elif operation == "relation.judge":
+            result = judge_relation_v2(parameters["relation_id"])
+        elif operation == "relation.review":
+            result = review_relation_v2(
+                parameters["relation_id"], parameters["decision"],
+                parameters["reviewer"], parameters.get("note"),
+                parameters.get("request_id"), parameters.get("expected_head"))
+        elif operation == "relation.resolve":
+            result = resolve_contradiction_v2(
+                parameters["relation_id"], parameters["disposition"],
+                parameters["reviewer"], parameters.get("winner"),
+                parameters.get("note"), parameters.get("expected_head"))
         else:
             result = context_v2(
                 parameters.get("scope"), parameters.get("actor"),
@@ -2372,8 +2435,10 @@ def cmd_flat(a):
             "conclusion_id": a.conclusion,
         })
     elif command == "judge":
-        if a.batch or a.scope: out = judge_batch_v2(a.scope)
-        elif a.conclusion: out = judge_v2(a.conclusion)
+        if a.batch or a.scope:
+            out = _local_request("conclusion.judge_batch", {"scope": a.scope})
+        elif a.conclusion:
+            out = _local_request("conclusion.judge", {"conclusion_id": a.conclusion})
         else: raise ValueError("judge requires a conclusion or --batch --scope")
     elif command == "review":
         decision = "admit" if a.admit else "request_changes" if a.request_changes else "reject"
@@ -2382,19 +2447,35 @@ def cmd_flat(a):
             "reviewer": a.reviewer, "note": a.note,
             "request_id": a.request_id, "expected_head": a.expected_head,
         })
-    elif command == "supersede": out = supersede_v2(a.conclusion, a.by, a.reviewer, a.note)
+    elif command == "supersede":
+        out = _local_request("conclusion.supersede", {
+            "conclusion_id": a.conclusion, "replacement_id": a.by,
+            "reviewer": a.reviewer, "note": a.note,
+        })
     elif command == "relation-propose":
         qualifiers = json.loads(Path(a.qualifiers).read_text(encoding="utf-8")) if a.qualifiers else None
-        out = propose_relation_v2(a.source, a.to, a.type, a.proposer, a.confidence, qualifiers)
-    elif command == "relation-evaluate": out = evaluate_relation_v2(a.relation)
-    elif command == "relation-judge": out = judge_relation_v2(a.relation)
+        out = _local_request("relation.propose", {
+            "source_id": a.source, "target_id": a.to,
+            "relation_type": a.type, "proposer": a.proposer,
+            "confidence": a.confidence, "qualifiers": qualifiers,
+        })
+    elif command == "relation-evaluate":
+        out = _local_request("relation.evaluate", {"relation_id": a.relation})
+    elif command == "relation-judge":
+        out = _local_request("relation.judge", {"relation_id": a.relation})
     elif command == "relation-review":
         decision = "admit" if a.admit else "request_changes" if a.request_changes else "reject"
-        out = review_relation_v2(a.relation, decision, a.reviewer, a.note,
-                                 a.request_id, a.expected_head)
+        out = _local_request("relation.review", {
+            "relation_id": a.relation, "decision": decision,
+            "reviewer": a.reviewer, "note": a.note,
+            "request_id": a.request_id, "expected_head": a.expected_head,
+        })
     elif command == "relation-resolve":
-        out = resolve_contradiction_v2(a.relation, a.disposition, a.reviewer,
-                                       a.winner, a.note, a.expected_head)
+        out = _local_request("relation.resolve", {
+            "relation_id": a.relation, "disposition": a.disposition,
+            "reviewer": a.reviewer, "winner": a.winner, "note": a.note,
+            "expected_head": a.expected_head,
+        })
     elif command == "graph":
         out = (traverse_graph_v2(a.seed, a.scope, a.actor, a.task,
                                  a.max_depth, a.max_claims, a.state)

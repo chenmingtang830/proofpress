@@ -80,6 +80,8 @@ class LocalOperationContractTests(unittest.TestCase):
         operations = {item["name"]: item for item in result["operations"]}
         self.assertIn("configuration.get", operations)
         self.assertIn("conclusion.review", operations)
+        self.assertIn("conclusion.judge", operations)
+        self.assertIn("relation.resolve", operations)
         self.assertEqual(operations["conclusion.review"]["replay_semantics"],
                          "parameter_request_id")
         self.assertEqual(result["not_available"],
@@ -224,6 +226,61 @@ class LocalOperationContractTests(unittest.TestCase):
         self.assertEqual(context["knowledge"], [])
         self.assertEqual(context["blocked"][0]["id"], conclusion_id)
         self.assertEqual(context["blocked"][0]["reason"], "needs_review")
+
+    def test_relation_lifecycle_uses_the_shared_contract(self):
+        evidence_id = self.execute(
+            "evidence.import", path=str(FIXTURE))["result"]["evidence"][0]
+        first = self.execute(
+            "conclusion.propose", statement="The agreement limits liability",
+            evidence_refs=[evidence_id], scope="matter-1", proposer="agent:one")
+        second = self.execute(
+            "conclusion.propose", statement="The cap excludes misconduct",
+            evidence_refs=[evidence_id], scope="matter-1", proposer="agent:two")
+        source_id = first["result"]["conclusion"]["id"]
+        target_id = second["result"]["conclusion"]["id"]
+
+        proposed = self.execute(
+            "relation.propose", source_id=source_id, target_id=target_id,
+            relation_type="qualifies", proposer="agent:relation")
+        relation_id = proposed["result"]["relation"]["id"]
+        cli_evaluation = self.cli("relation", "evaluate", relation_id)
+        self.assertTrue(cli_evaluation["eligible"])
+
+        reviewed = self.execute(
+            "relation.review", relation_id=relation_id, decision="admit",
+            reviewer="human:alice", request_id="relation-review-001")
+        self.assertTrue(reviewed["ok"])
+        self.assertEqual(reviewed["result"]["result"]["type"],
+                         "relation_admitted")
+
+        duplicate = self.execute(
+            "relation.review", relation_id=relation_id, decision="admit",
+            reviewer="human:alice", request_id="relation-review-001")
+        self.assertTrue(duplicate["ok"])
+        self.assertTrue(duplicate["result"]["idempotent"])
+
+    def test_cli_supersede_is_visible_through_contract_context(self):
+        evidence_id = self.execute(
+            "evidence.import", path=str(FIXTURE))["result"]["evidence"][0]
+        old = self.execute(
+            "conclusion.propose", statement="The old position",
+            evidence_refs=[evidence_id], scope="matter-1", proposer="agent:one")
+        new = self.execute(
+            "conclusion.propose", statement="The replacement position",
+            evidence_refs=[evidence_id], scope="matter-1", proposer="agent:two")
+        old_id = old["result"]["conclusion"]["id"]
+        new_id = new["result"]["conclusion"]["id"]
+        superseded = self.cli(
+            "supersede", old_id, "--by", new_id,
+            "--reviewer", "human:alice")
+        self.assertEqual(superseded["subject_ref"], old_id)
+        self.assertEqual(superseded["superseded_by"], new_id)
+
+        context = self.execute(
+            "context.get", scope="matter-1",
+            include_blocked_statements=True)["result"]
+        blocked = {row["id"]: row for row in context["blocked"]}
+        self.assertEqual(blocked[old_id]["reason"], "superseded")
 
 
 if __name__ == "__main__":
