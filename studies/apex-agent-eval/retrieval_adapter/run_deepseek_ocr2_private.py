@@ -55,6 +55,7 @@ def main() -> None:
     # on an unsupported host.
     import numpy as np
     import pypdfium2 as pdfium
+    import transformers
     from transformers import AutoModel, AutoTokenizer
 
     args.out.mkdir(parents=True, exist_ok=True); args.out.chmod(0o700)
@@ -62,7 +63,9 @@ def main() -> None:
               "media_type": "application/pdf"}
     config = {"backend": "official-transformers", "device": "cuda", "prompt": "grounding-markdown",
               "base_size": 1024, "image_size": 768, "crop_mode": True,
-              "model_name": args.model_name, "model_revision": args.model_revision}
+              "model_name": args.model_name, "model_revision": args.model_revision,
+              "torch_version": torch.__version__, "cuda_version": torch.version.cuda,
+              "cuda_device_name": torch.cuda.get_device_name(0), "transformers_version": transformers.__version__}
     started = time.monotonic()
     tokenizer = AutoTokenizer.from_pretrained(args.model_name, revision=args.model_revision, trust_remote_code=True)
     model = AutoModel.from_pretrained(args.model_name, revision=args.model_revision,

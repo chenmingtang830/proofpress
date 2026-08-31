@@ -30,6 +30,15 @@ class PaddleExtractionPanelIsolationTests(unittest.TestCase):
         self.assertNotEqual(result.returncode, 0)
         self.assertIn("compatible CUDA host", result.stderr)
 
+    def test_deepseek_runner_rejects_before_input_open(self):
+        runner = Path(__file__).resolve().parents[1] / "studies/apex-agent-eval/retrieval_adapter/run_deepseek_ocr2_private.py"
+        with tempfile.TemporaryDirectory() as temp:
+            result = subprocess.run([sys.executable, str(runner), "--input", "/does/not/exist.pdf",
+                                     "--uri", "fixture://unsupported.pdf", "--out", temp,
+                                     "--model-revision", "a" * 40], capture_output=True, text=True)
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn("compatible CUDA host", result.stderr)
+
 
 if __name__ == "__main__":
     unittest.main()
