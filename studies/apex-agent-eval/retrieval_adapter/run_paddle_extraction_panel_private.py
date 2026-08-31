@@ -81,6 +81,14 @@ def main() -> None:
     parser.add_argument("--retry-failed-development", action="store_true")
     parser.add_argument("--include-heldout", action="store_true",
                         help="Open held-out only after the development gate is frozen as passed.")
+    parser.add_argument("--vl-rec-backend")
+    parser.add_argument("--vl-rec-server-url")
+    parser.add_argument("--vl-rec-api-model-name",default="PaddlePaddle/PaddleOCR-VL-1.6")
+    parser.add_argument("--vl-rec-model-revision")
+    parser.add_argument("--child-runner", type=Path, default=CHILD)
+    parser.add_argument("--child-extra", action="append", default=[],
+                        help="One literal argument forwarded to an alternate child runner.")
+    parser.add_argument("--route", default="PaddlePaddle/PaddleOCR-VL-1.6/paddle_dynamic")
     args = parser.parse_args()
     if args.pages_per_document < 1 or args.document_timeout_seconds < 1:
         raise SystemExit("page count and document timeout must be positive")
@@ -102,9 +110,16 @@ def main() -> None:
             if not (args.retry_failed_development and item["split"] == "development"
                     and saved.get("status") == "failed"):
                 rows.append(saved); continue
-        command = [sys.executable, str(CHILD), "--input", str(path), "--uri",
+        command = [sys.executable, str(args.child_runner), "--input", str(path), "--uri",
                    manifest_source["uri"], "--out", str(target / "isolated"),
                    "--max-pages", str(args.pages_per_document), "--device", args.device]
+        command.extend(args.child_extra)
+        if args.vl_rec_backend:
+            if not args.vl_rec_server_url: raise SystemExit("vl-rec-server-url is required with a backend")
+            command.extend(["--vl-rec-backend",args.vl_rec_backend,"--vl-rec-server-url",args.vl_rec_server_url,
+                            "--vl-rec-api-model-name",args.vl_rec_api_model_name])
+            if args.vl_rec_model_revision:
+                command.extend(["--vl-rec-model-revision", args.vl_rec_model_revision])
         terminal = isolated_run(command, args.document_timeout_seconds)
         child_report_path = target / "isolated" / "sanitized-report.json"
         if terminal["status"] == "complete" and child_report_path.is_file():
@@ -124,7 +139,9 @@ def main() -> None:
         summary_path.chmod(0o600); rows.append(row)
     complete = [row for row in rows if row["status"] == "complete"]
     report = {"schema_version": "proofpress/document-extraction-panel-run/v2",
-              "panel_digest": panel["panel_digest"], "route": "PaddlePaddle/PaddleOCR-VL-1.6",
+              "panel_digest": panel["panel_digest"],
+              "route": ("PaddlePaddle/PaddleOCR-VL-1.6/" + args.vl_rec_backend
+                        if args.vl_rec_backend else args.route),
               "isolation": "one-process-group-per-document/v1",
               "host": {"architecture": "Apple-Silicon", "device": args.device},
               "document_timeout_seconds": args.document_timeout_seconds,

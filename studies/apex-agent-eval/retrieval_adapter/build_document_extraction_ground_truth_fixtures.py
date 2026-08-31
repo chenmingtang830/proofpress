@@ -5,6 +5,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import time
 from pathlib import Path
 from typing import Any
 
@@ -38,7 +39,9 @@ CASES = [
 def build_page(title: str, table: list[list[str]] | None, note: str,
                *, continuation_rows: set[int] | None = None) -> tuple[Image.Image, list[dict[str, Any]], list[dict[str, Any]]]:
     image=Image.new("RGB",(1400,1800),"white"); draw=ImageDraw.Draw(image); font=ImageFont.load_default(size=28)
-    draw.text((100,90),title,fill="black",font=font); blocks=[{"text":title,"page":1,"bbox":[100,90,100+len(title)*18,125],"order":1}]
+    draw.text((100,90),title,fill="black",font=font)
+    title_bbox=list(draw.textbbox((100,90),title,font=font))
+    blocks=[{"text":title,"page":1,"bbox":title_bbox,"order":1}]
     tables=[]
     if table:
         x0,y0,row_h=100,240,75; widths=[360,300,300,300][:max(len(row) for row in table)]
@@ -55,7 +58,7 @@ def build_page(title: str, table: list[list[str]] | None, note: str,
         note_y=table_box[3]+80
     else: note_y=260
     draw.text((100,note_y),note,fill="black",font=font)
-    blocks.append({"text":note,"page":1,"bbox":[100,note_y,1200,note_y+40],"order":2})
+    blocks.append({"text":note,"page":1,"bbox":list(draw.textbbox((100,note_y),note,font=font)),"order":2})
     return image,blocks,tables
 
 
@@ -71,7 +74,9 @@ def build(root: Path) -> dict[str, Any]:
             for block in second_blocks: block["page"]=2
             for row in second_tables: row["page"]=2; row["continuation_id"]=case_id+"-schedule"
             tables[0]["continuation_id"]=case_id+"-schedule"; images.append(second); blocks.extend(second_blocks); tables.extend(second_tables)
-        pdf=root/(case_id+".pdf"); images[0].save(pdf,"PDF",save_all=True,append_images=images[1:],resolution=144)
+        pdf=root/(case_id+".pdf"); fixed_time=time.gmtime(0)
+        images[0].save(pdf,"PDF",save_all=True,append_images=images[1:],resolution=144,
+                       creationDate=fixed_time,modDate=fixed_time,producer="Proofpress fixture generator v1")
         content_digest=file_digest(pdf); uri="fixture://document-extraction/"+case_id+".pdf"
         source_id="source_"+content_digest[7:27]
         sources.append({"source_id":source_id,"split":split,"path":str(pdf),"uri":uri,

@@ -29,7 +29,7 @@
     "sensitivity_route": "deepseek-ai/DeepSeek-OCR-2",
     "sensitivity_host_requirement": "recorded-compatible-CUDA-host-required",
     "panel_manifest_digest": "sha256:1ae42599f67169323e10af17dafa2ef92c5375ca1029fb21444b9e6328fedfba",
-    "ground_truth_panel_digest": "sha256:3af601bb5087cec692c71ccf1953ae5d0e39f76e5a9e74cd91fc810fc312a4a8",
+    "ground_truth_panel_digest": "sha256:189656cd37c999a826f0cc27e7abe4f6b3acbf4c4ba917a3c9830e921d3adb06",
     "document_process_isolation": "one-process-group-per-document/v1",
     "downstream_task_outcome_access": false,
     "automatic_admission": false,

@@ -68,6 +68,16 @@ def paddle_result_to_envelope(result: dict[str, Any], *, source: dict[str, Any],
                              for column_index, cell in enumerate(row)]
                     tables.append({"id": "table_" + block_id[6:], "locator": locator,
                                    "source_block_id": block_id, "cells": cells})
+    header_groups: dict[tuple[str, ...], list[dict[str, Any]]] = {}
+    for table in tables:
+        header = tuple(cell["raw_text"].strip().casefold() for cell in table["cells"] if cell["row"] == 0)
+        if header: header_groups.setdefault(header, []).append(table)
+    for header, group in header_groups.items():
+        ordered = sorted(group, key=lambda table: table["locator"]["page"])
+        if len(ordered) > 1 and all(right["locator"]["page"] == left["locator"]["page"] + 1
+                                    for left, right in zip(ordered, ordered[1:])):
+            continuation_id = "continuation_" + digest({"header": header})[7:27]
+            for table in ordered: table["continuation_id"] = continuation_id
     return build_envelope(source=source,
                           extractor={"provider": "PaddlePaddle", "model": "PaddleOCR-VL",
                                      "version": version, "license": "Apache-2.0",
@@ -100,3 +110,28 @@ def deepseek_markdown_to_envelope(markdown_pages: list[dict[str, Any]], *,
                                      "version": version, "license": "Apache-2.0",
                                      "config_digest": digest(config)},
                           pages=pages, blocks=blocks, tables=tables)
+
+
+def native_text_to_envelope(pages_text: list[dict[str, Any]], *, source: dict[str, Any],
+                            version: str = "1", config: dict[str, Any] | None = None) -> dict[str, Any]:
+    """Normalize the existing page-text representation as a no-table control.
+
+    This is deliberately conservative: native PDF text has a page locator but
+    does not infer table cells, geometry, or cross-page table identity.
+    """
+    config = config or {}
+    pages, blocks = [], []
+    for raw in pages_text:
+        page = int(raw["page"])
+        text = str(raw.get("text", ""))
+        render_digest = digest({"source_content_digest": source["content_digest"],
+                                "page": page, "native_text": text})
+        pages.append({"page": page, "render_digest": render_digest})
+        block_id = "block_" + hashlib.sha256(f"native\n{page}\n{text}".encode()).hexdigest()[:20]
+        blocks.append({"id": block_id, "kind": "native_pdf_text", "text": text,
+                       "locator": {"page": page}, "geometry_status": "page_only"})
+    return build_envelope(source=source,
+                          extractor={"provider": "Proofpress", "model": "native-pdf-text",
+                                     "version": version, "license": "project-internal",
+                                     "config_digest": digest(config)},
+                          pages=pages, blocks=blocks, tables=[])

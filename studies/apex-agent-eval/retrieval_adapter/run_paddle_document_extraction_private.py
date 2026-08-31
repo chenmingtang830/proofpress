@@ -31,6 +31,10 @@ def main() -> None:
     parser.add_argument("--out", required=True, type=Path)
     parser.add_argument("--max-pages", type=int, default=1)
     parser.add_argument("--device", default="cpu")
+    parser.add_argument("--vl-rec-backend")
+    parser.add_argument("--vl-rec-server-url")
+    parser.add_argument("--vl-rec-api-model-name", default="PaddlePaddle/PaddleOCR-VL-1.6")
+    parser.add_argument("--vl-rec-model-revision")
     args = parser.parse_args()
     if args.max_pages < 1:
         raise SystemExit("max-pages must be positive")
@@ -45,8 +49,19 @@ def main() -> None:
               "media_type": "application/pdf"}
     config = {"pipeline_version": "v1.6", "device": args.device,
               "max_pages": args.max_pages, "temperature": 0}
+    if args.vl_rec_backend:
+        config.update({"vl_rec_backend":args.vl_rec_backend,"vl_rec_server_url":args.vl_rec_server_url,
+                       "vl_rec_api_model_name":args.vl_rec_api_model_name})
+        if args.vl_rec_model_revision:
+            config["vl_rec_model_revision"] = args.vl_rec_model_revision
     started = time.monotonic()
-    pipeline = PaddleOCRVL(pipeline_version="v1.6", device=args.device)
+    pipeline_kwargs={"pipeline_version":"v1.6","device":args.device}
+    if args.vl_rec_backend:
+        if not args.vl_rec_server_url: raise SystemExit("vl-rec-server-url is required with a backend")
+        pipeline_kwargs.update({"vl_rec_backend":args.vl_rec_backend,
+                                "vl_rec_server_url":args.vl_rec_server_url,
+                                "vl_rec_api_model_name":args.vl_rec_api_model_name})
+    pipeline = PaddleOCRVL(**pipeline_kwargs)
     document = pdfium.PdfDocument(str(args.input)); results = []
     for page_index in range(min(len(document), args.max_pages)):
         bitmap = document[page_index].render(scale=2)
@@ -73,6 +88,7 @@ def main() -> None:
               "cells": sum(len(table["cells"]) for table in envelope["tables"]),
               "elapsed_seconds": round(time.monotonic() - started, 3),
               "peak_rss_mib": round(resource.getrusage(resource.RUSAGE_SELF).ru_maxrss / (1024 * 1024), 1),
+              "backend":args.vl_rec_backend or "paddle_dynamic",
               "known_model_cost_usd": 0, "automatic_admission": False,
               "human_approval_required": True}
     report_path = args.out / "sanitized-report.json"

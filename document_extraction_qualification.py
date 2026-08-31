@@ -19,6 +19,12 @@ def _text(value: str) -> str:
     return " ".join(value.split()).casefold()
 
 
+def _cell_text(value: Any) -> str:
+    if isinstance(value, str): return value
+    if isinstance(value, dict) and isinstance(value.get("raw_text"), str): return value["raw_text"]
+    raise ValueError("ground truth cell must be text or contain raw_text")
+
+
 def _number(value: str) -> str | None:
     raw = value.strip().replace(",", "")
     negative = raw.startswith("(") and raw.endswith(")")
@@ -60,6 +66,26 @@ def _iou(left: list[float], right: list[float]) -> float:
     return intersection/union if union else 0.0
 
 
+def _continuation_classes(tables: list[dict[str, Any]], *, gold: bool) -> Counter[Any]:
+    groups: dict[str, list[dict[str, Any]]] = {}
+    for table in tables:
+        continuation_id=table.get("continuation_id")
+        if continuation_id: groups.setdefault(continuation_id,[]).append(table)
+    classes=[]
+    for group in groups.values():
+        pages=tuple(sorted(table["page"] if gold else table["locator"]["page"] for table in group))
+        headers=[]
+        for table in group:
+            if gold:
+                first=table["cells"][0] if table["cells"] else []
+                header=tuple(_text(_cell_text(cell)) for cell in first)
+            else:
+                header=tuple(_text(cell["raw_text"]) for cell in table["cells"] if cell["row"]==0)
+            headers.append(header)
+        classes.append((pages,tuple(sorted(headers))))
+    return Counter(classes)
+
+
 def validate_ground_truth(gold: Any) -> None:
     if not isinstance(gold, dict) or gold.get("schema_version") != GOLD_SCHEMA:
         raise ValueError("document extraction ground-truth schema is required")
@@ -73,8 +99,8 @@ def validate_ground_truth(gold: Any) -> None:
         if not isinstance(block.get("order"), int):
             raise ValueError("ground truth block order is required")
     for table in gold["tables"]:
-        if not isinstance(table.get("cells"), list):
-            raise ValueError("ground truth table cells are required")
+        if not isinstance(table.get("cells"), list) or not isinstance(table.get("page"), int):
+            raise ValueError("ground truth table page and cells are required")
 
 
 def score_envelope(envelope: dict[str, Any], gold: dict[str, Any], *,
@@ -85,7 +111,7 @@ def score_envelope(envelope: dict[str, Any], gold: dict[str, Any], *,
     expected_blocks = Counter(_text(row["text"]) for row in gold["blocks"])
     observed_blocks = Counter(_text(row["text"]) for row in envelope["blocks"]
                               if row.get("kind") != "table")
-    expected_cells = Counter((row_index, column_index, _text(cell["raw_text"]))
+    expected_cells = Counter((row_index, column_index, _text(_cell_text(cell)))
         for table in gold["tables"] for row_index, row in enumerate(table["cells"])
         for column_index, cell in enumerate(row))
     observed_cells = Counter((cell["row"], cell["column"], _text(cell["raw_text"]))
@@ -94,7 +120,7 @@ def score_envelope(envelope: dict[str, Any], gold: dict[str, Any], *,
     for block in gold["blocks"]: expected_numeric += _numbers(block["text"])
     for table in gold["tables"]:
         for row in table["cells"]:
-            for cell in row: expected_numeric += _numbers(cell["raw_text"])
+            for cell in row: expected_numeric += _numbers(_cell_text(cell))
     observed_numeric = Counter()
     for block in envelope["blocks"]:
         if block.get("kind") != "table": observed_numeric += _numbers(block["text"])
@@ -121,8 +147,8 @@ def score_envelope(envelope: dict[str, Any], gold: dict[str, Any], *,
             if left_matches and right_matches:
                 actual_ids=[row["id"] for row in envelope["blocks"] if row["locator"]["page"]==page]
                 order_matched += int(actual_ids.index(left_matches[0]["id"]) < actual_ids.index(right_matches[0]["id"]))
-    expected_continuations=Counter(table["continuation_id"] for table in gold["tables"] if table.get("continuation_id"))
-    observed_continuations=Counter(table["continuation_id"] for table in envelope["tables"] if table.get("continuation_id"))
+    expected_continuations=_continuation_classes(gold["tables"],gold=True)
+    observed_continuations=_continuation_classes(envelope["tables"],gold=False)
     result={"schema_version":SCORE_SCHEMA,"source_content_digest":gold["source_content_digest"],
             "text_blocks":_prf(expected_blocks,observed_blocks),"table_cells":_prf(expected_cells,observed_cells),
             "numeric_values":_prf(expected_numeric,observed_numeric),

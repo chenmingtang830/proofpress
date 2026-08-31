@@ -1,0 +1,88 @@
+{
+  "schema_version": "proofpress/document-extraction-stage-b5-sanitized/v1",
+  "scope": "document structure qualification only; no APEX executor, task outcome, or grader access",
+  "automatic_admission": false,
+  "human_approval_required": true,
+  "panels": {
+    "structure_ground_truth": "sha256:189656cd37c999a826f0cc27e7abe4f6b3acbf4c4ba917a3c9830e921d3adb06",
+    "ecological": "sha256:1ae42599f67169323e10af17dafa2ef92c5375ca1029fb21444b9e6328fedfba"
+  },
+  "paddleocr_vl_1_6_mlx": {
+    "route": "PaddlePaddle/PaddleOCR-VL-1.6/mlx-vlm-server",
+    "model_revision": "c5630abae1d940eafe0697512a0325494b02ab42",
+    "license": "Apache-2.0",
+    "known_model_cost_usd": 0,
+    "development_gate": {
+      "status": "pass",
+      "heldout_authorized": true,
+      "text_blocks_f1": 0.9,
+      "table_cells_f1": 1.0,
+      "numeric_values_f1": 1.0,
+      "locator_rate": 0.9,
+      "reading_order_rate": 0.8,
+      "cross_page_continuations_f1": 1.0,
+      "repeatability_rate": 1.0,
+      "conformance_completion_rate": 1.0,
+      "ecological_completion_rate": 1.0
+    },
+    "heldout_conformance": {
+      "documents_scored": 4,
+      "text_blocks_f1": 0.9,
+      "table_cells_f1": 1.0,
+      "numeric_values_f1": 1.0,
+      "locator_rate": 0.9,
+      "reading_order_rate": 0.8,
+      "cross_page_continuations_f1": 1.0
+    },
+    "ecological": {
+      "documents": 12,
+      "complete": 12,
+      "failed": 0,
+      "pages_processed": 12,
+      "blocks": 215,
+      "tables": 7,
+      "cells": 189,
+      "peak_child_rss_mib": 1112.0
+    }
+  },
+  "native_pdf_text_control": {
+    "route": "Proofpress/native-pdf-text/v1",
+    "known_model_cost_usd": 0,
+    "development_conformance": {
+      "text_blocks_f1": 0.0,
+      "table_cells_f1": 0.0,
+      "numeric_values_f1": 0.0,
+      "locator_rate": 0.0,
+      "reading_order_rate": 0.0,
+      "cross_page_continuations_f1": 0.0,
+      "repeatability_rate": 1.0
+    },
+    "heldout_conformance": {
+      "documents_scored": 4,
+      "text_blocks_f1": 0.0,
+      "table_cells_f1": 0.0,
+      "numeric_values_f1": 0.0,
+      "locator_rate": 0.0,
+      "reading_order_rate": 0.0,
+      "cross_page_continuations_f1": 0.0
+    },
+    "ecological": {
+      "documents": 12,
+      "complete": 12,
+      "failed": 0,
+      "pages_processed": 12,
+      "blocks": 12,
+      "tables": 0,
+      "cells": 0,
+      "peak_child_rss_mib": 33.9
+    }
+  },
+  "deepseek_ocr_2_sensitivity": {
+    "route": "deepseek-ai/DeepSeek-OCR-2/official-transformers",
+    "license": "Apache-2.0",
+    "integration_status": "implemented-but-not-executed",
+    "local_preflight": "rejected-before-source-open: compatible CUDA host required",
+    "publishability_requirement": "recorded-compatible-CUDA-host-required"
+  },
+  "phase_c_status": "blocked: frozen Phase C controls and DeepSeek-OCR-2 sensitivity result are not yet content-addressed"
+}
