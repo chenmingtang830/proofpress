@@ -306,7 +306,13 @@ def run(preflight: dict[str, Any], *, out: Path) -> dict[str, Any]:
     def totals(rows: list[dict[str, Any]], field: str) -> float | int | None:
         values = [row["executor_telemetry"].get(field) for row in rows]
         values.extend(item.get(field) for row in rows for item in row["grader_telemetry"])
-        return sum(values) if values and all(value is not None for value in values) else None
+        if not values or any(value is None for value in values):
+            return None
+        total = sum(values)
+        # Cost receipts are decimal currency quantities delivered through JSON
+        # floats.  Normalize only display/reporting precision so a stable panel
+        # does not acquire binary-representation noise such as 0.4800000000002.
+        return round(total, 12) if field == "cost_usd" else total
     aggregate = {condition: {"scored_tasks": len(rows),
                              "rubric_fraction": (statistics.mean(row["rubric_fraction"] for row in rows)
                                                   if rows else None),
