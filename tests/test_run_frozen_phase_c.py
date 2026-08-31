@@ -54,10 +54,15 @@ class FrozenPhaseCRunnerTests(unittest.TestCase):
         source = root / "runner.py"
         source.write_text("import json,sys\nr=json.load(sys.stdin)\nif r['kind']=='grader': assert 'projection' not in r\nt={'cost_usd':0.01,'input_tokens':10,'output_tokens':5}\nprint(json.dumps({'grade':{'rubric_fraction':1.0,'unsupported_claims':0,'citation_errors':0,'authority_errors':0},'telemetry':t} if r['kind']=='grader' else {'artifact':{'answer':'ok'},'telemetry':t}))\n")
         source.chmod(stat.S_IRWXU)
-        config = {"command": [sys.executable, str(source)], "timeout_seconds": 5,
-                  "model": "test/model", "provider": "test-provider", "max_output_tokens": 32,
+        config = {"schema_version": "proofpress/phase-c-gateway-config/v1", "role": "executor",
+                  "command": [sys.executable, str(source), "--model", "test/model",
+                              "--gateway-provider-only", "test-provider"], "timeout_seconds": 5,
+                  "model": "test/model", "provider": "test-provider", "reasoning_effort": "test",
+                  "max_output_tokens": 32,
+                  "gateway_policy": {"gateway_provider_only": "test-provider", "retries": "forbidden",
+                                     "fallback": "forbidden", "routing_receipt": "one-successful-attempt-required"},
                   "implementation_files": [{"path": str(source), "digest": runner.file_digest(source)}]}
-        grader_config = {**config, "blind_grades_per_artifact": 3}
+        grader_config = {**config, "role": "grader", "blind_grades_per_artifact": 3}
         values = {"task_source_manifest_digest": {"tasks": tasks}, "graph_digest": graph,
                   "executor": config, "grader": grader_config,
                   "rubric_digest": {"rubrics": rubrics},
@@ -99,6 +104,21 @@ class FrozenPhaseCRunnerTests(unittest.TestCase):
             root = Path(temp); controls, manifest, receipt = self.frozen(root)
             source = next(root.glob("runner.py")); source.write_text("changed")
             with self.assertRaisesRegex(ValueError, "implementation file digest mismatch"):
+                runner.validate_preflight(frozen_manifest_path=manifest,
+                                         freeze_receipt_path=receipt, control_paths=controls)
+
+    def test_preflight_rejects_unpinned_gateway_policy(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp); controls, manifest, receipt = self.frozen(root)
+            config_path = controls["executor"]
+            config = json.loads(config_path.read_text())
+            config["gateway_policy"]["fallback"] = "allowed"
+            config_path.write_text(json.dumps(config))
+            # Re-freeze the mutated config so this tests the semantic preflight,
+            # not merely its content-addressed digest mismatch.
+            frozen, refreshed = freeze.freeze(json.loads(MANIFEST.read_text()), controls)
+            manifest.write_text(json.dumps(frozen)); receipt.write_text(json.dumps(refreshed))
+            with self.assertRaisesRegex(ValueError, "forbid retries and fallback"):
                 runner.validate_preflight(frozen_manifest_path=manifest,
                                          freeze_receipt_path=receipt, control_paths=controls)
 

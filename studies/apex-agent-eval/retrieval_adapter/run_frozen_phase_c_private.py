@@ -61,6 +61,8 @@ def _required_object(value: Any, name: str) -> dict[str, Any]:
 
 
 def _validate_command_config(config: dict[str, Any], *, role: str) -> None:
+    if config.get("schema_version") != "proofpress/phase-c-gateway-config/v1" or config.get("role") != role:
+        raise ValueError(f"{role} config must use the frozen Gateway config schema and role")
     command = config.get("command")
     if not isinstance(command, list) or not command or any(not isinstance(item, str) or not item for item in command):
         raise ValueError(f"{role} config requires a non-empty command array")
@@ -78,6 +80,15 @@ def _validate_command_config(config: dict[str, Any], *, role: str) -> None:
     if not all(isinstance(config.get(field), str) and config[field]
                for field in ("model", "provider")):
         raise ValueError(f"{role} config requires exact model and provider")
+    policy = config.get("gateway_policy")
+    if (not isinstance(policy, dict) or policy.get("gateway_provider_only") != config["provider"]
+            or policy.get("retries") != "forbidden" or policy.get("fallback") != "forbidden"
+            or policy.get("routing_receipt") != "one-successful-attempt-required"):
+        raise ValueError(f"{role} config must pin one Gateway provider and forbid retries and fallback")
+    for flag, expected in (("--model", config["model"]),
+                           ("--gateway-provider-only", config["provider"])):
+        if command.count(flag) != 1 or command[command.index(flag) + 1:command.index(flag) + 2] != [expected]:
+            raise ValueError(f"{role} command does not carry the frozen {flag} value")
     if not isinstance(config.get("max_output_tokens"), int) or config["max_output_tokens"] < 1:
         raise ValueError(f"{role} config requires positive max_output_tokens")
     if role == "grader" and config.get("blind_grades_per_artifact") != 3:
