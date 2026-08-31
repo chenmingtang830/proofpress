@@ -53,7 +53,8 @@ class ProofpressMcpGateway:
         result["clients"] = sorted(set(result.get("clients", [])) | {"mcp"})
         result["mcp"] = {
             "server": MCP_SERVER_NAME,
-            "principal": self.principal,
+            "principal": result.get("hosted", {}).get(
+                "principal_id", self.principal),
             "tools": list(MCP_SAFE_TOOLS),
             "human_approval_available": False,
         }
@@ -209,6 +210,8 @@ def main(argv: list[str] | None = None) -> None:
     args = parser.parse_args(argv)
 
     principal = os.environ.get(args.principal_env)
+    if not principal and args.base_url:
+        principal = "server-derived"
     if not principal:
         raise SystemExit(f"missing configured agent principal in {args.principal_env}")
     if args.transport == "streamable-http" and args.host not in {
