@@ -13,6 +13,15 @@ MANIFEST = ROOT / "studies/apex-agent-eval/results/exact-knowledge-transfer-v25-
 
 
 class FreezeV25PhaseCInputsTests(unittest.TestCase):
+    def gateway_config(self, role):
+        return {"model": "test/model", "provider": "test-provider", "role": role}
+
+    def gateway_canary(self, role, config_path):
+        return {"schema_version": "proofpress/phase-c-gateway-canary/v1", "status": "pass", "role": role,
+                "config_digest": freeze_phase_c.file_digest(config_path), "model": "test/model", "provider": "test-provider",
+                "telemetry": {"cost_usd": 0.01, "input_tokens": 2, "output_tokens": 1},
+                "automatic_admission": False, "human_approval_required": True}
+
     def extraction_report(self, key, route):
         return {
             "automatic_admission": False, "human_approval_required": True,
@@ -38,6 +47,13 @@ class FreezeV25PhaseCInputsTests(unittest.TestCase):
                 path = root / f"control-{index}.json"
                 if field == "primary_extraction_qualification":
                     value = self.extraction_report("paddleocr_vl_1_6_mlx", "PaddlePaddle/PaddleOCR-VL-1.6/mlx-vlm-server")
+                elif field == "executor":
+                    value = self.gateway_config("executor")
+                elif field == "grader":
+                    value = self.gateway_config("grader")
+                elif field in {"executor_gateway_canary", "grader_gateway_canary"}:
+                    role = field.removesuffix("_gateway_canary")
+                    value = self.gateway_canary(role, controls[role])
                 else:
                     value = {"index": index}
                 path.write_text(json.dumps(value))
@@ -47,6 +63,14 @@ class FreezeV25PhaseCInputsTests(unittest.TestCase):
         self.assertFalse(receipt["executor_called"])
         self.assertFalse(receipt["grader_called"])
         self.assertTrue(all(value.startswith("sha256:") for value in frozen["frozen_controls"].values()))
+
+    def test_freeze_rejects_canary_for_a_different_config(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp); executor = root / "executor.json"; executor.write_text(json.dumps(self.gateway_config("executor")))
+            report = self.gateway_canary("executor", executor); executor.write_text(json.dumps({**self.gateway_config("executor"), "model": "changed"}))
+            with self.assertRaisesRegex(ValueError, "does not match"):
+                freeze_phase_c.validate_gateway_canary(report, role="executor", config_path=executor,
+                                                       config=json.loads(executor.read_text()))
 
     def test_freeze_rejects_missing_control(self):
         with self.assertRaisesRegex(ValueError, "every Phase C control"):

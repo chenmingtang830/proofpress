@@ -49,7 +49,7 @@ def validate_transfer_manifest(manifest: dict[str, Any]) -> dict[str, Any]:
 
     controls = manifest.get("frozen_controls") or {}
     for field in ("task_source_manifest_digest", "graph_digest", "executor",
-                  "grader", "rubric_digest", "retry_policy",
+                  "grader", "executor_gateway_canary", "grader_gateway_canary", "rubric_digest", "retry_policy",
                   "disclosure_budget", "executor_budget", "native_output_contract",
                   "primary_extraction_qualification"):
         if not _content_digest(controls.get(field)):

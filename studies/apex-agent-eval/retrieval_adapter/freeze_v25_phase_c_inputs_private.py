@@ -25,6 +25,8 @@ CONTROL_ARGUMENTS = {
     "graph_digest": "graph",
     "executor": "executor_config",
     "grader": "grader_config",
+    "executor_gateway_canary": "executor_gateway_canary",
+    "grader_gateway_canary": "grader_gateway_canary",
     "rubric_digest": "rubric_manifest",
     "retry_policy": "retry_policy",
     "disclosure_budget": "disclosure_budget",
@@ -114,6 +116,35 @@ def validate_extraction_qualification(report: dict[str, Any], *, route: str,
         raise ValueError(f"extraction qualification envelope provenance changed the admission boundary for {key}")
 
 
+def _canary_telemetry(value: Any) -> None:
+    if not isinstance(value, dict):
+        raise ValueError("Gateway canary telemetry is missing")
+    cost = value.get("cost_usd")
+    if cost is not None and (not _number(cost) or cost < 0):
+        raise ValueError("Gateway canary cost telemetry is invalid")
+    for name in ("input_tokens", "output_tokens"):
+        count = value.get(name)
+        if count is not None and (not isinstance(count, int) or isinstance(count, bool) or count < 0):
+            raise ValueError("Gateway canary token telemetry is invalid")
+
+
+def validate_gateway_canary(report: dict[str, Any], *, role: str,
+                            config_path: Path, config: dict[str, Any]) -> None:
+    """Bind a successful synthetic route check to exactly one frozen config."""
+    if not isinstance(report, dict) or report.get("schema_version") != "proofpress/phase-c-gateway-canary/v1":
+        raise ValueError(f"{role} Gateway canary schema is missing")
+    if report.get("status") != "pass" or report.get("role") != role:
+        raise ValueError(f"{role} Gateway canary did not pass")
+    if report.get("automatic_admission") is not False or report.get("human_approval_required") is not True:
+        raise ValueError(f"{role} Gateway canary changed the Human Approval boundary")
+    if (report.get("config_digest") != file_digest(config_path)
+            or report.get("model") != config.get("model") or report.get("provider") != config.get("provider")):
+        raise ValueError(f"{role} Gateway canary does not match the frozen config")
+    if any(field in report for field in ("artifact", "grade", "task", "prompt", "rubric", "candidate", "projection")):
+        raise ValueError(f"{role} Gateway canary retained forbidden work-product content")
+    _canary_telemetry(report.get("telemetry"))
+
+
 def freeze(manifest: dict[str, Any], controls: dict[str, Path]) -> tuple[dict[str, Any], dict[str, Any]]:
     if set(controls) != set(CONTROL_ARGUMENTS):
         raise ValueError("every Phase C control file is required")
@@ -125,6 +156,14 @@ def freeze(manifest: dict[str, Any], controls: dict[str, Path]) -> tuple[dict[st
     primary = json.loads(controls["primary_extraction_qualification"].read_text())
     validate_extraction_qualification(primary, route=str(extraction.get("primary_route") or ""),
                                       key="paddleocr_vl_1_6_mlx")
+    executor = json.loads(controls["executor"].read_text())
+    grader = json.loads(controls["grader"].read_text())
+    if not isinstance(executor, dict) or not isinstance(grader, dict):
+        raise ValueError("Phase C Gateway configs must be JSON objects")
+    validate_gateway_canary(json.loads(controls["executor_gateway_canary"].read_text()), role="executor",
+                            config_path=controls["executor"], config=executor)
+    validate_gateway_canary(json.loads(controls["grader_gateway_canary"].read_text()), role="grader",
+                            config_path=controls["grader"], config=grader)
     frozen = json.loads(json.dumps(manifest))
     frozen["frozen_controls"] = {field: file_digest(controls[field]) for field in CONTROL_ARGUMENTS}
     frozen["execution_status"] = "frozen-pre-run-no-executor-called"

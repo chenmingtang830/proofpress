@@ -214,11 +214,15 @@ def validate_preflight(*, frozen_manifest_path: Path, freeze_receipt_path: Path,
             continue
         if not path.is_file() or file_digest(path) != frozen["frozen_controls"].get(field):
             raise ValueError(f"frozen control digest mismatch: {field}")
-    graph = read_json(control_paths["graph_digest"]); validate_graph(graph)
-    rubric_manifest = read_json(control_paths["rubric_digest"])
-    tasks = _task_rows(read_json(control_paths["task_source_manifest_digest"]), rubric_manifest, frozen)
-    _validate_command_config(read_json(control_paths["executor"]), role="executor")
-    _validate_command_config(read_json(control_paths["grader"]), role="grader")
+    executor_config = read_json(control_paths["executor"])
+    grader_config = read_json(control_paths["grader"])
+    _validate_command_config(executor_config, role="executor")
+    _validate_command_config(grader_config, role="grader")
+    # Route qualification happens before graph/task/rubric payloads are opened.
+    freeze_v25.validate_gateway_canary(read_json(control_paths["executor_gateway_canary"]), role="executor",
+                                       config_path=control_paths["executor"], config=executor_config)
+    freeze_v25.validate_gateway_canary(read_json(control_paths["grader_gateway_canary"]), role="grader",
+                                       config_path=control_paths["grader"], config=grader_config)
     retry = _required_object(read_json(control_paths["retry_policy"]), "retry policy")
     if retry.get("fallback") != "forbidden" or retry.get("terminal_receipt_required") is not True:
         raise ValueError("Phase C requires fallback-forbidden terminal receipt policy")
@@ -227,9 +231,11 @@ def validate_preflight(*, frozen_manifest_path: Path, freeze_receipt_path: Path,
     disclosure_budget = read_json(control_paths["disclosure_budget"])
     if not isinstance(disclosure_budget.get("max_projection_bytes"), int) or disclosure_budget["max_projection_bytes"] < 1:
         raise ValueError("disclosure budget requires positive max_projection_bytes")
+    graph = read_json(control_paths["graph_digest"]); validate_graph(graph)
+    rubric_manifest = read_json(control_paths["rubric_digest"])
+    tasks = _task_rows(read_json(control_paths["task_source_manifest_digest"]), rubric_manifest, frozen)
     return {"frozen": frozen, "receipt": receipt, "graph": graph, "tasks": tasks,
-            "executor": read_json(control_paths["executor"]),
-            "grader": read_json(control_paths["grader"]),
+            "executor": executor_config, "grader": grader_config,
             "rubric_manifest": rubric_manifest, "disclosure_budget": disclosure_budget,
             "executor_budget": read_json(control_paths["executor_budget"]),
             "native_output_contract": read_json(control_paths["native_output_contract"])}

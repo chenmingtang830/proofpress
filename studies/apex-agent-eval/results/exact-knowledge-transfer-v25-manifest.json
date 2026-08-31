@@ -41,6 +41,8 @@
     "graph_digest": "resolve-and-freeze-before-run",
     "executor": "single-fixed-development-executor-to-be-qualified-before-run",
     "grader": "single-frozen-blind-grader-panel-to-be-qualified-before-run",
+    "executor_gateway_canary": "matching-fixed-route-canary-must-pass-before-run",
+    "grader_gateway_canary": "matching-fixed-route-canary-must-pass-before-run",
     "rubric_digest": "resolve-and-freeze-before-run",
     "retry_policy": "fallback-forbidden; terminal-receipt-required",
     "disclosure_budget": "equal-across-conditions; freeze-before-run",

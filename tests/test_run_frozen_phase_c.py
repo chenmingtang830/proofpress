@@ -72,6 +72,13 @@ class FrozenPhaseCRunnerTests(unittest.TestCase):
                   "primary_extraction_qualification": self.extraction("paddleocr_vl_1_6_mlx", "PaddlePaddle/PaddleOCR-VL-1.6/mlx-vlm-server")}
         for field, value in values.items():
             path = root / f"{field}.json"; path.write_text(json.dumps(value)); control[field] = path
+        for role in ("executor", "grader"):
+            config_path = control[role]
+            canary = {"schema_version": "proofpress/phase-c-gateway-canary/v1", "status": "pass", "role": role,
+                      "config_digest": runner.file_digest(config_path), "model": "test/model", "provider": "test-provider",
+                      "telemetry": {"cost_usd": .01, "input_tokens": 2, "output_tokens": 1},
+                      "automatic_admission": False, "human_approval_required": True}
+            path = root / f"{role}_gateway_canary.json"; path.write_text(json.dumps(canary)); control[f"{role}_gateway_canary"] = path
         return control
 
     def frozen(self, root):
@@ -114,6 +121,10 @@ class FrozenPhaseCRunnerTests(unittest.TestCase):
             config = json.loads(config_path.read_text())
             config["gateway_policy"]["fallback"] = "allowed"
             config_path.write_text(json.dumps(config))
+            executor_canary_path = controls["executor_gateway_canary"]
+            executor_canary = json.loads(executor_canary_path.read_text())
+            executor_canary["config_digest"] = runner.file_digest(config_path)
+            executor_canary_path.write_text(json.dumps(executor_canary))
             # Re-freeze the mutated config so this tests the semantic preflight,
             # not merely its content-addressed digest mismatch.
             frozen, refreshed = freeze.freeze(json.loads(MANIFEST.read_text()), controls)
