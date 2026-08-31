@@ -100,6 +100,26 @@ class HostedAuthorityTests(unittest.TestCase):
         self.assertFalse(denied["ok"])
         self.assertEqual(denied["error"]["code"], "invalid_credential")
 
+    def test_agent_rotation_and_offline_owner_recovery_revoke_old_secrets(self):
+        rotated = self.control.rotate_agent_credential(
+            self.owner["token"], self.agent["credential_id"], "Codex rotated")
+        old_agent = self.control.execute(
+            self.agent["token"], operation("capabilities.get", {}))
+        self.assertEqual(old_agent["error"]["code"], "invalid_credential")
+        self.assertTrue(self.control.execute(
+            rotated["token"], operation("capabilities.get", {}))["ok"])
+
+        recovered = self.control.recover_owner(
+            self.owner["workspace_id"], self.owner["recovery_secret"])
+        old_owner = self.control.execute(
+            self.owner["token"], operation("capabilities.get", {}))
+        self.assertEqual(old_owner["error"]["code"], "invalid_credential")
+        self.assertTrue(self.control.execute(
+            recovered["token"], operation("capabilities.get", {}))["ok"])
+        with self.assertRaises(self.hosted.HostedAuthError):
+            self.control.recover_owner(
+                self.owner["workspace_id"], self.owner["recovery_secret"])
+
     def test_remote_file_import_and_unsafe_permission_grants_fail_closed(self):
         denied = self.control.execute(
             self.agent["token"], operation("evidence.import", {"path": "/tmp/raw"}))

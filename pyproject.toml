@@ -16,6 +16,7 @@ proofpress = "proofpress:main"
 proofpress-repo = "proofpress_repo:main"
 proofpress-mcp = "proofpress_mcp:main"
 proofpress-hosted = "proofpress_hosted_service:main"
+proofpress-remote = "proofpress_remote:main"
 
 [project.optional-dependencies]
 mcp = ["mcp>=2,<3"]
@@ -32,4 +33,5 @@ py-modules = [
   "proofpress_event_store",
   "proofpress_hosted",
   "proofpress_hosted_service",
+  "proofpress_remote",
 ]

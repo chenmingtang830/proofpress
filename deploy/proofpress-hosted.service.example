@@ -1,0 +1,19 @@
+[Unit]
+Description=Proofpress Personal Hosted Control Plane
+After=network.target
+
+[Service]
+Type=simple
+User=proofpress
+Group=proofpress
+WorkingDirectory=/var/lib/proofpress
+ExecStart=/opt/proofpress/bin/proofpress-hosted --database /var/lib/proofpress/hosted.db serve --host 127.0.0.1 --port 7334
+Restart=on-failure
+RestartSec=3
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ReadWritePaths=/var/lib/proofpress
+
+[Install]
+WantedBy=multi-user.target

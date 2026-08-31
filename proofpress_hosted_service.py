@@ -134,7 +134,7 @@ def _owner_token(args):
 
 def main(argv=None):
     parser = argparse.ArgumentParser(prog="proofpress-hosted")
-    parser.add_argument("--database", required=True)
+    parser.add_argument("--database")
     subparsers = parser.add_subparsers(dest="command", required=True)
     bootstrap = subparsers.add_parser("bootstrap")
     bootstrap.add_argument("--workspace-id", required=True)
@@ -147,15 +147,37 @@ def main(argv=None):
     revoke = subparsers.add_parser("revoke")
     revoke.add_argument("credential_id")
     revoke.add_argument("--owner-token-env", default="PROOFPRESS_OWNER_TOKEN")
+    rotate = subparsers.add_parser("rotate-agent")
+    rotate.add_argument("credential_id")
+    rotate.add_argument("--label")
+    rotate.add_argument("--owner-token-env", default="PROOFPRESS_OWNER_TOKEN")
+    recover = subparsers.add_parser("recover-owner")
+    recover.add_argument("--workspace-id", required=True)
+    recover.add_argument("--recovery-secret-env",
+                         default="PROOFPRESS_RECOVERY_SECRET")
     backup = subparsers.add_parser("backup")
     backup.add_argument("target")
     backup.add_argument("--workspace-id", required=True)
     export = subparsers.add_parser("export")
     export.add_argument("--workspace-id", required=True)
+    verify_export = subparsers.add_parser("verify-export")
+    verify_export.add_argument("file")
     serve = subparsers.add_parser("serve")
     serve.add_argument("--host", default="127.0.0.1")
     serve.add_argument("--port", type=int, default=7334)
     args = parser.parse_args(argv)
+    if args.command == "verify-export":
+        from proofpress_event_store import verify_history_envelopes
+        bundle = json.loads(Path(args.file).read_text(encoding="utf-8"))
+        if bundle.get("schema_version") != "proofpress/history-export/v1alpha1":
+            raise SystemExit("unsupported history export schema")
+        result = verify_history_envelopes(bundle.get("events", []))
+        print(json.dumps(result, ensure_ascii=False))
+        if not result["ok"]:
+            raise SystemExit(1)
+        return
+    if not args.database:
+        parser.error("--database is required for this command")
     control = HostedControlPlane(args.database)
     if args.command == "bootstrap":
         result = control.bootstrap(
@@ -168,6 +190,16 @@ def main(argv=None):
     elif args.command == "revoke":
         control.revoke_credential(_owner_token(args), args.credential_id)
         print(json.dumps({"revoked": args.credential_id}))
+    elif args.command == "rotate-agent":
+        print(json.dumps(control.rotate_agent_credential(
+            _owner_token(args), args.credential_id, args.label), ensure_ascii=False))
+    elif args.command == "recover-owner":
+        recovery_secret = os.environ.get(args.recovery_secret_env)
+        if not recovery_secret:
+            raise SystemExit(
+                f"missing recovery secret in {args.recovery_secret_env}")
+        print(json.dumps(control.recover_owner(
+            args.workspace_id, recovery_secret), ensure_ascii=False))
     elif args.command == "backup":
         from proofpress_event_store import SQLiteEventStore
         path = SQLiteEventStore(
