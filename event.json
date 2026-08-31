@@ -1,37 +1,28 @@
 {
-  "conclusion": {
-    "allowed_actors": [
-      "*"
-    ],
-    "artifact_refs": [],
-    "created_at": "2026-08-31T08:49:46.155431Z",
-    "digest": "sha256:ec72b5870d907d16fff160b68c0d179abec37b892a82d85bb52470fedbcdb687",
-    "evidence_refs": [
-      "evd_dacf381af5cdda5d"
-    ],
-    "expires_at": null,
-    "id": "knw_0767c67d52dec61c",
-    "kind": "conclusion",
-    "proposer": "agent:codex",
-    "qualifiers": {
-      "profile": "proofpress/profile/repository/v1",
-      "repo": {
-        "claim_kind": "capability",
-        "head_commit": "38e953df7627e7a3b24af6fb7cdf9ac3270b8d6d",
-        "pull_request": {
-          "number": 72,
-          "url": "https://github.com/chenmingtang830/proofpress/pull/72"
-        },
-        "repository_id": "repo_4c47e82ad7acd24b",
-        "schema_version": "proofpress/profile/repository/v1"
-      }
-    },
-    "scope": "repo:proofpress",
-    "statement": "The Proofpress repository supports the single-repository self-dogfood workflow: bounded PR evidence can be proposed, deterministically reverified, independently judged, human-approved, and projected to successor agents."
+  "checks": {
+    "evidence_integrity": true,
+    "evidence_present": true,
+    "not_expired": true,
+    "not_superseded": true,
+    "repo_checks_passed": true,
+    "repo_claim_is_current_fact": true,
+    "repo_commit_bound": true,
+    "repo_evidence_present": true,
+    "repo_evidence_reverified": true,
+    "repo_evidence_verified": true,
+    "repo_identity_bound": true,
+    "retrieval_receipts": true,
+    "scope_present": true
   },
-  "created_at": "2026-08-31T08:49:46.190671Z",
-  "event_id": "ppe_1a278863f625f8ff",
+  "conclusion_digest": "sha256:ec72b5870d907d16fff160b68c0d179abec37b892a82d85bb52470fedbcdb687",
+  "created_at": "2026-08-31T08:49:46.307925Z",
+  "eligible": true,
+  "event_id": "ppe_223c9e0a208d9928",
+  "policy_digest": "sha256:8771d0fbb519da81328359096ebdbd8d0dee23880b8251096a1544618ba5a123",
   "schema_version": "proofpress/knowledge-event/v2",
   "subject_ref": "knw_0767c67d52dec61c",
-  "type": "conclusion_proposed"
+  "type": "policy_evaluated",
+  "verification_config_digest": "sha256:d3451dd35eb105678ea6593a6ce8d74e2d32dc3764eb4959bcea5a4c7a7863f4",
+  "verification_profile": "proofpress/repo-dogfood-verification/v1",
+  "verifier": "verifier:repo-deterministic"
 }
