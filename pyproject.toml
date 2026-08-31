@@ -1,0 +1,24 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "proofpress-local"
+version = "0.5.0a2"
+description = "Local governance control plane and Python SDK for agent-produced knowledge"
+readme = "README.md"
+requires-python = ">=3.11"
+license = {text = "Apache-2.0"}
+authors = [{name = "Proofpress"}]
+
+[project.scripts]
+proofpress = "proofpress:main"
+
+[tool.setuptools]
+py-modules = [
+  "proofpress",
+  "proofpress_evidence",
+  "proofpress_knowledge",
+  "proofpress_sdk",
+  "proofpress_service",
+]
