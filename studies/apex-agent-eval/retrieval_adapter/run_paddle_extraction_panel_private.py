@@ -1,19 +1,18 @@
 #!/usr/bin/env python3
-"""Execute a frozen extraction panel with one reused PaddleOCR-VL instance."""
+"""Execute a frozen Paddle panel with one killable process per document."""
 from __future__ import annotations
 
 import argparse
 import hashlib
 import json
-import resource
+import os
 import signal
+import subprocess
 import sys
 import time
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parents[3]
-sys.path.insert(0, str(ROOT))
-from document_extraction_adapters import paddle_result_to_envelope
+CHILD = Path(__file__).with_name("run_paddle_document_extraction_private.py")
 
 
 def file_digest(path: Path) -> str:
@@ -24,6 +23,53 @@ def file_digest(path: Path) -> str:
     return "sha256:" + value.hexdigest()
 
 
+def receipt_digest(value: object) -> str:
+    payload = json.dumps(value, sort_keys=True, separators=(",", ":")).encode()
+    return "sha256:" + hashlib.sha256(payload).hexdigest()
+
+
+def _terminate_group(process: subprocess.Popen[str]) -> None:
+    try:
+        os.killpg(process.pid, signal.SIGTERM)
+        process.wait(timeout=5)
+    except (ProcessLookupError, subprocess.TimeoutExpired):
+        try:
+            os.killpg(process.pid, signal.SIGKILL)
+        except ProcessLookupError:
+            pass
+        process.wait(timeout=5)
+
+
+def isolated_run(command: list[str], timeout: int) -> dict[str, object]:
+    started = time.monotonic()
+    process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+                               text=True, start_new_session=True)
+    try:
+        stdout, stderr = process.communicate(timeout=timeout)
+        status = "complete" if process.returncode == 0 else "failed"
+        return {"status": status, "returncode": process.returncode,
+                "stdout_digest": receipt_digest(stdout), "stderr_digest": receipt_digest(stderr),
+                "elapsed_seconds": round(time.monotonic() - started, 3)}
+    except subprocess.TimeoutExpired:
+        _terminate_group(process)
+        process.communicate()
+        return {"status": "failed", "failure_type": "TimeoutExpired",
+                "returncode": process.returncode,
+                "stdout_digest": receipt_digest("timeout-output-withheld"),
+                "stderr_digest": receipt_digest("timeout-output-withheld"),
+                "elapsed_seconds": round(time.monotonic() - started, 3)}
+
+
+def backfill_cells(row: dict[str, object], target: Path) -> dict[str, object]:
+    if row.get("status") != "complete" or "cells" in row:
+        return row
+    envelope_path = target / "isolated" / "extraction-envelope.json"
+    if envelope_path.is_file():
+        envelope = json.loads(envelope_path.read_text())
+        row["cells"] = sum(len(table["cells"]) for table in envelope["tables"])
+    return row
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--panel", required=True, type=Path)
@@ -32,91 +78,71 @@ def main() -> None:
     parser.add_argument("--pages-per-document", type=int, default=1)
     parser.add_argument("--device", default="cpu")
     parser.add_argument("--document-timeout-seconds", type=int, default=600)
+    parser.add_argument("--retry-failed-development", action="store_true")
+    parser.add_argument("--include-heldout", action="store_true",
+                        help="Open held-out only after the development gate is frozen as passed.")
     args = parser.parse_args()
     if args.pages_per_document < 1 or args.document_timeout_seconds < 1:
         raise SystemExit("page count and document timeout must be positive")
-
-    import numpy as np
-    import pypdfium2 as pdfium
-    from paddleocr import PaddleOCRVL
 
     panel = json.loads(args.panel.read_text()); manifest = json.loads(args.source_manifest.read_text())
     paths = {}
     for source in manifest["sources"]:
         path = Path(source["path"]).resolve(); paths[file_digest(path)] = (path, source)
     args.out.mkdir(parents=True, exist_ok=True); args.out.chmod(0o700)
-    pipeline_started = time.monotonic()
-    pipeline = PaddleOCRVL(pipeline_version="v1.6", device=args.device)
-    cells = []
-
-    def timeout_handler(signum, frame):
-        raise TimeoutError("document extraction exceeded the frozen wall-time circuit")
-
-    signal.signal(signal.SIGALRM, timeout_handler)
+    started = time.monotonic(); rows = []
     for item in panel["sources"]:
-        started = time.monotonic(); path, manifest_source = paths[item["content_digest"]]
-        target = args.out / item["source_id"]; target.mkdir(exist_ok=True); target.chmod(0o700)
-        summary_path = target / "run-summary.json"
-        if summary_path.is_file():
-            cells.append(json.loads(summary_path.read_text()))
-            continue
-        try:
-            signal.alarm(args.document_timeout_seconds)
-            document = pdfium.PdfDocument(str(path)); results = []
-            for page_index in range(min(len(document), args.pages_per_document)):
-                image = np.asarray(document[page_index].render(scale=2).to_pil())
-                predictions = list(pipeline.predict(image, temperature=0))
-                if len(predictions) != 1:
-                    raise RuntimeError("one result per page is required")
-                raw = predictions[0].json["res"]; raw["page_index"] = page_index; results.append(raw)
-            source = {"uri": manifest_source["uri"], "content_digest": item["content_digest"],
-                      "media_type": manifest_source.get("media_type", "application/pdf")}
-            envelope = paddle_result_to_envelope(
-                {"pages": results}, source=source, version="1.6",
-                config={"pipeline_version": "v1.6", "device": args.device,
-                        "pages_per_document": args.pages_per_document, "temperature_requested": 0,
-                        "temperature_support": "ignored_by-local-model"})
-            envelope_path = target / "extraction-envelope.json"
-            envelope_path.write_text(json.dumps(envelope, ensure_ascii=False, indent=2) + "\n")
-            envelope_path.chmod(0o600)
-            row = {"source_id": item["source_id"], "split": item["split"], "status": "complete",
-                   "pages_processed": len(results), "blocks": len(envelope["blocks"]),
-                   "tables": len(envelope["tables"]), "cells": sum(len(t["cells"]) for t in envelope["tables"]),
-                   "extraction_digest": envelope["extraction_digest"],
-                   "elapsed_seconds": round(time.monotonic() - started, 3)}
-        except Exception as exc:
-            row = {"source_id": item["source_id"], "split": item["split"], "status": "failed",
-                   "failure_type": type(exc).__name__,
-                   "failure_digest": "sha256:" + hashlib.sha256(str(exc).encode()).hexdigest(),
-                   "elapsed_seconds": round(time.monotonic() - started, 3)}
-        finally:
-            signal.alarm(0)
-        cells.append(row)
-        summary_path.write_text(json.dumps(row, indent=2, sort_keys=True) + "\n")
-        if row.get("failure_type") == "TimeoutError":
-            # Paddle's internal VLM worker may outlive the interrupted request.
-            # Stop this process and require content-addressed resume in a fresh
-            # process so later documents are not contaminated by stale work.
+        if item["split"] == "heldout" and not args.include_heldout:
             break
-    complete = [row for row in cells if row["status"] == "complete"]
-    report = {"schema_version": "proofpress/document-extraction-panel-run/v1",
+        path, manifest_source = paths[item["content_digest"]]
+        target = args.out / item["source_id"]; target.mkdir(exist_ok=True); target.chmod(0o700)
+        summary_path = target / "run-summary-isolated.json"
+        if summary_path.is_file():
+            saved = backfill_cells(json.loads(summary_path.read_text()), target)
+            if not (args.retry_failed_development and item["split"] == "development"
+                    and saved.get("status") == "failed"):
+                rows.append(saved); continue
+        command = [sys.executable, str(CHILD), "--input", str(path), "--uri",
+                   manifest_source["uri"], "--out", str(target / "isolated"),
+                   "--max-pages", str(args.pages_per_document), "--device", args.device]
+        terminal = isolated_run(command, args.document_timeout_seconds)
+        child_report_path = target / "isolated" / "sanitized-report.json"
+        if terminal["status"] == "complete" and child_report_path.is_file():
+            child = json.loads(child_report_path.read_text())
+            envelope_path = target / "isolated" / "extraction-envelope.json"
+            envelope = json.loads(envelope_path.read_text()) if envelope_path.is_file() else {"tables": []}
+            cell_count = child.get("cells", sum(len(table["cells"]) for table in envelope["tables"]))
+            row = {"source_id": item["source_id"], "split": item["split"],
+                   "pages_processed": child["pages_processed"], "blocks": child["blocks"],
+                   "tables": child["tables"], "cells": cell_count,
+                   "extraction_digest": child["extraction_digest"],
+                   "peak_rss_mib": child["peak_rss_mib"], **terminal}
+        else:
+            row = {"source_id": item["source_id"], "split": item["split"], **terminal}
+        row["terminal_receipt_digest"] = receipt_digest(row)
+        summary_path.write_text(json.dumps(row, indent=2, sort_keys=True) + "\n")
+        summary_path.chmod(0o600); rows.append(row)
+    complete = [row for row in rows if row["status"] == "complete"]
+    report = {"schema_version": "proofpress/document-extraction-panel-run/v2",
               "panel_digest": panel["panel_digest"], "route": "PaddlePaddle/PaddleOCR-VL-1.6",
+              "isolation": "one-process-group-per-document/v1",
               "host": {"architecture": "Apple-Silicon", "device": args.device},
               "document_timeout_seconds": args.document_timeout_seconds,
-              "documents": len(panel["sources"]), "attempted": len(cells),
-              "pending": len(panel["sources"]) - len(cells),
-              "complete": len(complete), "failed": len(cells) - len(complete),
+              "documents": len(panel["sources"]), "attempted": len(rows),
+              "pending": len(panel["sources"]) - len(rows), "complete": len(complete),
+              "failed": len(rows) - len(complete),
               "pages_processed": sum(row.get("pages_processed", 0) for row in complete),
               "blocks": sum(row.get("blocks", 0) for row in complete),
               "tables": sum(row.get("tables", 0) for row in complete),
               "cells": sum(row.get("cells", 0) for row in complete),
-              "elapsed_seconds": round(time.monotonic() - pipeline_started, 3),
-              "peak_rss_mib": round(resource.getrusage(resource.RUSAGE_SELF).ru_maxrss / (1024 * 1024), 1),
+              "elapsed_seconds": round(time.monotonic() - started, 3),
+              "peak_child_rss_mib": max((row.get("peak_rss_mib", 0) for row in complete), default=0),
               "known_model_cost_usd": 0, "automatic_admission": False,
               "human_approval_required": True,
               "qualification_status": "awaiting-structure-ground-truth-review",
-              "cells_private": cells}
-    target = args.out / "sanitized-report.json"; target.write_text(json.dumps(report, indent=2, sort_keys=True) + "\n"); target.chmod(0o600)
+              "cells_private": rows}
+    target = args.out / "sanitized-report-isolated.json"
+    target.write_text(json.dumps(report, indent=2, sort_keys=True) + "\n"); target.chmod(0o600)
     print(json.dumps({key: value for key, value in report.items() if key != "cells_private"}, sort_keys=True))
 
 

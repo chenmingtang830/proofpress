@@ -120,6 +120,8 @@ def validate_envelope(value: Any) -> None:
             raise ValueError("table ids must be unique")
         table_ids.add(table["id"])
         _locator(table.get("locator"), f"tables[{table_index}].locator")
+        if table.get("continuation_id") is not None and not isinstance(table["continuation_id"], str):
+            raise ValueError("table continuation_id must be text when present")
         cells = table.get("cells")
         if not isinstance(cells, list) or not cells:
             raise ValueError(f"tables[{table_index}] requires cells")

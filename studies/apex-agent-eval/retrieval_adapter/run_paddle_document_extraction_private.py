@@ -70,6 +70,7 @@ def main() -> None:
               "extraction_digest": envelope["extraction_digest"],
               "pages_processed": len(results), "blocks": len(envelope["blocks"]),
               "tables": len(envelope["tables"]),
+              "cells": sum(len(table["cells"]) for table in envelope["tables"]),
               "elapsed_seconds": round(time.monotonic() - started, 3),
               "peak_rss_mib": round(resource.getrusage(resource.RUSAGE_SELF).ru_maxrss / (1024 * 1024), 1),
               "known_model_cost_usd": 0, "automatic_admission": False,
