@@ -93,12 +93,19 @@ def main() -> None:
             signal.alarm(0)
         cells.append(row)
         summary_path.write_text(json.dumps(row, indent=2, sort_keys=True) + "\n")
+        if row.get("failure_type") == "TimeoutError":
+            # Paddle's internal VLM worker may outlive the interrupted request.
+            # Stop this process and require content-addressed resume in a fresh
+            # process so later documents are not contaminated by stale work.
+            break
     complete = [row for row in cells if row["status"] == "complete"]
     report = {"schema_version": "proofpress/document-extraction-panel-run/v1",
               "panel_digest": panel["panel_digest"], "route": "PaddlePaddle/PaddleOCR-VL-1.6",
               "host": {"architecture": "Apple-Silicon", "device": args.device},
               "document_timeout_seconds": args.document_timeout_seconds,
-              "documents": len(cells), "complete": len(complete), "failed": len(cells) - len(complete),
+              "documents": len(panel["sources"]), "attempted": len(cells),
+              "pending": len(panel["sources"]) - len(cells),
+              "complete": len(complete), "failed": len(cells) - len(complete),
               "pages_processed": sum(row.get("pages_processed", 0) for row in complete),
               "blocks": sum(row.get("blocks", 0) for row in complete),
               "tables": sum(row.get("tables", 0) for row in complete),
