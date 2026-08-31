@@ -50,9 +50,18 @@ def validate_transfer_manifest(manifest: dict[str, Any]) -> dict[str, Any]:
     controls = manifest.get("frozen_controls") or {}
     for field in ("task_source_manifest_digest", "graph_digest", "executor",
                   "grader", "rubric_digest", "retry_policy",
-                  "disclosure_budget", "executor_budget", "native_output_contract"):
+                  "disclosure_budget", "executor_budget", "native_output_contract",
+                  "primary_extraction_qualification",
+                  "sensitivity_extraction_qualification"):
         if not _content_digest(controls.get(field)):
             failures.append(f"missing frozen control: {field}")
+
+    extraction = manifest.get("stage_b5_extraction")
+    if not isinstance(extraction, dict):
+        failures.append("Stage B.5 extraction contract is missing")
+    elif not all(isinstance(extraction.get(field), str) and extraction[field]
+                 for field in ("primary_route", "sensitivity_route")):
+        failures.append("Stage B.5 extractor routes are missing")
 
     families = manifest.get("nonlegal_families") or []
     family_names = tuple(row.get("family") for row in families
