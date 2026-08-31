@@ -82,6 +82,9 @@ class LocalOperationContractTests(unittest.TestCase):
         self.assertIn("conclusion.review", operations)
         self.assertIn("conclusion.judge", operations)
         self.assertIn("relation.resolve", operations)
+        self.assertIn("graph.get", operations)
+        self.assertIn("graph.traverse", operations)
+        self.assertFalse(operations["graph.traverse"]["mutates"])
         self.assertEqual(operations["conclusion.review"]["replay_semantics"],
                          "parameter_request_id")
         self.assertEqual(result["not_available"],
@@ -246,6 +249,13 @@ class LocalOperationContractTests(unittest.TestCase):
         cli_evaluation = self.cli("relation", "evaluate", relation_id)
         self.assertTrue(cli_evaluation["eligible"])
 
+        for conclusion_id in (source_id, target_id):
+            admitted = self.execute(
+                "conclusion.review", conclusion_id=conclusion_id,
+                decision="admit", reviewer="human:alice",
+                request_id="admit-" + conclusion_id)
+            self.assertTrue(admitted["ok"])
+
         reviewed = self.execute(
             "relation.review", relation_id=relation_id, decision="admit",
             reviewer="human:alice", request_id="relation-review-001")
@@ -258,6 +268,18 @@ class LocalOperationContractTests(unittest.TestCase):
             reviewer="human:alice", request_id="relation-review-001")
         self.assertTrue(duplicate["ok"])
         self.assertTrue(duplicate["result"]["idempotent"])
+
+        graph = self.execute("graph.get", scope="matter-1")["result"]
+        cli_graph = self.cli("graph", "--scope", "matter-1")
+        self.assertEqual(cli_graph, graph)
+        traversal = self.execute(
+            "graph.traverse", seed_ids=[source_id], scope="matter-1",
+            actor=None, task=None, max_depth=1, max_claims=2,
+            state="admitted")
+        self.assertTrue(traversal["ok"])
+        self.assertEqual(set(traversal["result"]["conclusion_ids"]),
+                         {source_id, target_id})
+        self.assertEqual(traversal["result"]["relations"][0]["id"], relation_id)
 
     def test_cli_supersede_is_visible_through_contract_context(self):
         evidence_id = self.execute(

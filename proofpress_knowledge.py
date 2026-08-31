@@ -298,6 +298,16 @@ LOCAL_OPERATION_SPECS = {
         "optional": ("winner", "note", "expected_head"),
         "mutates": True, "replay_semantics": "kernel_deduplicated",
     },
+    "graph.get": {
+        "required": (), "optional": ("scope",), "mutates": False,
+        "replay_semantics": "read_only",
+    },
+    "graph.traverse": {
+        "required": ("seed_ids",),
+        "optional": ("scope", "actor", "task", "max_depth", "max_claims",
+                     "state"),
+        "mutates": False, "replay_semantics": "read_only",
+    },
     "context.get": {
         "required": (),
         "optional": ("scope", "actor", "task", "include_blocked_statements"),
@@ -2381,6 +2391,15 @@ def execute_local_operation(request):
                 parameters["relation_id"], parameters["disposition"],
                 parameters["reviewer"], parameters.get("winner"),
                 parameters.get("note"), parameters.get("expected_head"))
+        elif operation == "graph.get":
+            result = graph_v2(parameters.get("scope"))
+        elif operation == "graph.traverse":
+            result = traverse_graph_v2(
+                parameters["seed_ids"], parameters.get("scope"),
+                parameters.get("actor"), parameters.get("task"),
+                parameters.get("max_depth", 2),
+                parameters.get("max_claims", 48),
+                parameters.get("state", "admitted"))
         else:
             result = context_v2(
                 parameters.get("scope"), parameters.get("actor"),
@@ -2477,9 +2496,12 @@ def cmd_flat(a):
             "expected_head": a.expected_head,
         })
     elif command == "graph":
-        out = (traverse_graph_v2(a.seed, a.scope, a.actor, a.task,
-                                 a.max_depth, a.max_claims, a.state)
-               if a.seed else graph_v2(a.scope))
+        out = (_local_request("graph.traverse", {
+                   "seed_ids": a.seed, "scope": a.scope, "actor": a.actor,
+                   "task": a.task, "max_depth": a.max_depth,
+                   "max_claims": a.max_claims, "state": a.state,
+               }) if a.seed else
+               _local_request("graph.get", {"scope": a.scope}))
     elif command == "context":
         out = _local_request("context.get", {
             "scope": a.scope, "actor": a.actor, "task": a.task,
