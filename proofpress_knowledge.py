@@ -2233,6 +2233,14 @@ def add_flat_cli(sub):
     ui_parser = sub.add_parser("ui", help="open the local review and context UI")
     ui_parser.add_argument("--scope"); ui_parser.add_argument("--port", type=int, default=7331); ui_parser.add_argument("--no-open", action="store_true")
     ui_parser.set_defaults(f=cmd_flat, flat_cmd="ui")
+    service_parser = sub.add_parser(
+        "service", help="run the loopback-only local operation service")
+    service_parser.add_argument("--workspace", required=True,
+                                help="explicit Git repository root")
+    service_parser.add_argument("--host", default="127.0.0.1")
+    service_parser.add_argument("--port", type=int, default=7332)
+    service_parser.add_argument("--token-env", default="PROOFPRESS_LOCAL_TOKEN")
+    service_parser.set_defaults(f=cmd_flat, flat_cmd="service")
     migration = sub.add_parser("import-v1", help="one-way import of a 0.4 file-backed knowledge ledger")
     migration.add_argument("ledger"); migration.set_defaults(f=cmd_flat, flat_cmd="import-v1")
 
@@ -2613,6 +2621,9 @@ def cmd_flat(a):
                "sources": len(catalog["sources"]), "representations": len(catalog["representations"]),
                "catalog_digest": catalog["catalog_digest"], "output": a.output}
     elif command == "ui": serve_ui(a.port, a.scope, not a.no_open); return
+    elif command == "service":
+        from proofpress_service import run_from_args
+        run_from_args(a); return
     elif command == "import-v1": out = import_v1(a.ledger)
     else: raise ValueError("unknown local MVP command")
     print(json.dumps(out, ensure_ascii=False, indent=2, default=str))
