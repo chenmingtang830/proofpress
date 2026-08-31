@@ -2,7 +2,7 @@
 """File-backed admission ledger: telemetry is input; admitted claims are context."""
 from __future__ import annotations
 
-import argparse, hashlib, io, json, os, re, secrets, subprocess, tempfile, threading, webbrowser
+import argparse, hashlib, json, os, re, secrets, subprocess, tempfile, threading, webbrowser
 from http import HTTPStatus
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from urllib.parse import parse_qs, urlparse
@@ -11,6 +11,7 @@ from pathlib import Path
 from typing import Any
 
 import proofpress_repo
+from proofpress_event_store import current_event_store
 
 SCHEMA = "proofpress/knowledge-ledger/v1"
 ALLOWED = {"service.name","experiment.id","experiment_id","experimentId","experiment.variant","variant","metric.conversion_rate","conversion_rate","metric.value","experiment.outcome","outcome","sample.size","sample_size"}
@@ -375,33 +376,7 @@ def _event_id(event):
 
 
 def v2_events():
-    try:
-        commits = _git("rev-list", "--reverse", KNOWLEDGE_REF).split()
-    except ValueError:
-        return []
-    if not commits:
-        return []
-    specs = [f"{commit}:event.json" for commit in commits]
-    result = subprocess.run(["git", "cat-file", "--batch"],
-                            input=("\n".join(specs) + "\n").encode(),
-                            capture_output=True)
-    if result.returncode:
-        raise ValueError("git cat-file --batch: " + result.stderr.decode(errors="replace").strip())
-    rows, output = [], io.BytesIO(result.stdout)
-    for commit, spec in zip(commits, specs):
-        header_line = output.readline()
-        if not header_line:
-            raise ValueError("git cat-file --batch returned a truncated header")
-        header = header_line.decode().split()
-        if len(header) != 3 or header[1] != "blob":
-            raise ValueError("git cat-file --batch: missing event blob for " + spec)
-        size = int(header[2]); blob = output.read(size)
-        if len(blob) != size or output.read(1) != b"\n":
-            raise ValueError("git cat-file --batch returned a truncated event blob")
-        row = json.loads(blob.decode("utf-8"))
-        row["commit"] = commit
-        rows.append(row)
-    return rows
+    return current_event_store().list_events()
 
 
 def append_v2(event, existing_rows=None):
@@ -423,28 +398,17 @@ def append_v2(event, existing_rows=None):
     existing = {row["event_id"]: row for row in existing_rows}
     if event["event_id"] in existing:
         return existing[event["event_id"]]
-    blob = _git("hash-object", "-w", "--stdin",
-                input=json.dumps(event, ensure_ascii=False, sort_keys=True,
-                                 indent=2) + "\n").strip()
-    tree = _git("mktree", input=f"100644 blob {blob}\tevent.json\n").strip()
-    parent = []
-    parent_commit = None
-    try:
-        parent_commit = _git("rev-parse", KNOWLEDGE_REF).strip()
-        parent = ["-p", parent_commit]
-    except ValueError:
-        pass
-    commit = _git("commit-tree", tree, *parent, "-m",
-                  f"{event['type']}: {event.get('subject_ref', event['event_id'])}").strip()
-    _git("update-ref", KNOWLEDGE_REF, commit, parent_commit or "0" * 40)
-    appended = {**event, "commit": commit}
+    store = current_event_store()
+    appended = store.append(
+        event,
+        message=f"{event['type']}: {event.get('subject_ref', event['event_id'])}",
+        expected_head=store.head())
     existing_rows.append(appended)
     return appended
 
 
 def v2_head():
-    try: return _git("rev-parse", KNOWLEDGE_REF).strip()
-    except ValueError: return None
+    return current_event_store().head()
 
 
 def _idempotent_review(projection, subject, request_id, review_key, final_keys):
@@ -1479,9 +1443,7 @@ def context_v2(scope=None, actor=None, task=None, include_blocked_statements=Fal
                           "policy_digest": admitted["policy_digest"],
                           "evidence_digests": admitted["evidence_digests"],
                           "conflict_resolutions": _conflict_resolution_receipts(projection, cid)}})
-    head = None
-    try: head = _git("rev-parse", KNOWLEDGE_REF).strip()
-    except ValueError: pass
+    head = v2_head()
     admitted_ids = {row["id"] for row in knowledge}
     relations = [row for row in projection["relations"].values()
                  if relation_state(projection, row) == "admitted"
@@ -1628,9 +1590,7 @@ def traverse_graph_v2(seeds, scope=None, actor=None, task=None,
                 selected.append(neighbor); selected_set.add(neighbor)
                 frontier.append((neighbor, depth + 1))
 
-    head = None
-    try: head = _git("rev-parse", KNOWLEDGE_REF).strip()
-    except ValueError: pass
+    head = v2_head()
     return {"schema_version": TRAVERSAL_SCHEMA, "ledger_head": head,
             "scope": scope, "actor": actor, "task": task, "state": state,
             "seed_conclusion_ids": ordered_seeds,

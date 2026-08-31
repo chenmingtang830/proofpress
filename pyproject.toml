@@ -28,4 +28,5 @@ py-modules = [
   "proofpress_sdk",
   "proofpress_service",
   "proofpress_mcp",
+  "proofpress_event_store",
 ]
