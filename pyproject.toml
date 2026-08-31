@@ -25,6 +25,7 @@ mcp = ["mcp>=2,<3"]
 py-modules = [
   "proofpress",
   "proofpress_evidence",
+  "proofpress_experiment",
   "proofpress_knowledge",
   "proofpress_repo",
   "proofpress_sdk",
