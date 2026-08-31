@@ -10,16 +10,72 @@ from __future__ import annotations
 
 import argparse
 from collections import Counter
+from copy import deepcopy
 import json
 from pathlib import Path
 from typing import Any
 
-from exact_knowledge_contract import digest
+from exact_knowledge_contract import (
+    assess_requirement_readiness,
+    bind_candidate_objects,
+    digest,
+)
 from run_exact_knowledge_stage_a_private import SCHEMA as RUN_SCHEMA, TASK_IDS
 
 
-PRIVATE_SCHEMA = "proofpress/exact-knowledge-human-review-queue/v1"
-SANITIZED_SCHEMA = "proofpress/exact-knowledge-review-stability/v1"
+PRIVATE_SCHEMA = "proofpress/exact-knowledge-human-review-queue/v2"
+SANITIZED_SCHEMA = "proofpress/exact-knowledge-review-stability/v2"
+
+
+def _current_contract_private(private: dict[str, Any]) -> dict[str, Any]:
+    """Rebind saved candidates under the current deterministic contract."""
+    current = deepcopy(private)
+    objects = current["objects"]
+    current["plan"] = bind_candidate_objects(
+        current["plan"],
+        evidence_atoms=[*objects["evidence_atoms"], *objects["numeric_atoms"]],
+        authority_nodes=objects["authority_nodes"],
+        derivations=current.get("derivations", []),
+        authority_screens=current.get("authority_screens", []),
+    )
+    current["readiness"] = assess_requirement_readiness(
+        current["plan"],
+        evidence_atoms=[*objects["evidence_atoms"], *objects["numeric_atoms"]],
+        authority_nodes=objects["authority_nodes"],
+        derivations=current.get("derivations", []),
+        period_domains=objects.get("period_domains", []),
+        authority_screens=current.get("authority_screens", []),
+    )
+    return current
+
+
+def _failure_layer(slot: dict[str, Any], rows: list[dict[str, Any]],
+                   task_runs: list[dict[str, Any]], shared_ids: set[str]) -> str:
+    states = [row["state"] for row in rows]
+    if slot["slot_type"] == "output_structure":
+        return "mechanical_output_structure"
+    if any(state == "invalid_binding" for state in states):
+        return "invalid_binding"
+    if len(set(states)) != 1:
+        return "construction_state_instability"
+    if states[0] == "gap":
+        if slot["slot_type"] == "value_by_period":
+            if any(row.get("period_domain_invalid") for row in rows):
+                return "period_domain_missing_or_invalid"
+            if any(row.get("missing_periods") for row in rows):
+                return "period_values_incomplete"
+        if slot["slot_type"] == "controlling_authority":
+            outcomes = [screen.get("outcome") for private in task_runs
+                        for screen in private.get("authority_screens", [])
+                        if screen.get("requirement_id") == slot["slot_id"]]
+            return ("authority_responsiveness_not_qualified" if outcomes
+                    else "authority_candidate_missing")
+        if all(not row.get("eligible_object_ids") for row in rows):
+            return "eligible_candidate_missing"
+        return "completion_path_incomplete"
+    if shared_ids:
+        return "human_approval_required"
+    return "candidate_identity_reconciliation"
 
 
 def _object_index(private: dict[str, Any]) -> dict[str, dict[str, Any]]:
@@ -57,12 +113,13 @@ def build(reports: list[dict[str, Any]]) -> tuple[dict[str, Any], dict[str, Any]
     run_privates: list[dict[str, dict[str, Any]]] = []
     for report in reports:
         raw_dir = Path(report["raw_private_dir"])
-        run_privates.append({task_id: json.loads((raw_dir / f"{task_id}.json").read_text())
-                             for task_id in TASK_IDS})
+        run_privates.append({task_id: _current_contract_private(json.loads(
+            (raw_dir / f"{task_id}.json").read_text())) for task_id in TASK_IDS})
 
     private_tasks = []
     sanitized_tasks = []
     dispositions = Counter()
+    failure_layers = Counter()
     stable_slot_count = 0
     shared_object_count = 0
     for task_id in TASK_IDS:
@@ -107,6 +164,8 @@ def build(reports: list[dict[str, Any]]) -> tuple[dict[str, Any], dict[str, Any]
             else:
                 disposition = "semantic_candidate_reconciliation"
             dispositions[disposition] += 1
+            failure_layer = _failure_layer(slot, rows, task_runs, shared_ids)
+            failure_layers[failure_layer] += 1
 
             run_candidates = []
             all_objects = []
@@ -129,7 +188,8 @@ def build(reports: list[dict[str, Any]]) -> tuple[dict[str, Any], dict[str, Any]
             items.append({
                 "slot": slot, "states": states, "stable": stable,
                 "shared_candidate_object_ids": sorted(shared_ids),
-                "disposition": disposition, "runs": run_candidates,
+                "disposition": disposition, "failure_layer": failure_layer,
+                "runs": run_candidates,
                 "receipts": all_receipts,
                 "human_decision": None, "admission_receipt": None,
             })
@@ -137,7 +197,7 @@ def build(reports: list[dict[str, Any]]) -> tuple[dict[str, Any], dict[str, Any]
                 "slot_id": slot_id, "slot_type": slot["slot_type"], "states": states,
                 "stable": stable, "shared_candidate_object_count": len(shared_ids),
                 "candidate_object_count": len({digest(row) for row in all_objects}),
-                "disposition": disposition,
+                "disposition": disposition, "failure_layer": failure_layer,
             })
         private_tasks.append({"task_id": task_id, "plan_digest": next(iter(plan_digests)),
                               "review_items": items})
@@ -145,6 +205,11 @@ def build(reports: list[dict[str, Any]]) -> tuple[dict[str, Any], dict[str, Any]
                                 "slots": sanitized_slots})
 
     report_digests = [digest(row) for row in reports]
+    run_candidate_coverage = [sum(private[task_id]["readiness"]["candidate_coverage"]
+                                  for task_id in TASK_IDS) for private in run_privates]
+    run_gap_counts = [sum(sum(slot["state"] == "gap"
+                              for slot in private[task_id]["readiness"]["slots"])
+                          for task_id in TASK_IDS) for private in run_privates]
     private_queue = {
         "schema_version": PRIVATE_SCHEMA, "source_report_digests": report_digests,
         "frozen_basis": {key: reports[0].get(key) for key in invariants},
@@ -157,11 +222,14 @@ def build(reports: list[dict[str, Any]]) -> tuple[dict[str, Any], dict[str, Any]
     sanitized = {
         "schema_version": SANITIZED_SCHEMA, "source_report_digests": report_digests,
         "run_count": len(reports), "task_count": len(TASK_IDS), "slot_count": total_slots,
+        "run_candidate_coverage": run_candidate_coverage,
+        "run_gap_counts": run_gap_counts,
         "stable_slot_count": stable_slot_count,
         "unstable_slot_count": total_slots - stable_slot_count,
         "slot_agreement_rate": stable_slot_count / total_slots if total_slots else 0,
         "shared_candidate_object_count": shared_object_count,
         "dispositions": dict(sorted(dispositions.items())),
+        "failure_layers": dict(sorted(failure_layers.items())),
         "tasks": sanitized_tasks,
         "private_queue_digest": private_queue["queue_digest"],
         "privacy": {"task_prompts_included": False, "source_quotes_included": False,
@@ -169,6 +237,7 @@ def build(reports: list[dict[str, Any]]) -> tuple[dict[str, Any], dict[str, Any]
         "governance": {"automatic_admission": False, "admission_authority": False,
                        "human_approval_receipts": 0, "executor_allowed": False},
         "decision": "stop_before_executor_pending_stability_gap_closure_and_human_approval",
+        "reaggregation": {"current_contract_binding": True, "new_model_calls": 0},
     }
     sanitized["report_digest"] = digest(sanitized)
     return private_queue, sanitized

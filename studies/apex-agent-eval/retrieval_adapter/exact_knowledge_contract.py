@@ -25,6 +25,10 @@ NUMERIC_BINDING_GATE_SCHEMA = "proofpress/numeric-binding-gate/v1"
 TASK_PARAMETER_SCHEMA = "proofpress/task-parameter/v1"
 PERIOD_DOMAIN_SCHEMA = "proofpress/period-domain/v1"
 AUTHORITY_APPLICABILITY_SCHEMA = "proofpress/authority-applicability-screen/v1"
+AUTHORITY_CANDIDATE_OUTCOMES = frozenset({
+    "exact_reference_match_candidate",
+    "independent_review_supports_candidate",
+})
 
 SLOT_OBJECT_KINDS = {
     "exact_value": {"evidence_atom", "derivation_node"},
@@ -545,6 +549,52 @@ def bind_requirement_objects(plan: dict[str, Any],
     return checked
 
 
+def bind_candidate_objects(plan: dict[str, Any], *,
+                           evidence_atoms: Iterable[dict[str, Any]] = (),
+                           authority_nodes: Iterable[dict[str, Any]] = (),
+                           derivations: Iterable[dict[str, Any]] = (),
+                           authority_screens: Iterable[dict[str, Any]] = ()) -> dict[str, Any]:
+    """Deterministically bind only typed candidates eligible for each slot.
+
+    An independent responsiveness screen can make an authority node eligible as
+    a not-governed candidate.  It never confirms legal applicability, admits the
+    node, or makes governed reliance available.
+    """
+    supplied_digest = plan.get("plan_digest")
+    digest_basis = {key: value for key, value in plan.items() if key != "plan_digest"}
+    if plan.get("schema_version") != REQUIREMENT_PLAN_SCHEMA or supplied_digest != digest(digest_basis):
+        raise ValueError("requirement plan digest mismatch")
+    slots = {row["slot_id"]: row for row in plan.get("slots", [])}
+    assignments: dict[str, list[str]] = {slot_id: [] for slot_id in slots}
+    screens_by_authority: dict[str, list[dict[str, Any]]] = {}
+    for screen in authority_screens:
+        if (not isinstance(screen, dict)
+                or screen.get("schema_version") != AUTHORITY_APPLICABILITY_SCHEMA
+                or not _embedded_digest_valid(screen, "screen_digest")):
+            raise ValueError("authority applicability screen must be digest-valid")
+        screens_by_authority.setdefault(str(screen.get("authority_id") or ""), []).append(screen)
+
+    for kind, rows, id_key in (
+        ("evidence_atom", evidence_atoms, "atom_id"),
+        ("authority_node", authority_nodes, "authority_id"),
+        ("derivation_node", derivations, "derivation_id"),
+    ):
+        for row in rows:
+            requirement_id = str(row.get("requirement_id") or "")
+            if requirement_id not in slots or kind not in set(slots[requirement_id]["required_object_kinds"]):
+                continue
+            object_id = str(row.get(id_key) or "")
+            if not object_id:
+                raise ValueError("typed candidate object ID is required")
+            if kind == "authority_node":
+                screens = screens_by_authority.get(object_id, [])
+                if (len(screens) != 1
+                        or screens[0].get("outcome") not in AUTHORITY_CANDIDATE_OUTCOMES):
+                    continue
+            assignments[requirement_id].append(object_id)
+    return bind_requirement_objects(plan, assignments)
+
+
 def _object_index(evidence_atoms: Iterable[dict[str, Any]], authority_nodes: Iterable[dict[str, Any]],
                   derivations: Iterable[dict[str, Any]]) -> dict[str, tuple[str, dict[str, Any]]]:
     rows: dict[str, tuple[str, dict[str, Any]]] = {}
@@ -610,8 +660,7 @@ def assess_requirement_readiness(plan: dict[str, Any], *,
         qualified_screen_ids = []
         for authority_id in authority_ids:
             screens = screens_by_authority.get(authority_id, [])
-            if len(screens) == 1 and screens[0].get("outcome") in {
-                    "exact_reference_match_candidate", "independent_review_supports_candidate"}:
+            if len(screens) == 1 and screens[0].get("outcome") in AUTHORITY_CANDIDATE_OUTCOMES:
                 qualified_authority_ids.append(authority_id)
                 qualified_screen_ids.append(screens[0]["screen_id"])
         unqualified_authority_ids = sorted(set(authority_ids) - set(qualified_authority_ids))

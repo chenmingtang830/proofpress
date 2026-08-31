@@ -14,6 +14,10 @@ RUNNER_SPEC = importlib.util.spec_from_file_location(
     "run_exact_knowledge_readiness_private",
     ADAPTER / "run_exact_knowledge_readiness_private.py")
 runner = importlib.util.module_from_spec(RUNNER_SPEC); RUNNER_SPEC.loader.exec_module(runner)
+REVIEW_SPEC = importlib.util.spec_from_file_location(
+    "build_exact_knowledge_review_queue_private",
+    ADAPTER / "build_exact_knowledge_review_queue_private.py")
+review = importlib.util.module_from_spec(REVIEW_SPEC); REVIEW_SPEC.loader.exec_module(review)
 
 
 class ExactKnowledgeContractTests(unittest.TestCase):
@@ -279,6 +283,51 @@ class ExactKnowledgeContractTests(unittest.TestCase):
         self.assertFalse(review["legal_applicability_confirmed"])
         self.assertTrue(review["human_review_required"])
         self.assertFalse(review["admission_authority"])
+
+    def test_independent_authority_support_is_bound_only_as_candidate(self):
+        node, receipts = self.authority()
+        node = exact.validate_authority_node(node, receipts)
+        review = exact.bind_independent_authority_review(
+            "Identify the controlling consent authority", node,
+            supports_candidate=True, review_record_digest="sha256:" + "e" * 64,
+            reviewer_route="openai/gpt-5.6-sol")
+        plan = exact.bind_candidate_objects(
+            self.plan(), authority_nodes=[node], authority_screens=[review])
+        authority_slot = next(row for row in plan["slots"] if row["slot_id"] == "R_AUTH")
+        self.assertEqual(authority_slot["object_ids"], ["U1"])
+        readiness = exact.assess_requirement_readiness(
+            plan, authority_nodes=[node], authority_screens=[review])
+        authority_row = next(row for row in readiness["slots"] if row["slot_id"] == "R_AUTH")
+        self.assertEqual(authority_row["state"], "covered_candidate_not_governed")
+        self.assertFalse(review["legal_applicability_confirmed"])
+        self.assertFalse(readiness["executor_ready"])
+
+    def test_rejected_independent_authority_is_not_bound(self):
+        node, receipts = self.authority()
+        node = exact.validate_authority_node(node, receipts)
+        review = exact.bind_independent_authority_review(
+            "Identify the controlling consent authority", node,
+            supports_candidate=False, review_record_digest="sha256:" + "e" * 64,
+            reviewer_route="openai/gpt-5.6-sol")
+        plan = exact.bind_candidate_objects(
+            self.plan(), authority_nodes=[node], authority_screens=[review])
+        authority_slot = next(row for row in plan["slots"] if row["slot_id"] == "R_AUTH")
+        self.assertEqual(authority_slot["object_ids"], [])
+
+    def test_review_queue_attributes_authority_and_period_gaps(self):
+        authority_slot = {"slot_id": "R_AUTH", "slot_type": "controlling_authority"}
+        gap = {"state": "gap", "eligible_object_ids": [], "period_domain_invalid": False,
+               "missing_periods": []}
+        task_runs = [{"authority_screens": [{"requirement_id": "R_AUTH",
+                                              "outcome": "independent_review_rejects_candidate"}]}]
+        self.assertEqual(
+            review._failure_layer(authority_slot, [gap], task_runs, set()),
+            "authority_responsiveness_not_qualified")
+        period_slot = {"slot_id": "R_SERIES", "slot_type": "value_by_period"}
+        period_gap = {**gap, "period_domain_invalid": True}
+        self.assertEqual(
+            review._failure_layer(period_slot, [period_gap], [{}], set()),
+            "period_domain_missing_or_invalid")
 
     def test_authority_slot_needs_qualified_applicability_screen(self):
         plan = exact.bind_requirement_objects(self.plan(), {"R_AUTH": ["U1"]})

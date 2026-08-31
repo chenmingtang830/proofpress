@@ -21,7 +21,7 @@ from exact_knowledge_contract import (
     bind_independent_authority_review,
     bind_numeric_atom,
     bind_period_domain,
-    bind_requirement_objects,
+    bind_candidate_objects,
     bind_task_numeric_parameter,
     build_exact_derivation,
     compile_requirement_plan,
@@ -777,23 +777,12 @@ def _task_audit(gateways: dict[str, Gateway], task: dict[str, Any], index: Secti
     authority_screens, authority_review_status = _review_authority_applicability(
         gateways["authority_reviewer"], slots, objects["authority_nodes"])
     failures.extend(authority_review_status.get("invariant_failures", []))
-    qualified_authority_ids = {row["authority_id"] for row in authority_screens
-                               if row["outcome"] == "exact_reference_match_candidate"}
     derivations, derivation_status = _plan_derivations(gateways["derivation"], slots, objects)
     failures.extend(derivation_status.get("invariant_failures", []))
-    allowed = {row["slot_id"]: set(row["required_object_kinds"]) for row in slots}
-    assignments: dict[str, list[str]] = {row["slot_id"]: [] for row in slots}
-    for label, kind, id_key in (("evidence_atoms", "evidence_atom", "atom_id"),
-                                ("numeric_atoms", "evidence_atom", "atom_id"),
-                                ("authority_nodes", "authority_node", "authority_id")):
-        for row in objects[label]:
-            if (kind in allowed[row["requirement_id"]]
-                    and (kind != "authority_node" or row[id_key] in qualified_authority_ids)):
-                assignments[row["requirement_id"]].append(row[id_key])
-    for row in derivations:
-        if "derivation_node" in allowed[row["requirement_id"]]:
-            assignments[row["requirement_id"]].append(row["derivation_id"])
-    plan = bind_requirement_objects(plan, assignments)
+    plan = bind_candidate_objects(
+        plan, evidence_atoms=[*objects["evidence_atoms"], *objects["numeric_atoms"]],
+        authority_nodes=objects["authority_nodes"], derivations=derivations,
+        authority_screens=authority_screens)
     readiness = assess_requirement_readiness(
         plan, evidence_atoms=[*objects["evidence_atoms"], *objects["numeric_atoms"]],
         authority_nodes=objects["authority_nodes"], derivations=derivations,
@@ -813,7 +802,9 @@ def _task_audit(gateways: dict[str, Gateway], task: dict[str, Any], index: Secti
     target.chmod(0o600)
     states = Counter(row["state"] for row in readiness["slots"])
     paths = Counter()
-    for slot_id, ids in assignments.items():
+    for slot in plan["slots"]:
+        slot_id = slot["slot_id"]
+        ids = slot["object_ids"]
         for object_id in ids:
             paths["derivation_node" if object_id.startswith("derivation_") else
                   "authority_node" if object_id.startswith("authority_") else "evidence_atom"] += 1

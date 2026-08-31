@@ -8,7 +8,12 @@ import json
 from pathlib import Path
 from typing import Any
 
-from exact_knowledge_contract import assess_requirement_readiness, digest, screen_authority_applicability
+from exact_knowledge_contract import (
+    assess_requirement_readiness,
+    bind_candidate_objects,
+    digest,
+    screen_authority_applicability,
+)
 from run_exact_knowledge_stage_a_private import SCHEMA, TASK_IDS
 
 
@@ -18,6 +23,10 @@ def summarize(private: dict[str, Any], prior: dict[str, Any]) -> dict[str, Any]:
     authority_screens = private.get("authority_screens") or [
         screen_authority_applicability(slot_descriptions[row["requirement_id"]], row)
         for row in objects["authority_nodes"]]
+    plan = bind_candidate_objects(
+        plan, evidence_atoms=[*objects["evidence_atoms"], *objects["numeric_atoms"]],
+        authority_nodes=objects["authority_nodes"], derivations=private["derivations"],
+        authority_screens=authority_screens)
     readiness = assess_requirement_readiness(
         plan, evidence_atoms=[*objects["evidence_atoms"], *objects["numeric_atoms"]],
         authority_nodes=objects["authority_nodes"], derivations=private["derivations"],
@@ -117,7 +126,8 @@ def main() -> None:
                                 "source_execution_report_digest": digest(source),
                                 "new_model_calls": 0,
                                 "change": ("value_by_period_requires_source_bound_period_domain; "
-                                           "authority_coverage_requires_applicability_screen")},
+                                           "authority_coverage_requires_applicability_screen; "
+                                           "independent_responsiveness_support_is_candidate_eligible")},
               "raw_private_dir": str(raw_dir)}
     report["report_digest"] = digest(report)
     args.output.parent.mkdir(parents=True, exist_ok=True)
