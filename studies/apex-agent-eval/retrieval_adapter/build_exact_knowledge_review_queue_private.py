@@ -19,12 +19,29 @@ from exact_knowledge_contract import (
     assess_requirement_readiness,
     bind_candidate_objects,
     digest,
+    extract_period_domain_candidates,
 )
 from run_exact_knowledge_stage_a_private import SCHEMA as RUN_SCHEMA, TASK_IDS
 
 
 PRIVATE_SCHEMA = "proofpress/exact-knowledge-human-review-queue/v2"
 SANITIZED_SCHEMA = "proofpress/exact-knowledge-review-stability/v2"
+
+
+def _period_inventory_count(private: dict[str, Any], requirement_id: str) -> int:
+    """Reconstruct the deterministic inventory available to one period slot."""
+    stage = private.get("stage_status", {}).get("period_extraction", {})
+    counts = stage.get("inventory_candidate_count_by_requirement", {})
+    if isinstance(counts, dict) and requirement_id in counts:
+        return int(counts[requirement_id])
+    audit = next((row for row in private.get("retrieval_audit", [])
+                  if row.get("requirement_id") == requirement_id), {})
+    candidates: set[tuple[str, str]] = set()
+    for evidence_id in audit.get("evidence_ids", [])[:8]:
+        receipt = private.get("receipts", {}).get(evidence_id, {})
+        for candidate in extract_period_domain_candidates(str(receipt.get("quote") or ""))[:24]:
+            candidates.add((evidence_id, candidate["candidate_id"]))
+    return len(candidates)
 
 
 def _current_contract_private(private: dict[str, Any]) -> dict[str, Any]:
@@ -61,6 +78,12 @@ def _failure_layer(slot: dict[str, Any], rows: list[dict[str, Any]],
     if states[0] == "gap":
         if slot["slot_type"] == "value_by_period":
             if any(row.get("period_domain_invalid") for row in rows):
+                inventory_counts = [_period_inventory_count(private, slot["slot_id"])
+                                    for private in task_runs]
+                if inventory_counts and all(count > 0 for count in inventory_counts):
+                    return "period_inventory_selector_rejected"
+                if inventory_counts and all(count == 0 for count in inventory_counts):
+                    return "period_inventory_missing"
                 return "period_domain_missing_or_invalid"
             if any(row.get("missing_periods") for row in rows):
                 return "period_values_incomplete"

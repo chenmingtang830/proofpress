@@ -1,0 +1,54 @@
+{
+  "schema_version": "proofpress/exact-knowledge-stage-b-checkpoint/v1",
+  "recorded_at": "2026-08-30",
+  "boundary": "Five frozen zero-heavy APEX tasks; construction-only readiness; no answer executor; no task prompts, source excerpts, numeric values, or authority text.",
+  "denominators": {
+    "tasks": 5,
+    "slots": 49,
+    "substantive_slots": 44
+  },
+  "runs": [
+    {"run": "v12", "mechanism": "deterministic period inventory with bounded retrieval", "candidate_covered": 26, "gaps": 23, "period_domains": 0, "calls": 23, "input_tokens": 436672, "output_tokens": 40131, "known_cost_usd": 1.491472},
+    {"run": "v13", "mechanism": "v12 repeat with explicit rejection attribution", "candidate_covered": 29, "gaps": 20, "period_domains": 0, "calls": 23, "input_tokens": 435597, "output_tokens": 39632, "known_cost_usd": 0.5110527},
+    {"run": "v14", "mechanism": "unbounded BM25 period recovery with chunked candidate screening", "candidate_covered": 27, "gaps": 22, "period_domains": 6, "calls": 45, "input_tokens": 661637, "output_tokens": 42003, "known_cost_usd": 1.1226647},
+    {"run": "v15", "mechanism": "v14 exact repeat", "candidate_covered": 29, "gaps": 20, "period_domains": 5, "calls": 45, "input_tokens": 661085, "output_tokens": 36520, "known_cost_usd": 0.5287906},
+    {"run": "v16", "mechanism": "selected period spans prioritized in numeric inventory", "candidate_covered": 31, "gaps": 18, "period_domains": 5, "numeric_atoms": 48, "derivations": 3, "calls": 45, "input_tokens": 1106156, "output_tokens": 41440, "known_cost_usd": 2.2694654},
+    {"run": "v17", "mechanism": "required-period numeric hint and deterministic excerpt reconstruction", "candidate_covered": 29, "gaps": 20, "period_domains": 5, "numeric_atoms": 41, "derivations": 5, "calls": 45, "input_tokens": 1107097, "output_tokens": 37508, "known_cost_usd": 2.2324979},
+    {"run": "v18", "mechanism": "independent per-requirement schedule-column numeric mapping", "candidate_covered": 27, "gaps": 22, "period_domains": 5, "numeric_atoms": 55, "derivations": 4, "calls": 50, "input_tokens": 1073604, "output_tokens": 41353, "known_cost_usd": 1.3661183}
+  ],
+  "paired_stability": [
+    {"runs": ["v12", "v13"], "stable_slots": 44, "unstable_slots": 5, "candidate_coverage": [26, 29], "gap_counts": [23, 20]},
+    {"runs": ["v14", "v15"], "stable_slots": 45, "unstable_slots": 4, "shared_candidate_object_count": 7, "candidate_coverage": [27, 29], "gap_counts": [22, 20], "stable_period_domain_ids": 5},
+    {"runs": ["v16", "v17"], "stable_slots": 41, "unstable_slots": 8, "shared_candidate_object_count": 9, "candidate_coverage": [31, 29], "gap_counts": [18, 20]}
+  ],
+  "v18_period_diagnostic": {
+    "bm25_matching_sections_scanned": 17031,
+    "period_candidate_sections": 307,
+    "period_selector_calls": 25,
+    "period_column_numeric_calls": 5,
+    "complete_ordinary_income_period_values": 5,
+    "complete_federal_tax_period_values": 0,
+    "complete_state_tax_period_values": 0,
+    "complete_total_tax_period_values": 0,
+    "other_schedule_period_values": 0
+  },
+  "gates": {
+    "invalid_bindings": 0,
+    "automatic_admission": false,
+    "human_approval_receipts": 0,
+    "executor_ready_tasks": 0,
+    "executor_ran": false,
+    "fallback": "forbidden",
+    "terminal_cost_and_token_receipts_complete": true
+  },
+  "decision": {
+    "status": "stop_before_executor",
+    "retain": [
+      "deterministic exact-span period inventory",
+      "unbounded BM25 period gap-recovery with lossless chunking",
+      "per-requirement schedule-column validation",
+      "explicit period inventory rejected versus period values incomplete attribution"
+    ],
+    "next_blocker": "Requirement-aware table and authoritative-source construction must bind the requested numeric column and every required period before Human Approval or executor comparison. More selector prompting is not an adequate completion path."
+  }
+}

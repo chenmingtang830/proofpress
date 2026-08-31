@@ -18,6 +18,11 @@ REVIEW_SPEC = importlib.util.spec_from_file_location(
     "build_exact_knowledge_review_queue_private",
     ADAPTER / "build_exact_knowledge_review_queue_private.py")
 review = importlib.util.module_from_spec(REVIEW_SPEC); REVIEW_SPEC.loader.exec_module(review)
+STAGE_RUNNER_SPEC = importlib.util.spec_from_file_location(
+    "run_exact_knowledge_stage_a_private",
+    ADAPTER / "run_exact_knowledge_stage_a_private.py")
+stage_runner = importlib.util.module_from_spec(STAGE_RUNNER_SPEC)
+STAGE_RUNNER_SPEC.loader.exec_module(stage_runner)
 
 
 class ExactKnowledgeContractTests(unittest.TestCase):
@@ -80,6 +85,21 @@ class ExactKnowledgeContractTests(unittest.TestCase):
         rows = exact.extract_numeric_candidates(text)
         self.assertEqual([row["raw_text"] for row in rows], ["$350k", "26%"])
         self.assertEqual([row["normalized_value"] for row in rows], ["350000", "26"])
+
+    def test_period_domain_inventory_preserves_exact_multi_year_spans(self):
+        text = "Header 2026\n\nAnnual schedule: 2022, 2023, and 2024.\n\nFooter"
+        rows = exact.extract_period_domain_candidates(text)
+        schedule = next(row for row in rows if row["periods"] == ["2022", "2023", "2024"])
+        self.assertEqual(schedule["exact_excerpt"],
+                         text[schedule["start"]:schedule["end"]])
+        self.assertTrue(schedule["candidate_id"].startswith("period_candidate_"))
+        self.assertNotIn("2026", schedule["periods"])
+
+    def test_period_domain_inventory_is_syntactic_and_non_governing(self):
+        rows = exact.extract_period_domain_candidates("Range endpoints: 2022 through 2024.")
+        self.assertEqual(rows[0]["periods"], ["2022", "2024"])
+        self.assertNotIn("status", rows[0])
+        self.assertNotIn("admission_authority", rows[0])
 
     def test_numeric_atom_requires_exact_value_entity_period_and_currency(self):
         checked = exact.validate_numeric_atom(self.atom(), {"E1": self.receipt()})
@@ -327,7 +347,45 @@ class ExactKnowledgeContractTests(unittest.TestCase):
         period_gap = {**gap, "period_domain_invalid": True}
         self.assertEqual(
             review._failure_layer(period_slot, [period_gap], [{}], set()),
-            "period_domain_missing_or_invalid")
+            "period_inventory_missing")
+        inventory_run = {
+            "stage_status": {"period_extraction": {
+                "inventory_candidate_count_by_requirement": {"R_SERIES": 3}}}}
+        self.assertEqual(
+            review._failure_layer(period_slot, [period_gap], [inventory_run], set()),
+            "period_inventory_selector_rejected")
+
+    def test_period_retrieval_scans_all_bm25_matches_without_rank_cap(self):
+        class FakeIndex:
+            def __init__(self):
+                self.sections = [object(), object(), object()]
+                self.doc_meta = {"one": {}, "two": {}}
+                self.calls = []
+
+            def search(self, query, max_documents, max_sections):
+                self.calls.append((query, max_documents, max_sections))
+                hits = []
+                for rank in (1, 2):
+                    text = f"Annual schedule 202{rank} and 202{rank + 1}"
+                    hits.append({"rank": rank, "score": 1.0 / rank,
+                                 "section": {
+                                     "uri": f"source-{rank}", "id": f"section-{rank}",
+                                     "text": text, "text_digest": exact.digest(text),
+                                     "representation_digest": exact.digest(f"rep-{rank}"),
+                                     "page_start": rank, "page_end": rank,
+                                     "source": {"uri": f"source-{rank}",
+                                                "content_digest": exact.digest(f"source-{rank}"),
+                                                "media_type": "text/plain"}}})
+                return hits
+
+        index = FakeIndex()
+        slots = [{"slot_id": "R_SERIES", "slot_type": "value_by_period",
+                  "description": "Annual schedule", "search_queries": ["schedule", "annual"]}]
+        receipts, audit = stage_runner._unbounded_period_retrieval(slots, index)
+        self.assertEqual(len(receipts), 2)
+        self.assertEqual(audit[0]["period_candidate_section_count"], 2)
+        self.assertIsNone(audit[0]["retrieval_limit"])
+        self.assertTrue(all(call[1:] == (2, 3) for call in index.calls))
 
     def test_authority_slot_needs_qualified_applicability_screen(self):
         plan = exact.bind_requirement_objects(self.plan(), {"R_AUTH": ["U1"]})

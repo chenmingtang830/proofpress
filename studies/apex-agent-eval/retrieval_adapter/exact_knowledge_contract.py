@@ -59,6 +59,7 @@ _NUMBER = re.compile(
     r"|(?P<number>\b[+-]?(?:\d{1,3}(?:,\d{3})+|\d+)(?:\.\d+)?(?:[kKmMbB])?\b)"
 )
 _PERIOD = re.compile(r"^(?:19|20)\d{2}$")
+_PERIOD_IN_TEXT = re.compile(r"\b(?:19|20)\d{2}\b")
 _AUTHORITY_REFERENCE = re.compile(
     r"(?:\b\d+\s+C\.?F\.?R\.?\s*§?\s*[\d.]+(?:-\d+)?(?:\([a-zA-Z0-9]+\))*"
     r"|\b\d+\s+U\.?S\.?C\.?\s*§?\s*\d+[A-Za-z]?(?:\([a-zA-Z0-9]+\))*"
@@ -130,6 +131,60 @@ def extract_numeric_candidates(text: str) -> list[dict[str, Any]]:
                  "normalized_value": normalized_value, "kind_hint": kind,
                  "normalization_error": normalization_error}
         rows.append({"candidate_id": "number_" + digest(basis).split(":", 1)[1][:20], **basis})
+    return rows
+
+
+def extract_period_domain_candidates(text: str) -> list[dict[str, Any]]:
+    """Inventory exact receipt spans that explicitly contain multiple years.
+
+    The inventory is syntactic only.  It does not decide whether a span is a
+    complete schedule; a separate selector may only choose one of these exact
+    candidates and Human Approval remains required before governed reliance.
+    """
+    if not isinstance(text, str) or not text:
+        return []
+    spans: set[tuple[int, int]] = set()
+
+    def add_span(start: int, end: int) -> None:
+        while start < end and text[start].isspace():
+            start += 1
+        while end > start and text[end - 1].isspace():
+            end -= 1
+        if 0 <= start < end <= len(text) and end - start <= 2000:
+            spans.add((start, end))
+
+    for match in re.finditer(r"(?:^|\n\s*\n)(.*?)(?=\n\s*\n|$)", text,
+                             flags=re.DOTALL):
+        add_span(match.start(1), match.end(1))
+    for match in re.finditer(r"[^\n]+", text):
+        add_span(match.start(), match.end())
+
+    year_matches = list(_PERIOD_IN_TEXT.finditer(text))
+    cluster: list[re.Match[str]] = []
+    for match in year_matches:
+        if cluster and match.start() - cluster[-1].end() > 480:
+            first, last = cluster[0], cluster[-1]
+            start = text.rfind("\n", 0, first.start()) + 1
+            line_end = text.find("\n", last.end())
+            add_span(start, len(text) if line_end < 0 else line_end)
+            cluster = []
+        cluster.append(match)
+    if cluster:
+        first, last = cluster[0], cluster[-1]
+        start = text.rfind("\n", 0, first.start()) + 1
+        line_end = text.find("\n", last.end())
+        add_span(start, len(text) if line_end < 0 else line_end)
+
+    rows = []
+    for start, end in sorted(spans):
+        excerpt = text[start:end]
+        periods = sorted(set(_PERIOD_IN_TEXT.findall(excerpt)))
+        if not 2 <= len(periods) <= 32:
+            continue
+        basis = {"start": start, "end": end, "exact_excerpt": excerpt, "periods": periods}
+        rows.append({"candidate_id": "period_candidate_" + digest(basis).split(":", 1)[1][:20],
+                     "start": start, "end": end, "exact_excerpt": excerpt,
+                     "periods": periods})
     return rows
 
 

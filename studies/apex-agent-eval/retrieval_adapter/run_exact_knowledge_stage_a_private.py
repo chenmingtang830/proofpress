@@ -27,10 +27,11 @@ from exact_knowledge_contract import (
     compile_requirement_plan,
     digest,
     extract_numeric_candidates,
+    extract_period_domain_candidates,
     screen_authority_applicability,
     validate_authority_node,
 )
-from run_claim_construction_private import Gateway, SectionIndex, _model_call
+from run_claim_construction_private import Gateway, SectionIndex, _evidence, _model_call
 from run_model_routing_qualification_private import terminal_telemetry
 from run_v10_construction_qualification_private import retrieve
 from build_official_authority_catalog_private import CATALOG_SCHEMA as AUTHORITY_CATALOG_SCHEMA
@@ -142,10 +143,21 @@ AUTHORITY_OUTPUT = {"type": "object", "additionalProperties": False,
                     "required": ["authority_nodes"],
                     "properties": {"authority_nodes": {"type": "array", "maxItems": 48,
                                                            "items": AUTHORITY_PAYLOAD}}}
-PERIOD_DOMAIN_OUTPUT = {"type": "object", "additionalProperties": False,
-                        "required": ["period_domains"],
-                        "properties": {"period_domains": {"type": "array", "maxItems": 16,
-                                                              "items": PERIOD_DOMAIN_PAYLOAD}}}
+PERIOD_DOMAIN_SELECTION_ITEM = {
+    "type": "object", "additionalProperties": False,
+    "required": ["requirement_id", "evidence_id", "candidate_id"],
+    "properties": {
+        "requirement_id": {"type": "string"},
+        "evidence_id": {"type": "string"},
+        "candidate_id": {"type": "string"},
+    },
+}
+PERIOD_DOMAIN_OUTPUT = {
+    "type": "object", "additionalProperties": False,
+    "required": ["period_domain_selections"],
+    "properties": {"period_domain_selections": {"type": "array", "maxItems": 16,
+                                                   "items": PERIOD_DOMAIN_SELECTION_ITEM}},
+}
 NUMERIC_SELECTION_ITEM = {
     "type": "object", "additionalProperties": False,
     "required": ["requirement_id", "evidence_id", "candidate_id", "subject", "predicate",
@@ -276,7 +288,57 @@ def _source_requirements(slots: list[dict[str, Any]]) -> list[dict[str, Any]]:
 def _authority_requirements(slots: list[dict[str, Any]]) -> list[dict[str, Any]]:
     return [{"requirement_id": row["slot_id"], "requirement": row["description"],
              "evidence_search_queries": row["search_queries"]}
-            for row in slots if "authority_node" in row["required_object_kinds"]]
+             for row in slots if "authority_node" in row["required_object_kinds"]]
+
+
+def _unbounded_period_retrieval(slots: list[dict[str, Any]],
+                                index: SectionIndex) -> tuple[dict[str, dict[str, Any]],
+                                                              list[dict[str, Any]]]:
+    """Scan every BM25 match, retaining only sections with exact period spans.
+
+    This lane removes retrieval top-k as a completeness confound.  Projection
+    remains chunked later for provider context, but no matching candidate is
+    discarded because of rank.
+    """
+    receipts: dict[str, dict[str, Any]] = {}
+    audit = []
+    for slot in slots:
+        if slot["slot_type"] != "value_by_period":
+            continue
+        queries = [str(row) for row in slot.get("search_queries", []) if str(row).strip()]
+        description = str(slot.get("description") or "").strip()
+        if description:
+            queries.append(description)
+        queries = list(dict.fromkeys(queries))
+        seen_sections: set[tuple[str, str]] = set()
+        selected = []
+        matching_section_count = 0
+        for query in queries:
+            hits = index.search(query, max_documents=len(index.doc_meta),
+                                max_sections=len(index.sections))
+            for hit in hits:
+                section = hit["section"]
+                key = (section["uri"], section["id"])
+                if key in seen_sections:
+                    continue
+                seen_sections.add(key)
+                matching_section_count += 1
+                if not extract_period_domain_candidates(str(section.get("text") or "")):
+                    continue
+                selected.append(_evidence(slot["slot_id"], hit, query))
+        for row in selected:
+            source = row.get("source") or {}
+            receipts[row["evidence_id"]] = {
+                "evidence_id": row["evidence_id"], "receipt_digest": row["receipt_digest"],
+                "source_digest": source.get("content_digest"), "custody_valid": True,
+                "quote": row["quote"], "locator": row["locator"], "source": source,
+            }
+        audit.append({"requirement_id": slot["slot_id"],
+                      "evidence_ids": [row["evidence_id"] for row in selected],
+                      "ranked_section_count": matching_section_count,
+                      "period_candidate_section_count": len(selected),
+                      "retrieval_limit": None})
+    return receipts, audit
 
 
 def _merge_retrieval(primary_receipts: dict[str, dict[str, Any]],
@@ -405,81 +467,222 @@ def _extract_period_domains(gateway: Gateway, slots: list[dict[str, Any]],
                             receipts: dict[str, dict[str, Any]],
                             audit: list[dict[str, Any]]) -> tuple[list[dict[str, Any]], dict[str, Any]]:
     by_slot = {row["requirement_id"]: row for row in audit}
-    selected = []
+    inventory_index: dict[tuple[str, str], dict[str, Any]] = {}
+    candidates_by_requirement: dict[str, list[dict[str, Any]]] = {}
     period_slots = [row for row in slots if row["slot_type"] == "value_by_period"]
     for slot in period_slots:
-        for evidence_id in by_slot.get(slot["slot_id"], {}).get("evidence_ids", [])[:8]:
+        requirement_id = slot["slot_id"]
+        routed: set[tuple[str, str]] = set()
+        candidates_by_requirement[requirement_id] = []
+        for evidence_id in by_slot.get(requirement_id, {}).get("evidence_ids", []):
             receipt = receipts[evidence_id]
-            selected.append({"requirement_id": slot["slot_id"],
-                             "requirement": slot["description"],
-                             "evidence_id": evidence_id,
-                             "quote": receipt["quote"][:3000],
-                             "locator": receipt["locator"],
-                             "receipt_digest": receipt["receipt_digest"]})
-    if not period_slots or not selected:
+            inventory = extract_period_domain_candidates(str(receipt.get("quote") or ""))
+            for candidate in inventory:
+                inventory_index[(evidence_id, candidate["candidate_id"])] = candidate
+                key = (evidence_id, candidate["candidate_id"])
+                if key in routed:
+                    continue
+                routed.add(key)
+                candidates_by_requirement[requirement_id].append({
+                    "requirement_id": requirement_id,
+                    "evidence_id": evidence_id,
+                    "candidate_id": candidate["candidate_id"],
+                    "exact_excerpt": candidate["exact_excerpt"],
+                    "periods": candidate["periods"],
+                })
+    inventory_counts = {key: len(value) for key, value in sorted(candidates_by_requirement.items())}
+    candidate_receipts = {row["evidence_id"] for values in candidates_by_requirement.values()
+                          for row in values}
+    if not period_slots or not any(candidates_by_requirement.values()):
         return [], {"status": "ok", "period_domain_count": 0,
-                    "candidate_receipt_count": len(selected)}
-    payload = {
-        "value_by_period_requirements": period_slots,
-        "candidate_receipts": selected,
-        "instruction": (
-            "For each value_by_period requirement, construct at most one closed annual period domain only when one "
-            "receipt contains the explicit complete schedule enumeration. Copy that evidence_id and an exact excerpt, "
-            "then list every four-digit year in that schedule. Every listed year must occur in the excerpt. Do not use "
-            "document publication years, citation years, isolated endpoints, inferred intermediate years, the task "
-            "prompt, or phrases such as each affected year. Omit the requirement when no single receipt proves closure."),
-    }
-    result = _model_call(gateway, "Extract source-bound closed annual period domains.",
-                         json.dumps(payload, ensure_ascii=False), 12000,
-                         PERIOD_DOMAIN_OUTPUT, "proofpress_period_domains", 2)
-    if not result["ok"]:
-        return [], {"status": "inconclusive", "period_domain_count": 0,
-                    "candidate_receipt_count": len(selected), "failure": result["record"]}
-    rows = result["value"].get("period_domains", [])
+                    "candidate_receipt_count": len(candidate_receipts),
+                    "inventory_candidate_count": len(inventory_index),
+                    "inventory_candidate_count_by_requirement": inventory_counts,
+                    "selected_requirement_ids": [],
+                    "selection_batch_count": 0,
+                    "provisional_selection_count": 0,
+                    "invariant_failures": []}
+
+    slot_by_id = {row["slot_id"]: row for row in period_slots}
+    failures: list[str] = []
+    provisional: dict[str, list[dict[str, Any]]] = {key: [] for key in candidates_by_requirement}
+    batch_count = 0
+
+    def chunks(values: list[dict[str, Any]], character_budget: int = 28000):
+        batch: list[dict[str, Any]] = []
+        size = 0
+        for value in values:
+            value_size = len(json.dumps(value, ensure_ascii=False))
+            if batch and size + value_size > character_budget:
+                yield batch
+                batch, size = [], 0
+            batch.append(value); size += value_size
+        if batch:
+            yield batch
+
+    def accepted_selections(value: dict[str, Any], requirement_id: str,
+                            allowed: set[tuple[str, str]]) -> list[dict[str, Any]]:
+        accepted = []
+        for selection in value.get("period_domain_selections", []):
+            evidence_id = str(selection.get("evidence_id") or "")
+            candidate_id = str(selection.get("candidate_id") or "")
+            if (selection.get("requirement_id") != requirement_id
+                    or (evidence_id, candidate_id) not in allowed):
+                failures.append("period_selection:unknown_candidate_or_requirement_id")
+                continue
+            candidate = inventory_index[(evidence_id, candidate_id)]
+            accepted.append({"requirement_id": requirement_id, "evidence_id": evidence_id,
+                             "candidate_id": candidate_id,
+                             "exact_excerpt": candidate["exact_excerpt"],
+                             "periods": candidate["periods"]})
+        if len(accepted) > 1:
+            failures.append("period_selection:duplicate_requirement_id")
+            return []
+        return accepted
+
+    instruction = (
+        "Select at most one candidate only when its exact excerpt explicitly enumerates the complete annual schedule "
+        "needed by this requirement. Copy requirement_id, evidence_id, and candidate_id exactly. Reject publication "
+        "years, citation years, isolated endpoints, inferred intermediate years, task-prompt periods, and incomplete "
+        "schedules. Omit the requirement when no candidate proves a closed domain.")
+    for requirement_id, candidates in candidates_by_requirement.items():
+        allowed = {(row["evidence_id"], row["candidate_id"]) for row in candidates}
+        for batch in chunks(candidates):
+            batch_count += 1
+            payload = {"requirement": {"requirement_id": requirement_id,
+                                        "description": slot_by_id[requirement_id]["description"]},
+                       "period_domain_candidates": batch, "instruction": instruction}
+            result = _model_call(gateway, "Select a source-bound closed annual period domain.",
+                                 json.dumps(payload, ensure_ascii=False), 6000,
+                                 PERIOD_DOMAIN_OUTPUT,
+                                 "proofpress_period_domain_candidate_selection", 2)
+            if not result["ok"]:
+                return [], {"status": "inconclusive", "period_domain_count": 0,
+                            "candidate_receipt_count": len(candidate_receipts),
+                            "inventory_candidate_count": len(inventory_index),
+                            "inventory_candidate_count_by_requirement": inventory_counts,
+                            "selected_requirement_ids": [],
+                            "selection_batch_count": batch_count,
+                            "provisional_selection_count": sum(map(len, provisional.values())),
+                            "invariant_failures": failures, "failure": result["record"]}
+            provisional[requirement_id].extend(
+                accepted_selections(result["value"], requirement_id, allowed))
+
+    rows = []
+    seen_requirements = set()
+    for requirement_id, candidates in provisional.items():
+        unique = {(row["evidence_id"], row["candidate_id"]): row for row in candidates}
+        finalists = list(unique.values())
+        if not finalists:
+            continue
+        chosen = finalists
+        if len(finalists) > 1:
+            batch_count += 1
+            allowed = set(unique)
+            payload = {"requirement": {"requirement_id": requirement_id,
+                                        "description": slot_by_id[requirement_id]["description"]},
+                       "period_domain_candidates": finalists,
+                       "instruction": instruction + " These candidates survived independent batch screening; choose at most one."}
+            result = _model_call(gateway, "Resolve a source-bound closed annual period domain.",
+                                 json.dumps(payload, ensure_ascii=False), 6000,
+                                 PERIOD_DOMAIN_OUTPUT,
+                                 "proofpress_period_domain_candidate_resolution", 2)
+            if not result["ok"]:
+                return [], {"status": "inconclusive", "period_domain_count": 0,
+                            "candidate_receipt_count": len(candidate_receipts),
+                            "inventory_candidate_count": len(inventory_index),
+                            "inventory_candidate_count_by_requirement": inventory_counts,
+                            "selected_requirement_ids": [],
+                            "selection_batch_count": batch_count,
+                            "provisional_selection_count": sum(map(len, provisional.values())),
+                            "invariant_failures": failures, "failure": result["record"]}
+            chosen = accepted_selections(result["value"], requirement_id, allowed)
+        if chosen:
+            seen_requirements.add(requirement_id)
+            row = chosen[0]
+            rows.append({key: row[key] for key in
+                         ("requirement_id", "evidence_id", "exact_excerpt", "periods")})
     return rows, {"status": "ok", "period_domain_count": len(rows),
-                  "candidate_receipt_count": len(selected)}
+                  "candidate_receipt_count": len(candidate_receipts),
+                  "inventory_candidate_count": len(inventory_index),
+                  "inventory_candidate_count_by_requirement": inventory_counts,
+                  "selected_requirement_ids": sorted(seen_requirements),
+                  "selection_batch_count": batch_count,
+                  "provisional_selection_count": sum(map(len, provisional.values())),
+                  "invariant_failures": failures}
 
 
 def _extract_numeric_atoms(gateway: Gateway, slots: list[dict[str, Any]],
                            receipts: dict[str, dict[str, Any]],
-                           audit: list[dict[str, Any]]) -> tuple[list[dict[str, Any]], dict[str, Any]]:
-    """Select semantic numbers from a deterministic exact-span inventory."""
+                           audit: list[dict[str, Any]],
+                           period_domains: list[dict[str, Any]] = ()) -> tuple[list[dict[str, Any]],
+                                                                             dict[str, Any]]:
+    """Select semantic numbers, prioritizing every number in a chosen schedule span."""
     by_slot = {row["requirement_id"]: row for row in audit}
+    periods_by_slot: dict[str, list[dict[str, Any]]] = {}
+    for domain in period_domains:
+        periods_by_slot.setdefault(domain["requirement_id"], []).append(domain)
     selected_by_evidence: dict[str, dict[str, Any]] = {}
     inventory_index: dict[tuple[str, str], dict[str, Any]] = {}
+    context_index: dict[tuple[str, str], str] = {}
+    priority_inventory_count = 0
     for slot in slots:
         if slot["slot_type"] == "output_structure":
             continue
-        for evidence_id in by_slot.get(slot["slot_id"], {}).get("evidence_ids", [])[:6]:
-            receipt = receipts[evidence_id]
-            full_inventory = extract_numeric_candidates(str(receipt.get("quote") or ""))
-            inventory = [row for row in full_inventory if row.get("normalized_value") is not None]
+        priority = periods_by_slot.get(slot["slot_id"], [])
+        routed = [(row["evidence_id"], row["exact_excerpt"], True) for row in priority]
+        priority_ids = {row[0] for row in routed}
+        routed.extend((evidence_id, str(receipts[evidence_id].get("quote") or ""), False)
+                      for evidence_id in by_slot.get(slot["slot_id"], {}).get("evidence_ids", [])[:6]
+                      if evidence_id not in priority_ids)
+        for evidence_id, inventory_text, is_priority in routed:
+            inventory = [row for row in extract_numeric_candidates(inventory_text)
+                         if row.get("normalized_value") is not None]
             if not inventory:
                 continue
-            projected_inventory = inventory[:48]
+            projected_inventory = inventory if is_priority else inventory[:48]
+            if is_priority:
+                priority_inventory_count += len(projected_inventory)
+            row = selected_by_evidence.setdefault(
+                evidence_id, {"evidence_id": evidence_id,
+                              "numeric_candidate_contexts": [], "requirements": []})
+            known = {candidate["candidate_id"] for candidate in row["numeric_candidate_contexts"]}
             for candidate in projected_inventory:
                 inventory_index[(evidence_id, candidate["candidate_id"])] = candidate
-            row = selected_by_evidence.setdefault(
-                evidence_id, {"evidence_id": evidence_id, "quote": receipt["quote"][:2200],
-                              "numeric_inventory": projected_inventory, "requirements": []})
+                if candidate["candidate_id"] in known:
+                    continue
+                start = max(0, int(candidate["start"]) - 260)
+                end = min(len(inventory_text), int(candidate["end"]) + 420)
+                exact_context = inventory_text[start:end]
+                context_index[(evidence_id, candidate["candidate_id"])] = exact_context
+                row["numeric_candidate_contexts"].append(
+                    {**candidate, "exact_context": exact_context,
+                     "priority_period_source": is_priority})
+                known.add(candidate["candidate_id"])
             requirement = {"requirement_id": slot["slot_id"],
-                           "requirement": slot["description"]}
+                           "requirement": slot["description"],
+                           "required_periods": sorted({period for domain in priority
+                                                       for period in domain["periods"]})}
             if requirement not in row["requirements"]:
                 row["requirements"].append(requirement)
     selected = list(selected_by_evidence.values())
     if not selected:
         return [], {"status": "ok", "selection_count": 0,
-                    "inventory_candidate_count": 0, "invariant_failures": []}
+                    "inventory_candidate_count": 0,
+                    "priority_period_inventory_candidate_count": 0,
+                    "invariant_failures": []}
     payload = {
         "requirement_receipts": selected,
         "instruction": (
             "Each receipt carries the requirements it may support. Select only material numeric candidates that "
-            "directly support one listed requirement or a deterministic "
-            "calculation for it. Copy requirement_id, evidence_id, and candidate_id exactly; do not rewrite the numeric "
-            "display. Subject and predicate must be exact quote substrings, and exact_excerpt must be an exact quote "
-            "substring containing subject, predicate, and the selected candidate. Record entity, period, unit/currency, "
-            "precision, qualifications, and version without calculating or inferring missing values. Years used only in "
-            "citations or document metadata are not matter-value atoms. Omit ambiguous candidates."),
+            "directly support one listed requirement or a deterministic calculation for it. Copy requirement_id, "
+            "evidence_id, and candidate_id exactly; do not rewrite the numeric display. Subject and predicate must be "
+            "exact_context substrings, and exact_excerpt must be an exact_context substring containing subject, "
+            "predicate, and the selected candidate. Record entity, period, unit/currency, precision, qualifications, "
+            "and version without calculating or inferring missing values. When required_periods is non-empty, select "
+            "the material value for every explicitly supported required period and copy its four-digit period exactly. "
+            "Years used only in citations or document "
+            "metadata are not matter-value atoms. Omit ambiguous candidates."),
     }
     result = _model_call(gateway, "Select source-bound numeric atoms from deterministic inventories.",
                          json.dumps(payload, ensure_ascii=False), 20000,
@@ -487,6 +690,7 @@ def _extract_numeric_atoms(gateway: Gateway, slots: list[dict[str, Any]],
     if not result["ok"]:
         return [], {"status": "inconclusive", "selection_count": 0,
                     "inventory_candidate_count": len(inventory_index),
+                    "priority_period_inventory_candidate_count": priority_inventory_count,
                     "invariant_failures": [], "failure": result["record"]}
     rows = []
     failures = []
@@ -497,11 +701,21 @@ def _extract_numeric_atoms(gateway: Gateway, slots: list[dict[str, Any]],
         if candidate is None:
             failures.append("numeric_selection:unknown_candidate_id")
             continue
+        context = context_index.get(key, "")
+        fields = [str(selection.get(field) or "") for field in ("subject", "predicate")]
+        fields.append(candidate["raw_text"])
+        positions = [(context.find(field), len(field)) for field in fields if field]
+        exact_excerpt = selection.get("exact_excerpt")
+        if len(positions) == 3 and all(start >= 0 for start, _ in positions):
+            start = min(row[0] for row in positions)
+            end = max(row[0] + row[1] for row in positions)
+            exact_excerpt = context[start:end]
         rows.append({
-            **{key: selection.get(key) for key in (
+            **{field: selection.get(field) for field in (
                 "requirement_id", "evidence_id", "subject", "predicate", "currency", "unit",
                 "entity", "period", "precision", "effective_date", "qualification",
-                "document_version", "exact_excerpt")},
+                "document_version")},
+            "exact_excerpt": exact_excerpt,
             "display": candidate["raw_text"], "kind": candidate["kind_hint"],
         })
     malformed_count = 0
@@ -512,8 +726,86 @@ def _extract_numeric_atoms(gateway: Gateway, slots: list[dict[str, Any]],
         failures.append(f"numeric_inventory:normalization_error_count_{malformed_count}")
     return rows, {"status": "ok", "selection_count": len(rows),
                   "inventory_candidate_count": len(inventory_index),
+                  "priority_period_inventory_candidate_count": priority_inventory_count,
                   "malformed_inventory_count": malformed_count,
                   "invariant_failures": failures}
+
+
+def _extract_period_numeric_atoms(gateway: Gateway,
+                                  slots: list[dict[str, Any]],
+                                  receipts: dict[str, dict[str, Any]],
+                                  period_domains: list[dict[str, Any]]) -> tuple[list[dict[str, Any]],
+                                                                               dict[str, Any]]:
+    """Select each schedule column independently from its exact source span."""
+    slot_by_id = {row["slot_id"]: row for row in slots}
+    rows = []
+    failures = []
+    inventory_count = 0
+    call_count = 0
+    for domain in period_domains:
+        requirement_id = domain["requirement_id"]
+        evidence_id = domain["evidence_id"]
+        excerpt = domain["exact_excerpt"]
+        inventory = [row for row in extract_numeric_candidates(excerpt)
+                     if row.get("normalized_value") is not None]
+        inventory_count += len(inventory)
+        index = {row["candidate_id"]: row for row in inventory}
+        payload = {
+            "requirement": {"requirement_id": requirement_id,
+                            "description": slot_by_id[requirement_id]["description"],
+                            "required_periods": domain["periods"]},
+            "evidence_id": evidence_id,
+            "source_exact_excerpt": excerpt,
+            "numeric_inventory": inventory,
+            "instruction": (
+                "Select only the numeric values in this exact source schedule that directly satisfy this one "
+                "requirement. Return the material value for every explicitly supported required period. Copy "
+                "requirement_id, evidence_id, and candidate_id exactly and copy the four-digit period. Subject and "
+                "predicate must be exact source_exact_excerpt substrings. Do not select row labels, page numbers, "
+                "citation years, values for another column, or inferred/calculated values. Omit unsupported periods."),
+        }
+        call_count += 1
+        result = _model_call(gateway, "Map one exact schedule column to source-bound numeric atoms.",
+                             json.dumps(payload, ensure_ascii=False), 10000,
+                             NUMERIC_SELECTION_OUTPUT,
+                             "proofpress_period_numeric_column_selection", 2)
+        if not result["ok"]:
+            return [], {"status": "inconclusive", "selection_count": 0,
+                        "inventory_candidate_count": inventory_count,
+                        "call_count": call_count, "invariant_failures": failures,
+                        "failure": result["record"]}
+        seen: set[str] = set()
+        for selection in result["value"].get("numeric_selections", []):
+            candidate_id = str(selection.get("candidate_id") or "")
+            candidate = index.get(candidate_id)
+            if (selection.get("requirement_id") != requirement_id
+                    or selection.get("evidence_id") != evidence_id
+                    or candidate is None):
+                failures.append("period_numeric_selection:unknown_candidate_or_route")
+                continue
+            if candidate_id in seen:
+                failures.append("period_numeric_selection:duplicate_candidate")
+                continue
+            seen.add(candidate_id)
+            fields = [str(selection.get(field) or "") for field in ("subject", "predicate")]
+            fields.append(candidate["raw_text"])
+            positions = [(excerpt.find(field), len(field)) for field in fields if field]
+            exact_excerpt = selection.get("exact_excerpt")
+            if len(positions) == 3 and all(start >= 0 for start, _ in positions):
+                start = min(value[0] for value in positions)
+                end = max(value[0] + value[1] for value in positions)
+                exact_excerpt = excerpt[start:end]
+            rows.append({
+                **{field: selection.get(field) for field in (
+                    "requirement_id", "evidence_id", "subject", "predicate", "currency", "unit",
+                    "entity", "period", "precision", "effective_date", "qualification",
+                    "document_version")},
+                "exact_excerpt": exact_excerpt,
+                "display": candidate["raw_text"], "kind": candidate["kind_hint"],
+            })
+    return rows, {"status": "ok", "selection_count": len(rows),
+                  "inventory_candidate_count": inventory_count,
+                  "call_count": call_count, "invariant_failures": failures}
 
 
 def _frozen_slots(task: dict[str, Any], frozen_plan_dir: Path) -> tuple[list[dict[str, Any]], dict[str, Any]]:
@@ -755,16 +1047,38 @@ def _task_audit(gateways: dict[str, Gateway], task: dict[str, Any], index: Secti
     # Controlled catalog metadata is the sole authority-candidate constructor
     # when the lane is enabled.  General extraction cannot add a parallel path.
     extracted["authority_nodes"] = authority_raw
+    period_receipts, period_audit = _unbounded_period_retrieval(slots, index)
     period_raw, period_extraction = _extract_period_domains(
-        gateways["period"], slots, receipts, audit)
+        gateways["period"], slots, period_receipts, period_audit)
     if period_extraction["status"] != "ok":
         return {"task_id": task["task_id"], "status": "inconclusive",
                 "compiler": compiler, "extraction": extraction,
                 "authority_extraction": authority_extraction,
                 "period_extraction": period_extraction}
+    selected_period_evidence = {row["evidence_id"] for row in period_raw}
+    receipts.update({evidence_id: period_receipts[evidence_id]
+                     for evidence_id in selected_period_evidence})
     extracted["period_domains"] = period_raw
-    numeric_raw, numeric_extraction = _extract_numeric_atoms(
-        gateways["numeric"], slots, receipts, audit)
+    period_numeric_raw, period_numeric_extraction = _extract_period_numeric_atoms(
+        gateways["numeric"], slots, receipts, period_raw)
+    period_requirement_ids = {row["requirement_id"] for row in period_raw}
+    general_numeric_raw, general_numeric_extraction = _extract_numeric_atoms(
+        gateways["numeric"], [row for row in slots if row["slot_id"] not in period_requirement_ids],
+        receipts, audit)
+    numeric_raw = [*period_numeric_raw, *general_numeric_raw]
+    numeric_extraction = {
+        "status": ("ok" if period_numeric_extraction["status"] == "ok"
+                   and general_numeric_extraction["status"] == "ok" else "inconclusive"),
+        "selection_count": len(numeric_raw),
+        "period_column_selection": period_numeric_extraction,
+        "general_selection": general_numeric_extraction,
+        "priority_period_inventory_candidate_count":
+            period_numeric_extraction.get("inventory_candidate_count", 0),
+        "invariant_failures": [
+            *period_numeric_extraction.get("invariant_failures", []),
+            *general_numeric_extraction.get("invariant_failures", []),
+        ],
+    }
     if numeric_extraction["status"] != "ok":
         return {"task_id": task["task_id"], "status": "inconclusive",
                 "compiler": compiler, "extraction": extraction,
@@ -773,6 +1087,7 @@ def _task_audit(gateways: dict[str, Gateway], task: dict[str, Any], index: Secti
                 "numeric_extraction": numeric_extraction}
     extracted["numeric_atoms"] = numeric_raw
     objects, failures = _validated_objects(task, slots, extracted, receipts)
+    failures.extend(period_extraction.get("invariant_failures", []))
     failures.extend(numeric_extraction.get("invariant_failures", []))
     authority_screens, authority_review_status = _review_authority_applicability(
         gateways["authority_reviewer"], slots, objects["authority_nodes"])
@@ -788,7 +1103,8 @@ def _task_audit(gateways: dict[str, Gateway], task: dict[str, Any], index: Secti
         authority_nodes=objects["authority_nodes"], derivations=derivations,
         period_domains=objects["period_domains"], authority_screens=authority_screens)
     private = {"schema_version": SCHEMA, "task": task, "plan": plan, "receipts": receipts,
-               "retrieval_audit": audit, "objects": objects, "derivations": derivations,
+               "retrieval_audit": audit, "period_retrieval_audit": period_audit,
+               "objects": objects, "derivations": derivations,
                "authority_screens": authority_screens,
                "readiness": readiness, "invariant_failures": failures,
                "stage_status": {"compiler": compiler, "extraction": extraction,
