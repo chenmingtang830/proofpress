@@ -1,86 +1,37 @@
 {
-  "created_at": "2026-08-31T08:53:37.565070Z",
-  "event_id": "ppe_b8975eacfd79711a",
-  "evidence": {
-    "bundle": {
-      "bundle_digest": "sha256:ce7779657d9f138e521b30ce00036169d43ac31d3a04fd2d8ac57ee7c022a97a",
-      "change": {
-        "base_commit": "2f0f4c4d67ef50d570733f3d0a242814281b3532",
-        "changed_paths": [
-          ".proofpress/policy.json",
-          "README.md",
-          "package.json",
-          "proofpress_knowledge.py",
-          "proofpress_repo.py",
-          "pyproject.toml",
-          "tests/test_repo_dogfood.py"
-        ],
-        "diff_digest": "sha256:c234ed35d00821535fd60da141277da254823b75cae164ef04f055799fe69df2",
-        "head_commit": "197bfebfa7b10bb07dd595b5e5ff5025c1645378"
-      },
-      "checks": [
-        {
-          "commit": "197bfebfa7b10bb07dd595b5e5ff5025c1645378",
-          "name": "Python 3.11",
-          "receipt_digest": "sha256:09d9d70654db011de00569787eece4409fc33a0d0fab22aeab93036f68d6ae43",
-          "status": "pass",
-          "url": "https://github.com/chenmingtang830/proofpress/actions/runs/33374816580/job/99433882236",
-          "workflow": "CI"
+  "conclusion": {
+    "allowed_actors": [
+      "*"
+    ],
+    "artifact_refs": [],
+    "created_at": "2026-08-31T08:53:37.674480Z",
+    "digest": "sha256:4f1146aba9704cbcee5fda2b522803d6877d7dc449f42231761d165efdea786e",
+    "evidence_refs": [
+      "evd_dd0075f12bd6fe90"
+    ],
+    "expires_at": null,
+    "id": "knw_4bf03f87704f56cc",
+    "kind": "conclusion",
+    "proposer": "agent:codex",
+    "qualifiers": {
+      "profile": "proofpress/profile/repository/v1",
+      "repo": {
+        "claim_kind": "capability",
+        "head_commit": "197bfebfa7b10bb07dd595b5e5ff5025c1645378",
+        "pull_request": {
+          "number": 72,
+          "url": "https://github.com/chenmingtang830/proofpress/pull/72"
         },
-        {
-          "commit": "197bfebfa7b10bb07dd595b5e5ff5025c1645378",
-          "name": "Python 3.14",
-          "receipt_digest": "sha256:25e1a247dc001fa2a961e225f53c85960d54789126d9986d67ee417885d5571b",
-          "status": "pass",
-          "url": "https://github.com/chenmingtang830/proofpress/actions/runs/33374816580/job/99433882120",
-          "workflow": "CI"
-        },
-        {
-          "commit": "197bfebfa7b10bb07dd595b5e5ff5025c1645378",
-          "name": "Node 24",
-          "receipt_digest": "sha256:6a33be85759dd82fc989bf6d7a66f79abe79d95d4083c93db29514bc899428b3",
-          "status": "pass",
-          "url": "https://github.com/chenmingtang830/proofpress/actions/runs/33374816580/job/99433882064",
-          "workflow": "CI"
-        },
-        {
-          "commit": "197bfebfa7b10bb07dd595b5e5ff5025c1645378",
-          "name": "proofpress",
-          "receipt_digest": "sha256:73dba15a7cb65992639e60739aebd92624846a90b8777c4ba92a47617b097751",
-          "status": "pass",
-          "url": "https://github.com/chenmingtang830/proofpress/actions/runs/33374816710/job/99433815703",
-          "workflow": "Proofpress"
-        }
-      ],
-      "pull_request": {
-        "number": 72,
-        "url": "https://github.com/chenmingtang830/proofpress/pull/72"
-      },
-      "repository": {
-        "id": "repo_4c47e82ad7acd24b",
-        "remote": "https://github.com/chenmingtang830/proofpress"
-      },
-      "schema_version": "proofpress/repo-evidence-bundle/v1"
+        "repository_id": "repo_4c47e82ad7acd24b",
+        "schema_version": "proofpress/profile/repository/v1"
+      }
     },
-    "bundle_digest": "sha256:ce7779657d9f138e521b30ce00036169d43ac31d3a04fd2d8ac57ee7c022a97a",
-    "digest": "sha256:7da398881b32275dcbe3d03e1fbbb0f2fb8af588cc2c5975f938c140331a359d",
-    "id": "evd_dd0075f12bd6fe90",
-    "kind": "repository_evidence",
-    "source_digest": "sha256:b1f39de4602306577dd71c64b9e02194c82e40d489ff9f28041e6c9d6037dcea",
-    "source_ref": "src_8708c01631694f86",
-    "verification": {
-      "bundle_digest": true,
-      "changed_paths": true,
-      "check_receipts": true,
-      "checks_passed": true,
-      "commits": true,
-      "diff_digest": true,
-      "repository": true,
-      "schema": true
-    }
+    "scope": "repo:proofpress",
+    "statement": "The Proofpress repository supports the single-repository self-dogfood workflow: bounded PR evidence can be proposed, deterministically reverified, independently judged when policy requires it, human-approved, and projected to successor agents."
   },
+  "created_at": "2026-08-31T08:53:37.709709Z",
+  "event_id": "ppe_fa5f60add6116f4a",
   "schema_version": "proofpress/knowledge-event/v2",
-  "source_ref": "src_8708c01631694f86",
-  "subject_ref": "evd_dd0075f12bd6fe90",
-  "type": "evidence_bound"
+  "subject_ref": "knw_4bf03f87704f56cc",
+  "type": "conclusion_proposed"
 }
