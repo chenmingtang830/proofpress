@@ -78,11 +78,82 @@ class LocalOperationContractTests(unittest.TestCase):
         self.assertEqual(result["request_schema"],
                          self.knowledge.LOCAL_OPERATION_SCHEMA)
         operations = {item["name"]: item for item in result["operations"]}
+        self.assertIn("configuration.get", operations)
         self.assertIn("conclusion.review", operations)
         self.assertEqual(operations["conclusion.review"]["replay_semantics"],
                          "parameter_request_id")
         self.assertEqual(result["not_available"],
                          ["localhost_http", "python_sdk", "mcp", "cloud"])
+
+    def test_governance_configuration_separates_roles_and_hides_command(self):
+        policy_dir = self.repo / ".proofpress"
+        policy_dir.mkdir()
+        (policy_dir / "policy.json").write_text(json.dumps({
+            "verification": {
+                "identity": "verifier:customer-policy",
+                "profile": "customer/legal-verification/v1",
+            },
+            "judge": {
+                "identity": "judge:customer-advisory",
+                "command": ["judge-adapter", "--token", "must-not-leak"],
+                "timeout_seconds": 12,
+            },
+        }))
+        configured = self.execute("configuration.get")
+        self.assertTrue(configured["ok"])
+        result = configured["result"]
+        self.assertEqual(result["proposer"]["identity_source"],
+                         "operation_parameter")
+        self.assertEqual(result["verification"]["identity"],
+                         "verifier:customer-policy")
+        self.assertEqual(result["judge"]["identity"],
+                         "judge:customer-advisory")
+        self.assertTrue(result["judge"]["configured"])
+        self.assertNotIn("command", result["judge"])
+        self.assertNotIn("must-not-leak", json.dumps(result))
+        self.assertFalse(result["authority_separation"]
+                         ["proposer_may_verify_own_work"])
+        self.assertFalse(result["authority_separation"]
+                         ["proposer_may_judge_own_work"])
+        self.assertFalse(result["authority_separation"]["judge_may_admit"])
+
+    def test_configured_verifier_is_bound_and_cannot_be_the_proposer(self):
+        imported = self.execute("evidence.import", path=str(FIXTURE))
+        evidence_id = imported["result"]["evidence"][0]
+        proposed = self.execute(
+            "conclusion.propose", statement="The cap is one times fees",
+            evidence_refs=[evidence_id], scope="matter-1",
+            proposer="agent:runner")
+        conclusion_id = proposed["result"]["conclusion"]["id"]
+        evaluated = self.execute(
+            "conclusion.evaluate", conclusion_id=conclusion_id)
+        self.assertEqual(evaluated["result"]["verifier"],
+                         "verifier:local-deterministic")
+        self.assertEqual(evaluated["result"]["verification_profile"],
+                         "proofpress/default-verification/v1")
+        self.assertIn("verification_config_digest", evaluated["result"])
+
+        self_proposed = self.execute(
+            "conclusion.propose", statement="A separate candidate",
+            evidence_refs=[evidence_id], scope="matter-1",
+            proposer="verifier:local-deterministic")
+        rejected = self.execute(
+            "conclusion.evaluate",
+            conclusion_id=self_proposed["result"]["conclusion"]["id"])
+        self.assertEqual(rejected["error"]["code"], "operation_rejected")
+        self.assertIn("may not act as configured verification identity",
+                      rejected["error"]["message"])
+
+    def test_configured_judge_cannot_be_the_proposer(self):
+        imported = self.execute("evidence.import", path=str(FIXTURE))
+        proposed = self.execute(
+            "conclusion.propose", statement="The judge cannot self-assess",
+            evidence_refs=[imported["result"]["evidence"][0]], scope="matter-1",
+            proposer="judge:local-advisory")
+        conclusion_id = proposed["result"]["conclusion"]["id"]
+        with self.assertRaisesRegex(
+                ValueError, "may not act as configured judge identity"):
+            self.knowledge.judge_v2(conclusion_id)
 
     def test_kernel_rejections_use_the_operation_error_envelope(self):
         rejected = self.execute(
