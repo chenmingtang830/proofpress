@@ -121,6 +121,13 @@ class HostedControlPlane:
                     outcome TEXT NOT NULL,
                     event_head TEXT
                 );
+                CREATE TABLE IF NOT EXISTS hosted_recovery (
+                    workspace_id TEXT PRIMARY KEY,
+                    secret_salt BLOB NOT NULL,
+                    secret_hash BLOB NOT NULL,
+                    rotated_at TEXT NOT NULL,
+                    FOREIGN KEY (workspace_id) REFERENCES hosted_workspaces(workspace_id)
+                );
             """)
             connection.commit()
         finally:
@@ -138,6 +145,8 @@ class HostedControlPlane:
         if not workspace_id or not owner_principal_id:
             raise ValueError("workspace_id and owner_principal_id are required")
         credential_id, token, salt, secret_hash = self._new_credential_values()
+        recovery_secret = secrets.token_urlsafe(40)
+        recovery_salt = secrets.token_bytes(16)
         created_at = _now()
         connection = self._connect()
         try:
@@ -153,6 +162,10 @@ class HostedControlPlane:
                 "INSERT INTO hosted_credentials VALUES (?, ?, ?, ?, ?, ?, ?, ?, NULL, NULL)",
                 (credential_id, workspace_id, owner_principal_id, "owner-bootstrap",
                  salt, secret_hash, json.dumps(["*"]), created_at))
+            connection.execute(
+                "INSERT INTO hosted_recovery VALUES (?, ?, ?, ?)",
+                (workspace_id, recovery_salt,
+                 _secret_hash(recovery_secret, recovery_salt), created_at))
             connection.commit()
         except BaseException:
             connection.rollback()
@@ -160,7 +173,8 @@ class HostedControlPlane:
         finally:
             connection.close()
         return {"workspace_id": workspace_id, "principal_id": owner_principal_id,
-                "credential_id": credential_id, "token": token}
+                "credential_id": credential_id, "token": token,
+                "recovery_secret": recovery_secret}
 
     @staticmethod
     def _split_token(token: str) -> tuple[str, str]:
@@ -246,6 +260,82 @@ class HostedControlPlane:
             connection.commit()
         finally:
             connection.close()
+
+    def rotate_agent_credential(self, owner_token: str, credential_id: str,
+                                label: str | None = None) -> dict[str, str]:
+        owner = self.authenticate(owner_token)
+        if owner.role != "owner":
+            raise HostedAuthError("owner_required", "owner credential required")
+        new_id, token, salt, secret_hash = self._new_credential_values()
+        created_at = _now()
+        connection = self._connect()
+        try:
+            connection.execute("BEGIN IMMEDIATE")
+            row = connection.execute(
+                "SELECT c.*, p.role FROM hosted_credentials c JOIN hosted_principals p "
+                "USING(workspace_id, principal_id) WHERE credential_id = ? "
+                "AND c.workspace_id = ? AND revoked_at IS NULL",
+                (credential_id, owner.workspace_id)).fetchone()
+            if not row or row["role"] != "agent":
+                raise ValueError("active agent credential not found")
+            connection.execute(
+                "INSERT INTO hosted_credentials VALUES (?, ?, ?, ?, ?, ?, ?, ?, NULL, NULL)",
+                (new_id, owner.workspace_id, row["principal_id"], label or row["label"],
+                 salt, secret_hash, row["permissions_json"], created_at))
+            connection.execute(
+                "UPDATE hosted_credentials SET revoked_at = ? WHERE credential_id = ?",
+                (created_at, credential_id))
+            connection.commit()
+        except BaseException:
+            connection.rollback()
+            raise
+        finally:
+            connection.close()
+        return {"workspace_id": owner.workspace_id,
+                "principal_id": row["principal_id"], "credential_id": new_id,
+                "token": token}
+
+    def recover_owner(self, workspace_id: str,
+                      recovery_secret: str) -> dict[str, str]:
+        connection = self._connect()
+        try:
+            row = connection.execute(
+                "SELECT r.*, p.principal_id FROM hosted_recovery r "
+                "JOIN hosted_principals p USING(workspace_id) "
+                "WHERE r.workspace_id = ? AND p.role = 'owner'",
+                (workspace_id,)).fetchone()
+            if not row or not hmac.compare_digest(
+                    _secret_hash(recovery_secret, row["secret_salt"]),
+                    row["secret_hash"]):
+                raise HostedAuthError("invalid_recovery_secret",
+                                      "invalid owner recovery secret")
+            credential_id, token, salt, secret_hash = self._new_credential_values()
+            next_recovery = secrets.token_urlsafe(40)
+            next_salt = secrets.token_bytes(16)
+            rotated_at = _now()
+            connection.execute("BEGIN IMMEDIATE")
+            connection.execute(
+                "UPDATE hosted_credentials SET revoked_at = ? WHERE workspace_id = ? "
+                "AND principal_id = ? AND revoked_at IS NULL",
+                (rotated_at, workspace_id, row["principal_id"]))
+            connection.execute(
+                "INSERT INTO hosted_credentials VALUES (?, ?, ?, ?, ?, ?, ?, ?, NULL, NULL)",
+                (credential_id, workspace_id, row["principal_id"], "owner-recovery",
+                 salt, secret_hash, json.dumps(["*"]), rotated_at))
+            connection.execute(
+                "UPDATE hosted_recovery SET secret_salt = ?, secret_hash = ?, rotated_at = ? "
+                "WHERE workspace_id = ?",
+                (next_salt, _secret_hash(next_recovery, next_salt),
+                 rotated_at, workspace_id))
+            connection.commit()
+        except BaseException:
+            connection.rollback()
+            raise
+        finally:
+            connection.close()
+        return {"workspace_id": workspace_id, "principal_id": row["principal_id"],
+                "credential_id": credential_id, "token": token,
+                "recovery_secret": next_recovery}
 
     @staticmethod
     def _error_envelope(request: Any, code: str, message: str) -> dict[str, Any]:

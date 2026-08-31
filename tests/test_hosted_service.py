@@ -1,6 +1,8 @@
 import hashlib
 import json
+import os
 from pathlib import Path
+import subprocess
 import sys
 import tempfile
 import threading
@@ -121,6 +123,29 @@ class HostedServiceTests(unittest.TestCase):
             urlopen(request)
         self.assertEqual(raised.exception.code, 413)
         raised.exception.close()
+
+    def test_remote_cli_and_offline_export_verifier(self):
+        evidence_file = Path(self.tmp.name) / "evidence.json"
+        evidence_file.write_text(json.dumps(evidence_payload()), encoding="utf-8")
+        environment = {**os.environ, "PROOFPRESS_TOKEN": self.agent["token"]}
+        submitted = subprocess.run([
+            sys.executable, str(ROOT / "proofpress_remote.py"),
+            "--base-url", self.base_url, "submit-evidence", str(evidence_file),
+            "--idempotency-key", "cli-evidence-1"],
+            text=True, capture_output=True, env=environment, check=True)
+        self.assertTrue(json.loads(submitted.stdout)["evidence"])
+
+        from proofpress_event_store import SQLiteEventStore
+        bundle = SQLiteEventStore(
+            self.server.proofpress_control.database,
+            self.owner["workspace_id"]).export_bundle()
+        export_file = Path(self.tmp.name) / "export.json"
+        export_file.write_text(json.dumps(bundle), encoding="utf-8")
+        verified = subprocess.run([
+            sys.executable, str(ROOT / "proofpress_hosted_service.py"),
+            "verify-export", str(export_file)], text=True, capture_output=True,
+            check=True)
+        self.assertTrue(json.loads(verified.stdout)["ok"])
 
 
 if __name__ == "__main__":
