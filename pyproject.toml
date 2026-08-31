@@ -29,4 +29,5 @@ py-modules = [
   "proofpress_service",
   "proofpress_mcp",
   "proofpress_event_store",
+  "proofpress_hosted",
 ]

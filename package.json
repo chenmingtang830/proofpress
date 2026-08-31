@@ -18,6 +18,7 @@
     "proofpress_sdk.py",
     "proofpress_mcp.py",
     "proofpress_event_store.py",
+    "proofpress_hosted.py",
     "pyproject.toml",
     "proofpress_evidence.py",
     "examples/verified-knowledge-ledger/demo.otlp.json",
