@@ -6,6 +6,7 @@ import argparse
 import hashlib
 import json
 import os
+import platform
 import signal
 import subprocess
 import sys
@@ -70,6 +71,25 @@ def backfill_cells(row: dict[str, object], target: Path) -> dict[str, object]:
     return row
 
 
+def host_metadata(*, device: str, require_cuda: bool) -> dict[str, object]:
+    """Record the actual execution environment without opening a source file."""
+    host: dict[str, object] = {"system": platform.system(),
+                               "architecture": platform.machine(), "device": device}
+    if not require_cuda:
+        return host
+    if device != "cuda":
+        raise SystemExit("--require-cuda requires --device cuda")
+    try:
+        import torch
+    except ModuleNotFoundError as exc:
+        raise SystemExit("a compatible CUDA host is required before opening the extraction panel") from exc
+    if not torch.cuda.is_available():
+        raise SystemExit("a compatible CUDA host is required before opening the extraction panel")
+    host.update({"torch_version": torch.__version__, "cuda_version": torch.version.cuda,
+                 "cuda_device_name": torch.cuda.get_device_name(0)})
+    return host
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--panel", required=True, type=Path)
@@ -94,13 +114,23 @@ def main() -> None:
     args = parser.parse_args()
     if args.pages_per_document < 1 or args.document_timeout_seconds < 1:
         raise SystemExit("page count and document timeout must be positive")
-    if args.require_cuda:
-        try:
-            import torch
-        except ModuleNotFoundError as exc:
-            raise SystemExit("a compatible CUDA host is required before opening the extraction panel") from exc
-        if not torch.cuda.is_available():
-            raise SystemExit("a compatible CUDA host is required before opening the extraction panel")
+    # This host gate deliberately runs before reading either the panel or the
+    # private source manifest.  A CUDA sensitivity route therefore cannot gain
+    # access to source bytes on an unsupported machine.
+    host = host_metadata(device=args.device, require_cuda=args.require_cuda)
+    if not args.child_runner.is_file():
+        raise SystemExit("child runner must be a readable regular file")
+    route = ("PaddlePaddle/PaddleOCR-VL-1.6/" + args.vl_rec_backend
+             if args.vl_rec_backend else args.route)
+    run_configuration = {"route": route, "device": args.device,
+                         "child_runner_digest": file_digest(args.child_runner),
+                         "child_extra": list(args.child_extra),
+                         "pages_per_document": args.pages_per_document,
+                         "document_timeout_seconds": args.document_timeout_seconds,
+                         "vl_rec_backend": args.vl_rec_backend,
+                         "vl_rec_api_model_name": args.vl_rec_api_model_name,
+                         "vl_rec_model_revision": args.vl_rec_model_revision}
+    run_configuration_digest = receipt_digest(run_configuration)
 
     panel = json.loads(args.panel.read_text()); manifest = json.loads(args.source_manifest.read_text())
     paths = {}
@@ -116,8 +146,10 @@ def main() -> None:
         summary_path = target / "run-summary-isolated.json"
         if summary_path.is_file():
             saved = backfill_cells(json.loads(summary_path.read_text()), target)
-            if not (args.retry_failed_development and item["split"] == "development"
-                    and saved.get("status") == "failed"):
+            same_configuration = saved.get("run_configuration_digest") == run_configuration_digest
+            if (same_configuration
+                    and not (args.retry_failed_development and item["split"] == "development"
+                             and saved.get("status") == "failed")):
                 rows.append(saved); continue
         command = [sys.executable, str(args.child_runner), "--input", str(path), "--uri",
                    manifest_source["uri"], "--out", str(target / "isolated"),
@@ -143,16 +175,17 @@ def main() -> None:
                    "peak_rss_mib": child["peak_rss_mib"], **terminal}
         else:
             row = {"source_id": item["source_id"], "split": item["split"], **terminal}
+        row["run_configuration_digest"] = run_configuration_digest
         row["terminal_receipt_digest"] = receipt_digest(row)
         summary_path.write_text(json.dumps(row, indent=2, sort_keys=True) + "\n")
         summary_path.chmod(0o600); rows.append(row)
     complete = [row for row in rows if row["status"] == "complete"]
     report = {"schema_version": "proofpress/document-extraction-panel-run/v2",
               "panel_digest": panel["panel_digest"],
-              "route": ("PaddlePaddle/PaddleOCR-VL-1.6/" + args.vl_rec_backend
-                        if args.vl_rec_backend else args.route),
+              "route": route, "run_configuration": run_configuration,
+              "run_configuration_digest": run_configuration_digest,
               "isolation": "one-process-group-per-document/v1",
-              "host": {"architecture": "Apple-Silicon", "device": args.device},
+              "host": host,
               "document_timeout_seconds": args.document_timeout_seconds,
               "documents": len(panel["sources"]), "attempted": len(rows),
               "pending": len(panel["sources"]) - len(rows), "complete": len(complete),
