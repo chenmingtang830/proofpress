@@ -354,6 +354,99 @@ def extract_tabular_schedule_series(text: str) -> list[dict[str, Any]]:
     return output
 
 
+def extract_tabular_numeric_cells(text: str) -> list[dict[str, Any]]:
+    """Inventory every exact numeric TSV cell, without requiring a period series.
+
+    Coordinates are syntactic source facts.  This function does not infer a
+    header, metric, period, or unit, and it does not select a cell for a task.
+    A caller may bind a previously selected numeric atom only when its exact
+    source span identifies one unique candidate from this inventory.
+    """
+    if not isinstance(text, str):
+        raise ValueError("tabular numeric cell inventory input must be text")
+    rows: list[dict[str, Any]] = []
+    lines: list[tuple[int, str]] = []
+    offset = 0
+    for raw_line in text.splitlines(keepends=True):
+        content = raw_line.rstrip("\r\n")
+        lines.append((offset, content))
+        offset += len(raw_line)
+    if offset < len(text):
+        lines.append((offset, text[offset:]))
+
+    groups: list[list[tuple[int, str]]] = []
+    current: list[tuple[int, str]] = []
+    for line in lines:
+        if "\t" in line[1]:
+            current.append(line)
+        elif current:
+            groups.append(current); current = []
+    if current:
+        groups.append(current)
+
+    for group in groups:
+        table_start = group[0][0]
+        table_end = group[-1][0] + len(group[-1][1])
+        table_excerpt = text[table_start:table_end]
+        table_basis = {"exact_excerpt": table_excerpt, "line_count": len(group)}
+        table_id = "table_candidate_" + digest(table_basis).split(":", 1)[1][:20]
+        for row_index, (line_start, content) in enumerate(group):
+            cursor = 0
+            for column_index, raw_cell in enumerate(content.split("\t")):
+                leading = len(raw_cell) - len(raw_cell.lstrip())
+                stripped = raw_cell.strip()
+                cell_start = line_start + cursor + leading
+                cell_end = cell_start + len(stripped)
+                cursor += len(raw_cell) + 1
+                candidates = extract_numeric_candidates(stripped)
+                if len(candidates) != 1 or not stripped:
+                    continue
+                candidate = candidates[0]
+                if ((candidate["start"], candidate["end"]) != (0, len(stripped))
+                        or candidate.get("normalized_value") is None):
+                    continue
+                basis = {"table_candidate_id": table_id, "row_index": row_index,
+                         "column_index": column_index, "start": cell_start,
+                         "end": cell_end, "raw_text": stripped,
+                         "normalized_value": candidate["normalized_value"]}
+                rows.append({"cell_candidate_id": "table_cell_" + digest(basis).split(":", 1)[1][:20],
+                             **basis, "kind_hint": candidate["kind_hint"],
+                             "table_exact_excerpt": table_excerpt,
+                             "table_span": {"start": table_start, "end": table_end}})
+    return rows
+
+
+def match_numeric_payload_to_table_cell(payload: dict[str, Any],
+                                        receipt: dict[str, Any]) -> tuple[dict[str, Any] | None, str]:
+    """Return one exact coordinate binding, or fail closed on absence/ambiguity."""
+    quote = str(receipt.get("quote") or "")
+    excerpt = str(payload.get("exact_excerpt") or "")
+    display = str(payload.get("display") or (payload.get("numeric") or {}).get("display") or "")
+    if not quote or not excerpt or not display:
+        return None, "no_match"
+    excerpt_starts = [match.start() for match in re.finditer(re.escape(excerpt), quote)]
+    matches: dict[tuple[str, int], tuple[dict[str, Any], int]] = {}
+    for candidate in extract_tabular_numeric_cells(quote):
+        if candidate["raw_text"] != display:
+            continue
+        for excerpt_start in excerpt_starts:
+            if (excerpt_start <= candidate["start"]
+                    and candidate["end"] <= excerpt_start + len(excerpt)):
+                matches[(candidate["cell_candidate_id"], excerpt_start)] = (candidate, excerpt_start)
+    if not matches:
+        return None, "no_match"
+    if len(matches) != 1:
+        return None, "ambiguous"
+    candidate, excerpt_start = next(iter(matches.values()))
+    value_span = {"start": candidate["start"] - excerpt_start,
+                  "end": candidate["end"] - excerpt_start}
+    if excerpt[value_span["start"]:value_span["end"]] != display:
+        return None, "no_match"
+    return {"table_candidate_id": candidate["table_candidate_id"],
+            "orientation": "generic_tsv_cell", "row_index": candidate["row_index"],
+            "column_index": candidate["column_index"], "value_span": value_span}, "bound"
+
+
 def validate_numeric_atom(atom: dict[str, Any],
                           receipts: dict[str, dict[str, Any]]) -> dict[str, Any]:
     """Validate a number-specialized evidence atom against exact custody."""
@@ -384,29 +477,33 @@ def validate_numeric_atom(atom: dict[str, Any],
     if table_binding is not None:
         if not isinstance(table_binding, dict):
             raise ValueError("numeric table cell binding must be an object")
-        expected = {"table_candidate_id", "series_candidate_id", "orientation",
-                    "row_index", "column_index", "label_span", "period_span", "value_span"}
+        expected = {"table_candidate_id", "row_index", "column_index", "value_span"}
         if not expected.issubset(table_binding):
             raise ValueError("numeric table cell binding is incomplete")
         excerpt = checked["exact_excerpt"]
-        for label, value in (("label", table_binding["label_span"]),
-                             ("period", table_binding["period_span"]),
-                             ("value", table_binding["value_span"])):
+        spans = [("value", table_binding["value_span"])]
+        if "label_span" in table_binding or "period_span" in table_binding:
+            if "label_span" not in table_binding or "period_span" not in table_binding:
+                raise ValueError("numeric table semantic spans must be provided together")
+            spans = [("label", table_binding["label_span"]),
+                     ("period", table_binding["period_span"]), *spans]
+        for label, value in spans:
             if (not isinstance(value, dict) or not isinstance(value.get("start"), int)
                     or not isinstance(value.get("end"), int)
                     or not 0 <= value["start"] < value["end"] <= len(excerpt)):
                 raise ValueError(f"numeric table {label} span is invalid")
-        if excerpt[table_binding["label_span"]["start"]:table_binding["label_span"]["end"]] != checked["subject"]:
-            raise ValueError("numeric table label span disagrees with subject")
-        if excerpt[table_binding["period_span"]["start"]:table_binding["period_span"]["end"]] != numeric["period"]:
-            raise ValueError("numeric table period span disagrees with period")
         if excerpt[table_binding["value_span"]["start"]:table_binding["value_span"]["end"]] != numeric["display"]:
             raise ValueError("numeric table value span disagrees with display")
-        expected_bindings = {"subject": table_binding["label_span"],
-                             "predicate": table_binding["period_span"],
-                             "value": table_binding["value_span"]}
-        if checked.get("field_bindings") != expected_bindings:
-            raise ValueError("numeric table field bindings disagree with cell coordinates")
+        if "label_span" in table_binding:
+            if excerpt[table_binding["label_span"]["start"]:table_binding["label_span"]["end"]] != checked["subject"]:
+                raise ValueError("numeric table label span disagrees with subject")
+            if excerpt[table_binding["period_span"]["start"]:table_binding["period_span"]["end"]] != numeric["period"]:
+                raise ValueError("numeric table period span disagrees with period")
+            expected_bindings = {"subject": table_binding["label_span"],
+                                 "predicate": table_binding["period_span"],
+                                 "value": table_binding["value_span"]}
+            if checked.get("field_bindings") != expected_bindings:
+                raise ValueError("numeric table field bindings disagree with cell coordinates")
     return checked
 
 
@@ -465,7 +562,9 @@ def bind_numeric_atom(payload: dict[str, Any],
     values = {"subject": payload["subject"], "predicate": payload["predicate"],
               "value": display}
     table_binding = payload.get("table_cell_binding")
-    field_bindings = (_exact_field_bindings(excerpt, values) if table_binding is None else
+    semantic_table_binding = (isinstance(table_binding, dict)
+                              and "label_span" in table_binding and "period_span" in table_binding)
+    field_bindings = (_exact_field_bindings(excerpt, values) if not semantic_table_binding else
                       {"subject": table_binding.get("label_span"),
                        "predicate": table_binding.get("period_span"),
                        "value": table_binding.get("value_span")})

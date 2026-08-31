@@ -28,7 +28,9 @@ from exact_knowledge_contract import (
     digest,
     extract_numeric_candidates,
     extract_period_domain_candidates,
+    extract_tabular_numeric_cells,
     extract_tabular_schedule_series,
+    match_numeric_payload_to_table_cell,
     screen_authority_applicability,
     validate_authority_node,
 )
@@ -48,7 +50,11 @@ TASK_IDS = (
     "task_11893dcabbe34b0aa991516dfe7edcba",
     "task_f8f47a9c94874854a24936d81a89fdfb",
 )
-ROUTE = {"model": "openai/gpt-5.6-sol", "provider": "openai", "reasoning": "high"}
+PANEL_KINDS = ("development", "task-heldout")
+# Candidate construction is deliberately on the low-cost DeepSeek route.  The
+# frozen session records this route, so a future panel cannot silently mix it
+# with the earlier GPT-5.6 construction artifacts.
+ROUTE = {"model": "deepseek/deepseek-v4-flash", "provider": "alibaba", "reasoning": "high"}
 
 
 SLOT_ITEM = {
@@ -762,6 +768,36 @@ def _extract_numeric_atoms(gateway: Gateway, slots: list[dict[str, Any]],
                   "invariant_failures": failures}
 
 
+def _bind_generic_table_cells(rows: list[dict[str, Any]],
+                              receipts: dict[str, dict[str, Any]]) -> tuple[list[dict[str, Any]], dict[str, Any]]:
+    """Attach coordinates only when an atom span identifies one exact TSV cell."""
+    output: list[dict[str, Any]] = []
+    bound = ambiguous = preserved = 0
+    inventoried_evidence: set[str] = set()
+    for row in rows:
+        if isinstance(row.get("table_cell_binding"), dict):
+            output.append(row); preserved += 1; continue
+        evidence_id = str(row.get("evidence_id") or "")
+        receipt = receipts.get(evidence_id)
+        quote = str((receipt or {}).get("quote") or "")
+        excerpt = str(row.get("exact_excerpt") or "")
+        display = str(row.get("display") or "")
+        if not quote or not excerpt or not display:
+            output.append(row); continue
+        inventoried_evidence.add(evidence_id)
+        binding, status = match_numeric_payload_to_table_cell(row, receipt or {})
+        if binding is None:
+            ambiguous += status == "ambiguous"
+            output.append(row); continue
+        output.append({**row, "table_cell_binding": binding}); bound += 1
+    return output, {"inventory_cell_count": sum(len(extract_tabular_numeric_cells(
+                        str(receipts[evidence_id].get("quote") or "")))
+                        for evidence_id in inventoried_evidence),
+                    "generic_table_cell_binding_count": bound,
+                    "preserved_series_table_cell_binding_count": preserved,
+                    "ambiguous_table_cell_match_count": ambiguous}
+
+
 def _extract_period_numeric_atoms(gateway: Gateway,
                                   slots: list[dict[str, Any]],
                                   receipts: dict[str, dict[str, Any]],
@@ -1290,13 +1326,15 @@ def _task_audit(gateways: dict[str, Gateway], task: dict[str, Any], index: Secti
     general_numeric_raw, general_numeric_extraction = _extract_numeric_atoms(
         gateways["numeric"], [row for row in slots if row["slot_id"] not in period_requirement_ids],
         receipts, audit)
-    numeric_raw = [*period_numeric_raw, *general_numeric_raw]
+    numeric_raw, generic_table_binding = _bind_generic_table_cells(
+        [*period_numeric_raw, *general_numeric_raw], receipts)
     numeric_extraction = {
         "status": ("ok" if period_numeric_extraction["status"] == "ok"
                    and general_numeric_extraction["status"] == "ok" else "inconclusive"),
         "selection_count": len(numeric_raw),
         "period_column_selection": period_numeric_extraction,
         "general_selection": general_numeric_extraction,
+        "generic_table_binding": generic_table_binding,
         "priority_period_inventory_candidate_count":
             period_numeric_extraction.get("complete_table_series_candidate_count", 0),
         "invariant_failures": [
@@ -1389,9 +1427,27 @@ def _task_audit(gateways: dict[str, Gateway], task: dict[str, Any], index: Secti
             "private_artifact_digest": digest(private)}
 
 
-def _load_tasks(raw_dir: Path) -> list[dict[str, Any]]:
+def _resolve_task_ids(task_ids_file: Path | None, panel_kind: str) -> tuple[str, ...]:
+    """Load a frozen panel without ever reading labels into constructor input."""
+    if panel_kind not in PANEL_KINDS:
+        raise ValueError("unknown exact-knowledge panel kind")
+    if task_ids_file is None:
+        if panel_kind != "development":
+            raise ValueError("task-heldout construction requires an explicit frozen task-id file")
+        return TASK_IDS
+    if panel_kind != "task-heldout":
+        raise ValueError("a custom task-id file is only valid for the task-heldout panel")
+    value = json.loads(task_ids_file.read_text())
+    if not isinstance(value, list) or not value or any(not isinstance(row, str) or not row for row in value):
+        raise ValueError("frozen task-id file must be a non-empty JSON string array")
+    if len(set(value)) != len(value):
+        raise ValueError("frozen task-id file contains duplicate task IDs")
+    return tuple(value)
+
+
+def _load_tasks(raw_dir: Path, task_ids: tuple[str, ...]) -> list[dict[str, Any]]:
     tasks = []
-    for task_id in TASK_IDS:
+    for task_id in task_ids:
         value = json.loads((raw_dir / f"{task_id}.json").read_text())
         source_task = value["task"]
         # The private custody file may retain a rubric for later official
@@ -1406,23 +1462,26 @@ def _load_tasks(raw_dir: Path) -> list[dict[str, Any]]:
     return tasks
 
 
-def _frozen_plan_digest(frozen_plan_dir: Path | None) -> str | None:
+def _frozen_plan_digest(frozen_plan_dir: Path | None, task_ids: tuple[str, ...]) -> str | None:
     if frozen_plan_dir is None:
         return None
     return digest([
         json.loads((frozen_plan_dir / f"{task_id}.json").read_text())["plan"]["plan_digest"]
-        for task_id in TASK_IDS
+        for task_id in task_ids
     ])
 
 
 def _run_controls(tasks: list[dict[str, Any]], catalog: dict[str, Any],
                   authority_catalog: dict[str, Any] | None, frozen_plan_digest: str | None,
-                  timeout: float, budget_usd: float) -> dict[str, Any]:
-    """Bind reusable checkpoints to the exact development-only construction run."""
+                  timeout: float, budget_usd: float, task_ids: tuple[str, ...],
+                  panel_kind: str) -> dict[str, Any]:
+    """Bind reusable checkpoints to a frozen, answer-free construction panel."""
     return {
         "schema_version": SCHEMA,
-        "stage": "development_only_exact_knowledge_construction",
-        "task_ids": list(TASK_IDS),
+        "stage": ("development_only_exact_knowledge_construction" if panel_kind == "development"
+                  else "task_heldout_exact_knowledge_construction"),
+        "panel_kind": panel_kind,
+        "task_ids": list(task_ids),
         "task_input_digest": digest(tasks),
         "catalog_digest": digest(catalog),
         "authority_catalog_digest": (authority_catalog or {}).get("catalog_digest"),
@@ -1497,10 +1556,14 @@ def main() -> None:
     parser.add_argument("--frozen-plan-dir", type=Path)
     parser.add_argument("--gateway-server", required=True)
     parser.add_argument("--out", required=True, type=Path)
+    parser.add_argument("--panel-kind", choices=PANEL_KINDS, default="development")
+    parser.add_argument("--task-ids-file", type=Path,
+                        help="Private frozen JSON task-id array; required for task-heldout construction.")
     parser.add_argument("--budget-usd", type=float, default=15.0)
     parser.add_argument("--timeout", type=float, default=360)
     args = parser.parse_args()
-    tasks = _load_tasks(args.claim_raw)
+    task_ids = _resolve_task_ids(args.task_ids_file, args.panel_kind)
+    tasks = _load_tasks(args.claim_raw, task_ids)
     catalog = json.loads(args.catalog.read_text())
     index = SectionIndex(catalog)
     authority_catalog = None
@@ -1513,9 +1576,9 @@ def main() -> None:
     args.out.mkdir(parents=True, exist_ok=True); args.out.chmod(0o700)
     raw_dir = args.out / "raw"; raw_dir.mkdir(exist_ok=True); raw_dir.chmod(0o700)
     checkpoint_dir = args.out / "checkpoints"; checkpoint_dir.mkdir(exist_ok=True); checkpoint_dir.chmod(0o700)
-    frozen_plan_digest = _frozen_plan_digest(args.frozen_plan_dir)
+    frozen_plan_digest = _frozen_plan_digest(args.frozen_plan_dir, task_ids)
     controls = _run_controls(tasks, catalog, authority_catalog, frozen_plan_digest,
-                             args.timeout, args.budget_usd)
+                             args.timeout, args.budget_usd, task_ids, args.panel_kind)
     session, resumed = _initialize_or_validate_session(args.out, controls)
     control_digest = session["control_digest"]
     receipt_dir = args.out / "terminal-receipts"; receipt_dir.mkdir(exist_ok=True); receipt_dir.chmod(0o700)
@@ -1566,13 +1629,14 @@ def main() -> None:
     completed = [row for row in summaries if row.get("status") == "ok"]
     output_slots_valid = all(sum(slot["slot_type"] == "output_structure" for slot in row["slots"]) == 1
                              for row in completed)
-    qualification = ("pass" if len(completed) == len(TASK_IDS) and not invalid and not leaked
+    qualification = ("pass" if len(completed) == len(task_ids) and not invalid and not leaked
                      and output_slots_valid and not telemetry["missing_cost_calls"]
                      and not telemetry["missing_token_calls"] else "inconclusive")
     report = {"schema_version": SCHEMA,
-              "boundary": ("Five-task prompt-only exact-knowledge substrate audit without an answer executor. "
+              "boundary": (f"{args.panel_kind} prompt-only exact-knowledge substrate audit without an answer executor. "
                            "All objects remain not_governed candidates; Human Approval is the only admission path."),
-              "task_ids": list(TASK_IDS), "task_input_digest": digest(tasks),
+              "panel_kind": args.panel_kind,
+              "task_ids": list(task_ids), "task_input_digest": digest(tasks),
               "catalog_digest": digest(catalog), "route": ROUTE, "tasks": summaries,
               "authority_catalog_digest": (authority_catalog or {}).get("catalog_digest"),
               "frozen_plan_dir_digest": frozen_plan_digest,

@@ -160,6 +160,30 @@ class ExactKnowledgeContractTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "value span disagrees"):
             exact.validate_numeric_atom(broken, {"E1": receipt})
 
+    def test_generic_table_inventory_and_binding_do_not_require_period_series(self):
+        quote = "Metric\tValue\nHeadcount\t42\n"
+        cells = exact.extract_tabular_numeric_cells(quote)
+        self.assertEqual([(row["row_index"], row["column_index"], row["raw_text"])
+                          for row in cells], [(1, 1, "42")])
+        raw = [{"requirement_id": "R1", "evidence_id": "E1", "subject": "Headcount",
+                "predicate": "Headcount", "display": "42", "kind": "decimal", "currency": None,
+                "unit": "people", "entity": "Company", "period": "current", "precision": "exact",
+                "effective_date": None, "qualification": None, "document_version": "unknown",
+                "exact_excerpt": "Headcount\t42"}]
+        bound, status = stage_runner._bind_generic_table_cells(
+            raw, {"E1": {**self.receipt(), "quote": quote}})
+        self.assertEqual(status["generic_table_cell_binding_count"], 1)
+        self.assertEqual(bound[0]["table_cell_binding"]["row_index"], 1)
+        atom = exact.bind_numeric_atom(bound[0], {"E1": {**self.receipt(), "quote": quote}})
+        self.assertEqual(atom["table_cell_binding"]["column_index"], 1)
+
+    def test_text_numeric_atom_remains_unbound(self):
+        raw = [{"evidence_id": "E1", "display": "$10", "exact_excerpt": "Fee was $10"}]
+        bound, status = stage_runner._bind_generic_table_cells(
+            raw, {"E1": {**self.receipt(), "quote": "Fee was $10"}})
+        self.assertNotIn("table_cell_binding", bound[0])
+        self.assertEqual(status["generic_table_cell_binding_count"], 0)
+
     def test_period_numeric_stage_selects_only_series_id_then_binds_all_cells(self):
         quote = ("Year\tOrdinary income\tFederal tax\n"
                  "2020\t$10,000\t$2,100\n"

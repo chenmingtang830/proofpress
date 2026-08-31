@@ -53,6 +53,45 @@ async function recoverStructuredText(text, schema, safeParseJSON) {
   return null;
 }
 
+function gatewayTools(inputTools, tool, jsonSchema) {
+  if (!Array.isArray(inputTools)) return {};
+  const output = {};
+  for (const row of inputTools) {
+    const fn = row?.type === 'function' ? row.function : null;
+    if (!fn || typeof fn.name !== 'string' || !fn.name) continue;
+    if (output[fn.name]) throw new Error('duplicate tool name');
+    const parameters = fn.parameters && typeof fn.parameters === 'object'
+      ? fn.parameters
+      : { type: 'object', additionalProperties: true };
+    output[fn.name] = tool({
+      description: typeof fn.description === 'string' ? fn.description : `Call ${fn.name}.`,
+      inputSchema: jsonSchema(parameters),
+    });
+  }
+  return output;
+}
+
+function gatewayToolChoice(choice, knownTools) {
+  if (!choice || choice === 'auto') return undefined;
+  if (choice === 'none') return { type: 'none' };
+  if (choice === 'required') return { type: 'required' };
+  const name = choice?.type === 'function' ? choice.function?.name : null;
+  if (typeof name === 'string' && knownTools[name]) return { type: 'tool', toolName: name };
+  throw new Error('unsupported tool choice');
+}
+
+function openAiToolCalls(calls) {
+  if (!Array.isArray(calls)) return [];
+  return calls.map((call, index) => ({
+    id: typeof call.toolCallId === 'string' && call.toolCallId ? call.toolCallId : `tool_${index + 1}`,
+    type: 'function',
+    function: {
+      name: call.toolName,
+      arguments: JSON.stringify(call.input ?? {}),
+    },
+  }));
+}
+
 const server = http.createServer(async (req, res) => {
   if (req.method === 'GET' && req.url === '/health') return reply(res, 200, { ok: true, model, provider });
   if (req.method !== 'POST' || req.url !== '/v1/chat/completions') return reply(res, 404, { error: { type: 'not_found' } });
@@ -108,17 +147,22 @@ const server = http.createServer(async (req, res) => {
       },
     };
     const structured = input.response_schema && typeof input.response_schema === 'object';
+    const tools = gatewayTools(input.tools, tool, jsonSchema);
     const toolName = 'emit_proofpress_output';
     const structuredSchema = structured ? jsonSchema(input.response_schema) : null;
-    const result = structured
-      ? await generateText({ ...common,
-          tools: { [toolName]: tool({
+    if (structured && tools[toolName]) throw new Error('reserved tool name is already in use');
+    const allTools = structured
+      ? { ...tools, [toolName]: tool({
             description: `Emit ${String(input.response_schema_name || 'Proofpress output')} exactly once.`,
             inputSchema: structuredSchema,
-          }) },
-          toolChoice: { type: 'tool', toolName },
-        })
-      : await generateText(common);
+          }) }
+      : tools;
+    const toolChoice = structured ? { type: 'tool', toolName } : gatewayToolChoice(input.tool_choice, allTools);
+    const result = await generateText({
+      ...common,
+      ...(Object.keys(allTools).length ? { tools: allTools } : {}),
+      ...(toolChoice ? { toolChoice } : {}),
+    });
     const usage = result.usage || {};
     const inputDetails = usage.inputTokenDetails || {};
     const outputDetails = usage.outputTokenDetails || {};
@@ -146,6 +190,9 @@ const server = http.createServer(async (req, res) => {
       error.costUsd = cost;
       throw error;
     }
+    const toolCalls = openAiToolCalls(
+      structured ? [] : (result.toolCalls || []).filter(call => call?.toolName !== toolName)
+    );
     terminal({
       status: 'ok', error_type: null,
       structured_mode: structuredMode,
@@ -160,7 +207,8 @@ const server = http.createServer(async (req, res) => {
     });
     return reply(res, 200, {
       id: result.response?.id || null, object: 'chat.completion', model,
-      choices: [{ message: { role: 'assistant', content: structured ? JSON.stringify(structuredObject) : (result.text || '') },
+      choices: [{ message: { role: 'assistant', content: structured ? JSON.stringify(structuredObject) : (result.text || ''),
+                              ...(toolCalls.length ? { tool_calls: toolCalls } : {}) },
                   finish_reason: result.finishReason || null }],
       proofpress: { structured_output_mode: structuredMode },
       usage: { prompt_tokens: usage.inputTokens ?? null,

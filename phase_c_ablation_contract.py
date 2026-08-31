@@ -51,9 +51,11 @@ def validate_graph(graph: dict[str, Any]) -> None:
     if graph.get("automatic_admission") is not False or graph.get("human_approval_required") is not True:
         raise ValueError("Phase C graph must retain no-admission and Human Approval boundaries")
     claims = _id_rows(graph.get("claims"), "claims", "claim_id")
+    numeric_atoms = _id_rows(graph.get("numeric_atoms", []), "numeric_atoms", "atom_id")
     table_cells = _id_rows(graph.get("table_cells"), "table_cells", "cell_id")
     derivations = _id_rows(graph.get("derivations"), "derivations", "derivation_id")
     authorities = _id_rows(graph.get("authority_nodes"), "authority_nodes", "authority_id")
+    parameters = _id_rows(graph.get("task_parameters", []), "task_parameters", "parameter_id")
     for cell in table_cells:
         _digest(cell.get("source_content_digest"), "table cell source_content_digest")
         locator = cell.get("locator")
@@ -61,11 +63,28 @@ def validate_graph(graph: dict[str, Any]) -> None:
             raise ValueError("table cell requires a positive-page source locator")
         if not all(isinstance(cell.get(key), int) and cell[key] >= 0 for key in ("row", "column")):
             raise ValueError("table cell requires non-negative row and column")
+    for atom in numeric_atoms:
+        _digest(atom.get("source_content_digest"), "numeric atom source_content_digest")
+        if any(not isinstance(atom.get(key), str) for key in
+               ("display", "normalized_value", "kind", "unit", "entity", "period")):
+            raise ValueError("numeric atom requires typed numeric metadata")
+        if atom.get("status") != "not_governed_candidate" or atom.get("admitted") is not False:
+            raise ValueError("numeric atoms must retain candidate governance state")
     cell_ids = {row["cell_id"] for row in table_cells}
+    numeric_ids = {row["atom_id"] for row in numeric_atoms}
+    parameter_ids = {row["parameter_id"] for row in parameters}
     for derivation in derivations:
-        input_ids = derivation.get("input_cell_ids")
-        if not isinstance(input_ids, list) or not input_ids or any(value not in cell_ids for value in input_ids):
-            raise ValueError("derivation inputs must bind known table cells")
+        refs = derivation.get("input_refs")
+        legacy_ids = derivation.get("input_cell_ids")
+        if refs is None and isinstance(legacy_ids, list):
+            refs = [{"object_kind": "table_cell", "object_id": value} for value in legacy_ids]
+        if not isinstance(refs, list) or not refs:
+            raise ValueError("derivation inputs must bind known typed objects")
+        known = {"table_cell": cell_ids, "numeric_atom": numeric_ids,
+                 "task_parameter": parameter_ids}
+        if any(not isinstance(ref, dict) or ref.get("object_kind") not in known
+               or ref.get("object_id") not in known[ref.get("object_kind")] for ref in refs):
+            raise ValueError("derivation inputs must bind known typed objects")
         _digest(derivation.get("derivation_digest"), "derivation_digest")
     for authority in authorities:
         _digest(authority.get("source_content_digest"), "authority source_content_digest")
@@ -83,9 +102,11 @@ def project(graph: dict[str, Any], condition: str) -> dict[str, Any]:
                   "claims": graph["claims"], "authority_nodes": graph["authority_nodes"],
                   "automatic_admission": False, "human_approval_required": True}
     if condition in CONDITIONS[1:]:
+        projection["numeric_atoms"] = graph.get("numeric_atoms", [])
         projection["table_cells"] = graph["table_cells"]
     if condition == CONDITIONS[2]:
         projection["derivations"] = graph["derivations"]
+        projection["task_parameters"] = graph.get("task_parameters", [])
     projection["projection_digest"] = digest(projection)
     return projection
 
