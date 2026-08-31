@@ -139,7 +139,7 @@ class LocalOperationContractTests(unittest.TestCase):
         self.assertEqual(operations["conclusion.review"]["replay_semantics"],
                          "parameter_request_id")
         self.assertEqual(result["not_available"],
-                         ["localhost_http", "python_sdk", "mcp", "cloud"])
+                         ["localhost_http", "mcp", "cloud"])
 
     def test_governance_configuration_separates_roles_and_hides_command(self):
         policy_dir = self.repo / ".proofpress"

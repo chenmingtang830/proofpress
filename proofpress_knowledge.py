@@ -2252,6 +2252,7 @@ def local_operation_capabilities():
         "result_schema": LOCAL_OPERATION_RESULT_SCHEMA,
         "contract_status": LOCAL_OPERATION_CONTRACT_STATUS,
         "transport": "in_process",
+        "clients": ["python_sdk"],
         "idempotency": {
             "field": "idempotency_key",
             "maximum_length": 128,
@@ -2268,7 +2269,7 @@ def local_operation_capabilities():
             }
             for name, spec in LOCAL_OPERATION_SPECS.items()
         ],
-        "not_available": ["localhost_http", "python_sdk", "mcp", "cloud"],
+        "not_available": ["localhost_http", "mcp", "cloud"],
     }
 
 
