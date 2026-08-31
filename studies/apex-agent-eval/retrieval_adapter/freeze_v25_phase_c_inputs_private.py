@@ -59,6 +59,15 @@ def _metric(row: Any, *, name: str, minimum: float) -> None:
         raise ValueError(f"extraction qualification held-out {name} did not meet the frozen minimum")
 
 
+def _digest(value: Any, *, field: str) -> None:
+    if not isinstance(value, str) or len(value) != 71 or not value.startswith("sha256:"):
+        raise ValueError(f"{field} must be a sha256 digest")
+    try:
+        int(value[7:], 16)
+    except ValueError as exc:
+        raise ValueError(f"{field} must be a sha256 digest") from exc
+
+
 def validate_extraction_qualification(report: dict[str, Any], *, route: str,
                                       key: str) -> None:
     """Validate an executed, source-safe Stage B.5 qualification summary.
@@ -89,6 +98,21 @@ def validate_extraction_qualification(report: dict[str, Any], *, route: str,
         raise ValueError(f"extraction qualification ecological panel did not complete for {key}")
     if not isinstance(ecological.get("documents"), int) or ecological.get("documents", 0) < 1:
         raise ValueError(f"extraction qualification ecological panel is absent for {key}")
+    provenance = extractor.get("envelope_provenance")
+    if not isinstance(provenance, dict):
+        raise ValueError(f"extraction qualification envelope provenance is absent for {key}")
+    if not all(isinstance(provenance.get(field), str) and provenance[field]
+               for field in ("provider", "model", "version", "license", "model_revision")):
+        raise ValueError(f"extraction qualification extractor identity is incomplete for {key}")
+    _digest(provenance.get("config_digest"), field="extraction qualification config_digest")
+    _digest(provenance.get("envelope_set_digest"), field="extraction qualification envelope_set_digest")
+    if (not isinstance(provenance.get("envelope_count"), int)
+            or provenance["envelope_count"] < ecological["documents"]):
+        raise ValueError(f"extraction qualification envelope coverage is incomplete for {key}")
+    if (provenance.get("status") != "not_governed_candidate"
+            or provenance.get("admitted") is not False
+            or provenance.get("human_approval_required") is not True):
+        raise ValueError(f"extraction qualification envelope provenance changed the admission boundary for {key}")
 
 
 def freeze(manifest: dict[str, Any], controls: dict[str, Path]) -> tuple[dict[str, Any], dict[str, Any]]:

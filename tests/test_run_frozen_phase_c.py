@@ -27,7 +27,13 @@ class FrozenPhaseCRunnerTests(unittest.TestCase):
                                               "table_cells_f1": 1, "numeric_values_f1": 1,
                                               "locator_rate": .9, "reading_order_rate": .8,
                                               "cross_page_continuations_f1": 1},
-                      "ecological": {"documents": 4, "failed": 0}}}
+                      "ecological": {"documents": 4, "failed": 0},
+                      "envelope_provenance": {"provider": "test", "model": "test-model", "version": "1",
+                                                "license": "test-license", "model_revision": "rev",
+                                                "config_digest": "sha256:" + "b" * 64,
+                                                "envelope_count": 4, "envelope_set_digest": "sha256:" + "c" * 64,
+                                                "status": "not_governed_candidate", "admitted": False,
+                                                "human_approval_required": True}}}
 
     def controls(self, root):
         control = {}
