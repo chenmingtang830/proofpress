@@ -1,15 +1,28 @@
 {
-  "adapter": "repo-dogfood-fixture",
+  "checks": {
+    "evidence_integrity": true,
+    "evidence_present": true,
+    "not_expired": true,
+    "not_superseded": true,
+    "repo_checks_passed": true,
+    "repo_claim_is_current_fact": true,
+    "repo_commit_bound": true,
+    "repo_evidence_present": true,
+    "repo_evidence_reverified": true,
+    "repo_evidence_verified": true,
+    "repo_identity_bound": true,
+    "retrieval_receipts": true,
+    "scope_present": true
+  },
   "conclusion_digest": "sha256:ec72b5870d907d16fff160b68c0d179abec37b892a82d85bb52470fedbcdb687",
-  "created_at": "2026-08-31T08:49:46.509970Z",
-  "event_id": "ppe_48cf2f21765091fc",
-  "judge": "judge:repo-advisory",
-  "judge_config_digest": "sha256:12f86d75d2cf543eb81443801ae305b41548b1c10955ec3642fc83bc6521ba74",
-  "model": "none",
+  "created_at": "2026-08-31T08:49:46.670075Z",
+  "eligible": true,
+  "event_id": "ppe_c87a77b063963be4",
   "policy_digest": "sha256:8771d0fbb519da81328359096ebdbd8d0dee23880b8251096a1544618ba5a123",
-  "rationale": "The bounded repository evidence bundle and required CI receipts are present for human review.",
-  "recommendation": "accept",
   "schema_version": "proofpress/knowledge-event/v2",
   "subject_ref": "knw_0767c67d52dec61c",
-  "type": "judge_recommended"
+  "type": "policy_evaluated",
+  "verification_config_digest": "sha256:d3451dd35eb105678ea6593a6ce8d74e2d32dc3764eb4959bcea5a4c7a7863f4",
+  "verification_profile": "proofpress/repo-dogfood-verification/v1",
+  "verifier": "verifier:repo-deterministic"
 }
