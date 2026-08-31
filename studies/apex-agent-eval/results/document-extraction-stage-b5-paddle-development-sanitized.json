@@ -1,0 +1,45 @@
+{
+  "schema_version": "proofpress/document-extraction-panel-run/v1",
+  "recorded_at": "2026-08-30",
+  "boundary": "Development-only one-page-per-document PaddleOCR-VL 1.6 execution. No APEX executor, task grader, downstream outcome access, or graph rebuild.",
+  "panel_digest": "sha256:1ae42599f67169323e10af17dafa2ef92c5375ca1029fb21444b9e6328fedfba",
+  "route": "PaddlePaddle/PaddleOCR-VL-1.6",
+  "host": {
+    "architecture": "Apple-Silicon-M4-Pro",
+    "device": "cpu"
+  },
+  "documents": 12,
+  "development_documents": 4,
+  "heldout_documents": 8,
+  "attempted": 4,
+  "complete": 2,
+  "failed": 2,
+  "pending": 8,
+  "pages_processed": 2,
+  "blocks": 22,
+  "tables": 1,
+  "cells": 19,
+  "completed_document_seconds": [
+    41.686,
+    129.004
+  ],
+  "failed_document_seconds": [
+    305.011,
+    305.02
+  ],
+  "document_timeout_seconds": 300,
+  "warm_single_page_smoke": {
+    "status": "complete",
+    "elapsed_seconds": 26.225,
+    "peak_rss_mib": 9469.4,
+    "blocks": 5,
+    "tables": 0
+  },
+  "panel_run_peak_rss_mib": 12414.5,
+  "known_model_cost_usd": 0,
+  "automatic_admission": false,
+  "human_approval_required": true,
+  "qualification_status": "blocked-before-heldout",
+  "block_reason": "Two of four development pages exceeded the frozen 300-second wall circuit and Paddle's internal VLM worker did not terminate promptly. Held-out execution is paused until timeout isolation and structure ground truth are qualified.",
+  "claim_boundary": "This establishes local route executability and exposes a development transport/latency blocker. It does not establish extraction accuracy, route qualification, graph improvement, or APEX task success."
+}
