@@ -2,7 +2,7 @@
   "id": "proofpress-repo-self-dogfood",
   "version": 1,
   "min_evidence": 1,
-  "require_judge": true,
+  "require_judge": false,
   "allowed_actors": ["*"],
   "conflict_resolvers": ["*"],
   "verification": {
@@ -11,11 +11,7 @@
   },
   "judge": {
     "identity": "judge:repo-advisory",
-    "command": [
-      "python3",
-      "-c",
-      "import json,sys; json.load(sys.stdin); print(json.dumps({'recommendation':'accept','rationale':'The bounded repository evidence bundle and required CI receipts are present for human review.','adapter':'repo-dogfood-fixture','model':'none'}))"
-    ],
+    "command": [],
     "timeout_seconds": 30
   }
 }
