@@ -180,8 +180,11 @@ class ProofpressClient:
     def import_evidence(self, path, **meta):
         return self.execute("evidence.import", {"path": str(path)}, **meta)
 
-    def submit_evidence(self, payload, **meta):
-        return self.execute("evidence.submit", {"payload": dict(payload)}, **meta)
+    def submit_evidence(self, payload, *, profile=None, **meta):
+        parameters = {"payload": dict(payload)}
+        if profile is not None:
+            parameters["profile"] = profile
+        return self.execute("evidence.submit", parameters, **meta)
 
     def propose_conclusion(self, statement, evidence_refs, scope, proposer,
                            *, expires_at=None, artifact_refs=None,

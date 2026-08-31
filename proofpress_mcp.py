@@ -61,9 +61,10 @@ class ProofpressMcpGateway:
         return result
 
     def submit_evidence(self, payload: dict[str, Any],
-                        idempotency_key: str | None = None) -> dict[str, Any]:
+                        idempotency_key: str | None = None, *,
+                        profile: str | None = None) -> dict[str, Any]:
         return self.client.submit_evidence(
-            payload, idempotency_key=idempotency_key)
+            payload, profile=profile, idempotency_key=idempotency_key)
 
     def propose_conclusion(
             self, statement: str, evidence_refs: list[str], scope: str,
@@ -129,9 +130,11 @@ def build_mcp_server(gateway: ProofpressMcpGateway):
     @server.tool(name="proofpress_submit_evidence")
     def proofpress_submit_evidence(
             payload: dict[str, Any],
+            profile: str | None = None,
             idempotency_key: str | None = None) -> dict[str, Any]:
-        """Submit one bounded proofpress/retrieval-evidence/v1 envelope."""
-        return gateway.submit_evidence(payload, idempotency_key)
+        """Submit one bounded evidence envelope under an optional profile."""
+        return gateway.submit_evidence(
+            payload, idempotency_key=idempotency_key, profile=profile)
 
     @server.tool(name="proofpress_propose_conclusion")
     def proofpress_propose_conclusion(
