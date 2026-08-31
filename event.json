@@ -1,31 +1,85 @@
 {
-  "created_at": "2026-08-31T08:49:45.983197Z",
-  "event_id": "ppe_7b641798f751208c",
-  "record": {
-    "base_commit": "2f0f4c4d67ef50d570733f3d0a242814281b3532",
-    "changed_paths": [
-      "README.md",
-      "package.json",
-      "proofpress_knowledge.py",
-      "proofpress_repo.py",
-      "pyproject.toml",
-      "tests/test_repo_dogfood.py"
-    ],
-    "diff_digest": "sha256:9644b10b184984afd41978aba16859b9836220f30dca1be2ac9c74b5088fb018",
-    "head_commit": "38e953df7627e7a3b24af6fb7cdf9ac3270b8d6d",
-    "id": "src_a0e59138e96001a5",
-    "kind": "repository_change",
-    "pull_request": {
-      "number": 72,
-      "url": "https://github.com/chenmingtang830/proofpress/pull/72"
+  "created_at": "2026-08-31T08:49:46.051256Z",
+  "event_id": "ppe_eb9cd2e018315e0c",
+  "evidence": {
+    "bundle": {
+      "bundle_digest": "sha256:ea811721a1a9a8fe09ba1a3b4b154de2b00107415d1f3d4eaba45e0538d5ff46",
+      "change": {
+        "base_commit": "2f0f4c4d67ef50d570733f3d0a242814281b3532",
+        "changed_paths": [
+          "README.md",
+          "package.json",
+          "proofpress_knowledge.py",
+          "proofpress_repo.py",
+          "pyproject.toml",
+          "tests/test_repo_dogfood.py"
+        ],
+        "diff_digest": "sha256:9644b10b184984afd41978aba16859b9836220f30dca1be2ac9c74b5088fb018",
+        "head_commit": "38e953df7627e7a3b24af6fb7cdf9ac3270b8d6d"
+      },
+      "checks": [
+        {
+          "commit": "38e953df7627e7a3b24af6fb7cdf9ac3270b8d6d",
+          "name": "Python 3.11",
+          "receipt_digest": "sha256:9d244bb233f42e53f1bca832442a0c8312aa102d5388592434cfa041e115eee7",
+          "status": "pass",
+          "url": "https://github.com/chenmingtang830/proofpress/actions/runs/33374504335/job/99432829997",
+          "workflow": "CI"
+        },
+        {
+          "commit": "38e953df7627e7a3b24af6fb7cdf9ac3270b8d6d",
+          "name": "Python 3.14",
+          "receipt_digest": "sha256:3f5179cb88d76bc822bb18e9e38de35c83f47d3d58d3c3927e7238f3b22f03bd",
+          "status": "pass",
+          "url": "https://github.com/chenmingtang830/proofpress/actions/runs/33374504335/job/99432829929",
+          "workflow": "CI"
+        },
+        {
+          "commit": "38e953df7627e7a3b24af6fb7cdf9ac3270b8d6d",
+          "name": "Node 24",
+          "receipt_digest": "sha256:330c311160fd820661bc19fc03a7b2685751aae69c6862e4823e487d64c8de18",
+          "status": "pass",
+          "url": "https://github.com/chenmingtang830/proofpress/actions/runs/33374504335/job/99432830071",
+          "workflow": "CI"
+        },
+        {
+          "commit": "38e953df7627e7a3b24af6fb7cdf9ac3270b8d6d",
+          "name": "proofpress",
+          "receipt_digest": "sha256:3145dbb5184c9d90c7ee588c123f0a98446e1a39fc598e22cc611b40a09fb3de",
+          "status": "pass",
+          "url": "https://github.com/chenmingtang830/proofpress/actions/runs/33374504161/job/99432828656",
+          "workflow": "Proofpress"
+        }
+      ],
+      "pull_request": {
+        "number": 72,
+        "url": "https://github.com/chenmingtang830/proofpress/pull/72"
+      },
+      "repository": {
+        "id": "repo_4c47e82ad7acd24b",
+        "remote": "https://github.com/chenmingtang830/proofpress"
+      },
+      "schema_version": "proofpress/repo-evidence-bundle/v1"
     },
-    "record_hash": "sha256:0a286512b7793e36d215b4787a6ddc36d78fbae65da023628ffd88e1461a2e2d",
-    "repository": {
-      "id": "repo_4c47e82ad7acd24b",
-      "remote": "https://github.com/chenmingtang830/proofpress"
+    "bundle_digest": "sha256:ea811721a1a9a8fe09ba1a3b4b154de2b00107415d1f3d4eaba45e0538d5ff46",
+    "digest": "sha256:30fc2e33dd1bad6bab9c3075dc62196330e272ca97d0e71e0d4df54dfa95b64e",
+    "id": "evd_dacf381af5cdda5d",
+    "kind": "repository_evidence",
+    "source_digest": "sha256:0a286512b7793e36d215b4787a6ddc36d78fbae65da023628ffd88e1461a2e2d",
+    "source_ref": "src_a0e59138e96001a5",
+    "verification": {
+      "bundle_digest": true,
+      "changed_paths": true,
+      "check_receipts": true,
+      "checks_passed": true,
+      "commits": true,
+      "diff_digest": true,
+      "repository": true,
+      "schema": true
     }
   },
   "schema_version": "proofpress/knowledge-event/v2",
-  "subject_ref": "src_a0e59138e96001a5",
-  "type": "source_recorded"
+  "source_ref": "src_a0e59138e96001a5",
+  "subject_ref": "evd_dacf381af5cdda5d",
+  "type": "evidence_bound"
 }
