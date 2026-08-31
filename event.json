@@ -15,9 +15,9 @@
     "scope_present": true
   },
   "conclusion_digest": "sha256:4f1146aba9704cbcee5fda2b522803d6877d7dc449f42231761d165efdea786e",
-  "created_at": "2026-08-31T08:53:37.827183Z",
+  "created_at": "2026-08-31T08:53:37.985531Z",
   "eligible": true,
-  "event_id": "ppe_0dd67cb94ee0121b",
+  "event_id": "ppe_de57f226012c78be",
   "policy_digest": "sha256:9db378a53f5a219c034ee2a415391f63938cf29ca3fc50a239844c4378cdf8bb",
   "schema_version": "proofpress/knowledge-event/v2",
   "subject_ref": "knw_4bf03f87704f56cc",
