@@ -11,6 +11,7 @@ from pathlib import Path
 from typing import Any
 
 import proofpress_repo
+import proofpress_experiment
 from proofpress_event_store import current_event_store
 
 SCHEMA = "proofpress/knowledge-ledger/v1"
@@ -252,7 +253,7 @@ LOCAL_OPERATION_SPECS = {
         "replay_semantics": "kernel_deduplicated",
     },
     "evidence.submit": {
-        "required": ("payload",), "optional": (), "mutates": True,
+        "required": ("payload",), "optional": ("profile",), "mutates": True,
         "replay_semantics": "kernel_deduplicated",
     },
     "conclusion.propose": {
@@ -564,6 +565,8 @@ def validate_profile(profile, qualifiers):
         unknown = set(repo) - (required | {"pull_request"})
         if unknown: raise ValueError("unknown repo profile fields: " + ", ".join(sorted(unknown)))
         return {**qualifiers, "profile": proofpress_repo.REPO_PROFILE_SCHEMA}
+    if profile == "experiment":
+        return proofpress_experiment.normalize_conclusion(qualifiers)
     if profile != "legal": raise ValueError("unknown claim profile: " + profile)
     legal = qualifiers.get("legal")
     if not isinstance(legal, dict):
@@ -829,9 +832,34 @@ def import_evidence_v2(path):
             "evidence": sorted(projection["evidence"]), "ref": KNOWLEDGE_REF}
 
 
-def submit_evidence_v2(payload):
-    """Submit one bounded retrieval-evidence envelope without a local path."""
-    created = _import_retrieval_evidence_v2(payload)
+def submit_evidence_v2(payload, profile=None):
+    """Submit one bounded evidence envelope without a local path."""
+    if profile is None:
+        created = _import_retrieval_evidence_v2(payload)
+    elif profile == "experiment":
+        projection = v2_projection()
+        normalized = proofpress_experiment.normalize_evidence(
+            payload, projection["evidence"])
+        evidence = {
+            "id": ident({"profile": proofpress_experiment.PROFILE,
+                         "payload": normalized}, "evd_"),
+            "kind": "experiment_evidence",
+            "experiment_profile": normalized,
+            "source_evidence_refs": sorted(set(
+                ([normalized.get("observation", {}).get("source_evidence_ref")]
+                 if normalized.get("observation") else []) +
+                ([normalized.get("cell", {}).get("source_evidence_ref")]
+                 if normalized.get("cell") else []) +
+                normalized.get("derivation", {}).get("input_evidence_refs", [])
+            )),
+        }
+        evidence["source_evidence_refs"] = [x for x in evidence["source_evidence_refs"] if x]
+        evidence["digest"] = digest(evidence)
+        created = [append_v2({"type": "evidence_bound", "subject_ref": evidence["id"],
+                              "source_ref": evidence["source_evidence_refs"][0],
+                              "evidence": evidence})]
+    else:
+        raise ValueError("unknown evidence profile: " + str(profile))
     projection = v2_projection()
     imported_evidence = sorted(
         row["subject_ref"] for row in created
@@ -867,6 +895,38 @@ def _repo_profile_checks(row, evidence_rows):
             all(receipt["status"] == "pass" for receipt in item["bundle"]["checks"])
             for item in matching),
         "repo_claim_is_current_fact": repo["claim_kind"] != "roadmap",
+    }
+
+
+def _experiment_profile_checks(row, evidence_rows, all_evidence):
+    qualifier = row.get("qualifiers", {}).get("experiment")
+    if not qualifier:
+        return {}
+    experiment_rows = [item for item in evidence_rows
+                       if item.get("kind") == "experiment_evidence"]
+    valid = []
+    for item in experiment_rows:
+        profile = item.get("experiment_profile")
+        try:
+            valid.append(proofpress_experiment.normalize_evidence(
+                profile, all_evidence) == profile)
+        except (KeyError, TypeError, ValueError):
+            valid.append(False)
+    identity = qualifier["experiment"]
+    failure = qualifier.get("failure")
+    failure_refs = set(failure.get("feedback_evidence_refs", [])) if failure else set()
+    row_refs = set(row.get("evidence_refs", []))
+    return {
+        "experiment_evidence_present": bool(experiment_rows),
+        "experiment_evidence_valid": bool(experiment_rows) and all(valid),
+        "experiment_identity_bound": bool(experiment_rows) and all(
+            item["experiment_profile"].get("experiment") == identity
+            for item in experiment_rows),
+        "experiment_conclusion_kind_valid": (
+            qualifier.get("conclusion_kind") in proofpress_experiment.CONCLUSION_KINDS),
+        "experiment_failure_feedback_bound": (
+            qualifier.get("conclusion_kind") != "failed-attempt"
+            or bool(failure_refs) and failure_refs <= row_refs),
     }
 
 
@@ -1208,6 +1268,9 @@ def evaluate_v2(cid, projection=None, events=None, policy=None):
     }
     checks.update(_repo_profile_checks(
         row, [projection["evidence"][ref] for ref in evidence_ok]))
+    checks.update(_experiment_profile_checks(
+        row, [projection["evidence"][ref] for ref in evidence_ok],
+        projection["evidence"]))
     event = append_v2({"type": "policy_evaluated", "subject_ref": cid,
                        "conclusion_digest": row["digest"],
                        "policy_digest": policy["digest"], "checks": checks,
@@ -2217,7 +2280,7 @@ def add_flat_cli(sub):
     propose_parser.add_argument("--artifact", action="append", default=[]); propose_parser.add_argument("--scope", required=True)
     propose_parser.add_argument("--proposer", default="agent:proposer"); propose_parser.add_argument("--expires-at")
     propose_parser.add_argument("--allow-actor", action="append", default=[])
-    propose_parser.add_argument("--profile", choices=["legal", "repo"]); propose_parser.add_argument("--qualifiers")
+    propose_parser.add_argument("--profile", choices=["legal", "repo", "experiment"]); propose_parser.add_argument("--qualifiers")
     propose_parser.set_defaults(f=cmd_flat, flat_cmd="propose")
     evaluate_parser = sub.add_parser("evaluate"); evaluate_parser.add_argument("conclusion")
     evaluate_parser.set_defaults(f=cmd_flat, flat_cmd="evaluate")
@@ -2318,6 +2381,11 @@ def local_operation_capabilities():
         "contract_status": LOCAL_OPERATION_CONTRACT_STATUS,
         "transport": "in_process",
         "clients": ["python_sdk"],
+        "profiles": {
+            "conclusion": ["legal", "repo", "experiment"],
+            "evidence": ["experiment"],
+            "experiment_schema": proofpress_experiment.PROFILE,
+        },
         "idempotency": {
             "field": "idempotency_key",
             "maximum_length": 128,
@@ -2505,7 +2573,8 @@ def _execute_local_operation(request):
         elif operation == "evidence.import":
             result = import_evidence_v2(parameters["path"])
         elif operation == "evidence.submit":
-            result = submit_evidence_v2(parameters["payload"])
+            result = submit_evidence_v2(
+                parameters["payload"], parameters.get("profile"))
         elif operation == "conclusion.propose":
             result = propose_v2(
                 parameters["statement"], parameters["evidence_refs"],
