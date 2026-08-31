@@ -6,6 +6,7 @@ import argparse
 import hashlib
 import json
 import resource
+import signal
 import sys
 import time
 from pathlib import Path
@@ -30,9 +31,10 @@ def main() -> None:
     parser.add_argument("--out", required=True, type=Path)
     parser.add_argument("--pages-per-document", type=int, default=1)
     parser.add_argument("--device", default="cpu")
+    parser.add_argument("--document-timeout-seconds", type=int, default=600)
     args = parser.parse_args()
-    if args.pages_per_document < 1:
-        raise SystemExit("pages-per-document must be positive")
+    if args.pages_per_document < 1 or args.document_timeout_seconds < 1:
+        raise SystemExit("page count and document timeout must be positive")
 
     import numpy as np
     import pypdfium2 as pdfium
@@ -46,10 +48,20 @@ def main() -> None:
     pipeline_started = time.monotonic()
     pipeline = PaddleOCRVL(pipeline_version="v1.6", device=args.device)
     cells = []
+
+    def timeout_handler(signum, frame):
+        raise TimeoutError("document extraction exceeded the frozen wall-time circuit")
+
+    signal.signal(signal.SIGALRM, timeout_handler)
     for item in panel["sources"]:
         started = time.monotonic(); path, manifest_source = paths[item["content_digest"]]
         target = args.out / item["source_id"]; target.mkdir(exist_ok=True); target.chmod(0o700)
+        summary_path = target / "run-summary.json"
+        if summary_path.is_file():
+            cells.append(json.loads(summary_path.read_text()))
+            continue
         try:
+            signal.alarm(args.document_timeout_seconds)
             document = pdfium.PdfDocument(str(path)); results = []
             for page_index in range(min(len(document), args.pages_per_document)):
                 image = np.asarray(document[page_index].render(scale=2).to_pil())
@@ -77,12 +89,15 @@ def main() -> None:
                    "failure_type": type(exc).__name__,
                    "failure_digest": "sha256:" + hashlib.sha256(str(exc).encode()).hexdigest(),
                    "elapsed_seconds": round(time.monotonic() - started, 3)}
+        finally:
+            signal.alarm(0)
         cells.append(row)
-        (target / "run-summary.json").write_text(json.dumps(row, indent=2, sort_keys=True) + "\n")
+        summary_path.write_text(json.dumps(row, indent=2, sort_keys=True) + "\n")
     complete = [row for row in cells if row["status"] == "complete"]
     report = {"schema_version": "proofpress/document-extraction-panel-run/v1",
               "panel_digest": panel["panel_digest"], "route": "PaddlePaddle/PaddleOCR-VL-1.6",
               "host": {"architecture": "Apple-Silicon", "device": args.device},
+              "document_timeout_seconds": args.document_timeout_seconds,
               "documents": len(cells), "complete": len(complete), "failed": len(cells) - len(complete),
               "pages_processed": sum(row.get("pages_processed", 0) for row in complete),
               "blocks": sum(row.get("blocks", 0) for row in complete),
