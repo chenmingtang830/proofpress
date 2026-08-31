@@ -25,7 +25,18 @@ test("landing page links to GitHub and preserves a real partner flow", () => {
 });
 
 test("landing page local assets and scripts exist", () => {
-  for (const file of ["site/styles.css", "site/script.js", "assets/logo-on-dark.svg"]) {
+  for (const file of ["site/styles.css", "site/script.js", "assets/logo-on-light.svg", "assets/logo-on-dark.svg"]) {
     assert.equal(existsSync(resolve(root, file)), true, `${file} should exist`);
   }
+});
+
+test("landing page defaults to the Proofpress light visual language", () => {
+  const css = readFileSync(resolve(root, "site/styles.css"), "utf8");
+
+  assert.match(html, /name="theme-color" content="#faf9f5"/);
+  assert.match(html, /logo-on-light\.svg/);
+  assert.match(css, /color-scheme:\s*light/);
+  assert.match(css, /--paper:\s*#faf9f5/);
+  assert.match(css, /--accent:\s*#0e5e6f/);
+  assert.match(css, /\[data-theme="dark"\]/);
 });
