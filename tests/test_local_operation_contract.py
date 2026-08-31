@@ -10,6 +10,7 @@ import unittest
 ROOT = Path(__file__).resolve().parents[1]
 CLI = ROOT / "proofpress.py"
 FIXTURE = ROOT / "examples" / "verified-knowledge-ledger" / "demo.otlp.json"
+CONFORMANCE = ROOT / "tests" / "fixtures" / "local_operation_conformance_v1alpha1.json"
 
 
 class LocalOperationContractTests(unittest.TestCase):
@@ -65,6 +66,56 @@ class LocalOperationContractTests(unittest.TestCase):
                          "invalid_parameters")
         self.assertEqual(invalid_parameters["error"]["details"]["unknown"],
                          ["cloud_tenant"])
+
+    def test_frozen_conformance_vectors(self):
+        fixture = json.loads(CONFORMANCE.read_text(encoding="utf-8"))
+        self.assertEqual(fixture["schema_version"],
+                         "proofpress/local-operation-conformance/v1alpha1")
+        for vector in fixture["vectors"]:
+            with self.subTest(vector=vector["name"]):
+                response = self.knowledge.execute_local_operation(vector["request"])
+                expected = vector["expect"]
+                self.assertEqual(response["ok"], expected["ok"])
+                if expected["ok"]:
+                    self.assertEqual(response["result"]["request_schema"],
+                                     expected["result_schema_version"])
+                else:
+                    self.assertEqual(response["error"]["code"],
+                                     expected["error_code"])
+
+    def test_mutating_request_replay_is_persistent_and_conflicts_fail_closed(self):
+        first = self.knowledge.execute_local_operation({
+            "schema_version": self.knowledge.LOCAL_OPERATION_SCHEMA,
+            "operation": "evidence.import",
+            "parameters": {"path": str(FIXTURE)},
+            "request_id": "request-first",
+            "idempotency_key": "evidence-import-001",
+        })
+        self.assertTrue(first["ok"])
+        event_count = len(self.knowledge.v2_events())
+
+        replay = self.knowledge.execute_local_operation({
+            "schema_version": self.knowledge.LOCAL_OPERATION_SCHEMA,
+            "operation": "evidence.import",
+            "parameters": {"path": str(FIXTURE)},
+            "request_id": "request-retry",
+            "idempotency_key": "evidence-import-001",
+        })
+        self.assertTrue(replay["ok"])
+        self.assertTrue(replay["idempotent_replay"])
+        self.assertEqual(replay["request_id"], "request-retry")
+        self.assertEqual(replay["result"], first["result"])
+        self.assertEqual(len(self.knowledge.v2_events()), event_count)
+        self.assertTrue((self.repo / self.knowledge.LOCAL_IDEMPOTENCY_PATH).is_file())
+
+        conflict = self.knowledge.execute_local_operation({
+            "schema_version": self.knowledge.LOCAL_OPERATION_SCHEMA,
+            "operation": "evidence.import",
+            "parameters": {"path": str(self.repo / "different.json")},
+            "idempotency_key": "evidence-import-001",
+        })
+        self.assertFalse(conflict["ok"])
+        self.assertEqual(conflict["error"]["code"], "idempotency_conflict")
 
     def test_capabilities_are_negotiable_and_do_not_claim_future_surfaces(self):
         capabilities = self.knowledge.execute_local_operation({
