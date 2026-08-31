@@ -243,6 +243,26 @@ class HostedControlPlane:
         return {"workspace_id": owner.workspace_id, "principal_id": principal_id,
                 "credential_id": credential_id, "token": token}
 
+    def list_credentials(self, owner_token: str) -> list[dict[str, Any]]:
+        owner = self.authenticate(owner_token)
+        if owner.role != "owner":
+            raise HostedAuthError("owner_required", "owner credential required")
+        connection = self._connect()
+        try:
+            rows = connection.execute(
+                "SELECT c.credential_id, c.principal_id, p.role, c.label, "
+                "c.permissions_json, c.created_at, c.last_used_at, c.revoked_at "
+                "FROM hosted_credentials c JOIN hosted_principals p "
+                "USING(workspace_id, principal_id) WHERE c.workspace_id = ? "
+                "ORDER BY c.created_at, c.credential_id",
+                (owner.workspace_id,)).fetchall()
+            return [{key: row[key] for key in row.keys()
+                     if key != "permissions_json"} | {
+                         "permissions": json.loads(row["permissions_json"])}
+                    for row in rows]
+        finally:
+            connection.close()
+
     def revoke_credential(self, owner_token: str, credential_id: str) -> None:
         owner = self.authenticate(owner_token)
         if owner.role != "owner":
