@@ -1,0 +1,18 @@
+services:
+  - type: web
+    name: proofpress-personal-hosted
+    runtime: python
+    plan: starter
+    region: oregon
+    branch: codex/render-remote-mcp
+    buildCommand: pip install .
+    startCommand: proofpress-hosted --database /var/data/proofpress.db serve --host 0.0.0.0 --allow-public-bind
+    healthCheckPath: /readyz
+    autoDeployTrigger: commit
+    disk:
+      name: proofpress-data
+      mountPath: /var/data
+      sizeGB: 1
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.13.7

@@ -124,6 +124,15 @@ class HostedServiceTests(unittest.TestCase):
         self.assertEqual(raised.exception.code, 413)
         raised.exception.close()
 
+    def test_managed_platform_can_explicitly_bind_public_interface(self):
+        server = self.service.create_hosted_server(
+            Path(self.tmp.name) / "render.db", host="0.0.0.0", port=0,
+            allow_public_bind=True)
+        try:
+            self.assertGreater(server.server_port, 0)
+        finally:
+            server.server_close()
+
     def test_remote_cli_and_offline_export_verifier(self):
         evidence_file = Path(self.tmp.name) / "evidence.json"
         evidence_file.write_text(json.dumps(evidence_payload()), encoding="utf-8")
