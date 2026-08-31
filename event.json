@@ -1,14 +1,32 @@
 {
-  "conclusion_digest": "sha256:ec72b5870d907d16fff160b68c0d179abec37b892a82d85bb52470fedbcdb687",
-  "created_at": "2026-08-31T08:49:46.843094Z",
-  "event_id": "ppe_ab609c171d93b223",
-  "evidence_digests": {
-    "evd_dacf381af5cdda5d": "sha256:30fc2e33dd1bad6bab9c3075dc62196330e272ca97d0e71e0d4df54dfa95b64e"
+  "created_at": "2026-08-31T08:53:37.493581Z",
+  "event_id": "ppe_a870e173fd1e6b4c",
+  "record": {
+    "base_commit": "2f0f4c4d67ef50d570733f3d0a242814281b3532",
+    "changed_paths": [
+      ".proofpress/policy.json",
+      "README.md",
+      "package.json",
+      "proofpress_knowledge.py",
+      "proofpress_repo.py",
+      "pyproject.toml",
+      "tests/test_repo_dogfood.py"
+    ],
+    "diff_digest": "sha256:c234ed35d00821535fd60da141277da254823b75cae164ef04f055799fe69df2",
+    "head_commit": "197bfebfa7b10bb07dd595b5e5ff5025c1645378",
+    "id": "src_8708c01631694f86",
+    "kind": "repository_change",
+    "pull_request": {
+      "number": 72,
+      "url": "https://github.com/chenmingtang830/proofpress/pull/72"
+    },
+    "record_hash": "sha256:b1f39de4602306577dd71c64b9e02194c82e40d489ff9f28041e6c9d6037dcea",
+    "repository": {
+      "id": "repo_4c47e82ad7acd24b",
+      "remote": "https://github.com/chenmingtang830/proofpress"
+    }
   },
-  "policy_digest": "sha256:8771d0fbb519da81328359096ebdbd8d0dee23880b8251096a1544618ba5a123",
-  "review_ref": "ppe_5451321f8edf4d74",
-  "reviewer": "human:richard-tang",
   "schema_version": "proofpress/knowledge-event/v2",
-  "subject_ref": "knw_0767c67d52dec61c",
-  "type": "conclusion_admitted"
+  "subject_ref": "src_8708c01631694f86",
+  "type": "source_recorded"
 }
