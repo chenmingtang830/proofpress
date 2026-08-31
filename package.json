@@ -13,6 +13,7 @@
     "skills/",
     "proofpress.py",
     "proofpress_knowledge.py",
+    "proofpress_service.py",
     "proofpress_evidence.py",
     "examples/verified-knowledge-ledger/demo.otlp.json",
     "examples/verified-knowledge-ledger/legal/README.md",
