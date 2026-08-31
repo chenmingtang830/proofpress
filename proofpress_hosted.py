@@ -69,6 +69,7 @@ class HostedControlPlane:
         self.database = Path(database)
         self.database.parent.mkdir(parents=True, exist_ok=True)
         self._migrate()
+        SQLiteEventStore(self.database, "__schema__", "system:migration")
 
     def _connect(self) -> sqlite3.Connection:
         connection = sqlite3.connect(self.database, timeout=30)
@@ -278,6 +279,22 @@ class HostedControlPlane:
         with using_event_store(store):
             envelope = knowledge.execute_local_operation(normalized)
             head = store.head()
+        if envelope.get("ok") and operation == "capabilities.get":
+            result = dict(envelope["result"])
+            result["transport"] = "hosted_https"
+            result["clients"] = sorted(set(result.get("clients", [])) |
+                                       {"python_sdk", "mcp_stdio_bridge"})
+            result["not_available"] = [
+                item for item in result.get("not_available", [])
+                if item not in {"localhost_http", "mcp", "cloud"}]
+            result["hosted"] = {
+                "deployment": "personal_single_instance_alpha",
+                "workspace_id": context.workspace_id,
+                "principal_id": context.principal_id,
+                "role": context.role,
+                "owner_approval_available": context.role == "owner",
+            }
+            envelope = {**envelope, "result": result}
         self._audit(context, request, envelope, head)
         return envelope
 

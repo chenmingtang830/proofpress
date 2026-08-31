@@ -15,6 +15,7 @@ authors = [{name = "Proofpress"}]
 proofpress = "proofpress:main"
 proofpress-repo = "proofpress_repo:main"
 proofpress-mcp = "proofpress_mcp:main"
+proofpress-hosted = "proofpress_hosted_service:main"
 
 [project.optional-dependencies]
 mcp = ["mcp>=2,<3"]
@@ -30,4 +31,5 @@ py-modules = [
   "proofpress_mcp",
   "proofpress_event_store",
   "proofpress_hosted",
+  "proofpress_hosted_service",
 ]
