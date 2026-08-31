@@ -66,35 +66,59 @@ class LocalHttpTransport:
             raise ValueError("local HTTP transport requires a bearer token")
 
     def execute(self, request: Mapping[str, Any]) -> JsonObject:
-        body = json.dumps(dict(request), ensure_ascii=False,
-                          separators=(",", ":")).encode()
-        target = self.base_url.rstrip("/") + "/v1/operations"
-        http_request = Request(
-            target, data=body, method="POST",
-            headers={"Authorization": "Bearer " + self.token,
-                     "Content-Type": "application/json"})
+        return _execute_http(self.base_url, self.token, self.timeout, request)
+
+
+@dataclass(frozen=True)
+class RemoteHttpTransport:
+    base_url: str
+    token: str
+    timeout: float = 30.0
+
+    def __post_init__(self):
+        parsed = urlparse(self.base_url)
+        if parsed.scheme != "https" or not parsed.hostname:
+            raise ValueError("remote HTTP transport requires an https URL")
+        if parsed.username or parsed.password or parsed.fragment:
+            raise ValueError("remote HTTP transport URL must not contain credentials or a fragment")
+        if not self.token:
+            raise ValueError("remote HTTP transport requires a bearer token")
+
+    def execute(self, request: Mapping[str, Any]) -> JsonObject:
+        return _execute_http(self.base_url, self.token, self.timeout, request)
+
+
+def _execute_http(base_url: str, token: str, timeout: float,
+                  request: Mapping[str, Any]) -> JsonObject:
+    body = json.dumps(dict(request), ensure_ascii=False,
+                      separators=(",", ":")).encode()
+    target = base_url.rstrip("/") + "/v1/operations"
+    http_request = Request(
+        target, data=body, method="POST",
+        headers={"Authorization": "Bearer " + token,
+                 "Content-Type": "application/json"})
+    try:
+        with urlopen(http_request, timeout=timeout) as response:
+            return json.loads(response.read())
+    except HTTPError as exc:
         try:
-            with urlopen(http_request, timeout=self.timeout) as response:
-                return json.loads(response.read())
-        except HTTPError as exc:
-            try:
-                payload = json.loads(exc.read())
-            except (UnicodeDecodeError, json.JSONDecodeError):
-                payload = {}
-            finally:
-                exc.close()
-            if isinstance(payload, dict) and "ok" in payload:
-                return payload
-            raise ProofpressTransportError(
-                "http_error", str(payload.get("error", exc.reason)),
-                retryable=exc.code >= 500, status=exc.code) from exc
-        except (URLError, TimeoutError, OSError) as exc:
-            raise ProofpressTransportError(
-                "transport_unavailable", str(exc), retryable=True) from exc
+            payload = json.loads(exc.read())
+        except (UnicodeDecodeError, json.JSONDecodeError):
+            payload = {}
+        finally:
+            exc.close()
+        if isinstance(payload, dict) and "ok" in payload:
+            return payload
+        raise ProofpressTransportError(
+            "http_error", str(payload.get("error", exc.reason)),
+            retryable=exc.code >= 500, status=exc.code) from exc
+    except (URLError, TimeoutError, OSError) as exc:
+        raise ProofpressTransportError(
+            "transport_unavailable", str(exc), retryable=True) from exc
 
 
 class ProofpressClient:
-    """One client surface for in-process and localhost HTTP transports."""
+    """One client surface for in-process, localhost, and remote transports."""
 
     def __init__(self, transport: Transport):
         self.transport = transport
@@ -107,6 +131,11 @@ class ProofpressClient:
     def localhost(cls, base_url: str, token: str,
                   timeout: float = 30.0) -> "ProofpressClient":
         return cls(LocalHttpTransport(base_url, token, timeout))
+
+    @classmethod
+    def remote(cls, base_url: str, token: str,
+               timeout: float = 30.0) -> "ProofpressClient":
+        return cls(RemoteHttpTransport(base_url, token, timeout))
 
     def execute_raw(self, operation: str, parameters: Mapping[str, Any] | None = None,
                     *, request_id: str | None = None,
@@ -147,8 +176,13 @@ class ProofpressClient:
 
     def configuration(self):
         return self.execute("configuration.get")
+
     def import_evidence(self, path, **meta):
         return self.execute("evidence.import", {"path": str(path)}, **meta)
+
+    def submit_evidence(self, payload, **meta):
+        return self.execute("evidence.submit", {"payload": dict(payload)}, **meta)
+
     def propose_conclusion(self, statement, evidence_refs, scope, proposer,
                            *, expires_at=None, artifact_refs=None,
                            allowed_actors=None, qualifiers=None, profile=None, **meta):
@@ -210,3 +244,8 @@ class ProofpressClient:
         return self.execute("context.get", {
             "scope": scope, "actor": actor, "task": task,
             "include_blocked_statements": include_blocked_statements})
+    def review_summary(self, scope=None):
+        return self.execute("review.summary", {"scope": scope})
+
+    def review_receipt(self, conclusion_id):
+        return self.execute("review.receipt", {"conclusion_id": conclusion_id})

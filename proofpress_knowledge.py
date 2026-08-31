@@ -250,6 +250,10 @@ LOCAL_OPERATION_SPECS = {
         "required": ("path",), "optional": (), "mutates": True,
         "replay_semantics": "kernel_deduplicated",
     },
+    "evidence.submit": {
+        "required": ("payload",), "optional": (), "mutates": True,
+        "replay_semantics": "kernel_deduplicated",
+    },
     "conclusion.propose": {
         "required": ("statement", "evidence_refs", "scope", "proposer"),
         "optional": ("expires_at", "artifact_refs", "allowed_actors",
@@ -315,6 +319,14 @@ LOCAL_OPERATION_SPECS = {
         "required": (),
         "optional": ("scope", "actor", "task", "include_blocked_statements"),
         "mutates": False, "replay_semantics": "read_only",
+    },
+    "review.summary": {
+        "required": (), "optional": ("scope",), "mutates": False,
+        "replay_semantics": "read_only",
+    },
+    "review.receipt": {
+        "required": ("conclusion_id",), "optional": (), "mutates": False,
+        "replay_semantics": "read_only",
     },
 }
 TRAVERSAL_SCHEMA = "proofpress/graph-traversal/v1"
@@ -848,6 +860,18 @@ def import_evidence_v2(path):
     projection = v2_projection()
     imported_evidence = sorted(row["subject_ref"] for row in created
                                if row.get("type") == "evidence_bound")
+    return {"ok": True, "events_added": len(created),
+            "imported_evidence": imported_evidence,
+            "evidence": sorted(projection["evidence"]), "ref": KNOWLEDGE_REF}
+
+
+def submit_evidence_v2(payload):
+    """Submit one bounded retrieval-evidence envelope without a local path."""
+    created = _import_retrieval_evidence_v2(payload)
+    projection = v2_projection()
+    imported_evidence = sorted(
+        row["subject_ref"] for row in created
+        if row.get("type") == "evidence_bound")
     return {"ok": True, "events_added": len(created),
             "imported_evidence": imported_evidence,
             "evidence": sorted(projection["evidence"]), "ref": KNOWLEDGE_REF}
@@ -2513,6 +2537,8 @@ def execute_local_operation(request):
             result = governance_configuration()
         elif operation == "evidence.import":
             result = import_evidence_v2(parameters["path"])
+        elif operation == "evidence.submit":
+            result = submit_evidence_v2(parameters["payload"])
         elif operation == "conclusion.propose":
             result = propose_v2(
                 parameters["statement"], parameters["evidence_refs"],
@@ -2563,6 +2589,10 @@ def execute_local_operation(request):
                 parameters.get("max_depth", 2),
                 parameters.get("max_claims", 48),
                 parameters.get("state", "admitted"))
+        elif operation == "review.summary":
+            result = summary_v2(parameters.get("scope"))
+        elif operation == "review.receipt":
+            result = receipt_v2(parameters["conclusion_id"])
         else:
             result = context_v2(
                 parameters.get("scope"), parameters.get("actor"),

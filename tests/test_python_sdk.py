@@ -98,6 +98,13 @@ class PythonSDKTests(unittest.TestCase):
         finally:
             os.chdir(self.repo)
 
+        for url in ("http://api.example.test", "https://", "https://u:p@example.test"):
+            with self.subTest(url=url), self.assertRaises(ValueError):
+                self.sdk.ProofpressClient.remote(url, self.token)
+        remote = self.sdk.ProofpressClient.remote(
+            "https://proofpress.example.test", self.token)
+        self.assertIsInstance(remote.transport, self.sdk.RemoteHttpTransport)
+
     def test_both_sdk_transports_pass_frozen_validation_vectors(self):
         fixture = __import__("json").loads(CONFORMANCE.read_text(encoding="utf-8"))
         for client in (self.direct, self.http):
@@ -117,6 +124,10 @@ class PythonSDKTests(unittest.TestCase):
         self.assertEqual(project["project"]["requires-python"], ">=3.11")
         self.assertIn("proofpress_sdk", project["tool"]["setuptools"]["py-modules"])
         self.assertIn("proofpress_service", project["tool"]["setuptools"]["py-modules"])
+        self.assertIn("proofpress_mcp", project["tool"]["setuptools"]["py-modules"])
+        self.assertEqual(project["project"]["scripts"]["proofpress-mcp"],
+                         "proofpress_mcp:main")
+        self.assertIn("mcp>=2,<3", project["project"]["optional-dependencies"]["mcp"])
 
 
 if __name__ == "__main__":
