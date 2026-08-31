@@ -239,6 +239,10 @@ LOCAL_OPERATION_SPECS = {
         "required": (), "optional": (), "mutates": False,
         "replay_semantics": "read_only",
     },
+    "configuration.get": {
+        "required": (), "optional": (), "mutates": False,
+        "replay_semantics": "read_only",
+    },
     "evidence.import": {
         "required": ("path",), "optional": (), "mutates": True,
         "replay_semantics": "kernel_deduplicated",
@@ -277,7 +281,15 @@ DEFAULT_POLICY_V2 = {
     "require_judge": False,
     "allowed_actors": ["*"],
     "conflict_resolvers": ["*"],
-    "judge": {"command": [], "timeout_seconds": 30},
+    "verification": {
+        "identity": "verifier:local-deterministic",
+        "profile": "proofpress/default-verification/v1",
+    },
+    "judge": {
+        "identity": "judge:local-advisory",
+        "command": [],
+        "timeout_seconds": 30,
+    },
 }
 RELATION_TYPES = {"supports", "qualifies", "contradicts", "supersedes",
                   "depends_on", "same_as"}
@@ -400,12 +412,71 @@ def load_v2_policy():
     if path.exists():
         raw = json.loads(path.read_text(encoding="utf-8"))
     item = {**DEFAULT_POLICY_V2, **raw}
+    item["verification"] = {
+        **DEFAULT_POLICY_V2["verification"], **(raw.get("verification") or {})}
     item["judge"] = {**DEFAULT_POLICY_V2["judge"], **(raw.get("judge") or {})}
+    for role in ("verification", "judge"):
+        identity = item[role].get("identity")
+        if not isinstance(identity, str) or not identity.strip():
+            raise ValueError(f"policy {role}.identity must be a non-empty string")
+    profile = item["verification"].get("profile")
+    if not isinstance(profile, str) or not profile.strip():
+        raise ValueError("policy verification.profile must be a non-empty string")
     command = item["judge"].get("command", [])
     if not isinstance(command, list) or not all(isinstance(x, str) for x in command):
         raise ValueError("policy judge.command must be an argv array")
     item["digest"] = digest({k: v for k, v in item.items() if k != "digest"})
     return item
+
+
+def governance_configuration(policy=None):
+    """Return the safe, digest-bound role configuration for local clients."""
+    policy = policy or load_v2_policy()
+    verification = policy["verification"]
+    judge = policy["judge"]
+    return {
+        "schema_version": "proofpress/local-governance-config/v1alpha1",
+        "policy_path": POLICY_PATH,
+        "policy_digest": policy["digest"],
+        "proposer": {"identity_source": "operation_parameter"},
+        "verification": {
+            "identity": verification["identity"],
+            "profile": verification["profile"],
+            "config_digest": digest(verification),
+        },
+        "judge": {
+            "identity": judge["identity"],
+            "configured": bool(judge["command"]),
+            "timeout_seconds": judge["timeout_seconds"],
+            "config_digest": digest(judge),
+        },
+        "authority_separation": {
+            "proposer_may_verify_own_work": False,
+            "proposer_may_judge_own_work": False,
+            "judge_may_admit": False,
+            "human_approval_required_for_admission": True,
+        },
+    }
+
+
+def _judge_policy_payload(policy):
+    """Keep executable judge configuration out of the model input packet."""
+    return {
+        **{key: value for key, value in policy.items()
+           if key not in {"judge", "digest"}},
+        "judge": {
+            "identity": policy["judge"]["identity"],
+            "config_digest": digest(policy["judge"]),
+        },
+        "digest": policy["digest"],
+    }
+
+
+def _require_configured_role_separation(row, policy, role):
+    identity = policy[role]["identity"]
+    if identity == row["proposer"]:
+        raise ValueError(f"proposer may not act as configured {role} identity")
+    return identity
 
 
 def v2_projection(events=None):
@@ -777,6 +848,7 @@ def evaluate_relation_v2(rid, projection=None, events=None, policy=None):
     projection = v2_projection(events) if projection is None else projection
     row = projection["relations"].get(rid); policy = policy or load_v2_policy()
     if not row: raise ValueError("relation not found: " + rid)
+    verifier = _require_configured_role_separation(row, policy, "verification")
     left, right = projection["conclusions"].get(row["from"]), projection["conclusions"].get(row["to"])
     duplicate = [candidate for candidate in projection["relations"].values()
                  if candidate["id"] != rid and candidate["from"] == row["from"]
@@ -792,6 +864,9 @@ def evaluate_relation_v2(rid, projection=None, events=None, policy=None):
     event = append_v2({"type": "relation_evaluated", "subject_ref": rid,
                        "relation_digest": row["digest"], "checks": checks,
                        "policy_digest": policy["digest"],
+                       "verifier": verifier,
+                       "verification_profile": policy["verification"]["profile"],
+                       "verification_config_digest": digest(policy["verification"]),
                        "eligible": all(checks.values()),
                        "semantic_boundary": "structural checks do not establish semantic correctness"},
                       existing_rows=events)
@@ -802,6 +877,7 @@ def judge_relation_v2(rid):
     events = v2_events(); projection = v2_projection(events); policy = load_v2_policy()
     row = projection["relations"].get(rid)
     if not row: raise ValueError("relation not found: " + rid)
+    judge_identity = _require_configured_role_separation(row, policy, "judge")
     current = projection["relation_evaluations"].get(rid)
     evaluation = (current if current and
                   current.get("relation_digest") == row["digest"] and
@@ -814,7 +890,7 @@ def judge_relation_v2(rid):
               "from_claim": projection["conclusions"][row["from"]],
               "to_claim": projection["conclusions"][row["to"]],
               "evaluation": {k: v for k, v in evaluation.items() if k != "commit"},
-              "policy": policy,
+              "policy": _judge_policy_payload(policy),
               "instruction": "Assess semantic relation correctness; deterministic checks establish structure only."}
     try:
         result = subprocess.run(command, input=json.dumps(packet), text=True,
@@ -831,6 +907,8 @@ def judge_relation_v2(rid):
     return append_v2({"type": "relation_judge_recommended", "subject_ref": rid,
                       "relation_digest": row["digest"],
                       "policy_digest": policy["digest"],
+                      "judge": judge_identity,
+                      "judge_config_digest": digest(policy["judge"]),
                       "recommendation": verdict["recommendation"],
                       "rationale": verdict["rationale"],
                       "adapter": verdict.get("adapter", command[0]),
@@ -1001,6 +1079,7 @@ def evaluate_v2(cid, projection=None, events=None, policy=None):
     row = projection["conclusions"].get(cid)
     if not row: raise ValueError("conclusion not found: " + cid)
     policy = policy or load_v2_policy()
+    verifier = _require_configured_role_separation(row, policy, "verification")
     evidence_ok = [ref for ref in row["evidence_refs"] if ref in projection["evidence"]]
     checks = {
         "evidence_present": len(evidence_ok) >= int(policy["min_evidence"]),
@@ -1016,21 +1095,26 @@ def evaluate_v2(cid, projection=None, events=None, policy=None):
     event = append_v2({"type": "policy_evaluated", "subject_ref": cid,
                        "conclusion_digest": row["digest"],
                        "policy_digest": policy["digest"], "checks": checks,
+                       "verifier": verifier,
+                       "verification_profile": policy["verification"]["profile"],
+                       "verification_config_digest": digest(policy["verification"]),
                        "eligible": all(checks.values())}, existing_rows=events)
     return event
 
 
 def judge_v2(cid):
-    evaluation = evaluate_v2(cid)
-    policy = load_v2_policy()
+    events = v2_events(); projection = v2_projection(events); policy = load_v2_policy()
+    row = projection["conclusions"].get(cid)
+    if not row: raise ValueError("conclusion not found: " + cid)
+    judge_identity = _require_configured_role_separation(row, policy, "judge")
+    evaluation = evaluate_v2(
+        cid, projection=projection, events=events, policy=policy)
     command = policy["judge"]["command"]
     if not command: raise ValueError("no judge.command configured in .proofpress/policy.json")
-    projection = v2_projection()
-    row = projection["conclusions"][cid]
     packet = {"schema_version": "proofpress/judge-request/v1", "conclusion": row,
               "evidence": [projection["evidence"][x] for x in row["evidence_refs"]],
               "evaluation": {k: v for k, v in evaluation.items() if k != "commit"},
-              "policy": policy}
+              "policy": _judge_policy_payload(policy)}
     try:
         result = subprocess.run(command, input=json.dumps(packet), text=True,
                                 capture_output=True, timeout=float(policy["judge"]["timeout_seconds"]))
@@ -1047,6 +1131,8 @@ def judge_v2(cid):
     event = append_v2({"type": "judge_recommended", "subject_ref": cid,
                        "conclusion_digest": row["digest"],
                        "policy_digest": policy["digest"],
+                       "judge": judge_identity,
+                       "judge_config_digest": digest(policy["judge"]),
                        "recommendation": verdict["recommendation"],
                        "rationale": verdict["rationale"],
                        "adapter": verdict.get("adapter", command[0]),
@@ -1060,6 +1146,8 @@ def judge_batch_v2(scope):
     candidates = [row for row in projection["conclusions"].values()
                   if row.get("scope") == scope and
                   v2_state(projection, row, policy) in {"needs_review", "unresolved"}]
+    for row in candidates:
+        _require_configured_role_separation(row, policy, "judge")
     rows = [row for row in candidates if not _current_judge_recommendation(projection, row, policy)]
     if not rows:
         existing = [projection["recommendations"][row["id"]] for row in candidates
@@ -1089,7 +1177,7 @@ def judge_batch_v2(scope):
                          "evaluation": {k: v for k, v in evaluations[row["id"]].items() if k != "commit"}}
                         for row in rows],
         "evidence_catalog": {ref: projection["evidence"][ref] for ref in evidence_ids},
-        "policy": policy,
+        "policy": _judge_policy_payload(policy),
     }
     try:
         result = subprocess.run(command, input=json.dumps(packet), text=True,
@@ -1118,6 +1206,8 @@ def judge_batch_v2(scope):
                                                   "policy": policy["digest"], "at": now()}, "jbt_"),
                              "scope": scope, "conclusion_ids": sorted(expected),
                              "policy_digest": policy["digest"], "verdict_count": len(seen),
+                             "judge": policy["judge"]["identity"],
+                             "judge_config_digest": digest(policy["judge"]),
                              "adapter": response.get("adapter", command[0]), "model": response.get("model")},
                             existing_rows=events)
     recorded, individual = [], []
@@ -1125,6 +1215,8 @@ def judge_batch_v2(scope):
         verdict = seen[row["id"]]
         event = append_v2({"type": "judge_recommended", "subject_ref": row["id"],
                            "conclusion_digest": row["digest"], "policy_digest": policy["digest"],
+                           "judge": policy["judge"]["identity"],
+                           "judge_config_digest": digest(policy["judge"]),
                            "recommendation": verdict["recommendation"], "rationale": verdict["rationale"],
                            "risk_level": verdict["risk_level"], "batch_receipt": transaction["event_id"],
                            "adapter": response.get("adapter", command[0]), "model": response.get("model")},
@@ -2208,6 +2300,8 @@ def execute_local_operation(request):
     try:
         if operation == "capabilities.get":
             result = local_operation_capabilities()
+        elif operation == "configuration.get":
+            result = governance_configuration()
         elif operation == "evidence.import":
             result = import_evidence_v2(parameters["path"])
         elif operation == "conclusion.propose":
