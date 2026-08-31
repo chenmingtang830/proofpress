@@ -43,19 +43,62 @@ class LocalOperationContractTests(unittest.TestCase):
                                 text=True, capture_output=True, check=True)
         return json.loads(result.stdout)
 
-    def test_contract_rejects_unknown_schema_operation_and_parameters(self):
-        with self.assertRaisesRegex(ValueError, "schema_version"):
-            self.knowledge.execute_local_operation({
-                "schema_version": "proofpress/local-operation/future",
-                "operation": "context.get", "parameters": {},
-            })
-        with self.assertRaisesRegex(ValueError, "unsupported local operation"):
-            self.execute("cloud.admit")
-        with self.assertRaisesRegex(ValueError, "unknown parameters"):
-            self.execute("context.get", cloud_tenant="not-supported")
+    def test_contract_returns_stable_validation_errors(self):
+        unsupported_schema = self.knowledge.execute_local_operation({
+            "schema_version": "proofpress/local-operation/future",
+            "operation": "context.get", "parameters": {},
+            "request_id": "request-001",
+        })
+        self.assertFalse(unsupported_schema["ok"])
+        self.assertEqual(unsupported_schema["request_id"], "request-001")
+        self.assertEqual(unsupported_schema["error"]["code"],
+                         "unsupported_schema_version")
+        self.assertFalse(unsupported_schema["error"]["retryable"])
+
+        unsupported_operation = self.execute("cloud.admit")
+        self.assertEqual(unsupported_operation["error"]["code"],
+                         "unsupported_operation")
+
+        invalid_parameters = self.execute(
+            "context.get", cloud_tenant="not-supported")
+        self.assertEqual(invalid_parameters["error"]["code"],
+                         "invalid_parameters")
+        self.assertEqual(invalid_parameters["error"]["details"]["unknown"],
+                         ["cloud_tenant"])
+
+    def test_capabilities_are_negotiable_and_do_not_claim_future_surfaces(self):
+        capabilities = self.knowledge.execute_local_operation({
+            "schema_version": self.knowledge.LOCAL_OPERATION_SCHEMA,
+            "operation": "capabilities.get", "parameters": {},
+            "request_id": "capabilities-001",
+        })
+        self.assertTrue(capabilities["ok"])
+        self.assertEqual(capabilities["request_id"], "capabilities-001")
+        result = capabilities["result"]
+        self.assertEqual(result["request_schema"],
+                         self.knowledge.LOCAL_OPERATION_SCHEMA)
+        operations = {item["name"]: item for item in result["operations"]}
+        self.assertIn("conclusion.review", operations)
+        self.assertEqual(operations["conclusion.review"]["replay_semantics"],
+                         "parameter_request_id")
+        self.assertEqual(result["not_available"],
+                         ["localhost_http", "python_sdk", "mcp", "cloud"])
+
+    def test_kernel_rejections_use_the_operation_error_envelope(self):
+        rejected = self.execute(
+            "conclusion.evaluate", conclusion_id="conclusion-does-not-exist")
+        self.assertFalse(rejected["ok"])
+        self.assertEqual(rejected["error"]["code"], "operation_rejected")
+        self.assertFalse(rejected["error"]["retryable"])
+
+        missing_file = self.execute(
+            "evidence.import", path=str(self.repo / "missing-evidence.json"))
+        self.assertEqual(missing_file["error"]["code"], "resource_not_found")
+        self.assertFalse(missing_file["error"]["retryable"])
 
     def test_direct_contract_and_cli_share_one_governance_lifecycle(self):
         imported = self.execute("evidence.import", path=str(FIXTURE))
+        self.assertTrue(imported["ok"])
         self.assertEqual(imported["contract_status"], "internal_alpha")
         evidence_id = imported["result"]["evidence"][0]
 
@@ -73,6 +116,14 @@ class LocalOperationContractTests(unittest.TestCase):
             "conclusion.evaluate", conclusion_id=conclusion_id)["result"]
         self.assertEqual(cli_evaluation["checks"], direct_evaluation["checks"])
         self.assertEqual(cli_evaluation["eligible"], direct_evaluation["eligible"])
+
+        stale_review = self.execute(
+            "conclusion.review", conclusion_id=conclusion_id,
+            decision="admit", reviewer="human:alice",
+            expected_head="stale-ledger-head")
+        self.assertEqual(stale_review["error"]["code"],
+                         "ledger_head_conflict")
+        self.assertTrue(stale_review["error"]["retryable"])
 
         cli_review = self.cli(
             "review", conclusion_id, "--admit", "--reviewer", "human:alice",

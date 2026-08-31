@@ -233,6 +233,37 @@ EVENT_SCHEMA = "proofpress/knowledge-event/v2"
 CONTEXT_SCHEMA = "proofpress/agent-context/v2"
 LOCAL_OPERATION_SCHEMA = "proofpress/local-operation/v1alpha1"
 LOCAL_OPERATION_RESULT_SCHEMA = "proofpress/local-operation-result/v1alpha1"
+LOCAL_OPERATION_CONTRACT_STATUS = "internal_alpha"
+LOCAL_OPERATION_SPECS = {
+    "capabilities.get": {
+        "required": (), "optional": (), "mutates": False,
+        "replay_semantics": "read_only",
+    },
+    "evidence.import": {
+        "required": ("path",), "optional": (), "mutates": True,
+        "replay_semantics": "kernel_deduplicated",
+    },
+    "conclusion.propose": {
+        "required": ("statement", "evidence_refs", "scope", "proposer"),
+        "optional": ("expires_at", "artifact_refs", "allowed_actors",
+                     "qualifiers", "profile"),
+        "mutates": True, "replay_semantics": "kernel_deduplicated",
+    },
+    "conclusion.evaluate": {
+        "required": ("conclusion_id",), "optional": (), "mutates": True,
+        "replay_semantics": "kernel_deduplicated",
+    },
+    "conclusion.review": {
+        "required": ("conclusion_id", "decision", "reviewer"),
+        "optional": ("note", "request_id", "expected_head"),
+        "mutates": True, "replay_semantics": "parameter_request_id",
+    },
+    "context.get": {
+        "required": (),
+        "optional": ("scope", "actor", "task", "include_blocked_statements"),
+        "mutates": False, "replay_semantics": "read_only",
+    },
+}
 TRAVERSAL_SCHEMA = "proofpress/graph-traversal/v1"
 RETRIEVAL_EVIDENCE_SCHEMA = "proofpress/retrieval-evidence/v1"
 DISCLOSURE_SCHEMA = "proofpress/governed-disclosure/v1"
@@ -2067,6 +2098,53 @@ def add_flat_cli(sub):
     migration.add_argument("ledger"); migration.set_defaults(f=cmd_flat, flat_cmd="import-v1")
 
 
+def local_operation_capabilities():
+    """Describe only the operations implemented by this local contract."""
+    return {
+        "request_schema": LOCAL_OPERATION_SCHEMA,
+        "result_schema": LOCAL_OPERATION_RESULT_SCHEMA,
+        "contract_status": LOCAL_OPERATION_CONTRACT_STATUS,
+        "transport": "in_process",
+        "operations": [
+            {
+                "name": name,
+                "mutates": spec["mutates"],
+                "required_parameters": list(spec["required"]),
+                "optional_parameters": list(spec["optional"]),
+                "replay_semantics": spec["replay_semantics"],
+            }
+            for name, spec in LOCAL_OPERATION_SPECS.items()
+        ],
+        "not_available": ["localhost_http", "python_sdk", "mcp", "cloud"],
+    }
+
+
+def _local_operation_envelope(ok, operation=None, request_id=None, result=None,
+                              error=None):
+    envelope = {
+        "schema_version": LOCAL_OPERATION_RESULT_SCHEMA,
+        "contract_status": LOCAL_OPERATION_CONTRACT_STATUS,
+        "ok": ok,
+        "operation": operation,
+    }
+    if request_id is not None:
+        envelope["request_id"] = request_id
+    if ok:
+        envelope["result"] = result
+    else:
+        envelope["error"] = error
+    return envelope
+
+
+def _local_operation_error(code, message, operation=None, request_id=None,
+                           retryable=False, details=None):
+    error = {"code": code, "message": message, "retryable": retryable}
+    if details:
+        error["details"] = details
+    return _local_operation_envelope(
+        False, operation=operation, request_id=request_id, error=error)
+
+
 def execute_local_operation(request):
     """Execute one internal-alpha operation over the local governance kernel.
 
@@ -2075,73 +2153,110 @@ def execute_local_operation(request):
     workspace, and all writes retain the existing append-only ledger semantics.
     """
     if not isinstance(request, dict):
-        raise ValueError("local operation request must be an object")
-    if request.get("schema_version") != LOCAL_OPERATION_SCHEMA:
-        raise ValueError(
-            f"local operation schema_version must be {LOCAL_OPERATION_SCHEMA}")
-    unknown = sorted(set(request) - {"schema_version", "operation", "parameters"})
-    if unknown:
-        raise ValueError("unknown local operation fields: " + ", ".join(unknown))
+        return _local_operation_error(
+            "invalid_request", "local operation request must be an object")
     operation = request.get("operation")
+    request_id = request.get("request_id")
+    if request.get("schema_version") != LOCAL_OPERATION_SCHEMA:
+        return _local_operation_error(
+            "unsupported_schema_version",
+            f"local operation schema_version must be {LOCAL_OPERATION_SCHEMA}",
+            operation=operation, request_id=request_id,
+            details={"supported": [LOCAL_OPERATION_SCHEMA]})
+    unknown = sorted(set(request) - {
+        "schema_version", "operation", "parameters", "request_id"})
+    if unknown:
+        return _local_operation_error(
+            "unknown_request_fields",
+            "unknown local operation fields: " + ", ".join(unknown),
+            operation=operation, request_id=request_id,
+            details={"fields": unknown})
+    if request_id is not None and (not isinstance(request_id, str) or
+                                   not request_id or len(request_id) > 128):
+        return _local_operation_error(
+            "invalid_request_id",
+            "local operation request_id must be a non-empty string of at most 128 characters",
+            operation=operation)
     parameters = request.get("parameters")
     if not isinstance(operation, str) or not operation:
-        raise ValueError("local operation name is required")
+        return _local_operation_error(
+            "missing_operation", "local operation name is required",
+            request_id=request_id)
     if not isinstance(parameters, dict):
-        raise ValueError("local operation parameters must be an object")
-
-    def exact(required, optional=()):
-        allowed = set(required) | set(optional)
-        missing = sorted(key for key in required if key not in parameters)
-        extra = sorted(set(parameters) - allowed)
+        return _local_operation_error(
+            "invalid_parameters", "local operation parameters must be an object",
+            operation=operation, request_id=request_id)
+    spec = LOCAL_OPERATION_SPECS.get(operation)
+    if spec is None:
+        return _local_operation_error(
+            "unsupported_operation", "unsupported local operation: " + operation,
+            operation=operation, request_id=request_id)
+    required = set(spec["required"])
+    allowed = required | set(spec["optional"])
+    missing = sorted(key for key in required if key not in parameters)
+    extra = sorted(set(parameters) - allowed)
+    if missing or extra:
+        details = {}
         if missing:
-            raise ValueError(f"{operation} missing parameters: " + ", ".join(missing))
+            details["missing"] = missing
         if extra:
-            raise ValueError(f"{operation} unknown parameters: " + ", ".join(extra))
+            details["unknown"] = extra
+        return _local_operation_error(
+            "invalid_parameters", f"invalid parameters for {operation}",
+            operation=operation, request_id=request_id, details=details)
 
-    if operation == "evidence.import":
-        exact({"path"})
-        result = import_evidence_v2(parameters["path"])
-    elif operation == "conclusion.propose":
-        exact({"statement", "evidence_refs", "scope", "proposer"},
-              {"expires_at", "artifact_refs", "allowed_actors", "qualifiers", "profile"})
-        result = propose_v2(
-            parameters["statement"], parameters["evidence_refs"],
-            parameters["scope"], parameters["proposer"],
-            parameters.get("expires_at"), parameters.get("artifact_refs"),
-            parameters.get("allowed_actors"), parameters.get("qualifiers"),
-            parameters.get("profile"))
-    elif operation == "conclusion.evaluate":
-        exact({"conclusion_id"})
-        result = evaluate_v2(parameters["conclusion_id"])
-    elif operation == "conclusion.review":
-        exact({"conclusion_id", "decision", "reviewer"},
-              {"note", "request_id", "expected_head"})
-        result = review_v2(
-            parameters["conclusion_id"], parameters["decision"],
-            parameters["reviewer"], parameters.get("note"),
-            parameters.get("request_id"), parameters.get("expected_head"))
-    elif operation == "context.get":
-        exact(set(), {"scope", "actor", "task", "include_blocked_statements"})
-        result = context_v2(
-            parameters.get("scope"), parameters.get("actor"),
-            parameters.get("task"),
-            bool(parameters.get("include_blocked_statements", False)))
-    else:
-        raise ValueError("unsupported local operation: " + operation)
-    return {
-        "schema_version": LOCAL_OPERATION_RESULT_SCHEMA,
-        "contract_status": "internal_alpha",
-        "operation": operation,
-        "result": result,
-    }
+    try:
+        if operation == "capabilities.get":
+            result = local_operation_capabilities()
+        elif operation == "evidence.import":
+            result = import_evidence_v2(parameters["path"])
+        elif operation == "conclusion.propose":
+            result = propose_v2(
+                parameters["statement"], parameters["evidence_refs"],
+                parameters["scope"], parameters["proposer"],
+                parameters.get("expires_at"), parameters.get("artifact_refs"),
+                parameters.get("allowed_actors"), parameters.get("qualifiers"),
+                parameters.get("profile"))
+        elif operation == "conclusion.evaluate":
+            result = evaluate_v2(parameters["conclusion_id"])
+        elif operation == "conclusion.review":
+            result = review_v2(
+                parameters["conclusion_id"], parameters["decision"],
+                parameters["reviewer"], parameters.get("note"),
+                parameters.get("request_id"), parameters.get("expected_head"))
+        else:
+            result = context_v2(
+                parameters.get("scope"), parameters.get("actor"),
+                parameters.get("task"),
+                bool(parameters.get("include_blocked_statements", False)))
+    except ValueError as exc:
+        message = str(exc)
+        if message == "STALE_LEDGER_HEAD":
+            code = "ledger_head_conflict"
+        elif message.startswith("evidence input not found:"):
+            code = "resource_not_found"
+        else:
+            code = "operation_rejected"
+        return _local_operation_error(
+            code, message, operation=operation, request_id=request_id,
+            retryable=code == "ledger_head_conflict")
+    except OSError as exc:
+        return _local_operation_error(
+            "operation_io_error", str(exc), operation=operation,
+            request_id=request_id)
+    return _local_operation_envelope(
+        True, operation=operation, request_id=request_id, result=result)
 
 
 def _local_request(operation, parameters):
-    return execute_local_operation({
+    envelope = execute_local_operation({
         "schema_version": LOCAL_OPERATION_SCHEMA,
         "operation": operation,
         "parameters": parameters,
-    })["result"]
+    })
+    if not envelope["ok"]:
+        raise ValueError(envelope["error"]["message"])
+    return envelope["result"]
 
 
 def cmd_flat(a):
