@@ -1,0 +1,17 @@
+{
+  "id": "proofpress-repo-self-dogfood",
+  "version": 1,
+  "min_evidence": 1,
+  "require_judge": false,
+  "allowed_actors": ["*"],
+  "conflict_resolvers": ["*"],
+  "verification": {
+    "identity": "verifier:repo-deterministic",
+    "profile": "proofpress/repo-dogfood-verification/v1"
+  },
+  "judge": {
+    "identity": "judge:repo-advisory",
+    "command": [],
+    "timeout_seconds": 30
+  }
+}
