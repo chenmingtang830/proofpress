@@ -22,6 +22,19 @@
     "claim-plus-table-cells",
     "claim-plus-table-cells-plus-derivation"
   ],
+  "stage_b5_extraction": {
+    "schema_version": "proofpress/document-extraction-envelope/v1",
+    "control": "current-canonical-native-representation",
+    "primary_route": "PaddlePaddle/PaddleOCR-VL-1.6",
+    "sensitivity_route": "deepseek-ai/DeepSeek-OCR-2",
+    "sensitivity_host_requirement": "recorded-compatible-CUDA-host-required",
+    "panel_manifest_digest": "sha256:1ae42599f67169323e10af17dafa2ef92c5375ca1029fb21444b9e6328fedfba",
+    "downstream_task_outcome_access": false,
+    "automatic_admission": false,
+    "human_approval_required": true,
+    "phase_c_graph": "frozen-v24-graph",
+    "rebuilt_graph": "separate-post-phase-c-replication-only"
+  },
   "frozen_controls": {
     "task_source_manifest_digest": "resolve-and-freeze-before-run",
     "graph_digest": "resolve-and-freeze-before-run",

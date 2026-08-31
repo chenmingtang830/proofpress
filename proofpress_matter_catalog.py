@@ -22,6 +22,8 @@ from email.parser import BytesParser
 from pathlib import Path
 from typing import Any
 
+from document_extraction_contract import validate_envelope
+
 SCHEMA = "proofpress/matter-evidence-catalog/v1"
 RENDERER_VERSION = "deterministic-renderer/v1"
 
@@ -106,6 +108,43 @@ def render_source(path: Path, media_type: str, libreoffice: str | None = None) -
     return pages, transform
 
 
+def render_extraction_envelope(envelope_path: Path, source_digest: str) -> tuple[list[str], dict[str, Any]]:
+    """Project a validated extraction candidate into deterministic page text.
+
+    This projection is a retrieval representation, not an admission.  Tables
+    retain tab-delimited cells so the exact-knowledge inventory can recover
+    deterministic row and column coordinates.
+    """
+    envelope = json.loads(envelope_path.read_text(encoding="utf-8"))
+    validate_envelope(envelope)
+    if envelope["source"]["content_digest"] != source_digest:
+        raise ValueError("document extraction envelope source digest mismatch")
+    page_text: dict[int, list[tuple[tuple[float, float, str], str]]] = {
+        row["page"]: [] for row in envelope["pages"]
+    }
+    table_source_blocks = {table.get("source_block_id") for table in envelope["tables"]}
+    for block in envelope["blocks"]:
+        if block["id"] in table_source_blocks:
+            continue
+        locator = block["locator"]; bbox = locator.get("bbox") or [0, 0, 0, 0]
+        page_text[locator["page"]].append(((bbox[1], bbox[0], block["id"]), block["text"]))
+    for table in envelope["tables"]:
+        rows: dict[int, dict[int, str]] = {}
+        for cell in table["cells"]:
+            rows.setdefault(cell["row"], {})[cell["column"]] = cell["raw_text"]
+        width = max((max(row) for row in rows.values() if row), default=-1) + 1
+        tsv = "\n".join("\t".join(row.get(column, "") for column in range(width))
+                          for _, row in sorted(rows.items()))
+        locator = table["locator"]; bbox = locator.get("bbox") or [0, 0, 0, 0]
+        page_text[locator["page"]].append(((bbox[1], bbox[0], table["id"]), tsv))
+    pages = ["\n\n".join(text for _, text in sorted(page_text[number]))
+             for number in sorted(page_text)]
+    transform = {"renderer": RENDERER_VERSION, "mode": "document-extraction-envelope",
+                 "extraction_digest": envelope["extraction_digest"],
+                 "extractor": envelope["extractor"], "governance_status": envelope["status"]}
+    return pages, transform
+
+
 def _sections(page: str, page_number: int) -> list[dict[str, Any]]:
     lines = page.splitlines(keepends=True)
     sections, start, buffer, heading = [], 0, [], None
@@ -161,13 +200,18 @@ def build_catalog(manifest: str | os.PathLike[str] | dict[str, Any], *, cache_di
                   "byte_length": path.stat().st_size}
         source["source_digest"] = digest(source)
         sources.append(source)
-        key = hashlib.sha256((source_sha + "\n" + transform_digest).encode()).hexdigest()
+        envelope_path = raw.get("extraction_envelope_path")
+        envelope_digest = file_digest(Path(envelope_path).resolve()) if envelope_path else None
+        source_transform_digest = digest({"transform_digest": transform_digest,
+                                          "extraction_envelope_file_digest": envelope_digest})
+        key = hashlib.sha256((source_sha + "\n" + source_transform_digest).encode()).hexdigest()
         cached = cache / (key + ".json") if cache else None
         item = None
         if cached and cached.exists():
             try:
                 candidate = json.loads(cached.read_text(encoding="utf-8"))
-                if candidate.get("source", {}).get("content_digest") == source_sha and candidate.get("transform_digest") == transform_digest:
+                if (candidate.get("source", {}).get("content_digest") == source_sha
+                        and candidate.get("transform_digest") == source_transform_digest):
                     # Representation bytes/sections are content-addressed, but
                     # custody identity is per manifest URI.  Rebind the cached
                     # representation to the current source so identical files
@@ -177,11 +221,14 @@ def build_catalog(manifest: str | os.PathLike[str] | dict[str, Any], *, cache_di
             except (OSError, json.JSONDecodeError):
                 item = None
         if item is None:
-            pages, transform = render_source(path, media, libreoffice)
+            if envelope_path:
+                pages, transform = render_extraction_envelope(Path(envelope_path).resolve(), source_sha)
+            else:
+                pages, transform = render_source(path, media, libreoffice)
             sections = []
             for number, page in enumerate(pages, 1): sections.extend(_sections(page, number))
             item = {"source": source, "representation_digest": digest({"pages": pages, "sections": sections}),
-                    "transform_digest": transform_digest, "transform": transform,
+                    "transform_digest": source_transform_digest, "transform": transform,
                     "page_count": len(pages), "pages": [{"page": i + 1, "text_digest": "sha256:" + hashlib.sha256(page.encode()).hexdigest()} for i, page in enumerate(pages)],
                     "sections": sections}
             if cached: cached.write_text(json.dumps(item, ensure_ascii=False, sort_keys=True, indent=2) + "\n", encoding="utf-8")

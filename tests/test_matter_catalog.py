@@ -7,6 +7,7 @@ from pathlib import Path
 import sys
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from proofpress_matter_catalog import SCHEMA, build_catalog
+from document_extraction_contract import build_envelope, digest
 
 
 class MatterCatalogTests(unittest.TestCase):
@@ -57,6 +58,47 @@ class MatterCatalogTests(unittest.TestCase):
                 ["matter/left.txt", "matter/right.txt"],
             )
             self.assertEqual(len({row["source"]["source_digest"] for row in catalog["representations"]}), 2)
+
+    def test_validated_extraction_envelope_preserves_table_cells_as_tsv(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp); source = root / "schedule.pdf"; source.write_bytes(b"fixture-pdf")
+            source_digest = "sha256:" + hashlib.sha256(source.read_bytes()).hexdigest()
+            locator = {"page": 1, "bbox": [1, 2, 3, 4]}
+            envelope = build_envelope(
+                source={"uri": "matter/schedule.pdf", "content_digest": source_digest,
+                        "media_type": "application/pdf"},
+                extractor={"provider": "fixture", "model": "table", "version": "1",
+                           "license": "test-only", "config_digest": digest({"fixed": True})},
+                pages=[{"page": 1, "render_digest": "sha256:" + "2" * 64}],
+                blocks=[], tables=[{"id": "table-1", "locator": locator, "cells": [
+                    {"row": 0, "column": 0, "raw_text": "Year", "locator": locator},
+                    {"row": 0, "column": 1, "raw_text": "Tax", "locator": locator},
+                    {"row": 1, "column": 0, "raw_text": "2024", "locator": locator},
+                    {"row": 1, "column": 1, "raw_text": "$18,486", "locator": locator},
+                ]}])
+            envelope_path = root / "envelope.json"; envelope_path.write_text(json.dumps(envelope))
+            catalog = build_catalog({"sources": [{"path": str(source), "uri": "matter/schedule.pdf",
+                "media_type": "application/pdf", "extraction_envelope_path": str(envelope_path)}]})
+            representation = catalog["representations"][0]
+            self.assertEqual(representation["transform"]["mode"], "document-extraction-envelope")
+            self.assertEqual(representation["sections"][0]["text"], "Year\tTax\n2024\t$18,486")
+
+    def test_extraction_envelope_for_other_source_fails_closed(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp); source = root / "schedule.pdf"; source.write_bytes(b"fixture-pdf")
+            locator = {"page": 1}
+            envelope = build_envelope(
+                source={"uri": "other.pdf", "content_digest": "sha256:" + "1" * 64,
+                        "media_type": "application/pdf"},
+                extractor={"provider": "fixture", "model": "table", "version": "1",
+                           "license": "test-only", "config_digest": digest({})},
+                pages=[{"page": 1, "render_digest": "sha256:" + "2" * 64}], blocks=[],
+                tables=[{"id": "t", "locator": locator,
+                         "cells": [{"row": 0, "column": 0, "raw_text": "x", "locator": locator}]}])
+            envelope_path = root / "envelope.json"; envelope_path.write_text(json.dumps(envelope))
+            with self.assertRaisesRegex(ValueError, "source digest mismatch"):
+                build_catalog({"sources": [{"path": str(source), "uri": "matter/schedule.pdf",
+                    "media_type": "application/pdf", "extraction_envelope_path": str(envelope_path)}]})
 
 
 if __name__ == "__main__":
