@@ -2365,6 +2365,9 @@ def _local_operation_error(code, message, operation=None, request_id=None,
 
 
 def _local_idempotency_records():
+    store = current_event_store()
+    if hasattr(store, "idempotency_records"):
+        return store.idempotency_records()
     path = Path(LOCAL_IDEMPOTENCY_PATH)
     if not path.exists():
         return {}
@@ -2378,6 +2381,10 @@ def _local_idempotency_records():
 
 
 def _store_local_idempotency(key, fingerprint, operation, result):
+    store = current_event_store()
+    if hasattr(store, "store_idempotency"):
+        store.store_idempotency(key, fingerprint, operation, result, now())
+        return
     path = Path(LOCAL_IDEMPOTENCY_PATH)
     path.parent.mkdir(parents=True, exist_ok=True)
     records = _local_idempotency_records()
@@ -2400,7 +2407,7 @@ def _store_local_idempotency(key, fingerprint, operation, result):
             os.unlink(temporary)
 
 
-def execute_local_operation(request):
+def _execute_local_operation(request):
     """Execute one internal-alpha operation over the local governance kernel.
 
     This is the shared seam for the CLI and future local transports. It is not
@@ -2583,6 +2590,26 @@ def execute_local_operation(request):
                 operation=operation, request_id=request_id)
     return _local_operation_envelope(
         True, operation=operation, request_id=request_id, result=result)
+
+
+class _RollbackOperation(Exception):
+    def __init__(self, envelope):
+        self.envelope = envelope
+
+
+def execute_local_operation(request):
+    """Execute atomically when the selected backend provides transactions."""
+    store = current_event_store()
+    if not hasattr(store, "transaction"):
+        return _execute_local_operation(request)
+    try:
+        with store.transaction():
+            envelope = _execute_local_operation(request)
+            if not envelope["ok"]:
+                raise _RollbackOperation(envelope)
+            return envelope
+    except _RollbackOperation as rollback:
+        return rollback.envelope
 
 
 def _local_request(operation, parameters):

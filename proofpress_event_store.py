@@ -6,7 +6,10 @@ from contextvars import ContextVar
 import hashlib
 import io
 import json
+from pathlib import Path
+import sqlite3
 import subprocess
+import threading
 from typing import Any, Iterator, Mapping, Protocol
 
 
@@ -158,6 +161,183 @@ class MemoryEventStore:
         appended = {**event, "commit": commit}
         self.events.append(appended)
         return dict(appended)
+
+
+class SQLiteEventStore:
+    """Transactional single-instance store for one personal hosted workspace."""
+
+    def __init__(self, path: str | Path, workspace_id: str,
+                 principal_id: str = "system:kernel"):
+        if not workspace_id or not principal_id:
+            raise ValueError("workspace_id and principal_id are required")
+        self.path = Path(path)
+        self.workspace_id = workspace_id
+        self.principal_id = principal_id
+        self.path.parent.mkdir(parents=True, exist_ok=True)
+        self._connection: ContextVar[sqlite3.Connection | None] = ContextVar(
+            f"proofpress_sqlite_connection_{id(self)}", default=None)
+        self._migration_lock = threading.Lock()
+        self._migrate()
+
+    def _connect(self) -> sqlite3.Connection:
+        connection = sqlite3.connect(self.path, timeout=30, isolation_level=None)
+        connection.row_factory = sqlite3.Row
+        connection.execute("PRAGMA foreign_keys = ON")
+        connection.execute("PRAGMA busy_timeout = 30000")
+        return connection
+
+    def _migrate(self) -> None:
+        with self._migration_lock:
+            connection = self._connect()
+            try:
+                connection.execute("PRAGMA journal_mode = WAL")
+                connection.executescript("""
+                    CREATE TABLE IF NOT EXISTS schema_migrations (
+                        version INTEGER PRIMARY KEY,
+                        applied_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+                    );
+                    CREATE TABLE IF NOT EXISTS events (
+                        workspace_id TEXT NOT NULL,
+                        sequence INTEGER NOT NULL,
+                        event_id TEXT NOT NULL,
+                        prior_head TEXT,
+                        event_head TEXT NOT NULL,
+                        principal_id TEXT NOT NULL,
+                        payload_json TEXT NOT NULL,
+                        PRIMARY KEY (workspace_id, sequence),
+                        UNIQUE (workspace_id, event_id),
+                        UNIQUE (workspace_id, event_head)
+                    );
+                    CREATE TABLE IF NOT EXISTS idempotency (
+                        workspace_id TEXT NOT NULL,
+                        principal_id TEXT NOT NULL,
+                        idempotency_key TEXT NOT NULL,
+                        request_fingerprint TEXT NOT NULL,
+                        operation TEXT NOT NULL,
+                        result_json TEXT NOT NULL,
+                        recorded_at TEXT NOT NULL,
+                        PRIMARY KEY (workspace_id, principal_id, idempotency_key)
+                    );
+                    INSERT OR IGNORE INTO schema_migrations(version) VALUES (1);
+                """)
+            finally:
+                connection.close()
+
+    @contextmanager
+    def transaction(self) -> Iterator[None]:
+        if self._connection.get() is not None:
+            yield
+            return
+        connection = self._connect()
+        token = self._connection.set(connection)
+        try:
+            connection.execute("BEGIN IMMEDIATE")
+            yield
+            connection.execute("COMMIT")
+        except BaseException:
+            connection.execute("ROLLBACK")
+            raise
+        finally:
+            self._connection.reset(token)
+            connection.close()
+
+    @contextmanager
+    def _access(self) -> Iterator[sqlite3.Connection]:
+        existing = self._connection.get()
+        if existing is not None:
+            yield existing
+            return
+        connection = self._connect()
+        try:
+            yield connection
+        finally:
+            connection.close()
+
+    def list_events(self) -> list[JsonObject]:
+        with self._access() as connection:
+            rows = connection.execute(
+                "SELECT payload_json, event_head FROM events "
+                "WHERE workspace_id = ? ORDER BY sequence", (self.workspace_id,))
+            return [{**json.loads(row["payload_json"]), "commit": row["event_head"]}
+                    for row in rows]
+
+    def head(self) -> str | None:
+        with self._access() as connection:
+            row = connection.execute(
+                "SELECT event_head FROM events WHERE workspace_id = ? "
+                "ORDER BY sequence DESC LIMIT 1", (self.workspace_id,)).fetchone()
+            return row["event_head"] if row else None
+
+    def append(self, event: Mapping[str, Any], *, message: str,
+               expected_head: str | None) -> JsonObject:
+        del message
+        with self.transaction():
+            connection = self._connection.get()
+            assert connection is not None
+            row = connection.execute(
+                "SELECT sequence, event_head FROM events WHERE workspace_id = ? "
+                "ORDER BY sequence DESC LIMIT 1", (self.workspace_id,)).fetchone()
+            actual_head = row["event_head"] if row else None
+            if actual_head != expected_head:
+                raise ValueError("STALE_EVENT_STORE_HEAD")
+            sequence = (row["sequence"] if row else 0) + 1
+            event_head = content_digest({
+                "workspace_id": self.workspace_id, "sequence": sequence,
+                "prior_head": actual_head, "principal_id": self.principal_id,
+                "event": event,
+            })
+            connection.execute(
+                "INSERT INTO events(workspace_id, sequence, event_id, prior_head, "
+                "event_head, principal_id, payload_json) VALUES (?, ?, ?, ?, ?, ?, ?)",
+                (self.workspace_id, sequence, event["event_id"], actual_head,
+                 event_head, self.principal_id,
+                 canonical_json(dict(event)).decode("utf-8")))
+            return {**event, "commit": event_head}
+
+    def idempotency_records(self) -> dict[str, JsonObject]:
+        with self._access() as connection:
+            rows = connection.execute(
+                "SELECT idempotency_key, request_fingerprint, operation, result_json, "
+                "recorded_at FROM idempotency WHERE workspace_id = ? AND principal_id = ?",
+                (self.workspace_id, self.principal_id))
+            return {row["idempotency_key"]: {
+                "request_fingerprint": row["request_fingerprint"],
+                "operation": row["operation"],
+                "result": json.loads(row["result_json"]),
+                "recorded_at": row["recorded_at"],
+            } for row in rows}
+
+    def store_idempotency(self, key: str, fingerprint: str, operation: str,
+                          result: Any, recorded_at: str) -> None:
+        with self._access() as connection:
+            connection.execute(
+                "INSERT INTO idempotency(workspace_id, principal_id, idempotency_key, "
+                "request_fingerprint, operation, result_json, recorded_at) "
+                "VALUES (?, ?, ?, ?, ?, ?, ?)",
+                (self.workspace_id, self.principal_id, key, fingerprint, operation,
+                 canonical_json(result).decode("utf-8"), recorded_at))
+
+    def export_bundle(self) -> JsonObject:
+        envelopes = history_envelopes(self.list_events())
+        verification = verify_history_envelopes(envelopes)
+        return {
+            "schema_version": "proofpress/history-export/v1alpha1",
+            "workspace_id": self.workspace_id,
+            "events": envelopes,
+            "verification": verification,
+        }
+
+    def backup_to(self, target: str | Path) -> Path:
+        target_path = Path(target)
+        target_path.parent.mkdir(parents=True, exist_ok=True)
+        source = self._connect()
+        destination = sqlite3.connect(target_path)
+        try:
+            source.backup(destination)
+        finally:
+            destination.close()
+            source.close()
+        return target_path
 
 
 _ACTIVE_EVENT_STORE: ContextVar[EventStore | None] = ContextVar(
