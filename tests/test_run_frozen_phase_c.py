@@ -45,11 +45,9 @@ class FrozenPhaseCRunnerTests(unittest.TestCase):
                                   "locator": {"page": 1}, "row": 0, "column": 0}],
                  "derivations": [{"derivation_id": "d1", "input_cell_ids": ["cell1"],
                                   "derivation_digest": DIGEST}]}
-        task_ids = (json.loads(MANIFEST.read_text())["development_task_ids"] +
-                    json.loads(MANIFEST.read_text())["held_out_task_ids"])
+        task_ids = json.loads(MANIFEST.read_text())["held_out_task_ids"]
         tasks = [{"task_id": task_id, "prompt": f"prompt {index}"}
-                 for index, task_id in enumerate(json.loads(MANIFEST.read_text())["development_task_ids"] +
-                                                  json.loads(MANIFEST.read_text())["held_out_task_ids"])]
+                 for index, task_id in enumerate(task_ids)]
         rubrics = [{"task_id": task_id, "rubric": [{"id": "r1"}]} for task_id in task_ids]
         source = root / "runner.py"
         source.write_text("import json,sys\nr=json.load(sys.stdin)\nif r['kind']=='grader': assert 'projection' not in r\nt={'cost_usd':0.01,'input_tokens':10,'output_tokens':5}\nprint(json.dumps({'grade':{'rubric_fraction':1.0,'unsupported_claims':0,'citation_errors':0,'authority_errors':0},'telemetry':t} if r['kind']=='grader' else {'artifact':{'answer':'ok'},'telemetry':t}))\n")
@@ -93,7 +91,7 @@ class FrozenPhaseCRunnerTests(unittest.TestCase):
             root = Path(temp); controls, manifest, receipt = self.frozen(root)
             prepared = runner.validate_preflight(frozen_manifest_path=manifest,
                                                   freeze_receipt_path=receipt, control_paths=controls)
-        self.assertEqual(len(prepared["tasks"]), 12)
+        self.assertEqual(len(prepared["tasks"]), 7)
 
     def test_run_uses_only_deterministic_projection_deltas(self):
         with tempfile.TemporaryDirectory() as temp:
@@ -102,9 +100,9 @@ class FrozenPhaseCRunnerTests(unittest.TestCase):
                                                            freeze_receipt_path=receipt, control_paths=controls),
                                 out=root / "out")
         self.assertEqual(result["status"], "complete")
-        self.assertEqual(result["planned_cells"], 36)
+        self.assertEqual(result["planned_cells"], 21)
         self.assertTrue(all(row["status"] == "scored" for row in result["cells"]))
-        self.assertEqual(result["aggregate"]["ordinary-claim"]["known_cost_usd"], .48)
+        self.assertEqual(result["aggregate"]["ordinary-claim"]["known_cost_usd"], .28)
 
     def test_preflight_rejects_mutated_command_implementation(self):
         with tempfile.TemporaryDirectory() as temp:

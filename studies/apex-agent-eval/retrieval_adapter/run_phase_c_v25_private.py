@@ -4,7 +4,7 @@
 Without ``--execute`` this command only compiles private task controls and
 content-addressed Gateway configs.  With ``--execute`` it follows the only
 permitted order: synthetic executor/grader canaries, content-addressed freeze,
-no-model preflight, then the 12-task × 3-condition panel.  It never prints or
+no-model preflight, then the 7-task × 3-condition held-out panel.  It never prints or
 stores API keys, prompts, source text, rubrics, candidates, or model output in
 the repository.
 """

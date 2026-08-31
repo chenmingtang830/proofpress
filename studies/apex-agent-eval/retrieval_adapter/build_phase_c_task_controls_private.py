@@ -34,7 +34,15 @@ def file_digest(path: Path) -> str:
     return "sha256:" + value.hexdigest()
 
 
-def expected_ids(manifest: dict[str, Any]) -> tuple[str, ...]:
+def expected_heldout_ids(manifest: dict[str, Any]) -> tuple[str, ...]:
+    """Return only the preregistered Phase C transfer panel.
+
+    The five development tasks remain in the public manifest to make their
+    exclusion auditable, but they are deliberately not restored, disclosed, or
+    run in Phase C.  Requiring them here would turn the held-out estimate into
+    a mixed development-and-transfer panel and needlessly expand private
+    custody scope.
+    """
     development = manifest.get("development_task_ids")
     heldout = manifest.get("held_out_task_ids")
     if (not isinstance(development, list) or not isinstance(heldout, list)
@@ -42,7 +50,7 @@ def expected_ids(manifest: dict[str, Any]) -> tuple[str, ...]:
         raise ValueError("frozen manifest requires non-empty string task IDs")
     if len(development) != 5 or len(heldout) != 7:
         raise ValueError("frozen manifest requires five development and seven held-out task IDs")
-    identifiers = tuple(development + heldout)
+    identifiers = tuple(heldout)
     if len(set(identifiers)) != len(identifiers):
         raise ValueError("frozen manifest task IDs must be unique")
     return identifiers
@@ -62,7 +70,7 @@ def _task(value: Any, path: Path) -> dict[str, Any]:
 
 def build(*, manifest: dict[str, Any], task_root: Path) -> tuple[dict[str, Any], dict[str, Any], dict[str, Any]]:
     """Return private executor/grader controls and a source-safe receipt."""
-    identifiers = expected_ids(manifest)
+    identifiers = expected_heldout_ids(manifest)
     if not task_root.is_dir():
         raise ValueError("task root must be a directory")
     by_id: dict[str, dict[str, Any]] = {}

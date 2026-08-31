@@ -161,7 +161,10 @@ def _task_rows(value: dict[str, Any], rubric_manifest: dict[str, Any],
     tasks = value.get("tasks")
     if not isinstance(tasks, list):
         raise ValueError("task source manifest requires a tasks array")
-    expected = list(manifest["development_task_ids"]) + list(manifest["held_out_task_ids"])
+    # Phase C estimates transfer on the preregistered held-out panel only.
+    # Development tasks remain recorded in the manifest for exclusion auditing,
+    # not as cells in this run.
+    expected = list(manifest["held_out_task_ids"])
     by_id = {}
     for task in tasks:
         if not isinstance(task, dict) or not isinstance(task.get("task_id"), str):

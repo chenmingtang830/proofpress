@@ -17,7 +17,7 @@ class PhaseCV25OrchestrationTests(unittest.TestCase):
     def inputs(self, root: Path):
         manifest = json.loads(MANIFEST.read_text())
         task_root = root / "tasks"; task_root.mkdir()
-        for index, task_id in enumerate(manifest["development_task_ids"] + manifest["held_out_task_ids"]):
+        for index, task_id in enumerate(manifest["held_out_task_ids"]):
             (task_root / f"{index}.json").write_text(json.dumps({"task_id": task_id, "prompt": f"prompt-{index}",
                 "expected_output": "message_in_console", "rubric": [{"id": "r"}], "gold_response": "never copied"}))
         graph = {"graph_digest": DIGEST, "source_manifest_digest": DIGEST, "automatic_admission": False,
