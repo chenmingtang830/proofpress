@@ -88,10 +88,19 @@ def main() -> None:
     parser.add_argument("--child-runner", type=Path, default=CHILD)
     parser.add_argument("--child-extra", action="append", default=[],
                         help="One literal argument forwarded to an alternate child runner.")
+    parser.add_argument("--require-cuda", action="store_true",
+                        help="Fail before reading the panel unless this runner's environment exposes CUDA.")
     parser.add_argument("--route", default="PaddlePaddle/PaddleOCR-VL-1.6/paddle_dynamic")
     args = parser.parse_args()
     if args.pages_per_document < 1 or args.document_timeout_seconds < 1:
         raise SystemExit("page count and document timeout must be positive")
+    if args.require_cuda:
+        try:
+            import torch
+        except ModuleNotFoundError as exc:
+            raise SystemExit("a compatible CUDA host is required before opening the extraction panel") from exc
+        if not torch.cuda.is_available():
+            raise SystemExit("a compatible CUDA host is required before opening the extraction panel")
 
     panel = json.loads(args.panel.read_text()); manifest = json.loads(args.source_manifest.read_text())
     paths = {}

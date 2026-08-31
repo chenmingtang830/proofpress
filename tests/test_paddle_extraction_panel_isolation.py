@@ -1,4 +1,6 @@
 import sys
+import subprocess
+import tempfile
 import unittest
 from pathlib import Path
 
@@ -18,6 +20,15 @@ class PaddleExtractionPanelIsolationTests(unittest.TestCase):
         self.assertEqual(result["status"], "failed")
         self.assertEqual(result["failure_type"], "TimeoutExpired")
         self.assertIsNotNone(result["returncode"])
+
+    def test_cuda_requirement_precedes_panel_open(self):
+        runner = Path(__file__).resolve().parents[1] / "studies/apex-agent-eval/retrieval_adapter/run_paddle_extraction_panel_private.py"
+        with tempfile.TemporaryDirectory() as temp:
+            result = subprocess.run([sys.executable, str(runner), "--panel", "/does/not/exist.json",
+                                     "--source-manifest", "/does/not/exist.json", "--out", temp,
+                                     "--require-cuda"], capture_output=True, text=True)
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn("compatible CUDA host", result.stderr)
 
 
 if __name__ == "__main__":
