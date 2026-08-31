@@ -58,6 +58,8 @@ const server = http.createServer(async (req, res) => {
   if (req.method !== 'POST' || req.url !== '/v1/chat/completions') return reply(res, 404, { error: { type: 'not_found' } });
   const started = process.hrtime.bigint();
   let requestSha = null;
+  const attemptId = typeof req.headers['x-proofpress-attempt-id'] === 'string'
+    ? req.headers['x-proofpress-attempt-id'] : null;
   let terminalWritten = false;
   let upstreamSignal = null;
   const terminal = row => {
@@ -67,6 +69,7 @@ const server = http.createServer(async (req, res) => {
       model: model || null, provider: provider || null, fallback_used: false,
       requested_reasoning: reasoning,
       request_sha256: requestSha, terminal: true,
+      attempt_id: attemptId,
       latency_ms: Number(process.hrtime.bigint() - started) / 1e6,
       ...row,
     });

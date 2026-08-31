@@ -39,6 +39,8 @@ from build_official_authority_catalog_private import CATALOG_SCHEMA as AUTHORITY
 
 
 SCHEMA = "proofpress/exact-knowledge-stage-a/v1"
+SESSION_SCHEMA = "proofpress/exact-knowledge-stage-a-session/v1"
+CHECKPOINT_SCHEMA = "proofpress/exact-knowledge-stage-a-checkpoint/v1"
 TASK_IDS = (
     "task_b78c4510be784e6a8b8f0394aafd785d",
     "task_8d501efe0f924f69aeee070f2e08b576",
@@ -1391,11 +1393,100 @@ def _load_tasks(raw_dir: Path) -> list[dict[str, Any]]:
     tasks = []
     for task_id in TASK_IDS:
         value = json.loads((raw_dir / f"{task_id}.json").read_text())
-        task = dict(value["task"])
+        source_task = value["task"]
+        # The private custody file may retain a rubric for later official
+        # grading, but Stage A is construction-only.  Whitelisting this
+        # execution payload makes the no-rubric/no-gold boundary mechanical.
+        task = {key: source_task[key] for key in ("task_id", "prompt", "expected_output")}
+        if isinstance(source_task.get("task_name"), str):
+            task["task_name"] = source_task["task_name"]
         if task.get("task_id") != task_id or task.get("expected_output") not in OUTPUT_TYPES:
             raise ValueError("frozen Stage A task input is invalid")
         tasks.append(task)
     return tasks
+
+
+def _frozen_plan_digest(frozen_plan_dir: Path | None) -> str | None:
+    if frozen_plan_dir is None:
+        return None
+    return digest([
+        json.loads((frozen_plan_dir / f"{task_id}.json").read_text())["plan"]["plan_digest"]
+        for task_id in TASK_IDS
+    ])
+
+
+def _run_controls(tasks: list[dict[str, Any]], catalog: dict[str, Any],
+                  authority_catalog: dict[str, Any] | None, frozen_plan_digest: str | None,
+                  timeout: float, budget_usd: float) -> dict[str, Any]:
+    """Bind reusable checkpoints to the exact development-only construction run."""
+    return {
+        "schema_version": SCHEMA,
+        "stage": "development_only_exact_knowledge_construction",
+        "task_ids": list(TASK_IDS),
+        "task_input_digest": digest(tasks),
+        "catalog_digest": digest(catalog),
+        "authority_catalog_digest": (authority_catalog or {}).get("catalog_digest"),
+        "frozen_plan_dir_digest": frozen_plan_digest,
+        "route": ROUTE,
+        "timeout_seconds": timeout,
+        "budget_usd": budget_usd,
+        "answer_executor": False,
+        "constructor_input_allowlist": ["task_id", "prompt", "expected_output", "task_name"],
+    }
+
+
+def _write_private_json(path: Path, value: dict[str, Any]) -> None:
+    path.write_text(json.dumps(value, ensure_ascii=False, indent=2, sort_keys=True) + "\n")
+    path.chmod(0o600)
+
+
+def _initialize_or_validate_session(out: Path, controls: dict[str, Any]) -> tuple[dict[str, Any], bool]:
+    path = out / "stage-a-session-private.json"
+    control_digest = digest(controls)
+    if path.exists():
+        session = json.loads(path.read_text())
+        if (session.get("schema_version") != SESSION_SCHEMA
+                or session.get("control_digest") != control_digest
+                or session.get("controls") != controls):
+            raise ValueError("existing Stage A output has incompatible controls; use a new private --out directory")
+        return session, True
+    session = {"schema_version": SESSION_SCHEMA, "control_digest": control_digest,
+               "controls": controls}
+    _write_private_json(path, session)
+    return session, False
+
+
+def _load_checkpoint(checkpoint_dir: Path, raw_dir: Path, task_id: str,
+                     control_digest: str) -> dict[str, Any] | None:
+    path = checkpoint_dir / f"{task_id}.json"
+    if not path.exists():
+        return None
+    checkpoint = json.loads(path.read_text())
+    if (checkpoint.get("schema_version") != CHECKPOINT_SCHEMA
+            or checkpoint.get("control_digest") != control_digest
+            or checkpoint.get("task_id") != task_id
+            or not isinstance(checkpoint.get("summary"), dict)):
+        raise ValueError(f"Stage A checkpoint is invalid or incompatible for {task_id}")
+    summary = checkpoint["summary"]
+    if summary.get("status") == "ok":
+        private_path = raw_dir / f"{task_id}.json"
+        if not private_path.exists():
+            raise ValueError(f"Stage A checkpoint is missing its private artifact for {task_id}")
+        private = json.loads(private_path.read_text())
+        if digest(private) != summary.get("private_artifact_digest"):
+            raise ValueError(f"Stage A checkpoint private artifact digest mismatches for {task_id}")
+    return summary
+
+
+def _write_checkpoint(checkpoint_dir: Path, control_digest: str,
+                      summary: dict[str, Any]) -> None:
+    task_id = str(summary["task_id"])
+    _write_private_json(checkpoint_dir / f"{task_id}.json", {
+        "schema_version": CHECKPOINT_SCHEMA,
+        "control_digest": control_digest,
+        "task_id": task_id,
+        "summary": summary,
+    })
 
 
 def main() -> None:
@@ -1421,27 +1512,45 @@ def main() -> None:
         authority_index = SectionIndex(authority_catalog)
     args.out.mkdir(parents=True, exist_ok=True); args.out.chmod(0o700)
     raw_dir = args.out / "raw"; raw_dir.mkdir(exist_ok=True); raw_dir.chmod(0o700)
+    checkpoint_dir = args.out / "checkpoints"; checkpoint_dir.mkdir(exist_ok=True); checkpoint_dir.chmod(0o700)
+    frozen_plan_digest = _frozen_plan_digest(args.frozen_plan_dir)
+    controls = _run_controls(tasks, catalog, authority_catalog, frozen_plan_digest,
+                             args.timeout, args.budget_usd)
+    session, resumed = _initialize_or_validate_session(args.out, controls)
+    control_digest = session["control_digest"]
+    receipt_dir = args.out / "terminal-receipts"; receipt_dir.mkdir(exist_ok=True); receipt_dir.chmod(0o700)
     gateways = {role: Gateway(args.gateway_server, ROUTE["model"], ROUTE["provider"],
-                              args.out, args.timeout, ROUTE["reasoning"], structured_output=True)
+                              args.out, args.timeout, ROUTE["reasoning"], structured_output=True,
+                              durable_receipt_path=receipt_dir / f"{role}.jsonl")
                 for role in ("compiler", "extractor", "authority_reviewer",
                              "period", "numeric", "derivation")}
     summaries = []
+    reused_task_ids = []
+    executed_task_ids = []
     try:
         for task in tasks:
-            summaries.append(_task_audit(gateways, task, index, raw_dir, authority_index,
-                                         args.frozen_plan_dir))
+            existing = _load_checkpoint(checkpoint_dir, raw_dir, task["task_id"], control_digest)
+            if existing is not None:
+                summaries.append(existing)
+                reused_task_ids.append(task["task_id"])
+                print(json.dumps({"event": "task_reused", "task_id": task["task_id"]}, sort_keys=True),
+                      flush=True)
+                continue
+            print(json.dumps({"event": "task_started", "task_id": task["task_id"]}, sort_keys=True),
+                  flush=True)
+            summary = _task_audit(gateways, task, index, raw_dir, authority_index,
+                                  args.frozen_plan_dir)
+            _write_checkpoint(checkpoint_dir, control_digest, summary)
+            summaries.append(summary)
+            executed_task_ids.append(task["task_id"])
+            print(json.dumps({"event": "task_checkpointed", "status": summary.get("status"),
+                              "task_id": task["task_id"]}, sort_keys=True), flush=True)
             if terminal_telemetry(gateways)["known_cost_usd"] > args.budget_usd:
                 raise RuntimeError("Stage A exceeded the hard model budget")
     finally:
         for gateway in gateways.values():
             gateway.stop()
     telemetry = terminal_telemetry(gateways)
-    frozen_plan_digest = None
-    if args.frozen_plan_dir:
-        frozen_plan_digest = digest([
-            json.loads((args.frozen_plan_dir / f"{task_id}.json").read_text())["plan"]["plan_digest"]
-            for task_id in TASK_IDS
-        ])
     serialized = json.dumps(summaries, ensure_ascii=False, sort_keys=True)
     leaked = []
     for task in tasks:
@@ -1476,6 +1585,13 @@ def main() -> None:
                                "proposed_claims": 0, "numeric_gate_failures": 0},
               "telemetry": {**telemetry, "budget_usd": args.budget_usd,
                             "construction_only_no_executor": True},
+              "recovery": {"control_digest": control_digest, "resumed": resumed,
+                           "reused_task_ids": reused_task_ids,
+                           "executed_task_ids": executed_task_ids,
+                           "checkpointed_task_count": len(summaries),
+                           "terminal_receipts_required": telemetry["calls"],
+                           "terminal_receipts_observed": telemetry["terminal_receipts"],
+                           "unresolved_attempts": telemetry["unresolved_attempts"]},
               "privacy": {"sanitized_report_leak_types": sorted(set(leaked)),
                           "task_prompts_included": False, "source_quotes_included": False,
                           "numeric_values_included": False, "authority_text_included": False},
@@ -1485,6 +1601,7 @@ def main() -> None:
                                 "output_structure_gate": output_slots_valid,
                                 "invalid_binding_gate": invalid == 0,
                                 "privacy_gate": not leaked,
+                                "terminal_receipt_gate": telemetry["unresolved_attempts"] == 0,
                                 "cost_completeness_gate": not telemetry["missing_cost_calls"],
                                 "token_completeness_gate": not telemetry["missing_token_calls"],
                                 "gaps_allowed_and_explicit": True},

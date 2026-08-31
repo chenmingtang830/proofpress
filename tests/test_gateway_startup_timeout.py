@@ -2,6 +2,7 @@ import importlib.util
 from pathlib import Path
 import subprocess
 import sys
+import tempfile
 import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -25,6 +26,30 @@ class GatewayStartupTimeoutTests(unittest.TestCase):
             proc.terminate()
             proc.wait(timeout=2)
             proc.stdout.close()
+
+    def test_durable_receipts_and_attempt_journal_survive_a_new_gateway_instance(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            receipt_path = root / "terminal-receipts" / "compiler.jsonl"
+            first = object.__new__(runner.Gateway)
+            first._durable_receipt_path = receipt_path
+            first._attempt_journal_path = receipt_path.with_name("compiler-attempts.jsonl")
+            first._lock = __import__("threading").Lock()
+            first._receipt_path = receipt_path
+            first._append_attempt_event({"event": "attempt_started", "attempt_id": "attempt-000001",
+                                         "request_digest": "sha256:request"})
+            receipt_path.parent.mkdir(parents=True, exist_ok=True)
+            receipt_path.write_text('{"terminal":true,"attempt_id":"attempt-000001","cost_usd":0.1}\n')
+            self.assertEqual(first.attempt_count(), 1)
+            self.assertEqual(first.receipt_rows()[0]["attempt_id"], "attempt-000001")
+
+            resumed = object.__new__(runner.Gateway)
+            resumed._durable_receipt_path = receipt_path
+            resumed._attempt_journal_path = first._attempt_journal_path
+            resumed._lock = __import__("threading").Lock()
+            resumed._receipt_path = receipt_path
+            self.assertEqual(resumed.attempt_count(), 1)
+            self.assertEqual(resumed.receipt_rows()[0]["terminal"], True)
 
 
 if __name__ == "__main__":
