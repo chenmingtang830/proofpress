@@ -71,6 +71,12 @@ class ExactKnowledgeContractTests(unittest.TestCase):
         self.assertEqual([row["raw_text"] for row in rows], ["$350k", "$1.2M"])
         self.assertEqual([row["normalized_value"] for row in rows], ["350000", "1200000"])
 
+    def test_numeric_inventory_does_not_attach_unbalanced_closing_parenthesis(self):
+        text = "Amounts were $350k) and 26%) in the malformed source text."
+        rows = exact.extract_numeric_candidates(text)
+        self.assertEqual([row["raw_text"] for row in rows], ["$350k", "26%"])
+        self.assertEqual([row["normalized_value"] for row in rows], ["350000", "26"])
+
     def test_numeric_atom_requires_exact_value_entity_period_and_currency(self):
         checked = exact.validate_numeric_atom(self.atom(), {"E1": self.receipt()})
         self.assertEqual(checked["numeric"]["decimal_value"], "18486")
@@ -165,7 +171,8 @@ class ExactKnowledgeContractTests(unittest.TestCase):
               "description": "Exact 2024 tax", "required_object_kinds": ["derivation_node"],
               "expected_periods": ["2024"], "output_format": "USD"},
              {"slot_id": "R_AUTH", "slot_type": "controlling_authority",
-              "description": "Controlling regulation", "required_object_kinds": ["authority_node"]},
+              "description": "Controlling regulation Treas. Reg. § 1.1362-6",
+              "required_object_kinds": ["authority_node"]},
              {"slot_id": "R_OUTPUT", "slot_type": "output_structure",
               "description": "Console response", "required_object_kinds": []}],
             output_type="message_in_console")
@@ -183,15 +190,20 @@ class ExactKnowledgeContractTests(unittest.TestCase):
         plan = exact.bind_requirement_objects(self.plan(),
             {"R_TAX": ["D1"], "R_AUTH": ["U1"]})
         derivation = {"derivation_id": "D1", "requirement_id": "R_TAX"}
-        authority = {"authority_id": "U1", "requirement_id": "R_AUTH"}
+        authority, receipts = self.authority()
+        authority = exact.validate_authority_node(authority, receipts)
+        screen = exact.screen_authority_applicability(
+            "Controlling regulation Treas. Reg. § 1.1362-6", authority)
         candidate = exact.assess_requirement_readiness(
-            plan, authority_nodes=[authority], derivations=[derivation])
+            plan, authority_nodes=[authority], derivations=[derivation],
+            authority_screens=[screen])
         self.assertEqual(candidate["candidate_coverage"], 3)
         self.assertEqual(candidate["governed_coverage"], 1)
         self.assertFalse(candidate["executor_ready"])
         governed = exact.assess_requirement_readiness(
             plan, authority_nodes=[authority], derivations=[derivation],
-            governed_object_ids=["D1", "U1"])
+            authority_screens=[screen],
+            governed_object_ids=["D1", "U1", screen["screen_id"]])
         self.assertTrue(governed["executor_ready"])
 
     def test_value_by_period_requires_every_declared_period(self):
@@ -206,10 +218,81 @@ class ExactKnowledgeContractTests(unittest.TestCase):
         plan = exact.bind_requirement_objects(plan, {"R_SERIES": ["A_2022"]})
         atom = {"atom_id": "A_2022", "requirement_id": "R_SERIES",
                 "numeric": {"period": "2022"}}
-        readiness = exact.assess_requirement_readiness(plan, evidence_atoms=[atom])
+        receipt = {**self.receipt(), "quote": "Annual schedule: 2022 and 2023."}
+        domain = exact.bind_period_domain(
+            {"requirement_id": "R_SERIES", "evidence_id": "E1",
+             "exact_excerpt": receipt["quote"], "periods": ["2022", "2023"]},
+            {"E1": receipt})
+        readiness = exact.assess_requirement_readiness(
+            plan, evidence_atoms=[atom], period_domains=[domain])
         series = next(row for row in readiness["slots"] if row["slot_id"] == "R_SERIES")
         self.assertEqual(series["state"], "gap")
         self.assertEqual(series["missing_periods"], ["2023"])
+
+    def test_value_by_period_requires_one_source_bound_period_domain(self):
+        plan = exact.compile_requirement_plan(
+            "Report every annual value.",
+            [{"slot_id": "R_SERIES", "slot_type": "value_by_period",
+              "description": "Every annual value", "required_object_kinds": ["evidence_atom"],
+              "expected_periods": ["each affected year"]},
+             {"slot_id": "R_OUTPUT", "slot_type": "output_structure",
+              "description": "Console", "required_object_kinds": []}],
+            output_type="message_in_console")
+        atom = {"atom_id": "A_2022", "requirement_id": "R_SERIES",
+                "numeric": {"period": "2022"}}
+        plan = exact.bind_requirement_objects(plan, {"R_SERIES": ["A_2022"]})
+        no_domain = exact.assess_requirement_readiness(plan, evidence_atoms=[atom])
+        series = next(row for row in no_domain["slots"] if row["slot_id"] == "R_SERIES")
+        self.assertEqual(series["state"], "gap")
+        self.assertTrue(series["period_domain_invalid"])
+        receipt = {**self.receipt(), "quote": "Schedule years: 2022, 2023."}
+        with self.assertRaisesRegex(ValueError, "every period"):
+            exact.bind_period_domain(
+                {"requirement_id": "R_SERIES", "evidence_id": "E1",
+                 "exact_excerpt": receipt["quote"], "periods": ["2022", "2024"]},
+                {"E1": receipt})
+
+    def test_authority_applicability_rejects_related_but_different_citation(self):
+        node, receipts = self.authority()
+        node = exact.validate_authority_node(node, receipts)
+        matched = exact.screen_authority_applicability(
+            "Apply Treas. Reg. § 1.1362-6", node)
+        self.assertEqual(matched["outcome"], "exact_reference_match_candidate")
+        self.assertTrue(matched["human_review_required"])
+        mismatch = exact.screen_authority_applicability(
+            "Apply Rev. Proc. 2013-30", node)
+        self.assertEqual(mismatch["outcome"], "citation_mismatch")
+        with self.assertRaisesRegex(ValueError, "cannot override"):
+            exact.bind_independent_authority_review(
+                "Apply Rev. Proc. 2013-30", node, supports_candidate=True,
+                review_record_digest="sha256:" + "e" * 64,
+                reviewer_route="openai/gpt-5.6-sol")
+
+    def test_independent_authority_review_remains_non_governing(self):
+        node, receipts = self.authority()
+        node = exact.validate_authority_node(node, receipts)
+        review = exact.bind_independent_authority_review(
+            "Identify the controlling consent authority", node,
+            supports_candidate=True, review_record_digest="sha256:" + "e" * 64,
+            reviewer_route="openai/gpt-5.6-sol")
+        self.assertEqual(review["outcome"], "independent_review_supports_candidate")
+        self.assertFalse(review["legal_applicability_confirmed"])
+        self.assertTrue(review["human_review_required"])
+        self.assertFalse(review["admission_authority"])
+
+    def test_authority_slot_needs_qualified_applicability_screen(self):
+        plan = exact.bind_requirement_objects(self.plan(), {"R_AUTH": ["U1"]})
+        node, receipts = self.authority()
+        node = exact.validate_authority_node(node, receipts)
+        pending = exact.assess_requirement_readiness(plan, authority_nodes=[node])
+        authority_row = next(row for row in pending["slots"] if row["slot_id"] == "R_AUTH")
+        self.assertEqual(authority_row["state"], "gap")
+        screen = exact.screen_authority_applicability(
+            "Controlling regulation Treas. Reg. § 1.1362-6", node)
+        covered = exact.assess_requirement_readiness(
+            plan, authority_nodes=[node], authority_screens=[screen])
+        authority_row = next(row for row in covered["slots"] if row["slot_id"] == "R_AUTH")
+        self.assertEqual(authority_row["state"], "covered_candidate_not_governed")
 
     def test_derivation_requires_every_variable_to_match_a_bound_atom(self):
         income = exact.validate_numeric_atom(
@@ -242,6 +325,31 @@ class ExactKnowledgeContractTests(unittest.TestCase):
                 variables={"income": "18485", "rate": "26"},
                 input_bindings={"income": "A_INCOME", "rate": "A_RATE"},
                 numeric_atoms={"A_INCOME": tampered, "A_RATE": rate},
+                output_unit="USD", entity="Laura", period="2024")
+
+    def test_derivation_can_bind_explicit_cross_slot_dependencies(self):
+        income = exact.validate_numeric_atom(
+            self.atom(atom_id="A_INCOME", requirement_id="R_INCOME"),
+            {"E1": self.receipt()})
+        rate = exact.validate_numeric_atom(
+            self.atom(atom_id="A_RATE", requirement_id="R_RATE", display="26%",
+                      decimal_value="26", kind="percentage"), {"E1": self.receipt()})
+        value = exact.build_exact_derivation(
+            requirement_id="R_TAX", expression="income * rate / 100",
+            variables={"income": "18486", "rate": "26"},
+            input_bindings={"income": "A_INCOME", "rate": "A_RATE"},
+            input_requirement_ids={"income": "R_INCOME", "rate": "R_RATE"},
+            numeric_atoms={"A_INCOME": income, "A_RATE": rate},
+            output_unit="USD", entity="Laura", period="2024")
+        self.assertEqual(value["input_requirement_ids"],
+                         {"income": "R_INCOME", "rate": "R_RATE"})
+        with self.assertRaisesRegex(ValueError, "declared source requirement"):
+            exact.build_exact_derivation(
+                requirement_id="R_TAX", expression="income * rate / 100",
+                variables={"income": "18486", "rate": "26"},
+                input_bindings={"income": "A_INCOME", "rate": "A_RATE"},
+                input_requirement_ids={"income": "R_TAX", "rate": "R_RATE"},
+                numeric_atoms={"A_INCOME": income, "A_RATE": rate},
                 output_unit="USD", entity="Laura", period="2024")
 
     def test_numeric_gate_rejects_unbound_and_accepts_exact_atom_binding(self):

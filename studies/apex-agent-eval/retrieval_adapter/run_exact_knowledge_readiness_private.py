@@ -15,10 +15,12 @@ from typing import Any
 from exact_knowledge_contract import (
     assess_requirement_readiness,
     bind_numeric_atom,
+    bind_period_domain,
     bind_requirement_objects,
     build_exact_derivation,
     compile_requirement_plan,
     digest,
+    screen_authority_applicability,
     validate_authority_node,
 )
 
@@ -52,6 +54,11 @@ def build_candidate_readiness(bundle: dict[str, Any]) -> dict[str, Any]:
     authorities = [validate_authority_node(row, receipts)
                    for row in list(bundle.get("authority_nodes") or [])]
     authority_index = _index(authorities, "authority_id")
+    period_domains = [bind_period_domain(row, receipts)
+                      for row in list(bundle.get("period_domain_payloads") or [])]
+    slot_descriptions = {row["slot_id"]: row["description"] for row in plan["slots"]}
+    authority_screens = [screen_authority_applicability(
+        slot_descriptions[row["requirement_id"]], row) for row in authorities]
     derivations: list[dict[str, Any]] = []
     for spec in list(bundle.get("derivations") or []):
         derivations.append(build_exact_derivation(
@@ -72,6 +79,8 @@ def build_candidate_readiness(bundle: dict[str, Any]) -> dict[str, Any]:
         evidence_atoms=atoms,
         authority_nodes=authorities,
         derivations=derivations,
+        period_domains=period_domains,
+        authority_screens=authority_screens,
     )
     gaps = [row["slot_id"] for row in readiness["slots"] if row["state"] == "gap"]
     invalid = [row["slot_id"] for row in readiness["slots"]
@@ -92,6 +101,8 @@ def build_candidate_readiness(bundle: dict[str, Any]) -> dict[str, Any]:
         "object_counts": {
             "numeric_atoms": len(atom_index),
             "authority_nodes": len(authority_index),
+            "period_domains": len(period_domains),
+            "authority_screens": len(authority_screens),
             "derivations": len(derivation_index),
         },
         "automatic_admission": False,

@@ -8,15 +8,21 @@ import json
 from pathlib import Path
 from typing import Any
 
-from exact_knowledge_contract import assess_requirement_readiness, digest
+from exact_knowledge_contract import assess_requirement_readiness, digest, screen_authority_applicability
 from run_exact_knowledge_stage_a_private import SCHEMA, TASK_IDS
 
 
 def summarize(private: dict[str, Any], prior: dict[str, Any]) -> dict[str, Any]:
     plan = private["plan"]; objects = private["objects"]
+    slot_descriptions = {row["slot_id"]: row["description"] for row in plan["slots"]}
+    authority_screens = private.get("authority_screens") or [
+        screen_authority_applicability(slot_descriptions[row["requirement_id"]], row)
+        for row in objects["authority_nodes"]]
     readiness = assess_requirement_readiness(
         plan, evidence_atoms=[*objects["evidence_atoms"], *objects["numeric_atoms"]],
-        authority_nodes=objects["authority_nodes"], derivations=private["derivations"])
+        authority_nodes=objects["authority_nodes"], derivations=private["derivations"],
+        period_domains=objects.get("period_domains", []),
+        authority_screens=authority_screens)
     states = Counter(row["state"] for row in readiness["slots"])
     kinds: dict[str, str] = {}
     for row in [*objects["evidence_atoms"], *objects["numeric_atoms"]]:
@@ -41,6 +47,8 @@ def summarize(private: dict[str, Any], prior: dict[str, Any]) -> dict[str, Any]:
                               "numeric_atoms": len(objects["numeric_atoms"]),
                               "task_parameters": len(objects["task_parameters"]),
                               "authority_nodes": len(objects["authority_nodes"]),
+                              "period_domains": len(objects.get("period_domains", [])),
+                              "authority_screens": len(authority_screens),
                               "derivations": len(private["derivations"])},
             "completion_paths": dict(sorted(paths.items())),
             "invariant_failure_count": len(failures),
@@ -108,7 +116,8 @@ def main() -> None:
               "reaggregation": {"artifact_reuse": True,
                                 "source_execution_report_digest": digest(source),
                                 "new_model_calls": 0,
-                                "change": "value_by_period_requires_every_declared_period"},
+                                "change": ("value_by_period_requires_source_bound_period_domain; "
+                                           "authority_coverage_requires_applicability_screen")},
               "raw_private_dir": str(raw_dir)}
     report["report_digest"] = digest(report)
     args.output.parent.mkdir(parents=True, exist_ok=True)

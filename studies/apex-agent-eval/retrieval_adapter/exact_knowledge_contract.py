@@ -23,6 +23,8 @@ AUTHORITY_NODE_SCHEMA = "proofpress/authority-node/v1"
 DERIVATION_NODE_SCHEMA = "proofpress/derivation-node/v1"
 NUMERIC_BINDING_GATE_SCHEMA = "proofpress/numeric-binding-gate/v1"
 TASK_PARAMETER_SCHEMA = "proofpress/task-parameter/v1"
+PERIOD_DOMAIN_SCHEMA = "proofpress/period-domain/v1"
+AUTHORITY_APPLICABILITY_SCHEMA = "proofpress/authority-applicability-screen/v1"
 
 SLOT_OBJECT_KINDS = {
     "exact_value": {"evidence_atom", "derivation_node"},
@@ -45,10 +47,20 @@ OFFICIAL_AUTHORITY_HOSTS = {
 }
 
 _NUMBER = re.compile(
-    r"(?P<currency>(?:[$€£])\s*\(?[+-]?(?:\d{1,3}(?:,\d{3})+|\d+)(?:\.\d+)?(?:[kKmMbB])?\)?)"
-    r"|(?P<percentage>\(?[+-]?(?:\d{1,3}(?:,\d{3})+|\d+)(?:\.\d+)?\s*%\)?)"
+    r"(?P<currency>(?:[$€£])\s*(?:\([+-]?(?:\d{1,3}(?:,\d{3})+|\d+)(?:\.\d+)?(?:[kKmMbB])?\)"
+    r"|[+-]?(?:\d{1,3}(?:,\d{3})+|\d+)(?:\.\d+)?(?:[kKmMbB])?))"
+    r"|(?P<percentage>(?:\([+-]?(?:\d{1,3}(?:,\d{3})+|\d+)(?:\.\d+)?\s*%\)"
+    r"|[+-]?(?:\d{1,3}(?:,\d{3})+|\d+)(?:\.\d+)?\s*%))"
     r"|(?P<year>\b(?:19|20)\d{2}\b)"
     r"|(?P<number>\b[+-]?(?:\d{1,3}(?:,\d{3})+|\d+)(?:\.\d+)?(?:[kKmMbB])?\b)"
+)
+_PERIOD = re.compile(r"^(?:19|20)\d{2}$")
+_AUTHORITY_REFERENCE = re.compile(
+    r"(?:\b\d+\s+C\.?F\.?R\.?\s*§?\s*[\d.]+(?:-\d+)?(?:\([a-zA-Z0-9]+\))*"
+    r"|\b\d+\s+U\.?S\.?C\.?\s*§?\s*\d+[A-Za-z]?(?:\([a-zA-Z0-9]+\))*"
+    r"|§{1,2}\s*[\d.]+(?:-\d+)?(?:\([a-zA-Z0-9]+\))*"
+    r"|\bRev\.?\s+Proc\.?\s+\d{4}-\d+)",
+    re.IGNORECASE,
 )
 
 
@@ -104,8 +116,15 @@ def extract_numeric_candidates(text: str) -> list[dict[str, Any]]:
         raw = match.group(0)
         kind = {"currency": "currency", "percentage": "percentage",
                 "year": "year", "number": "decimal"}[group]
+        try:
+            normalized_value = normalize_numeric_text(raw)
+            normalization_error = None
+        except ValueError as exc:
+            normalized_value = None
+            normalization_error = digest({"type": type(exc).__name__, "raw_text": raw})
         basis = {"start": match.start(), "end": match.end(), "raw_text": raw,
-                 "normalized_value": normalize_numeric_text(raw), "kind_hint": kind}
+                 "normalized_value": normalized_value, "kind_hint": kind,
+                 "normalization_error": normalization_error}
         rows.append({"candidate_id": "number_" + digest(basis).split(":", 1)[1][:20], **basis})
     return rows
 
@@ -245,6 +264,150 @@ def bind_task_numeric_parameter(task_prompt: str, payload: dict[str, Any]) -> di
             "parameter_id": "param_" + digest(basis).split(":", 1)[1][:20], **basis}
     node["parameter_digest"] = digest(node)
     return node
+
+
+def bind_period_domain(payload: dict[str, Any],
+                       receipts: dict[str, dict[str, Any]]) -> dict[str, Any]:
+    """Bind a closed annual domain to an explicit source schedule.
+
+    The function deliberately supports only explicit enumeration.  A phrase
+    such as ``each affected year`` is not a closed domain, and a model may not
+    infer missing intermediate years from two endpoints.  Broader temporal
+    interpretation remains a review question.
+    """
+    required = ("requirement_id", "evidence_id", "exact_excerpt", "periods")
+    if any(key not in payload for key in required):
+        raise ValueError("period domain required fields are missing")
+    requirement_id = str(payload.get("requirement_id") or "").strip()
+    evidence_id = str(payload.get("evidence_id") or "").strip()
+    excerpt = str(payload.get("exact_excerpt") or "")
+    periods = payload.get("periods")
+    if not requirement_id or not evidence_id or not excerpt:
+        raise ValueError("period domain required fields are missing")
+    if (not isinstance(periods, list) or not periods
+            or any(not isinstance(row, str) or not _PERIOD.fullmatch(row) for row in periods)
+            or len(set(periods)) != len(periods)):
+        raise ValueError("period domain requires unique four-digit years")
+    receipt = receipts.get(evidence_id)
+    if not isinstance(receipt, dict) or not receipt.get("custody_valid"):
+        raise ValueError("period domain receipt is missing or custody-invalid")
+    if excerpt not in str(receipt.get("quote") or ""):
+        raise ValueError("period domain excerpt is not receipt-bound")
+    if any(period not in excerpt for period in periods):
+        raise ValueError("every period must be explicit in the bound schedule excerpt")
+    basis = {
+        "requirement_id": requirement_id,
+        "evidence_id": evidence_id,
+        "receipt_digest": receipt.get("receipt_digest"),
+        "locator": receipt.get("locator"),
+        "exact_excerpt": excerpt,
+        "periods": sorted(periods),
+        "closure_basis": "explicit_source_schedule_enumeration",
+        "status": "not_governed_candidate",
+        "governed_reliance_allowed": False,
+        "automatic_admission": False,
+        "admission_authority": False,
+    }
+    node = {"schema_version": PERIOD_DOMAIN_SCHEMA,
+            "period_domain_id": "period_domain_" + digest(basis).split(":", 1)[1][:20],
+            **basis}
+    node["period_domain_digest"] = digest(node)
+    return node
+
+
+def _authority_reference_tokens(text: str) -> list[str]:
+    def normalize(value: str) -> str:
+        value = value.lower().replace("§", " ")
+        return re.sub(r"[^a-z0-9.-]+", "", value)
+    return sorted(set(normalize(match.group(0)) for match in _AUTHORITY_REFERENCE.finditer(text)))
+
+
+def screen_authority_applicability(requirement_description: str,
+                                   authority_node: dict[str, Any]) -> dict[str, Any]:
+    """Screen exact citation identity without deciding legal applicability.
+
+    Exact-reference requirements can be rejected deterministically when the
+    candidate cites a different provision.  A match remains a candidate and
+    still requires an independent applicability decision and Human Approval.
+    Requirements without an explicit reference always remain pending review.
+    """
+    if not isinstance(requirement_description, str) or not requirement_description.strip():
+        raise ValueError("authority applicability requires a requirement description")
+    if (not isinstance(authority_node, dict)
+            or authority_node.get("schema_version") != AUTHORITY_NODE_SCHEMA
+            or not _embedded_digest_valid(authority_node, "authority_digest")):
+        raise ValueError("authority applicability requires a digest-valid authority node")
+    expected = _authority_reference_tokens(requirement_description)
+    observed = _authority_reference_tokens(str(authority_node.get("citation") or ""))
+    if expected and not set(expected).intersection(observed):
+        outcome = "citation_mismatch"
+    elif expected:
+        outcome = "exact_reference_match_candidate"
+    else:
+        outcome = "independent_legal_review_required"
+    basis = {
+        "requirement_id": authority_node["requirement_id"],
+        "authority_id": authority_node["authority_id"],
+        "authority_digest": authority_node["authority_digest"],
+        "requirement_description_digest": digest(requirement_description),
+        "expected_reference_tokens": expected,
+        "observed_reference_tokens": observed,
+        "outcome": outcome,
+        "legal_applicability_confirmed": False,
+        "human_review_required": True,
+        "governed_reliance_allowed": False,
+        "automatic_admission": False,
+        "admission_authority": False,
+    }
+    screen = {"schema_version": AUTHORITY_APPLICABILITY_SCHEMA,
+              "screen_id": "authority_screen_" + digest(basis).split(":", 1)[1][:20],
+              **basis}
+    screen["screen_digest"] = digest(screen)
+    return screen
+
+
+def bind_independent_authority_review(requirement_description: str,
+                                      authority_node: dict[str, Any], *,
+                                      supports_candidate: bool,
+                                      review_record_digest: str,
+                                      reviewer_route: str) -> dict[str, Any]:
+    """Bind an independent semantic screen while preserving human authority.
+
+    This object records a model-review result; it is not a legal conclusion or
+    an approval.  An explicit citation mismatch cannot be overridden by the
+    semantic reviewer.
+    """
+    deterministic = screen_authority_applicability(requirement_description, authority_node)
+    if deterministic["outcome"] == "citation_mismatch" and supports_candidate:
+        raise ValueError("independent review cannot override an exact citation mismatch")
+    if (not isinstance(review_record_digest, str)
+            or not review_record_digest.startswith("sha256:")):
+        raise ValueError("independent authority review requires a record digest")
+    if not isinstance(reviewer_route, str) or not reviewer_route.strip():
+        raise ValueError("independent authority review requires a reviewer route")
+    outcome = ("independent_review_supports_candidate" if supports_candidate
+               else "independent_review_rejects_candidate")
+    basis = {
+        "requirement_id": authority_node["requirement_id"],
+        "authority_id": authority_node["authority_id"],
+        "authority_digest": authority_node["authority_digest"],
+        "requirement_description_digest": digest(requirement_description),
+        "deterministic_screen_id": deterministic["screen_id"],
+        "deterministic_outcome": deterministic["outcome"],
+        "review_record_digest": review_record_digest,
+        "reviewer_route": reviewer_route,
+        "outcome": outcome,
+        "legal_applicability_confirmed": False,
+        "human_review_required": True,
+        "governed_reliance_allowed": False,
+        "automatic_admission": False,
+        "admission_authority": False,
+    }
+    screen = {"schema_version": AUTHORITY_APPLICABILITY_SCHEMA,
+              "screen_id": "authority_screen_" + digest(basis).split(":", 1)[1][:20],
+              **basis}
+    screen["screen_digest"] = digest(screen)
+    return screen
 
 
 def validate_authority_node(node: dict[str, Any],
@@ -402,6 +565,8 @@ def assess_requirement_readiness(plan: dict[str, Any], *,
                                  evidence_atoms: Iterable[dict[str, Any]] = (),
                                  authority_nodes: Iterable[dict[str, Any]] = (),
                                  derivations: Iterable[dict[str, Any]] = (),
+                                 period_domains: Iterable[dict[str, Any]] = (),
+                                 authority_screens: Iterable[dict[str, Any]] = (),
                                  governed_object_ids: Iterable[str] = ()) -> dict[str, Any]:
     """Separate candidate coverage from governed executor readiness."""
     supplied_digest = plan.get("plan_digest")
@@ -409,6 +574,19 @@ def assess_requirement_readiness(plan: dict[str, Any], *,
     if plan.get("schema_version") != REQUIREMENT_PLAN_SCHEMA or supplied_digest != digest(digest_basis):
         raise ValueError("requirement plan digest mismatch")
     objects = _object_index(evidence_atoms, authority_nodes, derivations)
+    domains_by_requirement: dict[str, list[dict[str, Any]]] = {}
+    for domain in period_domains:
+        if (not isinstance(domain, dict) or domain.get("schema_version") != PERIOD_DOMAIN_SCHEMA
+                or not _embedded_digest_valid(domain, "period_domain_digest")):
+            raise ValueError("period domain must be digest-valid")
+        domains_by_requirement.setdefault(str(domain.get("requirement_id") or ""), []).append(domain)
+    screens_by_authority: dict[str, list[dict[str, Any]]] = {}
+    for screen in authority_screens:
+        if (not isinstance(screen, dict)
+                or screen.get("schema_version") != AUTHORITY_APPLICABILITY_SCHEMA
+                or not _embedded_digest_valid(screen, "screen_digest")):
+            raise ValueError("authority applicability screen must be digest-valid")
+        screens_by_authority.setdefault(str(screen.get("authority_id") or ""), []).append(screen)
     governed = set(governed_object_ids)
     rows: list[dict[str, Any]] = []
     for slot in plan.get("slots", []):
@@ -422,27 +600,45 @@ def assess_requirement_readiness(plan: dict[str, Any], *,
                                 or objects[row][1].get("period")
                                 or objects[row][1].get("effective_date") or "")
                             for row in object_ids if row in objects}
-        expected_periods = (
-            set(slot.get("expected_periods", []))
-            if slot["slot_type"] == "value_by_period"
-            else set()
-        )
+        slot_domains = domains_by_requirement.get(slot["slot_id"], [])
+        period_domain_invalid = slot["slot_type"] == "value_by_period" and len(slot_domains) != 1
+        expected_periods = set(slot_domains[0]["periods"]) if len(slot_domains) == 1 else set()
         missing_periods = sorted(expected_periods - observed_periods)
+        authority_ids = [row for row in object_ids
+                         if row in objects and objects[row][0] == "authority_node"]
+        qualified_authority_ids = []
+        qualified_screen_ids = []
+        for authority_id in authority_ids:
+            screens = screens_by_authority.get(authority_id, [])
+            if len(screens) == 1 and screens[0].get("outcome") in {
+                    "exact_reference_match_candidate", "independent_review_supports_candidate"}:
+                qualified_authority_ids.append(authority_id)
+                qualified_screen_ids.append(screens[0]["screen_id"])
+        unqualified_authority_ids = sorted(set(authority_ids) - set(qualified_authority_ids))
+        non_authority_ids = [row for row in object_ids
+                             if row in objects and objects[row][0] != "authority_node"]
+        eligible_ids = [*non_authority_ids, *qualified_authority_ids]
         if missing or wrong_kind or wrong_requirement:
             state = "invalid_binding"
         elif slot["slot_type"] == "output_structure":
             state = "covered_governed"
-        elif not object_ids:
+        elif not eligible_ids:
             state = "gap"
-        elif slot["slot_type"] == "value_by_period" and missing_periods:
+        elif slot["slot_type"] == "value_by_period" and (period_domain_invalid or missing_periods):
             state = "gap"
-        elif set(object_ids).issubset(governed):
+        elif (set(eligible_ids).issubset(governed)
+              and set(qualified_screen_ids).issubset(governed)
+              and (not slot_domains or slot_domains[0]["period_domain_id"] in governed)):
             state = "covered_governed"
         else:
             state = "covered_candidate_not_governed"
         rows.append({"slot_id": slot["slot_id"], "state": state, "object_ids": object_ids,
                      "missing_object_ids": missing, "wrong_kind_object_ids": wrong_kind,
                      "wrong_requirement_object_ids": wrong_requirement,
+                     "eligible_object_ids": eligible_ids,
+                     "unqualified_authority_ids": unqualified_authority_ids,
+                     "period_domain_ids": [row["period_domain_id"] for row in slot_domains],
+                     "period_domain_invalid": period_domain_invalid,
                      "missing_periods": missing_periods})
     result = {
         "schema_version": READINESS_SCHEMA,
@@ -462,13 +658,15 @@ def build_exact_derivation(*, requirement_id: str, expression: str,
                            variables: dict[str, Any], input_bindings: dict[str, str],
                            numeric_atoms: dict[str, dict[str, Any]], output_unit: str,
                            entity: str, period: str, round_places: int = 2,
+                           input_requirement_ids: dict[str, str] | None = None,
                            task_parameters: dict[str, dict[str, Any]] | None = None) -> dict[str, Any]:
     """Calculate only when every variable binds the same value in a numeric atom."""
     if not requirement_id or not output_unit or not entity or not period:
         raise ValueError("derivation requirement, unit, entity, and period are required")
     if not isinstance(round_places, int) or not 0 <= round_places <= 12:
         raise ValueError("derivation rounding precision is invalid")
-    if set(variables) != set(input_bindings):
+    declared_requirements = input_requirement_ids or {name: requirement_id for name in variables}
+    if set(variables) != set(input_bindings) or set(variables) != set(declared_requirements):
         raise ValueError("every derivation variable requires exactly one atom binding")
     parameters = task_parameters or {}
     inputs = {**numeric_atoms, **parameters}
@@ -485,8 +683,8 @@ def build_exact_derivation(*, requirement_id: str, expression: str,
         if (not (valid_atom or valid_parameter) or not isinstance(atom.get("numeric"), dict)
                 or atom.get("admission_authority") not in (None, False)):
             raise ValueError("derivation input is not a numeric evidence atom")
-        if atom.get("requirement_id") != requirement_id:
-            raise ValueError("derivation input belongs to a different requirement")
+        if atom.get("requirement_id") != declared_requirements[name]:
+            raise ValueError("derivation input disagrees with its declared source requirement")
         if _decimal_text(variables[name]) != _decimal_text(atom["numeric"].get("decimal_value")):
             raise ValueError("derivation variable disagrees with its bound atom")
     value = calculate_derivation(expression, variables, output_unit=output_unit,
@@ -494,6 +692,7 @@ def build_exact_derivation(*, requirement_id: str, expression: str,
                                  basis_object_ids=list(input_bindings.values()))
     value.update({"requirement_id": requirement_id,
                   "input_bindings": dict(sorted(input_bindings.items())),
+                  "input_requirement_ids": dict(sorted(declared_requirements.items())),
                   "input_kinds": {name: ("task_parameter" if object_id in parameters else "evidence_atom")
                                   for name, object_id in sorted(input_bindings.items())},
                   "input_units": {name: str(inputs[object_id]["numeric"].get("unit") or "")
@@ -517,6 +716,7 @@ def validate_exact_derivation(node: dict[str, Any],
         expression=str(node.get("expression") or ""),
         variables=dict(node.get("variables") or {}),
         input_bindings=dict(node.get("input_bindings") or {}),
+        input_requirement_ids=dict(node.get("input_requirement_ids") or {}),
         numeric_atoms=numeric_atoms,
         output_unit=str(node.get("output_unit") or ""),
         entity=str(node.get("entity") or ""), period=str(node.get("period") or ""),
@@ -524,7 +724,8 @@ def validate_exact_derivation(node: dict[str, Any],
         task_parameters=task_parameters,
     )
     required_equal = ("derivation_id", "raw_result", "result", "basis_object_ids",
-                      "input_bindings", "input_kinds", "input_units", "derivation_digest")
+                      "input_bindings", "input_requirement_ids", "input_kinds", "input_units",
+                      "derivation_digest")
     if any(node.get(key) != rebuilt.get(key) for key in required_equal):
         raise ValueError("derivation result, inputs, or digest do not recompute")
     return dict(node)
