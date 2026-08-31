@@ -19,6 +19,11 @@ NONLEGAL_FAMILIES = (
 )
 
 
+def _content_digest(value: Any) -> bool:
+    return (isinstance(value, str) and len(value) == 71 and value.startswith("sha256:")
+            and all(char in "0123456789abcdef" for char in value[7:]))
+
+
 def digest(value: Any) -> str:
     payload = json.dumps(value, sort_keys=True, separators=(",", ":"),
                          ensure_ascii=False).encode("utf-8")
@@ -46,7 +51,7 @@ def validate_transfer_manifest(manifest: dict[str, Any]) -> dict[str, Any]:
     for field in ("task_source_manifest_digest", "graph_digest", "executor",
                   "grader", "rubric_digest", "retry_policy",
                   "disclosure_budget", "executor_budget", "native_output_contract"):
-        if not controls.get(field):
+        if not _content_digest(controls.get(field)):
             failures.append(f"missing frozen control: {field}")
 
     families = manifest.get("nonlegal_families") or []

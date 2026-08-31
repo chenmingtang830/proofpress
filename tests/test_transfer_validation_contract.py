@@ -17,8 +17,15 @@ class TransferValidationContractTests(unittest.TestCase):
     def manifest(self):
         return json.loads(MANIFEST_PATH.read_text())
 
-    def test_committed_manifest_is_disjoint_and_frozen(self):
-        receipt = contract.validate_transfer_manifest(self.manifest())
+    def test_committed_manifest_remains_blocked_for_unaddressed_controls(self):
+        with self.assertRaisesRegex(ValueError, "missing frozen control"):
+            contract.validate_transfer_manifest(self.manifest())
+
+    def test_content_addressed_controls_make_a_freeze_receipt(self):
+        manifest = self.manifest()
+        manifest["frozen_controls"] = {key: "sha256:" + "a" * 64
+                                       for key in manifest["frozen_controls"]}
+        receipt = contract.validate_transfer_manifest(manifest)
         self.assertEqual(receipt["status"], "frozen")
         self.assertEqual(receipt["development_task_count"], 5)
         self.assertEqual(receipt["held_out_task_count"], 7)
