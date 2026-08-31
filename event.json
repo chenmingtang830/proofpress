@@ -1,14 +1,14 @@
 {
   "conclusion_digest": "sha256:4f1146aba9704cbcee5fda2b522803d6877d7dc449f42231761d165efdea786e",
-  "created_at": "2026-08-31T08:53:38.094346Z",
-  "decision": "admit",
-  "event_id": "ppe_d9d16b0ed4b7abb1",
-  "identity_basis": "self_asserted",
-  "note": "Approved under the explicit request to complete the single-repository self-dogfood MVP after PR #72 required checks passed.",
+  "created_at": "2026-08-31T08:53:38.165602Z",
+  "event_id": "ppe_4e7e3cd915751d87",
+  "evidence_digests": {
+    "evd_dd0075f12bd6fe90": "sha256:7da398881b32275dcbe3d03e1fbbb0f2fb8af588cc2c5975f938c140331a359d"
+  },
   "policy_digest": "sha256:9db378a53f5a219c034ee2a415391f63938cf29ca3fc50a239844c4378cdf8bb",
-  "request_id": "pr-72-self-dogfood-human-approval-final",
+  "review_ref": "ppe_d9d16b0ed4b7abb1",
   "reviewer": "human:richard-tang",
   "schema_version": "proofpress/knowledge-event/v2",
   "subject_ref": "knw_4bf03f87704f56cc",
-  "type": "human_reviewed"
+  "type": "conclusion_admitted"
 }
