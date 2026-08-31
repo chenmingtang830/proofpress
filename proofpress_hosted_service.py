@@ -114,8 +114,9 @@ class HostedOperationHandler(BaseHTTPRequestHandler):
 
 
 def create_hosted_server(database, host="127.0.0.1", port=7334,
-                         max_request_bytes=MAX_REQUEST_BYTES):
-    if host not in LOOPBACK_HOSTS:
+                         max_request_bytes=MAX_REQUEST_BYTES,
+                         allow_public_bind=False):
+    if host not in LOOPBACK_HOSTS and not allow_public_bind:
         raise ValueError(
             "hosted origin binds loopback only; terminate public HTTPS at a same-host reverse proxy")
     control = HostedControlPlane(database)
@@ -164,7 +165,11 @@ def main(argv=None):
     verify_export.add_argument("file")
     serve = subparsers.add_parser("serve")
     serve.add_argument("--host", default="127.0.0.1")
-    serve.add_argument("--port", type=int, default=7334)
+    serve.add_argument("--port", type=int,
+                       default=int(os.environ.get("PORT", "7334")))
+    serve.add_argument(
+        "--allow-public-bind", action="store_true",
+        help="allow a platform-private 0.0.0.0 bind; the platform must terminate HTTPS")
     args = parser.parse_args(argv)
     if args.command == "verify-export":
         from proofpress_event_store import verify_history_envelopes
@@ -210,7 +215,9 @@ def main(argv=None):
         print(json.dumps(SQLiteEventStore(
             args.database, args.workspace_id).export_bundle(), ensure_ascii=False))
     else:
-        server = create_hosted_server(args.database, args.host, args.port)
+        server = create_hosted_server(
+            args.database, args.host, args.port,
+            allow_public_bind=args.allow_public_bind)
         print(json.dumps({"event": "hosted_service_ready", "host": args.host,
                           "port": server.server_port}), flush=True)
         try:
