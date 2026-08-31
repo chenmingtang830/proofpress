@@ -3,14 +3,16 @@
 from __future__ import annotations
 
 import argparse
+from html import escape
 import json
 import os
 from pathlib import Path
+import secrets
 import sqlite3
 import sys
 from http import HTTPStatus
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
-from urllib.parse import urlparse
+from urllib.parse import parse_qs, urlencode, urlparse
 
 import proofpress_knowledge as knowledge
 from proofpress_hosted import HostedControlPlane
@@ -61,8 +63,98 @@ class HostedOperationHandler(BaseHTTPRequestHandler):
         header = self.headers.get("Authorization", "")
         return header[7:] if header.startswith("Bearer ") else ""
 
+    def _html(self, status, value, *, cookie=None):
+        body = value.encode("utf-8")
+        self.send_response(status)
+        self.send_header("Content-Type", "text/html; charset=utf-8")
+        self.send_header("Content-Length", str(len(body)))
+        self.send_header("Cache-Control", "no-store")
+        self.send_header("X-Content-Type-Options", "nosniff")
+        self.send_header("Content-Security-Policy", "default-src 'none'; style-src 'unsafe-inline'; form-action 'self'; base-uri 'none'; frame-ancestors 'none'")
+        if cookie:
+            self.send_header("Set-Cookie", cookie)
+        self.end_headers()
+        self.wfile.write(body)
+
+    def _form(self):
+        content_type = self.headers.get("Content-Type", "").split(";", 1)[0]
+        if content_type != "application/x-www-form-urlencoded":
+            raise ValueError("form content type required")
+        length = int(self.headers.get("Content-Length", "-1"))
+        if length < 0 or length > 16 * 1024:
+            raise ValueError("invalid form length")
+        return {key: values[-1] for key, values in
+                parse_qs(self.rfile.read(length).decode("utf-8"),
+                         keep_blank_values=True).items()}
+
+    def _owner_session(self):
+        cookie = self.headers.get("Cookie", "")
+        values = {}
+        for item in cookie.split(";"):
+            if "=" in item:
+                key, value = item.strip().split("=", 1)
+                values[key] = value
+        return self.server.proofpress_owner_sessions.get(values.get("pp_owner", ""))
+
+    @staticmethod
+    def _page(title, body):
+        return ("<!doctype html><html><head><meta charset=utf-8>"
+                "<meta name=viewport content='width=device-width,initial-scale=1'>"
+                f"<title>{escape(title)}</title><style>"
+                "body{max-width:760px;margin:48px auto;padding:0 20px;font:16px/1.5 system-ui;color:#171717}"
+                "pre{white-space:pre-wrap;background:#f5f1e8;padding:16px;border:1px solid #d8d0c2}"
+                "input,textarea,button{font:inherit;padding:9px;margin:4px 0}button{cursor:pointer}"
+                ".row{display:flex;gap:8px}.muted{color:#666}</style></head><body>"
+                f"{body}</body></html>")
+
+    def _login_page(self, message=""):
+        note = f"<p>{escape(message)}</p>" if message else ""
+        return self._page("Proofpress owner sign in", "<h1>Owner review</h1>" + note +
+            "<p class=muted>Use the owner credential. It stays in an HttpOnly session and is never placed in a URL.</p>"
+            "<form method=post action=/owner/login><label>Owner credential<br>"
+            "<input type=password name=token required autocomplete=current-password></label><br>"
+            "<button type=submit>Sign in</button></form>")
+
+    def _review_page(self, conclusion_id, session):
+        control = self.server.proofpress_control
+        if conclusion_id:
+            envelope = control.execute(session["token"], {
+                "schema_version": knowledge.LOCAL_OPERATION_SCHEMA,
+                "operation": "review.receipt",
+                "parameters": {"conclusion_id": conclusion_id},
+            })
+            if not envelope.get("ok"):
+                return self._page("Review unavailable", "<h1>Review unavailable</h1><pre>" +
+                                  escape(json.dumps(envelope, ensure_ascii=False, indent=2)) + "</pre>")
+            receipt = envelope["result"]
+            decision = ""
+            if receipt["state"] == "needs_review":
+                decision = ("<form method=post action=/owner/review>"
+                    f"<input type=hidden name=csrf value='{escape(session['csrf'])}'>"
+                    f"<input type=hidden name=conclusion_id value='{escape(conclusion_id)}'>"
+                    "<label>Review note<br><textarea name=note rows=3 cols=60></textarea></label>"
+                    "<div class=row><button name=decision value=admit>Admit</button>"
+                    "<button name=decision value=reject>Reject</button></div></form>")
+            return self._page("Review conclusion", "<p><a href=/review>All conclusions</a></p>"
+                f"<h1>{escape(receipt['conclusion']['statement'])}</h1>"
+                f"<p>State: <strong>{escape(receipt['state'])}</strong></p>"
+                "<h2>Evidence and receipts</h2><pre>" +
+                escape(json.dumps(receipt, ensure_ascii=False, indent=2)) + "</pre>" + decision)
+        graph = control.execute(session["token"], {
+            "schema_version": knowledge.LOCAL_OPERATION_SCHEMA,
+            "operation": "graph.get", "parameters": {},
+        })
+        nodes = graph.get("result", {}).get("nodes", []) if graph.get("ok") else []
+        conclusions = [row for row in nodes if row.get("type") == "conclusion"]
+        items = "".join("<li><a href='/review?" + urlencode({"conclusion_id": row["id"]}) +
+                        "'>" + escape(row.get("label", row["id"])) + "</a> — " +
+                        escape(row.get("state", "unknown")) + "</li>" for row in conclusions)
+        return self._page("Proofpress reviews", "<h1>Governed knowledge review</h1><ul>" +
+                          (items or "<li>No conclusions yet.</li>") + "</ul>")
+
     def do_GET(self):
-        path = urlparse(self.path).path
+        parsed = urlparse(self.path)
+        path = parsed.path
         if path == "/healthz":
             return self._json(HTTPStatus.OK, {"status": "ok"})
         if path == "/readyz":
@@ -87,10 +179,67 @@ class HostedOperationHandler(BaseHTTPRequestHandler):
                 "operation": "capabilities.get", "parameters": {},
             })
             return self._json(_status_for(envelope), envelope)
+        if path in {"/", "/review"}:
+            session = self._owner_session()
+            if not session:
+                return self._html(HTTPStatus.UNAUTHORIZED, self._login_page())
+            conclusion_id = parse_qs(parsed.query).get("conclusion_id", [""])[-1]
+            return self._html(HTTPStatus.OK, self._review_page(conclusion_id, session))
         return self._json(HTTPStatus.NOT_FOUND, {"error": "not_found"})
 
     def do_POST(self):
-        if urlparse(self.path).path != "/v1/operations":
+        path = urlparse(self.path).path
+        if path == "/owner/login":
+            try:
+                form = self._form()
+                context = self.server.proofpress_control.authenticate(form.get("token", ""))
+                if context.role != "owner":
+                    raise ValueError("owner credential required")
+            except (ValueError, UnicodeDecodeError):
+                return self._html(HTTPStatus.UNAUTHORIZED,
+                                  self._login_page("That owner credential was not accepted."))
+            session_id = secrets.token_urlsafe(32)
+            self.server.proofpress_owner_sessions[session_id] = {
+                "token": form["token"], "csrf": secrets.token_urlsafe(24)}
+            cookie = (f"pp_owner={session_id}; Path=/; HttpOnly; SameSite=Strict"
+                      + ("; Secure" if self.headers.get("X-Forwarded-Proto") == "https" else ""))
+            self.send_response(HTTPStatus.SEE_OTHER)
+            self.send_header("Location", "/review")
+            self.send_header("Set-Cookie", cookie)
+            self.send_header("Cache-Control", "no-store")
+            self.end_headers()
+            return
+        if path == "/owner/review":
+            session = self._owner_session()
+            if not session:
+                return self._html(HTTPStatus.UNAUTHORIZED, self._login_page())
+            try:
+                form = self._form()
+            except (ValueError, UnicodeDecodeError):
+                return self._json(HTTPStatus.BAD_REQUEST, {"error": "invalid_form"})
+            if not secrets.compare_digest(form.get("csrf", ""), session["csrf"]):
+                return self._json(HTTPStatus.FORBIDDEN, {"error": "csrf_failed"})
+            conclusion_id = form.get("conclusion_id", "")
+            decision = form.get("decision", "")
+            if decision not in {"admit", "reject"}:
+                return self._json(HTTPStatus.BAD_REQUEST, {"error": "invalid_decision"})
+            envelope = self.server.proofpress_control.execute(session["token"], {
+                "schema_version": knowledge.LOCAL_OPERATION_SCHEMA,
+                "operation": "conclusion.review",
+                "parameters": {"conclusion_id": conclusion_id,
+                               "decision": decision,
+                               "reviewer": "server-derived",
+                               "note": form.get("note") or None,
+                               "request_id": "web-" + secrets.token_hex(12)},
+            })
+            if not envelope.get("ok"):
+                return self._json(_status_for(envelope), envelope)
+            self.send_response(HTTPStatus.SEE_OTHER)
+            self.send_header("Location", "/review?" + urlencode({"conclusion_id": conclusion_id}))
+            self.send_header("Cache-Control", "no-store")
+            self.end_headers()
+            return
+        if path != "/v1/operations":
             return self._json(HTTPStatus.NOT_FOUND, {"error": "not_found"})
         if self.headers.get("Content-Type", "").split(";", 1)[0] != "application/json":
             return self._json(HTTPStatus.UNSUPPORTED_MEDIA_TYPE,
@@ -123,6 +272,7 @@ def create_hosted_server(database, host="127.0.0.1", port=7334,
     server = ThreadingHTTPServer((host, port), HostedOperationHandler)
     server.proofpress_control = control
     server.proofpress_max_request_bytes = max_request_bytes
+    server.proofpress_owner_sessions = {}
     return server
 
 

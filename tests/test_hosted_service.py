@@ -8,6 +8,7 @@ import tempfile
 import threading
 import unittest
 from urllib.error import HTTPError
+from urllib.parse import urlencode
 from urllib.request import Request, urlopen
 
 
@@ -66,6 +67,24 @@ class HostedServiceTests(unittest.TestCase):
             finally:
                 exc.close()
 
+    def form(self, path, values, cookie=None):
+        headers = {"Content-Type": "application/x-www-form-urlencoded"}
+        if cookie:
+            headers["Cookie"] = cookie
+        request = Request(
+            self.base_url + path, data=urlencode(values).encode(), method="POST",
+            headers=headers)
+        opener = __import__("urllib.request", fromlist=["build_opener"]).build_opener(
+            __import__("urllib.request", fromlist=["HTTPRedirectHandler"]).HTTPRedirectHandler())
+        try:
+            with opener.open(request) as response:
+                return response.status, response.headers, response.read().decode()
+        except HTTPError as exc:
+            try:
+                return exc.code, exc.headers, exc.read().decode()
+            finally:
+                exc.close()
+
     def test_health_readiness_auth_and_capability_boundary(self):
         self.assertEqual(self.get("/healthz")[0], 200)
         status, ready = self.get("/readyz")
@@ -110,6 +129,72 @@ class HostedServiceTests(unittest.TestCase):
             "mcp-poc")
         self.assertEqual(
             proposed["conclusion"]["proposer"], "agent:codex-laptop")
+
+    def test_owner_web_login_review_and_successor_context(self):
+        agent = self.sdk.ProofpressClient.localhost(
+            self.base_url, self.agent["token"])
+        imported = agent.submit_evidence(evidence_payload())
+        proposed = agent.propose_conclusion(
+            "The liability cap is one year of fees.", imported["evidence"],
+            "web-review-poc", "spoofed")
+        conclusion_id = proposed["conclusion"]["id"]
+        agent.evaluate_conclusion(conclusion_id)
+
+        status, _, login = self.form("/owner/login", {"token": "wrong"})
+        self.assertEqual(status, 401)
+        self.assertNotIn(self.owner["token"], login)
+
+        request = Request(
+            self.base_url + "/owner/login",
+            data=urlencode({"token": self.owner["token"]}).encode(),
+            method="POST", headers={"Content-Type": "application/x-www-form-urlencoded"})
+        class NoRedirect(__import__("urllib.request", fromlist=["HTTPRedirectHandler"]).HTTPRedirectHandler):
+            def redirect_request(self, req, fp, code, msg, headers, newurl):
+                return None
+        opener = __import__("urllib.request", fromlist=["build_opener"]).build_opener(NoRedirect())
+        with self.assertRaises(HTTPError) as raised:
+            opener.open(request)
+        self.assertEqual(raised.exception.code, 303)
+        cookie = raised.exception.headers["Set-Cookie"].split(";", 1)[0]
+        raised.exception.close()
+
+        review_request = Request(
+            self.base_url + "/review?" + urlencode({"conclusion_id": conclusion_id}),
+            headers={"Cookie": cookie})
+        with urlopen(review_request) as response:
+            page = response.read().decode()
+        self.assertIn("Evidence and receipts", page)
+        self.assertNotIn(self.owner["token"], page)
+        session_id = cookie.split("=", 1)[1]
+        csrf = self.server.proofpress_owner_sessions[session_id]["csrf"]
+        status, _, _ = self.form("/owner/review", {
+            "csrf": csrf, "conclusion_id": conclusion_id,
+            "decision": "admit", "note": "Richard dogfood",
+        }, cookie)
+        self.assertEqual(status, 200)
+        successor = self.sdk.ProofpressClient.localhost(
+            self.base_url, self.agent["token"])
+        context = successor.context(scope="web-review-poc", actor="spoofed")
+        self.assertEqual([row["id"] for row in context["knowledge"]], [conclusion_id])
+
+    def test_owner_review_rejects_csrf_failure(self):
+        request = Request(
+            self.base_url + "/owner/login",
+            data=urlencode({"token": self.owner["token"]}).encode(), method="POST",
+            headers={"Content-Type": "application/x-www-form-urlencoded"})
+        class NoRedirect(__import__("urllib.request", fromlist=["HTTPRedirectHandler"]).HTTPRedirectHandler):
+            def redirect_request(self, req, fp, code, msg, headers, newurl):
+                return None
+        opener = __import__("urllib.request", fromlist=["build_opener"]).build_opener(NoRedirect())
+        with self.assertRaises(HTTPError) as raised:
+            opener.open(request)
+        cookie = raised.exception.headers["Set-Cookie"].split(";", 1)[0]
+        raised.exception.close()
+        status, _, body = self.form("/owner/review", {
+            "csrf": "wrong", "conclusion_id": "missing", "decision": "admit",
+        }, cookie)
+        self.assertEqual(status, 403)
+        self.assertIn("csrf_failed", body)
 
     def test_origin_refuses_public_bind_and_limits_request_bodies(self):
         with self.assertRaisesRegex(ValueError, "loopback"):
