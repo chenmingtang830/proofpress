@@ -38,8 +38,6 @@ class FreezeV25PhaseCInputsTests(unittest.TestCase):
                 path = root / f"control-{index}.json"
                 if field == "primary_extraction_qualification":
                     value = self.extraction_report("paddleocr_vl_1_6_mlx", "PaddlePaddle/PaddleOCR-VL-1.6/mlx-vlm-server")
-                elif field == "sensitivity_extraction_qualification":
-                    value = self.extraction_report("deepseek_ocr_2_sensitivity", "deepseek-ai/DeepSeek-OCR-2")
                 else:
                     value = {"index": index}
                 path.write_text(json.dumps(value))
@@ -53,23 +51,6 @@ class FreezeV25PhaseCInputsTests(unittest.TestCase):
     def test_freeze_rejects_missing_control(self):
         with self.assertRaisesRegex(ValueError, "every Phase C control"):
             freeze_phase_c.freeze({}, {})
-
-    def test_freeze_rejects_unexecuted_sensitivity_route(self):
-        with tempfile.TemporaryDirectory() as temp:
-            root = Path(temp); controls = {}
-            for index, field in enumerate(freeze_phase_c.CONTROL_ARGUMENTS):
-                path = root / f"control-{index}.json"; path.write_text(json.dumps({"index": index}))
-                controls[field] = path
-            controls["primary_extraction_qualification"].write_text(json.dumps(
-                self.extraction_report("paddleocr_vl_1_6_mlx", "PaddlePaddle/PaddleOCR-VL-1.6/mlx-vlm-server")))
-            controls["sensitivity_extraction_qualification"].write_text(json.dumps({
-                "automatic_admission": False, "human_approval_required": True,
-                "deepseek_ocr_2_sensitivity": {"route": "deepseek-ai/DeepSeek-OCR-2",
-                                                  "integration_status": "implemented-but-not-executed"},
-            }))
-            with self.assertRaisesRegex(ValueError, "development gate did not pass"):
-                freeze_phase_c.freeze(json.loads(MANIFEST.read_text()), controls)
-
 
 if __name__ == "__main__":
     unittest.main()

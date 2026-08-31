@@ -85,33 +85,6 @@ def paddle_result_to_envelope(result: dict[str, Any], *, source: dict[str, Any],
                           pages=pages, blocks=blocks, tables=tables)
 
 
-def deepseek_markdown_to_envelope(markdown_pages: list[dict[str, Any]], *,
-                                  source: dict[str, Any], version: str = "2",
-                                  config: dict[str, Any] | None = None) -> dict[str, Any]:
-    """Normalize DeepSeek OCR Markdown while marking missing geometry honestly."""
-    config = config or {}
-    pages, blocks, tables = [], [], []
-    for raw in markdown_pages:
-        page = raw["page"]; text = raw["markdown"]
-        pages.append({"page": page, "render_digest": raw["render_digest"]})
-        locator = {"page": page}
-        block_id = "block_" + hashlib.sha256(f"{page}\n{text}".encode()).hexdigest()[:20]
-        blocks.append({"id": block_id, "kind": "markdown_page", "text": text,
-                       "locator": locator, "geometry_status": "page_only"})
-        rows = _table_rows(text)
-        if rows:
-            tables.append({"id": "table_" + block_id[6:], "locator": locator,
-                           "geometry_status": "page_only",
-                           "cells": [{"row": i, "column": j, "raw_text": cell,
-                                      "locator": locator}
-                                     for i, row in enumerate(rows) for j, cell in enumerate(row)]})
-    return build_envelope(source=source,
-                          extractor={"provider": "DeepSeek", "model": "DeepSeek-OCR-2",
-                                     "version": version, "license": "Apache-2.0",
-                                     "config_digest": digest(config)},
-                          pages=pages, blocks=blocks, tables=tables)
-
-
 def native_text_to_envelope(pages_text: list[dict[str, Any]], *, source: dict[str, Any],
                             version: str = "1", config: dict[str, Any] | None = None) -> dict[str, Any]:
     """Normalize the existing page-text representation as a no-table control.

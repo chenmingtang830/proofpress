@@ -89,12 +89,10 @@
       "peak_child_rss_mib": 33.9
     }
   },
-  "deepseek_ocr_2_sensitivity": {
-    "route": "deepseek-ai/DeepSeek-OCR-2/official-transformers",
-    "license": "Apache-2.0",
-    "integration_status": "implemented-but-not-executed",
-    "local_preflight": "rejected-before-source-open: compatible CUDA host required",
-    "publishability_requirement": "recorded-compatible-CUDA-host-required"
+  "deferred_sensitivity": {
+    "status": "not-qualified-and-not-used-in-phase-c",
+    "reason": "no-approved-managed-route; official reference implementation requires CUDA",
+    "future_provider_policy": "separately-freeze-provider-route-and-qualification-before-use"
   },
-  "phase_c_status": "blocked: frozen Phase C controls and DeepSeek-OCR-2 sensitivity result are not yet content-addressed"
+  "phase_c_status": "blocked: remaining frozen Phase C controls are not yet content-addressed"
 }

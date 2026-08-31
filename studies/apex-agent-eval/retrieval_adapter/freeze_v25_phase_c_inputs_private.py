@@ -31,7 +31,6 @@ CONTROL_ARGUMENTS = {
     "executor_budget": "executor_budget",
     "native_output_contract": "native_output_contract",
     "primary_extraction_qualification": "primary_extraction_qualification",
-    "sensitivity_extraction_qualification": "sensitivity_extraction_qualification",
 }
 
 
@@ -124,11 +123,8 @@ def freeze(manifest: dict[str, Any], controls: dict[str, Path]) -> tuple[dict[st
     if not isinstance(extraction, dict):
         raise ValueError("Stage B.5 extraction contract is missing")
     primary = json.loads(controls["primary_extraction_qualification"].read_text())
-    sensitivity = json.loads(controls["sensitivity_extraction_qualification"].read_text())
     validate_extraction_qualification(primary, route=str(extraction.get("primary_route") or ""),
                                       key="paddleocr_vl_1_6_mlx")
-    validate_extraction_qualification(sensitivity, route=str(extraction.get("sensitivity_route") or ""),
-                                      key="deepseek_ocr_2_sensitivity")
     frozen = json.loads(json.dumps(manifest))
     frozen["frozen_controls"] = {field: file_digest(controls[field]) for field in CONTROL_ARGUMENTS}
     frozen["execution_status"] = "frozen-pre-run-no-executor-called"

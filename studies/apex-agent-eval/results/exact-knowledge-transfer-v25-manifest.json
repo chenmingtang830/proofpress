@@ -26,8 +26,7 @@
     "schema_version": "proofpress/document-extraction-envelope/v1",
     "control": "current-canonical-native-representation",
     "primary_route": "PaddlePaddle/PaddleOCR-VL-1.6/mlx-vlm-server",
-    "sensitivity_route": "deepseek-ai/DeepSeek-OCR-2",
-    "sensitivity_host_requirement": "recorded-compatible-CUDA-host-required",
+    "future_sensitivity_policy": "requires-a-separately-frozen-provider-and-qualification",
     "panel_manifest_digest": "sha256:1ae42599f67169323e10af17dafa2ef92c5375ca1029fb21444b9e6328fedfba",
     "ground_truth_panel_digest": "sha256:189656cd37c999a826f0cc27e7abe4f6b3acbf4c4ba917a3c9830e921d3adb06",
     "document_process_isolation": "one-process-group-per-document/v1",
@@ -47,8 +46,7 @@
     "disclosure_budget": "equal-across-conditions; freeze-before-run",
     "executor_budget": "equal-across-conditions; freeze-before-run",
     "native_output_contract": "preserve-message-new-doc-edit-doc-output-types",
-    "primary_extraction_qualification": "content-addressed-passed-paddle-development-heldout-ecological-panel-required",
-    "sensitivity_extraction_qualification": "content-addressed-passed-deepseek-development-heldout-ecological-panel-required"
+    "primary_extraction_qualification": "content-addressed-passed-paddle-development-heldout-ecological-panel-required"
   },
   "nonlegal_families": [
     {"family": "financial_table_reconciliation", "minimum_tasks": 3, "required_variants": ["period_rows", "period_columns", "missing_or_conflicting_input"]},

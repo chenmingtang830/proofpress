@@ -189,24 +189,17 @@ def validate_preflight(*, frozen_manifest_path: Path, freeze_receipt_path: Path,
         raise ValueError("Phase C pre-run receipt unexpectedly records model execution")
     if set(control_paths) != set(freeze_v25.CONTROL_ARGUMENTS):
         raise ValueError("every frozen Phase C control path is required")
-    # Gate reports are checked first, before any private Phase C task/source
-    # bytes are opened.  This mirrors the DeepSeek runner's CUDA preflight:
-    # unqualified routes cannot gain access merely by appearing in a receipt.
-    for field in ("primary_extraction_qualification", "sensitivity_extraction_qualification"):
-        path = control_paths[field]
-        if not path.is_file() or file_digest(path) != frozen["frozen_controls"].get(field):
-            raise ValueError(f"frozen control digest mismatch: {field}")
-    # This repeats semantic inspection after byte verification.  It prevents a
-    # manually composed receipt from binding an extraction report that merely
-    # looks complete while lacking passed dev + held-out sensitivity evidence.
+    # The qualified primary report is checked before any private Phase C
+    # task/source bytes are opened.  A future sensitivity provider is a new
+    # experiment and cannot silently alter this frozen primary route.
+    path = control_paths["primary_extraction_qualification"]
+    if not path.is_file() or file_digest(path) != frozen["frozen_controls"].get("primary_extraction_qualification"):
+        raise ValueError("frozen control digest mismatch: primary_extraction_qualification")
     freeze_v25.validate_extraction_qualification(
         read_json(control_paths["primary_extraction_qualification"]),
         route=frozen["stage_b5_extraction"]["primary_route"], key="paddleocr_vl_1_6_mlx")
-    freeze_v25.validate_extraction_qualification(
-        read_json(control_paths["sensitivity_extraction_qualification"]),
-        route=frozen["stage_b5_extraction"]["sensitivity_route"], key="deepseek_ocr_2_sensitivity")
     for field, path in control_paths.items():
-        if field in {"primary_extraction_qualification", "sensitivity_extraction_qualification"}:
+        if field == "primary_extraction_qualification":
             continue
         if not path.is_file() or file_digest(path) != frozen["frozen_controls"].get(field):
             raise ValueError(f"frozen control digest mismatch: {field}")

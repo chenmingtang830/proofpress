@@ -64,8 +64,7 @@ class FrozenPhaseCRunnerTests(unittest.TestCase):
                   "retry_policy": {"fallback": "forbidden", "terminal_receipt_required": True},
                   "disclosure_budget": {"max_projection_bytes": 10000}, "executor_budget": {"max": 1},
                   "native_output_contract": {"version": 1},
-                  "primary_extraction_qualification": self.extraction("paddleocr_vl_1_6_mlx", "PaddlePaddle/PaddleOCR-VL-1.6/mlx-vlm-server"),
-                  "sensitivity_extraction_qualification": self.extraction("deepseek_ocr_2_sensitivity", "deepseek-ai/DeepSeek-OCR-2")}
+                  "primary_extraction_qualification": self.extraction("paddleocr_vl_1_6_mlx", "PaddlePaddle/PaddleOCR-VL-1.6/mlx-vlm-server")}
         for field, value in values.items():
             path = root / f"{field}.json"; path.write_text(json.dumps(value)); control[field] = path
         return control

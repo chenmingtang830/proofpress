@@ -97,7 +97,7 @@ def build(root: Path) -> dict[str, Any]:
                "development_count":4,"heldout_count":4,
                "sources":[{"source_id":row["source_id"],"split":row["split"],
                            "content_digest":row["content_digest"],"media_type":row["media_type"]} for row in sources],
-               "routes":["current-canonical-native-representation","PaddlePaddle/PaddleOCR-VL-1.6","deepseek-ai/DeepSeek-OCR-2"],
+               "routes":["current-canonical-native-representation","PaddlePaddle/PaddleOCR-VL-1.6"],
                "downstream_task_outcome_access":False,"automatic_admission":False,"human_approval_required":True}
     (root/"execution-panel.json").write_text(json.dumps(execution,indent=2,sort_keys=True)+"\n")
     return panel

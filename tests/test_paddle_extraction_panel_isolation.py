@@ -32,33 +32,6 @@ class PaddleExtractionPanelIsolationTests(unittest.TestCase):
         self.assertNotEqual(result.returncode, 0)
         self.assertIn("compatible CUDA host", result.stderr)
 
-    def test_deepseek_runner_rejects_before_input_open(self):
-        runner = Path(__file__).resolve().parents[1] / "studies/apex-agent-eval/retrieval_adapter/run_deepseek_ocr2_private.py"
-        with tempfile.TemporaryDirectory() as temp:
-            result = subprocess.run([sys.executable, str(runner), "--input", "/does/not/exist.pdf",
-                                     "--uri", "fixture://unsupported.pdf", "--out", temp,
-                                     "--model-revision", "a" * 40], capture_output=True, text=True)
-        self.assertNotEqual(result.returncode, 0)
-        self.assertIn("compatible CUDA host", result.stderr)
-
-    def test_deepseek_panel_wrapper_rejects_before_panel_open(self):
-        runner = Path(__file__).resolve().parents[1] / "studies/apex-agent-eval/retrieval_adapter/run_deepseek_ocr2_panel_private.py"
-        with tempfile.TemporaryDirectory() as temp:
-            result = subprocess.run([sys.executable, str(runner), "--panel", "/does/not/exist.json",
-                                     "--source-manifest", "/does/not/exist.json", "--out", temp,
-                                     "--model-revision", "a" * 40], capture_output=True, text=True)
-        self.assertNotEqual(result.returncode, 0)
-        self.assertIn("compatible CUDA host", result.stderr)
-
-    def test_deepseek_panel_wrapper_rejects_unpinned_revision(self):
-        runner = Path(__file__).resolve().parents[1] / "studies/apex-agent-eval/retrieval_adapter/run_deepseek_ocr2_panel_private.py"
-        with tempfile.TemporaryDirectory() as temp:
-            result = subprocess.run([sys.executable, str(runner), "--panel", "/does/not/exist.json",
-                                     "--source-manifest", "/does/not/exist.json", "--out", temp,
-                                     "--model-revision", "main"], capture_output=True, text=True)
-        self.assertNotEqual(result.returncode, 0)
-        self.assertIn("pinned 40-character git commit", result.stderr)
-
     def test_different_runner_configuration_does_not_reuse_saved_document_result(self):
         runner = Path(__file__).resolve().parents[1] / "studies/apex-agent-eval/retrieval_adapter/run_paddle_extraction_panel_private.py"
         with tempfile.TemporaryDirectory() as temp:

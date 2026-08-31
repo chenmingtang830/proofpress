@@ -1,7 +1,6 @@
 import unittest
 
-from document_extraction_adapters import (deepseek_markdown_to_envelope,
-                                          native_text_to_envelope,
+from document_extraction_adapters import (native_text_to_envelope,
                                           paddle_result_to_envelope)
 
 
@@ -18,13 +17,6 @@ class DocumentExtractionAdapterTests(unittest.TestCase):
         self.assertEqual(len(value["tables"][0]["cells"]), 4)
         self.assertEqual(value["tables"][0]["cells"][3]["raw_text"], "$18,486")
         self.assertEqual(value["tables"][0]["cells"][3]["locator"]["page"], 1)
-
-    def test_deepseek_page_only_geometry_is_explicit(self):
-        value = deepseek_markdown_to_envelope([{"page": 1,
-            "render_digest": "sha256:" + "2" * 64,
-            "markdown": "| Year | Tax |\n|---|---|\n| 2024 | $18,486 |"}], source=SOURCE)
-        self.assertEqual(value["tables"][0]["geometry_status"], "page_only")
-        self.assertNotIn("bbox", value["tables"][0]["locator"])
 
     def test_paddle_repeated_headers_on_adjacent_pages_bind_continuation(self):
         table = {"block_label": "table", "block_bbox": [1, 2, 90, 80],

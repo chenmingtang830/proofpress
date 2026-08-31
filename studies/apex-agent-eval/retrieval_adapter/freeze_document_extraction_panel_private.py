@@ -57,9 +57,8 @@ def freeze(manifest: dict[str, Any], *, development_count: int,
              "development_count": development_count, "heldout_count": heldout_count,
              "sources": selected,
              "routes": ["current-canonical-native-representation",
-                        "PaddlePaddle/PaddleOCR-VL-1.6",
-                        "deepseek-ai/DeepSeek-OCR-2"],
-             "deepseek_host_requirement": "recorded-compatible-CUDA-host-required",
+                        "PaddlePaddle/PaddleOCR-VL-1.6"],
+             "future_sensitivity_policy": "requires-a-separately-frozen-provider-and-qualification",
              "downstream_task_outcome_access": False, "automatic_admission": False,
              "human_approval_required": True}
     panel["panel_digest"] = digest(panel)
