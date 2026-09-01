@@ -100,6 +100,23 @@ class HostedServiceTests(unittest.TestCase):
             finally:
                 exc.close()
 
+    def owner_json(self, path, cookie, body=None):
+        headers = {"Cookie": cookie}
+        data = None
+        if body is not None:
+            data = json.dumps(body).encode()
+            headers["Content-Type"] = "application/json"
+        request = Request(self.base_url + path, data=data, headers=headers,
+                          method="POST" if body is not None else "GET")
+        try:
+            with urlopen(request) as response:
+                return response.status, json.loads(response.read())
+        except HTTPError as exc:
+            try:
+                return exc.code, json.loads(exc.read())
+            finally:
+                exc.close()
+
     def test_health_readiness_auth_and_capability_boundary(self):
         self.assertEqual(self.get("/healthz")[0], 200)
         status, ready = self.get("/readyz")
@@ -178,15 +195,26 @@ class HostedServiceTests(unittest.TestCase):
             headers={"Cookie": cookie})
         with urlopen(review_request) as response:
             page = response.read().decode()
-        self.assertIn("Evidence and receipts", page)
+        self.assertIn("What needs a decision?", page)
+        self.assertIn("GOVERNED CONTEXT", page)
+        self.assertIn("LINEAGE", page)
+        self.assertNotIn("SELF-ASSERTED IDENTITY", page)
         self.assertNotIn(self.owner["token"], page)
         session_id = cookie.split("=", 1)[1]
         csrf = self.server.proofpress_owner_sessions[session_id]["csrf"]
-        status, _, _ = self.form("/owner/review", {
-            "csrf": csrf, "conclusion_id": conclusion_id,
-            "decision": "admit", "note": "Richard dogfood",
-        }, cookie)
+        status, summary = self.owner_json(
+            "/owner/api/summary?scope=web-review-poc", cookie)
         self.assertEqual(status, 200)
+        self.assertEqual(summary["result"]["counts"]["needs_review"], 1)
+        status, receipt = self.owner_json(
+            "/owner/api/conclusions/" + conclusion_id, cookie)
+        self.assertEqual(status, 200)
+        self.assertEqual(receipt["result"]["state"], "needs_review")
+        status, reviewed = self.owner_json("/owner/api/reviews", cookie, {
+            "csrf": csrf, "conclusion_id": conclusion_id,
+            "decision": "admit", "note": "Richard dogfood"})
+        self.assertEqual(status, 200)
+        self.assertEqual(reviewed["result"]["state"], "admitted")
         successor = self.sdk.ProofpressClient.localhost(
             self.base_url, self.agent["token"])
         context = successor.context(scope="web-review-poc", actor="spoofed")
@@ -210,6 +238,13 @@ class HostedServiceTests(unittest.TestCase):
         }, cookie)
         self.assertEqual(status, 403)
         self.assertIn("csrf_failed", body)
+        status, denied = self.owner_json("/owner/api/summary", "pp_owner=missing")
+        self.assertEqual(status, 401)
+        self.assertEqual(denied["error"]["code"], "owner_session_required")
+        status, denied = self.owner_json("/owner/api/reviews", cookie, {
+            "csrf": "wrong", "conclusion_id": "missing", "decision": "admit"})
+        self.assertEqual(status, 403)
+        self.assertEqual(denied["error"]["code"], "csrf_failed")
 
     def test_owner_https_credential_lifecycle_is_separate_from_mcp(self):
         status, issued = self.owner_admin(self.owner["token"], {
