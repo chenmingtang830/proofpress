@@ -1,6 +1,8 @@
 services:
   - type: web
-    name: proofpress-self-hosted
+    # Compatibility ID for the existing Render service. The public product
+    # name remains "Self-hosted Proofpress".
+    name: proofpress-personal-hosted
     runtime: python
     plan: starter
     region: oregon
