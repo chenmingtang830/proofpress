@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Small owner/agent CLI for a personal hosted Proofpress workspace."""
+"""Small owner/agent CLI for a self-hosted Proofpress workspace."""
 from __future__ import annotations
 
 import argparse

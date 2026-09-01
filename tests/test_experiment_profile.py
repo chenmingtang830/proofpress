@@ -13,7 +13,7 @@ import proofpress_experiment as experiment
 import proofpress_knowledge as knowledge
 from proofpress_sdk import ProofpressClient
 from proofpress_mcp import ProofpressMcpGateway
-from proofpress_hosted import HostedControlPlane
+from proofpress_self_hosted import HostedControlPlane
 
 
 class ExperimentProfileTests(unittest.TestCase):

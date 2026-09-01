@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Loopback origin service for the personal hosted Proofpress alpha."""
+"""HTTP service for the single-owner Proofpress self-hosting reference."""
 from __future__ import annotations
 
 import argparse
@@ -15,7 +15,7 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from urllib.parse import parse_qs, urlencode, urlparse
 
 import proofpress_knowledge as knowledge
-from proofpress_hosted import HostedAuthError, HostedControlPlane
+from proofpress_self_hosted.control_plane import HostedAuthError, HostedControlPlane
 
 
 MAX_REQUEST_BYTES = 1024 * 1024
@@ -342,7 +342,7 @@ def _owner_token(args):
 
 
 def main(argv=None):
-    parser = argparse.ArgumentParser(prog="proofpress-hosted")
+    parser = argparse.ArgumentParser(prog="proofpress-self-hosted")
     parser.add_argument("--database")
     subparsers = parser.add_subparsers(dest="command", required=True)
     bootstrap = subparsers.add_parser("bootstrap")

@@ -1,14 +1,17 @@
 services:
   - type: web
+    # Compatibility ID for the existing Render service. The public product
+    # name remains "Self-hosted Proofpress".
     name: proofpress-personal-hosted
     runtime: python
     plan: starter
     region: oregon
     branch: main
     buildCommand: pip install .
-    startCommand: proofpress-hosted --database /var/data/proofpress.db serve --host 0.0.0.0 --allow-public-bind
+    startCommand: proofpress-self-hosted --database /var/data/proofpress.db serve --host 0.0.0.0 --allow-public-bind
     healthCheckPath: /readyz
-    autoDeployTrigger: commit
+    # A self-hosted operator chooses when to adopt upstream changes.
+    autoDeployTrigger: off
     disk:
       name: proofpress-data
       mountPath: /var/data

@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "proofpress-local"
 version = "0.5.0a2"
-description = "Local governance control plane and Python SDK for agent-produced knowledge"
+description = "Local governance control plane, Python SDK, and self-hosting reference for agent-produced knowledge"
 readme = "README.md"
 requires-python = ">=3.11"
 license = {text = "Apache-2.0"}
@@ -15,8 +15,10 @@ authors = [{name = "Proofpress"}]
 proofpress = "proofpress:main"
 proofpress-repo = "proofpress_repo:main"
 proofpress-mcp = "proofpress_mcp:main"
-proofpress-hosted = "proofpress_hosted_service:main"
-proofpress-remote = "proofpress_remote:main"
+proofpress-self-hosted = "proofpress_self_hosted.service:main"
+# Backward-compatible alpha command; new documentation uses proofpress-self-hosted.
+proofpress-hosted = "proofpress_self_hosted.service:main"
+proofpress-remote = "proofpress_self_hosted.remote:main"
 
 [project.optional-dependencies]
 mcp = ["mcp>=2,<3"]
@@ -32,7 +34,7 @@ py-modules = [
   "proofpress_service",
   "proofpress_mcp",
   "proofpress_event_store",
-  "proofpress_hosted",
-  "proofpress_hosted_service",
-  "proofpress_remote",
 ]
+
+[tool.setuptools.packages.find]
+include = ["proofpress_self_hosted*"]
