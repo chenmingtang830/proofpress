@@ -1,0 +1,98 @@
+{
+  "schema_version": "proofpress/document-extraction-stage-b5-sanitized/v1",
+  "scope": "document structure qualification only; no APEX executor, task outcome, or grader access",
+  "automatic_admission": false,
+  "human_approval_required": true,
+  "panels": {
+    "structure_ground_truth": "sha256:189656cd37c999a826f0cc27e7abe4f6b3acbf4c4ba917a3c9830e921d3adb06",
+    "ecological": "sha256:1ae42599f67169323e10af17dafa2ef92c5375ca1029fb21444b9e6328fedfba"
+  },
+  "paddleocr_vl_1_6_mlx": {
+    "route": "PaddlePaddle/PaddleOCR-VL-1.6/mlx-vlm-server",
+    "model_revision": "c5630abae1d940eafe0697512a0325494b02ab42",
+    "license": "Apache-2.0",
+    "known_model_cost_usd": 0,
+    "development_gate": {
+      "status": "pass",
+      "heldout_authorized": true,
+      "text_blocks_f1": 0.9,
+      "table_cells_f1": 1.0,
+      "numeric_values_f1": 1.0,
+      "locator_rate": 0.9,
+      "reading_order_rate": 0.8,
+      "cross_page_continuations_f1": 1.0,
+      "repeatability_rate": 1.0,
+      "conformance_completion_rate": 1.0,
+      "ecological_completion_rate": 1.0
+    },
+    "heldout_conformance": {
+      "documents_scored": 4,
+      "text_blocks_f1": 0.9,
+      "table_cells_f1": 1.0,
+      "numeric_values_f1": 1.0,
+      "locator_rate": 0.9,
+      "reading_order_rate": 0.8,
+      "cross_page_continuations_f1": 1.0
+    },
+    "ecological": {
+      "documents": 12,
+      "complete": 12,
+      "failed": 0,
+      "pages_processed": 12,
+      "blocks": 215,
+      "tables": 7,
+      "cells": 189,
+      "peak_child_rss_mib": 1112.0
+    },
+    "phase_c_qualification_receipt": {
+      "schema_version": "proofpress/document-extraction-phase-c-qualification/v1",
+      "qualification_digest": "sha256:89bc6b1ef937f8c96f42998017488913e37b3ccf971100c67948db8833893c2e",
+      "envelope_set_digest": "sha256:fac7b76edc4b3640f6ca123f453cac8c80bf659e5f83771873f88228f2ca84ea",
+      "envelope_count": 12,
+      "extractor_config_digest": "sha256:9b7f9050d526efa89d16a12273aa24f91696ccfcd61af0f171a4a1402677f534",
+      "model_revision": "c5630abae1d940eafe0697512a0325494b02ab42",
+      "candidate_status": "not_governed_candidate",
+      "automatic_admission": false,
+      "human_approval_required": true,
+      "phase_c_primary_control_ready": true
+    }
+  },
+  "native_pdf_text_control": {
+    "route": "Proofpress/native-pdf-text/v1",
+    "known_model_cost_usd": 0,
+    "development_conformance": {
+      "text_blocks_f1": 0.0,
+      "table_cells_f1": 0.0,
+      "numeric_values_f1": 0.0,
+      "locator_rate": 0.0,
+      "reading_order_rate": 0.0,
+      "cross_page_continuations_f1": 0.0,
+      "repeatability_rate": 1.0
+    },
+    "heldout_conformance": {
+      "documents_scored": 4,
+      "text_blocks_f1": 0.0,
+      "table_cells_f1": 0.0,
+      "numeric_values_f1": 0.0,
+      "locator_rate": 0.0,
+      "reading_order_rate": 0.0,
+      "cross_page_continuations_f1": 0.0
+    },
+    "ecological": {
+      "documents": 12,
+      "complete": 12,
+      "failed": 0,
+      "pages_processed": 12,
+      "blocks": 12,
+      "tables": 0,
+      "cells": 0,
+      "peak_child_rss_mib": 33.9
+    }
+  },
+  "deferred_sensitivity": {
+    "status": "not-qualified-and-not-used-in-phase-c",
+    "reason": "no-approved-managed-route; official reference implementation requires CUDA",
+    "future_provider_policy": "separately-freeze-provider-route-and-qualification-before-use"
+  },
+  "phase_c_status": "blocked: remaining frozen Phase C controls are not yet content-addressed"
+}

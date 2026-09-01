@@ -304,7 +304,8 @@ class Gateway:
 
     def __init__(self, server: str, model: str, provider: str, private_dir: Path, timeout: float,
                  reasoning: str, structured_output: bool = False,
-                 min_output_tokens: int = 0) -> None:
+                 min_output_tokens: int = 0,
+                 durable_receipt_path: Path | None = None) -> None:
         self.model = model
         self.provider = provider
         self.reasoning = reasoning
@@ -314,17 +315,30 @@ class Gateway:
         self._lock = threading.Lock()
         self.calls: list[dict[str, Any]] = []
         self._tmp = tempfile.mkdtemp(prefix="proofpress-claim-gateway-")
+        self.private_dir = private_dir
+        self._durable_receipt_path = durable_receipt_path
+        self._attempt_journal_path: Path | None = None
+        self._attempt_sequence = 0
+        if durable_receipt_path is not None:
+            durable_receipt_path.parent.mkdir(parents=True, exist_ok=True)
+            durable_receipt_path.parent.chmod(0o700)
+            self._attempt_journal_path = durable_receipt_path.with_name(
+                durable_receipt_path.stem + "-attempts.jsonl")
+            self._attempt_sequence = len(self.durable_attempt_rows())
+        self._receipt_path = (durable_receipt_path
+                              if durable_receipt_path is not None
+                              else Path(self._tmp) / "receipts.jsonl")
         env = os.environ.copy()
         env.update({
             "PROOFPRESS_PAGEINDEX_MODEL": model,
             "PROOFPRESS_PAGEINDEX_PROVIDER": provider,
             "PROOFPRESS_PAGEINDEX_PORT": "0",
-            "PROOFPRESS_PAGEINDEX_RECEIPTS": str(Path(self._tmp) / "receipts.jsonl"),
+            "PROOFPRESS_PAGEINDEX_RECEIPTS": str(self._receipt_path),
             "PROOFPRESS_PAGEINDEX_ERROR_LOG": str(Path(self._tmp) / "errors.jsonl"),
             "PROOFPRESS_CLAIM_MODEL": model,
             "PROOFPRESS_CLAIM_PROVIDER": provider,
             "PROOFPRESS_CLAIM_PORT": "0",
-            "PROOFPRESS_CLAIM_RECEIPTS": str(Path(self._tmp) / "receipts.jsonl"),
+            "PROOFPRESS_CLAIM_RECEIPTS": str(self._receipt_path),
             "PROOFPRESS_CLAIM_ERROR_LOG": str(Path(self._tmp) / "errors.jsonl"),
             # Abort the upstream request before urllib reaches its own deadline,
             # so every attempt produces one terminal gateway receipt.
@@ -353,7 +367,36 @@ class Gateway:
         except Exception as exc:
             self.stop()
             raise RuntimeError(f"fixed gateway did not become ready for {model}/{provider}") from exc
-        self.private_dir = private_dir
+
+    def _append_attempt_event(self, row: dict[str, Any]) -> None:
+        """Persist a content-free Stage-A recovery event when configured."""
+        if self._attempt_journal_path is None:
+            return
+        serialized = json.dumps(row, ensure_ascii=False, sort_keys=True)
+        with self._lock:
+            self._attempt_journal_path.parent.mkdir(parents=True, exist_ok=True)
+            self._attempt_journal_path.parent.chmod(0o700)
+            with self._attempt_journal_path.open("a", encoding="utf-8") as handle:
+                handle.write(serialized + "\n")
+            self._attempt_journal_path.chmod(0o600)
+
+    def durable_attempt_rows(self) -> list[dict[str, Any]]:
+        if self._attempt_journal_path is None or not self._attempt_journal_path.exists():
+            return []
+        rows = []
+        for line in self._attempt_journal_path.read_text(encoding="utf-8").splitlines():
+            try:
+                value = json.loads(line)
+            except json.JSONDecodeError:
+                continue
+            if isinstance(value, dict):
+                rows.append(value)
+        return rows
+
+    def attempt_count(self) -> int:
+        if self._attempt_journal_path is None:
+            return len(self.calls)
+        return sum(row.get("event") == "attempt_started" for row in self.durable_attempt_rows())
 
     def call(self, system: str, prompt: str, max_tokens: int,
              schema: dict[str, Any] | None = None, schema_name: str | None = None) -> dict[str, Any]:
@@ -376,6 +419,15 @@ class Gateway:
             "requested_max_output_tokens": body["max_tokens"],
             "fallback_used": False, "request_digest": digest(body),
         }
+        self._attempt_sequence += 1
+        attempt_id = f"attempt-{self._attempt_sequence:06d}"
+        self._append_attempt_event({
+            "event": "attempt_started", "attempt_id": attempt_id,
+            "model": self.model, "provider": self.provider, "reasoning": self.reasoning,
+            "requested_max_output_tokens": body["max_tokens"],
+            "request_digest": record["request_digest"], "fallback_used": False,
+        })
+        request.add_header("x-proofpress-attempt-id", attempt_id)
         content: str | None = None
         try:
             with urllib.request.urlopen(request, timeout=self.timeout) as response:
@@ -402,10 +454,27 @@ class Gateway:
             # Keep the raw completion only in the caller-owned private record;
             # sanitized reports contain the digest/error class, never text.
             return {"ok": False, "value": None, "record": record, "raw_content": content}
+        except BaseException as exc:
+            # Do not swallow Ctrl-C or process-termination signals.  The durable
+            # attempt ledger makes this explicitly unresolved rather than silently
+            # dropping a potentially billable in-flight request.
+            record.update({"status": "aborted_client", "error_type": type(exc).__name__,
+                           "error_digest": sha_text(str(exc)),
+                           "output_bytes": len(content.encode()) if isinstance(content, str) else None,
+                           "finish_reason": locals().get("finish_reason")})
+            raise
         finally:
             record["latency_ms"] = round((time.monotonic() - started) * 1000, 3)
             with self._lock:
                 self.calls.append(record)
+            self._append_attempt_event({
+                "event": "attempt_outcome", "attempt_id": attempt_id,
+                "model": self.model, "provider": self.provider,
+                "status": record.get("status", "aborted_client"),
+                "error_type": record.get("error_type"),
+                "output_digest": record.get("output_digest"),
+                "latency_ms": record["latency_ms"],
+            })
 
     def stop(self) -> None:
         if getattr(self, "proc", None) and self.proc.poll() is None:
@@ -416,7 +485,7 @@ class Gateway:
                 self.proc.kill()
 
     def receipt_rows(self) -> list[dict[str, Any]]:
-        path = Path(self._tmp) / "receipts.jsonl"
+        path = self._receipt_path
         if not path.exists():
             return []
         rows = []
@@ -599,8 +668,10 @@ def _evidence(requirement_id: str, hit: dict[str, Any], query: str) -> dict[str,
     evidence_id = "ev_" + hashlib.sha256(
         (section["representation_digest"] + "\n" + section["id"]).encode()
     ).hexdigest()[:20]
-    receipt = {"evidence_id": evidence_id, "source": {
-        "uri": source["uri"], "content_digest": source["content_digest"], "media_type": source["media_type"]},
+    source_record = {key: source[key] for key in
+                     ("uri", "content_digest", "media_type", "official_authority")
+                     if key in source}
+    receipt = {"evidence_id": evidence_id, "source": source_record,
         "representation_digest": section["representation_digest"],
         "quote": section.get("text", ""),
         "locator": {"kind": "section_span", "section_id": section["id"],

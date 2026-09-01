@@ -53,11 +53,106 @@ async function recoverStructuredText(text, schema, safeParseJSON) {
   return null;
 }
 
+function gatewayTools(inputTools, tool, jsonSchema) {
+  if (!Array.isArray(inputTools)) return {};
+  const output = {};
+  for (const row of inputTools) {
+    const fn = row?.type === 'function' ? row.function : null;
+    if (!fn || typeof fn.name !== 'string' || !fn.name) continue;
+    if (output[fn.name]) throw new Error('duplicate tool name');
+    const parameters = fn.parameters && typeof fn.parameters === 'object'
+      ? fn.parameters
+      : { type: 'object', additionalProperties: true };
+    output[fn.name] = tool({
+      description: typeof fn.description === 'string' ? fn.description : `Call ${fn.name}.`,
+      inputSchema: jsonSchema(parameters),
+    });
+  }
+  return output;
+}
+
+function gatewayToolChoice(choice, knownTools) {
+  if (!choice || choice === 'auto') return undefined;
+  if (choice === 'none') return { type: 'none' };
+  if (choice === 'required') return { type: 'required' };
+  const name = choice?.type === 'function' ? choice.function?.name : null;
+  if (typeof name === 'string' && knownTools[name]) return { type: 'tool', toolName: name };
+  throw new Error('unsupported tool choice');
+}
+
+function openAiToolCalls(calls) {
+  if (!Array.isArray(calls)) return [];
+  return calls.map((call, index) => ({
+    id: typeof call.toolCallId === 'string' && call.toolCallId ? call.toolCallId : `tool_${index + 1}`,
+    type: 'function',
+    function: {
+      name: call.toolName,
+      arguments: JSON.stringify(call.input ?? {}),
+    },
+  }));
+}
+
+function openAiFinishReason(reason, hasToolCalls = false) {
+  if (hasToolCalls || reason === 'tool-calls' || reason === 'tool_use') return 'tool_calls';
+  if (reason === 'stop' || reason === 'length' || reason === 'content_filter') return reason;
+  return reason || null;
+}
+
+function messageText(content) {
+  if (typeof content === 'string') return content;
+  if (!Array.isArray(content)) return String(content ?? '');
+  return content.map(part => typeof part === 'string' ? part : String(part?.text ?? '')).join('');
+}
+
+function gatewayMessages(inputMessages) {
+  const toolNames = new Map();
+  for (const row of inputMessages) {
+    for (const call of Array.isArray(row?.tool_calls) ? row.tool_calls : []) {
+      if (typeof call?.id === 'string' && typeof call?.function?.name === 'string') {
+        toolNames.set(call.id, call.function.name);
+      }
+    }
+  }
+  return inputMessages
+    .filter(row => row.role !== 'system')
+    // A length-truncated provider turn may be represented by the native agent
+    // as an empty assistant message. It carries no tool/result binding and is
+    // not a valid AI SDK prompt part, so omit it from the next request.
+    .filter(row => !(row.role === 'assistant'
+      && !(Array.isArray(row.tool_calls) && row.tool_calls.length)
+      && !messageText(row.content)))
+    .map(row => {
+    if (row.role === 'assistant') {
+      const calls = (Array.isArray(row.tool_calls) ? row.tool_calls : []).map(call => {
+        let input = {};
+        try { input = JSON.parse(call?.function?.arguments || '{}'); } catch { input = {}; }
+        return { type: 'tool-call', toolCallId: call.id,
+                 toolName: call?.function?.name, input };
+      });
+      if (!calls.length) return { role: 'assistant', content: messageText(row.content) };
+      const text = messageText(row.content);
+      return { role: 'assistant', content: [
+        ...(text ? [{ type: 'text', text }] : []), ...calls,
+      ] };
+    }
+    if (row.role === 'tool') {
+      const toolCallId = row.tool_call_id;
+      const toolName = toolNames.get(toolCallId);
+      if (!toolCallId || !toolName) throw new Error('tool result has no matching assistant tool call');
+      return { role: 'tool', content: [{ type: 'tool-result', toolCallId, toolName,
+                                        output: { type: 'text', value: messageText(row.content) } }] };
+    }
+    return { role: 'user', content: messageText(row.content) };
+    });
+}
+
 const server = http.createServer(async (req, res) => {
   if (req.method === 'GET' && req.url === '/health') return reply(res, 200, { ok: true, model, provider });
   if (req.method !== 'POST' || req.url !== '/v1/chat/completions') return reply(res, 404, { error: { type: 'not_found' } });
   const started = process.hrtime.bigint();
   let requestSha = null;
+  const attemptId = typeof req.headers['x-proofpress-attempt-id'] === 'string'
+    ? req.headers['x-proofpress-attempt-id'] : null;
   let terminalWritten = false;
   let upstreamSignal = null;
   const terminal = row => {
@@ -67,6 +162,7 @@ const server = http.createServer(async (req, res) => {
       model: model || null, provider: provider || null, fallback_used: false,
       requested_reasoning: reasoning,
       request_sha256: requestSha, terminal: true,
+      attempt_id: attemptId,
       latency_ms: Number(process.hrtime.bigint() - started) / 1e6,
       ...row,
     });
@@ -90,9 +186,7 @@ const server = http.createServer(async (req, res) => {
     const common = {
       model: createGateway({ apiKey })(model),
       system: input.messages.filter(row => row.role === 'system').map(row => String(row.content || '')).join('\n'),
-      messages: input.messages.filter(row => row.role !== 'system').map(row => ({
-        role: row.role === 'assistant' ? 'assistant' : 'user', content: String(row.content || ''),
-      })),
+      messages: gatewayMessages(input.messages),
       maxOutputTokens: input.max_tokens || 4096,
       // AI SDK v4's Gateway contract takes a scalar effort at the top level.
       // Provider-specific options silently dropped reasoning for routes such
@@ -105,18 +199,25 @@ const server = http.createServer(async (req, res) => {
       },
     };
     const structured = input.response_schema && typeof input.response_schema === 'object';
+    const tools = gatewayTools(input.tools, tool, jsonSchema);
     const toolName = 'emit_proofpress_output';
     const structuredSchema = structured ? jsonSchema(input.response_schema) : null;
-    const result = structured
-      ? await generateText({ ...common,
-          tools: { [toolName]: tool({
+    if (structured && tools[toolName]) throw new Error('reserved tool name is already in use');
+    const allTools = structured
+      ? { ...tools, [toolName]: tool({
             description: `Emit ${String(input.response_schema_name || 'Proofpress output')} exactly once.`,
             inputSchema: structuredSchema,
-          }) },
-          toolChoice: { type: 'tool', toolName },
-        })
-      : await generateText(common);
+          }) }
+      : tools;
+    const toolChoice = structured ? { type: 'tool', toolName } : gatewayToolChoice(input.tool_choice, allTools);
+    const result = await generateText({
+      ...common,
+      ...(Object.keys(allTools).length ? { tools: allTools } : {}),
+      ...(toolChoice ? { toolChoice } : {}),
+    });
     const usage = result.usage || {};
+    const inputDetails = usage.inputTokenDetails || {};
+    const outputDetails = usage.outputTokenDetails || {};
     const metadata = result.providerMetadata?.gateway || {};
     const cost = Number.isFinite(Number(metadata.cost)) ? Number(metadata.cost) : null;
     let structuredObject = structured ? result.toolCalls?.find(call => call.toolName === toolName)?.input : null;
@@ -141,19 +242,34 @@ const server = http.createServer(async (req, res) => {
       error.costUsd = cost;
       throw error;
     }
+    const toolCalls = openAiToolCalls(
+      structured ? [] : (result.toolCalls || []).filter(call => call?.toolName !== toolName)
+    );
     terminal({
       status: 'ok', error_type: null,
       structured_mode: structuredMode,
-      input_tokens: usage.inputTokens ?? null, output_tokens: usage.outputTokens ?? null,
+      input_tokens: usage.inputTokens ?? null,
+      uncached_input_tokens: inputDetails.noCacheTokens ?? null,
+      cache_read_input_tokens: inputDetails.cacheReadTokens ?? usage.cachedInputTokens ?? null,
+      cache_write_input_tokens: inputDetails.cacheWriteTokens ?? null,
+      output_tokens: usage.outputTokens ?? null,
+      text_output_tokens: outputDetails.textTokens ?? null,
+      reasoning_output_tokens: outputDetails.reasoningTokens ?? usage.reasoningTokens ?? null,
       cost_usd: cost,
     });
     return reply(res, 200, {
       id: result.response?.id || null, object: 'chat.completion', model,
-      choices: [{ message: { role: 'assistant', content: structured ? JSON.stringify(structuredObject) : (result.text || '') },
-                  finish_reason: result.finishReason || null }],
+      choices: [{ message: { role: 'assistant', content: structured ? JSON.stringify(structuredObject) : (result.text || ''),
+                              ...(toolCalls.length ? { tool_calls: toolCalls } : {}) },
+                  finish_reason: openAiFinishReason(result.finishReason, toolCalls.length > 0) }],
       proofpress: { structured_output_mode: structuredMode },
       usage: { prompt_tokens: usage.inputTokens ?? null,
+               uncached_prompt_tokens: inputDetails.noCacheTokens ?? null,
+               cached_prompt_tokens: inputDetails.cacheReadTokens ?? usage.cachedInputTokens ?? null,
+               cache_write_prompt_tokens: inputDetails.cacheWriteTokens ?? null,
                completion_tokens: usage.outputTokens ?? null,
+               text_completion_tokens: outputDetails.textTokens ?? null,
+               reasoning_tokens: outputDetails.reasoningTokens ?? usage.reasoningTokens ?? null,
                total_tokens: (usage.inputTokens || 0) + (usage.outputTokens || 0),
                cost_usd: cost },
     });

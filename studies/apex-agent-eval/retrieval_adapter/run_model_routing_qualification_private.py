@@ -82,10 +82,17 @@ def call_critic(gateway: Gateway, requirements: list[dict[str, Any]],
 
 def terminal_telemetry(gateways: dict[str, Gateway]) -> dict[str, Any]:
     by_model: dict[str, Any] = {}
-    missing = 0; total_cost = 0.0; calls = 0
+    missing = 0; missing_tokens = 0; total_cost = 0.0; calls = 0; terminal_receipts = 0
+    total_tokens = Counter()
+    detail_fields = ("uncached_input_tokens", "cache_read_input_tokens",
+                     "cache_write_input_tokens", "text_output_tokens",
+                     "reasoning_output_tokens")
+    missing_detail_tokens = Counter({field: 0 for field in detail_fields})
     for label, gateway in gateways.items():
-        rows = gateway.receipt_rows(); calls += len(gateway.calls)
-        costs = []
+        rows = gateway.receipt_rows()
+        attempt_count = gateway.attempt_count() if hasattr(gateway, "attempt_count") else len(gateway.calls)
+        calls += attempt_count; terminal_receipts += len(rows)
+        costs = []; tokens = Counter(); latency = []
         for row in rows:
             usage = row.get("usage") if isinstance(row.get("usage"), dict) else {}
             cost = usage.get("cost_usd", row.get("cost_usd"))
@@ -93,12 +100,36 @@ def terminal_telemetry(gateways: dict[str, Gateway]) -> dict[str, Any]:
                 costs.append(float(cost))
             else:
                 missing += 1
-        missing += max(0, len(gateway.calls) - len(rows))
+            input_tokens = usage.get("prompt_tokens", row.get("input_tokens"))
+            output_tokens = usage.get("completion_tokens", row.get("output_tokens"))
+            if isinstance(input_tokens, int) and isinstance(output_tokens, int):
+                tokens["input_tokens"] += input_tokens
+                tokens["output_tokens"] += output_tokens
+            else:
+                missing_tokens += 1
+            for source in detail_fields:
+                value = row.get(source)
+                if isinstance(value, int):
+                    tokens[source] += value
+                else:
+                    missing_detail_tokens[source] += 1
+            if isinstance(row.get("latency_ms"), (int, float)):
+                latency.append(float(row["latency_ms"]))
+        missing += max(0, attempt_count - len(rows))
+        missing_tokens += max(0, attempt_count - len(rows))
+        for field in detail_fields:
+            missing_detail_tokens[field] += max(0, attempt_count - len(rows))
         total_cost += sum(costs)
-        by_model[label] = {"calls": len(gateway.calls), "terminal_receipts": len(rows),
-                           "known_cost_usd": sum(costs)}
-    return {"calls": calls, "known_cost_usd": total_cost,
-            "missing_cost_calls": missing, "by_model": by_model,
+        total_tokens.update(tokens)
+        by_model[label] = {"calls": attempt_count, "terminal_receipts": len(rows),
+                           "known_cost_usd": sum(costs), **dict(tokens),
+                           "latency_ms_total": sum(latency),
+                           "latency_ms_mean": sum(latency) / len(latency) if latency else None}
+    return {"calls": calls, "terminal_receipts": terminal_receipts,
+            "unresolved_attempts": max(0, calls - terminal_receipts), "known_cost_usd": total_cost,
+            "missing_cost_calls": missing, "missing_token_calls": missing_tokens,
+            "missing_detailed_token_calls": dict(missing_detail_tokens),
+            **dict(total_tokens), "by_model": by_model,
             "fallback": "forbidden"}
 
 

@@ -1,0 +1,26 @@
+{
+  "automatic_admission": false,
+  "families": [
+    "financial_table_reconciliation",
+    "operational_kpi",
+    "contract_payment_schedule"
+  ],
+  "human_approval_required": true,
+  "panel_digest": "sha256:fe496b0453e71b08d468324fb111ba524cfe554f7333641c4cddb78db72f4a65",
+  "sanitized_digest": "sha256:65fcb8e590cc9e23bbafd69d594c44c62f6353c88b08229cb31c16036ee81bdb",
+  "schema_version": "proofpress/nonlegal-exact-transfer-panel/v1",
+  "task_count": 9,
+  "task_outcome_access_before_freeze": false,
+  "tasks": [
+    {"family": "financial_table_reconciliation", "source_digest": "sha256:38a44de4b621fd8d122f401db4204bd0991db7a683669ce373c41f12091101e5", "task_id": "fin-row-variance", "variant": "period_rows"},
+    {"family": "financial_table_reconciliation", "source_digest": "sha256:def64e227ce2b26a85f44144aeebe2a65b9e883d95b8fa8e12b319ed10291e94", "task_id": "fin-column-gross-margin", "variant": "period_columns"},
+    {"family": "financial_table_reconciliation", "source_digest": "sha256:f50d173b43cca8a208c13d50fd903458fd6483aa1a8d3d6338639003b93ad2ec", "task_id": "fin-conflicting-invoice", "variant": "missing_or_conflicting_input"},
+    {"family": "operational_kpi", "source_digest": "sha256:784e1bcba4f515c311e36142d60ddb195657c63f1ca0fc431202298a4a0c2504", "task_id": "ops-row-conversion", "variant": "period_rows"},
+    {"family": "operational_kpi", "source_digest": "sha256:a5e226b36da5c54baddee1de185850d31d2b5ebd4a54a17ada280518ed24b791", "task_id": "ops-column-resolution", "variant": "period_columns"},
+    {"family": "operational_kpi", "source_digest": "sha256:d0abbcecff9f5e57cc652d3af6f56f9cff9f197984b108694a21e361ce37bee4", "task_id": "ops-missing-denominator", "variant": "missing_or_conflicting_input"},
+    {"family": "contract_payment_schedule", "source_digest": "sha256:436913f610ca7f6c81b7178c5e8ae7a7f4cdfe615af79a1aa5a7fad88301f620", "task_id": "contract-row-payment-total", "variant": "period_rows"},
+    {"family": "contract_payment_schedule", "source_digest": "sha256:7474ccc61c086607ee06862d4e49dc1446f65e6a9ee6e4b2d55d705579c4bb94", "task_id": "contract-column-payment-total", "variant": "period_columns"},
+    {"family": "contract_payment_schedule", "source_digest": "sha256:81e95d8904041c149b2a7bfa8f894e075af5bd0ff37450719c76abc13d8449d3", "task_id": "contract-conflicting-installment", "variant": "missing_or_conflicting_input"}
+  ],
+  "variants": ["period_rows", "period_columns", "missing_or_conflicting_input"]
+}

@@ -1,0 +1,56 @@
+{
+  "schema_version": "proofpress/exact-knowledge-stage-b-freeze/v1",
+  "recorded_at": "2026-08-30",
+  "boundary": "Five frozen zero-heavy APEX tasks used only for mechanism development; construction-only readiness; no answer executor; no Human Approval; no task prompts, source excerpts, numeric values, authority text, or model outputs.",
+  "development_task_ids": [
+    "task_b78c4510be784e6a8b8f0394aafd785d",
+    "task_8d501efe0f924f69aeee070f2e08b576",
+    "task_8ab8c8d7662747d696d52706a8b3de55",
+    "task_11893dcabbe34b0aa991516dfe7edcba",
+    "task_f8f47a9c94874854a24936d81a89fdfb"
+  ],
+  "denominators": {
+    "tasks": 5,
+    "slots": 49
+  },
+  "runs": [
+    {"run": "v19", "mechanism": "deterministic table-series extraction and exact cell binding", "candidate_covered": 29, "gaps": 20, "calls": 10, "input_tokens": 24440, "output_tokens": 2752, "known_cost_usd": 0.08796},
+    {"run": "v20", "mechanism": "per-requirement period derivation with model-proposed value bindings", "candidate_covered": 27, "gaps": 22, "calls": 12, "input_tokens": 31052, "output_tokens": 3959, "known_cost_usd": 0.0813392},
+    {"run": "v21", "mechanism": "formula-template selection with deterministic period binding", "candidate_covered": 28, "gaps": 21, "calls": 12, "input_tokens": 26161, "output_tokens": 3098, "known_cost_usd": 0.0485647},
+    {"run": "v22", "mechanism": "conflict-filtered deterministic period derivation", "candidate_covered": 29, "gaps": 20, "calls": 11, "input_tokens": 25092, "output_tokens": 1956, "known_cost_usd": 0.0392376},
+    {"run": "v23", "mechanism": "exact repeat before persisted-readiness correction", "candidate_covered": 30, "gaps": 19, "calls": 12, "input_tokens": 25347, "output_tokens": 3416, "known_cost_usd": 0.0498586},
+    {"run": "v24", "mechanism": "persisted conflict-filtered table-series readiness", "candidate_covered": 29, "gaps": 20, "calls": 11, "input_tokens": 25098, "output_tokens": 1988, "known_cost_usd": 0.0333281}
+  ],
+  "freeze_evidence": {
+    "v23_v24_stable_slot_states": 48,
+    "v23_v24_unstable_slot_states": 1,
+    "v23_v24_shared_candidate_objects": 92,
+    "v23_v24_slots_with_shared_candidate_object": 23,
+    "stable_complete_period_slots": [
+      "ordinary_income",
+      "federal_tax",
+      "state_tax",
+      "total_tax"
+    ],
+    "stable_complete_period_count_per_slot": 5,
+    "v24_total_tax_derivations": 5,
+    "new_invariant_failures": 0,
+    "interpretation": "The table-cell and deterministic-derivation mechanism is frozen for transfer testing. The five development tasks cannot estimate generalization, and the single-run 30/49 value is not promoted as a result."
+  },
+  "gates": {
+    "qualification": "pass",
+    "invalid_bindings": 0,
+    "automatic_admission": false,
+    "human_approval_receipts": 0,
+    "executor_ran": false,
+    "fallback": "forbidden",
+    "terminal_cost_and_token_receipts_complete": true,
+    "private_content_in_sanitized_report": false
+  },
+  "decision": {
+    "status": "freeze_and_test_transfer",
+    "do_not_optimize": "Do not continue tuning coverage on the five development-only tax tasks.",
+    "primary_next_test": "A preregistered three-condition ablation on the seven untouched APEX tasks, followed by frozen non-legal transfer tasks.",
+    "overfit_rule": "Improvement confined to the five development tax tasks is evidence of task-specific overfit, not a product-level gain."
+  }
+}
