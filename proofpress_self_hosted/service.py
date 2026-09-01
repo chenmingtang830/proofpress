@@ -478,7 +478,7 @@ def main(argv=None):
         bundle = json.loads(Path(args.file).read_text(encoding="utf-8"))
         if bundle.get("schema_version") != "proofpress/history-export/v1alpha1":
             raise SystemExit("unsupported history export schema")
-    result = verify_history_envelopes(bundle.get("events", []))
+        result = verify_history_envelopes(bundle.get("events", []))
         print(json.dumps(result, ensure_ascii=False))
         if not result["ok"]:
             raise SystemExit(1)
