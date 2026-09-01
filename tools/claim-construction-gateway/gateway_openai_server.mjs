@@ -92,6 +92,60 @@ function openAiToolCalls(calls) {
   }));
 }
 
+function openAiFinishReason(reason, hasToolCalls = false) {
+  if (hasToolCalls || reason === 'tool-calls' || reason === 'tool_use') return 'tool_calls';
+  if (reason === 'stop' || reason === 'length' || reason === 'content_filter') return reason;
+  return reason || null;
+}
+
+function messageText(content) {
+  if (typeof content === 'string') return content;
+  if (!Array.isArray(content)) return String(content ?? '');
+  return content.map(part => typeof part === 'string' ? part : String(part?.text ?? '')).join('');
+}
+
+function gatewayMessages(inputMessages) {
+  const toolNames = new Map();
+  for (const row of inputMessages) {
+    for (const call of Array.isArray(row?.tool_calls) ? row.tool_calls : []) {
+      if (typeof call?.id === 'string' && typeof call?.function?.name === 'string') {
+        toolNames.set(call.id, call.function.name);
+      }
+    }
+  }
+  return inputMessages
+    .filter(row => row.role !== 'system')
+    // A length-truncated provider turn may be represented by the native agent
+    // as an empty assistant message. It carries no tool/result binding and is
+    // not a valid AI SDK prompt part, so omit it from the next request.
+    .filter(row => !(row.role === 'assistant'
+      && !(Array.isArray(row.tool_calls) && row.tool_calls.length)
+      && !messageText(row.content)))
+    .map(row => {
+    if (row.role === 'assistant') {
+      const calls = (Array.isArray(row.tool_calls) ? row.tool_calls : []).map(call => {
+        let input = {};
+        try { input = JSON.parse(call?.function?.arguments || '{}'); } catch { input = {}; }
+        return { type: 'tool-call', toolCallId: call.id,
+                 toolName: call?.function?.name, input };
+      });
+      if (!calls.length) return { role: 'assistant', content: messageText(row.content) };
+      const text = messageText(row.content);
+      return { role: 'assistant', content: [
+        ...(text ? [{ type: 'text', text }] : []), ...calls,
+      ] };
+    }
+    if (row.role === 'tool') {
+      const toolCallId = row.tool_call_id;
+      const toolName = toolNames.get(toolCallId);
+      if (!toolCallId || !toolName) throw new Error('tool result has no matching assistant tool call');
+      return { role: 'tool', content: [{ type: 'tool-result', toolCallId, toolName,
+                                        output: { type: 'text', value: messageText(row.content) } }] };
+    }
+    return { role: 'user', content: messageText(row.content) };
+    });
+}
+
 const server = http.createServer(async (req, res) => {
   if (req.method === 'GET' && req.url === '/health') return reply(res, 200, { ok: true, model, provider });
   if (req.method !== 'POST' || req.url !== '/v1/chat/completions') return reply(res, 404, { error: { type: 'not_found' } });
@@ -132,9 +186,7 @@ const server = http.createServer(async (req, res) => {
     const common = {
       model: createGateway({ apiKey })(model),
       system: input.messages.filter(row => row.role === 'system').map(row => String(row.content || '')).join('\n'),
-      messages: input.messages.filter(row => row.role !== 'system').map(row => ({
-        role: row.role === 'assistant' ? 'assistant' : 'user', content: String(row.content || ''),
-      })),
+      messages: gatewayMessages(input.messages),
       maxOutputTokens: input.max_tokens || 4096,
       // AI SDK v4's Gateway contract takes a scalar effort at the top level.
       // Provider-specific options silently dropped reasoning for routes such
@@ -209,7 +261,7 @@ const server = http.createServer(async (req, res) => {
       id: result.response?.id || null, object: 'chat.completion', model,
       choices: [{ message: { role: 'assistant', content: structured ? JSON.stringify(structuredObject) : (result.text || ''),
                               ...(toolCalls.length ? { tool_calls: toolCalls } : {}) },
-                  finish_reason: result.finishReason || null }],
+                  finish_reason: openAiFinishReason(result.finishReason, toolCalls.length > 0) }],
       proofpress: { structured_output_mode: structuredMode },
       usage: { prompt_tokens: usage.inputTokens ?? null,
                uncached_prompt_tokens: inputDetails.noCacheTokens ?? null,

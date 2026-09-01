@@ -24,7 +24,7 @@ class StageARecoveryTests(unittest.TestCase):
                     "task_id": task_id, "prompt": "private prompt",
                     "expected_output": "make_new_doc", "rubric": {"gold": "must not reach constructor"},
                 }}))
-            tasks = stage._load_tasks(root)
+            tasks = stage._load_tasks(root, stage.TASK_IDS)
         self.assertEqual(len(tasks), len(stage.TASK_IDS))
         self.assertTrue(all(set(task) == {"task_id", "prompt", "expected_output"} for task in tasks))
         self.assertTrue(all("rubric" not in task and "gold" not in task for task in tasks))

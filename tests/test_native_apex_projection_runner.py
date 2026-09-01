@@ -18,6 +18,17 @@ SPEC.loader.exec_module(module)
 
 
 class NativeApexProjectionRunnerTests(unittest.TestCase):
+    def test_gateway_normalizes_ai_sdk_tool_finish_reason_for_litellm(self):
+        gateway = (ROOT / "tools/claim-construction-gateway/gateway_openai_server.mjs").read_text()
+        self.assertIn("reason === 'tool-calls'", gateway)
+        self.assertIn("return 'tool_calls'", gateway)
+        self.assertIn("openAiFinishReason(result.finishReason, toolCalls.length > 0)", gateway)
+        self.assertIn("function gatewayMessages(inputMessages)", gateway)
+        self.assertIn("type: 'tool-call'", gateway)
+        self.assertIn("type: 'tool-result'", gateway)
+        self.assertIn("messages: gatewayMessages(input.messages)", gateway)
+        self.assertIn("A length-truncated provider turn", gateway)
+
     def test_executor_messages_exclude_rubric_and_preserve_projection_boundary(self):
         task = {"task_id": "task_1", "prompt": "private task", "expected_output": "make_new_doc",
                 "rubric": [{"criteria": "private score", "verifier_id": "v1"}]}
