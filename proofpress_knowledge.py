@@ -1547,7 +1547,8 @@ def graph_v2(scope=None):
             edges += [{"from": parent, "to": eid, "type": "derived_from"}
                       for parent in evidence.get("source_evidence_refs", [])]
     for cid, row in wanted.items():
-        nodes.append({"id": cid, "type": "conclusion", "state": v2_state(projection, row), "label": row["statement"]})
+        nodes.append({"id": cid, "type": "conclusion", "state": v2_state(projection, row),
+                      "scope": row["scope"], "label": row["statement"]})
         edges += [{"from": eid, "to": cid, "type": "supports"} for eid in row["evidence_refs"]]
         review = projection["reviews"].get(cid)
         if review:

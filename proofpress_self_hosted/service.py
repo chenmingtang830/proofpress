@@ -131,6 +131,59 @@ class HostedOperationHandler(BaseHTTPRequestHandler):
                 ".row{display:flex;gap:8px}.muted{color:#666}</style></head><body>"
                 f"{body}</body></html>")
 
+    @staticmethod
+    def _ui_asset():
+        return Path(__file__).with_name("owner_ui.html")
+
+    def _owner_ui(self, session):
+        nonce = secrets.token_urlsafe(18)
+        body = (self._ui_asset().read_text(encoding="utf-8")
+                .replace("__PROOFPRESS_CSRF__", session["csrf"])
+                .replace("__PROOFPRESS_NONCE__", nonce))
+        encoded = body.encode("utf-8")
+        self.send_response(HTTPStatus.OK)
+        self.send_header("Content-Type", "text/html; charset=utf-8")
+        self.send_header("Content-Length", str(len(encoded)))
+        self.send_header("Cache-Control", "no-store")
+        self.send_header("X-Content-Type-Options", "nosniff")
+        self.send_header("Content-Security-Policy",
+                         "default-src 'none'; style-src 'unsafe-inline'; "
+                         f"script-src 'nonce-{nonce}'; connect-src 'self'; "
+                         "form-action 'self'; base-uri 'none'; frame-ancestors 'none'")
+        self.end_headers()
+        self.wfile.write(encoded)
+
+    def _owner_operation(self, session, operation, parameters=None):
+        return self.server.proofpress_control.execute(session["token"], {
+            "schema_version": knowledge.LOCAL_OPERATION_SCHEMA,
+            "operation": operation, "parameters": parameters or {},
+        })
+
+    def _owner_api(self, parsed, session):
+        path = parsed.path
+        if path == "/owner/api/summary":
+            envelope = self._owner_operation(
+                session, "review.summary",
+                {"scope": parse_qs(parsed.query).get("scope", [None])[-1]})
+        elif path.startswith("/owner/api/conclusions/"):
+            envelope = self._owner_operation(
+                session, "review.receipt",
+                {"conclusion_id": path.rsplit("/", 1)[-1]})
+        elif path == "/owner/api/graph":
+            envelope = self._owner_operation(
+                session, "graph.get",
+                {"scope": parse_qs(parsed.query).get("scope", [None])[-1]})
+        elif path == "/owner/api/context":
+            query = parse_qs(parsed.query)
+            envelope = self._owner_operation(session, "context.get", {
+                "scope": query.get("scope", [None])[-1],
+                "task": query.get("task", [None])[-1],
+                "include_blocked_statements": True,
+            })
+        else:
+            return self._json(HTTPStatus.NOT_FOUND, {"error": "not_found"})
+        return self._json(_status_for(envelope), envelope)
+
     def _login_page(self, message=""):
         note = f"<p>{escape(message)}</p>" if message else ""
         return self._page("Proofpress owner sign in", "<h1>Owner review</h1>" + note +
@@ -211,16 +264,57 @@ class HostedOperationHandler(BaseHTTPRequestHandler):
                 return self._owner_error(exc)
             return self._json(HTTPStatus.OK, {
                 "ok": True, "credentials": credentials})
+        if path.startswith("/owner/api/"):
+            session = self._owner_session()
+            if not session:
+                return self._json(HTTPStatus.UNAUTHORIZED,
+                                  {"ok": False, "error": {
+                                      "code": "owner_session_required",
+                                      "message": "Sign in as the workspace owner."}})
+            return self._owner_api(parsed, session)
         if path in {"/", "/review"}:
             session = self._owner_session()
             if not session:
                 return self._html(HTTPStatus.UNAUTHORIZED, self._login_page())
-            conclusion_id = parse_qs(parsed.query).get("conclusion_id", [""])[-1]
-            return self._html(HTTPStatus.OK, self._review_page(conclusion_id, session))
+            return self._owner_ui(session)
         return self._json(HTTPStatus.NOT_FOUND, {"error": "not_found"})
 
     def do_POST(self):
         path = urlparse(self.path).path
+        if path == "/owner/api/reviews":
+            session = self._owner_session()
+            if not session:
+                return self._json(HTTPStatus.UNAUTHORIZED,
+                                  {"ok": False, "error": {
+                                      "code": "owner_session_required",
+                                      "message": "Sign in as the workspace owner."}})
+            try:
+                request = self._request_json()
+            except HostedAuthError as exc:
+                return self._owner_error(exc)
+            if not secrets.compare_digest(request.get("csrf", ""), session["csrf"]):
+                return self._json(HTTPStatus.FORBIDDEN,
+                                  {"ok": False, "error": {
+                                      "code": "csrf_failed",
+                                      "message": "Refresh the page and try again."}})
+            decision = request.get("decision")
+            if decision not in {"admit", "reject"}:
+                return self._json(HTTPStatus.BAD_REQUEST,
+                                  {"ok": False, "error": {
+                                      "code": "invalid_decision",
+                                      "message": "Decision must be admit or reject."}})
+            envelope = self._owner_operation(session, "conclusion.review", {
+                "conclusion_id": request.get("conclusion_id", ""),
+                "decision": decision, "reviewer": "server-derived",
+                "note": request.get("note") or None,
+                "request_id": "web-" + secrets.token_hex(12),
+                "expected_head": request.get("expected_head"),
+            })
+            if not envelope.get("ok"):
+                return self._json(_status_for(envelope), envelope)
+            receipt = self._owner_operation(session, "review.receipt", {
+                "conclusion_id": request.get("conclusion_id", "")})
+            return self._json(_status_for(receipt), receipt)
         if path == "/v1/owner/credentials":
             try:
                 request = self._request_json()

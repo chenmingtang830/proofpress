@@ -38,3 +38,6 @@ py-modules = [
 
 [tool.setuptools.packages.find]
 include = ["proofpress_self_hosted*"]
+
+[tool.setuptools.package-data]
+proofpress_self_hosted = ["*.html"]
