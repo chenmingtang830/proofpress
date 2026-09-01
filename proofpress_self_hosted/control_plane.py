@@ -1,4 +1,4 @@
-"""Personal hosted workspace identity and authority boundary."""
+"""Self-hosted workspace identity and authority boundary."""
 from __future__ import annotations
 
 from dataclasses import dataclass

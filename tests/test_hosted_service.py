@@ -33,7 +33,7 @@ class HostedServiceTests(unittest.TestCase):
     def setUp(self):
         self.tmp = tempfile.TemporaryDirectory()
         sys.path.insert(0, str(ROOT))
-        import proofpress_hosted_service
+        from proofpress_self_hosted import service as proofpress_hosted_service
         import proofpress_mcp
         import proofpress_sdk
         self.service = proofpress_hosted_service
@@ -276,7 +276,7 @@ class HostedServiceTests(unittest.TestCase):
         evidence_file.write_text(json.dumps(evidence_payload()), encoding="utf-8")
         environment = {**os.environ, "PROOFPRESS_TOKEN": self.agent["token"]}
         submitted = subprocess.run([
-            sys.executable, str(ROOT / "proofpress_remote.py"),
+            sys.executable, "-m", "proofpress_self_hosted.remote",
             "--base-url", self.base_url, "submit-evidence", str(evidence_file),
             "--idempotency-key", "cli-evidence-1"],
             text=True, capture_output=True, env=environment, check=True)
@@ -289,7 +289,7 @@ class HostedServiceTests(unittest.TestCase):
         export_file = Path(self.tmp.name) / "export.json"
         export_file.write_text(json.dumps(bundle), encoding="utf-8")
         verified = subprocess.run([
-            sys.executable, str(ROOT / "proofpress_hosted_service.py"),
+            sys.executable, "-m", "proofpress_self_hosted.service",
             "verify-export", str(export_file)], text=True, capture_output=True,
             check=True)
         self.assertTrue(json.loads(verified.stdout)["ok"])

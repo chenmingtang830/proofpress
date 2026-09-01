@@ -36,10 +36,10 @@ class HostedAuthorityTests(unittest.TestCase):
     def setUp(self):
         self.tmp = tempfile.TemporaryDirectory()
         sys.path.insert(0, str(ROOT))
-        import proofpress_hosted
-        self.hosted = proofpress_hosted
+        from proofpress_self_hosted import control_plane
+        self.hosted = control_plane
         self.database = Path(self.tmp.name) / "hosted.db"
-        self.control = proofpress_hosted.HostedControlPlane(self.database)
+        self.control = control_plane.HostedControlPlane(self.database)
         self.owner = self.control.bootstrap(
             "workspace:kelton", "human:kelton", "Kelton")
         self.agent = self.control.issue_agent_credential(
