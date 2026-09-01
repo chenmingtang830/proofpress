@@ -272,7 +272,7 @@ class HostedOperationHandler(BaseHTTPRequestHandler):
                                       "code": "owner_session_required",
                                       "message": "Sign in as the workspace owner."}})
             return self._owner_api(parsed, session)
-        if path in {"/", "/review"}:
+        if path in {"/", "/home", "/review", "/ledger", "/activity", "/admin"}:
             session = self._owner_session()
             if not session:
                 return self._html(HTTPStatus.UNAUTHORIZED, self._login_page())
@@ -298,11 +298,11 @@ class HostedOperationHandler(BaseHTTPRequestHandler):
                                       "code": "csrf_failed",
                                       "message": "Refresh the page and try again."}})
             decision = request.get("decision")
-            if decision not in {"admit", "reject"}:
+            if decision not in {"admit", "reject", "request_changes"}:
                 return self._json(HTTPStatus.BAD_REQUEST,
                                   {"ok": False, "error": {
                                       "code": "invalid_decision",
-                                      "message": "Decision must be admit or reject."}})
+                                      "message": "Decision must be admit, reject, or request_changes."}})
             envelope = self._owner_operation(session, "conclusion.review", {
                 "conclusion_id": request.get("conclusion_id", ""),
                 "decision": decision, "reviewer": "server-derived",
@@ -373,7 +373,7 @@ class HostedOperationHandler(BaseHTTPRequestHandler):
                 return self._json(HTTPStatus.FORBIDDEN, {"error": "csrf_failed"})
             conclusion_id = form.get("conclusion_id", "")
             decision = form.get("decision", "")
-            if decision not in {"admit", "reject"}:
+            if decision not in {"admit", "reject", "request_changes"}:
                 return self._json(HTTPStatus.BAD_REQUEST, {"error": "invalid_decision"})
             envelope = self.server.proofpress_control.execute(session["token"], {
                 "schema_version": knowledge.LOCAL_OPERATION_SCHEMA,
