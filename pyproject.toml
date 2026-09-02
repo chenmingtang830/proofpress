@@ -19,6 +19,7 @@ proofpress-self-hosted = "proofpress_self_hosted.service:main"
 # Backward-compatible alpha command; new documentation uses proofpress-self-hosted.
 proofpress-hosted = "proofpress_self_hosted.service:main"
 proofpress-remote = "proofpress_self_hosted.remote:main"
+proofpress-rd = "proofpress_rd:main"
 
 [project.optional-dependencies]
 mcp = ["mcp>=2,<3"]
@@ -30,6 +31,7 @@ py-modules = [
   "proofpress_experiment",
   "proofpress_knowledge",
   "proofpress_repo",
+  "proofpress_rd",
   "proofpress_sdk",
   "proofpress_service",
   "proofpress_mcp",
