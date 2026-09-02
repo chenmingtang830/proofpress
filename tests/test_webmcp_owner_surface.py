@@ -46,6 +46,8 @@ class WebmcpOwnerSurfaceTests(unittest.TestCase):
         self.assertIn('api("/owner/api/ask"', self.page)
         self.assertIn("csrf:CSRF,question:q,snapshot:assistantSnapshot()", self.page)
         self.assertIn("function assistantSnapshot()", self.page)
+        self.assertIn("candidates:visible.slice(0,20)", self.page)
+        self.assertIn("selected&&visible.some(n=>n.id===selected)", self.page)
         self.assertNotIn("function answer(q)", self.page)
 
     def test_owner_assistant_renders_model_text_without_html_injection(self):
