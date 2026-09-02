@@ -6,8 +6,8 @@ from pathlib import Path
 
 import sys
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from proofpress_matter_catalog import SCHEMA, build_catalog
-from document_extraction_contract import build_envelope, digest
+from proofpress.integrations.matter_catalog import SCHEMA, build_catalog
+from proofpress.integrations.document_extraction.contract import build_envelope, digest
 
 
 class MatterCatalogTests(unittest.TestCase):

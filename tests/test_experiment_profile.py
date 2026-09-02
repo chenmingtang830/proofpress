@@ -9,11 +9,11 @@ import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
-import proofpress_experiment as experiment
-import proofpress_knowledge as knowledge
-from proofpress_sdk import ProofpressClient
+from proofpress.profiles import experiment
+from proofpress.kernel import operations as knowledge
+from proofpress import ProofpressClient
 from proofpress_mcp import ProofpressMcpGateway
-from proofpress_self_hosted import HostedControlPlane
+from proofpress.hosted import HostedControlPlane
 
 
 class ExperimentProfileTests(unittest.TestCase):

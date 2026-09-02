@@ -11,8 +11,8 @@ import unittest
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
-import proofpress_repo
-import proofpress_sdk
+from proofpress.integrations import repository as proofpress_repo
+from proofpress import client as proofpress_sdk
 
 
 class RepoDogfoodTests(unittest.TestCase):

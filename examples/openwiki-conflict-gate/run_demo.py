@@ -7,8 +7,10 @@ import argparse
 import base64
 import hashlib
 import json
+import os
 import re
 import subprocess
+import sys
 import tempfile
 from pathlib import Path
 from typing import Any
@@ -16,7 +18,7 @@ from typing import Any
 
 DEMO_DIR = Path(__file__).resolve().parent
 REPOSITORY_ROOT = DEMO_DIR.parents[1]
-PROOFPRESS = REPOSITORY_ROOT / "proofpress.py"
+SOURCE_ROOT = REPOSITORY_ROOT / "src"
 FIXTURE = DEMO_DIR / "openwiki-fixture.json"
 SCOPE = "openwiki:geometry:physical-horizon-control"
 RESOLVER = "human:geometry-steward"
@@ -130,7 +132,14 @@ def materialize_and_verify_openwiki(root: Path) -> tuple[dict[str, Any], dict[st
 
 
 def run_process(command: list[str], cwd: Path, *, expect_json: bool = True) -> Any:
-    result = subprocess.run(command, cwd=cwd, text=True, capture_output=True)
+    env = dict(os.environ)
+    existing_pythonpath = env.get("PYTHONPATH")
+    env["PYTHONPATH"] = str(SOURCE_ROOT) + (
+        os.pathsep + existing_pythonpath if existing_pythonpath else ""
+    )
+    result = subprocess.run(
+        command, cwd=cwd, env=env, text=True, capture_output=True
+    )
     if result.returncode:
         raise RuntimeError(
             f"command failed ({result.returncode}): {' '.join(command)}\n{result.stderr.strip()}"
@@ -143,7 +152,7 @@ def git(root: Path, *args: str) -> str:
 
 
 def proofpress(root: Path, *args: str) -> dict[str, Any]:
-    return run_process(["python3", str(PROOFPRESS), *args], root)
+    return run_process([sys.executable, "-m", "proofpress.cli", *args], root)
 
 
 def write_json(path: Path, value: Any) -> None:
@@ -327,7 +336,7 @@ def execute_demo(work_root: Path) -> dict[str, Any]:
     # the producer or resolver. It reads the frozen worktree policy and the
     # append-only knowledge ref.
     fresh_process = subprocess.run(
-        ["python3", str(PROOFPRESS), "context", "--scope", SCOPE],
+        [sys.executable, "-m", "proofpress.cli", "context", "--scope", SCOPE],
         cwd=work_root,
         text=True,
         capture_output=True,

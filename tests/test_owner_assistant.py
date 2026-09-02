@@ -2,7 +2,7 @@ import json
 import os
 import unittest
 
-from proofpress_self_hosted import assistant
+from proofpress.hosted import assistant
 
 
 class OwnerAssistantTests(unittest.TestCase):

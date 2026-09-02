@@ -21,7 +21,7 @@ class McpAdapterTests(unittest.TestCase):
                        cwd=self.repo, check=True)
         sys.path.insert(0, str(ROOT))
         import proofpress_mcp
-        import proofpress_sdk
+        from proofpress import client as proofpress_sdk
         self.mcp = proofpress_mcp
         self.previous = Path.cwd()
         os.chdir(self.repo)

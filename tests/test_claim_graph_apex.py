@@ -9,7 +9,7 @@ import unittest
 ROOT = Path(__file__).resolve().parents[1]
 FIXTURE = ROOT / "examples" / "verified-knowledge-ledger" / "legal" / "apex-claim-graph.json"
 sys.path.insert(0, str(ROOT))
-import proofpress_knowledge as knowledge
+from proofpress.kernel import operations as knowledge
 
 
 class ApexClaimGraphAcceptanceTests(unittest.TestCase):

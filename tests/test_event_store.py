@@ -37,8 +37,8 @@ class EventStoreTests(unittest.TestCase):
         subprocess.run(["git", "config", "user.name", "Test User"],
                        cwd=self.repo, check=True)
         sys.path.insert(0, str(ROOT))
-        import proofpress_event_store
-        import proofpress_knowledge
+        from proofpress.kernel import events as proofpress_event_store
+        from proofpress.kernel import operations as proofpress_knowledge
         self.store = proofpress_event_store
         self.knowledge = proofpress_knowledge
         self.original_now = self.knowledge.now

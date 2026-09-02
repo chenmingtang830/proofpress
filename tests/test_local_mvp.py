@@ -12,7 +12,7 @@ from urllib.error import HTTPError
 
 
 ROOT = Path(__file__).resolve().parents[1]
-CLI = ROOT / "proofpress.py"
+CLI = (sys.executable, "-m", "proofpress.cli")
 FIXTURE = ROOT / "examples" / "verified-knowledge-ledger" / "demo.otlp.json"
 TRACE_FIXTURE = ROOT / "examples" / "verified-knowledge-ledger" / "demo.trace.json"
 
@@ -29,7 +29,7 @@ class LocalMVPTests(unittest.TestCase):
         self.tmp.cleanup()
 
     def cli(self, *args, check=True):
-        result = subprocess.run([sys.executable, str(CLI), *args], cwd=self.repo,
+        result = subprocess.run([*CLI, *args], cwd=self.repo,
                                 text=True, capture_output=True)
         if check and result.returncode:
             self.fail(f"failed: {result.args}\n{result.stdout}\n{result.stderr}")
@@ -113,7 +113,7 @@ class LocalMVPTests(unittest.TestCase):
         self.assertEqual(first["evidence"], second["evidence"])
         self.assertEqual(self.count_events(), count)
         sys.path.insert(0, str(ROOT))
-        import proofpress_knowledge as knowledge
+        from proofpress.kernel import operations as knowledge
         previous = Path.cwd()
         try:
             os.chdir(self.repo)
@@ -169,7 +169,7 @@ class LocalMVPTests(unittest.TestCase):
         })
         evidence_id = imported["evidence"][0]
         sys.path.insert(0, str(ROOT))
-        import proofpress_knowledge as knowledge
+        from proofpress.kernel import operations as knowledge
         previous = Path.cwd()
         try:
             os.chdir(self.repo)
@@ -216,7 +216,7 @@ class LocalMVPTests(unittest.TestCase):
         self.assertEqual(context["blocked"], [])
         self.assertIn("admission_event", context["knowledge"][0]["receipt"])
         sys.path.insert(0, str(ROOT))
-        import proofpress_knowledge as knowledge
+        from proofpress.kernel import operations as knowledge
         previous = Path.cwd()
         try:
             os.chdir(self.repo)
@@ -404,7 +404,7 @@ class LocalMVPTests(unittest.TestCase):
     def test_partial_supersede_resolution_stays_quarantined_and_repairs_on_retry(self):
         _, first, second, relation = self.admitted_conflict()
         sys.path.insert(0, str(ROOT))
-        import proofpress_knowledge as knowledge
+        from proofpress.kernel import operations as knowledge
         original_append = knowledge.append_v2
 
         def fail_supersession(event, existing_rows=None):
@@ -542,7 +542,7 @@ class LocalMVPTests(unittest.TestCase):
         self.data("evaluate", first)
         self.data("evaluate", second)
         sys.path.insert(0, str(ROOT))
-        import proofpress_knowledge as knowledge
+        from proofpress.kernel import operations as knowledge
         original_run = subprocess.run
         git_commands = []
 
@@ -609,7 +609,7 @@ class LocalMVPTests(unittest.TestCase):
 
     def test_local_ui_reads_real_ledger_and_rejects_missing_token(self):
         self.seed()
-        process = subprocess.Popen([sys.executable, str(CLI), "ui", "--no-open", "--port", "0"],
+        process = subprocess.Popen([*CLI, "ui", "--no-open", "--port", "0"],
                                    cwd=self.repo, text=True, stdout=subprocess.PIPE,
                                    stderr=subprocess.PIPE)
         try:

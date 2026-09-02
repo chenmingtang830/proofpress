@@ -8,7 +8,7 @@ import unittest
 
 
 ROOT = Path(__file__).resolve().parents[1]
-CLI = ROOT / "proofpress.py"
+CLI = (sys.executable, "-m", "proofpress.cli")
 FIXTURE = ROOT / "examples" / "verified-knowledge-ledger" / "demo.otlp.json"
 CONFORMANCE = ROOT / "tests" / "fixtures" / "local_operation_conformance_v1alpha1.json"
 
@@ -23,7 +23,7 @@ class LocalOperationContractTests(unittest.TestCase):
         subprocess.run(["git", "config", "user.name", "Test User"],
                        cwd=self.repo, check=True)
         sys.path.insert(0, str(ROOT))
-        import proofpress_knowledge
+        from proofpress.kernel import operations as proofpress_knowledge
         self.knowledge = proofpress_knowledge
         self.previous = Path.cwd()
         os.chdir(self.repo)
@@ -40,7 +40,7 @@ class LocalOperationContractTests(unittest.TestCase):
         })
 
     def cli(self, *args):
-        result = subprocess.run([sys.executable, str(CLI), *args], cwd=self.repo,
+        result = subprocess.run([*CLI, *args], cwd=self.repo,
                                 text=True, capture_output=True, check=True)
         return json.loads(result.stdout)
 

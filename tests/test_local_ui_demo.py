@@ -8,7 +8,7 @@ import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
 SEED = ROOT / "scripts" / "seed_local_ui_demo.py"
-CLI = ROOT / "proofpress.py"
+CLI = (sys.executable, "-m", "proofpress.cli")
 
 
 class LocalUIDemoTests(unittest.TestCase):
@@ -43,12 +43,12 @@ class LocalUIDemoTests(unittest.TestCase):
                 cwd=directory, check=True,
             )
             first = subprocess.run(
-                [sys.executable, str(CLI), "demo"], cwd=directory,
+                [*CLI, "demo"], cwd=directory,
                 text=True, capture_output=True, check=True,
             )
             self.assertTrue(json.loads(first.stdout)["synthetic"])
             second = subprocess.run(
-                [sys.executable, str(CLI), "demo"], cwd=directory,
+                [*CLI, "demo"], cwd=directory,
                 text=True, capture_output=True,
             )
             self.assertNotEqual(second.returncode, 0)

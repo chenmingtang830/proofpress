@@ -9,8 +9,8 @@ import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
-import proofpress_rd as rd
-from proofpress_sdk import ProofpressClient
+from proofpress.integrations import research_blueprint as rd
+from proofpress import ProofpressClient
 
 
 class RdBlueprintTests(unittest.TestCase):

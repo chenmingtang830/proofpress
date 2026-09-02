@@ -32,8 +32,8 @@ class SQLiteEventStoreTests(unittest.TestCase):
         self.tmp = tempfile.TemporaryDirectory()
         self.root = Path(self.tmp.name)
         sys.path.insert(0, str(ROOT))
-        import proofpress_event_store
-        import proofpress_knowledge
+        from proofpress.kernel import events as proofpress_event_store
+        from proofpress.kernel import operations as proofpress_knowledge
         self.event_store = proofpress_event_store
         self.knowledge = proofpress_knowledge
         self.store = proofpress_event_store.SQLiteEventStore(

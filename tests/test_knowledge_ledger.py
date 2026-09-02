@@ -1,20 +1,21 @@
 import json
 import subprocess
+import sys
 import tempfile
 import unittest
 from pathlib import Path
 
-import proofpress_knowledge as knowledge
+from proofpress.kernel import operations as knowledge
 
 
 ROOT = Path(__file__).resolve().parents[1]
-CLI = ROOT / "proofpress.py"
+CLI = (sys.executable, "-m", "proofpress.cli")
 FIXTURE = ROOT / "examples" / "verified-knowledge-ledger" / "demo.otlp.json"
 
 
 class KnowledgeLedgerTests(unittest.TestCase):
     def run_cli(self, *args, check=True):
-        result = subprocess.run(["python3", str(CLI), *args], cwd=ROOT, text=True, capture_output=True)
+        result = subprocess.run([*CLI, *args], cwd=ROOT, text=True, capture_output=True)
         if check and result.returncode:
             self.fail(f"command failed: {result.args}\n{result.stdout}\n{result.stderr}")
         return result
