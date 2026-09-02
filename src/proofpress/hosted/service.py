@@ -5,6 +5,7 @@ from __future__ import annotations
 import argparse
 from html import escape
 import json
+import mimetypes
 import os
 from pathlib import Path
 import secrets
@@ -125,31 +126,44 @@ class HostedOperationHandler(BaseHTTPRequestHandler):
         return ("<!doctype html><html><head><meta charset=utf-8>"
                 "<meta name=viewport content='width=device-width,initial-scale=1'>"
                 f"<title>{escape(title)}</title><style>"
-                "body{max-width:760px;margin:48px auto;padding:0 20px;font:16px/1.5 system-ui;color:#171717}"
-                "pre{white-space:pre-wrap;background:#f5f1e8;padding:16px;border:1px solid #d8d0c2}"
-                "input,textarea,button{font:inherit;padding:9px;margin:4px 0}button{cursor:pointer}"
-                ".row{display:flex;gap:8px}.muted{color:#666}</style></head><body>"
+                "*{box-sizing:border-box}body{min-height:100vh;margin:0;display:grid;place-items:center;padding:24px;font:14px/1.5 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#111827;background:#f7f9fc}"
+                ".auth{width:min(100%,400px);border:1px solid #e2e8f0;border-radius:10px;background:#fff;padding:30px;box-shadow:0 18px 50px rgba(15,23,42,.07)}"
+                ".brand{display:flex;align-items:center;gap:10px;margin-bottom:30px}.mark{display:grid;width:30px;height:30px;place-items:center;border-radius:5px;background:#172033;color:#fff;font:bold 16px Georgia,serif}"
+                "h1{margin:0 0 8px;font:700 28px/1.2 Georgia,serif;letter-spacing:-.02em}.muted{margin:0 0 22px;color:#64748b;font-size:13px}"
+                "label{display:block;color:#334155;font-size:12px;font-weight:600}input,textarea,button{font:inherit}input{width:100%;height:40px;margin-top:7px;border:1px solid #cbd5e1;border-radius:6px;padding:0 11px;outline:none}input:focus{border-color:#64748b;box-shadow:0 0 0 3px #e2e8f0}button{width:100%;height:40px;margin-top:14px;border:0;border-radius:6px;background:#172033;color:#fff;font-weight:600;cursor:pointer}"
+                "pre{white-space:pre-wrap;background:#f1f5f9;padding:16px;border:1px solid #e2e8f0}.row{display:flex;gap:8px}</style></head><body>"
                 f"{body}</body></html>")
 
     @staticmethod
     def _ui_asset():
-        return Path(__file__).with_name("owner_ui.html")
+        return Path(__file__).with_name("static") / "index.html"
 
     def _owner_ui(self, session):
-        nonce = secrets.token_urlsafe(18)
-        body = (self._ui_asset().read_text(encoding="utf-8")
-                .replace("__PROOFPRESS_CSRF__", session["csrf"])
-                .replace("__PROOFPRESS_NONCE__", nonce))
-        encoded = body.encode("utf-8")
+        encoded = self._ui_asset().read_bytes()
         self.send_response(HTTPStatus.OK)
         self.send_header("Content-Type", "text/html; charset=utf-8")
         self.send_header("Content-Length", str(len(encoded)))
         self.send_header("Cache-Control", "no-store")
         self.send_header("X-Content-Type-Options", "nosniff")
         self.send_header("Content-Security-Policy",
-                         "default-src 'none'; style-src 'unsafe-inline'; "
-                         f"script-src 'nonce-{nonce}'; connect-src 'self'; "
+                         "default-src 'none'; style-src 'self'; "
+                         "script-src 'self'; connect-src 'self'; img-src 'self' data:; "
                          "form-action 'self'; base-uri 'none'; frame-ancestors 'none'")
+        self.end_headers()
+        self.wfile.write(encoded)
+
+    def _static_asset(self, path):
+        root = Path(__file__).with_name("static").resolve()
+        asset = (root / "assets" / path.removeprefix("/assets/")).resolve()
+        if root not in asset.parents or not asset.is_file():
+            return self._json(HTTPStatus.NOT_FOUND, {"error": "not_found"})
+        encoded = asset.read_bytes()
+        self.send_response(HTTPStatus.OK)
+        self.send_header("Content-Type", mimetypes.guess_type(asset.name)[0] or
+                         "application/octet-stream")
+        self.send_header("Content-Length", str(len(encoded)))
+        self.send_header("Cache-Control", "public, max-age=31536000, immutable")
+        self.send_header("X-Content-Type-Options", "nosniff")
         self.end_headers()
         self.wfile.write(encoded)
 
@@ -161,6 +175,13 @@ class HostedOperationHandler(BaseHTTPRequestHandler):
 
     def _owner_api(self, parsed, session):
         path = parsed.path
+        if path == "/owner/api/session":
+            return self._json(HTTPStatus.OK, {"ok": True, "result": {
+                "csrf": session["csrf"], "workspace": "Proofpress internal",
+                "principal": "owner", "capabilities": {
+                    "review": True, "credential_admin": True,
+                    "assistant": bool(os.environ.get("OPENROUTER_API_KEY")),
+                }}})
         if path == "/owner/api/summary":
             envelope = self._owner_operation(
                 session, "review.summary",
@@ -180,17 +201,27 @@ class HostedOperationHandler(BaseHTTPRequestHandler):
                 "task": query.get("task", [None])[-1],
                 "include_blocked_statements": True,
             })
+        elif path == "/owner/api/activity":
+            try:
+                limit = int(parse_qs(parsed.query).get("limit", ["100"])[-1])
+                rows = self.server.proofpress_control.list_audit(
+                    session["token"], limit)
+            except ValueError:
+                return self._json(HTTPStatus.BAD_REQUEST,
+                                  {"error": "invalid_limit"})
+            return self._json(HTTPStatus.OK,
+                              {"ok": True, "result": rows})
         else:
             return self._json(HTTPStatus.NOT_FOUND, {"error": "not_found"})
         return self._json(_status_for(envelope), envelope)
 
     def _login_page(self, message=""):
-        note = f"<p>{escape(message)}</p>" if message else ""
-        return self._page("Proofpress owner sign in", "<h1>Owner review</h1>" + note +
-            "<p class=muted>Use the owner credential. It stays in an HttpOnly session and is never placed in a URL.</p>"
+        note = f"<p style='color:#b91c1c'>{escape(message)}</p>" if message else ""
+        return self._page("Proofpress owner sign in", "<main class=auth><div class=brand><span class=mark>P</span><strong>Proofpress</strong></div><h1>Owner workspace</h1>" + note +
+            "<p class=muted>Sign in to review what agents may rely on. Your credential stays in an HttpOnly session and never enters the URL.</p>"
             "<form method=post action=/owner/login><label>Owner credential<br>"
             "<input type=password name=token required autocomplete=current-password></label><br>"
-            "<button type=submit>Sign in</button></form>")
+            "<button type=submit>Continue</button></form></main>")
 
     def _review_page(self, conclusion_id, session):
         control = self.server.proofpress_control
@@ -258,8 +289,9 @@ class HostedOperationHandler(BaseHTTPRequestHandler):
             return self._json(_status_for(envelope), envelope)
         if path == "/v1/owner/credentials":
             try:
+                session = self._owner_session()
                 credentials = self.server.proofpress_control.list_credentials(
-                    self._token())
+                    session["token"] if session else self._token())
             except HostedAuthError as exc:
                 return self._owner_error(exc)
             return self._json(HTTPStatus.OK, {
@@ -272,6 +304,8 @@ class HostedOperationHandler(BaseHTTPRequestHandler):
                                       "code": "owner_session_required",
                                       "message": "Sign in as the workspace owner."}})
             return self._owner_api(parsed, session)
+        if path.startswith("/assets/"):
+            return self._static_asset(path)
         if path in {"/", "/home", "/review", "/ledger", "/activity", "/admin"}:
             session = self._owner_session()
             if not session:
@@ -344,17 +378,24 @@ class HostedOperationHandler(BaseHTTPRequestHandler):
                 request = self._request_json()
                 action = request.get("action")
                 control = self.server.proofpress_control
+                session = self._owner_session()
+                if session and not secrets.compare_digest(
+                        str(request.get("csrf") or ""), session["csrf"]):
+                    return self._json(HTTPStatus.FORBIDDEN, {"ok": False,
+                        "error": {"code": "csrf_failed",
+                                  "message": "Refresh the page and try again."}})
+                owner_token = session["token"] if session else self._token()
                 if action == "issue":
                     result = control.issue_agent_credential(
-                        self._token(), request.get("principal_id", ""),
+                        owner_token, request.get("principal_id", ""),
                         request.get("label", ""), request.get("display_name"))
                 elif action == "rotate":
                     result = control.rotate_agent_credential(
-                        self._token(), request.get("credential_id", ""),
+                        owner_token, request.get("credential_id", ""),
                         request.get("label"))
                 elif action == "revoke":
                     control.revoke_credential(
-                        self._token(), request.get("credential_id", ""))
+                        owner_token, request.get("credential_id", ""))
                     result = {"revoked": request.get("credential_id")}
                 else:
                     raise HostedAuthError(
