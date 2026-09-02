@@ -272,7 +272,7 @@ class HostedOperationHandler(BaseHTTPRequestHandler):
                                       "code": "owner_session_required",
                                       "message": "Sign in as the workspace owner."}})
             return self._owner_api(parsed, session)
-        if path in {"/", "/review"}:
+        if path in {"/", "/home", "/review", "/ledger", "/activity", "/admin"}:
             session = self._owner_session()
             if not session:
                 return self._html(HTTPStatus.UNAUTHORIZED, self._login_page())
@@ -281,6 +281,30 @@ class HostedOperationHandler(BaseHTTPRequestHandler):
 
     def do_POST(self):
         path = urlparse(self.path).path
+        if path == "/owner/api/ask":
+            session = self._owner_session()
+            if not session:
+                return self._json(HTTPStatus.UNAUTHORIZED,
+                                  {"ok": False, "error": {
+                                      "code": "owner_session_required",
+                                      "message": "Sign in as the workspace owner."}})
+            try:
+                request = self._request_json()
+            except HostedAuthError as exc:
+                return self._owner_error(exc)
+            if not secrets.compare_digest(str(request.get("csrf") or ""), session["csrf"]):
+                return self._json(HTTPStatus.FORBIDDEN,
+                                  {"ok": False, "error": {
+                                      "code": "csrf_failed",
+                                      "message": "Refresh the page and try again."}})
+            from proofpress_self_hosted import assistant
+            result = assistant.ask(request.get("question", ""), request.get("snapshot") or {})
+            status = HTTPStatus.OK if result.get("ok") else HTTPStatus.BAD_REQUEST
+            if result.get("error", {}).get("code") == "assistant_unconfigured":
+                status = HTTPStatus.SERVICE_UNAVAILABLE
+            elif result.get("error", {}).get("code") in {"assistant_upstream", "assistant_unavailable"}:
+                status = HTTPStatus.BAD_GATEWAY
+            return self._json(status, result)
         if path == "/owner/api/reviews":
             session = self._owner_session()
             if not session:
@@ -298,11 +322,11 @@ class HostedOperationHandler(BaseHTTPRequestHandler):
                                       "code": "csrf_failed",
                                       "message": "Refresh the page and try again."}})
             decision = request.get("decision")
-            if decision not in {"admit", "reject"}:
+            if decision not in {"admit", "reject", "request_changes"}:
                 return self._json(HTTPStatus.BAD_REQUEST,
                                   {"ok": False, "error": {
                                       "code": "invalid_decision",
-                                      "message": "Decision must be admit or reject."}})
+                                      "message": "Decision must be admit, reject, or request_changes."}})
             envelope = self._owner_operation(session, "conclusion.review", {
                 "conclusion_id": request.get("conclusion_id", ""),
                 "decision": decision, "reviewer": "server-derived",
@@ -373,7 +397,7 @@ class HostedOperationHandler(BaseHTTPRequestHandler):
                 return self._json(HTTPStatus.FORBIDDEN, {"error": "csrf_failed"})
             conclusion_id = form.get("conclusion_id", "")
             decision = form.get("decision", "")
-            if decision not in {"admit", "reject"}:
+            if decision not in {"admit", "reject", "request_changes"}:
                 return self._json(HTTPStatus.BAD_REQUEST, {"error": "invalid_decision"})
             envelope = self.server.proofpress_control.execute(session["token"], {
                 "schema_version": knowledge.LOCAL_OPERATION_SCHEMA,
