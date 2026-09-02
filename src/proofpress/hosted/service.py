@@ -126,12 +126,12 @@ class HostedOperationHandler(BaseHTTPRequestHandler):
         return ("<!doctype html><html><head><meta charset=utf-8>"
                 "<meta name=viewport content='width=device-width,initial-scale=1'>"
                 f"<title>{escape(title)}</title><style>"
-                "*{box-sizing:border-box}body{min-height:100vh;margin:0;display:grid;place-items:center;padding:24px;font:14px/1.5 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#111827;background:#f7f9fc}"
-                ".auth{width:min(100%,400px);border:1px solid #e2e8f0;border-radius:10px;background:#fff;padding:30px;box-shadow:0 18px 50px rgba(15,23,42,.07)}"
-                ".brand{display:flex;align-items:center;gap:10px;margin-bottom:30px}.mark{display:grid;width:30px;height:30px;place-items:center;border-radius:5px;background:#172033;color:#fff;font:bold 16px Georgia,serif}"
-                "h1{margin:0 0 8px;font:700 28px/1.2 Georgia,serif;letter-spacing:-.02em}.muted{margin:0 0 22px;color:#64748b;font-size:13px}"
-                "label{display:block;color:#334155;font-size:12px;font-weight:600}input,textarea,button{font:inherit}input{width:100%;height:40px;margin-top:7px;border:1px solid #cbd5e1;border-radius:6px;padding:0 11px;outline:none}input:focus{border-color:#64748b;box-shadow:0 0 0 3px #e2e8f0}button{width:100%;height:40px;margin-top:14px;border:0;border-radius:6px;background:#172033;color:#fff;font-weight:600;cursor:pointer}"
-                "pre{white-space:pre-wrap;background:#f1f5f9;padding:16px;border:1px solid #e2e8f0}.row{display:flex;gap:8px}</style></head><body>"
+                "*{box-sizing:border-box}::selection{background:#e3eef0;color:#20222b}body{min-height:100vh;margin:0;display:grid;place-items:center;padding:24px;font:14px/1.55 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#20222b;background:#faf9f5}"
+                ".auth{width:min(100%,392px);border:1px solid #e3e1d9;border-radius:8px;background:#fff;padding:32px;box-shadow:0 18px 44px rgba(32,34,43,.055)}"
+                ".brand{display:flex;align-items:center;gap:10px;margin-bottom:32px}.mark{display:grid;width:30px;height:30px;place-items:center;color:#20222b}.mark svg{display:block;width:30px;height:30px}"
+                "h1{margin:0 0 9px;font:700 27px/1.2 Georgia,'Times New Roman',serif;letter-spacing:-.02em}.muted{margin:0 0 24px;color:#5a5d6b;font-size:13px}"
+                "label{display:block;color:#20222b;font-size:12px;font-weight:600}input,textarea,button{font:inherit}input{width:100%;height:40px;margin-top:7px;border:1px solid #c9c7bf;border-radius:6px;padding:0 11px;color:#20222b;background:#fff;outline:none}input:focus{border-color:#0e5e6f;box-shadow:0 0 0 3px #e3eef0}button{width:100%;height:40px;margin-top:14px;border:0;border-radius:6px;background:#0e5e6f;color:#fff;font-weight:600;cursor:pointer}button:hover{background:#0a4b59}button:focus-visible{outline:2px solid #5fb3c4;outline-offset:2px}"
+                "pre{white-space:pre-wrap;background:#f1efe8;padding:16px;border:1px solid #e3e1d9}.row{display:flex;gap:8px}</style></head><body>"
                 f"{body}</body></html>")
 
     @staticmethod
@@ -217,7 +217,10 @@ class HostedOperationHandler(BaseHTTPRequestHandler):
 
     def _login_page(self, message=""):
         note = f"<p style='color:#b91c1c'>{escape(message)}</p>" if message else ""
-        return self._page("Proofpress owner sign in", "<main class=auth><div class=brand><span class=mark>P</span><strong>Proofpress</strong></div><h1>Owner workspace</h1>" + note +
+        logo = ("<svg viewBox='0 0 48 48' fill='none' aria-hidden='true'>"
+                "<rect x='7' y='4' width='28' height='36' stroke='currentColor' stroke-width='3'/>"
+                "<circle cx='35' cy='36' r='9' fill='#2E8FA3'/></svg>")
+        return self._page("Proofpress owner sign in", "<main class=auth><div class=brand><span class=mark>" + logo + "</span><strong>Proofpress</strong></div><h1>Owner workspace</h1>" + note +
             "<p class=muted>Sign in to review what agents may rely on. Your credential stays in an HttpOnly session and never enters the URL.</p>"
             "<form method=post action=/owner/login><label>Owner credential<br>"
             "<input type=password name=token required autocomplete=current-password></label><br>"
