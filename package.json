@@ -1,6 +1,6 @@
 {
   "name": "proofpress",
-  "version": "0.5.0-alpha.2",
+  "version": "0.6.0-alpha.1",
   "description": "Verified knowledge infrastructure for autonomous AI agents",
   "license": "Apache-2.0",
   "bin": {
@@ -12,17 +12,9 @@
     "lib/",
     "skills/",
     "deploy/self-hosted/",
-    "proofpress.py",
-    "proofpress_knowledge.py",
-    "proofpress_repo.py",
-    "proofpress_service.py",
-    "proofpress_sdk.py",
-    "proofpress_mcp.py",
-    "proofpress_event_store.py",
-    "proofpress_self_hosted/",
+    "src/",
     "render.yaml",
     "pyproject.toml",
-    "proofpress_evidence.py",
     "examples/verified-knowledge-ledger/demo.otlp.json",
     "examples/verified-knowledge-ledger/legal/README.md",
     "examples/verified-knowledge-ledger/legal/initial-msa.md",
@@ -31,12 +23,9 @@
     "README.md"
   ],
   "scripts": {
-    "test": "python3 -m unittest discover -s tests -v && node --test tests/npm.test.js",
+    "test": "PYTHONPATH=src python3 -m unittest discover -s tests -v && node --test tests/npm.test.js",
     "pack:check": "npm pack --dry-run",
     "prepublishOnly": "npm test && npm run pack:check"
-  },
-  "dependencies": {
-    "ai": "^6.0.0"
   },
   "engines": {
     "node": ">=22"

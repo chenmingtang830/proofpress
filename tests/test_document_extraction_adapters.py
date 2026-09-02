@@ -1,6 +1,6 @@
 import unittest
 
-from document_extraction_adapters import (native_text_to_envelope,
+from proofpress.integrations.document_extraction.adapters import (native_text_to_envelope,
                                           paddle_result_to_envelope)
 
 

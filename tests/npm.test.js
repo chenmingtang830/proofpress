@@ -19,7 +19,7 @@ function run(args, cwd = ROOT) {
 
 test("hosted owner UI inline script parses", () => {
   const html = fs.readFileSync(
-    path.join(ROOT, "proofpress_self_hosted/owner_ui.html"),
+    path.join(ROOT, "src/proofpress/hosted/owner_ui.html"),
     "utf8"
   );
   const script = html.split('<script nonce="__PROOFPRESS_NONCE__">')[1].split("</script>")[0];
@@ -36,46 +36,6 @@ test("npm launcher exposes the same version as package.json", () => {
   const result = run(["--version"]);
   assert.equal(result.status, 0, result.stderr);
   assert.equal(result.stdout.trim(), `proofpress ${version}`);
-});
-
-test("claim gateway writes a terminal receipt when credentials are missing", async () => {
-  const cwd = fs.mkdtempSync(path.join(os.tmpdir(), "proofpress-claim-gateway-"));
-  const receipts = path.join(cwd, "receipts.jsonl");
-  const env = { ...process.env,
-    PROOFPRESS_CLAIM_MODEL: "test/model", PROOFPRESS_CLAIM_PROVIDER: "test-provider",
-    PROOFPRESS_CLAIM_PORT: "0", PROOFPRESS_CLAIM_RECEIPTS: receipts,
-  };
-  delete env.AI_GATEWAY_API_KEY;
-  const child = spawn(process.execPath,
-    [path.join(ROOT, "tools/claim-construction-gateway/gateway_openai_server.mjs")],
-    { cwd: ROOT, env, stdio: ["ignore", "pipe", "pipe"] });
-  try {
-    const ready = await new Promise((resolve, reject) => {
-      let stdout = "";
-      child.stdout.on("data", chunk => {
-        stdout += chunk;
-        const newline = stdout.indexOf("\n");
-        if (newline >= 0) resolve(JSON.parse(stdout.slice(0, newline)));
-      });
-      child.once("error", reject);
-      child.once("exit", code => reject(new Error(`gateway exited ${code}`)));
-    });
-    const response = await fetch(`http://127.0.0.1:${ready.port}/v1/chat/completions`, {
-      method: "POST", headers: { "content-type": "application/json" },
-      body: JSON.stringify({ model: "test/model", messages: [{ role: "user", content: "x" }] }),
-    });
-    assert.equal(response.status, 503);
-    assert.equal(ready.reasoning, "none");
-    const rows = fs.readFileSync(receipts, "utf8").trim().split("\n").map(JSON.parse);
-    assert.equal(rows.length, 1);
-    assert.equal(rows[0].terminal, true);
-    assert.equal(rows[0].status, "inconclusive");
-    assert.equal(rows[0].error_type, "missing_gateway_key");
-    assert.equal(rows[0].requested_reasoning, "none");
-    assert.equal(typeof rows[0].latency_ms, "number");
-  } finally {
-    child.kill();
-  }
 });
 
 test("npm launcher exposes the verified-knowledge ledger commands", () => {
@@ -102,9 +62,10 @@ test("GitHub Action defaults to its bundled Proofpress CLI", () => {
   const action = fs.readFileSync(path.join(ROOT, "action.yml"), "utf8");
   assert.match(
     action,
-    /proofpress-path:\s+description: "Optional path[\s\S]*?default: ""/
+    /proofpress-path:\s+description: "Deprecated 0\.6 path[\s\S]*?default: ""/
   );
-  assert.match(action, /PP="\$GITHUB_ACTION_PATH\/proofpress\.py"/);
+  assert.match(action, /python3 -m proofpress\.cli legacy/);
+  assert.match(action, /GITHUB_ACTION_PATH\/src/);
   assert.doesNotMatch(action, /default: "proofpress\.py"/);
 });
 

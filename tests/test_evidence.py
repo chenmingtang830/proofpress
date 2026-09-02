@@ -1,6 +1,7 @@
 import json
 from pathlib import Path
 import subprocess
+import sys
 import tempfile
 import unittest
 import zipfile
@@ -9,7 +10,7 @@ import proofpress_evidence as evidence
 
 
 ROOT = Path(__file__).resolve().parents[1]
-CLI = ROOT / "proofpress.py"
+CLI = (sys.executable, "-m", "proofpress.cli")
 
 
 def write_docx(
@@ -94,7 +95,7 @@ class ArtifactProvenanceTests(unittest.TestCase):
 
     def cli(self, *args, check=True):
         return subprocess.run(
-            ["python3", str(CLI), *args],
+            [*CLI, *args],
             cwd=self.root,
             text=True,
             capture_output=True,

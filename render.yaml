@@ -8,7 +8,7 @@ services:
     region: oregon
     branch: main
     buildCommand: pip install .
-    startCommand: proofpress-self-hosted --database /var/data/proofpress.db serve --host 0.0.0.0 --allow-public-bind
+    startCommand: proofpress hosted --database /var/data/proofpress.db serve --host 0.0.0.0 --allow-public-bind
     healthCheckPath: /readyz
     # A self-hosted operator chooses when to adopt upstream changes.
     autoDeployTrigger: off

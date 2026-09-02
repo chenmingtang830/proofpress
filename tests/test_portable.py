@@ -5,13 +5,14 @@ from pathlib import Path
 import re
 import shutil
 import subprocess
+import sys
 import tempfile
 import unittest
 import zlib
 
 
 ROOT = Path(__file__).resolve().parents[1]
-CLI = ROOT / "proofpress.py"
+CLI = (sys.executable, "-m", "proofpress.cli")
 
 
 class Repo:
@@ -30,7 +31,7 @@ class Repo:
                               capture_output=True, check=True)
 
     def cli(self, *args, check=True):
-        return subprocess.run(["python3", str(CLI), *args], cwd=self.path,
+        return subprocess.run([*CLI, *args], cwd=self.path,
                               text=True, capture_output=True, check=check)
 
     def write(self, name, text):
@@ -357,9 +358,9 @@ class PortableArtifactTests(unittest.TestCase):
             shutil.copy2(target, receiver.path / "received.md")
             seed = (
                 "import json, os, sys; "
-                f"sys.path.insert(0, {str(ROOT)!r}); "
+                f"sys.path.insert(0, {str(ROOT / 'src')!r}); "
                 f"os.chdir({str(receiver.path)!r}); "
-                "import proofpress; "
+                "from proofpress.legacy import portable as proofpress; "
                 f"record=json.loads({json.dumps(head)!r}); "
                 "event=dict(record['event']); version=dict(record['version']); "
                 "event['artifact']='received.md'; version['artifact']='received.md'; "

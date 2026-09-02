@@ -33,9 +33,9 @@ class HostedServiceTests(unittest.TestCase):
     def setUp(self):
         self.tmp = tempfile.TemporaryDirectory()
         sys.path.insert(0, str(ROOT))
-        from proofpress_self_hosted import service as proofpress_hosted_service
+        from proofpress.hosted import service as proofpress_hosted_service
         import proofpress_mcp
-        import proofpress_sdk
+        from proofpress import client as proofpress_sdk
         self.service = proofpress_hosted_service
         self.mcp = proofpress_mcp
         self.sdk = proofpress_sdk
@@ -311,20 +311,20 @@ class HostedServiceTests(unittest.TestCase):
         evidence_file.write_text(json.dumps(evidence_payload()), encoding="utf-8")
         environment = {**os.environ, "PROOFPRESS_TOKEN": self.agent["token"]}
         submitted = subprocess.run([
-            sys.executable, "-m", "proofpress_self_hosted.remote",
+            sys.executable, "-m", "proofpress.hosted.remote",
             "--base-url", self.base_url, "submit-evidence", str(evidence_file),
             "--idempotency-key", "cli-evidence-1"],
             text=True, capture_output=True, env=environment, check=True)
         self.assertTrue(json.loads(submitted.stdout)["evidence"])
 
-        from proofpress_event_store import SQLiteEventStore
+        from proofpress.kernel.events import SQLiteEventStore
         bundle = SQLiteEventStore(
             self.server.proofpress_control.database,
             self.owner["workspace_id"]).export_bundle()
         export_file = Path(self.tmp.name) / "export.json"
         export_file.write_text(json.dumps(bundle), encoding="utf-8")
         verified = subprocess.run([
-            sys.executable, "-m", "proofpress_self_hosted.service",
+            sys.executable, "-m", "proofpress.hosted.service",
             "verify-export", str(export_file)], text=True, capture_output=True,
             check=True)
         self.assertTrue(json.loads(verified.stdout)["ok"])

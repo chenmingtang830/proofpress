@@ -1,6 +1,6 @@
 import unittest
 
-from document_extraction_contract import build_envelope, compare_envelopes, digest, validate_envelope
+from proofpress.integrations.document_extraction.contract import build_envelope, compare_envelopes, digest, validate_envelope
 
 
 def fixture(value="18,486"):

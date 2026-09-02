@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "proofpress-local"
-version = "0.5.0a2"
+version = "0.6.0a1"
 description = "Local governance control plane, Python SDK, and self-hosting reference for agent-produced knowledge"
 readme = "README.md"
 requires-python = ">=3.11"
@@ -12,21 +12,20 @@ license = {text = "Apache-2.0"}
 authors = [{name = "Proofpress"}]
 
 [project.scripts]
-proofpress = "proofpress:main"
-proofpress-repo = "proofpress_repo:main"
-proofpress-mcp = "proofpress_mcp:main"
-proofpress-self-hosted = "proofpress_self_hosted.service:main"
-# Backward-compatible alpha command; new documentation uses proofpress-self-hosted.
-proofpress-hosted = "proofpress_self_hosted.service:main"
-proofpress-remote = "proofpress_self_hosted.remote:main"
-proofpress-rd = "proofpress_rd:main"
+proofpress = "proofpress.cli:main"
+proofpress-repo = "proofpress.compat:repo_main"
+proofpress-mcp = "proofpress.compat:mcp_main"
+proofpress-self-hosted = "proofpress.compat:hosted_main"
+proofpress-hosted = "proofpress.compat:hosted_main"
+proofpress-remote = "proofpress.compat:remote_main"
+proofpress-rd = "proofpress.compat:rd_main"
 
 [project.optional-dependencies]
 mcp = ["mcp>=2,<3"]
 
 [tool.setuptools]
+package-dir = {"" = "src"}
 py-modules = [
-  "proofpress",
   "proofpress_evidence",
   "proofpress_experiment",
   "proofpress_knowledge",
@@ -36,10 +35,17 @@ py-modules = [
   "proofpress_service",
   "proofpress_mcp",
   "proofpress_event_store",
+  "proofpress_matter_catalog",
+  "document_extraction_contract",
+  "document_extraction_adapters",
+  "document_extraction_gate",
+  "document_extraction_qualification",
 ]
 
 [tool.setuptools.packages.find]
-include = ["proofpress_self_hosted*"]
+where = ["src"]
+include = ["proofpress*"]
 
 [tool.setuptools.package-data]
-proofpress_self_hosted = ["*.html"]
+proofpress = ["assets/local-ui/index.html", "data/demo.otlp.json"]
+"proofpress.hosted" = ["*.html"]

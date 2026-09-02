@@ -23,7 +23,7 @@ class LocalServiceTests(unittest.TestCase):
         subprocess.run(["git", "config", "user.name", "Test User"],
                        cwd=self.repo, check=True)
         sys.path.insert(0, str(ROOT))
-        import proofpress_service
+        from proofpress.transports import http as proofpress_service
         self.service = proofpress_service
         self.previous = Path.cwd()
         os.chdir(self.repo)

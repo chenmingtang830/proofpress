@@ -4,7 +4,7 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
-OWNER_UI = ROOT / "proofpress_self_hosted" / "owner_ui.html"
+OWNER_UI = ROOT / "src" / "proofpress" / "hosted" / "owner_ui.html"
 
 
 class WebmcpOwnerSurfaceTests(unittest.TestCase):

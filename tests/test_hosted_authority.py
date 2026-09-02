@@ -36,7 +36,7 @@ class HostedAuthorityTests(unittest.TestCase):
     def setUp(self):
         self.tmp = tempfile.TemporaryDirectory()
         sys.path.insert(0, str(ROOT))
-        from proofpress_self_hosted import control_plane
+        from proofpress.hosted import control_plane
         self.hosted = control_plane
         self.database = Path(self.tmp.name) / "hosted.db"
         self.control = control_plane.HostedControlPlane(self.database)

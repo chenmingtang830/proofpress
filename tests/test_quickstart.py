@@ -3,13 +3,14 @@ from pathlib import Path
 import re
 import shutil
 import subprocess
+import sys
 import tempfile
 import unittest
 import zipfile
 
 
 ROOT = Path(__file__).resolve().parents[1]
-CLI = ROOT / "proofpress.py"
+CLI = (sys.executable, "-m", "proofpress.cli")
 EXAMPLE = ROOT / "examples" / "portable-handoff"
 SCREENSHOT_SCRIPT = ROOT / "scripts" / "generate_quickstart_screenshots.py"
 
@@ -37,7 +38,7 @@ class QuickstartExampleTests(unittest.TestCase):
 
     def cli(self, *args, check=True):
         return subprocess.run(
-            ["python3", str(CLI), *args],
+            [*CLI, *args],
             cwd=self.root,
             text=True,
             capture_output=True,
@@ -129,8 +130,11 @@ class QuickstartExampleTests(unittest.TestCase):
         self.assertEqual(len(widths), 1)
         self.assertGreater(next(iter(widths)), 1120)
 
-    def test_readme_references_every_quickstart_fixture(self):
+    def test_legacy_index_keeps_the_portable_quickstart_discoverable(self):
         readme = (ROOT / "README.md").read_text(encoding="utf-8")
+        legacy_index = (ROOT / "docs" / "legacy" / "README.md").read_text(
+            encoding="utf-8"
+        )
         for filename in (
             "strategy.md",
             "strategy.html",
@@ -138,7 +142,8 @@ class QuickstartExampleTests(unittest.TestCase):
             "proposal.provenance.json",
         ):
             self.assertTrue((EXAMPLE / filename).is_file())
-            self.assertIn(filename, readme)
+        self.assertIn("0.6 compatibility window", readme)
+        self.assertIn("Portable handoff example", legacy_index)
 
 
 if __name__ == "__main__":

@@ -23,7 +23,7 @@ import termios
 ROOT = Path(__file__).resolve().parents[1]
 EXAMPLE = ROOT / "examples" / "portable-handoff"
 OUTPUT = ROOT / "assets" / "quickstart"
-CLI = ROOT / "proofpress.py"
+CLI = (sys.executable, "-m", "proofpress.cli")
 ANSI = re.compile(r"\x1b\[[0-?]*[ -/]*[@-~]")
 SGR = re.compile(r"\x1b\[([0-9;]*)m")
 MIN_WIDTH = 1120
@@ -35,10 +35,14 @@ def tty_output(cwd: Path, *args: str) -> tuple[int, str]:
     """Run the CLI in a fixed-size pseudo-terminal so its real colors render."""
     env = dict(os.environ)
     env.pop("NO_COLOR", None)
+    existing_pythonpath = env.get("PYTHONPATH")
+    env["PYTHONPATH"] = str(ROOT / "src") + (
+        os.pathsep + existing_pythonpath if existing_pythonpath else ""
+    )
     master, slave = pty.openpty()
     fcntl.ioctl(slave, termios.TIOCSWINSZ, struct.pack("HHHH", 40, 160, 0, 0))
     process = subprocess.Popen(
-        [sys.executable, str(CLI), *args],
+        [*CLI, *args],
         cwd=cwd,
         env=env,
         stdin=subprocess.DEVNULL,

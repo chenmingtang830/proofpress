@@ -13,7 +13,7 @@ inputs:
     description: "Token used to post/update the PR comment"
     required: true
   proofpress-path:
-    description: "Optional path to proofpress.py; defaults to the CLI bundled with this Action"
+    description: "Deprecated 0.6 path to a legacy proofpress.py; omit to use the bundled package"
     required: false
     default: ""
 
@@ -42,13 +42,16 @@ runs:
         # because verify exit 2 is an intentional neutral state that we handle
         # explicitly below.
         set +e
-        if [ -z "$PP" ]; then
-          PP="$GITHUB_ACTION_PATH/proofpress.py"
+        if [ -n "$PP" ]; then
+          test -f "$PP" || {
+            echo "::error::legacy proofpress.py not found at $PP"
+            exit 1
+          }
+          pp_cmd=(python3 "$PP")
+        else
+          export PYTHONPATH="$GITHUB_ACTION_PATH/src${PYTHONPATH:+:$PYTHONPATH}"
+          pp_cmd=(python3 -m proofpress.cli legacy)
         fi
-        test -f "$PP" || {
-          echo "::error::proofpress.py not found at $PP"
-          exit 1
-        }
         changed_file=$(mktemp)
         git diff --name-only -z "$BASE_REF"...HEAD \
           -- '*.md' '*.html' '*.htm' > "$changed_file" || {
@@ -69,7 +72,7 @@ runs:
         result=0
         for f in "${files[@]}"; do
           [ -f "$f" ] || continue                      # deleted files: skip v0
-          if ! ingest_out=$(python3 "$PP" ingest "$f" 2>&1); then
+          if ! ingest_out=$("${pp_cmd[@]}" ingest "$f" 2>&1); then
             body="$body"$'\n'"**\`$f\`**"$'\n'"⚠️ **ingest failed**"$'\n\n```\n'"$ingest_out"$'\n```'$'\n'
             result=1
             continue
@@ -77,12 +80,12 @@ runs:
           base_tip=$(git rev-list -1 "$BASE_REF" -- "$f" 2>/dev/null || true)
           diff_args=("$f" "--md")
           [ -z "$base_tip" ] || diff_args+=("--base-commit" "$base_tip")
-          if ! diff_out=$(python3 "$PP" diff "${diff_args[@]}" 2>&1); then
+          if ! diff_out=$("${pp_cmd[@]}" diff "${diff_args[@]}" 2>&1); then
             body="$body"$'\n'"**\`$f\`**"$'\n'"⚠️ **semantic diff failed**"$'\n\n```\n'"$diff_out"$'\n```'$'\n'
             result=1
             continue
           fi
-          verify_out=$(python3 "$PP" verify "$f" --md 2>&1)
+          verify_out=$("${pp_cmd[@]}" verify "$f" --md 2>&1)
           verify_status=$?
           # Exit 2 is the CLI's explicit neutral state: the recorded version
           # carries no claims. Integrity/claim mismatches return 1 and fail.

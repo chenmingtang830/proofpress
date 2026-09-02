@@ -21,9 +21,8 @@ class PythonSDKTests(unittest.TestCase):
                        cwd=self.repo, check=True)
         subprocess.run(["git", "config", "user.name", "Test User"],
                        cwd=self.repo, check=True)
-        sys.path.insert(0, str(ROOT))
-        import proofpress_sdk
-        import proofpress_service
+        from proofpress import client as proofpress_sdk
+        from proofpress.transports import http as proofpress_service
         self.sdk = proofpress_sdk
         self.previous = Path.cwd()
         os.chdir(self.repo)
@@ -126,9 +125,11 @@ class PythonSDKTests(unittest.TestCase):
         self.assertIn("proofpress_service", project["tool"]["setuptools"]["py-modules"])
         self.assertIn("proofpress_mcp", project["tool"]["setuptools"]["py-modules"])
         self.assertIn("proofpress_experiment", project["tool"]["setuptools"]["py-modules"])
-        self.assertIn("*.html", project["tool"]["setuptools"]["package-data"]["proofpress_self_hosted"])
+        self.assertIn("*.html", project["tool"]["setuptools"]["package-data"]["proofpress.hosted"])
         self.assertEqual(project["project"]["scripts"]["proofpress-mcp"],
-                         "proofpress_mcp:main")
+                         "proofpress.compat:mcp_main")
+        self.assertEqual(project["project"]["scripts"]["proofpress"],
+                         "proofpress.cli:main")
         self.assertIn("mcp>=2,<3", project["project"]["optional-dependencies"]["mcp"])
 
 

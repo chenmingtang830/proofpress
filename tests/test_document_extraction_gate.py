@@ -1,6 +1,6 @@
 import unittest
 
-from document_extraction_gate import evaluate_gate
+from proofpress.integrations.document_extraction.gate import evaluate_gate
 
 
 def conformance(repeat=1.0):

@@ -10,7 +10,7 @@ import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
-import proofpress_knowledge as knowledge
+from proofpress.kernel import operations as knowledge
 
 
 class GovernedDisclosureTests(unittest.TestCase):
