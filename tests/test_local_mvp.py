@@ -15,6 +15,7 @@ ROOT = Path(__file__).resolve().parents[1]
 CLI = (sys.executable, "-m", "proofpress.cli")
 FIXTURE = ROOT / "examples" / "verified-knowledge-ledger" / "demo.otlp.json"
 TRACE_FIXTURE = ROOT / "examples" / "verified-knowledge-ledger" / "demo.trace.json"
+TRACE_CONFIDENCE_FIXTURE = ROOT / "examples" / "verified-knowledge-ledger" / "demo.trace-confidence.json"
 
 
 class LocalMVPTests(unittest.TestCase):
@@ -113,6 +114,7 @@ class LocalMVPTests(unittest.TestCase):
         self.assertEqual(first["evidence"], second["evidence"])
         self.assertEqual(self.count_events(), count)
         sys.path.insert(0, str(ROOT))
+        from proofpress.kernel import events as knowledge_events
         from proofpress.kernel import operations as knowledge
         previous = Path.cwd()
         try:
@@ -123,10 +125,62 @@ class LocalMVPTests(unittest.TestCase):
         decision = next(row for row in projection["sources"].values()
                         if row["name"] == "trace.decision")
         self.assertEqual(decision["source_protocol"], "TRACE")
+        self.assertEqual(decision["source_schema"], knowledge.TRACE_SUPPORTED_VERSION)
         self.assertEqual(decision["attributes"]["event"]["disposition"], "accepted")
         self.assertNotIn("secret", json.dumps(projection["sources"]))
         self.assertNotIn("conversion_rate", json.dumps(projection["sources"]))
+        self.assertTrue(knowledge_events.verify_history_envelopes(
+            knowledge_events.history_envelopes(projection["events"]))["ok"])
+        self.assertEqual(projection["conclusions"], {})
+        self.assertEqual(projection["admissions"], {})
         self.assertEqual(self.data("context")["knowledge"], [])
+
+    def test_trace_confidence_fixture_is_verifier_compatible_and_evidence_only(self):
+        imported = self.data("evidence", "import", str(TRACE_CONFIDENCE_FIXTURE))
+        self.assertEqual(len(imported["evidence"]), 1)
+        sys.path.insert(0, str(ROOT))
+        from proofpress.kernel import events as knowledge_events
+        from proofpress.kernel import operations as knowledge
+        previous = Path.cwd()
+        try:
+            os.chdir(self.repo)
+            projection = knowledge.v2_projection()
+        finally:
+            os.chdir(previous)
+        decision = next(row for row in projection["sources"].values()
+                        if row["name"] == "trace.decision")
+        self.assertEqual(decision["source_schema"], knowledge.TRACE_SUPPORTED_VERSION)
+        self.assertEqual(decision["attributes"]["event"]["confidence"], {
+            "interval": {"lower": -29, "upper": 578, "level": 0.9},
+            "method": {"name": "paired_bootstrap", "resamples": 5000},
+            "sample_size": 8,
+            "evidence_digests": {
+                "parent_results": "sha256:" + "1" * 64,
+                "candidate_results": "sha256:" + "2" * 64,
+            },
+        })
+        self.assertTrue(knowledge_events.verify_history_envelopes(
+            knowledge_events.history_envelopes(projection["events"]))["ok"])
+        self.assertEqual(projection["conclusions"], {})
+        self.assertEqual(projection["admissions"], {})
+        self.assertEqual(self.data("context")["knowledge"], [])
+
+    def test_trace_adapter_rejects_unpinned_or_malformed_confidence(self):
+        unsupported = json.loads(TRACE_CONFIDENCE_FIXTURE.read_text())
+        unsupported["trace_version"] = "0.5.1"
+        unsupported_path = self.repo / "unsupported.trace.json"
+        unsupported_path.write_text(json.dumps(unsupported))
+        result = self.cli("evidence", "import", str(unsupported_path), check=False)
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn("unsupported TRACE trace_version: 0.5.1", result.stderr)
+
+        malformed = json.loads(TRACE_CONFIDENCE_FIXTURE.read_text())
+        malformed["events"][0]["decision"]["confidence"]["interval"]["lower"] = 579
+        malformed_path = self.repo / "malformed-confidence.trace.json"
+        malformed_path.write_text(json.dumps(malformed))
+        result = self.cli("evidence", "import", str(malformed_path), check=False)
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn("interval.lower must not exceed interval.upper", result.stderr)
 
     def test_trace_source_conflict_fails_closed(self):
         self.data("evidence", "import", str(TRACE_FIXTURE))
