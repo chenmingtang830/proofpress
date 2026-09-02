@@ -1,3 +1,4 @@
+import json
 import os
 import unittest
 
@@ -47,8 +48,13 @@ class OwnerAssistantTests(unittest.TestCase):
         self.assertFalse(result["result"]["can_admit"])
         self.assertIn("cannot admit", result["result"]["answer"])
         self.assertTrue(captured["auth"].startswith("Bearer sk-or-test"))
-        self.assertIn("What should I worry about before approving?", captured["body"])
-        self.assertIn('"id": "c1"', captured["body"])
+        payload = json.loads(captured["body"])
+        user = payload["messages"][1]["content"]
+        self.assertIn("What should I worry about before approving?", user)
+        snapshot = json.loads(
+            user.split("Workspace snapshot:\n", 1)[1].split("\n\nOwner question:", 1)[0]
+        )
+        self.assertEqual(snapshot["pending"][0]["id"], "c1")
 
 
 if __name__ == "__main__":
