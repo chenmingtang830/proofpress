@@ -54,6 +54,21 @@ class WebmcpOwnerSurfaceTests(unittest.TestCase):
         self.assertIn('a.textContent=result.answer', self.page)
         self.assertNotIn("a.innerHTML=answer(q)", self.page)
 
+    def test_pending_and_recommendation_surfaces_are_neutral(self):
+        for stale_token in ("#8A6210", "#F5EEDC", "var(--move)", "var(--moveBg)"):
+            self.assertNotIn(stale_token, self.page)
+        self.assertIn("--review:#5A5D6B", self.page)
+        self.assertIn(".chip.attn{background:var(--reviewBg)", self.page)
+        self.assertIn(".judge{border:1px solid var(--line);background:var(--reviewBg)", self.page)
+
+    def test_owner_chrome_uses_consistent_svg_icons_and_accessible_controls(self):
+        for icon in ("home", "review", "ledger", "activity", "admin", "assistant"):
+            self.assertIn(f'id="icon-{icon}"', self.page)
+        self.assertIn('aria-label="Review queue"', self.page)
+        self.assertIn('aria-label="Close assistant"', self.page)
+        self.assertIn("button:focus-visible", self.page)
+        self.assertIn("button:disabled", self.page)
+
 
 if __name__ == "__main__":
     unittest.main()

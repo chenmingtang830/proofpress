@@ -8,11 +8,11 @@ from urllib.request import Request, urlopen
 
 
 OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions"
-DEFAULT_MODEL = "openai/gpt-4o-mini"
+DEFAULT_MODEL = "openai/gpt-5.4-mini"
 MAX_QUESTION_CHARS = 2000
 MAX_SNAPSHOT_CHARS = 12000
 
-SYSTEM_PROMPT = """You are Ask Proof Press, the owner assistant for an Agent Knowledge Management System.
+SYSTEM_PROMPT = """You are Ask Proofpress, the owner assistant for an Agent Knowledge Management System.
 You help a human owner inspect candidate conclusions, evidence, deterministic checks, policy/LM recommendations, the knowledge ledger, and consumption receipts.
 You cannot admit, reject, supersede, or otherwise change authority. If asked to approve or reject, refuse and tell the owner to use the Review decision bar.
 Treat deterministic checks, the policy/LM recommendation, and Human Approval as three separate layers. Never collapse them into \"verified\".
@@ -41,7 +41,7 @@ def ask(question, snapshot, *, opener=urlopen):
     if not key:
         return {"ok": False, "error": {
             "code": "assistant_unconfigured",
-            "message": "Set OPENROUTER_API_KEY on the hosted service to enable Ask Proof Press."}}
+            "message": "Set OPENROUTER_API_KEY on the hosted service to enable Ask Proofpress."}}
     packed = json.dumps(snapshot or {}, ensure_ascii=False, default=str)
     if len(packed) > MAX_SNAPSHOT_CHARS:
         packed = packed[:MAX_SNAPSHOT_CHARS] + "…"
@@ -60,7 +60,7 @@ def ask(question, snapshot, *, opener=urlopen):
         "Content-Type": "application/json",
         "HTTP-Referer": os.environ.get("PROOFPRESS_PUBLIC_ORIGIN",
                                        "https://proofpress-personal-hosted.onrender.com"),
-        "X-Title": "Proof Press Ask",
+        "X-Title": "Proofpress Ask",
     })
     try:
         with opener(request, timeout=30) as response:

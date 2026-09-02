@@ -196,7 +196,7 @@ class HostedServiceTests(unittest.TestCase):
         with urlopen(review_request) as response:
             page = response.read().decode()
         self.assertIn("REVIEW QUEUE", page)
-        self.assertIn("Ask Proof Press", page)
+        self.assertIn("Ask Proofpress", page)
         self.assertIn("Human decision", page)
         self.assertNotIn("SELF-ASSERTED IDENTITY", page)
         self.assertNotIn(self.owner["token"], page)

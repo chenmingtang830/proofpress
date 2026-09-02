@@ -20,6 +20,11 @@ class OwnerAssistantTests(unittest.TestCase):
         result = assistant.ask("   ", {"page": "review"})
         self.assertEqual(result["error"]["code"], "invalid_request")
 
+    def test_uses_explicit_production_default_and_allows_override(self):
+        self.assertEqual(assistant.model_name(), "openai/gpt-5.4-mini")
+        os.environ["OPENROUTER_MODEL"] = "openai/gpt-5.4"
+        self.assertEqual(assistant.model_name(), "openai/gpt-5.4")
+
     def test_sends_snapshot_and_returns_model_text(self):
         os.environ["OPENROUTER_API_KEY"] = "sk-or-test"
         captured = {}
