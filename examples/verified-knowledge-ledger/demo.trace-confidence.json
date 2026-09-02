@@ -1,0 +1,38 @@
+{
+  "context": "https://trace-protocol.org/v0.3",
+  "trace_version": "0.5.0",
+  "id": "trace_confidence_demo_001",
+  "created": "2026-09-02T00:00:00Z",
+  "ended": "2026-09-02T00:05:00Z",
+  "status": "completed",
+  "metadata": {
+    "project": "decision-confidence-demo",
+    "project_key": "decision-confidence-demo"
+  },
+  "events": [
+    {
+      "id": "evt_confidence_001",
+      "timestamp": "2026-09-02T00:02:00Z",
+      "session_id": "trace_confidence_demo_001",
+      "type": "decision",
+      "actor": {"type": "ai", "id": "agent:experiment-runner"},
+      "decision": {
+        "description": "Keep the candidate provisionally and request fresh-seed replication.",
+        "rationale": "The interval straddles zero.",
+        "proposed_by": {"type": "ai", "id": "agent:experiment-runner"},
+        "disposition": "accepted",
+        "resolved_by": {"type": "human", "id": "human:demo"},
+        "suggestion_type": "proactive",
+        "confidence": {
+          "interval": {"lower": -29, "upper": 578, "level": 0.9},
+          "method": {"name": "paired_bootstrap", "resamples": 5000},
+          "sample_size": 8,
+          "evidence_digests": {
+            "parent_results": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+            "candidate_results": "sha256:2222222222222222222222222222222222222222222222222222222222222222"
+          }
+        }
+      }
+    }
+  ]
+}

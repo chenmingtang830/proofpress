@@ -2,7 +2,7 @@
 """File-backed admission ledger: telemetry is input; admitted claims are context."""
 from __future__ import annotations
 
-import argparse, hashlib, json, os, re, secrets, subprocess, tempfile, threading, webbrowser
+import argparse, hashlib, json, math, os, re, secrets, subprocess, tempfile, threading, webbrowser
 from http import HTTPStatus
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from urllib.parse import parse_qs, urlparse
@@ -18,6 +18,10 @@ SCHEMA = "proofpress/knowledge-ledger/v1"
 ALLOWED = {"service.name","experiment.id","experiment_id","experimentId","experiment.variant","variant","metric.conversion_rate","conversion_rate","metric.value","experiment.outcome","outcome","sample.size","sample_size"}
 DEFAULT_POLICY = {"id":"mvp-evidence-and-completeness","version":1,"min_sample_size":1,"require_guardrail_pass":False,"attribute_allowlist_version":"v1"}
 TRACE_EVENT_TYPES = {"tool_call", "decision", "annotation", "state_change", "contribution"}
+TRACE_SUPPORTED_VERSION = "0.5.0"
+TRACE_SCHEMA_URL = "https://trace-protocol.org/schemas/trace-v0.5.json"
+TRACE_SCHEMA_SHA256 = "sha256:10459fb5e334889b17f9abae36de175490558f300077ba5273d2764f2cb58463"
+TRACE_DIGEST_RE = re.compile(r"sha256:[0-9a-f]{64}\Z")
 
 def now(): return datetime.now(timezone.utc).isoformat().replace("+00:00","Z")
 def canon(v): return json.dumps(v,ensure_ascii=False,sort_keys=True,separators=(",",":")).encode()
@@ -57,6 +61,68 @@ def trace_actor(actor):
     actor = actor or {}
     return {key: actor.get(key) for key in ("type", "id", "role") if actor.get(key) is not None}
 def trace_relation(session_id,event_id): return f"trace:{session_id}#{event_id}"
+def _trace_number(value, field):
+    if isinstance(value, bool) or not isinstance(value, (int, float)) or not math.isfinite(value):
+        raise ValueError(f"TRACE decision confidence {field} must be a finite number")
+    return value
+
+
+def _trace_sha256(value, field):
+    if not isinstance(value, str) or not TRACE_DIGEST_RE.fullmatch(value):
+        raise ValueError(f"TRACE decision confidence {field} must be a sha256 digest")
+    return value
+
+
+def trace_decision_confidence(decision):
+    """Project the bounded TRACE v0.5 decision-confidence extension.
+
+    TRACE v0.5 deliberately permits additive decision fields. This adapter only
+    preserves the numeric interval, method metadata, sample size, and content
+    digests; it does not evaluate the result files or turn the disposition into
+    a Proofpress admission decision.
+    """
+    if "confidence" not in decision or decision["confidence"] is None:
+        return None
+    raw = decision["confidence"]
+    if not isinstance(raw, dict):
+        raise ValueError("TRACE decision confidence must be an object")
+    interval = raw.get("interval")
+    if not isinstance(interval, dict):
+        raise ValueError("TRACE decision confidence interval must be an object")
+    lower = _trace_number(interval.get("lower"), "interval.lower")
+    upper = _trace_number(interval.get("upper"), "interval.upper")
+    if lower > upper:
+        raise ValueError("TRACE decision confidence interval.lower must not exceed interval.upper")
+    projected_interval = {"lower": lower, "upper": upper}
+    if "level" in interval:
+        level = _trace_number(interval["level"], "interval.level")
+        if not 0 < level < 1:
+            raise ValueError("TRACE decision confidence interval.level must be between 0 and 1")
+        projected_interval["level"] = level
+    method = raw.get("method")
+    if not isinstance(method, dict) or not isinstance(method.get("name"), str) or not method["name"].strip():
+        raise ValueError("TRACE decision confidence method.name must be a non-empty string")
+    projected_method = {"name": method["name"]}
+    if "resamples" in method:
+        resamples = method["resamples"]
+        if isinstance(resamples, bool) or not isinstance(resamples, int) or resamples < 1:
+            raise ValueError("TRACE decision confidence method.resamples must be a positive integer")
+        projected_method["resamples"] = resamples
+    sample_size = raw.get("sample_size")
+    if isinstance(sample_size, bool) or not isinstance(sample_size, int) or sample_size < 1:
+        raise ValueError("TRACE decision confidence sample_size must be a positive integer")
+    evidence_digests = raw.get("evidence_digests")
+    if not isinstance(evidence_digests, dict) or not evidence_digests:
+        raise ValueError("TRACE decision confidence evidence_digests must be a non-empty object")
+    projected_digests = {}
+    for label, value in evidence_digests.items():
+        if not isinstance(label, str) or not label:
+            raise ValueError("TRACE decision confidence evidence_digests keys must be non-empty strings")
+        projected_digests[label] = _trace_sha256(value, f"evidence_digests.{label}")
+    return {"interval": projected_interval, "method": projected_method,
+            "sample_size": sample_size, "evidence_digests": projected_digests}
+
+
 def trace_payload(event):
     """Project reviewable TRACE decision provenance, excluding raw tool I/O."""
     kind=event["type"]
@@ -66,7 +132,10 @@ def trace_payload(event):
         return meta | {key:trace_relation(event["session_id"],row[key]) for key in ("retries_event_id","parent_event_id") if row.get(key)}
     if kind=="decision":
         row=event.get("decision") or {}
-        return {"description":row.get("description"),"rationale":row.get("rationale"),"disposition":row.get("disposition"),"suggestion_type":row.get("suggestion_type"),"proposed_by":trace_actor(row.get("proposed_by")),"resolved_by":trace_actor(row.get("resolved_by")),"revision_note":row.get("revision_note"),"revises":trace_relation(event["session_id"],row["revises_event_id"]) if row.get("revises_event_id") else None,"tags":row.get("tags") or [],"warnings":row.get("warnings") or []}
+        projected = {"description":row.get("description"),"rationale":row.get("rationale"),"disposition":row.get("disposition"),"suggestion_type":row.get("suggestion_type"),"proposed_by":trace_actor(row.get("proposed_by")),"resolved_by":trace_actor(row.get("resolved_by")),"revision_note":row.get("revision_note"),"revises":trace_relation(event["session_id"],row["revises_event_id"]) if row.get("revises_event_id") else None,"tags":row.get("tags") or [],"warnings":row.get("warnings") or []}
+        if confidence := trace_decision_confidence(row):
+            projected["confidence"] = confidence
+        return projected
     if kind=="annotation":
         row=event.get("annotation") or {}
         return {"category":row.get("category"),"content":row.get("content"),"corrects":[trace_relation(event["session_id"],x) if ":" not in x else x for x in row.get("corrects_event_ids") or []],"related":[trace_relation(event["session_id"],x) for x in row.get("related_event_ids") or []],"tags":row.get("tags") or []}
@@ -732,8 +801,7 @@ def _trace_session(payload):
     if not payload.get("id") or not isinstance(payload.get("events"), list):
         raise ValueError("not a TRACE session document")
     version = str(payload.get("trace_version") or "")
-    if not any(version == supported or version.startswith(supported + ".")
-               for supported in ("0.3", "0.4", "0.5")):
+    if version != TRACE_SUPPORTED_VERSION:
         raise ValueError("unsupported TRACE trace_version: " + version)
     return payload
 
