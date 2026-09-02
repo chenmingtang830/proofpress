@@ -12,10 +12,10 @@ export function Badge({
       className={cn(
         "inline-flex items-center rounded-full border px-2 py-0.5 text-[11px] font-medium capitalize",
         state === "admitted"
-          ? "border-emerald-200 bg-emerald-50 text-emerald-700"
+          ? "border-[#C6DFC9] bg-[#E7F2EA] text-[#2E7D4F]"
           : state === "rejected" || state === "blocked"
-            ? "border-red-200 bg-red-50 text-red-700"
-            : "border-slate-200 bg-slate-100 text-slate-700",
+            ? "border-[#E9C9C5] bg-[#F7E9E7] text-[#B4453A]"
+            : "border-[#E3E1D9] bg-[#F1EFE8] text-[#5A5D6B]",
         className,
       )}
     >

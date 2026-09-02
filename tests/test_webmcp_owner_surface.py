@@ -51,7 +51,8 @@ class WebmcpOwnerSurfaceTests(unittest.TestCase):
         for stale_token in ("#8A6210", "#F5EEDC", "#F5C", "yellow"):
             self.assertNotIn(stale_token, self.page)
         css = (ROOT / "web" / "owner" / "src" / "index.css").read_text()
-        self.assertIn("#f1f5f9", css)
+        self.assertIn("--wash: #f1efe8", css)
+        self.assertIn("background: var(--wash)", css)
         self.assertNotIn("yellow", css)
 
     def test_owner_chrome_uses_consistent_svg_icons_and_accessible_controls(self):

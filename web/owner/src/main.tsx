@@ -345,7 +345,7 @@ function App() {
     <div className="shell">
       <aside className="sidebar">
         <div className="brand">
-          <span className="brandMark">P</span>
+          <span className="brandMark"><img src="/logo.svg" alt="" /></span>
           <strong>Proofpress</strong>
         </div>
         <nav>
@@ -373,7 +373,7 @@ function App() {
       <main>
         <header className="topbar">
           <div className="mobileBrand">
-            <span className="brandMark">P</span>
+            <span className="brandMark"><img src="/logo.svg" alt="" /></span>
             <strong>Proofpress</strong>
           </div>
           <label className="search">
