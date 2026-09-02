@@ -42,6 +42,16 @@ class WebmcpOwnerSurfaceTests(unittest.TestCase):
         self.assertIn("&#39;", line)
         self.assertNotIn(r'"\"":""', line)
 
+    def test_owner_assistant_calls_hosted_endpoint_with_csrf_and_snapshot(self):
+        self.assertIn('api("/owner/api/ask"', self.page)
+        self.assertIn("csrf:CSRF,question:q,snapshot:assistantSnapshot()", self.page)
+        self.assertIn("function assistantSnapshot()", self.page)
+        self.assertNotIn("function answer(q)", self.page)
+
+    def test_owner_assistant_renders_model_text_without_html_injection(self):
+        self.assertIn('a.textContent=result.answer', self.page)
+        self.assertNotIn("a.innerHTML=answer(q)", self.page)
+
 
 if __name__ == "__main__":
     unittest.main()
