@@ -17,15 +17,19 @@ function run(args, cwd = ROOT) {
   });
 }
 
-test("hosted owner UI inline script parses", () => {
-  const html = fs.readFileSync(
-    path.join(ROOT, "src/proofpress/hosted/owner_ui.html"),
-    "utf8"
+test("hosted owner UI production bundle parses", () => {
+  const staticRoot = path.join(ROOT, "src/proofpress/hosted/static");
+  const html = fs.readFileSync(path.join(staticRoot, "index.html"), "utf8");
+  const scriptPath = html.match(/<script[^>]+src="([^"]+\.js)"/)[1];
+  const stylesheetPath = html.match(/<link[^>]+href="([^"]+\.css)"/)[1];
+  assert.equal(html.includes('<div id="root"></div>'), true);
+  assert.equal(fs.existsSync(path.join(staticRoot, scriptPath)), true);
+  assert.equal(fs.existsSync(path.join(staticRoot, stylesheetPath)), true);
+  const result = spawnSync(
+    process.execPath,
+    ["--check", path.join(staticRoot, scriptPath)],
+    { encoding: "utf8" }
   );
-  const script = html.split('<script nonce="__PROOFPRESS_NONCE__">')[1].split("</script>")[0];
-  const tmp = path.join(os.tmpdir(), "proofpress-owner-ui-check.js");
-  fs.writeFileSync(tmp, script);
-  const result = spawnSync(process.execPath, ["--check", tmp], { encoding: "utf8" });
   assert.equal(result.status, 0, result.stderr);
 });
 
