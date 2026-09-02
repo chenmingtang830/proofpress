@@ -1,11 +1,10 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
-import ReactMarkdown from "react-markdown";
+import { AssistantConversation } from "@/components/assistant-conversation";
 import * as Dialog from "@radix-ui/react-dialog";
 import * as Tabs from "@radix-ui/react-tabs";
 import {
   Activity,
-  Bot,
   BookOpen,
   Check,
   ChevronRight,
@@ -104,6 +103,8 @@ function App() {
   const [error, setError] = React.useState("");
   const [csrf, setCsrf] = React.useState("");
   const [assistant, setAssistant] = React.useState(false);
+  const [asking, setAsking] = React.useState(false);
+  const askingRef = React.useRef(false);
   const [question, setQuestion] = React.useState("");
   const [messages, setMessages] = React.useState<
     { role: string; text: string }[]
@@ -267,7 +268,9 @@ function App() {
     }
   }
   async function ask() {
-    if (!question.trim()) return;
+    if (!question.trim() || askingRef.current) return;
+    askingRef.current = true;
+    setAsking(true);
     const q = question.trim();
     setMessages((m) => [...m, { role: "user", text: q }]);
     setQuestion("");
@@ -301,6 +304,9 @@ function App() {
       ]);
     } catch (e: any) {
       setMessages((m) => [...m, { role: "assistant", text: e.message }]);
+    } finally {
+      askingRef.current = false;
+      setAsking(false);
     }
   }
   async function showAdmin() {
@@ -409,7 +415,8 @@ function App() {
               admitted={admitted}
               rows={rows}
               onReview={() => setPage("review")}
-              onAsk={() => setAssistant(true)}
+              onLedger={() => setPage("ledger")}
+              conversation={<AssistantConversation messages={messages} question={question} setQuestion={setQuestion} onSend={ask} pending={asking} />}
             />
           )}
           {page === "review" && (
@@ -456,7 +463,7 @@ function App() {
       <Dialog.Root open={assistant} onOpenChange={setAssistant}>
         <Dialog.Portal>
           <Dialog.Overlay className="dialogOverlay" />
-          <Dialog.Content className="assistant">
+          <Dialog.Content className="assistantPanel">
             <div className="assistantHead">
               <div>
                 <Dialog.Title>Ask Proofpress</Dialog.Title>
@@ -468,42 +475,7 @@ function App() {
                 <PanelRightClose />
               </Dialog.Close>
             </div>
-            <div className="messages">
-              {messages.length === 0 ? (
-                <div className="assistantEmpty">
-                  <Bot />
-                  <h3>Ask about governed state</h3>
-                  <p>
-                    Find what needs review, why a conclusion is supported, or
-                    what successor agents may rely on.
-                  </p>
-                </div>
-              ) : (
-                messages.map((m, i) => (
-                  <div key={i} className={`message ${m.role}`}>
-                    {m.role === "assistant" ? (
-                      <ReactMarkdown>{m.text}</ReactMarkdown>
-                    ) : (
-                      m.text
-                    )}
-                  </div>
-                ))
-              )}
-            </div>
-            <div className="composer">
-              <textarea
-                value={question}
-                onChange={(e) => setQuestion(e.target.value)}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" && !e.shiftKey) {
-                    e.preventDefault();
-                    ask();
-                  }
-                }}
-                placeholder="Ask about this workspace…"
-              />
-              <Button onClick={ask}>Send</Button>
-            </div>
+            <AssistantConversation messages={messages} question={question} setQuestion={setQuestion} onSend={ask} pending={asking} />
           </Dialog.Content>
         </Dialog.Portal>
       </Dialog.Root>
@@ -533,20 +505,14 @@ function PageHead({
     </div>
   );
 }
-function HomePage({ pending, admitted, rows, onReview, onAsk }: any) {
+function HomePage({ pending, admitted, rows, onReview, onLedger, conversation }: any) {
   return (
     <div className="pageBody">
-      <PageHead
-        eyebrow="OWNER WORKSPACE"
-        title="Govern what agents can rely on."
-        description="Inspect evidence, make human decisions, and carry only admitted knowledge into the next run."
-        action={
-          <Button onClick={onAsk}>
-            <MessageSquareText />
-            Ask Proofpress
-          </Button>
-        }
-      />
+      <section className="homeConversation" aria-labelledby="home-ask-title">
+        <h1 id="home-ask-title">Ask Proofpress</h1>
+        <p>Understand the evidence. Decide what agents may rely on.</p>
+        {conversation}
+      </section>
       <div className="orientation">
         <button onClick={onReview}>
           <span>Needs your review</span>
@@ -554,12 +520,12 @@ function HomePage({ pending, admitted, rows, onReview, onAsk }: any) {
           <small>Candidate conclusions remain excluded</small>
           <ChevronRight />
         </button>
-        <div>
+        <button onClick={onLedger}>
           <span>Current ledger</span>
           <strong>{admitted}</strong>
           <small>Admitted conclusions available to agents</small>
           <BookOpen />
-        </div>
+        </button>
       </div>
       <section className="section">
         <div className="sectionTitle">
