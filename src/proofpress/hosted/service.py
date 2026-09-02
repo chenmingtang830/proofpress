@@ -146,7 +146,7 @@ class HostedOperationHandler(BaseHTTPRequestHandler):
         self.send_header("Cache-Control", "no-store")
         self.send_header("X-Content-Type-Options", "nosniff")
         self.send_header("Content-Security-Policy",
-                         "default-src 'none'; style-src 'self'; "
+                         "default-src 'none'; style-src 'self' 'unsafe-inline'; "
                          "script-src 'self'; connect-src 'self'; img-src 'self' data:; "
                          "form-action 'self'; base-uri 'none'; frame-ancestors 'none'")
         self.end_headers()
@@ -154,7 +154,7 @@ class HostedOperationHandler(BaseHTTPRequestHandler):
 
     def _static_asset(self, path):
         root = Path(__file__).with_name("static").resolve()
-        asset = (root / "assets" / path.removeprefix("/assets/")).resolve()
+        asset = (root / path.removeprefix("/")).resolve()
         if root not in asset.parents or not asset.is_file():
             return self._json(HTTPStatus.NOT_FOUND, {"error": "not_found"})
         encoded = asset.read_bytes()
@@ -307,7 +307,7 @@ class HostedOperationHandler(BaseHTTPRequestHandler):
                                       "code": "owner_session_required",
                                       "message": "Sign in as the workspace owner."}})
             return self._owner_api(parsed, session)
-        if path.startswith("/assets/"):
+        if path.startswith("/assets/") or path == "/logo.svg":
             return self._static_asset(path)
         if path in {"/", "/home", "/review", "/ledger", "/activity", "/admin"}:
             session = self._owner_session()

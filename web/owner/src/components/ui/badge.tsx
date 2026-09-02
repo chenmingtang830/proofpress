@@ -10,7 +10,7 @@ export function Badge({
   return (
     <span
       className={cn(
-        "inline-flex items-center rounded-full border px-2 py-0.5 text-[11px] font-medium capitalize",
+        "inline-flex h-6 shrink-0 items-center justify-center whitespace-nowrap rounded-full border px-2.5 text-[11px] leading-none font-medium capitalize",
         state === "admitted"
           ? "border-[#C6DFC9] bg-[#E7F2EA] text-[#2E7D4F]"
           : state === "rejected" || state === "blocked"

@@ -325,6 +325,7 @@ th,
 td {
   border-bottom: 1px solid var(--line);
   padding: 10px 12px;
+  vertical-align: middle;
 }
 tbody tr {
   cursor: pointer;

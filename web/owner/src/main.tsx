@@ -464,7 +464,7 @@ function App() {
                   Answers from the current workspace. Advisory only.
                 </Dialog.Description>
               </div>
-              <Dialog.Close className="iconButton">
+              <Dialog.Close className="iconButton" aria-label="Close assistant">
                 <PanelRightClose />
               </Dialog.Close>
             </div>
@@ -858,6 +858,11 @@ function LedgerPage({ rows, selected, receipt, onChoose }: any) {
               ))}
             </tbody>
           </table>
+          {rows.length === 0 && (
+            <div className="empty">
+              No admitted conclusions yet. Approved, current knowledge will appear here.
+            </div>
+          )}
         </div>
       </div>
       <Inspector
