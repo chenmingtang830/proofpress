@@ -35,6 +35,13 @@ class WebmcpOwnerSurfaceTests(unittest.TestCase):
         self.assertIn("function toolText", self.page)
         self.assertIn('type:"text"', self.page)
 
+    def test_html_escape_helper_keeps_entity_replacements(self):
+        line = next(row for row in self.page.splitlines() if row.startswith("const esc="))
+        for name in ("amp;", "lt;", "gt;", "quot;"):
+            self.assertIn("&" + name, line)
+        self.assertIn("&#39;", line)
+        self.assertNotIn(r'"\"":""', line)
+
 
 if __name__ == "__main__":
     unittest.main()

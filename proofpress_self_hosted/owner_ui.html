@@ -117,7 +117,7 @@ button,input,textarea{font:inherit;color:inherit} button{cursor:pointer} .mono{f
 const CSRF="__PROOFPRESS_CSRF__";
 const names={home:"Home",review:"REVIEW QUEUE",ledger:"Knowledge Ledger",activity:"Activity",admin:"Admin"};
 let current="review", selected=null, graph=null, receipts=new Map(), activity=[], ledgerFilter="current";
-const esc=v=>String(v??"").replace(/[&<>"']/g,c=>({"&":"&","<":"<",">":">","\"":""","'":"&#39;"}[c]));
+const esc=v=>String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]));
 function toast(s){const t=document.getElementById("toast");t.textContent=s;t.classList.add("show");setTimeout(()=>t.classList.remove("show"),2400)}
 async function api(path,options={}){const response=await fetch(path,{credentials:"same-origin",...options,headers:{"Content-Type":"application/json",...(options.headers||{})}});const body=await response.json();if(!response.ok||body.ok===false){const error=body.error||{};throw new Error(error.message||error.code||"Request failed")}return body.result??body}
 function chip(state){const cls=state==="admitted"?"good":state==="rejected"||state==="superseded"?"bad":"attn";return `<span class="chip ${cls}">${esc(String(state).replaceAll("_"," "))}</span>`}

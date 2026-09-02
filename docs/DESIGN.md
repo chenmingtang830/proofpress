@@ -2,7 +2,7 @@
 # Proofpress Design System — Verified Knowledge Ledger
 
 [//]: # (ob:4565936e)
-**Status (2026-08-26):** Current cross-interface guidance for Proofpress CLI, Markdown receipts, review surfaces, lineage views, and governed-context projections. Product hosts may supply their own brand shell and workflow vocabulary, but Proofpress trust states and evidence semantics must remain recognizable and consistent.
+**Status (2026-09-01):** Current cross-interface guidance for Proofpress CLI, Markdown receipts, review surfaces, lineage views, governed-context projections, and the hosted owner AKMS chrome. Product hosts may supply their own brand shell and workflow vocabulary, but Proofpress trust states and evidence semantics must remain recognizable and consistent.
 
 [//]: # (ob:9787677e)
 ## Overview
@@ -18,6 +18,76 @@ The design system is workflow-neutral. A legal product may organize work by orga
 
 [//]: # (ob:ab42e61c)
 **The Trust Boundary Rule.** A surface must never imply that retrieval, deterministic integrity, a model recommendation, or staging alone authorizes reliance. Governed context begins only after the configured admission gate succeeds.
+
+[//]: # (ob:730432c3)
+## Feeling
+
+[//]: # (ob:beafea83)
+Proofpress should feel like a bound volume with a cyan seal: paper you can sit with, a stamp you can trust, knowledge worth building on. It is archival, not ornamental; quiet, not empty. A reviewer should feel they are examining a record, not operating a dashboard.
+
+[//]: # (ob:532d94f7)
+The hosted owner workspace is a steward's desk over that ledger. Home and Ask Proof Press are how a human orients; they are not how knowledge becomes governed. Cyan is the seal and the interaction, never a substitute for admission.
+
+[//]: # (ob:66d5152d)
+Do not optimize for "looks like a 2026 AI product." Optimize for this: a future agent or human can tell, in one glance, what they may rely on, why, and under whose authority.
+
+[//]: # (ob:6af4c951)
+## Hosted owner chrome
+
+[//]: # (ob:fa9a96d3)
+The hosted owner IA is frozen as of 2026-09-01. Do not subtract these surfaces:
+
+[//]: # (ob:4ffeef89)
+- **Home** — orientation and Ask Proof Press entry; not a KPI dashboard
+- **Review** — governance inbox
+- **Ledger** — current authoritative knowledge
+- **Activity** — consumption receipts
+- **Admin** — principals, credentials, policy
+- **Ask Proof Press** — persistent context-aware clerk
+
+[//]: # (ob:0605066b)
+Admit is the lifecycle verb. Approve is the owner-chrome label for that same decision; the control must keep `data-decision="admit"`. The assistant may explain, query, navigate, and draft a bounded clarification request. It must never admit, reject, or appear to.
+
+[//]: # (ob:343a8d41)
+A host may keep Home and Ask Proof Press. Those surfaces are chrome around the ledger, not a second authority.
+
+[//]: # (ob:03c75a58)
+## AI-tell denylist
+
+[//]: # (ob:7097ec6f)
+These patterns make Proofpress look like generic AI software and hide the trust boundary. They are defects, including when a host is exploring:
+
+[//]: # (ob:b42cc176)
+- Decorative gradients, glow, glassmorphism, or aurora backgrounds. Paper is flat.
+- Inter, Geist, or other default AI-product sans as the narrative voice. Georgia carries knowledge prose; system sans operates controls.
+- KPI tiles, sparkline dashboards, or metrics-that-look-important as Home.
+- Sparkle, magic-wand, or ✦ as a mark of authority. A host may use a small mark on the Ask Proof Press toggle; it must never sit on Admit/Approve, a status chip, or a candidate conclusion.
+- Green, red, or orange used for decoration, generic success, or visual variety.
+- **Draft** as a Proofpress lifecycle term. A proposal is a **candidate**. Draft belongs to documents, not admission state.
+- Copy that treats Ask Proof Press, a model recommendation, or a passing check as admission.
+- Linear or ChatGPT chrome: infinite chat as the product, stacked elevated cards, gradient pills, or confidence percentages as authority.
+- Image generation or video generation as product UI. Trust states must remain recognizable without generated atmosphere.
+
+[//]: # (ob:a83b0b86)
+## Design critic protocol
+
+[//]: # (ob:007d1f14)
+When an agent proposes visual work, run a critic against screenshots only. Do not put the stop criterion in the critic prompt.
+
+[//]: # (ob:bea9a7b3)
+**Taste bar.** Would this still look like Proofpress if the logo were covered? Paper, ink, one cyan seal, Georgia for knowledge, system sans for controls, monospace for proof. If it could be a generic AI workspace, it fails.
+
+[//]: # (ob:b93e40e3)
+**Trust bar.** Can a stranger point to the candidate, the evidence, the checks, the advisory recommendation, and the human decision — and see that only the last one admits? If Ask Proof Press, a green check, or a cyan glow could be mistaken for admission, it fails.
+
+[//]: # (ob:40d605db)
+**References.** Use the brand-film stills and the hosted owner surfaces as the visual references, not a moodboard of other products.
+
+[//]: # (ob:5e18e46f)
+**Output.** Numbered findings, each with a screenshot crop description, the rule it violates, and a concrete fix. Separate taste misses from trust-boundary misses. Do not congratulate. Do not invent a new IA.
+
+[//]: # (ob:715fe0fc)
+The human, not the critic, decides when to stop. A critic that is also asked "are we done?" will say yes.
 
 [//]: # (ob:7056876e)
 ## Colors
@@ -140,7 +210,7 @@ Every mutation must produce immediate, consistent feedback: disable duplicate su
 ### Voice and Language
 
 [//]: # (ob:300ee19f)
-Use product-facing trust terms: Source, Evidence, Candidate Conclusion, Review, Admit, Request changes, Reject, Receipt, Ledger, Lineage, and Governed Context. Reserve storage or implementation terms such as event, ref, blob, projection algorithm, and lock for developer diagnostics.
+Use product-facing trust terms: Source, Evidence, Candidate Conclusion, Review, Admit, Request changes, Reject, Receipt, Ledger, Lineage, and Governed Context. Reserve storage or implementation terms such as event, ref, blob, projection algorithm, and lock for developer diagnostics. Host chrome may label Admit as **Approve**; the lifecycle event, API, and `data-decision` value remain `admit`.
 
 [//]: # (ob:cab7f711)
 English is the source language for UI strings, CLI output, and documentation surfaces. Interfaces may adapt through `Accept-Language`, with Chinese as the first locale. Stable Proofpress vocabulary—especially Evidence, Conclusion, Review, Admit, Receipt, Ledger, Lineage, and Governed Context—must retain one documented mapping across locales and host products.
@@ -157,6 +227,7 @@ English is the source language for UI strings, CLI output, and documentation sur
 - **Do** make selected graph nodes keyboard-operable and expose the same receipt information without relying on color alone.
 - **Do** project a recorded admission consistently across review, ledger, lineage, history, and governed context.
 - **Do** let a host product apply its own brand shell while retaining Proofpress trust-state semantics.
+- **Do** keep the hosted owner chrome as Home, Review, Ledger, Activity, Admin, and Ask Proof Press; do not subtract those surfaces.
 - **Do** fail closed: unavailable data or invalid lineage must render as blocked or not ready, never as a plausible placeholder.
 
 [//]: # (ob:70e00445)
@@ -167,6 +238,9 @@ English is the source language for UI strings, CLI output, and documentation sur
 - **Don't** use an unbounded force-directed graph as the default ledger view.
 - **Don't** show pending, blocked, rejected, expired, superseded, or needs-revision knowledge as available to an agent or API.
 - **Don't** make evaluation metrics, model confidence, or recommendation the visual equivalent of admission.
+- **Don't** treat Ask Proof Press, a passing check, or a cyan glow as admission.
+- **Don't** use Draft as a Proofpress lifecycle term for a candidate conclusion.
+- **Don't** use Inter as narrative type, decorative gradients, or KPI tiles as the Home metaphor.
 - **Don't** bake legal-specific matter, counsel, or data-room concepts into Proofpress core components.
 - **Don't** expose mock counts, synthetic receipts, or hardcoded lineage without an explicit preview label.
 
