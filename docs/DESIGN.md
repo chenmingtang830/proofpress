@@ -26,7 +26,7 @@ The design system is workflow-neutral. A legal product may organize work by orga
 Proofpress should feel like a bound volume with a cyan seal: paper you can sit with, a stamp you can trust, knowledge worth building on. It is archival, not ornamental; quiet, not empty. A reviewer should feel they are examining a record, not operating a dashboard.
 
 [//]: # (ob:532d94f7)
-The hosted owner workspace is a steward's desk over that ledger. Home and Ask Proof Press are how a human orients; they are not how knowledge becomes governed. Cyan is the seal and the interaction, never a substitute for admission.
+The hosted owner workspace is a steward's desk over that ledger. Home and Ask Proofpress are how a human orients; they are not how knowledge becomes governed. Cyan is the seal and the interaction, never a substitute for admission.
 
 [//]: # (ob:66d5152d)
 Do not optimize for "looks like a 2026 AI product." Optimize for this: a future agent or human can tell, in one glance, what they may rely on, why, and under whose authority.
@@ -38,18 +38,18 @@ Do not optimize for "looks like a 2026 AI product." Optimize for this: a future 
 The hosted owner IA is frozen as of 2026-09-01. Do not subtract these surfaces:
 
 [//]: # (ob:4ffeef89)
-- **Home** — orientation and Ask Proof Press entry; not a KPI dashboard
+- **Home** — orientation and Ask Proofpress entry; not a KPI dashboard
 - **Review** — governance inbox
 - **Ledger** — current authoritative knowledge
 - **Activity** — consumption receipts
 - **Admin** — principals, credentials, policy
-- **Ask Proof Press** — persistent context-aware clerk
+- **Ask Proofpress** — persistent context-aware clerk
 
 [//]: # (ob:0605066b)
 Admit is the lifecycle verb. Approve is the owner-chrome label for that same decision; the control must keep `data-decision="admit"`. The assistant may explain, query, navigate, and draft a bounded clarification request. It must never admit, reject, or appear to.
 
 [//]: # (ob:343a8d41)
-A host may keep Home and Ask Proof Press. Those surfaces are chrome around the ledger, not a second authority.
+A host may keep Home and Ask Proofpress. Those surfaces are chrome around the ledger, not a second authority.
 
 [//]: # (ob:03c75a58)
 ## AI-tell denylist
@@ -61,10 +61,10 @@ These patterns make Proofpress look like generic AI software and hide the trust 
 - Decorative gradients, glow, glassmorphism, or aurora backgrounds. Paper is flat.
 - Inter, Geist, or other default AI-product sans as the narrative voice. Georgia carries knowledge prose; system sans operates controls.
 - KPI tiles, sparkline dashboards, or metrics-that-look-important as Home.
-- Sparkle, magic-wand, or ✦ as a mark of authority. A host may use a small mark on the Ask Proof Press toggle; it must never sit on Admit/Approve, a status chip, or a candidate conclusion.
+- Sparkle, magic-wand, or ✦ as a mark of authority. A host may use a small mark on the Ask Proofpress toggle; it must never sit on Admit/Approve, a status chip, or a candidate conclusion.
 - Green, red, or orange used for decoration, generic success, or visual variety.
 - **Draft** as a Proofpress lifecycle term. A proposal is a **candidate**. Draft belongs to documents, not admission state.
-- Copy that treats Ask Proof Press, a model recommendation, or a passing check as admission.
+- Copy that treats Ask Proofpress, a model recommendation, or a passing check as admission.
 - Linear or ChatGPT chrome: infinite chat as the product, stacked elevated cards, gradient pills, or confidence percentages as authority.
 - Image generation or video generation as product UI. Trust states must remain recognizable without generated atmosphere.
 
@@ -78,7 +78,7 @@ When an agent proposes visual work, run a critic against screenshots only. Do no
 **Taste bar.** Would this still look like Proofpress if the logo were covered? Paper, ink, one cyan seal, Georgia for knowledge, system sans for controls, monospace for proof. If it could be a generic AI workspace, it fails.
 
 [//]: # (ob:b93e40e3)
-**Trust bar.** Can a stranger point to the candidate, the evidence, the checks, the advisory recommendation, and the human decision — and see that only the last one admits? If Ask Proof Press, a green check, or a cyan glow could be mistaken for admission, it fails.
+**Trust bar.** Can a stranger point to the candidate, the evidence, the checks, the advisory recommendation, and the human decision — and see that only the last one admits? If Ask Proofpress, a green check, or a cyan glow could be mistaken for admission, it fails.
 
 [//]: # (ob:40d605db)
 **References.** Use the brand-film stills and the hosted owner surfaces as the visual references, not a moodboard of other products.
@@ -102,13 +102,14 @@ The human, not the critic, decides when to stop. A critic that is also asked "ar
 | accent / accent-soft | #0E5E6F / #E3EEF0 | #5FB3C4 / #173741 | Proofpress, edit, selection, modified, interaction |
 | add / add-bg | #2E7D4F / #E7F2EA | #6FBF8E / #1B3226 | Verified checks, admitted knowledge, active governed context |
 | del / del-bg | #B4453A / #F7E9E7 | #C87E82 / #3A2320 | Rejected, invalid, blocked, removed |
-| move / move-bg | #8A6210 / #F5EEDC | #D7B56D / #332B18 | Needs review, why, moved, attention without alerting |
+| review / review-bg | #5A5D6B / #F1EFE8 | #A6A9B4 / #22252D | Candidate, needs review, advisory recommendation, and quiet attention |
+| move / move-bg | #665A8A / #EFEDF5 | #AAA0D2 / #29263A | Moved content only; never review state or generic attention |
 
 [//]: # (ob:a8d606fe)
-The launch film remains the canonical palette for dark UI: white `#EAE8E0` carries primary content, cyan `#5FB3C4` carries Proofpress and interaction, orange `#D7B56D` carries why or review attention, red `#C87E82` carries rejected or blocked, and green `#6FBF8E` is reserved for verified or admitted. Adjacent diff states use the same meanings: modified is cyan, moved orange, removed red, and added green. Both themes must be proofread.
+The launch film remains a narrative reference, but the operating UI uses a quieter subset: white `#EAE8E0` carries primary content, cyan `#5FB3C4` carries Proofpress and interaction, neutral ink carries pending review and advisory recommendation, red `#C87E82` carries rejected or blocked, and green `#6FBF8E` is reserved for verified or admitted. Moved content may use muted violet. Yellow/orange is not an interactive control, status, recommendation, or attention color in the hosted owner workspace. Both themes must be proofread.
 
 [//]: # (ob:b5b71caf)
-**The State, Not Brand Rule.** Green, red, and orange communicate ledger state. Do not use them for decorative emphasis, generic success, or visual variety. Cyan may identify Proofpress and interactive selection, but it cannot make a candidate appear admitted.
+**The State, Not Brand Rule.** Green and red communicate terminal ledger state. Pending review and advisory recommendation are neutral because neither has authority; moved content is muted violet. Do not use semantic colors for decorative emphasis, generic success, or visual variety. Cyan may identify Proofpress and interactive selection, but it cannot make a candidate appear admitted.
 
 [//]: # (ob:eeee2405)
 The fixed fallback mapping for GitHub PR comments is `🔵 mod`, `🟣 mov`, `🔴 del`, and `🟢 new`. Blue is the closest GitHub emoji equivalent to the cyan accent; purple deliberately replaces yellow for moved, so an ordinary move is not misread as a warning. `branding.color: blue` in GitHub Action metadata controls only the action icon background in Marketplace/Actions lists; it does not control PR comments.
@@ -166,8 +167,8 @@ Connectors are two-pixel paths with no arrowheads unless direction would otherwi
 ## Components
 
 [//]: # (ob:0287d639)
-- **Status chip:** compact monospace pill. Admitted/current is green; needs review or revision is orange; blocked/rejected is red; agent or interactive scope is cyan. Never express authority through confidence percentages.
-- **Diff tag:** compact inline marker. New is green, modified cyan, removed red, and moved orange.
+- **Status chip:** compact monospace label. Admitted/current is green; needs review or revision is neutral ink on wash; blocked/rejected is red; agent or interactive scope is cyan. Pending and recommendation surfaces must not use yellow/orange. Never express authority through confidence percentages.
+- **Diff tag:** compact inline marker. New is green, modified cyan, removed red, and moved violet.
 - **Evidence bundle:** the reviewable support unit for a conclusion. Summarize its bound evidence blocks and source count; do not present the bundle as a raw file.
 - **Evidence block row:** filename or artifact identity, verified locator, bounded quotation, integrity state, and a clear route to the immutable source. Use a bottom rule instead of an independent promotional card.
 - **Candidate conclusion:** state, proposition, evidence count, recommendation, and material impact. Its review state must remain distinct from deterministic integrity and model evaluation.
@@ -204,7 +205,7 @@ Every mutation must produce immediate, consistent feedback: disable duplicate su
 - **Change block:** use a three-pixel semantic edge and a light wash. Put word-level changes inside a collapsed disclosure so the document remains readable.
 - **Comment card:** use a semantic edge, card surface, and quiet status copy such as “Awaiting response,” “Recorded · awaiting revision,” or “Resolved.”
 - **Block hover:** reveal a wash surface and an explicit Comment affordance. Clickability must never depend on hover alone.
-- **Decision bar:** when a focused single-column review needs persistent actions, use a sticky bottom bar with solid green Approve and solid cyan Request changes. State must change immediately after submission to prevent repeated action without feedback.
+- **Decision bar:** when a focused single-column review needs persistent actions, use a sticky bottom bar with solid green Approve, an ink-on-paper Reject control, and a cyan-outline Request changes control. Never use yellow/orange for a decision. State must change immediately after submission to prevent repeated action without feedback.
 
 [//]: # (ob:e693f5e3)
 ### Voice and Language
@@ -227,7 +228,7 @@ English is the source language for UI strings, CLI output, and documentation sur
 - **Do** make selected graph nodes keyboard-operable and expose the same receipt information without relying on color alone.
 - **Do** project a recorded admission consistently across review, ledger, lineage, history, and governed context.
 - **Do** let a host product apply its own brand shell while retaining Proofpress trust-state semantics.
-- **Do** keep the hosted owner chrome as Home, Review, Ledger, Activity, Admin, and Ask Proof Press; do not subtract those surfaces.
+- **Do** keep the hosted owner chrome as Home, Review, Ledger, Activity, Admin, and Ask Proofpress; do not subtract those surfaces.
 - **Do** fail closed: unavailable data or invalid lineage must render as blocked or not ready, never as a plausible placeholder.
 
 [//]: # (ob:70e00445)
@@ -238,7 +239,7 @@ English is the source language for UI strings, CLI output, and documentation sur
 - **Don't** use an unbounded force-directed graph as the default ledger view.
 - **Don't** show pending, blocked, rejected, expired, superseded, or needs-revision knowledge as available to an agent or API.
 - **Don't** make evaluation metrics, model confidence, or recommendation the visual equivalent of admission.
-- **Don't** treat Ask Proof Press, a passing check, or a cyan glow as admission.
+- **Don't** treat Ask Proofpress, a passing check, or a cyan glow as admission.
 - **Don't** use Draft as a Proofpress lifecycle term for a candidate conclusion.
 - **Don't** use Inter as narrative type, decorative gradients, or KPI tiles as the Home metaphor.
 - **Don't** bake legal-specific matter, counsel, or data-room concepts into Proofpress core components.
