@@ -17,6 +17,8 @@ with tempfile.TemporaryDirectory(prefix="proofpress-browser-") as directory:
     ids = []
     for name in ["approve", "reject", "clarify"]:
         quote = f"Browser fixture {name}: only human admission permits reuse."
+        if name == "approve":
+            quote += " " + "Cross-device experiment evidence must retain its source binding, current scope, and explicit owner authority before any successor relies on it. " * 5
         evidence = client.submit_evidence({
             "schema_version": "proofpress/retrieval-evidence/v1",
             "source": {"uri": f"fixture://{name}", "content_digest": "sha256:" + "a" * 64},

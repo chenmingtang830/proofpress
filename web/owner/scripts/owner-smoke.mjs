@@ -33,9 +33,22 @@ try {
     await page.setViewportSize({width,height:900});
     await page.getByRole('button',{name:'Close details',exact:true}).click();
     assert.equal(await page.locator('.inspector').count(),0);
-    await page.locator('tbody tr').filter({hasText:data.ids[0]}).click();
+    const opener = page.locator('tbody tr').filter({hasText:data.ids[0]}).getByRole('button');
+    await opener.focus();
+    await opener.press('Enter');
     await page.locator('.inspector h2').waitFor();
+    assert.equal(await page.getByRole('button',{name:'Close details',exact:true}).evaluate(el=>document.activeElement===el),true);
+    assert.equal(await page.locator('.work').isVisible(),false);
+    await page.getByRole('button',{name:'View details',exact:true}).click();
+    await page.getByRole('button',{name:'Approve',exact:true}).scrollIntoViewIfNeeded();
     assert.equal(await page.evaluate(()=>document.body.scrollWidth),width);
+    if(process.env.QA_SCREENSHOTS) {
+      await mkdir(process.env.QA_SCREENSHOTS,{recursive:true});
+      await page.screenshot({path:`${process.env.QA_SCREENSHOTS}/review-long-${width}.png`});
+    }
+    await page.getByRole('button',{name:'Close details',exact:true}).press('Escape');
+    await page.waitForFunction(()=>document.activeElement?.classList.contains('conclusionSelect'));
+    await opener.click();
   }
   await page.setViewportSize({width:1536,height:1024});
   await page.locator('tbody tr').filter({hasText:data.ids[0]}).click();
@@ -119,6 +132,11 @@ try {
     await page.getByRole('button',{name,exact:true}).click();
     await page.locator('h1').waitFor();
   }
+  await page.goBack();
+  await page.getByRole('heading',{name:'Activity',exact:true}).waitFor();
+  for(const name of ['Time','Operation','Actor','Result']) assert.equal(await page.getByRole('columnheader',{name,exact:true}).count(),1);
+  await page.goForward();
+  await page.getByRole('heading',{name:'Admin',exact:true}).waitFor();
   await page.locator('.issueForm input').nth(0).fill('agent:temporary-browser');
   await page.locator('.issueForm input').nth(1).fill('Temporary browser credential');
   await page.getByRole('button',{name:'Issue credential',exact:true}).click();
@@ -160,6 +178,32 @@ try {
       await page.screenshot({path:`${process.env.QA_SCREENSHOTS}/home-${width}.png`});
     }
   }
+  await page.setViewportSize({width:1280,height:900});
+  await page.route('**/owner/api/context?*',route=>route.fulfill({status:503,json:{error:'Context unavailable'}}));
+  await page.goto(`${data.base}/ledger`);
+  await page.getByText('Current knowledge could not be loaded.',{exact:false}).waitFor();
+  assert.equal(await page.locator('.conclusionNode').count(),0);
+  await page.unroute('**/owner/api/context?*');
+  await page.getByRole('button',{name:'Reload workspace',exact:true}).click();
+  await page.locator('.conclusionNode').waitFor();
+  await page.route(`**/owner/api/conclusions/${data.ids[0]}`,route=>route.fulfill({status:503,json:{error:'Detail unavailable'}}));
+  await page.locator('.conclusionNode').click();
+  await page.getByRole('button',{name:'Retry details',exact:true}).waitFor();
+  assert.equal(await page.locator('.inspector').count(),0);
+  await page.unroute(`**/owner/api/conclusions/${data.ids[0]}`);
+  await page.getByRole('button',{name:'Retry details',exact:true}).click();
+  await page.locator('.inspector h2').waitFor();
+  await page.route('**/owner/api/graph',route=>route.fulfill({status:401,json:{error:'owner_session_required'}}));
+  await page.goto(`${data.base}/review`);
+  await page.getByRole('link',{name:'Sign in again',exact:true}).waitFor();
+  assert.equal(await page.getByRole('button',{name:'Approve',exact:true}).count(),0);
+  await page.unroute('**/owner/api/graph');
+  await page.getByRole('link',{name:'Sign in again',exact:true}).click();
+  await page.locator('.shell[aria-busy="false"]').waitFor();
+  assert.equal(await page.getByRole('link',{name:'Sign in again',exact:true}).count(),0);
+  await page.getByRole('button',{name:'Activity',exact:true}).click();
+  await page.getByRole('columnheader',{name:'Operation',exact:true}).waitFor();
+  if(process.env.QA_SCREENSHOTS) await page.screenshot({path:`${process.env.QA_SCREENSHOTS}/activity-columns.png`});
   assert.deepEqual(errors,[]);
   console.log('PASS isolated real browser: evidence quote, tabs, approve/reject/request changes submission, canonical scope projection, successor read, selection race/error safety, navigation, credential issue/rotate/revoke, responsive Home. No production data or model calls.');
 } finally {

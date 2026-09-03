@@ -57,7 +57,10 @@ async function api(path: string, options: RequestInit = {}) {
     headers: { "Content-Type": "application/json", ...(options.headers || {}) },
     ...options,
   });
-  const body = await response.json();
+  if (response.status === 401) throw new Error("Your owner session has expired. Sign in again to continue.");
+  let body: any;
+  try { body = await response.json(); }
+  catch { throw new Error(`The service returned an unreadable response (${response.status}). Reload the workspace to retry.`); }
   if (!response.ok || body.ok === false)
     throw new Error(
       body.error?.message ||
@@ -115,6 +118,9 @@ function App() {
   const decisionPending = React.useRef(false);
   const [eligible, setEligible] = React.useState<NodeRow[]>([]);
   const [contextLoading, setContextLoading] = React.useState(true);
+  const [contextError, setContextError] = React.useState("");
+  const [detailError, setDetailError] = React.useState("");
+  const [reloadVersion, setReloadVersion] = React.useState(0);
   const scope = "";
   const [loading, setLoading] = React.useState(true);
   const [error, setError] = React.useState("");
@@ -134,16 +140,23 @@ function App() {
     }).catch(e => { if (active) setError(e.message); })
       .finally(() => { if (active) setCredentialsLoading(false); });
     return () => { active = false; };
-  }, [page]);
+  }, [page, reloadVersion]);
+  React.useEffect(() => {
+    let active = true;
+    api("/owner/api/activity").then(audit => { if (active) setActivity(audit); })
+      .catch(e => { if (active) setError(`Activity could not load: ${e.message}`); });
+    return () => { active = false; };
+  }, [page, reloadVersion]);
   const load = React.useCallback(async () => {
     const request = ++selectionRequest.current;
     setLoading(true);
     setError("");
+    setDetailError("");
+    setReceipt(null);
     try {
-      const [graph, session, audit] = await Promise.all([
+      const [graph, session] = await Promise.all([
         api("/owner/api/graph"),
         api("/owner/api/session"),
-        api("/owner/api/activity"),
       ]);
       const next = (graph.nodes || []).filter(
         (n: NodeRow) => n.type === "conclusion",
@@ -152,7 +165,6 @@ function App() {
       setEdges(graph.edges || []);
       setJudgeConfigured(Boolean(session.capabilities?.judge));
       setCsrf(session.csrf);
-      setActivity(audit);
       const desired =
         selected && next.some((n: NodeRow) => n.id === selected)
           ? selected
@@ -169,6 +181,7 @@ function App() {
       }
     } catch (e: any) {
       setError(e.message);
+      setDetailError(e.message);
     } finally {
       setLoading(false);
     }
@@ -180,14 +193,15 @@ function App() {
     let active = true;
     setEligible([]);
     setContextLoading(true);
+    setContextError("");
     api(`/owner/api/context?scope=${encodeURIComponent(scope)}`).then(context => {
       if (active) { setContextRelations(context.relations || []); setEligible((context.knowledge || []).map((row: any) => ({
         ...row, label: row.statement, type: "conclusion", state: "admitted",
       }))); }
-    }).catch(e => { if (active) setError(e.message); })
+    }).catch(e => { if (active) { setContextError(e.message); setError(e.message); } })
       .finally(() => { if (active) setContextLoading(false); });
     return () => { active = false; };
-  }, [scope, rows]);
+  }, [scope, rows, reloadVersion]);
   React.useEffect(() => {
     const ctx =
       (document as any).modelContext || (navigator as any).modelContext;
@@ -282,6 +296,22 @@ function App() {
       `/${page}${page === "review" && selected ? `?conclusion_id=${encodeURIComponent(selected)}` : ""}`,
     );
   }, [page, selected]);
+  function navigate(next: Page) {
+    if (next === page) return;
+    history.pushState(null, "", `/${next}${next === "review" && selected ? `?conclusion_id=${encodeURIComponent(selected)}` : ""}`);
+    setPage(next);
+  }
+  React.useEffect(() => {
+    const restore = () => {
+      const next = location.pathname.split("/")[1] as Page;
+      setPage(labels[next] ? next : "review");
+      const id = new URLSearchParams(location.search).get("conclusion_id");
+      if (id) void choose(id);
+      else { ++selectionRequest.current; setSelected(null); setReceipt(null); setDetailError(""); }
+    };
+    window.addEventListener("popstate", restore);
+    return () => window.removeEventListener("popstate", restore);
+  }, []);
   async function choose(id: string) {
     if (decisionPending.current) return;
     const request = ++selectionRequest.current;
@@ -289,11 +319,12 @@ function App() {
     setReceipt(null);
     setNote("");
     setError("");
+    setDetailError("");
     try {
       const detail = await api(`/owner/api/conclusions/${encodeURIComponent(id)}`);
       if (request === selectionRequest.current) setReceipt(detail);
     } catch (e: any) {
-      if (request === selectionRequest.current) setError(e.message);
+      if (request === selectionRequest.current) { setError(e.message); setDetailError(e.message); }
     }
   }
   async function decide(decision: string) {
@@ -334,7 +365,7 @@ function App() {
     finally { decisionPending.current = false; setBusy(false); }
   }
   async function showAdmin() {
-    setPage("admin");
+    navigate("admin");
     try {
       const body = await api("/v1/owner/credentials");
       setCredentials(body.credentials || []);
@@ -384,7 +415,7 @@ function App() {
                 aria-label={labels[id]}
                 aria-current={page === id ? "page" : undefined}
                 className={page === id ? "active" : ""}
-                onClick={() => (id === "admin" ? showAdmin() : setPage(id))}
+                onClick={() => navigate(id)}
               >
                 <Icon />
                 <span>{labels[id]}</span>
@@ -410,6 +441,7 @@ function App() {
         {error && (
           <div className="error" role="alert">
             <span>{error}</span>
+            {error.includes("session has expired") ? <a href={location.pathname + location.search}>Sign in again</a> : <button disabled={busy} onClick={() => { setReloadVersion(v => v + 1); void load(); }}>Reload workspace</button>}
             <button aria-label="Dismiss error" onClick={() => setError("")}>
               <X />
             </button>
@@ -421,9 +453,9 @@ function App() {
               pending={pending}
               admitted={admitted}
               rows={rows}
-              onChoose={(id: string) => { setPage("review"); choose(id); }}
-              onReview={() => setPage("review")}
-              onLedger={() => setPage("ledger")}
+              onChoose={(id: string) => { navigate("review"); choose(id); }}
+              onReview={() => navigate("review")}
+              onLedger={() => navigate("ledger")}
             />
           )}
           {page === "review" && (
@@ -451,7 +483,9 @@ function App() {
               allRows={rows}
               edges={edges}
               relations={contextRelations}
-              onReview={() => setPage("review")}
+              onReview={() => navigate("review")}
+              contextError={contextError}
+              detailError={detailError}
               loading={contextLoading}
               selected={selected}
               receipt={receipt}
@@ -571,12 +605,10 @@ function ReviewPage({
                 <tr
                   key={row.id}
                   className={selected === row.id ? "selected" : ""}
-                  tabIndex={0}
-                  onKeyDown={e => { if (e.key === "Enter") onChoose(row.id); }}
                   onClick={() => onChoose(row.id)}
                 >
                   <td>
-                    <b>{row.label}</b>
+                    <button className="conclusionSelect" onClick={e => { e.stopPropagation(); onChoose(row.id); }}>{row.label}</button>
                     <small>{row.id}</small>
                   </td>
                   <td>{row.scope || "—"}</td>
@@ -615,11 +647,18 @@ function Inspector({
   readOnly = false,
 }: any) {
   const [expanded, setExpanded] = React.useState(false);
+  const panel = React.useRef<HTMLElement>(null);
   React.useEffect(() => setExpanded(false), [r?.conclusion.id]);
+  React.useEffect(() => {
+    if (!r || !window.matchMedia("(max-width: 1050px)").matches) return;
+    const opener = document.activeElement as HTMLElement | null;
+    panel.current?.querySelector<HTMLButtonElement>(".mobileBack")?.focus();
+    return () => { requestAnimationFrame(() => { if (opener?.isConnected && opener !== document.body) opener.focus(); }); };
+  }, [r?.conclusion.id]);
   if (!r) return null;
   const can = r.state === "needs_review" && !readOnly;
   return (
-    <aside className="inspector">
+    <aside className="inspector" ref={panel} aria-label="Conclusion details" onKeyDown={e => { if (e.key === "Escape" && onClose) { e.stopPropagation(); onClose(); } }}>
       {onClose && <button className="mobileBack" onClick={onClose}>
         Close details
       </button>}
@@ -760,7 +799,7 @@ function Inspector({
     </aside>
   );
 }
-function LedgerPage({ rows, allRows, edges, relations, selected, receipt, onChoose, onReview, loading }: any) {
+function LedgerPage({ rows, allRows, edges, relations, selected, receipt, onChoose, onReview, loading, contextError, detailError }: any) {
   const [view, setView] = React.useState("lineage");
   const [showHistory, setShowHistory] = React.useState(false);
   const [focused, setFocused] = React.useState(false);
@@ -805,7 +844,7 @@ function LedgerPage({ rows, allRows, edges, relations, selected, receipt, onChoo
                 {members.length > limit && <Button variant="outline" onClick={() => setScopeLimit({...scopeLimit, [scope]: limit + 8})}>Show {Math.min(8, members.length - limit)} more</Button>}
               </section>;
             })}
-            {!groups.length && <div><p>{loading ? "Loading current knowledge…" : "No eligible knowledge yet. Review candidates first, or show history."}</p>{!loading && <Button variant="outline" onClick={onReview}>Review candidates</Button>}</div>}
+            {!groups.length && <div><p>{loading ? "Loading current knowledge…" : contextError ? "Current knowledge could not be loaded. Use Reload workspace to retry." : "No eligible knowledge yet. Review candidates first, or show history."}</p>{!loading && !contextError && <Button variant="outline" onClick={onReview}>Review candidates</Button>}</div>}
           </div>}
           {focused && current ? <><div className="lineageFlow">
             <section><h2>Bound evidence</h2><Button variant="outline" aria-expanded={expandedEvidence} onClick={() => setExpandedEvidence(!expandedEvidence)}>{expandedEvidence ? "Collapse evidence" : `Expand ${current.evidence?.length || 0} evidence`}</Button>{expandedEvidence && (current.evidence || []).map((e: any, i: number) => <article key={i}><b>{evidenceName(e)}</b><EvidenceContent row={e} /></article>)}{!current.evidence?.length && <p>No bound evidence recorded.</p>}</section>
@@ -816,7 +855,7 @@ function LedgerPage({ rows, allRows, edges, relations, selected, receipt, onChoo
           </div><section className="relatedConclusions"><h2>Direct relations</h2>{related.length ? related.map((edge: any, i: number) => {
             const other = visible.find((row: any) => row.id === (edge.from === selected ? edge.to : edge.from));
             return <button key={edge.id || i} onClick={() => focus(other.id)}><span>{edge.from === selected ? "Outgoing" : "Incoming"} · {edge.type.replaceAll("_", " ")} · {edge.state || "recorded"}</span><b>{other.label}</b></button>;
-          }) : <p>No recorded relations to other conclusions in this view.</p>}</section></> : focused && <p className="empty">Loading selected lineage…</p>}
+          }) : <p>No recorded relations to other conclusions in this view.</p>}</section></> : focused && <div className="empty">{detailError ? <><p>Could not load this conclusion. No stale receipt is shown.</p><Button variant="outline" onClick={() => onChoose(selected)}>Retry details</Button></> : "Loading selected lineage…"}</div>}
         </section>}
         {view === "list" &&
         <div className="tableWrap">
@@ -834,12 +873,10 @@ function LedgerPage({ rows, allRows, edges, relations, selected, receipt, onChoo
                 <tr
                   key={r.id}
                   className={selected === r.id ? "selected" : ""}
-                  tabIndex={0}
-                  onKeyDown={e => { if (e.key === "Enter") focus(r.id); }}
                   onClick={() => focus(r.id)}
                 >
                   <td>
-                    <b>{r.label}</b>
+                    <button className="conclusionSelect" onClick={e => { e.stopPropagation(); focus(r.id); }}>{r.label}</button>
                     <small>{r.id}</small>
                   </td>
                   <td>{r.scope || "—"}</td>
@@ -855,7 +892,7 @@ function LedgerPage({ rows, allRows, edges, relations, selected, receipt, onChoo
           </table>
           {rows.length === 0 && (
             <div className="empty">
-              {loading ? "Loading eligible knowledge…" : "No current knowledge is eligible for this scope and identity."}
+              {loading ? "Loading eligible knowledge…" : contextError ? "Current knowledge could not be loaded. Use Reload workspace to retry." : "No current knowledge is eligible for this scope and identity."}
             </div>
           )}
         </div>
@@ -884,19 +921,18 @@ function ActivityPage({ rows }: any) {
         title="Activity"
         description="Recent workspace requests and outcomes, including read access. Showing up to the latest 100 records; conclusion decision history is in its review details."
       />
-      <div className="timeline">
+      <div className="tableWrap activityTable">
+        <table><caption className="sr-only">Recent workspace activity</caption><thead><tr><th>Time</th><th>Operation</th><th>Actor</th><th>Result</th></tr></thead><tbody>
         {rows.slice(current * 20, (current + 1) * 20).map((r: any) => (
-          <div key={r.audit_id}>
-            <span></span>
-            <div>
-              <Badge state={r.outcome === "ok" ? "recorded" : "blocked"} />
-              <b>{(r.operation || "request").replaceAll(".", " · ")}</b>
-              <small>
-                {r.principal_id || "Unknown principal"} · <time dateTime={r.occurred_at} title={r.occurred_at}>{new Date(r.occurred_at).toLocaleString()}</time>
-              </small>
-            </div>
-          </div>
+          <tr key={r.audit_id}>
+            <td data-label="Time"><time dateTime={r.occurred_at} title={r.occurred_at}>{new Date(r.occurred_at).toLocaleString()}</time></td>
+            <td data-label="Operation">{(r.operation || "request").replaceAll(".", " · ")}</td>
+            <td data-label="Actor">{r.principal_id || "Unknown principal"}</td>
+            <td data-label="Result"><Badge state={r.outcome === "ok" ? "recorded" : "blocked"} /></td>
+          </tr>
         ))}
+        </tbody></table>
+        {!rows.length && <p className="empty">No activity records loaded.</p>}
       </div>
       <nav className="pagination" aria-label="Activity pages">
         <Button variant="outline" disabled={current === 0} onClick={() => setPage(current - 1)}>Previous</Button>

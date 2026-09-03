@@ -299,6 +299,24 @@ main {
 .workspacePage.overviewOnly {
   grid-template-columns: minmax(0, 1fr);
 }
+.conclusionSelect {
+  display: block;
+  width: 100%;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  text-align: left;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+.conclusionSelect:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+.inspector, .conclusionSelect, .conclusionNode {
+  overflow-wrap: anywhere;
+}
 .filterbar {
   display: flex;
   height: 52px;
@@ -1036,7 +1054,13 @@ td:last-child svg {
   font-size: 12px;
 }
 @media (max-width: 1050px) {
+  .workspacePage:not(.overviewOnly) > .work {
+    display: none;
+  }
   .mobileBack {
+    position: sticky;
+    top: 0;
+    z-index: 1;
     display: block;
     width: 100%;
     min-height: 44px;
@@ -1074,11 +1098,25 @@ td:last-child svg {
     top: 68px;
     right: 0;
     z-index: 20;
-    width: min(405px, calc(100vw - 72px));
+    width: calc(100vw - 72px);
     box-shadow: -15px 0 40px rgba(32, 34, 43, 0.08);
   }
 }
 @media (max-width: 680px) {
+  .activityTable tr { padding: 16px; }
+  .activityTable td, .activityTable td:last-child, .activityTable td:not(:first-child):not(:last-child) {
+    display: grid;
+    grid-template-columns: 80px minmax(0, 1fr);
+    position: static;
+    gap: 12px;
+    margin: 0;
+    padding: 5px 0;
+    overflow-wrap: anywhere;
+  }
+  .activityTable td::before { content: attr(data-label); color: var(--ink-2); }
+  .issueForm input, .decision textarea {
+    font-size: 16px;
+  }
   .shell {
     display: block;
     height: auto;
