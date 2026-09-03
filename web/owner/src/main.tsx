@@ -138,6 +138,7 @@ function App() {
   const [note, setNote] = React.useState("");
   const [busy, setBusy] = React.useState(false);
   const [decisionConfirmation, setDecisionConfirmation] = React.useState<{decision: string; id: string; statement: string; scope: string} | null>(null);
+  const [revisionHandoff, setRevisionHandoff] = React.useState<any>(null);
   const cancelDecision = React.useRef<HTMLButtonElement>(null);
   const decisionTrigger = React.useRef<HTMLElement | null>(null);
   const [credentials, setCredentials] = React.useState<any[]>([]);
@@ -311,6 +312,7 @@ function App() {
     );
   }, [page, selected, fullReview]);
   function openFullReview() {
+    if (fullReview) { document.querySelector(".stage")?.scrollTo({top: 0}); return; }
     reviewScroll.current = document.querySelector(".stage")?.scrollTop || 0;
     history.pushState({proofpressFullReview: true}, "", `/review?conclusion_id=${encodeURIComponent(selected || "")}&view=full`);
     setFullReview(true);
@@ -376,6 +378,7 @@ function App() {
       setDecisionConfirmation(null);
       setNote("");
       await load();
+      if (decision === "request_changes") setRevisionHandoff(next);
     } catch (e: any) {
       setError(e.message);
     } finally {
@@ -439,7 +442,6 @@ function App() {
             <Dialog.Description>{decisionConfirmation?.decision === "admit" ? "Eligible agents may rely on this conclusion within its scope. You are making the human approval decision." : "This decision will be recorded. The conclusion will remain excluded from governed context."}</Dialog.Description>
             <dl><dt>Scope</dt><dd>{decisionConfirmation?.scope}</dd></dl>
             <div className="confirmationStatement">{decisionConfirmation?.statement}</div>
-            <p className="confirmationNote">Automated checks and LM advice do not grant approval.</p>
             {error && <p role="alert">{error}</p>}
             <div className="confirmationActions">
               <Button ref={cancelDecision} variant="outline" disabled={busy} onClick={() => setDecisionConfirmation(null)}>Cancel</Button>
@@ -449,6 +451,16 @@ function App() {
                 void decide(decisionConfirmation.decision, true);
               }}>{busy ? "Recording decision…" : decisionConfirmation?.decision === "admit" ? "Confirm approval" : "Confirm rejection"}</Button>
             </div>
+          </Dialog.Content>
+        </Dialog.Portal>
+      </Dialog.Root>
+      <Dialog.Root open={Boolean(revisionHandoff)} onOpenChange={open => { if (!open) setRevisionHandoff(null); }}>
+        <Dialog.Portal><Dialog.Overlay className="confirmationOverlay" />
+          <Dialog.Content className="confirmationDialog">
+            <Dialog.Title>Changes requested</Dialog.Title>
+            <Dialog.Description>Your request is recorded. Hand it to your agent to start the revision.</Dialog.Description>
+            {revisionHandoff && <RevisionInstructions receipt={revisionHandoff} />}
+            <div className="confirmationActions"><Button variant="outline" onClick={() => setRevisionHandoff(null)}>Close</Button><Button onClick={() => { setRevisionHandoff(null); openFullReview(); }}>View revision request</Button></div>
           </Dialog.Content>
         </Dialog.Portal>
       </Dialog.Root>
@@ -699,6 +711,16 @@ function ReviewPage({
     </div>
   );
 }
+function RevisionInstructions({receipt: r}: any) {
+  const [message, setMessage] = React.useState("");
+  const field = React.useRef<HTMLTextAreaElement>(null);
+  if (!r.revision_request) return <p>The revision receipt is unavailable. Refresh the current preview before handing off to your agent.</p>;
+  const instructions = `Read proofpress_get_review_receipt for ${r.conclusion.id}. Requested change: ${r.review?.note || ""}\nSubmit supporting evidence, then use proofpress_propose_conclusion with the same scope and qualifiers: ${JSON.stringify({revision_of:r.conclusion.id,revision_request_ref:r.revision_request.event_id})}. Preserve other required profile qualifiers. Run evaluation, then return the new review link. Do not approve or overwrite the original.`;
+  return <div className="handoffInstructions"><p>No agent is notified automatically. Paste this into your connected agent.</p><textarea ref={field} readOnly aria-label="Revision instructions" value={instructions} /><Button variant="outline" onClick={async () => {
+    try { await navigator.clipboard.writeText(instructions); setMessage("Copied. Paste into your agent to start the revision."); }
+    catch { field.current?.focus(); field.current?.select(); setMessage("Clipboard unavailable. Copy the selected instructions manually."); }
+  }}>Copy instructions for agent</Button>{message && <p role="status">{message}</p>}</div>;
+}
 function Inspector({
   receipt: r,
   onClose,
@@ -711,7 +733,6 @@ function Inspector({
   fullReview = false, onOpenFull, onBack, onChoose,
 }: any) {
   const [expanded, setExpanded] = React.useState(false);
-  const [copyMessage, setCopyMessage] = React.useState("");
   const panel = React.useRef<HTMLElement>(null);
   React.useEffect(() => setExpanded(false), [r?.conclusion.id]);
   React.useEffect(() => {
@@ -724,12 +745,12 @@ function Inspector({
   const can = r.state === "needs_review" && !readOnly;
   return (
     <aside className={`inspector${fullReview ? " fullReview" : ""}`} ref={panel} aria-label="Conclusion details" onKeyDown={e => { if (e.key === "Escape" && onClose) { e.stopPropagation(); fullReview ? onBack() : onClose(); } }}>
+      {!can && <div className={`recorded ${r.state === "needs_revision" ? "revisionRecorded" : ""}`} role="status"><Check /><div><b>{r.state === "needs_revision" ? "Changes requested" : ["admitted", "rejected"].includes(r.state) ? "Decision recorded" : "Not available for reuse"}</b><p>{r.state === "admitted" ? "Available to eligible agents in scope." : r.state === "needs_revision" ? "Request saved. Send it to your agent for revision." : "Retained for audit; excluded from governed context."}</p>{r.state === "needs_revision" && !fullReview && onOpenFull && <Button variant="outline" onClick={onOpenFull}>View revision request</Button>}</div></div>}
       {fullReview && <Button variant="outline" onClick={onBack}>Back to review</Button>}
       {!fullReview && onClose && <button className="mobileBack" onClick={onClose}>
         Close details
       </button>}
       <div className="inspectorTop">
-        <span>CONCLUSION</span>
         <Badge state={r.state} />
         <h2>{fullReview ? "Review conclusion" : r.conclusion.statement}</h2>
         {fullReview && <p className="fullStatement">{r.conclusion.statement}</p>}
@@ -738,6 +759,7 @@ function Inspector({
           <span className="mono">{r.conclusion.id}</span>
         </p>
       </div>
+      {r.revision_request && <section className="revisionSection"><h3>Waiting for agent revision</h3><p>{r.review?.note}</p><RevisionInstructions key={r.revision_request.event_id} receipt={r} /><h3>Submitted revisions</h3>{r.revisions?.length ? r.revisions.map((candidate:any) => <Button key={candidate.id} variant="outline" onClick={() => onChoose(candidate.id)}>{candidate.statement.slice(0,120)} · {candidate.state}</Button>) : <p>No revised proposal yet.</p>}</section>}
       <div className="quickSnapshot">
         <dl><div><dt>Applies to</dt><dd>{r.conclusion.scope || "No scope recorded"}</dd></div>
         <div><dt>Supporting evidence</dt><dd>{(r.evidence || []).length} bound {(r.evidence || []).length === 1 ? "source" : "sources"}</dd></div>
@@ -748,13 +770,6 @@ function Inspector({
       </div>
       {(fullReview || expanded) && <>
       {r.revision_parent && <section className="revisionSection"><h3>Revision of previous conclusion</h3><p>{r.revision_parent.statement}</p><p><b>Requested change:</b> {r.revision_parent.review?.note}</p><p>Previous evidence: {r.revision_parent.evidence_refs.join(", ")}</p><p>Current evidence: {r.conclusion.evidence_refs.join(", ")}</p><p>This proposal requires a new human decision; it does not automatically replace its predecessor.</p></section>}
-      {r.revision_request && <section className="revisionSection"><h3>Waiting for agent revision</h3><p>{r.review?.note}</p><p>Send these instructions to your agent. No agent is notified automatically.</p><textarea readOnly aria-label="Revision instructions" value={`Read proofpress_get_review_receipt for ${r.conclusion.id}. Requested change: ${r.review?.note || ""}\nSubmit supporting evidence, then use proofpress_propose_conclusion with the same scope and qualifiers: ${JSON.stringify({revision_of:r.conclusion.id,revision_request_ref:r.revision_request.event_id})}. Preserve other required profile qualifiers. Return the new review link. Do not approve or overwrite the original.`} /><h3>Submitted revisions</h3>{r.revisions?.length ? r.revisions.map((candidate:any) => <Button key={candidate.id} variant="outline" onClick={() => onChoose(candidate.id)}>{candidate.statement.slice(0,120)} · {candidate.state}</Button>) : <p>No revised proposal yet.</p>}</section>}
-      {r.revision_request && <div className="revisionSection"><Button variant="outline" onClick={async () => {
-        const instructions = panel.current?.querySelector<HTMLTextAreaElement>('textarea[aria-label="Revision instructions"]');
-        if (!instructions) return;
-        try { await navigator.clipboard.writeText(instructions.value); setCopyMessage("Copied instructions for your agent."); }
-        catch { instructions.focus(); instructions.select(); setCopyMessage("Select and copy these instructions manually."); }
-      }}>Copy instructions for agent</Button>{copyMessage && <p role="status">{copyMessage}</p>}</div>}
       <Tabs.Root defaultValue="evidence">
         <Tabs.List className="tabs">
           <Tabs.Trigger value="evidence">Evidence</Tabs.Trigger>
@@ -798,11 +813,11 @@ function Inspector({
             )}
           </div>
           <div className="recommendation">
-            <span>POLICY / MODEL RECOMMENDATION</span>
+            <span>LM advice</span>
             <b>{r.recommendation?.recommendation || "No recommendation recorded"}</b>
             <p>
               {r.recommendation?.rationale ||
-                "A recommendation cannot admit this conclusion."}
+                ""}
             </p>
           </div>
         </Tabs.Content>
@@ -821,13 +836,6 @@ function Inspector({
       </>}
       {can && (!onOpenFull || fullReview) ? (
         <div className="decision">
-          <div>
-            <span>HUMAN DECISION</span>
-            <p>
-              Approval makes this conclusion available to eligible agents in
-              scope.
-            </p>
-          </div>
           <textarea
             aria-label="Review note or bounded clarification request"
             value={note}
@@ -858,19 +866,7 @@ function Inspector({
             </Button>
           </div>
         </div>
-      ) : can ? null : (
-        <div className="recorded">
-          <Check />
-          <div>
-            <b>{["admitted", "rejected", "needs_revision"].includes(r.state) ? "Decision recorded" : "Not available for reuse"}</b>
-            <p>
-              {r.state === "admitted"
-                ? "Available in governed context when current and in scope."
-                : "Retained for audit; excluded from governed context."}
-            </p>
-          </div>
-        </div>
-      )}
+      ) : null}
     </aside>
   );
 }

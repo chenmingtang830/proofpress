@@ -141,7 +141,23 @@ try {
   await page.getByText('Describe the bounded change',{exact:false}).waitFor();
   await page.locator('.decision textarea').fill('Verify this bounded assertion.');
   await page.getByRole('button',{name:'Request changes',exact:true}).click();
-  await page.getByText('Decision recorded',{exact:true}).waitFor();
+  const handoffDialog = page.getByRole('dialog');
+  await handoffDialog.getByRole('heading',{name:'Changes requested',exact:true}).waitFor();
+  assert.match(await handoffDialog.getByRole('textbox',{name:'Revision instructions'}).inputValue(),/revision_request_ref/);
+  if(process.env.QA_SCREENSHOTS) {
+    await page.screenshot({path:`${process.env.QA_SCREENSHOTS}/revision-handoff.png`});
+    await page.setViewportSize({width:390,height:844});
+    await page.screenshot({path:`${process.env.QA_SCREENSHOTS}/revision-handoff-mobile.png`});
+    assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth),false);
+    await page.setViewportSize({width:1440,height:1000});
+  }
+  await handoffDialog.getByRole('button',{name:'Copy instructions for agent'}).click();
+  await handoffDialog.getByRole('status').waitFor();
+  await handoffDialog.getByRole('button',{name:'View revision request'}).click();
+  await page.locator('.inspector > .recorded').getByText('Changes requested',{exact:true}).waitFor();
+  await page.getByRole('button',{name:'Back to review',exact:true}).click();
+  await page.getByRole('button',{name:'Copy instructions for agent',exact:true}).waitFor();
+  await page.getByRole('button',{name:'View revision request',exact:true}).click();
   const context = await page.request.post(`${data.base}/v1/operations`,{headers:{Authorization:`Bearer ${data.agent}`},data:{schema_version:'proofpress/local-operation/v1alpha1',operation:'context.get',parameters:{scope:'browser-test'}}});
   const projected=await context.json();
   assert.equal(projected.ok,true,JSON.stringify(projected));

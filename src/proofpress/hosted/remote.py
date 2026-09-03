@@ -5,6 +5,7 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import sys
 from pathlib import Path
 
 from proofpress.client import ProofpressClient, ProofpressError
@@ -52,6 +53,8 @@ def main(argv=None):
     summary.add_argument("--scope")
     receipt = subparsers.add_parser("review-receipt")
     receipt.add_argument("conclusion_id")
+    instructions = subparsers.add_parser("revision-instructions", help="Print a recorded change request to paste into your agent")
+    instructions.add_argument("conclusion_id")
     args = parser.parse_args(argv)
     client = _client(args)
     try:
@@ -74,11 +77,25 @@ def main(argv=None):
                 args.conclusion_id, decision, "server-derived", note=args.note,
                 review_request_id=args.request_id,
                 expected_head=args.expected_head)
+            if decision == "request_changes":
+                print("Changes requested. No agent was notified automatically. "
+                      "Use revision-instructions with this conclusion ID to print the handoff; "
+                      "keep the same --base-url and --token-env options.", file=sys.stderr)
         elif args.command == "context":
             result = client.context(
                 scope=args.scope, actor="server-derived", task=args.task)
         elif args.command == "review-summary":
             result = client.review_summary(args.scope)
+        elif args.command == "revision-instructions":
+            result = client.review_receipt(args.conclusion_id)
+            request = result.get("revision_request")
+            if not request:
+                raise ValueError("No revision request recorded for this conclusion")
+            qualifiers = json.dumps({"revision_of": args.conclusion_id, "revision_request_ref": request["event_id"]})
+            print(f'Read proofpress_get_review_receipt for {args.conclusion_id}. Requested change: {result.get("review", {}).get("note", "")}\n'
+                  f'Submit supporting evidence, then use proofpress_propose_conclusion with the same scope and qualifiers: {qualifiers}. '
+                  'Preserve other required profile qualifiers. Run evaluation, then return the new review link. Do not approve or overwrite the original.')
+            return
         else:
             result = client.review_receipt(args.conclusion_id)
     except (ProofpressError, OSError, ValueError) as exc:
