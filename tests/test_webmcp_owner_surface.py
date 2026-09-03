@@ -4,7 +4,7 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
-OWNER_UI = ROOT / "src" / "proofpress" / "hosted" / "owner_ui.html"
+OWNER_UI = ROOT / "web" / "owner" / "src" / "main.tsx"
 
 
 class WebmcpOwnerSurfaceTests(unittest.TestCase):
@@ -12,7 +12,8 @@ class WebmcpOwnerSurfaceTests(unittest.TestCase):
         self.page = OWNER_UI.read_text(encoding="utf-8")
 
     def test_registers_document_or_navigator_model_context(self):
-        self.assertIn("document.modelContext||navigator.modelContext", self.page)
+        self.assertIn("document as any).modelContext", self.page)
+        self.assertIn("navigator as any).modelContext", self.page)
         self.assertIn("registerTool", self.page)
 
     def test_required_governance_tools_are_declared(self):
@@ -22,52 +23,43 @@ class WebmcpOwnerSurfaceTests(unittest.TestCase):
             "get_lineage",
             "respond_to_review",
         ):
-            self.assertIn(f'name:"{name}"', self.page)
+            self.assertRegex(self.page, rf'name:\s*"{name}"')
 
     def test_approval_is_not_exposed_as_a_webmcp_tool(self):
-        names = re.findall(r'name:"([a-z_]+)"', self.page)
+        names = re.findall(r'name:\s*"([a-z_]+)"', self.page)
         self.assertNotIn("approve", names)
         self.assertNotIn("approve_conclusion", names)
         self.assertNotIn("admit", names)
-        self.assertIn("approve is not exposed", self.page)
+        self.assertIn("Approve is not exposed", self.page)
 
     def test_tools_return_structured_text_content(self):
-        self.assertIn("function toolText", self.page)
-        self.assertIn('type:"text"', self.page)
+        self.assertIn("const toolText", self.page)
+        self.assertRegex(self.page, r'type:\s*"text"')
 
-    def test_html_escape_helper_keeps_entity_replacements(self):
-        line = next(row for row in self.page.splitlines() if row.startswith("const esc="))
-        for name in ("amp;", "lt;", "gt;", "quot;"):
-            self.assertIn("&" + name, line)
-        self.assertIn("&#39;", line)
-        self.assertNotIn(r'"\"":""', line)
+    def test_react_renders_untrusted_text_without_inner_html(self):
+        self.assertNotIn("dangerouslySetInnerHTML", self.page)
 
     def test_owner_assistant_calls_hosted_endpoint_with_csrf_and_snapshot(self):
         self.assertIn('api("/owner/api/ask"', self.page)
-        self.assertIn("csrf:CSRF,question:q,snapshot:assistantSnapshot()", self.page)
-        self.assertIn("function assistantSnapshot()", self.page)
-        self.assertIn("candidates:visible.slice(0,20)", self.page)
-        self.assertIn("selected&&visible.some(n=>n.id===selected)", self.page)
-        self.assertNotIn("function answer(q)", self.page)
+        self.assertRegex(self.page, r"csrf,\s*question:\s*q,\s*snapshot:")
 
     def test_owner_assistant_renders_model_text_without_html_injection(self):
-        self.assertIn('a.textContent=result.answer', self.page)
-        self.assertNotIn("a.innerHTML=answer(q)", self.page)
+        self.assertRegex(self.page, r"text:\s*result\.answer")
+        self.assertNotIn("innerHTML", self.page)
 
     def test_pending_and_recommendation_surfaces_are_neutral(self):
-        for stale_token in ("#8A6210", "#F5EEDC", "var(--move)", "var(--moveBg)"):
+        for stale_token in ("#8A6210", "#F5EEDC", "#F5C", "yellow"):
             self.assertNotIn(stale_token, self.page)
-        self.assertIn("--review:#5A5D6B", self.page)
-        self.assertIn(".chip.attn{background:var(--reviewBg)", self.page)
-        self.assertIn(".judge{border:1px solid var(--line);background:var(--reviewBg)", self.page)
+        css = (ROOT / "web" / "owner" / "src" / "index.css").read_text()
+        self.assertIn("--wash: #f1efe8", css)
+        self.assertIn("background: var(--wash)", css)
+        self.assertNotIn("yellow", css)
 
     def test_owner_chrome_uses_consistent_svg_icons_and_accessible_controls(self):
-        for icon in ("home", "review", "ledger", "activity", "admin", "assistant"):
-            self.assertIn(f'id="icon-{icon}"', self.page)
-        self.assertIn('aria-label="Review queue"', self.page)
-        self.assertIn('aria-label="Close assistant"', self.page)
-        self.assertIn("button:focus-visible", self.page)
-        self.assertIn("button:disabled", self.page)
+        for icon in ("Home", "ShieldCheck", "BookOpen", "Activity", "KeyRound"):
+            self.assertIn(icon, self.page)
+        self.assertIn('aria-label="Open Ask Proofpress"', self.page)
+        self.assertIn("disabled={busy}", self.page)
 
 
 if __name__ == "__main__":

@@ -1,0 +1,35 @@
+{
+  "name": "@proofpress/owner-workspace",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build && node scripts/clean-dist.mjs",
+    "test": "vitest run",
+    "test:e2e": "npm run build && node scripts/owner-smoke.mjs"
+  },
+  "dependencies": {
+    "@radix-ui/react-dialog": "^1.1.15",
+    "@radix-ui/react-tabs": "^1.1.13",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "lucide-react": "^0.468.0",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
+    "react-markdown": "^10.1.0",
+    "tailwind-merge": "^3.3.1"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.1.13",
+    "@types/node": "^26.4.1",
+    "@types/react": "^19.1.16",
+    "@types/react-dom": "^19.1.9",
+    "@vitejs/plugin-react": "^4.3.4",
+    "playwright": "^1.62.1",
+    "tailwindcss": "^4.1.13",
+    "typescript": "^5.8.3",
+    "vite": "^6.1.0",
+    "vitest": "^3.2.4"
+  }
+}

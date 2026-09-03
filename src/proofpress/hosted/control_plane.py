@@ -263,6 +263,21 @@ class HostedControlPlane:
         finally:
             connection.close()
 
+    def list_audit(self, owner_token: str, limit: int = 100) -> list[dict[str, Any]]:
+        owner = self.authenticate(owner_token)
+        if owner.role != "owner":
+            raise HostedAuthError("owner_required", "owner credential required")
+        safe_limit = max(1, min(int(limit), 250))
+        connection = self._connect()
+        try:
+            rows = connection.execute(
+                "SELECT audit_id, occurred_at, principal_id, operation, outcome, event_head "
+                "FROM hosted_audit WHERE workspace_id = ? ORDER BY audit_id DESC LIMIT ?",
+                (owner.workspace_id, safe_limit)).fetchall()
+            return [{key: row[key] for key in row.keys()} for row in rows]
+        finally:
+            connection.close()
+
     def revoke_credential(self, owner_token: str, credential_id: str) -> None:
         owner = self.authenticate(owner_token)
         if owner.role != "owner":

@@ -195,13 +195,19 @@ class HostedServiceTests(unittest.TestCase):
             headers={"Cookie": cookie})
         with urlopen(review_request) as response:
             page = response.read().decode()
-        self.assertIn("REVIEW QUEUE", page)
-        self.assertIn("Ask Proofpress", page)
-        self.assertIn("Human decision", page)
-        self.assertNotIn("SELF-ASSERTED IDENTITY", page)
+        self.assertIn("<title>Proofpress</title>", page)
+        self.assertIn("/assets/index-", page)
         self.assertNotIn(self.owner["token"], page)
+        with urlopen(self.base_url + "/logo.svg") as response:
+            self.assertEqual(response.status, 200)
+            self.assertEqual(response.headers.get_content_type(), "image/svg+xml")
+            self.assertIn(b"<svg", response.read())
         session_id = cookie.split("=", 1)[1]
         csrf = self.server.proofpress_owner_sessions[session_id]["csrf"]
+        status, session = self.owner_json("/owner/api/session", cookie)
+        self.assertEqual(status, 200)
+        self.assertEqual(session["result"]["csrf"], csrf)
+        self.assertTrue(session["result"]["capabilities"]["review"])
         status, summary = self.owner_json(
             "/owner/api/summary?scope=web-review-poc", cookie)
         self.assertEqual(status, 200)
