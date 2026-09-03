@@ -216,6 +216,15 @@ class HostedServiceTests(unittest.TestCase):
             "/owner/api/conclusions/" + conclusion_id, cookie)
         self.assertEqual(status, 200)
         self.assertEqual(receipt["result"]["state"], "needs_review")
+        status, _ = self.owner_json("/owner/api/judge", "", {
+            "csrf": csrf, "conclusion_id": conclusion_id, "confirmed": True})
+        self.assertEqual(status, 401)
+        status, _ = self.owner_json("/owner/api/judge", cookie, {
+            "csrf": "wrong", "conclusion_id": conclusion_id, "confirmed": True})
+        self.assertEqual(status, 403)
+        status, _ = self.owner_json("/owner/api/judge", cookie, {
+            "csrf": csrf, "conclusion_id": conclusion_id})
+        self.assertEqual(status, 400)
         status, reviewed = self.owner_json("/owner/api/reviews", cookie, {
             "csrf": csrf, "conclusion_id": conclusion_id,
             "decision": "admit", "note": "Richard dogfood"})

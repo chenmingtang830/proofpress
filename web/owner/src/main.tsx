@@ -104,6 +104,9 @@ function App() {
   const path = (location.pathname.split("/")[1] || "review") as Page;
   const [page, setPage] = React.useState<Page>(labels[path] ? path : "review");
   const [rows, setRows] = React.useState<NodeRow[]>([]);
+  const [edges, setEdges] = React.useState<any[]>([]);
+  const [contextRelations, setContextRelations] = React.useState<any[]>([]);
+  const [judgeConfigured, setJudgeConfigured] = React.useState(false);
   const [selected, setSelected] = React.useState<string | null>(
     new URLSearchParams(location.search).get("conclusion_id"),
   );
@@ -135,6 +138,8 @@ function App() {
         (n: NodeRow) => n.type === "conclusion",
       );
       setRows(next);
+      setEdges(graph.edges || []);
+      setJudgeConfigured(Boolean(session.capabilities?.judge));
       setCsrf(session.csrf);
       setActivity(audit);
       const desired =
@@ -165,9 +170,9 @@ function App() {
     setEligible([]);
     setContextLoading(true);
     api(`/owner/api/context?scope=${encodeURIComponent(scope)}`).then(context => {
-      if (active) setEligible((context.knowledge || []).map((row: any) => ({
+      if (active) { setContextRelations(context.relations || []); setEligible((context.knowledge || []).map((row: any) => ({
         ...row, label: row.statement, type: "conclusion", state: "admitted",
-      })));
+      }))); }
     }).catch(e => { if (active) setError(e.message); })
       .finally(() => { if (active) setContextLoading(false); });
     return () => { active = false; };
@@ -303,6 +308,17 @@ function App() {
       setBusy(false);
     }
   }
+  async function runJudge() {
+    if (!receipt || decisionPending.current || !window.confirm("Send this conclusion and its bound evidence to the configured external LM judge? This records advice only, never approval.")) return;
+    decisionPending.current = true;
+    setBusy(true);
+    setError("");
+    try {
+      await api("/owner/api/judge", {method: "POST", body: JSON.stringify({csrf, conclusion_id: receipt.conclusion.id, confirmed: true})});
+      await load();
+    } catch (e: any) { setError(e.message); }
+    finally { decisionPending.current = false; setBusy(false); }
+  }
   async function showAdmin() {
     setPage("admin");
     try {
@@ -411,11 +427,15 @@ function App() {
               setNote={setNote}
               onDecide={decide}
               busy={busy}
+              onJudge={judgeConfigured ? runJudge : undefined}
             />
           )}
           {page === "ledger" && (
             <LedgerPage
               rows={eligible}
+              allRows={rows}
+              edges={edges}
+              relations={contextRelations}
               loading={contextLoading}
               selected={selected}
               receipt={receipt}
@@ -507,6 +527,7 @@ function ReviewPage({
   setNote,
   onDecide,
   busy,
+  onJudge,
 }: any) {
   return (
     <div className="workspacePage">
@@ -565,6 +586,7 @@ function ReviewPage({
         setNote={setNote}
         onDecide={onDecide}
         busy={busy}
+        onJudge={onJudge}
       />
     </div>
   );
@@ -576,6 +598,8 @@ function Inspector({
   setNote,
   onDecide,
   busy,
+  onJudge,
+  readOnly = false,
 }: any) {
   const [expanded, setExpanded] = React.useState(false);
   React.useEffect(() => setExpanded(false), [r?.conclusion.id]);
@@ -587,7 +611,7 @@ function Inspector({
         </div>
       </aside>
     );
-  const can = r.state === "needs_review";
+  const can = r.state === "needs_review" && !readOnly;
   return (
     <aside className="inspector">
       <button className="mobileBack" onClick={onClose}>
@@ -608,6 +632,7 @@ function Inspector({
         <div><dt>Automated checks</dt><dd>{Object.keys(r.evaluation?.checks || {}).length ? `${Object.values(r.evaluation.checks).filter(Boolean).length} of ${Object.keys(r.evaluation.checks).length} passed` : "Not run"}</dd></div>
         <div><dt>LM advice</dt><dd>{r.recommendation?.recommendation || "No recommendation recorded"}</dd></div></dl>
         <Button variant="outline" onClick={() => setExpanded(!expanded)}>{expanded ? "Hide details" : "View details"}</Button>
+        {onJudge && can && <Button variant="outline" disabled={busy} onClick={onJudge}>Run LM judge</Button>}
       </div>
       {expanded && <>
       <Tabs.Root defaultValue="evidence">
@@ -716,7 +741,7 @@ function Inspector({
         <div className="recorded">
           <Check />
           <div>
-            <b>Decision recorded</b>
+            <b>{["admitted", "rejected", "needs_revision"].includes(r.state) ? "Decision recorded" : "Not available for reuse"}</b>
             <p>
               {r.state === "admitted"
                 ? "Available in governed context when current and in scope."
@@ -728,9 +753,21 @@ function Inspector({
     </aside>
   );
 }
-function LedgerPage({ rows, selected, receipt, onChoose, loading }: any) {
+function LedgerPage({ rows, allRows, edges, relations, selected, receipt, onChoose, loading }: any) {
   const [view, setView] = React.useState("lineage");
-  const current = !loading && rows.some((row: any) => row.id === selected) && receipt?.state === "admitted" ? receipt : null;
+  const [showHistory, setShowHistory] = React.useState(false);
+  const [focused, setFocused] = React.useState(false);
+  const [expandedEvidence, setExpandedEvidence] = React.useState(false);
+  const [scopeLimit, setScopeLimit] = React.useState<Record<string, number>>({});
+  const available = new Set(rows.map((row: any) => row.id));
+  const visible = showHistory ? allRows : rows;
+  const current = !loading && visible.some((row: any) => row.id === selected) && receipt?.conclusion.id === selected ? receipt : null;
+  const groups = [...new Set(visible.map((row: any) => row.scope || "Workspace"))] as string[];
+  const visibleIds = new Set(visible.map((row: any) => row.id));
+  const links = (showHistory ? edges : relations).filter((edge: any) => visibleIds.has(edge.from) && visibleIds.has(edge.to));
+  const related = links.filter((edge: any) => edge.from === selected || edge.to === selected);
+  const focus = (id: string) => { setFocused(true); setExpandedEvidence(false); onChoose(id); };
+  React.useEffect(() => { setExpandedEvidence(false); }, [selected]);
   return (
     <div className="workspacePage">
       <div className="work">
@@ -744,19 +781,35 @@ function LedgerPage({ rows, selected, receipt, onChoose, loading }: any) {
           <Button variant={view === "list" ? "default" : "outline"} onClick={() => setView("list")}>Current knowledge</Button>
         </div>
         {view === "lineage" && <section className="lineageCanvas" aria-label="Evidence to governed knowledge">
-          <label className="lineageSelector">Conclusion
-            <select value={current?.conclusion.id || ""} onChange={e => onChoose(e.target.value)}>
-              <option value="" disabled>Select current knowledge</option>
-              {rows.map((row: any) => <option key={row.id} value={row.id}>{row.label}</option>)}
-            </select>
-          </label>
-          {current ? <div className="lineageFlow">
-            <section><h2>Bound evidence</h2>{(current.evidence || []).map((e: any, i: number) => <article key={i}><b>{evidenceName(e)}</b><EvidenceContent row={e} /></article>)}{!current.evidence?.length && <p>No bound evidence recorded.</p>}</section>
+          <div className="lineageToolbar">
+            {focused && <Button variant="outline" onClick={() => setFocused(false)}>Back to overview</Button>}
+            <label><input type="checkbox" checked={showHistory} onChange={e => { setShowHistory(e.target.checked); setFocused(false); }} /> Show history and unavailable conclusions</label>
+          </div>
+          {!focused && <div className="lineageOverview">
+            {groups.map(scope => {
+              const members = visible.filter((row: any) => (row.scope || "Workspace") === scope);
+              const limit = scopeLimit[scope] || 8;
+              return <section key={scope}><h2>{scope} <small>{members.length} conclusions</small></h2>
+                <div className="conclusionNodes">{members.slice(0, limit).map((row: any) => <button key={row.id} className="conclusionNode" onClick={() => focus(row.id)}>
+                  <Badge state={row.state} /><strong>{row.label}</strong>
+                  <small>{edges.filter((edge: any) => edge.to === row.id && edge.type === "supports" && !allRows.some((r: any) => r.id === edge.from)).length} bound evidence · {links.filter((edge: any) => edge.from === row.id || edge.to === row.id).length} relations</small>
+                  {!available.has(row.id) && <small>Excluded from current context</small>}
+                </button>)}</div>
+                {members.length > limit && <Button variant="outline" onClick={() => setScopeLimit({...scopeLimit, [scope]: limit + 8})}>Show {Math.min(8, members.length - limit)} more</Button>}
+              </section>;
+            })}
+            {!groups.length && <p>{loading ? "Loading current knowledge…" : "No eligible knowledge yet. Review candidates first, or show history."}</p>}
+          </div>}
+          {focused && current ? <><div className="lineageFlow">
+            <section><h2>Bound evidence</h2><Button variant="outline" aria-expanded={expandedEvidence} onClick={() => setExpandedEvidence(!expandedEvidence)}>{expandedEvidence ? "Collapse evidence" : `Expand ${current.evidence?.length || 0} evidence`}</Button>{expandedEvidence && (current.evidence || []).map((e: any, i: number) => <article key={i}><b>{evidenceName(e)}</b><EvidenceContent row={e} /></article>)}{!current.evidence?.length && <p>No bound evidence recorded.</p>}</section>
             <span className="lineageArrow" aria-hidden="true">→</span>
             <section><h2>Conclusion</h2><article><Badge state={current.state} /><p>{current.conclusion.statement}</p><small>{current.conclusion.scope}</small></article></section>
             <span className="lineageArrow" aria-hidden="true">→</span>
-            <section><h2>Governed context</h2><article><b>Available to your owner identity</b><p>Admitted, current, and eligible in this view.</p><small>Each successor agent's permissions are checked separately.</small></article></section>
-          </div> : <p className="empty">{loading ? "Loading current knowledge…" : "Choose a conclusion to trace its evidence and reuse boundary."}</p>}
+            <section><h2>Governed context</h2><article><b>{available.has(selected) ? "Available to your owner identity" : "Excluded from current context"}</b><p>{available.has(selected) ? "Admitted, current, and eligible in this view." : "Historical or ineligible. Do not reuse as current knowledge."}</p><small>Each successor agent's permissions are checked separately.</small></article></section>
+          </div><section className="relatedConclusions"><h2>Direct relations</h2>{related.length ? related.map((edge: any, i: number) => {
+            const other = visible.find((row: any) => row.id === (edge.from === selected ? edge.to : edge.from));
+            return <button key={edge.id || i} onClick={() => focus(other.id)}><span>{edge.from === selected ? "Outgoing" : "Incoming"} · {edge.type.replaceAll("_", " ")} · {edge.state || "recorded"}</span><b>{other.label}</b></button>;
+          }) : <p>No recorded relations to other conclusions in this view.</p>}</section></> : focused && <p className="empty">Loading selected lineage…</p>}
         </section>}
         {view === "list" &&
         <div className="tableWrap">
@@ -802,7 +855,8 @@ function LedgerPage({ rows, selected, receipt, onChoose, loading }: any) {
         }
       </div>
       <Inspector
-        receipt={current}
+        receipt={view === "list" || focused ? current : null}
+        readOnly
         note=""
         setNote={() => {}}
         onDecide={() => {}}

@@ -22,6 +22,19 @@
 .lineageFlow article p { line-height: 1.6; }
 .lineageFlow article small { color: var(--ink-2); }
 .lineageArrow { color: var(--accent); font-size: 24px; }
+.lineageToolbar { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; margin-bottom: 24px; font-size: 13px; color: var(--ink-2); }
+.lineageToolbar input { accent-color: var(--accent); }
+.lineageOverview section + section { margin-top: 32px; }
+.lineageOverview h2, .relatedConclusions h2 { font: 500 18px/1.5 Georgia, serif; margin: 0 0 16px; overflow-wrap: anywhere; }
+.lineageOverview h2 small { font: 12px/1.5 ui-sans-serif, sans-serif; color: var(--ink-2); margin-left: 12px; }
+.conclusionNodes { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr)); gap: 12px; margin-bottom: 16px; }
+.conclusionNode { display: flex; flex-direction: column; align-items: flex-start; gap: 12px; text-align: left; padding: 20px; background: var(--card); border: 1px solid var(--line); border-radius: 12px; cursor: pointer; }
+.conclusionNode strong { font: 500 17px/1.45 Georgia, serif; overflow-wrap: anywhere; }
+.conclusionNode small { color: var(--ink-2); }
+.conclusionNode:hover { border-color: var(--accent); }
+.relatedConclusions { margin-top: 28px; border-top: 1px solid var(--line); padding-top: 24px; }
+.relatedConclusions button { display: flex; flex-direction: column; gap: 8px; text-align: left; width: 100%; padding: 16px 0; border: 0; border-bottom: 1px solid var(--line); background: transparent; cursor: pointer; }
+.relatedConclusions span { font-size: 12px; color: var(--ink-2); }
 @media (max-width: 1200px) {
   .lineageFlow { grid-template-columns: minmax(0, 1fr); }
   .lineageArrow { transform: rotate(90deg); justify-self: center; }
