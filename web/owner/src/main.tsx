@@ -29,6 +29,7 @@ type NodeRow = {
   label: string;
   state: string;
   scope?: string;
+  created_at?: string;
 };
 type Receipt = {
   state: string;
@@ -37,6 +38,7 @@ type Receipt = {
     statement: string;
     scope?: string;
     proposer?: string;
+    created_at?: string;
   };
   evidence?: any[];
   evaluation?: { checks?: Record<string, boolean> };
@@ -431,7 +433,7 @@ function App() {
     decisionPending.current = true; setBusy(true); setError("");
     try {
       await api("/owner/api/evaluate", {method:"POST",body:JSON.stringify({csrf,conclusion_id:receipt.conclusion.id})});
-      setReceipt(await api(`/owner/api/conclusions/${encodeURIComponent(receipt.conclusion.id)}`));
+      await load();
     } catch (e:any) { setError(e.message); }
     finally { decisionPending.current=false; setBusy(false); }
   }
@@ -574,6 +576,7 @@ function App() {
               busy={busy}
               onJudge={judgeConfigured ? () => setJudgeConfirmation(true) : undefined}
               onEvaluate={runChecks}
+              onConfigurePolicy={showAdmin}
             />
           )}
           {page === "ledger" && (
@@ -608,7 +611,7 @@ function App() {
       </main>
       {judgeMessage && page === "review" && <div className="judgeProgress" role="status">{judgeMessage}<button aria-label="Dismiss LM review status" onClick={()=>setJudgeMessage("")}><X /></button></div>}
       <Dialog.Root open={judgeConfirmation} onOpenChange={setJudgeConfirmation}>
-        <ModalSurface><Dialog.Title>Review evidence with LM</Dialog.Title><Dialog.Description>Send this conclusion and its bound evidence text to <strong>{receipt?.review_policy?.model || "the configured OpenRouter model"}</strong>. OpenRouter and the selected model provider will process this data, and provider charges may apply. The result is advice, not authorization.</Dialog.Description><div className="modalActions"><Button variant="outline" onClick={()=>setJudgeConfirmation(false)}>Cancel</Button><Button onClick={runJudge}>Run LM review</Button></div></ModalSurface>
+        <ModalSurface><Dialog.Title>Review evidence with LM</Dialog.Title><Dialog.Description>Send this conclusion and its bound evidence text to <strong>{receipt?.review_policy?.model || "the configured model"}</strong>. The selected provider will process this data, and provider charges may apply. The result is advice, not authorization.</Dialog.Description><div className="modalActions"><Button variant="outline" onClick={()=>setJudgeConfirmation(false)}>Cancel</Button><Button onClick={runJudge}>Run LM review</Button></div></ModalSurface>
       </Dialog.Root>
     </div>
   );
@@ -692,7 +695,7 @@ function ReviewPage({
   const visibleRows = rows.filter((row: any) => queueFor(row.state) === queue);
   const switchQueue = (next: string) => { onClose(); setQueue(next); };
   return (
-    <div className={`workspacePage${selected ? "" : " overviewOnly"}${fullReview ? " fullReviewPage" : ""}`}>
+    <div className={`workspacePage reviewWorkspace${selected ? "" : " overviewOnly"}${fullReview ? " fullReviewPage" : ""}`}>
       <div className="work" style={fullReview ? {display: "none"} : undefined}>
         <PageHead
           eyebrow="GOVERNANCE INBOX"
@@ -767,11 +770,14 @@ function Inspector({
   busy,
   onJudge, onEvaluate,
   readOnly = false,
-  fullReview = false, onOpenFull, onBack, onChoose, pending = false,
+  fullReview = false, onOpenFull, onBack, onChoose, onConfigurePolicy, pending = false,
 }: any) {
   const [expanded, setExpanded] = React.useState(false);
   const panel = React.useRef<HTMLElement>(null);
-  React.useEffect(() => setExpanded(false), [r?.conclusion.id]);
+  React.useEffect(() => {
+    setExpanded(false);
+    panel.current?.scrollTo({top: 0, behavior: "auto"});
+  }, [r?.conclusion.id]);
   React.useEffect(() => {
     if (!r || !window.matchMedia("(max-width: 1050px)").matches) return;
     const opener = document.querySelector<HTMLElement>(".work tr.selected .conclusionSelect") || document.activeElement as HTMLElement | null;
@@ -782,10 +788,14 @@ function Inspector({
   const can = ["needs_review", "unresolved"].includes(r.state) && !readOnly;
   const failedChecks = Object.entries(r.evaluation?.checks || {}).filter(([,passed])=>!passed).map(([key])=>key.replaceAll("_", " "));
   const checkReason = (name:string) => ({"evidence present":"Required evidence is missing","evidence integrity":"Evidence integrity could not be verified","experiment evidence present":"Typed experiment evidence is missing","experiment evidence valid":"Experiment evidence is incomplete or invalid","experiment identity bound":"Experiment identity is not bound","not expired":"The conclusion has expired","not superseded":"The conclusion was superseded","scope present":"A reuse scope is missing"} as Record<string,string>)[name] || `${name} did not pass`;
+  const checksMissing = !r.evaluation || (r.review_policy && !r.review_policy.checks_current);
+  const judgeNeedsSetup = r.review_policy?.mode === "off";
+  const judgePending = r.review_policy?.mode !== "off" && !r.recommendation;
+  const judgeFailed = ["failed", "interrupted"].includes(r.judge_job?.state);
   const approvalBlock = !r.evaluation ? "Run deterministic checks before approval." : failedChecks.length ? failedChecks.map(checkReason).join(". ") + "." : r.review_policy && !r.review_policy.checks_current ? "Review policy changed. Run checks again before approval." : r.review_policy?.require_judge && (!r.review_policy.advice_current || r.recommendation?.recommendation !== "accept") ? "Current, supporting LM advice is required before approval." : "";
   return (
     <aside className={`inspector${fullReview ? " fullReview" : ""}`} ref={panel} aria-label="Conclusion details" onKeyDown={e => { if (e.key === "Escape" && onClose) { e.stopPropagation(); fullReview ? onBack() : onClose(); } }}>
-      {!can && !readOnly && <DecisionNotice state={r.state} />}
+      {!can && !readOnly && <DecisionNotice state={r.state}>{r.state === "blocked" && <p>Deterministic requirements did not pass. This candidate is excluded from LM and human review.</p>}</DecisionNotice>}
       {fullReview && <Button variant="outline" onClick={onBack}>Back to review</Button>}
       {!fullReview && onClose && <button className="mobileBack" onClick={onClose}>
         Close details
@@ -804,13 +814,23 @@ function Inspector({
         <dl><div><dt>Applies to</dt><dd>{r.conclusion.scope || "No scope recorded"}</dd></div>
         <div><dt>Supporting evidence</dt><dd>{(r.evidence || []).length} bound {(r.evidence || []).length === 1 ? "source" : "sources"}</dd></div>
         <div><dt>Automated checks</dt><dd>{Object.keys(r.evaluation?.checks || {}).length ? `${Object.values(r.evaluation.checks).filter(Boolean).length} of ${Object.keys(r.evaluation.checks).length} passed` : "Not run"}</dd></div>
-        <div><dt>LM advice</dt><dd>{r.recommendation ? <Badge state={r.recommendation.recommendation} /> : r.judge_job?.state === "running" || r.judge_job?.state === "queued" ? "Review in progress" : (onJudge ? "Not run yet" : "Not configured")}</dd></div></dl>
+        <div><dt>LM advice</dt><dd>{r.recommendation ? <Badge state={r.recommendation.recommendation} /> : r.judge_job?.state === "running" || r.judge_job?.state === "queued" ? "Review in progress" : judgeFailed ? "Review failed" : judgeNeedsSetup || !onJudge ? "Policy setup required" : "Not run yet"}</dd></div></dl>
         {can && <div className="decisionStack"><div><strong>Automated checks</strong><span>{approvalBlock && failedChecks.length ? `Blocking · ${failedChecks.length} requirement${failedChecks.length===1?"":"s"} failed` : r.evaluation ? "Passed" : "Not run"}</span></div><div><strong>LM advice</strong><span>{r.recommendation ? `${r.recommendation.recommendation === "accept" ? "Supports the evidence" : r.recommendation.recommendation} · advisory only` : "Not recorded"}</span></div><div><strong>Human authorization</strong><span>{approvalBlock ? "Unavailable until requirements pass" : "Ready for your decision"}</span></div></div>}
         {can && approvalBlock && <p className="approvalBlock" role="status">{approvalBlock}</p>}
-        {can && onEvaluate && (!r.evaluation || (r.review_policy && !r.review_policy.checks_current)) && <Button variant="outline" disabled={busy} onClick={onEvaluate}>Run checks</Button>}
         {r.judge_job && ["failed","interrupted","blocked"].includes(r.judge_job.state) && <p>{r.judge_job.detail}</p>}
-        {onOpenFull ? !fullReview && <Button onClick={onOpenFull}>{r.state === "needs_revision" ? "View revision request" : "Open full review"}</Button> : <Button variant="outline" aria-expanded={expanded} onClick={() => setExpanded(!expanded)}>{expanded ? "Hide details" : "View details"}</Button>}
-        {onJudge && can && <Button variant="outline" disabled={busy} onClick={onJudge}>{r.recommendation ? "Refresh LM advice" : "Run LM review"}</Button>}
+        {can && <div className="reviewActions">
+          {checksMissing && onEvaluate ? <Button disabled={busy} onClick={onEvaluate}>Run deterministic checks</Button>
+            : failedChecks.length ? <span className="blockedAction">Not eligible for human review</span>
+            : (judgeNeedsSetup || !onJudge) && onConfigurePolicy ? <Button onClick={onConfigurePolicy}>Configure review policy</Button>
+            : judgeFailed && onJudge ? <Button disabled={busy} onClick={onJudge}>Retry LM review</Button>
+            : judgePending && r.review_policy?.mode === "automatic" ? <span className="queuedAction">LM review runs automatically after checks</span>
+            : judgePending && onJudge && r.review_policy?.mode === "manual" ? <Button disabled={busy} onClick={onJudge}>Run LM review</Button>
+            : onOpenFull && !fullReview ? <Button onClick={onOpenFull}>Open full review</Button>
+            : null}
+          {!checksMissing && !failedChecks.length && onOpenFull && !fullReview && (judgeNeedsSetup || (judgePending && r.review_policy?.mode === "manual")) && <Button className="secondaryAction" variant="ghost" onClick={onOpenFull}>Open full review</Button>}
+          {r.recommendation && onJudge && r.review_policy?.mode === "manual" && <Button className="secondaryAction" variant="ghost" disabled={busy} onClick={onJudge}>Refresh LM advice</Button>}
+        </div>}
+        {!can && (onOpenFull ? !fullReview && <Button onClick={onOpenFull}>{r.state === "needs_revision" ? "View revision request" : "View decision"}</Button> : <Button variant="outline" aria-expanded={expanded} onClick={() => setExpanded(!expanded)}>{expanded ? "Hide details" : "View details"}</Button>)}
       </div>
       {(fullReview || expanded) && <>
       {r.revision_parent && <section className="revisionSection"><h3>Revision of previous conclusion</h3><p>{r.revision_parent.statement}</p><p><b>Requested change:</b> {r.revision_parent.review?.note}</p><p>Previous evidence: {r.revision_parent.evidence_refs.join(", ")}</p><p>Current evidence: {r.conclusion.evidence_refs.join(", ")}</p><p>This proposal requires a new human decision; it does not automatically replace its predecessor.</p></section>}

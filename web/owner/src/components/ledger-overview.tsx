@@ -10,7 +10,8 @@ export function LedgerOverview({rows, nodes, edges, onChoose}: any) {
   const [source, setSource] = React.useState<string|null>(null);
   const [mobileGraph, setMobileGraph] = React.useState(false);
   const scopes = [...new Set(rows.map((r:any) => r.scope || "Workspace"))] as string[];
-  const filtered = rows.filter((r:any) => !scope || (r.scope || "Workspace") === scope);
+  const filtered = rows.filter((r:any) => !scope || (r.scope || "Workspace") === scope)
+    .sort((a:any,b:any) => String(a.created_at || "").localeCompare(String(b.created_at || "")));
   const shown = filtered.slice(0,limit);
   const ids = new Set(shown.map((r:any) => r.id));
   const support = edges.filter((e:any) => e.type === "supports" && ids.has(e.to) && !rows.some((r:any) => r.id === e.from));
@@ -37,7 +38,7 @@ export function LedgerOverview({rows, nodes, edges, onChoose}: any) {
           return <path key={i} className={source===e.from ? "selectedEdge" : ""} style={{opacity:source && source!==e.from ? .2:1}} d={`M 350 ${y1} C 450 ${y1},470 ${y2},570 ${y2}`} />;
         })}</svg>
         {sources.map((id,i)=>{const n=nodes.find((n:any)=>n.id===id);return <button key={id} className="globalNode source" style={{top:64+i*126}} aria-pressed={source===id} onClick={()=>setSource(source===id?null:id)}><strong>{n?.label || id}</strong><small>{id} · {support.filter((e:any)=>e.from===id).length} linked conclusions</small></button>;})}
-        {shown.map((r:any,i:number)=><button key={r.id} className="globalNode conclusionNode" data-state={r.state} style={{top:64+i*126,opacity:related(r.id)?1:.35}} onClick={()=>onChoose(r.id)}><small>{r.state.replaceAll("_"," ")} · {r.scope || "Workspace"}</small><strong>{r.label}</strong></button>)}
+        {shown.map((r:any,i:number)=><button key={r.id} className="globalNode conclusionNode" data-state={r.state} style={{top:64+i*126,opacity:related(r.id)?1:.35}} onClick={()=>onChoose(r.id)}><small>{r.state.replaceAll("_"," ")} · {r.created_at ? new Date(r.created_at).toLocaleDateString() : "Time not recorded"}</small><strong>{r.label}</strong></button>)}
       </div>
     </div>
     <div className="globalToolbar">{filtered.length>limit && <Button variant="outline" onClick={()=>setLimit(limit+6)}>Show more conclusions</Button>}{new Set(support.map((e:any)=>e.from)).size>sourceLimit && <Button variant="outline" onClick={()=>setSourceLimit(sourceLimit+12)}>Show more evidence</Button>}</div>

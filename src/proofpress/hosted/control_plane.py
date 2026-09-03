@@ -303,9 +303,12 @@ class HostedControlPlane:
             return review_policy.current(connection, workspace_id)
 
     def get_review_policy(self, token):
-        return review_policy.public(self._policy(self._owner(token).workspace_id))
+        owner = self._owner(token)
+        with self._db() as connection:
+            return review_policy.public(review_policy.current(connection, owner.workspace_id),
+                                        review_policy.credential_status(connection, owner.workspace_id))
 
-    def save_review_policy(self, token, settings, expected_version):
+    def save_review_policy(self, token, settings, expected_version, api_key=None, delete_key=False):
         owner = self._owner(token)
         connection = self._connect()
         try:
@@ -314,15 +317,34 @@ class HostedControlPlane:
             if type(expected_version) is not int or expected_version != prior["version"]:
                 raise HostedAuthError("stale_policy", "Review policy changed. Reload before saving.")
             policy = review_policy.validate(settings, prior["policy"])
-            if settings == prior["settings"]:
-                return review_policy.public(prior)
+            changed_at = _now()
+            if delete_key:
+                review_policy.delete_credential(connection, owner.workspace_id)
+            elif api_key:
+                review_policy.save_credential(connection, owner.workspace_id, api_key, changed_at)
+            elif settings["provider"] != prior["settings"].get("provider"):
+                raise ValueError("Add the API key for the selected provider.")
+            if settings["mode"] != "off" and not review_policy.credential(connection, owner.workspace_id):
+                raise ValueError("Add a provider API key before enabling LM review.")
+            if settings == prior["settings"] and not api_key and not delete_key:
+                return review_policy.public(prior, review_policy.credential_status(connection, owner.workspace_id))
             record = {"version": prior["version"] + 1, "settings": settings, "policy": policy,
-                      "actor": owner.principal_id, "updated_at": _now()}
+                      "actor": owner.principal_id, "updated_at": changed_at}
             connection.execute("INSERT INTO hosted_review_policies VALUES (?, ?, ?, ?, ?, ?)",
                                (owner.workspace_id, record["version"], json.dumps(settings),
                                 json.dumps(policy), owner.principal_id, record["updated_at"]))
             connection.commit()
-            return review_policy.public(record)
+            if settings["mode"] == "automatic":
+                store = SQLiteEventStore(self.database, owner.workspace_id, owner.principal_id)
+                with using_event_store(store), knowledge.using_policy(policy):
+                    projection = knowledge.v2_projection()
+                    candidates = [row for row in projection["conclusions"].values()
+                                  if knowledge.v2_state(projection, row, policy) in {"needs_review", "unresolved"}]
+                for conclusion in candidates:
+                    self._schedule_judge(owner, conclusion, record, start=False)
+                if candidates:
+                    threading.Thread(target=self.run_judge_jobs, daemon=True).start()
+            return review_policy.public(record, review_policy.credential_status(connection, owner.workspace_id))
         finally:
             connection.close()
 
@@ -400,10 +422,12 @@ class HostedControlPlane:
             try:
                 record = self._policy(job["workspace_id"])
                 store = SQLiteEventStore(self.database, job["workspace_id"], "system:auto-review")
-                with using_event_store(store), knowledge.using_policy(record["policy"]):
+                with self._db() as secret_connection:
+                    provider_secret = review_policy.credential(secret_connection, job["workspace_id"])
+                with using_event_store(store), knowledge.using_policy(record["policy"]), knowledge.using_judge_environment({"PROOFPRESS_JUDGE_API_KEY": provider_secret or ""}):
                     if record["settings"]["mode"] != "automatic" or record["policy"]["digest"] != job["policy_digest"]:
                         state, detail = "skipped", "Review policy changed."
-                    elif knowledge.receipt_v2(job["conclusion_id"])["state"] != "needs_review":
+                    elif knowledge.receipt_v2(job["conclusion_id"])["state"] not in {"needs_review", "unresolved"}:
                         state, detail = "skipped", "Conclusion no longer needs review."
                     elif not knowledge.evaluate_v2(job["conclusion_id"])["eligible"]:
                         state, detail = "blocked", "Fix deterministic checks before requesting LM advice."
@@ -558,7 +582,12 @@ class HostedControlPlane:
             self.database, context.workspace_id, context.principal_id)
         record = self._policy(context.workspace_id)
         prior_conclusions = {e.get("subject_ref") for e in store.list_events() if e.get("type") == "conclusion_proposed"} if operation == "conclusion.propose" else set()
-        with using_event_store(store), knowledge.using_policy(record["policy"]):
+        judge_environment = {}
+        if operation in {"conclusion.judge", "conclusion.judge_batch", "relation.judge"}:
+            with self._db() as connection:
+                provider_secret = review_policy.credential(connection, context.workspace_id)
+            judge_environment["PROOFPRESS_JUDGE_API_KEY"] = provider_secret or ""
+        with using_event_store(store), knowledge.using_policy(record["policy"]), knowledge.using_judge_environment(judge_environment):
             envelope = knowledge.execute_local_operation(normalized)
             head = store.head()
             if envelope.get("ok") and operation == "review.receipt":
@@ -568,7 +597,9 @@ class HostedControlPlane:
                 result["review_policy"] = {
                     "require_judge": record["policy"].get("require_judge", False),
                     "mode": record["settings"]["mode"], "model": record["settings"]["model"],
+                    "provider": record["settings"].get("provider", "openrouter"),
                     "rubric": record["settings"]["rubric"],
+                    "zdr": record["settings"].get("zdr", False),
                     "policy_digest": record["policy"]["digest"],
                     "checks_current": evaluation.get("policy_digest") == record["policy"]["digest"],
                     "advice_current": advice.get("policy_digest") == record["policy"]["digest"],

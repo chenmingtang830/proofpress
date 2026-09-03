@@ -4,6 +4,7 @@ from pathlib import Path
 import tempfile
 import unittest
 from unittest.mock import patch
+from cryptography.fernet import Fernet
 
 from proofpress.hosted.control_plane import HostedControlPlane, HostedAuthError
 from proofpress.kernel import operations as kernel
@@ -19,7 +20,9 @@ class ReviewPolicyTests(unittest.TestCase):
         self.owner = self.control.bootstrap("workspace:test", "human:owner")["token"]
         self.agent = self.control.issue_agent_credential(self.owner, "agent:codex", "Codex")["token"]
         self.settings = {"mode": "manual", "model": "deepseek/deepseek-v4-flash",
-                         "rubric": "evidence-support/v1", "external_consent": True, "require_judge": True}
+                         "provider": "openrouter", "endpoint": "", "criteria": "Escalate unsupported claims.",
+                         "zdr": True, "rubric": "evidence-support/v1",
+                         "external_consent": True, "require_judge": True}
 
     def proposal(self, label="A"):
         evidence = self.control.execute(self.agent, operation("evidence.submit", {"payload": evidence_payload()}))
@@ -44,6 +47,21 @@ class ReviewPolicyTests(unittest.TestCase):
         other = HostedControlPlane(Path(self.tmp.name)/"other.db")
         owner = other.bootstrap("workspace:other", "human:other")["token"]
         self.assertEqual(other.get_review_policy(owner)["version"], 0)
+
+    def test_workspace_api_key_is_encrypted_write_only_and_provider_bound(self):
+        master = Fernet.generate_key().decode()
+        provider_key = "sk-customer-private-1234"
+        with patch.dict(os.environ, {"PROOFPRESS_SECRET_ENCRYPTION_KEY": master}, clear=False):
+            record = self.control.save_review_policy(self.owner, self.settings, 0, provider_key)
+            self.assertTrue(record["credential"]["configured"])
+            self.assertEqual(record["credential"]["last_four"], "1234")
+            self.assertNotIn(provider_key, json.dumps(record))
+            with self.control._db() as connection:
+                stored = connection.execute("SELECT ciphertext FROM hosted_provider_secrets").fetchone()[0]
+            self.assertNotIn(provider_key.encode(), stored)
+            self.assertEqual(self.control.get_review_policy(self.owner)["credential"]["last_four"], "1234")
+            with self.assertRaisesRegex(ValueError, "API key for the selected provider"):
+                self.control.save_review_policy(self.owner, {**self.settings, "provider": "openai", "model": "gpt-5"}, 1)
 
     def test_required_advice_cannot_be_bypassed_and_receipt_explains_it(self):
         with patch.dict(os.environ, {"OPENROUTER_API_KEY": "test"}):
@@ -88,6 +106,26 @@ class ReviewPolicyTests(unittest.TestCase):
         receipt = self.control.execute(self.owner, operation("review.receipt", {"conclusion_id":cid}))["result"]
         self.assertEqual(receipt["state"], "needs_review")
         self.assertEqual(receipt["judge_job"]["state"], "completed")
+
+    def test_activating_automatic_policy_enqueues_existing_candidates(self):
+        cid = self.proposal("existing")["result"]["conclusion"]["id"]
+        with patch.dict(os.environ, {"OPENROUTER_API_KEY": "test"}), \
+             patch("proofpress.hosted.control_plane.threading.Thread"):
+            self.control.save_review_policy(self.owner, {**self.settings, "mode":"automatic"}, 0)
+        with self.control._db() as connection:
+            job = connection.execute("SELECT conclusion_id, state FROM hosted_judge_jobs").fetchone()
+        self.assertEqual((job["conclusion_id"], job["state"]), (cid, "queued"))
+
+    def test_failed_current_checks_are_blocked_out_of_owner_review(self):
+        proposal = self.control.execute(self.agent, operation("conclusion.propose", {
+            "statement": "Unsupported candidate", "evidence_refs": [], "scope": "test",
+            "proposer": "agent:codex"}, "unsupported"))
+        cid = proposal["result"]["conclusion"]["id"]
+        self.control.execute(self.agent, operation("conclusion.evaluate", {"conclusion_id": cid}))
+        receipt = self.control.execute(self.owner, operation("review.receipt", {"conclusion_id": cid}))["result"]
+        graph = self.control.execute(self.owner, operation("graph.get", {}))["result"]
+        self.assertEqual(receipt["state"], "blocked")
+        self.assertEqual(next(row for row in graph["nodes"] if row["id"] == cid)["state"], "blocked")
 
     def test_failed_checks_skip_provider_and_restart_does_not_retry_running_job(self):
         with patch.dict(os.environ, {"OPENROUTER_API_KEY": "test"}):

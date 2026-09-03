@@ -23,7 +23,7 @@ describe("governance components", () => {
   });
   it("does not color a revision request as rejection", () => {
     const html = renderToStaticMarkup(<LineageGraph receipt={{conclusion:{id:"r",statement:"Revise units",scope:"test"},state:"needs_revision",evidence:[]}} available={false} evidenceNames={[]} selection="conclusion" onSelect={()=>{}} />);
-    expect(html).toContain('class="graphNode revision"');
+    expect(html).toContain('class="graphNode conclusion revision"');
     expect(html).toContain('class="revision"');
     expect(html).not.toContain('class="graphNode excluded"');
   });

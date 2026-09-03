@@ -504,6 +504,7 @@ def _require_expected_head(expected_head):
 
 
 _policy_override = ContextVar("proofpress_policy_override", default=None)
+_judge_environment = ContextVar("proofpress_judge_environment", default=None)
 
 
 @contextmanager
@@ -514,6 +515,16 @@ def using_policy(policy):
         yield
     finally:
         _policy_override.reset(token)
+
+
+@contextmanager
+def using_judge_environment(environment):
+    """Inject workspace-scoped provider credentials without mutating os.environ."""
+    token = _judge_environment.set(dict(environment or {}))
+    try:
+        yield
+    finally:
+        _judge_environment.reset(token)
 
 
 def load_v2_policy():
@@ -691,6 +702,19 @@ def v2_state(projection, conclusion, policy=None):
     if admitted.get("policy_digest") != policy["digest"]: return "unresolved"
     if admitted.get("conclusion_digest") != conclusion["digest"]: return "unresolved"
     return "admitted"
+
+
+def review_state_v2(projection, conclusion, policy=None):
+    """Owner-facing state: failed current checks are blocked, not review work."""
+    policy = policy or load_v2_policy()
+    state = v2_state(projection, conclusion, policy)
+    evaluation = projection["evaluations"].get(conclusion["id"])
+    if (state in {"needs_review", "unresolved"} and evaluation and
+            evaluation.get("conclusion_digest") == conclusion["digest"] and
+            evaluation.get("policy_digest") == policy["digest"] and
+            not evaluation.get("eligible")):
+        return "blocked"
+    return state
 
 
 _SHA256 = re.compile(r"^sha256:[0-9a-f]{64}$")
@@ -1169,8 +1193,11 @@ def judge_relation_v2(rid):
               "policy": _judge_policy_payload(policy),
               "instruction": "Assess semantic relation correctness; deterministic checks establish structure only."}
     try:
+        environment = os.environ.copy()
+        environment.update(_judge_environment.get() or {})
         result = subprocess.run(command, input=json.dumps(packet), text=True,
-                                capture_output=True, timeout=float(policy["judge"]["timeout_seconds"]))
+                                capture_output=True, timeout=float(policy["judge"]["timeout_seconds"]),
+                                env=environment)
     except subprocess.TimeoutExpired as exc:
         raise ValueError("relation judge command timed out") from exc
     if result.returncode: raise ValueError("relation judge command failed: " + result.stderr.strip())
@@ -1649,8 +1676,9 @@ def graph_v2(scope=None):
             edges += [{"from": parent, "to": eid, "type": "derived_from"}
                       for parent in evidence.get("source_evidence_refs", [])]
     for cid, row in wanted.items():
-        nodes.append({"id": cid, "type": "conclusion", "state": v2_state(projection, row),
-                      "scope": row["scope"], "label": row["statement"]})
+        nodes.append({"id": cid, "type": "conclusion", "state": review_state_v2(projection, row),
+                      "scope": row["scope"], "label": row["statement"],
+                      "created_at": row.get("created_at")})
         edges += [{"from": eid, "to": cid, "type": "supports"} for eid in row["evidence_refs"]]
         review = projection["reviews"].get(cid)
         if review:
@@ -2160,7 +2188,7 @@ def receipt_v2(cid):
     if not row: raise ValueError("conclusion not found: " + cid)
     parent_id = row.get("qualifiers", {}).get("revision_of")
     parent = projection["conclusions"].get(parent_id)
-    return {"conclusion": row, "state": v2_state(projection, row),
+    return {"conclusion": row, "state": review_state_v2(projection, row),
             "revision_request": projection["revision_requests"].get(cid),
             "revision_parent": ({"id": parent_id, "statement": parent["statement"],
                                   "evidence_refs": parent["evidence_refs"],
