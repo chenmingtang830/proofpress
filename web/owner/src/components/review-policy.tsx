@@ -3,6 +3,20 @@ import { CheckmarkCircle02Icon, Copy01Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { Button } from "./ui/button";
 
+const AGENT_POLICY_FIELDS = ["provider","endpoint","model","criteria","zdr","mode","require_judge","external_consent"];
+
+export function mergeAgentPolicyDraft(current: any, draft: any) {
+  if (!draft || typeof draft !== "object" || Array.isArray(draft)) throw new Error("invalid draft");
+  const source = draft.policy && typeof draft.policy === "object" ? draft.policy : draft;
+  const next = {...current};
+  let recognized = false;
+  for (const key of AGENT_POLICY_FIELDS) {
+    if (key in source) { next[key] = source[key]; recognized = true; }
+  }
+  if (!recognized) throw new Error("invalid draft");
+  return next;
+}
+
 export function ReviewPolicy({csrf, api, onSaved}: any) {
   const [record, setRecord] = React.useState<any>(null);
   const [settings, setSettings] = React.useState<any>(null);
@@ -21,12 +35,11 @@ export function ReviewPolicy({csrf, api, onSaved}: any) {
       const prepared = sessionStorage.getItem("proofpress:review-policy-draft");
       if (prepared) {
         const parsed = JSON.parse(prepared);
-        const allowed = ["provider","endpoint","model","criteria","zdr","mode","require_judge","external_consent"];
-        if (parsed && typeof parsed === "object" && allowed.every(key => key in parsed)) {
-          setSettings({...base, ...Object.fromEntries(allowed.map(key => [key, parsed[key]]))});
+        try {
+          setSettings(mergeAgentPolicyDraft(base, parsed));
           setMessage("Agent-prepared policy loaded. Review every field before activating it.");
           sessionStorage.removeItem("proofpress:review-policy-draft");
-        } else setSettings(base);
+        } catch { setSettings(base); }
       } else setSettings(base);
       setError("");
     }
@@ -50,11 +63,9 @@ export function ReviewPolicy({csrf, api, onSaved}: any) {
   function applyDraft() {
     try {
       const parsed = JSON.parse(draft);
-      const allowed = ["provider","endpoint","model","criteria","zdr","mode","require_judge","external_consent"];
-      if (!parsed || typeof parsed !== "object" || allowed.some(key => !(key in parsed))) throw new Error();
-      setSettings(Object.fromEntries(allowed.map(key => [key, parsed[key]])));
+      setSettings(mergeAgentPolicyDraft(settings, parsed));
       setDraft(""); setError(""); setMessage("Agent-authored policy loaded for review. Save to activate it.");
-    } catch { setError("Paste the complete JSON policy returned by your agent."); }
+    } catch { setError("Paste JSON containing criteria or another supported policy field."); }
   }
   const changed = record && settings && (JSON.stringify(settings)!==JSON.stringify(record.settings) || !!apiKey || removeKey);
   return <section className="reviewPolicy" aria-labelledby="reviewPolicyTitle">
@@ -76,9 +87,9 @@ export function ReviewPolicy({csrf, api, onSaved}: any) {
       </fieldset>
       <fieldset><legend>Evaluation</legend>
         <label className="criteriaLabel">Criteria<textarea value={settings.criteria} maxLength={8000} placeholder="What evidence must support a conclusion? When should the judge escalate?" onChange={e=>change("criteria",e.target.value)} /></label>
-        <details className="agentPolicyDraft"><summary>Draft criteria with your agent</summary><p>Copy a safe authoring prompt to your own agent. It will interview you and return a policy you can review here. Never include an API key.</p>
+        <details className="agentPolicyDraft"><summary>Draft criteria with your agent</summary><p>Copy a safe authoring prompt to your own agent. It will interview you and return criteria you can review here. Model access stays configured above. Never include an API key.</p>
           <div className="policyPrompt"><textarea readOnly value={record.authoring_prompt} aria-label="Policy authoring prompt" /><Button type="button" variant="outline" onClick={copyPrompt}>{copied?<><HugeiconsIcon icon={CheckmarkCircle02Icon}/>Copied</>:<><HugeiconsIcon icon={Copy01Icon}/>Copy prompt</>}</Button></div>
-          <label className="criteriaLabel">Agent response<textarea value={draft} placeholder="Paste the JSON policy from your agent" onChange={e=>setDraft(e.target.value)} /></label><Button type="button" variant="outline" disabled={!draft.trim()} onClick={applyDraft}>Load for review</Button>
+          <label className="criteriaLabel">Agent response<textarea value={draft} placeholder={'Paste JSON such as {"criteria":"…"}'} onChange={e=>setDraft(e.target.value)} /></label><Button type="button" variant="outline" disabled={!draft.trim()} onClick={applyDraft}>Load for review</Button>
         </details>
       </fieldset>
       <fieldset><legend>Data & approval</legend>

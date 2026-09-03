@@ -17,7 +17,7 @@ PROVIDERS = {
     "anthropic": {"label": "Anthropic", "endpoint": "https://api.anthropic.com/v1/messages", "zdr": False},
     "custom": {"label": "Custom OpenAI-compatible", "endpoint": "", "zdr": False},
 }
-POLICY_AUTHORING_PROMPT = """Help me author a Proofpress workspace review policy. Ask me concise questions about the knowledge being reviewed, evidence requirements, sensitive data, acceptable external model providers, escalation conditions, and when a human must decide. Then return only JSON with these fields: provider, endpoint, model, criteria, zdr, mode, require_judge, external_consent. mode must be off, manual, or automatic. require_judge controls whether current supporting LM advice is required before human approval; the judge never approves knowledge. Do not request or include API keys, secrets, raw private traces, or credentials."""
+POLICY_AUTHORING_PROMPT = """Help me author evaluation criteria for a Proofpress workspace. Ask concise questions about the knowledge being reviewed, evidence requirements, sensitive or high-stakes cases, and when a human must decide. Then return only JSON in this shape: {"criteria":"the complete criteria text"}. Do not choose a model or provider, and do not request or include API keys, secrets, raw private traces, or credentials. The workspace owner configures model access separately."""
 
 
 def migrate(connection):

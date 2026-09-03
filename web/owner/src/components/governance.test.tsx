@@ -6,6 +6,7 @@ import { LineageGraph } from "./lineage-graph";
 import { Icon } from "./ui/icon";
 import { activityResult } from "./activity-result";
 import { Badge } from "./ui/badge";
+import { mergeAgentPolicyDraft } from "./review-policy";
 
 describe("governance components", () => {
   it("keeps advisory support visually separate from admission", () => {
@@ -55,5 +56,11 @@ describe("governance components", () => {
     expect(html).toContain("Not eligible in this view");
     expect(html).toContain("Show 1 more sources");
     expect(html).not.toContain("Available for reuse");
+  });
+  it("loads criteria-only agent drafts without erasing model configuration", () => {
+    const current = {provider:"openrouter", model:"deepseek/deepseek-v4-flash", rubric:"evidence-support/v1", criteria:"old", mode:"automatic", require_judge:true, external_consent:true, zdr:true, endpoint:""};
+    expect(mergeAgentPolicyDraft(current, {criteria:"Require primary evidence."})).toEqual({...current, criteria:"Require primary evidence."});
+    expect(mergeAgentPolicyDraft(current, {policy:{criteria:"Escalate high-stakes claims."}}).criteria).toBe("Escalate high-stakes claims.");
+    expect(() => mergeAgentPolicyDraft(current, {unrelated:true})).toThrow();
   });
 });

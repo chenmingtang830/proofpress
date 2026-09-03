@@ -185,7 +185,9 @@ The current product is Python-first and single-owner. It does not provide multi-
 ## 0.6 compatibility window
 
 [//]: # (ob:34226b85)
-The old `proofpress_sdk` imports, console aliases, and portable top-level commands remain as deprecated forwarding shims throughout 0.6. Use `proofpress legacy ...` for portable artifact ledger and provenance tools. These shims are scheduled for removal in 0.7; the legacy implementation remains maintained for integrity and security fixes.
+The old `proofpress_sdk` imports, console aliases, portable top-level commands, and published npm launcher remain as deprecated forwarding shims throughout 0.6. The npm distribution contains no independent product implementation: it only launches the canonical Python CLI and provides migration-time agent setup helpers. Use `proofpress legacy ...` for portable artifact ledger and provenance tools.
+
+In 0.7, Proofpress will stop publishing the npm compatibility package and remove the old import, console, and top-level command shims. npm remains an internal build tool for the React owner workspace; it is not a second SDK or customer installation path. The legacy implementation remains maintained for integrity and security fixes.
 
 [//]: # (ob:85117b99)
 [//]: # (ob:docs-release)
