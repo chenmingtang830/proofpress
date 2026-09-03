@@ -1,4 +1,44 @@
 @import "tailwindcss";
+.workspaceLabel { color: var(--ink-2); font-size: 14px; margin-left: auto; }
+.pagination, .ledgerViews { display: flex; align-items: center; gap: 16px; margin: 24px 0; }
+.pagination { justify-content: space-between; flex-wrap: wrap; }
+.quickSnapshot { padding: 24px; border-bottom: 1px solid var(--line); }
+.quickSnapshot dl > div { display: flex; justify-content: space-between; gap: 16px; margin-bottom: 14px; }
+.quickSnapshot dt, .evidenceFields dt { color: var(--ink-2); font-size: 13px; }
+.quickSnapshot dd { margin: 0; text-align: right; overflow-wrap: anywhere; }
+.evidenceFields { margin: 12px 0; }
+.evidenceFields > div { margin: 12px 0; }
+.evidenceFields dd { margin: 4px 0 0; overflow-wrap: anywhere; }
+.technicalDetails { margin-top: 16px; font-size: 12px; color: var(--ink-2); }
+.technicalDetails summary { cursor: pointer; }
+.technicalDetails pre { white-space: pre-wrap; overflow-wrap: anywhere; max-height: 300px; overflow: auto; }
+.lineageCanvas { border: 1px solid var(--line); background: var(--paper); padding: 24px; }
+.lineageSelector { display: grid; gap: 8px; color: var(--ink-2); font-size: 13px; }
+.lineageSelector select { width: 100%; padding: 10px; background: var(--card); border: 1px solid var(--line); color: var(--ink); border-radius: 6px; }
+.lineageFlow { display: grid; grid-template-columns: minmax(0, 1fr) 24px minmax(0, 1fr) 24px minmax(0, 1fr); gap: 12px; margin-top: 32px; align-items: center; }
+.lineageFlow section { min-width: 0; }
+.lineageFlow h2 { font: 500 13px/1.5 ui-sans-serif, sans-serif; color: var(--ink-2); margin-bottom: 16px; }
+.lineageFlow article { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 18px; margin-bottom: 12px; overflow-wrap: anywhere; font-size: 14px; }
+.lineageFlow article p { line-height: 1.6; }
+.lineageFlow article small { color: var(--ink-2); }
+.lineageArrow { color: var(--accent); font-size: 24px; }
+.lineageToolbar { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; margin-bottom: 24px; font-size: 13px; color: var(--ink-2); }
+.lineageToolbar input { accent-color: var(--accent); }
+.lineageOverview section + section { margin-top: 32px; }
+.lineageOverview h2, .relatedConclusions h2 { font: 500 18px/1.5 Georgia, serif; margin: 0 0 16px; overflow-wrap: anywhere; }
+.lineageOverview h2 small { font: 12px/1.5 ui-sans-serif, sans-serif; color: var(--ink-2); margin-left: 12px; }
+.conclusionNodes { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr)); gap: 12px; margin-bottom: 16px; }
+.conclusionNode { display: flex; flex-direction: column; align-items: flex-start; gap: 12px; text-align: left; padding: 20px; background: var(--card); border: 1px solid var(--line); border-radius: 12px; cursor: pointer; }
+.conclusionNode strong { font: 500 17px/1.45 Georgia, serif; overflow-wrap: anywhere; }
+.conclusionNode small { color: var(--ink-2); }
+.conclusionNode:hover { border-color: var(--accent); }
+.relatedConclusions { margin-top: 28px; border-top: 1px solid var(--line); padding-top: 24px; }
+.relatedConclusions button { display: flex; flex-direction: column; gap: 8px; text-align: left; width: 100%; padding: 16px 0; border: 0; border-bottom: 1px solid var(--line); background: transparent; cursor: pointer; }
+.relatedConclusions span { font-size: 12px; color: var(--ink-2); }
+@media (max-width: 1200px) {
+  .lineageFlow { grid-template-columns: minmax(0, 1fr); }
+  .lineageArrow { transform: rotate(90deg); justify-self: center; }
+}
 :root {
   --paper: #faf9f5;
   --ink: #20222b;
@@ -126,7 +166,7 @@ textarea {
 }
 .workspace span,
 .pageHead span,
-.inspectorTop > span,
+.inspectorTop > span:not(.inline-flex),
 .decision span,
 .recommendation span {
   display: block;

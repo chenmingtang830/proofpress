@@ -181,6 +181,7 @@ class HostedOperationHandler(BaseHTTPRequestHandler):
                 "principal": "owner", "capabilities": {
                     "review": True, "credential_admin": True,
                     "assistant": bool(os.environ.get("OPENROUTER_API_KEY")),
+                    "judge": knowledge.governance_configuration()["judge"]["configured"],
                 }}})
         if path == "/owner/api/summary":
             envelope = self._owner_operation(
@@ -318,6 +319,21 @@ class HostedOperationHandler(BaseHTTPRequestHandler):
 
     def do_POST(self):
         path = urlparse(self.path).path
+        if path == "/owner/api/judge":
+            session = self._owner_session()
+            if not session:
+                return self._json(HTTPStatus.UNAUTHORIZED, {"error": "owner_session_required"})
+            try:
+                request = self._request_json()
+            except HostedAuthError as exc:
+                return self._owner_error(exc)
+            if not secrets.compare_digest(str(request.get("csrf") or ""), session["csrf"]):
+                return self._json(HTTPStatus.FORBIDDEN, {"error": "csrf_failed"})
+            if request.get("confirmed") is not True:
+                return self._json(HTTPStatus.BAD_REQUEST, {"error": "Confirm sending bound evidence to the configured judge."})
+            envelope = self._owner_operation(session, "conclusion.judge", {
+                "conclusion_id": request.get("conclusion_id", "")})
+            return self._json(_status_for(envelope), envelope)
         if path == "/owner/api/ask":
             session = self._owner_session()
             if not session:

@@ -2,7 +2,7 @@
 """File-backed admission ledger: telemetry is input; admitted claims are context."""
 from __future__ import annotations
 
-import argparse, hashlib, json, math, os, re, secrets, subprocess, tempfile, threading, webbrowser
+import argparse, hashlib, json, math, os, re, secrets, subprocess, sys, tempfile, threading, webbrowser
 from http import HTTPStatus
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from urllib.parse import parse_qs, urlparse
@@ -510,6 +510,13 @@ def load_v2_policy():
     item["verification"] = {
         **DEFAULT_POLICY_V2["verification"], **(raw.get("verification") or {})}
     item["judge"] = {**DEFAULT_POLICY_V2["judge"], **(raw.get("judge") or {})}
+    # Explicit operator opt-in. Model and adapter are bound into the policy digest;
+    # enabling/changing this requires revalidation of existing admissions.
+    model = os.environ.get("PROOFPRESS_JUDGE_MODEL", "").strip()
+    if model and not item["judge"]["command"]:
+        item["judge"] = {"identity": "judge:openrouter-advisory",
+                         "command": [sys.executable, "-m", "proofpress.hosted.judge", "--model", model],
+                         "timeout_seconds": 60}
     for role in ("verification", "judge"):
         identity = item[role].get("identity")
         if not isinstance(identity, str) or not identity.strip():
