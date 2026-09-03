@@ -588,7 +588,6 @@ function PageHead({
   return (
     <div className="pageHead">
       <div>
-        <span>{eyebrow}</span>
         <h1>{title}</h1>
         <p>{description}</p>
       </div>
@@ -897,7 +896,7 @@ function LedgerPage({ rows, allRows, edges, relations, selected, receipt, onChoo
             {groups.map(scope => {
               const members = visible.filter((row: any) => (row.scope || "Workspace") === scope);
               const limit = scopeLimit[scope] || 8;
-              return <section key={scope}><h2>{scope} <small>{members.length} conclusions</small></h2>
+              return <section key={scope}><h2>{scope} <small>{members.length} {members.length === 1 ? "conclusion" : "conclusions"}</small></h2>
                 <div className="conclusionNodes">{members.slice(0, limit).map((row: any) => <button key={row.id} className="conclusionNode" onClick={() => focus(row.id)}>
                   <Badge state={row.state} /><strong>{row.label}</strong>
                   <small>{edges.filter((edge: any) => edge.to === row.id && edge.type === "supports" && !allRows.some((r: any) => r.id === edge.from)).length} bound evidence · {links.filter((edge: any) => edge.from === row.id || edge.to === row.id).length} relations</small>
