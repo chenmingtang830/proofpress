@@ -274,6 +274,17 @@ try {
   for(const width of [1536,1024,390]) {
     await page.setViewportSize({width,height:900});
     assert.equal(await page.evaluate(()=>document.body.scrollWidth),width);
+    const statusRows=await page.locator('.simpleList > div').evaluateAll(rows=>rows.map(row=>{
+      const badge=row.querySelector('.badge');
+      const statement=row.querySelector('b');
+      if(!badge || !statement) return null;
+      const badgeRect=badge.getBoundingClientRect();
+      const statementRect=statement.getBoundingClientRect();
+      return {badgeRight:badgeRect.right,statementLeft:statementRect.left};
+    }).filter(Boolean));
+    for(const row of statusRows) {
+      assert.ok(row.badgeRight <= row.statementLeft,`Home status overlaps its conclusion at ${width}px`);
+    }
     if(process.env.QA_SCREENSHOTS) {
       await mkdir(process.env.QA_SCREENSHOTS,{recursive:true});
       await page.screenshot({path:`${process.env.QA_SCREENSHOTS}/home-${width}.png`});
