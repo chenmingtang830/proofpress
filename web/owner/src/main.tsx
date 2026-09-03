@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/icon";
 import { Badge } from "@/components/ui/badge";
 import { ActivityResult } from "@/components/activity-result";
+import { ReviewPolicy } from "@/components/review-policy";
 import { Button } from "@/components/ui/button";
 import { DecisionNotice, RevisionInstructions, RevisionPanel, historyActor } from "@/components/review-feedback";
 import { LineageGraph } from "@/components/lineage-graph";
@@ -41,6 +42,8 @@ type Receipt = {
   evaluation?: { checks?: Record<string, boolean> };
   recommendation?: { recommendation?: string; rationale?: string };
   history?: any[];
+  judge_job?: {state:string;detail:string};
+  review_policy?: {require_judge:boolean;mode:string;model:string;rubric:string;checks_current:boolean;advice_current:boolean};
 };
 type Page = "home" | "review" | "ledger" | "activity" | "admin";
 const labels: Record<Page, string> = {
@@ -150,8 +153,20 @@ function App() {
   const decisionTrigger = React.useRef<HTMLElement | null>(null);
   const [credentials, setCredentials] = React.useState<any[]>([]);
   const [activity, setActivity] = React.useState<any[]>([]);
+  const [judgeConfirmation, setJudgeConfirmation] = React.useState(false);
+  const [judgeMessage, setJudgeMessage] = React.useState("");
   const [credentialSecret, setCredentialSecret] = React.useState("");
   const [credentialsLoading, setCredentialsLoading] = React.useState(false);
+  React.useEffect(() => {
+    if (!receipt || !["queued", "running"].includes(receipt.judge_job?.state || "")) return;
+    const id = receipt.conclusion.id;
+    let active = true;
+    const timer = window.setInterval(async () => {
+      try { const next = await api(`/owner/api/conclusions/${encodeURIComponent(id)}`); if(active) setReceipt(previous=>previous?.conclusion.id===id?next:previous); }
+      catch (e:any) { if(active) setError(`LM status could not refresh: ${e.message}`); }
+    }, 2500);
+    return ()=>{ active=false;window.clearInterval(timer); };
+  }, [receipt?.conclusion.id,receipt?.judge_job?.state]);
   React.useEffect(() => {
     if (page !== "admin") return;
     let active = true;
@@ -397,15 +412,28 @@ function App() {
     }
   }
   async function runJudge() {
-    if (!receipt || decisionPending.current || !window.confirm("Send this conclusion and its bound evidence to the configured external LM judge? This records advice only, never approval.")) return;
+    if (!receipt || decisionPending.current) return;
+    setJudgeConfirmation(false);
     decisionPending.current = true;
     setBusy(true);
     setError("");
+    setJudgeMessage("Reviewing bound evidence… You can keep reading this conclusion.");
     try {
       await api("/owner/api/judge", {method: "POST", body: JSON.stringify({csrf, conclusion_id: receipt.conclusion.id, confirmed: true})});
-      await load();
-    } catch (e: any) { setError(e.message); }
+      const next = await api(`/owner/api/conclusions/${encodeURIComponent(receipt.conclusion.id)}`);
+      setReceipt(next);
+      setJudgeMessage("LM advice recorded. See Checks for the reasoning.");
+    } catch { setJudgeMessage("LM review did not complete. You can retry; no approval was recorded."); }
     finally { decisionPending.current = false; setBusy(false); }
+  }
+  async function runChecks() {
+    if (!receipt || decisionPending.current) return;
+    decisionPending.current = true; setBusy(true); setError("");
+    try {
+      await api("/owner/api/evaluate", {method:"POST",body:JSON.stringify({csrf,conclusion_id:receipt.conclusion.id})});
+      setReceipt(await api(`/owner/api/conclusions/${encodeURIComponent(receipt.conclusion.id)}`));
+    } catch (e:any) { setError(e.message); }
+    finally { decisionPending.current=false; setBusy(false); }
   }
   async function showAdmin() {
     navigate("admin");
@@ -544,7 +572,8 @@ function App() {
               setNote={setNote}
               onDecide={decide}
               busy={busy}
-              onJudge={judgeConfigured ? runJudge : undefined}
+              onJudge={judgeConfigured ? () => setJudgeConfirmation(true) : undefined}
+              onEvaluate={runChecks}
             />
           )}
           {page === "ledger" && (
@@ -566,6 +595,7 @@ function App() {
           {page === "activity" && <ActivityPage rows={activity} />}
           {page === "admin" && (
             <AdminPage
+              policy={<ReviewPolicy csrf={csrf} api={api} onSaved={() => { void load(); }} />}
               credentials={credentials}
               loading={credentialsLoading}
               secret={credentialSecret}
@@ -576,6 +606,10 @@ function App() {
           )}
         </section>
       </main>
+      {judgeMessage && page === "review" && <div className="judgeProgress" role="status">{judgeMessage}<button aria-label="Dismiss LM review status" onClick={()=>setJudgeMessage("")}><X /></button></div>}
+      <Dialog.Root open={judgeConfirmation} onOpenChange={setJudgeConfirmation}>
+        <ModalSurface><Dialog.Title>Review evidence with LM</Dialog.Title><Dialog.Description>Send this conclusion and its bound evidence text to <strong>{receipt?.review_policy?.model || "the configured OpenRouter model"}</strong>. OpenRouter and the selected model provider will process this data, and provider charges may apply. The result is advice, not authorization.</Dialog.Description><div className="modalActions"><Button variant="outline" onClick={()=>setJudgeConfirmation(false)}>Cancel</Button><Button onClick={runJudge}>Run LM review</Button></div></ModalSurface>
+      </Dialog.Root>
     </div>
   );
 }
@@ -649,11 +683,11 @@ function ReviewPage({
   setNote,
   onDecide,
   busy,
-  onJudge,
+  onJudge, onEvaluate,
   fullReview, onOpenFull, onBack,
 }: any) {
   const [queue, setQueue] = React.useState("needs_review");
-  const queueFor = (state: string) => ["needs_review", "needs_revision"].includes(state) ? state : "decided";
+  const queueFor = (state: string) => state === "unresolved" ? "needs_review" : ["needs_review", "needs_revision"].includes(state) ? state : "decided";
   React.useEffect(() => { if (selected && receipt?.conclusion.id === selected) setQueue(queueFor(receipt.state)); }, [selected, receipt?.state]);
   const visibleRows = rows.filter((row: any) => queueFor(row.state) === queue);
   const switchQueue = (next: string) => { onClose(); setQueue(next); };
@@ -715,6 +749,7 @@ function ReviewPage({
         onDecide={onDecide}
         busy={busy}
         onJudge={onJudge}
+        onEvaluate={onEvaluate}
         fullReview={fullReview}
         onOpenFull={onOpenFull}
         onBack={onBack}
@@ -730,7 +765,7 @@ function Inspector({
   setNote,
   onDecide,
   busy,
-  onJudge,
+  onJudge, onEvaluate,
   readOnly = false,
   fullReview = false, onOpenFull, onBack, onChoose, pending = false,
 }: any) {
@@ -744,7 +779,10 @@ function Inspector({
     return () => { requestAnimationFrame(() => { if (opener?.isConnected && opener !== document.body) opener.focus(); }); };
   }, [r?.conclusion.id]);
   if (!r) return pending ? <aside className="inspector" aria-label="Conclusion details" aria-busy="true"><div className="inspectorTop" role="status">Loading details…</div></aside> : null;
-  const can = r.state === "needs_review" && !readOnly;
+  const can = ["needs_review", "unresolved"].includes(r.state) && !readOnly;
+  const failedChecks = Object.entries(r.evaluation?.checks || {}).filter(([,passed])=>!passed).map(([key])=>key.replaceAll("_", " "));
+  const checkReason = (name:string) => ({"evidence present":"Required evidence is missing","evidence integrity":"Evidence integrity could not be verified","experiment evidence present":"Typed experiment evidence is missing","experiment evidence valid":"Experiment evidence is incomplete or invalid","experiment identity bound":"Experiment identity is not bound","not expired":"The conclusion has expired","not superseded":"The conclusion was superseded","scope present":"A reuse scope is missing"} as Record<string,string>)[name] || `${name} did not pass`;
+  const approvalBlock = !r.evaluation ? "Run deterministic checks before approval." : failedChecks.length ? failedChecks.map(checkReason).join(". ") + "." : r.review_policy && !r.review_policy.checks_current ? "Review policy changed. Run checks again before approval." : r.review_policy?.require_judge && (!r.review_policy.advice_current || r.recommendation?.recommendation !== "accept") ? "Current, supporting LM advice is required before approval." : "";
   return (
     <aside className={`inspector${fullReview ? " fullReview" : ""}`} ref={panel} aria-label="Conclusion details" onKeyDown={e => { if (e.key === "Escape" && onClose) { e.stopPropagation(); fullReview ? onBack() : onClose(); } }}>
       {!can && !readOnly && <DecisionNotice state={r.state} />}
@@ -754,6 +792,7 @@ function Inspector({
       </button>}
       <div className="inspectorTop">
         <Badge state={r.state} />
+        {r.state === "unresolved" && <p>Previous approval needs revalidation under the current policy.</p>}
         <h2>{r.conclusion.statement}</h2>
         <p>
           Proposed by {r.conclusion.proposer || "agent"} ·{" "}
@@ -765,9 +804,13 @@ function Inspector({
         <dl><div><dt>Applies to</dt><dd>{r.conclusion.scope || "No scope recorded"}</dd></div>
         <div><dt>Supporting evidence</dt><dd>{(r.evidence || []).length} bound {(r.evidence || []).length === 1 ? "source" : "sources"}</dd></div>
         <div><dt>Automated checks</dt><dd>{Object.keys(r.evaluation?.checks || {}).length ? `${Object.values(r.evaluation.checks).filter(Boolean).length} of ${Object.keys(r.evaluation.checks).length} passed` : "Not run"}</dd></div>
-        <div><dt>LM advice</dt><dd>{r.recommendation?.recommendation || (onJudge ? "Not run yet" : "Not configured in this workspace")}</dd></div></dl>
+        <div><dt>LM advice</dt><dd>{r.recommendation ? <Badge state={r.recommendation.recommendation} /> : r.judge_job?.state === "running" || r.judge_job?.state === "queued" ? "Review in progress" : (onJudge ? "Not run yet" : "Not configured")}</dd></div></dl>
+        {can && <div className="decisionStack"><div><strong>Automated checks</strong><span>{approvalBlock && failedChecks.length ? `Blocking · ${failedChecks.length} requirement${failedChecks.length===1?"":"s"} failed` : r.evaluation ? "Passed" : "Not run"}</span></div><div><strong>LM advice</strong><span>{r.recommendation ? `${r.recommendation.recommendation === "accept" ? "Supports the evidence" : r.recommendation.recommendation} · advisory only` : "Not recorded"}</span></div><div><strong>Human authorization</strong><span>{approvalBlock ? "Unavailable until requirements pass" : "Ready for your decision"}</span></div></div>}
+        {can && approvalBlock && <p className="approvalBlock" role="status">{approvalBlock}</p>}
+        {can && onEvaluate && (!r.evaluation || (r.review_policy && !r.review_policy.checks_current)) && <Button variant="outline" disabled={busy} onClick={onEvaluate}>Run checks</Button>}
+        {r.judge_job && ["failed","interrupted","blocked"].includes(r.judge_job.state) && <p>{r.judge_job.detail}</p>}
         {onOpenFull ? !fullReview && <Button onClick={onOpenFull}>{r.state === "needs_revision" ? "View revision request" : "Open full review"}</Button> : <Button variant="outline" aria-expanded={expanded} onClick={() => setExpanded(!expanded)}>{expanded ? "Hide details" : "View details"}</Button>}
-        {onJudge && can && <Button variant="outline" disabled={busy} onClick={onJudge}>Run LM judge</Button>}
+        {onJudge && can && <Button variant="outline" disabled={busy} onClick={onJudge}>{r.recommendation ? "Refresh LM advice" : "Run LM review"}</Button>}
       </div>
       {(fullReview || expanded) && <>
       {r.revision_parent && <section className="revisionSection"><h3>Revision of previous conclusion</h3><p>{r.revision_parent.statement}</p><p><b>Requested change:</b> {r.revision_parent.review?.note}</p><p>Previous evidence: {r.revision_parent.evidence_refs.join(", ")}</p><p>Current evidence: {r.conclusion.evidence_refs.join(", ")}</p><p>This proposal requires a new human decision; it does not automatically replace its predecessor.</p></section>}
@@ -815,7 +858,8 @@ function Inspector({
           </div>
           <div className="recommendation">
             <span>LM advice</span>
-            <b>{r.recommendation?.recommendation || "No recommendation recorded"}</b>
+            {r.recommendation ? <Badge state={r.recommendation.recommendation} /> : <b>No recommendation recorded</b>}
+            {r.recommendation?.model && <small>{r.recommendation.model} · {r.recommendation.judge}</small>}
             <p>
               {r.recommendation?.rationale ||
                 ""}
@@ -862,10 +906,10 @@ function Inspector({
             </Button>
             <Button
               variant="approve"
-              disabled={busy}
+              disabled={busy || !!approvalBlock}
               onClick={() => onDecide("admit")}
             >
-              Approve
+              Approve for reuse
             </Button>
           </div>
         </div>
@@ -966,8 +1010,16 @@ function LedgerPage({ rows, allRows, nodes, edges, relations, selected, receipt,
 }
 function ActivityPage({ rows }: any) {
   const [page, setPage] = React.useState(0);
-  const [importantOnly, setImportantOnly] = React.useState(false);
-  const filtered = rows.filter((r: any) => !importantOnly || r.outcome !== "ok" || !/\.(get|list|receipt)$/.test(r.operation || ""));
+  const [view, setView] = React.useState("activity");
+  const [logs, setLogs] = React.useState<any[]>([]);
+  const [error, setError] = React.useState("");
+  React.useEffect(() => {
+    if (view !== "logs") return;
+    let active = true;
+    api("/owner/api/technical-logs").then(rows => { if(active) setLogs(rows); }).catch(e=>{ if(active) setError(e.message); });
+    return ()=>{ active=false; };
+  }, [view]);
+  const filtered = view === "logs" ? logs : rows.filter((r:any)=>view!=="retrievals" || r.kind==="context_retrieved");
   const pages = Math.max(1, Math.ceil(filtered.length / 20));
   const current = Math.min(page, pages - 1);
   return (
@@ -975,24 +1027,24 @@ function ActivityPage({ rows }: any) {
       <PageHead
         eyebrow="APPEND-ONLY RECORD"
         title="Activity"
-        description="Recent workspace requests and outcomes, including read access. Showing up to the latest 100 records; conclusion decision history is in its review details."
+        description="Who contributed knowledge, reviewed it, and retrieved context. Technical requests are kept separately."
       />
       <div className="ledgerViews activityFilters" role="group" aria-label="Activity filter">
-        <Button aria-pressed={!importantOnly} onClick={() => { setImportantOnly(false); setPage(0); }}>All activity</Button>
-        <Button aria-pressed={importantOnly} onClick={() => { setImportantOnly(true); setPage(0); }}>Important events</Button>
+        {[["activity","Knowledge activity"],["retrievals","Context retrievals"],["logs","Technical logs"]].map(([key,label])=><Button key={key} aria-pressed={view===key} onClick={()=>{setView(key);setPage(0);setError("");}}>{label}</Button>)}
       </div>
+      {error && <p role="alert">{error}</p>}
       <div className="tableWrap activityTable">
-        <table><caption className="sr-only">Recent workspace activity</caption><thead><tr><th>Time</th><th>Operation</th><th>Actor</th><th>Result</th></tr></thead><tbody>
+        <table><caption className="sr-only">Recent workspace activity</caption><thead><tr><th>Time</th><th>{view==="logs"?"Operation":"What happened"}</th><th>Actor</th><th>Result</th></tr></thead><tbody>
         {filtered.slice(current * 20, (current + 1) * 20).map((r: any) => (
-          <tr key={r.audit_id}>
+          <tr key={r.id || r.audit_id}>
             <td data-label="Time"><time dateTime={r.occurred_at} title={r.occurred_at}>{new Date(r.occurred_at).toLocaleString()}</time></td>
-            <td data-label="Operation">{(r.operation || "request").replaceAll(".", " · ")}</td>
-            <td data-label="Actor">{r.principal_id || "Unknown principal"}</td>
-            <td data-label="Result"><ActivityResult outcome={r.outcome} /></td>
+            <td data-label="What happened">{view==="logs" ? (r.operation || "request").replaceAll(".", " · ") : <><strong>{r.action}</strong>{r.statement && <a className="activitySubject" href={`/review?conclusion_id=${encodeURIComponent(r.subject_id)}&view=full`}>{r.statement}</a>}{r.detail && <details><summary>Details</summary><p>{r.detail}</p></details>}{r.scope && <small>{r.scope}</small>}</>}</td>
+            <td data-label="Actor">{r.actor || r.principal_id || "Actor not recorded"}{r.model && <small>{r.model}</small>}{r.initiator && r.initiator!==r.actor && <small>Requested by {r.initiator}</small>}</td>
+            <td data-label="Result">{view==="logs" ? <ActivityResult outcome={r.outcome} /> : <Badge state={r.outcome} />}</td>
           </tr>
         ))}
         </tbody></table>
-        {!filtered.length && <p className="empty">{importantOnly ? "No important events in the loaded records." : "No activity records loaded."}</p>}
+        {!filtered.length && <p className="empty">{view==="retrievals"?"No context retrievals recorded yet. Historical reads remain in Technical logs.":"No activity records loaded."}</p>}
       </div>
       <nav className="pagination" aria-label="Activity pages">
         <Button variant="outline" disabled={current === 0} onClick={() => setPage(current - 1)}>Previous</Button>
@@ -1003,6 +1055,7 @@ function ActivityPage({ rows }: any) {
   );
 }
 function AdminPage({
+  policy,
   credentials,
   loading,
   secret,
@@ -1022,6 +1075,7 @@ function AdminPage({
         description="Manage the agents that can propose knowledge and read governed context."
         action={null}
       />
+      {policy}
       <form
         className="issueForm"
         onSubmit={(event) => {

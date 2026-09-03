@@ -9,6 +9,8 @@ from urllib.parse import parse_qs, urlparse
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
+from contextlib import contextmanager
+from contextvars import ContextVar
 
 from proofpress.integrations import repository as proofpress_repo
 from proofpress.profiles import experiment as proofpress_experiment
@@ -501,7 +503,23 @@ def _require_expected_head(expected_head):
         raise ValueError("STALE_LEDGER_HEAD")
 
 
+_policy_override = ContextVar("proofpress_policy_override", default=None)
+
+
+@contextmanager
+def using_policy(policy):
+    """Request-local operator configuration; never mutate process environment."""
+    token = _policy_override.set(policy)
+    try:
+        yield
+    finally:
+        _policy_override.reset(token)
+
+
 def load_v2_policy():
+    override = _policy_override.get()
+    if override is not None:
+        return json.loads(json.dumps(override))
     raw = {}
     path = Path(POLICY_PATH)
     if path.exists():
@@ -540,6 +558,7 @@ def governance_configuration(policy=None):
         "schema_version": "proofpress/local-governance-config/v1alpha1",
         "policy_path": POLICY_PATH,
         "policy_digest": policy["digest"],
+        "require_judge": bool(policy.get("require_judge")),
         "proposer": {"identity_source": "operation_parameter"},
         "verification": {
             "identity": verification["identity"],
