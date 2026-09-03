@@ -12,6 +12,16 @@ const css = readFileSync(
 );
 
 describe("Proofpress owner workspace contract", () => {
+  it("keeps the MVP focused on review and human-readable lineage", () => {
+    expect(source).not.toContain("Ask Proofpress");
+    expect(source).not.toContain("Search conclusions or IDs");
+    expect(source).not.toContain("Inspect receipt");
+    expect(source).toContain('rows.filter(r => r.state === "needs_review")');
+    expect(source).toContain("View details");
+    expect(source).toContain("Technical receipt");
+    expect(source).toContain("Evidence to governed knowledge");
+    expect(source).toContain("(current + 1) * 20");
+  });
   it("keeps human admission out of assistant and WebMCP tools", () => {
     expect(source).toContain('name: "get_current_context"');
     expect(source).toContain("Approve is not exposed");

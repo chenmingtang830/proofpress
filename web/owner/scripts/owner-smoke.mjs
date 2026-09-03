@@ -20,29 +20,56 @@ try {
   });
   browser = await chromium.launch();
   const page = await browser.newPage({viewport:{width:1536,height:1024}});
+  page.setDefaultTimeout(15000);
   page.on('dialog',dialog=>dialog.accept());
   const errors=[];page.on('pageerror',e=>errors.push(e.message));
   await page.goto(`${data.base}/review?conclusion_id=${data.ids[0]}`);
   await page.locator('input[name=token]').fill(data.owner);
   await Promise.all([page.waitForNavigation(),page.locator('button[type=submit]').click()]);
   await page.locator('tbody tr').filter({hasText:data.ids[0]}).click();
-  await page.locator('.evidenceRow').getByText('Browser fixture approve:',{exact:false}).waitFor();
+  await page.getByRole('button',{name:'View details',exact:true}).click();
+  await page.locator('.evidenceRow > p').filter({hasText:'Browser fixture approve:'}).waitFor();
   for(const tab of ['Checks','History','Evidence']) await page.getByRole('tab',{name:tab,exact:true}).click();
+  if(process.env.QA_SCREENSHOTS) {
+    await mkdir(process.env.QA_SCREENSHOTS,{recursive:true});
+    await page.screenshot({path:`${process.env.QA_SCREENSHOTS}/review.png`});
+  }
   await page.getByRole('button',{name:'Approve',exact:true}).click();
   await page.getByText('Decision recorded',{exact:true}).waitFor();
   await page.getByRole('button',{name:'Ledger',exact:true}).click();
+  await page.getByRole('button',{name:'Current knowledge',exact:true}).click();
   await page.locator('tbody tr').filter({hasText:data.ids[0]}).waitFor();
   assert.equal(await page.locator('tbody tr').count(),1);
-  await page.getByRole('textbox',{name:'Ledger scope'}).fill('other-scope');
-  await page.getByText('No current knowledge is eligible',{exact:false}).waitFor();
-  assert.equal(await page.locator('tbody tr').count(),0);
-  await page.getByRole('textbox',{name:'Ledger scope'}).fill('');
+  assert.equal(await page.getByRole('textbox',{name:'Ledger scope'}).count(),0);
+  await page.getByRole('button',{name:'Lineage',exact:true}).click();
+  await page.locator('.lineageSelector select').selectOption(data.ids[0]);
+  await page.getByText('Available to your owner identity',{exact:true}).waitFor();
+  if(process.env.QA_SCREENSHOTS) await page.screenshot({path:`${process.env.QA_SCREENSHOTS}/lineage.png`});
   await page.getByRole('button',{name:'Review',exact:true}).click();
+  assert.equal(await page.locator('tbody tr').filter({hasText:data.ids[0]}).count(),0);
+  await page.route(`**/owner/api/conclusions/${data.ids[1]}`, async route => {
+    const response = await route.fetch();
+    await new Promise(resolve=>setTimeout(resolve,250));
+    await route.fulfill({response});
+  });
+  await page.locator('tbody tr').filter({hasText:data.ids[1]}).click();
+  await page.locator('tbody tr').filter({hasText:data.ids[2]}).click();
+  await page.locator('.inspector h2').filter({hasText:'fixture clarify:'}).waitFor();
+  await page.waitForLoadState('networkidle');
+  assert.match(await page.locator('.inspector h2').textContent(),/fixture clarify:/);
+  await page.unroute(`**/owner/api/conclusions/${data.ids[1]}`);
+  await page.route(`**/owner/api/conclusions/${data.ids[1]}`,route=>route.fulfill({status:503,json:{ok:false,error:{message:'Fixture unavailable; retry.'}}}));
+  await page.locator('tbody tr').filter({hasText:data.ids[1]}).click();
+  await page.getByText('Fixture unavailable; retry.',{exact:true}).waitFor();
+  assert.equal(await page.getByRole('button',{name:'Approve',exact:true}).count(),0);
+  await page.unroute(`**/owner/api/conclusions/${data.ids[1]}`);
   await page.locator('tbody tr').filter({hasText:data.ids[1]}).click();
   await page.getByRole('button',{name:'Reject',exact:true}).click();
   await page.getByText('Decision recorded',{exact:true}).waitFor();
   await page.waitForLoadState('networkidle');
+  await page.locator('.shell[aria-busy="false"]').waitFor();
   await page.locator('tbody tr').filter({hasText:data.ids[2]}).click();
+  await page.locator('.inspector h2').filter({hasText:'fixture clarify:'}).waitFor();
   await page.getByRole('button',{name:'Request changes',exact:true}).click();
   await page.getByText('Describe the bounded change',{exact:false}).waitFor();
   await page.locator('.decision textarea').fill('Verify this bounded assertion.');
@@ -52,23 +79,6 @@ try {
   const projected=await context.json();
   assert.equal(projected.ok,true,JSON.stringify(projected));
   assert.deepEqual(projected.result.knowledge.map(r=>r.id),[data.ids[0]]);
-  await page.route(`**/owner/api/conclusions/${data.ids[0]}`, async route => {
-    const response = await route.fetch();
-    await new Promise(resolve=>setTimeout(resolve,250));
-    await route.fulfill({response});
-  });
-  await page.locator('tbody tr').filter({hasText:data.ids[0]}).click();
-  await page.locator('tbody tr').filter({hasText:data.ids[1]}).click();
-  await page.locator('.inspector h2').filter({hasText:'fixture reject:'}).waitFor();
-  await page.waitForLoadState('networkidle');
-  assert.match(await page.locator('.inspector h2').textContent(),/fixture reject:/);
-  await page.unroute(`**/owner/api/conclusions/${data.ids[0]}`);
-  await page.route(`**/owner/api/conclusions/${data.ids[0]}`,route=>route.fulfill({status:503,json:{ok:false,error:{message:'Fixture unavailable; retry.'}}}));
-  await page.locator('tbody tr').filter({hasText:data.ids[0]}).click();
-  await page.getByText('Fixture unavailable; retry.',{exact:true}).waitFor();
-  assert.equal(await page.getByRole('button',{name:'Approve',exact:true}).count(),0);
-  await page.unroute(`**/owner/api/conclusions/${data.ids[0]}`);
-  await page.locator('tbody tr').filter({hasText:data.ids[1]}).click();
   for(const name of ['Home','Review','Ledger','Activity','Admin']) {
     await page.getByRole('button',{name,exact:true}).click();
     await page.locator('h1').waitFor();
@@ -96,6 +106,8 @@ try {
   await page.waitForLoadState('networkidle');
   assert.equal((await page.request.get(`${data.base}/v1/capabilities`,{headers:{Authorization:`Bearer ${rotated}`}})).status(),401);
   await page.getByRole('button',{name:'Home',exact:true}).click();
+  assert.equal(await page.getByText('Ask Proofpress',{exact:true}).count(),0);
+  assert.equal(await page.getByRole('textbox',{name:'Search conclusions'}).count(),0);
   for(const width of [1536,1024,390]) {
     await page.setViewportSize({width,height:900});
     assert.equal(await page.evaluate(()=>document.body.scrollWidth),width);

@@ -1,7 +1,5 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
-import { AssistantConversation } from "@/components/assistant-conversation";
-import * as Dialog from "@radix-ui/react-dialog";
 import * as Tabs from "@radix-ui/react-tabs";
 import {
   Activity,
@@ -10,9 +8,6 @@ import {
   ChevronRight,
   Home,
   KeyRound,
-  MessageSquareText,
-  PanelRightClose,
-  Search,
   ShieldCheck,
   X,
 } from "lucide-react";
@@ -88,6 +83,23 @@ function evidenceText(row: any) {
   return row?.retrieval_receipt?.quote || row?.quote || "No quote available in this receipt.";
 }
 
+function EvidenceContent({ row }: { row: any }) {
+  const text = evidenceText(row);
+  let structured: any = null;
+  if (typeof text === "string") {
+    try { structured = JSON.parse(text); } catch { /* A source quote is usually plain text. */ }
+  }
+  const renderValue = (value: any): React.ReactNode => {
+    if (value === null) return "Not provided";
+    if (typeof value !== "object") return String(value);
+    if (Array.isArray(value)) return <ul>{value.map((item, i) => <li key={i}>{renderValue(item)}</li>)}</ul>;
+    return <dl className="evidenceFields">{Object.entries(value).map(([key, value]) => <div key={key}><dt>{key.replaceAll("_", " ")}</dt><dd>{renderValue(value)}</dd></div>)}</dl>;
+  };
+  return <>{structured !== null ? renderValue(structured) : <p>{text}</p>}
+    <details className="technicalDetails"><summary>Technical receipt</summary><pre>{JSON.stringify(row, null, 2)}</pre></details>
+  </>;
+}
+
 function App() {
   const path = (location.pathname.split("/")[1] || "review") as Page;
   const [page, setPage] = React.useState<Page>(labels[path] ? path : "review");
@@ -100,18 +112,10 @@ function App() {
   const decisionPending = React.useRef(false);
   const [eligible, setEligible] = React.useState<NodeRow[]>([]);
   const [contextLoading, setContextLoading] = React.useState(true);
-  const [query, setQuery] = React.useState("");
-  const [scope, setScope] = React.useState("");
+  const scope = "";
   const [loading, setLoading] = React.useState(true);
   const [error, setError] = React.useState("");
   const [csrf, setCsrf] = React.useState("");
-  const [assistant, setAssistant] = React.useState(false);
-  const [asking, setAsking] = React.useState(false);
-  const askingRef = React.useRef(false);
-  const [question, setQuestion] = React.useState("");
-  const [messages, setMessages] = React.useState<
-    { role: string; text: string }[]
-  >([]);
   const [note, setNote] = React.useState("");
   const [busy, setBusy] = React.useState(false);
   const [credentials, setCredentials] = React.useState<any[]>([]);
@@ -299,48 +303,6 @@ function App() {
       setBusy(false);
     }
   }
-  async function ask() {
-    if (!question.trim() || askingRef.current) return;
-    askingRef.current = true;
-    setAsking(true);
-    const q = question.trim();
-    setMessages((m) => [...m, { role: "user", text: q }]);
-    setQuestion("");
-    try {
-      const result = await api("/owner/api/ask", {
-        method: "POST",
-        body: JSON.stringify({
-          csrf,
-          question: q,
-          snapshot: {
-            page,
-            scope,
-            selected: receipt && (!scope || receipt.conclusion.scope === scope) ? receipt : null,
-            candidates: rows.filter(r => !scope || r.scope === scope).slice(0, 30).map((row) => ({
-              id: row.id,
-              statement: row.label,
-              state: row.state,
-              scope: row.scope,
-            })),
-            counts: {
-              needs_review: rows.filter((r) => (!scope || r.scope === scope) && r.state === "needs_review")
-                .length,
-              admitted: eligible.length,
-            },
-          },
-        }),
-      });
-      setMessages((m) => [
-        ...m,
-        { role: "assistant", text: result.answer || "No answer returned." },
-      ]);
-    } catch (e: any) {
-      setMessages((m) => [...m, { role: "assistant", text: e.message }]);
-    } finally {
-      askingRef.current = false;
-      setAsking(false);
-    }
-  }
   async function showAdmin() {
     setPage("admin");
     try {
@@ -373,12 +335,7 @@ function App() {
       setBusy(false);
     }
   }
-  const filtered = rows.filter(
-    (r) =>
-      (!scope || r.scope === scope) &&
-      (!query ||
-        `${r.label} ${r.id}`.toLowerCase().includes(query.toLowerCase())),
-  );
+  const filtered = rows.filter(r => r.state === "needs_review");
   const pending = rows.filter((r) => r.state === "needs_review").length;
   const admitted = contextLoading ? "…" : eligible.length;
   return (
@@ -417,23 +374,7 @@ function App() {
             <span className="brandMark"><img src="/logo.svg" alt="" /></span>
             <strong>Proofpress</strong>
           </div>
-          <label className="search">
-            <Search />
-            <input
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              aria-label="Search conclusions"
-              placeholder="Search conclusions or IDs…"
-              onFocus={() => { if (page !== "review" && page !== "ledger") setPage("review"); }}
-            />
-          </label>
-          <button
-            className="iconButton"
-            aria-label="Open Ask Proofpress"
-            onClick={() => setAssistant(true)}
-          >
-            <MessageSquareText />
-          </button>
+          <span className="workspaceLabel">{labels[page]}</span>
         </header>
         {error && (
           <div className="error">
@@ -452,7 +393,6 @@ function App() {
               onChoose={(id: string) => { setPage("review"); choose(id); }}
               onReview={() => setPage("review")}
               onLedger={() => setPage("ledger")}
-              conversation={<AssistantConversation messages={messages} question={question} setQuestion={setQuestion} onSend={ask} pending={asking} />}
             />
           )}
           {page === "review" && (
@@ -461,10 +401,6 @@ function App() {
               selected={selected}
               receipt={receipt}
               loading={loading}
-              scope={scope}
-              setScope={setScope}
-              query={query}
-              setQuery={setQuery}
               onChoose={choose}
               onClose={() => {
                 ++selectionRequest.current;
@@ -479,10 +415,8 @@ function App() {
           )}
           {page === "ledger" && (
             <LedgerPage
-              rows={eligible.filter(r => !query || `${r.label} ${r.id}`.toLowerCase().includes(query.toLowerCase()))}
+              rows={eligible}
               loading={contextLoading}
-              scope={scope}
-              setScope={setScope}
               selected={selected}
               receipt={receipt}
               onChoose={choose}
@@ -500,25 +434,6 @@ function App() {
           )}
         </section>
       </main>
-      <Dialog.Root open={assistant} onOpenChange={setAssistant}>
-        <Dialog.Portal>
-          <Dialog.Overlay className="dialogOverlay" />
-          <Dialog.Content className="assistantPanel">
-            <div className="assistantHead">
-              <div>
-                <Dialog.Title>Ask Proofpress</Dialog.Title>
-                <Dialog.Description>
-                  Answers from the current workspace. Advisory only.
-                </Dialog.Description>
-              </div>
-              <Dialog.Close className="iconButton" aria-label="Close assistant">
-                <PanelRightClose />
-              </Dialog.Close>
-            </div>
-            <AssistantConversation messages={messages} question={question} setQuestion={setQuestion} onSend={ask} pending={asking} />
-          </Dialog.Content>
-        </Dialog.Portal>
-      </Dialog.Root>
     </div>
   );
 }
@@ -545,14 +460,10 @@ function PageHead({
     </div>
   );
 }
-function HomePage({ pending, admitted, rows, onReview, onLedger, conversation, onChoose }: any) {
+function HomePage({ pending, admitted, rows, onReview, onLedger, onChoose }: any) {
   return (
     <div className="pageBody">
-      <section className="homeConversation" aria-labelledby="home-ask-title">
-        <h1 id="home-ask-title">Ask Proofpress</h1>
-        <p>Understand the evidence. Decide what agents may rely on.</p>
-        {conversation}
-      </section>
+      <PageHead eyebrow="" title="Your workspace" description="Review new conclusions. Trace what agents may rely on." />
       <div className="orientation">
         <button onClick={onReview}>
           <span>Needs your review</span>
@@ -590,10 +501,6 @@ function ReviewPage({
   selected,
   receipt,
   loading,
-  scope,
-  setScope,
-  query,
-  setQuery,
   onChoose,
   onClose,
   note,
@@ -610,21 +517,7 @@ function ReviewPage({
           description="Evidence and recommendations inform the decision. Only your approval admits knowledge."
         />
         <div className="filterbar">
-          <label>
-            <Search />
-            <input
-              value={query}
-              onChange={(event) => setQuery(event.target.value)}
-              placeholder="Filter candidates…"
-            />
-          </label>
-          <input
-            className="scopeInput"
-            value={scope}
-            onChange={(e) => setScope(e.target.value)}
-            placeholder="Scope"
-          />
-          <span>{rows.length} conclusions</span>
+          <span>{rows.length} awaiting your review</span>
         </div>
         <div className="tableWrap">
           <table>
@@ -633,7 +526,6 @@ function ReviewPage({
                 <th>Conclusion</th>
                 <th>Status</th>
                 <th>Scope</th>
-                <th>Evidence</th>
                 <th></th>
               </tr>
             </thead>
@@ -654,7 +546,6 @@ function ReviewPage({
                     <Badge state={row.state} />
                   </td>
                   <td>{row.scope || "—"}</td>
-                  <td>Inspect receipt</td>
                   <td>
                     <ChevronRight />
                   </td>
@@ -686,6 +577,8 @@ function Inspector({
   onDecide,
   busy,
 }: any) {
+  const [expanded, setExpanded] = React.useState(false);
+  React.useEffect(() => setExpanded(false), [r?.conclusion.id]);
   if (!r)
     return (
       <aside className="inspector">
@@ -709,6 +602,14 @@ function Inspector({
           <span className="mono">{r.conclusion.id}</span>
         </p>
       </div>
+      <div className="quickSnapshot">
+        <dl><div><dt>Applies to</dt><dd>{r.conclusion.scope || "No scope recorded"}</dd></div>
+        <div><dt>Supporting evidence</dt><dd>{(r.evidence || []).length} bound sources</dd></div>
+        <div><dt>Automated checks</dt><dd>{Object.keys(r.evaluation?.checks || {}).length ? `${Object.values(r.evaluation.checks).filter(Boolean).length} of ${Object.keys(r.evaluation.checks).length} passed` : "Not run"}</dd></div>
+        <div><dt>LM advice</dt><dd>{r.recommendation?.recommendation || "No recommendation recorded"}</dd></div></dl>
+        <Button variant="outline" onClick={() => setExpanded(!expanded)}>{expanded ? "Hide details" : "View details"}</Button>
+      </div>
+      {expanded && <>
       <Tabs.Root defaultValue="evidence">
         <Tabs.List className="tabs">
           <Tabs.Trigger value="evidence">Evidence</Tabs.Trigger>
@@ -722,7 +623,7 @@ function Inspector({
                 <ShieldCheck />
                 <b>{evidenceName(e)}</b>
               </div>
-              <p>{evidenceText(e)}</p>
+              <EvidenceContent row={e} />
               <small>Bound to this conclusion</small>
             </article>
           ))}
@@ -772,6 +673,7 @@ function Inspector({
           ))}
         </Tabs.Content>
       </Tabs.Root>
+      </>}
       {can ? (
         <div className="decision">
           <div>
@@ -826,7 +728,9 @@ function Inspector({
     </aside>
   );
 }
-function LedgerPage({ rows, selected, receipt, onChoose, loading, scope, setScope }: any) {
+function LedgerPage({ rows, selected, receipt, onChoose, loading }: any) {
+  const [view, setView] = React.useState("lineage");
+  const current = !loading && rows.some((row: any) => row.id === selected) && receipt?.state === "admitted" ? receipt : null;
   return (
     <div className="workspacePage">
       <div className="work">
@@ -835,7 +739,26 @@ function LedgerPage({ rows, selected, receipt, onChoose, loading, scope, setScop
           title="Ledger"
           description="Current knowledge eligible for your owner identity. Each agent's eligibility is checked separately."
         />
-        <label>Scope <input className="scopeInput" aria-label="Ledger scope" placeholder="Exact scope" value={scope} onChange={e => setScope(e.target.value)} /></label>
+        <div className="ledgerViews" role="group" aria-label="Ledger view">
+          <Button variant={view === "lineage" ? "default" : "outline"} onClick={() => setView("lineage")}>Lineage</Button>
+          <Button variant={view === "list" ? "default" : "outline"} onClick={() => setView("list")}>Current knowledge</Button>
+        </div>
+        {view === "lineage" && <section className="lineageCanvas" aria-label="Evidence to governed knowledge">
+          <label className="lineageSelector">Conclusion
+            <select value={current?.conclusion.id || ""} onChange={e => onChoose(e.target.value)}>
+              <option value="" disabled>Select current knowledge</option>
+              {rows.map((row: any) => <option key={row.id} value={row.id}>{row.label}</option>)}
+            </select>
+          </label>
+          {current ? <div className="lineageFlow">
+            <section><h2>Bound evidence</h2>{(current.evidence || []).map((e: any, i: number) => <article key={i}><b>{evidenceName(e)}</b><EvidenceContent row={e} /></article>)}{!current.evidence?.length && <p>No bound evidence recorded.</p>}</section>
+            <span className="lineageArrow" aria-hidden="true">→</span>
+            <section><h2>Conclusion</h2><article><Badge state={current.state} /><p>{current.conclusion.statement}</p><small>{current.conclusion.scope}</small></article></section>
+            <span className="lineageArrow" aria-hidden="true">→</span>
+            <section><h2>Governed context</h2><article><b>Available to your owner identity</b><p>Admitted, current, and eligible in this view.</p><small>Each successor agent's permissions are checked separately.</small></article></section>
+          </div> : <p className="empty">{loading ? "Loading current knowledge…" : "Choose a conclusion to trace its evidence and reuse boundary."}</p>}
+        </section>}
+        {view === "list" &&
         <div className="tableWrap">
           <table>
             <thead>
@@ -876,9 +799,10 @@ function LedgerPage({ rows, selected, receipt, onChoose, loading, scope, setScop
             </div>
           )}
         </div>
+        }
       </div>
       <Inspector
-        receipt={!loading && rows.some((row: any) => row.id === selected) && receipt?.state === "admitted" ? receipt : null}
+        receipt={current}
         note=""
         setNote={() => {}}
         onDecide={() => {}}
@@ -888,6 +812,9 @@ function LedgerPage({ rows, selected, receipt, onChoose, loading, scope, setScop
   );
 }
 function ActivityPage({ rows }: any) {
+  const [page, setPage] = React.useState(0);
+  const pages = Math.max(1, Math.ceil(rows.length / 20));
+  const current = Math.min(page, pages - 1);
   return (
     <div className="pageBody">
       <PageHead
@@ -896,7 +823,7 @@ function ActivityPage({ rows }: any) {
         description="Proposal and decision history visible from the current ledger projection."
       />
       <div className="timeline">
-        {rows.slice(0, 20).map((r: any) => (
+        {rows.slice(current * 20, (current + 1) * 20).map((r: any) => (
           <div key={r.audit_id}>
             <span></span>
             <div>
@@ -909,6 +836,11 @@ function ActivityPage({ rows }: any) {
           </div>
         ))}
       </div>
+      <nav className="pagination" aria-label="Activity pages">
+        <Button variant="outline" disabled={current === 0} onClick={() => setPage(current - 1)}>Previous</Button>
+        <span>Page {current + 1} of {pages} · {rows.length} records</span>
+        <Button variant="outline" disabled={current + 1 >= pages} onClick={() => setPage(current + 1)}>Next</Button>
+      </nav>
     </div>
   );
 }

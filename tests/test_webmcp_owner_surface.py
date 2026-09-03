@@ -39,12 +39,13 @@ class WebmcpOwnerSurfaceTests(unittest.TestCase):
     def test_react_renders_untrusted_text_without_inner_html(self):
         self.assertNotIn("dangerouslySetInnerHTML", self.page)
 
-    def test_owner_assistant_calls_hosted_endpoint_with_csrf_and_snapshot(self):
-        self.assertIn('api("/owner/api/ask"', self.page)
-        self.assertRegex(self.page, r"csrf,\s*question:\s*q,\s*snapshot:")
+    def test_mvp_has_no_assistant_calls_or_entry_points(self):
+        self.assertNotIn('/owner/api/ask', self.page)
+        self.assertNotIn('Ask Proofpress', self.page)
 
-    def test_owner_assistant_renders_model_text_without_html_injection(self):
-        self.assertRegex(self.page, r"text:\s*result\.answer")
+    def test_evidence_is_readable_without_html_injection(self):
+        self.assertIn('EvidenceContent', self.page)
+        self.assertIn('Technical receipt', self.page)
         self.assertNotIn("innerHTML", self.page)
 
     def test_pending_and_recommendation_surfaces_are_neutral(self):
@@ -58,7 +59,7 @@ class WebmcpOwnerSurfaceTests(unittest.TestCase):
     def test_owner_chrome_uses_consistent_svg_icons_and_accessible_controls(self):
         for icon in ("Home", "ShieldCheck", "BookOpen", "Activity", "KeyRound"):
             self.assertIn(icon, self.page)
-        self.assertIn('aria-label="Open Ask Proofpress"', self.page)
+        self.assertIn('aria-label="Activity pages"', self.page)
         self.assertIn("disabled={busy}", self.page)
 
 

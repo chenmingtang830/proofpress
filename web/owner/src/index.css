@@ -1,4 +1,31 @@
 @import "tailwindcss";
+.workspaceLabel { color: var(--ink-2); font-size: 14px; margin-left: auto; }
+.pagination, .ledgerViews { display: flex; align-items: center; gap: 16px; margin: 24px 0; }
+.pagination { justify-content: space-between; flex-wrap: wrap; }
+.quickSnapshot { padding: 24px; border-bottom: 1px solid var(--line); }
+.quickSnapshot dl > div { display: flex; justify-content: space-between; gap: 16px; margin-bottom: 14px; }
+.quickSnapshot dt, .evidenceFields dt { color: var(--ink-2); font-size: 13px; }
+.quickSnapshot dd { margin: 0; text-align: right; overflow-wrap: anywhere; }
+.evidenceFields { margin: 12px 0; }
+.evidenceFields > div { margin: 12px 0; }
+.evidenceFields dd { margin: 4px 0 0; overflow-wrap: anywhere; }
+.technicalDetails { margin-top: 16px; font-size: 12px; color: var(--ink-2); }
+.technicalDetails summary { cursor: pointer; }
+.technicalDetails pre { white-space: pre-wrap; overflow-wrap: anywhere; max-height: 300px; overflow: auto; }
+.lineageCanvas { border: 1px solid var(--line); background: var(--paper); padding: 24px; }
+.lineageSelector { display: grid; gap: 8px; color: var(--ink-2); font-size: 13px; }
+.lineageSelector select { width: 100%; padding: 10px; background: var(--card); border: 1px solid var(--line); color: var(--ink); border-radius: 6px; }
+.lineageFlow { display: grid; grid-template-columns: minmax(0, 1fr) 24px minmax(0, 1fr) 24px minmax(0, 1fr); gap: 12px; margin-top: 32px; align-items: center; }
+.lineageFlow section { min-width: 0; }
+.lineageFlow h2 { font: 500 13px/1.5 ui-sans-serif, sans-serif; color: var(--ink-2); margin-bottom: 16px; }
+.lineageFlow article { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 18px; margin-bottom: 12px; overflow-wrap: anywhere; font-size: 14px; }
+.lineageFlow article p { line-height: 1.6; }
+.lineageFlow article small { color: var(--ink-2); }
+.lineageArrow { color: var(--accent); font-size: 24px; }
+@media (max-width: 1200px) {
+  .lineageFlow { grid-template-columns: minmax(0, 1fr); }
+  .lineageArrow { transform: rotate(90deg); justify-self: center; }
+}
 :root {
   --paper: #faf9f5;
   --ink: #20222b;
@@ -126,7 +153,7 @@ textarea {
 }
 .workspace span,
 .pageHead span,
-.inspectorTop > span,
+.inspectorTop > span:not(.inline-flex),
 .decision span,
 .recommendation span {
   display: block;
