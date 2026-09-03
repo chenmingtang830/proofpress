@@ -744,7 +744,7 @@ td:last-child svg {
 }
 .simpleList > div {
   display: grid;
-  grid-template-columns: 92px 1fr 160px;
+  grid-template-columns: max-content minmax(0, 1fr) 160px;
   align-items: center;
   border-bottom: 1px solid var(--line);
   padding: 11px 14px;
@@ -757,6 +757,7 @@ td:last-child svg {
   border: 0;
 }
 .simpleList b {
+  min-width: 0;
   font-size: 12px;
   font-weight: 500;
 }
@@ -1258,7 +1259,7 @@ td:last-child svg {
     border-bottom: 1px solid var(--line);
   }
   .simpleList > div {
-    grid-template-columns: 96px minmax(0,1fr);
+    grid-template-columns: max-content minmax(0, 1fr);
   }
   .simpleList small {
     display: none;
