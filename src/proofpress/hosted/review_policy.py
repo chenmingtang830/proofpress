@@ -85,7 +85,8 @@ def _cipher():
 
 def credential_status(connection, workspace_id):
     row = connection.execute("SELECT last_four, updated_at FROM hosted_provider_secrets WHERE workspace_id=?", (workspace_id,)).fetchone()
-    return {"configured": bool(row), "last_four": row["last_four"] if row else None,
+    configured = bool(row) or bool(os.environ.get("OPENROUTER_API_KEY", "").strip())
+    return {"configured": configured, "last_four": row["last_four"] if row else None,
             "updated_at": row["updated_at"] if row else None,
             "storage_ready": bool(os.environ.get("PROOFPRESS_SECRET_ENCRYPTION_KEY"))}
 

@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 from html import escape
 import json
 import mimetypes
@@ -21,6 +22,73 @@ from proofpress.hosted.control_plane import HostedAuthError, HostedControlPlane
 
 MAX_REQUEST_BYTES = 1024 * 1024
 LOOPBACK_HOSTS = {"127.0.0.1", "::1", "localhost"}
+
+
+def _judge_demo_evidence(index, title, quote):
+    quote_digest = "sha256:" + hashlib.sha256(quote.encode()).hexdigest()
+    source_digest = "sha256:" + hashlib.sha256(
+        f"proofpress-webmcp-demo:{index}:{title}".encode()).hexdigest()
+    return {
+        "schema_version": "proofpress/retrieval-evidence/v1",
+        "source": {"uri": f"demo://acme-acquisition/source-{index}",
+                   "content_digest": source_digest},
+        "evidence": {"quote": quote, "locator": {
+            "kind": "text_span", "start": 0, "end": len(quote),
+            "text_digest": quote_digest}},
+        "retrieval": {"adapter": "proofpress.synthetic-judge-demo", "version": "1",
+                      "query": title, "config_digest": "sha256:" + "d" * 64},
+    }
+
+
+def seed_judge_demo(control, workspace_id, owner_principal, owner_name):
+    """Create an isolated, visibly synthetic WebMCP judging workspace once."""
+    bootstrap = control.bootstrap(workspace_id, owner_principal, owner_name)
+    agent = control.issue_agent_credential(
+        bootstrap["token"], "agent:demo-research", "Synthetic demo agent")
+
+    def execute(token, operation, parameters, key):
+        envelope = control.execute(token, {
+            "schema_version": knowledge.LOCAL_OPERATION_SCHEMA,
+            "operation": operation, "parameters": parameters,
+            "idempotency_key": f"judge-demo-{key}",
+        })
+        if not envelope.get("ok"):
+            raise ValueError(envelope.get("error", {}).get("message", "demo seed failed"))
+        return envelope["result"]
+
+    rows = [
+        ("Acme's FY2024 revenue increased 18% year over year.", "The audited annual report records FY2024 revenue growth of 18% year over year.", "admit"),
+        ("The acquisition agreement requires regulatory clearance before closing.", "Closing is conditioned on receipt of the specified regulatory clearances.", "admit"),
+        ("Acme expects $120 million in cost synergies within 24 months.", "Management projects $120 million of run-rate cost synergies within 24 months.", None),
+        ("Acme operates in 25 countries.", "The company website lists operations across 25 countries as of the retrieval date.", None),
+        ("The target has no pending material litigation.", "The diligence summary says no material litigation was identified, subject to local-counsel confirmation.", "request_changes"),
+        ("The transaction will close next week.", "The announcement states that timing remains subject to outstanding conditions.", "reject"),
+        ("Customer concentration is below 10% for every account.", "The supplied schedule covers the top five accounts but omits the remaining customer population.", None),
+        ("The data-security insurance cap is at least $25 million.", "The certificate shows a $25 million cyber-liability aggregate limit.", None),
+    ]
+    seeded = []
+    for index, (statement, quote, decision) in enumerate(rows, 1):
+        imported = execute(agent["token"], "evidence.submit", {
+            "payload": _judge_demo_evidence(index, statement, quote)}, f"evidence-{index}")
+        proposed = execute(agent["token"], "conclusion.propose", {
+            "statement": statement, "evidence_refs": imported["evidence"],
+            "scope": "demo:acme-acquisition", "proposer": "ignored",
+            "artifact_refs": [], "allowed_actors": ["*"],
+            "qualifiers": {"synthetic_demo": True}}, f"conclusion-{index}")
+        conclusion_id = proposed["conclusion"]["id"]
+        execute(agent["token"], "conclusion.evaluate",
+                {"conclusion_id": conclusion_id}, f"evaluate-{index}")
+        if decision:
+            execute(bootstrap["token"], "conclusion.review", {
+                "conclusion_id": conclusion_id, "decision": decision,
+                "reviewer": "ignored", "note": "Synthetic fixture state for WebMCP judging.",
+                "request_id": f"judge-demo-review-{index}"}, f"review-{index}")
+        seeded.append({"conclusion_id": conclusion_id,
+                       "state": decision or "needs_review"})
+    return {"workspace_id": workspace_id, "owner_principal": owner_principal,
+            "owner_credential": bootstrap["token"],
+            "recovery_secret": bootstrap["recovery_secret"], "seeded": seeded,
+            "notice": "Synthetic judge demo only. Store owner and recovery secrets now; they are shown once."}
 
 
 def _status_for(envelope):
@@ -550,6 +618,10 @@ def main(argv=None):
     bootstrap.add_argument("--workspace-id", required=True)
     bootstrap.add_argument("--owner-principal", required=True)
     bootstrap.add_argument("--owner-name", default="Owner")
+    demo = subparsers.add_parser("seed-judge-demo")
+    demo.add_argument("--workspace-id", default="workspace:webmcp-judge-demo")
+    demo.add_argument("--owner-principal", default="human:webmcp-judge")
+    demo.add_argument("--owner-name", default="WebMCP Judge")
     issue = subparsers.add_parser("issue-agent")
     issue.add_argument("--principal", required=True)
     issue.add_argument("--label", required=True)
@@ -597,6 +669,10 @@ def main(argv=None):
         result = control.bootstrap(
             args.workspace_id, args.owner_principal, args.owner_name)
         print(json.dumps(result, ensure_ascii=False))
+    elif args.command == "seed-judge-demo":
+        print(json.dumps(seed_judge_demo(
+            control, args.workspace_id, args.owner_principal, args.owner_name),
+            ensure_ascii=False))
     elif args.command == "issue-agent":
         result = control.issue_agent_credential(
             _owner_token(args), args.principal, args.label)
