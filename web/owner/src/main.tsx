@@ -967,7 +967,7 @@ function LedgerPage({ rows, allRows, nodes, edges, relations, selected, receipt,
 function ActivityPage({ rows }: any) {
   const [page, setPage] = React.useState(0);
   const [importantOnly, setImportantOnly] = React.useState(false);
-  const filtered = rows.filter((r: any) => !importantOnly || r.outcome !== "ok" || !/\.(get|list)$/.test(r.operation || ""));
+  const filtered = rows.filter((r: any) => !importantOnly || r.outcome !== "ok" || !/\.(get|list|receipt)$/.test(r.operation || ""));
   const pages = Math.max(1, Math.ceil(filtered.length / 20));
   const current = Math.min(page, pages - 1);
   return (

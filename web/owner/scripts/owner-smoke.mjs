@@ -219,6 +219,7 @@ try {
   await page.getByRole('button',{name:'Important events',exact:true}).click();
   await page.getByText('operation_forbidden',{exact:true}).waitFor();
   assert.equal(await page.locator('tbody tr').filter({hasText:'graph · get'}).count(),0);
+  assert.equal(await page.locator('tbody tr').filter({hasText:'review · receipt'}).count(),0);
   await page.getByRole('button',{name:'All activity',exact:true}).click();
   if(process.env.QA_SCREENSHOTS) await page.screenshot({path:`${process.env.QA_SCREENSHOTS}/activity-outcomes.png`});
   for(const name of ['Time','Operation','Actor','Result']) assert.equal(await page.getByRole('columnheader',{name,exact:true}).count(),1);
