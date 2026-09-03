@@ -16,6 +16,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { DecisionNotice, RevisionInstructions, RevisionPanel, historyActor } from "@/components/review-feedback";
 import { LineageGraph } from "@/components/lineage-graph";
+import { LedgerOverview } from "@/components/ledger-overview";
 import { ModalSurface } from "@/components/ui/modal-surface";
 import "./index.css";
 import "./components/governance.css";
@@ -121,6 +122,7 @@ function App() {
   }, [fullReview]);
   const [rows, setRows] = React.useState<NodeRow[]>([]);
   const [edges, setEdges] = React.useState<any[]>([]);
+  const [graphNodes, setGraphNodes] = React.useState<any[]>([]);
   const [contextRelations, setContextRelations] = React.useState<any[]>([]);
   const [judgeConfigured, setJudgeConfigured] = React.useState(false);
   const [workspaceLabel, setWorkspaceLabel] = React.useState("");
@@ -180,6 +182,7 @@ function App() {
         (n: NodeRow) => n.type === "conclusion",
       );
       setRows(next);
+      setGraphNodes(graph.nodes || []);
       setEdges(graph.edges || []);
       setJudgeConfigured(Boolean(session.capabilities?.judge));
       setWorkspaceLabel(session.workspace || "Owner workspace");
@@ -188,7 +191,6 @@ function App() {
         selected && next.some((n: NodeRow) => n.id === selected)
           ? selected
           : next.find((n: NodeRow) => n.state === "needs_review")?.id ||
-            next[0]?.id ||
             null;
       if (request === selectionRequest.current) {
         setSelected(desired);
@@ -328,6 +330,7 @@ function App() {
   }
   function navigate(next: Page) {
     if (next === page) return;
+    if (next === "review") { ++selectionRequest.current; setSelected(null); setReceipt(null); }
     setFullReview(false);
     history.pushState(null, "", `/${next}${next === "review" && selected ? `?conclusion_id=${encodeURIComponent(selected)}` : ""}`);
     setPage(next);
@@ -433,7 +436,6 @@ function App() {
       setBusy(false);
     }
   }
-  const filtered = rows.filter(r => ["needs_review", "needs_revision"].includes(r.state));
   const pending = rows.filter((r) => r.state === "needs_review").length;
   const admitted = contextLoading ? "…" : eligible.length;
   return (
@@ -522,7 +524,7 @@ function App() {
           )}
           {page === "review" && (
             <ReviewPage
-              rows={filtered}
+              rows={rows}
               fullReview={fullReview}
               onOpenFull={openFullReview}
               onBack={backToReview}
@@ -546,6 +548,7 @@ function App() {
             <LedgerPage
               rows={eligible}
               allRows={rows}
+              nodes={graphNodes}
               edges={edges}
               relations={contextRelations}
               onReview={() => navigate("review")}
@@ -646,7 +649,10 @@ function ReviewPage({
   fullReview, onOpenFull, onBack,
 }: any) {
   const [queue, setQueue] = React.useState("needs_review");
-  const visibleRows = rows.filter((row: any) => row.state === queue);
+  const queueFor = (state: string) => ["needs_review", "needs_revision"].includes(state) ? state : "decided";
+  React.useEffect(() => { if (selected && receipt?.conclusion.id === selected) setQueue(queueFor(receipt.state)); }, [selected, receipt?.state]);
+  const visibleRows = rows.filter((row: any) => queueFor(row.state) === queue);
+  const switchQueue = (next: string) => { onClose(); setQueue(next); };
   return (
     <div className={`workspacePage${receipt ? "" : " overviewOnly"}${fullReview ? " fullReviewPage" : ""}`}>
       <div className="work" style={fullReview ? {display: "none"} : undefined}>
@@ -656,8 +662,9 @@ function ReviewPage({
           description="Evidence and recommendations inform the decision. Only your approval admits knowledge."
         />
         <div className="filterbar">
-          <Button variant={queue === "needs_review" ? "default" : "outline"} onClick={() => setQueue("needs_review")}>Needs review</Button>
-          <Button variant={queue === "needs_revision" ? "default" : "outline"} onClick={() => setQueue("needs_revision")}>Waiting for revision</Button>
+          <Button variant={queue === "needs_review" ? "default" : "outline"} onClick={() => switchQueue("needs_review")}>Needs review</Button>
+          <Button variant={queue === "needs_revision" ? "default" : "outline"} onClick={() => switchQueue("needs_revision")}>Needs revision</Button>
+          <Button variant={queue === "decided" ? "default" : "outline"} onClick={() => switchQueue("decided")}>Decision history</Button>
           <span role="status">{loading ? "Loading review queue…" : `${visibleRows.length} conclusions`}</span>
         </div>
         <div className="tableWrap">
@@ -689,12 +696,12 @@ function ReviewPage({
             </tbody>
           </table>
           {!loading && visibleRows.length === 0 && (
-            <div className="empty">No conclusions match this view.</div>
+            <div className="empty">{queue === "needs_review" ? "Nothing needs your review." : queue === "needs_revision" ? "No changes requested." : "No decisions recorded."}</div>
           )}
         </div>
       </div>
       <Inspector
-        receipt={receipt}
+        receipt={receipt && visibleRows.some((row: any) => row.id === selected) ? receipt : null}
         onClose={onClose}
         note={note}
         setNote={setNote}
@@ -733,7 +740,7 @@ function Inspector({
   const can = r.state === "needs_review" && !readOnly;
   return (
     <aside className={`inspector${fullReview ? " fullReview" : ""}`} ref={panel} aria-label="Conclusion details" onKeyDown={e => { if (e.key === "Escape" && onClose) { e.stopPropagation(); fullReview ? onBack() : onClose(); } }}>
-      {!can && !readOnly && <DecisionNotice state={r.state}>{r.state === "needs_revision" && !fullReview && onOpenFull && <Button variant="outline" onClick={onOpenFull}>View revision request</Button>}</DecisionNotice>}
+      {!can && !readOnly && <DecisionNotice state={r.state} />}
       {fullReview && <Button variant="outline" onClick={onBack}>Back to review</Button>}
       {!fullReview && onClose && <button className="mobileBack" onClick={onClose}>
         Close details
@@ -753,7 +760,7 @@ function Inspector({
         <div><dt>Supporting evidence</dt><dd>{(r.evidence || []).length} bound {(r.evidence || []).length === 1 ? "source" : "sources"}</dd></div>
         <div><dt>Automated checks</dt><dd>{Object.keys(r.evaluation?.checks || {}).length ? `${Object.values(r.evaluation.checks).filter(Boolean).length} of ${Object.keys(r.evaluation.checks).length} passed` : "Not run"}</dd></div>
         <div><dt>LM advice</dt><dd>{r.recommendation?.recommendation || (onJudge ? "Not run yet" : "Not configured in this workspace")}</dd></div></dl>
-        {onOpenFull ? !fullReview && <Button onClick={onOpenFull}>Open full review</Button> : <Button variant="outline" aria-expanded={expanded} onClick={() => setExpanded(!expanded)}>{expanded ? "Hide details" : "View details"}</Button>}
+        {onOpenFull ? !fullReview && <Button onClick={onOpenFull}>{r.state === "needs_revision" ? "View revision request" : "Open full review"}</Button> : <Button variant="outline" aria-expanded={expanded} onClick={() => setExpanded(!expanded)}>{expanded ? "Hide details" : "View details"}</Button>}
         {onJudge && can && <Button variant="outline" disabled={busy} onClick={onJudge}>Run LM judge</Button>}
       </div>
       {(fullReview || expanded) && <>
@@ -860,16 +867,14 @@ function Inspector({
     </aside>
   );
 }
-function LedgerPage({ rows, allRows, edges, relations, selected, receipt, onChoose, onReview, loading, contextError, detailError }: any) {
+function LedgerPage({ rows, allRows, nodes, edges, relations, selected, receipt, onChoose, onReview, loading, contextError, detailError }: any) {
   const [view, setView] = React.useState("lineage");
-  const [showHistory, setShowHistory] = React.useState(false);
+  const [showHistory, setShowHistory] = React.useState(true);
   const [focused, setFocused] = React.useState(false);
   const [graphSelection, setGraphSelection] = React.useState("conclusion");
-  const [scopeLimit, setScopeLimit] = React.useState<Record<string, number>>({});
   const available = new Set(rows.map((row: any) => row.id));
   const visible = showHistory ? allRows : rows;
   const current = !loading && visible.some((row: any) => row.id === selected) && receipt?.conclusion.id === selected ? receipt : null;
-  const groups = [...new Set(visible.map((row: any) => row.scope || "Workspace"))] as string[];
   const visibleIds = new Set(visible.map((row: any) => row.id));
   const links = (showHistory ? edges : relations).filter((edge: any) => visibleIds.has(edge.from) && visibleIds.has(edge.to));
   const related = links.filter((edge: any) => edge.from === selected || edge.to === selected);
@@ -881,7 +886,7 @@ function LedgerPage({ rows, allRows, edges, relations, selected, receipt, onChoo
         <PageHead
           eyebrow="GOVERNED CONTEXT"
           title="Ledger"
-          description="Current knowledge eligible for your owner identity. Each agent's eligibility is checked separately."
+          description="Explore evidence and decisions across the workspace. Current knowledge shows only what is eligible for reuse."
         />
         <div className="ledgerViews" role="group" aria-label="Ledger view">
           <Button aria-pressed={view === "lineage"} variant="outline" onClick={() => setView("lineage")}>Lineage</Button>
@@ -892,21 +897,7 @@ function LedgerPage({ rows, allRows, edges, relations, selected, receipt, onChoo
             {focused && <Button variant="outline" onClick={() => setFocused(false)}>Back to overview</Button>}
             <label><input type="checkbox" checked={showHistory} onChange={e => { setShowHistory(e.target.checked); setFocused(false); }} /> Show history and unavailable conclusions</label>
           </div>
-          {!focused && <div className="lineageOverview">
-            {groups.map(scope => {
-              const members = visible.filter((row: any) => (row.scope || "Workspace") === scope);
-              const limit = scopeLimit[scope] || 8;
-              return <section key={scope}><h2>{scope} <small>{members.length} {members.length === 1 ? "conclusion" : "conclusions"}</small></h2>
-                <div className="conclusionNodes">{members.slice(0, limit).map((row: any) => <button key={row.id} className="conclusionNode" onClick={() => focus(row.id)}>
-                  <Badge state={row.state} /><strong>{row.label}</strong>
-                  <small>{edges.filter((edge: any) => edge.to === row.id && edge.type === "supports" && !allRows.some((r: any) => r.id === edge.from)).length} bound evidence · {links.filter((edge: any) => edge.from === row.id || edge.to === row.id).length} relations</small>
-                  {!available.has(row.id) && <small>Excluded from current context</small>}
-                </button>)}</div>
-                {members.length > limit && <Button variant="outline" onClick={() => setScopeLimit({...scopeLimit, [scope]: limit + 8})}>Show {Math.min(8, members.length - limit)} more</Button>}
-              </section>;
-            })}
-            {!groups.length && <div><p>{loading ? "Loading current knowledge…" : contextError ? "Current knowledge could not be loaded. Use Reload workspace to retry." : "No eligible knowledge yet. Review candidates first, or show history."}</p>{!loading && !contextError && <Button variant="outline" onClick={onReview}>Review candidates</Button>}</div>}
-          </div>}
+          {!focused && <LedgerOverview rows={visible} nodes={nodes} edges={edges} onChoose={focus} />}
           {focused && current ? <><LineageGraph receipt={current} available={available.has(selected)} evidenceNames={(current.evidence || []).map(evidenceName)} selection={graphSelection} onSelect={setGraphSelection} /><section className="relatedConclusions"><h2>Direct relations</h2>{related.length ? related.map((edge: any, i: number) => {
             const other = visible.find((row: any) => row.id === (edge.from === selected ? edge.to : edge.from));
             return <button key={edge.id || i} onClick={() => focus(other.id)}><span>{edge.from === selected ? "Outgoing" : "Incoming"} · {edge.type.replaceAll("_", " ")} · {edge.state || "recorded"}</span><b>{other.label}</b></button>;

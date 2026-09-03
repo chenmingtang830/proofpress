@@ -87,7 +87,7 @@ try {
   assert.equal(await page.getByRole('textbox',{name:'Ledger scope'}).count(),0);
   await page.getByRole('button',{name:'Lineage',exact:true}).click();
   await page.locator('.conclusionNode').filter({hasText:'fixture approve:'}).click();
-  await page.locator('.graphNode').getByText('Available for reuse',{exact:true}).waitFor();
+  await page.locator('.graphNode').getByText('Scope: browser-test',{exact:true}).waitFor();
   assert.equal(await page.locator('.graphPlane .technicalDetails').count(),0);
   await page.locator('.graphNode.evidence').first().click();
   await page.locator('.graphInspector .technicalDetails').waitFor();
@@ -102,12 +102,12 @@ try {
   assert.equal(await page.locator('.conclusionNode').count(),3);
   if(process.env.QA_SCREENSHOTS) await page.screenshot({path:`${process.env.QA_SCREENSHOTS}/lineage-overview.png`});
   await page.locator('.conclusionNode').filter({hasText:'fixture reject:'}).click();
-  await page.locator('.graphNode').getByText('Excluded from context',{exact:true}).waitFor();
+  await page.locator('.graphNode').getByText('Not reusable: needs review',{exact:true}).waitFor();
   assert.equal(await page.getByRole('button',{name:'Approve',exact:true}).count(),0);
   await page.getByRole('checkbox',{name:'Show history and unavailable conclusions'}).uncheck();
   assert.equal(await page.locator('.conclusionNode').count(),1);
   await page.locator('.conclusionNode').filter({hasText:'fixture approve:'}).click();
-  await page.locator('.graphNode').getByText('Available for reuse',{exact:true}).waitFor();
+  await page.locator('.graphNode').getByText('Scope: browser-test',{exact:true}).waitFor();
   await page.locator('.graphNode.evidence').first().click();
   await page.getByRole('complementary',{name:'Selected node details'}).getByText('fixture://approve',{exact:true}).waitFor();
   await page.getByRole('button',{name:'Back to conclusion',exact:true}).click();
@@ -138,6 +138,8 @@ try {
   await page.waitForLoadState('networkidle');
   await page.locator('.shell[aria-busy="false"]').waitFor();
   await page.getByRole('button',{name:'Back to review',exact:true}).click();
+  await page.getByRole('button',{name:'Needs review',exact:true}).click();
+  assert.equal(await page.getByRole('complementary',{name:'Conclusion details'}).count(),0);
   await page.locator('tbody tr').filter({hasText:data.ids[2]}).click();
   await page.locator('.inspector h2').filter({hasText:'fixture clarify:'}).waitFor();
   await page.getByRole('button',{name:'Open full review',exact:true}).click();
@@ -149,8 +151,7 @@ try {
   await handoffDialog.getByRole('heading',{name:'Changes requested',exact:true}).waitFor();
   await handoffDialog.getByText('Copied to clipboard. Paste into your agent.',{exact:true}).waitFor();
   assert.equal(await handoffDialog.getByRole('button',{name:'Copy instructions for agent'}).count(),0);
-  await handoffDialog.getByText('View instructions',{exact:true}).click();
-  assert.match(await handoffDialog.getByRole('textbox',{name:'Revision instructions'}).inputValue(),/revision_request_ref/);
+  assert.match(await page.evaluate(() => navigator.clipboard.readText()),/revision_request_ref/);
   if(process.env.QA_SCREENSHOTS) {
     await page.screenshot({path:`${process.env.QA_SCREENSHOTS}/revision-handoff.png`});
     await page.setViewportSize({width:390,height:844});
@@ -182,9 +183,8 @@ try {
   const revision = await operation('conclusion.propose',{statement:'Revised finding: evidence supports population A only.',evidence_refs:original.conclusion.evidence_refs,scope:'browser-test',proposer:'agent:browser-test',qualifiers:{revision_of:data.ids[2],revision_request_ref:original.revision_request.event_id}});
   await operation('conclusion.evaluate',{conclusion_id:revision.conclusion.id});
   await page.reload();
-  await page.getByRole('heading',{name:'Revision requested',exact:true}).waitFor();
-  await page.getByText('View instructions',{exact:true}).click();
-  assert.match(await page.getByRole('textbox',{name:'Revision instructions'}).inputValue(),/revision_request_ref/);
+  await page.getByRole('heading',{name:'Requested change',exact:true}).waitFor();
+  assert.equal(await page.getByText('Waiting for a new proposal.',{exact:true}).count(),0);
   await page.getByRole('button',{name:/Revised finding: evidence supports population A only/}).click();
   await page.getByRole('heading',{name:'Revision of previous conclusion',exact:true}).waitFor();
   await page.getByRole('button',{name:'Approve',exact:true}).click();
@@ -245,10 +245,12 @@ try {
   await page.setViewportSize({width:1280,height:900});
   await page.route('**/owner/api/context?*',route=>route.fulfill({status:503,json:{error:'Context unavailable'}}));
   await page.goto(`${data.base}/ledger`);
+  await page.getByRole('button',{name:'Current knowledge',exact:true}).click();
   await page.getByText('Current knowledge could not be loaded.',{exact:false}).waitFor();
   assert.equal(await page.locator('.conclusionNode').count(),0);
   await page.unroute('**/owner/api/context?*');
   await page.getByRole('button',{name:'Reload workspace',exact:true}).click();
+  await page.getByRole('button',{name:'Lineage',exact:true}).click();
   await page.locator('.conclusionNode').filter({hasText:'fixture approve:'}).waitFor();
   await page.route(`**/owner/api/conclusions/${data.ids[0]}`,route=>route.fulfill({status:503,json:{error:'Detail unavailable'}}));
   await page.locator('.conclusionNode').filter({hasText:'fixture approve:'}).click();

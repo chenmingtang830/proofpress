@@ -16,7 +16,7 @@ export function LineageGraph({receipt, available, evidenceNames, selection, onSe
         {evidence.map((e:any,i:number) => node(`evidence:${i}`,18,80+i*138,evidenceNames[i],"Evidence", e.id || e.evidence?.id || `Source ${i+1}`,"evidence"))}
         {!evidence.length && <p className="graphNoEvidence">No bound evidence</p>}
         {node("conclusion",338,center-54,receipt.conclusion.statement,receipt.state.replaceAll("_"," "),receipt.conclusion.scope,available ? "admitted" : "excluded")}
-        {node("context",662,center-54,available ? "Available for reuse" : "Excluded from context","Context", "Current owner view",available ? "admitted" : "excluded")}
+        {node("context",662,center-54,available ? `Scope: ${receipt.conclusion.scope || "Workspace"}` : receipt.state === "admitted" ? "Not eligible in this view" : `Not reusable: ${receipt.state.replaceAll("_"," ")}`,"Reuse boundary", available ? `Approved by ${receipt.review?.reviewer || "actor not recorded"}` : Object.entries(receipt.evaluation?.checks || {}).filter(([,ok])=>!ok).map(([name])=>name.replaceAll("_"," ")).join(", ") || (receipt.state === "admitted" ? "Check scope and actor eligibility" : "Human approval required"),available ? "admitted" : "excluded")}
       </div>
     </div>
     {receipt.evidence?.length > limit && <Button variant="outline" onClick={() => setLimit(limit+3)}>Show {Math.min(3,receipt.evidence.length-limit)} more sources</Button>}

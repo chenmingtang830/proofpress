@@ -31,7 +31,7 @@ describe("governance components", () => {
   });
   it("bounds graph disclosure and does not equate admission with eligibility", () => {
     const html = renderToStaticMarkup(<LineageGraph receipt={{conclusion:{id:"a",statement:"Finding",scope:"test"},state:"admitted",evidence:[{},{},{},{}]}} available={false} evidenceNames={["A","B","C","D"]} selection="conclusion" onSelect={()=>{}} />);
-    expect(html).toContain("Excluded from context");
+    expect(html).toContain("Not eligible in this view");
     expect(html).toContain("Show 1 more sources");
     expect(html).not.toContain("Available for reuse");
   });

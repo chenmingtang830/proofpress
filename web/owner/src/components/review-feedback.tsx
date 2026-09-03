@@ -22,18 +22,18 @@ export function RevisionInstructions({receipt, autoCopy = false}: any) {
     catch { setStatus("failed"); }
   }, [text]);
   React.useEffect(() => { if (autoCopy && text) void copy(); }, [autoCopy, text, copy]);
+  React.useEffect(() => { setStatus("idle"); }, [receipt.conclusion.id]);
   if (!text) return <p>Revision receipt unavailable. Refresh this page to retry.</p>;
   return <div className="handoffInstructions">
     {autoCopy && <p role="status">{status === "copied" ? "Copied to clipboard. Paste into your agent." : status === "failed" ? "Your browser blocked automatic copying." : "Copying instructions…"}</p>}
-    <details open={status === "failed"}><summary>View instructions</summary><textarea ref={field} readOnly aria-label="Revision instructions" value={text} /></details>
-    {(!autoCopy || status === "failed") && <Button variant="outline" onClick={() => void copy()}>{status === "copied" ? "Copy again" : "Copy instructions for agent"}</Button>}
-    {!autoCopy && status === "copied" && <p role="status">Copied to clipboard.</p>}
+    {status === "failed" && <textarea ref={field} readOnly aria-label="Revision instructions" value={text} />}
+    {(!autoCopy || status === "failed") && <Button variant="outline" onClick={() => void copy()}>{status === "copied" ? "Copied" : "Copy instructions for agent"}</Button>}
     {status === "failed" && <Button variant="outline" onClick={() => { field.current?.focus(); field.current?.select(); }}>Select instructions</Button>}
   </div>;
 }
 
 export function RevisionPanel({receipt, onChoose}: any) {
-  return <section className="revisionPanel"><h3>Revision requested</h3><blockquote>{receipt.review?.note || "No note recorded."}</blockquote><RevisionInstructions receipt={receipt} /><div className="revisionSubmissions"><h4>Resubmissions</h4>{receipt.revisions?.length ? receipt.revisions.map((candidate:any) => <Button key={candidate.id} variant="outline" onClick={() => onChoose(candidate.id)}>{candidate.statement.slice(0,120)} · {candidate.state}</Button>) : <p>Waiting for a new proposal.</p>}</div></section>;
+  return <section className="revisionPanel"><h3>Requested change</h3><blockquote>{receipt.review?.note || "No note recorded."}</blockquote><RevisionInstructions key={receipt.revision_request.event_id} receipt={receipt} />{receipt.revisions?.length > 0 && <div className="revisionSubmissions"><h4>Revised proposals</h4>{receipt.revisions.map((candidate:any) => <Button key={candidate.id} variant="outline" onClick={() => onChoose(candidate.id)}>{candidate.statement.slice(0,120)} · {candidate.state}</Button>)}</div>}</section>;
 }
 
 export function historyActor(event: any): string {
