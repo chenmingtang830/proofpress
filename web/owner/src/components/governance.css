@@ -164,6 +164,8 @@
 .decisionStack { margin:16px 0; border-top:1px solid var(--line); }
 .decisionStack div { display:grid; grid-template-columns:140px 1fr; gap:16px; padding:10px 0; border-bottom:1px solid var(--line); font-size:13px; }
 .decisionStack span { color:var(--ink-2); }
+.decisionStack span.pass, .quickSnapshot dd.checkSummary.pass { color:var(--add); font-weight:600; }
+.decisionStack span.fail, .quickSnapshot dd.checkSummary.fail { color:var(--del); font-weight:600; }
 .judgeProgress { position: fixed; top: 84px; right: 24px; background: var(--paper); border: 1px solid var(--line); padding: 16px; display:flex; gap:16px; align-items:center; max-width: min(420px, calc(100vw - 32px)); z-index: 30; }
 .judgeProgress svg { width:18px; height:18px; }
 .activitySubject { display: block; max-width: 64ch; margin: 8px 0; color: var(--accent); text-decoration: underline; text-underline-offset: 3px; }

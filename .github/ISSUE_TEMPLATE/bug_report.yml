@@ -6,7 +6,7 @@ body:
     id: version
     attributes:
       label: Version
-      description: Output of `python3 proofpress.py --version` (or npm package version)
+      description: Output of `proofpress --version`
       placeholder: proofpress 0.5.0-alpha.2
     validations:
       required: true
@@ -18,7 +18,7 @@ body:
       placeholder: |
         git init t && cd t
         printf '# A\n\none\n' > a.md
-        python3 proofpress.py snapshot a.md
+        proofpress legacy snapshot a.md
         ...
     validations:
       required: true

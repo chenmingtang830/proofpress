@@ -9,7 +9,7 @@
 
 [//]: # (ob:71d4b5ee)
 <!-- Commands run / tests added. The full suite: -->
-<!-- python3 -m unittest discover -s tests -v && node --test tests/npm.test.js -->
+<!-- python3 -m unittest discover -s tests -v && (cd web/owner && npm test && npm run build) -->
 
 [//]: # (ob:5449fba8)
 ## Checklist

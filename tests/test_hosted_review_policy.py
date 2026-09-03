@@ -7,6 +7,7 @@ from unittest.mock import patch
 from cryptography.fernet import Fernet
 
 from proofpress.hosted.control_plane import HostedControlPlane, HostedAuthError
+from proofpress.hosted.review_policy import POLICY_AUTHORING_PROMPT
 from proofpress.kernel import operations as kernel
 from proofpress.kernel.events import SQLiteEventStore, using_event_store
 from test_hosted_authority import evidence_payload, operation
@@ -29,6 +30,11 @@ class ReviewPolicyTests(unittest.TestCase):
         return self.control.execute(self.agent, operation("conclusion.propose", {
             "statement": label, "evidence_refs": evidence["result"]["evidence"], "scope": "test",
             "proposer": "agent:codex"}, "proposal-" + label))
+
+    def test_agent_prompt_only_authors_criteria(self):
+        self.assertIn('{"criteria":', POLICY_AUTHORING_PROMPT)
+        self.assertIn("Do not choose a model or provider", POLICY_AUTHORING_PROMPT)
+        self.assertNotIn("return only JSON with these fields: provider", POLICY_AUTHORING_PROMPT)
 
     def test_owner_only_versioned_persistence_and_safe_public_config(self):
         with self.assertRaises(HostedAuthError):

@@ -2,7 +2,7 @@
 # Verified Knowledge Ledger
 
 [//]: # (ob:b71e5de6)
-> Status: local MVP in `proofpress@0.5.0-alpha.1`. This overview describes the
+> Status: maintained legacy workflow in the canonical Python package. This overview describes the
 > append-only ledger, context gate, and local review UI. It is not yet a frozen interchange
 > specification or a claim of general long-horizon agent efficacy.
 

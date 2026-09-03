@@ -8,26 +8,31 @@ Run the tests first. They finish in seconds.
 ## Development setup
 
 [//]: # (ob:04d2b288)
-You need Python 3.11+, Git, and Node 22+:
+You need Python 3.11+ and Git. Node 24 is needed only when changing the owner UI:
 
 [//]: # (ob:08829457)
 ```sh
 git clone https://github.com/chenmingtang830/proofpress.git
 cd proofpress
+python3 -m pip install -e .
 python3 -m unittest discover -s tests -v
-node --test tests/npm.test.js
+
+# Owner UI changes only
+cd web/owner
+npm ci
+npm test
+npm run build
 ```
 
 [//]: # (ob:31d45337)
-## Architecture constraint: one file, zero dependencies
+## Architecture constraint: Python-first product
 
 [//]: # (ob:5b59c3c5)
-`proofpress.py` is a single Python file with no third-party runtime
-dependencies. This is the distribution model, not an accident: recipients
-verify handoffs on machines that have nothing but `python3` and `git`, and
-skills vendor the file directly. Please do not split it into packages or add
-runtime dependencies. Internal section structure (carriers → blocks → diff →
-ledger → commands) keeps it navigable.
+The canonical implementation and public SDK live under `src/proofpress/` and
+ship as the `proofpress-local` Python package. The root public npm wrapper has
+been retired; `web/owner` uses npm only as its private frontend build tool.
+Portable artifact provenance remains available under `proofpress legacy` and
+is maintained for integrity and security fixes.
 
 [//]: # (ob:5fd936ad)
 ## Scope boundaries

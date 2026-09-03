@@ -2,17 +2,18 @@
 # Proofpress harness adapters
 
 [//]: # (ob:93121540)
-Install the adapter for your agent:
+Install the canonical Python package from a repository checkout:
 
 [//]: # (ob:1744e48a)
 ```sh
-npm install --save-dev proofpress
-npx --no-install proofpress setup --agent codex
+python -m pip install -e .
+proofpress --help
 ```
 
 [//]: # (ob:50c32349)
-Use `--agent claude`, `cursor`, or `all` for another supported harness. Agents
-never download Proofpress implicitly.
+The public npm launcher and its setup helper have been retired. Install an
+adapter explicitly from the directories below; agents never download or modify
+their harness configuration implicitly.
 
 [//]: # (ob:666c5555)
 ## Every accepted edit
