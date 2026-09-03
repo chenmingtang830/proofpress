@@ -2158,6 +2158,8 @@ def receipt_v2(cid):
             "rejection": projection["rejections"].get(cid),
             "supersession": projection["supersessions"].get(cid),
             "history": [{"event_id": e["event_id"], "type": e["type"],
+                         "actor": e.get("reviewer") or e.get("verifier") or e.get("judge") or e.get("conclusion", {}).get("proposer"),
+                         "model": e.get("model"), "note": e.get("note"),
                          "created_at": e["created_at"], "commit": e.get("commit")}
                         for e in projection["events"] if e.get("subject_ref") == cid]}
 

@@ -11,10 +11,14 @@ import {
   KeyRound,
   ShieldCheck,
   X,
-} from "lucide-react";
+} from "@/components/ui/icon";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { DecisionNotice, RevisionInstructions, RevisionPanel, historyActor } from "@/components/review-feedback";
+import { LineageGraph } from "@/components/lineage-graph";
+import { ModalSurface } from "@/components/ui/modal-surface";
 import "./index.css";
+import "./components/governance.css";
 
 type NodeRow = {
   id: string;
@@ -435,9 +439,7 @@ function App() {
   return (
     <div className="shell" aria-busy={busy || loading}>
       <Dialog.Root open={Boolean(decisionConfirmation)} onOpenChange={open => { if (!open && !decisionPending.current) setDecisionConfirmation(null); }}>
-        <Dialog.Portal>
-          <Dialog.Overlay className="confirmationOverlay" />
-          <Dialog.Content className="confirmationDialog" onOpenAutoFocus={event => { event.preventDefault(); cancelDecision.current?.focus(); }} onCloseAutoFocus={event => { event.preventDefault(); if (decisionTrigger.current?.isConnected) decisionTrigger.current.focus(); }} onPointerDownOutside={event => event.preventDefault()} onEscapeKeyDown={event => { if (decisionPending.current) event.preventDefault(); }}>
+          <ModalSurface onOpenAutoFocus={event => { event.preventDefault(); cancelDecision.current?.focus(); }} onCloseAutoFocus={event => { event.preventDefault(); if (decisionTrigger.current?.isConnected) decisionTrigger.current.focus(); }} onPointerDownOutside={event => event.preventDefault()} onEscapeKeyDown={event => { if (decisionPending.current) event.preventDefault(); }}>
             <Dialog.Title>{decisionConfirmation?.decision === "admit" ? "Approve this conclusion?" : "Reject this conclusion?"}</Dialog.Title>
             <Dialog.Description>{decisionConfirmation?.decision === "admit" ? "Eligible agents may rely on this conclusion within its scope. You are making the human approval decision." : "This decision will be recorded. The conclusion will remain excluded from governed context."}</Dialog.Description>
             <dl><dt>Scope</dt><dd>{decisionConfirmation?.scope}</dd></dl>
@@ -451,18 +453,15 @@ function App() {
                 void decide(decisionConfirmation.decision, true);
               }}>{busy ? "Recording decision…" : decisionConfirmation?.decision === "admit" ? "Confirm approval" : "Confirm rejection"}</Button>
             </div>
-          </Dialog.Content>
-        </Dialog.Portal>
+          </ModalSurface>
       </Dialog.Root>
       <Dialog.Root open={Boolean(revisionHandoff)} onOpenChange={open => { if (!open) setRevisionHandoff(null); }}>
-        <Dialog.Portal><Dialog.Overlay className="confirmationOverlay" />
-          <Dialog.Content className="confirmationDialog">
+          <ModalSurface>
             <Dialog.Title>Changes requested</Dialog.Title>
-            <Dialog.Description>Your request is recorded. Hand it to your agent to start the revision.</Dialog.Description>
-            {revisionHandoff && <RevisionInstructions receipt={revisionHandoff} />}
+            <Dialog.Description>Send the recorded change request to your agent.</Dialog.Description>
+            {revisionHandoff && <RevisionInstructions receipt={revisionHandoff} autoCopy />}
             <div className="confirmationActions"><Button variant="outline" onClick={() => setRevisionHandoff(null)}>Close</Button><Button onClick={() => { setRevisionHandoff(null); openFullReview(); }}>View revision request</Button></div>
-          </Dialog.Content>
-        </Dialog.Portal>
+          </ModalSurface>
       </Dialog.Root>
       <aside className="sidebar">
         <div className="brand">
@@ -711,16 +710,6 @@ function ReviewPage({
     </div>
   );
 }
-function RevisionInstructions({receipt: r}: any) {
-  const [message, setMessage] = React.useState("");
-  const field = React.useRef<HTMLTextAreaElement>(null);
-  if (!r.revision_request) return <p>The revision receipt is unavailable. Refresh the current preview before handing off to your agent.</p>;
-  const instructions = `Read proofpress_get_review_receipt for ${r.conclusion.id}. Requested change: ${r.review?.note || ""}\nSubmit supporting evidence, then use proofpress_propose_conclusion with the same scope and qualifiers: ${JSON.stringify({revision_of:r.conclusion.id,revision_request_ref:r.revision_request.event_id})}. Preserve other required profile qualifiers. Run evaluation, then return the new review link. Do not approve or overwrite the original.`;
-  return <div className="handoffInstructions"><p>No agent is notified automatically. Paste this into your connected agent.</p><textarea ref={field} readOnly aria-label="Revision instructions" value={instructions} /><Button variant="outline" onClick={async () => {
-    try { await navigator.clipboard.writeText(instructions); setMessage("Copied. Paste into your agent to start the revision."); }
-    catch { field.current?.focus(); field.current?.select(); setMessage("Clipboard unavailable. Copy the selected instructions manually."); }
-  }}>Copy instructions for agent</Button>{message && <p role="status">{message}</p>}</div>;
-}
 function Inspector({
   receipt: r,
   onClose,
@@ -745,7 +734,7 @@ function Inspector({
   const can = r.state === "needs_review" && !readOnly;
   return (
     <aside className={`inspector${fullReview ? " fullReview" : ""}`} ref={panel} aria-label="Conclusion details" onKeyDown={e => { if (e.key === "Escape" && onClose) { e.stopPropagation(); fullReview ? onBack() : onClose(); } }}>
-      {!can && <div className={`recorded ${r.state === "needs_revision" ? "revisionRecorded" : ""}`} role="status"><Check /><div><b>{r.state === "needs_revision" ? "Changes requested" : ["admitted", "rejected"].includes(r.state) ? "Decision recorded" : "Not available for reuse"}</b><p>{r.state === "admitted" ? "Available to eligible agents in scope." : r.state === "needs_revision" ? "Request saved. Send it to your agent for revision." : "Retained for audit; excluded from governed context."}</p>{r.state === "needs_revision" && !fullReview && onOpenFull && <Button variant="outline" onClick={onOpenFull}>View revision request</Button>}</div></div>}
+      {!can && !readOnly && <DecisionNotice state={r.state}>{r.state === "needs_revision" && !fullReview && onOpenFull && <Button variant="outline" onClick={onOpenFull}>View revision request</Button>}</DecisionNotice>}
       {fullReview && <Button variant="outline" onClick={onBack}>Back to review</Button>}
       {!fullReview && onClose && <button className="mobileBack" onClick={onClose}>
         Close details
@@ -759,7 +748,7 @@ function Inspector({
           <span className="mono">{r.conclusion.id}</span>
         </p>
       </div>
-      {r.revision_request && <section className="revisionSection"><h3>Waiting for agent revision</h3><p>{r.review?.note}</p><RevisionInstructions key={r.revision_request.event_id} receipt={r} /><h3>Submitted revisions</h3>{r.revisions?.length ? r.revisions.map((candidate:any) => <Button key={candidate.id} variant="outline" onClick={() => onChoose(candidate.id)}>{candidate.statement.slice(0,120)} · {candidate.state}</Button>) : <p>No revised proposal yet.</p>}</section>}
+      {r.revision_request && <RevisionPanel receipt={r} onChoose={onChoose} />}
       <div className="quickSnapshot">
         <dl><div><dt>Applies to</dt><dd>{r.conclusion.scope || "No scope recorded"}</dd></div>
         <div><dt>Supporting evidence</dt><dd>{(r.evidence || []).length} bound {(r.evidence || []).length === 1 ? "source" : "sources"}</dd></div>
@@ -826,7 +815,9 @@ function Inspector({
             <div className="historyRow" key={i}>
               <span></span>
               <div>
-                <b>{h.type}</b>
+                <b>{h.type.replaceAll("_", " ")}</b>
+                <p>{historyActor({...([r.evaluation, r.recommendation, r.review, r.admission, r.rejection].find(event => event?.event_id === h.event_id) || {}), ...(h.type === "conclusion_proposed" ? {conclusion:r.conclusion} : {}), ...h})}</p>
+                {h.note && <p>{h.note}</p>}
                 <small>{h.created_at}</small>
               </div>
             </div>
@@ -874,7 +865,7 @@ function LedgerPage({ rows, allRows, edges, relations, selected, receipt, onChoo
   const [view, setView] = React.useState("lineage");
   const [showHistory, setShowHistory] = React.useState(false);
   const [focused, setFocused] = React.useState(false);
-  const [expandedEvidence, setExpandedEvidence] = React.useState(false);
+  const [graphSelection, setGraphSelection] = React.useState("conclusion");
   const [scopeLimit, setScopeLimit] = React.useState<Record<string, number>>({});
   const available = new Set(rows.map((row: any) => row.id));
   const visible = showHistory ? allRows : rows;
@@ -883,8 +874,8 @@ function LedgerPage({ rows, allRows, edges, relations, selected, receipt, onChoo
   const visibleIds = new Set(visible.map((row: any) => row.id));
   const links = (showHistory ? edges : relations).filter((edge: any) => visibleIds.has(edge.from) && visibleIds.has(edge.to));
   const related = links.filter((edge: any) => edge.from === selected || edge.to === selected);
-  const focus = (id: string) => { setFocused(true); setExpandedEvidence(false); onChoose(id); };
-  React.useEffect(() => { setExpandedEvidence(false); }, [selected]);
+  const focus = (id: string) => { setFocused(true); setGraphSelection("conclusion"); onChoose(id); };
+  React.useEffect(() => { setGraphSelection("conclusion"); }, [selected]);
   return (
     <div className={`workspacePage${focused && current ? "" : " overviewOnly"}`}>
       <div className="work">
@@ -894,8 +885,8 @@ function LedgerPage({ rows, allRows, edges, relations, selected, receipt, onChoo
           description="Current knowledge eligible for your owner identity. Each agent's eligibility is checked separately."
         />
         <div className="ledgerViews" role="group" aria-label="Ledger view">
-          <Button variant={view === "lineage" ? "default" : "outline"} onClick={() => setView("lineage")}>Lineage</Button>
-          <Button variant={view === "list" ? "default" : "outline"} onClick={() => setView("list")}>Current knowledge</Button>
+          <Button aria-pressed={view === "lineage"} variant="outline" onClick={() => setView("lineage")}>Lineage</Button>
+          <Button aria-pressed={view === "list"} variant="outline" onClick={() => setView("list")}>Current knowledge</Button>
         </div>
         {view === "lineage" && <section className="lineageCanvas" aria-label="Evidence to governed knowledge">
           <div className="lineageToolbar">
@@ -917,13 +908,7 @@ function LedgerPage({ rows, allRows, edges, relations, selected, receipt, onChoo
             })}
             {!groups.length && <div><p>{loading ? "Loading current knowledge…" : contextError ? "Current knowledge could not be loaded. Use Reload workspace to retry." : "No eligible knowledge yet. Review candidates first, or show history."}</p>{!loading && !contextError && <Button variant="outline" onClick={onReview}>Review candidates</Button>}</div>}
           </div>}
-          {focused && current ? <><div className="lineageFlow">
-            <section><h2>Bound evidence</h2><Button variant="outline" aria-expanded={expandedEvidence} onClick={() => setExpandedEvidence(!expandedEvidence)}>{expandedEvidence ? "Collapse evidence" : `Expand ${current.evidence?.length || 0} evidence`}</Button>{expandedEvidence && (current.evidence || []).map((e: any, i: number) => <article key={i}><b>{evidenceName(e)}</b><EvidenceContent row={e} /></article>)}{!current.evidence?.length && <p>No bound evidence recorded.</p>}</section>
-            <span className="lineageArrow" aria-hidden="true">→</span>
-            <section><h2>Conclusion</h2><article><Badge state={current.state} /><p>{current.conclusion.statement}</p><small>{current.conclusion.scope}</small></article></section>
-            <span className="lineageArrow" aria-hidden="true">→</span>
-            <section><h2>Governed context</h2><article><b>{available.has(selected) ? "Available to your owner identity" : "Excluded from current context"}</b><p>{available.has(selected) ? "Admitted, current, and eligible in this view." : "Historical or ineligible. Do not reuse as current knowledge."}</p><small>Each successor agent's permissions are checked separately.</small></article></section>
-          </div><section className="relatedConclusions"><h2>Direct relations</h2>{related.length ? related.map((edge: any, i: number) => {
+          {focused && current ? <><LineageGraph receipt={current} available={available.has(selected)} evidenceNames={(current.evidence || []).map(evidenceName)} selection={graphSelection} onSelect={setGraphSelection} /><section className="relatedConclusions"><h2>Direct relations</h2>{related.length ? related.map((edge: any, i: number) => {
             const other = visible.find((row: any) => row.id === (edge.from === selected ? edge.to : edge.from));
             return <button key={edge.id || i} onClick={() => focus(other.id)}><span>{edge.from === selected ? "Outgoing" : "Incoming"} · {edge.type.replaceAll("_", " ")} · {edge.state || "recorded"}</span><b>{other.label}</b></button>;
           }) : <p>No recorded relations to other conclusions in this view.</p>}</section></> : focused && <div className="empty">{detailError ? <><p>Could not load this conclusion. No stale receipt is shown.</p><Button variant="outline" onClick={() => onChoose(selected)}>Retry details</Button></> : "Loading selected lineage…"}</div>}
@@ -969,7 +954,7 @@ function LedgerPage({ rows, allRows, edges, relations, selected, receipt, onChoo
         </div>
         }
       </div>
-      <Inspector
+      {focused && current && graphSelection !== "conclusion" ? <aside className="inspector graphInspector" aria-label="Selected node details"><Button variant="outline" onClick={() => setGraphSelection("conclusion")}>Back to conclusion</Button>{graphSelection === "context" ? <><h2>{available.has(selected) ? "Available for reuse" : "Excluded from context"}</h2><p>Scope: {current.conclusion.scope}</p><p>{available.has(selected) ? "Admitted, current, and eligible for the signed-in owner. Each agent's permissions are checked separately." : "This conclusion is not eligible for the current owner context."}</p></> : <><h2>{evidenceName(current.evidence[Number(graphSelection.split(":")[1])])}</h2><EvidenceContent row={current.evidence[Number(graphSelection.split(":")[1])]} /></>}</aside> : <Inspector
         receipt={focused ? current : null}
         onClose={() => setFocused(false)}
         readOnly
@@ -977,7 +962,7 @@ function LedgerPage({ rows, allRows, edges, relations, selected, receipt, onChoo
         setNote={() => {}}
         onDecide={() => {}}
         busy={false}
-      />
+      />}
     </div>
   );
 }
