@@ -182,8 +182,10 @@ class HostedOperationHandler(BaseHTTPRequestHandler):
                 "principal": "owner", "capabilities": {
                     "review": True, "credential_admin": True,
                     "assistant": bool(os.environ.get("OPENROUTER_API_KEY")),
-                    "judge": knowledge.governance_configuration()["judge"]["configured"],
+                    "judge": self._owner_operation(session, "configuration.get")["result"]["judge"]["configured"],
                 }}})
+        if path == "/owner/api/review-policy":
+            return self._json(HTTPStatus.OK, {"ok": True, "result": self.server.proofpress_control.get_review_policy(session["token"])})
         if path == "/owner/api/summary":
             envelope = self._owner_operation(
                 session, "review.summary",
@@ -203,11 +205,11 @@ class HostedOperationHandler(BaseHTTPRequestHandler):
                 "task": query.get("task", [None])[-1],
                 "include_blocked_statements": True,
             })
-        elif path == "/owner/api/activity":
+        elif path in {"/owner/api/activity", "/owner/api/technical-logs"}:
             try:
                 limit = int(parse_qs(parsed.query).get("limit", ["100"])[-1])
-                rows = self.server.proofpress_control.list_audit(
-                    session["token"], limit)
+                control = self.server.proofpress_control
+                rows = (control.list_activity if path.endswith("/activity") else control.list_audit)(session["token"], limit)
             except ValueError:
                 return self._json(HTTPStatus.BAD_REQUEST,
                                   {"error": "invalid_limit"})
@@ -320,6 +322,23 @@ class HostedOperationHandler(BaseHTTPRequestHandler):
 
     def do_POST(self):
         path = urlparse(self.path).path
+        if path in {"/owner/api/review-policy", "/owner/api/evaluate"}:
+            session = self._owner_session()
+            if not session:
+                return self._json(HTTPStatus.UNAUTHORIZED, {"error": "owner_session_required"})
+            try:
+                request = self._request_json()
+                if not secrets.compare_digest(str(request.get("csrf") or ""), session["csrf"]):
+                    return self._json(HTTPStatus.FORBIDDEN, {"error": "csrf_failed"})
+                if path.endswith("/evaluate"):
+                    envelope = self._owner_operation(session, "conclusion.evaluate", {"conclusion_id": request.get("conclusion_id", "")})
+                    return self._json(_status_for(envelope), envelope)
+                result = self.server.proofpress_control.save_review_policy(session["token"], request.get("settings"), request.get("expected_version"))
+                return self._json(HTTPStatus.OK, {"ok": True, "result": result})
+            except HostedAuthError as exc:
+                return self._owner_error(exc)
+            except ValueError as exc:
+                return self._json(HTTPStatus.BAD_REQUEST, {"ok": False, "error": {"code": "invalid_policy", "message": str(exc)}})
         if path == "/owner/api/judge":
             session = self._owner_session()
             if not session:
@@ -510,6 +529,7 @@ def create_hosted_server(database, host="127.0.0.1", port=7334,
     server.proofpress_control = control
     server.proofpress_max_request_bytes = max_request_bytes
     server.proofpress_owner_sessions = {}
+    control.resume_judge_jobs()
     return server
 
 

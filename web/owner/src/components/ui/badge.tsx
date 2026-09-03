@@ -6,7 +6,7 @@ export function Badge({
   state: string;
   className?: string;
 }) {
-  const value = state.replaceAll("_", " ");
+  const value = ({accept: "Evidence supported", reject: "Evidence not supported", escalate: "Needs attention", unresolved: "Needs revalidation"} as Record<string,string>)[state] || state.replaceAll("_", " ");
   return (
     <span
       className={cn(
@@ -15,7 +15,9 @@ export function Badge({
           ? "border-[var(--line)] bg-[var(--add-bg)] text-[var(--add)]"
           : state === "needs_revision"
             ? "border-[var(--line)] bg-[var(--revision-bg)] text-[var(--revision)]"
-          : state === "rejected" || state === "blocked" || state === "revoked"
+          : ["needs_review", "accept", "escalate", "unresolved", "evidence_supported", "needs_attention", "retrieved"].includes(state)
+            ? "border-[var(--line)] bg-[var(--accent-soft)] text-[var(--accent)]"
+          : ["rejected", "blocked", "revoked", "reject", "evidence_not_supported"].includes(state)
             ? "border-[var(--line)] bg-[var(--del-bg)] text-[var(--del)]"
             : "border-[var(--line)] bg-[var(--wash)] text-[var(--ink-2)]",
         className,

@@ -40,7 +40,7 @@ try {
     assert.equal(await page.getByRole('button',{name:'Close details',exact:true}).evaluate(el=>document.activeElement===el),true);
     assert.equal(await page.locator('.work').isVisible(),false);
     await page.getByRole('button',{name:'Open full review',exact:true}).click();
-    await page.getByRole('button',{name:'Approve',exact:true}).scrollIntoViewIfNeeded();
+    await page.getByRole('button',{name:'Approve for reuse',exact:true}).scrollIntoViewIfNeeded();
     assert.equal(await page.evaluate(()=>document.body.scrollWidth),width);
     if(process.env.QA_SCREENSHOTS) {
       await mkdir(process.env.QA_SCREENSHOTS,{recursive:true});
@@ -62,22 +62,22 @@ try {
     await mkdir(process.env.QA_SCREENSHOTS,{recursive:true});
     await page.screenshot({path:`${process.env.QA_SCREENSHOTS}/review.png`});
   }
-  await page.getByRole('button',{name:'Approve',exact:true}).click();
+  await page.getByRole('button',{name:'Approve for reuse',exact:true}).click();
   await page.getByRole('dialog',{name:'Approve this conclusion?'}).waitFor();
   assert.equal(await page.getByRole('button',{name:'Cancel',exact:true}).evaluate(el=>document.activeElement===el),true);
   if(process.env.QA_SCREENSHOTS) await page.screenshot({path:`${process.env.QA_SCREENSHOTS}/approval-dialog.png`});
   await page.getByRole('button',{name:'Cancel',exact:true}).click();
-  await page.waitForFunction(()=>document.activeElement?.textContent === 'Approve');
-  assert.equal(await page.getByRole('button',{name:'Approve',exact:true}).evaluate(el=>document.activeElement===el),true);
+  await page.waitForFunction(()=>document.activeElement?.textContent === 'Approve for reuse');
+  assert.equal(await page.getByRole('button',{name:'Approve for reuse',exact:true}).evaluate(el=>document.activeElement===el),true);
   assert.equal(await page.getByText('Decision recorded',{exact:true}).count(),0);
   await page.setViewportSize({width:390,height:844});
-  await page.getByRole('button',{name:'Approve',exact:true}).click();
+  await page.getByRole('button',{name:'Approve for reuse',exact:true}).click();
   assert.equal(await page.evaluate(()=>document.body.scrollWidth),390);
   if(process.env.QA_SCREENSHOTS) await page.screenshot({path:`${process.env.QA_SCREENSHOTS}/approval-dialog-mobile.png`});
   await page.getByRole('button',{name:'Cancel',exact:true}).press('Escape');
   assert.equal(await page.getByRole('dialog').count(),0);
   await page.setViewportSize({width:1536,height:1024});
-  await page.getByRole('button',{name:'Approve',exact:true}).click();
+  await page.getByRole('button',{name:'Approve for reuse',exact:true}).click();
   await page.getByRole('button',{name:'Confirm approval',exact:true}).click();
   await page.getByText('Approved for reuse',{exact:true}).waitFor();
   await page.getByRole('button',{name:'Ledger',exact:true}).click();
@@ -111,7 +111,7 @@ try {
   if(process.env.QA_SCREENSHOTS) await page.screenshot({path:`${process.env.QA_SCREENSHOTS}/lineage-overview.png`});
   await page.locator('.conclusionNode').filter({hasText:'fixture reject:'}).click();
   await page.locator('.graphNode').getByText('Not reusable: needs review',{exact:true}).waitFor();
-  assert.equal(await page.getByRole('button',{name:'Approve',exact:true}).count(),0);
+  assert.equal(await page.getByRole('button',{name:'Approve for reuse',exact:true}).count(),0);
   await page.getByRole('checkbox',{name:'Show history and unavailable conclusions'}).uncheck();
   assert.equal(await page.locator('.conclusionNode').count(),1);
   await page.locator('.conclusionNode').filter({hasText:'fixture approve:'}).click();
@@ -136,7 +136,7 @@ try {
   await page.route(`**/owner/api/conclusions/${data.ids[1]}`,route=>route.fulfill({status:503,json:{ok:false,error:{message:'Fixture unavailable; retry.'}}}));
   await page.locator('tbody tr').filter({hasText:data.ids[1]}).click();
   await page.getByText('Fixture unavailable; retry.',{exact:true}).waitFor();
-  assert.equal(await page.getByRole('button',{name:'Approve',exact:true}).count(),0);
+  assert.equal(await page.getByRole('button',{name:'Approve for reuse',exact:true}).count(),0);
   await page.unroute(`**/owner/api/conclusions/${data.ids[1]}`);
   await page.locator('tbody tr').filter({hasText:data.ids[1]}).click();
   await page.getByRole('button',{name:'Open full review',exact:true}).click();
@@ -195,7 +195,7 @@ try {
   assert.equal(await page.getByText('Waiting for a new proposal.',{exact:true}).count(),0);
   await page.getByRole('button',{name:/Revised finding: evidence supports population A only/}).click();
   await page.getByRole('heading',{name:'Revision of previous conclusion',exact:true}).waitFor();
-  await page.getByRole('button',{name:'Approve',exact:true}).click();
+  await page.getByRole('button',{name:'Approve for reuse',exact:true}).click();
   await page.getByRole('button',{name:'Confirm approval',exact:true}).click();
   await page.getByText('Approved for reuse',{exact:true}).waitFor();
   const revisedContext = await operation('context.get',{scope:'browser-test'});
@@ -214,13 +214,13 @@ try {
     assert.equal((await response.json()).error.code,code);
   }
   await page.reload();
+  await page.getByRole('button',{name:'Technical logs',exact:true}).click();
   await page.getByText('operation_forbidden',{exact:true}).waitFor();
   await page.getByText('ledger_head_conflict',{exact:true}).waitFor();
-  await page.getByRole('button',{name:'Important events',exact:true}).click();
-  await page.getByText('operation_forbidden',{exact:true}).waitFor();
+  await page.getByRole('button',{name:'Knowledge activity',exact:true}).click();
   assert.equal(await page.locator('tbody tr').filter({hasText:'graph · get'}).count(),0);
   assert.equal(await page.locator('tbody tr').filter({hasText:'review · receipt'}).count(),0);
-  await page.getByRole('button',{name:'All activity',exact:true}).click();
+  await page.getByRole('button',{name:'Technical logs',exact:true}).click();
   if(process.env.QA_SCREENSHOTS) await page.screenshot({path:`${process.env.QA_SCREENSHOTS}/activity-outcomes.png`});
   for(const name of ['Time','Operation','Actor','Result']) assert.equal(await page.getByRole('columnheader',{name,exact:true}).count(),1);
   await page.goForward();
@@ -299,13 +299,13 @@ try {
   await page.route('**/owner/api/graph',route=>route.fulfill({status:401,json:{error:'owner_session_required'}}));
   await page.goto(`${data.base}/review`);
   await page.getByRole('link',{name:'Sign in again',exact:true}).waitFor();
-  assert.equal(await page.getByRole('button',{name:'Approve',exact:true}).count(),0);
+  assert.equal(await page.getByRole('button',{name:'Approve for reuse',exact:true}).count(),0);
   await page.unroute('**/owner/api/graph');
   await page.getByRole('link',{name:'Sign in again',exact:true}).click();
   await page.locator('.shell[aria-busy="false"]').waitFor();
   assert.equal(await page.getByRole('link',{name:'Sign in again',exact:true}).count(),0);
   await page.getByRole('button',{name:'Activity',exact:true}).click();
-  await page.getByRole('columnheader',{name:'Operation',exact:true}).waitFor();
+  await page.getByRole('columnheader',{name:'What happened',exact:true}).waitFor();
   if(process.env.QA_SCREENSHOTS) await page.screenshot({path:`${process.env.QA_SCREENSHOTS}/activity-columns.png`});
   assert.deepEqual(errors,[]);
   console.log('PASS isolated real browser: evidence quote, tabs, approve/reject/request changes submission, canonical scope projection, successor read, selection race/error safety, navigation, credential issue/rotate/revoke, responsive Home. No production data or model calls.');

@@ -5,8 +5,16 @@ import { DecisionNotice, historyActor, revisionInstructions } from "./review-fee
 import { LineageGraph } from "./lineage-graph";
 import { Icon } from "./ui/icon";
 import { activityResult } from "./activity-result";
+import { Badge } from "./ui/badge";
 
 describe("governance components", () => {
+  it("keeps advisory support visually separate from admission", () => {
+    const support=renderToStaticMarkup(<Badge state="accept" />);
+    expect(support).toContain("Evidence supported");
+    expect(support).not.toContain("--add-bg");
+    expect(renderToStaticMarkup(<Badge state="admitted" />)).toContain("--add-bg");
+    expect(renderToStaticMarkup(<Badge state="unresolved" />)).toContain("Needs revalidation");
+  });
   it("keeps request outcomes distinct from knowledge admission", () => {
     expect(activityResult("ok")).toEqual({label:"Recorded",tone:"neutral"});
     expect(activityResult("operation_forbidden")).toEqual({label:"Access denied",tone:"danger"});

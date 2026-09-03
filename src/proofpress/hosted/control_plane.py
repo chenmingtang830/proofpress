@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+from contextlib import contextmanager
 from datetime import datetime, timezone
 import hashlib
 import hmac
@@ -9,10 +10,12 @@ import json
 from pathlib import Path
 import secrets
 import sqlite3
+import threading
 from typing import Any
 
 from proofpress.kernel import operations as knowledge
 from proofpress.kernel.events import SQLiteEventStore, using_event_store
+from proofpress.hosted import review_policy
 
 
 OWNER_ONLY_OPERATIONS = frozenset({
@@ -69,6 +72,7 @@ class HostedControlPlane:
         self.database = Path(database)
         self.database.parent.mkdir(parents=True, exist_ok=True)
         self._migrate()
+        self._judge_worker_lock = threading.Lock()
         SQLiteEventStore(self.database, "__schema__", "system:migration")
 
     def _connect(self) -> sqlite3.Connection:
@@ -129,6 +133,7 @@ class HostedControlPlane:
                     FOREIGN KEY (workspace_id) REFERENCES hosted_workspaces(workspace_id)
                 );
             """)
+            review_policy.migrate(connection)
             connection.commit()
         finally:
             connection.close()
@@ -278,6 +283,156 @@ class HostedControlPlane:
         finally:
             connection.close()
 
+    def _owner(self, token):
+        context = self.authenticate(token)
+        if context.role != "owner":
+            raise HostedAuthError("owner_required", "owner credential required")
+        return context
+
+    @contextmanager
+    def _db(self):
+        connection = self._connect()
+        try:
+            with connection:
+                yield connection
+        finally:
+            connection.close()
+
+    def _policy(self, workspace_id):
+        with self._db() as connection:
+            return review_policy.current(connection, workspace_id)
+
+    def get_review_policy(self, token):
+        return review_policy.public(self._policy(self._owner(token).workspace_id))
+
+    def save_review_policy(self, token, settings, expected_version):
+        owner = self._owner(token)
+        connection = self._connect()
+        try:
+            connection.execute("BEGIN IMMEDIATE")
+            prior = review_policy.current(connection, owner.workspace_id)
+            if type(expected_version) is not int or expected_version != prior["version"]:
+                raise HostedAuthError("stale_policy", "Review policy changed. Reload before saving.")
+            policy = review_policy.validate(settings, prior["policy"])
+            if settings == prior["settings"]:
+                return review_policy.public(prior)
+            record = {"version": prior["version"] + 1, "settings": settings, "policy": policy,
+                      "actor": owner.principal_id, "updated_at": _now()}
+            connection.execute("INSERT INTO hosted_review_policies VALUES (?, ?, ?, ?, ?, ?)",
+                               (owner.workspace_id, record["version"], json.dumps(settings),
+                                json.dumps(policy), owner.principal_id, record["updated_at"]))
+            connection.commit()
+            return review_policy.public(record)
+        finally:
+            connection.close()
+
+    def list_activity(self, token, limit=100):
+        owner = self._owner(token)
+        limit = max(1, min(int(limit), 250))
+        connection = self._connect()
+        try:
+            events = connection.execute("SELECT payload_json, principal_id FROM events WHERE workspace_id=? ORDER BY sequence",
+                                        (owner.workspace_id,)).fetchall()
+            subjects = {}
+            reviews = {}
+            rows = []
+            for raw in events:
+                event = json.loads(raw["payload_json"])
+                if event.get("type") == "human_reviewed":
+                    reviews[event["event_id"]] = event
+                conclusion = event.get("conclusion")
+                if conclusion:
+                    subjects[conclusion["id"]] = conclusion
+                row = review_policy.semantic_event(event, raw["principal_id"])
+                if row:
+                    if event.get("review_ref") in reviews:
+                        row["detail"] = reviews[event["review_ref"]].get("note") or row["detail"]
+                    if event.get("type") == "evidence_bound":
+                        evidence = event.get("evidence", {})
+                        row["detail"] = evidence.get("retrieval_receipt", {}).get("source", {}).get("uri") or evidence.get("path") or row["subject_id"]
+                    rows.append(row)
+            for row in rows:
+                subject = subjects.get(row["subject_id"], {})
+                row["statement"] = subject.get("statement", "")
+                row["scope"] = subject.get("scope", "")
+            for raw in connection.execute("SELECT * FROM hosted_context_reads WHERE workspace_id=? ORDER BY read_id DESC LIMIT ?", (owner.workspace_id, limit)):
+                ids = json.loads(raw["conclusion_ids_json"])
+                rows.append({"id": f"read-{raw['read_id']}", "occurred_at": raw["created_at"],
+                             "actor": raw["actor"], "action": "Retrieved governed context", "kind": "context_retrieved",
+                             "outcome": "retrieved", "scope": raw["scope"], "conclusion_ids": ids,
+                             "detail": f"{len(ids)} conclusions returned. Retrieval does not prove use."})
+            for raw in connection.execute("SELECT * FROM hosted_review_policies WHERE workspace_id=?", (owner.workspace_id,)):
+                rows.append({"id": f"policy-{raw['version']}", "occurred_at": raw["created_at"],
+                             "actor": raw["actor"], "action": "Updated review policy", "outcome": "recorded",
+                             "detail": f"Version {raw['version']}", "kind": "policy_updated"})
+            return sorted(rows, key=lambda row: (row["occurred_at"], row["id"]), reverse=True)[:limit]
+        finally:
+            connection.close()
+
+    def _schedule_judge(self, context, conclusion, record, start=True):
+        if record["settings"]["mode"] != "automatic":
+            return
+        job_id = knowledge.digest([context.workspace_id, conclusion["id"], conclusion["digest"], record["policy"]["digest"]])
+        with self._db() as connection:
+            connection.execute("INSERT OR IGNORE INTO hosted_judge_jobs VALUES (?, ?, ?, ?, ?, 'queued', ?, ?, '')",
+                               (job_id, context.workspace_id, conclusion["id"], record["policy"]["digest"], context.principal_id, _now(), _now()))
+        if start:
+            threading.Thread(target=self.run_judge_jobs, daemon=True).start()
+
+    def run_judge_jobs(self):
+        """Durable queue, one claim per job; interrupted calls require explicit manual retry."""
+        with self._judge_worker_lock:
+            self._drain_judge_jobs()
+
+    def _drain_judge_jobs(self):
+        while True:
+            connection = self._connect()
+            try:
+                connection.execute("BEGIN IMMEDIATE")
+                job = connection.execute("SELECT * FROM hosted_judge_jobs WHERE state='queued' ORDER BY created_at LIMIT 1").fetchone()
+                if not job:
+                    return
+                connection.execute("UPDATE hosted_judge_jobs SET state='running', updated_at=? WHERE job_id=?", (_now(), job["job_id"]))
+                connection.commit()
+            finally:
+                connection.close()
+            state, detail = "failed", "LM advice failed. Retry from the review page."
+            try:
+                record = self._policy(job["workspace_id"])
+                store = SQLiteEventStore(self.database, job["workspace_id"], "system:auto-review")
+                with using_event_store(store), knowledge.using_policy(record["policy"]):
+                    if record["settings"]["mode"] != "automatic" or record["policy"]["digest"] != job["policy_digest"]:
+                        state, detail = "skipped", "Review policy changed."
+                    elif knowledge.receipt_v2(job["conclusion_id"])["state"] != "needs_review":
+                        state, detail = "skipped", "Conclusion no longer needs review."
+                    elif not knowledge.evaluate_v2(job["conclusion_id"])["eligible"]:
+                        state, detail = "blocked", "Fix deterministic checks before requesting LM advice."
+                    else:
+                        knowledge.judge_v2(job["conclusion_id"])
+                        state, detail = "completed", "LM advice recorded."
+            except Exception:
+                # Do not persist provider responses or executable diagnostics in owner-facing data.
+                pass
+            with self._db() as connection:
+                connection.execute("UPDATE hosted_judge_jobs SET state=?, detail=?, updated_at=? WHERE job_id=?", (state, detail, _now(), job["job_id"]))
+
+    def resume_judge_jobs(self):
+        with self._db() as connection:
+            connection.execute("UPDATE hosted_judge_jobs SET state='interrupted', detail='Server restarted during LM review. Retry explicitly.', updated_at=? WHERE state='running'", (_now(),))
+            # Repair a crash between committing a new proposal and enqueueing its review.
+            workspaces = connection.execute("SELECT workspace_id FROM hosted_workspaces").fetchall()
+            for workspace in workspaces:
+                record = review_policy.current(connection, workspace["workspace_id"])
+                if record["settings"]["mode"] != "automatic" or not record["updated_at"]:
+                    continue
+                for raw in connection.execute("SELECT payload_json, principal_id FROM events WHERE workspace_id=?", (workspace["workspace_id"],)).fetchall():
+                    event = json.loads(raw["payload_json"])
+                    if event.get("type") == "conclusion_proposed" and event["created_at"] >= record["updated_at"]:
+                        conclusion = event["conclusion"]
+                        job_id = knowledge.digest([workspace["workspace_id"], conclusion["id"], conclusion["digest"], record["policy"]["digest"]])
+                        connection.execute("INSERT OR IGNORE INTO hosted_judge_jobs VALUES (?, ?, ?, ?, ?, 'queued', ?, ?, '')", (job_id, workspace["workspace_id"], conclusion["id"], record["policy"]["digest"], raw["principal_id"], _now(), _now()))
+        threading.Thread(target=self.run_judge_jobs, daemon=True).start()
+
     def revoke_credential(self, owner_token: str, credential_id: str) -> None:
         owner = self.authenticate(owner_token)
         if owner.role != "owner":
@@ -401,9 +556,26 @@ class HostedControlPlane:
             parameters[IDENTITY_PARAMETERS[operation]] = context.principal_id
         store = SQLiteEventStore(
             self.database, context.workspace_id, context.principal_id)
-        with using_event_store(store):
+        record = self._policy(context.workspace_id)
+        prior_conclusions = {e.get("subject_ref") for e in store.list_events() if e.get("type") == "conclusion_proposed"} if operation == "conclusion.propose" else set()
+        with using_event_store(store), knowledge.using_policy(record["policy"]):
             envelope = knowledge.execute_local_operation(normalized)
             head = store.head()
+            if envelope.get("ok") and operation == "review.receipt":
+                result = envelope["result"]
+                evaluation = result.get("evaluation") or {}
+                advice = result.get("recommendation") or {}
+                result["review_policy"] = {
+                    "require_judge": record["policy"].get("require_judge", False),
+                    "mode": record["settings"]["mode"], "model": record["settings"]["model"],
+                    "rubric": record["settings"]["rubric"],
+                    "policy_digest": record["policy"]["digest"],
+                    "checks_current": evaluation.get("policy_digest") == record["policy"]["digest"],
+                    "advice_current": advice.get("policy_digest") == record["policy"]["digest"],
+                }
+                with self._db() as connection:
+                    job = connection.execute("SELECT state, detail FROM hosted_judge_jobs WHERE workspace_id=? AND conclusion_id=? ORDER BY created_at DESC LIMIT 1", (context.workspace_id, result["conclusion"]["id"])).fetchone()
+                    result["judge_job"] = dict(job) if job else None
         if envelope.get("ok") and operation == "capabilities.get":
             result = dict(envelope["result"])
             result["transport"] = "hosted_https"
@@ -421,6 +593,15 @@ class HostedControlPlane:
             }
             envelope = {**envelope, "result": result}
         self._audit(context, request, envelope, head)
+        if envelope.get("ok") and operation == "conclusion.propose":
+            conclusion = envelope["result"]["conclusion"]
+            if conclusion["id"] not in prior_conclusions:
+                self._schedule_judge(context, conclusion, record)
+        if envelope.get("ok") and operation == "context.get" and context.role == "agent":
+            ids = [row["id"] for row in envelope["result"].get("knowledge", [])]
+            with self._db() as connection:
+                connection.execute("INSERT INTO hosted_context_reads(workspace_id,actor,scope,conclusion_ids_json,created_at) VALUES(?,?,?,?,?)",
+                                   (context.workspace_id, context.principal_id, (parameters or {}).get("scope"), json.dumps(ids), _now()))
         return envelope
 
     def _audit(self, context: PrincipalContext, request: Any,
