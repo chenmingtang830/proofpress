@@ -2178,7 +2178,8 @@ def assimilate_v1(packet, actor, scope=None, gap_ids=None, receipt_digests=None,
 
 def summary_v2(scope=None):
     projection = v2_projection(); rows = [r for r in projection["conclusions"].values() if not scope or r["scope"] == scope]
-    counts = {key: 0 for key in ("needs_review", "admitted", "rejected", "superseded", "expired", "unresolved")}
+    counts = {key: 0 for key in ("needs_review", "needs_revision", "admitted",
+                                  "rejected", "superseded", "expired", "unresolved")}
     for row in rows: counts[v2_state(projection, row)] += 1
     return {"total": len(rows), "counts": counts, "scope": scope}
 

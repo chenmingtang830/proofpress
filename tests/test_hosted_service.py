@@ -130,6 +130,26 @@ class HostedServiceTests(unittest.TestCase):
         self.assertFalse(hosted["owner_approval_available"])
         self.assertEqual(envelope["result"]["transport"], "hosted_https")
 
+    def test_judge_demo_seed_is_synthetic_and_one_time(self):
+        database = Path(self.tmp.name) / "judge-demo.db"
+        control = self.service.HostedControlPlane(database)
+        result = self.service.seed_judge_demo(
+            control, "workspace:webmcp-judge-demo",
+            "human:webmcp-judge", "WebMCP Judge")
+        self.assertEqual(len(result["seeded"]), 8)
+        self.assertEqual(
+            {row["state"] for row in result["seeded"]},
+            {"admit", "reject", "request_changes", "needs_review"})
+        owner = self.sdk.ProofpressClient(
+            type("Transport", (), {"execute": lambda _, request:
+                 control.execute(result["owner_credential"], request)})())
+        projection = owner.review_summary()
+        self.assertEqual(projection["total"], 8)
+        with self.assertRaisesRegex(ValueError, "already bootstrapped"):
+            self.service.seed_judge_demo(
+                control, "workspace:webmcp-judge-demo",
+                "human:webmcp-judge", "WebMCP Judge")
+
     def test_two_clients_close_proposal_review_context_loop(self):
         agent = self.sdk.ProofpressClient.localhost(
             self.base_url, self.agent["token"])
