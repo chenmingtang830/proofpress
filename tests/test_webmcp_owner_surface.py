@@ -18,10 +18,19 @@ class WebmcpOwnerSurfaceTests(unittest.TestCase):
 
     def test_required_governance_tools_are_declared(self):
         for name in (
+            "get_workspace_summary",
+            "list_review_queue",
             "get_current_context",
             "get_review_state",
             "get_lineage",
-            "respond_to_review",
+            "prepare_review_response",
+            "get_activity",
+            "run_deterministic_checks",
+            "open_review",
+            "get_review_policy",
+            "prepare_review_policy_change",
+            "get_agent_access",
+            "prepare_agent_credential_issue",
         ):
             self.assertRegex(self.page, rf'name:\s*"{name}"')
 
@@ -30,7 +39,13 @@ class WebmcpOwnerSurfaceTests(unittest.TestCase):
         self.assertNotIn("approve", names)
         self.assertNotIn("approve_conclusion", names)
         self.assertNotIn("admit", names)
-        self.assertIn("Approve is not exposed", self.page)
+        self.assertIn("Human Approval is not exposed", self.page)
+
+    def test_policy_tool_prepares_but_never_activates(self):
+        self.assertIn('prepared: true', self.page)
+        self.assertIn('activated: false', self.page)
+        self.assertIn('requires_human_owner: true', self.page)
+        self.assertNotRegex(self.page, r'name:\s*"(?:save|activate)_review_policy"')
 
     def test_tools_return_structured_text_content(self):
         self.assertIn("const toolText", self.page)

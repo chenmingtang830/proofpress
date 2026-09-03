@@ -20,6 +20,13 @@ try {
   });
   browser = await chromium.launch();
   const page = await browser.newPage({viewport:{width:1536,height:1024}});
+  await page.addInitScript(() => {
+    window.__proofpressWebMcpTools = [];
+    Object.defineProperty(document, 'modelContext', {
+      configurable: true,
+      value: { registerTool: async tool => { window.__proofpressWebMcpTools.push(tool); } },
+    });
+  });
   await page.context().grantPermissions(['clipboard-read','clipboard-write']);
   page.setDefaultTimeout(15000);
   page.on('dialog',dialog=>dialog.accept());
@@ -27,6 +34,20 @@ try {
   await page.goto(`${data.base}/review?conclusion_id=${data.ids[0]}`);
   await page.locator('input[name=token]').fill(data.owner);
   await Promise.all([page.waitForNavigation(),page.locator('button[type=submit]').click()]);
+  await page.waitForFunction(() => window.__proofpressWebMcpTools?.length >= 12);
+  const webMcpNames = await page.evaluate(() => window.__proofpressWebMcpTools.map(tool => tool.name));
+  for (const name of ['get_workspace_summary','list_review_queue','get_review_state','get_lineage','run_deterministic_checks','open_review','get_review_policy','prepare_review_policy_change','get_agent_access','prepare_agent_credential_issue']) assert.ok(webMcpNames.includes(name),`Missing WebMCP tool ${name}`);
+  assert.equal(webMcpNames.some(name => /approve|admit/.test(name)),false,'Human Approval must not be exposed to WebMCP');
+  const workspaceToolResult = await page.evaluate(async () => {
+    const tool = window.__proofpressWebMcpTools.find(candidate => candidate.name === 'get_workspace_summary');
+    return tool.execute({});
+  });
+  assert.match(workspaceToolResult.content[0].text,/Human Approval is not exposed/);
+  const checksToolResult = await page.evaluate(async conclusion_id => {
+    const tool = window.__proofpressWebMcpTools.find(candidate => candidate.name === 'run_deterministic_checks');
+    return tool.execute({conclusion_id});
+  }, data.ids[0]);
+  assert.match(checksToolResult.content[0].text,/"human_approval_recorded": false/);
   assert.equal((await page.request.get(`${data.base}/logo.svg`)).status(),200);
   await page.waitForFunction(()=>[...document.querySelectorAll('.brandMark img')].every(img=>img.complete && img.naturalWidth>0));
   for (const width of [1024,390]) {
@@ -39,7 +60,7 @@ try {
     await page.locator('.inspector h2').waitFor();
     assert.equal(await page.getByRole('button',{name:'Close details',exact:true}).evaluate(el=>document.activeElement===el),true);
     assert.equal(await page.locator('.work').isVisible(),false);
-    await page.getByRole('button',{name:'Open full review',exact:true}).click();
+    await page.locator('.inspector').getByRole('button',{name:'Open full review',exact:true}).click();
     await page.getByRole('button',{name:'Approve for reuse',exact:true}).scrollIntoViewIfNeeded();
     assert.equal(await page.evaluate(()=>document.body.scrollWidth),width);
     if(process.env.QA_SCREENSHOTS) {

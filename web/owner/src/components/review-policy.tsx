@@ -17,7 +17,17 @@ export function ReviewPolicy({csrf, api, onSaved}: any) {
     try {
       const row = await api("/owner/api/review-policy");
       setRecord(row);
-      setSettings(row.version === 0 ? {...row.settings, mode:"automatic", require_judge:true} : row.settings);
+      const base = row.version === 0 ? {...row.settings, mode:"automatic", require_judge:true} : row.settings;
+      const prepared = sessionStorage.getItem("proofpress:review-policy-draft");
+      if (prepared) {
+        const parsed = JSON.parse(prepared);
+        const allowed = ["provider","endpoint","model","criteria","zdr","mode","require_judge","external_consent"];
+        if (parsed && typeof parsed === "object" && allowed.every(key => key in parsed)) {
+          setSettings({...base, ...Object.fromEntries(allowed.map(key => [key, parsed[key]]))});
+          setMessage("Agent-prepared policy loaded. Review every field before activating it.");
+          sessionStorage.removeItem("proofpress:review-policy-draft");
+        } else setSettings(base);
+      } else setSettings(base);
       setError("");
     }
     catch (e:any) { setError(e.message); }
