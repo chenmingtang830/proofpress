@@ -634,7 +634,11 @@ td:last-child svg {
   align-items: center;
   border-bottom: 1px solid var(--line);
   padding: 11px 14px;
+  column-gap: 14px;
 }
+.simpleList > div[role="button"] { cursor: pointer; }
+.simpleList > div[role="button"]:hover { background: var(--wash); }
+.simpleList > div[role="button"]:focus-visible, tbody tr:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
 .simpleList > div:last-child {
   border: 0;
 }

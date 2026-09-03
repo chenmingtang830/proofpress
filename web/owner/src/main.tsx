@@ -8,7 +8,6 @@ import {
   BookOpen,
   Check,
   ChevronRight,
-  CircleUserRound,
   Home,
   KeyRound,
   MessageSquareText,
@@ -77,7 +76,7 @@ function evidenceName(row: any) {
   if (p.cell) return p.cell.table?.identity || "Table cell";
   if (p.observation) return p.observation.metric?.name || "Metric observation";
   if (p.derivation) return p.derivation.formula?.name || "Derivation";
-  return row?.source?.uri || row?.path || row?.kind || "Bound evidence";
+  return row?.retrieval_receipt?.source?.uri || row?.source?.uri || row?.path || row?.kind || "Evidence reference";
 }
 function evidenceText(row: any) {
   const p = row?.experiment_profile || {};
@@ -86,7 +85,7 @@ function evidenceText(row: any) {
     return `${p.observation.value} ${p.observation.unit || ""}`;
   if (p.derivation)
     return `${p.derivation.formula?.operation || "recompute"} → ${p.derivation.output?.value}`;
-  return row?.quote || row?.source_ref || "Digest-verified evidence";
+  return row?.retrieval_receipt?.quote || row?.quote || "No quote available in this receipt.";
 }
 
 function App() {
@@ -97,6 +96,10 @@ function App() {
     new URLSearchParams(location.search).get("conclusion_id"),
   );
   const [receipt, setReceipt] = React.useState<Receipt | null>(null);
+  const selectionRequest = React.useRef(0);
+  const decisionPending = React.useRef(false);
+  const [eligible, setEligible] = React.useState<NodeRow[]>([]);
+  const [contextLoading, setContextLoading] = React.useState(true);
   const [query, setQuery] = React.useState("");
   const [scope, setScope] = React.useState("");
   const [loading, setLoading] = React.useState(true);
@@ -115,6 +118,7 @@ function App() {
   const [activity, setActivity] = React.useState<any[]>([]);
   const [credentialSecret, setCredentialSecret] = React.useState("");
   const load = React.useCallback(async () => {
+    const request = ++selectionRequest.current;
     setLoading(true);
     setError("");
     try {
@@ -135,11 +139,14 @@ function App() {
           : next.find((n: NodeRow) => n.state === "needs_review")?.id ||
             next[0]?.id ||
             null;
-      setSelected(desired);
-      if (desired)
-        setReceipt(
-          await api(`/owner/api/conclusions/${encodeURIComponent(desired)}`),
-        );
+      if (request === selectionRequest.current) {
+        setSelected(desired);
+        setReceipt(null);
+        if (desired) {
+          const detail = await api(`/owner/api/conclusions/${encodeURIComponent(desired)}`);
+          if (request === selectionRequest.current) setReceipt(detail);
+        }
+      }
     } catch (e: any) {
       setError(e.message);
     } finally {
@@ -149,6 +156,18 @@ function App() {
   React.useEffect(() => {
     load();
   }, []);
+  React.useEffect(() => {
+    let active = true;
+    setEligible([]);
+    setContextLoading(true);
+    api(`/owner/api/context?scope=${encodeURIComponent(scope)}`).then(context => {
+      if (active) setEligible((context.knowledge || []).map((row: any) => ({
+        ...row, label: row.statement, type: "conclusion", state: "admitted",
+      })));
+    }).catch(e => { if (active) setError(e.message); })
+      .finally(() => { if (active) setContextLoading(false); });
+    return () => { active = false; };
+  }, [scope, rows]);
   React.useEffect(() => {
     const ctx =
       (document as any).modelContext || (navigator as any).modelContext;
@@ -244,14 +263,26 @@ function App() {
     );
   }, [page, selected]);
   async function choose(id: string) {
+    if (decisionPending.current) return;
+    const request = ++selectionRequest.current;
     setSelected(id);
-    setReceipt(await api(`/owner/api/conclusions/${encodeURIComponent(id)}`));
+    setReceipt(null);
+    setNote("");
+    setError("");
+    try {
+      const detail = await api(`/owner/api/conclusions/${encodeURIComponent(id)}`);
+      if (request === selectionRequest.current) setReceipt(detail);
+    } catch (e: any) {
+      if (request === selectionRequest.current) setError(e.message);
+    }
   }
   async function decide(decision: string) {
+    if (decisionPending.current || !receipt || receipt.conclusion.id !== selected) return;
     if (decision === "request_changes" && !note.trim()) {
       setError("Describe the bounded change the proposer should make.");
       return;
     }
+    decisionPending.current = true;
     setBusy(true);
     try {
       const next = await api("/owner/api/reviews", {
@@ -264,6 +295,7 @@ function App() {
     } catch (e: any) {
       setError(e.message);
     } finally {
+      decisionPending.current = false;
       setBusy(false);
     }
   }
@@ -283,17 +315,17 @@ function App() {
           snapshot: {
             page,
             scope,
-            selected: receipt,
-            candidates: rows.slice(0, 30).map((row) => ({
+            selected: receipt && (!scope || receipt.conclusion.scope === scope) ? receipt : null,
+            candidates: rows.filter(r => !scope || r.scope === scope).slice(0, 30).map((row) => ({
               id: row.id,
               statement: row.label,
               state: row.state,
               scope: row.scope,
             })),
             counts: {
-              needs_review: rows.filter((r) => r.state === "needs_review")
+              needs_review: rows.filter((r) => (!scope || r.scope === scope) && r.state === "needs_review")
                 .length,
-              admitted: rows.filter((r) => r.state === "admitted").length,
+              admitted: eligible.length,
             },
           },
         }),
@@ -312,18 +344,20 @@ function App() {
   async function showAdmin() {
     setPage("admin");
     try {
-      const body = await fetch("/v1/owner/credentials", {
-        credentials: "same-origin",
-      }).then((r) => r.json());
+      const body = await api("/v1/owner/credentials");
       setCredentials(body.credentials || []);
-    } catch {
+    } catch (e: any) {
       setCredentials([]);
+      setError(e.message);
     }
   }
   async function credentialAction(
     action: string,
     values: Record<string, string>,
   ) {
+    if ((action === "revoke" || action === "rotate") && !window.confirm(
+      action === "revoke" ? "Revoke this agent credential? Its access will stop immediately." : "Rotate this credential? The old credential will stop working."
+    )) return;
     setBusy(true);
     setError("");
     try {
@@ -341,14 +375,14 @@ function App() {
   }
   const filtered = rows.filter(
     (r) =>
-      (!scope || r.scope?.toLowerCase().includes(scope.toLowerCase())) &&
+      (!scope || r.scope === scope) &&
       (!query ||
         `${r.label} ${r.id}`.toLowerCase().includes(query.toLowerCase())),
   );
   const pending = rows.filter((r) => r.state === "needs_review").length;
-  const admitted = rows.filter((r) => r.state === "admitted").length;
+  const admitted = contextLoading ? "…" : eligible.length;
   return (
-    <div className="shell">
+    <div className="shell" aria-busy={busy || loading}>
       <aside className="sidebar">
         <div className="brand">
           <span className="brandMark"><img src="/logo.svg" alt="" /></span>
@@ -360,6 +394,7 @@ function App() {
             return (
               <button
                 key={id}
+                aria-label={labels[id]}
                 className={page === id ? "active" : ""}
                 onClick={() => (id === "admin" ? showAdmin() : setPage(id))}
               >
@@ -387,9 +422,10 @@ function App() {
             <input
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              placeholder="Search conclusions, evidence, or IDs…"
+              aria-label="Search conclusions"
+              placeholder="Search conclusions or IDs…"
+              onFocus={() => { if (page !== "review" && page !== "ledger") setPage("review"); }}
             />
-            <kbd>⌘ K</kbd>
           </label>
           <button
             className="iconButton"
@@ -398,7 +434,6 @@ function App() {
           >
             <MessageSquareText />
           </button>
-          <CircleUserRound className="userIcon" />
         </header>
         {error && (
           <div className="error">
@@ -414,6 +449,7 @@ function App() {
               pending={pending}
               admitted={admitted}
               rows={rows}
+              onChoose={(id: string) => { setPage("review"); choose(id); }}
               onReview={() => setPage("review")}
               onLedger={() => setPage("ledger")}
               conversation={<AssistantConversation messages={messages} question={question} setQuestion={setQuestion} onSend={ask} pending={asking} />}
@@ -431,6 +467,7 @@ function App() {
               setQuery={setQuery}
               onChoose={choose}
               onClose={() => {
+                ++selectionRequest.current;
                 setSelected(null);
                 setReceipt(null);
               }}
@@ -442,7 +479,10 @@ function App() {
           )}
           {page === "ledger" && (
             <LedgerPage
-              rows={filtered.filter((r) => r.state === "admitted")}
+              rows={eligible.filter(r => !query || `${r.label} ${r.id}`.toLowerCase().includes(query.toLowerCase()))}
+              loading={contextLoading}
+              scope={scope}
+              setScope={setScope}
               selected={selected}
               receipt={receipt}
               onChoose={choose}
@@ -505,7 +545,7 @@ function PageHead({
     </div>
   );
 }
-function HomePage({ pending, admitted, rows, onReview, onLedger, conversation }: any) {
+function HomePage({ pending, admitted, rows, onReview, onLedger, conversation, onChoose }: any) {
   return (
     <div className="pageBody">
       <section className="homeConversation" aria-labelledby="home-ask-title">
@@ -523,7 +563,7 @@ function HomePage({ pending, admitted, rows, onReview, onLedger, conversation }:
         <button onClick={onLedger}>
           <span>Current ledger</span>
           <strong>{admitted}</strong>
-          <small>Admitted conclusions available to agents</small>
+          <small>Current knowledge eligible for your owner identity</small>
           <BookOpen />
         </button>
       </div>
@@ -534,7 +574,7 @@ function HomePage({ pending, admitted, rows, onReview, onLedger, conversation }:
         </div>
         <div className="simpleList">
           {rows.slice(0, 6).map((r: any) => (
-            <div key={r.id}>
+            <div key={r.id} role="button" tabIndex={0} onClick={() => onChoose(r.id)} onKeyDown={e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); onChoose(r.id); } }}>
               <Badge state={r.state} />
               <b>{r.label}</b>
               <small>{r.scope || "Workspace"}</small>
@@ -602,6 +642,8 @@ function ReviewPage({
                 <tr
                   key={row.id}
                   className={selected === row.id ? "selected" : ""}
+                  tabIndex={0}
+                  onKeyDown={e => { if (e.key === "Enter") onChoose(row.id); }}
                   onClick={() => onChoose(row.id)}
                 >
                   <td>
@@ -612,7 +654,7 @@ function ReviewPage({
                     <Badge state={row.state} />
                   </td>
                   <td>{row.scope || "—"}</td>
-                  <td>Bound</td>
+                  <td>Inspect receipt</td>
                   <td>
                     <ChevronRight />
                   </td>
@@ -690,6 +732,7 @@ function Inspector({
         </Tabs.Content>
         <Tabs.Content value="checks" className="tabContent">
           <div className="checkList">
+            {!Object.keys(r.evaluation?.checks || {}).length && <p className="empty">No deterministic checks recorded.</p>}
             {Object.entries(r.evaluation?.checks || {}).map(
               ([key, value]: any) => (
                 <div key={key}>
@@ -783,15 +826,16 @@ function Inspector({
     </aside>
   );
 }
-function LedgerPage({ rows, selected, receipt, onChoose }: any) {
+function LedgerPage({ rows, selected, receipt, onChoose, loading, scope, setScope }: any) {
   return (
     <div className="workspacePage">
-      <div className="work pageBody">
+      <div className="work">
         <PageHead
           eyebrow="GOVERNED CONTEXT"
           title="Ledger"
-          description="Only admitted, current conclusions appear here."
+          description="Current knowledge eligible for your owner identity. Each agent's eligibility is checked separately."
         />
+        <label>Scope <input className="scopeInput" aria-label="Ledger scope" placeholder="Exact scope" value={scope} onChange={e => setScope(e.target.value)} /></label>
         <div className="tableWrap">
           <table>
             <thead>
@@ -807,6 +851,8 @@ function LedgerPage({ rows, selected, receipt, onChoose }: any) {
                 <tr
                   key={r.id}
                   className={selected === r.id ? "selected" : ""}
+                  tabIndex={0}
+                  onKeyDown={e => { if (e.key === "Enter") onChoose(r.id); }}
                   onClick={() => onChoose(r.id)}
                 >
                   <td>
@@ -826,13 +872,13 @@ function LedgerPage({ rows, selected, receipt, onChoose }: any) {
           </table>
           {rows.length === 0 && (
             <div className="empty">
-              No admitted conclusions yet. Approved, current knowledge will appear here.
+              {loading ? "Loading eligible knowledge…" : "No current knowledge is eligible for this scope and identity."}
             </div>
           )}
         </div>
       </div>
       <Inspector
-        receipt={receipt?.state === "admitted" ? receipt : null}
+        receipt={!loading && rows.some((row: any) => row.id === selected) && receipt?.state === "admitted" ? receipt : null}
         note=""
         setNote={() => {}}
         onDecide={() => {}}
@@ -875,6 +921,8 @@ function AdminPage({
 }: any) {
   const [principal, setPrincipal] = React.useState("");
   const [label, setLabel] = React.useState("");
+  const [copyStatus, setCopyStatus] = React.useState("");
+  React.useEffect(() => setCopyStatus(""), [secret]);
   return (
     <div className="pageBody">
       <PageHead
@@ -897,12 +945,14 @@ function AdminPage({
           </small>
         </div>
         <input
+          aria-label="Agent principal"
           value={principal}
           onChange={(e) => setPrincipal(e.target.value)}
           placeholder="agent:claude-code"
           required
         />
         <input
+          aria-label="Credential label"
           value={label}
           onChange={(e) => setLabel(e.target.value)}
           placeholder="Claude Code · company laptop"
@@ -923,7 +973,10 @@ function AdminPage({
           <div>
             <Button
               variant="outline"
-              onClick={() => navigator.clipboard.writeText(secret)}
+              onClick={async () => {
+                try { await navigator.clipboard.writeText(secret); setCopyStatus("Copied"); }
+                catch { setCopyStatus("Copy failed. Select the credential and copy it manually."); }
+              }}
             >
               Copy
             </Button>
@@ -931,6 +984,7 @@ function AdminPage({
               Done
             </Button>
           </div>
+          {copyStatus && <p role="status">{copyStatus}</p>}
         </div>
       )}
       <div className="credentialList">
