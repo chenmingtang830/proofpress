@@ -178,7 +178,7 @@ class HostedOperationHandler(BaseHTTPRequestHandler):
         path = parsed.path
         if path == "/owner/api/session":
             return self._json(HTTPStatus.OK, {"ok": True, "result": {
-                "csrf": session["csrf"], "workspace": "Proofpress internal",
+                "csrf": session["csrf"], "workspace": os.environ.get("PROOFPRESS_WORKSPACE_LABEL", "Proofpress internal"),
                 "principal": "owner", "capabilities": {
                     "review": True, "credential_admin": True,
                     "assistant": bool(os.environ.get("OPENROUTER_API_KEY")),

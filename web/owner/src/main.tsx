@@ -106,10 +106,19 @@ function EvidenceContent({ row }: { row: any }) {
 function App() {
   const path = (location.pathname.split("/")[1] || "review") as Page;
   const [page, setPage] = React.useState<Page>(labels[path] ? path : "review");
+  const [fullReview, setFullReview] = React.useState(new URLSearchParams(location.search).get("view") === "full");
+  const reviewScroll = React.useRef(0);
+  React.useEffect(() => {
+    requestAnimationFrame(() => {
+      const stage = document.querySelector(".stage");
+      if (stage) stage.scrollTop = fullReview ? 0 : reviewScroll.current;
+    });
+  }, [fullReview]);
   const [rows, setRows] = React.useState<NodeRow[]>([]);
   const [edges, setEdges] = React.useState<any[]>([]);
   const [contextRelations, setContextRelations] = React.useState<any[]>([]);
   const [judgeConfigured, setJudgeConfigured] = React.useState(false);
+  const [workspaceLabel, setWorkspaceLabel] = React.useState("");
   const [selected, setSelected] = React.useState<string | null>(
     new URLSearchParams(location.search).get("conclusion_id"),
   );
@@ -164,6 +173,7 @@ function App() {
       setRows(next);
       setEdges(graph.edges || []);
       setJudgeConfigured(Boolean(session.capabilities?.judge));
+      setWorkspaceLabel(session.workspace || "Owner workspace");
       setCsrf(session.csrf);
       const desired =
         selected && next.some((n: NodeRow) => n.id === selected)
@@ -291,13 +301,24 @@ function App() {
   }, []);
   React.useEffect(() => {
     history.replaceState(
-      null,
+      history.state,
       "",
-      `/${page}${page === "review" && selected ? `?conclusion_id=${encodeURIComponent(selected)}` : ""}`,
+      `/${page}${page === "review" && selected ? `?conclusion_id=${encodeURIComponent(selected)}${fullReview ? "&view=full" : ""}` : ""}`,
     );
-  }, [page, selected]);
+  }, [page, selected, fullReview]);
+  function openFullReview() {
+    reviewScroll.current = document.querySelector(".stage")?.scrollTop || 0;
+    history.pushState({proofpressFullReview: true}, "", `/review?conclusion_id=${encodeURIComponent(selected || "")}&view=full`);
+    setFullReview(true);
+  }
+  function backToReview() {
+    if (history.state?.proofpressFullReview) { history.back(); return; }
+    history.pushState(null, "", `/review?conclusion_id=${encodeURIComponent(selected || "")}`);
+    setFullReview(false);
+  }
   function navigate(next: Page) {
     if (next === page) return;
+    setFullReview(false);
     history.pushState(null, "", `/${next}${next === "review" && selected ? `?conclusion_id=${encodeURIComponent(selected)}` : ""}`);
     setPage(next);
   }
@@ -305,6 +326,7 @@ function App() {
     const restore = () => {
       const next = location.pathname.split("/")[1] as Page;
       setPage(labels[next] ? next : "review");
+      setFullReview(new URLSearchParams(location.search).get("view") === "full");
       const id = new URLSearchParams(location.search).get("conclusion_id");
       if (id) void choose(id);
       else { ++selectionRequest.current; setSelected(null); setReceipt(null); setDetailError(""); }
@@ -396,7 +418,7 @@ function App() {
       setBusy(false);
     }
   }
-  const filtered = rows.filter(r => r.state === "needs_review");
+  const filtered = rows.filter(r => ["needs_review", "needs_revision"].includes(r.state));
   const pending = rows.filter((r) => r.state === "needs_review").length;
   const admitted = contextLoading ? "…" : eligible.length;
   return (
@@ -426,7 +448,7 @@ function App() {
         </nav>
         <div className="workspace">
           <span>WORKSPACE</span>
-          <b>Proofpress internal</b>
+          <b>{workspaceLabel}</b>
           <small>Single-owner governance</small>
         </div>
       </aside>
@@ -436,7 +458,7 @@ function App() {
             <span className="brandMark"><img src="/logo.svg" alt="" /></span>
             <strong>Proofpress</strong>
           </div>
-          <span className="workspaceLabel">{labels[page]}</span>
+          <span className="workspaceLabel">{workspaceLabel} · {labels[page]}</span>
         </header>
         {error && (
           <div className="error" role="alert">
@@ -461,6 +483,9 @@ function App() {
           {page === "review" && (
             <ReviewPage
               rows={filtered}
+              fullReview={fullReview}
+              onOpenFull={openFullReview}
+              onBack={backToReview}
               selected={selected}
               receipt={receipt}
               loading={loading}
@@ -579,17 +604,22 @@ function ReviewPage({
   onDecide,
   busy,
   onJudge,
+  fullReview, onOpenFull, onBack,
 }: any) {
+  const [queue, setQueue] = React.useState("needs_review");
+  const visibleRows = rows.filter((row: any) => row.state === queue);
   return (
-    <div className={`workspacePage${receipt ? "" : " overviewOnly"}`}>
-      <div className="work">
+    <div className={`workspacePage${receipt ? "" : " overviewOnly"}${fullReview ? " fullReviewPage" : ""}`}>
+      <div className="work" style={fullReview ? {display: "none"} : undefined}>
         <PageHead
           eyebrow="GOVERNANCE INBOX"
           title="Review"
           description="Evidence and recommendations inform the decision. Only your approval admits knowledge."
         />
         <div className="filterbar">
-          <span role="status">{loading ? "Loading review queue…" : `${rows.length} awaiting your review`}</span>
+          <Button variant={queue === "needs_review" ? "default" : "outline"} onClick={() => setQueue("needs_review")}>Needs review</Button>
+          <Button variant={queue === "needs_revision" ? "default" : "outline"} onClick={() => setQueue("needs_revision")}>Waiting for revision</Button>
+          <span role="status">{loading ? "Loading review queue…" : `${visibleRows.length} conclusions`}</span>
         </div>
         <div className="tableWrap">
           <table>
@@ -601,7 +631,7 @@ function ReviewPage({
               </tr>
             </thead>
             <tbody>
-              {rows.map((row: any) => (
+              {visibleRows.map((row: any) => (
                 <tr
                   key={row.id}
                   className={selected === row.id ? "selected" : ""}
@@ -619,7 +649,7 @@ function ReviewPage({
               ))}
             </tbody>
           </table>
-          {!loading && rows.length === 0 && (
+          {!loading && visibleRows.length === 0 && (
             <div className="empty">No conclusions match this view.</div>
           )}
         </div>
@@ -632,6 +662,10 @@ function ReviewPage({
         onDecide={onDecide}
         busy={busy}
         onJudge={onJudge}
+        fullReview={fullReview}
+        onOpenFull={onOpenFull}
+        onBack={onBack}
+        onChoose={onChoose}
       />
     </div>
   );
@@ -645,8 +679,10 @@ function Inspector({
   busy,
   onJudge,
   readOnly = false,
+  fullReview = false, onOpenFull, onBack, onChoose,
 }: any) {
   const [expanded, setExpanded] = React.useState(false);
+  const [copyMessage, setCopyMessage] = React.useState("");
   const panel = React.useRef<HTMLElement>(null);
   React.useEffect(() => setExpanded(false), [r?.conclusion.id]);
   React.useEffect(() => {
@@ -658,14 +694,16 @@ function Inspector({
   if (!r) return null;
   const can = r.state === "needs_review" && !readOnly;
   return (
-    <aside className="inspector" ref={panel} aria-label="Conclusion details" onKeyDown={e => { if (e.key === "Escape" && onClose) { e.stopPropagation(); onClose(); } }}>
-      {onClose && <button className="mobileBack" onClick={onClose}>
+    <aside className={`inspector${fullReview ? " fullReview" : ""}`} ref={panel} aria-label="Conclusion details" onKeyDown={e => { if (e.key === "Escape" && onClose) { e.stopPropagation(); fullReview ? onBack() : onClose(); } }}>
+      {fullReview && <Button variant="outline" onClick={onBack}>Back to review</Button>}
+      {!fullReview && onClose && <button className="mobileBack" onClick={onClose}>
         Close details
       </button>}
       <div className="inspectorTop">
         <span>CONCLUSION</span>
         <Badge state={r.state} />
-        <h2>{r.conclusion.statement}</h2>
+        <h2>{fullReview ? "Review conclusion" : r.conclusion.statement}</h2>
+        {fullReview && <p className="fullStatement">{r.conclusion.statement}</p>}
         <p>
           Proposed by {r.conclusion.proposer || "agent"} ·{" "}
           <span className="mono">{r.conclusion.id}</span>
@@ -675,11 +713,19 @@ function Inspector({
         <dl><div><dt>Applies to</dt><dd>{r.conclusion.scope || "No scope recorded"}</dd></div>
         <div><dt>Supporting evidence</dt><dd>{(r.evidence || []).length} bound {(r.evidence || []).length === 1 ? "source" : "sources"}</dd></div>
         <div><dt>Automated checks</dt><dd>{Object.keys(r.evaluation?.checks || {}).length ? `${Object.values(r.evaluation.checks).filter(Boolean).length} of ${Object.keys(r.evaluation.checks).length} passed` : "Not run"}</dd></div>
-        <div><dt>LM advice</dt><dd>{r.recommendation?.recommendation || "No recommendation recorded"}</dd></div></dl>
-        <Button variant="outline" aria-expanded={expanded} onClick={() => setExpanded(!expanded)}>{expanded ? "Hide details" : "View details"}</Button>
+        <div><dt>LM advice</dt><dd>{r.recommendation?.recommendation || (onJudge ? "Not run yet" : "Not configured in this workspace")}</dd></div></dl>
+        {onOpenFull ? !fullReview && <Button onClick={onOpenFull}>Open full review</Button> : <Button variant="outline" aria-expanded={expanded} onClick={() => setExpanded(!expanded)}>{expanded ? "Hide details" : "View details"}</Button>}
         {onJudge && can && <Button variant="outline" disabled={busy} onClick={onJudge}>Run LM judge</Button>}
       </div>
-      {expanded && <>
+      {(fullReview || expanded) && <>
+      {r.revision_parent && <section className="revisionSection"><h3>Revision of previous conclusion</h3><p>{r.revision_parent.statement}</p><p><b>Requested change:</b> {r.revision_parent.review?.note}</p><p>Previous evidence: {r.revision_parent.evidence_refs.join(", ")}</p><p>Current evidence: {r.conclusion.evidence_refs.join(", ")}</p><p>This proposal requires a new human decision; it does not automatically replace its predecessor.</p></section>}
+      {r.revision_request && <section className="revisionSection"><h3>Waiting for agent revision</h3><p>{r.review?.note}</p><p>Send these instructions to your agent. No agent is notified automatically.</p><textarea readOnly aria-label="Revision instructions" value={`Read proofpress_get_review_receipt for ${r.conclusion.id}. Requested change: ${r.review?.note || ""}\nSubmit supporting evidence, then use proofpress_propose_conclusion with the same scope and qualifiers: ${JSON.stringify({revision_of:r.conclusion.id,revision_request_ref:r.revision_request.event_id})}. Preserve other required profile qualifiers. Return the new review link. Do not approve or overwrite the original.`} /><h3>Submitted revisions</h3>{r.revisions?.length ? r.revisions.map((candidate:any) => <Button key={candidate.id} variant="outline" onClick={() => onChoose(candidate.id)}>{candidate.statement.slice(0,120)} · {candidate.state}</Button>) : <p>No revised proposal yet.</p>}</section>}
+      {r.revision_request && <div className="revisionSection"><Button variant="outline" onClick={async () => {
+        const instructions = panel.current?.querySelector<HTMLTextAreaElement>('textarea[aria-label="Revision instructions"]');
+        if (!instructions) return;
+        try { await navigator.clipboard.writeText(instructions.value); setCopyMessage("Copied instructions for your agent."); }
+        catch { instructions.focus(); instructions.select(); setCopyMessage("Select and copy these instructions manually."); }
+      }}>Copy instructions for agent</Button>{copyMessage && <p role="status">{copyMessage}</p>}</div>}
       <Tabs.Root defaultValue="evidence">
         <Tabs.List className="tabs">
           <Tabs.Trigger value="evidence">Evidence</Tabs.Trigger>
@@ -744,7 +790,7 @@ function Inspector({
         </Tabs.Content>
       </Tabs.Root>
       </>}
-      {can ? (
+      {can && (!onOpenFull || fullReview) ? (
         <div className="decision">
           <div>
             <span>HUMAN DECISION</span>
@@ -783,7 +829,7 @@ function Inspector({
             </Button>
           </div>
         </div>
-      ) : (
+      ) : can ? null : (
         <div className="recorded">
           <Check />
           <div>

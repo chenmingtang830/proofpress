@@ -39,20 +39,23 @@ try {
     await page.locator('.inspector h2').waitFor();
     assert.equal(await page.getByRole('button',{name:'Close details',exact:true}).evaluate(el=>document.activeElement===el),true);
     assert.equal(await page.locator('.work').isVisible(),false);
-    await page.getByRole('button',{name:'View details',exact:true}).click();
+    await page.getByRole('button',{name:'Open full review',exact:true}).click();
     await page.getByRole('button',{name:'Approve',exact:true}).scrollIntoViewIfNeeded();
     assert.equal(await page.evaluate(()=>document.body.scrollWidth),width);
     if(process.env.QA_SCREENSHOTS) {
       await mkdir(process.env.QA_SCREENSHOTS,{recursive:true});
       await page.screenshot({path:`${process.env.QA_SCREENSHOTS}/review-long-${width}.png`});
     }
+    await page.getByRole('button',{name:'Back to review',exact:true}).click();
     await page.getByRole('button',{name:'Close details',exact:true}).press('Escape');
     await page.waitForFunction(()=>document.activeElement?.classList.contains('conclusionSelect'));
     await opener.click();
   }
   await page.setViewportSize({width:1536,height:1024});
   await page.locator('tbody tr').filter({hasText:data.ids[0]}).click();
-  await page.getByRole('button',{name:'View details',exact:true}).click();
+  await page.getByRole('button',{name:'Open full review',exact:true}).click();
+  assert.match(page.url(), /view=full/);
+  await page.reload();
   await page.locator('.evidenceRow > p').filter({hasText:'Browser fixture approve:'}).waitFor();
   for(const tab of ['Checks','History','Evidence']) await page.getByRole('tab',{name:tab,exact:true}).click();
   if(process.env.QA_SCREENSHOTS) {
@@ -113,12 +116,15 @@ try {
   assert.equal(await page.getByRole('button',{name:'Approve',exact:true}).count(),0);
   await page.unroute(`**/owner/api/conclusions/${data.ids[1]}`);
   await page.locator('tbody tr').filter({hasText:data.ids[1]}).click();
+  await page.getByRole('button',{name:'Open full review',exact:true}).click();
   await page.getByRole('button',{name:'Reject',exact:true}).click();
   await page.getByText('Decision recorded',{exact:true}).waitFor();
   await page.waitForLoadState('networkidle');
   await page.locator('.shell[aria-busy="false"]').waitFor();
+  await page.getByRole('button',{name:'Back to review',exact:true}).click();
   await page.locator('tbody tr').filter({hasText:data.ids[2]}).click();
   await page.locator('.inspector h2').filter({hasText:'fixture clarify:'}).waitFor();
+  await page.getByRole('button',{name:'Open full review',exact:true}).click();
   await page.getByRole('button',{name:'Request changes',exact:true}).click();
   await page.getByText('Describe the bounded change',{exact:false}).waitFor();
   await page.locator('.decision textarea').fill('Verify this bounded assertion.');
@@ -128,6 +134,23 @@ try {
   const projected=await context.json();
   assert.equal(projected.ok,true,JSON.stringify(projected));
   assert.deepEqual(projected.result.knowledge.map(r=>r.id),[data.ids[0]]);
+  const originalReceipt = await (await page.request.get(`${data.base}/owner/api/conclusions/${data.ids[2]}`)).json();
+  const original = originalReceipt.result;
+  const operation = async (operation,parameters) => {
+    const response = await page.request.post(`${data.base}/v1/operations`,{headers:{Authorization:`Bearer ${data.agent}`},data:{schema_version:'proofpress/local-operation/v1alpha1',operation,parameters}});
+    const body = await response.json(); assert.equal(body.ok,true,JSON.stringify(body)); return body.result;
+  };
+  const revision = await operation('conclusion.propose',{statement:'Revised finding: evidence supports population A only.',evidence_refs:original.conclusion.evidence_refs,scope:'browser-test',proposer:'agent:browser-test',qualifiers:{revision_of:data.ids[2],revision_request_ref:original.revision_request.event_id}});
+  await operation('conclusion.evaluate',{conclusion_id:revision.conclusion.id});
+  await page.reload();
+  await page.getByRole('heading',{name:'Waiting for agent revision',exact:true}).waitFor();
+  assert.match(await page.getByRole('textbox',{name:'Revision instructions'}).inputValue(),/revision_request_ref/);
+  await page.getByRole('button',{name:/Revised finding: evidence supports population A only/}).click();
+  await page.getByRole('heading',{name:'Revision of previous conclusion',exact:true}).waitFor();
+  await page.getByRole('button',{name:'Approve',exact:true}).click();
+  await page.getByText('Decision recorded',{exact:true}).waitFor();
+  const revisedContext = await operation('context.get',{scope:'browser-test'});
+  assert.deepEqual(new Set(revisedContext.knowledge.map(row=>row.id)),new Set([data.ids[0],revision.conclusion.id]));
   for(const name of ['Home','Review','Ledger','Activity','Admin']) {
     await page.getByRole('button',{name,exact:true}).click();
     await page.locator('h1').waitFor();
@@ -185,9 +208,9 @@ try {
   assert.equal(await page.locator('.conclusionNode').count(),0);
   await page.unroute('**/owner/api/context?*');
   await page.getByRole('button',{name:'Reload workspace',exact:true}).click();
-  await page.locator('.conclusionNode').waitFor();
+  await page.locator('.conclusionNode').filter({hasText:'fixture approve:'}).waitFor();
   await page.route(`**/owner/api/conclusions/${data.ids[0]}`,route=>route.fulfill({status:503,json:{error:'Detail unavailable'}}));
-  await page.locator('.conclusionNode').click();
+  await page.locator('.conclusionNode').filter({hasText:'fixture approve:'}).click();
   await page.getByRole('button',{name:'Retry details',exact:true}).waitFor();
   assert.equal(await page.locator('.inspector').count(),0);
   await page.unroute(`**/owner/api/conclusions/${data.ids[0]}`);

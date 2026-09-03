@@ -1011,6 +1011,14 @@ def propose_v2(statement, evidence_refs, scope, proposer, expires_at=None,
     missing = [ref for ref in evidence_refs if ref not in projection["evidence"]]
     if missing: raise ValueError("unknown evidence: " + ", ".join(missing))
     qualifiers = validate_profile(profile, qualifiers)
+    revision_of = (qualifiers or {}).get("revision_of")
+    if revision_of:
+        parent = projection["conclusions"].get(revision_of)
+        request = projection["revision_requests"].get(revision_of)
+        if not parent or parent["scope"] != scope or not request:
+            raise ValueError("revision requires an existing same-scope request for changes")
+        if (qualifiers or {}).get("revision_request_ref") != request["event_id"]:
+            raise ValueError("revision must reference the current revision request")
     row = {
         "id": ident({"statement": statement, "evidence": sorted(evidence_refs),
                     "scope": scope}, "knw_"),
@@ -2131,7 +2139,17 @@ def summary_v2(scope=None):
 def receipt_v2(cid):
     projection = v2_projection(); row = projection["conclusions"].get(cid)
     if not row: raise ValueError("conclusion not found: " + cid)
+    parent_id = row.get("qualifiers", {}).get("revision_of")
+    parent = projection["conclusions"].get(parent_id)
     return {"conclusion": row, "state": v2_state(projection, row),
+            "revision_request": projection["revision_requests"].get(cid),
+            "revision_parent": ({"id": parent_id, "statement": parent["statement"],
+                                  "evidence_refs": parent["evidence_refs"],
+                                  "review": projection["reviews"].get(parent_id)} if parent else None),
+            "revisions": [{"id": candidate["id"], "statement": candidate["statement"],
+                           "state": v2_state(projection, candidate)}
+                          for candidate in projection["conclusions"].values()
+                          if candidate.get("qualifiers", {}).get("revision_of") == cid],
             "evidence": [projection["evidence"].get(x) for x in row["evidence_refs"]],
             "evaluation": projection["evaluations"].get(cid),
             "recommendation": projection["recommendations"].get(cid),

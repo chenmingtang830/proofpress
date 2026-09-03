@@ -65,6 +65,26 @@ class PythonSDKTests(unittest.TestCase):
         self.assertEqual(http_context, direct_context)
         self.assertEqual(direct_context["knowledge"][0]["id"], conclusion_id)
 
+    def test_revision_links_require_request_and_new_human_approval(self):
+        refs = self.direct.import_evidence(FIXTURE)["evidence"][:1]
+        old = self.direct.propose_conclusion("Original finding", refs, "revision-test", "agent:sdk")["conclusion"]["id"]
+        with self.assertRaises(self.sdk.ProofpressError):
+            self.direct.propose_conclusion("Premature revision", refs, "revision-test", "agent:sdk", qualifiers={"revision_of": old})
+        self.direct.review_conclusion(old, "request_changes", "human:reviewer", note="Specify the population.")
+        request = self.direct.review_receipt(old)["revision_request"]["event_id"]
+        qualifiers = {"revision_of": old, "revision_request_ref": request}
+        with self.assertRaises(self.sdk.ProofpressError):
+            self.direct.propose_conclusion("Cross-scope revision", refs, "other", "agent:sdk", qualifiers=qualifiers)
+        with self.assertRaises(self.sdk.ProofpressError):
+            self.direct.propose_conclusion("Stale request", refs, "revision-test", "agent:sdk", qualifiers={**qualifiers, "revision_request_ref": "missing"})
+        new = self.http.propose_conclusion("Finding for population A", refs, "revision-test", "agent:sdk", qualifiers=qualifiers)["conclusion"]["id"]
+        self.assertEqual(self.direct.review_receipt(new)["revision_parent"]["id"], old)
+        self.assertEqual(self.direct.review_receipt(old)["revisions"][0]["id"], new)
+        self.assertEqual(self.direct.context(scope="revision-test")["knowledge"], [])
+        self.direct.review_conclusion(new, "admit", "human:reviewer")
+        self.assertEqual([row["id"] for row in self.direct.context(scope="revision-test")["knowledge"]], [new])
+        self.assertEqual(self.direct.review_receipt(old)["state"], "needs_revision")
+
     def test_sdk_exposes_stable_errors_and_replay_metadata(self):
         first = self.http.import_evidence(
             FIXTURE, idempotency_key="sdk-replay-001")
