@@ -19,13 +19,13 @@ Copy the Markdown artifact into a clean repository and inspect its history:
 ```sh
 mkdir proofpress-handoff && cd proofpress-handoff
 git init
-npm install --save-dev proofpress
+python -m pip install proofpress-local
 curl -LO https://raw.githubusercontent.com/chenmingtang830/proofpress/main/examples/portable-handoff/strategy.md
-npx --no-install proofpress inspect strategy.md
-npx --no-install proofpress import strategy.md
-npx --no-install proofpress log strategy.md
-npx --no-install proofpress diff strategy.md
-npx --no-install proofpress verify strategy.md
+proofpress legacy inspect strategy.md
+proofpress legacy import strategy.md
+proofpress legacy log strategy.md
+proofpress legacy diff strategy.md
+proofpress legacy verify strategy.md
 ```
 
 [//]: # (ob:80c71b17)
@@ -54,7 +54,7 @@ Download the Word artifact and its evidence record together:
 ```sh
 curl -LO https://raw.githubusercontent.com/chenmingtang830/proofpress/main/examples/portable-handoff/proposal.docx
 curl -LO https://raw.githubusercontent.com/chenmingtang830/proofpress/main/examples/portable-handoff/proposal.provenance.json
-npx --no-install proofpress provenance verify proposal.docx \
+proofpress legacy provenance verify proposal.docx \
   --evidence proposal.provenance.json
 ```
 
