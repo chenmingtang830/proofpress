@@ -124,6 +124,17 @@ function App() {
   const [credentials, setCredentials] = React.useState<any[]>([]);
   const [activity, setActivity] = React.useState<any[]>([]);
   const [credentialSecret, setCredentialSecret] = React.useState("");
+  const [credentialsLoading, setCredentialsLoading] = React.useState(false);
+  React.useEffect(() => {
+    if (page !== "admin") return;
+    let active = true;
+    setCredentialsLoading(true);
+    api("/v1/owner/credentials").then(body => {
+      if (active) setCredentials(body.credentials || []);
+    }).catch(e => { if (active) setError(e.message); })
+      .finally(() => { if (active) setCredentialsLoading(false); });
+    return () => { active = false; };
+  }, [page]);
   const load = React.useCallback(async () => {
     const request = ++selectionRequest.current;
     setLoading(true);
@@ -287,6 +298,9 @@ function App() {
   }
   async function decide(decision: string) {
     if (decisionPending.current || !receipt || receipt.conclusion.id !== selected) return;
+    if (["admit", "reject"].includes(decision) && !window.confirm(
+      `${decision === "admit" ? "Approve for reuse" : "Reject this conclusion"} in ${receipt.conclusion.scope || "this workspace"}?\n\n${receipt.conclusion.statement}\n\n${decision === "admit" ? "Eligible agents will be able to rely on this conclusion. Automated checks and LM advice are not approval." : "This decision will be recorded and the conclusion excluded from governed context."}`
+    )) return;
     if (decision === "request_changes" && !note.trim()) {
       setError("Describe the bounded change the proposer should make.");
       return;
@@ -368,6 +382,7 @@ function App() {
               <button
                 key={id}
                 aria-label={labels[id]}
+                aria-current={page === id ? "page" : undefined}
                 className={page === id ? "active" : ""}
                 onClick={() => (id === "admin" ? showAdmin() : setPage(id))}
               >
@@ -393,9 +408,9 @@ function App() {
           <span className="workspaceLabel">{labels[page]}</span>
         </header>
         {error && (
-          <div className="error">
+          <div className="error" role="alert">
             <span>{error}</span>
-            <button onClick={() => setError("")}>
+            <button aria-label="Dismiss error" onClick={() => setError("")}>
               <X />
             </button>
           </div>
@@ -436,6 +451,7 @@ function App() {
               allRows={rows}
               edges={edges}
               relations={contextRelations}
+              onReview={() => setPage("review")}
               loading={contextLoading}
               selected={selected}
               receipt={receipt}
@@ -446,6 +462,7 @@ function App() {
           {page === "admin" && (
             <AdminPage
               credentials={credentials}
+              loading={credentialsLoading}
               secret={credentialSecret}
               busy={busy}
               onAction={credentialAction}
@@ -530,7 +547,7 @@ function ReviewPage({
   onJudge,
 }: any) {
   return (
-    <div className="workspacePage">
+    <div className={`workspacePage${receipt ? "" : " overviewOnly"}`}>
       <div className="work">
         <PageHead
           eyebrow="GOVERNANCE INBOX"
@@ -538,14 +555,13 @@ function ReviewPage({
           description="Evidence and recommendations inform the decision. Only your approval admits knowledge."
         />
         <div className="filterbar">
-          <span>{rows.length} awaiting your review</span>
+          <span role="status">{loading ? "Loading review queue…" : `${rows.length} awaiting your review`}</span>
         </div>
         <div className="tableWrap">
           <table>
             <thead>
               <tr>
                 <th>Conclusion</th>
-                <th>Status</th>
                 <th>Scope</th>
                 <th></th>
               </tr>
@@ -562,9 +578,6 @@ function ReviewPage({
                   <td>
                     <b>{row.label}</b>
                     <small>{row.id}</small>
-                  </td>
-                  <td>
-                    <Badge state={row.state} />
                   </td>
                   <td>{row.scope || "—"}</td>
                   <td>
@@ -603,20 +616,13 @@ function Inspector({
 }: any) {
   const [expanded, setExpanded] = React.useState(false);
   React.useEffect(() => setExpanded(false), [r?.conclusion.id]);
-  if (!r)
-    return (
-      <aside className="inspector">
-        <div className="empty">
-          Select a conclusion to inspect its evidence and review state.
-        </div>
-      </aside>
-    );
+  if (!r) return null;
   const can = r.state === "needs_review" && !readOnly;
   return (
     <aside className="inspector">
-      <button className="mobileBack" onClick={onClose}>
-        ← Back to review
-      </button>
+      {onClose && <button className="mobileBack" onClick={onClose}>
+        Close details
+      </button>}
       <div className="inspectorTop">
         <span>CONCLUSION</span>
         <Badge state={r.state} />
@@ -628,10 +634,10 @@ function Inspector({
       </div>
       <div className="quickSnapshot">
         <dl><div><dt>Applies to</dt><dd>{r.conclusion.scope || "No scope recorded"}</dd></div>
-        <div><dt>Supporting evidence</dt><dd>{(r.evidence || []).length} bound sources</dd></div>
+        <div><dt>Supporting evidence</dt><dd>{(r.evidence || []).length} bound {(r.evidence || []).length === 1 ? "source" : "sources"}</dd></div>
         <div><dt>Automated checks</dt><dd>{Object.keys(r.evaluation?.checks || {}).length ? `${Object.values(r.evaluation.checks).filter(Boolean).length} of ${Object.keys(r.evaluation.checks).length} passed` : "Not run"}</dd></div>
         <div><dt>LM advice</dt><dd>{r.recommendation?.recommendation || "No recommendation recorded"}</dd></div></dl>
-        <Button variant="outline" onClick={() => setExpanded(!expanded)}>{expanded ? "Hide details" : "View details"}</Button>
+        <Button variant="outline" aria-expanded={expanded} onClick={() => setExpanded(!expanded)}>{expanded ? "Hide details" : "View details"}</Button>
         {onJudge && can && <Button variant="outline" disabled={busy} onClick={onJudge}>Run LM judge</Button>}
       </div>
       {expanded && <>
@@ -679,7 +685,7 @@ function Inspector({
           </div>
           <div className="recommendation">
             <span>POLICY / MODEL RECOMMENDATION</span>
-            <b>{r.recommendation?.recommendation || "Not configured"}</b>
+            <b>{r.recommendation?.recommendation || "No recommendation recorded"}</b>
             <p>
               {r.recommendation?.rationale ||
                 "A recommendation cannot admit this conclusion."}
@@ -709,6 +715,7 @@ function Inspector({
             </p>
           </div>
           <textarea
+            aria-label="Review note or bounded clarification request"
             value={note}
             onChange={(e) => setNote(e.target.value)}
             placeholder="Review note or bounded clarification request"
@@ -753,7 +760,7 @@ function Inspector({
     </aside>
   );
 }
-function LedgerPage({ rows, allRows, edges, relations, selected, receipt, onChoose, loading }: any) {
+function LedgerPage({ rows, allRows, edges, relations, selected, receipt, onChoose, onReview, loading }: any) {
   const [view, setView] = React.useState("lineage");
   const [showHistory, setShowHistory] = React.useState(false);
   const [focused, setFocused] = React.useState(false);
@@ -769,7 +776,7 @@ function LedgerPage({ rows, allRows, edges, relations, selected, receipt, onChoo
   const focus = (id: string) => { setFocused(true); setExpandedEvidence(false); onChoose(id); };
   React.useEffect(() => { setExpandedEvidence(false); }, [selected]);
   return (
-    <div className="workspacePage">
+    <div className={`workspacePage${focused && current ? "" : " overviewOnly"}`}>
       <div className="work">
         <PageHead
           eyebrow="GOVERNED CONTEXT"
@@ -798,7 +805,7 @@ function LedgerPage({ rows, allRows, edges, relations, selected, receipt, onChoo
                 {members.length > limit && <Button variant="outline" onClick={() => setScopeLimit({...scopeLimit, [scope]: limit + 8})}>Show {Math.min(8, members.length - limit)} more</Button>}
               </section>;
             })}
-            {!groups.length && <p>{loading ? "Loading current knowledge…" : "No eligible knowledge yet. Review candidates first, or show history."}</p>}
+            {!groups.length && <div><p>{loading ? "Loading current knowledge…" : "No eligible knowledge yet. Review candidates first, or show history."}</p>{!loading && <Button variant="outline" onClick={onReview}>Review candidates</Button>}</div>}
           </div>}
           {focused && current ? <><div className="lineageFlow">
             <section><h2>Bound evidence</h2><Button variant="outline" aria-expanded={expandedEvidence} onClick={() => setExpandedEvidence(!expandedEvidence)}>{expandedEvidence ? "Collapse evidence" : `Expand ${current.evidence?.length || 0} evidence`}</Button>{expandedEvidence && (current.evidence || []).map((e: any, i: number) => <article key={i}><b>{evidenceName(e)}</b><EvidenceContent row={e} /></article>)}{!current.evidence?.length && <p>No bound evidence recorded.</p>}</section>
@@ -828,8 +835,8 @@ function LedgerPage({ rows, allRows, edges, relations, selected, receipt, onChoo
                   key={r.id}
                   className={selected === r.id ? "selected" : ""}
                   tabIndex={0}
-                  onKeyDown={e => { if (e.key === "Enter") onChoose(r.id); }}
-                  onClick={() => onChoose(r.id)}
+                  onKeyDown={e => { if (e.key === "Enter") focus(r.id); }}
+                  onClick={() => focus(r.id)}
                 >
                   <td>
                     <b>{r.label}</b>
@@ -855,7 +862,8 @@ function LedgerPage({ rows, allRows, edges, relations, selected, receipt, onChoo
         }
       </div>
       <Inspector
-        receipt={view === "list" || focused ? current : null}
+        receipt={focused ? current : null}
+        onClose={() => setFocused(false)}
         readOnly
         note=""
         setNote={() => {}}
@@ -874,7 +882,7 @@ function ActivityPage({ rows }: any) {
       <PageHead
         eyebrow="APPEND-ONLY RECORD"
         title="Activity"
-        description="Proposal and decision history visible from the current ledger projection."
+        description="Recent workspace requests and outcomes, including read access. Showing up to the latest 100 records; conclusion decision history is in its review details."
       />
       <div className="timeline">
         {rows.slice(current * 20, (current + 1) * 20).map((r: any) => (
@@ -884,7 +892,7 @@ function ActivityPage({ rows }: any) {
               <Badge state={r.outcome === "ok" ? "recorded" : "blocked"} />
               <b>{(r.operation || "request").replaceAll(".", " · ")}</b>
               <small>
-                {r.principal_id || "Unknown principal"} · {r.occurred_at}
+                {r.principal_id || "Unknown principal"} · <time dateTime={r.occurred_at} title={r.occurred_at}>{new Date(r.occurred_at).toLocaleString()}</time>
               </small>
             </div>
           </div>
@@ -900,6 +908,7 @@ function ActivityPage({ rows }: any) {
 }
 function AdminPage({
   credentials,
+  loading,
   secret,
   busy,
   onAction,
@@ -930,20 +939,20 @@ function AdminPage({
             Use one credential per revocable agent or device boundary.
           </small>
         </div>
-        <input
+        <label>Agent principal<input
           aria-label="Agent principal"
           value={principal}
           onChange={(e) => setPrincipal(e.target.value)}
           placeholder="agent:claude-code"
           required
-        />
-        <input
+        /></label>
+        <label>Credential label<input
           aria-label="Credential label"
           value={label}
           onChange={(e) => setLabel(e.target.value)}
           placeholder="Claude Code · company laptop"
           required
-        />
+        /></label>
         <Button disabled={busy}>Issue credential</Button>
       </form>
       {secret && (
@@ -974,6 +983,7 @@ function AdminPage({
         </div>
       )}
       <div className="credentialList">
+        {loading && <p role="status">Loading agent credentials…</p>}
         {credentials.map((c: any) => (
           <div key={c.credential_id}>
             <div className="credentialIcon">

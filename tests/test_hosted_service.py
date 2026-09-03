@@ -201,6 +201,7 @@ class HostedServiceTests(unittest.TestCase):
         with urlopen(self.base_url + "/logo.svg") as response:
             self.assertEqual(response.status, 200)
             self.assertEqual(response.headers.get_content_type(), "image/svg+xml")
+            self.assertEqual(response.headers["Cache-Control"], "no-cache")
             self.assertIn(b"<svg", response.read())
         session_id = cookie.split("=", 1)[1]
         csrf = self.server.proofpress_owner_sessions[session_id]["csrf"]

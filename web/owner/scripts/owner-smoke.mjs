@@ -21,11 +21,23 @@ try {
   browser = await chromium.launch();
   const page = await browser.newPage({viewport:{width:1536,height:1024}});
   page.setDefaultTimeout(15000);
-  page.on('dialog',dialog=>dialog.accept());
+  let acceptDialog = true;
+  page.on('dialog',dialog=>acceptDialog ? dialog.accept() : dialog.dismiss());
   const errors=[];page.on('pageerror',e=>errors.push(e.message));
   await page.goto(`${data.base}/review?conclusion_id=${data.ids[0]}`);
   await page.locator('input[name=token]').fill(data.owner);
   await Promise.all([page.waitForNavigation(),page.locator('button[type=submit]').click()]);
+  assert.equal((await page.request.get(`${data.base}/logo.svg`)).status(),200);
+  await page.waitForFunction(()=>[...document.querySelectorAll('.brandMark img')].every(img=>img.complete && img.naturalWidth>0));
+  for (const width of [1024,390]) {
+    await page.setViewportSize({width,height:900});
+    await page.getByRole('button',{name:'Close details',exact:true}).click();
+    assert.equal(await page.locator('.inspector').count(),0);
+    await page.locator('tbody tr').filter({hasText:data.ids[0]}).click();
+    await page.locator('.inspector h2').waitFor();
+    assert.equal(await page.evaluate(()=>document.body.scrollWidth),width);
+  }
+  await page.setViewportSize({width:1536,height:1024});
   await page.locator('tbody tr').filter({hasText:data.ids[0]}).click();
   await page.getByRole('button',{name:'View details',exact:true}).click();
   await page.locator('.evidenceRow > p').filter({hasText:'Browser fixture approve:'}).waitFor();
@@ -34,6 +46,10 @@ try {
     await mkdir(process.env.QA_SCREENSHOTS,{recursive:true});
     await page.screenshot({path:`${process.env.QA_SCREENSHOTS}/review.png`});
   }
+  acceptDialog = false;
+  await page.getByRole('button',{name:'Approve',exact:true}).click();
+  assert.equal(await page.getByText('Decision recorded',{exact:true}).count(),0);
+  acceptDialog = true;
   await page.getByRole('button',{name:'Approve',exact:true}).click();
   await page.getByText('Decision recorded',{exact:true}).waitFor();
   await page.getByRole('button',{name:'Ledger',exact:true}).click();
@@ -48,6 +64,12 @@ try {
   await page.getByRole('button',{name:'Expand 1 evidence',exact:true}).click();
   await page.locator('.lineageFlow .technicalDetails').waitFor();
   await page.getByRole('button',{name:'Back to overview',exact:true}).click();
+  assert.equal(await page.locator('.inspector').count(),0);
+  await page.setViewportSize({width:390,height:900});
+  await page.locator('.conclusionNode').filter({hasText:'fixture approve:'}).click();
+  await page.getByRole('button',{name:'Close details',exact:true}).click();
+  assert.equal(await page.locator('.inspector').count(),0);
+  await page.setViewportSize({width:1536,height:1024});
   await page.getByRole('checkbox',{name:'Show history and unavailable conclusions'}).check();
   assert.equal(await page.locator('.conclusionNode').count(),3);
   if(process.env.QA_SCREENSHOTS) await page.screenshot({path:`${process.env.QA_SCREENSHOTS}/lineage-overview.png`});
@@ -105,6 +127,14 @@ try {
   assert.equal((await page.request.get(`${data.base}/v1/capabilities`,{headers:{Authorization:`Bearer ${token}`}})).status(),200);
   await page.getByRole('button',{name:'Done',exact:true}).click();
   const credential=page.locator('.credentialList > div').filter({hasText:'Temporary browser credential'});
+  await page.reload();
+  await credential.waitFor();
+  await page.setViewportSize({width:390,height:900});
+  assert.equal(await credential.getByRole('button',{name:'Rotate',exact:true}).isVisible(),true);
+  assert.equal(await credential.getByRole('button',{name:'Revoke',exact:true}).isVisible(),true);
+  await page.getByRole('textbox',{name:'Agent principal',exact:true}).focus();
+  assert.notEqual(await page.getByRole('textbox',{name:'Agent principal',exact:true}).evaluate(el=>getComputedStyle(el).outlineStyle),'none');
+  if(process.env.QA_SCREENSHOTS) await page.screenshot({path:`${process.env.QA_SCREENSHOTS}/admin-mobile.png`});
   await credential.getByRole('button',{name:'Rotate',exact:true}).click();
   await page.locator('.secretReveal code').waitFor();
   const rotated=await page.locator('.secretReveal code').textContent();

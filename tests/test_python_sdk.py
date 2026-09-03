@@ -126,6 +126,7 @@ class PythonSDKTests(unittest.TestCase):
         self.assertIn("proofpress_mcp", project["tool"]["setuptools"]["py-modules"])
         self.assertIn("proofpress_experiment", project["tool"]["setuptools"]["py-modules"])
         self.assertIn("*.html", project["tool"]["setuptools"]["package-data"]["proofpress.hosted"])
+        self.assertIn("static/*.svg", project["tool"]["setuptools"]["package-data"]["proofpress.hosted"])
         self.assertEqual(project["project"]["scripts"]["proofpress-mcp"],
                          "proofpress.compat:mcp_main")
         self.assertEqual(project["project"]["scripts"]["proofpress"],

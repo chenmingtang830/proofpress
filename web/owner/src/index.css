@@ -43,7 +43,7 @@
   --paper: #faf9f5;
   --ink: #20222b;
   --ink-2: #5a5d6b;
-  --ink-3: #8b8e9c;
+  --ink-3: #686b78;
   --line: #e3e1d9;
   --card: #ffffff;
   --wash: #f1efe8;
@@ -287,7 +287,7 @@ main {
 }
 .workspacePage {
   display: grid;
-  grid-template-columns: minmax(580px, 1fr) 405px;
+  grid-template-columns: minmax(0, 1fr) 405px;
   min-height: 100%;
   background: #fff;
 }
@@ -295,6 +295,9 @@ main {
   min-width: 0;
   border-right: 1px solid var(--line);
   padding: 34px 28px 70px;
+}
+.workspacePage.overviewOnly {
+  grid-template-columns: minmax(0, 1fr);
 }
 .filterbar {
   display: flex;
@@ -416,7 +419,7 @@ td:last-child svg {
 .inspectorTop h2 {
   margin: 14px 0 10px;
   font-family: Georgia, "Times New Roman", serif;
-  font-size: 22px;
+  font-size: 20px;
   line-height: 1.3;
   letter-spacing: -0.015em;
 }
@@ -551,12 +554,9 @@ td:last-child svg {
   color: var(--ink-3);
 }
 .decision {
-  position: sticky;
-  bottom: 0;
   border-top: 1px solid var(--line);
   background: #fff;
   padding: 17px 28px;
-  box-shadow: 0 -8px 22px rgba(32, 34, 43, 0.04);
 }
 .decision p {
   margin: 5px 0 12px;
@@ -763,6 +763,17 @@ td:last-child svg {
   padding: 0 9px;
   font-size: 11px;
   outline: none;
+}
+.issueForm label {
+  display: grid;
+  gap: 6px;
+  color: var(--ink-2);
+  font-size: 12px;
+  min-width: 0;
+}
+.issueForm input:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
 }
 .secretReveal {
   display: flex;
@@ -1025,6 +1036,17 @@ td:last-child svg {
   font-size: 12px;
 }
 @media (max-width: 1050px) {
+  .mobileBack {
+    display: block;
+    width: 100%;
+    min-height: 44px;
+    border: 0;
+    border-bottom: 1px solid var(--line);
+    padding: 12px 19px;
+    background: var(--paper);
+    color: var(--accent);
+    text-align: left;
+  }
   .shell {
     grid-template-columns: 72px 1fr;
   }
@@ -1237,8 +1259,12 @@ td:last-child svg {
   .secretReveal > div:last-child {
     margin-top: 12px;
   }
+  .credentialActions {
+    grid-column: 2 / -1;
+    justify-content: flex-start;
+  }
   .credentialList button {
-    display: none;
+    min-height: 44px;
   }
 }
 @media (prefers-reduced-motion: reduce) {

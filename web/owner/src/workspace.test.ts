@@ -38,6 +38,7 @@ describe("Proofpress owner workspace contract", () => {
   it("ships desktop and mobile operating layouts", () => {
     expect(css).toContain("grid-template-columns: 226px");
     expect(css).toContain("@media (max-width: 680px)");
-    expect(source).toContain("Back to review");
+    expect(source).toContain("Close details");
+    expect(source).toContain("if (!r) return null");
   });
 });

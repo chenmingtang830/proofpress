@@ -48,4 +48,4 @@ include = ["proofpress*"]
 
 [tool.setuptools.package-data]
 proofpress = ["assets/local-ui/index.html", "data/demo.otlp.json"]
-"proofpress.hosted" = ["*.html", "static/*.html", "static/assets/*"]
+"proofpress.hosted" = ["*.html", "static/*.html", "static/*.svg", "static/assets/*"]
