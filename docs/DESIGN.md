@@ -1,6 +1,15 @@
 [//]: # (ob:ae580676)
 # Proofpress Design System — Verified Knowledge Ledger
 
+## Agent-native interaction contract
+
+The web workspace is both a human governance interface and a structured agent
+tool host. Every product capability needs an MCP or CLI route, but authority is
+not flattened: agents may read, explain, prepare, and propose; authority-bearing
+changes must end in a clear owner review surface. Never disguise a prepared
+draft as an active setting. The UI must say what the agent prepared, what has
+not happened, and the single human action that makes it effective.
+
 [//]: # (ob:4565936e)
 **Status (2026-09-02):** Canonical product design guidance. PR #100 implements the accepted owner-UI typography, Hugeicons, shared feedback components, and Ledger reference direction; local validation is implementation evidence, not Render deployment or partner outcome evidence. Product hosts may supply their own brand shell, but trust states and evidence semantics remain consistent. The owner MVP excludes assistant/chat entry points.
 

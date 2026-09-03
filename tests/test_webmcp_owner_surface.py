@@ -22,6 +22,9 @@ class WebmcpOwnerSurfaceTests(unittest.TestCase):
             "get_review_state",
             "get_lineage",
             "respond_to_review",
+            "get_activity",
+            "get_review_policy",
+            "prepare_review_policy_change",
         ):
             self.assertRegex(self.page, rf'name:\s*"{name}"')
 
@@ -31,6 +34,12 @@ class WebmcpOwnerSurfaceTests(unittest.TestCase):
         self.assertNotIn("approve_conclusion", names)
         self.assertNotIn("admit", names)
         self.assertIn("Approve is not exposed", self.page)
+
+    def test_policy_tool_prepares_but_never_activates(self):
+        self.assertIn('prepared: true', self.page)
+        self.assertIn('activated: false', self.page)
+        self.assertIn('requires_human_owner: true', self.page)
+        self.assertNotRegex(self.page, r'name:\s*"(?:save|activate)_review_policy"')
 
     def test_tools_return_structured_text_content(self):
         self.assertIn("const toolText", self.page)

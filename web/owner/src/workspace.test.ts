@@ -29,6 +29,13 @@ describe("Proofpress owner workspace contract", () => {
     expect(source).toContain("Approve is not exposed");
     expect(source).not.toMatch(/name:\s*"(?:approve|admit)/);
   });
+  it("makes activity and policy agent-addressable without granting authority", () => {
+    expect(source).toContain('name: "get_activity"');
+    expect(source).toContain('name: "get_review_policy"');
+    expect(source).toContain('name: "prepare_review_policy_change"');
+    expect(source).toContain("activated: false");
+    expect(source).toContain("requires_human_owner: true");
+  });
 
   it("uses the fixed product name and neutral pending treatment", () => {
     expect(source).toContain("Proofpress");

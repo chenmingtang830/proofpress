@@ -323,6 +323,54 @@ function App() {
             next: "human review required",
           }),
       },
+      {
+        name: "get_activity",
+        description:
+          "Read semantic workspace activity and knowledge-consumption receipts. Does not return provider secrets or owner credentials.",
+        inputSchema: {
+          type: "object",
+          properties: { limit: { type: "integer", minimum: 1, maximum: 100 } },
+        },
+        execute: async ({ limit = 50 }: any) =>
+          toolText(await api(`/owner/api/activity?limit=${encodeURIComponent(String(limit))}`)),
+      },
+      {
+        name: "get_review_policy",
+        description:
+          "Read the active workspace review policy and safe provider-configuration status. Secret values are never returned.",
+        inputSchema: { type: "object", properties: {} },
+        execute: async () => toolText(await api("/owner/api/review-policy")),
+      },
+      {
+        name: "prepare_review_policy_change",
+        description:
+          "Prepare a review-policy change in Admin for the human owner to inspect and activate. This never saves or authorizes the change.",
+        inputSchema: {
+          type: "object",
+          properties: {
+            provider: { type: "string", enum: ["openrouter", "openai", "anthropic", "custom"] },
+            endpoint: { type: "string" },
+            model: { type: "string" },
+            criteria: { type: "string", maxLength: 8000 },
+            zdr: { type: "boolean" },
+            mode: { type: "string", enum: ["off", "manual", "automatic"] },
+            require_judge: { type: "boolean" },
+            external_consent: { type: "boolean" },
+          },
+          required: ["provider", "endpoint", "model", "criteria", "zdr", "mode", "require_judge", "external_consent"],
+        },
+        execute: async (settings: any) => {
+          sessionStorage.setItem("proofpress:review-policy-draft", JSON.stringify(settings));
+          navigate("admin");
+          return toolText({
+            prepared: true,
+            activated: false,
+            requires_human_owner: true,
+            next: "Review the prepared settings in Admin, add a provider key if needed, then select Save & activate.",
+            url: `${location.origin}/admin`,
+          });
+        },
+      },
     ];
     Promise.all(tools.map((tool) => ctx.registerTool(tool))).catch(
       () => undefined,
@@ -827,7 +875,7 @@ function Inspector({
             : judgePending && onJudge && r.review_policy?.mode === "manual" ? <Button disabled={busy} onClick={onJudge}>Run LM review</Button>
             : onOpenFull && !fullReview ? <Button onClick={onOpenFull}>Open full review</Button>
             : null}
-          {!checksMissing && !failedChecks.length && onOpenFull && !fullReview && (judgeNeedsSetup || (judgePending && r.review_policy?.mode === "manual")) && <Button className="secondaryAction" variant="ghost" onClick={onOpenFull}>Open full review</Button>}
+          {!checksMissing && !failedChecks.length && onOpenFull && !fullReview && ((judgeNeedsSetup && onConfigurePolicy) || (judgePending && r.review_policy?.mode === "manual" && onJudge)) && <Button className="secondaryAction" variant="ghost" onClick={onOpenFull}>Open full review</Button>}
           {r.recommendation && onJudge && r.review_policy?.mode === "manual" && <Button className="secondaryAction" variant="ghost" disabled={busy} onClick={onJudge}>Refresh LM advice</Button>}
         </div>}
         {!can && (onOpenFull ? !fullReview && <Button onClick={onOpenFull}>{r.state === "needs_revision" ? "View revision request" : "View decision"}</Button> : <Button variant="outline" aria-expanded={expanded} onClick={() => setExpanded(!expanded)}>{expanded ? "Hide details" : "View details"}</Button>)}

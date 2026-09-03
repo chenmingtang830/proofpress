@@ -39,7 +39,7 @@ try {
     await page.locator('.inspector h2').waitFor();
     assert.equal(await page.getByRole('button',{name:'Close details',exact:true}).evaluate(el=>document.activeElement===el),true);
     assert.equal(await page.locator('.work').isVisible(),false);
-    await page.getByRole('button',{name:'Open full review',exact:true}).click();
+    await page.locator('.inspector').getByRole('button',{name:'Open full review',exact:true}).click();
     await page.getByRole('button',{name:'Approve for reuse',exact:true}).scrollIntoViewIfNeeded();
     assert.equal(await page.evaluate(()=>document.body.scrollWidth),width);
     if(process.env.QA_SCREENSHOTS) {
