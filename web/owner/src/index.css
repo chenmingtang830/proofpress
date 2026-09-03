@@ -285,6 +285,22 @@ main {
   color: var(--ink-2);
   font-size: 13px;
 }
+.confirmationOverlay {
+  position: fixed; inset: 0; z-index: 80; background: rgba(32, 34, 43, 0.4);
+}
+.confirmationDialog {
+  position: fixed; z-index: 81; left: 50%; top: 50%; transform: translate(-50%, -50%);
+  width: min(560px, calc(100vw - 32px)); max-height: calc(100dvh - 48px); overflow-y: auto;
+  background: var(--paper); color: var(--ink); border: 1px solid var(--line); border-radius: 12px; padding: 28px;
+}
+.confirmationDialog h2 { margin: 0 0 12px; font-family: Georgia, serif; font-size: 25px; }
+.confirmationDialog p { font-size: 14px; line-height: 1.6; color: var(--ink-2); }
+.confirmationDialog dl { margin: 20px 0 12px; }
+.confirmationDialog dt { font-size: 12px; color: var(--ink-2); }
+.confirmationDialog dd { margin: 4px 0 0; overflow-wrap: anywhere; }
+.confirmationStatement { max-height: 180px; overflow-y: auto; overflow-wrap: anywhere; padding: 14px; border: 1px solid var(--line); background: white; line-height: 1.6; font-size: 14px; }
+.confirmationActions { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 10px; margin-top: 24px; }
+.confirmationActions button { min-height: 44px; }
 .workspacePage {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 405px;

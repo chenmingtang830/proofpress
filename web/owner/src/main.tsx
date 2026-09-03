@@ -1,6 +1,7 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
 import * as Tabs from "@radix-ui/react-tabs";
+import * as Dialog from "@radix-ui/react-dialog";
 import {
   Activity,
   BookOpen,
@@ -136,6 +137,9 @@ function App() {
   const [csrf, setCsrf] = React.useState("");
   const [note, setNote] = React.useState("");
   const [busy, setBusy] = React.useState(false);
+  const [decisionConfirmation, setDecisionConfirmation] = React.useState<{decision: string; id: string; statement: string; scope: string} | null>(null);
+  const cancelDecision = React.useRef<HTMLButtonElement>(null);
+  const decisionTrigger = React.useRef<HTMLElement | null>(null);
   const [credentials, setCredentials] = React.useState<any[]>([]);
   const [activity, setActivity] = React.useState<any[]>([]);
   const [credentialSecret, setCredentialSecret] = React.useState("");
@@ -349,11 +353,14 @@ function App() {
       if (request === selectionRequest.current) { setError(e.message); setDetailError(e.message); }
     }
   }
-  async function decide(decision: string) {
+  async function decide(decision: string, confirmed = false) {
     if (decisionPending.current || !receipt || receipt.conclusion.id !== selected) return;
-    if (["admit", "reject"].includes(decision) && !window.confirm(
-      `${decision === "admit" ? "Approve for reuse" : "Reject this conclusion"} in ${receipt.conclusion.scope || "this workspace"}?\n\n${receipt.conclusion.statement}\n\n${decision === "admit" ? "Eligible agents will be able to rely on this conclusion. Automated checks and LM advice are not approval." : "This decision will be recorded and the conclusion excluded from governed context."}`
-    )) return;
+    if (["admit", "reject"].includes(decision) && !confirmed) {
+      decisionTrigger.current = document.activeElement as HTMLElement;
+      setError("");
+      setDecisionConfirmation({decision, id: receipt.conclusion.id, statement: receipt.conclusion.statement, scope: receipt.conclusion.scope || "this workspace"});
+      return;
+    }
     if (decision === "request_changes" && !note.trim()) {
       setError("Describe the bounded change the proposer should make.");
       return;
@@ -366,6 +373,7 @@ function App() {
         body: JSON.stringify({ csrf, conclusion_id: selected, decision, note }),
       });
       setReceipt(next);
+      setDecisionConfirmation(null);
       setNote("");
       await load();
     } catch (e: any) {
@@ -423,6 +431,27 @@ function App() {
   const admitted = contextLoading ? "…" : eligible.length;
   return (
     <div className="shell" aria-busy={busy || loading}>
+      <Dialog.Root open={Boolean(decisionConfirmation)} onOpenChange={open => { if (!open && !decisionPending.current) setDecisionConfirmation(null); }}>
+        <Dialog.Portal>
+          <Dialog.Overlay className="confirmationOverlay" />
+          <Dialog.Content className="confirmationDialog" onOpenAutoFocus={event => { event.preventDefault(); cancelDecision.current?.focus(); }} onCloseAutoFocus={event => { event.preventDefault(); if (decisionTrigger.current?.isConnected) decisionTrigger.current.focus(); }} onPointerDownOutside={event => event.preventDefault()} onEscapeKeyDown={event => { if (decisionPending.current) event.preventDefault(); }}>
+            <Dialog.Title>{decisionConfirmation?.decision === "admit" ? "Approve this conclusion?" : "Reject this conclusion?"}</Dialog.Title>
+            <Dialog.Description>{decisionConfirmation?.decision === "admit" ? "Eligible agents may rely on this conclusion within its scope. You are making the human approval decision." : "This decision will be recorded. The conclusion will remain excluded from governed context."}</Dialog.Description>
+            <dl><dt>Scope</dt><dd>{decisionConfirmation?.scope}</dd></dl>
+            <div className="confirmationStatement">{decisionConfirmation?.statement}</div>
+            <p className="confirmationNote">Automated checks and LM advice do not grant approval.</p>
+            {error && <p role="alert">{error}</p>}
+            <div className="confirmationActions">
+              <Button ref={cancelDecision} variant="outline" disabled={busy} onClick={() => setDecisionConfirmation(null)}>Cancel</Button>
+              <Button variant={decisionConfirmation?.decision === "admit" ? "approve" : "danger"} disabled={busy} onClick={() => {
+                if (!decisionConfirmation) return;
+                if (selected !== decisionConfirmation.id) { setError("The selected conclusion changed. Close this dialog and review it again."); return; }
+                void decide(decisionConfirmation.decision, true);
+              }}>{busy ? "Recording decision…" : decisionConfirmation?.decision === "admit" ? "Confirm approval" : "Confirm rejection"}</Button>
+            </div>
+          </Dialog.Content>
+        </Dialog.Portal>
+      </Dialog.Root>
       <aside className="sidebar">
         <div className="brand">
           <span className="brandMark"><img src="/logo.svg" alt="" /></span>

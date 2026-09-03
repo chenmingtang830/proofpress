@@ -21,8 +21,7 @@ try {
   browser = await chromium.launch();
   const page = await browser.newPage({viewport:{width:1536,height:1024}});
   page.setDefaultTimeout(15000);
-  let acceptDialog = true;
-  page.on('dialog',dialog=>acceptDialog ? dialog.accept() : dialog.dismiss());
+  page.on('dialog',dialog=>dialog.accept());
   const errors=[];page.on('pageerror',e=>errors.push(e.message));
   await page.goto(`${data.base}/review?conclusion_id=${data.ids[0]}`);
   await page.locator('input[name=token]').fill(data.owner);
@@ -62,11 +61,23 @@ try {
     await mkdir(process.env.QA_SCREENSHOTS,{recursive:true});
     await page.screenshot({path:`${process.env.QA_SCREENSHOTS}/review.png`});
   }
-  acceptDialog = false;
   await page.getByRole('button',{name:'Approve',exact:true}).click();
+  await page.getByRole('dialog',{name:'Approve this conclusion?'}).waitFor();
+  assert.equal(await page.getByRole('button',{name:'Cancel',exact:true}).evaluate(el=>document.activeElement===el),true);
+  if(process.env.QA_SCREENSHOTS) await page.screenshot({path:`${process.env.QA_SCREENSHOTS}/approval-dialog.png`});
+  await page.getByRole('button',{name:'Cancel',exact:true}).click();
+  await page.waitForFunction(()=>document.activeElement?.textContent === 'Approve');
+  assert.equal(await page.getByRole('button',{name:'Approve',exact:true}).evaluate(el=>document.activeElement===el),true);
   assert.equal(await page.getByText('Decision recorded',{exact:true}).count(),0);
-  acceptDialog = true;
+  await page.setViewportSize({width:390,height:844});
   await page.getByRole('button',{name:'Approve',exact:true}).click();
+  assert.equal(await page.evaluate(()=>document.body.scrollWidth),390);
+  if(process.env.QA_SCREENSHOTS) await page.screenshot({path:`${process.env.QA_SCREENSHOTS}/approval-dialog-mobile.png`});
+  await page.getByRole('button',{name:'Cancel',exact:true}).press('Escape');
+  assert.equal(await page.getByRole('dialog').count(),0);
+  await page.setViewportSize({width:1536,height:1024});
+  await page.getByRole('button',{name:'Approve',exact:true}).click();
+  await page.getByRole('button',{name:'Confirm approval',exact:true}).click();
   await page.getByText('Decision recorded',{exact:true}).waitFor();
   await page.getByRole('button',{name:'Ledger',exact:true}).click();
   await page.getByRole('button',{name:'Current knowledge',exact:true}).click();
@@ -118,6 +129,7 @@ try {
   await page.locator('tbody tr').filter({hasText:data.ids[1]}).click();
   await page.getByRole('button',{name:'Open full review',exact:true}).click();
   await page.getByRole('button',{name:'Reject',exact:true}).click();
+  await page.getByRole('button',{name:'Confirm rejection',exact:true}).click();
   await page.getByText('Decision recorded',{exact:true}).waitFor();
   await page.waitForLoadState('networkidle');
   await page.locator('.shell[aria-busy="false"]').waitFor();
@@ -148,6 +160,7 @@ try {
   await page.getByRole('button',{name:/Revised finding: evidence supports population A only/}).click();
   await page.getByRole('heading',{name:'Revision of previous conclusion',exact:true}).waitFor();
   await page.getByRole('button',{name:'Approve',exact:true}).click();
+  await page.getByRole('button',{name:'Confirm approval',exact:true}).click();
   await page.getByText('Decision recorded',{exact:true}).waitFor();
   const revisedContext = await operation('context.get',{scope:'browser-test'});
   assert.deepEqual(new Set(revisedContext.knowledge.map(row=>row.id)),new Set([data.ids[0],revision.conclusion.id]));
