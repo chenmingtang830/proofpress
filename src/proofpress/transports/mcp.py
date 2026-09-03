@@ -145,7 +145,14 @@ def build_mcp_server(gateway: ProofpressMcpGateway):
             qualifiers: dict[str, Any] | None = None,
             profile: str | None = None,
             idempotency_key: str | None = None) -> dict[str, Any]:
-        """Propose an evidence-bound conclusion as the configured agent principal."""
+        """Propose an evidence-bound conclusion as the configured agent principal.
+
+        To answer request_changes, read the original review receipt and pass
+        qualifiers.revision_of (original conclusion ID) and
+        qualifiers.revision_request_ref (revision_request.event_id). Keep the
+        same scope and any required profile qualifiers. The revised candidate
+        still needs human approval; proposing never replaces or admits it.
+        """
         return gateway.propose_conclusion(
             statement, evidence_refs, scope, expires_at, artifact_refs,
             allowed_actors, qualifiers, profile, idempotency_key)

@@ -162,7 +162,8 @@ class HostedOperationHandler(BaseHTTPRequestHandler):
         self.send_header("Content-Type", mimetypes.guess_type(asset.name)[0] or
                          "application/octet-stream")
         self.send_header("Content-Length", str(len(encoded)))
-        self.send_header("Cache-Control", "public, max-age=31536000, immutable")
+        self.send_header("Cache-Control", "public, max-age=31536000, immutable"
+                         if path.startswith("/assets/") else "no-cache")
         self.send_header("X-Content-Type-Options", "nosniff")
         self.end_headers()
         self.wfile.write(encoded)
@@ -177,7 +178,7 @@ class HostedOperationHandler(BaseHTTPRequestHandler):
         path = parsed.path
         if path == "/owner/api/session":
             return self._json(HTTPStatus.OK, {"ok": True, "result": {
-                "csrf": session["csrf"], "workspace": "Proofpress internal",
+                "csrf": session["csrf"], "workspace": os.environ.get("PROOFPRESS_WORKSPACE_LABEL", "Proofpress internal"),
                 "principal": "owner", "capabilities": {
                     "review": True, "credential_admin": True,
                     "assistant": bool(os.environ.get("OPENROUTER_API_KEY")),

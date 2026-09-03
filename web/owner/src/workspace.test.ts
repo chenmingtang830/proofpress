@@ -16,7 +16,9 @@ describe("Proofpress owner workspace contract", () => {
     expect(source).not.toContain("Ask Proofpress");
     expect(source).not.toContain("Search conclusions or IDs");
     expect(source).not.toContain("Inspect receipt");
-    expect(source).toContain('rows.filter(r => r.state === "needs_review")');
+    expect(source).toContain('"needs_revision"');
+    expect(source).toContain("Open full review");
+    expect(source).toContain("Needs revision");
     expect(source).toContain("View details");
     expect(source).toContain("Technical receipt");
     expect(source).toContain("Evidence to governed knowledge");
@@ -38,6 +40,8 @@ describe("Proofpress owner workspace contract", () => {
   it("ships desktop and mobile operating layouts", () => {
     expect(css).toContain("grid-template-columns: 226px");
     expect(css).toContain("@media (max-width: 680px)");
-    expect(source).toContain("Back to review");
+    expect(source).toContain("Close details");
+    expect(source).toContain('aria-busy="true"');
+    expect(source).toContain('pending={!!selected && !receipt}');
   });
 });

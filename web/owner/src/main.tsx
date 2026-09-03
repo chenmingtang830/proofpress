@@ -1,6 +1,7 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
 import * as Tabs from "@radix-ui/react-tabs";
+import * as Dialog from "@radix-ui/react-dialog";
 import {
   Activity,
   BookOpen,
@@ -10,10 +11,16 @@ import {
   KeyRound,
   ShieldCheck,
   X,
-} from "lucide-react";
+} from "@/components/ui/icon";
 import { Badge } from "@/components/ui/badge";
+import { ActivityResult } from "@/components/activity-result";
 import { Button } from "@/components/ui/button";
+import { DecisionNotice, RevisionInstructions, RevisionPanel, historyActor } from "@/components/review-feedback";
+import { LineageGraph } from "@/components/lineage-graph";
+import { LedgerOverview } from "@/components/ledger-overview";
+import { ModalSurface } from "@/components/ui/modal-surface";
 import "./index.css";
+import "./components/governance.css";
 
 type NodeRow = {
   id: string;
@@ -57,7 +64,10 @@ async function api(path: string, options: RequestInit = {}) {
     headers: { "Content-Type": "application/json", ...(options.headers || {}) },
     ...options,
   });
-  const body = await response.json();
+  if (response.status === 401) throw new Error("Your owner session has expired. Sign in again to continue.");
+  let body: any;
+  try { body = await response.json(); }
+  catch { throw new Error(`The service returned an unreadable response (${response.status}). Reload the workspace to retry.`); }
   if (!response.ok || body.ok === false)
     throw new Error(
       body.error?.message ||
@@ -103,10 +113,20 @@ function EvidenceContent({ row }: { row: any }) {
 function App() {
   const path = (location.pathname.split("/")[1] || "review") as Page;
   const [page, setPage] = React.useState<Page>(labels[path] ? path : "review");
+  const [fullReview, setFullReview] = React.useState(new URLSearchParams(location.search).get("view") === "full");
+  const reviewScroll = React.useRef(0);
+  React.useEffect(() => {
+    requestAnimationFrame(() => {
+      const stage = document.querySelector(".stage");
+      if (stage) stage.scrollTop = fullReview ? 0 : reviewScroll.current;
+    });
+  }, [fullReview]);
   const [rows, setRows] = React.useState<NodeRow[]>([]);
   const [edges, setEdges] = React.useState<any[]>([]);
+  const [graphNodes, setGraphNodes] = React.useState<any[]>([]);
   const [contextRelations, setContextRelations] = React.useState<any[]>([]);
   const [judgeConfigured, setJudgeConfigured] = React.useState(false);
+  const [workspaceLabel, setWorkspaceLabel] = React.useState("");
   const [selected, setSelected] = React.useState<string | null>(
     new URLSearchParams(location.search).get("conclusion_id"),
   );
@@ -115,38 +135,63 @@ function App() {
   const decisionPending = React.useRef(false);
   const [eligible, setEligible] = React.useState<NodeRow[]>([]);
   const [contextLoading, setContextLoading] = React.useState(true);
+  const [contextError, setContextError] = React.useState("");
+  const [detailError, setDetailError] = React.useState("");
+  const [reloadVersion, setReloadVersion] = React.useState(0);
   const scope = "";
   const [loading, setLoading] = React.useState(true);
   const [error, setError] = React.useState("");
   const [csrf, setCsrf] = React.useState("");
   const [note, setNote] = React.useState("");
   const [busy, setBusy] = React.useState(false);
+  const [decisionConfirmation, setDecisionConfirmation] = React.useState<{decision: string; id: string; statement: string; scope: string} | null>(null);
+  const [revisionHandoff, setRevisionHandoff] = React.useState<any>(null);
+  const cancelDecision = React.useRef<HTMLButtonElement>(null);
+  const decisionTrigger = React.useRef<HTMLElement | null>(null);
   const [credentials, setCredentials] = React.useState<any[]>([]);
   const [activity, setActivity] = React.useState<any[]>([]);
   const [credentialSecret, setCredentialSecret] = React.useState("");
+  const [credentialsLoading, setCredentialsLoading] = React.useState(false);
+  React.useEffect(() => {
+    if (page !== "admin") return;
+    let active = true;
+    setCredentialsLoading(true);
+    api("/v1/owner/credentials").then(body => {
+      if (active) setCredentials(body.credentials || []);
+    }).catch(e => { if (active) setError(e.message); })
+      .finally(() => { if (active) setCredentialsLoading(false); });
+    return () => { active = false; };
+  }, [page, reloadVersion]);
+  React.useEffect(() => {
+    let active = true;
+    api("/owner/api/activity").then(audit => { if (active) setActivity(audit); })
+      .catch(e => { if (active) setError(`Activity could not load: ${e.message}`); });
+    return () => { active = false; };
+  }, [page, reloadVersion]);
   const load = React.useCallback(async () => {
     const request = ++selectionRequest.current;
     setLoading(true);
     setError("");
+    setDetailError("");
+    setReceipt(null);
     try {
-      const [graph, session, audit] = await Promise.all([
+      const [graph, session] = await Promise.all([
         api("/owner/api/graph"),
         api("/owner/api/session"),
-        api("/owner/api/activity"),
       ]);
       const next = (graph.nodes || []).filter(
         (n: NodeRow) => n.type === "conclusion",
       );
       setRows(next);
+      setGraphNodes(graph.nodes || []);
       setEdges(graph.edges || []);
       setJudgeConfigured(Boolean(session.capabilities?.judge));
+      setWorkspaceLabel(session.workspace || "Owner workspace");
       setCsrf(session.csrf);
-      setActivity(audit);
       const desired =
         selected && next.some((n: NodeRow) => n.id === selected)
           ? selected
           : next.find((n: NodeRow) => n.state === "needs_review")?.id ||
-            next[0]?.id ||
             null;
       if (request === selectionRequest.current) {
         setSelected(desired);
@@ -158,6 +203,7 @@ function App() {
       }
     } catch (e: any) {
       setError(e.message);
+      setDetailError(e.message);
     } finally {
       setLoading(false);
     }
@@ -169,14 +215,15 @@ function App() {
     let active = true;
     setEligible([]);
     setContextLoading(true);
+    setContextError("");
     api(`/owner/api/context?scope=${encodeURIComponent(scope)}`).then(context => {
       if (active) { setContextRelations(context.relations || []); setEligible((context.knowledge || []).map((row: any) => ({
         ...row, label: row.statement, type: "conclusion", state: "admitted",
       }))); }
-    }).catch(e => { if (active) setError(e.message); })
+    }).catch(e => { if (active) { setContextError(e.message); setError(e.message); } })
       .finally(() => { if (active) setContextLoading(false); });
     return () => { active = false; };
-  }, [scope, rows]);
+  }, [scope, rows, reloadVersion]);
   React.useEffect(() => {
     const ctx =
       (document as any).modelContext || (navigator as any).modelContext;
@@ -266,27 +313,66 @@ function App() {
   }, []);
   React.useEffect(() => {
     history.replaceState(
-      null,
+      history.state,
       "",
-      `/${page}${page === "review" && selected ? `?conclusion_id=${encodeURIComponent(selected)}` : ""}`,
+      `/${page}${page === "review" && selected ? `?conclusion_id=${encodeURIComponent(selected)}${fullReview ? "&view=full" : ""}` : ""}`,
     );
-  }, [page, selected]);
+  }, [page, selected, fullReview]);
+  function openFullReview() {
+    if (fullReview) { document.querySelector(".stage")?.scrollTo({top: 0}); return; }
+    reviewScroll.current = document.querySelector(".stage")?.scrollTop || 0;
+    history.pushState({proofpressFullReview: true}, "", `/review?conclusion_id=${encodeURIComponent(selected || "")}&view=full`);
+    setFullReview(true);
+  }
+  function backToReview() {
+    if (history.state?.proofpressFullReview) { history.back(); return; }
+    history.pushState(null, "", `/review?conclusion_id=${encodeURIComponent(selected || "")}`);
+    setFullReview(false);
+  }
+  function navigate(next: Page) {
+    if (next === page) return;
+    if (next === "review") { ++selectionRequest.current; setSelected(null); setReceipt(null); }
+    setFullReview(false);
+    history.pushState(null, "", `/${next}`);
+    setPage(next);
+    requestAnimationFrame(() => { document.querySelector(".stage")?.scrollTo({top:0}); window.scrollTo({top:0}); });
+  }
+  React.useEffect(() => {
+    const restore = () => {
+      const next = location.pathname.split("/")[1] as Page;
+      setPage(labels[next] ? next : "review");
+      setFullReview(new URLSearchParams(location.search).get("view") === "full");
+      const id = new URLSearchParams(location.search).get("conclusion_id");
+      if (id) void choose(id);
+      else { ++selectionRequest.current; setSelected(null); setReceipt(null); setDetailError(""); }
+    };
+    window.addEventListener("popstate", restore);
+    return () => window.removeEventListener("popstate", restore);
+  }, []);
   async function choose(id: string) {
     if (decisionPending.current) return;
+    if (selected === id && receipt?.conclusion.id === id) return;
     const request = ++selectionRequest.current;
     setSelected(id);
     setReceipt(null);
     setNote("");
     setError("");
+    setDetailError("");
     try {
       const detail = await api(`/owner/api/conclusions/${encodeURIComponent(id)}`);
       if (request === selectionRequest.current) setReceipt(detail);
     } catch (e: any) {
-      if (request === selectionRequest.current) setError(e.message);
+      if (request === selectionRequest.current) { setError(e.message); setDetailError(e.message); }
     }
   }
-  async function decide(decision: string) {
+  async function decide(decision: string, confirmed = false) {
     if (decisionPending.current || !receipt || receipt.conclusion.id !== selected) return;
+    if (["admit", "reject"].includes(decision) && !confirmed) {
+      decisionTrigger.current = document.activeElement as HTMLElement;
+      setError("");
+      setDecisionConfirmation({decision, id: receipt.conclusion.id, statement: receipt.conclusion.statement, scope: receipt.conclusion.scope || "this workspace"});
+      return;
+    }
     if (decision === "request_changes" && !note.trim()) {
       setError("Describe the bounded change the proposer should make.");
       return;
@@ -299,8 +385,10 @@ function App() {
         body: JSON.stringify({ csrf, conclusion_id: selected, decision, note }),
       });
       setReceipt(next);
+      setDecisionConfirmation(null);
       setNote("");
       await load();
+      if (decision === "request_changes") setRevisionHandoff(next);
     } catch (e: any) {
       setError(e.message);
     } finally {
@@ -320,7 +408,7 @@ function App() {
     finally { decisionPending.current = false; setBusy(false); }
   }
   async function showAdmin() {
-    setPage("admin");
+    navigate("admin");
     try {
       const body = await api("/v1/owner/credentials");
       setCredentials(body.credentials || []);
@@ -351,11 +439,35 @@ function App() {
       setBusy(false);
     }
   }
-  const filtered = rows.filter(r => r.state === "needs_review");
   const pending = rows.filter((r) => r.state === "needs_review").length;
   const admitted = contextLoading ? "…" : eligible.length;
   return (
     <div className="shell" aria-busy={busy || loading}>
+      <Dialog.Root open={Boolean(decisionConfirmation)} onOpenChange={open => { if (!open && !decisionPending.current) setDecisionConfirmation(null); }}>
+          <ModalSurface onOpenAutoFocus={event => { event.preventDefault(); cancelDecision.current?.focus(); }} onCloseAutoFocus={event => { event.preventDefault(); if (decisionTrigger.current?.isConnected) decisionTrigger.current.focus(); }} onPointerDownOutside={event => event.preventDefault()} onEscapeKeyDown={event => { if (decisionPending.current) event.preventDefault(); }}>
+            <Dialog.Title>{decisionConfirmation?.decision === "admit" ? "Approve this conclusion?" : "Reject this conclusion?"}</Dialog.Title>
+            <Dialog.Description>{decisionConfirmation?.decision === "admit" ? "Eligible agents may rely on this conclusion within its scope. You are making the human approval decision." : "This decision will be recorded. The conclusion will remain excluded from governed context."}</Dialog.Description>
+            <dl><dt>Scope</dt><dd>{decisionConfirmation?.scope}</dd></dl>
+            <div className="confirmationStatement">{decisionConfirmation?.statement}</div>
+            {error && <p role="alert">{error}</p>}
+            <div className="confirmationActions">
+              <Button ref={cancelDecision} variant="outline" disabled={busy} onClick={() => setDecisionConfirmation(null)}>Cancel</Button>
+              <Button variant={decisionConfirmation?.decision === "admit" ? "approve" : "danger"} disabled={busy} onClick={() => {
+                if (!decisionConfirmation) return;
+                if (selected !== decisionConfirmation.id) { setError("The selected conclusion changed. Close this dialog and review it again."); return; }
+                void decide(decisionConfirmation.decision, true);
+              }}>{busy ? "Recording decision…" : decisionConfirmation?.decision === "admit" ? "Confirm approval" : "Confirm rejection"}</Button>
+            </div>
+          </ModalSurface>
+      </Dialog.Root>
+      <Dialog.Root open={Boolean(revisionHandoff)} onOpenChange={open => { if (!open) setRevisionHandoff(null); }}>
+          <ModalSurface>
+            <Dialog.Title>Changes requested</Dialog.Title>
+            <Dialog.Description>Send the recorded change request to your agent.</Dialog.Description>
+            {revisionHandoff && <RevisionInstructions receipt={revisionHandoff} autoCopy />}
+            <div className="confirmationActions"><Button variant="outline" onClick={() => setRevisionHandoff(null)}>Close</Button><Button onClick={() => { setRevisionHandoff(null); openFullReview(); }}>View revision request</Button></div>
+          </ModalSurface>
+      </Dialog.Root>
       <aside className="sidebar">
         <div className="brand">
           <span className="brandMark"><img src="/logo.svg" alt="" /></span>
@@ -368,8 +480,9 @@ function App() {
               <button
                 key={id}
                 aria-label={labels[id]}
+                aria-current={page === id ? "page" : undefined}
                 className={page === id ? "active" : ""}
-                onClick={() => (id === "admin" ? showAdmin() : setPage(id))}
+                onClick={() => navigate(id)}
               >
                 <Icon />
                 <span>{labels[id]}</span>
@@ -380,7 +493,7 @@ function App() {
         </nav>
         <div className="workspace">
           <span>WORKSPACE</span>
-          <b>Proofpress internal</b>
+          <b>{workspaceLabel}</b>
           <small>Single-owner governance</small>
         </div>
       </aside>
@@ -390,12 +503,13 @@ function App() {
             <span className="brandMark"><img src="/logo.svg" alt="" /></span>
             <strong>Proofpress</strong>
           </div>
-          <span className="workspaceLabel">{labels[page]}</span>
+          <span className="workspaceLabel">{workspaceLabel} · {labels[page]}</span>
         </header>
         {error && (
-          <div className="error">
+          <div className="error" role="alert">
             <span>{error}</span>
-            <button onClick={() => setError("")}>
+            {error.includes("session has expired") ? <a href={location.pathname + location.search}>Sign in again</a> : <button disabled={busy} onClick={() => { setReloadVersion(v => v + 1); void load(); }}>Reload workspace</button>}
+            <button aria-label="Dismiss error" onClick={() => setError("")}>
               <X />
             </button>
           </div>
@@ -406,14 +520,17 @@ function App() {
               pending={pending}
               admitted={admitted}
               rows={rows}
-              onChoose={(id: string) => { setPage("review"); choose(id); }}
-              onReview={() => setPage("review")}
-              onLedger={() => setPage("ledger")}
+              onChoose={(id: string) => { navigate("review"); choose(id); }}
+              onReview={() => navigate("review")}
+              onLedger={() => navigate("ledger")}
             />
           )}
           {page === "review" && (
             <ReviewPage
-              rows={filtered}
+              rows={rows}
+              fullReview={fullReview}
+              onOpenFull={openFullReview}
+              onBack={backToReview}
               selected={selected}
               receipt={receipt}
               loading={loading}
@@ -434,8 +551,12 @@ function App() {
             <LedgerPage
               rows={eligible}
               allRows={rows}
+              nodes={graphNodes}
               edges={edges}
               relations={contextRelations}
+              onReview={() => navigate("review")}
+              contextError={contextError}
+              detailError={detailError}
               loading={contextLoading}
               selected={selected}
               receipt={receipt}
@@ -446,6 +567,7 @@ function App() {
           {page === "admin" && (
             <AdminPage
               credentials={credentials}
+              loading={credentialsLoading}
               secret={credentialSecret}
               busy={busy}
               onAction={credentialAction}
@@ -472,7 +594,6 @@ function PageHead({
   return (
     <div className="pageHead">
       <div>
-        <span>{eyebrow}</span>
         <h1>{title}</h1>
         <p>{description}</p>
       </div>
@@ -499,6 +620,7 @@ function HomePage({ pending, admitted, rows, onReview, onLedger, onChoose }: any
         </button>
       </div>
       <section className="section">
+        {rows.some((r: any) => r.state === "needs_revision") && <button className="revisionQueueLink" onClick={() => onChoose(rows.find((r: any) => r.state === "needs_revision").id)}>{rows.filter((r: any) => r.state === "needs_revision").length} awaiting agent revision <ChevronRight /></button>}
         <div className="sectionTitle">
           <h2>Recent knowledge</h2>
           <span>{rows.length} total conclusions</span>
@@ -528,17 +650,26 @@ function ReviewPage({
   onDecide,
   busy,
   onJudge,
+  fullReview, onOpenFull, onBack,
 }: any) {
+  const [queue, setQueue] = React.useState("needs_review");
+  const queueFor = (state: string) => ["needs_review", "needs_revision"].includes(state) ? state : "decided";
+  React.useEffect(() => { if (selected && receipt?.conclusion.id === selected) setQueue(queueFor(receipt.state)); }, [selected, receipt?.state]);
+  const visibleRows = rows.filter((row: any) => queueFor(row.state) === queue);
+  const switchQueue = (next: string) => { onClose(); setQueue(next); };
   return (
-    <div className="workspacePage">
-      <div className="work">
+    <div className={`workspacePage${selected ? "" : " overviewOnly"}${fullReview ? " fullReviewPage" : ""}`}>
+      <div className="work" style={fullReview ? {display: "none"} : undefined}>
         <PageHead
           eyebrow="GOVERNANCE INBOX"
           title="Review"
           description="Evidence and recommendations inform the decision. Only your approval admits knowledge."
         />
         <div className="filterbar">
-          <span>{rows.length} awaiting your review</span>
+          <Button variant={queue === "needs_review" ? "default" : "outline"} onClick={() => switchQueue("needs_review")}>Needs review</Button>
+          <Button variant={queue === "needs_revision" ? "default" : "outline"} onClick={() => switchQueue("needs_revision")}>Needs revision</Button>
+          <Button variant={queue === "decided" ? "default" : "outline"} onClick={() => switchQueue("decided")}>Decision history</Button>
+          <span role="status">{loading ? "Loading review queue…" : `${visibleRows.length} conclusions`}</span>
         </div>
         <div className="tableWrap">
           <table>
@@ -551,21 +682,17 @@ function ReviewPage({
               </tr>
             </thead>
             <tbody>
-              {rows.map((row: any) => (
+              {visibleRows.map((row: any) => (
                 <tr
                   key={row.id}
                   className={selected === row.id ? "selected" : ""}
-                  tabIndex={0}
-                  onKeyDown={e => { if (e.key === "Enter") onChoose(row.id); }}
                   onClick={() => onChoose(row.id)}
                 >
                   <td>
-                    <b>{row.label}</b>
+                    <button className="conclusionSelect" onClick={e => { e.stopPropagation(); onChoose(row.id); }}>{row.label}</button>
                     <small>{row.id}</small>
                   </td>
-                  <td>
-                    <Badge state={row.state} />
-                  </td>
+                  <td><Badge state={row.state} /></td>
                   <td>{row.scope || "—"}</td>
                   <td>
                     <ChevronRight />
@@ -574,19 +701,24 @@ function ReviewPage({
               ))}
             </tbody>
           </table>
-          {!loading && rows.length === 0 && (
-            <div className="empty">No conclusions match this view.</div>
+          {!loading && visibleRows.length === 0 && (
+            <div className="empty">{queue === "needs_review" ? "Nothing needs your review." : queue === "needs_revision" ? "No changes requested." : "No decisions recorded."}</div>
           )}
         </div>
       </div>
       <Inspector
-        receipt={receipt}
+        pending={!!selected && !receipt}
+        receipt={receipt && visibleRows.some((row: any) => row.id === selected) ? receipt : null}
         onClose={onClose}
         note={note}
         setNote={setNote}
         onDecide={onDecide}
         busy={busy}
         onJudge={onJudge}
+        fullReview={fullReview}
+        onOpenFull={onOpenFull}
+        onBack={onBack}
+        onChoose={onChoose}
       />
     </div>
   );
@@ -600,25 +732,27 @@ function Inspector({
   busy,
   onJudge,
   readOnly = false,
+  fullReview = false, onOpenFull, onBack, onChoose, pending = false,
 }: any) {
   const [expanded, setExpanded] = React.useState(false);
+  const panel = React.useRef<HTMLElement>(null);
   React.useEffect(() => setExpanded(false), [r?.conclusion.id]);
-  if (!r)
-    return (
-      <aside className="inspector">
-        <div className="empty">
-          Select a conclusion to inspect its evidence and review state.
-        </div>
-      </aside>
-    );
+  React.useEffect(() => {
+    if (!r || !window.matchMedia("(max-width: 1050px)").matches) return;
+    const opener = document.querySelector<HTMLElement>(".work tr.selected .conclusionSelect") || document.activeElement as HTMLElement | null;
+    panel.current?.querySelector<HTMLButtonElement>(".mobileBack")?.focus();
+    return () => { requestAnimationFrame(() => { if (opener?.isConnected && opener !== document.body) opener.focus(); }); };
+  }, [r?.conclusion.id]);
+  if (!r) return pending ? <aside className="inspector" aria-label="Conclusion details" aria-busy="true"><div className="inspectorTop" role="status">Loading details…</div></aside> : null;
   const can = r.state === "needs_review" && !readOnly;
   return (
-    <aside className="inspector">
-      <button className="mobileBack" onClick={onClose}>
-        ← Back to review
-      </button>
+    <aside className={`inspector${fullReview ? " fullReview" : ""}`} ref={panel} aria-label="Conclusion details" onKeyDown={e => { if (e.key === "Escape" && onClose) { e.stopPropagation(); fullReview ? onBack() : onClose(); } }}>
+      {!can && !readOnly && <DecisionNotice state={r.state} />}
+      {fullReview && <Button variant="outline" onClick={onBack}>Back to review</Button>}
+      {!fullReview && onClose && <button className="mobileBack" onClick={onClose}>
+        Close details
+      </button>}
       <div className="inspectorTop">
-        <span>CONCLUSION</span>
         <Badge state={r.state} />
         <h2>{r.conclusion.statement}</h2>
         <p>
@@ -626,15 +760,17 @@ function Inspector({
           <span className="mono">{r.conclusion.id}</span>
         </p>
       </div>
+      {r.revision_request && <RevisionPanel receipt={r} onChoose={onChoose} />}
       <div className="quickSnapshot">
         <dl><div><dt>Applies to</dt><dd>{r.conclusion.scope || "No scope recorded"}</dd></div>
-        <div><dt>Supporting evidence</dt><dd>{(r.evidence || []).length} bound sources</dd></div>
+        <div><dt>Supporting evidence</dt><dd>{(r.evidence || []).length} bound {(r.evidence || []).length === 1 ? "source" : "sources"}</dd></div>
         <div><dt>Automated checks</dt><dd>{Object.keys(r.evaluation?.checks || {}).length ? `${Object.values(r.evaluation.checks).filter(Boolean).length} of ${Object.keys(r.evaluation.checks).length} passed` : "Not run"}</dd></div>
-        <div><dt>LM advice</dt><dd>{r.recommendation?.recommendation || "No recommendation recorded"}</dd></div></dl>
-        <Button variant="outline" onClick={() => setExpanded(!expanded)}>{expanded ? "Hide details" : "View details"}</Button>
+        <div><dt>LM advice</dt><dd>{r.recommendation?.recommendation || (onJudge ? "Not run yet" : "Not configured in this workspace")}</dd></div></dl>
+        {onOpenFull ? !fullReview && <Button onClick={onOpenFull}>{r.state === "needs_revision" ? "View revision request" : "Open full review"}</Button> : <Button variant="outline" aria-expanded={expanded} onClick={() => setExpanded(!expanded)}>{expanded ? "Hide details" : "View details"}</Button>}
         {onJudge && can && <Button variant="outline" disabled={busy} onClick={onJudge}>Run LM judge</Button>}
       </div>
-      {expanded && <>
+      {(fullReview || expanded) && <>
+      {r.revision_parent && <section className="revisionSection"><h3>Revision of previous conclusion</h3><p>{r.revision_parent.statement}</p><p><b>Requested change:</b> {r.revision_parent.review?.note}</p><p>Previous evidence: {r.revision_parent.evidence_refs.join(", ")}</p><p>Current evidence: {r.conclusion.evidence_refs.join(", ")}</p><p>This proposal requires a new human decision; it does not automatically replace its predecessor.</p></section>}
       <Tabs.Root defaultValue="evidence">
         <Tabs.List className="tabs">
           <Tabs.Trigger value="evidence">Evidence</Tabs.Trigger>
@@ -678,11 +814,11 @@ function Inspector({
             )}
           </div>
           <div className="recommendation">
-            <span>POLICY / MODEL RECOMMENDATION</span>
-            <b>{r.recommendation?.recommendation || "Not configured"}</b>
+            <span>LM advice</span>
+            <b>{r.recommendation?.recommendation || "No recommendation recorded"}</b>
             <p>
               {r.recommendation?.rationale ||
-                "A recommendation cannot admit this conclusion."}
+                ""}
             </p>
           </div>
         </Tabs.Content>
@@ -691,7 +827,9 @@ function Inspector({
             <div className="historyRow" key={i}>
               <span></span>
               <div>
-                <b>{h.type}</b>
+                <b>{h.type.replaceAll("_", " ")}</b>
+                <p>{historyActor({...([r.evaluation, r.recommendation, r.review, r.admission, r.rejection].find(event => event?.event_id === h.event_id) || {}), ...(h.type === "conclusion_proposed" ? {conclusion:r.conclusion} : {}), ...h})}</p>
+                {h.note && <p>{h.note}</p>}
                 <small>{h.created_at}</small>
               </div>
             </div>
@@ -699,16 +837,10 @@ function Inspector({
         </Tabs.Content>
       </Tabs.Root>
       </>}
-      {can ? (
+      {can && (!onOpenFull || fullReview) ? (
         <div className="decision">
-          <div>
-            <span>HUMAN DECISION</span>
-            <p>
-              Approval makes this conclusion available to eligible agents in
-              scope.
-            </p>
-          </div>
           <textarea
+            aria-label="Review note or bounded clarification request"
             value={note}
             onChange={(e) => setNote(e.target.value)}
             placeholder="Review note or bounded clarification request"
@@ -737,79 +869,46 @@ function Inspector({
             </Button>
           </div>
         </div>
-      ) : (
-        <div className="recorded">
-          <Check />
-          <div>
-            <b>{["admitted", "rejected", "needs_revision"].includes(r.state) ? "Decision recorded" : "Not available for reuse"}</b>
-            <p>
-              {r.state === "admitted"
-                ? "Available in governed context when current and in scope."
-                : "Retained for audit; excluded from governed context."}
-            </p>
-          </div>
-        </div>
-      )}
+      ) : null}
     </aside>
   );
 }
-function LedgerPage({ rows, allRows, edges, relations, selected, receipt, onChoose, loading }: any) {
+function LedgerPage({ rows, allRows, nodes, edges, relations, selected, receipt, onChoose, onReview, loading, contextError, detailError }: any) {
   const [view, setView] = React.useState("lineage");
-  const [showHistory, setShowHistory] = React.useState(false);
+  const [showHistory, setShowHistory] = React.useState(true);
   const [focused, setFocused] = React.useState(false);
-  const [expandedEvidence, setExpandedEvidence] = React.useState(false);
-  const [scopeLimit, setScopeLimit] = React.useState<Record<string, number>>({});
+  const [graphSelection, setGraphSelection] = React.useState("conclusion");
   const available = new Set(rows.map((row: any) => row.id));
   const visible = showHistory ? allRows : rows;
   const current = !loading && visible.some((row: any) => row.id === selected) && receipt?.conclusion.id === selected ? receipt : null;
-  const groups = [...new Set(visible.map((row: any) => row.scope || "Workspace"))] as string[];
   const visibleIds = new Set(visible.map((row: any) => row.id));
   const links = (showHistory ? edges : relations).filter((edge: any) => visibleIds.has(edge.from) && visibleIds.has(edge.to));
   const related = links.filter((edge: any) => edge.from === selected || edge.to === selected);
-  const focus = (id: string) => { setFocused(true); setExpandedEvidence(false); onChoose(id); };
-  React.useEffect(() => { setExpandedEvidence(false); }, [selected]);
+  const focus = (id: string) => { setFocused(true); setGraphSelection("conclusion"); onChoose(id); };
+  React.useEffect(() => { setGraphSelection("conclusion"); }, [selected]);
   return (
-    <div className="workspacePage">
+    <div className={`workspacePage${focused ? "" : " overviewOnly"}`}>
       <div className="work">
         <PageHead
           eyebrow="GOVERNED CONTEXT"
           title="Ledger"
-          description="Current knowledge eligible for your owner identity. Each agent's eligibility is checked separately."
+          description="Explore evidence and decisions across the workspace. Current knowledge shows only what is eligible for reuse."
         />
         <div className="ledgerViews" role="group" aria-label="Ledger view">
-          <Button variant={view === "lineage" ? "default" : "outline"} onClick={() => setView("lineage")}>Lineage</Button>
-          <Button variant={view === "list" ? "default" : "outline"} onClick={() => setView("list")}>Current knowledge</Button>
+          <Button aria-pressed={view === "lineage"} variant="outline" onClick={() => setView("lineage")}>Lineage</Button>
+          <Button aria-pressed={view === "list"} variant="outline" onClick={() => setView("list")}>Current knowledge</Button>
         </div>
+        {view === "lineage" && <p className="graphScrollHint">Scroll sideways to explore the graph.</p>}
         {view === "lineage" && <section className="lineageCanvas" aria-label="Evidence to governed knowledge">
           <div className="lineageToolbar">
-            {focused && <Button variant="outline" onClick={() => setFocused(false)}>Back to overview</Button>}
+            {focused && <Button variant="outline" onClick={() => setFocused(false)}><ChevronRight style={{transform:"rotate(180deg)"}} />Back to overview</Button>}
             <label><input type="checkbox" checked={showHistory} onChange={e => { setShowHistory(e.target.checked); setFocused(false); }} /> Show history and unavailable conclusions</label>
           </div>
-          {!focused && <div className="lineageOverview">
-            {groups.map(scope => {
-              const members = visible.filter((row: any) => (row.scope || "Workspace") === scope);
-              const limit = scopeLimit[scope] || 8;
-              return <section key={scope}><h2>{scope} <small>{members.length} conclusions</small></h2>
-                <div className="conclusionNodes">{members.slice(0, limit).map((row: any) => <button key={row.id} className="conclusionNode" onClick={() => focus(row.id)}>
-                  <Badge state={row.state} /><strong>{row.label}</strong>
-                  <small>{edges.filter((edge: any) => edge.to === row.id && edge.type === "supports" && !allRows.some((r: any) => r.id === edge.from)).length} bound evidence · {links.filter((edge: any) => edge.from === row.id || edge.to === row.id).length} relations</small>
-                  {!available.has(row.id) && <small>Excluded from current context</small>}
-                </button>)}</div>
-                {members.length > limit && <Button variant="outline" onClick={() => setScopeLimit({...scopeLimit, [scope]: limit + 8})}>Show {Math.min(8, members.length - limit)} more</Button>}
-              </section>;
-            })}
-            {!groups.length && <p>{loading ? "Loading current knowledge…" : "No eligible knowledge yet. Review candidates first, or show history."}</p>}
-          </div>}
-          {focused && current ? <><div className="lineageFlow">
-            <section><h2>Bound evidence</h2><Button variant="outline" aria-expanded={expandedEvidence} onClick={() => setExpandedEvidence(!expandedEvidence)}>{expandedEvidence ? "Collapse evidence" : `Expand ${current.evidence?.length || 0} evidence`}</Button>{expandedEvidence && (current.evidence || []).map((e: any, i: number) => <article key={i}><b>{evidenceName(e)}</b><EvidenceContent row={e} /></article>)}{!current.evidence?.length && <p>No bound evidence recorded.</p>}</section>
-            <span className="lineageArrow" aria-hidden="true">→</span>
-            <section><h2>Conclusion</h2><article><Badge state={current.state} /><p>{current.conclusion.statement}</p><small>{current.conclusion.scope}</small></article></section>
-            <span className="lineageArrow" aria-hidden="true">→</span>
-            <section><h2>Governed context</h2><article><b>{available.has(selected) ? "Available to your owner identity" : "Excluded from current context"}</b><p>{available.has(selected) ? "Admitted, current, and eligible in this view." : "Historical or ineligible. Do not reuse as current knowledge."}</p><small>Each successor agent's permissions are checked separately.</small></article></section>
-          </div><section className="relatedConclusions"><h2>Direct relations</h2>{related.length ? related.map((edge: any, i: number) => {
+          {!focused && <LedgerOverview rows={visible} nodes={nodes} edges={edges} onChoose={focus} />}
+          {focused && current ? <><LineageGraph receipt={current} available={available.has(selected)} evidenceNames={(current.evidence || []).map(evidenceName)} selection={graphSelection} onSelect={setGraphSelection} /><section className="relatedConclusions"><h2>Direct relations</h2>{related.length ? related.map((edge: any, i: number) => {
             const other = visible.find((row: any) => row.id === (edge.from === selected ? edge.to : edge.from));
             return <button key={edge.id || i} onClick={() => focus(other.id)}><span>{edge.from === selected ? "Outgoing" : "Incoming"} · {edge.type.replaceAll("_", " ")} · {edge.state || "recorded"}</span><b>{other.label}</b></button>;
-          }) : <p>No recorded relations to other conclusions in this view.</p>}</section></> : focused && <p className="empty">Loading selected lineage…</p>}
+          }) : <p>No recorded relations to other conclusions in this view.</p>}</section></> : focused && <div className="empty">{detailError ? <><p>Could not load this conclusion. No stale receipt is shown.</p><Button variant="outline" onClick={() => onChoose(selected)}>Retry details</Button></> : "Loading selected lineage…"}</div>}
         </section>}
         {view === "list" &&
         <div className="tableWrap">
@@ -827,12 +926,10 @@ function LedgerPage({ rows, allRows, edges, relations, selected, receipt, onChoo
                 <tr
                   key={r.id}
                   className={selected === r.id ? "selected" : ""}
-                  tabIndex={0}
-                  onKeyDown={e => { if (e.key === "Enter") onChoose(r.id); }}
-                  onClick={() => onChoose(r.id)}
+                  onClick={() => focus(r.id)}
                 >
                   <td>
-                    <b>{r.label}</b>
+                    <button className="conclusionSelect" onClick={e => { e.stopPropagation(); focus(r.id); }}>{r.label}</button>
                     <small>{r.id}</small>
                   </td>
                   <td>{r.scope || "—"}</td>
@@ -848,51 +945,58 @@ function LedgerPage({ rows, allRows, edges, relations, selected, receipt, onChoo
           </table>
           {rows.length === 0 && (
             <div className="empty">
-              {loading ? "Loading eligible knowledge…" : "No current knowledge is eligible for this scope and identity."}
+              {loading ? "Loading eligible knowledge…" : contextError ? "Current knowledge could not be loaded. Use Reload workspace to retry." : "No current knowledge is eligible for this scope and identity."}
             </div>
           )}
         </div>
         }
       </div>
-      <Inspector
-        receipt={view === "list" || focused ? current : null}
+      {focused && current && graphSelection !== "conclusion" ? <aside className="inspector graphInspector" aria-label="Selected node details"><Button variant="outline" onClick={() => setGraphSelection("conclusion")}>Back to conclusion</Button>{graphSelection === "context" ? <><h2>{available.has(selected) ? "Available for reuse" : "Excluded from context"}</h2><p>Scope: {current.conclusion.scope}</p><p>{available.has(selected) ? "Admitted, current, and eligible for the signed-in owner. Each agent's permissions are checked separately." : "This conclusion is not eligible for the current owner context."}</p></> : <><h2>{evidenceName(current.evidence[Number(graphSelection.split(":")[1])])}</h2><EvidenceContent row={current.evidence[Number(graphSelection.split(":")[1])]} /></>}</aside> : <Inspector
+        receipt={focused ? current : null}
+        pending={focused && !current && !detailError}
+        onClose={() => setFocused(false)}
         readOnly
         note=""
         setNote={() => {}}
         onDecide={() => {}}
         busy={false}
-      />
+      />}
     </div>
   );
 }
 function ActivityPage({ rows }: any) {
   const [page, setPage] = React.useState(0);
-  const pages = Math.max(1, Math.ceil(rows.length / 20));
+  const [importantOnly, setImportantOnly] = React.useState(false);
+  const filtered = rows.filter((r: any) => !importantOnly || r.outcome !== "ok" || !/\.(get|list|receipt)$/.test(r.operation || ""));
+  const pages = Math.max(1, Math.ceil(filtered.length / 20));
   const current = Math.min(page, pages - 1);
   return (
     <div className="pageBody">
       <PageHead
         eyebrow="APPEND-ONLY RECORD"
         title="Activity"
-        description="Proposal and decision history visible from the current ledger projection."
+        description="Recent workspace requests and outcomes, including read access. Showing up to the latest 100 records; conclusion decision history is in its review details."
       />
-      <div className="timeline">
-        {rows.slice(current * 20, (current + 1) * 20).map((r: any) => (
-          <div key={r.audit_id}>
-            <span></span>
-            <div>
-              <Badge state={r.outcome === "ok" ? "recorded" : "blocked"} />
-              <b>{(r.operation || "request").replaceAll(".", " · ")}</b>
-              <small>
-                {r.principal_id || "Unknown principal"} · {r.occurred_at}
-              </small>
-            </div>
-          </div>
+      <div className="ledgerViews activityFilters" role="group" aria-label="Activity filter">
+        <Button aria-pressed={!importantOnly} onClick={() => { setImportantOnly(false); setPage(0); }}>All activity</Button>
+        <Button aria-pressed={importantOnly} onClick={() => { setImportantOnly(true); setPage(0); }}>Important events</Button>
+      </div>
+      <div className="tableWrap activityTable">
+        <table><caption className="sr-only">Recent workspace activity</caption><thead><tr><th>Time</th><th>Operation</th><th>Actor</th><th>Result</th></tr></thead><tbody>
+        {filtered.slice(current * 20, (current + 1) * 20).map((r: any) => (
+          <tr key={r.audit_id}>
+            <td data-label="Time"><time dateTime={r.occurred_at} title={r.occurred_at}>{new Date(r.occurred_at).toLocaleString()}</time></td>
+            <td data-label="Operation">{(r.operation || "request").replaceAll(".", " · ")}</td>
+            <td data-label="Actor">{r.principal_id || "Unknown principal"}</td>
+            <td data-label="Result"><ActivityResult outcome={r.outcome} /></td>
+          </tr>
         ))}
+        </tbody></table>
+        {!filtered.length && <p className="empty">{importantOnly ? "No important events in the loaded records." : "No activity records loaded."}</p>}
       </div>
       <nav className="pagination" aria-label="Activity pages">
         <Button variant="outline" disabled={current === 0} onClick={() => setPage(current - 1)}>Previous</Button>
-        <span>Page {current + 1} of {pages} · {rows.length} records</span>
+        <span>Page {current + 1} of {pages} · {filtered.length} records</span>
         <Button variant="outline" disabled={current + 1 >= pages} onClick={() => setPage(current + 1)}>Next</Button>
       </nav>
     </div>
@@ -900,6 +1004,7 @@ function ActivityPage({ rows }: any) {
 }
 function AdminPage({
   credentials,
+  loading,
   secret,
   busy,
   onAction,
@@ -927,23 +1032,25 @@ function AdminPage({
         <div>
           <b>Issue agent credential</b>
           <small>
-            Use one credential per revocable agent or device boundary.
+            Create a key for an agent or device. You can revoke its access later.
           </small>
         </div>
-        <input
-          aria-label="Agent principal"
+        <label>Agent identity<input
+          aria-label="Agent identity"
+          aria-describedby="agentIdentityHelp"
           value={principal}
           onChange={(e) => setPrincipal(e.target.value)}
           placeholder="agent:claude-code"
           required
-        />
-        <input
-          aria-label="Credential label"
+        /><small id="agentIdentityHelp">Recorded as the author in history, e.g. agent:claude-code.</small></label>
+        <label>Key name<input
+          aria-label="Key name"
+          aria-describedby="keyNameHelp"
           value={label}
           onChange={(e) => setLabel(e.target.value)}
           placeholder="Claude Code · company laptop"
           required
-        />
+        /><small id="keyNameHelp">A name you recognize, such as Claude Code · work laptop.</small></label>
         <Button disabled={busy}>Issue credential</Button>
       </form>
       {secret && (
@@ -973,7 +1080,8 @@ function AdminPage({
           {copyStatus && <p role="status">{copyStatus}</p>}
         </div>
       )}
-      <div className="credentialList">
+      <div className="credentialList" aria-busy={loading}>
+        {loading && !credentials.length && <p className="empty" role="status">Loading agent credentials…</p>}
         {credentials.map((c: any) => (
           <div key={c.credential_id}>
             <div className="credentialIcon">

@@ -43,7 +43,7 @@
   --paper: #faf9f5;
   --ink: #20222b;
   --ink-2: #5a5d6b;
-  --ink-3: #8b8e9c;
+  --ink-3: #686b78;
   --line: #e3e1d9;
   --card: #ffffff;
   --wash: #f1efe8;
@@ -285,9 +285,25 @@ main {
   color: var(--ink-2);
   font-size: 13px;
 }
+.confirmationOverlay {
+  position: fixed; inset: 0; z-index: 80; background: rgba(32, 34, 43, 0.4);
+}
+.confirmationDialog {
+  position: fixed; z-index: 81; left: 50%; top: 50%; transform: translate(-50%, -50%);
+  width: min(560px, calc(100vw - 32px)); max-height: calc(100dvh - 48px); overflow-y: auto;
+  background: var(--paper); color: var(--ink); border: 1px solid var(--line); border-radius: 12px; padding: 28px;
+}
+.confirmationDialog h2 { margin: 0 0 12px; font-family: Georgia, serif; font-size: 25px; }
+.confirmationDialog p { font-size: 14px; line-height: 1.6; color: var(--ink-2); }
+.confirmationDialog dl { margin: 20px 0 12px; }
+.confirmationDialog dt { font-size: 12px; color: var(--ink-2); }
+.confirmationDialog dd { margin: 4px 0 0; overflow-wrap: anywhere; }
+.confirmationStatement { max-height: 180px; overflow-y: auto; overflow-wrap: anywhere; padding: 14px; border: 1px solid var(--line); background: white; line-height: 1.6; font-size: 14px; }
+.confirmationActions { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 10px; margin-top: 24px; }
+.confirmationActions button { min-height: 44px; }
 .workspacePage {
   display: grid;
-  grid-template-columns: minmax(580px, 1fr) 405px;
+  grid-template-columns: minmax(0, 1fr) 405px;
   min-height: 100%;
   background: #fff;
 }
@@ -295,6 +311,65 @@ main {
   min-width: 0;
   border-right: 1px solid var(--line);
   padding: 34px 28px 70px;
+}
+.workspacePage.overviewOnly {
+  grid-template-columns: minmax(0, 1fr);
+}
+.conclusionSelect {
+  display: block;
+  width: 100%;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  text-align: left;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+.conclusionSelect {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.inspector:not(.fullReview) .inspectorTop h2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.workspacePage.fullReviewPage { display: block; }
+.inspector.fullReview {
+  position: static;
+  width: 100%;
+  height: auto;
+  min-height: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 24px;
+  box-shadow: none;
+}
+.fullReview .inspectorTop .fullStatement {
+  font-size: 16px;
+  line-height: 1.65;
+  color: var(--ink);
+  max-width: 75ch;
+}
+.revisionSection { padding: 24px; border-bottom: 1px solid var(--line); }
+.handoffInstructions textarea { width: 100%; min-height: 140px; max-height: 240px; padding: 12px; margin: 12px 0; border: 1px solid var(--line); background: var(--surface, #fff); color: inherit; font: inherit; font-size: 13px; line-height: 1.5; resize: vertical; }
+.recorded.revisionRecorded { color: var(--ink); background: var(--surface, #fff); }
+.recorded button { margin-top: 12px; }
+.handoffInstructions textarea:focus-visible { outline: 2px solid var(--accent, #126574); outline-offset: 2px; }
+.revisionSection h3 { font-size: 16px; margin: 16px 0 8px; }
+.revisionSection p { line-height: 1.6; overflow-wrap: anywhere; }
+.revisionSection textarea { width: 100%; min-height: 150px; padding: 12px; margin: 12px 0; border: 1px solid var(--line); }
+.revisionSection button { display: block; height: auto; white-space: normal; margin-top: 8px; text-align: left; }
+.conclusionSelect:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+.inspector, .conclusionSelect, .conclusionNode {
+  overflow-wrap: anywhere;
 }
 .filterbar {
   display: flex;
@@ -416,7 +491,7 @@ td:last-child svg {
 .inspectorTop h2 {
   margin: 14px 0 10px;
   font-family: Georgia, "Times New Roman", serif;
-  font-size: 22px;
+  font-size: 20px;
   line-height: 1.3;
   letter-spacing: -0.015em;
 }
@@ -442,10 +517,11 @@ td:last-child svg {
   color: var(--ink-2);
   font-size: 12px;
   cursor: pointer;
+  font-weight:500;
 }
 .tabs button[data-state="active"] {
   color: var(--accent);
-  font-weight: 600;
+  font-weight: 500;
 }
 .tabs button[data-state="active"]:after {
   position: absolute;
@@ -551,12 +627,9 @@ td:last-child svg {
   color: var(--ink-3);
 }
 .decision {
-  position: sticky;
-  bottom: 0;
   border-top: 1px solid var(--line);
   background: #fff;
   padding: 17px 28px;
-  box-shadow: 0 -8px 22px rgba(32, 34, 43, 0.04);
 }
 .decision p {
   margin: 5px 0 12px;
@@ -656,8 +729,9 @@ td:last-child svg {
   margin-bottom: 10px;
 }
 .sectionTitle h2 {
-  font-family: Georgia, serif;
-  font-size: 18px;
+  font-family: var(--font-ui);
+  font-size: var(--type-section);
+  font-weight:600;
 }
 .sectionTitle span {
   color: var(--ink-3);
@@ -736,7 +810,7 @@ td:last-child svg {
       210px,
       280px
     ) auto;
-  align-items: end;
+  align-items: start;
   gap: 10px;
   margin-bottom: 18px;
   border: 1px solid var(--line);
@@ -763,6 +837,19 @@ td:last-child svg {
   padding: 0 9px;
   font-size: 11px;
   outline: none;
+}
+.issueForm label {
+  display: grid;
+  gap: 6px;
+  color: var(--ink-2);
+  font-size: 12px;
+  min-width: 0;
+}
+.issueForm > div:first-child { padding-top:26px; }
+.issueForm > button { margin-top:24px; white-space:nowrap; }
+.issueForm input:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
 }
 .secretReveal {
   display: flex;
@@ -1025,6 +1112,23 @@ td:last-child svg {
   font-size: 12px;
 }
 @media (max-width: 1050px) {
+  .workspacePage:not(.overviewOnly) > .work {
+    display: none;
+  }
+  .mobileBack {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    display: block;
+    width: 100%;
+    min-height: 44px;
+    border: 0;
+    border-bottom: 1px solid var(--line);
+    padding: 12px 19px;
+    background: var(--paper);
+    color: var(--accent);
+    text-align: left;
+  }
   .shell {
     grid-template-columns: 72px 1fr;
   }
@@ -1052,11 +1156,25 @@ td:last-child svg {
     top: 68px;
     right: 0;
     z-index: 20;
-    width: min(405px, calc(100vw - 72px));
+    width: calc(100vw - 72px);
     box-shadow: -15px 0 40px rgba(32, 34, 43, 0.08);
   }
 }
 @media (max-width: 680px) {
+  .activityTable tr { padding: 16px; }
+  .activityTable td, .activityTable td:last-child, .activityTable td:not(:first-child):not(:last-child) {
+    display: grid;
+    grid-template-columns: 80px minmax(0, 1fr);
+    position: static;
+    gap: 12px;
+    margin: 0;
+    padding: 5px 0;
+    overflow-wrap: anywhere;
+  }
+  .activityTable td::before { content: attr(data-label); color: var(--ink-2); }
+  .issueForm input, .decision textarea {
+    font-size: 16px;
+  }
   .shell {
     display: block;
     height: auto;
@@ -1140,7 +1258,7 @@ td:last-child svg {
     border-bottom: 1px solid var(--line);
   }
   .simpleList > div {
-    grid-template-columns: 76px 1fr;
+    grid-template-columns: 96px minmax(0,1fr);
   }
   .simpleList small {
     display: none;
@@ -1231,14 +1349,20 @@ td:last-child svg {
     grid-template-columns: 1fr;
     align-items: stretch;
   }
+  .issueForm > div:first-child { padding-top:0; }
+  .issueForm > button { margin-top:0; }
   .secretReveal {
     display: block;
   }
   .secretReveal > div:last-child {
     margin-top: 12px;
   }
+  .credentialActions {
+    grid-column: 2 / -1;
+    justify-content: flex-start;
+  }
   .credentialList button {
-    display: none;
+    min-height: 44px;
   }
 }
 @media (prefers-reduced-motion: reduce) {
