@@ -14,13 +14,19 @@ Live demo: https://proofpress-personal-hosted.onrender.com
 Registered on the signed-in owner page via `document.modelContext.registerTool` (fallback: `navigator.modelContext`):
 
 [//]: # (ob:6c1ab1db)
+- `get_workspace_summary()` — orient the agent to queue, state counts, and current knowledge
+- `list_review_queue(state?, scope?, limit?)` — enumerate the bounded work requiring attention
 - `get_current_context(scope, task?)` — read eligible governed conclusions
 - `get_review_state(conclusion_id)` — inspect checks, policy/LM recommendation, human-decision state
 - `get_lineage(conclusion_id)` — evidence, history, whether the ledger currently exposes the conclusion
-- `respond_to_review(conclusion_id, response)` — record a clarification response
+- `prepare_review_response(conclusion_id, response)` — prepare a bounded revision handoff for the connected agent MCP/CLI
+- `run_deterministic_checks(conclusion_id)` — execute non-authorizing integrity and prerequisite checks
+- `open_review(conclusion_id, full?)` — route the owner to the right decision surface
 - `get_activity(limit?)` — inspect semantic proposal, review, policy, and context-retrieval activity
 - `get_review_policy()` — read the active safe policy projection and provider configuration status
 - `prepare_review_policy_change(...)` — load a complete policy draft into Admin for explicit human review
+- `get_agent_access()` — inspect agent identities and credential lifecycle metadata without secrets
+- `prepare_agent_credential_issue(principal_id, label)` — fill an owner-reviewed credential request without issuing or exposing a key
 
 [//]: # (ob:0d65efbf)
 ## What agents may not do
@@ -34,11 +40,11 @@ Registered on the signed-in owner page via `document.modelContext.registerTool` 
 [//]: # (ob:bb8d98c9)
 1. Open the live URL in Chrome with WebMCP enabled, or ChatGPT's in-app browser.
 2. Sign in with the owner credential from the submission form.
-3. Confirm the page badge reads `WebMCP live · approve is not exposed`.
-4. Ask the agent to call `get_current_context` for a scope that already has admitted knowledge.
-5. Ask it to inspect a `needs_review` candidate with `get_review_state` and `get_lineage`.
-6. Human: Request changes. Agent: `respond_to_review`. Human: Approve.
-7. Call `get_current_context` again and confirm the admitted conclusion is now returned.
+3. Ask the agent to call `get_workspace_summary`, then `list_review_queue`.
+4. Ask it to inspect one candidate with `get_review_state` and `get_lineage`.
+5. Let it run `run_deterministic_checks`, then `open_review` for the owner.
+6. Human: Request changes. Agent: `prepare_review_response`, then submits the revision through its agent MCP/CLI. Human: Approve.
+7. Call `get_current_context` again and confirm only the admitted conclusion is returned.
 
 [//]: # (ob:86d90f67)
 Agents that need to propose still use the hosted `/v1/operations` credential path (`evidence.submit`, `conclusion.propose`). That path also cannot admit.

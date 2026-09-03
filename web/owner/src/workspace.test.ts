@@ -26,15 +26,22 @@ describe("Proofpress owner workspace contract", () => {
   });
   it("keeps human admission out of assistant and WebMCP tools", () => {
     expect(source).toContain('name: "get_current_context"');
-    expect(source).toContain("Approve is not exposed");
+    expect(source).toContain("Human Approval is not exposed");
     expect(source).not.toMatch(/name:\s*"(?:approve|admit)/);
   });
   it("makes activity and policy agent-addressable without granting authority", () => {
+    expect(source).toContain('name: "get_workspace_summary"');
+    expect(source).toContain('name: "list_review_queue"');
     expect(source).toContain('name: "get_activity"');
+    expect(source).toContain('name: "run_deterministic_checks"');
+    expect(source).toContain('name: "open_review"');
     expect(source).toContain('name: "get_review_policy"');
     expect(source).toContain('name: "prepare_review_policy_change"');
+    expect(source).toContain('name: "get_agent_access"');
+    expect(source).toContain('name: "prepare_agent_credential_issue"');
     expect(source).toContain("activated: false");
     expect(source).toContain("requires_human_owner: true");
+    expect(source).toContain("human_approval_recorded: false");
   });
 
   it("uses the fixed product name and neutral pending treatment", () => {

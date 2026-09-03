@@ -147,6 +147,8 @@ function App() {
   const [loading, setLoading] = React.useState(true);
   const [error, setError] = React.useState("");
   const [csrf, setCsrf] = React.useState("");
+  const csrfRef = React.useRef("");
+  React.useEffect(() => { csrfRef.current = csrf; }, [csrf]);
   const [note, setNote] = React.useState("");
   const [busy, setBusy] = React.useState(false);
   const [decisionConfirmation, setDecisionConfirmation] = React.useState<{decision: string; id: string; statement: string; scope: string} | null>(null);
@@ -250,9 +252,37 @@ function App() {
     });
     const tools = [
       {
+        name: "get_workspace_summary",
+        description: "Summarize the signed-in workspace, review queue, and current governed knowledge without changing state.",
+        annotations: { readOnlyHint: true, untrustedContentHint: true },
+        inputSchema: { type: "object", properties: {} },
+        execute: async () => {
+          const [graph, context, summary] = await Promise.all([api("/owner/api/graph"), api("/owner/api/context"), api("/owner/api/summary")]);
+          const conclusions = (graph.nodes || []).filter((node: any) => node.type === "conclusion");
+          return toolText({
+            review: summary,
+            current_knowledge_count: (context.knowledge || []).length,
+            conclusion_states: conclusions.reduce((counts: Record<string, number>, row: any) => { counts[row.state] = (counts[row.state] || 0) + 1; return counts; }, {}),
+            authority: "Agents may inspect and prepare work. Human Approval is not exposed.",
+          });
+        },
+      },
+      {
+        name: "list_review_queue",
+        description: "List candidate conclusions by review state and optional scope. This is a read-only queue view.",
+        annotations: { readOnlyHint: true, untrustedContentHint: true },
+        inputSchema: { type: "object", properties: { state: { type: "string", enum: ["needs_review", "needs_revision", "admitted", "rejected", "all"] }, scope: { type: "string" }, limit: { type: "integer", minimum: 1, maximum: 100 } } },
+        execute: async ({ state = "needs_review", scope = "", limit = 25 }: any) => {
+          const graph = await api(`/owner/api/graph?scope=${encodeURIComponent(scope)}`);
+          const conclusions = (graph.nodes || []).filter((node: any) => node.type === "conclusion" && (state === "all" || node.state === state)).slice(0, limit).map(({ id, label, state, scope, created_at, proposer }: any) => ({ id, statement: label, state, scope, created_at, proposer }));
+          return toolText({ conclusions, count: conclusions.length, open_in_review: `${location.origin}/review` });
+        },
+      },
+      {
         name: "get_current_context",
         description:
           "Retrieve eligible governed conclusions for a scope. Does not approve knowledge.",
+        annotations: { readOnlyHint: true, untrustedContentHint: true },
         inputSchema: {
           type: "object",
           properties: { scope: { type: "string" }, task: { type: "string" } },
@@ -269,6 +299,7 @@ function App() {
         name: "get_review_state",
         description:
           "Inspect checks, advisory recommendation, and human-decision state. Does not approve.",
+        annotations: { readOnlyHint: true, untrustedContentHint: true },
         inputSchema: {
           type: "object",
           properties: { conclusion_id: { type: "string" } },
@@ -285,6 +316,7 @@ function App() {
         name: "get_lineage",
         description:
           "Inspect the evidence and decision history bound to a conclusion.",
+        annotations: { readOnlyHint: true, untrustedContentHint: true },
         inputSchema: {
           type: "object",
           properties: { conclusion_id: { type: "string" } },
@@ -303,9 +335,31 @@ function App() {
         },
       },
       {
-        name: "respond_to_review",
+        name: "run_deterministic_checks",
+        description: "Run deterministic integrity and policy-prerequisite checks for one candidate. This appends evaluation receipts but cannot approve knowledge.",
+        annotations: { readOnlyHint: false, untrustedContentHint: true },
+        inputSchema: { type: "object", properties: { conclusion_id: { type: "string" } }, required: ["conclusion_id"] },
+        execute: async ({ conclusion_id }: any) => {
+          await api("/owner/api/evaluate", { method: "POST", body: JSON.stringify({ csrf: csrfRef.current, conclusion_id }) });
+          const result = await api(`/owner/api/conclusions/${encodeURIComponent(conclusion_id)}`);
+          setReloadVersion(version => version + 1);
+          return toolText({ conclusion_id, evaluation: result.evaluation, human_approval_recorded: false, next: result.review_policy?.require_judge ? "LM advice is required by policy before Human Approval." : "Open the review surface for the owner decision." });
+        },
+      },
+      {
+        name: "open_review",
+        description: "Open a conclusion in the owner review surface. Navigation does not make a decision.",
+        annotations: { readOnlyHint: true, untrustedContentHint: false },
+        inputSchema: { type: "object", properties: { conclusion_id: { type: "string" }, full: { type: "boolean" } }, required: ["conclusion_id"] },
+        execute: async ({ conclusion_id, full = true }: any) => {
+          setSelected(conclusion_id); setPage("review"); setFullReview(Boolean(full));
+          return toolText({ opened: true, decision_recorded: false, url: `${location.origin}/review?conclusion_id=${encodeURIComponent(conclusion_id)}${full ? "&view=full" : ""}` });
+        },
+      },
+      {
+        name: "prepare_review_response",
         description:
-          "Prepare an agent response to a clarification request. Approve is not exposed.",
+          "Prepare instructions for an agent to answer a clarification request through its agent credential. This owner-page tool does not submit or approve.",
         inputSchema: {
           type: "object",
           properties: {
@@ -318,15 +372,17 @@ function App() {
           toolText({
             conclusion_id,
             response,
+            prepared: true,
             recorded: false,
             admitted: false,
-            next: "human review required",
+            next: "Use the connected agent MCP or CLI to submit supporting evidence and a revision proposal; Human Approval remains separate.",
           }),
       },
       {
         name: "get_activity",
         description:
           "Read semantic workspace activity and knowledge-consumption receipts. Does not return provider secrets or owner credentials.",
+        annotations: { readOnlyHint: true, untrustedContentHint: true },
         inputSchema: {
           type: "object",
           properties: { limit: { type: "integer", minimum: 1, maximum: 100 } },
@@ -338,6 +394,7 @@ function App() {
         name: "get_review_policy",
         description:
           "Read the active workspace review policy and safe provider-configuration status. Secret values are never returned.",
+        annotations: { readOnlyHint: true, untrustedContentHint: false },
         inputSchema: { type: "object", properties: {} },
         execute: async () => toolText(await api("/owner/api/review-policy")),
       },
@@ -345,6 +402,7 @@ function App() {
         name: "prepare_review_policy_change",
         description:
           "Prepare a review-policy change in Admin for the human owner to inspect and activate. This never saves or authorizes the change.",
+        annotations: { readOnlyHint: false, untrustedContentHint: false },
         inputSchema: {
           type: "object",
           properties: {
@@ -369,6 +427,27 @@ function App() {
             next: "Review the prepared settings in Admin, add a provider key if needed, then select Save & activate.",
             url: `${location.origin}/admin`,
           });
+        },
+      },
+      {
+        name: "get_agent_access",
+        description: "List agent identities and credential lifecycle metadata. Credential secrets are never returned.",
+        annotations: { readOnlyHint: true, untrustedContentHint: false },
+        inputSchema: { type: "object", properties: {} },
+        execute: async () => {
+          const result = await api("/v1/owner/credentials");
+          return toolText({ credentials: (result.credentials || []).map(({ credential_id, principal_id, label, role, created_at, revoked_at }: any) => ({ credential_id, principal_id, label, role, created_at, revoked_at })) });
+        },
+      },
+      {
+        name: "prepare_agent_credential_issue",
+        description: "Prepare an agent identity and key label in Admin. The human owner must issue the credential; no secret is exposed to the agent.",
+        annotations: { readOnlyHint: false, untrustedContentHint: false },
+        inputSchema: { type: "object", properties: { principal_id: { type: "string" }, label: { type: "string" } }, required: ["principal_id", "label"] },
+        execute: async ({ principal_id, label }: any) => {
+          sessionStorage.setItem("proofpress:agent-credential-draft", JSON.stringify({ principal_id, label }));
+          navigate("admin");
+          return toolText({ prepared: true, issued: false, requires_human_owner: true, secret_exposed_to_agent: false, url: `${location.origin}/admin` });
         },
       },
     ];
@@ -1134,7 +1213,20 @@ function AdminPage({
   const [principal, setPrincipal] = React.useState("");
   const [label, setLabel] = React.useState("");
   const [copyStatus, setCopyStatus] = React.useState("");
+  const [agentDraftLoaded, setAgentDraftLoaded] = React.useState(false);
   React.useEffect(() => setCopyStatus(""), [secret]);
+  React.useEffect(() => {
+    const raw = sessionStorage.getItem("proofpress:agent-credential-draft");
+    if (!raw) return;
+    try {
+      const draft = JSON.parse(raw);
+      setPrincipal(String(draft.principal_id || ""));
+      setLabel(String(draft.label || ""));
+      setAgentDraftLoaded(true);
+    } finally {
+      sessionStorage.removeItem("proofpress:agent-credential-draft");
+    }
+  }, []);
   return (
     <div className="pageBody">
       <PageHead
@@ -1144,6 +1236,7 @@ function AdminPage({
         action={null}
       />
       {policy}
+      {agentDraftLoaded && <DecisionNotice tone="info" title="Agent-prepared credential" detail="Review the agent identity and key name below. Nothing has been issued yet." />}
       <form
         className="issueForm"
         onSubmit={(event) => {
