@@ -123,6 +123,14 @@ or dependence on copying raw artifacts and traces into Proofpress.
 | Single hosted service instance with durable storage | Multi-region replication, multi-instance writes, customer VPC packaging, or Cloud SLA |
 | Existing Python SDK, remote HTTPS transport, and one thin Streamable HTTP MCP reference adapter | TypeScript, Go, a broad framework adapter matrix, or hosted plugin UI |
 
+### Workspace review policy and provider credentials
+
+The owner configures LM review in **Admin → Judge & policy**. Proofpress supports OpenRouter, OpenAI, Anthropic, and a public HTTPS OpenAI-compatible endpoint. A model identifier and matching provider API key are required; customers bring the key through the owner UI and do not need access to the Render dashboard.
+
+Set `PROOFPRESS_SECRET_ENCRYPTION_KEY` on the deployment to a Fernet key before accepting workspace credentials. The browser can replace or remove a key but can never read it back. Policy versions contain provider, model, bounded criteria, automatic/manual mode, and consent—not the key. OpenRouter workspaces may require Zero Data Retention routing.
+
+The first-run form recommends automatic LM review with current supporting advice required. Nothing is activated until the owner reviews and saves the configuration. Deterministic checks always run first; failures become blocked candidates and are excluded from human review and model processing. A supporting LM recommendation is still advisory: human approval remains the only admission authority.
+
 [//]: # (ob:8618e948)
 ## Target architecture
 

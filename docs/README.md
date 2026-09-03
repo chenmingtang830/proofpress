@@ -54,6 +54,7 @@ matches what you need to do:
 
 [//]: # (ob:2710b075)
 - [Single-owner self-hosting](SELF_HOSTING.md)
+- Workspace Judge policy and bring-your-own provider credentials: [self-hosting configuration](SELF_HOSTING.md#workspace-review-policy-and-provider-credentials)
 - [MCP and WebMCP](WEBMCP.md)
 - [`render.yaml`](../render.yaml)
 - [Provider-neutral deployment examples](../deploy/self-hosted/)

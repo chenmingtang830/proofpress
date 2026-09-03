@@ -333,7 +333,9 @@ class HostedOperationHandler(BaseHTTPRequestHandler):
                 if path.endswith("/evaluate"):
                     envelope = self._owner_operation(session, "conclusion.evaluate", {"conclusion_id": request.get("conclusion_id", "")})
                     return self._json(_status_for(envelope), envelope)
-                result = self.server.proofpress_control.save_review_policy(session["token"], request.get("settings"), request.get("expected_version"))
+                result = self.server.proofpress_control.save_review_policy(
+                    session["token"], request.get("settings"), request.get("expected_version"),
+                    request.get("api_key"), request.get("delete_key") is True)
                 return self._json(HTTPStatus.OK, {"ok": True, "result": result})
             except HostedAuthError as exc:
                 return self._owner_error(exc)

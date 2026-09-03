@@ -7,6 +7,7 @@
     "dev": "vite",
     "build": "tsc --noEmit && vite build && node scripts/clean-dist.mjs",
     "test": "vitest run",
+    "test:review-scroll": "node scripts/review-scroll-smoke.mjs",
     "test:e2e": "npm run build && node scripts/owner-smoke.mjs"
   },
   "dependencies": {
