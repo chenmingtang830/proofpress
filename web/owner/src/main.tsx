@@ -349,6 +349,7 @@ function App() {
   }, []);
   async function choose(id: string) {
     if (decisionPending.current) return;
+    if (selected === id && receipt?.conclusion.id === id) return;
     const request = ++selectionRequest.current;
     setSelected(id);
     setReceipt(null);
@@ -654,7 +655,7 @@ function ReviewPage({
   const visibleRows = rows.filter((row: any) => queueFor(row.state) === queue);
   const switchQueue = (next: string) => { onClose(); setQueue(next); };
   return (
-    <div className={`workspacePage${receipt ? "" : " overviewOnly"}${fullReview ? " fullReviewPage" : ""}`}>
+    <div className={`workspacePage${selected ? "" : " overviewOnly"}${fullReview ? " fullReviewPage" : ""}`}>
       <div className="work" style={fullReview ? {display: "none"} : undefined}>
         <PageHead
           eyebrow="GOVERNANCE INBOX"
@@ -672,6 +673,7 @@ function ReviewPage({
             <thead>
               <tr>
                 <th>Conclusion</th>
+                <th>Status</th>
                 <th>Scope</th>
                 <th></th>
               </tr>
@@ -687,6 +689,7 @@ function ReviewPage({
                     <button className="conclusionSelect" onClick={e => { e.stopPropagation(); onChoose(row.id); }}>{row.label}</button>
                     <small>{row.id}</small>
                   </td>
+                  <td><Badge state={row.state} /></td>
                   <td>{row.scope || "—"}</td>
                   <td>
                     <ChevronRight />
@@ -701,6 +704,7 @@ function ReviewPage({
         </div>
       </div>
       <Inspector
+        pending={!!selected && !receipt}
         receipt={receipt && visibleRows.some((row: any) => row.id === selected) ? receipt : null}
         onClose={onClose}
         note={note}
@@ -725,18 +729,18 @@ function Inspector({
   busy,
   onJudge,
   readOnly = false,
-  fullReview = false, onOpenFull, onBack, onChoose,
+  fullReview = false, onOpenFull, onBack, onChoose, pending = false,
 }: any) {
   const [expanded, setExpanded] = React.useState(false);
   const panel = React.useRef<HTMLElement>(null);
   React.useEffect(() => setExpanded(false), [r?.conclusion.id]);
   React.useEffect(() => {
     if (!r || !window.matchMedia("(max-width: 1050px)").matches) return;
-    const opener = document.activeElement as HTMLElement | null;
+    const opener = document.querySelector<HTMLElement>(".work tr.selected .conclusionSelect") || document.activeElement as HTMLElement | null;
     panel.current?.querySelector<HTMLButtonElement>(".mobileBack")?.focus();
     return () => { requestAnimationFrame(() => { if (opener?.isConnected && opener !== document.body) opener.focus(); }); };
   }, [r?.conclusion.id]);
-  if (!r) return null;
+  if (!r) return pending ? <aside className="inspector" aria-label="Conclusion details" aria-busy="true"><div className="inspectorTop" role="status">Loading details…</div></aside> : null;
   const can = r.state === "needs_review" && !readOnly;
   return (
     <aside className={`inspector${fullReview ? " fullReview" : ""}`} ref={panel} aria-label="Conclusion details" onKeyDown={e => { if (e.key === "Escape" && onClose) { e.stopPropagation(); fullReview ? onBack() : onClose(); } }}>
@@ -881,7 +885,7 @@ function LedgerPage({ rows, allRows, nodes, edges, relations, selected, receipt,
   const focus = (id: string) => { setFocused(true); setGraphSelection("conclusion"); onChoose(id); };
   React.useEffect(() => { setGraphSelection("conclusion"); }, [selected]);
   return (
-    <div className={`workspacePage${focused && current ? "" : " overviewOnly"}`}>
+    <div className={`workspacePage${focused ? "" : " overviewOnly"}`}>
       <div className="work">
         <PageHead
           eyebrow="GOVERNED CONTEXT"
@@ -894,7 +898,7 @@ function LedgerPage({ rows, allRows, nodes, edges, relations, selected, receipt,
         </div>
         {view === "lineage" && <section className="lineageCanvas" aria-label="Evidence to governed knowledge">
           <div className="lineageToolbar">
-            {focused && <Button variant="outline" onClick={() => setFocused(false)}>Back to overview</Button>}
+            {focused && <Button variant="outline" onClick={() => setFocused(false)}><ChevronRight style={{transform:"rotate(180deg)"}} />Back to overview</Button>}
             <label><input type="checkbox" checked={showHistory} onChange={e => { setShowHistory(e.target.checked); setFocused(false); }} /> Show history and unavailable conclusions</label>
           </div>
           {!focused && <LedgerOverview rows={visible} nodes={nodes} edges={edges} onChoose={focus} />}
@@ -946,6 +950,7 @@ function LedgerPage({ rows, allRows, nodes, edges, relations, selected, receipt,
       </div>
       {focused && current && graphSelection !== "conclusion" ? <aside className="inspector graphInspector" aria-label="Selected node details"><Button variant="outline" onClick={() => setGraphSelection("conclusion")}>Back to conclusion</Button>{graphSelection === "context" ? <><h2>{available.has(selected) ? "Available for reuse" : "Excluded from context"}</h2><p>Scope: {current.conclusion.scope}</p><p>{available.has(selected) ? "Admitted, current, and eligible for the signed-in owner. Each agent's permissions are checked separately." : "This conclusion is not eligible for the current owner context."}</p></> : <><h2>{evidenceName(current.evidence[Number(graphSelection.split(":")[1])])}</h2><EvidenceContent row={current.evidence[Number(graphSelection.split(":")[1])]} /></>}</aside> : <Inspector
         receipt={focused ? current : null}
+        pending={focused && !current && !detailError}
         onClose={() => setFocused(false)}
         readOnly
         note=""
@@ -1018,23 +1023,25 @@ function AdminPage({
         <div>
           <b>Issue agent credential</b>
           <small>
-            Use one credential per revocable agent or device boundary.
+            Create a key for an agent or device. You can revoke its access later.
           </small>
         </div>
-        <label>Agent principal<input
-          aria-label="Agent principal"
+        <label>Agent identity<input
+          aria-label="Agent identity"
+          aria-describedby="agentIdentityHelp"
           value={principal}
           onChange={(e) => setPrincipal(e.target.value)}
           placeholder="agent:claude-code"
           required
-        /></label>
-        <label>Credential label<input
-          aria-label="Credential label"
+        /><small id="agentIdentityHelp">Recorded as the author in history, e.g. agent:claude-code.</small></label>
+        <label>Key name<input
+          aria-label="Key name"
+          aria-describedby="keyNameHelp"
           value={label}
           onChange={(e) => setLabel(e.target.value)}
           placeholder="Claude Code · company laptop"
           required
-        /></label>
+        /><small id="keyNameHelp">A name you recognize, such as Claude Code · work laptop.</small></label>
         <Button disabled={busy}>Issue credential</Button>
       </form>
       {secret && (

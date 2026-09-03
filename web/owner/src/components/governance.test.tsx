@@ -6,6 +6,12 @@ import { LineageGraph } from "./lineage-graph";
 import { Icon } from "./ui/icon";
 
 describe("governance components", () => {
+  it("does not color a revision request as rejection", () => {
+    const html = renderToStaticMarkup(<LineageGraph receipt={{conclusion:{id:"r",statement:"Revise units",scope:"test"},state:"needs_revision",evidence:[]}} available={false} evidenceNames={[]} selection="conclusion" onSelect={()=>{}} />);
+    expect(html).toContain('class="graphNode revision"');
+    expect(html).toContain('class="revision"');
+    expect(html).not.toContain('class="graphNode excluded"');
+  });
   it("renders locally bundled Hugeicons with a consistent stroke", () => {
     const html = renderToStaticMarkup(<Icon name="home" />);
     expect(html).toContain('<svg');

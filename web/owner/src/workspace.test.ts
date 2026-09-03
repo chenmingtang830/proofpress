@@ -41,6 +41,7 @@ describe("Proofpress owner workspace contract", () => {
     expect(css).toContain("grid-template-columns: 226px");
     expect(css).toContain("@media (max-width: 680px)");
     expect(source).toContain("Close details");
-    expect(source).toContain("if (!r) return null");
+    expect(source).toContain('aria-busy="true"');
+    expect(source).toContain('pending={!!selected && !receipt}');
   });
 });

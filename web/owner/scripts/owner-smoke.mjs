@@ -214,8 +214,8 @@ try {
   await page.setViewportSize({width:390,height:900});
   assert.equal(await credential.getByRole('button',{name:'Rotate',exact:true}).isVisible(),true);
   assert.equal(await credential.getByRole('button',{name:'Revoke',exact:true}).isVisible(),true);
-  await page.getByRole('textbox',{name:'Agent principal',exact:true}).focus();
-  assert.notEqual(await page.getByRole('textbox',{name:'Agent principal',exact:true}).evaluate(el=>getComputedStyle(el).outlineStyle),'none');
+  await page.getByRole('textbox',{name:'Agent identity',exact:true}).focus();
+  assert.notEqual(await page.getByRole('textbox',{name:'Agent identity',exact:true}).evaluate(el=>getComputedStyle(el).outlineStyle),'none');
   if(process.env.QA_SCREENSHOTS) await page.screenshot({path:`${process.env.QA_SCREENSHOTS}/admin-mobile.png`});
   await credential.getByRole('button',{name:'Rotate',exact:true}).click();
   await page.locator('.secretReveal code').waitFor();

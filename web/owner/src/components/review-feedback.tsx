@@ -27,7 +27,7 @@ export function RevisionInstructions({receipt, autoCopy = false}: any) {
   return <div className="handoffInstructions">
     {autoCopy && <p role="status">{status === "copied" ? "Copied to clipboard. Paste into your agent." : status === "failed" ? "Your browser blocked automatic copying." : "Copying instructions…"}</p>}
     {status === "failed" && <textarea ref={field} readOnly aria-label="Revision instructions" value={text} />}
-    {(!autoCopy || status === "failed") && <Button variant="outline" onClick={() => void copy()}>{status === "copied" ? "Copied" : "Copy instructions for agent"}</Button>}
+    {!autoCopy && status === "copied" ? <span className="copySuccess" role="status"><Check />Copied to clipboard</span> : (!autoCopy || status === "failed") && <Button variant="outline" disabled={status === "copying"} onClick={() => void copy()}>{status === "copying" ? "Copying…" : "Copy instructions for agent"}</Button>}
     {status === "failed" && <Button variant="outline" onClick={() => { field.current?.focus(); field.current?.select(); }}>Select instructions</Button>}
   </div>;
 }

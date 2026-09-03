@@ -1,3 +1,10 @@
+:root { --revision:#355d80; --revision-bg:#edf2f7; }
+.copySuccess { display:inline-flex; align-items:center; gap:8px; min-height:36px; color:var(--add); font-size:14px; }
+.decisionNotice[data-state="needs_revision"] svg { color:var(--revision); }
+.decisionNotice[data-state="needs_revision"] { background:var(--revision-bg); }
+.graphNode.revision, .globalNode[data-state="needs_revision"] { border-color:var(--revision); background:var(--revision-bg); }
+.graphPlane path.revision { stroke:var(--revision); stroke-dasharray:6 5; }
+.graphPlane path.pending { stroke:var(--ink-2); stroke-dasharray:6 5; }
 .decisionNotice { display:flex; align-items:center; gap:12px; padding:18px 24px; border-bottom:1px solid var(--line); background:var(--paper); color:var(--ink); font-size:14px; }
 .decisionNotice svg { width:18px; height:18px; flex:none; color:var(--accent); }
 .decisionNotice[data-state="admitted"] svg { color:var(--add); }
