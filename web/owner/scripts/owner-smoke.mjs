@@ -81,7 +81,10 @@ try {
   await page.getByRole('button',{name:'Confirm approval',exact:true}).click();
   await page.getByText('Approved for reuse',{exact:true}).waitFor();
   await page.getByRole('button',{name:'Ledger',exact:true}).click();
+  const tabGeometry = () => page.locator('.ledgerViews button').evaluateAll(nodes=>nodes.map(el=>{const r=el.getBoundingClientRect(); const s=getComputedStyle(el);return {x:r.x,y:r.y,width:r.width,height:r.height,weight:s.fontWeight};}));
+  const beforeTab = await tabGeometry();
   await page.getByRole('button',{name:'Current knowledge',exact:true}).click();
+  assert.deepEqual(await tabGeometry(),beforeTab,'Tab geometry and weight must not change on selection');
   await page.locator('tbody tr').filter({hasText:data.ids[0]}).waitFor();
   assert.equal(await page.locator('tbody tr').count(),1);
   assert.equal(await page.getByRole('textbox',{name:'Ledger scope'}).count(),0);
@@ -198,9 +201,23 @@ try {
   }
   await page.goBack();
   await page.getByRole('heading',{name:'Activity',exact:true}).waitFor();
+  for (const [operation,parameters,code] of [
+    ['conclusion.review',{conclusion_id:data.ids[0],decision:'admit'},'operation_forbidden'],
+    ['conclusion.review',{conclusion_id:data.ids[0],decision:'admit',expected_head:'deliberately-stale'},'ledger_head_conflict'],
+  ]) {
+    const response = await page.request.post(`${data.base}/v1/operations`,{headers:{Authorization:`Bearer ${code === 'ledger_head_conflict' ? data.owner : data.agent}`},data:{schema_version:'proofpress/local-operation/v1alpha1',operation,parameters}});
+    assert.equal((await response.json()).error.code,code);
+  }
+  await page.reload();
+  await page.getByText('operation_forbidden',{exact:true}).waitFor();
+  await page.getByText('ledger_head_conflict',{exact:true}).waitFor();
+  if(process.env.QA_SCREENSHOTS) await page.screenshot({path:`${process.env.QA_SCREENSHOTS}/activity-outcomes.png`});
   for(const name of ['Time','Operation','Actor','Result']) assert.equal(await page.getByRole('columnheader',{name,exact:true}).count(),1);
   await page.goForward();
   await page.getByRole('heading',{name:'Admin',exact:true}).waitFor();
+  const controlTops = await page.locator('.issueForm input, .issueForm > button').evaluateAll(nodes=>nodes.map(el=>el.getBoundingClientRect().top));
+  assert.ok(Math.max(...controlTops)-Math.min(...controlTops)<=1,'Admin controls must align');
+  if(process.env.QA_SCREENSHOTS) await page.screenshot({path:`${process.env.QA_SCREENSHOTS}/admin-aligned.png`});
   await page.locator('.issueForm input').nth(0).fill('agent:temporary-browser');
   await page.locator('.issueForm input').nth(1).fill('Temporary browser credential');
   await page.getByRole('button',{name:'Issue credential',exact:true}).click();
@@ -234,6 +251,16 @@ try {
   await page.getByRole('button',{name:'Home',exact:true}).click();
   assert.equal(await page.getByText('Ask Proofpress',{exact:true}).count(),0);
   assert.equal(await page.getByRole('textbox',{name:'Search conclusions'}).count(),0);
+  for (const width of [1536,1024,390]) {
+    await page.setViewportSize({width,height:1024});
+    for (const name of ['Home','Review','Ledger','Activity','Admin']) {
+      await page.getByRole('button',{name,exact:true}).click();
+      await page.locator('h1').waitFor();
+      assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth),width,`${name} overflow at ${width}`);
+      if(process.env.QA_SCREENSHOTS) await page.screenshot({path:`${process.env.QA_SCREENSHOTS}/audit-${name}-${width}.png`,fullPage:true});
+    }
+  }
+  await page.getByRole('button',{name:'Home',exact:true}).click();
   for(const width of [1536,1024,390]) {
     await page.setViewportSize({width,height:900});
     assert.equal(await page.evaluate(()=>document.body.scrollWidth),width);

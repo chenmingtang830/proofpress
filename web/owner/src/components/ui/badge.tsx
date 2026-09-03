@@ -14,7 +14,7 @@ export function Badge({
         state === "admitted" || state === "active"
           ? "border-[var(--line)] bg-[var(--add-bg)] text-[var(--add)]"
           : state === "needs_revision"
-            ? "border-[var(--revision)] bg-[var(--revision-bg)] text-[var(--revision)]"
+            ? "border-[var(--line)] bg-[var(--revision-bg)] text-[var(--revision)]"
           : state === "rejected" || state === "blocked" || state === "revoked"
             ? "border-[var(--line)] bg-[var(--del-bg)] text-[var(--del)]"
             : "border-[var(--line)] bg-[var(--wash)] text-[var(--ink-2)]",

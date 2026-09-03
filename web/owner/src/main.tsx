@@ -13,6 +13,7 @@ import {
   X,
 } from "@/components/ui/icon";
 import { Badge } from "@/components/ui/badge";
+import { ActivityResult } from "@/components/activity-result";
 import { Button } from "@/components/ui/button";
 import { DecisionNotice, RevisionInstructions, RevisionPanel, historyActor } from "@/components/review-feedback";
 import { LineageGraph } from "@/components/lineage-graph";
@@ -332,8 +333,9 @@ function App() {
     if (next === page) return;
     if (next === "review") { ++selectionRequest.current; setSelected(null); setReceipt(null); }
     setFullReview(false);
-    history.pushState(null, "", `/${next}${next === "review" && selected ? `?conclusion_id=${encodeURIComponent(selected)}` : ""}`);
+    history.pushState(null, "", `/${next}`);
     setPage(next);
+    requestAnimationFrame(() => { document.querySelector(".stage")?.scrollTo({top:0}); window.scrollTo({top:0}); });
   }
   React.useEffect(() => {
     const restore = () => {
@@ -896,6 +898,7 @@ function LedgerPage({ rows, allRows, nodes, edges, relations, selected, receipt,
           <Button aria-pressed={view === "lineage"} variant="outline" onClick={() => setView("lineage")}>Lineage</Button>
           <Button aria-pressed={view === "list"} variant="outline" onClick={() => setView("list")}>Current knowledge</Button>
         </div>
+        {view === "lineage" && <p className="graphScrollHint">Scroll sideways to explore the graph.</p>}
         {view === "lineage" && <section className="lineageCanvas" aria-label="Evidence to governed knowledge">
           <div className="lineageToolbar">
             {focused && <Button variant="outline" onClick={() => setFocused(false)}><ChevronRight style={{transform:"rotate(180deg)"}} />Back to overview</Button>}
@@ -979,7 +982,7 @@ function ActivityPage({ rows }: any) {
             <td data-label="Time"><time dateTime={r.occurred_at} title={r.occurred_at}>{new Date(r.occurred_at).toLocaleString()}</time></td>
             <td data-label="Operation">{(r.operation || "request").replaceAll(".", " · ")}</td>
             <td data-label="Actor">{r.principal_id || "Unknown principal"}</td>
-            <td data-label="Result"><Badge state={r.outcome === "ok" ? "recorded" : "blocked"} /></td>
+            <td data-label="Result"><ActivityResult outcome={r.outcome} /></td>
           </tr>
         ))}
         </tbody></table>
@@ -1071,8 +1074,8 @@ function AdminPage({
           {copyStatus && <p role="status">{copyStatus}</p>}
         </div>
       )}
-      <div className="credentialList">
-        {loading && <p role="status">Loading agent credentials…</p>}
+      <div className="credentialList" aria-busy={loading}>
+        {loading && !credentials.length && <p className="empty" role="status">Loading agent credentials…</p>}
         {credentials.map((c: any) => (
           <div key={c.credential_id}>
             <div className="credentialIcon">

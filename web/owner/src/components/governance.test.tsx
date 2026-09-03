@@ -4,8 +4,15 @@ import { describe, expect, it } from "vitest";
 import { DecisionNotice, historyActor, revisionInstructions } from "./review-feedback";
 import { LineageGraph } from "./lineage-graph";
 import { Icon } from "./ui/icon";
+import { activityResult } from "./activity-result";
 
 describe("governance components", () => {
+  it("keeps request outcomes distinct from knowledge admission", () => {
+    expect(activityResult("ok")).toEqual({label:"Recorded",tone:"neutral"});
+    expect(activityResult("operation_forbidden")).toEqual({label:"Access denied",tone:"danger"});
+    expect(activityResult("ledger_head_conflict")).toEqual({label:"Version conflict",tone:"attention"});
+    expect(activityResult("unknown_error").label).toBe("Request failed");
+  });
   it("does not color a revision request as rejection", () => {
     const html = renderToStaticMarkup(<LineageGraph receipt={{conclusion:{id:"r",statement:"Revise units",scope:"test"},state:"needs_revision",evidence:[]}} available={false} evidenceNames={[]} selection="conclusion" onSelect={()=>{}} />);
     expect(html).toContain('class="graphNode revision"');
