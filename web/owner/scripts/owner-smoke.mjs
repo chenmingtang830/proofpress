@@ -97,7 +97,12 @@ try {
   await page.getByRole('button',{name:'Back to overview',exact:true}).click();
   assert.equal(await page.locator('.inspector').count(),0);
   await page.setViewportSize({width:390,height:900});
-  await page.locator('.conclusionNode').filter({hasText:'fixture approve:'}).click();
+  await page.locator('.mobileConclusion').filter({hasText:'fixture approve:'}).waitFor();
+  assert.equal(await page.locator('.globalGraph').isVisible(),false);
+  await page.getByRole('button',{name:'Explore graph',exact:true}).click();
+  assert.equal(await page.locator('.globalGraph').isVisible(),true);
+  await page.getByRole('button',{name:'Conclusion list',exact:true}).click();
+  await page.locator('.mobileConclusion').filter({hasText:'fixture approve:'}).click();
   await page.getByRole('button',{name:'Close details',exact:true}).click();
   assert.equal(await page.locator('.inspector').count(),0);
   await page.setViewportSize({width:1536,height:1024});
@@ -211,6 +216,10 @@ try {
   await page.reload();
   await page.getByText('operation_forbidden',{exact:true}).waitFor();
   await page.getByText('ledger_head_conflict',{exact:true}).waitFor();
+  await page.getByRole('button',{name:'Important events',exact:true}).click();
+  await page.getByText('operation_forbidden',{exact:true}).waitFor();
+  assert.equal(await page.locator('tbody tr').filter({hasText:'graph · get'}).count(),0);
+  await page.getByRole('button',{name:'All activity',exact:true}).click();
   if(process.env.QA_SCREENSHOTS) await page.screenshot({path:`${process.env.QA_SCREENSHOTS}/activity-outcomes.png`});
   for(const name of ['Time','Operation','Actor','Result']) assert.equal(await page.getByRole('columnheader',{name,exact:true}).count(),1);
   await page.goForward();

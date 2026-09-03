@@ -620,6 +620,7 @@ function HomePage({ pending, admitted, rows, onReview, onLedger, onChoose }: any
         </button>
       </div>
       <section className="section">
+        {rows.some((r: any) => r.state === "needs_revision") && <button className="revisionQueueLink" onClick={() => onChoose(rows.find((r: any) => r.state === "needs_revision").id)}>{rows.filter((r: any) => r.state === "needs_revision").length} awaiting agent revision <ChevronRight /></button>}
         <div className="sectionTitle">
           <h2>Recent knowledge</h2>
           <span>{rows.length} total conclusions</span>
@@ -753,8 +754,7 @@ function Inspector({
       </button>}
       <div className="inspectorTop">
         <Badge state={r.state} />
-        <h2>{fullReview ? "Review conclusion" : r.conclusion.statement}</h2>
-        {fullReview && <p className="fullStatement">{r.conclusion.statement}</p>}
+        <h2>{r.conclusion.statement}</h2>
         <p>
           Proposed by {r.conclusion.proposer || "agent"} ·{" "}
           <span className="mono">{r.conclusion.id}</span>
@@ -966,7 +966,9 @@ function LedgerPage({ rows, allRows, nodes, edges, relations, selected, receipt,
 }
 function ActivityPage({ rows }: any) {
   const [page, setPage] = React.useState(0);
-  const pages = Math.max(1, Math.ceil(rows.length / 20));
+  const [importantOnly, setImportantOnly] = React.useState(false);
+  const filtered = rows.filter((r: any) => !importantOnly || r.outcome !== "ok" || !/\.(get|list)$/.test(r.operation || ""));
+  const pages = Math.max(1, Math.ceil(filtered.length / 20));
   const current = Math.min(page, pages - 1);
   return (
     <div className="pageBody">
@@ -975,9 +977,13 @@ function ActivityPage({ rows }: any) {
         title="Activity"
         description="Recent workspace requests and outcomes, including read access. Showing up to the latest 100 records; conclusion decision history is in its review details."
       />
+      <div className="ledgerViews activityFilters" role="group" aria-label="Activity filter">
+        <Button aria-pressed={!importantOnly} onClick={() => { setImportantOnly(false); setPage(0); }}>All activity</Button>
+        <Button aria-pressed={importantOnly} onClick={() => { setImportantOnly(true); setPage(0); }}>Important events</Button>
+      </div>
       <div className="tableWrap activityTable">
         <table><caption className="sr-only">Recent workspace activity</caption><thead><tr><th>Time</th><th>Operation</th><th>Actor</th><th>Result</th></tr></thead><tbody>
-        {rows.slice(current * 20, (current + 1) * 20).map((r: any) => (
+        {filtered.slice(current * 20, (current + 1) * 20).map((r: any) => (
           <tr key={r.audit_id}>
             <td data-label="Time"><time dateTime={r.occurred_at} title={r.occurred_at}>{new Date(r.occurred_at).toLocaleString()}</time></td>
             <td data-label="Operation">{(r.operation || "request").replaceAll(".", " · ")}</td>
@@ -986,11 +992,11 @@ function ActivityPage({ rows }: any) {
           </tr>
         ))}
         </tbody></table>
-        {!rows.length && <p className="empty">No activity records loaded.</p>}
+        {!filtered.length && <p className="empty">{importantOnly ? "No important events in the loaded records." : "No activity records loaded."}</p>}
       </div>
       <nav className="pagination" aria-label="Activity pages">
         <Button variant="outline" disabled={current === 0} onClick={() => setPage(current - 1)}>Previous</Button>
-        <span>Page {current + 1} of {pages} · {rows.length} records</span>
+        <span>Page {current + 1} of {pages} · {filtered.length} records</span>
         <Button variant="outline" disabled={current + 1 >= pages} onClick={() => setPage(current + 1)}>Next</Button>
       </nav>
     </div>

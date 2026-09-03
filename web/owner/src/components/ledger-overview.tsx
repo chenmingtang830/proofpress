@@ -1,5 +1,6 @@
 import React from "react";
 import { Button } from "./ui/button";
+import { Badge } from "./ui/badge";
 
 /** Bounded graph projection. Selecting evidence highlights its real support edges. */
 export function LedgerOverview({rows, nodes, edges, onChoose}: any) {
@@ -7,6 +8,7 @@ export function LedgerOverview({rows, nodes, edges, onChoose}: any) {
   const [sourceLimit, setSourceLimit] = React.useState(12);
   const [scope, setScope] = React.useState("");
   const [source, setSource] = React.useState<string|null>(null);
+  const [mobileGraph, setMobileGraph] = React.useState(false);
   const scopes = [...new Set(rows.map((r:any) => r.scope || "Workspace"))] as string[];
   const filtered = rows.filter((r:any) => !scope || (r.scope || "Workspace") === scope);
   const shown = filtered.slice(0,limit);
@@ -16,8 +18,17 @@ export function LedgerOverview({rows, nodes, edges, onChoose}: any) {
   const height = Math.max(320,Math.max(sources.length,shown.length)*126+70);
   const related = (id:string) => !source || support.some((e:any) => e.from === source && e.to === id);
   if (!rows.length) return <p className="emptyState">No conclusions in this view.</p>;
-  return <div className="globalLineage">
+  return <div className={`globalLineage${mobileGraph ? " showMobileGraph" : ""}`}>
     <div className="globalToolbar"><label>Scope <select value={scope} onChange={e=>{setScope(e.target.value);setLimit(6);setSourceLimit(12);setSource(null);}}><option value="">All scopes</option>{scopes.map(s=><option key={s}>{s}</option>)}</select></label><span>{filtered.length} conclusions in this view</span>{source && <Button variant="outline" onClick={()=>setSource(null)}>Clear evidence selection</Button>}</div>
+    <div className="mobileLineageToggle"><Button variant="outline" onClick={() => setMobileGraph(!mobileGraph)}>{mobileGraph ? "Conclusion list" : "Explore graph"}</Button></div>
+    <div className="mobileLineageList">{shown.map((r:any) => <article key={r.id}>
+      <Badge state={r.state} />
+      <button className="mobileConclusion" onClick={() => onChoose(r.id)}>{r.label}</button>
+      <p>{r.scope || "Workspace"}</p>
+      <details><summary>Supporting evidence ({support.filter((e:any) => e.to === r.id).length})</summary>
+        <ul>{support.filter((e:any) => e.to === r.id).map((e:any) => <li key={e.from}>{nodes.find((n:any) => n.id === e.from)?.label || "Evidence receipt"}<small>{e.from}</small></li>)}</ul>
+      </details>
+    </article>)}</div>
     <div className="graphScroll" tabIndex={0} aria-label="Global evidence and conclusion graph">
       <div className="globalGraph" style={{height}}>
         <div className="globalColumns"><span>Evidence</span><span>Conclusions</span></div>
